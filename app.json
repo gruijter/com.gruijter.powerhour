@@ -1,0 +1,199 @@
+{
+	"id": "com.gruijter.powerhour",
+	"version": "0.0.1",
+	"compatibility": ">=2",
+	"sdk": 2,
+	"name": {
+		"en": "Power by the Hour"
+	},
+	"description": {
+		"en": "Summarize the power usage or (solar) production per hour, day and month",
+		"nl": "Samenvatten van energie verbruik of (zonnepaneel) productie per uur, dag en maand"
+	},
+	"category": [ "energy", "tools"	],
+	"tags": {
+		"en": [ "enelogic", "energy", "insights", "solar panel", "plugwise" ]
+	},
+	"permissions": [
+		"homey:manager:api"
+	],
+	"images": {
+		"large": "/assets/images/large.png",
+		"small": "/assets/images/small.png"
+	},
+	"author": {
+		"name": "Robin de Gruijter",
+		"email": "gruijter@hotmail.com"
+	},
+	"copyright": "Robin de Gruijter (gruijter@hotmail.com)",
+	"license": "GPL-3.0-or-later",
+	"contributors": {
+		"developers": [{"name": "Robin de Gruijter","email": "gruijter@hotmail.com"}],
+		"translators": [{"name": "🇬🇧 Robin"},{"name": "🇳🇱 Robin"}]
+	},
+	"contributing": {
+		"donate": {
+			"paypal": {
+			"username": "gruijter"
+			}
+		}
+	},
+	"bugs": {
+		"url": "https://github.com/gruijter/com.gruijter.powerhour/issues"
+	},
+	"homeyCommunityTopicId": 0,
+	"capabilities": {
+		"power_hour": {
+			"type": "number",
+			"title": {
+				"en": "this hour",
+				"nl": "dit uur"
+			},
+			"uiComponent": "sensor",
+			"icon": "/assets/meter.svg",
+			"getable": true,
+			"setable": false,
+			"insights": false,
+			"units": {
+				"en": "KWh"
+			},
+			"decimals": 4
+		},
+		"power_hour_total": {
+			"type": "number",
+			"title": {
+				"en": "KWh/Hour",
+				"nl": "KWh/Uur"
+			},
+			"uiComponent": null,
+			"getable": true,
+			"setable": false,
+			"insights": true,
+			"units": {
+				"en": "KWh"
+			},
+			"decimals": 4
+		},
+		"power_day": {
+			"type": "number",
+			"title": {
+				"en": "this day",
+				"nl": "deze day"
+			},
+			"uiComponent": "sensor",
+			"icon": "/assets/meter.svg",
+			"getable": true,
+			"setable": false,
+			"insights": false,
+			"units": {
+				"en": "KWh"
+			},
+			"decimals": 4
+		},
+		"power_day_total": {
+			"type": "number",
+			"title": {
+				"en": "KWh/Day",
+				"nl": "KWh/Dag"
+			},
+			"uiComponent": null,
+			"getable": true,
+			"setable": false,
+			"insights": true,
+			"units": {
+				"en": "KWh"
+			},
+			"decimals": 4
+		},
+		"power_month": {
+			"type": "number",
+			"title": {
+				"en": "this month",
+				"nl": "deze maand"
+			},
+			"uiComponent": "sensor",
+			"icon": "/assets/meter.svg",
+			"getable": true,
+			"setable": false,
+			"insights": false,
+			"units": {
+				"en": "KWh"
+			},
+			"decimals": 4
+		},
+		"power_month_total": {
+			"type": "number",
+			"title": {
+				"en": "KWh/Month",
+				"nl": "KWh/Maand"
+			},
+			"uiComponent": null,
+			"getable": true,
+			"setable": false,
+			"insights": true,
+			"units": {
+				"en": "KWh"
+			},
+			"decimals": 4
+		}
+	},
+	"drivers": [
+		{
+			"id": "meter",
+			"name": {
+				"en": "Power Summarizer"
+			},
+			"images": {
+				"large": "./drivers/meter/assets/images/large.jpg",
+				"small": "./drivers/meter/assets/images/small.jpg"
+			},
+			"class": "other",
+			"capabilities": [ "power_hour", "power_hour_total", "power_day", "power_day_total", "power_month", "power_month_total" ],
+			"pair": [
+				{
+						"id": "list_devices",
+						"template": "list_devices",
+						"navigation": {
+								"next": "add_devices"
+						},
+						"options": {
+							"singular": true
+						}
+				},
+				{
+						"id": "add_devices",
+						"template": "add_devices"
+				}
+			],
+			"settings": [
+				{
+					"type": "group",
+					"label": {
+						"en": "Homey source device information",
+						"nl": "Homey bronapparaat informatie"
+					},
+					"children": [
+						{
+							"id": "homey_device_id",
+							"type": "label",
+							"label": {
+								"en": "Device ID",
+								"nl": "Apparaat ID"
+							},
+							"value": "unknown"
+						},
+						{
+							"id": "homey_device_name",
+							"type": "label",
+							"label": {
+								"en": "Device name",
+								"nl": "Apparaat naam"
+							},
+							"value": "unknown"
+						}
+					]
+				}
+			]
+		}
+	]
+}
