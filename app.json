@@ -41,7 +41,7 @@
 	"bugs": {
 		"url": "https://github.com/gruijter/com.gruijter.powerhour/issues"
 	},
-	"homeyCommunityTopicId": 0,
+	"homeyCommunityTopicId": 20535,
 	"capabilities": {
 		"power_hour": {
 			"type": "number",
