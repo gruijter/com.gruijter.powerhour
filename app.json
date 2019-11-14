@@ -1,6 +1,6 @@
 {
 	"id": "com.gruijter.powerhour",
-	"version": "0.0.1",
+	"version": "0.1.0",
 	"compatibility": ">=2",
 	"sdk": 2,
 	"name": {
@@ -53,7 +53,7 @@
 			"icon": "/assets/meter.svg",
 			"getable": true,
 			"setable": false,
-			"insights": false,
+			"insights": true,
 			"units": {
 				"en": "KWh"
 			},
