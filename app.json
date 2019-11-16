@@ -1,6 +1,6 @@
 {
 	"id": "com.gruijter.powerhour",
-	"version": "0.1.0",
+	"version": "0.2.0",
 	"compatibility": ">=2",
 	"sdk": 2,
 	"name": {
@@ -46,8 +46,8 @@
 		"power_hour": {
 			"type": "number",
 			"title": {
-				"en": "this hour",
-				"nl": "dit uur"
+				"en": "This hour",
+				"nl": "Dit uur"
 			},
 			"uiComponent": "sensor",
 			"icon": "/assets/meter.svg",
@@ -55,30 +55,30 @@
 			"setable": false,
 			"insights": true,
 			"units": {
-				"en": "KWh"
+				"en": "kWh"
 			},
 			"decimals": 4
 		},
 		"power_hour_total": {
 			"type": "number",
 			"title": {
-				"en": "KWh/Hour",
-				"nl": "KWh/Uur"
+				"en": "Prev. hour",
+				"nl": "Vorig uur"
 			},
 			"uiComponent": null,
 			"getable": true,
 			"setable": false,
 			"insights": true,
 			"units": {
-				"en": "KWh"
+				"en": "kWh"
 			},
 			"decimals": 4
 		},
 		"power_day": {
 			"type": "number",
 			"title": {
-				"en": "this day",
-				"nl": "deze day"
+				"en": "This day",
+				"nl": "Deze dag"
 			},
 			"uiComponent": "sensor",
 			"icon": "/assets/meter.svg",
@@ -86,30 +86,30 @@
 			"setable": false,
 			"insights": false,
 			"units": {
-				"en": "KWh"
+				"en": "kWh"
 			},
 			"decimals": 4
 		},
 		"power_day_total": {
 			"type": "number",
 			"title": {
-				"en": "KWh/Day",
-				"nl": "KWh/Dag"
+				"en": "Prev. day",
+				"nl": "Vorige dag"
 			},
 			"uiComponent": null,
 			"getable": true,
 			"setable": false,
 			"insights": true,
 			"units": {
-				"en": "KWh"
+				"en": "kWh"
 			},
 			"decimals": 4
 		},
 		"power_month": {
 			"type": "number",
 			"title": {
-				"en": "this month",
-				"nl": "deze maand"
+				"en": "This month",
+				"nl": "Deze maand"
 			},
 			"uiComponent": "sensor",
 			"icon": "/assets/meter.svg",
@@ -117,22 +117,22 @@
 			"setable": false,
 			"insights": false,
 			"units": {
-				"en": "KWh"
+				"en": "kWh"
 			},
 			"decimals": 4
 		},
 		"power_month_total": {
 			"type": "number",
 			"title": {
-				"en": "KWh/Month",
-				"nl": "KWh/Maand"
+				"en": "Prev. month",
+				"nl": "Vorige maand"
 			},
 			"uiComponent": null,
 			"getable": true,
 			"setable": false,
 			"insights": true,
 			"units": {
-				"en": "KWh"
+				"en": "kWh"
 			},
 			"decimals": 4
 		}

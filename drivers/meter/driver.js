@@ -23,13 +23,24 @@ along with com.gruijter.powerhour.  If not, see <http://www.gnu.org/licenses/>.s
 const Homey = require('homey');
 const { HomeyAPI } = require('athom-api');
 
-const powerMeterCapabilities = ['meter_power'];
+const powerMeterCapabilities = ['meter_power', 'meter_power.peak', 'meter_power.offPeak'];
 
 class MeterDriver extends Homey.Driver {
 
 	async onInit() {
 		this.log('entering Power by the Hour driver');
 		await this.login();
+
+		// add CRON to update every hour
+		await Homey.ManagerCron.unregisterTask('everyhour');
+		await Homey.ManagerCron.registerTask('everyhour', '0 0 * * * *');
+		const everyHour = await Homey.ManagerCron.getTask('everyhour');
+		everyHour.on('run', async () => {
+			const devices = this.getDevices();
+			devices.forEach((device) => {
+				device.updateMeterPowerCron();
+			});
+		});
 	}
 
 	// login to Homey API

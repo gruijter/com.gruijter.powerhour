@@ -1,5 +1,8 @@
 {
   "0.1.0": {
     "en": "First release"
+  },
+  "0.2.0": {
+    "en": "Bugfixes and added support for Open Toon"
   }
 }

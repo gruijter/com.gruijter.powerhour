@@ -37,16 +37,14 @@ class MyApp extends Homey.App {
 		Homey
 			.on('unload', () => {
 				this.log('app unload called');
-				// save logs to persistant storage
-				this.logger.saveLogs();
 			})
 			.on('memwarn', () => {
 				this.log('memwarn!');
 			});
-		// do garbage collection every 10 minutes
-		this.intervalIdGc = setInterval(() => {
-			global.gc();
-		}, 1000 * 60 * 10);
+		// // do garbage collection every 10 minutes
+		// this.intervalIdGc = setInterval(() => {
+		// 	global.gc();
+		// }, 1000 * 60 * 10);
 
 	}
 

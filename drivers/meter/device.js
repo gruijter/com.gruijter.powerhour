@@ -42,7 +42,6 @@ class Meter extends Homey.Device {
 	}
 
 	restartDevice(delay) {
-		// stop listeners, then start init after short delay
 		this.destroyListeners();
 		setTimeout(() => {
 			this.onInit();
@@ -56,8 +55,8 @@ class Meter extends Homey.Device {
 
 	// this method is called when the Device is deleted
 	onDeleted() {
-		this.log(`Meter deleted as device: ${this.getName()}`);
 		this.destroyListeners();
+		this.log(`Meter deleted as device: ${this.getName()}`);
 	}
 
 	onRenamed(name) {
@@ -65,13 +64,13 @@ class Meter extends Homey.Device {
 	}
 
 	// this method is called when the user has changed the device's settings in Homey.
-	onSettings(oldSettingsObj, newSettingsObj, changedKeysArr, callback) {
+	onSettings(oldSettingsObj, newSettingsObj, changedKeysArr) {
 		this.log('settings change requested by user');
 		// this.log(newSettingsObj);
 		this.log(`${this.getName()} device settings changed`);
 		// do callback to confirm settings change
-		callback(null, true);
-		this.restartDevice(1000);
+		Promise.resolve(true);
+		return this.restartDevice(1000);
 	}
 
 	async getSourceDevice() {
@@ -94,21 +93,45 @@ class Meter extends Homey.Device {
 	async addListeners() {
 		// make listener for meter_power
 		this.log(`registering meter_power capability listener for ${this.sourceDevice.name}`);
-		this.capabilityInstances.meter_power = this.sourceDevice.makeCapabilityInstance('meter_power', (value) => {
-			this.updateMeterPower(value);
-		});
+		if (this.sourceDevice.capabilities.includes('meter_power')) {
+			this.capabilityInstances.meterPower = this.sourceDevice.makeCapabilityInstance('meter_power', (value) => {
+				this.updateMeterPower(value);
+			});
+		}	else if (this.sourceDevice.capabilities.includes('meter_power.peak') && this.sourceDevice.capabilities.includes('meter_power.offPeak')) {
+			this.capabilityInstances.meterPowerPeak = this.sourceDevice.makeCapabilityInstance('meter_power.peak', (value) => {
+				this.updateMeterPowerPeak(value);
+			});
+			this.capabilityInstances.peterPowerOffPeak = this.sourceDevice.makeCapabilityInstance('meter_power.offPeak', (value) => {
+				this.updateMeterPowerOffPeak(value);
+			});
+		}
 	}
 
-	updateMeterPower(value) {
+	updateMeterPowerCron() {
+		if (this.lastReading)	this.updateMeterPower(this.lastReading.meterPowerValue);
+		// console.log(this.getName(), this.lastReading);
+	}
+
+	updateMeterPowerPeak(value) {
+		this.lastPowerPeak = value;
+		if (this.lastPowerOffPeak !== undefined) this.updateMeterPower(this.lastPowerPeak + this.lastPowerOffPeak);
+	}
+
+	updateMeterPowerOffPeak(value) {
+		this.lastPowerOffPeak = value;
+		if (this.lastPowerPeak !== undefined) this.updateMeterPower(this.lastPowerPeak + this.lastPowerOffPeak);
+	}
+
+	async updateMeterPower(value) {
 		try {
-			const { meter_power } = this.sourceDevice.capabilitiesObj;
-			const ts = new Date(meter_power.lastUpdated);
+			const ts = new Date();
 			const reading = {
 				hour: ts.getHours(),
 				day: ts.getDate(),
 				month: ts.getMonth(),
 				meterPowerValue: value,
 			};
+			this.lastReading = reading;
 			this.updateHour(reading);
 			this.updateDay(reading);
 			this.updateMonth(reading);
