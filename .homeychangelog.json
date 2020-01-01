@@ -4,5 +4,8 @@
   },
   "0.2.0": {
     "en": "Bugfixes and added support for Open Toon"
+  },
+  "1.0.0": {
+    "en": "Fix for monthly reset"
   }
 }

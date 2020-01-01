@@ -32,8 +32,8 @@ class MeterDriver extends Homey.Driver {
 		await this.login();
 
 		// add CRON to update every hour
-		await Homey.ManagerCron.unregisterTask('everyhour');
-		await Homey.ManagerCron.registerTask('everyhour', '0 0 * * * *');
+		await Homey.ManagerCron.unregisterTask('everyhour').catch(() => null);
+		await Homey.ManagerCron.registerTask('everyhour', '0 0 * * * *').catch(this.error);
 		const everyHour = await Homey.ManagerCron.getTask('everyhour');
 		everyHour.on('run', async () => {
 			const devices = this.getDevices();

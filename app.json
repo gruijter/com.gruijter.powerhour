@@ -1,6 +1,6 @@
 {
 	"id": "com.gruijter.powerhour",
-	"version": "0.2.0",
+	"version": "1.0.0",
 	"compatibility": ">=2",
 	"sdk": 2,
 	"name": {
