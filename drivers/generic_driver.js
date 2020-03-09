@@ -23,18 +23,15 @@ along with com.gruijter.powerhour.  If not, see <http://www.gnu.org/licenses/>.s
 const Homey = require('homey');
 const { HomeyAPI } = require('athom-api');
 
-const powerMeterCapabilities = ['meter_power', 'meter_power.peak', 'meter_power.offPeak'];
+class SumMeterDriver extends Homey.Driver {
 
-class MeterDriver extends Homey.Driver {
-
-	async onInit() {
-		this.log('entering Power by the Hour driver');
+	async onDriverInit() {
+		this.log('onDriverInit');
 		await this.login();
-
 		Homey.on('everyhour', async () => {
 			const devices = this.getDevices();
 			devices.forEach((device) => {
-				device.updateMeterPowerCron();
+				device.updateMeterCron();
 			});
 		});
 	}
@@ -47,7 +44,7 @@ class MeterDriver extends Homey.Driver {
 
 	onPairListDevices(data, callback) {
 		this.log('listing of devices started');
-		this.discoverEnergyDevices()
+		this.discoverDevices()
 			.then((deviceList) => {
 				callback(null, deviceList);
 			})
@@ -56,33 +53,33 @@ class MeterDriver extends Homey.Driver {
 			});
 	}
 
-	// stuf to find Homey energy devices
-	async discoverEnergyDevices() {
+	// stuff to find Homey devices
+	async discoverDevices() {
 		try {
 			this.api = await this.login();
 			// const homeyInfo = await this.api.system.getInfo();
-			this.energyDevices = [];
+			this.devices = [];
 			const allDevices = await this.api.devices.getDevices();
 			const keys = Object.keys(allDevices);
 			keys.forEach((key) => {
 				const hasCapability = (capability) => allDevices[key].capabilities.includes(capability);
-				const found = powerMeterCapabilities.some(hasCapability);
+				const found = this.ds.originDeviceCapabilities.some(hasCapability);
 				if (found) {
 					const device = {
-						name: `${allDevices[key].name}_Sum`,
+						name: `${allDevices[key].name}_Σ${this.ds.driverId}`,
 						data: {
-							id: `PH_${allDevices[key].id}`,
+							id: `PH_${this.ds.driverId}_${allDevices[key].id}`,
 						},
 						settings: {
 							homey_device_id: allDevices[key].id,
 							homey_device_name: allDevices[key].name,
 						},
-						capabilities: ['power_hour', 'power_hour_total', 'power_day', 'power_day_total', 'power_month', 'power_month_total', 'power_year', 'power_year_total'],
+						capabilities: this.ds.deviceCapabilities,
 					};
-					this.energyDevices.push(device);
+					this.devices.push(device);
 				}
 			});
-			return Promise.resolve(this.energyDevices);
+			return Promise.resolve(this.devices);
 		} catch (error) {
 			return Promise.reject(error);
 		}
@@ -91,4 +88,4 @@ class MeterDriver extends Homey.Driver {
 
 }
 
-module.exports = MeterDriver;
+module.exports = SumMeterDriver;

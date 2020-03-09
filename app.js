@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 /* eslint-disable import/no-extraneous-dependencies */
 /*
-Copyright 2019, Robin de Gruijter (gruijter@hotmail.com)
+Copyright 2019 2020, Robin de Gruijter (gruijter@hotmail.com)
 
 This file is part of com.gruijter.powerhour.
 
@@ -25,7 +25,7 @@ const Homey = require('homey');
 
 class MyApp extends Homey.App {
 
-	onInit() {
+	async onInit() {
 		this.log('Power by the Hour app is running...');
 		// register some listeners
 		process.on('unhandledRejection', (error) => {
@@ -46,6 +46,16 @@ class MyApp extends Homey.App {
 		// 	global.gc();
 		// }, 1000 * 60 * 10);
 
+		// add CRON task to update device state every hour
+		// await Homey.ManagerCron.unregisterTask('everyhour').catch(() => null);
+		// await Homey.ManagerCron.registerTask('everyhour', '0 0 * * * *').catch(this.error);
+		await Homey.ManagerCron.registerTask('everyhour', '0 0 * * * *')
+			.then(() => this.log('cron task added'))
+			.catch(() => this.log('cron task already exists'));
+		const everyHour = await Homey.ManagerCron.getTask('everyhour');
+		everyHour.on('run', () => {
+			Homey.emit('everyhour', true);
+		});
 	}
 
 }

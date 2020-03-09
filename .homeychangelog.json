@@ -1,11 +1,14 @@
 {
-  "0.1.0": {
-    "en": "First release"
+  "2.0.1": {
+    "en": "Added gas and water drivers. Added Sum per year (only for newly added devices). Upgrade athom-api@3.1.20."
+  },
+  "1.0.0": {
+    "en": "Fix for monthly reset"
   },
   "0.2.0": {
     "en": "Bugfixes and added support for Open Toon"
   },
-  "1.0.0": {
-    "en": "Fix for monthly reset"
+  "0.1.0": {
+    "en": "First release"
   }
 }

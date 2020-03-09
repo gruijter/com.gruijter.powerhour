@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 /* eslint-disable import/no-extraneous-dependencies */
 /*
-Copyright 2019, Robin de Gruijter (gruijter@hotmail.com)
+Copyright 2019 - 2020, Robin de Gruijter (gruijter@hotmail.com)
 
 This file is part of com.gruijter.powerhour.
 
@@ -29,6 +29,12 @@ class Meter extends Homey.Device {
 	async onInit() {
 		// this.log('device init: ', this.getName(), 'id:', this.getData().id);
 		try {
+			// // migrate from v1.0.0
+			// if (!this.hasCapability('power_year')) {
+			// 	this.log('Adding capability for year sum');
+			// 	await this.addCapability('power_year');
+			// 	await this.addCapability('power_year_total');
+			// }
 			// init some stuff
 			this._driver = await this.getDriver();
 			this.settings = await this.getSettings();
@@ -64,13 +70,17 @@ class Meter extends Homey.Device {
 	}
 
 	// this method is called when the user has changed the device's settings in Homey.
-	onSettings() { // oldSettingsObj, newSettingsObj, changedKeysArr) {
+	onSettings(oldSettingsObj, newSettingsObj) { // , changedKeysArr) {
 		this.log('settings change requested by user');
 		// this.log(newSettingsObj);
 		this.log(`${this.getName()} device settings changed`);
+		this.lastReadingMonth.meterPowerValue = newSettingsObj.meter_month_start;
+		this.setStoreValue('lastReadingMonth', this.lastReadingMonth);
+		this.lastReadingYear.meterPowerValue = newSettingsObj.meter_year_start;
+		this.setStoreValue('lastReadingYear', this.lastReadingYear);
+		this.restartDevice(1000);
 		// do callback to confirm settings change
-		Promise.resolve(true);
-		return this.restartDevice(1000);
+		return Promise.resolve(true);
 	}
 
 	async getSourceDevice() {
@@ -108,7 +118,7 @@ class Meter extends Homey.Device {
 	}
 
 	updateMeterPowerCron() {
-		if (this.lastReading)	this.updateMeterPower(this.lastReading.meterPowerValue);
+		if (this.lastReading) this.updateMeterPower(this.lastReading.meterPowerValue);
 		// console.log(this.getName(), this.lastReading);
 	}
 
@@ -129,12 +139,14 @@ class Meter extends Homey.Device {
 				hour: ts.getHours(),
 				day: ts.getDate(),
 				month: ts.getMonth(),
+				year: ts.getFullYear(),
 				meterPowerValue: value,
 			};
 			this.lastReading = reading;
 			this.updateHour(reading);
 			this.updateDay(reading);
 			this.updateMonth(reading);
+			// this.updateYear(reading);
 		} catch (error) {
 			this.error(error);
 		}
@@ -187,6 +199,7 @@ class Meter extends Homey.Device {
 				this.setStoreValue('lastReadingMonth', reading);
 				this.lastReadingMonth = reading;
 			}
+			this.setSettings({ meter_month_start: this.lastReadingMonth.meterPowerValue });
 		}
 		const val = reading.meterPowerValue - this.lastReadingMonth.meterPowerValue;
 		if ((reading.month === this.lastReadingMonth.month)) {
@@ -197,6 +210,29 @@ class Meter extends Homey.Device {
 			this.setCapabilityValue('power_month_total', val);
 			this.setStoreValue('lastReadingMonth', reading);
 			this.lastReadingMonth = reading;
+			this.setSettings({ meter_month_start: this.lastReadingMonth.meterPowerValue });
+		}
+	}
+
+	updateYear(reading) {
+		if (!this.lastReadingYear) {	// after init
+			this.lastReadingYear = this.getStoreValue('lastReadingYear');
+			if (!this.lastReadingYear) {	// after new pair
+				this.setStoreValue('lastReadingYear', reading);
+				this.lastReadingYear = reading;
+			}
+			this.setSettings({ meter_year_start: this.lastReadingYear.meterPowerValue });
+		}
+		const val = reading.meterPowerValue - this.lastReadingYear.meterPowerValue;
+		if ((reading.year === this.lastReadingYear.year)) {
+			this.setCapabilityValue('power_year', val);
+		} else {
+			// new year started
+			this.setCapabilityValue('power_year', 0);
+			this.setCapabilityValue('power_year_total', val);
+			this.setStoreValue('lastReadingYear', reading);
+			this.lastReadingYear = reading;
+			this.setSettings({ meter_year_start: this.lastReadingYear.meterPowerValue });
 		}
 	}
 
