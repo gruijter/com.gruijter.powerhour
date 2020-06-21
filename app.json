@@ -1,790 +1,799 @@
 {
-	"id": "com.gruijter.powerhour",
-	"version": "2.1.0",
-	"compatibility": ">=3",
-	"sdk": 2,
-	"name": {
-		"en": "Power by the Hour"
-	},
-	"description": {
-		"en": "Summarize the energy usage or (solar) production per hour, day, month and year",
-		"nl": "Samenvatten van energie verbruik of (zonnepaneel) productie per uur, dag, maand en jaar"
-	},
-	"category": [
-		"energy",
-		"tools"
-	],
-	"tags": {
-		"en": [
-			"enelogic",
-			"plugwise",
-			"energy",
-			"power",
-			"gas",
-			"summarizer",
-			"insights",
-			"solar panel"
-		]
-	},
-	"permissions": [
-		"homey:manager:api"
-	],
-	"images": {
-		"large": "/assets/images/large.jpg",
-		"small": "/assets/images/small.jpg"
-	},
-	"author": {
-		"name": "Robin de Gruijter",
-		"email": "gruijter@hotmail.com"
-	},
-	"copyright": "Robin de Gruijter (gruijter@hotmail.com)",
-	"license": "GPL-3.0-or-later",
-	"contributors": {
-		"developers": [
-			{
-				"name": "Robin de Gruijter",
-				"email": "gruijter@hotmail.com"
-			}
-		],
-		"translators": [
-			{
-				"name": "🇬🇧 Robin"
-			},
-			{
-				"name": "🇳🇱 Robin"
-			}
-		]
-	},
-	"contributing": {
-		"donate": {
-			"paypal": {
-				"username": "gruijter"
-			}
-		}
-	},
-	"bugs": {
-		"url": "https://github.com/gruijter/com.gruijter.powerhour/issues"
-	},
-	"homeyCommunityTopicId": 20535,
-	"capabilities": {
-		"power_hour": {
-			"type": "number",
-			"title": {
-				"en": "This hour",
-				"nl": "Dit uur"
-			},
-			"uiComponent": "sensor",
-			"icon": "/assets/power.svg",
-			"getable": true,
-			"setable": false,
-			"insights": true,
-			"units": {
-				"en": "kWh"
-			},
-			"decimals": 4
-		},
-		"power_hour_total": {
-			"type": "number",
-			"title": {
-				"en": "Prev. hour",
-				"nl": "Vorig uur"
-			},
-			"uiComponent": null,
-			"getable": true,
-			"setable": false,
-			"insights": true,
-			"units": {
-				"en": "kWh"
-			},
-			"decimals": 4
-		},
-		"power_day": {
-			"type": "number",
-			"title": {
-				"en": "This day",
-				"nl": "Deze dag"
-			},
-			"uiComponent": "sensor",
-			"icon": "/assets/power.svg",
-			"getable": true,
-			"setable": false,
-			"insights": false,
-			"units": {
-				"en": "kWh"
-			},
-			"decimals": 4
-		},
-		"power_day_total": {
-			"type": "number",
-			"title": {
-				"en": "Prev. day",
-				"nl": "Vorige dag"
-			},
-			"uiComponent": null,
-			"getable": true,
-			"setable": false,
-			"insights": true,
-			"units": {
-				"en": "kWh"
-			},
-			"decimals": 4
-		},
-		"power_month": {
-			"type": "number",
-			"title": {
-				"en": "This month",
-				"nl": "Deze maand"
-			},
-			"uiComponent": "sensor",
-			"icon": "/assets/power.svg",
-			"getable": true,
-			"setable": false,
-			"insights": false,
-			"units": {
-				"en": "kWh"
-			},
-			"decimals": 4
-		},
-		"power_month_total": {
-			"type": "number",
-			"title": {
-				"en": "Prev. month",
-				"nl": "Vorige maand"
-			},
-			"uiComponent": null,
-			"getable": true,
-			"setable": false,
-			"insights": true,
-			"units": {
-				"en": "kWh"
-			},
-			"decimals": 4
-		},
-
-		"kwh_this_hour_total": {
-			"type": "number",
-			"title": {
-				"en": "This hour",
-				"nl": "Dit uur"
-			},
-			"uiComponent": "sensor",
-			"icon": "/assets/kwh.svg",
-			"getable": true,
-			"setable": false,
-			"insights": true,
-			"units": {
-				"en": "kWh"
-			},
-			"decimals": 4
-		},
-		"kwh_last_hour_total": {
-			"type": "number",
-			"title": {
-				"en": "kWh prev. hour",
-				"nl": "kWh vorig uur"
-			},
-			"uiComponent": null,
-			"getable": true,
-			"setable": false,
-			"insights": true,
-			"units": {
-				"en": "kWh"
-			},
-			"decimals": 4
-		},
-		"kwh_this_day_total": {
-			"type": "number",
-			"title": {
-				"en": "This day",
-				"nl": "Deze dag"
-			},
-			"uiComponent": "sensor",
-			"icon": "/assets/kwh.svg",
-			"getable": true,
-			"setable": false,
-			"insights": false,
-			"units": {
-				"en": "kWh"
-			},
-			"decimals": 4
-		},
-		"kwh_last_day_total": {
-			"type": "number",
-			"title": {
-				"en": "kWh prev. day",
-				"nl": "kWh vorige dag"
-			},
-			"uiComponent": null,
-			"getable": true,
-			"setable": false,
-			"insights": true,
-			"units": {
-				"en": "kWh"
-			},
-			"decimals": 4
-		},
-		"kwh_this_month_total": {
-			"type": "number",
-			"title": {
-				"en": "This month",
-				"nl": "Deze maand"
-			},
-			"uiComponent": "sensor",
-			"icon": "/assets/kwh.svg",
-			"getable": true,
-			"setable": false,
-			"insights": false,
-			"units": {
-				"en": "kWh"
-			},
-			"decimals": 4
-		},
-		"kwh_last_month_total": {
-			"type": "number",
-			"title": {
-				"en": "kWh prev. month",
-				"nl": "kWh vorige maand"
-			},
-			"uiComponent": null,
-			"getable": true,
-			"setable": false,
-			"insights": true,
-			"units": {
-				"en": "kWh"
-			},
-			"decimals": 4
-		},
-		"kwh_this_year_total": {
-		"type": "number",
-		"title": {
-			"en": "This year",
-			"nl": "Dit jaar"
-		},
-		"uiComponent": "sensor",
-		"icon": "/assets/kwh.svg",
-		"getable": true,
-		"setable": false,
-		"insights": false,
-		"units": {
-			"en": "kWh"
-		},
-		"decimals": 4
-		},
-		"kwh_last_year_total": {
-		"type": "number",
-		"title": {
-			"en": "kWh prev. year",
-			"nl": "kWh vorig jaar"
-		},
-		"uiComponent": null,
-		"getable": true,
-		"setable": false,
-		"insights": true,
-		"units": {
-			"en": "kWh"
-		},
-		"decimals": 4
-		},
-
-
-		"m3_this_hour_total": {
-			"type": "number",
-			"title": {
-				"en": "This hour",
-				"nl": "Dit uur"
-			},
-			"uiComponent": "sensor",
-			"icon": "/assets/sigma.svg",
-			"getable": true,
-			"setable": false,
-			"insights": true,
-			"units": {
-				"en": "m³"
-			},
-			"decimals": 4
-		},
-		"m3_last_hour_total": {
-			"type": "number",
-			"title": {
-				"en": "m³ prev. hour",
-				"nl": "m³ vorig uur"
-			},
-			"uiComponent": null,
-			"getable": true,
-			"setable": false,
-			"insights": true,
-			"units": {
-				"en": "m³"
-			},
-			"decimals": 4
-		},
-		"m3_this_day_total": {
-			"type": "number",
-			"title": {
-				"en": "This day",
-				"nl": "Deze dag"
-			},
-			"uiComponent": "sensor",
-			"icon": "/assets/sigma.svg",
-			"getable": true,
-			"setable": false,
-			"insights": false,
-			"units": {
-				"en": "m³"
-			},
-			"decimals": 4
-		},
-		"m3_last_day_total": {
-			"type": "number",
-			"title": {
-				"en": "m³ prev. day",
-				"nl": "m³ vorige dag"
-			},
-			"uiComponent": null,
-			"getable": true,
-			"setable": false,
-			"insights": true,
-			"units": {
-				"en": "m³"
-			},
-			"decimals": 4
-		},
-		"m3_this_month_total": {
-			"type": "number",
-			"title": {
-				"en": "This month",
-				"nl": "Deze maand"
-			},
-			"uiComponent": "sensor",
-			"icon": "/assets/sigma.svg",
-			"getable": true,
-			"setable": false,
-			"insights": false,
-			"units": {
-				"en": "m³"
-			},
-			"decimals": 4
-		},
-		"m3_last_month_total": {
-			"type": "number",
-			"title": {
-				"en": "m³ prev. month",
-				"nl": "m³ vorige maand"
-			},
-			"uiComponent": null,
-			"getable": true,
-			"setable": false,
-			"insights": true,
-			"units": {
-				"en": "m³"
-			},
-			"decimals": 4
-		},
-		"m3_this_year_total": {
-		"type": "number",
-		"title": {
-			"en": "This year",
-			"nl": "Dit jaar"
-		},
-		"uiComponent": "sensor",
-		"icon": "/assets/sigma.svg",
-		"getable": true,
-		"setable": false,
-		"insights": false,
-		"units": {
-			"en": "m³"
-		},
-		"decimals": 4
-		},
-		"m3_last_year_total": {
-		"type": "number",
-		"title": {
-			"en": "m³ prev. year",
-			"nl": "m³ vorig jaar"
-		},
-		"uiComponent": null,
-		"getable": true,
-		"setable": false,
-		"insights": true,
-		"units": {
-			"en": "m³"
-		},
-		"decimals": 4
-		}
-	},
-	"drivers": [
-		{
-			"id": "meter",
-			"deprecated": true,
-			"name": {
-				"en": "Power Summarizer"
-			},
-			"images": {
-				"large": "./drivers/meter/assets/images/large.jpg",
-				"small": "./drivers/meter/assets/images/small.jpg"
-			},
-			"class": "other",
-			"capabilities": [	],
-			"pair": [
-				{
-					"id": "list_devices",
-					"template": "list_devices",
-					"navigation": {
-						"next": "add_devices"
-					},
-					"options": {
-						"singular": true
-					}
-				},
-				{
-					"id": "add_devices",
-					"template": "add_devices"
-				}
-			],
-			"settings": [
-				{
-					"type": "group",
-					"label": {
-						"en": "Homey source device information",
-						"nl": "Homey bronapparaat informatie"
-					},
-					"children": [
-						{
-							"id": "homey_device_id",
-							"type": "label",
-							"label": {
-								"en": "Device ID",
-								"nl": "Apparaat ID"
-							},
-							"value": "unknown"
-						},
-						{
-							"id": "homey_device_name",
-							"type": "label",
-							"label": {
-								"en": "Device name",
-								"nl": "Apparaat naam"
-							},
-							"value": "unknown"
-						}
-					]
-				}
-			]
-		},
-		{
-			"id": "power",
-			"name": {
-		"en": "Power Summarizer"
-			},
-			"class": "other",
-			"capabilities": [ ],
-			"images": {
-				"large": "./drivers/power/assets/images/large.jpg",
-				"small": "./drivers/power/assets/images/small.jpg"
-		},
-			"pair": [
-				{
-					"id": "list_devices",
-					"template": "list_devices",
-					"navigation": {
-						"next": "add_devices"
-					},
-					"options": {
-						"singular": true
-					}
-				},
-				{
-					"id": "add_devices",
-					"template": "add_devices"
-				}
-			],
-			"settings": [
-				{
-					"type": "group",
-					"label": {
-						"en": "Homey source device information",
-						"nl": "Homey bronapparaat informatie"
-					},
-					"children": [
-						{
-							"id": "homey_device_id",
-							"type": "label",
-							"label": {
-								"en": "Device ID",
-								"nl": "Apparaat ID"
-							},
-							"value": "unknown"
-						},
-						{
-							"id": "homey_device_name",
-							"type": "label",
-							"label": {
-								"en": "Device name",
-								"nl": "Apparaat naam"
-							},
-							"value": "unknown"
-						},
-						{
-							"id": "homey_device_daily_reset",
-							"type": "checkbox",
-							"label": {
-								"en": "Meter has daily reset",
-								"nl": "Meter heeft dagelijkse reset"
-							},
-							"value": false
-						}
-					]
-				},
-				{
-					"type": "group",
-					"label": {
-						"en": "Meter readings",
-						"nl": "Meter waarden"
-					},
-					"children": [
-						{
-							"id": "meter_latest",
-							"type": "label",
-							"label": {
-								"en": "Present reading",
-								"nl": "Huidige waarde"
-							},
-							"value": "0",
-							"hint": {
-								"en": "This is the latest know meter reading from the soure device."
-							}
-						},
-						{
-							"id": "meter_month_start",
-							"type": "number",
-							"label": {
-								"en": "This month start",
-								"nl": "Deze maand start"
-							},
-							"value": 0,
-							"hint": {
-								"en": "Enter the meter reading at the start of this month."
-							}
-						},
-						{
-							"id": "meter_year_start",
-							"type": "number",
-							"label": {
-								"en": "This year start",
-								"nl": "Dit jaar start"
-							},
-							"value": 0,
-							"hint": {
-								"en": "Enter the meter reading at the start of this year."
-							}
-						}
-					]
-				}
-			]
-		},
-		{
-		"id": "gas",
-		"name": {
-			"en": "Gas Summarizer"
-		},
-		"images": {
-			"large": "./drivers/gas/assets/images/large.jpg",
-			"small": "./drivers/gas/assets/images/small.jpg"
-		},
-		"class": "other",
-		"capabilities": [],
-		"pair": [
-			{
-				"id": "list_devices",
-				"template": "list_devices",
-				"navigation": {
-					"next": "add_devices"
-				},
-				"options": {
-					"singular": true
-				}
-			},
-			{
-				"id": "add_devices",
-				"template": "add_devices"
-			}
-		],
-		"settings": [
-			{
-				"type": "group",
-				"label": {
-					"en": "Homey source device information",
-					"nl": "Homey bronapparaat informatie"
-				},
-				"children": [
-					{
-						"id": "homey_device_id",
-						"type": "label",
-						"label": {
-							"en": "Device ID",
-							"nl": "Apparaat ID"
-						},
-						"value": "unknown"
-					},
-					{
-						"id": "homey_device_name",
-						"type": "label",
-						"label": {
-							"en": "Device name",
-							"nl": "Apparaat naam"
-						},
-						"value": "unknown"
-					}
-				]
-			},
-			{
-				"type": "group",
-				"label": {
-					"en": "Meter readings",
-					"nl": "Meter waarden"
-				},
-				"children": [
-					{
-						"id": "meter_latest",
-						"type": "label",
-						"label": {
-							"en": "Present reading",
-							"nl": "Huidige waarde"
-						},
-						"value": "0",
-						"hint": {
-							"en": "This is the latest know meter reading from the soure device."
-						}
-					},
-					{
-						"id": "meter_month_start",
-						"type": "number",
-						"label": {
-							"en": "This month start",
-							"nl": "Deze maand start"
-						},
-						"value": 0,
-						"hint": {
-							"en": "Enter the meter reading at the start of this month."
-						}
-					},
-					{
-						"id": "meter_year_start",
-						"type": "number",
-						"label": {
-							"en": "This year start",
-							"nl": "Dit jaar start"
-						},
-						"value": 0,
-						"hint": {
-							"en": "Enter the meter reading at the start of this year."
-						}
-					}
-				]
-			}
-		]
-		},
-		{
-			"id": "water",
-			"name": {
-				"en": "Water Summarizer"
-			},
-			"images": {
-				"large": "./drivers/water/assets/images/large.jpg",
-				"small": "./drivers/water/assets/images/small.jpg"
-			},
-			"class": "other",
-			"capabilities": [],
-			"pair": [
-				{
-					"id": "list_devices",
-					"template": "list_devices",
-					"navigation": {
-						"next": "add_devices"
-					},
-					"options": {
-						"singular": true
-					}
-				},
-				{
-					"id": "add_devices",
-					"template": "add_devices"
-				}
-			],
-			"settings": [
-				{
-					"type": "group",
-					"label": {
-						"en": "Homey source device information",
-						"nl": "Homey bronapparaat informatie"
-					},
-					"children": [
-						{
-							"id": "homey_device_id",
-							"type": "label",
-							"label": {
-								"en": "Device ID",
-								"nl": "Apparaat ID"
-							},
-							"value": "unknown"
-						},
-						{
-							"id": "homey_device_name",
-							"type": "label",
-							"label": {
-								"en": "Device name",
-								"nl": "Apparaat naam"
-							},
-							"value": "unknown"
-						}
-					]
-				},
-				{
-					"type": "group",
-					"label": {
-						"en": "Meter readings",
-						"nl": "Meter waarden"
-					},
-					"children": [
-						{
-							"id": "meter_latest",
-							"type": "label",
-							"label": {
-								"en": "Present reading",
-								"nl": "Huidige waarde"
-							},
-							"value": "0",
-							"hint": {
-								"en": "This is the latest know meter reading from the soure device."
-							}
-						},
-						{
-							"id": "meter_month_start",
-							"type": "number",
-							"label": {
-								"en": "This month start",
-								"nl": "Deze maand start"
-							},
-							"value": 0,
-							"hint": {
-								"en": "Enter the meter reading at the start of this month."
-							}
-						},
-						{
-							"id": "meter_year_start",
-							"type": "number",
-							"label": {
-								"en": "This year start",
-								"nl": "Dit jaar start"
-							},
-							"value": 0,
-							"hint": {
-								"en": "Enter the meter reading at the start of this year."
-							}
-						}
-					]
-				}
-			]
-		}
-	]
+  "id": "com.gruijter.powerhour",
+  "version": "2.1.1",
+  "compatibility": ">=3",
+  "sdk": 2,
+  "name": {
+    "en": "Power by the Hour"
+  },
+  "description": {
+    "en": "Summarize the energy usage or (solar) production per hour, day, month and year",
+    "nl": "Samenvatten van energie verbruik of (zonnepaneel) productie per uur, dag, maand en jaar"
+  },
+  "category": [
+    "energy",
+    "tools"
+  ],
+  "tags": {
+    "en": [
+      "enelogic",
+      "plugwise",
+      "energy",
+      "power",
+      "gas",
+      "summarizer",
+      "insights",
+      "solar panel"
+    ]
+  },
+  "permissions": [
+    "homey:manager:api"
+  ],
+  "images": {
+    "large": "/assets/images/large.jpg",
+    "small": "/assets/images/small.jpg"
+  },
+  "author": {
+    "name": "Robin de Gruijter",
+    "email": "gruijter@hotmail.com"
+  },
+  "copyright": "Robin de Gruijter (gruijter@hotmail.com)",
+  "license": "GPL-3.0-or-later",
+  "contributors": {
+    "developers": [
+      {
+        "name": "Robin de Gruijter",
+        "email": "gruijter@hotmail.com"
+      }
+    ],
+    "translators": [
+      {
+        "name": "🇬🇧 Robin"
+      },
+      {
+        "name": "🇳🇱 Robin"
+      }
+    ]
+  },
+  "contributing": {
+    "donate": {
+      "paypal": {
+        "username": "gruijter"
+      }
+    }
+  },
+  "bugs": {
+    "url": "https://github.com/gruijter/com.gruijter.powerhour/issues"
+  },
+  "homeyCommunityTopicId": 20535,
+  "capabilities": {
+    "power_hour": {
+      "type": "number",
+      "title": {
+        "en": "This hour",
+        "nl": "Dit uur"
+      },
+      "uiComponent": "sensor",
+      "icon": "/assets/power.svg",
+      "getable": true,
+      "setable": false,
+      "insights": true,
+      "units": {
+        "en": "kWh"
+      },
+      "decimals": 4
+    },
+    "power_hour_total": {
+      "type": "number",
+      "title": {
+        "en": "Prev. hour",
+        "nl": "Vorig uur"
+      },
+      "uiComponent": null,
+      "getable": true,
+      "setable": false,
+      "insights": true,
+      "units": {
+        "en": "kWh"
+      },
+      "decimals": 4
+    },
+    "power_day": {
+      "type": "number",
+      "title": {
+        "en": "This day",
+        "nl": "Deze dag"
+      },
+      "uiComponent": "sensor",
+      "icon": "/assets/power.svg",
+      "getable": true,
+      "setable": false,
+      "insights": false,
+      "units": {
+        "en": "kWh"
+      },
+      "decimals": 4
+    },
+    "power_day_total": {
+      "type": "number",
+      "title": {
+        "en": "Prev. day",
+        "nl": "Vorige dag"
+      },
+      "uiComponent": null,
+      "getable": true,
+      "setable": false,
+      "insights": true,
+      "units": {
+        "en": "kWh"
+      },
+      "decimals": 4
+    },
+    "power_month": {
+      "type": "number",
+      "title": {
+        "en": "This month",
+        "nl": "Deze maand"
+      },
+      "uiComponent": "sensor",
+      "icon": "/assets/power.svg",
+      "getable": true,
+      "setable": false,
+      "insights": false,
+      "units": {
+        "en": "kWh"
+      },
+      "decimals": 4
+    },
+    "power_month_total": {
+      "type": "number",
+      "title": {
+        "en": "Prev. month",
+        "nl": "Vorige maand"
+      },
+      "uiComponent": null,
+      "getable": true,
+      "setable": false,
+      "insights": true,
+      "units": {
+        "en": "kWh"
+      },
+      "decimals": 4
+    },
+    "kwh_this_hour_total": {
+      "type": "number",
+      "title": {
+        "en": "This hour",
+        "nl": "Dit uur"
+      },
+      "uiComponent": "sensor",
+      "icon": "/assets/kwh.svg",
+      "getable": true,
+      "setable": false,
+      "insights": true,
+      "units": {
+        "en": "kWh"
+      },
+      "decimals": 4
+    },
+    "kwh_last_hour_total": {
+      "type": "number",
+      "title": {
+        "en": "kWh prev. hour",
+        "nl": "kWh vorig uur"
+      },
+      "uiComponent": null,
+      "getable": true,
+      "setable": false,
+      "insights": true,
+      "units": {
+        "en": "kWh"
+      },
+      "decimals": 4
+    },
+    "kwh_this_day_total": {
+      "type": "number",
+      "title": {
+        "en": "This day",
+        "nl": "Deze dag"
+      },
+      "uiComponent": "sensor",
+      "icon": "/assets/kwh.svg",
+      "getable": true,
+      "setable": false,
+      "insights": false,
+      "units": {
+        "en": "kWh"
+      },
+      "decimals": 4
+    },
+    "kwh_last_day_total": {
+      "type": "number",
+      "title": {
+        "en": "kWh prev. day",
+        "nl": "kWh vorige dag"
+      },
+      "uiComponent": null,
+      "getable": true,
+      "setable": false,
+      "insights": true,
+      "units": {
+        "en": "kWh"
+      },
+      "decimals": 4
+    },
+    "kwh_this_month_total": {
+      "type": "number",
+      "title": {
+        "en": "This month",
+        "nl": "Deze maand"
+      },
+      "uiComponent": "sensor",
+      "icon": "/assets/kwh.svg",
+      "getable": true,
+      "setable": false,
+      "insights": false,
+      "units": {
+        "en": "kWh"
+      },
+      "decimals": 4
+    },
+    "kwh_last_month_total": {
+      "type": "number",
+      "title": {
+        "en": "kWh prev. month",
+        "nl": "kWh vorige maand"
+      },
+      "uiComponent": null,
+      "getable": true,
+      "setable": false,
+      "insights": true,
+      "units": {
+        "en": "kWh"
+      },
+      "decimals": 4
+    },
+    "kwh_this_year_total": {
+      "type": "number",
+      "title": {
+        "en": "This year",
+        "nl": "Dit jaar"
+      },
+      "uiComponent": "sensor",
+      "icon": "/assets/kwh.svg",
+      "getable": true,
+      "setable": false,
+      "insights": false,
+      "units": {
+        "en": "kWh"
+      },
+      "decimals": 4
+    },
+    "kwh_last_year_total": {
+      "type": "number",
+      "title": {
+        "en": "kWh prev. year",
+        "nl": "kWh vorig jaar"
+      },
+      "uiComponent": null,
+      "getable": true,
+      "setable": false,
+      "insights": true,
+      "units": {
+        "en": "kWh"
+      },
+      "decimals": 4
+    },
+    "m3_this_hour_total": {
+      "type": "number",
+      "title": {
+        "en": "This hour",
+        "nl": "Dit uur"
+      },
+      "uiComponent": "sensor",
+      "icon": "/assets/sigma.svg",
+      "getable": true,
+      "setable": false,
+      "insights": true,
+      "units": {
+        "en": "m³"
+      },
+      "decimals": 4
+    },
+    "m3_last_hour_total": {
+      "type": "number",
+      "title": {
+        "en": "m³ prev. hour",
+        "nl": "m³ vorig uur"
+      },
+      "uiComponent": null,
+      "getable": true,
+      "setable": false,
+      "insights": true,
+      "units": {
+        "en": "m³"
+      },
+      "decimals": 4
+    },
+    "m3_this_day_total": {
+      "type": "number",
+      "title": {
+        "en": "This day",
+        "nl": "Deze dag"
+      },
+      "uiComponent": "sensor",
+      "icon": "/assets/sigma.svg",
+      "getable": true,
+      "setable": false,
+      "insights": false,
+      "units": {
+        "en": "m³"
+      },
+      "decimals": 4
+    },
+    "m3_last_day_total": {
+      "type": "number",
+      "title": {
+        "en": "m³ prev. day",
+        "nl": "m³ vorige dag"
+      },
+      "uiComponent": null,
+      "getable": true,
+      "setable": false,
+      "insights": true,
+      "units": {
+        "en": "m³"
+      },
+      "decimals": 4
+    },
+    "m3_this_month_total": {
+      "type": "number",
+      "title": {
+        "en": "This month",
+        "nl": "Deze maand"
+      },
+      "uiComponent": "sensor",
+      "icon": "/assets/sigma.svg",
+      "getable": true,
+      "setable": false,
+      "insights": false,
+      "units": {
+        "en": "m³"
+      },
+      "decimals": 4
+    },
+    "m3_last_month_total": {
+      "type": "number",
+      "title": {
+        "en": "m³ prev. month",
+        "nl": "m³ vorige maand"
+      },
+      "uiComponent": null,
+      "getable": true,
+      "setable": false,
+      "insights": true,
+      "units": {
+        "en": "m³"
+      },
+      "decimals": 4
+    },
+    "m3_this_year_total": {
+      "type": "number",
+      "title": {
+        "en": "This year",
+        "nl": "Dit jaar"
+      },
+      "uiComponent": "sensor",
+      "icon": "/assets/sigma.svg",
+      "getable": true,
+      "setable": false,
+      "insights": false,
+      "units": {
+        "en": "m³"
+      },
+      "decimals": 4
+    },
+    "m3_last_year_total": {
+      "type": "number",
+      "title": {
+        "en": "m³ prev. year",
+        "nl": "m³ vorig jaar"
+      },
+      "uiComponent": null,
+      "getable": true,
+      "setable": false,
+      "insights": true,
+      "units": {
+        "en": "m³"
+      },
+      "decimals": 4
+    }
+  },
+  "drivers": [
+    {
+      "id": "meter",
+      "deprecated": true,
+      "name": {
+        "en": "Power Summarizer"
+      },
+      "images": {
+        "large": "./drivers/meter/assets/images/large.jpg",
+        "small": "./drivers/meter/assets/images/small.jpg"
+      },
+      "class": "other",
+      "capabilities": [],
+      "pair": [
+        {
+          "id": "list_devices",
+          "template": "list_devices",
+          "navigation": {
+            "next": "add_devices"
+          },
+          "options": {
+            "singular": true
+          }
+        },
+        {
+          "id": "add_devices",
+          "template": "add_devices"
+        }
+      ],
+      "settings": [
+        {
+          "type": "group",
+          "label": {
+            "en": "Homey source device information",
+            "nl": "Homey bronapparaat informatie"
+          },
+          "children": [
+            {
+              "id": "homey_device_id",
+              "type": "label",
+              "label": {
+                "en": "Device ID",
+                "nl": "Apparaat ID"
+              },
+              "value": "unknown"
+            },
+            {
+              "id": "homey_device_name",
+              "type": "label",
+              "label": {
+                "en": "Device name",
+                "nl": "Apparaat naam"
+              },
+              "value": "unknown"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "power",
+      "name": {
+        "en": "Power Summarizer"
+      },
+      "class": "other",
+      "capabilities": [],
+      "images": {
+        "large": "./drivers/power/assets/images/large.jpg",
+        "small": "./drivers/power/assets/images/small.jpg"
+      },
+      "pair": [
+        {
+          "id": "list_devices",
+          "template": "list_devices",
+          "navigation": {
+            "next": "add_devices"
+          },
+          "options": {
+            "singular": true
+          }
+        },
+        {
+          "id": "add_devices",
+          "template": "add_devices"
+        }
+      ],
+      "settings": [
+        {
+          "type": "group",
+          "label": {
+            "en": "Homey source device information",
+            "nl": "Homey bronapparaat informatie"
+          },
+          "children": [
+            {
+              "id": "homey_device_id",
+              "type": "label",
+              "label": {
+                "en": "Device ID",
+                "nl": "Apparaat ID"
+              },
+              "value": "unknown"
+            },
+            {
+              "id": "homey_device_name",
+              "type": "label",
+              "label": {
+                "en": "Device name",
+                "nl": "Apparaat naam"
+              },
+              "value": "unknown"
+            },
+            {
+              "id": "homey_device_daily_reset",
+              "type": "checkbox",
+              "label": {
+                "en": "Meter has daily reset",
+                "nl": "Meter heeft dagelijkse reset"
+              },
+              "value": false
+            }
+          ]
+        },
+        {
+          "type": "group",
+          "label": {
+            "en": "Meter readings",
+            "nl": "Meter waarden"
+          },
+          "children": [
+            {
+              "id": "meter_latest",
+              "type": "label",
+              "label": {
+                "en": "Present reading",
+                "nl": "Huidige waarde"
+              },
+              "value": "0",
+              "hint": {
+                "en": "This is the latest know meter reading from the soure device."
+              }
+            },
+            {
+              "id": "meter_day_start",
+              "type": "number",
+              "label": {
+                "en": "This day start",
+                "nl": "Deze dag start"
+              },
+              "value": 0,
+              "hint": {
+                "en": "Enter the meter reading at the start of this day."
+              }
+            },
+            {
+              "id": "meter_month_start",
+              "type": "number",
+              "label": {
+                "en": "This month start",
+                "nl": "Deze maand start"
+              },
+              "value": 0,
+              "hint": {
+                "en": "Enter the meter reading at the start of this month."
+              }
+            },
+            {
+              "id": "meter_year_start",
+              "type": "number",
+              "label": {
+                "en": "This year start",
+                "nl": "Dit jaar start"
+              },
+              "value": 0,
+              "hint": {
+                "en": "Enter the meter reading at the start of this year."
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "gas",
+      "name": {
+        "en": "Gas Summarizer"
+      },
+      "images": {
+        "large": "./drivers/gas/assets/images/large.jpg",
+        "small": "./drivers/gas/assets/images/small.jpg"
+      },
+      "class": "other",
+      "capabilities": [],
+      "pair": [
+        {
+          "id": "list_devices",
+          "template": "list_devices",
+          "navigation": {
+            "next": "add_devices"
+          },
+          "options": {
+            "singular": true
+          }
+        },
+        {
+          "id": "add_devices",
+          "template": "add_devices"
+        }
+      ],
+      "settings": [
+        {
+          "type": "group",
+          "label": {
+            "en": "Homey source device information",
+            "nl": "Homey bronapparaat informatie"
+          },
+          "children": [
+            {
+              "id": "homey_device_id",
+              "type": "label",
+              "label": {
+                "en": "Device ID",
+                "nl": "Apparaat ID"
+              },
+              "value": "unknown"
+            },
+            {
+              "id": "homey_device_name",
+              "type": "label",
+              "label": {
+                "en": "Device name",
+                "nl": "Apparaat naam"
+              },
+              "value": "unknown"
+            }
+          ]
+        },
+        {
+          "type": "group",
+          "label": {
+            "en": "Meter readings",
+            "nl": "Meter waarden"
+          },
+          "children": [
+            {
+              "id": "meter_latest",
+              "type": "label",
+              "label": {
+                "en": "Present reading",
+                "nl": "Huidige waarde"
+              },
+              "value": "0",
+              "hint": {
+                "en": "This is the latest know meter reading from the soure device."
+              }
+            },
+            {
+              "id": "meter_month_start",
+              "type": "number",
+              "label": {
+                "en": "This month start",
+                "nl": "Deze maand start"
+              },
+              "value": 0,
+              "hint": {
+                "en": "Enter the meter reading at the start of this month."
+              }
+            },
+            {
+              "id": "meter_year_start",
+              "type": "number",
+              "label": {
+                "en": "This year start",
+                "nl": "Dit jaar start"
+              },
+              "value": 0,
+              "hint": {
+                "en": "Enter the meter reading at the start of this year."
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "water",
+      "name": {
+        "en": "Water Summarizer"
+      },
+      "images": {
+        "large": "./drivers/water/assets/images/large.jpg",
+        "small": "./drivers/water/assets/images/small.jpg"
+      },
+      "class": "other",
+      "capabilities": [],
+      "pair": [
+        {
+          "id": "list_devices",
+          "template": "list_devices",
+          "navigation": {
+            "next": "add_devices"
+          },
+          "options": {
+            "singular": true
+          }
+        },
+        {
+          "id": "add_devices",
+          "template": "add_devices"
+        }
+      ],
+      "settings": [
+        {
+          "type": "group",
+          "label": {
+            "en": "Homey source device information",
+            "nl": "Homey bronapparaat informatie"
+          },
+          "children": [
+            {
+              "id": "homey_device_id",
+              "type": "label",
+              "label": {
+                "en": "Device ID",
+                "nl": "Apparaat ID"
+              },
+              "value": "unknown"
+            },
+            {
+              "id": "homey_device_name",
+              "type": "label",
+              "label": {
+                "en": "Device name",
+                "nl": "Apparaat naam"
+              },
+              "value": "unknown"
+            }
+          ]
+        },
+        {
+          "type": "group",
+          "label": {
+            "en": "Meter readings",
+            "nl": "Meter waarden"
+          },
+          "children": [
+            {
+              "id": "meter_latest",
+              "type": "label",
+              "label": {
+                "en": "Present reading",
+                "nl": "Huidige waarde"
+              },
+              "value": "0",
+              "hint": {
+                "en": "This is the latest know meter reading from the soure device."
+              }
+            },
+            {
+              "id": "meter_month_start",
+              "type": "number",
+              "label": {
+                "en": "This month start",
+                "nl": "Deze maand start"
+              },
+              "value": 0,
+              "hint": {
+                "en": "Enter the meter reading at the start of this month."
+              }
+            },
+            {
+              "id": "meter_year_start",
+              "type": "number",
+              "label": {
+                "en": "This year start",
+                "nl": "Dit jaar start"
+              },
+              "value": 0,
+              "hint": {
+                "en": "Enter the meter reading at the start of this year."
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
 }
