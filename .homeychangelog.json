@@ -1,4 +1,7 @@
 {
+  "2.1.1": {
+    "en": "Added support for Solar Panels app. Update athom-api@3.2.7."
+  },
   "2.1.0": {
     "en": "Added support for Solar Panels app. Update athom-api@3.2.7."
   },
@@ -13,8 +16,5 @@
   },
   "0.1.0": {
     "en": "First release"
-  },
-  "2.1.1": {
-    "en": "Added support for Solar Panels app. Update athom-api@3.2.7."
   }
 }

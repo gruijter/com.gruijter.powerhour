@@ -84,6 +84,9 @@ class SumMeterDevice extends Homey.Device {
 		// this.log(newSettingsObj);
 		this.log(`${this.getName()} device settings changed`);
 
+		this.lastReadingMonth.meterValue = newSettingsObj.meter_day_start;
+		await this.setStoreValue('lastReadingDay', this.lastReadingDay);
+
 		this.lastReadingMonth.meterValue = newSettingsObj.meter_month_start;
 		await this.setStoreValue('lastReadingMonth', this.lastReadingMonth);
 
@@ -164,10 +167,11 @@ class SumMeterDevice extends Homey.Device {
 		if (!this.lastReadingDay) {	// after init
 			this.lastReadingDay = this.getStoreValue('lastReadingDay');
 			if (!this.lastReadingDay) {	// after new pair
-				const start = this.getSettings().homey_device_daily_reset ? 0 : reading;
+				const start = this.getSettings().homey_device_daily_reset ? getReadingObject(0) : reading;
 				await this.setStoreValue('lastReadingDay', start);
 				this.lastReadingDay = start;
 			}
+			await this.setSettings({ meter_day_start: this.lastReadingDay.meterValue });
 		}
 		const val = reading.meterValue - this.lastReadingDay.meterValue;
 		if ((reading.month === this.lastReadingDay.month) && (reading.day === this.lastReadingDay.day)) {
@@ -178,6 +182,7 @@ class SumMeterDevice extends Homey.Device {
 			this.setCapabilityValue(this.ds.cmap.last_day_total, val);
 			await this.setStoreValue('lastReadingDay', reading);
 			this.lastReadingDay = reading;
+			await this.setSettings({ meter_day_start: this.lastReadingDay.meterValue });
 		}
 	}
 
