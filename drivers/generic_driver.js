@@ -76,6 +76,9 @@ class SumMeterDriver extends Homey.Driver {
 						},
 						capabilities: this.ds.deviceCapabilities,
 					};
+					if (allDevices[key].driverUri.includes('it.diederik.solar')) {
+						device.settings.homey_device_daily_reset = true;
+					}
 					this.devices.push(device);
 				}
 			});

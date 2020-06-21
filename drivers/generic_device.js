@@ -123,8 +123,12 @@ class SumMeterDevice extends Homey.Device {
 		this.pollMeter();
 	}
 
-	async updateMeter(value) {
+	async updateMeter(val) {
 		try {
+			let value = val;
+			if (this.lastReadingDay && this.getSettings().homey_device_daily_reset) {
+				value = val + this.lastReadingDay.meterValue;
+			}
 			const reading = getReadingObject(value);
 			await this.updateHour(reading);
 			await this.updateDay(reading);
@@ -160,8 +164,9 @@ class SumMeterDevice extends Homey.Device {
 		if (!this.lastReadingDay) {	// after init
 			this.lastReadingDay = this.getStoreValue('lastReadingDay');
 			if (!this.lastReadingDay) {	// after new pair
-				await this.setStoreValue('lastReadingDay', reading);
-				this.lastReadingDay = reading;
+				const start = this.getSettings().homey_device_daily_reset ? 0 : reading;
+				await this.setStoreValue('lastReadingDay', start);
+				this.lastReadingDay = start;
 			}
 		}
 		const val = reading.meterValue - this.lastReadingDay.meterValue;

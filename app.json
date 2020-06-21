@@ -1,6 +1,6 @@
 {
 	"id": "com.gruijter.powerhour",
-	"version": "2.0.1",
+	"version": "2.1.0",
 	"compatibility": ">=3",
 	"sdk": 2,
 	"name": {
@@ -523,6 +523,15 @@
 								"nl": "Apparaat naam"
 							},
 							"value": "unknown"
+						},
+						{
+							"id": "homey_device_daily_reset",
+							"type": "checkbox",
+							"label": {
+								"en": "Meter has daily reset",
+								"nl": "Meter heeft dagelijkse reset"
+							},
+							"value": false
 						}
 					]
 				},
