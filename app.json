@@ -1,6 +1,6 @@
 {
   "id": "com.gruijter.powerhour",
-  "version": "2.1.1",
+  "version": "2.2.0",
   "compatibility": ">=3",
   "sdk": 2,
   "name": {
@@ -18,12 +18,16 @@
     "en": [
       "enelogic",
       "plugwise",
+      "beeclear",
+      "tibber",
+      "homewizzard",
+      "solar panel",
       "energy",
       "power",
       "gas",
+      "water",
       "summarizer",
-      "insights",
-      "solar panel"
+      "insights"
     ]
   },
   "permissions": [
@@ -411,64 +415,6 @@
   },
   "drivers": [
     {
-      "id": "meter",
-      "deprecated": true,
-      "name": {
-        "en": "Power Summarizer"
-      },
-      "images": {
-        "large": "./drivers/meter/assets/images/large.jpg",
-        "small": "./drivers/meter/assets/images/small.jpg"
-      },
-      "class": "other",
-      "capabilities": [],
-      "pair": [
-        {
-          "id": "list_devices",
-          "template": "list_devices",
-          "navigation": {
-            "next": "add_devices"
-          },
-          "options": {
-            "singular": true
-          }
-        },
-        {
-          "id": "add_devices",
-          "template": "add_devices"
-        }
-      ],
-      "settings": [
-        {
-          "type": "group",
-          "label": {
-            "en": "Homey source device information",
-            "nl": "Homey bronapparaat informatie"
-          },
-          "children": [
-            {
-              "id": "homey_device_id",
-              "type": "label",
-              "label": {
-                "en": "Device ID",
-                "nl": "Apparaat ID"
-              },
-              "value": "unknown"
-            },
-            {
-              "id": "homey_device_name",
-              "type": "label",
-              "label": {
-                "en": "Device name",
-                "nl": "Apparaat naam"
-              },
-              "value": "unknown"
-            }
-          ]
-        }
-      ]
-    },
-    {
       "id": "power",
       "name": {
         "en": "Power Summarizer"
@@ -525,10 +471,30 @@
               "id": "homey_device_daily_reset",
               "type": "checkbox",
               "label": {
-                "en": "Meter has daily reset",
-                "nl": "Meter heeft dagelijkse reset"
+                "en": "Has daily reset",
+                "nl": "Heeft dagelijkse reset"
+              },
+              "hint": {
+                "en": "The meter of this device resets every midnight to 0",
+                "nl": "De meter van dit apparaat reset naar 0 om middernacht"
               },
               "value": false
+            },
+            {
+              "id": "interval",
+              "type": "number",
+              "label": {
+                "en": "Update interval (minutes)",
+                "nl": "Update interval (minuten)"
+              },
+              "hint": {
+                "en": "Set to 0 to get immediate updates. This can however increase system load.",
+                "nl": "Zet op 0 voor directe updates. Dit kan echter de systeem belasting verhogen."
+              },
+              "value": 0,
+              "min": 0,
+              "max": 5,
+              "step": 1
             }
           ]
         },
@@ -548,7 +514,7 @@
               },
               "value": "0",
               "hint": {
-                "en": "This is the latest know meter reading from the soure device."
+                "en": "This is the meter reading from the soure device, updated once an hour."
               }
             },
             {
@@ -662,7 +628,7 @@
               },
               "value": "0",
               "hint": {
-                "en": "This is the latest know meter reading from the soure device."
+                "en": "This is the meter reading from the soure device, updated once an hour."
               }
             },
             {
@@ -759,12 +725,12 @@
               "id": "meter_latest",
               "type": "label",
               "label": {
-                "en": "Present reading",
+                "en": "This hour start",
                 "nl": "Huidige waarde"
               },
               "value": "0",
               "hint": {
-                "en": "This is the latest know meter reading from the soure device."
+                "en": "This is the meter reading from the soure device, updated once an hour."
               }
             },
             {

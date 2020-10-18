@@ -45,8 +45,8 @@ class sumDriver extends GenericDevice {
 
 	async addListeners() {
 		// make listener for meter_gas
-		this.log(`registering meter_gas capability listener for ${this.sourceDevice.name}`);
 		if (this.sourceDevice.capabilities.includes('meter_water')) {
+			this.log(`registering meter_water capability listener for ${this.sourceDevice.name}`);
 			this.capabilityInstances.meterWater = this.sourceDevice.makeCapabilityInstance('meter_water', (value) => {
 				this.updateMeter(value);
 			});
@@ -55,7 +55,7 @@ class sumDriver extends GenericDevice {
 
 	pollMeter() {
 		const pollValue = this.sourceDevice.capabilitiesObj.meter_water.value;
-		this.updateMeter(pollValue);
+		this.updateMeter(pollValue, true);
 	}
 
 }

@@ -23,6 +23,11 @@ along with com.gruijter.powerhour.  If not, see <http://www.gnu.org/licenses/>.s
 const Homey = require('homey');
 const { HomeyAPI } = require('athom-api');
 
+const dailyResetApps = [
+	'com.tibber',
+	'it.diederik.solar',
+];
+
 class SumMeterDriver extends Homey.Driver {
 
 	async onDriverInit() {
@@ -31,7 +36,10 @@ class SumMeterDriver extends Homey.Driver {
 		Homey.on('everyhour', async () => {
 			const devices = this.getDevices();
 			devices.forEach((device) => {
-				device.updateMeterCron();
+				// check if source device is available, then force update
+				if (device.sourceDevice && device.sourceDevice.capabilitiesObj) {
+					device.pollMeter();
+				} else device.restartDevice();
 			});
 		});
 	}
@@ -76,7 +84,7 @@ class SumMeterDriver extends Homey.Driver {
 						},
 						capabilities: this.ds.deviceCapabilities,
 					};
-					if (allDevices[key].driverUri.includes('it.diederik.solar')) {
+					if (dailyResetApps.some((appId) => allDevices[key].driverUri.includes(appId))) {
 						device.settings.homey_device_daily_reset = true;
 					}
 					this.devices.push(device);
@@ -87,7 +95,6 @@ class SumMeterDriver extends Homey.Driver {
 			return Promise.reject(error);
 		}
 	}
-
 
 }
 

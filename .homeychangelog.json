@@ -1,4 +1,7 @@
 {
+  "2.2.0": {
+    "en": "Added support for Tibber app. Added support for Homewizard energylink gas. Check for source device unavailable. Added polling mode for power (reduced system load in combination with Prometheus exporter). Removed deprecated meter driver. Update athom-api@3.2.13."
+  },
   "2.1.1": {
     "en": "Added support for Solar Panels app. Update athom-api@3.2.7."
   },

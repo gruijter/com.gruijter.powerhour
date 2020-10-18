@@ -23,7 +23,7 @@ const GenericDriver = require('../generic_driver.js');
 
 const driverSpecifics = {
 	driverId: 'gas',
-	originDeviceCapabilities: ['meter_gas'],
+	originDeviceCapabilities: ['meter_gas', 'meter_gas.reading'],
 	deviceCapabilities: ['m3_this_hour_total', 'm3_last_hour_total', 'm3_this_day_total', 'm3_last_day_total',
 		'm3_this_month_total', 'm3_last_month_total', 'm3_this_year_total', 'm3_last_year_total'],
 };

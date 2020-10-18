@@ -45,17 +45,30 @@ class sumDriver extends GenericDevice {
 
 	async addListeners() {
 		// make listener for meter_gas
-		this.log(`registering meter_gas capability listener for ${this.sourceDevice.name}`);
 		if (this.sourceDevice.capabilities.includes('meter_gas')) {
+			this.log(`registering meter_gas capability listener for ${this.sourceDevice.name}`);
 			this.capabilityInstances.meterGas = this.sourceDevice.makeCapabilityInstance('meter_gas', (value) => {
+				this.updateMeter(value);
+			});
+		}
+		// make listener for meter_gas.reading
+		if (this.sourceDevice.capabilities.includes('meter_gas.reading')) {
+			this.log(`registering meter_gas.reading capability listener for ${this.sourceDevice.name}`);
+			this.capabilityInstances.meterGas = this.sourceDevice.makeCapabilityInstance('meter_gas.reading', (value) => {
 				this.updateMeter(value);
 			});
 		}
 	}
 
 	pollMeter() {
-		const pollValue = this.sourceDevice.capabilitiesObj.meter_gas.value;
-		this.updateMeter(pollValue);
+		let pollValue;
+		if (this.sourceDevice.capabilitiesObj && this.sourceDevice.capabilitiesObj.meter_gas) {
+			pollValue = this.sourceDevice.capabilitiesObj.meter_gas.value;
+		}
+		if (this.sourceDevice.capabilitiesObj && this.sourceDevice.capabilitiesObj.meter_gas && this.sourceDevice.capabilitiesObj.meter_gas.reading) {
+			pollValue = this.sourceDevice.capabilitiesObj.meter_gas.reading.value;
+		}
+		this.updateMeter(pollValue, true);
 	}
 
 }

@@ -46,17 +46,19 @@ class sumDriver extends GenericDevice {
 
 	async addListeners() {
 		// make listener for meter_power
-		this.log(`registering meter_power capability listener for ${this.sourceDevice.name}`);
+		const pollingMode = this.getSettings().interval;
 		if (this.sourceDevice.capabilities.includes('meter_power')) {
+			this.log(`registering meter_power capability listener for ${this.sourceDevice.name}`);
 			this.capabilityInstances.meterPower = this.sourceDevice.makeCapabilityInstance('meter_power', (value) => {
-				this.updateMeter(value);
+				if (!pollingMode) this.updateMeter(value);
 			});
 		}	else if (this.sourceDevice.capabilities.includes('meter_power.peak') && this.sourceDevice.capabilities.includes('meter_power.offPeak')) {
+			this.log(`registering meter_power.peak/offPeak capability listener for ${this.sourceDevice.name}`);
 			this.capabilityInstances.meterPowerPeak = this.sourceDevice.makeCapabilityInstance('meter_power.peak', (value) => {
-				this.updateMeterPeak(value);
+				if (!pollingMode) this.updateMeterPeak(value);
 			});
 			this.capabilityInstances.peterPowerOffPeak = this.sourceDevice.makeCapabilityInstance('meter_power.offPeak', (value) => {
-				this.updateMeterOffPeak(value);
+				if (!pollingMode) this.updateMeterOffPeak(value);
 			});
 		}
 	}
@@ -71,7 +73,7 @@ class sumDriver extends GenericDevice {
 		if (this.lastPeak !== undefined) this.updateMeter(this.lastPeak + this.lastOffPeak);
 	}
 
-	pollMeter() {
+	async pollMeter() {
 		if (this.sourceDevice.capabilities.includes('meter_power')) {
 			const pollValue = this.sourceDevice.capabilitiesObj.meter_power.value;
 			this.updateMeter(pollValue);
