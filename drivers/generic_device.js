@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 /* eslint-disable import/no-extraneous-dependencies */
 /*
-Copyright 2019 - 2020, Robin de Gruijter (gruijter@hotmail.com)
+Copyright 2019 - 2021, Robin de Gruijter (gruijter@hotmail.com)
 
 This file is part of com.gruijter.powerhour.
 
@@ -45,6 +45,7 @@ class SumMeterDevice extends Homey.Device {
 			this.setAvailable();
 			this.emptyLastReadings();
 			this._driver = await this.getDriver();
+			await this._driver.ready(() => this.log(`${this.getName()} driver is loaded`));
 			this.lastUpdated = 0;
 			this.sourceDevice = await this.getSourceDevice();
 			// check if source device is available

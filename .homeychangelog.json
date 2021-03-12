@@ -1,4 +1,7 @@
 {
+  "2.3.0": {
+    "en": "Fix Homey boot issues. Update athom-api@3.3.0"
+  },
   "2.2.1": {
     "en": "Update athom-api@3.2.14."
   },

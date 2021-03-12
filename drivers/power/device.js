@@ -1,5 +1,5 @@
 /*
-Copyright 2019 - 2020, Robin de Gruijter (gruijter@hotmail.com)
+Copyright 2019 - 2021, Robin de Gruijter (gruijter@hotmail.com)
 
 This file is part of com.gruijter.powerhour.
 
