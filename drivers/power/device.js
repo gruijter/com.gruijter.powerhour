@@ -46,19 +46,18 @@ class sumDriver extends GenericDevice {
 
 	async addListeners() {
 		// make listener for meter_power
-		const pollingMode = this.getSettings().interval;
 		if (this.sourceDevice.capabilities.includes('meter_power')) {
 			this.log(`registering meter_power capability listener for ${this.sourceDevice.name}`);
 			this.capabilityInstances.meterPower = this.sourceDevice.makeCapabilityInstance('meter_power', (value) => {
-				if (!pollingMode) this.updateMeter(value);
+				this.updateMeter(value);
 			});
 		}	else if (this.sourceDevice.capabilities.includes('meter_power.peak') && this.sourceDevice.capabilities.includes('meter_power.offPeak')) {
 			this.log(`registering meter_power.peak/offPeak capability listener for ${this.sourceDevice.name}`);
 			this.capabilityInstances.meterPowerPeak = this.sourceDevice.makeCapabilityInstance('meter_power.peak', (value) => {
-				if (!pollingMode) this.updateMeterPeak(value);
+				this.updateMeterPeak(value);
 			});
 			this.capabilityInstances.peterPowerOffPeak = this.sourceDevice.makeCapabilityInstance('meter_power.offPeak', (value) => {
-				if (!pollingMode) this.updateMeterOffPeak(value);
+				this.updateMeterOffPeak(value);
 			});
 		}
 	}

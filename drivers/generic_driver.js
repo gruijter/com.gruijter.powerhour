@@ -33,15 +33,22 @@ class SumMeterDriver extends Homey.Driver {
 	async onDriverInit() {
 		this.log('onDriverInit');
 		await this.login();
-		Homey.on('everyhour', async () => {
+
+		// add listener for hourly trigger
+		if (this.eventListener) Homey.removeListener('everyhour', this.eventListener);
+		this.eventListener = async () => {
 			const devices = this.getDevices();
 			devices.forEach((device) => {
 				// check if source device is available, then force update
-				if (device.sourceDevice && device.sourceDevice.capabilitiesObj) {
+				if (device.available && device.sourceDevice && device.sourceDevice.capabilitiesObj) {
 					device.pollMeter();
-				} else device.restartDevice();
+				} else {
+					this.error(`${device.getName()} is missing or unavailable. Restarting now..`);
+					device.restartDevice();
+				}
 			});
-		});
+		};
+		Homey.on('everyhour', this.eventListener);
 	}
 
 	// login to Homey API

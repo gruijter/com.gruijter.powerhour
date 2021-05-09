@@ -1,6 +1,6 @@
 {
   "name": "com.gruijter.powerhour",
-  "version": "2.3.0",
+  "version": "2.4.0",
   "description": "Summarize the energy usage or (solar) production per hour, day, month and year",
   "main": "app.js",
   "scripts": {
@@ -12,7 +12,7 @@
   "author": "gruijter@hotmail.com",
   "license": "GPL-3.0-or-later",
   "dependencies": {
-    "athom-api": "^3.3.0"
+    "athom-api": "^3.4.1"
   },
   "repository": {
     "type": "git",
