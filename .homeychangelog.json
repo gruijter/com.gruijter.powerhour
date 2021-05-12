@@ -1,4 +1,7 @@
 {
+  "2.4.1": {
+    "en": "Fix hourly device restart. Improved watchdog."
+  },
   "2.4.0": {
     "en": "Fix Daily reset production meters. Fix this day start settings. Increased app robustness. Added watchdog. Update athom-api@3.4.1"
   },

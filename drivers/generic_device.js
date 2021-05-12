@@ -48,12 +48,10 @@ class SumMeterDevice extends Homey.Device {
 			await this._driver.ready(() => this.log(`${this.getName()} driver is loaded`));
 			this.lastUpdated = 0;
 			this.sourceDevice = await this.getSourceDevice();
-			// check if source device is available
-			if (!this.sourceDevice || !this.sourceDevice.capabilitiesObj) {
-				this.error(`Source device ${this.getName()} is not available`);
-				this.setUnavailable('Source device is not available');
-				return;
-			}
+
+			// check if source device exists
+			const deviceExists = this.sourceDevice && this.sourceDevice.capabilitiesObj; // && (this.sourceDevice.available !== null);
+			if (!deviceExists) throw Error(`Source device ${this.getName()} is missing`);
 			this.setAvailable();
 
 			// init daily resetting source devices
@@ -61,17 +59,16 @@ class SumMeterDevice extends Homey.Device {
 			this.cumVal = this.dayStartCumVal;
 			this.lastAbsVal = 0;
 
+			// start poll mode or realtime capability listeners
 			const { interval } = this.getSettings();
-			// start poll mode
-			if (interval) this.startPolling(interval);
-			// start realtime capability listeners
-			if (!interval) this.addListeners();
+			if (interval) { this.startPolling(interval); } else this.addListeners();
 
+			// do immediate forced update
 			this.pollMeter();
 		} catch (error) {
 			this.error(error);
 			this.setUnavailable(error);
-			this.restartDevice(60000);
+			this.restartDevice(10 * 60 * 1000); // restart after 10 minutes
 		}
 	}
 
@@ -79,7 +76,7 @@ class SumMeterDevice extends Homey.Device {
 		this.log(`Restarting device in ${delay / 1000} seconds`);
 		this.stopPolling();
 		this.destroyListeners();
-		setTimeout(() => {
+		this.timeoutIdRestart = setTimeout(() => {
 			this.onInitDevice();
 		}, delay || 10000);
 	}
@@ -138,13 +135,14 @@ class SumMeterDevice extends Homey.Device {
 	}
 
 	stopPolling() {
-		this.log('Stop polling');
+		this.log(`Stop polling ${this.getName()}`);
 		clearInterval(this.intervalIdDevicePoll);
+		clearTimeout(this.timeoutIdRestart);
 	}
 
 	startPolling(interval) {
 		clearInterval(this.intervalIdDevicePoll);
-		this.log(`start polling @${interval} minutes interval`);
+		this.log(`start polling ${this.getName()} @${interval} minutes interval`);
 		this.intervalIdDevicePoll = setInterval(() => {
 			this.pollMeter();
 		}, 1000 * 60 * interval);
