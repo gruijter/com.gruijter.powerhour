@@ -1,4 +1,7 @@
 {
+  "2.5.0": {
+    "en": "Added support for Homewizard water app (has daily reset water meter)."
+  },
   "2.4.1": {
     "en": "Fix hourly device restart. Improved watchdog."
   },
