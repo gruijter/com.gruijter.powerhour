@@ -1,6 +1,6 @@
 {
   "id": "com.gruijter.powerhour",
-  "version": "2.5.0",
+  "version": "2.6.0",
   "compatibility": ">=3",
   "brandColor": "#df5020",
   "sdk": 2,
@@ -507,6 +507,18 @@
           },
           "children": [
             {
+              "id": "start_date",
+              "type": "text",
+              "label": {
+                "en": "New year start date",
+                "nl": "Start datum nieuw jaar"
+              },
+              "value": "0101",
+              "hint": {
+                "en": "On this date the month and year total will reset to 0. Format is ddmm. Default is 0101 (1 January)"
+              }
+            },
+            {
               "id": "meter_latest",
               "type": "label",
               "label": {
@@ -620,6 +632,18 @@
             "nl": "Meter waarden"
           },
           "children": [
+            {
+              "id": "start_date",
+              "type": "text",
+              "label": {
+                "en": "New year start date",
+                "nl": "Start datum nieuw jaar"
+              },
+              "value": "0101",
+              "hint": {
+                "en": "On this date the month and year total will reset to 0. Format is ddmm. Default is 0101 (1 January)"
+              }
+            },
             {
               "id": "meter_latest",
               "type": "label",
@@ -735,6 +759,18 @@
             "nl": "Meter waarden"
           },
           "children": [
+            {
+              "id": "start_date",
+              "type": "text",
+              "label": {
+                "en": "New year start date",
+                "nl": "Start datum nieuw jaar"
+              },
+              "value": "0101",
+              "hint": {
+                "en": "On this date the month and year total will reset to 0. Format is ddmm. Default is 0101 (1 January)"
+              }
+            },
             {
               "id": "meter_latest",
               "type": "label",

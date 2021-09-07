@@ -1,4 +1,7 @@
 {
+  "2.6.0": {
+    "en": "Added support to set start date of year."
+  },
   "2.5.0": {
     "en": "Added support for Homewizard water app (has daily reset water meter)."
   },

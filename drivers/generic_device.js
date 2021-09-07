@@ -59,6 +59,15 @@ class SumMeterDevice extends Homey.Device {
 			this.cumVal = this.dayStartCumVal;
 			this.lastAbsVal = 0;
 
+			// init start day and month from settings
+			let startDateString = this.getSettings().start_date;
+			if (!startDateString || startDateString.length !== 4) startDateString = '0101'; // ddmm
+			this.startDay = Number(startDateString.slice(0, 2));
+			this.startMonth = Number(startDateString.slice(2, 4));
+			if (!this.startDay || (this.startDay > 31)) this.startDay = 1;
+			if (!this.startMonth || (this.startMonth > 12)) this.startMonth = 1;
+			this.startMonth -= 1; // January is month 0
+
 			// start poll mode or realtime capability listeners
 			const { interval } = this.getSettings();
 			if (interval) { this.startPolling(interval); } else this.addListeners();
@@ -208,10 +217,12 @@ class SumMeterDevice extends Homey.Device {
 			}
 		}
 		const val = reading.meterValue - this.lastReadingHour.meterValue;
-		if ((reading.day === this.lastReadingHour.day) && (reading.hour === this.lastReadingHour.hour)) {
+		const newHour = reading.hour !== this.lastReadingHour.hour;
+		if (!newHour) {
 			this.setCapability(this.ds.cmap.this_hour_total, val);
 		} else {
 			// new hour started
+			// console.log('new hour started');
 			this.setCapability(this.ds.cmap.this_hour_total, 0);
 			this.setCapability(this.ds.cmap.last_hour_total, val);
 			await this.setStoreValue('lastReadingHour', reading);
@@ -231,10 +242,12 @@ class SumMeterDevice extends Homey.Device {
 			await this.setSettings({ meter_day_start: this.lastReadingDay.meterValue });
 		}
 		const val = reading.meterValue - this.lastReadingDay.meterValue;
-		if ((reading.month === this.lastReadingDay.month) && (reading.day === this.lastReadingDay.day)) {
+		const newDay = (reading.day !== this.lastReadingDay.day);
+		if (!newDay) {
 			this.setCapability(this.ds.cmap.this_day_total, val);
 		} else {
 			// new day started
+			this.log('new day started');
 			this.setCapability(this.ds.cmap.this_day_total, 0);
 			this.setCapability(this.ds.cmap.last_day_total, val);
 			await this.setStoreValue('lastReadingDay', reading);
@@ -253,16 +266,19 @@ class SumMeterDevice extends Homey.Device {
 			await this.setSettings({ meter_month_start: this.lastReadingMonth.meterValue });
 		}
 		const val = reading.meterValue - this.lastReadingMonth.meterValue;
-		if ((reading.month === this.lastReadingMonth.month)) {
+		const newMonth = (reading.day !== this.lastReadingMonth.day && reading.day === this.startDay);
+		if (!newMonth) { // if ((reading.month === this.lastReadingMonth.month)) {
 			this.setCapability(this.ds.cmap.this_month_total, val);
 		} else {
 			// new month started
+			this.log('new month started');
 			this.setCapability(this.ds.cmap.this_month_total, 0);
 			this.setCapability(this.ds.cmap.last_month_total, val);
 			await this.setStoreValue('lastReadingMonth', reading);
 			this.lastReadingMonth = reading;
 			await this.setSettings({ meter_month_start: this.lastReadingMonth.meterValue });
 		}
+
 	}
 
 	async updateYear(reading) {
@@ -275,16 +291,19 @@ class SumMeterDevice extends Homey.Device {
 			await this.setSettings({ meter_year_start: this.lastReadingYear.meterValue });
 		}
 		const val = reading.meterValue - this.lastReadingYear.meterValue;
-		if ((reading.year === this.lastReadingYear.year)) {
+		const newYear = (reading.day !== this.lastReadingYear.day && reading.day === this.startDay && reading.month === this.startMonth);
+		if (!newYear) { // if ((reading.year === this.lastReadingYear.year)) {
 			this.setCapability(this.ds.cmap.this_year_total, val);
 		} else {
 			// new year started
+			this.log('new year started');
 			this.setCapability(this.ds.cmap.this_year_total, 0);
 			this.setCapability(this.ds.cmap.last_year_total, val);
 			await this.setStoreValue('lastReadingYear', reading);
 			this.lastReadingYear = reading;
 			await this.setSettings({ meter_year_start: this.lastReadingYear.meterValue });
 		}
+
 	}
 
 }
