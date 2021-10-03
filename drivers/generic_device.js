@@ -198,107 +198,94 @@ class SumMeterDevice extends Homey.Device {
 			}
 
 			const reading = getReadingObject(value);
-			await this.updateHour(reading);
-			await this.updateDay(reading);
-			await this.updateMonth(reading);
-			await this.updateYear(reading);
+			await this.updateStates(reading);
 		} catch (error) {
 			this.error(error);
 		}
 	}
 
-	async updateHour(reading) {
-		if (!this.lastReadingHour) {	// after init
-			await this.setSettings({ meter_latest: `${reading.meterValue}` });
+	async updateStates(reading) {
+		// check app init
+		const appInit = (!this.lastReadingHour || !this.lastReadingDay || !this.lastReadingMonth || !this.lastReadingYear);
+		if (appInit) {
+			this.log(`${this.getName()} restoring values after app init`);
 			this.lastReadingHour = this.getStoreValue('lastReadingHour');
-			if (!this.lastReadingHour) {	// after new pair
+			this.lastReadingDay = this.getStoreValue('lastReadingDay');
+			this.lastReadingMonth = this.getStoreValue('lastReadingMonth');
+			this.lastReadingYear = this.getStoreValue('lastReadingYear');
+			// check pair init
+			const pairInit = (!this.lastReadingHour || !this.lastReadingDay || !this.lastReadingMonth || !this.lastReadingYear);
+			if (pairInit) {
+				this.log(`${this.getName()} setting values after pair init`);
 				await this.setStoreValue('lastReadingHour', reading);
 				this.lastReadingHour = reading;
+				const dayStart = this.getSettings().homey_device_daily_reset ? getReadingObject(0) : reading;
+				await this.setStoreValue('lastReadingDay', dayStart);
+				this.lastReadingDay = dayStart;
+				await this.setStoreValue('lastReadingMonth', reading);
+				this.lastReadingMonth = reading;
+				await this.setStoreValue('lastReadingYear', reading);
+				this.lastReadingYear = reading;
 			}
+			// set meter start in device settings
+			await this.setSettings({ meter_latest: `${reading.meterValue}` });
+			await this.setSettings({ meter_day_start: this.lastReadingDay.meterValue });
+			await this.setSettings({ meter_month_start: this.lastReadingMonth.meterValue });
+			await this.setSettings({ meter_year_start: this.lastReadingYear.meterValue });
 		}
-		const val = reading.meterValue - this.lastReadingHour.meterValue;
+		// calculate delta
+		const valHour = reading.meterValue - this.lastReadingHour.meterValue;
+		const valDay = reading.meterValue - this.lastReadingDay.meterValue;
+		const valMonth = reading.meterValue - this.lastReadingMonth.meterValue;
+		const valYear = reading.meterValue - this.lastReadingYear.meterValue;
+		// check for new hour, day, month year
 		const newHour = reading.hour !== this.lastReadingHour.hour;
+		const newDay = (reading.day !== this.lastReadingDay.day);
+		const newMonth = (newDay && (reading.day === this.startDay))
+			|| ((reading.day >= this.startDay) && (reading.month > this.lastReadingMonth.month));
+		const newYear = (newMonth && (reading.month === this.startMonth))
+			|| ((reading.month >= this.startMonth) && (reading.year > this.lastReadingYear.year));
+		// set capabilities
 		if (!newHour) {
-			this.setCapability(this.ds.cmap.this_hour_total, val);
+			this.setCapability(this.ds.cmap.this_hour_total, valHour);
 		} else {
 			// new hour started
 			// console.log('new hour started');
 			this.setCapability(this.ds.cmap.this_hour_total, 0);
-			this.setCapability(this.ds.cmap.last_hour_total, val);
+			this.setCapability(this.ds.cmap.last_hour_total, valHour);
 			await this.setStoreValue('lastReadingHour', reading);
 			await this.setSettings({ meter_latest: `${reading.meterValue}` });
 			this.lastReadingHour = reading;
 		}
-	}
-
-	async updateDay(reading) {
-		if (!this.lastReadingDay) {	// after init
-			this.lastReadingDay = this.getStoreValue('lastReadingDay');
-			if (!this.lastReadingDay) {	// after new pair
-				const start = this.getSettings().homey_device_daily_reset ? getReadingObject(0) : reading;
-				await this.setStoreValue('lastReadingDay', start);
-				this.lastReadingDay = start;
-			}
-			await this.setSettings({ meter_day_start: this.lastReadingDay.meterValue });
-		}
-		const val = reading.meterValue - this.lastReadingDay.meterValue;
-		const newDay = (reading.day !== this.lastReadingDay.day);
 		if (!newDay) {
-			this.setCapability(this.ds.cmap.this_day_total, val);
+			this.setCapability(this.ds.cmap.this_day_total, valDay);
 		} else {
 			// new day started
 			this.log('new day started');
 			this.setCapability(this.ds.cmap.this_day_total, 0);
-			this.setCapability(this.ds.cmap.last_day_total, val);
+			this.setCapability(this.ds.cmap.last_day_total, valDay);
 			await this.setStoreValue('lastReadingDay', reading);
 			this.lastReadingDay = reading;
 			await this.setSettings({ meter_day_start: this.lastReadingDay.meterValue });
 		}
-	}
-
-	async updateMonth(reading) {
-		if (!this.lastReadingMonth) {	// after init
-			this.lastReadingMonth = this.getStoreValue('lastReadingMonth');
-			if (!this.lastReadingMonth) {	// after new pair
-				await this.setStoreValue('lastReadingMonth', reading);
-				this.lastReadingMonth = reading;
-			}
-			await this.setSettings({ meter_month_start: this.lastReadingMonth.meterValue });
-		}
-		const val = reading.meterValue - this.lastReadingMonth.meterValue;
-		const newMonth = (reading.day !== this.lastReadingMonth.day && reading.day === this.startDay);
-		if (!newMonth) { // if ((reading.month === this.lastReadingMonth.month)) {
-			this.setCapability(this.ds.cmap.this_month_total, val);
+		if (!newMonth) {
+			this.setCapability(this.ds.cmap.this_month_total, valMonth);
 		} else {
 			// new month started
 			this.log('new month started');
 			this.setCapability(this.ds.cmap.this_month_total, 0);
-			this.setCapability(this.ds.cmap.last_month_total, val);
+			this.setCapability(this.ds.cmap.last_month_total, valMonth);
 			await this.setStoreValue('lastReadingMonth', reading);
 			this.lastReadingMonth = reading;
 			await this.setSettings({ meter_month_start: this.lastReadingMonth.meterValue });
 		}
-
-	}
-
-	async updateYear(reading) {
-		if (!this.lastReadingYear) {	// after init
-			this.lastReadingYear = this.getStoreValue('lastReadingYear');
-			if (!this.lastReadingYear) {	// after new pair
-				await this.setStoreValue('lastReadingYear', reading);
-				this.lastReadingYear = reading;
-			}
-			await this.setSettings({ meter_year_start: this.lastReadingYear.meterValue });
-		}
-		const val = reading.meterValue - this.lastReadingYear.meterValue;
-		const newYear = (reading.day !== this.lastReadingYear.day && reading.day === this.startDay && reading.month === this.startMonth);
-		if (!newYear) { // if ((reading.year === this.lastReadingYear.year)) {
-			this.setCapability(this.ds.cmap.this_year_total, val);
+		if (!newYear) {
+			this.setCapability(this.ds.cmap.this_year_total, valYear);
 		} else {
 			// new year started
 			this.log('new year started');
 			this.setCapability(this.ds.cmap.this_year_total, 0);
-			this.setCapability(this.ds.cmap.last_year_total, val);
+			this.setCapability(this.ds.cmap.last_year_total, valYear);
 			await this.setStoreValue('lastReadingYear', reading);
 			this.lastReadingYear = reading;
 			await this.setSettings({ meter_year_start: this.lastReadingYear.meterValue });
