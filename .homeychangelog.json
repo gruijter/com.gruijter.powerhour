@@ -1,4 +1,7 @@
 {
+  "3.0.0": {
+    "en": "Rewrite to SDK3. Update athom-api@3.6.7. Capabilities, Insights and flow cards are migrated. Status indicator added."
+  },
   "2.6.0": {
     "en": "Added support to set start date of year."
   },

@@ -23,14 +23,14 @@ const GenericDevice = require('../generic_device.js');
 
 const deviceSpecifics = {
 	cmap: {
-		this_hour_total: 'm3_this_hour_total',
-		last_hour_total: 'm3_last_hour_total',
-		this_day_total: 'm3_this_day_total',
-		last_day_total:	'm3_last_day_total',
-		this_month_total: 'm3_this_month_total',
-		last_month_total: 'm3_last_month_total',
-		this_year_total: 'm3_this_year_total',
-		last_year_total: 'm3_last_year_total',
+		this_hour_total: 'meter_m3_this_hour',
+		last_hour_total: 'meter_m3_last_hour',
+		this_day_total: 'meter_m3_this_day',
+		last_day_total:	'meter_m3_last_day',
+		this_month_total: 'meter_m3_this_month',
+		last_month_total: 'meter_m3_last_month',
+		this_year_total: 'meter_m3_this_year',
+		last_year_total: 'meter_m3_last_year',
 	},
 };
 

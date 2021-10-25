@@ -1,0 +1,15 @@
+{
+  "type": "number",
+  "title": {
+    "en": "kWh prev. month",
+    "nl": "kWh vorige maand"
+  },
+  "uiComponent": null,
+  "getable": true,
+  "setable": false,
+  "insights": true,
+  "units": {
+    "en": "kWh"
+  },
+  "decimals": 4
+}

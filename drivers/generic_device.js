@@ -21,7 +21,7 @@ along with com.gruijter.powerhour.  If not, see <http://www.gnu.org/licenses/>.
 
 'use strict';
 
-const Homey = require('homey');
+const { Device } = require('homey');
 
 const getReadingObject = (value) => {
 	const ts = new Date();
@@ -35,17 +35,17 @@ const getReadingObject = (value) => {
 	return reading;
 };
 
-class SumMeterDevice extends Homey.Device {
+class SumMeterDevice extends Device {
 
 	// this method is called when the Device is inited
 	async onInitDevice() {
 		// this.log('device init: ', this.getName(), 'id:', this.getData().id);
 		try {
 			// init some stuff
+			await this.migrate();
 			this.destroyListeners();
 			this.emptyLastReadings();
-			this._driver = await this.getDriver();
-			await this._driver.ready(() => this.log(`${this.getName()} driver is loaded`));
+			// await this.driver.ready(() => this.log(`${this.getName()} driver is loaded`));
 			this.lastUpdated = 0;
 			this.sourceDevice = await this.getSourceDevice();
 
@@ -78,6 +78,27 @@ class SumMeterDevice extends Homey.Device {
 			this.error(error);
 			this.setUnavailable(error);
 			this.restartDevice(10 * 60 * 1000); // restart after 10 minutes
+		}
+	}
+
+	// migrate stuff from old version < 3.0.0
+	async migrate() {
+		try {
+			this.log(`checking device capability version for ${this.getName()}`);
+			if (this.getSettings().level !== '3.0.0') {
+				this.getCapabilities().forEach(async (key) => {
+					if (key.includes('_total')) {
+						const newKey = `meter_${key}`.replace('_total', '');
+						this.log(`migrating capability ${key} to ${newKey} for ${this.getName()}`);
+						await this.addCapability(newKey);
+						await this.removeCapability(key);
+					}
+				});
+				// set migrate level
+				this.setSettings({ level: '3.0.0' });
+			}
+		} catch (error) {
+			this.error('Migration failed', error);
 		}
 	}
 
@@ -127,7 +148,7 @@ class SumMeterDevice extends Homey.Device {
 	}
 
 	async getSourceDevice() {
-		this.api = await this._driver.api;
+		this.api = await this.driver.api;
 		this.sourceDevice = await this.api.devices.getDevice({ id: this.getSettings().homey_device_id });
 		return Promise.resolve(this.sourceDevice);
 	}

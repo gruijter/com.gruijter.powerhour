@@ -34,11 +34,11 @@ class MyApp extends Homey.App {
 		process.on('uncaughtException', (error) => {
 			this.error('uncaughtException! ', error);
 		});
-		Homey
+		this.homey
 			.on('unload', () => {
 				this.log('app unload called');
-				Homey.removeAllListeners('everyhour').catch(() => null);
-				Homey.ManagerCron.unregisterTask('everyhour').catch(() => null);
+				this.homey.removeAllListeners('everyhour').catch(() => null);
+				// Homey.ManagerCron.unregisterTask('everyhour').catch(() => null);
 			})
 			.on('memwarn', () => {
 				this.log('memwarn!');
@@ -48,14 +48,6 @@ class MyApp extends Homey.App {
 		// 	global.gc();
 		// }, 1000 * 60 * 10);
 
-		// add CRON task to update device state every hour
-		// await Homey.ManagerCron.registerTask('everyhour', '0 0 * * * *')
-		// 	.then(() => this.log('cron task added'))
-		// 	.catch(() => this.log('cron task already exists'));
-		// const everyHour = await Homey.ManagerCron.getTask('everyhour');
-		// everyHour.on('run', () => {
-		// 	Homey.emit('everyhour', true);
-		// });
 		this.everyHour();
 	}
 
@@ -63,14 +55,12 @@ class MyApp extends Homey.App {
 		const now = new Date();
 		const nextHour = new Date(now.getFullYear(), now.getMonth(), now.getDate(), now.getHours() + 1, 0, 0, 0);
 		const timeToNextHour = nextHour - now;
-		console.log('everyHour starts in', timeToNextHour / 1000);
+		// console.log('everyHour starts in', timeToNextHour / 1000);
 		this.homey.setTimeout(() => {
 			this.homey.setInterval(() => {
-				console.log('everyHour triggered', Date());
-				Homey.emit('everyhour', true);
+				this.homey.emit('everyhour', true);
 			}, 60 * 60 * 1000);
-			console.log('everyHour first start', Date());
-			Homey.emit('everyhour', true);
+			this.homey.emit('everyhour', true);
 		}, timeToNextHour);
 		this.log('everyHour job started');
 	}

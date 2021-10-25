@@ -1,9 +1,10 @@
 {
+  "_comment": "This file is generated. Please edit .homeycompose/app.json instead.",
   "id": "com.gruijter.powerhour",
-  "version": "2.7.0",
-  "compatibility": ">=5",
+  "version": "3.0.0",
+  "compatibility": ">=5.0.0",
   "brandColor": "#df5020",
-  "sdk": 2,
+  "sdk": 3,
   "name": {
     "en": "Power by the Hour"
   },
@@ -11,10 +12,7 @@
     "en": "Summarize the energy/water usage or (solar) production per hour, day, month and year",
     "nl": "Samenvatten van energie/water verbruik of (zonnepaneel) productie per uur, dag, maand en jaar"
   },
-  "category": [
-    "energy",
-    "tools"
-  ],
+  "category": "energy",
   "tags": {
     "en": [
       "enelogic",
@@ -71,352 +69,129 @@
     "url": "https://github.com/gruijter/com.gruijter.powerhour/issues"
   },
   "homeyCommunityTopicId": 20535,
-  "capabilities": {
-    "power_hour": {
-      "type": "number",
-      "title": {
-        "en": "This hour",
-        "nl": "Dit uur"
-      },
-      "uiComponent": "sensor",
-      "icon": "/assets/power.svg",
-      "getable": true,
-      "setable": false,
-      "insights": true,
-      "units": {
-        "en": "kWh"
-      },
-      "decimals": 4
-    },
-    "power_hour_total": {
-      "type": "number",
-      "title": {
-        "en": "Prev. hour",
-        "nl": "Vorig uur"
-      },
-      "uiComponent": null,
-      "getable": true,
-      "setable": false,
-      "insights": true,
-      "units": {
-        "en": "kWh"
-      },
-      "decimals": 4
-    },
-    "power_day": {
-      "type": "number",
-      "title": {
-        "en": "This day",
-        "nl": "Deze dag"
-      },
-      "uiComponent": "sensor",
-      "icon": "/assets/power.svg",
-      "getable": true,
-      "setable": false,
-      "insights": false,
-      "units": {
-        "en": "kWh"
-      },
-      "decimals": 4
-    },
-    "power_day_total": {
-      "type": "number",
-      "title": {
-        "en": "Prev. day",
-        "nl": "Vorige dag"
-      },
-      "uiComponent": null,
-      "getable": true,
-      "setable": false,
-      "insights": true,
-      "units": {
-        "en": "kWh"
-      },
-      "decimals": 4
-    },
-    "power_month": {
-      "type": "number",
-      "title": {
-        "en": "This month",
-        "nl": "Deze maand"
-      },
-      "uiComponent": "sensor",
-      "icon": "/assets/power.svg",
-      "getable": true,
-      "setable": false,
-      "insights": false,
-      "units": {
-        "en": "kWh"
-      },
-      "decimals": 4
-    },
-    "power_month_total": {
-      "type": "number",
-      "title": {
-        "en": "Prev. month",
-        "nl": "Vorige maand"
-      },
-      "uiComponent": null,
-      "getable": true,
-      "setable": false,
-      "insights": true,
-      "units": {
-        "en": "kWh"
-      },
-      "decimals": 4
-    },
-    "kwh_this_hour_total": {
-      "type": "number",
-      "title": {
-        "en": "This hour",
-        "nl": "Dit uur"
-      },
-      "uiComponent": "sensor",
-      "icon": "/assets/kwh.svg",
-      "getable": true,
-      "setable": false,
-      "insights": true,
-      "units": {
-        "en": "kWh"
-      },
-      "decimals": 4
-    },
-    "kwh_last_hour_total": {
-      "type": "number",
-      "title": {
-        "en": "kWh prev. hour",
-        "nl": "kWh vorig uur"
-      },
-      "uiComponent": null,
-      "getable": true,
-      "setable": false,
-      "insights": true,
-      "units": {
-        "en": "kWh"
-      },
-      "decimals": 4
-    },
-    "kwh_this_day_total": {
-      "type": "number",
-      "title": {
-        "en": "This day",
-        "nl": "Deze dag"
-      },
-      "uiComponent": "sensor",
-      "icon": "/assets/kwh.svg",
-      "getable": true,
-      "setable": false,
-      "insights": false,
-      "units": {
-        "en": "kWh"
-      },
-      "decimals": 4
-    },
-    "kwh_last_day_total": {
-      "type": "number",
-      "title": {
-        "en": "kWh prev. day",
-        "nl": "kWh vorige dag"
-      },
-      "uiComponent": null,
-      "getable": true,
-      "setable": false,
-      "insights": true,
-      "units": {
-        "en": "kWh"
-      },
-      "decimals": 4
-    },
-    "kwh_this_month_total": {
-      "type": "number",
-      "title": {
-        "en": "This month",
-        "nl": "Deze maand"
-      },
-      "uiComponent": "sensor",
-      "icon": "/assets/kwh.svg",
-      "getable": true,
-      "setable": false,
-      "insights": false,
-      "units": {
-        "en": "kWh"
-      },
-      "decimals": 4
-    },
-    "kwh_last_month_total": {
-      "type": "number",
-      "title": {
-        "en": "kWh prev. month",
-        "nl": "kWh vorige maand"
-      },
-      "uiComponent": null,
-      "getable": true,
-      "setable": false,
-      "insights": true,
-      "units": {
-        "en": "kWh"
-      },
-      "decimals": 4
-    },
-    "kwh_this_year_total": {
-      "type": "number",
-      "title": {
-        "en": "This year",
-        "nl": "Dit jaar"
-      },
-      "uiComponent": "sensor",
-      "icon": "/assets/kwh.svg",
-      "getable": true,
-      "setable": false,
-      "insights": false,
-      "units": {
-        "en": "kWh"
-      },
-      "decimals": 4
-    },
-    "kwh_last_year_total": {
-      "type": "number",
-      "title": {
-        "en": "kWh prev. year",
-        "nl": "kWh vorig jaar"
-      },
-      "uiComponent": null,
-      "getable": true,
-      "setable": false,
-      "insights": true,
-      "units": {
-        "en": "kWh"
-      },
-      "decimals": 4
-    },
-    "m3_this_hour_total": {
-      "type": "number",
-      "title": {
-        "en": "This hour",
-        "nl": "Dit uur"
-      },
-      "uiComponent": "sensor",
-      "icon": "/assets/sigma.svg",
-      "getable": true,
-      "setable": false,
-      "insights": true,
-      "units": {
-        "en": "m³"
-      },
-      "decimals": 4
-    },
-    "m3_last_hour_total": {
-      "type": "number",
-      "title": {
-        "en": "m³ prev. hour",
-        "nl": "m³ vorig uur"
-      },
-      "uiComponent": null,
-      "getable": true,
-      "setable": false,
-      "insights": true,
-      "units": {
-        "en": "m³"
-      },
-      "decimals": 4
-    },
-    "m3_this_day_total": {
-      "type": "number",
-      "title": {
-        "en": "This day",
-        "nl": "Deze dag"
-      },
-      "uiComponent": "sensor",
-      "icon": "/assets/sigma.svg",
-      "getable": true,
-      "setable": false,
-      "insights": false,
-      "units": {
-        "en": "m³"
-      },
-      "decimals": 4
-    },
-    "m3_last_day_total": {
-      "type": "number",
-      "title": {
-        "en": "m³ prev. day",
-        "nl": "m³ vorige dag"
-      },
-      "uiComponent": null,
-      "getable": true,
-      "setable": false,
-      "insights": true,
-      "units": {
-        "en": "m³"
-      },
-      "decimals": 4
-    },
-    "m3_this_month_total": {
-      "type": "number",
-      "title": {
-        "en": "This month",
-        "nl": "Deze maand"
-      },
-      "uiComponent": "sensor",
-      "icon": "/assets/sigma.svg",
-      "getable": true,
-      "setable": false,
-      "insights": false,
-      "units": {
-        "en": "m³"
-      },
-      "decimals": 4
-    },
-    "m3_last_month_total": {
-      "type": "number",
-      "title": {
-        "en": "m³ prev. month",
-        "nl": "m³ vorige maand"
-      },
-      "uiComponent": null,
-      "getable": true,
-      "setable": false,
-      "insights": true,
-      "units": {
-        "en": "m³"
-      },
-      "decimals": 4
-    },
-    "m3_this_year_total": {
-      "type": "number",
-      "title": {
-        "en": "This year",
-        "nl": "Dit jaar"
-      },
-      "uiComponent": "sensor",
-      "icon": "/assets/sigma.svg",
-      "getable": true,
-      "setable": false,
-      "insights": false,
-      "units": {
-        "en": "m³"
-      },
-      "decimals": 4
-    },
-    "m3_last_year_total": {
-      "type": "number",
-      "title": {
-        "en": "m³ prev. year",
-        "nl": "m³ vorig jaar"
-      },
-      "uiComponent": null,
-      "getable": true,
-      "setable": false,
-      "insights": true,
-      "units": {
-        "en": "m³"
-      },
-      "decimals": 4
-    }
-  },
+  "platforms": [
+    "local"
+  ],
+  "source": "https://github.com/gruijter/com.gruijter.powerhour",
   "drivers": [
     {
-      "id": "power",
+      "name": {
+        "en": "Gas Summarizer"
+      },
+      "images": {
+        "large": "./drivers/gas/assets/images/large.jpg",
+        "small": "./drivers/gas/assets/images/small.jpg"
+      },
+      "class": "other",
+      "capabilities": [],
+      "pair": [
+        {
+          "id": "list_devices",
+          "template": "list_devices",
+          "navigation": {
+            "next": "add_devices"
+          },
+          "options": {
+            "singular": true
+          }
+        },
+        {
+          "id": "add_devices",
+          "template": "add_devices"
+        }
+      ],
+      "settings": [
+        {
+          "type": "group",
+          "label": {
+            "en": "Homey source device information",
+            "nl": "Homey bronapparaat informatie"
+          },
+          "children": [
+            {
+              "id": "homey_device_id",
+              "type": "label",
+              "label": {
+                "en": "Device ID",
+                "nl": "Apparaat ID"
+              },
+              "value": "unknown"
+            },
+            {
+              "id": "homey_device_name",
+              "type": "label",
+              "label": {
+                "en": "Device name",
+                "nl": "Apparaat naam"
+              },
+              "value": "unknown"
+            }
+          ]
+        },
+        {
+          "type": "group",
+          "label": {
+            "en": "Meter readings",
+            "nl": "Meter waarden"
+          },
+          "children": [
+            {
+              "id": "start_date",
+              "type": "text",
+              "label": {
+                "en": "New year start date",
+                "nl": "Start datum nieuw jaar"
+              },
+              "value": "0101",
+              "hint": {
+                "en": "On this date the month and year total will reset to 0. Format is ddmm. Default is 0101 (1 January)"
+              }
+            },
+            {
+              "id": "meter_latest",
+              "type": "label",
+              "label": {
+                "en": "Present reading",
+                "nl": "Huidige waarde"
+              },
+              "value": "0",
+              "hint": {
+                "en": "This is the meter reading from the soure device, updated once an hour."
+              }
+            },
+            {
+              "id": "meter_month_start",
+              "type": "number",
+              "label": {
+                "en": "This month start",
+                "nl": "Deze maand start"
+              },
+              "value": 0,
+              "hint": {
+                "en": "Enter the meter reading at the start of this month. It is automatically updated first day of a new month."
+              }
+            },
+            {
+              "id": "meter_year_start",
+              "type": "number",
+              "label": {
+                "en": "This year start",
+                "nl": "Dit jaar start"
+              },
+              "value": 0,
+              "hint": {
+                "en": "Enter the meter reading at the start of this year. It is automatically updated first day of a new year."
+              }
+            }
+          ]
+        }
+      ],
+      "platforms": [
+        "local"
+      ],
+      "id": "gas"
+    },
+    {
       "name": {
         "en": "Power Summarizer"
       },
@@ -568,124 +343,13 @@
             }
           ]
         }
-      ]
-    },
-    {
-      "id": "gas",
-      "name": {
-        "en": "Gas Summarizer"
-      },
-      "images": {
-        "large": "./drivers/gas/assets/images/large.jpg",
-        "small": "./drivers/gas/assets/images/small.jpg"
-      },
-      "class": "other",
-      "capabilities": [],
-      "pair": [
-        {
-          "id": "list_devices",
-          "template": "list_devices",
-          "navigation": {
-            "next": "add_devices"
-          },
-          "options": {
-            "singular": true
-          }
-        },
-        {
-          "id": "add_devices",
-          "template": "add_devices"
-        }
       ],
-      "settings": [
-        {
-          "type": "group",
-          "label": {
-            "en": "Homey source device information",
-            "nl": "Homey bronapparaat informatie"
-          },
-          "children": [
-            {
-              "id": "homey_device_id",
-              "type": "label",
-              "label": {
-                "en": "Device ID",
-                "nl": "Apparaat ID"
-              },
-              "value": "unknown"
-            },
-            {
-              "id": "homey_device_name",
-              "type": "label",
-              "label": {
-                "en": "Device name",
-                "nl": "Apparaat naam"
-              },
-              "value": "unknown"
-            }
-          ]
-        },
-        {
-          "type": "group",
-          "label": {
-            "en": "Meter readings",
-            "nl": "Meter waarden"
-          },
-          "children": [
-            {
-              "id": "start_date",
-              "type": "text",
-              "label": {
-                "en": "New year start date",
-                "nl": "Start datum nieuw jaar"
-              },
-              "value": "0101",
-              "hint": {
-                "en": "On this date the month and year total will reset to 0. Format is ddmm. Default is 0101 (1 January)"
-              }
-            },
-            {
-              "id": "meter_latest",
-              "type": "label",
-              "label": {
-                "en": "Present reading",
-                "nl": "Huidige waarde"
-              },
-              "value": "0",
-              "hint": {
-                "en": "This is the meter reading from the soure device, updated once an hour."
-              }
-            },
-            {
-              "id": "meter_month_start",
-              "type": "number",
-              "label": {
-                "en": "This month start",
-                "nl": "Deze maand start"
-              },
-              "value": 0,
-              "hint": {
-                "en": "Enter the meter reading at the start of this month. It is automatically updated first day of a new month."
-              }
-            },
-            {
-              "id": "meter_year_start",
-              "type": "number",
-              "label": {
-                "en": "This year start",
-                "nl": "Dit jaar start"
-              },
-              "value": 0,
-              "hint": {
-                "en": "Enter the meter reading at the start of this year. It is automatically updated first day of a new year."
-              }
-            }
-          ]
-        }
-      ]
+      "platforms": [
+        "local"
+      ],
+      "id": "power"
     },
     {
-      "id": "water",
       "name": {
         "en": "Water Summarizer"
       },
@@ -809,7 +473,261 @@
             }
           ]
         }
-      ]
+      ],
+      "platforms": [
+        "local"
+      ],
+      "id": "water"
     }
-  ]
+  ],
+  "capabilities": {
+    "meter_kwh_last_day": {
+      "type": "number",
+      "title": {
+        "en": "kWh prev. day",
+        "nl": "kWh vorige dag"
+      },
+      "uiComponent": null,
+      "getable": true,
+      "setable": false,
+      "insights": true,
+      "units": {
+        "en": "kWh"
+      },
+      "decimals": 4
+    },
+    "meter_kwh_last_hour": {
+      "type": "number",
+      "title": {
+        "en": "kWh prev. hour",
+        "nl": "kWh vorig uur"
+      },
+      "uiComponent": null,
+      "getable": true,
+      "setable": false,
+      "insights": true,
+      "units": {
+        "en": "kWh"
+      },
+      "decimals": 4
+    },
+    "meter_kwh_last_month": {
+      "type": "number",
+      "title": {
+        "en": "kWh prev. month",
+        "nl": "kWh vorige maand"
+      },
+      "uiComponent": null,
+      "getable": true,
+      "setable": false,
+      "insights": true,
+      "units": {
+        "en": "kWh"
+      },
+      "decimals": 4
+    },
+    "meter_kwh_last_year": {
+      "type": "number",
+      "title": {
+        "en": "kWh prev. year",
+        "nl": "kWh vorig jaar"
+      },
+      "uiComponent": null,
+      "getable": true,
+      "setable": false,
+      "insights": true,
+      "units": {
+        "en": "kWh"
+      },
+      "decimals": 4
+    },
+    "meter_kwh_this_day": {
+      "type": "number",
+      "title": {
+        "en": "This day",
+        "nl": "Deze dag"
+      },
+      "uiComponent": "sensor",
+      "icon": "/assets/kwh.svg",
+      "getable": true,
+      "setable": false,
+      "insights": false,
+      "units": {
+        "en": "kWh"
+      },
+      "decimals": 4
+    },
+    "meter_kwh_this_hour": {
+      "type": "number",
+      "title": {
+        "en": "This hour",
+        "nl": "Dit uur"
+      },
+      "uiComponent": "sensor",
+      "icon": "/assets/kwh.svg",
+      "getable": true,
+      "setable": false,
+      "insights": true,
+      "units": {
+        "en": "kWh"
+      },
+      "decimals": 4
+    },
+    "meter_kwh_this_month": {
+      "type": "number",
+      "title": {
+        "en": "This month",
+        "nl": "Deze maand"
+      },
+      "uiComponent": "sensor",
+      "icon": "/assets/kwh.svg",
+      "getable": true,
+      "setable": false,
+      "insights": false,
+      "units": {
+        "en": "kWh"
+      },
+      "decimals": 4
+    },
+    "meter_kwh_this_year": {
+      "type": "number",
+      "title": {
+        "en": "This year",
+        "nl": "Dit jaar"
+      },
+      "uiComponent": "sensor",
+      "icon": "/assets/kwh.svg",
+      "getable": true,
+      "setable": false,
+      "insights": false,
+      "units": {
+        "en": "kWh"
+      },
+      "decimals": 4
+    },
+    "meter_m3_last_day": {
+      "type": "number",
+      "title": {
+        "en": "m³ prev. day",
+        "nl": "m³ vorige dag"
+      },
+      "uiComponent": null,
+      "getable": true,
+      "setable": false,
+      "insights": true,
+      "units": {
+        "en": "m³"
+      },
+      "decimals": 4
+    },
+    "meter_m3_last_hour": {
+      "type": "number",
+      "title": {
+        "en": "m³ prev. hour",
+        "nl": "m³ vorig uur"
+      },
+      "uiComponent": null,
+      "getable": true,
+      "setable": false,
+      "insights": true,
+      "units": {
+        "en": "m³"
+      },
+      "decimals": 4
+    },
+    "meter_m3_last_month": {
+      "type": "number",
+      "title": {
+        "en": "m³ prev. month",
+        "nl": "m³ vorige maand"
+      },
+      "uiComponent": null,
+      "getable": true,
+      "setable": false,
+      "insights": true,
+      "units": {
+        "en": "m³"
+      },
+      "decimals": 4
+    },
+    "meter_m3_last_year": {
+      "type": "number",
+      "title": {
+        "en": "m³ prev. year",
+        "nl": "m³ vorig jaar"
+      },
+      "uiComponent": null,
+      "getable": true,
+      "setable": false,
+      "insights": true,
+      "units": {
+        "en": "m³"
+      },
+      "decimals": 4
+    },
+    "meter_m3_this_day": {
+      "type": "number",
+      "title": {
+        "en": "This day",
+        "nl": "Deze dag"
+      },
+      "uiComponent": "sensor",
+      "icon": "/assets/sigma.svg",
+      "getable": true,
+      "setable": false,
+      "insights": false,
+      "units": {
+        "en": "m³"
+      },
+      "decimals": 4
+    },
+    "meter_m3_this_hour": {
+      "type": "number",
+      "title": {
+        "en": "This hour",
+        "nl": "Dit uur"
+      },
+      "uiComponent": "sensor",
+      "icon": "/assets/sigma.svg",
+      "getable": true,
+      "setable": false,
+      "insights": true,
+      "units": {
+        "en": "m³"
+      },
+      "decimals": 4
+    },
+    "meter_m3_this_month": {
+      "type": "number",
+      "title": {
+        "en": "This month",
+        "nl": "Deze maand"
+      },
+      "uiComponent": "sensor",
+      "icon": "/assets/sigma.svg",
+      "getable": true,
+      "setable": false,
+      "insights": false,
+      "units": {
+        "en": "m³"
+      },
+      "decimals": 4
+    },
+    "meter_m3_this_year": {
+      "type": "number",
+      "title": {
+        "en": "This year",
+        "nl": "Dit jaar"
+      },
+      "uiComponent": "sensor",
+      "icon": "/assets/sigma.svg",
+      "getable": true,
+      "setable": false,
+      "insights": false,
+      "units": {
+        "en": "m³"
+      },
+      "decimals": 4
+    }
+  }
 }

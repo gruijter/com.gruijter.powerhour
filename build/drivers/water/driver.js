@@ -24,8 +24,8 @@ const GenericDriver = require('../generic_driver.js');
 const driverSpecifics = {
 	driverId: 'water',
 	originDeviceCapabilities: ['meter_water'],
-	deviceCapabilities: ['m3_this_hour_total', 'm3_last_hour_total', 'm3_this_day_total', 'm3_last_day_total',
-		'm3_this_month_total', 'm3_last_month_total', 'm3_this_year_total', 'm3_last_year_total'],
+	deviceCapabilities: ['meter_m3_this_hour', 'meter_m3_last_hour', 'meter_m3_this_day', 'meter_m3_last_day',
+		'meter_m3_this_month', 'meter_m3_last_month', 'meter_m3_this_year', 'meter_m3_last_year'],
 };
 
 class sumDriver extends GenericDriver {

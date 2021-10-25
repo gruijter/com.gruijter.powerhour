@@ -20,7 +20,7 @@ along with com.gruijter.powerhour.  If not, see <http://www.gnu.org/licenses/>.s
 
 'use strict';
 
-const Homey = require('homey');
+const { Driver } = require('homey');
 const { HomeyAPI } = require('athom-api');
 
 const dailyResetApps = [
@@ -28,15 +28,16 @@ const dailyResetApps = [
 	'it.diederik.solar',
 ];
 
-class SumMeterDriver extends Homey.Driver {
+class SumMeterDriver extends Driver {
 
 	async onDriverInit() {
 		this.log('onDriverInit');
 		await this.login();
 
 		// add listener for hourly trigger
-		if (this.eventListener) Homey.removeListener('everyhour', this.eventListener);
+		if (this.eventListener) this.homey.removeListener('everyhour', this.eventListener);
 		this.eventListener = async () => {
+			console.log('got hour event');
 			const devices = this.getDevices();
 			devices.forEach((device) => {
 				const deviceName = device.getName();
@@ -63,24 +64,18 @@ class SumMeterDriver extends Homey.Driver {
 				}
 			});
 		};
-		Homey.on('everyhour', this.eventListener);
+		this.homey.on('everyhour', this.eventListener);
 	}
 
 	// login to Homey API
 	login() {
-		this.api = HomeyAPI.forCurrentHomey();
+		this.api = HomeyAPI.forCurrentHomey(this.homey);
 		return Promise.resolve(this.api);
 	}
 
-	onPairListDevices(data, callback) {
+	async onPairListDevices() {
 		this.log('listing of devices started');
-		this.discoverDevices()
-			.then((deviceList) => {
-				callback(null, deviceList);
-			})
-			.catch((error) => {
-				callback(error);
-			});
+		return this.discoverDevices();
 	}
 
 	// stuff to find Homey devices
@@ -103,6 +98,7 @@ class SumMeterDriver extends Homey.Driver {
 						settings: {
 							homey_device_id: allDevices[key].id,
 							homey_device_name: allDevices[key].name,
+							level: '3.0.0',
 						},
 						capabilities: this.ds.deviceCapabilities,
 					};

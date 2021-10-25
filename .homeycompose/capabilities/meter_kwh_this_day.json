@@ -1,0 +1,16 @@
+{
+  "type": "number",
+  "title": {
+    "en": "This day",
+    "nl": "Deze dag"
+  },
+  "uiComponent": "sensor",
+  "icon": "/assets/kwh.svg",
+  "getable": true,
+  "setable": false,
+  "insights": false,
+  "units": {
+    "en": "kWh"
+  },
+  "decimals": 4
+}

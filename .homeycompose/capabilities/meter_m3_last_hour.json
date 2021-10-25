@@ -1,0 +1,15 @@
+{
+  "type": "number",
+  "title": {
+    "en": "m³ prev. hour",
+    "nl": "m³ vorig uur"
+  },
+  "uiComponent": null,
+  "getable": true,
+  "setable": false,
+  "insights": true,
+  "units": {
+    "en": "m³"
+  },
+  "decimals": 4
+}

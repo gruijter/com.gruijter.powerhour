@@ -1,0 +1,157 @@
+{
+  "name": {
+    "en": "Power Summarizer"
+  },
+  "class": "other",
+  "capabilities": [],
+  "images": {
+    "large": "./drivers/power/assets/images/large.jpg",
+    "small": "./drivers/power/assets/images/small.jpg"
+  },
+  "pair": [
+    {
+      "id": "list_devices",
+      "template": "list_devices",
+      "navigation": {
+        "next": "add_devices"
+      },
+      "options": {
+        "singular": true
+      }
+    },
+    {
+      "id": "add_devices",
+      "template": "add_devices"
+    }
+  ],
+  "settings": [
+    {
+      "type": "group",
+      "label": {
+        "en": "Homey source device information",
+        "nl": "Homey bronapparaat informatie"
+      },
+      "children": [
+        {
+          "id": "homey_device_id",
+          "type": "label",
+          "label": {
+            "en": "Device ID",
+            "nl": "Apparaat ID"
+          },
+          "value": "unknown"
+        },
+        {
+          "id": "homey_device_name",
+          "type": "label",
+          "label": {
+            "en": "Device name",
+            "nl": "Apparaat naam"
+          },
+          "value": "unknown"
+        },
+        {
+          "id": "homey_device_daily_reset",
+          "type": "checkbox",
+          "label": {
+            "en": "Has daily reset",
+            "nl": "Heeft dagelijkse reset"
+          },
+          "hint": {
+            "en": "The meter of this device resets every midnight to 0",
+            "nl": "De meter van dit apparaat reset naar 0 om middernacht"
+          },
+          "value": false
+        },
+        {
+          "id": "interval",
+          "type": "number",
+          "label": {
+            "en": "Update interval (minutes)",
+            "nl": "Update interval (minuten)"
+          },
+          "hint": {
+            "en": "Set to 0 to get immediate updates. This can slightly increase system load.",
+            "nl": "Zet op 0 voor directe updates. Dit kan echter de systeem belasting iets verhogen."
+          },
+          "value": 0,
+          "min": 0,
+          "max": 5,
+          "step": 1
+        }
+      ]
+    },
+    {
+      "type": "group",
+      "label": {
+        "en": "Meter readings",
+        "nl": "Meter waarden"
+      },
+      "children": [
+        {
+          "id": "start_date",
+          "type": "text",
+          "label": {
+            "en": "New year start date",
+            "nl": "Start datum nieuw jaar"
+          },
+          "value": "0101",
+          "hint": {
+            "en": "On this date the month and year total will reset to 0. Format is ddmm. Default is 0101 (1 January)"
+          }
+        },
+        {
+          "id": "meter_latest",
+          "type": "label",
+          "label": {
+            "en": "Present reading",
+            "nl": "Huidige waarde"
+          },
+          "value": "0",
+          "hint": {
+            "en": "This is the meter reading from the soure device, updated once an hour."
+          }
+        },
+        {
+          "id": "meter_day_start",
+          "type": "number",
+          "label": {
+            "en": "This day start",
+            "nl": "Deze dag start"
+          },
+          "value": 0,
+          "hint": {
+            "en": "Enter the meter reading at the start of this day. It is automatically updated at midnight."
+          }
+        },
+        {
+          "id": "meter_month_start",
+          "type": "number",
+          "label": {
+            "en": "This month start",
+            "nl": "Deze maand start"
+          },
+          "value": 0,
+          "hint": {
+            "en": "Enter the meter reading at the start of this month. It is automatically updated first day of a new month."
+          }
+        },
+        {
+          "id": "meter_year_start",
+          "type": "number",
+          "label": {
+            "en": "This year start",
+            "nl": "Dit jaar start"
+          },
+          "value": 0,
+          "hint": {
+            "en": "Enter the meter reading at the start of this year. It is automatically updated first day of a new year."
+          }
+        }
+      ]
+    }
+  ],
+  "platforms": [
+    "local"
+  ]
+}
