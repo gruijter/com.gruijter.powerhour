@@ -1,5 +1,3 @@
-/* eslint-disable camelcase */
-/* eslint-disable import/no-extraneous-dependencies */
 /*
 Copyright 2019 - 2021, Robin de Gruijter (gruijter@hotmail.com)
 
@@ -22,6 +20,9 @@ along with com.gruijter.powerhour.  If not, see <http://www.gnu.org/licenses/>.
 'use strict';
 
 const { Device } = require('homey');
+const util = require('util');
+
+const setTimeoutPromise = util.promisify(setTimeout);
 
 const getReadingObject = (value) => {
 	const ts = new Date();
@@ -42,12 +43,13 @@ class SumMeterDevice extends Device {
 		// this.log('device init: ', this.getName(), 'id:', this.getData().id);
 		try {
 			// init some stuff
+			this.restarting = false;
 			await this.migrate();
 			this.destroyListeners();
 			this.emptyLastReadings();
 			// await this.driver.ready(() => this.log(`${this.getName()} driver is loaded`));
 			this.lastUpdated = 0;
-			this.sourceDevice = await this.getSourceDevice();
+			this.sourceDevice = await this.homey.api.devices.getDevice({ id: this.getSettings().homey_device_id });
 
 			// check if source device exists
 			const deviceExists = this.sourceDevice && this.sourceDevice.capabilitiesObj; // && (this.sourceDevice.available !== null);
@@ -102,13 +104,15 @@ class SumMeterDevice extends Device {
 		}
 	}
 
-	restartDevice(delay) {
-		this.log(`Restarting device in ${delay / 1000} seconds`);
+	async restartDevice(delay) {
+		if (this.restarting) return;
+		this.restarting = true;
 		this.stopPolling();
 		this.destroyListeners();
-		this.timeoutIdRestart = setTimeout(() => {
-			this.onInitDevice();
-		}, delay || 10000);
+		const dly = delay || 2000;
+		this.log(`Device will restart in ${dly / 1000} seconds`);
+		// this.setUnavailable('Device is restarting. Wait a few minutes!');
+		await setTimeoutPromise(dly).then(() => this.onInitDevice());
 	}
 
 	// this method is called when the Device is added
@@ -128,29 +132,23 @@ class SumMeterDevice extends Device {
 	}
 
 	// this method is called when the user has changed the device's settings in Homey.
-	async onSettings(oldSettingsObj, newSettingsObj) { // , changedKeysArr) {
+	async onSettings({ newSettings }) { // , oldSettings, changedKeys) {
 		this.log('settings change requested by user');
-		this.log(newSettingsObj);
-		// this.log(newSettingsObj);
+		this.log(newSettings);
+
 		this.log(`${this.getName()} device settings changed`);
 
-		this.lastReadingDay.meterValue = newSettingsObj.meter_day_start;
+		this.lastReadingDay.meterValue = newSettings.meter_day_start;
 		await this.setStoreValue('lastReadingDay', this.lastReadingDay);
 
-		this.lastReadingMonth.meterValue = newSettingsObj.meter_month_start;
+		this.lastReadingMonth.meterValue = newSettings.meter_month_start;
 		await this.setStoreValue('lastReadingMonth', this.lastReadingMonth);
 
-		this.lastReadingYear.meterValue = newSettingsObj.meter_year_start;
+		this.lastReadingYear.meterValue = newSettings.meter_year_start;
 		await this.setStoreValue('lastReadingYear', this.lastReadingYear);
 
 		this.restartDevice(1000);
 		return Promise.resolve(true);
-	}
-
-	async getSourceDevice() {
-		this.api = await this.driver.api;
-		this.sourceDevice = await this.api.devices.getDevice({ id: this.getSettings().homey_device_id });
-		return Promise.resolve(this.sourceDevice);
 	}
 
 	async destroyListeners() {
@@ -166,14 +164,14 @@ class SumMeterDevice extends Device {
 
 	stopPolling() {
 		this.log(`Stop polling ${this.getName()}`);
-		clearInterval(this.intervalIdDevicePoll);
-		clearTimeout(this.timeoutIdRestart);
+		this.homey.clearInterval(this.intervalIdDevicePoll);
+		this.homey.clearTimeout(this.timeoutIdRestart);
 	}
 
 	startPolling(interval) {
-		clearInterval(this.intervalIdDevicePoll);
+		this.homey.clearInterval(this.intervalIdDevicePoll);
 		this.log(`start polling ${this.getName()} @${interval} minutes interval`);
-		this.intervalIdDevicePoll = setInterval(() => {
+		this.intervalIdDevicePoll = this.homey.setInterval(() => {
 			this.pollMeter();
 		}, 1000 * 60 * interval);
 	}

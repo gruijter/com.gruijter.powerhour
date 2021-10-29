@@ -1,4 +1,3 @@
-/* eslint-disable import/no-extraneous-dependencies */
 /*
 Copyright 2019 - 2021, Robin de Gruijter (gruijter@hotmail.com)
 
@@ -21,7 +20,6 @@ along with com.gruijter.powerhour.  If not, see <http://www.gnu.org/licenses/>.s
 'use strict';
 
 const { Driver } = require('homey');
-const { HomeyAPI } = require('athom-api');
 
 const dailyResetApps = [
 	'com.tibber',
@@ -32,7 +30,6 @@ class SumMeterDriver extends Driver {
 
 	async onDriverInit() {
 		this.log('onDriverInit');
-		await this.login();
 
 		// add listener for hourly trigger
 		if (this.eventListener) this.homey.removeListener('everyhour', this.eventListener);
@@ -67,12 +64,6 @@ class SumMeterDriver extends Driver {
 		this.homey.on('everyhour', this.eventListener);
 	}
 
-	// login to Homey API
-	login() {
-		this.api = HomeyAPI.forCurrentHomey(this.homey);
-		return Promise.resolve(this.api);
-	}
-
 	async onPairListDevices() {
 		this.log('listing of devices started');
 		return this.discoverDevices();
@@ -81,10 +72,8 @@ class SumMeterDriver extends Driver {
 	// stuff to find Homey devices
 	async discoverDevices() {
 		try {
-			this.api = await this.login();
-			// const homeyInfo = await this.api.system.getInfo();
 			this.devices = [];
-			const allDevices = await this.api.devices.getDevices();
+			const allDevices = await this.homey.api.devices.getDevices();
 			const keys = Object.keys(allDevices);
 			keys.forEach((key) => {
 				const hasCapability = (capability) => allDevices[key].capabilities.includes(capability);

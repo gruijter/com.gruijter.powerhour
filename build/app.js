@@ -1,5 +1,3 @@
-/* eslint-disable camelcase */
-/* eslint-disable import/no-extraneous-dependencies */
 /*
 Copyright 2019 - 2021, Robin de Gruijter (gruijter@hotmail.com)
 
@@ -22,33 +20,39 @@ along with com.gruijter.powerhour.  If not, see <http://www.gnu.org/licenses/>.
 'use strict';
 
 const Homey = require('homey');
+const { HomeyAPI } = require('athom-api');
 
 class MyApp extends Homey.App {
 
 	async onInit() {
-		this.log('Power by the Hour app is running...');
-		// register some listeners
-		process.on('unhandledRejection', (error) => {
-			this.error('unhandledRejection! ', error);
-		});
-		process.on('uncaughtException', (error) => {
-			this.error('uncaughtException! ', error);
-		});
-		this.homey
-			.on('unload', () => {
-				this.log('app unload called');
-				this.homey.removeAllListeners('everyhour').catch(() => null);
-				// Homey.ManagerCron.unregisterTask('everyhour').catch(() => null);
-			})
-			.on('memwarn', () => {
-				this.log('memwarn!');
+		try {
+			// register some listeners
+			process.on('unhandledRejection', (error) => {
+				this.error('unhandledRejection! ', error);
 			});
-		// // do garbage collection every 10 minutes
-		// this.intervalIdGc = setInterval(() => {
-		// 	global.gc();
-		// }, 1000 * 60 * 10);
+			process.on('uncaughtException', (error) => {
+				this.error('uncaughtException! ', error);
+			});
+			this.homey
+				.on('unload', () => {
+					this.log('app unload called');
+					this.homey.removeAllListeners('everyhour').catch(() => null);
+					// Homey.ManagerCron.unregisterTask('everyhour').catch(() => null);
+				})
+				.on('memwarn', () => {
+					this.log('memwarn!');
+				});
+			// // do garbage collection every 10 minutes
+			// this.intervalIdGc = setInterval(() => {
+			// 	global.gc();
+			// }, 1000 * 60 * 10);
 
-		this.everyHour();
+			// login to Homey API
+			this.homey.api = await HomeyAPI.forCurrentHomey(this.homey);
+			// start polling every whole hour
+			this.everyHour();
+			this.log('Power by the Hour app is running...');
+		} catch (error) { this.error(error); }
 	}
 
 	everyHour() {
