@@ -52,6 +52,7 @@ class MyApp extends Homey.App {
 			// start polling every whole hour
 			this.everyHour();
 			this.log('Power by the Hour app is running...');
+
 		} catch (error) { this.error(error); }
 	}
 

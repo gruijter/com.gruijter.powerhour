@@ -24,18 +24,6 @@ const util = require('util');
 
 const setTimeoutPromise = util.promisify(setTimeout);
 
-const getReadingObject = (value) => {
-	const ts = new Date();
-	const reading = {
-		hour: ts.getHours(),
-		day: ts.getDate(),
-		month: ts.getMonth(),
-		year: ts.getFullYear(),
-		meterValue: value,
-	};
-	return reading;
-};
-
 class SumMeterDevice extends Device {
 
 	// this method is called when the Device is inited
@@ -47,8 +35,8 @@ class SumMeterDevice extends Device {
 			await this.migrate();
 			this.destroyListeners();
 			this.emptyLastReadings();
-			// await this.driver.ready(() => this.log(`${this.getName()} driver is loaded`));
 			this.lastUpdated = 0;
+			this.timeZone = this.homey.clock.getTimezone();
 			this.sourceDevice = await this.homey.api.devices.getDevice({ id: this.getSettings().homey_device_id });
 
 			// check if source device exists
@@ -195,6 +183,19 @@ class SumMeterDevice extends Device {
 		}
 	}
 
+	getReadingObject(value) {
+		const date = new Date();
+		const dateLocal = new Date(date.toLocaleString('en-UK', { timeZone: this.timeZone }));
+		const reading = {
+			hour: dateLocal.getHours(),
+			day: dateLocal.getDate(),
+			month: dateLocal.getMonth(),
+			year: dateLocal.getFullYear(),
+			meterValue: value,
+		};
+		return reading;
+	}
+
 	async updateMeter(val) {
 		try {
 			let value = val;
@@ -216,7 +217,7 @@ class SumMeterDevice extends Device {
 				value = this.cumVal;
 			}
 
-			const reading = getReadingObject(value);
+			const reading = this.getReadingObject(value);
 			await this.updateStates(reading);
 		} catch (error) {
 			this.error(error);
@@ -238,7 +239,7 @@ class SumMeterDevice extends Device {
 				this.log(`${this.getName()} setting values after pair init`);
 				await this.setStoreValue('lastReadingHour', reading);
 				this.lastReadingHour = reading;
-				const dayStart = this.getSettings().homey_device_daily_reset ? getReadingObject(0) : reading;
+				const dayStart = this.getSettings().homey_device_daily_reset ? this.getReadingObject(0) : reading;
 				await this.setStoreValue('lastReadingDay', dayStart);
 				this.lastReadingDay = dayStart;
 				await this.setStoreValue('lastReadingMonth', reading);

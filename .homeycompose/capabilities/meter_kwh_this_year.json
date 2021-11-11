@@ -5,7 +5,7 @@
     "nl": "Dit jaar"
   },
   "uiComponent": "sensor",
-  "icon": "/assets/kwh.svg",
+  "icon": "/assets/kwh_y.svg",
   "getable": true,
   "setable": false,
   "insights": false,

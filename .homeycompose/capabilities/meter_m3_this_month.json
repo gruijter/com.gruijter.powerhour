@@ -5,7 +5,7 @@
     "nl": "Deze maand"
   },
   "uiComponent": "sensor",
-  "icon": "/assets/sigma.svg",
+  "icon": "/assets/m3_m.svg",
   "getable": true,
   "setable": false,
   "insights": false,
