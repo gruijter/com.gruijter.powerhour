@@ -37,11 +37,15 @@ class SumMeterDevice extends Device {
 			this.emptyLastReadings();
 			this.lastUpdated = 0;
 			this.timeZone = this.homey.clock.getTimezone();
+
+			// await setTimeoutPromise(10 * 1000); // wait a bit for Homey to settle?
 			this.sourceDevice = await this.homey.api.devices.getDevice({ id: this.getSettings().homey_device_id });
 
 			// check if source device exists
-			const deviceExists = this.sourceDevice && this.sourceDevice.capabilitiesObj; // && (this.sourceDevice.available !== null);
-			if (!deviceExists) throw Error(`Source device ${this.getName()} is missing`);
+			const sourceDeviceExists = this.sourceDevice && this.sourceDevice.capabilitiesObj; // && (this.sourceDevice.available !== null);
+			if (!sourceDeviceExists) throw Error(`Source device ${this.getName()} is missing`);
+			// check if source device is ready
+			if (!this.sourceDevice || this.sourceDevice.ready !== true) throw Error(`Source device ${this.getName()} is not ready`);
 			this.setAvailable();
 
 			// init daily resetting source devices
@@ -226,13 +230,14 @@ class SumMeterDevice extends Device {
 
 	async updateStates(reading) {
 		// check app init
+		if (!this.available) this.setAvailable();
 		const appInit = (!this.lastReadingHour || !this.lastReadingDay || !this.lastReadingMonth || !this.lastReadingYear);
 		if (appInit) {
 			this.log(`${this.getName()} restoring values after app init`);
-			this.lastReadingHour = this.getStoreValue('lastReadingHour');
-			this.lastReadingDay = this.getStoreValue('lastReadingDay');
-			this.lastReadingMonth = this.getStoreValue('lastReadingMonth');
-			this.lastReadingYear = this.getStoreValue('lastReadingYear');
+			this.lastReadingHour = await this.getStoreValue('lastReadingHour');
+			this.lastReadingDay = await this.getStoreValue('lastReadingDay');
+			this.lastReadingMonth = await this.getStoreValue('lastReadingMonth');
+			this.lastReadingYear = await this.getStoreValue('lastReadingYear');
 			// check pair init
 			const pairInit = (!this.lastReadingHour || !this.lastReadingDay || !this.lastReadingMonth || !this.lastReadingYear);
 			if (pairInit) {

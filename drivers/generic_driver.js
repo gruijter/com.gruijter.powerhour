@@ -37,28 +37,32 @@ class SumMeterDriver extends Driver {
 			const devices = this.getDevices();
 			devices.forEach((device) => {
 				const deviceName = device.getName();
+				// check if listener or polling is on, otherwise restart device
+				const pollingOn = !!device.getSettings().interval && device.intervalIdDevicePoll
+				&& (device.intervalIdDevicePoll._idleTimeout > 0);
+				const listeningOn = Object.keys(device.capabilityInstances).length > 0;
+				if (!pollingOn && !listeningOn) {
+					this.error(`${deviceName} is not in polling or listening mode. Restarting now..`);
+					device.restartDevice(1000);
+					return;
+				}
 				// check if source device exists
-				const deviceExists = device.sourceDevice && device.sourceDevice.capabilitiesObj && (device.sourceDevice.available !== null);
-				if (deviceExists) {
-					// force immediate update
-					device.pollMeter();
-					// check if source device is available
-					if (!device.sourceDevice.available) {
-						this.error(`Source device ${deviceName} is unavailable.`);
-						// device.setUnavailable('Source device is unavailable');
-					} else device.setAvailable();
-					// check if listener or polling is on, otherwise restart device
-					const pollingOn = !!device.getSettings().interval && device.intervalIdDevicePoll
-						&& (device.intervalIdDevicePoll._idleTimeout > 0);
-					const listeningOn = Object.keys(device.capabilityInstances).length > 0;
-					if (!pollingOn && !listeningOn) {
-						this.error(`${deviceName} is not in polling or listening mode. Restarting now..`);
-						device.restartDevice(1000);
-					}
-				} else {
+				const sourceDeviceExists = device.sourceDevice && device.sourceDevice.capabilitiesObj && (device.sourceDevice.available !== null);
+				if (!sourceDeviceExists) {
 					this.error(`Source device ${deviceName} is missing.`);
 					device.setUnavailable('Source device is missing');
+					device.restartDevice(10 * 60 * 1000); // restart after 10 minutes
+					return;
 				}
+				// force immediate update
+				device.pollMeter();
+				// check if source device is available
+				if (!device.sourceDevice.available) {
+					this.error(`Source device ${deviceName} is unavailable.`);
+					// device.setUnavailable('Source device is unavailable');
+					return;
+				}
+				device.setAvailable();
 			});
 		};
 		this.homey.on('everyhour', this.eventListener);
