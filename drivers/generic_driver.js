@@ -1,5 +1,5 @@
 /*
-Copyright 2019 - 2021, Robin de Gruijter (gruijter@hotmail.com)
+Copyright 2019 - 2022, Robin de Gruijter (gruijter@hotmail.com)
 
 This file is part of com.gruijter.powerhour.
 
@@ -77,7 +77,7 @@ class SumMeterDriver extends Driver {
 	async discoverDevices() {
 		try {
 			this.devices = [];
-			const allDevices = await this.homey.api.devices.getDevices();
+			const allDevices = await this.homey.app.api.devices.getDevices();
 			const keys = Object.keys(allDevices);
 			keys.forEach((key) => {
 				const hasCapability = (capability) => allDevices[key].capabilities.includes(capability);

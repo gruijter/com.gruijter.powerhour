@@ -20,7 +20,7 @@ along with com.gruijter.powerhour.  If not, see <http://www.gnu.org/licenses/>.
 'use strict';
 
 const Homey = require('homey');
-const { HomeyAPI } = require('athom-api');
+const { HomeyAPIApp } = require('homey-api');
 
 class MyApp extends Homey.App {
 
@@ -48,7 +48,8 @@ class MyApp extends Homey.App {
 			// }, 1000 * 60 * 10);
 
 			// login to Homey API
-			this.homey.api = await HomeyAPI.forCurrentHomey(this.homey);
+			this.api = new HomeyAPIApp({ homey: this.homey });
+
 			// start polling every whole hour
 			this.everyHour();
 			this.log('Power by the Hour app is running...');

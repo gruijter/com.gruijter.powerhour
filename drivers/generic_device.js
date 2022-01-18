@@ -1,5 +1,5 @@
 /*
-Copyright 2019 - 2021, Robin de Gruijter (gruijter@hotmail.com)
+Copyright 2019 - 2022, Robin de Gruijter (gruijter@hotmail.com)
 
 This file is part of com.gruijter.powerhour.
 
@@ -39,13 +39,14 @@ class SumMeterDevice extends Device {
 			this.timeZone = this.homey.clock.getTimezone();
 
 			// await setTimeoutPromise(10 * 1000); // wait a bit for Homey to settle?
-			this.sourceDevice = await this.homey.api.devices.getDevice({ id: this.getSettings().homey_device_id });
+			this.sourceDevice = await this.homey.app.api.devices.getDevice({ id: this.getSettings().homey_device_id });
 
 			// check if source device exists
 			const sourceDeviceExists = this.sourceDevice && this.sourceDevice.capabilitiesObj; // && (this.sourceDevice.available !== null);
 			if (!sourceDeviceExists) throw Error(`Source device ${this.getName()} is missing`);
 			// check if source device is ready
-			if (!this.sourceDevice || this.sourceDevice.ready !== true) throw Error(`Source device ${this.getName()} is not ready`);
+			if (!this.sourceDevice) throw Error(`Source device ${this.getName()} is not ready`);
+			// if (!this.sourceDevice || this.sourceDevice.ready !== true) throw Error(`Source device ${this.getName()} is not ready`);
 			this.setAvailable();
 
 			// init daily resetting source devices
