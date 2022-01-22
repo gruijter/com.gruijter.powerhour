@@ -1,6 +1,6 @@
 {
   "name": "com.gruijter.powerhour",
-  "version": "3.2.0",
+  "version": "3.3.1",
   "description": "Summarize the energy usage or (solar) production per hour, day, month and year",
   "main": "app.js",
   "scripts": {
@@ -16,6 +16,6 @@
     "url": "https://github.com/gruijter/com.gruijter.powerhour.git"
   },
   "dependencies": {
-    "homey-api": "^1.5.0"
+    "homey-api": "^1.5.1"
   }
 }

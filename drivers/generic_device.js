@@ -39,7 +39,7 @@ class SumMeterDevice extends Device {
 			this.timeZone = this.homey.clock.getTimezone();
 
 			// await setTimeoutPromise(10 * 1000); // wait a bit for Homey to settle?
-			this.sourceDevice = await this.homey.app.api.devices.getDevice({ id: this.getSettings().homey_device_id });
+			this.sourceDevice = await this.homey.app.api.devices.getDevice({ id: this.getSettings().homey_device_id, $cache: false });
 
 			// check if source device exists
 			const sourceDeviceExists = this.sourceDevice && this.sourceDevice.capabilitiesObj; // && (this.sourceDevice.available !== null);
@@ -165,7 +165,13 @@ class SumMeterDevice extends Device {
 		this.homey.clearInterval(this.intervalIdDevicePoll);
 		this.log(`start polling ${this.getName()} @${interval} minutes interval`);
 		this.intervalIdDevicePoll = this.homey.setInterval(() => {
-			this.pollMeter();
+			try {
+				this.pollMeter();
+			} catch (error) {
+				this.error(error);
+				this.setUnavailable(error);
+				this.restartDevice(10 * 60 * 1000); // restart after 10 minutes
+			}
 		}, 1000 * 60 * interval);
 	}
 
@@ -188,7 +194,7 @@ class SumMeterDevice extends Device {
 		}
 	}
 
-	getReadingObject(value) {
+	async getReadingObject(value) {
 		const date = new Date();
 		const dateLocal = new Date(date.toLocaleString('en-UK', { timeZone: this.timeZone }));
 		const reading = {
@@ -222,7 +228,7 @@ class SumMeterDevice extends Device {
 				value = this.cumVal;
 			}
 
-			const reading = this.getReadingObject(value);
+			const reading = await this.getReadingObject(value);
 			await this.updateStates(reading);
 		} catch (error) {
 			this.error(error);
@@ -276,7 +282,7 @@ class SumMeterDevice extends Device {
 			this.setCapability(this.ds.cmap.this_hour_total, valHour);
 		} else {
 			// new hour started
-			// console.log('new hour started');
+			this.log('new hour started');
 			this.setCapability(this.ds.cmap.this_hour_total, 0);
 			this.setCapability(this.ds.cmap.last_hour_total, valHour);
 			await this.setStoreValue('lastReadingHour', reading);

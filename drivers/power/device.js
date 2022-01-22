@@ -56,7 +56,7 @@ class sumDriver extends GenericDevice {
 			this.capabilityInstances.meterPowerPeak = this.sourceDevice.makeCapabilityInstance('meter_power.peak', (value) => {
 				this.updateMeterPeak(value);
 			});
-			this.capabilityInstances.peterPowerOffPeak = this.sourceDevice.makeCapabilityInstance('meter_power.offPeak', (value) => {
+			this.capabilityInstances.meterPowerOffPeak = this.sourceDevice.makeCapabilityInstance('meter_power.offPeak', (value) => {
 				this.updateMeterOffPeak(value);
 			});
 		}
@@ -73,6 +73,7 @@ class sumDriver extends GenericDevice {
 	}
 
 	async pollMeter() {
+		this.sourceDevice = await this.homey.app.api.devices.getDevice({ id: this.getSettings().homey_device_id, $cache: false });
 		if (this.sourceDevice.capabilities.includes('meter_power')) {
 			const pollValue = this.sourceDevice.capabilitiesObj.meter_power.value;
 			this.updateMeter(pollValue);

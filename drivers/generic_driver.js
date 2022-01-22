@@ -34,6 +34,7 @@ class SumMeterDriver extends Driver {
 		// add listener for hourly trigger
 		if (this.eventListener) this.homey.removeListener('everyhour', this.eventListener);
 		this.eventListener = async () => {
+			// console.log('new hour event received');
 			const devices = this.getDevices();
 			devices.forEach((device) => {
 				const deviceName = device.getName();

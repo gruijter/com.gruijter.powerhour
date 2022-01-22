@@ -53,7 +53,8 @@ class sumDriver extends GenericDevice {
 		}
 	}
 
-	pollMeter() {
+	async pollMeter() {
+		this.sourceDevice = await this.homey.app.api.devices.getDevice({ id: this.getSettings().homey_device_id, $cache: false });
 		const pollValue = this.sourceDevice.capabilitiesObj.meter_water.value;
 		this.updateMeter(pollValue, true);
 	}
