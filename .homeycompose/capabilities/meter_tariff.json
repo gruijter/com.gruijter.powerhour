@@ -1,16 +1,16 @@
 {
   "type": "number",
   "title": {
-    "en": "m³ this hour",
-    "nl": "m³ dit uur"
+    "en": "Active tariff",
+    "nl": "Actief tarief"
   },
   "uiComponent": "sensor",
-  "icon": "/assets/m3_h.svg",
+  "icon": "/assets/tariff.svg",
   "getable": true,
   "setable": false,
   "insights": true,
   "units": {
-    "en": "m³"
+    "en": "¤"
   },
-  "decimals": 4
+  "decimals": 2
 }

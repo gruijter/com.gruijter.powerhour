@@ -1,8 +1,8 @@
 {
   "type": "number",
   "title": {
-    "en": "This day",
-    "nl": "Deze dag"
+    "en": "m³ this day",
+    "nl": "m³ deze dag"
   },
   "uiComponent": "sensor",
   "icon": "/assets/m3_d.svg",

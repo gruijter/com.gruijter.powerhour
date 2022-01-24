@@ -1,8 +1,8 @@
 {
   "type": "number",
   "title": {
-    "en": "This month",
-    "nl": "Deze maand"
+    "en": "kWh this month",
+    "nl": "kWh deze maand"
   },
   "uiComponent": "sensor",
   "icon": "/assets/kwh_m.svg",

@@ -1,8 +1,8 @@
 {
   "type": "number",
   "title": {
-    "en": "This hour",
-    "nl": "Dit uur"
+    "en": "kWh this hour",
+    "nl": "kWh dit uur"
   },
   "uiComponent": "sensor",
   "icon": "/assets/kwh_h.svg",

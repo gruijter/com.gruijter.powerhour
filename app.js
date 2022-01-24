@@ -52,6 +52,10 @@ class MyApp extends Homey.App {
 
 			// start polling every whole hour
 			this.everyHour();
+
+			// register flows
+			this.registerFlowListeners();
+
 			this.log('Power by the Hour app is running...');
 
 		} catch (error) { this.error(error); }
@@ -69,6 +73,23 @@ class MyApp extends Homey.App {
 			this.homey.emit('everyhour', true);
 		}, timeToNextHour);
 		this.log('everyHour job started');
+	}
+
+	registerFlowListeners() {
+
+		// action cards
+		const setTariffPower = this.homey.flow.getActionCard('set_tariff_power');
+		setTariffPower
+			.registerRunListener((args) => this.homey.emit('set_tariff_power', args));
+
+		const setTariffGas = this.homey.flow.getActionCard('set_tariff_gas');
+		setTariffGas
+			.registerRunListener((args) => this.homey.emit('set_tariff_gas', args));
+
+		const setTariffWater = this.homey.flow.getActionCard('set_tariff_water');
+		setTariffWater
+			.registerRunListener((args) => this.homey.emit('set_tariff_water', args));
+
 	}
 
 }

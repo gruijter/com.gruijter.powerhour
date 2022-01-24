@@ -1,8 +1,8 @@
 {
   "type": "number",
   "title": {
-    "en": "This day",
-    "nl": "Deze dag"
+    "en": "kWh this day",
+    "nl": "kWh dDeze dag"
   },
   "uiComponent": "sensor",
   "icon": "/assets/kwh_d.svg",

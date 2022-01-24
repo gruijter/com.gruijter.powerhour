@@ -1,7 +1,7 @@
 {
   "_comment": "This file is generated. Please edit .homeycompose/app.json instead.",
   "id": "com.gruijter.powerhour",
-  "version": "3.3.1",
+  "version": "3.4.0",
   "compatibility": ">=5.0.0",
   "brandColor": "#df5020",
   "sdk": 3,
@@ -9,8 +9,8 @@
     "en": "Power by the Hour"
   },
   "description": {
-    "en": "Summarize the energy/water usage or (solar) production per hour, day, month and year",
-    "nl": "Samenvatten van energie/water verbruik of (zonnepaneel) productie per uur, dag, maand en jaar"
+    "en": "Summarize the energy/water usage or (solar) production per hour, day, month and year. Use dynamic tariffs.",
+    "nl": "Samenvatten van energie/water verbruik of (zonnepaneel) productie per uur, dag, maand en jaar. Gebruik dynamische tarieven."
   },
   "category": "energy",
   "tags": {
@@ -26,7 +26,11 @@
       "gas",
       "water",
       "summarizer",
-      "insights"
+      "insights",
+      "cost",
+      "tariff",
+      "prediction",
+      "peak"
     ]
   },
   "permissions": [
@@ -73,6 +77,76 @@
     "local"
   ],
   "source": "https://github.com/gruijter/com.gruijter.powerhour",
+  "flow": {
+    "actions": [
+      {
+        "id": "set_tariff_gas",
+        "title": {
+          "en": "Set a new gas tariff",
+          "nl": "Stel een nieuw gastarief in"
+        },
+        "titleFormatted": {
+          "en": "Set gas tariff to [[tariff]]",
+          "nl": "Stel gastarief in op [[tariff]]"
+        },
+        "highlight": true,
+        "args": [
+          {
+            "name": "tariff",
+            "type": "number",
+            "placeholder": {
+              "en": "The tariff per m³",
+              "nl": "Het tarief per m³"
+            }
+          }
+        ]
+      },
+      {
+        "id": "set_tariff_power",
+        "title": {
+          "en": "Set a new power tariff",
+          "nl": "Stel een nieuw energietarief in"
+        },
+        "titleFormatted": {
+          "en": "Set power tariff to [[tariff]]",
+          "nl": "Stel energietarief in op [[tariff]]"
+        },
+        "highlight": true,
+        "args": [
+          {
+            "name": "tariff",
+            "type": "number",
+            "placeholder": {
+              "en": "The tariff per kWh",
+              "nl": "Het tarief per kWh"
+            }
+          }
+        ]
+      },
+      {
+        "id": "set_tariff_water",
+        "title": {
+          "en": "Set a new water tariff",
+          "nl": "Stel een nieuw watertarief in"
+        },
+        "titleFormatted": {
+          "en": "Set water tariff to [[tariff]]",
+          "nl": "Stel watertarief in op [[tariff]]"
+        },
+        "highlight": true,
+        "args": [
+          {
+            "name": "tariff",
+            "type": "number",
+            "placeholder": {
+              "en": "The tariff per m³",
+              "nl": "Het tarief per m³"
+            }
+          }
+        ]
+      }
+    ]
+  },
   "drivers": [
     {
       "name": {
@@ -181,6 +255,71 @@
               "value": 0,
               "hint": {
                 "en": "Enter the meter reading at the start of this year. It is automatically updated first day of a new year."
+              }
+            }
+          ]
+        },
+        {
+          "type": "group",
+          "label": {
+            "en": "Monetary value",
+            "nl": "Geldwaarde"
+          },
+          "children": [
+            {
+              "id": "tariff",
+              "type": "number",
+              "label": {
+                "en": "Actual tariff per m³",
+                "nl": "Actueel tarief per m³"
+              },
+              "value": 0.75,
+              "decimals": 8,
+              "hint": {
+                "en": "The tariff is used to calculate the monetary value. It can be dynamically changed via a flow.",
+                "nl": "Het tarief wordt gebruikt om de geldwaarde te berekenen. Het kan dynamisch worden aangepast via een flow."
+              }
+            },
+            {
+              "id": "meter_money_this_day",
+              "type": "number",
+              "label": {
+                "en": "Monetary value of this day",
+                "nl": "Geldwaarde van deze dag"
+              },
+              "value": 0,
+              "decimals": 4,
+              "hint": {
+                "en": "Actual monetary value. It is automatically updated.",
+                "nl": "Actuele gelwaarde. Wordt automatisch geupdated."
+              }
+            },
+            {
+              "id": "meter_money_this_month",
+              "type": "number",
+              "label": {
+                "en": "Monetary value of this month",
+                "nl": "Geldwaarde van deze maand"
+              },
+              "value": 0,
+              "decimals": 4,
+              "hint": {
+                "en": "Actual monetary value. It is automatically updated.",
+                "nl": "Actuele gelwaarde. Wordt automatisch geupdated."
+              }
+            },
+            {
+              "id": "meter_money_this_year",
+              "type": "number",
+              "label": {
+                "en": "Monetary value of this year",
+                "nl": "Geldwaarde van dit jaar"
+              },
+              "value": 0,
+              "decimals": 4,
+              "hint": {
+                "en": "Actual monetary value. It is automatically updated.",
+                "nl": "Actuele gelwaarde. Wordt automatisch geupdated."
               }
             }
           ]
@@ -342,6 +481,84 @@
               }
             }
           ]
+        },
+        {
+          "type": "group",
+          "label": {
+            "en": "Monetary value",
+            "nl": "Geldwaarde"
+          },
+          "children": [
+            {
+              "id": "tariff",
+              "type": "number",
+              "label": {
+                "en": "Actual tariff per kWh",
+                "nl": "Actueel tarief per kWh"
+              },
+              "value": 0.25,
+              "decimals": 8,
+              "hint": {
+                "en": "The tariff is used to calculate the monetary value. It can be dynamically changed via a flow.",
+                "nl": "Het tarief wordt gebruikt om de geldwaarde te berekenen. Het kan dynamisch worden aangepast via een flow."
+              }
+            },
+            {
+              "id": "tariff_via_flow",
+              "type": "checkbox",
+              "label": {
+                "en": "Tariff via flow",
+                "nl": "Tarief via flow"
+              },
+              "value": true,
+              "hint": {
+                "en": "Include this device when setting a new tariff via flow.",
+                "nl": "Dit apparaat meenemen bij het instellen van een nieuw tarief via flow."
+              }
+            },
+            {
+              "id": "meter_money_this_day",
+              "type": "number",
+              "label": {
+                "en": "Monetary value of this day",
+                "nl": "Geldwaarde van deze dag"
+              },
+              "value": 0,
+              "decimals": 4,
+              "hint": {
+                "en": "Actual monetary value. It is automatically updated.",
+                "nl": "Actuele gelwaarde. Wordt automatisch geupdated."
+              }
+            },
+            {
+              "id": "meter_money_this_month",
+              "type": "number",
+              "label": {
+                "en": "Monetary value of this month",
+                "nl": "Geldwaarde van deze maand"
+              },
+              "value": 0,
+              "decimals": 4,
+              "hint": {
+                "en": "Actual monetary value. It is automatically updated.",
+                "nl": "Actuele gelwaarde. Wordt automatisch geupdated."
+              }
+            },
+            {
+              "id": "meter_money_this_year",
+              "type": "number",
+              "label": {
+                "en": "Monetary value of this year",
+                "nl": "Geldwaarde van dit jaar"
+              },
+              "value": 0,
+              "decimals": 4,
+              "hint": {
+                "en": "Actual monetary value. It is automatically updated.",
+                "nl": "Actuele gelwaarde. Wordt automatisch geupdated."
+              }
+            }
+          ]
         }
       ],
       "platforms": [
@@ -472,6 +689,71 @@
               }
             }
           ]
+        },
+        {
+          "type": "group",
+          "label": {
+            "en": "Monetary value",
+            "nl": "Geldwaarde"
+          },
+          "children": [
+            {
+              "id": "tariff",
+              "type": "number",
+              "label": {
+                "en": "Actual tariff per m³",
+                "nl": "Actueel tarief per m³"
+              },
+              "value": 0.85,
+              "decimals": 8,
+              "hint": {
+                "en": "The tariff is used to calculate the monetary value. It can be dynamically changed via a flow.",
+                "nl": "Het tarief wordt gebruikt om de geldwaarde te berekenen. Het kan dynamisch worden aangepast via een flow."
+              }
+            },
+            {
+              "id": "meter_money_this_day",
+              "type": "number",
+              "label": {
+                "en": "Monetary value of this day",
+                "nl": "Geldwaarde van deze dag"
+              },
+              "value": 0,
+              "decimals": 4,
+              "hint": {
+                "en": "Actual monetary value. It is automatically updated.",
+                "nl": "Actuele gelwaarde. Wordt automatisch geupdated."
+              }
+            },
+            {
+              "id": "meter_money_this_month",
+              "type": "number",
+              "label": {
+                "en": "Monetary value of this month",
+                "nl": "Geldwaarde van deze maand"
+              },
+              "value": 0,
+              "decimals": 4,
+              "hint": {
+                "en": "Actual monetary value. It is automatically updated.",
+                "nl": "Actuele gelwaarde. Wordt automatisch geupdated."
+              }
+            },
+            {
+              "id": "meter_money_this_year",
+              "type": "number",
+              "label": {
+                "en": "Monetary value of this year",
+                "nl": "Geldwaarde van dit jaar"
+              },
+              "value": 0,
+              "decimals": 4,
+              "hint": {
+                "en": "Actual monetary value. It is automatically updated.",
+                "nl": "Actuele gelwaarde. Wordt automatisch geupdated."
+              }
+            }
+          ]
         }
       ],
       "platforms": [
@@ -544,8 +826,8 @@
     "meter_kwh_this_day": {
       "type": "number",
       "title": {
-        "en": "This day",
-        "nl": "Deze dag"
+        "en": "kWh this day",
+        "nl": "kWh dDeze dag"
       },
       "uiComponent": "sensor",
       "icon": "/assets/kwh_d.svg",
@@ -560,8 +842,8 @@
     "meter_kwh_this_hour": {
       "type": "number",
       "title": {
-        "en": "This hour",
-        "nl": "Dit uur"
+        "en": "kWh this hour",
+        "nl": "kWh dit uur"
       },
       "uiComponent": "sensor",
       "icon": "/assets/kwh_h.svg",
@@ -576,8 +858,8 @@
     "meter_kwh_this_month": {
       "type": "number",
       "title": {
-        "en": "This month",
-        "nl": "Deze maand"
+        "en": "kWh this month",
+        "nl": "kWh deze maand"
       },
       "uiComponent": "sensor",
       "icon": "/assets/kwh_m.svg",
@@ -592,8 +874,8 @@
     "meter_kwh_this_year": {
       "type": "number",
       "title": {
-        "en": "This year",
-        "nl": "Dit jaar"
+        "en": "kWh this year",
+        "nl": "kWh dit jaar"
       },
       "uiComponent": "sensor",
       "icon": "/assets/kwh_y.svg",
@@ -668,8 +950,8 @@
     "meter_m3_this_day": {
       "type": "number",
       "title": {
-        "en": "This day",
-        "nl": "Deze dag"
+        "en": "m³ this day",
+        "nl": "m³ deze dag"
       },
       "uiComponent": "sensor",
       "icon": "/assets/m3_d.svg",
@@ -684,8 +966,8 @@
     "meter_m3_this_hour": {
       "type": "number",
       "title": {
-        "en": "This hour",
-        "nl": "Dit uur"
+        "en": "m³ this hour",
+        "nl": "m³ dit uur"
       },
       "uiComponent": "sensor",
       "icon": "/assets/m3_h.svg",
@@ -700,8 +982,8 @@
     "meter_m3_this_month": {
       "type": "number",
       "title": {
-        "en": "This month",
-        "nl": "Deze maand"
+        "en": "m³ this month",
+        "nl": "m³ deze maand"
       },
       "uiComponent": "sensor",
       "icon": "/assets/m3_m.svg",
@@ -716,8 +998,8 @@
     "meter_m3_this_year": {
       "type": "number",
       "title": {
-        "en": "This year",
-        "nl": "Dit jaar"
+        "en": "m³ this year",
+        "nl": "m³ dit jaar"
       },
       "uiComponent": "sensor",
       "icon": "/assets/m3_y.svg",
@@ -728,6 +1010,86 @@
         "en": "m³"
       },
       "decimals": 4
+    },
+    "meter_money_this_day": {
+      "type": "number",
+      "title": {
+        "en": "Money this day",
+        "nl": "Geld deze dag"
+      },
+      "uiComponent": "sensor",
+      "icon": "/assets/money_d.svg",
+      "getable": true,
+      "setable": false,
+      "insights": true,
+      "units": {
+        "en": "¤"
+      },
+      "decimals": 2
+    },
+    "meter_money_this_hour": {
+      "type": "number",
+      "title": {
+        "en": "Money this hour",
+        "nl": "Geld dit uur"
+      },
+      "uiComponent": "sensor",
+      "icon": "/assets/money_h.svg",
+      "getable": true,
+      "setable": false,
+      "insights": true,
+      "units": {
+        "en": "¤"
+      },
+      "decimals": 2
+    },
+    "meter_money_this_month": {
+      "type": "number",
+      "title": {
+        "en": "Money this month",
+        "nl": "Geld deze maand"
+      },
+      "uiComponent": "sensor",
+      "icon": "/assets/money_m.svg",
+      "getable": true,
+      "setable": false,
+      "insights": true,
+      "units": {
+        "en": "¤"
+      },
+      "decimals": 2
+    },
+    "meter_money_this_year": {
+      "type": "number",
+      "title": {
+        "en": "Money this year",
+        "nl": "Geld dit jaar"
+      },
+      "uiComponent": "sensor",
+      "icon": "/assets/money_y.svg",
+      "getable": true,
+      "setable": false,
+      "insights": true,
+      "units": {
+        "en": "¤"
+      },
+      "decimals": 2
+    },
+    "meter_tariff": {
+      "type": "number",
+      "title": {
+        "en": "Active tariff",
+        "nl": "Actief tarief"
+      },
+      "uiComponent": "sensor",
+      "icon": "/assets/tariff.svg",
+      "getable": true,
+      "setable": false,
+      "insights": true,
+      "units": {
+        "en": "¤"
+      },
+      "decimals": 2
     }
   }
 }

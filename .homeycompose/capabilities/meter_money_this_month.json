@@ -1,16 +1,16 @@
 {
   "type": "number",
   "title": {
-    "en": "m³ this hour",
-    "nl": "m³ dit uur"
+    "en": "Money this month",
+    "nl": "Geld deze maand"
   },
   "uiComponent": "sensor",
-  "icon": "/assets/m3_h.svg",
+  "icon": "/assets/money_m.svg",
   "getable": true,
   "setable": false,
   "insights": true,
   "units": {
-    "en": "m³"
+    "en": "¤"
   },
-  "decimals": 4
+  "decimals": 2
 }

@@ -1,8 +1,8 @@
 {
   "type": "number",
   "title": {
-    "en": "This month",
-    "nl": "Deze maand"
+    "en": "m³ this month",
+    "nl": "m³ deze maand"
   },
   "uiComponent": "sensor",
   "icon": "/assets/m3_m.svg",

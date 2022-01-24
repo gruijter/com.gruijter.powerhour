@@ -1,0 +1,22 @@
+{
+  "id": "set_tariff_gas",
+  "title": {
+    "en": "Set a new gas tariff",
+    "nl": "Stel een nieuw gastarief in"
+  },
+  "titleFormatted": {
+    "en": "Set gas tariff to [[tariff]]",
+    "nl": "Stel gastarief in op [[tariff]]"
+  },
+  "highlight": true,
+  "args": [
+    {
+      "name": "tariff",
+      "type": "number",
+      "placeholder": {
+        "en": "The tariff per m³",
+        "nl": "Het tarief per m³"
+      }
+    }
+  ]
+}

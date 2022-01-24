@@ -32,8 +32,8 @@ class SumMeterDriver extends Driver {
 		this.log('onDriverInit');
 
 		// add listener for hourly trigger
-		if (this.eventListener) this.homey.removeListener('everyhour', this.eventListener);
-		this.eventListener = async () => {
+		if (this.eventListenerHour) this.homey.removeListener('everyhour', this.eventListenerHour);
+		this.eventListenerHour = async () => {
 			// console.log('new hour event received');
 			const devices = this.getDevices();
 			devices.forEach((device) => {
@@ -66,7 +66,27 @@ class SumMeterDriver extends Driver {
 				device.setAvailable();
 			});
 		};
-		this.homey.on('everyhour', this.eventListener);
+		this.homey.on('everyhour', this.eventListenerHour);
+
+		// add listener for tariff change
+		const eventName = `set_tariff_${this.id}`;
+		if (this.eventListenerTariff) this.homey.removeListener(eventName, this.eventListenerTariff);
+		this.eventListenerTariff = (args) => {
+			this.log(`${eventName} received from flow`, args);
+			// this.activeTariff = args.tariff;
+			const devices = this.getDevices();
+			devices.forEach((device) => {
+				const deviceName = device.getName();
+				if (!device.settings.tariff_via_flow) return;
+				this.log('updating tariff', deviceName, args.tariff);
+				const self = device;
+				self.tariff = args.tariff; // { tariff: 0.25 }
+				self.setSettings({ tariff: args.tariff });
+				self.setCapability('meter_tariff', args.tariff);
+			});
+		};
+		this.homey.on(eventName, this.eventListenerTariff);
+
 	}
 
 	async onPairListDevices() {
@@ -92,7 +112,7 @@ class SumMeterDriver extends Driver {
 						settings: {
 							homey_device_id: allDevices[key].id,
 							homey_device_name: allDevices[key].name,
-							level: '3.0.0',
+							level: '3.4.0',
 						},
 						capabilities: this.ds.deviceCapabilities,
 					};

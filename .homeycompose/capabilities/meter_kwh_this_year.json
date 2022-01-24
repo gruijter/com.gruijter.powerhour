@@ -1,8 +1,8 @@
 {
   "type": "number",
   "title": {
-    "en": "This year",
-    "nl": "Dit jaar"
+    "en": "kWh this year",
+    "nl": "kWh dit jaar"
   },
   "uiComponent": "sensor",
   "icon": "/assets/kwh_y.svg",

@@ -1,0 +1,22 @@
+{
+  "id": "set_tariff_water",
+  "title": {
+    "en": "Set a new water tariff",
+    "nl": "Stel een nieuw watertarief in"
+  },
+  "titleFormatted": {
+    "en": "Set water tariff to [[tariff]]",
+    "nl": "Stel watertarief in op [[tariff]]"
+  },
+  "highlight": true,
+  "args": [
+    {
+      "name": "tariff",
+      "type": "number",
+      "placeholder": {
+        "en": "The tariff per m³",
+        "nl": "Het tarief per m³"
+      }
+    }
+  ]
+}

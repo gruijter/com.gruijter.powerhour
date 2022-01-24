@@ -1,0 +1,22 @@
+{
+  "id": "set_tariff_power",
+  "title": {
+    "en": "Set a new power tariff",
+    "nl": "Stel een nieuw energietarief in"
+  },
+  "titleFormatted": {
+    "en": "Set power tariff to [[tariff]]",
+    "nl": "Stel energietarief in op [[tariff]]"
+  },
+  "highlight": true,
+  "args": [
+    {
+      "name": "tariff",
+      "type": "number",
+      "placeholder": {
+        "en": "The tariff per kWh",
+        "nl": "Het tarief per kWh"
+      }
+    }
+  ]
+}

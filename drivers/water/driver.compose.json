@@ -121,6 +121,71 @@
           }
         }
       ]
+    },
+    {
+      "type": "group",
+      "label": {
+        "en": "Monetary value",
+        "nl": "Geldwaarde"
+      },
+      "children": [
+        {
+          "id": "tariff",
+          "type": "number",
+          "label": {
+            "en": "Actual tariff per m³",
+            "nl": "Actueel tarief per m³"
+          },
+          "value": 0.85,
+          "decimals": 8,
+          "hint": {
+            "en": "The tariff is used to calculate the monetary value. It can be dynamically changed via a flow.",
+            "nl": "Het tarief wordt gebruikt om de geldwaarde te berekenen. Het kan dynamisch worden aangepast via een flow."
+          }
+        },
+        {
+          "id": "meter_money_this_day",
+          "type": "number",
+          "label": {
+            "en": "Monetary value of this day",
+            "nl": "Geldwaarde van deze dag"
+          },
+          "value": 0,
+          "decimals": 4,
+          "hint": {
+            "en": "Actual monetary value. It is automatically updated.",
+            "nl": "Actuele gelwaarde. Wordt automatisch geupdated."
+          }
+        },
+        {
+          "id": "meter_money_this_month",
+          "type": "number",
+          "label": {
+            "en": "Monetary value of this month",
+            "nl": "Geldwaarde van deze maand"
+          },
+          "value": 0,
+          "decimals": 4,
+          "hint": {
+            "en": "Actual monetary value. It is automatically updated.",
+            "nl": "Actuele gelwaarde. Wordt automatisch geupdated."
+          }
+        },
+        {
+          "id": "meter_money_this_year",
+          "type": "number",
+          "label": {
+            "en": "Monetary value of this year",
+            "nl": "Geldwaarde van dit jaar"
+          },
+          "value": 0,
+          "decimals": 4,
+          "hint": {
+            "en": "Actual monetary value. It is automatically updated.",
+            "nl": "Actuele gelwaarde. Wordt automatisch geupdated."
+          }
+        }
+      ]
     }
   ],
   "platforms": [
