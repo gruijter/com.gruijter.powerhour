@@ -2,7 +2,7 @@
   "type": "number",
   "title": {
     "en": "kWh this day",
-    "nl": "kWh dDeze dag"
+    "nl": "kWh deze dag"
   },
   "uiComponent": "sensor",
   "icon": "/assets/kwh_d.svg",

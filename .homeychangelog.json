@@ -1,4 +1,7 @@
 {
+  "3.4.1": {
+    "en": "Added money values. Added dynamic tariff settings via flow. Added money flow triggers. Fixed tariff change from device settings. Improved device settings update. Small bugfixes and improvements."
+  },
   "3.4.0": {
     "en": "Added money values. Added dynamic tariff settings via flow. Added money flow triggers. Improved device settings update. Small bugfixes and improvements."
   },

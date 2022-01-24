@@ -172,6 +172,10 @@ class SumMeterDevice extends Device {
 			await this.setStoreValue('lastMoney', this.lastMoney);
 		}
 
+		if (changedKeys.includes('tariff')) {
+			this.tariff = newSettings.tariff;
+		}
+
 		this.restartDevice(1000);
 		return Promise.resolve(true);
 	}
