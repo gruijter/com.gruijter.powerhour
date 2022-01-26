@@ -1,0 +1,10 @@
+{
+	"type": "string",
+	"title": {
+		"en": "Min/Max Since",
+		"nl": "Min/Max Sinds"
+	},
+	"getable": true,
+	"setable": false,
+	"icon": "./assets/last_minmax_reset.svg"
+}

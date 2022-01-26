@@ -26,7 +26,7 @@ const driverSpecifics = {
 	originDeviceCapabilities: ['meter_power', 'meter_power.peak', 'meter_power.offPeak'],
 	deviceCapabilities: ['meter_kwh_this_hour', 'meter_kwh_last_hour', 'meter_kwh_this_day', 'meter_kwh_last_day',
 		'meter_kwh_this_month', 'meter_kwh_last_month', 'meter_kwh_this_year', 'meter_kwh_last_year',
-		'meter_money_this_hour', 'meter_money_this_day', 'meter_money_this_month', 'meter_money_this_year', 'meter_tariff'],
+		'meter_money_this_hour', 'meter_money_this_day', 'meter_money_this_month', 'meter_money_this_year', 'meter_tariff', 'measure_watt_peak'],
 };
 
 class sumDriver extends GenericDriver {

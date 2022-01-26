@@ -90,6 +90,10 @@ class MyApp extends Homey.App {
 		setTariffWater
 			.registerRunListener((args) => this.homey.emit('set_tariff_water', args));
 
+		const minMaxReset = this.homey.flow.getActionCard('minmax_reset');
+		minMaxReset
+			.registerRunListener((args) => args.device.minMaxReset(true, 'flow'));
+
 	}
 
 }

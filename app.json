@@ -1,7 +1,7 @@
 {
   "_comment": "This file is generated. Please edit .homeycompose/app.json instead.",
   "id": "com.gruijter.powerhour",
-  "version": "3.4.1",
+  "version": "3.5.0",
   "compatibility": ">=5.0.0",
   "brandColor": "#df5020",
   "sdk": 3,
@@ -79,6 +79,21 @@
   "source": "https://github.com/gruijter/com.gruijter.powerhour",
   "flow": {
     "actions": [
+      {
+        "title": {
+          "en": "Reset the Min/Max values",
+          "nl": "Reset de Min/Max waarden"
+        },
+        "highlight": true,
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=power|gas| water"
+          }
+        ],
+        "id": "minmax_reset"
+      },
       {
         "id": "set_tariff_gas",
         "title": {
@@ -255,6 +270,56 @@
               "value": 0,
               "hint": {
                 "en": "Enter the meter reading at the start of this year. It is automatically updated first day of a new year."
+              }
+            },
+            {
+              "id": "min_max_reset",
+              "type": "dropdown",
+              "label": {
+                "en": "Reset Min/Max values",
+                "nl": "Reset Min/Max waarden"
+              },
+              "values": [
+                {
+                  "id": "hour",
+                  "label": {
+                    "en": "Hour",
+                    "nl": "Uur"
+                  }
+                },
+                {
+                  "id": "day",
+                  "label": {
+                    "en": "Day",
+                    "nl": "Dag"
+                  }
+                },
+                {
+                  "id": "month",
+                  "label": {
+                    "en": "Month",
+                    "nl": "Maand"
+                  }
+                },
+                {
+                  "id": "year",
+                  "label": {
+                    "en": "Year",
+                    "nl": "Jaar"
+                  }
+                },
+                {
+                  "id": "never",
+                  "label": {
+                    "en": "Never",
+                    "nl": "Nooit"
+                  }
+                }
+              ],
+              "value": "day",
+              "hint": {
+                "en": "The minimum/maximum values will be reset on every new period. The values can also be reset at any time via a flow.",
+                "nl": "De minimum/maximum waarden worden iedere nieuwe periode gereset. De waarden kunnen ook op ieder moment worden gereset via een flow."
               }
             }
           ]
@@ -479,6 +544,56 @@
               "hint": {
                 "en": "Enter the meter reading at the start of this year. It is automatically updated first day of a new year."
               }
+            },
+            {
+              "id": "min_max_reset",
+              "type": "dropdown",
+              "label": {
+                "en": "Reset Min/Max values",
+                "nl": "Reset Min/Max waarden"
+              },
+              "values": [
+                {
+                  "id": "hour",
+                  "label": {
+                    "en": "Hour",
+                    "nl": "Uur"
+                  }
+                },
+                {
+                  "id": "day",
+                  "label": {
+                    "en": "Day",
+                    "nl": "Dag"
+                  }
+                },
+                {
+                  "id": "month",
+                  "label": {
+                    "en": "Month",
+                    "nl": "Maand"
+                  }
+                },
+                {
+                  "id": "year",
+                  "label": {
+                    "en": "Year",
+                    "nl": "Jaar"
+                  }
+                },
+                {
+                  "id": "never",
+                  "label": {
+                    "en": "Never",
+                    "nl": "Nooit"
+                  }
+                }
+              ],
+              "value": "day",
+              "hint": {
+                "en": "The minimum/maximum values will be reset on every new period. The values can also be reset at any time via a flow.",
+                "nl": "De minimum/maximum waarden worden iedere nieuwe periode gereset. De waarden kunnen ook op ieder moment worden gereset via een flow."
+              }
             }
           ]
         },
@@ -687,6 +802,56 @@
               "hint": {
                 "en": "Enter the meter reading at the start of this year. It is automatically updated first day of a new year."
               }
+            },
+            {
+              "id": "min_max_reset",
+              "type": "dropdown",
+              "label": {
+                "en": "Reset Min/Max values",
+                "nl": "Reset Min/Max waarden"
+              },
+              "values": [
+                {
+                  "id": "hour",
+                  "label": {
+                    "en": "Hour",
+                    "nl": "Uur"
+                  }
+                },
+                {
+                  "id": "day",
+                  "label": {
+                    "en": "Day",
+                    "nl": "Dag"
+                  }
+                },
+                {
+                  "id": "month",
+                  "label": {
+                    "en": "Month",
+                    "nl": "Maand"
+                  }
+                },
+                {
+                  "id": "year",
+                  "label": {
+                    "en": "Year",
+                    "nl": "Jaar"
+                  }
+                },
+                {
+                  "id": "never",
+                  "label": {
+                    "en": "Never",
+                    "nl": "Nooit"
+                  }
+                }
+              ],
+              "value": "day",
+              "hint": {
+                "en": "The minimum/maximum values will be reset on every new period. The values can also be reset at any time via a flow.",
+                "nl": "De minimum/maximum waarden worden iedere nieuwe periode gereset. De waarden kunnen ook op ieder moment worden gereset via een flow."
+              }
             }
           ]
         },
@@ -763,6 +928,82 @@
     }
   ],
   "capabilities": {
+    "last_minmax_reset": {
+      "type": "string",
+      "title": {
+        "en": "Min/Max Since",
+        "nl": "Min/Max Sinds"
+      },
+      "getable": true,
+      "setable": false,
+      "icon": "./assets/last_minmax_reset.svg"
+    },
+    "measure_lpm_max": {
+      "type": "number",
+      "title": {
+        "en": "Maximum",
+        "nl": "Maximum"
+      },
+      "uiComponent": "sensor",
+      "icon": "/assets/maximum.svg",
+      "getable": true,
+      "setable": false,
+      "insights": true,
+      "units": {
+        "en": "L/minute",
+        "nl": "L/minuut"
+      },
+      "decimals": 2
+    },
+    "measure_lpm_min": {
+      "type": "number",
+      "title": {
+        "en": "Minimum",
+        "nl": "Minimum"
+      },
+      "uiComponent": "sensor",
+      "icon": "/assets/minimum.svg",
+      "getable": true,
+      "setable": false,
+      "insights": true,
+      "units": {
+        "en": "L/minute",
+        "nl": "L/minuut"
+      },
+      "decimals": 2
+    },
+    "measure_watt_max": {
+      "type": "number",
+      "title": {
+        "en": "Maximum",
+        "nl": "Maximum"
+      },
+      "uiComponent": "sensor",
+      "icon": "/assets/maximum.svg",
+      "getable": true,
+      "setable": false,
+      "insights": true,
+      "units": {
+        "en": "Watt"
+      },
+      "decimals": 2
+    },
+    "measure_watt_min": {
+      "type": "number",
+      "title": {
+        "en": "Minimum",
+        "nl": "PiMinimumek"
+      },
+      "uiComponent": "sensor",
+      "icon": "/assets/minimum.svg",
+      "getable": true,
+      "setable": false,
+      "insights": true,
+      "units": {
+        "en": "Watt"
+      },
+      "decimals": 2
+    },
     "meter_kwh_last_day": {
       "type": "number",
       "title": {

@@ -1,0 +1,14 @@
+{
+  "title": {
+    "en": "Reset the Min/Max values",
+    "nl": "Reset de Min/Max waarden"
+  },
+  "highlight": true,
+  "args": [
+    {
+      "type": "device",
+      "name": "device",
+      "filter": "driver_id=power|gas| water"
+    }
+  ]
+}

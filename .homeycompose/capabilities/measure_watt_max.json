@@ -1,0 +1,16 @@
+{
+  "type": "number",
+  "title": {
+    "en": "Maximum",
+    "nl": "Maximum"
+  },
+  "uiComponent": "sensor",
+  "icon": "/assets/maximum.svg",
+  "getable": true,
+  "setable": false,
+  "insights": true,
+  "units": {
+    "en": "Watt"
+  },
+  "decimals": 2
+}

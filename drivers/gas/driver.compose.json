@@ -106,6 +106,51 @@
           "hint": {
             "en": "Enter the meter reading at the start of this year. It is automatically updated first day of a new year."
           }
+        },
+        {
+          "id": "min_max_reset",
+          "type": "dropdown",
+          "label": {
+            "en": "Reset Min/Max values",
+            "nl": "Reset Min/Max waarden"
+          },
+          "values": [
+            {
+              "id": "hour",
+              "label": { 
+                "en": "Hour",
+                "nl": "Uur" }
+            },
+            {
+              "id": "day",
+              "label": { 
+                "en": "Day",
+                "nl": "Dag" }
+            },
+            {
+              "id": "month",
+              "label": { 
+                "en": "Month",
+                "nl": "Maand" }
+            },
+            {
+              "id": "year",
+              "label": { 
+                "en": "Year",
+                "nl": "Jaar" }
+            },
+            {
+              "id": "never",
+              "label": { 
+                "en": "Never",
+                "nl": "Nooit" }
+            }
+          ],
+          "value": "day",
+          "hint": {
+            "en": "The minimum/maximum values will be reset on every new period. The values can also be reset at any time via a flow.",
+            "nl": "De minimum/maximum waarden worden iedere nieuwe periode gereset. De waarden kunnen ook op ieder moment worden gereset via een flow."
+          }
         }
       ]
     },

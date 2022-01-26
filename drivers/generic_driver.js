@@ -76,13 +76,14 @@ class SumMeterDriver extends Driver {
 			// this.activeTariff = args.tariff;
 			const devices = this.getDevices();
 			devices.forEach((device) => {
-				const deviceName = device.getName();
-				if (!device.settings.tariff_via_flow) return;
-				this.log('updating tariff', deviceName, args.tariff);
-				const self = device;
-				self.tariff = args.tariff; // { tariff: 0.25 }
-				self.setSettings({ tariff: args.tariff });
-				self.setCapability('meter_tariff', args.tariff);
+				if (device.settings.tariff_via_flow) {
+					const deviceName = device.getName();
+					this.log('updating tariff', deviceName, args.tariff);
+					const self = device;
+					self.tariff = args.tariff; // { tariff: 0.25 }
+					self.setSettings({ tariff: args.tariff });
+					self.setCapability('meter_tariff', args.tariff);
+				}
 			});
 		};
 		this.homey.on(eventName, this.eventListenerTariff);

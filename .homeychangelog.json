@@ -1,4 +1,7 @@
 {
+  "3.5.0": {
+    "en": "Added min/max peak values. Added dynamic peak value reset via flow. Added min/max flow triggers. Fixed tariff change from flow sometimes not working. Fixed legacy migration failure. Small improvements."
+  },
   "3.4.1": {
     "en": "Added money values. Added dynamic tariff settings via flow. Added money flow triggers. Fixed tariff change from device settings. Improved device settings update. Small bugfixes and improvements."
   },

@@ -1,0 +1,16 @@
+{
+  "type": "number",
+  "title": {
+    "en": "Minimum",
+    "nl": "PiMinimumek"
+  },
+  "uiComponent": "sensor",
+  "icon": "/assets/minimum.svg",
+  "getable": true,
+  "setable": false,
+  "insights": true,
+  "units": {
+    "en": "Watt"
+  },
+  "decimals": 2
+}

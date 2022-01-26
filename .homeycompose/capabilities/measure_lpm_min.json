@@ -1,0 +1,17 @@
+{
+  "type": "number",
+  "title": {
+    "en": "Minimum",
+    "nl": "Minimum"
+  },
+  "uiComponent": "sensor",
+  "icon": "/assets/minimum.svg",
+  "getable": true,
+  "setable": false,
+  "insights": true,
+  "units": {
+    "en": "L/minute",
+    "nl": "L/minuut"
+  },
+  "decimals": 2
+}
