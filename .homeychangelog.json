@@ -1,4 +1,7 @@
 {
+  "3.5.1": {
+    "en": "Added min/max peak values. Added dynamic peak value reset via flow. Added min/max flow triggers. Fixed tariff change from flow sometimes not working. Fixed legacy migration failure. Small improvements."
+  },
   "3.5.0": {
     "en": "Added min/max peak values. Added dynamic peak value reset via flow. Added min/max flow triggers. Fixed tariff change from flow sometimes not working. Fixed legacy migration failure. Small improvements."
   },

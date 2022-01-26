@@ -351,6 +351,10 @@ class SumMeterDevice extends Device {
 			this.lpmMax = undefined;
 			this.wattMin = undefined;
 			this.lpmMin = undefined;
+			this.setCapability('measure_watt_max', null);
+			this.setCapability('measure_lpm_max', null);
+			this.setCapability('measure_watt_min', null);
+			this.setCapability('measure_lpm_min', null);
 			this.setCapability('last_minmax_reset', `${date} ${time}`);
 			await this.setStoreValue('lastMinMaxReset', this.lastMinMaxReset);
 		}
