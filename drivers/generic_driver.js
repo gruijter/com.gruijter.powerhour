@@ -113,7 +113,7 @@ class SumMeterDriver extends Driver {
 						settings: {
 							homey_device_id: allDevices[key].id,
 							homey_device_name: allDevices[key].name,
-							level: '3.4.0',
+							level: this.homey.app.manifest.version,
 						},
 						capabilities: this.ds.deviceCapabilities,
 					};

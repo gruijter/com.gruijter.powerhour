@@ -23,10 +23,13 @@ const GenericDriver = require('../generic_driver.js');
 
 const driverSpecifics = {
 	driverId: 'power',
-	originDeviceCapabilities: ['meter_power', 'meter_power.peak', 'meter_power.offPeak'],
+	originDeviceCapabilities: ['meter_power', 'meter_power.offPeak', 'meter_power.generated'],
+	// 'meter_power.peak', 'meter_power.consumed', 'meter_power.returned'
 	deviceCapabilities: ['meter_kwh_this_hour', 'meter_kwh_last_hour', 'meter_kwh_this_day', 'meter_kwh_last_day',
 		'meter_kwh_this_month', 'meter_kwh_last_month', 'meter_kwh_this_year', 'meter_kwh_last_year',
-		'meter_money_this_hour', 'meter_money_this_day', 'meter_money_this_month', 'meter_money_this_year', 'meter_tariff', 'measure_watt_peak'],
+		'meter_money_last_hour', 'meter_money_this_hour', 'meter_money_last_day', 'meter_money_this_day',
+		'meter_money_last_month', 'meter_money_this_month', 'meter_money_last_year', 'meter_money_this_year',
+		'meter_tariff', 'last_minmax_reset', 'measure_watt_min', 'measure_watt_max'],
 };
 
 class sumDriver extends GenericDriver {

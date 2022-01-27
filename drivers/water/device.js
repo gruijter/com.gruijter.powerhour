@@ -31,10 +31,6 @@ const deviceSpecifics = {
 		last_month: 'meter_m3_last_month',
 		this_year: 'meter_m3_this_year',
 		last_year: 'meter_m3_last_year',
-		money_this_hour: 'meter_money_this_hour',
-		money_this_day: 'meter_money_this_day',
-		money_this_month: 'meter_money_this_month',
-		money_this_year: 'meter_money_this_year',
 	},
 };
 
@@ -60,7 +56,7 @@ class sumDriver extends GenericDevice {
 	async pollMeter() {
 		this.sourceDevice = await this.homey.app.api.devices.getDevice({ id: this.getSettings().homey_device_id, $cache: false });
 		const pollValue = this.sourceDevice.capabilitiesObj.meter_water.value;
-		this.updateMeter(pollValue, true);
+		this.updateMeter(pollValue);
 	}
 
 }

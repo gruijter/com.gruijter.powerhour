@@ -31,10 +31,6 @@ const deviceSpecifics = {
 		last_month: 'meter_m3_last_month',
 		this_year: 'meter_m3_this_year',
 		last_year: 'meter_m3_last_year',
-		money_this_hour: 'meter_money_this_hour',
-		money_this_day: 'meter_money_this_day',
-		money_this_month: 'meter_money_this_month',
-		money_this_year: 'meter_money_this_year',
 	},
 };
 
@@ -62,6 +58,14 @@ class sumDriver extends GenericDevice {
 				this.updateMeter(value);
 			});
 		}
+		// make listener for meter_gas.consumed
+		if (this.sourceDevice.capabilities.includes('meter_gas.consumed')) {
+			this.log(`registering meter_gas.consumed capability listener for ${this.sourceDevice.name}`);
+			this.capabilityInstances.meterGas = this.sourceDevice.makeCapabilityInstance('meter_gas.consumed', (value) => {
+				this.updateMeter(value);
+			});
+		}
+
 	}
 
 	async pollMeter() {
@@ -73,7 +77,7 @@ class sumDriver extends GenericDevice {
 		if (this.sourceDevice.capabilitiesObj && this.sourceDevice.capabilitiesObj.meter_gas && this.sourceDevice.capabilitiesObj.meter_gas.reading) {
 			pollValue = this.sourceDevice.capabilitiesObj.meter_gas.reading.value;
 		}
-		this.updateMeter(pollValue, true);
+		this.updateMeter(pollValue);
 	}
 
 }

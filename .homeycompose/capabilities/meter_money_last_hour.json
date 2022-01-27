@@ -1,11 +1,11 @@
 {
   "type": "number",
   "title": {
-    "en": "Money this year",
-    "nl": "Geld dit jaar"
+    "en": "Money prev. hour",
+    "nl": "Geld vorig uur"
   },
   "uiComponent": "sensor",
-  "icon": "/assets/money_y.svg",
+  "icon": "/assets/money_h.svg",
   "getable": true,
   "setable": false,
   "insights": false,

@@ -1,3 +1,4 @@
+/* eslint-disable no-await-in-loop */
 /*
 Copyright 2019 - 2022, Robin de Gruijter (gruijter@hotmail.com)
 
@@ -36,6 +37,7 @@ class SumMeterDevice extends Device {
 			this.settings = await this.getSettings();
 			await this.migrate();
 			this.timeZone = this.homey.clock.getTimezone();
+			// this.initReady = false; // DANGEROUS???
 
 			// await setTimeoutPromise(10 * 1000); // wait a bit for Homey to settle?
 			this.sourceDevice = await this.homey.app.api.devices.getDevice({ id: this.settings.homey_device_id, $cache: false });
@@ -76,40 +78,33 @@ class SumMeterDevice extends Device {
 		}
 	}
 
-	// migrate stuff from old version < 3.5.0
+	// migrate stuff from old version < 3.6.0
 	async migrate() {
 		try {
-			this.log(`checking device migration version for ${this.getName()}`);
-			// if (this.settings.level !== this.homey.app.manifest.version) {
-			const existingCapabilities = this.getCapabilities();
-			// rename pre-3.0.0 capabilities
-			existingCapabilities.forEach(async (key) => {
-				if (key.includes('_total')) {
-					const newKey = `meter_${key}`.replace('_total', '');
-					this.log(`migrating capability ${key} to ${newKey} for ${this.getName()}`);
-					await this.addCapability(newKey);
-					await this.removeCapability(key);
+			this.log(`checking device migration for ${this.getName()}`);
+			// check and repair incorrect capability(order)
+			const correctCaps = this.driver.ds.deviceCapabilities;
+			for (let index = 0; index < correctCaps.length; index += 1) {
+				const caps = this.getCapabilities();
+				const newCap = correctCaps[index];
+				if (caps[index] !== newCap) {
+					// remove all caps from here
+					for (let i = index; i < caps.length; i += 1) {
+						this.log(`removing capability ${caps[i]} for ${this.getName()}`);
+						await this.removeCapability(caps[i]);
+						await setTimeoutPromise(2 * 1000); // wait a bit for Homey to settle
+					}
+					// add the new cap
+					this.log(`adding capability ${newCap} for ${this.getName()}`);
+					await this.addCapability(newCap);
+					await setTimeoutPromise(2 * 1000); // wait a bit for Homey to settle
 				}
-			});
-
-			// add new 3.4.0 capabilities
-			const newCaps = ['meter_money_this_hour', 'meter_money_this_day', 'meter_money_this_month', 'meter_money_this_year',
-				'meter_tariff', 'last_minmax_reset'];
-			// add new 3.5.0 capabilities
-			if (this.driver.id === 'power') newCaps.push('measure_watt_min', 'measure_watt_max');
-			if (this.driver.id === 'gas') newCaps.push('measure_lpm_min', 'measure_lpm_max');
-			if (this.driver.id === 'water') newCaps.push('measure_lpm_min', 'measure_lpm_max');
-			newCaps.forEach(async (newCapability) => {
-				if (!existingCapabilities.includes(newCapability)) {
-					this.log(`adding new capability ${newCapability} for ${this.getName()}`);
-					await this.addCapability(newCapability);
-				}
-			});
-			// set migrate level
+			}
+			// set new migrate level
 			this.setSettings({ level: this.homey.app.manifest.version });
-			// }
+			Promise.resolve(this.homey.app.manifest.version);
 		} catch (error) {
-			this.error('Migration failed', error);
+			Promise.reject(Error('Migration failed', error));
 		}
 	}
 
@@ -155,7 +150,7 @@ class SumMeterDevice extends Device {
 			this.lastReadingMonth.meterValue = newSettings.meter_month_start;
 			await this.setStoreValue('lastReadingMonth', this.lastReadingMonth);
 		}
-		if (changedKeys.includes('meter_month_start')) {
+		if (changedKeys.includes('meter_year_start')) {
 			this.lastReadingYear.meterValue = newSettings.meter_year_start;
 			await this.setStoreValue('lastReadingYear', this.lastReadingYear);
 		}
@@ -170,10 +165,15 @@ class SumMeterDevice extends Device {
 		if (changedKeys.includes('meter_money_this_year')) {
 			money.year = newSettings.meter_money_this_year;
 		}
-		if (changedKeys.toString().includes('meter_money_')) {
+		if (changedKeys.toString().includes('meter_money_this')) {
 			await this.updateMoneyCapabilities(money);
 			this.lastMoney = money;
 			await this.setStoreValue('lastMoney', this.lastMoney);
+		}
+		if (changedKeys.toString().includes('meter_money_last')) {
+			this.setCapability('meter_money_last_day', newSettings.meter_money_last_day);
+			this.setCapability('meter_money_last_month', newSettings.meter_money_last_month);
+			this.setCapability('meter_money_last_year', newSettings.meter_money_last_year);
 		}
 
 		if (changedKeys.includes('tariff')) {
@@ -228,8 +228,8 @@ class SumMeterDevice extends Device {
 	}
 
 	async getReadingObject(value) {
-		const date = new Date();
-		const dateLocal = new Date(date.toLocaleString('en-UK', { timeZone: this.timeZone }));
+		const date = new Date(); // IF value has not changed, i tmust be a poll ,meaning date is unchanged?
+		const dateLocal = new Date(date.toLocaleString('en-GB', { timeZone: this.timeZone }));
 		const reading = {
 			hour: dateLocal.getHours(),
 			day: dateLocal.getDate(),
@@ -241,8 +241,10 @@ class SumMeterDevice extends Device {
 		return reading;
 	}
 
-	async updateMeter(val) {
+	async updateMeter(val) { // , pollTm) { // pollTm is lastUpdated when using pollMethod
 		try {
+			if (typeof val !== 'number') return;
+			// if (pollTm) console.log(this.getName(), val, pollTm);
 			let value = val;
 			// logic for daily resetting meters
 			if (this.settings.homey_device_daily_reset) {
@@ -262,10 +264,10 @@ class SumMeterDevice extends Device {
 			}
 			const reading = await this.getReadingObject(value);
 			if (!this.initReady) await this.initFirstReading(reading); // after app start
-			await this.updatePeriods(reading);	// check for new hour/day/month/year
-			await this.updateMeters(reading);
-			await this.updateMoney(reading);
-			await this.updatePeak(reading);
+			const periods = await this.getPeriods(reading);	// check for new hour/day/month/year
+			await this.updateMeters(reading, periods);
+			await this.updateMoney(reading, periods);
+			await this.updateMinMax(reading, periods);
 		} catch (error) {
 			this.error(error);
 		}
@@ -316,18 +318,24 @@ class SumMeterDevice extends Device {
 			await this.setSettings({ meter_money_this_year: this.lastMoney.year });
 		}
 
-		// init peak stuff
-		this.lastReadingPeak = this.getStoreValue('lastReadingPeak');
-		if (!this.lastReadingPeak) this.lastReadingPeak = reading; // pair init
-
-		// init lastMinMaxReset
-		this.lastMinMaxReset = this.getStoreValue('lastMinMaxReset');
-		if (!this.lastMinMaxReset) await this.minMaxReset('true', 'appInit');
-
+		// init Min/Max stuff
+		this.lastMinMax = this.getStoreValue('lastMinMax');
+		if (!this.lastMinMax) {
+			this.lastMinMax = {
+				reading,
+				wattMax: null,
+				lpmMax: null,
+				wattMin: null,
+				lpmMin: null,
+				reset: null,
+			};
+			await this.minMaxReset('true', 'appInit');
+		}
 		this.initReady = true;
+
 	}
 
-	async updatePeriods(reading) { // MUST BE RUN BEFORE UPDATEMETERS!!!
+	async getPeriods(reading) { // MUST BE RUN BEFORE UPDATEMETERS!!!
 		// check for new hour, day, month year
 		const newHour = reading.hour !== this.lastReadingHour.hour;
 		const newDay = (reading.day !== this.lastReadingDay.day);
@@ -335,63 +343,79 @@ class SumMeterDevice extends Device {
 			|| ((reading.day >= this.startDay) && (reading.month > this.lastReadingMonth.month));
 		const newYear = (newMonth && (reading.month === this.startMonth))
 			|| ((reading.month >= this.startMonth) && (reading.year > this.lastReadingYear.year));
-		this.periods = {
+		if (newHour) this.log('new hour started');
+		if (newDay) this.log('new day started');
+		if (newMonth) this.log('new month started');
+		if (newYear) this.log('(Happy!) new year started');
+		const periods = {
 			newHour, newDay, newMonth, newYear,
 		};
+		return Promise.resolve(periods);
 	}
 
 	async minMaxReset(reset, source) {
 		if (reset) {
 			this.log(`Resetting Min/Max via ${source}`);
-			this.lastMinMaxReset = Date.now();
-			const ds = new Date(this.lastMinMaxReset);
-			const date = ds.toString().substring(4, 11);
-			const time = ds.toLocaleTimeString('nl-NL', { hour12: false, timeZone: this.timeZone }).substring(0, 5);
-			this.wattMax = undefined;
-			this.lpmMax = undefined;
-			this.wattMin = undefined;
-			this.lpmMin = undefined;
-			this.setCapability('measure_watt_max', null);
-			this.setCapability('measure_lpm_max', null);
-			this.setCapability('measure_watt_min', null);
-			this.setCapability('measure_lpm_min', null);
+			this.lastMinMax = {
+				reading: this.lastMinMax.reading, // contains last meter reading object used for min/max
+				wattMax: null,
+				lpmMax: null,
+				wattMin: null,
+				lpmMin: null,
+				reset: new Date(), // time at wich the min/max was reset
+			};
+			const date = this.lastMinMax.reset.toLocaleString('nl-NL', {
+				timeZone: this.timeZone, hour12: false, day: '2-digit', month: '2-digit',
+			});
+			const time = this.lastMinMax.reset.toLocaleString('nl-NL', {
+				timeZone: this.timeZone, hour12: false, hour: '2-digit', minute: '2-digit',
+			});
+			this.setCapability('measure_watt_max', this.lastMinMax.wattMax);
+			this.setCapability('measure_lpm_max', this.lastMinMax.lpmMax);
+			this.setCapability('measure_watt_min', this.lastMinMax.wattMin);
+			this.setCapability('measure_lpm_min', this.lastMinMax.lpmMin);
 			this.setCapability('last_minmax_reset', `${date} ${time}`);
-			await this.setStoreValue('lastMinMaxReset', this.lastMinMaxReset);
+			await this.setStoreValue('lastMinMax', this.lastMinMax);
 		}
 	}
 
-	async updatePeak(reading) {
+	async updateMinMax(reading, periods) {
 		// reset min/max based on device settings
-		if ((this.periods.newHour && this.settings.min_max_reset === 'hour') || (this.periods.newDay && this.settings.min_max_reset === 'day')
-			|| (this.periods.newMonth && this.settings.min_max_reset === 'month')
-			|| (this.periods.newYear && this.settings.min_max_reset === 'year')) {
-			await this.minMaxReset('true', 'device settings');
+		if ((periods.newHour && this.settings.min_max_reset === 'hour') || (periods.newDay && this.settings.min_max_reset === 'day')
+			|| (periods.newMonth && this.settings.min_max_reset === 'month')
+			|| (periods.newYear && this.settings.min_max_reset === 'year')) {
+			await this.minMaxReset(true, 'device settings');
 		}
 		// minimal 2 minutes avg needed
-		const deltaTm = reading.meterTm - this.lastReadingPeak.meterTm;
-		const deltaMeter = reading.meterValue - this.lastReadingPeak.meterValue;
+		const deltaTm = reading.meterTm - this.lastMinMax.reading.meterTm;
+		const deltaMeter = reading.meterValue - this.lastMinMax.reading.meterValue;
 		if (deltaTm < 120000) return;
 		// calculate current avg use
 		const measurePowerAvg = Math.round((3600000000 / deltaTm) * deltaMeter); // delta kWh > watt
 		const measureWaterAvg = Math.round((deltaMeter / deltaTm) * 600000000) / 10; // delta m3 > liter/min
-		if (this.wattMax === undefined || measurePowerAvg > this.wattMax) this.wattMax = measurePowerAvg;
-		if (this.lpmMax === undefined || measureWaterAvg > this.lpmMax) this.lpmMax = measureWaterAvg;
-		if (this.wattMin === undefined || measurePowerAvg < this.wattMin) this.wattMin = measurePowerAvg;
-		if (this.lpmMin === undefined || measureWaterAvg < this.lpmMin) this.lpmMin = measureWaterAvg;
-		// update peak capabilities
-		if (this.peakInitReady) { // skip first interval after app start
-			this.setCapability('measure_watt_max', this.wattMax);
-			this.setCapability('measure_lpm_max', this.lpmMax);
-			this.setCapability('measure_watt_min', this.wattMin);
-			this.setCapability('measure_lpm_min', this.lpmMin);
+		// check for new max/min values
+		const {
+			wattMax, lpmMax, wattMin, lpmMin,
+		} = this.lastMinMax;
+		if (wattMax === null || measurePowerAvg > wattMax) this.lastMinMax.wattMax = measurePowerAvg;
+		if (lpmMax === null || measureWaterAvg > lpmMax) this.lastMinMax.lpmMax = measureWaterAvg;
+		if (wattMin === null || measurePowerAvg < wattMin) this.lastMinMax.wattMin = measurePowerAvg;
+		if (lpmMin === null || measureWaterAvg < lpmMin) this.lastMinMax.lpmMin = measureWaterAvg;
+		this.lastMinMax.reading = reading;
+		// update min/max capabilities
+		if (this.minMaxInitReady) { // skip first interval after app start NEEDED BECAUSE OF POLLING NOT KNOWING CORRECT TIMESTAMP!!!
+			this.setCapability('measure_watt_max', this.lastMinMax.wattMax);
+			this.setCapability('measure_lpm_max', this.lastMinMax.lpmMax);
+			this.setCapability('measure_watt_min', this.lastMinMax.wattMin);
+			this.setCapability('measure_lpm_min', this.lastMinMax.lpmMin);
 		} else this.log('Skipping first interval for', this.getName());
-		this.peakInitReady = true;
-		this.lastReadingPeak = reading;
-		await this.setStoreValue('lastReadingPeak', this.lastReadingPeak);
+		this.minMaxInitReady = true;
+
+		await this.setStoreValue('lastMinMax', this.lastMinMax);
 
 	}
 
-	async updateMoney(reading) {
+	async updateMoney(reading, periods) {
 		// calculate money
 		const deltaMoney = (reading.meterValue - this.lastMoney.meterValue) * this.tariff;
 		const money = {
@@ -403,10 +427,25 @@ class SumMeterDevice extends Device {
 		};
 
 		// update money capabilities
-		if (this.periods.newHour) money.hour = 0;
-		if (this.periods.newDay) money.day = 0;
-		if (this.periods.newMonth) money.month = 0;
-		if (this.periods.newYear) money.year = 0;
+		if (periods.newHour) {
+			this.setCapability('meter_money_last_hour', money.hour);
+			money.hour = 0;
+		}
+		if (periods.newDay) {
+			this.setCapability('meter_money_last_day', money.day);
+			await this.setSettings({ meter_money_last_day: money.day });
+			money.day = 0;
+		}
+		if (periods.newMonth) {
+			this.setCapability('meter_money_last_month', money.month);
+			await this.setSettings({ meter_money_last_month: money.money });
+			money.month = 0;
+		}
+		if (periods.newYear) {
+			this.setCapability('meter_money_last_year', money.year);
+			await this.setSettings({ meter_money_last_year: money.year });
+			money.year = 0;
+		}
 		await this.updateMoneyCapabilities(money);
 
 		// Update settings every hour
@@ -415,72 +454,62 @@ class SumMeterDevice extends Device {
 			await this.setSettings({ meter_money_this_month: this.lastMoney.month });
 			await this.setSettings({ meter_money_this_year: this.lastMoney.year });
 		}
-
 		this.lastMoney = money;
 		await this.setStoreValue('lastMoney', this.lastMoney);
 	}
 
 	async updateMoneyCapabilities(money) {
 		if (this.tariff !== this.getCapabilityValue('meter_tariff')) this.setCapability('meter_tariff', this.tariff);
-		this.setCapability(this.ds.cmap.money_this_hour, money.hour);
-		this.setCapability(this.ds.cmap.money_this_day, money.day);
-		this.setCapability(this.ds.cmap.money_this_month, money.month);
-		this.setCapability(this.ds.cmap.money_this_year, money.year);
+		this.setCapability('meter_money_this_hour', money.hour);
+		this.setCapability('meter_money_this_day', money.day);
+		this.setCapability('meter_money_this_month', money.month);
+		this.setCapability('meter_money_this_year', money.year);
 	}
 
-	async updateMeters(reading) {
+	async updateMeters(reading, periods) {
 		// calculate meters
-		const valHour = reading.meterValue - this.lastReadingHour.meterValue;
-		const valDay = reading.meterValue - this.lastReadingDay.meterValue;
-		const valMonth = reading.meterValue - this.lastReadingMonth.meterValue;
-		const valYear = reading.meterValue - this.lastReadingYear.meterValue;
+		let valHour = reading.meterValue - this.lastReadingHour.meterValue;
+		let valDay = reading.meterValue - this.lastReadingDay.meterValue;
+		let valMonth = reading.meterValue - this.lastReadingMonth.meterValue;
+		let valYear = reading.meterValue - this.lastReadingYear.meterValue;
 
 		// set capabilities
-		if (!this.periods.newHour) {
-			this.setCapability(this.ds.cmap.this_hour, valHour);
-		} else {
+		if (periods.newHour) {
 			// new hour started
-			this.log('new hour started');
-			this.setCapability(this.ds.cmap.this_hour, 0);
 			this.setCapability(this.ds.cmap.last_hour, valHour);
+			this.lastReadingHour = reading;
 			await this.setStoreValue('lastReadingHour', reading);
 			await this.setSettings({ meter_latest: `${reading.meterValue}` });
-			this.lastReadingHour = reading;
+			valHour = 0;
 		}
-		if (!this.periods.newDay) {
-			this.setCapability(this.ds.cmap.this_day, valDay);
-		} else {
+		if (periods.newDay) {
 			// new day started
-			this.log('new day started');
-			this.setCapability(this.ds.cmap.this_day, 0);
 			this.setCapability(this.ds.cmap.last_day, valDay);
-			await this.setStoreValue('lastReadingDay', reading);
 			this.lastReadingDay = reading;
+			await this.setStoreValue('lastReadingDay', reading);
 			await this.setSettings({ meter_day_start: this.lastReadingDay.meterValue });
+			valDay = 0;
 		}
-		if (!this.periods.newMonth) {
-			this.setCapability(this.ds.cmap.this_month, valMonth);
-		} else {
+		if (periods.newMonth) {
 			// new month started
-			this.log('new month started');
-			this.setCapability(this.ds.cmap.this_month, 0);
 			this.setCapability(this.ds.cmap.last_month, valMonth);
-			await this.setStoreValue('lastReadingMonth', reading);
 			this.lastReadingMonth = reading;
+			await this.setStoreValue('lastReadingMonth', reading);
 			await this.setSettings({ meter_month_start: this.lastReadingMonth.meterValue });
+			valMonth = 0;
 		}
-		if (!this.periods.newYear) {
-			this.setCapability(this.ds.cmap.this_year, valYear);
-		} else {
+		if (periods.newYear) {
 			// new year started
-			this.log('new year started');
-			this.setCapability(this.ds.cmap.this_year, 0);
 			this.setCapability(this.ds.cmap.last_year, valYear);
-			await this.setStoreValue('lastReadingYear', reading);
 			this.lastReadingYear = reading;
+			await this.setStoreValue('lastReadingYear', reading);
 			await this.setSettings({ meter_year_start: this.lastReadingYear.meterValue });
+			valYear = 0;
 		}
-
+		this.setCapability(this.ds.cmap.this_hour, valHour);
+		this.setCapability(this.ds.cmap.this_day, valDay);
+		this.setCapability(this.ds.cmap.this_month, valMonth);
+		this.setCapability(this.ds.cmap.this_year, valYear);
 	}
 
 }
@@ -488,13 +517,14 @@ class SumMeterDevice extends Device {
 module.exports = SumMeterDevice;
 
 /*
-reading:
-{ hour: 10,
-	day: 8,
-	month: 2,
-	year: 2020,
-	meterValue: 639.7536
-	meterTm:  }
+  reading: {
+    hour: 16,
+    day: 27,
+    month: 0,
+    year: 2022,
+    meterValue: 85.363,
+    meterTm: 2022-01-27T15:22:10.109Z
+  },
 
 money:
 { hour: 0.05500000000029104,
@@ -502,4 +532,22 @@ money:
   month: 86.13475000000047,
   year: 86.13475000000047,
   meterValue: 33695.733}
+
+minMax:
+{
+  reading: {
+    hour: 16,
+    day: 27,
+    month: 0,
+    year: 2022,
+    meterValue: 85.363,
+    meterTm: 2022-01-27T15:22:10.109Z
+  },
+  wattMax: 167,
+  lpmMax: 2.8,
+  wattMin: 0,
+  lpmMin: 0,
+  reset: 2022-01-27T13:39:49.551Z
+}
+
 */

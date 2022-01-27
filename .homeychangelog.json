@@ -1,4 +1,7 @@
 {
+  "3.6.0": {
+    "en": "Added previous hour/day/month/year values. Added min/max peak values. Added dynamic peak value reset via flow. Added min/max flow triggers. Added support for more source devices including P1 DSMRv4. Fixed tariff change from flow sometimes not working. Fixed legacy migration failure. Small improvements."
+  },
   "3.5.1": {
     "en": "Added min/max peak values. Added dynamic peak value reset via flow. Added min/max flow triggers. Fixed tariff change from flow sometimes not working. Fixed legacy migration failure. Small improvements."
   },

@@ -1,8 +1,8 @@
 {
   "type": "number",
   "title": {
-    "en": "Money this year",
-    "nl": "Geld dit jaar"
+    "en": "Money prev. year",
+    "nl": "Geld vorig jaar"
   },
   "uiComponent": "sensor",
   "icon": "/assets/money_y.svg",

@@ -23,10 +23,12 @@ const GenericDriver = require('../generic_driver.js');
 
 const driverSpecifics = {
 	driverId: 'gas',
-	originDeviceCapabilities: ['meter_gas', 'meter_gas.reading'],
+	originDeviceCapabilities: ['meter_gas', 'meter_gas.reading', 'meter_power.consumed'],
 	deviceCapabilities: ['meter_m3_this_hour', 'meter_m3_last_hour', 'meter_m3_this_day', 'meter_m3_last_day',
 		'meter_m3_this_month', 'meter_m3_last_month', 'meter_m3_this_year', 'meter_m3_last_year',
-		'meter_money_this_hour', 'meter_money_this_day', 'meter_money_this_month', 'meter_money_this_year', 'meter_tariff', 'measure_lpm_peak'],
+		'meter_money_last_hour', 'meter_money_this_hour', 'meter_money_last_day', 'meter_money_this_day',
+		'meter_money_last_month', 'meter_money_this_month', 'meter_money_last_year', 'meter_money_this_year',
+		'meter_tariff', 'last_minmax_reset', 'measure_lpm_min', 'measure_lpm_max'],
 };
 
 class sumDriver extends GenericDriver {

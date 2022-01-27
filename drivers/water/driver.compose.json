@@ -229,6 +229,48 @@
             "en": "Actual monetary value. It is automatically updated.",
             "nl": "Actuele gelwaarde. Wordt automatisch geupdated."
           }
+        },
+        {
+          "id": "meter_money_last_day",
+          "type": "number",
+          "label": {
+            "en": "Monetary value prev. day",
+            "nl": "Geldwaarde van vorige dag"
+          },
+          "value": 0,
+          "decimals": 4,
+          "hint": {
+            "en": "Monetary value of the previous day. It is automatically updated.",
+            "nl": "Gelwaarde van de vorige dag. Wordt automatisch geupdated."
+          }
+        },
+        {
+          "id": "meter_money_last_month",
+          "type": "number",
+          "label": {
+            "en": "Monetary value prev. month",
+            "nl": "Geldwaarde van vorige maand"
+          },
+          "value": 0,
+          "decimals": 4,
+          "hint": {
+            "en": "Monetary value of the previous month. It is automatically updated.",
+            "nl": "Gelwaarde van de vorige maand. Wordt automatisch geupdated."
+          }
+        },
+        {
+          "id": "meter_money_last_year",
+          "type": "number",
+          "label": {
+            "en": "Monetary value prev. year",
+            "nl": "Geldwaarde van vorig jaar"
+          },
+          "value": 0,
+          "decimals": 4,
+          "hint": {
+            "en": "Monetary value of the previous year. It is automatically updated.",
+            "nl": "Gelwaarde van het vorige jaar. Wordt automatisch geupdated."
+          }
         }
       ]
     }

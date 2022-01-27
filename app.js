@@ -36,8 +36,10 @@ class MyApp extends Homey.App {
 			this.homey
 				.on('unload', () => {
 					this.log('app unload called');
-					this.homey.removeAllListeners('everyhour').catch(() => null);
-					// Homey.ManagerCron.unregisterTask('everyhour').catch(() => null);
+					this.homey.removeAllListeners('everyhour');
+					this.homey.removeAllListeners('set_tariff_power');
+					this.homey.removeAllListeners('set_tariff_gas');
+					this.homey.removeAllListeners('set_tariff_water');
 				})
 				.on('memwarn', () => {
 					this.log('memwarn!');
