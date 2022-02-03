@@ -8,7 +8,7 @@
     {
       "type": "device",
       "name": "device",
-      "filter": "driver_id=power|gas| water"
+      "filter": "driver_id=power|gas|water"
     }
   ]
 }

@@ -8,7 +8,7 @@
   "icon": "/assets/money_h.svg",
   "getable": true,
   "setable": false,
-  "insights": false,
+  "insights": true,
   "units": {
     "en": "¤"
   },

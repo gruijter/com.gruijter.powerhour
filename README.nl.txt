@@ -1,2 +1,2 @@
-Leest data van een Homey energie/gas/water apparaat, en toont het gebruik/levering per uur, per dag, per maand en per jaar. Zie de geldwaarde en gebruik dynamische tarieven.
-Deze app kan bijvoorbeeld worden gebruikt samen met de Enelogic en Youless app, de Plugwise Smile P1 app, de BeeClear app, de Solar Panel app, de Homewizard app, Tibber pulse, of iedere andere app met een cumulatieve energie, gas of water capability.
+Leest data van een Homey energie/gas/water apparaat, en toont het gebruik/levering per uur, per dag, per maand en per jaar. Zie de geldwaarde en gebruik dynamische tarieven. Weet hoeveel je Altijd-Aan apparaten gebruiken en bespaar honderden Euro's per jaar!
+Deze app kan bijvoorbeeld worden gebruikt samen met de Enelogic en Youless app, de Plugwise Smile P1 app, de BeeClear app, de Solar Panel app, de Homewizard app, Tibber pulse, of iedere andere app met energie/vermogen, gas of water capability.

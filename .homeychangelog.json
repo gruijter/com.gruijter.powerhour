@@ -1,6 +1,9 @@
 {
+  "4.0.0": {
+    "en": "Added Power meter (Watt) as source device. Added Virtual Energy meter. Added more source apps. Added Cumulative Energy (kWh) and Power (Watt) as capability. Added flow to update power(kWh) gas(m3) water(m3). Added daily reset setting for Gas. Added poll and day_start settings for gas and water devices. Fixed water min/max reset via flow. Many other fixes and improvements."
+  },
   "3.6.0": {
-    "en": "Added previous hour/day/month/year values. Added min/max peak values. Added dynamic peak value reset via flow. Added min/max flow triggers. Added support for more source devices including P1 DSMRv4. Fixed tariff change from flow sometimes not working. Fixed legacy migration failure. Small improvements."
+    "en": "Added previous hour/day/month/year money values. Added min/max peak values. Added dynamic peak value reset via flow. Added min/max flow triggers. Added support for more source devices including P1 DSMRv4. Fixed tariff change from flow sometimes not working. Fixed legacy migration failure. Small improvements."
   },
   "3.5.1": {
     "en": "Added min/max peak values. Added dynamic peak value reset via flow. Added min/max flow triggers. Fixed tariff change from flow sometimes not working. Fixed legacy migration failure. Small improvements."

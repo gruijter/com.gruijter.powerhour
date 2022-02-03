@@ -31,6 +31,8 @@ const deviceSpecifics = {
 		last_month: 'meter_m3_last_month',
 		this_year: 'meter_m3_this_year',
 		last_year: 'meter_m3_last_year',
+		meter_source: 'meter_gas',
+		measure_source: 'measure_gas',
 	},
 };
 

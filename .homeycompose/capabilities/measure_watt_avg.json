@@ -1,0 +1,33 @@
+{
+  "type": "number",
+  "title": {
+    "en": "Power",
+    "nl": "Vermogen",
+    "de": "Leistung",
+    "fr": "Puissance",
+    "it": "Potenza",
+    "sv": "Effekt",
+    "no": "Effekt",
+    "es": "Potencia",
+    "da": "Effekt"
+  },
+  "desc": {
+    "en": "Power in Watt (W)",
+    "nl": "Vermogen in Watt (W)",
+    "de": "Leistung in Watt (W)",
+    "fr": "Puissance  en Watt (W)",
+    "it": "Potenza in Watt (W)",
+    "sv": "Effekt i watt (W)",
+    "no": "Effekt i watt (W)",
+    "es": "Potencia en vatios (W)",
+    "da": "Effekt i Watt (W)"
+  },
+  "units": {
+    "en": "Watt"
+  },
+  "decimals": 1,
+  "getable": true,
+  "setable": false,
+  "insights": true,
+  "icon": "/assets/measure_watt_avg.svg"
+}

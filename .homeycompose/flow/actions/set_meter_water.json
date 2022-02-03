@@ -1,0 +1,31 @@
+{
+  "title": {
+    "en": "Send water reading to virtual meter",
+    "nl": "Stuur waterstand naar virtueel apparaat"
+  },
+  "titleFormatted": {
+    "en": "Send [[value]] reading to [[virtual_device]]",
+    "nl": "Stuur [[value]] stand naar [[virtual_device]]"
+  },
+  "highlight": true,
+  "args": [
+    {
+      "name": "virtual_device",
+      "type": "autocomplete",
+      "title": { 
+        "en": "Virtual device",
+        "nl": "Virtueel apparaat"
+      }
+    },
+    {
+      "name": "value",
+      "type": "number",
+      "placeholder": {
+        "en": "Water (m³)",
+        "nl": "Water (m³)"
+      }
+    }
+  ]
+}
+
+

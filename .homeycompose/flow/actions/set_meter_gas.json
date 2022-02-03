@@ -1,0 +1,31 @@
+{
+  "title": {
+    "en": "Send gas reading to virtual meter",
+    "nl": "Stuur gasstand naar virtueel apparaat"
+  },
+  "titleFormatted": {
+    "en": "Send [[value]] reading to [[virtual_device]]",
+    "nl": "Stuur [[value]] stand naar [[virtual_device]]"
+  },
+  "highlight": true,
+  "args": [
+    {
+      "name": "virtual_device",
+      "type": "autocomplete",
+      "title": { 
+        "en": "Virtual device",
+        "nl": "Virtueel apparaat"
+      }
+    },
+    {
+      "name": "value",
+      "type": "number",
+      "placeholder": {
+        "en": "Gas (m³)",
+        "nl": "Gas (m³)"
+      }
+    }
+  ]
+}
+
+

@@ -79,6 +79,24 @@ class MyApp extends Homey.App {
 
 	registerFlowListeners() {
 
+		const autoComplete = async (query, driverId) => {
+			const driver = this.homey.drivers.getDriver(driverId);
+			const devices = driver.getDevices().filter((device) => device.settings.meter_via_flow);
+			const devicesMap = devices.map((device) => (
+				{
+					name: device.getName(),
+					id: device.getData().id,
+				}
+			));
+			return devicesMap.filter((result) => result.name.toLowerCase().includes(query.toLowerCase()));
+		};
+
+		const runUpdateMeter = async (args, driverId) => {
+			const driver = this.homey.drivers.getDriver(driverId);
+			const device = driver.getDevice({ id: args.virtual_device.id });
+			device.updateMeterFromFlow(args.value);
+		};
+
 		// action cards
 		const setTariffPower = this.homey.flow.getActionCard('set_tariff_power');
 		setTariffPower
@@ -95,6 +113,30 @@ class MyApp extends Homey.App {
 		const minMaxReset = this.homey.flow.getActionCard('minmax_reset');
 		minMaxReset
 			.registerRunListener((args) => args.device.minMaxReset(true, 'flow'));
+
+		const setMeterPower = this.homey.flow.getActionCard('set_meter_power');
+		setMeterPower
+			.registerRunListener((args) => runUpdateMeter(args, 'power'))
+			.registerArgumentAutocompleteListener(
+				'virtual_device',
+				(query) => autoComplete(query, 'power'),
+			);
+
+		const setMeterGas = this.homey.flow.getActionCard('set_meter_gas');
+		setMeterGas
+			.registerRunListener((args) => runUpdateMeter(args, 'gas'))
+			.registerArgumentAutocompleteListener(
+				'virtual_device',
+				async (query) => autoComplete(query, 'gas'),
+			);
+
+		const setMeterWater = this.homey.flow.getActionCard('set_meter_water');
+		setMeterWater
+			.registerRunListener((args) => runUpdateMeter(args, 'water'))
+			.registerArgumentAutocompleteListener(
+				'virtual_device',
+				async (query) => autoComplete(query, 'water'),
+			);
 
 	}
 

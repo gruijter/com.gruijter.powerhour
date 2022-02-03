@@ -31,6 +31,8 @@ const deviceSpecifics = {
 		last_month: 'meter_kwh_last_month',
 		this_year: 'meter_kwh_this_year',
 		last_year: 'meter_kwh_last_year',
+		meter_source: 'meter_power',
+		measure_source: 'measure_watt_avg',
 	},
 
 };
@@ -46,59 +48,68 @@ class sumDriver extends GenericDevice {
 
 	async addListeners() {
 		this.sourceDevice = await this.homey.app.api.devices.getDevice({ id: this.getSettings().homey_device_id, $cache: false });
-		// make listener for meter_power
-		if (this.sourceDevice.capabilities.includes('meter_power')) {
-			this.log(`registering meter_power capability listener for ${this.sourceDevice.name}`);
-			this.capabilityInstances.meterPower = this.sourceDevice.makeCapabilityInstance('meter_power', (value) => {
-				this.updateMeter(value);
-			});
 
-		}	else if (this.sourceDevice.capabilities.includes('meter_power.peak') && this.sourceDevice.capabilities.includes('meter_power.offPeak')) {
-			this.log(`registering meter_power.peak/offPeak capability listener for ${this.sourceDevice.name}`);
-			this.capabilityInstances.meterPowerPeak = this.sourceDevice.makeCapabilityInstance('meter_power.peak', (value) => {
-				this.updateMeterPeak(value);
-			});
-			this.capabilityInstances.meterPowerOffPeak = this.sourceDevice.makeCapabilityInstance('meter_power.offPeak', (value) => {
-				this.updateMeterOffPeak(value);
-			});
-			this.lastPeak = this.sourceDevice.capabilitiesObj.meter_power.peak.value;
-			this.lastOffPeak = this.sourceDevice.capabilitiesObj.meter_power.oofPeak.value;
+		if (!this.getSettings().use_measure_source) {
+			// make listener for meter_power
+			if (this.sourceDevice.capabilities.includes('meter_power')) {
+				this.log(`registering meter_power capability listener for ${this.sourceDevice.name}`);
+				this.capabilityInstances.meterPower = this.sourceDevice.makeCapabilityInstance('meter_power', (value) => {
+					this.updateMeter(value);
+				});
 
-		}	else if (this.sourceDevice.capabilities.includes('meter_power.consumed')
-			&& this.sourceDevice.capabilities.includes('meter_power.generated')) {
-			this.log(`registering meter_power.consumed/generated capability listener for ${this.sourceDevice.name}`);
-			this.capabilityInstances.meterPowerConsumed = this.sourceDevice.makeCapabilityInstance('meter_power.consumed', (value) => {
-				this.updateMeterConsumed(value);
-			});
-			this.capabilityInstances.meterPowerGenerated = this.sourceDevice.makeCapabilityInstance('meter_power.generated', (value) => {
-				this.updateMeterGenerated(value);
-			});
-			this.lastConsumed = this.sourceDevice.capabilitiesObj.meter_power.consumed.value;
-			this.lastGenerated = this.sourceDevice.capabilitiesObj.meter_power.generated.value;
+			}	else if (this.sourceDevice.capabilities.includes('meter_power.peak')
+				&& this.sourceDevice.capabilities.includes('meter_power.offPeak')) {
+				this.log(`registering meter_power.peak/offPeak capability listener for ${this.sourceDevice.name}`);
+				this.capabilityInstances.meterPowerPeak = this.sourceDevice.makeCapabilityInstance('meter_power.peak', (value) => {
+					this.updateMeterPeak(value);
+				});
+				this.capabilityInstances.meterPowerOffPeak = this.sourceDevice.makeCapabilityInstance('meter_power.offPeak', (value) => {
+					this.updateMeterOffPeak(value);
+				});
+				this.lastPeak = this.sourceDevice.capabilitiesObj.meter_power.peak.value;
+				this.lastOffPeak = this.sourceDevice.capabilitiesObj.meter_power.oofPeak.value;
 
-		}	else if (this.sourceDevice.capabilities.includes('meter_power.consumed')
-			&& this.sourceDevice.capabilities.includes('meter_power.returned')) {
-			this.log(`registering meter_power.consumed/returned capability listener for ${this.sourceDevice.name}`);
-			this.capabilityInstances.meterPowerConsumed = this.sourceDevice.makeCapabilityInstance('meter_power.consumed', (value) => {
-				this.updateMeterConsumed(value);
-			});
-			this.capabilityInstances.meterPowerReturned = this.sourceDevice.makeCapabilityInstance('meter_power.returned', (value) => {
-				this.updateMeterReturned(value);
-			});
-			this.lastConsumed = this.sourceDevice.capabilitiesObj.meter_power.consumed.value;
-			this.lastReturned = this.sourceDevice.capabilitiesObj.meter_power.returned.value;
+			}	else if (this.sourceDevice.capabilities.includes('meter_power.consumed')
+				&& this.sourceDevice.capabilities.includes('meter_power.generated')) {
+				this.log(`registering meter_power.consumed/generated capability listener for ${this.sourceDevice.name}`);
+				this.capabilityInstances.meterPowerConsumed = this.sourceDevice.makeCapabilityInstance('meter_power.consumed', (value) => {
+					this.updateMeterConsumed(value);
+				});
+				this.capabilityInstances.meterPowerGenerated = this.sourceDevice.makeCapabilityInstance('meter_power.generated', (value) => {
+					this.updateMeterGenerated(value);
+				});
+				this.lastConsumed = this.sourceDevice.capabilitiesObj.meter_power.consumed.value;
+				this.lastGenerated = this.sourceDevice.capabilitiesObj.meter_power.generated.value;
 
-		}	else if (this.sourceDevice.capabilities.includes('meter_power.delivered')
-			&& this.sourceDevice.capabilities.includes('meter_power.returned')) {
-			this.log(`registering meter_power.consumed/returned capability listener for ${this.sourceDevice.name}`);
-			this.capabilityInstances.meterPowerDelivered = this.sourceDevice.makeCapabilityInstance('meter_power.delivered', (value) => {
-				this.updateMeterDelivered(value);
+			}	else if (this.sourceDevice.capabilities.includes('meter_power.consumed')
+				&& this.sourceDevice.capabilities.includes('meter_power.returned')) {
+				this.log(`registering meter_power.consumed/returned capability listener for ${this.sourceDevice.name}`);
+				this.capabilityInstances.meterPowerConsumed = this.sourceDevice.makeCapabilityInstance('meter_power.consumed', (value) => {
+					this.updateMeterConsumed(value);
+				});
+				this.capabilityInstances.meterPowerReturned = this.sourceDevice.makeCapabilityInstance('meter_power.returned', (value) => {
+					this.updateMeterReturned(value);
+				});
+				this.lastConsumed = this.sourceDevice.capabilitiesObj.meter_power.consumed.value;
+				this.lastReturned = this.sourceDevice.capabilitiesObj.meter_power.returned.value;
+
+			}	else if (this.sourceDevice.capabilities.includes('meter_power.delivered')
+				&& this.sourceDevice.capabilities.includes('meter_power.returned')) {
+				this.log(`registering meter_power.consumed/returned capability listener for ${this.sourceDevice.name}`);
+				this.capabilityInstances.meterPowerDelivered = this.sourceDevice.makeCapabilityInstance('meter_power.delivered', (value) => {
+					this.updateMeterDelivered(value);
+				});
+				this.capabilityInstances.meterPowerReturned = this.sourceDevice.makeCapabilityInstance('meter_power.returned', (value) => {
+					this.updateMeterReturned(value);
+				});
+				this.lastDelivered = this.sourceDevice.capabilitiesObj.meter_power.delivered.value;
+				this.lastReturned = this.sourceDevice.capabilitiesObj.meter_power.returned.value;
+			}
+		} else if (this.sourceDevice.capabilities.includes('measure_power')) {
+			this.log(`registering measure_power capability listener for ${this.sourceDevice.name}`);
+			this.capabilityInstances.measurePower = this.sourceDevice.makeCapabilityInstance('measure_power', (value) => {
+				this.updateMeterFromMeasure(value);
 			});
-			this.capabilityInstances.meterPowerReturned = this.sourceDevice.makeCapabilityInstance('meter_power.returned', (value) => {
-				this.updateMeterReturned(value);
-			});
-			this.lastDelivered = this.sourceDevice.capabilitiesObj.meter_power.delivered.value;
-			this.lastReturned = this.sourceDevice.capabilitiesObj.meter_power.returned.value;
 		}
 	}
 

@@ -20,6 +20,7 @@ along with com.gruijter.powerhour.  If not, see <http://www.gnu.org/licenses/>.s
 'use strict';
 
 const { Driver } = require('homey');
+const crypto = require('crypto');
 
 const dailyResetApps = [
 	'com.tibber',
@@ -38,6 +39,11 @@ class SumMeterDriver extends Driver {
 			const devices = this.getDevices();
 			devices.forEach((device) => {
 				const deviceName = device.getName();
+				// check for METER_VIA_FLOW device
+				if (device.getSettings().meter_via_flow) {
+					device.updateMeterFromFlow(null);
+					return;
+				}
 				// check if listener or polling is on, otherwise restart device
 				const pollingOn = !!device.getSettings().interval && device.intervalIdDevicePoll
 				&& (device.intervalIdDevicePoll._idleTimeout > 0);
@@ -53,6 +59,11 @@ class SumMeterDriver extends Driver {
 					this.error(`Source device ${deviceName} is missing.`);
 					device.setUnavailable('Source device is missing');
 					device.restartDevice(10 * 60 * 1000); // restart after 10 minutes
+					return;
+				}
+				// check for METER_VIA_WATT
+				if (device.getSettings().use_measure_source) {
+					device.updateMeterFromMeasure(null);
 					return;
 				}
 				// force immediate update
@@ -98,6 +109,21 @@ class SumMeterDriver extends Driver {
 	// stuff to find Homey devices
 	async discoverDevices() {
 		try {
+			const randomId = crypto.randomBytes(3).toString('hex');
+			const virtualDevice = {
+				name: `VIRTUAL_METER__Σ${this.ds.driverId}`,
+				data: {
+					id: `PH_${this.ds.driverId}_${randomId}`,
+				},
+				settings: {
+					homey_device_id: `PH_${this.ds.driverId}_${randomId}`,
+					homey_device_name: `VIRTUAL_METER_${randomId}`,
+					level: this.homey.app.manifest.version,
+					meter_via_flow: true,
+					source_device_type: 'virtual via flow',
+				},
+				capabilities: this.ds.deviceCapabilities,
+			};
 			this.devices = [];
 			const allDevices = await this.homey.app.api.devices.getDevices();
 			const keys = Object.keys(allDevices);
@@ -120,9 +146,10 @@ class SumMeterDriver extends Driver {
 					if (dailyResetApps.some((appId) => allDevices[key].driverUri.includes(appId))) {
 						device.settings.homey_device_daily_reset = true;
 					}
-					this.devices.push(device);
+					if (!allDevices[key].driverUri.includes('com.gruijter.powerhour')) this.devices.push(device);
 				}
 			});
+			this.devices.push(virtualDevice);
 			return Promise.resolve(this.devices);
 		} catch (error) {
 			return Promise.reject(error);

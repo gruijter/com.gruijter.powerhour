@@ -51,6 +51,19 @@
           "value": "unknown"
         },
         {
+          "id": "source_device_type",
+          "type": "label",
+          "label": {
+            "en": "Source device type",
+            "nl": "Type bron apparaat"
+          },
+          "value": "Homey device",
+          "hint": {
+            "en": "Either Homey device or Virtual device. The meter of a virtual device can only be updated via a flow.",
+            "nl": "Homey apparaat of virtueel apparaat. De meter van een virtueel apparaat kan alleen worden geupdated via een flow."
+          }
+        },
+        {
           "id": "homey_device_daily_reset",
           "type": "checkbox",
           "label": {
@@ -58,10 +71,26 @@
             "nl": "Heeft dagelijkse reset"
           },
           "hint": {
-            "en": "The meter of this device resets every midnight to 0",
-            "nl": "De meter van dit apparaat reset naar 0 om middernacht"
+            "en": "The meter of this source device resets every midnight to 0",
+            "nl": "De meter van dit bronapparaat reset naar 0 om middernacht"
           },
           "value": false
+        },
+        {
+          "id": "interval",
+          "type": "number",
+          "label": {
+            "en": "Update interval (minutes)",
+            "nl": "Update interval (minuten)"
+          },
+          "hint": {
+            "en": "Set to 0 to get immediate updates. This can slightly increase system load. This setting is ignored for virtual source devices.",
+            "nl": "Zet op 0 voor directe updates. Dit kan echter de systeem belasting iets verhogen. Deze instelling wordt niet gebruikt voor virtuele bron apparaten."
+          },
+          "value": 0,
+          "min": 0,
+          "max": 5,
+          "step": 1
         }
       ]
     },
@@ -94,6 +123,18 @@
           "value": "0",
           "hint": {
             "en": "This is the meter reading from the soure device, updated once an hour."
+          }
+        },
+        {
+          "id": "meter_day_start",
+          "type": "number",
+          "label": {
+            "en": "This day start",
+            "nl": "Deze dag start"
+          },
+          "value": 0,
+          "hint": {
+            "en": "Enter the meter reading at the start of this day. It is automatically updated at midnight."
           }
         },
         {

@@ -51,6 +51,32 @@
           "value": "unknown"
         },
         {
+          "id": "source_device_type",
+          "type": "label",
+          "label": {
+            "en": "Source device type",
+            "nl": "Type bron apparaat"
+          },
+          "value": "Homey device",
+          "hint": {
+            "en": "Either Homey device or Virtual device. The meter of a virtual device can only be updated via a flow.",
+            "nl": "Homey apparaat of virtueel apparaat. De meter van een virtueel apparaat kan alleen worden geupdated via een flow."
+          }
+        },
+        {
+          "id": "use_measure_source",
+          "type": "checkbox",
+          "label": {
+            "en": "Use Watt as source",
+            "nl": "Gebruik Watt als bron"
+          },
+          "hint": {
+            "en": "Some source devices do not have a kWh meter. Using W is a less accurate fallback method. ONLY USE THIS IF kWh IS NOT POSSIBLE!",
+            "nl": "Sommige bron apparaten hebben geen kWh meter. Het gebruik van W is een minder nauwkeurig alternatief. ALLEEN GEBRUIKEN ALS kWh NIET MOGELIJK IS!"
+          },
+          "value": false
+        },
+        {
           "id": "homey_device_daily_reset",
           "type": "checkbox",
           "label": {
@@ -58,8 +84,8 @@
             "nl": "Heeft dagelijkse reset"
           },
           "hint": {
-            "en": "The meter of this device resets every midnight to 0",
-            "nl": "De meter van dit apparaat reset naar 0 om middernacht"
+            "en": "The meter of this source device resets every midnight to 0",
+            "nl": "De meter van dit bron apparaat reset naar 0 om middernacht"
           },
           "value": false
         },
@@ -71,8 +97,8 @@
             "nl": "Update interval (minuten)"
           },
           "hint": {
-            "en": "Set to 0 to get immediate updates. This can slightly increase system load.",
-            "nl": "Zet op 0 voor directe updates. Dit kan echter de systeem belasting iets verhogen."
+            "en": "Set to 0 to get immediate updates. This can slightly increase system load. This setting is ignored for virtual source devices.",
+            "nl": "Zet op 0 voor directe updates. Dit kan echter de systeem belasting iets verhogen. Deze instelling wordt niet gebruikt voor virtuele bron apparaten."
           },
           "value": 0,
           "min": 0,
@@ -146,8 +172,8 @@
           "value": 0,
           "hint": {
             "en": "Enter the meter reading at the start of this year. It is automatically updated first day of a new year."
-          }
-        },
+            }
+          },
         {
           "id": "min_max_reset",
           "type": "dropdown",
