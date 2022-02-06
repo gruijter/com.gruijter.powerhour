@@ -149,22 +149,22 @@ class SumMeterDevice extends Device {
 
 	// this method is called when the user has changed the device's settings in Homey.
 	async onSettings({ newSettings, changedKeys }) { // , oldSettings, changedKeys) {
-		this.log('settings change requested by user');
-		this.log(newSettings);
+		this.log(`${this.getName()} device settings changed by user`, newSettings);
 
-		this.log(`${this.getName()} device settings changed`);
-
+		const lastReadingDay = { ...this.lastReadingDay };
+		const lastReadingMonth = { ...this.lastReadingMonth };
+		const lastReadingYear = { ...this.lastReadingYear };
 		if (changedKeys.includes('meter_day_start')) {
-			this.lastReadingDay.meterValue = newSettings.meter_day_start;
-			await this.setStoreValue('lastReadingDay', this.lastReadingDay);
+			lastReadingDay.meterValue = newSettings.meter_day_start;
+			await this.setStoreValue('lastReadingDay', lastReadingDay);
 		}
 		if (changedKeys.includes('meter_month_start')) {
-			this.lastReadingMonth.meterValue = newSettings.meter_month_start;
-			await this.setStoreValue('lastReadingMonth', this.lastReadingMonth);
+			lastReadingMonth.meterValue = newSettings.meter_month_start;
+			await this.setStoreValue('lastReadingMonth', lastReadingMonth);
 		}
 		if (changedKeys.includes('meter_year_start')) {
-			this.lastReadingYear.meterValue = newSettings.meter_year_start;
-			await this.setStoreValue('lastReadingYear', this.lastReadingYear);
+			lastReadingYear.meterValue = newSettings.meter_year_start;
+			await this.setStoreValue('lastReadingYear', lastReadingYear);
 		}
 
 		const money = this.meterMoney;
@@ -184,7 +184,15 @@ class SumMeterDevice extends Device {
 		}
 		if (changedKeys.toString().includes('meter_money_')) {
 			this.meterMoney = money;
-			// await this.updateMoneyCapabilities(money); // DO I NEED THIS???
+		}
+
+		if (changedKeys.includes('start_date')) {
+			const now = new Date();
+			const nowLocal = new Date(now.toLocaleString('en-GB', { timeZone: this.timeZone }));
+			const thisMonth = nowLocal.getMonth();
+			const thisYear = nowLocal.getFullYear();
+			this.lastReadingMonth.month = thisMonth;
+			this.lastReadingYear.year = thisYear;
 		}
 
 		if (changedKeys.includes('tariff')) {
@@ -192,12 +200,10 @@ class SumMeterDevice extends Device {
 		}
 
 		this.restartDevice(1000);
-		return Promise.resolve(true);
 	}
 
 	async destroyListeners() {
 		if (this.capabilityInstances && Object.entries(this.capabilityInstances).length > 0) {
-			// this.log('Destroying capability listeners');
 			Object.entries(this.capabilityInstances).forEach((entry) => {
 				this.log(`Destroying capability listener ${entry[0]}`);
 				entry[1].destroy();
@@ -232,7 +238,7 @@ class SumMeterDevice extends Device {
 			if (value !== await this.getCapabilityValue(capability)) {
 				this.setCapabilityValue(capability, value)
 					.catch((error) => {
-						this.log(error, capability, value);
+						this.error(error, capability, value);
 					});
 			}
 		}
@@ -309,7 +315,7 @@ class SumMeterDevice extends Device {
 	}
 
 	// init some stuff when first reading comes in
-	async initFirstReading(reading) {
+	async initFirstReading({ ...reading }) {
 		// check pair init
 		const pairInit = (!this.lastReadingHour || !this.lastReadingDay || !this.lastReadingMonth || !this.lastReadingYear);
 		if (pairInit) {
@@ -329,7 +335,9 @@ class SumMeterDevice extends Device {
 			await this.setSettings({ meter_month_start: this.lastReadingMonth.meterValue });
 			await this.setSettings({ meter_year_start: this.lastReadingYear.meterValue });
 		}
-
+		// pair init Money
+		if (this.meterMoney && !this.meterMoney.meterValue) this.meterMoney.meterValue = reading.meterValue;
+		// pair init minMax
 		if (!this.lastMinMax) {	// pair init
 			this.lastMinMax = {
 				reading,
@@ -347,7 +355,6 @@ class SumMeterDevice extends Device {
 	async updateMeter(val) { // , pollTm) { // pollTm is lastUpdated when using pollMethod
 		try {
 			if (typeof val !== 'number') return;
-			// if (pollTm) console.log(this.getName(), val, pollTm);
 			let value = val;
 			// logic for daily resetting meters
 			if (this.settings.homey_device_daily_reset) {
@@ -380,8 +387,7 @@ class SumMeterDevice extends Device {
 		let value = val;
 		if (value === null) { // poll requested
 			value = await this.getCapabilityValue(this.ds.cmap.meter_source);
-			// console.log(this.getName(), 'poll requested', value);
-		} // else console.log(this.getName(), 'meter received', value);
+		}
 		this.updateMeter(value);
 	}
 
@@ -391,13 +397,11 @@ class SumMeterDevice extends Device {
 		let value = val;
 		if (value === null) { // poll requested or app init
 			value = await this.getCapabilityValue(this.ds.cmap.measure_source);
-			// console.log(this.getName(), 'poll requested or app init', value);
 			if (typeof value !== 'number') value = 0;
 		}
 		if (typeof value !== 'number') return;
-
 		const deltaTm = measureTm - this.lastMeasure.measureTm;
-		// only update on watt changes or more then 2 minutes past??
+		// only update on watt changes or more then 2 minutes past
 		if ((value !== this.lastMeasure.value) || deltaTm > 120000) {
 			const lastMeterValue = await this.getCapabilityValue(this.ds.cmap.meter_source);
 			const deltaMeter = (this.lastMeasure.value * deltaTm) / 3600000000;
@@ -407,13 +411,11 @@ class SumMeterDevice extends Device {
 				measureTm,
 			};
 			this.updateMeter(meter); // what to do with timestamp???
-			// console.log(this.lastMeasure);
 		}
 	}
 
 	async getPeriods(reading) { // MUST BE RUN BEFORE UPDATEMETERS!!!
 		// check for new hour, day, month year
-		// console.log(this.getName(), 'checking periods');
 		const newHour = reading.hour !== this.lastReadingHour.hour;
 		const newDay = (reading.day !== this.lastReadingDay.day);
 		const newMonth = (newDay && (reading.day === this.startDay))
@@ -434,7 +436,7 @@ class SumMeterDevice extends Device {
 		if (reset) {
 			this.log(`Resetting Min/Max via ${source}`);
 			this.lastMinMax = {
-				reading: this.lastMinMax.reading, // contains last meter reading object used for min/max
+				reading: { ...this.lastMinMax.reading }, // contains last meter reading object used for min/max
 				wattMax: null,
 				lpmMax: null,
 				wattMin: null,
@@ -456,7 +458,7 @@ class SumMeterDevice extends Device {
 		await this.setStoreValue('lastMinMax', this.lastMinMax);
 	}
 
-	async updateMeasureMinMax(reading, periods) {
+	async updateMeasureMinMax({ ...reading }, periods) {
 		// reset min/max based on device settings
 		if ((periods.newHour && this.settings.min_max_reset === 'hour') || (periods.newDay && this.settings.min_max_reset === 'day')
 			|| (periods.newMonth && this.settings.min_max_reset === 'month')
@@ -492,7 +494,7 @@ class SumMeterDevice extends Device {
 		await this.setStoreValue('lastMinMax', this.lastMinMax);
 	}
 
-	async updateMoney(reading, periods) {
+	async updateMoney({ ...reading }, periods) {
 		// calculate money
 		const deltaMoney = (reading.meterValue - this.meterMoney.meterValue) * this.tariff;
 		const meterMoney = {
@@ -560,15 +562,13 @@ class SumMeterDevice extends Device {
 		}
 	}
 
-	async updateMeters(reading, periods) {
-		// console.log(this.getName(), 'updating meters');
+	async updateMeters({ ...reading }, periods) {
 		this.setCapability(this.ds.cmap.meter_source, reading.meterValue);
 		// calculate meters
 		let valHour = reading.meterValue - this.lastReadingHour.meterValue;
 		let valDay = reading.meterValue - this.lastReadingDay.meterValue;
 		let valMonth = reading.meterValue - this.lastReadingMonth.meterValue;
 		let valYear = reading.meterValue - this.lastReadingYear.meterValue;
-
 		// set capabilities
 		if (periods.newHour) {
 			// new hour started

@@ -10,8 +10,8 @@
   },
   "decimals": 4,
   "units": {
-    "en": "m³ /hr",
-    "nl": "m³ /uur"
+    "en": "L/minute",
+    "nl": "L/minuut"
   },
   "getable": true,
   "setable": false,

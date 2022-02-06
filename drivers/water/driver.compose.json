@@ -110,7 +110,7 @@
           },
           "value": "0101",
           "hint": {
-            "en": "On this date the month and year total will reset to 0. Format is ddmm. Default is 0101 (1 January)"
+            "en": "On this date the month and year total will reset to 0. Format is ddmm. Default is 0101 (1 January). ATTENTION: If you change this date you need to manually correct the This Month Start and This Year Start values."
           }
         },
         {

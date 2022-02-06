@@ -111,7 +111,7 @@ class SumMeterDriver extends Driver {
 		try {
 			const randomId = crypto.randomBytes(3).toString('hex');
 			const virtualDevice = {
-				name: `VIRTUAL_METER__Σ${this.ds.driverId}`,
+				name: `VIRTUAL_METER_Σ${this.ds.driverId}`,
 				data: {
 					id: `PH_${this.ds.driverId}_${randomId}`,
 				},
@@ -143,6 +143,7 @@ class SumMeterDriver extends Driver {
 						},
 						capabilities: this.ds.deviceCapabilities,
 					};
+					if (!allDevices[key].capabilities.toString().includes('meter_')) device.settings.use_measure_source = true;
 					if (dailyResetApps.some((appId) => allDevices[key].driverUri.includes(appId))) {
 						device.settings.homey_device_daily_reset = true;
 					}
