@@ -43,9 +43,9 @@ class SumMeterDevice extends Device {
 				this.sourceDevice = await this.homey.app.api.devices.getDevice({ id: this.settings.homey_device_id, $cache: false });
 				// check if source device exists
 				const sourceDeviceExists = this.sourceDevice && this.sourceDevice.capabilitiesObj; // && (this.sourceDevice.available !== null);
-				if (!sourceDeviceExists) throw Error(`Source device ${this.getName()} is missing`);
+				if (!sourceDeviceExists) throw Error(`Source device ${this.getName()} is missing. Retry in 10 minutes.`);
 				// check if source device is ready
-				if (!this.sourceDevice) throw Error(`Source device ${this.getName()} is not ready`);
+				if (!this.sourceDevice) throw Error(`Source device ${this.getName()} is not ready. Retry in 10 minutes.`);
 				// if (!this.sourceDevice || this.sourceDevice.ready !== true) throw Error(`Source device ${this.getName()} is not ready`);
 			} else this.log(this.getName(), 'Skipping setup of source device. Meter update is done via flow');
 
@@ -56,17 +56,17 @@ class SumMeterDevice extends Device {
 			if (this.settings.meter_via_flow) this.updateMeterFromFlow(null);
 			else if (this.settings.use_measure_source) {
 				this.log(`Warning! ${this.getName()} is not using a cumulative meter as source`);
-				this.addListeners();
+				await this.addListeners();
 				this.updateMeterFromMeasure(null);
 			} else if (this.settings.interval) this.startPolling(this.settings.interval);
 			else {	// preferred realtime meter mode
-				this.addListeners();
+				await this.addListeners();
 				this.pollMeter();	// do immediate forced update
 			}
 
 		} catch (error) {
 			this.error(error);
-			this.setUnavailable(error);
+			this.setUnavailable(error.message).catch(this.error);
 			this.restartDevice(10 * 60 * 1000); // restart after 10 minutes
 		}
 	}
@@ -226,7 +226,7 @@ class SumMeterDevice extends Device {
 				this.pollMeter();
 			} catch (error) {
 				this.error(error);
-				this.setUnavailable(error);
+				this.setUnavailable(error.message).catch(this.error);
 				this.restartDevice(10 * 60 * 1000); // restart after 10 minutes
 			}
 		}, 1000 * 60 * interval);
@@ -259,7 +259,7 @@ class SumMeterDevice extends Device {
 	}
 
 	async initDeviceValues() {
-		if (!this.available) this.setAvailable();
+		if (!this.available) this.setAvailable().catch(this.error);
 		this.log(`${this.getName()} Restoring device values after init`);
 
 		// init daily resetting source devices
@@ -285,15 +285,24 @@ class SumMeterDevice extends Device {
 		// init this.lastMinMax
 		if (!this.lastMinMax) this.lastMinMax = this.getStoreValue('lastMinMax');
 
+		// PAIR init meter_power for use_measure_source
+		const meterX = await this.getCapabilityValue(this.ds.cmap.meter_source);
+		if (this.settings.use_measure_source && typeof meterX !== 'number') {
+			this.log('meter kWh is set to 0 after device pair');
+			await this.setCapability(this.ds.cmap.meter_source, 0);
+		}
+
 		// init this.lastMeasure
 		if (!this.lastMeasure) {
 			this.lastMeasure = {
 				value: await this.getCapabilityValue(this.ds.cmap.measure_source), // Can I restore measureTm from lastUpdated capabilityObj?
-				measureTm: (this.lastMinMax && this.lastMinMax.reading) ? this.lastMinMax.reading.meterTm : new Date(),
+				measureTm: (this.lastMinMax && this.lastMinMax.reading) ? new Date(this.lastMinMax.reading.meterTm) : new Date(),
 			};
+			// PAIR init
+			if (typeof this.lastMeasure.value !== 'number') this.lastMeasure.value = 0;
 		}
 		// assume 0 power when long time since last seen
-		if ((new Date() - this.lastMeasure.measureTm) > 300000) this.lastMeasure.value = 0;
+		if ((new Date() - new Date(this.lastMeasure.measureTm)) > 300000) this.lastMeasure.value = 0;
 
 		// init this.tariff
 		if (!this.tariff) this.tariff = this.settings.tariff;
@@ -312,6 +321,7 @@ class SumMeterDevice extends Device {
 				lastYear: await this.getCapabilityValue('meter_money_last_year'),
 			};
 		}
+
 	}
 
 	// init some stuff when first reading comes in
@@ -387,6 +397,7 @@ class SumMeterDevice extends Device {
 		let value = val;
 		if (value === null) { // poll requested
 			value = await this.getCapabilityValue(this.ds.cmap.meter_source);
+			if (value === null) return;
 		}
 		this.updateMeter(value);
 	}
@@ -400,10 +411,12 @@ class SumMeterDevice extends Device {
 			if (typeof value !== 'number') value = 0;
 		}
 		if (typeof value !== 'number') return;
-		const deltaTm = measureTm - this.lastMeasure.measureTm;
-		// only update on watt changes or more then 2 minutes past
-		if ((value !== this.lastMeasure.value) || deltaTm > 120000) {
+		const deltaTm = measureTm - new Date(this.lastMeasure.measureTm);
+		// only update on >2 watt changes, or more then 2 minutes past
+		if ((Math.abs(value - this.lastMeasure.value) > 2) || deltaTm > 120000) {
 			const lastMeterValue = await this.getCapabilityValue(this.ds.cmap.meter_source);
+			if (typeof lastMeterValue !== 'number') this.error('lastMeterValue is NaN, WTF');
+			if (typeof deltaTm !== 'number') this.error('deltaTm is NaN, WTF');
 			const deltaMeter = (this.lastMeasure.value * deltaTm) / 3600000000;
 			const meter = lastMeterValue + deltaMeter;
 			this.lastMeasure = {
@@ -466,7 +479,7 @@ class SumMeterDevice extends Device {
 			await this.minMaxReset(true, 'device settings');
 		}
 		// minimal 2 minutes avg needed
-		const deltaTm = reading.meterTm - this.lastMinMax.reading.meterTm;
+		const deltaTm = new Date(reading.meterTm) - new Date(this.lastMinMax.reading.meterTm);
 		const deltaMeter = reading.meterValue - this.lastMinMax.reading.meterValue;
 		if (deltaTm < 119000) return;
 		// calculate current avg use

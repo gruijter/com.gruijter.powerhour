@@ -44,26 +44,26 @@ class SumMeterDriver extends Driver {
 					device.updateMeterFromFlow(null);
 					return;
 				}
-				// check if listener or polling is on, otherwise restart device
-				const pollingOn = !!device.getSettings().interval && device.intervalIdDevicePoll
-				&& (device.intervalIdDevicePoll._idleTimeout > 0);
-				const listeningOn = Object.keys(device.capabilityInstances).length > 0;
-				if (!pollingOn && !listeningOn) {
-					this.error(`${deviceName} is not in polling or listening mode. Restarting now..`);
-					device.restartDevice(1000);
-					return;
-				}
 				// check if source device exists
 				const sourceDeviceExists = device.sourceDevice && device.sourceDevice.capabilitiesObj && (device.sourceDevice.available !== null);
 				if (!sourceDeviceExists) {
 					this.error(`Source device ${deviceName} is missing.`);
-					device.setUnavailable('Source device is missing');
+					device.setUnavailable('Source device is missing. Retry in 10 minutes.');
 					device.restartDevice(10 * 60 * 1000); // restart after 10 minutes
 					return;
 				}
 				// check for METER_VIA_WATT
 				if (device.getSettings().use_measure_source) {
 					device.updateMeterFromMeasure(null);
+					return;
+				}
+				// check if listener or polling is on, otherwise restart device
+				const ignorePollSetting = !device.getSettings().meter_via_flow && !device.getSettings().use_measure_source;
+				const pollingIsOn = !!device.getSettings().interval && device.intervalIdDevicePoll && (device.intervalIdDevicePoll._idleTimeout > 0);
+				const listeningIsOn = Object.keys(device.capabilityInstances).length > 0;
+				if (ignorePollSetting && !pollingIsOn && !listeningIsOn) {
+					this.error(`${deviceName} is not in polling or listening mode. Restarting now..`);
+					device.restartDevice(1000);
 					return;
 				}
 				// force immediate update

@@ -1,7 +1,7 @@
 {
   "_comment": "This file is generated. Please edit .homeycompose/app.json instead.",
   "id": "com.gruijter.powerhour",
-  "version": "4.0.1",
+  "version": "4.0.2",
   "compatibility": ">=5.0.0",
   "brandColor": "#df5020",
   "sdk": 3,
@@ -723,8 +723,8 @@
                 "nl": "Update interval (minuten)"
               },
               "hint": {
-                "en": "Set to 0 to get immediate updates. This can slightly increase system load. This setting is ignored for virtual source devices.",
-                "nl": "Zet op 0 voor directe updates. Dit kan echter de systeem belasting iets verhogen. Deze instelling wordt niet gebruikt voor virtuele bron apparaten."
+                "en": "Set to 0 to get immediate updates. This can slightly increase system load. This setting is ignored for Watt and virtual source devices.",
+                "nl": "Zet op 0 voor directe updates. Dit kan echter de systeem belasting iets verhogen. Deze instelling wordt niet gebruikt voor Watt en virtuele bron apparaten."
               },
               "value": 0,
               "min": 0,
@@ -1813,6 +1813,28 @@
       },
       "decimals": 2
     },
+    "meter_power": {
+      "type": "number",
+      "title": {
+        "en": "Energy",
+        "nl": "Energie",
+        "de": "Energie",
+        "fr": "Énergie",
+        "it": "Energia",
+        "sv": "Energi",
+        "no": "Energi",
+        "es": "Energía",
+        "da": "Energi"
+      },
+      "decimals": 4,
+      "units": {
+        "en": "kWh"
+      },
+      "insights": true,
+      "getable": true,
+      "setable": false,
+      "uiComponent": "sensor"
+    },
     "meter_tariff": {
       "type": "number",
       "title": {
@@ -1827,7 +1849,7 @@
       "units": {
         "en": "¤"
       },
-      "decimals": 2
+      "decimals": 4
     }
   }
 }

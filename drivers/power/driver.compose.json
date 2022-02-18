@@ -97,8 +97,8 @@
             "nl": "Update interval (minuten)"
           },
           "hint": {
-            "en": "Set to 0 to get immediate updates. This can slightly increase system load. This setting is ignored for virtual source devices.",
-            "nl": "Zet op 0 voor directe updates. Dit kan echter de systeem belasting iets verhogen. Deze instelling wordt niet gebruikt voor virtuele bron apparaten."
+            "en": "Set to 0 to get immediate updates. This can slightly increase system load. This setting is ignored for Watt and virtual source devices.",
+            "nl": "Zet op 0 voor directe updates. Dit kan echter de systeem belasting iets verhogen. Deze instelling wordt niet gebruikt voor Watt en virtuele bron apparaten."
           },
           "value": 0,
           "min": 0,

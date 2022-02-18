@@ -22,6 +22,8 @@ along with com.gruijter.powerhour.  If not, see <http://www.gnu.org/licenses/>.
 const Homey = require('homey');
 const { HomeyAPIApp } = require('homey-api');
 
+// require('inspector').open(9229, '0.0.0.0', false);
+
 class MyApp extends Homey.App {
 
 	async onInit() {

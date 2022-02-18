@@ -1,4 +1,7 @@
 {
+  "4.0.2": {
+    "en": "Fix Watt source devices after homey reboot. Tariff and kWh meter 4 digits. Update to homey-api@1.5.8."
+  },
   "4.0.1": {
   "en": "Added Power meter (Watt) as source device. Added Virtual Energy meter. Added more source apps. Added Cumulative Energy (kWh) and Power (Watt) as capability. Added flow to update power(kWh) gas(m3) water(m3). Added daily reset setting for Gas. Added poll and day_start settings for gas and water devices. Fixed water min/max reset via flow. Fix changing start date from settings. Fix weird values after settings change. Fix initial Money value after pairing. Fixed gas flow units. Set Watt_as_Source during pair. Many other fixes and improvements."
   },
