@@ -1,0 +1,131 @@
+{
+  "name": {
+    "en": "Day-Ahead 1H Prices",
+    "nl": "Day-Ahead 1U Prijzen"
+  },
+  "class": "sensor",
+  "capabilities": [],
+  "platforms": [
+    "local"
+  ],
+  "connectivity": [],
+  "images": {
+    "small": "{{driverAssetsPath}}/images/small.png",
+    "large": "{{driverAssetsPath}}/images/large.png"
+  },
+  "pair": [
+    {
+      "id": "list_devices",
+      "template": "list_devices",
+      "options": {
+        "singular": true
+      },
+      "navigation": {
+        "next": "add_devices"
+      }
+    },
+    {
+      "id": "add_devices",
+      "template": "add_devices"
+    }
+  ],
+  "settings": [
+    {
+      "type": "group",
+      "label": {
+        "en": "Bidding Zone information",
+        "nl": "Biedzone informatie"
+      },
+      "children": [
+        {
+          "id": "biddingZone",
+          "type": "label",
+          "label": {
+            "en": "Bidding zone",
+            "nl": "Biedzone"
+          },
+          "value": "unknown"
+        },
+        {
+          "id": "description",
+          "type": "label",
+          "label": {
+            "en": "Description",
+            "nl": "Omschrijving"
+          },
+          "value": "unknown"
+        }
+      ]
+    },
+    {
+      "type": "group",
+      "label": {
+        "en": "Price settings",
+        "nl": "Prijs instellingen"
+      },
+      "children": [
+        {
+          "id": "variableMarkup",
+          "type": "number",
+          "label": {
+            "en": "Variable markup (%)",
+            "nl": "Variabele opslag (%)"
+          },
+          "value": 0,
+          "hint": {
+            "en": "Enter the percentage with which the net price must be increased. E.g. for VAT.",
+            "nl": "Voer het percentage in waarmee de netto prijs verhoogd moet worden. Bijvoorbeeld voor BTW."
+          }
+        },
+        {
+          "id": "fixedMarkup",
+          "type": "number",
+          "label": {
+            "en": "Fixed markup per kWh (EUR)",
+            "nl": "Vaste opslag per kWh (EUR)"
+          },
+          "value": 0,
+          "hint": {
+            "en": "Enter the fixed amount with which the price must be increased per kWh, incl. VAT. E.g. for purchase fee.",
+            "nl": "Voer het vaste bedrag in waarmee de prijs per kWh verhoogd moet worden incl. BTW. Bijvoorbeeld voor inkoopvergoeding, Energie bvelasting, ODE."
+          }
+        },
+        {
+          "id": "exchangeRate",
+          "type": "number",
+          "label": {
+            "en": "Exchange rate",
+            "nl": "Wisselkoers"
+          },
+          "value": 1,
+          "hint": {
+            "en": "If you do not want to use EURO, enter the exchange rate to your preferred currency.",
+            "nl": "Als je geen EURO's wilt gebruiken kun je hier de wisselkoers ingeven naar de gewenste munteenheid."
+            }
+          }
+      ]
+    },
+    {
+      "type": "group",
+      "label": {
+        "en": "Various settings",
+        "nl": "Overige instellingen"
+      },
+      "children": [
+        {
+          "id": "sendTariff",
+          "type": "checkbox",
+          "label": {
+            "en": "Send tariff",
+            "nl": "Stuur tarief"
+          },
+          "value": false,
+          "hint": {
+            "en": "Every hour the price per kWh will be set as tariff for PBTH devices, without the need to create a flow.",
+            "nl": "Ieder uur wordt de prijs per kWh ingesteld als tarief voor PBTH devices, zonder dat een flow gemaakt hoeft te worden."
+          }
+        }
+      ]
+    }
+  ]
+}

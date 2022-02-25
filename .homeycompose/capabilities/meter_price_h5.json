@@ -1,0 +1,16 @@
+{
+  "type": "number",
+  "title": {
+    "en": "Price +5H",
+    "nl": "Prijs +5U"
+  },
+  "uiComponent": "sensor",
+  "icon": "/assets/tariff.svg",
+  "getable": true,
+  "setable": false,
+  "insights": true,
+  "units": {
+    "en": "¤"
+  },
+  "decimals": 4
+}

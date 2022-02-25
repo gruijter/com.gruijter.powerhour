@@ -1,0 +1,25 @@
+{
+	"title": {
+		"en": "The price has changed",
+		"nl": "De prijs is veranderd"
+	},
+	"highlight": true,
+	"args": [
+		{
+		  "type": "device",
+		  "name": "device",
+		  "filter": "driver_id=dap"
+		}
+	],
+	"tokens": [
+		{
+		"name": "meter_price_h0",
+		"title": {
+			"en": "Price now",
+			"nl": "Prijs nu"
+		},
+		"type": "number",
+		"example": 27.5
+		}
+	]
+}

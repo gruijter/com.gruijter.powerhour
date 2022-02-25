@@ -1,2 +1,3 @@
 Get data from a Homey power/gas/water meter device, and show the usage / production per hour, per day, per month and per year. Know the monetary value and use dynamic tariffs. Know how much your Always-on appliances are using and safe hundreds of Euros per year!
 This app can be used for instance together with the Enelogic and Youless app, the Plugwise Smile P1 app, the BeeClear app, the Solar Power app, the Homewizard app, Tibber pulse, or any other app that has a Energy or Power Meter capability, a Gas Meter capability, or a Water Meter capability.
+PBTH now also supports Spot Pricing (Day-Ahead 1 hour pricing) for energy providers from all EU countries. Start and stop charging your car based on the best hourly rate! 

@@ -1,0 +1,16 @@
+{
+  "type": "number",
+  "title": {
+    "en": "Price this day avg.",
+    "nl": "Prijs deze dag gem."
+  },
+  "uiComponent": "sensor",
+  "icon": "/assets/tariff.svg",
+  "getable": true,
+  "setable": false,
+  "insights": true,
+  "units": {
+    "en": "¤"
+  },
+  "decimals": 4
+}

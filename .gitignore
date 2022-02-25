@@ -1,6 +1,7 @@
 build
 roadmap.txt
-
+env.json
+bidding_zones.json
 
 
 # Added by Homey CLI

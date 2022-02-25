@@ -1,0 +1,16 @@
+{
+  "type": "number",
+  "title": {
+    "en": "Price next 8H avg.",
+    "nl": "Prijs komende 8U gem."
+  },
+  "uiComponent": "sensor",
+  "icon": "/assets/tariff.svg",
+  "getable": true,
+  "setable": false,
+  "insights": true,
+  "units": {
+    "en": "¤"
+  },
+  "decimals": 4
+}
