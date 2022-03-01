@@ -1,8 +1,8 @@
 {
   "type": "number",
   "title": {
-    "en": "Price next 8H avg.",
-    "nl": "Prijs komende 8U gem."
+    "en": "Avg. price next 8H",
+    "nl": "Gem. prijs komende 8U"
   },
   "uiComponent": "sensor",
   "icon": "/assets/tariff.svg",

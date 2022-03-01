@@ -1,4 +1,10 @@
 {
+  "4.1.1": {
+    "en": "Fixed Send Tariff from Day-ahead pricing device."
+  },
+  "4.1.0": {
+    "en": "Added Day-ahead 1 hour electricity pricing driver (All EU energy providers)"
+  },
   "4.0.2": {
     "en": "Fix Watt source devices after homey reboot. Tariff and kWh meter 4 digits. Update to homey-api@1.5.8."
   },
@@ -82,8 +88,5 @@
   },
   "2.7.0": {
     "en": "Fix monthly reset"
-  },
-  "4.1.0": {
-    "en": "Added Day-ahead 1 hour electricity pricing driver (All EU energy providers)"
   }
 }

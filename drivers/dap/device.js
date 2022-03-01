@@ -167,7 +167,7 @@ class MyDevice extends Homey.Device {
 			});
 
 			// send tariff to power driver
-			if (this.settings.sendTariff) this.homey.emit('set_tariff_power', { tariff: 'meter_price_h0' });
+			if (this.settings.sendTariff) this.homey.emit('set_tariff_power', { tariff: pricesNext8h[0] });
 
 		} catch (error) {
 			this.error(error);

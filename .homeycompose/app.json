@@ -1,6 +1,6 @@
 {
   "id": "com.gruijter.powerhour",
-  "version": "4.1.0",
+  "version": "4.1.1",
   "compatibility": ">=5.0.0",
   "brandColor": "#df5020",
   "sdk": 3,
@@ -31,7 +31,11 @@
       "cost",
       "tariff",
       "prediction",
-      "peak"
+      "peak",
+      "day ahead",
+      "spot market",
+      "price",
+      "pricing"
     ]
   },
   "permissions": [

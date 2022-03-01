@@ -1,8 +1,8 @@
 {
   "type": "number",
   "title": {
-    "en": "Price this day avg.",
-    "nl": "Prijs deze dag gem."
+    "en": "Avg. price this day",
+    "nl": "Gem. prijs deze dag"
   },
   "uiComponent": "sensor",
   "icon": "/assets/tariff.svg",

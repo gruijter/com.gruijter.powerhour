@@ -59,6 +59,7 @@ If you have a European energy provider that changes its pricing every hour, you 
 <br>
 <br>
 
+The pricing information is fetched from ENTSO-E, the European Network of Transmission System Operators for Electricity. https://transparency.entsoe.eu/transmission-domain/r2/dayAheadPrices/show
 
 ### DONATE
 If you like the app, don't hesitate to [DONATE](https://www.paypal.me/gruijter)
