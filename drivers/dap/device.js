@@ -36,6 +36,7 @@ class MyDevice extends Homey.Device {
 			this.restarting = false;
 			this.settings = await this.getSettings();
 			this.timeZone = this.homey.clock.getTimezone();
+			this.fetchDelay = Math.floor(Math.random() * 15 * 60 * 1000);
 			// if (!this.prices) this.prices = [];
 
 			// setup ENTSOE DAP
@@ -45,8 +46,9 @@ class MyDevice extends Homey.Device {
 			// start fetching prices on every hour
 			this.eventListenerHour = async () => {
 				this.log('new hour event received');
-				await this.fetchPrices();
 				await this.handlePrices();
+				await setTimeoutPromise(this.fetchDelay, 'waiting is done'); // spread over 20 minutes for API rate limit (400 / min)
+				await this.fetchPrices();
 			};
 			this.homey.on('everyhour', this.eventListenerHour);
 
@@ -112,7 +114,12 @@ class MyDevice extends Homey.Device {
 	async fetchPrices() {
 		try {
 			this.log('fetching prices of today and tomorrow (when available)');
-			const prices = await this.dap.getPrices();
+			const prices = await this.dap.getPrices()
+				.catch(async (error) => {
+					this.log('Error fetching prices. Trying again in 10 minutes', error.message);
+					await setTimeoutPromise(10 * 60 * 1000, 'waiting is done');
+					return this.dap.getPrices();
+				});
 			if (!prices[0]) throw Error('something went wrong fetching prices');
 			if (!this.prices || this.prices.length < 1) {
 				this.prices = [];

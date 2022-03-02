@@ -230,6 +230,19 @@
           }
         },
         {
+          "id": "tariff_via_flow",
+          "type": "checkbox",
+          "label": {
+            "en": "Tariff via flow",
+            "nl": "Tarief via flow"
+          },
+          "value": true,
+          "hint": {
+            "en": "Include this device when setting a new tariff via flow.",
+            "nl": "Dit apparaat meenemen bij het instellen van een nieuw tarief via flow."
+          }
+        },
+        {
           "id": "meter_money_this_day",
           "type": "number",
           "label": {
