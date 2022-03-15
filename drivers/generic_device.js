@@ -86,7 +86,8 @@ class SumMeterDevice extends Device {
 					// remove all caps from here
 					for (let i = index; i < caps.length; i += 1) {
 						this.log(`removing capability ${caps[i]} for ${this.getName()}`);
-						await this.removeCapability(caps[i]);
+						await this.removeCapability(caps[i])
+							.catch((error) => this.log(error));
 						await setTimeoutPromise(2 * 1000); // wait a bit for Homey to settle
 					}
 					// add the new cap

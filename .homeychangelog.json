@@ -1,7 +1,10 @@
 {
+  "4.1.4": {
+    "en": "fix price_changed flow trigger."
+  },
   "4.1.3": {
     "en": "fix tariff via flow for gas and water."
-  },
+  },  
   "4.1.2": {
     "en": "DAP spread rate limited price fetch. DAP auto retry on price fetch failure. DAP buffer price info when API offline. Update to homey-api@1.5.11."
   },
@@ -53,6 +56,9 @@
   "3.0.0": {
     "en": "Rewrite to SDK3. Update athom-api@3.6.7. Capabilities, Insights and flow cards are migrated. Status indicator added."
   },
+  "2.7.0": {
+    "en": "Fix monthly reset"
+  },
   "2.6.0": {
     "en": "Added support to set start date of year."
   },
@@ -91,8 +97,5 @@
   },
   "0.1.0": {
     "en": "First release"
-  },
-  "2.7.0": {
-    "en": "Fix monthly reset"
   }
 }
