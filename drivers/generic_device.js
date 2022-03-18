@@ -246,8 +246,8 @@ class SumMeterDevice extends Device {
 	}
 
 	async getReadingObject(value) {
-		const date = new Date(); // IF value has not changed, i tmust be a poll ,meaning date is unchanged?
-		const dateLocal = new Date(date.toLocaleString('en-GB', { timeZone: this.timeZone }));
+		const date = new Date(); // IF value has not changed, it must be a poll ,meaning date is unchanged?
+		const dateLocal = new Date(date.toLocaleString('en-US', { timeZone: this.timeZone }));
 		const reading = {
 			hour: dateLocal.getHours(),
 			day: dateLocal.getDate(),

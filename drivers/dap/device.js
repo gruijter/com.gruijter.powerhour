@@ -21,7 +21,8 @@ along with com.gruijter.powerhour.  If not, see <http://www.gnu.org/licenses/>.s
 
 const Homey = require('homey');
 const util = require('util');
-const DAP = require('../../entsoe');
+const DAPEL = require('../../entsoe');
+const DAPGAS = require('../../frankenergy');
 
 const setTimeoutPromise = util.promisify(setTimeout);
 
@@ -39,9 +40,13 @@ class MyDevice extends Homey.Device {
 			this.fetchDelay = Math.floor(Math.random() * 15 * 60 * 1000);
 			// if (!this.prices) this.prices = [];
 
-			// setup ENTSOE DAP
-			const apiKey = Homey.env ? Homey.env.ENTSOE_API_KEY : '';
-			this.dap = new DAP({ apiKey, biddingZone: this.settings.biddingZone });
+			if (this.settings.biddingZone === 'TTF_EOD') {
+				this.dap = new DAPGAS();
+			} else {
+				// setup ENTSOE DAP
+				const apiKey = Homey.env ? Homey.env.ENTSOE_API_KEY : '';
+				this.dap = new DAPEL({ apiKey, biddingZone: this.settings.biddingZone });
+			}
 
 			// start fetching prices on every hour
 			this.eventListenerHour = async () => {
@@ -149,7 +154,7 @@ class MyDevice extends Homey.Device {
 
 			// get the present hour (0 - 23)
 			const now = new Date();
-			const nowLocal = new Date(now.toLocaleString('en-GB', { timeZone: this.timeZone }));
+			const nowLocal = new Date(now.toLocaleString('en-US', { timeZone: this.timeZone }));
 			const H0 = nowLocal.getHours();
 
 			// Array pricesThisDay with markUp
@@ -173,8 +178,10 @@ class MyDevice extends Homey.Device {
 				this.setCapability(`meter_price_h${index}`, price);
 			});
 
-			// send tariff to power driver
-			if (this.settings.sendTariff) this.homey.emit('set_tariff_power', { tariff: pricesNext8h[0] });
+			// send tariff to power or gas driver
+			let sendTo = 'set_tariff_power';
+			if (this.settings.biddingZone === 'TTF_EOD') sendTo = 'set_tariff_gas';
+			if (this.settings.sendTariff) this.homey.emit(sendTo, { tariff: pricesNext8h[0] });
 
 		} catch (error) {
 			this.error(error);

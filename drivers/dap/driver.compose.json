@@ -81,13 +81,13 @@
           "id": "fixedMarkup",
           "type": "number",
           "label": {
-            "en": "Fixed markup per kWh (EUR)",
-            "nl": "Vaste opslag per kWh (EUR)"
+            "en": "Fixed markup per kWh/m3 (EUR)",
+            "nl": "Vaste opslag per kWh/m3 (EUR)"
           },
           "value": 0,
           "hint": {
-            "en": "Enter the fixed amount with which the price must be increased per kWh, incl. VAT. E.g. for purchase fee.",
-            "nl": "Voer het vaste bedrag in waarmee de prijs per kWh verhoogd moet worden incl. BTW. Bijvoorbeeld voor inkoopvergoeding, Energie bvelasting, ODE."
+            "en": "Enter the fixed amount with which the price must be increased per kWh/m3, incl. VAT. E.g. for purchase fee.",
+            "nl": "Voer het vaste bedrag in waarmee de prijs per kWh/m3 verhoogd moet worden incl. BTW. Bijvoorbeeld voor inkoopvergoeding, Energie bvelasting, ODE."
           }
         },
         {

@@ -33,7 +33,32 @@ class MyDriver extends Driver {
 
 	async onPairListDevices() {
 		const randomId = crypto.randomBytes(3).toString('hex');
-		const devices = [];
+		const devices = [{
+			name: 'Gas TTF',
+			data: {
+				id: `Gas_TTF_EOD_${randomId}`,
+			},
+			capabilities: [
+				'meter_price_this_day_avg',
+				'meter_price_next_8h_avg',
+				'meter_price_h0',
+				'meter_price_h1',
+				'meter_price_h2',
+				'meter_price_h3',
+				'meter_price_h4',
+				'meter_price_h5',
+				'meter_price_h6',
+				'meter_price_h7',
+			],
+			settings: {
+				biddingZone: 'TTF_EOD',
+				description: 'Gas TTF End of Day',
+				variableMarkup: 0,
+				fixedMarkup: 0,
+				exchangeRate: 1,
+				sendTariff: false,
+			},
+		}];
 		Object.entries(this.biddingZones).forEach((entry) => {
 			const [description, biddingZone] = entry;
 			devices.push({
