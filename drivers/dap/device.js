@@ -170,18 +170,25 @@ class MyDevice extends Homey.Device {
 			}
 			pricesNext8h = await this.markUpPrices(pricesNext8h);
 			const priceNext8hAvg = average(pricesNext8h);
+			const priceNow = pricesNext8h[0];
 
 			// set capabilities
 			await this.setCapability('meter_price_this_day_avg', priceThisDayAvg);
 			await this.setCapability('meter_price_next_8h_avg', priceNext8hAvg);
-			pricesNext8h.forEach((price, index) => {
-				this.setCapability(`meter_price_h${index}`, price);
+			pricesNext8h.forEach(async (price, index) => {
+				await this.setCapability(`meter_price_h${index}`, price).catch(this.error);
 			});
 
 			// send tariff to power or gas driver
 			let sendTo = 'set_tariff_power';
 			if (this.settings.biddingZone === 'TTF_EOD') sendTo = 'set_tariff_gas';
-			if (this.settings.sendTariff) this.homey.emit(sendTo, { tariff: pricesNext8h[0] });
+			if (this.settings.sendTariff) this.homey.emit(sendTo, { tariff: priceNow });
+
+			// trigger flow cards
+			const tokens = { meter_price_h0: pricesNext8h[0] };
+			const state = { priceNow, this_day: priceThisDayAvg, next_8h: priceNext8hAvg };
+			this.homey.app.triggerPriceBelowAvg(this, tokens, state);
+			this.homey.app.triggerPriceAboveAvg(this, tokens, state);
 
 		} catch (error) {
 			this.error(error);

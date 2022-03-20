@@ -1,7 +1,7 @@
 {
   "_comment": "This file is generated. Please edit .homeycompose/app.json instead.",
   "id": "com.gruijter.powerhour",
-  "version": "4.2.0",
+  "version": "4.2.1",
   "compatibility": ">=5.0.0",
   "brandColor": "#df5020",
   "sdk": 3,
@@ -149,6 +149,204 @@
           }
         ],
         "id": "meter_price_h0_changed"
+      },
+      {
+        "title": {
+          "en": "The price becomes above avg.",
+          "nl": "De prijs wordt hoger dan gem."
+        },
+        "titleFormatted": {
+          "en": "The price becomes [[percent]] above avg. [[period]]",
+          "nl": "De prijs wordt [[percent]] hoger dan gem. [[period]]"
+        },
+        "highlight": true,
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=dap"
+          },
+          {
+            "type": "dropdown",
+            "name": "percent",
+            "title": {
+              "en": "%"
+            },
+            "values": [
+              {
+                "id": "0",
+                "label": {
+                  "en": "0%"
+                }
+              },
+              {
+                "id": "10",
+                "label": {
+                  "en": "10%"
+                }
+              },
+              {
+                "id": "20",
+                "label": {
+                  "en": "20%"
+                }
+              },
+              {
+                "id": "30",
+                "label": {
+                  "en": "30%"
+                }
+              },
+              {
+                "id": "40",
+                "label": {
+                  "en": "40%"
+                }
+              },
+              {
+                "id": "50",
+                "label": {
+                  "en": "50%"
+                }
+              }
+            ]
+          },
+          {
+            "type": "dropdown",
+            "name": "period",
+            "title": {
+              "en": "period",
+              "nl": "periode"
+            },
+            "values": [
+              {
+                "id": "this_day",
+                "label": {
+                  "en": "this day",
+                  "nl": "deze dag"
+                }
+              },
+              {
+                "id": "next_8h",
+                "label": {
+                  "en": "next 8H",
+                  "nl": "komende 8U"
+                }
+              }
+            ]
+          }
+        ],
+        "tokens": [
+          {
+            "name": "meter_price_h0",
+            "title": {
+              "en": "Price now",
+              "nl": "Prijs nu"
+            },
+            "type": "number",
+            "example": 27.5
+          }
+        ],
+        "id": "price_above_avg"
+      },
+      {
+        "title": {
+          "en": "The price becomes below avg.",
+          "nl": "De prijs wordt lager dan gem."
+        },
+        "titleFormatted": {
+          "en": "The price becomes [[percent]] below avg. [[period]]",
+          "nl": "De prijs wordt [[percent]] lager dan gem. [[period]]"
+        },
+        "highlight": true,
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=dap"
+          },
+          {
+            "type": "dropdown",
+            "name": "percent",
+            "title": {
+              "en": "%"
+            },
+            "values": [
+              {
+                "id": "0",
+                "label": {
+                  "en": "0%"
+                }
+              },
+              {
+                "id": "10",
+                "label": {
+                  "en": "10%"
+                }
+              },
+              {
+                "id": "20",
+                "label": {
+                  "en": "20%"
+                }
+              },
+              {
+                "id": "30",
+                "label": {
+                  "en": "30%"
+                }
+              },
+              {
+                "id": "40",
+                "label": {
+                  "en": "40%"
+                }
+              },
+              {
+                "id": "50",
+                "label": {
+                  "en": "50%"
+                }
+              }
+            ]
+          },
+          {
+            "type": "dropdown",
+            "name": "period",
+            "title": {
+              "en": "period",
+              "nl": "periode"
+            },
+            "values": [
+              {
+                "id": "this_day",
+                "label": {
+                  "en": "this day",
+                  "nl": "deze dag"
+                }
+              },
+              {
+                "id": "next_8h",
+                "label": {
+                  "en": "next 8H",
+                  "nl": "komende 8U"
+                }
+              }
+            ]
+          }
+        ],
+        "tokens": [
+          {
+            "name": "meter_price_h0",
+            "title": {
+              "en": "Price now",
+              "nl": "Prijs nu"
+            },
+            "type": "number",
+            "example": 27.5
+          }
+        ],
+        "id": "price_below_avg"
       }
     ],
     "actions": [

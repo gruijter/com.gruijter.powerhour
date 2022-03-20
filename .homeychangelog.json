@@ -1,4 +1,7 @@
 {
+  "4.2.1": {
+    "en": "Added Day Ahead Gas pricing from TTF market. Added trigger flow cards 'Price above/below average'."
+  },
   "4.2.0": {
     "en": "Fix Homey fw 7.4.0 compatibility. Added Day Ahead Gas pricing from TTF market. Update to homey-api@1.5.14."
   },

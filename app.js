@@ -99,6 +99,31 @@ class MyApp extends Homey.App {
 			device.updateMeterFromFlow(args.value);
 		};
 
+		// trigger cards
+		this._priceBelowAvg = this.homey.flow.getDeviceTriggerCard('price_below_avg');
+		this._priceBelowAvg.registerRunListener(async (args, state) => {
+			const percent = 100 * (1 - state.priceNow / state[args.period]);
+			return percent >= Number(args.percent);
+		});
+		this.triggerPriceBelowAvg = (device, tokens, state) => {
+			this._priceBelowAvg
+				.trigger(device, tokens, state)
+				// .then(this.log(device.getName(), tokens))
+				.catch(this.error);
+		};
+
+		this._priceAboveAvg = this.homey.flow.getDeviceTriggerCard('price_above_avg');
+		this._priceAboveAvg.registerRunListener(async (args, state) => {
+			const percent = 100 * (state.priceNow / state[args.period] - 1);
+			return percent >= Number(args.percent);
+		});
+		this.triggerPriceAboveAvg = (device, tokens, state) => {
+			this._priceAboveAvg
+				.trigger(device, tokens, state)
+				// .then(this.log(device.getName(), tokens))
+				.catch(this.error);
+		};
+
 		// action cards
 		const setTariffPower = this.homey.flow.getActionCard('set_tariff_power');
 		setTariffPower
