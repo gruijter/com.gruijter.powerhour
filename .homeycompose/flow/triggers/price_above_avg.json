@@ -35,13 +35,13 @@
 				"nl": "periode"
 			},
 			"values": [
-				{	"id": "this_day",
+				{	"id": "this_day_avg",
 					"label": { 
 						"en": "this day",
 						"nl": "deze dag"
 					}
 				},
-				{	"id": "next_8h",
+				{	"id": "next_8h_avg",
 					"label": { 
 						"en": "next 8H",
 						"nl": "komende 8U"

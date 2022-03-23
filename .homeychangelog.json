@@ -1,4 +1,7 @@
 {
+  "4.2.2": {
+    "en": "Fixed Day Ahead Gas pricing from TTF market. Added trigger flow cards 'price becomes lowest for [[period]]'. Update to homey-api@1.5.18."
+  },
   "4.2.1": {
     "en": "Added Day Ahead Gas pricing from TTF market. Added trigger flow cards 'Price above/below average'."
   },

@@ -1,7 +1,7 @@
 {
   "_comment": "This file is generated. Please edit .homeycompose/app.json instead.",
   "id": "com.gruijter.powerhour",
-  "version": "4.2.1",
+  "version": "4.2.2",
   "compatibility": ">=5.0.0",
   "brandColor": "#df5020",
   "sdk": 3,
@@ -220,14 +220,14 @@
             },
             "values": [
               {
-                "id": "this_day",
+                "id": "this_day_avg",
                 "label": {
                   "en": "this day",
                   "nl": "deze dag"
                 }
               },
               {
-                "id": "next_8h",
+                "id": "next_8h_avg",
                 "label": {
                   "en": "next 8H",
                   "nl": "komende 8U"
@@ -319,14 +319,14 @@
             },
             "values": [
               {
-                "id": "this_day",
+                "id": "this_day_avg",
                 "label": {
                   "en": "this day",
                   "nl": "deze dag"
                 }
               },
               {
-                "id": "next_8h",
+                "id": "next_8h_avg",
                 "label": {
                   "en": "next 8H",
                   "nl": "komende 8U"
@@ -347,6 +347,102 @@
           }
         ],
         "id": "price_below_avg"
+      },
+      {
+        "title": {
+          "en": "The price becomes lowest",
+          "nl": "De prijs wordt het laagst"
+        },
+        "titleFormatted": {
+          "en": "The price becomes lowest for [[period]]",
+          "nl": "De prijs wordt het laagst voor [[period]]"
+        },
+        "highlight": true,
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=dap"
+          },
+          {
+            "type": "dropdown",
+            "name": "period",
+            "title": {
+              "en": "period",
+              "nl": "periode"
+            },
+            "values": [
+              {
+                "id": "this_day",
+                "label": {
+                  "en": "this day",
+                  "nl": "deze dag"
+                }
+              },
+              {
+                "id": "2",
+                "label": {
+                  "en": "next 2H",
+                  "nl": "komende 2U"
+                }
+              },
+              {
+                "id": "3",
+                "label": {
+                  "en": "next 3H",
+                  "nl": "komende 3U"
+                }
+              },
+              {
+                "id": "4",
+                "label": {
+                  "en": "next 4H",
+                  "nl": "komende 4U"
+                }
+              },
+              {
+                "id": "5",
+                "label": {
+                  "en": "next 5H",
+                  "nl": "komende 5U"
+                }
+              },
+              {
+                "id": "6",
+                "label": {
+                  "en": "next 6H",
+                  "nl": "komende 6U"
+                }
+              },
+              {
+                "id": "7",
+                "label": {
+                  "en": "next 7H",
+                  "nl": "komende 7U"
+                }
+              },
+              {
+                "id": "8",
+                "label": {
+                  "en": "next 8H",
+                  "nl": "komende 8U"
+                }
+              }
+            ]
+          }
+        ],
+        "tokens": [
+          {
+            "name": "meter_price_h0",
+            "title": {
+              "en": "Price now",
+              "nl": "Prijs nu"
+            },
+            "type": "number",
+            "example": 27.5
+          }
+        ],
+        "id": "price_lowest"
       }
     ],
     "actions": [

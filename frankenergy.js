@@ -81,9 +81,9 @@ class Frank {
 			const end = new Date(start);
 			end.setDate(end.getDate() + 1);
 
-			const startDate = start.toLocaleDateString('en-GB').split('/').reverse().join('-'); // '2022-03-18'
-			const endDate = end.toLocaleDateString('en-GB').split('/').reverse().join('-'); // '2022-03-19'
-
+			const startDate = `${start.getFullYear()}-${(start.getMonth() + 1).toString().padStart(2, '0')}`	// '2022-03-18'
+				+ `-${start.getDate().toString().padStart(2, '0')}`;
+			const endDate = `${end.getFullYear()}-${(end.getMonth() + 1).toString().padStart(2, '0')}-${end.getDate().toString().padStart(2, '0')}`;
 			const query = `query MarketPrices {
 				marketPricesGas(startDate: "${startDate}", endDate: "${endDate}") {
 				from

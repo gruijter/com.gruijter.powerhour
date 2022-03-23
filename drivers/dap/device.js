@@ -186,7 +186,10 @@ class MyDevice extends Homey.Device {
 
 			// trigger flow cards
 			const tokens = { meter_price_h0: pricesNext8h[0] };
-			const state = { priceNow, this_day: priceThisDayAvg, next_8h: priceNext8hAvg };
+			const state = {
+				priceNow, this_day_avg: priceThisDayAvg, next_8h_avg: priceNext8hAvg, pricesThisDay, pricesNext8h,
+			};
+			this.homey.app.triggerPriceLowest(this, tokens, state);
 			this.homey.app.triggerPriceBelowAvg(this, tokens, state);
 			this.homey.app.triggerPriceAboveAvg(this, tokens, state);
 

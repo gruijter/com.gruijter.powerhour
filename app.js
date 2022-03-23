@@ -100,6 +100,21 @@ class MyApp extends Homey.App {
 		};
 
 		// trigger cards
+		this._priceLowest = this.homey.flow.getDeviceTriggerCard('price_lowest');
+		this._priceLowest.registerRunListener(async (args, state) => {
+			let minimum = Math.min(...state.pricesThisDay);
+			if (args.period !== 'this_day') {
+				minimum = Math.min(...state.pricesNext8h.slice(0, Number(args.period)));
+			}
+			return state.priceNow <= minimum;
+		});
+		this.triggerPriceLowest = (device, tokens, state) => {
+			this._priceLowest
+				.trigger(device, tokens, state)
+				// .then(this.log(device.getName(), tokens))
+				.catch(this.error);
+		};
+
 		this._priceBelowAvg = this.homey.flow.getDeviceTriggerCard('price_below_avg');
 		this._priceBelowAvg.registerRunListener(async (args, state) => {
 			const percent = 100 * (1 - state.priceNow / state[args.period]);
