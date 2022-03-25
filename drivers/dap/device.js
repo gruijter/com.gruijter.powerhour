@@ -141,7 +141,7 @@ class MyDevice extends Homey.Device {
 	}
 
 	// add markUp and convert from mWh>kWh
-	async markUpPrices(array) {
+	async markUpPrices([...array]) {
 		return array.map((price) => {
 			const muPrice = (((price * (1 + this.settings.variableMarkup / 100)) / 1000) + this.settings.fixedMarkup) * this.settings.exchangeRate;
 			return muPrice;
@@ -151,22 +151,31 @@ class MyDevice extends Homey.Device {
 	async handlePrices() {
 		try {
 			if (!this.prices || !this.prices[0]) throw Error('no price info available');
+			const prices = [...this.prices];
 
 			// get the present hour (0 - 23)
 			const now = new Date();
 			const nowLocal = new Date(now.toLocaleString('en-US', { timeZone: this.timeZone }));
 			const H0 = nowLocal.getHours();
 
+			// check for correct date, if new day shift prices[0]
+			let priceDate = new Date(new Date(prices[0].timeInterval.start).toLocaleString('en-US', { timeZone: this.timeZone }));
+			if (priceDate.getDate() !== nowLocal.getDate()) {
+				prices.shift();
+				if (!prices[0]) throw Error('No price information available for this day');
+				priceDate = new Date(new Date(prices[0].timeInterval.start).toLocaleString('en-US', { timeZone: this.timeZone }));
+				if (priceDate.getDate() !== nowLocal.getDate()) throw Error('Available price information is for incorrect day');
+			}
+
 			// Array pricesThisDay with markUp
-			const pricesThisDay = await this.markUpPrices(this.prices[0].prices);
+			const pricesThisDay = await this.markUpPrices(prices[0].prices);
 			const priceThisDayAvg = average(pricesThisDay);
 
 			// Array pricesNext8h with markUp
-			let pricesNext8h = this.prices[0].prices.slice(H0, H0 + 8);
+			let pricesNext8h = prices[0].prices.slice(H0, H0 + 8);
 			if (pricesNext8h.length < 8) {
-				if (!this.prices[1]) throw Error('Next 8 hour prices are not available');
-				pricesNext8h = pricesNext8h.concat(this.prices[1].prices.slice(0, 8 - pricesNext8h.length));
-
+				if (!prices[1]) throw Error('Next 8 hour prices are not available');
+				pricesNext8h = pricesNext8h.concat(prices[1].prices.slice(0, 8 - pricesNext8h.length));
 			}
 			pricesNext8h = await this.markUpPrices(pricesNext8h);
 			const priceNext8hAvg = average(pricesNext8h);
@@ -175,9 +184,8 @@ class MyDevice extends Homey.Device {
 			// set capabilities
 			await this.setCapability('meter_price_this_day_avg', priceThisDayAvg);
 			await this.setCapability('meter_price_next_8h_avg', priceNext8hAvg);
-			pricesNext8h.forEach(async (price, index) => {
-				await this.setCapability(`meter_price_h${index}`, price).catch(this.error);
-			});
+			const allSet = pricesNext8h.map((price, index) => this.setCapability(`meter_price_h${index}`, price).catch(this.error));
+			await Promise.all(allSet);
 
 			// send tariff to power or gas driver
 			let sendTo = 'set_tariff_power';
@@ -192,6 +200,7 @@ class MyDevice extends Homey.Device {
 			this.homey.app.triggerPriceLowest(this, tokens, state);
 			this.homey.app.triggerPriceBelowAvg(this, tokens, state);
 			this.homey.app.triggerPriceAboveAvg(this, tokens, state);
+			this.homey.app.triggerPriceLowestAvg(this, tokens, state);
 
 		} catch (error) {
 			this.error(error);

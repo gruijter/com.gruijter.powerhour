@@ -1,0 +1,91 @@
+{
+	"title": {
+		"en": "The avg. price next hours becomes lowest",
+		"nl": "De gem. prijs de komende uren wordt het laagst"
+	},
+	"titleFormatted": {
+		"en": "The avg. price [[hours]] becomes lowest within [[period]]",
+		"nl": "De gem. prijs [[hours]] wordt het laagst binnen [[period]]"
+	},
+	"highlight": true,
+	"args": [
+		{
+		  "type": "device",
+		  "name": "device",
+		  "filter": "driver_id=dap"
+		},
+		{
+			"type": "dropdown",
+			"name": "period",
+			"title": { 
+				"en": "period",
+				"nl": "periode"
+			},
+			"values": [
+				{	"id": "this_day",
+					"label": { 
+						"en": "this day",
+						"nl": "deze dag"
+					}
+				},
+				{	"id": "8",
+					"label": { 
+						"en": "next 8H",
+						"nl": "komende 8U"
+					}
+				}
+			]
+		},
+		{
+			"type": "dropdown",
+			"name": "hours",
+			"title": { 
+				"en": "hours",
+				"nl": "uren"
+			},
+			"values": [
+				{	"id": "2",
+					"label": { 
+						"en": "next 2H",
+						"nl": "komende 2U"
+					}
+				},
+				{	"id": "3",
+					"label": { 
+						"en": "next 3H",
+						"nl": "komende 3U"
+					}
+				},
+				{	"id": "4",
+					"label": { 
+						"en": "next 4H",
+						"nl": "komende 4U"
+					}
+				},
+				{	"id": "5",
+					"label": { 
+						"en": "next 5H",
+						"nl": "komende 5U"
+					}
+				},
+				{	"id": "6",
+					"label": { 
+						"en": "next 6H",
+						"nl": "komende 6U"
+					}
+				}
+			]
+		}
+	],
+	"tokens": [
+		{
+		"name": "meter_price_h0",
+		"title": {
+			"en": "Price now",
+			"nl": "Prijs nu"
+		},
+		"type": "number",
+		"example": 27.5
+		}
+	]
+}

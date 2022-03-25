@@ -74,12 +74,16 @@ class Frank {
 
 	async getPricesDay(day) {
 		try {
-			const start = new Date(day);
+			let start = new Date(day);
 			start.setMinutes(0);
 			start.setSeconds(0);
 			start.setMilliseconds(0);
-			const end = new Date(start);
+			let end = new Date(start);
 			end.setDate(end.getDate() + 1);
+
+			// convert to NL timezone for API request
+			start = new Date(start.toLocaleString('en-US', { timeZone: 'Europe/Amsterdam' }));
+			end = new Date(end.toLocaleString('en-US', { timeZone: 'Europe/Amsterdam' }));
 
 			const startDate = `${start.getFullYear()}-${(start.getMonth() + 1).toString().padStart(2, '0')}`	// '2022-03-18'
 				+ `-${start.getDate().toString().padStart(2, '0')}`;
@@ -90,7 +94,7 @@ class Frank {
 				till
 				marketPrice
 				priceIncludingMarkup
-			  }
+				}
 			}`;
 			const path = '/';
 			const res = await this._makeRequest(path, JSON.stringify({ query }));
@@ -198,326 +202,326 @@ module.exports = Frank;
 /*
 
 [
-  {
-    timeInterval: {
-      start: '2022-03-17T23:00:00.000Z',
-      end: '2022-03-18T23:00:00.000Z'
-    },
-    prices: [
-      951.73, 951.73, 951.73,
-      951.73, 951.73, 951.73,
-      997.62, 997.62, 997.62,
-      997.62, 997.62, 997.62,
-      997.62, 997.62, 997.62,
-      997.62, 997.62, 997.62,
-      997.62, 997.62, 997.62,
-      997.62, 997.62, 997.62
-    ]
-  },
-  {
-    timeInterval: {
-      start: '2022-03-18T23:00:00.000Z',
-      end: '2022-03-19T05:00:00.000Z'
-    },
-    prices: [ 997.62, 997.62, 997.62, 997.62, 997.62, 997.62 ]
-  }
+	{
+		timeInterval: {
+			start: '2022-03-17T23:00:00.000Z',
+			end: '2022-03-18T23:00:00.000Z'
+		},
+		prices: [
+			951.73, 951.73, 951.73,
+			951.73, 951.73, 951.73,
+			997.62, 997.62, 997.62,
+			997.62, 997.62, 997.62,
+			997.62, 997.62, 997.62,
+			997.62, 997.62, 997.62,
+			997.62, 997.62, 997.62,
+			997.62, 997.62, 997.62
+		]
+	},
+	{
+		timeInterval: {
+			start: '2022-03-18T23:00:00.000Z',
+			end: '2022-03-19T05:00:00.000Z'
+		},
+		prices: [ 997.62, 997.62, 997.62, 997.62, 997.62, 997.62 ]
+	}
 ]
 
 {
-  data: {
-    marketPricesElectricity: [
-      {
-        till: '2022-03-18T00:00:00.000Z',
-        from: '2022-03-17T23:00:00.000Z',
-        marketPrice: 0.20303,
-        priceIncludingMarkup: 0.34397
-      },
-      {
-        till: '2022-03-18T01:00:00.000Z',
-        from: '2022-03-18T00:00:00.000Z',
-        marketPrice: 0.20697,
-        priceIncludingMarkup: 0.34873
-      },
-      {
-        till: '2022-03-18T02:00:00.000Z',
-        from: '2022-03-18T01:00:00.000Z',
-        marketPrice: 0.23055,
-        priceIncludingMarkup: 0.37727
-      },
-      {
-        till: '2022-03-18T03:00:00.000Z',
-        from: '2022-03-18T02:00:00.000Z',
-        marketPrice: 0.2065,
-        priceIncludingMarkup: 0.34817
-      },
-      {
-        till: '2022-03-18T04:00:00.000Z',
-        from: '2022-03-18T03:00:00.000Z',
-        marketPrice: 0.2099,
-        priceIncludingMarkup: 0.35228
-      },
-      {
-        till: '2022-03-18T05:00:00.000Z',
-        from: '2022-03-18T04:00:00.000Z',
-        marketPrice: 0.21706,
-        priceIncludingMarkup: 0.36094
-      },
-      {
-        till: '2022-03-18T06:00:00.000Z',
-        from: '2022-03-18T05:00:00.000Z',
-        marketPrice: 0.26297,
-        priceIncludingMarkup: 0.41649
-      },
-      {
-        till: '2022-03-18T07:00:00.000Z',
-        from: '2022-03-18T06:00:00.000Z',
-        marketPrice: 0.29151,
-        priceIncludingMarkup: 0.45103
-      },
-      {
-        till: '2022-03-18T08:00:00.000Z',
-        from: '2022-03-18T07:00:00.000Z',
-        marketPrice: 0.28781,
-        priceIncludingMarkup: 0.44655
-      },
-      {
-        till: '2022-03-18T09:00:00.000Z',
-        from: '2022-03-18T08:00:00.000Z',
-        marketPrice: 0.23979,
-        priceIncludingMarkup: 0.38845
-      },
-      {
-        till: '2022-03-18T10:00:00.000Z',
-        from: '2022-03-18T09:00:00.000Z',
-        marketPrice: 0.2096,
-        priceIncludingMarkup: 0.35192
-      },
-      {
-        till: '2022-03-18T11:00:00.000Z',
-        from: '2022-03-18T10:00:00.000Z',
-        marketPrice: 0.19367,
-        priceIncludingMarkup: 0.33264
-      },
-      {
-        till: '2022-03-18T12:00:00.000Z',
-        from: '2022-03-18T11:00:00.000Z',
-        marketPrice: 0.19742,
-        priceIncludingMarkup: 0.33718
-      },
-      {
-        till: '2022-03-18T13:00:00.000Z',
-        from: '2022-03-18T12:00:00.000Z',
-        marketPrice: 0.19718,
-        priceIncludingMarkup: 0.33689
-      },
-      {
-        till: '2022-03-18T14:00:00.000Z',
-        from: '2022-03-18T13:00:00.000Z',
-        marketPrice: 0.2001,
-        priceIncludingMarkup: 0.34042
-      },
-      {
-        till: '2022-03-18T15:00:00.000Z',
-        from: '2022-03-18T14:00:00.000Z',
-        marketPrice: 0.19997,
-        priceIncludingMarkup: 0.34026
-      },
-      {
-        till: '2022-03-18T16:00:00.000Z',
-        from: '2022-03-18T15:00:00.000Z',
-        marketPrice: 0.20703,
-        priceIncludingMarkup: 0.34881
-      },
-      {
-        till: '2022-03-18T17:00:00.000Z',
-        from: '2022-03-18T16:00:00.000Z',
-        marketPrice: 0.24554,
-        priceIncludingMarkup: 0.3954
-      },
-      {
-        till: '2022-03-18T18:00:00.000Z',
-        from: '2022-03-18T17:00:00.000Z',
-        marketPrice: 0.27531,
-        priceIncludingMarkup: 0.43143
-      },
-      {
-        till: '2022-03-18T19:00:00.000Z',
-        from: '2022-03-18T18:00:00.000Z',
-        marketPrice: 0.28652,
-        priceIncludingMarkup: 0.44499
-      },
-      {
-        till: '2022-03-18T20:00:00.000Z',
-        from: '2022-03-18T19:00:00.000Z',
-        marketPrice: 0.2499,
-        priceIncludingMarkup: 0.40068
-      },
-      {
-        till: '2022-03-18T21:00:00.000Z',
-        from: '2022-03-18T20:00:00.000Z',
-        marketPrice: 0.21694,
-        priceIncludingMarkup: 0.3608
-      },
-      {
-        till: '2022-03-18T22:00:00.000Z',
-        from: '2022-03-18T21:00:00.000Z',
-        marketPrice: 0.2285,
-        priceIncludingMarkup: 0.37479
-      },
-      {
-        till: '2022-03-18T23:00:00.000Z',
-        from: '2022-03-18T22:00:00.000Z',
-        marketPrice: 0.18693,
-        priceIncludingMarkup: 0.32449
-      }
-    ],
-    marketPricesGas: [
-      {
-        from: '2022-03-17T23:00:00.000Z',
-        till: '2022-03-18T00:00:00.000Z',
-        marketPrice: 0.95173,
-        priceIncludingMarkup: 1.79259
-      },
-      {
-        from: '2022-03-18T00:00:00.000Z',
-        till: '2022-03-18T01:00:00.000Z',
-        marketPrice: 0.95173,
-        priceIncludingMarkup: 1.79259
-      },
-      {
-        from: '2022-03-18T01:00:00.000Z',
-        till: '2022-03-18T02:00:00.000Z',
-        marketPrice: 0.95173,
-        priceIncludingMarkup: 1.79259
-      },
-      {
-        from: '2022-03-18T02:00:00.000Z',
-        till: '2022-03-18T03:00:00.000Z',
-        marketPrice: 0.95173,
-        priceIncludingMarkup: 1.79259
-      },
-      {
-        from: '2022-03-18T03:00:00.000Z',
-        till: '2022-03-18T04:00:00.000Z',
-        marketPrice: 0.95173,
-        priceIncludingMarkup: 1.79259
-      },
-      {
-        from: '2022-03-18T04:00:00.000Z',
-        till: '2022-03-18T05:00:00.000Z',
-        marketPrice: 0.95173,
-        priceIncludingMarkup: 1.79259
-      },
-      {
-        from: '2022-03-18T05:00:00.000Z',
-        till: '2022-03-18T06:00:00.000Z',
-        marketPrice: 0.99762,
-        priceIncludingMarkup: 1.84812
-      },
-      {
-        from: '2022-03-18T06:00:00.000Z',
-        till: '2022-03-18T07:00:00.000Z',
-        marketPrice: 0.99762,
-        priceIncludingMarkup: 1.84812
-      },
-      {
-        from: '2022-03-18T07:00:00.000Z',
-        till: '2022-03-18T08:00:00.000Z',
-        marketPrice: 0.99762,
-        priceIncludingMarkup: 1.84812
-      },
-      {
-        from: '2022-03-18T08:00:00.000Z',
-        till: '2022-03-18T09:00:00.000Z',
-        marketPrice: 0.99762,
-        priceIncludingMarkup: 1.84812
-      },
-      {
-        from: '2022-03-18T09:00:00.000Z',
-        till: '2022-03-18T10:00:00.000Z',
-        marketPrice: 0.99762,
-        priceIncludingMarkup: 1.84812
-      },
-      {
-        from: '2022-03-18T10:00:00.000Z',
-        till: '2022-03-18T11:00:00.000Z',
-        marketPrice: 0.99762,
-        priceIncludingMarkup: 1.84812
-      },
-      {
-        from: '2022-03-18T11:00:00.000Z',
-        till: '2022-03-18T12:00:00.000Z',
-        marketPrice: 0.99762,
-        priceIncludingMarkup: 1.84812
-      },
-      {
-        from: '2022-03-18T12:00:00.000Z',
-        till: '2022-03-18T13:00:00.000Z',
-        marketPrice: 0.99762,
-        priceIncludingMarkup: 1.84812
-      },
-      {
-        from: '2022-03-18T13:00:00.000Z',
-        till: '2022-03-18T14:00:00.000Z',
-        marketPrice: 0.99762,
-        priceIncludingMarkup: 1.84812
-      },
-      {
-        from: '2022-03-18T14:00:00.000Z',
-        till: '2022-03-18T15:00:00.000Z',
-        marketPrice: 0.99762,
-        priceIncludingMarkup: 1.84812
-      },
-      {
-        from: '2022-03-18T15:00:00.000Z',
-        till: '2022-03-18T16:00:00.000Z',
-        marketPrice: 0.99762,
-        priceIncludingMarkup: 1.84812
-      },
-      {
-        from: '2022-03-18T16:00:00.000Z',
-        till: '2022-03-18T17:00:00.000Z',
-        marketPrice: 0.99762,
-        priceIncludingMarkup: 1.84812
-      },
-      {
-        from: '2022-03-18T17:00:00.000Z',
-        till: '2022-03-18T18:00:00.000Z',
-        marketPrice: 0.99762,
-        priceIncludingMarkup: 1.84812
-      },
-      {
-        from: '2022-03-18T18:00:00.000Z',
-        till: '2022-03-18T19:00:00.000Z',
-        marketPrice: 0.99762,
-        priceIncludingMarkup: 1.84812
-      },
-      {
-        from: '2022-03-18T19:00:00.000Z',
-        till: '2022-03-18T20:00:00.000Z',
-        marketPrice: 0.99762,
-        priceIncludingMarkup: 1.84812
-      },
-      {
-        from: '2022-03-18T20:00:00.000Z',
-        till: '2022-03-18T21:00:00.000Z',
-        marketPrice: 0.99762,
-        priceIncludingMarkup: 1.84812
-      },
-      {
-        from: '2022-03-18T21:00:00.000Z',
-        till: '2022-03-18T22:00:00.000Z',
-        marketPrice: 0.99762,
-        priceIncludingMarkup: 1.84812
-      },
-      {
-        from: '2022-03-18T22:00:00.000Z',
-        till: '2022-03-18T23:00:00.000Z',
-        marketPrice: 0.99762,
-        priceIncludingMarkup: 1.84812
-      }
-    ]
-  }
+	data: {
+		marketPricesElectricity: [
+			{
+				till: '2022-03-18T00:00:00.000Z',
+				from: '2022-03-17T23:00:00.000Z',
+				marketPrice: 0.20303,
+				priceIncludingMarkup: 0.34397
+			},
+			{
+				till: '2022-03-18T01:00:00.000Z',
+				from: '2022-03-18T00:00:00.000Z',
+				marketPrice: 0.20697,
+				priceIncludingMarkup: 0.34873
+			},
+			{
+				till: '2022-03-18T02:00:00.000Z',
+				from: '2022-03-18T01:00:00.000Z',
+				marketPrice: 0.23055,
+				priceIncludingMarkup: 0.37727
+			},
+			{
+				till: '2022-03-18T03:00:00.000Z',
+				from: '2022-03-18T02:00:00.000Z',
+				marketPrice: 0.2065,
+				priceIncludingMarkup: 0.34817
+			},
+			{
+				till: '2022-03-18T04:00:00.000Z',
+				from: '2022-03-18T03:00:00.000Z',
+				marketPrice: 0.2099,
+				priceIncludingMarkup: 0.35228
+			},
+			{
+				till: '2022-03-18T05:00:00.000Z',
+				from: '2022-03-18T04:00:00.000Z',
+				marketPrice: 0.21706,
+				priceIncludingMarkup: 0.36094
+			},
+			{
+				till: '2022-03-18T06:00:00.000Z',
+				from: '2022-03-18T05:00:00.000Z',
+				marketPrice: 0.26297,
+				priceIncludingMarkup: 0.41649
+			},
+			{
+				till: '2022-03-18T07:00:00.000Z',
+				from: '2022-03-18T06:00:00.000Z',
+				marketPrice: 0.29151,
+				priceIncludingMarkup: 0.45103
+			},
+			{
+				till: '2022-03-18T08:00:00.000Z',
+				from: '2022-03-18T07:00:00.000Z',
+				marketPrice: 0.28781,
+				priceIncludingMarkup: 0.44655
+			},
+			{
+				till: '2022-03-18T09:00:00.000Z',
+				from: '2022-03-18T08:00:00.000Z',
+				marketPrice: 0.23979,
+				priceIncludingMarkup: 0.38845
+			},
+			{
+				till: '2022-03-18T10:00:00.000Z',
+				from: '2022-03-18T09:00:00.000Z',
+				marketPrice: 0.2096,
+				priceIncludingMarkup: 0.35192
+			},
+			{
+				till: '2022-03-18T11:00:00.000Z',
+				from: '2022-03-18T10:00:00.000Z',
+				marketPrice: 0.19367,
+				priceIncludingMarkup: 0.33264
+			},
+			{
+				till: '2022-03-18T12:00:00.000Z',
+				from: '2022-03-18T11:00:00.000Z',
+				marketPrice: 0.19742,
+				priceIncludingMarkup: 0.33718
+			},
+			{
+				till: '2022-03-18T13:00:00.000Z',
+				from: '2022-03-18T12:00:00.000Z',
+				marketPrice: 0.19718,
+				priceIncludingMarkup: 0.33689
+			},
+			{
+				till: '2022-03-18T14:00:00.000Z',
+				from: '2022-03-18T13:00:00.000Z',
+				marketPrice: 0.2001,
+				priceIncludingMarkup: 0.34042
+			},
+			{
+				till: '2022-03-18T15:00:00.000Z',
+				from: '2022-03-18T14:00:00.000Z',
+				marketPrice: 0.19997,
+				priceIncludingMarkup: 0.34026
+			},
+			{
+				till: '2022-03-18T16:00:00.000Z',
+				from: '2022-03-18T15:00:00.000Z',
+				marketPrice: 0.20703,
+				priceIncludingMarkup: 0.34881
+			},
+			{
+				till: '2022-03-18T17:00:00.000Z',
+				from: '2022-03-18T16:00:00.000Z',
+				marketPrice: 0.24554,
+				priceIncludingMarkup: 0.3954
+			},
+			{
+				till: '2022-03-18T18:00:00.000Z',
+				from: '2022-03-18T17:00:00.000Z',
+				marketPrice: 0.27531,
+				priceIncludingMarkup: 0.43143
+			},
+			{
+				till: '2022-03-18T19:00:00.000Z',
+				from: '2022-03-18T18:00:00.000Z',
+				marketPrice: 0.28652,
+				priceIncludingMarkup: 0.44499
+			},
+			{
+				till: '2022-03-18T20:00:00.000Z',
+				from: '2022-03-18T19:00:00.000Z',
+				marketPrice: 0.2499,
+				priceIncludingMarkup: 0.40068
+			},
+			{
+				till: '2022-03-18T21:00:00.000Z',
+				from: '2022-03-18T20:00:00.000Z',
+				marketPrice: 0.21694,
+				priceIncludingMarkup: 0.3608
+			},
+			{
+				till: '2022-03-18T22:00:00.000Z',
+				from: '2022-03-18T21:00:00.000Z',
+				marketPrice: 0.2285,
+				priceIncludingMarkup: 0.37479
+			},
+			{
+				till: '2022-03-18T23:00:00.000Z',
+				from: '2022-03-18T22:00:00.000Z',
+				marketPrice: 0.18693,
+				priceIncludingMarkup: 0.32449
+			}
+		],
+		marketPricesGas: [
+			{
+				from: '2022-03-17T23:00:00.000Z',
+				till: '2022-03-18T00:00:00.000Z',
+				marketPrice: 0.95173,
+				priceIncludingMarkup: 1.79259
+			},
+			{
+				from: '2022-03-18T00:00:00.000Z',
+				till: '2022-03-18T01:00:00.000Z',
+				marketPrice: 0.95173,
+				priceIncludingMarkup: 1.79259
+			},
+			{
+				from: '2022-03-18T01:00:00.000Z',
+				till: '2022-03-18T02:00:00.000Z',
+				marketPrice: 0.95173,
+				priceIncludingMarkup: 1.79259
+			},
+			{
+				from: '2022-03-18T02:00:00.000Z',
+				till: '2022-03-18T03:00:00.000Z',
+				marketPrice: 0.95173,
+				priceIncludingMarkup: 1.79259
+			},
+			{
+				from: '2022-03-18T03:00:00.000Z',
+				till: '2022-03-18T04:00:00.000Z',
+				marketPrice: 0.95173,
+				priceIncludingMarkup: 1.79259
+			},
+			{
+				from: '2022-03-18T04:00:00.000Z',
+				till: '2022-03-18T05:00:00.000Z',
+				marketPrice: 0.95173,
+				priceIncludingMarkup: 1.79259
+			},
+			{
+				from: '2022-03-18T05:00:00.000Z',
+				till: '2022-03-18T06:00:00.000Z',
+				marketPrice: 0.99762,
+				priceIncludingMarkup: 1.84812
+			},
+			{
+				from: '2022-03-18T06:00:00.000Z',
+				till: '2022-03-18T07:00:00.000Z',
+				marketPrice: 0.99762,
+				priceIncludingMarkup: 1.84812
+			},
+			{
+				from: '2022-03-18T07:00:00.000Z',
+				till: '2022-03-18T08:00:00.000Z',
+				marketPrice: 0.99762,
+				priceIncludingMarkup: 1.84812
+			},
+			{
+				from: '2022-03-18T08:00:00.000Z',
+				till: '2022-03-18T09:00:00.000Z',
+				marketPrice: 0.99762,
+				priceIncludingMarkup: 1.84812
+			},
+			{
+				from: '2022-03-18T09:00:00.000Z',
+				till: '2022-03-18T10:00:00.000Z',
+				marketPrice: 0.99762,
+				priceIncludingMarkup: 1.84812
+			},
+			{
+				from: '2022-03-18T10:00:00.000Z',
+				till: '2022-03-18T11:00:00.000Z',
+				marketPrice: 0.99762,
+				priceIncludingMarkup: 1.84812
+			},
+			{
+				from: '2022-03-18T11:00:00.000Z',
+				till: '2022-03-18T12:00:00.000Z',
+				marketPrice: 0.99762,
+				priceIncludingMarkup: 1.84812
+			},
+			{
+				from: '2022-03-18T12:00:00.000Z',
+				till: '2022-03-18T13:00:00.000Z',
+				marketPrice: 0.99762,
+				priceIncludingMarkup: 1.84812
+			},
+			{
+				from: '2022-03-18T13:00:00.000Z',
+				till: '2022-03-18T14:00:00.000Z',
+				marketPrice: 0.99762,
+				priceIncludingMarkup: 1.84812
+			},
+			{
+				from: '2022-03-18T14:00:00.000Z',
+				till: '2022-03-18T15:00:00.000Z',
+				marketPrice: 0.99762,
+				priceIncludingMarkup: 1.84812
+			},
+			{
+				from: '2022-03-18T15:00:00.000Z',
+				till: '2022-03-18T16:00:00.000Z',
+				marketPrice: 0.99762,
+				priceIncludingMarkup: 1.84812
+			},
+			{
+				from: '2022-03-18T16:00:00.000Z',
+				till: '2022-03-18T17:00:00.000Z',
+				marketPrice: 0.99762,
+				priceIncludingMarkup: 1.84812
+			},
+			{
+				from: '2022-03-18T17:00:00.000Z',
+				till: '2022-03-18T18:00:00.000Z',
+				marketPrice: 0.99762,
+				priceIncludingMarkup: 1.84812
+			},
+			{
+				from: '2022-03-18T18:00:00.000Z',
+				till: '2022-03-18T19:00:00.000Z',
+				marketPrice: 0.99762,
+				priceIncludingMarkup: 1.84812
+			},
+			{
+				from: '2022-03-18T19:00:00.000Z',
+				till: '2022-03-18T20:00:00.000Z',
+				marketPrice: 0.99762,
+				priceIncludingMarkup: 1.84812
+			},
+			{
+				from: '2022-03-18T20:00:00.000Z',
+				till: '2022-03-18T21:00:00.000Z',
+				marketPrice: 0.99762,
+				priceIncludingMarkup: 1.84812
+			},
+			{
+				from: '2022-03-18T21:00:00.000Z',
+				till: '2022-03-18T22:00:00.000Z',
+				marketPrice: 0.99762,
+				priceIncludingMarkup: 1.84812
+			},
+			{
+				from: '2022-03-18T22:00:00.000Z',
+				till: '2022-03-18T23:00:00.000Z',
+				marketPrice: 0.99762,
+				priceIncludingMarkup: 1.84812
+			}
+		]
+	}
 }
 
 */
