@@ -1,4 +1,7 @@
 {
+  "4.2.4": {
+    "en": "Update to homey-api@1.5.26."
+  },
   "4.2.3": {
     "en": "Fixed wrong DAP prices just after midnight. Fixed DAP Gas prices timezone offset. Added DAP trigger flow card 'Avg price next [[hours]] becomes lowest for [[period]]'. DAP capability update before custom triggers. Update to homey-api@1.5.19."
   },
