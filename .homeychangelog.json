@@ -1,4 +1,7 @@
 {
+  "4.2.5": {
+    "en": "Update to homey-api@1.5.28. Catch various unhandled rejections."
+  },
   "4.2.4": {
     "en": "Update to homey-api@1.5.26."
   },

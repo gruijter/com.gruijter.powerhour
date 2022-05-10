@@ -31,50 +31,54 @@ class SumMeterDriver extends Driver {
 
 	async onDriverInit() {
 		this.log('onDriverInit');
-
 		// add listener for hourly trigger
 		if (this.eventListenerHour) this.homey.removeListener('everyhour', this.eventListenerHour);
 		this.eventListenerHour = async () => {
 			// console.log('new hour event received');
 			const devices = this.getDevices();
-			devices.forEach((device) => {
-				const deviceName = device.getName();
-				// check for METER_VIA_FLOW device
-				if (device.getSettings().meter_via_flow) {
-					device.updateMeterFromFlow(null);
-					return;
+			devices.forEach(async (device) => {
+				try {
+					const deviceName = device.getName();
+					// check for METER_VIA_FLOW device
+					if (device.getSettings().meter_via_flow) {
+						await device.updateMeterFromFlow(null);
+						return;
+					}
+					// check if source device exists
+					const sourceDeviceExists = device.sourceDevice && device.sourceDevice.capabilitiesObj && (device.sourceDevice.available !== null);
+					if (!sourceDeviceExists) {
+						this.error(`Source device ${deviceName} is missing.`);
+						device.setUnavailable('Source device is missing. Retry in 10 minutes.');
+						device.restartDevice(10 * 60 * 1000); // restart after 10 minutes
+						return;
+					}
+					// check for METER_VIA_WATT
+					if (device.getSettings().use_measure_source) {
+						await device.updateMeterFromMeasure(null);
+						return;
+					}
+					// check if listener or polling is on, otherwise restart device
+					const ignorePollSetting = !device.getSettings().meter_via_flow && !device.getSettings().use_measure_source;
+					const pollingIsOn = !!device.getSettings().interval && device.intervalIdDevicePoll
+						&& (device.intervalIdDevicePoll._idleTimeout > 0);
+					const listeningIsOn = Object.keys(device.capabilityInstances).length > 0;
+					if (ignorePollSetting && !pollingIsOn && !listeningIsOn) {
+						this.error(`${deviceName} is not in polling or listening mode. Restarting now..`);
+						device.restartDevice(1000);
+						return;
+					}
+					// force immediate update
+					await device.pollMeter();
+					// check if source device is available
+					if (!device.sourceDevice.available) {
+						this.error(`Source device ${deviceName} is unavailable.`);
+						// device.setUnavailable('Source device is unavailable');
+						return;
+					}
+					device.setAvailable();
+				} catch (error) {
+					this.error(error);
 				}
-				// check if source device exists
-				const sourceDeviceExists = device.sourceDevice && device.sourceDevice.capabilitiesObj && (device.sourceDevice.available !== null);
-				if (!sourceDeviceExists) {
-					this.error(`Source device ${deviceName} is missing.`);
-					device.setUnavailable('Source device is missing. Retry in 10 minutes.');
-					device.restartDevice(10 * 60 * 1000); // restart after 10 minutes
-					return;
-				}
-				// check for METER_VIA_WATT
-				if (device.getSettings().use_measure_source) {
-					device.updateMeterFromMeasure(null);
-					return;
-				}
-				// check if listener or polling is on, otherwise restart device
-				const ignorePollSetting = !device.getSettings().meter_via_flow && !device.getSettings().use_measure_source;
-				const pollingIsOn = !!device.getSettings().interval && device.intervalIdDevicePoll && (device.intervalIdDevicePoll._idleTimeout > 0);
-				const listeningIsOn = Object.keys(device.capabilityInstances).length > 0;
-				if (ignorePollSetting && !pollingIsOn && !listeningIsOn) {
-					this.error(`${deviceName} is not in polling or listening mode. Restarting now..`);
-					device.restartDevice(1000);
-					return;
-				}
-				// force immediate update
-				device.pollMeter();
-				// check if source device is available
-				if (!device.sourceDevice.available) {
-					this.error(`Source device ${deviceName} is unavailable.`);
-					// device.setUnavailable('Source device is unavailable');
-					return;
-				}
-				device.setAvailable();
 			});
 		};
 		this.homey.on('everyhour', this.eventListenerHour);

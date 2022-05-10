@@ -53,15 +53,15 @@ class SumMeterDevice extends Device {
 			await this.initDeviceValues();
 
 			// start listeners or polling mode
-			if (this.settings.meter_via_flow) this.updateMeterFromFlow(null);
+			if (this.settings.meter_via_flow) await this.updateMeterFromFlow(null);
 			else if (this.settings.use_measure_source) {
 				this.log(`Warning! ${this.getName()} is not using a cumulative meter as source`);
 				await this.addListeners();
-				this.updateMeterFromMeasure(null);
+				await this.updateMeterFromMeasure(null);
 			} else if (this.settings.interval) this.startPolling(this.settings.interval);
 			else {	// preferred realtime meter mode
 				await this.addListeners();
-				this.pollMeter();	// do immediate forced update
+				await this.pollMeter();	// do immediate forced update
 			}
 
 		} catch (error) {
@@ -222,9 +222,9 @@ class SumMeterDevice extends Device {
 	startPolling(interval) {
 		this.homey.clearInterval(this.intervalIdDevicePoll);
 		this.log(`start polling ${this.getName()} @${interval} minutes interval`);
-		this.intervalIdDevicePoll = this.homey.setInterval(() => {
+		this.intervalIdDevicePoll = this.homey.setInterval(async () => {
 			try {
-				this.pollMeter();
+				await this.pollMeter();
 			} catch (error) {
 				this.error(error);
 				this.setUnavailable(error.message).catch(this.error);
