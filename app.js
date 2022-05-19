@@ -72,9 +72,9 @@ class MyApp extends Homey.App {
 		// console.log('everyHour starts in', timeToNextHour / 1000);
 		this.homey.setTimeout(() => {
 			this.homey.setInterval(async () => {
-				this.homey.emit('everyhour', true).catch(this.error);
+				this.homey.emit('everyhour', true);
 			}, 60 * 60 * 1000);
-			this.homey.emit('everyhour', true).catch(this.error);
+			this.homey.emit('everyhour', true);
 		}, timeToNextHour);
 		this.log('everyHour job started');
 	}
@@ -166,15 +166,15 @@ class MyApp extends Homey.App {
 		// action cards
 		const setTariffPower = this.homey.flow.getActionCard('set_tariff_power');
 		setTariffPower
-			.registerRunListener((args) => this.homey.emit('set_tariff_power', args).catch(this.error));
+			.registerRunListener((args) => this.homey.emit('set_tariff_power', args));
 
 		const setTariffGas = this.homey.flow.getActionCard('set_tariff_gas');
 		setTariffGas
-			.registerRunListener((args) => this.homey.emit('set_tariff_gas', args).catch(this.error));
+			.registerRunListener((args) => this.homey.emit('set_tariff_gas', args));
 
 		const setTariffWater = this.homey.flow.getActionCard('set_tariff_water');
 		setTariffWater
-			.registerRunListener((args) => this.homey.emit('set_tariff_water', args).catch(this.error));
+			.registerRunListener((args) => this.homey.emit('set_tariff_water', args));
 
 		const minMaxReset = this.homey.flow.getActionCard('minmax_reset');
 		minMaxReset
