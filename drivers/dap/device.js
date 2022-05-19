@@ -190,7 +190,7 @@ class MyDevice extends Homey.Device {
 			// send tariff to power or gas driver
 			let sendTo = 'set_tariff_power';
 			if (this.settings.biddingZone === 'TTF_EOD') sendTo = 'set_tariff_gas';
-			if (this.settings.sendTariff) this.homey.emit(sendTo, { tariff: priceNow });
+			if (this.settings.sendTariff) await this.homey.emit(sendTo, { tariff: priceNow });
 
 			// trigger flow cards
 			const tokens = { meter_price_h0: pricesNext8h[0] };

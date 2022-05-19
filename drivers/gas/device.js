@@ -71,7 +71,7 @@ class sumDriver extends GenericDevice {
 	}
 
 	async pollMeter() {
-		this.sourceDevice = await this.homey.app.api.devices.getDevice({ id: this.getSettings().homey_device_id, $cache: false });
+		this.sourceDevice = await this.homey.app.api.devices.getDevice({ id: this.getSettings().homey_device_id, $cache: false, $timeout: 20000 });
 		let pollValue;
 		if (this.sourceDevice.capabilitiesObj && this.sourceDevice.capabilitiesObj.meter_gas) {
 			pollValue = this.sourceDevice.capabilitiesObj.meter_gas.value;

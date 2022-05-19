@@ -1,5 +1,5 @@
 /*
-Copyright 2019 - 2021, Robin de Gruijter (gruijter@hotmail.com)
+Copyright 2019 - 2022, Robin de Gruijter (gruijter@hotmail.com)
 
 This file is part of com.gruijter.powerhour.
 
@@ -72,9 +72,9 @@ class MyApp extends Homey.App {
 		// console.log('everyHour starts in', timeToNextHour / 1000);
 		this.homey.setTimeout(() => {
 			this.homey.setInterval(async () => {
-				this.homey.emit('everyhour', true);
+				this.homey.emit('everyhour', true).catch(this.error);
 			}, 60 * 60 * 1000);
-			this.homey.emit('everyhour', true);
+			this.homey.emit('everyhour', true).catch(this.error);
 		}, timeToNextHour);
 		this.log('everyHour job started');
 	}
@@ -82,7 +82,7 @@ class MyApp extends Homey.App {
 	registerFlowListeners() {
 
 		const autoComplete = async (query, driverId) => {
-			const driver = this.homey.drivers.getDriver(driverId);
+			const driver = await this.homey.drivers.getDriver(driverId);
 			const devices = driver.getDevices().filter((device) => device.settings.meter_via_flow);
 			const devicesMap = devices.map((device) => (
 				{
@@ -94,9 +94,9 @@ class MyApp extends Homey.App {
 		};
 
 		const runUpdateMeter = async (args, driverId) => {
-			const driver = this.homey.drivers.getDriver(driverId);
-			const device = driver.getDevice({ id: args.virtual_device.id });
-			device.updateMeterFromFlow(args.value);
+			const driver = await this.homey.drivers.getDriver(driverId);
+			const device = await driver.getDevice({ id: args.virtual_device.id });
+			device.updateMeterFromFlow(args.value).catch(this.error);
 		};
 
 		// trigger cards
@@ -166,42 +166,42 @@ class MyApp extends Homey.App {
 		// action cards
 		const setTariffPower = this.homey.flow.getActionCard('set_tariff_power');
 		setTariffPower
-			.registerRunListener((args) => this.homey.emit('set_tariff_power', args));
+			.registerRunListener((args) => this.homey.emit('set_tariff_power', args).catch(this.error));
 
 		const setTariffGas = this.homey.flow.getActionCard('set_tariff_gas');
 		setTariffGas
-			.registerRunListener((args) => this.homey.emit('set_tariff_gas', args));
+			.registerRunListener((args) => this.homey.emit('set_tariff_gas', args).catch(this.error));
 
 		const setTariffWater = this.homey.flow.getActionCard('set_tariff_water');
 		setTariffWater
-			.registerRunListener((args) => this.homey.emit('set_tariff_water', args));
+			.registerRunListener((args) => this.homey.emit('set_tariff_water', args).catch(this.error));
 
 		const minMaxReset = this.homey.flow.getActionCard('minmax_reset');
 		minMaxReset
-			.registerRunListener((args) => args.device.minMaxReset(true, 'flow'));
+			.registerRunListener((args) => args.device.minMaxReset(true, 'flow').catch(this.error));
 
 		const setMeterPower = this.homey.flow.getActionCard('set_meter_power');
 		setMeterPower
-			.registerRunListener((args) => runUpdateMeter(args, 'power'))
+			.registerRunListener((args) => runUpdateMeter(args, 'power').catch(this.error))
 			.registerArgumentAutocompleteListener(
 				'virtual_device',
-				(query) => autoComplete(query, 'power'),
+				(query) => autoComplete(query, 'power').catch(this.error),
 			);
 
 		const setMeterGas = this.homey.flow.getActionCard('set_meter_gas');
 		setMeterGas
-			.registerRunListener((args) => runUpdateMeter(args, 'gas'))
+			.registerRunListener((args) => runUpdateMeter(args, 'gas').catch(this.error))
 			.registerArgumentAutocompleteListener(
 				'virtual_device',
-				async (query) => autoComplete(query, 'gas'),
+				async (query) => autoComplete(query, 'gas').catch(this.error),
 			);
 
 		const setMeterWater = this.homey.flow.getActionCard('set_meter_water');
 		setMeterWater
-			.registerRunListener((args) => runUpdateMeter(args, 'water'))
+			.registerRunListener((args) => runUpdateMeter(args, 'water').catch(this.error))
 			.registerArgumentAutocompleteListener(
 				'virtual_device',
-				async (query) => autoComplete(query, 'water'),
+				async (query) => autoComplete(query, 'water').catch(this.error),
 			);
 
 	}

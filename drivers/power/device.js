@@ -47,7 +47,7 @@ class sumDriver extends GenericDevice {
 	// driver specific stuff below
 
 	async addListeners() {
-		this.sourceDevice = await this.homey.app.api.devices.getDevice({ id: this.getSettings().homey_device_id, $cache: false });
+		this.sourceDevice = await this.homey.app.api.devices.getDevice({ id: this.getSettings().homey_device_id, $cache: false, $timeout: 20000 });
 
 		if (!this.getSettings().use_measure_source) {
 			// make listener for meter_power
@@ -145,7 +145,7 @@ class sumDriver extends GenericDevice {
 	}
 
 	async pollMeter() {
-		this.sourceDevice = await this.homey.app.api.devices.getDevice({ id: this.getSettings().homey_device_id, $cache: false });
+		this.sourceDevice = await this.homey.app.api.devices.getDevice({ id: this.getSettings().homey_device_id, $cache: false, $timeout: 20000 });
 		if (this.sourceDevice.capabilities.includes('meter_power')) {
 			const pollValue = this.sourceDevice.capabilitiesObj.meter_power.value;
 			const pollTm = new Date(this.sourceDevice.capabilitiesObj.meter_power.lastUpdated);

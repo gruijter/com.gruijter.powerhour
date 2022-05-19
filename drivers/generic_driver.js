@@ -129,7 +129,7 @@ class SumMeterDriver extends Driver {
 				capabilities: this.ds.deviceCapabilities,
 			};
 			this.devices = [];
-			const allDevices = await this.homey.app.api.devices.getDevices();
+			const allDevices = await this.homey.app.api.devices.getDevices({ $timeout: 20000 });
 			const keys = Object.keys(allDevices);
 			keys.forEach((key) => {
 				const hasCapability = (capability) => allDevices[key].capabilities.includes(capability);

@@ -40,7 +40,7 @@ class SumMeterDevice extends Device {
 
 			// setup source device
 			if (!this.settings.meter_via_flow) {
-				this.sourceDevice = await this.homey.app.api.devices.getDevice({ id: this.settings.homey_device_id, $cache: false });
+				this.sourceDevice = await this.homey.app.api.devices.getDevice({ id: this.settings.homey_device_id, $cache: false, $timeout: 25000 });
 				// check if source device exists
 				const sourceDeviceExists = this.sourceDevice && this.sourceDevice.capabilitiesObj; // && (this.sourceDevice.available !== null);
 				if (!sourceDeviceExists) throw Error(`Source device ${this.getName()} is missing. Retry in 10 minutes.`);
@@ -80,7 +80,7 @@ class SumMeterDevice extends Device {
 			// check and repair incorrect capability(order)
 			const correctCaps = this.driver.ds.deviceCapabilities;
 			for (let index = 0; index < correctCaps.length; index += 1) {
-				const caps = this.getCapabilities();
+				const caps = await this.getCapabilities();
 				const newCap = correctCaps[index];
 				if (caps[index] !== newCap) {
 					// remove all caps from here
@@ -106,9 +106,9 @@ class SumMeterDevice extends Device {
 				// set new meter_source capability
 				await this.setCapabilityValue(this.ds.cmap.meter_source, lastMoney.meterValue);
 				// set money values
-				this.setSettings({ meter_money_this_day: lastMoney.day });
-				this.setSettings({ meter_money_this_month: lastMoney.month });
-				this.setSettings({ meter_money_this_year: lastMoney.year });
+				await this.setSettings({ meter_money_this_day: lastMoney.day });
+				await this.setSettings({ meter_money_this_month: lastMoney.month });
+				await this.setSettings({ meter_money_this_year: lastMoney.year });
 				// await this.setCapabilityValue('meter_money_this_year', lastMoney.year);
 				await this.unsetStoreValue('lastMoney');
 			}
@@ -117,7 +117,8 @@ class SumMeterDevice extends Device {
 			this.migrated = true;
 			Promise.resolve(this.migrated);
 		} catch (error) {
-			Promise.reject(Error('Migration failed', error));
+			this.error('Migration failed', error);
+			Promise.reject(error);
 		}
 	}
 
@@ -553,26 +554,26 @@ class SumMeterDevice extends Device {
 
 	async updateMoneyCapabilities(money) {
 		if (this.tariff !== await this.getCapabilityValue('meter_tariff')) this.setCapability('meter_tariff', this.tariff);
-		this.setCapability('meter_money_this_hour', money.hour);
-		this.setCapability('meter_money_this_day', money.day);
-		this.setCapability('meter_money_this_month', money.month);
-		this.setCapability('meter_money_this_year', money.year);
+		await this.setCapability('meter_money_this_hour', money.hour);
+		await this.setCapability('meter_money_this_day', money.day);
+		await this.setCapability('meter_money_this_month', money.month);
+		await this.setCapability('meter_money_this_year', money.year);
 		// update last period money only when changed. Also update settings.
 		if (await this.getCapabilityValue('meter_money_last_hour') !== this.meterMoney.lastHour) {
-			this.setCapability('meter_money_last_hour', money.lastHour);
-			this.setSettings({ meter_money_last_hour: money.lastHour });
+			await this.setCapability('meter_money_last_hour', money.lastHour);
+			await this.setSettings({ meter_money_last_hour: money.lastHour });
 		}
 		if (await this.getCapabilityValue('meter_money_last_day') !== this.meterMoney.lastDay) {
-			this.setCapability('meter_money_last_day', money.lastDay);
-			this.setSettings({ meter_money_last_day: money.lastDay });
+			await this.setCapability('meter_money_last_day', money.lastDay);
+			await this.setSettings({ meter_money_last_day: money.lastDay });
 		}
 		if (await this.getCapabilityValue('meter_money_last_month') !== this.meterMoney.lastMonth) {
-			this.setCapability('meter_money_last_month', money.lastMonth);
-			this.setSettings({ month: money.lastMonth });
+			await this.setCapability('meter_money_last_month', money.lastMonth);
+			await this.setSettings({ month: money.lastMonth });
 		}
 		if (await this.getCapabilityValue('meter_money_last_year') !== this.meterMoney.lastYear) {
-			this.setCapability('meter_money_last_year', money.lastYear);
-			this.setSettings({ year: money.lastYear });
+			await this.setCapability('meter_money_last_year', money.lastYear);
+			await this.setSettings({ year: money.lastYear });
 		}
 	}
 
