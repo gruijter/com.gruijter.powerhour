@@ -448,7 +448,7 @@ class SumMeterDevice extends Device {
 	}
 
 	async minMaxReset(reset, source) {
-		if (reset) {
+		if (reset || !this.lastMinMax) {
 			this.log(`Resetting Min/Max via ${source}`);
 			this.lastMinMax = {
 				reading: { ...this.lastMinMax.reading }, // contains last meter reading object used for min/max

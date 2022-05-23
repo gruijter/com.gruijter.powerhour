@@ -88,16 +88,20 @@ class SumMeterDriver extends Driver {
 		if (this.eventListenerTariff) this.homey.removeListener(eventName, this.eventListenerTariff);
 		this.eventListenerTariff = (args) => {
 			this.log(`${eventName} received from flow`, args);
-			// this.activeTariff = args.tariff;
+			const tariff = Number(args.tariff);
+			if (Number.isNaN(tariff)) {
+				this.error('the tariff is not a valid number');
+				return;
+			}
 			const devices = this.getDevices();
 			devices.forEach((device) => {
 				if (device.settings.tariff_via_flow) {
 					const deviceName = device.getName();
-					this.log('updating tariff', deviceName, args.tariff);
+					this.log('updating tariff', deviceName, tariff);
 					const self = device;
-					self.tariff = args.tariff; // { tariff: 0.25 }
-					self.setSettings({ tariff: args.tariff });
-					self.setCapability('meter_tariff', args.tariff);
+					self.tariff = tariff; // { tariff: 0.25 }
+					self.setSettings({ tariff });
+					self.setCapability('meter_tariff', tariff);
 				}
 			});
 		};

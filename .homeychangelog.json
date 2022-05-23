@@ -1,4 +1,7 @@
 {
+  "4.2.8": {
+    "en": "Fix price lowest trigger cards. Catch various unhandled rejections."
+  },
   "4.2.7": {
     "en": "Increased homey-api timeout. Catch various unhandled rejections."
   },

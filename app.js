@@ -117,15 +117,15 @@ class MyApp extends Homey.App {
 
 		this._priceLowestAvg = this.homey.flow.getDeviceTriggerCard('price_lowest_avg');
 		this._priceLowestAvg.registerRunListener(async (args, state) => {
-			// args.period: 8 or this_day  // args.hours: 2, 3, 4, 5 or 6
+			// args.period: '8' or 'this_day'  // args.hours: '2', '3', '4', '5' or '6'
 			let prices = [...state.pricesThisDay];
 			if (args.period !== 'this_day') prices = [...state.pricesNext8h];
 
 			// calculate all avg prices for x hour periods
 			const avgPrices = [];
 			prices.forEach((price, index) => {
-				if (index > prices.length - args.hours) return;
-				const hours = prices.slice(index, index + args.hours);
+				if (index > prices.length - Number(args.hours)) return;
+				const hours = prices.slice(index, (index + Number(args.hours)));
 				const avgPrice = (hours.reduce((a, b) => a + b, 0)) / hours.length;
 				avgPrices.push(avgPrice);
 			});
