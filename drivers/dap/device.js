@@ -144,7 +144,7 @@ class MyDevice extends Homey.Device {
 	async markUpPrices([...array]) {
 		return array.map((price) => {
 			const muPrice = (((price * (1 + this.settings.variableMarkup / 100)) / 1000) + this.settings.fixedMarkup) * this.settings.exchangeRate;
-			return muPrice;
+			return muPrice;	// return Math.round(muPrice * 1000000) / 1000000;
 		});
 	}
 

@@ -1,4 +1,7 @@
 {
+  "4.2.9": {
+    "en": "Update to homey-api@1.5.30. Fix price lowest this_day trigger card. Catch various unhandled rejections."
+  },
   "4.2.8": {
     "en": "Fix price lowest trigger cards. Catch various unhandled rejections."
   },

@@ -118,19 +118,32 @@ class MyApp extends Homey.App {
 		this._priceLowestAvg = this.homey.flow.getDeviceTriggerCard('price_lowest_avg');
 		this._priceLowestAvg.registerRunListener(async (args, state) => {
 			// args.period: '8' or 'this_day'  // args.hours: '2', '3', '4', '5' or '6'
-			let prices = [...state.pricesThisDay];
-			if (args.period !== 'this_day') prices = [...state.pricesNext8h];
+			let prices = [...state.pricesNext8h];
 
-			// calculate all avg prices for x hour periods
-			const avgPrices = [];
+			// calculate all avg prices for x hour periods for next 8 hours
+			const avgPricesNext8h = [];
 			prices.forEach((price, index) => {
 				if (index > prices.length - Number(args.hours)) return;
 				const hours = prices.slice(index, (index + Number(args.hours)));
 				const avgPrice = (hours.reduce((a, b) => a + b, 0)) / hours.length;
-				avgPrices.push(avgPrice);
+				avgPricesNext8h.push(avgPrice);
 			});
-			const minAvgPrice = Math.min(...avgPrices);
-			return avgPrices[0] <= minAvgPrice;
+			let minAvgPrice = Math.min(...avgPricesNext8h);
+
+			// calculate all avg prices for x hour periods for this_day
+			if (args.period === 'this_day') {
+				prices = [...state.pricesThisDay];
+				const avgPricesThisDay = [];
+				prices.forEach((price, index) => {
+					if (index > prices.length - Number(args.hours)) return;
+					const hours = prices.slice(index, (index + Number(args.hours)));
+					const avgPrice = (hours.reduce((a, b) => a + b, 0)) / hours.length;
+					avgPricesThisDay.push(avgPrice);
+				});
+				minAvgPrice = Math.min(...avgPricesThisDay);
+			}
+			// console.log(`avg next ${args.hours} hrs: ${avgPricesNext8h[0]}, min avg for ${args.period}: ${minAvgPrice}`);
+			return avgPricesNext8h[0] <= minAvgPrice;
 		});
 		this.triggerPriceLowestAvg = (device, tokens, state) => {
 			this._priceLowestAvg
