@@ -1,7 +1,7 @@
 {
   "_comment": "This file is generated. Please edit .homeycompose/app.json instead.",
   "id": "com.gruijter.powerhour",
-  "version": "4.2.9",
+  "version": "4.3.1",
   "compatibility": ">=5.0.0",
   "brandColor": "#df5020",
   "sdk": 3,
@@ -2445,7 +2445,7 @@
       "icon": "/assets/tariff.svg",
       "getable": true,
       "setable": false,
-      "insights": true,
+      "insights": false,
       "units": {
         "en": "¤"
       },
@@ -2461,7 +2461,7 @@
       "icon": "/assets/tariff.svg",
       "getable": true,
       "setable": false,
-      "insights": true,
+      "insights": false,
       "units": {
         "en": "¤"
       },
@@ -2477,7 +2477,7 @@
       "icon": "/assets/tariff.svg",
       "getable": true,
       "setable": false,
-      "insights": true,
+      "insights": false,
       "units": {
         "en": "¤"
       },
@@ -2493,7 +2493,7 @@
       "icon": "/assets/tariff.svg",
       "getable": true,
       "setable": false,
-      "insights": true,
+      "insights": false,
       "units": {
         "en": "¤"
       },
@@ -2509,7 +2509,7 @@
       "icon": "/assets/tariff.svg",
       "getable": true,
       "setable": false,
-      "insights": true,
+      "insights": false,
       "units": {
         "en": "¤"
       },
@@ -2525,7 +2525,7 @@
       "icon": "/assets/tariff.svg",
       "getable": true,
       "setable": false,
-      "insights": true,
+      "insights": false,
       "units": {
         "en": "¤"
       },
@@ -2541,7 +2541,7 @@
       "icon": "/assets/tariff.svg",
       "getable": true,
       "setable": false,
-      "insights": true,
+      "insights": false,
       "units": {
         "en": "¤"
       },

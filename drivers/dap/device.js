@@ -22,7 +22,8 @@ along with com.gruijter.powerhour.  If not, see <http://www.gnu.org/licenses/>.s
 const Homey = require('homey');
 const util = require('util');
 const DAPEL = require('../../entsoe');
-const DAPGAS = require('../../frankenergy');
+const DAPGASTTF = require('../../frankenergy');
+const DAPGASLEBA = require('../../easyenergy');
 
 const setTimeoutPromise = util.promisify(setTimeout);
 
@@ -41,7 +42,9 @@ class MyDevice extends Homey.Device {
 			// if (!this.prices) this.prices = [];
 
 			if (this.settings.biddingZone === 'TTF_EOD') {
-				this.dap = new DAPGAS();
+				this.dap = new DAPGASTTF();
+			} else if (this.settings.biddingZone === 'TTF_LEBA') {
+				this.dap = new DAPGASLEBA();
 			} else {
 				// setup ENTSOE DAP
 				const apiKey = Homey.env ? Homey.env.ENTSOE_API_KEY : '';
@@ -56,6 +59,13 @@ class MyDevice extends Homey.Device {
 				await this.fetchPrices();
 			};
 			this.homey.on('everyhour', this.eventListenerHour);
+
+			// MIGRATE REMOVE INSIGHTS
+			console.log('removing and re-adding meter_price_h7', this.getName());
+			await this.removeCapability('meter_price_h7');
+			await this.addCapability('meter_price_h7');
+			console.log('done with migration', this.getName());
+
 
 			// fetch prices now
 			await this.fetchPrices();
@@ -119,7 +129,22 @@ class MyDevice extends Homey.Device {
 	async fetchPrices() {
 		try {
 			this.log('fetching prices of today and tomorrow (when available)');
-			const prices = await this.dap.getPrices()
+
+			// set UTC start of today and tomorrow according to local Homey timezone
+			const todayStart = new Date();
+			todayStart.setMilliseconds(0);
+			todayStart.setHours(0);
+			todayStart.setMinutes(0);
+			todayStart.setSeconds(0);
+			todayStart.setMilliseconds(0);
+			const offset = new Date(todayStart.toLocaleString('en-US', { timeZone: this.timeZone })) - todayStart;
+			todayStart.setMilliseconds(-offset);
+			const tomorrowStart = new Date(todayStart);
+			tomorrowStart.setDate(tomorrowStart.getDate() + 2);
+
+			console.log(this.getName(), `offset: ${offset}`, todayStart, tomorrowStart);
+
+			const prices = await this.dap.getPrices({ dateStart: todayStart, dateEnd: tomorrowStart })
 				.catch(async (error) => {
 					this.log('Error fetching prices. Trying again in 10 minutes', error.message);
 					await setTimeoutPromise(10 * 60 * 1000, 'waiting is done');

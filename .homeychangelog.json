@@ -1,4 +1,10 @@
 {
+  "4.3.1": {
+    "en": "Removed insights DAP H1_7. Fixed Gas LEBA day-ahead prices timezone offset."
+  },
+  "4.3.0": {
+    "en": "Added Gas LEBA day-ahead prices. Removed non working electricity day-ahead bidding zones."
+  },
   "4.2.9": {
     "en": "Update to homey-api@1.5.30. Fix price lowest this_day trigger card. Catch various unhandled rejections."
   },

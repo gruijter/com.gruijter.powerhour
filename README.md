@@ -62,7 +62,8 @@ From the device settings you can set the taxes and markups your provider is char
 
 The electricity pricing information is fetched from ENTSO-E, the European Network of Transmission System Operators for Electricity. https://transparency.entsoe.eu/transmission-domain/r2/dayAheadPrices/show
 
-The gas pricing is derived from FrankEnergy, which uses the TTF End Of Day pricing as seen here: https://www.powernext.com/spot-market-data
+The TTF (EEX EOD) gas pricing is derived from FrankEnergy, which uses the TTF End Of Day pricing as seen here: https://www.powernext.com/spot-market-data
+The TTF (LEBA) gas pricing is derived from EasyEnergy as seen here: https://www.nieuwestroom.nl/energiemarkt/energiebeurzen/gas-handelsbeurs/
 
 ### DONATE
 If you like the app, don't hesitate to [DONATE](https://www.paypal.me/gruijter)
