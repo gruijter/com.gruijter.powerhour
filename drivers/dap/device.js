@@ -60,13 +60,6 @@ class MyDevice extends Homey.Device {
 			};
 			this.homey.on('everyhour', this.eventListenerHour);
 
-			// MIGRATE REMOVE INSIGHTS
-			console.log('removing and re-adding meter_price_h7', this.getName());
-			await this.removeCapability('meter_price_h7');
-			await this.addCapability('meter_price_h7');
-			console.log('done with migration', this.getName());
-
-
 			// fetch prices now
 			await this.fetchPrices();
 			await this.handlePrices();
@@ -141,8 +134,6 @@ class MyDevice extends Homey.Device {
 			todayStart.setMilliseconds(-offset);
 			const tomorrowStart = new Date(todayStart);
 			tomorrowStart.setDate(tomorrowStart.getDate() + 2);
-
-			console.log(this.getName(), `offset: ${offset}`, todayStart, tomorrowStart);
 
 			const prices = await this.dap.getPrices({ dateStart: todayStart, dateEnd: tomorrowStart })
 				.catch(async (error) => {

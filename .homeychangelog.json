@@ -1,5 +1,5 @@
 {
-  "4.3.1": {
+  "4.3.2": {
     "en": "Removed insights DAP H1_7. Fixed Gas LEBA day-ahead prices timezone offset."
   },
   "4.3.0": {

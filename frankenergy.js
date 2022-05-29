@@ -66,7 +66,7 @@ class Frank {
 				info.push(infoDay);
 				day.setDate(day.getDate() + 1);
 			}
-			console.dir(info, { depth: null });
+			// console.dir(info, { depth: null });
 			return Promise.resolve(info);
 		} catch (error) {
 			return Promise.reject(error);

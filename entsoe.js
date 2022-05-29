@@ -238,7 +238,7 @@ class ENTSOE {
 					info.push(infoDay);
 				});
 			} else throw Error('no timeseries data found in response');
-			console.dir(info, { depth: null });
+			// console.dir(info, { depth: null });
 			return Promise.resolve(info);
 		} catch (error) {
 			return Promise.reject(error);
