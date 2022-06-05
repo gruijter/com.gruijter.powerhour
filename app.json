@@ -1,7 +1,7 @@
 {
   "_comment": "This file is generated. Please edit .homeycompose/app.json instead.",
   "id": "com.gruijter.powerhour",
-  "version": "4.3.2",
+  "version": "4.3.3",
   "compatibility": ">=5.0.0",
   "brandColor": "#df5020",
   "sdk": 3,
@@ -353,6 +353,201 @@
       },
       {
         "title": {
+          "en": "The price becomes highest",
+          "nl": "De prijs wordt het hoogst"
+        },
+        "titleFormatted": {
+          "en": "The price becomes highest for [[period]]",
+          "nl": "De prijs wordt het hoogst voor [[period]]"
+        },
+        "highlight": true,
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=dap"
+          },
+          {
+            "type": "dropdown",
+            "name": "period",
+            "title": {
+              "en": "period",
+              "nl": "periode"
+            },
+            "values": [
+              {
+                "id": "this_day",
+                "label": {
+                  "en": "this day",
+                  "nl": "deze dag"
+                }
+              },
+              {
+                "id": "2",
+                "label": {
+                  "en": "next 2H",
+                  "nl": "komende 2U"
+                }
+              },
+              {
+                "id": "3",
+                "label": {
+                  "en": "next 3H",
+                  "nl": "komende 3U"
+                }
+              },
+              {
+                "id": "4",
+                "label": {
+                  "en": "next 4H",
+                  "nl": "komende 4U"
+                }
+              },
+              {
+                "id": "5",
+                "label": {
+                  "en": "next 5H",
+                  "nl": "komende 5U"
+                }
+              },
+              {
+                "id": "6",
+                "label": {
+                  "en": "next 6H",
+                  "nl": "komende 6U"
+                }
+              },
+              {
+                "id": "7",
+                "label": {
+                  "en": "next 7H",
+                  "nl": "komende 7U"
+                }
+              },
+              {
+                "id": "8",
+                "label": {
+                  "en": "next 8H",
+                  "nl": "komende 8U"
+                }
+              }
+            ]
+          }
+        ],
+        "tokens": [
+          {
+            "name": "meter_price_h0",
+            "title": {
+              "en": "Price now",
+              "nl": "Prijs nu"
+            },
+            "type": "number",
+            "example": 27.5
+          }
+        ],
+        "id": "price_highest"
+      },
+      {
+        "title": {
+          "en": "The avg. price next hours becomes highest",
+          "nl": "De gem. prijs de komende uren wordt het hoogst"
+        },
+        "titleFormatted": {
+          "en": "The avg. price [[hours]] becomes highest within [[period]]",
+          "nl": "De gem. prijs [[hours]] wordt het highest binnen [[period]]"
+        },
+        "highlight": true,
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=dap"
+          },
+          {
+            "type": "dropdown",
+            "name": "period",
+            "title": {
+              "en": "period",
+              "nl": "periode"
+            },
+            "values": [
+              {
+                "id": "this_day",
+                "label": {
+                  "en": "this day",
+                  "nl": "deze dag"
+                }
+              },
+              {
+                "id": "8",
+                "label": {
+                  "en": "next 8H",
+                  "nl": "komende 8U"
+                }
+              }
+            ]
+          },
+          {
+            "type": "dropdown",
+            "name": "hours",
+            "title": {
+              "en": "hours",
+              "nl": "uren"
+            },
+            "values": [
+              {
+                "id": "2",
+                "label": {
+                  "en": "next 2H",
+                  "nl": "komende 2U"
+                }
+              },
+              {
+                "id": "3",
+                "label": {
+                  "en": "next 3H",
+                  "nl": "komende 3U"
+                }
+              },
+              {
+                "id": "4",
+                "label": {
+                  "en": "next 4H",
+                  "nl": "komende 4U"
+                }
+              },
+              {
+                "id": "5",
+                "label": {
+                  "en": "next 5H",
+                  "nl": "komende 5U"
+                }
+              },
+              {
+                "id": "6",
+                "label": {
+                  "en": "next 6H",
+                  "nl": "komende 6U"
+                }
+              }
+            ]
+          }
+        ],
+        "tokens": [
+          {
+            "name": "meter_price_h0",
+            "title": {
+              "en": "Price now",
+              "nl": "Prijs nu"
+            },
+            "type": "number",
+            "example": 27.5
+          }
+        ],
+        "id": "price_highest_avg"
+      },
+      {
+        "title": {
           "en": "The price becomes lowest",
           "nl": "De prijs wordt het laagst"
         },
@@ -545,6 +740,78 @@
           }
         ],
         "id": "price_lowest_avg"
+      },
+      {
+        "title": {
+          "en": "The price becomes lowest before a certain time",
+          "nl": "De prijs wordt het laagst voor een bepaalde tijd"
+        },
+        "titleFormatted": {
+          "en": "The price becomes one of [[number]] lowest in the [[period]] hours before [[time]] o'clock",
+          "nl": "De prijs wordt een van de [[number]] laagste in de [[period]] uren voor [[time]] uur"
+        },
+        "highlight": true,
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=dap"
+          },
+          {
+            "type": "number",
+            "name": "period",
+            "title": {
+              "en": "period",
+              "nl": "periode"
+            },
+            "placeholder": {
+              "en": "2 - 8"
+            },
+            "min": 2,
+            "max": 8,
+            "step": 1
+          },
+          {
+            "type": "number",
+            "name": "number",
+            "title": {
+              "en": "number",
+              "nl": "aantal"
+            },
+            "placeholder": {
+              "en": "1 - 6"
+            },
+            "min": 1,
+            "max": 6,
+            "step": 1
+          },
+          {
+            "type": "number",
+            "name": "time",
+            "title": {
+              "en": "time",
+              "nl": "tijd"
+            },
+            "placeholder": {
+              "en": "01 - 24"
+            },
+            "min": 1,
+            "max": 24,
+            "step": 1
+          }
+        ],
+        "tokens": [
+          {
+            "name": "meter_price_h0",
+            "title": {
+              "en": "Price now",
+              "nl": "Prijs nu"
+            },
+            "type": "number",
+            "example": 27.5
+          }
+        ],
+        "id": "price_lowest_before"
       }
     ],
     "actions": [

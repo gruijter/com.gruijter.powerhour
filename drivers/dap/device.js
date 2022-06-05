@@ -177,11 +177,23 @@ class MyDevice extends Homey.Device {
 			// check for correct date, if new day shift prices[0]
 			let priceDate = new Date(new Date(prices[0].timeInterval.start).toLocaleString('en-US', { timeZone: this.timeZone }));
 			if (priceDate.getDate() !== nowLocal.getDate()) {
-				prices.shift();
+				this.pricesYesterday = prices.shift();
+				this.log(`${this.getName()} shifted price information to yesterday.`);
 				if (!prices[0]) throw Error('No price information available for this day');
 				priceDate = new Date(new Date(prices[0].timeInterval.start).toLocaleString('en-US', { timeZone: this.timeZone }));
 				if (priceDate.getDate() !== nowLocal.getDate()) throw Error('Available price information is for incorrect day');
 			}
+
+			// Array pricesYesterday with markUp
+			if (!this.pricesYesterday || !this.pricesYesterday.prices) {
+				this.log(`${this.getName()} has no price information available for yesterday`);
+				this.pricesYesterday = 	{ prices: [] };
+			}
+			const pricesYesterday = await this.markUpPrices(this.pricesYesterday.prices);
+
+			// Array pricesTomorrow with markUp
+			let pricesTomorrow = { prices: [] };
+			if (prices[1] && prices[1].prices) pricesTomorrow = await this.markUpPrices(prices[1].prices);
 
 			// Array pricesThisDay with markUp
 			const pricesThisDay = await this.markUpPrices(prices[0].prices);
@@ -211,11 +223,21 @@ class MyDevice extends Homey.Device {
 			// trigger flow cards
 			const tokens = { meter_price_h0: pricesNext8h[0] };
 			const state = {
-				priceNow, this_day_avg: priceThisDayAvg, next_8h_avg: priceNext8hAvg, pricesThisDay, pricesNext8h,
+				pricesYesterday,
+				pricesThisDay,
+				pricesTomorrow,
+				H0,
+				priceNow,
+				pricesNext8h,
+				this_day_avg: priceThisDayAvg,
+				next_8h_avg: priceNext8hAvg,
 			};
-			this.homey.app.triggerPriceLowest(this, tokens, state);
-			this.homey.app.triggerPriceBelowAvg(this, tokens, state);
+			this.homey.app.triggerPriceHighest(this, tokens, state);
 			this.homey.app.triggerPriceAboveAvg(this, tokens, state);
+			this.homey.app.triggerPriceHighestAvg(this, tokens, state);
+			this.homey.app.triggerPriceLowest(this, tokens, state);
+			this.homey.app.triggerPriceLowestBefore(this, tokens, state);
+			this.homey.app.triggerPriceBelowAvg(this, tokens, state);
 			this.homey.app.triggerPriceLowestAvg(this, tokens, state);
 
 		} catch (error) {

@@ -1,4 +1,7 @@
 {
+  "4.3.3": {
+    "en": "Added highest price flow cards. Added lowest/highest price before time flow card."
+  },
   "4.3.2": {
     "en": "Removed insights DAP H1_7. Fixed Gas LEBA day-ahead prices timezone offset."
   },
