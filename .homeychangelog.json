@@ -1,6 +1,9 @@
 {
+  "4.3.4": {
+    "en": "Lowest price before time flow card extended to 12hrs. Added lowest number of hours this day. Update to homey-api@1.6.0"
+  },
   "4.3.3": {
-    "en": "Added highest price flow cards. Added lowest/highest price before time flow card."
+    "en": "Added highest price flow cards. Added lowest price before time flow card."
   },
   "4.3.2": {
     "en": "Removed insights DAP H1_7. Fixed Gas LEBA day-ahead prices timezone offset."

@@ -115,6 +115,19 @@ class MyApp extends Homey.App {
 				.catch(this.error);
 		};
 
+		this._priceLowestToday = this.homey.flow.getDeviceTriggerCard('price_lowest_today');
+		this._priceLowestToday.registerRunListener(async (args, state) => {
+			// sort and select number of lowest prices
+			const lowestNPrices = [...state.pricesThisDay].sort().slice(0, args.number);
+			return state.priceNow <= Math.max(...lowestNPrices);
+		});
+		this.triggerPriceLowestToday = (device, tokens, state) => {
+			this._priceLowestToday
+				.trigger(device, tokens, state)
+				// .then(this.log(device.getName(), tokens))
+				.catch(this.error);
+		};
+
 		this._priceLowestBefore = this.homey.flow.getDeviceTriggerCard('price_lowest_before');
 		this._priceLowestBefore.registerRunListener(async (args, state) => {
 			// calculate start and end hours compared to present hour

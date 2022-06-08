@@ -38,7 +38,7 @@ class MyDevice extends Homey.Device {
 			this.restarting = false;
 			this.settings = await this.getSettings();
 			this.timeZone = this.homey.clock.getTimezone();
-			this.fetchDelay = Math.floor(Math.random() * 15 * 60 * 1000);
+			this.fetchDelay = Math.floor(Math.random() * 20 * 60 * 1000);
 			// if (!this.prices) this.prices = [];
 
 			if (this.settings.biddingZone === 'TTF_EOD') {
@@ -237,6 +237,7 @@ class MyDevice extends Homey.Device {
 			this.homey.app.triggerPriceHighestAvg(this, tokens, state);
 			this.homey.app.triggerPriceLowest(this, tokens, state);
 			this.homey.app.triggerPriceLowestBefore(this, tokens, state);
+			this.homey.app.triggerPriceLowestToday(this, tokens, state);
 			this.homey.app.triggerPriceBelowAvg(this, tokens, state);
 			this.homey.app.triggerPriceLowestAvg(this, tokens, state);
 

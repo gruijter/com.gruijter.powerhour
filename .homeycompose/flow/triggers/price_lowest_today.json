@@ -1,0 +1,41 @@
+{
+	"title": {
+		"en": "The price becomes on of the lowest of today",
+		"nl": "De prijs wordt één van de laagste van vandaag"
+	},
+	"titleFormatted": {
+		"en": "The price becomes one of [[number]] lowest of today",
+		"nl": "De prijs wordt een van de [[number]] laagste van vandaag"
+	},
+	"highlight": true,
+	"args": [
+		{
+		  "type": "device",
+		  "name": "device",
+		  "filter": "driver_id=dap"
+		},
+		{
+			"type": "number",
+			"name": "number",
+			"title": { 
+				"en": "number",
+				"nl": "aantal"
+			},
+			"placeholder": { "en": "1 - 16" },
+			"min": 1,
+			"max": 16,
+			"step": 1
+		}
+	],
+	"tokens": [
+		{
+		"name": "meter_price_h0",
+		"title": {
+			"en": "Price now",
+			"nl": "Prijs nu"
+		},
+		"type": "number",
+		"example": 27.5
+		}
+	]
+}

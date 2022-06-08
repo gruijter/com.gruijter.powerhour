@@ -21,9 +21,9 @@
 				"en": "period",
 				"nl": "periode"
 			},
-			"placeholder": { "en": "2 - 8" },
+			"placeholder": { "en": "2 - 12" },
 			"min": 2,
-			"max": 8,
+			"max": 12,
 			"step": 1
 		},
 		{
@@ -33,9 +33,9 @@
 				"en": "number",
 				"nl": "aantal"
 			},
-			"placeholder": { "en": "1 - 6" },
+			"placeholder": { "en": "1 - 8" },
 			"min": 1,
-			"max": 6,
+			"max": 8,
 			"step": 1
 		},
 		{
