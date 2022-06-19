@@ -1,3 +1,4 @@
+/* eslint-disable no-await-in-loop */
 /*
 Copyright 2019 - 2022, Robin de Gruijter (gruijter@hotmail.com)
 
@@ -36,10 +37,12 @@ class MyDevice extends Homey.Device {
 		try {
 			await this.destroyListeners();
 			this.restarting = false;
-			this.settings = await this.getSettings();
 			this.timeZone = this.homey.clock.getTimezone();
 			this.fetchDelay = Math.floor(Math.random() * 20 * 60 * 1000);
 			// if (!this.prices) this.prices = [];
+
+			this.settings = await this.getSettings();
+			if (this.currencyChanged) await this.migrateCurrencyOptions(this.settings.currency, this.settings.decimals);
 
 			if (this.settings.biddingZone === 'TTF_EOD') {
 				this.dap = new DAPGASTTF();
@@ -72,10 +75,28 @@ class MyDevice extends Homey.Device {
 		}
 	}
 
+	async migrateCurrencyOptions(currency, decimals) {
+		this.log('migrating capability options');
+		const options = {
+			units: { en: currency },
+			decimals,
+		};
+		if (!currency || currency === '') options.units.en = '€';
+		if (!Number.isInteger(decimals)) options.units.decimals = 4;
+		const moneyCaps = this.getCapabilities().filter((name) => name.includes('price'));
+		for (let i = 0; i < moneyCaps.length; i += 1) {
+			this.log('migrating', moneyCaps[i]);
+			await this.setCapabilityOptions(moneyCaps[i], options).catch(this.error);
+			await setTimeoutPromise(2 * 1000);
+		}
+		this.currencyChanged = false;
+		this.log('capability options migration ready', this.getCapabilityOptions('meter_price_h7'));
+	}
+
 	async restartDevice(delay) {
 		if (this.restarting) return;
 		this.restarting = true;
-		this.destroyListeners();
+		await this.destroyListeners();
 		const dly = delay || 2000;
 		this.log(`Device will restart in ${dly / 1000} seconds`);
 		// this.setUnavailable('Device is restarting. Wait a few minutes!');
@@ -98,9 +119,12 @@ class MyDevice extends Homey.Device {
 	}
 
 	// this method is called when the user has changed the device's settings in Homey.
-	async onSettings({ newSettings }) { // , oldSettings, changedKeys) {
+	async onSettings({ newSettings, changedKeys }) { // , oldSettings) {
 		this.log(`${this.getName()} device settings changed by user`, newSettings);
-		this.restartDevice(500);
+		if (changedKeys.includes('currency') || changedKeys.includes('decimals')) {
+			this.currencyChanged = true;
+		}
+		this.restartDevice(1000);
 	}
 
 	async destroyListeners() {

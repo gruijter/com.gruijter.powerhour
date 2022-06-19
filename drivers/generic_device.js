@@ -34,9 +34,11 @@ class SumMeterDevice extends Device {
 			// init some stuff
 			this.restarting = false;
 			await this.destroyListeners();
-			this.settings = await this.getSettings();
 			this.timeZone = this.homey.clock.getTimezone();
+			this.settings = await this.getSettings();
+
 			if (!this.migrated) await this.migrate();
+			if (this.currencyChanged) await this.migrateCurrencyOptions(this.settings.currency, this.settings.decimals);
 
 			// setup source device
 			if (!this.settings.meter_via_flow) {
@@ -122,11 +124,29 @@ class SumMeterDevice extends Device {
 		}
 	}
 
+	async migrateCurrencyOptions(currency, decimals) {
+		this.log('migrating capability options');
+		const options = {
+			units: { en: currency },
+			decimals,
+		};
+		if (!currency || currency === '') options.units.en = '¤';
+		if (!Number.isInteger(decimals)) options.units.decimals = 2;
+		const moneyCaps = this.getCapabilities().filter((name) => name.includes('money'));
+		for (let i = 0; i < moneyCaps.length; i += 1) {
+			this.log('migrating', moneyCaps[i]);
+			await this.setCapabilityOptions(moneyCaps[i], options).catch(this.error);
+			await setTimeoutPromise(2 * 1000);
+		}
+		this.currencyChanged = false;
+		this.log('capability options migration ready', this.getCapabilityOptions('meter_money_last_hour'));
+	}
+
 	async restartDevice(delay) {
 		if (this.restarting) return;
 		this.restarting = true;
 		this.stopPolling();
-		this.destroyListeners();
+		await this.destroyListeners();
 		const dly = delay || 2000;
 		this.log(`Device will restart in ${dly / 1000} seconds`);
 		// this.setUnavailable('Device is restarting. Wait a few minutes!');
@@ -156,6 +176,7 @@ class SumMeterDevice extends Device {
 		const lastReadingDay = { ...this.lastReadingDay };
 		const lastReadingMonth = { ...this.lastReadingMonth };
 		const lastReadingYear = { ...this.lastReadingYear };
+
 		if (changedKeys.includes('meter_day_start')) {
 			lastReadingDay.meterValue = newSettings.meter_day_start;
 			await this.setStoreValue('lastReadingDay', lastReadingDay);
@@ -199,6 +220,10 @@ class SumMeterDevice extends Device {
 
 		if (changedKeys.includes('tariff')) {
 			this.tariff = newSettings.tariff;
+		}
+
+		if (changedKeys.includes('currency') || changedKeys.includes('decimals')) {
+			this.currencyChanged = true;
 		}
 
 		this.restartDevice(1000);

@@ -1,7 +1,7 @@
 {
   "_comment": "This file is generated. Please edit .homeycompose/app.json instead.",
   "id": "com.gruijter.powerhour",
-  "version": "4.3.4",
+  "version": "4.3.5",
   "compatibility": ">=5.0.0",
   "brandColor": "#df5020",
   "sdk": 3,
@@ -1116,21 +1116,58 @@
               "id": "fixedMarkup",
               "type": "number",
               "label": {
-                "en": "Fixed markup per kWh/m3 (EUR)",
-                "nl": "Vaste opslag per kWh/m3 (EUR)"
+                "en": "Fixed markup per kWh/m3 (€)",
+                "nl": "Vaste opslag per kWh/m3 (€)"
               },
               "value": 0,
               "hint": {
-                "en": "Enter the fixed amount with which the price must be increased per kWh/m3, incl. VAT. E.g. for purchase fee.",
-                "nl": "Voer het vaste bedrag in waarmee de prijs per kWh/m3 verhoogd moet worden incl. BTW. Bijvoorbeeld voor inkoopvergoeding, Energie bvelasting, ODE."
+                "en": "Enter the fixed amount in EURO(!) with which the price must be increased per kWh or m3, incl. VAT. E.g. for purchase fee.",
+                "nl": "Voer het vaste bedrag in EURO(!) in waarmee de prijs per kWh of m3 verhoogd moet worden incl. BTW. Bijvoorbeeld voor inkoopvergoeding, Energie belasting, ODE."
+              }
+            }
+          ]
+        },
+        {
+          "type": "group",
+          "label": {
+            "en": "Currency settings",
+            "nl": "Munteenheid instellingen"
+          },
+          "children": [
+            {
+              "id": "currency",
+              "type": "text",
+              "label": {
+                "en": "Currency unit",
+                "nl": "Geldeenheid"
+              },
+              "value": "€",
+              "hint": {
+                "en": "The unit displayed as currency, e.g. €, £, EUR, SER, NOK, DKK, CHF. Leave empty to use the default €.",
+                "nl": "De weergegeven eenheid voor geld, bijv. €, £, EUR, SER, NOK, DKK, CHF. Laat leeg om de standaard € te gebruiken."
+              }
+            },
+            {
+              "id": "decimals",
+              "type": "number",
+              "label": {
+                "en": "Currency decimals",
+                "nl": "Geld decimalen"
+              },
+              "value": 4,
+              "min": 0,
+              "max": 8,
+              "hint": {
+                "en": "The number of decimals to use for price.",
+                "nl": "Het aantal decimalen voor prijs."
               }
             },
             {
               "id": "exchangeRate",
               "type": "number",
               "label": {
-                "en": "Exchange rate",
-                "nl": "Wisselkoers"
+                "en": "€ Exchange rate",
+                "nl": "€ Wisselkoers"
               },
               "value": 1,
               "hint": {
@@ -1387,6 +1424,34 @@
             "nl": "Geldwaarde"
           },
           "children": [
+            {
+              "id": "currency",
+              "type": "text",
+              "label": {
+                "en": "Currency unit",
+                "nl": "Geldeenheid"
+              },
+              "value": "¤",
+              "hint": {
+                "en": "The unit displayed as currency, e.g. €, £, EUR, SER, NOK, DKK, CHF. Leave empty to use the default ¤.",
+                "nl": "De weergegeven eenheid voor geld, bijv. €, £, EUR, SER, NOK, DKK, CHF. Laat leeg om de standaard ¤ te gebruiken."
+              }
+            },
+            {
+              "id": "decimals",
+              "type": "number",
+              "label": {
+                "en": "Currency decimals",
+                "nl": "Geld decimalen"
+              },
+              "value": 2,
+              "min": 0,
+              "max": 8,
+              "hint": {
+                "en": "The number of decimals to use for monetary value.",
+                "nl": "Het aantal decimalen voor geldwaarde."
+              }
+            },
             {
               "id": "tariff",
               "type": "number",
@@ -1742,6 +1807,34 @@
           },
           "children": [
             {
+              "id": "currency",
+              "type": "text",
+              "label": {
+                "en": "Currency unit",
+                "nl": "Geldeenheid"
+              },
+              "value": "¤",
+              "hint": {
+                "en": "The unit displayed as currency, e.g. €, £, EUR, SER, NOK, DKK, CHF. Leave empty to use the default ¤.",
+                "nl": "De weergegeven eenheid voor geld, bijv. €, £, EUR, SER, NOK, DKK, CHF. Laat leeg om de standaard ¤ te gebruiken."
+              }
+            },
+            {
+              "id": "decimals",
+              "type": "number",
+              "label": {
+                "en": "Currency decimals",
+                "nl": "Geld decimalen"
+              },
+              "value": 2,
+              "min": 0,
+              "max": 8,
+              "hint": {
+                "en": "The number of decimals to use for monetary value.",
+                "nl": "Het aantal decimalen voor geldwaarde."
+              }
+            },
+            {
               "id": "tariff",
               "type": "number",
               "label": {
@@ -2082,6 +2175,34 @@
             "nl": "Geldwaarde"
           },
           "children": [
+            {
+              "id": "currency",
+              "type": "text",
+              "label": {
+                "en": "Currency unit",
+                "nl": "Geldeenheid"
+              },
+              "value": "¤",
+              "hint": {
+                "en": "The unit displayed as currency, e.g. €, £, EUR, SER, NOK, DKK, CHF. Leave empty to use the default ¤.",
+                "nl": "De weergegeven eenheid voor geld, bijv. €, £, EUR, SER, NOK, DKK, CHF. Laat leeg om de standaard ¤ te gebruiken."
+              }
+            },
+            {
+              "id": "decimals",
+              "type": "number",
+              "label": {
+                "en": "Currency decimals",
+                "nl": "Geld decimalen"
+              },
+              "value": 2,
+              "min": 0,
+              "max": 8,
+              "hint": {
+                "en": "The number of decimals to use for monetary value.",
+                "nl": "Het aantal decimalen voor geldwaarde."
+              }
+            },
             {
               "id": "tariff",
               "type": "number",
@@ -2742,7 +2863,7 @@
       "setable": false,
       "insights": true,
       "units": {
-        "en": "¤"
+        "en": "€"
       },
       "decimals": 4
     },
@@ -2758,7 +2879,7 @@
       "setable": false,
       "insights": false,
       "units": {
-        "en": "¤"
+        "en": "€"
       },
       "decimals": 4
     },
@@ -2774,7 +2895,7 @@
       "setable": false,
       "insights": false,
       "units": {
-        "en": "¤"
+        "en": "€"
       },
       "decimals": 4
     },
@@ -2790,7 +2911,7 @@
       "setable": false,
       "insights": false,
       "units": {
-        "en": "¤"
+        "en": "€"
       },
       "decimals": 4
     },
@@ -2806,7 +2927,7 @@
       "setable": false,
       "insights": false,
       "units": {
-        "en": "¤"
+        "en": "€"
       },
       "decimals": 4
     },
@@ -2822,7 +2943,7 @@
       "setable": false,
       "insights": false,
       "units": {
-        "en": "¤"
+        "en": "€"
       },
       "decimals": 4
     },
@@ -2838,7 +2959,7 @@
       "setable": false,
       "insights": false,
       "units": {
-        "en": "¤"
+        "en": "€"
       },
       "decimals": 4
     },
@@ -2854,7 +2975,7 @@
       "setable": false,
       "insights": false,
       "units": {
-        "en": "¤"
+        "en": "€"
       },
       "decimals": 4
     },
@@ -2870,7 +2991,7 @@
       "setable": false,
       "insights": true,
       "units": {
-        "en": "¤"
+        "en": "€"
       },
       "decimals": 4
     },
@@ -2886,7 +3007,7 @@
       "setable": false,
       "insights": true,
       "units": {
-        "en": "¤"
+        "en": "€"
       },
       "decimals": 4
     },

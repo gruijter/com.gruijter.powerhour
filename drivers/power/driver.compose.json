@@ -229,6 +229,34 @@
       },
       "children": [
         {
+          "id": "currency",
+          "type": "text",
+          "label": {
+            "en": "Currency unit",
+            "nl": "Geldeenheid"
+          },
+          "value": "¤",
+          "hint": {
+            "en": "The unit displayed as currency, e.g. €, £, EUR, SER, NOK, DKK, CHF. Leave empty to use the default ¤.",
+            "nl": "De weergegeven eenheid voor geld, bijv. €, £, EUR, SER, NOK, DKK, CHF. Laat leeg om de standaard ¤ te gebruiken."
+          }
+        },
+        {
+          "id": "decimals",
+          "type": "number",
+          "label": {
+            "en": "Currency decimals",
+            "nl": "Geld decimalen"
+          },
+          "value": 2,
+          "min": 0,
+          "max": 8,
+          "hint": {
+            "en": "The number of decimals to use for monetary value.",
+            "nl": "Het aantal decimalen voor geldwaarde."
+          }
+        },
+        {
           "id": "tariff",
           "type": "number",
           "label": {

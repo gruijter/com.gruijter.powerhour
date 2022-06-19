@@ -1,4 +1,7 @@
 {
+  "4.3.5": {
+    "en": "€ set as default currency for DAP. Configurable currency unit and decimals. homey-api@1.7.0"
+  },
   "4.3.4": {
     "en": "Lowest price before time flow card extended to 12hrs. Added lowest number of hours this day. Update to homey-api@1.6.0"
   },
