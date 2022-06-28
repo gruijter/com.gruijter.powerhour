@@ -1,0 +1,26 @@
+{
+  "title": {
+    "en": "Set a new exchange rate",
+    "nl": "Stel een nieuwe wisselkoers in"
+  },
+  "titleFormatted": {
+    "en": "Set exchange rate to [[value]]",
+    "nl": "Stel wisselkoers in op [[value]]"
+  },
+  "highlight": true,
+  "args": [
+    {
+      "type": "device",
+      "name": "device",
+      "filter": "driver_id=dap"
+    },
+    {
+      "name": "value",
+      "type": "number",
+      "placeholder": {
+        "en": "€ Exchange rate",
+        "nl": "€ Wisselkoers"
+      }
+    }
+  ]
+}

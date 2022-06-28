@@ -287,6 +287,18 @@ class MyApp extends Homey.App {
 		setTariffWater
 			.registerRunListener((args) => this.homey.emit('set_tariff_water', args));
 
+		const setVariableMarkup = this.homey.flow.getActionCard('set_variable_markup');
+		setVariableMarkup
+			.registerRunListener((args) => args.device.setVariableMarkup(args.value).catch(this.error));
+
+		const setFixedMarkup = this.homey.flow.getActionCard('set_fixed_markup');
+		setFixedMarkup
+			.registerRunListener((args) => args.device.setFixedMarkup(args.value).catch(this.error));
+
+		const setExchangeRate = this.homey.flow.getActionCard('set_exchange_rate');
+		setExchangeRate
+			.registerRunListener((args) => args.device.setExchangeRate(args.value).catch(this.error));
+
 		const minMaxReset = this.homey.flow.getActionCard('minmax_reset');
 		minMaxReset
 			.registerRunListener((args) => args.device.minMaxReset(true, 'flow').catch(this.error));
@@ -298,7 +310,6 @@ class MyApp extends Homey.App {
 				'virtual_device',
 				(query) => autoComplete(query, 'power').catch(this.error),
 			);
-
 		const setMeterGas = this.homey.flow.getActionCard('set_meter_gas');
 		setMeterGas
 			.registerRunListener((args) => runUpdateMeter(args, 'gas').catch(this.error))

@@ -37,11 +37,13 @@ class MyDevice extends Homey.Device {
 		try {
 			await this.destroyListeners();
 			this.restarting = false;
+			this.settings = await this.getSettings();
+			if (!this.migrated) await this.migrate();
+
 			this.timeZone = this.homey.clock.getTimezone();
-			this.fetchDelay = Math.floor(Math.random() * 20 * 60 * 1000);
+			this.fetchDelay = Math.floor(Math.random() * 30 * 60 * 1000);
 			// if (!this.prices) this.prices = [];
 
-			this.settings = await this.getSettings();
 			if (this.currencyChanged) await this.migrateCurrencyOptions(this.settings.currency, this.settings.decimals);
 
 			if (this.settings.biddingZone === 'TTF_EOD') {
@@ -72,6 +74,42 @@ class MyDevice extends Homey.Device {
 			this.error(error);
 			// this.setUnavailable(error.message).catch(this.error);
 			this.restartDevice(1 * 60 * 1000); // restart after 1 minute
+		}
+	}
+
+	// migrate stuff from old version < 4.3.6
+	async migrate() {
+		try {
+			this.log(`checking device migration for ${this.getName()}`);
+			// console.log(this.getName(), this.settings, this.getStore());
+
+			// check and repair incorrect capability(order)
+			let correctCaps = this.driver.deviceCapabilitiesPower;
+			if (this.settings.biddingZone === 'TTF_EOD' || this.settings.biddingZone === 'TTF_LEBA') correctCaps = this.driver.deviceCapabilitiesGas;
+			for (let index = 0; index < correctCaps.length; index += 1) {
+				const caps = await this.getCapabilities();
+				const newCap = correctCaps[index];
+				if (caps[index] !== newCap) {
+					// remove all caps from here
+					for (let i = index; i < caps.length; i += 1) {
+						this.log(`removing capability ${caps[i]} for ${this.getName()}`);
+						await this.removeCapability(caps[i])
+							.catch((error) => this.log(error));
+						await setTimeoutPromise(2 * 1000); // wait a bit for Homey to settle
+					}
+					// add the new cap
+					this.log(`adding capability ${newCap} for ${this.getName()}`);
+					await this.addCapability(newCap);
+					await setTimeoutPromise(2 * 1000); // wait a bit for Homey to settle
+				}
+			}
+			// set new migrate level
+			this.setSettings({ level: this.homey.app.manifest.version });
+			this.migrated = true;
+			Promise.resolve(this.migrated);
+		} catch (error) {
+			this.error('Migration failed', error);
+			Promise.reject(error);
 		}
 	}
 
@@ -143,6 +181,24 @@ class MyDevice extends Homey.Device {
 		}
 	}
 
+	async setVariableMarkup(val) {
+		this.log('changing variable markup via flow', this.getName(), val);
+		await this.setSettings({ variableMarkup: val });
+		this.restartDevice(1000);
+	}
+
+	async setFixedMarkup(val) {
+		this.log('changing fixed markup via flow', this.getName(), val);
+		await this.setSettings({ fixedMarkup: val });
+		this.restartDevice(1000);
+	}
+
+	async setExchangeRate(val) {
+		this.log('changing exchange rate via flow', this.getName(), val);
+		await this.setSettings({ exchangeRate: val });
+		this.restartDevice(1000);
+	}
+
 	async fetchPrices() {
 		try {
 			this.log('fetching prices of today and tomorrow (when available)');
@@ -161,7 +217,7 @@ class MyDevice extends Homey.Device {
 
 			const prices = await this.dap.getPrices({ dateStart: todayStart, dateEnd: tomorrowStart })
 				.catch(async (error) => {
-					this.log('Error fetching prices. Trying again in 10 minutes', error.message);
+					this.log(`${this.getName()} Error fetching prices from ${this.dap.host}. Trying again in 10 minutes`, error.message);
 					await setTimeoutPromise(10 * 60 * 1000, 'waiting is done');
 					return this.dap.getPrices();
 				});
@@ -233,7 +289,13 @@ class MyDevice extends Homey.Device {
 			const priceNext8hAvg = average(pricesNext8h);
 			const priceNow = pricesNext8h[0];
 
+			// find lowest price today
+			const priceThisDayLowest = Math.min(...pricesThisDay);
+			const hourThisDayLowest = pricesThisDay.indexOf(priceThisDayLowest);
+
 			// set capabilities
+			await this.setCapability('meter_price_this_day_lowest', priceThisDayLowest);
+			await this.setCapability('hour_this_day_lowest', hourThisDayLowest);
 			await this.setCapability('meter_price_this_day_avg', priceThisDayAvg);
 			await this.setCapability('meter_price_next_8h_avg', priceNext8hAvg);
 			const allSet = pricesNext8h.map((price, index) => this.setCapability(`meter_price_h${index}`, price).catch(this.error));

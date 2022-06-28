@@ -1,0 +1,26 @@
+{
+  "title": {
+    "en": "Set a new variable markup",
+    "nl": "Stel een nieuwe variabele opslag in"
+  },
+  "titleFormatted": {
+    "en": "Set variable markup to [[value]]%",
+    "nl": "Stel variabele opslag in op [[value]]%"
+  },
+  "highlight": true,
+  "args": [
+    {
+      "type": "device",
+      "name": "device",
+      "filter": "driver_id=dap"
+    },
+    {
+      "name": "value",
+      "type": "number",
+      "placeholder": {
+        "en": "Variable markup (%)",
+        "nl": "Variabele opslag (%)"
+      }
+    }
+  ]
+}

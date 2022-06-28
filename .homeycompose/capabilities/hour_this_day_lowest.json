@@ -1,0 +1,17 @@
+{
+  "type": "number",
+  "title": {
+    "en": "Lowest hour this day",
+    "nl": "Laagste uur deze dag"
+  },
+  "uiComponent": "sensor",
+  "icon": "/assets/tariff.svg",
+  "getable": true,
+  "setable": false,
+  "insights": true,
+  "units": {
+    "en": "Hour",
+    "nl": "Uur"
+  },
+  "decimals": 0
+}

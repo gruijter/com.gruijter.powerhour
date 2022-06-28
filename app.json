@@ -1,7 +1,7 @@
 {
   "_comment": "This file is generated. Please edit .homeycompose/app.json instead.",
   "id": "com.gruijter.powerhour",
-  "version": "4.3.5",
+  "version": "4.3.6",
   "compatibility": ">=5.0.0",
   "brandColor": "#df5020",
   "sdk": 3,
@@ -39,7 +39,8 @@
       "pricing",
       "utility bill",
       "stromregning",
-      "rekening"
+      "rekening",
+      "tibber"
     ]
   },
   "permissions": [
@@ -876,6 +877,60 @@
       },
       {
         "title": {
+          "en": "Set a new exchange rate",
+          "nl": "Stel een nieuwe wisselkoers in"
+        },
+        "titleFormatted": {
+          "en": "Set exchange rate to [[value]]",
+          "nl": "Stel wisselkoers in op [[value]]"
+        },
+        "highlight": true,
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=dap"
+          },
+          {
+            "name": "value",
+            "type": "number",
+            "placeholder": {
+              "en": "€ Exchange rate",
+              "nl": "€ Wisselkoers"
+            }
+          }
+        ],
+        "id": "set_exchange_rate"
+      },
+      {
+        "title": {
+          "en": "Set a new fixed markup",
+          "nl": "Stel een nieuwe vaste opslag in"
+        },
+        "titleFormatted": {
+          "en": "Set fixed markup to [[value]]€",
+          "nl": "Stel vaste opslag in op [[value]]€"
+        },
+        "highlight": true,
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=dap"
+          },
+          {
+            "name": "value",
+            "type": "number",
+            "placeholder": {
+              "en": "Fixed markup per kWh/m3 (€)",
+              "nl": "Vaste opslag per kWh/m3 (€)"
+            }
+          }
+        ],
+        "id": "set_fixed_markup"
+      },
+      {
+        "title": {
           "en": "Send gas reading to virtual meter",
           "nl": "Stuur gasstand naar virtueel apparaat"
         },
@@ -1029,6 +1084,33 @@
           }
         ],
         "id": "set_tariff_water"
+      },
+      {
+        "title": {
+          "en": "Set a new variable markup",
+          "nl": "Stel een nieuwe variabele opslag in"
+        },
+        "titleFormatted": {
+          "en": "Set variable markup to [[value]]%",
+          "nl": "Stel variabele opslag in op [[value]]%"
+        },
+        "highlight": true,
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=dap"
+          },
+          {
+            "name": "value",
+            "type": "number",
+            "placeholder": {
+              "en": "Variable markup (%)",
+              "nl": "Variabele opslag (%)"
+            }
+          }
+        ],
+        "id": "set_variable_markup"
       }
     ]
   },
@@ -2324,6 +2406,23 @@
     }
   ],
   "capabilities": {
+    "hour_this_day_lowest": {
+      "type": "number",
+      "title": {
+        "en": "Lowest hour this day",
+        "nl": "Laagste uur deze dag"
+      },
+      "uiComponent": "sensor",
+      "icon": "/assets/tariff.svg",
+      "getable": true,
+      "setable": false,
+      "insights": true,
+      "units": {
+        "en": "Hour",
+        "nl": "Uur"
+      },
+      "decimals": 0
+    },
     "last_minmax_reset": {
       "type": "string",
       "title": {
@@ -3000,6 +3099,22 @@
       "title": {
         "en": "Avg. price this day",
         "nl": "Gem. prijs deze dag"
+      },
+      "uiComponent": "sensor",
+      "icon": "/assets/tariff.svg",
+      "getable": true,
+      "setable": false,
+      "insights": true,
+      "units": {
+        "en": "€"
+      },
+      "decimals": 4
+    },
+    "meter_price_this_day_lowest": {
+      "type": "number",
+      "title": {
+        "en": "Lowest price this day",
+        "nl": "Laagste prijs deze dag"
       },
       "uiComponent": "sensor",
       "icon": "/assets/tariff.svg",

@@ -1,0 +1,26 @@
+{
+  "title": {
+    "en": "Set a new fixed markup",
+    "nl": "Stel een nieuwe vaste opslag in"
+  },
+  "titleFormatted": {
+    "en": "Set fixed markup to [[value]]€",
+    "nl": "Stel vaste opslag in op [[value]]€"
+  },
+  "highlight": true,
+  "args": [
+    {
+      "type": "device",
+      "name": "device",
+      "filter": "driver_id=dap"
+    },
+    {
+      "name": "value",
+      "type": "number",
+      "placeholder": {
+        "en": "Fixed markup per kWh/m3 (€)",
+        "nl": "Vaste opslag per kWh/m3 (€)"
+      }
+    }
+  ]
+}

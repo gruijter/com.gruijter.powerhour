@@ -28,6 +28,32 @@ class MyDriver extends Driver {
 	async onInit() {
 		const dap = new ENTSOE();
 		this.biddingZones = dap.getBiddingZones();
+		this.deviceCapabilitiesPower = [
+			'meter_price_this_day_lowest',
+			'hour_this_day_lowest',
+			'meter_price_this_day_avg',
+			'meter_price_next_8h_avg',
+			'meter_price_h0',
+			'meter_price_h1',
+			'meter_price_h2',
+			'meter_price_h3',
+			'meter_price_h4',
+			'meter_price_h5',
+			'meter_price_h6',
+			'meter_price_h7',
+		];
+		this.deviceCapabilitiesGas = [
+			'meter_price_this_day_avg',
+			'meter_price_next_8h_avg',
+			'meter_price_h0',
+			'meter_price_h1',
+			'meter_price_h2',
+			'meter_price_h3',
+			'meter_price_h4',
+			'meter_price_h5',
+			'meter_price_h6',
+			'meter_price_h7',
+		];
 		this.log('onDriverInit');
 	}
 
@@ -38,18 +64,7 @@ class MyDriver extends Driver {
 			data: {
 				id: `Gas_TTF_EOD_${randomId}`,
 			},
-			capabilities: [
-				'meter_price_this_day_avg',
-				'meter_price_next_8h_avg',
-				'meter_price_h0',
-				'meter_price_h1',
-				'meter_price_h2',
-				'meter_price_h3',
-				'meter_price_h4',
-				'meter_price_h5',
-				'meter_price_h6',
-				'meter_price_h7',
-			],
+			capabilities: this.deviceCapabilitiesGas,
 			settings: {
 				biddingZone: 'TTF_EOD',
 				description: 'Gas TTF End of Day',
@@ -64,18 +79,7 @@ class MyDriver extends Driver {
 			data: {
 				id: `Gas_TTF_LEBA_${randomId}`,
 			},
-			capabilities: [
-				'meter_price_this_day_avg',
-				'meter_price_next_8h_avg',
-				'meter_price_h0',
-				'meter_price_h1',
-				'meter_price_h2',
-				'meter_price_h3',
-				'meter_price_h4',
-				'meter_price_h5',
-				'meter_price_h6',
-				'meter_price_h7',
-			],
+			capabilities: this.deviceCapabilitiesGas,
 			settings: {
 				biddingZone: 'TTF_LEBA',
 				description: 'Gas TTF LEBA',
@@ -92,18 +96,7 @@ class MyDriver extends Driver {
 				data: {
 					id: `${biddingZone}_${randomId}`,
 				},
-				capabilities: [
-					'meter_price_this_day_avg',
-					'meter_price_next_8h_avg',
-					'meter_price_h0',
-					'meter_price_h1',
-					'meter_price_h2',
-					'meter_price_h3',
-					'meter_price_h4',
-					'meter_price_h5',
-					'meter_price_h6',
-					'meter_price_h7',
-				],
+				capabilities: this.deviceCapabilitiesPower,
 				settings: {
 					biddingZone,
 					description,

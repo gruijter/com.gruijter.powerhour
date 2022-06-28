@@ -1,4 +1,7 @@
 {
+    "4.3.6": {
+    "en": "Set DAP markups and exchange rate via flow. Added DAP capabilities for hour of lowest price."
+  },
   "4.3.5": {
     "en": "€ set as default currency for DAP. Configurable currency unit and decimals. homey-api@1.7.0"
   },
