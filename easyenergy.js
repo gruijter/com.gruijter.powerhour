@@ -59,12 +59,14 @@ class Easyenergy {
 			const day = start;
 			while (day <= end) {
 				// eslint-disable-next-line no-await-in-loop
-				const infoDay = await this.getPricesDay(day);
+				const infoDay = await this.getPricesDay(day).catch((error) => error);
 				info.push(infoDay);
 				day.setDate(day.getDate() + 1);
 			}
 			// console.dir(info, { depth: null });
-			return Promise.resolve(info);
+			const infoGood = info.filter((infoDay) => !(infoDay instanceof Error));
+			if (infoGood.length === 0) throw info.find((infoDay) => infoDay instanceof Error);
+			return Promise.resolve(infoGood);
 		} catch (error) {
 			return Promise.reject(error);
 		}
@@ -175,7 +177,7 @@ class Easyenergy {
 
 module.exports = Easyenergy;
 
-// // START TEST HERE
+// START TEST HERE
 // const easyEnergy = new Easyenergy();
 
 // const today = new Date();
@@ -185,197 +187,197 @@ module.exports = Easyenergy;
 // yesterday.setDate(yesterday.getDate() - 1);
 // tomorrow.setDate(tomorrow.getDate() + 1);
 
-// // const dateStart = '2022-05-27T00:00:01Z';
-// // const dateEnd = '2022-05-27T22:00:01Z';
-// // easyEnergy.getPrices({ dateStart, dateEnd })
+// const dateStart = '2022-07-09T22:00:00.000Z';
+// const dateEnd = '2022-07-09T22:00:00.000Z';
+// easyEnergy.getPrices({ dateStart, dateEnd })
 
-// easyEnergy.getPrices() // { dateStart: today, dateEnd: tomorrow })
+// // easyEnergy.getPrices({ dateStart: today, dateEnd: tomorrow })
 // 	.then((result) => console.dir(result, { depth: null }))
 // 	.catch((error) => console.log(error));
 
 /*
 
 [
-  {
-    timeInterval: {
-      start: '2022-05-26T22:00:00.000Z',
-      end: '2022-05-27T21:00:00.000Z'
-    },
-    prices: [
-               968.9922,          968.9922,
-               968.9922,          968.9922,
-               968.9922,          968.9922,
-      979.3498000000001, 979.3498000000001,
-      979.3498000000001, 979.3498000000001,
-      979.3498000000001, 979.3498000000001,
-      979.3498000000001, 979.3498000000001,
-      979.3498000000001, 979.3498000000001,
-      979.3498000000001, 979.3498000000001,
-      979.3498000000001, 979.3498000000001,
-      979.3498000000001, 979.3498000000001,
-      979.3498000000001, 979.3498000000001
-    ]
-  },
-  {
-    timeInterval: {
-      start: '2022-05-27T22:00:00.000Z',
-      end: '2022-05-28T03:00:00.000Z'
-    },
-    prices: [
-      979.3498000000001,
-      979.3498000000001,
-      979.3498000000001,
-      979.3498000000001,
-      979.3498000000001,
-      979.3498000000001
-    ]
-  }
+	{
+		timeInterval: {
+			start: '2022-05-26T22:00:00.000Z',
+			end: '2022-05-27T21:00:00.000Z'
+		},
+		prices: [
+							 968.9922,          968.9922,
+							 968.9922,          968.9922,
+							 968.9922,          968.9922,
+			979.3498000000001, 979.3498000000001,
+			979.3498000000001, 979.3498000000001,
+			979.3498000000001, 979.3498000000001,
+			979.3498000000001, 979.3498000000001,
+			979.3498000000001, 979.3498000000001,
+			979.3498000000001, 979.3498000000001,
+			979.3498000000001, 979.3498000000001,
+			979.3498000000001, 979.3498000000001,
+			979.3498000000001, 979.3498000000001
+		]
+	},
+	{
+		timeInterval: {
+			start: '2022-05-27T22:00:00.000Z',
+			end: '2022-05-28T03:00:00.000Z'
+		},
+		prices: [
+			979.3498000000001,
+			979.3498000000001,
+			979.3498000000001,
+			979.3498000000001,
+			979.3498000000001,
+			979.3498000000001
+		]
+	}
 ]
 
 [
-  {
-    Timestamp: '2022-05-26T22:00:00+00:00',
-    SupplierId: 0,
-    TariffUsage: 0.9689922,
-    TariffReturn: 0.9689922
-  },
-  {
-    Timestamp: '2022-05-26T23:00:00+00:00',
-    SupplierId: 0,
-    TariffUsage: 0.9689922,
-    TariffReturn: 0.9689922
-  },
-  {
-    Timestamp: '2022-05-27T00:00:00+00:00',
-    SupplierId: 0,
-    TariffUsage: 0.9689922,
-    TariffReturn: 0.9689922
-  },
-  {
-    Timestamp: '2022-05-27T01:00:00+00:00',
-    SupplierId: 0,
-    TariffUsage: 0.9689922,
-    TariffReturn: 0.9689922
-  },
-  {
-    Timestamp: '2022-05-27T02:00:00+00:00',
-    SupplierId: 0,
-    TariffUsage: 0.9689922,
-    TariffReturn: 0.9689922
-  },
-  {
-    Timestamp: '2022-05-27T03:00:00+00:00',
-    SupplierId: 0,
-    TariffUsage: 0.9689922,
-    TariffReturn: 0.9689922
-  },
-  {
-    Timestamp: '2022-05-27T04:00:00+00:00',
-    SupplierId: 0,
-    TariffUsage: 0.9793498,
-    TariffReturn: 0.9793498
-  },
-  {
-    Timestamp: '2022-05-27T05:00:00+00:00',
-    SupplierId: 0,
-    TariffUsage: 0.9793498,
-    TariffReturn: 0.9793498
-  },
-  {
-    Timestamp: '2022-05-27T06:00:00+00:00',
-    SupplierId: 0,
-    TariffUsage: 0.9793498,
-    TariffReturn: 0.9793498
-  },
-  {
-    Timestamp: '2022-05-27T07:00:00+00:00',
-    SupplierId: 0,
-    TariffUsage: 0.9793498,
-    TariffReturn: 0.9793498
-  },
-  {
-    Timestamp: '2022-05-27T08:00:00+00:00',
-    SupplierId: 0,
-    TariffUsage: 0.9793498,
-    TariffReturn: 0.9793498
-  },
-  {
-    Timestamp: '2022-05-27T09:00:00+00:00',
-    SupplierId: 0,
-    TariffUsage: 0.9793498,
-    TariffReturn: 0.9793498
-  },
-  {
-    Timestamp: '2022-05-27T10:00:00+00:00',
-    SupplierId: 0,
-    TariffUsage: 0.9793498,
-    TariffReturn: 0.9793498
-  },
-  {
-    Timestamp: '2022-05-27T11:00:00+00:00',
-    SupplierId: 0,
-    TariffUsage: 0.9793498,
-    TariffReturn: 0.9793498
-  },
-  {
-    Timestamp: '2022-05-27T12:00:00+00:00',
-    SupplierId: 0,
-    TariffUsage: 0.9793498,
-    TariffReturn: 0.9793498
-  },
-  {
-    Timestamp: '2022-05-27T13:00:00+00:00',
-    SupplierId: 0,
-    TariffUsage: 0.9793498,
-    TariffReturn: 0.9793498
-  },
-  {
-    Timestamp: '2022-05-27T14:00:00+00:00',
-    SupplierId: 0,
-    TariffUsage: 0.9793498,
-    TariffReturn: 0.9793498
-  },
-  {
-    Timestamp: '2022-05-27T15:00:00+00:00',
-    SupplierId: 0,
-    TariffUsage: 0.9793498,
-    TariffReturn: 0.9793498
-  },
-  {
-    Timestamp: '2022-05-27T16:00:00+00:00',
-    SupplierId: 0,
-    TariffUsage: 0.9793498,
-    TariffReturn: 0.9793498
-  },
-  {
-    Timestamp: '2022-05-27T17:00:00+00:00',
-    SupplierId: 0,
-    TariffUsage: 0.9793498,
-    TariffReturn: 0.9793498
-  },
-  {
-    Timestamp: '2022-05-27T18:00:00+00:00',
-    SupplierId: 0,
-    TariffUsage: 0.9793498,
-    TariffReturn: 0.9793498
-  },
-  {
-    Timestamp: '2022-05-27T19:00:00+00:00',
-    SupplierId: 0,
-    TariffUsage: 0.9793498,
-    TariffReturn: 0.9793498
-  },
-  {
-    Timestamp: '2022-05-27T20:00:00+00:00',
-    SupplierId: 0,
-    TariffUsage: 0.9793498,
-    TariffReturn: 0.9793498
-  },
-  {
-    Timestamp: '2022-05-27T21:00:00+00:00',
-    SupplierId: 0,
-    TariffUsage: 0.9793498,
-    TariffReturn: 0.9793498
-  }
+	{
+		Timestamp: '2022-05-26T22:00:00+00:00',
+		SupplierId: 0,
+		TariffUsage: 0.9689922,
+		TariffReturn: 0.9689922
+	},
+	{
+		Timestamp: '2022-05-26T23:00:00+00:00',
+		SupplierId: 0,
+		TariffUsage: 0.9689922,
+		TariffReturn: 0.9689922
+	},
+	{
+		Timestamp: '2022-05-27T00:00:00+00:00',
+		SupplierId: 0,
+		TariffUsage: 0.9689922,
+		TariffReturn: 0.9689922
+	},
+	{
+		Timestamp: '2022-05-27T01:00:00+00:00',
+		SupplierId: 0,
+		TariffUsage: 0.9689922,
+		TariffReturn: 0.9689922
+	},
+	{
+		Timestamp: '2022-05-27T02:00:00+00:00',
+		SupplierId: 0,
+		TariffUsage: 0.9689922,
+		TariffReturn: 0.9689922
+	},
+	{
+		Timestamp: '2022-05-27T03:00:00+00:00',
+		SupplierId: 0,
+		TariffUsage: 0.9689922,
+		TariffReturn: 0.9689922
+	},
+	{
+		Timestamp: '2022-05-27T04:00:00+00:00',
+		SupplierId: 0,
+		TariffUsage: 0.9793498,
+		TariffReturn: 0.9793498
+	},
+	{
+		Timestamp: '2022-05-27T05:00:00+00:00',
+		SupplierId: 0,
+		TariffUsage: 0.9793498,
+		TariffReturn: 0.9793498
+	},
+	{
+		Timestamp: '2022-05-27T06:00:00+00:00',
+		SupplierId: 0,
+		TariffUsage: 0.9793498,
+		TariffReturn: 0.9793498
+	},
+	{
+		Timestamp: '2022-05-27T07:00:00+00:00',
+		SupplierId: 0,
+		TariffUsage: 0.9793498,
+		TariffReturn: 0.9793498
+	},
+	{
+		Timestamp: '2022-05-27T08:00:00+00:00',
+		SupplierId: 0,
+		TariffUsage: 0.9793498,
+		TariffReturn: 0.9793498
+	},
+	{
+		Timestamp: '2022-05-27T09:00:00+00:00',
+		SupplierId: 0,
+		TariffUsage: 0.9793498,
+		TariffReturn: 0.9793498
+	},
+	{
+		Timestamp: '2022-05-27T10:00:00+00:00',
+		SupplierId: 0,
+		TariffUsage: 0.9793498,
+		TariffReturn: 0.9793498
+	},
+	{
+		Timestamp: '2022-05-27T11:00:00+00:00',
+		SupplierId: 0,
+		TariffUsage: 0.9793498,
+		TariffReturn: 0.9793498
+	},
+	{
+		Timestamp: '2022-05-27T12:00:00+00:00',
+		SupplierId: 0,
+		TariffUsage: 0.9793498,
+		TariffReturn: 0.9793498
+	},
+	{
+		Timestamp: '2022-05-27T13:00:00+00:00',
+		SupplierId: 0,
+		TariffUsage: 0.9793498,
+		TariffReturn: 0.9793498
+	},
+	{
+		Timestamp: '2022-05-27T14:00:00+00:00',
+		SupplierId: 0,
+		TariffUsage: 0.9793498,
+		TariffReturn: 0.9793498
+	},
+	{
+		Timestamp: '2022-05-27T15:00:00+00:00',
+		SupplierId: 0,
+		TariffUsage: 0.9793498,
+		TariffReturn: 0.9793498
+	},
+	{
+		Timestamp: '2022-05-27T16:00:00+00:00',
+		SupplierId: 0,
+		TariffUsage: 0.9793498,
+		TariffReturn: 0.9793498
+	},
+	{
+		Timestamp: '2022-05-27T17:00:00+00:00',
+		SupplierId: 0,
+		TariffUsage: 0.9793498,
+		TariffReturn: 0.9793498
+	},
+	{
+		Timestamp: '2022-05-27T18:00:00+00:00',
+		SupplierId: 0,
+		TariffUsage: 0.9793498,
+		TariffReturn: 0.9793498
+	},
+	{
+		Timestamp: '2022-05-27T19:00:00+00:00',
+		SupplierId: 0,
+		TariffUsage: 0.9793498,
+		TariffReturn: 0.9793498
+	},
+	{
+		Timestamp: '2022-05-27T20:00:00+00:00',
+		SupplierId: 0,
+		TariffUsage: 0.9793498,
+		TariffReturn: 0.9793498
+	},
+	{
+		Timestamp: '2022-05-27T21:00:00+00:00',
+		SupplierId: 0,
+		TariffUsage: 0.9793498,
+		TariffReturn: 0.9793498
+	}
 ]
 */

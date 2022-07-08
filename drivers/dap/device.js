@@ -303,7 +303,7 @@ class MyDevice extends Homey.Device {
 
 			// send tariff to power or gas driver
 			let sendTo = 'set_tariff_power';
-			if (this.settings.biddingZone === 'TTF_EOD') sendTo = 'set_tariff_gas';
+			if (this.settings.biddingZone === 'TTF_EOD' || this.settings.biddingZone === 'TTF_LEBA') sendTo = 'set_tariff_gas';
 			if (this.settings.sendTariff) await this.homey.emit(sendTo, { tariff: priceNow });
 
 			// trigger flow cards

@@ -1,5 +1,8 @@
 {
-    "4.3.6": {
+  "4.3.7": {
+    "en": "Fixed gas price fetching. Fix DAP send LEBA gas rate."
+  },
+  "4.3.6": {
     "en": "Set DAP markups and exchange rate via flow. Added DAP capabilities for hour of lowest price."
   },
   "4.3.5": {

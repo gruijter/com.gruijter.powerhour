@@ -62,12 +62,14 @@ class Frank {
 			const day = start;
 			while (day <= end) {
 				// eslint-disable-next-line no-await-in-loop
-				const infoDay = await this.getPricesDay(day);
+				const infoDay = await this.getPricesDay(day).catch((error) => error);
 				info.push(infoDay);
 				day.setDate(day.getDate() + 1);
 			}
 			// console.dir(info, { depth: null });
-			return Promise.resolve(info);
+			const infoGood = info.filter((infoDay) => !(infoDay instanceof Error));
+			if (infoGood.length === 0) throw info.find((infoDay) => infoDay instanceof Error);
+			return Promise.resolve(infoGood);
 		} catch (error) {
 			return Promise.reject(error);
 		}
