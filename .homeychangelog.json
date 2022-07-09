@@ -1,4 +1,7 @@
 {
+  "4.4.0": {
+    "en": "Added automatic fetching of exchange rates. Fixed DAP markup is now in local currency."
+  },
   "4.3.7": {
     "en": "Fixed gas price fetching. Fix DAP send LEBA gas rate."
   },

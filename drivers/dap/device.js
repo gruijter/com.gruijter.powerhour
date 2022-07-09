@@ -25,6 +25,7 @@ const util = require('util');
 const DAPEL = require('../../entsoe');
 const DAPGASTTF = require('../../frankenergy');
 const DAPGASLEBA = require('../../easyenergy');
+const ECB = require('../../ecb_exchange_rates');
 
 const setTimeoutPromise = util.promisify(setTimeout);
 
@@ -46,6 +47,7 @@ class MyDevice extends Homey.Device {
 
 			if (this.currencyChanged) await this.migrateCurrencyOptions(this.settings.currency, this.settings.decimals);
 
+			this.exchange = new ECB();
 			if (this.settings.biddingZone === 'TTF_EOD') {
 				this.dap = new DAPGASTTF();
 			} else if (this.settings.biddingZone === 'TTF_LEBA') {
@@ -59,6 +61,7 @@ class MyDevice extends Homey.Device {
 			// start fetching prices on every hour
 			this.eventListenerHour = async () => {
 				this.log('new hour event received');
+				await this.fetchExchangeRate();
 				await this.handlePrices();
 				await setTimeoutPromise(this.fetchDelay, 'waiting is done'); // spread over 20 minutes for API rate limit (400 / min)
 				await this.fetchPrices();
@@ -66,6 +69,7 @@ class MyDevice extends Homey.Device {
 			this.homey.on('everyhour', this.eventListenerHour);
 
 			// fetch prices now
+			await this.fetchExchangeRate();
 			await this.fetchPrices();
 			await this.handlePrices();
 
@@ -103,8 +107,17 @@ class MyDevice extends Homey.Device {
 					await setTimeoutPromise(2 * 1000); // wait a bit for Homey to settle
 				}
 			}
+
+			// check this.settings.fetchExchangeRate  < 4.4.0
+			if (!this.settings.fetchExchangeRate || this.settings.fetchExchangeRate === '') {
+				this.log('migrating fixed markup to exclude exchange rate');
+				await this.setSettings.fetchExchangeRate('NONE');
+				await this.setSettings.fixedMarkup(this.settings.fixedMarkup * this.settings.exchangeRate);
+			}
+
 			// set new migrate level
-			this.setSettings({ level: this.homey.app.manifest.version });
+			await this.setSettings({ level: this.homey.app.manifest.version });
+			this.settings = await this.getSettings();
 			this.migrated = true;
 			Promise.resolve(this.migrated);
 		} catch (error) {
@@ -199,6 +212,25 @@ class MyDevice extends Homey.Device {
 		this.restartDevice(1000);
 	}
 
+	async fetchExchangeRate() {
+		try {
+			const currency = this.settings.fetchExchangeRate;
+			if (currency !== 'NONE') {
+				this.log(`fetching exchange rate with ${currency}`);
+				const rates = await this.exchange.getRates();
+				const val = rates[this.settings.fetchExchangeRate];
+				if (typeof val !== 'number') throw Error('result is not a number', val);
+				if (val !== this.settings.exchangeRate) {
+					this.log('new exchange rate:', val);
+					await this.setSettings({ exchangeRate: val });
+					this.settings = await this.getSettings();
+				}
+			}
+		} catch (error) {
+			this.error(error);
+		}
+	}
+
 	async fetchPrices() {
 		try {
 			this.log('fetching prices of today and tomorrow (when available)');
@@ -239,7 +271,7 @@ class MyDevice extends Homey.Device {
 	// add markUp and convert from mWh>kWh
 	async markUpPrices([...array]) {
 		return array.map((price) => {
-			const muPrice = (((price * (1 + this.settings.variableMarkup / 100)) / 1000) + this.settings.fixedMarkup) * this.settings.exchangeRate;
+			const muPrice = ((price * this.settings.exchangeRate * (1 + this.settings.variableMarkup / 100)) / 1000) + this.settings.fixedMarkup;
 			return muPrice;	// return Math.round(muPrice * 1000000) / 1000000;
 		});
 	}
