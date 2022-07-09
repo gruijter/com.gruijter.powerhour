@@ -108,11 +108,10 @@ class MyDevice extends Homey.Device {
 				}
 			}
 
-			// check this.settings.fetchExchangeRate  < 4.4.0
-			if (!this.settings.fetchExchangeRate || this.settings.fetchExchangeRate === '') {
+			// check this.settings.fetchExchangeRate  < 4.4.1
+			if (this.settings.level < '4.4.1') {
 				this.log('migrating fixed markup to exclude exchange rate');
-				await this.setSettings.fetchExchangeRate('NONE');
-				await this.setSettings.fixedMarkup(this.settings.fixedMarkup * this.settings.exchangeRate);
+				await this.setSettings({ fixedMarkup: this.settings.fixedMarkup * this.settings.exchangeRate });
 			}
 
 			// set new migrate level

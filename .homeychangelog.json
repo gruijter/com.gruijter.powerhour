@@ -1,4 +1,7 @@
 {
+  "4.4.1": {
+    "en": "Added automatic fetching of exchange rates. DAP markup is now in local currency. Fixed markup migration."
+  },
   "4.4.0": {
     "en": "Added automatic fetching of exchange rates. Fixed DAP markup is now in local currency."
   },
