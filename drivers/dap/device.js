@@ -205,6 +205,18 @@ class MyDevice extends Homey.Device {
 		this.restartDevice(1000);
 	}
 
+	async setFixedMarkupDay(val) {
+		this.log('changing Day markup via flow', this.getName(), val);
+		await this.setSettings({ fixedMarkupDay: val });
+		this.restartDevice(1000);
+	}
+
+	async setFixedMarkupNight(val) {
+		this.log('changing Night markup via flow', this.getName(), val);
+		await this.setSettings({ fixedMarkupNight: val });
+		this.restartDevice(1000);
+	}
+
 	async setExchangeRate(val) {
 		this.log('changing exchange rate via flow', this.getName(), val);
 		await this.setSettings({ exchangeRate: val });
@@ -267,11 +279,12 @@ class MyDevice extends Homey.Device {
 		}
 	}
 
-	// add markUp and convert from mWh>kWh
+	// add markUp for a day [0...23], and convert from mWh>kWh
 	async markUpPrices([...array]) {
-		return array.map((price) => {
-			const muPrice = ((price * this.settings.exchangeRate * (1 + this.settings.variableMarkup / 100)) / 1000) + this.settings.fixedMarkup;
-			return muPrice;	// return Math.round(muPrice * 1000000) / 1000000;
+		return array.map((price, index) => {
+			let muPrice = ((price * this.settings.exchangeRate * (1 + this.settings.variableMarkup / 100)) / 1000) + this.settings.fixedMarkup;
+			if ((index >= 22) || (index < 6)) {	muPrice += this.settings.fixedMarkupNight; } else { muPrice += this.settings.fixedMarkupDay; }
+			return muPrice;
 		});
 	}
 
@@ -311,12 +324,9 @@ class MyDevice extends Homey.Device {
 			const priceThisDayAvg = average(pricesThisDay);
 
 			// Array pricesNext8h with markUp
-			let pricesNext8h = prices[0].prices.slice(H0, H0 + 8);
-			if (pricesNext8h.length < 8) {
-				if (!prices[1]) throw Error('Next 8 hour prices are not available');
-				pricesNext8h = pricesNext8h.concat(prices[1].prices.slice(0, 8 - pricesNext8h.length));
-			}
-			pricesNext8h = await this.markUpPrices(pricesNext8h);
+			const pricesTodayAndTomorrow = pricesThisDay.concat(pricesTomorrow);
+			const pricesNext8h = pricesTodayAndTomorrow.slice(H0, H0 + 8);
+			if (pricesNext8h.length < 8) throw Error('Next 8 hour prices are not available');
 			const priceNext8hAvg = average(pricesNext8h);
 			const priceNow = pricesNext8h[0];
 

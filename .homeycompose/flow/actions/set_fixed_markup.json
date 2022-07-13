@@ -4,8 +4,8 @@
     "nl": "Stel een nieuwe vaste opslag in"
   },
   "titleFormatted": {
-    "en": "Set fixed markup to [[value]]€",
-    "nl": "Stel vaste opslag in op [[value]]€"
+    "en": "Set fixed markup to [[value]]",
+    "nl": "Stel vaste opslag in op [[value]]"
   },
   "highlight": true,
   "args": [
@@ -18,8 +18,8 @@
       "name": "value",
       "type": "number",
       "placeholder": {
-        "en": "Fixed markup per kWh/m3 (€)",
-        "nl": "Vaste opslag per kWh/m3 (€)"
+        "en": "Fixed markup per kWh or m3",
+        "nl": "Vaste opslag per kWh of m3"
       }
     }
   ]

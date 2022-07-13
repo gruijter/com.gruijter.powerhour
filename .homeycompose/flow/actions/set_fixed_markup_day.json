@@ -1,0 +1,25 @@
+{
+  "title": {
+    "en": "Set a new day time markup",
+    "nl": "Stel een nieuwe opslag in voor overdag"
+  },
+  "titleFormatted": {
+    "en": "Set day time markup to [[value]]",
+    "nl": "Stel opslag overdag in op [[value]]"
+  },
+  "args": [
+    {
+      "type": "device",
+      "name": "device",
+      "filter": "driver_id=dap"
+    },
+    {
+      "name": "value",
+      "type": "number",
+      "placeholder": {
+        "en": "Extra markup per kWh or m3",
+        "nl": "Extra opslag per kWh of m3"
+      }
+    }
+  ]
+}
