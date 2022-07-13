@@ -209,34 +209,50 @@ class ENTSOE {
 			const zone = opts.biddingZone || this.biddingZone;
 			const start = opts.dateStart ? new Date(opts.dateStart) : today;
 			const end = opts.dateEnd ? new Date(opts.dateEnd) : tomorrow;
+			// start.setHours(0); // doesnt work with Homey time
 			start.setMinutes(0);
+			start.setSeconds(0);
+			start.setMilliseconds(0);
 			end.setMinutes(0);
-			const timeInterval = `${start.toISOString().replace(/.\d+Z$/g, 'Z').replace(':', '%3A')}`
+			const interval = `${start.toISOString().replace(/.\d+Z$/g, 'Z').replace(':', '%3A')}`
 				+ '%2F'
 				+ `${end.toISOString().replace(/.\d+Z$/g, 'Z').replace(':', '%3A')}`;
-			const path = `/api?securityToken=${this.apiKey}&documentType=A44&in_Domain=${zone}&out_Domain=${zone}&TimeInterval=${timeInterval}`;
+			const path = `/api?securityToken=${this.apiKey}&documentType=A44&in_Domain=${zone}&out_Domain=${zone}&TimeInterval=${interval}`;
 			const res = await this._makeRequest(path);
 			// make array with concise info per day
 			const info = [];
+
 			if (res.Publication_MarketDocument && res.Publication_MarketDocument.TimeSeries) {
 				// check multiple days
 				let infoAllDays = {};
 				if (res.Publication_MarketDocument.TimeSeries['1']) {
 					infoAllDays = res.Publication_MarketDocument.TimeSeries;
 				} else infoAllDays['0'] = res.Publication_MarketDocument.TimeSeries;
-				// remove uninteresting stuff
-				// console.dir(infoAllDays, { depth: null });
-				Object.keys(infoAllDays).forEach((day) => {
-					const infoDay = { ...infoAllDays[day] };
-					infoDay.timeInterval = infoDay.Period.timeInterval;
-					infoDay.resolution = infoDay.Period.resolution;
-					infoDay.prices = [];
-					Object.keys(infoDay.Period.Point).forEach((item) => {
-						infoDay.prices.push(infoDay.Period.Point[item]['price.amount']);
+				// refactor days in case of exceptions (like Estonia)
+				const allPrices = [];
+				Object.values(infoAllDays).forEach((day) => {
+					const startDate = new Date(day.Period.timeInterval.start);
+					const pricesDay = Object.values(day.Period.Point).map((value, index) => {
+						const sd = new Date(startDate);
+						sd.setHours(sd.getHours() + index);
+						return { time: sd, price: value['price.amount'] };
 					});
+					allPrices.push(...pricesDay);
+				});
+				// create info per day starting from starttime
+				const dayPrices = allPrices.filter((price) => price.time >= start);
+				while (dayPrices.length > 0) {
+					const infoDay = { ...infoAllDays[0] };
+					const endIndex = dayPrices.length > 24 ? 23 : dayPrices.length - 1;
+					infoDay.timeInterval = {
+						start: dayPrices[0].time.toISOString(), // '2022-03-17T23:00:00.000Z',
+						end: dayPrices[endIndex].time.toISOString(), // '2022-03-18T23:00:00.000Z'
+					};
+					infoDay.resolution = infoDay.Period.resolution;
+					infoDay.prices = dayPrices.splice(0, 24).map((price) => price.price);
 					delete infoDay.Period;
 					info.push(infoDay);
-				});
+				}
 			} else throw Error('no timeseries data found in response');
 			// console.dir(info, { depth: null });
 			return Promise.resolve(info);
@@ -326,14 +342,18 @@ class ENTSOE {
 module.exports = ENTSOE;
 
 // START TEST HERE
-// const Entsoe = new ENTSOE();
+// const Entsoe = new ENTSOE({ biddingZone: '10YNL----------L', apiKey: '' });
+// console.log('REMOVE APIKEY!!!!!');
 
 // const today = new Date();
 // today.setHours(0);
 // const tomorrow = new Date(today);
 // tomorrow.setDate(tomorrow.getDate() + 1);
 
-// Entsoe.getPrices('10YNL----------L', tomorrow, tomorrow)
+// const dateStart =  today;
+// const dateEnd = tomorrow;
+
+// Entsoe.getPrices({ dateStart, dateEnd })
 // 	.then((result) => console.dir(result, { depth: null }))
 // 	.catch((error) => console.log(error));
 
