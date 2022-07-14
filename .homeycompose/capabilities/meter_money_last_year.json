@@ -3,6 +3,7 @@
   "title": {
     "en": "Money prev. year",
     "de": "Geld vorheriges Jahr",
+    "sv": "Pengar föregående år",
     "nl": "Geld vorig jaar"
   },
   "uiComponent": "sensor",

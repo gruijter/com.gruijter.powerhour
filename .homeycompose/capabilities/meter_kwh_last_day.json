@@ -3,6 +3,7 @@
   "title": {
     "en": "kWh prev. day",
     "de": "kWh vorheriger Tag",
+    "sv": "kWh igår",
     "nl": "kWh vorige dag"
   },
   "uiComponent": null,

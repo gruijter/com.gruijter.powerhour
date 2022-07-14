@@ -3,6 +3,7 @@
   "title": {
     "en": "kWh this hour",
     "de": "kWh diese Stunde",
+    "sv": "kWh denna timme",
     "nl": "kWh dit uur"
   },
   "uiComponent": "sensor",

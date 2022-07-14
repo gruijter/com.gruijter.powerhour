@@ -3,6 +3,7 @@
   "title": {
     "en": "Money prev. hour",
     "de": "Geld vorherige Stunde",
+    "sv": "Pengar föregående timme",
     "nl": "Geld vorig uur"
   },
   "uiComponent": "sensor",

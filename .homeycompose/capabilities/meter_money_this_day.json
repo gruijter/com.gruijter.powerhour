@@ -3,6 +3,7 @@
   "title": {
     "en": "Money this day",
     "de": "Geld dieser Tag",
+    "sv": "Pengar idag",
     "nl": "Geld deze dag"
   },
   "uiComponent": "sensor",

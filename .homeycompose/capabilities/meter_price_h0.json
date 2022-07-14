@@ -3,6 +3,7 @@
   "title": {
     "en": "Price now",
     "de": "Preis aktuell",
+    "sv": "Pris just nu",
     "nl": "Prijs nu"
   },
   "uiComponent": "sensor",

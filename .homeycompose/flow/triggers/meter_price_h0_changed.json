@@ -2,6 +2,7 @@
 	"title": {
 		"en": "The price has changed",
 		"de": "Der Preis hat sich geändert",
+		"sv": "Priset har förändrats",
 		"nl": "De prijs is veranderd"
 	},
 	"highlight": true,
@@ -18,6 +19,7 @@
 		"title": {
 			"en": "Price now",
 			"de": "Preis aktuell",
+			"sv": "Pris just nu",
 			"nl": "Prijs nu"
 		},
 		"type": "number",

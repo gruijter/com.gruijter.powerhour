@@ -3,6 +3,7 @@
   "title": {
     "en": "m³ prev. day",
     "de": "m³ vorheriger Tag",
+    "sv": "m³ igår",
     "nl": "m³ vorige dag"
   },
   "uiComponent": null,

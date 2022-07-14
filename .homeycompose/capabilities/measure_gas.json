@@ -3,17 +3,20 @@
   "title": {
     "en": "Gas",
     "de": "Gas",
+    "sv": "Gas",
     "nl": "Gas"
   },
   "desc": {
     "en": "Gas usage",
     "de": "Gasverbrauch",
+    "sv": "Gasförbrukning",
     "nl": "Gasverbruik"
   },
   "decimals": 4,
   "units": {
     "en": "L/minute",
     "de": "L/Minute",
+    "sv": "L/minute",
     "nl": "L/minuut"
   },
   "getable": true,

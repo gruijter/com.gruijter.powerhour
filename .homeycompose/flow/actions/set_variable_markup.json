@@ -2,11 +2,13 @@
   "title": {
     "en": "Set a new variable markup",
     "de": "Neuen variablen Aufschlag festlegen",
+    "sv": "Ställ in en ny variabeluppmärkning",
     "nl": "Stel een nieuwe variabele opslag in"
   },
   "titleFormatted": {
     "en": "Set variable markup to [[value]]%",
     "de": "Variablen Aufschlag einstellen auf [[value]]€",
+    "sv": "Ställ in variabeluppmärkning till [[value]]%",
     "nl": "Stel variabele opslag in op [[value]]%"
   },
   "highlight": true,
@@ -22,6 +24,7 @@
       "placeholder": {
         "en": "Variable markup (%)",
         "de": "Variabler Aufschlag (%)",
+        "sv": "Variabel uppmärkning (%)",
         "nl": "Variabele opslag (%)"
       }
     }

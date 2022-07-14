@@ -2,11 +2,13 @@
 	"title": {
 		"en": "The avg. price next hours becomes highest",
 		"de": "Der Durchschnittspreis wird in den kommenden Stunden am höchsten sein",
+		"sv": "Det genomsnittliga priset kommande timmar blir högst",
 		"nl": "De gem. prijs de komende uren wordt het hoogst"
 	},
 	"titleFormatted": {
 		"en": "The avg. price [[hours]] becomes highest within [[period]]",
 		"de": "Der Durchschnittspreis [[hours]] wird am höchsten innerhalb [[period]]",
+		"sv": "Det genomsnittliga priset [[hours]] blir högst inom [[period]]",
 		"nl": "De gem. prijs [[hours]] wordt het highest binnen [[period]]"
 	},
 	"highlight": true,
@@ -22,6 +24,7 @@
 			"title": { 
 				"en": "period",
 				"de": "Zeitraum",
+				"sv": "period",
 				"nl": "periode"
 			},
 			"values": [
@@ -29,6 +32,7 @@
 					"label": { 
 						"en": "this day",
 						"de": "dieses Tages",
+						"sv": "idag",
 						"nl": "deze dag"
 					}
 				},
@@ -36,6 +40,7 @@
 					"label": { 
 						"en": "next 8H",
 						"de": "der nächsten 8 Std.",
+						"sv": "nästa 8H",
 						"nl": "komende 8U"
 					}
 				}
@@ -47,6 +52,7 @@
 			"title": { 
 				"en": "hours",
 				"de": "Stunden",
+				"sv": "timmar",
 				"nl": "uren"
 			},
 			"values": [
@@ -54,6 +60,7 @@
 					"label": { 
 						"en": "next 2H",
 						"de": "der nächsten 2 Std.",
+						"sv": "nästa 2H",
 						"nl": "komende 2U"
 					}
 				},
@@ -61,6 +68,7 @@
 					"label": { 
 						"en": "next 3H",
 						"de": "der nächsten 3 Std.",
+						"sv": "nästa 3H",
 						"nl": "komende 3U"
 					}
 				},
@@ -68,6 +76,7 @@
 					"label": { 
 						"en": "next 4H",
 						"de": "der nächsten 4 Std.",
+						"sv": "nästa 4H",
 						"nl": "komende 4U"
 					}
 				},
@@ -75,6 +84,7 @@
 					"label": { 
 						"en": "next 5H",
 						"de": "der nächsten 5 Std.",
+						"sv": "nästa 5H",
 						"nl": "komende 5U"
 					}
 				},
@@ -82,6 +92,7 @@
 					"label": { 
 						"en": "next 6H",
 						"de": "der nächsten 6 Std.",
+						"sv": "nästa 6H",
 						"nl": "komende 6U"
 					}
 				}
@@ -94,6 +105,7 @@
 		"title": {
 			"en": "Price now",
 			"de": "Preis aktuell",
+			"sv": "Pris just nu",
 			"nl": "Prijs nu"
 		},
 		"type": "number",

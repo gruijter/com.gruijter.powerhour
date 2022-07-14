@@ -2,6 +2,7 @@
   "title": {
     "en": "Reset the Min/Max values",
     "de": "Zurücksetzen der Min/Max Werte",
+    "sv": "Återställ Min/Max-värdena",
     "nl": "Reset de Min/Max waarden"
   },
   "highlight": true,

@@ -3,6 +3,7 @@
   "title": {
     "en": "Money prev. day",
     "de": "Geld vorheriger Tag",
+    "sv": "Pengar igår",
     "nl": "Geld vorige dag"
   },
   "uiComponent": "sensor",

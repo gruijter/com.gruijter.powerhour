@@ -3,6 +3,7 @@
   "title": {
     "en": "Lowest price this day",
     "de": "Niedrigster Preis dieser Tag",
+    "sv": "Lägsta pris idag",
     "nl": "Laagste prijs deze dag"
   },
   "uiComponent": "sensor",

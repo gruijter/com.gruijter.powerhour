@@ -3,6 +3,7 @@
   "title": {
     "en": "kWh this day",
     "de": "kWh dieser Tag",
+    "sv": "kWh idag",
     "nl": "kWh deze dag"
   },
   "uiComponent": "sensor",
