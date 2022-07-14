@@ -2,6 +2,7 @@
   "type": "number",
   "title": {
     "en": "m³ this hour",
+    "sv": "m³ denna timme",
     "nl": "m³ dit uur"
   },
   "uiComponent": "sensor",

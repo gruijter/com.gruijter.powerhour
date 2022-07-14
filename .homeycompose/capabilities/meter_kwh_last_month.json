@@ -2,6 +2,7 @@
   "type": "number",
   "title": {
     "en": "kWh prev. month",
+    "sv": "kWh föregående månad",
     "nl": "kWh vorige maand"
   },
   "uiComponent": null,

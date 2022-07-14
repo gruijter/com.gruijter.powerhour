@@ -2,6 +2,7 @@
 	"type": "string",
 	"title": {
 		"en": "Min/Max Since",
+		"sv": "Min/Max Sedan",
 		"nl": "Min/Max Sinds"
 	},
 	"getable": true,

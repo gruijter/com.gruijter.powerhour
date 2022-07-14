@@ -1,0 +1,3 @@
+Få data från en Homey el-/gas-/vattenmätare och visa användningen/produktionen per timme, per dag, per månad och per år. Känn till det monetära värdet och använd dynamiska tariffer. Ta reda på hur mycket dina Always-on-apparater använder och sammanfatta hundratals kr per år!
+Denna app kan användas till exempel tillsammans med Enelogic och Youless-appen, Plugwise Smile P1-appen, BeeClear-appen, Solar Power-appen, Homewizard-appen, Tibber pulse eller någon annan app som har en energi- eller effektmätare, en gasmätare, eller en vattenmätare.
+PBTH stöder nu även Spot prissättning (Day-Ahead 1 timmes prissättning) för energileverantörer från alla EU-länder. Börja och sluta ladda din bil baserat på bästa timpris!

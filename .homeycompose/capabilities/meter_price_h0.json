@@ -2,6 +2,7 @@
   "type": "number",
   "title": {
     "en": "Price now",
+    "sv": "Pris just nu",
     "nl": "Prijs nu"
   },
   "uiComponent": "sensor",

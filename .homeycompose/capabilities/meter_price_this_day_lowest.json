@@ -2,6 +2,7 @@
   "type": "number",
   "title": {
     "en": "Lowest price this day",
+    "sv": "Lägsta pris idag",
     "nl": "Laagste prijs deze dag"
   },
   "uiComponent": "sensor",

@@ -1,10 +1,12 @@
 {
   "title": {
     "en": "Set a new variable markup",
+    "sv": "Ställ in en ny variabeluppmärkning",
     "nl": "Stel een nieuwe variabele opslag in"
   },
   "titleFormatted": {
     "en": "Set variable markup to [[value]]%",
+    "sv": "Ställ in variabeluppmärkning till [[value]]%",
     "nl": "Stel variabele opslag in op [[value]]%"
   },
   "highlight": true,
@@ -19,6 +21,7 @@
       "type": "number",
       "placeholder": {
         "en": "Variable markup (%)",
+        "sv": "Variabel uppmärkning (%)",
         "nl": "Variabele opslag (%)"
       }
     }

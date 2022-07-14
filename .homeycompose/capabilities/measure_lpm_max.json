@@ -2,6 +2,7 @@
   "type": "number",
   "title": {
     "en": "Maximum",
+    "sv": "Maximum",
     "nl": "Maximum"
   },
   "uiComponent": "sensor",
@@ -11,6 +12,7 @@
   "insights": true,
   "units": {
     "en": "L/minute",
+    "sv": "L/minute",
     "nl": "L/minuut"
   },
   "decimals": 2

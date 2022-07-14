@@ -2,6 +2,7 @@
   "type": "number",
   "title": {
     "en": "m³ this month",
+    "sv": "m³ denna månad",
     "nl": "m³ deze maand"
   },
   "uiComponent": "sensor",

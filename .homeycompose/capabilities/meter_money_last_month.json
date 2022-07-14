@@ -2,6 +2,7 @@
   "type": "number",
   "title": {
     "en": "Money prev. month",
+    "sv": "Pengar föregående månad",
     "nl": "Geld vorige maand"
   },
   "uiComponent": "sensor",

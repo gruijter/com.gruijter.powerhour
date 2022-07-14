@@ -2,6 +2,7 @@
   "type": "number",
   "title": {
     "en": "Maximum",
+    "sv": "Maximum",
     "nl": "Maximum"
   },
   "uiComponent": "sensor",

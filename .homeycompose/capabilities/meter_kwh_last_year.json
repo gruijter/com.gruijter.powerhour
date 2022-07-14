@@ -2,6 +2,7 @@
   "type": "number",
   "title": {
     "en": "kWh prev. year",
+    "sv": "kWh föregående år",
     "nl": "kWh vorig jaar"
   },
   "uiComponent": null,

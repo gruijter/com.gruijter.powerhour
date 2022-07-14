@@ -2,6 +2,7 @@
   "type": "number",
   "title": {
     "en": "m³ prev. day",
+    "sv": "m³ igår",
     "nl": "m³ vorige dag"
   },
   "uiComponent": null,

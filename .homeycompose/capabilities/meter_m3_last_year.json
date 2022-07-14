@@ -2,6 +2,7 @@
   "type": "number",
   "title": {
     "en": "m³ prev. year",
+    "sv": "m³ föregående år",
     "nl": "m³ vorig jaar"
   },
   "uiComponent": null,

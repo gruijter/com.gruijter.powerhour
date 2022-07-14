@@ -2,6 +2,7 @@
   "type": "number",
   "title": {
     "en": "Lowest hour this day",
+    "sv": "Lägsta timmen idag",
     "nl": "Laagste uur deze dag"
   },
   "uiComponent": "sensor",
@@ -11,6 +12,7 @@
   "insights": true,
   "units": {
     "en": "Hour",
+    "sv": "Timme",
     "nl": "Uur"
   },
   "decimals": 0

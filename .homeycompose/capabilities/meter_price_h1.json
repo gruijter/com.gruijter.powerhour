@@ -2,6 +2,7 @@
   "type": "number",
   "title": {
     "en": "Price +1H",
+    "sv": "Pris +1H",
     "nl": "Prijs +1U"
   },
   "uiComponent": "sensor",
