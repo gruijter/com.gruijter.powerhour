@@ -2,6 +2,7 @@
   "type": "number",
   "title": {
     "en": "Minimum",
+    "de": "Minimum",
     "nl": "Minimum"
   },
   "uiComponent": "sensor",
@@ -11,6 +12,7 @@
   "insights": true,
   "units": {
     "en": "L/minute",
+    "de": "L/Minute",
     "nl": "L/minuut"
   },
   "decimals": 2

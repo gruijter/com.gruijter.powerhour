@@ -1,10 +1,12 @@
 {
 	"title": {
 		"en": "The avg. price next hours becomes lowest",
+		"de": "Der Durchschnittspreis wird in den kommenden Stunden am niedrigsten sein",
 		"nl": "De gem. prijs de komende uren wordt het laagst"
 	},
 	"titleFormatted": {
 		"en": "The avg. price [[hours]] becomes lowest within [[period]]",
+		"de": "Der Durchschnittspreis [[hours]] wird am niedrigsten innerhalb [[period]]",
 		"nl": "De gem. prijs [[hours]] wordt het laagst binnen [[period]]"
 	},
 	"highlight": true,
@@ -19,18 +21,21 @@
 			"name": "period",
 			"title": { 
 				"en": "period",
+				"de": "Zeitraum",
 				"nl": "periode"
 			},
 			"values": [
 				{	"id": "this_day",
 					"label": { 
 						"en": "this day",
+						"de": "dieses Tages",
 						"nl": "deze dag"
 					}
 				},
 				{	"id": "8",
 					"label": { 
 						"en": "next 8H",
+						"de": "der nächsten 8 Std.",
 						"nl": "komende 8U"
 					}
 				}
@@ -41,36 +46,42 @@
 			"name": "hours",
 			"title": { 
 				"en": "hours",
+				"de": "Stunden",
 				"nl": "uren"
 			},
 			"values": [
 				{	"id": "2",
 					"label": { 
 						"en": "next 2H",
+						"de": "der nächsten 2 Std.",
 						"nl": "komende 2U"
 					}
 				},
 				{	"id": "3",
 					"label": { 
 						"en": "next 3H",
+						"de": "der nächsten 3 Std.",
 						"nl": "komende 3U"
 					}
 				},
 				{	"id": "4",
 					"label": { 
 						"en": "next 4H",
+						"de": "der nächsten 4 Std.",
 						"nl": "komende 4U"
 					}
 				},
 				{	"id": "5",
 					"label": { 
 						"en": "next 5H",
+						"de": "der nächsten 5 Std.",
 						"nl": "komende 5U"
 					}
 				},
 				{	"id": "6",
 					"label": { 
 						"en": "next 6H",
+						"de": "der nächsten 6 Std.",
 						"nl": "komende 6U"
 					}
 				}
@@ -82,6 +93,7 @@
 		"name": "meter_price_h0",
 		"title": {
 			"en": "Price now",
+			"de": "Preis aktuell",
 			"nl": "Prijs nu"
 		},
 		"type": "number",

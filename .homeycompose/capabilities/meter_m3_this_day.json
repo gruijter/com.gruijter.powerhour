@@ -2,6 +2,7 @@
   "type": "number",
   "title": {
     "en": "m³ this day",
+    "de": "m³ dieser Tag",
     "nl": "m³ deze dag"
   },
   "uiComponent": "sensor",

@@ -2,6 +2,7 @@
   "type": "number",
   "title": {
     "en": "m³ prev. hour",
+    "de": "m³ vorherige Stunde",
     "nl": "m³ vorig uur"
   },
   "uiComponent": null,

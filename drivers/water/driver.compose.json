@@ -29,6 +29,7 @@
       "type": "group",
       "label": {
         "en": "Homey source device information",
+        "de": "Informationen zum Homey Gerät",
         "nl": "Homey bronapparaat informatie"
       },
       "children": [
@@ -37,6 +38,7 @@
           "type": "label",
           "label": {
             "en": "Device ID",
+            "de": "Geräte ID",
             "nl": "Apparaat ID"
           },
           "value": "unknown"
@@ -46,6 +48,7 @@
           "type": "label",
           "label": {
             "en": "Device name",
+            "de": "Gerätename",
             "nl": "Apparaat naam"
           },
           "value": "unknown"
@@ -55,11 +58,13 @@
           "type": "label",
           "label": {
             "en": "Source device type",
+            "de": "Gerätetyp",
             "nl": "Type bron apparaat"
           },
           "value": "Homey device",
           "hint": {
             "en": "Either Homey device or Virtual device. The meter of a virtual device can only be updated via a flow.",
+            "de": "Homey Gerät oder virtuelles Gerät. Der Zähler eines virtuellen Geräts kann nur über einen Flow aktualisiert werden.",
             "nl": "Homey apparaat of virtueel apparaat. De meter van een virtueel apparaat kan alleen worden geupdated via een flow."
           }
         },
@@ -68,10 +73,12 @@
           "type": "checkbox",
           "label": {
             "en": "Has daily reset",
+            "de": "Tägliches Zurücksetzen",
             "nl": "Heeft dagelijkse reset"
           },
           "hint": {
             "en": "The meter of this source device resets every midnight to 0",
+            "de": "Der Zähler dieses Geräts wird um Mitternacht auf 0 zurückgesetzt",
             "nl": "De meter van dit bronapparaat reset naar 0 om middernacht"
           },
           "value": false
@@ -81,10 +88,12 @@
           "type": "number",
           "label": {
             "en": "Update interval (minutes)",
+            "de": "Update-Intervall (Minuten)",
             "nl": "Update interval (minuten)"
           },
           "hint": {
             "en": "Set to 0 to get immediate updates. This can slightly increase system load. This setting is ignored for virtual source devices.",
+            "de": "Für sofortige Updates auf 0 setzen. Dies kann die Systemlast jedoch leicht erhöhen. Diese Einstellung wird nicht für virtuelle Geräte verwendet.",
             "nl": "Zet op 0 voor directe updates. Dit kan echter de systeem belasting iets verhogen. Deze instelling wordt niet gebruikt voor virtuele bron apparaten."
           },
           "value": 0,
@@ -98,6 +107,7 @@
       "type": "group",
       "label": {
         "en": "Meter readings",
+        "de": "Zählerstände",
         "nl": "Meter waarden"
       },
       "children": [
@@ -106,11 +116,13 @@
           "type": "text",
           "label": {
             "en": "New year start date",
+            "de": "Startdatum neues Jahr",
             "nl": "Start datum nieuw jaar"
           },
           "value": "0101",
           "hint": {
-            "en": "On this date the month and year total will reset to 0. Format is ddmm. Default is 0101 (1 January). ATTENTION: If you change this date you need to manually correct the This Month Start and This Year Start values."
+            "en": "On this date the month and year total will reset to 0. Format is ddmm. Default is 0101 (1 January). ATTENTION: If you change this date you need to manually correct the This Month Start and This Year Start values.",
+            "de": "An diesem Datum wird die Monats- und Jahressumme auf 0 zurückgesetzt. Das Format ist ddmm. Standardwert ist 0101 (1. Januar). ACHTUNG: Wenn Sie dieses Datum ändern, müssen Sie die Werte 'Beginn dieses Monats' und 'Beginn dieses Jahres' manuell korrigieren."
           }
         },
         {
@@ -118,11 +130,13 @@
           "type": "label",
           "label": {
             "en": "This hour start",
+            "de": "Aktueller Zählerstand",
             "nl": "Huidige waarde"
           },
           "value": "0",
           "hint": {
-            "en": "This is the meter reading from the soure device, updated once an hour."
+            "en": "This is the meter reading from the soure device, updated once an hour.",
+            "de": "Dies ist der Zählerstand des Homey Geräts, der einmal pro Stunde aktualisiert wird."
           }
         },
         {
@@ -130,11 +144,13 @@
           "type": "number",
           "label": {
             "en": "This day start",
+            "de": "Tagesbeginn",
             "nl": "Deze dag start"
           },
           "value": 0,
           "hint": {
-            "en": "Enter the meter reading at the start of this day. It is automatically updated at midnight."
+            "en": "Enter the meter reading at the start of this day. It is automatically updated at midnight.",
+            "de": "Geben Sie den Zählerstand zu Beginn dieses Tages ein. Er wird um Mitternacht automatisch aktualisiert."
           }
         },
         {
@@ -142,11 +158,13 @@
           "type": "number",
           "label": {
             "en": "This month start",
+            "de": "Monatsbeginn",
             "nl": "Deze maand start"
           },
           "value": 0,
           "hint": {
-            "en": "Enter the meter reading at the start of this month. It is automatically updated first day of a new month."
+            "en": "Enter the meter reading at the start of this month. It is automatically updated first day of a new month.",
+            "de": "Geben Sie den Zählerstand zu Beginn dieses Monats ein. Er wird automatisch am ersten Tag eines neuen Monats aktualisiert."
           }
         },
         {
@@ -154,11 +172,13 @@
           "type": "number",
           "label": {
             "en": "This year start",
+            "de": "Jahresbeginn",
             "nl": "Dit jaar start"
           },
           "value": 0,
           "hint": {
-            "en": "Enter the meter reading at the start of this year. It is automatically updated first day of a new year."
+            "en": "Enter the meter reading at the start of this year. It is automatically updated first day of a new year.",
+            "de": "Geben Sie den Zählerstand zu Beginn des Jahres ein. Er wird am ersten Tag eines neuen Jahres automatisch aktualisiert."
           }
         },
         {
@@ -166,6 +186,7 @@
           "type": "dropdown",
           "label": {
             "en": "Reset Min/Max values",
+            "de": "Min/Max Werte zurücksetzen",
             "nl": "Reset Min/Max waarden"
           },
           "values": [
@@ -173,36 +194,42 @@
               "id": "hour",
               "label": { 
                 "en": "Hour",
+                "de": "Stunde",
                 "nl": "Uur" }
             },
             {
               "id": "day",
               "label": { 
                 "en": "Day",
+                "de": "Tag",
                 "nl": "Dag" }
             },
             {
               "id": "month",
               "label": { 
                 "en": "Month",
+                "de": "Monat",
                 "nl": "Maand" }
             },
             {
               "id": "year",
               "label": { 
                 "en": "Year",
+                "de": "Jahr",
                 "nl": "Jaar" }
             },
             {
               "id": "never",
               "label": { 
                 "en": "Never",
+                "de": "Nie",
                 "nl": "Nooit" }
             }
           ],
           "value": "day",
           "hint": {
             "en": "The minimum/maximum values will be reset on every new period. The values can also be reset at any time via a flow.",
+            "de": "Die Min/Max Werte werden bei jeder neuen Periode zurückgesetzt. Die Werte können auch jederzeit über einen Flow zurückgesetzt werden.",
             "nl": "De minimum/maximum waarden worden iedere nieuwe periode gereset. De waarden kunnen ook op ieder moment worden gereset via een flow."
           }
         }
@@ -212,6 +239,7 @@
       "type": "group",
       "label": {
         "en": "Monetary value",
+        "de": "Geldwert",
         "nl": "Geldwaarde"
       },
       "children": [
@@ -220,11 +248,13 @@
           "type": "text",
           "label": {
             "en": "Currency unit",
+            "de": "Währung",
             "nl": "Geldeenheid"
           },
           "value": "¤",
           "hint": {
             "en": "The unit displayed as currency, e.g. €, £, EUR, SER, NOK, DKK, CHF. Leave empty to use the default ¤.",
+            "de": "Die als Währung angezeigte Einheit, z.B. €, £, EUR, SER, NOK, DKK, CHF. Leer lassen, um die Standardeinstellung zu verwenden ¤.",
             "nl": "De weergegeven eenheid voor geld, bijv. €, £, EUR, SER, NOK, DKK, CHF. Laat leeg om de standaard ¤ te gebruiken."
           }
         },
@@ -233,6 +263,7 @@
           "type": "number",
           "label": {
             "en": "Currency decimals",
+            "de": "Dezimalstellen",
             "nl": "Geld decimalen"
           },
           "value": 2,
@@ -240,6 +271,7 @@
           "max": 8,
           "hint": {
             "en": "The number of decimals to use for monetary value.",
+            "de": "Die Anzahl der Dezimalstellen für den Preis.",
             "nl": "Het aantal decimalen voor geldwaarde."
           }
         },
@@ -248,12 +280,14 @@
           "type": "number",
           "label": {
             "en": "Actual tariff per m³",
+            "de": "Aktueller Tarif pro m³",
             "nl": "Actueel tarief per m³"
           },
           "value": 0.85,
           "decimals": 8,
           "hint": {
             "en": "The tariff is used to calculate the monetary value. It can be dynamically changed via a flow.",
+            "de": "Der Kurs wird zur Berechnung des Geldwerts verwendet. Er kann über einen Flow dynamisch angepasst werden.",
             "nl": "Het tarief wordt gebruikt om de geldwaarde te berekenen. Het kan dynamisch worden aangepast via een flow."
           }
         },
@@ -262,11 +296,13 @@
           "type": "checkbox",
           "label": {
             "en": "Tariff via flow",
+            "de": "Tarif über Flow",
             "nl": "Tarief via flow"
           },
           "value": true,
           "hint": {
             "en": "Include this device when setting a new tariff via flow.",
+            "de": "Dieses Gerät mit einbeziehen, wenn Sie einen neuen Tarif über Flow festlegen.",
             "nl": "Dit apparaat meenemen bij het instellen van een nieuw tarief via flow."
           }
         },
@@ -275,12 +311,14 @@
           "type": "number",
           "label": {
             "en": "Monetary value of this day",
+            "de": "Geldwert dieses Tages",
             "nl": "Geldwaarde van deze dag"
           },
           "value": 0,
           "decimals": 4,
           "hint": {
             "en": "Actual monetary value. It is automatically updated.",
+            "de": "Aktueller Geldwert. Er wird automatisch aktualisiert.",
             "nl": "Actuele gelwaarde. Wordt automatisch geupdated."
           }
         },
@@ -289,12 +327,14 @@
           "type": "number",
           "label": {
             "en": "Monetary value of this month",
+            "de": "Geldwert dieses Monats",
             "nl": "Geldwaarde van deze maand"
           },
           "value": 0,
           "decimals": 4,
           "hint": {
             "en": "Actual monetary value. It is automatically updated.",
+            "de": "Aktueller Geldwert. Er wird automatisch aktualisiert.",
             "nl": "Actuele gelwaarde. Wordt automatisch geupdated."
           }
         },
@@ -303,12 +343,14 @@
           "type": "number",
           "label": {
             "en": "Monetary value of this year",
+            "de": "Geldwert dieses Jahres",
             "nl": "Geldwaarde van dit jaar"
           },
           "value": 0,
           "decimals": 4,
           "hint": {
             "en": "Actual monetary value. It is automatically updated.",
+            "de": "Aktueller Geldwert. Er wird automatisch aktualisiert.",
             "nl": "Actuele gelwaarde. Wordt automatisch geupdated."
           }
         },
@@ -317,12 +359,14 @@
           "type": "number",
           "label": {
             "en": "Monetary value prev. day",
+            "de": "Geldwert des Vortages",
             "nl": "Geldwaarde van vorige dag"
           },
           "value": 0,
           "decimals": 4,
           "hint": {
             "en": "Monetary value of the previous day. It is automatically updated.",
+            "de": "Geldwert des Vortages. Er wird automatisch aktualisiert.",
             "nl": "Gelwaarde van de vorige dag. Wordt automatisch geupdated."
           }
         },
@@ -331,12 +375,14 @@
           "type": "number",
           "label": {
             "en": "Monetary value prev. month",
+            "de": "Geldwert des Vormonats",
             "nl": "Geldwaarde van vorige maand"
           },
           "value": 0,
           "decimals": 4,
           "hint": {
             "en": "Monetary value of the previous month. It is automatically updated.",
+            "de": "Geldwert des Vormonats. Er wird automatisch aktualisiert.",
             "nl": "Gelwaarde van de vorige maand. Wordt automatisch geupdated."
           }
         },
@@ -345,12 +391,14 @@
           "type": "number",
           "label": {
             "en": "Monetary value prev. year",
+            "de": "Geldwert des Vorjahres",
             "nl": "Geldwaarde van vorig jaar"
           },
           "value": 0,
           "decimals": 4,
           "hint": {
             "en": "Monetary value of the previous year. It is automatically updated.",
+            "de": "Geldwert des Vorjahres. Er wird automatisch aktualisiert.",
             "nl": "Gelwaarde van het vorige jaar. Wordt automatisch geupdated."
           }
         }

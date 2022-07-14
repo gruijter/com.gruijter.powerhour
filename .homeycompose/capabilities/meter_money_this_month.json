@@ -2,6 +2,7 @@
   "type": "number",
   "title": {
     "en": "Money this month",
+    "de": "Geld dieser Monat",
     "nl": "Geld deze maand"
   },
   "uiComponent": "sensor",

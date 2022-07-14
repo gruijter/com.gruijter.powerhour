@@ -1,10 +1,12 @@
 {
 	"title": {
 		"en": "The price becomes lowest before a certain time",
+		"de": "Der Preis wird für eine bestimmte Zeit am niedrigsten sein",
 		"nl": "De prijs wordt het laagst voor een bepaalde tijd"
 	},
 	"titleFormatted": {
 		"en": "The price becomes one of [[number]] lowest in the [[period]] hours before [[time]] o'clock",
+		"de": "Der Preis wird einer der [[number]] niedrigsten in den [[period]] Stunden vor [[time]] Uhr sein",
 		"nl": "De prijs wordt een van de [[number]] laagste in de [[period]] uren voor [[time]] uur"
 	},
 	"highlight": true,
@@ -19,6 +21,7 @@
 			"name": "period",
 			"title": { 
 				"en": "period",
+				"de": "Zeitraum",
 				"nl": "periode"
 			},
 			"placeholder": { "en": "2 - 12" },
@@ -31,6 +34,7 @@
 			"name": "number",
 			"title": { 
 				"en": "number",
+				"de": "Anzahl",
 				"nl": "aantal"
 			},
 			"placeholder": { "en": "1 - 8" },
@@ -43,6 +47,7 @@
 			"name": "time",
 			"title": { 
 				"en": "time",
+				"de": "Zeit",
 				"nl": "tijd"
 			},
 			"placeholder": { "en": "01 - 24" },
@@ -56,6 +61,7 @@
 		"name": "meter_price_h0",
 		"title": {
 			"en": "Price now",
+			"de": "Preis aktuell",
 			"nl": "Prijs nu"
 		},
 		"type": "number",

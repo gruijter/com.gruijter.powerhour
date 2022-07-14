@@ -2,6 +2,7 @@
   "type": "number",
   "title": {
     "en": "kWh this month",
+    "de": "kWh dieser Monat",
     "nl": "kWh deze maand"
   },
   "uiComponent": "sensor",

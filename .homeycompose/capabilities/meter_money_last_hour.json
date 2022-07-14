@@ -2,6 +2,7 @@
   "type": "number",
   "title": {
     "en": "Money prev. hour",
+    "de": "Geld vorherige Stunde",
     "nl": "Geld vorig uur"
   },
   "uiComponent": "sensor",
