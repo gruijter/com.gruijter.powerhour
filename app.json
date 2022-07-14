@@ -1,7 +1,7 @@
 {
   "_comment": "This file is generated. Please edit .homeycompose/app.json instead.",
   "id": "com.gruijter.powerhour",
-  "version": "4.4.1",
+  "version": "4.4.3",
   "compatibility": ">=5.0.0",
   "brandColor": "#df5020",
   "sdk": 3,
@@ -10,6 +10,7 @@
   },
   "description": {
     "en": "Summarize the energy/water usage or (solar) production per hour, day, month and year. Use dynamic tariffs.",
+    "no": "Summarize the energy/water usage or (solar) production per hour, day, month and year. Use dynamic tariffs.",
     "nl": "Samenvatten van energie/water verbruik of (zonnepaneel) productie per uur, dag, maand en jaar. Gebruik dynamische tarieven."
   },
   "category": "energy",
@@ -908,8 +909,8 @@
           "nl": "Stel een nieuwe vaste opslag in"
         },
         "titleFormatted": {
-          "en": "Set fixed markup to [[value]]€",
-          "nl": "Stel vaste opslag in op [[value]]€"
+          "en": "Set fixed markup to [[value]]",
+          "nl": "Stel vaste opslag in op [[value]]"
         },
         "highlight": true,
         "args": [
@@ -922,12 +923,64 @@
             "name": "value",
             "type": "number",
             "placeholder": {
-              "en": "Fixed markup per kWh/m3 (€)",
-              "nl": "Vaste opslag per kWh/m3 (€)"
+              "en": "Fixed markup per kWh or m3",
+              "nl": "Vaste opslag per kWh of m3"
             }
           }
         ],
         "id": "set_fixed_markup"
+      },
+      {
+        "title": {
+          "en": "Set a new day time markup",
+          "nl": "Stel een nieuwe opslag in voor overdag"
+        },
+        "titleFormatted": {
+          "en": "Set day time markup to [[value]]",
+          "nl": "Stel opslag overdag in op [[value]]"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=dap"
+          },
+          {
+            "name": "value",
+            "type": "number",
+            "placeholder": {
+              "en": "Extra markup per kWh or m3",
+              "nl": "Extra opslag per kWh of m3"
+            }
+          }
+        ],
+        "id": "set_fixed_markup_day"
+      },
+      {
+        "title": {
+          "en": "Set a new night time markup",
+          "nl": "Stel een nieuwe opslag in voor 's nachts'"
+        },
+        "titleFormatted": {
+          "en": "Set night time markup to [[value]]",
+          "nl": "Stel opslag 's nachts in op [[value]]"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=dap"
+          },
+          {
+            "name": "value",
+            "type": "number",
+            "placeholder": {
+              "en": "Extra markup per kWh or m3",
+              "nl": "Extra opslag per kWh of m3"
+            }
+          }
+        ],
+        "id": "set_fixed_markup_night"
       },
       {
         "title": {
@@ -1373,6 +1426,32 @@
               "hint": {
                 "en": "Enter the fixed amount with which the price must be increased per kWh or m3, incl. VAT. E.g. for purchase fee.",
                 "nl": "Voer het vaste bedrag in waarmee de prijs per kWh of m3 verhoogd moet worden incl. BTW. Bijvoorbeeld voor inkoopvergoeding, Energie belasting, ODE."
+              }
+            },
+            {
+              "id": "fixedMarkupDay",
+              "type": "number",
+              "label": {
+                "en": "Extra markup during day time",
+                "nl": "Extra opslag overdag"
+              },
+              "value": 0,
+              "hint": {
+                "en": "Enter the amount with which the price must be additionally increased per kWh or m3 during day time (06:00-22:00).",
+                "nl": "Voer het bedrag in waarmee de prijs per kWh of m3 verhoogd moet worden overdag (06:00-22:00)"
+              }
+            },
+            {
+              "id": "fixedMarkupNight",
+              "type": "number",
+              "label": {
+                "en": "Extra markup during night time",
+                "nl": "Extra opslag 's nachts"
+              },
+              "value": 0,
+              "hint": {
+                "en": "Enter the amount with which the price must be additionally increased per kWh or m3 during night time (22:00-06:00).",
+                "nl": "Voer het bedrag in waarmee de prijs per kWh of m3 extra verhoogd moet worden 's nachts (22:00-06:00)"
               }
             }
           ]

@@ -1,4 +1,10 @@
 {
+  "4.4.3": {
+    "en": "Added DAP day/night markup (Grid cost in Norway). Fixed timezone offset for Estonia."
+  },
+  "4.4.2": {
+    "en": "Added DAP day/night markup (Grid cost in Norway)."
+  },
   "4.4.1": {
     "en": "Added automatic fetching of exchange rates. DAP markup is now in local currency. Fixed markup migration."
   },

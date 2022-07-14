@@ -295,6 +295,14 @@ class MyApp extends Homey.App {
 		setFixedMarkup
 			.registerRunListener((args) => args.device.setFixedMarkup(args.value).catch(this.error));
 
+		const setFixedMarkupDay = this.homey.flow.getActionCard('set_fixed_markup_day');
+		setFixedMarkupDay
+			.registerRunListener((args) => args.device.setFixedMarkupDay(args.value).catch(this.error));
+
+		const setFixedMarkupNight = this.homey.flow.getActionCard('set_fixed_markup_night');
+		setFixedMarkupNight
+			.registerRunListener((args) => args.device.setFixedMarkupDay(args.value).catch(this.error));
+
 		const setExchangeRate = this.homey.flow.getActionCard('set_exchange_rate');
 		setExchangeRate
 			.registerRunListener((args) => args.device.setExchangeRate(args.value).catch(this.error));

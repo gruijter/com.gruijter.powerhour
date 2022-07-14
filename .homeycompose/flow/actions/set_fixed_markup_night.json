@@ -1,0 +1,25 @@
+{
+  "title": {
+    "en": "Set a new night time markup",
+    "nl": "Stel een nieuwe opslag in voor 's nachts'"
+  },
+  "titleFormatted": {
+    "en": "Set night time markup to [[value]]",
+    "nl": "Stel opslag 's nachts in op [[value]]"
+  },
+  "args": [
+    {
+      "type": "device",
+      "name": "device",
+      "filter": "driver_id=dap"
+    },
+    {
+      "name": "value",
+      "type": "number",
+      "placeholder": {
+        "en": "Extra markup per kWh or m3",
+        "nl": "Extra opslag per kWh of m3"
+      }
+    }
+  ]
+}
