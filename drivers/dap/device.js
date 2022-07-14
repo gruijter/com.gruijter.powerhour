@@ -316,7 +316,7 @@ class MyDevice extends Homey.Device {
 			const pricesYesterday = await this.markUpPrices(this.pricesYesterday.prices);
 
 			// Array pricesTomorrow with markUp
-			let pricesTomorrow = { prices: [] };
+			let pricesTomorrow = [];
 			if (prices[1] && prices[1].prices) pricesTomorrow = await this.markUpPrices(prices[1].prices);
 
 			// Array pricesThisDay with markUp

@@ -1,4 +1,7 @@
 {
+  "4.4.4": {
+    "en": "Added translations for German, Swedish, ...WIP***"
+  },
   "4.4.3": {
     "en": "Added DAP day/night markup (Grid cost in Norway). Fixed timezone offset for Estonia."
   },
