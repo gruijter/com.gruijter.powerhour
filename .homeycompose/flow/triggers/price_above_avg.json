@@ -1,10 +1,12 @@
 {
 	"title": {
 		"en": "The price becomes above avg.",
+		"de": "Der Preis wird höher sein als der Durchschnitt",
 		"nl": "De prijs wordt hoger dan gem."
 	},
 	"titleFormatted": {
 		"en": "The price becomes [[percent]] above avg. [[period]]",
+		"de": "Der Preis wird [[percent]] höher sein als der Durchschnitt [[period]]",
 		"nl": "De prijs wordt [[percent]] hoger dan gem. [[period]]"
 	},
 	"highlight": true,
@@ -32,18 +34,21 @@
 			"name": "period",
 			"title": { 
 				"en": "period",
+				"de": "Zeitraum",
 				"nl": "periode"
 			},
 			"values": [
 				{	"id": "this_day_avg",
 					"label": { 
 						"en": "this day",
+						"de": "dieses Tages",
 						"nl": "deze dag"
 					}
 				},
 				{	"id": "next_8h_avg",
 					"label": { 
 						"en": "next 8H",
+						"de": "der nächsten 8 Std.",
 						"nl": "komende 8U"
 					}
 				}
@@ -55,6 +60,7 @@
 		"name": "meter_price_h0",
 		"title": {
 			"en": "Price now",
+			"de": "Preis aktuell",
 			"nl": "Prijs nu"
 		},
 		"type": "number",

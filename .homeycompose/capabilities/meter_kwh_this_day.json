@@ -2,6 +2,7 @@
   "type": "number",
   "title": {
     "en": "kWh this day",
+    "de": "kWh dieser Tag",
     "nl": "kWh deze dag"
   },
   "uiComponent": "sensor",

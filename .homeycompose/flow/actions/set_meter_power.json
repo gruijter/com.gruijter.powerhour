@@ -1,10 +1,12 @@
 {
   "title": {
     "en": "Send energy reading to virtual meter",
+    "de": "Energiemesswert an virtuelles Gerät senden",
     "nl": "Stuur energiestand naar virtueel apparaat"
   },
   "titleFormatted": {
     "en": "Send [[value]] reading to [[virtual_device]]",
+    "de": "Sende [[value]] Messwert an [[virtual_device]]",
     "nl": "Stuur [[value]] stand naar [[virtual_device]]"
   },
   "highlight": true,
@@ -14,6 +16,7 @@
       "type": "autocomplete",
       "title": { 
         "en": "Virtual device",
+        "de": "Virtuelles Gerät",
         "nl": "Virtueel apparaat"
       }
     },
@@ -22,6 +25,7 @@
       "type": "number",
       "placeholder": {
         "en": "Energy (kWh)",
+        "de": "Energie (kWh)",
         "nl": "Energie (kWh)"
       }
     }
