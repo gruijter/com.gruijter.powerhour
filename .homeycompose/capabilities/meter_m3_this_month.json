@@ -3,6 +3,7 @@
   "title": {
     "en": "m³ this month",
     "de": "m³ dieser Monat",
+    "it": "m³ mese corrente",
     "nl": "m³ deze maand"
   },
   "uiComponent": "sensor",

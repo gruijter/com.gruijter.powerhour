@@ -3,6 +3,7 @@
   "title": {
     "en": "Money prev. day",
     "de": "Geld vorheriger Tag",
+    "it": "Spesa giorno precedente",
     "nl": "Geld vorige dag"
   },
   "uiComponent": "sensor",

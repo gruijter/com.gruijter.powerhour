@@ -3,6 +3,7 @@
   "title": {
     "en": "Active tariff",
     "de": "Aktiver Tarif",
+    "it": "Tariffa attiva",
     "nl": "Actief tarief"
   },
   "uiComponent": "sensor",

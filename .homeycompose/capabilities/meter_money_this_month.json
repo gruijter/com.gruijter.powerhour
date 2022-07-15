@@ -3,6 +3,7 @@
   "title": {
     "en": "Money this month",
     "de": "Geld dieser Monat",
+    "it": "Spesa mese corrente",
     "nl": "Geld deze maand"
   },
   "uiComponent": "sensor",

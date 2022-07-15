@@ -2,11 +2,13 @@
 	"title": {
 		"en": "The price becomes below avg.",
 		"de": "Der Preis wird niedriger sein als der Durchschnitt",
+		"it": "Il prezzo diventa sotto la media",
 		"nl": "De prijs wordt lager dan gem."
 	},
 	"titleFormatted": {
 		"en": "The price becomes [[percent]] below avg. [[period]]",
 		"de": "Der Preis wird [[percent]] niedriger sein als der Durchschnitt [[period]]",
+		"it": "Il prezzo diventa [[percent]] sotto la media di [[period]]",
 		"nl": "De prijs wordt [[percent]] lager dan gem. [[period]]"
 	},
 	"highlight": true,
@@ -35,6 +37,7 @@
 			"title": { 
 				"en": "period",
 				"de": "Zeitraum",
+				"it": "periodo",
 				"nl": "periode"
 			},
 			"values": [
@@ -42,6 +45,7 @@
 					"label": { 
 						"en": "this day",
 						"de": "dieses Tages",
+						"it": "giornata odierna",
 						"nl": "deze dag"
 					}
 				},
@@ -49,6 +53,7 @@
 					"label": { 
 						"en": "next 8H",
 						"de": "der nächsten 8 Std.",
+						"it": "prossime 8h",
 						"nl": "komende 8U"
 					}
 				}
@@ -61,6 +66,7 @@
 		"title": {
 			"en": "Price now",
 			"de": "Preis aktuell",
+			"it": "Prezzo attuale",
 			"nl": "Prijs nu"
 		},
 		"type": "number",

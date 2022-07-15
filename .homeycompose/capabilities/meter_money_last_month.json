@@ -3,6 +3,7 @@
   "title": {
     "en": "Money prev. month",
     "de": "Geld vorheriger Monat",
+    "it": "Spesa mese precedente",
     "nl": "Geld vorige maand"
   },
   "uiComponent": "sensor",

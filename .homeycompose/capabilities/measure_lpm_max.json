@@ -3,6 +3,7 @@
   "title": {
     "en": "Maximum",
     "de": "Maximum",
+    "it": "Massimo",
     "nl": "Maximum"
   },
   "uiComponent": "sensor",
@@ -13,6 +14,7 @@
   "units": {
     "en": "L/minute",
     "de": "L/Minute",
+    "it": "L/minuto",
     "nl": "L/minuut"
   },
   "decimals": 2

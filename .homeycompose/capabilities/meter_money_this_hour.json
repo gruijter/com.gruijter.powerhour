@@ -3,6 +3,7 @@
   "title": {
     "en": "Money this hour",
     "de": "Geld diese Stunde",
+    "it": "Spesa ora corrente",
     "nl": "Geld dit uur"
   },
   "uiComponent": "sensor",

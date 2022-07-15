@@ -3,6 +3,7 @@
   "title": {
     "en": "Price +2H",
     "de": "Preis +2Std.",
+    "it": "Prezzo +2h",
     "nl": "Prijs +2U"
   },
   "uiComponent": "sensor",

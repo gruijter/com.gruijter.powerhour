@@ -3,6 +3,7 @@
   "title": {
     "en": "Avg. price next 8H",
     "de": "Durchschnittspreis nächste 8 Std.",
+    "it": "Prezzo medio prossime 8h",
     "nl": "Gem. prijs komende 8U"
   },
   "uiComponent": "sensor",

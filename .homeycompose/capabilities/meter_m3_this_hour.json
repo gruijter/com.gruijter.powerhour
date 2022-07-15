@@ -3,6 +3,7 @@
   "title": {
     "en": "m³ this hour",
     "de": "m³ diese Stunde",
+    "it": "m³ ora corrente",
     "nl": "m³ dit uur"
   },
   "uiComponent": "sensor",

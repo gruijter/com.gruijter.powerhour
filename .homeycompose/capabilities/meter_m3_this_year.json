@@ -3,6 +3,7 @@
   "title": {
     "en": "m³ this year",
     "de": "m³ dieses Jahr",
+    "it": "m³ anno corrente",
     "nl": "m³ dit jaar"
   },
   "uiComponent": "sensor",

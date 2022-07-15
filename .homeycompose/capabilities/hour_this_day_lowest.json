@@ -3,6 +3,7 @@
   "title": {
     "en": "Lowest hour this day",
     "de": "Niedrigste Stunde des Tages",
+    "it": "Ora più bassa di questa giornata",
     "nl": "Laagste uur deze dag"
   },
   "uiComponent": "sensor",
@@ -13,6 +14,7 @@
   "units": {
     "en": "Hour",
     "de": "Stunde",
+    "it": "Ora",
     "nl": "Uur"
   },
   "decimals": 0

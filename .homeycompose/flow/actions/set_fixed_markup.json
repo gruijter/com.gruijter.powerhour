@@ -2,11 +2,13 @@
   "title": {
     "en": "Set a new fixed markup",
     "de": "Neuen festen Aufschlag festlegen",
+    "it": "Imposta un nuovo sovraprezzo fisso",
     "nl": "Stel een nieuwe vaste opslag in"
   },
   "titleFormatted": {
     "en": "Set fixed markup to [[value]]",
     "de": "Festen Aufschlag einstellen auf [[value]]",
+    "it": "Imposta sovraprezzo fisso a [[value]]",
     "nl": "Stel vaste opslag in op [[value]]"
   },
   "highlight": true,
@@ -22,6 +24,7 @@
       "placeholder": {
         "en": "Fixed markup per kWh/m3",
         "de": "Fester Aufschlag pro kWh/m3",
+        "it": "Sovraprezzo fisso per kWh/m3",
         "nl": "Vaste opslag per kWh/m3"
       }
     }

@@ -2,11 +2,13 @@
   "title": {
     "en": "Set a new energy tariff",
     "de": "Neuen Stromtarif festlegen",
+    "it": "Imposta una nuova tariffa energia",
     "nl": "Stel een nieuw energietarief in"
   },
   "titleFormatted": {
     "en": "Set energy tariff to [[tariff]]",
     "de": "Stromtarif einstellen auf [[tariff]]",
+    "it": "Imposta tariffa energia a [[tariff]]",
     "nl": "Stel energietarief in op [[tariff]]"
   },
   "highlight": true,
@@ -17,6 +19,7 @@
       "placeholder": {
         "en": "The tariff per kWh",
         "de": "Der Tarif pro kWh",
+        "it": "La tariffa per kWh",
         "nl": "Het tarief per kWh"
       }
     }

@@ -3,6 +3,7 @@
   "title": {
     "en": "kWh this year",
     "de": "kWh dieses Jahr",
+    "it": "kWh anno corrente",
     "nl": "kWh dit jaar"
   },
   "uiComponent": "sensor",

@@ -3,6 +3,7 @@
   "title": {
     "en": "Money this year",
     "de": "Geld dieses Jahr",
+    "it": "Spesa anno corrente",
     "nl": "Geld dit jaar"
   },
   "uiComponent": "sensor",

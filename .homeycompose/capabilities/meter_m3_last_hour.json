@@ -3,6 +3,7 @@
   "title": {
     "en": "m³ prev. hour",
     "de": "m³ vorherige Stunde",
+    "it": "m³ ora precedente",
     "nl": "m³ vorig uur"
   },
   "uiComponent": null,

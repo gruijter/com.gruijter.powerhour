@@ -2,11 +2,13 @@
 	"title": {
 		"en": "The avg. price next hours becomes lowest",
 		"de": "Der Durchschnittspreis wird in den kommenden Stunden am niedrigsten sein",
+		"it": "Il prezzo medio sarà più basso nelle prossime ore",
 		"nl": "De gem. prijs de komende uren wordt het laagst"
 	},
 	"titleFormatted": {
 		"en": "The avg. price [[hours]] becomes lowest within [[period]]",
 		"de": "Der Durchschnittspreis [[hours]] wird am niedrigsten innerhalb [[period]]",
+		"it": "Il prezzo medio di [[hours]] diventa più basso entro [[period]]",
 		"nl": "De gem. prijs [[hours]] wordt het laagst binnen [[period]]"
 	},
 	"highlight": true,
@@ -22,6 +24,7 @@
 			"title": { 
 				"en": "period",
 				"de": "Zeitraum",
+				"it": "periodo",
 				"nl": "periode"
 			},
 			"values": [
@@ -29,6 +32,7 @@
 					"label": { 
 						"en": "this day",
 						"de": "dieses Tages",
+						"it": "giornata odierna",
 						"nl": "deze dag"
 					}
 				},
@@ -36,6 +40,7 @@
 					"label": { 
 						"en": "next 8H",
 						"de": "der nächsten 8 Std.",
+						"it": "prossime 8h",
 						"nl": "komende 8U"
 					}
 				}
@@ -47,6 +52,7 @@
 			"title": { 
 				"en": "hours",
 				"de": "Stunden",
+				"it": "ore",
 				"nl": "uren"
 			},
 			"values": [
@@ -54,6 +60,7 @@
 					"label": { 
 						"en": "next 2H",
 						"de": "der nächsten 2 Std.",
+						"it": "prossime 2h",
 						"nl": "komende 2U"
 					}
 				},
@@ -61,6 +68,7 @@
 					"label": { 
 						"en": "next 3H",
 						"de": "der nächsten 3 Std.",
+						"it": "prossime 3h",
 						"nl": "komende 3U"
 					}
 				},
@@ -68,6 +76,7 @@
 					"label": { 
 						"en": "next 4H",
 						"de": "der nächsten 4 Std.",
+						"it": "prossime 4h",
 						"nl": "komende 4U"
 					}
 				},
@@ -75,6 +84,7 @@
 					"label": { 
 						"en": "next 5H",
 						"de": "der nächsten 5 Std.",
+						"it": "prossime 5h",
 						"nl": "komende 5U"
 					}
 				},
@@ -82,6 +92,7 @@
 					"label": { 
 						"en": "next 6H",
 						"de": "der nächsten 6 Std.",
+						"it": "prossime 6h",
 						"nl": "komende 6U"
 					}
 				}
@@ -94,6 +105,7 @@
 		"title": {
 			"en": "Price now",
 			"de": "Preis aktuell",
+			"it": "Prezzo attuale",
 			"nl": "Prijs nu"
 		},
 		"type": "number",

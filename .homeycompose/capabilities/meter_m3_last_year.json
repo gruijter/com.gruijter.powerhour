@@ -3,6 +3,7 @@
   "title": {
     "en": "m³ prev. year",
     "de": "m³ vorheriges Jahr",
+    "it": "m³ anno precedente",
     "nl": "m³ vorig jaar"
   },
   "uiComponent": null,

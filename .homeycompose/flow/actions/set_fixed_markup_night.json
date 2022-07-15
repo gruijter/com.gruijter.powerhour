@@ -1,10 +1,12 @@
 {
   "title": {
     "en": "Set a new night time markup",
+    "it": "Imposta un nuovo sovraprezzo notturno",
     "nl": "Stel een nieuwe opslag in voor 's nachts'"
   },
   "titleFormatted": {
     "en": "Set night time markup to [[value]]",
+    "it": "Imposta sovraprezzo notturno a [[value]]",
     "nl": "Stel opslag 's nachts in op [[value]]"
   },
   "args": [
@@ -18,6 +20,7 @@
       "type": "number",
       "placeholder": {
         "en": "Extra markup per kWh or m3",
+        "it": "Sovraprezzo extra per kWh o m3",
         "nl": "Extra opslag per kWh of m3"
       }
     }

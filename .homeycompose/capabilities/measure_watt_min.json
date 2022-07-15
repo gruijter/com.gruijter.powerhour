@@ -3,6 +3,7 @@
   "title": {
     "en": "Minimum",
     "de": "Minimum",
+    "it": "Minimo",
     "nl": "Minimum"
   },
   "uiComponent": "sensor",

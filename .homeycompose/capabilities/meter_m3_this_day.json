@@ -3,6 +3,7 @@
   "title": {
     "en": "m³ this day",
     "de": "m³ dieser Tag",
+    "it": "m³ giornata odierna",
     "nl": "m³ deze dag"
   },
   "uiComponent": "sensor",

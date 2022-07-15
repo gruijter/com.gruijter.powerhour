@@ -2,11 +2,13 @@
   "title": {
     "en": "Send gas reading to virtual meter",
     "de": "Gasmesswert an virtuelles Gerät senden",
+    "it": "Invia lettura gas a misuratore virtuale",
     "nl": "Stuur gasstand naar virtueel apparaat"
   },
   "titleFormatted": {
     "en": "Send [[value]] reading to [[virtual_device]]",
     "de": "Sende [[value]] Messwert an [[virtual_device]]",
+    "it": "Invia lettura [[value]] a [[virtual_device]]",
     "nl": "Stuur [[value]] stand naar [[virtual_device]]"
   },
   "highlight": true,
@@ -17,6 +19,7 @@
       "title": { 
         "en": "Virtual device",
         "de": "Virtuelles Gerät",
+        "it": "Dispositivo virtuale",
         "nl": "Virtueel apparaat"
       }
     },
@@ -26,6 +29,7 @@
       "placeholder": {
         "en": "Gas (m³)",
         "de": "Gas (m³)",
+        "it": "Gas (m³)",
         "nl": "Gas (m³)"
       }
     }

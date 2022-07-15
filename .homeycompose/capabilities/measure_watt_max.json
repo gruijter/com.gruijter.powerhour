@@ -3,6 +3,7 @@
   "title": {
     "en": "Maximum",
     "de": "Maximum",
+    "it": "Massimo",
     "nl": "Maximum"
   },
   "uiComponent": "sensor",

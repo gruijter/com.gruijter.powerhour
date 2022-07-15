@@ -11,6 +11,7 @@
     "en": "Summarize the energy/water usage or (solar) production per hour, day, month and year. Use dynamic tariffs.",
     "no": "Summarize the energy/water usage or (solar) production per hour, day, month and year. Use dynamic tariffs.",
     "de": "Fassen Sie den Energie-/Wasserverbrauch oder die (Solar-) Erzeugung pro Stunde, Tag, Monat und Jahr zusammen. Profitieren Sie von dynamischen Tarife.",
+    "it": "Ricapitola il consumo di energia/acqua o la produzione (solare) per ora, giorno, mese e anno. Utilizza tariffe dinamiche.",
     "nl": "Samenvatten van energie/water verbruik of (zonnepaneel) productie per uur, dag, maand en jaar. Gebruik dynamische tarieven."
   },
   "category": "energy",
@@ -70,6 +71,9 @@
       },
       {
         "name": "🇩🇪 Dirk Göbel"
+      },
+      {
+        "name": "IT Alessandro"
       },
       {
         "name": "🇳🇱 Robin"
