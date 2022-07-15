@@ -3,6 +3,7 @@
 		"en": "The price has changed",
 		"de": "Der Preis hat sich geändert",
 		"sv": "Priset har förändrats",
+		"it": "Il prezzo è cambiato",
 		"nl": "De prijs is veranderd"
 	},
 	"highlight": true,
@@ -20,6 +21,7 @@
 			"en": "Price now",
 			"de": "Preis aktuell",
 			"sv": "Pris just nu",
+			"it": "Prezzo attuale",
 			"nl": "Prijs nu"
 		},
 		"type": "number",

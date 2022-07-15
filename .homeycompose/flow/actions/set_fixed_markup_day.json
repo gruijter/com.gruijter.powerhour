@@ -2,11 +2,13 @@
   "title": {
     "en": "Set a new day time markup",
     "sv": "Ställ in en ny dagtidsmärkning",
+    "it": "Imposta un nuovo sovraprezzo diurno",
     "nl": "Stel een nieuwe opslag in voor overdag"
   },
   "titleFormatted": {
     "en": "Set day time markup to [[value]]",
     "sv": "Ställ in dagstidsmärkning till [[value]]",
+    "it": "Imposta sovraprezzo diurno a [[value]]",
     "nl": "Stel opslag overdag in op [[value]]"
   },
   "args": [
@@ -21,6 +23,7 @@
       "placeholder": {
         "en": "Extra markup per kWh or m3",
         "sv": "Extra påslag per kWh eller m3",
+        "it": "Sovraprezzo extra per kWh o m3",
         "nl": "Extra opslag per kWh of m3"
       }
     }

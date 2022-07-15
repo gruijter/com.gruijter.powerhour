@@ -4,6 +4,7 @@
     "en": "Money prev. day",
     "de": "Geld vorheriger Tag",
     "sv": "Pengar igår",
+    "it": "Spesa giorno precedente",
     "nl": "Geld vorige dag"
   },
   "uiComponent": "sensor",

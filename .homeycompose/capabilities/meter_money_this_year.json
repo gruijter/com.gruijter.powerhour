@@ -4,6 +4,7 @@
     "en": "Money this year",
     "de": "Geld dieses Jahr",
     "sv": "Pengar i år",
+    "it": "Spesa anno corrente",
     "nl": "Geld dit jaar"
   },
   "uiComponent": "sensor",

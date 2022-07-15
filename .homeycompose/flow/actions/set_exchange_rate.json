@@ -3,12 +3,14 @@
     "en": "Set a new exchange rate",
     "de": "Neuen Wechselkurs festlegen",
     "sv": "Ställ in en ny växelkurs",
+    "it": "Imposta un nuovo tasso di cambio",
     "nl": "Stel een nieuwe wisselkoers in"
   },
   "titleFormatted": {
     "en": "Set exchange rate to [[value]]",
     "de": "Wechselkurs einstellen auf [[value]]",
     "sv": "Ställ in växelkursen till [[value]]",
+    "it": "Imposta tasso di cambio a [[value]]",
     "nl": "Stel wisselkoers in op [[value]]"
   },
   "highlight": true,
@@ -24,6 +26,7 @@
       "placeholder": {
         "en": "€ Exchange rate",
         "de": "€ Wechselkurs",
+        "it": "€ Tasso di cambio",
         "nl": "€ Wisselkoers"
       }
     }

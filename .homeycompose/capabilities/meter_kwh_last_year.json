@@ -4,6 +4,7 @@
     "en": "kWh prev. year",
     "de": "kWh vorheriges Jahr",
     "sv": "kWh föregående år",
+    "it": "kWh anno precedente",
     "nl": "kWh vorig jaar"
   },
   "uiComponent": null,

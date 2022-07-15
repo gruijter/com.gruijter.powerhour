@@ -4,6 +4,7 @@
     "en": "Avg. price this day",
     "de": "Durchschnittspreis dieser Tag",
     "sv": "Genomsnittligt pris idag",
+    "it": "Prezzo medio giornata odierna",
     "nl": "Gem. prijs deze dag"
   },
   "uiComponent": "sensor",

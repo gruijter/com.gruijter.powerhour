@@ -4,6 +4,7 @@
     "en": "Money prev. hour",
     "de": "Geld vorherige Stunde",
     "sv": "Pengar föregående timme",
+    "it": "Spesa ora precedente",
     "nl": "Geld vorig uur"
   },
   "uiComponent": "sensor",

@@ -3,12 +3,14 @@
     "en": "Send water reading to virtual meter",
     "de": "Wassermesswert an virtuelles Gerät senden",
     "sv": "Skicka vattenavläsning till virtuell mätare",
+    "it": "Invia lettura acqua a contatore virtuale",
     "nl": "Stuur waterstand naar virtueel apparaat"
   },
   "titleFormatted": {
     "en": "Send [[value]] reading to [[virtual_device]]",
     "de": "Sende [[value]] Messwert an [[virtual_device]]",
     "sv": "Skicka [[value]] avläsning till [[virtual_device]]",
+    "it": "Invia lettura [[value]] a [[virtual_device]]",
     "nl": "Stuur [[value]] stand naar [[virtual_device]]"
   },
   "highlight": true,
@@ -20,6 +22,7 @@
         "en": "Virtual device",
         "de": "Virtuelles Gerät",
         "sv": "Virtuell enhet",
+        "it": "Dispositivo virtuale",
         "nl": "Virtueel apparaat"
       }
     },
@@ -30,6 +33,7 @@
         "en": "Water (m³)",
         "de": "Wasser (m³)",
         "sv": "Vatten (m³)",
+        "it": "Acqua (m³)",
         "nl": "Water (m³)"
       }
     }

@@ -4,6 +4,7 @@
     "en": "Price +6H",
     "de": "Preis +6Std.",
     "sv": "Pris +6H",
+    "it": "Prezzo +6h",
     "nl": "Prijs +6U"
   },
   "uiComponent": "sensor",

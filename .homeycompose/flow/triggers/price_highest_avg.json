@@ -3,12 +3,14 @@
 		"en": "The avg. price next hours becomes highest",
 		"de": "Der Durchschnittspreis wird in den kommenden Stunden am höchsten sein",
 		"sv": "Det genomsnittliga priset kommande timmar blir högst",
+		"it": "Il prezzo medio sarà più alto nelle prossime ore",
 		"nl": "De gem. prijs de komende uren wordt het hoogst"
 	},
 	"titleFormatted": {
 		"en": "The avg. price [[hours]] becomes highest within [[period]]",
 		"de": "Der Durchschnittspreis [[hours]] wird am höchsten innerhalb [[period]]",
 		"sv": "Det genomsnittliga priset [[hours]] blir högst inom [[period]]",
+		"it": "Il prezzo medio a [[hours]] diventa più alto entro [[period]]",
 		"nl": "De gem. prijs [[hours]] wordt het highest binnen [[period]]"
 	},
 	"highlight": true,
@@ -25,6 +27,7 @@
 				"en": "period",
 				"de": "Zeitraum",
 				"sv": "period",
+				"it": "periodo",
 				"nl": "periode"
 			},
 			"values": [
@@ -33,6 +36,7 @@
 						"en": "this day",
 						"de": "dieses Tages",
 						"sv": "idag",
+						"it": "giornata odierna",
 						"nl": "deze dag"
 					}
 				},
@@ -41,6 +45,7 @@
 						"en": "next 8H",
 						"de": "der nächsten 8 Std.",
 						"sv": "nästa 8H",
+						"it": "prossime 8h",
 						"nl": "komende 8U"
 					}
 				}
@@ -53,6 +58,7 @@
 				"en": "hours",
 				"de": "Stunden",
 				"sv": "timmar",
+				"it": "ore",
 				"nl": "uren"
 			},
 			"values": [
@@ -61,6 +67,7 @@
 						"en": "next 2H",
 						"de": "der nächsten 2 Std.",
 						"sv": "nästa 2H",
+						"it": "prossime 2h",
 						"nl": "komende 2U"
 					}
 				},
@@ -69,6 +76,7 @@
 						"en": "next 3H",
 						"de": "der nächsten 3 Std.",
 						"sv": "nästa 3H",
+						"it": "prossime 3h",
 						"nl": "komende 3U"
 					}
 				},
@@ -77,6 +85,7 @@
 						"en": "next 4H",
 						"de": "der nächsten 4 Std.",
 						"sv": "nästa 4H",
+						"it": "prossime 4h",
 						"nl": "komende 4U"
 					}
 				},
@@ -85,6 +94,7 @@
 						"en": "next 5H",
 						"de": "der nächsten 5 Std.",
 						"sv": "nästa 5H",
+						"it": "prossime 5h",
 						"nl": "komende 5U"
 					}
 				},
@@ -93,6 +103,7 @@
 						"en": "next 6H",
 						"de": "der nächsten 6 Std.",
 						"sv": "nästa 6H",
+						"it": "prossime 6h",
 						"nl": "komende 6U"
 					}
 				}
@@ -106,6 +117,7 @@
 			"en": "Price now",
 			"de": "Preis aktuell",
 			"sv": "Pris just nu",
+			"it": "Prezzo attuale",
 			"nl": "Prijs nu"
 		},
 		"type": "number",

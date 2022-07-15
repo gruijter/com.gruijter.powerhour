@@ -4,6 +4,7 @@
     "en": "Money prev. year",
     "de": "Geld vorheriges Jahr",
     "sv": "Pengar föregående år",
+    "it": "Spesa anno precedente",
     "nl": "Geld vorig jaar"
   },
   "uiComponent": "sensor",

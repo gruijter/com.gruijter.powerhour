@@ -3,12 +3,14 @@
 		"en": "The price becomes lowest before a certain time",
 		"de": "Der Preis wird für eine bestimmte Zeit am niedrigsten sein",
 		"sv": "Priset blir lägst före en viss tidpunkt",
+		"it": "Il prezzo diventa più basso prima di un certo momento",
 		"nl": "De prijs wordt het laagst voor een bepaalde tijd"
 	},
 	"titleFormatted": {
 		"en": "The price becomes one of [[number]] lowest in the [[period]] hours before [[time]] o'clock",
 		"de": "Der Preis wird einer der [[number]] niedrigsten in den [[period]] Stunden vor [[time]] Uhr sein",
 		"sv": "Priset blir ett av [[number]] lägsta under [[period]] timmarna före klockan [[time]]",
+		"it": "Il prezzo diventa uno dei [[number]] più bassi nelle [[period]] ore prima delle [[time]] in punto",
 		"nl": "De prijs wordt een van de [[number]] laagste in de [[period]] uren voor [[time]] uur"
 	},
 	"highlight": true,
@@ -25,6 +27,7 @@
 				"en": "period",
 				"de": "Zeitraum",
 				"sv": "period",
+				"it": "periodo",
 				"nl": "periode"
 			},
 			"placeholder": { "en": "2 - 12" },
@@ -39,6 +42,7 @@
 				"en": "number",
 				"de": "Anzahl",
 				"sv": "antal",
+				"it": "numero",
 				"nl": "aantal"
 			},
 			"placeholder": { "en": "1 - 8" },
@@ -53,6 +57,7 @@
 				"en": "time",
 				"de": "Zeit",
 				"sv": "tid",
+				"it": "tempo",
 				"nl": "tijd"
 			},
 			"placeholder": { "en": "01 - 24" },
@@ -68,6 +73,7 @@
 			"en": "Price now",
 			"de": "Preis aktuell",
 			"sv": "Pris just nu",
+			"it": "Prezzo attuale",
 			"nl": "Prijs nu"
 		},
 		"type": "number",

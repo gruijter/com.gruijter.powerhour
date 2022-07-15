@@ -3,12 +3,14 @@
 		"en": "The price becomes above avg.",
 		"de": "Der Preis wird höher sein als der Durchschnitt",
 		"sv": "Priset blir över snittet.",
+		"it": "Il prezzo diventa oltre la media",
 		"nl": "De prijs wordt hoger dan gem."
 	},
 	"titleFormatted": {
 		"en": "The price becomes [[percent]] above avg. [[period]]",
 		"de": "Der Preis wird [[percent]] höher sein als der Durchschnitt [[period]]",
 		"sv": "Priset blir [[percent]] över snittet. [[period]]",
+		"it": "Il prezzo diventa [[percent]] oltre la media di [[period]]",
 		"nl": "De prijs wordt [[percent]] hoger dan gem. [[period]]"
 	},
 	"highlight": true,
@@ -38,6 +40,7 @@
 				"en": "period",
 				"de": "Zeitraum",
 				"sv": "period",
+				"it": "periodo",
 				"nl": "periode"
 			},
 			"values": [
@@ -46,6 +49,7 @@
 						"en": "this day",
 						"de": "dieses Tages",
 						"sv": "idag",
+						"it": "giornata odierna",
 						"nl": "deze dag"
 					}
 				},
@@ -54,6 +58,7 @@
 						"en": "next 8H",
 						"de": "der nächsten 8 Std.",
 						"sv": "nästa 8H",
+						"it": "prossime 8h",
 						"nl": "komende 8U"
 					}
 				}
@@ -67,6 +72,7 @@
 			"en": "Price now",
 			"de": "Preis aktuell",
 			"sv": "Pris just nu",
+			"it": "Prezzo attuale",
 			"nl": "Prijs nu"
 		},
 		"type": "number",
