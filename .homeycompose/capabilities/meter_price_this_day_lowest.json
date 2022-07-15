@@ -2,7 +2,7 @@
   "type": "number",
   "title": {
     "en": "Lowest price this day",
-    "de": "Niedrigster Preis dieser Tag",
+    "de": "Niedrigster Preis an diesem Tag",
     "sv": "Lägsta pris idag",
     "it": "Prezzo più basso giornata odierna",
     "nl": "Laagste prijs deze dag"

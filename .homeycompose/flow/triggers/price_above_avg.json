@@ -1,14 +1,14 @@
 {
 	"title": {
 		"en": "The price becomes above avg.",
-		"de": "Der Preis wird höher sein als der Durchschnitt",
+		"de": "Preis wird höher sein als der Durchschn.",
 		"sv": "Priset blir över snittet.",
 		"it": "Il prezzo diventa oltre la media",
 		"nl": "De prijs wordt hoger dan gem."
 	},
 	"titleFormatted": {
 		"en": "The price becomes [[percent]] above avg. [[period]]",
-		"de": "Der Preis wird [[percent]] höher sein als der Durchschnitt [[period]]",
+		"de": "Preis wird [[percent]] höher sein als der Durchschn. [[period]]",
 		"sv": "Priset blir [[percent]] över snittet. [[period]]",
 		"it": "Il prezzo diventa [[percent]] oltre la media di [[period]]",
 		"nl": "De prijs wordt [[percent]] hoger dan gem. [[period]]"
@@ -47,7 +47,7 @@
 				{	"id": "this_day_avg",
 					"label": { 
 						"en": "this day",
-						"de": "dieses Tages",
+						"de": "des Tages",
 						"sv": "idag",
 						"it": "giornata odierna",
 						"nl": "deze dag"

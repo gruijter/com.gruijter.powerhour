@@ -1,13 +1,15 @@
 {
   "title": {
     "en": "Set a new night time markup",
-    "sv": "Ställ in en ny nattpåslag",
+    "de": "Neuen Aufschlag für die Nacht festlegen",
+    "sv": "Ställ in en ny nattmarkering",
     "it": "Imposta un nuovo sovraprezzo notturno",
     "nl": "Stel een nieuwe opslag in voor 's nachts'"
   },
   "titleFormatted": {
     "en": "Set night time markup to [[value]]",
-    "sv": "Ställ in natttidspåslag till [[value]]",
+    "de": "Nachtaufschlag einstellen auf [[value]]",
+    "sv": "Ställ in natttidsuppmärkning till [[value]]",
     "it": "Imposta sovraprezzo notturno a [[value]]",
     "nl": "Stel opslag 's nachts in op [[value]]"
   },
@@ -22,6 +24,7 @@
       "type": "number",
       "placeholder": {
         "en": "Extra markup per kWh or m3",
+        "de": "Extra Aufschlag pro kWh/m3",
         "sv": "Extra påslag per kWh eller m3",
         "it": "Sovraprezzo extra per kWh o m3",
         "nl": "Extra opslag per kWh of m3"

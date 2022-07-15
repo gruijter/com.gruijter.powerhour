@@ -1,6 +1,7 @@
 {
   "name": {
     "en": "Power Summarizer",
+    "de": "Stromzähler",
     "sv": "Energi Summerare"
   },
   "class": "other",
@@ -165,7 +166,7 @@
           "hint": {
             "en": "On this date the month and year total will reset to 0. Format is ddmm. Default is 0101 (1 January). ATTENTION: If you change this date you need to manually correct the This Month Start and This Year Start values.",
             "nl": "Op deze datum wordt het jaar en maand totaal op 0 gezet. Het formaat is ddmm. Standaard is 0101 (1 january). LET OP: Als deze datum wordt gewijzigd zal Deze Maand Start en Dit Jaar Start handmatig aangepast moeten worden.",
-            "de": "An diesem Datum wird die Monats- und Jahressumme auf 0 zurückgesetzt. Das Format ist ddmm. Standardwert ist 0101 (1. Januar). ACHTUNG: Wenn Sie dieses Datum ändern, müssen Sie die Werte 'Beginn dieses Monats' und 'Beginn dieses Jahres' manuell korrigieren.",
+            "de": "An diesem Datum wird die Monats- und Jahressumme auf 0 zurückgesetzt. Das Format ist ddmm. Standardwert ist 0101 (1. Januar). ACHTUNG: Wenn Sie dieses Datum ändern, müssen Sie die Werte 'Monatsbeginn' und 'Jahresbeginn' manuell korrigieren.",
             "sv": "På det här datumet återställs totalsumman för månad och år till 0. Formatet är ddmm. Standard är 0101 (1 januari). OBSERVERA: Om du ändrar detta datum måste du manuellt korrigera värdena för start för denna månad och start för detta år.",
             "it": "In questa data il mese e l'anno saranno resettati a 0. Il formato è ggmm. Default è 0101 (1 Gennaio). ATTENZIONE: Se modifichi questa data dovrai correggere manualmente i valori Inizio Mese Corrente e Inzio Anno Corrente."
           }
@@ -203,7 +204,7 @@
           "hint": {
             "en": "Enter the meter reading at the start of this day. It is automatically updated at midnight.",
             "nl": "Geef de meterstand in aan het begin van deze dag. Het wordt middernacht automatisch geupdated.",
-            "de": "Geben Sie den Zählerstand zu Beginn dieses Tages ein. Er wird um Mitternacht automatisch aktualisiert.",
+            "de": "Geben Sie den Zählerstand zu Beginn des Tages ein. Er wird um Mitternacht automatisch aktualisiert.",
             "sv": "Ange mätarställningen i början av denna dag. Den uppdateras automatiskt vid midnatt.",
             "it": "Inserisci la lettura del contatore all'inizio della giornata odierna. Viene aggiornata automaticamente a mezzanotte."
           }
@@ -222,7 +223,7 @@
           "hint": {
             "en": "Enter the meter reading at the start of this month. It is automatically updated first day of a new month.",
             "nl": "Geef de meterstand in aan het begin van deze maand. Het wordt de eerste dag van de maand automatisch geupdated.",
-            "de": "Geben Sie den Zählerstand zu Beginn dieses Monats ein. Er wird automatisch am ersten Tag eines neuen Monats aktualisiert.",
+            "de": "Geben Sie den Zählerstand zu Beginn des Monats ein. Er wird automatisch am ersten Tag eines neuen Monats aktualisiert.",
             "sv": "Ange mätarställningen i början av denna månad. Den uppdateras automatiskt första dagen i en ny månad.",
             "it": "Inserisci la lettura del contatore all'inizio del mese corrente. Viene aggiornata automaticamente il primo giorno di un nuovo mese."
           }
@@ -318,7 +319,7 @@
       "type": "group",
       "label": {
         "en": "Monetary value",
-        "de": "Geldwert",
+        "de": "Geldbetrag",
         "sv": "Penningvärde",
         "it": "Valore monetario",
         "nl": "Geldwaarde"
@@ -348,7 +349,7 @@
           "type": "number",
           "label": {
             "en": "Currency decimals",
-            "de": "Dezimalstellen",
+            "de": "Anzahl Dezimalstellen",
             "sv": "Valuta decimaler",
             "it": "Decimali valuta",
             "nl": "Geld decimalen"
@@ -378,7 +379,7 @@
           "decimals": 8,
           "hint": {
             "en": "The tariff is used to calculate the monetary value. It can be dynamically changed via a flow.",
-            "de": "Der Kurs wird zur Berechnung des Geldwerts verwendet. Er kann über einen Flow dynamisch angepasst werden.",
+            "de": "Der Kurs wird zur Berechnung des Geldbetrags verwendet. Er kann über einen Flow dynamisch angepasst werden.",
             "sv": "Tariffen används för att beräkna penningvärdet. Det kan ändras dynamiskt via ett flöde.",
             "it": "La tariffa è utilizzata per calcolare il valore monetario. Può essere cambiata dinamicamente tramite un flow.",
             "nl": "Het tarief wordt gebruikt om de geldwaarde te berekenen. Het kan dynamisch worden aangepast via een flow."
@@ -408,7 +409,7 @@
           "type": "number",
           "label": {
             "en": "Monetary value of this day",
-            "de": "Geldwert dieses Tages",
+            "de": "Geldbetrag des Tages",
             "sv": "Dagens monetära värde",
             "it": "Valore monetario di oggi",
             "nl": "Geldwaarde van deze dag"
@@ -417,7 +418,7 @@
           "decimals": 4,
           "hint": {
             "en": "Actual monetary value. It is automatically updated.",
-            "de": "Aktueller Geldwert. Er wird automatisch aktualisiert.",
+            "de": "Aktueller Geldbetrag. Er wird automatisch aktualisiert.",
             "sv": "Faktiskt penningvärde. Den uppdateras automatiskt.",
             "it": "Valore monetario attuale. Viene aggiornato automaticamente.",
             "nl": "Actuele gelwaarde. Wordt automatisch geupdated."
@@ -428,7 +429,7 @@
           "type": "number",
           "label": {
             "en": "Monetary value of this month",
-            "de": "Geldwert dieses Monats",
+            "de": "Geldbetrag des Monats",
             "sv": "Denna månads monetära värde",
             "it": "Valore monetario mese corrente",
             "nl": "Geldwaarde van deze maand"
@@ -437,7 +438,7 @@
           "decimals": 4,
           "hint": {
             "en": "Actual monetary value. It is automatically updated.",
-            "de": "Aktueller Geldwert. Er wird automatisch aktualisiert.",
+            "de": "Aktueller Geldbetrag. Er wird automatisch aktualisiert.",
             "sv": "Faktiskt penningvärde. Den uppdateras automatiskt.",
             "it": "Valore monetario attuale. Viene aggiornato automaticamente.",
             "nl": "Actuele gelwaarde. Wordt automatisch geupdated."
@@ -448,7 +449,7 @@
           "type": "number",
           "label": {
             "en": "Monetary value of this year",
-            "de": "Geldwert dieses Jahres",
+            "de": "Geldbetrag des Jahres",
             "sv": "Årets monetära värde",
             "it": "Valore monetario anno corrente",
             "nl": "Geldwaarde van dit jaar"
@@ -457,7 +458,7 @@
           "decimals": 4,
           "hint": {
             "en": "Actual monetary value. It is automatically updated.",
-            "de": "Aktueller Geldwert. Er wird automatisch aktualisiert.",
+            "de": "Aktueller Geldbetrag. Er wird automatisch aktualisiert.",
             "sv": "Faktiskt penningvärde. Den uppdateras automatiskt.",
             "it": "Valore monetario attuale. Viene aggiornato automaticamente.",
             "nl": "Actuele gelwaarde. Wordt automatisch geupdated."
@@ -468,7 +469,7 @@
           "type": "number",
           "label": {
             "en": "Monetary value prev. day",
-            "de": "Geldwert des Vortages",
+            "de": "Geldbetrag des Vortages",
             "sv": "Monetärt värde igår",
             "it": "Valore monetario giorno prec.",
             "nl": "Geldwaarde van vorige dag"
@@ -477,7 +478,7 @@
           "decimals": 4,
           "hint": {
             "en": "Monetary value of the previous day. It is automatically updated.",
-            "de": "Geldwert des Vortages. Er wird automatisch aktualisiert.",
+            "de": "Geldbetrag des Vortages. Er wird automatisch aktualisiert.",
             "sv": "Monetärt värde för föregående dag. Den uppdateras automatiskt.",
             "it": "Valore monetario giorno precedenre. Viene aggiornato automaticamente.",
             "nl": "Gelwaarde van de vorige dag. Wordt automatisch geupdated."
@@ -488,7 +489,7 @@
           "type": "number",
           "label": {
             "en": "Monetary value prev. month",
-            "de": "Geldwert des Vormonats",
+            "de": "Geldbetrag des Vormonats",
             "sv": "Monetärt värde föregående månad",
             "it": "Valore monetario mese prec.",
             "nl": "Geldwaarde van vorige maand"
@@ -497,7 +498,7 @@
           "decimals": 4,
           "hint": {
             "en": "Monetary value of the previous month. It is automatically updated.",
-            "de": "Geldwert des Vormonats. Er wird automatisch aktualisiert.",
+            "de": "Geldbetrag des Vormonats. Er wird automatisch aktualisiert.",
             "sv": "Föregående månads monetära värde. Den uppdateras automatiskt.",
             "it": "Valore monetario mese precedenre. Viene aggiornato automaticamente.",
             "nl": "Gelwaarde van de vorige maand. Wordt automatisch geupdated."
@@ -508,7 +509,7 @@
           "type": "number",
           "label": {
             "en": "Monetary value prev. year",
-            "de": "Geldwert des Vorjahres",
+            "de": "Geldbetrag des Vorjahres",
             "sv": "Monetärt värde föregående år",
             "it": "Valore monetario anno prec.",
             "nl": "Geldwaarde van vorig jaar"
@@ -517,7 +518,7 @@
           "decimals": 4,
           "hint": {
             "en": "Monetary value of the previous year. It is automatically updated.",
-            "de": "Geldwert des Vorjahres. Er wird automatisch aktualisiert.",
+            "de": "Geldbetrag des Vorjahres. Er wird automatisch aktualisiert.",
             "sv": "Föregående års monetära värde. Den uppdateras automatiskt.",
             "it": "Valore monetario anno precedenre. Viene aggiornato automaticamente.",
             "nl": "Gelwaarde van het vorige jaar. Wordt automatisch geupdated."
