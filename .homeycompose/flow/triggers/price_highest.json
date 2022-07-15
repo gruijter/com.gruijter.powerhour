@@ -1,14 +1,14 @@
 {
 	"title": {
 		"en": "The price becomes highest",
-		"de": "Der Preis wird am höchsten",
+		"de": "Preis wird am höchsten",
 		"sv": "Priset blir det högsta",
 		"it": "Il prezzo diventa più alto",
 		"nl": "De prijs wordt het hoogst"
 	},
 	"titleFormatted": {
 		"en": "The price becomes highest for [[period]]",
-		"de": "Der Preis wird am höchsten für [[period]]",
+		"de": "Preis wird am höchsten für [[period]]",
 		"sv": "Priset blir högst för [[period]]",
 		"it": "Il prezzo diventa più alto per [[period]]",
 		"nl": "De prijs wordt het hoogst voor [[period]]"

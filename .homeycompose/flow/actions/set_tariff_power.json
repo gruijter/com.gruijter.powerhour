@@ -20,7 +20,7 @@
       "type": "number",
       "placeholder": {
         "en": "The tariff per kWh",
-        "de": "Der Tarif pro kWh",
+        "de": "Tarif pro kWh",
         "sv": "Tariffen per kWh",
         "it": "La tariffa per kWh",
         "nl": "Het tarief per kWh"

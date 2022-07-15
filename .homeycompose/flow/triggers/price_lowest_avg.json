@@ -1,14 +1,14 @@
 {
 	"title": {
 		"en": "The avg. price next hours becomes lowest",
-		"de": "Der Durchschnittspreis wird in den kommenden Stunden am niedrigsten sein",
+		"de": "Durchschn. Preis wird in den kommenden Std. am niedrigsten sein",
 		"sv": "Det genomsnittliga priset de kom mande timmarna blir lägst",
 		"it": "Il prezzo medio sarà più basso nelle prossime ore",
 		"nl": "De gem. prijs de komende uren wordt het laagst"
 	},
 	"titleFormatted": {
 		"en": "The avg. price [[hours]] becomes lowest within [[period]]",
-		"de": "Der Durchschnittspreis [[hours]] wird am niedrigsten innerhalb [[period]]",
+		"de": "Durchschn. Preis [[hours]] wird am niedrigsten innerhalb [[period]]",
 		"sv": "Det genomsnittliga priset [[hours]] blir lägst inom [[period]]",
 		"it": "Il prezzo medio di [[hours]] diventa più basso entro [[period]]",
 		"nl": "De gem. prijs [[hours]] wordt het laagst binnen [[period]]"
@@ -34,7 +34,7 @@
 				{	"id": "this_day",
 					"label": { 
 						"en": "this day",
-						"de": "dieses Tages",
+						"de": "des Tages",
 						"sv": "idag",
 						"it": "giornata odierna",
 						"nl": "deze dag"

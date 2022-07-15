@@ -1,14 +1,14 @@
 {
 	"title": {
 		"en": "The price becomes lowest",
-		"de": "Der Preis wird der niedrigste sein",
+		"de": "Preis wird der niedrigste sein",
 		"sv": "Priset blir det lägsta",
 		"it": "Il prezzo sarà il più basso",
 		"nl": "De prijs wordt het laagst"
 	},
 	"titleFormatted": {
 		"en": "The price becomes lowest for [[period]]",
-		"de": "Der Preis wird für [[period]] am niedrigsten sein",
+		"de": "Preis wird für [[period]] am niedrigsten sein",
 		"sv": "Priset blir lägst för [[period]]",
 		"it": "Il prezzo sarà più basso per [[period]]",
 		"nl": "De prijs wordt het laagst voor [[period]]"

@@ -20,7 +20,7 @@
       "type": "number",
       "placeholder": {
         "en": "The tariff per m³",
-        "de": "Der Tarif pro m³",
+        "de": "Tarif pro m³",
         "sv": "Tariffen per m³",
         "it": "La tariffa per m³",
         "nl": "Het tarief per m³"
