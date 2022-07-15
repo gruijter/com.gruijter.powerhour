@@ -2,14 +2,14 @@
   "title": {
     "en": "Set a new fixed markup",
     "de": "Neuen festen Aufschlag festlegen",
-    "sv": "Ställ in en ny fast markering",
+    "sv": "Ställ in ett nytt fast påslag",
     "it": "Imposta un nuovo sovraprezzo fisso",
     "nl": "Stel een nieuwe vaste opslag in"
   },
   "titleFormatted": {
     "en": "Set fixed markup to [[value]]",
     "de": "Festen Aufschlag einstellen auf [[value]]",
-    "sv": "Ställ in fast markering till [[value]]",
+    "sv": "Ställ in fast påslag till [[value]]",
     "it": "Imposta sovraprezzo fisso a [[value]]",
     "nl": "Stel vaste opslag in op [[value]]"
   },
