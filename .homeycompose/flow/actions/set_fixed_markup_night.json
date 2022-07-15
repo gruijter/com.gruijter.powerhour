@@ -1,13 +1,13 @@
 {
   "title": {
     "en": "Set a new night time markup",
-    "sv": "Ställ in en ny nattmarkering",
+    "sv": "Ställ in en ny nattpåslag",
     "it": "Imposta un nuovo sovraprezzo notturno",
     "nl": "Stel een nieuwe opslag in voor 's nachts'"
   },
   "titleFormatted": {
     "en": "Set night time markup to [[value]]",
-    "sv": "Ställ in natttidsuppmärkning till [[value]]",
+    "sv": "Ställ in natttidspåslag till [[value]]",
     "it": "Imposta sovraprezzo notturno a [[value]]",
     "nl": "Stel opslag 's nachts in op [[value]]"
   },

@@ -370,7 +370,7 @@
           "label": {
             "en": "Actual tariff per kWh",
             "de": "Aktueller Tarif pro kW/h",
-            "sv": "Faktisk tariff per m³",
+            "sv": "Faktisk tariff per kWh",
             "it": "Tariffa attuale per kWh",
             "nl": "Actueel tarief per kWh"
           },
