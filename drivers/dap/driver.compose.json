@@ -38,7 +38,7 @@
       "label": {
         "en": "Bidding Zone information",
         "de": "Information zum Gebotsbereich",
-        "sv": "Information om budgivningszon",
+        "sv": "Information om elområde",
         "it": "Informazioni sulla zona di trattativa",
         "nl": "Biedzone informatie"
       },
@@ -49,7 +49,7 @@
           "label": {
             "en": "Bidding zone",
             "de": "Gebotsbereich",
-            "sv": "Budområde",
+            "sv": "Elområde",
             "it": "Zona di trattativa",
             "nl": "Biedzone"
           },
@@ -327,7 +327,7 @@
           "label": {
             "en": "Weekend same as night time",
             "de": "Weekend same as night time",
-            "sv": "Weekend same as night time",
+            "sv": "Helg påslag samma som under nattetid",
             "it": "Weekend same as night time",
             "nl": "Weekend gelijk aan 's nachts"
           },
@@ -335,7 +335,7 @@
           "hint": {
             "en": "If enabled the night time markup will be applied during the whole weekend (Saturday - Sunday).",
             "de": "If enabled the night time markup will be applied during the whole weekend (Saturday - Sunday).",
-            "sv": "If enabled the night time markup will be applied during the whole weekend (Saturday - Sunday).",
+            "sv": "Om den är aktiverad kommer natttidspåslag att tillämpas under hela helgen (lördag - söndag).",
             "it": "If enabled the night time markup will be applied during the whole weekend (Saturday - Sunday).",
             "nl": "Indien geactiveerd wordt nacht verhoging het hele weekend toegepast (zaterdag - zondag)."
           }

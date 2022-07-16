@@ -2,14 +2,14 @@
 	"title": {
 		"en": "The avg. price next hours !{{is|isn't}} the lowest",
 		"de": "The avg. price next hours !{{is|isn't}} the lowest",
-		"sv": "The avg. price next hours !{{is|isn't}} the lowest",
+		"sv": "Det genomsnittliga priset de kommande timmarna !{{är|är inte}} det lägsta",
 		"it": "The avg. price next hours !{{is|isn't}} the lowest",
 		"nl": "De gem. prijs de komende uren !{{is|is niet}} het laagst"
 	},
 	"titleFormatted": {
 		"en": "The avg. price [[hours]] !{{is|isn't}} lowest within [[period]]",
 		"de": "The avg. price [[hours]] !{{is|isn't}} lowest within [[period]]",
-		"sv": "The avg. price [[hours]] !{{is|isn't}} lowest within [[period]]",
+		"sv": "Det genomsnittliga priset [[hours]] !{{är|är inte}} det lägsta inom [[period]]",
 		"it": "The avg. price [[hours]] !{{is|isn't}} lowest within [[period]]",
 		"nl": "De gem. prijs [[hours]] !{{is|is niet}} het laagst binnen [[period]]"
 	},
