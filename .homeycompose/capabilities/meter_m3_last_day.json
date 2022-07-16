@@ -5,6 +5,7 @@
     "de": "m³ vorheriger Tag",
     "sv": "m³ igår",
     "it": "m³ giorno precedente",
+    "no": "m³ forrige dag",
     "nl": "m³ vorige dag"
   },
   "uiComponent": null,

@@ -5,6 +5,7 @@
     "de": "Maximum",
     "sv": "Maximum",
     "it": "Massimo",
+    "no": "Maximum",
     "nl": "Maximum"
   },
   "uiComponent": "sensor",

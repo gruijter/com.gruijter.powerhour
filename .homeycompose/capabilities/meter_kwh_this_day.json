@@ -5,6 +5,7 @@
     "de": "kWh dieser Tag",
     "sv": "kWh idag",
     "it": "kWh giornata odierna",
+    "no": "kWh denne dag",
     "nl": "kWh deze dag"
   },
   "uiComponent": "sensor",

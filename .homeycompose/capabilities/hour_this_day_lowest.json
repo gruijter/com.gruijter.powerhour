@@ -5,6 +5,7 @@
     "de": "Niedrigste Stunde des Tages",
     "sv": "Lägsta timmen idag",
     "it": "Ora più bassa di questa giornata",
+    "no": "Laveste time denne dag",
     "nl": "Laagste uur deze dag"
   },
   "uiComponent": "sensor",

@@ -5,6 +5,7 @@
     "de": "kWh vorheriger Tag",
     "sv": "kWh igår",
     "it": "kWh giorno precedente",
+    "no": "kWh forrige dag",
     "nl": "kWh vorige dag"
   },
   "uiComponent": null,

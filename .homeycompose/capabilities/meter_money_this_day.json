@@ -5,6 +5,7 @@
     "de": "Geld dieser Tag",
     "sv": "Pengar idag",
     "it": "Spesa oggi",
+    "no": "Penger denne dag",
     "nl": "Geld deze dag"
   },
   "uiComponent": "sensor",

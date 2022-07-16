@@ -1,6 +1,6 @@
 {
   "id": "com.gruijter.powerhour",
-  "version": "4.4.5",
+  "version": "4.4.6",
   "compatibility": ">=5.0.0",
   "brandColor": "#df5020",
   "sdk": 3,
@@ -9,10 +9,10 @@
   },
   "description": {
     "en": "Summarize the energy/water usage or (solar) production per hour, day, month and year. Use dynamic tariffs.",
-    "no": "Summarize the energy/water usage or (solar) production per hour, day, month and year. Use dynamic tariffs.",
     "de": "Fassen Sie den Energie-/Wasserverbrauch oder die (Solar-) Erzeugung pro Stunde, Tag, Monat und Jahr zusammen. Profitieren Sie von dynamischen Tarife.",
     "sv": "Sammanfatta energi/vattenanvändning eller (sol)produktion per timme, dag, månad och år. Använd dynamiska tariffer.",
     "it": "Ricapitola il consumo di energia/acqua o la produzione (solare) per ora, giorno, mese e anno. Utilizza tariffe dinamiche.",
+    "no": "Summere energi/vann forbruk eller (solcellepanel) produksjon pr, time, dag, måned og år. Bruk dynamiske tariffer.",
     "nl": "Samenvatten van energie/water verbruik of (zonnepaneel) productie per uur, dag, maand en jaar. Gebruik dynamische tarieven."
   },
   "category": "energy",
@@ -83,7 +83,7 @@
         "name": "🇮🇹 Alessandro"
       },
       {
-        "name": "🇳🇱 Robin"
+        "name": "🇳🇴 Kai Engvik"
       }
     ]
   },

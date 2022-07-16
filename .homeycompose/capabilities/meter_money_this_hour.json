@@ -5,6 +5,7 @@
     "de": "Geld diese Stunde",
     "sv": "Pengar denna timme",
     "it": "Spesa ora corrente",
+    "no": "Penger denne time",
     "nl": "Geld dit uur"
   },
   "uiComponent": "sensor",

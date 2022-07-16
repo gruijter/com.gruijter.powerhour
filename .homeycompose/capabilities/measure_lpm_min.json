@@ -5,6 +5,7 @@
     "de": "Minimum",
     "sv": "Minimum",
     "it": "Minimo",
+    "no": "Minimum",
     "nl": "Minimum"
   },
   "uiComponent": "sensor",
@@ -17,6 +18,7 @@
     "de": "L/Minute",
     "sv": "L/minute",
     "it": "L/minuto",
+    "no": "L/minutt",
     "nl": "L/minuut"
   },
   "decimals": 2

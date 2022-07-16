@@ -5,6 +5,7 @@
     "de": "kWh vorherige Stunde",
     "sv": "kWh föregående timme",
     "it": "kWh ora precedente",
+    "no": "kWh forrige time",
     "nl": "kWh vorig uur"
   },
   "uiComponent": null,

@@ -34,6 +34,7 @@
         "de": "Informationen zum Homey Gerät",
         "sv": "Homey källenhetsinformation",
         "it": "Informazioni sul dispositivo sorgente Homey",
+        "no": "Homey kildeenhet informasjon",
         "nl": "Homey bronapparaat informatie"
       },
       "children": [
@@ -57,6 +58,7 @@
             "de": "Gerätename",
             "sv": "Enhets namn",
             "it": "Nome dispositivo",
+            "no": "Enhets navn",
             "nl": "Apparaat naam"
           },
           "value": "unknown"
@@ -69,6 +71,7 @@
             "de": "Gerätetyp",
             "sv": "Källenhetstyp",
             "it": "Tipo dispositivo sorgente",
+            "no": "Kildeenhet type",
             "nl": "Type bron apparaat"
           },
           "value": "Homey device",
@@ -77,6 +80,7 @@
             "de": "Homey Gerät oder virtuelles Gerät. Der Zähler eines virtuellen Geräts kann nur über einen Flow aktualisiert werden.",
             "sv": "Antingen Homey enhet eller virtuell enhet. Mätaren för en virtuell enhet kan endast uppdateras via ett flöde.",
             "it": "Dispositivo Homey o dispositivo virtuale. Il contatore di un dispositivo virtuale può essere aggiornato solo tramite un flow.",
+            "no": "Enten Homey enhet eller Virtual enhet. Meteret til en virtuell enhet kan bare bli oppdatert via en flow.",
             "nl": "Homey apparaat of virtueel apparaat. De meter van een virtueel apparaat kan alleen worden geupdated via een flow."
           }
         },
@@ -88,6 +92,7 @@
             "de": "Tägliches Zurücksetzen",
             "sv": "Har daglig återställning",
             "it": "Effettua un reset giornaliero",
+            "no": "Har daglig reset",
             "nl": "Heeft dagelijkse reset"
           },
           "hint": {
@@ -95,6 +100,7 @@
             "de": "Der Zähler dieses Geräts wird um Mitternacht auf 0 zurückgesetzt",
             "sv": "Mätaren för denna källenhet återställs varje midnatt till 0",
             "it": "Il contatore di questo dispositivo sorgente si azzera ogni mezzanotte",
+            "no": "Meteret til denne kildeenheten resetter hver midnatt til 0",
             "nl": "De meter van dit bronapparaat reset naar 0 om middernacht"
           },
           "value": false
@@ -107,6 +113,7 @@
             "de": "Update-Intervall (Minuten)",
             "sv": "Uppdateringsintervall (minuter)",
             "it": "Intervallo di aggiornamento (minuti)",
+            "no": "Oppdaterings intervall (minutter)",
             "nl": "Update interval (minuten)"
           },
           "hint": {
@@ -114,6 +121,7 @@
             "de": "Für sofortige Updates auf 0 setzen. Dies kann die Systemlast jedoch leicht erhöhen. Diese Einstellung wird nicht für virtuelle Geräte verwendet.",
             "sv": "Ställ in 0 för att få omedelbara uppdateringar. Detta kan öka systembelastningen något. Den här inställningen ignoreras för virtuella källenheter.",
             "it": "Impostare a 0 per avere aggiornamenti immediati. Ciò può aumentare leggermente il carico del sistema. Questa impostazione viene ignorata per i dispositivi sorgente virtuali.",
+            "no": "Sett til 0 for umiddelbar oppdatering. This can slightly increase system load. This setting is ignored for virtual source devices.",
             "nl": "Zet op 0 voor directe updates. Dit kan echter de systeem belasting iets verhogen. Deze instelling wordt niet gebruikt voor virtuele bron apparaten."
           },
           "value": 0,
@@ -130,6 +138,7 @@
         "de": "Zählerstände",
         "sv": "Mätaravläsningar",
         "it": "Letture contatore",
+        "no": "Meter verdier",
         "nl": "Meter waarden"
       },
       "children": [
@@ -141,6 +150,7 @@
             "de": "Startdatum neues Jahr",
             "sv": "Nytt år startdatum",
             "it": "Data inizio anno nuovo",
+            "no": "start dato for nytt år",
             "nl": "Start datum nieuw jaar"
           },
           "value": "0101",
@@ -149,7 +159,8 @@
             "nl": "Op deze datum wordt het jaar en maand totaal op 0 gezet. Het formaat is ddmm. Standaard is 0101 (1 january). LET OP: Als deze datum wordt gewijzigd zal Deze Maand Start en Dit Jaar Start handmatig aangepast moeten worden.",
             "de": "An diesem Datum wird die Monats- und Jahressumme auf 0 zurückgesetzt. Das Format ist ddmm. Standardwert ist 0101 (1. Januar). ACHTUNG: Wenn Sie dieses Datum ändern, müssen Sie die Werte 'Monatsbeginn' und 'Jahresbeginn' manuell korrigieren.",
             "sv": "På det här datumet återställs totalsumman för månad och år till 0. Formatet är ddmm. Standard är 0101 (1 januari). OBSERVERA: Om du ändrar detta datum måste du manuellt korrigera värdena för start för denna månad och start för detta år.",
-            "it": "In questa data, mese e anno saranno resettati. Il formato è ggmm. Default è 0101 (1 Gennaio). ATTENZIONE: se modifichi questa data dovrai correggere manualmente i valori Inzio Mese Corrente e Inzio Anno Corrente."
+            "it": "In questa data, mese e anno saranno resettati. Il formato è ggmm. Default è 0101 (1 Gennaio). ATTENZIONE: se modifichi questa data dovrai correggere manualmente i valori Inzio Mese Corrente e Inzio Anno Corrente.",
+            "no": "På denne dato vil total for måned og år resettes til 0. Format er ddmm. Default er 0101 (1 Januar). NB: Hvis du endrer denne datoen må du manuelt korrigere Denne måned start og  dette år start verdier."
           }
         },
         {
@@ -160,6 +171,7 @@
             "de": "Aktueller Zählerstand",
             "sv": "Nuvarande avläsning",
             "it": "Lettura attuale",
+            "no": "nåværende avlesning",
             "nl": "Huidige waarde"
           },
           "value": "0",
@@ -168,7 +180,8 @@
             "sv": "Detta är mätarställningen från käll enheten, uppdaterad en gång i timmen.",
             "nl": "Dit is de meter stand van het bronapparaat, eenmaal per uur geupdated.",
             "de": "Dies ist der Zählerstand des Homey Geräts, der einmal pro Stunde aktualisiert wird.",
-            "it": "Questa è la lettura del contatore dal dispositivo sorgente, aggiornata ogni ora."
+            "it": "Questa è la lettura del contatore dal dispositivo sorgente, aggiornata ogni ora.",
+            "no": "Dette er måleravlesningen fra kildeenheten, oppdatert en gang i timen."
           }
         },
         {
@@ -179,6 +192,7 @@
             "de": "Tagesbeginn",
             "sv": "Denna dag börjar",
             "it": "Inizio giorno corrente",
+            "no": "Startverdi denne dag",
             "nl": "Deze dag start"
           },
           "value": 0,
@@ -187,7 +201,8 @@
             "nl": "Geef de meterstand in aan het begin van deze dag. Het wordt middernacht automatisch geupdated.",
             "de": "Geben Sie den Zählerstand zu Beginn des Tages ein. Er wird um Mitternacht automatisch aktualisiert.",
             "sv": "Ange mätarställningen i början av denna dag. Den uppdateras automatiskt vid midnatt.",
-            "it": "Inserisci la lettura del contatore all'inizio di questa giornata. Viene aggiornata automaticamente a mezzanotte."
+            "it": "Inserisci la lettura del contatore all'inizio di questa giornata. Viene aggiornata automaticamente a mezzanotte.",
+            "no": "Legg inn målerverdi ved denne dagens start. Den blir automatisk oppdatert ved midnatt."
           }
         },
         {
@@ -198,6 +213,7 @@
             "de": "Monatsbeginn",
             "sv": "Denna månad börjar",
             "it": "Inizio mese corrente",
+            "no": "Startverdi denne måned",
             "nl": "Deze maand start"
           },
           "value": 0,
@@ -206,7 +222,8 @@
             "nl": "Geef de meterstand in aan het begin van deze maand. Het wordt de eerste dag van de maand automatisch geupdated.",
             "de": "Geben Sie den Zählerstand zu Beginn des Monats ein. Er wird automatisch am ersten Tag eines neuen Monats aktualisiert.",
             "sv": "Ange mätarställningen i början av denna månad. Den uppdateras automatiskt första dagen i en ny månad.",
-            "it": "Inserisci la lettura del contatore all'inizio di questo mese. Viene aggiornata automaticamente il primo giorno del nuovo mese."
+            "it": "Inserisci la lettura del contatore all'inizio di questo mese. Viene aggiornata automaticamente il primo giorno del nuovo mese.",
+            "no": "Legg inn målerverdi ved denne måneds start. Den blir automatisk oppdatert første dagen ved ny måned."
           }
         },
         {
@@ -217,6 +234,7 @@
             "de": "Jahresbeginn",
             "sv": "Årets start",
             "it": "Inizio anno corrente",
+            "no": "Startverdi dette år",
             "nl": "Dit jaar start"
           },
           "value": 0,
@@ -225,7 +243,8 @@
             "nl": "Geef de meterstand in aan het begin van dit jaar. Het wordt de eerste dag van het jaar automatisch geupdated.",
             "de": "Geben Sie den Zählerstand zu Beginn des Jahres ein. Er wird am ersten Tag eines neuen Jahres automatisch aktualisiert.",
             "sv": "Ange mätarställningen i början av detta år. Den uppdateras automatiskt första dagen på ett nytt år.",
-            "it": "Inserisci la lettura del contatore all'inizio di quest'anno. Viene aggiornata automaticamente il primo giorno del nuovo anno."
+            "it": "Inserisci la lettura del contatore all'inizio di quest'anno. Viene aggiornata automaticamente il primo giorno del nuovo anno.",
+            "no": "Legg inn målerverdi ved dette årets start. Den blir automatisk oppdatert første dagen ved nytt år."
           }
         },
         {
@@ -236,6 +255,7 @@
             "de": "Min/Max Werte zurücksetzen",
             "sv": "Återställ Min/Max-värden",
             "it": "Resetta i valori Min/Max",
+            "no": "Resett Min/Max verdier",
             "nl": "Reset Min/Max waarden"
           },
           "values": [
@@ -246,6 +266,7 @@
                 "de": "Stunde",
                 "sv": "timme",
                 "it": "Ora",
+                "no": "Time",
                 "nl": "Uur" }
             },
             {
@@ -255,6 +276,7 @@
                 "de": "Tag",
                 "sv": "Dag",
                 "it": "Giorno",
+                "no": "Dag",
                 "nl": "Dag" }
             },
             {
@@ -264,6 +286,7 @@
                 "de": "Monat",
                 "sv": "Månad",
                 "it": "Mese",
+                "no": "Måned",
                 "nl": "Maand" }
             },
             {
@@ -273,6 +296,7 @@
                 "de": "Jahr",
                 "sv": "År",
                 "it": "Anno",
+                "no": "År",
                 "nl": "Jaar" }
             },
             {
@@ -282,6 +306,7 @@
                 "de": "Nie",
                 "sv": "Aldrig",
                 "it": "Mai",
+                "no": "Aldri",
                 "nl": "Nooit" }
             }
           ],
@@ -291,6 +316,7 @@
             "de": "Die Min/Max Werte werden bei jeder neuen Periode zurückgesetzt. Die Werte können auch jederzeit über einen Flow zurückgesetzt werden.",
             "sv": "Minsta/maximivärdena återställs vid varje ny period. Värdena kan också återställas när som helst via ett flöde.",
             "it": "I valori minimo/massimo saranno resettati ad ogni nuovo periodo. I valori possono anche essere resettati in qualsiasi momento tramite un flow.",
+            "no": "Minimum/maximum verdiene blir resatt hver ny periode. Verdiene kan også bli resatt når som helst via flow.",
             "nl": "De minimum/maximum waarden worden iedere nieuwe periode gereset. De waarden kunnen ook op ieder moment worden gereset via een flow."
           }
         }
@@ -303,6 +329,7 @@
         "de": "Geldbetrag",
         "sv": "Penningvärde",
         "it": "Valore monetario",
+        "no": "Pengeverdi",
         "nl": "Geldwaarde"
       },
       "children": [
@@ -314,6 +341,7 @@
             "de": "Währung",
             "sv": "Valutaenhet",
             "it": "Unità valuta",
+            "no": "Valuta enhet",
             "nl": "Geldeenheid"
           },
           "value": "¤",
@@ -322,6 +350,7 @@
             "de": "Die als Währung angezeigte Einheit, z.B. €, £, EUR, SER, NOK, DKK, CHF. Leer lassen, um die Standardeinstellung zu verwenden ¤.",
             "sv": "Enheten som visas som valuta, t.ex. €, £, EUR, SER, NOK, DKK, CHF. Lämna tomt för att använda standardvärdet ¤.",
             "it": "L'unità visualizzata come valuta, es. €, £, EUR, SER, NOK, DKK, CHF. Lasciare vuoto per utilizzare ¤ di default.",
+            "no": "Enheten vist som valuta, e.g. €, £, EUR, SER, NOK, DKK, CHF. La være blank for å bruke default ¤.",
             "nl": "De weergegeven eenheid voor geld, bijv. €, £, EUR, SER, NOK, DKK, CHF. Laat leeg om de standaard ¤ te gebruiken."
           }
         },
@@ -333,6 +362,7 @@
             "de": "Anzahl Dezimalstellen",
             "sv": "Valuta decimaler",
             "it": "Decimali valuta",
+            "no": "Valuta desimaler",
             "nl": "Geld decimalen"
           },
           "value": 2,
@@ -343,6 +373,7 @@
             "de": "Die Anzahl der Dezimalstellen für den Preis.",
             "sv": "Antalet decimaler som ska användas för monetärt värde.",
             "it": "Il numero di decimali da utilizzare per il valore monetario.",
+            "no": "Antall desimaler for pengeverdi.",
             "nl": "Het aantal decimalen voor geldwaarde."
           }
         },
@@ -354,6 +385,7 @@
             "de": "Aktueller Tarif pro m³",
             "sv": "Faktisk tariff per m³",
             "it": "Tariffa attuale per m³",
+            "no": "Aktuell tariff per m³",
             "nl": "Actueel tarief per m³"
           },
           "value": 0.75,
@@ -363,6 +395,7 @@
             "de": "Der Kurs wird zur Berechnung des Geldbetrags verwendet. Er kann über einen Flow dynamisch angepasst werden.",
             "sv": "Tariffen används för att beräkna penningvärdet. Det kan ändras dynamiskt via ett flöde.",
             "it": "La tariffa è utilizzata per calcolare il valore monetario. Può essere cambiata dinamicamente tramite un flow.",
+            "no": "Tariffen blir brukt til å kalkulere pengeverdien. Den kan endres dynamisk via en flow.",
             "nl": "Het tarief wordt gebruikt om de geldwaarde te berekenen. Het kan dynamisch worden aangepast via een flow."
           }
         },
@@ -374,6 +407,7 @@
             "de": "Tarif über Flow oder DAP",
             "sv": "Tariff via flöde eller DAP",
             "it": "Tariffa via flow o DAP",
+            "no": "Tariff via flow eller DAP",
             "nl": "Tarief via flow of DAP"
           },
           "value": true,
@@ -382,6 +416,7 @@
             "de": "Dieses Gerät mit einbeziehen, wenn Sie einen neuen Tarif über Flow oder DAP festlegen.",
             "sv": "Inkludera denna enhet när du ställer in en ny tariff via flöde eller DAP.",
             "it": "Includi questo dispositivo quando imposti una nuova tariffa via flow o DAP.",
+            "no": "Inkluder denne enheten når ny tariff blir satt via flow eller DAP.",
             "nl": "Dit apparaat meenemen bij het instellen van een nieuw tarief via flow of DAP."
           }
         },
@@ -393,6 +428,7 @@
             "de": "Geldbetrag des Tages",
             "sv": "Dagens monetära värde",
             "it": "Valore monetario odierno",
+            "no": "Kostnad denne dag",
             "nl": "Geldwaarde van deze dag"
           },
           "value": 0,
@@ -402,6 +438,7 @@
             "de": "Aktueller Geldbetrag. Er wird automatisch aktualisiert.",
             "sv": "Faktiskt penningvärde. Den uppdateras automatiskt.",
             "it": "Valore monetario corrente. Viene aggiornato automaticamente.",
+            "no": "Aktuell Kostnad. Blir automatisk oppdatert",
             "nl": "Actuele gelwaarde. Wordt automatisch geupdated."
           }
         },
@@ -413,6 +450,7 @@
             "de": "Geldbetrag des Monats",
             "sv": "Denna månads monetära värde",
             "it": "Valore monetario mese corrente",
+            "no": "Kostnad denne måned",
             "nl": "Geldwaarde van deze maand"
           },
           "value": 0,
@@ -422,6 +460,7 @@
             "de": "Aktueller Geldbetrag. Er wird automatisch aktualisiert.",
             "sv": "Faktiskt penningvärde. Den uppdateras automatiskt.",
             "it": "Valore monetario corrente. Viene aggiornato automaticamente.",
+            "no": "Aktuell Kostnad. Blir automatisk oppdatert",
             "nl": "Actuele gelwaarde. Wordt automatisch geupdated."
           }
         },
@@ -433,6 +472,7 @@
             "de": "Geldbetrag des Jahres",
             "sv": "Årets monetära värde",
             "it": "Valore monetario anno corrente",
+            "no": "Kostnad dette år",
             "nl": "Geldwaarde van dit jaar"
           },
           "value": 0,
@@ -442,6 +482,7 @@
             "de": "Aktueller Geldbetrag. Er wird automatisch aktualisiert.",
             "sv": "Faktiskt penningvärde. Den uppdateras automatiskt.",
             "it": "Valore monetario corrente. Viene aggiornato automaticamente.",
+            "no": "Aktuell kostnad. Blir automatisk oppdatert",
             "nl": "Actuele gelwaarde. Wordt automatisch geupdated."
           }
         },
@@ -453,6 +494,7 @@
             "de": "Geldbetrag des Vortages",
             "sv": "Monetärt värde igår",
             "it": "Valore monetario giorno prec.",
+            "no": "Kostnad forrige dag",
             "nl": "Geldwaarde van vorige dag"
           },
           "value": 0,
@@ -462,6 +504,7 @@
             "de": "Geldbetrag des Vortages. Er wird automatisch aktualisiert.",
             "sv": "Monetärt värde för föregående dag. Den uppdateras automatiskt.",
             "it": "Valore monetario del giorno precedente. Viene aggiornato automaticamente.",
+            "no": "Kostnad forrige dag. Blir automatisk oppdatert",
             "nl": "Gelwaarde van de vorige dag. Wordt automatisch geupdated."
           }
         },
@@ -473,6 +516,7 @@
             "de": "Geldbetrag des Vormonats",
             "sv": "Monetärt värde föregående månad",
             "it": "Valore monetario mese prec.",
+            "no": "Kostnad forrige måned",
             "nl": "Geldwaarde van vorige maand"
           },
           "value": 0,
@@ -482,6 +526,7 @@
             "de": "Geldbetrag des Vormonats. Er wird automatisch aktualisiert.",
             "sv": "Föregående månads monetära värde. Den uppdateras automatiskt.",
             "it": "Valore monetario del mese precedente. Viene aggiornato automaticamente.",
+            "no": "Kostnad forrige måned. Blir automatisk oppdatert",
             "nl": "Gelwaarde van de vorige maand. Wordt automatisch geupdated."
           }
         },
@@ -493,6 +538,7 @@
             "de": "Geldbetrag des Vorjahres",
             "sv": "Monetärt värde föregående år",
             "it": "Valore monetario anno prec.",
+            "no": "Kostnad forrige dag",
             "nl": "Geldwaarde van vorig jaar"
           },
           "value": 0,
@@ -502,6 +548,7 @@
             "de": "Geldbetrag des Vorjahres. Er wird automatisch aktualisiert.",
             "sv": "Föregående års monetära värde. Den uppdateras automatiskt.",
             "it": "Valore monetario dell'anno precedente. Viene aggiornato automaticamente.",
+            "no": "Kostnad forrige år. Blir automatisk oppdatert",
             "nl": "Gelwaarde van het vorige jaar. Wordt automatisch geupdated."
           }
         }

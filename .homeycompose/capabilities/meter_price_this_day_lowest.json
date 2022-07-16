@@ -5,6 +5,7 @@
     "de": "Niedrigster Preis an diesem Tag",
     "sv": "Lägsta pris idag",
     "it": "Prezzo più basso giornata odierna",
+    "no": "Gjennomsnittpris denne dag",
     "nl": "Laagste prijs deze dag"
   },
   "uiComponent": "sensor",

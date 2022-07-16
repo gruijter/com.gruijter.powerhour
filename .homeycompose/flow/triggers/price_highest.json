@@ -4,6 +4,7 @@
 		"de": "Preis wird am höchsten",
 		"sv": "Priset blir det högsta",
 		"it": "Il prezzo diventa più alto",
+		"no": "Prisen blir høyest",
 		"nl": "De prijs wordt het hoogst"
 	},
 	"titleFormatted": {
@@ -11,6 +12,7 @@
 		"de": "Preis wird am höchsten für [[period]]",
 		"sv": "Priset blir högst för [[period]]",
 		"it": "Il prezzo diventa più alto per [[period]]",
+		"no": "Prisen blir høyest for [[period]]",
 		"nl": "De prijs wordt het hoogst voor [[period]]"
 	},
 	"highlight": true,
@@ -28,6 +30,7 @@
 				"de": "Zeitraum",
 				"sv": "period",
 				"it": "periodo",
+				"no": "periode",
 				"nl": "periode"
 			},
 			"values": [
@@ -37,6 +40,7 @@
 						"de": "diesen Tag",
 						"sv": "idag",
 						"it": "giornata odierna",
+						"no": "denne dag",
 						"nl": "deze dag"
 					}
 				},
@@ -46,6 +50,7 @@
 						"de": "die nächsten 2 Std.",
 						"sv": "nästa 2H",
 						"it": "prossime 2h",
+						"no": "neste 2T",
 						"nl": "komende 2U"
 					}
 				},
@@ -55,6 +60,7 @@
 						"de": "die nächsten 3 Std.",
 						"sv": "nästa 3H",
 						"it": "prossime 3h",
+						"no": "neste 3T",
 						"nl": "komende 3U"
 					}
 				},
@@ -64,6 +70,7 @@
 						"de": "die nächsten 4 Std.",
 						"sv": "nästa 4H",
 						"it": "prossime 4h",
+						"no": "neste 4T",
 						"nl": "komende 4U"
 					}
 				},
@@ -73,6 +80,7 @@
 						"de": "die nächsten 5 Std.",
 						"sv": "nästa 5H",
 						"it": "prossime 5h",
+						"no": "neste 5T",
 						"nl": "komende 5U"
 					}
 				},
@@ -82,6 +90,7 @@
 						"de": "die nächsten 6 Std.",
 						"sv": "nästa 6H",
 						"it": "prossime 6h",
+						"no": "neste 6T",
 						"nl": "komende 6U"
 					}
 				},
@@ -91,6 +100,7 @@
 						"de": "die nächsten 7 Std.",
 						"sv": "nästa 7H",
 						"it": "prossime 7h",
+						"no": "neste 7T",
 						"nl": "komende 7U"
 					}
 				},
@@ -100,6 +110,7 @@
 						"de": "die nächsten 8 Std.",
 						"sv": "nästa 8H",
 						"it": "prossime 8h",
+						"no": "neste 8T",
 						"nl": "komende 8U"
 					}
 				}
@@ -114,6 +125,7 @@
 			"de": "Preis aktuell",
 			"sv": "Pris just nu",
 			"it": "Prezzo attuale",
+			"no": "Pris nå",
 			"nl": "Prijs nu"
 		},
 		"type": "number",

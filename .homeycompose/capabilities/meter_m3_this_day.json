@@ -5,6 +5,7 @@
     "de": "m³ dieser Tag",
     "sv": "m³ idag",
     "it": "m³ giornata odierna",
+    "no": "m³ denne dag",
     "nl": "m³ deze dag"
   },
   "uiComponent": "sensor",

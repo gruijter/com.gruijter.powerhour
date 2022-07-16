@@ -5,6 +5,7 @@
     "de": "Minimum",
     "sv": "Minimum",
     "it": "Minimo",
+    "no": "Minimum",
     "nl": "Minimum"
   },
   "uiComponent": "sensor",

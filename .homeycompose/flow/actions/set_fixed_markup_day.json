@@ -4,6 +4,7 @@
     "de": "Neuen Aufschlag für den Tag festlegen",
     "sv": "Ställ in en ny dagtidspåslag",
     "it": "Imposta un nuovo sovraprezzo diurno",
+    "no": "Sett en ny dagtid avgift",
     "nl": "Stel een nieuwe opslag in voor overdag"
   },
   "titleFormatted": {
@@ -11,6 +12,7 @@
     "de": "Tagesaufschlag einstellen auf [[value]]",
     "sv": "Ställ in dagtidspåslag till [[value]]",
     "it": "Imposta sovraprezzo diurno a [[value]]",
+    "no": "Sett en ny dagtid avgift til [[value]]",
     "nl": "Stel opslag overdag in op [[value]]"
   },
   "args": [
@@ -27,6 +29,7 @@
         "de": "Extra Aufschlag pro kWh/m3",
         "sv": "Extra påslag per kWh eller m3",
         "it": "Sovraprezzo extra per kWh o m3",
+        "no": "Ekstra avgift per kWh or m3",
         "nl": "Extra opslag per kWh of m3"
       }
     }
