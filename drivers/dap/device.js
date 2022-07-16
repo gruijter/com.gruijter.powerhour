@@ -26,6 +26,7 @@ const DAPEL = require('../../entsoe');
 const DAPGASTTF = require('../../frankenergy');
 const DAPGASLEBA = require('../../easyenergy');
 const ECB = require('../../ecb_exchange_rates');
+// const { info } = require('console');
 
 const setTimeoutPromise = util.promisify(setTimeout);
 
@@ -242,6 +243,107 @@ class MyDevice extends Homey.Device {
 		}
 	}
 
+	async priceIsLowest(args) {
+		if (!this.state || !this.state.pricesThisDay) throw Error('no prices available');
+		let minimum = Math.min(...this.state.pricesThisDay);
+		if (args.period !== 'this_day') minimum = Math.min(...this.state.pricesNext8h.slice(0, Number(args.period)));
+		return this.state.priceNow <= minimum;
+	}
+
+	async priceIsLowestToday(args) {
+		if (!this.state || !this.state.pricesThisDay) throw Error('no prices available');
+		// sort and select number of lowest prices
+		const lowestNPrices = [...this.state.pricesThisDay].sort().slice(0, args.number);
+		return this.state.priceNow <= Math.max(...lowestNPrices);
+	}
+
+	async priceIsLowestBefore(args) {
+		if (!this.state || !this.state.pricesThisDay) throw Error('no prices available');
+		// calculate start and end hours compared to present hour
+		const thisHour = this.state.H0; // e.g. 23 hrs
+		let endHour = args.time; // e.g. 2 hrs
+		if (endHour < thisHour) endHour += 24; // e.g. 2 + 24 = 26 hrs ( = tomorrow!)
+		let startHour = endHour - args.period; // e.g. 26 - 4 = 22 hrs
+		// check if present hour is in scope op selected period
+		if ((thisHour >= endHour) || (thisHour < startHour)) return false;
+		// get period (2-8) hours pricing before end time
+		let pricesPartYesterday = [];
+		if (startHour < 0) {
+			pricesPartYesterday = this.state.pricesYesterday.slice(startHour);
+			startHour = 0;
+		}
+		let pricesPartTomorrow = [];
+		if (endHour > 24) pricesPartTomorrow = this.state.pricesTomorrow.slice(0, endHour - 24);
+		const pricesPartToday = this.state.pricesThisDay.slice(startHour, endHour);
+		const pricesTotalPeriod = [...pricesPartYesterday, ...pricesPartToday, ...pricesPartTomorrow];
+		// sort and select number of lowest prices
+		const lowestNPrices = pricesTotalPeriod.sort().slice(0, args.number);
+		return this.state.priceNow <= Math.max(...lowestNPrices);
+	}
+
+	async priceIsLowestAvg(args) {
+		if (!this.state || !this.state.pricesThisDay) throw Error('no prices available');
+		// args.period: '8' or 'this_day'  // args.hours: '2', '3', '4', '5' or '6'
+		let prices = [...this.state.pricesNext8h];
+		// calculate all avg prices for x hour periods for next 8 hours
+		const avgPricesNext8h = [];
+		prices.forEach((price, index) => {
+			if (index > prices.length - Number(args.hours)) return;
+			const hours = prices.slice(index, (index + Number(args.hours)));
+			const avgPrice = (hours.reduce((a, b) => a + b, 0)) / hours.length;
+			avgPricesNext8h.push(avgPrice);
+		});
+		let minAvgPrice = Math.min(...avgPricesNext8h);
+		// calculate all avg prices for x hour periods for this_day
+		if (args.period === 'this_day') {
+			prices = [...this.state.pricesThisDay];
+			const avgPricesThisDay = [];
+			prices.forEach((price, index) => {
+				if (index > prices.length - Number(args.hours)) return;
+				const hours = prices.slice(index, (index + Number(args.hours)));
+				const avgPrice = (hours.reduce((a, b) => a + b, 0)) / hours.length;
+				avgPricesThisDay.push(avgPrice);
+			});
+			minAvgPrice = Math.min(...avgPricesThisDay);
+		}
+		return avgPricesNext8h[0] <= minAvgPrice;
+	}
+
+	async priceIsHighest(args) {
+		if (!this.state || !this.state.pricesThisDay) throw Error('no prices available');
+		let maximum = Math.max(...this.state.pricesThisDay);
+		if (args.period !== 'this_day') maximum = Math.max(...this.state.pricesNext8h.slice(0, Number(args.period)));
+		return this.state.priceNow >= maximum;
+	}
+
+	async priceIsHighestAvg(args) {
+		if (!this.state || !this.state.pricesThisDay) throw Error('no prices available');
+		// args.period: '8' or 'this_day'  // args.hours: '2', '3', '4', '5' or '6'
+		let prices = [...this.state.pricesNext8h];
+		// calculate all avg prices for x hour periods for next 8 hours
+		const avgPricesNext8h = [];
+		prices.forEach((price, index) => {
+			if (index > prices.length - Number(args.hours)) return;
+			const hours = prices.slice(index, (index + Number(args.hours)));
+			const avgPrice = (hours.reduce((a, b) => a + b, 0)) / hours.length;
+			avgPricesNext8h.push(avgPrice);
+		});
+		let maxAvgPrice = Math.max(...avgPricesNext8h);
+		// calculate all avg prices for x hour periods for this_day
+		if (args.period === 'this_day') {
+			prices = [...this.state.pricesThisDay];
+			const avgPricesThisDay = [];
+			prices.forEach((price, index) => {
+				if (index > prices.length - Number(args.hours)) return;
+				const hours = prices.slice(index, (index + Number(args.hours)));
+				const avgPrice = (hours.reduce((a, b) => a + b, 0)) / hours.length;
+				avgPricesThisDay.push(avgPrice);
+			});
+			maxAvgPrice = Math.max(...avgPricesThisDay);
+		}
+		return avgPricesNext8h[0] >= maxAvgPrice;
+	}
+
 	async fetchPrices() {
 		try {
 			this.log('fetching prices of today and tomorrow (when available)');
@@ -280,10 +382,15 @@ class MyDevice extends Homey.Device {
 	}
 
 	// add markUp for a day [0...23], and convert from mWh>kWh
-	async markUpPrices([...array]) {
+	async markUpPrices(priceInfo) {
+		if (!priceInfo.timeInterval) return priceInfo.prices;
+		const priceDate = new Date(new Date(priceInfo.timeInterval.start).toLocaleString('en-US', { timeZone: this.timeZone }));
+		const isWeekend = priceDate.getDay() === 0 || priceDate.getDay() === 6; // 0 = sunday, 6 = saturday
+		const array = [...priceInfo.prices];
 		return array.map((price, index) => {
 			let muPrice = ((price * this.settings.exchangeRate * (1 + this.settings.variableMarkup / 100)) / 1000) + this.settings.fixedMarkup;
-			if ((index >= 22) || (index < 6)) {	muPrice += this.settings.fixedMarkupNight; } else { muPrice += this.settings.fixedMarkupDay; }
+			if ((this.settings.weekendHasNightMarkup && isWeekend)
+				|| ((index >= 22) || (index < 6))) { muPrice += this.settings.fixedMarkupNight;	} else { muPrice += this.settings.fixedMarkupDay; }
 			return muPrice;
 		});
 	}
@@ -313,14 +420,13 @@ class MyDevice extends Homey.Device {
 				this.log(`${this.getName()} has no price information available for yesterday`);
 				this.pricesYesterday = 	{ prices: [] };
 			}
-			const pricesYesterday = await this.markUpPrices(this.pricesYesterday.prices);
-
+			const pricesYesterday = await this.markUpPrices(this.pricesYesterday);
 			// Array pricesTomorrow with markUp
 			let pricesTomorrow = [];
-			if (prices[1] && prices[1].prices) pricesTomorrow = await this.markUpPrices(prices[1].prices);
+			if (prices[1] && prices[1].prices) pricesTomorrow = await this.markUpPrices(prices[1]);
 
 			// Array pricesThisDay with markUp
-			const pricesThisDay = await this.markUpPrices(prices[0].prices);
+			const pricesThisDay = await this.markUpPrices(prices[0]);
 			const priceThisDayAvg = average(pricesThisDay);
 
 			// Array pricesNext8h with markUp
@@ -359,6 +465,7 @@ class MyDevice extends Homey.Device {
 				this_day_avg: priceThisDayAvg,
 				next_8h_avg: priceNext8hAvg,
 			};
+			this.state = state;
 			this.homey.app.triggerPriceHighest(this, tokens, state);
 			this.homey.app.triggerPriceAboveAvg(this, tokens, state);
 			this.homey.app.triggerPriceHighestAvg(this, tokens, state);

@@ -1,0 +1,39 @@
+{
+	"title": {
+		"en": "The price !{{is|isn't}} on of the lowest of today",
+		"de": "The price !{{is|isn't}} on of the lowest of today",
+		"sv": "The price !{{is|isn't}} on of the lowest of today",
+		"it": "The price !{{is|isn't}} on of the lowest of today",
+		"nl": "De prijs !{{is|is niet} één van de laagste van vandaag"
+	},
+	"titleFormatted": {
+		"en": "The price !{{is|isn't}} one of [[number]] lowest of today",
+		"de": "The price !{{is|isn't}} one of [[number]] lowest of today",
+		"sv": "The price !{{is|isn't}} one of [[number]] lowest of today",
+		"it": "The price !{{is|isn't}} one of [[number]] lowest of today",
+		"nl": "De prijs !{{is|is niet} een van de [[number]] laagste van vandaag"
+	},
+	"highlight": true,
+	"args": [
+		{
+		  "type": "device",
+		  "name": "device",
+		  "filter": "driver_id=dap"
+		},
+		{
+			"type": "number",
+			"name": "number",
+			"title": { 
+				"en": "number",
+				"de": "Anzahl",
+				"sv": "antal",
+				"it": "numero",
+				"nl": "aantal"
+			},
+			"placeholder": { "en": "1 - 16" },
+			"min": 1,
+			"max": 16,
+			"step": 1
+		}
+	]
+}

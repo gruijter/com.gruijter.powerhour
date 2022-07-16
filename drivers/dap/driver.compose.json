@@ -318,7 +318,26 @@
             "de": "Geben Sie den Betrag ein, um den der Preis pro kWh oder m3 während der Nacht (22:00-06:00) zusätzlich erhöht werden muss.",
             "sv": "Ange det belopp med vilket priset ytterligare ska höjas per kWh eller m3 nattetid (22:00-06:00).",
             "it": "Imposta l'incremento aggiuntivo per kWh o m3 durante l'orario notturno (22:00-06:00).",
-            "nl": "Voer het bedrag in waarmee de prijs per kWh of m3 extra verhoogd moet worden 's nachts (22:00-06:00)"
+            "nl": "Voer het bedrag in waarmee de prijs per kWh of m3 extra verhoogd moet worden 's nachts (22:00-06:00)."
+          }
+        },
+        {
+          "id": "weekendHasNightMarkup",
+          "type": "checkbox",
+          "label": {
+            "en": "Weekend same as night time",
+            "de": "Weekend same as night time",
+            "sv": "Weekend same as night time",
+            "it": "Weekend same as night time",
+            "nl": "Weekend gelijk aan 's nachts"
+          },
+          "value": false,
+          "hint": {
+            "en": "If enabled the night time markup will be applied during the whole weekend (Saturday - Sunday).",
+            "de": "If enabled the night time markup will be applied during the whole weekend (Saturday - Sunday).",
+            "sv": "If enabled the night time markup will be applied during the whole weekend (Saturday - Sunday).",
+            "it": "If enabled the night time markup will be applied during the whole weekend (Saturday - Sunday).",
+            "nl": "Indien geactiveerd wordt nacht verhoging het hele weekend toegepast (zaterdag - zondag)."
           }
         }
       ]

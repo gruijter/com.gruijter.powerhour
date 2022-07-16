@@ -1,17 +1,17 @@
 {
 	"title": {
-		"en": "The avg. price next hours becomes highest",
-		"de": "Durchschn. Preis wird in den kommenden Std. am höchsten sein",
-		"sv": "Det genomsnittliga priset kommande timmar blir högst",
-		"it": "Il prezzo medio sarà più alto nelle prossime ore",
-		"nl": "De gem. prijs de komende uren wordt het hoogst"
+		"en": "The avg. price next hours !{{is|isn't}} highest",
+		"de": "The avg. price next hours !{{is|isn't}} highest",
+		"sv": "The avg. price next hours !{{is|isn't}} highest",
+		"it": "The avg. price next hours !{{is|isn't}} highest",
+		"nl": "De gem. prijs de komende uren !{{is|is niet}} het hoogst"
 	},
 	"titleFormatted": {
-		"en": "The avg. price [[hours]] becomes highest within [[period]]",
-		"de": "Durchschn. Preis [[hours]] wird am höchsten innerhalb [[period]]",
-		"sv": "Det genomsnittliga priset [[hours]] blir högst inom [[period]]",
-		"it": "Il prezzo medio a [[hours]] diventa più alto entro [[period]]",
-		"nl": "De gem. prijs [[hours]] wordt het hoogst binnen [[period]]"
+		"en": "The avg. price [[hours]] !{{is|isn't}} highest within [[period]]",
+		"de": "The avg. price [[hours]] !{{is|isn't}} highest within [[period]]",
+		"sv": "The avg. price [[hours]] !{{is|isn't}} highest within [[period]]",
+		"it": "The avg. price [[hours]] !{{is|isn't}} highest within [[period]]",
+		"nl": "De gem. prijs [[hours]] !{{is|is niet}} het hoogst binnen [[period]]"
 	},
 	"highlight": true,
 	"args": [
@@ -108,20 +108,6 @@
 					}
 				}
 			]
-		}
-	],
-	"tokens": [
-		{
-		"name": "meter_price_h0",
-		"title": {
-			"en": "Price now",
-			"de": "Preis aktuell",
-			"sv": "Pris just nu",
-			"it": "Prezzo attuale",
-			"nl": "Prijs nu"
-		},
-		"type": "number",
-		"example": 27.5
 		}
 	]
 }

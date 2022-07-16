@@ -1,7 +1,7 @@
 {
   "_comment": "This file is generated. Please edit .homeycompose/app.json instead.",
   "id": "com.gruijter.powerhour",
-  "version": "4.4.4",
+  "version": "4.4.5",
   "compatibility": ">=5.0.0",
   "brandColor": "#df5020",
   "sdk": 3,
@@ -78,10 +78,10 @@
         "name": "🇳🇱 Robin de Gruijter"
       },
       {
-        "name": "sv Ted Dÿring"
+        "name": "🇸🇪 Ted Dÿring"
       },
       {
-        "name": "IT Alessandro"
+        "name": "🇮🇹 Alessandro"
       },
       {
         "name": "🇳🇱 Robin"
@@ -147,7 +147,7 @@
       {
         "title": {
           "en": "The price has changed",
-          "de": "Der Preis hat sich geändert",
+          "de": "Preis hat sich geändert",
           "sv": "Priset har förändrats",
           "it": "Il prezzo è cambiato",
           "nl": "De prijs is veranderd"
@@ -179,14 +179,14 @@
       {
         "title": {
           "en": "The price becomes above avg.",
-          "de": "Der Preis wird höher sein als der Durchschnitt",
+          "de": "Preis wird höher sein als der Durchschn.",
           "sv": "Priset blir över snittet.",
           "it": "Il prezzo diventa oltre la media",
           "nl": "De prijs wordt hoger dan gem."
         },
         "titleFormatted": {
           "en": "The price becomes [[percent]] above avg. [[period]]",
-          "de": "Der Preis wird [[percent]] höher sein als der Durchschnitt [[period]]",
+          "de": "Preis wird [[percent]] höher sein als der Durchschn. [[period]]",
           "sv": "Priset blir [[percent]] över snittet. [[period]]",
           "it": "Il prezzo diventa [[percent]] oltre la media di [[period]]",
           "nl": "De prijs wordt [[percent]] hoger dan gem. [[period]]"
@@ -258,7 +258,7 @@
                 "id": "this_day_avg",
                 "label": {
                   "en": "this day",
-                  "de": "dieses Tages",
+                  "de": "des Tages",
                   "sv": "idag",
                   "it": "giornata odierna",
                   "nl": "deze dag"
@@ -296,14 +296,14 @@
       {
         "title": {
           "en": "The price becomes below avg.",
-          "de": "Der Preis wird niedriger sein als der Durchschnitt",
+          "de": "Preis wird niedriger sein als der Durchschn.",
           "sv": "Priset blir under snittet.",
           "it": "Il prezzo diventa sotto la media",
           "nl": "De prijs wordt lager dan gem."
         },
         "titleFormatted": {
           "en": "The price becomes [[percent]] below avg. [[period]]",
-          "de": "Der Preis wird [[percent]] niedriger sein als der Durchschnitt [[period]]",
+          "de": "Preis wird [[percent]] niedriger sein als der Durchschn. [[period]]",
           "sv": "Priset blir [[percent]] under snittet. [[period]]",
           "it": "Il prezzo diventa [[percent]] sotto la media di [[period]]",
           "nl": "De prijs wordt [[percent]] lager dan gem. [[period]]"
@@ -375,7 +375,7 @@
                 "id": "this_day_avg",
                 "label": {
                   "en": "this day",
-                  "de": "dieses Tages",
+                  "de": "des Tages",
                   "sv": "idag",
                   "it": "giornata odierna",
                   "nl": "deze dag"
@@ -413,14 +413,14 @@
       {
         "title": {
           "en": "The price becomes highest",
-          "de": "Der Preis wird am höchsten",
+          "de": "Preis wird am höchsten",
           "sv": "Priset blir det högsta",
           "it": "Il prezzo diventa più alto",
           "nl": "De prijs wordt het hoogst"
         },
         "titleFormatted": {
           "en": "The price becomes highest for [[period]]",
-          "de": "Der Preis wird am höchsten für [[period]]",
+          "de": "Preis wird am höchsten für [[period]]",
           "sv": "Priset blir högst för [[period]]",
           "it": "Il prezzo diventa più alto per [[period]]",
           "nl": "De prijs wordt het hoogst voor [[period]]"
@@ -545,17 +545,17 @@
       {
         "title": {
           "en": "The avg. price next hours becomes highest",
-          "de": "Der Durchschnittspreis wird in den kommenden Stunden am höchsten sein",
+          "de": "Durchschn. Preis wird in den kommenden Std. am höchsten sein",
           "sv": "Det genomsnittliga priset kommande timmar blir högst",
           "it": "Il prezzo medio sarà più alto nelle prossime ore",
           "nl": "De gem. prijs de komende uren wordt het hoogst"
         },
         "titleFormatted": {
           "en": "The avg. price [[hours]] becomes highest within [[period]]",
-          "de": "Der Durchschnittspreis [[hours]] wird am höchsten innerhalb [[period]]",
+          "de": "Durchschn. Preis [[hours]] wird am höchsten innerhalb [[period]]",
           "sv": "Det genomsnittliga priset [[hours]] blir högst inom [[period]]",
           "it": "Il prezzo medio a [[hours]] diventa più alto entro [[period]]",
-          "nl": "De gem. prijs [[hours]] wordt het highest binnen [[period]]"
+          "nl": "De gem. prijs [[hours]] wordt het hoogst binnen [[period]]"
         },
         "highlight": true,
         "args": [
@@ -579,7 +579,7 @@
                 "id": "this_day",
                 "label": {
                   "en": "this day",
-                  "de": "dieses Tages",
+                  "de": "des Tages",
                   "sv": "idag",
                   "it": "giornata odierna",
                   "nl": "deze dag"
@@ -680,14 +680,14 @@
       {
         "title": {
           "en": "The price becomes lowest",
-          "de": "Der Preis wird der niedrigste sein",
+          "de": "Preis wird der niedrigste sein",
           "sv": "Priset blir det lägsta",
           "it": "Il prezzo sarà il più basso",
           "nl": "De prijs wordt het laagst"
         },
         "titleFormatted": {
           "en": "The price becomes lowest for [[period]]",
-          "de": "Der Preis wird für [[period]] am niedrigsten sein",
+          "de": "Preis wird für [[period]] am niedrigsten sein",
           "sv": "Priset blir lägst för [[period]]",
           "it": "Il prezzo sarà più basso per [[period]]",
           "nl": "De prijs wordt het laagst voor [[period]]"
@@ -812,14 +812,14 @@
       {
         "title": {
           "en": "The avg. price next hours becomes lowest",
-          "de": "Der Durchschnittspreis wird in den kommenden Stunden am niedrigsten sein",
+          "de": "Durchschn. Preis wird in den kommenden Std. am niedrigsten sein",
           "sv": "Det genomsnittliga priset de kom mande timmarna blir lägst",
           "it": "Il prezzo medio sarà più basso nelle prossime ore",
           "nl": "De gem. prijs de komende uren wordt het laagst"
         },
         "titleFormatted": {
           "en": "The avg. price [[hours]] becomes lowest within [[period]]",
-          "de": "Der Durchschnittspreis [[hours]] wird am niedrigsten innerhalb [[period]]",
+          "de": "Durchschn. Preis [[hours]] wird am niedrigsten innerhalb [[period]]",
           "sv": "Det genomsnittliga priset [[hours]] blir lägst inom [[period]]",
           "it": "Il prezzo medio di [[hours]] diventa più basso entro [[period]]",
           "nl": "De gem. prijs [[hours]] wordt het laagst binnen [[period]]"
@@ -846,7 +846,7 @@
                 "id": "this_day",
                 "label": {
                   "en": "this day",
-                  "de": "dieses Tages",
+                  "de": "des Tages",
                   "sv": "idag",
                   "it": "giornata odierna",
                   "nl": "deze dag"
@@ -947,14 +947,14 @@
       {
         "title": {
           "en": "The price becomes lowest before a certain time",
-          "de": "Der Preis wird für eine bestimmte Zeit am niedrigsten sein",
+          "de": "Preis wird für eine bestimmte Zeit am niedrigsten sein",
           "sv": "Priset blir lägst före en viss tidpunkt",
           "it": "Il prezzo diventa più basso prima di un certo momento",
           "nl": "De prijs wordt het laagst voor een bepaalde tijd"
         },
         "titleFormatted": {
           "en": "The price becomes one of [[number]] lowest in the [[period]] hours before [[time]] o'clock",
-          "de": "Der Preis wird einer der [[number]] niedrigsten in den [[period]] Stunden vor [[time]] Uhr sein",
+          "de": "Preis wird einer der [[number]] niedrigsten in den [[period]] Stunden vor [[time]] Uhr sein",
           "sv": "Priset blir ett av [[number]] lägsta under [[period]] timmarna före klockan [[time]]",
           "it": "Il prezzo diventa uno dei [[number]] più bassi nelle [[period]] ore prima delle [[time]] in punto",
           "nl": "De prijs wordt een van de [[number]] laagste in de [[period]] uren voor [[time]] uur"
@@ -1037,14 +1037,14 @@
       {
         "title": {
           "en": "The price becomes on of the lowest of today",
-          "de": "Der Preis wird heute einer der niedrigsten sein",
+          "de": "Preis wird heute einer der niedrigsten sein",
           "sv": "Priset blir bland de lägsta i dag",
           "it": "Il prezzo sarà uno dei più bassi di oggi",
           "nl": "De prijs wordt één van de laagste van vandaag"
         },
         "titleFormatted": {
           "en": "The price becomes one of [[number]] lowest of today",
-          "de": "Der Preis wird heute einer der [[number]] niedrigsten sein",
+          "de": "Preis wird heute einer der [[number]] niedrigsten sein",
           "sv": "Priset blir ett av dagens [[number]] lägsta",
           "it": "Il prezzo sarà uno dei [[number]] più bassi di oggi",
           "nl": "De prijs wordt een van de [[number]] laagste van vandaag"
@@ -1086,6 +1086,604 @@
             },
             "type": "number",
             "example": 27.5
+          }
+        ],
+        "id": "price_lowest_today"
+      }
+    ],
+    "conditions": [
+      {
+        "title": {
+          "en": "The price !{{is|isn't}} highest",
+          "de": "The price !{{is|isn't}} highest",
+          "sv": "The price !{{is|isn't}} highest",
+          "it": "The price !{{is|isn't}} highest",
+          "nl": "De prijs !{{is|is niet}} het hoogst"
+        },
+        "titleFormatted": {
+          "en": "The price !{{is|isn't}} highest for [[period]]",
+          "de": "The price !{{is|isn't}} highest for [[period]]",
+          "sv": "The price !{{is|isn't}} highest for [[period]]",
+          "it": "The price !{{is|isn't}} highest for [[period]]",
+          "nl": "De prijs !{{is|is niet}} het hoogst voor [[period]]"
+        },
+        "highlight": true,
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=dap"
+          },
+          {
+            "type": "dropdown",
+            "name": "period",
+            "title": {
+              "en": "period",
+              "de": "Zeitraum",
+              "sv": "period",
+              "it": "periodo",
+              "nl": "periode"
+            },
+            "values": [
+              {
+                "id": "this_day",
+                "label": {
+                  "en": "this day",
+                  "de": "diesen Tag",
+                  "sv": "idag",
+                  "it": "giornata odierna",
+                  "nl": "deze dag"
+                }
+              },
+              {
+                "id": "2",
+                "label": {
+                  "en": "next 2H",
+                  "de": "die nächsten 2 Std.",
+                  "sv": "nästa 2H",
+                  "it": "prossime 2h",
+                  "nl": "komende 2U"
+                }
+              },
+              {
+                "id": "3",
+                "label": {
+                  "en": "next 3H",
+                  "de": "die nächsten 3 Std.",
+                  "sv": "nästa 3H",
+                  "it": "prossime 3h",
+                  "nl": "komende 3U"
+                }
+              },
+              {
+                "id": "4",
+                "label": {
+                  "en": "next 4H",
+                  "de": "die nächsten 4 Std.",
+                  "sv": "nästa 4H",
+                  "it": "prossime 4h",
+                  "nl": "komende 4U"
+                }
+              },
+              {
+                "id": "5",
+                "label": {
+                  "en": "next 5H",
+                  "de": "die nächsten 5 Std.",
+                  "sv": "nästa 5H",
+                  "it": "prossime 5h",
+                  "nl": "komende 5U"
+                }
+              },
+              {
+                "id": "6",
+                "label": {
+                  "en": "next 6H",
+                  "de": "die nächsten 6 Std.",
+                  "sv": "nästa 6H",
+                  "it": "prossime 6h",
+                  "nl": "komende 6U"
+                }
+              },
+              {
+                "id": "7",
+                "label": {
+                  "en": "next 7H",
+                  "de": "die nächsten 7 Std.",
+                  "sv": "nästa 7H",
+                  "it": "prossime 7h",
+                  "nl": "komende 7U"
+                }
+              },
+              {
+                "id": "8",
+                "label": {
+                  "en": "next 8H",
+                  "de": "die nächsten 8 Std.",
+                  "sv": "nästa 8H",
+                  "it": "prossime 8h",
+                  "nl": "komende 8U"
+                }
+              }
+            ]
+          }
+        ],
+        "id": "price_highest"
+      },
+      {
+        "title": {
+          "en": "The avg. price next hours !{{is|isn't}} highest",
+          "de": "The avg. price next hours !{{is|isn't}} highest",
+          "sv": "The avg. price next hours !{{is|isn't}} highest",
+          "it": "The avg. price next hours !{{is|isn't}} highest",
+          "nl": "De gem. prijs de komende uren !{{is|is niet}} het hoogst"
+        },
+        "titleFormatted": {
+          "en": "The avg. price [[hours]] !{{is|isn't}} highest within [[period]]",
+          "de": "The avg. price [[hours]] !{{is|isn't}} highest within [[period]]",
+          "sv": "The avg. price [[hours]] !{{is|isn't}} highest within [[period]]",
+          "it": "The avg. price [[hours]] !{{is|isn't}} highest within [[period]]",
+          "nl": "De gem. prijs [[hours]] !{{is|is niet}} het hoogst binnen [[period]]"
+        },
+        "highlight": true,
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=dap"
+          },
+          {
+            "type": "dropdown",
+            "name": "period",
+            "title": {
+              "en": "period",
+              "de": "Zeitraum",
+              "sv": "period",
+              "it": "periodo",
+              "nl": "periode"
+            },
+            "values": [
+              {
+                "id": "this_day",
+                "label": {
+                  "en": "this day",
+                  "de": "des Tages",
+                  "sv": "idag",
+                  "it": "giornata odierna",
+                  "nl": "deze dag"
+                }
+              },
+              {
+                "id": "8",
+                "label": {
+                  "en": "next 8H",
+                  "de": "der nächsten 8 Std.",
+                  "sv": "nästa 8H",
+                  "it": "prossime 8h",
+                  "nl": "komende 8U"
+                }
+              }
+            ]
+          },
+          {
+            "type": "dropdown",
+            "name": "hours",
+            "title": {
+              "en": "hours",
+              "de": "Stunden",
+              "sv": "timmar",
+              "it": "ore",
+              "nl": "uren"
+            },
+            "values": [
+              {
+                "id": "2",
+                "label": {
+                  "en": "next 2H",
+                  "de": "der nächsten 2 Std.",
+                  "sv": "nästa 2H",
+                  "it": "prossime 2h",
+                  "nl": "komende 2U"
+                }
+              },
+              {
+                "id": "3",
+                "label": {
+                  "en": "next 3H",
+                  "de": "der nächsten 3 Std.",
+                  "sv": "nästa 3H",
+                  "it": "prossime 3h",
+                  "nl": "komende 3U"
+                }
+              },
+              {
+                "id": "4",
+                "label": {
+                  "en": "next 4H",
+                  "de": "der nächsten 4 Std.",
+                  "sv": "nästa 4H",
+                  "it": "prossime 4h",
+                  "nl": "komende 4U"
+                }
+              },
+              {
+                "id": "5",
+                "label": {
+                  "en": "next 5H",
+                  "de": "der nächsten 5 Std.",
+                  "sv": "nästa 5H",
+                  "it": "prossime 5h",
+                  "nl": "komende 5U"
+                }
+              },
+              {
+                "id": "6",
+                "label": {
+                  "en": "next 6H",
+                  "de": "der nächsten 6 Std.",
+                  "sv": "nästa 6H",
+                  "it": "prossime 6h",
+                  "nl": "komende 6U"
+                }
+              }
+            ]
+          }
+        ],
+        "id": "price_highest_avg"
+      },
+      {
+        "title": {
+          "en": "The price !{{is|isn't}} lowest",
+          "de": "The price !{{is|isn't}} lowest",
+          "sv": "The price !{{is|isn't}} lowest",
+          "it": "The price !{{is|isn't}} lowest",
+          "nl": "De prijs !{{is|is niet}} het laagst"
+        },
+        "titleFormatted": {
+          "en": "The price !{{is|isn't}} lowest for [[period]]",
+          "de": "The price !{{is|isn't}} lowest for [[period]]",
+          "sv": "The price !{{is|isn't}} lowest for [[period]]",
+          "it": "The price !{{is|isn't}} lowest for [[period]]",
+          "nl": "De prijs !{{is|is niet}} het laagst voor [[period]]"
+        },
+        "highlight": true,
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=dap"
+          },
+          {
+            "type": "dropdown",
+            "name": "period",
+            "title": {
+              "en": "period",
+              "de": "Zeitraum",
+              "sv": "period",
+              "it": "periodo",
+              "nl": "periode"
+            },
+            "values": [
+              {
+                "id": "this_day",
+                "label": {
+                  "en": "this day",
+                  "de": "diesen Tag",
+                  "sv": "idag",
+                  "it": "giornata odierna",
+                  "nl": "deze dag"
+                }
+              },
+              {
+                "id": "2",
+                "label": {
+                  "en": "next 2H",
+                  "de": "die nächsten 2 Std.",
+                  "sv": "nästa 2H",
+                  "it": "prossime 2h",
+                  "nl": "komende 2U"
+                }
+              },
+              {
+                "id": "3",
+                "label": {
+                  "en": "next 3H",
+                  "de": "die nächsten 3 Std.",
+                  "sv": "nästa 3H",
+                  "it": "prossime 3h",
+                  "nl": "komende 3U"
+                }
+              },
+              {
+                "id": "4",
+                "label": {
+                  "en": "next 4H",
+                  "de": "die nächsten 4 Std.",
+                  "sv": "nästa 4H",
+                  "it": "prossime 4h",
+                  "nl": "komende 4U"
+                }
+              },
+              {
+                "id": "5",
+                "label": {
+                  "en": "next 5H",
+                  "de": "die nächsten 5 Std.",
+                  "sv": "nästa 5H",
+                  "it": "prossime 5h",
+                  "nl": "komende 5U"
+                }
+              },
+              {
+                "id": "6",
+                "label": {
+                  "en": "next 6H",
+                  "de": "die nächsten 6 Std.",
+                  "sv": "nästa 6H",
+                  "it": "prossime 6h",
+                  "nl": "komende 6U"
+                }
+              },
+              {
+                "id": "7",
+                "label": {
+                  "en": "next 7H",
+                  "de": "die nächsten 7 Std.",
+                  "sv": "nästa 7H",
+                  "it": "prossime 7h",
+                  "nl": "komende 7U"
+                }
+              },
+              {
+                "id": "8",
+                "label": {
+                  "en": "next 8H",
+                  "de": "die nächsten 8 Std.",
+                  "sv": "nästa 8H",
+                  "it": "prossime 8h",
+                  "nl": "komende 8U"
+                }
+              }
+            ]
+          }
+        ],
+        "id": "price_lowest"
+      },
+      {
+        "title": {
+          "en": "The avg. price next hours !{{is|isn't}} the lowest",
+          "de": "The avg. price next hours !{{is|isn't}} the lowest",
+          "sv": "The avg. price next hours !{{is|isn't}} the lowest",
+          "it": "The avg. price next hours !{{is|isn't}} the lowest",
+          "nl": "De gem. prijs de komende uren !{{is|is niet}} het laagst"
+        },
+        "titleFormatted": {
+          "en": "The avg. price [[hours]] !{{is|isn't}} lowest within [[period]]",
+          "de": "The avg. price [[hours]] !{{is|isn't}} lowest within [[period]]",
+          "sv": "The avg. price [[hours]] !{{is|isn't}} lowest within [[period]]",
+          "it": "The avg. price [[hours]] !{{is|isn't}} lowest within [[period]]",
+          "nl": "De gem. prijs [[hours]] !{{is|is niet}} het laagst binnen [[period]]"
+        },
+        "highlight": true,
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=dap"
+          },
+          {
+            "type": "dropdown",
+            "name": "period",
+            "title": {
+              "en": "period",
+              "de": "Zeitraum",
+              "sv": "period",
+              "it": "periodo",
+              "nl": "periode"
+            },
+            "values": [
+              {
+                "id": "this_day",
+                "label": {
+                  "en": "this day",
+                  "de": "des Tages",
+                  "sv": "idag",
+                  "it": "giornata odierna",
+                  "nl": "deze dag"
+                }
+              },
+              {
+                "id": "8",
+                "label": {
+                  "en": "next 8H",
+                  "de": "der nächsten 8 Std.",
+                  "sv": "nästa 8H",
+                  "it": "prossime 8h",
+                  "nl": "komende 8U"
+                }
+              }
+            ]
+          },
+          {
+            "type": "dropdown",
+            "name": "hours",
+            "title": {
+              "en": "hours",
+              "de": "Stunden",
+              "sv": "timmar",
+              "it": "ore",
+              "nl": "uren"
+            },
+            "values": [
+              {
+                "id": "2",
+                "label": {
+                  "en": "next 2H",
+                  "de": "der nächsten 2 Std.",
+                  "sv": "nästa 2H",
+                  "it": "prossime 2h",
+                  "nl": "komende 2U"
+                }
+              },
+              {
+                "id": "3",
+                "label": {
+                  "en": "next 3H",
+                  "de": "der nächsten 3 Std.",
+                  "sv": "nästa 3H",
+                  "it": "prossime 3h",
+                  "nl": "komende 3U"
+                }
+              },
+              {
+                "id": "4",
+                "label": {
+                  "en": "next 4H",
+                  "de": "der nächsten 4 Std.",
+                  "sv": "nästa 4H",
+                  "it": "prossime 4h",
+                  "nl": "komende 4U"
+                }
+              },
+              {
+                "id": "5",
+                "label": {
+                  "en": "next 5H",
+                  "de": "der nächsten 5 Std.",
+                  "sv": "nästa 5H",
+                  "it": "prossime 5h",
+                  "nl": "komende 5U"
+                }
+              },
+              {
+                "id": "6",
+                "label": {
+                  "en": "next 6H",
+                  "de": "der nächsten 6 Std.",
+                  "sv": "nästa 6H",
+                  "it": "prossime 6h",
+                  "nl": "komende 6U"
+                }
+              }
+            ]
+          }
+        ],
+        "id": "price_lowest_avg"
+      },
+      {
+        "title": {
+          "en": "The price !{{is|isn't}} lowest before a certain time",
+          "de": "The price !{{is|isn't}} lowest before a certain time",
+          "sv": "The price !{{is|isn't}} lowest before a certain time",
+          "it": "The price !{{is|isn't}} lowest before a certain time",
+          "nl": "De prijs !{{is|isn't}} het laagst voor een bepaalde tijd"
+        },
+        "titleFormatted": {
+          "en": "The price !{{is|isn't}} one of [[number]] lowest in the [[period]] hours before [[time]] o'clock",
+          "de": "The price !{{is|isn't}} one of [[number]] lowest in the [[period]] hours before [[time]] o'clock",
+          "sv": "The price !{{is|isn't}} one of [[number]] lowest in the [[period]] hours before [[time]] o'clock",
+          "it": "The price !{{is|isn't}} one of [[number]] lowest in the [[period]] hours before [[time]] o'clock",
+          "nl": "De prijs !{{is|isn't}} een van de [[number]] laagste in de [[period]] uren voor [[time]] uur"
+        },
+        "highlight": true,
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=dap"
+          },
+          {
+            "type": "number",
+            "name": "period",
+            "title": {
+              "en": "period",
+              "de": "Zeitraum",
+              "sv": "period",
+              "it": "periodo",
+              "nl": "periode"
+            },
+            "placeholder": {
+              "en": "2 - 12"
+            },
+            "min": 2,
+            "max": 12,
+            "step": 1
+          },
+          {
+            "type": "number",
+            "name": "number",
+            "title": {
+              "en": "number",
+              "de": "Anzahl",
+              "sv": "antal",
+              "it": "numero",
+              "nl": "aantal"
+            },
+            "placeholder": {
+              "en": "1 - 8"
+            },
+            "min": 1,
+            "max": 8,
+            "step": 1
+          },
+          {
+            "type": "number",
+            "name": "time",
+            "title": {
+              "en": "time",
+              "de": "Zeit",
+              "sv": "tid",
+              "it": "tempo",
+              "nl": "tijd"
+            },
+            "placeholder": {
+              "en": "01 - 24"
+            },
+            "min": 1,
+            "max": 24,
+            "step": 1
+          }
+        ],
+        "id": "price_lowest_before"
+      },
+      {
+        "title": {
+          "en": "The price !{{is|isn't}} on of the lowest of today",
+          "de": "The price !{{is|isn't}} on of the lowest of today",
+          "sv": "The price !{{is|isn't}} on of the lowest of today",
+          "it": "The price !{{is|isn't}} on of the lowest of today",
+          "nl": "De prijs !{{is|is niet} één van de laagste van vandaag"
+        },
+        "titleFormatted": {
+          "en": "The price !{{is|isn't}} one of [[number]] lowest of today",
+          "de": "The price !{{is|isn't}} one of [[number]] lowest of today",
+          "sv": "The price !{{is|isn't}} one of [[number]] lowest of today",
+          "it": "The price !{{is|isn't}} one of [[number]] lowest of today",
+          "nl": "De prijs !{{is|is niet} een van de [[number]] laagste van vandaag"
+        },
+        "highlight": true,
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=dap"
+          },
+          {
+            "type": "number",
+            "name": "number",
+            "title": {
+              "en": "number",
+              "de": "Anzahl",
+              "sv": "antal",
+              "it": "numero",
+              "nl": "aantal"
+            },
+            "placeholder": {
+              "en": "1 - 16"
+            },
+            "min": 1,
+            "max": 16,
+            "step": 1
           }
         ],
         "id": "price_lowest_today"
@@ -1149,14 +1747,14 @@
         "title": {
           "en": "Set a new fixed markup",
           "de": "Neuen festen Aufschlag festlegen",
-          "sv": "Ställ in en ny fast markering",
+          "sv": "Ställ in ett nytt fast påslag",
           "it": "Imposta un nuovo sovraprezzo fisso",
           "nl": "Stel een nieuwe vaste opslag in"
         },
         "titleFormatted": {
           "en": "Set fixed markup to [[value]]",
           "de": "Festen Aufschlag einstellen auf [[value]]",
-          "sv": "Ställ in fast markering till [[value]]",
+          "sv": "Ställ in fast påslag till [[value]]",
           "it": "Imposta sovraprezzo fisso a [[value]]",
           "nl": "Stel vaste opslag in op [[value]]"
         },
@@ -1184,13 +1782,15 @@
       {
         "title": {
           "en": "Set a new day time markup",
-          "sv": "Ställ in en ny dagtidsmärkning",
+          "de": "Neuen Aufschlag für den Tag festlegen",
+          "sv": "Ställ in en ny dagtidspåslag",
           "it": "Imposta un nuovo sovraprezzo diurno",
           "nl": "Stel een nieuwe opslag in voor overdag"
         },
         "titleFormatted": {
           "en": "Set day time markup to [[value]]",
-          "sv": "Ställ in dagstidsmärkning till [[value]]",
+          "de": "Tagesaufschlag einstellen auf [[value]]",
+          "sv": "Ställ in dagtidspåslag till [[value]]",
           "it": "Imposta sovraprezzo diurno a [[value]]",
           "nl": "Stel opslag overdag in op [[value]]"
         },
@@ -1205,6 +1805,7 @@
             "type": "number",
             "placeholder": {
               "en": "Extra markup per kWh or m3",
+              "de": "Extra Aufschlag pro kWh/m3",
               "sv": "Extra påslag per kWh eller m3",
               "it": "Sovraprezzo extra per kWh o m3",
               "nl": "Extra opslag per kWh of m3"
@@ -1216,13 +1817,15 @@
       {
         "title": {
           "en": "Set a new night time markup",
-          "sv": "Ställ in en ny nattmarkering",
+          "de": "Neuen Aufschlag für die Nacht festlegen",
+          "sv": "Ställ in en ny nattpåslag",
           "it": "Imposta un nuovo sovraprezzo notturno",
           "nl": "Stel een nieuwe opslag in voor 's nachts'"
         },
         "titleFormatted": {
           "en": "Set night time markup to [[value]]",
-          "sv": "Ställ in natttidsuppmärkning till [[value]]",
+          "de": "Nachtaufschlag einstellen auf [[value]]",
+          "sv": "Ställ in natttidspåslag till [[value]]",
           "it": "Imposta sovraprezzo notturno a [[value]]",
           "nl": "Stel opslag 's nachts in op [[value]]"
         },
@@ -1237,6 +1840,7 @@
             "type": "number",
             "placeholder": {
               "en": "Extra markup per kWh or m3",
+              "de": "Extra Aufschlag pro kWh/m3",
               "sv": "Extra påslag per kWh eller m3",
               "it": "Sovraprezzo extra per kWh o m3",
               "nl": "Extra opslag per kWh of m3"
@@ -1393,7 +1997,7 @@
             "type": "number",
             "placeholder": {
               "en": "The tariff per m³",
-              "de": "Der Tarif pro m³",
+              "de": "Tarif pro m³",
               "sv": "Tariffen per m³",
               "it": "La tariffa per m³",
               "nl": "Het tarief per m³"
@@ -1424,7 +2028,7 @@
             "type": "number",
             "placeholder": {
               "en": "The tariff per kWh",
-              "de": "Der Tarif pro kWh",
+              "de": "Tarif pro kWh",
               "sv": "Tariffen per kWh",
               "it": "La tariffa per kWh",
               "nl": "Het tarief per kWh"
@@ -1455,7 +2059,7 @@
             "type": "number",
             "placeholder": {
               "en": "The tariff per m³",
-              "de": "Der Tarif pro m³",
+              "de": "Tarif pro m³",
               "sv": "Tariffen per m³",
               "it": "La tariffa per m³",
               "nl": "Het tarief per m³"
@@ -1468,13 +2072,13 @@
         "title": {
           "en": "Set a new variable markup",
           "de": "Neuen variablen Aufschlag festlegen",
-          "sv": "Ställ in en ny variabeluppmärkning",
+          "sv": "Ställ in ett nytt variabelt påslag",
           "it": "Imposta un nuovo sovraprezzo variabile",
           "nl": "Stel een nieuwe variabele opslag in"
         },
         "titleFormatted": {
           "en": "Set variable markup to [[value]]%",
-          "sv": "Ställ in variabeluppmärkning till [[value]]%",
+          "sv": "Ställ in variabelpåslag till [[value]]%",
           "de": "Variablen Aufschlag einstellen auf [[value]]%",
           "it": "Imposta sovraprezzo variabile a [[value]]%",
           "nl": "Stel variabele opslag in op [[value]]%"
@@ -1492,7 +2096,7 @@
             "placeholder": {
               "en": "Variable markup (%)",
               "de": "Variabler Aufschlag (%)",
-              "sv": "Variabel uppmärkning (%)",
+              "sv": "Variabel påslag (%)",
               "it": "Sovraprezzo variabile (%)",
               "nl": "Variabele opslag (%)"
             }
@@ -1608,7 +2212,7 @@
               "type": "number",
               "label": {
                 "en": "Currency decimals",
-                "de": "Dezimalstellen",
+                "de": "Anzahl Dezimalstellen",
                 "sv": "Valuta decimaler",
                 "it": "Decimali valuta",
                 "nl": "Geld decimalen"
@@ -1825,6 +2429,7 @@
               "type": "number",
               "label": {
                 "en": "Extra markup during day time",
+                "de": "Zusätzlicher Aufschlag am Tag",
                 "sv": "Extra påslag under dagtid",
                 "it": "Extra costi durante l'orario diurno",
                 "nl": "Extra opslag overdag"
@@ -1832,6 +2437,7 @@
               "value": 0,
               "hint": {
                 "en": "Enter the amount with which the price must be additionally increased per kWh or m3 during day time (06:00-22:00).",
+                "de": "Geben Sie den Betrag ein, um den der Preis pro kWh oder m3 tagsüber (06:00-22:00 Uhr) zusätzlich erhöht werden muss.",
                 "sv": "Ange det belopp med vilket priset ytterligare ska höjas per kWh eller m3 under dagtid (06:00-22:00).",
                 "it": "Imposta l'incremento aggiuntivo per kWh o m3 durante l'orario diurno (06:00-22:00).",
                 "nl": "Voer het bedrag in waarmee de prijs per kWh of m3 verhoogd moet worden overdag (06:00-22:00)"
@@ -1842,6 +2448,7 @@
               "type": "number",
               "label": {
                 "en": "Extra markup during night time",
+                "de": "Zusätzlicher Aufschlag in der Nacht",
                 "sv": "Extra påslag under natten",
                 "it": "Extra costi durante l'orario notturno",
                 "nl": "Extra opslag 's nachts"
@@ -1849,9 +2456,29 @@
               "value": 0,
               "hint": {
                 "en": "Enter the amount with which the price must be additionally increased per kWh or m3 during night time (22:00-06:00).",
+                "de": "Geben Sie den Betrag ein, um den der Preis pro kWh oder m3 während der Nacht (22:00-06:00) zusätzlich erhöht werden muss.",
                 "sv": "Ange det belopp med vilket priset ytterligare ska höjas per kWh eller m3 nattetid (22:00-06:00).",
                 "it": "Imposta l'incremento aggiuntivo per kWh o m3 durante l'orario notturno (22:00-06:00).",
-                "nl": "Voer het bedrag in waarmee de prijs per kWh of m3 extra verhoogd moet worden 's nachts (22:00-06:00)"
+                "nl": "Voer het bedrag in waarmee de prijs per kWh of m3 extra verhoogd moet worden 's nachts (22:00-06:00)."
+              }
+            },
+            {
+              "id": "weekendHasNightMarkup",
+              "type": "checkbox",
+              "label": {
+                "en": "Weekend same as night time",
+                "de": "Weekend same as night time",
+                "sv": "Weekend same as night time",
+                "it": "Weekend same as night time",
+                "nl": "Weekend gelijk aan 's nachts"
+              },
+              "value": false,
+              "hint": {
+                "en": "If enabled the night time markup will be applied during the whole weekend (Saturday - Sunday).",
+                "de": "If enabled the night time markup will be applied during the whole weekend (Saturday - Sunday).",
+                "sv": "If enabled the night time markup will be applied during the whole weekend (Saturday - Sunday).",
+                "it": "If enabled the night time markup will be applied during the whole weekend (Saturday - Sunday).",
+                "nl": "Indien geactiveerd wordt nacht verhoging het hele weekend toegepast (zaterdag - zondag)."
               }
             }
           ]
@@ -1893,6 +2520,7 @@
     {
       "name": {
         "en": "Gas Summarizer",
+        "de": "Gaszähler",
         "sv": "Gas Summerare"
       },
       "images": {
@@ -2038,7 +2666,7 @@
               "hint": {
                 "en": "On this date the month and year total will reset to 0. Format is ddmm. Default is 0101 (1 January). ATTENTION: If you change this date you need to manually correct the This Month Start and This Year Start values.",
                 "nl": "Op deze datum wordt het jaar en maand totaal op 0 gezet. Het formaat is ddmm. Standaard is 0101 (1 january). LET OP: Als deze datum wordt gewijzigd zal Deze Maand Start en Dit Jaar Start handmatig aangepast moeten worden.",
-                "de": "An diesem Datum wird die Monats- und Jahressumme auf 0 zurückgesetzt. Das Format ist ddmm. Standardwert ist 0101 (1. Januar). ACHTUNG: Wenn Sie dieses Datum ändern, müssen Sie die Werte 'Beginn dieses Monats' und 'Beginn dieses Jahres' manuell korrigieren.",
+                "de": "An diesem Datum wird die Monats- und Jahressumme auf 0 zurückgesetzt. Das Format ist ddmm. Standardwert ist 0101 (1. Januar). ACHTUNG: Wenn Sie dieses Datum ändern, müssen Sie die Werte 'Monatsbeginn' und 'Jahresbeginn' manuell korrigieren.",
                 "sv": "På det här datumet återställs totalsumman för månad och år till 0. Formatet är ddmm. Standard är 0101 (1 januari). OBSERVERA: Om du ändrar detta datum måste du manuellt korrigera värdena för start för denna månad och start för detta år.",
                 "it": "In questa data, mese e anno saranno resettati. Il formato è ggmm. Default è 0101 (1 Gennaio). ATTENZIONE: se modifichi questa data dovrai correggere manualmente i valori Inzio Mese Corrente e Inzio Anno Corrente."
               }
@@ -2076,7 +2704,7 @@
               "hint": {
                 "en": "Enter the meter reading at the start of this day. It is automatically updated at midnight.",
                 "nl": "Geef de meterstand in aan het begin van deze dag. Het wordt middernacht automatisch geupdated.",
-                "de": "Geben Sie den Zählerstand zu Beginn dieses Tages ein. Er wird um Mitternacht automatisch aktualisiert.",
+                "de": "Geben Sie den Zählerstand zu Beginn des Tages ein. Er wird um Mitternacht automatisch aktualisiert.",
                 "sv": "Ange mätarställningen i början av denna dag. Den uppdateras automatiskt vid midnatt.",
                 "it": "Inserisci la lettura del contatore all'inizio di questa giornata. Viene aggiornata automaticamente a mezzanotte."
               }
@@ -2095,7 +2723,7 @@
               "hint": {
                 "en": "Enter the meter reading at the start of this month. It is automatically updated first day of a new month.",
                 "nl": "Geef de meterstand in aan het begin van deze maand. Het wordt de eerste dag van de maand automatisch geupdated.",
-                "de": "Geben Sie den Zählerstand zu Beginn dieses Monats ein. Er wird automatisch am ersten Tag eines neuen Monats aktualisiert.",
+                "de": "Geben Sie den Zählerstand zu Beginn des Monats ein. Er wird automatisch am ersten Tag eines neuen Monats aktualisiert.",
                 "sv": "Ange mätarställningen i början av denna månad. Den uppdateras automatiskt första dagen i en ny månad.",
                 "it": "Inserisci la lettura del contatore all'inizio di questo mese. Viene aggiornata automaticamente il primo giorno del nuovo mese."
               }
@@ -2196,7 +2824,7 @@
           "type": "group",
           "label": {
             "en": "Monetary value",
-            "de": "Geldwert",
+            "de": "Geldbetrag",
             "sv": "Penningvärde",
             "it": "Valore monetario",
             "nl": "Geldwaarde"
@@ -2226,7 +2854,7 @@
               "type": "number",
               "label": {
                 "en": "Currency decimals",
-                "de": "Dezimalstellen",
+                "de": "Anzahl Dezimalstellen",
                 "sv": "Valuta decimaler",
                 "it": "Decimali valuta",
                 "nl": "Geld decimalen"
@@ -2256,7 +2884,7 @@
               "decimals": 8,
               "hint": {
                 "en": "The tariff is used to calculate the monetary value. It can be dynamically changed via a flow.",
-                "de": "Der Kurs wird zur Berechnung des Geldwerts verwendet. Er kann über einen Flow dynamisch angepasst werden.",
+                "de": "Der Kurs wird zur Berechnung des Geldbetrags verwendet. Er kann über einen Flow dynamisch angepasst werden.",
                 "sv": "Tariffen används för att beräkna penningvärdet. Det kan ändras dynamiskt via ett flöde.",
                 "it": "La tariffa è utilizzata per calcolare il valore monetario. Può essere cambiata dinamicamente tramite un flow.",
                 "nl": "Het tarief wordt gebruikt om de geldwaarde te berekenen. Het kan dynamisch worden aangepast via een flow."
@@ -2286,7 +2914,7 @@
               "type": "number",
               "label": {
                 "en": "Monetary value of this day",
-                "de": "Geldwert dieses Tages",
+                "de": "Geldbetrag des Tages",
                 "sv": "Dagens monetära värde",
                 "it": "Valore monetario odierno",
                 "nl": "Geldwaarde van deze dag"
@@ -2295,7 +2923,7 @@
               "decimals": 4,
               "hint": {
                 "en": "Actual monetary value. It is automatically updated.",
-                "de": "Aktueller Geldwert. Er wird automatisch aktualisiert.",
+                "de": "Aktueller Geldbetrag. Er wird automatisch aktualisiert.",
                 "sv": "Faktiskt penningvärde. Den uppdateras automatiskt.",
                 "it": "Valore monetario corrente. Viene aggiornato automaticamente.",
                 "nl": "Actuele gelwaarde. Wordt automatisch geupdated."
@@ -2306,7 +2934,7 @@
               "type": "number",
               "label": {
                 "en": "Monetary value of this month",
-                "de": "Geldwert dieses Monats",
+                "de": "Geldbetrag des Monats",
                 "sv": "Denna månads monetära värde",
                 "it": "Valore monetario mese corrente",
                 "nl": "Geldwaarde van deze maand"
@@ -2315,7 +2943,7 @@
               "decimals": 4,
               "hint": {
                 "en": "Actual monetary value. It is automatically updated.",
-                "de": "Aktueller Geldwert. Er wird automatisch aktualisiert.",
+                "de": "Aktueller Geldbetrag. Er wird automatisch aktualisiert.",
                 "sv": "Faktiskt penningvärde. Den uppdateras automatiskt.",
                 "it": "Valore monetario corrente. Viene aggiornato automaticamente.",
                 "nl": "Actuele gelwaarde. Wordt automatisch geupdated."
@@ -2326,7 +2954,7 @@
               "type": "number",
               "label": {
                 "en": "Monetary value of this year",
-                "de": "Geldwert dieses Jahres",
+                "de": "Geldbetrag des Jahres",
                 "sv": "Årets monetära värde",
                 "it": "Valore monetario anno corrente",
                 "nl": "Geldwaarde van dit jaar"
@@ -2335,7 +2963,7 @@
               "decimals": 4,
               "hint": {
                 "en": "Actual monetary value. It is automatically updated.",
-                "de": "Aktueller Geldwert. Er wird automatisch aktualisiert.",
+                "de": "Aktueller Geldbetrag. Er wird automatisch aktualisiert.",
                 "sv": "Faktiskt penningvärde. Den uppdateras automatiskt.",
                 "it": "Valore monetario corrente. Viene aggiornato automaticamente.",
                 "nl": "Actuele gelwaarde. Wordt automatisch geupdated."
@@ -2346,7 +2974,7 @@
               "type": "number",
               "label": {
                 "en": "Monetary value prev. day",
-                "de": "Geldwert des Vortages",
+                "de": "Geldbetrag des Vortages",
                 "sv": "Monetärt värde igår",
                 "it": "Valore monetario giorno prec.",
                 "nl": "Geldwaarde van vorige dag"
@@ -2355,7 +2983,7 @@
               "decimals": 4,
               "hint": {
                 "en": "Monetary value of the previous day. It is automatically updated.",
-                "de": "Geldwert des Vortages. Er wird automatisch aktualisiert.",
+                "de": "Geldbetrag des Vortages. Er wird automatisch aktualisiert.",
                 "sv": "Monetärt värde för föregående dag. Den uppdateras automatiskt.",
                 "it": "Valore monetario del giorno precedente. Viene aggiornato automaticamente.",
                 "nl": "Gelwaarde van de vorige dag. Wordt automatisch geupdated."
@@ -2366,7 +2994,7 @@
               "type": "number",
               "label": {
                 "en": "Monetary value prev. month",
-                "de": "Geldwert des Vormonats",
+                "de": "Geldbetrag des Vormonats",
                 "sv": "Monetärt värde föregående månad",
                 "it": "Valore monetario mese prec.",
                 "nl": "Geldwaarde van vorige maand"
@@ -2375,7 +3003,7 @@
               "decimals": 4,
               "hint": {
                 "en": "Monetary value of the previous month. It is automatically updated.",
-                "de": "Geldwert des Vormonats. Er wird automatisch aktualisiert.",
+                "de": "Geldbetrag des Vormonats. Er wird automatisch aktualisiert.",
                 "sv": "Föregående månads monetära värde. Den uppdateras automatiskt.",
                 "it": "Valore monetario del mese precedente. Viene aggiornato automaticamente.",
                 "nl": "Gelwaarde van de vorige maand. Wordt automatisch geupdated."
@@ -2386,7 +3014,7 @@
               "type": "number",
               "label": {
                 "en": "Monetary value prev. year",
-                "de": "Geldwert des Vorjahres",
+                "de": "Geldbetrag des Vorjahres",
                 "sv": "Monetärt värde föregående år",
                 "it": "Valore monetario anno prec.",
                 "nl": "Geldwaarde van vorig jaar"
@@ -2395,7 +3023,7 @@
               "decimals": 4,
               "hint": {
                 "en": "Monetary value of the previous year. It is automatically updated.",
-                "de": "Geldwert des Vorjahres. Er wird automatisch aktualisiert.",
+                "de": "Geldbetrag des Vorjahres. Er wird automatisch aktualisiert.",
                 "sv": "Föregående års monetära värde. Den uppdateras automatiskt.",
                 "it": "Valore monetario dell'anno precedente. Viene aggiornato automaticamente.",
                 "nl": "Gelwaarde van het vorige jaar. Wordt automatisch geupdated."
@@ -2412,6 +3040,7 @@
     {
       "name": {
         "en": "Power Summarizer",
+        "de": "Stromzähler",
         "sv": "Energi Summerare"
       },
       "class": "other",
@@ -2576,7 +3205,7 @@
               "hint": {
                 "en": "On this date the month and year total will reset to 0. Format is ddmm. Default is 0101 (1 January). ATTENTION: If you change this date you need to manually correct the This Month Start and This Year Start values.",
                 "nl": "Op deze datum wordt het jaar en maand totaal op 0 gezet. Het formaat is ddmm. Standaard is 0101 (1 january). LET OP: Als deze datum wordt gewijzigd zal Deze Maand Start en Dit Jaar Start handmatig aangepast moeten worden.",
-                "de": "An diesem Datum wird die Monats- und Jahressumme auf 0 zurückgesetzt. Das Format ist ddmm. Standardwert ist 0101 (1. Januar). ACHTUNG: Wenn Sie dieses Datum ändern, müssen Sie die Werte 'Beginn dieses Monats' und 'Beginn dieses Jahres' manuell korrigieren.",
+                "de": "An diesem Datum wird die Monats- und Jahressumme auf 0 zurückgesetzt. Das Format ist ddmm. Standardwert ist 0101 (1. Januar). ACHTUNG: Wenn Sie dieses Datum ändern, müssen Sie die Werte 'Monatsbeginn' und 'Jahresbeginn' manuell korrigieren.",
                 "sv": "På det här datumet återställs totalsumman för månad och år till 0. Formatet är ddmm. Standard är 0101 (1 januari). OBSERVERA: Om du ändrar detta datum måste du manuellt korrigera värdena för start för denna månad och start för detta år.",
                 "it": "In questa data il mese e l'anno saranno resettati a 0. Il formato è ggmm. Default è 0101 (1 Gennaio). ATTENZIONE: Se modifichi questa data dovrai correggere manualmente i valori Inizio Mese Corrente e Inzio Anno Corrente."
               }
@@ -2614,7 +3243,7 @@
               "hint": {
                 "en": "Enter the meter reading at the start of this day. It is automatically updated at midnight.",
                 "nl": "Geef de meterstand in aan het begin van deze dag. Het wordt middernacht automatisch geupdated.",
-                "de": "Geben Sie den Zählerstand zu Beginn dieses Tages ein. Er wird um Mitternacht automatisch aktualisiert.",
+                "de": "Geben Sie den Zählerstand zu Beginn des Tages ein. Er wird um Mitternacht automatisch aktualisiert.",
                 "sv": "Ange mätarställningen i början av denna dag. Den uppdateras automatiskt vid midnatt.",
                 "it": "Inserisci la lettura del contatore all'inizio della giornata odierna. Viene aggiornata automaticamente a mezzanotte."
               }
@@ -2633,7 +3262,7 @@
               "hint": {
                 "en": "Enter the meter reading at the start of this month. It is automatically updated first day of a new month.",
                 "nl": "Geef de meterstand in aan het begin van deze maand. Het wordt de eerste dag van de maand automatisch geupdated.",
-                "de": "Geben Sie den Zählerstand zu Beginn dieses Monats ein. Er wird automatisch am ersten Tag eines neuen Monats aktualisiert.",
+                "de": "Geben Sie den Zählerstand zu Beginn des Monats ein. Er wird automatisch am ersten Tag eines neuen Monats aktualisiert.",
                 "sv": "Ange mätarställningen i början av denna månad. Den uppdateras automatiskt första dagen i en ny månad.",
                 "it": "Inserisci la lettura del contatore all'inizio del mese corrente. Viene aggiornata automaticamente il primo giorno di un nuovo mese."
               }
@@ -2734,7 +3363,7 @@
           "type": "group",
           "label": {
             "en": "Monetary value",
-            "de": "Geldwert",
+            "de": "Geldbetrag",
             "sv": "Penningvärde",
             "it": "Valore monetario",
             "nl": "Geldwaarde"
@@ -2764,7 +3393,7 @@
               "type": "number",
               "label": {
                 "en": "Currency decimals",
-                "de": "Dezimalstellen",
+                "de": "Anzahl Dezimalstellen",
                 "sv": "Valuta decimaler",
                 "it": "Decimali valuta",
                 "nl": "Geld decimalen"
@@ -2786,7 +3415,7 @@
               "label": {
                 "en": "Actual tariff per kWh",
                 "de": "Aktueller Tarif pro kW/h",
-                "sv": "Faktisk tariff per m³",
+                "sv": "Faktisk tariff per kWh",
                 "it": "Tariffa attuale per kWh",
                 "nl": "Actueel tarief per kWh"
               },
@@ -2794,7 +3423,7 @@
               "decimals": 8,
               "hint": {
                 "en": "The tariff is used to calculate the monetary value. It can be dynamically changed via a flow.",
-                "de": "Der Kurs wird zur Berechnung des Geldwerts verwendet. Er kann über einen Flow dynamisch angepasst werden.",
+                "de": "Der Kurs wird zur Berechnung des Geldbetrags verwendet. Er kann über einen Flow dynamisch angepasst werden.",
                 "sv": "Tariffen används för att beräkna penningvärdet. Det kan ändras dynamiskt via ett flöde.",
                 "it": "La tariffa è utilizzata per calcolare il valore monetario. Può essere cambiata dinamicamente tramite un flow.",
                 "nl": "Het tarief wordt gebruikt om de geldwaarde te berekenen. Het kan dynamisch worden aangepast via een flow."
@@ -2824,7 +3453,7 @@
               "type": "number",
               "label": {
                 "en": "Monetary value of this day",
-                "de": "Geldwert dieses Tages",
+                "de": "Geldbetrag des Tages",
                 "sv": "Dagens monetära värde",
                 "it": "Valore monetario di oggi",
                 "nl": "Geldwaarde van deze dag"
@@ -2833,7 +3462,7 @@
               "decimals": 4,
               "hint": {
                 "en": "Actual monetary value. It is automatically updated.",
-                "de": "Aktueller Geldwert. Er wird automatisch aktualisiert.",
+                "de": "Aktueller Geldbetrag. Er wird automatisch aktualisiert.",
                 "sv": "Faktiskt penningvärde. Den uppdateras automatiskt.",
                 "it": "Valore monetario attuale. Viene aggiornato automaticamente.",
                 "nl": "Actuele gelwaarde. Wordt automatisch geupdated."
@@ -2844,7 +3473,7 @@
               "type": "number",
               "label": {
                 "en": "Monetary value of this month",
-                "de": "Geldwert dieses Monats",
+                "de": "Geldbetrag des Monats",
                 "sv": "Denna månads monetära värde",
                 "it": "Valore monetario mese corrente",
                 "nl": "Geldwaarde van deze maand"
@@ -2853,7 +3482,7 @@
               "decimals": 4,
               "hint": {
                 "en": "Actual monetary value. It is automatically updated.",
-                "de": "Aktueller Geldwert. Er wird automatisch aktualisiert.",
+                "de": "Aktueller Geldbetrag. Er wird automatisch aktualisiert.",
                 "sv": "Faktiskt penningvärde. Den uppdateras automatiskt.",
                 "it": "Valore monetario attuale. Viene aggiornato automaticamente.",
                 "nl": "Actuele gelwaarde. Wordt automatisch geupdated."
@@ -2864,7 +3493,7 @@
               "type": "number",
               "label": {
                 "en": "Monetary value of this year",
-                "de": "Geldwert dieses Jahres",
+                "de": "Geldbetrag des Jahres",
                 "sv": "Årets monetära värde",
                 "it": "Valore monetario anno corrente",
                 "nl": "Geldwaarde van dit jaar"
@@ -2873,7 +3502,7 @@
               "decimals": 4,
               "hint": {
                 "en": "Actual monetary value. It is automatically updated.",
-                "de": "Aktueller Geldwert. Er wird automatisch aktualisiert.",
+                "de": "Aktueller Geldbetrag. Er wird automatisch aktualisiert.",
                 "sv": "Faktiskt penningvärde. Den uppdateras automatiskt.",
                 "it": "Valore monetario attuale. Viene aggiornato automaticamente.",
                 "nl": "Actuele gelwaarde. Wordt automatisch geupdated."
@@ -2884,7 +3513,7 @@
               "type": "number",
               "label": {
                 "en": "Monetary value prev. day",
-                "de": "Geldwert des Vortages",
+                "de": "Geldbetrag des Vortages",
                 "sv": "Monetärt värde igår",
                 "it": "Valore monetario giorno prec.",
                 "nl": "Geldwaarde van vorige dag"
@@ -2893,7 +3522,7 @@
               "decimals": 4,
               "hint": {
                 "en": "Monetary value of the previous day. It is automatically updated.",
-                "de": "Geldwert des Vortages. Er wird automatisch aktualisiert.",
+                "de": "Geldbetrag des Vortages. Er wird automatisch aktualisiert.",
                 "sv": "Monetärt värde för föregående dag. Den uppdateras automatiskt.",
                 "it": "Valore monetario giorno precedenre. Viene aggiornato automaticamente.",
                 "nl": "Gelwaarde van de vorige dag. Wordt automatisch geupdated."
@@ -2904,7 +3533,7 @@
               "type": "number",
               "label": {
                 "en": "Monetary value prev. month",
-                "de": "Geldwert des Vormonats",
+                "de": "Geldbetrag des Vormonats",
                 "sv": "Monetärt värde föregående månad",
                 "it": "Valore monetario mese prec.",
                 "nl": "Geldwaarde van vorige maand"
@@ -2913,7 +3542,7 @@
               "decimals": 4,
               "hint": {
                 "en": "Monetary value of the previous month. It is automatically updated.",
-                "de": "Geldwert des Vormonats. Er wird automatisch aktualisiert.",
+                "de": "Geldbetrag des Vormonats. Er wird automatisch aktualisiert.",
                 "sv": "Föregående månads monetära värde. Den uppdateras automatiskt.",
                 "it": "Valore monetario mese precedenre. Viene aggiornato automaticamente.",
                 "nl": "Gelwaarde van de vorige maand. Wordt automatisch geupdated."
@@ -2924,7 +3553,7 @@
               "type": "number",
               "label": {
                 "en": "Monetary value prev. year",
-                "de": "Geldwert des Vorjahres",
+                "de": "Geldbetrag des Vorjahres",
                 "sv": "Monetärt värde föregående år",
                 "it": "Valore monetario anno prec.",
                 "nl": "Geldwaarde van vorig jaar"
@@ -2933,7 +3562,7 @@
               "decimals": 4,
               "hint": {
                 "en": "Monetary value of the previous year. It is automatically updated.",
-                "de": "Geldwert des Vorjahres. Er wird automatisch aktualisiert.",
+                "de": "Geldbetrag des Vorjahres. Er wird automatisch aktualisiert.",
                 "sv": "Föregående års monetära värde. Den uppdateras automatiskt.",
                 "it": "Valore monetario anno precedenre. Viene aggiornato automaticamente.",
                 "nl": "Gelwaarde van het vorige jaar. Wordt automatisch geupdated."
@@ -2950,6 +3579,7 @@
     {
       "name": {
         "en": "Water Summarizer",
+        "de": "Wasserzähler",
         "sv": "Vatten Summerare"
       },
       "images": {
@@ -3095,7 +3725,7 @@
               "hint": {
                 "en": "On this date the month and year total will reset to 0. Format is ddmm. Default is 0101 (1 January). ATTENTION: If you change this date you need to manually correct the This Month Start and This Year Start values.",
                 "nl": "Op deze datum wordt het jaar en maand totaal op 0 gezet. Het formaat is ddmm. Standaard is 0101 (1 january). LET OP: Als deze datum wordt gewijzigd zal Deze Maand Start en Dit Jaar Start handmatig aangepast moeten worden.",
-                "de": "An diesem Datum wird die Monats- und Jahressumme auf 0 zurückgesetzt. Das Format ist ddmm. Standardwert ist 0101 (1. Januar). ACHTUNG: Wenn Sie dieses Datum ändern, müssen Sie die Werte 'Beginn dieses Monats' und 'Beginn dieses Jahres' manuell korrigieren.",
+                "de": "An diesem Datum wird die Monats- und Jahressumme auf 0 zurückgesetzt. Das Format ist ddmm. Standardwert ist 0101 (1. Januar). ACHTUNG: Wenn Sie dieses Datum ändern, müssen Sie die Werte 'Monatsbeginn' und 'Jahresbeginn' manuell korrigieren.",
                 "sv": "På det här datumet återställs totalsumman för månad och år till 0. Formatet är ddmm. Standard är 0101 (1 januari). OBSERVERA: Om du ändrar detta datum måste du manuellt korrigera värdena för start för denna månad och start för detta år.",
                 "it": "In questa data il totale di mese e anno verranno resettati a 0. Il formato è ggmm. Default è 0101 (1 Gennaio). ATTENZIONE: Se modifichi questa data, devi correggere manualmente i valori Inizio Mese Corrente e Inizio Anno Corrente."
               }
@@ -3133,7 +3763,7 @@
               "hint": {
                 "en": "Enter the meter reading at the start of this day. It is automatically updated at midnight.",
                 "nl": "Geef de meterstand in aan het begin van deze dag. Het wordt middernacht automatisch geupdated.",
-                "de": "Geben Sie den Zählerstand zu Beginn dieses Tages ein. Er wird um Mitternacht automatisch aktualisiert.",
+                "de": "Geben Sie den Zählerstand zu Beginn des Tages ein. Er wird um Mitternacht automatisch aktualisiert.",
                 "sv": "Ange mätarställningen i början av denna dag. Den uppdateras automatiskt vid midnatt.",
                 "it": "Inserisci la lettura del contatore all'inizio di questa giornata. Viene aggiornata automaticamente a mezzanotte."
               }
@@ -3253,7 +3883,7 @@
           "type": "group",
           "label": {
             "en": "Monetary value",
-            "de": "Geldwert",
+            "de": "Geldbetrag",
             "sv": "Penningvärde",
             "it": "Valore monetario",
             "nl": "Geldwaarde"
@@ -3283,7 +3913,7 @@
               "type": "number",
               "label": {
                 "en": "Currency decimals",
-                "de": "Dezimalstellen",
+                "de": "Anzahl Dezimalstellen",
                 "sv": "Valuta decimaler",
                 "it": "Decimali valuta",
                 "nl": "Geld decimalen"
@@ -3313,7 +3943,7 @@
               "decimals": 8,
               "hint": {
                 "en": "The tariff is used to calculate the monetary value. It can be dynamically changed via a flow.",
-                "de": "Der Kurs wird zur Berechnung des Geldwerts verwendet. Er kann über einen Flow dynamisch angepasst werden.",
+                "de": "Der Kurs wird zur Berechnung des Geldbetrags verwendet. Er kann über einen Flow dynamisch angepasst werden.",
                 "sv": "Tariffen används för att beräkna penningvärdet. Det kan ändras dynamiskt via ett flöde.",
                 "it": "La tariffa viene utilizzata per calcolare il valore monetario. Può essere cambiata dinamicamente tramite un flow.",
                 "nl": "Het tarief wordt gebruikt om de geldwaarde te berekenen. Het kan dynamisch worden aangepast via een flow."
@@ -3343,7 +3973,7 @@
               "type": "number",
               "label": {
                 "en": "Monetary value of this day",
-                "de": "Geldwert dieses Tages",
+                "de": "Geldbetrag des Tages",
                 "sv": "Dagens monetära värde",
                 "it": "Valore monetario odierno",
                 "nl": "Geldwaarde van deze dag"
@@ -3352,7 +3982,7 @@
               "decimals": 4,
               "hint": {
                 "en": "Actual monetary value. It is automatically updated.",
-                "de": "Aktueller Geldwert. Er wird automatisch aktualisiert.",
+                "de": "Aktueller Geldbetrag. Er wird automatisch aktualisiert.",
                 "sv": "Faktiskt penningvärde. Den uppdateras automatiskt.",
                 "it": "Valore monetario attuale. Viene aggiornato automaticamente.",
                 "nl": "Actuele gelwaarde. Wordt automatisch geupdated."
@@ -3363,7 +3993,7 @@
               "type": "number",
               "label": {
                 "en": "Monetary value of this month",
-                "de": "Geldwert dieses Monats",
+                "de": "Geldbetrag des Monats",
                 "sv": "Denna månads monetära värde",
                 "it": "Valore monetario mese corrente",
                 "nl": "Geldwaarde van deze maand"
@@ -3372,7 +4002,7 @@
               "decimals": 4,
               "hint": {
                 "en": "Actual monetary value. It is automatically updated.",
-                "de": "Aktueller Geldwert. Er wird automatisch aktualisiert.",
+                "de": "Aktueller Geldbetrag. Er wird automatisch aktualisiert.",
                 "sv": "Faktiskt penningvärde. Den uppdateras automatiskt.",
                 "it": "Valore monetario attuale. Viene aggiornato automaticamente.",
                 "nl": "Actuele gelwaarde. Wordt automatisch geupdated."
@@ -3383,7 +4013,7 @@
               "type": "number",
               "label": {
                 "en": "Monetary value of this year",
-                "de": "Geldwert dieses Jahres",
+                "de": "Geldbetrag des Jahres",
                 "sv": "Årets monetära värde",
                 "it": "Valore monetario anno corrente",
                 "nl": "Geldwaarde van dit jaar"
@@ -3392,7 +4022,7 @@
               "decimals": 4,
               "hint": {
                 "en": "Actual monetary value. It is automatically updated.",
-                "de": "Aktueller Geldwert. Er wird automatisch aktualisiert.",
+                "de": "Aktueller Geldbetrag. Er wird automatisch aktualisiert.",
                 "sv": "Faktiskt penningvärde. Den uppdateras automatiskt.",
                 "it": "Valore monetario attuale. Viene aggiornato automaticamente.",
                 "nl": "Actuele gelwaarde. Wordt automatisch geupdated."
@@ -3403,7 +4033,7 @@
               "type": "number",
               "label": {
                 "en": "Monetary value prev. day",
-                "de": "Geldwert des Vortages",
+                "de": "Geldbetrag des Vortages",
                 "sv": "Monetärt värde igår",
                 "it": "Valore monetario giorno prec.",
                 "nl": "Geldwaarde van vorige dag"
@@ -3412,7 +4042,7 @@
               "decimals": 4,
               "hint": {
                 "en": "Monetary value of the previous day. It is automatically updated.",
-                "de": "Geldwert des Vortages. Er wird automatisch aktualisiert.",
+                "de": "Geldbetrag des Vortages. Er wird automatisch aktualisiert.",
                 "sv": "Monetärt värde för föregående dag. Den uppdateras automatiskt.",
                 "it": "Valore monetario del giorno precedente. Viene aggiornato automaticamente.",
                 "nl": "Gelwaarde van de vorige dag. Wordt automatisch geupdated."
@@ -3423,7 +4053,7 @@
               "type": "number",
               "label": {
                 "en": "Monetary value prev. month",
-                "de": "Geldwert des Vormonats",
+                "de": "Geldbetrag des Vormonats",
                 "sv": "Monetärt värde föregående månad",
                 "it": "Valore monetario mese prec.",
                 "nl": "Geldwaarde van vorige maand"
@@ -3432,7 +4062,7 @@
               "decimals": 4,
               "hint": {
                 "en": "Monetary value of the previous month. It is automatically updated.",
-                "de": "Geldwert des Vormonats. Er wird automatisch aktualisiert.",
+                "de": "Geldbetrag des Vormonats. Er wird automatisch aktualisiert.",
                 "sv": "Föregående månads monetära värde. Den uppdateras automatiskt.",
                 "it": "Valore monetario del mese precedente. Viene aggiornato automaticamente.",
                 "nl": "Gelwaarde van de vorige maand. Wordt automatisch geupdated."
@@ -3443,7 +4073,7 @@
               "type": "number",
               "label": {
                 "en": "Monetary value prev. year",
-                "de": "Geldwert des Vorjahres",
+                "de": "Geldbetrag des Vorjahres",
                 "sv": "Monetärt värde föregående år",
                 "it": "Valore monetario anno prec.",
                 "nl": "Geldwaarde van vorig jaar"
@@ -3452,7 +4082,7 @@
               "decimals": 4,
               "hint": {
                 "en": "Monetary value of the previous year. It is automatically updated.",
-                "de": "Geldwert des Vorjahres. Er wird automatisch aktualisiert.",
+                "de": "Geldbetrag des Vorjahres. Er wird automatisch aktualisiert.",
                 "sv": "Föregående års monetära värde. Den uppdateras automatiskt.",
                 "it": "Valore monetario dell'anno precedente. Viene aggiornato automaticamente.",
                 "nl": "Gelwaarde van het vorige jaar. Wordt automatisch geupdated."
@@ -4276,7 +4906,7 @@
       "type": "number",
       "title": {
         "en": "Avg. price next 8H",
-        "de": "Durchschnittspreis nächste 8 Std.",
+        "de": "Durchschn. Preis nächste 8 Std.",
         "sv": "Genomsnittligt pris nästa 8H",
         "it": "Prezzo medio prossime 8h",
         "nl": "Gem. prijs komende 8U"
@@ -4295,7 +4925,7 @@
       "type": "number",
       "title": {
         "en": "Avg. price this day",
-        "de": "Durchschnittspreis dieser Tag",
+        "de": "Durchschn. Preis an diesem Tag",
         "sv": "Genomsnittligt pris idag",
         "it": "Prezzo medio giornata odierna",
         "nl": "Gem. prijs deze dag"
@@ -4314,7 +4944,7 @@
       "type": "number",
       "title": {
         "en": "Lowest price this day",
-        "de": "Niedrigster Preis dieser Tag",
+        "de": "Niedrigster Preis an diesem Tag",
         "sv": "Lägsta pris idag",
         "it": "Prezzo più basso giornata odierna",
         "nl": "Laagste prijs deze dag"

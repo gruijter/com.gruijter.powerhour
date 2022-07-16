@@ -101,13 +101,7 @@ class MyApp extends Homey.App {
 
 		// trigger cards
 		this._priceLowest = this.homey.flow.getDeviceTriggerCard('price_lowest');
-		this._priceLowest.registerRunListener(async (args, state) => {
-			let minimum = Math.min(...state.pricesThisDay);
-			if (args.period !== 'this_day') {
-				minimum = Math.min(...state.pricesNext8h.slice(0, Number(args.period)));
-			}
-			return state.priceNow <= minimum;
-		});
+		this._priceLowest.registerRunListener(async (args) => args.device.priceIsLowest(args));
 		this.triggerPriceLowest = (device, tokens, state) => {
 			this._priceLowest
 				.trigger(device, tokens, state)
@@ -116,11 +110,7 @@ class MyApp extends Homey.App {
 		};
 
 		this._priceLowestToday = this.homey.flow.getDeviceTriggerCard('price_lowest_today');
-		this._priceLowestToday.registerRunListener(async (args, state) => {
-			// sort and select number of lowest prices
-			const lowestNPrices = [...state.pricesThisDay].sort().slice(0, args.number);
-			return state.priceNow <= Math.max(...lowestNPrices);
-		});
+		this._priceLowestToday.registerRunListener(async (args) => args.device.priceIsLowestToday(args));
 		this.triggerPriceLowestToday = (device, tokens, state) => {
 			this._priceLowestToday
 				.trigger(device, tokens, state)
@@ -129,31 +119,7 @@ class MyApp extends Homey.App {
 		};
 
 		this._priceLowestBefore = this.homey.flow.getDeviceTriggerCard('price_lowest_before');
-		this._priceLowestBefore.registerRunListener(async (args, state) => {
-			// calculate start and end hours compared to present hour
-			const thisHour = state.H0; // e.g. 23 hrs
-			let endHour = args.time; // e.g. 2 hrs
-			if (endHour < thisHour) endHour += 24; // e.g. 2 + 24 = 26 hrs ( = tomorrow!)
-			let startHour = endHour - args.period; // e.g. 26 - 4 = 22 hrs
-
-			// check if present hour is in scope op selected period
-			if ((thisHour >= endHour) || (thisHour < startHour)) return false;
-
-			// get period (2-8) hours pricing before end time
-			let pricesPartYesterday = [];
-			if (startHour < 0) {
-				pricesPartYesterday = state.pricesYesterday.slice(startHour);
-				startHour = 0;
-			}
-			let pricesPartTomorrow = [];
-			if (endHour > 24) pricesPartTomorrow = state.pricesTomorrow.slice(0, endHour - 24);
-			const pricesPartToday = state.pricesThisDay.slice(startHour, endHour);
-			const pricesTotalPeriod = [...pricesPartYesterday, ...pricesPartToday, ...pricesPartTomorrow];
-
-			// sort and select number of lowest prices
-			const lowestNPrices = pricesTotalPeriod.sort().slice(0, args.number);
-			return state.priceNow <= Math.max(...lowestNPrices);
-		});
+		this._priceLowestBefore.registerRunListener(async (args) => args.device.priceIsLowestBefore(args));
 		this.triggerPriceLowestBefore = (device, tokens, state) => {
 			this._priceLowestBefore
 				.trigger(device, tokens, state)
@@ -161,51 +127,8 @@ class MyApp extends Homey.App {
 				.catch(this.error);
 		};
 
-		this._priceHighest = this.homey.flow.getDeviceTriggerCard('price_highest');
-		this._priceHighest.registerRunListener(async (args, state) => {
-			let maximum = Math.max(...state.pricesThisDay);
-			if (args.period !== 'this_day') {
-				maximum = Math.max(...state.pricesNext8h.slice(0, Number(args.period)));
-			}
-			return state.priceNow >= maximum;
-		});
-		this.triggerPriceHighest = (device, tokens, state) => {
-			this._priceHighest
-				.trigger(device, tokens, state)
-				// .then(this.log(device.getName(), tokens))
-				.catch(this.error);
-		};
-
 		this._priceLowestAvg = this.homey.flow.getDeviceTriggerCard('price_lowest_avg');
-		this._priceLowestAvg.registerRunListener(async (args, state) => {
-			// args.period: '8' or 'this_day'  // args.hours: '2', '3', '4', '5' or '6'
-			let prices = [...state.pricesNext8h];
-
-			// calculate all avg prices for x hour periods for next 8 hours
-			const avgPricesNext8h = [];
-			prices.forEach((price, index) => {
-				if (index > prices.length - Number(args.hours)) return;
-				const hours = prices.slice(index, (index + Number(args.hours)));
-				const avgPrice = (hours.reduce((a, b) => a + b, 0)) / hours.length;
-				avgPricesNext8h.push(avgPrice);
-			});
-			let minAvgPrice = Math.min(...avgPricesNext8h);
-
-			// calculate all avg prices for x hour periods for this_day
-			if (args.period === 'this_day') {
-				prices = [...state.pricesThisDay];
-				const avgPricesThisDay = [];
-				prices.forEach((price, index) => {
-					if (index > prices.length - Number(args.hours)) return;
-					const hours = prices.slice(index, (index + Number(args.hours)));
-					const avgPrice = (hours.reduce((a, b) => a + b, 0)) / hours.length;
-					avgPricesThisDay.push(avgPrice);
-				});
-				minAvgPrice = Math.min(...avgPricesThisDay);
-			}
-			// console.log(`avg next ${args.hours} hrs: ${avgPricesNext8h[0]}, min avg for ${args.period}: ${minAvgPrice}`);
-			return avgPricesNext8h[0] <= minAvgPrice;
-		});
+		this._priceLowestAvg.registerRunListener(async (args) => args.device.priceIsLowestAvg(args));
 		this.triggerPriceLowestAvg = (device, tokens, state) => {
 			this._priceLowestAvg
 				.trigger(device, tokens, state)
@@ -213,36 +136,17 @@ class MyApp extends Homey.App {
 				.catch(this.error);
 		};
 
+		this._priceHighest = this.homey.flow.getDeviceTriggerCard('price_highest');
+		this._priceHighest.registerRunListener(async (args) => args.device.priceIsHighest(args));
+		this.triggerPriceHighest = (device, tokens, state) => {
+			this._priceHighest
+				.trigger(device, tokens, state)
+				// .then(this.log(device.getName(), tokens))
+				.catch(this.error);
+		};
+
 		this._priceHighestAvg = this.homey.flow.getDeviceTriggerCard('price_highest_avg');
-		this._priceHighestAvg.registerRunListener(async (args, state) => {
-			// args.period: '8' or 'this_day'  // args.hours: '2', '3', '4', '5' or '6'
-			let prices = [...state.pricesNext8h];
-
-			// calculate all avg prices for x hour periods for next 8 hours
-			const avgPricesNext8h = [];
-			prices.forEach((price, index) => {
-				if (index > prices.length - Number(args.hours)) return;
-				const hours = prices.slice(index, (index + Number(args.hours)));
-				const avgPrice = (hours.reduce((a, b) => a + b, 0)) / hours.length;
-				avgPricesNext8h.push(avgPrice);
-			});
-			let maxAvgPrice = Math.max(...avgPricesNext8h);
-
-			// calculate all avg prices for x hour periods for this_day
-			if (args.period === 'this_day') {
-				prices = [...state.pricesThisDay];
-				const avgPricesThisDay = [];
-				prices.forEach((price, index) => {
-					if (index > prices.length - Number(args.hours)) return;
-					const hours = prices.slice(index, (index + Number(args.hours)));
-					const avgPrice = (hours.reduce((a, b) => a + b, 0)) / hours.length;
-					avgPricesThisDay.push(avgPrice);
-				});
-				maxAvgPrice = Math.max(...avgPricesThisDay);
-			}
-			// console.log(`avg next ${args.hours} hrs: ${avgPricesNext8h[0]}, max avg for ${args.period}: ${maxAvgPrice}`);
-			return avgPricesNext8h[0] >= maxAvgPrice;
-		});
+		this._priceHighestAvg.registerRunListener(async (args) => args.device.priceIsHighestAvg(args));
 		this.triggerPriceHighestAvg = (device, tokens, state) => {
 			this._priceHighestAvg
 				.trigger(device, tokens, state)
@@ -273,6 +177,25 @@ class MyApp extends Homey.App {
 				// .then(this.log(device.getName(), tokens))
 				.catch(this.error);
 		};
+
+		// condition cards
+		const priceLowestCondition = this.homey.flow.getConditionCard('price_lowest');
+		priceLowestCondition.registerRunListener((args) => args.device.priceIsLowest(args));
+
+		const priceLowestTodayCondition = this.homey.flow.getConditionCard('price_lowest_today');
+		priceLowestTodayCondition.registerRunListener((args) => args.device.priceIsLowestToday(args));
+
+		const priceLowestBeforeCondition = this.homey.flow.getConditionCard('price_lowest_before');
+		priceLowestBeforeCondition.registerRunListener((args) => args.device.priceIsLowestBefore(args));
+
+		const priceLowestAvgCondition = this.homey.flow.getConditionCard('price_lowest_avg');
+		priceLowestAvgCondition.registerRunListener((args) => args.device.priceIsLowestAvg(args));
+
+		const priceHighestCondition = this.homey.flow.getConditionCard('price_highest');
+		priceHighestCondition.registerRunListener((args) => args.device.priceIsHighest(args));
+
+		const priceHighestAvgCondition = this.homey.flow.getConditionCard('price_highest_avg');
+		priceHighestAvgCondition.registerRunListener((args) => args.device.priceIsHighestAvg(args));
 
 		// action cards
 		const setTariffPower = this.homey.flow.getActionCard('set_tariff_power');
