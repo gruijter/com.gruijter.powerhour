@@ -2,14 +2,14 @@
 	"title": {
 		"en": "The price !{{is|isn't}} lowest before a certain time",
 		"de": "The price !{{is|isn't}} lowest before a certain time",
-		"sv": "The price !{{is|isn't}} lowest before a certain time",
+		"sv": "Priset !{{är|är inte}} det lägsta före ett specifikt tidpunkt",
 		"it": "The price !{{is|isn't}} lowest before a certain time",
 		"nl": "De prijs !{{is|isn't}} het laagst voor een bepaalde tijd"
 	},
 	"titleFormatted": {
 		"en": "The price !{{is|isn't}} one of [[number]] lowest in the [[period]] hours before [[time]] o'clock",
 		"de": "The price !{{is|isn't}} one of [[number]] lowest in the [[period]] hours before [[time]] o'clock",
-		"sv": "The price !{{is|isn't}} one of [[number]] lowest in the [[period]] hours before [[time]] o'clock",
+		"sv": "Priset !{{är|är inte}} en av de [[number]] lägsta i [[period]] timmar före [[time]]",
 		"it": "The price !{{is|isn't}} one of [[number]] lowest in the [[period]] hours before [[time]] o'clock",
 		"nl": "De prijs !{{is|isn't}} een van de [[number]] laagste in de [[period]] uren voor [[time]] uur"
 	},
