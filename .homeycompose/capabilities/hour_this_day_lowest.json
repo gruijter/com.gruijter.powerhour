@@ -2,6 +2,7 @@
   "type": "number",
   "title": {
     "en": "Lowest hour this day",
+    "no": "Laveste time denne dag",
     "nl": "Laagste uur deze dag"
   },
   "uiComponent": "sensor",

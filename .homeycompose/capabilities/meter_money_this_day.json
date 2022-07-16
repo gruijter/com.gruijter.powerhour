@@ -2,6 +2,7 @@
   "type": "number",
   "title": {
     "en": "Money this day",
+    "no": "Penger denne dag",
     "nl": "Geld deze dag"
   },
   "uiComponent": "sensor",

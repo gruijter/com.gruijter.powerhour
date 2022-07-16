@@ -2,6 +2,7 @@
   "type": "number",
   "title": {
     "en": "Active tariff",
+    "no": "Aktiv tariff",
     "nl": "Actief tarief"
   },
   "uiComponent": "sensor",

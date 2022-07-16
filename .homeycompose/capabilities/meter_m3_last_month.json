@@ -2,6 +2,7 @@
   "type": "number",
   "title": {
     "en": "m³ prev. month",
+    "no": "m³ forrige måned",
     "nl": "m³ vorige maand"
   },
   "uiComponent": null,

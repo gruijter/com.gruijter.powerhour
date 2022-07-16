@@ -2,6 +2,7 @@
   "type": "number",
   "title": {
     "en": "Minimum",
+    "no": "Minimum",
     "nl": "Minimum"
   },
   "uiComponent": "sensor",

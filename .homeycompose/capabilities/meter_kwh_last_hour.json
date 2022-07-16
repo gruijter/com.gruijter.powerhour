@@ -2,6 +2,7 @@
   "type": "number",
   "title": {
     "en": "kWh prev. hour",
+    "no": "kWh forrige time",
     "nl": "kWh vorig uur"
   },
   "uiComponent": null,

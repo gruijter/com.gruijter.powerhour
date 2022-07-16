@@ -9,7 +9,7 @@
   },
   "description": {
     "en": "Summarize the energy/water usage or (solar) production per hour, day, month and year. Use dynamic tariffs.",
-    "no": "Summarize the energy/water usage or (solar) production per hour, day, month and year. Use dynamic tariffs.",
+    "no": "Summere energi/vann forbruk eller (solcellepanel) produksjon pr, time, dag, måned og år. Bruk dynamiske tariffer.",
     "nl": "Samenvatten van energie/water verbruik of (zonnepaneel) productie per uur, dag, maand en jaar. Gebruik dynamische tarieven."
   },
   "category": "energy",
@@ -66,6 +66,9 @@
     "translators": [
       {
         "name": "🇬🇧 Robin"
+      },
+      {
+        "name": "🇬🇧 Kai Engvik"
       },
       {
         "name": "🇳🇱 Robin"

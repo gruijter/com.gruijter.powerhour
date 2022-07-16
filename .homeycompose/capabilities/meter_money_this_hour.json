@@ -2,6 +2,7 @@
   "type": "number",
   "title": {
     "en": "Money this hour",
+    "no": "Penger denne time",
     "nl": "Geld dit uur"
   },
   "uiComponent": "sensor",

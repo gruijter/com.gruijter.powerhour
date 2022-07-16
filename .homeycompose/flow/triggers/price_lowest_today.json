@@ -1,10 +1,12 @@
 {
 	"title": {
 		"en": "The price becomes on of the lowest of today",
+		"no": "Prisen blir en av dagens laveste",
 		"nl": "De prijs wordt één van de laagste van vandaag"
 	},
 	"titleFormatted": {
 		"en": "The price becomes one of [[number]] lowest of today",
+		"no": "Prisen blir en av dagens [[number]] laveste",
 		"nl": "De prijs wordt een van de [[number]] laagste van vandaag"
 	},
 	"highlight": true,
@@ -19,6 +21,7 @@
 			"name": "number",
 			"title": { 
 				"en": "number",
+				"no": "antall",
 				"nl": "aantal"
 			},
 			"placeholder": { "en": "1 - 16" },
@@ -32,6 +35,7 @@
 		"name": "meter_price_h0",
 		"title": {
 			"en": "Price now",
+			"no": "Pris nå",
 			"nl": "Prijs nu"
 		},
 		"type": "number",

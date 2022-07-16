@@ -2,6 +2,7 @@
   "type": "number",
   "title": {
     "en": "Avg. price this day",
+    "no": "Gjennomsnittpris denne dag",
     "nl": "Gem. prijs deze dag"
   },
   "uiComponent": "sensor",

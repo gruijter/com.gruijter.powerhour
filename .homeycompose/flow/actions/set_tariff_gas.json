@@ -1,10 +1,12 @@
 {
   "title": {
     "en": "Set a new gas tariff",
+    "no": "Sett en ny gasstariff",
     "nl": "Stel een nieuw gastarief in"
   },
   "titleFormatted": {
     "en": "Set gas tariff to [[tariff]]",
+    "no": "Sett gasstariff til [[tariff]]",
     "nl": "Stel gastarief in op [[tariff]]"
   },
   "highlight": true,
@@ -14,6 +16,7 @@
       "type": "number",
       "placeholder": {
         "en": "The tariff per m³",
+        "no": "Tariff per m³",
         "nl": "Het tarief per m³"
       }
     }

@@ -1,10 +1,12 @@
 {
   "title": {
     "en": "Set a new exchange rate",
+    "no": "Sett en ny vekslingskurs",
     "nl": "Stel een nieuwe wisselkoers in"
   },
   "titleFormatted": {
     "en": "Set exchange rate to [[value]]",
+    "no": "Sett vekslingskurs til [[value]]",
     "nl": "Stel wisselkoers in op [[value]]"
   },
   "highlight": true,
@@ -19,6 +21,7 @@
       "type": "number",
       "placeholder": {
         "en": "€ Exchange rate",
+        "no": "€ Vekslingskurs",
         "nl": "€ Wisselkoers"
       }
     }

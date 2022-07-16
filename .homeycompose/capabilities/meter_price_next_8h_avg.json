@@ -2,6 +2,7 @@
   "type": "number",
   "title": {
     "en": "Avg. price next 8H",
+    "no": "Gjennomsnittpris neste 8T",
     "nl": "Gem. prijs komende 8U"
   },
   "uiComponent": "sensor",

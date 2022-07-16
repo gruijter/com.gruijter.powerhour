@@ -1,10 +1,12 @@
 {
 	"title": {
 		"en": "The price becomes highest",
+		"no": "Prisen blir høyest",
 		"nl": "De prijs wordt het hoogst"
 	},
 	"titleFormatted": {
 		"en": "The price becomes highest for [[period]]",
+		"no": "Prisen blir høyest for [[period]]",
 		"nl": "De prijs wordt het hoogst voor [[period]]"
 	},
 	"highlight": true,
@@ -19,54 +21,63 @@
 			"name": "period",
 			"title": { 
 				"en": "period",
+				"no": "periode",
 				"nl": "periode"
 			},
 			"values": [
 				{	"id": "this_day",
 					"label": { 
 						"en": "this day",
+						"no": "denne dag",
 						"nl": "deze dag"
 					}
 				},
 				{	"id": "2",
 					"label": { 
 						"en": "next 2H",
+						"no": "neste 2T",
 						"nl": "komende 2U"
 					}
 				},
 				{	"id": "3",
 					"label": { 
 						"en": "next 3H",
+						"no": "neste 3T",
 						"nl": "komende 3U"
 					}
 				},
 				{	"id": "4",
 					"label": { 
 						"en": "next 4H",
+						"no": "neste 4T",
 						"nl": "komende 4U"
 					}
 				},
 				{	"id": "5",
 					"label": { 
 						"en": "next 5H",
+						"no": "neste 5T",
 						"nl": "komende 5U"
 					}
 				},
 				{	"id": "6",
 					"label": { 
 						"en": "next 6H",
+						"no": "neste 6T",
 						"nl": "komende 6U"
 					}
 				},
 				{	"id": "7",
 					"label": { 
 						"en": "next 7H",
+						"no": "neste 7T",
 						"nl": "komende 7U"
 					}
 				},
 				{	"id": "8",
 					"label": { 
 						"en": "next 8H",
+						"no": "neste 8T",
 						"nl": "komende 8U"
 					}
 				}
@@ -78,6 +89,7 @@
 		"name": "meter_price_h0",
 		"title": {
 			"en": "Price now",
+			"no": "Pris nå",
 			"nl": "Prijs nu"
 		},
 		"type": "number",
