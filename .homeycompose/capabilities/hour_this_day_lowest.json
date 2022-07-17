@@ -15,6 +15,7 @@
   "insights": true,
   "units": {
     "en": "Hour",
+    "no": "Time",
     "de": "Stunde",
     "sv": "Timme",
     "it": "Ora",

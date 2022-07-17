@@ -1,6 +1,7 @@
 {
 	"title": {
 		"en": "The avg. price next hours !{{is|isn't}} the lowest",
+		"no": "Gj.snittprisen de neste timene !{{is|isn't}} den laveste",
 		"de": "The avg. price next hours !{{is|isn't}} the lowest",
 		"sv": "Det genomsnittliga priset de kommande timmarna !{{är|är inte}} det lägsta",
 		"it": "The avg. price next hours !{{is|isn't}} the lowest",
@@ -8,6 +9,7 @@
 	},
 	"titleFormatted": {
 		"en": "The avg. price [[hours]] !{{is|isn't}} lowest within [[period]]",
+		"no": "Gj.snittprisen [[hours]] !{{is|isn't}} lavest innen [[period]]",
 		"de": "The avg. price [[hours]] !{{is|isn't}} lowest within [[period]]",
 		"sv": "Det genomsnittliga priset [[hours]] !{{är|är inte}} det lägsta inom [[period]]",
 		"it": "The avg. price [[hours]] !{{is|isn't}} lowest within [[period]]",
@@ -25,6 +27,7 @@
 			"name": "period",
 			"title": { 
 				"en": "period",
+				"no": "periode",
 				"de": "Zeitraum",
 				"sv": "period",
 				"it": "periodo",
@@ -34,6 +37,7 @@
 				{	"id": "this_day",
 					"label": { 
 						"en": "this day",
+						"no": "idag",
 						"de": "des Tages",
 						"sv": "idag",
 						"it": "giornata odierna",
@@ -43,6 +47,7 @@
 				{	"id": "8",
 					"label": { 
 						"en": "next 8H",
+						"no": "neste 8T",
 						"de": "der nächsten 8 Std.",
 						"sv": "nästa 8H",
 						"it": "prossime 8h",
@@ -56,6 +61,7 @@
 			"name": "hours",
 			"title": { 
 				"en": "hours",
+				"no": "timer",
 				"de": "Stunden",
 				"sv": "timmar",
 				"it": "ore",
@@ -65,6 +71,7 @@
 				{	"id": "2",
 					"label": { 
 						"en": "next 2H",
+						"no": "neste 2T",
 						"de": "der nächsten 2 Std.",
 						"sv": "nästa 2H",
 						"it": "prossime 2h",
@@ -74,6 +81,7 @@
 				{	"id": "3",
 					"label": { 
 						"en": "next 3H",
+						"no": "neste 3T",
 						"de": "der nächsten 3 Std.",
 						"sv": "nästa 3H",
 						"it": "prossime 3h",
@@ -83,6 +91,7 @@
 				{	"id": "4",
 					"label": { 
 						"en": "next 4H",
+						"no": "neste 4T",
 						"de": "der nächsten 4 Std.",
 						"sv": "nästa 4H",
 						"it": "prossime 4h",
@@ -92,6 +101,7 @@
 				{	"id": "5",
 					"label": { 
 						"en": "next 5H",
+						"no": "neste 5T",
 						"de": "der nächsten 5 Std.",
 						"sv": "nästa 5H",
 						"it": "prossime 5h",
@@ -101,6 +111,7 @@
 				{	"id": "6",
 					"label": { 
 						"en": "next 6H",
+						"no": "neste 6T",
 						"de": "der nächsten 6 Std.",
 						"sv": "nästa 6H",
 						"it": "prossime 6h",

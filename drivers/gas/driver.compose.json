@@ -34,7 +34,7 @@
         "de": "Informationen zum Homey Gerät",
         "sv": "Homey källenhetsinformation",
         "it": "Informazioni sul dispositivo sorgente Homey",
-        "no": "Homey kildeenhet informasjon",
+        "no": "Homey kildeenhetinformasjon",
         "nl": "Homey bronapparaat informatie"
       },
       "children": [
@@ -45,6 +45,7 @@
             "en": "Device ID",
             "de": "Geräte ID",
             "sv": "Enhets ID",
+            "no": "Enhets ID",
             "it": "ID dispositivo",
             "nl": "Apparaat ID"
           },
@@ -113,7 +114,7 @@
             "de": "Update-Intervall (Minuten)",
             "sv": "Uppdateringsintervall (minuter)",
             "it": "Intervallo di aggiornamento (minuti)",
-            "no": "Oppdaterings intervall (minutter)",
+            "no": "Oppdateringsintervall (minutter)",
             "nl": "Update interval (minuten)"
           },
           "hint": {
@@ -150,7 +151,7 @@
             "de": "Startdatum neues Jahr",
             "sv": "Nytt år startdatum",
             "it": "Data inizio anno nuovo",
-            "no": "start dato for nytt år",
+            "no": "startdato for nytt år",
             "nl": "Start datum nieuw jaar"
           },
           "value": "0101",
@@ -329,7 +330,7 @@
         "de": "Geldbetrag",
         "sv": "Penningvärde",
         "it": "Valore monetario",
-        "no": "Pengeverdi",
+        "no": "Kostnad",
         "nl": "Geldwaarde"
       },
       "children": [
@@ -341,7 +342,7 @@
             "de": "Währung",
             "sv": "Valutaenhet",
             "it": "Unità valuta",
-            "no": "Valuta enhet",
+            "no": "Valutaenhet",
             "nl": "Geldeenheid"
           },
           "value": "¤",
@@ -373,7 +374,7 @@
             "de": "Die Anzahl der Dezimalstellen für den Preis.",
             "sv": "Antalet decimaler som ska användas för monetärt värde.",
             "it": "Il numero di decimali da utilizzare per il valore monetario.",
-            "no": "Antall desimaler for pengeverdi.",
+            "no": "Antall desimaler for kostnad.",
             "nl": "Het aantal decimalen voor geldwaarde."
           }
         },
@@ -438,7 +439,7 @@
             "de": "Aktueller Geldbetrag. Er wird automatisch aktualisiert.",
             "sv": "Faktiskt penningvärde. Den uppdateras automatiskt.",
             "it": "Valore monetario corrente. Viene aggiornato automaticamente.",
-            "no": "Aktuell Kostnad. Blir automatisk oppdatert",
+            "no": "Aktuell kostnad. Blir automatisk oppdatert",
             "nl": "Actuele gelwaarde. Wordt automatisch geupdated."
           }
         },
@@ -460,7 +461,7 @@
             "de": "Aktueller Geldbetrag. Er wird automatisch aktualisiert.",
             "sv": "Faktiskt penningvärde. Den uppdateras automatiskt.",
             "it": "Valore monetario corrente. Viene aggiornato automaticamente.",
-            "no": "Aktuell Kostnad. Blir automatisk oppdatert",
+            "no": "Aktuell kostnad. Blir automatisk oppdatert",
             "nl": "Actuele gelwaarde. Wordt automatisch geupdated."
           }
         },
@@ -538,7 +539,7 @@
             "de": "Geldbetrag des Vorjahres",
             "sv": "Monetärt värde föregående år",
             "it": "Valore monetario anno prec.",
-            "no": "Kostnad forrige dag",
+            "no": "Kostnad forrige år",
             "nl": "Geldwaarde van vorig jaar"
           },
           "value": 0,

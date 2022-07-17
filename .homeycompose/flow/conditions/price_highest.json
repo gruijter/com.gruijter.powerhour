@@ -1,6 +1,7 @@
 {
 	"title": {
 		"en": "The price !{{is|isn't}} highest",
+		"no": "TPrisen !{{is|isn't}} høyest",
 		"de": "The price !{{is|isn't}} highest",
 		"sv": "Priset !{{är|är inte}} det högsta",
 		"it": "The price !{{is|isn't}} highest",
@@ -8,6 +9,7 @@
 	},
 	"titleFormatted": {
 		"en": "The price !{{is|isn't}} highest for [[period]]",
+		"no": "Prisen !{{is|isn't}} høyest for [[period]]",
 		"de": "The price !{{is|isn't}} highest for [[period]]",
 		"sv": "Priset !{{är|är inte}} det högsta [[period]]",
 		"it": "The price !{{is|isn't}} highest for [[period]]",
@@ -25,6 +27,7 @@
 			"name": "period",
 			"title": { 
 				"en": "period",
+				"no": "periode",
 				"de": "Zeitraum",
 				"sv": "period",
 				"it": "periodo",
@@ -34,6 +37,7 @@
 				{	"id": "this_day",
 					"label": { 
 						"en": "this day",
+						"no": "denne dag",
 						"de": "diesen Tag",
 						"sv": "idag",
 						"it": "giornata odierna",
@@ -43,6 +47,7 @@
 				{	"id": "2",
 					"label": { 
 						"en": "next 2H",
+						"no": "neste 2T",
 						"de": "die nächsten 2 Std.",
 						"sv": "nästa 2H",
 						"it": "prossime 2h",
@@ -52,6 +57,7 @@
 				{	"id": "3",
 					"label": { 
 						"en": "next 3H",
+						"no": "neste 3T",
 						"de": "die nächsten 3 Std.",
 						"sv": "nästa 3H",
 						"it": "prossime 3h",
@@ -61,6 +67,7 @@
 				{	"id": "4",
 					"label": { 
 						"en": "next 4H",
+						"no": "neste 4T",
 						"de": "die nächsten 4 Std.",
 						"sv": "nästa 4H",
 						"it": "prossime 4h",
@@ -70,6 +77,7 @@
 				{	"id": "5",
 					"label": { 
 						"en": "next 5H",
+						"no": "neste 5T",
 						"de": "die nächsten 5 Std.",
 						"sv": "nästa 5H",
 						"it": "prossime 5h",
@@ -79,6 +87,7 @@
 				{	"id": "6",
 					"label": { 
 						"en": "next 6H",
+						"no": "neste 6T",
 						"de": "die nächsten 6 Std.",
 						"sv": "nästa 6H",
 						"it": "prossime 6h",
@@ -88,6 +97,7 @@
 				{	"id": "7",
 					"label": { 
 						"en": "next 7H",
+						"no": "neste 7T",
 						"de": "die nächsten 7 Std.",
 						"sv": "nästa 7H",
 						"it": "prossime 7h",
@@ -97,6 +107,7 @@
 				{	"id": "8",
 					"label": { 
 						"en": "next 8H",
+						"no": "neste 8T",
 						"de": "die nächsten 8 Std.",
 						"sv": "nästa 8H",
 						"it": "prossime 8h",

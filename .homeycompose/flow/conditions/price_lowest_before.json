@@ -1,6 +1,7 @@
 {
 	"title": {
 		"en": "The price !{{is|isn't}} lowest before a certain time",
+		"no": "Prisen!{{is|isn't}} lavest før en bestemt tid",
 		"de": "The price !{{is|isn't}} lowest before a certain time",
 		"sv": "Priset !{{är|är inte}} det lägsta före ett specifikt tidpunkt",
 		"it": "The price !{{is|isn't}} lowest before a certain time",
@@ -10,6 +11,7 @@
 		"en": "The price !{{is|isn't}} one of [[number]] lowest in the [[period]] hours before [[time]] o'clock",
 		"de": "The price !{{is|isn't}} one of [[number]] lowest in the [[period]] hours before [[time]] o'clock",
 		"sv": "Priset !{{är|är inte}} en av de [[number]] lägsta i [[period]] timmar före [[time]]",
+		"no": "Prisen !{{is|isn't}} en av de [[number]] laveste i [[period]] timer før [[time]]",
 		"it": "The price !{{is|isn't}} one of [[number]] lowest in the [[period]] hours before [[time]] o'clock",
 		"nl": "De prijs !{{is|isn't}} een van de [[number]] laagste in de [[period]] uren voor [[time]] uur"
 	},
@@ -25,6 +27,7 @@
 			"name": "period",
 			"title": { 
 				"en": "period",
+				"no": "periode",
 				"de": "Zeitraum",
 				"sv": "period",
 				"it": "periodo",
@@ -40,6 +43,7 @@
 			"name": "number",
 			"title": { 
 				"en": "number",
+				"no": "antall",
 				"de": "Anzahl",
 				"sv": "antal",
 				"it": "numero",
@@ -55,6 +59,7 @@
 			"name": "time",
 			"title": { 
 				"en": "time",
+				"no": "tid",
 				"de": "Zeit",
 				"sv": "tid",
 				"it": "tempo",

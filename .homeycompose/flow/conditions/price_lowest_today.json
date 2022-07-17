@@ -1,6 +1,7 @@
 {
 	"title": {
 		"en": "The price !{{is|isn't}} on of the lowest of today",
+		"no": "Prisen !{{is|isn't}} på det laveste idag",
 		"de": "The price !{{is|isn't}} on of the lowest of today",
 		"sv": "Priset !{{är|är inte}} det lägsta idag",
 		"it": "The price !{{is|isn't}} on of the lowest of today",
@@ -25,6 +26,7 @@
 			"name": "number",
 			"title": { 
 				"en": "number",
+				"no": "antall",
 				"de": "Anzahl",
 				"sv": "antal",
 				"it": "numero",

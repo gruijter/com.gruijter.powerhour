@@ -31,6 +31,7 @@
       "type": "group",
       "label": {
         "en": "Homey source device information",
+        "no": "Homey kildeenhetsinformasjon",
         "de": "Informationen zum Homey Gerät",
         "sv": "Homey källenhetsinformation",
         "it": "Informazioni dispositivo sorgente Homey",
@@ -42,6 +43,7 @@
           "type": "label",
           "label": {
             "en": "Device ID",
+            "no": "Enhets ID",
             "de": "Geräte ID",
             "sv": "Enhets ID",
             "it": "ID dispositivo",
@@ -54,6 +56,7 @@
           "type": "label",
           "label": {
             "en": "Device name",
+            "no": "Enhets navn",
             "de": "Gerätename",
             "sv": "Enhets namn",
             "it": "Nome dispositivo",
@@ -66,6 +69,7 @@
           "type": "label",
           "label": {
             "en": "Source device type",
+            "no": "Kildeenhetstype",
             "de": "Gerätetyp",
             "sv": "Källenhetstyp",
             "it": "Tipo dispositivo sorgente",
@@ -128,6 +132,7 @@
           "type": "number",
           "label": {
             "en": "Update interval (minutes)",
+            "no": "Oppdateringsintervall (minutter)",
             "de": "Update-Intervall (Minuten)",
             "sv": "Uppdateringsintervall (minuter)",
             "it": "Intervallo di aggiornamento (minuti)",
@@ -155,7 +160,7 @@
         "de": "Zählerstände",
         "sv": "Mätaravläsningar",
         "it": "Letture contatore",
-        "no": "Meter verdier",
+        "no": "Meterverdier",
         "nl": "Meter waarden"
       },
       "children": [
@@ -346,7 +351,7 @@
         "de": "Geldbetrag",
         "sv": "Penningvärde",
         "it": "Valore monetario",
-        "no": "Pengeverdi",
+        "no": "Kostnad",
         "nl": "Geldwaarde"
       },
       "children": [
@@ -358,7 +363,7 @@
             "de": "Währung",
             "sv": "Valutaenhet",
             "it": "Unità valuta",
-            "no": "Valuta enhet",
+            "no": "Valutaenhet",
             "nl": "Geldeenheid"
           },
           "value": "¤",
@@ -367,7 +372,7 @@
             "de": "Die als Währung angezeigte Einheit, z.B. €, £, EUR, SER, NOK, DKK, CHF. Leer lassen, um die Standardeinstellung zu verwenden ¤.",
             "sv": "Enheten som visas som valuta, t.ex. €, £, EUR, SER, NOK, DKK, CHF. Lämna tomt för att använda standardvärdet ¤.",
             "it": "L'unità visualizzata come valuta, es. €, £, EUR, SER, NOK, DKK, CHF. Lasciare vuoto per utilizzare ¤ di default.",
-            "no": "Enheten vist som valuta, e.g. €, £, EUR, SER, NOK, DKK, CHF. La være blank for å bruke default ¤.",
+            "no": "Enheten vist som valuta, f.eks. €, £, EUR, SER, NOK, DKK, CHF. La være blank for å bruke default ¤.",
             "nl": "De weergegeven eenheid voor geld, bijv. €, £, EUR, SER, NOK, DKK, CHF. Laat leeg om de standaard ¤ te gebruiken."
           }
         },
@@ -390,7 +395,7 @@
             "de": "Die Anzahl der Dezimalstellen für den Preis.",
             "sv": "Antalet decimaler som ska användas för monetärt värde.",
             "it": "Iil numero di decimali da utilizzare per il valore monetario.",
-            "no": "Antall desimaler for pengeverdi.",
+            "no": "Antall desimaler for kostnad.",
             "nl": "Het aantal decimalen voor geldwaarde."
           }
         },
@@ -412,7 +417,7 @@
             "de": "Der Kurs wird zur Berechnung des Geldbetrags verwendet. Er kann über einen Flow dynamisch angepasst werden.",
             "sv": "Tariffen används för att beräkna penningvärdet. Det kan ändras dynamiskt via ett flöde.",
             "it": "La tariffa è utilizzata per calcolare il valore monetario. Può essere cambiata dinamicamente tramite un flow.",
-            "no": "Tariffen blir brukt til å kalkulere pengeverdien. Den kan endres dynamisk via en flow.",
+            "no": "Tariffen blir brukt til å kalkulere kostnaden. Den kan endres dynamisk via en flow.",
             "nl": "Het tarief wordt gebruikt om de geldwaarde te berekenen. Het kan dynamisch worden aangepast via een flow."
           }
         },
@@ -445,7 +450,7 @@
             "de": "Geldbetrag des Tages",
             "sv": "Dagens monetära värde",
             "it": "Valore monetario di oggi",
-            "no": "Kostnad denne dag",
+            "no": "Kostnad idag",
             "nl": "Geldwaarde van deze dag"
           },
           "value": 0,
@@ -511,7 +516,7 @@
             "de": "Geldbetrag des Vortages",
             "sv": "Monetärt värde igår",
             "it": "Valore monetario giorno prec.",
-            "no": "Kostnad forrige dag",
+            "no": "Kostnad igår",
             "nl": "Geldwaarde van vorige dag"
           },
           "value": 0,

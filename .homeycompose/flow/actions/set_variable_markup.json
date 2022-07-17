@@ -4,7 +4,7 @@
     "de": "Neuen variablen Aufschlag festlegen",
     "sv": "Ställ in ett nytt variabelt påslag",
     "it": "Imposta un nuovo sovraprezzo variabile",
-    "no": "Sett en ny variabel avgift",
+    "no": "Sett en ny variabel påslag",
     "nl": "Stel een nieuwe variabele opslag in"
   },
   "titleFormatted": {
@@ -12,7 +12,7 @@
     "sv": "Ställ in variabelpåslag till [[value]]%",
     "de": "Variablen Aufschlag einstellen auf [[value]]%",
     "it": "Imposta sovraprezzo variabile a [[value]]%",
-    "no": "Sett variabel avgift til [[value]]%",
+    "no": "Sett variabel påslag til [[value]]%",
     "nl": "Stel variabele opslag in op [[value]]%"
   },
   "highlight": true,
@@ -30,7 +30,7 @@
         "de": "Variabler Aufschlag (%)",
         "sv": "Variabel påslag (%)",
         "it": "Sovraprezzo variabile (%)",
-        "no": "Variabel avgift (%)",
+        "no": "Variabel påslag (%)",
         "nl": "Variabele opslag (%)"
       }
     }

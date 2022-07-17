@@ -5,7 +5,7 @@
     "de": "kWh diese Stunde",
     "sv": "kWh denna timme",
     "it": "kWh ora corrente",
-    "no": "kWh denne dag",
+    "no": "kWh denne time",
     "nl": "kWh dit uur"
   },
   "uiComponent": "sensor",

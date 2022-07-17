@@ -12,7 +12,7 @@
 		"de": "Durchschn. Preis [[hours]] wird am niedrigsten innerhalb [[period]]",
 		"sv": "Det genomsnittliga priset [[hours]] blir lägst inom [[period]]",
 		"it": "Il prezzo medio di [[hours]] diventa più basso entro [[period]]",
-		"no": "Gjennomsnittsprisene [[hours]] blir lavest within [[period]]",
+		"no": "Gjennomsnittsprisene [[hours]] blir lavest innen [[period]]",
 		"nl": "De gem. prijs [[hours]] wordt het laagst binnen [[period]]"
 	},
 	"highlight": true,
@@ -40,7 +40,7 @@
 						"de": "des Tages",
 						"sv": "idag",
 						"it": "giornata odierna",
-						"no": "denne dag",
+						"no": "idag",
 						"nl": "deze dag"
 					}
 				},
@@ -91,6 +91,7 @@
 				{	"id": "4",
 					"label": { 
 						"en": "next 4H",
+						"no": "neste 4T",
 						"de": "der nächsten 4 Std.",
 						"sv": "nästa 4H",
 						"it": "prossime 4h",
