@@ -350,7 +350,7 @@
           "label": {
             "en": "Weekend same as night time",
             "no": "Weekend samme som natt",
-            "de": "Weekend same as night time",
+            "de": "Am Wochenende wie in der Nacht",
             "sv": "Helg påslag samma som under nattetid",
             "it": "Weekend same as night time",
             "nl": "Weekend gelijk aan 's nachts"
@@ -358,7 +358,7 @@
           "value": false,
           "hint": {
             "en": "If enabled the night time markup will be applied during the whole weekend (Saturday - Sunday).",
-            "de": "If enabled the night time markup will be applied during the whole weekend (Saturday - Sunday).",
+            "de": "Wenn aktiviert, wird der Nachtaufschlag während des gesamten Wochenendes (Samstag - Sonntag) angewendet.",
             "sv": "Om den är aktiverad kommer natttidspåslag att tillämpas under hela helgen (lördag - söndag).",
             "it": "If enabled the night time markup will be applied during the whole weekend (Saturday - Sunday).",
             "no": "Hvis aktivert vil nattpåslag være påført hele helgen (Lørdag - Søndag).",
