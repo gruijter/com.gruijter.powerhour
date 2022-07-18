@@ -352,7 +352,7 @@
             "no": "Weekend samme som natt",
             "de": "Am Wochenende wie in der Nacht",
             "sv": "Helg påslag samma som under nattetid",
-            "it": "Weekend same as night time",
+            "it": "Weekend come periodo notturno",
             "nl": "Weekend gelijk aan 's nachts"
           },
           "value": false,
@@ -360,7 +360,7 @@
             "en": "If enabled the night time markup will be applied during the whole weekend (Saturday - Sunday).",
             "de": "Wenn aktiviert, wird der Nachtaufschlag während des gesamten Wochenendes (Samstag - Sonntag) angewendet.",
             "sv": "Om den är aktiverad kommer natttidspåslag att tillämpas under hela helgen (lördag - söndag).",
-            "it": "If enabled the night time markup will be applied during the whole weekend (Saturday - Sunday).",
+            "it": "Se abilitato, l'extra costo notturno sarà applicato durante l'intero weekend (Sabato - Domenica).",
             "no": "Hvis aktivert vil nattpåslag være påført hele helgen (Lørdag - Søndag).",
             "nl": "Indien geactiveerd wordt nacht verhoging het hele weekend toegepast (zaterdag - zondag)."
           }
