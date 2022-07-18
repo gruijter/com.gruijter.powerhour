@@ -4,7 +4,7 @@
 		"no": "Prisen !{{is|isn't}} lavest",
 		"de": "Preis !{{ist|ist nicht}} der niedrigste",
 		"sv": "Priset !{{är|är inte}} det lägsta",
-		"it": "The price !{{is|isn't}} lowest",
+		"it": "Il prezzo !{{è|non è}} il più basso",
 		"nl": "De prijs !{{is|is niet}} het laagst"
 	},
 	"titleFormatted": {
@@ -12,7 +12,7 @@
 		"no": "Prisen !{{is|isn't}} lavest for [[period]]",
 		"de": "Preis !{{ist|ist nicht}} der niedrigste für [[period]]",
 		"sv": "Priset !{{är|är inte}} det lägsta för [[period]]",
-		"it": "The price !{{is|isn't}} lowest for [[period]]",
+		"it": "Il prezzo !{{è|non è}} il più basso per [[period]]",
 		"nl": "De prijs !{{is|is niet}} het laagst voor [[period]]"
 	},
 	"highlight": true,
