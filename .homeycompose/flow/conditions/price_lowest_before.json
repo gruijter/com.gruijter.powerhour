@@ -5,7 +5,7 @@
 		"de": "Preis !{{ist|ist nicht}} der niedrigste für eine bestimmte Zeit",
 		"sv": "Priset !{{är|är inte}} det lägsta före ett specifikt tidpunkt",
 		"it": "Il prezzo !{{è|non è}} il più basso prima di un certo orario",
-		"nl": "De prijs !{{is|isn't}} het laagst voor een bepaalde tijd"
+		"nl": "De prijs !{{is|is niet}} het laagst voor een bepaalde tijd"
 	},
 	"titleFormatted": {
 		"en": "The price !{{is|isn't}} one of [[number]] lowest in the [[period]] hours before [[time]] o'clock",
@@ -13,7 +13,7 @@
 		"sv": "Priset !{{är|är inte}} en av de [[number]] lägsta i [[period]] timmar före [[time]]",
 		"no": "Prisen !{{is|isn't}} en av de [[number]] laveste i [[period]] timer før [[time]]",
 		"it": "Il prezzo !{{è|non è}} uno dei [[number]] più bassi nelle [[period]] ore prima delle [[time]] in punto",
-		"nl": "De prijs !{{is|isn't}} een van de [[number]] laagste in de [[period]] uren voor [[time]] uur"
+		"nl": "De prijs !{{is|is niet}} een van de [[number]] laagste in de [[period]] uren voor [[time]] uur"
 	},
 	"highlight": true,
 	"args": [
