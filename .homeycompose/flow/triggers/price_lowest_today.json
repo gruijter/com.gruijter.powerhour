@@ -4,6 +4,7 @@
 		"de": "Preis wird heute einer der niedrigsten sein",
 		"sv": "Priset blir bland de lägsta i dag",
 		"it": "Il prezzo sarà uno dei più bassi di oggi",
+		"fr": "Le tarif devient l'un des plus faible aujourd'hui",
 		"nl": "De prijs wordt één van de laagste van vandaag"
 	},
 	"titleFormatted": {
@@ -11,6 +12,7 @@
 		"de": "Preis wird heute einer der [[number]] niedrigsten sein",
 		"sv": "Priset blir ett av dagens [[number]] lägsta",
 		"it": "Il prezzo sarà uno dei [[number]] più bassi di oggi",
+		"fr": "Le tarif devient l'un des [[number]] plus faible aujourd'hui",
 		"nl": "De prijs wordt een van de [[number]] laagste van vandaag"
 	},
 	"highlight": true,
@@ -28,6 +30,7 @@
 				"de": "Anzahl",
 				"sv": "antal",
 				"it": "numero",
+				"fr": "numéro",
 				"nl": "aantal"
 			},
 			"placeholder": { "en": "1 - 16" },
@@ -44,6 +47,7 @@
 			"de": "Preis aktuell",
 			"sv": "Pris just nu",
 			"it": "Prezzo attuale",
+			"fr": "Tarif actuel",
 			"nl": "Prijs nu"
 		},
 		"type": "number",
