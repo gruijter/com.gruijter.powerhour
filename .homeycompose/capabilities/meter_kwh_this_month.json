@@ -5,6 +5,7 @@
     "de": "kWh dieser Monat",
     "sv": "kWh denna månad",
     "it": "kWh mese corrente",
+    "fr": "KWh ce mois ci",
     "nl": "kWh deze maand"
   },
   "uiComponent": "sensor",

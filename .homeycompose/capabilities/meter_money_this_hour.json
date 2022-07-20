@@ -5,6 +5,7 @@
     "de": "Geld diese Stunde",
     "sv": "Pengar denna timme",
     "it": "Spesa ora corrente",
+    "fr": "Argent cette heure ci",
     "nl": "Geld dit uur"
   },
   "uiComponent": "sensor",
@@ -13,7 +14,8 @@
   "setable": false,
   "insights": false,
   "units": {
-    "en": "¤"
+    "en": "¤",
+    "fr": "€"
   },
   "decimals": 2
 }

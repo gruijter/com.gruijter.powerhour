@@ -5,6 +5,7 @@
     "de": "Durchschn. Preis nächste 8 Std.",
     "sv": "Genomsnittligt pris nästa 8H",
     "it": "Prezzo medio prossime 8h",
+    "fr": "Tarif moyen les 8 prochaines heures",
     "nl": "Gem. prijs komende 8U"
   },
   "uiComponent": "sensor",

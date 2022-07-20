@@ -5,6 +5,7 @@
     "de": "Geld vorheriger Monat",
     "sv": "Pengar föregående månad",
     "it": "Spesa mese precedente",
+    "fr": "Argent mois dernier",
     "nl": "Geld vorige maand"
   },
   "uiComponent": "sensor",
@@ -13,7 +14,8 @@
   "setable": false,
   "insights": true,
   "units": {
-    "en": "¤"
+    "en": "¤",
+    "fr": "€"
   },
   "decimals": 2
 }

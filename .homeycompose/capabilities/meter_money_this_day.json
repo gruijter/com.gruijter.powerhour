@@ -5,6 +5,7 @@
     "de": "Geld dieser Tag",
     "sv": "Pengar idag",
     "it": "Spesa oggi",
+    "fr": "Argent aujourd'hui",
     "nl": "Geld deze dag"
   },
   "uiComponent": "sensor",
@@ -13,7 +14,8 @@
   "setable": false,
   "insights": false,
   "units": {
-    "en": "¤"
+    "en": "¤",
+    "fr": "€"
   },
   "decimals": 2
 }

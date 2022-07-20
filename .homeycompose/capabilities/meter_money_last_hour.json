@@ -5,6 +5,7 @@
     "de": "Geld vorherige Stunde",
     "sv": "Pengar föregående timme",
     "it": "Spesa ora precedente",
+    "fr": "Argent heure précédente",
     "nl": "Geld vorig uur"
   },
   "uiComponent": "sensor",
@@ -13,7 +14,8 @@
   "setable": false,
   "insights": true,
   "units": {
-    "en": "¤"
+    "en": "¤",
+    "fr": "€"
   },
   "decimals": 2
 }

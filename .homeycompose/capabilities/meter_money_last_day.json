@@ -5,6 +5,7 @@
     "de": "Geld vorheriger Tag",
     "sv": "Pengar igår",
     "it": "Spesa giorno precedente",
+    "fr": "Argent hier",
     "nl": "Geld vorige dag"
   },
   "uiComponent": "sensor",
@@ -13,7 +14,8 @@
   "setable": false,
   "insights": true,
   "units": {
-    "en": "¤"
+    "en": "¤",
+    "fr": "€"
   },
   "decimals": 2
 }

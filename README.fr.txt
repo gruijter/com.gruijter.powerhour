@@ -1,0 +1,3 @@
+Récupérer les données depuis Homey d'un appareil de mesure Puissance/Gaz/Eau, et visualiser son utilisation / Production par heure, par jour, par mois et par an. Connaitre son coût et utiliser des tarifs dynamiques. Savoir combien vos appareils consomment et économiser des centaines d'euros par an!
+Cette application peut être utilisée, par exemple, avec les application Enelogic et Youless, Plugwise Smile P1, BeeClear, Solar Power, Homewizard, Tibber Pulse, ou tout autre application ayant comme capacité la mesure d'énergie, de puissance, d'eau.
+PBTH supporte maintenant le Prix Spot (Tarif demain heure par heure) pour les fournisseurs d'énergie pour tous les pays de l'EU. Démarrer et arrêter la recharge de votre voiture basé sur la meilleur tranche horaire!
