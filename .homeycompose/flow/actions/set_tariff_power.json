@@ -5,6 +5,7 @@
     "sv": "Sätt en ny energitaxa",
     "it": "Imposta una nuova tariffa energia",
     "no": "Sett en ny energitariff",
+    "fr": "Définir un nouveau tarif électrique",
     "nl": "Stel een nieuw energietarief in"
   },
   "titleFormatted": {
@@ -13,6 +14,7 @@
     "sv": "Ställ in energitariffen till [[tariff]]",
     "it": "Imposta tariffa energia a [[tariff]]",
     "no": "Sett energitariff to [[tariff]]",
+    "fr": "Définir le tarif électrique à [[tariff]]",
     "nl": "Stel energietarief in op [[tariff]]"
   },
   "highlight": true,
@@ -26,6 +28,7 @@
         "sv": "Tariffen per kWh",
         "it": "La tariffa per kWh",
         "no": "Tariff per kWh",
+        "fr": "Le tarif par KWh",
         "nl": "Het tarief per kWh"
       }
     }

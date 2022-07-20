@@ -6,6 +6,7 @@
     "sv": "Pris just nu",
     "it": "Prezzo attuale",
     "no": "Pris nå",
+    "fr": "Tarif actuel",
     "nl": "Prijs nu"
   },
   "uiComponent": "sensor",

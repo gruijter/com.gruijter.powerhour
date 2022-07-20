@@ -6,6 +6,7 @@
     "sv": "kWh i år",
     "it": "kWh anno corrente",
     "no": "kWh dette år",
+    "fr": "KWh cette année",
     "nl": "kWh dit jaar"
   },
   "uiComponent": "sensor",

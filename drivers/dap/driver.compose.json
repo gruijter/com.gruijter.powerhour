@@ -5,6 +5,7 @@
     "sv": "Day-Ahead 1H Priser",
     "it": "Prezzi del giorno prima 1h",
     "no": "Day-Ahead 1T Priser",
+    "fr": "Tarif demain heure par heure",
     "nl": "Day-Ahead 1U Prijzen"
   },
   "class": "sensor",
@@ -42,6 +43,7 @@
         "sv": "Information om elområde",
         "it": "Informazioni sulla zona di trattativa",
         "no": "Prisområde informasjon",
+        "fr": "Information sur les négociations",
         "nl": "Biedzone informatie"
       },
       "children": [
@@ -54,6 +56,7 @@
             "sv": "Elområde",
             "it": "Zona di trattativa",
             "no": "Prisområde",
+            "fr": "Zone de négociation",
             "nl": "Biedzone"
           },
           "value": "unknown"
@@ -67,6 +70,7 @@
             "sv": "Beskrivning",
             "it": "Descrizione",
             "no": "Beskrivelse",
+            "fr": "Description",
             "nl": "Omschrijving"
           },
           "value": "unknown"
@@ -81,6 +85,7 @@
         "sv": "Valutainställningar",
         "it": "Impostazioni valuta",
         "no": "Valutainnstillinger",
+        "fr": "Paramètre de devise",
         "nl": "Munteenheid instellingen"
       },
       "children": [
@@ -93,6 +98,7 @@
             "sv": "Visning av valutaenhet",
             "it": "Visualizzazione unità valuta",
             "no": "Visning av valutaenhet",
+            "fr": "Affichage de l'unité monétaire",
             "nl": "Weergave geldeenheid"
           },
           "value": "€",
@@ -102,6 +108,7 @@
             "sv": "Enheten som visas som valuta, t.ex. €, £, EUR, SER, NOK, DKK, CHF. Lämna tomt för att använda standardvärdet €.",
             "it": "L'unità mostrata come valuta, es. €, £, EUR, SER, NOK, DKK, CHF. Lasciare vuoto per utilizzare € di default.",
             "no": "Valutaenheten vises som f.eks. €, £, EUR, SER, NOK, DKK, CHF. La stå blank for å bruke default €.",
+            "fr": "Unité affichée comme devise, ex. €, £, EUR, SER, NOK, DKK, CHF. Laisser vide pour utiliser € par défaut",
             "nl": "De weergegeven eenheid voor geld, bijv. €, £, EUR, SER, NOK, DKK, CHF. Laat leeg om de standaard € te gebruiken."
           }
         },
@@ -114,6 +121,7 @@
             "sv": "Valuta decimaler",
             "it": "Decimali valuta",
             "no": "Valute desimaler",
+            "fr": "Décimales devise",
             "nl": "Geld decimalen"
           },
           "value": 4,
@@ -125,6 +133,7 @@
             "sv": "Antalet decimaler som ska användas för pris.",
             "it": "Il numero di decimali da utilizzare per il prezzo.",
             "no": "Antall prisdesimaler",
+            "fr": "Nombre de décimales à utiliser pour le tarif",
             "nl": "Het aantal decimalen voor prijs."
           }
         },
@@ -137,6 +146,7 @@
             "sv": "Växelkurs med €",
             "it": "Tasso di cambio con €",
             "no": "Vekslingskurs mot €",
+            "fr": "Taux de change avec €",
             "nl": "Wisselkoers met €"
           },
           "value": 1,
@@ -146,6 +156,7 @@
             "sv": "Ställ in på 1 om du vill använda EURO, annars anger du växelkursen till din önskade valuta.",
             "it": "Imposta 1 se vuoi utilizzare EURO, altrimenti inserisci il tasso di cambio della valuta che preferisci.",
             "no": "Sett som 1 hvis du vil bruke EURO, ellers legg inn vekslingskursen for din foretrukne valuta.",
+            "fr": "Mettre à 1 si vous souhaitez utiliser EURO, sinon entrer le taux de change de la devise souhaitée",
             "nl": "Stel in op 1 als je EURO's wilt gebruiken, of geef de wisselkoers in naar de gewenste munteenheid."
           }
         },
@@ -159,6 +170,7 @@
             "sv": "Uppdatera växelkursen dagligen",
             "it": "Aggiorna quotidianamente il tasso di cambio",
             "no": "Daglig oppdatering av vekslingskurs",
+            "fr": "Mise à jour quotidienne du taux de change",
             "nl": "Update wisselkoers dagelijks"
           },
           "values": [
@@ -170,6 +182,7 @@
                 "sv": "HÄMTA INTE",
                 "it": "NON RECUPERARE",
                 "no": "IKKE HENT",
+                "fr": "NE PAS RÉCUPÉRER",
                 "nl": "NIET OPHALEN"
               }
             },
@@ -244,6 +257,7 @@
             "sv": "Ange den valuta för vilken du vill att växelkursen ska hämtas automatiskt. Lämna vid 'HÄMTA INTE' om du använder euro, eller om du vill ställa in växelkursen manuellt.",
             "it": "Inserisci la valuta per la quale desideri che il tasso di cambio venga recuperato automaticamente. Lascia su 'NON RECUPERARE' se stai usando Euro, o se vuoi impostare manualmente il tasso di cambio.",
             "no": "Legg inn valutaen for den vekslingskursen du ønsker å hente automatisk. La den stå på 'IKKE HENT' hvis du bruker Euro, eller hvis du vil sette vekslingkursen manuelt.",
+            "fr": "Entrer la devise pour laquelle vous souhaitez que le taux de change soit automatiquement récupérer. Laisser à 'NE PAS RÉCUPÉRER' si vous utiliser l'Euro, ou si vous souhaitez entrer manuellement le taux de change",
             "nl": "Geef de munteenheid aan waarvan de wisselkoers automatisch moey worden opgehaald. Zet op 'NIET OPHALEN' als je Euro gebruit, of als je de wisselkoers handmatig wilt invoeren."
           }
         }
@@ -257,6 +271,7 @@
         "sv": "Prisinställningar",
         "it": "Impostazioni prezzo",
         "no": "Prisinnstillinger",
+        "fr": "Paramètre de tarification",
         "nl": "Prijs instellingen"
       },
       "children": [
@@ -269,6 +284,7 @@
             "sv": "Variabelt påslag (%)",
             "it": "Aumento variabile (%)",
             "no": "Variabelt påslag (%)",
+            "fr": "Augmentation variable (%)",
             "nl": "Variabele opslag (%)"
           },
           "value": 0,
@@ -278,6 +294,7 @@
             "sv": "Ange den procentandel som nettopriset ska höjas med. T.ex. för moms.",
             "it": "Inserisci la percentuale di aumento da applicare sul prezzo netto. Es. per IVA.",
             "no": "Legg inn verdien i prosent som nettoprisen skal økes. f.eks. for MVA.",
+            "fr": "Entrer le pourcentage pour lequel le tarif doit être augmenter. Par exemple la TVA",
             "nl": "Voer het percentage in waarmee de netto prijs verhoogd moet worden. Bijvoorbeeld voor BTW."
           }
         },
@@ -290,6 +307,7 @@
             "sv": "Fast påslag per kWh eller m3",
             "it": "Aumento fisso per kWh o m3",
             "no": "Fast påslag per kWh or m3",
+            "fr": "Fixer l'augmentation par KWh ou m3",
             "nl": "Vaste opslag per kWh of m3"
           },
           "value": 0,
@@ -299,6 +317,7 @@
             "sv": "Ange det fasta belopp som priset ska höjas med per kWh eller m3, inkl. MOMS. T.ex. mot inköpsavgift.",
             "no": "Angi det faste beløpet som prisen skal økes med per kWh eller m3, inkl. MVA.",
             "it": "Inserisci la quota fissa di aumento per kWh o m3, incluso IVA. Es. per diritti di acquisto.",
+            "fr": "Entrez le montant fixe dont le prix doit être ajouté par kWh ou m3, incluant la TVA. Par exemple les frais d'achat",
             "nl": "Voer het vaste bedrag in waarmee de prijs per kWh of m3 verhoogd moet worden incl. BTW. Bijvoorbeeld voor inkoopvergoeding, Energie belasting, ODE."
           }
         },
@@ -311,6 +330,7 @@
             "sv": "Extra påslag under dagtid",
             "it": "Extra costi durante l'orario diurno",
             "no": "Ekstra påslag på dagtid",
+            "fr": "Augmentation supplémentaire pendant la journée",
             "nl": "Extra opslag overdag"
           },
           "value": 0,
@@ -320,6 +340,7 @@
             "sv": "Ange det belopp med vilket priset ytterligare ska höjas per kWh eller m3 under dagtid (06:00-22:00).",
             "it": "Imposta l'incremento aggiuntivo per kWh o m3 durante l'orario diurno (06:00-22:00).",
             "no": "Legg inn beløpet som prisen i tillegg må økes per kWh or m3 på dagtid (06:00-22:00).",
+            "fr": "Entrez le montant avec lequel le prix doit être ajouté en plus par kWh ou m3 pendant la journée (de 6h00 à 22h00);",
             "nl": "Voer het bedrag in waarmee de prijs per kWh of m3 verhoogd moet worden overdag (06:00-22:00)"
           }
         },
@@ -332,6 +353,7 @@
             "sv": "Extra påslag under natten",
             "it": "Extra costi durante l'orario notturno",
             "no": "Ekstra påslag på natt",
+            "fr": "Augmentation supplémentaire la nuit",
             "nl": "Extra opslag 's nachts"
           },
           "value": 0,
@@ -362,7 +384,8 @@
             "sv": "Om den är aktiverad kommer natttidspåslag att tillämpas under hela helgen (lördag - söndag).",
             "it": "Se abilitato, l'extra costo notturno sarà applicato durante l'intero weekend (Sabato - Domenica).",
             "no": "Hvis aktivert vil nattpåslag være påført hele helgen (Lørdag - Søndag).",
-            "nl": "Indien geactiveerd wordt nacht verhoging het hele weekend toegepast (zaterdag - zondag)."
+            "nl": "Indien geactiveerd wordt nacht verhoging het hele weekend toegepast (zaterdag - zondag).",
+            "fr": "Entrer le montant avec lequel le prix doit être ajouté en plus par KWh ou m3 pendant la nuit (de 22h00 à 6h00)."
           }
         }
       ]
@@ -375,6 +398,7 @@
         "sv": "Olika inställningar",
         "it": "Impostazioni varie",
         "no": "Øvrige innstillinger",
+        "fr": "Réglages divers",
         "nl": "Overige instellingen"
       },
       "children": [
@@ -387,6 +411,7 @@
             "sv": "Skicka tariff",
             "it": "Invia tariffa",
             "no": "Send tariff",
+            "fr": "Envoyer tarif",
             "nl": "Stuur tarief"
           },
           "value": false,
@@ -396,6 +421,7 @@
             "sv": "Varje timme kommer priset per kWh eller m3 att skickas som tariff för PBTH-enheter, utan att behöva skapa ett flöde.",
             "it": "Ogni ora verrà inviato il prezzo per kWh o m3 come tariffa per i dispositivi PBTH, senza necessità di creare alcun flow.",
             "no": "Hver time vil prisen per kWh or m3 bli sendt som tariff for PBTH enheter, uten at man trenger å skape en flow.",
+            "fr": "Chaque heure, le prix du kWh ou du m3 sera envoyé comme tarif pour les appareils PBTH, sans qu'il soit nécessaire de créer un flow",
             "nl": "Ieder uur wordt de prijs per kWh of m3 als tarief naar PBTH devices gestuurd, zonder dat een flow gemaakt hoeft te worden."
           }
         }

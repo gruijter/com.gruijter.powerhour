@@ -6,6 +6,7 @@
     "sv": "Maximum",
     "it": "Massimo",
     "no": "Maximum",
+    "fr": "Maximum",
     "nl": "Maximum"
   },
   "uiComponent": "sensor",
@@ -19,6 +20,7 @@
     "sv": "L/minute",
     "it": "L/minuto",
     "no": "L/minutt",
+    "fr": "L/Minute",
     "nl": "L/minuut"
   },
   "decimals": 2

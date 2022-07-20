@@ -6,6 +6,7 @@
     "sv": "Pengar denna timme",
     "it": "Spesa ora corrente",
     "no": "Kostnad denne timen",
+    "fr": "Argent cette heure ci",
     "nl": "Geld dit uur"
   },
   "uiComponent": "sensor",

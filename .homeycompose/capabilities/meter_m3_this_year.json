@@ -6,6 +6,7 @@
     "sv": "m³ i år",
     "it": "m³ anno corrente",
     "no": "m³ dette år",
+    "fr": "m³ cette année",
     "nl": "m³ dit jaar"
   },
   "uiComponent": "sensor",

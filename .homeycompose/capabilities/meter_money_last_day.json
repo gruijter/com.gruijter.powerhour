@@ -6,6 +6,7 @@
     "sv": "Pengar igår",
     "it": "Spesa giorno precedente",
     "no": "Kostnad forrige dag",
+    "fr": "Argent hier",
     "nl": "Geld vorige dag"
   },
   "uiComponent": "sensor",

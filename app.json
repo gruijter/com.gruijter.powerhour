@@ -14,6 +14,7 @@
     "sv": "Sammanfatta energi/vattenanvändning eller (sol)produktion per timme, dag, månad och år. Använd dynamiska tariffer.",
     "it": "Ricapitola il consumo di energia/acqua o la produzione (solare) per ora, giorno, mese e anno. Utilizza tariffe dinamiche.",
     "no": "Summere energi/vann forbruk eller (solcellepanel) produksjon pr, time, dag, måned og år. Bruk dynamiske tariffer.",
+    "fr": "Récaputuler la consommation d'énergie/d'eau ou la production solaire par heure, jour, mois et année. Utiliser des tarifs dynamiques",
     "nl": "Samenvatten van energie/water verbruik of (zonnepaneel) productie per uur, dag, maand en jaar. Gebruik dynamische tarieven."
   },
   "category": "energy",
@@ -151,6 +152,7 @@
           "sv": "Priset har förändrats",
           "it": "Il prezzo è cambiato",
           "no": "Prisen er endret",
+          "fr": "Le tarif à changé",
           "nl": "De prijs is veranderd"
         },
         "highlight": true,
@@ -170,6 +172,7 @@
               "sv": "Pris just nu",
               "it": "Prezzo attuale",
               "no": "Pris nå",
+              "fr": "Tarif actuel",
               "nl": "Prijs nu"
             },
             "type": "number",
@@ -185,6 +188,7 @@
           "sv": "Priset blir över snittet.",
           "it": "Il prezzo diventa oltre la media",
           "no": "Prisen blir over gjennomsnittet.",
+          "fr": "Le tarif devient supérieur à la moyenne",
           "nl": "De prijs wordt hoger dan gem."
         },
         "titleFormatted": {
@@ -193,6 +197,7 @@
           "sv": "Priset blir [[percent]] över snittet. [[period]]",
           "it": "Il prezzo diventa [[percent]] oltre la media di [[period]]",
           "no": "Prisen blir [[percent]] over gjenomsnittet [[period]]",
+          "fr": "Le tarif devient [[percent]] supérieur à la moyenne de [[period]]",
           "nl": "De prijs wordt [[percent]] hoger dan gem. [[period]]"
         },
         "highlight": true,
@@ -256,6 +261,7 @@
               "sv": "period",
               "it": "periodo",
               "no": "periode",
+              "fr": "période",
               "nl": "periode"
             },
             "values": [
@@ -267,6 +273,7 @@
                   "sv": "idag",
                   "it": "giornata odierna",
                   "no": "idag",
+                  "fr": "aujourd'hui",
                   "nl": "deze dag"
                 }
               },
@@ -278,6 +285,7 @@
                   "sv": "nästa 8H",
                   "it": "prossime 8h",
                   "no": "neste 8T",
+                  "fr": "8 prochaines heures",
                   "nl": "komende 8U"
                 }
               }
@@ -293,6 +301,7 @@
               "sv": "Pris just nu",
               "it": "Prezzo attuale",
               "no": "Pris nå",
+              "fr": "Tarif actuel",
               "nl": "Prijs nu"
             },
             "type": "number",
@@ -308,6 +317,7 @@
           "sv": "Priset blir under snittet.",
           "it": "Il prezzo diventa sotto la media",
           "no": "Prisen blir lavere enn gjennomsnittet.",
+          "fr": "Le tarif devient inférieur à la moyenne",
           "nl": "De prijs wordt lager dan gem."
         },
         "titleFormatted": {
@@ -316,6 +326,7 @@
           "sv": "Priset blir [[percent]] under snittet. [[period]]",
           "it": "Il prezzo diventa [[percent]] sotto la media di [[period]]",
           "no": "Prisen blir [[percent]] lavere enn gjennomsnittet [[period]]",
+          "fr": "Le tarif devient [[percent]] inférieur à la moyenne de [[period]]",
           "nl": "De prijs wordt [[percent]] lager dan gem. [[period]]"
         },
         "highlight": true,
@@ -379,6 +390,7 @@
               "sv": "period",
               "it": "periodo",
               "no": "periode",
+              "fr":"période",
               "nl": "periode"
             },
             "values": [
@@ -390,6 +402,7 @@
                   "sv": "idag",
                   "it": "giornata odierna",
                   "no": "idag",
+                  "fr": "aujourd'hui",
                   "nl": "deze dag"
                 }
               },
@@ -401,6 +414,7 @@
                   "sv": "nästa 8H",
                   "it": "prossime 8h",
                   "no": "neste 8T",
+                  "fr": "8 prochaines heures",
                   "nl": "komende 8U"
                 }
               }
@@ -416,6 +430,7 @@
               "sv": "Pris just nu",
               "it": "Prezzo attuale",
               "no": "Pris nå",
+              "fr": "Tarif actuel",
               "nl": "Prijs nu"
             },
             "type": "number",
@@ -431,6 +446,7 @@
           "sv": "Priset blir det högsta",
           "it": "Il prezzo diventa più alto",
           "no": "Prisen blir høyest",
+          "fr": "Le tarif devient le plus élevé",
           "nl": "De prijs wordt het hoogst"
         },
         "titleFormatted": {
@@ -439,6 +455,7 @@
           "sv": "Priset blir högst för [[period]]",
           "it": "Il prezzo diventa più alto per [[period]]",
           "no": "Prisen blir høyest for [[period]]",
+          "fr": "Le tarif devient le plus élevé pour [[period]]",
           "nl": "De prijs wordt het hoogst voor [[period]]"
         },
         "highlight": true,
@@ -457,6 +474,7 @@
               "sv": "period",
               "it": "periodo",
               "no": "periode",
+              "fr": "période",
               "nl": "periode"
             },
             "values": [
@@ -468,6 +486,7 @@
                   "sv": "idag",
                   "it": "giornata odierna",
                   "no": "idag",
+                  "fr": "aujourd'hui",
                   "nl": "deze dag"
                 }
               },
@@ -479,6 +498,7 @@
                   "sv": "nästa 2H",
                   "it": "prossime 2h",
                   "no": "neste 2T",
+                  "fr": "2 prochaines heures",
                   "nl": "komende 2U"
                 }
               },
@@ -490,6 +510,7 @@
                   "sv": "nästa 3H",
                   "it": "prossime 3h",
                   "no": "neste 3T",
+                  "fr": "3 prochaines heures",
                   "nl": "komende 3U"
                 }
               },
@@ -501,6 +522,7 @@
                   "sv": "nästa 4H",
                   "it": "prossime 4h",
                   "no": "neste 4T",
+                  "fr": "4 prochaines heures",
                   "nl": "komende 4U"
                 }
               },
@@ -512,6 +534,7 @@
                   "sv": "nästa 5H",
                   "it": "prossime 5h",
                   "no": "neste 5T",
+                  "fr": "5 prochaines heures",
                   "nl": "komende 5U"
                 }
               },
@@ -523,6 +546,7 @@
                   "sv": "nästa 6H",
                   "it": "prossime 6h",
                   "no": "neste 6T",
+                  "fr": "4 prochaines heures",
                   "nl": "komende 6U"
                 }
               },
@@ -534,6 +558,7 @@
                   "sv": "nästa 7H",
                   "it": "prossime 7h",
                   "no": "neste 7T",
+                  "fr": "7 prochaines heures",
                   "nl": "komende 7U"
                 }
               },
@@ -545,6 +570,7 @@
                   "sv": "nästa 8H",
                   "it": "prossime 8h",
                   "no": "neste 8T",
+                  "fr": "8 prochaines heures",
                   "nl": "komende 8U"
                 }
               }
@@ -560,6 +586,7 @@
               "sv": "Pris just nu",
               "it": "Prezzo attuale",
               "no": "Pris nå",
+              "fr": "Tarif actuel",
               "nl": "Prijs nu"
             },
             "type": "number",
@@ -575,6 +602,7 @@
           "sv": "Det genomsnittliga priset kommande timmar blir högst",
           "it": "Il prezzo medio sarà più alto nelle prossime ore",
           "no": "Gjennomsnittprisen de neste timene blir høyest",
+          "fr": "Le tarif moyen des prochaines heures devient le plus élevé",
           "nl": "De gem. prijs de komende uren wordt het hoogst"
         },
         "titleFormatted": {
@@ -583,7 +611,8 @@
           "sv": "Det genomsnittliga priset [[hours]] blir högst inom [[period]]",
           "it": "Il prezzo medio a [[hours]] diventa più alto entro [[period]]",
           "no": "Gjennomsnittprisen [[hours]] blir høyest innenfor [[period]]",
-          "nl": "De gem. prijs [[hours]] wordt het hoogst binnen [[period]]"
+          "fr": "Le tarif moyen des prochaines [[hours]] devient le plus élevé dans [[period]]",
+          "nl": "De gem. prijs [[hours]] wordt het highest binnen [[period]]"
         },
         "highlight": true,
         "args": [
@@ -601,6 +630,7 @@
               "sv": "period",
               "it": "periodo",
               "no": "periode",
+              "fr": "période",
               "nl": "periode"
             },
             "values": [
@@ -612,6 +642,7 @@
                   "sv": "idag",
                   "no": "idag",
                   "it": "giornata odierna",
+                  "fr": "aujourd'hui",
                   "nl": "deze dag"
                 }
               },
@@ -623,6 +654,7 @@
                   "sv": "nästa 8H",
                   "it": "prossime 8h",
                   "no": "neste 8H",
+                  "fr": "8 prochaines heures",
                   "nl": "komende 8U"
                 }
               }
@@ -637,6 +669,7 @@
               "sv": "timmar",
               "it": "ore",
               "no": "timer",
+              "fr": "heures",
               "nl": "uren"
             },
             "values": [
@@ -648,6 +681,7 @@
                   "sv": "nästa 2H",
                   "it": "prossime 2h",
                   "no": "neste 2T",
+                  "fr": "2 prochaines heures",
                   "nl": "komende 2U"
                 }
               },
@@ -659,6 +693,7 @@
                   "sv": "nästa 3H",
                   "it": "prossime 3h",
                   "no": "neste 3T",
+                  "fr": "3 prochaines heures",
                   "nl": "komende 3U"
                 }
               },
@@ -670,6 +705,7 @@
                   "sv": "nästa 4H",
                   "it": "prossime 4h",
                   "no": "neste 4T",
+                  "fr": "4 prochaines heures",
                   "nl": "komende 4U"
                 }
               },
@@ -681,6 +717,7 @@
                   "sv": "nästa 5H",
                   "it": "prossime 5h",
                   "no": "neste 5T",
+                  "fr": "5 prochaines heures",
                   "nl": "komende 5U"
                 }
               },
@@ -692,6 +729,7 @@
                   "sv": "nästa 6H",
                   "it": "prossime 6h",
                   "no": "neste 6T",
+                  "fr": "6 prochaines heures",
                   "nl": "komende 6U"
                 }
               }
@@ -707,6 +745,7 @@
               "sv": "Pris just nu",
               "it": "Prezzo attuale",
               "no": "Pris nå",
+              "fr": "Tarif actuel",
               "nl": "Prijs nu"
             },
             "type": "number",
@@ -722,6 +761,7 @@
           "sv": "Priset blir det lägsta",
           "it": "Il prezzo sarà il più basso",
           "no": "Prisen blir lavest",
+          "fr": "Le tarif devient le plus faible",
           "nl": "De prijs wordt het laagst"
         },
         "titleFormatted": {
@@ -730,6 +770,7 @@
           "sv": "Priset blir lägst för [[period]]",
           "it": "Il prezzo sarà più basso per [[period]]",
           "no": "Prisen blir lavest for [[period]]",
+          "fr": "Le tarif devient le plus faible pour [[period]]",
           "nl": "De prijs wordt het laagst voor [[period]]"
         },
         "highlight": true,
@@ -748,6 +789,7 @@
               "sv": "period",
               "it": "periodo",
               "no": "periode",
+              "fr": "période",
               "nl": "periode"
             },
             "values": [
@@ -759,6 +801,7 @@
                   "sv": "idag",
                   "it": "giornata odierna",
                   "no": "idag",
+                  "fr": "aujourd'hui",
                   "nl": "deze dag"
                 }
               },
@@ -770,6 +813,7 @@
                   "sv": "nästa 2H",
                   "it": "prossime 2h",
                   "no": "neste 2T",
+                  "fr": "2 prochaines heures",
                   "nl": "komende 2U"
                 }
               },
@@ -781,6 +825,7 @@
                   "sv": "nästa 3H",
                   "it": "prossime 3h",
                   "no": "neste 3T",
+                  "fr": "3 prochaines heures",
                   "nl": "komende 3U"
                 }
               },
@@ -792,6 +837,7 @@
                   "sv": "nästa 4H",
                   "it": "prossime 4h",
                   "no": "neste 4T",
+                  "fr": "4 prochaines heures",
                   "nl": "komende 4U"
                 }
               },
@@ -803,6 +849,7 @@
                   "sv": "nästa 5H",
                   "it": "prossime 5h",
                   "no": "neste 5T",
+                  "fr": "5 prochaines heures",
                   "nl": "komende 5U"
                 }
               },
@@ -814,6 +861,7 @@
                   "sv": "nästa 6H",
                   "it": "prossime 6h",
                   "no": "neste 6T",
+                  "fr": "6 prochaines heures",
                   "nl": "komende 6U"
                 }
               },
@@ -825,6 +873,7 @@
                   "sv": "nästa 7H",
                   "it": "prossime 7h",
                   "no": "neste 7T",
+                  "fr": "7 prochaines heures",
                   "nl": "komende 7U"
                 }
               },
@@ -836,6 +885,7 @@
                   "sv": "nästa 8H",
                   "it": "prossime 8h",
                   "no": "neste 8T",
+                  "fr": "8 prochaines heures",
                   "nl": "komende 8U"
                 }
               }

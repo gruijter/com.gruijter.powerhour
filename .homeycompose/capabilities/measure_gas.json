@@ -6,6 +6,7 @@
     "sv": "Gas",
     "it": "Gas",
     "no": "Gass",
+    "fr": "Gaz",
     "nl": "Gas"
   },
   "desc": {
@@ -14,6 +15,7 @@
     "sv": "Gasförbrukning",
     "it": "Utilizzo gas",
     "no": "Gass forbruk",
+    "fr": "Utilisation gaz",
     "nl": "Gasverbruik"
   },
   "decimals": 4,
@@ -23,6 +25,7 @@
     "sv": "L/minute",
     "it": "L/minuto",
     "no": "L/minutt",
+    "fr": "L/Minute",
     "nl": "L/minuut"
   },
   "getable": true,

@@ -6,6 +6,7 @@
     "sv": "Pengar föregående månad",
     "it": "Spesa mese precedente",
     "no": "Kostnad forrige måned",
+    "fr": "Argent mois dernier",
     "nl": "Geld vorige maand"
   },
   "uiComponent": "sensor",

@@ -6,6 +6,7 @@
     "sv": "Pengar idag",
     "it": "Spesa oggi",
     "no": "Kostnad idag",
+    "fr": "Argent aujourd'hui",
     "nl": "Geld deze dag"
   },
   "uiComponent": "sensor",

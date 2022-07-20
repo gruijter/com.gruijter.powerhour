@@ -6,6 +6,7 @@
     "sv": "m³ föregående timme",
     "it": "m³ ora precedente",
     "no": "m³ forrige time",
+    "fr": "m³ heure précédente",
     "nl": "m³ vorig uur"
   },
   "uiComponent": null,
