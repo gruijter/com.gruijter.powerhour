@@ -4,6 +4,7 @@
     "de": "Neuen variablen Aufschlag festlegen",
     "sv": "Ställ in ett nytt variabelt påslag",
     "it": "Imposta un nuovo sovraprezzo variabile",
+    "fr": "Définir une majoration variable",
     "nl": "Stel een nieuwe variabele opslag in"
   },
   "titleFormatted": {
@@ -11,6 +12,7 @@
     "sv": "Ställ in variabelpåslag till [[value]]%",
     "de": "Variablen Aufschlag einstellen auf [[value]]%",
     "it": "Imposta sovraprezzo variabile a [[value]]%",
+    "fr": "Définir une majoration variable à [[value]]",
     "nl": "Stel variabele opslag in op [[value]]%"
   },
   "highlight": true,
@@ -28,6 +30,7 @@
         "de": "Variabler Aufschlag (%)",
         "sv": "Variabel påslag (%)",
         "it": "Sovraprezzo variabile (%)",
+        "fr": "Majoration variable (%)",
         "nl": "Variabele opslag (%)"
       }
     }
