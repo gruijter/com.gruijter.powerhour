@@ -1,7 +1,7 @@
 {
   "_comment": "This file is generated. Please edit .homeycompose/app.json instead.",
   "id": "com.gruijter.powerhour",
-  "version": "4.4.7",
+  "version": "4.4.8",
   "compatibility": ">=5.0.0",
   "brandColor": "#df5020",
   "sdk": 3,
@@ -14,7 +14,7 @@
     "sv": "Sammanfatta energi/vattenanvändning eller (sol)produktion per timme, dag, månad och år. Använd dynamiska tariffer.",
     "it": "Ricapitola il consumo di energia/acqua o la produzione (solare) per ora, giorno, mese e anno. Utilizza tariffe dinamiche.",
     "no": "Summere energi/vann forbruk eller (solcellepanel) produksjon pr, time, dag, måned og år. Bruk dynamiske tariffer.",
-    "fr": "Récaputuler la consommation d'énergie/d'eau ou la production solaire par heure, jour, mois et année. Utiliser des tarifs dynamiques",
+    "fr": "Résumez la consommation d'énergie/d'eau ou la production (solaire) par heure, jour, mois et année. Utiliser des tarifs dynamiques.",
     "nl": "Samenvatten van energie/water verbruik of (zonnepaneel) productie per uur, dag, maand en jaar. Gebruik dynamische tarieven."
   },
   "category": "energy",
@@ -86,6 +86,9 @@
       },
       {
         "name": "🇳🇴 Kai Engvik"
+      },
+      {
+        "name": "🇫🇷 sebyldino"
       }
     ]
   },
@@ -152,7 +155,6 @@
           "sv": "Priset har förändrats",
           "it": "Il prezzo è cambiato",
           "no": "Prisen er endret",
-          "fr": "Le tarif à changé",
           "nl": "De prijs is veranderd"
         },
         "highlight": true,
@@ -172,7 +174,6 @@
               "sv": "Pris just nu",
               "it": "Prezzo attuale",
               "no": "Pris nå",
-              "fr": "Tarif actuel",
               "nl": "Prijs nu"
             },
             "type": "number",
@@ -188,7 +189,6 @@
           "sv": "Priset blir över snittet.",
           "it": "Il prezzo diventa oltre la media",
           "no": "Prisen blir over gjennomsnittet.",
-          "fr": "Le tarif devient supérieur à la moyenne",
           "nl": "De prijs wordt hoger dan gem."
         },
         "titleFormatted": {
@@ -197,7 +197,6 @@
           "sv": "Priset blir [[percent]] över snittet. [[period]]",
           "it": "Il prezzo diventa [[percent]] oltre la media di [[period]]",
           "no": "Prisen blir [[percent]] over gjenomsnittet [[period]]",
-          "fr": "Le tarif devient [[percent]] supérieur à la moyenne de [[period]]",
           "nl": "De prijs wordt [[percent]] hoger dan gem. [[period]]"
         },
         "highlight": true,
@@ -261,7 +260,6 @@
               "sv": "period",
               "it": "periodo",
               "no": "periode",
-              "fr": "période",
               "nl": "periode"
             },
             "values": [
@@ -273,7 +271,6 @@
                   "sv": "idag",
                   "it": "giornata odierna",
                   "no": "idag",
-                  "fr": "aujourd'hui",
                   "nl": "deze dag"
                 }
               },
@@ -285,7 +282,6 @@
                   "sv": "nästa 8H",
                   "it": "prossime 8h",
                   "no": "neste 8T",
-                  "fr": "8 prochaines heures",
                   "nl": "komende 8U"
                 }
               }
@@ -301,7 +297,6 @@
               "sv": "Pris just nu",
               "it": "Prezzo attuale",
               "no": "Pris nå",
-              "fr": "Tarif actuel",
               "nl": "Prijs nu"
             },
             "type": "number",
@@ -317,7 +312,6 @@
           "sv": "Priset blir under snittet.",
           "it": "Il prezzo diventa sotto la media",
           "no": "Prisen blir lavere enn gjennomsnittet.",
-          "fr": "Le tarif devient inférieur à la moyenne",
           "nl": "De prijs wordt lager dan gem."
         },
         "titleFormatted": {
@@ -326,7 +320,6 @@
           "sv": "Priset blir [[percent]] under snittet. [[period]]",
           "it": "Il prezzo diventa [[percent]] sotto la media di [[period]]",
           "no": "Prisen blir [[percent]] lavere enn gjennomsnittet [[period]]",
-          "fr": "Le tarif devient [[percent]] inférieur à la moyenne de [[period]]",
           "nl": "De prijs wordt [[percent]] lager dan gem. [[period]]"
         },
         "highlight": true,
@@ -390,7 +383,6 @@
               "sv": "period",
               "it": "periodo",
               "no": "periode",
-              "fr":"période",
               "nl": "periode"
             },
             "values": [
@@ -402,7 +394,6 @@
                   "sv": "idag",
                   "it": "giornata odierna",
                   "no": "idag",
-                  "fr": "aujourd'hui",
                   "nl": "deze dag"
                 }
               },
@@ -414,7 +405,6 @@
                   "sv": "nästa 8H",
                   "it": "prossime 8h",
                   "no": "neste 8T",
-                  "fr": "8 prochaines heures",
                   "nl": "komende 8U"
                 }
               }
@@ -430,7 +420,6 @@
               "sv": "Pris just nu",
               "it": "Prezzo attuale",
               "no": "Pris nå",
-              "fr": "Tarif actuel",
               "nl": "Prijs nu"
             },
             "type": "number",
@@ -446,7 +435,6 @@
           "sv": "Priset blir det högsta",
           "it": "Il prezzo diventa più alto",
           "no": "Prisen blir høyest",
-          "fr": "Le tarif devient le plus élevé",
           "nl": "De prijs wordt het hoogst"
         },
         "titleFormatted": {
@@ -455,7 +443,6 @@
           "sv": "Priset blir högst för [[period]]",
           "it": "Il prezzo diventa più alto per [[period]]",
           "no": "Prisen blir høyest for [[period]]",
-          "fr": "Le tarif devient le plus élevé pour [[period]]",
           "nl": "De prijs wordt het hoogst voor [[period]]"
         },
         "highlight": true,
@@ -474,7 +461,6 @@
               "sv": "period",
               "it": "periodo",
               "no": "periode",
-              "fr": "période",
               "nl": "periode"
             },
             "values": [
@@ -486,7 +472,6 @@
                   "sv": "idag",
                   "it": "giornata odierna",
                   "no": "idag",
-                  "fr": "aujourd'hui",
                   "nl": "deze dag"
                 }
               },
@@ -498,7 +483,6 @@
                   "sv": "nästa 2H",
                   "it": "prossime 2h",
                   "no": "neste 2T",
-                  "fr": "2 prochaines heures",
                   "nl": "komende 2U"
                 }
               },
@@ -510,7 +494,6 @@
                   "sv": "nästa 3H",
                   "it": "prossime 3h",
                   "no": "neste 3T",
-                  "fr": "3 prochaines heures",
                   "nl": "komende 3U"
                 }
               },
@@ -522,7 +505,6 @@
                   "sv": "nästa 4H",
                   "it": "prossime 4h",
                   "no": "neste 4T",
-                  "fr": "4 prochaines heures",
                   "nl": "komende 4U"
                 }
               },
@@ -534,7 +516,6 @@
                   "sv": "nästa 5H",
                   "it": "prossime 5h",
                   "no": "neste 5T",
-                  "fr": "5 prochaines heures",
                   "nl": "komende 5U"
                 }
               },
@@ -546,7 +527,6 @@
                   "sv": "nästa 6H",
                   "it": "prossime 6h",
                   "no": "neste 6T",
-                  "fr": "4 prochaines heures",
                   "nl": "komende 6U"
                 }
               },
@@ -558,7 +538,6 @@
                   "sv": "nästa 7H",
                   "it": "prossime 7h",
                   "no": "neste 7T",
-                  "fr": "7 prochaines heures",
                   "nl": "komende 7U"
                 }
               },
@@ -570,7 +549,6 @@
                   "sv": "nästa 8H",
                   "it": "prossime 8h",
                   "no": "neste 8T",
-                  "fr": "8 prochaines heures",
                   "nl": "komende 8U"
                 }
               }
@@ -586,7 +564,6 @@
               "sv": "Pris just nu",
               "it": "Prezzo attuale",
               "no": "Pris nå",
-              "fr": "Tarif actuel",
               "nl": "Prijs nu"
             },
             "type": "number",
@@ -602,7 +579,6 @@
           "sv": "Det genomsnittliga priset kommande timmar blir högst",
           "it": "Il prezzo medio sarà più alto nelle prossime ore",
           "no": "Gjennomsnittprisen de neste timene blir høyest",
-          "fr": "Le tarif moyen des prochaines heures devient le plus élevé",
           "nl": "De gem. prijs de komende uren wordt het hoogst"
         },
         "titleFormatted": {
@@ -611,8 +587,7 @@
           "sv": "Det genomsnittliga priset [[hours]] blir högst inom [[period]]",
           "it": "Il prezzo medio a [[hours]] diventa più alto entro [[period]]",
           "no": "Gjennomsnittprisen [[hours]] blir høyest innenfor [[period]]",
-          "fr": "Le tarif moyen des prochaines [[hours]] devient le plus élevé dans [[period]]",
-          "nl": "De gem. prijs [[hours]] wordt het highest binnen [[period]]"
+          "nl": "De gem. prijs [[hours]] wordt het hoogst binnen [[period]]"
         },
         "highlight": true,
         "args": [
@@ -630,7 +605,6 @@
               "sv": "period",
               "it": "periodo",
               "no": "periode",
-              "fr": "période",
               "nl": "periode"
             },
             "values": [
@@ -642,7 +616,6 @@
                   "sv": "idag",
                   "no": "idag",
                   "it": "giornata odierna",
-                  "fr": "aujourd'hui",
                   "nl": "deze dag"
                 }
               },
@@ -654,7 +627,6 @@
                   "sv": "nästa 8H",
                   "it": "prossime 8h",
                   "no": "neste 8H",
-                  "fr": "8 prochaines heures",
                   "nl": "komende 8U"
                 }
               }
@@ -669,7 +641,6 @@
               "sv": "timmar",
               "it": "ore",
               "no": "timer",
-              "fr": "heures",
               "nl": "uren"
             },
             "values": [
@@ -681,7 +652,6 @@
                   "sv": "nästa 2H",
                   "it": "prossime 2h",
                   "no": "neste 2T",
-                  "fr": "2 prochaines heures",
                   "nl": "komende 2U"
                 }
               },
@@ -693,7 +663,6 @@
                   "sv": "nästa 3H",
                   "it": "prossime 3h",
                   "no": "neste 3T",
-                  "fr": "3 prochaines heures",
                   "nl": "komende 3U"
                 }
               },
@@ -705,7 +674,6 @@
                   "sv": "nästa 4H",
                   "it": "prossime 4h",
                   "no": "neste 4T",
-                  "fr": "4 prochaines heures",
                   "nl": "komende 4U"
                 }
               },
@@ -717,7 +685,6 @@
                   "sv": "nästa 5H",
                   "it": "prossime 5h",
                   "no": "neste 5T",
-                  "fr": "5 prochaines heures",
                   "nl": "komende 5U"
                 }
               },
@@ -729,7 +696,6 @@
                   "sv": "nästa 6H",
                   "it": "prossime 6h",
                   "no": "neste 6T",
-                  "fr": "6 prochaines heures",
                   "nl": "komende 6U"
                 }
               }
@@ -745,7 +711,6 @@
               "sv": "Pris just nu",
               "it": "Prezzo attuale",
               "no": "Pris nå",
-              "fr": "Tarif actuel",
               "nl": "Prijs nu"
             },
             "type": "number",
@@ -761,7 +726,6 @@
           "sv": "Priset blir det lägsta",
           "it": "Il prezzo sarà il più basso",
           "no": "Prisen blir lavest",
-          "fr": "Le tarif devient le plus faible",
           "nl": "De prijs wordt het laagst"
         },
         "titleFormatted": {
@@ -770,7 +734,6 @@
           "sv": "Priset blir lägst för [[period]]",
           "it": "Il prezzo sarà più basso per [[period]]",
           "no": "Prisen blir lavest for [[period]]",
-          "fr": "Le tarif devient le plus faible pour [[period]]",
           "nl": "De prijs wordt het laagst voor [[period]]"
         },
         "highlight": true,
@@ -789,7 +752,6 @@
               "sv": "period",
               "it": "periodo",
               "no": "periode",
-              "fr": "période",
               "nl": "periode"
             },
             "values": [
@@ -801,7 +763,6 @@
                   "sv": "idag",
                   "it": "giornata odierna",
                   "no": "idag",
-                  "fr": "aujourd'hui",
                   "nl": "deze dag"
                 }
               },
@@ -813,7 +774,6 @@
                   "sv": "nästa 2H",
                   "it": "prossime 2h",
                   "no": "neste 2T",
-                  "fr": "2 prochaines heures",
                   "nl": "komende 2U"
                 }
               },
@@ -825,7 +785,6 @@
                   "sv": "nästa 3H",
                   "it": "prossime 3h",
                   "no": "neste 3T",
-                  "fr": "3 prochaines heures",
                   "nl": "komende 3U"
                 }
               },
@@ -837,7 +796,6 @@
                   "sv": "nästa 4H",
                   "it": "prossime 4h",
                   "no": "neste 4T",
-                  "fr": "4 prochaines heures",
                   "nl": "komende 4U"
                 }
               },
@@ -849,7 +807,6 @@
                   "sv": "nästa 5H",
                   "it": "prossime 5h",
                   "no": "neste 5T",
-                  "fr": "5 prochaines heures",
                   "nl": "komende 5U"
                 }
               },
@@ -861,7 +818,6 @@
                   "sv": "nästa 6H",
                   "it": "prossime 6h",
                   "no": "neste 6T",
-                  "fr": "6 prochaines heures",
                   "nl": "komende 6U"
                 }
               },
@@ -873,7 +829,6 @@
                   "sv": "nästa 7H",
                   "it": "prossime 7h",
                   "no": "neste 7T",
-                  "fr": "7 prochaines heures",
                   "nl": "komende 7U"
                 }
               },
@@ -885,7 +840,6 @@
                   "sv": "nästa 8H",
                   "it": "prossime 8h",
                   "no": "neste 8T",
-                  "fr": "8 prochaines heures",
                   "nl": "komende 8U"
                 }
               }
@@ -1220,7 +1174,7 @@
           "no": "TPrisen !{{is|isn't}} høyest",
           "de": "Preis !{{ist|ist nicht}} am höchsten",
           "sv": "Priset !{{är|är inte}} det högsta",
-          "it": "The price !{{is|isn't}} highest",
+          "it": "Il prezzo !{{è|non è}} il più alto",
           "nl": "De prijs !{{is|is niet}} het hoogst"
         },
         "titleFormatted": {
@@ -1228,7 +1182,7 @@
           "no": "Prisen !{{is|isn't}} høyest for [[period]]",
           "de": "Preis !{{ist|ist nicht}} am höchsten für [[period]]",
           "sv": "Priset !{{är|är inte}} det högsta [[period]]",
-          "it": "The price !{{is|isn't}} highest for [[period]]",
+          "it": "Il prezzo !{{è|non è}} il più alto per [[period]]",
           "nl": "De prijs !{{is|is niet}} het hoogst voor [[period]]"
         },
         "highlight": true,
@@ -1349,7 +1303,7 @@
           "no": "Gj.snitt prisen de neste timene !{{is|isn't}} høyest",
           "de": "Der durchschn. Preis der nächsten Stunde !{{ist|ist nicht}} der höchste",
           "sv": "Det genomsnittliga priset de kommande timmarna !{{är|är inte}} det högsta",
-          "it": "The avg. price next hours !{{is|isn't}} highest",
+          "it": "Il prezzo medio nelle prossime ore !{{è|non è}} il più alto",
           "nl": "De gem. prijs de komende uren !{{is|is niet}} het hoogst"
         },
         "titleFormatted": {
@@ -1357,7 +1311,7 @@
           "no": "Gj.snitt prisen [[hours]] !{{is|isn't}} høyest innenfor [[period]]",
           "de": "Der durchschn. Preis [[hours]] !{{ist|ist nicht}} der höchste innerhalb [[period]]",
           "sv": "Det genomsnittliga priset de [[hours]] !{{är|är inte}} det högtsa [[period]]",
-          "it": "The avg. price [[hours]] !{{is|isn't}} highest within [[period]]",
+          "it": "Il prezzo medio [[hours]] !{{è|non è}} il più alto entro [[period]]",
           "nl": "De gem. prijs [[hours]] !{{is|is niet}} het hoogst binnen [[period]]"
         },
         "highlight": true,
@@ -1481,7 +1435,7 @@
           "no": "Prisen !{{is|isn't}} lavest",
           "de": "Preis !{{ist|ist nicht}} der niedrigste",
           "sv": "Priset !{{är|är inte}} det lägsta",
-          "it": "The price !{{is|isn't}} lowest",
+          "it": "Il prezzo !{{è|non è}} il più basso",
           "nl": "De prijs !{{is|is niet}} het laagst"
         },
         "titleFormatted": {
@@ -1489,7 +1443,7 @@
           "no": "Prisen !{{is|isn't}} lavest for [[period]]",
           "de": "Preis !{{ist|ist nicht}} der niedrigste für [[period]]",
           "sv": "Priset !{{är|är inte}} det lägsta för [[period]]",
-          "it": "The price !{{is|isn't}} lowest for [[period]]",
+          "it": "Il prezzo !{{è|non è}} il più basso per [[period]]",
           "nl": "De prijs !{{is|is niet}} het laagst voor [[period]]"
         },
         "highlight": true,
@@ -1610,7 +1564,7 @@
           "no": "Gj.snittprisen de neste timene !{{is|isn't}} den laveste",
           "de": "Der durchschn. Preis der kommenden Stunde !{{ist|ist nicht}} der niedrigste",
           "sv": "Det genomsnittliga priset de kommande timmarna !{{är|är inte}} det lägsta",
-          "it": "The avg. price next hours !{{is|isn't}} the lowest",
+          "it": "Il prezzo medio nelle prossime ore !{{è|non è}} il più basso",
           "nl": "De gem. prijs de komende uren !{{is|is niet}} het laagst"
         },
         "titleFormatted": {
@@ -1618,7 +1572,7 @@
           "no": "Gj.snittprisen [[hours]] !{{is|isn't}} lavest innen [[period]]",
           "de": "Der durchschn. Preis [[hours]] !{{ist|ist nicht}} der niedrigste innerhalb [[period]]",
           "sv": "Det genomsnittliga priset [[hours]] !{{är|är inte}} det lägsta inom [[period]]",
-          "it": "The avg. price [[hours]] !{{is|isn't}} lowest within [[period]]",
+          "it": "Il prezzo medio [[hours]] !{{è|non è}} il più basso entro [[period]]",
           "nl": "De gem. prijs [[hours]] !{{is|is niet}} het laagst binnen [[period]]"
         },
         "highlight": true,
@@ -1742,16 +1696,16 @@
           "no": "Prisen!{{is|isn't}} lavest før en bestemt tid",
           "de": "Preis !{{ist|ist nicht}} der niedrigste für eine bestimmte Zeit",
           "sv": "Priset !{{är|är inte}} det lägsta före ett specifikt tidpunkt",
-          "it": "The price !{{is|isn't}} lowest before a certain time",
-          "nl": "De prijs !{{is|isn't}} het laagst voor een bepaalde tijd"
+          "it": "Il prezzo !{{è|non è}} il più basso prima di un certo orario",
+          "nl": "De prijs !{{is|is niet}} het laagst voor een bepaalde tijd"
         },
         "titleFormatted": {
           "en": "The price !{{is|isn't}} one of [[number]] lowest in the [[period]] hours before [[time]] o'clock",
           "de": "Preis !{{ist|ist nicht}} einer der [[number]] niedrigsten in den [[period]] Stunden vor [[time]] Uhr",
           "sv": "Priset !{{är|är inte}} en av de [[number]] lägsta i [[period]] timmar före [[time]]",
           "no": "Prisen !{{is|isn't}} en av de [[number]] laveste i [[period]] timer før [[time]]",
-          "it": "The price !{{is|isn't}} one of [[number]] lowest in the [[period]] hours before [[time]] o'clock",
-          "nl": "De prijs !{{is|isn't}} een van de [[number]] laagste in de [[period]] uren voor [[time]] uur"
+          "it": "Il prezzo !{{è|non è}} uno dei [[number]] più bassi nelle [[period]] ore prima delle [[time]] in punto",
+          "nl": "De prijs !{{is|is niet}} een van de [[number]] laagste in de [[period]] uren voor [[time]] uur"
         },
         "highlight": true,
         "args": [
@@ -1819,18 +1773,18 @@
       },
       {
         "title": {
-          "en": "The price !{{is|isn't}} on of the lowest of today",
+          "en": "The price !{{is|isn't}} one of the lowest of today",
           "no": "Prisen !{{is|isn't}} på det laveste idag",
           "de": "Preis !{{ist|ist nicht}} ist heute einer der niedrigsten",
           "sv": "Priset !{{är|är inte}} det lägsta idag",
-          "it": "The price !{{is|isn't}} on of the lowest of today",
+          "it": "Il prezzo !{{è|non è}} uno dei più bassi di oggi",
           "nl": "De prijs !{{is|is niet} één van de laagste van vandaag"
         },
         "titleFormatted": {
           "en": "The price !{{is|isn't}} one of [[number]] lowest of today",
           "de": "Preis !{{ist|ist nicht}} einer der [[number]] niedrigsten heute",
           "sv": "Priset !{{är|är inte}} en av de [[number]] lägsta idag",
-          "it": "The price !{{is|isn't}} one of [[number]] lowest of today",
+          "it": "Il prezzo !{{è|non è}} uno dei [[number]] più bassi di oggi",
           "nl": "De prijs !{{is|is niet} een van de [[number]] laagste van vandaag"
         },
         "highlight": true,
@@ -1870,6 +1824,7 @@
           "sv": "Återställ Min/Max-värdena",
           "it": "Reimposta i valori Min/Max",
           "no": "Resett  Min/Max verdier",
+          "fr": "Remettre à zéro les valeur Min/Max",
           "nl": "Reset de Min/Max waarden"
         },
         "highlight": true,
@@ -1889,6 +1844,7 @@
           "sv": "Ställ in en ny växelkurs",
           "it": "Imposta un nuovo tasso di cambio",
           "no": "Sett en ny vekslingskurs",
+          "fr": "Définir un nouveau taux de change",
           "nl": "Stel een nieuwe wisselkoers in"
         },
         "titleFormatted": {
@@ -1897,6 +1853,7 @@
           "sv": "Ställ in växelkursen till [[value]]",
           "it": "Imposta tasso di cambio a [[value]]",
           "no": "Sett vekslingskurs til [[value]]",
+          "fr": "Définir le taux de change à [[value]]",
           "nl": "Stel wisselkoers in op [[value]]"
         },
         "highlight": true,
@@ -1914,6 +1871,7 @@
               "de": "€ Wechselkurs",
               "it": "€ Tasso di cambio",
               "no": "€ Vekslingskurs",
+              "fr": "€ Taux de change",
               "nl": "€ Wisselkoers"
             }
           }
@@ -1927,6 +1885,7 @@
           "sv": "Ställ in ett nytt fast påslag",
           "it": "Imposta un nuovo sovraprezzo fisso",
           "no": "Sett en ny fast påslag",
+          "fr": "Définir une nouvelle majoration fixe",
           "nl": "Stel een nieuwe vaste opslag in"
         },
         "titleFormatted": {
@@ -1935,6 +1894,7 @@
           "sv": "Ställ in fast påslag till [[value]]",
           "it": "Imposta sovraprezzo fisso a [[value]]",
           "no": "Sett en ny fast påslag til [[value]]",
+          "fr": "Définir une majoration fixe à [[value]]",
           "nl": "Stel vaste opslag in op [[value]]"
         },
         "highlight": true,
@@ -1953,7 +1913,8 @@
               "sv": "Fast påslag per kWh eller m3",
               "it": "Sovraprezzo fisso per kWh/m3",
               "no": "Fast påslag per kWh or m3",
-              "nl": "Vaste opslag per kWh of m3"
+              "nl": "Vaste opslag per kWh of m3",
+              "fr": "Majoration fixe par KWh ou m3"
             }
           }
         ],
@@ -1966,6 +1927,7 @@
           "sv": "Ställ in en ny dagtidspåslag",
           "it": "Imposta un nuovo sovraprezzo diurno",
           "no": "Sett en ny dagtid påslag",
+          "fr": "Définir une nouvelle majoration de jour",
           "nl": "Stel een nieuwe opslag in voor overdag"
         },
         "titleFormatted": {
@@ -1974,6 +1936,7 @@
           "sv": "Ställ in dagtidspåslag till [[value]]",
           "it": "Imposta sovraprezzo diurno a [[value]]",
           "no": "Sett en ny dagtid påslag til [[value]]",
+          "fr": "Définir une nouvelle majoration de jour à [[value]]",
           "nl": "Stel opslag overdag in op [[value]]"
         },
         "args": [
@@ -1991,6 +1954,7 @@
               "sv": "Extra påslag per kWh eller m3",
               "it": "Sovraprezzo extra per kWh o m3",
               "no": "Ekstra påslag per kWh or m3",
+              "fr": "Majoration supplémentaire par KWh ou m3",
               "nl": "Extra opslag per kWh of m3"
             }
           }
@@ -2004,6 +1968,7 @@
           "sv": "Ställ in en ny nattpåslag",
           "it": "Imposta un nuovo sovraprezzo notturno",
           "no": "Sett en ny nattpåslag",
+          "fr": "Définir une nouvelle majoration de nuit",
           "nl": "Stel een nieuwe opslag in voor 's nachts'"
         },
         "titleFormatted": {
@@ -2012,6 +1977,7 @@
           "sv": "Ställ in natttidspåslag till [[value]]",
           "it": "Imposta sovraprezzo notturno a [[value]]",
           "no": "Sett en ny nattpåslag til [[value]]",
+          "fr": "Définir une nouvelle augmentation de nuit à [[value]]",
           "nl": "Stel opslag 's nachts in op [[value]]"
         },
         "args": [
@@ -2029,6 +1995,7 @@
               "sv": "Extra påslag per kWh eller m3",
               "it": "Sovraprezzo extra per kWh o m3",
               "no": "Ekstra påslag per kWh or m3",
+              "fr": "Majoration supplémentaire par KWh ou m3",
               "nl": "Extra opslag per kWh of m3"
             }
           }
@@ -2042,6 +2009,7 @@
           "sv": "Skicka gasavläsning till virtuell mätare",
           "it": "Invia lettura gas a misuratore virtuale",
           "no": "Send gassavlesning til virtuelt meter",
+          "fr": "Envoyer le relévé gaz vers un compteur virtuel",
           "nl": "Stuur gasstand naar virtueel apparaat"
         },
         "titleFormatted": {
@@ -2050,6 +2018,7 @@
           "sv": "Skicka [[value]] avläsning till [[virtual_device]]",
           "it": "Invia lettura [[value]] a [[virtual_device]]",
           "no": "Send [[value]] avlesing til [[virtual_device]]",
+          "fr": "Envoyer le relevé [[value]] vers [[virtual_device]]",
           "nl": "Stuur [[value]] stand naar [[virtual_device]]"
         },
         "highlight": true,
@@ -2063,6 +2032,7 @@
               "sv": "Virtuell enhet",
               "it": "Dispositivo virtuale",
               "no": "virtuell enhet",
+              "fr": "Appareil virtuel",
               "nl": "Virtueel apparaat"
             }
           },
@@ -2075,6 +2045,7 @@
               "sv": "Gas (m³)",
               "it": "Gas (m³)",
               "no": "Gass (m³)",
+              "fr": "Gaz (m³)",
               "nl": "Gas (m³)"
             }
           }
@@ -2088,6 +2059,7 @@
           "sv": "Skicka energiavläsning till virtuell mätare",
           "it": "Invia lettura energia a contatore virtuale",
           "no": "Send energiavlesing til virtuelt meter",
+          "fr": "Envoyer le relevé électrique vers un compteur virtuel",
           "nl": "Stuur energiestand naar virtueel apparaat"
         },
         "titleFormatted": {
@@ -2096,6 +2068,7 @@
           "sv": "Skicka [[value]] avläsning till [[virtual_device]]",
           "it": "Invia lettura [[value]] a [[virtual_device]]",
           "no": "Send [[value]] avlesing til [[virtual_device]]",
+          "fr": "Envoyer le relevé [[value]] vers [[virtual_device]]",
           "nl": "Stuur [[value]] stand naar [[virtual_device]]"
         },
         "highlight": true,
@@ -2109,6 +2082,7 @@
               "sv": "Virtuell enhet",
               "it": "Dispositivo virtuale",
               "no": "virtuell enhet",
+              "fr": "Appareil virtuel",
               "nl": "Virtueel apparaat"
             }
           },
@@ -2121,6 +2095,7 @@
               "sv": "Energi (kWh)",
               "it": "Energia (kWh)",
               "no": "Energi (kWh)",
+              "fr": "Énergie (kWh)",
               "nl": "Energie (kWh)"
             }
           }
@@ -2134,6 +2109,7 @@
           "sv": "Skicka vattenavläsning till virtuell mätare",
           "it": "Invia lettura acqua a contatore virtuale",
           "no": "Send vannavlesning til virtuelt meter",
+          "fr": "Envoyer le relevé d'eau vers un compteur virtuel",
           "nl": "Stuur waterstand naar virtueel apparaat"
         },
         "titleFormatted": {
@@ -2142,6 +2118,7 @@
           "sv": "Skicka [[value]] avläsning till [[virtual_device]]",
           "it": "Invia lettura [[value]] a [[virtual_device]]",
           "no": "Send [[value]] avlesing til [[virtual_device]]",
+          "fr": "Envoyer le relevé [[value]] vers [[virtual_device]]",
           "nl": "Stuur [[value]] stand naar [[virtual_device]]"
         },
         "highlight": true,
@@ -2155,6 +2132,7 @@
               "sv": "Virtuell enhet",
               "it": "Dispositivo virtuale",
               "no": "virtuell enhet",
+              "fr": "Appareil virtuel",
               "nl": "Virtueel apparaat"
             }
           },
@@ -2167,6 +2145,7 @@
               "sv": "Vatten (m³)",
               "it": "Acqua (m³)",
               "no": "Vann (m³)",
+              "fr": "Eau (m³)",
               "nl": "Water (m³)"
             }
           }
@@ -2180,6 +2159,7 @@
           "sv": "Sätt en ny gastariff",
           "it": "Imposta una nuova tariffa gas",
           "no": "Sett en ny gasstariff",
+          "fr": "Définir un nouveau tarif gaz",
           "nl": "Stel een nieuw gastarief in"
         },
         "titleFormatted": {
@@ -2188,6 +2168,7 @@
           "sv": "Ställ in gastariffen till [[tariff]]",
           "it": "Imposta tariffa gas a [[tariff]]",
           "no": "Sett gasstariff til [[tariff]]",
+          "fr": "Définir le tarif gaz à [[tariff]]",
           "nl": "Stel gastarief in op [[tariff]]"
         },
         "highlight": true,
@@ -2201,6 +2182,7 @@
               "sv": "Tariffen per m³",
               "it": "La tariffa per m³",
               "no": "Tariff per m³",
+              "fr": "Le tarif par m³",
               "nl": "Het tarief per m³"
             }
           }
@@ -2214,6 +2196,7 @@
           "sv": "Sätt en ny energitaxa",
           "it": "Imposta una nuova tariffa energia",
           "no": "Sett en ny energitariff",
+          "fr": "Définir un nouveau tarif électrique",
           "nl": "Stel een nieuw energietarief in"
         },
         "titleFormatted": {
@@ -2222,6 +2205,7 @@
           "sv": "Ställ in energitariffen till [[tariff]]",
           "it": "Imposta tariffa energia a [[tariff]]",
           "no": "Sett energitariff to [[tariff]]",
+          "fr": "Définir le tarif électrique à [[tariff]]",
           "nl": "Stel energietarief in op [[tariff]]"
         },
         "highlight": true,
@@ -2235,6 +2219,7 @@
               "sv": "Tariffen per kWh",
               "it": "La tariffa per kWh",
               "no": "Tariff per kWh",
+              "fr": "Le tarif par KWh",
               "nl": "Het tarief per kWh"
             }
           }
@@ -2248,6 +2233,7 @@
           "sv": "Sätt en ny vattentaxa",
           "it": "Imposta una nuova tariffa acqua",
           "no": "Sett en ny vanntariff",
+          "fr": "Définir un nouveau tarif d'eau",
           "nl": "Stel een nieuw watertarief in"
         },
         "titleFormatted": {
@@ -2256,6 +2242,7 @@
           "sv": "Ställ in vattentaxa till [[tariff]]",
           "it": "Imposta tariffa acqua a [[tariff]]",
           "no": "Sett vanntariff til [[tariff]]",
+          "fr": "Définir le tarif d'eau à [[tariff]]",
           "nl": "Stel watertarief in op [[tariff]]"
         },
         "highlight": true,
@@ -2269,6 +2256,7 @@
               "sv": "Tariffen per m³",
               "it": "La tariffa per m³",
               "no": "Tariff per m³",
+              "fr": "Le tarif par m³",
               "nl": "Het tarief per m³"
             }
           }
@@ -2282,6 +2270,7 @@
           "sv": "Ställ in ett nytt variabelt påslag",
           "it": "Imposta un nuovo sovraprezzo variabile",
           "no": "Sett en ny variabel påslag",
+          "fr": "Définir une majoration variable",
           "nl": "Stel een nieuwe variabele opslag in"
         },
         "titleFormatted": {
@@ -2290,6 +2279,7 @@
           "de": "Variablen Aufschlag einstellen auf [[value]]%",
           "it": "Imposta sovraprezzo variabile a [[value]]%",
           "no": "Sett variabel påslag til [[value]]%",
+          "fr": "Définir une majoration variable à [[value]]",
           "nl": "Stel variabele opslag in op [[value]]%"
         },
         "highlight": true,
@@ -2308,6 +2298,7 @@
               "sv": "Variabel påslag (%)",
               "it": "Sovraprezzo variabile (%)",
               "no": "Variabel påslag (%)",
+              "fr": "Majoration variable (%)",
               "nl": "Variabele opslag (%)"
             }
           }
@@ -2324,6 +2315,7 @@
         "sv": "Day-Ahead 1H Priser",
         "it": "Prezzi del giorno prima 1h",
         "no": "Day-Ahead 1T Priser",
+        "fr": "Tarif demain heure par heure",
         "nl": "Day-Ahead 1U Prijzen"
       },
       "class": "sensor",
@@ -2361,6 +2353,7 @@
             "sv": "Information om elområde",
             "it": "Informazioni sulla zona di trattativa",
             "no": "Prisområde informasjon",
+            "fr": "Information sur les négociations",
             "nl": "Biedzone informatie"
           },
           "children": [
@@ -2373,6 +2366,7 @@
                 "sv": "Elområde",
                 "it": "Zona di trattativa",
                 "no": "Prisområde",
+                "fr": "Zone de négociation",
                 "nl": "Biedzone"
               },
               "value": "unknown"
@@ -2386,6 +2380,7 @@
                 "sv": "Beskrivning",
                 "it": "Descrizione",
                 "no": "Beskrivelse",
+                "fr": "Description",
                 "nl": "Omschrijving"
               },
               "value": "unknown"
@@ -2400,6 +2395,7 @@
             "sv": "Valutainställningar",
             "it": "Impostazioni valuta",
             "no": "Valutainnstillinger",
+            "fr": "Paramètre de devise",
             "nl": "Munteenheid instellingen"
           },
           "children": [
@@ -2412,6 +2408,7 @@
                 "sv": "Visning av valutaenhet",
                 "it": "Visualizzazione unità valuta",
                 "no": "Visning av valutaenhet",
+                "fr": "Affichage de l'unité monétaire",
                 "nl": "Weergave geldeenheid"
               },
               "value": "€",
@@ -2421,6 +2418,7 @@
                 "sv": "Enheten som visas som valuta, t.ex. €, £, EUR, SER, NOK, DKK, CHF. Lämna tomt för att använda standardvärdet €.",
                 "it": "L'unità mostrata come valuta, es. €, £, EUR, SER, NOK, DKK, CHF. Lasciare vuoto per utilizzare € di default.",
                 "no": "Valutaenheten vises som f.eks. €, £, EUR, SER, NOK, DKK, CHF. La stå blank for å bruke default €.",
+                "fr": "Unité affichée comme devise, ex. €, £, EUR, SER, NOK, DKK, CHF. Laisser vide pour utiliser € par défaut",
                 "nl": "De weergegeven eenheid voor geld, bijv. €, £, EUR, SER, NOK, DKK, CHF. Laat leeg om de standaard € te gebruiken."
               }
             },
@@ -2433,6 +2431,7 @@
                 "sv": "Valuta decimaler",
                 "it": "Decimali valuta",
                 "no": "Valute desimaler",
+                "fr": "Décimales devise",
                 "nl": "Geld decimalen"
               },
               "value": 4,
@@ -2444,6 +2443,7 @@
                 "sv": "Antalet decimaler som ska användas för pris.",
                 "it": "Il numero di decimali da utilizzare per il prezzo.",
                 "no": "Antall prisdesimaler",
+                "fr": "Nombre de décimales à utiliser pour le tarif",
                 "nl": "Het aantal decimalen voor prijs."
               }
             },
@@ -2456,6 +2456,7 @@
                 "sv": "Växelkurs med €",
                 "it": "Tasso di cambio con €",
                 "no": "Vekslingskurs mot €",
+                "fr": "Taux de change avec €",
                 "nl": "Wisselkoers met €"
               },
               "value": 1,
@@ -2465,6 +2466,7 @@
                 "sv": "Ställ in på 1 om du vill använda EURO, annars anger du växelkursen till din önskade valuta.",
                 "it": "Imposta 1 se vuoi utilizzare EURO, altrimenti inserisci il tasso di cambio della valuta che preferisci.",
                 "no": "Sett som 1 hvis du vil bruke EURO, ellers legg inn vekslingskursen for din foretrukne valuta.",
+                "fr": "Mettre à 1 si vous souhaitez utiliser EURO, sinon entrer le taux de change de la devise souhaitée",
                 "nl": "Stel in op 1 als je EURO's wilt gebruiken, of geef de wisselkoers in naar de gewenste munteenheid."
               }
             },
@@ -2478,6 +2480,7 @@
                 "sv": "Uppdatera växelkursen dagligen",
                 "it": "Aggiorna quotidianamente il tasso di cambio",
                 "no": "Daglig oppdatering av vekslingskurs",
+                "fr": "Mise à jour quotidienne du taux de change",
                 "nl": "Update wisselkoers dagelijks"
               },
               "values": [
@@ -2489,6 +2492,7 @@
                     "sv": "HÄMTA INTE",
                     "it": "NON RECUPERARE",
                     "no": "IKKE HENT",
+                    "fr": "NE PAS RÉCUPÉRER",
                     "nl": "NIET OPHALEN"
                   }
                 },
@@ -2595,6 +2599,7 @@
                 "sv": "Ange den valuta för vilken du vill att växelkursen ska hämtas automatiskt. Lämna vid 'HÄMTA INTE' om du använder euro, eller om du vill ställa in växelkursen manuellt.",
                 "it": "Inserisci la valuta per la quale desideri che il tasso di cambio venga recuperato automaticamente. Lascia su 'NON RECUPERARE' se stai usando Euro, o se vuoi impostare manualmente il tasso di cambio.",
                 "no": "Legg inn valutaen for den vekslingskursen du ønsker å hente automatisk. La den stå på 'IKKE HENT' hvis du bruker Euro, eller hvis du vil sette vekslingkursen manuelt.",
+                "fr": "Entrer la devise pour laquelle vous souhaitez que le taux de change soit automatiquement récupérer. Laisser à 'NE PAS RÉCUPÉRER' si vous utiliser l'Euro, ou si vous souhaitez entrer manuellement le taux de change",
                 "nl": "Geef de munteenheid aan waarvan de wisselkoers automatisch moey worden opgehaald. Zet op 'NIET OPHALEN' als je Euro gebruit, of als je de wisselkoers handmatig wilt invoeren."
               }
             }
@@ -2608,6 +2613,7 @@
             "sv": "Prisinställningar",
             "it": "Impostazioni prezzo",
             "no": "Prisinnstillinger",
+            "fr": "Paramètre de tarification",
             "nl": "Prijs instellingen"
           },
           "children": [
@@ -2620,6 +2626,7 @@
                 "sv": "Variabelt påslag (%)",
                 "it": "Aumento variabile (%)",
                 "no": "Variabelt påslag (%)",
+                "fr": "Augmentation variable (%)",
                 "nl": "Variabele opslag (%)"
               },
               "value": 0,
@@ -2629,6 +2636,7 @@
                 "sv": "Ange den procentandel som nettopriset ska höjas med. T.ex. för moms.",
                 "it": "Inserisci la percentuale di aumento da applicare sul prezzo netto. Es. per IVA.",
                 "no": "Legg inn verdien i prosent som nettoprisen skal økes. f.eks. for MVA.",
+                "fr": "Entrer le pourcentage pour lequel le tarif doit être augmenter. Par exemple la TVA",
                 "nl": "Voer het percentage in waarmee de netto prijs verhoogd moet worden. Bijvoorbeeld voor BTW."
               }
             },
@@ -2641,6 +2649,7 @@
                 "sv": "Fast påslag per kWh eller m3",
                 "it": "Aumento fisso per kWh o m3",
                 "no": "Fast påslag per kWh or m3",
+                "fr": "Fixer l'augmentation par KWh ou m3",
                 "nl": "Vaste opslag per kWh of m3"
               },
               "value": 0,
@@ -2650,6 +2659,7 @@
                 "sv": "Ange det fasta belopp som priset ska höjas med per kWh eller m3, inkl. MOMS. T.ex. mot inköpsavgift.",
                 "no": "Angi det faste beløpet som prisen skal økes med per kWh eller m3, inkl. MVA.",
                 "it": "Inserisci la quota fissa di aumento per kWh o m3, incluso IVA. Es. per diritti di acquisto.",
+                "fr": "Entrez le montant fixe dont le prix doit être ajouté par kWh ou m3, incluant la TVA. Par exemple les frais d'achat",
                 "nl": "Voer het vaste bedrag in waarmee de prijs per kWh of m3 verhoogd moet worden incl. BTW. Bijvoorbeeld voor inkoopvergoeding, Energie belasting, ODE."
               }
             },
@@ -2662,6 +2672,7 @@
                 "sv": "Extra påslag under dagtid",
                 "it": "Extra costi durante l'orario diurno",
                 "no": "Ekstra påslag på dagtid",
+                "fr": "Augmentation supplémentaire pendant la journée",
                 "nl": "Extra opslag overdag"
               },
               "value": 0,
@@ -2671,6 +2682,7 @@
                 "sv": "Ange det belopp med vilket priset ytterligare ska höjas per kWh eller m3 under dagtid (06:00-22:00).",
                 "it": "Imposta l'incremento aggiuntivo per kWh o m3 durante l'orario diurno (06:00-22:00).",
                 "no": "Legg inn beløpet som prisen i tillegg må økes per kWh or m3 på dagtid (06:00-22:00).",
+                "fr": "Entrez le montant avec lequel le prix doit être ajouté en plus par kWh ou m3 pendant la journée (de 6h00 à 22h00);",
                 "nl": "Voer het bedrag in waarmee de prijs per kWh of m3 verhoogd moet worden overdag (06:00-22:00)"
               }
             },
@@ -2683,6 +2695,7 @@
                 "sv": "Extra påslag under natten",
                 "it": "Extra costi durante l'orario notturno",
                 "no": "Ekstra påslag på natt",
+                "fr": "Augmentation supplémentaire la nuit",
                 "nl": "Extra opslag 's nachts"
               },
               "value": 0,
@@ -2703,7 +2716,7 @@
                 "no": "Weekend samme som natt",
                 "de": "Am Wochenende wie in der Nacht",
                 "sv": "Helg påslag samma som under nattetid",
-                "it": "Weekend same as night time",
+                "it": "Weekend come periodo notturno",
                 "nl": "Weekend gelijk aan 's nachts"
               },
               "value": false,
@@ -2711,9 +2724,10 @@
                 "en": "If enabled the night time markup will be applied during the whole weekend (Saturday - Sunday).",
                 "de": "Wenn aktiviert, wird der Nachtaufschlag während des gesamten Wochenendes (Samstag - Sonntag) angewendet.",
                 "sv": "Om den är aktiverad kommer natttidspåslag att tillämpas under hela helgen (lördag - söndag).",
-                "it": "If enabled the night time markup will be applied during the whole weekend (Saturday - Sunday).",
+                "it": "Se abilitato, l'extra costo notturno sarà applicato durante l'intero weekend (Sabato - Domenica).",
                 "no": "Hvis aktivert vil nattpåslag være påført hele helgen (Lørdag - Søndag).",
-                "nl": "Indien geactiveerd wordt nacht verhoging het hele weekend toegepast (zaterdag - zondag)."
+                "nl": "Indien geactiveerd wordt nacht verhoging het hele weekend toegepast (zaterdag - zondag).",
+                "fr": "Entrer le montant avec lequel le prix doit être ajouté en plus par KWh ou m3 pendant la nuit (de 22h00 à 6h00)."
               }
             }
           ]
@@ -2726,6 +2740,7 @@
             "sv": "Olika inställningar",
             "it": "Impostazioni varie",
             "no": "Øvrige innstillinger",
+            "fr": "Réglages divers",
             "nl": "Overige instellingen"
           },
           "children": [
@@ -2738,6 +2753,7 @@
                 "sv": "Skicka tariff",
                 "it": "Invia tariffa",
                 "no": "Send tariff",
+                "fr": "Envoyer tarif",
                 "nl": "Stuur tarief"
               },
               "value": false,
@@ -2747,6 +2763,7 @@
                 "sv": "Varje timme kommer priset per kWh eller m3 att skickas som tariff för PBTH-enheter, utan att behöva skapa ett flöde.",
                 "it": "Ogni ora verrà inviato il prezzo per kWh o m3 come tariffa per i dispositivi PBTH, senza necessità di creare alcun flow.",
                 "no": "Hver time vil prisen per kWh or m3 bli sendt som tariff for PBTH enheter, uten at man trenger å skape en flow.",
+                "fr": "Chaque heure, le prix du kWh ou du m3 sera envoyé comme tarif pour les appareils PBTH, sans qu'il soit nécessaire de créer un flow",
                 "nl": "Ieder uur wordt de prijs per kWh of m3 als tarief naar PBTH devices gestuurd, zonder dat een flow gemaakt hoeft te worden."
               }
             }
@@ -2792,6 +2809,7 @@
             "sv": "Homey källenhetsinformation",
             "it": "Informazioni sul dispositivo sorgente Homey",
             "no": "Homey kildeenhetinformasjon",
+            "fr": "Information sur l'appareil source Homey",
             "nl": "Homey bronapparaat informatie"
           },
           "children": [
@@ -2804,6 +2822,7 @@
                 "sv": "Enhets ID",
                 "no": "Enhets ID",
                 "it": "ID dispositivo",
+                "fr": "ID de l'appareil",
                 "nl": "Apparaat ID"
               },
               "value": "unknown"
@@ -2817,6 +2836,7 @@
                 "sv": "Enhets namn",
                 "it": "Nome dispositivo",
                 "no": "Enhets navn",
+                "fr": "Nom de l'appareil",
                 "nl": "Apparaat naam"
               },
               "value": "unknown"
@@ -2830,6 +2850,7 @@
                 "sv": "Källenhetstyp",
                 "it": "Tipo dispositivo sorgente",
                 "no": "Kildeenhet type",
+                "fr": "Type de l'appareil source",
                 "nl": "Type bron apparaat"
               },
               "value": "Homey device",
@@ -2839,6 +2860,7 @@
                 "sv": "Antingen Homey enhet eller virtuell enhet. Mätaren för en virtuell enhet kan endast uppdateras via ett flöde.",
                 "it": "Dispositivo Homey o dispositivo virtuale. Il contatore di un dispositivo virtuale può essere aggiornato solo tramite un flow.",
                 "no": "Enten Homey enhet eller Virtual enhet. Meteret til en virtuell enhet kan bare bli oppdatert via en flow.",
+                "fr": "Soit appareil Homey ou appreil virtuel. Le compteur d'un équipement virtuel ne peut être mis à jour que via un flux.",
                 "nl": "Homey apparaat of virtueel apparaat. De meter van een virtueel apparaat kan alleen worden geupdated via een flow."
               }
             },
@@ -2851,6 +2873,7 @@
                 "sv": "Har daglig återställning",
                 "it": "Effettua un reset giornaliero",
                 "no": "Har daglig reset",
+                "fr": "A une remise à zéro quotidienne",
                 "nl": "Heeft dagelijkse reset"
               },
               "hint": {
@@ -2859,6 +2882,7 @@
                 "sv": "Mätaren för denna källenhet återställs varje midnatt till 0",
                 "it": "Il contatore di questo dispositivo sorgente si azzera ogni mezzanotte",
                 "no": "Meteret til denne kildeenheten resetter hver midnatt til 0",
+                "fr": "Le compteur de cette source se remet à zéro chaque nuit à minuit",
                 "nl": "De meter van dit bronapparaat reset naar 0 om middernacht"
               },
               "value": false
@@ -2872,6 +2896,7 @@
                 "sv": "Uppdateringsintervall (minuter)",
                 "it": "Intervallo di aggiornamento (minuti)",
                 "no": "Oppdateringsintervall (minutter)",
+                "fr": "Intervale de mise à jour (minutes)",
                 "nl": "Update interval (minuten)"
               },
               "hint": {
@@ -2880,6 +2905,7 @@
                 "sv": "Ställ in 0 för att få omedelbara uppdateringar. Detta kan öka systembelastningen något. Den här inställningen ignoreras för virtuella källenheter.",
                 "it": "Impostare a 0 per avere aggiornamenti immediati. Ciò può aumentare leggermente il carico del sistema. Questa impostazione viene ignorata per i dispositivi sorgente virtuali.",
                 "no": "Sett til 0 for umiddelbar oppdatering. This can slightly increase system load. This setting is ignored for virtual source devices.",
+                "fr": "Mettre à 0 pour avoir une mise à jour imméfiate. Cela peut augmenter légèrement la charge du système. Ce paramètre est ignoré pour les périphériques source virtuels.",
                 "nl": "Zet op 0 voor directe updates. Dit kan echter de systeem belasting iets verhogen. Deze instelling wordt niet gebruikt voor virtuele bron apparaten."
               },
               "value": 0,
@@ -2897,6 +2923,7 @@
             "sv": "Mätaravläsningar",
             "it": "Letture contatore",
             "no": "Meter verdier",
+            "fr": "Lecture de compteur",
             "nl": "Meter waarden"
           },
           "children": [
@@ -2909,6 +2936,7 @@
                 "sv": "Nytt år startdatum",
                 "it": "Data inizio anno nuovo",
                 "no": "startdato for nytt år",
+                "fr": "Date de début de la nouvelle année",
                 "nl": "Start datum nieuw jaar"
               },
               "value": "0101",
@@ -2917,8 +2945,9 @@
                 "nl": "Op deze datum wordt het jaar en maand totaal op 0 gezet. Het formaat is ddmm. Standaard is 0101 (1 january). LET OP: Als deze datum wordt gewijzigd zal Deze Maand Start en Dit Jaar Start handmatig aangepast moeten worden.",
                 "de": "An diesem Datum wird die Monats- und Jahressumme auf 0 zurückgesetzt. Das Format ist ddmm. Standardwert ist 0101 (1. Januar). ACHTUNG: Wenn Sie dieses Datum ändern, müssen Sie die Werte 'Monatsbeginn' und 'Jahresbeginn' manuell korrigieren.",
                 "sv": "På det här datumet återställs totalsumman för månad och år till 0. Formatet är ddmm. Standard är 0101 (1 januari). OBSERVERA: Om du ändrar detta datum måste du manuellt korrigera värdena för start för denna månad och start för detta år.",
-                "it": "In questa data, mese e anno saranno resettati. Il formato è ggmm. Default è 0101 (1 Gennaio). ATTENZIONE: se modifichi questa data dovrai correggere manualmente i valori Inzio Mese Corrente e Inzio Anno Corrente.",
-                "no": "På denne dato vil total for måned og år resettes til 0. Format er ddmm. Default er 0101 (1 Januar). NB: Hvis du endrer denne datoen må du manuelt korrigere Denne måned start og  dette år start verdier."
+                "no": "På denne dato vil total for måned og år resettes til 0. Format er ddmm. Default er 0101 (1 Januar). NB: Hvis du endrer denne datoen må du manuelt korrigere Denne måned start og  dette år start verdier.",
+                "fr": "À cette date, le total du mois et de l'année sera remit à 0. Le format est jjmm. La valeur par défaut est 0101 (1er janvier). ATTENTION: Si vous modifiez cette date, vous devez corriger manuellement les valeurs Début de ce mois et Début de cette année.",
+                "it": "In questa data, mese e anno saranno resettati. Il formato è ggmm. Default è 0101 (1 Gennaio). ATTENZIONE: se modifichi questa data dovrai correggere manualmente i valori Inzio Mese Corrente e Inzio Anno Corrente."
               }
             },
             {
@@ -2930,6 +2959,7 @@
                 "sv": "Nuvarande avläsning",
                 "it": "Lettura attuale",
                 "no": "nåværende avlesning",
+                "fr": "Lecture actuel",
                 "nl": "Huidige waarde"
               },
               "value": "0",
@@ -2939,7 +2969,8 @@
                 "nl": "Dit is de meter stand van het bronapparaat, eenmaal per uur geupdated.",
                 "de": "Dies ist der Zählerstand des Homey Geräts, der einmal pro Stunde aktualisiert wird.",
                 "it": "Questa è la lettura del contatore dal dispositivo sorgente, aggiornata ogni ora.",
-                "no": "Dette er måleravlesningen fra kildeenheten, oppdatert en gang i timen."
+                "no": "Dette er måleravlesningen fra kildeenheten, oppdatert en gang i timen.",
+                "fr": "Ceci est la lecture compteur de l'appareil source, mise à jour chaque heure"
               }
             },
             {
@@ -2951,6 +2982,7 @@
                 "sv": "Denna dag börjar",
                 "it": "Inizio giorno corrente",
                 "no": "Startverdi denne dag",
+                "fr": "Ce jour commence",
                 "nl": "Deze dag start"
               },
               "value": 0,
@@ -2960,7 +2992,8 @@
                 "de": "Geben Sie den Zählerstand zu Beginn des Tages ein. Er wird um Mitternacht automatisch aktualisiert.",
                 "sv": "Ange mätarställningen i början av denna dag. Den uppdateras automatiskt vid midnatt.",
                 "it": "Inserisci la lettura del contatore all'inizio di questa giornata. Viene aggiornata automaticamente a mezzanotte.",
-                "no": "Legg inn målerverdi ved denne dagens start. Den blir automatisk oppdatert ved midnatt."
+                "no": "Legg inn målerverdi ved denne dagens start. Den blir automatisk oppdatert ved midnatt.",
+                "fr": "Entrer la lecture compteur au début de ce jour. Ce sera automatiquement mis à jour à minuit"
               }
             },
             {
@@ -2972,6 +3005,7 @@
                 "sv": "Denna månad börjar",
                 "it": "Inizio mese corrente",
                 "no": "Startverdi denne måned",
+                "fr": "Ce mois commence",
                 "nl": "Deze maand start"
               },
               "value": 0,
@@ -2981,7 +3015,8 @@
                 "de": "Geben Sie den Zählerstand zu Beginn des Monats ein. Er wird automatisch am ersten Tag eines neuen Monats aktualisiert.",
                 "sv": "Ange mätarställningen i början av denna månad. Den uppdateras automatiskt första dagen i en ny månad.",
                 "it": "Inserisci la lettura del contatore all'inizio di questo mese. Viene aggiornata automaticamente il primo giorno del nuovo mese.",
-                "no": "Legg inn målerverdi ved denne måneds start. Den blir automatisk oppdatert første dagen ved ny måned."
+                "no": "Legg inn målerverdi ved denne måneds start. Den blir automatisk oppdatert første dagen ved ny måned.",
+                "fr": "Entrer la lecture compteur au début de ce mois. Ce sera automatiquement mis à jour chaque début de mois"
               }
             },
             {
@@ -2993,6 +3028,7 @@
                 "sv": "Årets start",
                 "it": "Inizio anno corrente",
                 "no": "Startverdi dette år",
+                "fr": "Cette année commence",
                 "nl": "Dit jaar start"
               },
               "value": 0,
@@ -3002,7 +3038,8 @@
                 "de": "Geben Sie den Zählerstand zu Beginn des Jahres ein. Er wird am ersten Tag eines neuen Jahres automatisch aktualisiert.",
                 "sv": "Ange mätarställningen i början av detta år. Den uppdateras automatiskt första dagen på ett nytt år.",
                 "it": "Inserisci la lettura del contatore all'inizio di quest'anno. Viene aggiornata automaticamente il primo giorno del nuovo anno.",
-                "no": "Legg inn målerverdi ved dette årets start. Den blir automatisk oppdatert første dagen ved nytt år."
+                "no": "Legg inn målerverdi ved dette årets start. Den blir automatisk oppdatert første dagen ved nytt år.",
+                "fr": "Entrer la lecture compteur au début de cette année. Ce sera automatiquement mis à jour chaque début de nouvelle année"
               }
             },
             {
@@ -3014,6 +3051,7 @@
                 "sv": "Återställ Min/Max-värden",
                 "it": "Resetta i valori Min/Max",
                 "no": "Resett Min/Max verdier",
+                "fr": "Remise à zéro des valeurs Min/Max",
                 "nl": "Reset Min/Max waarden"
               },
               "values": [
@@ -3025,6 +3063,7 @@
                     "sv": "timme",
                     "it": "Ora",
                     "no": "Time",
+                    "fr": "Heure",
                     "nl": "Uur"
                   }
                 },
@@ -3036,6 +3075,7 @@
                     "sv": "Dag",
                     "it": "Giorno",
                     "no": "Dag",
+                    "fr": "Jour",
                     "nl": "Dag"
                   }
                 },
@@ -3047,6 +3087,7 @@
                     "sv": "Månad",
                     "it": "Mese",
                     "no": "Måned",
+                    "fr": "Mois",
                     "nl": "Maand"
                   }
                 },
@@ -3058,6 +3099,7 @@
                     "sv": "År",
                     "it": "Anno",
                     "no": "År",
+                    "fr": "Année",
                     "nl": "Jaar"
                   }
                 },
@@ -3069,6 +3111,7 @@
                     "sv": "Aldrig",
                     "it": "Mai",
                     "no": "Aldri",
+                    "fr": "Jamais",
                     "nl": "Nooit"
                   }
                 }
@@ -3080,6 +3123,7 @@
                 "sv": "Minsta/maximivärdena återställs vid varje ny period. Värdena kan också återställas när som helst via ett flöde.",
                 "it": "I valori minimo/massimo saranno resettati ad ogni nuovo periodo. I valori possono anche essere resettati in qualsiasi momento tramite un flow.",
                 "no": "Minimum/maximum verdiene blir resatt hver ny periode. Verdiene kan også bli resatt når som helst via flow.",
+                "fr": "Les valeurs minimales/maximales seront réinitialisées à chaque nouvelle période. Les valeurs peuvent également être réinitialisées à tout moment via un flow",
                 "nl": "De minimum/maximum waarden worden iedere nieuwe periode gereset. De waarden kunnen ook op ieder moment worden gereset via een flow."
               }
             }
@@ -3093,6 +3137,7 @@
             "sv": "Penningvärde",
             "it": "Valore monetario",
             "no": "Kostnad",
+            "fr": "Valeur monétaire",
             "nl": "Geldwaarde"
           },
           "children": [
@@ -3105,6 +3150,7 @@
                 "sv": "Valutaenhet",
                 "it": "Unità valuta",
                 "no": "Valutaenhet",
+                "fr": "Unité monétaire",
                 "nl": "Geldeenheid"
               },
               "value": "¤",
@@ -3114,6 +3160,7 @@
                 "sv": "Enheten som visas som valuta, t.ex. €, £, EUR, SER, NOK, DKK, CHF. Lämna tomt för att använda standardvärdet ¤.",
                 "it": "L'unità visualizzata come valuta, es. €, £, EUR, SER, NOK, DKK, CHF. Lasciare vuoto per utilizzare ¤ di default.",
                 "no": "Enheten vist som valuta, e.g. €, £, EUR, SER, NOK, DKK, CHF. La være blank for å bruke default ¤.",
+                "fr": "L'unité de devise affichée, ex. €, £, EUR, SER, NOK, DKK, CHF. Laisser vide pour utiliser ¤ par défaut.",
                 "nl": "De weergegeven eenheid voor geld, bijv. €, £, EUR, SER, NOK, DKK, CHF. Laat leeg om de standaard ¤ te gebruiken."
               }
             },
@@ -3126,6 +3173,7 @@
                 "sv": "Valuta decimaler",
                 "it": "Decimali valuta",
                 "no": "Valuta desimaler",
+                "fr": "Décimales monétaires",
                 "nl": "Geld decimalen"
               },
               "value": 2,
@@ -3137,6 +3185,7 @@
                 "sv": "Antalet decimaler som ska användas för monetärt värde.",
                 "it": "Il numero di decimali da utilizzare per il valore monetario.",
                 "no": "Antall desimaler for kostnad.",
+                "fr": "Nombre de décimales à utiliser pour la valeur monétaire",
                 "nl": "Het aantal decimalen voor geldwaarde."
               }
             },
@@ -3149,6 +3198,7 @@
                 "sv": "Faktisk tariff per m³",
                 "it": "Tariffa attuale per m³",
                 "no": "Aktuell tariff per m³",
+                "fr": "Tarif actuel par m³",
                 "nl": "Actueel tarief per m³"
               },
               "value": 0.75,
@@ -3159,6 +3209,7 @@
                 "sv": "Tariffen används för att beräkna penningvärdet. Det kan ändras dynamiskt via ett flöde.",
                 "it": "La tariffa è utilizzata per calcolare il valore monetario. Può essere cambiata dinamicamente tramite un flow.",
                 "no": "Tariffen blir brukt til å kalkulere pengeverdien. Den kan endres dynamisk via en flow.",
+                "fr": "Le tarif est utilisé pour calculer la valeur monétaire. Il peut être changé dynamiquement par un flow",
                 "nl": "Het tarief wordt gebruikt om de geldwaarde te berekenen. Het kan dynamisch worden aangepast via een flow."
               }
             },
@@ -3171,6 +3222,7 @@
                 "sv": "Tariff via flöde eller DAP",
                 "it": "Tariffa via flow o DAP",
                 "no": "Tariff via flow eller DAP",
+                "fr": "Tarif par flow ou DAP",
                 "nl": "Tarief via flow of DAP"
               },
               "value": true,
@@ -3180,6 +3232,7 @@
                 "sv": "Inkludera denna enhet när du ställer in en ny tariff via flöde eller DAP.",
                 "it": "Includi questo dispositivo quando imposti una nuova tariffa via flow o DAP.",
                 "no": "Inkluder denne enheten når ny tariff blir satt via flow eller DAP.",
+                "fr": "Inclure cet appareil lors de la définition d'un nouveau tarif via flow ou DAP.",
                 "nl": "Dit apparaat meenemen bij het instellen van een nieuw tarief via flow of DAP."
               }
             },
@@ -3192,6 +3245,7 @@
                 "sv": "Dagens monetära värde",
                 "it": "Valore monetario odierno",
                 "no": "Kostnad denne dag",
+                "fr": "Valeur monétaire aujourd'hui",
                 "nl": "Geldwaarde van deze dag"
               },
               "value": 0,
@@ -3202,6 +3256,7 @@
                 "sv": "Faktiskt penningvärde. Den uppdateras automatiskt.",
                 "it": "Valore monetario corrente. Viene aggiornato automaticamente.",
                 "no": "Aktuell kostnad. Blir automatisk oppdatert",
+                "fr": "Valeur monétaire actuelle. Elle est mise à jour automatiquement",
                 "nl": "Actuele gelwaarde. Wordt automatisch geupdated."
               }
             },
@@ -3214,6 +3269,7 @@
                 "sv": "Denna månads monetära värde",
                 "it": "Valore monetario mese corrente",
                 "no": "Kostnad denne måned",
+                "fr": "Valeur monétaire de ce mois",
                 "nl": "Geldwaarde van deze maand"
               },
               "value": 0,
@@ -3224,6 +3280,7 @@
                 "sv": "Faktiskt penningvärde. Den uppdateras automatiskt.",
                 "it": "Valore monetario corrente. Viene aggiornato automaticamente.",
                 "no": "Aktuell kostnad. Blir automatisk oppdatert",
+                "fr": "Valeur monétaire actuelle. Elle est mise à jour automatiquement",
                 "nl": "Actuele gelwaarde. Wordt automatisch geupdated."
               }
             },
@@ -3236,6 +3293,7 @@
                 "sv": "Årets monetära värde",
                 "it": "Valore monetario anno corrente",
                 "no": "Kostnad dette år",
+                "fr": "Valeur monétaire de cette année",
                 "nl": "Geldwaarde van dit jaar"
               },
               "value": 0,
@@ -3246,6 +3304,7 @@
                 "sv": "Faktiskt penningvärde. Den uppdateras automatiskt.",
                 "it": "Valore monetario corrente. Viene aggiornato automaticamente.",
                 "no": "Aktuell kostnad. Blir automatisk oppdatert",
+                "fr": "Valeur monétaire actuelle. Elle est mise à jour automatiquement",
                 "nl": "Actuele gelwaarde. Wordt automatisch geupdated."
               }
             },
@@ -3258,6 +3317,7 @@
                 "sv": "Monetärt värde igår",
                 "it": "Valore monetario giorno prec.",
                 "no": "Kostnad forrige dag",
+                "fr": "Valeur monétaire d'hier",
                 "nl": "Geldwaarde van vorige dag"
               },
               "value": 0,
@@ -3268,6 +3328,7 @@
                 "sv": "Monetärt värde för föregående dag. Den uppdateras automatiskt.",
                 "it": "Valore monetario del giorno precedente. Viene aggiornato automaticamente.",
                 "no": "Kostnad forrige dag. Blir automatisk oppdatert",
+                "fr": "Valeur monétaire d'hier. Elle est mise à jour automatiquement",
                 "nl": "Gelwaarde van de vorige dag. Wordt automatisch geupdated."
               }
             },
@@ -3280,6 +3341,7 @@
                 "sv": "Monetärt värde föregående månad",
                 "it": "Valore monetario mese prec.",
                 "no": "Kostnad forrige måned",
+                "fr": "Valeur monétaire du mois dernier",
                 "nl": "Geldwaarde van vorige maand"
               },
               "value": 0,
@@ -3290,6 +3352,7 @@
                 "sv": "Föregående månads monetära värde. Den uppdateras automatiskt.",
                 "it": "Valore monetario del mese precedente. Viene aggiornato automaticamente.",
                 "no": "Kostnad forrige måned. Blir automatisk oppdatert",
+                "fr": "Valeur monétaire du mois dernier. Elle est mise à jour automatiquement",
                 "nl": "Gelwaarde van de vorige maand. Wordt automatisch geupdated."
               }
             },
@@ -3302,6 +3365,7 @@
                 "sv": "Monetärt värde föregående år",
                 "it": "Valore monetario anno prec.",
                 "no": "Kostnad forrige år",
+                "fr": "Valeur monétaire de l'année dernière",
                 "nl": "Geldwaarde van vorig jaar"
               },
               "value": 0,
@@ -3312,6 +3376,7 @@
                 "sv": "Föregående års monetära värde. Den uppdateras automatiskt.",
                 "it": "Valore monetario dell'anno precedente. Viene aggiornato automaticamente.",
                 "no": "Kostnad forrige år. Blir automatisk oppdatert",
+                "fr": "Valeur monétaire de l'année dernière. Elle est mise à jour automatiquement",
                 "nl": "Gelwaarde van het vorige jaar. Wordt automatisch geupdated."
               }
             }
@@ -3360,6 +3425,7 @@
             "de": "Informationen zum Homey Gerät",
             "sv": "Homey källenhetsinformation",
             "it": "Informazioni dispositivo sorgente Homey",
+            "fr": "Informations sur l'appareil source Homey",
             "nl": "Homey bronapparaat informatie"
           },
           "children": [
@@ -3372,6 +3438,7 @@
                 "de": "Geräte ID",
                 "sv": "Enhets ID",
                 "it": "ID dispositivo",
+                "fr": "ID de l'appareil",
                 "nl": "Apparaat ID"
               },
               "value": "unknown"
@@ -3385,6 +3452,7 @@
                 "de": "Gerätename",
                 "sv": "Enhets namn",
                 "it": "Nome dispositivo",
+                "fr": "Nom de l'appareil",
                 "nl": "Apparaat naam"
               },
               "value": "unknown"
@@ -3398,6 +3466,7 @@
                 "de": "Gerätetyp",
                 "sv": "Källenhetstyp",
                 "it": "Tipo dispositivo sorgente",
+                "fr": "Type d'appareil source",
                 "nl": "Type bron apparaat"
               },
               "value": "Homey device",
@@ -3407,6 +3476,7 @@
                 "sv": "Antingen Homey enhet eller virtuell enhet. Mätaren för en virtuell enhet kan endast uppdateras via ett flöde.",
                 "it": "Dispositivo Homey o dispositivo virtuale. Il contatore di un dispositivo virtuale può essere aggiornato solo tramite un flow.",
                 "no": "Enten Homey enhet eller virtuell enhet. Meteret til en virtuell enhet kan bare oppdateres via en flow.",
+                "fr": "Appareil Homey soit appareil virtuel. Le compteur d'un appareil virtuel peut être mis à jour uniquement via un flow",
                 "nl": "Homey apparaat of virtueel apparaat. De meter van een virtueel apparaat kan alleen worden geupdated via een flow."
               }
             },
@@ -3419,6 +3489,7 @@
                 "sv": "Använd Watt som källa",
                 "it": "Usa Watt come sorgente",
                 "no": "Bruk Watt som kilde",
+                "fr": "Utiliser Watt comme source",
                 "nl": "Gebruik Watt als bron"
               },
               "hint": {
@@ -3427,6 +3498,7 @@
                 "sv": "Vissa källenheter har ingen kWh-mätare. Att använda W är en mindre exakt reservmetod. ANVÄND ENDAST DETTA OM kWh INTE ÄR MÖJLIGT!",
                 "it": "Alcuni dispositivi sorgente non dispongono di contatore kWh. L'uso di W è un metodo di ripiego meno accurato. UTILIZZARE SOLO SE kWh NON É DISPONIBILE!",
                 "no": "Noen kildeenheter har ikke kWh meter. Å bruke W er et mindre nøyaktig alterativ. BRUK BARE DETTE OM KWH IKKE ER MULIG!",
+                "fr": "Certain appareil source n'ont pas de compteur KWh. L'utilisation de W est une méthode de secours moins précise. UTILISER UNIQUEMENT SI KWh N'EST PAS POSSIBLE ",
                 "nl": "Sommige bron apparaten hebben geen kWh meter. Het gebruik van W is een minder nauwkeurig alternatief. ALLEEN GEBRUIKEN ALS kWh NIET MOGELIJK IS!"
               },
               "value": false
@@ -3440,6 +3512,7 @@
                 "sv": "Har daglig återställning",
                 "it": "Effettua un ripristino giornaliero",
                 "no": "Har daglig resetting",
+                "fr": "A une remise à zéro quotidienne",
                 "nl": "Heeft dagelijkse reset"
               },
               "hint": {
@@ -3448,6 +3521,7 @@
                 "sv": "Mätaren för denna källenhet återställs varje midnatt till 0",
                 "it": "Il contatore di questo dispositivo sorgente si azzera ogni mezzanotte",
                 "no": "Meteret til denne kilden resetter hver midnatt til 0",
+                "fr": "Le compteur de cette source sera remit à zéro chaque nuit à minuit",
                 "nl": "De meter van dit bron apparaat reset naar 0 om middernacht"
               },
               "value": false
@@ -3461,6 +3535,7 @@
                 "de": "Update-Intervall (Minuten)",
                 "sv": "Uppdateringsintervall (minuter)",
                 "it": "Intervallo di aggiornamento (minuti)",
+                "fr": "Interval de mise à jour (minutes)",
                 "nl": "Update interval (minuten)"
               },
               "hint": {
@@ -3469,6 +3544,7 @@
                 "sv": "Ställ in 0 för att få omedelbara uppdateringar. Detta kan öka systembelastningen något. Denna inställning ignoreras för Watt och virtuella källenheter.",
                 "it": "Imposta a 0 per avere aggiornamenti immediati. Ciò può aumentare leggermente il carico del sistema. Questa impostazione viene ignorata per Watt e dispositivi sorgente virtuali.",
                 "no": "Sett til 0 for å få umiddlebare oppdateringer. Dette kan øke systembelastningen litt. Denne innstillingen ignoreres for Watt og virtuelle kilde enheter.",
+                "fr": "Mettre à 0 pour avoir une mise à jour immédiate. Cela peut légèrement augmenter la charge système. Ce paramètre est ignoré pour les appareils virtuels et Watt",
                 "nl": "Zet op 0 voor directe updates. Dit kan echter de systeem belasting iets verhogen. Deze instelling wordt niet gebruikt voor Watt en virtuele bron apparaten."
               },
               "value": 0,
@@ -3486,6 +3562,7 @@
             "sv": "Mätaravläsningar",
             "it": "Letture contatore",
             "no": "Meterverdier",
+            "fr": "Lecture compteur",
             "nl": "Meter waarden"
           },
           "children": [
@@ -3498,6 +3575,7 @@
                 "sv": "Nytt år startdatum",
                 "it": "Data inizio nuovo anno",
                 "no": "Startdato for nyttår",
+                "fr": "Date de début de nouvelle année",
                 "nl": "Start datum nieuw jaar"
               },
               "value": "0101",
@@ -3507,7 +3585,8 @@
                 "de": "An diesem Datum wird die Monats- und Jahressumme auf 0 zurückgesetzt. Das Format ist ddmm. Standardwert ist 0101 (1. Januar). ACHTUNG: Wenn Sie dieses Datum ändern, müssen Sie die Werte 'Monatsbeginn' und 'Jahresbeginn' manuell korrigieren.",
                 "sv": "På det här datumet återställs totalsumman för månad och år till 0. Formatet är ddmm. Standard är 0101 (1 januari). OBSERVERA: Om du ändrar detta datum måste du manuellt korrigera värdena för start för denna månad och start för detta år.",
                 "it": "In questa data il mese e l'anno saranno resettati a 0. Il formato è ggmm. Default è 0101 (1 Gennaio). ATTENZIONE: Se modifichi questa data dovrai correggere manualmente i valori Inizio Mese Corrente e Inzio Anno Corrente.",
-                "no": "På denne dato vil total for måned og år resettes til 0. Format er ddmm. Default er 0101 (1 Januar). NB: Hvis du endrer denne datoen må du manuelt korrigere Denne måned start og  dette år start verdier."
+                "no": "På denne dato vil total for måned og år resettes til 0. Format er ddmm. Default er 0101 (1 Januar). NB: Hvis du endrer denne datoen må du manuelt korrigere Denne måned start og  dette år start verdier.",
+                "fr": "À cette date, le total du mois et de l'année sera remit à 0. Le format est jjmm. La valeur par défaut est 0101 (1er janvier). ATTENTION: Si vous modifiez cette date, vous devez corriger manuellement les valeurs Début de ce mois et Début de cette année."
               }
             },
             {
@@ -3519,6 +3598,7 @@
                 "sv": "Nuvarande avläsning",
                 "it": "Lettura attuale",
                 "no": "Nåværende verdi",
+                "fr": "Lecture actuelle",
                 "nl": "Huidige waarde"
               },
               "value": "0",
@@ -3528,7 +3608,8 @@
                 "nl": "Dit is de meter stand van het bronapparaat, eenmaal per uur geupdated.",
                 "de": "Dies ist der Zählerstand des Homey Geräts, der einmal pro Stunde aktualisiert wird.",
                 "it": "Questa è la lettura del contatore dal dispositivo sorgente, aggiornata ogni ora.",
-                "no": "Dette er måleravlesningen fra kildeenheten, oppdatert en gang i timen."
+                "no": "Dette er måleravlesningen fra kildeenheten, oppdatert en gang i timen.",
+                "fr": "Ceci est la lecture compteur de l'appareil source; mis à jour chaque heure"
               }
             },
             {
@@ -3540,6 +3621,7 @@
                 "sv": "Denna dag börjar",
                 "it": "Questo giorno inizia",
                 "no": "Startverdi denne dag",
+                "fr": "Ce jour commence",
                 "nl": "Deze dag start"
               },
               "value": 0,
@@ -3549,7 +3631,8 @@
                 "de": "Geben Sie den Zählerstand zu Beginn des Tages ein. Er wird um Mitternacht automatisch aktualisiert.",
                 "sv": "Ange mätarställningen i början av denna dag. Den uppdateras automatiskt vid midnatt.",
                 "it": "Inserisci la lettura del contatore all'inizio della giornata odierna. Viene aggiornata automaticamente a mezzanotte.",
-                "no": "Legg inn målerverdi ved denne dagens start. Den blir automatisk oppdatert ved midnatt."
+                "no": "Legg inn målerverdi ved denne dagens start. Den blir automatisk oppdatert ved midnatt.",
+                "fr": "Entrer la lecture compteur au début de ce jour. Ce sera automatiquement mis à jour à minuit"
               }
             },
             {
@@ -3561,6 +3644,7 @@
                 "sv": "Denna månad börjar",
                 "it": "Questo mese inizia",
                 "no": "Startverdi denne måned",
+                "fr": "Ce mois commence",
                 "nl": "Deze maand start"
               },
               "value": 0,
@@ -3570,7 +3654,8 @@
                 "de": "Geben Sie den Zählerstand zu Beginn des Monats ein. Er wird automatisch am ersten Tag eines neuen Monats aktualisiert.",
                 "sv": "Ange mätarställningen i början av denna månad. Den uppdateras automatiskt första dagen i en ny månad.",
                 "it": "Inserisci la lettura del contatore all'inizio del mese corrente. Viene aggiornata automaticamente il primo giorno di un nuovo mese.",
-                "no": "Legg inn målerverdi ved denne måneds start. Den blir automatisk oppdatert første dagen ved ny måned."
+                "no": "Legg inn målerverdi ved denne måneds start. Den blir automatisk oppdatert første dagen ved ny måned.",
+                "fr": "Entrer la lecture compteur au début de ce mois. Ce sera automatiquement mis à jour chaque début de mois"
               }
             },
             {
@@ -3582,6 +3667,7 @@
                 "sv": "Årets start",
                 "it": "Questo anno inizia",
                 "no": "Startverdi dette år",
+                "fr": "Cette année commence",
                 "nl": "Dit jaar start"
               },
               "value": 0,
@@ -3591,7 +3677,8 @@
                 "de": "Geben Sie den Zählerstand zu Beginn des Jahres ein. Er wird am ersten Tag eines neuen Jahres automatisch aktualisiert.",
                 "sv": "Ange mätarställningen i början av detta år. Den uppdateras automatiskt första dagen på ett nytt år.",
                 "it": "Inserisci la lettura del contatore all'inizio dell'anno corrente. Viene aggiornata automaticamente il primo giorno di un nuovo anno.",
-                "no": "Legg inn målerverdi ved dette årets start. Den blir automatisk oppdatert første dagen ved nytt år."
+                "no": "Legg inn målerverdi ved dette årets start. Den blir automatisk oppdatert første dagen ved nytt år.",
+                "fr": "Entrer la lecture compteur au début de cette année. Ce sera automatiquement mis à jour chaque début de nouvelle année"
               }
             },
             {
@@ -3603,6 +3690,7 @@
                 "sv": "Återställ Min/Max-värden",
                 "it": "Resetta i valori Min/Max",
                 "no": "Resett Min/Max verdier",
+                "fr": "Remise à zéro des valeurs Min/Max",
                 "nl": "Reset Min/Max waarden"
               },
               "values": [
@@ -3614,6 +3702,7 @@
                     "sv": "timme",
                     "it": "Ora",
                     "no": "Time",
+                    "fr": "Heure",
                     "nl": "Uur"
                   }
                 },
@@ -3625,6 +3714,7 @@
                     "sv": "Dag",
                     "it": "Giorno",
                     "no": "Dag",
+                    "fr": "Jour",
                     "nl": "Dag"
                   }
                 },
@@ -3636,6 +3726,7 @@
                     "sv": "Månad",
                     "it": "Mese",
                     "no": "Måned",
+                    "fr": "Mois",
                     "nl": "Maand"
                   }
                 },
@@ -3647,6 +3738,7 @@
                     "sv": "År",
                     "it": "Anno",
                     "no": "År",
+                    "fr": "Année",
                     "nl": "Jaar"
                   }
                 },
@@ -3658,6 +3750,7 @@
                     "sv": "Aldrig",
                     "it": "Mai",
                     "no": "Aldri",
+                    "fr": "Jamais",
                     "nl": "Nooit"
                   }
                 }
@@ -3669,6 +3762,7 @@
                 "sv": "Minsta/maximivärdena återställs vid varje ny period. Värdena kan också återställas när som helst via ett flöde.",
                 "it": "I valori minimo/massimo verranno resettati ad ogni nuovo periodo. I valori possono anche essere resettati in qualsiasi momento tramite un flow.",
                 "no": "Minimum/maximum verdiene blir resatt hver ny periode. Verdiene kan også bli resatt når som helst via flow.",
+                "fr": "Les valeurs minimales/maximales seront réinitialisées à chaque nouvelle période. Les valeurs peuvent également être réinitialisées à tout moment via un flow",
                 "nl": "De minimum/maximum waarden worden iedere nieuwe periode gereset. De waarden kunnen ook op ieder moment worden gereset via een flow."
               }
             }
@@ -3682,6 +3776,7 @@
             "sv": "Penningvärde",
             "it": "Valore monetario",
             "no": "Kostnad",
+            "fr": "Valeur monétaire",
             "nl": "Geldwaarde"
           },
           "children": [
@@ -3694,6 +3789,7 @@
                 "sv": "Valutaenhet",
                 "it": "Unità valuta",
                 "no": "Valutaenhet",
+                "fr": "Unité monétaire",
                 "nl": "Geldeenheid"
               },
               "value": "¤",
@@ -3703,6 +3799,7 @@
                 "sv": "Enheten som visas som valuta, t.ex. €, £, EUR, SER, NOK, DKK, CHF. Lämna tomt för att använda standardvärdet ¤.",
                 "it": "L'unità visualizzata come valuta, es. €, £, EUR, SER, NOK, DKK, CHF. Lasciare vuoto per utilizzare ¤ di default.",
                 "no": "Enheten vist som valuta, f.eks. €, £, EUR, SER, NOK, DKK, CHF. La være blank for å bruke default ¤.",
+                "fr": "L'unité de devise affichée, ex. €, £, EUR, SER, NOK, DKK, CHF. Laisser vide pour utiliser ¤ par défaut.",
                 "nl": "De weergegeven eenheid voor geld, bijv. €, £, EUR, SER, NOK, DKK, CHF. Laat leeg om de standaard ¤ te gebruiken."
               }
             },
@@ -3715,6 +3812,7 @@
                 "sv": "Valuta decimaler",
                 "it": "Decimali valuta",
                 "no": "Valuta desimaler",
+                "fr": "Décimales monétaire",
                 "nl": "Geld decimalen"
               },
               "value": 2,
@@ -3726,6 +3824,7 @@
                 "sv": "Antalet decimaler som ska användas för monetärt värde.",
                 "it": "Iil numero di decimali da utilizzare per il valore monetario.",
                 "no": "Antall desimaler for kostnad.",
+                "fr": "Nombre de décimales à utiliser pour la valeur monétaire",
                 "nl": "Het aantal decimalen voor geldwaarde."
               }
             },
@@ -3738,6 +3837,7 @@
                 "sv": "Faktisk tariff per kWh",
                 "it": "Tariffa attuale per kWh",
                 "no": "Aktuell tariff per kWh",
+                "fr": "Tarif actuel par KWh",
                 "nl": "Actueel tarief per kWh"
               },
               "value": 0.25,
@@ -3748,6 +3848,7 @@
                 "sv": "Tariffen används för att beräkna penningvärdet. Det kan ändras dynamiskt via ett flöde.",
                 "it": "La tariffa è utilizzata per calcolare il valore monetario. Può essere cambiata dinamicamente tramite un flow.",
                 "no": "Tariffen blir brukt til å kalkulere kostnaden. Den kan endres dynamisk via en flow.",
+                "fr": "Le tarif est utilisé pour calculer la valeur monétaire. Il peut être changé dynamiquement par un flow",
                 "nl": "Het tarief wordt gebruikt om de geldwaarde te berekenen. Het kan dynamisch worden aangepast via een flow."
               }
             },
@@ -3760,6 +3861,7 @@
                 "sv": "Tariff via flöde eller DAP",
                 "it": "Tariffa via flow o DAP",
                 "no": "Tariff via flow eller DAP",
+                "fr": "Tarif par flow ou DAP",
                 "nl": "Tarief via flow of DAP"
               },
               "value": true,
@@ -3769,6 +3871,7 @@
                 "sv": "Inkludera denna enhet när du ställer in en ny tariff via flöde eller DAP.",
                 "it": "Includi questo dispositivo quando si imposta una nuova tariffa tramite flow o DAP.",
                 "no": "Inkluder denne enheten når ny tariff blir satt via flow eller DAP.",
+                "fr": "Inclure cet appareil lors de la définition d'un nouveau tarif via flow ou DAP.",
                 "nl": "Dit apparaat meenemen bij het instellen van een nieuw tarief via flow of DAP."
               }
             },
@@ -3781,6 +3884,7 @@
                 "sv": "Dagens monetära värde",
                 "it": "Valore monetario di oggi",
                 "no": "Kostnad idag",
+                "fr": "Valeur monétaire aujourd'hui",
                 "nl": "Geldwaarde van deze dag"
               },
               "value": 0,
@@ -3791,6 +3895,7 @@
                 "sv": "Faktiskt penningvärde. Den uppdateras automatiskt.",
                 "it": "Valore monetario attuale. Viene aggiornato automaticamente.",
                 "no": "Aktuell kostnad. Blir automatisk oppdatert",
+                "fr": "Valeur monétaire actuelle. Elle est mise à jour automatiquement",
                 "nl": "Actuele gelwaarde. Wordt automatisch geupdated."
               }
             },
@@ -3803,6 +3908,7 @@
                 "sv": "Denna månads monetära värde",
                 "it": "Valore monetario mese corrente",
                 "no": "Kostnad denne måned",
+                "fr": "Valeur monétaire de ce mois",
                 "nl": "Geldwaarde van deze maand"
               },
               "value": 0,
@@ -3813,6 +3919,7 @@
                 "sv": "Faktiskt penningvärde. Den uppdateras automatiskt.",
                 "it": "Valore monetario attuale. Viene aggiornato automaticamente.",
                 "no": "Aktuell kostnad. Blir automatisk oppdatert",
+                "fr": "Valeur monétaire actuelle. Elle est mise à jour automatiquement",
                 "nl": "Actuele gelwaarde. Wordt automatisch geupdated."
               }
             },
@@ -3825,6 +3932,7 @@
                 "sv": "Årets monetära värde",
                 "it": "Valore monetario anno corrente",
                 "no": "Kostnad dette år",
+                "fr": "Valeur monétaire de cette année",
                 "nl": "Geldwaarde van dit jaar"
               },
               "value": 0,
@@ -3835,6 +3943,7 @@
                 "sv": "Faktiskt penningvärde. Den uppdateras automatiskt.",
                 "it": "Valore monetario attuale. Viene aggiornato automaticamente.",
                 "no": "Aktuell kostnad. Blir automatisk oppdatert",
+                "fr": "Valeur monétaire actuelle. Elle est mise à jour automatiquement",
                 "nl": "Actuele gelwaarde. Wordt automatisch geupdated."
               }
             },
@@ -3847,6 +3956,7 @@
                 "sv": "Monetärt värde igår",
                 "it": "Valore monetario giorno prec.",
                 "no": "Kostnad igår",
+                "fr": "Valeur monétaire d'hier",
                 "nl": "Geldwaarde van vorige dag"
               },
               "value": 0,
@@ -3857,6 +3967,7 @@
                 "sv": "Monetärt värde för föregående dag. Den uppdateras automatiskt.",
                 "it": "Valore monetario giorno precedenre. Viene aggiornato automaticamente.",
                 "no": "Kostnad forrige dag. Blir automatisk oppdatert",
+                "fr": "Valeur monétaire d'hier. Elle est mise à jour automatiquement",
                 "nl": "Gelwaarde van de vorige dag. Wordt automatisch geupdated."
               }
             },
@@ -3869,6 +3980,7 @@
                 "sv": "Monetärt värde föregående månad",
                 "it": "Valore monetario mese prec.",
                 "no": "Kostnad forrige måned",
+                "fr": "Valeur monétaire du mois dernier",
                 "nl": "Geldwaarde van vorige maand"
               },
               "value": 0,
@@ -3879,6 +3991,7 @@
                 "sv": "Föregående månads monetära värde. Den uppdateras automatiskt.",
                 "it": "Valore monetario mese precedenre. Viene aggiornato automaticamente.",
                 "no": "Kostnad forrige måned. Blir automatisk oppdatert",
+                "fr": "Valeur monétaire du mois dernier. Elle est mise à jour automatiquement",
                 "nl": "Gelwaarde van de vorige maand. Wordt automatisch geupdated."
               }
             },
@@ -3891,6 +4004,7 @@
                 "sv": "Monetärt värde föregående år",
                 "it": "Valore monetario anno prec.",
                 "no": "Kostnad forrige år",
+                "fr": "Valeur monétaire de l'année dernière",
                 "nl": "Geldwaarde van vorig jaar"
               },
               "value": 0,
@@ -3901,6 +4015,7 @@
                 "sv": "Föregående års monetära värde. Den uppdateras automatiskt.",
                 "it": "Valore monetario anno precedenre. Viene aggiornato automaticamente.",
                 "no": "Kostnad forrige år. Blir automatisk oppdatert",
+                "fr": "Valeur monétaire de l'année dernière. Elle est mise à jour automatiquement",
                 "nl": "Gelwaarde van het vorige jaar. Wordt automatisch geupdated."
               }
             }
@@ -3948,6 +4063,7 @@
             "de": "Informationen zum Homey Gerät",
             "sv": "Homey källenhetsinformation",
             "it": "Informazioni dispositivo sorgente Homey",
+            "fr": "Informations sur l'appareil source Homey",
             "nl": "Homey bronapparaat informatie"
           },
           "children": [
@@ -3959,6 +4075,7 @@
                 "de": "Geräte ID",
                 "sv": "Enhets ID",
                 "it": "ID dispositivo",
+                "fr": "ID de l'appareil",
                 "nl": "Apparaat ID"
               },
               "value": "unknown"
@@ -3971,6 +4088,7 @@
                 "de": "Gerätename",
                 "sv": "Enhets namn",
                 "it": "Nome dispositivo",
+                "fr": "Nom de l'appareil",
                 "nl": "Apparaat naam"
               },
               "value": "unknown"
@@ -3983,6 +4101,7 @@
                 "de": "Gerätetyp",
                 "sv": "Källenhetstyp",
                 "it": "Tipo dispositivo sorgente",
+                "fr": "Type d'appareil source",
                 "nl": "Type bron apparaat"
               },
               "value": "Homey device",
@@ -3992,6 +4111,7 @@
                 "sv": "Antingen Homey enhet eller virtuell enhet. Mätaren för en virtuell enhet kan endast uppdateras via ett flöde.",
                 "it": "Dispositivo Homey o dispositivo virtuale. Il contatore di un dispositivo virtuale può essere aggiornato solo tramite un flow.",
                 "no": "Enten Homey enhet eller virtuell enhet. Meteret til en virtuell enhet kan bare oppdateres via en flow.",
+                "fr": "Appareil Homey soit appareil virtuel. Le compteur d'un appareil virtuel peut être mis à jour uniquement via un flow",
                 "nl": "Homey apparaat of virtueel apparaat. De meter van een virtueel apparaat kan alleen worden geupdated via een flow."
               }
             },
@@ -4004,6 +4124,7 @@
                 "sv": "Har daglig återställning",
                 "it": "Effettua reset giornaliero",
                 "no": "Har daglig resetting",
+                "fr": "A une remise à zéro quotidienne",
                 "nl": "Heeft dagelijkse reset"
               },
               "hint": {
@@ -4012,6 +4133,7 @@
                 "sv": "Mätaren för denna källenhet återställs varje midnatt till 0",
                 "it": "Il contatore di questo dispositivo sorgente viene resettato ogni mezzanotte",
                 "no": "Meteret til denne kilden resetter hver midnatt til 0",
+                "fr": "Le compteur de cette source se remet à zéro chaque nuit à minuit",
                 "nl": "De meter van dit bronapparaat reset naar 0 om middernacht"
               },
               "value": false
@@ -4025,6 +4147,7 @@
                 "sv": "Uppdateringsintervall (minuter)",
                 "it": "Intervallo aggiornamento (minuti)",
                 "no": "Oppdateringsintervall (minutter)",
+                "fr": "Intervale de mise à jour (minutes)",
                 "nl": "Update interval (minuten)"
               },
               "hint": {
@@ -4033,6 +4156,7 @@
                 "sv": "Ställ in 0 för att få omedelbara uppdateringar. Detta kan öka systembelastningen något. Denna inställning ignoreras för Watt och virtuella källenheter.",
                 "it": "Imposta a 0 per aggiornamenti immediati. Ciò può aumentare leggermente il carico del sistema. Questa impostazione viene ignorata per i dispositivi sorgente virtuali.",
                 "no": "Sett til 0 for å få umiddlebare oppdateringer. Dette kan øke systembelastningen litt. Denne innstillingen ignoreres for Watt og virtuelle kilde enheter.",
+                "fr": "Mettre à 0 pour avoir une mise à jour imméfiate. Cela peut augmenter légèrement la charge du système. Ce paramètre est ignoré pour les périphériques source virtuels.",
                 "nl": "Zet op 0 voor directe updates. Dit kan echter de systeem belasting iets verhogen. Deze instelling wordt niet gebruikt voor virtuele bron apparaten."
               },
               "value": 0,
@@ -4050,6 +4174,7 @@
             "sv": "Mätaravläsningar",
             "it": "Letture contatore",
             "no": "Meter verdier",
+            "fr": "Lecture de compteur",
             "nl": "Meter waarden"
           },
           "children": [
@@ -4062,6 +4187,7 @@
                 "sv": "Nytt år startdatum",
                 "it": "Data inizio nuovo anno",
                 "no": "Startdato for nyttår",
+                "fr": "Date de début de la nouvelle année",
                 "nl": "Start datum nieuw jaar"
               },
               "value": "0101",
@@ -4071,7 +4197,8 @@
                 "de": "An diesem Datum wird die Monats- und Jahressumme auf 0 zurückgesetzt. Das Format ist ddmm. Standardwert ist 0101 (1. Januar). ACHTUNG: Wenn Sie dieses Datum ändern, müssen Sie die Werte 'Monatsbeginn' und 'Jahresbeginn' manuell korrigieren.",
                 "sv": "På det här datumet återställs totalsumman för månad och år till 0. Formatet är ddmm. Standard är 0101 (1 januari). OBSERVERA: Om du ändrar detta datum måste du manuellt korrigera värdena för start för denna månad och start för detta år.",
                 "it": "In questa data il totale di mese e anno verranno resettati a 0. Il formato è ggmm. Default è 0101 (1 Gennaio). ATTENZIONE: Se modifichi questa data, devi correggere manualmente i valori Inizio Mese Corrente e Inizio Anno Corrente.",
-                "no": "På denne dato vil total for måned og år resettes til 0. Format er ddmm. Default er 0101 (1 Januar). NB: Hvis du endrer denne datoen må du manuelt korrigere Denne måned start og  dette år start verdier."
+                "no": "På denne dato vil total for måned og år resettes til 0. Format er ddmm. Default er 0101 (1 Januar). NB: Hvis du endrer denne datoen må du manuelt korrigere Denne måned start og  dette år start verdier.",
+                "fr": "À cette date, le total du mois et de l'année sera remit à 0. Le format est jjmm. La valeur par défaut est 0101 (1er janvier). ATTENTION: Si vous modifiez cette date, vous devez corriger manuellement les valeurs Début de ce mois et Début de cette année."
               }
             },
             {
@@ -4083,6 +4210,7 @@
                 "sv": "Nuvarande avläsning",
                 "it": "Inzio ora corrente",
                 "no": "Startverdi denne time",
+                "fr": "Cette heure commence",
                 "nl": "Huidige waarde"
               },
               "value": "0",
@@ -4092,7 +4220,8 @@
                 "nl": "Dit is de meter stand van het bronapparaat, eenmaal per uur geupdated.",
                 "de": "Dies ist der Zählerstand des Homey Geräts, der einmal pro Stunde aktualisiert wird.",
                 "it": "Questa è la lettura del contatore dal dispositivo sorgente, aggiornata ogni ora.",
-                "no": "Dette er måleravlesningen fra kildeenheten, oppdatert en gang i timen."
+                "no": "Dette er måleravlesningen fra kildeenheten, oppdatert en gang i timen.",
+                "fr": "Ceci est la lecture compteur de l'appareil source, mise à jour chaque heure"
               }
             },
             {
@@ -4104,6 +4233,7 @@
                 "sv": "Denna dag börjar",
                 "it": "Inzio giorno corrente",
                 "no": "Startverdi denne dag",
+                "fr": "Ce jour commence",
                 "nl": "Deze dag start"
               },
               "value": 0,
@@ -4113,7 +4243,8 @@
                 "de": "Geben Sie den Zählerstand zu Beginn des Tages ein. Er wird um Mitternacht automatisch aktualisiert.",
                 "sv": "Ange mätarställningen i början av denna dag. Den uppdateras automatiskt vid midnatt.",
                 "it": "Inserisci la lettura del contatore all'inizio di questa giornata. Viene aggiornata automaticamente a mezzanotte.",
-                "no": "Legg inn målerverdi ved denne dagens start. Den blir automatisk oppdatert ved midnatt."
+                "no": "Legg inn målerverdi ved denne dagens start. Den blir automatisk oppdatert ved midnatt.",
+                "fr": "Entrer la lecture compteur au début de ce jour. Ce sera automatiquement mis à jour à minuit"
               }
             },
             {
@@ -4125,6 +4256,7 @@
                 "sv": "Denna månad börjar",
                 "it": "Inzio mese corrente",
                 "no": "Startverdi denne måned",
+                "fr": "Ce mois commence",
                 "nl": "Deze maand start"
               },
               "value": 0,
@@ -4134,7 +4266,8 @@
                 "de": "Geben Sie den Zählerstand zu Beginn dieses Monats ein. Er wird automatisch am ersten Tag eines neuen Monats aktualisiert.",
                 "sv": "Ange mätarställningen i början av denna månad. Den uppdateras automatiskt första dagen i en ny månad.",
                 "it": "Inserisci la lettura del contatore all'inizio di questo mese. Viene aggiornata automaticamente il primo giorno del nuovo mese.",
-                "no": "Legg inn målerverdi ved denne måneds start. Den blir automatisk oppdatert første dagen ved ny måned."
+                "no": "Legg inn målerverdi ved denne måneds start. Den blir automatisk oppdatert første dagen ved ny måned.",
+                "fr": "Entrer la lecture compteur au début de ce mois. Ce sera automatiquement mis à jour chaque début de mois"
               }
             },
             {
@@ -4146,6 +4279,7 @@
                 "sv": "Årets start",
                 "it": "Inzio anno corrente",
                 "no": "Startverdi dette år",
+                "fr": "Cette année commence",
                 "nl": "Dit jaar start"
               },
               "value": 0,
@@ -4155,7 +4289,8 @@
                 "de": "Geben Sie den Zählerstand zu Beginn des Jahres ein. Er wird am ersten Tag eines neuen Jahres automatisch aktualisiert.",
                 "sv": "Ange mätarställningen i början av detta år. Den uppdateras automatiskt första dagen på ett nytt år.",
                 "it": "Inserisci la lettura del contatore all'inizio di quest'anno. Viene aggiornata automaticamente il primo giorno del nuovo anno.",
-                "no": "Legg inn målerverdi ved dette årets start. Den blir automatisk oppdatert første dagen ved nytt år."
+                "no": "Legg inn målerverdi ved dette årets start. Den blir automatisk oppdatert første dagen ved nytt år.",
+                "fr": "Entrer la lecture compteur au début de cette année. Ce sera automatiquement mis à jour chaque début de nouvelle année"
               }
             },
             {
@@ -4167,6 +4302,7 @@
                 "sv": "Återställ Min/Max-värden",
                 "it": "Resetta valori Min/Max",
                 "no": "Resett Min/Max verdier",
+                "fr": "Remise à zéro des valeurs Min/Max",
                 "nl": "Reset Min/Max waarden"
               },
               "values": [
@@ -4178,6 +4314,7 @@
                     "sv": "timme",
                     "it": "Ora",
                     "no": "Time",
+                    "fr": "Heure",
                     "nl": "Uur"
                   }
                 },
@@ -4189,6 +4326,7 @@
                     "sv": "Dag",
                     "it": "Giorno",
                     "no": "Dag",
+                    "fr": "Jour",
                     "nl": "Dag"
                   }
                 },
@@ -4200,6 +4338,7 @@
                     "sv": "Månad",
                     "it": "Mese",
                     "no": "Måned",
+                    "fr": "Mois",
                     "nl": "Maand"
                   }
                 },
@@ -4211,6 +4350,7 @@
                     "sv": "År",
                     "it": "Anno",
                     "no": "År",
+                    "fr": "Année",
                     "nl": "Jaar"
                   }
                 },
@@ -4222,6 +4362,7 @@
                     "sv": "Aldrig",
                     "it": "Mai",
                     "no": "Aldri",
+                    "fr": "Jamais",
                     "nl": "Nooit"
                   }
                 }
@@ -4233,6 +4374,7 @@
                 "sv": "Minsta/maximivärdena återställs vid varje ny period. Värdena kan också återställas när som helst via ett flöde.",
                 "it": "I valori minimo/massimo verranno resettati ad ogni nuovo periodo. I valori possono anche essere resettati tramite un flow.",
                 "no": "Minimum/maximum verdiene blir resatt hver ny periode. Verdiene kan også bli resatt når som helst via flow.",
+                "fr": "Les valeurs minimales/maximales seront réinitialisées à chaque nouvelle période. Les valeurs peuvent également être réinitialisées à tout moment via un flow",
                 "nl": "De minimum/maximum waarden worden iedere nieuwe periode gereset. De waarden kunnen ook op ieder moment worden gereset via een flow."
               }
             }
@@ -4246,6 +4388,7 @@
             "sv": "Penningvärde",
             "it": "Valore monetario",
             "no": "Pengeverdi",
+            "fr": "Valeur monétaire",
             "nl": "Geldwaarde"
           },
           "children": [
@@ -4258,6 +4401,7 @@
                 "sv": "Valutaenhet",
                 "it": "Unità valuta",
                 "no": "Valutaenhet",
+                "fr": "Unité monétaire",
                 "nl": "Geldeenheid"
               },
               "value": "¤",
@@ -4267,6 +4411,7 @@
                 "sv": "Enheten som visas som valuta, t.ex. €, £, EUR, SER, NOK, DKK, CHF. Lämna tomt för att använda standardvärdet ¤.",
                 "it": "L'unità visualizzata come valuta, es. €, £, EUR, SER, NOK, DKK, CHF. Lasciare vuoto per utilizzare ¤ di default.",
                 "no": "Enheten vist som valuta, e.g. €, £, EUR, SER, NOK, DKK, CHF. La være blank for å bruke default ¤.",
+                "fr": "L'unité de devise affichée, ex. €, £, EUR, SER, NOK, DKK, CHF. Laisser vide pour utiliser ¤ par défaut.",
                 "nl": "De weergegeven eenheid voor geld, bijv. €, £, EUR, SER, NOK, DKK, CHF. Laat leeg om de standaard ¤ te gebruiken."
               }
             },
@@ -4279,6 +4424,7 @@
                 "sv": "Valuta decimaler",
                 "it": "Decimali valuta",
                 "no": "Valuta desimaler",
+                "fr": "Décimales monétaires",
                 "nl": "Geld decimalen"
               },
               "value": 2,
@@ -4290,6 +4436,7 @@
                 "sv": "Antalet decimaler som ska användas för monetärt värde.",
                 "it": "Il numero di decimali da utilizzare per il valore monetario.",
                 "no": "Antall desimaler for pengeverdi.",
+                "fr": "Nombre de décimales à utiliser pour la valeur monétaire",
                 "nl": "Het aantal decimalen voor geldwaarde."
               }
             },
@@ -4302,6 +4449,7 @@
                 "sv": "Faktisk tariff per m³",
                 "it": "Tariff attuale per m³",
                 "no": "Aktuell tariff per m³",
+                "fr": "Tarif actuel par m³",
                 "nl": "Actueel tarief per m³"
               },
               "value": 0.85,
@@ -4312,6 +4460,7 @@
                 "sv": "Tariffen används för att beräkna penningvärdet. Det kan ändras dynamiskt via ett flöde.",
                 "it": "La tariffa viene utilizzata per calcolare il valore monetario. Può essere cambiata dinamicamente tramite un flow.",
                 "no": "Tariffen blir brukt til å kalkulere pengeverdien. Den kan endres dynamisk via en flow.",
+                "fr": "Le tarif est utilisé pour calculer la valeur monétaire. Il peut être changé dynamiquement par un flow",
                 "nl": "Het tarief wordt gebruikt om de geldwaarde te berekenen. Het kan dynamisch worden aangepast via een flow."
               }
             },
@@ -4324,6 +4473,7 @@
                 "sv": "Tariff via flöde",
                 "it": "Tariffa via flow",
                 "no": "Tariff via flow",
+                "fr": "Tarif par flow ou DAP",
                 "nl": "Tarief via flow"
               },
               "value": true,
@@ -4333,6 +4483,7 @@
                 "sv": "Inkludera denna enhet när du ställer in en ny tariff via flöde.",
                 "it": "Includere questo dispositivo quando si imposta una nuova tariffa tramite flow.",
                 "no": "Inkluder denne enheten når ny tariff blir satt via flow eller DAP.",
+                "fr": "Inclure cet appareil lors de la définition d'un nouveau tarif via flow ou DAP.",
                 "nl": "Dit apparaat meenemen bij het instellen van een nieuw tarief via flow."
               }
             },
@@ -4345,6 +4496,7 @@
                 "sv": "Dagens monetära värde",
                 "it": "Valore monetario odierno",
                 "no": "Kostnad denne dag",
+                "fr": "Valeur monétaire aujourd'hui",
                 "nl": "Geldwaarde van deze dag"
               },
               "value": 0,
@@ -4355,6 +4507,7 @@
                 "sv": "Faktiskt penningvärde. Den uppdateras automatiskt.",
                 "it": "Valore monetario attuale. Viene aggiornato automaticamente.",
                 "no": "Aktuell kostnad. Blir automatisk oppdatert",
+                "fr": "Valeur monétaire actuelle. Elle est mise à jour automatiquement",
                 "nl": "Actuele gelwaarde. Wordt automatisch geupdated."
               }
             },
@@ -4367,6 +4520,7 @@
                 "sv": "Denna månads monetära värde",
                 "it": "Valore monetario mese corrente",
                 "no": "Kostnad denne måned",
+                "fr": "Valeur monétaire de ce mois",
                 "nl": "Geldwaarde van deze maand"
               },
               "value": 0,
@@ -4377,6 +4531,7 @@
                 "sv": "Faktiskt penningvärde. Den uppdateras automatiskt.",
                 "it": "Valore monetario attuale. Viene aggiornato automaticamente.",
                 "no": "Aktuell kostnad. Blir automatisk oppdatert",
+                "fr": "Valeur monétaire actuelle. Elle est mise à jour automatiquement",
                 "nl": "Actuele gelwaarde. Wordt automatisch geupdated."
               }
             },
@@ -4389,6 +4544,7 @@
                 "sv": "Årets monetära värde",
                 "it": "Valore monetario anno corrente",
                 "no": "Kostnad dette år",
+                "fr": "Valeur monétaire de cette année",
                 "nl": "Geldwaarde van dit jaar"
               },
               "value": 0,
@@ -4399,6 +4555,7 @@
                 "sv": "Faktiskt penningvärde. Den uppdateras automatiskt.",
                 "it": "Valore monetario attuale. Viene aggiornato automaticamente.",
                 "no": "Aktuell kostnad. Blir automatisk oppdatert",
+                "fr": "Valeur monétaire actuelle. Elle est mise à jour automatiquement",
                 "nl": "Actuele gelwaarde. Wordt automatisch geupdated."
               }
             },
@@ -4411,6 +4568,7 @@
                 "sv": "Monetärt värde igår",
                 "it": "Valore monetario giorno prec.",
                 "no": "Kostnad forrige dag",
+                "fr": "Valeur monétaire d'hier",
                 "nl": "Geldwaarde van vorige dag"
               },
               "value": 0,
@@ -4421,6 +4579,7 @@
                 "sv": "Monetärt värde för föregående dag. Den uppdateras automatiskt.",
                 "it": "Valore monetario del giorno precedente. Viene aggiornato automaticamente.",
                 "no": "Kostnad forrige dag. Blir automatisk oppdatert",
+                "fr": "Valeur monétaire d'hier. Elle est mise à jour automatiquement",
                 "nl": "Gelwaarde van de vorige dag. Wordt automatisch geupdated."
               }
             },
@@ -4433,6 +4592,7 @@
                 "sv": "Monetärt värde föregående månad",
                 "it": "Valore monetario mese prec.",
                 "no": "Kostnad forrige måned",
+                "fr": "Valeur monétaire du mois dernier",
                 "nl": "Geldwaarde van vorige maand"
               },
               "value": 0,
@@ -4443,6 +4603,7 @@
                 "sv": "Föregående månads monetära värde. Den uppdateras automatiskt.",
                 "it": "Valore monetario del mese precedente. Viene aggiornato automaticamente.",
                 "no": "Kostnad forrige måned. Blir automatisk oppdatert",
+                "fr": "Valeur monétaire du mois dernier. Elle est mise à jour automatiquement",
                 "nl": "Gelwaarde van de vorige maand. Wordt automatisch geupdated."
               }
             },
@@ -4455,6 +4616,7 @@
                 "sv": "Monetärt värde föregående år",
                 "it": "Valore monetario anno prec.",
                 "no": "Kostnad forrige år",
+                "fr": "Valeur monétaire de l'année dernière",
                 "nl": "Geldwaarde van vorig jaar"
               },
               "value": 0,
@@ -4465,6 +4627,7 @@
                 "sv": "Föregående års monetära värde. Den uppdateras automatiskt.",
                 "it": "Valore monetario dell'anno precedente. Viene aggiornato automaticamente.",
                 "no": "Kostnad forrige år. Blir automatisk oppdatert",
+                "fr": "Valeur monétaire de l'année dernière. Elle est mise à jour automatiquement",
                 "nl": "Gelwaarde van het vorige jaar. Wordt automatisch geupdated."
               }
             }
@@ -4486,6 +4649,7 @@
         "sv": "Lägsta timmen idag",
         "it": "Ora più bassa di questa giornata",
         "no": "Laveste time denne dag",
+        "fr": "Heure la plus faible aujourd'hui",
         "nl": "Laagste uur deze dag"
       },
       "uiComponent": "sensor",
@@ -4511,6 +4675,7 @@
         "sv": "Min/Max Sedan",
         "it": "Min/Max Da",
         "no": "Min/Max Siden",
+        "fr": "Min/Max Depuis",
         "nl": "Min/Max Sinds"
       },
       "getable": true,
@@ -4525,6 +4690,7 @@
         "sv": "Gas",
         "it": "Gas",
         "no": "Gass",
+        "fr": "Gaz",
         "nl": "Gas"
       },
       "desc": {
@@ -4533,6 +4699,7 @@
         "sv": "Gasförbrukning",
         "it": "Utilizzo gas",
         "no": "Gass forbruk",
+        "fr": "Utilisation gaz",
         "nl": "Gasverbruik"
       },
       "decimals": 4,
@@ -4542,6 +4709,7 @@
         "sv": "L/minute",
         "it": "L/minuto",
         "no": "L/minutt",
+        "fr": "L/Minute",
         "nl": "L/minuut"
       },
       "getable": true,
@@ -4557,6 +4725,7 @@
         "sv": "Maximum",
         "it": "Massimo",
         "no": "Maximum",
+        "fr": "Maximum",
         "nl": "Maximum"
       },
       "uiComponent": "sensor",
@@ -4570,6 +4739,7 @@
         "sv": "L/minute",
         "it": "L/minuto",
         "no": "L/minutt",
+        "fr": "L/Minute",
         "nl": "L/minuut"
       },
       "decimals": 2
@@ -4582,6 +4752,7 @@
         "sv": "Minimum",
         "it": "Minimo",
         "no": "Minimum",
+        "fr": "Minimum",
         "nl": "Minimum"
       },
       "uiComponent": "sensor",
@@ -4595,6 +4766,7 @@
         "sv": "L/minute",
         "it": "L/minuto",
         "no": "L/minutt",
+        "fr": "L/Minute",
         "nl": "L/minuut"
       },
       "decimals": 2
@@ -4640,6 +4812,7 @@
         "sv": "Maximum",
         "it": "Massimo",
         "no": "Maximum",
+        "fr": "Maximum",
         "nl": "Maximum"
       },
       "uiComponent": "sensor",
@@ -4660,6 +4833,7 @@
         "sv": "Minimum",
         "it": "Minimo",
         "no": "Minimum",
+        "fr": "Maximum",
         "nl": "Minimum"
       },
       "uiComponent": "sensor",
@@ -4680,6 +4854,7 @@
         "sv": "kWh igår",
         "it": "kWh giorno precedente",
         "no": "kWh forrige dag",
+        "fr": "KWh hier",
         "nl": "kWh vorige dag"
       },
       "uiComponent": null,
@@ -4699,6 +4874,7 @@
         "sv": "kWh föregående timme",
         "it": "kWh ora precedente",
         "no": "kWh forrige time",
+        "fr": "KWh heure précédente",
         "nl": "kWh vorig uur"
       },
       "uiComponent": null,
@@ -4718,6 +4894,7 @@
         "sv": "kWh föregående månad",
         "it": "kWh mese precedente",
         "no": "kWh forrige måned",
+        "fr": "KWh le mois dernier",
         "nl": "kWh vorige maand"
       },
       "uiComponent": null,
@@ -4737,6 +4914,7 @@
         "sv": "kWh föregående år",
         "it": "kWh anno precedente",
         "no": "kWh forrige år",
+        "fr": "KWh l'année dernière",
         "nl": "kWh vorig jaar"
       },
       "uiComponent": null,
@@ -4756,6 +4934,7 @@
         "sv": "kWh idag",
         "it": "kWh giornata odierna",
         "no": "kWh denne dag",
+        "fr": "Kwh aujourd'hui",
         "nl": "kWh deze dag"
       },
       "uiComponent": "sensor",
@@ -4776,6 +4955,7 @@
         "sv": "kWh denna timme",
         "it": "kWh ora corrente",
         "no": "kWh denne time",
+        "fr": "KWh cette heure ci",
         "nl": "kWh dit uur"
       },
       "uiComponent": "sensor",
@@ -4796,6 +4976,7 @@
         "sv": "kWh denna månad",
         "it": "kWh mese corrente",
         "no": "kWh denne måned",
+        "fr": "KWh ce mois ci",
         "nl": "kWh deze maand"
       },
       "uiComponent": "sensor",
@@ -4816,6 +4997,7 @@
         "sv": "kWh i år",
         "it": "kWh anno corrente",
         "no": "kWh dette år",
+        "fr": "KWh cette année",
         "nl": "kWh dit jaar"
       },
       "uiComponent": "sensor",
@@ -4836,6 +5018,7 @@
         "sv": "m³ igår",
         "it": "m³ giorno precedente",
         "no": "m³ forrige dag",
+        "fr": "m³ hier",
         "nl": "m³ vorige dag"
       },
       "uiComponent": null,
@@ -4855,6 +5038,7 @@
         "sv": "m³ föregående timme",
         "it": "m³ ora precedente",
         "no": "m³ forrige time",
+        "fr": "m³ heure précédente",
         "nl": "m³ vorig uur"
       },
       "uiComponent": null,
@@ -4874,6 +5058,7 @@
         "sv": "m³ föregående månad",
         "it": "m³ mese precedente",
         "no": "m³ forrige måned",
+        "fr": "m³ le mois dernier",
         "nl": "m³ vorige maand"
       },
       "uiComponent": null,
@@ -4893,6 +5078,7 @@
         "sv": "m³ föregående år",
         "it": "m³ anno precedente",
         "no": "m³ forrige år",
+        "fr": "m³ l'année dernière",
         "nl": "m³ vorig jaar"
       },
       "uiComponent": null,
@@ -4912,6 +5098,7 @@
         "sv": "m³ idag",
         "it": "m³ giornata odierna",
         "no": "m³ denne dag",
+        "fr": "m³ aujourd'hui",
         "nl": "m³ deze dag"
       },
       "uiComponent": "sensor",
@@ -4932,6 +5119,7 @@
         "sv": "m³ denna timme",
         "it": "m³ ora corrente",
         "no": "m³ denne time",
+        "fr": "m³ cette heure ci",
         "nl": "m³ dit uur"
       },
       "uiComponent": "sensor",
@@ -4952,6 +5140,7 @@
         "sv": "m³ denna månad",
         "it": "m³ mese corrente",
         "no": "m³ denne måned",
+        "fr": "m³ ce mois ci",
         "nl": "m³ deze maand"
       },
       "uiComponent": "sensor",
@@ -4972,6 +5161,7 @@
         "sv": "m³ i år",
         "it": "m³ anno corrente",
         "no": "m³ dette år",
+        "fr": "m³ cette année",
         "nl": "m³ dit jaar"
       },
       "uiComponent": "sensor",
@@ -4992,6 +5182,7 @@
         "sv": "Pengar igår",
         "it": "Spesa giorno precedente",
         "no": "Kostnad forrige dag",
+        "fr": "Argent hier",
         "nl": "Geld vorige dag"
       },
       "uiComponent": "sensor",
@@ -5012,6 +5203,7 @@
         "sv": "Pengar föregående timme",
         "it": "Spesa ora precedente",
         "no": "Kostnad forrige time",
+        "fr": "Argent heure précédente",
         "nl": "Geld vorig uur"
       },
       "uiComponent": "sensor",
@@ -5032,6 +5224,7 @@
         "sv": "Pengar föregående månad",
         "it": "Spesa mese precedente",
         "no": "Kostnad forrige måned",
+        "fr": "Argent mois dernier",
         "nl": "Geld vorige maand"
       },
       "uiComponent": "sensor",
@@ -5052,6 +5245,7 @@
         "sv": "Pengar föregående år",
         "it": "Spesa anno precedente",
         "no": "Kostnad forrige år",
+        "fr": "Argent année dernière",
         "nl": "Geld vorig jaar"
       },
       "uiComponent": "sensor",
@@ -5072,6 +5266,7 @@
         "sv": "Pengar idag",
         "it": "Spesa oggi",
         "no": "Kostnad idag",
+        "fr": "Argent aujourd'hui",
         "nl": "Geld deze dag"
       },
       "uiComponent": "sensor",
@@ -5092,6 +5287,7 @@
         "sv": "Pengar denna timme",
         "it": "Spesa ora corrente",
         "no": "Kostnad denne timen",
+        "fr": "Argent cette heure ci",
         "nl": "Geld dit uur"
       },
       "uiComponent": "sensor",
@@ -5112,6 +5308,7 @@
         "sv": "Pengar denna månad",
         "it": "Spesa mese corrente",
         "no": "Kostnad denne måned",
+        "fr": "Argent ce mois ci",
         "nl": "Geld deze maand"
       },
       "uiComponent": "sensor",
@@ -5132,6 +5329,7 @@
         "sv": "Pengar i år",
         "it": "Spesa anno corrente",
         "no": "Kostnad dette året",
+        "fr": "Argent cette année",
         "nl": "Geld dit jaar"
       },
       "uiComponent": "sensor",
@@ -5174,6 +5372,7 @@
         "sv": "Pris just nu",
         "it": "Prezzo attuale",
         "no": "Pris nå",
+        "fr": "Tarif actuel",
         "nl": "Prijs nu"
       },
       "uiComponent": "sensor",
@@ -5194,6 +5393,7 @@
         "sv": "Pris +1H",
         "it": "Prezzo +1h",
         "no": "Pris +1T",
+        "fr": "Tarif +1h",
         "nl": "Prijs +1U"
       },
       "uiComponent": "sensor",
@@ -5214,6 +5414,7 @@
         "sv": "Pris +2H",
         "it": "Prezzo +2h",
         "no": "Pris +2T",
+        "fr": "Tarif +2h",
         "nl": "Prijs +2U"
       },
       "uiComponent": "sensor",
@@ -5234,6 +5435,7 @@
         "sv": "Pris +3H",
         "it": "Prezzo +3h",
         "no": "Pris +3T",
+        "fr": "Tarif +3h",
         "nl": "Prijs +3U"
       },
       "uiComponent": "sensor",
@@ -5254,6 +5456,7 @@
         "sv": "Pris +4H",
         "it": "Prezzo +4h",
         "no": "Pris +4T",
+        "fr": "Tarif +4h",
         "nl": "Prijs +4U"
       },
       "uiComponent": "sensor",
@@ -5274,6 +5477,7 @@
         "sv": "Pris +5H",
         "it": "Prezzo +5h",
         "no": "Pris +5T",
+        "fr": "Tarif +5h",
         "nl": "Prijs +5U"
       },
       "uiComponent": "sensor",
@@ -5294,6 +5498,7 @@
         "sv": "Pris +6H",
         "it": "Prezzo +6h",
         "no": "Pris +6T",
+        "fr": "Tarif +6h",
         "nl": "Prijs +6U"
       },
       "uiComponent": "sensor",
@@ -5314,6 +5519,7 @@
         "sv": "Pris +7H",
         "it": "Prezzo +7h",
         "no": "Pris +7T",
+        "fr": "Tarif +7h",
         "nl": "Prijs +7U"
       },
       "uiComponent": "sensor",
@@ -5334,6 +5540,7 @@
         "sv": "Genomsnittligt pris nästa 8H",
         "it": "Prezzo medio prossime 8h",
         "no": "Gj.snitt pris neste 8T",
+        "fr": "Tarif moyen les 8 prochaines heures",
         "nl": "Gem. prijs komende 8U"
       },
       "uiComponent": "sensor",
@@ -5354,6 +5561,7 @@
         "sv": "Genomsnittligt pris idag",
         "it": "Prezzo medio giornata odierna",
         "no": "Gj.snitt pris denne dag",
+        "fr": "Tarif moyen aujourd'hui",
         "nl": "Gem. prijs deze dag"
       },
       "uiComponent": "sensor",
@@ -5374,6 +5582,7 @@
         "sv": "Lägsta pris idag",
         "it": "Prezzo più basso giornata odierna",
         "no": "Laveste pris idag",
+        "fr": "Tarif le plus faible aujourd'hui",
         "nl": "Laagste prijs deze dag"
       },
       "uiComponent": "sensor",
@@ -5394,6 +5603,7 @@
         "sv": "Aktiv tariff",
         "it": "Tariffa attiva",
         "no": "Aktiv tariff",
+        "fr": "Tarif actif",
         "nl": "Actief tarief"
       },
       "uiComponent": "sensor",
