@@ -1,7 +1,7 @@
 {
 	"title": {
 		"en": "The price !{{is|isn't}} highest",
-		"no": "TPrisen !{{is|isn't}} høyest",
+		"no": "Prisen !{{er|er ikke}} høyest",
 		"de": "Preis !{{ist|ist nicht}} am höchsten",
 		"sv": "Priset !{{är|är inte}} det högsta",
 		"it": "Il prezzo !{{è|non è}} il più alto",
@@ -9,7 +9,7 @@
 	},
 	"titleFormatted": {
 		"en": "The price !{{is|isn't}} highest for [[period]]",
-		"no": "Prisen !{{is|isn't}} høyest for [[period]]",
+		"no": "Prisen !{{er|er ikke}} høyest for [[period]]",
 		"de": "Preis !{{ist|ist nicht}} am höchsten für [[period]]",
 		"sv": "Priset !{{är|är inte}} det högsta [[period]]",
 		"it": "Il prezzo !{{è|non è}} il più alto per [[period]]",

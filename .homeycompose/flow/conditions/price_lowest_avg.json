@@ -1,7 +1,7 @@
 {
 	"title": {
 		"en": "The avg. price next hours !{{is|isn't}} the lowest",
-		"no": "Gj.snittprisen de neste timene !{{is|isn't}} den laveste",
+		"no": "Gj.snittprisen de neste timene !{{er|er ikke}} den laveste",
 		"de": "Der durchschn. Preis der kommenden Stunde !{{ist|ist nicht}} der niedrigste",
 		"sv": "Det genomsnittliga priset de kommande timmarna !{{är|är inte}} det lägsta",
 		"it": "Il prezzo medio nelle prossime ore !{{è|non è}} il più basso",
@@ -9,7 +9,7 @@
 	},
 	"titleFormatted": {
 		"en": "The avg. price [[hours]] !{{is|isn't}} lowest within [[period]]",
-		"no": "Gj.snittprisen [[hours]] !{{is|isn't}} lavest innen [[period]]",
+		"no": "Gj.snittprisen [[hours]] !{{er|er ikke}} lavest innen [[period]]",
 		"de": "Der durchschn. Preis [[hours]] !{{ist|ist nicht}} der niedrigste innerhalb [[period]]",
 		"sv": "Det genomsnittliga priset [[hours]] !{{är|är inte}} det lägsta inom [[period]]",
 		"it": "Il prezzo medio [[hours]] !{{è|non è}} il più basso entro [[period]]",
