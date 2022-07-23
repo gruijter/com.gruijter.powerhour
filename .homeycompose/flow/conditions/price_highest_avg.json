@@ -1,7 +1,7 @@
 {
 	"title": {
 		"en": "The avg. price next hours !{{is|isn't}} highest",
-		"no": "Gj.snitt prisen de neste timene !{{is|isn't}} høyest",
+		"no": "Gj.snitt prisen de neste timene !{{er|er ikke}} høyest",
 		"de": "Der durchschn. Preis der nächsten Stunde !{{ist|ist nicht}} der höchste",
 		"sv": "Det genomsnittliga priset de kommande timmarna !{{är|är inte}} det högsta",
 		"it": "Il prezzo medio nelle prossime ore !{{è|non è}} il più alto",
@@ -9,7 +9,7 @@
 	},
 	"titleFormatted": {
 		"en": "The avg. price [[hours]] !{{is|isn't}} highest within [[period]]",
-		"no": "Gj.snitt prisen [[hours]] !{{is|isn't}} høyest innenfor [[period]]",
+		"no": "Gj.snitt prisen [[hours]] !{{er|er ikke}} høyest innenfor [[period]]",
 		"de": "Der durchschn. Preis [[hours]] !{{ist|ist nicht}} der höchste innerhalb [[period]]",
 		"sv": "Det genomsnittliga priset de [[hours]] !{{är|är inte}} det högtsa [[period]]",
 		"it": "Il prezzo medio [[hours]] !{{è|non è}} il più alto entro [[period]]",
