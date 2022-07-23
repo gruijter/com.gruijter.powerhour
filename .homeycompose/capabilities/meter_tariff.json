@@ -15,8 +15,7 @@
   "setable": false,
   "insights": true,
   "units": {
-    "en": "¤",
-    "no": "Kr"
+    "en": "¤"
   },
   "decimals": 4
 }
