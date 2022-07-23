@@ -1,7 +1,7 @@
 {
   "_comment": "This file is generated. Please edit .homeycompose/app.json instead.",
   "id": "com.gruijter.powerhour",
-  "version": "4.4.8",
+  "version": "4.4.9",
   "compatibility": ">=5.0.0",
   "brandColor": "#df5020",
   "sdk": 3,
@@ -1171,7 +1171,7 @@
       {
         "title": {
           "en": "The price !{{is|isn't}} highest",
-          "no": "TPrisen !{{is|isn't}} høyest",
+          "no": "Prisen !{{er|er ikke}} høyest",
           "de": "Preis !{{ist|ist nicht}} am höchsten",
           "sv": "Priset !{{är|är inte}} det högsta",
           "it": "Il prezzo !{{è|non è}} il più alto",
@@ -1179,7 +1179,7 @@
         },
         "titleFormatted": {
           "en": "The price !{{is|isn't}} highest for [[period]]",
-          "no": "Prisen !{{is|isn't}} høyest for [[period]]",
+          "no": "Prisen !{{er|er ikke}} høyest for [[period]]",
           "de": "Preis !{{ist|ist nicht}} am höchsten für [[period]]",
           "sv": "Priset !{{är|är inte}} det högsta [[period]]",
           "it": "Il prezzo !{{è|non è}} il più alto per [[period]]",
@@ -1300,7 +1300,7 @@
       {
         "title": {
           "en": "The avg. price next hours !{{is|isn't}} highest",
-          "no": "Gj.snitt prisen de neste timene !{{is|isn't}} høyest",
+          "no": "Gj.snitt prisen de neste timene !{{er|er ikke}} høyest",
           "de": "Der durchschn. Preis der nächsten Stunde !{{ist|ist nicht}} der höchste",
           "sv": "Det genomsnittliga priset de kommande timmarna !{{är|är inte}} det högsta",
           "it": "Il prezzo medio nelle prossime ore !{{è|non è}} il più alto",
@@ -1308,7 +1308,7 @@
         },
         "titleFormatted": {
           "en": "The avg. price [[hours]] !{{is|isn't}} highest within [[period]]",
-          "no": "Gj.snitt prisen [[hours]] !{{is|isn't}} høyest innenfor [[period]]",
+          "no": "Gj.snitt prisen [[hours]] !{{er|er ikke}} høyest innenfor [[period]]",
           "de": "Der durchschn. Preis [[hours]] !{{ist|ist nicht}} der höchste innerhalb [[period]]",
           "sv": "Det genomsnittliga priset de [[hours]] !{{är|är inte}} det högtsa [[period]]",
           "it": "Il prezzo medio [[hours]] !{{è|non è}} il più alto entro [[period]]",
@@ -1432,7 +1432,7 @@
       {
         "title": {
           "en": "The price !{{is|isn't}} lowest",
-          "no": "Prisen !{{is|isn't}} lavest",
+          "no": "Prisen !{{er|er ikke}} lavest",
           "de": "Preis !{{ist|ist nicht}} der niedrigste",
           "sv": "Priset !{{är|är inte}} det lägsta",
           "it": "Il prezzo !{{è|non è}} il più basso",
@@ -1440,7 +1440,7 @@
         },
         "titleFormatted": {
           "en": "The price !{{is|isn't}} lowest for [[period]]",
-          "no": "Prisen !{{is|isn't}} lavest for [[period]]",
+          "no": "Prisen !{{er|er ikke}} lavest for [[period]]",
           "de": "Preis !{{ist|ist nicht}} der niedrigste für [[period]]",
           "sv": "Priset !{{är|är inte}} det lägsta för [[period]]",
           "it": "Il prezzo !{{è|non è}} il più basso per [[period]]",
@@ -1561,7 +1561,7 @@
       {
         "title": {
           "en": "The avg. price next hours !{{is|isn't}} the lowest",
-          "no": "Gj.snittprisen de neste timene !{{is|isn't}} den laveste",
+          "no": "Gj.snittprisen de neste timene !{{er|er ikke}} den laveste",
           "de": "Der durchschn. Preis der kommenden Stunde !{{ist|ist nicht}} der niedrigste",
           "sv": "Det genomsnittliga priset de kommande timmarna !{{är|är inte}} det lägsta",
           "it": "Il prezzo medio nelle prossime ore !{{è|non è}} il più basso",
@@ -1569,7 +1569,7 @@
         },
         "titleFormatted": {
           "en": "The avg. price [[hours]] !{{is|isn't}} lowest within [[period]]",
-          "no": "Gj.snittprisen [[hours]] !{{is|isn't}} lavest innen [[period]]",
+          "no": "Gj.snittprisen [[hours]] !{{er|er ikke}} lavest innen [[period]]",
           "de": "Der durchschn. Preis [[hours]] !{{ist|ist nicht}} der niedrigste innerhalb [[period]]",
           "sv": "Det genomsnittliga priset [[hours]] !{{är|är inte}} det lägsta inom [[period]]",
           "it": "Il prezzo medio [[hours]] !{{è|non è}} il più basso entro [[period]]",
@@ -1693,7 +1693,7 @@
       {
         "title": {
           "en": "The price !{{is|isn't}} lowest before a certain time",
-          "no": "Prisen!{{is|isn't}} lavest før en bestemt tid",
+          "no": "Prisen!{{er|er ikke}} lavest før en bestemt tid",
           "de": "Preis !{{ist|ist nicht}} der niedrigste für eine bestimmte Zeit",
           "sv": "Priset !{{är|är inte}} det lägsta före ett specifikt tidpunkt",
           "it": "Il prezzo !{{è|non è}} il più basso prima di un certo orario",
@@ -1703,7 +1703,7 @@
           "en": "The price !{{is|isn't}} one of [[number]] lowest in the [[period]] hours before [[time]] o'clock",
           "de": "Preis !{{ist|ist nicht}} einer der [[number]] niedrigsten in den [[period]] Stunden vor [[time]] Uhr",
           "sv": "Priset !{{är|är inte}} en av de [[number]] lägsta i [[period]] timmar före [[time]]",
-          "no": "Prisen !{{is|isn't}} en av de [[number]] laveste i [[period]] timer før [[time]]",
+          "no": "Prisen !{{er|er ikke}} en av de [[number]] laveste i [[period]] timer før [[time]]",
           "it": "Il prezzo !{{è|non è}} uno dei [[number]] più bassi nelle [[period]] ore prima delle [[time]] in punto",
           "nl": "De prijs !{{is|is niet}} een van de [[number]] laagste in de [[period]] uren voor [[time]] uur"
         },
@@ -1774,7 +1774,7 @@
       {
         "title": {
           "en": "The price !{{is|isn't}} one of the lowest of today",
-          "no": "Prisen !{{is|isn't}} på det laveste idag",
+          "no": "Prisen !{{er|er ikke}} på det laveste idag",
           "de": "Preis !{{ist|ist nicht}} ist heute einer der niedrigsten",
           "sv": "Priset !{{är|är inte}} det lägsta idag",
           "it": "Il prezzo !{{è|non è}} uno dei più bassi di oggi",
@@ -1782,6 +1782,7 @@
         },
         "titleFormatted": {
           "en": "The price !{{is|isn't}} one of [[number]] lowest of today",
+          "no": "Prisen !{{er|er ikke}} en av [[number]] de laveste i dag",
           "de": "Preis !{{ist|ist nicht}} einer der [[number]] niedrigsten heute",
           "sv": "Priset !{{är|är inte}} en av de [[number]] lägsta idag",
           "it": "Il prezzo !{{è|non è}} uno dei [[number]] più bassi di oggi",
