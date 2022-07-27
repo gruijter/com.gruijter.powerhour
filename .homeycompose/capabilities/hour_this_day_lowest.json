@@ -7,6 +7,7 @@
     "it": "Ora più bassa di questa giornata",
     "no": "Laveste time denne dag",
     "fr": "Heure la plus faible aujourd'hui",
+    "dk": "Laveste pris i dag",
     "nl": "Laagste uur deze dag"
   },
   "uiComponent": "sensor",

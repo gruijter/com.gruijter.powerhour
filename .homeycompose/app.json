@@ -14,6 +14,7 @@
     "it": "Ricapitola il consumo di energia/acqua o la produzione (solare) per ora, giorno, mese e anno. Utilizza tariffe dinamiche.",
     "no": "Summere energi/vann forbruk eller (solcellepanel) produksjon pr, time, dag, måned og år. Bruk dynamiske tariffer.",
     "fr": "Résumez la consommation d'énergie/d'eau ou la production (solaire) par heure, jour, mois et année. Utiliser des tarifs dynamiques.",
+    "dk": "Opsummer strøm- eller vandforbrug eller solcelleproduktion per time, dag, måned og år. Benyt dynamiske tariffer",
     "nl": "Samenvatten van energie/water verbruik of (zonnepaneel) productie per uur, dag, maand en jaar. Gebruik dynamische tarieven."
   },
   "category": "energy",
@@ -73,6 +74,9 @@
       },
       {
         "name": "🇩🇪 Dirk Göbel"
+      },
+      {
+        "name": "DK Jesper Post Tønder"
       },
       {
         "name": "🇳🇱 Robin de Gruijter"

@@ -7,6 +7,7 @@
     "it": "Spesa ora precedente",
     "no": "Kostnad forrige time",
     "fr": "Argent heure précédente",
+    "dk": "Penge sidste time",
     "nl": "Geld vorig uur"
   },
   "uiComponent": "sensor",

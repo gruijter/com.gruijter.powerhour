@@ -6,6 +6,7 @@
     "it": "Imposta un nuovo tasso di cambio",
     "no": "Sett en ny vekslingskurs",
     "fr": "Définir un nouveau taux de change",
+    "dk": "Indstil ny vekselkurls",
     "nl": "Stel een nieuwe wisselkoers in"
   },
   "titleFormatted": {
@@ -15,6 +16,7 @@
     "it": "Imposta tasso di cambio a [[value]]",
     "no": "Sett vekslingskurs til [[value]]",
     "fr": "Définir le taux de change à [[value]]",
+    "dk": "Sær vekselkurs til til [[value]]",
     "nl": "Stel wisselkoers in op [[value]]"
   },
   "highlight": true,
@@ -33,6 +35,7 @@
         "it": "€ Tasso di cambio",
         "no": "€ Vekslingskurs",
         "fr": "€ Taux de change",
+        "dk": "€ Vekselkurs",
         "nl": "€ Wisselkoers"
       }
     }

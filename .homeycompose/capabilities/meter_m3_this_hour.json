@@ -7,6 +7,7 @@
     "it": "m³ ora corrente",
     "no": "m³ denne time",
     "fr": "m³ cette heure ci",
+    "dk": "m³ denne time",
     "nl": "m³ dit uur"
   },
   "uiComponent": "sensor",

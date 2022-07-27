@@ -6,6 +6,7 @@
     "it": "Imposta una nuova tariffa gas",
     "no": "Sett en ny gasstariff",
     "fr": "Définir un nouveau tarif gaz",
+    "dk": "Sæt en ny gasafgift",
     "nl": "Stel een nieuw gastarief in"
   },
   "titleFormatted": {
@@ -15,6 +16,7 @@
     "it": "Imposta tariffa gas a [[tariff]]",
     "no": "Sett gasstariff til [[tariff]]",
     "fr": "Définir le tarif gaz à [[tariff]]",
+    "dk": "Sæt gasafgiften til [[tariff]]",
     "nl": "Stel gastarief in op [[tariff]]"
   },
   "highlight": true,
@@ -29,6 +31,7 @@
         "it": "La tariffa per m³",
         "no": "Tariff per m³",
         "fr": "Le tarif par m³",
+        "dk": "Afgiften per m³",
         "nl": "Het tarief per m³"
       }
     }

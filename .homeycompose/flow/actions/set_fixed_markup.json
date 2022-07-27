@@ -6,6 +6,7 @@
     "it": "Imposta un nuovo sovraprezzo fisso",
     "no": "Sett en ny fast påslag",
     "fr": "Définir une nouvelle majoration fixe",
+    "dk": "Sæt en ny fast opmarkering",
     "nl": "Stel een nieuwe vaste opslag in"
   },
   "titleFormatted": {
@@ -15,6 +16,7 @@
     "it": "Imposta sovraprezzo fisso a [[value]]",
     "no": "Sett en ny fast påslag til [[value]]",
     "fr": "Définir une majoration fixe à [[value]]",
+    "dk": "Sæt en ny fast opmarkering til [[value]]",
     "nl": "Stel vaste opslag in op [[value]]"
   },
   "highlight": true,
@@ -34,6 +36,7 @@
         "it": "Sovraprezzo fisso per kWh/m3",
         "no": "Fast påslag per kWh or m3",
         "nl": "Vaste opslag per kWh of m3",
+        "dk": "Fast opmarkering per kWh eller m3",
         "fr": "Majoration fixe par KWh ou m3"
       }
     }

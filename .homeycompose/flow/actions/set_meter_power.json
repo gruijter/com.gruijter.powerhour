@@ -6,6 +6,7 @@
     "it": "Invia lettura energia a contatore virtuale",
     "no": "Send energiavlesing til virtuelt meter",
     "fr": "Envoyer le relevé électrique vers un compteur virtuel",
+    "dk": "Send energiaflæsning til virtuel måler",
     "nl": "Stuur energiestand naar virtueel apparaat"
   },
   "titleFormatted": {
@@ -15,6 +16,7 @@
     "it": "Invia lettura [[value]] a [[virtual_device]]",
     "no": "Send [[value]] avlesing til [[virtual_device]]",
     "fr": "Envoyer le relevé [[value]] vers [[virtual_device]]",
+    "dk": "Send [[value]] aflæsning til [[virtual_device]]",
     "nl": "Stuur [[value]] stand naar [[virtual_device]]"
   },
   "highlight": true,
@@ -29,6 +31,7 @@
         "it": "Dispositivo virtuale",
         "no": "virtuell enhet",
         "fr": "Appareil virtuel",
+        "dk": "Virtuel enhed",
         "nl": "Virtueel apparaat"
       }
     },
@@ -42,6 +45,7 @@
         "it": "Energia (kWh)",
         "no": "Energi (kWh)",
         "fr": "Énergie (kWh)",
+        "dk": "Energi (kWh)",
         "nl": "Energie (kWh)"
       }
     }

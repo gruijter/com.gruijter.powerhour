@@ -5,6 +5,7 @@
 		"de": "Preis !{{ist|ist nicht}} ist heute einer der niedrigsten",
 		"sv": "Priset !{{är|är inte}} det lägsta idag",
 		"it": "Il prezzo !{{è|non è}} uno dei più bassi di oggi",
+		"dk": "Prisen !{{er|er ikke}} en af de laveste i dag",
 		"nl": "De prijs !{{is|is niet} één van de laagste van vandaag"
 	},
 	"titleFormatted": {
@@ -13,6 +14,7 @@
 		"de": "Preis !{{ist|ist nicht}} einer der [[number]] niedrigsten heute",
 		"sv": "Priset !{{är|är inte}} en av de [[number]] lägsta idag",
 		"it": "Il prezzo !{{è|non è}} uno dei [[number]] più bassi di oggi",
+		"dk": "Prisen !{{er|er ikke}} en af de [[number]] laveste i dag",
 		"nl": "De prijs !{{is|is niet} een van de [[number]] laagste van vandaag"
 	},
 	"highlight": true,

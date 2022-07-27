@@ -5,6 +5,7 @@
 		"de": "Der durchschn. Preis der kommenden Stunde !{{ist|ist nicht}} der niedrigste",
 		"sv": "Det genomsnittliga priset de kommande timmarna !{{är|är inte}} det lägsta",
 		"it": "Il prezzo medio nelle prossime ore !{{è|non è}} il più basso",
+		"dk": "Gn. snt. prisen den næste time !{{er|er ikke}} lavest",
 		"nl": "De gem. prijs de komende uren !{{is|is niet}} het laagst"
 	},
 	"titleFormatted": {
@@ -13,6 +14,7 @@
 		"de": "Der durchschn. Preis [[hours]] !{{ist|ist nicht}} der niedrigste innerhalb [[period]]",
 		"sv": "Det genomsnittliga priset [[hours]] !{{är|är inte}} det lägsta inom [[period]]",
 		"it": "Il prezzo medio [[hours]] !{{è|non è}} il più basso entro [[period]]",
+		"dk": "Gn. snt. prisen [[hours]] !{{er|er ikke}} lavest indenfor [[period]]",
 		"nl": "De gem. prijs [[hours]] !{{is|is niet}} het laagst binnen [[period]]"
 	},
 	"highlight": true,
@@ -31,6 +33,7 @@
 				"de": "Zeitraum",
 				"sv": "period",
 				"it": "periodo",
+				"dk": "periode",
 				"nl": "periode"
 			},
 			"values": [
@@ -41,6 +44,7 @@
 						"de": "des Tages",
 						"sv": "idag",
 						"it": "giornata odierna",
+						"dk": "i dag",
 						"nl": "deze dag"
 					}
 				},
@@ -51,6 +55,7 @@
 						"de": "der nächsten 8 Std.",
 						"sv": "nästa 8H",
 						"it": "prossime 8h",
+						"dk": "næste 8T",
 						"nl": "komende 8U"
 					}
 				}
@@ -65,6 +70,7 @@
 				"de": "Stunden",
 				"sv": "timmar",
 				"it": "ore",
+				"dk": "timer",
 				"nl": "uren"
 			},
 			"values": [
@@ -75,6 +81,7 @@
 						"de": "der nächsten 2 Std.",
 						"sv": "nästa 2H",
 						"it": "prossime 2h",
+						"dk": "næste 2T",
 						"nl": "komende 2U"
 					}
 				},
@@ -95,6 +102,7 @@
 						"de": "der nächsten 4 Std.",
 						"sv": "nästa 4H",
 						"it": "prossime 4h",
+						"dk": "næste 4T",
 						"nl": "komende 4U"
 					}
 				},
@@ -105,6 +113,7 @@
 						"de": "der nächsten 5 Std.",
 						"sv": "nästa 5H",
 						"it": "prossime 5h",
+						"dk": "næste 5T",
 						"nl": "komende 5U"
 					}
 				},
@@ -115,6 +124,7 @@
 						"de": "der nächsten 6 Std.",
 						"sv": "nästa 6H",
 						"it": "prossime 6h",
+						"dk": "næste 6T",
 						"nl": "komende 6U"
 					}
 				}
