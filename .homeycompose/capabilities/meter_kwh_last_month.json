@@ -7,6 +7,7 @@
     "it": "kWh mese precedente",
     "no": "kWh forrige måned",
     "fr": "KWh le mois dernier",
+    "dk": "KWh sidste måned",
     "nl": "kWh vorige maand"
   },
   "uiComponent": null,

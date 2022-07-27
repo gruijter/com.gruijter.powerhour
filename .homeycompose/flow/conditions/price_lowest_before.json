@@ -5,6 +5,7 @@
 		"de": "Preis !{{ist|ist nicht}} der niedrigste für eine bestimmte Zeit",
 		"sv": "Priset !{{är|är inte}} det lägsta före ett specifikt tidpunkt",
 		"it": "Il prezzo !{{è|non è}} il più basso prima di un certo orario",
+		"dk": "Prisen !{{er|er ikke}} lavest indenfor et bestemt tidspunkt",
 		"nl": "De prijs !{{is|is niet}} het laagst voor een bepaalde tijd"
 	},
 	"titleFormatted": {
@@ -13,6 +14,7 @@
 		"sv": "Priset !{{är|är inte}} en av de [[number]] lägsta i [[period]] timmar före [[time]]",
 		"no": "Prisen !{{er|er ikke}} en av de [[number]] laveste i [[period]] timer før [[time]]",
 		"it": "Il prezzo !{{è|non è}} uno dei [[number]] più bassi nelle [[period]] ore prima delle [[time]] in punto",
+		"dk": "Prisen !{{er|er ikke}} en af de [[number]] laveste indenfor [[period]] timer før [[time]]",
 		"nl": "De prijs !{{is|is niet}} een van de [[number]] laagste in de [[period]] uren voor [[time]] uur"
 	},
 	"highlight": true,
@@ -31,6 +33,7 @@
 				"de": "Zeitraum",
 				"sv": "period",
 				"it": "periodo",
+				"dk": "periode",
 				"nl": "periode"
 			},
 			"placeholder": { "en": "2 - 12" },
@@ -47,6 +50,7 @@
 				"de": "Anzahl",
 				"sv": "antal",
 				"it": "numero",
+				"dk": "nummer",
 				"nl": "aantal"
 			},
 			"placeholder": { "en": "1 - 8" },
@@ -63,6 +67,7 @@
 				"de": "Zeit",
 				"sv": "tid",
 				"it": "tempo",
+				"dk": "tid",
 				"nl": "tijd"
 			},
 			"placeholder": { "en": "01 - 24" },

@@ -6,6 +6,7 @@
     "it": "Imposta una nuova tariffa acqua",
     "no": "Sett en ny vanntariff",
     "fr": "Définir un nouveau tarif d'eau", 
+    "dk": "Sæt en ny vandafgift",
     "nl": "Stel een nieuw watertarief in"
   },
   "titleFormatted": {
@@ -15,6 +16,7 @@
     "it": "Imposta tariffa acqua a [[tariff]]",
     "no": "Sett vanntariff til [[tariff]]",
     "fr": "Définir le tarif d'eau à [[tariff]]",
+    "dk": "Sæt ny vandafgift til [[tariff]]",
     "nl": "Stel watertarief in op [[tariff]]"
   },
   "highlight": true,
@@ -29,6 +31,7 @@
         "it": "La tariffa per m³",
         "no": "Tariff per m³",
         "fr": "Le tarif par m³",
+        "dk": "Afgift per m³",
         "nl": "Het tarief per m³"
       }
     }

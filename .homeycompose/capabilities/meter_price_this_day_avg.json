@@ -7,6 +7,7 @@
     "it": "Prezzo medio giornata odierna",
     "no": "Gj.snitt pris denne dag",
     "fr": "Tarif moyen aujourd'hui",
+    "dk": "Gn. snt. pris i dag",
     "nl": "Gem. prijs deze dag"
   },
   "uiComponent": "sensor",

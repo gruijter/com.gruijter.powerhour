@@ -7,6 +7,7 @@
     "it": "Spesa anno corrente",
     "no": "Kostnad dette året",
     "fr": "Argent cette année",
+    "dk": "Penge i år",
     "nl": "Geld dit jaar"
   },
   "uiComponent": "sensor",

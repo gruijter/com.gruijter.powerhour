@@ -7,6 +7,7 @@
     "it": "Prezzo +5h",
     "no": "Pris +5T",
     "fr": "Tarif +5h",
+    "dk": "Pris +5T",
     "nl": "Prijs +5U"
   },
   "uiComponent": "sensor",

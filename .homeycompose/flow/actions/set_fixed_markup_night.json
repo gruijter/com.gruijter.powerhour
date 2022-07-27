@@ -6,6 +6,7 @@
     "it": "Imposta un nuovo sovraprezzo notturno",
     "no": "Sett en ny nattpåslag",
     "fr": "Définir une nouvelle majoration de nuit",
+    "dk": "Sæt en ny nattidsmarkering",
     "nl": "Stel een nieuwe opslag in voor 's nachts'"
   },
   "titleFormatted": {
@@ -15,6 +16,7 @@
     "it": "Imposta sovraprezzo notturno a [[value]]",
     "no": "Sett en ny nattpåslag til [[value]]",
     "fr": "Définir une nouvelle augmentation de nuit à [[value]]",
+    "dk": "Sæt ny nattidsmarkering til [[value]]",
     "nl": "Stel opslag 's nachts in op [[value]]"
   },
   "args": [
@@ -33,6 +35,7 @@
         "it": "Sovraprezzo extra per kWh o m3",
         "no": "Ekstra påslag per kWh or m3",
         "fr": "Majoration supplémentaire par KWh ou m3",
+        "dk": "Ekstra opmarkering per kWh eller m3",
         "nl": "Extra opslag per kWh of m3"
       }
     }

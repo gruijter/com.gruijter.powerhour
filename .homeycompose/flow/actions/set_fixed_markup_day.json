@@ -6,6 +6,7 @@
     "it": "Imposta un nuovo sovraprezzo diurno",
     "no": "Sett en ny dagtid påslag",
     "fr": "Définir une nouvelle majoration de jour",
+    "dk": "Sæt en ny dagstidsmarkering",
     "nl": "Stel een nieuwe opslag in voor overdag"
   },
   "titleFormatted": {
@@ -15,6 +16,7 @@
     "it": "Imposta sovraprezzo diurno a [[value]]",
     "no": "Sett en ny dagtid påslag til [[value]]",
     "fr": "Définir une nouvelle majoration de jour à [[value]]",
+    "dk": "Sæt ny dagstidsmarkering til [[value]]",
     "nl": "Stel opslag overdag in op [[value]]"
   },
   "args": [
@@ -33,6 +35,7 @@
         "it": "Sovraprezzo extra per kWh o m3",
         "no": "Ekstra påslag per kWh or m3",
         "fr": "Majoration supplémentaire par KWh ou m3",
+        "dk": "Ekstra opmarkering per kWh eller m3",
         "nl": "Extra opslag per kWh of m3"
       }
     }

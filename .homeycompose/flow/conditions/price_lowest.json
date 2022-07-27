@@ -5,6 +5,7 @@
 		"de": "Preis !{{ist|ist nicht}} der niedrigste",
 		"sv": "Priset !{{är|är inte}} det lägsta",
 		"it": "Il prezzo !{{è|non è}} il più basso",
+		"dk": "Prisen !{{er|er ikke}} lavest",
 		"nl": "De prijs !{{is|is niet}} het laagst"
 	},
 	"titleFormatted": {
@@ -13,6 +14,7 @@
 		"de": "Preis !{{ist|ist nicht}} der niedrigste für [[period]]",
 		"sv": "Priset !{{är|är inte}} det lägsta för [[period]]",
 		"it": "Il prezzo !{{è|non è}} il più basso per [[period]]",
+		"dk": "Prisen !{{er|er ikke}} en af de laveste i [[period]]",
 		"nl": "De prijs !{{is|is niet}} het laagst voor [[period]]"
 	},
 	"highlight": true,
@@ -31,6 +33,7 @@
 				"de": "Zeitraum",
 				"sv": "period",
 				"it": "periodo",
+				"dk": "periode",
 				"nl": "periode"
 			},
 			"values": [
@@ -41,6 +44,7 @@
 						"de": "diesen Tag",
 						"sv": "idag",
 						"it": "giornata odierna",
+						"dk": "i dag",
 						"nl": "deze dag"
 					}
 				},
@@ -51,6 +55,7 @@
 						"de": "die nächsten 2 Std.",
 						"sv": "nästa 2H",
 						"it": "prossime 2h",
+						"dk": "næste 2T",
 						"nl": "komende 2U"
 					}
 				},
@@ -61,6 +66,7 @@
 						"de": "die nächsten 3 Std.",
 						"sv": "nästa 3H",
 						"it": "prossime 3h",
+						"dk": "næste 3T",
 						"nl": "komende 3U"
 					}
 				},
@@ -71,6 +77,7 @@
 						"de": "die nächsten 4 Std.",
 						"sv": "nästa 4H",
 						"it": "prossime 4h",
+						"dk": "næste 4T",
 						"nl": "komende 4U"
 					}
 				},
@@ -81,6 +88,7 @@
 						"de": "die nächsten 5 Std.",
 						"sv": "nästa 5H",
 						"it": "prossime 5h",
+						"dk": "næste 5T",
 						"nl": "komende 5U"
 					}
 				},
@@ -91,6 +99,7 @@
 						"de": "die nächsten 6 Std.",
 						"sv": "nästa 6H",
 						"it": "prossime 6h",
+						"dk": "næste 6T",
 						"nl": "komende 6U"
 					}
 				},
@@ -101,6 +110,7 @@
 						"de": "die nächsten 7 Std.",
 						"sv": "nästa 7H",
 						"it": "prossime 7h",
+						"dk": "næste 7T",
 						"nl": "komende 7U"
 					}
 				},
@@ -111,6 +121,7 @@
 						"de": "die nächsten 8 Std.",
 						"sv": "nästa 8H",
 						"it": "prossime 8h",
+						"dk": "næste 8T",
 						"nl": "komende 8U"
 					}
 				}

@@ -7,6 +7,7 @@
     "it": "m³ mese corrente",
     "no": "m³ denne måned",
     "fr": "m³ ce mois ci",
+    "dk": "m³ denne måned",
     "nl": "m³ deze maand"
   },
   "uiComponent": "sensor",
