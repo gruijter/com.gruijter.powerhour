@@ -1,4 +1,7 @@
 {
+  "4.5.1": {
+    "en": "Fixed currency setting for active tariff. Added AND cards. Added WHEN flow card for New Prices received."
+  },
   "4.5.0": {
     "en": "Added Danish translation. Updated Dutch translation. homey-api@1.7.4"
   },

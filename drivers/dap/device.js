@@ -344,6 +344,27 @@ class MyDevice extends Homey.Device {
 		return avgPricesNext8h[0] >= maxAvgPrice;
 	}
 
+	async priceIsBelowAvg(args) {
+		if (!this.state || !this.state.pricesThisDay) throw Error('no prices available');
+		const percent = 100 * (1 - this.state.priceNow / this.state[args.period]);
+		return percent >= Number(args.percent);
+	}
+
+	async priceIsAboveAvg(args) {
+		if (!this.state || !this.state.pricesThisDay) throw Error('no prices available');
+		const percent = 100 * (this.state.priceNow / this.state[args.period] - 1);
+		return percent >= Number(args.percent);
+	}
+
+	async newPricesReceived(prices, period) {
+		let pricesMU = await this.markUpPrices(prices);
+		pricesMU = pricesMU.map((price) => Math.round(price * 10000) / 10000);
+		const priceString = JSON.stringify(({ ...pricesMU }));
+		const tokens = { prices: priceString };
+		const state = { period };
+		this.homey.app.newPrices(this, tokens, state);
+	}
+
 	async fetchPrices() {
 		try {
 			this.log('fetching prices of today and tomorrow (when available)');
@@ -370,10 +391,17 @@ class MyDevice extends Homey.Device {
 			if (!this.prices || this.prices.length < 1) {
 				this.prices = [];
 				this.log(`${this.getName()} received first prices for today.`);
-				if (prices.length === 2) this.log(`${this.getName()} received first prices for tomorrow.`);
+				await this.newPricesReceived(prices[0], 'this_day');
+				if (prices.length === 2) {
+					this.log(`${this.getName()} received first prices for tomorrow.`);
+					await this.newPricesReceived(prices[1], 'tomorrow');
+				}
 			}
 			if (prices[0].prices.length !== 24) this.log(`${this.getName()} did not receive 24 hours of prices for today`);
-			if (this.prices.length === 1 && prices.length === 2) this.log(`${this.getName()} received new prices for tomorrow.`);
+			if (this.prices.length === 1 && prices.length === 2) {
+				this.log(`${this.getName()} received new prices for tomorrow.`);
+				await this.newPricesReceived(prices[1], 'tomorrow');
+			}
 			if (prices[1] && prices[1].prices.length !== 24) this.log(`${this.getName()} did not receive 24 hours of prices for tomorrow`);
 			this.prices = prices;
 		} catch (error) {

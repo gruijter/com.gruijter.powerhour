@@ -155,10 +155,7 @@ class MyApp extends Homey.App {
 		};
 
 		this._priceBelowAvg = this.homey.flow.getDeviceTriggerCard('price_below_avg');
-		this._priceBelowAvg.registerRunListener(async (args, state) => {
-			const percent = 100 * (1 - state.priceNow / state[args.period]);
-			return percent >= Number(args.percent);
-		});
+		this._priceBelowAvg.registerRunListener(async (args) => args.device.priceIsBelowAvg(args));
 		this.triggerPriceBelowAvg = (device, tokens, state) => {
 			this._priceBelowAvg
 				.trigger(device, tokens, state)
@@ -167,12 +164,18 @@ class MyApp extends Homey.App {
 		};
 
 		this._priceAboveAvg = this.homey.flow.getDeviceTriggerCard('price_above_avg');
-		this._priceAboveAvg.registerRunListener(async (args, state) => {
-			const percent = 100 * (state.priceNow / state[args.period] - 1);
-			return percent >= Number(args.percent);
-		});
+		this._priceBelowAvg.registerRunListener(async (args) => args.device.priceIsAboveAvg(args));
 		this.triggerPriceAboveAvg = (device, tokens, state) => {
 			this._priceAboveAvg
+				.trigger(device, tokens, state)
+				// .then(this.log(device.getName(), tokens))
+				.catch(this.error);
+		};
+
+		this._newPrices = this.homey.flow.getDeviceTriggerCard('new_prices');
+		this._newPrices.registerRunListener(async (args, state) => args.period === state.period);
+		this.newPrices = (device, tokens, state) => {
+			this._newPrices
 				.trigger(device, tokens, state)
 				// .then(this.log(device.getName(), tokens))
 				.catch(this.error);

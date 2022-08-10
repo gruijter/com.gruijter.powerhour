@@ -98,6 +98,18 @@ class SumMeterDevice extends Device {
 					await setTimeoutPromise(2 * 1000); // wait a bit for Homey to settle
 				}
 			}
+			// fix meter_tariff currency versions <4.5.0
+			const optionsMoney = this.getCapabilityOptions('meter_money_this_hour');
+			const optionsTariff = this.getCapabilityOptions('meter_tariff');
+			if (!optionsTariff.units) optionsTariff.units = { en: null };
+			if (optionsMoney.units && (optionsMoney.units.en !== optionsTariff.units.en)) {
+				optionsTariff.units = optionsMoney.units;
+				optionsTariff.decimals = 4;
+				this.log(`Fixing currency for meter_tariff ${this.getName()} to ${optionsTariff.units.en}`);
+				await this.setCapabilityOptions('meter_tariff', optionsTariff).catch(this.error);
+				await setTimeoutPromise(2 * 1000);
+			}
+
 			// set meter_power from store v3.6.0
 			const lastMoney = await this.getStoreValue('lastMoney');
 			if (lastMoney && lastMoney.meterValue) {
@@ -138,6 +150,10 @@ class SumMeterDevice extends Device {
 			await this.setCapabilityOptions(moneyCaps[i], options).catch(this.error);
 			await setTimeoutPromise(2 * 1000);
 		}
+		this.log('migrating meter_tariff');
+		options.decimals = 4;
+		await this.setCapabilityOptions('meter_tariff', options).catch(this.error);
+		await setTimeoutPromise(2 * 1000);
 		this.currencyChanged = false;
 		this.log('capability options migration ready', this.getCapabilityOptions('meter_money_last_hour'));
 	}

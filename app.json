@@ -1,7 +1,7 @@
 {
   "_comment": "This file is generated. Please edit .homeycompose/app.json instead.",
   "id": "com.gruijter.powerhour",
-  "version": "4.5.0",
+  "version": "4.5.1",
   "compatibility": ">=5.0.0",
   "brandColor": "#df5020",
   "sdk": 3,
@@ -185,6 +185,84 @@
           }
         ],
         "id": "meter_price_h0_changed"
+      },
+      {
+        "title": {
+          "en": "New prices received",
+          "de": "Neue Preise erhalten",
+          "sv": "Nya priser inkomna",
+          "it": "Nuovi prezzi ricevuti",
+          "no": "Nye priser mottatt",
+          "nl": "Nieuwe prijzen ontvangen"
+        },
+        "titleFormatted": {
+          "en": "New prices received for [[period]]",
+          "de": "Neue Preise für [[period]] erhalten",
+          "sv": "Nya priser inkomna för [[period]]",
+          "it": "Nuovi prezzi ricevuti per [[period]]",
+          "no": "Nye priser mottatt for [[period]]",
+          "nl": "Nieuwe prijzen ontvangen voor [[period]]"
+        },
+        "highlight": true,
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=dap"
+          },
+          {
+            "type": "dropdown",
+            "name": "period",
+            "title": {
+              "en": "period",
+              "de": "Zeitraum",
+              "sv": "period",
+              "it": "periodo",
+              "no": "periode",
+              "nl": "periode"
+            },
+            "values": [
+              {
+                "id": "this_day",
+                "label": {
+                  "en": "this day",
+                  "de": "diesen Tag",
+                  "sv": "idag",
+                  "it": "giornata odierna",
+                  "no": "idag",
+                  "nl": "deze dag"
+                }
+              },
+              {
+                "id": "tomorrow",
+                "label": {
+                  "en": "tomorrow",
+                  "de": "Morgen",
+                  "sv": "i morgon",
+                  "it": "domani",
+                  "no": "i morgen",
+                  "nl": "morgen"
+                }
+              }
+            ]
+          }
+        ],
+        "tokens": [
+          {
+            "name": "prices",
+            "title": {
+              "en": "Prices",
+              "de": "Preise",
+              "sv": "Priser",
+              "it": "Prezzi",
+              "no": "Priser",
+              "nl": "Prijzen"
+            },
+            "type": "string",
+            "example": "{'0':1.869,'1':1.869,'2':1.869,'3':1.869,'4':1.869,'5':1.869,'6':1.872,'7':1.872,'8':1.872,'9':1.872,'10':1.872,'11':1.872,'12':1.872,'13':1.872,'14':1.872,'15':1.872,'16':1.872,'17':1.872,'18':1.872,'19':1.872,'20':1.872,'21':1.872,'22':1.872,'23':1.872}"
+          }
+        ],
+        "id": "new_prices"
       },
       {
         "title": {
@@ -1172,6 +1250,222 @@
       }
     ],
     "conditions": [
+      {
+        "title": {
+          "en": "The price is above avg.",
+          "de": "Preis ist höher als der Durchschn.",
+          "sv": "Priset är över snittet.",
+          "it": "Il prezzo è sopra la media",
+          "no": "Prisen er over gjennomsnittet.",
+          "nl": "De prijs is hoger dan gem."
+        },
+        "titleFormatted": {
+          "en": "The price is [[percent]] above avg. [[period]]",
+          "de": "Preis ist [[percent]] höher als der Durchschn. [[period]]",
+          "sv": "Priset är [[percent]] över snittet. [[period]]",
+          "it": "Il prezzo è [[percent]] sopra la media di [[period]]",
+          "no": "Prisen er [[percent]] over gjenomsnittet [[period]]",
+          "nl": "De prijs is [[percent]] hoger dan gem. [[period]]"
+        },
+        "highlight": true,
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=dap"
+          },
+          {
+            "type": "dropdown",
+            "name": "percent",
+            "title": {
+              "en": "%"
+            },
+            "values": [
+              {
+                "id": "0",
+                "label": {
+                  "en": "0%"
+                }
+              },
+              {
+                "id": "10",
+                "label": {
+                  "en": "10%"
+                }
+              },
+              {
+                "id": "20",
+                "label": {
+                  "en": "20%"
+                }
+              },
+              {
+                "id": "30",
+                "label": {
+                  "en": "30%"
+                }
+              },
+              {
+                "id": "40",
+                "label": {
+                  "en": "40%"
+                }
+              },
+              {
+                "id": "50",
+                "label": {
+                  "en": "50%"
+                }
+              }
+            ]
+          },
+          {
+            "type": "dropdown",
+            "name": "period",
+            "title": {
+              "en": "period",
+              "de": "Zeitraum",
+              "sv": "period",
+              "it": "periodo",
+              "no": "periode",
+              "nl": "periode"
+            },
+            "values": [
+              {
+                "id": "this_day_avg",
+                "label": {
+                  "en": "this day",
+                  "de": "des Tages",
+                  "sv": "idag",
+                  "it": "giornata odierna",
+                  "no": "idag",
+                  "nl": "deze dag"
+                }
+              },
+              {
+                "id": "next_8h_avg",
+                "label": {
+                  "en": "next 8H",
+                  "de": "der nächsten 8 Std.",
+                  "sv": "nästa 8H",
+                  "it": "prossime 8h",
+                  "no": "neste 8T",
+                  "nl": "komende 8U"
+                }
+              }
+            ]
+          }
+        ],
+        "id": "price_above_avg"
+      },
+      {
+        "title": {
+          "en": "The price is below avg.",
+          "de": "Preis ist niedriger als der Durchschn.",
+          "sv": "Priset är under snittet.",
+          "it": "Il prezzo è al di sotto della media.",
+          "no": "Prisen er under gjennomsnittet.",
+          "nl": "De prijs is lager dan gem."
+        },
+        "titleFormatted": {
+          "en": "The price is [[percent]] below avg. [[period]]",
+          "de": "Preis ist [[percent]] niedriger als der Durchschn. [[period]]",
+          "sv": "Priset är [[percent]] under snittet. [[period]]",
+          "it": "Il prezzo è [[percent]] al di sotto della di [[period]]",
+          "no": "Prisen er [[percent]] under gjenomsnittet [[period]]",
+          "nl": "De prijs is [[percent]] lager dan gem. [[period]]"
+        },
+        "highlight": true,
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=dap"
+          },
+          {
+            "type": "dropdown",
+            "name": "percent",
+            "title": {
+              "en": "%"
+            },
+            "values": [
+              {
+                "id": "0",
+                "label": {
+                  "en": "0%"
+                }
+              },
+              {
+                "id": "10",
+                "label": {
+                  "en": "10%"
+                }
+              },
+              {
+                "id": "20",
+                "label": {
+                  "en": "20%"
+                }
+              },
+              {
+                "id": "30",
+                "label": {
+                  "en": "30%"
+                }
+              },
+              {
+                "id": "40",
+                "label": {
+                  "en": "40%"
+                }
+              },
+              {
+                "id": "50",
+                "label": {
+                  "en": "50%"
+                }
+              }
+            ]
+          },
+          {
+            "type": "dropdown",
+            "name": "period",
+            "title": {
+              "en": "period",
+              "de": "Zeitraum",
+              "sv": "period",
+              "it": "periodo",
+              "no": "periode",
+              "nl": "periode"
+            },
+            "values": [
+              {
+                "id": "this_day_avg",
+                "label": {
+                  "en": "this day",
+                  "de": "des Tages",
+                  "sv": "idag",
+                  "it": "giornata odierna",
+                  "no": "idag",
+                  "nl": "deze dag"
+                }
+              },
+              {
+                "id": "next_8h_avg",
+                "label": {
+                  "en": "next 8H",
+                  "de": "der nächsten 8 Std.",
+                  "sv": "nästa 8H",
+                  "it": "prossime 8h",
+                  "no": "neste 8T",
+                  "nl": "komende 8U"
+                }
+              }
+            ]
+          }
+        ],
+        "id": "price_below_avg"
+      },
       {
         "title": {
           "en": "The price !{{is|isn't}} highest",

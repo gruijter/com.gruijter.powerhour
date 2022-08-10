@@ -1,0 +1,75 @@
+{
+	"title": {
+		"en": "New prices received",
+		"de": "Neue Preise erhalten",
+		"sv": "Nya priser inkomna",
+		"it": "Nuovi prezzi ricevuti",
+		"no": "Nye priser mottatt",
+		"nl": "Nieuwe prijzen ontvangen"
+	},
+	"titleFormatted": {
+		"en": "New prices received for [[period]]",
+		"de": "Neue Preise für [[period]] erhalten",
+		"sv": "Nya priser inkomna för [[period]]",
+		"it": "Nuovi prezzi ricevuti per [[period]]",
+		"no": "Nye priser mottatt for [[period]]",
+		"nl": "Nieuwe prijzen ontvangen voor [[period]]"
+	},
+	"highlight": true,
+	"args": [
+		{
+		  "type": "device",
+		  "name": "device",
+		  "filter": "driver_id=dap"
+		},
+		{
+			"type": "dropdown",
+			"name": "period",
+			"title": { 
+				"en": "period",
+				"de": "Zeitraum",
+				"sv": "period",
+				"it": "periodo",
+				"no": "periode",
+				"nl": "periode"
+			},
+			"values": [
+				{	"id": "this_day",
+					"label": { 
+						"en": "this day",
+						"de": "diesen Tag",
+						"sv": "idag",
+						"it": "giornata odierna",
+						"no": "idag",
+						"nl": "deze dag"
+					}
+				},
+				{	"id": "tomorrow",
+					"label": { 
+						"en": "tomorrow",
+						"de": "Morgen",
+						"sv": "i morgon",
+						"it": "domani",
+						"no": "i morgen",
+						"nl": "morgen"
+					}
+				}
+			]
+		}
+	],
+	"tokens": [
+		{
+			"name": "prices",
+			"title": {
+				"en": "Prices",
+				"de": "Preise",
+				"sv": "Priser",
+				"it": "Prezzi",
+				"no": "Priser",
+				"nl": "Prijzen"
+			},
+			"type": "string",
+			"example": "{'0':1.869,'1':1.869,'2':1.869,'3':1.869,'4':1.869,'5':1.869,'6':1.872,'7':1.872,'8':1.872,'9':1.872,'10':1.872,'11':1.872,'12':1.872,'13':1.872,'14':1.872,'15':1.872,'16':1.872,'17':1.872,'18':1.872,'19':1.872,'20':1.872,'21':1.872,'22':1.872,'23':1.872}"
+		}
+	]
+}
