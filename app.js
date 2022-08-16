@@ -164,7 +164,7 @@ class MyApp extends Homey.App {
 		};
 
 		this._priceAboveAvg = this.homey.flow.getDeviceTriggerCard('price_above_avg');
-		this._priceBelowAvg.registerRunListener(async (args) => args.device.priceIsAboveAvg(args));
+		this._priceAboveAvg.registerRunListener(async (args) => args.device.priceIsAboveAvg(args));
 		this.triggerPriceAboveAvg = (device, tokens, state) => {
 			this._priceAboveAvg
 				.trigger(device, tokens, state)
@@ -194,11 +194,17 @@ class MyApp extends Homey.App {
 		const priceLowestAvgCondition = this.homey.flow.getConditionCard('price_lowest_avg');
 		priceLowestAvgCondition.registerRunListener((args) => args.device.priceIsLowestAvg(args));
 
+		const priceBelowAvgCondition = this.homey.flow.getConditionCard('price_below_avg');
+		priceBelowAvgCondition.registerRunListener((args) => args.device.priceIsBelowAvg(args));
+
 		const priceHighestCondition = this.homey.flow.getConditionCard('price_highest');
 		priceHighestCondition.registerRunListener((args) => args.device.priceIsHighest(args));
 
 		const priceHighestAvgCondition = this.homey.flow.getConditionCard('price_highest_avg');
 		priceHighestAvgCondition.registerRunListener((args) => args.device.priceIsHighestAvg(args));
+
+		const priceAboveAvgCondition = this.homey.flow.getConditionCard('price_above_avg');
+		priceAboveAvgCondition.registerRunListener((args) => args.device.priceIsAboveAvg(args));
 
 		// action cards
 		const setTariffPower = this.homey.flow.getActionCard('set_tariff_power');

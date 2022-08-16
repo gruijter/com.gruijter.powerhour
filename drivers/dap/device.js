@@ -398,7 +398,8 @@ class MyDevice extends Homey.Device {
 				}
 			}
 			if (prices[0].prices.length !== 24) this.log(`${this.getName()} did not receive 24 hours of prices for today`);
-			if (this.prices.length === 1 && prices.length === 2) {
+			if ((this.prices.length === 1 && prices.length === 2)
+				|| (this.prices.length === 2 && this.prices[1].prices.length !== 24 && prices.length === 2 && prices[1].prices.length === 24)) {
 				this.log(`${this.getName()} received new prices for tomorrow.`);
 				await this.newPricesReceived(prices[1], 'tomorrow');
 			}

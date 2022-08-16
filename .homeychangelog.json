@@ -1,4 +1,7 @@
 {
+  "4.5.2": {
+    "en": "Fixed x% below/above flow card. Fixed WHEN flow card for New GAS Prices received."
+  },
   "4.5.1": {
     "en": "Fixed currency setting for active tariff. Added AND cards. Added WHEN flow card for New Prices received."
   },

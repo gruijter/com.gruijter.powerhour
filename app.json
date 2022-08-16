@@ -1,7 +1,7 @@
 {
   "_comment": "This file is generated. Please edit .homeycompose/app.json instead.",
   "id": "com.gruijter.powerhour",
-  "version": "4.5.1",
+  "version": "4.5.2",
   "compatibility": ">=5.0.0",
   "brandColor": "#df5020",
   "sdk": 3,
@@ -1252,20 +1252,20 @@
     "conditions": [
       {
         "title": {
-          "en": "The price is above avg.",
-          "de": "Preis ist höher als der Durchschn.",
-          "sv": "Priset är över snittet.",
-          "it": "Il prezzo è sopra la media",
-          "no": "Prisen er over gjennomsnittet.",
-          "nl": "De prijs is hoger dan gem."
+          "en": "The price !{{is|isn't}} above avg.",
+          "de": "Preis !{{ist|ist nicht}} höher als der Durchschn.",
+          "sv": "Priset !{{är|är inte}} över snittet.",
+          "it": "Il prezzo !{{è|non è}} sopra la media",
+          "no": "Prisen !{{er|er ikke}} over gjennomsnittet.",
+          "nl": "De prijs !{{is|is niet}} hoger dan gem."
         },
         "titleFormatted": {
-          "en": "The price is [[percent]] above avg. [[period]]",
-          "de": "Preis ist [[percent]] höher als der Durchschn. [[period]]",
-          "sv": "Priset är [[percent]] över snittet. [[period]]",
-          "it": "Il prezzo è [[percent]] sopra la media di [[period]]",
-          "no": "Prisen er [[percent]] over gjenomsnittet [[period]]",
-          "nl": "De prijs is [[percent]] hoger dan gem. [[period]]"
+          "en": "The price !{{is|isn't}} [[percent]] above avg. [[period]]",
+          "de": "Preis !{{ist|ist nicht}} [[percent]] höher als der Durchschn. [[period]]",
+          "sv": "Priset !{{är|är inte}} [[percent]] över snittet. [[period]]",
+          "it": "Il prezzo !{{è|non è}} [[percent]] sopra la media di [[period]]",
+          "no": "Prisen !{{er|er ikke}} [[percent]] over gjenomsnittet [[period]]",
+          "nl": "De prijs !{{is|is niet}} [[percent]] hoger dan gem. [[period]]"
         },
         "highlight": true,
         "args": [
@@ -1360,20 +1360,20 @@
       },
       {
         "title": {
-          "en": "The price is below avg.",
-          "de": "Preis ist niedriger als der Durchschn.",
-          "sv": "Priset är under snittet.",
-          "it": "Il prezzo è al di sotto della media.",
-          "no": "Prisen er under gjennomsnittet.",
-          "nl": "De prijs is lager dan gem."
+          "en": "The price !{{is|isn't}} below avg.",
+          "de": "Preis !{{ist|ist nicht}} niedriger als der Durchschn.",
+          "sv": "Priset !{{är|är inte}} under snittet.",
+          "it": "Il prezzo !{{è|non è}} al di sotto della media.",
+          "no": "Prisen !{{er|er ikke}} under gjennomsnittet.",
+          "nl": "De prijs !{{is|is niet}} lager dan gem."
         },
         "titleFormatted": {
-          "en": "The price is [[percent]] below avg. [[period]]",
-          "de": "Preis ist [[percent]] niedriger als der Durchschn. [[period]]",
-          "sv": "Priset är [[percent]] under snittet. [[period]]",
-          "it": "Il prezzo è [[percent]] al di sotto della di [[period]]",
-          "no": "Prisen er [[percent]] under gjenomsnittet [[period]]",
-          "nl": "De prijs is [[percent]] lager dan gem. [[period]]"
+          "en": "The price !{{is|isn't}} [[percent]] below avg. [[period]]",
+          "de": "Preis !{{ist|ist nicht}} [[percent]] niedriger als der Durchschn. [[period]]",
+          "sv": "Priset !{{är|är inte}} [[percent]] under snittet. [[period]]",
+          "it": "Il prezzo !{{è|non è}} [[percent]] al di sotto della di [[period]]",
+          "no": "Prisen !{{er|er ikke}} [[percent]] under gjenomsnittet [[period]]",
+          "nl": "De prijs !{{is|is niet}} [[percent]] lager dan gem. [[period]]"
         },
         "highlight": true,
         "args": [

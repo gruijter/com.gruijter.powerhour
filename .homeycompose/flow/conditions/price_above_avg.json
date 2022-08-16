@@ -1,19 +1,19 @@
 {
 	"title": {
-		"en": "The price is above avg.",
-		"de": "Preis ist höher als der Durchschn.",
-		"sv": "Priset är över snittet.",
-		"it": "Il prezzo è sopra la media",
-		"no": "Prisen er over gjennomsnittet.",
-		"nl": "De prijs is hoger dan gem."
+		"en": "The price !{{is|isn't}} above avg.",
+		"de": "Preis !{{ist|ist nicht}} höher als der Durchschn.",
+		"sv": "Priset !{{är|är inte}} över snittet.",
+		"it": "Il prezzo !{{è|non è}} sopra la media",
+		"no": "Prisen !{{er|er ikke}} over gjennomsnittet.",
+		"nl": "De prijs !{{is|is niet}} hoger dan gem."
 	},
 	"titleFormatted": {
-		"en": "The price is [[percent]] above avg. [[period]]",
-		"de": "Preis ist [[percent]] höher als der Durchschn. [[period]]",
-		"sv": "Priset är [[percent]] över snittet. [[period]]",
-		"it": "Il prezzo è [[percent]] sopra la media di [[period]]",
-		"no": "Prisen er [[percent]] over gjenomsnittet [[period]]",
-		"nl": "De prijs is [[percent]] hoger dan gem. [[period]]"
+		"en": "The price !{{is|isn't}} [[percent]] above avg. [[period]]",
+		"de": "Preis !{{ist|ist nicht}} [[percent]] höher als der Durchschn. [[period]]",
+		"sv": "Priset !{{är|är inte}} [[percent]] över snittet. [[period]]",
+		"it": "Il prezzo !{{è|non è}} [[percent]] sopra la media di [[period]]",
+		"no": "Prisen !{{er|er ikke}} [[percent]] over gjenomsnittet [[period]]",
+		"nl": "De prijs !{{is|is niet}} [[percent]] hoger dan gem. [[period]]"
 	},
 	"highlight": true,
 	"args": [
