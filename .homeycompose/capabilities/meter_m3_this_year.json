@@ -14,7 +14,7 @@
   "icon": "/assets/m3_y.svg",
   "getable": true,
   "setable": false,
-  "insights": false,
+  "insights": true,
   "units": {
     "en": "m³"
   },

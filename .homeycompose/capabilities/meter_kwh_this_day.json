@@ -14,7 +14,7 @@
   "icon": "/assets/kwh_d.svg",
   "getable": true,
   "setable": false,
-  "insights": false,
+  "insights": true,
   "units": {
     "en": "kWh"
   },

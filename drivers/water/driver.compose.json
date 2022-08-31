@@ -150,6 +150,31 @@
       },
       "children": [
         {
+          "id": "decimals_meter",
+          "type": "number",
+          "label": {
+            "en": "Number of decimals",
+            "de": "Anzahl Dezimalstellen",
+            "sv": "Antalet decimaler",
+            "it": "numero di decimali",
+            "no": "Antall desimaler",
+            "fr": "Nombre de décimales",
+            "nl": "Aantal decimalen"
+          },
+          "value": 4,
+          "min": 0,
+          "max": 8,
+          "hint": {
+            "en": "The number of decimals to use.",
+            "de": "Die Anzahl der Dezimalstellen.",
+            "sv": "Antalet decimaler som ska användas.",
+            "it": "Iil numero di decimali.",
+            "no": "Antall desimaler.",
+            "fr": "Nombre de décimales.",
+            "nl": "Het aantal decimalen."
+          }
+        },
+        {
           "id": "start_date",
           "type": "text",
           "label": {

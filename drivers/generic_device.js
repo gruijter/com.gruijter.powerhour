@@ -39,10 +39,12 @@ class SumMeterDevice extends Device {
 
 			if (!this.migrated) await this.migrate();
 			if (this.currencyChanged) await this.migrateCurrencyOptions(this.settings.currency, this.settings.decimals);
+			if (this.meterDecimalsChanged) await this.migrateMeterOptions(this.settings.decimals_meter);
 
 			// setup source device
 			if (!this.settings.meter_via_flow) {
-				this.sourceDevice = await this.homey.app.api.devices.getDevice({ id: this.settings.homey_device_id, $cache: false, $timeout: 25000 });
+				this.sourceDevice = await this.homey.app.api.devices.getDevice({ id: this.settings.homey_device_id, $cache: false, $timeout: 25000 })
+					.catch(this.error);
 				// check if source device exists
 				const sourceDeviceExists = this.sourceDevice && this.sourceDevice.capabilitiesObj; // && (this.sourceDevice.available !== null);
 				if (!sourceDeviceExists) throw Error(`Source device ${this.getName()} is missing. Retry in 10 minutes.`);
@@ -68,8 +70,8 @@ class SumMeterDevice extends Device {
 
 		} catch (error) {
 			this.error(error);
+			this.restartDevice(10 * 60 * 1000).catch(this.error); // restart after 10 minutes
 			this.setUnavailable(error.message).catch(this.error);
-			this.restartDevice(10 * 60 * 1000); // restart after 10 minutes
 		}
 	}
 
@@ -137,7 +139,7 @@ class SumMeterDevice extends Device {
 	}
 
 	async migrateCurrencyOptions(currency, decimals) {
-		this.log('migrating capability options');
+		this.log('migrating money capability options');
 		const options = {
 			units: { en: currency },
 			decimals,
@@ -158,6 +160,43 @@ class SumMeterDevice extends Device {
 		this.log('capability options migration ready', this.getCapabilityOptions('meter_money_last_hour'));
 	}
 
+	async migrateMeterOptions(decimals) {
+		this.log('migrating meter capability options');
+		const options = {
+			units: { en: 'kWh' },
+			decimals,
+		};
+		if (!Number.isInteger(decimals)) options.units.decimals = 4;
+		const meterKWhCaps = this.getCapabilities().filter((name) => name.includes('meter_kwh'));
+		// options.units = { en: 'kWh' };
+		for (let i = 0; i < meterKWhCaps.length; i += 1) {
+			this.log('migrating', meterKWhCaps[i]);
+			await this.setCapabilityOptions(meterKWhCaps[i], options).catch(this.error);
+			await setTimeoutPromise(2 * 1000);
+		}
+		if (this.hasCapability('meter_power')) {
+			this.log('migrating meter_power');
+			await this.setCapabilityOptions('meter_power', options).catch(this.error);
+		}
+		const meterM3Caps = this.getCapabilities().filter((name) => name.includes('meter_m3'));
+		options.units = { en: 'm³' };
+		for (let i = 0; i < meterM3Caps.length; i += 1) {
+			this.log('migrating', meterM3Caps[i]);
+			await this.setCapabilityOptions(meterM3Caps[i], options).catch(this.error);
+			await setTimeoutPromise(2 * 1000);
+		}
+		if (this.hasCapability('meter_gas')) {
+			this.log('migrating meter_gas');
+			await this.setCapabilityOptions('meter_gas', options).catch(this.error);
+		}
+		if (this.hasCapability('meter_water')) {
+			this.log('migrating meter_water');
+			await this.setCapabilityOptions('meter_water', options).catch(this.error);
+		}
+		this.meterDecimalsChanged = false;
+		this.log('meter capability options migration ready');
+	}
+
 	async restartDevice(delay) {
 		if (this.restarting) return;
 		this.restarting = true;
@@ -166,7 +205,8 @@ class SumMeterDevice extends Device {
 		const dly = delay || 2000;
 		this.log(`Device will restart in ${dly / 1000} seconds`);
 		// this.setUnavailable('Device is restarting. Wait a few minutes!');
-		await setTimeoutPromise(dly).then(() => this.onInitDevice());
+		await setTimeoutPromise(dly); // .then(() => this.onInitDevice());
+		this.onInitDevice();
 	}
 
 	// this method is called when the Device is added
@@ -240,6 +280,10 @@ class SumMeterDevice extends Device {
 
 		if (changedKeys.includes('currency') || changedKeys.includes('decimals')) {
 			this.currencyChanged = true;
+		}
+
+		if (changedKeys.includes('decimals_meter')) {
+			this.meterDecimalsChanged = true;
 		}
 
 		this.restartDevice(1000);

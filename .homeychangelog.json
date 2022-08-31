@@ -1,4 +1,7 @@
 {
+  "4.5.3": {
+    "en": "Added Insights for multiple capabilities. Added option to set kWh/m3 decimals. Improved new prices detection and debug logging. homey-api@1.7.4"
+  },
   "4.5.2": {
     "en": "Fixed x% below/above flow card. Fixed WHEN flow card for New GAS Prices received."
   },

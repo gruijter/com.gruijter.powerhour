@@ -1,7 +1,7 @@
 {
   "_comment": "This file is generated. Please edit .homeycompose/app.json instead.",
   "id": "com.gruijter.powerhour",
-  "version": "4.5.2",
+  "version": "4.5.3",
   "compatibility": ">=5.0.0",
   "brandColor": "#df5020",
   "sdk": 3,
@@ -3341,6 +3341,31 @@
           },
           "children": [
             {
+              "id": "decimals_meter",
+              "type": "number",
+              "label": {
+                "en": "Number of decimals",
+                "de": "Anzahl Dezimalstellen",
+                "sv": "Antalet decimaler",
+                "it": "numero di decimali",
+                "no": "Antall desimaler",
+                "fr": "Nombre de décimales",
+                "nl": "Aantal decimalen"
+              },
+              "value": 4,
+              "min": 0,
+              "max": 8,
+              "hint": {
+                "en": "The number of decimals to use.",
+                "de": "Die Anzahl der Dezimalstellen.",
+                "sv": "Antalet decimaler som ska användas.",
+                "it": "Iil numero di decimali.",
+                "no": "Antall desimaler.",
+                "fr": "Nombre de décimales.",
+                "nl": "Het aantal decimalen."
+              }
+            },
+            {
               "id": "start_date",
               "type": "text",
               "label": {
@@ -3980,6 +4005,31 @@
           },
           "children": [
             {
+              "id": "decimals_meter",
+              "type": "number",
+              "label": {
+                "en": "Number of decimals",
+                "de": "Anzahl Dezimalstellen",
+                "sv": "Antalet decimaler",
+                "it": "numero di decimali",
+                "no": "Antall desimaler",
+                "fr": "Nombre de décimales",
+                "nl": "Aantal decimalen"
+              },
+              "value": 4,
+              "min": 0,
+              "max": 8,
+              "hint": {
+                "en": "The number of decimals to use.",
+                "de": "Die Anzahl der Dezimalstellen.",
+                "sv": "Antalet decimaler som ska användas.",
+                "it": "Iil numero di decimali.",
+                "no": "Antall desimaler.",
+                "fr": "Nombre de décimales.",
+                "nl": "Het aantal decimalen."
+              }
+            },
+            {
               "id": "start_date",
               "type": "text",
               "label": {
@@ -4591,6 +4641,31 @@
             "nl": "Meter waarden"
           },
           "children": [
+            {
+              "id": "decimals_meter",
+              "type": "number",
+              "label": {
+                "en": "Number of decimals",
+                "de": "Anzahl Dezimalstellen",
+                "sv": "Antalet decimaler",
+                "it": "numero di decimali",
+                "no": "Antall desimaler",
+                "fr": "Nombre de décimales",
+                "nl": "Aantal decimalen"
+              },
+              "value": 4,
+              "min": 0,
+              "max": 8,
+              "hint": {
+                "en": "The number of decimals to use.",
+                "de": "Die Anzahl der Dezimalstellen.",
+                "sv": "Antalet decimaler som ska användas.",
+                "it": "Iil numero di decimali.",
+                "no": "Antall desimaler.",
+                "fr": "Nombre de décimales.",
+                "nl": "Het aantal decimalen."
+              }
+            },
             {
               "id": "start_date",
               "type": "text",
@@ -5370,7 +5445,7 @@
       "icon": "/assets/kwh_d.svg",
       "getable": true,
       "setable": false,
-      "insights": false,
+      "insights": true,
       "units": {
         "en": "kWh"
       },
@@ -5414,7 +5489,7 @@
       "icon": "/assets/kwh_m.svg",
       "getable": true,
       "setable": false,
-      "insights": false,
+      "insights": true,
       "units": {
         "en": "kWh"
       },
@@ -5436,7 +5511,7 @@
       "icon": "/assets/kwh_y.svg",
       "getable": true,
       "setable": false,
-      "insights": false,
+      "insights": true,
       "units": {
         "en": "kWh"
       },
@@ -5542,7 +5617,7 @@
       "icon": "/assets/m3_d.svg",
       "getable": true,
       "setable": false,
-      "insights": false,
+      "insights": true,
       "units": {
         "en": "m³"
       },
@@ -5586,7 +5661,7 @@
       "icon": "/assets/m3_m.svg",
       "getable": true,
       "setable": false,
-      "insights": false,
+      "insights": true,
       "units": {
         "en": "m³"
       },
@@ -5608,7 +5683,7 @@
       "icon": "/assets/m3_y.svg",
       "getable": true,
       "setable": false,
-      "insights": false,
+      "insights": true,
       "units": {
         "en": "m³"
       },
@@ -5718,7 +5793,7 @@
       "icon": "/assets/money_d.svg",
       "getable": true,
       "setable": false,
-      "insights": false,
+      "insights": true,
       "units": {
         "en": "¤"
       },
@@ -5740,7 +5815,7 @@
       "icon": "/assets/money_h.svg",
       "getable": true,
       "setable": false,
-      "insights": false,
+      "insights": true,
       "units": {
         "en": "¤"
       },
@@ -5762,7 +5837,7 @@
       "icon": "/assets/money_m.svg",
       "getable": true,
       "setable": false,
-      "insights": false,
+      "insights": true,
       "units": {
         "en": "¤"
       },
@@ -5784,7 +5859,7 @@
       "icon": "/assets/money_y.svg",
       "getable": true,
       "setable": false,
-      "insights": false,
+      "insights": true,
       "units": {
         "en": "¤"
       },
