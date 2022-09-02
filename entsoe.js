@@ -345,13 +345,13 @@ module.exports = ENTSOE;
 // const Entsoe = new ENTSOE({ biddingZone: '10YNL----------L', apiKey: '' });
 // console.log('REMOVE APIKEY!!!!!');
 
-// const today = new Date();
-// today.setHours(0);
-// const tomorrow = new Date(today);
-// tomorrow.setDate(tomorrow.getDate() + 1);
+// // const today = new Date();
+// // today.setHours(0);
+// // const tomorrow = new Date(today);
+// // tomorrow.setDate(tomorrow.getDate() + 1);
 
-// const dateStart =  today;
-// const dateEnd = tomorrow;
+// const dateStart = new Date('2022-09-01T22:00:00.000Z'); // today;
+// const dateEnd = new Date('2022-09-03T22:00:00.000Z'); // tomorrow;
 
 // Entsoe.getPrices({ dateStart, dateEnd })
 // 	.then((result) => console.dir(result, { depth: null }))

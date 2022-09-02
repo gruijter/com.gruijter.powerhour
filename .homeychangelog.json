@@ -1,4 +1,7 @@
 {
+  "4.5.4": {
+    "en": "Improved fetching new prices and detection after day change."
+  },
   "4.5.3": {
     "en": "Added Insights for multiple capabilities. Added option to set kWh/m3 decimals. Improved new prices detection and debug logging. homey-api@1.7.4"
   },

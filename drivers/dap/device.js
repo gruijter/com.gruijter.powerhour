@@ -404,18 +404,18 @@ class MyDevice extends Homey.Device {
 			this.log(this.getName(), 'fetching prices of today and tomorrow (when available)');
 
 			// set UTC start of today and tomorrow according to local Homey timezone
-			const todayStart = new Date();
-			todayStart.setMilliseconds(0);
+			const nowLocal = new Date(new Date().toLocaleString('en-US', { timeZone: this.timeZone }));
+			const todayStart = nowLocal;
 			todayStart.setHours(0);
 			todayStart.setMinutes(0);
 			todayStart.setSeconds(0);
 			todayStart.setMilliseconds(0);
-			const offset = new Date(todayStart.toLocaleString('en-US', { timeZone: this.timeZone })) - todayStart;
-			todayStart.setMilliseconds(-offset);
-			const tomorrowStart = new Date(todayStart);
-			tomorrowStart.setDate(tomorrowStart.getDate() + 2);
+			const homeyOffset = new Date(todayStart.toLocaleString('en-US', { timeZone: this.timeZone })) - todayStart;
+			todayStart.setMilliseconds(-homeyOffset); // convert back to UTC
+			const tomorrowEnd = new Date(todayStart);
+			tomorrowEnd.setDate(tomorrowEnd.getDate() + 2);
 
-			const prices = await this.dap.getPrices({ dateStart: todayStart, dateEnd: tomorrowStart })
+			const prices = await this.dap.getPrices({ dateStart: todayStart, dateEnd: tomorrowEnd })
 				.catch(async (error) => {
 					this.log(`${this.getName()} Error fetching prices from ${this.dap.host}. Trying again in 10 minutes`, error.message);
 					await setTimeoutPromise(10 * 60 * 1000, 'waiting is done');
@@ -477,10 +477,11 @@ class MyDevice extends Homey.Device {
 			let priceDate = new Date(new Date(prices[0].timeInterval.start).toLocaleString('en-US', { timeZone: this.timeZone }));
 			if (priceDate.getDate() !== nowLocal.getDate()) {
 				this.pricesYesterday = prices.shift();
-				this.log(`${this.getName()} shifted price information to yesterday.`);
 				if (!prices[0]) throw Error('No price information available for this day');
 				priceDate = new Date(new Date(prices[0].timeInterval.start).toLocaleString('en-US', { timeZone: this.timeZone }));
 				if (priceDate.getDate() !== nowLocal.getDate()) throw Error('Available price information is for incorrect day');
+				this.log(`${this.getName()} new day started, shifting price information to yesterday.`);
+				this.prices.shift();
 			}
 
 			// Array pricesYesterday with markUp
