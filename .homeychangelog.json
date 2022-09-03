@@ -1,4 +1,7 @@
 {
+  "4.5.5": {
+    "en": "Improved fetching new prices and detection after day change. Improved DAP fetch randomization. Removed invalid DAP bidding areas."
+  },
   "4.5.4": {
     "en": "Improved fetching new prices and detection after day change."
   },

@@ -43,7 +43,7 @@ class MyDevice extends Homey.Device {
 			if (!this.migrated) await this.migrate();
 
 			this.timeZone = this.homey.clock.getTimezone();
-			this.fetchDelay = Math.floor(Math.random() * 30 * 60 * 1000);
+			this.fetchDelay = (Math.random() * 30 * 60 * 1000) + (1000 * 60 * 2);
 			// if (!this.prices) this.prices = [];
 
 			if (this.currencyChanged) await this.migrateCurrencyOptions(this.settings.currency, this.settings.decimals);
@@ -64,7 +64,7 @@ class MyDevice extends Homey.Device {
 				this.log('new hour event received');
 				await this.fetchExchangeRate();
 				await this.handlePrices();
-				await setTimeoutPromise(this.fetchDelay, 'waiting is done'); // spread over 20 minutes for API rate limit (400 / min)
+				await setTimeoutPromise(this.fetchDelay, 'waiting is done'); // spread over 30 minutes for API rate limit (400 / min)
 				await this.fetchPrices();
 			};
 			this.homey.on('everyhour', this.eventListenerHour);
@@ -421,17 +421,13 @@ class MyDevice extends Homey.Device {
 					await setTimeoutPromise(10 * 60 * 1000, 'waiting is done');
 					return this.dap.getPrices().catch(this.error);
 				});
-			if (!prices[0]) throw Error('something went wrong fetching prices');
+			if (!prices || !prices[0]) throw Error('something went wrong fetching prices');
 			if (!this.prices || this.prices.length < 1) {
 				this.prices = [];
 				this.log(`${this.getName()} received first prices for today.`);
 				if (prices.length > 1) this.log(`${this.getName()} received first prices for tomorrow.`);
 			}
 			if (prices[0].prices.length !== 24) this.log(`${this.getName()} did not receive 24 hours of prices for today`);
-			// if ((this.prices.length === 1 && prices.length === 2)
-			// 	|| (this.prices.length === 2 && this.prices[1].prices.length !== 24 && prices.length === 2 && prices[1].prices.length === 24)) {
-			// 	this.log(`${this.getName()} received new prices for tomorrow.`);
-			// }
 			if (prices[1] && prices[1].prices.length !== 24) this.log(`${this.getName()} did not receive 24 hours of prices for tomorrow`);
 
 			// check if prices changed
@@ -480,8 +476,10 @@ class MyDevice extends Homey.Device {
 				if (!prices[0]) throw Error('No price information available for this day');
 				priceDate = new Date(new Date(prices[0].timeInterval.start).toLocaleString('en-US', { timeZone: this.timeZone }));
 				if (priceDate.getDate() !== nowLocal.getDate()) throw Error('Available price information is for incorrect day');
-				this.log(`${this.getName()} new day started, shifting price information to yesterday.`);
+				this.log(`${this.getName()} New day started, shifting price information to yesterday.`);
 				this.prices.shift();
+				if (this.prices[0]) await this.newPricesReceived(this.prices[0], 'this_day');
+				if (this.prices[1]) await this.newPricesReceived(this.prices[1], 'tomorrow');
 			}
 
 			// Array pricesYesterday with markUp
