@@ -486,7 +486,7 @@ class SumMeterDevice extends Device {
 			value = await this.getCapabilityValue(this.ds.cmap.meter_source);
 			if (value === null) return;
 		}
-		this.updateMeter(value);
+		await this.updateMeter(value);
 	}
 
 	// takes Watt, creates kWh metervalue
@@ -510,7 +510,7 @@ class SumMeterDevice extends Device {
 				value,
 				measureTm,
 			};
-			this.updateMeter(meter); // what to do with timestamp???
+			await this.updateMeter(meter); // what to do with timestamp???
 		}
 	}
 
@@ -599,6 +599,8 @@ class SumMeterDevice extends Device {
 	}
 
 	async updateMoney({ ...reading }, periods) {
+		// update tariff capability
+		if (this.tariff !== await this.getCapabilityValue('meter_tariff')) this.setCapability('meter_tariff', this.tariff);
 		// calculate money
 		const deltaMoney = (reading.meterValue - this.meterMoney.meterValue) * this.tariff;
 		const meterMoney = {
@@ -612,59 +614,72 @@ class SumMeterDevice extends Device {
 			lastMonth: this.meterMoney.lastMonth,
 			lastYear: this.meterMoney.lastYear,
 		};
-
-		// update money capabilities
 		if (periods.newHour) {
+			// new hour started
 			meterMoney.lastHour = meterMoney.hour;
 			meterMoney.hour = 0;
+			await this.setCapability('meter_money_last_hour', meterMoney.lastHour);
+			await this.setSettings({ meter_money_last_hour: meterMoney.lastHour });
 		}
 		if (periods.newDay) {
+			// new day started
 			meterMoney.lastDay = meterMoney.day;
 			meterMoney.day = 0;
+			await this.setCapability('meter_money_last_day', meterMoney.lastDay);
+			await this.setSettings({ meter_money_last_day: meterMoney.lastDay });
 		}
 		if (periods.newMonth) {
+			// new month started
 			meterMoney.lastMonth = meterMoney.month;
 			meterMoney.month = 0;
+			await this.setCapability('meter_money_last_month', meterMoney.lastMonth);
+			await this.setSettings({ meter_money_last_month: meterMoney.lastMonth });
 		}
 		if (periods.newYear) {
+			// new year started
 			meterMoney.lastYear = meterMoney.year;
 			meterMoney.year = 0;
+			await this.setCapability('meter_money_last_year', meterMoney.lastYear);
+			await this.setSettings({ meter_money_last_year: meterMoney.lastYear });
 		}
-		await this.updateMoneyCapabilities(meterMoney); // integrate function here?
-
+		// update money_this_x capabilities
+		await this.setCapability('meter_money_this_hour', meterMoney.hour);
+		await this.setCapability('meter_money_this_day', meterMoney.day);
+		await this.setCapability('meter_money_this_month', meterMoney.month);
+		await this.setCapability('meter_money_this_year', meterMoney.year);
+		this.meterMoney = { ...meterMoney };
 		// Update settings every hour
 		if (periods.newHour) {
 			await this.setSettings({ meter_money_this_day: meterMoney.day });
 			await this.setSettings({ meter_money_this_month: meterMoney.month });
 			await this.setSettings({ meter_money_this_year: meterMoney.year });
 		}
-		this.meterMoney = meterMoney;
 	}
 
-	async updateMoneyCapabilities(money) {
-		if (this.tariff !== await this.getCapabilityValue('meter_tariff')) this.setCapability('meter_tariff', this.tariff);
-		await this.setCapability('meter_money_this_hour', money.hour);
-		await this.setCapability('meter_money_this_day', money.day);
-		await this.setCapability('meter_money_this_month', money.month);
-		await this.setCapability('meter_money_this_year', money.year);
-		// update last period money only when changed. Also update settings.
-		if (await this.getCapabilityValue('meter_money_last_hour') !== this.meterMoney.lastHour) {
-			await this.setCapability('meter_money_last_hour', money.lastHour);
-			await this.setSettings({ meter_money_last_hour: money.lastHour });
-		}
-		if (await this.getCapabilityValue('meter_money_last_day') !== this.meterMoney.lastDay) {
-			await this.setCapability('meter_money_last_day', money.lastDay);
-			await this.setSettings({ meter_money_last_day: money.lastDay });
-		}
-		if (await this.getCapabilityValue('meter_money_last_month') !== this.meterMoney.lastMonth) {
-			await this.setCapability('meter_money_last_month', money.lastMonth);
-			await this.setSettings({ month: money.lastMonth });
-		}
-		if (await this.getCapabilityValue('meter_money_last_year') !== this.meterMoney.lastYear) {
-			await this.setCapability('meter_money_last_year', money.lastYear);
-			await this.setSettings({ year: money.lastYear });
-		}
-	}
+	// async updateMoneyCapabilities(money) {
+	// 	if (this.tariff !== await this.getCapabilityValue('meter_tariff')) this.setCapability('meter_tariff', this.tariff);
+	// 	await this.setCapability('meter_money_this_hour', money.hour);
+	// 	await this.setCapability('meter_money_this_day', money.day);
+	// 	await this.setCapability('meter_money_this_month', money.month);
+	// 	await this.setCapability('meter_money_this_year', money.year);
+	// 	// update last period money only when changed. Also update settings.
+	// 	if (await this.getCapabilityValue('meter_money_last_hour') !== this.meterMoney.lastHour) {
+	// 		await this.setCapability('meter_money_last_hour', money.lastHour);
+	// 		await this.setSettings({ meter_money_last_hour: money.lastHour });
+	// 	}
+	// 	if (await this.getCapabilityValue('meter_money_last_day') !== this.meterMoney.lastDay) {
+	// 		await this.setCapability('meter_money_last_day', money.lastDay);
+	// 		await this.setSettings({ meter_money_last_day: money.lastDay });
+	// 	}
+	// 	if (await this.getCapabilityValue('meter_money_last_month') !== this.meterMoney.lastMonth) {
+	// 		await this.setCapability('meter_money_last_month', money.lastMonth);
+	// 		await this.setSettings({ month: money.lastMonth });
+	// 	}
+	// 	if (await this.getCapabilityValue('meter_money_last_year') !== this.meterMoney.lastYear) {
+	// 		await this.setCapability('meter_money_last_year', money.lastYear);
+	// 		await this.setSettings({ year: money.lastYear });
+	// 	}
+	// }
 
 	async updateMeters({ ...reading }, periods) {
 		this.setCapability(this.ds.cmap.meter_source, reading.meterValue);

@@ -54,17 +54,17 @@ class sumDriver extends GenericDevice {
 			if (this.sourceDevice.capabilities.includes('meter_power')) {
 				this.log(`registering meter_power capability listener for ${this.sourceDevice.name}`);
 				this.capabilityInstances.meterPower = await this.sourceDevice.makeCapabilityInstance('meter_power', (value) => {
-					this.updateMeter(value);
+					this.updateMeter(value).catch(this.error);
 				});
 
 			}	else if (this.sourceDevice.capabilities.includes('meter_power.peak')
 				&& this.sourceDevice.capabilities.includes('meter_power.offPeak')) {
 				this.log(`registering meter_power.peak/offPeak capability listener for ${this.sourceDevice.name}`);
 				this.capabilityInstances.meterPowerPeak = await this.sourceDevice.makeCapabilityInstance('meter_power.peak', (value) => {
-					this.updateMeterPeak(value);
+					this.updateMeterPeak(value).catch(this.error);
 				});
 				this.capabilityInstances.meterPowerOffPeak = await this.sourceDevice.makeCapabilityInstance('meter_power.offPeak', (value) => {
-					this.updateMeterOffPeak(value);
+					this.updateMeterOffPeak(value).catch(this.error);
 				});
 				this.lastPeak = this.sourceDevice.capabilitiesObj.meter_power.peak.value;
 				this.lastOffPeak = this.sourceDevice.capabilitiesObj.meter_power.oofPeak.value;
@@ -108,92 +108,91 @@ class sumDriver extends GenericDevice {
 		} else if (this.sourceDevice.capabilities.includes('measure_power')) {
 			this.log(`registering measure_power capability listener for ${this.sourceDevice.name}`);
 			this.capabilityInstances.measurePower = await this.sourceDevice.makeCapabilityInstance('measure_power', (value) => {
-				this.updateMeterFromMeasure(value);
+				this.updateMeterFromMeasure(value).catch(this.error);
 			});
 		}
 	}
 
 	updateMeterConsumed(value) {
 		this.lastConsumed = value;
-		if (this.lastGenerated !== undefined) this.updateMeter(this.lastConsumed - this.lastGenerated);
-		if (this.lastReturned !== undefined) this.updateMeter(this.lastConsumed - this.lastReturned);
+		if (this.lastGenerated !== undefined) this.updateMeter(this.lastConsumed - this.lastGenerated).catch(this.error);
+		if (this.lastReturned !== undefined) this.updateMeter(this.lastConsumed - this.lastReturned).catch(this.error);
 	}
 
 	updateMeterDelivered(value) {
 		this.lastReturned = value;
-		if (this.lastReturned !== undefined) this.updateMeter(this.lastConsumed - this.lastReturned);
+		if (this.lastReturned !== undefined) this.updateMeter(this.lastConsumed - this.lastReturned).catch(this.error);
 	}
 
 	updateMeterGenerated(value) {
 		this.lastGenerated = value;
-		if (this.lastConsumed !== undefined) this.updateMeter(this.lastConsumed - this.lastGenerated);
+		if (this.lastConsumed !== undefined) this.updateMeter(this.lastConsumed - this.lastGenerated).catch(this.error);
 	}
 
 	updateMeterReturned(value) {
 		this.lastReturned = value;
-		if (this.lastConsumed !== undefined) this.updateMeter(this.lastConsumed - this.lastReturned);
+		if (this.lastConsumed !== undefined) this.updateMeter(this.lastConsumed - this.lastReturned).catch(this.error);
 	}
 
 	updateMeterPeak(value) {
 		this.lastPeak = value;
-		if (this.lastOffPeak !== undefined) this.updateMeter(this.lastPeak + this.lastOffPeak);
+		if (this.lastOffPeak !== undefined) this.updateMeter(this.lastPeak + this.lastOffPeak).catch(this.error);
 	}
 
 	updateMeterOffPeak(value) {
 		this.lastOffPeak = value;
-		if (this.lastPeak !== undefined) this.updateMeter(this.lastPeak + this.lastOffPeak);
+		if (this.lastPeak !== undefined) this.updateMeter(this.lastPeak + this.lastOffPeak).catch(this.error);
 	}
 
 	async pollMeter() {
 		this.sourceDevice = await this.homey.app.api.devices.getDevice({ id: this.getSettings().homey_device_id, $cache: false, $timeout: 20000 });
+		let pollValue = null;
+		let pollTm = null;
 		if (this.sourceDevice.capabilities.includes('meter_power')) {
-			const pollValue = this.sourceDevice.capabilitiesObj.meter_power.value;
-			const pollTm = new Date(this.sourceDevice.capabilitiesObj.meter_power.lastUpdated);
-			this.updateMeter(pollValue, pollTm);
+			pollValue = this.sourceDevice.capabilitiesObj.meter_power.value;
+			pollTm = new Date(this.sourceDevice.capabilitiesObj.meter_power.lastUpdated);
 
 		} else if (this.sourceDevice.capabilities.includes('meter_power.peak') && this.sourceDevice.capabilities.includes('meter_power.offPeak')) {
 			const pollValuePeak = this.sourceDevice.capabilitiesObj['meter_power.peak'].value;
 			const pollValueOffPeak = this.sourceDevice.capabilitiesObj['meter_power.offPeak'].value;
-			const pollValue = pollValuePeak + pollValueOffPeak;
+			pollValue = pollValuePeak + pollValueOffPeak;
 
 			const pollTm1 = new Date(this.sourceDevice.capabilitiesObj.meter_power.peak.lastUpdated);
 			const pollTm2 = new Date(this.sourceDevice.capabilitiesObj.meter_power.offPeak.lastUpdated);
-			const pollTm = pollTm1 > pollTm2 ? pollTm1 : pollTm2;
-			this.updateMeter(pollValue, pollTm);
+			pollTm = pollTm1 > pollTm2 ? pollTm1 : pollTm2;
 
 		} else if (this.sourceDevice.capabilities.includes('meter_power.consumed')
 		&& this.sourceDevice.capabilities.includes('meter_power.generated')) {
 			const pollValueConsumed = this.sourceDevice.capabilitiesObj['meter_power.consumed'].value;
 			const pollValueGenerated = this.sourceDevice.capabilitiesObj['meter_power.generated'].value;
-			const pollValue = pollValueConsumed - pollValueGenerated;
+			pollValue = pollValueConsumed - pollValueGenerated;
 
 			const pollTm1 = new Date(this.sourceDevice.capabilitiesObj.meter_power.consumed.lastUpdated);
 			const pollTm2 = new Date(this.sourceDevice.capabilitiesObj.meter_power.generated.lastUpdated);
-			const pollTm = pollTm1 > pollTm2 ? pollTm1 : pollTm2;
-			this.updateMeter(pollValue, pollTm);
+			pollTm = pollTm1 > pollTm2 ? pollTm1 : pollTm2;
 
 		}	else if (this.sourceDevice.capabilities.includes('meter_power.consumed')
 		&& this.sourceDevice.capabilities.includes('meter_power.returned')) {
 			const pollValueConsumed = this.sourceDevice.capabilitiesObj['meter_power.consumed'].value;
 			const pollValueReturned = this.sourceDevice.capabilitiesObj['meter_power.returned'].value;
-			const pollValue = pollValueConsumed - pollValueReturned;
+			pollValue = pollValueConsumed - pollValueReturned;
 
 			const pollTm1 = new Date(this.sourceDevice.capabilitiesObj.meter_power.consumed.lastUpdated);
 			const pollTm2 = new Date(this.sourceDevice.capabilitiesObj.meter_power.returned.lastUpdated);
-			const pollTm = pollTm1 > pollTm2 ? pollTm1 : pollTm2;
-			this.updateMeter(pollValue, pollTm);
+			pollTm = pollTm1 > pollTm2 ? pollTm1 : pollTm2;
 
 		}	else if (this.sourceDevice.capabilities.includes('meter_power.delivered')
 		&& this.sourceDevice.capabilities.includes('meter_power.returned')) {
 			const pollValueDelivered = this.sourceDevice.capabilitiesObj['meter_power.delivered'].value;
 			const pollValueReturned = this.sourceDevice.capabilitiesObj['meter_power.returned'].value;
-			const pollValue = pollValueDelivered - pollValueReturned;
+			pollValue = pollValueDelivered - pollValueReturned;
 
 			const pollTm1 = new Date(this.sourceDevice.capabilitiesObj.meter_power.delivered.lastUpdated);
 			const pollTm2 = new Date(this.sourceDevice.capabilitiesObj.meter_power.returned.lastUpdated);
-			const pollTm = pollTm1 > pollTm2 ? pollTm1 : pollTm2;
-			this.updateMeter(pollValue, pollTm);
+			pollTm = pollTm1 > pollTm2 ? pollTm1 : pollTm2;
 		}
+
+		await this.updateMeter(pollValue, pollTm);
 	}
 
 }

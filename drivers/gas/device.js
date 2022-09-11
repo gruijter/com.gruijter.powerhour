@@ -50,21 +50,21 @@ class sumDriver extends GenericDevice {
 		if (this.sourceDevice.capabilities.includes('meter_gas')) {
 			this.log(`registering meter_gas capability listener for ${this.sourceDevice.name}`);
 			this.capabilityInstances.meterGas = this.sourceDevice.makeCapabilityInstance('meter_gas', (value) => {
-				this.updateMeter(value);
+				this.updateMeter(value).catch(this.error);
 			});
 		}
 		// make listener for meter_gas.reading
 		if (this.sourceDevice.capabilities.includes('meter_gas.reading')) {
 			this.log(`registering meter_gas.reading capability listener for ${this.sourceDevice.name}`);
 			this.capabilityInstances.meterGas = this.sourceDevice.makeCapabilityInstance('meter_gas.reading', (value) => {
-				this.updateMeter(value);
+				this.updateMeter(value).catch(this.error);
 			});
 		}
 		// make listener for meter_gas.consumed
 		if (this.sourceDevice.capabilities.includes('meter_gas.consumed')) {
 			this.log(`registering meter_gas.consumed capability listener for ${this.sourceDevice.name}`);
 			this.capabilityInstances.meterGas = this.sourceDevice.makeCapabilityInstance('meter_gas.consumed', (value) => {
-				this.updateMeter(value);
+				this.updateMeter(value).catch(this.error);
 			});
 		}
 
@@ -79,7 +79,7 @@ class sumDriver extends GenericDevice {
 		if (this.sourceDevice.capabilitiesObj && this.sourceDevice.capabilitiesObj.meter_gas && this.sourceDevice.capabilitiesObj.meter_gas.reading) {
 			pollValue = this.sourceDevice.capabilitiesObj.meter_gas.reading.value;
 		}
-		this.updateMeter(pollValue);
+		await this.updateMeter(pollValue);
 	}
 
 }

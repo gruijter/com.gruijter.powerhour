@@ -21,6 +21,9 @@ along with com.gruijter.powerhour.  If not, see <http://www.gnu.org/licenses/>.s
 
 const { Driver } = require('homey');
 const crypto = require('crypto');
+const util = require('util');
+
+const setTimeoutPromise = util.promisify(setTimeout);
 
 const dailyResetApps = [
 	'com.tibber',
@@ -49,7 +52,7 @@ class SumMeterDriver extends Driver {
 					if (!sourceDeviceExists) {
 						this.error(`Source device ${deviceName} is missing.`);
 						device.setUnavailable('Source device is missing. Retry in 10 minutes.');
-						device.restartDevice(10 * 60 * 1000); // restart after 10 minutes
+						device.restartDevice(10 * 60 * 1000).catch(this.error); // restart after 10 minutes
 						return;
 					}
 					// check for METER_VIA_WATT
@@ -64,7 +67,7 @@ class SumMeterDriver extends Driver {
 					const listeningIsOn = Object.keys(device.capabilityInstances).length > 0;
 					if (ignorePollSetting && !pollingIsOn && !listeningIsOn) {
 						this.error(`${deviceName} is not in polling or listening mode. Restarting now..`);
-						device.restartDevice(1000);
+						device.restartDevice(1000).catch(this.error);
 						return;
 					}
 					// force immediate update
@@ -86,13 +89,15 @@ class SumMeterDriver extends Driver {
 		// add listener for tariff change
 		const eventName = `set_tariff_${this.id}`;
 		if (this.eventListenerTariff) this.homey.removeListener(eventName, this.eventListenerTariff);
-		this.eventListenerTariff = (args) => {
+		this.eventListenerTariff = async (args) => {
 			this.log(`${eventName} received from flow`, args);
 			const tariff = Number(args.tariff);
 			if (Number.isNaN(tariff)) {
 				this.error('the tariff is not a valid number');
 				return;
 			}
+			// wait 5 seconds for hourly poll to finish
+			await setTimeoutPromise(5 * 1000);
 			const devices = this.getDevices();
 			devices.forEach((device) => {
 				if (device.settings.tariff_via_flow) {

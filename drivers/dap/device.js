@@ -44,7 +44,7 @@ class MyDevice extends Homey.Device {
 
 			this.timeZone = this.homey.clock.getTimezone();
 			this.fetchDelay = (Math.random() * 30 * 60 * 1000) + (1000 * 60 * 2);
-			// if (!this.prices) this.prices = [];
+			if (!this.prices) this.prices = this.getStoreValue('prices');	// restore from persistent memory on app restart
 
 			if (this.currencyChanged) await this.migrateCurrencyOptions(this.settings.currency, this.settings.decimals);
 
@@ -440,6 +440,7 @@ class MyDevice extends Homey.Device {
 				await this.newPricesReceived(prices[1], 'tomorrow');
 			}
 			this.prices = prices;
+			await this.setStoreValue('prices', prices);
 		} catch (error) {
 			this.error(error);
 		}
