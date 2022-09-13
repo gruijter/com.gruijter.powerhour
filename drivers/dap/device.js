@@ -23,6 +23,7 @@ along with com.gruijter.powerhour.  If not, see <http://www.gnu.org/licenses/>.s
 const Homey = require('homey');
 const util = require('util');
 const DAPEL = require('../../entsoe');
+const DAPELNP = require('../../nordpool');
 const DAPGASTTF = require('../../frankenergy');
 const DAPGASLEBA = require('../../easyenergy');
 const ECB = require('../../ecb_exchange_rates');
@@ -57,6 +58,10 @@ class MyDevice extends Homey.Device {
 				// setup ENTSOE DAP
 				const apiKey = Homey.env ? Homey.env.ENTSOE_API_KEY : '';
 				this.dap = new DAPEL({ apiKey, biddingZone: this.settings.biddingZone });
+				// setup Nordpool backup DAP
+				this.dap2 = new DAPELNP({ biddingZone: this.settings.biddingZone });
+				if (this.dap2.zoneSupported) this.log(this.getName(), 'Nordpool is used as backup price source');
+				else this.dap2 = null; // biddingZone not supported
 			}
 
 			// start fetching prices on every hour
@@ -415,13 +420,54 @@ class MyDevice extends Homey.Device {
 			const tomorrowEnd = new Date(todayStart);
 			tomorrowEnd.setDate(tomorrowEnd.getDate() + 2);
 
-			const prices = await this.dap.getPrices({ dateStart: todayStart, dateEnd: tomorrowEnd })
-				.catch(async (error) => {
-					this.log(`${this.getName()} Error fetching prices from ${this.dap.host}. Trying again in 10 minutes`, error.message);
-					await setTimeoutPromise(10 * 60 * 1000, 'waiting is done');
-					return this.dap.getPrices().catch(this.error);
-				});
-			if (!prices || !prices[0]) throw Error('something went wrong fetching prices');
+			// fetch prices with backup and retry
+			let prices1 = await this.dap.getPrices({ dateStart: todayStart, dateEnd: tomorrowEnd }).catch(this.log);
+			let prices2;
+			let waited = false;
+			if (this.dap2) prices2 = await this.dap2.getPrices({ dateStart: todayStart, dateEnd: tomorrowEnd }).catch(this.log);
+			if (!prices1) {	// retry primary
+				this.log(`${this.getName()} Error fetching prices from ${this.dap.host}. Trying again in 10 minutes`);
+				await setTimeoutPromise(10 * 60 * 1000, 'waiting is done');
+				waited = true;
+				prices1 = await this.dap.getPrices({ dateStart: todayStart, dateEnd: tomorrowEnd }).catch(this.error);
+			}
+			if (this.dap2 && !prices2) {	// retry backup
+				this.log(`${this.getName()} Error fetching prices from ${this.dap2.host}. Trying again in 10 minutes`);
+				if (!waited) await setTimeoutPromise(10 * 60 * 1000, 'waiting is done');
+				prices2 = await this.dap2.getPrices({ dateStart: todayStart, dateEnd: tomorrowEnd }).catch(this.error);
+			}
+			if ((!prices1 || !prices1[0]) && (!prices2 || !prices2[0])) throw Error('Unable to fetch prices');
+
+			// combine best price results
+			let prices = prices1;
+			if (!prices1 && prices2) { // Nordpool is working, ENTSOE is not working => use Nordpool
+				this.log('ENTSOE NOT WORKING, BUT NORDPOOL IS!');
+				prices = prices2;
+			}
+			if (prices1 && prices2) { // both results available
+				if (prices2[0].length > prices1[0].length)	{ // Nordpool has more data for today => use Nordpool
+					this.log('Nordpool has more data for today!');
+					// eslint-disable-next-line prefer-destructuring
+					prices[0] = prices2[0];
+				}
+				if (prices2[1] && (!prices1[1] || prices2[1].length > prices1[1].length))	{ // Nordpool has more data for tomorrow => use Nordpool
+					this.log('Nordpool has more data for tomorrow!');
+					// eslint-disable-next-line prefer-destructuring
+					prices[1] = prices2[1];
+				}
+
+				// ANOMALY NOTIFICATIONS
+				if ((JSON.stringify(prices1[0].prices) !== JSON.stringify(prices2[0].prices))) {
+					this.log('PRICE DIFFERENCE TODAY', this.getName(), prices1, prices2);
+				}
+				if (prices1.length !== prices2.length) {
+					this.log('PRICE DIFFERENCE NUMBER OF DAYS', this.getName(), prices1, prices2);
+				}
+				if (prices1[1] && prices2[1] && JSON.stringify(prices1[1].prices) !== JSON.stringify(prices2[1].prices)) {
+					this.log('PRICE DIFFERENCE TOMORROW', this.getName(), prices1, prices2);
+				}
+			}
+
 			if (!this.prices || this.prices.length < 1) {
 				this.prices = [];
 				this.log(`${this.getName()} received first prices for today.`);

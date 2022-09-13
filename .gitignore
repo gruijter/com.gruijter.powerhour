@@ -3,7 +3,6 @@ roadmap.txt
 env.json
 bidding_zones.json
 templog.txt
-nordpool.*
 
 # Added by Homey CLI
 /.homeybuild/

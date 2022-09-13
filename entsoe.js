@@ -124,7 +124,7 @@ const biddingZones = {
 	SE_Sweden_2: '10Y1001A1001A45N',
 	SE_Sweden_3: '10Y1001A1001A46L',
 	SE_Sweden_4: '10Y1001A1001A47J',
-	SE_Sweden_SvK: '10YSE-1--------K',
+	// SE_Sweden_SvK: '10YSE-1--------K',
 	SI_Slovenia: '10YSI-ELES-----O',
 	// SK_Slovakia_CZ_DE_SK: '10YDOM-CZ-DE-SKK',
 	SK_Slovakia_SEPS: '10YSK-SEPS-----K',
@@ -228,9 +228,15 @@ class ENTSOE {
 				if (res.Publication_MarketDocument.TimeSeries['1']) {
 					infoAllDays = res.Publication_MarketDocument.TimeSeries;
 				} else infoAllDays['0'] = res.Publication_MarketDocument.TimeSeries;
+
+				// make array from object and filter only 'PT60M'
+				let infoAllDaysArray = [];
+				Object.values(infoAllDays).forEach((day) => infoAllDaysArray.push(day));
+				infoAllDaysArray = infoAllDaysArray.filter((day) => day.Period.resolution === 'PT60M');
+
 				// refactor days in case of exceptions (like Estonia)
 				const allPrices = [];
-				Object.values(infoAllDays).forEach((day) => {
+				infoAllDaysArray.forEach((day) => {
 					const startDate = new Date(day.Period.timeInterval.start);
 					const pricesDay = Object.values(day.Period.Point).map((value, index) => {
 						const sd = new Date(startDate);
@@ -239,10 +245,11 @@ class ENTSOE {
 					});
 					allPrices.push(...pricesDay);
 				});
+
 				// create info per day starting from starttime
 				const dayPrices = allPrices.filter((price) => price.time >= start);
 				while (dayPrices.length > 0) {
-					const infoDay = { ...infoAllDays[0] };
+					const infoDay = { ...infoAllDaysArray[0] };
 					const endIndex = dayPrices.length > 24 ? 23 : dayPrices.length - 1;
 					infoDay.timeInterval = {
 						start: dayPrices[0].time.toISOString(), // '2022-03-17T23:00:00.000Z',
@@ -342,7 +349,7 @@ class ENTSOE {
 module.exports = ENTSOE;
 
 // START TEST HERE
-// const Entsoe = new ENTSOE({ biddingZone: '10YNL----------L', apiKey: '' });
+// const Entsoe = new ENTSOE({ biddingZone: '10Y1001A1001A82H', apiKey: '' }); // '10YNL----------L'
 // console.log('REMOVE APIKEY!!!!!');
 
 // // const today = new Date();
@@ -350,8 +357,8 @@ module.exports = ENTSOE;
 // // const tomorrow = new Date(today);
 // // tomorrow.setDate(tomorrow.getDate() + 1);
 
-// const dateStart = new Date('2022-09-01T22:00:00.000Z'); // today;
-// const dateEnd = new Date('2022-09-03T22:00:00.000Z'); // tomorrow;
+// const dateStart = new Date('2022-09-11T22:00:00.000Z'); // today;
+// const dateEnd = new Date('2022-09-13T22:00:00.000Z'); // tomorrow;
 
 // Entsoe.getPrices({ dateStart, dateEnd })
 // 	.then((result) => console.dir(result, { depth: null }))

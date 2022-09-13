@@ -1,4 +1,7 @@
 {
+  "4.6.0": {
+    "en": "Added Nordpool as backup source for DAP. Fixed bug in ENTSOE DAP Germany/Luxembourg. Fixed GB DAP. Removed DAP SE_Sweden_SvK"
+  },
   "4.5.6": {
     "en": "DAP prices persistence on app restart. Fixed bug in Money prev. hour/day."
   },
