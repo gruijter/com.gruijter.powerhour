@@ -147,6 +147,24 @@ class MyApp extends Homey.App {
 				.catch(this.error);
 		};
 
+		this._priceHighestToday = this.homey.flow.getDeviceTriggerCard('price_highest_today');
+		this._priceHighestToday.registerRunListener(async (args) => args.device.priceIsHighestToday(args));
+		this.triggerPriceHighestToday = (device, tokens, state) => {
+			this._priceHighestToday
+				.trigger(device, tokens, state)
+				// .then(this.log(device.getName(), tokens))
+				.catch(this.error);
+		};
+
+		this._priceHighestBefore = this.homey.flow.getDeviceTriggerCard('price_highest_before');
+		this._priceHighestBefore.registerRunListener(async (args) => args.device.priceIsHighestBefore(args));
+		this.triggerPriceHighestBefore = (device, tokens, state) => {
+			this._priceHighestBefore
+				.trigger(device, tokens, state)
+				// .then(this.log(device.getName(), tokens))
+				.catch(this.error);
+		};
+
 		this._priceHighestAvg = this.homey.flow.getDeviceTriggerCard('price_highest_avg');
 		this._priceHighestAvg.registerRunListener(async (args) => args.device.priceIsHighestAvg(args));
 		this.triggerPriceHighestAvg = (device, tokens, state) => {
@@ -201,6 +219,12 @@ class MyApp extends Homey.App {
 
 		const priceHighestCondition = this.homey.flow.getConditionCard('price_highest');
 		priceHighestCondition.registerRunListener((args) => args.device.priceIsHighest(args));
+
+		const priceHighestTodayCondition = this.homey.flow.getConditionCard('price_highest_today');
+		priceHighestTodayCondition.registerRunListener((args) => args.device.priceIsHighestToday(args));
+
+		const priceHighestBeforeCondition = this.homey.flow.getConditionCard('price_highest_before');
+		priceHighestBeforeCondition.registerRunListener((args) => args.device.priceIsHighestBefore(args));
 
 		const priceHighestAvgCondition = this.homey.flow.getConditionCard('price_highest_avg');
 		priceHighestAvgCondition.registerRunListener((args) => args.device.priceIsHighestAvg(args));

@@ -1,0 +1,79 @@
+{
+	"title": {
+		"en": "The price !{{is|isn't}} highest before a certain time",
+		"no": "Prisen!{{er|er ikke}} høyest før en bestemt tid",
+		"de": "Preis !{{ist|ist nicht}} der höchsten für eine bestimmte Zeit",
+		"sv": "Priset !{{är|är inte}} det högsta före ett specifikt tidpunkt",
+		"it": "Il prezzo !{{è|non è}} il più alto prima di un certo orario",
+		"dk": "Prisen !{{er|er ikke}} højest indenfor et bestemt tidspunkt",
+		"nl": "De prijs !{{is|is niet}} het hoogst voor een bepaalde tijd"
+	},
+	"titleFormatted": {
+		"en": "The price !{{is|isn't}} one of [[number]] highest in the [[period]] hours before [[time]] o'clock",
+		"de": "Preis !{{ist|ist nicht}} einer der [[number]] höchsten in den [[period]] Stunden vor [[time]] Uhr",
+		"sv": "Priset !{{är|är inte}} en av de [[number]] högsta i [[period]] timmar före [[time]]",
+		"no": "Prisen !{{er|er ikke}} en av de [[number]] høyest i [[period]] timer før [[time]]",
+		"it": "Il prezzo !{{è|non è}} uno dei [[number]] più alto nelle [[period]] ore prima delle [[time]] in punto",
+		"dk": "Prisen !{{er|er ikke}} en af de [[number]] højest indenfor [[period]] timer før [[time]]",
+		"nl": "De prijs !{{is|is niet}} een van de [[number]] hoogste in de [[period]] uren voor [[time]] uur"
+	},
+	"highlight": true,
+	"args": [
+		{
+		  "type": "device",
+		  "name": "device",
+		  "filter": "driver_id=dap"
+		},
+		{
+			"type": "number",
+			"name": "period",
+			"title": { 
+				"en": "period",
+				"no": "periode",
+				"de": "Zeitraum",
+				"sv": "period",
+				"it": "periodo",
+				"dk": "periode",
+				"nl": "periode"
+			},
+			"placeholder": { "en": "2 - 12" },
+			"min": 2,
+			"max": 12,
+			"step": 1
+		},
+		{
+			"type": "number",
+			"name": "number",
+			"title": { 
+				"en": "number",
+				"no": "antall",
+				"de": "Anzahl",
+				"sv": "antal",
+				"it": "numero",
+				"dk": "nummer",
+				"nl": "aantal"
+			},
+			"placeholder": { "en": "1 - 8" },
+			"min": 1,
+			"max": 8,
+			"step": 1
+		},
+		{
+			"type": "number",
+			"name": "time",
+			"title": { 
+				"en": "time",
+				"no": "tid",
+				"de": "Zeit",
+				"sv": "tid",
+				"it": "tempo",
+				"dk": "tid",
+				"nl": "tijd"
+			},
+			"placeholder": { "en": "01 - 24" },
+			"min": 1,
+			"max": 24,
+			"step": 1
+		}
+	]
+}

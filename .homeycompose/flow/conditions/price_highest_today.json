@@ -1,0 +1,44 @@
+{
+	"title": {
+		"en": "The price !{{is|isn't}} one of the highest of today",
+		"no": "Prisen !{{er|er ikke}} på det høyest idag",
+		"de": "Preis !{{ist|ist nicht}} ist heute einer der höchsten",
+		"sv": "Priset !{{är|är inte}} det högsta idag",
+		"it": "Il prezzo !{{è|non è}} uno dei più alto di oggi",
+		"dk": "Prisen !{{er|er ikke}} en af de højest i dag",
+		"nl": "De prijs !{{is|is niet}} één van de hoogste van vandaag"
+	},
+	"titleFormatted": {
+		"en": "The price !{{is|isn't}} one of [[number]] lowest of today",
+		"no": "Prisen !{{er|er ikke}} en av [[number]] de høyest i dag",
+		"de": "Preis !{{ist|ist nicht}} einer der [[number]] höchsten heute",
+		"sv": "Priset !{{är|är inte}} en av de [[number]] högsta idag",
+		"it": "Il prezzo !{{è|non è}} uno dei [[number]] più alto di oggi",
+		"dk": "Prisen !{{er|er ikke}} en af de [[number]] højest i dag",
+		"nl": "De prijs !{{is|is niet}} een van de [[number]] hoogste van vandaag"
+	},
+	"highlight": true,
+	"args": [
+		{
+		  "type": "device",
+		  "name": "device",
+		  "filter": "driver_id=dap"
+		},
+		{
+			"type": "number",
+			"name": "number",
+			"title": { 
+				"en": "number",
+				"no": "antall",
+				"de": "Anzahl",
+				"sv": "antal",
+				"it": "numero",
+				"nl": "aantal"
+			},
+			"placeholder": { "en": "1 - 16" },
+			"min": 1,
+			"max": 16,
+			"step": 1
+		}
+	]
+}

@@ -8,12 +8,12 @@
 		"nl": "De prijs !{{is|is niet}} lager dan gem."
 	},
 	"titleFormatted": {
-		"en": "The price !{{is|isn't}} [[percent]] below avg. [[period]]",
-		"de": "Preis !{{ist|ist nicht}} [[percent]] niedriger als der Durchschn. [[period]]",
-		"sv": "Priset !{{är|är inte}} [[percent]] under snittet. [[period]]",
-		"it": "Il prezzo !{{è|non è}} [[percent]] al di sotto della di [[period]]",
-		"no": "Prisen !{{er|er ikke}} [[percent]] under gjenomsnittet [[period]]",
-		"nl": "De prijs !{{is|is niet}} [[percent]] lager dan gem. [[period]]"
+		"en": "The price !{{is|isn't}} [[percent]]% below avg. [[period]]",
+		"de": "Preis !{{ist|ist nicht}} [[percent]]% niedriger als der Durchschn. [[period]]",
+		"sv": "Priset !{{är|är inte}} [[percent]]% under snittet. [[period]]",
+		"it": "Il prezzo !{{è|non è}} [[percent]]% al di sotto della di [[period]]",
+		"no": "Prisen !{{er|er ikke}} [[percent]]% under gjenomsnittet [[period]]",
+		"nl": "De prijs !{{is|is niet}} [[percent]]% lager dan gem. [[period]]"
 	},
 	"highlight": true,
 	"args": [
@@ -23,17 +23,10 @@
 		  "filter": "driver_id=dap"
 		},
 		{
-			"type": "dropdown",
+			"type": "number",
 			"name": "percent",
 			"title": { "en": "%" },
-			"values": [
-				{ "id": "0", "label": { "en": "0%" } },
-				{ "id": "10", "label": { "en": "10%" } },
-				{ "id": "20", "label": { "en": "20%" } },
-				{ "id": "30", "label": { "en": "30%" } },
-				{ "id": "40", "label": { "en": "40%" } },
-				{ "id": "50", "label": { "en": "50%" } }
-			]
+			"min": 0
 		},
 		{
 			"type": "dropdown",

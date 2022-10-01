@@ -321,6 +321,37 @@ class MyDevice extends Homey.Device {
 		return this.state.priceNow >= maximum;
 	}
 
+	async priceIsHighestToday(args) {
+		if (!this.state || !this.state.pricesThisDay) throw Error('no prices available');
+		// sort and select number of highest prices
+		const highestNPrices = [...this.state.pricesThisDay].sort().reverse().slice(0, args.number);
+		return this.state.priceNow >= Math.min(...highestNPrices);
+	}
+
+	async priceIsHighestBefore(args) {
+		if (!this.state || !this.state.pricesThisDay) throw Error('no prices available');
+		// calculate start and end hours compared to present hour
+		const thisHour = this.state.H0; // e.g. 23 hrs
+		let endHour = args.time; // e.g. 2 hrs
+		if (endHour < thisHour) endHour += 24; // e.g. 2 + 24 = 26 hrs ( = tomorrow!)
+		let startHour = endHour - args.period; // e.g. 26 - 4 = 22 hrs
+		// check if present hour is in scope op selected period
+		if ((thisHour >= endHour) || (thisHour < startHour)) return false;
+		// get period (2-8) hours pricing before end time
+		let pricesPartYesterday = [];
+		if (startHour < 0) {
+			pricesPartYesterday = this.state.pricesYesterday.slice(startHour);
+			startHour = 0;
+		}
+		let pricesPartTomorrow = [];
+		if (endHour > 24) pricesPartTomorrow = this.state.pricesTomorrow.slice(0, endHour - 24);
+		const pricesPartToday = this.state.pricesThisDay.slice(startHour, endHour);
+		const pricesTotalPeriod = [...pricesPartYesterday, ...pricesPartToday, ...pricesPartTomorrow];
+		// sort and select number of lowest prices
+		const highestNPrices = pricesTotalPeriod.sort().reverse().slice(0, args.number);
+		return this.state.priceNow >= Math.min(...highestNPrices);
+	}
+
 	async priceIsHighestAvg(args) {
 		if (!this.state || !this.state.pricesThisDay) throw Error('no prices available');
 		// args.period: '8' or 'this_day'  // args.hours: '2', '3', '4', '5' or '6'
@@ -581,6 +612,8 @@ class MyDevice extends Homey.Device {
 			};
 			this.state = state;
 			this.homey.app.triggerPriceHighest(this, tokens, state);
+			this.homey.app.triggerPriceHighestBefore(this, tokens, state);
+			this.homey.app.triggerPriceHighestToday(this, tokens, state);
 			this.homey.app.triggerPriceAboveAvg(this, tokens, state);
 			this.homey.app.triggerPriceHighestAvg(this, tokens, state);
 			this.homey.app.triggerPriceLowest(this, tokens, state);

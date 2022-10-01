@@ -1,4 +1,7 @@
 {
+  "4.6.1": {
+    "en": "Added flow cards for highest price. Changed several flow cards from dropdown to number."
+  },
   "4.6.0": {
     "en": "Added Nordpool as backup source for DAP. Fixed bug in ENTSOE DAP Germany/Luxembourg. Fixed GB DAP. Removed DAP SE_Sweden_SvK"
   },

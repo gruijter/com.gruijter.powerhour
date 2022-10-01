@@ -8,12 +8,12 @@
 		"nl": "De prijs wordt hoger dan gem."
 	},
 	"titleFormatted": {
-		"en": "The price becomes [[percent]] above avg. [[period]]",
-		"de": "Preis wird [[percent]] höher sein als der Durchschn. [[period]]",
-		"sv": "Priset blir [[percent]] över snittet. [[period]]",
-		"it": "Il prezzo diventa [[percent]] oltre la media di [[period]]",
-		"no": "Prisen blir [[percent]] over gjenomsnittet [[period]]",
-		"nl": "De prijs wordt [[percent]] hoger dan gem. [[period]]"
+		"en": "The price becomes [[percent]]% above avg. [[period]]",
+		"de": "Preis wird [[percent]]% höher sein als der Durchschn. [[period]]",
+		"sv": "Priset blir [[percent]]% över snittet. [[period]]",
+		"it": "Il prezzo diventa [[percent]]% oltre la media di [[period]]",
+		"no": "Prisen blir [[percent]]% over gjenomsnittet [[period]]",
+		"nl": "De prijs wordt [[percent]]% hoger dan gem. [[period]]"
 	},
 	"highlight": true,
 	"args": [
@@ -23,17 +23,10 @@
 		  "filter": "driver_id=dap"
 		},
 		{
-			"type": "dropdown",
+			"type": "number",
 			"name": "percent",
 			"title": { "en": "%" },
-			"values": [
-				{ "id": "0", "label": { "en": "0%" } },
-				{ "id": "10", "label": { "en": "10%" } },
-				{ "id": "20", "label": { "en": "20%" } },
-				{ "id": "30", "label": { "en": "30%" } },
-				{ "id": "40", "label": { "en": "40%" } },
-				{ "id": "50", "label": { "en": "50%" } }
-			]
+			"min": 0
 		},
 		{
 			"type": "dropdown",
@@ -47,23 +40,25 @@
 				"nl": "periode"
 			},
 			"values": [
-				{	"id": "this_day_avg",
+				{	"id": "this_day",
 					"label": { 
 						"en": "this day",
+						"no": "idag",
 						"de": "des Tages",
 						"sv": "idag",
 						"it": "giornata odierna",
-						"no": "idag",
+						"dk": "i dag",
 						"nl": "deze dag"
 					}
 				},
-				{	"id": "next_8h_avg",
+				{	"id": "8",
 					"label": { 
 						"en": "next 8H",
+						"no": "neste 8T",
 						"de": "der nächsten 8 Std.",
 						"sv": "nästa 8H",
 						"it": "prossime 8h",
-						"no": "neste 8T",
+						"dk": "næste 8T",
 						"nl": "komende 8U"
 					}
 				}

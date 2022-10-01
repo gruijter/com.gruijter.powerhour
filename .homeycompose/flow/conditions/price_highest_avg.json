@@ -9,13 +9,13 @@
 		"nl": "De gem. prijs de komende uren !{{is|is niet}} het hoogst"
 	},
 	"titleFormatted": {
-		"en": "The avg. price [[hours]] !{{is|isn't}} highest within [[period]]",
-		"no": "Gj.snitt prisen [[hours]] !{{er|er ikke}} høyest innenfor [[period]]",
-		"de": "Der durchschn. Preis [[hours]] !{{ist|ist nicht}} der höchste innerhalb [[period]]",
-		"sv": "Det genomsnittliga priset de [[hours]] !{{är|är inte}} det högtsa [[period]]",
-		"it": "Il prezzo medio [[hours]] !{{è|non è}} il più alto entro [[period]]",
-		"dk": "Gn. snt. pris [[hours]] !{{er| er ikke}} højest indenfor [[period]]",
-		"nl": "De gem. prijs [[hours]] !{{is|is niet}} het hoogst binnen [[period]]"
+		"en": "The avg. price next [[hours]]H !{{is|isn't}} highest within [[period]]",
+		"no": "Gj.snitt prisen neste [[hours]]H !{{er|er ikke}} høyest innenfor [[period]]",
+		"de": "Der durchschn. Preis der nächsten [[hours]]Std. !{{ist|ist nicht}} der höchste innerhalb [[period]]",
+		"sv": "Det genomsnittliga priset de nästa [[hours]]H !{{är|är inte}} det högtsa [[period]]",
+		"it": "Il prezzo medio prossime [[hours]]H !{{è|non è}} il più alto entro [[period]]",
+		"dk": "Gn. snt. pris næste [[hours]]T !{{er| er ikke}} højest indenfor [[period]]",
+		"nl": "De gem. prijs komende [[hours]]U !{{is|is niet}} het hoogst binnen [[period]]"
 	},
 	"highlight": true,
 	"args": [
@@ -62,74 +62,21 @@
 			]
 		},
 		{
-			"type": "dropdown",
+			"type": "number",
 			"name": "hours",
 			"title": { 
-				"en": "hours",
-				"no": "timer",
-				"de": "Stunden",
-				"sv": "timmar",
-				"it": "ore",
-				"dk": "timer",
-				"nl": "uren"
+				"en": "next hours",
+				"de": "der nächsten Std.",
+				"sv": "nästa H",
+				"it": "prossime h",
+				"no": "neste T",
+				"dk": "næste T",
+				"nl": "komende uren"
 			},
-			"values": [
-				{	"id": "2",
-					"label": { 
-						"en": "next 2H",
-						"no": "neste 2T",
-						"de": "der nächsten 2 Std.",
-						"sv": "nästa 2H",
-						"it": "prossime 2h",
-						"dk": "næste 2T",
-						"nl": "komende 2U"
-					}
-				},
-				{	"id": "3",
-					"label": { 
-						"en": "next 3H",
-						"no": "neste 3T",
-						"de": "der nächsten 3 Std.",
-						"sv": "nästa 3H",
-						"it": "prossime 3h",
-						"dk": "næste 3T",
-						"nl": "komende 3U"
-					}
-				},
-				{	"id": "4",
-					"label": { 
-						"en": "next 4H",
-						"no": "neste 4T",
-						"de": "der nächsten 4 Std.",
-						"sv": "nästa 4H",
-						"it": "prossime 4h",
-						"dk": "næste 4T",
-						"nl": "komende 4U"
-					}
-				},
-				{	"id": "5",
-					"label": { 
-						"en": "next 5H",
-						"no": "neste 5T",
-						"de": "der nächsten 5 Std.",
-						"sv": "nästa 5H",
-						"it": "prossime 5h",
-						"dk": "næste 5T",
-						"nl": "komende 5U"
-					}
-				},
-				{	"id": "6",
-					"label": { 
-						"en": "next 6H",
-						"no": "neste 6T",
-						"de": "der nächsten 6 Std.",
-						"sv": "nästa 6H",
-						"it": "prossime 6h",
-						"dk": "næste 6T",
-						"nl": "komende 6U"
-					}
-				}
-			]
+			"placeholder": { "en": "2-6" },
+			"min": 2,
+			"max": 6,
+			"step": 1
 		}
 	]
 }

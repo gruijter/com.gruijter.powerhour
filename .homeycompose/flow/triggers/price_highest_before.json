@@ -1,0 +1,89 @@
+{
+	"title": {
+		"en": "The price becomes highest before a certain time",
+		"de": "Preis wird für eine bestimmte Zeit am höchsten sein",
+		"sv": "Priset blir högsta före en viss tidpunkt",
+		"it": "Il prezzo diventa più alto prima di un certo momento",
+		"no": "Prisen blir høyest før en viss tid",
+		"nl": "De prijs wordt het hoogst voor een bepaalde tijd"
+	},
+	"titleFormatted": {
+		"en": "The price becomes one of [[number]] highest in the [[period]] hours before [[time]] o'clock",
+		"de": "Preis wird einer der [[number]] höchsten in den [[period]] Stunden vor [[time]] Uhr sein",
+		"sv": "Priset blir ett av [[number]] högsta under [[period]] timmarna före klockan [[time]]",
+		"it": "Il prezzo diventa uno dei [[number]] più alto nelle [[period]] ore prima delle [[time]] in punto",
+		"no": "Prisen blir en av [[number]] høyest i de [[period]] timene før klokken [[time]]",
+		"nl": "De prijs wordt een van de [[number]] hoogste in de [[period]] uren voor [[time]] uur"
+	},
+	"highlight": true,
+	"args": [
+		{
+		  "type": "device",
+		  "name": "device",
+		  "filter": "driver_id=dap"
+		},
+		{
+			"type": "number",
+			"name": "period",
+			"title": { 
+				"en": "period",
+				"de": "Zeitraum",
+				"sv": "period",
+				"it": "periodo",
+				"no": "periode",
+				"nl": "periode"
+			},
+			"placeholder": { "en": "2 - 12" },
+			"min": 2,
+			"max": 12,
+			"step": 1
+		},
+		{
+			"type": "number",
+			"name": "number",
+			"title": { 
+				"en": "number",
+				"de": "Anzahl",
+				"sv": "antal",
+				"it": "numero",
+				"no": "antall",
+				"nl": "aantal"
+			},
+			"placeholder": { "en": "1 - 8" },
+			"min": 1,
+			"max": 8,
+			"step": 1
+		},
+		{
+			"type": "number",
+			"name": "time",
+			"title": { 
+				"en": "time",
+				"de": "Zeit",
+				"sv": "tid",
+				"it": "tempo",
+				"no": "tid",
+				"nl": "tijd"
+			},
+			"placeholder": { "en": "01 - 24" },
+			"min": 1,
+			"max": 24,
+			"step": 1
+		}
+	],
+	"tokens": [
+		{
+		"name": "meter_price_h0",
+		"title": {
+			"en": "Price now",
+			"de": "Preis aktuell",
+			"sv": "Pris just nu",
+			"it": "Prezzo attuale",
+			"no": "Pris nå",
+			"nl": "Prijs nu"
+		},
+		"type": "number",
+		"example": 27.5
+		}
+	]
+}

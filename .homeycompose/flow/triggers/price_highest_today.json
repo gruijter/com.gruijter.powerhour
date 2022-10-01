@@ -1,0 +1,57 @@
+{
+	"title": {
+		"en": "The price becomes on of the highest of today",
+		"de": "Preis wird heute einer der höchsten sein",
+		"sv": "Priset blir bland de högsta i dag",
+		"it": "Il prezzo sarà uno dei più alto di oggi",
+		"no": "Prisen blir en av dagens høyest",
+		"nl": "De prijs wordt één van de hoogste van vandaag"
+	},
+	"titleFormatted": {
+		"en": "The price becomes one of [[number]] highest of today",
+		"de": "Preis wird heute einer der [[number]] höchsten sein",
+		"sv": "Priset blir ett av dagens [[number]] högsta",
+		"it": "Il prezzo sarà uno dei [[number]] più alto di oggi",
+		"no": "Prisen blir en av dagens [[number]] høyest",
+		"nl": "De prijs wordt een van de [[number]] hoogste van vandaag"
+	},
+	"highlight": true,
+	"args": [
+		{
+		  "type": "device",
+		  "name": "device",
+		  "filter": "driver_id=dap"
+		},
+		{
+			"type": "number",
+			"name": "number",
+			"title": { 
+				"en": "number",
+				"de": "Anzahl",
+				"sv": "antal",
+				"it": "numero",
+				"no": "antall",
+				"nl": "aantal"
+			},
+			"placeholder": { "en": "1 - 16" },
+			"min": 1,
+			"max": 16,
+			"step": 1
+		}
+	],
+	"tokens": [
+		{
+		"name": "meter_price_h0",
+		"title": {
+			"en": "Price now",
+			"de": "Preis aktuell",
+			"sv": "Pris just nu",
+			"it": "Prezzo attuale",
+			"no": "Pris nå",
+			"nl": "Prijs nu"
+		},
+		"type": "number",
+		"example": 27.5
+		}
+	]
+}

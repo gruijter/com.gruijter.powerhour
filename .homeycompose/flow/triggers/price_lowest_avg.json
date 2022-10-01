@@ -8,12 +8,12 @@
 		"nl": "De gem. prijs de komende uren wordt het laagst"
 	},
 	"titleFormatted": {
-		"en": "The avg. price [[hours]] becomes lowest within [[period]]",
-		"de": "Durchschn. Preis [[hours]] wird am niedrigsten innerhalb [[period]]",
-		"sv": "Det genomsnittliga priset [[hours]] blir lägst inom [[period]]",
-		"it": "Il prezzo medio di [[hours]] diventa più basso entro [[period]]",
-		"no": "Gjennomsnittsprisene [[hours]] blir lavest innen [[period]]",
-		"nl": "De gem. prijs [[hours]] wordt het laagst binnen [[period]]"
+		"en": "The avg. price [[hours]]H becomes lowest within [[period]]",
+		"de": "Durchschn. Preis kommenden [[hours]]Std. wird am niedrigsten innerhalb [[period]]",
+		"sv": "Det genomsnittliga priset kommande [[hours]]H blir lägst inom [[period]]",
+		"it": "Il prezzo medio di [[hours]]H diventa più basso entro [[period]]",
+		"no": "Gjennomsnittsprisene de neste [[hours]]H blir lavest innen [[period]]",
+		"nl": "De gem. prijs komende [[hours]]U wordt het laagst binnen [[period]]"
 	},
 	"highlight": true,
 	"args": [
@@ -37,88 +37,43 @@
 				{	"id": "this_day",
 					"label": { 
 						"en": "this day",
+						"no": "idag",
 						"de": "des Tages",
 						"sv": "idag",
 						"it": "giornata odierna",
-						"no": "idag",
+						"dk": "i dag",
 						"nl": "deze dag"
 					}
 				},
 				{	"id": "8",
 					"label": { 
 						"en": "next 8H",
+						"no": "neste 8T",
 						"de": "der nächsten 8 Std.",
 						"sv": "nästa 8H",
 						"it": "prossime 8h",
-						"no": "neste 8T",
+						"dk": "næste 8T",
 						"nl": "komende 8U"
 					}
 				}
 			]
 		},
 		{
-			"type": "dropdown",
+			"type": "number",
 			"name": "hours",
 			"title": { 
-				"en": "hours",
-				"de": "Stunden",
-				"sv": "timmar",
-				"it": "ore",
-				"no": "timer",
-				"nl": "uren"
+				"en": "next hours",
+				"de": "der nächsten Std.",
+				"sv": "nästa H",
+				"it": "prossime h",
+				"no": "neste T",
+				"dk": "næste T",
+				"nl": "komende uren"
 			},
-			"values": [
-				{	"id": "2",
-					"label": { 
-						"en": "next 2H",
-						"de": "der nächsten 2 Std.",
-						"sv": "nästa 2H",
-						"it": "prossime 2h",
-						"no": "neste 2T",
-						"nl": "komende 2U"
-					}
-				},
-				{	"id": "3",
-					"label": { 
-						"en": "next 3H",
-						"de": "der nächsten 3 Std.",
-						"sv": "nästa 3H",
-						"it": "prossime 3h",
-						"no": "neste 3T",
-						"nl": "komende 3U"
-					}
-				},
-				{	"id": "4",
-					"label": { 
-						"en": "next 4H",
-						"no": "neste 4T",
-						"de": "der nächsten 4 Std.",
-						"sv": "nästa 4H",
-						"it": "prossime 4h",
-						"nl": "komende 4U"
-					}
-				},
-				{	"id": "5",
-					"label": { 
-						"en": "next 5H",
-						"de": "der nächsten 5 Std.",
-						"sv": "nästa 5H",
-						"it": "prossime 5h",
-						"no": "neste 5T",
-						"nl": "komende 5U"
-					}
-				},
-				{	"id": "6",
-					"label": { 
-						"en": "next 6H",
-						"de": "der nächsten 6 Std.",
-						"sv": "nästa 6H",
-						"it": "prossime 6h",
-						"no": "neste 6T",
-						"nl": "komende 6U"
-					}
-				}
-			]
+			"placeholder": { "en": "2-6" },
+			"min": 2,
+			"max": 6,
+			"step": 1
 		}
 	],
 	"tokens": [
