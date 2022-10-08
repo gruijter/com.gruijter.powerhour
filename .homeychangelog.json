@@ -1,4 +1,7 @@
 {
+  "4.6.2": {
+    "en": "Added ability to add same summarizer multiple times. Added maximum price and hour as capability. Added average price tomorrow as capability."
+  },
   "4.6.1": {
     "en": "Added flow cards for highest price. Changed several flow cards from dropdown to number."
   },

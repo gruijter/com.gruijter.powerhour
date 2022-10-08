@@ -1,7 +1,7 @@
 {
   "_comment": "This file is generated. Please edit .homeycompose/app.json instead.",
   "id": "com.gruijter.powerhour",
-  "version": "4.6.1",
+  "version": "4.6.2",
   "compatibility": ">=5.0.0",
   "brandColor": "#df5020",
   "sdk": 3,
@@ -5067,6 +5067,33 @@
     }
   ],
   "capabilities": {
+    "hour_this_day_highest": {
+      "type": "number",
+      "title": {
+        "en": "Highest hour this day",
+        "de": "Höchste Stunde des Tages",
+        "sv": "Högsta timmen idag",
+        "it": "Ora più alta di questa giornata",
+        "no": "Høyeste time denne dag",
+        "fr": "Heure la plus élevée aujourd'hui",
+        "dk": "Højeste time i dag",
+        "nl": "Hoogste uur deze dag"
+      },
+      "uiComponent": "sensor",
+      "icon": "/assets/tariff.svg",
+      "getable": true,
+      "setable": false,
+      "insights": true,
+      "units": {
+        "en": "Hour",
+        "no": "Time",
+        "de": "Stunde",
+        "sv": "Timme",
+        "it": "Ora",
+        "nl": "Uur"
+      },
+      "decimals": 0
+    },
     "hour_this_day_lowest": {
       "type": "number",
       "title": {
@@ -6023,6 +6050,28 @@
       },
       "decimals": 4
     },
+    "meter_price_next_day_avg": {
+      "type": "number",
+      "title": {
+        "en": "Avg. price tomorrow",
+        "de": "Durchschn. Preis morgen",
+        "sv": "Genomsnittligt pris imorgon",
+        "it": "prezzo medio domani",
+        "no": "Snittpris i morgen",
+        "fr": "Tarif moyen demain",
+        "dk": "Gn. snt. pris i morgen",
+        "nl": "Gem. prijs morgen"
+      },
+      "uiComponent": "sensor",
+      "icon": "/assets/tariff.svg",
+      "getable": true,
+      "setable": false,
+      "insights": true,
+      "units": {
+        "en": "€"
+      },
+      "decimals": 4
+    },
     "meter_price_this_day_avg": {
       "type": "number",
       "title": {
@@ -6034,6 +6083,28 @@
         "fr": "Tarif moyen aujourd'hui",
         "dk": "Gn. snt. pris i dag",
         "nl": "Gem. prijs deze dag"
+      },
+      "uiComponent": "sensor",
+      "icon": "/assets/tariff.svg",
+      "getable": true,
+      "setable": false,
+      "insights": true,
+      "units": {
+        "en": "€"
+      },
+      "decimals": 4
+    },
+    "meter_price_this_day_highest": {
+      "type": "number",
+      "title": {
+        "en": "Highest price this day",
+        "de": "Höchste Preis an diesem Tag",
+        "sv": "Högsta pris idag",
+        "it": "Prezzo più alta giornata odierna",
+        "no": "Høyeste pris idag",
+        "fr": "Tarif le plus élevée aujourd'hui",
+        "dk": "Højeste pris i dag",
+        "nl": "Hoogste prijs deze dag"
       },
       "uiComponent": "sensor",
       "icon": "/assets/tariff.svg",

@@ -1,0 +1,27 @@
+{
+  "type": "number",
+  "title": {
+    "en": "Highest hour this day",
+    "de": "Höchste Stunde des Tages",
+    "sv": "Högsta timmen idag",
+    "it": "Ora più alta di questa giornata",
+    "no": "Høyeste time denne dag",
+    "fr": "Heure la plus élevée aujourd'hui",
+    "dk": "Højeste time i dag",
+    "nl": "Hoogste uur deze dag"
+  },
+  "uiComponent": "sensor",
+  "icon": "/assets/tariff.svg",
+  "getable": true,
+  "setable": false,
+  "insights": true,
+  "units": {
+    "en": "Hour",
+    "no": "Time",
+    "de": "Stunde",
+    "sv": "Timme",
+    "it": "Ora",
+    "nl": "Uur"
+  },
+  "decimals": 0
+}

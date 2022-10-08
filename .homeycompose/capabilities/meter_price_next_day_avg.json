@@ -1,0 +1,22 @@
+{
+  "type": "number",
+  "title": {
+    "en": "Avg. price tomorrow",
+    "de": "Durchschn. Preis morgen",
+    "sv": "Genomsnittligt pris imorgon",
+    "it": "prezzo medio domani",
+    "no": "Snittpris i morgen",
+    "fr": "Tarif moyen demain",
+    "dk": "Gn. snt. pris i morgen",
+    "nl": "Gem. prijs morgen"
+  },
+  "uiComponent": "sensor",
+  "icon": "/assets/tariff.svg",
+  "getable": true,
+  "setable": false,
+  "insights": true,
+  "units": {
+    "en": "€"
+  },
+  "decimals": 4
+}

@@ -1,0 +1,22 @@
+{
+  "type": "number",
+  "title": {
+    "en": "Highest price this day",
+    "de": "Höchste Preis an diesem Tag",
+    "sv": "Högsta pris idag",
+    "it": "Prezzo più alta giornata odierna",
+    "no": "Høyeste pris idag",
+    "fr": "Tarif le plus élevée aujourd'hui",
+    "dk": "Højeste pris i dag",
+    "nl": "Hoogste prijs deze dag"
+  },
+  "uiComponent": "sensor",
+  "icon": "/assets/tariff.svg",
+  "getable": true,
+  "setable": false,
+  "insights": true,
+  "units": {
+    "en": "€"
+  },
+  "decimals": 4
+}
