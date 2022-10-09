@@ -1,0 +1,27 @@
+{
+  "type": "number",
+  "title": {
+    "en": "Lowest hour tomorrow",
+    "de": "Niedrigste Stunde morgen",
+    "sv": "Lägsta timmen imorgen",
+    "it": "Ora più bassa di domani",
+    "no": "Laveste time morgen",
+    "fr": "Heure la plus faible demain",
+    "dk": "Laveste pris i morgen",
+    "nl": "Laagste uur morgen"
+  },
+  "uiComponent": "sensor",
+  "icon": "/assets/tariff.svg",
+  "getable": true,
+  "setable": false,
+  "insights": false,
+  "units": {
+    "en": "Hour",
+    "no": "Time",
+    "de": "Stunde",
+    "sv": "Timme",
+    "it": "Ora",
+    "nl": "Uur"
+  },
+  "decimals": 0
+}

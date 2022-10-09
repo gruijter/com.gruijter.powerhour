@@ -1,0 +1,22 @@
+{
+  "type": "number",
+  "title": {
+    "en": "Highest price tomorrow",
+    "de": "Höchste Preis morgen",
+    "sv": "Högsta pris imorgon",
+    "it": "Prezzo più alta di domani",
+    "no": "Høyeste pris morgen",
+    "fr": "Tarif le plus élevée demain",
+    "dk": "Højeste pris i morgen",
+    "nl": "Hoogste prijs morgen"
+  },
+  "uiComponent": "sensor",
+  "icon": "/assets/tariff.svg",
+  "getable": true,
+  "setable": false,
+  "insights": false,
+  "units": {
+    "en": "€"
+  },
+  "decimals": 4
+}

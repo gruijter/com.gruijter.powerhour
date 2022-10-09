@@ -14,7 +14,7 @@
   "icon": "/assets/tariff.svg",
   "getable": true,
   "setable": false,
-  "insights": true,
+  "insights": false,
   "units": {
     "en": "€"
   },

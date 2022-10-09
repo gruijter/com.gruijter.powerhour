@@ -1,7 +1,7 @@
 {
   "_comment": "This file is generated. Please edit .homeycompose/app.json instead.",
   "id": "com.gruijter.powerhour",
-  "version": "4.6.2",
+  "version": "4.7.0",
   "compatibility": ">=5.0.0",
   "brandColor": "#df5020",
   "sdk": 3,
@@ -5067,6 +5067,60 @@
     }
   ],
   "capabilities": {
+    "hour_next_day_highest": {
+      "type": "number",
+      "title": {
+        "en": "Highest hour tomorrow",
+        "de": "Höchste Stunde morgen",
+        "sv": "Högsta timmen imorgon",
+        "it": "Ora più alta di domani",
+        "no": "Høyeste time morgen",
+        "fr": "Heure la plus élevée demain",
+        "dk": "Højeste time i morgen",
+        "nl": "Hoogste uur morgen"
+      },
+      "uiComponent": "sensor",
+      "icon": "/assets/tariff.svg",
+      "getable": true,
+      "setable": false,
+      "insights": false,
+      "units": {
+        "en": "Hour",
+        "no": "Time",
+        "de": "Stunde",
+        "sv": "Timme",
+        "it": "Ora",
+        "nl": "Uur"
+      },
+      "decimals": 0
+    },
+    "hour_next_day_lowest": {
+      "type": "number",
+      "title": {
+        "en": "Lowest hour tomorrow",
+        "de": "Niedrigste Stunde morgen",
+        "sv": "Lägsta timmen imorgen",
+        "it": "Ora più bassa di domani",
+        "no": "Laveste time morgen",
+        "fr": "Heure la plus faible demain",
+        "dk": "Laveste pris i morgen",
+        "nl": "Laagste uur morgen"
+      },
+      "uiComponent": "sensor",
+      "icon": "/assets/tariff.svg",
+      "getable": true,
+      "setable": false,
+      "insights": false,
+      "units": {
+        "en": "Hour",
+        "no": "Time",
+        "de": "Stunde",
+        "sv": "Timme",
+        "it": "Ora",
+        "nl": "Uur"
+      },
+      "decimals": 0
+    },
     "hour_this_day_highest": {
       "type": "number",
       "title": {
@@ -6066,7 +6120,51 @@
       "icon": "/assets/tariff.svg",
       "getable": true,
       "setable": false,
-      "insights": true,
+      "insights": false,
+      "units": {
+        "en": "€"
+      },
+      "decimals": 4
+    },
+    "meter_price_next_day_highest": {
+      "type": "number",
+      "title": {
+        "en": "Highest price tomorrow",
+        "de": "Höchste Preis morgen",
+        "sv": "Högsta pris imorgon",
+        "it": "Prezzo più alta di domani",
+        "no": "Høyeste pris morgen",
+        "fr": "Tarif le plus élevée demain",
+        "dk": "Højeste pris i morgen",
+        "nl": "Hoogste prijs morgen"
+      },
+      "uiComponent": "sensor",
+      "icon": "/assets/tariff.svg",
+      "getable": true,
+      "setable": false,
+      "insights": false,
+      "units": {
+        "en": "€"
+      },
+      "decimals": 4
+    },
+    "meter_price_next_day_lowest": {
+      "type": "number",
+      "title": {
+        "en": "Lowest price tomorrow",
+        "de": "Niedrigster Preis morgen",
+        "sv": "Lägsta pris imorgon",
+        "it": "Prezzo più basso domani",
+        "no": "Laveste pris morgen",
+        "fr": "Tarif le plus faible demain",
+        "dk": "Laveste pris i morgen",
+        "nl": "Laagste prijs morgen"
+      },
+      "uiComponent": "sensor",
+      "icon": "/assets/tariff.svg",
+      "getable": true,
+      "setable": false,
+      "insights": false,
       "units": {
         "en": "€"
       },

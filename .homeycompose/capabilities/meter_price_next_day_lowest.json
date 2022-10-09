@@ -1,0 +1,22 @@
+{
+  "type": "number",
+  "title": {
+    "en": "Lowest price tomorrow",
+    "de": "Niedrigster Preis morgen",
+    "sv": "Lägsta pris imorgon",
+    "it": "Prezzo più basso domani",
+    "no": "Laveste pris morgen",
+    "fr": "Tarif le plus faible demain",
+    "dk": "Laveste pris i morgen",
+    "nl": "Laagste prijs morgen"
+  },
+  "uiComponent": "sensor",
+  "icon": "/assets/tariff.svg",
+  "getable": true,
+  "setable": false,
+  "insights": false,
+  "units": {
+    "en": "€"
+  },
+  "decimals": 4
+}

@@ -1,4 +1,7 @@
 {
+  "4.7.0": {
+    "en": "Added ability to add same summarizer multiple times. Added maximum price and hour as capability. Added min/max/average price tomorrow as capability. Fix currency migration."
+  },
   "4.6.2": {
     "en": "Added ability to add same summarizer multiple times. Added maximum price and hour as capability. Added average price tomorrow as capability."
   },

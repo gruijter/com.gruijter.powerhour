@@ -1,0 +1,27 @@
+{
+  "type": "number",
+  "title": {
+    "en": "Highest hour tomorrow",
+    "de": "Höchste Stunde morgen",
+    "sv": "Högsta timmen imorgon",
+    "it": "Ora più alta di domani",
+    "no": "Høyeste time morgen",
+    "fr": "Heure la plus élevée demain",
+    "dk": "Højeste time i morgen",
+    "nl": "Hoogste uur morgen"
+  },
+  "uiComponent": "sensor",
+  "icon": "/assets/tariff.svg",
+  "getable": true,
+  "setable": false,
+  "insights": false,
+  "units": {
+    "en": "Hour",
+    "no": "Time",
+    "de": "Stunde",
+    "sv": "Timme",
+    "it": "Ora",
+    "nl": "Uur"
+  },
+  "decimals": 0
+}

@@ -34,7 +34,6 @@ class MyDriver extends Driver {
 			'meter_price_this_day_highest',
 			'hour_this_day_highest',
 			'meter_price_this_day_avg',
-			'meter_price_next_day_avg',
 			'meter_price_next_8h_avg',
 			'meter_price_h0',
 			'meter_price_h1',
@@ -44,6 +43,11 @@ class MyDriver extends Driver {
 			'meter_price_h5',
 			'meter_price_h6',
 			'meter_price_h7',
+			'meter_price_next_day_lowest',
+			'hour_next_day_lowest',
+			'meter_price_next_day_highest',
+			'hour_next_day_highest',
+			'meter_price_next_day_avg',
 		];
 		this.deviceCapabilitiesGas = [
 			'meter_price_this_day_avg',

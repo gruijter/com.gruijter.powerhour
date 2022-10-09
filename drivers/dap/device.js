@@ -87,7 +87,7 @@ class MyDevice extends Homey.Device {
 		}
 	}
 
-	// migrate stuff from old version < 4.6.2
+	// migrate stuff from old version < 4.7.0
 	async migrate() {
 		try {
 			this.log(`checking device migration for ${this.getName()}`);
@@ -111,6 +111,7 @@ class MyDevice extends Homey.Device {
 					this.log(`adding capability ${newCap} for ${this.getName()}`);
 					await this.addCapability(newCap);
 					await setTimeoutPromise(2 * 1000); // wait a bit for Homey to settle
+					this.currencyChanged = true;
 				}
 			}
 
@@ -570,10 +571,6 @@ class MyDevice extends Homey.Device {
 			// Array pricesTomorrow with markUp
 			let pricesTomorrow = [];
 			if (prices[1] && prices[1].prices) pricesTomorrow = await this.markUpPrices(prices[1]);
-			let priceNextDayAvg = null;
-			if (pricesTomorrow.length > 6) {
-				priceNextDayAvg = average(pricesTomorrow);
-			}
 
 			// Array pricesThisDay with markUp
 			const pricesThisDay = await this.markUpPrices(prices[0]);
@@ -592,6 +589,20 @@ class MyDevice extends Homey.Device {
 			const priceThisDayHighest = Math.max(...pricesThisDay);
 			const hourThisDayHighest = pricesThisDay.indexOf(priceThisDayHighest);
 
+			// find avg, lowest and highest price tomorrow
+			let priceNextDayAvg = null;
+			let priceNextDayLowest = null;
+			let hourNextDayLowest = null;
+			let priceNextDayHighest = null;
+			let hourNextDayHighest = null;
+			if (pricesTomorrow.length > 6) {
+				priceNextDayAvg = average(pricesTomorrow);
+				priceNextDayLowest = Math.min(...pricesTomorrow);
+				hourNextDayLowest = pricesTomorrow.indexOf(priceNextDayLowest);
+				priceNextDayHighest = Math.max(...pricesTomorrow);
+				hourNextDayHighest = pricesTomorrow.indexOf(priceNextDayHighest);
+			}
+
 			// set capabilities
 			await this.setCapability('meter_price_this_day_lowest', priceThisDayLowest);
 			await this.setCapability('hour_this_day_lowest', hourThisDayLowest);
@@ -599,6 +610,10 @@ class MyDevice extends Homey.Device {
 			await this.setCapability('hour_this_day_highest', hourThisDayHighest);
 			await this.setCapability('meter_price_this_day_avg', priceThisDayAvg);
 			await this.setCapability('meter_price_next_8h_avg', priceNext8hAvg);
+			await this.setCapability('meter_price_next_day_lowest', priceNextDayLowest);
+			await this.setCapability('hour_next_day_lowest', hourNextDayLowest);
+			await this.setCapability('meter_price_next_day_highest', priceNextDayHighest);
+			await this.setCapability('hour_next_day_highest', hourNextDayHighest);
 			await this.setCapability('meter_price_next_day_avg', priceNextDayAvg);
 			const allSet = pricesNext8h.map((price, index) => this.setCapability(`meter_price_h${index}`, price).catch(this.error));
 			await Promise.all(allSet);
