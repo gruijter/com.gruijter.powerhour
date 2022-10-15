@@ -112,6 +112,13 @@ class SumMeterDevice extends Device {
 				await setTimeoutPromise(2 * 1000);
 			}
 
+			// convert tariff_via_flow to tariff_update_group <4.7.1
+			if (this.getSettings().level < '4.7.1') {
+				const group = this.getSettings().tariff_via_flow ? 1 : 0;
+				this.log(`Migrating tariff group for ${this.getName()} to ${group}`);
+				this.setSettings({ tariff_update_group: group });
+			}
+
 			// set meter_power from store v3.6.0
 			const lastMoney = await this.getStoreValue('lastMoney');
 			if (lastMoney && lastMoney.meterValue) {

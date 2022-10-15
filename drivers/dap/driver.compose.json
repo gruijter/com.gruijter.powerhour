@@ -429,19 +429,22 @@
       },
       "children": [
         {
-          "id": "sendTariff",
-          "type": "checkbox",
+          "id": "tariff_update_group",
+          "type": "number",
           "label": {
-            "en": "Send tariff",
-            "de": "Tarif senden",
-            "sv": "Skicka tariff",
-            "it": "Invia tariffa",
-            "no": "Send tariff",
-            "fr": "Envoyer tarif",
-            "dk": "Send gebyr",
-            "nl": "Stuur tarief"
+            "en": "Send tariff to group",
+            "de": "Tarif an Gruppe senden",
+            "sv": "Skicka tariff till grupp",
+            "it": "Invia tariffa al gruppo",
+            "no": "send tariff til gruppe",
+            "fr": "Envoyer tarif au groupe",
+            "dk": "Send gebyr til gruppe",
+            "nl": "Stuur tarief naar group"
           },
-          "value": false,
+          "min": 0,
+          "max": 10,
+          "step": 1,
+          "value": 0,
           "hint": {
             "en": "Every hour the price per kWh or m3 will be sent as tariff for PBTH devices, without the need to create a flow.",
             "de": "Jede Stunde wird der Preis pro kWh oder m3 als Tarif für PBTH Geräte gesendet, ohne dass ein Flow erstellt werden muss.",

@@ -92,6 +92,7 @@ class SumMeterDriver extends Driver {
 		this.eventListenerTariff = async (args) => {
 			this.log(`${eventName} received from flow`, args);
 			const tariff = Number(args.tariff);
+			const group = args.group || 1; // default to group 1 if not filled in
 			if (Number.isNaN(tariff)) {
 				this.error('the tariff is not a valid number');
 				return;
@@ -100,7 +101,7 @@ class SumMeterDriver extends Driver {
 			await setTimeoutPromise(5 * 1000);
 			const devices = this.getDevices();
 			devices.forEach((device) => {
-				if (device.settings.tariff_via_flow) {
+				if (device.settings.tariff_update_group && device.settings.tariff_update_group === group) {
 					const deviceName = device.getName();
 					this.log('updating tariff', deviceName, tariff);
 					const self = device;

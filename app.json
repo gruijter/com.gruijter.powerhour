@@ -1,7 +1,7 @@
 {
   "_comment": "This file is generated. Please edit .homeycompose/app.json instead.",
   "id": "com.gruijter.powerhour",
-  "version": "4.7.0",
+  "version": "4.7.1",
   "compatibility": ">=5.0.0",
   "brandColor": "#df5020",
   "sdk": 3,
@@ -2475,14 +2475,14 @@
           "nl": "Stel een nieuw gastarief in"
         },
         "titleFormatted": {
-          "en": "Set gas tariff to [[tariff]]",
-          "de": "Gastarif einstellen auf [[tariff]]",
-          "sv": "Ställ in gastariffen till [[tariff]]",
-          "it": "Imposta tariffa gas a [[tariff]]",
-          "no": "Sett gasstariff til [[tariff]]",
-          "fr": "Définir le tarif gaz à [[tariff]]",
-          "dk": "Sæt gasafgiften til [[tariff]]",
-          "nl": "Stel gastarief in op [[tariff]]"
+          "en": "Set [[group]] gas tariff to [[tariff]]",
+          "de": "Gastarif [[group]] einstellen auf [[tariff]]",
+          "sv": "Ställ in gastariffen [[group]] till [[tariff]]",
+          "it": "Imposta tariffa [[group]] gas a [[tariff]]",
+          "no": "Sett gasstariff [[group]] til [[tariff]]",
+          "fr": "Définir le tarif gaz [[group]] à [[tariff]]",
+          "dk": "Sæt gasafgiften [[group]] til [[tariff]]",
+          "nl": "Stel gastarief [[group]] in op [[tariff]]"
         },
         "highlight": true,
         "args": [
@@ -2499,6 +2499,17 @@
               "dk": "Afgiften per m³",
               "nl": "Het tarief per m³"
             }
+          },
+          {
+            "name": "group",
+            "type": "number",
+            "placeholder": {
+              "en": "Update group"
+            },
+            "required": false,
+            "min": 1,
+            "max": 10,
+            "step": 1
           }
         ],
         "id": "set_tariff_gas"
@@ -2515,14 +2526,14 @@
           "nl": "Stel een nieuw energietarief in"
         },
         "titleFormatted": {
-          "en": "Set energy tariff to [[tariff]]",
-          "de": "Stromtarif einstellen auf [[tariff]]",
-          "sv": "Ställ in energitariffen till [[tariff]]",
-          "it": "Imposta tariffa energia a [[tariff]]",
-          "no": "Sett energitariff to [[tariff]]",
-          "fr": "Définir le tarif électrique à [[tariff]]",
-          "dk": "Sæt en elafgift til [[tariff]]",
-          "nl": "Stel energietarief in op [[tariff]]"
+          "en": "Set energy tariff for group [[group]] to [[tariff]]",
+          "de": "Stromtarif gruppe [[group]] einstellen auf [[tariff]]",
+          "sv": "Ställ in [[group]] energitariffen till [[tariff]]",
+          "it": "Imposta [[group]] tariffa energia a [[tariff]]",
+          "no": "Sett [[group]] energitariff to [[tariff]]",
+          "fr": "Définir [[group]] le tarif électrique à [[tariff]]",
+          "dk": "Sæt [[group]] en elafgift til [[tariff]]",
+          "nl": "Stel energietarief groep [[group]] in op [[tariff]]"
         },
         "highlight": true,
         "args": [
@@ -2539,6 +2550,17 @@
               "dk": "Elafgiften per kWh",
               "nl": "Het tarief per kWh"
             }
+          },
+          {
+            "name": "group",
+            "type": "number",
+            "placeholder": {
+              "en": "Update group"
+            },
+            "required": false,
+            "min": 1,
+            "max": 10,
+            "step": 1
           }
         ],
         "id": "set_tariff_power"
@@ -2555,14 +2577,14 @@
           "nl": "Stel een nieuw watertarief in"
         },
         "titleFormatted": {
-          "en": "Set water tariff to [[tariff]]",
-          "de": "Wassertarif einstellen auf [[tariff]]",
-          "sv": "Ställ in vattentaxa till [[tariff]]",
-          "it": "Imposta tariffa acqua a [[tariff]]",
-          "no": "Sett vanntariff til [[tariff]]",
-          "fr": "Définir le tarif d'eau à [[tariff]]",
-          "dk": "Sæt ny vandafgift til [[tariff]]",
-          "nl": "Stel watertarief in op [[tariff]]"
+          "en": "Set water tariff [[group]] to [[tariff]]",
+          "de": "Wassertarif [[group]] einstellen auf [[tariff]]",
+          "sv": "Ställ in vattentaxa [[group]] till [[tariff]]",
+          "it": "Imposta tariffa acqua [[group]] a [[tariff]]",
+          "no": "Sett vanntariff [[group]] til [[tariff]]",
+          "fr": "Définir le tarif d'eau [[group]] à [[tariff]]",
+          "dk": "Sæt ny vandafgift [[group]] til [[tariff]]",
+          "nl": "Stel watertarief [[group]] in op [[tariff]]"
         },
         "highlight": true,
         "args": [
@@ -2579,6 +2601,17 @@
               "dk": "Afgift per m³",
               "nl": "Het tarief per m³"
             }
+          },
+          {
+            "name": "group",
+            "type": "number",
+            "placeholder": {
+              "en": "Update group"
+            },
+            "required": false,
+            "min": 1,
+            "max": 10,
+            "step": 1
           }
         ],
         "id": "set_tariff_water"
@@ -3094,19 +3127,22 @@
           },
           "children": [
             {
-              "id": "sendTariff",
-              "type": "checkbox",
+              "id": "tariff_update_group",
+              "type": "number",
               "label": {
-                "en": "Send tariff",
-                "de": "Tarif senden",
-                "sv": "Skicka tariff",
-                "it": "Invia tariffa",
-                "no": "Send tariff",
-                "fr": "Envoyer tarif",
-                "dk": "Send gebyr",
-                "nl": "Stuur tarief"
+                "en": "Send tariff to group",
+                "de": "Tarif an Gruppe senden",
+                "sv": "Skicka tariff till grupp",
+                "it": "Invia tariffa al gruppo",
+                "no": "send tariff til gruppe",
+                "fr": "Envoyer tarif au groupe",
+                "dk": "Send gebyr til gruppe",
+                "nl": "Stuur tarief naar group"
               },
-              "value": false,
+              "min": 0,
+              "max": 10,
+              "step": 1,
+              "value": 0,
               "hint": {
                 "en": "Every hour the price per kWh or m3 will be sent as tariff for PBTH devices, without the need to create a flow.",
                 "de": "Jede Stunde wird der Preis pro kWh oder m3 als Tarif für PBTH Geräte gesendet, ohne dass ein Flow erstellt werden muss.",
@@ -3590,27 +3626,18 @@
               }
             },
             {
-              "id": "tariff_via_flow",
-              "type": "checkbox",
+              "id": "tariff_update_group",
+              "type": "number",
               "label": {
-                "en": "Tariff via flow or DAP",
-                "de": "Tarif über Flow oder DAP",
-                "sv": "Tariff via flöde eller DAP",
-                "it": "Tariffa via flow o DAP",
-                "no": "Tariff via flow eller DAP",
-                "fr": "Tarif par flow ou DAP",
-                "nl": "Tarief via flow of DAP"
+                "en": "Tariff update group (flow or DAP)"
               },
-              "value": true,
               "hint": {
-                "en": "Include this device when setting a new tariff via flow or DAP.",
-                "de": "Dieses Gerät mit einbeziehen, wenn Sie einen neuen Tarif über Flow oder DAP festlegen.",
-                "sv": "Inkludera denna enhet när du ställer in en ny tariff via flöde eller DAP.",
-                "it": "Includi questo dispositivo quando imposti una nuova tariffa via flow o DAP.",
-                "no": "Inkluder denne enheten når ny tariff blir satt via flow eller DAP.",
-                "fr": "Inclure cet appareil lors de la définition d'un nouveau tarif via flow ou DAP.",
-                "nl": "Dit apparaat meenemen bij het instellen van een nieuw tarief via flow of DAP."
-              }
+                "en": "Group number when setting a new tariff via flow or DAP. Set at 0 to exclude updating the tariff."
+              },
+              "value": 0,
+              "min": 0,
+              "max": 10,
+              "step": 1
             },
             {
               "id": "meter_money_this_day",
@@ -4254,27 +4281,18 @@
               }
             },
             {
-              "id": "tariff_via_flow",
-              "type": "checkbox",
+              "id": "tariff_update_group",
+              "type": "number",
               "label": {
-                "en": "Tariff via flow or DAP",
-                "de": "Tarif über Flow oder DAP",
-                "sv": "Tariff via flöde eller DAP",
-                "it": "Tariffa via flow o DAP",
-                "no": "Tariff via flow eller DAP",
-                "fr": "Tarif par flow ou DAP",
-                "nl": "Tarief via flow of DAP"
+                "en": "Tariff update group (flow or DAP)"
               },
-              "value": true,
               "hint": {
-                "en": "Include this device when setting a new tariff via flow or DAP.",
-                "de": "Dieses Gerät mit einbeziehen, wenn Sie einen neuen Tarif über Flow oder DAP festlegen.",
-                "sv": "Inkludera denna enhet när du ställer in en ny tariff via flöde eller DAP.",
-                "it": "Includi questo dispositivo quando si imposta una nuova tariffa tramite flow o DAP.",
-                "no": "Inkluder denne enheten når ny tariff blir satt via flow eller DAP.",
-                "fr": "Inclure cet appareil lors de la définition d'un nouveau tarif via flow ou DAP.",
-                "nl": "Dit apparaat meenemen bij het instellen van een nieuw tarief via flow of DAP."
-              }
+                "en": "Group number when setting a new tariff via flow or DAP. Set at 0 to exclude updating the tariff."
+              },
+              "value": 0,
+              "min": 0,
+              "max": 10,
+              "step": 1
             },
             {
               "id": "meter_money_this_day",
@@ -4891,27 +4909,18 @@
               }
             },
             {
-              "id": "tariff_via_flow",
-              "type": "checkbox",
+              "id": "tariff_update_group",
+              "type": "number",
               "label": {
-                "en": "Tariff via flow",
-                "de": "Tarif über Flow",
-                "sv": "Tariff via flöde",
-                "it": "Tariffa via flow",
-                "no": "Tariff via flow",
-                "fr": "Tarif par flow ou DAP",
-                "nl": "Tarief via flow"
+                "en": "Tariff update group (flow)"
               },
-              "value": true,
               "hint": {
-                "en": "Include this device when setting a new tariff via flow.",
-                "de": "Dieses Gerät mit einbeziehen, wenn Sie einen neuen Tarif über Flow festlegen.",
-                "sv": "Inkludera denna enhet när du ställer in en ny tariff via flöde.",
-                "it": "Includere questo dispositivo quando si imposta una nuova tariffa tramite flow.",
-                "no": "Inkluder denne enheten når ny tariff blir satt via flow eller DAP.",
-                "fr": "Inclure cet appareil lors de la définition d'un nouveau tarif via flow ou DAP.",
-                "nl": "Dit apparaat meenemen bij het instellen van een nieuw tarief via flow."
-              }
+                "en": "Group number when setting a new tariff via flow. Set at 0 to exclude updating the tariff."
+              },
+              "value": 0,
+              "min": 0,
+              "max": 10,
+              "step": 1
             },
             {
               "id": "meter_money_this_day",

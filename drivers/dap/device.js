@@ -121,6 +121,13 @@ class MyDevice extends Homey.Device {
 				await this.setSettings({ fixedMarkup: this.settings.fixedMarkup * this.settings.exchangeRate });
 			}
 
+			// convert sendTariff to tariff_update_group <4.7.1
+			if (this.getSettings().level < '4.7.1') {
+				const group = this.getSettings().sendTariff ? 1 : 0;
+				this.log(`Migrating tariff group for ${this.getName()} to ${group}`);
+				this.setSettings({ tariff_update_group: group });
+			}
+
 			// set new migrate level
 			await this.setSettings({ level: this.homey.app.manifest.version });
 			this.settings = await this.getSettings();
@@ -621,7 +628,7 @@ class MyDevice extends Homey.Device {
 			// send tariff to power or gas driver
 			let sendTo = 'set_tariff_power';
 			if (this.settings.biddingZone === 'TTF_EOD' || this.settings.biddingZone === 'TTF_LEBA') sendTo = 'set_tariff_gas';
-			if (this.settings.sendTariff) await this.homey.emit(sendTo, { tariff: priceNow });
+			if (this.settings.tariff_update_group) await this.homey.emit(sendTo, { tariff: priceNow, group: this.settings.tariff_update_group });
 
 			// trigger flow cards
 			const tokens = { meter_price_h0: pricesNext8h[0] };

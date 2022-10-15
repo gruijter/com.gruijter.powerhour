@@ -10,14 +10,14 @@
     "nl": "Stel een nieuw watertarief in"
   },
   "titleFormatted": {
-    "en": "Set water tariff to [[tariff]]",
-    "de": "Wassertarif einstellen auf [[tariff]]",
-    "sv": "Ställ in vattentaxa till [[tariff]]",
-    "it": "Imposta tariffa acqua a [[tariff]]",
-    "no": "Sett vanntariff til [[tariff]]",
-    "fr": "Définir le tarif d'eau à [[tariff]]",
-    "dk": "Sæt ny vandafgift til [[tariff]]",
-    "nl": "Stel watertarief in op [[tariff]]"
+    "en": "Set water tariff [[group]] to [[tariff]]",
+    "de": "Wassertarif [[group]] einstellen auf [[tariff]]",
+    "sv": "Ställ in vattentaxa [[group]] till [[tariff]]",
+    "it": "Imposta tariffa acqua [[group]] a [[tariff]]",
+    "no": "Sett vanntariff [[group]] til [[tariff]]",
+    "fr": "Définir le tarif d'eau [[group]] à [[tariff]]",
+    "dk": "Sæt ny vandafgift [[group]] til [[tariff]]",
+    "nl": "Stel watertarief [[group]] in op [[tariff]]"
   },
   "highlight": true,
   "args": [
@@ -34,6 +34,17 @@
         "dk": "Afgift per m³",
         "nl": "Het tarief per m³"
       }
+    },
+    {
+      "name": "group",
+      "type": "number",
+      "placeholder": {
+        "en": "Update group"
+      },
+      "required": false,
+      "min": 1,
+      "max": 10,
+      "step": 1
     }
   ]
 }

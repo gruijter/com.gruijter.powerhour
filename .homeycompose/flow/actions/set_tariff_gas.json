@@ -10,14 +10,14 @@
     "nl": "Stel een nieuw gastarief in"
   },
   "titleFormatted": {
-    "en": "Set gas tariff to [[tariff]]",
-    "de": "Gastarif einstellen auf [[tariff]]",
-    "sv": "Ställ in gastariffen till [[tariff]]",
-    "it": "Imposta tariffa gas a [[tariff]]",
-    "no": "Sett gasstariff til [[tariff]]",
-    "fr": "Définir le tarif gaz à [[tariff]]",
-    "dk": "Sæt gasafgiften til [[tariff]]",
-    "nl": "Stel gastarief in op [[tariff]]"
+    "en": "Set [[group]] gas tariff to [[tariff]]",
+    "de": "Gastarif [[group]] einstellen auf [[tariff]]",
+    "sv": "Ställ in gastariffen [[group]] till [[tariff]]",
+    "it": "Imposta tariffa [[group]] gas a [[tariff]]",
+    "no": "Sett gasstariff [[group]] til [[tariff]]",
+    "fr": "Définir le tarif gaz [[group]] à [[tariff]]",
+    "dk": "Sæt gasafgiften [[group]] til [[tariff]]",
+    "nl": "Stel gastarief [[group]] in op [[tariff]]"
   },
   "highlight": true,
   "args": [
@@ -34,6 +34,17 @@
         "dk": "Afgiften per m³",
         "nl": "Het tarief per m³"
       }
+    },
+    {
+      "name": "group",
+      "type": "number",
+      "placeholder": {
+        "en": "Update group"
+      },
+      "required": false,
+      "min": 1,
+      "max": 10,
+      "step": 1
     }
   ]
 }

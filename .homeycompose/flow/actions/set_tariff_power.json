@@ -10,14 +10,14 @@
     "nl": "Stel een nieuw energietarief in"
   },
   "titleFormatted": {
-    "en": "Set energy tariff to [[tariff]]",
-    "de": "Stromtarif einstellen auf [[tariff]]",
-    "sv": "Ställ in energitariffen till [[tariff]]",
-    "it": "Imposta tariffa energia a [[tariff]]",
-    "no": "Sett energitariff to [[tariff]]",
-    "fr": "Définir le tarif électrique à [[tariff]]",
-    "dk": "Sæt en elafgift til [[tariff]]",
-    "nl": "Stel energietarief in op [[tariff]]"
+    "en": "Set energy tariff for group [[group]] to [[tariff]]",
+    "de": "Stromtarif gruppe [[group]] einstellen auf [[tariff]]",
+    "sv": "Ställ in [[group]] energitariffen till [[tariff]]",
+    "it": "Imposta [[group]] tariffa energia a [[tariff]]",
+    "no": "Sett [[group]] energitariff to [[tariff]]",
+    "fr": "Définir [[group]] le tarif électrique à [[tariff]]",
+    "dk": "Sæt [[group]] en elafgift til [[tariff]]",
+    "nl": "Stel energietarief groep [[group]] in op [[tariff]]"
   },
   "highlight": true,
   "args": [
@@ -34,6 +34,17 @@
         "dk": "Elafgiften per kWh",
         "nl": "Het tarief per kWh"
       }
+    },
+    {
+      "name": "group",
+      "type": "number",
+      "placeholder": {
+        "en": "Update group"
+      },
+      "required": false,
+      "min": 1,
+      "max": 10,
+      "step": 1
     }
   ]
 }

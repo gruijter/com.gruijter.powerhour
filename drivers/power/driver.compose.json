@@ -486,27 +486,18 @@
           }
         },
         {
-          "id": "tariff_via_flow",
-          "type": "checkbox",
+          "id": "tariff_update_group",
+          "type": "number",
           "label": {
-            "en": "Tariff via flow or DAP",
-            "de": "Tarif über Flow oder DAP",
-            "sv": "Tariff via flöde eller DAP",
-            "it": "Tariffa via flow o DAP",
-            "no": "Tariff via flow eller DAP",
-            "fr": "Tarif par flow ou DAP",
-            "nl": "Tarief via flow of DAP"
+            "en": "Tariff update group (flow or DAP)"
           },
-          "value": true,
           "hint": {
-            "en": "Include this device when setting a new tariff via flow or DAP.",
-            "de": "Dieses Gerät mit einbeziehen, wenn Sie einen neuen Tarif über Flow oder DAP festlegen.",
-            "sv": "Inkludera denna enhet när du ställer in en ny tariff via flöde eller DAP.",
-            "it": "Includi questo dispositivo quando si imposta una nuova tariffa tramite flow o DAP.",
-            "no": "Inkluder denne enheten når ny tariff blir satt via flow eller DAP.",
-            "fr": "Inclure cet appareil lors de la définition d'un nouveau tarif via flow ou DAP.",
-            "nl": "Dit apparaat meenemen bij het instellen van een nieuw tarief via flow of DAP."
-          }
+            "en": "Group number when setting a new tariff via flow or DAP. Set at 0 to exclude updating the tariff."
+          },
+          "value": 0,
+          "min": 0,
+          "max": 10,
+          "step": 1
         },
         {
           "id": "meter_money_this_day",
