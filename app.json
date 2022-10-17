@@ -1,7 +1,7 @@
 {
   "_comment": "This file is generated. Please edit .homeycompose/app.json instead.",
   "id": "com.gruijter.powerhour",
-  "version": "4.7.1",
+  "version": "4.7.2",
   "compatibility": ">=5.0.0",
   "brandColor": "#df5020",
   "sdk": 3,
@@ -3602,44 +3602,6 @@
               }
             },
             {
-              "id": "tariff",
-              "type": "number",
-              "label": {
-                "en": "Actual tariff per m³",
-                "de": "Aktueller Tarif pro m³",
-                "sv": "Faktisk tariff per m³",
-                "it": "Tariffa attuale per m³",
-                "no": "Aktuell tariff per m³",
-                "fr": "Tarif actuel par m³",
-                "nl": "Actueel tarief per m³"
-              },
-              "value": 0.75,
-              "decimals": 8,
-              "hint": {
-                "en": "The tariff is used to calculate the monetary value. It can be dynamically changed via a flow.",
-                "de": "Der Kurs wird zur Berechnung des Geldbetrags verwendet. Er kann über einen Flow dynamisch angepasst werden.",
-                "sv": "Tariffen används för att beräkna penningvärdet. Det kan ändras dynamiskt via ett flöde.",
-                "it": "La tariffa è utilizzata per calcolare il valore monetario. Può essere cambiata dinamicamente tramite un flow.",
-                "no": "Tariffen blir brukt til å kalkulere pengeverdien. Den kan endres dynamisk via en flow.",
-                "fr": "Le tarif est utilisé pour calculer la valeur monétaire. Il peut être changé dynamiquement par un flow",
-                "nl": "Het tarief wordt gebruikt om de geldwaarde te berekenen. Het kan dynamisch worden aangepast via een flow."
-              }
-            },
-            {
-              "id": "tariff_update_group",
-              "type": "number",
-              "label": {
-                "en": "Tariff update group (flow or DAP)"
-              },
-              "hint": {
-                "en": "Group number when setting a new tariff via flow or DAP. Set at 0 to exclude updating the tariff."
-              },
-              "value": 0,
-              "min": 0,
-              "max": 10,
-              "step": 1
-            },
-            {
               "id": "meter_money_this_day",
               "type": "number",
               "label": {
@@ -3782,6 +3744,91 @@
                 "fr": "Valeur monétaire de l'année dernière. Elle est mise à jour automatiquement",
                 "nl": "Gelwaarde van het vorige jaar. Wordt automatisch geupdated."
               }
+            }
+          ]
+        },
+        {
+          "type": "group",
+          "label": {
+            "en": "Tariff",
+            "de": "Tarif",
+            "sv": "Tariff",
+            "it": "Tariffa",
+            "no": "Tariff",
+            "fr": "Tarif",
+            "nl": "Tarief"
+          },
+          "children": [
+            {
+              "id": "tariff",
+              "type": "number",
+              "label": {
+                "en": "Actual tariff per m³",
+                "de": "Aktueller Tarif pro m³",
+                "sv": "Faktisk tariff per m³",
+                "it": "Tariffa attuale per m³",
+                "no": "Aktuell tariff per m³",
+                "fr": "Tarif actuel par m³",
+                "nl": "Actueel tarief per m³"
+              },
+              "value": 0.75,
+              "decimals": 8,
+              "hint": {
+                "en": "The tariff is used to calculate the monetary value. It can be dynamically changed via a flow/DAP.",
+                "de": "Der Kurs wird zur Berechnung des Geldbetrags verwendet. Er kann über einen Flow/DAP dynamisch angepasst werden.",
+                "sv": "Tariffen används för att beräkna penningvärdet. Det kan ändras dynamiskt via ett flöde/DAP.",
+                "it": "La tariffa è utilizzata per calcolare il valore monetario. Può essere cambiata dinamicamente tramite un flow/DAP.",
+                "no": "Tariffen blir brukt til å kalkulere kostnaden. Den kan endres dynamisk via en flow/DAP.",
+                "fr": "Le tarif est utilisé pour calculer la valeur monétaire. Il peut être changé dynamiquement par un flow/DAP",
+                "nl": "Het tarief wordt gebruikt om de geldwaarde te berekenen. Het kan dynamisch worden aangepast via een flow/DAP."
+              }
+            },
+            {
+              "id": "tariff_update_group",
+              "type": "number",
+              "label": {
+                "en": "Tariff update group (flow or DAP)"
+              },
+              "hint": {
+                "en": "Group number when setting a new tariff via flow or DAP. Set at 0 to exclude updating the tariff."
+              },
+              "value": 0,
+              "min": 0,
+              "max": 10,
+              "step": 1
+            },
+            {
+              "id": "markup_month",
+              "type": "number",
+              "label": {
+                "en": "Fixed monthly costs"
+              },
+              "hint": {
+                "en": "Fixed costs that will be added at the start of every new month."
+              },
+              "value": 0
+            },
+            {
+              "id": "markup_day",
+              "type": "number",
+              "label": {
+                "en": "Fixed daily costs"
+              },
+              "hint": {
+                "en": "Fixed costs that will be added at the start of every new day."
+              },
+              "value": 0
+            },
+            {
+              "id": "markup_hour",
+              "type": "number",
+              "label": {
+                "en": "Fixed hourly costs"
+              },
+              "hint": {
+                "en": "Fixed costs that will be added at the start of every new hour."
+              },
+              "value": 0
             }
           ]
         }
@@ -4257,44 +4304,6 @@
               }
             },
             {
-              "id": "tariff",
-              "type": "number",
-              "label": {
-                "en": "Actual tariff per kWh",
-                "de": "Aktueller Tarif pro kW/h",
-                "sv": "Faktisk tariff per kWh",
-                "it": "Tariffa attuale per kWh",
-                "no": "Aktuell tariff per kWh",
-                "fr": "Tarif actuel par KWh",
-                "nl": "Actueel tarief per kWh"
-              },
-              "value": 0.25,
-              "decimals": 8,
-              "hint": {
-                "en": "The tariff is used to calculate the monetary value. It can be dynamically changed via a flow.",
-                "de": "Der Kurs wird zur Berechnung des Geldbetrags verwendet. Er kann über einen Flow dynamisch angepasst werden.",
-                "sv": "Tariffen används för att beräkna penningvärdet. Det kan ändras dynamiskt via ett flöde.",
-                "it": "La tariffa è utilizzata per calcolare il valore monetario. Può essere cambiata dinamicamente tramite un flow.",
-                "no": "Tariffen blir brukt til å kalkulere kostnaden. Den kan endres dynamisk via en flow.",
-                "fr": "Le tarif est utilisé pour calculer la valeur monétaire. Il peut être changé dynamiquement par un flow",
-                "nl": "Het tarief wordt gebruikt om de geldwaarde te berekenen. Het kan dynamisch worden aangepast via een flow."
-              }
-            },
-            {
-              "id": "tariff_update_group",
-              "type": "number",
-              "label": {
-                "en": "Tariff update group (flow or DAP)"
-              },
-              "hint": {
-                "en": "Group number when setting a new tariff via flow or DAP. Set at 0 to exclude updating the tariff."
-              },
-              "value": 0,
-              "min": 0,
-              "max": 10,
-              "step": 1
-            },
-            {
               "id": "meter_money_this_day",
               "type": "number",
               "label": {
@@ -4437,6 +4446,91 @@
                 "fr": "Valeur monétaire de l'année dernière. Elle est mise à jour automatiquement",
                 "nl": "Gelwaarde van het vorige jaar. Wordt automatisch geupdated."
               }
+            }
+          ]
+        },
+        {
+          "type": "group",
+          "label": {
+            "en": "Tariff",
+            "de": "Tarif",
+            "sv": "Tariff",
+            "it": "Tariffa",
+            "no": "Tariff",
+            "fr": "Tarif",
+            "nl": "Tarief"
+          },
+          "children": [
+            {
+              "id": "tariff",
+              "type": "number",
+              "label": {
+                "en": "Actual tariff per kWh",
+                "de": "Aktueller Tarif pro kW/h",
+                "sv": "Faktisk tariff per kWh",
+                "it": "Tariffa attuale per kWh",
+                "no": "Aktuell tariff per kWh",
+                "fr": "Tarif actuel par KWh",
+                "nl": "Actueel tarief per kWh"
+              },
+              "value": 0.25,
+              "decimals": 8,
+              "hint": {
+                "en": "The tariff is used to calculate the monetary value. It can be dynamically changed via a flow/DAP.",
+                "de": "Der Kurs wird zur Berechnung des Geldbetrags verwendet. Er kann über einen Flow/DAP dynamisch angepasst werden.",
+                "sv": "Tariffen används för att beräkna penningvärdet. Det kan ändras dynamiskt via ett flöde/DAP.",
+                "it": "La tariffa è utilizzata per calcolare il valore monetario. Può essere cambiata dinamicamente tramite un flow/DAP.",
+                "no": "Tariffen blir brukt til å kalkulere kostnaden. Den kan endres dynamisk via en flow/DAP.",
+                "fr": "Le tarif est utilisé pour calculer la valeur monétaire. Il peut être changé dynamiquement par un flow/DAP",
+                "nl": "Het tarief wordt gebruikt om de geldwaarde te berekenen. Het kan dynamisch worden aangepast via een flow/DAP."
+              }
+            },
+            {
+              "id": "tariff_update_group",
+              "type": "number",
+              "label": {
+                "en": "Tariff update group (flow or DAP)"
+              },
+              "hint": {
+                "en": "Group number when setting a new tariff via flow or DAP. Set at 0 to exclude updating the tariff."
+              },
+              "value": 0,
+              "min": 0,
+              "max": 10,
+              "step": 1
+            },
+            {
+              "id": "markup_month",
+              "type": "number",
+              "label": {
+                "en": "Fixed monthly costs"
+              },
+              "hint": {
+                "en": "Fixed costs that will be added at the start of every new month."
+              },
+              "value": 0
+            },
+            {
+              "id": "markup_day",
+              "type": "number",
+              "label": {
+                "en": "Fixed daily costs"
+              },
+              "hint": {
+                "en": "Fixed costs that will be added at the start of every new day."
+              },
+              "value": 0
+            },
+            {
+              "id": "markup_hour",
+              "type": "number",
+              "label": {
+                "en": "Fixed hourly costs"
+              },
+              "hint": {
+                "en": "Fixed costs that will be added at the start of every new hour."
+              },
+              "value": 0
             }
           ]
         }
@@ -4885,44 +4979,6 @@
               }
             },
             {
-              "id": "tariff",
-              "type": "number",
-              "label": {
-                "en": "Actual tariff per m³",
-                "de": "Aktueller Tarif pro m³",
-                "sv": "Faktisk tariff per m³",
-                "it": "Tariff attuale per m³",
-                "no": "Aktuell tariff per m³",
-                "fr": "Tarif actuel par m³",
-                "nl": "Actueel tarief per m³"
-              },
-              "value": 0.85,
-              "decimals": 8,
-              "hint": {
-                "en": "The tariff is used to calculate the monetary value. It can be dynamically changed via a flow.",
-                "de": "Der Kurs wird zur Berechnung des Geldbetrags verwendet. Er kann über einen Flow dynamisch angepasst werden.",
-                "sv": "Tariffen används för att beräkna penningvärdet. Det kan ändras dynamiskt via ett flöde.",
-                "it": "La tariffa viene utilizzata per calcolare il valore monetario. Può essere cambiata dinamicamente tramite un flow.",
-                "no": "Tariffen blir brukt til å kalkulere pengeverdien. Den kan endres dynamisk via en flow.",
-                "fr": "Le tarif est utilisé pour calculer la valeur monétaire. Il peut être changé dynamiquement par un flow",
-                "nl": "Het tarief wordt gebruikt om de geldwaarde te berekenen. Het kan dynamisch worden aangepast via een flow."
-              }
-            },
-            {
-              "id": "tariff_update_group",
-              "type": "number",
-              "label": {
-                "en": "Tariff update group (flow)"
-              },
-              "hint": {
-                "en": "Group number when setting a new tariff via flow. Set at 0 to exclude updating the tariff."
-              },
-              "value": 0,
-              "min": 0,
-              "max": 10,
-              "step": 1
-            },
-            {
               "id": "meter_money_this_day",
               "type": "number",
               "label": {
@@ -5065,6 +5121,91 @@
                 "fr": "Valeur monétaire de l'année dernière. Elle est mise à jour automatiquement",
                 "nl": "Gelwaarde van het vorige jaar. Wordt automatisch geupdated."
               }
+            }
+          ]
+        },
+        {
+          "type": "group",
+          "label": {
+            "en": "Tariff",
+            "de": "Tarif",
+            "sv": "Tariff",
+            "it": "Tariffa",
+            "no": "Tariff",
+            "fr": "Tarif",
+            "nl": "Tarief"
+          },
+          "children": [
+            {
+              "id": "tariff",
+              "type": "number",
+              "label": {
+                "en": "Actual tariff per m³",
+                "de": "Aktueller Tarif pro m³",
+                "sv": "Faktisk tariff per m³",
+                "it": "Tariff attuale per m³",
+                "no": "Aktuell tariff per m³",
+                "fr": "Tarif actuel par m³",
+                "nl": "Actueel tarief per m³"
+              },
+              "value": 0.85,
+              "decimals": 8,
+              "hint": {
+                "en": "The tariff is used to calculate the monetary value. It can be dynamically changed via a flow.",
+                "de": "Der Kurs wird zur Berechnung des Geldbetrags verwendet. Er kann über einen Flow dynamisch angepasst werden.",
+                "sv": "Tariffen används för att beräkna penningvärdet. Det kan ändras dynamiskt via ett flöde.",
+                "it": "La tariffa viene utilizzata per calcolare il valore monetario. Può essere cambiata dinamicamente tramite un flow.",
+                "no": "Tariffen blir brukt til å kalkulere pengeverdien. Den kan endres dynamisk via en flow.",
+                "fr": "Le tarif est utilisé pour calculer la valeur monétaire. Il peut être changé dynamiquement par un flow",
+                "nl": "Het tarief wordt gebruikt om de geldwaarde te berekenen. Het kan dynamisch worden aangepast via een flow."
+              }
+            },
+            {
+              "id": "tariff_update_group",
+              "type": "number",
+              "label": {
+                "en": "Tariff update group (flow)"
+              },
+              "hint": {
+                "en": "Group number when setting a new tariff via flow. Set at 0 to exclude updating the tariff."
+              },
+              "value": 0,
+              "min": 0,
+              "max": 10,
+              "step": 1
+            },
+            {
+              "id": "markup_month",
+              "type": "number",
+              "label": {
+                "en": "Fixed monthly costs"
+              },
+              "hint": {
+                "en": "Fixed costs that will be added at the start of every new month."
+              },
+              "value": 0
+            },
+            {
+              "id": "markup_day",
+              "type": "number",
+              "label": {
+                "en": "Fixed daily costs"
+              },
+              "hint": {
+                "en": "Fixed costs that will be added at the start of every new day."
+              },
+              "value": 0
+            },
+            {
+              "id": "markup_hour",
+              "type": "number",
+              "label": {
+                "en": "Fixed hourly costs"
+              },
+              "hint": {
+                "en": "Fixed costs that will be added at the start of every new hour."
+              },
+              "value": 0
             }
           ]
         }

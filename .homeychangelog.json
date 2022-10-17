@@ -1,4 +1,7 @@
 {
+  "4.7.2": {
+    "en": "Added fixed costs per hour/day/month for summarizer."
+  },
   "4.7.1": {
     "en": "Added tariff update groups."
   },
