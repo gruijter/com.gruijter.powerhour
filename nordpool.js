@@ -149,14 +149,17 @@ class Nordpool {
 			let flat = [];
 			res.data.Rows
 				.filter((row) => row.Name.includes('&nbsp;-&nbsp;'))	// select hours 0 - 23
-				.forEach((row, index) => row.Columns
+				.forEach((row) => row.Columns
 					.filter((column) => !column.Value.includes('&nbsp;-&nbsp')) // remove timezone info
+					.filter((column) => !column.Value.includes('-')) // remove empty cells due to DST change
 					.forEach((column) => {
 						const dateParts = column.Name.split('-');
 						let date = new Date(+dateParts[2], dateParts[1] - 1, +dateParts[0]);
 						const timeZoneOffset = new Date(date.toLocaleString('en-US', { timeZone: 'Europe/Amsterdam' })) - date;
 						date.setMilliseconds(-timeZoneOffset); // convert date BST or CET/CEST to UTC
-						date = new Date(date.getTime() + index * 60 * 60 * 1000); // add hours
+						const startTime = new Date(row.StartTime);
+						const hour = startTime.getHours();
+						date = new Date(date.getTime() + hour * 60 * 60 * 1000); // add hours
 						flat.push({ date, value: Number(column.Value.replace(',', '.')) });
 					}));
 			flat = flat.sort((a, b) => a.date - b.date);
@@ -166,7 +169,8 @@ class Nordpool {
 			const day = start;
 			while (day <= end) {
 				const dayStart = new Date(day); // assuming exact start of a local day in UTC notation
-				const dayEnd = new Date(dayStart.getTime() + 24 * 60 * 60 * 1000); // add 24 hours
+				const dayEnd = new Date(dayStart);
+				dayEnd.setDate(dayEnd.getDate() + 1); // add a day
 				const itemsDay = flat.filter((item) => item.date >= dayStart && item.date < dayEnd);
 				const prices = itemsDay.map((item) => item.value);
 				if (prices.length > 0) {
@@ -178,6 +182,7 @@ class Nordpool {
 				}
 				day.setDate(day.getDate() + 1);
 			}
+			// console.dir(info, { depth: null, colors: true });
 			return Promise.resolve(info);
 		} catch (error) {
 			return Promise.reject(error);

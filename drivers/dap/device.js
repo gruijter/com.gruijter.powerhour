@@ -412,39 +412,6 @@ class MyDevice extends Homey.Device {
 
 	async fetchPrices() {
 		try {
-			// check if fetching of prices is needed
-			// const now = new Date();
-			// const nowLocal = new Date(now.toLocaleString('en-US', { timeZone: this.timeZone }));
-			// // check if already have prices today
-			// let havePricesToday = false;
-			// if (this.prices && this.prices[0] && this.prices[0].timeInterval) {
-			// 	// check for 24 hours of pricing today
-			// 	if (this.prices[0].prices.length !== 24) return;
-			// 	// check for correct date
-			// 	const priceDateToday = new Date(new Date(this.prices[0].timeInterval.start).toLocaleString('en-US', { timeZone: this.timeZone }));
-			// 	if (priceDateToday.getDate() !== nowLocal.getDate()) return;
-			// 	havePricesToday = true;
-			// 	console.log(this.getName(), 'has all prices today', this.prices[0]);
-			// }
-			// // check if already have prices tomorrow
-			// let havePricesTomorrow = false;
-			// if (this.prices && this.prices[1] && this.prices[1].timeInterval) {
-			// 	const tomorrowLocal = nowLocal;
-			// 	tomorrowLocal.setDate(tomorrowLocal.getDate() + 1);
-			// 	// check for 24 hours of pricing tomorrow
-			// 	if (this.prices[1].prices.length !== 24) return;
-			// 	// check for correct date
-			// 	const priceDateTomorrow = new Date(new Date(this.prices[1].timeInterval.start).toLocaleString('en-US', { timeZone: this.timeZone }));
-			// 	if (priceDateTomorrow.getDate() !== tomorrowLocal.getDate()) return;
-			// 	havePricesTomorrow = true;
-			// 	console.log(this.getName(), 'has all prices tomorrow', this.prices[1]);
-			// }
-			// if (havePricesToday && havePricesTomorrow) {
-			// 	this.log(this.getName(), 'Skip fetching prices. Already have all pricing for today and tomorrow.');
-			// 	return;
-			// }
-			// console.log(this.getName(), havePricesToday, havePricesTomorrow, this.prices);
-
 			this.log(this.getName(), 'fetching prices of today and tomorrow (when available)');
 
 			// set UTC start of today and tomorrow according to local Homey timezone
@@ -483,7 +450,7 @@ class MyDevice extends Homey.Device {
 				this.log('ENTSOE NOT WORKING, BUT NORDPOOL IS!');
 				prices = prices2;
 			}
-			if (prices1 && prices2) { // both results available
+			if (prices1 && prices1[0] && prices2 && prices2[0]) { // both results available
 				if (prices2[0].length > prices1[0].length)	{ // Nordpool has more data for today => use Nordpool
 					this.log('Nordpool has more data for today!');
 					// eslint-disable-next-line prefer-destructuring
@@ -512,8 +479,14 @@ class MyDevice extends Homey.Device {
 				this.log(`${this.getName()} received first prices for today.`);
 				if (prices.length > 1) this.log(`${this.getName()} received first prices for tomorrow.`);
 			}
-			if (prices[0].prices.length !== 24) this.log(`${this.getName()} did not receive 24 hours of prices for today`);
-			if (prices[1] && prices[1].prices.length !== 24) this.log(`${this.getName()} did not receive 24 hours of prices for tomorrow`);
+
+			// check for DST change
+			if (prices[0].prices.length === 25) this.log(`${this.getName()} DST change: Today has 25 hours!`);
+			if (prices[1] && prices[1].prices.length === 25) this.log(`${this.getName()} DST change: Tomorrow has 25 hours!`);
+
+			// check for incomplete information
+			if (prices[0].prices.length < 24) this.log(`${this.getName()} did not receive 24 hours of prices for today`);
+			if (prices[1] && prices[1].prices.length < 24) this.log(`${this.getName()} did not receive 24 hours of prices for tomorrow`);
 
 			// check if prices changed
 			if (prices[0] && (!this.prices || !this.prices[0])) await this.newPricesReceived(prices[0], 'this_day');
@@ -553,7 +526,7 @@ class MyDevice extends Homey.Device {
 			// get the present hour (0 - 23)
 			const now = new Date();
 			const nowLocal = new Date(now.toLocaleString('en-US', { timeZone: this.timeZone }));
-			const H0 = nowLocal.getHours();
+			let H0 = nowLocal.getHours();
 
 			// check for correct date, if new day shift prices[0]
 			let priceDate = new Date(new Date(prices[0].timeInterval.start).toLocaleString('en-US', { timeZone: this.timeZone }));
@@ -567,6 +540,9 @@ class MyDevice extends Homey.Device {
 				if (this.prices[0]) await this.newPricesReceived(this.prices[0], 'this_day');
 				if (this.prices[1]) await this.newPricesReceived(this.prices[1], 'tomorrow');
 			}
+
+			// make correction to present hour when DST (25 hours in a day)
+			if (this.prices[0].length === 25 && H0 > 2) H0 += 1;	// Not completely correct! Skips second version of H0 = 2...
 
 			// Array pricesYesterday with markUp
 			if (!this.pricesYesterday || !this.pricesYesterday.prices) {

@@ -237,31 +237,45 @@ class ENTSOE {
 				// refactor days in case of exceptions (like Estonia)
 				const allPrices = [];
 				infoAllDaysArray.forEach((day) => {
+					const DST25 = Object.values(day.Period.Point).length === 25; // check for DST change (day = 25 hours)
 					const startDate = new Date(day.Period.timeInterval.start);
 					const pricesDay = Object.values(day.Period.Point).map((value, index) => {
 						const sd = new Date(startDate);
-						sd.setHours(sd.getHours() + index);
+						let hour = index;
+						if (DST25 && index > 2) hour = index - 1;
+						sd.setHours(sd.getHours() + hour);
 						return { time: sd, price: value['price.amount'] };
 					});
 					allPrices.push(...pricesDay);
 				});
 
 				// create info per day starting from starttime
-				const dayPrices = allPrices.filter((price) => price.time >= start);
-				while (dayPrices.length > 0) {
-					const infoDay = { ...infoAllDaysArray[0] };
-					const endIndex = dayPrices.length > 24 ? 23 : dayPrices.length - 1;
-					infoDay.timeInterval = {
-						start: dayPrices[0].time.toISOString(), // '2022-03-17T23:00:00.000Z',
-						end: dayPrices[endIndex].time.toISOString(), // '2022-03-18T23:00:00.000Z'
-					};
-					infoDay.resolution = infoDay.Period.resolution;
-					infoDay.prices = dayPrices.splice(0, 24).map((price) => price.price);
-					delete infoDay.Period;
-					info.push(infoDay);
+				const [lastItem] = allPrices.slice(-1);
+				const dayStart = new Date(start);
+				while (dayStart <= lastItem.time) {
+					// create array for single day
+					const dayEnd = new Date(dayStart);
+					dayEnd.setDate(dayEnd.getDate() + 1);
+					const dayPrices = allPrices
+						.filter((price) => price.time >= dayStart)
+						.filter((price) => price.time < dayEnd);
+					dayStart.setDate(dayStart.getDate() + 1);
+
+					// format single day
+					if (dayPrices[0] && dayPrices[0].time) {
+						const infoDay = { ...infoAllDaysArray[0] };
+						infoDay.timeInterval = {
+							start: dayPrices[0].time.toISOString(), // '2022-03-17T23:00:00.000Z',
+							end: dayPrices[dayPrices.length - 1].time.toISOString(), // '2022-03-18T23:00:00.000Z'
+						};
+						infoDay.resolution = infoDay.Period.resolution;
+						infoDay.prices = dayPrices.map((price) => price.price);
+						delete infoDay.Period;
+						info.push(infoDay);
+					}
 				}
 			} else throw Error('no timeseries data found in response');
-			// console.dir(info, { depth: null });
+			// console.dir(info, { depth: null, colors: true });
 			return Promise.resolve(info);
 		} catch (error) {
 			return Promise.reject(error);
