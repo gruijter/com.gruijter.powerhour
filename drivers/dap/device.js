@@ -584,6 +584,12 @@ class MyDevice extends Homey.Device {
 				hourNextDayLowest = pricesTomorrow.indexOf(priceNextDayLowest);
 				priceNextDayHighest = Math.max(...pricesTomorrow);
 				hourNextDayHighest = pricesTomorrow.indexOf(priceNextDayHighest);
+				// handle DST change
+				if (pricesTomorrow.length === 25) {
+					this.log('compensating for DST change', this.getName());
+					if (hourNextDayLowest > 2) hourNextDayLowest -= 1;
+					if (hourNextDayHighest > 2) hourNextDayHighest -= 1;
+				}
 			}
 
 			// set capabilities
