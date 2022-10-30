@@ -252,13 +252,13 @@ class ENTSOE {
 				// create info per day starting from starttime
 				const [lastItem] = allPrices.slice(-1);
 				const dayStart = new Date(start);
-				while (dayStart <= lastItem.time) {
+				while (dayStart < lastItem.time) {
 					// create array for single day
 					const dayEnd = new Date(dayStart);
 					dayEnd.setDate(dayEnd.getDate() + 1);
 					const dayPrices = allPrices
 						.filter((price) => price.time >= dayStart)
-						.filter((price) => price.time < dayEnd);
+						.filter((price) => price.time <= dayEnd);
 					dayStart.setDate(dayStart.getDate() + 1);
 
 					// format single day

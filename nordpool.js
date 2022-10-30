@@ -167,11 +167,11 @@ class Nordpool {
 			// loop through all days
 			const info = [];
 			const day = start;
-			while (day <= end) {
+			while (day < end) {
 				const dayStart = new Date(day); // assuming exact start of a local day in UTC notation
 				const dayEnd = new Date(dayStart);
 				dayEnd.setDate(dayEnd.getDate() + 1); // add a day
-				const itemsDay = flat.filter((item) => item.date >= dayStart && item.date < dayEnd);
+				const itemsDay = flat.filter((item) => item.date >= dayStart && item.date <= dayEnd);
 				const prices = itemsDay.map((item) => item.value);
 				if (prices.length > 0) {
 					const timeInterval = {

@@ -1,9 +1,6 @@
 {
-  "4.7.5": {
-    "en": "Partial fix for DAP Daylight Savings Time change. Update to homey-api@1.8.0"
-  },
-  "4.7.4": {
-    "en": "Partial fix for DAP Daylight Savings Time change. Update to homey-api@1.8.0"
+  "4.7.6": {
+    "en": "Multiple fixes for DAP Daylight Savings Time change. Fix for multiple summarizers of same device. Update to homey-api@1.8.0"
   },
   "4.7.3": {
     "en": "Partial fix for DAP Daylight Savings Time change. Update to homey-api@1.8.0"

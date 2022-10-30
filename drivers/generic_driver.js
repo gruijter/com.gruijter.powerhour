@@ -148,7 +148,7 @@ class SumMeterDriver extends Driver {
 					const device = {
 						name: `${allDevices[key].name}_Σ${this.ds.driverId}`,
 						data: {
-							id: `PH_${this.ds.driverId}_${allDevices[key].id}_randomId`,
+							id: `PH_${this.ds.driverId}_${allDevices[key].id}_${randomId}`,
 						},
 						settings: {
 							homey_device_id: allDevices[key].id,
