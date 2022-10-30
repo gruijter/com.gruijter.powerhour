@@ -568,9 +568,15 @@ class MyDevice extends Homey.Device {
 
 			// find lowest and highest price today
 			const priceThisDayLowest = Math.min(...pricesThisDay);
-			const hourThisDayLowest = pricesThisDay.indexOf(priceThisDayLowest);
+			let hourThisDayLowest = pricesThisDay.indexOf(priceThisDayLowest);
 			const priceThisDayHighest = Math.max(...pricesThisDay);
-			const hourThisDayHighest = pricesThisDay.indexOf(priceThisDayHighest);
+			let hourThisDayHighest = pricesThisDay.indexOf(priceThisDayHighest);
+			// handle DST change
+			if (pricesThisDay.length === 25) {
+				this.log('compensating for DST change', this.getName());
+				if (hourThisDayLowest > 2) hourThisDayLowest -= 1;
+				if (hourThisDayHighest > 2) hourThisDayHighest -= 1;
+			}
 
 			// find avg, lowest and highest price tomorrow
 			let priceNextDayAvg = null;
