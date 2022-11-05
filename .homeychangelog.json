@@ -1,4 +1,7 @@
 {
+  "4.8.0": {
+    "en": "Added Homey Energy as source device."
+  },
   "4.7.6": {
     "en": "Multiple fixes for DAP Daylight Savings Time change. Fix for multiple summarizers of same device. Update to homey-api@1.8.0"
   },

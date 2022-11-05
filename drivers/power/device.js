@@ -145,9 +145,20 @@ class sumDriver extends GenericDevice {
 	}
 
 	async pollMeter() {
+
+		// poll a Homey Energy device
+		if (this.getSettings().homey_energy) {
+			const report = await this.homey.app.api.energy.getLiveReport();
+			// console.dir(report, { depth: null, colors: true });
+			const value = report[this.settings.homey_energy].W;
+			this.updateMeterFromMeasure(value).catch(this.error);
+			return;
+		}
+
 		this.sourceDevice = await this.homey.app.api.devices.getDevice({ id: this.getSettings().homey_device_id, $cache: false, $timeout: 20000 });
 		let pollValue = null;
 		let pollTm = null;
+
 		if (this.sourceDevice.capabilities.includes('meter_power')) {
 			pollValue = this.sourceDevice.capabilitiesObj.meter_power.value;
 			pollTm = new Date(this.sourceDevice.capabilitiesObj.meter_power.lastUpdated);

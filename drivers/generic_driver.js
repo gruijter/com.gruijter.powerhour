@@ -47,6 +47,11 @@ class SumMeterDriver extends Driver {
 						await device.updateMeterFromFlow(null);
 						return;
 					}
+					// check for HOMEY_ENERGY device
+					if (device.getSettings().homey_energy) {
+						await device.pollMeter();
+						return;
+					}
 					// check if source device exists
 					const sourceDeviceExists = device.sourceDevice && device.sourceDevice.capabilitiesObj && (device.sourceDevice.available !== null);
 					if (!sourceDeviceExists) {
@@ -124,23 +129,76 @@ class SumMeterDriver extends Driver {
 	async discoverDevices() {
 		try {
 			const randomId = crypto.randomBytes(3).toString('hex');
-			const virtualDevice = {
-				name: `VIRTUAL_METER_Σ${this.ds.driverId}`,
-				data: {
-					id: `PH_${this.ds.driverId}_${randomId}`,
-				},
-				settings: {
-					homey_device_id: `PH_${this.ds.driverId}_${randomId}`,
-					homey_device_name: `VIRTUAL_METER_${randomId}`,
-					level: this.homey.app.manifest.version,
-					meter_via_flow: true,
-					source_device_type: 'virtual via flow',
-				},
-				capabilities: this.ds.deviceCapabilities,
-			};
 			this.devices = [];
+			if (this.ds.driverId === 'power') {	// add Homey Energy virtual devices
+				this.devices = [
+					{
+						name: `HOMEY_ENERGY_SMARTMETERS_Σ${this.ds.driverId}`,
+						data: {
+							id: `PH_${this.ds.driverId}_HE_CUMULATIVE_${randomId}`,
+						},
+						settings: {
+							homey_device_id: `PH_${this.ds.driverId}_HE_CUMULATIVE_${randomId}`,
+							homey_device_name: `HOMEY_ENERGY_CUMULATIVE_${randomId}`,
+							level: this.homey.app.manifest.version,
+							homey_energy: 'totalCumulative',
+							interval: 1,
+							source_device_type: 'Homey Energy Smart Meters',
+						},
+						capabilities: this.ds.deviceCapabilities,
+					},
+					{
+						name: `HOMEY_ENERGY_SOLARPANELS_Σ${this.ds.driverId}`,
+						data: {
+							id: `PH_${this.ds.driverId}_HE_GENERATED_${randomId}`,
+						},
+						settings: {
+							homey_device_id: `PH_${this.ds.driverId}_HE_GENERATED_${randomId}`,
+							homey_device_name: `HOMEY_ENERGY_GENERATED_${randomId}`,
+							level: this.homey.app.manifest.version,
+							homey_energy: 'totalGenerated',
+							interval: 1,
+							source_device_type: 'Homey Energy Solar Panels',
+						},
+						capabilities: this.ds.deviceCapabilities,
+					},
+					{
+						name: `HOMEY_ENERGY_DEVICES_Σ${this.ds.driverId}`,
+						data: {
+							id: `PH_${this.ds.driverId}_HE_CONSUMED_${randomId}`,
+						},
+						settings: {
+							homey_device_id: `PH_${this.ds.driverId}_HE_CONSUMED_${randomId}`,
+							homey_device_name: `HOMEY_ENERGY_DEVICES_${randomId}`,
+							level: this.homey.app.manifest.version,
+							homey_energy: 'totalConsumed',
+							interval: 1,
+							source_device_type: 'Homey Energy Devices',
+						},
+						capabilities: this.ds.deviceCapabilities,
+					},
+				];
+			}
+			this.devices.push(
+				{
+					name: `VIRTUAL_VIA_FLOW_Σ${this.ds.driverId}`,
+					data: {
+						id: `PH_${this.ds.driverId}_${randomId}`,
+					},
+					settings: {
+						homey_device_id: `PH_${this.ds.driverId}_${randomId}`,
+						homey_device_name: `VIRTUAL_METER_${randomId}`,
+						level: this.homey.app.manifest.version,
+						meter_via_flow: true,
+						source_device_type: 'virtual via flow',
+					},
+					capabilities: this.ds.deviceCapabilities,
+				},
+			);
+
 			const allDevices = await this.homey.app.api.devices.getDevices({ $timeout: 20000 });
 			const keys = Object.keys(allDevices);
+
 			keys.forEach((key) => {
 				const hasCapability = (capability) => allDevices[key].capabilities.includes(capability);
 				const found = this.ds.originDeviceCapabilities.some(hasCapability);
@@ -164,7 +222,6 @@ class SumMeterDriver extends Driver {
 					if (!allDevices[key].driverUri.includes('com.gruijter.powerhour')) this.devices.push(device);
 				}
 			});
-			this.devices.push(virtualDevice);
 			return Promise.resolve(this.devices);
 		} catch (error) {
 			return Promise.reject(error);

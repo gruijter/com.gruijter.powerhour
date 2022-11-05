@@ -41,8 +41,20 @@ class SumMeterDevice extends Device {
 			if (this.currencyChanged) await this.migrateCurrencyOptions(this.settings.currency, this.settings.decimals);
 			if (this.meterDecimalsChanged) await this.migrateMeterOptions(this.settings.decimals_meter);
 
+			// check settings for homey energy device
+			if (this.settings.homey_energy) {
+				if (!this.settings.interval) {
+					this.setSettings({ interval: 1 });
+					this.settings.interval = 1;
+				}
+				if (this.settings.use_measure_source) {
+					this.setSettings({ use_measure_source: false });
+					this.settings.use_measure_source = false;
+				}
+			}
+
 			// setup source device
-			if (!this.settings.meter_via_flow) {
+			if (!(this.settings.meter_via_flow || this.settings.homey_energy)) {
 				this.sourceDevice = await this.homey.app.api.devices.getDevice({ id: this.settings.homey_device_id, $cache: false, $timeout: 25000 })
 					.catch(this.error);
 				// check if source device exists
@@ -51,7 +63,7 @@ class SumMeterDevice extends Device {
 				// check if source device is ready
 				if (!this.sourceDevice) throw Error(`Source device ${this.getName()} is not ready. Retry in 10 minutes.`);
 				// if (!this.sourceDevice || this.sourceDevice.ready !== true) throw Error(`Source device ${this.getName()} is not ready`);
-			} else this.log(this.getName(), 'Skipping setup of source device. Meter update is done via flow');
+			} else this.log(this.getName(), 'Skipping setup of source device. Meter update is done via flow or from Homey Energy');
 
 			// restore device values
 			await this.initDeviceValues();
@@ -315,6 +327,7 @@ class SumMeterDevice extends Device {
 	startPolling(interval) {
 		this.homey.clearInterval(this.intervalIdDevicePoll);
 		this.log(`start polling ${this.getName()} @${interval} minutes interval`);
+		this.pollMeter().catch(this.error);
 		this.intervalIdDevicePoll = this.homey.setInterval(async () => {
 			try {
 				await this.pollMeter();
@@ -500,7 +513,7 @@ class SumMeterDevice extends Device {
 	async updateMeterFromMeasure(val) {
 		const measureTm = new Date();
 		let value = val;
-		if (value === null) { // poll requested or app init
+		if (value === null && !this.settings.homey_energy) { // poll requested or app init
 			value = await this.getCapabilityValue(this.ds.cmap.measure_source);
 			if (typeof value !== 'number') value = 0;
 		}
