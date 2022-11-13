@@ -1,4 +1,7 @@
 {
+  "4.8.1": {
+    "en": "Fixed TTF EOD Gas price fetching. Removed support for DAP Daylight Savings Time change. Update to homey-api@1.9.1."
+  },
   "4.8.0": {
     "en": "Added Homey Energy as source device."
   },

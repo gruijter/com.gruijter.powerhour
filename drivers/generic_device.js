@@ -57,6 +57,8 @@ class SumMeterDevice extends Device {
 			if (!(this.settings.meter_via_flow || this.settings.homey_energy)) {
 				this.sourceDevice = await this.homey.app.api.devices.getDevice({ id: this.settings.homey_device_id, $cache: false, $timeout: 25000 })
 					.catch(this.error);
+				// wait a bit for capabilitiesObj to fill?
+				await setTimeoutPromise(3 * 1000);
 				// check if source device exists
 				const sourceDeviceExists = this.sourceDevice && this.sourceDevice.capabilitiesObj; // && (this.sourceDevice.available !== null);
 				if (!sourceDeviceExists) throw Error(`Source device ${this.getName()} is missing. Retry in 10 minutes.`);

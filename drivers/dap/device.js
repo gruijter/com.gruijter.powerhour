@@ -481,8 +481,8 @@ class MyDevice extends Homey.Device {
 			}
 
 			// check for DST change
-			if (prices[0].prices.length === 25) this.log(`${this.getName()} DST change: Today has 25 hours!`);
-			if (prices[1] && prices[1].prices.length === 25) this.log(`${this.getName()} DST change: Tomorrow has 25 hours!`);
+			if (prices[0].prices.length === 25) this.log(`${this.getName()} DST change (DISABLED): Today has 25 hours!`);
+			if (prices[1] && prices[1].prices.length === 25) this.log(`${this.getName()} DST change (DISABLED): Tomorrow has 25 hours!`);
 
 			// check for incomplete information
 			if (prices[0].prices.length < 24) this.log(`${this.getName()} did not receive 24 hours of prices for today`);
@@ -526,7 +526,7 @@ class MyDevice extends Homey.Device {
 			// get the present hour (0 - 23)
 			const now = new Date();
 			const nowLocal = new Date(now.toLocaleString('en-US', { timeZone: this.timeZone }));
-			let H0 = nowLocal.getHours();
+			const H0 = nowLocal.getHours();
 
 			// check for correct date, if new day shift prices[0]
 			let priceDate = new Date(new Date(prices[0].timeInterval.start).toLocaleString('en-US', { timeZone: this.timeZone }));
@@ -542,7 +542,7 @@ class MyDevice extends Homey.Device {
 			}
 
 			// make correction to present hour when DST (25 hours in a day)
-			if (this.prices[0].length === 25 && H0 > 2) H0 += 1;	// Not completely correct! Skips second version of H0 = 2...
+			// if (this.prices[0].length === 25 && H0 > 2) H0 += 1;	// Not completely correct! Skips second version of H0 = 2...
 
 			// Array pricesYesterday with markUp
 			if (!this.pricesYesterday || !this.pricesYesterday.prices) {
@@ -568,15 +568,15 @@ class MyDevice extends Homey.Device {
 
 			// find lowest and highest price today
 			const priceThisDayLowest = Math.min(...pricesThisDay);
-			let hourThisDayLowest = pricesThisDay.indexOf(priceThisDayLowest);
+			const hourThisDayLowest = pricesThisDay.indexOf(priceThisDayLowest);
 			const priceThisDayHighest = Math.max(...pricesThisDay);
-			let hourThisDayHighest = pricesThisDay.indexOf(priceThisDayHighest);
+			const hourThisDayHighest = pricesThisDay.indexOf(priceThisDayHighest);
 			// handle DST change
-			if (pricesThisDay.length === 25) {
-				this.log('compensating for DST change', this.getName());
-				if (hourThisDayLowest > 2) hourThisDayLowest -= 1;
-				if (hourThisDayHighest > 2) hourThisDayHighest -= 1;
-			}
+			// if (pricesThisDay.length === 25) {
+			// 	this.log('compensating for DST change', this.getName());
+			// 	if (hourThisDayLowest > 2) hourThisDayLowest -= 1;
+			// 	if (hourThisDayHighest > 2) hourThisDayHighest -= 1;
+			// }
 
 			// find avg, lowest and highest price tomorrow
 			let priceNextDayAvg = null;
@@ -591,11 +591,11 @@ class MyDevice extends Homey.Device {
 				priceNextDayHighest = Math.max(...pricesTomorrow);
 				hourNextDayHighest = pricesTomorrow.indexOf(priceNextDayHighest);
 				// handle DST change
-				if (pricesTomorrow.length === 25) {
-					this.log('compensating for DST change', this.getName());
-					if (hourNextDayLowest > 2) hourNextDayLowest -= 1;
-					if (hourNextDayHighest > 2) hourNextDayHighest -= 1;
-				}
+				// if (pricesTomorrow.length === 25) {
+				// 	this.log('compensating for DST change', this.getName());
+				// 	if (hourNextDayLowest > 2) hourNextDayLowest -= 1;
+				// 	if (hourNextDayHighest > 2) hourNextDayHighest -= 1;
+				// }
 			}
 
 			// set capabilities
