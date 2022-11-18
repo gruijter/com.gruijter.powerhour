@@ -1,4 +1,7 @@
 {
+  "4.8.2": {
+    "en": "Fixed CZ DAP spot prices."
+  },
   "4.8.1": {
     "en": "Fixed TTF EOD Gas price fetching. Removed support for DAP Daylight Savings Time change. Update to homey-api@1.9.1."
   },
