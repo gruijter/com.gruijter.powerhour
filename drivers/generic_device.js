@@ -516,24 +516,28 @@ class SumMeterDevice extends Device {
 		const measureTm = new Date();
 		let value = val;
 		if (value === null && !this.settings.homey_energy) { // poll requested or app init
-			value = await this.getCapabilityValue(this.ds.cmap.measure_source);
+			// value = await this.getCapabilityValue(this.ds.cmap.measure_source);
+			// get value from source device
+			if (this.sourceDevice && this.sourceDevice.capabilitiesObj && this.sourceDevice.capabilitiesObj.measure_power) {
+				value = this.sourceDevice.capabilitiesObj.measure_power.value;
+			}
 			if (typeof value !== 'number') value = 0;
 		}
 		if (typeof value !== 'number') return;
 		const deltaTm = measureTm - new Date(this.lastMeasure.measureTm);
-		// only update on >2 watt changes, or more then 2 minutes past
-		if ((Math.abs(value - this.lastMeasure.value) > 2) || deltaTm > 120000) {
-			const lastMeterValue = await this.getCapabilityValue(this.ds.cmap.meter_source);
-			if (typeof lastMeterValue !== 'number') this.error('lastMeterValue is NaN, WTF');
-			if (typeof deltaTm !== 'number') this.error('deltaTm is NaN, WTF');
-			const deltaMeter = (this.lastMeasure.value * deltaTm) / 3600000000;
-			const meter = lastMeterValue + deltaMeter;
-			this.lastMeasure = {
-				value,
-				measureTm,
-			};
-			await this.updateMeter(meter); // what to do with timestamp???
-		}
+		// only update on >2 watt changes, or more then 2 minutes past, or value = 0
+		// if ((Math.abs(value - this.lastMeasure.value) > 2) || value === 0 || deltaTm > 120000) {
+		const lastMeterValue = await this.getCapabilityValue(this.ds.cmap.meter_source);
+		if (typeof lastMeterValue !== 'number') this.error('lastMeterValue is NaN, WTF');
+		if (typeof deltaTm !== 'number') this.error('deltaTm is NaN, WTF');
+		const deltaMeter = (this.lastMeasure.value * deltaTm) / 3600000000;
+		const meter = lastMeterValue + deltaMeter;
+		this.lastMeasure = {
+			value,
+			measureTm,
+		};
+		await this.updateMeter(meter); // what to do with timestamp???
+		// }
 	}
 
 	async getPeriods(reading) { // MUST BE RUN BEFORE UPDATEMETERS!!!
