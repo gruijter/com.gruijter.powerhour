@@ -89,12 +89,15 @@ class SumMeterDevice extends Device {
 		}
 	}
 
-	// migrate stuff from old version < 4.0.0
+	// migrate stuff from old version < 4.9.0
 	async migrate() {
 		try {
 			this.log(`checking device migration for ${this.getName()}`);
 			// console.log(this.getName(), this.settings, this.getStore());
 
+			// store the capability states before migration
+			const sym = Object.getOwnPropertySymbols(this).find((s) => String(s) === 'Symbol(state)');
+			const state = this[sym];
 			// check and repair incorrect capability(order)
 			const correctCaps = this.driver.ds.deviceCapabilities;
 			for (let index = 0; index < correctCaps.length; index += 1) {
@@ -111,6 +114,10 @@ class SumMeterDevice extends Device {
 					// add the new cap
 					this.log(`adding capability ${newCap} for ${this.getName()}`);
 					await this.addCapability(newCap);
+					// restore capability state
+					if (state[newCap]) this.log(`${this.getName()} restoring value ${newCap} to ${state[newCap]}`);
+					// else this.log(`${this.getName()} has gotten a new capability ${newCap}!`);
+					await this.setCapability(newCap, state[newCap]);
 					await setTimeoutPromise(2 * 1000); // wait a bit for Homey to settle
 				}
 			}
@@ -474,6 +481,7 @@ class SumMeterDevice extends Device {
 	async updateMeter(val) { // , pollTm) { // pollTm is lastUpdated when using pollMethod
 		try {
 			if (typeof val !== 'number') return;
+			if (!this.migrated) return;
 			let value = val;
 			// logic for daily resetting meters
 			if (this.settings.homey_device_daily_reset) {
@@ -516,20 +524,25 @@ class SumMeterDevice extends Device {
 		const measureTm = new Date();
 		let value = val;
 		if (value === null && !this.settings.homey_energy) { // poll requested or app init
-			// value = await this.getCapabilityValue(this.ds.cmap.measure_source);
 			// get value from source device
 			if (this.sourceDevice && this.sourceDevice.capabilitiesObj && this.sourceDevice.capabilitiesObj.measure_power) {
 				value = this.sourceDevice.capabilitiesObj.measure_power.value;
 			}
-			if (typeof value !== 'number') value = 0;
+			// if (typeof value !== 'number') value = await this.getCapabilityValue(this.ds.cmap.measure_source);
 		}
 		if (typeof value !== 'number') return;
 		const deltaTm = measureTm - new Date(this.lastMeasure.measureTm);
 		// only update on >2 watt changes, or more then 2 minutes past, or value = 0
 		// if ((Math.abs(value - this.lastMeasure.value) > 2) || value === 0 || deltaTm > 120000) {
 		const lastMeterValue = await this.getCapabilityValue(this.ds.cmap.meter_source);
-		if (typeof lastMeterValue !== 'number') this.error('lastMeterValue is NaN, WTF');
-		if (typeof deltaTm !== 'number') this.error('deltaTm is NaN, WTF');
+		if (typeof lastMeterValue !== 'number') {
+			this.error('lastMeterValue is NaN, WTF');
+			return;
+		}
+		if (typeof deltaTm !== 'number' || deltaTm === 0) {
+			this.error('deltaTm is NaN, WTF');
+			return;
+		}
 		const deltaMeter = (this.lastMeasure.value * deltaTm) / 3600000000;
 		const meter = lastMeterValue + deltaMeter;
 		this.lastMeasure = {

@@ -10,7 +10,8 @@
     "dk": "KWh i går",
     "nl": "kWh vorige dag"
   },
-  "uiComponent": null,
+  "uiComponent": "sensor",
+  "icon": "/assets/kwh_d.svg",
   "getable": true,
   "setable": false,
   "insights": true,

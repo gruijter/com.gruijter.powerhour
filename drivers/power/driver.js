@@ -25,8 +25,8 @@ const driverSpecifics = {
 	driverId: 'power',
 	originDeviceCapabilities: ['measure_power', 'meter_power', 'meter_power.offPeak', 'meter_power.generated', 'meter_power.returned'],
 	// 'meter_power.peak', 'meter_power.consumed'
-	deviceCapabilities: ['meter_kwh_this_hour', 'meter_kwh_last_hour', 'meter_kwh_this_day', 'meter_kwh_last_day',
-		'meter_kwh_this_month', 'meter_kwh_last_month', 'meter_kwh_this_year', 'meter_kwh_last_year',
+	deviceCapabilities: ['meter_kwh_last_hour', 'meter_kwh_this_hour', 'meter_kwh_last_day', 'meter_kwh_this_day',
+		'meter_kwh_last_month', 'meter_kwh_this_month', 'meter_kwh_last_year', 'meter_kwh_this_year',
 		'meter_money_last_hour', 'meter_money_this_hour', 'meter_money_last_day', 'meter_money_this_day',
 		'meter_money_last_month', 'meter_money_this_month', 'meter_money_last_year', 'meter_money_this_year',
 		'meter_tariff', 'meter_power', 'measure_watt_avg', 'last_minmax_reset', 'measure_watt_min', 'measure_watt_max'],

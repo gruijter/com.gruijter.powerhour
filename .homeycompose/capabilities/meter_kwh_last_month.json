@@ -10,7 +10,8 @@
     "dk": "KWh sidste måned",
     "nl": "kWh vorige maand"
   },
-  "uiComponent": null,
+  "uiComponent": "sensor",
+  "icon": "/assets/kwh_m.svg",
   "getable": true,
   "setable": false,
   "insights": true,

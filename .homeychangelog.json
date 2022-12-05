@@ -1,4 +1,7 @@
 {
+  "4.9.0": {
+    "en": "Show kWh and m3 of previous period. Fix capability states after migration."
+  },
   "4.8.3": {
     "en": "Fixed Watts As Souce ghost usage. Update to homey-api@1.10.3."
   },

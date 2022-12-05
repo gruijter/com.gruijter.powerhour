@@ -1,7 +1,7 @@
 {
   "_comment": "This file is generated. Please edit .homeycompose/app.json instead.",
   "id": "com.gruijter.powerhour",
-  "version": "4.8.3",
+  "version": "4.9.0",
   "compatibility": ">=5.0.0",
   "brandColor": "#df5020",
   "sdk": 3,
@@ -5526,7 +5526,8 @@
         "dk": "KWh i går",
         "nl": "kWh vorige dag"
       },
-      "uiComponent": null,
+      "uiComponent": "sensor",
+      "icon": "/assets/kwh_d.svg",
       "getable": true,
       "setable": false,
       "insights": true,
@@ -5547,7 +5548,8 @@
         "dk": "KWh sidste time",
         "nl": "kWh vorig uur"
       },
-      "uiComponent": null,
+      "uiComponent": "sensor",
+      "icon": "/assets/kwh_h.svg",
       "getable": true,
       "setable": false,
       "insights": true,
@@ -5568,7 +5570,8 @@
         "dk": "KWh sidste måned",
         "nl": "kWh vorige maand"
       },
-      "uiComponent": null,
+      "uiComponent": "sensor",
+      "icon": "/assets/kwh_m.svg",
       "getable": true,
       "setable": false,
       "insights": true,
@@ -5589,7 +5592,8 @@
         "dk": "KWh sidste år",
         "nl": "kWh vorig jaar"
       },
-      "uiComponent": null,
+      "uiComponent": "sensor",
+      "icon": "/assets/kwh_y.svg",
       "getable": true,
       "setable": false,
       "insights": true,
@@ -5698,7 +5702,8 @@
         "dk": "m³ i går",
         "nl": "m³ vorige dag"
       },
-      "uiComponent": null,
+      "uiComponent": "sensor",
+      "icon": "/assets/m3_d.svg",
       "getable": true,
       "setable": false,
       "insights": true,
@@ -5719,7 +5724,8 @@
         "dk": "m³ sidste time",
         "nl": "m³ vorig uur"
       },
-      "uiComponent": null,
+      "uiComponent": "sensor",
+      "icon": "/assets/m3_h.svg",
       "getable": true,
       "setable": false,
       "insights": true,
@@ -5740,7 +5746,8 @@
         "dk": "m³ sidste måned",
         "nl": "m³ vorige maand"
       },
-      "uiComponent": null,
+      "uiComponent": "sensor",
+      "icon": "/assets/m3_m.svg",
       "getable": true,
       "setable": false,
       "insights": true,
@@ -5761,7 +5768,8 @@
         "dk": "m³ sidste år",
         "nl": "m³ vorig jaar"
       },
-      "uiComponent": null,
+      "uiComponent": "sensor",
+      "icon": "/assets/m3_y.svg",
       "getable": true,
       "setable": false,
       "insights": true,

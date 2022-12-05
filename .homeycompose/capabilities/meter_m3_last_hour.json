@@ -10,7 +10,8 @@
     "dk": "m³ sidste time",
     "nl": "m³ vorig uur"
   },
-  "uiComponent": null,
+  "uiComponent": "sensor",
+  "icon": "/assets/m3_h.svg",
   "getable": true,
   "setable": false,
   "insights": true,
