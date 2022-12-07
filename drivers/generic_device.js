@@ -119,19 +119,23 @@ class SumMeterDevice extends Device {
 					// else this.log(`${this.getName()} has gotten a new capability ${newCap}!`);
 					await this.setCapability(newCap, state[newCap]);
 					await setTimeoutPromise(2 * 1000); // wait a bit for Homey to settle
+					this.currencyChanged = true;
 				}
 			}
+
+			if (this.getSettings().level < '4.9.1') this.currencyChanged = true;
+
 			// fix meter_tariff currency versions <4.5.0
-			const optionsMoney = this.getCapabilityOptions('meter_money_this_hour');
-			const optionsTariff = this.getCapabilityOptions('meter_tariff');
-			if (!optionsTariff.units) optionsTariff.units = { en: null };
-			if (optionsMoney.units && (optionsMoney.units.en !== optionsTariff.units.en)) {
-				optionsTariff.units = optionsMoney.units;
-				optionsTariff.decimals = 4;
-				this.log(`Fixing currency for meter_tariff ${this.getName()} to ${optionsTariff.units.en}`);
-				await this.setCapabilityOptions('meter_tariff', optionsTariff).catch(this.error);
-				await setTimeoutPromise(2 * 1000);
-			}
+			// const optionsMoney = this.getCapabilityOptions('meter_money_this_hour');
+			// const optionsTariff = this.getCapabilityOptions('meter_tariff');
+			// if (!optionsTariff.units) optionsTariff.units = { en: null };
+			// if (optionsMoney.units && (optionsMoney.units.en !== optionsTariff.units.en)) {
+			// 	optionsTariff.units = optionsMoney.units;
+			// 	optionsTariff.decimals = 4;
+			// 	this.log(`Fixing currency for meter_tariff ${this.getName()} to ${optionsTariff.units.en}`);
+			// 	await this.setCapabilityOptions('meter_tariff', optionsTariff).catch(this.error);
+			// 	await setTimeoutPromise(2 * 1000);
+			// }
 
 			// convert tariff_via_flow to tariff_update_group <4.7.1
 			if (this.getSettings().level < '4.7.1') {
@@ -481,7 +485,7 @@ class SumMeterDevice extends Device {
 	async updateMeter(val) { // , pollTm) { // pollTm is lastUpdated when using pollMethod
 		try {
 			if (typeof val !== 'number') return;
-			if (!this.migrated) return;
+			if (!this.migrated || this.currencyChanged) return;
 			let value = val;
 			// logic for daily resetting meters
 			if (this.settings.homey_device_daily_reset) {

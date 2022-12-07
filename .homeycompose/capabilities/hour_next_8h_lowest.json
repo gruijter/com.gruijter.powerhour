@@ -1,0 +1,27 @@
+{
+  "type": "number",
+  "title": {
+    "en": "Lowest hour next 8H",
+    "de": "Niedrigste Stunde nächste 8 Std.",
+    "sv": "Lägsta timmen nästa 8H",
+    "it": "Ora più bassa prossime 8h",
+    "no": "Laveste time neste 8T",
+    "fr": "Heure la plus faible les 8 prochaines heures",
+    "dk": "Laveste pris næste 8T",
+    "nl": "Laagste uur komende 8U"
+  },
+  "uiComponent": "sensor",
+  "icon": "/assets/tariff.svg",
+  "getable": true,
+  "setable": false,
+  "insights": false,
+  "units": {
+    "en": "Hour",
+    "no": "Time",
+    "de": "Stunde",
+    "sv": "Timme",
+    "it": "Ora",
+    "nl": "Uur"
+  },
+  "decimals": 0
+}

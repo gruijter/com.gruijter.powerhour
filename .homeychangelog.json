@@ -1,4 +1,7 @@
 {
+  "4.9.1": {
+    "en": "Show kWh and m3 of previous period. Show lowest/highest price/hour for the next 8H. Reordered capabilities for DAP E. Fix capability states after migration. Fix currency symbol migration."
+  },
   "4.9.0": {
     "en": "Show kWh and m3 of previous period. Fix capability states after migration."
   },

@@ -93,6 +93,9 @@ class MyDevice extends Homey.Device {
 			this.log(`checking device migration for ${this.getName()}`);
 			// console.log(this.getName(), this.settings, this.getStore());
 
+			// store the capability states before migration
+			const sym = Object.getOwnPropertySymbols(this).find((s) => String(s) === 'Symbol(state)');
+			const state = this[sym];
 			// check and repair incorrect capability(order)
 			let correctCaps = this.driver.deviceCapabilitiesPower;
 			if (this.settings.biddingZone === 'TTF_EOD' || this.settings.biddingZone === 'TTF_LEBA') correctCaps = this.driver.deviceCapabilitiesGas;
@@ -110,10 +113,16 @@ class MyDevice extends Homey.Device {
 					// add the new cap
 					this.log(`adding capability ${newCap} for ${this.getName()}`);
 					await this.addCapability(newCap);
+					// restore capability state
+					if (state[newCap]) this.log(`${this.getName()} restoring value ${newCap} to ${state[newCap]}`);
+					// else this.log(`${this.getName()} has gotten a new capability ${newCap}!`);
+					await this.setCapability(newCap, state[newCap]);
 					await setTimeoutPromise(2 * 1000); // wait a bit for Homey to settle
 					this.currencyChanged = true;
 				}
 			}
+
+			if (this.getSettings().level < '4.9.1') this.currencyChanged = true;
 
 			// check this.settings.fetchExchangeRate  < 4.4.1
 			if (this.settings.level < '4.4.1') {
@@ -563,7 +572,6 @@ class MyDevice extends Homey.Device {
 			const pricesTodayAndTomorrow = pricesThisDay.concat(pricesTomorrow);
 			const pricesNext8h = pricesTodayAndTomorrow.slice(H0, H0 + 8);
 			if (pricesNext8h.length < 8) throw Error('Next 8 hour prices are not available');
-			const priceNext8hAvg = average(pricesNext8h);
 			const priceNow = pricesNext8h[0];
 
 			// find lowest and highest price today
@@ -577,6 +585,13 @@ class MyDevice extends Homey.Device {
 			// 	if (hourThisDayLowest > 2) hourThisDayLowest -= 1;
 			// 	if (hourThisDayHighest > 2) hourThisDayHighest -= 1;
 			// }
+
+			// find avg, lowest and highest price next 8h
+			const priceNext8hAvg = average(pricesNext8h);
+			const priceNext8hLowest = Math.min(...pricesNext8h);
+			const hourNext8hLowest = (H0 + pricesNext8h.indexOf(priceNext8hLowest)) % 24;
+			const priceNext8hHighest = Math.max(...pricesNext8h);
+			const hourNext8hHighest = (H0 + pricesNext8h.indexOf(priceNext8hHighest)) % 24;
 
 			// find avg, lowest and highest price tomorrow
 			let priceNextDayAvg = null;
@@ -601,8 +616,12 @@ class MyDevice extends Homey.Device {
 			// set capabilities
 			await this.setCapability('meter_price_this_day_lowest', priceThisDayLowest);
 			await this.setCapability('hour_this_day_lowest', hourThisDayLowest);
+			await this.setCapability('meter_price_next_8h_lowest', priceNext8hLowest);
+			await this.setCapability('hour_next_8h_lowest', hourNext8hLowest);
 			await this.setCapability('meter_price_this_day_highest', priceThisDayHighest);
 			await this.setCapability('hour_this_day_highest', hourThisDayHighest);
+			await this.setCapability('meter_price_next_8h_highest', priceNext8hHighest);
+			await this.setCapability('hour_next_8h_highest', hourNext8hHighest);
 			await this.setCapability('meter_price_this_day_avg', priceThisDayAvg);
 			await this.setCapability('meter_price_next_8h_avg', priceNext8hAvg);
 			await this.setCapability('meter_price_next_day_lowest', priceNextDayLowest);

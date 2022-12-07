@@ -1,7 +1,7 @@
 {
   "_comment": "This file is generated. Please edit .homeycompose/app.json instead.",
   "id": "com.gruijter.powerhour",
-  "version": "4.9.0",
+  "version": "4.9.1",
   "compatibility": ">=5.0.0",
   "brandColor": "#df5020",
   "sdk": 3,
@@ -5217,6 +5217,60 @@
     }
   ],
   "capabilities": {
+    "hour_next_8h_highest": {
+      "type": "number",
+      "title": {
+        "en": "Highest hour next 8H",
+        "de": "Höchste Stunde nächste 8 Std.",
+        "sv": "Högsta timmen nästa 8H",
+        "it": "Ora più alta prossime 8h",
+        "no": "Høyeste time neste 8T",
+        "fr": "Heure la plus élevée les 8 prochaines heures",
+        "dk": "Højeste time næste 8T",
+        "nl": "Hoogste uur komende 8U"
+      },
+      "uiComponent": "sensor",
+      "icon": "/assets/tariff.svg",
+      "getable": true,
+      "setable": false,
+      "insights": false,
+      "units": {
+        "en": "Hour",
+        "no": "Time",
+        "de": "Stunde",
+        "sv": "Timme",
+        "it": "Ora",
+        "nl": "Uur"
+      },
+      "decimals": 0
+    },
+    "hour_next_8h_lowest": {
+      "type": "number",
+      "title": {
+        "en": "Lowest hour next 8H",
+        "de": "Niedrigste Stunde nächste 8 Std.",
+        "sv": "Lägsta timmen nästa 8H",
+        "it": "Ora più bassa prossime 8h",
+        "no": "Laveste time neste 8T",
+        "fr": "Heure la plus faible les 8 prochaines heures",
+        "dk": "Laveste pris næste 8T",
+        "nl": "Laagste uur komende 8U"
+      },
+      "uiComponent": "sensor",
+      "icon": "/assets/tariff.svg",
+      "getable": true,
+      "setable": false,
+      "insights": false,
+      "units": {
+        "en": "Hour",
+        "no": "Time",
+        "de": "Stunde",
+        "sv": "Timme",
+        "it": "Ora",
+        "nl": "Uur"
+      },
+      "decimals": 0
+    },
     "hour_next_day_highest": {
       "type": "number",
       "title": {
@@ -6257,6 +6311,50 @@
       "getable": true,
       "setable": false,
       "insights": true,
+      "units": {
+        "en": "€"
+      },
+      "decimals": 4
+    },
+    "meter_price_next_8h_highest": {
+      "type": "number",
+      "title": {
+        "en": "Highest price next 8H",
+        "de": "Höchste Preis nächste 8 Std.",
+        "sv": "Högsta pris nästa 8H",
+        "it": "Prezzo più alta prossime 8h",
+        "no": "Høyeste pris neste 8T",
+        "fr": "Tarif le plus élevée les 8 prochaines heures",
+        "dk": "Højeste pris næste 8T",
+        "nl": "Hoogste prijs komende 8U"
+      },
+      "uiComponent": "sensor",
+      "icon": "/assets/tariff.svg",
+      "getable": true,
+      "setable": false,
+      "insights": false,
+      "units": {
+        "en": "€"
+      },
+      "decimals": 4
+    },
+    "meter_price_next_8h_lowest": {
+      "type": "number",
+      "title": {
+        "en": "Lowest price next 8H",
+        "de": "Niedrigster Preis nächste 8 Std.",
+        "sv": "Lägsta pris nästa 8H",
+        "it": "Prezzo più basso prossime 8h",
+        "no": "Laveste pris neste 8T",
+        "fr": "Tarif le plus faible les 8 prochaines heures",
+        "dk": "Laveste pris næste 8T",
+        "nl": "Laagste prijs komende 8U"
+      },
+      "uiComponent": "sensor",
+      "icon": "/assets/tariff.svg",
+      "getable": true,
+      "setable": false,
+      "insights": false,
       "units": {
         "en": "€"
       },

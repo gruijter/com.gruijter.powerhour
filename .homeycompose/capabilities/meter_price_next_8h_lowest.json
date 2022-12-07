@@ -1,0 +1,22 @@
+{
+  "type": "number",
+  "title": {
+    "en": "Lowest price next 8H",
+    "de": "Niedrigster Preis nächste 8 Std.",
+    "sv": "Lägsta pris nästa 8H",
+    "it": "Prezzo più basso prossime 8h",
+    "no": "Laveste pris neste 8T",
+    "fr": "Tarif le plus faible les 8 prochaines heures",
+    "dk": "Laveste pris næste 8T",
+    "nl": "Laagste prijs komende 8U"
+  },
+  "uiComponent": "sensor",
+  "icon": "/assets/tariff.svg",
+  "getable": true,
+  "setable": false,
+  "insights": false,
+  "units": {
+    "en": "€"
+  },
+  "decimals": 4
+}
