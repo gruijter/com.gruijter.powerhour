@@ -25,8 +25,12 @@ const https = require('https');
 const defaultHost = 'mijn.easyenergy.com';
 const defaultPort = 443;
 const defaultTimeout = 30000;
-const lebaPath = '/nl/api/tariff/getlebatariffs'; // gas LEBA ETF day-ahead
-// const apxPath = '/nl/api/tariff/getapxtariffs'; // electricity ETF day-ahead
+const lebaPath = '/nl/api/tariff/getlebatariffs'; // gas LEBA TTF day-ahead
+// const apxPath = '/nl/api/tariff/getapxtariffs'; // electricity TTF day-ahead
+
+const biddingZones = {
+	TTF_LEBA_EasyEnergy: 'TTF_LEBA_EasyEnergy',
+};
 
 class Easyenergy {
 	// Represents a session to the Easyenergy API.
@@ -35,7 +39,13 @@ class Easyenergy {
 		this.host = options.host || defaultHost;
 		this.port = options.port || defaultPort;
 		this.timeout = options.timeout || defaultTimeout;
+		this.biddingZone = options.biddingZone;
+		this.biddingZones = biddingZones;
 		this.lastResponse = undefined;
+	}
+
+	getBiddingZones() {
+		return this.biddingZones;
 	}
 
 	/**
@@ -55,33 +65,6 @@ class Easyenergy {
 			const start = opts.dateStart ? new Date(opts.dateStart) : today;
 			const end = opts.dateEnd ? new Date(opts.dateEnd) : tomorrow;
 
-			const info = [];
-			const day = start;
-			while (day <= end) {
-				// eslint-disable-next-line no-await-in-loop
-				const infoDay = await this.getPricesDay(day).catch((error) => error);
-				info.push(infoDay);
-				day.setDate(day.getDate() + 1);
-			}
-			// console.dir(info, { depth: null });
-			const infoGood = info.filter((infoDay) => !(infoDay instanceof Error));
-			if (infoGood.length === 0) throw info.find((infoDay) => infoDay instanceof Error);
-			return Promise.resolve(infoGood);
-		} catch (error) {
-			return Promise.reject(error);
-		}
-	}
-
-	async getPricesDay(day) {
-		try {
-			const start = new Date(day);
-			// start.setHours(0); // doesnt work with Homey time
-			start.setMinutes(0);
-			start.setSeconds(0);
-			start.setMilliseconds(0);
-			const end = new Date(start);
-			end.setDate(end.getDate() + 1);
-
 			const query = {
 				startTimestamp: start.toISOString(),
 				endTimestamp: end.toISOString(),
@@ -92,16 +75,13 @@ class Easyenergy {
 			const path = `${lebaPath}?${qs}`;
 			const res = await this._makeRequest(path);
 			if (!res || !res[0] || !res[0].Timestamp) throw Error('no gas price info found');
+
 			// make array with concise info per day in euro / 1000 m3 gas
-			const prices = res.map((hour) => hour.TariffUsage * 1000);
-			const timeInterval = {
-				start: new Date(res[0].Timestamp).toISOString(),
-				end: new Date(res.pop().Timestamp).toISOString(),
-			};
-			const info = {
-				timeInterval,
-				prices,
-			};
+			const info = res
+				.map((hourInfo) => ({ time: new Date(hourInfo.Timestamp), price: hourInfo.TariffUsage * 1000 }))
+				.filter((hourInfo) => hourInfo.time >= start) // remove out of bounds data
+				.filter((hourInfo) => hourInfo.time <= end);
+
 			return Promise.resolve(info);
 		} catch (error) {
 			return Promise.reject(error);
@@ -177,18 +157,18 @@ class Easyenergy {
 
 module.exports = Easyenergy;
 
-// START TEST HERE
+// // START TEST HERE
 // const easyEnergy = new Easyenergy();
 
-// const today = new Date();
-// today.setHours(0);
-// const yesterday = new Date(today);
-// const tomorrow = new Date(today);
-// yesterday.setDate(yesterday.getDate() - 1);
-// tomorrow.setDate(tomorrow.getDate() + 1);
+// // const today = new Date();
+// // today.setHours(0);
+// // const yesterday = new Date(today);
+// // const tomorrow = new Date(today);
+// // yesterday.setDate(yesterday.getDate() - 1);
+// // tomorrow.setDate(tomorrow.getDate() + 1);
 
-// const dateStart = '2022-07-09T22:00:00.000Z';
-// const dateEnd = '2022-07-09T22:00:00.000Z';
+// const dateStart = '2022-12-11T23:00:00.000Z';
+// const dateEnd = '2022-12-13T23:00:00.000Z';
 // easyEnergy.getPrices({ dateStart, dateEnd })
 
 // // easyEnergy.getPrices({ dateStart: today, dateEnd: tomorrow })
@@ -198,40 +178,54 @@ module.exports = Easyenergy;
 /*
 
 [
-	{
-		timeInterval: {
-			start: '2022-05-26T22:00:00.000Z',
-			end: '2022-05-27T21:00:00.000Z'
-		},
-		prices: [
-							 968.9922,          968.9922,
-							 968.9922,          968.9922,
-							 968.9922,          968.9922,
-			979.3498000000001, 979.3498000000001,
-			979.3498000000001, 979.3498000000001,
-			979.3498000000001, 979.3498000000001,
-			979.3498000000001, 979.3498000000001,
-			979.3498000000001, 979.3498000000001,
-			979.3498000000001, 979.3498000000001,
-			979.3498000000001, 979.3498000000001,
-			979.3498000000001, 979.3498000000001,
-			979.3498000000001, 979.3498000000001
-		]
-	},
-	{
-		timeInterval: {
-			start: '2022-05-27T22:00:00.000Z',
-			end: '2022-05-28T03:00:00.000Z'
-		},
-		prices: [
-			979.3498000000001,
-			979.3498000000001,
-			979.3498000000001,
-			979.3498000000001,
-			979.3498000000001,
-			979.3498000000001
-		]
-	}
+  { time: 2022-12-11T23:00:00.000Z, price: 1384.8 },
+  { time: 2022-12-12T00:00:00.000Z, price: 1384.8 },
+  { time: 2022-12-12T01:00:00.000Z, price: 1384.8 },
+  { time: 2022-12-12T02:00:00.000Z, price: 1384.8 },
+  { time: 2022-12-12T03:00:00.000Z, price: 1384.8 },
+  { time: 2022-12-12T04:00:00.000Z, price: 1384.8 },
+  { time: 2022-12-12T05:00:00.000Z, price: 1367.84 },
+  { time: 2022-12-12T06:00:00.000Z, price: 1367.84 },
+  { time: 2022-12-12T07:00:00.000Z, price: 1367.84 },
+  { time: 2022-12-12T08:00:00.000Z, price: 1367.84 },
+  { time: 2022-12-12T09:00:00.000Z, price: 1367.84 },
+  { time: 2022-12-12T10:00:00.000Z, price: 1367.84 },
+  { time: 2022-12-12T11:00:00.000Z, price: 1367.84 },
+  { time: 2022-12-12T12:00:00.000Z, price: 1367.84 },
+  { time: 2022-12-12T13:00:00.000Z, price: 1367.84 },
+  { time: 2022-12-12T14:00:00.000Z, price: 1367.84 },
+  { time: 2022-12-12T15:00:00.000Z, price: 1367.84 },
+  { time: 2022-12-12T16:00:00.000Z, price: 1367.84 },
+  { time: 2022-12-12T17:00:00.000Z, price: 1367.84 },
+  { time: 2022-12-12T18:00:00.000Z, price: 1367.84 },
+  { time: 2022-12-12T19:00:00.000Z, price: 1367.84 },
+  { time: 2022-12-12T20:00:00.000Z, price: 1367.84 },
+  { time: 2022-12-12T21:00:00.000Z, price: 1367.84 },
+  { time: 2022-12-12T22:00:00.000Z, price: 1367.84 },
+  { time: 2022-12-12T23:00:00.000Z, price: 1367.84 },
+  { time: 2022-12-13T00:00:00.000Z, price: 1367.84 },
+  { time: 2022-12-13T01:00:00.000Z, price: 1367.84 },
+  { time: 2022-12-13T02:00:00.000Z, price: 1367.84 },
+  { time: 2022-12-13T03:00:00.000Z, price: 1367.84 },
+  { time: 2022-12-13T04:00:00.000Z, price: 1367.84 },
+  { time: 2022-12-13T05:00:00.000Z, price: 1343.58 },
+  { time: 2022-12-13T06:00:00.000Z, price: 1343.58 },
+  { time: 2022-12-13T07:00:00.000Z, price: 1343.58 },
+  { time: 2022-12-13T08:00:00.000Z, price: 1343.58 },
+  { time: 2022-12-13T09:00:00.000Z, price: 1343.58 },
+  { time: 2022-12-13T10:00:00.000Z, price: 1343.58 },
+  { time: 2022-12-13T11:00:00.000Z, price: 1343.58 },
+  { time: 2022-12-13T12:00:00.000Z, price: 1343.58 },
+  { time: 2022-12-13T13:00:00.000Z, price: 1343.58 },
+  { time: 2022-12-13T14:00:00.000Z, price: 1343.58 },
+  { time: 2022-12-13T15:00:00.000Z, price: 1343.58 },
+  { time: 2022-12-13T16:00:00.000Z, price: 1343.58 },
+  { time: 2022-12-13T17:00:00.000Z, price: 1343.58 },
+  { time: 2022-12-13T18:00:00.000Z, price: 1343.58 },
+  { time: 2022-12-13T19:00:00.000Z, price: 1343.58 },
+  { time: 2022-12-13T20:00:00.000Z, price: 1343.58 },
+  { time: 2022-12-13T21:00:00.000Z, price: 1343.58 },
+  { time: 2022-12-13T22:00:00.000Z, price: 1343.58 }
 ]
 
 [

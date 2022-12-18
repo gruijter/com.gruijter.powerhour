@@ -12,7 +12,7 @@
 		{
 		  "type": "device",
 		  "name": "device",
-		  "filter": "driver_id=dap"
+		  "filter": "driver_id=dap|dapg"
 		}
 	],
 	"tokens": [

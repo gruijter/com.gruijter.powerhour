@@ -219,61 +219,35 @@ class ENTSOE {
 				+ `${end.toISOString().replace(/.\d+Z$/g, 'Z').replace(':', '%3A')}`;
 			const path = `/api?securityToken=${this.apiKey}&documentType=A44&in_Domain=${zone}&out_Domain=${zone}&TimeInterval=${interval}`;
 			const res = await this._makeRequest(path);
-			// make array with concise info per day
-			const info = [];
 
+			// make array with concise info
+			let info = [];
 			if (res.Publication_MarketDocument && res.Publication_MarketDocument.TimeSeries) {
 				// check multiple days
 				let infoAllDays = {};
 				if (res.Publication_MarketDocument.TimeSeries['1']) {
 					infoAllDays = res.Publication_MarketDocument.TimeSeries;
 				} else infoAllDays['0'] = res.Publication_MarketDocument.TimeSeries;
-
 				// make array from object and filter only 'PT60M'
 				let infoAllDaysArray = [];
 				Object.values(infoAllDays).forEach((day) => infoAllDaysArray.push(day));
 				infoAllDaysArray = infoAllDaysArray.filter((day) => day.Period.resolution === 'PT60M');
-
-				// refactor days in case of exceptions (like Estonia)
+				// refactor to single array
 				const allPrices = [];
 				infoAllDaysArray.forEach((day) => {
-					const DST25 = Object.values(day.Period.Point).length === 25; // check for DST change (day = 25 hours)
 					const startDate = new Date(day.Period.timeInterval.start);
 					const pricesDay = Object.values(day.Period.Point).map((value, index) => {
 						const sd = new Date(startDate);
-						let hour = index;
-						if (DST25 && index > 2) hour = index - 1;
+						const hour = index;
 						sd.setHours(sd.getHours() + hour);
 						return { time: sd, price: value['price.amount'] };
 					});
 					allPrices.push(...pricesDay);
 				});
-
-				// create info per day starting from starttime
-				const [lastItem] = allPrices.slice(-1);
-				const dayStart = new Date(start);
-				while (dayStart < lastItem.time) {
-					// create array for single day
-					const dayEnd = new Date(dayStart);
-					dayEnd.setDate(dayEnd.getDate() + 1);
-					const dayPrices = allPrices
-						.filter((price) => price.time >= dayStart)
-						.filter((price) => price.time <= dayEnd);
-					dayStart.setDate(dayStart.getDate() + 1);
-
-					// format single day
-					if (dayPrices[0] && dayPrices[0].time) {
-						const infoDay = { ...infoAllDaysArray[0] };
-						infoDay.timeInterval = {
-							start: dayPrices[0].time.toISOString(), // '2022-03-17T23:00:00.000Z',
-							end: dayPrices[dayPrices.length - 1].time.toISOString(), // '2022-03-18T23:00:00.000Z'
-						};
-						infoDay.resolution = infoDay.Period.resolution;
-						infoDay.prices = dayPrices.map((price) => price.price);
-						delete infoDay.Period;
-						info.push(infoDay);
-					}
-				}
+				// remove out of bounds data
+				info = allPrices
+					.filter((price) => price.time >= start)
+					.filter((price) => price.time <= end);
 			} else throw Error('no timeseries data found in response');
 			// console.dir(info, { depth: null, colors: true });
 			return Promise.resolve(info);
@@ -362,8 +336,8 @@ class ENTSOE {
 
 module.exports = ENTSOE;
 
-// START TEST HERE
-// const Entsoe = new ENTSOE({ biddingZone: '10Y1001A1001A82H', apiKey: '' }); // '10YNL----------L'
+// // START TEST HERE
+// const Entsoe = new ENTSOE({ biddingZone: '10YNL----------L', apiKey: '' }); // '10Y1001A1001A82H'
 // console.log('REMOVE APIKEY!!!!!');
 
 // // const today = new Date();
@@ -371,8 +345,8 @@ module.exports = ENTSOE;
 // // const tomorrow = new Date(today);
 // // tomorrow.setDate(tomorrow.getDate() + 1);
 
-// const dateStart = new Date('2022-09-11T22:00:00.000Z'); // today;
-// const dateEnd = new Date('2022-09-13T22:00:00.000Z'); // tomorrow;
+// const dateStart = new Date('2022-12-11T23:00:00.000Z'); // today;
+// const dateEnd = new Date('2022-12-13T23:00:00.000Z'); // tomorrow;
 
 // Entsoe.getPrices({ dateStart, dateEnd })
 // 	.then((result) => console.dir(result, { depth: null }))
@@ -382,34 +356,34 @@ module.exports = ENTSOE;
 
 /**
 * @typedef priceInfo
-* @description Array of prices per day
-* @property {string} in_Domain.mRID - The price domain
-* @property {string} currency_Unit.name - The currency, e.g. 'EUR'
-* @property {string} price_Measure_Unit.name - The unit, e.g. 'MWH'
-* @property {object} timeInterval - The start and end time of the series, e.g. { start: '2022-02-21T23:00Z', end: '2022-02-22T23:00Z' }
-* @property {string} resolution - Interval of the pricepoints in minutes, e.g. 'PT60M'
-* @property {array} prices - Array with prices in order of time
+* @description Array of prices with UTC timestamp
+* @property {array} prices - Array with object including UTC time and price
 * @example
 [
-	{
-	  mRID: 1,
-	  businessType: 'A62',
-	  'in_Domain.mRID': '10YNL----------L',
-	  'out_Domain.mRID': '10YNL----------L',
-	  'currency_Unit.name': 'EUR',
-	  'price_Measure_Unit.name': 'MWH',
-	  curveType: 'A01',
-	  timeInterval: { start: '2022-02-21T23:00Z', end: '2022-02-22T23:00Z' },
-	  resolution: 'PT60M',
-	  prices: [
-		150.05, 140, 163.76, 193.94,
-		196.39, 179.91, 219.02, 236,
-		211.59, 182.75, 136.91, 131.06,
-		125.26, 147,  141.8, 150,
-		144, 167, 219.02, 192,
-		167, 148.98, 133, 113.55
-	  ]
-	}
+  { time: 2022-12-12T23:00:00.000Z, price: 305.7 },
+  { time: 2022-12-13T00:00:00.000Z, price: 287.52 },
+  { time: 2022-12-13T01:00:00.000Z, price: 284.69 },
+  { time: 2022-12-13T02:00:00.000Z, price: 275.83 },
+  { time: 2022-12-13T03:00:00.000Z, price: 282.3 },
+  { time: 2022-12-13T04:00:00.000Z, price: 316.07 },
+  { time: 2022-12-13T05:00:00.000Z, price: 368.9 },
+  { time: 2022-12-13T06:00:00.000Z, price: 499.7 },
+  { time: 2022-12-13T07:00:00.000Z, price: 571.76 },
+  { time: 2022-12-13T08:00:00.000Z, price: 553.29 },
+  { time: 2022-12-13T09:00:00.000Z, price: 486.27 },
+  { time: 2022-12-13T10:00:00.000Z, price: 448.9 },
+  { time: 2022-12-13T11:00:00.000Z, price: 459.98 },
+  { time: 2022-12-13T12:00:00.000Z, price: 506.03 },
+  { time: 2022-12-13T13:00:00.000Z, price: 552.71 },
+  { time: 2022-12-13T14:00:00.000Z, price: 570.25 },
+  { time: 2022-12-13T15:00:00.000Z, price: 590 },
+  { time: 2022-12-13T16:00:00.000Z, price: 665.01 },
+  { time: 2022-12-13T17:00:00.000Z, price: 560.15 },
+  { time: 2022-12-13T18:00:00.000Z, price: 516.57 },
+  { time: 2022-12-13T19:00:00.000Z, price: 399.9 },
+  { time: 2022-12-13T20:00:00.000Z, price: 341.44 },
+  { time: 2022-12-13T21:00:00.000Z, price: 301.69 },
+  { time: 2022-12-13T22:00:00.000Z, price: 283.08 }
 ]
 */
 

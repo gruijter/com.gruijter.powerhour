@@ -22,7 +22,7 @@ along with com.gruijter.powerhour.  If not, see <http://www.gnu.org/licenses/>.
 const https = require('https');
 // const util = require('util');
 
-const defaultHost = 'graphcdn.frankenergie.nl'; // 'frank-graphql-prod.graphcdn.app'
+const defaultHost = 'graphcdn.frankenergie.nl'; // 'frank-graphql-prod.graphcdn.app' TTF EOD
 const defaultPort = 443;
 const defaultTimeout = 30000;
 

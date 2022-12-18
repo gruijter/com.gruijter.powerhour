@@ -1,8 +1,8 @@
 {
   "_comment": "This file is generated. Please edit .homeycompose/app.json instead.",
   "id": "com.gruijter.powerhour",
-  "version": "4.9.1",
-  "compatibility": ">=5.0.0",
+  "version": "5.0.0",
+  "compatibility": ">=8.0.0",
   "brandColor": "#df5020",
   "sdk": 3,
   "name": {
@@ -166,7 +166,7 @@
           {
             "type": "device",
             "name": "device",
-            "filter": "driver_id=dap"
+            "filter": "driver_id=dap|dapg"
           }
         ],
         "tokens": [
@@ -208,7 +208,7 @@
           {
             "type": "device",
             "name": "device",
-            "filter": "driver_id=dap"
+            "filter": "driver_id=dap|dapg"
           },
           {
             "type": "dropdown",
@@ -286,7 +286,7 @@
           {
             "type": "device",
             "name": "device",
-            "filter": "driver_id=dap"
+            "filter": "driver_id=dap|dapg"
           },
           {
             "type": "number",
@@ -374,7 +374,7 @@
           {
             "type": "device",
             "name": "device",
-            "filter": "driver_id=dap"
+            "filter": "driver_id=dap|dapg"
           },
           {
             "type": "number",
@@ -462,7 +462,7 @@
           {
             "type": "device",
             "name": "device",
-            "filter": "driver_id=dap"
+            "filter": "driver_id=dap|dapg"
           },
           {
             "type": "dropdown",
@@ -606,7 +606,7 @@
           {
             "type": "device",
             "name": "device",
-            "filter": "driver_id=dap"
+            "filter": "driver_id=dap|dapg"
           },
           {
             "type": "dropdown",
@@ -705,7 +705,7 @@
           {
             "type": "device",
             "name": "device",
-            "filter": "driver_id=dap"
+            "filter": "driver_id=dap|dapg"
           },
           {
             "type": "number",
@@ -801,7 +801,7 @@
           {
             "type": "device",
             "name": "device",
-            "filter": "driver_id=dap"
+            "filter": "driver_id=dap|dapg"
           },
           {
             "type": "number",
@@ -861,7 +861,7 @@
           {
             "type": "device",
             "name": "device",
-            "filter": "driver_id=dap"
+            "filter": "driver_id=dap|dapg"
           },
           {
             "type": "dropdown",
@@ -1005,7 +1005,7 @@
           {
             "type": "device",
             "name": "device",
-            "filter": "driver_id=dap"
+            "filter": "driver_id=dap|dapg"
           },
           {
             "type": "dropdown",
@@ -1104,7 +1104,7 @@
           {
             "type": "device",
             "name": "device",
-            "filter": "driver_id=dap"
+            "filter": "driver_id=dap|dapg"
           },
           {
             "type": "number",
@@ -1200,7 +1200,7 @@
           {
             "type": "device",
             "name": "device",
-            "filter": "driver_id=dap"
+            "filter": "driver_id=dap|dapg"
           },
           {
             "type": "number",
@@ -1262,7 +1262,7 @@
           {
             "type": "device",
             "name": "device",
-            "filter": "driver_id=dap"
+            "filter": "driver_id=dap|dapg"
           },
           {
             "type": "number",
@@ -1333,7 +1333,7 @@
           {
             "type": "device",
             "name": "device",
-            "filter": "driver_id=dap"
+            "filter": "driver_id=dap|dapg"
           },
           {
             "type": "number",
@@ -1406,7 +1406,7 @@
           {
             "type": "device",
             "name": "device",
-            "filter": "driver_id=dap"
+            "filter": "driver_id=dap|dapg"
           },
           {
             "type": "dropdown",
@@ -1546,7 +1546,7 @@
           {
             "type": "device",
             "name": "device",
-            "filter": "driver_id=dap"
+            "filter": "driver_id=dap|dapg"
           },
           {
             "type": "dropdown",
@@ -1633,7 +1633,7 @@
           {
             "type": "device",
             "name": "device",
-            "filter": "driver_id=dap"
+            "filter": "driver_id=dap|dapg"
           },
           {
             "type": "number",
@@ -1719,7 +1719,7 @@
           {
             "type": "device",
             "name": "device",
-            "filter": "driver_id=dap"
+            "filter": "driver_id=dap|dapg"
           },
           {
             "type": "number",
@@ -1766,7 +1766,7 @@
           {
             "type": "device",
             "name": "device",
-            "filter": "driver_id=dap"
+            "filter": "driver_id=dap|dapg"
           },
           {
             "type": "dropdown",
@@ -1906,7 +1906,7 @@
           {
             "type": "device",
             "name": "device",
-            "filter": "driver_id=dap"
+            "filter": "driver_id=dap|dapg"
           },
           {
             "type": "dropdown",
@@ -1993,7 +1993,7 @@
           {
             "type": "device",
             "name": "device",
-            "filter": "driver_id=dap"
+            "filter": "driver_id=dap|dapg"
           },
           {
             "type": "number",
@@ -2079,7 +2079,7 @@
           {
             "type": "device",
             "name": "device",
-            "filter": "driver_id=dap"
+            "filter": "driver_id=dap|dapg"
           },
           {
             "type": "number",
@@ -2151,7 +2151,7 @@
           {
             "type": "device",
             "name": "device",
-            "filter": "driver_id=dap"
+            "filter": "driver_id=dap|dapg"
           },
           {
             "name": "value",
@@ -2195,7 +2195,7 @@
           {
             "type": "device",
             "name": "device",
-            "filter": "driver_id=dap"
+            "filter": "driver_id=dap|dapg"
           },
           {
             "name": "value",
@@ -2239,7 +2239,7 @@
           {
             "type": "device",
             "name": "device",
-            "filter": "driver_id=dap"
+            "filter": "driver_id=dap|dapg"
           },
           {
             "name": "value",
@@ -2283,7 +2283,7 @@
           {
             "type": "device",
             "name": "device",
-            "filter": "driver_id=dap"
+            "filter": "driver_id=dap|dapg"
           },
           {
             "name": "value",
@@ -2642,7 +2642,7 @@
           {
             "type": "device",
             "name": "device",
-            "filter": "driver_id=dap"
+            "filter": "driver_id=dap|dapg"
           },
           {
             "name": "value",
@@ -2666,21 +2666,23 @@
   "drivers": [
     {
       "name": {
-        "en": "Day-Ahead 1H Prices",
-        "de": "Day-Ahead 1 Std. Preis",
-        "sv": "Day-Ahead 1H Priser",
-        "it": "Prezzi del giorno prima 1h",
-        "no": "Day-Ahead 1T Priser",
-        "fr": "Tarif demain heure par heure",
-        "dk": "Day-Ahead 1T priser",
-        "nl": "Day-Ahead 1U Prijzen"
+        "en": "Day-Ahead E Prices",
+        "de": "Day-Ahead E Std. Preis",
+        "sv": "Day-Ahead E Priser",
+        "it": "Prezzi del giorno prima E",
+        "no": "Day-Ahead E Priser",
+        "fr": "Tarif demain E",
+        "dk": "Day-Ahead E priser",
+        "nl": "Day-Ahead E Prijzen"
       },
       "class": "sensor",
       "capabilities": [],
       "platforms": [
         "local"
       ],
-      "connectivity": [],
+      "connectivity": [
+        "lan"
+      ],
       "images": {
         "small": "/drivers/dap/assets/images/small.png",
         "large": "/drivers/dap/assets/images/large.png"
@@ -3017,25 +3019,25 @@
               "id": "fixedMarkup",
               "type": "number",
               "label": {
-                "en": "Fixed markup per kWh or m3",
-                "de": "Fester Aufschlag für kWh oder m3",
-                "sv": "Fast påslag per kWh eller m3",
-                "it": "Aumento fisso per kWh o m3",
-                "no": "Fast påslag per kWh or m3",
-                "fr": "Fixer l'augmentation par KWh ou m3",
-                "dk": "Fast gebyr per kWh eller m3",
-                "nl": "Vaste opslag per kWh of m3"
+                "en": "Fixed markup per kWh",
+                "de": "Fester Aufschlag für kWh",
+                "sv": "Fast påslag per kWh",
+                "it": "Aumento fisso per kWh",
+                "no": "Fast påslag per kWh",
+                "fr": "Fixer l'augmentation par KWh",
+                "dk": "Fast gebyr per kWh",
+                "nl": "Vaste opslag per kWh"
               },
               "value": 0,
               "hint": {
-                "en": "Enter the fixed amount with which the price must be increased per kWh or m3, incl. VAT. E.g. for purchase fee.",
-                "de": "Geben Sie einen festen Betrag ein, um den der Preis pro kWh oder m3 inkl. MwSt. erhöht werden muss. Z.B. für Einkaufsgebühr.",
-                "sv": "Ange det fasta belopp som priset ska höjas med per kWh eller m3, inkl. MOMS. T.ex. mot inköpsavgift.",
-                "no": "Angi det faste beløpet som prisen skal økes med per kWh eller m3, inkl. MVA.",
-                "it": "Inserisci la quota fissa di aumento per kWh o m3, incluso IVA. Es. per diritti di acquisto.",
-                "fr": "Entrez le montant fixe dont le prix doit être ajouté par kWh ou m3, incluant la TVA. Par exemple les frais d'achat",
-                "dk": "Angiv den faste beløb som prisen skal øges med per kWh eller m3, inkl. Moms f.eks. for indkøbsafgift.",
-                "nl": "Voer het vaste bedrag in waarmee de prijs per kWh of m3 verhoogd moet worden incl. BTW. Bijvoorbeeld voor inkoopvergoeding, Energie belasting, ODE."
+                "en": "Enter the fixed amount with which the price must be increased per kWh, incl. VAT. E.g. for purchase fee.",
+                "de": "Geben Sie einen festen Betrag ein, um den der Preis pro kWh inkl. MwSt. erhöht werden muss. Z.B. für Einkaufsgebühr.",
+                "sv": "Ange det fasta belopp som priset ska höjas med per kWh, inkl. MOMS. T.ex. mot inköpsavgift.",
+                "no": "Angi det faste beløpet som prisen skal økes med per kWh, inkl. MVA.",
+                "it": "Inserisci la quota fissa di aumento per kWh, incluso IVA. Es. per diritti di acquisto.",
+                "fr": "Entrez le montant fixe dont le prix doit être ajouté par kWh, incluant la TVA. Par exemple les frais d'achat",
+                "dk": "Angiv den faste beløb som prisen skal øges med per kWh, inkl. Moms f.eks. for indkøbsafgift.",
+                "nl": "Voer het vaste bedrag in waarmee de prijs per kWh verhoogd moet worden incl. BTW. Bijvoorbeeld voor inkoopvergoeding, Energie belasting, ODE."
               }
             },
             {
@@ -3053,14 +3055,14 @@
               },
               "value": 0,
               "hint": {
-                "en": "Enter the amount with which the price must be additionally increased per kWh or m3 during day time (06:00-22:00).",
-                "de": "Geben Sie den Betrag ein, um den der Preis pro kWh oder m3 tagsüber (06:00-22:00 Uhr) zusätzlich erhöht werden muss.",
-                "sv": "Ange det belopp med vilket priset ytterligare ska höjas per kWh eller m3 under dagtid (06:00-22:00).",
-                "it": "Imposta l'incremento aggiuntivo per kWh o m3 durante l'orario diurno (06:00-22:00).",
-                "no": "Legg inn beløpet som prisen i tillegg må økes per kWh or m3 på dagtid (06:00-22:00).",
-                "fr": "Entrez le montant avec lequel le prix doit être ajouté en plus par kWh ou m3 pendant la journée (de 6h00 à 22h00);",
-                "dk": "Angiv beløbet som prisen i gebyr må øges med per kWh eller m3 i dagstid (06:00-22:00).",
-                "nl": "Voer het bedrag in waarmee de prijs per kWh of m3 verhoogd moet worden overdag (06:00-22:00)"
+                "en": "Enter the amount with which the price must be additionally increased per kWh during day time (06:00-22:00).",
+                "de": "Geben Sie den Betrag ein, um den der Preis pro kWh tagsüber (06:00-22:00 Uhr) zusätzlich erhöht werden muss.",
+                "sv": "Ange det belopp med vilket priset ytterligare ska höjas per kWh under dagtid (06:00-22:00).",
+                "it": "Imposta l'incremento aggiuntivo per kWh durante l'orario diurno (06:00-22:00).",
+                "no": "Legg inn beløpet som prisen i tillegg må økes per kWh på dagtid (06:00-22:00).",
+                "fr": "Entrez le montant avec lequel le prix doit être ajouté en plus par kWh pendant la journée (de 6h00 à 22h00);",
+                "dk": "Angiv beløbet som prisen i gebyr må øges med per kWh i dagstid (06:00-22:00).",
+                "nl": "Voer het bedrag in waarmee de prijs per kWh verhoogd moet worden overdag (06:00-22:00)"
               }
             },
             {
@@ -3078,13 +3080,13 @@
               },
               "value": 0,
               "hint": {
-                "en": "Enter the amount with which the price must be additionally increased per kWh or m3 during night time (22:00-06:00).",
-                "no": "Legg inn beløpet som prisen i tillegg må økes per kWh eller m3 på natt (22:00-06:00).",
-                "de": "Geben Sie den Betrag ein, um den der Preis pro kWh oder m3 während der Nacht (22:00-06:00) zusätzlich erhöht werden muss.",
-                "sv": "Ange det belopp med vilket priset ytterligare ska höjas per kWh eller m3 nattetid (22:00-06:00).",
-                "it": "Imposta l'incremento aggiuntivo per kWh o m3 durante l'orario notturno (22:00-06:00).",
-                "dk": "Angiv den faste beløb som prisen skal øges med per kWh eller m3 om natten (22:00-06:00).",
-                "nl": "Voer het bedrag in waarmee de prijs per kWh of m3 extra verhoogd moet worden 's nachts (22:00-06:00)."
+                "en": "Enter the amount with which the price must be additionally increased per kWh during night time (22:00-06:00).",
+                "no": "Legg inn beløpet som prisen i tillegg må økes per kWh på natt (22:00-06:00).",
+                "de": "Geben Sie den Betrag ein, um den der Preis pro kWh während der Nacht (22:00-06:00) zusätzlich erhöht werden muss.",
+                "sv": "Ange det belopp med vilket priset ytterligare ska höjas per kWh nattetid (22:00-06:00).",
+                "it": "Imposta l'incremento aggiuntivo per kWh durante l'orario notturno (22:00-06:00).",
+                "dk": "Angiv den faste beløb som prisen skal øges med per kWh om natten (22:00-06:00).",
+                "nl": "Voer het bedrag in waarmee de prijs per kWh extra verhoogd moet worden 's nachts (22:00-06:00)."
               }
             },
             {
@@ -3108,7 +3110,7 @@
                 "no": "Hvis aktivert vil nattpåslag være påført hele helgen (Lørdag - Søndag).",
                 "nl": "Indien geactiveerd wordt nacht verhoging het hele weekend toegepast (zaterdag - zondag).",
                 "dk": "Hvis denne aktiveres vil nattillæg være pålagt hele weekenden (Lørdag - Søndag).",
-                "fr": "Entrer le montant avec lequel le prix doit être ajouté en plus par KWh ou m3 pendant la nuit (de 22h00 à 6h00)."
+                "fr": ""
               }
             }
           ]
@@ -3144,20 +3146,517 @@
               "step": 1,
               "value": 0,
               "hint": {
-                "en": "Every hour the price per kWh or m3 will be sent as tariff for PBTH devices, without the need to create a flow.",
-                "de": "Jede Stunde wird der Preis pro kWh oder m3 als Tarif für PBTH Geräte gesendet, ohne dass ein Flow erstellt werden muss.",
-                "sv": "Varje timme kommer priset per kWh eller m3 att skickas som tariff för PBTH-enheter, utan att behöva skapa ett flöde.",
-                "it": "Ogni ora verrà inviato il prezzo per kWh o m3 come tariffa per i dispositivi PBTH, senza necessità di creare alcun flow.",
-                "no": "Hver time vil prisen per kWh or m3 bli sendt som tariff for PBTH enheter, uten at man trenger å skape en flow.",
-                "fr": "Chaque heure, le prix du kWh ou du m3 sera envoyé comme tarif pour les appareils PBTH, sans qu'il soit nécessaire de créer un flow",
-                "dk": "Prisen per kWh eller m3 bliver sendt som tarif til PBTH-enheder, uden brug af flows.",
-                "nl": "Ieder uur wordt de prijs per kWh of m3 als tarief naar PBTH devices gestuurd, zonder dat een flow gemaakt hoeft te worden."
+                "en": "Every hour the price per kWh will be sent as tariff for PBTH devices, without the need to create a flow.",
+                "de": "Jede Stunde wird der Preis pro kWh als Tarif für PBTH Geräte gesendet, ohne dass ein Flow erstellt werden muss.",
+                "sv": "Varje timme kommer priset per kWh att skickas som tariff för PBTH-enheter, utan att behöva skapa ett flöde.",
+                "it": "Ogni ora verrà inviato il prezzo per kWh come tariffa per i dispositivi PBTH, senza necessità di creare alcun flow.",
+                "no": "Hver time vil prisen per kWh bli sendt som tariff for PBTH enheter, uten at man trenger å skape en flow.",
+                "fr": "Chaque heure, le prix du kWh sera envoyé comme tarif pour les appareils PBTH, sans qu'il soit nécessaire de créer un flow",
+                "dk": "Prisen per kWh bliver sendt som tarif til PBTH-enheder, uden brug af flows.",
+                "nl": "Ieder uur wordt de prijs per kWh als tarief naar PBTH devices gestuurd, zonder dat een flow gemaakt hoeft te worden."
               }
             }
           ]
         }
       ],
       "id": "dap"
+    },
+    {
+      "name": {
+        "en": "Day-Ahead Gas Prices",
+        "de": "Day-Ahead Gas Preis",
+        "sv": "Day-Ahead Gas Priser",
+        "it": "Prezzi del giorno prima Gas",
+        "no": "Day-Ahead Gas Priser",
+        "fr": "Tarif demain Gas",
+        "dk": "Day-Ahead Gas priser",
+        "nl": "Day-Ahead Gas Prijzen"
+      },
+      "class": "sensor",
+      "capabilities": [],
+      "platforms": [
+        "local"
+      ],
+      "connectivity": [
+        "cloud"
+      ],
+      "images": {
+        "small": "/drivers/dapg/assets/images/small.png",
+        "large": "/drivers/dapg/assets/images/large.png"
+      },
+      "pair": [
+        {
+          "id": "list_devices",
+          "template": "list_devices",
+          "options": {
+            "singular": true
+          },
+          "navigation": {
+            "next": "add_devices"
+          }
+        },
+        {
+          "id": "add_devices",
+          "template": "add_devices"
+        }
+      ],
+      "settings": [
+        {
+          "type": "group",
+          "label": {
+            "en": "Bidding Zone information",
+            "de": "Information zum Gebotsbereich",
+            "sv": "Information om elområde",
+            "it": "Informazioni sulla zona di trattativa",
+            "no": "Prisområde informasjon",
+            "fr": "Information sur les négociations",
+            "dk": "Information om elområde",
+            "nl": "Biedzone informatie"
+          },
+          "children": [
+            {
+              "id": "biddingZone",
+              "type": "label",
+              "label": {
+                "en": "Bidding zone",
+                "de": "Gebotsbereich",
+                "sv": "Elområde",
+                "it": "Zona di trattativa",
+                "no": "Prisområde",
+                "fr": "Zone de négociation",
+                "dk": "Elområde",
+                "nl": "Biedzone"
+              },
+              "value": "unknown"
+            },
+            {
+              "id": "description",
+              "type": "label",
+              "label": {
+                "en": "Description",
+                "de": "Beschreibung",
+                "sv": "Beskrivning",
+                "it": "Descrizione",
+                "no": "Beskrivelse",
+                "fr": "Description",
+                "dk": "Beskrivelse",
+                "nl": "Omschrijving"
+              },
+              "value": "unknown"
+            }
+          ]
+        },
+        {
+          "type": "group",
+          "label": {
+            "en": "Currency settings",
+            "de": "Währungseinstellungen",
+            "sv": "Valutainställningar",
+            "it": "Impostazioni valuta",
+            "no": "Valutainnstillinger",
+            "fr": "Paramètre de devise",
+            "dk": "Valutaindstillinger",
+            "nl": "Munteenheid instellingen"
+          },
+          "children": [
+            {
+              "id": "currency",
+              "type": "text",
+              "label": {
+                "en": "Currency unit display",
+                "de": "Währungseinheit",
+                "sv": "Visning av valutaenhet",
+                "it": "Visualizzazione unità valuta",
+                "no": "Visning av valutaenhet",
+                "fr": "Affichage de l'unité monétaire",
+                "dk": "Visning af valutaenhed",
+                "nl": "Weergave geldeenheid"
+              },
+              "value": "€",
+              "hint": {
+                "en": "The unit displayed as currency, e.g. €, £, EUR, SER, NOK, DKK, CHF. Leave empty to use the default €.",
+                "de": "Die als Währung angezeigte Einheit, z.B. €, £, EUR, SER, NOK, DKK, CHF. Leer lassen, um die Standardeinheit € zu verwenden.",
+                "sv": "Enheten som visas som valuta, t.ex. €, £, EUR, SER, NOK, DKK, CHF. Lämna tomt för att använda standardvärdet €.",
+                "it": "L'unità mostrata come valuta, es. €, £, EUR, SER, NOK, DKK, CHF. Lasciare vuoto per utilizzare € di default.",
+                "no": "Valutaenheten vises som f.eks. €, £, EUR, SER, NOK, DKK, CHF. La stå blank for å bruke default €.",
+                "fr": "Unité affichée comme devise, ex. €, £, EUR, SER, NOK, DKK, CHF. Laisser vide pour utiliser € par défaut",
+                "dk": "Valutaenheden vises f.eks. €, £, EUR, SER, NOK, DKK, CHF. Lad denne stå blank for at bruge standard €.",
+                "nl": "De weergegeven eenheid voor geld, bijv. €, £, EUR, SER, NOK, DKK, CHF. Laat leeg om de standaard € te gebruiken."
+              }
+            },
+            {
+              "id": "decimals",
+              "type": "number",
+              "label": {
+                "en": "Currency decimals",
+                "de": "Anzahl Dezimalstellen",
+                "sv": "Valuta decimaler",
+                "it": "Decimali valuta",
+                "no": "Valute desimaler",
+                "fr": "Décimales devise",
+                "dk": "Valuta decimaler",
+                "nl": "Geld decimalen"
+              },
+              "value": 4,
+              "min": 0,
+              "max": 8,
+              "hint": {
+                "en": "The number of decimals to use for price.",
+                "de": "Die Anzahl der Dezimalstellen für den Preis.",
+                "sv": "Antalet decimaler som ska användas för pris.",
+                "it": "Il numero di decimali da utilizzare per il prezzo.",
+                "no": "Antall prisdesimaler",
+                "fr": "Nombre de décimales à utiliser pour le tarif",
+                "dk": "Antallet af decimaler, der bruges til prisen",
+                "nl": "Het aantal decimalen voor prijs."
+              }
+            },
+            {
+              "id": "exchangeRate",
+              "type": "number",
+              "label": {
+                "en": "Exchange rate with €",
+                "de": "Wechselkurs mit €",
+                "sv": "Växelkurs med €",
+                "it": "Tasso di cambio con €",
+                "no": "Vekslingskurs mot €",
+                "fr": "Taux de change avec €",
+                "dk": "Vekselkurs med €",
+                "nl": "Wisselkoers met €"
+              },
+              "value": 1,
+              "hint": {
+                "en": "Set at 1 if you want to use EURO, otherwise enter the exchange rate to your preferred currency.",
+                "de": "Setzen Sie den Wert auf 1, wenn Sie den Euro verwenden möchten, andernfalls geben Sie den Wechselkurs in Ihrer bevorzugten Währung ein.",
+                "sv": "Ställ in på 1 om du vill använda EURO, annars anger du växelkursen till din önskade valuta.",
+                "it": "Imposta 1 se vuoi utilizzare EURO, altrimenti inserisci il tasso di cambio della valuta che preferisci.",
+                "no": "Sett som 1 hvis du vil bruke EURO, ellers legg inn vekslingskursen for din foretrukne valuta.",
+                "fr": "Mettre à 1 si vous souhaitez utiliser EURO, sinon entrer le taux de change de la devise souhaitée",
+                "dk": "Sæt som 1 hvis du vil bruge Euro, indsæt ellers vekselkursen for din foretrukne valuta",
+                "nl": "Stel in op 1 als je EURO's wilt gebruiken, of geef de wisselkoers in naar de gewenste munteenheid."
+              }
+            },
+            {
+              "id": "fetchExchangeRate",
+              "type": "dropdown",
+              "value": "NONE",
+              "label": {
+                "en": "Daily update the exchange rate",
+                "de": "Wechselkurs täglich aktualisieren",
+                "sv": "Uppdatera växelkursen dagligen",
+                "it": "Aggiorna quotidianamente il tasso di cambio",
+                "no": "Daglig oppdatering av vekslingskurs",
+                "fr": "Mise à jour quotidienne du taux de change",
+                "dk": "Opdatér dagligt valutakurs",
+                "nl": "Update wisselkoers dagelijks"
+              },
+              "values": [
+                {
+                  "id": "NONE",
+                  "label": {
+                    "en": "DO NOT FETCH",
+                    "de": "NICHT ABFRAGEN",
+                    "sv": "HÄMTA INTE",
+                    "it": "NON RECUPERARE",
+                    "no": "IKKE HENT",
+                    "fr": "NE PAS RÉCUPÉRER",
+                    "dk": "HENT IKKE",
+                    "nl": "NIET OPHALEN"
+                  }
+                },
+                {
+                  "id": "BGN",
+                  "label": {
+                    "en": "BGN"
+                  }
+                },
+                {
+                  "id": "CHF",
+                  "label": {
+                    "en": "CHF"
+                  }
+                },
+                {
+                  "id": "CZK",
+                  "label": {
+                    "en": "CZK"
+                  }
+                },
+                {
+                  "id": "DKK",
+                  "label": {
+                    "en": "DKK"
+                  }
+                },
+                {
+                  "id": "GBP",
+                  "label": {
+                    "en": "GBP"
+                  }
+                },
+                {
+                  "id": "HRK",
+                  "label": {
+                    "en": "HRK"
+                  }
+                },
+                {
+                  "id": "HUF",
+                  "label": {
+                    "en": "HUF"
+                  }
+                },
+                {
+                  "id": "ISK",
+                  "label": {
+                    "en": "ISK"
+                  }
+                },
+                {
+                  "id": "NOK",
+                  "label": {
+                    "en": "NOK"
+                  }
+                },
+                {
+                  "id": "PLN",
+                  "label": {
+                    "en": "PLN"
+                  }
+                },
+                {
+                  "id": "RON",
+                  "label": {
+                    "en": "RON"
+                  }
+                },
+                {
+                  "id": "RUB",
+                  "label": {
+                    "en": "RUB"
+                  }
+                },
+                {
+                  "id": "SEK",
+                  "label": {
+                    "en": "SEK"
+                  }
+                },
+                {
+                  "id": "TRY",
+                  "label": {
+                    "en": "TRY"
+                  }
+                },
+                {
+                  "id": "AUD",
+                  "label": {
+                    "en": "AUD"
+                  }
+                },
+                {
+                  "id": "USD",
+                  "label": {
+                    "en": "USD"
+                  }
+                }
+              ],
+              "hint": {
+                "en": "Enter the currency for which you want the exchange rate to be fetched automatically. Leave at 'DO NOT FETCH' if you are using Euro, or if you want to manually set the exchange rate.",
+                "de": "Geben Sie die Währung ein, für die Sie den Wechselkurs automatisch abrufen möchten. Belassen Sie es bei 'NICHT ABFRAGEN', wenn Sie den Euro verwenden oder den Wechselkurs manuell festlegen möchten.",
+                "sv": "Ange den valuta för vilken du vill att växelkursen ska hämtas automatiskt. Lämna vid 'HÄMTA INTE' om du använder euro, eller om du vill ställa in växelkursen manuellt.",
+                "it": "Inserisci la valuta per la quale desideri che il tasso di cambio venga recuperato automaticamente. Lascia su 'NON RECUPERARE' se stai usando Euro, o se vuoi impostare manualmente il tasso di cambio.",
+                "no": "Legg inn valutaen for den vekslingskursen du ønsker å hente automatisk. La den stå på 'IKKE HENT' hvis du bruker Euro, eller hvis du vil sette vekslingkursen manuelt.",
+                "fr": "Entrer la devise pour laquelle vous souhaitez que le taux de change soit automatiquement récupérer. Laisser à 'NE PAS RÉCUPÉRER' si vous utiliser l'Euro, ou si vous souhaitez entrer manuellement le taux de change",
+                "dk": "Angiv valutaen du automatisk vil hente vekselkursen for. Lad den stå på 'HENT IKKE' hvis du bruger Euro, eller hvis du manuelt vil tilpasse vekselkursen",
+                "nl": "Geef de munteenheid aan waarvan de wisselkoers automatisch moey worden opgehaald. Zet op 'NIET OPHALEN' als je Euro gebruit, of als je de wisselkoers handmatig wilt invoeren."
+              }
+            }
+          ]
+        },
+        {
+          "type": "group",
+          "label": {
+            "en": "Price settings",
+            "de": "Preiseinstellungen",
+            "sv": "Prisinställningar",
+            "it": "Impostazioni prezzo",
+            "no": "Prisinnstillinger",
+            "fr": "Paramètre de tarification",
+            "dk": "Prisindstillinger",
+            "nl": "Prijs instellingen"
+          },
+          "children": [
+            {
+              "id": "variableMarkup",
+              "type": "number",
+              "label": {
+                "en": "Variable markup (%)",
+                "de": "Variabler Aufschlag (%)",
+                "sv": "Variabelt påslag (%)",
+                "it": "Aumento variabile (%)",
+                "no": "Variabelt påslag (%)",
+                "fr": "Augmentation variable (%)",
+                "dk": "Variabelt gebyr (%)",
+                "nl": "Variabele opslag (%)"
+              },
+              "value": 0,
+              "hint": {
+                "en": "Enter the percentage with which the net price must be increased. E.g. for VAT.",
+                "de": "Geben Sie den Prozentsatz ein, um den der Nettopreis erhöht werden soll. Z.B. für die MwSt.",
+                "sv": "Ange den procentandel som nettopriset ska höjas med. T.ex. för moms.",
+                "it": "Inserisci la percentuale di aumento da applicare sul prezzo netto. Es. per IVA.",
+                "no": "Legg inn verdien i prosent som nettoprisen skal økes. f.eks. for MVA.",
+                "fr": "Entrer le pourcentage pour lequel le tarif doit être augmenter. Par exemple la TVA",
+                "dk": "Angiv procenten der tillægges nettoprisen. Eksempelvis moms.",
+                "nl": "Voer het percentage in waarmee de netto prijs verhoogd moet worden. Bijvoorbeeld voor BTW."
+              }
+            },
+            {
+              "id": "fixedMarkup",
+              "type": "number",
+              "label": {
+                "en": "Fixed markup per m3",
+                "de": "Fester Aufschlag für m3",
+                "sv": "Fast påslag per m3",
+                "it": "Aumento fisso per m3",
+                "no": "Fast påslag per m3",
+                "fr": "Fixer l'augmentation par m3",
+                "dk": "Fast gebyr per m3",
+                "nl": "Vaste opslag per m3"
+              },
+              "value": 0,
+              "hint": {
+                "en": "Enter the fixed amount with which the price must be increased per m3, incl. VAT. E.g. for purchase fee.",
+                "de": "Geben Sie einen festen Betrag ein, um den der Preis pro m3 inkl. MwSt. erhöht werden muss. Z.B. für Einkaufsgebühr.",
+                "sv": "Ange det fasta belopp som priset ska höjas med per m3, inkl. MOMS. T.ex. mot inköpsavgift.",
+                "no": "Angi det faste beløpet som prisen skal økes med per m3, inkl. MVA.",
+                "it": "Inserisci la quota fissa di aumento per m3, incluso IVA. Es. per diritti di acquisto.",
+                "fr": "Entrez le montant fixe dont le prix doit être ajouté par m3, incluant la TVA. Par exemple les frais d'achat",
+                "dk": "Angiv den faste beløb som prisen skal øges med per m3, inkl. Moms f.eks. for indkøbsafgift.",
+                "nl": "Voer het vaste bedrag in waarmee de prijs per m3 verhoogd moet worden incl. BTW. Bijvoorbeeld voor inkoopvergoeding, Energie belasting, ODE."
+              }
+            },
+            {
+              "id": "fixedMarkupDay",
+              "type": "number",
+              "label": {
+                "en": "Extra markup during day time",
+                "de": "Zusätzlicher Aufschlag am Tag",
+                "sv": "Extra påslag under dagtid",
+                "it": "Extra costi durante l'orario diurno",
+                "no": "Ekstra påslag på dagtid",
+                "fr": "Augmentation supplémentaire pendant la journée",
+                "dk": "Ekstra gebyr i dagstid",
+                "nl": "Extra opslag overdag"
+              },
+              "value": 0,
+              "hint": {
+                "en": "Enter the amount with which the price must be additionally increased per m3 during day time (06:00-22:00).",
+                "de": "Geben Sie den Betrag ein, um den der Preis pro m3 tagsüber (06:00-22:00 Uhr) zusätzlich erhöht werden muss.",
+                "sv": "Ange det belopp med vilket priset ytterligare ska höjas per m3 under dagtid (06:00-22:00).",
+                "it": "Imposta l'incremento aggiuntivo per m3 durante l'orario diurno (06:00-22:00).",
+                "no": "Legg inn beløpet som prisen i tillegg må økes per m3 på dagtid (06:00-22:00).",
+                "fr": "Entrez le montant avec lequel le prix doit être ajouté en plus par m3 pendant la journée (de 6h00 à 22h00);",
+                "dk": "Angiv beløbet som prisen i gebyr må øges med per m3 i dagstid (06:00-22:00).",
+                "nl": "Voer het bedrag in waarmee de prijs per m3 verhoogd moet worden overdag (06:00-22:00)"
+              }
+            },
+            {
+              "id": "fixedMarkupNight",
+              "type": "number",
+              "label": {
+                "en": "Extra markup during night time",
+                "de": "Zusätzlicher Aufschlag in der Nacht",
+                "sv": "Extra påslag under natten",
+                "it": "Extra costi durante l'orario notturno",
+                "no": "Ekstra påslag på natt",
+                "fr": "Augmentation supplémentaire la nuit",
+                "dk": "Ekstra gebyr om natten",
+                "nl": "Extra opslag 's nachts"
+              },
+              "value": 0,
+              "hint": {
+                "en": "Enter the amount with which the price must be additionally increased per m3 during night time (22:00-06:00).",
+                "no": "Legg inn beløpet som prisen i tillegg må økes per m3 på natt (22:00-06:00).",
+                "de": "Geben Sie den Betrag ein, um den der Preis pro m3 während der Nacht (22:00-06:00) zusätzlich erhöht werden muss.",
+                "sv": "Ange det belopp med vilket priset ytterligare ska höjas per m3 nattetid (22:00-06:00).",
+                "it": "Imposta l'incremento aggiuntivo per m3 durante l'orario notturno (22:00-06:00).",
+                "dk": "Angiv den faste beløb som prisen skal øges med per m3 om natten (22:00-06:00).",
+                "nl": "Voer het bedrag in waarmee de prijs per m3 extra verhoogd moet worden 's nachts (22:00-06:00)."
+              }
+            },
+            {
+              "id": "weekendHasNightMarkup",
+              "type": "checkbox",
+              "label": {
+                "en": "Weekend same as night time",
+                "no": "Weekend samme som natt",
+                "de": "Am Wochenende wie in der Nacht",
+                "sv": "Helg påslag samma som under nattetid",
+                "it": "Weekend come periodo notturno",
+                "dk": "Weekend samme som nattid",
+                "nl": "Weekend gelijk aan 's nachts"
+              },
+              "value": false,
+              "hint": {
+                "en": "If enabled the night time markup will be applied during the whole weekend (Saturday - Sunday).",
+                "de": "Wenn aktiviert, wird der Nachtaufschlag während des gesamten Wochenendes (Samstag - Sonntag) angewendet.",
+                "sv": "Om den är aktiverad kommer natttidspåslag att tillämpas under hela helgen (lördag - söndag).",
+                "it": "Se abilitato, l'extra costo notturno sarà applicato durante l'intero weekend (Sabato - Domenica).",
+                "no": "Hvis aktivert vil nattpåslag være påført hele helgen (Lørdag - Søndag).",
+                "nl": "Indien geactiveerd wordt nacht verhoging het hele weekend toegepast (zaterdag - zondag).",
+                "dk": "Hvis denne aktiveres vil nattillæg være pålagt hele weekenden (Lørdag - Søndag).",
+                "fr": ""
+              }
+            }
+          ]
+        },
+        {
+          "type": "group",
+          "label": {
+            "en": "Various settings",
+            "de": "Diverse Einstellungen",
+            "sv": "Olika inställningar",
+            "it": "Impostazioni varie",
+            "no": "Øvrige innstillinger",
+            "fr": "Réglages divers",
+            "dk": "Diverse indstillinger",
+            "nl": "Overige instellingen"
+          },
+          "children": [
+            {
+              "id": "tariff_update_group",
+              "type": "number",
+              "label": {
+                "en": "Send tariff to group",
+                "de": "Tarif an Gruppe senden",
+                "sv": "Skicka tariff till grupp",
+                "it": "Invia tariffa al gruppo",
+                "no": "send tariff til gruppe",
+                "fr": "Envoyer tarif au groupe",
+                "dk": "Send gebyr til gruppe",
+                "nl": "Stuur tarief naar group"
+              },
+              "min": 0,
+              "max": 10,
+              "step": 1,
+              "value": 0,
+              "hint": {
+                "en": "Every hour the price per m3 will be sent as tariff for PBTH devices, without the need to create a flow.",
+                "de": "Jede Stunde wird der Preis pro m3 als Tarif für PBTH Geräte gesendet, ohne dass ein Flow erstellt werden muss.",
+                "sv": "Varje timme kommer priset per m3 att skickas som tariff för PBTH-enheter, utan att behöva skapa ett flöde.",
+                "it": "Ogni ora verrà inviato il prezzo per m3 come tariffa per i dispositivi PBTH, senza necessità di creare alcun flow.",
+                "no": "Hver time vil prisen per m3 bli sendt som tariff for PBTH enheter, uten at man trenger å skape en flow.",
+                "fr": "Chaque heure, le prix du m3 sera envoyé comme tarif pour les appareils PBTH, sans qu'il soit nécessaire de créer un flow",
+                "dk": "Prisen per m3 bliver sendt som tarif til PBTH-enheder, uden brug af flows.",
+                "nl": "Ieder uur wordt de prijs per m3 als tarief naar PBTH devices gestuurd, zonder dat een flow gemaakt hoeft te worden."
+              }
+            }
+          ]
+        }
+      ],
+      "id": "dapg"
     },
     {
       "name": {
@@ -3179,7 +3678,7 @@
             "next": "add_devices"
           },
           "options": {
-            "singular": true
+            "singular": false
           }
         },
         {
@@ -3836,6 +4335,9 @@
       "platforms": [
         "local"
       ],
+      "connectivity": [
+        "lan"
+      ],
       "id": "gas"
     },
     {
@@ -3858,7 +4360,7 @@
             "next": "add_devices"
           },
           "options": {
-            "singular": true
+            "singular": false
           }
         },
         {
@@ -4538,6 +5040,9 @@
       "platforms": [
         "local"
       ],
+      "connectivity": [
+        "lan"
+      ],
       "id": "power"
     },
     {
@@ -4560,7 +5065,7 @@
             "next": "add_devices"
           },
           "options": {
-            "singular": true
+            "singular": false
           }
         },
         {
@@ -5212,6 +5717,9 @@
       ],
       "platforms": [
         "local"
+      ],
+      "connectivity": [
+        "lan"
       ],
       "id": "water"
     }

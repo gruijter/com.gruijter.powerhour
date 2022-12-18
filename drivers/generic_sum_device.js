@@ -44,11 +44,11 @@ class SumMeterDevice extends Device {
 			// check settings for homey energy device
 			if (this.settings.homey_energy) {
 				if (!this.settings.interval) {
-					this.setSettings({ interval: 1 });
+					await this.setSettings({ interval: 1 });
 					this.settings.interval = 1;
 				}
 				if (this.settings.use_measure_source) {
-					this.setSettings({ use_measure_source: false });
+					await this.setSettings({ use_measure_source: false });
 					this.settings.use_measure_source = false;
 				}
 			}
@@ -141,7 +141,7 @@ class SumMeterDevice extends Device {
 			if (this.getSettings().level < '4.7.1') {
 				const group = this.getSettings().tariff_via_flow ? 1 : 0;
 				this.log(`Migrating tariff group for ${this.getName()} to ${group}`);
-				this.setSettings({ tariff_update_group: group });
+				await this.setSettings({ tariff_update_group: group });
 			}
 
 			// set meter_power from store v3.6.0
@@ -161,7 +161,7 @@ class SumMeterDevice extends Device {
 				await this.unsetStoreValue('lastMoney');
 			}
 			// set new migrate level
-			this.setSettings({ level: this.homey.app.manifest.version });
+			await this.setSettings({ level: this.homey.app.manifest.version });
 			this.migrated = true;
 			Promise.resolve(this.migrated);
 		} catch (error) {

@@ -18,7 +18,7 @@
         "next": "add_devices"
       },
       "options": {
-        "singular": true
+        "singular": false
       }
     },
     {
@@ -268,7 +268,6 @@
             "it": "Inserisci la lettura del contatore all'inizio della giornata odierna. Viene aggiornata automaticamente a mezzanotte.",
             "no": "Legg inn målerverdi ved denne dagens start. Den blir automatisk oppdatert ved midnatt.",
             "fr": "Entrer la lecture compteur au début de ce jour. Ce sera automatiquement mis à jour à minuit"
-
           }
         },
         {
@@ -292,7 +291,6 @@
             "it": "Inserisci la lettura del contatore all'inizio del mese corrente. Viene aggiornata automaticamente il primo giorno di un nuovo mese.",
             "no": "Legg inn målerverdi ved denne måneds start. Den blir automatisk oppdatert første dagen ved ny måned.",
             "fr": "Entrer la lecture compteur au début de ce mois. Ce sera automatiquement mis à jour chaque début de mois"
-
           }
         },
         {
@@ -316,9 +314,8 @@
             "it": "Inserisci la lettura del contatore all'inizio dell'anno corrente. Viene aggiornata automaticamente il primo giorno di un nuovo anno.",
             "no": "Legg inn målerverdi ved dette årets start. Den blir automatisk oppdatert første dagen ved nytt år.",
             "fr": "Entrer la lecture compteur au début de cette année. Ce sera automatiquement mis à jour chaque début de nouvelle année"
-
-            }
-          },
+          }
+        },
         {
           "id": "min_max_reset",
           "type": "dropdown",
@@ -334,58 +331,63 @@
           "values": [
             {
               "id": "hour",
-              "label": { 
+              "label": {
                 "en": "Hour",
                 "de": "Stunde",
                 "sv": "timme",
                 "it": "Ora",
                 "no": "Time",
                 "fr": "Heure",
-                "nl": "Uur" }
+                "nl": "Uur"
+              }
             },
             {
               "id": "day",
-              "label": { 
+              "label": {
                 "en": "Day",
                 "de": "Tag",
                 "sv": "Dag",
                 "it": "Giorno",
                 "no": "Dag",
                 "fr": "Jour",
-                "nl": "Dag" }
+                "nl": "Dag"
+              }
             },
             {
               "id": "month",
-              "label": { 
+              "label": {
                 "en": "Month",
                 "de": "Monat",
                 "sv": "Månad",
                 "it": "Mese",
                 "no": "Måned",
                 "fr": "Mois",
-                "nl": "Maand" }
+                "nl": "Maand"
+              }
             },
             {
               "id": "year",
-              "label": { 
+              "label": {
                 "en": "Year",
                 "de": "Jahr",
                 "sv": "År",
                 "it": "Anno",
                 "no": "År",
                 "fr": "Année",
-                "nl": "Jaar" }
+                "nl": "Jaar"
+              }
             },
             {
               "id": "never",
-              "label": { 
+              "label": {
                 "en": "Never",
                 "de": "Nie",
                 "sv": "Aldrig",
                 "it": "Mai",
                 "no": "Aldri",
                 "fr": "Jamais",
-                "nl": "Nooit" }
+                "nl": "Nooit"
+              }
             }
           ],
           "value": "day",
@@ -494,7 +496,7 @@
             "sv": "Denna månads monetära värde",
             "it": "Valore monetario mese corrente",
             "no": "Kostnad denne måned",
-            "fr": "Valeur monétaire de ce mois", 
+            "fr": "Valeur monétaire de ce mois",
             "nl": "Geldwaarde van deze maand"
           },
           "value": 0,
@@ -695,5 +697,8 @@
   ],
   "platforms": [
     "local"
+  ],
+  "connectivity": [
+    "lan"
   ]
 }

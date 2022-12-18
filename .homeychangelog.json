@@ -1,4 +1,7 @@
 {
+  "5.0.0": {
+    "en": "Complete rewrite of DAP driver. Added seperate DAP device for gas spot prices. Added all gas spot prices from PowerNext. Added multiple selections during summarizer pair. Fixed DST handling. Many fixes and code optimizations."
+  },
   "4.9.1": {
     "en": "Show kWh and m3 of previous period. Show lowest/highest price/hour for the next 8H. Reordered capabilities for DAP E. Fix capability states after migration. Fix currency symbol migration."
   },

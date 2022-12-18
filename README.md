@@ -52,7 +52,7 @@ The Minimum value can be used to detect a gas leak or water leak. If the minimum
 <br>
 
 ## Using Day-Ahead pricing (EU market spot pricing)
-If you have a European energy provider that changes its pricing every hour (electricity) or every day (gas), you can use the built-in `Day-ahead Pricing` driver. Add the pricing device and select the correct Bidding Zone. For gas only TTF market is supported at the moment.
+If you have a European energy provider that changes its pricing every hour (electricity) or every day (gas), you can use the built-in `Day-ahead Pricing` driver. Add the pricing device and select the correct Bidding Zone.
 From the device settings you can set the taxes and markups your provider is charging on top of the net purchase price. All purchase prices are in EURO, but you can set an exchange rate to any other currency. If you enable 'Send tariff' all PBTH power summarize devices will be automatically updated every hour. Use the price_changed flowcard, combined with the average price for the next 8 hours, to save money. E.g. Control the car charging per hour, start the dish-washer at the perfect moment, or even put fridges ‘on pause’ for an hour if that is cost effective.
 
 <img src="https://aws1.discourse-cdn.com/business4/uploads/athom/optimized/3X/b/5/b536b76cdb308d7d3745e087f17280ac481600b4_2_182x499.jpeg" alt="1H Day-Ahead pricing" width="200"/> 
@@ -62,8 +62,8 @@ From the device settings you can set the taxes and markups your provider is char
 
 The electricity pricing information is fetched from ENTSO-E, the European Network of Transmission System Operators for Electricity. https://transparency.entsoe.eu/transmission-domain/r2/dayAheadPrices/show
 
-The TTF (EEX EOD) gas pricing is derived from FrankEnergy, which uses the TTF End Of Day pricing as seen here: https://www.powernext.com/spot-market-data
-The TTF (LEBA) gas pricing is derived from EasyEnergy as seen here: https://www.nieuwestroom.nl/energiemarkt/energiebeurzen/gas-handelsbeurs/
+The EEX Gas spot pricing (EOD and EGSI) is coming from PowerNext: https://www.powernext.com/spot-market-data
+The TTF LEBA gas pricing is derived from EasyEnergy as seen here: https://www.nieuwestroom.nl/energiemarkt/energiebeurzen/gas-handelsbeurs/
 
 ### DONATE
 If you like the app, don't hesitate to [DONATE](https://www.paypal.me/gruijter)

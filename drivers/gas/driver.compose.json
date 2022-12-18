@@ -18,7 +18,7 @@
         "next": "add_devices"
       },
       "options": {
-        "singular": true
+        "singular": false
       }
     },
     {
@@ -308,58 +308,63 @@
           "values": [
             {
               "id": "hour",
-              "label": { 
+              "label": {
                 "en": "Hour",
                 "de": "Stunde",
                 "sv": "timme",
                 "it": "Ora",
                 "no": "Time",
                 "fr": "Heure",
-                "nl": "Uur" }
+                "nl": "Uur"
+              }
             },
             {
               "id": "day",
-              "label": { 
+              "label": {
                 "en": "Day",
                 "de": "Tag",
                 "sv": "Dag",
                 "it": "Giorno",
                 "no": "Dag",
                 "fr": "Jour",
-                "nl": "Dag" }
+                "nl": "Dag"
+              }
             },
             {
               "id": "month",
-              "label": { 
+              "label": {
                 "en": "Month",
                 "de": "Monat",
                 "sv": "Månad",
                 "it": "Mese",
                 "no": "Måned",
                 "fr": "Mois",
-                "nl": "Maand" }
+                "nl": "Maand"
+              }
             },
             {
               "id": "year",
-              "label": { 
+              "label": {
                 "en": "Year",
                 "de": "Jahr",
                 "sv": "År",
                 "it": "Anno",
                 "no": "År",
                 "fr": "Année",
-                "nl": "Jaar" }
+                "nl": "Jaar"
+              }
             },
             {
               "id": "never",
-              "label": { 
+              "label": {
                 "en": "Never",
                 "de": "Nie",
                 "sv": "Aldrig",
                 "it": "Mai",
                 "no": "Aldri",
                 "fr": "Jamais",
-                "nl": "Nooit" }
+                "nl": "Nooit"
+              }
             }
           ],
           "value": "day",
@@ -468,7 +473,7 @@
             "sv": "Denna månads monetära värde",
             "it": "Valore monetario mese corrente",
             "no": "Kostnad denne måned",
-            "fr": "Valeur monétaire de ce mois", 
+            "fr": "Valeur monétaire de ce mois",
             "nl": "Geldwaarde van deze maand"
           },
           "value": 0,
@@ -669,5 +674,8 @@
   ],
   "platforms": [
     "local"
+  ],
+  "connectivity": [
+    "lan"
   ]
 }
