@@ -9,7 +9,7 @@
 		"nl": "De prijs !{{is|is niet}} één van de hoogste van vandaag"
 	},
 	"titleFormatted": {
-		"en": "The price !{{is|isn't}} one of [[number]] lowest of today",
+		"en": "The price !{{is|isn't}} one of [[number]] highest of today",
 		"no": "Prisen !{{er|er ikke}} en av [[number]] de høyest i dag",
 		"de": "Preis !{{ist|ist nicht}} einer der [[number]] höchsten heute",
 		"sv": "Priset !{{är|är inte}} en av de [[number]] högsta idag",

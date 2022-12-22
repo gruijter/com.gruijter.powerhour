@@ -148,7 +148,7 @@
   },
   "4.1.3": {
     "en": "fix tariff via flow for gas and water."
-  },  
+  },
   "4.1.2": {
     "en": "DAP spread rate limited price fetch. DAP auto retry on price fetch failure. DAP buffer price info when API offline. Update to homey-api@1.5.11."
   },
@@ -241,5 +241,8 @@
   },
   "0.1.0": {
     "en": "First release"
+  },
+  "5.0.1": {
+    "en": "added support for Qubino 3-phase meter. round 'price now' tag to decimals settings. rewrite summarizer driver to support more devices/apps. make tariff group 1 default for new summarizer devices. fix summarizer bugs for some source devices/apps. fixed english title and-card. fixed detect new tariffs received @midnight."
   }
 }

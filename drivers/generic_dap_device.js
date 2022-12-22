@@ -88,7 +88,7 @@ class MyDevice extends Homey.Device {
 			};
 			this.homey.on('everyhour', this.eventListenerHour);
 
-			this.log(`${this.getName()} has been initialized`);
+			this.log(`${this.getName()} finished initialization`);
 		} catch (error) {
 			this.error(error);
 			// this.setUnavailable(error.message).catch(this.error);
@@ -695,7 +695,7 @@ class MyDevice extends Homey.Device {
 
 			// trigger new prices received right after midnight
 			if (this.state.H0 === 0) {
-				if (this.state.pricesToday && this.state.pricesToday[0]) {
+				if (this.state.pricesThisDay && this.state.pricesThisDay[0]) {
 					this.newPricesReceived(this.state.pricesThisDay, 'this_day').catch(this.error);
 				}
 				if (this.state.pricesTomorrow && this.state.pricesTomorrow[0]) {
@@ -704,7 +704,7 @@ class MyDevice extends Homey.Device {
 			}
 
 			// trigger flow cards
-			const tokens = { meter_price_h0: this.state.priceNow };
+			const tokens = { meter_price_h0: Number(this.state.priceNow.toFixed(this.settings.decimals)) };
 			const state = { ...this.state };
 			this.homey.app.triggerPriceHighest(this, tokens, state);
 			this.homey.app.triggerPriceHighestBefore(this, tokens, state);

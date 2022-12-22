@@ -654,7 +654,7 @@
           "hint": {
             "en": "Group number when setting a new tariff via flow or DAP. Set at 0 to exclude updating the tariff."
           },
-          "value": 0,
+          "value": 1,
           "min": 0,
           "max": 10,
           "step": 1

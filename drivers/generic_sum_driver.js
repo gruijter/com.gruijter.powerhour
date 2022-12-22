@@ -42,16 +42,22 @@ class SumMeterDriver extends Driver {
 			devices.forEach(async (device) => {
 				try {
 					const deviceName = device.getName();
-					// check for METER_VIA_FLOW device
-					if (device.getSettings().meter_via_flow) {
-						await device.updateMeterFromFlow(null);
-						return;
-					}
-					// check for HOMEY_ENERGY device
+					// devices that always need an immediate poll
+					// HOMEY_ENERGY device
 					if (device.getSettings().homey_energy) {
 						await device.pollMeter();
 						return;
 					}
+
+					// devices that might get udated without forced poll
+
+					// METER_VIA_FLOW device
+					if (device.getSettings().meter_via_flow) {
+						await device.updateMeterFromFlow(null);
+						return;
+					}
+
+					// HOMEY-API device
 					// check if source device exists
 					const sourceDeviceExists = device.sourceDevice && device.sourceDevice.capabilitiesObj && (device.sourceDevice.available !== null);
 					if (!sourceDeviceExists) {
@@ -60,7 +66,8 @@ class SumMeterDriver extends Driver {
 						device.restartDevice(10 * 60 * 1000).catch(this.error); // restart after 10 minutes
 						return;
 					}
-					// check for METER_VIA_WATT
+
+					// METER_VIA_WATT device
 					if (device.getSettings().use_measure_source) {
 						await device.updateMeterFromMeasure(null);
 						return;
@@ -106,7 +113,7 @@ class SumMeterDriver extends Driver {
 			await setTimeoutPromise(5 * 1000);
 			const devices = this.getDevices();
 			devices.forEach((device) => {
-				if (device.settings.tariff_update_group && device.settings.tariff_update_group === group) {
+				if (device.settings && device.settings.tariff_update_group && device.settings.tariff_update_group === group) {
 					const deviceName = device.getName();
 					this.log('updating tariff', deviceName, tariff);
 					const self = device;
@@ -144,6 +151,7 @@ class SumMeterDriver extends Driver {
 							homey_energy: 'totalCumulative',
 							interval: 1,
 							source_device_type: 'Homey Energy Smart Meters',
+							tariff_update_group: 1,
 						},
 						capabilities: this.ds.deviceCapabilities,
 					},
@@ -159,6 +167,7 @@ class SumMeterDriver extends Driver {
 							homey_energy: 'totalGenerated',
 							interval: 1,
 							source_device_type: 'Homey Energy Solar Panels',
+							tariff_update_group: 1,
 						},
 						capabilities: this.ds.deviceCapabilities,
 					},
@@ -174,6 +183,7 @@ class SumMeterDriver extends Driver {
 							homey_energy: 'totalConsumed',
 							interval: 1,
 							source_device_type: 'Homey Energy Devices',
+							tariff_update_group: 1,
 						},
 						capabilities: this.ds.deviceCapabilities,
 					},
@@ -189,8 +199,8 @@ class SumMeterDriver extends Driver {
 						homey_device_id: `PH_${this.ds.driverId}_${randomId}`,
 						homey_device_name: `VIRTUAL_METER_${randomId}`,
 						level: this.homey.app.manifest.version,
-						meter_via_flow: true,
 						source_device_type: 'virtual via flow',
+						tariff_update_group: 1,
 					},
 					capabilities: this.ds.deviceCapabilities,
 				},
@@ -212,6 +222,7 @@ class SumMeterDriver extends Driver {
 							homey_device_id: allDevices[key].id,
 							homey_device_name: allDevices[key].name,
 							level: this.homey.app.manifest.version,
+							tariff_update_group: 1,
 						},
 						capabilities: this.ds.deviceCapabilities,
 					};

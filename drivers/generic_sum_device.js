@@ -53,7 +53,7 @@ class SumMeterDevice extends Device {
 				}
 			}
 
-			// setup source device
+			// setup source for HOMEY-API devices with update listener
 			if (!(this.settings.meter_via_flow || this.settings.homey_energy)) {
 				this.sourceDevice = await this.homey.app.api.devices.getDevice({ id: this.settings.homey_device_id, $cache: false, $timeout: 25000 })
 					.catch(this.error);
@@ -70,18 +70,21 @@ class SumMeterDevice extends Device {
 			// restore device values
 			await this.initDeviceValues();
 
-			// start listeners or polling mode
+			// init METER_VIA_FLOW device
 			if (this.settings.meter_via_flow) await this.updateMeterFromFlow(null);
+			// start listener for METER_VIA_WATT device
 			else if (this.settings.use_measure_source) {
 				this.log(`Warning! ${this.getName()} is not using a cumulative meter as source`);
 				await this.addListeners();
 				await this.updateMeterFromMeasure(null);
+			// start polling HOMEY_ENERGY device and HOMEY-API devices set to polling
 			} else if (this.settings.interval) this.startPolling(this.settings.interval);
+			// start listener for HOMEY-API device not set to polling
 			else {	// preferred realtime meter mode
 				await this.addListeners();
 				await this.pollMeter();	// do immediate forced update
 			}
-
+			// this.log(`${this.getName()} has succesfully initialized.`);
 		} catch (error) {
 			this.error(error);
 			this.restartDevice(10 * 60 * 1000).catch(this.error); // restart after 10 minutes

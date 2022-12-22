@@ -37,113 +37,103 @@ const deviceSpecifics = {
 
 };
 
-class sumDriver extends GenericDevice {
+// p1 consumption counter (low/all tariff).
+// p2 consumption counter (high tariff).
+// n1 returned counter (low/all tariff).
+// n2 returned counter (high tariff).
+// total energy counter = p1+p2-n1-n2
+
+const sourceCapGroups = [
+	{
+		p1: 'meter_power', p2: null, n1: null, n2: null,	// youless
+	},
+	{
+		p1: 'meter_power.peak', p2: 'meter_power.offPeak', n1: null, n2: null,
+	},
+	{
+		p1: 'meter_power.consumed', p2: null, n1: 'meter_power.generated', n2: null,
+	},
+	{
+		p1: 'meter_power.consumed', p2: null, n1: 'meter_power.returned', n2: null,
+	},
+	{
+		p1: 'meter_power.delivered', p2: null, n1: 'meter_power.returned', n2: null,
+	},
+	{
+		p1: 'meter_power.import', p2: null, n1: 'meter_power.export', n2: null,	// qubino
+	},
+];
+
+class sumDevice extends GenericDevice {
 
 	onInit() {
 		this.ds = deviceSpecifics;
 		this.onInitDevice();
 	}
 
-	// driver specific stuff below
-
+	// device specific stuff below
 	async addListeners() {
+		this.lastGroupMeter = {}; // last values of capability meters
+		this.lastGroupMeterReady = false;
 		this.sourceDevice = await this.homey.app.api.devices.getDevice({ id: this.getSettings().homey_device_id, $cache: false, $timeout: 20000 });
 
-		if (!this.getSettings().use_measure_source) {
-			// make listener for meter_power
-			if (this.sourceDevice.capabilities.includes('meter_power')) {
-				this.log(`registering meter_power capability listener for ${this.sourceDevice.name}`);
-				this.capabilityInstances.meterPower = await this.sourceDevice.makeCapabilityInstance('meter_power', (value) => {
-					this.updateMeter(value).catch(this.error);
+		// start listener for METER_VIA_WATT device
+		if (this.getSettings().use_measure_source) {
+			if (this.sourceDevice.capabilities.includes('measure_power')) {
+				this.log(`registering measure_power capability listener for ${this.sourceDevice.name}`);
+				this.capabilityInstances.measurePower = await this.sourceDevice.makeCapabilityInstance('measure_power', (value) => {
+					this.updateMeterFromMeasure(value).catch(this.error);
 				});
-
-			}	else if (this.sourceDevice.capabilities.includes('meter_power.peak')
-				&& this.sourceDevice.capabilities.includes('meter_power.offPeak')) {
-				this.log(`registering meter_power.peak/offPeak capability listener for ${this.sourceDevice.name}`);
-				this.capabilityInstances.meterPowerPeak = await this.sourceDevice.makeCapabilityInstance('meter_power.peak', (value) => {
-					this.updateMeterPeak(value).catch(this.error);
-				});
-				this.capabilityInstances.meterPowerOffPeak = await this.sourceDevice.makeCapabilityInstance('meter_power.offPeak', (value) => {
-					this.updateMeterOffPeak(value).catch(this.error);
-				});
-				this.lastPeak = this.sourceDevice.capabilitiesObj.meter_power.peak.value;
-				this.lastOffPeak = this.sourceDevice.capabilitiesObj.meter_power.oofPeak.value;
-
-			}	else if (this.sourceDevice.capabilities.includes('meter_power.consumed')
-				&& this.sourceDevice.capabilities.includes('meter_power.generated')) {
-				this.log(`registering meter_power.consumed/generated capability listener for ${this.sourceDevice.name}`);
-				this.capabilityInstances.meterPowerConsumed = await this.sourceDevice.makeCapabilityInstance('meter_power.consumed', (value) => {
-					this.updateMeterConsumed(value);
-				});
-				this.capabilityInstances.meterPowerGenerated = await this.sourceDevice.makeCapabilityInstance('meter_power.generated', (value) => {
-					this.updateMeterGenerated(value);
-				});
-				this.lastConsumed = this.sourceDevice.capabilitiesObj.meter_power.consumed.value;
-				this.lastGenerated = this.sourceDevice.capabilitiesObj.meter_power.generated.value;
-
-			}	else if (this.sourceDevice.capabilities.includes('meter_power.consumed')
-				&& this.sourceDevice.capabilities.includes('meter_power.returned')) {
-				this.log(`registering meter_power.consumed/returned capability listener for ${this.sourceDevice.name}`);
-				this.capabilityInstances.meterPowerConsumed = await this.sourceDevice.makeCapabilityInstance('meter_power.consumed', (value) => {
-					this.updateMeterConsumed(value);
-				});
-				this.capabilityInstances.meterPowerReturned = await this.sourceDevice.makeCapabilityInstance('meter_power.returned', (value) => {
-					this.updateMeterReturned(value);
-				});
-				this.lastConsumed = this.sourceDevice.capabilitiesObj.meter_power.consumed.value;
-				this.lastReturned = this.sourceDevice.capabilitiesObj.meter_power.returned.value;
-
-			}	else if (this.sourceDevice.capabilities.includes('meter_power.delivered')
-				&& this.sourceDevice.capabilities.includes('meter_power.returned')) {
-				this.log(`registering meter_power.consumed/returned capability listener for ${this.sourceDevice.name}`);
-				this.capabilityInstances.meterPowerDelivered = await this.sourceDevice.makeCapabilityInstance('meter_power.delivered', (value) => {
-					this.updateMeterDelivered(value);
-				});
-				this.capabilityInstances.meterPowerReturned = await this.sourceDevice.makeCapabilityInstance('meter_power.returned', (value) => {
-					this.updateMeterReturned(value);
-				});
-				this.lastDelivered = this.sourceDevice.capabilitiesObj.meter_power.delivered.value;
-				this.lastReturned = this.sourceDevice.capabilitiesObj.meter_power.returned.value;
+				return;
 			}
-		} else if (this.sourceDevice.capabilities.includes('measure_power')) {
-			this.log(`registering measure_power capability listener for ${this.sourceDevice.name}`);
-			this.capabilityInstances.measurePower = await this.sourceDevice.makeCapabilityInstance('measure_power', (value) => {
-				this.updateMeterFromMeasure(value).catch(this.error);
-			});
+			throw Error(`${this.sourceDevice.name} has no measure_power capability`);
 		}
+
+		// check if HOMEY-API source device fits to a defined capability group
+		this.sourceCapGroup = null; // relevant capabilities found in the source device
+		sourceCapGroups.forEach((capGroup) => {
+			if (this.sourceCapGroup) return; // stop at the first match
+			const requiredKeys = Object.values(capGroup).filter((v) => v);
+			const hasAllKeys = requiredKeys.every((k) => this.sourceDevice.capabilities.includes(k));
+			if (hasAllKeys) this.sourceCapGroup = capGroup;
+		});
+		if (!this.sourceCapGroup) throw Error(`${this.sourceDevice.name} has no compatible meter_power capabilities`);
+
+		// start listeners for HOMEY-API device
+		Object.keys(this.sourceCapGroup).forEach((key) => {
+			if (this.sourceCapGroup[key]) {
+				this.capabilityInstances[key] = this.sourceDevice.makeCapabilityInstance(this.sourceCapGroup[key], (value) => {
+					this.lastGroupMeter[key] = value;
+					this.updateGroupMeter(value, key).catch(this.error);
+				});
+			}
+		});
+		// get the init values for this.lastGroupMeter
+		Object.keys(this.sourceCapGroup)
+			.filter((k) => this.sourceCapGroup[k])
+			.forEach((k) => {
+				this.lastGroupMeter[k] = this.sourceDevice.capabilitiesObj[this.sourceCapGroup[k]].value;
+			});
+		this.lastGroupMeterReady = true;
 	}
 
-	updateMeterConsumed(value) {
-		this.lastConsumed = value;
-		if (this.lastGenerated !== undefined) this.updateMeter(this.lastConsumed - this.lastGenerated).catch(this.error);
-		if (this.lastReturned !== undefined) this.updateMeter(this.lastConsumed - this.lastReturned).catch(this.error);
+	async updateGroupMeter() {
+		// check if all GroupCaps have received their first value.
+		if (!this.lastGroupMeterReady) {
+			this.log(this.getName(), 'Ignoring value update. updateGroupMeter is waiting to be filled.');
+			return;
+		}
+
+		// calculate the sum, and update meter
+		let total = 0;
+		total = Number.isFinite(this.lastGroupMeter.p1) ? total += this.lastGroupMeter.p1 : total;
+		total = Number.isFinite(this.lastGroupMeter.p2) ? total += this.lastGroupMeter.p2 : total;
+		total = Number.isFinite(this.lastGroupMeter.n1) ? total -= this.lastGroupMeter.n1 : total;
+		total = Number.isFinite(this.lastGroupMeter.n2) ? total -= this.lastGroupMeter.n2 : total;
+		this.updateMeter(total).catch(this.error);
 	}
 
-	updateMeterDelivered(value) {
-		this.lastReturned = value;
-		if (this.lastReturned !== undefined) this.updateMeter(this.lastConsumed - this.lastReturned).catch(this.error);
-	}
-
-	updateMeterGenerated(value) {
-		this.lastGenerated = value;
-		if (this.lastConsumed !== undefined) this.updateMeter(this.lastConsumed - this.lastGenerated).catch(this.error);
-	}
-
-	updateMeterReturned(value) {
-		this.lastReturned = value;
-		if (this.lastConsumed !== undefined) this.updateMeter(this.lastConsumed - this.lastReturned).catch(this.error);
-	}
-
-	updateMeterPeak(value) {
-		this.lastPeak = value;
-		if (this.lastOffPeak !== undefined) this.updateMeter(this.lastPeak + this.lastOffPeak).catch(this.error);
-	}
-
-	updateMeterOffPeak(value) {
-		this.lastOffPeak = value;
-		if (this.lastPeak !== undefined) this.updateMeter(this.lastPeak + this.lastOffPeak).catch(this.error);
-	}
-
+	// Setup how to poll the meter
 	async pollMeter() {
 
 		// poll a Homey Energy device
@@ -208,7 +198,7 @@ class sumDriver extends GenericDevice {
 
 }
 
-module.exports = sumDriver;
+module.exports = sumDevice;
 
 /*
 capabilitiesObj:
