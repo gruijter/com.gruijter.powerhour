@@ -22,6 +22,7 @@ along with com.gruijter.powerhour.  If not, see <http://www.gnu.org/licenses/>.
 
 const { Device } = require('homey');
 const util = require('util');
+const budget = require('../budget');
 
 const setTimeoutPromise = util.promisify(setTimeout);
 
@@ -33,6 +34,7 @@ class SumMeterDevice extends Device {
 		try {
 			// init some stuff
 			this.restarting = false;
+			this.initReady = false;
 			await this.destroyListeners();
 			this.timeZone = this.homey.clock.getTimezone();
 			this.settings = await this.getSettings();
@@ -84,6 +86,7 @@ class SumMeterDevice extends Device {
 				await this.addListeners();
 				await this.pollMeter();	// do immediate forced update
 			}
+			this.initReady = true;
 			// this.log(`${this.getName()} has succesfully initialized.`);
 		} catch (error) {
 			this.error(error);
@@ -92,7 +95,7 @@ class SumMeterDevice extends Device {
 		}
 	}
 
-	// migrate stuff from old version < 4.9.0
+	// migrate stuff from old version < 5.0.2
 	async migrate() {
 		try {
 			this.log(`checking device migration for ${this.getName()}`);
@@ -102,7 +105,14 @@ class SumMeterDevice extends Device {
 			const sym = Object.getOwnPropertySymbols(this).find((s) => String(s) === 'Symbol(state)');
 			const state = this[sym];
 			// check and repair incorrect capability(order)
-			const correctCaps = this.driver.ds.deviceCapabilities;
+			let correctCaps = this.driver.ds.deviceCapabilities;
+			// add meter_target_xxx distribution setting  versions >5.0.2
+			if (!this.getSettings().distribution) {
+				this.log(`Migrating budget target distribution for ${this.getName()} to NONE`);
+				await this.setSettings({ distribution: 'NONE' });
+			}
+			// remove meter_target_this_xxx caps   versions >5.0.2
+			if (this.settings.distribution === 'NONE') correctCaps = correctCaps.filter((cap) => !cap.includes('meter_target'));
 			for (let index = 0; index < correctCaps.length; index += 1) {
 				const caps = await this.getCapabilities();
 				const newCap = correctCaps[index];
@@ -127,18 +137,6 @@ class SumMeterDevice extends Device {
 			}
 
 			if (this.getSettings().level < '4.9.1') this.currencyChanged = true;
-
-			// fix meter_tariff currency versions <4.5.0
-			// const optionsMoney = this.getCapabilityOptions('meter_money_this_hour');
-			// const optionsTariff = this.getCapabilityOptions('meter_tariff');
-			// if (!optionsTariff.units) optionsTariff.units = { en: null };
-			// if (optionsMoney.units && (optionsMoney.units.en !== optionsTariff.units.en)) {
-			// 	optionsTariff.units = optionsMoney.units;
-			// 	optionsTariff.decimals = 4;
-			// 	this.log(`Fixing currency for meter_tariff ${this.getName()} to ${optionsTariff.units.en}`);
-			// 	await this.setCapabilityOptions('meter_tariff', optionsTariff).catch(this.error);
-			// 	await setTimeoutPromise(2 * 1000);
-			// }
 
 			// convert tariff_via_flow to tariff_update_group <4.7.1
 			if (this.getSettings().level < '4.7.1') {
@@ -317,6 +315,10 @@ class SumMeterDevice extends Device {
 			this.currencyChanged = true;
 		}
 
+		if (changedKeys.includes('distribution')) {
+			this.migrated = false;
+		}
+
 		if (changedKeys.includes('decimals_meter')) {
 			this.meterDecimalsChanged = true;
 		}
@@ -390,7 +392,7 @@ class SumMeterDevice extends Device {
 		this.cumVal = this.dayStartCumVal;
 		this.lastAbsVal = 0;
 
-		// init this.startDay and this.startMonth
+		// init this.startDay, this.startMonth and this.year
 		let startDateString = this.settings.start_date;
 		if (!startDateString || startDateString.length !== 4) startDateString = '0101'; // ddmm
 		this.startDay = Number(startDateString.slice(0, 2));
@@ -398,6 +400,11 @@ class SumMeterDevice extends Device {
 		if (!this.startDay || (this.startDay > 31)) this.startDay = 1;
 		if (!this.startMonth || (this.startMonth > 12)) this.startMonth = 1;
 		this.startMonth -= 1; // January is month 0
+		this.year = new Date();
+		this.year = this.year.getFullYear();
+
+		// init this.budgets
+		this.budgets = this.getBudgets();
 
 		// init this.lastReading
 		this.lastReadingHour = await this.getStoreValue('lastReadingHour');
@@ -510,6 +517,7 @@ class SumMeterDevice extends Device {
 			if (!this.initReady) await this.initFirstReading(reading); // after app start
 			const periods = await this.getPeriods(reading);	// check for new hour/day/month/year
 			await this.updateMeters(reading, periods);
+			await this.updateTargets(periods);
 			await this.updateMoney(reading, periods);
 			await this.updateMeasureMinMax(reading, periods);
 		} catch (error) {
@@ -576,6 +584,21 @@ class SumMeterDevice extends Device {
 			newHour, newDay, newMonth, newYear,
 		};
 		return Promise.resolve(periods);
+	}
+
+	getBudgets() {
+		if (!this.settings.distribution || this.settings.distribution === 'NONE') return null;
+		const now = new Date();// NEED TO CHECK UTC VS LOCAL TIMEZONE!!!!!!
+		const startOfMonth = new Date(now);
+		startOfMonth.setDate(1); // first day of this month
+		const soyDayNr = budget.getDayOfYear(new Date(this.year, this.startMonth, this.startDay)); // start of this year 1 - 366
+		const somDayNr = budget.getDayOfYear(startOfMonth); // start of this month 1 - 366
+		const nowDayNr = budget.getDayOfYear(now); // start of this day 1 - 366
+		const budgets = {
+			monthToDate: budget.getBudget(this.settings.distribution, nowDayNr, somDayNr) * this.settings.budget,
+			yearToDate: budget.getBudget(this.settings.distribution, nowDayNr, soyDayNr) * this.settings.budget,
+		};
+		return budgets;
 	}
 
 	async minMaxReset(reset, source) {
@@ -756,6 +779,20 @@ class SumMeterDevice extends Device {
 		this.setCapability(this.ds.cmap.this_day, valDay);
 		this.setCapability(this.ds.cmap.this_month, valMonth);
 		this.setCapability(this.ds.cmap.this_year, valYear);
+	}
+
+	async updateTargets(periods) {
+		// update tariff capability
+		if (!this.settings.distribution || this.settings.distribution === 'NONE') return;
+		if (periods.newDay) this.budgets = this.getBudgets();
+		if (this.budgets.yearToDate) {
+			const onTarget = 100 * (this.getCapabilityValue(this.ds.cmap.this_year) / this.budgets.yearToDate);
+			this.setCapability('meter_target_year_to_date', onTarget);
+		}
+		if (this.budgets.monthToDate) {
+			const onTarget = 100 * (this.getCapabilityValue(this.ds.cmap.this_month) / this.budgets.monthToDate);
+			this.setCapability('meter_target_month_to_date', onTarget);
+		}
 	}
 
 }

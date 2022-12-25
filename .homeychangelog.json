@@ -1,4 +1,10 @@
 {
+  "5.0.2": {
+    "en": "Added settable yearly budget for Gas, Electricity and Water. Added linear usage distribution over the year. Added NL_2023 usage distribution (prijsplafond) for Gas and Electricity. Added % on/above/under the budget for Month-to-date and Year-to-date. Update to homey-api@1.10.5."
+  },
+  "5.0.1": {
+    "en": "Added support for Qubino 3-phase meter. Round 'price now' tag to decimals settings. Rewrite summarizer driver to support more devices/apps. Make tariff group 1 default for new summarizer devices. Fix summarizer bugs for some source devices/apps. Fixed english title and-card. Fixed detect new tariffs received @midnight."
+  },
   "5.0.0": {
     "en": "Complete rewrite of DAP driver. Added seperate DAP device for gas spot prices. Added all gas spot prices from PowerNext. Added multiple selections during summarizer pair. Fixed DST handling. Many fixes and code optimizations."
   },
@@ -241,8 +247,5 @@
   },
   "0.1.0": {
     "en": "First release"
-  },
-  "5.0.1": {
-    "en": "added support for Qubino 3-phase meter. round 'price now' tag to decimals settings. rewrite summarizer driver to support more devices/apps. make tariff group 1 default for new summarizer devices. fix summarizer bugs for some source devices/apps. fixed english title and-card. fixed detect new tariffs received @midnight."
   }
 }

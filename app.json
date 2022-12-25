@@ -1,7 +1,7 @@
 {
   "_comment": "This file is generated. Please edit .homeycompose/app.json instead.",
   "id": "com.gruijter.powerhour",
-  "version": "5.0.1",
+  "version": "5.0.2",
   "compatibility": ">=8.0.0",
   "brandColor": "#df5020",
   "sdk": 3,
@@ -3804,6 +3804,92 @@
         {
           "type": "group",
           "label": {
+            "en": "Year start and gas budget",
+            "de": "Jahresbeginn und Gasbudget",
+            "sv": "Årets början och gasbudget",
+            "it": "Inizio anno e bilancio gas",
+            "no": "Årets start og gassbudsjett",
+            "fr": "Début d'année et budget gaz",
+            "nl": "Jaarstart en gas budget"
+          },
+          "children": [
+            {
+              "id": "start_date",
+              "type": "text",
+              "label": {
+                "en": "New year start date",
+                "de": "Startdatum neues Jahr",
+                "sv": "Nytt år startdatum",
+                "it": "Data inizio nuovo anno",
+                "no": "Startdato for nyttår",
+                "fr": "Date de début de nouvelle année",
+                "nl": "Start datum nieuw jaar"
+              },
+              "value": "0101",
+              "hint": {
+                "en": "On this date the month and year total will reset to 0. Format is ddmm. Default is 0101 (1 January). ATTENTION: If you change this date you need to manually correct the This Month Start and This Year Start values.",
+                "nl": "Op deze datum wordt het jaar en maand totaal op 0 gezet. Het formaat is ddmm. Standaard is 0101 (1 january). LET OP: Als deze datum wordt gewijzigd zal Deze Maand Start en Dit Jaar Start handmatig aangepast moeten worden.",
+                "de": "An diesem Datum wird die Monats- und Jahressumme auf 0 zurückgesetzt. Das Format ist ddmm. Standardwert ist 0101 (1. Januar). ACHTUNG: Wenn Sie dieses Datum ändern, müssen Sie die Werte 'Monatsbeginn' und 'Jahresbeginn' manuell korrigieren.",
+                "sv": "På det här datumet återställs totalsumman för månad och år till 0. Formatet är ddmm. Standard är 0101 (1 januari). OBSERVERA: Om du ändrar detta datum måste du manuellt korrigera värdena för start för denna månad och start för detta år.",
+                "it": "In questa data il mese e l'anno saranno resettati a 0. Il formato è ggmm. Default è 0101 (1 Gennaio). ATTENZIONE: Se modifichi questa data dovrai correggere manualmente i valori Inizio Mese Corrente e Inzio Anno Corrente.",
+                "no": "På denne dato vil total for måned og år resettes til 0. Format er ddmm. Default er 0101 (1 Januar). NB: Hvis du endrer denne datoen må du manuelt korrigere Denne måned start og  dette år start verdier.",
+                "fr": "À cette date, le total du mois et de l'année sera remit à 0. Le format est jjmm. La valeur par défaut est 0101 (1er janvier). ATTENTION: Si vous modifiez cette date, vous devez corriger manuellement les valeurs Début de ce mois et Début de cette année."
+              }
+            },
+            {
+              "id": "budget",
+              "type": "number",
+              "label": {
+                "en": "Year target budget (m³)",
+                "nl": "Jaar doelbudget (m³)"
+              },
+              "value": 1200,
+              "hint": {
+                "en": "The total target budget for a year. Attention: the year starts at the set start date.",
+                "nl": "Het totale doelbudget voor een jaar. LET OP: het jaar begint bij de ingestelde start datum."
+              }
+            },
+            {
+              "id": "distribution",
+              "type": "dropdown",
+              "value": "NONE",
+              "label": {
+                "en": "Distribution scheme",
+                "nl": "Verdeling schema"
+              },
+              "hint": {
+                "en": "The day by day distribution of usage over the year.",
+                "nl": "De verdeling van het dagelijkse verbruik over het jaar heen."
+              },
+              "values": [
+                {
+                  "id": "NONE",
+                  "label": {
+                    "en": "DISABLE TARGET BUDGET",
+                    "nl": "DOELBUDGET NIET ACTIEF"
+                  }
+                },
+                {
+                  "id": "linear",
+                  "label": {
+                    "en": "Linear",
+                    "nl": "Lineair"
+                  }
+                },
+                {
+                  "id": "gas_nl_2023",
+                  "label": {
+                    "en": "gas_nl_2023 (NL price ceiling)",
+                    "nl": "gas_nl_2023 (plafondprijs)"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "group",
+          "label": {
             "en": "Meter readings",
             "de": "Zählerstände",
             "sv": "Mätaravläsningar",
@@ -3836,29 +3922,6 @@
                 "no": "Antall desimaler.",
                 "fr": "Nombre de décimales.",
                 "nl": "Het aantal decimalen."
-              }
-            },
-            {
-              "id": "start_date",
-              "type": "text",
-              "label": {
-                "en": "New year start date",
-                "de": "Startdatum neues Jahr",
-                "sv": "Nytt år startdatum",
-                "it": "Data inizio anno nuovo",
-                "no": "startdato for nytt år",
-                "fr": "Date de début de la nouvelle année",
-                "nl": "Start datum nieuw jaar"
-              },
-              "value": "0101",
-              "hint": {
-                "en": "On this date the month and year total will reset to 0. Format is ddmm. Default is 0101 (1 January). ATTENTION: If you change this date you need to manually correct the This Month Start and This Year Start values.",
-                "nl": "Op deze datum wordt het jaar en maand totaal op 0 gezet. Het formaat is ddmm. Standaard is 0101 (1 january). LET OP: Als deze datum wordt gewijzigd zal Deze Maand Start en Dit Jaar Start handmatig aangepast moeten worden.",
-                "de": "An diesem Datum wird die Monats- und Jahressumme auf 0 zurückgesetzt. Das Format ist ddmm. Standardwert ist 0101 (1. Januar). ACHTUNG: Wenn Sie dieses Datum ändern, müssen Sie die Werte 'Monatsbeginn' und 'Jahresbeginn' manuell korrigieren.",
-                "sv": "På det här datumet återställs totalsumman för månad och år till 0. Formatet är ddmm. Standard är 0101 (1 januari). OBSERVERA: Om du ändrar detta datum måste du manuellt korrigera värdena för start för denna månad och start för detta år.",
-                "no": "På denne dato vil total for måned og år resettes til 0. Format er ddmm. Default er 0101 (1 Januar). NB: Hvis du endrer denne datoen må du manuelt korrigere Denne måned start og  dette år start verdier.",
-                "fr": "À cette date, le total du mois et de l'année sera remit à 0. Le format est jjmm. La valeur par défaut est 0101 (1er janvier). ATTENTION: Si vous modifiez cette date, vous devez corriger manuellement les valeurs Début de ce mois et Début de cette année.",
-                "it": "In questa data, mese e anno saranno resettati. Il formato è ggmm. Default è 0101 (1 Gennaio). ATTENZIONE: se modifichi questa data dovrai correggere manualmente i valori Inzio Mese Corrente e Inzio Anno Corrente."
               }
             },
             {
@@ -4509,6 +4572,92 @@
         {
           "type": "group",
           "label": {
+            "en": "Year start and energy budget",
+            "de": "Jahresbeginn und Energiebudget",
+            "sv": "Årets början och energibudget",
+            "it": "Inizio anno e bilancio energetico",
+            "no": "Årets start og energibudsjett",
+            "fr": "Début d'année et budget énergie",
+            "nl": "Jaarstart en energie budget"
+          },
+          "children": [
+            {
+              "id": "start_date",
+              "type": "text",
+              "label": {
+                "en": "New year start date",
+                "de": "Startdatum neues Jahr",
+                "sv": "Nytt år startdatum",
+                "it": "Data inizio nuovo anno",
+                "no": "Startdato for nyttår",
+                "fr": "Date de début de nouvelle année",
+                "nl": "Start datum nieuw jaar"
+              },
+              "value": "0101",
+              "hint": {
+                "en": "On this date the month and year total will reset to 0. Format is ddmm. Default is 0101 (1 January). ATTENTION: If you change this date you need to manually correct the This Month Start and This Year Start values.",
+                "nl": "Op deze datum wordt het jaar en maand totaal op 0 gezet. Het formaat is ddmm. Standaard is 0101 (1 january). LET OP: Als deze datum wordt gewijzigd zal Deze Maand Start en Dit Jaar Start handmatig aangepast moeten worden.",
+                "de": "An diesem Datum wird die Monats- und Jahressumme auf 0 zurückgesetzt. Das Format ist ddmm. Standardwert ist 0101 (1. Januar). ACHTUNG: Wenn Sie dieses Datum ändern, müssen Sie die Werte 'Monatsbeginn' und 'Jahresbeginn' manuell korrigieren.",
+                "sv": "På det här datumet återställs totalsumman för månad och år till 0. Formatet är ddmm. Standard är 0101 (1 januari). OBSERVERA: Om du ändrar detta datum måste du manuellt korrigera värdena för start för denna månad och start för detta år.",
+                "it": "In questa data il mese e l'anno saranno resettati a 0. Il formato è ggmm. Default è 0101 (1 Gennaio). ATTENZIONE: Se modifichi questa data dovrai correggere manualmente i valori Inizio Mese Corrente e Inzio Anno Corrente.",
+                "no": "På denne dato vil total for måned og år resettes til 0. Format er ddmm. Default er 0101 (1 Januar). NB: Hvis du endrer denne datoen må du manuelt korrigere Denne måned start og  dette år start verdier.",
+                "fr": "À cette date, le total du mois et de l'année sera remit à 0. Le format est jjmm. La valeur par défaut est 0101 (1er janvier). ATTENTION: Si vous modifiez cette date, vous devez corriger manuellement les valeurs Début de ce mois et Début de cette année."
+              }
+            },
+            {
+              "id": "budget",
+              "type": "number",
+              "label": {
+                "en": "Year target budget (kWh)",
+                "nl": "Jaar doelbudget (kWh)"
+              },
+              "value": 2900,
+              "hint": {
+                "en": "The total target budget for a year. Attention: the year starts at the set start date.",
+                "nl": "Het totale doelbudget voor een jaar. LET OP: het jaar begint bij de ingestelde start datum."
+              }
+            },
+            {
+              "id": "distribution",
+              "type": "dropdown",
+              "value": "NONE",
+              "label": {
+                "en": "Distribution scheme",
+                "nl": "Verdeling schema"
+              },
+              "hint": {
+                "en": "The day by day distribution of usage over the year.",
+                "nl": "De verdeling van het dagelijkse verbruik over het jaar heen."
+              },
+              "values": [
+                {
+                  "id": "NONE",
+                  "label": {
+                    "en": "DISABLE TARGET BUDGET",
+                    "nl": "DOELBUDGET NIET ACTIEF"
+                  }
+                },
+                {
+                  "id": "linear",
+                  "label": {
+                    "en": "Linear",
+                    "nl": "Lineair"
+                  }
+                },
+                {
+                  "id": "el_nl_2023",
+                  "label": {
+                    "en": "el_nl_2023 (NL price ceiling)",
+                    "nl": "el_nl_2023 (plafondprijs)"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "group",
+          "label": {
             "en": "Meter readings",
             "de": "Zählerstände",
             "sv": "Mätaravläsningar",
@@ -4541,29 +4690,6 @@
                 "no": "Antall desimaler.",
                 "fr": "Nombre de décimales.",
                 "nl": "Het aantal decimalen."
-              }
-            },
-            {
-              "id": "start_date",
-              "type": "text",
-              "label": {
-                "en": "New year start date",
-                "de": "Startdatum neues Jahr",
-                "sv": "Nytt år startdatum",
-                "it": "Data inizio nuovo anno",
-                "no": "Startdato for nyttår",
-                "fr": "Date de début de nouvelle année",
-                "nl": "Start datum nieuw jaar"
-              },
-              "value": "0101",
-              "hint": {
-                "en": "On this date the month and year total will reset to 0. Format is ddmm. Default is 0101 (1 January). ATTENTION: If you change this date you need to manually correct the This Month Start and This Year Start values.",
-                "nl": "Op deze datum wordt het jaar en maand totaal op 0 gezet. Het formaat is ddmm. Standaard is 0101 (1 january). LET OP: Als deze datum wordt gewijzigd zal Deze Maand Start en Dit Jaar Start handmatig aangepast moeten worden.",
-                "de": "An diesem Datum wird die Monats- und Jahressumme auf 0 zurückgesetzt. Das Format ist ddmm. Standardwert ist 0101 (1. Januar). ACHTUNG: Wenn Sie dieses Datum ändern, müssen Sie die Werte 'Monatsbeginn' und 'Jahresbeginn' manuell korrigieren.",
-                "sv": "På det här datumet återställs totalsumman för månad och år till 0. Formatet är ddmm. Standard är 0101 (1 januari). OBSERVERA: Om du ändrar detta datum måste du manuellt korrigera värdena för start för denna månad och start för detta år.",
-                "it": "In questa data il mese e l'anno saranno resettati a 0. Il formato è ggmm. Default è 0101 (1 Gennaio). ATTENZIONE: Se modifichi questa data dovrai correggere manualmente i valori Inizio Mese Corrente e Inzio Anno Corrente.",
-                "no": "På denne dato vil total for måned og år resettes til 0. Format er ddmm. Default er 0101 (1 Januar). NB: Hvis du endrer denne datoen må du manuelt korrigere Denne måned start og  dette år start verdier.",
-                "fr": "À cette date, le total du mois et de l'année sera remit à 0. Le format est jjmm. La valeur par défaut est 0101 (1er janvier). ATTENTION: Si vous modifiez cette date, vous devez corriger manuellement les valeurs Début de ce mois et Début de cette année."
               }
             },
             {
@@ -5187,6 +5313,85 @@
         {
           "type": "group",
           "label": {
+            "en": "Year start and water budget",
+            "de": "Jahresbeginn und Wasserbudget",
+            "sv": "Årets början och vattenbudget",
+            "it": "Inizio anno e bilancio acqua",
+            "no": "Årets start og vannbudsjett",
+            "fr": "Début d'année et budget d'eau",
+            "nl": "Jaarstart en water budget"
+          },
+          "children": [
+            {
+              "id": "start_date",
+              "type": "text",
+              "label": {
+                "en": "New year start date",
+                "de": "Startdatum neues Jahr",
+                "sv": "Nytt år startdatum",
+                "it": "Data inizio nuovo anno",
+                "no": "Startdato for nyttår",
+                "fr": "Date de début de nouvelle année",
+                "nl": "Start datum nieuw jaar"
+              },
+              "value": "0101",
+              "hint": {
+                "en": "On this date the month and year total will reset to 0. Format is ddmm. Default is 0101 (1 January). ATTENTION: If you change this date you need to manually correct the This Month Start and This Year Start values.",
+                "nl": "Op deze datum wordt het jaar en maand totaal op 0 gezet. Het formaat is ddmm. Standaard is 0101 (1 january). LET OP: Als deze datum wordt gewijzigd zal Deze Maand Start en Dit Jaar Start handmatig aangepast moeten worden.",
+                "de": "An diesem Datum wird die Monats- und Jahressumme auf 0 zurückgesetzt. Das Format ist ddmm. Standardwert ist 0101 (1. Januar). ACHTUNG: Wenn Sie dieses Datum ändern, müssen Sie die Werte 'Monatsbeginn' und 'Jahresbeginn' manuell korrigieren.",
+                "sv": "På det här datumet återställs totalsumman för månad och år till 0. Formatet är ddmm. Standard är 0101 (1 januari). OBSERVERA: Om du ändrar detta datum måste du manuellt korrigera värdena för start för denna månad och start för detta år.",
+                "it": "In questa data il mese e l'anno saranno resettati a 0. Il formato è ggmm. Default è 0101 (1 Gennaio). ATTENZIONE: Se modifichi questa data dovrai correggere manualmente i valori Inizio Mese Corrente e Inzio Anno Corrente.",
+                "no": "På denne dato vil total for måned og år resettes til 0. Format er ddmm. Default er 0101 (1 Januar). NB: Hvis du endrer denne datoen må du manuelt korrigere Denne måned start og  dette år start verdier.",
+                "fr": "À cette date, le total du mois et de l'année sera remit à 0. Le format est jjmm. La valeur par défaut est 0101 (1er janvier). ATTENTION: Si vous modifiez cette date, vous devez corriger manuellement les valeurs Début de ce mois et Début de cette année."
+              }
+            },
+            {
+              "id": "budget",
+              "type": "number",
+              "label": {
+                "en": "Year target budget (m³)",
+                "nl": "Jaar doelbudget (m³)"
+              },
+              "value": 150,
+              "hint": {
+                "en": "The total target budget for a year. Attention: the year starts at the set start date.",
+                "nl": "Het totale doelbudget voor een jaar. LET OP: het jaar begint bij de ingestelde start datum."
+              }
+            },
+            {
+              "id": "distribution",
+              "type": "dropdown",
+              "value": "NONE",
+              "label": {
+                "en": "Distribution scheme",
+                "nl": "Verdeling schema"
+              },
+              "hint": {
+                "en": "The day by day distribution of usage over the year.",
+                "nl": "De verdeling van het dagelijkse verbruik over het jaar heen."
+              },
+              "values": [
+                {
+                  "id": "NONE",
+                  "label": {
+                    "en": "DISABLE TARGET BUDGET",
+                    "nl": "DOELBUDGET NIET ACTIEF"
+                  }
+                },
+                {
+                  "id": "linear",
+                  "label": {
+                    "en": "Linear",
+                    "nl": "Lineair"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "group",
+          "label": {
             "en": "Meter readings",
             "de": "Zählerstände",
             "sv": "Mätaravläsningar",
@@ -5219,29 +5424,6 @@
                 "no": "Antall desimaler.",
                 "fr": "Nombre de décimales.",
                 "nl": "Het aantal decimalen."
-              }
-            },
-            {
-              "id": "start_date",
-              "type": "text",
-              "label": {
-                "en": "New year start date",
-                "de": "Startdatum neues Jahr",
-                "sv": "Nytt år startdatum",
-                "it": "Data inizio nuovo anno",
-                "no": "Startdato for nyttår",
-                "fr": "Date de début de la nouvelle année",
-                "nl": "Start datum nieuw jaar"
-              },
-              "value": "0101",
-              "hint": {
-                "en": "On this date the month and year total will reset to 0. Format is ddmm. Default is 0101 (1 January). ATTENTION: If you change this date you need to manually correct the This Month Start and This Year Start values.",
-                "nl": "Op deze datum wordt het jaar en maand totaal op 0 gezet. Het formaat is ddmm. Standaard is 0101 (1 january). LET OP: Als deze datum wordt gewijzigd zal Deze Maand Start en Dit Jaar Start handmatig aangepast moeten worden.",
-                "de": "An diesem Datum wird die Monats- und Jahressumme auf 0 zurückgesetzt. Das Format ist ddmm. Standardwert ist 0101 (1. Januar). ACHTUNG: Wenn Sie dieses Datum ändern, müssen Sie die Werte 'Monatsbeginn' und 'Jahresbeginn' manuell korrigieren.",
-                "sv": "På det här datumet återställs totalsumman för månad och år till 0. Formatet är ddmm. Standard är 0101 (1 januari). OBSERVERA: Om du ändrar detta datum måste du manuellt korrigera värdena för start för denna månad och start för detta år.",
-                "it": "In questa data il totale di mese e anno verranno resettati a 0. Il formato è ggmm. Default è 0101 (1 Gennaio). ATTENZIONE: Se modifichi questa data, devi correggere manualmente i valori Inizio Mese Corrente e Inizio Anno Corrente.",
-                "no": "På denne dato vil total for måned og år resettes til 0. Format er ddmm. Default er 0101 (1 Januar). NB: Hvis du endrer denne datoen må du manuelt korrigere Denne måned start og  dette år start verdier.",
-                "fr": "À cette date, le total du mois et de l'année sera remit à 0. Le format est jjmm. La valeur par défaut est 0101 (1er janvier). ATTENTION: Si vous modifiez cette date, vous devez corriger manuellement les valeurs Début de ce mois et Début de cette année."
               }
             },
             {
@@ -6999,6 +7181,38 @@
         "en": "€"
       },
       "decimals": 4
+    },
+    "meter_target_month_to_date": {
+      "type": "number",
+      "title": {
+        "en": "On budget Month To Date",
+        "nl": "Op budget Maand Zover"
+      },
+      "uiComponent": "sensor",
+      "icon": "/assets/target.svg",
+      "getable": true,
+      "setable": false,
+      "insights": true,
+      "units": {
+        "en": "%"
+      },
+      "decimals": 1
+    },
+    "meter_target_year_to_date": {
+      "type": "number",
+      "title": {
+        "en": "On budget Year To date",
+        "nl": "Op budget Jaar Zover"
+      },
+      "uiComponent": "sensor",
+      "icon": "/assets/target.svg",
+      "getable": true,
+      "setable": false,
+      "insights": true,
+      "units": {
+        "en": "%"
+      },
+      "decimals": 1
     },
     "meter_tariff": {
       "type": "number",

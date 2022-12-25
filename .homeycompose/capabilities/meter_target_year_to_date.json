@@ -1,0 +1,16 @@
+{
+  "type": "number",
+  "title": {
+    "en": "On budget Year To date",
+    "nl": "Op budget Jaar Zover"
+  },
+  "uiComponent": "sensor",
+  "icon": "/assets/target.svg",
+  "getable": true,
+  "setable": false,
+  "insights": true,
+  "units": {
+    "en": "%"
+  },
+  "decimals": 1
+}
