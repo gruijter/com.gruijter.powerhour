@@ -2,7 +2,8 @@
   "type": "number",
   "title": {
     "en": "On budget Year To date",
-    "nl": "Op budget Jaar Zover"
+    "nl": "Op budget Jaar Zover",
+    "de": "Im Jahresbudget bis heute"
   },
   "uiComponent": "sensor",
   "icon": "/assets/target.svg",
