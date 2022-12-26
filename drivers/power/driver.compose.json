@@ -204,12 +204,14 @@
 					"type": "number",
 					"label": {
 						"en": "Year target budget (kWh)",
-						"nl": "Jaar doelbudget (kWh)"
+						"nl": "Jaar doelbudget (kWh)",
+ 						"de": "Jahreszielbudget (kWh)"
 					},
 					"value": 2900,
 					"hint": {
 						"en": "The total target budget for a year. Attention: the year starts at the set start date.",
-						"nl": "Het totale doelbudget voor een jaar. LET OP: het jaar begint bij de ingestelde start datum."
+						"nl": "Het totale doelbudget voor een jaar. LET OP: het jaar begint bij de ingestelde start datum.",
+ 						"de": "Das gesamte Zielbudget für ein Jahr. Achtung: Das Jahr beginnt mit dem festgelegten Startdatum."
 					}
 				},
 				{
@@ -218,32 +220,37 @@
 					"value": "NONE",
 					"label": {
 						"en": "Distribution scheme",
-						"nl": "Verdeling schema"
+						"nl": "Verdeling schema",
+ 						"de": "Verteilungsschema"
 					},
 					"hint": {
 						"en": "The day by day distribution of usage over the year.",
-						"nl": "De verdeling van het dagelijkse verbruik over het jaar heen."
+						"nl": "De verdeling van het dagelijkse verbruik over het jaar heen.",
+ 						"de": "Die Verteilung des Tagesverbrauchs über das Jahr."
 					},
 					"values": [
 						{
 							"id": "NONE",
 							"label": {
 								"en": "DISABLE TARGET BUDGET",
-								"nl": "DOELBUDGET NIET ACTIEF"
+								"nl": "DOELBUDGET NIET ACTIEF",
+ 								"de": "ZIELBUDGET NICHT AKTIV"
 							}
 						},
 						{
 							"id": "linear",
 							"label": {
 								"en": "Linear",
-								"nl": "Lineair"
+								"nl": "Lineair",
+ 								"de": "Linear"
 							}
 						},
 						{
 							"id": "el_nl_2023",
 							"label": {
 								"en": "el_nl_2023 (NL price ceiling)",
-								"nl": "el_nl_2023 (plafondprijs)"
+								"nl": "el_nl_2023 (plafondprijs)",
+ 								"de": "el_nl_2023 (NL Höchstpreis)"
 							}
 						}
 					]
@@ -712,10 +719,12 @@
 					"id": "tariff_update_group",
 					"type": "number",
 					"label": {
-						"en": "Tariff update group (flow or DAP)"
+						"en": "Tariff update group (flow or DAP)",
+					        "de": "Tarifaktualisierungsgruppe (Flow oder DAP)"
 					},
 					"hint": {
-						"en": "Group number when setting a new tariff via flow or DAP. Set at 0 to exclude updating the tariff."
+						"en": "Group number when setting a new tariff via flow or DAP. Set at 0 to exclude updating the tariff.",
+ 	  					"de": "Gruppennummer beim Einstellen eines neuen Tarifs über Flow oder DAP. Auf 0 setzen, um die Aktualisierung des Tarifs auszuschließen."
 					},
 					"value": 1,
 					"min": 0,
@@ -726,10 +735,12 @@
 					"id": "markup_month",
 					"type": "number",
 					"label": {
-						"en": "Fixed monthly costs"
+						"en": "Fixed monthly costs",
+					 	"de": "Fixkosten pro Monat"
 					},
 					"hint": {
-						"en": "Fixed costs that will be added at the start of every new month."
+						"en": "Fixed costs that will be added at the start of every new month.",
+ 	 					"de": "Fixkosten, die zu Beginn eines jeden neuen Monats hinzukommen."
 					},
 					"value": 0
 				},
@@ -737,10 +748,12 @@
 					"id": "markup_day",
 					"type": "number",
 					"label": {
-						"en": "Fixed daily costs"
+						"en": "Fixed daily costs",
+ 					        "de": "Fixkosten pro Tag"
 					},
 					"hint": {
-						"en": "Fixed costs that will be added at the start of every new day."
+						"en": "Fixed costs that will be added at the start of every new day.",
+ 	  					"de": "Fixkosten, die zu Beginn eines jeden neuen Tages hinzukommen."
 					},
 					"value": 0
 				},
@@ -748,10 +761,12 @@
 					"id": "markup_hour",
 					"type": "number",
 					"label": {
-						"en": "Fixed hourly costs"
+						"en": "Fixed hourly costs",
+ 					        "de": "Fixkosten pro Stunde"
 					},
 					"hint": {
-						"en": "Fixed costs that will be added at the start of every new hour."
+						"en": "Fixed costs that will be added at the start of every new hour.",
+ 	   					"de": "Fixkosten, die zu Beginn einer jeden neuen Stunde hinzukommen."
 					},
 					"value": 0
 				}
