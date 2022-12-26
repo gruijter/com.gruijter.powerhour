@@ -2,7 +2,8 @@
   "type": "number",
   "title": {
     "en": "On budget Month To Date",
-    "nl": "Op budget Maand Zover"
+    "nl": "Op budget Maand Zover",
+    "de": "Im Monatsbudget bis heute"
   },
   "uiComponent": "sensor",
   "icon": "/assets/target.svg",
