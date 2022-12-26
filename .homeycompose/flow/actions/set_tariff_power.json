@@ -11,7 +11,7 @@
   },
   "titleFormatted": {
     "en": "Set energy tariff for group [[group]] to [[tariff]]",
-    "de": "Stromtarif gruppe [[group]] einstellen auf [[tariff]]",
+    "de": "Stromtarif [[group]] einstellen auf [[tariff]]",
     "sv": "Ställ in [[group]] energitariffen till [[tariff]]",
     "it": "Imposta [[group]] tariffa energia a [[tariff]]",
     "no": "Sett [[group]] energitariff to [[tariff]]",
