@@ -38,6 +38,9 @@ From the device settings you can enter the meter readings as they were at the be
 <br>
 <br>
 
+## Compare usage with a yearly budget
+Real-time comparison with a yearly reference gas/electricity/water usage, based on a settable budget. Since in winter you usually use more then in summer, a distribution is applied. Next to a linear (flat) distribution, I implemented the distribution that is used by the Netherlands Government for the 2023 price ceiling (‘prijsplafond’).
+
 ## Finding out how much your Always-On appliances are using
 The Minimum value from your main meter can be used to see how much power your always-on equipment is using (e.g. wifi routers, NAS, TV in stand-by, etc). **Every 10 Watt you save on this value will result in a yearly saving of around 90kWh (20 Euro)!** Note that if you have solar panels you can only measure this value correctly at night. The best moment is therefore just before sunrise in the morning.
 

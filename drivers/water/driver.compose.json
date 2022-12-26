@@ -18,7 +18,7 @@
         "next": "add_devices"
       },
       "options": {
-        "singular": false
+        "singular": true
       }
     },
     {

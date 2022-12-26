@@ -42,6 +42,7 @@ class MyDevice extends Homey.Device {
 		try {
 			await this.destroyListeners();
 			this.restarting = false;
+			this.initReady = false;
 			this.settings = await this.getSettings();
 			this.timeZone = this.homey.clock.getTimezone();
 			this.fetchDelay = (Math.random() * 30 * 60 * 1000) + (1000 * 60 * 2);
@@ -54,6 +55,7 @@ class MyDevice extends Homey.Device {
 			// check migrations
 			if (!this.migrated) await this.migrate();
 			if (this.currencyChanged) await this.migrateCurrencyOptions(this.settings.currency, this.settings.decimals);
+			await this.setAvailable();
 
 			// setup pricing providers
 			this.dap = [];
@@ -88,6 +90,7 @@ class MyDevice extends Homey.Device {
 			};
 			this.homey.on('everyhour', this.eventListenerHour);
 
+			this.initReady = true;
 			this.log(`${this.getName()} finished initialization`);
 		} catch (error) {
 			this.error(error);
@@ -124,6 +127,7 @@ class MyDevice extends Homey.Device {
 				const caps = await this.getCapabilities();
 				const newCap = correctCaps[index];
 				if (caps[index] !== newCap) {
+					this.setUnavailable('Device is migrating. Please wait!');
 					// remove all caps from here
 					for (let i = index; i < caps.length; i += 1) {
 						this.log(`removing capability ${caps[i]} for ${this.getName()}`);
@@ -167,6 +171,7 @@ class MyDevice extends Homey.Device {
 
 	async migrateCurrencyOptions(currency, decimals) {
 		this.log('migrating capability options');
+		this.setUnavailable('Device is migrating. Please wait!');
 		const options = {
 			units: { en: currency },
 			decimals,
@@ -175,12 +180,12 @@ class MyDevice extends Homey.Device {
 		if (!Number.isInteger(decimals)) options.units.decimals = 4;
 		const moneyCaps = this.getCapabilities().filter((name) => name.includes('price'));
 		for (let i = 0; i < moneyCaps.length; i += 1) {
-			this.log('migrating', moneyCaps[i]);
+			this.log(`migrating ${moneyCaps[i]} to use ${options.units.en} and ${options.units.decimals} decimals`);
 			await this.setCapabilityOptions(moneyCaps[i], options).catch(this.error);
 			await setTimeoutPromise(2 * 1000);
 		}
 		this.currencyChanged = false;
-		this.log('capability options migration ready', this.getCapabilityOptions('meter_price_h7'));
+		// this.log('capability options migration ready', this.getCapabilityOptions('meter_price_h7'));
 	}
 
 	// STANDARD HOMEY STUFF
@@ -208,6 +213,7 @@ class MyDevice extends Homey.Device {
 	}
 
 	async onSettings({ newSettings, changedKeys }) { // , oldSettings) {
+		if (!this.initReady) throw Error('device is not ready. Ignoring new settings!');
 		this.log(`${this.getName()} device settings changed by user`, newSettings);
 		if (changedKeys.includes('currency') || changedKeys.includes('decimals')) {
 			this.currencyChanged = true;

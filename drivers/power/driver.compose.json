@@ -18,7 +18,7 @@
 				"next": "add_devices"
 			},
 			"options": {
-				"singular": false
+				"singular": true
 			}
 		},
 		{
@@ -160,6 +160,22 @@
 					"value": 0,
 					"min": 0,
 					"max": 5,
+					"step": 1
+				},
+				{
+					"id": "wait_for_update",
+					"type": "number",
+					"label": {
+						"en": "Delay hourly poll (minutes)",
+						"nl": "Vertraag uurlijkse poll (minuten)"
+					},
+					"hint": {
+						"en": "Set to 0 to get immediate updates on the hour. This setting is ignored for Watt and virtual source devices.",
+						"nl": "Zet op 0 voor directe poll op het hele uur. Deze instelling wordt niet gebruikt voor Watt en virtuele bron apparaten."
+					},
+					"value": 5,
+					"min": 0,
+					"max": 15,
 					"step": 1
 				}
 			]

@@ -82,14 +82,31 @@ class SumMeterDriver extends Driver {
 						device.restartDevice(1000).catch(this.error);
 						return;
 					}
-					// force immediate update
-					await device.pollMeter();
+
 					// check if source device is available
 					if (!device.sourceDevice.available) {
 						this.error(`Source device ${deviceName} is unavailable.`);
 						// device.setUnavailable('Source device is unavailable');
+						device.log('trying hourly poll', device.getName());
+						await device.pollMeter().catch(this.error);
 						return;
 					}
+
+					// force poll, unless wait for listener is setup
+					let doPoll = true;
+					if (device.getSettings().wait_for_update) {
+						const waitTime = device.getSettings().wait_for_update * 60 * 1000;
+						await setTimeoutPromise(waitTime);
+						// check if new hour was already registered
+						const now = new Date();
+						const lastReadingTm = new Date(device.lastReadingHour.meterTm);
+						if (now.getHours() === lastReadingTm.getHours()) doPoll = false;
+					}
+					if (doPoll) {
+						device.log('doing hourly poll', device.getName());
+						await device.pollMeter().catch(this.error);
+					}
+
 					device.setAvailable();
 				} catch (error) {
 					this.error(error);
@@ -103,21 +120,30 @@ class SumMeterDriver extends Driver {
 		if (this.eventListenerTariff) this.homey.removeListener(eventName, this.eventListenerTariff);
 		this.eventListenerTariff = async (args) => {
 			this.log(`${eventName} received from flow`, args);
+			const currentTm = new Date();
 			const tariff = Number(args.tariff);
 			const group = args.group || 1; // default to group 1 if not filled in
 			if (Number.isNaN(tariff)) {
 				this.error('the tariff is not a valid number');
 				return;
 			}
-			// wait 5 seconds for hourly poll to finish
-			await setTimeoutPromise(5 * 1000);
+			// wait 2 seconds not to stress Homey and prevent race issues
+			await setTimeoutPromise(2 * 1000);
 			const devices = this.getDevices();
 			devices.forEach((device) => {
 				if (device.settings && device.settings.tariff_update_group && device.settings.tariff_update_group === group) {
 					const deviceName = device.getName();
 					this.log('updating tariff', deviceName, tariff);
 					const self = device;
-					self.tariff = tariff; // { tariff: 0.25 }
+					if (self.tariffHistory) {
+						self.tariffHistory = {
+							previous: self.tariffHistory.current,
+							previousTm: self.tariffHistory.currentTm,
+							current: tariff,
+							currentTm,
+						};
+						self.setStoreValue('tariffHistory', self.tariffHistory).catch(self.error);
+					}
 					self.setSettings({ tariff });
 					self.setCapability('meter_tariff', tariff);
 				}
@@ -137,8 +163,44 @@ class SumMeterDriver extends Driver {
 		try {
 			const randomId = crypto.randomBytes(3).toString('hex');
 			this.devices = [];
-			if (this.ds.driverId === 'power') {	// add Homey Energy virtual devices
-				this.devices = [
+
+			const allDevices = await this.homey.app.api.devices.getDevices({ $timeout: 20000 });
+			const keys = Object.keys(allDevices);
+			keys.forEach((key) => {
+				const hasCapability = (capability) => allDevices[key].capabilities.includes(capability);
+				const found = this.ds.originDeviceCapabilities.some(hasCapability);
+				if (found) {
+					const device = {
+						name: `${allDevices[key].name}_Σ${this.ds.driverId}`,
+						data: {
+							id: `PH_${this.ds.driverId}_${allDevices[key].id}_${randomId}`,
+						},
+						settings: {
+							homey_device_id: allDevices[key].id,
+							homey_device_name: allDevices[key].name,
+							level: this.homey.app.manifest.version,
+							tariff_update_group: 1,
+							distribution: 'NONE',
+						},
+						capabilities: this.ds.deviceCapabilities,
+					};
+					if (!allDevices[key].capabilities.toString().includes('meter_')) device.settings.use_measure_source = true;
+					if (dailyResetApps.some((appId) => allDevices[key].driverUri.includes(appId))) {
+						device.settings.homey_device_daily_reset = true;
+					}
+					if (allDevices[key].energyObj && allDevices[key].energyObj.cumulative) device.settings.distribution = 'el_nl_2023';
+					if (this.ds.driverId === 'gas') device.settings.distribution = 'gas_nl_2023';
+					if (this.ds.driverId === 'water') device.settings.distribution = 'linear';
+					if (!(allDevices[key].driverUri.includes('com.gruijter.powerhour')	// ignore own app devices
+						|| allDevices[key].driverId === 'homey')) this.devices.push(device);	// ignore homey virtual power device
+				}
+			});
+			// show cumulative devices first ('NONE' is smaller than 'el_nl_2023')
+			this.devices.sort((a, b) => -1 * (a.settings.distribution > b.settings.distribution));
+
+			// add Homey Energy virtual devices
+			if (this.ds.driverId === 'power') {
+				this.devices.push(
 					{
 						name: `HOMEY_ENERGY_SMARTMETERS_Σ${this.ds.driverId}`,
 						data: {
@@ -152,7 +214,7 @@ class SumMeterDriver extends Driver {
 							interval: 1,
 							source_device_type: 'Homey Energy Smart Meters',
 							tariff_update_group: 1,
-							distribution: 'NONE',
+							distribution: 'linear',
 						},
 						capabilities: this.ds.deviceCapabilities,
 					},
@@ -190,8 +252,10 @@ class SumMeterDriver extends Driver {
 						},
 						capabilities: this.ds.deviceCapabilities,
 					},
-				];
+				);
 			}
+
+			// add virtual device
 			this.devices.push(
 				{
 					name: `VIRTUAL_VIA_FLOW_Σ${this.ds.driverId}`,
@@ -210,34 +274,6 @@ class SumMeterDriver extends Driver {
 				},
 			);
 
-			const allDevices = await this.homey.app.api.devices.getDevices({ $timeout: 20000 });
-			const keys = Object.keys(allDevices);
-
-			keys.forEach((key) => {
-				const hasCapability = (capability) => allDevices[key].capabilities.includes(capability);
-				const found = this.ds.originDeviceCapabilities.some(hasCapability);
-				if (found) {
-					const device = {
-						name: `${allDevices[key].name}_Σ${this.ds.driverId}`,
-						data: {
-							id: `PH_${this.ds.driverId}_${allDevices[key].id}_${randomId}`,
-						},
-						settings: {
-							homey_device_id: allDevices[key].id,
-							homey_device_name: allDevices[key].name,
-							level: this.homey.app.manifest.version,
-							tariff_update_group: 1,
-							distribution: 'NONE',
-						},
-						capabilities: this.ds.deviceCapabilities,
-					};
-					if (!allDevices[key].capabilities.toString().includes('meter_')) device.settings.use_measure_source = true;
-					if (dailyResetApps.some((appId) => allDevices[key].driverUri.includes(appId))) {
-						device.settings.homey_device_daily_reset = true;
-					}
-					if (!allDevices[key].driverUri.includes('com.gruijter.powerhour')) this.devices.push(device);
-				}
-			});
 			return Promise.resolve(this.devices);
 		} catch (error) {
 			return Promise.reject(error);

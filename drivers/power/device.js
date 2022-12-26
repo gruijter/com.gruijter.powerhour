@@ -89,13 +89,13 @@ class sumDevice extends GenericDevice {
 			throw Error(`${this.sourceDevice.name} has no measure_power capability`);
 		}
 
-		// check if HOMEY-API source device fits to a defined capability group
-		this.sourceCapGroup = null; // relevant capabilities found in the source device
+		// setup if/how a HOMEY-API source device fits to a defined capability group
+		this.sourceCapGroup = null;
 		sourceCapGroups.forEach((capGroup) => {
 			if (this.sourceCapGroup) return; // stop at the first match
 			const requiredKeys = Object.values(capGroup).filter((v) => v);
 			const hasAllKeys = requiredKeys.every((k) => this.sourceDevice.capabilities.includes(k));
-			if (hasAllKeys) this.sourceCapGroup = capGroup;
+			if (hasAllKeys) this.sourceCapGroup = capGroup; // all relevant capabilities were found in the source device
 		});
 		if (!this.sourceCapGroup) throw Error(`${this.sourceDevice.name} has no compatible meter_power capabilities`);
 
@@ -109,28 +109,7 @@ class sumDevice extends GenericDevice {
 			}
 		});
 		// get the init values for this.lastGroupMeter
-		Object.keys(this.sourceCapGroup)
-			.filter((k) => this.sourceCapGroup[k])
-			.forEach((k) => {
-				this.lastGroupMeter[k] = this.sourceDevice.capabilitiesObj[this.sourceCapGroup[k]].value;
-			});
-		this.lastGroupMeterReady = true;
-	}
-
-	async updateGroupMeter() {
-		// check if all GroupCaps have received their first value.
-		if (!this.lastGroupMeterReady) {
-			this.log(this.getName(), 'Ignoring value update. updateGroupMeter is waiting to be filled.');
-			return;
-		}
-
-		// calculate the sum, and update meter
-		let total = 0;
-		total = Number.isFinite(this.lastGroupMeter.p1) ? total += this.lastGroupMeter.p1 : total;
-		total = Number.isFinite(this.lastGroupMeter.p2) ? total += this.lastGroupMeter.p2 : total;
-		total = Number.isFinite(this.lastGroupMeter.n1) ? total -= this.lastGroupMeter.n1 : total;
-		total = Number.isFinite(this.lastGroupMeter.n2) ? total -= this.lastGroupMeter.n2 : total;
-		this.updateMeter(total).catch(this.error);
+		// this.pollMeter(); is done from device init
 	}
 
 	// Setup how to poll the meter
@@ -145,55 +124,31 @@ class sumDevice extends GenericDevice {
 			return;
 		}
 
-		this.sourceDevice = await this.homey.app.api.devices.getDevice({ id: this.getSettings().homey_device_id, $cache: false, $timeout: 20000 });
-		let pollValue = null;
-		let pollTm = null;
+		// check if HOMEY-API source device has a defined capability group setup
+		if (!this.sourceCapGroup) throw Error(`${this.sourceDevice.name} has no compatible meter_power capabilities`);
+		// get all values for this.lastGroupMeter
+		Object.keys(this.sourceCapGroup)
+			.filter((k) => this.sourceCapGroup[k])
+			.forEach((k) => {
+				this.lastGroupMeter[k] = this.sourceDevice.capabilitiesObj[this.sourceCapGroup[k]].value;
+			});
+		this.lastGroupMeterReady = true;
+		this.updateGroupMeter().catch(this.error);
+	}
 
-		if (this.sourceDevice.capabilities.includes('meter_power')) {
-			pollValue = this.sourceDevice.capabilitiesObj.meter_power.value;
-			pollTm = new Date(this.sourceDevice.capabilitiesObj.meter_power.lastUpdated);
-
-		} else if (this.sourceDevice.capabilities.includes('meter_power.peak') && this.sourceDevice.capabilities.includes('meter_power.offPeak')) {
-			const pollValuePeak = this.sourceDevice.capabilitiesObj['meter_power.peak'].value;
-			const pollValueOffPeak = this.sourceDevice.capabilitiesObj['meter_power.offPeak'].value;
-			pollValue = pollValuePeak + pollValueOffPeak;
-
-			const pollTm1 = new Date(this.sourceDevice.capabilitiesObj.meter_power.peak.lastUpdated);
-			const pollTm2 = new Date(this.sourceDevice.capabilitiesObj.meter_power.offPeak.lastUpdated);
-			pollTm = pollTm1 > pollTm2 ? pollTm1 : pollTm2;
-
-		} else if (this.sourceDevice.capabilities.includes('meter_power.consumed')
-		&& this.sourceDevice.capabilities.includes('meter_power.generated')) {
-			const pollValueConsumed = this.sourceDevice.capabilitiesObj['meter_power.consumed'].value;
-			const pollValueGenerated = this.sourceDevice.capabilitiesObj['meter_power.generated'].value;
-			pollValue = pollValueConsumed - pollValueGenerated;
-
-			const pollTm1 = new Date(this.sourceDevice.capabilitiesObj.meter_power.consumed.lastUpdated);
-			const pollTm2 = new Date(this.sourceDevice.capabilitiesObj.meter_power.generated.lastUpdated);
-			pollTm = pollTm1 > pollTm2 ? pollTm1 : pollTm2;
-
-		}	else if (this.sourceDevice.capabilities.includes('meter_power.consumed')
-		&& this.sourceDevice.capabilities.includes('meter_power.returned')) {
-			const pollValueConsumed = this.sourceDevice.capabilitiesObj['meter_power.consumed'].value;
-			const pollValueReturned = this.sourceDevice.capabilitiesObj['meter_power.returned'].value;
-			pollValue = pollValueConsumed - pollValueReturned;
-
-			const pollTm1 = new Date(this.sourceDevice.capabilitiesObj.meter_power.consumed.lastUpdated);
-			const pollTm2 = new Date(this.sourceDevice.capabilitiesObj.meter_power.returned.lastUpdated);
-			pollTm = pollTm1 > pollTm2 ? pollTm1 : pollTm2;
-
-		}	else if (this.sourceDevice.capabilities.includes('meter_power.delivered')
-		&& this.sourceDevice.capabilities.includes('meter_power.returned')) {
-			const pollValueDelivered = this.sourceDevice.capabilitiesObj['meter_power.delivered'].value;
-			const pollValueReturned = this.sourceDevice.capabilitiesObj['meter_power.returned'].value;
-			pollValue = pollValueDelivered - pollValueReturned;
-
-			const pollTm1 = new Date(this.sourceDevice.capabilitiesObj.meter_power.delivered.lastUpdated);
-			const pollTm2 = new Date(this.sourceDevice.capabilitiesObj.meter_power.returned.lastUpdated);
-			pollTm = pollTm1 > pollTm2 ? pollTm1 : pollTm2;
+	async updateGroupMeter() {
+		// check if all GroupCaps have received their first value.
+		if (!this.lastGroupMeterReady) {
+			this.log(this.getName(), 'Ignoring value update. updateGroupMeter is waiting to be filled.');
+			return;
 		}
-
-		await this.updateMeter(pollValue, pollTm);
+		// calculate the sum, and update meter
+		let total = 0;
+		total = Number.isFinite(this.lastGroupMeter.p1) ? total += this.lastGroupMeter.p1 : total;
+		total = Number.isFinite(this.lastGroupMeter.p2) ? total += this.lastGroupMeter.p2 : total;
+		total = Number.isFinite(this.lastGroupMeter.n1) ? total -= this.lastGroupMeter.n1 : total;
+		total = Number.isFinite(this.lastGroupMeter.n2) ? total -= this.lastGroupMeter.n2 : total;
+		this.updateMeter(total).catch(this.error);
 	}
 
 }

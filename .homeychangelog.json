@@ -1,4 +1,7 @@
 {
+  "5.0.3": {
+    "en": "DAP and summarizer: set device unavailable during capability migration, disable new device settings during migration. Dummarizer: rearranged device order during pair, removed Homey itself from pairing list, disabled multiple selections during pair, apply budget distribution setting for main meter devices during summarizer pair, fixed hourly polling for Qubino 3-phase meter, added hourly poll delay,  use previous tariff on start of new hour."
+  },
   "5.0.2": {
     "en": "Added settable yearly budget for Gas, Electricity and Water. Added linear usage distribution over the year. Added NL_2023 usage distribution (prijsplafond) for Gas and Electricity. Added % on/above/under the budget for Month-to-date and Year-to-date. Update to homey-api@1.10.5."
   },

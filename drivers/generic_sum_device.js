@@ -30,7 +30,6 @@ class SumMeterDevice extends Device {
 
 	// this method is called when the Device is inited
 	async onInitDevice() {
-		// this.log('device init: ', this.getName(), 'id:', this.getData().id);
 		try {
 			// init some stuff
 			this.restarting = false;
@@ -42,6 +41,7 @@ class SumMeterDevice extends Device {
 			if (!this.migrated) await this.migrate();
 			if (this.currencyChanged) await this.migrateCurrencyOptions(this.settings.currency, this.settings.decimals);
 			if (this.meterDecimalsChanged) await this.migrateMeterOptions(this.settings.decimals_meter);
+			await this.setAvailable();
 
 			// check settings for homey energy device
 			if (this.settings.homey_energy) {
@@ -112,11 +112,12 @@ class SumMeterDevice extends Device {
 				await this.setSettings({ distribution: 'NONE' });
 			}
 			// remove meter_target_this_xxx caps   versions >5.0.2
-			if (this.settings.distribution === 'NONE') correctCaps = correctCaps.filter((cap) => !cap.includes('meter_target'));
+			if (this.getSettings().distribution === 'NONE') correctCaps = correctCaps.filter((cap) => !cap.includes('meter_target'));
 			for (let index = 0; index < correctCaps.length; index += 1) {
 				const caps = await this.getCapabilities();
 				const newCap = correctCaps[index];
 				if (caps[index] !== newCap) {
+					this.setUnavailable('Device is migrating. Please wait!');
 					// remove all caps from here
 					for (let i = index; i < caps.length; i += 1) {
 						this.log(`removing capability ${caps[i]} for ${this.getName()}`);
@@ -129,7 +130,7 @@ class SumMeterDevice extends Device {
 					await this.addCapability(newCap);
 					// restore capability state
 					if (state[newCap]) this.log(`${this.getName()} restoring value ${newCap} to ${state[newCap]}`);
-					// else this.log(`${this.getName()} has gotten a new capability ${newCap}!`);
+					else this.log(`${this.getName()} no value to restore for new capability ${newCap}!`);
 					await this.setCapability(newCap, state[newCap]);
 					await setTimeoutPromise(2 * 1000); // wait a bit for Homey to settle
 					this.currencyChanged = true;
@@ -173,6 +174,7 @@ class SumMeterDevice extends Device {
 
 	async migrateCurrencyOptions(currency, decimals) {
 		this.log('migrating money capability options');
+		this.setUnavailable('Device is migrating. Please wait!');
 		const options = {
 			units: { en: currency },
 			decimals,
@@ -195,6 +197,7 @@ class SumMeterDevice extends Device {
 
 	async migrateMeterOptions(decimals) {
 		this.log('migrating meter capability options');
+		this.setUnavailable('Device is migrating. Please wait!');
 		const options = {
 			units: { en: 'kWh' },
 			decimals,
@@ -260,6 +263,7 @@ class SumMeterDevice extends Device {
 
 	// this method is called when the user has changed the device's settings in Homey.
 	async onSettings({ newSettings, changedKeys }) { // , oldSettings, changedKeys) {
+		if (!this.initReady) throw Error('device is not ready. Ignoring new settings!');
 		this.log(`${this.getName()} device settings changed by user`, newSettings);
 
 		const lastReadingDay = { ...this.lastReadingDay };
@@ -308,7 +312,8 @@ class SumMeterDevice extends Device {
 		}
 
 		if (changedKeys.includes('tariff')) {
-			this.tariff = newSettings.tariff;
+			this.tariffHistory.current = newSettings.tariff;
+			await this.setStoreValue('tariffHistory', this.tariffHistory);
 		}
 
 		if (changedKeys.includes('currency') || changedKeys.includes('decimals')) {
@@ -387,6 +392,18 @@ class SumMeterDevice extends Device {
 		if (!this.available) this.setAvailable().catch(this.error);
 		this.log(`${this.getName()} Restoring device values after init`);
 
+		// init tariffHistory
+		if (!this.tariffHistory) this.tariffHistory = await this.getStoreValue('tariffHistory');
+		if (!this.tariffHistory) {
+			this.tariffHistory = {
+				previous: null,	// is still used just after newHour
+				previousTm: null,
+				current: this.settings.tariff,
+				currentTm: new Date(), // time in UTC
+			};
+			await this.setStoreValue('tariffHistory', this.tariffHistory);
+		}
+
 		// init daily resetting source devices
 		this.dayStartCumVal = this.settings.meter_day_start;
 		this.cumVal = this.dayStartCumVal;
@@ -400,8 +417,9 @@ class SumMeterDevice extends Device {
 		if (!this.startDay || (this.startDay > 31)) this.startDay = 1;
 		if (!this.startMonth || (this.startMonth > 12)) this.startMonth = 1;
 		this.startMonth -= 1; // January is month 0
-		this.year = new Date();
-		this.year = this.year.getFullYear();
+		// let nowLocal = new Date();
+		// nowLocal = new Date(nowLocal.toLocaleString('en-US', { timeZone: this.timeZone }));
+		// this.year = nowLocal.getFullYear();
 
 		// init this.budgets
 		this.budgets = this.getBudgets();
@@ -433,9 +451,6 @@ class SumMeterDevice extends Device {
 		}
 		// assume 0 power when long time since last seen
 		if ((new Date() - new Date(this.lastMeasure.measureTm)) > 300000) this.lastMeasure.value = 0;
-
-		// init this.tariff
-		if (!this.tariff) this.tariff = this.settings.tariff;
 
 		// init this.meterMoney
 		if (!this.meterMoney) {
@@ -576,10 +591,10 @@ class SumMeterDevice extends Device {
 			|| ((reading.day >= this.startDay) && (reading.month > this.lastReadingMonth.month));
 		const newYear = (newMonth && (reading.month === this.startMonth))
 			|| ((reading.month >= this.startMonth) && (reading.year > this.lastReadingYear.year));
-		if (newHour) this.log('new hour started');
-		if (newDay) this.log('new day started');
-		if (newMonth) this.log('new month started');
-		if (newYear) this.log('(Happy!) new year started');
+		if (newHour) this.log('new hour started', this.getName());
+		if (newDay) this.log('new day started', this.getName());
+		if (newMonth) this.log('new month started', this.getName());
+		if (newYear) this.log('(Happy!) new year started', this.getName());
 		const periods = {
 			newHour, newDay, newMonth, newYear,
 		};
@@ -588,12 +603,14 @@ class SumMeterDevice extends Device {
 
 	getBudgets() {
 		if (!this.settings.distribution || this.settings.distribution === 'NONE') return null;
-		const now = new Date();// NEED TO CHECK UTC VS LOCAL TIMEZONE!!!!!!
-		const startOfMonth = new Date(now);
-		startOfMonth.setDate(1); // first day of this month
-		const soyDayNr = budget.getDayOfYear(new Date(this.year, this.startMonth, this.startDay)); // start of this year 1 - 366
+		const date = new Date();
+		const dateLocal = new Date(date.toLocaleString('en-US', { timeZone: this.timeZone }));
+		const yearLocal = dateLocal.getFullYear();
+		const startOfMonth = new Date(date.toLocaleString('en-US', { timeZone: this.timeZone }));
+		startOfMonth.setDate(this.startDay); // first day of this month
+		const soyDayNr = budget.getDayOfYear(new Date(yearLocal, this.startMonth, this.startDay)); // start of this year 1 - 366
 		const somDayNr = budget.getDayOfYear(startOfMonth); // start of this month 1 - 366
-		const nowDayNr = budget.getDayOfYear(now); // start of this day 1 - 366
+		const nowDayNr = budget.getDayOfYear(dateLocal); // start of this day 1 - 366
 		const budgets = {
 			monthToDate: budget.getBudget(this.settings.distribution, nowDayNr, somDayNr) * this.settings.budget,
 			yearToDate: budget.getBudget(this.settings.distribution, nowDayNr, soyDayNr) * this.settings.budget,
@@ -668,10 +685,14 @@ class SumMeterDevice extends Device {
 	}
 
 	async updateMoney({ ...reading }, periods) {
+		let tariff = this.tariffHistory.current;
 		// update tariff capability
-		if (this.tariff !== await this.getCapabilityValue('meter_tariff')) this.setCapability('meter_tariff', this.tariff);
+		if (tariff !== await this.getCapabilityValue('meter_tariff')) this.setCapability('meter_tariff', tariff);
+		// use previous hour tariff just after newHour and previous tariff is less then an hour old
+		if (periods.newHour && this.tariffHistory && this.tariffHistory.previousTm && (reading.meterTm - this.tariffHistory.previousTm)
+			< (61 + this.settings.wait_for_update) * 60 * 1000) tariff = this.tariffHistory.previous;
 		// calculate money
-		const deltaMoney = (reading.meterValue - this.meterMoney.meterValue) * this.tariff;
+		const deltaMoney = (reading.meterValue - this.meterMoney.meterValue) * tariff;
 		const meterMoney = {
 			hour: this.meterMoney.hour + deltaMoney,
 			day: this.meterMoney.day + deltaMoney,
