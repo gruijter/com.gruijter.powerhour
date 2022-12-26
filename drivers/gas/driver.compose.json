@@ -198,7 +198,7 @@
 					"label": {
 						"en": "Distribution scheme",
 						"nl": "Verdeling schema",
-						"de": "Verteilungsplan"
+						"de": "Verteilungsschema"
 					},
 					"hint": {
 						"en": "The day by day distribution of usage over the year.",
@@ -227,7 +227,7 @@
 							"label": {
 								"en": "gas_nl_2023 (NL price ceiling)",
 								"nl": "gas_nl_2023 (plafondprijs)",
-								"de": "gas_nl_2023 (NL Höchstpreis)
+								"de": "gas_nl_2023 (NL Höchstpreis)"
 							}
 						}
 					]
