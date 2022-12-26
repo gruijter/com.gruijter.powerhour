@@ -713,7 +713,7 @@
           "type": "number",
           "label": {
             "en": "Fixed monthly costs",
-	    "de": "Monatliche Fixkosten"
+	    "de": "Fixkosten pro Monat"
           },
           "hint": {
             "en": "Fixed costs that will be added at the start of every new month.",
@@ -726,11 +726,11 @@
           "type": "number",
           "label": {
             "en": "Fixed daily costs",
-	    "de": "Tägliche Fixkosten"
+	    "de": "Fixkosten pro Tag"
           },
           "hint": {
             "en": "Fixed costs that will be added at the start of every new day.",
-	    "de": "Fixkosten, die zu Beginn eines jeden neuen Tages hinzukommen.
+	    "de": "Fixkosten, die zu Beginn eines jeden neuen Tages hinzukommen."
           },
           "value": 0
         },
@@ -739,11 +739,11 @@
           "type": "number",
           "label": {
             "en": "Fixed hourly costs",
-	    "de": "Stündliche Fixkosten"
+	    "de": "Fixkosten pro Stunde"
           },
           "hint": {
             "en": "Fixed costs that will be added at the start of every new hour.",
-	    "de": "Fixkosten, die zu Beginn einer jeden neuen Stunde hinzukommen.
+	    "de": "Fixkosten, die zu Beginn einer jeden neuen Stunde hinzukommen."
           },
           "value": 0
         }
