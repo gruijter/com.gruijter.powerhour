@@ -106,12 +106,26 @@ class SumMeterDevice extends Device {
 			const state = this[sym];
 			// check and repair incorrect capability(order)
 			let correctCaps = this.driver.ds.deviceCapabilities;
-			// add meter_target_xxx distribution setting  versions >5.0.2
-			if (!this.getSettings().distribution) {
-				this.log(`Migrating budget target distribution for ${this.getName()} to NONE`);
-				await this.setSettings({ distribution: 'NONE' });
+			// add meter_target_xxx distribution setting  versions >5.0.4
+			if (this.getSettings().level < '5.0.0') {
+				let distribution = 'NONE';
+				if (this.driver.ds.driverId === 'gas') distribution = 'gas_nl_2023';
+				if (this.driver.ds.driverId === 'water') distribution = 'linear';
+				if (this.driver.ds.driverId === 'power' && !(this.settings.meter_via_flow || this.settings.homey_energy)) {
+					const sourceD = await this.homey.app.api.devices.getDevice({ id: this.settings.homey_device_id, $cache: false, $timeout: 25000 })
+						.catch(this.error);
+					await setTimeoutPromise(3 * 1000); // wait a bit for capabilitiesObj to fill?
+					// check if source device exists
+					const sourceDeviceExists = sourceD && sourceD.capabilitiesObj;
+					if (sourceDeviceExists) {
+						if (sourceD.energyObj && sourceD.energyObj.cumulative) distribution = 'el_nl_2023';
+					}
+				}
+				this.log(`Migrating budget target distribution for ${this.getName()} to ${distribution}`);
+				await this.setSettings({ distribution });
+				await setTimeoutPromise(2 * 1000); // wait a bit for Homey to settles
 			}
-			// remove meter_target_this_xxx caps   versions >5.0.2
+			// remove meter_target_this_xxx caps  versions >5.0.2
 			if (this.getSettings().distribution === 'NONE') correctCaps = correctCaps.filter((cap) => !cap.includes('meter_target'));
 			for (let index = 0; index < correctCaps.length; index += 1) {
 				const caps = await this.getCapabilities();
@@ -164,6 +178,7 @@ class SumMeterDevice extends Device {
 			}
 			// set new migrate level
 			await this.setSettings({ level: this.homey.app.manifest.version });
+			this.settings = await this.getSettings();
 			this.migrated = true;
 			Promise.resolve(this.migrated);
 		} catch (error) {

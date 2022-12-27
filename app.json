@@ -1,7 +1,7 @@
 {
   "_comment": "This file is generated. Please edit .homeycompose/app.json instead.",
   "id": "com.gruijter.powerhour",
-  "version": "5.0.3",
+  "version": "5.0.4",
   "compatibility": ">=8.0.0",
   "brandColor": "#df5020",
   "sdk": 3,
@@ -3807,8 +3807,8 @@
                 "nl": "Vertraag uurlijkse poll (minuten)"
               },
               "hint": {
-                "en": "Set to 0 to get immediate updates on the hour. This setting is ignored for Watt and virtual source devices.",
-                "nl": "Zet op 0 voor directe poll op het hele uur. Deze instelling wordt niet gebruikt voor Watt en virtuele bron apparaten."
+                "en": "Set to 0 to get immediate updates on the hour.",
+                "nl": "Zet op 0 voor directe poll op het hele uur."
               },
               "value": 5,
               "min": 0,
@@ -3868,7 +3868,7 @@
             {
               "id": "distribution",
               "type": "dropdown",
-              "value": "NONE",
+              "value": "gas_nl_2023",
               "label": {
                 "en": "Distribution scheme",
                 "nl": "Verdeling schema"
@@ -4594,7 +4594,7 @@
                 "en": "Set to 0 to get immediate updates on the hour. This setting is ignored for Watt and virtual source devices.",
                 "nl": "Zet op 0 voor directe poll op het hele uur. Deze instelling wordt niet gebruikt voor Watt en virtuele bron apparaten."
               },
-              "value": 5,
+              "value": 1,
               "min": 0,
               "max": 15,
               "step": 1
@@ -5339,6 +5339,22 @@
               "min": 0,
               "max": 5,
               "step": 1
+            },
+            {
+              "id": "wait_for_update",
+              "type": "number",
+              "label": {
+                "en": "Delay hourly poll (minutes)",
+                "nl": "Vertraag uurlijkse poll (minuten)"
+              },
+              "hint": {
+                "en": "Set to 0 to get immediate updates on the hour.",
+                "nl": "Zet op 0 voor directe poll op het hele uur."
+              },
+              "value": 0,
+              "min": 0,
+              "max": 15,
+              "step": 1
             }
           ]
         },
@@ -5393,7 +5409,7 @@
             {
               "id": "distribution",
               "type": "dropdown",
-              "value": "NONE",
+              "value": "linear",
               "label": {
                 "en": "Distribution scheme",
                 "nl": "Verdeling schema"

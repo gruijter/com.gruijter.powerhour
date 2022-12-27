@@ -55,7 +55,6 @@ class MyDevice extends Homey.Device {
 			// check migrations
 			if (!this.migrated) await this.migrate();
 			if (this.currencyChanged) await this.migrateCurrencyOptions(this.settings.currency, this.settings.decimals);
-			await this.setAvailable();
 
 			// setup pricing providers
 			this.dap = [];
@@ -75,6 +74,7 @@ class MyDevice extends Homey.Device {
 			}
 
 			// fetch and handle prices now, after short random delay
+			await this.setAvailable();
 			await setTimeoutPromise(this.fetchDelay / 30, 'waiting is done'); // spread over 1 minute for API rate limit (400 / min)
 			await this.fetchExchangeRate();
 			await this.fetchPrices();
@@ -645,6 +645,7 @@ class MyDevice extends Homey.Device {
 			pricesYesterday,
 
 			pricesThisDay,
+			priceThisDayAvg,
 			this_day_avg: priceThisDayAvg,
 			priceThisDayLowest,
 			hourThisDayLowest,
@@ -652,6 +653,7 @@ class MyDevice extends Homey.Device {
 			hourThisDayHighest,
 
 			pricesNext8h,
+			priceNext8hAvg,
 			next_8h_avg: priceNext8hAvg,
 			priceNext8hLowest,
 			hourNext8hLowest,

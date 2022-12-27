@@ -134,7 +134,23 @@
           "min": 0,
           "max": 5,
           "step": 1
-        }
+        },
+        {
+					"id": "wait_for_update",
+					"type": "number",
+					"label": {
+						"en": "Delay hourly poll (minutes)",
+						"nl": "Vertraag uurlijkse poll (minuten)"
+					},
+					"hint": {
+						"en": "Set to 0 to get immediate updates on the hour.",
+						"nl": "Zet op 0 voor directe poll op het hele uur."
+					},
+					"value": 0,
+					"min": 0,
+					"max": 15,
+					"step": 1
+				}
       ]
     },
     {
@@ -188,7 +204,7 @@
 				{
 					"id": "distribution",
 					"type": "dropdown",
-					"value": "NONE",
+					"value": "linear",
 					"label": {
 						"en": "Distribution scheme",
 						"nl": "Verdeling schema"

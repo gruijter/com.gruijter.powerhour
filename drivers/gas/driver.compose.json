@@ -147,8 +147,8 @@
 						"nl": "Vertraag uurlijkse poll (minuten)"
 					},
 					"hint": {
-						"en": "Set to 0 to get immediate updates on the hour. This setting is ignored for Watt and virtual source devices.",
-						"nl": "Zet op 0 voor directe poll op het hele uur. Deze instelling wordt niet gebruikt voor Watt en virtuele bron apparaten."
+						"en": "Set to 0 to get immediate updates on the hour.",
+						"nl": "Zet op 0 voor directe poll op het hele uur."
 					},
 					"value": 5,
 					"min": 0,
@@ -208,7 +208,7 @@
 				{
 					"id": "distribution",
 					"type": "dropdown",
-					"value": "NONE",
+					"value": "gas_nl_2023",
 					"label": {
 						"en": "Distribution scheme",
 						"nl": "Verdeling schema"

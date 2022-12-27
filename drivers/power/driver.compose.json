@@ -173,7 +173,7 @@
 						"en": "Set to 0 to get immediate updates on the hour. This setting is ignored for Watt and virtual source devices.",
 						"nl": "Zet op 0 voor directe poll op het hele uur. Deze instelling wordt niet gebruikt voor Watt en virtuele bron apparaten."
 					},
-					"value": 5,
+					"value": 1,
 					"min": 0,
 					"max": 15,
 					"step": 1
