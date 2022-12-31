@@ -75,7 +75,7 @@ class sumDevice extends GenericDevice {
 	async addListeners() {
 		this.lastGroupMeter = {}; // last values of capability meters
 		this.lastGroupMeterReady = false;
-		this.sourceDevice = await this.homey.app.api.devices.getDevice({ id: this.getSettings().homey_device_id, $cache: false, $timeout: 20000 });
+		// this.sourceDevice = await this.homey.app.api.devices.getDevice({ id: this.getSettings().homey_device_id, $cache: false, $timeout: 20000 });
 
 		// start listener for METER_VIA_WATT device
 		if (this.getSettings().use_measure_source) {

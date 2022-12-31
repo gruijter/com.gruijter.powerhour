@@ -1,8 +1,8 @@
 build
-roadmap.txt
+roadmap*.txt
 env.json
 bidding_zones.json
-templog.txt
+templog*.txt
 
 # Added by Homey CLI
 /.homeybuild/

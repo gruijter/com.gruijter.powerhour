@@ -513,7 +513,7 @@ class MyDevice extends Homey.Device {
 		// check for same pricing content
 		let samePrices = true;
 		newPricesSelection.forEach((newHourPrice, index) => {
-			if (oldPricesSelection[index] && oldPricesSelection[index].price) {
+			if (oldPricesSelection[index] && oldPricesSelection[index].price !== undefined) {
 				samePrices = samePrices && (newHourPrice.price === oldPricesSelection[index].price);
 			} else samePrices = false;
 		});

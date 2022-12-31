@@ -1,4 +1,7 @@
 {
+  "5.0.5": {
+    "en": "Stability improvements."
+  },
   "5.0.4": {
     "en": "Summarizer: fix migration from v4.x.x, fix linear budget distribution, added hourly poll delay setting for water, modified defaults for poll delay, add distribution on app migration. DAP: set deprecated gas device as unavailable, fix avg price this_day and next_8h."
   },

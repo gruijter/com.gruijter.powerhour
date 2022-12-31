@@ -138,13 +138,14 @@ class PowerNext {
 			const result = await this._makeHttpsRequest(options, postMessage, timeout);
 			this.lastResponse = result.body || result.statusCode;
 			const contentType = result.headers['content-type'];
-			if (!/\/json/.test(contentType)) {
-				throw Error(`Expected json but received ${contentType}: ${result.body}`);
-			}
 			// find errors
 			if (result.statusCode !== 200) {
 				this.lastResponse = result.statusCode;
 				throw Error(`HTTP request Failed. Status Code: ${result.statusCode}`);
+			}
+			if (!/\/json/.test(contentType)) {
+				const body = typeof result.body === 'string' ? result.body.slice(0, 20) : '';
+				throw Error(`Expected json but received ${contentType}: ${body}`);
 			}
 			// console.dir(JSON.parse(result.body), { depth: null });
 			return Promise.resolve(JSON.parse(result.body));

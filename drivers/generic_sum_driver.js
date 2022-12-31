@@ -45,7 +45,7 @@ class SumMeterDriver extends Driver {
 					// devices that always need an immediate poll
 					// HOMEY_ENERGY device
 					if (device.getSettings().homey_energy) {
-						await device.pollMeter();
+						device.pollMeter().catch(this.error);
 						return;
 					}
 
@@ -53,7 +53,7 @@ class SumMeterDriver extends Driver {
 
 					// METER_VIA_FLOW device
 					if (device.getSettings().meter_via_flow) {
-						await device.updateMeterFromFlow(null);
+						device.updateMeterFromFlow(null).catch(this.error);
 						return;
 					}
 
@@ -69,7 +69,7 @@ class SumMeterDriver extends Driver {
 
 					// METER_VIA_WATT device
 					if (device.getSettings().use_measure_source) {
-						await device.updateMeterFromMeasure(null);
+						device.updateMeterFromMeasure(null).catch(this.error);
 						return;
 					}
 					// check if listener or polling is on, otherwise restart device
@@ -87,8 +87,8 @@ class SumMeterDriver extends Driver {
 					if (!device.sourceDevice.available) {
 						this.error(`Source device ${deviceName} is unavailable.`);
 						// device.setUnavailable('Source device is unavailable');
-						device.log('trying hourly poll', device.getName());
-						await device.pollMeter().catch(this.error);
+						device.log('trying hourly poll', deviceName);
+						device.pollMeter().catch(this.error);
 						return;
 					}
 
@@ -103,10 +103,9 @@ class SumMeterDriver extends Driver {
 						if (now.getHours() === lastReadingTm.getHours()) doPoll = false;
 					}
 					if (doPoll) {
-						device.log('doing hourly poll', device.getName());
-						await device.pollMeter().catch(this.error);
+						device.log('doing hourly poll', deviceName);
+						device.pollMeter().catch(this.error);
 					}
-
 					device.setAvailable();
 				} catch (error) {
 					this.error(error);
@@ -135,15 +134,15 @@ class SumMeterDriver extends Driver {
 					const deviceName = device.getName();
 					this.log('updating tariff', deviceName, tariff);
 					const self = device;
-					if (self.tariffHistory) {
-						self.tariffHistory = {
-							previous: self.tariffHistory.current,
-							previousTm: self.tariffHistory.currentTm,
-							current: tariff,
-							currentTm,
-						};
-						self.setStoreValue('tariffHistory', self.tariffHistory).catch(self.error);
-					}
+					let tariffHistory = { ...device.tariffHistory } || {};
+					tariffHistory = {
+						previous: tariffHistory.current,
+						previousTm: tariffHistory.currentTm,
+						current: tariff,
+						currentTm,
+					};
+					self.tariffHistory = tariffHistory;
+					self.setStoreValue('tariffHistory', tariffHistory).catch(self.error);
 					self.setSettings({ tariff });
 					self.setCapability('meter_tariff', tariff);
 				}
