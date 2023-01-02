@@ -24,7 +24,7 @@ const https = require('https');
 
 const defaultHost = 'mijn.easyenergy.com';
 const defaultPort = 443;
-const defaultTimeout = 30000;
+const defaultTimeout = 60000;
 const lebaPath = '/nl/api/tariff/getlebatariffs'; // gas LEBA TTF day-ahead
 // const apxPath = '/nl/api/tariff/getapxtariffs'; // electricity TTF day-ahead
 
@@ -167,8 +167,8 @@ module.exports = Easyenergy;
 // // yesterday.setDate(yesterday.getDate() - 1);
 // // tomorrow.setDate(tomorrow.getDate() + 1);
 
-// const dateStart = '2022-12-11T23:00:00.000Z';
-// const dateEnd = '2022-12-13T23:00:00.000Z';
+// const dateStart = '2023-01-01T23:00:00.000Z';
+// const dateEnd = '2023-01-02T23:00:00.000Z';
 // easyEnergy.getPrices({ dateStart, dateEnd })
 
 // // easyEnergy.getPrices({ dateStart: today, dateEnd: tomorrow })

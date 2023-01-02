@@ -613,7 +613,8 @@ class MyDevice extends Homey.Device {
 
 		// priceNow, hourNow
 		const { H0 } = periods; // the present hour (0 - 23)
-		const [priceNow] = selectPrices(this.prices, periods.hourStart, periods.tomorrowStart);
+		let [priceNow] = selectPrices(this.prices, periods.hourStart, periods.tomorrowStart);
+		if (priceNow === undefined) priceNow = null;
 
 		// pricesNext8h, avg, lowest and highest
 		const pricesNext8h = this.prices
@@ -712,18 +713,20 @@ class MyDevice extends Homey.Device {
 			}
 
 			// trigger flow cards
-			const tokens = { meter_price_h0: Number(this.state.priceNow.toFixed(this.settings.decimals)) };
-			const state = { ...this.state };
-			this.homey.app.triggerPriceHighest(this, tokens, state);
-			this.homey.app.triggerPriceHighestBefore(this, tokens, state);
-			this.homey.app.triggerPriceHighestToday(this, tokens, state);
-			this.homey.app.triggerPriceAboveAvg(this, tokens, state);
-			this.homey.app.triggerPriceHighestAvg(this, tokens, state);
-			this.homey.app.triggerPriceLowest(this, tokens, state);
-			this.homey.app.triggerPriceLowestBefore(this, tokens, state);
-			this.homey.app.triggerPriceLowestToday(this, tokens, state);
-			this.homey.app.triggerPriceBelowAvg(this, tokens, state);
-			this.homey.app.triggerPriceLowestAvg(this, tokens, state);
+			if (Number.isFinite(this.state.priceNow)) {
+				const tokens = { meter_price_h0: Number(this.state.priceNow.toFixed(this.settings.decimals)) };
+				const state = { ...this.state };
+				this.homey.app.triggerPriceHighest(this, tokens, state);
+				this.homey.app.triggerPriceHighestBefore(this, tokens, state);
+				this.homey.app.triggerPriceHighestToday(this, tokens, state);
+				this.homey.app.triggerPriceAboveAvg(this, tokens, state);
+				this.homey.app.triggerPriceHighestAvg(this, tokens, state);
+				this.homey.app.triggerPriceLowest(this, tokens, state);
+				this.homey.app.triggerPriceLowestBefore(this, tokens, state);
+				this.homey.app.triggerPriceLowestToday(this, tokens, state);
+				this.homey.app.triggerPriceBelowAvg(this, tokens, state);
+				this.homey.app.triggerPriceLowestAvg(this, tokens, state);
+			}
 
 		} catch (error) {
 			this.error(error);

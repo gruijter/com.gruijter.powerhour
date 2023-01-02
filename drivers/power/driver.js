@@ -23,7 +23,8 @@ const GenericDriver = require('../generic_sum_driver');
 
 const driverSpecifics = {
 	driverId: 'power',
-	originDeviceCapabilities: ['measure_power', 'meter_power', 'meter_power.offPeak', 'meter_power.generated', 'meter_power.returned'],
+	originDeviceCapabilities: ['measure_power', 'meter_power', 'meter_power.offPeak', 'meter_power.consumed',
+		'meter_power.delivered', 'meter_power.import'],
 	// 'meter_power.peak', 'meter_power.consumed'
 	deviceCapabilities: ['meter_kwh_last_hour', 'meter_kwh_this_hour', 'meter_kwh_last_day', 'meter_kwh_this_day',
 		'meter_kwh_last_month', 'meter_kwh_this_month', 'meter_kwh_last_year', 'meter_kwh_this_year',

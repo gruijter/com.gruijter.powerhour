@@ -70,7 +70,7 @@ class SumMeterDevice extends Device {
 			} else this.log(this.getName(), 'Skipping setup of source device. Meter update is done via flow or from Homey Energy');
 
 			// restore device values
-			await this.initDeviceValues();
+			await this.initDeviceValues(); // sets this.initReady = true
 
 			// init METER_VIA_FLOW device
 			if (this.settings.meter_via_flow) await this.updateMeterFromFlow(null);
@@ -86,7 +86,6 @@ class SumMeterDevice extends Device {
 				await this.addListeners();
 				await this.pollMeter();	// do immediate forced update
 			}
-			this.initReady = true;
 			// this.log(`${this.getName()} has succesfully initialized.`);
 		} catch (error) {
 			this.error(error);
@@ -422,6 +421,9 @@ class SumMeterDevice extends Device {
 			await this.setStoreValue('tariffHistory', this.tariffHistory);
 		}
 
+		// init incoming meter queue
+		this.newReadings = [];
+
 		// init daily resetting source devices
 		this.dayStartCumVal = this.settings.meter_day_start;
 		this.cumVal = this.dayStartCumVal;
@@ -484,7 +486,6 @@ class SumMeterDevice extends Device {
 				lastYear: await this.getCapabilityValue('meter_money_last_year'),
 			};
 		}
-
 	}
 
 	// init some stuff when first reading comes in
@@ -525,6 +526,36 @@ class SumMeterDevice extends Device {
 		this.initReady = true;
 	}
 
+	// update the tariff from flow or DAP
+	async updateTariffHistory(tariff, currentTm) {
+		try {
+			const tariffHistory = {
+				previous: this.tariffHistory.current,
+				previousTm: this.tariffHistory.currentTm,
+				current: tariff,
+				currentTm,
+			};
+			this.tariffHistory = tariffHistory;
+			this.setCapability('meter_tariff', tariff);
+			this.setSettings({ tariff });
+			this.setStoreValue('tariffHistory', tariffHistory);
+		} catch (error) {
+			this.error(error);
+		}
+	}
+
+	async handleUpdateMeter(reading) {
+		try {
+			const periods = this.getPeriods(reading);	// check for new hour/day/month/year
+			await this.updateMeters(reading, periods);
+			await this.updateTargets(periods);
+			await this.updateMoney(reading, periods);
+			await this.updateMeasureMinMax(reading, periods);
+		} catch (error) {
+			this.error(error);
+		}
+	}
+
 	async updateMeter(val) { // , pollTm) { // pollTm is lastUpdated when using pollMethod
 		try {
 			if (typeof val !== 'number') return;
@@ -546,16 +577,20 @@ class SumMeterDevice extends Device {
 				}
 				value = this.cumVal;
 			}
+			// create a readingObject from value
 			const reading = await this.getReadingObject(value);
 			if (!this.initReady) await this.initFirstReading(reading); // after app start
-			const periods = this.getPeriods(reading);	// check for new hour/day/month/year
-			await this.updateMeters(reading, periods);
-			await this.updateTargets(periods);
-			await this.updateMoney(reading, periods);
-			await this.updateMeasureMinMax(reading, periods);
+			// Put values in queue
+			if (!this.newReadings) this.newReadings = [];
+			this.newReadings.push(reading);
+			while (this.newReadings.length > 0) {
+				const newReading = this.newReadings.shift();
+				await this.handleUpdateMeter(newReading);
+			}
 		} catch (error) {
 			this.error(error);
 		}
+
 	}
 
 	async updateMeterFromFlow(val) {
@@ -666,7 +701,7 @@ class SumMeterDevice extends Device {
 		await this.setStoreValue('lastMinMax', this.lastMinMax);
 	}
 
-	async updateMeasureMinMax({ ...reading }, periods) {
+	async updateMeasureMinMax({ ...reading }, { ...periods }) {
 		// reset min/max based on device settings
 		if ((periods.newHour && this.settings.min_max_reset === 'hour') || (periods.newDay && this.settings.min_max_reset === 'day')
 			|| (periods.newMonth && this.settings.min_max_reset === 'month')
@@ -702,12 +737,13 @@ class SumMeterDevice extends Device {
 		await this.setStoreValue('lastMinMax', this.lastMinMax);
 	}
 
-	async updateMoney({ ...reading }, periods) {
+	async updateMoney({ ...reading }, { ...periods }) {
 		let tariff = this.tariffHistory.current;
 		// update tariff capability
 		if (tariff !== await this.getCapabilityValue('meter_tariff')) this.setCapability('meter_tariff', tariff);
 		// use previous hour tariff just after newHour and previous tariff is less then an hour old
-		if (periods.newHour && this.tariffHistory && this.tariffHistory.previousTm && (reading.meterTm - this.tariffHistory.previousTm)
+		if (periods.newHour && this.tariffHistory && this.tariffHistory.previousTm
+			&& (new Date(reading.meterTm) - new Date(this.tariffHistory.previousTm))
 			< (61 + this.settings.wait_for_update) * 60 * 1000) tariff = this.tariffHistory.previous;
 		// calculate money
 		const deltaMoney = (reading.meterValue - this.meterMoney.meterValue) * tariff;
@@ -764,7 +800,7 @@ class SumMeterDevice extends Device {
 		await this.setCapability('meter_money_this_day', meterMoney.day);
 		await this.setCapability('meter_money_this_month', meterMoney.month);
 		await this.setCapability('meter_money_this_year', meterMoney.year);
-		this.meterMoney = { ...meterMoney };
+		this.meterMoney = meterMoney;
 		// Update settings every hour
 		if (periods.newHour) {
 			await this.setSettings({ meter_money_this_day: meterMoney.day });
@@ -773,7 +809,7 @@ class SumMeterDevice extends Device {
 		}
 	}
 
-	async updateMeters({ ...reading }, periods) {
+	async updateMeters({ ...reading }, { ...periods }) {
 		this.setCapability(this.ds.cmap.meter_source, reading.meterValue);
 		// temp copy this.lastReadingX
 		let lastReadingHour = { ...this.lastReadingHour };
@@ -830,7 +866,7 @@ class SumMeterDevice extends Device {
 		if (periods.newYear) this.lastReadingYear = lastReadingYear;
 	}
 
-	async updateTargets(periods) {
+	async updateTargets({ ...periods }) {
 		// update tariff capability
 		if (!this.settings.distribution || this.settings.distribution === 'NONE') return;
 		if (periods.newDay) this.budgets = this.getBudgets();

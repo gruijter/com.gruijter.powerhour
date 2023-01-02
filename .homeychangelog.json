@@ -1,4 +1,7 @@
 {
+  "5.0.6": {
+    "en": "Fixed source capability detection during pair. Added meter update queueing. Stability improvements."
+  },
   "5.0.5": {
     "en": "Stability improvements."
   },

@@ -120,9 +120,9 @@ class SumMeterDriver extends Driver {
 		this.eventListenerTariff = async (args) => {
 			this.log(`${eventName} received from flow`, args);
 			const currentTm = new Date();
-			const tariff = Number(args.tariff);
+			const tariff = args.tariff === null ? null : Number(args.tariff);
 			const group = args.group || 1; // default to group 1 if not filled in
-			if (Number.isNaN(tariff)) {
+			if (!Number.isFinite(tariff)) {
 				this.error('the tariff is not a valid number');
 				return;
 			}
@@ -133,18 +133,7 @@ class SumMeterDriver extends Driver {
 				if (device.settings && device.settings.tariff_update_group && device.settings.tariff_update_group === group) {
 					const deviceName = device.getName();
 					this.log('updating tariff', deviceName, tariff);
-					const self = device;
-					let tariffHistory = { ...device.tariffHistory } || {};
-					tariffHistory = {
-						previous: tariffHistory.current,
-						previousTm: tariffHistory.currentTm,
-						current: tariff,
-						currentTm,
-					};
-					self.tariffHistory = tariffHistory;
-					self.setStoreValue('tariffHistory', tariffHistory).catch(self.error);
-					self.setSettings({ tariff });
-					self.setCapability('meter_tariff', tariff);
+					device.updateTariffHistory(tariff, currentTm);
 				}
 			});
 		};
