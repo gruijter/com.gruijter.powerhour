@@ -22,31 +22,23 @@ along with com.gruijter.powerhour.  If not, see <http://www.gnu.org/licenses/>.
 const https = require('https');
 // const util = require('util');
 
-const defaultHost = 'www.powernext.com';
+const defaultHost = 'enever.nl';
 const defaultPort = 443;
 const defaultTimeout = 30000;
 
 const biddingZones = {
 	TTF_EOD: '132733/137/17',
 	TTF_EGSI: '132735/139/17',
-	CEGH_VTP_EOD: '132733/137/16',
-	CEGH_VTP_EGSI: '132735/139/16',
-	CZ_VTP_EOD: '132733/137/458',
-	CZ_VTP_EGSI: '132735/139/458',
-	VTF_EOD: '132733/137/20',
-	VTF_EGSI: '132735/139/20',
-	THE_EOD: '132733/137/558',
-	THE_EGSI: '132735/139/558',
-	PEG_EOD: '132733/137/516',
-	PEG_EGSI: '132735/139/516',
-	ZTP_EOD: '132733/137/48',
-	ZTP_EGSI: '132735/139/48',
-	PVB_EOD: '132733/137/525',
-	PVB_EGSI: '132735/139/525',
 };
 
-class PowerNext {
-	// Represents a session to the PowerNext API.
+// mapping for enever page,
+const biddingZonesMap = {
+	'132733/137/17': 'prijsEOD',
+	'132735/139/17': 'prijsEGSI',
+};
+
+class Enever {
+	// Represents a session to the Enever API.
 	constructor(opts) {
 		const options = opts || {};
 		this.host = options.host || defaultHost;
@@ -85,21 +77,22 @@ class PowerNext {
 			end.setSeconds(0);
 			end.setMilliseconds(0);
 
-			const path = `/data-feed/${zone}`;
+			const path = '/feed/gasprijs_laaste30dagen.php';
 			const res = await this._makeRequest(path, '');
-			if (!res || !res.values || !res.values[0] || !res.values[0].data) throw Error('no gas price info found');
+			if (!res || !res.data || !res.data[0] || !res.data[0].datum) throw Error('no gas price info found');
 
 			// make array with concise info per day in euro / 1000 m3 gas
-			const priceInfo = res.values[0].data.map((day) => {
-				const tariffStart = new Date(day.x);
-				tariffStart.setTime(tariffStart.getTime() + (6 * 60 * 60 * 1000)); // add 6 hours
+			const priceInfo = res.data.map((day) => {
+				const tariffStart = new Date(new Date(day.datum).toLocaleString('en-US', { timeZone: 'Europe/Amsterdam' }));
 				return {
 					tariffStart,
-					price: day.y * 9.7694,
-					descr: day.name,
+					price: day[biddingZonesMap[zone]] * 1000,
+					descr: biddingZonesMap[zone],
+					datum: day.datum,
 				};
 			})
-				.filter((day) => day.tariffStart >= new Date(start - 24 * 60 * 60 * 1000)); // filter out too old days; // [];
+				.filter((day) => day.tariffStart >= new Date(start - 24 * 60 * 60 * 1000)) // filter out too old days; // [];
+				.sort((a, b) => a.tariffStart - b.tariffStart);
 
 			// pad info to fill all hours in a day
 			let info = [];
@@ -192,10 +185,10 @@ class PowerNext {
 
 }
 
-module.exports = PowerNext;
+module.exports = Enever;
 
 // // START TEST HERE
-// const next = new PowerNext({ biddingZone: '132733/137/17' });
+// const enever = new Enever({ biddingZone: '132735/139/17' });
 
 // const today = new Date();
 // today.setHours(0);
@@ -204,7 +197,7 @@ module.exports = PowerNext;
 // yesterday.setDate(yesterday.getDate() - 1);
 // tomorrow.setDate(tomorrow.getDate() + 2);
 
-// next.getPrices({ dateStart: today, dateEnd: tomorrow })
+// enever.getPrices({ dateStart: yesterday, dateEnd: tomorrow })
 // 	.then((result) => console.dir(result, { depth: null }))
 // 	.catch((error) => console.log(error));
 
@@ -236,81 +229,37 @@ module.exports = PowerNext;
   { time: 2022-12-14T22:00:00.000Z, price: 1348.5972841999999 }
 ]
 
-x: start of day in CET zone > need to convert to UTC
-y: price in €/MWh
-WE: Weekend
-DA: Day
-
-[
-  {
-    time: 2022-10-29T22:00:00.000Z, >> DST
-    price: 313.46096839999996,
-    descr: 'WE 2022-10-29/30'
-  },
-  {
-    time: 2022-10-30T23:00:00.000Z, >> END DST
-    price: 337.630464,
-    descr: 'DA 2022-10-31'
-  },
-  {
-    time: 2022-10-31T23:00:00.000Z,
-    price: 303.0760962,
-    descr: 'DA 2022-11-01'
-  },
-
 {
-  values: [
-    {
-      data: [
-        { x: 1667080800000, y: 32.086, name: 'WE 2022-10-29/30' },
-        { x: 1667170800000, y: 34.56, name: 'DA 2022-10-31' },
-        { x: 1667257200000, y: 31.023, name: 'DA 2022-11-01' },
-        { x: 1667343600000, y: 22.003, name: 'DA 2022-11-02' },
-        { x: 1667430000000, y: 48.824, name: 'DA 2022-11-03' },
-        { x: 1667516400000, y: 67.881, name: 'DA 2022-11-04' },
-        { x: 1667602800000, y: 53.335, name: 'WE 2022-11-05/06' },
-        { x: 1667689200000, y: 53.335, name: 'WE 2022-11-05/06' },
-        { x: 1667775600000, y: 56.635, name: 'DA 2022-11-07' },
-        { x: 1667862000000, y: 63.169, name: 'DA 2022-11-08' },
-        { x: 1667948400000, y: 89.805, name: 'DA 2022-11-09' },
-        { x: 1668034800000, y: 87.229, name: 'DA 2022-11-10' },
-        { x: 1668121200000, y: 74.787, name: 'DA 2022-11-11' },
-        { x: 1668207600000, y: 54.707, name: 'WE 2022-11-12/13' },
-        { x: 1668294000000, y: 54.707, name: 'WE 2022-11-12/13' },
-        { x: 1668380400000, y: 67.287, name: 'DA 2022-11-14' },
-        { x: 1668466800000, y: 107.908, name: 'DA 2022-11-15' },
-        { x: 1668553200000, y: 115.537, name: 'DA 2022-11-16' },
-        { x: 1668639600000, y: 100.282, name: 'DA 2022-11-17' },
-        { x: 1668726000000, y: 106.792, name: 'DA 2022-11-18' },
-        { x: 1668812400000, y: 108.875, name: 'WE 2022-11-19/20' },
-        { x: 1668898800000, y: 108.875, name: 'WE 2022-11-19/20' },
-        { x: 1668985200000, y: 109.878, name: 'DA 2022-11-21' },
-        { x: 1669071600000, y: 112.064, name: 'DA 2022-11-22' },
-        { x: 1669158000000, y: 116.692, name: 'DA 2022-11-23' },
-        { x: 1669244400000, y: 126.385, name: 'DA 2022-11-24' },
-        { x: 1669330800000, y: 118.847, name: 'DA 2022-11-25' },
-        { x: 1669417200000, y: 124.487, name: 'WE 2022-11-26/27' },
-        { x: 1669503600000, y: 124.487, name: 'WE 2022-11-26/27' },
-        { x: 1669590000000, y: 125.577, name: 'DA 2022-11-28' },
-        { x: 1669676400000, y: 124.582, name: 'DA 2022-11-29' },
-        { x: 1669762800000, y: 133.091, name: 'DA 2022-11-30' },
-        { x: 1669849200000, y: 139.897, name: 'DA 2022-12-01' },
-        { x: 1669935600000, y: 136.09, name: 'DA 2022-12-02' },
-        { x: 1670022000000, y: 132.432, name: 'WE 2022-12-03/04' },
-        { x: 1670108400000, y: 132.432, name: 'WE 2022-12-03/04' },
-        { x: 1670194800000, y: 133.423, name: 'DA 2022-12-05' },
-        { x: 1670281200000, y: 135.082, name: 'DA 2022-12-06' },
-        { x: 1670367600000, y: 139.678, name: 'DA 2022-12-07' },
-        { x: 1670454000000, y: 148.715, name: 'DA 2022-12-08' },
-        { x: 1670540400000, y: 137.034, name: 'DA 2022-12-09' },
-        { x: 1670626800000, y: 141.882, name: 'WE 2022-12-10/11' },
-        { x: 1670713200000, y: 141.882, name: 'WE 2022-12-10/11' },
-        { x: 1670799600000, y: 143.215, name: 'DA 2022-12-12' },
-        { x: 1670886000000, y: 137.637, name: 'DA 2022-12-13' },
-        { x: 1670972400000, y: 138.043, name: 'DA 2022-12-14' }
-      ]
-    }
-  ],
-  unit: '€/MWh'
-}
+    "data": [
+        {
+            "datum": "2023-01-02 06:00:00",
+            "prijsEGSI": "0.748960",
+            "prijsEOD": "0.625196",
+            "prijsZP": "1.548942",
+            "prijsEE": "1.626869",
+            "prijsFR": "1.494587",
+            "prijsAIP": "1.589692",
+            "prijsEZ": "1.581699",
+            "prijsZG": "1.581699",
+            "prijsNE": "1.581699",
+            "prijsGSL": "1.581699",
+            "prijsANWB": "1.581699",
+            "prijsVON": "1.588440"
+        },
+        {
+            "datum": "2023-01-01 06:00:00",
+            "prijsEGSI": "0.748960",
+            "prijsEOD": "0.625196",
+            "prijsZP": "1.548942",
+            "prijsEE": "1.626869",
+            "prijsFR": "1.494587",
+            "prijsAIP": "1.589692",
+            "prijsEZ": "1.581699",
+            "prijsZG": "1.581699",
+            "prijsNE": "1.581699",
+            "prijsGSL": "1.581699",
+            "prijsANWB": "1.581699",
+            "prijsVON": "1.588440"
+        },
+
 */

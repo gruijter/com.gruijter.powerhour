@@ -1,5 +1,5 @@
 /*
-Copyright 2019 - 2022, Robin de Gruijter (gruijter@hotmail.com)
+Copyright 2019 - 2023, Robin de Gruijter (gruijter@hotmail.com)
 
 This file is part of com.gruijter.powerhour.
 
@@ -21,6 +21,7 @@ along with com.gruijter.powerhour.  If not, see <http://www.gnu.org/licenses/>.s
 
 const PowerNext = require('../../powernext');
 const EasyEnergy = require('../../easyenergy');
+const Enever = require('../../enever');
 
 const GenericDriver = require('../generic_dap_driver');
 
@@ -46,7 +47,7 @@ class dapgDriver extends GenericDriver {
 		this.ds = driverSpecifics;
 
 		// provide all data providers to the driver in order of presedence
-		this.ds.providers = [PowerNext, EasyEnergy];
+		this.ds.providers = [Enever, EasyEnergy, PowerNext];
 		this.ds.biddingZones = {};
 		this.ds.providers.forEach((Provider) => {
 			const api = new Provider();

@@ -1,6 +1,6 @@
 /* eslint-disable no-await-in-loop */
 /*
-Copyright 2019 - 2022, Robin de Gruijter (gruijter@hotmail.com)
+Copyright 2019 - 2023, Robin de Gruijter (gruijter@hotmail.com)
 
 This file is part of com.gruijter.powerhour.
 
