@@ -262,5 +262,8 @@
   },
   "0.1.0": {
     "en": "First release"
+  },
+  "5.0.9": {
+    "en": "Fix Summarizer migration after pair. Fix virtual_via_flow Summarizer Device pair."
   }
 }

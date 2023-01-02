@@ -154,6 +154,8 @@ class SumMeterDriver extends Driver {
 
 			const allDevices = await this.homey.app.api.devices.getDevices({ $timeout: 20000 });
 			const keys = Object.keys(allDevices);
+			const allCaps = this.ds.deviceCapabilities;
+			const reducedCaps = allCaps.filter((cap) => !cap.includes('meter_target'));
 			keys.forEach((key) => {
 				const hasCapability = (capability) => allDevices[key].capabilities.includes(capability);
 				const found = this.ds.originDeviceCapabilities.some(hasCapability);
@@ -170,7 +172,7 @@ class SumMeterDriver extends Driver {
 							tariff_update_group: 1,
 							distribution: 'NONE',
 						},
-						capabilities: this.ds.deviceCapabilities,
+						capabilities: allCaps,
 					};
 					if (!allDevices[key].capabilities.toString().includes('meter_')) device.settings.use_measure_source = true;
 					if (dailyResetApps.some((appId) => allDevices[key].driverUri.includes(appId))) {
@@ -181,6 +183,7 @@ class SumMeterDriver extends Driver {
 					if (this.ds.driverId === 'water') device.settings.distribution = 'linear';
 					if (!(allDevices[key].driverUri.includes('com.gruijter.powerhour')	// ignore own app devices
 						|| allDevices[key].driverId === 'homey')) this.devices.push(device);	// ignore homey virtual power device
+					if (device.settings.distribution === 'NONE') device.capabilities = reducedCaps;
 				}
 			});
 			// show cumulative devices first ('NONE' is smaller than 'el_nl_2023')
@@ -204,7 +207,7 @@ class SumMeterDriver extends Driver {
 							tariff_update_group: 1,
 							distribution: 'linear',
 						},
-						capabilities: this.ds.deviceCapabilities,
+						capabilities: allCaps,
 					},
 					{
 						name: `HOMEY_ENERGY_SOLARPANELS_Σ${this.ds.driverId}`,
@@ -221,7 +224,7 @@ class SumMeterDriver extends Driver {
 							tariff_update_group: 1,
 							distribution: 'NONE',
 						},
-						capabilities: this.ds.deviceCapabilities,
+						capabilities: reducedCaps,
 					},
 					{
 						name: `HOMEY_ENERGY_DEVICES_Σ${this.ds.driverId}`,
@@ -238,7 +241,7 @@ class SumMeterDriver extends Driver {
 							tariff_update_group: 1,
 							distribution: 'NONE',
 						},
-						capabilities: this.ds.deviceCapabilities,
+						capabilities: reducedCaps,
 					},
 				);
 			}
@@ -255,10 +258,11 @@ class SumMeterDriver extends Driver {
 						homey_device_name: `VIRTUAL_METER_${randomId}`,
 						level: this.homey.app.manifest.version,
 						source_device_type: 'virtual via flow',
+						meter_via_flow: true,
 						tariff_update_group: 1,
 						distribution: 'NONE',
 					},
-					capabilities: this.ds.deviceCapabilities,
+					capabilities: reducedCaps,
 				},
 			);
 
