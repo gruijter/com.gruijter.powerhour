@@ -77,13 +77,16 @@ class Enever {
 			end.setSeconds(0);
 			end.setMilliseconds(0);
 
-			const path = '/feed/gasprijs_laaste30dagen.php';
+			const path = '/feed/gasprijs_laatste30dagen.php';
 			const res = await this._makeRequest(path, '');
 			if (!res || !res.data || !res.data[0] || !res.data[0].datum) throw Error('no gas price info found');
 
 			// make array with concise info per day in euro / 1000 m3 gas
 			const priceInfo = res.data.map((day) => {
-				const tariffStart = new Date(new Date(day.datum).toLocaleString('en-US', { timeZone: 'Europe/Amsterdam' }));
+				// const tariffStart = new Date(new Date(day.datum).toLocaleString('en-US', { timeZone: 'Europe/Amsterdam' }));
+				const tariffStart = new Date(day.datum);
+				const timeZoneOffset = new Date(tariffStart.toLocaleString('en-US', { timeZone: 'Europe/Amsterdam' })) - tariffStart;
+				tariffStart.setMilliseconds(-timeZoneOffset); // convert date CET/CEST to UTC
 				return {
 					tariffStart,
 					price: day[biddingZonesMap[zone]] * 1000,

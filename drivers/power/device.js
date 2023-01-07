@@ -34,35 +34,32 @@ const deviceSpecifics = {
 		meter_source: 'meter_power',
 		measure_source: 'measure_watt_avg',
 	},
-
+	// sourceCapGroups: [
+	// 	{
+	// 		p1: 'meter_power', p2: null, n1: null, n2: null,	// youless
+	// 	},
+	// 	{
+	// 		p1: 'meter_power.peak', p2: 'meter_power.offPeak', n1: null, n2: null,
+	// 	},
+	// 	{
+	// 		p1: 'meter_power.consumed', p2: null, n1: 'meter_power.generated', n2: null,
+	// 	},
+	// 	{
+	// 		p1: 'meter_power.consumed', p2: null, n1: 'meter_power.returned', n2: null,
+	// 	},
+	// 	{
+	// 		p1: 'meter_power.delivered', p2: null, n1: 'meter_power.returned', n2: null,
+	// 	},
+	// 	{
+	// 		p1: 'meter_power.import', p2: null, n1: 'meter_power.export', n2: null,	// qubino
+	// 	},
+	// ],
 };
-
 // p1 consumption counter (low/all tariff).
 // p2 consumption counter (high tariff).
 // n1 returned counter (low/all tariff).
 // n2 returned counter (high tariff).
 // total energy counter = p1+p2-n1-n2
-
-const sourceCapGroups = [
-	{
-		p1: 'meter_power', p2: null, n1: null, n2: null,	// youless
-	},
-	{
-		p1: 'meter_power.peak', p2: 'meter_power.offPeak', n1: null, n2: null,
-	},
-	{
-		p1: 'meter_power.consumed', p2: null, n1: 'meter_power.generated', n2: null,
-	},
-	{
-		p1: 'meter_power.consumed', p2: null, n1: 'meter_power.returned', n2: null,
-	},
-	{
-		p1: 'meter_power.delivered', p2: null, n1: 'meter_power.returned', n2: null,
-	},
-	{
-		p1: 'meter_power.import', p2: null, n1: 'meter_power.export', n2: null,	// qubino
-	},
-];
 
 class sumDevice extends GenericDevice {
 
@@ -91,7 +88,7 @@ class sumDevice extends GenericDevice {
 
 		// setup if/how a HOMEY-API source device fits to a defined capability group
 		this.sourceCapGroup = null;
-		sourceCapGroups.forEach((capGroup) => {
+		this.driver.ds.sourceCapGroups.forEach((capGroup) => {
 			if (this.sourceCapGroup) return; // stop at the first match
 			const requiredKeys = Object.values(capGroup).filter((v) => v);
 			const hasAllKeys = requiredKeys.every((k) => this.sourceDevice.capabilities.includes(k));
@@ -104,7 +101,7 @@ class sumDevice extends GenericDevice {
 			if (this.sourceCapGroup[key]) {
 				this.capabilityInstances[key] = this.sourceDevice.makeCapabilityInstance(this.sourceCapGroup[key], (value) => {
 					this.lastGroupMeter[key] = value;
-					this.updateGroupMeter(value, key).catch(this.error);
+					this.updateGroupMeter(value, key);
 				});
 			}
 		});
@@ -127,16 +124,17 @@ class sumDevice extends GenericDevice {
 		// check if HOMEY-API source device has a defined capability group setup
 		if (!this.sourceCapGroup) throw Error(`${this.sourceDevice.name} has no compatible meter_power capabilities`);
 		// get all values for this.lastGroupMeter
+		this.sourceDevice = await this.homey.app.api.devices.getDevice({ id: this.getSettings().homey_device_id, $cache: false, $timeout: 20000 });
 		Object.keys(this.sourceCapGroup)
 			.filter((k) => this.sourceCapGroup[k])
 			.forEach((k) => {
 				this.lastGroupMeter[k] = this.sourceDevice.capabilitiesObj[this.sourceCapGroup[k]].value;
 			});
 		this.lastGroupMeterReady = true;
-		this.updateGroupMeter().catch(this.error);
+		this.updateGroupMeter();
 	}
 
-	async updateGroupMeter() {
+	updateGroupMeter() {
 		// check if all GroupCaps have received their first value.
 		if (!this.lastGroupMeterReady) {
 			this.log(this.getName(), 'Ignoring value update. updateGroupMeter is waiting to be filled.');

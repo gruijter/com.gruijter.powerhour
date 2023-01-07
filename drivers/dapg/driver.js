@@ -19,7 +19,7 @@ along with com.gruijter.powerhour.  If not, see <http://www.gnu.org/licenses/>.s
 
 'use strict';
 
-const PowerNext = require('../../powernext');
+// const PowerNext = require('../../powernext');
 const EasyEnergy = require('../../easyenergy');
 const Enever = require('../../enever');
 
@@ -47,7 +47,7 @@ class dapgDriver extends GenericDriver {
 		this.ds = driverSpecifics;
 
 		// provide all data providers to the driver in order of presedence
-		this.ds.providers = [Enever, EasyEnergy, PowerNext];
+		this.ds.providers = [Enever, EasyEnergy];
 		this.ds.biddingZones = {};
 		this.ds.providers.forEach((Provider) => {
 			const api = new Provider();

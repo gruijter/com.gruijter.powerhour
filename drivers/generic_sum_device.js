@@ -33,7 +33,7 @@ class SumMeterDevice extends Device {
 		try {
 			// init some stuff
 			this.restarting = false;
-			this.initReady = false;
+			// this.initReady = false;
 			await this.destroyListeners();
 			this.timeZone = this.homey.clock.getTimezone();
 			this.settings = await this.getSettings();
@@ -381,13 +381,10 @@ class SumMeterDevice extends Device {
 
 	async setCapability(capability, value) {
 		if (this.hasCapability(capability) && value !== undefined) {
-			// only update changed capabilities
-			if (value !== await this.getCapabilityValue(capability)) {
-				this.setCapabilityValue(capability, value)
-					.catch((error) => {
-						this.error(error, capability, value);
-					});
-			}
+			this.setCapabilityValue(capability, value)
+				.catch((error) => {
+					this.error(error, capability, value);
+				});
 		}
 	}
 

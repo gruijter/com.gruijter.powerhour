@@ -45,7 +45,7 @@ class SumMeterDriver extends Driver {
 					// devices that always need an immediate poll
 					// HOMEY_ENERGY device
 					if (device.getSettings().homey_energy) {
-						device.pollMeter().catch(this.error);
+						await device.pollMeter();
 						return;
 					}
 
@@ -53,7 +53,7 @@ class SumMeterDriver extends Driver {
 
 					// METER_VIA_FLOW device
 					if (device.getSettings().meter_via_flow) {
-						device.updateMeterFromFlow(null).catch(this.error);
+						await device.updateMeterFromFlow(null);
 						return;
 					}
 
@@ -62,14 +62,14 @@ class SumMeterDriver extends Driver {
 					const sourceDeviceExists = device.sourceDevice && device.sourceDevice.capabilitiesObj && (device.sourceDevice.available !== null);
 					if (!sourceDeviceExists) {
 						this.error(`Source device ${deviceName} is missing.`);
-						device.setUnavailable('Source device is missing. Retry in 10 minutes.');
+						await device.setUnavailable('Source device is missing. Retry in 10 minutes.');
 						device.restartDevice(10 * 60 * 1000).catch(this.error); // restart after 10 minutes
 						return;
 					}
 
 					// METER_VIA_WATT device
 					if (device.getSettings().use_measure_source) {
-						device.updateMeterFromMeasure(null).catch(this.error);
+						await device.updateMeterFromMeasure(null);
 						return;
 					}
 					// check if listener or polling is on, otherwise restart device
@@ -88,7 +88,7 @@ class SumMeterDriver extends Driver {
 						this.error(`Source device ${deviceName} is unavailable.`);
 						// device.setUnavailable('Source device is unavailable');
 						device.log('trying hourly poll', deviceName);
-						device.pollMeter().catch(this.error);
+						await device.pollMeter();
 						return;
 					}
 
@@ -104,9 +104,9 @@ class SumMeterDriver extends Driver {
 					}
 					if (doPoll) {
 						device.log('doing hourly poll', deviceName);
-						device.pollMeter().catch(this.error);
+						await device.pollMeter();
 					}
-					device.setAvailable();
+					await device.setAvailable();
 				} catch (error) {
 					this.error(error);
 				}
@@ -158,7 +158,22 @@ class SumMeterDriver extends Driver {
 			const reducedCaps = allCaps.filter((cap) => !cap.includes('meter_target'));
 			keys.forEach((key) => {
 				const hasCapability = (capability) => allDevices[key].capabilities.includes(capability);
-				const found = this.ds.originDeviceCapabilities.some(hasCapability);
+				let found = this.ds.originDeviceCapabilities.some(hasCapability);
+
+				// check for compatible sourceCapGroup in power sources
+				let hasSourceCapGroup = false;
+				if (found && this.ds.driverId === 'power') {
+					this.ds.sourceCapGroups.forEach((capGroup) => {
+						if (hasSourceCapGroup) return; // stop at the first match
+						const requiredKeys = Object.values(capGroup).filter((v) => v);
+						const hasAllKeys = requiredKeys.every((k) => allDevices[key].capabilities.includes(k));
+						if (hasAllKeys) hasSourceCapGroup = true; // all relevant capabilities were found in the source device
+					});
+					if (!hasSourceCapGroup && !allDevices[key].capabilities.includes('measure_power')) {
+						this.log('incompatible source caps', allDevices[key].driverUri, allDevices[key].capabilities);
+						found = false;
+					}
+				}
 				if (found) {
 					const device = {
 						name: `${allDevices[key].name}_Σ${this.ds.driverId}`,
@@ -169,12 +184,13 @@ class SumMeterDriver extends Driver {
 							homey_device_id: allDevices[key].id,
 							homey_device_name: allDevices[key].name,
 							level: this.homey.app.manifest.version,
+							source_device_type: 'Homey device',
+							use_measure_source: hasSourceCapGroup,
 							tariff_update_group: 1,
 							distribution: 'NONE',
 						},
 						capabilities: allCaps,
 					};
-					if (!allDevices[key].capabilities.toString().includes('meter_')) device.settings.use_measure_source = true;
 					if (dailyResetApps.some((appId) => allDevices[key].driverUri.includes(appId))) {
 						device.settings.homey_device_daily_reset = true;
 					}

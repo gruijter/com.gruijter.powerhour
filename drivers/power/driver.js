@@ -23,9 +23,28 @@ const GenericDriver = require('../generic_sum_driver');
 
 const driverSpecifics = {
 	driverId: 'power',
-	originDeviceCapabilities: ['measure_power', 'meter_power', 'meter_power.offPeak', 'meter_power.consumed',
+	originDeviceCapabilities: ['measure_power', 'meter_power', 'meter_power.peak', 'meter_power.consumed',
 		'meter_power.delivered', 'meter_power.import'],
-	// 'meter_power.peak', 'meter_power.consumed'
+	sourceCapGroups: [
+		{
+			p1: 'meter_power', p2: null, n1: null, n2: null,	// youless
+		},
+		{
+			p1: 'meter_power.peak', p2: 'meter_power.offPeak', n1: null, n2: null,
+		},
+		{
+			p1: 'meter_power.consumed', p2: null, n1: 'meter_power.generated', n2: null,
+		},
+		{
+			p1: 'meter_power.consumed', p2: null, n1: 'meter_power.returned', n2: null,
+		},
+		{
+			p1: 'meter_power.delivered', p2: null, n1: 'meter_power.returned', n2: null,
+		},
+		{
+			p1: 'meter_power.import', p2: null, n1: 'meter_power.export', n2: null,	// qubino
+		},
+	],
 	deviceCapabilities: ['meter_kwh_last_hour', 'meter_kwh_this_hour', 'meter_kwh_last_day', 'meter_kwh_this_day',
 		'meter_kwh_last_month', 'meter_kwh_this_month', 'meter_kwh_last_year', 'meter_kwh_this_year',
 		'meter_target_month_to_date', 'meter_target_year_to_date',

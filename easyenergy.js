@@ -167,8 +167,8 @@ module.exports = Easyenergy;
 // // yesterday.setDate(yesterday.getDate() - 1);
 // // tomorrow.setDate(tomorrow.getDate() + 1);
 
-// const dateStart = '2023-01-01T23:00:00.000Z';
-// const dateEnd = '2023-01-02T23:00:00.000Z';
+// const dateStart = '2023-01-06T23:00:00.000Z';
+// const dateEnd = '2023-01-08T23:00:00.000Z';
 // easyEnergy.getPrices({ dateStart, dateEnd })
 
 // // easyEnergy.getPrices({ dateStart: today, dateEnd: tomorrow })

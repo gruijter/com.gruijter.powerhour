@@ -1,4 +1,13 @@
 {
+  "5.1.1": {
+    "en": "Improved source device detection during pair. Fixed enever Gas DAP source. Removed PowerNext as DAP Gas price source."
+  },
+  "5.1.0": {
+    "en": "Fix for hourly poll of power summarizer devices."
+  },
+  "5.0.9": {
+    "en": "Fix Summarizer migration after pair. Fix virtual_via_flow Summarizer Device pair."
+  },
   "5.0.7": {
     "en": "Added Enever as DAP Gas source (TTF EGSI, TTF EOD). Increased timeout on easyenergy DAP Gas (TTF LEBA)"
   },
@@ -262,8 +271,5 @@
   },
   "0.1.0": {
     "en": "First release"
-  },
-  "5.0.9": {
-    "en": "Fix Summarizer migration after pair. Fix virtual_via_flow Summarizer Device pair."
   }
 }
