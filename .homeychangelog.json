@@ -1,4 +1,7 @@
 {
+  "5.1.2": {
+    "en": "Added solar panel Summarizer budget distribution. German translation updated. README.md updated."
+  },
   "5.1.1": {
     "en": "Improved source device detection during pair. Fixed enever Gas DAP source. Removed PowerNext as DAP Gas price source."
   },
