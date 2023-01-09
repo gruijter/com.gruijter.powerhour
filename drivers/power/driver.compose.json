@@ -261,6 +261,13 @@
 								"en": "el_nl_2023 (NL price ceiling)",
 								"nl": "el_nl_2023 (plafondprijs)"
 							}
+						},
+						{
+							"id": "pv_52n_t40s",
+							"label": {
+								"en": "pv_52n_t40s (PV N-Europe, tilt 40°S)",
+								"nl": "pv_52n_t40s (PV N-Europa, helling 40°Z)"
+							}
 						}
 					]
 				}

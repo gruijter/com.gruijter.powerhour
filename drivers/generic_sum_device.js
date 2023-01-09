@@ -98,6 +98,7 @@ class SumMeterDevice extends Device {
 	async migrate() {
 		try {
 			this.log(`checking device migration for ${this.getName()}`);
+			this.migrated = false;
 			// console.log(this.getName(), this.settings, this.getStore());
 
 			// store the capability states before migration
@@ -146,7 +147,7 @@ class SumMeterDevice extends Device {
 					});
 					// restore capability state
 					if (state[newCap]) this.log(`${this.getName()} restoring value ${newCap} to ${state[newCap]}`);
-					else this.log(`${this.getName()} no value to restore for new capability ${newCap}!`);
+					else this.log(`${this.getName()} no value to restore for new capability ${newCap}, ${state[newCap]}!`);
 					await this.setCapability(newCap, state[newCap]);
 					await setTimeoutPromise(2 * 1000); // wait a bit for Homey to settle
 					this.currencyChanged = true;
@@ -280,7 +281,7 @@ class SumMeterDevice extends Device {
 
 	// this method is called when the user has changed the device's settings in Homey.
 	async onSettings({ newSettings, changedKeys }) { // , oldSettings, changedKeys) {
-		if (!this.initReady) throw Error('device is not ready. Ignoring new settings!');
+		if (!this.migrated) throw Error('device is migrating. Ignoring new settings!');
 		this.log(`${this.getName()} device settings changed by user`, newSettings);
 
 		const lastReadingDay = { ...this.lastReadingDay };

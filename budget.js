@@ -21,12 +21,16 @@ along with com.gruijter.powerhour.  If not, see <http://www.gnu.org/licenses/>.
 'use strict';
 
 const distributions = {
+	pv_52n_t40s: [
+		0.029158943, 0.056731388, 0.094148279, 0.118110522, 0.12480318, 0.119922964,
+		0.121108148, 0.114206379, 0.096339271, 0.06491852, 0.037648841, 0.022903564,
+	],
 	linear: [
 		0.00273972603, 0.00273972603, 0.00273972603, 0.00273972603, 0.00273972603, 0.00273972603, 0.00273972603, 0.00273972603, 0.00273972603, 0.00273972603,
 		0.00273972603, 0.00273972603, 0.00273972603, 0.00273972603,	0.00273972603, 0.00273972603, 0.00273972603, 0.00273972603, 0.00273972603, 0.00273972603,
 		0.00273972603, 0.00273972603, 0.00273972603, 0.00273972603, 0.00273972603, 0.00273972603, 0.00273972603, 0.00273972603, 0.00273972603, 0.00273972603,
 		0.00273972603, 0.00273972603, 0.00273972603, 0.00273972603, 0.00273972603, 0.00273972603, 0.00273972603, 0.00273972603, 0.00273972603, 0.00273972603,
-		0.00273972603, 0.00273972603,	0.00273972603, 0.00273972603, 0.00273972603, 0.00273972603, 0.00273972603, 0.00273972603, 0.00273972603, 0.00273972603,
+		0.00273972603, 0.00273972603, 0.00273972603, 0.00273972603, 0.00273972603, 0.00273972603, 0.00273972603, 0.00273972603, 0.00273972603, 0.00273972603,
 		0.00273972603, 0.00273972603, 0.00273972603, 0.00273972603, 0.00273972603, 0.00273972603,	0.00273972603, 0.00273972603, 0.00273972603, 0.00273972603,
 		0.00273972603, 0.00273972603, 0.00273972603, 0.00273972603, 0.00273972603, 0.00273972603, 0.00273972603, 0.00273972603, 0.00273972603, 0.00273972603,
 		0.00273972603, 0.00273972603, 0.00273972603, 0.00273972603, 0.00273972603, 0.00273972603, 0.00273972603, 0.00273972603, 0.00273972603, 0.00273972603,
@@ -154,20 +158,33 @@ const getBudget = (distribution, untill, from = 1) => {
 	const end = (untill > 365) ? 365 : untill;
 	const start = (from > 365) ? 365 : from;
 
+	let dist = distributions[distribution];
+	if (dist.length !== 365 && dist.length !== 12) throw Error('distribution has invalid length');
+
+	// make 365 days array in case of monthly distribution
+	if (dist.length === 12) {
+		dist = [];
+		distributions[distribution].forEach((target, index) => {
+			const daysInMonth = new Date(2023, index + 1, 0).getDate();
+			const monthArray = Array(daysInMonth).fill(target / daysInMonth);
+			dist = dist.concat(monthArray);
+		});
+	}
+
 	// check for period crossing 2 years
 	if (start > end) {
 		// from day 1 to end
-		const budget1 = distributions[distribution]
+		const budget1 = dist
 			.slice(0, end)
 			.reduce((partialSum, a) => partialSum + a, 0);
 		// from start to day 365
-		const budget2 = distributions[distribution]
+		const budget2 = dist
 			.slice(start - 1, 365)
 			.reduce((partialSum, a) => partialSum + a, 0);
 		return (budget1 + budget2);
 	}
 	// otherwise straight up
-	const budget = distributions[distribution]
+	const budget = dist
 		.slice(start - 1, end)
 		.reduce((partialSum, a) => partialSum + a, 0);
 	return budget;
@@ -176,5 +193,5 @@ const getBudget = (distribution, untill, from = 1) => {
 module.exports = { getDayOfYear, getBudget };
 
 // // START TEST HERE
-// console.log(getDayOfYear(new Date('2022, 12, 1')));
-// console.log(2900 * getBudget('el_nl_2023', 31, 1));
+// console.log(getDayOfYear(new Date('2023, 12, 1')));
+// console.log(1200 * getBudget('pv_52n_t30s', 365, 1));

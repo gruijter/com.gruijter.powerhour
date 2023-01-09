@@ -1,7 +1,7 @@
 {
   "_comment": "This file is generated. Please edit .homeycompose/app.json instead.",
   "id": "com.gruijter.powerhour",
-  "version": "5.1.1",
+  "version": "5.1.2",
   "compatibility": ">=8.0.0",
   "brandColor": "#df5020",
   "sdk": 3,
@@ -4681,6 +4681,13 @@
                   "label": {
                     "en": "el_nl_2023 (NL price ceiling)",
                     "nl": "el_nl_2023 (plafondprijs)"
+                  }
+                },
+                {
+                  "id": "pv_52n_t40s",
+                  "label": {
+                    "en": "pv_52n_t40s (PV N-Europe, tilt 40°S)",
+                    "nl": "pv_52n_t40s (PV N-Europa, helling 40°Z)"
                   }
                 }
               ]

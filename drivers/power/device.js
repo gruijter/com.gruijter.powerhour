@@ -34,26 +34,6 @@ const deviceSpecifics = {
 		meter_source: 'meter_power',
 		measure_source: 'measure_watt_avg',
 	},
-	// sourceCapGroups: [
-	// 	{
-	// 		p1: 'meter_power', p2: null, n1: null, n2: null,	// youless
-	// 	},
-	// 	{
-	// 		p1: 'meter_power.peak', p2: 'meter_power.offPeak', n1: null, n2: null,
-	// 	},
-	// 	{
-	// 		p1: 'meter_power.consumed', p2: null, n1: 'meter_power.generated', n2: null,
-	// 	},
-	// 	{
-	// 		p1: 'meter_power.consumed', p2: null, n1: 'meter_power.returned', n2: null,
-	// 	},
-	// 	{
-	// 		p1: 'meter_power.delivered', p2: null, n1: 'meter_power.returned', n2: null,
-	// 	},
-	// 	{
-	// 		p1: 'meter_power.import', p2: null, n1: 'meter_power.export', n2: null,	// qubino
-	// 	},
-	// ],
 };
 // p1 consumption counter (low/all tariff).
 // p2 consumption counter (high tariff).
