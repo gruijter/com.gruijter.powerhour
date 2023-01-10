@@ -185,7 +185,7 @@ class SumMeterDriver extends Driver {
 							homey_device_name: allDevices[key].name,
 							level: this.homey.app.manifest.version,
 							source_device_type: 'Homey device',
-							use_measure_source: hasSourceCapGroup,
+							use_measure_source: !hasSourceCapGroup,
 							tariff_update_group: 1,
 							distribution: 'NONE',
 						},

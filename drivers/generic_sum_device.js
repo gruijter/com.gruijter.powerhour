@@ -122,7 +122,7 @@ class SumMeterDevice extends Device {
 					}
 				}
 				this.log(`Migrating budget target distribution for ${this.getName()} to ${distribution}`);
-				await this.setSettings({ distribution });
+				await this.setSettings({ distribution }).catch(this.error);
 				await setTimeoutPromise(2 * 1000); // wait a bit for Homey to settles
 			}
 			// remove meter_target_this_xxx caps  versions >5.0.2

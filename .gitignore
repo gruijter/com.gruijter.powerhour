@@ -3,6 +3,7 @@ roadmap*.txt
 env.json
 bidding_zones.json
 templog*.txt
+zzztest.js
 
 # Added by Homey CLI
 /.homeybuild/

@@ -63,7 +63,7 @@ class sumDevice extends GenericDevice {
 				});
 				return;
 			}
-			throw Error(`${this.sourceDevice.name} has no measure_power capability`);
+			throw Error(`${this.sourceDevice.name} has no measure_power capability ${this.sourceDevice.capabilities}`);
 		}
 
 		// setup if/how a HOMEY-API source device fits to a defined capability group
@@ -74,7 +74,9 @@ class sumDevice extends GenericDevice {
 			const hasAllKeys = requiredKeys.every((k) => this.sourceDevice.capabilities.includes(k));
 			if (hasAllKeys) this.sourceCapGroup = capGroup; // all relevant capabilities were found in the source device
 		});
-		if (!this.sourceCapGroup) throw Error(`${this.sourceDevice.name} has no compatible meter_power capabilities`);
+		if (!this.sourceCapGroup) {
+			throw Error(`${this.sourceDevice.name} has no compatible meter_power capabilities ${this.sourceDevice.capabilities}`);
+		}
 
 		// start listeners for HOMEY-API device
 		Object.keys(this.sourceCapGroup).forEach((key) => {
