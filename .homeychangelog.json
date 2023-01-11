@@ -1,4 +1,7 @@
 {
+  "5.1.4": {
+    "en": "Fixed summarizer in polling mode being unavailable."
+  },
   "5.1.3": {
     "en": "Added sourcecaps logging on incompatible meter_power error. Fixed incorrect 'use_measure_source' during power summarizer pair."
   },

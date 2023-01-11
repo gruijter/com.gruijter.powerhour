@@ -118,7 +118,7 @@ class SumMeterDriver extends Driver {
 		const eventName = `set_tariff_${this.id}`;
 		if (this.eventListenerTariff) this.homey.removeListener(eventName, this.eventListenerTariff);
 		this.eventListenerTariff = async (args) => {
-			this.log(`${eventName} received from flow`, args);
+			this.log(`${eventName} received from flow or DAP`, args);
 			const currentTm = new Date();
 			const tariff = args.tariff === null ? null : Number(args.tariff);
 			const group = args.group || 1; // default to group 1 if not filled in

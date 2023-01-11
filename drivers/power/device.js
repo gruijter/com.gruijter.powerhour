@@ -49,9 +49,23 @@ class sumDevice extends GenericDevice {
 	}
 
 	// device specific stuff below
-	async addListeners() {
-		this.lastGroupMeter = {}; // last values of capability meters
+	async addSourceCapGroup() {
+		// setup if/how a HOMEY-API source device fits to a defined capability group
 		this.lastGroupMeterReady = false;
+		this.lastGroupMeter = {}; // last values of capability meters
+		this.sourceCapGroup = null;
+		this.driver.ds.sourceCapGroups.forEach((capGroup) => {
+			if (this.sourceCapGroup) return; // stop at the first match
+			const requiredKeys = Object.values(capGroup).filter((v) => v);
+			const hasAllKeys = requiredKeys.every((k) => this.sourceDevice.capabilities.includes(k));
+			if (hasAllKeys) this.sourceCapGroup = capGroup; // all relevant capabilities were found in the source device
+		});
+		if (!this.sourceCapGroup) {
+			throw Error(`${this.sourceDevice.name} has no compatible meter_power capabilities ${this.sourceDevice.capabilities}`);
+		}
+	}
+
+	async addListeners() {
 		// this.sourceDevice = await this.homey.app.api.devices.getDevice({ id: this.getSettings().homey_device_id, $cache: false, $timeout: 20000 });
 
 		// start listener for METER_VIA_WATT device
@@ -66,19 +80,8 @@ class sumDevice extends GenericDevice {
 			throw Error(`${this.sourceDevice.name} has no measure_power capability ${this.sourceDevice.capabilities}`);
 		}
 
-		// setup if/how a HOMEY-API source device fits to a defined capability group
-		this.sourceCapGroup = null;
-		this.driver.ds.sourceCapGroups.forEach((capGroup) => {
-			if (this.sourceCapGroup) return; // stop at the first match
-			const requiredKeys = Object.values(capGroup).filter((v) => v);
-			const hasAllKeys = requiredKeys.every((k) => this.sourceDevice.capabilities.includes(k));
-			if (hasAllKeys) this.sourceCapGroup = capGroup; // all relevant capabilities were found in the source device
-		});
-		if (!this.sourceCapGroup) {
-			throw Error(`${this.sourceDevice.name} has no compatible meter_power capabilities ${this.sourceDevice.capabilities}`);
-		}
-
 		// start listeners for HOMEY-API device
+		await this.addSourceCapGroup();
 		Object.keys(this.sourceCapGroup).forEach((key) => {
 			if (this.sourceCapGroup[key]) {
 				this.capabilityInstances[key] = this.sourceDevice.makeCapabilityInstance(this.sourceCapGroup[key], (value) => {
@@ -104,7 +107,8 @@ class sumDevice extends GenericDevice {
 		}
 
 		// check if HOMEY-API source device has a defined capability group setup
-		if (!this.sourceCapGroup) throw Error(`${this.sourceDevice.name} has no compatible meter_power capabilities`);
+		if (!this.sourceCapGroup) await this.addSourceCapGroup();
+
 		// get all values for this.lastGroupMeter
 		this.sourceDevice = await this.homey.app.api.devices.getDevice({ id: this.getSettings().homey_device_id, $cache: false, $timeout: 20000 });
 		Object.keys(this.sourceCapGroup)
