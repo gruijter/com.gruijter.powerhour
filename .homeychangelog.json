@@ -1,4 +1,7 @@
 {
+  "5.2.0": {
+    "en": "Added EEX EOD and EGSI gas biddingZones. EEX preferred over Enever as source for Gas DAP. Added device onUninit handling. update homey-api@1.10.7."
+  },
   "5.1.4": {
     "en": "Fixed summarizer in polling mode being unavailable."
   },

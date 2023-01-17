@@ -27,14 +27,14 @@ const defaultPort = 443;
 const defaultTimeout = 30000;
 
 const biddingZones = {
-	TTF_EOD: '132733/137/17',
-	TTF_EGSI: '132735/139/17',
+	TTF_EOD: 'TTF_EOD',
+	TTF_EGSI: 'TTF_EGSI',
 };
 
 // mapping for enever page,
 const biddingZonesMap = {
-	'132733/137/17': 'prijsEOD',
-	'132735/139/17': 'prijsEGSI',
+	TTF_EOD: 'prijsEOD',
+	TTF_EGSI: 'prijsEGSI',
 };
 
 class Enever {

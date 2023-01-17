@@ -64,8 +64,9 @@ From the device settings you can set the taxes and markups your provider is char
 <br>
 
 The electricity pricing information is fetched from ENTSO-E, the European Network of Transmission System Operators for Electricity. https://transparency.entsoe.eu/transmission-domain/r2/dayAheadPrices/show
-The TTF Gas spot pricing (EOD and EGSI) is coming from Enever: https://enever.nl/prijzen-feeds/
-The TTF LEBA gas pricing is derived from EasyEnergy as seen here: https://www.nieuwestroom.nl/energiemarkt/energiebeurzen/gas-handelsbeurs/
+All Gas spot pricing (EOD and EGSI) is coming from EEX: https://www.eex.com/en/market-data/natural-gas/spot
+TTF Gas spot pricing (EOD and EGSI) is coming from Enever: https://enever.nl/prijzen-feeds/
+TTF LEBA gas pricing is derived from EasyEnergy as seen here: https://www.nieuwestroom.nl/energiemarkt/energiebeurzen/gas-handelsbeurs/
 
 ### DONATE
 If you like the app, don't hesitate to [DONATE](https://www.paypal.me/gruijter)

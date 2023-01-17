@@ -49,12 +49,12 @@ class MyDevice extends Homey.Device {
 			if (!this.prices) this.prices = this.getStoreValue('prices');	// restore from persistent memory on app restart
 			if (!this.prices) this.prices = [{ time: null, price: null, muPrice: null }];
 
-			// setup exchange rate api
-			this.exchange = new ECB();
-
 			// check migrations
 			if (!this.migrated) await this.migrate();
 			if (this.currencyChanged) await this.migrateCurrencyOptions(this.settings.currency, this.settings.decimals);
+
+			// setup exchange rate api
+			this.exchange = new ECB();
 
 			// setup pricing providers
 			this.dap = [];
@@ -116,6 +116,13 @@ class MyDevice extends Homey.Device {
 				this.setUnavailable('DEPRECATED. PLEASE REMOVE AND RE-ADD THIS DEVICE');
 				this.log(this.getName(), 'is disabled (using a deprecated driver)');
 				return;
+			}
+
+			// migration from < v5.1.5
+			if (this.driver.ds.driverId === 'dapg' && (this.settings.biddingZone.includes('/17'))) {
+				if (this.settings.biddingZone === '132733/137/17') await this.setSettings({ biddingZone: 'TTF_EOD' });
+				if (this.settings.biddingZone === '132735/139/17') await this.setSettings({ biddingZone: 'TTF_EGSI' });
+				this.log(this.getName(), 'biddingZone migrated to', this.getSettings().biddingZone);
 			}
 
 			// store the capability states before migration
@@ -197,6 +204,12 @@ class MyDevice extends Homey.Device {
 		this.log(`Device will restart in ${dly / 1000} seconds`);
 		// this.setUnavailable('Device is restarting. Wait a few minutes!');
 		await setTimeoutPromise(dly).then(() => this.onInit());
+	}
+
+	async onUninit() {
+		this.log(`Homey is killing ${this.getName()}`);
+		this.destroyListeners();
+		await setTimeoutPromise(1500);
 	}
 
 	async onAdded() {

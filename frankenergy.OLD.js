@@ -194,10 +194,10 @@ module.exports = Frank;
 // today.setHours(0);
 // const yesterday = new Date(today);
 // const tomorrow = new Date(today);
-// yesterday.setDate(yesterday.getDate() - 1);
+// yesterday.setDate(yesterday.getDate() - 5);
 // tomorrow.setDate(tomorrow.getDate() + 1);
 
-// frank.getPrices({ dateStart: today, dateEnd: tomorrow })
+// frank.getPrices({ dateStart: yesterday, dateEnd: tomorrow })
 // 	.then((result) => console.dir(result, { depth: null }))
 // 	.catch((error) => console.log(error));
 

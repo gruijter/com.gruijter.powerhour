@@ -55,6 +55,7 @@ class MyApp extends Homey.App {
 			this.api = new HomeyAPIApp({ homey: this.homey });
 
 			// start polling every whole hour
+			this.homey.setMaxListeners(20); // INCREASE LISTENERS
 			this.everyHour();
 
 			// register flows

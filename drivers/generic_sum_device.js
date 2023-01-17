@@ -34,7 +34,7 @@ class SumMeterDevice extends Device {
 			// init some stuff
 			this.restarting = false;
 			// this.initReady = false;
-			await this.destroyListeners();
+			this.destroyListeners();
 			this.timeZone = this.homey.clock.getTimezone();
 			this.settings = await this.getSettings();
 
@@ -135,16 +135,12 @@ class SumMeterDevice extends Device {
 					// remove all caps from here
 					for (let i = index; i < caps.length; i += 1) {
 						this.log(`removing capability ${caps[i]} for ${this.getName()}`);
-						await this.removeCapability(caps[i])
-							.catch((error) => this.error(error));
+						await this.removeCapability(caps[i]).catch(this.error);
 						await setTimeoutPromise(2 * 1000); // wait a bit for Homey to settle
 					}
 					// add the new cap
 					this.log(`adding capability ${newCap} for ${this.getName()}`);
-					await this.addCapability(newCap).catch((error) => {
-						this.error(error);
-						throw Error(error);
-					});
+					await this.addCapability(newCap).catch(this.error);
 					// restore capability state
 					if (state[newCap]) this.log(`${this.getName()} restoring value ${newCap} to ${state[newCap]}`);
 					else this.log(`${this.getName()} no value to restore for new capability ${newCap}, ${state[newCap]}!`);
@@ -255,12 +251,21 @@ class SumMeterDevice extends Device {
 		if (this.restarting) return;
 		this.restarting = true;
 		this.stopPolling();
-		await this.destroyListeners();
+		this.destroyListeners();
 		const dly = delay || 2000;
 		this.log(`Device will restart in ${dly / 1000} seconds`);
 		// this.setUnavailable('Device is restarting. Wait a few minutes!');
 		await setTimeoutPromise(dly); // .then(() => this.onInitDevice());
 		this.onInitDevice();
+	}
+
+	async onUninit() {
+		this.log(`Homey is killing ${this.getName()}`);
+		this.stopPolling();
+		this.destroyListeners();
+		let delay = 1500;
+		if (!this.migrated) delay = 10 * 1000;
+		await setTimeoutPromise(delay);
 	}
 
 	// this method is called when the Device is added
@@ -349,7 +354,7 @@ class SumMeterDevice extends Device {
 		this.restartDevice(1000);
 	}
 
-	async destroyListeners() {
+	destroyListeners() {
 		if (this.capabilityInstances && Object.entries(this.capabilityInstances).length > 0) {
 			Object.entries(this.capabilityInstances).forEach((entry) => {
 				this.log(`Destroying capability listener ${entry[0]}`);
