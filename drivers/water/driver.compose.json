@@ -190,17 +190,17 @@
 				},
 				{
 					"id": "budget",
-					"type": "number",
+					"type": "text",
 					"label": {
 						"en": "Year target budget (m³)",
 						"nl": "Jaar doelbudget (m³)",
   						"de": "Jahreszielbudget (m³)"
 					},
-					"value": 150,
+					"value": "150",
 					"hint": {
-						"en": "The total target budget for a year. Attention: the year starts at the set start date.",
-						"nl": "Het totale doelbudget voor een jaar. LET OP: het jaar begint bij de ingestelde start datum.",
-  						"de": "Das gesamte Zielbudget für ein Jahr. Achtung: Das Jahr beginnt mit dem festgelegten Startdatum."
+						"en": "The total target budget for a year. Attention: the year starts at the set start date. When selecting CUSTOM BUDGET distribution, fill in the 12 values from Jan-Dec seperated by ;",
+						"nl": "Het totale doelbudget voor een jaar. LET OP: het jaar begint bij de ingestelde start datum. Als HANDMATIGE BUDGET verdeling is gekozen, vul dan de 12 waarden in van jan-dec, gescheiden door ;",
+ 						"de": "Das gesamte Zielbudget für ein Jahr. Achtung: Das Jahr beginnt mit dem festgelegten Startdatum. Geben Sie bei Auswahl der BENUTZERDEFINIERTEN Verteilung die 12 Werte von Jan-Dez getrennt durch ;"
 					}
 				},
 				{
@@ -227,6 +227,14 @@
 							}
 						},
 						{
+							"id": "CUSTOM",
+							"label": {
+								"en": "CUSTOM BUDGET",
+								"nl": "HANDMATIG BUDGET",
+								"de": "BENUTZERDEFINIERT"
+							}
+						},
+            {
 							"id": "linear",
 							"label": {
 								"en": "Linear",

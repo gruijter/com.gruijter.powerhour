@@ -21,6 +21,7 @@ along with com.gruijter.powerhour.  If not, see <http://www.gnu.org/licenses/>.
 'use strict';
 
 const distributions = {
+	CUSTOM: [],
 	pv_52n_t40s: [
 		0.029158943, 0.056731388, 0.094148279, 0.118110522, 0.12480318, 0.119922964,
 		0.121108148, 0.114206379, 0.096339271, 0.06491852, 0.037648841, 0.022903564,
@@ -149,7 +150,7 @@ const getDayOfYear = (date) => (Date.UTC(date.getFullYear(), date.getMonth(), da
 	/ 24 / 60 / 60 / 1000;
 
 // get cumulative budget  (0 - 100 %) between from - untill (including) day.
-const getBudget = (distribution, untill, from = 1) => {
+const getBudget = (distribution, yearBudget, untill, from = 1) => {
 	if (!distribution || !distributions[distribution]) throw Error('distribution not supported');
 	if (!untill || untill < 1 || untill > 366) throw Error('untill day not supported');
 	if (from < 1 || from > 366) throw Error('from day not supported');
@@ -158,17 +159,27 @@ const getBudget = (distribution, untill, from = 1) => {
 	const end = (untill > 365) ? 365 : untill;
 	const start = (from > 365) ? 365 : from;
 
+	let multiplier = Number(yearBudget);
 	let dist = distributions[distribution];
-	if (dist.length !== 365 && dist.length !== 12) throw Error('distribution has invalid length');
+	if (distribution === 'CUSTOM') {
+		dist = yearBudget
+			.split(';')
+			.map((month) => Number(month));
+		multiplier = 1;
+	}
+	const valid = ((dist.length === 12 || dist.length === 365)) && dist.reduce((prev, cur) => prev && Number.isFinite(cur), true);
+	if (!valid) throw Error('distribution has invalid length');
+	if (!Number.isFinite(multiplier)) throw Error('Year Budget is invalid');
 
 	// make 365 days array in case of monthly distribution
 	if (dist.length === 12) {
-		dist = [];
-		distributions[distribution].forEach((target, index) => {
+		let distTmp = [];
+		dist.forEach((target, index) => {
 			const daysInMonth = new Date(2023, index + 1, 0).getDate();
 			const monthArray = Array(daysInMonth).fill(target / daysInMonth);
-			dist = dist.concat(monthArray);
+			distTmp = distTmp.concat(monthArray);
 		});
+		dist = distTmp;
 	}
 
 	// check for period crossing 2 years
@@ -181,13 +192,13 @@ const getBudget = (distribution, untill, from = 1) => {
 		const budget2 = dist
 			.slice(start - 1, 365)
 			.reduce((partialSum, a) => partialSum + a, 0);
-		return (budget1 + budget2);
+		return (budget1 + budget2) * multiplier;
 	}
 	// otherwise straight up
 	const budget = dist
 		.slice(start - 1, end)
 		.reduce((partialSum, a) => partialSum + a, 0);
-	return budget;
+	return budget * multiplier;
 };
 
 module.exports = { getDayOfYear, getBudget };

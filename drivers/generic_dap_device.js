@@ -45,7 +45,7 @@ class MyDevice extends Homey.Device {
 			this.initReady = false;
 			this.settings = await this.getSettings();
 			this.timeZone = this.homey.clock.getTimezone();
-			this.fetchDelay = (Math.random() * 30 * 60 * 1000) + (1000 * 60 * 2);
+			this.fetchDelay = (Math.random() * 8 * 60 * 1000) + (1000 * 60 * 2);
 			if (!this.prices) this.prices = this.getStoreValue('prices');	// restore from persistent memory on app restart
 			if (!this.prices) this.prices = [{ time: null, price: null, muPrice: null }];
 

@@ -41,6 +41,7 @@ class SumMeterDevice extends Device {
 			if (!this.migrated) await this.migrate();
 			if (this.currencyChanged) await this.migrateCurrencyOptions(this.settings.currency, this.settings.decimals);
 			if (this.meterDecimalsChanged) await this.migrateMeterOptions(this.settings.decimals_meter);
+			this.migrated = true;
 			await this.setAvailable();
 
 			// check settings for homey energy device
@@ -70,7 +71,7 @@ class SumMeterDevice extends Device {
 			} else this.log(this.getName(), 'Skipping setup of source device. Meter update is done via flow or from Homey Energy');
 
 			// restore device values
-			await this.initDeviceValues(); // sets this.initReady = true
+			await this.initDeviceValues();
 
 			// init METER_VIA_FLOW device
 			if (this.settings.meter_via_flow) await this.updateMeterFromFlow(null);
@@ -142,7 +143,7 @@ class SumMeterDevice extends Device {
 					this.log(`adding capability ${newCap} for ${this.getName()}`);
 					await this.addCapability(newCap).catch(this.error);
 					// restore capability state
-					if (state[newCap]) this.log(`${this.getName()} restoring value ${newCap} to ${state[newCap]}`);
+					if (state[newCap] !== undefined) this.log(`${this.getName()} restoring value ${newCap} to ${state[newCap]}`);
 					else this.log(`${this.getName()} no value to restore for new capability ${newCap}, ${state[newCap]}!`);
 					await this.setCapability(newCap, state[newCap]);
 					await setTimeoutPromise(2 * 1000); // wait a bit for Homey to settle
@@ -151,6 +152,13 @@ class SumMeterDevice extends Device {
 			}
 
 			if (this.getSettings().level < '4.9.1') this.currencyChanged = true;
+
+			// migrate to new budget setting > 5.3.0
+			const budgetSetting = this.getSettings().budget;
+			if (typeof budgetSetting === 'number') {
+				this.log(this.getName(), 'migrating budget setting from number to string', budgetSetting);
+				await this.setSettings({ budget: budgetSetting.toString() });
+			}
 
 			// convert tariff_via_flow to tariff_update_group <4.7.1
 			if (this.getSettings().level < '4.7.1') {
@@ -175,10 +183,10 @@ class SumMeterDevice extends Device {
 				// await this.setCapabilityValue('meter_money_this_year', lastMoney.year);
 				await this.unsetStoreValue('lastMoney');
 			}
+
 			// set new migrate level
 			await this.setSettings({ level: this.homey.app.manifest.version });
 			this.settings = await this.getSettings();
-			this.migrated = true;
 			Promise.resolve(this.migrated);
 		} catch (error) {
 			this.error('Migration failed', error);
@@ -197,16 +205,45 @@ class SumMeterDevice extends Device {
 		if (!Number.isInteger(decimals)) options.units.decimals = 2;
 		const moneyCaps = this.getCapabilities().filter((name) => name.includes('money'));
 		for (let i = 0; i < moneyCaps.length; i += 1) {
-			this.log('migrating', moneyCaps[i]);
-			await this.setCapabilityOptions(moneyCaps[i], options).catch(this.error);
+			const opts = await this.getCapabilityOptions(moneyCaps[i]);
+			if (!opts || !opts.units || (opts.units.en !== options.units.en) || opts.decimals !== options.decimals) {
+				this.log('migrating', moneyCaps[i]);
+				await this.setCapabilityOptions(moneyCaps[i], options).catch(this.error);
+				await setTimeoutPromise(2 * 1000);
+			}
+		}
+		options.decimals = 4;
+		const opts2 = await this.getCapabilityOptions('meter_tariff');
+		if (!opts2 || !opts2.units || (opts2.units.en !== options.units.en) || opts2.decimals !== options.decimals) {
+			this.log('migrating meter_tariff');
+			await this.setCapabilityOptions('meter_tariff', options).catch(this.error);
 			await setTimeoutPromise(2 * 1000);
 		}
-		this.log('migrating meter_tariff');
-		options.decimals = 4;
-		await this.setCapabilityOptions('meter_tariff', options).catch(this.error);
-		await setTimeoutPromise(2 * 1000);
-		this.currencyChanged = false;
 		this.log('capability options migration ready', this.getCapabilityOptions('meter_money_last_hour'));
+
+		// migrate avg tariff/money options
+		if (this.driver.ds.id !== 'water') {
+			this.log('migrating average money and tariff capability options');
+			this.setUnavailable('Device is migrating. Please wait!');
+			let unit = 'kWh';
+			if (this.driver.ds.id === 'gas') unit = 'm³';
+			const options3 = {
+				units: { en: `${currency}/${unit}` },
+				decimals: 4,
+			};
+			if (!currency || currency === '') options3.units.en = '¤';
+			const avgCaps = this.getCapabilities().filter((name) => name.includes('this_month_avg') || name.includes('this_year_avg'));
+			for (let i = 0; i < avgCaps.length; i += 1) {
+				const opts3 = await this.getCapabilityOptions(avgCaps[i]);
+				if (!opts3 || !opts3.units || (opts3.units.en !== options3.units.en) || opts3.decimals !== options3.decimals) {
+					this.log('migrating', avgCaps[i]);
+					await this.setCapabilityOptions(avgCaps[i], options3).catch(this.error);
+					await setTimeoutPromise(2 * 1000);
+				}
+			}
+			this.log('capability options migration ready', this.getCapabilityOptions('meter_money_this_year_avg'));
+		}
+		this.currencyChanged = false;
 	}
 
 	async migrateMeterOptions(decimals) {
@@ -271,6 +308,7 @@ class SumMeterDevice extends Device {
 	// this method is called when the Device is added
 	async onAdded() {
 		this.log(`Meter added as device: ${this.getName()}`);
+		this.currencyChanged = true;
 	}
 
 	// this method is called when the Device is deleted
@@ -343,8 +381,23 @@ class SumMeterDevice extends Device {
 			this.currencyChanged = true;
 		}
 
-		if (changedKeys.includes('distribution')) {
-			this.migrated = false;
+		if (changedKeys.includes('budget')) {
+			if ((newSettings.distribution && newSettings.distribution === 'CUSTOM')
+				|| (!newSettings.distribution && this.settings.distribution === 'CUSTOM')) {
+				const dist = newSettings.budget2
+					.split(';')
+					.map((month) => Number(month));
+				const valid = (dist.length === 12) && dist.reduce((prev, cur) => prev && Number.isFinite(cur), true);
+				if (!valid) throw Error('Custom budget does not have 12 number values');
+			} else {
+				const valid = Number.isFinite(Number(newSettings.budget));
+				if (!valid) throw Error('Budget is not a valid number');
+			}
+
+			if (changedKeys.includes('distribution')) {
+				this.migrated = false;
+			}
+
 		}
 
 		if (changedKeys.includes('decimals_meter')) {
@@ -532,6 +585,10 @@ class SumMeterDevice extends Device {
 	// update the tariff from flow or DAP
 	async updateTariffHistory(tariff, currentTm) {
 		try {
+			if (!this.migrated || !this.tariffHistory) {
+				this.log('device is not ready. Ignoring new tariff!');
+				return;
+			}
 			const tariffHistory = {
 				previous: this.tariffHistory.current,
 				previousTm: this.tariffHistory.currentTm,
@@ -553,6 +610,7 @@ class SumMeterDevice extends Device {
 			await this.updateMeters(reading, periods);
 			await this.updateTargets(periods);
 			await this.updateMoney(reading, periods);
+			await this.updateAvgMoney(periods);
 			await this.updateMeasureMinMax(reading, periods);
 		} catch (error) {
 			this.error(error);
@@ -659,6 +717,7 @@ class SumMeterDevice extends Device {
 
 	getBudgets() {
 		if (!this.settings.distribution || this.settings.distribution === 'NONE') return null;
+
 		const date = new Date();
 		const dateLocal = new Date(date.toLocaleString('en-US', { timeZone: this.timeZone }));
 		const yearLocal = dateLocal.getFullYear();
@@ -667,10 +726,10 @@ class SumMeterDevice extends Device {
 		const soyDayNr = budget.getDayOfYear(new Date(yearLocal, this.startMonth, this.startDay)); // start of this year 1 - 366
 		const somDayNr = budget.getDayOfYear(startOfMonth); // start of this month 1 - 366
 		const nowDayNr = budget.getDayOfYear(dateLocal); // start of this day 1 - 366
-		const budgets = {
-			monthToDate: budget.getBudget(this.settings.distribution, nowDayNr, somDayNr) * this.settings.budget,
-			yearToDate: budget.getBudget(this.settings.distribution, nowDayNr, soyDayNr) * this.settings.budget,
-		};
+
+		const monthToDate = budget.getBudget(this.settings.distribution, this.settings.budget, nowDayNr, somDayNr);
+		const yearToDate = budget.getBudget(this.settings.distribution, this.settings.budget, nowDayNr, soyDayNr);
+		const budgets = { monthToDate, yearToDate };
 		return budgets;
 	}
 
@@ -704,40 +763,75 @@ class SumMeterDevice extends Device {
 		await this.setStoreValue('lastMinMax', this.lastMinMax);
 	}
 
-	async updateMeasureMinMax({ ...reading }, { ...periods }) {
-		// reset min/max based on device settings
-		if ((periods.newHour && this.settings.min_max_reset === 'hour') || (periods.newDay && this.settings.min_max_reset === 'day')
-			|| (periods.newMonth && this.settings.min_max_reset === 'month')
-			|| (periods.newYear && this.settings.min_max_reset === 'year')) {
-			await this.minMaxReset(true, 'device settings');
+	async updateMeters({ ...reading }, { ...periods }) {
+		this.setCapability(this.ds.cmap.meter_source, reading.meterValue);
+		// temp copy this.lastReadingX
+		let lastReadingHour = { ...this.lastReadingHour };
+		let lastReadingDay = { ...this.lastReadingDay };
+		let lastReadingMonth = { ...this.lastReadingMonth };
+		let lastReadingYear = { ...this.lastReadingYear };
+		// calculate meters
+		let valHour = reading.meterValue - lastReadingHour.meterValue;
+		let valDay = reading.meterValue - lastReadingDay.meterValue;
+		let valMonth = reading.meterValue - lastReadingMonth.meterValue;
+		let valYear = reading.meterValue - lastReadingYear.meterValue;
+		// set capabilities
+		if (periods.newHour) {
+			// new hour started
+			this.setCapability(this.ds.cmap.last_hour, valHour);
+			lastReadingHour = reading;
+			await this.setStoreValue('lastReadingHour', reading);
+			await this.setSettings({ meter_latest: `${reading.meterValue}` });
+			valHour = 0;
 		}
-		// minimal 2 minutes avg needed
-		const deltaTm = new Date(reading.meterTm) - new Date(this.lastMinMax.reading.meterTm);
-		const deltaMeter = reading.meterValue - this.lastMinMax.reading.meterValue;
-		if (deltaTm < 119000) return;
-		// calculate current avg use
-		const measurePowerAvg = Math.round((3600000000 / deltaTm) * deltaMeter); // delta kWh > watt
-		const measureWaterAvg = Math.round((deltaMeter / deltaTm) * 600000000) / 10; // delta m3 > liter/min
-		const measureValue = this.driver.ds.driverId === 'power' ? measurePowerAvg : measureWaterAvg;
-		this.setCapability(this.ds.cmap.measure_source, measureValue);
-		// check for new max/min values
-		const {
-			wattMax, lpmMax, wattMin, lpmMin,
-		} = this.lastMinMax;
-		if (wattMax === null || measurePowerAvg > wattMax) this.lastMinMax.wattMax = measurePowerAvg;
-		if (lpmMax === null || measureWaterAvg > lpmMax) this.lastMinMax.lpmMax = measureWaterAvg;
-		if (wattMin === null || measurePowerAvg < wattMin) this.lastMinMax.wattMin = measurePowerAvg;
-		if (lpmMin === null || measureWaterAvg < lpmMin) this.lastMinMax.lpmMin = measureWaterAvg;
-		this.lastMinMax.reading = reading;
-		// update min/max capabilities
-		if (this.minMaxInitReady) { // skip first interval after app start NEEDED BECAUSE OF POLLING NOT KNOWING CORRECT TIMESTAMP!!!
-			this.setCapability('measure_watt_max', this.lastMinMax.wattMax);
-			this.setCapability('measure_lpm_max', this.lastMinMax.lpmMax);
-			this.setCapability('measure_watt_min', this.lastMinMax.wattMin);
-			this.setCapability('measure_lpm_min', this.lastMinMax.lpmMin);
-		} else this.log('Skipping first min/max interval for', this.getName());
-		this.minMaxInitReady = true;
-		await this.setStoreValue('lastMinMax', this.lastMinMax);
+		if (periods.newDay) {
+			// new day started
+			this.setCapability(this.ds.cmap.last_day, valDay);
+			lastReadingDay = reading;
+			await this.setStoreValue('lastReadingDay', reading);
+			await this.setSettings({ meter_day_start: lastReadingDay.meterValue });
+			valDay = 0;
+		}
+		if (periods.newMonth) {
+			// new month started
+			this.setCapability(this.ds.cmap.last_month, valMonth);
+			lastReadingMonth = reading;
+			await this.setStoreValue('lastReadingMonth', reading);
+			await this.setSettings({ meter_month_start: lastReadingMonth.meterValue });
+			valMonth = 0;
+		}
+		if (periods.newYear) {
+			// new year started
+			this.setCapability(this.ds.cmap.last_year, valYear);
+			lastReadingYear = reading;
+			await this.setStoreValue('lastReadingYear', reading);
+			await this.setSettings({ meter_year_start: lastReadingYear.meterValue });
+			valYear = 0;
+		}
+		// console.log(this.getName(), valHour, valDay, valMonth, valYear);
+		this.setCapability(this.ds.cmap.this_hour, valHour);
+		this.setCapability(this.ds.cmap.this_day, valDay);
+		this.setCapability(this.ds.cmap.this_month, valMonth);
+		this.setCapability(this.ds.cmap.this_year, valYear);
+		// store this.lastReadingX
+		if (periods.newHour) this.lastReadingHour = lastReadingHour;
+		if (periods.newDay) this.lastReadingDay = lastReadingDay;
+		if (periods.newMonth) this.lastReadingMonth = lastReadingMonth;
+		if (periods.newYear) this.lastReadingYear = lastReadingYear;
+	}
+
+	async updateTargets({ ...periods }) {
+		// update tariff capability
+		if (!this.settings.distribution || this.settings.distribution === 'NONE') return;
+		if (periods.newDay) this.budgets = this.getBudgets();
+		if (this.budgets && this.budgets.yearToDate) {
+			const onTarget = 100 * (this.getCapabilityValue(this.ds.cmap.this_year) / this.budgets.yearToDate);
+			this.setCapability('meter_target_year_to_date', onTarget);
+		}
+		if (this.budgets && this.budgets.monthToDate) {
+			const onTarget = 100 * (this.getCapabilityValue(this.ds.cmap.this_month) / this.budgets.monthToDate);
+			this.setCapability('meter_target_month_to_date', onTarget);
+		}
 	}
 
 	async updateMoney({ ...reading }, { ...periods }) {
@@ -812,75 +906,51 @@ class SumMeterDevice extends Device {
 		}
 	}
 
-	async updateMeters({ ...reading }, { ...periods }) {
-		this.setCapability(this.ds.cmap.meter_source, reading.meterValue);
-		// temp copy this.lastReadingX
-		let lastReadingHour = { ...this.lastReadingHour };
-		let lastReadingDay = { ...this.lastReadingDay };
-		let lastReadingMonth = { ...this.lastReadingMonth };
-		let lastReadingYear = { ...this.lastReadingYear };
-		// calculate meters
-		let valHour = reading.meterValue - lastReadingHour.meterValue;
-		let valDay = reading.meterValue - lastReadingDay.meterValue;
-		let valMonth = reading.meterValue - lastReadingMonth.meterValue;
-		let valYear = reading.meterValue - lastReadingYear.meterValue;
-		// set capabilities
-		if (periods.newHour) {
-			// new hour started
-			this.setCapability(this.ds.cmap.last_hour, valHour);
-			lastReadingHour = reading;
-			await this.setStoreValue('lastReadingHour', reading);
-			await this.setSettings({ meter_latest: `${reading.meterValue}` });
-			valHour = 0;
-		}
-		if (periods.newDay) {
-			// new day started
-			this.setCapability(this.ds.cmap.last_day, valDay);
-			lastReadingDay = reading;
-			await this.setStoreValue('lastReadingDay', reading);
-			await this.setSettings({ meter_day_start: lastReadingDay.meterValue });
-			valDay = 0;
-		}
-		if (periods.newMonth) {
-			// new month started
-			this.setCapability(this.ds.cmap.last_month, valMonth);
-			lastReadingMonth = reading;
-			await this.setStoreValue('lastReadingMonth', reading);
-			await this.setSettings({ meter_month_start: lastReadingMonth.meterValue });
-			valMonth = 0;
-		}
-		if (periods.newYear) {
-			// new year started
-			this.setCapability(this.ds.cmap.last_year, valYear);
-			lastReadingYear = reading;
-			await this.setStoreValue('lastReadingYear', reading);
-			await this.setSettings({ meter_year_start: lastReadingYear.meterValue });
-			valYear = 0;
-		}
-		// console.log(this.getName(), valHour, valDay, valMonth, valYear);
-		this.setCapability(this.ds.cmap.this_hour, valHour);
-		this.setCapability(this.ds.cmap.this_day, valDay);
-		this.setCapability(this.ds.cmap.this_month, valMonth);
-		this.setCapability(this.ds.cmap.this_year, valYear);
-		// store this.lastReadingX
-		if (periods.newHour) this.lastReadingHour = lastReadingHour;
-		if (periods.newDay) this.lastReadingDay = lastReadingDay;
-		if (periods.newMonth) this.lastReadingMonth = lastReadingMonth;
-		if (periods.newYear) this.lastReadingYear = lastReadingYear;
+	async updateAvgMoney() {
+		// update avg money / kWh_m3
+		const moneyThisMonth = this.meterMoney.month;
+		const meterThisMonth = await this.getCapabilityValue(this.ds.cmap.this_month);
+		if (meterThisMonth) this.setCapability('meter_money_this_month_avg', moneyThisMonth / meterThisMonth);
+
+		const moneyThisYear = this.meterMoney.year;
+		const meterThisYear = await this.getCapabilityValue(this.ds.cmap.this_year);
+		if (meterThisYear) this.setCapability('meter_money_this_year_avg', moneyThisYear / meterThisYear);
 	}
 
-	async updateTargets({ ...periods }) {
-		// update tariff capability
-		if (!this.settings.distribution || this.settings.distribution === 'NONE') return;
-		if (periods.newDay) this.budgets = this.getBudgets();
-		if (this.budgets.yearToDate) {
-			const onTarget = 100 * (this.getCapabilityValue(this.ds.cmap.this_year) / this.budgets.yearToDate);
-			this.setCapability('meter_target_year_to_date', onTarget);
+	async updateMeasureMinMax({ ...reading }, { ...periods }) {
+		// reset min/max based on device settings
+		if ((periods.newHour && this.settings.min_max_reset === 'hour') || (periods.newDay && this.settings.min_max_reset === 'day')
+			|| (periods.newMonth && this.settings.min_max_reset === 'month')
+			|| (periods.newYear && this.settings.min_max_reset === 'year')) {
+			await this.minMaxReset(true, 'device settings');
 		}
-		if (this.budgets.monthToDate) {
-			const onTarget = 100 * (this.getCapabilityValue(this.ds.cmap.this_month) / this.budgets.monthToDate);
-			this.setCapability('meter_target_month_to_date', onTarget);
-		}
+		// minimal 2 minutes avg needed
+		const deltaTm = new Date(reading.meterTm) - new Date(this.lastMinMax.reading.meterTm);
+		const deltaMeter = reading.meterValue - this.lastMinMax.reading.meterValue;
+		if (deltaTm < 119000) return;
+		// calculate current avg use
+		const measurePowerAvg = Math.round((3600000000 / deltaTm) * deltaMeter); // delta kWh > watt
+		const measureWaterAvg = Math.round((deltaMeter / deltaTm) * 600000000) / 10; // delta m3 > liter/min
+		const measureValue = this.driver.ds.driverId === 'power' ? measurePowerAvg : measureWaterAvg;
+		this.setCapability(this.ds.cmap.measure_source, measureValue);
+		// check for new max/min values
+		const {
+			wattMax, lpmMax, wattMin, lpmMin,
+		} = this.lastMinMax;
+		if (wattMax === null || measurePowerAvg > wattMax) this.lastMinMax.wattMax = measurePowerAvg;
+		if (lpmMax === null || measureWaterAvg > lpmMax) this.lastMinMax.lpmMax = measureWaterAvg;
+		if (wattMin === null || measurePowerAvg < wattMin) this.lastMinMax.wattMin = measurePowerAvg;
+		if (lpmMin === null || measureWaterAvg < lpmMin) this.lastMinMax.lpmMin = measureWaterAvg;
+		this.lastMinMax.reading = reading;
+		// update min/max capabilities
+		if (this.minMaxInitReady) { // skip first interval after app start NEEDED BECAUSE OF POLLING NOT KNOWING CORRECT TIMESTAMP!!!
+			this.setCapability('measure_watt_max', this.lastMinMax.wattMax);
+			this.setCapability('measure_lpm_max', this.lastMinMax.lpmMax);
+			this.setCapability('measure_watt_min', this.lastMinMax.wattMin);
+			this.setCapability('measure_lpm_min', this.lastMinMax.lpmMin);
+		} else this.log('Skipping first min/max interval for', this.getName());
+		this.minMaxInitReady = true;
+		await this.setStoreValue('lastMinMax', this.lastMinMax);
 	}
 
 }

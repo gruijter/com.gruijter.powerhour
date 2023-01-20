@@ -29,8 +29,8 @@ const defaultPort = 443;
 const defaultTimeout = 30000;
 
 const biddingZones = {
-	TTF_EOD: 'TTF_EOD_EEX',	// REMOVE _EEX
-	TTF_EGSI: 'TTF_EGSI_EEX',	// REMOVE _EEX
+	TTF_EOD: 'TTF_EOD_EEX',
+	TTF_EGSI: 'TTF_EGSI_EEX',
 	CEGH_VTP_EOD: 'CEGH_VTP_EOD',
 	CEGH_VTP_EGSI: 'CEGH_VTP_EGSI',
 	CZ_VTP_EOD: 'CZ_VTP_EOD',
@@ -230,6 +230,20 @@ class EEX {
 				const lastDaily = dailyInfo.slice(-1)[0]; // {close:55.665, onexchtradevolumeeex:3277272, tradedatetimegmt:'1/16/2023 12:00:00 PM'}
 				// console.dir(weekInfo, { depth: null });
 
+				// compensate for bug in EEX
+				if (this.lastDailyInfo) {
+					dailyInfo.forEach((dayInfo, index) => {
+						if ((index > dailyInfo.length - 4) && (index < dailyInfo.length - 1)) {
+							const previousInfo = this.lastDailyInfo.find((lastDayInfo) => lastDayInfo.tradedatetimegmt === dayInfo.tradedatetimegmt);
+							if (previousInfo && previousInfo.close !== dayInfo.close) {
+								// console.log('need to compensate!', dailyInfo, previousInfo);
+								dailyInfo[index].close = previousInfo.close;
+							}
+						}
+					});
+				}
+				this.lastDailyInfo = [...dailyInfo];
+
 				// fetch weekend info
 				options.path = options.path.replace('ND', 'WE');
 				const resultW = await this._makeHttpsRequest(options, postMessage, timeout);
@@ -337,18 +351,51 @@ class EEX {
 module.exports = EEX;
 
 // // START TEST HERE
-// const next = new EEX({ biddingZone: 'TTF_EOD' });
+// const test = async () => {
+// 	const next = new EEX({ biddingZone: 'TTF_EOD' });
 
-// const today = new Date();
-// today.setHours(0);
-// const yesterday = new Date(today);
-// const tomorrow = new Date(today);
-// yesterday.setDate(yesterday.getDate() - 3);
-// tomorrow.setDate(tomorrow.getDate() + 2);
+// 	next.lastDailyInfo = [
+// 		{
+// 			close: 59.83,
+// 			onexchtradevolumeeex: 3369840,
+// 			tradedatetimegmt: '1/16/2023 12:00:00 PM',
+// 		},
+// 		{
+// 			close: 59.83,
+// 			onexchtradevolumeeex: 3679632,
+// 			tradedatetimegmt: '1/17/2023 12:00:00 PM',
+// 		},
+// 		{
+// 			close: 60.01,
+// 			onexchtradevolumeeex: 3719736,
+// 			tradedatetimegmt: '1/18/2023 12:00:00 PM',
+// 		},
+// 		{
+// 			close: 61.271,
+// 			onexchtradevolumeeex: 3815928,
+// 			tradedatetimegmt: '1/19/2023 12:00:00 PM',
+// 		},
+// 		{
+// 			close: 62.125,
+// 			onexchtradevolumeeex: 554952,
+// 			tradedatetimegmt: '1/20/2023 12:00:00 PM',
+// 		},
+// 	];
 
-// next.getPrices({ dateStart: yesterday, dateEnd: tomorrow })
-// 	.then((result) => console.dir(result, { depth: null }))
-// 	.catch((error) => console.log(error));
+// 	const today = new Date();
+// 	today.setHours(0);
+// 	const yesterday = new Date(today);
+// 	const tomorrow = new Date(today);
+// 	yesterday.setDate(yesterday.getDate() - 3);
+// 	tomorrow.setDate(tomorrow.getDate() + 2);
+
+// 	const result = await next.getPrices({ dateStart: yesterday, dateEnd: tomorrow }).catch((error) => console.log(error));
+// 	// console.dir(result, { depth: null });
+// 	const result2 = await next.getPrices({ dateStart: yesterday, dateEnd: tomorrow }).catch((error) => console.log(error));
+// 	// console.dir(result2, { depth: null });
+// };
+
+// test();
 
 /*
 [

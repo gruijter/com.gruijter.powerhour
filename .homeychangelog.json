@@ -1,4 +1,7 @@
 {
+  "5.3.0": {
+    "en": "Summarizer: added weighted average price for this month/year, added support for ZTAZ P1, added custom budget distribution, fixed GAS updates for certain source devices. DAP: implemented workaround for EEX EOD source bug, reduced price fetch spreading delay to max 10 minutes."
+  },
   "5.2.0": {
     "en": "Added EEX EOD and EGSI gas biddingZones. EEX preferred over Enever as source for Gas DAP. Added device onUninit handling. update homey-api@1.10.7."
   },

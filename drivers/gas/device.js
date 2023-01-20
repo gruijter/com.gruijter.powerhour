@@ -67,6 +67,13 @@ class sumDriver extends GenericDevice {
 				this.updateMeter(value).catch(this.error);
 			});
 		}
+		// make listener for meter_gas.current (ZTAZ P1)
+		if (this.sourceDevice.capabilities.includes('meter_gas.current')) {
+			this.log(`registering meter_gas.current capability listener for ${this.sourceDevice.name}`);
+			this.capabilityInstances.meterGas = this.sourceDevice.makeCapabilityInstance('meter_gas.current', (value) => {
+				this.updateMeter(value).catch(this.error);
+			});
+		}
 
 	}
 
@@ -78,6 +85,14 @@ class sumDriver extends GenericDevice {
 		}
 		if (this.sourceDevice.capabilitiesObj && this.sourceDevice.capabilitiesObj.meter_gas && this.sourceDevice.capabilitiesObj.meter_gas.reading) {
 			pollValue = this.sourceDevice.capabilitiesObj.meter_gas.reading.value;
+		}
+		if (this.sourceDevice.capabilitiesObj && this.sourceDevice.capabilitiesObj.meter_gas
+				&& this.sourceDevice.capabilitiesObj.meter_gas.consumed) {
+			pollValue = this.sourceDevice.capabilitiesObj.meter_gas.consumed.value;
+		}
+		if (this.sourceDevice.capabilitiesObj && this.sourceDevice.capabilitiesObj.meter_gas
+			&& this.sourceDevice.capabilitiesObj.meter_gas.current) {
+			pollValue = this.sourceDevice.capabilitiesObj.meter_gas.current.value;
 		}
 		await this.updateMeter(pollValue);
 	}

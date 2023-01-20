@@ -217,17 +217,17 @@
 				},
 				{
 					"id": "budget",
-					"type": "number",
+					"type": "text",
 					"label": {
 						"en": "Year target budget (kWh)",
 						"nl": "Jaar doelbudget (kWh)",
  						"de": "Jahreszielbudget (kWh)"
 					},
-					"value": 2900,
+					"value": "2900",
 					"hint": {
-						"en": "The total target budget for a year. Attention: the year starts at the set start date.",
-						"nl": "Het totale doelbudget voor een jaar. LET OP: het jaar begint bij de ingestelde start datum.",
- 						"de": "Das gesamte Zielbudget für ein Jahr. Achtung: Das Jahr beginnt mit dem festgelegten Startdatum."
+						"en": "The total target budget for a year. Attention: the year starts at the set start date. When selecting CUSTOM BUDGET distribution, fill in the 12 values from Jan-Dec seperated by ;",
+						"nl": "Het totale doelbudget voor een jaar. LET OP: het jaar begint bij de ingestelde start datum. Als HANDMATIGE BUDGET verdeling is gekozen, vul dan de 12 waarden in van jan-dec, gescheiden door ;",
+ 						"de": "Das gesamte Zielbudget für ein Jahr. Achtung: Das Jahr beginnt mit dem festgelegten Startdatum. Geben Sie bei Auswahl der BENUTZERDEFINIERTEN Verteilung die 12 Werte von Jan-Dez getrennt durch ;"
 					}
 				},
 				{
@@ -254,6 +254,14 @@
 							}
 						},
 						{
+							"id": "CUSTOM",
+							"label": {
+								"en": "CUSTOM BUDGET",
+								"nl": "HANDMATIG BUDGET",
+								"de": "BENUTZERDEFINIERT"
+							}
+						},
+						{
 							"id": "linear",
 							"label": {
 								"en": "Linear",
@@ -264,16 +272,16 @@
 						{
 							"id": "el_nl_2023",
 							"label": {
-								"en": "el_nl_2023 (NL price ceiling)",
-								"nl": "el_nl_2023 (plafondprijs)",
- 								"de": "el_nl_2023 (NL Höchstpreis)"
+								"en": "NL price ceiling 2023",
+								"nl": "NL plafondprijs 2023",
+ 								"de": "NL Höchstpreis 2023"
 							}
 						},
 						{
 							"id": "pv_52n_t40s",
 							"label": {
-								"en": "pv_52n_t40s (PV N-Europe, tilt 40°S)",
-								"nl": "pv_52n_t40s (PV N-Europa, helling 40°Z)"
+								"en": "PV N-Europe, tilt 40°S",
+								"nl": "PV N-Europa, helling 40°Z"
 							}
 						}
 					]

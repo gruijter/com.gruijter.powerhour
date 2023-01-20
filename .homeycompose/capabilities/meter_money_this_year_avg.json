@@ -1,0 +1,16 @@
+{
+  "type": "number",
+  "title": {
+    "en": "Avg. money this year",
+    "nl": "Gem. geld dit jaar"
+  },
+  "uiComponent": "sensor",
+  "icon": "/assets/money_avg.svg",
+  "getable": true,
+  "setable": false,
+  "insights": true,
+  "units": {
+    "en": "¤/kWh"
+  },
+  "decimals": 4
+}

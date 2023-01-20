@@ -1,7 +1,7 @@
 {
   "_comment": "This file is generated. Please edit .homeycompose/app.json instead.",
   "id": "com.gruijter.powerhour",
-  "version": "5.2.0",
+  "version": "5.3.0",
   "compatibility": ">=8.0.0",
   "brandColor": "#df5020",
   "sdk": 3,
@@ -3854,17 +3854,17 @@
             },
             {
               "id": "budget",
-              "type": "number",
+              "type": "text",
               "label": {
                 "en": "Year target budget (m³)",
                 "nl": "Jaar doelbudget (m³)",
                 "de": "Jahreszielbudget (m³)"
               },
-              "value": 1200,
+              "value": "1200",
               "hint": {
-                "en": "The total target budget for a year. Attention: the year starts at the set start date.",
-                "nl": "Het totale doelbudget voor een jaar. LET OP: het jaar begint bij de ingestelde start datum.",
-                "de": "Das gesamte Zielbudget für ein Jahr. Achtung: Das Jahr beginnt mit dem festgelegten Startdatum."
+                "en": "The total target budget for a year. Attention: the year starts at the set start date. When selecting CUSTOM BUDGET distribution, fill in the 12 values from Jan-Dec seperated by ;",
+                "nl": "Het totale doelbudget voor een jaar. LET OP: het jaar begint bij de ingestelde start datum. Als HANDMATIGE BUDGET verdeling is gekozen, vul dan de 12 waarden in van jan-dec, gescheiden door ;",
+                "de": "Das gesamte Zielbudget für ein Jahr. Achtung: Das Jahr beginnt mit dem festgelegten Startdatum. Geben Sie bei Auswahl der BENUTZERDEFINIERTEN Verteilung die 12 Werte von Jan-Dez getrennt durch ;"
               }
             },
             {
@@ -3891,6 +3891,14 @@
                   }
                 },
                 {
+                  "id": "CUSTOM",
+                  "label": {
+                    "en": "CUSTOM BUDGET",
+                    "nl": "HANDMATIG BUDGET",
+                    "de": "BENUTZERDEFINIERT"
+                  }
+                },
+                {
                   "id": "linear",
                   "label": {
                     "en": "Linear",
@@ -3901,9 +3909,9 @@
                 {
                   "id": "gas_nl_2023",
                   "label": {
-                    "en": "gas_nl_2023 (NL price ceiling)",
-                    "nl": "gas_nl_2023 (plafondprijs)",
-                    "de": "gas_nl_2023 (NL Höchstpreis)"
+                    "en": "NL price ceiling 2023",
+                    "nl": "NL plafondprijs 2023",
+                    "de": "NL Höchstpreis 2023"
                   }
                 }
               ]
@@ -4653,17 +4661,17 @@
             },
             {
               "id": "budget",
-              "type": "number",
+              "type": "text",
               "label": {
                 "en": "Year target budget (kWh)",
                 "nl": "Jaar doelbudget (kWh)",
                 "de": "Jahreszielbudget (kWh)"
               },
-              "value": 2900,
+              "value": "2900",
               "hint": {
-                "en": "The total target budget for a year. Attention: the year starts at the set start date.",
-                "nl": "Het totale doelbudget voor een jaar. LET OP: het jaar begint bij de ingestelde start datum.",
-                "de": "Das gesamte Zielbudget für ein Jahr. Achtung: Das Jahr beginnt mit dem festgelegten Startdatum."
+                "en": "The total target budget for a year. Attention: the year starts at the set start date. When selecting CUSTOM BUDGET distribution, fill in the 12 values from Jan-Dec seperated by ;",
+                "nl": "Het totale doelbudget voor een jaar. LET OP: het jaar begint bij de ingestelde start datum. Als HANDMATIGE BUDGET verdeling is gekozen, vul dan de 12 waarden in van jan-dec, gescheiden door ;",
+                "de": "Das gesamte Zielbudget für ein Jahr. Achtung: Das Jahr beginnt mit dem festgelegten Startdatum. Geben Sie bei Auswahl der BENUTZERDEFINIERTEN Verteilung die 12 Werte von Jan-Dez getrennt durch ;"
               }
             },
             {
@@ -4690,6 +4698,14 @@
                   }
                 },
                 {
+                  "id": "CUSTOM",
+                  "label": {
+                    "en": "CUSTOM BUDGET",
+                    "nl": "HANDMATIG BUDGET",
+                    "de": "BENUTZERDEFINIERT"
+                  }
+                },
+                {
                   "id": "linear",
                   "label": {
                     "en": "Linear",
@@ -4700,16 +4716,16 @@
                 {
                   "id": "el_nl_2023",
                   "label": {
-                    "en": "el_nl_2023 (NL price ceiling)",
-                    "nl": "el_nl_2023 (plafondprijs)",
-                    "de": "el_nl_2023 (NL Höchstpreis)"
+                    "en": "NL price ceiling 2023",
+                    "nl": "NL plafondprijs 2023",
+                    "de": "NL Höchstpreis 2023"
                   }
                 },
                 {
                   "id": "pv_52n_t40s",
                   "label": {
-                    "en": "pv_52n_t40s (PV N-Europe, tilt 40°S)",
-                    "nl": "pv_52n_t40s (PV N-Europa, helling 40°Z)"
+                    "en": "PV N-Europe, tilt 40°S",
+                    "nl": "PV N-Europa, helling 40°Z"
                   }
                 }
               ]
@@ -5432,17 +5448,17 @@
             },
             {
               "id": "budget",
-              "type": "number",
+              "type": "text",
               "label": {
                 "en": "Year target budget (m³)",
                 "nl": "Jaar doelbudget (m³)",
                 "de": "Jahreszielbudget (m³)"
               },
-              "value": 150,
+              "value": "150",
               "hint": {
-                "en": "The total target budget for a year. Attention: the year starts at the set start date.",
-                "nl": "Het totale doelbudget voor een jaar. LET OP: het jaar begint bij de ingestelde start datum.",
-                "de": "Das gesamte Zielbudget für ein Jahr. Achtung: Das Jahr beginnt mit dem festgelegten Startdatum."
+                "en": "The total target budget for a year. Attention: the year starts at the set start date. When selecting CUSTOM BUDGET distribution, fill in the 12 values from Jan-Dec seperated by ;",
+                "nl": "Het totale doelbudget voor een jaar. LET OP: het jaar begint bij de ingestelde start datum. Als HANDMATIGE BUDGET verdeling is gekozen, vul dan de 12 waarden in van jan-dec, gescheiden door ;",
+                "de": "Das gesamte Zielbudget für ein Jahr. Achtung: Das Jahr beginnt mit dem festgelegten Startdatum. Geben Sie bei Auswahl der BENUTZERDEFINIERTEN Verteilung die 12 Werte von Jan-Dez getrennt durch ;"
               }
             },
             {
@@ -5466,6 +5482,14 @@
                     "en": "DISABLE TARGET BUDGET",
                     "nl": "DOELBUDGET NIET ACTIEF",
                     "de": "ZIELBUDGET NICHT AKTIV"
+                  }
+                },
+                {
+                  "id": "CUSTOM",
+                  "label": {
+                    "en": "CUSTOM BUDGET",
+                    "nl": "HANDMATIG BUDGET",
+                    "de": "BENUTZERDEFINIERT"
                   }
                 },
                 {
@@ -6863,6 +6887,22 @@
       },
       "decimals": 2
     },
+    "meter_money_this_month_avg": {
+      "type": "number",
+      "title": {
+        "en": "Avg. money this month",
+        "nl": "Gem. geld deze maand"
+      },
+      "uiComponent": "sensor",
+      "icon": "/assets/money_avg.svg",
+      "getable": true,
+      "setable": false,
+      "insights": true,
+      "units": {
+        "en": "¤/kWh"
+      },
+      "decimals": 4
+    },
     "meter_money_this_year": {
       "type": "number",
       "title": {
@@ -6884,6 +6924,22 @@
         "en": "¤"
       },
       "decimals": 2
+    },
+    "meter_money_this_year_avg": {
+      "type": "number",
+      "title": {
+        "en": "Avg. money this year",
+        "nl": "Gem. geld dit jaar"
+      },
+      "uiComponent": "sensor",
+      "icon": "/assets/money_avg.svg",
+      "getable": true,
+      "setable": false,
+      "insights": true,
+      "units": {
+        "en": "¤/kWh"
+      },
+      "decimals": 4
     },
     "meter_power": {
       "type": "number",

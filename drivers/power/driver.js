@@ -33,6 +33,9 @@ const driverSpecifics = {
 			p1: 'meter_power.peak', p2: 'meter_power.offPeak', n1: null, n2: null,
 		},
 		{
+			p1: 'meter_power.consumedL1', p2: 'meter_power.consumedL2', n1: null, n2: null, // ztaz P1
+		},
+		{
 			p1: 'meter_power.consumed', p2: null, n1: 'meter_power.generated', n2: null,
 		},
 		{
@@ -50,6 +53,7 @@ const driverSpecifics = {
 		'meter_target_month_to_date', 'meter_target_year_to_date',
 		'meter_money_last_hour', 'meter_money_this_hour', 'meter_money_last_day', 'meter_money_this_day',
 		'meter_money_last_month', 'meter_money_this_month', 'meter_money_last_year', 'meter_money_this_year',
+		'meter_money_this_month_avg', 'meter_money_this_year_avg',
 		'meter_tariff', 'meter_power', 'measure_watt_avg', 'last_minmax_reset', 'measure_watt_min', 'measure_watt_max'],
 };
 
