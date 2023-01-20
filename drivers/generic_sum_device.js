@@ -203,7 +203,7 @@ class SumMeterDevice extends Device {
 		};
 		if (!currency || currency === '') options.units.en = '¤';
 		if (!Number.isInteger(decimals)) options.units.decimals = 2;
-		const moneyCaps = this.getCapabilities().filter((name) => name.includes('money'));
+		const moneyCaps = this.getCapabilities().filter((name) => name.includes('money') && !name.includes('_avg'));
 		for (let i = 0; i < moneyCaps.length; i += 1) {
 			const opts = await this.getCapabilityOptions(moneyCaps[i]);
 			if (!opts || !opts.units || (opts.units.en !== options.units.en) || opts.decimals !== options.decimals) {
@@ -384,7 +384,7 @@ class SumMeterDevice extends Device {
 		if (changedKeys.includes('budget')) {
 			if ((newSettings.distribution && newSettings.distribution === 'CUSTOM')
 				|| (!newSettings.distribution && this.settings.distribution === 'CUSTOM')) {
-				const dist = newSettings.budget2
+				const dist = newSettings.budget
 					.split(';')
 					.map((month) => Number(month));
 				const valid = (dist.length === 12) && dist.reduce((prev, cur) => prev && Number.isFinite(cur), true);
