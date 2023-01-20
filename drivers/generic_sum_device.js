@@ -205,7 +205,7 @@ class SumMeterDevice extends Device {
 		if (!Number.isInteger(decimals)) options.units.decimals = 2;
 		const moneyCaps = this.getCapabilities().filter((name) => name.includes('money') && !name.includes('_avg'));
 		for (let i = 0; i < moneyCaps.length; i += 1) {
-			const opts = await this.getCapabilityOptions(moneyCaps[i]);
+			const opts = await this.getCapabilityOptions(moneyCaps[i]).catch(this.error);
 			if (!opts || !opts.units || (opts.units.en !== options.units.en) || opts.decimals !== options.decimals) {
 				this.log('migrating', moneyCaps[i]);
 				await this.setCapabilityOptions(moneyCaps[i], options).catch(this.error);
@@ -213,13 +213,13 @@ class SumMeterDevice extends Device {
 			}
 		}
 		options.decimals = 4;
-		const opts2 = await this.getCapabilityOptions('meter_tariff');
+		const opts2 = await this.getCapabilityOptions('meter_tariff').catch(this.error);
 		if (!opts2 || !opts2.units || (opts2.units.en !== options.units.en) || opts2.decimals !== options.decimals) {
 			this.log('migrating meter_tariff');
 			await this.setCapabilityOptions('meter_tariff', options).catch(this.error);
 			await setTimeoutPromise(2 * 1000);
 		}
-		this.log('capability options migration ready', this.getCapabilityOptions('meter_money_last_hour'));
+		this.log('capability options migration ready', this.getCapabilityOptions('meter_money_last_hour').catch(this.error));
 
 		// migrate avg tariff/money options
 		if (this.driver.ds.id !== 'water') {
@@ -234,14 +234,14 @@ class SumMeterDevice extends Device {
 			if (!currency || currency === '') options3.units.en = '¤';
 			const avgCaps = this.getCapabilities().filter((name) => name.includes('this_month_avg') || name.includes('this_year_avg'));
 			for (let i = 0; i < avgCaps.length; i += 1) {
-				const opts3 = await this.getCapabilityOptions(avgCaps[i]);
+				const opts3 = await this.getCapabilityOptions(avgCaps[i]).catch(this.error);
 				if (!opts3 || !opts3.units || (opts3.units.en !== options3.units.en) || opts3.decimals !== options3.decimals) {
 					this.log('migrating', avgCaps[i]);
 					await this.setCapabilityOptions(avgCaps[i], options3).catch(this.error);
 					await setTimeoutPromise(2 * 1000);
 				}
 			}
-			this.log('capability options migration ready', this.getCapabilityOptions('meter_money_this_year_avg'));
+			this.log('capability options migration ready', this.getCapabilityOptions('meter_money_this_year_avg').catch(this.error));
 		}
 		this.currencyChanged = false;
 	}
