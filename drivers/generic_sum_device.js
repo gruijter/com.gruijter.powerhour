@@ -110,9 +110,9 @@ class SumMeterDevice extends Device {
 			// add meter_target_xxx distribution setting  versions >5.0.4
 			if (this.getSettings().level < '5.0.0') {
 				let distribution = 'NONE';
-				if (this.driver.ds.driverId === 'gas') distribution = 'gas_nl_2023';
-				if (this.driver.ds.driverId === 'water') distribution = 'linear';
-				if (this.driver.ds.driverId === 'power' && !(this.settings.meter_via_flow || this.settings.homey_energy)) {
+				if (this.driver.id === 'gas') distribution = 'gas_nl_2023';
+				if (this.driver.id === 'water') distribution = 'linear';
+				if (this.driver.id === 'power' && !(this.settings.meter_via_flow || this.settings.homey_energy)) {
 					const sourceD = await this.homey.app.api.devices.getDevice({ id: this.settings.homey_device_id, $cache: false, $timeout: 25000 })
 						.catch(this.error);
 					await setTimeoutPromise(3 * 1000); // wait a bit for capabilitiesObj to fill?
@@ -129,7 +129,7 @@ class SumMeterDevice extends Device {
 			// remove meter_target_this_xxx caps  versions >5.0.2
 			if (this.getSettings().distribution === 'NONE') correctCaps = correctCaps.filter((cap) => !cap.includes('meter_target'));
 			for (let index = 0; index < correctCaps.length; index += 1) {
-				const caps = await this.getCapabilities();
+				const caps = this.getCapabilities();
 				const newCap = correctCaps[index];
 				if (caps[index] !== newCap) {
 					this.setUnavailable('Device is migrating. Please wait!');
@@ -150,6 +150,7 @@ class SumMeterDevice extends Device {
 					this.currencyChanged = true;
 				}
 			}
+			if (this.currencyChanged) await setTimeoutPromise(60 * 1000);
 
 			if (this.getSettings().level < '4.9.1') this.currencyChanged = true;
 
@@ -187,7 +188,7 @@ class SumMeterDevice extends Device {
 			// set new migrate level
 			await this.setSettings({ level: this.homey.app.manifest.version });
 			this.settings = await this.getSettings();
-			Promise.resolve(this.migrated);
+			Promise.resolve(true);
 		} catch (error) {
 			this.error('Migration failed', error);
 			Promise.reject(error);
@@ -205,7 +206,7 @@ class SumMeterDevice extends Device {
 		if (!Number.isInteger(decimals)) options.units.decimals = 2;
 		const moneyCaps = this.getCapabilities().filter((name) => name.includes('money') && !name.includes('_avg'));
 		for (let i = 0; i < moneyCaps.length; i += 1) {
-			const opts = await this.getCapabilityOptions(moneyCaps[i]).catch(this.error);
+			const opts = this.getCapabilityOptions(moneyCaps[i]);
 			if (!opts || !opts.units || (opts.units.en !== options.units.en) || opts.decimals !== options.decimals) {
 				this.log('migrating', moneyCaps[i]);
 				await this.setCapabilityOptions(moneyCaps[i], options).catch(this.error);
@@ -213,35 +214,37 @@ class SumMeterDevice extends Device {
 			}
 		}
 		options.decimals = 4;
-		const opts2 = await this.getCapabilityOptions('meter_tariff').catch(this.error);
+		const opts2 = this.getCapabilityOptions('meter_tariff');
 		if (!opts2 || !opts2.units || (opts2.units.en !== options.units.en) || opts2.decimals !== options.decimals) {
 			this.log('migrating meter_tariff');
 			await this.setCapabilityOptions('meter_tariff', options).catch(this.error);
 			await setTimeoutPromise(2 * 1000);
 		}
-		this.log('capability options migration ready', this.getCapabilityOptions('meter_money_last_hour').catch(this.error));
+		this.log('capability options migration ready', this.getCapabilityOptions('meter_money_last_hour'));
 
 		// migrate avg tariff/money options
-		if (this.driver.ds.id !== 'water') {
+		if (this.driver.id !== 'water') {
 			this.log('migrating average money and tariff capability options');
-			this.setUnavailable('Device is migrating. Please wait!');
 			let unit = 'kWh';
-			if (this.driver.ds.id === 'gas') unit = 'm³';
+			if (this.driver.id !== 'power') unit = 'm³';
 			const options3 = {
 				units: { en: `${currency}/${unit}` },
 				decimals: 4,
 			};
 			if (!currency || currency === '') options3.units.en = '¤';
-			const avgCaps = this.getCapabilities().filter((name) => name.includes('this_month_avg') || name.includes('this_year_avg'));
-			for (let i = 0; i < avgCaps.length; i += 1) {
-				const opts3 = await this.getCapabilityOptions(avgCaps[i]).catch(this.error);
-				if (!opts3 || !opts3.units || (opts3.units.en !== options3.units.en) || opts3.decimals !== options3.decimals) {
-					this.log('migrating', avgCaps[i]);
-					await this.setCapabilityOptions(avgCaps[i], options3).catch(this.error);
-					await setTimeoutPromise(2 * 1000);
-				}
+			const opts3 = this.getCapabilityOptions('meter_money_this_month_avg');
+			if (!opts3 || !opts3.units || (opts3.units.en !== options3.units.en) || opts3.decimals !== options3.decimals) {
+				this.log('migrating meter_money_this_month_avg');
+				await this.setCapabilityOptions('meter_money_this_month_avg', options3).catch(this.error);
+				await setTimeoutPromise(2 * 1000);
 			}
-			this.log('capability options migration ready', this.getCapabilityOptions('meter_money_this_year_avg').catch(this.error));
+			const opts4 = this.getCapabilityOptions('meter_money_this_year_avg');
+			if (!opts4 || !opts4.units || (opts4.units.en !== options3.units.en) || opts4.decimals !== options3.decimals) {
+				this.log('migrating meter_money_this_year_avg');
+				await this.setCapabilityOptions('meter_money_this_year_avg', options3).catch(this.error);
+				await setTimeoutPromise(2 * 1000);
+			}
+			this.log('capability options migration ready', this.getCapabilityOptions('meter_money_this_year_avg'));
 		}
 		this.currencyChanged = false;
 	}
@@ -301,7 +304,7 @@ class SumMeterDevice extends Device {
 		this.stopPolling();
 		this.destroyListeners();
 		let delay = 1500;
-		if (!this.migrated) delay = 10 * 1000;
+		if (!this.migrated || !this.initFirstReading) delay = 10 * 1000;
 		await setTimeoutPromise(delay);
 	}
 
@@ -324,7 +327,7 @@ class SumMeterDevice extends Device {
 
 	// this method is called when the user has changed the device's settings in Homey.
 	async onSettings({ newSettings, changedKeys }) { // , oldSettings, changedKeys) {
-		if (!this.migrated) throw Error('device is migrating. Ignoring new settings!');
+		if (!this.migrated || !this.initReady) throw Error('device is not ready. Ignoring new settings!');
 		this.log(`${this.getName()} device settings changed by user`, newSettings);
 
 		const lastReadingDay = { ...this.lastReadingDay };
@@ -384,9 +387,8 @@ class SumMeterDevice extends Device {
 		if (changedKeys.includes('budget')) {
 			if ((newSettings.distribution && newSettings.distribution === 'CUSTOM')
 				|| (!newSettings.distribution && this.settings.distribution === 'CUSTOM')) {
-				const dist = newSettings.budget
-					.split(';')
-					.map((month) => Number(month));
+				const d = newSettings.budget || this.getSettings().budget || '';
+				const dist = d.split(';').map((month) => Number(month));
 				const valid = (dist.length === 12) && dist.reduce((prev, cur) => prev && Number.isFinite(cur), true);
 				if (!valid) throw Error('Custom budget does not have 12 number values');
 			} else {
@@ -655,6 +657,7 @@ class SumMeterDevice extends Device {
 	}
 
 	async updateMeterFromFlow(val) {
+		if (!this.migrated || this.currencyChanged) return;
 		let value = val;
 		if (value === null) { // poll requested
 			value = await this.getCapabilityValue(this.ds.cmap.meter_source);
@@ -665,6 +668,7 @@ class SumMeterDevice extends Device {
 
 	// takes Watt, creates kWh metervalue
 	async updateMeterFromMeasure(val) {
+		if (!this.migrated || this.currencyChanged) return;
 		const measureTm = new Date();
 		let value = val;
 		if (value === null && !this.settings.homey_energy) { // poll requested or app init
@@ -931,7 +935,7 @@ class SumMeterDevice extends Device {
 		// calculate current avg use
 		const measurePowerAvg = Math.round((3600000000 / deltaTm) * deltaMeter); // delta kWh > watt
 		const measureWaterAvg = Math.round((deltaMeter / deltaTm) * 600000000) / 10; // delta m3 > liter/min
-		const measureValue = this.driver.ds.driverId === 'power' ? measurePowerAvg : measureWaterAvg;
+		const measureValue = this.driver.id === 'power' ? measurePowerAvg : measureWaterAvg;
 		this.setCapability(this.ds.cmap.measure_source, measureValue);
 		// check for new max/min values
 		const {

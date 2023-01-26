@@ -192,7 +192,7 @@ class MyDevice extends Homey.Device {
 			await setTimeoutPromise(2 * 1000);
 		}
 		this.currencyChanged = false;
-		// this.log('capability options migration ready', this.getCapabilityOptions('meter_price_h7').catch(this.error));
+		// this.log('capability options migration ready', this.getCapabilityOptions('meter_price_h7'));
 	}
 
 	// STANDARD HOMEY STUFF
