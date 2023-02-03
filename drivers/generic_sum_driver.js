@@ -68,15 +68,17 @@ class SumMeterDriver extends Driver {
 					}
 
 					// METER_VIA_WATT device
-					if (device.getSettings().use_measure_source) {
+					if (device.driver.id === 'power' && device.getSettings().use_measure_source) {
 						await device.updateMeterFromMeasure(null);
 						return;
 					}
+
 					// check if listener or polling is on, otherwise restart device
 					const ignorePollSetting = !device.getSettings().meter_via_flow && !device.getSettings().use_measure_source;
 					const pollingIsOn = !!device.getSettings().interval && device.intervalIdDevicePoll
-						&& (device.intervalIdDevicePoll._idleTimeout > 0);
-					const listeningIsOn = Object.keys(device.capabilityInstances).length > 0;
+						&& (device.intervalIdDevicePoll._idleTimeout > 0); // polling is on
+					const listeningIsOn = Object.keys(device.capabilityInstances).length > 0; // listener is on
+
 					if (ignorePollSetting && !pollingIsOn && !listeningIsOn) {
 						this.error(`${deviceName} is not in polling or listening mode. Restarting now..`);
 						device.restartDevice(1000).catch(this.error);
@@ -162,6 +164,7 @@ class SumMeterDriver extends Driver {
 
 				// check for compatible sourceCapGroup in power sources
 				let hasSourceCapGroup = false;
+				let useMeasureSource = false;
 				if (found && this.ds.driverId === 'power') {
 					this.ds.sourceCapGroups.forEach((capGroup) => {
 						if (hasSourceCapGroup) return; // stop at the first match
@@ -173,6 +176,7 @@ class SumMeterDriver extends Driver {
 						this.log('incompatible source caps', allDevices[key].driverUri, allDevices[key].capabilities);
 						found = false;
 					}
+					useMeasureSource = !hasSourceCapGroup;
 				}
 				if (found) {
 					const device = {
@@ -185,7 +189,7 @@ class SumMeterDriver extends Driver {
 							homey_device_name: allDevices[key].name,
 							level: this.homey.app.manifest.version,
 							source_device_type: 'Homey device',
-							use_measure_source: !hasSourceCapGroup,
+							use_measure_source: useMeasureSource,
 							tariff_update_group: 1,
 							distribution: 'NONE',
 						},

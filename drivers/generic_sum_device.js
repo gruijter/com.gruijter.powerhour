@@ -44,18 +44,6 @@ class SumMeterDevice extends Device {
 			this.migrated = true;
 			await this.setAvailable();
 
-			// check settings for homey energy device
-			if (this.settings.homey_energy) {
-				if (!this.settings.interval) {
-					await this.setSettings({ interval: 1 });
-					this.settings.interval = 1;
-				}
-				if (this.settings.use_measure_source) {
-					await this.setSettings({ use_measure_source: false });
-					this.settings.use_measure_source = false;
-				}
-			}
-
 			// setup source for HOMEY-API devices with update listener
 			if (!(this.settings.meter_via_flow || this.settings.homey_energy)) {
 				this.sourceDevice = await this.homey.app.api.devices.getDevice({ id: this.settings.homey_device_id, $cache: false, $timeout: 25000 })
@@ -101,6 +89,25 @@ class SumMeterDevice extends Device {
 			this.log(`checking device migration for ${this.getName()}`);
 			this.migrated = false;
 			// console.log(this.getName(), this.settings, this.getStore());
+
+			// check settings for homey energy
+			if (this.settings.homey_energy) {
+				if (!this.settings.interval) {
+					await this.setSettings({ interval: 1 });
+					this.settings.interval = 1;
+				}
+				if (this.settings.use_measure_source) {
+					await this.setSettings({ use_measure_source: false });
+					this.settings.use_measure_source = false;
+				}
+			}
+
+			// check settings for for water and gas
+			if (this.driver.id !== 'power ' && this.settings.use_measure_source) {
+				this.log(this.getName(), 'fixing wrong use_measure_source setting');
+				await this.setSettings({ use_measure_source: false });
+				this.settings.use_measure_source = false;
+			}
 
 			// store the capability states before migration
 			const sym = Object.getOwnPropertySymbols(this).find((s) => String(s) === 'Symbol(state)');
@@ -150,9 +157,9 @@ class SumMeterDevice extends Device {
 					this.currencyChanged = true;
 				}
 			}
-			if (this.currencyChanged) await setTimeoutPromise(60 * 1000);
+			// if (this.currencyChanged) await setTimeoutPromise(70 * 1000);
 
-			if (this.getSettings().level < '4.9.1') this.currencyChanged = true;
+			if (this.getSettings().level < '5.3.4') this.currencyChanged = true;
 
 			// migrate to new budget setting > 5.3.0
 			const budgetSetting = this.getSettings().budget;
@@ -198,50 +205,70 @@ class SumMeterDevice extends Device {
 	async migrateCurrencyOptions(currency, decimals) {
 		this.log('migrating money capability options');
 		this.setUnavailable('Device is migrating. Please wait!');
-		const options = {
-			units: { en: currency },
-			decimals,
+
+		// determine new units and decimals
+		let curr = currency;
+		let dec = decimals;
+		let unit = 'kWh';
+		if (!currency || currency === '') curr = '¤';
+		if (!Number.isInteger(decimals)) dec = 2;
+		if (this.driver.id !== 'power') unit = 'm³';
+
+		const moneyOptions = {
+			units: { en: curr },
+			decimals: dec,
 		};
-		if (!currency || currency === '') options.units.en = '¤';
-		if (!Number.isInteger(decimals)) options.units.decimals = 2;
+		const tariffOptions = {
+			units: { en: curr },
+			decimals: 4,
+		};
+		const avgOptions = {
+			units: { en: `${curr}/${unit}` },
+			decimals: 4,
+		};
+
+		// migrate currency and decimals for money caps
 		const moneyCaps = this.getCapabilities().filter((name) => name.includes('money') && !name.includes('_avg'));
 		for (let i = 0; i < moneyCaps.length; i += 1) {
-			const opts = this.getCapabilityOptions(moneyCaps[i]);
-			if (!opts || !opts.units || (opts.units.en !== options.units.en) || opts.decimals !== options.decimals) {
-				this.log('migrating', moneyCaps[i]);
-				await this.setCapabilityOptions(moneyCaps[i], options).catch(this.error);
+			let opts;
+			try {
+				opts = this.getCapabilityOptions(moneyCaps[i]);
+			} catch (error) { this.log(error.message); }
+			if (!opts || !opts.units || (opts.units.en !== moneyOptions.units.en) || opts.decimals !== moneyOptions.decimals) {
+				this.log('migrating money units and decimals', moneyCaps[i]);
+				await this.setCapabilityOptions(moneyCaps[i], moneyOptions).catch(this.error);
 				await setTimeoutPromise(2 * 1000);
 			}
 		}
-		options.decimals = 4;
-		const opts2 = this.getCapabilityOptions('meter_tariff');
-		if (!opts2 || !opts2.units || (opts2.units.en !== options.units.en) || opts2.decimals !== options.decimals) {
-			this.log('migrating meter_tariff');
-			await this.setCapabilityOptions('meter_tariff', options).catch(this.error);
+		// migrate currency and decimals for tariff
+		let opts2;
+		try {
+			opts2 = this.getCapabilityOptions('meter_tariff');
+		} catch (error) { this.log(error.message); }
+		if (!opts2 || !opts2.units || (opts2.units.en !== tariffOptions.units.en) || opts2.decimals !== tariffOptions.decimals) {
+			this.log('migrating meter_tariff units and decimals');
+			await this.setCapabilityOptions('meter_tariff', tariffOptions).catch(this.error);
 			await setTimeoutPromise(2 * 1000);
 		}
 		this.log('capability options migration ready', this.getCapabilityOptions('meter_money_last_hour'));
-
-		// migrate avg tariff/money options
+		// migrate currency and decimals for avg tariff
 		if (this.driver.id !== 'water') {
-			this.log('migrating average money and tariff capability options');
-			let unit = 'kWh';
-			if (this.driver.id !== 'power') unit = 'm³';
-			const options3 = {
-				units: { en: `${currency}/${unit}` },
-				decimals: 4,
-			};
-			if (!currency || currency === '') options3.units.en = '¤';
-			const opts3 = this.getCapabilityOptions('meter_money_this_month_avg');
-			if (!opts3 || !opts3.units || (opts3.units.en !== options3.units.en) || opts3.decimals !== options3.decimals) {
-				this.log('migrating meter_money_this_month_avg');
-				await this.setCapabilityOptions('meter_money_this_month_avg', options3).catch(this.error);
+			let opts3;
+			try {
+				opts3 = this.getCapabilityOptions('meter_money_this_month_avg');
+			} catch (error) { this.log(error.message); }
+			if (!opts3 || !opts3.units || (opts3.units.en !== avgOptions.units.en) || opts3.decimals !== avgOptions.decimals) {
+				this.log('migrating meter_money_this_month_avg units and decimals');
+				await this.setCapabilityOptions('meter_money_this_month_avg', avgOptions).catch(this.error);
 				await setTimeoutPromise(2 * 1000);
 			}
-			const opts4 = this.getCapabilityOptions('meter_money_this_year_avg');
-			if (!opts4 || !opts4.units || (opts4.units.en !== options3.units.en) || opts4.decimals !== options3.decimals) {
-				this.log('migrating meter_money_this_year_avg');
-				await this.setCapabilityOptions('meter_money_this_year_avg', options3).catch(this.error);
+			let opts4;
+			try {
+				opts4 = this.getCapabilityOptions('meter_money_this_year_avg');
+			} catch (error) { this.log(error.message); }
+			if (!opts4 || !opts4.units || (opts4.units.en !== avgOptions.units.en) || opts4.decimals !== avgOptions.decimals) {
+				this.log('migrating meter_money_this_year_avg units and decimals');
+				await this.setCapabilityOptions('meter_money_this_year_avg', avgOptions).catch(this.error);
 				await setTimeoutPromise(2 * 1000);
 			}
 			this.log('capability options migration ready', this.getCapabilityOptions('meter_money_this_year_avg'));
@@ -252,36 +279,44 @@ class SumMeterDevice extends Device {
 	async migrateMeterOptions(decimals) {
 		this.log('migrating meter capability options');
 		this.setUnavailable('Device is migrating. Please wait!');
-		const options = {
+
+		// determine new units and decimals
+		let dec = decimals;
+		if (!Number.isInteger(decimals)) dec = 4;
+
+		const optionsKWh = {
 			units: { en: 'kWh' },
-			decimals,
+			decimals: dec,
 		};
-		if (!Number.isInteger(decimals)) options.units.decimals = 4;
+		const optionM3 = {
+			units: { en: 'm³' },
+			decimals: dec,
+		};
+
 		const meterKWhCaps = this.getCapabilities().filter((name) => name.includes('meter_kwh'));
 		// options.units = { en: 'kWh' };
 		for (let i = 0; i < meterKWhCaps.length; i += 1) {
-			this.log('migrating', meterKWhCaps[i]);
-			await this.setCapabilityOptions(meterKWhCaps[i], options).catch(this.error);
+			this.log('migrating decimals for', meterKWhCaps[i]);
+			await this.setCapabilityOptions(meterKWhCaps[i], optionsKWh).catch(this.error);
 			await setTimeoutPromise(2 * 1000);
 		}
 		if (this.hasCapability('meter_power')) {
-			this.log('migrating meter_power');
-			await this.setCapabilityOptions('meter_power', options).catch(this.error);
+			this.log('migrating decimals for meter_power');
+			await this.setCapabilityOptions('meter_power', optionsKWh).catch(this.error);
 		}
 		const meterM3Caps = this.getCapabilities().filter((name) => name.includes('meter_m3'));
-		options.units = { en: 'm³' };
 		for (let i = 0; i < meterM3Caps.length; i += 1) {
-			this.log('migrating', meterM3Caps[i]);
-			await this.setCapabilityOptions(meterM3Caps[i], options).catch(this.error);
+			this.log('migrating decimals for', meterM3Caps[i]);
+			await this.setCapabilityOptions(meterM3Caps[i], optionM3).catch(this.error);
 			await setTimeoutPromise(2 * 1000);
 		}
 		if (this.hasCapability('meter_gas')) {
-			this.log('migrating meter_gas');
-			await this.setCapabilityOptions('meter_gas', options).catch(this.error);
+			this.log('migrating decimals for meter_gas');
+			await this.setCapabilityOptions('meter_gas', optionM3).catch(this.error);
 		}
 		if (this.hasCapability('meter_water')) {
-			this.log('migrating meter_water');
-			await this.setCapabilityOptions('meter_water', options).catch(this.error);
+			this.log('migrating decimals for meter_water');
+			await this.setCapabilityOptions('meter_water', optionM3).catch(this.error);
 		}
 		this.meterDecimalsChanged = false;
 		this.log('meter capability options migration ready');
@@ -311,7 +346,7 @@ class SumMeterDevice extends Device {
 	// this method is called when the Device is added
 	async onAdded() {
 		this.log(`Meter added as device: ${this.getName()}`);
-		this.currencyChanged = true;
+		if (this.driver.id !== 'power') this.currencyChanged = true;
 	}
 
 	// this method is called when the Device is deleted

@@ -1,4 +1,13 @@
 {
+  "5.4.1": {
+    "en": "Fixed adding new Summarizer. Fixed gas/water Summarizer settings. homey-api@1.10.15"
+  },
+  "5.4.0": {
+    "en": "DAP: Add multiple markups on a configurable Time Of Day."
+  },
+  "5.3.4": {
+    "en": "Summarizer: Fixed unit migration for Gas. update homey-api@1.10.12."
+  },
   "5.3.3": {
     "en": "Summarizer: added weighted average price for this month/year, added support for ZTAZ P1, added custom budget distribution, fixed GAS updates for certain source devices, fixed migration, fixed custom budget. DAP: implemented workaround for EEX EOD source bug, reduced price fetch spreading delay to max 10 minutes. update homey-api@1.10.10."
   },

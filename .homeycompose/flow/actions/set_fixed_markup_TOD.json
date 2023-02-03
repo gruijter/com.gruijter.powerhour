@@ -1,0 +1,22 @@
+{
+  "title": {
+    "en": "Set a new Time Of Day markup"
+  },
+  "titleFormatted": {
+    "en": "Set Time Of Day markup to [[value]]"
+  },
+  "args": [
+    {
+      "type": "device",
+      "name": "device",
+      "filter": "driver_id=dap|dapg"
+    },
+    {
+      "name": "value",
+      "type": "text",
+      "placeholder": {
+        "en": "6:0.3;22:0.1"
+      }
+    }
+  ]
+}

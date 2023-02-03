@@ -35,6 +35,37 @@ const selectPrices = ([...prices], start, end) => prices
 	.filter((hourInfo) => new Date(hourInfo.time) < end)
 	.map((hourInfo) => hourInfo.muPrice);
 
+// map Time Of Day string to object 0-24
+const todMap = (val) => {
+	const v = val.replace(/\s/g, '');
+	if (v === '' || v === '0' || v === '0:0') return null;
+	const hours = v
+		.split(';')
+		.filter((hm) => hm !== '')
+		.sort((a, b) => a.split(':')[0] - b.split(':')[0])
+		.map((hour) => {
+			const hm = hour.split(':');
+			let valid = hm.length === 2;
+			if (valid) {
+				const h = Number(hm[0]);
+				const m = Number(hm[1]);
+				valid = valid && Number.isInteger(h) && h >= 0 && h < 24 && Number.isFinite(m);
+				if (valid) return [`${h.toString()}`, m];
+			}
+			return null;
+		});
+	if (hours.includes(null)) throw Error('Invalid string for TOD');
+	const todObject = {};
+	let lastValue = hours.slice(-1)[0][1];
+	for (let i = 0; i < 24; i += 1) {
+		const hm = hours.find((x) => Number(x[0]) === i);
+		const value = hm ? hm[1] : lastValue;
+		todObject[i] = Number(value);
+		lastValue = value;
+	}
+	return todObject;
+};
+
 class MyDevice extends Homey.Device {
 
 	// INIT STUFF
@@ -52,6 +83,9 @@ class MyDevice extends Homey.Device {
 			// check migrations
 			if (!this.migrated) await this.migrate();
 			if (this.currencyChanged) await this.migrateCurrencyOptions(this.settings.currency, this.settings.decimals);
+
+			// calculate todMarkups
+			this.todMarkups = todMap(this.settings.fixedMarkupTOD);
 
 			// setup exchange rate api
 			this.exchange = new ECB();
@@ -123,6 +157,18 @@ class MyDevice extends Homey.Device {
 				if (this.settings.biddingZone === '132733/137/17') await this.setSettings({ biddingZone: 'TTF_EOD' });
 				if (this.settings.biddingZone === '132735/139/17') await this.setSettings({ biddingZone: 'TTF_EGSI' });
 				this.log(this.getName(), 'biddingZone migrated to', this.getSettings().biddingZone);
+			}
+
+			// migrate TOD/Weekend markups from < v5.4.0
+			if (this.getSettings().level < '5.4.0') {
+				const old = this.getSettings();
+				const fixedMarkupWeekend = old.weekendHasNightMarkup ? old.fixedMarkupNight : 0;
+				let fixedMarkupTOD = '';
+				const start6 = old.fixedMarkupDay ? old.fixedMarkupDay : 0;
+				const start22 = old.fixedMarkupNight ? old.fixedMarkupNight : 0;
+				if (start6 || start22) fixedMarkupTOD = `6:${start6};22:${start22}`;
+				await this.setSettings({ fixedMarkupTOD, fixedMarkupWeekend });
+				this.log(this.getName(), 'TOD/Weekend markups migrated to', { fixedMarkupTOD, fixedMarkupWeekend });
 			}
 
 			// store the capability states before migration
@@ -228,6 +274,10 @@ class MyDevice extends Homey.Device {
 	async onSettings({ newSettings, changedKeys }) { // , oldSettings) {
 		if (!this.initReady) throw Error('device is not ready. Ignoring new settings!');
 		this.log(`${this.getName()} device settings changed by user`, newSettings);
+
+		if (changedKeys.includes('fixedMarkupTOD')) {
+			todMap(changedKeys.fixedMarkupTOD); // throw error when invalid
+		}
 		if (changedKeys.includes('currency') || changedKeys.includes('decimals')) {
 			this.currencyChanged = true;
 		}
@@ -254,8 +304,8 @@ class MyDevice extends Homey.Device {
 			const isWeekend = priceDate.getDay() === 0 || priceDate.getDay() === 6; // 0 = sunday, 6 = saturday
 			let muPrice = ((marketPrice.price * this.settings.exchangeRate * (1 + this.settings.variableMarkup / 100)) / 1000)
 				+ this.settings.fixedMarkup;
-			if (this.settings.weekendHasNightMarkup && isWeekend) muPrice += this.settings.fixedMarkupNight;
-			else muPrice += this.settings.fixedMarkupDay;
+			if (this.settings.fixedMarkupWeekend && isWeekend) muPrice += this.settings.fixedMarkupWeekend;
+			else if (this.todMarkups) muPrice += this.todMarkups[priceDate.getHours().toString()];
 			return {
 				time: marketPrice.time,
 				price: marketPrice.price,
@@ -310,15 +360,18 @@ class MyDevice extends Homey.Device {
 		this.restartDevice(1000);
 	}
 
-	async setFixedMarkupDay(val) {
-		this.log('changing Day markup via flow', this.getName(), val);
-		await this.setSettings({ fixedMarkupDay: val });
+	async setFixedMarkupTOD(val) {
+		this.log('changing Time Of Day markup via flow', this.getName(), val);
+		const todObject = todMap(val); // will throw Error if invalid
+		if (todObject === null) await this.setSettings({ fixedMarkupTOD: '' });
+		else await this.setSettings({ fixedMarkupTOD: val });
 		this.restartDevice(1000);
 	}
 
-	async setFixedMarkupNight(val) {
-		this.log('changing Night markup via flow', this.getName(), val);
-		await this.setSettings({ fixedMarkupNight: val });
+	async setFixedMarkupWeekend(val) {
+		this.log('changing Weekend markup via flow', this.getName(), val);
+		if (!Number.isFinite(val)) throw Error('value is not a number');
+		await this.setSettings({ fixedMarkupWeekend: val });
 		this.restartDevice(1000);
 	}
 
