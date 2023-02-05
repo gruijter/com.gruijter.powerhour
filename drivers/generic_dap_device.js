@@ -276,7 +276,7 @@ class MyDevice extends Homey.Device {
 		this.log(`${this.getName()} device settings changed by user`, newSettings);
 
 		if (changedKeys.includes('fixedMarkupTOD')) {
-			todMap(changedKeys.fixedMarkupTOD); // throw error when invalid
+			todMap(newSettings.fixedMarkupTOD); // throw error when invalid
 		}
 		if (changedKeys.includes('currency') || changedKeys.includes('decimals')) {
 			this.currencyChanged = true;

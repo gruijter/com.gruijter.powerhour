@@ -1,4 +1,7 @@
 {
+  "5.4.2": {
+    "en": "Fixed DAP Time Of Day markup settings."
+  },
   "5.4.1": {
     "en": "Fixed adding new Summarizer. Fixed gas/water Summarizer settings. homey-api@1.10.15"
   },
