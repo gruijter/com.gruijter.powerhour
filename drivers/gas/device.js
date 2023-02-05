@@ -46,6 +46,7 @@ class sumDriver extends GenericDevice {
 	// driver specific stuff below
 
 	async addListeners() {
+		this.sourceDevice = await this.homey.app.api.devices.getDevice({ id: this.getSettings().homey_device_id, $cache: false, $timeout: 20000 });
 		// make listener for meter_gas
 		if (this.sourceDevice.capabilities.includes('meter_gas')) {
 			this.log(`registering meter_gas capability listener for ${this.sourceDevice.name}`);

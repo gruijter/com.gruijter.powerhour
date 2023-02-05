@@ -53,8 +53,6 @@ class SumMeterDevice extends Device {
 				// check if source device exists
 				const sourceDeviceExists = this.sourceDevice && this.sourceDevice.capabilitiesObj; // && (this.sourceDevice.available !== null);
 				if (!sourceDeviceExists) throw Error(`Source device ${this.getName()} is missing. Retry in 10 minutes.`);
-				// check if source device is ready
-				if (!this.sourceDevice) throw Error(`Source device ${this.getName()} is not ready. Retry in 10 minutes.`);
 				// if (!this.sourceDevice || this.sourceDevice.ready !== true) throw Error(`Source device ${this.getName()} is not ready`);
 			} else this.log(this.getName(), 'Skipping setup of source device. Meter update is done via flow or from Homey Energy');
 
@@ -362,57 +360,64 @@ class SumMeterDevice extends Device {
 
 	// this method is called when the user has changed the device's settings in Homey.
 	async onSettings({ newSettings, changedKeys }) { // , oldSettings, changedKeys) {
-		if (!this.migrated || !this.initReady) throw Error('device is not ready. Ignoring new settings!');
+		if (!this.migrated) throw Error('device is not ready. Ignoring new settings!');
 		this.log(`${this.getName()} device settings changed by user`, newSettings);
 
-		const lastReadingDay = { ...this.lastReadingDay };
-		const lastReadingMonth = { ...this.lastReadingMonth };
-		const lastReadingYear = { ...this.lastReadingYear };
-
-		if (changedKeys.includes('meter_day_start')) {
-			lastReadingDay.meterValue = newSettings.meter_day_start;
-			await this.setStoreValue('lastReadingDay', lastReadingDay);
-		}
-		if (changedKeys.includes('meter_month_start')) {
-			lastReadingMonth.meterValue = newSettings.meter_month_start;
-			await this.setStoreValue('lastReadingMonth', lastReadingMonth);
-		}
-		if (changedKeys.includes('meter_year_start')) {
-			lastReadingYear.meterValue = newSettings.meter_year_start;
-			await this.setStoreValue('lastReadingYear', lastReadingYear);
-		}
-
-		const money = { ...this.meterMoney };
-		if (changedKeys.includes('meter_money_this_day')) {
-			money.day = newSettings.meter_money_this_day;
-		}
-		if (changedKeys.includes('meter_money_this_month')) {
-			money.month = newSettings.meter_money_this_month;
-		}
-		if (changedKeys.includes('meter_money_this_year')) {
-			money.year = newSettings.meter_money_this_year;
-		}
-		if (changedKeys.toString().includes('meter_money_last')) {
-			money.lastDay = newSettings.meter_money_last_day;
-			money.lastMonth = newSettings.meter_money_last_month;
-			money.lastYear = newSettings.meter_money_last_year;
-		}
-		if (changedKeys.toString().includes('meter_money_')) {
-			this.meterMoney = money;
+		if (this.lastReadingDay && this.lastReadingMonth && this.lastReadingYear) {
+			const lastReadingDay = { ...this.lastReadingDay };
+			const lastReadingMonth = { ...this.lastReadingMonth };
+			const lastReadingYear = { ...this.lastReadingYear };
+			if (changedKeys.includes('meter_day_start')) {
+				lastReadingDay.meterValue = newSettings.meter_day_start;
+				await this.setStoreValue('lastReadingDay', lastReadingDay);
+			}
+			if (changedKeys.includes('meter_month_start')) {
+				lastReadingMonth.meterValue = newSettings.meter_month_start;
+				await this.setStoreValue('lastReadingMonth', lastReadingMonth);
+			}
+			if (changedKeys.includes('meter_year_start')) {
+				lastReadingYear.meterValue = newSettings.meter_year_start;
+				await this.setStoreValue('lastReadingYear', lastReadingYear);
+			}
 		}
 
-		if (changedKeys.includes('start_date')) {
-			const now = new Date();
-			const nowLocal = new Date(now.toLocaleString('en-GB', { timeZone: this.timeZone }));
-			const thisMonth = nowLocal.getMonth();
-			const thisYear = nowLocal.getFullYear();
-			this.lastReadingMonth.month = thisMonth;
-			this.lastReadingYear.year = thisYear;
+		if (this.meterMoney) {
+			const money = { ...this.meterMoney };
+			if (changedKeys.includes('meter_money_this_day')) {
+				money.day = newSettings.meter_money_this_day;
+			}
+			if (changedKeys.includes('meter_money_this_month')) {
+				money.month = newSettings.meter_money_this_month;
+			}
+			if (changedKeys.includes('meter_money_this_year')) {
+				money.year = newSettings.meter_money_this_year;
+			}
+			if (changedKeys.toString().includes('meter_money_last')) {
+				money.lastDay = newSettings.meter_money_last_day;
+				money.lastMonth = newSettings.meter_money_last_month;
+				money.lastYear = newSettings.meter_money_last_year;
+			}
+			if (changedKeys.toString().includes('meter_money_')) {
+				this.meterMoney = money;
+			}
 		}
 
-		if (changedKeys.includes('tariff')) {
-			this.tariffHistory.current = newSettings.tariff;
-			await this.setStoreValue('tariffHistory', this.tariffHistory);
+		if (this.lastReadingMonth && this.lastReadingYear) {
+			if (changedKeys.includes('start_date')) {
+				const now = new Date();
+				const nowLocal = new Date(now.toLocaleString('en-GB', { timeZone: this.timeZone }));
+				const thisMonth = nowLocal.getMonth();
+				const thisYear = nowLocal.getFullYear();
+				this.lastReadingMonth.month = thisMonth;
+				this.lastReadingYear.year = thisYear;
+			}
+		}
+
+		if (this.tariffHistory) {
+			if (changedKeys.includes('tariff')) {
+				this.tariffHistory.current = newSettings.tariff;
+				await this.setStoreValue('tariffHistory', this.tariffHistory);
+			}
 		}
 
 		if (changedKeys.includes('currency') || changedKeys.includes('decimals')) {
@@ -548,7 +553,7 @@ class SumMeterDevice extends Device {
 
 		// PAIR init meter_power for use_measure_source
 		const meterX = await this.getCapabilityValue(this.ds.cmap.meter_source);
-		if (this.settings.use_measure_source && typeof meterX !== 'number') {
+		if ((this.settings.use_measure_source || this.settings.homey_energy) && typeof meterX !== 'number') {
 			this.log('meter kWh is set to 0 after device pair');
 			await this.setCapability(this.ds.cmap.meter_source, 0);
 		}

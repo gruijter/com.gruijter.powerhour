@@ -1,4 +1,7 @@
 {
+  "5.4.3": {
+    "en": "Fixed Virtual Summarizer settings. Fixed adding new Homey Energy devices."
+  },
   "5.4.2": {
     "en": "Fixed DAP Time Of Day markup settings."
   },
