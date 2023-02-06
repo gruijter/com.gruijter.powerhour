@@ -1,4 +1,7 @@
 {
+  "5.4.4": {
+    "en": "Fixed Summarizer that use Watt as source."
+  },
   "5.4.3": {
     "en": "Fixed Virtual Summarizer settings. Fixed adding new Homey Energy devices."
   },

@@ -82,6 +82,7 @@ class sumDevice extends GenericDevice {
 
 		// start listeners for HOMEY-API device
 		await this.addSourceCapGroup();
+		this.log(`registering meter_power capability listener for ${this.sourceDevice.name}`);
 		Object.keys(this.sourceCapGroup).forEach((key) => {
 			if (this.sourceCapGroup[key]) {
 				this.capabilityInstances[key] = this.sourceDevice.makeCapabilityInstance(this.sourceCapGroup[key], (value) => {

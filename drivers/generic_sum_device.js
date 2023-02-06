@@ -101,7 +101,7 @@ class SumMeterDevice extends Device {
 			}
 
 			// check settings for for water and gas
-			if (this.driver.id !== 'power ' && this.settings.use_measure_source) {
+			if (this.driver.id !== 'power' && this.settings.use_measure_source) {
 				this.log(this.getName(), 'fixing wrong use_measure_source setting');
 				await this.setSettings({ use_measure_source: false });
 				this.settings.use_measure_source = false;
