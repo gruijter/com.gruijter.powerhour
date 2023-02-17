@@ -16,7 +16,7 @@
     "url": "https://github.com/gruijter/com.gruijter.powerhour.git"
   },
   "dependencies": {
-    "homey-api": "^1.10.15",
+    "homey-api": "^1.10.18",
     "xml-js": "^1.6.11"
   }
 }

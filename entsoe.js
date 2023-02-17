@@ -23,7 +23,7 @@ const https = require('https');
 const parseXml = require('xml-js');
 // const util = require('util');
 
-const defaultHost = 'transparency.entsoe.eu';
+const defaultHost = 'web-api.tp.entsoe.eu'; // 'transparency.entsoe.eu';
 const defaultPort = 443;
 const defaultTimeout = 30000;
 
@@ -337,7 +337,7 @@ class ENTSOE {
 module.exports = ENTSOE;
 
 // // START TEST HERE
-// const Entsoe = new ENTSOE({ biddingZone: '10YNL----------L', apiKey: '' }); // '10Y1001A1001A82H'
+// const Entsoe = new ENTSOE({ biddingZone: '10YCZ-CEPS-----N', apiKey: '' }); // '10Y1001A1001A82H'
 // console.log('REMOVE APIKEY!!!!!');
 
 // // const today = new Date();

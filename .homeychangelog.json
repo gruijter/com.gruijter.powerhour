@@ -1,4 +1,7 @@
 {
+  "5.4.5": {
+    "en": "Fixed ENTSOE new API url. homey-api@1.10.18"
+  },
   "5.4.4": {
     "en": "Fixed Summarizer that use Watt as source."
   },
