@@ -27,6 +27,12 @@ const driverSpecifics = {
 		'meter_power.delivered', 'meter_power.import'],
 	sourceCapGroups: [
 		{
+			p1: 'meter_power.total_power', p2: null, n1: null, n2: null,	// huawei solar
+		},
+		{
+			p1: 'meter_power.t1', p2: 'meter_power.t2', n1: 'meter_power.rt1', n2: 'meter_power.rt2', // iungo
+		},
+		{
 			p1: 'meter_power', p2: null, n1: null, n2: null,	// youless
 		},
 		{

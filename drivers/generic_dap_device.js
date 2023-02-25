@@ -231,7 +231,7 @@ class MyDevice extends Homey.Device {
 		};
 		if (!currency || currency === '') options.units.en = '€';
 		if (!Number.isInteger(decimals)) options.units.decimals = 4;
-		const moneyCaps = this.getCapabilities().filter((name) => name.includes('price'));
+		const moneyCaps = this.driver.ds.deviceCapabilities.filter((name) => name.includes('price'));
 		for (let i = 0; i < moneyCaps.length; i += 1) {
 			this.log(`migrating ${moneyCaps[i]} to use ${options.units.en} and ${options.units.decimals} decimals`);
 			await this.setCapabilityOptions(moneyCaps[i], options).catch(this.error);
