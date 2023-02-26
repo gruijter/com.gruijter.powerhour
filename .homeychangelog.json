@@ -1,4 +1,7 @@
 {
+  "5.4.7": {
+    "en": "Summarizer: Fix manual money settings"
+  },
   "5.4.6": {
     "en": "Summarizer: Added kWh source support for Huawei solar and Iungo. Fix currency unit change. homey-api@1.10.20"
   },

@@ -379,6 +379,14 @@ class SumMeterDevice extends Device {
 			}
 			if (changedKeys.toString().includes('meter_money_')) {
 				this.meterMoney = money;
+				await this.setCapability('meter_money_last_day', money.lastDay);
+				await this.setCapability('meter_money_last_month', money.lastMonth);
+				await this.setCapability('meter_money_last_year', money.lastYear);
+				await this.setCapability('meter_money_this_day', money.day);
+				await this.setCapability('meter_money_this_month', money.month);
+				await this.setCapability('meter_money_this_year', money.year);
+				// await this.setCapability('meter_money_this_month_avg', moneyThisMonth / meterThisMonth);
+				// await this.setCapability('meter_money_this_year_avg', moneyThisMonth / meterThisMonth);
 			}
 		}
 
