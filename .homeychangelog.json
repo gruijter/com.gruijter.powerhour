@@ -1,4 +1,7 @@
 {
+  "5.4.8": {
+    "en": "DAP: Added flowcard price is one of highest/lowest coming hours."
+  },
   "5.4.7": {
     "en": "Summarizer: Fix manual money settings"
   },

@@ -420,6 +420,15 @@ class MyDevice extends Homey.Device {
 		return this.state.priceNow <= Math.max(...lowestNPrices);
 	}
 
+	async priceIsLowestNextHours(args) {
+		if (!this.state || !this.state.pricesNextHours) throw Error('no prices available');
+		// select number of coming hours
+		const comingXhours = [...this.state.pricesNextHours].slice(0, args.period);
+		// sort and select number of lowest prices
+		const lowestNPrices = comingXhours.sort().slice(0, args.number);
+		return this.state.priceNow <= Math.max(...lowestNPrices);
+	}
+
 	async priceIsLowestAvg(args) {
 		if (!this.state || !this.state.pricesThisDay) throw Error('no prices available');
 		// args.period: '8' or 'this_day'  // args.hours: '2', '3', '4', '5' or '6'
@@ -459,6 +468,15 @@ class MyDevice extends Homey.Device {
 		if (!this.state || !this.state.pricesThisDay) throw Error('no prices available');
 		// sort and select number of highest prices
 		const highestNPrices = [...this.state.pricesThisDay].sort().reverse().slice(0, args.number);
+		return this.state.priceNow >= Math.min(...highestNPrices);
+	}
+
+	async priceIsHighestNextHours(args) {
+		if (!this.state || !this.state.pricesNextHours) throw Error('no prices available');
+		// select number of coming hours
+		const comingXhours = [...this.state.pricesNextHours].slice(0, args.period);
+		// sort and select number of highest prices
+		const highestNPrices = comingXhours.sort().reverse().slice(0, args.number);
 		return this.state.priceNow >= Math.min(...highestNPrices);
 	}
 
@@ -682,11 +700,13 @@ class MyDevice extends Homey.Device {
 		let [priceNow] = selectPrices(this.prices, periods.hourStart, periods.tomorrowStart);
 		if (priceNow === undefined) priceNow = null;
 
-		// pricesNext8h, avg, lowest and highest
-		const pricesNext8h = this.prices
+		// pricesNext All Known Hours
+		const pricesNextHours = this.prices
 			.filter((hourInfo) => hourInfo.time >= periods.hourStart)
-			.slice(0, 8)
 			.map((hourInfo) => hourInfo.muPrice);
+
+		// pricesNext8h, avg, lowest and highest
+		const pricesNext8h = pricesNextHours.slice(0, 8);
 		const priceNext8hAvg = average(pricesNext8h);
 		const priceNext8hLowest = Math.min(...pricesNext8h);
 		const hourNext8hLowest = (H0 + pricesNext8h.indexOf(priceNext8hLowest)) % 24;
@@ -718,6 +738,8 @@ class MyDevice extends Homey.Device {
 			hourThisDayLowest,
 			priceThisDayHighest,
 			hourThisDayHighest,
+
+			pricesNextHours,
 
 			pricesNext8h,
 			priceNext8hAvg,

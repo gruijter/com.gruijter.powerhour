@@ -209,6 +209,9 @@ class MyApp extends Homey.App {
 		const priceLowestTodayCondition = this.homey.flow.getConditionCard('price_lowest_today');
 		priceLowestTodayCondition.registerRunListener((args) => args.device.priceIsLowestToday(args));
 
+		const priceLowestNextHoursCondition = this.homey.flow.getConditionCard('price_lowest_next_hours');
+		priceLowestNextHoursCondition.registerRunListener((args) => args.device.priceIsLowestNextHours(args));
+
 		const priceLowestBeforeCondition = this.homey.flow.getConditionCard('price_lowest_before');
 		priceLowestBeforeCondition.registerRunListener((args) => args.device.priceIsLowestBefore(args));
 
@@ -223,6 +226,9 @@ class MyApp extends Homey.App {
 
 		const priceHighestTodayCondition = this.homey.flow.getConditionCard('price_highest_today');
 		priceHighestTodayCondition.registerRunListener((args) => args.device.priceIsHighestToday(args));
+
+		const priceHighestNextHoursCondition = this.homey.flow.getConditionCard('price_highest_next_hours');
+		priceHighestNextHoursCondition.registerRunListener((args) => args.device.priceIsHighestNextHours(args));
 
 		const priceHighestBeforeCondition = this.homey.flow.getConditionCard('price_highest_before');
 		priceHighestBeforeCondition.registerRunListener((args) => args.device.priceIsHighestBefore(args));
