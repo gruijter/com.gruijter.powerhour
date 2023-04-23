@@ -1,7 +1,7 @@
 {
   "_comment": "This file is generated. Please edit .homeycompose/app.json instead.",
   "id": "com.gruijter.powerhour",
-  "version": "5.4.8",
+  "version": "5.5.0",
   "compatibility": ">=8.0.0",
   "brandColor": "#df5020",
   "sdk": 3,
@@ -46,7 +46,9 @@
       "utility bill",
       "stromregning",
       "rekening",
-      "tibber"
+      "tibber",
+      "battery",
+      "storage"
     ]
   },
   "permissions": [
@@ -1310,6 +1312,67 @@
           }
         ],
         "id": "price_above_avg"
+      },
+      {
+        "title": {
+          "en": "The price !{{is|isn't}} best for (dis)charging home battery.",
+          "nl": "De prijs !{{is|is niet}} het beste om thuisbatterij te (ont)laden."
+        },
+        "titleFormatted": {
+          "en": "The price !{{is|isn't}} best to [[strat]] home battery with mimimum [[minPriceDelta]]€ price delta.",
+          "nl": "De prijs !{{is|is niet}} het beste om thuisbatterij te [[strat]] met minimaal [[minPriceDelta]]€ prijsverschil."
+        },
+        "hint": {
+          "en": "The strategy is ao calculated using the known future hourly prices and the minimum price difference between highest and lowest prices.",
+          "nl": "De strategie wordt o.a. berekend met behulp van alle bekende toekomstige prijzen en het minimale prijsverschil tussen hoogste en laagste prijs."
+        },
+        "highlight": true,
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=battery"
+          },
+          {
+            "type": "number",
+            "name": "minPriceDelta",
+            "title": {
+              "en": "price delta",
+              "nl": "prijsverschil"
+            },
+            "placeholder": {
+              "en": "> 0.05"
+            },
+            "min": 0.05,
+            "max": 1,
+            "value": 0.1
+          },
+          {
+            "type": "dropdown",
+            "name": "strat",
+            "title": {
+              "en": "(dis)charge",
+              "nl": "(ont)laden"
+            },
+            "values": [
+              {
+                "id": "1",
+                "label": {
+                  "en": "discharge",
+                  "nl": "ontladen"
+                }
+              },
+              {
+                "id": "-1",
+                "label": {
+                  "en": "charge",
+                  "nl": "laden"
+                }
+              }
+            ]
+          }
+        ],
+        "id": "price_batt_best_trade"
       },
       {
         "title": {
@@ -2736,6 +2799,377 @@
     ]
   },
   "drivers": [
+    {
+      "name": {
+        "en": "Home Battery Monitor",
+        "nl": "Thuisbatterij Monitor"
+      },
+      "class": "other",
+      "capabilities": [],
+      "capabilitiesOptions": {
+        "meter_tariff": {
+          "decimals": 2,
+          "units": {
+            "en": "€"
+          }
+        },
+        "meter_money_this_day": {
+          "decimals": 2,
+          "units": {
+            "en": "€"
+          }
+        },
+        "meter_money_last_day": {
+          "decimals": 2,
+          "units": {
+            "en": "€"
+          }
+        },
+        "meter_money_this_month": {
+          "decimals": 2,
+          "units": {
+            "en": "€"
+          }
+        },
+        "meter_money_last_month": {
+          "decimals": 2,
+          "units": {
+            "en": "€"
+          }
+        },
+        "meter_money_this_year": {
+          "decimals": 2,
+          "units": {
+            "en": "€"
+          }
+        },
+        "meter_money_last_year": {
+          "decimals": 2,
+          "units": {
+            "en": "€"
+          }
+        }
+      },
+      "platforms": [
+        "local"
+      ],
+      "connectivity": [],
+      "images": {
+        "small": "/drivers/battery/assets/images/small.png",
+        "large": "/drivers/battery/assets/images/large.png"
+      },
+      "pair": [
+        {
+          "id": "list_devices",
+          "template": "list_devices",
+          "navigation": {
+            "next": "add_devices"
+          },
+          "options": {
+            "singular": true
+          }
+        },
+        {
+          "id": "add_devices",
+          "template": "add_devices"
+        }
+      ],
+      "settings": [
+        {
+          "type": "group",
+          "label": {
+            "en": "Homey source device information",
+            "no": "Homey kildeenhetsinformasjon",
+            "de": "Informationen zum Homey Gerät",
+            "sv": "Homey källenhetsinformation",
+            "it": "Informazioni dispositivo sorgente Homey",
+            "fr": "Informations sur l'appareil source Homey",
+            "nl": "Homey bronapparaat informatie"
+          },
+          "children": [
+            {
+              "id": "homey_device_id",
+              "type": "label",
+              "label": {
+                "en": "Device ID",
+                "no": "Enhets ID",
+                "de": "Geräte ID",
+                "sv": "Enhets ID",
+                "it": "ID dispositivo",
+                "fr": "ID de l'appareil",
+                "nl": "Apparaat ID"
+              },
+              "value": "unknown"
+            },
+            {
+              "id": "homey_device_name",
+              "type": "label",
+              "label": {
+                "en": "Device name",
+                "no": "Enhets navn",
+                "de": "Gerätename",
+                "sv": "Enhets namn",
+                "it": "Nome dispositivo",
+                "fr": "Nom de l'appareil",
+                "nl": "Apparaat naam"
+              },
+              "value": "unknown"
+            }
+          ]
+        },
+        {
+          "type": "group",
+          "label": {
+            "en": "Battery properties",
+            "nl": "Batterij eigenschappen"
+          },
+          "children": [
+            {
+              "id": "batCapacity",
+              "type": "number",
+              "label": {
+                "en": "Capacity (kWh)",
+                "nl": "Capaciteit (kWh)"
+              },
+              "value": 5.05,
+              "decimals": 2,
+              "hint": {
+                "en": "Total storage capacity in kWh.",
+                "nl": "Totale opslag capaciteit in kWh."
+              }
+            },
+            {
+              "id": "chargePower",
+              "type": "number",
+              "label": {
+                "en": "Charging power (W)",
+                "nl": "Laadvermogen (W)"
+              },
+              "value": 2150,
+              "min": 0,
+              "decimals": 0,
+              "hint": {
+                "en": "The power at which the battery is charged in Watts.",
+                "nl": "Het vermogen waarmee de batterij wordt geladen in Watt."
+              }
+            },
+            {
+              "id": "dischargePower",
+              "type": "number",
+              "label": {
+                "en": "Discharging power (W)",
+                "nl": "Ontlaadvermogen (W)"
+              },
+              "value": 1750,
+              "min": 0,
+              "decimals": 0,
+              "hint": {
+                "en": "The power at which the battery is discharged in Watts.",
+                "nl": "Het vermogen waarmee de batterij wordt ontladen in Watt."
+              }
+            }
+          ]
+        },
+        {
+          "type": "group",
+          "label": {
+            "en": "(Dis)charge Power correction",
+            "nl": "(Ont)laadvermogen correctie"
+          },
+          "children": [
+            {
+              "id": "ownPowerStandby",
+              "type": "number",
+              "label": {
+                "en": "Own use when idle (W)",
+                "nl": "Eigen verbruik in rust (W)"
+              },
+              "value": 2.5,
+              "min": 0,
+              "decimals": 1,
+              "hint": {
+                "en": "Own power usage not reported by the battery.",
+                "nl": "Eigen verbruik niet gerapporteerd door de batterij."
+              }
+            },
+            {
+              "id": "ownPowerOn",
+              "type": "number",
+              "label": {
+                "en": "Own use when (dis)charging (W)",
+                "nl": "Eigen verbruik bij (ont)laden (W)"
+              },
+              "value": 35,
+              "min": 0,
+              "decimals": 1,
+              "hint": {
+                "en": "Own power usage not reported by the battery.",
+                "nl": "Eigen verbruik niet gerapporteerd door de batterij."
+              }
+            },
+            {
+              "id": "chargeLoss",
+              "type": "number",
+              "label": {
+                "en": "Extra loss during charging (%)",
+                "nl": "Extra verlies tijdens laden (%)"
+              },
+              "min": 0,
+              "max": 30,
+              "value": 9.7,
+              "decimals": 2,
+              "hint": {
+                "en": "Extra power loss not reported by the battery.",
+                "nl": "Extra verlies niet gerapporteerd door de batterij."
+              }
+            },
+            {
+              "id": "dischargeLoss",
+              "type": "number",
+              "label": {
+                "en": "Extra loss during discharging (%)",
+                "nl": "Extra verlies tijdens ontladen (%)"
+              },
+              "min": 0,
+              "max": 30,
+              "value": 7.7,
+              "decimals": 2,
+              "hint": {
+                "en": "Extra power loss not reported by the battery.",
+                "nl": "Extra verlies niet gerapporteerd door de batterij."
+              }
+            }
+          ]
+        },
+        {
+          "type": "group",
+          "label": {
+            "en": "Monetary value",
+            "de": "Geldbetrag",
+            "sv": "Penningvärde",
+            "it": "Valore monetario",
+            "no": "Kostnad",
+            "fr": "Valeur monétaire",
+            "nl": "Geldwaarde"
+          },
+          "children": [
+            {
+              "id": "tariff_update_group",
+              "type": "number",
+              "label": {
+                "en": "Tariff update group (DAP)",
+                "nl": "Tarief update groep (DAP)"
+              },
+              "hint": {
+                "en": "Group number for getting new tariffs via DAP.",
+                "nl": "Groepnummer voor het krijgen van de tarieven via DAP."
+              },
+              "value": 1,
+              "min": 0,
+              "max": 10,
+              "step": 1
+            },
+            {
+              "id": "meter_money_this_month",
+              "type": "number",
+              "label": {
+                "en": "Monetary value of this month",
+                "de": "Geldbetrag des Monats",
+                "sv": "Denna månads monetära värde",
+                "it": "Valore monetario mese corrente",
+                "no": "Kostnad denne måned",
+                "fr": "Valeur monétaire de ce mois",
+                "nl": "Geldwaarde van deze maand"
+              },
+              "value": 0,
+              "decimals": 4,
+              "hint": {
+                "en": "Actual monetary value. It is automatically updated.",
+                "de": "Aktueller Geldbetrag. Er wird automatisch aktualisiert.",
+                "sv": "Faktiskt penningvärde. Den uppdateras automatiskt.",
+                "it": "Valore monetario attuale. Viene aggiornato automaticamente.",
+                "no": "Aktuell kostnad. Blir automatisk oppdatert",
+                "fr": "Valeur monétaire actuelle. Elle est mise à jour automatiquement",
+                "nl": "Actuele geldwaarde. Wordt automatisch geupdated."
+              }
+            },
+            {
+              "id": "meter_money_this_year",
+              "type": "number",
+              "label": {
+                "en": "Monetary value of this year",
+                "de": "Geldbetrag des Jahres",
+                "sv": "Årets monetära värde",
+                "it": "Valore monetario anno corrente",
+                "no": "Kostnad dette år",
+                "fr": "Valeur monétaire de cette année",
+                "nl": "Geldwaarde van dit jaar"
+              },
+              "value": 0,
+              "decimals": 4,
+              "hint": {
+                "en": "Actual monetary value. It is automatically updated.",
+                "de": "Aktueller Geldbetrag. Er wird automatisch aktualisiert.",
+                "sv": "Faktiskt penningvärde. Den uppdateras automatiskt.",
+                "it": "Valore monetario attuale. Viene aggiornato automaticamente.",
+                "no": "Aktuell kostnad. Blir automatisk oppdatert",
+                "fr": "Valeur monétaire actuelle. Elle est mise à jour automatiquement",
+                "nl": "Actuele geldwaarde. Wordt automatisch geupdated."
+              }
+            },
+            {
+              "id": "meter_money_last_month",
+              "type": "number",
+              "label": {
+                "en": "Monetary value prev. month",
+                "de": "Geldbetrag des Vormonats",
+                "sv": "Monetärt värde föregående månad",
+                "it": "Valore monetario mese prec.",
+                "no": "Kostnad forrige måned",
+                "fr": "Valeur monétaire du mois dernier",
+                "nl": "Geldwaarde van vorige maand"
+              },
+              "value": 0,
+              "decimals": 4,
+              "hint": {
+                "en": "Monetary value of the previous month. It is automatically updated.",
+                "de": "Geldbetrag des Vormonats. Er wird automatisch aktualisiert.",
+                "sv": "Föregående månads monetära värde. Den uppdateras automatiskt.",
+                "it": "Valore monetario mese precedenre. Viene aggiornato automaticamente.",
+                "no": "Kostnad forrige måned. Blir automatisk oppdatert",
+                "fr": "Valeur monétaire du mois dernier. Elle est mise à jour automatiquement",
+                "nl": "Geldwaarde van de vorige maand. Wordt automatisch geupdated."
+              }
+            },
+            {
+              "id": "meter_money_last_year",
+              "type": "number",
+              "label": {
+                "en": "Monetary value prev. year",
+                "de": "Geldbetrag des Vorjahres",
+                "sv": "Monetärt värde föregående år",
+                "it": "Valore monetario anno prec.",
+                "no": "Kostnad forrige år",
+                "fr": "Valeur monétaire de l'année dernière",
+                "nl": "Geldwaarde van vorig jaar"
+              },
+              "value": 0,
+              "decimals": 4,
+              "hint": {
+                "en": "Monetary value of the previous year. It is automatically updated.",
+                "de": "Geldbetrag des Vorjahres. Er wird automatisch aktualisiert.",
+                "sv": "Föregående års monetära värde. Den uppdateras automatiskt.",
+                "it": "Valore monetario anno precedenre. Viene aggiornato automaticamente.",
+                "no": "Kostnad forrige år. Blir automatisk oppdatert",
+                "fr": "Valeur monétaire de l'année dernière. Elle est mise à jour automatiquement",
+                "nl": "Geldwaarde van het vorige jaar. Wordt automatisch geupdated."
+              }
+            }
+          ]
+        }
+      ],
+      "id": "battery"
+    },
     {
       "name": {
         "en": "Day-Ahead E Prices",
@@ -6379,6 +6813,38 @@
       },
       "decimals": 2
     },
+    "meter_kwh_charging": {
+      "type": "number",
+      "title": {
+        "en": "Charging Total",
+        "nl": "Laden Totaal"
+      },
+      "uiComponent": "sensor",
+      "icon": "/assets/charged.svg",
+      "getable": true,
+      "setable": false,
+      "insights": true,
+      "units": {
+        "en": "kWh"
+      },
+      "decimals": 2
+    },
+    "meter_kwh_discharging": {
+      "type": "number",
+      "title": {
+        "en": "Discharging Total",
+        "nl": "Ontladen Totaal"
+      },
+      "uiComponent": "sensor",
+      "icon": "/assets/discharged.svg",
+      "getable": true,
+      "setable": false,
+      "insights": true,
+      "units": {
+        "en": "kWh"
+      },
+      "decimals": 2
+    },
     "meter_kwh_last_day": {
       "type": "number",
       "title": {
@@ -6466,6 +6932,22 @@
         "en": "kWh"
       },
       "decimals": 4
+    },
+    "meter_kwh_stored": {
+      "type": "number",
+      "title": {
+        "en": "Stored",
+        "nl": "Opgeslagen"
+      },
+      "uiComponent": "sensor",
+      "icon": "/assets/stored.svg",
+      "getable": true,
+      "setable": false,
+      "insights": true,
+      "units": {
+        "en": "kWh"
+      },
+      "decimals": 2
     },
     "meter_kwh_this_day": {
       "type": "number",
@@ -6960,6 +7442,28 @@
       "getable": true,
       "setable": false,
       "uiComponent": "sensor"
+    },
+    "meter_power_hidden": {
+      "type": "number",
+      "title": {
+        "en": "Energy",
+        "nl": "Energie",
+        "de": "Energie",
+        "fr": "Énergie",
+        "it": "Energia",
+        "sv": "Energi",
+        "no": "Energi",
+        "es": "Energía",
+        "da": "Energi"
+      },
+      "decimals": 4,
+      "units": {
+        "en": "kWh"
+      },
+      "insights": true,
+      "getable": true,
+      "setable": false,
+      "uiComponent": null
     },
     "meter_price_h0": {
       "type": "number",

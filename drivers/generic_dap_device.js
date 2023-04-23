@@ -788,7 +788,7 @@ class MyDevice extends Homey.Device {
 			// send tariff to power or gas summarizer driver
 			const sendTo = (this.driver.ds.driverId === 'dapg') ? 'set_tariff_gas' : 'set_tariff_power';
 			const group = this.settings.tariff_update_group;
-			if (group) this.homey.emit(sendTo, { tariff: this.state.priceNow, group });
+			if (group) this.homey.emit(sendTo, { tariff: this.state.priceNow, pricesNextHours: this.state.pricesNextHours, group });
 
 			// trigger new prices received right after midnight
 			if (this.state.H0 === 0) {

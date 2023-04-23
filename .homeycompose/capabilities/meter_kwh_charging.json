@@ -1,0 +1,16 @@
+{
+  "type": "number",
+  "title": {
+    "en": "Charging Total",
+    "nl": "Laden Totaal"
+  },
+  "uiComponent": "sensor",
+  "icon": "/assets/charged.svg",
+  "getable": true,
+  "setable": false,
+  "insights": true,
+  "units": {
+    "en": "kWh"
+  },
+  "decimals": 2
+}

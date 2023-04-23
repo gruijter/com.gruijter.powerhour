@@ -1,4 +1,7 @@
 {
+  "5.5.0": {
+    "en": "Added new device type for Energy Storage Systems (Home Battery)."
+  },
   "5.4.8": {
     "en": "DAP: Added flowcard price is one of highest/lowest coming hours."
   },

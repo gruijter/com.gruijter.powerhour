@@ -239,6 +239,9 @@ class MyApp extends Homey.App {
 		const priceAboveAvgCondition = this.homey.flow.getConditionCard('price_above_avg');
 		priceAboveAvgCondition.registerRunListener((args) => args.device.priceIsAboveAvg(args));
 
+		const priceBattBestTradeCondition = this.homey.flow.getConditionCard('price_batt_best_trade');
+		priceBattBestTradeCondition.registerRunListener((args) => args.device.priceBattBestTrade(args));
+
 		// action cards
 		const setTariffPower = this.homey.flow.getActionCard('set_tariff_power');
 		setTariffPower

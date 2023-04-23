@@ -160,18 +160,18 @@ module.exports = Easyenergy;
 // // START TEST HERE
 // const easyEnergy = new Easyenergy();
 
-// // const today = new Date();
-// // today.setHours(0);
-// // const yesterday = new Date(today);
-// // const tomorrow = new Date(today);
-// // yesterday.setDate(yesterday.getDate() - 1);
-// // tomorrow.setDate(tomorrow.getDate() + 1);
+// const today = new Date();
+// today.setHours(0);
+// const yesterday = new Date(today);
+// const tomorrow = new Date(today);
+// yesterday.setDate(yesterday.getDate() - 1);
+// tomorrow.setDate(tomorrow.getDate() + 1);
 
-// const dateStart = '2023-01-06T23:00:00.000Z';
-// const dateEnd = '2023-01-08T23:00:00.000Z';
-// easyEnergy.getPrices({ dateStart, dateEnd })
+// // const dateStart = '2023-01-06T23:00:00.000Z';
+// // const dateEnd = '2023-01-08T23:00:00.000Z';
+// // easyEnergy.getPrices({ dateStart, dateEnd })
 
-// // easyEnergy.getPrices({ dateStart: today, dateEnd: tomorrow })
+// easyEnergy.getPrices({ dateStart: today, dateEnd: tomorrow })
 // 	.then((result) => console.dir(result, { depth: null }))
 // 	.catch((error) => console.log(error));
 

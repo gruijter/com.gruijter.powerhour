@@ -1,0 +1,56 @@
+{
+	"title": {
+		"en": "The price !{{is|isn't}} best for (dis)charging home battery.",
+		"nl": "De prijs !{{is|is niet}} het beste om thuisbatterij te (ont)laden."
+	},
+	"titleFormatted": {
+		"en": "The price !{{is|isn't}} best to [[strat]] home battery with mimimum [[minPriceDelta]]€ price delta.",
+		"nl": "De prijs !{{is|is niet}} het beste om thuisbatterij te [[strat]] met minimaal [[minPriceDelta]]€ prijsverschil."
+	},
+	"hint": {
+		"en": "The strategy is ao calculated using the known future hourly prices and the minimum price difference between highest and lowest prices.",
+		"nl": "De strategie wordt o.a. berekend met behulp van alle bekende toekomstige prijzen en het minimale prijsverschil tussen hoogste en laagste prijs."
+	},
+	"highlight": true,
+	"args": [
+		{
+		  "type": "device",
+		  "name": "device",
+		  "filter": "driver_id=battery"
+		},
+		{
+			"type": "number",
+			"name": "minPriceDelta",
+			"title": { 
+				"en": "price delta",
+				"nl": "prijsverschil"
+			},
+			"placeholder": { "en": "> 0.05" },
+			"min": 0.05,
+			"max": 1,
+			"value": 0.1
+		},
+		{
+			"type": "dropdown",
+			"name": "strat",
+			"title": { 
+				"en": "(dis)charge",
+				"nl": "(ont)laden"
+			},
+			"values": [
+				{	"id": "1",
+					"label": { 
+						"en": "discharge",
+						"nl": "ontladen"
+					}
+				},
+				{	"id": "-1",
+					"label": { 
+						"en": "charge",
+						"nl": "laden"
+					}
+				}
+			]
+		}
+	]
+}

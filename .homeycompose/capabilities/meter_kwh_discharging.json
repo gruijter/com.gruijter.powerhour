@@ -1,0 +1,16 @@
+{
+  "type": "number",
+  "title": {
+    "en": "Discharging Total",
+    "nl": "Ontladen Totaal"
+  },
+  "uiComponent": "sensor",
+  "icon": "/assets/discharged.svg",
+  "getable": true,
+  "setable": false,
+  "insights": true,
+  "units": {
+    "en": "kWh"
+  },
+  "decimals": 2
+}

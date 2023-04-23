@@ -1,0 +1,22 @@
+{
+    "type": "number",
+    "title": {
+      "en": "Energy",
+      "nl": "Energie",
+      "de": "Energie",
+      "fr": "Énergie",
+      "it": "Energia",
+      "sv": "Energi",
+      "no": "Energi",
+      "es": "Energía",
+      "da": "Energi"
+    },
+    "decimals": 4,
+    "units": {
+      "en": "kWh"
+    },
+    "insights": true,
+    "getable": true,
+    "setable": false,
+    "uiComponent": null
+  }
