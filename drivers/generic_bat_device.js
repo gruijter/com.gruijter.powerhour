@@ -334,6 +334,9 @@ class batDevice extends Device {
 			if (cap === 'productionPower') {
 				this.updateMeterFromMeasure(val);
 			}
+			if (cap === 'usagePower') {
+				this.updateMeterFromMeasure(-val);
+			}
 		} catch (error) {
 			this.error(error);
 		}

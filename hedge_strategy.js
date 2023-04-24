@@ -22,9 +22,9 @@ along with com.gruijter.powerhour.  If not, see <http://www.gnu.org/licenses/>.
 // returns the best trading strategy for the first hour	// sell = 1 | hold = 0 | buy = -1
 const getStrategy = ({
 	prices,	// array of hourly prices, e.g. [0.331, 0.32, 0.322, 0.32, 0.328, 0.339, 0.429, 0.331, 0.32, 0.322, 0.32, 0.328, 0.339, 0.429];
-	minPriceDelta = 0.08,	// mimimum price difference from highest or lowest price to sell/buy
+	minPriceDelta = 0.1,	// mimimum price difference from highest or lowest price to sell/buy
 	soc = 0,	// Battery State of Charge at start of first hour
-	batCapacity = 5.2, // in kWh
+	batCapacity = 5.05, // in kWh
 	chargePower = 2000, // in Watt
 	dischargePower = 1700, // in Watt
 }) => {
@@ -38,7 +38,7 @@ const getStrategy = ({
 	const minPrice = Math.min(...prices);
 	// limit search to the first 10 peaks/troughs
 	const peakPrices = prices
-		.filter((price) => (price - minPrice) > minPriceDelta || (maxPrice - price) > minPriceDelta)
+		.filter((price) => (price - minPrice) > minPriceDelta * 0.7 || (maxPrice - price) > minPriceDelta)
 		.slice(0, 10);
 	if (peakPrices[0] !== prices[0]) return 0; // return Hold strategy if first hour is not a peak price
 

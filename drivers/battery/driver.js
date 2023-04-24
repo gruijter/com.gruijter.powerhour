@@ -28,6 +28,9 @@ const driverSpecifics = {
 		{
 			soc: 'measure_battery', productionPower: 'measure_power', chargeMode: 'charge_mode',	// Sessy
 		},
+		{
+			soc: 'measure_battery_soc', usagePower: 'measure_battery_power',	// Solax
+		},
 	],
 	deviceCapabilities: [
 		'measure_watt_avg', 'meter_kwh_stored',
