@@ -28,20 +28,36 @@ const getStrategy = ({
 	chargePower = 2000, // in Watt
 	dischargePower = 1700, // in Watt
 }) => {
-	// calculate charge speeds as percentage per hour
-	const chargeSpeed = chargePower / (batCapacity * 10); // % per hour
-	const dischargeSpeed = dischargePower / (batCapacity * 10); // % per hour
-
-	// calculate min/max/avg prices of all given prices
-	const avgPrice = prices.reduce((a, b) => (a + b)) / prices.length;
-	const maxPrice = Math.max(...prices);
-	const minPrice = Math.min(...prices);
-	// limit search to the first 10 peaks/troughs
-	const peakPrices = prices
-		.filter((price) => (price - minPrice) > minPriceDelta * 0.7 || (maxPrice - price) > minPriceDelta)
+	// limit to max 48 future prices
+	const prcs = [...prices].slice(0, 48);
+	// find max 8 peaks and 8 troughs per 24 hrs
+	const sortedPrices = [...prcs].sort((a, b) => b - a);
+	const peaks = [...sortedPrices]
+		.slice(0, Math.ceil(prcs.length / 3))
+		.reverse();
+	const troughs = [...sortedPrices]
+		.reverse()
+		.slice(0, Math.ceil(prcs.length / 3))
+		.reverse();
+	// limit search to the first 10 peaks/troughs that have min delta
+	const peakPrices = prcs
+		.filter((price, idx) => {
+			const futureMin = Math.min(...[...prcs].slice(idx));
+			const futureMax = Math.max(...[...prcs].slice(idx));
+			return (price >= peaks[0] && (price - futureMin) > minPriceDelta * 0.7)
+			|| (price <= troughs[0] && (futureMax - price) > minPriceDelta);
+		})
 		.slice(0, 10);
 	if (peakPrices[0] !== prices[0]) return 0; // return Hold strategy if first hour is not a peak price
 
+	// calculate charge speeds as percentage per hour
+	const chargeSpeed = chargePower / (batCapacity * 10); // % per hour
+	const dischargeSpeed = dischargePower / (batCapacity * 10); // % per hour
+	const batCapPerc = batCapacity / 100;
+	// calculate average prices
+	const avgPrice = prcs.reduce((a, b) => (a + b)) / prcs.length;
+	const avgPeakPrice = peakPrices.reduce((a, b) => (a + b)) / peakPrices.length;
+	// console.log(prcs, peaks, troughs, peakPrices, avgPeakPrice);
 	const startState = {
 		profit: 0,
 		prices: peakPrices,
@@ -52,8 +68,8 @@ const getStrategy = ({
 	const stateAfter = (stateBefore) => {
 		const price = stateBefore.prices.shift();
 		const strat = [0]; // standard strategy = hold;
-		if ((price - minPrice) > minPriceDelta) strat.push(1); // add sell strategy
-		if ((maxPrice - price) > minPriceDelta) strat.push(-1); // add buy strategy
+		if (price >= avgPeakPrice) strat.push(1); // add sell strategy
+		if (price <= avgPeakPrice) strat.push(-1); // add buy strategy
 		// run all 3 strategies
 		strat.forEach((strategy) => {
 			if (price === undefined) return null;
@@ -63,13 +79,13 @@ const getStrategy = ({
 			// sell
 			if (strategy > 0 && afterState.soc > 0)	{ // can only sell when there is enough charge
 				const sellingPercent = afterState.soc < dischargeSpeed ? afterState.soc : dischargeSpeed;
-				afterState.profit += (sellingPercent / 100) * batCapacity * price;
+				afterState.profit += sellingPercent * batCapPerc * price;
 				afterState.soc -= sellingPercent;
 			}
 			// buy
 			if (strategy < 0 && afterState.soc < 100)	{	// can only buy when batt is not full
 				const buyingPercent = chargeSpeed > (100 - afterState.soc) ? (100 - afterState.soc) : chargeSpeed;
-				afterState.profit -= (buyingPercent / 100) * batCapacity * price;
+				afterState.profit -= buyingPercent * batCapPerc * price;
 				afterState.soc += buyingPercent;
 			}
 			// hold
@@ -82,7 +98,7 @@ const getStrategy = ({
 		if (price === undefined) {
 			const finished = JSON.parse(JSON.stringify(stateBefore));
 			// add value of soc
-			finished.socValue = (finished.soc / 100) * batCapacity * avgPrice; // value the soc against avg price
+			finished.socValue = finished.soc * batCapPerc * avgPrice; // value the soc against avg price
 			allResults.push(finished);
 		}
 	};
@@ -90,13 +106,15 @@ const getStrategy = ({
 	stateAfter(startState);
 	const sorted = allResults.sort((a, b) => (b.profit + b.socValue) - (a.profit + a.socValue));
 	// console.dir(sorted, { depth: null });
+	// console.log('tested:', sorted.length);
 	// console.log('best strat:', sorted[0]);
 	return sorted[0].hourlyStrat[0][prices[0]];
 };
 
 // TEST
 // const prices = [0.331, 0.32, 0.322, 0.32, 0.328, 0.339, 0.429, 0.331, 0.32, 0.322, 0.32, 0.328, 0.339, 0.429];
-// console.dir(getStrategy({ prices, soc: 50 }), { depth: null });
+// const prices = [0.16, 0.17, 0.16, 0.13, 0.12, 0.12, 0.12, 0.12, 0.11, 0.11, 0.12, 0.15, 0.16, 0.16, 0.12, 0.10, 0.07, 0.04, 0.02, 0.01, 0.01, 0.06, 0.08, 0.11, 0.16, 0.17, 0.17, 0.17, 0.16];
+// console.dir(getStrategy({ prices, soc: 100 }), { depth: null });
 
 module.exports = {
 	getStrategy,
