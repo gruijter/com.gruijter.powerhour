@@ -2,7 +2,8 @@
   "type": "number",
   "title": {
     "en": "Discharging Total",
-    "nl": "Ontladen Totaal"
+    "nl": "Ontladen Totaal",
+    "de": "Entladung Gesamt"
   },
   "uiComponent": "sensor",
   "icon": "/assets/discharged.svg",
