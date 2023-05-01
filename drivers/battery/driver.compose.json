@@ -1,7 +1,8 @@
 {
   "name": {
     "en": "Home Battery Monitor",
-    "nl": "Thuisbatterij Monitor"
+    "nl": "Thuisbatterij Monitor",
+    "de": "Batteriespeicherüberwachung"
   },
   "class": "other",
   "capabilities": [],
@@ -106,7 +107,8 @@
 			"type": "group",
 			"label": {
 				"en": "Battery properties",
-				"nl": "Batterij eigenschappen"
+				"nl": "Batterij eigenschappen",
+				"de": "Batterie Eigenschaften"
 			},
 			"children": [
 				{
@@ -114,13 +116,15 @@
 					"type": "number",
 					"label": {
 						"en": "Capacity (kWh)",
-						"nl": "Capaciteit (kWh)"
+						"nl": "Capaciteit (kWh)",
+						"de": "Kapazität (kWh)"
 					},
 					"value": 5.05,
 					"decimals": 2,
 					"hint": {
 						"en": "Total storage capacity in kWh.",
-						"nl": "Totale opslag capaciteit in kWh."
+						"nl": "Totale opslag capaciteit in kWh.",
+						"de": "Gesamte Speicherkapazität in kWh."
 					}
 				},
 
@@ -129,14 +133,16 @@
 				"type": "number",
 				"label": {
 					"en": "Charging power (W)",
-					"nl": "Laadvermogen (W)"
+					"nl": "Laadvermogen (W)",
+					"de": "Ladeleistung (W)"
 				},
 				"value": 2150,
 				"min": 0,
 				"decimals": 0,
 				"hint": {
 					"en": "The power at which the battery is charged in Watts.",
-					"nl": "Het vermogen waarmee de batterij wordt geladen in Watt."
+					"nl": "Het vermogen waarmee de batterij wordt geladen in Watt.",
+					"de": "Die Leistung in Watt, mit der die Batterie geladen wird."
 				}
 			},
 	{
@@ -144,14 +150,16 @@
 				"type": "number",
 				"label": {
 					"en": "Discharging power (W)",
-					"nl": "Ontlaadvermogen (W)"
+					"nl": "Ontlaadvermogen (W)",
+					"de": "Entladungsleistung (W)"
 				},
 				"value": 1750,
 				"min": 0,
 				"decimals": 0,
 				"hint": {
 					"en": "The power at which the battery is discharged in Watts.",
-					"nl": "Het vermogen waarmee de batterij wordt ontladen in Watt."
+					"nl": "Het vermogen waarmee de batterij wordt ontladen in Watt.",
+					"de": "Die Leistung in Watt, mit der die Batterie entladen wird."
 				}
 			}
       ]
@@ -160,7 +168,8 @@
 			"type": "group",
 			"label": {
 				"en": "(Dis)charge Power correction",
-				"nl": "(Ont)laadvermogen correctie"
+				"nl": "(Ont)laadvermogen correctie",
+				"de": "(Ent-)Ladeleistung Korrektur"
 			},
 			"children": [
 				{
@@ -168,14 +177,16 @@
 					"type": "number",
 					"label": {
 						"en": "Own use when idle (W)",
-						"nl": "Eigen verbruik in rust (W)"
+						"nl": "Eigen verbruik in rust (W)",
+						"de": "Standby Eigenverbrauch (W)"
 					},
 					"value": 2.5,
 					"min": 0,
 					"decimals": 1,
 					"hint": {
 						"en": "Own power usage not reported by the battery.",
-						"nl": "Eigen verbruik niet gerapporteerd door de batterij."
+						"nl": "Eigen verbruik niet gerapporteerd door de batterij.",
+						"de": "Eigenverbrauch, der von der Batterie nicht gemeldet wird."
 					}
 				},
 				{
@@ -183,14 +194,16 @@
 					"type": "number",
 					"label": {
 						"en": "Own use when (dis)charging (W)",
-						"nl": "Eigen verbruik bij (ont)laden (W)"
+						"nl": "Eigen verbruik bij (ont)laden (W)",
+						"de": "Eigenverbrauch bei (Ent-)Ladung (W)."
 					},
 					"value": 35,
 					"min": 0,
 					"decimals": 1,
 					"hint": {
 						"en": "Own power usage not reported by the battery.",
-						"nl": "Eigen verbruik niet gerapporteerd door de batterij."
+						"nl": "Eigen verbruik niet gerapporteerd door de batterij.",
+						"de": "Eigenverbrauch, der von der Batterie nicht gemeldet wird."
 					}
 				},
         {
@@ -198,7 +211,8 @@
 					"type": "number",
 					"label": {
 						"en": "Extra loss during charging (%)",
-						"nl": "Extra verlies tijdens laden (%)"
+						"nl": "Extra verlies tijdens laden (%)",
+						"de": "Zusätzlicher Verlust beim Laden (%)"
 					},
 					"min": 0,
 					"max": 30,
@@ -206,7 +220,8 @@
 					"decimals": 2,
 					"hint": {
 						"en": "Extra power loss not reported by the battery.",
-						"nl": "Extra verlies niet gerapporteerd door de batterij."
+						"nl": "Extra verlies niet gerapporteerd door de batterij.",
+						"de": "Zusätzlicher Verlust, der von der Batterie nicht gemeldet wird."
 					}
 				},
 				{
@@ -214,7 +229,8 @@
 					"type": "number",
 					"label": {
 						"en": "Extra loss during discharging (%)",
-						"nl": "Extra verlies tijdens ontladen (%)"
+						"nl": "Extra verlies tijdens ontladen (%)",
+						"de": "Zusätzlicher Verlust beim Entladen (%)"
 					},
 					"min": 0,
 					"max": 30,
@@ -222,7 +238,8 @@
 					"decimals": 2,
 					"hint": {
 						"en": "Extra power loss not reported by the battery.",
-						"nl": "Extra verlies niet gerapporteerd door de batterij."
+						"nl": "Extra verlies niet gerapporteerd door de batterij.",
+						"de": "Zusätzlicher Verlust, der von der Batterie nicht gemeldet wird."
 					}
 				}
       ]
@@ -244,11 +261,13 @@
 					"type": "number",
 					"label": {
 						"en": "Tariff update group (DAP)",
-						"nl": "Tarief update groep (DAP)"
+						"nl": "Tarief update groep (DAP)",
+						"de": "Tarif Aktualisierungsgruppe (DAP)"
 					},
 					"hint": {
 						"en": "Group number for getting new tariffs via DAP.",
-						   "nl": "Groepnummer voor het krijgen van de tarieven via DAP."
+						"nl": "Groepnummer voor het krijgen van de tarieven via DAP.",
+						"de": "Gruppennummer für den Bezug neuer Tarife über DAP."
 					},
 					"value": 1,
 					"min": 0,
