@@ -2,7 +2,8 @@
   "type": "number",
   "title": {
     "en": "Charging Total",
-    "nl": "Laden Totaal"
+    "nl": "Laden Totaal",
+    "de": "Aufladung Gesamt"
   },
   "uiComponent": "sensor",
   "icon": "/assets/charged.svg",
