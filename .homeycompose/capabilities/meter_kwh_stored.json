@@ -2,7 +2,8 @@
   "type": "number",
   "title": {
     "en": "Stored",
-    "nl": "Opgeslagen"
+    "nl": "Opgeslagen",
+    "de": "Gespeichert"
   },
   "uiComponent": "sensor",
   "icon": "/assets/stored.svg",
