@@ -1,15 +1,18 @@
 {
 	"title": {
 		"en": "The price !{{is|isn't}} best for (dis)charging home battery.",
-		"nl": "De prijs !{{is|is niet}} het beste om thuisbatterij te (ont)laden."
+		"nl": "De prijs !{{is|is niet}} het beste om thuisbatterij te (ont)laden.",
+		"de": "Der Preis !{{ist|ist nicht}} der Beste zum (Ent-)Laden des Batteriespeichers."
 	},
 	"titleFormatted": {
-		"en": "The price !{{is|isn't}} best to [[strat]] home battery with mimimum [[minPriceDelta]]€ price delta.",
-		"nl": "De prijs !{{is|is niet}} het beste om thuisbatterij te [[strat]] met minimaal [[minPriceDelta]]€ prijsverschil."
+		"en": "The price !{{is|isn't}} best to [[strat]] home battery with minimum [[minPriceDelta]]€ price delta.",
+		"nl": "De prijs !{{is|is niet}} het beste om thuisbatterij te [[strat]] met minimaal [[minPriceDelta]]€ prijsverschil.",
+		"de": "Der Preis !{{ist|ist nicht}} der Beste zum [[strat]] des Batteriespeichers mit minimaler [[minPriceDelta]]€ Preisdifferenz."
 	},
 	"hint": {
 		"en": "The strategy is ao calculated using the known future hourly prices and the minimum price difference between highest and lowest prices.",
-		"nl": "De strategie wordt o.a. berekend met behulp van alle bekende toekomstige prijzen en het minimale prijsverschil tussen hoogste en laagste prijs."
+		"nl": "De strategie wordt o.a. berekend met behulp van alle bekende toekomstige prijzen en het minimale prijsverschil tussen hoogste en laagste prijs.",
+		"de": "Die Strategie wird unter anderem anhand der bekannten zukünftigen Stundenpreise und der minimalen Preisdifferenz zwischen Höchst- und Tiefstpreis berechnet."
 	},
 	"highlight": true,
 	"args": [
@@ -23,7 +26,8 @@
 			"name": "minPriceDelta",
 			"title": { 
 				"en": "price delta",
-				"nl": "prijsverschil"
+				"nl": "prijsverschil",
+				"de": "Preisdifferenz"
 			},
 			"placeholder": { "en": "> 0.05" },
 			"min": 0.05,
@@ -35,19 +39,22 @@
 			"name": "strat",
 			"title": { 
 				"en": "(dis)charge",
-				"nl": "(ont)laden"
+				"nl": "(ont)laden",
+				"de": "(Ent-)Laden"
 			},
 			"values": [
 				{	"id": "1",
 					"label": { 
 						"en": "discharge",
-						"nl": "ontladen"
+						"nl": "ontladen",
+						"de": "entladen"
 					}
 				},
 				{	"id": "-1",
 					"label": { 
 						"en": "charge",
-						"nl": "laden"
+						"nl": "laden",
+						"de": "laden"
 					}
 				}
 			]
