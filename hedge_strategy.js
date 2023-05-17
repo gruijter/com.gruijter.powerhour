@@ -44,7 +44,7 @@ const getStrategy = ({
 		.filter((price, idx) => {
 			const futureMin = Math.min(...[...prcs].slice(idx));
 			const futureMax = Math.max(...[...prcs].slice(idx));
-			return (price >= peaks[0] && (price - futureMin) > minPriceDelta * 0.7) // promiscuous selling
+			return (price >= peaks[0] && (price - futureMin) > minPriceDelta * 0.3) // promiscuous selling
 			|| (price <= troughs[0] && (futureMax - price) > minPriceDelta);
 		})
 		.slice(0, 10);
