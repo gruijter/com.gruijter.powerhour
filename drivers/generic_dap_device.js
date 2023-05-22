@@ -23,6 +23,7 @@ along with com.gruijter.powerhour.  If not, see <http://www.gnu.org/licenses/>.s
 const Homey = require('homey');
 const util = require('util');
 const ECB = require('../ecb_exchange_rates');
+const charts = require('../pricecharts');
 
 const setTimeoutPromise = util.promisify(setTimeout);
 
@@ -762,6 +763,21 @@ class MyDevice extends Homey.Device {
 		this.state = state;
 	}
 
+	async updatePriceCharts() {
+		if (!this.todayPriceImage) this.todayPriceImage = await this.homey.images.createImage();
+		const urlToday = await charts.getChart(this.state.pricesThisDay);
+		this.todayPriceImage.setUrl(urlToday);
+		this.setCameraImage('todayPriceChart', ` ${this.homey.__('today')}`, this.todayPriceImage);
+		if (!this.tomorrowPriceImage) this.tomorrowPriceImage = await this.homey.images.createImage();
+		const urlTomorow = await charts.getChart(this.state.pricesTomorrow);
+		this.tomorrowPriceImage.setUrl(urlTomorow);
+		this.setCameraImage('tomorrowPriceChart', this.homey.__('tomorrow'), this.tomorrowPriceImage);
+		if (!this.futurePriceImage) this.futurePriceImage = await this.homey.images.createImage();
+		const urlFuture = await charts.getChart(this.state.pricesNextHours);
+		this.futurePriceImage.setUrl(urlFuture);
+		this.setCameraImage('futurePriceChart', this.homey.__('future'), this.futurePriceImage);
+	}
+
 	async setCapabilitiesAndFlows() {
 		try {
 			await this.setState();
@@ -790,6 +806,13 @@ class MyDevice extends Homey.Device {
 			const group = this.settings.tariff_update_group;
 			if (group) this.homey.emit(sendTo, { tariff: this.state.priceNow, pricesNextHours: this.state.pricesNextHours, group });
 
+			// update the price graphs
+			await this.updatePriceCharts().catch(this.error);
+
+			// trigger new future prices every hour
+			if (this.state.pricesNextHours && this.state.pricesNextHours[0]) {
+				this.newPricesReceived(this.state.pricesNextHours, 'next_hours').catch(this.error);
+			}
 			// trigger new prices received right after midnight
 			if (this.state.H0 === 0) {
 				if (this.state.pricesThisDay && this.state.pricesThisDay[0]) {

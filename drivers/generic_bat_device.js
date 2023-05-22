@@ -189,7 +189,8 @@ class batDevice extends Device {
 	async priceBattBestTrade(args) {
 		await setTimeoutPromise(3000); // wait 3 seconds for new hourly prices to be taken in
 		if (!this.pricesNextHours) throw Error('no prices available');
-		const chargePower = (this.getSettings().chargePower - this.getSettings().ownPowerOn) * (1 - this.getSettings().chargeLoss / 100);
+		const chargePower = this.getSettings().chargePower - this.getSettings().ownPowerOn;
+		// (this.getSettings().chargePower - this.getSettings().ownPowerOn) * (1 - this.getSettings().chargeLoss / 100);
 		const dischargePower = (this.getSettings().dischargePower - this.getSettings().ownPowerOn) * (1 - this.getSettings().dischargeLoss / 100);
 		const options = {
 			prices: this.pricesNextHours,

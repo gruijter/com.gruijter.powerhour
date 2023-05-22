@@ -1,4 +1,7 @@
 {
+  "5.6.0": {
+    "en": "DAP: added pricing graphs as images. Added future prices trigger flowcard. Battery: Improved hedge strategy."
+  },
   "5.5.4": {
     "en": "DAP: Removed Enever as source. Battery: Improved hedge strategy. homey-api@1.10.21"
   },
