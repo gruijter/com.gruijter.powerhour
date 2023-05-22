@@ -1,4 +1,7 @@
 {
+  "5.6.1": {
+    "en": "DAP: added pricing graphs as images. Added future prices trigger flowcard. Battery: Improved hedge strategy."
+  },
   "5.6.0": {
     "en": "DAP: added pricing graphs as images. Added future prices trigger flowcard. Battery: Improved hedge strategy."
   },

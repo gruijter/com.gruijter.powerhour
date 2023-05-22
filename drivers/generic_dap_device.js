@@ -578,12 +578,16 @@ class MyDevice extends Homey.Device {
 
 	// compare if new fetched market prices are same as old ones for given period, and trigger flow
 	async checkNewMarketPrices(oldPrices, newPrices, period, periods) {
-		// setup period this_day or tomorrow
+		// setup period this_day, tomorrow or next_hours
 		let start = periods.todayStart;
 		let end = periods.tomorrowStart;
 		if (period === 'tomorrow') {
 			start = periods.tomorrowStart;
 			end = periods.tomorrowEnd;
+		}
+		if (period === 'next_hours') {
+			start = periods.hourStart;
+			end = 8640000000000000; // periods.tomorrowEnd;
 		}
 		const oldPricesSelection = oldPrices
 			.filter((hourInfo) => new Date(hourInfo.time) >= start)
@@ -593,7 +597,8 @@ class MyDevice extends Homey.Device {
 			.filter((hourInfo) => new Date(hourInfo.time) < end);
 
 		// check for DST change or incomplete info
-		if (newPricesSelection.length !== 24) this.log(`${this.getName()} received ${newPricesSelection.length} hours of prices for ${period}`);
+		if (period !== 'next_hours'
+			&& newPricesSelection.length !== 24) this.log(`${this.getName()} received ${newPricesSelection.length} hours of prices for ${period}`);
 
 		// check for same pricing content
 		let samePrices = true;
@@ -657,6 +662,7 @@ class MyDevice extends Homey.Device {
 			// check if new prices received and trigger flows
 			await this.checkNewMarketPrices(oldPrices, newMarketPrices, 'this_day', periods);
 			await this.checkNewMarketPrices(oldPrices, newMarketPrices, 'tomorrow', periods);
+			await this.checkNewMarketPrices(oldPrices, newMarketPrices, 'next_hours', periods);
 
 			// add marked-up prices
 			const newPrices = await this.markUpPrices([...newMarketPrices]);
@@ -764,18 +770,35 @@ class MyDevice extends Homey.Device {
 	}
 
 	async updatePriceCharts() {
-		if (!this.todayPriceImage) this.todayPriceImage = await this.homey.images.createImage();
 		const urlToday = await charts.getChart(this.state.pricesThisDay);
-		this.todayPriceImage.setUrl(urlToday);
-		this.setCameraImage('todayPriceChart', ` ${this.homey.__('today')}`, this.todayPriceImage);
-		if (!this.tomorrowPriceImage) this.tomorrowPriceImage = await this.homey.images.createImage();
+		if (!this.todayPriceImage) {
+			this.todayPriceImage = await this.homey.images.createImage();
+			await this.todayPriceImage.setUrl(urlToday);
+			await this.setCameraImage('todayPriceChart', ` ${this.homey.__('today')}`, this.todayPriceImage);
+		} else {
+			await this.todayPriceImage.setUrl(urlToday);
+			await this.todayPriceImage.update();
+		}
+
 		const urlTomorow = await charts.getChart(this.state.pricesTomorrow);
-		this.tomorrowPriceImage.setUrl(urlTomorow);
-		this.setCameraImage('tomorrowPriceChart', this.homey.__('tomorrow'), this.tomorrowPriceImage);
-		if (!this.futurePriceImage) this.futurePriceImage = await this.homey.images.createImage();
-		const urlFuture = await charts.getChart(this.state.pricesNextHours);
-		this.futurePriceImage.setUrl(urlFuture);
-		this.setCameraImage('futurePriceChart', this.homey.__('future'), this.futurePriceImage);
+		if (!this.tomorrowPriceImage) {
+			this.tomorrowPriceImage = await this.homey.images.createImage();
+			await this.tomorrowPriceImage.setUrl(urlTomorow);
+			await this.setCameraImage('tomorrowPriceChart', ` ${this.homey.__('tomorrow')}`, this.tomorrowPriceImage);
+		} else {
+			await this.tomorrowPriceImage.setUrl(urlTomorow);
+			await this.tomorrowPriceImage.update();
+		}
+
+		const urlNextHours = await charts.getChart(this.state.pricesNextHours);
+		if (!this.nextHoursPriceImage) {
+			this.nextHoursPriceImage = await this.homey.images.createImage();
+			await this.nextHoursPriceImage.setUrl(urlNextHours);
+			await this.setCameraImage('nextHoursPriceChart', ` ${this.homey.__('nextHours')}`, this.nextHoursPriceImage);
+		} else {
+			await this.nextHoursPriceImage.setUrl(urlNextHours);
+			await this.nextHoursPriceImage.update();
+		}
 	}
 
 	async setCapabilitiesAndFlows() {
@@ -809,7 +832,7 @@ class MyDevice extends Homey.Device {
 			// update the price graphs
 			await this.updatePriceCharts().catch(this.error);
 
-			// trigger new future prices every hour
+			// trigger new nextHours prices every hour
 			if (this.state.pricesNextHours && this.state.pricesNextHours[0]) {
 				this.newPricesReceived(this.state.pricesNextHours, 'next_hours').catch(this.error);
 			}
