@@ -57,6 +57,18 @@ class batDevice extends Device {
 		}
 	}
 
+	async onUninit() {
+		this.log(`Homey is killing ${this.getName()}`);
+		this.destroyListeners();
+		this.homey.removeAllListeners('everyhour');
+		this.homey.removeAllListeners('set_tariff_power');
+		this.homey.removeAllListeners('set_tariff_gas');
+		this.homey.removeAllListeners('set_tariff_water');
+		let delay = 1500;
+		if (!this.migrated || !this.initFirstReading) delay = 10 * 1000;
+		await setTimeoutPromise(delay);
+	}
+
 	// migrate stuff from old version
 	async migrate() {
 		try {
@@ -110,14 +122,6 @@ class batDevice extends Device {
 		// this.setUnavailable('Device is restarting. Wait a few minutes!');
 		await setTimeoutPromise(dly); // .then(() => this.onInitDevice());
 		this.onInitDevice();
-	}
-
-	async onUninit() {
-		this.log(`Homey is killing ${this.getName()}`);
-		this.destroyListeners();
-		let delay = 1500;
-		if (!this.migrated || !this.initFirstReading) delay = 10 * 1000;
-		await setTimeoutPromise(delay);
 	}
 
 	// this method is called when the Device is added
