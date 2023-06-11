@@ -143,6 +143,15 @@ class SumMeterDriver extends Driver {
 
 	}
 
+	async onUninit() {
+		this.log('sum driver onUninit called');
+		this.homey.removeAllListeners('everyhour');
+		this.homey.removeAllListeners('set_tariff_power');
+		this.homey.removeAllListeners('set_tariff_gas');
+		this.homey.removeAllListeners('set_tariff_water');
+		await setTimeoutPromise(3000);
+	}
+
 	async onPairListDevices() {
 		this.log('listing of devices started');
 		return this.discoverDevices();

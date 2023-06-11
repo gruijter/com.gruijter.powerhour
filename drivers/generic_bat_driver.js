@@ -65,6 +65,7 @@ class BatDriver extends Driver {
 		if (this.eventListenerTariff) this.homey.removeListener(eventName, this.eventListenerTariff);
 		this.eventListenerTariff = async (args) => {
 			// console.log(`${eventName} received from DAP`, args);
+			// eslint-disable-next-line prefer-destructuring
 			const pricesNextHours = args.pricesNextHours;
 			if (!pricesNextHours || !pricesNextHours[0]) {
 				this.log('no prices next hours found');
@@ -83,7 +84,15 @@ class BatDriver extends Driver {
 			});
 		};
 		this.homey.on(eventName, this.eventListenerTariff);
+	}
 
+	async onUninit() {
+		this.log('bat driver onUninit called');
+		this.homey.removeAllListeners('everyhour');
+		this.homey.removeAllListeners('set_tariff_power');
+		this.homey.removeAllListeners('set_tariff_gas');
+		this.homey.removeAllListeners('set_tariff_water');
+		await setTimeoutPromise(3000);
 	}
 
 	// stuff to find Homey battery devices

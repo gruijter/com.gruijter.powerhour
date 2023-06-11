@@ -28,6 +28,14 @@ class MyDriver extends Driver {
 		this.log('onDriverInit');
 	}
 
+	async onUninit() {
+		this.log('dap driver onUninit called');
+		this.homey.removeAllListeners('everyhour');
+		this.homey.removeAllListeners('set_tariff_power');
+		this.homey.removeAllListeners('set_tariff_gas');
+		this.homey.removeAllListeners('set_tariff_water');
+	}
+
 	async onPairListDevices() {
 		const randomId = crypto.randomBytes(3).toString('hex');
 		// const devices = [{

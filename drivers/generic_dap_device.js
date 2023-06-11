@@ -134,6 +134,18 @@ class MyDevice extends Homey.Device {
 		}
 	}
 
+	async onUninit() {
+		this.log(`Homey is killing ${this.getName()}`);
+		this.destroyListeners();
+		this.homey.removeAllListeners('everyhour');
+		this.homey.removeAllListeners('set_tariff_power');
+		this.homey.removeAllListeners('set_tariff_gas');
+		this.homey.removeAllListeners('set_tariff_water');
+		let delay = 1500;
+		if (!this.migrated || !this.initFirstReading) delay = 10 * 1000;
+		await setTimeoutPromise(delay);
+	}
+
 	async destroyListeners() {
 		if (this.eventListenerHour) await this.homey.removeListener('everyhour', this.eventListenerHour);
 	}
@@ -251,12 +263,6 @@ class MyDevice extends Homey.Device {
 		this.log(`Device will restart in ${dly / 1000} seconds`);
 		// this.setUnavailable('Device is restarting. Wait a few minutes!');
 		await setTimeoutPromise(dly).then(() => this.onInit());
-	}
-
-	async onUninit() {
-		this.log(`Homey is killing ${this.getName()}`);
-		this.destroyListeners();
-		await setTimeoutPromise(1500);
 	}
 
 	async onAdded() {
@@ -620,14 +626,15 @@ class MyDevice extends Homey.Device {
 		try {
 			this.log(this.getName(), 'fetching prices of today and tomorrow (when available)');
 
-			// fetch prices with backup and retry
+			// fetch prices with retry and backup
 			const periods = this.getUTCPeriods(); // now, nowLocal, homeyOffset, H0, hourStart, todayStart, yesterdayStart, tomorrowStart, tomorrowEnd
 			if (!this.dap[0]) throw Error('no available DAP');
 			let newMarketPrices;
 			for (let index = 0; index < this.dap.length; index += 1) {
 				newMarketPrices = await this.dap[index].getPrices({ dateStart: periods.yesterdayStart, dateEnd: periods.tomorrowEnd })
 					.catch(this.log);
-				if (!newMarketPrices || !newMarketPrices[0]) {
+				const marketPricesNextHours = newMarketPrices.filter((hourInfo) => hourInfo.time >= periods.hourStart);
+				if (!newMarketPrices || !newMarketPrices[0] || marketPricesNextHours.length < 10) {
 					this.log(`${this.getName()} Error fetching prices from ${this.dap[index].host}. Trying again in 10 minutes`);
 					await setTimeoutPromise(10 * 60 * 1000, 'waiting is done');
 					newMarketPrices = await this.dap[index].getPrices({ dateStart: periods.yesterdayStart, dateEnd: periods.tomorrowEnd })
@@ -659,16 +666,13 @@ class MyDevice extends Homey.Device {
 				if (newMarketPrices.slice(-1).time < oldPrices.slice(-1).time) throw Error('Fetched prices are older then the stored prices');
 			}
 
+			// store the new prices
+			await this.storePrices(newMarketPrices);
+
 			// check if new prices received and trigger flows
 			await this.checkNewMarketPrices(oldPrices, newMarketPrices, 'this_day', periods);
 			await this.checkNewMarketPrices(oldPrices, newMarketPrices, 'tomorrow', periods);
 			await this.checkNewMarketPrices(oldPrices, newMarketPrices, 'next_hours', periods);
-
-			// add marked-up prices
-			const newPrices = await this.markUpPrices([...newMarketPrices]);
-
-			// store the new prices
-			await this.storePrices(newPrices);
 
 		} catch (error) {
 			this.error(error);

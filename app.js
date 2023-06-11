@@ -66,6 +66,14 @@ class MyApp extends Homey.App {
 		} catch (error) { this.error(error); }
 	}
 
+	async onUninit() {
+		this.log('app onUninit called');
+		this.homey.removeAllListeners('everyhour');
+		this.homey.removeAllListeners('set_tariff_power');
+		this.homey.removeAllListeners('set_tariff_gas');
+		this.homey.removeAllListeners('set_tariff_water');
+	}
+
 	everyHour() {
 		const now = new Date();
 		const nextHour = new Date(now.getFullYear(), now.getMonth(), now.getDate(), now.getHours() + 1, 0, 0, 50);
