@@ -1,7 +1,7 @@
 {
   "_comment": "This file is generated. Please edit .homeycompose/app.json instead.",
   "id": "com.gruijter.powerhour",
-  "version": "5.6.3",
+  "version": "5.6.4",
   "compatibility": ">=8.0.0",
   "brandColor": "#df5020",
   "sdk": 3,
@@ -2245,6 +2245,44 @@
           }
         ],
         "id": "price_lowest_next_hours"
+      },
+      {
+        "title": {
+          "en": "The price !{{is|isn't}} one of the lowest in next known hours",
+          "nl": "De prijs !{{is|is niet}} een van de laagste de komende bekende uren"
+        },
+        "titleFormatted": {
+          "en": "The price !{{is|isn't}} one of [[number]] lowest in the next known hours",
+          "nl": "De prijs !{{is|is niet}} een van de [[number]] laagste in de komende bekende uren"
+        },
+        "highlight": true,
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=dap"
+          },
+          {
+            "type": "number",
+            "name": "number",
+            "title": {
+              "en": "number",
+              "no": "antall",
+              "de": "Anzahl",
+              "sv": "antal",
+              "it": "numero",
+              "dk": "nummer",
+              "nl": "aantal"
+            },
+            "placeholder": {
+              "en": "1 - 5"
+            },
+            "min": 1,
+            "max": 5,
+            "step": 1
+          }
+        ],
+        "id": "price_lowest_next_known_hours"
       },
       {
         "title": {

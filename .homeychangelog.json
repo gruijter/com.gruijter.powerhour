@@ -1,4 +1,10 @@
 {
+  "5.6.4": {
+    "en": "DAP: fix new price info immediately available for image and capabiities. Added flowcard 'lowest price for all known next hours'."
+  },
+  "5.6.3": {
+    "en": "DAP: fix new price info immediately available for flows. Use backup source if no prices for tomorrow. Extended onUninit crash prevention."
+  },
   "5.6.2": {
     "en": "DAP: fix new price info immediately available for flows. Use backup source if no prices for tomorrow. Extended onUninit crash prevention."
   },
@@ -349,8 +355,5 @@
   },
   "0.1.0": {
     "en": "First release"
-  },
-  "5.6.3": {
-    "en": "DAP: fix new price info immediately available for flows. Use backup source if no prices for tomorrow. Extended onUninit crash prevention."
   }
 }

@@ -4,6 +4,7 @@ env.json
 bidding_zones.json
 templog*.txt
 zzztest.js
+.vscode
 
 # Added by Homey CLI
 /.homeybuild/

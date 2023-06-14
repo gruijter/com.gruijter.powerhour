@@ -113,7 +113,7 @@ class MyDevice extends Homey.Device {
 			await setTimeoutPromise(this.fetchDelay / 30, 'waiting is done'); // spread over 1 minute for API rate limit (400 / min)
 			await this.fetchExchangeRate();
 			await this.fetchPrices();
-			await this.setCapabilitiesAndFlows();
+			// await this.setCapabilitiesAndFlows();
 
 			// start fetching and handling prices on every hour
 			this.eventListenerHour = async () => {
@@ -430,7 +430,8 @@ class MyDevice extends Homey.Device {
 	async priceIsLowestNextHours(args) {
 		if (!this.state || !this.state.pricesNextHours) throw Error('no prices available');
 		// select number of coming hours
-		const comingXhours = [...this.state.pricesNextHours].slice(0, args.period);
+		const period = args.period ? args.period : 99;
+		const comingXhours = [...this.state.pricesNextHours].slice(0, period);
 		// sort and select number of lowest prices
 		const lowestNPrices = comingXhours.sort().slice(0, args.number);
 		return this.state.priceNow <= Math.max(...lowestNPrices);
@@ -633,6 +634,7 @@ class MyDevice extends Homey.Device {
 			for (let index = 0; index < this.dap.length; index += 1) {
 				newMarketPrices = await this.dap[index].getPrices({ dateStart: periods.yesterdayStart, dateEnd: periods.tomorrowEnd })
 					.catch(this.log);
+				// check if tomorrow is missing
 				const marketPricesNextHours = newMarketPrices.filter((hourInfo) => hourInfo.time >= periods.hourStart);
 				if (!newMarketPrices || !newMarketPrices[0] || marketPricesNextHours.length < 10) {
 					this.log(`${this.getName()} Error fetching prices from ${this.dap[index].host}. Trying again in 10 minutes`);
@@ -666,8 +668,9 @@ class MyDevice extends Homey.Device {
 				if (newMarketPrices.slice(-1).time < oldPrices.slice(-1).time) throw Error('Fetched prices are older then the stored prices');
 			}
 
-			// store the new prices
+			// store the new prices and update state, capabilities and price graphs
 			await this.storePrices(newMarketPrices);
+			await this.setCapabilitiesAndFlows();
 
 			// check if new prices received and trigger flows
 			await this.checkNewMarketPrices(oldPrices, newMarketPrices, 'this_day', periods);

@@ -1,0 +1,35 @@
+{
+	"title": {
+		"en": "The price !{{is|isn't}} one of the lowest in next known hours",
+		"nl": "De prijs !{{is|is niet}} een van de laagste de komende bekende uren"
+	},
+	"titleFormatted": {
+		"en": "The price !{{is|isn't}} one of [[number]] lowest in the next known hours",
+		"nl": "De prijs !{{is|is niet}} een van de [[number]] laagste in de komende bekende uren"
+	},
+	"highlight": true,
+	"args": [
+		{
+		  "type": "device",
+		  "name": "device",
+		  "filter": "driver_id=dap"
+		},
+		{
+			"type": "number",
+			"name": "number",
+			"title": { 
+				"en": "number",
+				"no": "antall",
+				"de": "Anzahl",
+				"sv": "antal",
+				"it": "numero",
+				"dk": "nummer",
+				"nl": "aantal"
+			},
+			"placeholder": { "en": "1 - 5" },
+			"min": 1,
+			"max": 5,
+			"step": 1
+		}
+	]
+}
