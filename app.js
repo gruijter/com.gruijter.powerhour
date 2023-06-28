@@ -31,13 +31,13 @@ class MyApp extends Homey.App {
 		try {
 
 			// for debugging
-			if (process.env.DEBUG === '1') {
-				try {
-					require('inspector').waitForDebugger();
-				}	catch (error) {
-					require('inspector').open(9222, '0.0.0.0', true);
-				}
-			}
+			// if (process.env.DEBUG === '1') {
+			// 	try {
+			// 		require('inspector').waitForDebugger();
+			// 	}	catch (error) {
+			// 		require('inspector').open(9222, '0.0.0.0', true);
+			// 	}
+			// }
 
 			// register some listeners
 			process.on('unhandledRejection', (error) => {

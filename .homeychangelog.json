@@ -1,4 +1,7 @@
 {
+  "5.6.5": {
+    "en": "Battery: Added support for Victron Energy Storage. Improved hedge strategy."
+  },
   "5.6.4": {
     "en": "DAP: fix new price info immediately available for image and capabiities. Added flowcard 'lowest price for all known next hours'."
   },

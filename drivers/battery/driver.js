@@ -31,6 +31,9 @@ const driverSpecifics = {
 		{
 			soc: 'measure_battery_soc', usagePower: 'measure_battery_power',	// Solax
 		},
+		{
+			soc: 'battery_capacity', usagePower: 'measure_power.battery',	// Victron
+		},
 	],
 	deviceCapabilities: [
 		'measure_watt_avg', 'meter_kwh_stored',
