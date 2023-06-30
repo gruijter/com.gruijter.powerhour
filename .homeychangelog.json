@@ -1,4 +1,7 @@
 {
+  "5.6.6": {
+    "en": "Battery: Fixed support for Victron Energy Storage."
+  },
   "5.6.5": {
     "en": "Battery: Added support for Victron Energy Storage. Improved hedge strategy."
   },

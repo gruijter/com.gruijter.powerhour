@@ -23,7 +23,7 @@ const GenericDriver = require('../generic_bat_driver');
 
 const driverSpecifics = {
 	driverId: 'battery',
-	originDeviceCapabilities: ['measure_battery'],
+	originDeviceCapabilities: ['measure_battery', 'measure_power.battery'],
 	sourceCapGroups: [
 		{
 			soc: 'measure_battery', productionPower: 'measure_power', chargeMode: 'charge_mode',	// Sessy
