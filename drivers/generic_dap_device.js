@@ -623,6 +623,33 @@ class MyDevice extends Homey.Device {
 		}
 	}
 
+	// check validity of new fetched pricing data
+	async checkPricesValidity(newMarketPrices, periods) {
+		if ((!newMarketPrices || !newMarketPrices[0] || !newMarketPrices[0].time)) throw Error('Unable to fetch prices');
+		// check if tomorrow is missing
+		const marketPricesNextHours = newMarketPrices.filter((hourInfo) => hourInfo.time >= periods.hourStart);
+		if (marketPricesNextHours.length < 10) throw Error('Unable to fetch tomorrow prices');
+		// check if hours are consecutive
+		let previousHour = new Date(newMarketPrices[0].time);
+		let consecutive = true;
+		newMarketPrices.forEach((price, idx) => {
+			if (idx !== 0) {
+				consecutive = consecutive && (new Date(price.time) - previousHour) === (1000 * 60 * 60);
+				previousHour = new Date(price.time);
+			}
+		});
+		if (!consecutive) {
+			this.log(this.getName(), newMarketPrices);
+			throw Error('Fetched prices are not in consecutive order');
+		}
+		// check if latest info is not older then before
+		const oldPrices = [...this.prices];
+		if (oldPrices && oldPrices[0] && oldPrices[0].time) {
+			if (newMarketPrices.slice(-1).time < oldPrices.slice(-1).time) throw Error('Fetched prices are older then the stored prices');
+		}
+		return true;
+	}
+
 	async fetchPrices() {
 		try {
 			this.log(this.getName(), 'fetching prices of today and tomorrow (when available)');
@@ -634,9 +661,8 @@ class MyDevice extends Homey.Device {
 			for (let index = 0; index < this.dap.length; index += 1) {
 				newMarketPrices = await this.dap[index].getPrices({ dateStart: periods.yesterdayStart, dateEnd: periods.tomorrowEnd })
 					.catch(this.log);
-				// check if tomorrow is missing
-				const marketPricesNextHours = newMarketPrices.filter((hourInfo) => hourInfo.time >= periods.hourStart);
-				if (!newMarketPrices || !newMarketPrices[0] || marketPricesNextHours.length < 10) {
+				const valid = await this.checkPricesValidity(newMarketPrices, periods).catch(this.log);
+				if (!valid) {
 					this.log(`${this.getName()} Error fetching prices from ${this.dap[index].host}. Trying again in 10 minutes`);
 					await setTimeoutPromise(10 * 60 * 1000, 'waiting is done');
 					newMarketPrices = await this.dap[index].getPrices({ dateStart: periods.yesterdayStart, dateEnd: periods.tomorrowEnd })
@@ -647,32 +673,14 @@ class MyDevice extends Homey.Device {
 				}
 			}
 
-			// check validity of new data
-			if ((!newMarketPrices || !newMarketPrices[0] || !newMarketPrices[0].time)) throw Error('Unable to fetch prices');
-			// check if hours are consecutive
-			let previousHour = new Date(newMarketPrices[0].time);
-			let consecutive = true;
-			newMarketPrices.forEach((price, idx) => {
-				if (idx !== 0) {
-					consecutive = consecutive && (new Date(price.time) - previousHour) === (1000 * 60 * 60);
-					previousHour = new Date(price.time);
-				}
-			});
-			if (!consecutive) {
-				this.log(this.getName(), newMarketPrices);
-				throw Error('Fetched prices are not in consecutive order');
-			}
-			// check if latest info is not older then before
-			const oldPrices = [...this.prices];
-			if (oldPrices && oldPrices[0] && oldPrices[0].time) {
-				if (newMarketPrices.slice(-1).time < oldPrices.slice(-1).time) throw Error('Fetched prices are older then the stored prices');
-			}
+			await this.checkPricesValidity(newMarketPrices, periods).catch(this.error);
 
 			// store the new prices and update state, capabilities and price graphs
 			await this.storePrices(newMarketPrices);
 			await this.setCapabilitiesAndFlows();
 
 			// check if new prices received and trigger flows
+			const oldPrices = [...this.prices];
 			await this.checkNewMarketPrices(oldPrices, newMarketPrices, 'this_day', periods);
 			await this.checkNewMarketPrices(oldPrices, newMarketPrices, 'tomorrow', periods);
 			await this.checkNewMarketPrices(oldPrices, newMarketPrices, 'next_hours', periods);

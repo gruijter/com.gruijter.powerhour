@@ -1,4 +1,7 @@
 {
+  "5.6.7": {
+    "en": "DAP: Fixed price fetching error handling."
+  },
   "5.6.6": {
     "en": "Battery: Fixed support for Victron Energy Storage."
   },
