@@ -1,4 +1,7 @@
 {
+  "5.6.8": {
+    "en": "DAP: Remove double hourly trigger for new price."
+  },
   "5.6.7": {
     "en": "DAP: Fixed price fetching error handling."
   },
