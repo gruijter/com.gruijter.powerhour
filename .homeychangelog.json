@@ -1,4 +1,7 @@
 {
+  "5.6.9": {
+    "en": "DAP: Fix trigger flow for new prices. Added THEN flow card to get prices JSON."
+  },
   "5.6.8": {
     "en": "DAP: Remove double hourly trigger for new price."
   },

@@ -1,7 +1,7 @@
 {
   "_comment": "This file is generated. Please edit .homeycompose/app.json instead.",
   "id": "com.gruijter.powerhour",
-  "version": "5.6.8",
+  "version": "5.6.9",
   "compatibility": ">=8.0.0",
   "brandColor": "#df5020",
   "sdk": 3,
@@ -2353,6 +2353,81 @@
           }
         ],
         "id": "minmax_reset"
+      },
+      {
+        "title": {
+          "en": "Provide prices JSON"
+        },
+        "titleFormatted": {
+          "en": "Provide prices JSON for [[period]]"
+        },
+        "highlight": true,
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=dap|dapg"
+          },
+          {
+            "type": "dropdown",
+            "name": "period",
+            "title": {
+              "en": "period",
+              "de": "Zeitraum",
+              "sv": "period",
+              "it": "periodo",
+              "no": "periode",
+              "nl": "periode"
+            },
+            "values": [
+              {
+                "id": "this_day",
+                "label": {
+                  "en": "This day",
+                  "de": "diesen Tag",
+                  "sv": "idag",
+                  "it": "giornata odierna",
+                  "no": "idag",
+                  "nl": "Deze dag"
+                }
+              },
+              {
+                "id": "tomorrow",
+                "label": {
+                  "en": "Tomorrow",
+                  "de": "Morgen",
+                  "sv": "i morgon",
+                  "it": "domani",
+                  "no": "i morgen",
+                  "nl": "Morgen"
+                }
+              },
+              {
+                "id": "next_hours",
+                "label": {
+                  "en": "Next hours",
+                  "nl": "Komende uren"
+                }
+              }
+            ]
+          }
+        ],
+        "tokens": [
+          {
+            "name": "prices",
+            "title": {
+              "en": "Prices",
+              "de": "Preise",
+              "sv": "Priser",
+              "it": "Prezzi",
+              "no": "Priser",
+              "nl": "Prijzen"
+            },
+            "type": "string",
+            "example": "{'0':0.2747,'1':0.2678,'2':0.261,'3':0.2606,'4':0.2672,'5':0.2721,'6':0.272,'7':0.2678,'8':0.2625,'9':0.2516,'10':0.2409,'11':0.2317,'12':0.20,'13':0.15,'14':0.12,'15':0.11,'16':0.12,'17':0.20,'18':0.2772,'19':0.2927,'20':0.3052,'21':0.2944,'22':0.2856,'23':0.2725"
+          }
+        ],
+        "id": "prices_json"
       },
       {
         "title": {

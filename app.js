@@ -301,6 +301,10 @@ class MyApp extends Homey.App {
 		minMaxReset
 			.registerRunListener((args) => args.device.minMaxReset(true, 'flow').catch(this.error));
 
+		const pricesJSON = this.homey.flow.getActionCard('prices_json');
+		pricesJSON
+			.registerRunListener((args) => args.device.createPricesJSON(args.period));
+
 		const setMeterPower = this.homey.flow.getActionCard('set_meter_power');
 		setMeterPower
 			.registerRunListener((args) => runUpdateMeter(args, 'power').catch(this.error))

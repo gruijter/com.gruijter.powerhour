@@ -355,6 +355,20 @@ class MyDevice extends Homey.Device {
 	}
 
 	// EXECUTORS FOR ACTION FLOWS
+
+	async createPricesJSON(period) {
+		this.log('Creating prices JSON via flow', this.getName(), period);
+
+		let prices = this.state.pricesNextHours;
+		if (period === 'tomorrow') prices = this.state.pricesTomorrow;
+		if (period === 'this_day') prices = this.state.pricesThisDay;
+		if (!prices) throw Error('No prices available');
+		const roundedPrices = prices.map((price) => Math.round(price * 10000) / 10000);
+		const priceString = JSON.stringify(({ ...roundedPrices }));
+		const tokens = { prices: priceString };
+		return tokens;
+	}
+
 	async setVariableMarkup(val) {
 		this.log('changing variable markup via flow', this.getName(), val);
 		await this.setSettings({ variableMarkup: val });
@@ -676,11 +690,11 @@ class MyDevice extends Homey.Device {
 			await this.checkPricesValidity(newMarketPrices, periods).catch(this.error);
 
 			// store the new prices and update state, capabilities and price graphs
+			const oldPrices = [...this.prices];
 			await this.storePrices(newMarketPrices);
 			await this.setCapabilitiesAndFlows({ noTriggers: true });
 
 			// check if new prices received and trigger flows
-			const oldPrices = [...this.prices];
 			await this.checkNewMarketPrices(oldPrices, newMarketPrices, 'this_day', periods);
 			await this.checkNewMarketPrices(oldPrices, newMarketPrices, 'tomorrow', periods);
 			await this.checkNewMarketPrices(oldPrices, newMarketPrices, 'next_hours', periods);
