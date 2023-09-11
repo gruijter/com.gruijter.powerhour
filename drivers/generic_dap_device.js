@@ -109,7 +109,7 @@ class MyDevice extends Homey.Device {
 			}
 
 			// fetch and handle prices now, after short random delay
-			await this.setAvailable();
+			await this.setAvailable().catch(this.error);
 			await setTimeoutPromise(this.fetchDelay / 30, 'waiting is done'); // spread over 1 minute for API rate limit (400 / min)
 			await this.fetchExchangeRate();
 			await this.fetchPrices();
@@ -129,7 +129,7 @@ class MyDevice extends Homey.Device {
 			this.log(`${this.getName()} finished initialization`);
 		} catch (error) {
 			this.error(error);
-			// this.setUnavailable(error.message).catch(this.error);
+			// this.setUnavailable(error.message).catch(this.error).catch(this.error);
 			this.restartDevice(1 * 60 * 1000); // restart after 1 minute
 		}
 	}
@@ -137,10 +137,6 @@ class MyDevice extends Homey.Device {
 	async onUninit() {
 		this.log(`Homey is killing ${this.getName()}`);
 		this.destroyListeners();
-		this.homey.removeAllListeners('everyhour');
-		this.homey.removeAllListeners('set_tariff_power');
-		this.homey.removeAllListeners('set_tariff_gas');
-		this.homey.removeAllListeners('set_tariff_water');
 		let delay = 1500;
 		if (!this.migrated || !this.initFirstReading) delay = 10 * 1000;
 		await setTimeoutPromise(delay);
@@ -160,15 +156,15 @@ class MyDevice extends Homey.Device {
 			if (this.driver.ds.driverId === 'dap' && (this.settings.biddingZone === 'TTF_EOD' || this.settings.biddingZone === 'TTF_LEBA')) {
 				const excerpt = `The PBTH app migrated to version ${this.homey.app.manifest.version} **REMOVE AND RE-ADD YOUR GAS DAP DEVICE!**`;
 				await this.homey.notifications.createNotification({ excerpt });
-				this.setUnavailable('DEPRECATED. PLEASE REMOVE AND RE-ADD THIS DEVICE');
+				this.setUnavailable('DEPRECATED. PLEASE REMOVE AND RE-ADD THIS DEVICE').catch(this.error);
 				this.log(this.getName(), 'is disabled (using a deprecated driver)');
 				return;
 			}
 
 			// migration from < v5.1.5
 			if (this.driver.ds.driverId === 'dapg' && (this.settings.biddingZone.includes('/17'))) {
-				if (this.settings.biddingZone === '132733/137/17') await this.setSettings({ biddingZone: 'TTF_EOD' });
-				if (this.settings.biddingZone === '132735/139/17') await this.setSettings({ biddingZone: 'TTF_EGSI' });
+				if (this.settings.biddingZone === '132733/137/17') await this.setSettings({ biddingZone: 'TTF_EOD' }).catch(this.error);
+				if (this.settings.biddingZone === '132735/139/17') await this.setSettings({ biddingZone: 'TTF_EGSI' }).catch(this.error);
 				this.log(this.getName(), 'biddingZone migrated to', this.getSettings().biddingZone);
 			}
 
@@ -180,7 +176,7 @@ class MyDevice extends Homey.Device {
 				const start6 = old.fixedMarkupDay ? old.fixedMarkupDay : 0;
 				const start22 = old.fixedMarkupNight ? old.fixedMarkupNight : 0;
 				if (start6 || start22) fixedMarkupTOD = `6:${start6};22:${start22}`;
-				await this.setSettings({ fixedMarkupTOD, fixedMarkupWeekend });
+				await this.setSettings({ fixedMarkupTOD, fixedMarkupWeekend }).catch(this.error);
 				this.log(this.getName(), 'TOD/Weekend markups migrated to', { fixedMarkupTOD, fixedMarkupWeekend });
 			}
 
@@ -193,7 +189,7 @@ class MyDevice extends Homey.Device {
 				const caps = await this.getCapabilities();
 				const newCap = correctCaps[index];
 				if (caps[index] !== newCap) {
-					this.setUnavailable('Device is migrating. Please wait!');
+					this.setUnavailable('Device is migrating. Please wait!').catch(this.error);
 					// remove all caps from here
 					for (let i = index; i < caps.length; i += 1) {
 						this.log(`removing capability ${caps[i]} for ${this.getName()}`);
@@ -216,16 +212,16 @@ class MyDevice extends Homey.Device {
 			// check this.settings.fetchExchangeRate  < 4.4.1
 			if (this.settings.level < '4.4.1') {
 				this.log('migrating fixed markup to exclude exchange rate');
-				await this.setSettings({ fixedMarkup: this.settings.fixedMarkup * this.settings.exchangeRate });
+				await this.setSettings({ fixedMarkup: this.settings.fixedMarkup * this.settings.exchangeRate }).catch(this.error);
 			}
 			// convert sendTariff to tariff_update_group <4.7.1
 			if (this.getSettings().level < '4.7.1') {
 				const group = this.getSettings().sendTariff ? 1 : 0;
 				this.log(`Migrating tariff group for ${this.getName()} to ${group}`);
-				await this.setSettings({ tariff_update_group: group });
+				await this.setSettings({ tariff_update_group: group }).catch(this.error);
 			}
 			// set new migrate level
-			await this.setSettings({ level: this.homey.app.manifest.version });
+			await this.setSettings({ level: this.homey.app.manifest.version }).catch(this.error);
 			this.settings = await this.getSettings();
 			this.migrated = true;
 			Promise.resolve(this.migrated);
@@ -237,7 +233,7 @@ class MyDevice extends Homey.Device {
 
 	async migrateCurrencyOptions(currency, decimals) {
 		this.log('migrating capability options');
-		this.setUnavailable('Device is migrating. Please wait!');
+		this.setUnavailable('Device is migrating. Please wait!').catch(this.error);
 		const options = {
 			units: { en: currency },
 			decimals,
@@ -261,7 +257,7 @@ class MyDevice extends Homey.Device {
 		await this.destroyListeners();
 		const dly = delay || 2000;
 		this.log(`Device will restart in ${dly / 1000} seconds`);
-		// this.setUnavailable('Device is restarting. Wait a few minutes!');
+		// this.setUnavailable('Device is restarting. Wait a few minutes!').catch(this.error);
 		await setTimeoutPromise(dly).then(() => this.onInit());
 	}
 
@@ -371,34 +367,34 @@ class MyDevice extends Homey.Device {
 
 	async setVariableMarkup(val) {
 		this.log('changing variable markup via flow', this.getName(), val);
-		await this.setSettings({ variableMarkup: val });
+		await this.setSettings({ variableMarkup: val }).catch(this.error);
 		this.restartDevice(1000);
 	}
 
 	async setFixedMarkup(val) {
 		this.log('changing fixed markup via flow', this.getName(), val);
-		await this.setSettings({ fixedMarkup: val });
+		await this.setSettings({ fixedMarkup: val }).catch(this.error);
 		this.restartDevice(1000);
 	}
 
 	async setFixedMarkupTOD(val) {
 		this.log('changing Time Of Day markup via flow', this.getName(), val);
 		const todObject = todMap(val); // will throw Error if invalid
-		if (todObject === null) await this.setSettings({ fixedMarkupTOD: '' });
-		else await this.setSettings({ fixedMarkupTOD: val });
+		if (todObject === null) await this.setSettings({ fixedMarkupTOD: '' }).catch(this.error);
+		else await this.setSettings({ fixedMarkupTOD: val }).catch(this.error);
 		this.restartDevice(1000);
 	}
 
 	async setFixedMarkupWeekend(val) {
 		this.log('changing Weekend markup via flow', this.getName(), val);
 		if (!Number.isFinite(val)) throw Error('value is not a number');
-		await this.setSettings({ fixedMarkupWeekend: val });
+		await this.setSettings({ fixedMarkupWeekend: val }).catch(this.error);
 		this.restartDevice(1000);
 	}
 
 	async setExchangeRate(val) {
 		this.log('changing exchange rate via flow', this.getName(), val);
-		await this.setSettings({ exchangeRate: val });
+		await this.setSettings({ exchangeRate: val }).catch(this.error);
 		this.restartDevice(1000);
 	}
 
@@ -586,7 +582,7 @@ class MyDevice extends Homey.Device {
 				if (typeof val !== 'number') throw Error('result is not a number', val);
 				if (val !== this.settings.exchangeRate) {
 					this.log('new exchange rate:', val);
-					await this.setSettings({ exchangeRate: val });
+					await this.setSettings({ exchangeRate: val }).catch(this.error);
 					this.settings = await this.getSettings();
 					// recalculate and store prices based on new exchange rate
 					await this.storePrices(this.prices);

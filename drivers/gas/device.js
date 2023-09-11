@@ -46,7 +46,11 @@ class sumDriver extends GenericDevice {
 	// driver specific stuff below
 
 	async addListeners() {
-		this.sourceDevice = await this.homey.app.api.devices.getDevice({ id: this.getSettings().homey_device_id, $cache: false, $timeout: 20000 });
+		this.sourceDevice = await this.homey.app.api.devices.getDevice({ id: this.getSettings().homey_device_id, $cache: false, $timeout: 20000 })
+			.catch(this.error);
+		const sourceDeviceExists = this.sourceDevice && this.sourceDevice.capabilitiesObj
+			&& Object.keys(this.sourceDevice.capabilitiesObj).length > 0; // && (this.sourceDevice.available !== null);
+		if (!sourceDeviceExists) throw Error('Source device is missing.');
 		// make listener for meter_gas
 		if (this.sourceDevice.capabilities.includes('meter_gas')) {
 			this.log(`registering meter_gas capability listener for ${this.sourceDevice.name}`);
@@ -79,7 +83,12 @@ class sumDriver extends GenericDevice {
 	}
 
 	async pollMeter() {
-		this.sourceDevice = await this.homey.app.api.devices.getDevice({ id: this.getSettings().homey_device_id, $cache: false, $timeout: 20000 });
+		this.sourceDevice = await this.homey.app.api.devices.getDevice({ id: this.getSettings().homey_device_id, $cache: false, $timeout: 20000 })
+			.catch(this.error);
+		const sourceDeviceExists = this.sourceDevice && this.sourceDevice.capabilitiesObj
+			&& Object.keys(this.sourceDevice.capabilitiesObj).length > 0; // && (this.sourceDevice.available !== null);
+		if (!sourceDeviceExists) throw Error('Source device is missing.');
+
 		let pollValue;
 		if (this.sourceDevice.capabilitiesObj && this.sourceDevice.capabilitiesObj.meter_gas) {
 			pollValue = this.sourceDevice.capabilitiesObj.meter_gas.value;

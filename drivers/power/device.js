@@ -66,7 +66,12 @@ class sumDevice extends GenericDevice {
 	}
 
 	async addListeners() {
-		this.sourceDevice = await this.homey.app.api.devices.getDevice({ id: this.getSettings().homey_device_id, $cache: false, $timeout: 20000 });
+		this.sourceDevice = await this.homey.app.api.devices.getDevice({ id: this.getSettings().homey_device_id, $cache: false, $timeout: 20000 })
+			.catch(this.error);
+
+		const sourceDeviceExists = this.sourceDevice && this.sourceDevice.capabilitiesObj
+			&& Object.keys(this.sourceDevice.capabilitiesObj).length > 0; // && (this.sourceDevice.available !== null);
+		if (!sourceDeviceExists) throw Error('Source device is missing.');
 
 		// start listener for METER_VIA_WATT device
 		if (this.getSettings().use_measure_source) {
@@ -100,7 +105,7 @@ class sumDevice extends GenericDevice {
 
 		// poll a Homey Energy device
 		if (this.getSettings().homey_energy) {
-			const report = await this.homey.app.api.energy.getLiveReport();
+			const report = await this.homey.app.api.energy.getLiveReport().catch(this.error);
 			// console.log(this.getName(), this.settings.homey_energy);
 			// console.dir(report, { depth: null, colors: true });
 			const value = report[this.settings.homey_energy].W;
@@ -112,7 +117,11 @@ class sumDevice extends GenericDevice {
 		if (!this.sourceCapGroup) await this.addSourceCapGroup();
 
 		// get all values for this.lastGroupMeter
-		this.sourceDevice = await this.homey.app.api.devices.getDevice({ id: this.getSettings().homey_device_id, $cache: false, $timeout: 20000 });
+		this.sourceDevice = await this.homey.app.api.devices.getDevice({ id: this.getSettings().homey_device_id, $cache: false, $timeout: 20000 })
+			.catch(this.error);
+		const sourceDeviceExists = this.sourceDevice && this.sourceDevice.capabilitiesObj
+			&& Object.keys(this.sourceDevice.capabilitiesObj).length > 0; // && (this.sourceDevice.available !== null);
+		if (!sourceDeviceExists) throw Error('Source device is missing.');
 		Object.keys(this.sourceCapGroup)
 			.filter((k) => this.sourceCapGroup[k])
 			.forEach((k) => {

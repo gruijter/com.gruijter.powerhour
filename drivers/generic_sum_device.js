@@ -42,7 +42,7 @@ class SumMeterDevice extends Device {
 			if (this.currencyChanged) await this.migrateCurrencyOptions(this.settings.currency, this.settings.decimals);
 			if (this.meterDecimalsChanged) await this.migrateMeterOptions(this.settings.decimals_meter);
 			this.migrated = true;
-			await this.setAvailable();
+			await this.setAvailable().catch(this.error);
 
 			// setup source for HOMEY-API devices with update listener
 			if (!(this.settings.meter_via_flow || this.settings.homey_energy)) {
@@ -71,12 +71,15 @@ class SumMeterDevice extends Device {
 			// start listener for HOMEY-API device not set to polling
 			else {	// preferred realtime meter mode
 				await this.addListeners();
-				await this.pollMeter();	// do immediate forced update
+				await this.pollMeter()
+					.catch((error) => this.setUnavailable(error.message).catch(this.error));	// do immediate forced update
 			}
 			// this.log(`${this.getName()} has succesfully initialized.`);
+			this.initReady = true;
 		} catch (error) {
+			this.initReady = false; // retry after 5 minutes
 			this.error(error);
-			this.restartDevice(10 * 60 * 1000).catch(this.error); // restart after 10 minutes
+			// this.restartDevice(10 * 60 * 1000).catch(this.error); // restart after 10 minutes
 			this.setUnavailable(error.message).catch(this.error);
 		}
 	}
@@ -85,10 +88,6 @@ class SumMeterDevice extends Device {
 		this.log(`Homey is killing ${this.getName()}`);
 		this.stopPolling();
 		this.destroyListeners();
-		this.homey.removeAllListeners('everyhour');
-		this.homey.removeAllListeners('set_tariff_power');
-		this.homey.removeAllListeners('set_tariff_gas');
-		this.homey.removeAllListeners('set_tariff_water');
 		let delay = 1500;
 		if (!this.migrated || !this.initFirstReading) delay = 10 * 1000;
 		await setTimeoutPromise(delay);
@@ -99,16 +98,17 @@ class SumMeterDevice extends Device {
 		try {
 			this.log(`checking device migration for ${this.getName()}`);
 			this.migrated = false;
+			this.migrating = true;
 			// console.log(this.getName(), this.settings, this.getStore());
 
 			// check settings for homey energy
 			if (this.settings.homey_energy) {
 				if (!this.settings.interval) {
-					await this.setSettings({ interval: 1 });
+					await this.setSettings({ interval: 1 }).catch(this.error);
 					this.settings.interval = 1;
 				}
 				if (this.settings.use_measure_source) {
-					await this.setSettings({ use_measure_source: false });
+					await this.setSettings({ use_measure_source: false }).catch(this.error);
 					this.settings.use_measure_source = false;
 				}
 			}
@@ -116,7 +116,7 @@ class SumMeterDevice extends Device {
 			// check settings for for water and gas
 			if (this.driver.id !== 'power' && this.settings.use_measure_source) {
 				this.log(this.getName(), 'fixing wrong use_measure_source setting');
-				await this.setSettings({ use_measure_source: false });
+				await this.setSettings({ use_measure_source: false }).catch(this.error);
 				this.settings.use_measure_source = false;
 			}
 
@@ -150,7 +150,7 @@ class SumMeterDevice extends Device {
 				const caps = this.getCapabilities();
 				const newCap = correctCaps[index];
 				if (caps[index] !== newCap) {
-					this.setUnavailable('Device is migrating. Please wait!');
+					this.setUnavailable('Device is migrating. Please wait!').catch(this.error);
 					// remove all caps from here
 					for (let i = index; i < caps.length; i += 1) {
 						this.log(`removing capability ${caps[i]} for ${this.getName()}`);
@@ -176,14 +176,14 @@ class SumMeterDevice extends Device {
 			const budgetSetting = this.getSettings().budget;
 			if (typeof budgetSetting === 'number') {
 				this.log(this.getName(), 'migrating budget setting from number to string', budgetSetting);
-				await this.setSettings({ budget: budgetSetting.toString() });
+				await this.setSettings({ budget: budgetSetting.toString() }).catch(this.error);
 			}
 
 			// convert tariff_via_flow to tariff_update_group <4.7.1
 			if (this.getSettings().level < '4.7.1') {
 				const group = this.getSettings().tariff_via_flow ? 1 : 0;
 				this.log(`Migrating tariff group for ${this.getName()} to ${group}`);
-				await this.setSettings({ tariff_update_group: group });
+				await this.setSettings({ tariff_update_group: group }).catch(this.error);
 			}
 
 			// set meter_power from store v3.6.0
@@ -196,16 +196,17 @@ class SumMeterDevice extends Device {
 				// set new meter_source capability
 				await this.setCapabilityValue(this.ds.cmap.meter_source, lastMoney.meterValue);
 				// set money values
-				await this.setSettings({ meter_money_this_day: lastMoney.day });
-				await this.setSettings({ meter_money_this_month: lastMoney.month });
-				await this.setSettings({ meter_money_this_year: lastMoney.year });
+				await this.setSettings({ meter_money_this_day: lastMoney.day }).catch(this.error);
+				await this.setSettings({ meter_money_this_month: lastMoney.month }).catch(this.error);
+				await this.setSettings({ meter_money_this_year: lastMoney.year }).catch(this.error);
 				// await this.setCapabilityValue('meter_money_this_year', lastMoney.year);
 				await this.unsetStoreValue('lastMoney');
 			}
 
 			// set new migrate level
-			await this.setSettings({ level: this.homey.app.manifest.version });
+			await this.setSettings({ level: this.homey.app.manifest.version }).catch(this.error);
 			this.settings = await this.getSettings();
+			this.migrating = false;
 			Promise.resolve(true);
 		} catch (error) {
 			this.error('Migration failed', error);
@@ -215,7 +216,8 @@ class SumMeterDevice extends Device {
 
 	async migrateCurrencyOptions(currency, decimals) {
 		this.log('migrating money capability options');
-		this.setUnavailable('Device is migrating. Please wait!');
+		this.migrating = true;
+		this.setUnavailable('Device is migrating. Please wait!').catch(this.error);
 
 		// determine new units and decimals
 		let curr = currency;
@@ -265,11 +267,13 @@ class SumMeterDevice extends Device {
 			} catch (error) { this.error(`capability options migration has an error: ${error.message}`); }
 		}
 		this.currencyChanged = false;
+		this.migrating = false;
 	}
 
 	async migrateMeterOptions(decimals) {
 		this.log('migrating meter capability options');
-		this.setUnavailable('Device is migrating. Please wait!');
+		this.migrating = true;
+		this.setUnavailable('Device is migrating. Please wait!').catch(this.error);
 
 		// determine new units and decimals
 		let dec = decimals;
@@ -310,6 +314,7 @@ class SumMeterDevice extends Device {
 			await this.setCapabilityOptions('meter_water', optionM3).catch(this.error);
 		}
 		this.meterDecimalsChanged = false;
+		this.migrating = false;
 		this.log('meter capability options migration ready');
 	}
 
@@ -320,9 +325,9 @@ class SumMeterDevice extends Device {
 		this.destroyListeners();
 		const dly = delay || 2000;
 		this.log(`Device will restart in ${dly / 1000} seconds`);
-		// this.setUnavailable('Device is restarting. Wait a few minutes!');
+		// this.setUnavailable('Device is restarting. Wait a few minutes!').catch(this.error);
 		await setTimeoutPromise(dly); // .then(() => this.onInitDevice());
-		this.onInitDevice();
+		this.onInitDevice().catch(this.error);
 	}
 
 	// this method is called when the Device is added
@@ -437,7 +442,7 @@ class SumMeterDevice extends Device {
 			this.meterDecimalsChanged = true;
 		}
 
-		this.restartDevice(1000);
+		this.restartDevice(1000).catch(this.error);
 	}
 
 	destroyListeners() {
@@ -459,14 +464,18 @@ class SumMeterDevice extends Device {
 	startPolling(interval) {
 		this.homey.clearInterval(this.intervalIdDevicePoll);
 		this.log(`start polling ${this.getName()} @${interval} minutes interval`);
-		this.pollMeter().catch(this.error);
+		this.pollMeter().catch((error) => {
+			this.error(error);
+			this.setUnavailable(error.message).catch(this.error);
+			this.initReady = false; // restart within 5 minutes
+		});
 		this.intervalIdDevicePoll = this.homey.setInterval(async () => {
 			try {
 				await this.pollMeter();
 			} catch (error) {
-				this.error(error);
-				this.setUnavailable(error.message).catch(this.error);
-				this.restartDevice(10 * 60 * 1000); // restart after 10 minutes
+				this.error(error.message);
+				this.setUnavailable('Polling failed. Will retry soon..').catch(this.error);
+				this.initReady = false; // restart within 5 minutes
 			}
 		}, 1000 * 60 * interval);
 	}
@@ -593,10 +602,10 @@ class SumMeterDevice extends Device {
 			await this.setStoreValue('lastReadingYear', reading);
 			this.lastReadingYear = reading;
 			// set meter start in device settings
-			await this.setSettings({ meter_latest: `${reading.meterValue}` });
-			await this.setSettings({ meter_day_start: this.lastReadingDay.meterValue });
-			await this.setSettings({ meter_month_start: this.lastReadingMonth.meterValue });
-			await this.setSettings({ meter_year_start: this.lastReadingYear.meterValue });
+			await this.setSettings({ meter_latest: `${reading.meterValue}` }).catch(this.error);
+			await this.setSettings({ meter_day_start: this.lastReadingDay.meterValue }).catch(this.error);
+			await this.setSettings({ meter_month_start: this.lastReadingMonth.meterValue }).catch(this.error);
+			await this.setSettings({ meter_year_start: this.lastReadingYear.meterValue }).catch(this.error);
 		}
 		// pair init Money
 		if (this.meterMoney && !this.meterMoney.meterValue) this.meterMoney.meterValue = reading.meterValue;
@@ -630,7 +639,7 @@ class SumMeterDevice extends Device {
 			};
 			this.tariffHistory = tariffHistory;
 			this.setCapability('meter_tariff', tariff);
-			this.setSettings({ tariff });
+			this.setSettings({ tariff }).catch(this.error);
 			this.setStoreValue('tariffHistory', tariffHistory);
 		} catch (error) {
 			this.error(error);
@@ -664,7 +673,7 @@ class SumMeterDevice extends Device {
 				if (reset) {
 					this.log('source device meter reset detected');
 					this.dayStartCumVal = this.cumVal;
-					await this.setSettings({ meter_day_start: this.lastReadingDay.meterValue });
+					await this.setSettings({ meter_day_start: this.lastReadingDay.meterValue }).catch(this.error);
 					this.cumVal += absVal;
 				} else {
 					this.cumVal = this.dayStartCumVal + absVal;
@@ -816,7 +825,7 @@ class SumMeterDevice extends Device {
 			this.setCapability(this.ds.cmap.last_hour, valHour);
 			lastReadingHour = reading;
 			await this.setStoreValue('lastReadingHour', reading);
-			await this.setSettings({ meter_latest: `${reading.meterValue}` });
+			await this.setSettings({ meter_latest: `${reading.meterValue}` }).catch(this.error);
 			valHour = 0;
 		}
 		if (periods.newDay) {
@@ -824,7 +833,7 @@ class SumMeterDevice extends Device {
 			this.setCapability(this.ds.cmap.last_day, valDay);
 			lastReadingDay = reading;
 			await this.setStoreValue('lastReadingDay', reading);
-			await this.setSettings({ meter_day_start: lastReadingDay.meterValue });
+			await this.setSettings({ meter_day_start: lastReadingDay.meterValue }).catch(this.error);
 			valDay = 0;
 		}
 		if (periods.newMonth) {
@@ -832,7 +841,7 @@ class SumMeterDevice extends Device {
 			this.setCapability(this.ds.cmap.last_month, valMonth);
 			lastReadingMonth = reading;
 			await this.setStoreValue('lastReadingMonth', reading);
-			await this.setSettings({ meter_month_start: lastReadingMonth.meterValue });
+			await this.setSettings({ meter_month_start: lastReadingMonth.meterValue }).catch(this.error);
 			valMonth = 0;
 		}
 		if (periods.newYear) {
@@ -840,7 +849,7 @@ class SumMeterDevice extends Device {
 			this.setCapability(this.ds.cmap.last_year, valYear);
 			lastReadingYear = reading;
 			await this.setStoreValue('lastReadingYear', reading);
-			await this.setSettings({ meter_year_start: lastReadingYear.meterValue });
+			await this.setSettings({ meter_year_start: lastReadingYear.meterValue }).catch(this.error);
 			valYear = 0;
 		}
 		// console.log(this.getName(), valHour, valDay, valMonth, valYear);
@@ -897,7 +906,7 @@ class SumMeterDevice extends Device {
 			meterMoney.hour = 0;
 			fixedMarkup += this.getSettings().markup_hour;
 			await this.setCapability('meter_money_last_hour', meterMoney.lastHour);
-			await this.setSettings({ meter_money_last_hour: meterMoney.lastHour });
+			await this.setSettings({ meter_money_last_hour: meterMoney.lastHour }).catch(this.error);
 		}
 		if (periods.newDay) {
 			// new day started
@@ -905,7 +914,7 @@ class SumMeterDevice extends Device {
 			meterMoney.day = 0;
 			fixedMarkup += this.getSettings().markup_day;
 			await this.setCapability('meter_money_last_day', meterMoney.lastDay);
-			await this.setSettings({ meter_money_last_day: meterMoney.lastDay });
+			await this.setSettings({ meter_money_last_day: meterMoney.lastDay }.catch(this.error));
 		}
 		if (periods.newMonth) {
 			// new month started
@@ -913,14 +922,14 @@ class SumMeterDevice extends Device {
 			meterMoney.month = 0;
 			fixedMarkup += this.getSettings().markup_month;
 			await this.setCapability('meter_money_last_month', meterMoney.lastMonth);
-			await this.setSettings({ meter_money_last_month: meterMoney.lastMonth });
+			await this.setSettings({ meter_money_last_month: meterMoney.lastMonth }).catch(this.error);
 		}
 		if (periods.newYear) {
 			// new year started
 			meterMoney.lastYear = meterMoney.year;
 			meterMoney.year = 0;
 			await this.setCapability('meter_money_last_year', meterMoney.lastYear);
-			await this.setSettings({ meter_money_last_year: meterMoney.lastYear });
+			await this.setSettings({ meter_money_last_year: meterMoney.lastYear }).catch(this.error);
 		}
 		// add fixed markups
 		meterMoney.hour += fixedMarkup;
@@ -935,9 +944,9 @@ class SumMeterDevice extends Device {
 		this.meterMoney = meterMoney;
 		// Update settings every hour
 		if (periods.newHour) {
-			await this.setSettings({ meter_money_this_day: meterMoney.day });
-			await this.setSettings({ meter_money_this_month: meterMoney.month });
-			await this.setSettings({ meter_money_this_year: meterMoney.year });
+			await this.setSettings({ meter_money_this_day: meterMoney.day }).catch(this.error);
+			await this.setSettings({ meter_money_this_month: meterMoney.month }).catch(this.error);
+			await this.setSettings({ meter_money_this_year: meterMoney.year }).catch(this.error);
 		}
 	}
 

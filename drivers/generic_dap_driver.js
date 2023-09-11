@@ -30,10 +30,10 @@ class MyDriver extends Driver {
 
 	async onUninit() {
 		this.log('dap driver onUninit called');
-		this.homey.removeAllListeners('everyhour');
-		this.homey.removeAllListeners('set_tariff_power');
-		this.homey.removeAllListeners('set_tariff_gas');
-		this.homey.removeAllListeners('set_tariff_water');
+		// this.homey.removeAllListeners('everyhour');
+		// this.homey.removeAllListeners('set_tariff_power');
+		// this.homey.removeAllListeners('set_tariff_gas');
+		// this.homey.removeAllListeners('set_tariff_water');
 	}
 
 	async onPairListDevices() {

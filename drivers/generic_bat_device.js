@@ -33,6 +33,7 @@ class batDevice extends Device {
 		try {
 			// init some stuff
 			this.restarting = false;
+			this.initReady = false;
 			// this.initReady = false;
 			this.destroyListeners();
 			this.timeZone = this.homey.clock.getTimezone();
@@ -40,7 +41,7 @@ class batDevice extends Device {
 
 			if (!this.migrated) await this.migrate();
 			this.migrated = true;
-			await this.setAvailable();
+			await this.setAvailable().catch(this.error);
 
 			// restore device values
 			await this.initDeviceValues();
@@ -50,20 +51,18 @@ class batDevice extends Device {
 
 			// poll first values
 			await this.poll();
+			this.initReady = true;
 		} catch (error) {
 			this.error(error);
-			this.restartDevice(10 * 60 * 1000).catch(this.error); // restart after 10 minutes
+			// this.restartDevice(10 * 60 * 1000).catch(this.error); // restart after 10 minutes
 			this.setUnavailable(error.message).catch(this.error);
+			this.initReady = false; // retry after 5 minutes
 		}
 	}
 
 	async onUninit() {
 		this.log(`Homey is killing ${this.getName()}`);
 		this.destroyListeners();
-		this.homey.removeAllListeners('everyhour');
-		this.homey.removeAllListeners('set_tariff_power');
-		this.homey.removeAllListeners('set_tariff_gas');
-		this.homey.removeAllListeners('set_tariff_water');
 		let delay = 1500;
 		if (!this.migrated || !this.initFirstReading) delay = 10 * 1000;
 		await setTimeoutPromise(delay);
@@ -85,7 +84,7 @@ class batDevice extends Device {
 				const caps = this.getCapabilities();
 				const newCap = correctCaps[index];
 				if (caps[index] !== newCap) {
-					this.setUnavailable('Device is migrating. Please wait!');
+					this.setUnavailable('Device is migrating. Please wait!').catch(this.error);
 					// remove all caps from here
 					for (let i = index; i < caps.length; i += 1) {
 						this.log(`removing capability ${caps[i]} for ${this.getName()}`);
@@ -104,7 +103,7 @@ class batDevice extends Device {
 			}
 
 			// set new migrate level
-			await this.setSettings({ level: this.homey.app.manifest.version });
+			await this.setSettings({ level: this.homey.app.manifest.version }).catch(this.error);
 			this.settings = await this.getSettings();
 			Promise.resolve(true);
 		} catch (error) {
@@ -119,9 +118,9 @@ class batDevice extends Device {
 		this.destroyListeners();
 		const dly = delay || 2000;
 		this.log(`Device will restart in ${dly / 1000} seconds`);
-		// this.setUnavailable('Device is restarting. Wait a few minutes!');
+		// this.setUnavailable('Device is restarting. Wait a few minutes!').catch(this.error);
 		await setTimeoutPromise(dly); // .then(() => this.onInitDevice());
-		this.onInitDevice();
+		this.onInitDevice().catch(this.error);
 	}
 
 	// this method is called when the Device is added
@@ -296,10 +295,10 @@ class batDevice extends Device {
 			await this.setStoreValue('lastReadingYear', reading);
 			this.lastReadingYear = reading;
 			// set meter start in device settings
-			await this.setSettings({ meter_latest: `${reading.meterValue}` });
-			await this.setSettings({ meter_day_start: this.lastReadingDay.meterValue });
-			await this.setSettings({ meter_month_start: this.lastReadingMonth.meterValue });
-			await this.setSettings({ meter_year_start: this.lastReadingYear.meterValue });
+			await this.setSettings({ meter_latest: `${reading.meterValue}` }).catch(this.error);
+			await this.setSettings({ meter_day_start: this.lastReadingDay.meterValue }).catch(this.error);
+			await this.setSettings({ meter_month_start: this.lastReadingMonth.meterValue }).catch(this.error);
+			await this.setSettings({ meter_year_start: this.lastReadingYear.meterValue }).catch(this.error);
 		}
 		// pair init Money
 		if (this.meterMoney && !this.meterMoney.meterValue) this.meterMoney.meterValue = reading.meterValue;
@@ -354,7 +353,7 @@ class batDevice extends Device {
 			const value = val;
 			// create a readingObject from value
 			const reading = await this.getReadingObject(value);
-			if (!this.initReady) await this.initFirstReading(reading); // after app start
+			if (!this.initReady || !this.lastReadingYear) await this.initFirstReading(reading); // after app start
 			// Put values in queue
 			if (!this.newReadings) this.newReadings = [];
 			this.newReadings.push(reading);
@@ -448,7 +447,7 @@ class batDevice extends Device {
 			// this.setCapability(this.ds.cmap.last_hour, valHour);
 			lastReadingHour = reading;
 			await this.setStoreValue('lastReadingHour', reading);
-			await this.setSettings({ meter_latest: `${reading.meterValue}` });
+			await this.setSettings({ meter_latest: `${reading.meterValue}` }).catch(this.error);
 		}
 		if (periods.newDay) {
 			// new day started
@@ -492,21 +491,21 @@ class batDevice extends Device {
 			meterMoney.lastDay = meterMoney.day;
 			meterMoney.day = 0;
 			await this.setCapability('meter_money_last_day', meterMoney.lastDay);
-			await this.setSettings({ meter_money_last_day: meterMoney.lastDay });
+			await this.setSettings({ meter_money_last_day: meterMoney.lastDay }).catch(this.error);
 		}
 		if (periods.newMonth) {
 			// new month started
 			meterMoney.lastMonth = meterMoney.month;
 			meterMoney.month = 0;
 			await this.setCapability('meter_money_last_month', meterMoney.lastMonth);
-			await this.setSettings({ meter_money_last_month: meterMoney.lastMonth });
+			await this.setSettings({ meter_money_last_month: meterMoney.lastMonth }).catch(this.error);
 		}
 		if (periods.newYear) {
 			// new year started
 			meterMoney.lastYear = meterMoney.year;
 			meterMoney.year = 0;
 			await this.setCapability('meter_money_last_year', meterMoney.lastYear);
-			await this.setSettings({ meter_money_last_year: meterMoney.lastYear });
+			await this.setSettings({ meter_money_last_year: meterMoney.lastYear }).catch(this.error);
 		}
 		// update money_this_x capabilities
 		await this.setCapability('meter_money_this_day', meterMoney.day);
@@ -515,9 +514,9 @@ class batDevice extends Device {
 		this.meterMoney = meterMoney;
 		// Update settings every hour
 		if (periods.newHour) {
-			await this.setSettings({ meter_money_this_day: meterMoney.day });
-			await this.setSettings({ meter_money_this_month: meterMoney.month });
-			await this.setSettings({ meter_money_this_year: meterMoney.year });
+			await this.setSettings({ meter_money_this_day: meterMoney.day }).catch(this.error);
+			await this.setSettings({ meter_money_this_month: meterMoney.month }).catch(this.error);
+			await this.setSettings({ meter_money_this_year: meterMoney.year }).catch(this.error);
 		}
 	}
 

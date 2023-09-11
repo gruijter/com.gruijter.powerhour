@@ -43,9 +43,11 @@ class batDevice extends GenericDevice {
 
 	async addListeners() {
 		// check if source device exists
-		this.sourceDevice = await this.homey.app.api.devices.getDevice({ id: this.getSettings().homey_device_id, $cache: false, $timeout: 20000 });
-		const sourceDeviceExists = this.sourceDevice && this.sourceDevice.capabilitiesObj; // && (this.sourceDevice.available !== null);
-		if (!sourceDeviceExists) throw Error(`Source device ${this.getName()} is missing. Restarting in 10min.`);
+		this.sourceDevice = await this.homey.app.api.devices.getDevice({ id: this.getSettings().homey_device_id, $cache: false, $timeout: 20000 })
+			.catch(this.error);
+		const sourceDeviceExists = this.sourceDevice && this.sourceDevice.capabilitiesObj
+			&& Object.keys(this.sourceDevice.capabilitiesObj).length > 0; // && (this.sourceDevice.available !== null);
+		if (!sourceDeviceExists) throw Error('Source device is missing.');
 
 		// start listeners for all caps
 		await this.addSourceCapGroup();
@@ -61,9 +63,11 @@ class batDevice extends GenericDevice {
 
 	async poll() {
 		// check if source device exists
-		this.sourceDevice = await this.homey.app.api.devices.getDevice({ id: this.getSettings().homey_device_id, $cache: false, $timeout: 20000 });
-		const sourceDeviceExists = this.sourceDevice && this.sourceDevice.capabilitiesObj; // && (this.sourceDevice.available !== null);
-		if (!sourceDeviceExists) throw Error(`Source device ${this.getName()} is missing. Restarting in 10min.`);
+		this.sourceDevice = await this.homey.app.api.devices.getDevice({ id: this.getSettings().homey_device_id, $cache: false, $timeout: 20000 })
+			.catch(this.error);
+		const sourceDeviceExists = this.sourceDevice && this.sourceDevice.capabilitiesObj
+			&& Object.keys(this.sourceDevice.capabilitiesObj).length > 0; // && (this.sourceDevice.available !== null);
+		if (!sourceDeviceExists) throw Error('Source device is missing.');
 
 		// start polling all caps
 		if (!this.sourceCapGroup) await this.addSourceCapGroup();
