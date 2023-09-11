@@ -3,7 +3,7 @@ roadmap*.txt
 env.json
 bidding_zones.json
 templog*.txt
-zzztest.js
+zzz*
 .vscode
 
 # Added by Homey CLI
