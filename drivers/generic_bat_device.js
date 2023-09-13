@@ -233,7 +233,7 @@ class batDevice extends Device {
 		}
 
 		// init incoming meter queue
-		this.newReadings = [];
+		if (!this.newReadings) this.newReadings = [];
 
 		// init this.startDay, this.startMonth and this.year
 		let startDateString = this.settings.start_date;
@@ -245,10 +245,10 @@ class batDevice extends Device {
 		this.startMonth -= 1; // January is month 0
 
 		// init this.lastReading
-		this.lastReadingHour = await this.getStoreValue('lastReadingHour');
-		this.lastReadingDay = await this.getStoreValue('lastReadingDay');
-		this.lastReadingMonth = await this.getStoreValue('lastReadingMonth');
-		this.lastReadingYear = await this.getStoreValue('lastReadingYear');
+		if (!this.lastReadingHour) this.lastReadingHour = await this.getStoreValue('lastReadingHour');
+		if (!this.lastReadingDay) this.lastReadingDay = await this.getStoreValue('lastReadingDay');
+		if (!this.lastReadingMonth) this.lastReadingMonth = await this.getStoreValue('lastReadingMonth');
+		if (!this.lastReadingYear) this.lastReadingYear = await this.getStoreValue('lastReadingYear');
 
 		// PAIR init meter_power_hidden for use_measure_source
 		const meterX = await this.getCapabilityValue('meter_power_hidden');

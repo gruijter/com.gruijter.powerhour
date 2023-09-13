@@ -74,9 +74,10 @@ class BatDriver extends Driver {
 						device.restartDevice(500).catch(this.error);
 					}
 					// HOMEY-API device - check if source device exists
-					const sourceDeviceExists = this.sourceDevice && this.sourceDevice.capabilitiesObj
-						&& Object.keys(this.sourceDevice.capabilitiesObj).length > 0 && (this.sourceDevice.available !== null);
+					const sourceDeviceExists = device.sourceDevice && device.sourceDevice.capabilitiesObj
+						&& Object.keys(device.sourceDevice.capabilitiesObj).length > 0 && (device.sourceDevice.available !== null);
 					if (!sourceDeviceExists) {
+						// console.log(deviceName, device.sourceDevice && device.sourceDevice.capabilitiesObj, device.sourceDevice && device.sourceDevice.available);
 						this.error(`Source device ${deviceName} is missing. Restarting now.`);
 						await device.setUnavailable('Source device is missing. Retrying ..').catch(this.error);
 						device.restartDevice(500).catch(this.error);

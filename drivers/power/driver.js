@@ -53,6 +53,9 @@ const driverSpecifics = {
 		{
 			p1: 'meter_power.import', p2: null, n1: 'meter_power.export', n2: null,	// qubino
 		},
+		{
+			p1: 'measure_energy_consumption_today', p2: null, n1: null, n2: null,	// toshiba
+		},
 	],
 	deviceCapabilities: ['meter_kwh_last_hour', 'meter_kwh_this_hour', 'meter_kwh_last_day', 'meter_kwh_this_day',
 		'meter_kwh_last_month', 'meter_kwh_this_month', 'meter_kwh_last_year', 'meter_kwh_this_year',

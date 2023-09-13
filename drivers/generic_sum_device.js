@@ -51,7 +51,8 @@ class SumMeterDevice extends Device {
 				// wait a bit for capabilitiesObj to fill?
 				await setTimeoutPromise(3 * 1000);
 				// check if source device exists
-				const sourceDeviceExists = this.sourceDevice && this.sourceDevice.capabilitiesObj; // && (this.sourceDevice.available !== null);
+				const sourceDeviceExists = this.sourceDevice && this.sourceDevice.capabilitiesObj
+					&& Object.keys(this.sourceDevice.capabilitiesObj).length > 0 && (this.sourceDevice.available !== null);
 				if (!sourceDeviceExists) throw Error(`Source device ${this.getName()} is missing. Retry in 10 minutes.`);
 				// if (!this.sourceDevice || this.sourceDevice.ready !== true) throw Error(`Source device ${this.getName()} is not ready`);
 			} else this.log(this.getName(), 'Skipping setup of source device. Meter update is done via flow or from Homey Energy');
@@ -520,12 +521,12 @@ class SumMeterDevice extends Device {
 		}
 
 		// init incoming meter queue
-		this.newReadings = [];
+		if (!this.newReadings) this.newReadings = [];
 
 		// init daily resetting source devices
-		this.dayStartCumVal = this.settings.meter_day_start;
-		this.cumVal = this.dayStartCumVal;
-		this.lastAbsVal = 0;
+		if (!this.dayStartCumVal) this.dayStartCumVal = this.settings.meter_day_start;
+		if (!this.cumVal) this.cumVal = this.dayStartCumVal;
+		if (!this.lastAbsVal) this.lastAbsVal = 0;
 
 		// init this.startDay, this.startMonth and this.year
 		let startDateString = this.settings.start_date;
@@ -540,13 +541,13 @@ class SumMeterDevice extends Device {
 		// this.year = nowLocal.getFullYear();
 
 		// init this.budgets
-		this.budgets = this.getBudgets();
+		if (!this.budgets) this.budgets = this.getBudgets();
 
 		// init this.lastReading
-		this.lastReadingHour = await this.getStoreValue('lastReadingHour');
-		this.lastReadingDay = await this.getStoreValue('lastReadingDay');
-		this.lastReadingMonth = await this.getStoreValue('lastReadingMonth');
-		this.lastReadingYear = await this.getStoreValue('lastReadingYear');
+		if (!this.lastReadingHour) this.lastReadingHour = await this.getStoreValue('lastReadingHour');
+		if (!this.lastReadingDay) this.lastReadingDay = await this.getStoreValue('lastReadingDay');
+		if (!this.lastReadingMonth) this.lastReadingMonth = await this.getStoreValue('lastReadingMonth');
+		if (!this.lastReadingYear) this.lastReadingYear = await this.getStoreValue('lastReadingYear');
 
 		// init this.lastMinMax
 		if (!this.lastMinMax) this.lastMinMax = this.getStoreValue('lastMinMax');
