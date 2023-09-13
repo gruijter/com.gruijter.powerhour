@@ -23,8 +23,8 @@ const GenericDriver = require('../generic_sum_driver');
 
 const driverSpecifics = {
 	driverId: 'power',
-	originDeviceCapabilities: ['measure_power', 'meter_power', 'meter_power.peak', 'meter_power.consumed',
-		'meter_power.delivered', 'meter_power.import'],
+	originDeviceCapabilities: ['measure_power', 'meter_power', 'meter_power.peak', 'meter_power.consumed', 'meter_power.delivered',
+		'meter_power.import', 'meter_power.total_power', 'meter_power.t1', 'meter_power.consumedL1', 'measure_energy_consumption_today'],
 	sourceCapGroups: [
 		{
 			p1: 'meter_power.total_power', p2: null, n1: null, n2: null,	// huawei solar
