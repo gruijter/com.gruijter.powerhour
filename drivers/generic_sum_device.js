@@ -915,7 +915,7 @@ class SumMeterDevice extends Device {
 			meterMoney.day = 0;
 			fixedMarkup += this.getSettings().markup_day;
 			await this.setCapability('meter_money_last_day', meterMoney.lastDay);
-			await this.setSettings({ meter_money_last_day: meterMoney.lastDay }.catch(this.error));
+			await this.setSettings({ meter_money_last_day: meterMoney.lastDay }).catch(this.error);
 		}
 		if (periods.newMonth) {
 			// new month started

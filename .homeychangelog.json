@@ -1,4 +1,7 @@
 {
+  "5.7.3": {
+    "en": "Migrate to homey-api@3.0.15. Improved retry source devices. Stability fixes. Added support for Toshiba AC. Fixed daily use reset at midnight. Fixed pairing of IUNGO, Huawei Solar, ZTAZ P1 and Qubino."
+  },
   "5.7.2": {
     "en": "Migrate to homey-api@3.0.12. Improved retry source devices. Stability fixes. Added support for Toshiba AC. Fixed daily use reset at midnight. Fixed pairing of IUNGO, Huawei Solar, ZTAZ P1 and Qubino."
   },
