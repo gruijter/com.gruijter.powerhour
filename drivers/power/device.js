@@ -66,7 +66,7 @@ class sumDevice extends GenericDevice {
 	}
 
 	async addListeners() {
-		this.sourceDevice = await this.homey.app.api.devices.getDevice({ id: this.getSettings().homey_device_id, $cache: false, $timeout: 20000 })
+		this.sourceDevice = await this.homey.app.api.devices.getDevice({ id: this.getSettings().homey_device_id, $cache: false, $timeout: 15000 })
 			.catch(this.error);
 
 		const sourceDeviceExists = this.sourceDevice && this.sourceDevice.capabilitiesObj
@@ -117,7 +117,7 @@ class sumDevice extends GenericDevice {
 		if (!this.sourceCapGroup) await this.addSourceCapGroup();
 
 		// get all values for this.lastGroupMeter
-		this.sourceDevice = await this.homey.app.api.devices.getDevice({ id: this.getSettings().homey_device_id, $cache: false, $timeout: 20000 })
+		this.sourceDevice = await this.homey.app.api.devices.getDevice({ id: this.getSettings().homey_device_id, $cache: false, $timeout: 15000 })
 			.catch(this.error);
 		const sourceDeviceExists = this.sourceDevice && this.sourceDevice.capabilitiesObj
 			&& Object.keys(this.sourceDevice.capabilitiesObj).length > 0; // && (this.sourceDevice.available !== null);

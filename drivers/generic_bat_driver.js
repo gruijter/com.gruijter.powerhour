@@ -131,7 +131,7 @@ class BatDriver extends Driver {
 			const randomId = crypto.randomBytes(3).toString('hex');
 			this.devices = [];
 
-			const allDevices = await this.homey.app.api.devices.getDevices({ $timeout: 20000 });
+			const allDevices = await this.homey.app.api.devices.getDevices({ $timeout: 15000 }).catch(this.error);
 			const keys = Object.keys(allDevices);
 			const allCaps = this.ds.deviceCapabilities;
 			keys.forEach((key) => {

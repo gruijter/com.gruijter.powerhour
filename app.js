@@ -103,7 +103,8 @@ class MyApp extends Homey.App {
 
 		const autoComplete = async (query, driverId) => {
 			const driver = await this.homey.drivers.getDriver(driverId);
-			const devices = driver.getDevices().filter((device) => device.settings.meter_via_flow);
+			const devices = await driver.getDevices()
+				.filter((device) => device.settings.meter_via_flow);
 			const devicesMap = devices.map((device) => (
 				{
 					name: device.getName(),

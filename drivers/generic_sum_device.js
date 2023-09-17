@@ -46,7 +46,7 @@ class SumMeterDevice extends Device {
 
 			// setup source for HOMEY-API devices with update listener
 			if (!(this.settings.meter_via_flow || this.settings.homey_energy)) {
-				this.sourceDevice = await this.homey.app.api.devices.getDevice({ id: this.settings.homey_device_id, $cache: false, $timeout: 25000 })
+				this.sourceDevice = await this.homey.app.api.devices.getDevice({ id: this.settings.homey_device_id, $cache: false, $timeout: 15000 })
 					.catch(this.error);
 				// wait a bit for capabilitiesObj to fill?
 				await setTimeoutPromise(3 * 1000);
@@ -132,7 +132,7 @@ class SumMeterDevice extends Device {
 				if (this.driver.id === 'gas') distribution = 'gas_nl_2023';
 				if (this.driver.id === 'water') distribution = 'linear';
 				if (this.driver.id === 'power' && !(this.settings.meter_via_flow || this.settings.homey_energy)) {
-					const sourceD = await this.homey.app.api.devices.getDevice({ id: this.settings.homey_device_id, $cache: false, $timeout: 25000 })
+					const sourceD = await this.homey.app.api.devices.getDevice({ id: this.settings.homey_device_id, $cache: false, $timeout: 15000 })
 						.catch(this.error);
 					await setTimeoutPromise(3 * 1000); // wait a bit for capabilitiesObj to fill?
 					// check if source device exists
@@ -501,7 +501,7 @@ class SumMeterDevice extends Device {
 			meterValue: value,
 			meterTm: date,
 		};
-		return reading;
+		return { ...reading };
 	}
 
 	async initDeviceValues() {
@@ -683,7 +683,7 @@ class SumMeterDevice extends Device {
 			}
 			// create a readingObject from value
 			const reading = await this.getReadingObject(value);
-			if (!this.initReady) await this.initFirstReading(reading); // after app start
+			if (!this.initReady || !this.lastReadingYear) await this.initFirstReading(reading); // after app start
 			// Put values in queue
 			if (!this.newReadings) this.newReadings = [];
 			this.newReadings.push(reading);
