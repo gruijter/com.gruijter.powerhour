@@ -43,7 +43,7 @@ class batDevice extends GenericDevice {
 
 	async addListeners() {
 		// check if source device exists
-		this.sourceDevice = await this.homey.app.api.devices.getDevice({ id: this.getSettings().homey_device_id, $cache: false, $timeout: 15000 })
+		this.sourceDevice = await this.homey.app.api.devices.getDevice({ id: this.getSettings().homey_device_id, $cache: false }) // $timeout: 15000
 			.catch(this.error);
 		const sourceDeviceExists = this.sourceDevice && this.sourceDevice.capabilitiesObj
 			&& Object.keys(this.sourceDevice.capabilitiesObj).length > 0; // && (this.sourceDevice.available !== null);
@@ -63,7 +63,7 @@ class batDevice extends GenericDevice {
 
 	async poll() {
 		// check if source device exists
-		this.sourceDevice = await this.homey.app.api.devices.getDevice({ id: this.getSettings().homey_device_id, $cache: false, $timeout: 15000 })
+		this.sourceDevice = await this.homey.app.api.devices.getDevice({ id: this.getSettings().homey_device_id, $cache: false }) // $timeout: 15000
 			.catch(this.error);
 		const sourceDeviceExists = this.sourceDevice && this.sourceDevice.capabilitiesObj
 			&& Object.keys(this.sourceDevice.capabilitiesObj).length > 0; // && (this.sourceDevice.available !== null);

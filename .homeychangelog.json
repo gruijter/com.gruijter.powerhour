@@ -1,4 +1,7 @@
 {
+  "5.7.5": {
+    "en": "homey-api@3.0.17."
+  },
   "5.7.4": {
     "en": "Fixed adding new summarizer devices. Stability fixes."
   },
