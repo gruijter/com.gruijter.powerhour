@@ -29,8 +29,8 @@ const defaultPort = 443;
 const defaultTimeout = 30000;
 
 const biddingZones = {
-	TTF_EOD: 'TTF_EOD_EEX',
-	TTF_EGSI: 'TTF_EGSI_EEX',
+	TTF_EOD: 'TTF_EOD',
+	TTF_EGSI: 'TTF_EGSI',
 	CEGH_VTP_EOD: 'CEGH_VTP_EOD',
 	CEGH_VTP_EGSI: 'CEGH_VTP_EGSI',
 	CZ_VTP_EOD: 'CZ_VTP_EOD',
@@ -203,11 +203,14 @@ class EEX {
 				throw Error(`Expected ${headers['content-type']} but received ${contentType}: ${body}`);
 			}
 
+			// console.log(contentType, result.body);
 			// parse EGSI .csv file
 			if (contentType.includes('csv')) {
+				const biddingZone = this.biddingZone.replace('_EGSI', '');
 				const resp = result.body
 					.split('\n')
 					.filter((line) => line.includes('EUR/MWh'))
+					.filter((line) => line.includes(biddingZone))
 					.map((line) => {
 						const info = line.split(';');
 						return {
@@ -217,7 +220,6 @@ class EEX {
 						};
 					});
 				// console.dir(resp, { depth: null });
-				// console.dir(resp.filter((info) => info.descr === this.biddingZone), { depth: null });
 				return Promise.resolve(resp);
 			}
 
@@ -228,7 +230,8 @@ class EEX {
 				if (!respJSON.results || !respJSON.results.items) throw Error('Invalid info');
 				const dailyInfo = respJSON.results.items;
 				const lastDaily = dailyInfo.slice(-1)[0]; // {close:55.665, onexchtradevolumeeex:3277272, tradedatetimegmt:'1/16/2023 12:00:00 PM'}
-				// console.dir(weekInfo, { depth: null });
+				// console.dir(dailyInfo, { depth: null });
+				// console.dir(lastDaily, { depth: null });
 
 				// compensate for bug in EEX
 				if (this.lastDailyInfo) {
@@ -256,6 +259,7 @@ class EEX {
 				options.path = `/query/json/getQuotes/settledate/dir/?${query}`;
 				const resultSettle = await this._makeHttpsRequest(options, postMessage, timeout);
 				const respSettle = JSON.parse(resultSettle.body); // { settledate: '1/16/2023', dir: 55.25 } || { settledate: null, dir: 55.25 }
+				// console.dir(respSettle, { depth: null });
 				const lastSettleDate = respSettle.results && respSettle.results.items
 					&& respSettle.results.items[0] && respSettle.results.items[0].settledate;
 
@@ -274,10 +278,13 @@ class EEX {
 					};
 
 					// Check if last daily entry is closed // after 20:00 CET?
-					if ((idx === dailyInfo.length - 1) && !lastDailyIsClosed) mappedDay = null; // ignore last day info because it is not closed yet
+					if ((idx === dailyInfo.length - 1)
+						&& mappedDay.time.getDay() !== 6 // is actually price for monday after the weekend
+						&& !lastDailyIsClosed) mappedDay = null; // ignore last day info because it is not closed yet
 
 					// Check if last entry is weekend info, and is closed
 					if (weekendInfo && mappedDay && mappedDay.time.getDay() === 6) {
+						// console.log('it is weekend');
 						const [weekend] = weekendInfo.filter((dayW) => dayW.tradedatetimegmt === day.tradedatetimegmt);
 						const satTime = new Date(weekend.tradedatetimegmt.split(' ')[0]);
 						satTime.setDate(satTime.getDate() + 1); // is day ahead, duh...
@@ -352,35 +359,35 @@ module.exports = EEX;
 
 // // START TEST HERE
 // const test = async () => {
-// 	const next = new EEX({ biddingZone: 'TTF_EOD' });
+// 	const next = new EEX({ biddingZone: 'TTF_EGSI' });
 
-// 	next.lastDailyInfo = [
-// 		{
-// 			close: 59.83,
-// 			onexchtradevolumeeex: 3369840,
-// 			tradedatetimegmt: '1/16/2023 12:00:00 PM',
-// 		},
-// 		{
-// 			close: 59.83,
-// 			onexchtradevolumeeex: 3679632,
-// 			tradedatetimegmt: '1/17/2023 12:00:00 PM',
-// 		},
-// 		{
-// 			close: 60.01,
-// 			onexchtradevolumeeex: 3719736,
-// 			tradedatetimegmt: '1/18/2023 12:00:00 PM',
-// 		},
-// 		{
-// 			close: 61.271,
-// 			onexchtradevolumeeex: 3815928,
-// 			tradedatetimegmt: '1/19/2023 12:00:00 PM',
-// 		},
-// 		{
-// 			close: 62.125,
-// 			onexchtradevolumeeex: 554952,
-// 			tradedatetimegmt: '1/20/2023 12:00:00 PM',
-// 		},
-// 	];
+// 	// next.lastDailyInfo = [
+// 	// 	{
+// 	// 		close: 59.83,
+// 	// 		onexchtradevolumeeex: 3369840,
+// 	// 		tradedatetimegmt: '1/16/2023 12:00:00 PM',
+// 	// 	},
+// 	// 	{
+// 	// 		close: 59.83,
+// 	// 		onexchtradevolumeeex: 3679632,
+// 	// 		tradedatetimegmt: '1/17/2023 12:00:00 PM',
+// 	// 	},
+// 	// 	{
+// 	// 		close: 60.01,
+// 	// 		onexchtradevolumeeex: 3719736,
+// 	// 		tradedatetimegmt: '1/18/2023 12:00:00 PM',
+// 	// 	},
+// 	// 	{
+// 	// 		close: 61.271,
+// 	// 		onexchtradevolumeeex: 3815928,
+// 	// 		tradedatetimegmt: '1/19/2023 12:00:00 PM',
+// 	// 	},
+// 	// 	{
+// 	// 		close: 62.125,
+// 	// 		onexchtradevolumeeex: 554952,
+// 	// 		tradedatetimegmt: '1/20/2023 12:00:00 PM',
+// 	// 	},
+// 	// ];
 
 // 	const today = new Date();
 // 	today.setHours(0);
@@ -390,8 +397,8 @@ module.exports = EEX;
 // 	tomorrow.setDate(tomorrow.getDate() + 2);
 
 // 	const result = await next.getPrices({ dateStart: yesterday, dateEnd: tomorrow }).catch((error) => console.log(error));
-// 	// console.dir(result, { depth: null });
-// 	const result2 = await next.getPrices({ dateStart: yesterday, dateEnd: tomorrow }).catch((error) => console.log(error));
+// 	console.dir(result, { depth: null });
+// 	// const result2 = await next.getPrices({ dateStart: yesterday, dateEnd: tomorrow }).catch((error) => console.log(error));
 // 	// console.dir(result2, { depth: null });
 // };
 

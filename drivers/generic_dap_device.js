@@ -107,6 +107,7 @@ class MyDevice extends Homey.Device {
 				this.error(this.getName(), 'no provider found for bidding zone', this.settings.biddingZone);
 				return;
 			}
+			// console.log(this.getName(), this.dap[0]);
 
 			// fetch and handle prices now, after short random delay
 			await this.setAvailable().catch(this.error);
