@@ -410,7 +410,7 @@ class MyDevice extends Homey.Device {
 	async priceIsLowestToday(args) {
 		if (!this.state || !this.state.pricesThisDay) throw Error('no prices available');
 		// sort and select number of lowest prices
-		const lowestNPrices = [...this.state.pricesThisDay].sort().slice(0, args.number);
+		const lowestNPrices = [...this.state.pricesThisDay].sort((a, b) => a - b).slice(0, args.number);
 		return this.state.priceNow <= Math.max(...lowestNPrices);
 	}
 
@@ -434,7 +434,7 @@ class MyDevice extends Homey.Device {
 		const pricesPartToday = this.state.pricesThisDay.slice(startHour, endHour);
 		const pricesTotalPeriod = [...pricesPartYesterday, ...pricesPartToday, ...pricesPartTomorrow];
 		// sort and select number of lowest prices
-		const lowestNPrices = pricesTotalPeriod.sort().slice(0, args.number);
+		const lowestNPrices = pricesTotalPeriod.sort((a, b) => a - b).slice(0, args.number);
 		return this.state.priceNow <= Math.max(...lowestNPrices);
 	}
 
@@ -444,7 +444,7 @@ class MyDevice extends Homey.Device {
 		const period = args.period ? args.period : 99;
 		const comingXhours = [...this.state.pricesNextHours].slice(0, period);
 		// sort and select number of lowest prices
-		const lowestNPrices = comingXhours.sort().slice(0, args.number);
+		const lowestNPrices = comingXhours.sort((a, b) => a - b).slice(0, args.number);
 		return this.state.priceNow <= Math.max(...lowestNPrices);
 	}
 
@@ -486,7 +486,7 @@ class MyDevice extends Homey.Device {
 	async priceIsHighestToday(args) {
 		if (!this.state || !this.state.pricesThisDay) throw Error('no prices available');
 		// sort and select number of highest prices
-		const highestNPrices = [...this.state.pricesThisDay].sort().reverse().slice(0, args.number);
+		const highestNPrices = [...this.state.pricesThisDay].sort((a, b) => a - b).reverse().slice(0, args.number);
 		return this.state.priceNow >= Math.min(...highestNPrices);
 	}
 
@@ -495,7 +495,7 @@ class MyDevice extends Homey.Device {
 		// select number of coming hours
 		const comingXhours = [...this.state.pricesNextHours].slice(0, args.period);
 		// sort and select number of highest prices
-		const highestNPrices = comingXhours.sort().reverse().slice(0, args.number);
+		const highestNPrices = comingXhours.sort((a, b) => a - b).reverse().slice(0, args.number);
 		return this.state.priceNow >= Math.min(...highestNPrices);
 	}
 
@@ -519,7 +519,7 @@ class MyDevice extends Homey.Device {
 		const pricesPartToday = this.state.pricesThisDay.slice(startHour, endHour);
 		const pricesTotalPeriod = [...pricesPartYesterday, ...pricesPartToday, ...pricesPartTomorrow];
 		// sort and select number of lowest prices
-		const highestNPrices = pricesTotalPeriod.sort().reverse().slice(0, args.number);
+		const highestNPrices = pricesTotalPeriod.sort((a, b) => a - b).reverse().slice(0, args.number);
 		return this.state.priceNow >= Math.min(...highestNPrices);
 	}
 
