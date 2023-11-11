@@ -36,9 +36,9 @@
 				"dk": "periode",
 				"nl": "periode"
 			},
-			"placeholder": { "en": "2 - 12" },
+			"placeholder": { "en": "2 - 23" },
 			"min": 2,
-			"max": 12,
+			"max": 23,
 			"step": 1
 		},
 		{

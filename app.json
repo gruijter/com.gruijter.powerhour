@@ -1,7 +1,7 @@
 {
   "_comment": "This file is generated. Please edit .homeycompose/app.json instead.",
   "id": "com.gruijter.powerhour",
-  "version": "5.8.0",
+  "version": "5.8.1",
   "compatibility": ">=8.0.0",
   "brandColor": "#df5020",
   "sdk": 3,
@@ -954,10 +954,10 @@
               "nl": "periode"
             },
             "placeholder": {
-              "en": "2 - 12"
+              "en": "2 - 23"
             },
             "min": 2,
-            "max": 12,
+            "max": 23,
             "step": 1
           },
           {
@@ -1353,10 +1353,10 @@
               "nl": "periode"
             },
             "placeholder": {
-              "en": "2 - 12"
+              "en": "2 - 23"
             },
             "min": 2,
-            "max": 12,
+            "max": 23,
             "step": 1
           },
           {
@@ -1951,10 +1951,10 @@
               "nl": "periode"
             },
             "placeholder": {
-              "en": "2 - 12"
+              "en": "2 - 23"
             },
             "min": 2,
-            "max": 12,
+            "max": 23,
             "step": 1
           },
           {
@@ -2368,10 +2368,10 @@
               "nl": "periode"
             },
             "placeholder": {
-              "en": "2 - 12"
+              "en": "2 - 23"
             },
             "min": 2,
-            "max": 12,
+            "max": 23,
             "step": 1
           },
           {

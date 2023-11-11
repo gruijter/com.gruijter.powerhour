@@ -1,4 +1,7 @@
 {
+  "5.8.1": {
+    "en": "Fixed PriceIs flowcards sorting function. Extended lowest/highest before period to 23 hrs max. homey-api@3.0.27."
+  },
   "5.8.0": {
     "en": "Fixed Gas DAP. Fixed Gas summarizer for ZTATZ. homey-api@3.0.25."
   },
