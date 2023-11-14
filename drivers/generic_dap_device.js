@@ -77,7 +77,7 @@ class MyDevice extends Homey.Device {
 			this.initReady = false;
 			this.settings = await this.getSettings();
 			this.timeZone = this.homey.clock.getTimezone();
-			this.fetchDelay = (Math.random() * 8 * 60 * 1000) + (1000 * 60 * 2);
+			this.fetchDelay = (Math.random() * 4 * 60 * 1000) + (1000 * 60 * 1.5);
 			if (!this.prices) this.prices = this.getStoreValue('prices');	// restore from persistent memory on app restart
 			if (!this.prices) this.prices = [{ time: null, price: null, muPrice: null }];
 
@@ -436,6 +436,37 @@ class MyDevice extends Homey.Device {
 		// sort and select number of lowest prices
 		const lowestNPrices = pricesTotalPeriod.sort((a, b) => a - b).slice(0, args.number);
 		return this.state.priceNow <= Math.max(...lowestNPrices);
+	}
+
+	async priceIsLowestAvgBefore(args) {
+		if (!this.state || !this.state.pricesThisDay) throw Error('no prices available');
+		// calculate start and end hours compared to present hour
+		const thisHour = this.state.H0; // e.g. 23 hrs
+		let endHour = args.time; // e.g. 2 hrs
+		if (endHour < thisHour) endHour += 24; // e.g. 2 + 24 = 26 hrs ( = tomorrow!)
+		let startHour = endHour - args.period; // e.g. 26 - 4 = 22 hrs
+		// check if present hour is in scope op selected period
+		if ((thisHour >= endHour) || (thisHour < startHour)) return false;
+		// get period (2-8) hours pricing before end time
+		let pricesPartYesterday = [];
+		if (startHour < 0) {
+			pricesPartYesterday = this.state.pricesYesterday.slice(startHour);
+			startHour = 0;
+		}
+		let pricesPartTomorrow = [];
+		if (endHour > 24) pricesPartTomorrow = this.state.pricesTomorrow.slice(0, endHour - 24);
+		const pricesPartToday = this.state.pricesThisDay.slice(startHour, endHour);
+		const pricesTotalPeriod = [...pricesPartYesterday, ...pricesPartToday, ...pricesPartTomorrow];
+		// calculate all avg prices for x hour periods before end time
+		const avgPricesTotalPeriod = [];
+		pricesTotalPeriod.forEach((price, index) => {
+			if (index > pricesTotalPeriod.length - Number(args.hours)) return;
+			const hours = pricesTotalPeriod.slice(index, (index + Number(args.hours)));
+			const avgPrice = (hours.reduce((a, b) => a + b, 0)) / hours.length;
+			avgPricesTotalPeriod.push(avgPrice);
+		});
+		const minAvgPrice = Math.min(...avgPricesTotalPeriod);
+		return this.state.priceNow <= minAvgPrice;
 	}
 
 	async priceIsLowestNextHours(args) {
@@ -887,6 +918,7 @@ class MyDevice extends Homey.Device {
 					this.homey.app.triggerPriceLowestToday(this, tokens, state);
 					this.homey.app.triggerPriceBelowAvg(this, tokens, state);
 					this.homey.app.triggerPriceLowestAvg(this, tokens, state);
+					this.homey.app.triggerPriceLowestAvgBefore(this, tokens, state);
 				}
 			}
 

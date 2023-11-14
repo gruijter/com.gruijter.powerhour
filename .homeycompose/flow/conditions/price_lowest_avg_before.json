@@ -1,0 +1,67 @@
+{
+	"title": {
+		"en": "The avg. price !{{is|isn't}} lowest before a certain time",
+		"nl": "De gem. prijs !{{is|is niet}} het laagst voor een bepaalde tijd"
+	},
+	"titleFormatted": {
+		"en": "The avg. price coming [[hours]]H !{{is|isn't}} lowest in the [[period]] hours before [[time]] o'clock",
+		"nl": "De gem. prijs komende [[hours]]U !{{is|is niet}} het laagst in de [[period]] uren voor [[time]] uur"
+	},
+	"highlight": true,
+	"args": [
+		{
+		  "type": "device",
+		  "name": "device",
+		  "filter": "driver_id=dap|dapg"
+		},
+		{
+			"type": "number",
+			"name": "hours",
+			"title": { 
+				"en": "next hours",
+				"de": "der nächsten Std.",
+				"sv": "nästa H",
+				"it": "prossime h",
+				"no": "neste T",
+				"dk": "næste T",
+				"nl": "komende uren"
+			},
+			"placeholder": { "en": "2-8" },
+			"min": 2,
+			"max": 8,
+			"step": 1
+		},
+		{
+			"type": "number",
+			"name": "period",
+			"title": { 
+				"en": "period",
+				"de": "Zeitraum",
+				"sv": "period",
+				"it": "periodo",
+				"no": "periode",
+				"nl": "periode"
+			},
+			"placeholder": { "en": "2 - 23" },
+			"min": 2,
+			"max": 23,
+			"step": 1
+		},
+		{
+			"type": "number",
+			"name": "time",
+			"title": { 
+				"en": "time",
+				"de": "Zeit",
+				"sv": "tid",
+				"it": "tempo",
+				"no": "tid",
+				"nl": "tijd"
+			},
+			"placeholder": { "en": "01 - 24" },
+			"min": 1,
+			"max": 24,
+			"step": 1
+		}
+	]
+}

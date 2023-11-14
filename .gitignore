@@ -1,7 +1,6 @@
 build
 roadmap*.txt
 env.json
-bidding_zones.json
 templog*.txt
 zzz*
 .vscode

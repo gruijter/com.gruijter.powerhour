@@ -1,4 +1,7 @@
 {
+  "5.8.2": {
+    "en": "Added flow card Avg price is lowest before. Reduced price fetching spread. Reduced app footprint."
+  },
   "5.8.1": {
     "en": "Fixed PriceIs flowcards sorting function. Extended lowest/highest before period to 23 hrs max. homey-api@3.0.27."
   },
