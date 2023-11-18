@@ -45,7 +45,7 @@ class SumMeterDevice extends Device {
 			await this.setAvailable().catch(this.error);
 
 			// setup source for HOMEY-API devices with update listener
-			if (!(this.settings.meter_via_flow || this.settings.homey_energy)) {
+			if (this.settings.source_device_type === 'Homey device') {
 				this.sourceDevice = await this.homey.app.api.devices.getDevice({ id: this.settings.homey_device_id, $cache: false }) // $timeout:15000
 					.catch(this.error);
 				// wait a bit for capabilitiesObj to fill?
@@ -61,13 +61,13 @@ class SumMeterDevice extends Device {
 			await this.initDeviceValues();
 
 			// init METER_VIA_FLOW device
-			if (this.settings.meter_via_flow) await this.updateMeterFromFlow(null);
+			if (this.settings.source_device_type === 'virtual via flow') await this.updateMeterFromFlow(null);
 			// start listener for METER_VIA_WATT device
 			else if (this.settings.use_measure_source) {
 				this.log(`Warning! ${this.getName()} is not using a cumulative meter as source`);
 				await this.addListeners();
 				await this.updateMeterFromMeasure(null);
-			// start polling HOMEY_ENERGY device and HOMEY-API devices set to polling
+			// start polling HOMEY_ENERGY device and HOMEY-API devices set to polling // this.settings.source_device_type === 'Homey Energy xxx'
 			} else if (this.settings.interval) this.startPolling(this.settings.interval);
 			// start listener for HOMEY-API device not set to polling
 			else {	// preferred realtime meter mode
@@ -103,7 +103,7 @@ class SumMeterDevice extends Device {
 			// console.log(this.getName(), this.settings, this.getStore());
 
 			// check settings for homey energy
-			if (this.settings.homey_energy) {
+			if (this.settings.source_device_type.includes('Homey Energy')) {
 				if (!this.settings.interval) {
 					await this.setSettings({ interval: 1 }).catch(this.error);
 					this.settings.interval = 1;
@@ -131,7 +131,7 @@ class SumMeterDevice extends Device {
 				let distribution = 'NONE';
 				if (this.driver.id === 'gas') distribution = 'gas_nl_2023';
 				if (this.driver.id === 'water') distribution = 'linear';
-				if (this.driver.id === 'power' && !(this.settings.meter_via_flow || this.settings.homey_energy)) {
+				if (this.driver.id === 'power' && (this.settings.source_device_type === 'Homey device')) {
 					const sourceD = await this.homey.app.api.devices.getDevice({ id: this.settings.homey_device_id, $cache: false }) // $timeout:15000
 						.catch(this.error);
 					await setTimeoutPromise(3 * 1000); // wait a bit for capabilitiesObj to fill?
@@ -712,7 +712,7 @@ class SumMeterDevice extends Device {
 		if (!this.migrated || this.currencyChanged) return;
 		const measureTm = new Date();
 		let value = val;
-		if (value === null && !this.settings.homey_energy) { // poll requested or app init
+		if (value === null && !this.settings.source_device_type.includes('Homey Energy')) { // poll requested or app init
 			// get value from source device
 			if (this.sourceDevice && this.sourceDevice.capabilitiesObj && this.sourceDevice.capabilitiesObj.measure_power) {
 				value = this.sourceDevice.capabilitiesObj.measure_power.value;

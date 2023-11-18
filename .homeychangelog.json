@@ -1,4 +1,7 @@
 {
+  "5.9.0": {
+    "en": "Added repairing to a new source device. homey-api@3.1.0"
+  },
   "5.8.2": {
     "en": "Added flow card Avg price is lowest before. Reduced price fetching spread. Reduced app footprint."
   },

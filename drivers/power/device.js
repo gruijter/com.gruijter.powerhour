@@ -104,7 +104,7 @@ class sumDevice extends GenericDevice {
 	async pollMeter() {
 
 		// poll a Homey Energy device
-		if (this.getSettings().homey_energy) {
+		if (this.getSettings().source_device_type.includes('Homey Energy')) {
 			const report = await this.homey.app.api.energy.getLiveReport().catch(this.error);
 			// console.log(this.getName(), this.settings.homey_energy);
 			// console.dir(report, { depth: null, colors: true });

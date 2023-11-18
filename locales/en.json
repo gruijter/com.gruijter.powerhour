@@ -1,5 +1,9 @@
 {
   "today": "Today",
   "tomorrow": "Tomorrow",
-  "nextHours": "Next hours"
+  "nextHours": "Next hours",
+  "repair": {
+    "warningtitle": "WARNING",
+    "warningtext": "You are about to change the source device. This will keep all insights and flows. But if the new source device has a different meter value, you will need to manually compensate the meter and money start values in the advanced settings."
+  }
 }

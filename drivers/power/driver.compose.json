@@ -14,18 +14,34 @@
 		{
 			"id": "list_devices",
 			"template": "list_devices",
-			"navigation": {
-				"next": "add_devices"
-			},
-			"options": {
-				"singular": true
-			}
+			"navigation": {	"next": "add_devices"	},
+			"options": { "singular": true }
 		},
 		{
 			"id": "add_devices",
 			"template": "add_devices"
 		}
 	],
+	"repair": [
+		{
+			"id": "repair_warning",
+			"navigation": { "next": "list_devices" }
+		},
+		{
+			"id": "list_devices",
+			"template": "list_devices",
+			"options": { "singular": true },
+			"navigation": { "next": "loading" }
+			},
+			{
+				"id": "loading",
+				"template": "loading"
+			},
+			{
+				"id": "done",
+				"template": "done"
+			}
+  ],
 	"settings": [
 		{
 			"type": "group",
