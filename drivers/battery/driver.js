@@ -34,6 +34,9 @@ const driverSpecifics = {
 		{
 			soc: 'battery_capacity', usagePower: 'measure_power.battery',	// Victron
 		},
+		{
+			soc: 'measure_battery', productionPower: 'measure_power.batt_in', usagePower: 'measure_power.batt_out',	// Sonnen
+		},
 	],
 	deviceCapabilities: [
 		'measure_watt_avg', 'meter_kwh_stored',
