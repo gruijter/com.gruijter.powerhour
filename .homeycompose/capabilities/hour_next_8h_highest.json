@@ -2,7 +2,7 @@
   "type": "number",
   "title": {
     "en": "Highest hour next 8H",
-    "de": "Höchste Stunde nächste 8 Std.",
+    "de": "Teuerste Stunde nächste 8 Std.",
     "sv": "Högsta timmen nästa 8H",
     "it": "Ora più alta prossime 8h",
     "no": "Høyeste time neste 8T",
@@ -18,7 +18,7 @@
   "units": {
     "en": "Hour",
     "no": "Time",
-    "de": "Stunde",
+    "de": "Uhr (ab)",
     "sv": "Timme",
     "it": "Ora",
     "nl": "Uur"
