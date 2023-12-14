@@ -2,7 +2,7 @@
   "type": "number",
   "title": {
     "en": "Lowest hour next 8H",
-    "de": "Niedrigste Stunde nächste 8 Std.",
+    "de": "Günstigste Stunde nächste 8 Std.",
     "sv": "Lägsta timmen nästa 8H",
     "it": "Ora più bassa prossime 8h",
     "no": "Laveste time neste 8T",
@@ -18,7 +18,7 @@
   "units": {
     "en": "Hour",
     "no": "Time",
-    "de": "Stunde",
+    "de": "Uhr, ab",
     "sv": "Timme",
     "it": "Ora",
     "nl": "Uur"
