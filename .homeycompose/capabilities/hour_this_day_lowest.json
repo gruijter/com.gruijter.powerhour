@@ -2,7 +2,7 @@
   "type": "number",
   "title": {
     "en": "Lowest hour this day",
-    "de": "Niedrigste Stunde des Tages",
+    "de": "Günstigste Stunde des Tages",
     "sv": "Lägsta timmen idag",
     "it": "Ora più bassa di questa giornata",
     "no": "Laveste time denne dag",
@@ -18,7 +18,7 @@
   "units": {
     "en": "Hour",
     "no": "Time",
-    "de": "Stunde",
+    "de": "Uhr",
     "sv": "Timme",
     "it": "Ora",
     "nl": "Uur"
