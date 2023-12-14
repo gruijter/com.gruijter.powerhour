@@ -2,7 +2,7 @@
   "type": "number",
   "title": {
     "en": "Highest hour this day",
-    "de": "Höchste Stunde des Tages",
+    "de": "Teuerste Stunde des Tages",
     "sv": "Högsta timmen idag",
     "it": "Ora più alta di questa giornata",
     "no": "Høyeste time denne dag",
@@ -18,7 +18,7 @@
   "units": {
     "en": "Hour",
     "no": "Time",
-    "de": "Stunde",
+    "de": "Uhr (ab)",
     "sv": "Timme",
     "it": "Ora",
     "nl": "Uur"
