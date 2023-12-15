@@ -2,7 +2,7 @@
   "type": "number",
   "title": {
     "en": "Money prev. hour",
-    "de": "Geld vorherige Stunde",
+    "de": "Kosten vorherige Stunde",
     "sv": "Pengar föregående timme",
     "it": "Spesa ora precedente",
     "no": "Kostnad forrige time",
