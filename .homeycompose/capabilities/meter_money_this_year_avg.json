@@ -2,7 +2,8 @@
   "type": "number",
   "title": {
     "en": "Avg. money this year",
-    "nl": "Gem. geld dit jaar"
+    "nl": "Gem. geld dit jaar",
+    "de": "Durschn. Kosten dieses Jahr"
   },
   "uiComponent": "sensor",
   "icon": "/assets/money_avg.svg",
