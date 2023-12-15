@@ -9,7 +9,7 @@
 	},
 	"titleFormatted": {
 		"en": "The avg. price next [[hours]]H becomes highest within [[period]]",
-		"de": "Durchschn. Preis kommenden [[hours]]Std. wird am höchsten innerhalb [[period]]",
+		"de": "Durchschn. Preis kommende [[hours]]Std. wird am höchsten innerhalb [[period]] sein",
 		"sv": "Det genomsnittliga priset kommande [[hours]]H blir högst inom [[period]]",
 		"it": "Il prezzo medio a [[hours]]H diventa più alto entro [[period]]",
 		"no": "Gjennomsnittprisen de neste [[hours]]H blir høyest innenfor [[period]]",
