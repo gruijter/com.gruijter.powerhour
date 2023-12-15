@@ -2,7 +2,7 @@
   "type": "number",
   "title": {
     "en": "Money this hour",
-    "de": "Geld diese Stunde",
+    "de": "Kosten diese Stunde",
     "sv": "Pengar denna timme",
     "it": "Spesa ora corrente",
     "no": "Kostnad denne timen",
