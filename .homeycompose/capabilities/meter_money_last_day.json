@@ -2,7 +2,7 @@
   "type": "number",
   "title": {
     "en": "Money prev. day",
-    "de": "Geld vorheriger Tag",
+    "de": "Kosten vorheriger Tag",
     "sv": "Pengar igår",
     "it": "Spesa giorno precedente",
     "no": "Kostnad forrige dag",
