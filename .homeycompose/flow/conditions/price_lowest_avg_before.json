@@ -1,11 +1,13 @@
 {
 	"title": {
 		"en": "The avg. price !{{is|isn't}} lowest before a certain time",
-		"nl": "De gem. prijs !{{is|is niet}} het laagst voor een bepaalde tijd"
+		"nl": "De gem. prijs !{{is|is niet}} het laagst voor een bepaalde tijd",
+		"de": "Der durschn. Preis !{{ist|ist nicht}} vor einer bestimmten Uhrzeit am niedrigsten"
 	},
 	"titleFormatted": {
 		"en": "The avg. price coming [[hours]]H !{{is|isn't}} lowest in the [[period]] hours before [[time]] o'clock",
 		"nl": "De gem. prijs komende [[hours]]U !{{is|is niet}} het laagst in de [[period]] uren voor [[time]] uur"
+		"de": "Der durschn. Preis der nächsten [[hours]]Std. !{{ist|ist nicht}} der günstigste in den [[period]] Stunden vor [[time]] Uhr"
 	},
 	"highlight": true,
 	"args": [
