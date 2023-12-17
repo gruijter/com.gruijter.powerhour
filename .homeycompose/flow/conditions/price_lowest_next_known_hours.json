@@ -1,11 +1,13 @@
 {
 	"title": {
 		"en": "The price !{{is|isn't}} one of the lowest in next known hours",
-		"nl": "De prijs !{{is|is niet}} een van de laagste de komende bekende uren"
+		"nl": "De prijs !{{is|is niet}} een van de laagste de komende bekende uren",
+		"de": "Der Preis !{{ist|ist nicht}} einer der niedrigsten in den nächsten Stunden"
 	},
 	"titleFormatted": {
 		"en": "The price !{{is|isn't}} one of [[number]] lowest in the next known hours",
-		"nl": "De prijs !{{is|is niet}} een van de [[number]] laagste in de komende bekende uren"
+		"nl": "De prijs !{{is|is niet}} een van de [[number]] laagste in de komende bekende uren",
+		"de": "Der Preis !{{ist|ist nicht}} einer der [[number]] niedrigsten in den nächsten bekannten Stunden"
 	},
 	"highlight": true,
 	"args": [
