@@ -1,4 +1,7 @@
 {
+  "5.9.2": {
+    "en": "German translation updated. homey-api@3.4.8"
+  },
   "5.9.1": {
     "en": "Battery: Added support for SonnenBatterie. homey-api@3.4.2"
   },

@@ -1,7 +1,7 @@
 {
   "_comment": "This file is generated. Please edit .homeycompose/app.json instead.",
   "id": "com.gruijter.powerhour",
-  "version": "5.9.1",
+  "version": "5.9.2",
   "compatibility": ">=8.0.0",
   "brandColor": "#df5020",
   "sdk": 3,
@@ -345,7 +345,7 @@
         "title": {
           "en": "The power changed",
           "nl": "Het vermogen is veranderd",
-          "de": "Der Verbrauch hat sich gändert",
+          "de": "Der Verbrauch hat sich geändert",
           "fr": "L'énergie a changé",
           "it": "L'energia è cambiata",
           "sv": "Strömmen ändrades",
@@ -830,7 +830,7 @@
         },
         "titleFormatted": {
           "en": "The avg. price next [[hours]]H becomes highest within [[period]]",
-          "de": "Durchschn. Preis kommenden [[hours]]Std. wird am höchsten innerhalb [[period]]",
+          "de": "Durchschn. Preis kommende [[hours]]Std. wird am höchsten innerhalb [[period]] sein",
           "sv": "Det genomsnittliga priset kommande [[hours]]H blir högst inom [[period]]",
           "it": "Il prezzo medio a [[hours]]H diventa più alto entro [[period]]",
           "no": "Gjennomsnittprisen de neste [[hours]]H blir høyest innenfor [[period]]",
@@ -1229,7 +1229,7 @@
         },
         "titleFormatted": {
           "en": "The avg. price [[hours]]H becomes lowest within [[period]]",
-          "de": "Durchschn. Preis kommenden [[hours]]Std. wird am niedrigsten innerhalb [[period]]",
+          "de": "Durchschn. Preis kommende [[hours]]Std. wird am niedrigsten innerhalb [[period]] sein",
           "sv": "Det genomsnittliga priset kommande [[hours]]H blir lägst inom [[period]]",
           "it": "Il prezzo medio di [[hours]]H diventa più basso entro [[period]]",
           "no": "Gjennomsnittsprisene de neste [[hours]]H blir lavest innen [[period]]",
@@ -1320,11 +1320,13 @@
       {
         "title": {
           "en": "The avg. price becomes lowest before a certain time",
-          "nl": "De gem. prijs wordt het laagst voor een bepaalde tijd"
+          "nl": "De gem. prijs wordt het laagst voor een bepaalde tijd",
+          "de": "Der durschn. Preis wird vor einer bestimmten Uhrzeit am niedrigsten sein"
         },
         "titleFormatted": {
           "en": "The avg. price coming [[hours]]H becomes lowest in the [[period]] hours before [[time]] o'clock",
-          "nl": "De gem. prijs komende [[hours]]U wordt het laagst in de [[period]] uren voor [[time]] uur"
+          "nl": "De gem. prijs komende [[hours]]U wordt het laagst in de [[period]] uren voor [[time]] uur",
+          "de": "Der durschn. Preis der nächsten [[hours]]Std. wird der günstigste in den [[period]] Stunden vor [[time]] Uhr sein"
         },
         "highlight": true,
         "args": [
@@ -2090,11 +2092,13 @@
       {
         "title": {
           "en": "The price !{{is|isn't}} one of the highest the next hours",
-          "nl": "De prijs !{{is|is niet}} een van de hoogste de komende uren"
+          "nl": "De prijs !{{is|is niet}} een van de hoogste de komende uren",
+          "de": "Der Preis !{{ist|ist nicht}} einer der höchsten die nächsten Stunden"
         },
         "titleFormatted": {
           "en": "The price !{{is|isn't}} one of [[number]] highest in the next [[period]] hours",
-          "nl": "De prijs !{{is|is niet}} een van de [[number]] hoogste in de komende [[period]] uren"
+          "nl": "De prijs !{{is|is niet}} een van de [[number]] hoogste in de komende [[period]] uren",
+          "de": "Der Preis !{{ist|ist nicht}} einer der [[number]] höchsten in den nächsten [[period]] Stunden"
         },
         "highlight": true,
         "args": [
@@ -2421,11 +2425,13 @@
       {
         "title": {
           "en": "The avg. price !{{is|isn't}} lowest before a certain time",
-          "nl": "De gem. prijs !{{is|is niet}} het laagst voor een bepaalde tijd"
+          "nl": "De gem. prijs !{{is|is niet}} het laagst voor een bepaalde tijd",
+          "de": "Der durschn. Preis !{{ist|ist nicht}} vor einer bestimmten Uhrzeit am niedrigsten"
         },
         "titleFormatted": {
           "en": "The avg. price coming [[hours]]H !{{is|isn't}} lowest in the [[period]] hours before [[time]] o'clock",
-          "nl": "De gem. prijs komende [[hours]]U !{{is|is niet}} het laagst in de [[period]] uren voor [[time]] uur"
+          "nl": "De gem. prijs komende [[hours]]U !{{is|is niet}} het laagst in de [[period]] uren voor [[time]] uur",
+          "de": "Der durschn. Preis der nächsten [[hours]]Std. !{{ist|ist nicht}} der günstigste in den [[period]] Stunden vor [[time]] Uhr"
         },
         "highlight": true,
         "args": [
@@ -2581,11 +2587,13 @@
       {
         "title": {
           "en": "The price !{{is|isn't}} one of the lowest the next hours",
-          "nl": "De prijs !{{is|is niet}} een van de laagste de komende uren"
+          "nl": "De prijs !{{is|is niet}} een van de laagste de komende uren",
+          "de": "Der Preis !{{ist|ist nicht}} einer der niedrigsten die nächsten Stunden"
         },
         "titleFormatted": {
           "en": "The price !{{is|isn't}} one of [[number]] lowest in the next [[period]] hours",
-          "nl": "De prijs !{{is|is niet}} een van de [[number]] laagste in de komende [[period]] uren"
+          "nl": "De prijs !{{is|is niet}} een van de [[number]] laagste in de komende [[period]] uren",
+          "de": "Der Preis !{{ist|ist nicht}} einer der [[number]] niedrigsten in den nächsten [[period]] Stunden"
         },
         "highlight": true,
         "args": [
@@ -2638,11 +2646,13 @@
       {
         "title": {
           "en": "The price !{{is|isn't}} one of the lowest in next known hours",
-          "nl": "De prijs !{{is|is niet}} een van de laagste de komende bekende uren"
+          "nl": "De prijs !{{is|is niet}} een van de laagste de komende bekende uren",
+          "de": "Der Preis !{{ist|ist nicht}} einer der niedrigsten in den nächsten Stunden"
         },
         "titleFormatted": {
           "en": "The price !{{is|isn't}} one of [[number]] lowest in the next known hours",
-          "nl": "De prijs !{{is|is niet}} een van de [[number]] laagste in de komende bekende uren"
+          "nl": "De prijs !{{is|is niet}} een van de [[number]] laagste in de komende bekende uren",
+          "de": "Der Preis !{{ist|ist nicht}} einer der [[number]] niedrigsten in den nächsten bekannten Stunden"
         },
         "highlight": true,
         "args": [
@@ -7079,7 +7089,7 @@
       "type": "number",
       "title": {
         "en": "Highest hour next 8H",
-        "de": "Höchste Stunde nächste 8 Std.",
+        "de": "Teuerste Stunde nächste 8 Std.",
         "sv": "Högsta timmen nästa 8H",
         "it": "Ora più alta prossime 8h",
         "no": "Høyeste time neste 8T",
@@ -7095,7 +7105,7 @@
       "units": {
         "en": "Hour",
         "no": "Time",
-        "de": "Stunde",
+        "de": "Uhr",
         "sv": "Timme",
         "it": "Ora",
         "nl": "Uur"
@@ -7106,7 +7116,7 @@
       "type": "number",
       "title": {
         "en": "Lowest hour next 8H",
-        "de": "Niedrigste Stunde nächste 8 Std.",
+        "de": "Günstigste Stunde nächste 8 Std.",
         "sv": "Lägsta timmen nästa 8H",
         "it": "Ora più bassa prossime 8h",
         "no": "Laveste time neste 8T",
@@ -7122,7 +7132,7 @@
       "units": {
         "en": "Hour",
         "no": "Time",
-        "de": "Stunde",
+        "de": "Uhr",
         "sv": "Timme",
         "it": "Ora",
         "nl": "Uur"
@@ -7133,7 +7143,7 @@
       "type": "number",
       "title": {
         "en": "Highest hour tomorrow",
-        "de": "Höchste Stunde morgen",
+        "de": "Teuerste Stunde morgen",
         "sv": "Högsta timmen imorgon",
         "it": "Ora più alta di domani",
         "no": "Høyeste time morgen",
@@ -7149,7 +7159,7 @@
       "units": {
         "en": "Hour",
         "no": "Time",
-        "de": "Stunde",
+        "de": "Uhr",
         "sv": "Timme",
         "it": "Ora",
         "nl": "Uur"
@@ -7160,7 +7170,7 @@
       "type": "number",
       "title": {
         "en": "Lowest hour tomorrow",
-        "de": "Niedrigste Stunde morgen",
+        "de": "Günstigste Stunde morgen",
         "sv": "Lägsta timmen imorgen",
         "it": "Ora più bassa di domani",
         "no": "Laveste time morgen",
@@ -7176,7 +7186,7 @@
       "units": {
         "en": "Hour",
         "no": "Time",
-        "de": "Stunde",
+        "de": "Uhr",
         "sv": "Timme",
         "it": "Ora",
         "nl": "Uur"
@@ -7187,7 +7197,7 @@
       "type": "number",
       "title": {
         "en": "Highest hour this day",
-        "de": "Höchste Stunde des Tages",
+        "de": "Teuerste Stunde des Tages",
         "sv": "Högsta timmen idag",
         "it": "Ora più alta di questa giornata",
         "no": "Høyeste time denne dag",
@@ -7203,7 +7213,7 @@
       "units": {
         "en": "Hour",
         "no": "Time",
-        "de": "Stunde",
+        "de": "Uhr",
         "sv": "Timme",
         "it": "Ora",
         "nl": "Uur"
@@ -7214,7 +7224,7 @@
       "type": "number",
       "title": {
         "en": "Lowest hour this day",
-        "de": "Niedrigste Stunde des Tages",
+        "de": "Günstigste Stunde des Tages",
         "sv": "Lägsta timmen idag",
         "it": "Ora più bassa di questa giornata",
         "no": "Laveste time denne dag",
@@ -7230,7 +7240,7 @@
       "units": {
         "en": "Hour",
         "no": "Time",
-        "de": "Stunde",
+        "de": "Uhr",
         "sv": "Timme",
         "it": "Ora",
         "nl": "Uur"
@@ -7833,7 +7843,7 @@
       "type": "number",
       "title": {
         "en": "Money prev. day",
-        "de": "Geld vorheriger Tag",
+        "de": "Kosten vorheriger Tag",
         "sv": "Pengar igår",
         "it": "Spesa giorno precedente",
         "no": "Kostnad forrige dag",
@@ -7855,7 +7865,7 @@
       "type": "number",
       "title": {
         "en": "Money prev. hour",
-        "de": "Geld vorherige Stunde",
+        "de": "Kosten vorherige Stunde",
         "sv": "Pengar föregående timme",
         "it": "Spesa ora precedente",
         "no": "Kostnad forrige time",
@@ -7877,7 +7887,7 @@
       "type": "number",
       "title": {
         "en": "Money prev. month",
-        "de": "Geld vorheriger Monat",
+        "de": "Kosten vorheriger Monat",
         "sv": "Pengar föregående månad",
         "it": "Spesa mese precedente",
         "no": "Kostnad forrige måned",
@@ -7899,7 +7909,7 @@
       "type": "number",
       "title": {
         "en": "Money prev. year",
-        "de": "Geld vorheriges Jahr",
+        "de": "Kosten vorheriges Jahr",
         "sv": "Pengar föregående år",
         "it": "Spesa anno precedente",
         "no": "Kostnad forrige år",
@@ -7921,7 +7931,7 @@
       "type": "number",
       "title": {
         "en": "Money this day",
-        "de": "Geld dieser Tag",
+        "de": "Kosten dieser Tag",
         "sv": "Pengar idag",
         "it": "Spesa oggi",
         "no": "Kostnad idag",
@@ -7943,7 +7953,7 @@
       "type": "number",
       "title": {
         "en": "Money this hour",
-        "de": "Geld diese Stunde",
+        "de": "Kosten diese Stunde",
         "sv": "Pengar denna timme",
         "it": "Spesa ora corrente",
         "no": "Kostnad denne timen",
@@ -7965,7 +7975,7 @@
       "type": "number",
       "title": {
         "en": "Money this month",
-        "de": "Geld dieser Monat",
+        "de": "Kosten dieser Monat",
         "sv": "Pengar denna månad",
         "it": "Spesa mese corrente",
         "no": "Kostnad denne måned",
@@ -7987,7 +7997,8 @@
       "type": "number",
       "title": {
         "en": "Avg. money this month",
-        "nl": "Gem. geld deze maand"
+        "nl": "Gem. geld deze maand",
+        "de": "Durchschn. Kosten dieser Monat"
       },
       "uiComponent": "sensor",
       "icon": "/assets/money_avg.svg",
@@ -8003,7 +8014,7 @@
       "type": "number",
       "title": {
         "en": "Money this year",
-        "de": "Geld dieses Jahr",
+        "de": "Kosten dieses Jahr",
         "sv": "Pengar i år",
         "it": "Spesa anno corrente",
         "no": "Kostnad dette året",
@@ -8025,7 +8036,8 @@
       "type": "number",
       "title": {
         "en": "Avg. money this year",
-        "nl": "Gem. geld dit jaar"
+        "nl": "Gem. geld dit jaar",
+        "de": "Durschn. Kosten dieses Jahr"
       },
       "uiComponent": "sensor",
       "icon": "/assets/money_avg.svg",
@@ -8283,7 +8295,7 @@
       "type": "number",
       "title": {
         "en": "Highest price next 8H",
-        "de": "Höchste Preis nächste 8 Std.",
+        "de": "Höchstpreis nächste 8 Std.",
         "sv": "Högsta pris nästa 8H",
         "it": "Prezzo più alta prossime 8h",
         "no": "Høyeste pris neste 8T",
@@ -8349,7 +8361,7 @@
       "type": "number",
       "title": {
         "en": "Highest price tomorrow",
-        "de": "Höchste Preis morgen",
+        "de": "Höchstpreis morgen",
         "sv": "Högsta pris imorgon",
         "it": "Prezzo più alta di domani",
         "no": "Høyeste pris morgen",
@@ -8393,7 +8405,7 @@
       "type": "number",
       "title": {
         "en": "Avg. price this day",
-        "de": "Durchschn. Preis an diesem Tag",
+        "de": "Durchschn. Preis dieser Tag",
         "sv": "Genomsnittligt pris idag",
         "it": "Prezzo medio giornata odierna",
         "no": "Gj.snitt pris denne dag",
@@ -8415,7 +8427,7 @@
       "type": "number",
       "title": {
         "en": "Highest price this day",
-        "de": "Höchste Preis an diesem Tag",
+        "de": "Höchstpreis dieser Tag",
         "sv": "Högsta pris idag",
         "it": "Prezzo più alta giornata odierna",
         "no": "Høyeste pris idag",
@@ -8437,7 +8449,7 @@
       "type": "number",
       "title": {
         "en": "Lowest price this day",
-        "de": "Niedrigster Preis an diesem Tag",
+        "de": "Niedrigster Preis dieser Tag",
         "sv": "Lägsta pris idag",
         "it": "Prezzo più basso giornata odierna",
         "no": "Laveste pris idag",
