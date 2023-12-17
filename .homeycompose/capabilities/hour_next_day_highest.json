@@ -2,7 +2,7 @@
   "type": "number",
   "title": {
     "en": "Highest hour tomorrow",
-    "de": "Höchste Stunde morgen",
+    "de": "Teuerste Stunde morgen",
     "sv": "Högsta timmen imorgon",
     "it": "Ora più alta di domani",
     "no": "Høyeste time morgen",
@@ -18,7 +18,7 @@
   "units": {
     "en": "Hour",
     "no": "Time",
-    "de": "Stunde",
+    "de": "Uhr",
     "sv": "Timme",
     "it": "Ora",
     "nl": "Uur"
