@@ -166,7 +166,9 @@ class batDevice extends Device {
 				await this.setCapability('meter_money_this_year', money.year);
 			}
 		}
-		this.restartDevice(1000);
+		if (changedKeys.includes('meter_kwh_charging')) await this.setCapability('meter_kwh_charging', newSettings.meter_kwh_charging);
+		if (changedKeys.includes('meter_kwh_discharging'))	await this.setCapability('meter_kwh_discharging', newSettings.meter_kwh_discharging);
+		this.restartDevice(2000);
 	}
 
 	destroyListeners() {
@@ -277,6 +279,12 @@ class batDevice extends Device {
 				lastYear: await this.getCapabilityValue('meter_money_last_year'),
 			};
 		}
+
+		// update kWh readings in settings
+		const meterCharging = await this.getCapabilityValue('meter_kwh_charging');
+		const meterDischarging = await this.getCapabilityValue('meter_kwh_discharging');
+		if (meterCharging) await this.setSettings({ meter_kwh_charging: meterCharging }).catch(this.error);
+		if (meterDischarging) await this.setSettings({ meter_kwh_discharging: meterDischarging }).catch(this.error);
 	}
 
 	// init some stuff when first reading comes in
@@ -448,6 +456,11 @@ class batDevice extends Device {
 			lastReadingHour = reading;
 			await this.setStoreValue('lastReadingHour', reading);
 			await this.setSettings({ meter_latest: `${reading.meterValue}` }).catch(this.error);
+			// update kWh readings in settings
+			const meterCharging = await this.getCapabilityValue('meter_kwh_charging');
+			const meterDischarging = await this.getCapabilityValue('meter_kwh_discharging');
+			if (meterCharging) await this.setSettings({ meter_kwh_charging: meterCharging }).catch(this.error);
+			if (meterDischarging) await this.setSettings({ meter_kwh_discharging: meterDischarging }).catch(this.error);
 		}
 		if (periods.newDay) {
 			// new day started

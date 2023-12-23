@@ -1,0 +1,16 @@
+{
+  "type": "number",
+  "title": {
+    "en": "Price now rank this day",
+    "nl": "Prijs nu rang vandaag"
+  },
+  "units": {
+    "en": "/24"
+  },
+  "uiComponent": "sensor",
+  "icon": "/assets/target.svg",
+  "getable": true,
+  "setable": false,
+  "insights": false,
+  "decimals": 0
+}

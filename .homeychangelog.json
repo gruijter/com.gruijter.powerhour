@@ -1,4 +1,7 @@
 {
+  "5.9.3": {
+    "en": "SUM: ignore unrealistic meter values. BAT: added energy value settings. DAP: added price ranking. homey-api@3.4.9"
+  },
   "5.9.2": {
     "en": "German translation updated. homey-api@3.4.8"
   },

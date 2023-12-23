@@ -371,6 +371,50 @@
 					}
 				}
 			]
+		},
+		{
+			"type": "group",
+			"label": {
+				"en": "Meter readings",
+				"de": "Zählerstände",
+				"sv": "Mätaravläsningar",
+				"it": "Letture contatore",
+				"no": "Meterverdier",
+				"fr": "Lecture compteur",
+				"nl": "Meter waarden"
+			},
+			"children": [
+				{
+					"id": "meter_kwh_charging",
+					"type": "number",
+					"label": {
+						"en": "Charging Total (kWh)",
+						"nl": "Laden Totaal (kWh)",
+						"de": "Aufladung Gesamt (kWh)"
+					},
+					"min": 0,
+					"value": 0,
+					"hint": {
+						"en": "You can manually change this value. It is automatically updated once an hour.",
+						"nl": "Je kunt deze waarde handmatig aanpassen. Het wordt eenmaal per uur automatisch geupdated."
+					}
+				},
+				{
+					"id": "meter_kwh_discharging",
+					"type": "number",
+					"label": {
+						"en": "Discharging Total (kWh)",
+						"nl": "Ontladen Totaal (kWh)",
+						"de": "Entladung Gesamt (kWh)"
+					},
+					"min": 0,
+					"value": 0,
+					"hint": {
+						"en": "Automatically updated once an hour.",
+						"nl": "Eenmaal per uur automatisch geupdated."
+					}
+				}
+			]
 		}
 	]
 }

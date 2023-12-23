@@ -1,7 +1,7 @@
 {
   "_comment": "This file is generated. Please edit .homeycompose/app.json instead.",
   "id": "com.gruijter.powerhour",
-  "version": "5.9.2",
+  "version": "5.9.3",
   "compatibility": ">=8.0.0",
   "brandColor": "#df5020",
   "sdk": 3,
@@ -3708,6 +3708,50 @@
                 "no": "Kostnad forrige år. Blir automatisk oppdatert",
                 "fr": "Valeur monétaire de l'année dernière. Elle est mise à jour automatiquement",
                 "nl": "Geldwaarde van het vorige jaar. Wordt automatisch geupdated."
+              }
+            }
+          ]
+        },
+        {
+          "type": "group",
+          "label": {
+            "en": "Meter readings",
+            "de": "Zählerstände",
+            "sv": "Mätaravläsningar",
+            "it": "Letture contatore",
+            "no": "Meterverdier",
+            "fr": "Lecture compteur",
+            "nl": "Meter waarden"
+          },
+          "children": [
+            {
+              "id": "meter_kwh_charging",
+              "type": "number",
+              "label": {
+                "en": "Charging Total (kWh)",
+                "nl": "Laden Totaal (kWh)",
+                "de": "Aufladung Gesamt (kWh)"
+              },
+              "min": 0,
+              "value": 0,
+              "hint": {
+                "en": "You can manually change this value. It is automatically updated once an hour.",
+                "nl": "Je kunt deze waarde handmatig aanpassen. Het wordt eenmaal per uur automatisch geupdated."
+              }
+            },
+            {
+              "id": "meter_kwh_discharging",
+              "type": "number",
+              "label": {
+                "en": "Discharging Total (kWh)",
+                "nl": "Ontladen Totaal (kWh)",
+                "de": "Entladung Gesamt (kWh)"
+              },
+              "min": 0,
+              "value": 0,
+              "hint": {
+                "en": "Automatically updated once an hour.",
+                "nl": "Eenmaal per uur automatisch geupdated."
               }
             }
           ]
@@ -8466,6 +8510,38 @@
         "en": "€"
       },
       "decimals": 4
+    },
+    "meter_rank_price_h0_next_8h": {
+      "type": "number",
+      "title": {
+        "en": "Price now rank next 8H",
+        "nl": "Prijs nu rang komende 8U"
+      },
+      "units": {
+        "en": "/8"
+      },
+      "uiComponent": "sensor",
+      "icon": "/assets/target.svg",
+      "getable": true,
+      "setable": false,
+      "insights": false,
+      "decimals": 0
+    },
+    "meter_rank_price_h0_this_day": {
+      "type": "number",
+      "title": {
+        "en": "Price now rank this day",
+        "nl": "Prijs nu rang vandaag"
+      },
+      "units": {
+        "en": "/24"
+      },
+      "uiComponent": "sensor",
+      "icon": "/assets/target.svg",
+      "getable": true,
+      "setable": false,
+      "insights": false,
+      "decimals": 0
     },
     "meter_target_month_to_date": {
       "type": "number",

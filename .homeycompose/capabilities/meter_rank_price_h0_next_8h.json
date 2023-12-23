@@ -1,0 +1,16 @@
+{
+  "type": "number",
+  "title": {
+    "en": "Price now rank next 8H",
+    "nl": "Prijs nu rang komende 8U"
+  },
+  "units": {
+    "en": "/8"
+  },
+  "uiComponent": "sensor",
+  "icon": "/assets/target.svg",
+  "getable": true,
+  "setable": false,
+  "insights": false,
+  "decimals": 0
+}

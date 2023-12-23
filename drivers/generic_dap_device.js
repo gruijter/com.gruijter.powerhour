@@ -240,10 +240,10 @@ class MyDevice extends Homey.Device {
 			decimals,
 		};
 		if (!currency || currency === '') options.units.en = '€';
-		if (!Number.isInteger(decimals)) options.units.decimals = 4;
-		const moneyCaps = this.driver.ds.deviceCapabilities.filter((name) => name.includes('price'));
+		if (!Number.isInteger(decimals)) options.decimals = 4;
+		const moneyCaps = this.driver.ds.deviceCapabilities.filter((name) => name.includes('meter_price'));
 		for (let i = 0; i < moneyCaps.length; i += 1) {
-			this.log(`migrating ${moneyCaps[i]} to use ${options.units.en} and ${options.units.decimals} decimals`);
+			this.log(`migrating ${moneyCaps[i]} to use ${options.units.en} and ${options.decimals} decimals`);
 			await this.setCapabilityOptions(moneyCaps[i], options).catch(this.error);
 			await setTimeoutPromise(2 * 1000);
 		}
@@ -878,6 +878,16 @@ class MyDevice extends Homey.Device {
 			await this.setCapability('meter_price_next_day_highest', this.state.priceNextDayHighest);
 			await this.setCapability('hour_next_day_highest', this.state.hourNextDayHighest);
 			await this.setCapability('meter_price_next_day_avg', this.state.priceNextDayAvg);
+
+			const rankThisDay = [...this.state.pricesThisDay]
+				.sort((a, b) => a - b)
+				.findIndex((val) => val === this.state.priceNow);
+			const rankNext8h = [...this.state.pricesNext8h]
+				.sort((a, b) => a - b)
+				.findIndex((val) => val === this.state.priceNow);
+			await this.setCapability('meter_rank_price_h0_this_day', rankThisDay + 1);
+			await this.setCapability('meter_rank_price_h0_next_8h', rankNext8h + 1);
+
 			const allSet = this.state.pricesNext8h.map((price, index) => this.setCapability(`meter_price_h${index}`, price).catch(this.error));
 			await Promise.all(allSet);
 
