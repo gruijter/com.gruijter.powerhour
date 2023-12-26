@@ -1,4 +1,7 @@
 {
+  "6.0.0": {
+    "en": "BAT: Completely new ROI strategy flow. Deprecated old ROI flow card. SUM: Fix paring new devices."
+  },
   "5.9.3": {
     "en": "SUM: ignore unrealistic meter values. BAT: added energy value settings. DAP: added price ranking. homey-api@3.4.9"
   },

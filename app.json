@@ -1,7 +1,7 @@
 {
   "_comment": "This file is generated. Please edit .homeycompose/app.json instead.",
   "id": "com.gruijter.powerhour",
-  "version": "5.9.3",
+  "version": "6.0.0",
   "compatibility": ">=8.0.0",
   "brandColor": "#df5020",
   "sdk": 3,
@@ -1638,6 +1638,7 @@
         "id": "price_above_avg"
       },
       {
+        "deprecated": true,
         "title": {
           "en": "The price !{{is|isn't}} best for (dis)charging home battery.",
           "nl": "De prijs !{{is|is niet}} het beste om thuisbatterij te (ont)laden.",
@@ -2733,6 +2734,76 @@
     ],
     "actions": [
       {
+        "highlight": true,
+        "title": {
+          "en": "Calculate the best ROI power.",
+          "nl": "Bereken het beste ROI vermogen.",
+          "de": "Berechne die beste ROI-Leistung."
+        },
+        "titleFormatted": {
+          "en": "Calculate the best ROI power, with minimum [[minPriceDelta]]€ price delta.",
+          "nl": "Bereken het beste ROI vermogen, met minimaal [[minPriceDelta]]€ prijsverschil.",
+          "de": "Berechne die beste ROI-Leistung, mit minimalen [[minPriceDelta]]€ Preisdifferenz."
+        },
+        "hint": {
+          "en": "The strategy is calculated using the battery settings, all known future hourly prices, and the set minimum price difference. WARNING: This flow uses a lot of CPU!",
+          "nl": "De strategie wordt berekend met behulp van de batterij instellingen, alle bekende toekomstige prijzen, en het ingestelde minimale prijsverschil. LET OP: deze flow gebruikt veel CPU!",
+          "de": "Die Strategie wird berechnet anhand die Batterieeinstellungen, alle bekannten zukünftigen Stundenpreise, und der eingestellten minimalen Preisdifferenz. ACHTUNG: Dieser Flow verbraucht viel CPU!"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=battery"
+          },
+          {
+            "type": "number",
+            "name": "minPriceDelta",
+            "title": {
+              "en": "price delta",
+              "nl": "prijsverschil",
+              "de": "Preisdifferenz"
+            },
+            "placeholder": {
+              "en": "> 0.05"
+            },
+            "min": 0,
+            "value": 0.1
+          }
+        ],
+        "tokens": [
+          {
+            "name": "power",
+            "type": "number",
+            "title": {
+              "en": "Power"
+            }
+          },
+          {
+            "name": "duration",
+            "type": "number",
+            "title": {
+              "en": "Duration (minutes)"
+            }
+          },
+          {
+            "name": "endSoC",
+            "type": "number",
+            "title": {
+              "en": "SoC afterwards (%)"
+            }
+          },
+          {
+            "name": "scheme",
+            "type": "string",
+            "title": {
+              "en": "Scheme JSON"
+            }
+          }
+        ],
+        "id": "find_roi_strategy"
+      },
+      {
         "title": {
           "en": "Reset the Min/Max values",
           "de": "Zurücksetzen der Min/Max Werte",
@@ -3469,50 +3540,6 @@
               }
             },
             {
-              "id": "chargePower",
-              "type": "number",
-              "label": {
-                "en": "Charging power (W)",
-                "nl": "Laadvermogen (W)",
-                "de": "Ladeleistung (W)"
-              },
-              "value": 2150,
-              "min": 0,
-              "decimals": 0,
-              "hint": {
-                "en": "The power at which the battery is charged in Watts.",
-                "nl": "Het vermogen waarmee de batterij wordt geladen in Watt.",
-                "de": "Die Leistung in Watt, mit der die Batterie geladen wird."
-              }
-            },
-            {
-              "id": "dischargePower",
-              "type": "number",
-              "label": {
-                "en": "Discharging power (W)",
-                "nl": "Ontlaadvermogen (W)",
-                "de": "Entladungsleistung (W)"
-              },
-              "value": 1750,
-              "min": 0,
-              "decimals": 0,
-              "hint": {
-                "en": "The power at which the battery is discharged in Watts.",
-                "nl": "Het vermogen waarmee de batterij wordt ontladen in Watt.",
-                "de": "Die Leistung in Watt, mit der die Batterie entladen wird."
-              }
-            }
-          ]
-        },
-        {
-          "type": "group",
-          "label": {
-            "en": "(Dis)charge Power correction",
-            "nl": "(Ont)laadvermogen correctie",
-            "de": "(Ent-)Ladeleistung Korrektur"
-          },
-          "children": [
-            {
               "id": "ownPowerStandby",
               "type": "number",
               "label": {
@@ -3528,58 +3555,245 @@
                 "nl": "Eigen verbruik niet gerapporteerd door de batterij.",
                 "de": "Eigenverbrauch, der von der Batterie nicht gemeldet wird."
               }
-            },
+            }
+          ]
+        },
+        {
+          "type": "group",
+          "label": {
+            "en": "Maximum power values",
+            "nl": "Maximale vermogens waarden",
+            "de": "Maximale Leistungswerte"
+          },
+          "children": [
             {
-              "id": "ownPowerOn",
+              "id": "chargePower",
               "type": "number",
               "label": {
-                "en": "Own use when (dis)charging (W)",
-                "nl": "Eigen verbruik bij (ont)laden (W)",
-                "de": "Eigenverbrauch bei (Ent-)Ladung (W)."
+                "en": "Max. charging power (W)",
+                "nl": "Max. laadvermogen (W)",
+                "de": "Max. Ladeleistung (W)"
               },
-              "value": 35,
+              "value": 2200,
               "min": 0,
-              "decimals": 1,
+              "decimals": 0,
               "hint": {
-                "en": "Own power usage not reported by the battery.",
-                "nl": "Eigen verbruik niet gerapporteerd door de batterij.",
-                "de": "Eigenverbrauch, der von der Batterie nicht gemeldet wird."
+                "en": "The maximum power at which the battery can be charged.",
+                "nl": "Het maximale vermogen waarmee de batterij kan worden geladen.",
+                "de": "Die maximale Leistung, mit der die Batterie geladen werden kann."
               }
             },
             {
               "id": "chargeLoss",
               "type": "number",
               "label": {
-                "en": "Extra loss during charging (%)",
-                "nl": "Extra verlies tijdens laden (%)",
-                "de": "Zusätzlicher Verlust beim Laden (%)"
+                "en": "Max. charging loss (%)",
+                "nl": "Max. laden verlies (%)",
+                "de": "Max. Laden Verlust (%)"
               },
               "min": 0,
               "max": 30,
-              "value": 9.7,
+              "value": 10,
               "decimals": 2,
               "hint": {
-                "en": "Extra power loss not reported by the battery.",
-                "nl": "Extra verlies niet gerapporteerd door de batterij.",
-                "de": "Zusätzlicher Verlust, der von der Batterie nicht gemeldet wird."
+                "en": "Conversion loss.",
+                "nl": "Conversie verlies.",
+                "de": "Konvertierungsverlust."
+              }
+            },
+            {
+              "id": "dischargePower",
+              "type": "number",
+              "label": {
+                "en": "Max. discharging power (W)",
+                "nl": "Max. ontlaadvermogen (W)",
+                "de": "Max. Entladungsleistung (W)"
+              },
+              "value": 1700,
+              "min": 0,
+              "decimals": 0,
+              "hint": {
+                "en": "The maximum power at which the battery can be discharged.",
+                "nl": "Het maximale vermogen waarmee de batterij kan worden ontladen.",
+                "de": "Die maximale Leistung in Watt, mit der die Batterie entladen wirden kann."
               }
             },
             {
               "id": "dischargeLoss",
               "type": "number",
               "label": {
-                "en": "Extra loss during discharging (%)",
-                "nl": "Extra verlies tijdens ontladen (%)",
-                "de": "Zusätzlicher Verlust beim Entladen (%)"
+                "en": "Max. discharging loss (%)",
+                "nl": "Max. ontladen verlies (%)",
+                "de": "Max. Entladen Verlust (%)"
               },
               "min": 0,
               "max": 30,
-              "value": 7.7,
+              "value": 8,
               "decimals": 2,
               "hint": {
-                "en": "Extra power loss not reported by the battery.",
-                "nl": "Extra verlies niet gerapporteerd door de batterij.",
-                "de": "Zusätzlicher Verlust, der von der Batterie nicht gemeldet wird."
+                "en": "Conversion loss.",
+                "nl": "Conversie verlies.",
+                "de": "Konvertierungsverlust."
+              }
+            }
+          ]
+        },
+        {
+          "type": "group",
+          "label": {
+            "en": "Efficient power values",
+            "nl": "Efficiente vermogens waarden",
+            "de": "Effiziente Leistungswerte"
+          },
+          "children": [
+            {
+              "id": "chargePowerEff",
+              "type": "number",
+              "label": {
+                "en": "Eff. charging power (W)",
+                "nl": "Eff. laadvermogen (W)",
+                "de": "Eff. Ladeleistung (W)"
+              },
+              "value": 1050,
+              "min": 0,
+              "decimals": 0,
+              "hint": {
+                "en": "The most efficient power at which the battery can be charged. Set to 0 to ignore this setting.",
+                "nl": "Het meest efficiente vermogen waarmee de batterij kan worden geladen. Stel op 0 in om deze instelling te negeren.",
+                "de": "Die effizienteste Leistung, mit der die Batterie geladen wirden kann. Auf 0 setzen, um diese Einstellung zu ignorieren"
+              }
+            },
+            {
+              "id": "chargeLossEff",
+              "type": "number",
+              "label": {
+                "en": "Eff. charging loss (%)",
+                "nl": "Eff. laden verlies (%)",
+                "de": "Eff. Laden Verlust (%)"
+              },
+              "min": 0,
+              "max": 30,
+              "value": 5,
+              "decimals": 2,
+              "hint": {
+                "en": "Conversion loss.",
+                "nl": "Conversie verlies.",
+                "de": "Konvertierungsverlust."
+              }
+            },
+            {
+              "id": "dischargePowerEff",
+              "type": "number",
+              "label": {
+                "en": "Eff. discharging power (W)",
+                "nl": "Eff. ontlaadvermogen (W)",
+                "de": "Eff. Entladungsleistung (W)"
+              },
+              "value": 765,
+              "min": 0,
+              "decimals": 0,
+              "hint": {
+                "en": "The most efficient power at which the battery can be discharged.",
+                "nl": "Het meest efficiente vermogen waarmee de batterij kan worden ontladen.",
+                "de": "Die effizienteste Leistung in Watt, mit der die Batterie entladen wirden kann."
+              }
+            },
+            {
+              "id": "dischargeLossEff",
+              "type": "number",
+              "label": {
+                "en": "Eff. discharging loss (%)",
+                "nl": "Eff. ontladen verlies (%)",
+                "de": "Eff. Entladen Verlust (%)"
+              },
+              "min": 0,
+              "max": 30,
+              "value": 4,
+              "decimals": 2,
+              "hint": {
+                "en": "Conversion loss.",
+                "nl": "Conversie verlies.",
+                "de": "Konvertierungsverlust."
+              }
+            }
+          ]
+        },
+        {
+          "type": "group",
+          "label": {
+            "en": "Additional power values",
+            "nl": "Aanvullende vermogens waarden",
+            "de": "Zusätzliche Leistungswerte"
+          },
+          "children": [
+            {
+              "id": "chargePower3",
+              "type": "number",
+              "label": {
+                "en": "Additional charging power (W)",
+                "nl": "Aanvullend laadvermogen (W)",
+                "de": "Zusätzliche Ladeleistung (W)"
+              },
+              "value": 1791,
+              "min": 0,
+              "decimals": 0,
+              "hint": {
+                "en": "Additional power at which the battery can be charged in Watts.",
+                "nl": "Aanvullend vermogen waarmee de batterij kan worden geladen in Watt.",
+                "de": "Zusätzliche Leistung, mit der die Batterie geladen wirden kann."
+              }
+            },
+            {
+              "id": "chargeLoss3",
+              "type": "number",
+              "label": {
+                "en": "Additional charging loss (%)",
+                "nl": "Aanvullend laden verlies (%)",
+                "de": "Zusätzlich Laden Verlust (%)"
+              },
+              "min": 0,
+              "max": 30,
+              "value": 7,
+              "decimals": 2,
+              "hint": {
+                "en": "Conversion loss.",
+                "nl": "Conversie verlies.",
+                "de": "Konvertierungsverlust."
+              }
+            },
+            {
+              "id": "dischargePower3",
+              "type": "number",
+              "label": {
+                "en": "Additional discharging power (W)",
+                "nl": "Aanvullend ontlaadvermogen (W)",
+                "de": "Zusätzliche Entladungsleistung (W)"
+              },
+              "value": 1179,
+              "min": 0,
+              "decimals": 0,
+              "hint": {
+                "en": "Additional power at which the battery can be discharged.",
+                "nl": "Aanvullend vermogen waarmee de batterij kan worden ontladen.",
+                "de": "Zusätzliche Leistung, mit der die Batterie entladen werden kann."
+              }
+            },
+            {
+              "id": "dischargeLoss3",
+              "type": "number",
+              "label": {
+                "en": "Additional discharging loss (%)",
+                "nl": "Aanvullend ontladen verlies (%)",
+                "de": "Zusätzlich Entladen Verlust (%)"
+              },
+              "min": 0,
+              "max": 30,
+              "value": 6,
+              "decimals": 2,
+              "hint": {
+                "en": "Conversion loss.",
+                "nl": "Conversie verlies.",
+                "de": "Konvertierungsverlust."
               }
             }
           ]
@@ -3735,8 +3949,9 @@
               "min": 0,
               "value": 0,
               "hint": {
-                "en": "You can manually change this value. It is automatically updated once an hour.",
-                "nl": "Je kunt deze waarde handmatig aanpassen. Het wordt eenmaal per uur automatisch geupdated."
+                "en": "This value is automatically generated and updated once an hour. It is advised not to change this value, unless you need to.",
+                "nl": "Deze waarde wordt automatisch gegenereerd en één keer per uur bijgewerkt. Het wordt aanbevolen deze waarde niet te wijzigen, tenzij dit noodzakelijk is.",
+                "de": "Dieser Wert wird automatisch generiert und einmal pro Stunde aktualisiert. Es wird empfohlen, diesen Wert nicht zu ändern, es sei denn, dies ist erforderlich."
               }
             },
             {

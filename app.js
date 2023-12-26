@@ -316,6 +316,18 @@ class MyApp extends Homey.App {
 		pricesJSON
 			.registerRunListener((args) => args.device.createPricesJSON(args.period));
 
+		const findRoiStrategy = this.homey.flow.getActionCard('find_roi_strategy');
+		findRoiStrategy
+			.registerRunListener(async (args) => {
+				const strategy = await args.device.findRoiStrategy(args, 'flow');
+				return {
+					power: strategy[0].power,
+					duration: strategy[0].duration,
+					endSoC: strategy[0].soc,
+					scheme: JSON.stringify(strategy),
+				};
+			});
+
 		const setMeterPower = this.homey.flow.getActionCard('set_meter_power');
 		setMeterPower
 			.registerRunListener((args) => runUpdateMeter(args, 'power').catch(this.error))

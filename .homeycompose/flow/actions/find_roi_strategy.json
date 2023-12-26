@@ -1,0 +1,67 @@
+{
+	"highlight": true,
+	"title": {
+		"en": "Calculate the best ROI power.",
+		"nl": "Bereken het beste ROI vermogen.",
+		"de": "Berechne die beste ROI-Leistung."
+	},
+	"titleFormatted": {
+		"en": "Calculate the best ROI power, with minimum [[minPriceDelta]]€ price delta.",
+		"nl": "Bereken het beste ROI vermogen, met minimaal [[minPriceDelta]]€ prijsverschil.",
+		"de": "Berechne die beste ROI-Leistung, mit minimalen [[minPriceDelta]]€ Preisdifferenz."
+	},
+	"hint": {
+		"en": "The strategy is calculated using the battery settings, all known future hourly prices, and the set minimum price difference. WARNING: This flow uses a lot of CPU!",
+		"nl": "De strategie wordt berekend met behulp van de batterij instellingen, alle bekende toekomstige prijzen, en het ingestelde minimale prijsverschil. LET OP: deze flow gebruikt veel CPU!",
+		"de": "Die Strategie wird berechnet anhand die Batterieeinstellungen, alle bekannten zukünftigen Stundenpreise, und der eingestellten minimalen Preisdifferenz. ACHTUNG: Dieser Flow verbraucht viel CPU!"
+	},
+	"args": [
+		{
+		  "type": "device",
+		  "name": "device",
+		  "filter": "driver_id=battery"
+		},
+		{
+			"type": "number",
+			"name": "minPriceDelta",
+			"title": { 
+				"en": "price delta",
+				"nl": "prijsverschil",
+				"de": "Preisdifferenz"
+			},
+			"placeholder": { "en": "> 0.05" },
+			"min": 0,
+			"value": 0.1
+		}
+	],
+	"tokens": [
+    {
+      "name": "power",
+      "type": "number",
+      "title": {
+        "en": "Power"
+      }
+    },
+    {
+      "name": "duration",
+      "type": "number",
+      "title": {
+        "en": "Duration (minutes)"
+      }
+    },
+		{
+      "name": "endSoC",
+      "type": "number",
+      "title": {
+        "en": "SoC afterwards (%)"
+      }
+    },
+		{
+      "name": "scheme",
+      "type": "string",
+      "title": {
+        "en": "Scheme JSON"
+      }
+    }
+  ]
+}

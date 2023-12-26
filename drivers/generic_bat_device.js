@@ -22,7 +22,8 @@ along with com.gruijter.powerhour.  If not, see <http://www.gnu.org/licenses/>.
 
 const { Device } = require('homey');
 const util = require('util');
-const tradeStrategy = require('../hedge_strategy');
+const tradeStrategy = require('../hedge_strategy'); // deprecated
+const roiStrategy = require('../hedge_roi_glpk'); // new method
 
 const setTimeoutPromise = util.promisify(setTimeout);
 
@@ -191,12 +192,12 @@ class batDevice extends Device {
 	}
 
 	// EXECUTORS FOR CONDITION FLOWS AND TRIGGERS
+	// DEPRECATED OLD STRATEGY FLOW
 	async priceBattBestTrade(args) {
 		await setTimeoutPromise(3000); // wait 3 seconds for new hourly prices to be taken in
 		if (!this.pricesNextHours) throw Error('no prices available');
-		const chargePower = this.getSettings().chargePower - this.getSettings().ownPowerOn;
-		// (this.getSettings().chargePower - this.getSettings().ownPowerOn) * (1 - this.getSettings().chargeLoss / 100);
-		const dischargePower = (this.getSettings().dischargePower - this.getSettings().ownPowerOn) * (1 - this.getSettings().dischargeLoss / 100);
+		const { chargePower } = this.getSettings(); // max power
+		const { dischargePower } = this.getSettings(); // max power
 		const options = {
 			prices: this.pricesNextHours,
 			minPriceDelta: args.minPriceDelta,
@@ -207,6 +208,54 @@ class batDevice extends Device {
 		};
 		const strat = tradeStrategy.getStrategy(options);
 		return strat === Number(args.strat);
+	}
+
+	async findRoiStrategy(args) {
+		await setTimeoutPromise(3000); // wait 3 seconds for new hourly prices to be taken in
+		if (!this.pricesNextHours) throw Error('no prices available');
+		const settings = this.getSettings();
+		const chargeSpeeds = [
+			{
+				power: settings.chargePower, // Watt. Max speed charging power in Watt (on AC side), loss is included
+				eff: 1 - (settings.chargeLoss / 100), // efficiency when using Max speed charging
+			},
+			{
+				power: settings.chargePowerEff, // Watt. Efficient charging power in Watt (on AC side), loss is included
+				eff: 1 - (settings.chargeLossEff / 100), // efficiency when using Efficient charging
+			},
+			{
+				power: settings.chargePower3, // Watt. Additional charging power in Watt (on AC side), loss is included
+				eff: 1 - (settings.chargeLoss3 / 100), // efficiency when using additional charging
+			},
+		].filter((speed) => speed.power);
+		const dischargeSpeeds = [	// defaults to Sessy values
+			{
+				power: settings.dischargePower, // Watt. Max speed discharging power in Watt (on AC side), loss is included
+				eff: 1 - (settings.dischargeLoss / 100), // efficiency when using Max speed discharging
+			},
+			{
+				power: settings.dischargePowerEff, // Watt. Efficient discharging power in Watt (on AC side), loss is included
+				eff: 1 - (settings.dischargeLossEff / 100), // efficiency when using Efficient discharging
+			},
+			{
+				power: settings.dischargePower3, // Watt. Additional discharging power in Watt (on AC side), loss is included
+				eff: 1 - (settings.dischargeLoss3 / 100), // efficiency when using additional discharging
+			},
+		].filter((speed) => speed.power);
+		const now = new Date();
+		const startMinute = now.getMinutes();
+		const options = {
+			prices: this.pricesNextHours,
+			minPriceDelta: args.minPriceDelta,
+			soc: this.soc,
+			startMinute,
+			batCapacity: this.getSettings().batCapacity,
+			chargeSpeeds,
+			dischargeSpeeds,
+		};
+		// console.log(options);
+		const strat = roiStrategy.getStrategy(options);
+		return strat;
 	}
 
 	async getReadingObject(value) {
@@ -380,17 +429,12 @@ class batDevice extends Device {
 		const measureTm = new Date();
 		let value = val;
 		// apply power corrections
-		if (val > 0) {	// discharging
-			value -= this.getSettings().ownPowerOn; // substract own usage. default 35
-			value *= (1 - this.getSettings().dischargeLoss / 100); // substract default 7.7%
-		}
-		if (val < 0) {	// charging
-			value -= this.getSettings().ownPowerOn; // substract own usage. default 35
-			value /= (1 - this.getSettings().chargeLoss / 100); // add default 9.7%
-		}
-		if (val === 0) { // standby
-			value -= this.getSettings().ownPowerStandby; // substract standby usage. default 2.5
-		}
+		// charging CHARGE POWER IS ON AC SIDE, SO NO LOSS CORRECTION NEEDED
+		// if (val < 0) value /= (1 - this.getSettings().chargeLoss / 100); // add max charge loss
+		// discharging
+		if (val > 0) value *= (1 - this.getSettings().dischargeLoss / 100); // substract max discharge loss
+		// standby
+		if (val === 0) value -= this.getSettings().ownPowerStandby; // substract standby usage
 
 		if (typeof value !== 'number') return;
 		const deltaTm = measureTm - new Date(this.lastMeasure.measureTm);
