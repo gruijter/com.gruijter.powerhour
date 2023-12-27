@@ -37,6 +37,9 @@ const driverSpecifics = {
 		{
 			soc: 'measure_battery', productionPower: 'measure_power.batt_in', usagePower: 'measure_power.batt_out',	// Sonnen
 		},
+		{
+			soc: 'measure_battery', productionPower: 'from_battery_capability', usagePower: 'to_battery_capability',	// Sonnen Batterie
+		},
 	],
 	deviceCapabilities: [
 		'measure_watt_avg', 'meter_kwh_stored',

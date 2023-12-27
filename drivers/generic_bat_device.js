@@ -211,6 +211,7 @@ class batDevice extends Device {
 	}
 
 	async findRoiStrategy(args) {
+		this.log(`ROI strategy calculation started for ${this.getName()}`, args);
 		await setTimeoutPromise(3000); // wait 3 seconds for new hourly prices to be taken in
 		if (!this.pricesNextHours) throw Error('no prices available');
 		const settings = this.getSettings();
@@ -255,7 +256,13 @@ class batDevice extends Device {
 		};
 		// console.log(options);
 		const strat = roiStrategy.getStrategy(options);
-		return strat;
+		const tokens = {
+			power: strat[0].power,
+			duration: strat[0].duration,
+			endSoC: strat[0].soc,
+			scheme: JSON.stringify(strat),
+		};
+		return tokens;
 	}
 
 	async getReadingObject(value) {
@@ -369,6 +376,23 @@ class batDevice extends Device {
 			this.pricesNextHours = pricesNextHours;
 			this.setCapability('meter_tariff', pricesNextHours[0]);
 			this.setStoreValue('pricesNextHours', pricesNextHours);
+			// trigger ROI card
+			await this.triggerNewRoiStrategyFlow();
+		} catch (error) {
+			this.error(error);
+		}
+	}
+
+	// trigger ROI flow cards
+	async triggerNewRoiStrategyFlow() {
+		try {
+			// get all minPriceDelta as entered by user in trigger flows for this device
+			const argValues = await this.homey.app._newRoiStrategy.getArgumentValues(this);
+			argValues.forEach(async (args) => {
+				const tokens = await this.findRoiStrategy(args);
+				const state = args;
+				this.homey.app.triggerNewRoiStrategy(this, tokens, state);
+			});
 		} catch (error) {
 			this.error(error);
 		}

@@ -229,6 +229,15 @@ class MyApp extends Homey.App {
 				.catch(this.error);
 		};
 
+		this._newRoiStrategy = this.homey.flow.getDeviceTriggerCard('new_roi_strategy');
+		this._newRoiStrategy.registerRunListener(async (args, state) => args.minPriceDelta === state.minPriceDelta);
+		this.triggerNewRoiStrategy = (device, tokens, state) => {
+			this._newRoiStrategy
+				.trigger(device, tokens, state)
+				// .then(this.log(device.getName(), tokens, state))
+				.catch(this.error);
+		};
+
 		// condition cards
 		const priceLowestCondition = this.homey.flow.getConditionCard('price_lowest');
 		priceLowestCondition.registerRunListener((args) => args.device.priceIsLowest(args));
@@ -318,15 +327,7 @@ class MyApp extends Homey.App {
 
 		const findRoiStrategy = this.homey.flow.getActionCard('find_roi_strategy');
 		findRoiStrategy
-			.registerRunListener(async (args) => {
-				const strategy = await args.device.findRoiStrategy(args, 'flow');
-				return {
-					power: strategy[0].power,
-					duration: strategy[0].duration,
-					endSoC: strategy[0].soc,
-					scheme: JSON.stringify(strategy),
-				};
-			});
+			.registerRunListener((args) => args.device.findRoiStrategy(args, 'flow').catch(this.error));
 
 		const setMeterPower = this.homey.flow.getActionCard('set_meter_power');
 		setMeterPower

@@ -57,7 +57,7 @@ const getStrategy = ({
 	const startSoC = (soc / 100) * batCapacity; // kWh (when 0, the battery is empty at start)
 
 	const modelOptions = {
-		msglev: glpk.GLP_MSG_ALL,
+		msglev: glpk.GLP_MSG_ERR, // GLP_MSG_ON / OFF / ALL / ERR / DBG
 		presol: true,
 		// cb: {
 		// 	call: (progress) => console.log(progress),

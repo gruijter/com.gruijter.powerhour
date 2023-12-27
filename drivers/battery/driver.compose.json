@@ -553,8 +553,9 @@
 					"min": 0,
 					"value": 0,
 					"hint": {
-						"en": "Automatically updated once an hour.",
-						"nl": "Eenmaal per uur automatisch geupdated."
+						"en": "This value is automatically generated and updated once an hour. It is advised not to change this value, unless you need to.",
+						"nl": "Deze waarde wordt automatisch gegenereerd en één keer per uur bijgewerkt. Het wordt aanbevolen deze waarde niet te wijzigen, tenzij dit noodzakelijk is.",
+						"de": "Dieser Wert wird automatisch generiert und einmal pro Stunde aktualisiert. Es wird empfohlen, diesen Wert nicht zu ändern, es sei denn, dies ist erforderlich."
 					}
 				}
 			]

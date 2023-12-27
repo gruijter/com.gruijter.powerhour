@@ -1,14 +1,14 @@
 {
 	"highlight": true,
 	"title": {
-		"en": "Calculate the best ROI power.",
-		"nl": "Bereken het beste ROI vermogen.",
-		"de": "Berechne die beste ROI-Leistung."
+		"en": "New ROI power available.",
+		"nl": "Nieuw ROI vermogen beschikbaar.",
+		"de": "Neue ROI-Leistung verfügbar."
 	},
 	"titleFormatted": {
-		"en": "Calculate the best ROI power, with minimum [[minPriceDelta]] price delta.",
-		"nl": "Bereken het beste ROI vermogen, met minimaal [[minPriceDelta]] prijsverschil.",
-		"de": "Berechne die beste ROI-Leistung, mit minimalen [[minPriceDelta]] Preisdifferenz."
+		"en": "New ROI power available, with minimum [[minPriceDelta]] price delta.",
+		"nl": "Nieuwe ROI vermogen beschikbaar, met minimaal [[minPriceDelta]] prijsverschil.",
+		"de": "Neue ROI-Leistung verfügbar, mit minimalen [[minPriceDelta]] Preisdifferenz."
 	},
 	"hint": {
 		"en": "The strategy is calculated using future hourly prices, the battery settings, and the set minimum price difference.",

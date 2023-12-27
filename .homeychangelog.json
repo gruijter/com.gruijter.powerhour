@@ -1,4 +1,7 @@
 {
+  "6.0.1": {
+    "en": "BAT: added support for Sonnen Batterie app. Added new ROI strategy trigger."
+  },
   "6.0.0": {
     "en": "BAT: Completely new ROI strategy flow. Deprecated old ROI flow card. SUM: Fix paring new devices."
   },
