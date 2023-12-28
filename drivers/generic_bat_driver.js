@@ -89,28 +89,35 @@ class BatDriver extends Driver {
 		};
 		this.homey.on('retry', this.eventListenerRetry);
 
+		// set prices for a BAT device
+		this.setPricesDevice = (device) => {
+			const deviceName = device.getName();
+			const updateGroup = device.getSettings().tariff_update_group;
+			if (!updateGroup || !this.pricesNextHours || !this.pricesNextHours[updateGroup]) {
+				this.log('No prices available for group', updateGroup, deviceName);
+				return;
+			}
+			const pricesNextHours = this.pricesNextHours[updateGroup];
+			this.log('updating prices', deviceName, pricesNextHours[0]);
+			device.updatePrices([...pricesNextHours]);
+		};
+
 		// add listener for new prices
 		const eventName = 'set_tariff_power';
 		if (this.eventListenerTariff) this.homey.removeListener(eventName, this.eventListenerTariff);
 		this.eventListenerTariff = async (args) => {
 			// console.log(`${eventName} received from DAP`, args);
 			// eslint-disable-next-line prefer-destructuring
-			const pricesNextHours = args.pricesNextHours;
-			if (!pricesNextHours || !pricesNextHours[0]) {
+			if (!args.pricesNextHours || !args.pricesNextHours[0]) {
 				this.log('no prices next hours found');
 				return;
 			}
-			const group = args.group || 1; // default to group 1 if not filled in
+			if (!this.pricesNextHours) this.pricesNextHours = {};
+			this.pricesNextHours[args.group] = args.pricesNextHours;
 			// wait 2 seconds not to stress Homey and prevent race issues
 			await setTimeoutPromise(2 * 1000);
 			const devices = this.getDevices();
-			devices.forEach((device) => {
-				if (device.settings && device.settings.tariff_update_group && device.settings.tariff_update_group === group) {
-					const deviceName = device.getName();
-					this.log('updating prices', deviceName, pricesNextHours[0]);
-					device.updatePrices([...pricesNextHours]);
-				}
-			});
+			devices.forEach((device) => this.setPricesDevice(device));
 		};
 		this.homey.on(eventName, this.eventListenerTariff);
 	}

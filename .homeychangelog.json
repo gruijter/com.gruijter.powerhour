@@ -1,4 +1,7 @@
 {
+  "6.0.2": {
+    "en": "BAT: Added BAT strategy image. Remove double strat trigger on price update. Fetch prices after pair. Textual updates. SUM: next hours image labels start at current hour."
+  },
   "6.0.1": {
     "en": "BAT: added support for Sonnen Batterie app. Added new ROI strategy trigger."
   },

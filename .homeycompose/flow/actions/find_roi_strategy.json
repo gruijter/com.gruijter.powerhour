@@ -6,14 +6,14 @@
 		"de": "Berechne die beste ROI-Leistung."
 	},
 	"titleFormatted": {
-		"en": "Calculate the best ROI power, with minimum [[minPriceDelta]] price delta.",
-		"nl": "Bereken het beste ROI vermogen, met minimaal [[minPriceDelta]] prijsverschil.",
-		"de": "Berechne die beste ROI-Leistung, mit minimalen [[minPriceDelta]] Preisdifferenz."
+		"en": "Calculate the best ROI power, with minimum [[minPriceDelta]]¤ profit per kWh.",
+		"nl": "Bereken het beste ROI vermogen, met minimaal [[minPriceDelta]]¤ winst per kWh.",
+		"de": "Berechne die beste ROI-Leistung, mit minimalen [[minPriceDelta]]¤ Gewinn pro kWh."
 	},
 	"hint": {
-		"en": "The strategy is calculated using future hourly prices, the battery settings, and the set minimum price difference.",
-		"nl": "De strategie wordt berekend met behulp van toekomstige prijzen, de batterij instellingen, en het ingestelde minimale prijsverschil.",
-		"de": "Die Strategie wird berechnet anhand zukünftigen Stundenpreise, die Batterieeinstellungen, und der eingestellten minimalen Preisdifferenz."
+		"en": "The strategy is calculated using future hourly prices, the battery settings, and the set minimum profit per kWh.",
+		"nl": "De strategie wordt berekend met behulp van toekomstige prijzen, de batterij instellingen, en de ingestelde minimale winst per kWh.",
+		"de": "Die Strategie wird berechnet anhand zukünftigen Stundenpreise, die Batterieeinstellungen, und der eingestellten minimalen Gewinn pro kWh."
 	},
 	"args": [
 		{

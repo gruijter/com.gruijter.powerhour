@@ -22,6 +22,7 @@ along with com.gruijter.powerhour.  If not, see <http://www.gnu.org/licenses/>.
 
 const { Device } = require('homey');
 const util = require('util');
+const charts = require('../charts');
 const tradeStrategy = require('../hedge_strategy'); // deprecated
 const roiStrategy = require('../hedge_roi_glpk'); // new method
 
@@ -38,7 +39,6 @@ class batDevice extends Device {
 			// this.initReady = false;
 			this.destroyListeners();
 			this.timeZone = this.homey.clock.getTimezone();
-			this.settings = await this.getSettings();
 
 			if (!this.migrated) await this.migrate();
 			this.migrated = true;
@@ -52,6 +52,9 @@ class batDevice extends Device {
 
 			// poll first values
 			await this.poll();
+
+			// create ROI chart
+			this.updateChargeChart().catch(this.error);
 			this.initReady = true;
 		} catch (error) {
 			this.error(error);
@@ -105,7 +108,6 @@ class batDevice extends Device {
 
 			// set new migrate level
 			await this.setSettings({ level: this.homey.app.manifest.version }).catch(this.error);
-			this.settings = await this.getSettings();
 			Promise.resolve(true);
 		} catch (error) {
 			this.error('Migration failed', error);
@@ -286,15 +288,17 @@ class batDevice extends Device {
 		// init pricesNextHours
 		if (!this.pricesNextHours) this.pricesNextHours = await this.getStoreValue('pricesNextHours');
 		if (!this.pricesNextHours) {
-			this.pricesNextHours = [0.25];
-			await this.setStoreValue('pricesNextHours', this.pricesNextHours);
+			this.pricesNextHours = [0.25]; // set as default after pair
+			// get DAP prices when available
+			const driver = await this.homey.drivers.getDriver('bat');
+			driver.setPricesDevice(this);
 		}
 
 		// init incoming meter queue
 		if (!this.newReadings) this.newReadings = [];
 
 		// init this.startDay, this.startMonth and this.year
-		let startDateString = this.settings.start_date;
+		let startDateString = this.getSettings().start_date;
 		if (!startDateString || startDateString.length !== 4) startDateString = '0101'; // ddmm
 		this.startDay = Number(startDateString.slice(0, 2));
 		this.startMonth = Number(startDateString.slice(2, 4));
@@ -351,7 +355,7 @@ class batDevice extends Device {
 			this.log(`${this.getName()} Setting values after pair init`);
 			await this.setStoreValue('lastReadingHour', reading);
 			this.lastReadingHour = reading;
-			const dayStart = this.settings.homey_device_daily_reset ? this.getReadingObject(0) : reading;
+			const dayStart = this.getSettings().homey_device_daily_reset ? this.getReadingObject(0) : reading;
 			await this.setStoreValue('lastReadingDay', dayStart);
 			this.lastReadingDay = dayStart;
 			await this.setStoreValue('lastReadingMonth', reading);
@@ -373,11 +377,13 @@ class batDevice extends Device {
 	async updatePrices(pricesNextHours) {
 		try {
 			if (!pricesNextHours || !pricesNextHours[0]) return;
+			if (!this.initReady || JSON.stringify(pricesNextHours) === JSON.stringify(this.pricesNextHours)) return; // only update when changed
 			this.pricesNextHours = pricesNextHours;
 			this.setCapability('meter_tariff', pricesNextHours[0]);
 			this.setStoreValue('pricesNextHours', pricesNextHours);
 			// trigger ROI card
 			await this.triggerNewRoiStrategyFlow();
+			await this.updateChargeChart();
 		} catch (error) {
 			this.error(error);
 		}
@@ -395,6 +401,26 @@ class batDevice extends Device {
 			});
 		} catch (error) {
 			this.error(error);
+		}
+	}
+
+	async updateChargeChart() {
+		if (!this.pricesNextHours) throw Error('no prices available');
+		this.log('updating charge chart');
+		const minPriceDelta = this.getSettings().roiMinProfit;
+		const strategy = await this.findRoiStrategy({ minPriceDelta });
+		const now = new Date();
+		now.setMilliseconds(0); // toLocaleString cannot handle milliseconds...
+		const nowLocal = new Date(now.toLocaleString('en-US', { timeZone: this.timeZone }));
+		const H0 = nowLocal.getHours();
+		const urlNextHours = await charts.getChargeChart(strategy, H0);
+		if (!this.nextHoursChargeImage) {
+			this.nextHoursChargeImage = await this.homey.images.createImage();
+			await this.nextHoursChargeImage.setUrl(urlNextHours);
+			await this.setCameraImage('nextHoursChargeChart', ` ${this.homey.__('nextHours')}`, this.nextHoursChargeImage);
+		} else {
+			await this.nextHoursChargeImage.setUrl(urlNextHours);
+			await this.nextHoursChargeImage.update();
 		}
 	}
 

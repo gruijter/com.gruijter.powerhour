@@ -23,7 +23,7 @@ along with com.gruijter.powerhour.  If not, see <http://www.gnu.org/licenses/>.s
 const Homey = require('homey');
 const util = require('util');
 const ECB = require('../ecb_exchange_rates');
-const charts = require('../pricecharts');
+const charts = require('../charts');
 
 const setTimeoutPromise = util.promisify(setTimeout);
 
@@ -827,7 +827,7 @@ class MyDevice extends Homey.Device {
 	}
 
 	async updatePriceCharts() {
-		const urlToday = await charts.getChart(this.state.pricesThisDay);
+		const urlToday = await charts.getPriceChart(this.state.pricesThisDay);
 		if (!this.todayPriceImage) {
 			this.todayPriceImage = await this.homey.images.createImage();
 			await this.todayPriceImage.setUrl(urlToday);
@@ -837,7 +837,7 @@ class MyDevice extends Homey.Device {
 			await this.todayPriceImage.update();
 		}
 
-		const urlTomorow = await charts.getChart(this.state.pricesTomorrow);
+		const urlTomorow = await charts.getPriceChart(this.state.pricesTomorrow);
 		if (!this.tomorrowPriceImage) {
 			this.tomorrowPriceImage = await this.homey.images.createImage();
 			await this.tomorrowPriceImage.setUrl(urlTomorow);
@@ -847,7 +847,7 @@ class MyDevice extends Homey.Device {
 			await this.tomorrowPriceImage.update();
 		}
 
-		const urlNextHours = await charts.getChart(this.state.pricesNextHours);
+		const urlNextHours = await charts.getPriceChart(this.state.pricesNextHours, this.state.H0);
 		if (!this.nextHoursPriceImage) {
 			this.nextHoursPriceImage = await this.homey.images.createImage();
 			await this.nextHoursPriceImage.setUrl(urlNextHours);
