@@ -1,4 +1,7 @@
 {
+  "6.0.3": {
+    "en": "BAT: Undeprecated old ROI flow card. New ROI flow cards and strategy graph made optional and EXPERIMENTAL. homey-api@3.4.10"
+  },
   "6.0.2": {
     "en": "BAT: Added BAT strategy image. Remove double strat trigger on price update. Fetch prices after pair. Textual updates. SUM: next hours image labels start at current hour."
   },

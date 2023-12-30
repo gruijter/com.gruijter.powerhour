@@ -1,7 +1,7 @@
 {
   "_comment": "This file is generated. Please edit .homeycompose/app.json instead.",
   "id": "com.gruijter.powerhour",
-  "version": "6.0.2",
+  "version": "6.0.3",
   "compatibility": ">=8.0.0",
   "brandColor": "#df5020",
   "sdk": 3,
@@ -500,16 +500,15 @@
         "id": "new_prices"
       },
       {
-        "highlight": true,
         "title": {
-          "en": "New ROI power available.",
-          "nl": "Nieuw ROI vermogen beschikbaar.",
-          "de": "Neue ROI-Leistung verfügbar."
+          "en": "New ROI power available. (EXPERIMENTAL!)",
+          "nl": "Nieuw ROI vermogen beschikbaar. (EXPERIMENTAL!)",
+          "de": "Neue ROI-Leistung verfügbar. (EXPERIMENTAL!)"
         },
         "titleFormatted": {
-          "en": "New ROI power available, with minimum [[minPriceDelta]]¤ profit per kWh.",
-          "nl": "Nieuwe ROI vermogen beschikbaar, met minimaal [[minPriceDelta]]¤ winst per kWh.",
-          "de": "Neue ROI-Leistung verfügbar, mit minimalen [[minPriceDelta]]¤ Gewinn pro kWh."
+          "en": "(EXPERIMENTAL!) New ROI power available, with minimum [[minPriceDelta]]¤ profit per kWh.",
+          "nl": "(EXPERIMENTAL!) Nieuwe ROI vermogen beschikbaar, met minimaal [[minPriceDelta]]¤ winst per kWh.",
+          "de": "(EXPERIMENTAL!) Neue ROI-Leistung verfügbar, mit minimalen [[minPriceDelta]]¤ Gewinn pro kWh."
         },
         "hint": {
           "en": "The strategy is calculated using future hourly prices, the battery settings, and the set minimum profit per kWh.",
@@ -1705,7 +1704,6 @@
         "id": "price_above_avg"
       },
       {
-        "deprecated": true,
         "title": {
           "en": "The price !{{is|isn't}} best for (dis)charging home battery.",
           "nl": "De prijs !{{is|is niet}} het beste om thuisbatterij te (ont)laden.",
@@ -2801,16 +2799,15 @@
     ],
     "actions": [
       {
-        "highlight": true,
         "title": {
-          "en": "Calculate the best ROI power.",
-          "nl": "Bereken het beste ROI vermogen.",
-          "de": "Berechne die beste ROI-Leistung."
+          "en": "Calculate the best ROI power. (EXPERIMENTAL!)",
+          "nl": "Bereken het beste ROI vermogen. (EXPERIMENTEEL!)",
+          "de": "Berechne die beste ROI-Leistung. (EXPERIMENTAL!)"
         },
         "titleFormatted": {
-          "en": "Calculate the best ROI power, with minimum [[minPriceDelta]]¤ profit per kWh.",
-          "nl": "Bereken het beste ROI vermogen, met minimaal [[minPriceDelta]]¤ winst per kWh.",
-          "de": "Berechne die beste ROI-Leistung, mit minimalen [[minPriceDelta]]¤ Gewinn pro kWh."
+          "en": "(EXPERIMENTAL!) Calculate the best ROI power, with minimum [[minPriceDelta]]¤ profit per kWh.",
+          "nl": "(EXPERIMENTAL!) Bereken het beste ROI vermogen, met minimaal [[minPriceDelta]]¤ winst per kWh.",
+          "de": "(EXPERIMENTAL!) Berechne die beste ROI-Leistung, mit minimalen [[minPriceDelta]]¤ Gewinn pro kWh."
         },
         "hint": {
           "en": "The strategy is calculated using future hourly prices, the battery settings, and the set minimum profit per kWh.",
@@ -3865,22 +3862,33 @@
         {
           "type": "group",
           "label": {
-            "en": "Graphic settings",
-            "nl": "Grafiek instellingen"
+            "en": "ROI settings",
+            "nl": "ROI instellingen"
           },
           "children": [
+            {
+              "id": "roiEnable",
+              "type": "checkbox",
+              "label": {
+                "en": "Enable advanced ROI (EXPERIMENTAL!)",
+                "nl": "ROI functie aanzetten (EXPERIMENTEEL!)"
+              },
+              "hint": {
+                "en": "This enables the advanced ROI flows, but can make the app crash!",
+                "nl": "Dit zet de geavanceerde ROI flows aan, maar kan de app laten crashen!"
+              },
+              "value": false
+            },
             {
               "id": "roiMinProfit",
               "type": "number",
               "label": {
-                "en": "minimum profit per kWh",
-                "nl": "minimale winst per kWh",
-                "de": "minimalen Gewinn pro kWh"
+                "en": "Graph minimum profit per kWh",
+                "nl": "Grafiek minimale winst per kWh"
               },
               "hint": {
-                "en": "The strategy is calculated using future hourly prices, the battery settings, and the set minimum profit per kWh.",
-                "nl": "De strategie wordt berekend met behulp van toekomstige prijzen, de batterij instellingen, en de ingestelde minimale winst per kWh.",
-                "de": "Die Strategie wird berechnet anhand zukünftigen Stundenpreise, die Batterieeinstellungen, und der eingestellten minimalen Gewinn pro kWh."
+                "en": "The strategy graph is calculated using future hourly prices, the battery settings, and the set minimum profit per kWh.",
+                "nl": "De strategie grafiek wordt berekend met behulp van toekomstige prijzen, de batterij instellingen, en de ingestelde minimale winst per kWh."
               },
               "value": 0.1,
               "min": 0

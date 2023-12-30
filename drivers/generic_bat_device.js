@@ -53,9 +53,16 @@ class batDevice extends Device {
 			// poll first values
 			await this.poll();
 
-			// create ROI chart
-			this.updateChargeChart().catch(this.error);
 			this.initReady = true;
+
+			// create Strategy and ROI chart
+			if (this.getSettings().roiEnable) {
+				await setTimeoutPromise(10000 + (Math.random() * 10000)).catch(this.error);
+				this.triggerNewRoiStrategyFlow().catch(this.error);
+				// await setTimeoutPromise(10000 + (Math.random() * 10000)).catch(this.error);
+				// this.updateChargeChart().catch(this.error);
+			}
+
 		} catch (error) {
 			this.error(error);
 			// this.restartDevice(10 * 60 * 1000).catch(this.error); // restart after 10 minutes
@@ -213,58 +220,63 @@ class batDevice extends Device {
 	}
 
 	async findRoiStrategy(args) {
-		this.log(`ROI strategy calculation started for ${this.getName()}`, args);
-		await setTimeoutPromise(3000); // wait 3 seconds for new hourly prices to be taken in
-		if (!this.pricesNextHours) throw Error('no prices available');
-		const settings = this.getSettings();
-		const chargeSpeeds = [
-			{
-				power: settings.chargePower, // Watt. Max speed charging power in Watt (on AC side), loss is included
-				eff: 1 - (settings.chargeLoss / 100), // efficiency when using Max speed charging
-			},
-			{
-				power: settings.chargePowerEff, // Watt. Efficient charging power in Watt (on AC side), loss is included
-				eff: 1 - (settings.chargeLossEff / 100), // efficiency when using Efficient charging
-			},
-			{
-				power: settings.chargePower3, // Watt. Additional charging power in Watt (on AC side), loss is included
-				eff: 1 - (settings.chargeLoss3 / 100), // efficiency when using additional charging
-			},
-		].filter((speed) => speed.power);
-		const dischargeSpeeds = [	// defaults to Sessy values
-			{
-				power: settings.dischargePower, // Watt. Max speed discharging power in Watt (on AC side), loss is included
-				eff: 1 - (settings.dischargeLoss / 100), // efficiency when using Max speed discharging
-			},
-			{
-				power: settings.dischargePowerEff, // Watt. Efficient discharging power in Watt (on AC side), loss is included
-				eff: 1 - (settings.dischargeLossEff / 100), // efficiency when using Efficient discharging
-			},
-			{
-				power: settings.dischargePower3, // Watt. Additional discharging power in Watt (on AC side), loss is included
-				eff: 1 - (settings.dischargeLoss3 / 100), // efficiency when using additional discharging
-			},
-		].filter((speed) => speed.power);
-		const now = new Date();
-		const startMinute = now.getMinutes();
-		const options = {
-			prices: this.pricesNextHours,
-			minPriceDelta: args.minPriceDelta,
-			soc: this.soc,
-			startMinute,
-			batCapacity: this.getSettings().batCapacity,
-			chargeSpeeds,
-			dischargeSpeeds,
-		};
-		// console.log(options);
-		const strat = roiStrategy.getStrategy(options);
-		const tokens = {
-			power: strat[0].power,
-			duration: strat[0].duration,
-			endSoC: strat[0].soc,
-			scheme: JSON.stringify(strat),
-		};
-		return tokens;
+		try {
+			if (!this.getSettings().roiEnable)	return Promise.resolve(null);
+			this.log(`ROI strategy calculation started for ${this.getName()}`, args);
+			await setTimeoutPromise(3000); // wait 3 seconds for new hourly prices to be taken in
+			if (!this.pricesNextHours) throw Error('no prices available');
+			const settings = this.getSettings();
+			const chargeSpeeds = [
+				{
+					power: settings.chargePower, // Watt. Max speed charging power in Watt (on AC side), loss is included
+					eff: 1 - (settings.chargeLoss / 100), // efficiency when using Max speed charging
+				},
+				{
+					power: settings.chargePowerEff, // Watt. Efficient charging power in Watt (on AC side), loss is included
+					eff: 1 - (settings.chargeLossEff / 100), // efficiency when using Efficient charging
+				},
+				{
+					power: settings.chargePower3, // Watt. Additional charging power in Watt (on AC side), loss is included
+					eff: 1 - (settings.chargeLoss3 / 100), // efficiency when using additional charging
+				},
+			].filter((speed) => speed.power);
+			const dischargeSpeeds = [	// defaults to Sessy values
+				{
+					power: settings.dischargePower, // Watt. Max speed discharging power in Watt (on AC side), loss is included
+					eff: 1 - (settings.dischargeLoss / 100), // efficiency when using Max speed discharging
+				},
+				{
+					power: settings.dischargePowerEff, // Watt. Efficient discharging power in Watt (on AC side), loss is included
+					eff: 1 - (settings.dischargeLossEff / 100), // efficiency when using Efficient discharging
+				},
+				{
+					power: settings.dischargePower3, // Watt. Additional discharging power in Watt (on AC side), loss is included
+					eff: 1 - (settings.dischargeLoss3 / 100), // efficiency when using additional discharging
+				},
+			].filter((speed) => speed.power);	// remove 0W entries
+			const now = new Date();
+			const startMinute = now.getMinutes();
+			const options = {
+				prices: [...this.pricesNextHours],
+				minPriceDelta: args.minPriceDelta,
+				soc: this.soc,
+				startMinute,
+				batCapacity: this.getSettings().batCapacity,
+				chargeSpeeds,
+				dischargeSpeeds,
+			};
+			const strat = roiStrategy.getStrategy(options);
+			const tokens = {
+				power: strat[0].power,
+				duration: strat[0].duration,
+				endSoC: strat[0].soc,
+				scheme: JSON.stringify(strat),
+			};
+			// global.gc();
+			return Promise.resolve(tokens);
+		} catch (error) {
+			return Promise.reject(error);
+		}
 	}
 
 	async getReadingObject(value) {
@@ -296,6 +308,11 @@ class batDevice extends Device {
 
 		// init incoming meter queue
 		if (!this.newReadings) this.newReadings = [];
+
+		// init this.soc
+		const storedkWh = await this.getCapabilityValue('meter_battery');
+		this.soc = (storedkWh / this.getSettings().batCapacity) * 100;
+		if (!this.soc) this.soc = 0;
 
 		// init this.startDay, this.startMonth and this.year
 		let startDateString = this.getSettings().start_date;
@@ -382,8 +399,10 @@ class batDevice extends Device {
 			this.setCapability('meter_tariff', pricesNextHours[0]);
 			this.setStoreValue('pricesNextHours', pricesNextHours);
 			// trigger ROI card
-			await this.triggerNewRoiStrategyFlow();
-			await this.updateChargeChart();
+			if (this.getSettings().roiEnable) {
+				await this.triggerNewRoiStrategyFlow();
+				await this.updateChargeChart();
+			}
 		} catch (error) {
 			this.error(error);
 		}
@@ -392,15 +411,23 @@ class batDevice extends Device {
 	// trigger ROI flow cards
 	async triggerNewRoiStrategyFlow() {
 		try {
+			if (!this.getSettings().roiEnable) return Promise.resolve(null);
 			// get all minPriceDelta as entered by user in trigger flows for this device
 			const argValues = await this.homey.app._newRoiStrategy.getArgumentValues(this);
-			argValues.forEach(async (args) => {
-				const tokens = await this.findRoiStrategy(args);
-				const state = args;
-				this.homey.app.triggerNewRoiStrategy(this, tokens, state);
+			const uniqueArgs = argValues.filter((a, idx) => argValues.findIndex((b) => b.minPriceDelta === argValues[idx].minPriceDelta) === idx);
+			await setTimeoutPromise(10000 + Math.random() * 20000);
+			uniqueArgs.forEach(async (args) => {
+				const tokens = await this.findRoiStrategy(args).catch(this.error);
+				if (tokens) {
+					const state = args;
+					this.homey.app.triggerNewRoiStrategy(this, tokens, state);
+					await setTimeoutPromise(10000);
+				}
 			});
+			await setTimeoutPromise(10000 + Math.random() * 20000);
+			return Promise.resolve(true);
 		} catch (error) {
-			this.error(error);
+			return Promise.reject(error);
 		}
 	}
 
@@ -408,20 +435,23 @@ class batDevice extends Device {
 		if (!this.pricesNextHours) throw Error('no prices available');
 		this.log('updating charge chart');
 		const minPriceDelta = this.getSettings().roiMinProfit;
-		const strategy = await this.findRoiStrategy({ minPriceDelta });
-		const now = new Date();
-		now.setMilliseconds(0); // toLocaleString cannot handle milliseconds...
-		const nowLocal = new Date(now.toLocaleString('en-US', { timeZone: this.timeZone }));
-		const H0 = nowLocal.getHours();
-		const urlNextHours = await charts.getChargeChart(strategy, H0);
-		if (!this.nextHoursChargeImage) {
-			this.nextHoursChargeImage = await this.homey.images.createImage();
-			await this.nextHoursChargeImage.setUrl(urlNextHours);
-			await this.setCameraImage('nextHoursChargeChart', ` ${this.homey.__('nextHours')}`, this.nextHoursChargeImage);
-		} else {
-			await this.nextHoursChargeImage.setUrl(urlNextHours);
-			await this.nextHoursChargeImage.update();
+		const strategy = await this.findRoiStrategy({ minPriceDelta }).catch(this.error);
+		if (strategy) {
+			const now = new Date();
+			now.setMilliseconds(0); // toLocaleString cannot handle milliseconds...
+			const nowLocal = new Date(now.toLocaleString('en-US', { timeZone: this.timeZone }));
+			const H0 = nowLocal.getHours();
+			const urlNextHours = await charts.getChargeChart(strategy, H0);
+			if (!this.nextHoursChargeImage) {
+				this.nextHoursChargeImage = await this.homey.images.createImage();
+				await this.nextHoursChargeImage.setUrl(urlNextHours);
+				await this.setCameraImage('nextHoursChargeChart', ` ${this.homey.__('nextHours')}`, this.nextHoursChargeImage);
+			} else {
+				await this.nextHoursChargeImage.setUrl(urlNextHours);
+				await this.nextHoursChargeImage.update();
+			}
 		}
+		return Promise.resolve(true);
 	}
 
 	async handleUpdateMeter(reading) {

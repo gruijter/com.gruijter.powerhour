@@ -1,14 +1,13 @@
 {
-	"highlight": true,
 	"title": {
-		"en": "New ROI power available.",
-		"nl": "Nieuw ROI vermogen beschikbaar.",
-		"de": "Neue ROI-Leistung verfügbar."
+		"en": "New ROI power available. (EXPERIMENTAL!)",
+		"nl": "Nieuw ROI vermogen beschikbaar. (EXPERIMENTAL!)",
+		"de": "Neue ROI-Leistung verfügbar. (EXPERIMENTAL!)"
 	},
 	"titleFormatted": {
-		"en": "New ROI power available, with minimum [[minPriceDelta]]¤ profit per kWh.",
-		"nl": "Nieuwe ROI vermogen beschikbaar, met minimaal [[minPriceDelta]]¤ winst per kWh.",
-		"de": "Neue ROI-Leistung verfügbar, mit minimalen [[minPriceDelta]]¤ Gewinn pro kWh."
+		"en": "(EXPERIMENTAL!) New ROI power available, with minimum [[minPriceDelta]]¤ profit per kWh.",
+		"nl": "(EXPERIMENTAL!) Nieuwe ROI vermogen beschikbaar, met minimaal [[minPriceDelta]]¤ winst per kWh.",
+		"de": "(EXPERIMENTAL!) Neue ROI-Leistung verfügbar, mit minimalen [[minPriceDelta]]¤ Gewinn pro kWh."
 	},
 	"hint": {
 		"en": "The strategy is calculated using future hourly prices, the battery settings, and the set minimum profit per kWh.",

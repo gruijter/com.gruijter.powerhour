@@ -389,22 +389,33 @@
 		{
 			"type": "group",
 			"label": {
-				"en": "Graphic settings",
-				"nl": "Grafiek instellingen"
+				"en": "ROI settings",
+				"nl": "ROI instellingen"
 			},
 			"children": [
+				{
+					"id": "roiEnable",
+					"type": "checkbox",
+					"label": {
+						"en": "Enable advanced ROI (EXPERIMENTAL!)",
+						"nl": "ROI functie aanzetten (EXPERIMENTEEL!)"
+					},
+					"hint": {
+						"en": "This enables the advanced ROI flows, but can make the app crash!",
+						"nl": "Dit zet de geavanceerde ROI flows aan, maar kan de app laten crashen!"
+					},
+					"value": false
+				},
 				{
 					"id": "roiMinProfit",
 					"type": "number",
 					"label": {
-						"en": "minimum profit per kWh",
-						"nl": "minimale winst per kWh",
-						"de": "minimalen Gewinn pro kWh"
+						"en": "Graph minimum profit per kWh",
+						"nl": "Grafiek minimale winst per kWh"
 					},
 					"hint": {
-						"en": "The strategy is calculated using future hourly prices, the battery settings, and the set minimum profit per kWh.",
-						"nl": "De strategie wordt berekend met behulp van toekomstige prijzen, de batterij instellingen, en de ingestelde minimale winst per kWh.",
-						"de": "Die Strategie wird berechnet anhand zukünftigen Stundenpreise, die Batterieeinstellungen, und der eingestellten minimalen Gewinn pro kWh."
+						"en": "The strategy graph is calculated using future hourly prices, the battery settings, and the set minimum profit per kWh.",
+						"nl": "De strategie grafiek wordt berekend met behulp van toekomstige prijzen, de batterij instellingen, en de ingestelde minimale winst per kWh."
 					},
 					"value": 0.1,
 					"min": 0

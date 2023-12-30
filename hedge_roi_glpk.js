@@ -84,13 +84,13 @@ const getStrategy = ({
 		// build objective function (minimize totalCost)
 		// charge cost per hour is chargeTime(hrs) * (power(kWh)) * (fixed cost(per kWh) + hourPrice)
 		// assume efficiency is on DC side, so incoming power cost is not affected by efficiency
-		chargeSpeeds.forEach((speed, csIdx) => {
+		[...chargeSpeeds].forEach((speed, csIdx) => {
 			const chargeCost = { name: `cs${csIdx}T${hourIdx}`, coef: ((speed.power / 1000) * (fc + price)) };
 			model.objective.vars.push(chargeCost);
 		});
 		// discharge cost per period is dischargeTime(hrs) * (power(kWh) * efficiency) * (fixed cost(per kWh) - hourPrice)
 		// assume efficiency is on DC side, so outgoing power cost is affected by efficiency
-		dischargeSpeeds.forEach((speed, dsIdx) => {
+		[...dischargeSpeeds].forEach((speed, dsIdx) => {
 			const dischargeCost = { name: `ds${dsIdx}T${hourIdx}`, coef: ((speed.power / 1000) * speed.eff * (fc - price)) };
 			model.objective.vars.push(dischargeCost);
 		});
@@ -105,10 +105,10 @@ const getStrategy = ({
 			vars: [],
 			bnds: { type: glpk.GLP_UP, ub: timeLeftinHour, lb: 0 },
 		};
-		chargeSpeeds.forEach((speed, csIdx) => {
+		[...chargeSpeeds].forEach((speed, csIdx) => {
 			chargesDischarges.vars.push({ name: `cs${csIdx}T${hourIdx}`, coef: 1 });
 		});
-		dischargeSpeeds.forEach((speed, dsIdx) => {
+		[...dischargeSpeeds].forEach((speed, dsIdx) => {
 			chargesDischarges.vars.push({ name: `ds${dsIdx}T${hourIdx}`, coef: 1 });
 		});
 		model.subjectTo.push(chargesDischarges);
@@ -125,10 +125,10 @@ const getStrategy = ({
 			bnds: { type: glpk.GLP_DB, ub: maxSoC, lb: minSoC },
 		};
 		for (let hIdx = 0; hIdx <= hourIdx; hIdx += 1) {
-			chargeSpeeds.forEach((speed, csIdx) => {
+			[...chargeSpeeds].forEach((speed, csIdx) => {
 				SoC.vars.push({ name: `cs${csIdx}T${hIdx}`, coef: ((speed.power / 1000) * speed.eff) });
 			});
-			dischargeSpeeds.forEach((speed, dsIdx) => {
+			[...dischargeSpeeds].forEach((speed, dsIdx) => {
 				SoC.vars.push({ name: `ds${dsIdx}T${hIdx}`, coef: -(speed.power / 1000) });
 			});
 		}
@@ -136,7 +136,7 @@ const getStrategy = ({
 
 		// build bounds
 		// charge / discharge time can not exceed 1 hour per hour
-		chargeSpeeds.forEach((speed, csIdx) => {
+		[...chargeSpeeds].forEach((speed, csIdx) => {
 			const timeBound = {
 				name: `cs${csIdx}T${hourIdx}`,
 				type: glpk.GLP_DB,
@@ -145,7 +145,7 @@ const getStrategy = ({
 			};
 			model.bounds.push(timeBound);
 		});
-		dischargeSpeeds.forEach((speed, dsIdx) => {
+		[...dischargeSpeeds].forEach((speed, dsIdx) => {
 			const timeBound = {
 				name: `ds${dsIdx}T${hourIdx}`,
 				type: glpk.GLP_DB,
