@@ -10,9 +10,9 @@
 		"de": "Der Preis !{{ist|ist nicht}} der Beste zum [[strat]] des Batteriespeichers mit minimaler [[minPriceDelta]]€ Preisdifferenz."
 	},
 	"hint": {
-		"en": "The strategy is ao calculated using the known future hourly prices and the minimum price difference between highest and lowest prices.",
-		"nl": "De strategie wordt o.a. berekend met behulp van alle bekende toekomstige prijzen en het minimale prijsverschil tussen hoogste en laagste prijs.",
-		"de": "Die Strategie wird unter anderem anhand der bekannten zukünftigen Stundenpreise und der minimalen Preisdifferenz zwischen Höchst- und Tiefstpreis berechnet."
+		"en": "The basic ROI strategy is ao calculated using the known future hourly prices and the minimum price difference between highest and lowest prices.",
+		"nl": "De eenvoudige ROI strategie wordt o.a. berekend met behulp van alle bekende toekomstige prijzen en het minimale prijsverschil tussen hoogste en laagste prijs.",
+		"de": "Die einfache ROI-Strategie wird unter anderem anhand der bekannten zukünftigen Stundenpreise und der minimalen Preisdifferenz zwischen Höchst- und Tiefstpreis berechnet."
 	},
 	"highlight": true,
 	"args": [

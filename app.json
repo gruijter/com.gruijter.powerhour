@@ -1,7 +1,7 @@
 {
   "_comment": "This file is generated. Please edit .homeycompose/app.json instead.",
   "id": "com.gruijter.powerhour",
-  "version": "6.0.3",
+  "version": "6.0.4",
   "compatibility": ">=8.0.0",
   "brandColor": "#df5020",
   "sdk": 3,
@@ -501,14 +501,14 @@
       },
       {
         "title": {
-          "en": "New ROI power available. (EXPERIMENTAL!)",
-          "nl": "Nieuw ROI vermogen beschikbaar. (EXPERIMENTAL!)",
-          "de": "Neue ROI-Leistung verfügbar. (EXPERIMENTAL!)"
+          "en": "New smart ROI power available.",
+          "nl": "Nieuw smart ROI vermogen beschikbaar.",
+          "de": "Neue Smart ROI-Leistung verfügbar."
         },
         "titleFormatted": {
-          "en": "(EXPERIMENTAL!) New ROI power available, with minimum [[minPriceDelta]]¤ profit per kWh.",
-          "nl": "(EXPERIMENTAL!) Nieuwe ROI vermogen beschikbaar, met minimaal [[minPriceDelta]]¤ winst per kWh.",
-          "de": "(EXPERIMENTAL!) Neue ROI-Leistung verfügbar, mit minimalen [[minPriceDelta]]¤ Gewinn pro kWh."
+          "en": "New smart ROI power available, with minimum [[minPriceDelta]]¤ profit per kWh.",
+          "nl": "Nieuwe smart ROI vermogen beschikbaar, met minimaal [[minPriceDelta]]¤ winst per kWh.",
+          "de": "Neue Smart ROI-Leistung verfügbar, mit minimalen [[minPriceDelta]]¤ Gewinn pro kWh."
         },
         "hint": {
           "en": "The strategy is calculated using future hourly prices, the battery settings, and the set minimum profit per kWh.",
@@ -519,7 +519,7 @@
           {
             "type": "device",
             "name": "device",
-            "filter": "driver_id=battery"
+            "filter": "driver_id=battery&capabilities=roi_duration"
           },
           {
             "type": "number",
@@ -1715,9 +1715,9 @@
           "de": "Der Preis !{{ist|ist nicht}} der Beste zum [[strat]] des Batteriespeichers mit minimaler [[minPriceDelta]]€ Preisdifferenz."
         },
         "hint": {
-          "en": "The strategy is ao calculated using the known future hourly prices and the minimum price difference between highest and lowest prices.",
-          "nl": "De strategie wordt o.a. berekend met behulp van alle bekende toekomstige prijzen en het minimale prijsverschil tussen hoogste en laagste prijs.",
-          "de": "Die Strategie wird unter anderem anhand der bekannten zukünftigen Stundenpreise und der minimalen Preisdifferenz zwischen Höchst- und Tiefstpreis berechnet."
+          "en": "The basic ROI strategy is ao calculated using the known future hourly prices and the minimum price difference between highest and lowest prices.",
+          "nl": "De eenvoudige ROI strategie wordt o.a. berekend met behulp van alle bekende toekomstige prijzen en het minimale prijsverschil tussen hoogste en laagste prijs.",
+          "de": "Die einfache ROI-Strategie wird unter anderem anhand der bekannten zukünftigen Stundenpreise und der minimalen Preisdifferenz zwischen Höchst- und Tiefstpreis berechnet."
         },
         "highlight": true,
         "args": [
@@ -2800,14 +2800,14 @@
     "actions": [
       {
         "title": {
-          "en": "Calculate the best ROI power. (EXPERIMENTAL!)",
-          "nl": "Bereken het beste ROI vermogen. (EXPERIMENTEEL!)",
-          "de": "Berechne die beste ROI-Leistung. (EXPERIMENTAL!)"
+          "en": "Calculate the best smart ROI power.",
+          "nl": "Bereken het beste smart ROI vermogen.",
+          "de": "Berechne die beste Smart ROI-Leistung."
         },
         "titleFormatted": {
-          "en": "(EXPERIMENTAL!) Calculate the best ROI power, with minimum [[minPriceDelta]]¤ profit per kWh.",
-          "nl": "(EXPERIMENTAL!) Bereken het beste ROI vermogen, met minimaal [[minPriceDelta]]¤ winst per kWh.",
-          "de": "(EXPERIMENTAL!) Berechne die beste ROI-Leistung, mit minimalen [[minPriceDelta]]¤ Gewinn pro kWh."
+          "en": "Calculate the best smart ROI power, with minimum [[minPriceDelta]]¤ profit per kWh.",
+          "nl": "Bereken het beste smart ROI vermogen, met minimaal [[minPriceDelta]]¤ winst per kWh.",
+          "de": "Berechne die beste Smart ROI-Leistung, mit minimalen [[minPriceDelta]]¤ Gewinn pro kWh."
         },
         "hint": {
           "en": "The strategy is calculated using future hourly prices, the battery settings, and the set minimum profit per kWh.",
@@ -2818,7 +2818,7 @@
           {
             "type": "device",
             "name": "device",
-            "filter": "driver_id=battery"
+            "filter": "driver_id=battery&capabilities=roi_duration"
           },
           {
             "type": "number",
@@ -3862,20 +3862,20 @@
         {
           "type": "group",
           "label": {
-            "en": "ROI settings",
-            "nl": "ROI instellingen"
+            "en": "Advanced ROI settings (HP2023)",
+            "nl": "Geavanceerde ROI instellingen (HP2023)"
           },
           "children": [
             {
               "id": "roiEnable",
               "type": "checkbox",
               "label": {
-                "en": "Enable advanced ROI (EXPERIMENTAL!)",
-                "nl": "ROI functie aanzetten (EXPERIMENTEEL!)"
+                "en": "Enable advanced ROI",
+                "nl": "ROI functie aanzetten"
               },
               "hint": {
-                "en": "This enables the advanced ROI flows, but can make the app crash!",
-                "nl": "Dit zet de geavanceerde ROI flows aan, maar kan de app laten crashen!"
+                "en": "Advanced ROI flows are only available on HP2023!",
+                "nl": "Geavanceerde ROI flows zijn alleen beschikbaar op HP2023!"
               },
               "value": false
             },
@@ -3887,8 +3887,8 @@
                 "nl": "Grafiek minimale winst per kWh"
               },
               "hint": {
-                "en": "The strategy graph is calculated using future hourly prices, the battery settings, and the set minimum profit per kWh.",
-                "nl": "De strategie grafiek wordt berekend met behulp van toekomstige prijzen, de batterij instellingen, en de ingestelde minimale winst per kWh."
+                "en": "The strategy graph is calculated using future hourly prices, the battery settings, and the set minimum profit per kWh. (HP2023 Only!)",
+                "nl": "De strategie grafiek wordt berekend met behulp van toekomstige prijzen, de batterij instellingen, en de ingestelde minimale winst per kWh. (Alleen HP2023!)"
               },
               "value": 0.1,
               "min": 0
@@ -8911,6 +8911,23 @@
         "en": "¤"
       },
       "decimals": 4
+    },
+    "roi_duration": {
+      "type": "number",
+      "title": {
+        "en": "ROI duration",
+        "nl": "ROI duur"
+      },
+      "uiComponent": null,
+      "icon": "/assets/tariff.svg",
+      "getable": true,
+      "setable": false,
+      "insights": false,
+      "units": {
+        "en": "Min.",
+        "nl": "Min."
+      },
+      "decimals": 0
     }
   }
 }

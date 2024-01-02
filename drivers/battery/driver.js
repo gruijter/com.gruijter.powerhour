@@ -1,5 +1,5 @@
 /*
-Copyright 2019 - 2023, Robin de Gruijter (gruijter@hotmail.com)
+Copyright 2019 - 2024, Robin de Gruijter (gruijter@hotmail.com)
 
 This file is part of com.gruijter.powerhour.
 
@@ -49,6 +49,7 @@ const driverSpecifics = {
 		'meter_money_last_year', 'meter_money_this_year',
 		'meter_tariff',
 		'meter_power_hidden',
+		// 'roi_duration', // added only for HP2023
 	],
 };
 

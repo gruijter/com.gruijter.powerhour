@@ -1,0 +1,17 @@
+{
+  "type": "number",
+  "title": {
+    "en": "ROI duration",
+    "nl": "ROI duur"
+  },
+  "uiComponent": null,
+  "icon": "/assets/tariff.svg",
+  "getable": true,
+  "setable": false,
+  "insights": false,
+  "units": {
+    "en": "Min.",
+    "nl": "Min."
+  },
+  "decimals": 0
+}

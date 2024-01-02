@@ -1,13 +1,13 @@
 {
 	"title": {
-		"en": "Calculate the best ROI power. (EXPERIMENTAL!)",
-		"nl": "Bereken het beste ROI vermogen. (EXPERIMENTEEL!)",
-		"de": "Berechne die beste ROI-Leistung. (EXPERIMENTAL!)"
+		"en": "Calculate the best smart ROI power.",
+		"nl": "Bereken het beste smart ROI vermogen.",
+		"de": "Berechne die beste Smart ROI-Leistung."
 	},
 	"titleFormatted": {
-		"en": "(EXPERIMENTAL!) Calculate the best ROI power, with minimum [[minPriceDelta]]¤ profit per kWh.",
-		"nl": "(EXPERIMENTAL!) Bereken het beste ROI vermogen, met minimaal [[minPriceDelta]]¤ winst per kWh.",
-		"de": "(EXPERIMENTAL!) Berechne die beste ROI-Leistung, mit minimalen [[minPriceDelta]]¤ Gewinn pro kWh."
+		"en": "Calculate the best smart ROI power, with minimum [[minPriceDelta]]¤ profit per kWh.",
+		"nl": "Bereken het beste smart ROI vermogen, met minimaal [[minPriceDelta]]¤ winst per kWh.",
+		"de": "Berechne die beste Smart ROI-Leistung, mit minimalen [[minPriceDelta]]¤ Gewinn pro kWh."
 	},
 	"hint": {
 		"en": "The strategy is calculated using future hourly prices, the battery settings, and the set minimum profit per kWh.",
@@ -18,7 +18,7 @@
 		{
 		  "type": "device",
 		  "name": "device",
-		  "filter": "driver_id=battery"
+		  "filter": "driver_id=battery&capabilities=roi_duration"
 		},
 		{
 			"type": "number",

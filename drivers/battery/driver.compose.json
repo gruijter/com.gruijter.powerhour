@@ -389,20 +389,20 @@
 		{
 			"type": "group",
 			"label": {
-				"en": "ROI settings",
-				"nl": "ROI instellingen"
+				"en": "Advanced ROI settings (HP2023)",
+				"nl": "Geavanceerde ROI instellingen (HP2023)"
 			},
 			"children": [
 				{
 					"id": "roiEnable",
 					"type": "checkbox",
 					"label": {
-						"en": "Enable advanced ROI (EXPERIMENTAL!)",
-						"nl": "ROI functie aanzetten (EXPERIMENTEEL!)"
+						"en": "Enable advanced ROI",
+						"nl": "ROI functie aanzetten"
 					},
-					"hint": {
-						"en": "This enables the advanced ROI flows, but can make the app crash!",
-						"nl": "Dit zet de geavanceerde ROI flows aan, maar kan de app laten crashen!"
+					"hint": { 
+						"en": "Advanced ROI flows are only available on HP2023!",
+						"nl": "Geavanceerde ROI flows zijn alleen beschikbaar op HP2023!"
 					},
 					"value": false
 				},
@@ -414,8 +414,8 @@
 						"nl": "Grafiek minimale winst per kWh"
 					},
 					"hint": {
-						"en": "The strategy graph is calculated using future hourly prices, the battery settings, and the set minimum profit per kWh.",
-						"nl": "De strategie grafiek wordt berekend met behulp van toekomstige prijzen, de batterij instellingen, en de ingestelde minimale winst per kWh."
+						"en": "The strategy graph is calculated using future hourly prices, the battery settings, and the set minimum profit per kWh. (HP2023 Only!)",
+						"nl": "De strategie grafiek wordt berekend met behulp van toekomstige prijzen, de batterij instellingen, en de ingestelde minimale winst per kWh. (Alleen HP2023!)"
 					},
 					"value": 0.1,
 					"min": 0

@@ -1,6 +1,6 @@
 /* eslint-disable no-await-in-loop */
 /*
-Copyright 2019 - 2023, Robin de Gruijter (gruijter@hotmail.com)
+Copyright 2019 - 2024, Robin de Gruijter (gruijter@hotmail.com)
 
 This file is part of com.gruijter.powerhour.
 
@@ -59,8 +59,8 @@ class batDevice extends Device {
 			if (this.getSettings().roiEnable) {
 				await setTimeoutPromise(10000 + (Math.random() * 10000)).catch(this.error);
 				this.triggerNewRoiStrategyFlow().catch(this.error);
-				// await setTimeoutPromise(10000 + (Math.random() * 10000)).catch(this.error);
-				// this.updateChargeChart().catch(this.error);
+				await setTimeoutPromise(20000 + (Math.random() * 10000)).catch(this.error);
+				this.updateChargeChart().catch(this.error);
 			}
 
 		} catch (error) {
@@ -90,6 +90,12 @@ class batDevice extends Device {
 			const state = this[sym];
 			// check and repair incorrect capability(order)
 			const correctCaps = this.driver.ds.deviceCapabilities;
+
+			// check if on HP2023 > add advanced ROI capabilities
+			const HP2023 = this.homey.platformVersion === 2;
+			if (HP2023 && this.getSettings().roiEnable) {
+				correctCaps.push('roi_duration');
+			}
 
 			for (let index = 0; index < correctCaps.length; index += 1) {
 				const caps = this.getCapabilities();
@@ -152,7 +158,6 @@ class batDevice extends Device {
 	async onSettings({ newSettings, changedKeys }) { // , oldSettings, changedKeys) {
 		if (!this.migrated) throw Error('device is not ready. Ignoring new settings!');
 		this.log(`${this.getName()} device settings changed by user`, newSettings);
-
 		if (this.meterMoney) {
 			const money = { ...this.meterMoney };
 			if (changedKeys.includes('meter_money_this_month')) {
@@ -178,6 +183,10 @@ class batDevice extends Device {
 		}
 		if (changedKeys.includes('meter_kwh_charging')) await this.setCapability('meter_kwh_charging', newSettings.meter_kwh_charging);
 		if (changedKeys.includes('meter_kwh_discharging'))	await this.setCapability('meter_kwh_discharging', newSettings.meter_kwh_discharging);
+		if (changedKeys.includes('roiEnable')) {
+			const HP2023 = this.homey.platformVersion === 2;
+			if (!HP2023 && newSettings.roiEnable) throw Error('Advanced ROI is only available on HP2023!');
+		}
 		this.restartDevice(2000);
 	}
 
@@ -201,7 +210,7 @@ class batDevice extends Device {
 	}
 
 	// EXECUTORS FOR CONDITION FLOWS AND TRIGGERS
-	// DEPRECATED OLD STRATEGY FLOW
+	// BASIC STRATEGY FLOW (HP2016/2019)
 	async priceBattBestTrade(args) {
 		await setTimeoutPromise(3000); // wait 3 seconds for new hourly prices to be taken in
 		if (!this.pricesNextHours) throw Error('no prices available');
@@ -219,6 +228,7 @@ class batDevice extends Device {
 		return strat === Number(args.strat);
 	}
 
+	// ADVANCED STRATEGY FLOW (HP2023)
 	async findRoiStrategy(args) {
 		try {
 			if (!this.getSettings().roiEnable)	return Promise.resolve(null);
@@ -265,6 +275,11 @@ class batDevice extends Device {
 				chargeSpeeds,
 				dischargeSpeeds,
 			};
+			const stratOptsString = JSON.stringify(options);
+			if (this.lastStratOptsString === stratOptsString) {
+				this.log('Strategy is pulled from cache', this.getName());
+				return Promise.resolve(this.lastStratTokens);
+			}
 			const strat = roiStrategy.getStrategy(options);
 			const tokens = {
 				power: strat[0].power,
@@ -272,6 +287,8 @@ class batDevice extends Device {
 				endSoC: strat[0].soc,
 				scheme: JSON.stringify(strat),
 			};
+			this.lastStratOptsString = stratOptsString;
+			this.lastStratTokens = { ...tokens };
 			// global.gc();
 			return Promise.resolve(tokens);
 		} catch (error) {
@@ -412,31 +429,59 @@ class batDevice extends Device {
 	async triggerNewRoiStrategyFlow() {
 		try {
 			if (!this.getSettings().roiEnable) return Promise.resolve(null);
+			await setTimeoutPromise(5000 + Math.random() * 20000);
 			// get all minPriceDelta as entered by user in trigger flows for this device
 			const argValues = await this.homey.app._newRoiStrategy.getArgumentValues(this);
 			const uniqueArgs = argValues.filter((a, idx) => argValues.findIndex((b) => b.minPriceDelta === argValues[idx].minPriceDelta) === idx);
-			await setTimeoutPromise(10000 + Math.random() * 20000);
 			uniqueArgs.forEach(async (args) => {
 				const tokens = await this.findRoiStrategy(args).catch(this.error);
 				if (tokens) {
 					const state = args;
 					this.homey.app.triggerNewRoiStrategy(this, tokens, state);
-					await setTimeoutPromise(10000);
+					this.reTriggerNewRoiStrategyFlow(tokens, args).catch(this.error);
 				}
 			});
-			await setTimeoutPromise(10000 + Math.random() * 20000);
+			await setTimeoutPromise(5000 + Math.random() * 20000);
 			return Promise.resolve(true);
 		} catch (error) {
 			return Promise.reject(error);
 		}
 	}
 
+	// re-trigger ROI flow cards when duration ends
+	async reTriggerNewRoiStrategyFlow(tokens, args) {
+		try {
+			const {
+				duration, power, endSoC, scheme,
+			} = tokens;
+			if (duration === 0) return;
+			const now = new Date();
+			const startMinute = now.getMinutes();
+			if ((startMinute + duration) >= 55) return;		// do not retrigger if duration is crossing to next hour
+			if (power > 0 && endSoC <= 1) return;			// do not retrigger when discharging to empty
+			if (power < 0 && endSoC >= 99) return;		// do not retrigger when charging to full
+			// Retrigger after delay when partly charging or discharging
+			this.log(`Stopping ROI in ${startMinute + duration} minutes`, this.getName());
+			const delay = (startMinute + duration) * 60 * 1000;
+			await setTimeoutPromise(delay).catch(this.error);
+			const state = args;
+			const newTokens = {
+				power: 0, duration: 0, endSoC, scheme,
+			};
+			this.log('Stopping ROI', this.getName());
+			this.homey.app.triggerNewRoiStrategy(this, newTokens, state);
+		} catch (error) {
+			this.error(error);
+		}
+	}
+
 	async updateChargeChart() {
 		if (!this.pricesNextHours) throw Error('no prices available');
-		this.log('updating charge chart');
+		this.log('updating charge chart', this.getName());
 		const minPriceDelta = this.getSettings().roiMinProfit;
 		const strategy = await this.findRoiStrategy({ minPriceDelta }).catch(this.error);
 		if (strategy) {
+			this.setCapability('roi_duration', strategy.duration);
 			const now = new Date();
 			now.setMilliseconds(0); // toLocaleString cannot handle milliseconds...
 			const nowLocal = new Date(now.toLocaleString('en-US', { timeZone: this.timeZone }));
@@ -448,8 +493,8 @@ class batDevice extends Device {
 				await this.setCameraImage('nextHoursChargeChart', ` ${this.homey.__('nextHours')}`, this.nextHoursChargeImage);
 			} else {
 				await this.nextHoursChargeImage.setUrl(urlNextHours);
-				await this.nextHoursChargeImage.update();
 			}
+			await this.nextHoursChargeImage.update().catch(this.error);
 		}
 		return Promise.resolve(true);
 	}
@@ -511,8 +556,8 @@ class batDevice extends Device {
 		// apply power corrections
 		// charging CHARGE POWER IS ON AC SIDE, SO NO LOSS CORRECTION NEEDED
 		// if (val < 0) value /= (1 - this.getSettings().chargeLoss / 100); // add max charge loss
-		// discharging
-		if (val > 0) value *= (1 - this.getSettings().dischargeLoss / 100); // substract max discharge loss
+		// discharging DISCHARGE POWER IS ON AC SIDE, SO NO LOSS CORRECTION NEEDED
+		// if (val > 0) value *= (1 - this.getSettings().dischargeLoss / 100); // substract max discharge loss
 		// standby
 		if (val === 0) value -= this.getSettings().ownPowerStandby; // substract standby usage
 

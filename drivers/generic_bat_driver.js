@@ -1,5 +1,5 @@
 /*
-Copyright 2019 - 2023, Robin de Gruijter (gruijter@hotmail.com)
+Copyright 2019 - 2024, Robin de Gruijter (gruijter@hotmail.com)
 
 This file is part of com.gruijter.powerhour.
 
@@ -141,6 +141,9 @@ class BatDriver extends Driver {
 			const allDevices = await this.homey.app.api.devices.getDevices({ $timeout: 15000 }).catch(this.error);
 			const keys = Object.keys(allDevices);
 			const allCaps = this.ds.deviceCapabilities;
+			// check if on HP2023 > add advanced ROI capabilities
+			const HP2023 = this.homey.platformVersion === 2;
+			if (HP2023) { allCaps.push('roi_duration'); }
 			keys.forEach((key) => {
 				const hasCapability = (capability) => allDevices[key].capabilities.includes(capability);
 				let found = this.ds.originDeviceCapabilities.some(hasCapability);
@@ -166,9 +169,11 @@ class BatDriver extends Driver {
 							homey_device_name: allDevices[key].name,
 							level: this.homey.app.manifest.version,
 							tariff_update_group: 1,
+							roiEnable: false,
 						},
 						capabilities: allCaps,
 					};
+					if (HP2023) { device.settings.roiEnable = true; }
 					this.devices.push(device);
 				}
 			});
