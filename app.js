@@ -238,6 +238,15 @@ class MyApp extends Homey.App {
 				.catch(this.error);
 		};
 
+		this._XOMStrategy = this.homey.flow.getDeviceTriggerCard('xom_strategy');
+		this._XOMStrategy.registerRunListener(async (args, state) => state); // always run
+		this.triggerXOMStrategy = (device, tokens, state) => {
+			this._XOMStrategy
+				.trigger(device, tokens, state)
+				// .then(this.log(device.getName(), tokens, state))
+				.catch(this.error);
+		};
+
 		// condition cards
 		const priceLowestCondition = this.homey.flow.getConditionCard('price_lowest');
 		priceLowestCondition.registerRunListener((args) => args.device.priceIsLowest(args));
@@ -285,6 +294,13 @@ class MyApp extends Homey.App {
 		priceBattBestTradeCondition.registerRunListener((args) => args.device.priceBattBestTrade(args));
 
 		// action cards
+		const setXOMsettings = this.homey.flow.getActionCard('set_xom_settings');
+		setXOMsettings
+			.registerRunListener(async (args) => {
+				this.log('XOM settings set by flow:', args);
+				this.homey.settings.set('xomSettings', args);
+			});
+
 		const setTariffPower = this.homey.flow.getActionCard('set_tariff_power');
 		setTariffPower
 			.registerRunListener((args) => this.homey.emit('set_tariff_power', args));

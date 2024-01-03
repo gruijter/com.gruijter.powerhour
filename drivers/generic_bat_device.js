@@ -233,6 +233,7 @@ class batDevice extends Device {
 		try {
 			if (!this.getSettings().roiEnable)	return Promise.resolve(null);
 			this.log(`ROI strategy calculation started for ${this.getName()}`, args);
+			if (this.getSettings().roiMinProfit !== args.minPriceDelta) this.setSettings({ roiMinProfit: args.minPriceDelta }).catch(this.error);
 			await setTimeoutPromise(3000); // wait 3 seconds for new hourly prices to be taken in
 			if (!this.pricesNextHours) throw Error('no prices available');
 			const settings = this.getSettings();
@@ -319,15 +320,14 @@ class batDevice extends Device {
 		if (!this.pricesNextHours) {
 			this.pricesNextHours = [0.25]; // set as default after pair
 			// get DAP prices when available
-			const driver = await this.homey.drivers.getDriver('bat');
-			driver.setPricesDevice(this);
+			this.driver.setPricesDevice(this);
 		}
 
 		// init incoming meter queue
 		if (!this.newReadings) this.newReadings = [];
 
 		// init this.soc
-		const storedkWh = await this.getCapabilityValue('meter_battery');
+		const storedkWh = await this.getCapabilityValue('meter_kwh_stored');
 		this.soc = (storedkWh / this.getSettings().batCapacity) * 100;
 		if (!this.soc) this.soc = 0;
 
@@ -424,6 +424,8 @@ class batDevice extends Device {
 			this.error(error);
 		}
 	}
+
+	// trigger XOM flow cards SEE BAT DRIVER
 
 	// trigger ROI flow cards
 	async triggerNewRoiStrategyFlow() {

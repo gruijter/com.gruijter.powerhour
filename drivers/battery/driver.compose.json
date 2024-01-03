@@ -417,7 +417,7 @@
 						"en": "The strategy graph is calculated using future hourly prices, the battery settings, and the set minimum profit per kWh. (HP2023 Only!)",
 						"nl": "De strategie grafiek wordt berekend met behulp van toekomstige prijzen, de batterij instellingen, en de ingestelde minimale winst per kWh. (Alleen HP2023!)"
 					},
-					"value": 0.1,
+					"value": 0.08,
 					"min": 0
 				}
 			]

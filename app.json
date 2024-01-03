@@ -1,7 +1,7 @@
 {
   "_comment": "This file is generated. Please edit .homeycompose/app.json instead.",
   "id": "com.gruijter.powerhour",
-  "version": "6.0.4",
+  "version": "6.1.0",
   "compatibility": ">=8.0.0",
   "brandColor": "#df5020",
   "sdk": 3,
@@ -500,6 +500,7 @@
         "id": "new_prices"
       },
       {
+        "highlight": true,
         "title": {
           "en": "New smart ROI power available.",
           "nl": "Nieuw smart ROI vermogen beschikbaar.",
@@ -530,7 +531,7 @@
               "de": "Preisdifferenz"
             },
             "min": 0,
-            "value": 0.1
+            "value": 0.08
           }
         ],
         "tokens": [
@@ -1629,6 +1630,62 @@
           }
         ],
         "id": "price_lowest_today"
+      },
+      {
+        "highlight": true,
+        "title": {
+          "en": "New XOM power available.",
+          "nl": "Nieuw XOM vermogen beschikbaar."
+        },
+        "titleFormatted": {
+          "en": "New XOM power available.",
+          "nl": "Nieuw XOM vermogen beschikbaar."
+        },
+        "hint": {
+          "en": "The battery power is calculated so that the cumulative usage will be close to the set X Watt. All available batteries are used pro rata. X defaults to 0 and can be set via the 'Set XOM' flow.",
+          "nl": "Het accu vermogen wordt zodanig berekend dat het cumulatieve verbruik de ingestelde X Watt nadert. Alle beschikbare accu's worden naar rato gebruikt. X is standaard 0 en kan via de 'Zet XOM' flow worden ingesteld."
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=battery"
+          }
+        ],
+        "tokens": [
+          {
+            "name": "power",
+            "type": "number",
+            "title": {
+              "en": "Power"
+            }
+          },
+          {
+            "type": "number",
+            "name": "x",
+            "title": {
+              "en": "XOM-target (W)",
+              "nl": "XOM-doel (W)"
+            }
+          },
+          {
+            "type": "number",
+            "name": "smoothing",
+            "title": {
+              "en": "smoothing (%)",
+              "nl": "smoothing (%)"
+            }
+          },
+          {
+            "type": "number",
+            "name": "minLoad",
+            "title": {
+              "en": "Minimum battery power (W)",
+              "nl": "Minimaal accu vermogen (W)"
+            }
+          }
+        ],
+        "id": "xom_strategy"
       }
     ],
     "conditions": [
@@ -2799,6 +2856,7 @@
     ],
     "actions": [
       {
+        "highlight": true,
         "title": {
           "en": "Calculate the best smart ROI power.",
           "nl": "Bereken het beste smart ROI vermogen.",
@@ -3453,6 +3511,66 @@
           }
         ],
         "id": "set_variable_markup"
+      },
+      {
+        "highlight": true,
+        "title": {
+          "en": "Set values for Battery XOM flow.",
+          "nl": "Zet waarden voor Batterij XOM flow."
+        },
+        "titleFormatted": {
+          "en": "Set Battery XOM flows. XOM-target: [[x]]W, moothingg: [[smoothing]]%, min. battery load: [[minLoad]]W.",
+          "nl": "Zet Batterij XOM flows. XOM-doel: [[x]]W, smoothing: [[smoothing]]%, min. accu vermogen: [[minLoad]]W."
+        },
+        "hint": {
+          "en": "Settings for Battery XOM flows. The battery power is calculated so that the cumulative usage will be close to the set XOM-target. Low smoothing gives faster response to short power peaks. Use 80% or higher for a more stable control.",
+          "nl": "Instellingen tbv thuisbatterij XOM flows. Het accu vermogen wordt zodanig berekend dat het cumulatieve verbruik het ingestelde XOM-doel nadert. Lage smoothing geeft een snellere respons op korte vermogenpieken. Gebruik 80% of hoger voor een stabielere sturing."
+        },
+        "args": [
+          {
+            "type": "number",
+            "name": "x",
+            "title": {
+              "en": "XOM-target (W)",
+              "nl": "XOM-doel (W)"
+            },
+            "placeholder": {
+              "en": "default 0W",
+              "nl": "standaard 0W"
+            },
+            "value": 0
+          },
+          {
+            "type": "number",
+            "name": "smoothing",
+            "title": {
+              "en": "smoothing (%)",
+              "nl": "smoothing (%)"
+            },
+            "placeholder": {
+              "en": "30 - 100 %",
+              "nl": "30 - 100 %"
+            },
+            "min": 30,
+            "max": 100,
+            "value": 80
+          },
+          {
+            "type": "number",
+            "name": "minLoad",
+            "title": {
+              "en": "Minimum battery power (W)",
+              "nl": "Minimaal accu vermogen (W)"
+            },
+            "placeholder": {
+              "en": "default 50W",
+              "nl": "standaard 50W"
+            },
+            "min": 0,
+            "value": 50
+          }
+        ],
+        "id": "set_xom_settings"
       }
     ]
   },
@@ -3890,7 +4008,7 @@
                 "en": "The strategy graph is calculated using future hourly prices, the battery settings, and the set minimum profit per kWh. (HP2023 Only!)",
                 "nl": "De strategie grafiek wordt berekend met behulp van toekomstige prijzen, de batterij instellingen, en de ingestelde minimale winst per kWh. (Alleen HP2023!)"
               },
-              "value": 0.1,
+              "value": 0.08,
               "min": 0
             }
           ]

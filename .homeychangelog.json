@@ -1,4 +1,7 @@
 {
+  "6.1.0": {
+    "en": "BAT: Added XOM flow trigger. Update XOM settings from flow. Sync smart ROI Graphic profit with flow. Default profit set to 0.08."
+  },
   "6.0.4": {
     "en": "BAT: Removed smart ROI flows for HP2016/2019. Smart ROI trigger card will stop (dis)charging after duration expires. Cache smart ROI calculations."
   },

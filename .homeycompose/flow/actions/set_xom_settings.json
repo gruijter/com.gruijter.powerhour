@@ -1,0 +1,59 @@
+{
+	"highlight": true,
+	"title": {
+		"en": "Set values for Battery XOM flow.",
+		"nl": "Zet waarden voor Batterij XOM flow."
+	},
+	"titleFormatted": {
+		"en": "Set Battery XOM flows. XOM-target: [[x]]W, moothingg: [[smoothing]]%, min. battery load: [[minLoad]]W.",
+		"nl": "Zet Batterij XOM flows. XOM-doel: [[x]]W, smoothing: [[smoothing]]%, min. accu vermogen: [[minLoad]]W."
+	},
+	"hint": {
+		"en": "Settings for Battery XOM flows. The battery power is calculated so that the cumulative usage will be close to the set XOM-target. Low smoothing gives faster response to short power peaks. Use 80% or higher for a more stable control.",
+		"nl": "Instellingen tbv thuisbatterij XOM flows. Het accu vermogen wordt zodanig berekend dat het cumulatieve verbruik het ingestelde XOM-doel nadert. Lage smoothing geeft een snellere respons op korte vermogenpieken. Gebruik 80% of hoger voor een stabielere sturing."
+	},
+	"args": [
+		{
+			"type": "number",
+			"name": "x",
+			"title": { 
+				"en": "XOM-target (W)",
+				"nl": "XOM-doel (W)"
+			},
+      "placeholder": {
+        "en": "default 0W",
+				"nl": "standaard 0W"
+      },
+			"value": 0
+		},
+		{
+			"type": "number",
+			"name": "smoothing",
+			"title": { 
+				"en": "smoothing (%)",
+				"nl": "smoothing (%)"
+			},
+			"placeholder": {
+        "en": "30 - 100 %",
+				"nl": "30 - 100 %"
+      },
+			"min": 30,
+			"max": 100,
+			"value": 80
+		},
+		{
+			"type": "number",
+			"name": "minLoad",
+			"title": { 
+				"en": "Minimum battery power (W)",
+				"nl": "Minimaal accu vermogen (W)"
+			},
+      "placeholder": {
+        "en": "default 50W",
+				"nl": "standaard 50W"
+      },
+			"min": 0,
+			"value": 50
+		}
+	]
+}

@@ -37,7 +37,7 @@ class BatDriver extends Driver {
 		if (this.eventListenerHour) this.homey.removeListener('everyhour', this.eventListenerHour);
 		this.eventListenerHour = async () => {
 			// console.log('new hour event received');
-			const devices = this.getDevices();
+			const devices = await this.getDevices();
 			devices.forEach(async (device) => {
 				try {
 					const deviceName = device.getName();
@@ -63,7 +63,7 @@ class BatDriver extends Driver {
 		// add listener for 5 minute retry
 		if (this.eventListenerRetry) this.homey.removeListener('retry', this.eventListenerRetry);
 		this.eventListenerRetry = async () => {
-			const devices = this.getDevices();
+			const devices = await this.getDevices();
 			devices.forEach(async (device) => {
 				try {
 					const deviceName = device.getName();
@@ -116,19 +116,145 @@ class BatDriver extends Driver {
 			this.pricesNextHours[args.group] = args.pricesNextHours;
 			// wait 2 seconds not to stress Homey and prevent race issues
 			await setTimeoutPromise(2 * 1000);
-			const devices = this.getDevices();
+			const devices = await this.getDevices();
 			devices.forEach((device) => this.setPricesDevice(device));
 		};
 		this.homey.on(eventName, this.eventListenerTariff);
+
+		// start polling Homey Cumulative Energy
+		// this.avgCumPower = 0;
+		this.startPollingEnergy().catch(this.error);
 	}
 
 	async onUninit() {
 		this.log('bat driver onUninit called');
+		if (this.intervalIdEnergyPoll) this.homey.clearInterval(this.intervalIdEnergyPoll);
 		if (this.eventListenerHour) this.homey.removeListener('everyhour', this.eventListenerHour);
 		if (this.eventListenerRetry) this.homey.removeListener('retry', this.eventListenerRetry);
 		const eventName = 'set_tariff_power';
 		if (this.eventListenerTariff) this.homey.removeListener(eventName, this.eventListenerTariff);
 		await setTimeoutPromise(3000);
+	}
+
+	// Poll Cumulative Energy for NOM/XOM
+	async startPollingEnergy(interval) {
+		const int = interval || 10; // seconden
+		this.homey.clearInterval(this.intervalIdEnergyPoll);
+		await setTimeoutPromise(20000);
+		this.log(`start polling Cumulative XOM Energy @${int} seconds interval`);
+		this.intervalIdEnergyPoll = this.homey.setInterval(async () => {
+			try {
+				// get the flow settings
+				const xomSettings = await this.homey.settings.get('xomSettings') || {};
+				const { smoothing = 80, x = 0, minLoad = 50 } = xomSettings;
+				const samples = Math.round((smoothing / 100) * (150 / int)); // 2.5 minutes smoothing = 100%. Default is 80% = 2 minutes
+
+				// get cumulative power from Homey Power
+				const report = await this.homey.app.api.energy.getLiveReport().catch(this.error);
+				// console.dir(report, { depth: null, colors: true });
+				const cumulativePower = (report && report.totalCumulative && report.totalCumulative.W);
+				if (!Number.isFinite(cumulativePower)) return;
+
+				// strategy: divide required power based on SoC ratio. Assume all batteries are used!
+				const devices = await this.getDevices();
+				const batterieInfo = devices
+					.map((device) => {
+						const info = {
+							id: device.getData().id,
+							name: device.getName(),
+							maxCharge: device.getSettings().chargePower,
+							maxDischarge: device.getSettings().dischargePower,
+							soc: device.soc,
+							actualPower: device.getCapabilityValue('measure_watt_avg'),
+						};
+						return info;
+					})
+					.filter((info) => Number.isFinite(info.actualPower))
+					.filter((info) => Number.isFinite(info.soc));
+
+				const totalBattSoc = batterieInfo.reduce((sum, currentValue) => sum + currentValue.soc,	0);
+				const totalBattpower = batterieInfo.reduce((sum, currentValue) => sum + currentValue.actualPower,	0);
+				const totalTarget = cumulativePower + totalBattpower - x; // x and smoothing are settable by app flow
+				let strategy = []; // array of strategies per battery
+
+				// calculate strategy and headroom per battery
+				strategy = batterieInfo.map((info) => {
+					let fraction = 0;
+					let target = 0;
+					if (totalTarget > 0) { fraction = (totalBattSoc > 0) ? (info.soc / totalBattSoc) : 0;	} 					// discharge needed
+					if (totalTarget < 0) { fraction = (totalBattSoc > 0) ? ((totalBattSoc - info.soc) / totalBattSoc) : 0; }	// charge needed
+					target = totalTarget * fraction;
+					// set minimum and maxumum targets
+					if (target > info.maxDischarge) target = info.maxDischarge;
+					if (target < -info.maxCharge) target = -info.maxCharge;
+					if ((target < minLoad) && (target > -minLoad)) target = 0;
+					// calculate power headroom
+					let headroom = 0;
+					if (totalTarget > 0) headroom = (info.soc > 0) ? (info.maxDischarge - target) : 0;
+					if (totalTarget < 0) headroom = (info.soc < 100) ? (target - info.maxCharge) : 0;
+					const strat = {
+						id: info.id,
+						soc: info.soc,
+						actualPower: info.actualPower,
+						target,
+						headroom,
+					};
+					return strat;
+				});
+
+				// distribute remaining power over active batteries that have not reached limit
+				strategy = strategy.sort((a, b) => Math.abs(b.headroom) - Math.abs(a.headroom)); // sort from highest to lowest abs(headroom)
+				const totalStratTarget = strategy.reduce((sum, currentValue) => sum + currentValue.target,	0);
+				const activeBatsWithHeadroom = strategy.filter((info) => info.target && info.headroom);
+				const totalHeadroom = activeBatsWithHeadroom.reduce((sum, currentValue) => sum + currentValue.headroom,	0);
+				const totalDelta = totalTarget - totalStratTarget;
+				// let restDelta = totalDelta;
+				strategy = strategy.map((info) => {
+					if (!info.headroom) return info;
+					let { target } = info;
+					let delta = 0;
+					if (activeBatsWithHeadroom.length) {	// there is at least one active batt with headroom
+						delta = totalDelta * (info.headroom / totalHeadroom);
+					} else if (info.headroom) {	// there are no active batts with headroom
+						delta = (info.headroom > totalDelta) ? totalDelta : info.headroom;
+					}
+					target += delta;
+					// restDelta -= delta;
+					const strat = {
+						id: info.id,
+						soc: info.soc,
+						actualPower: info.actualPower,
+						target,
+						headroom: info.headroom - delta,
+					};
+					return strat;
+				});
+				// console.log('strat after rest distribution:', restDelta, strategy);
+
+				// trigger NOM strategy flow for all battery devices
+				devices.forEach((device) => {
+					const strat = strategy.find((info) => info.id === device.getData().id);
+					let targetPower = 0;
+					if (strat) targetPower = strat.target;
+					// eslint-disable-next-line no-param-reassign
+					if (!device.xomTargetPower) { device.xomTargetPower = targetPower; }
+					// eslint-disable-next-line no-param-reassign
+					device.xomTargetPower = (targetPower / samples) + (device.xomTargetPower * ((samples - 1) / samples)); // smoothing 2 minutes
+					const tokens = {
+						power: Math.round(device.xomTargetPower),
+						x,
+						smoothing,
+						minLoad,
+					};
+					// console.log(`${device.getName()} P1act: ${cumulativePower} battAct:${strat.actualPower} BattNew:${tokens.power}`);
+					const state = {}; // args;
+					this.homey.app.triggerXOMStrategy(device, tokens, state);
+				});
+
+			} catch (error) {
+				this.error(error);
+			}
+		}, 1000 * int);
 	}
 
 	// stuff to find Homey battery devices

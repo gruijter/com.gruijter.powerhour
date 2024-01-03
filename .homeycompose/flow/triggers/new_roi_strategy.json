@@ -1,4 +1,5 @@
 {
+	"highlight": true,
 	"title": {
 		"en": "New smart ROI power available.",
 		"nl": "Nieuw smart ROI vermogen beschikbaar.",
@@ -29,7 +30,7 @@
 				"de": "Preisdifferenz"
 			},
 			"min": 0,
-			"value": 0.1
+			"value": 0.08
 		}
 	],
 	"tokens": [
