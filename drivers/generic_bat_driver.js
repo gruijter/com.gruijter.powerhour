@@ -146,12 +146,12 @@ class BatDriver extends Driver {
 			try {
 				// get the flow settings
 				const xomSettings = await this.homey.settings.get('xomSettings') || {};
-				const { smoothing = 80, x = 0, minLoad = 50 } = xomSettings;
-				const samples = Math.round((smoothing / 100) * (150 / int)); // 2.5 minutes smoothing = 100%. Default is 80% = 2 minutes
+				const { smoothing = 50, x = 0, minLoad = 50 } = xomSettings;
+				const samples = Math.round((smoothing / 100) * (120 / int)); // 2 minutes smoothing = 100%. Default is 50% = 1 minutes
+				const maxSocDelta = 0; // 10 when delta soc is higher, load will swith to other batt
 
 				// get cumulative power from Homey Power
 				const report = await this.homey.app.api.energy.getLiveReport().catch(this.error);
-				// console.dir(report, { depth: null, colors: true });
 				const cumulativePower = (report && report.totalCumulative && report.totalCumulative.W);
 				if (!Number.isFinite(cumulativePower)) return;
 
@@ -166,6 +166,7 @@ class BatDriver extends Driver {
 							maxDischarge: device.getSettings().dischargePower,
 							soc: device.soc,
 							actualPower: device.getCapabilityValue('measure_watt_avg'),
+							xomTargetPower: device.xomTargetPower,
 						};
 						return info;
 					})
@@ -192,44 +193,61 @@ class BatDriver extends Driver {
 					let headroom = 0;
 					if (totalTarget > 0) headroom = (info.soc > 0) ? (info.maxDischarge - target) : 0;
 					if (totalTarget < 0) headroom = (info.soc < 100) ? (target - info.maxCharge) : 0;
-					const strat = {
-						id: info.id,
-						soc: info.soc,
-						actualPower: info.actualPower,
-						target,
-						headroom,
-					};
+					const strat = { ...info };
+					strat.target = target;
+					strat.headroom = headroom;
 					return strat;
 				});
+				// console.log('strat before redist:', strategy);
 
-				// distribute remaining power over active batteries that have not reached limit
-				strategy = strategy.sort((a, b) => Math.abs(b.headroom) - Math.abs(a.headroom)); // sort from highest to lowest abs(headroom)
+				// distribute remaining power
 				const totalStratTarget = strategy.reduce((sum, currentValue) => sum + currentValue.target,	0);
-				const activeBatsWithHeadroom = strategy.filter((info) => info.target && info.headroom);
-				const totalHeadroom = activeBatsWithHeadroom.reduce((sum, currentValue) => sum + currentValue.headroom,	0);
-				const totalDelta = totalTarget - totalStratTarget;
-				// let restDelta = totalDelta;
-				strategy = strategy.map((info) => {
-					if (!info.headroom) return info;
-					let { target } = info;
-					let delta = 0;
+				const totalDelta = (totalTarget - totalStratTarget);
+				// console.log('unresolved rest power:', totalDelta);
+				if (Math.abs(totalDelta) > 10) {
+					let restDelta = totalDelta;
+					// distribute remaining power over active batteries that have not reached limit
+					const activeBatsWithHeadroom = strategy.filter((info) => info.target && info.headroom);
+					const totalHeadroom = activeBatsWithHeadroom.reduce((sum, currentValue) => sum + currentValue.headroom,	0);
+					// strategy = strategy.sort((a, b) => Math.abs(b.headroom) - Math.abs(a.headroom)); // use highest headroom first
 					if (activeBatsWithHeadroom.length) {	// there is at least one active batt with headroom
-						delta = totalDelta * (info.headroom / totalHeadroom);
-					} else if (info.headroom) {	// there are no active batts with headroom
-						delta = (info.headroom > totalDelta) ? totalDelta : info.headroom;
+						strategy = strategy.map((info) => {
+							if (!info.headroom || !info.target || (Math.abs(restDelta) < 10)) return info;
+							let delta = restDelta * (info.headroom / totalHeadroom); // map part of restDelta
+							if (restDelta > 0 && (info.headroom < restDelta)) delta = info.headroom; // discharging more than max
+							if (restDelta < 0 && (info.headroom > restDelta)) delta = info.headroom;	// charging more than max
+							restDelta -= delta;
+							const strat = { ...info };
+							strat.target = info.target + delta;
+							strat.headroom = info.headroom - delta;
+							return strat;
+						});
 					}
-					target += delta;
-					// restDelta -= delta;
-					const strat = {
-						id: info.id,
-						soc: info.soc,
-						actualPower: info.actualPower,
-						target,
-						headroom: info.headroom - delta,
-					};
-					return strat;
-				});
-				// console.log('strat after rest distribution:', restDelta, strategy);
+					// map all remaining power to first running batt with headroom and significant (maxSocDelta 10%?) better soc
+					if (Math.abs(totalDelta) > 10) {
+						// use best SOC first, but only if significant (10%?) better soc then running batt
+						if (restDelta > 0) { // discharging
+							// strategy.sort((a, b) => b.actualPower - a.actualPower); // highest running load first
+							strategy.sort((a, b) => b.soc - a.soc + maxSocDelta); // higher soc first.
+						}
+						if (restDelta < 0) { // charging
+							// strategy.sort((a, b) => a.actualPower - b.actualPower); // highest negative running load first
+							strategy.sort((a, b) => a.soc - b.soc - maxSocDelta); // lower soc first.
+						}
+						strategy = strategy.map((info) => {
+							if (!info.headroom || (Math.abs(restDelta) < 10)) return info;
+							let delta = restDelta; // all remaining power to first hit
+							if (restDelta > 0 && (info.headroom < restDelta)) delta = info.headroom; // discharging more than max
+							if (restDelta < 0 && (info.headroom > restDelta)) delta = info.headroom;	// charging ore than max
+							restDelta -= delta;
+							const strat = { ...info };
+							strat.target = info.target + delta;
+							strat.headroom = info.headroom - delta;
+							return strat;
+						});
+					}
+					// console.log('strat after rest distribution:', restDelta, strategy);
+				}
 
 				// trigger NOM strategy flow for all battery devices
 				devices.forEach((device) => {

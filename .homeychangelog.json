@@ -1,4 +1,7 @@
 {
+  "6.1.1": {
+    "en": "BAT: Improved XOM energy distribution over multiple batteries. XOM smoothing defaults changed. Max discharge default changed to 1550."
+  },
   "6.1.0": {
     "en": "BAT: Added XOM flow trigger. Update XOM settings from flow. Sync smart ROI Graphic profit with flow. Default profit set to 0.08."
   },

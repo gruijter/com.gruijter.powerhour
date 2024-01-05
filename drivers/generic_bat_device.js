@@ -331,6 +331,9 @@ class batDevice extends Device {
 		this.soc = (storedkWh / this.getSettings().batCapacity) * 100;
 		if (!this.soc) this.soc = 0;
 
+		// init XOM
+		this.xomTargetPower = 0;
+
 		// init this.startDay, this.startMonth and this.year
 		let startDateString = this.getSettings().start_date;
 		if (!startDateString || startDateString.length !== 4) startDateString = '0101'; // ddmm
