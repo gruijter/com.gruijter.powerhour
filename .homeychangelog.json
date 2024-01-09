@@ -1,4 +1,7 @@
 {
+  "6.1.2": {
+    "en": "DAP: fixed flowcards for highest/lowest Before and highest/lowest Average. SUM: stability improvements. BAT: smart ROI tweaked for discharge value representing AC side. Max discharge default changed to 1700."
+  },
   "6.1.1": {
     "en": "BAT: Improved XOM energy distribution over multiple batteries. XOM smoothing defaults changed. Max discharge default changed to 1550."
   },

@@ -418,15 +418,17 @@ class MyDevice extends Homey.Device {
 		if (!this.state || !this.state.pricesThisDay) throw Error('no prices available');
 		// calculate start and end hours compared to present hour
 		const thisHour = this.state.H0; // e.g. 23 hrs
+		// let thisHourIndex = thisHour;
 		let endHour = args.time; // e.g. 2 hrs
 		if (endHour < thisHour) endHour += 24; // e.g. 2 + 24 = 26 hrs ( = tomorrow!)
-		let startHour = endHour - args.period; // e.g. 26 - 4 = 22 hrs
+		let startHour = endHour - args.period - 1; // e.g. 26 - 4 - 1 = 21 hrs
 		// check if present hour is in scope op selected period
 		if ((thisHour >= endHour) || (thisHour < startHour)) return false;
-		// get period (2-8) hours pricing before end time
+		// get period n-hours pricing before end time
 		let pricesPartYesterday = [];
 		if (startHour < 0) {
 			pricesPartYesterday = this.state.pricesYesterday.slice(startHour);
+			// thisHourIndex += pricesPartYesterday.length;
 			startHour = 0;
 		}
 		let pricesPartTomorrow = [];
@@ -442,15 +444,17 @@ class MyDevice extends Homey.Device {
 		if (!this.state || !this.state.pricesThisDay) throw Error('no prices available');
 		// calculate start and end hours compared to present hour
 		const thisHour = this.state.H0; // e.g. 23 hrs
+		let thisHourIndex = thisHour;
 		let endHour = args.time; // e.g. 2 hrs
 		if (endHour < thisHour) endHour += 24; // e.g. 2 + 24 = 26 hrs ( = tomorrow!)
-		let startHour = endHour - args.period; // e.g. 26 - 4 = 22 hrs
+		let startHour = endHour - args.period - 1; // e.g. 26 - 4 - 1 = 21 hrs
 		// check if present hour is in scope op selected period
 		if ((thisHour >= endHour) || (thisHour < startHour)) return false;
-		// get period (2-8) hours pricing before end time
+		// get period n-hours pricing before end time
 		let pricesPartYesterday = [];
 		if (startHour < 0) {
 			pricesPartYesterday = this.state.pricesYesterday.slice(startHour);
+			thisHourIndex += pricesPartYesterday.length;
 			startHour = 0;
 		}
 		let pricesPartTomorrow = [];
@@ -461,12 +465,15 @@ class MyDevice extends Homey.Device {
 		const avgPricesTotalPeriod = [];
 		pricesTotalPeriod.forEach((price, index) => {
 			if (index > pricesTotalPeriod.length - Number(args.hours)) return;
-			const hours = pricesTotalPeriod.slice(index, (index + Number(args.hours)));
+			const idxMin = index;
+			const idxMax = index + Number(args.hours) - 1;
+			const hours = pricesTotalPeriod.slice(idxMin, (idxMax + 1));
 			const avgPrice = (hours.reduce((a, b) => a + b, 0)) / hours.length;
-			avgPricesTotalPeriod.push(avgPrice);
+			avgPricesTotalPeriod.push({ avgPrice, idxMin, idxMax });
 		});
-		const minAvgPrice = Math.min(...avgPricesTotalPeriod);
-		return this.state.priceNow <= minAvgPrice;
+		const minAvgHours = avgPricesTotalPeriod.sort((a, b) => a.avgPrice - b.avgPrice);
+		// console.log(minAvgHours, thisHourIndex);
+		return (thisHourIndex >= minAvgHours[0].idxMin) && (thisHourIndex <= minAvgHours[0].idxMax);
 	}
 
 	async priceIsLowestNextHours(args) {
@@ -482,29 +489,21 @@ class MyDevice extends Homey.Device {
 	async priceIsLowestAvg(args) {
 		if (!this.state || !this.state.pricesThisDay) throw Error('no prices available');
 		// args.period: '8' or 'this_day'  // args.hours: '2', '3', '4', '5' or '6'
-		let prices = [...this.state.pricesNext8h];
-		// calculate all avg prices for x hour periods for next 8 hours
-		const avgPricesNext8h = [];
-		prices.forEach((price, index) => {
-			if (index > prices.length - Number(args.hours)) return;
-			const hours = prices.slice(index, (index + Number(args.hours)));
+		const pricesTotalPeriod = (args.period === 'this_day') ? [...this.state.pricesThisDay] : [...this.state.pricesNext8h];
+		const thisHourIndex = (args.period === 'this_day') ? this.state.H0 : 0;
+		// calculate all avg prices for x hour periods before end time
+		const avgPricesTotalPeriod = [];
+		pricesTotalPeriod.forEach((price, index) => {
+			if (index > pricesTotalPeriod.length - Number(args.hours)) return;
+			const idxMin = index;
+			const idxMax = index + Number(args.hours) - 1;
+			const hours = pricesTotalPeriod.slice(idxMin, (idxMax + 1));
 			const avgPrice = (hours.reduce((a, b) => a + b, 0)) / hours.length;
-			avgPricesNext8h.push(avgPrice);
+			avgPricesTotalPeriod.push({ avgPrice, idxMin, idxMax });
 		});
-		let minAvgPrice = Math.min(...avgPricesNext8h);
-		// calculate all avg prices for x hour periods for this_day
-		if (args.period === 'this_day') {
-			prices = [...this.state.pricesThisDay];
-			const avgPricesThisDay = [];
-			prices.forEach((price, index) => {
-				if (index > prices.length - Number(args.hours)) return;
-				const hours = prices.slice(index, (index + Number(args.hours)));
-				const avgPrice = (hours.reduce((a, b) => a + b, 0)) / hours.length;
-				avgPricesThisDay.push(avgPrice);
-			});
-			minAvgPrice = Math.min(...avgPricesThisDay);
-		}
-		return avgPricesNext8h[0] <= minAvgPrice;
+		const minAvgHours = avgPricesTotalPeriod.sort((a, b) => a.avgPrice - b.avgPrice);
+		// console.log(minAvgHours, thisHourIndex);
+		return ((thisHourIndex >= minAvgHours[0].idxMin) && (thisHourIndex <= minAvgHours[0].idxMax));
 	}
 
 	async priceIsHighest(args) {
@@ -534,15 +533,17 @@ class MyDevice extends Homey.Device {
 		if (!this.state || !this.state.pricesThisDay) throw Error('no prices available');
 		// calculate start and end hours compared to present hour
 		const thisHour = this.state.H0; // e.g. 23 hrs
+		// let thisHourIndex = thisHour;
 		let endHour = args.time; // e.g. 2 hrs
 		if (endHour < thisHour) endHour += 24; // e.g. 2 + 24 = 26 hrs ( = tomorrow!)
-		let startHour = endHour - args.period; // e.g. 26 - 4 = 22 hrs
+		let startHour = endHour - args.period - 1; // e.g. 26 - 4 - 1 = 21 hrs
 		// check if present hour is in scope op selected period
 		if ((thisHour >= endHour) || (thisHour < startHour)) return false;
-		// get period (2-8) hours pricing before end time
+		// get period n-hours pricing before end time
 		let pricesPartYesterday = [];
 		if (startHour < 0) {
 			pricesPartYesterday = this.state.pricesYesterday.slice(startHour);
+			// thisHourIndex += pricesPartYesterday.length;
 			startHour = 0;
 		}
 		let pricesPartTomorrow = [];
@@ -557,29 +558,21 @@ class MyDevice extends Homey.Device {
 	async priceIsHighestAvg(args) {
 		if (!this.state || !this.state.pricesThisDay) throw Error('no prices available');
 		// args.period: '8' or 'this_day'  // args.hours: '2', '3', '4', '5' or '6'
-		let prices = [...this.state.pricesNext8h];
-		// calculate all avg prices for x hour periods for next 8 hours
-		const avgPricesNext8h = [];
-		prices.forEach((price, index) => {
-			if (index > prices.length - Number(args.hours)) return;
-			const hours = prices.slice(index, (index + Number(args.hours)));
+		const pricesTotalPeriod = (args.period === 'this_day') ? [...this.state.pricesThisDay] : [...this.state.pricesNext8h];
+		const thisHourIndex = (args.period === 'this_day') ? this.state.H0 : 0;
+		// calculate all avg prices for x hour periods before end time
+		const avgPricesTotalPeriod = [];
+		pricesTotalPeriod.forEach((price, index) => {
+			if (index > pricesTotalPeriod.length - Number(args.hours)) return;
+			const idxMin = index;
+			const idxMax = index + Number(args.hours) - 1;
+			const hours = pricesTotalPeriod.slice(idxMin, (idxMax + 1));
 			const avgPrice = (hours.reduce((a, b) => a + b, 0)) / hours.length;
-			avgPricesNext8h.push(avgPrice);
+			avgPricesTotalPeriod.push({ avgPrice, idxMin, idxMax });
 		});
-		let maxAvgPrice = Math.max(...avgPricesNext8h);
-		// calculate all avg prices for x hour periods for this_day
-		if (args.period === 'this_day') {
-			prices = [...this.state.pricesThisDay];
-			const avgPricesThisDay = [];
-			prices.forEach((price, index) => {
-				if (index > prices.length - Number(args.hours)) return;
-				const hours = prices.slice(index, (index + Number(args.hours)));
-				const avgPrice = (hours.reduce((a, b) => a + b, 0)) / hours.length;
-				avgPricesThisDay.push(avgPrice);
-			});
-			maxAvgPrice = Math.max(...avgPricesThisDay);
-		}
-		return avgPricesNext8h[0] >= maxAvgPrice;
+		const minAvgHours = avgPricesTotalPeriod.sort((a, b) => b.avgPrice - a.avgPrice); // highest first
+		// console.log(minAvgHours, thisHourIndex);
+		return ((thisHourIndex >= minAvgHours[0].idxMin) && (thisHourIndex <= minAvgHours[0].idxMax));
 	}
 
 	async priceIsBelowAvg(args) {

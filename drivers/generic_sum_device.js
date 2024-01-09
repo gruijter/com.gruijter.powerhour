@@ -106,11 +106,11 @@ class SumMeterDevice extends Device {
 			if (this.settings.source_device_type.includes('Homey Energy')) {
 				if (!this.settings.interval) {
 					await this.setSettings({ interval: 1 }).catch(this.error);
-					this.settings.interval = 1;
+					this.settings = await this.getSettings();
 				}
 				if (this.settings.use_measure_source) {
 					await this.setSettings({ use_measure_source: false }).catch(this.error);
-					this.settings.use_measure_source = false;
+					this.settings = await this.getSettings();
 				}
 			}
 
@@ -118,7 +118,7 @@ class SumMeterDevice extends Device {
 			if (this.driver.id !== 'power' && this.settings.use_measure_source) {
 				this.log(this.getName(), 'fixing wrong use_measure_source setting');
 				await this.setSettings({ use_measure_source: false }).catch(this.error);
-				this.settings.use_measure_source = false;
+				this.settings = await this.getSettings();
 			}
 
 			// store the capability states before migration

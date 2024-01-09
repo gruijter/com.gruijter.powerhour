@@ -197,7 +197,7 @@
 						"nl": "Max. ontlaadvermogen (W)",
 						"de": "Max. Entladungsleistung (W)"
 					},
-					"value": 1550,
+					"value": 1700,
 					"min": 0,
 					"decimals": 0,
 					"hint": {

@@ -40,7 +40,7 @@ const getStrategy = ({
 	],
 	dischargeSpeeds = [	// defaults to Sessy values
 		{
-			power: 1700, // Max speed discharging power in Watt (on DC side!), loss is not included
+			power: 1550, // Max speed discharging power in Watt (on DC side!), loss is not included
 			eff: 0.92, // efficiency when using Max speed discharging
 		},
 		{
@@ -83,15 +83,15 @@ const getStrategy = ({
 	[...prices].forEach((price, hourIdx) => {
 		// build objective function (minimize totalCost)
 		// charge cost per hour is chargeTime(hrs) * (power(kWh)) * (fixed cost(per kWh) + hourPrice)
-		// assume efficiency is on DC side, so incoming power cost is not affected by efficiency
+		// assume chargeSpeed is on AC side, so incoming power cost is not affected by efficiency
 		[...chargeSpeeds].forEach((speed, csIdx) => {
 			const chargeCost = { name: `cs${csIdx}T${hourIdx}`, coef: ((speed.power / 1000) * (fc + price)) };
 			model.objective.vars.push(chargeCost);
 		});
 		// discharge cost per period is dischargeTime(hrs) * (power(kWh) * efficiency) * (fixed cost(per kWh) - hourPrice)
-		// assume efficiency is on DC side, so outgoing power cost is affected by efficiency
+		// assume dischargeSpeed is on AC side, so outgoing power cost is not affected by efficiency
 		[...dischargeSpeeds].forEach((speed, dsIdx) => {
-			const dischargeCost = { name: `ds${dsIdx}T${hourIdx}`, coef: ((speed.power / 1000) * speed.eff * (fc - price)) };
+			const dischargeCost = { name: `ds${dsIdx}T${hourIdx}`, coef: ((speed.power / 1000) * (fc - price)) };
 			model.objective.vars.push(dischargeCost);
 		});
 
@@ -126,10 +126,12 @@ const getStrategy = ({
 		};
 		for (let hIdx = 0; hIdx <= hourIdx; hIdx += 1) {
 			[...chargeSpeeds].forEach((speed, csIdx) => {
+				// battery is charged slower than AC power due to efficiency loss
 				SoC.vars.push({ name: `cs${csIdx}T${hIdx}`, coef: ((speed.power / 1000) * speed.eff) });
 			});
 			[...dischargeSpeeds].forEach((speed, dsIdx) => {
-				SoC.vars.push({ name: `ds${dsIdx}T${hIdx}`, coef: -(speed.power / 1000) });
+				// battery is discharged faster than AC power due to efficiency loss
+				SoC.vars.push({ name: `ds${dsIdx}T${hIdx}`, coef: -(speed.power / 1000) / speed.eff });
 			});
 		}
 		model.subjectTo.push(SoC);
