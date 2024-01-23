@@ -39,12 +39,12 @@ class MyApp extends Homey.App {
 			// 	}
 			// }
 
-			// register some listeners
-			this.homey
-				.on('memwarn', () => {
-					this.log('memwarn!');
-				});
-			// // do garbage collection every 10 minutes
+			// // register some listeners
+			// this.homey
+			// 	.on('memwarn', () => {
+			// 		this.log('memwarn!');
+			// 	});
+			// do garbage collection every 10 minutes
 			// this.intervalIdGc = setInterval(() => {
 			// 	global.gc();
 			// }, 1000 * 60 * 10);
@@ -53,9 +53,8 @@ class MyApp extends Homey.App {
 			this.api = await HomeyAPI.createAppAPI({ homey: this.homey });
 
 			// start polling every whole hour
-			this.homey.setMaxListeners(20); // INCREASE LISTENERS
+			this.homey.setMaxListeners(30); // INCREASE LISTENERS
 			this.everyHour();
-
 			// retry missing source devices every 5 minutes
 			this.retry();
 
@@ -197,6 +196,15 @@ class MyApp extends Homey.App {
 		this._priceHighestAvg.registerRunListener(async (args) => args.device.priceIsHighestAvg(args));
 		this.triggerPriceHighestAvg = (device, tokens, state) => {
 			this._priceHighestAvg
+				.trigger(device, tokens, state)
+				// .then(this.log(device.getName(), tokens))
+				.catch(this.error);
+		};
+
+		this._priceHighestAvgBefore = this.homey.flow.getDeviceTriggerCard('price_highest_avg_before');
+		this._priceHighestAvgBefore.registerRunListener(async (args) => args.device.priceIsHighestAvgBefore(args));
+		this.triggerPriceHighestAvgBefore = (device, tokens, state) => {
+			this._priceHighestAvgBefore
 				.trigger(device, tokens, state)
 				// .then(this.log(device.getName(), tokens))
 				.catch(this.error);

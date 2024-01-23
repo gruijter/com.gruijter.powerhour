@@ -232,7 +232,7 @@ class batDevice extends Device {
 	async findRoiStrategy(args) {
 		try {
 			if (!this.getSettings().roiEnable)	return Promise.resolve(null);
-			this.log(`ROI strategy calculation started for ${this.getName()}`, args);
+			this.log(`ROI strategy calculation started for ${this.getName()} minPriceDelta:`, args.minPriceDelta);
 			if (this.getSettings().roiMinProfit !== args.minPriceDelta) this.setSettings({ roiMinProfit: args.minPriceDelta }).catch(this.error);
 			await setTimeoutPromise(3000); // wait 3 seconds for new hourly prices to be taken in
 			if (!this.pricesNextHours) throw Error('no prices available');

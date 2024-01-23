@@ -1,4 +1,10 @@
 {
+  "6.1.4": {
+    "en": "BAT: keep charging/discharging when almost full/empty. DAP: Fix flowcard lowest average before. homey-api@3.4.18"
+  },
+  "6.1.3": {
+    "en": "DAP: fixed flowcards for highest/lowest Before and highest/lowest Average. homey-api@3.4.13"
+  },
   "6.1.2": {
     "en": "DAP: fixed flowcards for highest/lowest Before and highest/lowest Average. SUM: stability improvements. BAT: smart ROI tweaked for discharge value representing AC side. Max discharge default changed to 1700."
   },
