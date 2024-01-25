@@ -316,6 +316,8 @@ class batDevice extends Device {
 		this.log(`${this.getName()} Restoring device values after init`);
 
 		// init pricesNextHours
+		if (!this.pricesNextHoursMarketLength) this.pricesNextHoursMarketLength = await this.getStoreValue('pricesNextHoursMarketLength');
+		if (!this.pricesNextHoursMarketLength) this.pricesNextHoursMarketLength = 99;
 		if (!this.pricesNextHours) this.pricesNextHours = await this.getStoreValue('pricesNextHours');
 		if (!this.pricesNextHours) {
 			this.pricesNextHours = [0.25]; // set as default after pair
@@ -411,13 +413,15 @@ class batDevice extends Device {
 	}
 
 	// update the prices from DAP
-	async updatePrices(pricesNextHours) {
+	async updatePrices(pricesNextHours, pricesNextHoursMarketLength) {
 		try {
 			if (!pricesNextHours || !pricesNextHours[0]) return;
+			this.pricesNextHoursMarketLength = pricesNextHoursMarketLength;
 			if (!this.initReady || JSON.stringify(pricesNextHours) === JSON.stringify(this.pricesNextHours)) return; // only update when changed
 			this.pricesNextHours = pricesNextHours;
 			this.setCapability('meter_tariff', pricesNextHours[0]);
 			this.setStoreValue('pricesNextHours', pricesNextHours);
+			this.setStoreValue('pricesNextHoursMarketLength', pricesNextHoursMarketLength);
 			// trigger ROI card
 			if (this.getSettings().roiEnable) {
 				await this.triggerNewRoiStrategyFlow();
@@ -491,7 +495,8 @@ class batDevice extends Device {
 			now.setMilliseconds(0); // toLocaleString cannot handle milliseconds...
 			const nowLocal = new Date(now.toLocaleString('en-US', { timeZone: this.timeZone }));
 			const H0 = nowLocal.getHours();
-			const urlNextHours = await charts.getChargeChart(strategy, H0);
+			// eslint-disable-next-line max-len
+			const urlNextHours = await charts.getChargeChart(strategy, H0, this.pricesNextHoursMarketLength, this.getSettings().chargePower, this.getSettings().dischargePower);
 			if (!this.nextHoursChargeImage) {
 				this.nextHoursChargeImage = await this.homey.images.createImage();
 				await this.nextHoursChargeImage.setUrl(urlNextHours);

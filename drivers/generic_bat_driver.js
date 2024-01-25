@@ -98,8 +98,9 @@ class BatDriver extends Driver {
 				return;
 			}
 			const pricesNextHours = this.pricesNextHours[updateGroup];
-			this.log('updating prices', deviceName, pricesNextHours[0]);
-			device.updatePrices([...pricesNextHours]);
+			const pricesNextHoursMarketLength = this.pricesNextHoursMarketLength[updateGroup];
+			this.log('updating prices', deviceName, pricesNextHours[0], pricesNextHoursMarketLength);
+			device.updatePrices([...pricesNextHours], pricesNextHoursMarketLength);
 		};
 
 		// add listener for new prices
@@ -113,7 +114,9 @@ class BatDriver extends Driver {
 				return;
 			}
 			if (!this.pricesNextHours) this.pricesNextHours = {};
+			if (!this.pricesNextHoursMarketLength) this.pricesNextHoursMarketLength = {};
 			this.pricesNextHours[args.group] = args.pricesNextHours;
+			this.pricesNextHoursMarketLength[args.group] = args.pricesNextHoursMarketLength;
 			// wait 2 seconds not to stress Homey and prevent race issues
 			await setTimeoutPromise(2 * 1000);
 			const devices = await this.getDevices();

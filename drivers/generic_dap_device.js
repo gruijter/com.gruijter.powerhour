@@ -23,6 +23,7 @@ along with com.gruijter.powerhour.  If not, see <http://www.gnu.org/licenses/>.s
 const Homey = require('homey');
 const util = require('util');
 const ECB = require('../ecb_exchange_rates');
+const FORECAST = require('../stekker');
 const charts = require('../charts');
 
 const setTimeoutPromise = util.promisify(setTimeout);
@@ -108,6 +109,14 @@ class MyDevice extends Homey.Device {
 				return;
 			}
 			// console.log(this.getName(), this.dap[0]);
+
+			// add forecast pricing provider
+			if (this.driver.ds.driverId === 'dap' && this.settings.forecastEnable) {
+				const forecast = new FORECAST();
+				const zones = forecast.getBiddingZones();
+				const hasZone = Object.keys(zones).some((key) => zones[key].includes(this.settings.biddingZone));
+				if (hasZone) this.dapForecast = new FORECAST({ biddingZone: this.settings.biddingZone });
+			}
 
 			// fetch and handle prices now, after short random delay
 			await this.setAvailable().catch(this.error);
@@ -648,7 +657,7 @@ class MyDevice extends Homey.Device {
 					await this.setSettings({ exchangeRate: val }).catch(this.error);
 					this.settings = await this.getSettings();
 					// recalculate and store prices based on new exchange rate
-					await this.storePrices(this.prices);
+					if (this.rawCombinedPrices) await this.storePrices(this.rawCombinedPrices); // use raw prices!
 				}
 			}
 		} catch (error) {
@@ -726,7 +735,6 @@ class MyDevice extends Homey.Device {
 	async fetchPrices() {
 		try {
 			this.log(this.getName(), 'fetching prices of today and tomorrow (when available)');
-
 			// fetch prices with retry and backup
 			const periods = this.getUTCPeriods(); // now, nowLocal, homeyOffset, H0, hourStart, todayStart, yesterdayStart, tomorrowStart, tomorrowEnd
 			if (!this.dap[0]) throw Error('no available DAP');
@@ -745,18 +753,35 @@ class MyDevice extends Homey.Device {
 					break;
 				}
 			}
+			await this.checkPricesValidity(newMarketPrices, periods);
 
-			await this.checkPricesValidity(newMarketPrices, periods).catch(this.error);
+			// add forecast pricing
+			let newForecastPrices;
+			let newCombinedPrices = [...newMarketPrices];
+			if (this.settings.forecastEnable && this.dapForecast && newMarketPrices && newMarketPrices[0]) {
+				this.log(this.getName(), 'fetching forecast prices (when available)');
+				let forecast = await this.dapForecast.getPrices({ forecast: true }).catch(this.log);
+				const lastMarketTime = newMarketPrices.slice(-1)[0].time;
+				forecast = forecast	// remove doubles and limit to 24hrs forecast
+					.filter((hourInfo) => hourInfo.time > lastMarketTime)
+					.slice(0, 24);
+				const combined = newMarketPrices.concat(forecast);
+				const valid = await this.checkPricesValidity(combined, periods).catch(this.error);
+				if (valid) {
+					newForecastPrices = forecast;
+					newCombinedPrices = combined;
+				}
+			}
 
 			// store the new prices and update state, capabilities and price graphs
 			const oldPrices = [...this.prices];
-			await this.storePrices(newMarketPrices);
+			await this.storePrices(newCombinedPrices, newMarketPrices, newForecastPrices);
 			await this.setCapabilitiesAndFlows({ noTriggers: true });
 
 			// check if new prices received and trigger flows
-			await this.checkNewMarketPrices(oldPrices, newMarketPrices, 'this_day', periods);
-			await this.checkNewMarketPrices(oldPrices, newMarketPrices, 'tomorrow', periods);
-			await this.checkNewMarketPrices(oldPrices, newMarketPrices, 'next_hours', periods);
+			await this.checkNewMarketPrices(oldPrices, newCombinedPrices, 'this_day', periods);
+			await this.checkNewMarketPrices(oldPrices, newCombinedPrices, 'tomorrow', periods);
+			await this.checkNewMarketPrices(oldPrices, newCombinedPrices, 'next_hours', periods);
 
 		} catch (error) {
 			this.error(error);
@@ -764,11 +789,20 @@ class MyDevice extends Homey.Device {
 	}
 
 	// add markup and store new prices { time , price , muPrice  }
-	async storePrices(newPrices) {
+	async storePrices(newCombinedPrices, newMarketPrices, newForecastPrices) {
 		try {
-			const muPrices = await this.markUpPrices([...newPrices]);
+			const muPrices = await this.markUpPrices([...newCombinedPrices]);
 			this.prices = [...muPrices];
+			this.rawCombinedPrices = [...newCombinedPrices];
 			await this.setStoreValue('prices', [...muPrices]);
+			if (newMarketPrices) {
+				const muMarketPrices = await this.markUpPrices([...newMarketPrices]);
+				this.marketPrices = [...muMarketPrices];
+			}
+			if (newForecastPrices) {
+				const muForecastPrices = await this.markUpPrices([...newForecastPrices]);
+				this.forecastPrices = [...muForecastPrices];
+			}
 		} catch (error) {
 			this.error(error);
 		}
@@ -799,6 +833,7 @@ class MyDevice extends Homey.Device {
 		const pricesNextHours = this.prices
 			.filter((hourInfo) => hourInfo.time >= periods.hourStart)
 			.map((hourInfo) => hourInfo.muPrice);
+		const pricesNextHoursMarketLength = this.marketPrices.filter((hourInfo) => hourInfo.time >= periods.hourStart).length;
 
 		// pricesNext8h, avg, lowest and highest
 		const pricesNext8h = pricesNextHours.slice(0, 8);
@@ -810,6 +845,7 @@ class MyDevice extends Homey.Device {
 
 		// pricesTomorrow, avg, lowest and highest
 		const pricesTomorrow = selectPrices(this.prices, periods.tomorrowStart, periods.tomorrowEnd);
+		const pricesTomorrowMarketLength = selectPrices(this.marketPrices, periods.tomorrowStart, periods.tomorrowEnd).length;
 		let priceNextDayAvg = null;
 		let priceNextDayLowest = null;
 		let hourNextDayLowest = null;
@@ -835,6 +871,7 @@ class MyDevice extends Homey.Device {
 			hourThisDayHighest,
 
 			pricesNextHours,
+			pricesNextHoursMarketLength,
 
 			pricesNext8h,
 			priceNext8hAvg,
@@ -848,6 +885,7 @@ class MyDevice extends Homey.Device {
 			H0,
 
 			pricesTomorrow,
+			pricesTomorrowMarketLength,
 			priceNextDayAvg,
 			priceNextDayLowest,
 			hourNextDayLowest,
@@ -868,7 +906,7 @@ class MyDevice extends Homey.Device {
 			await this.todayPriceImage.update();
 		}
 
-		const urlTomorow = await charts.getPriceChart(this.state.pricesTomorrow);
+		const urlTomorow = await charts.getPriceChart(this.state.pricesTomorrow, 0, this.state.pricesTomorrowMarketLength);
 		if (!this.tomorrowPriceImage) {
 			this.tomorrowPriceImage = await this.homey.images.createImage();
 			await this.tomorrowPriceImage.setUrl(urlTomorow);
@@ -878,7 +916,7 @@ class MyDevice extends Homey.Device {
 			await this.tomorrowPriceImage.update();
 		}
 
-		const urlNextHours = await charts.getPriceChart(this.state.pricesNextHours, this.state.H0);
+		const urlNextHours = await charts.getPriceChart(this.state.pricesNextHours, this.state.H0, this.state.pricesNextHoursMarketLength);
 		if (!this.nextHoursPriceImage) {
 			this.nextHoursPriceImage = await this.homey.images.createImage();
 			await this.nextHoursPriceImage.setUrl(urlNextHours);
@@ -925,7 +963,14 @@ class MyDevice extends Homey.Device {
 			// send tariff to power or gas summarizer driver
 			const sendTo = (this.driver.ds.driverId === 'dapg') ? 'set_tariff_gas' : 'set_tariff_power';
 			const group = this.settings.tariff_update_group;
-			if (group) this.homey.emit(sendTo, { tariff: this.state.priceNow, pricesNextHours: this.state.pricesNextHours, group });
+			if (group) {
+				this.homey.emit(sendTo, {
+					tariff: this.state.priceNow,
+					pricesNextHours: this.state.pricesNextHours,
+					pricesNextHoursMarketLength: this.state.pricesNextHoursMarketLength,
+					group,
+				});
+			}
 
 			// update the price graphs
 			await this.updatePriceCharts().catch(this.error);

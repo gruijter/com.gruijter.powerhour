@@ -426,6 +426,19 @@
 			},
 			"children": [
 				{
+					"id": "forecastEnable",
+					"type": "checkbox",
+					"label": {
+						"en": "Enable forecast prices",
+						"nl": "Prijsvoorspelling aanzetten"
+					},
+					"hint": { 
+						"en": "Add AI pricing forecast (when available).",
+						"nl": "Voeg AI prijsvoorspellingen toe (indien beschikbaar)"
+					},
+					"value": false
+				},
+				{
 					"id": "tariff_update_group",
 					"type": "number",
 					"label": {

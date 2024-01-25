@@ -1,4 +1,7 @@
 {
+  "6.2.0": {
+    "en": "DAP: Fix exchange rate fluke. Added e-data source. Added e-price forecast. BAT: display forecast in graph."
+  },
   "6.1.4": {
     "en": "BAT: keep charging/discharging when almost full/empty. DAP: Fix flowcard lowest average before. homey-api@3.4.18"
   },

@@ -25,7 +25,7 @@ const querystring = require('querystring');
 const defaultHost = 'image-charts.com';
 const chartEP = '/chart.js/2.8.0?';
 
-const getPriceChart = (prices, startHour = 0) => {
+const getPriceChart = (prices, startHour = 0, marketLength = 99) => {
 	try {
 		if (!Array.isArray(prices)) throw Error('not an array');
 		// Convert input data to prices, labels and values
@@ -40,7 +40,7 @@ const getPriceChart = (prices, startHour = 0) => {
 		const sortedPrices = [...values].filter((v) => Number.isFinite(v)).sort((a, b) => b - a);
 		const peaks = [...sortedPrices].slice(0, 4);
 		const troughs = [...sortedPrices].reverse().slice(0, 4);
-		const backgrounds = values.map((value) => {
+		const backgrounds = values.map((value, idx) => {
 			if (value <= 0) {
 				return 'rgb(189,44,188)'; // Purple (free energy)
 			}
@@ -50,6 +50,7 @@ const getPriceChart = (prices, startHour = 0) => {
 			if (peaks.includes(value)) {
 				return 'rgb(237,95,23)'; // Orange (high price)
 			}
+			if (idx >= marketLength) return 'rgb(210,210,210)'; // light grey (is forecasted price)
 			return 'rgb(53,86,81)'; // Dark green (normal price)
 		});
 
@@ -126,7 +127,7 @@ const getPriceChart = (prices, startHour = 0) => {
 	}
 };
 
-const getChargeChart = (strategy, startHour = 0, maxChargePower = 2200, maxDischargePower = 1700) => {
+const getChargeChart = (strategy, startHour = 0, marketLength = 99, maxChargePower = 2200, maxDischargePower = 1700) => {
 	try {
 		if (!strategy || !strategy.scheme) throw Error('strategy input is invalid');
 
@@ -153,7 +154,8 @@ const getChargeChart = (strategy, startHour = 0, maxChargePower = 2200, maxDisch
 				const r = 255 - 100 * (dischargeEnergy / maxDischargePower);
 				return `rgb(${Math.round(r)},50,20)`; // darkRed (discharging)
 			}
-			return 'rgb(210,210,210)'; // grey (no dis/charge)
+			if (idx >= marketLength) return 'rgb(210,210,210)'; // light grey (is forecasted price)
+			return 'rgb(140,140,140)'; // dark grey (no dis/charge)
 		});
 
 		// Add a data label to the cheapest and most expensive hour
