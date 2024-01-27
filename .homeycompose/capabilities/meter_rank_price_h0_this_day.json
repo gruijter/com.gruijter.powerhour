@@ -2,7 +2,8 @@
   "type": "number",
   "title": {
     "en": "Price now rank this day",
-    "nl": "Prijs nu rang vandaag"
+    "nl": "Prijs nu rang vandaag",
+    "de": "Akt. Preisstufe heute"
   },
   "units": {
     "en": "/24"
