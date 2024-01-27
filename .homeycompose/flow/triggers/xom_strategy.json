@@ -2,15 +2,18 @@
 	"highlight": true,
 	"title": {
 		"en": "New XOM power available.",
-		"nl": "Nieuw XOM vermogen beschikbaar."
+		"nl": "Nieuw XOM vermogen beschikbaar.",
+		"de": "Neuer XOM Strom verfügbar."
 	},
 	"titleFormatted": {
 		"en": "New XOM power available.",
-		"nl": "Nieuw XOM vermogen beschikbaar."
+		"nl": "Nieuw XOM vermogen beschikbaar.",
+		"de": "Neuer XOM Strom verfügbar."
 	},
 	"hint": {
 		"en": "The battery power is calculated so that the cumulative usage will be close to the set X Watt. All available batteries are used pro rata. X defaults to 0 and can be set via the 'Set XOM' flow.",
-		"nl": "Het accu vermogen wordt zodanig berekend dat het cumulatieve verbruik de ingestelde X Watt nadert. Alle beschikbare accu's worden naar rato gebruikt. X is standaard 0 en kan via de 'Zet XOM' flow worden ingesteld."
+		"nl": "Het accu vermogen wordt zodanig berekend dat het cumulatieve verbruik de ingestelde X Watt nadert. Alle beschikbare accu's worden naar rato gebruikt. X is standaard 0 en kan via de 'Zet XOM' flow worden ingesteld.",
+		"de": "Die Batterieleistung wird so berechnet, dass sich der kumulierte Verbrauch dem festgelegten Wert X Watt nähert. Alle verfügbaren Batterien werden anteilig genutzt. X ist standardmäßig 0 und kann über den Fluss 'XOM einstellen' eingestellt werden."
 	},
 	"args": [
 		{
@@ -24,7 +27,8 @@
       "name": "power",
       "type": "number",
       "title": {
-        "en": "Power"
+        "en": "Power",
+	"de": "Leistung"
       }
     },
 		{
@@ -32,7 +36,8 @@
 			"name": "x",
 			"title": { 
 				"en": "XOM-target (W)",
-				"nl": "XOM-doel (W)"
+				"nl": "XOM-doel (W)",
+				"de": "XOM-Ziel (W)"
 			}
 		},
 		{
@@ -40,7 +45,8 @@
 			"name": "smoothing",
 			"title": { 
 				"en": "smoothing (%)",
-				"nl": "smoothing (%)"
+				"nl": "smoothing (%)",
+				"de": "Glättung (%)"
 			}
 		},
 		{
@@ -48,7 +54,8 @@
 			"name": "minLoad",
 			"title": { 
 				"en": "Minimum battery power (W)",
-				"nl": "Minimaal accu vermogen (W)"
+				"nl": "Minimaal accu vermogen (W)",
+				"de": "Minimale Batteriekapazität (W)"
 			}
 		}
   ]
