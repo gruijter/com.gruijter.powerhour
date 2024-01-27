@@ -177,7 +177,7 @@
 					"label": {
 						"en": "Max. charging loss (%)",
 						"nl": "Max. laden verlies (%)",
-						"de": "Max. Laden Verlust (%)"
+						"de": "Max. Ladeverlust (%)"
 					},
 					"min": 0,
 					"max": 30,
@@ -203,7 +203,7 @@
 					"hint": {
 						"en": "The maximum power at which the battery can be discharged.",
 						"nl": "Het maximale vermogen waarmee de batterij kan worden ontladen.",
-						"de": "Die maximale Leistung in Watt, mit der die Batterie entladen wirden kann."
+						"de": "Die maximale Leistung in Watt, mit der die Batterie entladen werden kann."
 					}
 				},
 				{
@@ -212,7 +212,7 @@
 					"label": {
 						"en": "Max. discharging loss (%)",
 						"nl": "Max. ontladen verlies (%)",
-						"de": "Max. Entladen Verlust (%)"
+						"de": "Max. Entladeverlust (%)"
 					},
 					"min": 0,
 					"max": 30,
@@ -248,7 +248,7 @@
 					"hint": {
 						"en": "The most efficient power at which the battery can be charged. Set to 0 to ignore this setting.",
 						"nl": "Het meest efficiente vermogen waarmee de batterij kan worden geladen. Stel op 0 in om deze instelling te negeren.",
-						"de": "Die effizienteste Leistung, mit der die Batterie geladen wirden kann. Auf 0 setzen, um diese Einstellung zu ignorieren"
+						"de": "Die effizienteste Leistung, mit der die Batterie geladen werden kann. Auf 0 setzen, um diese Einstellung zu ignorieren"
 					}
 				},
 				{
@@ -257,7 +257,7 @@
 					"label": {
 						"en": "Eff. charging loss (%)",
 						"nl": "Eff. laden verlies (%)",
-						"de": "Eff. Laden Verlust (%)"
+						"de": "Eff. Ladeverlust (%)"
 					},
 					"min": 0,
 					"max": 30,
@@ -283,7 +283,7 @@
 					"hint": {
 						"en": "The most efficient power at which the battery can be discharged.",
 						"nl": "Het meest efficiente vermogen waarmee de batterij kan worden ontladen.",
-						"de": "Die effizienteste Leistung in Watt, mit der die Batterie entladen wirden kann."
+						"de": "Die effizienteste Leistung in Watt, mit der die Batterie entladen werden kann."
 					}
 				},
 				{
@@ -292,7 +292,7 @@
 					"label": {
 						"en": "Eff. discharging loss (%)",
 						"nl": "Eff. ontladen verlies (%)",
-						"de": "Eff. Entladen Verlust (%)"
+						"de": "Eff. Entladeverlust (%)"
 					},
 					"min": 0,
 					"max": 30,
@@ -328,7 +328,7 @@
 					"hint": {
 						"en": "Additional power at which the battery can be charged in Watts.",
 						"nl": "Aanvullend vermogen waarmee de batterij kan worden geladen in Watt.",
-						"de": "Zusätzliche Leistung, mit der die Batterie geladen wirden kann."
+						"de": "Zusätzliche Leistung, mit der die Batterie geladen werden kann."
 					}
 				},
 				{
@@ -337,7 +337,7 @@
 					"label": {
 						"en": "Additional charging loss (%)",
 						"nl": "Aanvullend laden verlies (%)",
-						"de": "Zusätzlich Laden Verlust (%)"
+						"de": "Zusätzlicher Ladeverlust (%)"
 					},
 					"min": 0,
 					"max": 30,
@@ -372,7 +372,7 @@
 					"label": {
 						"en": "Additional discharging loss (%)",
 						"nl": "Aanvullend ontladen verlies (%)",
-						"de": "Zusätzlich Entladen Verlust (%)"
+						"de": "Zusätzlicher Entladeverlust (%)"
 					},
 					"min": 0,
 					"max": 30,
@@ -390,7 +390,8 @@
 			"type": "group",
 			"label": {
 				"en": "Advanced ROI settings (HP2023)",
-				"nl": "Geavanceerde ROI instellingen (HP2023)"
+				"nl": "Geavanceerde ROI instellingen (HP2023)",
+				"de": "Erweiterte ROI Einstellungen (HP2023)"
 			},
 			"children": [
 				{
@@ -398,11 +399,13 @@
 					"type": "checkbox",
 					"label": {
 						"en": "Enable advanced ROI",
-						"nl": "ROI functie aanzetten"
+						"nl": "ROI functie aanzetten",
+						"de": "ROI Funktion aktivieren"
 					},
 					"hint": { 
 						"en": "Advanced ROI flows are only available on HP2023!",
-						"nl": "Geavanceerde ROI flows zijn alleen beschikbaar op HP2023!"
+						"nl": "Geavanceerde ROI flows zijn alleen beschikbaar op HP2023!",
+						"de": "Erweiterte ROI Flows sind nur auf dem HP2023 verfügbar!"
 					},
 					"value": false
 				},
@@ -411,11 +414,13 @@
 					"type": "number",
 					"label": {
 						"en": "Graph minimum profit per kWh",
-						"nl": "Grafiek minimale winst per kWh"
+						"nl": "Grafiek minimale winst per kWh",
+						"de": "Grafik Mindestgewinn pro kWh"
 					},
 					"hint": {
 						"en": "The strategy graph is calculated using future hourly prices, the battery settings, and the set minimum profit per kWh. (HP2023 Only!)",
-						"nl": "De strategie grafiek wordt berekend met behulp van toekomstige prijzen, de batterij instellingen, en de ingestelde minimale winst per kWh. (Alleen HP2023!)"
+						"nl": "De strategie grafiek wordt berekend met behulp van toekomstige prijzen, de batterij instellingen, en de ingestelde minimale winst per kWh. (Alleen HP2023!)",
+						"de": "Die Strategiegrafik wird anhand der zukünftigen Preise, der Batterieeinstellungen und des eingestellten Mindestgewinns pro kWh berechnet. (Nur HP2023!)"
 					},
 					"value": 0.08,
 					"min": 0
