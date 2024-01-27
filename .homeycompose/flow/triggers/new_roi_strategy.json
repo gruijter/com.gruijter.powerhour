@@ -8,12 +8,12 @@
 	"titleFormatted": {
 		"en": "New smart ROI power available, with minimum [[minPriceDelta]]¤ profit per kWh.",
 		"nl": "Nieuwe smart ROI vermogen beschikbaar, met minimaal [[minPriceDelta]]¤ winst per kWh.",
-		"de": "Neue Smart ROI-Leistung verfügbar, mit minimalen [[minPriceDelta]]¤ Gewinn pro kWh."
+		"de": "Neue Smart ROI-Leistung verfügbar, mit minimalem [[minPriceDelta]]¤ Gewinn pro kWh."
 	},
 	"hint": {
 		"en": "The strategy is calculated using future hourly prices, the battery settings, and the set minimum profit per kWh.",
 		"nl": "De strategie wordt berekend met behulp van toekomstige prijzen, de batterij instellingen, en de ingestelde minimale winst per kWh.",
-		"de": "Die Strategie wird berechnet anhand zukünftigen Stundenpreise, die Batterieeinstellungen, und der eingestellten minimalen Gewinn pro kWh."
+		"de": "Die Strategie wird anhand der zukünftigen Stundenpreise, den Batterieeinstellungen und dem eingestellten minimalen Gewinn pro kWh berechnet."
 	},
 	"args": [
 		{
@@ -38,28 +38,32 @@
       "name": "power",
       "type": "number",
       "title": {
-        "en": "Power"
+        "en": "Power",
+	"de": "Leistung"
       }
     },
     {
       "name": "duration",
       "type": "number",
       "title": {
-        "en": "Duration (minutes)"
+        "en": "Duration (minutes)",
+	"de": "Dauer (Minuten)"
       }
     },
 		{
       "name": "endSoC",
       "type": "number",
       "title": {
-        "en": "SoC afterwards (%)"
+        "en": "SOC afterwards (%)",
+	"de": "SOC danach (%)"
       }
     },
 		{
       "name": "scheme",
       "type": "string",
       "title": {
-        "en": "Scheme JSON"
+        "en": "Scheme JSON",
+	"de": "Schema JSON"
       }
     }
   ]
