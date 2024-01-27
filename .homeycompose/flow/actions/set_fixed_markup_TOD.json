@@ -1,9 +1,11 @@
 {
   "title": {
-    "en": "Set a new Time Of Day markup"
+    "en": "Set a new Time Of Day markup",
+    "de": "Neuen Time Of Day Aufschlag setzen"
   },
   "titleFormatted": {
-    "en": "Set Time Of Day markup to [[value]]"
+    "en": "Set Time Of Day markup to [[value]]",
+    "de": "Time Of Day Aufschlag auf [[value]] setzen"
   },
   "args": [
     {
