@@ -1,9 +1,11 @@
 {
 	"title": {
-		"en": "Provide prices JSON"
+		"en": "Provide prices JSON",
+		"de": "Preise bereitstellen (JSON)"
 	},
 	"titleFormatted": {
-		"en": "Provide prices JSON for [[period]]"
+		"en": "Provide prices JSON for [[period]]",
+		"de": "Preise für [[period]] bereitstellen (JSON)"
 	},
 	"highlight": true,
 	"args": [
@@ -47,7 +49,8 @@
 				{	"id": "next_hours",
 					"label": { 
 						"en": "Next hours",
-						"nl": "Komende uren"
+						"nl": "Komende uren",
+						"de": "Kommende Stunden"
 					}
 				}
 			]
