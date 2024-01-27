@@ -2,15 +2,18 @@
 	"highlight": true,
 	"title": {
 		"en": "Set values for Battery XOM flow.",
-		"nl": "Zet waarden voor Batterij XOM flow."
+		"nl": "Zet waarden voor Batterij XOM flow.",
+		"de": "Werte für Batterie XOM Flow festlegen."
 	},
 	"titleFormatted": {
 		"en": "Set Battery XOM flows. XOM-target: [[x]]W, smoothing: [[smoothing]]%, min. battery load: [[minLoad]]W.",
-		"nl": "Zet Batterij XOM flows. XOM-doel: [[x]]W, smoothing: [[smoothing]]%, min. accu vermogen: [[minLoad]]W."
+		"nl": "Zet Batterij XOM flows. XOM-doel: [[x]]W, smoothing: [[smoothing]]%, min. accu vermogen: [[minLoad]]W.",
+		"de": "Batterie XOM Flow festlegen. XOM-Ziel: [[x]]W, Glättung: [[smoothing]]%, min. Ladeleistung: [[minLoad]]W."
 	},
 	"hint": {
 		"en": "Settings for Battery XOM flows. The battery power is calculated so that the cumulative usage will be close to the set XOM-target. Low smoothing gives faster response to short power peaks. Use 50% or higher for a more stable control.",
-		"nl": "Instellingen tbv thuisbatterij XOM flows. Het accu vermogen wordt zodanig berekend dat het cumulatieve verbruik het ingestelde XOM-doel nadert. Lage smoothing geeft een snellere respons op korte vermogenpieken. Gebruik 80% of hoger voor een stabielere sturing."
+		"nl": "Instellingen tbv thuisbatterij XOM flows. Het accu vermogen wordt zodanig berekend dat het cumulatieve verbruik het ingestelde XOM-doel nadert. Lage smoothing geeft een snellere respons op korte vermogenpieken. Gebruik 80% of hoger voor een stabielere sturing.",
+		"de": "Einstellungen für Batterie-XOM Flows. Die Batteriekapazität wird so berechnet, dass der kumulierte Verbrauch in der Nähe des eingestellten XOM-Ziels liegt. Eine niedrige Glättung ermöglicht eine schnellere Reaktion auf kurze Leistungsspitzen. Verwenden Sie 50 % oder mehr für eine stabilere Regelung."
 	},
 	"args": [
 		{
@@ -18,11 +21,13 @@
 			"name": "x",
 			"title": { 
 				"en": "XOM-target (W)",
-				"nl": "XOM-doel (W)"
+				"nl": "XOM-doel (W)",
+				"de": "XOM-Ziel (W)"
 			},
       "placeholder": {
         "en": "default 0W",
-				"nl": "standaard 0W"
+				"nl": "standaard 0W",
+	      			"de": "Standardwert 0 W"
       },
 			"value": 0
 		},
@@ -31,11 +36,13 @@
 			"name": "smoothing",
 			"title": { 
 				"en": "smoothing (%)",
-				"nl": "smoothing (%)"
+				"nl": "smoothing (%)",
+				"de": "Glättung (%)"
 			},
 			"placeholder": {
         "en": "30 - 100 %",
-				"nl": "30 - 100 %"
+				"nl": "30 - 100 %",
+				"de": "30 - 100 %"
       },
 			"min": 25,
 			"max": 100,
@@ -46,11 +53,13 @@
 			"name": "minLoad",
 			"title": { 
 				"en": "Minimum battery power (W)",
-				"nl": "Minimaal accu vermogen (W)"
+				"nl": "Minimaal accu vermogen (W)",
+				"de": "Minimale Batteriekapazität (W)"
 			},
       "placeholder": {
         "en": "default 50W",
-				"nl": "standaard 50W"
+				"nl": "standaard 50W",
+	      			"de": "Standardwert 50 W"
       },
 			"min": 0,
 			"value": 50
