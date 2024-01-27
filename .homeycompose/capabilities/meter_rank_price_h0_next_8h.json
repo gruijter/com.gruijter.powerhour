@@ -2,7 +2,8 @@
   "type": "number",
   "title": {
     "en": "Price now rank next 8H",
-    "nl": "Prijs nu rang komende 8U"
+    "nl": "Prijs nu rang komende 8U",
+    "de": "Akt. Preisstufe der nächsten 8 Std."
   },
   "units": {
     "en": "/8"
