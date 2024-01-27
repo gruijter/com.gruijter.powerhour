@@ -1,9 +1,11 @@
 {
   "title": {
-    "en": "Set a new weekend markup"
+    "en": "Set a new weekend markup",
+    "de": "Neuen Wochenendaufschlag setzen"
   },
   "titleFormatted": {
-    "en": "Set weekend markup to [[value]]"
+    "en": "Set weekend markup to [[value]]",
+    "de": "Wochenendaufschlag auf [[value]] setzen"
   },
   "args": [
     {
