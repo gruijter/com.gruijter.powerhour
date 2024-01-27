@@ -2,7 +2,8 @@
   "type": "number",
   "title": {
     "en": "ROI duration",
-    "nl": "ROI duur"
+    "nl": "ROI duur",
+    "de": "ROI Dauer"
   },
   "uiComponent": null,
   "icon": "/assets/tariff.svg",
