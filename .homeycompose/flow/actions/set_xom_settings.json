@@ -12,7 +12,7 @@
 	},
 	"hint": {
 		"en": "Settings for Battery XOM flows. The battery power is calculated so that the cumulative usage will be close to the set XOM-target. Low smoothing gives faster response to short power peaks. Use 50% or higher for a more stable control.",
-		"nl": "Instellingen tbv thuisbatterij XOM flows. Het accu vermogen wordt zodanig berekend dat het cumulatieve verbruik het ingestelde XOM-doel nadert. Lage smoothing geeft een snellere respons op korte vermogenpieken. Gebruik 80% of hoger voor een stabielere sturing.",
+		"nl": "Instellingen tbv thuisbatterij XOM flows. Het accu vermogen wordt zodanig berekend dat het cumulatieve verbruik het ingestelde XOM-doel nadert. Lage smoothing geeft een snellere respons op korte vermogenpieken. Gebruik 50% of hoger voor een stabielere sturing.",
 		"de": "Einstellungen für Batterie-XOM Flows. Die Batteriekapazität wird so berechnet, dass der kumulierte Verbrauch in der Nähe des eingestellten XOM-Ziels liegt. Eine niedrige Glättung ermöglicht eine schnellere Reaktion auf kurze Leistungsspitzen. Verwenden Sie 50 % oder mehr für eine stabilere Regelung."
 	},
 	"args": [

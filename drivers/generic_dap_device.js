@@ -770,6 +770,16 @@ class MyDevice extends Homey.Device {
 				if (valid) {
 					newForecastPrices = forecast;
 					newCombinedPrices = combined;
+				} else { // try retrieving forecast from store
+					forecast = [...this.rawCombinedPrices]	// remove doubles and limit to 24hrs forecast
+						.filter((hourInfo) => hourInfo.time > lastMarketTime)
+						.slice(0, 24);
+					const combined2 = newMarketPrices.concat(forecast);
+					const valid2 = await this.checkPricesValidity(combined2, periods).catch(this.error);
+					if (valid2) {
+						newForecastPrices = forecast;
+						newCombinedPrices = combined;
+					}
 				}
 			}
 

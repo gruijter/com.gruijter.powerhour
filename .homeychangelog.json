@@ -1,4 +1,7 @@
 {
+  "6.2.1": {
+    "en": "DAP: forecast afternoon bug fixed. German translation updated. homey-api@3.4.20"
+  },
   "6.2.0": {
     "en": "DAP: Fix exchange rate fluke. Added e-data source. Added e-price forecast. BAT: display forecast in graph."
   },

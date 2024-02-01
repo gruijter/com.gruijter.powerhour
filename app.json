@@ -1,7 +1,7 @@
 {
   "_comment": "This file is generated. Please edit .homeycompose/app.json instead.",
   "id": "com.gruijter.powerhour",
-  "version": "6.2.0",
+  "version": "6.2.1",
   "compatibility": ">=8.0.0",
   "brandColor": "#df5020",
   "sdk": 3,
@@ -509,12 +509,12 @@
         "titleFormatted": {
           "en": "New smart ROI power available, with minimum [[minPriceDelta]]¤ profit per kWh.",
           "nl": "Nieuwe smart ROI vermogen beschikbaar, met minimaal [[minPriceDelta]]¤ winst per kWh.",
-          "de": "Neue Smart ROI-Leistung verfügbar, mit minimalen [[minPriceDelta]]¤ Gewinn pro kWh."
+          "de": "Neue Smart ROI-Leistung verfügbar, mit minimalem [[minPriceDelta]]¤ Gewinn pro kWh."
         },
         "hint": {
           "en": "The strategy is calculated using future hourly prices, the battery settings, and the set minimum profit per kWh.",
           "nl": "De strategie wordt berekend met behulp van toekomstige prijzen, de batterij instellingen, en de ingestelde minimale winst per kWh.",
-          "de": "Die Strategie wird berechnet anhand zukünftigen Stundenpreise, die Batterieeinstellungen, und der eingestellten minimalen Gewinn pro kWh."
+          "de": "Die Strategie wird anhand der zukünftigen Stundenpreise, den Batterieeinstellungen und dem eingestellten minimalen Gewinn pro kWh berechnet."
         },
         "args": [
           {
@@ -539,28 +539,32 @@
             "name": "power",
             "type": "number",
             "title": {
-              "en": "Power"
+              "en": "Power",
+              "de": "Leistung"
             }
           },
           {
             "name": "duration",
             "type": "number",
             "title": {
-              "en": "Duration (minutes)"
+              "en": "Duration (minutes)",
+              "de": "Dauer (Minuten)"
             }
           },
           {
             "name": "endSoC",
             "type": "number",
             "title": {
-              "en": "SoC afterwards (%)"
+              "en": "SOC afterwards (%)",
+              "de": "SOC danach (%)"
             }
           },
           {
             "name": "scheme",
             "type": "string",
             "title": {
-              "en": "Scheme JSON"
+              "en": "Scheme JSON",
+              "de": "Schema JSON"
             }
           }
         ],
@@ -1726,15 +1730,18 @@
         "highlight": true,
         "title": {
           "en": "New XOM power available.",
-          "nl": "Nieuw XOM vermogen beschikbaar."
+          "nl": "Nieuw XOM vermogen beschikbaar.",
+          "de": "Neuer XOM Strom verfügbar."
         },
         "titleFormatted": {
           "en": "New XOM power available.",
-          "nl": "Nieuw XOM vermogen beschikbaar."
+          "nl": "Nieuw XOM vermogen beschikbaar.",
+          "de": "Neuer XOM Strom verfügbar."
         },
         "hint": {
           "en": "The battery power is calculated so that the cumulative usage will be close to the set X Watt. All available batteries are used pro rata. X defaults to 0 and can be set via the 'Set XOM' flow.",
-          "nl": "Het accu vermogen wordt zodanig berekend dat het cumulatieve verbruik de ingestelde X Watt nadert. Alle beschikbare accu's worden naar rato gebruikt. X is standaard 0 en kan via de 'Zet XOM' flow worden ingesteld."
+          "nl": "Het accu vermogen wordt zodanig berekend dat het cumulatieve verbruik de ingestelde X Watt nadert. Alle beschikbare accu's worden naar rato gebruikt. X is standaard 0 en kan via de 'Zet XOM' flow worden ingesteld.",
+          "de": "Die Batterieleistung wird so berechnet, dass sich der kumulierte Verbrauch dem festgelegten Wert X Watt nähert. Alle verfügbaren Batterien werden anteilig genutzt. X ist standardmäßig 0 und kann über den Fluss 'XOM einstellen' eingestellt werden."
         },
         "args": [
           {
@@ -1748,7 +1755,8 @@
             "name": "power",
             "type": "number",
             "title": {
-              "en": "Power"
+              "en": "Power",
+              "de": "Leistung"
             }
           },
           {
@@ -1756,7 +1764,8 @@
             "name": "x",
             "title": {
               "en": "XOM-target (W)",
-              "nl": "XOM-doel (W)"
+              "nl": "XOM-doel (W)",
+              "de": "XOM-Ziel (W)"
             }
           },
           {
@@ -1764,7 +1773,8 @@
             "name": "smoothing",
             "title": {
               "en": "smoothing (%)",
-              "nl": "smoothing (%)"
+              "nl": "smoothing (%)",
+              "de": "Glättung (%)"
             }
           },
           {
@@ -1772,7 +1782,8 @@
             "name": "minLoad",
             "title": {
               "en": "Minimum battery power (W)",
-              "nl": "Minimaal accu vermogen (W)"
+              "nl": "Minimaal accu vermogen (W)",
+              "de": "Minimale Batteriekapazität (W)"
             }
           }
         ],
@@ -2956,12 +2967,12 @@
         "titleFormatted": {
           "en": "Calculate the best smart ROI power, with minimum [[minPriceDelta]]¤ profit per kWh.",
           "nl": "Bereken het beste smart ROI vermogen, met minimaal [[minPriceDelta]]¤ winst per kWh.",
-          "de": "Berechne die beste Smart ROI-Leistung, mit minimalen [[minPriceDelta]]¤ Gewinn pro kWh."
+          "de": "Berechne die beste Smart ROI-Leistung, mit minimalem [[minPriceDelta]]¤ Gewinn pro kWh."
         },
         "hint": {
           "en": "The strategy is calculated using future hourly prices, the battery settings, and the set minimum profit per kWh.",
           "nl": "De strategie wordt berekend met behulp van toekomstige prijzen, de batterij instellingen, en de ingestelde minimale winst per kWh.",
-          "de": "Die Strategie wird berechnet anhand zukünftigen Stundenpreise, die Batterieeinstellungen, und der eingestellten minimalen Gewinn pro kWh."
+          "de": "Die Strategie wird anhand der zukünftigen Stundenpreise, den Batterieeinstellungen und dem eingestellten minimalen Gewinn pro kWh berechnet."
         },
         "args": [
           {
@@ -2986,28 +2997,32 @@
             "name": "power",
             "type": "number",
             "title": {
-              "en": "Power"
+              "en": "Power",
+              "de": "Leistung"
             }
           },
           {
             "name": "duration",
             "type": "number",
             "title": {
-              "en": "Duration (minutes)"
+              "en": "Duration (minutes)",
+              "de": "Dauer (Minuten)"
             }
           },
           {
             "name": "endSoC",
             "type": "number",
             "title": {
-              "en": "SoC afterwards (%)"
+              "en": "SOC afterwards (%)",
+              "de": "SOC danach (%)"
             }
           },
           {
             "name": "scheme",
             "type": "string",
             "title": {
-              "en": "Scheme JSON"
+              "en": "Scheme JSON",
+              "de": "Schema JSON"
             }
           }
         ],
@@ -3036,10 +3051,12 @@
       },
       {
         "title": {
-          "en": "Provide prices JSON"
+          "en": "Provide prices JSON",
+          "de": "Preise bereitstellen (JSON)"
         },
         "titleFormatted": {
-          "en": "Provide prices JSON for [[period]]"
+          "en": "Provide prices JSON for [[period]]",
+          "de": "Preise für [[period]] bereitstellen (JSON)"
         },
         "highlight": true,
         "args": [
@@ -3086,7 +3103,8 @@
                 "id": "next_hours",
                 "label": {
                   "en": "Next hours",
-                  "nl": "Komende uren"
+                  "nl": "Komende uren",
+                  "de": "Kommende Stunden"
                 }
               }
             ]
@@ -3200,10 +3218,12 @@
       },
       {
         "title": {
-          "en": "Set a new Time Of Day markup"
+          "en": "Set a new Time Of Day markup",
+          "de": "Neuen Time Of Day Aufschlag setzen"
         },
         "titleFormatted": {
-          "en": "Set Time Of Day markup to [[value]]"
+          "en": "Set Time Of Day markup to [[value]]",
+          "de": "Time Of Day Aufschlag auf [[value]] setzen"
         },
         "args": [
           {
@@ -3223,10 +3243,12 @@
       },
       {
         "title": {
-          "en": "Set a new weekend markup"
+          "en": "Set a new weekend markup",
+          "de": "Neuen Wochenendaufschlag setzen"
         },
         "titleFormatted": {
-          "en": "Set weekend markup to [[value]]"
+          "en": "Set weekend markup to [[value]]",
+          "de": "Wochenendaufschlag auf [[value]] setzen"
         },
         "args": [
           {
@@ -3607,15 +3629,18 @@
         "highlight": true,
         "title": {
           "en": "Set values for Battery XOM flow.",
-          "nl": "Zet waarden voor Batterij XOM flow."
+          "nl": "Zet waarden voor Batterij XOM flow.",
+          "de": "Werte für Batterie XOM Flow festlegen."
         },
         "titleFormatted": {
           "en": "Set Battery XOM flows. XOM-target: [[x]]W, smoothing: [[smoothing]]%, min. battery load: [[minLoad]]W.",
-          "nl": "Zet Batterij XOM flows. XOM-doel: [[x]]W, smoothing: [[smoothing]]%, min. accu vermogen: [[minLoad]]W."
+          "nl": "Zet Batterij XOM flows. XOM-doel: [[x]]W, smoothing: [[smoothing]]%, min. accu vermogen: [[minLoad]]W.",
+          "de": "Batterie XOM Flow festlegen. XOM-Ziel: [[x]]W, Glättung: [[smoothing]]%, min. Ladeleistung: [[minLoad]]W."
         },
         "hint": {
           "en": "Settings for Battery XOM flows. The battery power is calculated so that the cumulative usage will be close to the set XOM-target. Low smoothing gives faster response to short power peaks. Use 50% or higher for a more stable control.",
-          "nl": "Instellingen tbv thuisbatterij XOM flows. Het accu vermogen wordt zodanig berekend dat het cumulatieve verbruik het ingestelde XOM-doel nadert. Lage smoothing geeft een snellere respons op korte vermogenpieken. Gebruik 80% of hoger voor een stabielere sturing."
+          "nl": "Instellingen tbv thuisbatterij XOM flows. Het accu vermogen wordt zodanig berekend dat het cumulatieve verbruik het ingestelde XOM-doel nadert. Lage smoothing geeft een snellere respons op korte vermogenpieken. Gebruik 50% of hoger voor een stabielere sturing.",
+          "de": "Einstellungen für Batterie-XOM Flows. Die Batteriekapazität wird so berechnet, dass der kumulierte Verbrauch in der Nähe des eingestellten XOM-Ziels liegt. Eine niedrige Glättung ermöglicht eine schnellere Reaktion auf kurze Leistungsspitzen. Verwenden Sie 50 % oder mehr für eine stabilere Regelung."
         },
         "args": [
           {
@@ -3623,11 +3648,13 @@
             "name": "x",
             "title": {
               "en": "XOM-target (W)",
-              "nl": "XOM-doel (W)"
+              "nl": "XOM-doel (W)",
+              "de": "XOM-Ziel (W)"
             },
             "placeholder": {
               "en": "default 0W",
-              "nl": "standaard 0W"
+              "nl": "standaard 0W",
+              "de": "Standardwert 0 W"
             },
             "value": 0
           },
@@ -3636,11 +3663,13 @@
             "name": "smoothing",
             "title": {
               "en": "smoothing (%)",
-              "nl": "smoothing (%)"
+              "nl": "smoothing (%)",
+              "de": "Glättung (%)"
             },
             "placeholder": {
               "en": "30 - 100 %",
-              "nl": "30 - 100 %"
+              "nl": "30 - 100 %",
+              "de": "30 - 100 %"
             },
             "min": 25,
             "max": 100,
@@ -3651,11 +3680,13 @@
             "name": "minLoad",
             "title": {
               "en": "Minimum battery power (W)",
-              "nl": "Minimaal accu vermogen (W)"
+              "nl": "Minimaal accu vermogen (W)",
+              "de": "Minimale Batteriekapazität (W)"
             },
             "placeholder": {
               "en": "default 50W",
-              "nl": "standaard 50W"
+              "nl": "standaard 50W",
+              "de": "Standardwert 50 W"
             },
             "min": 0,
             "value": 50
@@ -3859,7 +3890,7 @@
               "label": {
                 "en": "Max. charging loss (%)",
                 "nl": "Max. laden verlies (%)",
-                "de": "Max. Laden Verlust (%)"
+                "de": "Max. Ladeverlust (%)"
               },
               "min": 0,
               "max": 30,
@@ -3885,7 +3916,7 @@
               "hint": {
                 "en": "The maximum power at which the battery can be discharged.",
                 "nl": "Het maximale vermogen waarmee de batterij kan worden ontladen.",
-                "de": "Die maximale Leistung in Watt, mit der die Batterie entladen wirden kann."
+                "de": "Die maximale Leistung in Watt, mit der die Batterie entladen werden kann."
               }
             },
             {
@@ -3894,7 +3925,7 @@
               "label": {
                 "en": "Max. discharging loss (%)",
                 "nl": "Max. ontladen verlies (%)",
-                "de": "Max. Entladen Verlust (%)"
+                "de": "Max. Entladeverlust (%)"
               },
               "min": 0,
               "max": 30,
@@ -3930,7 +3961,7 @@
               "hint": {
                 "en": "The most efficient power at which the battery can be charged. Set to 0 to ignore this setting.",
                 "nl": "Het meest efficiente vermogen waarmee de batterij kan worden geladen. Stel op 0 in om deze instelling te negeren.",
-                "de": "Die effizienteste Leistung, mit der die Batterie geladen wirden kann. Auf 0 setzen, um diese Einstellung zu ignorieren"
+                "de": "Die effizienteste Leistung, mit der die Batterie geladen werden kann. Auf 0 setzen, um diese Einstellung zu ignorieren"
               }
             },
             {
@@ -3939,7 +3970,7 @@
               "label": {
                 "en": "Eff. charging loss (%)",
                 "nl": "Eff. laden verlies (%)",
-                "de": "Eff. Laden Verlust (%)"
+                "de": "Eff. Ladeverlust (%)"
               },
               "min": 0,
               "max": 30,
@@ -3965,7 +3996,7 @@
               "hint": {
                 "en": "The most efficient power at which the battery can be discharged.",
                 "nl": "Het meest efficiente vermogen waarmee de batterij kan worden ontladen.",
-                "de": "Die effizienteste Leistung in Watt, mit der die Batterie entladen wirden kann."
+                "de": "Die effizienteste Leistung in Watt, mit der die Batterie entladen werden kann."
               }
             },
             {
@@ -3974,7 +4005,7 @@
               "label": {
                 "en": "Eff. discharging loss (%)",
                 "nl": "Eff. ontladen verlies (%)",
-                "de": "Eff. Entladen Verlust (%)"
+                "de": "Eff. Entladeverlust (%)"
               },
               "min": 0,
               "max": 30,
@@ -4010,7 +4041,7 @@
               "hint": {
                 "en": "Additional power at which the battery can be charged in Watts.",
                 "nl": "Aanvullend vermogen waarmee de batterij kan worden geladen in Watt.",
-                "de": "Zusätzliche Leistung, mit der die Batterie geladen wirden kann."
+                "de": "Zusätzliche Leistung, mit der die Batterie geladen werden kann."
               }
             },
             {
@@ -4019,7 +4050,7 @@
               "label": {
                 "en": "Additional charging loss (%)",
                 "nl": "Aanvullend laden verlies (%)",
-                "de": "Zusätzlich Laden Verlust (%)"
+                "de": "Zusätzlicher Ladeverlust (%)"
               },
               "min": 0,
               "max": 30,
@@ -4054,7 +4085,7 @@
               "label": {
                 "en": "Additional discharging loss (%)",
                 "nl": "Aanvullend ontladen verlies (%)",
-                "de": "Zusätzlich Entladen Verlust (%)"
+                "de": "Zusätzlicher Entladeverlust (%)"
               },
               "min": 0,
               "max": 30,
@@ -4072,7 +4103,8 @@
           "type": "group",
           "label": {
             "en": "Advanced ROI settings (HP2023)",
-            "nl": "Geavanceerde ROI instellingen (HP2023)"
+            "nl": "Geavanceerde ROI instellingen (HP2023)",
+            "de": "Erweiterte ROI Einstellungen (HP2023)"
           },
           "children": [
             {
@@ -4080,11 +4112,13 @@
               "type": "checkbox",
               "label": {
                 "en": "Enable advanced ROI",
-                "nl": "ROI functie aanzetten"
+                "nl": "ROI functie aanzetten",
+                "de": "ROI Funktion aktivieren"
               },
               "hint": {
                 "en": "Advanced ROI flows are only available on HP2023!",
-                "nl": "Geavanceerde ROI flows zijn alleen beschikbaar op HP2023!"
+                "nl": "Geavanceerde ROI flows zijn alleen beschikbaar op HP2023!",
+                "de": "Erweiterte ROI Flows sind nur auf dem HP2023 verfügbar!"
               },
               "value": false
             },
@@ -4093,11 +4127,13 @@
               "type": "number",
               "label": {
                 "en": "Graph minimum profit per kWh",
-                "nl": "Grafiek minimale winst per kWh"
+                "nl": "Grafiek minimale winst per kWh",
+                "de": "Grafik Mindestgewinn pro kWh"
               },
               "hint": {
                 "en": "The strategy graph is calculated using future hourly prices, the battery settings, and the set minimum profit per kWh. (HP2023 Only!)",
-                "nl": "De strategie grafiek wordt berekend met behulp van toekomstige prijzen, de batterij instellingen, en de ingestelde minimale winst per kWh. (Alleen HP2023!)"
+                "nl": "De strategie grafiek wordt berekend met behulp van toekomstige prijzen, de batterij instellingen, en de ingestelde minimale winst per kWh. (Alleen HP2023!)",
+                "de": "Die Strategiegrafik wird anhand der zukünftigen Preise, der Batterieeinstellungen und des eingestellten Mindestgewinns pro kWh berechnet. (Nur HP2023!)"
               },
               "value": 0.08,
               "min": 0
@@ -9050,7 +9086,8 @@
       "type": "number",
       "title": {
         "en": "Price now rank next 8H",
-        "nl": "Prijs nu rang komende 8U"
+        "nl": "Prijs nu rang komende 8U",
+        "de": "Akt. Preisstufe der nächsten 8 Std."
       },
       "units": {
         "en": "/8"
@@ -9066,7 +9103,8 @@
       "type": "number",
       "title": {
         "en": "Price now rank this day",
-        "nl": "Prijs nu rang vandaag"
+        "nl": "Prijs nu rang vandaag",
+        "de": "Akt. Preisstufe heute"
       },
       "units": {
         "en": "/24"
@@ -9138,7 +9176,8 @@
       "type": "number",
       "title": {
         "en": "ROI duration",
-        "nl": "ROI duur"
+        "nl": "ROI duur",
+        "de": "ROI Dauer"
       },
       "uiComponent": null,
       "icon": "/assets/tariff.svg",
