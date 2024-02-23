@@ -4697,7 +4697,8 @@
               "id": "fixedMarkupTOD",
               "type": "text",
               "label": {
-                "en": "Extra Time Of Day markup"
+                "en": "Extra Time Of Day markup",
+                "de": "Extra Time of Day Aufschlag"
               },
               "value": "",
               "hint": {
@@ -4715,7 +4716,8 @@
               "id": "fixedMarkupWeekend",
               "type": "number",
               "label": {
-                "en": "Extra Weekend markup"
+                "en": "Extra Weekend markup",
+                "de": "Extra Wochenendaufschlag"
               },
               "value": 0,
               "hint": {
@@ -4749,11 +4751,13 @@
               "type": "checkbox",
               "label": {
                 "en": "Enable forecast prices",
-                "nl": "Prijsvoorspelling aanzetten"
+                "nl": "Prijsvoorspelling aanzetten",
+                "de": "Preisprognose aktivieren"
               },
               "hint": {
                 "en": "Add AI pricing forecast (when available).",
-                "nl": "Voeg AI prijsvoorspellingen toe (indien beschikbaar)"
+                "nl": "Voeg AI prijsvoorspellingen toe (indien beschikbaar)",
+                "de": "Fügt AI Preisprognose hinzu (falls verfügbar)."
               },
               "value": false
             },
@@ -5422,11 +5426,13 @@
               "type": "number",
               "label": {
                 "en": "Delay hourly poll (minutes)",
-                "nl": "Vertraag uurlijkse poll (minuten)"
+                "nl": "Vertraag uurlijkse poll (minuten)",
+                "de": "Stündliche Updates verzögern (Minuten)"
               },
               "hint": {
                 "en": "Set to 0 to get immediate updates on the hour.",
-                "nl": "Zet op 0 voor directe poll op het hele uur."
+                "nl": "Zet op 0 voor directe poll op het hele uur.",
+                "de": "Für sofortige Updates auf 0 setzen."
               },
               "value": 5,
               "min": 0,
@@ -6255,11 +6261,13 @@
               "type": "number",
               "label": {
                 "en": "Delay hourly poll (minutes)",
-                "nl": "Vertraag uurlijkse poll (minuten)"
+                "nl": "Vertraag uurlijkse poll (minuten)",
+                "de": "Stündliche Updates verzögern (Minuten)"
               },
               "hint": {
                 "en": "Set to 0 to get immediate updates on the hour. This setting is ignored for Watt and virtual source devices.",
-                "nl": "Zet op 0 voor directe poll op het hele uur. Deze instelling wordt niet gebruikt voor Watt en virtuele bron apparaten."
+                "nl": "Zet op 0 voor directe poll op het hele uur. Deze instelling wordt niet gebruikt voor Watt en virtuele bron apparaten.",
+                "de": "Für sofortige Updates auf 0 setzen. Diese Einstellung wird für Watt- und virtuelle Geräte ignoriert."
               },
               "value": 1,
               "min": 0,
@@ -7068,11 +7076,13 @@
               "type": "number",
               "label": {
                 "en": "Delay hourly poll (minutes)",
-                "nl": "Vertraag uurlijkse poll (minuten)"
+                "nl": "Vertraag uurlijkse poll (minuten)",
+                "de": "Stündliche Updates verzögern (Minuten)"
               },
               "hint": {
                 "en": "Set to 0 to get immediate updates on the hour.",
-                "nl": "Zet op 0 voor directe poll op het hele uur."
+                "nl": "Zet op 0 voor directe poll op het hele uur.",
+                "de": "Für sofortige Updates auf 0 setzen."
               },
               "value": 0,
               "min": 0,
