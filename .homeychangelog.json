@@ -1,4 +1,7 @@
 {
+  "6.2.2": {
+    "en": "BAT: Improved SoC reporting in flow. German translation updated. homey-api@3.4.25"
+  },
   "6.2.1": {
     "en": "DAP: forecast afternoon bug fixed. German translation updated. homey-api@3.4.20"
   },

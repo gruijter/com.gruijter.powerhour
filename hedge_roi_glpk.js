@@ -222,9 +222,9 @@ const getStrategy = ({
 			if (((duration < 60) && (power < 0) && (SoCh > 97)) 			// remove charging breaks when almost full
 				|| ((duration < 60) && (power > 0) && (SoCh < 3))) {		// remove discharging breaks when almost empty
 				duration = 60;
-				storedEnergy = socAtStart;
-				storedEnergy -= power / 1000; // efficiency is not taken into account during charging
-				SoCh = Math.abs(Math.round(100 * (storedEnergy / batCapacity)));
+				// storedEnergy = socAtStart;
+				// storedEnergy -= power / 1000; // efficiency is not taken into account during charging
+				// SoCh = Math.abs(Math.round(100 * (storedEnergy / batCapacity)));
 			}
 		}
 
