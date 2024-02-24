@@ -1,0 +1,22 @@
+{
+  "type": "number",
+  "title": {
+    "en": "Avg. price this month",
+    "de": "Durchschn. Preis diesen Monat",
+    "sv": "Genomsnittligt pris denna månad",
+    "it": "Prezzo medio mese odierno",
+    "no": "Gj.snitt pris denne måned",
+    "fr": "Tarif moyen ce mois-ci",
+    "dk": "Gn. snt. pris denne måned",
+    "nl": "Gem. prijs deze maand"
+  },
+  "uiComponent": "sensor",
+  "icon": "/assets/tariff.svg",
+  "getable": true,
+  "setable": false,
+  "insights": true,
+  "units": {
+    "en": "€"
+  },
+  "decimals": 4
+}

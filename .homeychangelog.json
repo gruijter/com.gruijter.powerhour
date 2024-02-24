@@ -1,4 +1,7 @@
 {
+  "6.3.0": {
+    "en": "DAP: Added avg price this month and last month. Variable markup of absolute price (DE). BAT: Added currency sign setting."
+  },
   "6.2.2": {
     "en": "BAT: Improved SoC reporting in flow. German translation updated. homey-api@3.4.25"
   },

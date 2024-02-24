@@ -458,6 +458,58 @@
 					"step": 1
 				},
 				{
+					"id": "currency",
+					"type": "text",
+					"label": {
+						"en": "Currency unit display",
+						"de": "Währungseinheit",
+						"sv": "Visning av valutaenhet",
+						"it": "Visualizzazione unità valuta",
+						"no": "Visning av valutaenhet",
+						"fr": "Affichage de l'unité monétaire",
+						"dk": "Visning af valutaenhed",
+						"nl": "Weergave geldeenheid"
+					},
+					"value": "€",
+					"hint": {
+						"en": "The unit displayed as currency, e.g. €, £, EUR, SER, NOK, DKK, CHF. Leave empty to use the default €.",
+						"de": "Die als Währung angezeigte Einheit, z.B. €, £, EUR, SER, NOK, DKK, CHF. Leer lassen, um die Standardeinheit € zu verwenden.",
+						"sv": "Enheten som visas som valuta, t.ex. €, £, EUR, SER, NOK, DKK, CHF. Lämna tomt för att använda standardvärdet €.",
+						"it": "L'unità mostrata come valuta, es. €, £, EUR, SER, NOK, DKK, CHF. Lasciare vuoto per utilizzare € di default.",
+						"no": "Valutaenheten vises som f.eks. €, £, EUR, SER, NOK, DKK, CHF. La stå blank for å bruke default €.",
+						"fr": "Unité affichée comme devise, ex. €, £, EUR, SER, NOK, DKK, CHF. Laisser vide pour utiliser € par défaut",
+						"dk": "Valutaenheden vises f.eks. €, £, EUR, SER, NOK, DKK, CHF. Lad denne stå blank for at bruge standard €.",
+						"nl": "De weergegeven eenheid voor geld, bijv. €, £, EUR, SER, NOK, DKK, CHF. Laat leeg om de standaard € te gebruiken."
+					}
+				},
+				{
+					"id": "decimals",
+					"type": "number",
+					"label": {
+						"en": "Currency decimals",
+						"de": "Anzahl Dezimalstellen",
+						"sv": "Valuta decimaler",
+						"it": "Decimali valuta",
+						"no": "Valute desimaler",
+						"fr": "Décimales devise",
+						"dk": "Valuta decimaler",
+						"nl": "Geld decimalen"
+					},
+					"value": 2,
+					"min": 0,
+					"max": 8,
+					"hint": {
+						"en": "The number of decimals to use for price.",
+						"de": "Die Anzahl der Dezimalstellen für den Preis.",
+						"sv": "Antalet decimaler som ska användas för pris.",
+						"it": "Il numero di decimali da utilizzare per il prezzo.",
+						"no": "Antall prisdesimaler",
+						"fr": "Nombre de décimales à utiliser pour le tarif",
+						"dk": "Antallet af decimaler, der bruges til prisen",
+						"nl": "Het aantal decimalen voor prijs."
+					}
+				},
+				{
 					"id": "meter_money_this_month",
 					"type": "number",
 					"label": {

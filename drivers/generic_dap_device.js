@@ -313,11 +313,21 @@ class MyDevice extends Homey.Device {
 	async markUpPrices(marketPrices) {	// add markUp for price array, and convert price per mWh>kWh
 		if (!marketPrices || !marketPrices[0]) return [];
 		const muPrices = marketPrices.map((marketPrice) => {
+			// handle exchange rate and convert from mWh to kWh
+			let muPrice = (marketPrice.price * this.settings.exchangeRate) / 1000;
+			// add variable markup
+			let { variableMarkup, variableMarkupAbsPrice } = this.settings;
+			variableMarkupAbsPrice = (marketPrice.price < 0) ? -variableMarkupAbsPrice : variableMarkupAbsPrice;
+			variableMarkup += variableMarkupAbsPrice;
+			muPrice *= (1 + variableMarkup / 100);
+			// add fixed markup
+			const { fixedMarkup } = this.settings;
+			muPrice += fixedMarkup;
+			// add ToD and weekend fixed markups
 			const priceDate = new Date(new Date(marketPrice.time).toLocaleString('en-US', { timeZone: this.timeZone }));
 			const isWeekend = priceDate.getDay() === 0 || priceDate.getDay() === 6; // 0 = sunday, 6 = saturday
-			let muPrice = ((marketPrice.price * this.settings.exchangeRate * (1 + this.settings.variableMarkup / 100)) / 1000)
-				+ this.settings.fixedMarkup;
-			if (this.settings.fixedMarkupWeekend && isWeekend) muPrice += this.settings.fixedMarkupWeekend;
+			const { fixedMarkupWeekend } = this.settings;
+			if (fixedMarkupWeekend && isWeekend) muPrice += fixedMarkupWeekend;
 			else if (this.todMarkups) muPrice += this.todMarkups[priceDate.getHours().toString()];
 			return {
 				time: marketPrice.time,
@@ -355,8 +365,16 @@ class MyDevice extends Homey.Device {
 		tomorrowEnd.setDate(tomorrowEnd.getDate() + 1); //  NEED TO CHECK THIS!!! IS ACTUALLY START OF NEXT DAY?
 		// get the present hour (0 - 23)
 		const H0 = nowLocal.getHours();
+		// get day of month (1 - 31);
+		const todayDayNumber = nowLocal.getDate();
+		// get total days in this month (1 - 31)
+		// const month = nowLocal.getMonth(); // Get the current month (0-indexed)
+		// const year = nowLocal.getFullYear();
+		// const nextMonth = new Date(year, month + 1, 1); 	// Set a date to the first day of the next month
+		// const lastDay = new Date(nextMonth.getTime() - 1); // Subtract one day to get the last day of the current month
+		// const daysThisMonth = lastDay.getDate(); 		// Get the number of days in the current month
 		return {
-			now, nowLocal, homeyOffset, H0, hourStart, todayStart, yesterdayStart, tomorrowStart, tomorrowEnd,
+			now, nowLocal, homeyOffset, H0, hourStart, todayStart, yesterdayStart, tomorrowStart, tomorrowEnd, todayDayNumber,
 		};
 	}
 
@@ -839,6 +857,18 @@ class MyDevice extends Homey.Device {
 		let [priceNow] = selectPrices(this.prices, periods.hourStart, periods.tomorrowStart);
 		if (priceNow === undefined) priceNow = null;
 
+		// avg prices this month and last month
+		let priceThisMonthAvg = this.getCapabilityValue('meter_price_this_month_avg');
+		let priceLastMonthAvg = this.getCapabilityValue('meter_price_last_month_avg');
+		if (!this.state || this.state.todayDayNumber !== periods.todayDayNumber) { // new day started or app restart
+			if (priceThisMonthAvg === undefined || priceThisMonthAvg === null || periods.todayDayNumber === 1) { // new month started or device init
+				priceLastMonthAvg = priceThisMonthAvg;
+				priceThisMonthAvg = priceThisDayAvg;
+			} else {	// add weighted average
+				priceThisMonthAvg = (priceThisDayAvg + priceThisMonthAvg * (periods.todayDayNumber - 1)) / periods.todayDayNumber;
+			}
+		}
+
 		// pricesNext All Known Hours
 		const pricesNextHours = this.prices
 			.filter((hourInfo) => hourInfo.time >= periods.hourStart)
@@ -871,6 +901,9 @@ class MyDevice extends Homey.Device {
 
 		const state = {
 			pricesYesterday,
+
+			priceLastMonthAvg,
+			priceThisMonthAvg,
 
 			pricesThisDay,
 			priceThisDayAvg,
@@ -951,6 +984,8 @@ class MyDevice extends Homey.Device {
 			await this.setCapability('meter_price_next_8h_highest', this.state.priceNext8hHighest);
 			await this.setCapability('hour_next_8h_highest', this.state.hourNext8hHighest);
 			await this.setCapability('meter_price_this_day_avg', this.state.priceThisDayAvg);
+			await this.setCapability('meter_price_this_month_avg', this.state.priceThisMonthAvg);
+			await this.setCapability('meter_price_last_month_avg', this.state.priceLastMonthAvg);
 			await this.setCapability('meter_price_next_8h_avg', this.state.priceNext8hAvg);
 			await this.setCapability('meter_price_next_day_lowest', this.state.priceNextDayLowest);
 			await this.setCapability('hour_next_day_lowest', this.state.hourNextDayLowest);

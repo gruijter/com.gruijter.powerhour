@@ -1,7 +1,7 @@
 {
   "_comment": "This file is generated. Please edit .homeycompose/app.json instead.",
   "id": "com.gruijter.powerhour",
-  "version": "6.2.2",
+  "version": "6.3.0",
   "compatibility": ">=8.0.0",
   "brandColor": "#df5020",
   "sdk": 3,
@@ -4171,6 +4171,58 @@
               "step": 1
             },
             {
+              "id": "currency",
+              "type": "text",
+              "label": {
+                "en": "Currency unit display",
+                "de": "Währungseinheit",
+                "sv": "Visning av valutaenhet",
+                "it": "Visualizzazione unità valuta",
+                "no": "Visning av valutaenhet",
+                "fr": "Affichage de l'unité monétaire",
+                "dk": "Visning af valutaenhed",
+                "nl": "Weergave geldeenheid"
+              },
+              "value": "€",
+              "hint": {
+                "en": "The unit displayed as currency, e.g. €, £, EUR, SER, NOK, DKK, CHF. Leave empty to use the default €.",
+                "de": "Die als Währung angezeigte Einheit, z.B. €, £, EUR, SER, NOK, DKK, CHF. Leer lassen, um die Standardeinheit € zu verwenden.",
+                "sv": "Enheten som visas som valuta, t.ex. €, £, EUR, SER, NOK, DKK, CHF. Lämna tomt för att använda standardvärdet €.",
+                "it": "L'unità mostrata come valuta, es. €, £, EUR, SER, NOK, DKK, CHF. Lasciare vuoto per utilizzare € di default.",
+                "no": "Valutaenheten vises som f.eks. €, £, EUR, SER, NOK, DKK, CHF. La stå blank for å bruke default €.",
+                "fr": "Unité affichée comme devise, ex. €, £, EUR, SER, NOK, DKK, CHF. Laisser vide pour utiliser € par défaut",
+                "dk": "Valutaenheden vises f.eks. €, £, EUR, SER, NOK, DKK, CHF. Lad denne stå blank for at bruge standard €.",
+                "nl": "De weergegeven eenheid voor geld, bijv. €, £, EUR, SER, NOK, DKK, CHF. Laat leeg om de standaard € te gebruiken."
+              }
+            },
+            {
+              "id": "decimals",
+              "type": "number",
+              "label": {
+                "en": "Currency decimals",
+                "de": "Anzahl Dezimalstellen",
+                "sv": "Valuta decimaler",
+                "it": "Decimali valuta",
+                "no": "Valute desimaler",
+                "fr": "Décimales devise",
+                "dk": "Valuta decimaler",
+                "nl": "Geld decimalen"
+              },
+              "value": 2,
+              "min": 0,
+              "max": 8,
+              "hint": {
+                "en": "The number of decimals to use for price.",
+                "de": "Die Anzahl der Dezimalstellen für den Preis.",
+                "sv": "Antalet decimaler som ska användas för pris.",
+                "it": "Il numero di decimali da utilizzare per il prezzo.",
+                "no": "Antall prisdesimaler",
+                "fr": "Nombre de décimales à utiliser pour le tarif",
+                "dk": "Antallet af decimaler, der bruges til prisen",
+                "nl": "Het aantal decimalen voor prijs."
+              }
+            },
+            {
               "id": "meter_money_this_month",
               "type": "number",
               "label": {
@@ -4669,6 +4721,31 @@
               }
             },
             {
+              "id": "variableMarkupAbsPrice",
+              "type": "number",
+              "label": {
+                "en": "Variable markup (%) @abs. price",
+                "de": "Variabler Aufschlag (%) @abs. Preis",
+                "sv": "Variabelt påslag (%) @abs.pris",
+                "it": "Aumento variabile (%) @prezzo assoluto",
+                "no": "Variabel påslag (%) @abs.pris",
+                "fr": "Augmentation variable (%) @prix absolu",
+                "dk": "Variabelt gebyr (%) @abs.pris",
+                "nl": "Variabele opslag (%) @abs. prijs"
+              },
+              "value": 0,
+              "hint": {
+                "en": "Enter the percentage with which the |net price| must be increased. This markup is always positive, even for negative market prices.",
+                "de": "Geben Sie den Prozentsatz ein, um den der |Nettopreis| erhöht werden muss. Dieser Aufschlag ist immer positiv, auch bei negativen Marktpreisen.",
+                "sv": "Ange den procentsats med vilken |nettopriset| måste ökas. Denna marginal är alltid positiv, även för negativa marknadspriser.",
+                "it": "Inserisci la percentale con cui il |prezzo netto| deve essere aumentato. Questo ricarico è sempre positivo, anche per prezzi di mercato negativi.",
+                "no": "Skriv inn prosentsatsen som |nettoprisen| må økes med. Denne marginen er alltid positiv, selv for negative markedspriser.",
+                "fr": "Entrez le pourcentage avec lequel le |prix net| doit être augmenté. Cette marge est toujours positive, même pour les prix négatifs du marché.",
+                "dk": "Indtast den procentsats, som |nettoprisen| skal forhøjes med. Denne avance er altid positiv, selv for negative markedspriser.",
+                "nl": "Voer het percentage in waarmee de |netto prijs| verhoogd moet worden. Deze opslag is altijd positief, zelfs for negatieve marktprijzen."
+              }
+            },
+            {
               "id": "fixedMarkup",
               "type": "number",
               "label": {
@@ -4697,7 +4774,8 @@
               "id": "fixedMarkupTOD",
               "type": "text",
               "label": {
-                "en": "Extra Time Of Day markup"
+                "en": "Extra Time Of Day markup",
+                "nl": "Extra Time Of Day opslag"
               },
               "value": "",
               "hint": {
@@ -4715,7 +4793,8 @@
               "id": "fixedMarkupWeekend",
               "type": "number",
               "label": {
-                "en": "Extra Weekend markup"
+                "en": "Extra Weekend markup",
+                "nl": "Extra Weekend opslag"
               },
               "value": 0,
               "hint": {
@@ -8884,6 +8963,28 @@
       },
       "decimals": 4
     },
+    "meter_price_last_month_avg": {
+      "type": "number",
+      "title": {
+        "en": "Avg. price last month",
+        "de": "Durchschn. Preis letzten Monat",
+        "sv": "Genomsnittligt pris förra månaden",
+        "it": "Prezzo medio mese scorso",
+        "no": "Gj.snitt pris forrige måned",
+        "fr": "Tarif moyen le mois dernier",
+        "dk": "Gn. snt. pris sidste måned",
+        "nl": "Gem. prijs vorige maand"
+      },
+      "uiComponent": "sensor",
+      "icon": "/assets/tariff.svg",
+      "getable": true,
+      "setable": false,
+      "insights": true,
+      "units": {
+        "en": "€"
+      },
+      "decimals": 4
+    },
     "meter_price_next_8h_avg": {
       "type": "number",
       "title": {
@@ -9071,6 +9172,28 @@
         "fr": "Tarif le plus faible aujourd'hui",
         "dk": "Laveste pris i dag",
         "nl": "Laagste prijs deze dag"
+      },
+      "uiComponent": "sensor",
+      "icon": "/assets/tariff.svg",
+      "getable": true,
+      "setable": false,
+      "insights": true,
+      "units": {
+        "en": "€"
+      },
+      "decimals": 4
+    },
+    "meter_price_this_month_avg": {
+      "type": "number",
+      "title": {
+        "en": "Avg. price this month",
+        "de": "Durchschn. Preis diesen Monat",
+        "sv": "Genomsnittligt pris denna månad",
+        "it": "Prezzo medio mese odierno",
+        "no": "Gj.snitt pris denne måned",
+        "fr": "Tarif moyen ce mois-ci",
+        "dk": "Gn. snt. pris denne måned",
+        "nl": "Gem. prijs deze maand"
       },
       "uiComponent": "sensor",
       "icon": "/assets/tariff.svg",

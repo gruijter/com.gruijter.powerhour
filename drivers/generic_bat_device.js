@@ -42,6 +42,7 @@ class batDevice extends Device {
 
 			if (!this.migrated) await this.migrate();
 			this.migrated = true;
+			if (this.currencyChanged) await this.migrateCurrencyOptions(this.getSettings().currency, this.getSettings().decimals);
 			await this.setAvailable().catch(this.error);
 
 			// restore device values
@@ -128,6 +129,24 @@ class batDevice extends Device {
 		}
 	}
 
+	async migrateCurrencyOptions(currency, decimals) {
+		this.log('migrating capability options');
+		this.setUnavailable('Device is migrating. Please wait!').catch(this.error);
+		const options = {
+			units: { en: currency },
+			decimals,
+		};
+		if (!currency || currency === '') options.units.en = '€';
+		if (!Number.isInteger(decimals)) options.decimals = 4;
+		const moneyCaps = this.driver.ds.deviceCapabilities.filter((name) => name.includes('meter_money') || name.includes('meter_tariff'));
+		for (let i = 0; i < moneyCaps.length; i += 1) {
+			this.log(`migrating ${moneyCaps[i]} to use ${options.units.en} and ${options.decimals} decimals`);
+			await this.setCapabilityOptions(moneyCaps[i], options).catch(this.error);
+			await setTimeoutPromise(2 * 1000);
+		}
+		this.currencyChanged = false;
+	}
+
 	async restartDevice(delay) {
 		if (this.restarting) return;
 		this.restarting = true;
@@ -180,6 +199,9 @@ class batDevice extends Device {
 				await this.setCapability('meter_money_this_month', money.month);
 				await this.setCapability('meter_money_this_year', money.year);
 			}
+		}
+		if (changedKeys.includes('currency') || changedKeys.includes('decimals')) {
+			this.currencyChanged = true;
 		}
 		if (changedKeys.includes('meter_kwh_charging')) await this.setCapability('meter_kwh_charging', newSettings.meter_kwh_charging);
 		if (changedKeys.includes('meter_kwh_discharging'))	await this.setCapability('meter_kwh_discharging', newSettings.meter_kwh_discharging);

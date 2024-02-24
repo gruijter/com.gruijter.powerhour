@@ -350,6 +350,31 @@
 					}
 				},
 				{
+					"id": "variableMarkupAbsPrice",
+					"type": "number",
+					"label": {
+						"en": "Variable markup (%) @abs. price",
+						"de": "Variabler Aufschlag (%) @abs. Preis",
+						"sv": "Variabelt påslag (%) @abs.pris",
+						"it": "Aumento variabile (%) @prezzo assoluto",
+						"no": "Variabel påslag (%) @abs.pris",
+						"fr": "Augmentation variable (%) @prix absolu",
+						"dk": "Variabelt gebyr (%) @abs.pris",		
+						"nl": "Variabele opslag (%) @abs. prijs"
+					},
+					"value": 0,
+					"hint": {
+						"en": "Enter the percentage with which the |net price| must be increased. This markup is always positive, even for negative market prices.",
+						"de": "Geben Sie den Prozentsatz ein, um den der |Nettopreis| erhöht werden muss. Dieser Aufschlag ist immer positiv, auch bei negativen Marktpreisen.",
+						"sv": "Ange den procentsats med vilken |nettopriset| måste ökas. Denna marginal är alltid positiv, även för negativa marknadspriser.",
+						"it": "Inserisci la percentale con cui il |prezzo netto| deve essere aumentato. Questo ricarico è sempre positivo, anche per prezzi di mercato negativi.",
+						"no": "Skriv inn prosentsatsen som |nettoprisen| må økes med. Denne marginen er alltid positiv, selv for negative markedspriser.",
+						"fr": "Entrez le pourcentage avec lequel le |prix net| doit être augmenté. Cette marge est toujours positive, même pour les prix négatifs du marché.",
+						"dk": "Indtast den procentsats, som |nettoprisen| skal forhøjes med. Denne avance er altid positiv, selv for negative markedspriser.",
+						"nl": "Voer het percentage in waarmee de |netto prijs| verhoogd moet worden. Deze opslag is altijd positief, zelfs for negatieve marktprijzen."
+					}
+				},
+				{
 					"id": "fixedMarkup",
 					"type": "number",
 					"label": {
@@ -378,7 +403,8 @@
 					"id": "fixedMarkupTOD",
 					"type": "text",
 					"label": {
-						"en": "Extra Time Of Day markup"
+						"en": "Extra Time Of Day markup",
+						"nl": "Extra Time Of Day opslag"
 					},
 					"value": "",
 					"hint": {
@@ -396,7 +422,8 @@
 					"id": "fixedMarkupWeekend",
 					"type": "number",
 					"label": {
-						"en": "Extra Weekend markup"
+						"en": "Extra Weekend markup",
+						"nl": "Extra Weekend opslag"
 					},
 					"value": 0,
 					"hint": {

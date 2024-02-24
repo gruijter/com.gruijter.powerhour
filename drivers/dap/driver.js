@@ -36,6 +36,8 @@ const driverSpecifics = {
 		'meter_price_h5',
 		'meter_price_h6',
 		'meter_price_h7',
+		'meter_price_last_month_avg',
+		'meter_price_this_month_avg',
 		'meter_price_this_day_avg',
 		'meter_price_next_8h_avg',
 		'meter_price_next_8h_lowest',
