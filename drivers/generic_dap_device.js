@@ -365,8 +365,9 @@ class MyDevice extends Homey.Device {
 		tomorrowEnd.setDate(tomorrowEnd.getDate() + 1); //  NEED TO CHECK THIS!!! IS ACTUALLY START OF NEXT DAY?
 		// get the present hour (0 - 23)
 		const H0 = nowLocal.getHours();
-		// get day of month (1 - 31);
-		const todayDayNumber = nowLocal.getDate();
+		// get day of month (1 - 31) and month of year (0 - 11);
+		const monthNumber = nowLocal.getMonth();
+		const dayNumber = nowLocal.getDate();
 		// get total days in this month (1 - 31)
 		// const month = nowLocal.getMonth(); // Get the current month (0-indexed)
 		// const year = nowLocal.getFullYear();
@@ -374,7 +375,7 @@ class MyDevice extends Homey.Device {
 		// const lastDay = new Date(nextMonth.getTime() - 1); // Subtract one day to get the last day of the current month
 		// const daysThisMonth = lastDay.getDate(); 		// Get the number of days in the current month
 		return {
-			now, nowLocal, homeyOffset, H0, hourStart, todayStart, yesterdayStart, tomorrowStart, tomorrowEnd, todayDayNumber,
+			now, nowLocal, homeyOffset, H0, hourStart, todayStart, yesterdayStart, tomorrowStart, tomorrowEnd, dayNumber, monthNumber,
 		};
 	}
 
@@ -858,15 +859,20 @@ class MyDevice extends Homey.Device {
 		if (priceNow === undefined) priceNow = null;
 
 		// avg prices this month and last month
+		const { dayNumber, monthNumber } = periods;
+		const lastDayNumber = this.getStoreValue('lastDayNumber'); // retrieve from persistent memory
+		const lastMonthNumber = this.getStoreValue('lastMonthNumber'); // retrieve from persistent memory
 		let priceThisMonthAvg = this.getCapabilityValue('meter_price_this_month_avg');
 		let priceLastMonthAvg = this.getCapabilityValue('meter_price_last_month_avg');
-		if (!this.state || this.state.todayDayNumber !== periods.todayDayNumber) { // new day started or app restart
-			if (priceThisMonthAvg === undefined || priceThisMonthAvg === null || periods.todayDayNumber === 1) { // new month started or device init
+		if (lastDayNumber !== dayNumber) { // new day started or device init
+			if (monthNumber !== lastMonthNumber || dayNumber === 1) { // new month started or device init
 				priceLastMonthAvg = priceThisMonthAvg;
 				priceThisMonthAvg = priceThisDayAvg;
+				await this.setStoreValue('lastMonthNumber', monthNumber);
 			} else {	// add weighted average
-				priceThisMonthAvg = (priceThisDayAvg + priceThisMonthAvg * (periods.todayDayNumber - 1)) / periods.todayDayNumber;
+				priceThisMonthAvg = (priceThisDayAvg + priceThisMonthAvg * (dayNumber - 1)) / dayNumber;
 			}
+			await this.setStoreValue('lastDayNumber', dayNumber);
 		}
 
 		// pricesNext All Known Hours
@@ -904,6 +910,8 @@ class MyDevice extends Homey.Device {
 
 			priceLastMonthAvg,
 			priceThisMonthAvg,
+			dayNumber,
+			monthNumber,
 
 			pricesThisDay,
 			priceThisDayAvg,
