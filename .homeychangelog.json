@@ -1,4 +1,7 @@
 {
+  "6.3.2": {
+    "en": "DAP: Fixed gas prices. homey-api@3.4.29"
+  },
   "6.3.1": {
     "en": "DAP: Fixed avg price this month and last month."
   },

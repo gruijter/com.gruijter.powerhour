@@ -319,7 +319,7 @@ class MyDevice extends Homey.Device {
 			let { variableMarkup, variableMarkupAbsPrice } = this.settings;
 			variableMarkupAbsPrice = (marketPrice.price < 0) ? -variableMarkupAbsPrice : variableMarkupAbsPrice;
 			variableMarkup += variableMarkupAbsPrice;
-			muPrice *= (1 + variableMarkup / 100);
+			if (variableMarkup) muPrice *= (1 + variableMarkup / 100);
 			// add fixed markup
 			const { fixedMarkup } = this.settings;
 			muPrice += fixedMarkup;
