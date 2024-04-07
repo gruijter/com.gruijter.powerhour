@@ -1,0 +1,38 @@
+{
+	"title": {
+		"en": "New price hour",
+		"nl": "Nieuw prijs-uur"
+	},
+	"titleFormatted": {
+		"en": "New price hour starts",
+		"nl": "Nieuw prijs-uur begint"
+	},
+	"highlight": true,
+	"args": [
+		{
+		  "type": "device",
+		  "name": "device",
+		  "filter": "driver_id=dap|dapg"
+		}
+	],
+	"tokens": [
+		{
+			"name": "H0",
+			"title": {
+				"en": "Hour",
+				"nl": "Uur"
+			},
+			"type": "number",
+			"example": 14
+		},
+		{
+			"name": "price",
+			"title": {
+				"en": "Price",
+				"nl": "Prijs"
+			},
+			"type": "number",
+			"example": 0.2747
+		}
+	]
+}

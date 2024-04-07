@@ -255,6 +255,15 @@ class MyApp extends Homey.App {
 				.catch(this.error);
 		};
 
+		this._newHour = this.homey.flow.getDeviceTriggerCard('new_hour');
+		this._newHour.registerRunListener(async (args, state) => state); // always run
+		this.triggerNewHour = (device, tokens, state) => {
+			this._newHour
+				.trigger(device, tokens, state)
+				// .then(this.log(device.getName(), tokens, state))
+				.catch(this.error);
+		};
+
 		// condition cards
 		const priceLowestCondition = this.homey.flow.getConditionCard('price_lowest');
 		priceLowestCondition.registerRunListener((args) => args.device.priceIsLowest(args));

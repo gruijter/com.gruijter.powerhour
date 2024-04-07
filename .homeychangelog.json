@@ -1,4 +1,10 @@
 {
+  "6.4.0": {
+    "en": "DAP: Added new price hour trigger. DAP: Added UK Gas prices. Fixed EGSI and EOD Gas prices. homey-api@3.4.29"
+  },
+  "6.3.3": {
+    "en": "DAP: Fixed gas prices better."
+  },
   "6.3.2": {
     "en": "DAP: Fixed gas prices. homey-api@3.4.29"
   },

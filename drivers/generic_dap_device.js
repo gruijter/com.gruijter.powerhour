@@ -318,8 +318,8 @@ class MyDevice extends Homey.Device {
 			// add variable markup
 			let { variableMarkup, variableMarkupAbsPrice } = this.settings;
 			variableMarkupAbsPrice = (marketPrice.price < 0) ? -variableMarkupAbsPrice : variableMarkupAbsPrice;
-			variableMarkup += variableMarkupAbsPrice;
-			if (variableMarkup) muPrice *= (1 + variableMarkup / 100);
+			if (variableMarkupAbsPrice) variableMarkup += variableMarkupAbsPrice;
+			muPrice *= (1 + variableMarkup / 100);
 			// add fixed markup
 			const { fixedMarkup } = this.settings;
 			muPrice += fixedMarkup;
@@ -380,7 +380,6 @@ class MyDevice extends Homey.Device {
 	}
 
 	// EXECUTORS FOR ACTION FLOWS
-
 	async createPricesJSON(period) {
 		this.log('Creating prices JSON via flow', this.getName(), period);
 
@@ -980,6 +979,7 @@ class MyDevice extends Homey.Device {
 
 	async setCapabilitiesAndFlows(options) {
 		try {
+			const oldState = this.state || {};
 			await this.setState();
 
 			// set capabilities
@@ -1028,6 +1028,12 @@ class MyDevice extends Homey.Device {
 			// update the price graphs
 			await this.updatePriceCharts().catch(this.error);
 
+			// trigger new hour started, or app restart
+			if (this.state.H0 !== oldState.H0 ) {
+				const tokens = { H0: this.state.H0, price: this.state.priceNow };
+				this.homey.app.triggerNewHour(this, tokens);
+			}
+			// trigger flow cards, except after fetch new prices
 			if (!options || !options.noTriggers) {
 				// trigger new nextHours prices every hour
 				if (this.state.pricesNextHours && this.state.pricesNextHours[0]) {
@@ -1042,8 +1048,7 @@ class MyDevice extends Homey.Device {
 						this.newPricesReceived(this.state.pricesTomorrow, 'tomorrow').catch(this.error);
 					}
 				}
-
-				// trigger flow cards
+				// trigger other price related flows
 				if (Number.isFinite(this.state.priceNow)) {
 					const tokens = { meter_price_h0: Number(this.state.priceNow.toFixed(this.settings.decimals)) };
 					const state = { ...this.state };
