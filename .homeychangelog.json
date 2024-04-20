@@ -1,4 +1,7 @@
 {
+  "6.4.1": {
+    "en": "Updated German translation. homey-api@3.4.32"
+  },
   "6.4.0": {
     "en": "DAP: Added new price hour trigger. DAP: Added UK Gas prices. Fixed EGSI and EOD Gas prices. homey-api@3.4.29"
   },
