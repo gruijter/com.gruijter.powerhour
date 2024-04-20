@@ -1,11 +1,13 @@
 {
 	"title": {
 		"en": "New price hour",
-		"nl": "Nieuw prijs-uur"
+		"nl": "Nieuw prijs-uur",
+		"de": "Neuer Stundenpreis"
 	},
 	"titleFormatted": {
 		"en": "New price hour starts",
-		"nl": "Nieuw prijs-uur begint"
+		"nl": "Nieuw prijs-uur begint",
+		"de": "Neuer Stundenpreis beginnt"
 	},
 	"highlight": true,
 	"args": [
@@ -20,7 +22,8 @@
 			"name": "H0",
 			"title": {
 				"en": "Hour",
-				"nl": "Uur"
+				"nl": "Uur",
+				"de": "Stunde"
 			},
 			"type": "number",
 			"example": 14
@@ -29,7 +32,8 @@
 			"name": "price",
 			"title": {
 				"en": "Price",
-				"nl": "Prijs"
+				"nl": "Prijs",
+				"de": "Preis"
 			},
 			"type": "number",
 			"example": 0.2747
