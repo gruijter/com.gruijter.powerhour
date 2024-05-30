@@ -1,4 +1,7 @@
 {
+  "6.5.0": {
+    "en": "BAT: Added support for Blauhoff Afore and Blauhoff Deye. SUM: added flow card to change tariff_update_group. DAP: Added AND card price_highest_avg_before. Extende card selection price_lowest_in_next_known_hours to 20 hours. homey-api@3.4.33"
+  },
   "6.4.1": {
     "en": "Updated German translation. homey-api@3.4.32"
   },

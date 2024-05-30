@@ -23,7 +23,7 @@ const GenericDriver = require('../generic_bat_driver');
 
 const driverSpecifics = {
 	driverId: 'battery',
-	originDeviceCapabilities: ['measure_battery', 'measure_power.battery'],
+	originDeviceCapabilities: ['measure_battery', 'measure_power.battery', 'measure_power.battery1'],
 	sourceCapGroups: [
 		{
 			soc: 'measure_battery', productionPower: 'measure_power', chargeMode: 'charge_mode',	// Sessy
@@ -40,6 +40,12 @@ const driverSpecifics = {
 		{
 			soc: 'measure_battery', productionPower: 'from_battery_capability', usagePower: 'to_battery_capability',	// Sonnen Batterie
 		},
+		{
+			soc: 'measure_percentage.bat_soc', productionPower: 'measure_power.battery',	// Blauhoff Afore
+		},
+		{
+			soc: 'measure_percentage.battery1', productionPower: 'measure_power.battery1',	// Blauhoff Deye
+		}
 	],
 	deviceCapabilities: [
 		'measure_watt_avg', 'meter_kwh_stored',

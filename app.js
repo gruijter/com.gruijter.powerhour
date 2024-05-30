@@ -304,6 +304,9 @@ class MyApp extends Homey.App {
 		const priceHighestAvgCondition = this.homey.flow.getConditionCard('price_highest_avg');
 		priceHighestAvgCondition.registerRunListener((args) => args.device.priceIsHighestAvg(args));
 
+		const priceHighestAvgBeforeCondition = this.homey.flow.getConditionCard('price_highest_avg_before');
+		priceHighestAvgBeforeCondition.registerRunListener((args) => args.device.priceIsHighestAvgBefore(args));
+
 		const priceAboveAvgCondition = this.homey.flow.getConditionCard('price_above_avg');
 		priceAboveAvgCondition.registerRunListener((args) => args.device.priceIsAboveAvg(args));
 
@@ -329,6 +332,10 @@ class MyApp extends Homey.App {
 		const setTariffWater = this.homey.flow.getActionCard('set_tariff_water');
 		setTariffWater
 			.registerRunListener((args) => this.homey.emit('set_tariff_water', args));
+
+		const setTariffGroup = this.homey.flow.getActionCard('set_tariff_group');
+		setTariffGroup
+				.registerRunListener((args) => args.device.setTariffGroup(args.group).catch(this.error));
 
 		const setVariableMarkup = this.homey.flow.getActionCard('set_variable_markup');
 		setVariableMarkup

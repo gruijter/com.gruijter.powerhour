@@ -28,9 +28,9 @@
 				"dk": "nummer",
 				"nl": "aantal"
 			},
-			"placeholder": { "en": "1 - 5" },
+			"placeholder": { "en": "1 - 20" },
 			"min": 1,
-			"max": 5,
+			"max": 20,
 			"step": 1
 		}
 	]

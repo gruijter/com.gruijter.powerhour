@@ -81,6 +81,7 @@ class MyDevice extends Homey.Device {
 			this.fetchDelay = (Math.random() * 4 * 60 * 1000) + (1000 * 60 * 1.5);
 			if (!this.prices) this.prices = this.getStoreValue('prices');	// restore from persistent memory on app restart
 			if (!this.prices) this.prices = [{ time: null, price: null, muPrice: null }];
+			if (!this.marketPrices) this.marketPrices = [];
 
 			// check migrations
 			if (!this.migrated) await this.migrate();

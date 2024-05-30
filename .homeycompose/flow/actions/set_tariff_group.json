@@ -1,0 +1,30 @@
+{
+  "title": {
+    "en": "Set a new tariff update group",
+    "nl": "Stel een nieuwe tarief update groep in"
+  },
+  "titleFormatted": {
+    "en": "Set tariff update group to [[group]]",
+    "nl": "Stel tarief update groep in op [[group]]"
+  },
+  "highlight": true,
+  "args": [
+    {
+      "type": "device",
+      "name": "device",
+      "filter": "driver_id=power|gas|water"
+    },
+    {
+      "name": "group",
+      "type": "number",
+      "placeholder": {
+        "en": "Update group",
+        "nl": "Update groep"
+      },
+      "required": true,
+      "min": 1,
+      "max": 10,
+      "step": 1
+    }
+  ]
+}

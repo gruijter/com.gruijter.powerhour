@@ -446,6 +446,13 @@ class SumMeterDevice extends Device {
 		this.restartDevice(1000).catch(this.error);
 	}
 
+	// helper for action flow cards
+	async setTariffGroup(group) {
+		this.log('changing tariff update group via flow', this.getName(), group);
+		await this.setSettings({ tariff_update_group: group }).catch(this.error);
+		this.restartDevice(1000);
+	}
+
 	destroyListeners() {
 		if (this.capabilityInstances && Object.entries(this.capabilityInstances).length > 0) {
 			Object.entries(this.capabilityInstances).forEach((entry) => {
