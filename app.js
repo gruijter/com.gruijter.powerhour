@@ -76,18 +76,20 @@ class MyApp extends Homey.App {
 	}
 
 	everyHour() {
-		const now = new Date();
-		const nextHour = new Date(now.getFullYear(), now.getMonth(), now.getDate(), now.getHours() + 1, 0, 0, 50);
-		const timeToNextHour = nextHour - now;
-		// const timeToNextHour = 20000;
-		// console.log('everyHour starts in', timeToNextHour / 1000);
-		this.homey.setTimeout(() => {
-			this.homey.setInterval(async () => {
+		const scheduleNextHour = () => {
+			const now = new Date();
+			const nextHour = new Date(now.getFullYear(), now.getMonth(), now.getDate(), now.getHours() + 1, 0, 0, 50);
+			const timeToNextHour = nextHour - now;
+
+			// console.log('everyHour starts in', timeToNextHour / 1000);
+
+			this.homey.setTimeout(() => {
 				this.homey.emit('everyhour', true);
-			}, 60 * 60 * 1000);
-			// }, 1 * 60 * 1000);
-			this.homey.emit('everyhour', true);
-		}, timeToNextHour);
+				scheduleNextHour(); // Schedule the next hour
+			}, timeToNextHour);
+		};
+
+		scheduleNextHour();
 		this.log('everyHour job started');
 	}
 
