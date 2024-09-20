@@ -25,35 +25,37 @@ const EEX = require('../../eex');
 const GenericDriver = require('../generic_dap_driver');
 
 const driverSpecifics = {
-	driverId: 'dapg',
-	deviceCapabilities: [
-		'meter_price_this_day_avg',
-		'meter_price_next_8h_avg',
-		'meter_price_h0',
-		'meter_price_h1',
-		'meter_price_h2',
-		'meter_price_h3',
-		'meter_price_h4',
-		'meter_price_h5',
-		'meter_price_h6',
-		'meter_price_h7',
-	],
+  driverId: 'dapg',
+  deviceCapabilities: [
+    'meter_price_this_day_avg',
+    'meter_price_next_8h_avg',
+    'meter_price_h0',
+    'meter_price_h1',
+    'meter_price_h2',
+    'meter_price_h3',
+    'meter_price_h4',
+    'meter_price_h5',
+    'meter_price_h6',
+    'meter_price_h7',
+  ],
 };
 
 class dapgDriver extends GenericDriver {
-	onInit() {
-		// this.log('driver onInit');
-		this.ds = driverSpecifics;
 
-		// provide all data providers to the driver in order of presedence
-		this.ds.providers = [EasyEnergy, EEX];
-		this.ds.biddingZones = {};
-		this.ds.providers.forEach((Provider) => {
-			const api = new Provider();
-			Object.assign(this.ds.biddingZones, api.getBiddingZones());
-		});
-		this.onDriverInit();
-	}
+  async onInit() {
+    // this.log('driver onInit');
+    this.ds = driverSpecifics;
+
+    // provide all data providers to the driver in order of presedence
+    this.ds.providers = [EasyEnergy, EEX];
+    this.ds.biddingZones = {};
+    this.ds.providers.forEach((Provider) => {
+      const api = new Provider();
+      Object.assign(this.ds.biddingZones, api.getBiddingZones());
+    });
+    await this.onDriverInit().catch(this.error);
+  }
+
 }
 
 module.exports = dapgDriver;

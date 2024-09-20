@@ -26,10 +26,10 @@ const deviceSpecifics = {
 
 class myDevice extends GenericDevice {
 
-	onInit() {
-		this.ds = deviceSpecifics;
-		this.onInitDevice();
-	}
+  async onInit() {
+    this.ds = deviceSpecifics;
+    await this.onInitDevice().catch(this.error);
+  }
 
 }
 

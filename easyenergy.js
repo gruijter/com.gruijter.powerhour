@@ -29,129 +29,130 @@ const lebaPath = '/nl/api/tariff/getlebatariffs'; // gas LEBA TTF day-ahead
 // const apxPath = '/nl/api/tariff/getapxtariffs'; // electricity TTF day-ahead
 
 const biddingZones = {
-	TTF_LEBA_EasyEnergy: 'TTF_LEBA_EasyEnergy',
+  TTF_LEBA_EasyEnergy: 'TTF_LEBA_EasyEnergy',
 };
 
+// Represents a session to the Easyenergy API.
 class Easyenergy {
-	// Represents a session to the Easyenergy API.
-	constructor(opts) {
-		const options = opts || {};
-		this.host = options.host || defaultHost;
-		this.port = options.port || defaultPort;
-		this.timeout = options.timeout || defaultTimeout;
-		this.biddingZone = options.biddingZone;
-		this.biddingZones = biddingZones;
-		this.lastResponse = undefined;
-	}
 
-	getBiddingZones() {
-		return this.biddingZones;
-	}
+  constructor(opts) {
+    const options = opts || {};
+    this.host = options.host || defaultHost;
+    this.port = options.port || defaultPort;
+    this.timeout = options.timeout || defaultTimeout;
+    this.biddingZone = options.biddingZone;
+    this.biddingZones = biddingZones;
+    this.lastResponse = undefined;
+  }
 
-	/**
-	* Get the prices
-	* @returns {(Promise.[priceInfo])}
-	* @property {string} [dateStart = today] - date Object or date string, e.g. '2022-02-21T20:36:10.665Z'
-	* @property {string} [dateEnd = tomorrow ] - date Object or date string, e.g. '2022-02-21T20:36:10.665Z'
-	*/
-	async getPrices(options) {
-		try {
-			const today = new Date();
-			today.setHours(0);
-			const tomorrow = new Date(today);
-			tomorrow.setDate(today.getDate() + 1);
+  getBiddingZones() {
+    return this.biddingZones;
+  }
 
-			const opts = options || {};
-			const start = opts.dateStart ? new Date(opts.dateStart) : today;
-			const end = opts.dateEnd ? new Date(opts.dateEnd) : tomorrow;
+  /**
+  * Get the prices
+  * @returns {(Promise.[priceInfo])}
+  * @property {string} [dateStart = today] - date Object or date string, e.g. '2022-02-21T20:36:10.665Z'
+  * @property {string} [dateEnd = tomorrow ] - date Object or date string, e.g. '2022-02-21T20:36:10.665Z'
+  */
+  async getPrices(options) {
+    try {
+      const today = new Date();
+      today.setHours(0);
+      const tomorrow = new Date(today);
+      tomorrow.setDate(today.getDate() + 1);
 
-			const query = {
-				startTimestamp: start.toISOString(),
-				endTimestamp: end.toISOString(),
-				// grouping: '', // defaults to by hour?
-				includeVat: false,
-			};
-			const qs = new URLSearchParams(query).toString();
-			const path = `${lebaPath}?${qs}`;
-			const res = await this._makeRequest(path);
-			if (!res || !res[0] || !res[0].Timestamp) throw Error('no gas price info found');
+      const opts = options || {};
+      const start = opts.dateStart ? new Date(opts.dateStart) : today;
+      const end = opts.dateEnd ? new Date(opts.dateEnd) : tomorrow;
 
-			// make array with concise info per day in euro / 1000 m3 gas
-			const info = res
-				.map((hourInfo) => ({ time: new Date(hourInfo.Timestamp), price: hourInfo.TariffUsage * 1000 }))
-				.filter((hourInfo) => hourInfo.time >= start) // remove out of bounds data
-				.filter((hourInfo) => hourInfo.time <= end);
+      const query = {
+        startTimestamp: start.toISOString(),
+        endTimestamp: end.toISOString(),
+        // grouping: '', // defaults to by hour?
+        includeVat: false,
+      };
+      const qs = new URLSearchParams(query).toString();
+      const path = `${lebaPath}?${qs}`;
+      const res = await this._makeRequest(path);
+      if (!res || !res[0] || !res[0].Timestamp) throw Error('no gas price info found');
 
-			return Promise.resolve(info);
-		} catch (error) {
-			return Promise.reject(error);
-		}
-	}
+      // make array with concise info per day in euro / 1000 m3 gas
+      const info = res
+        .map((hourInfo) => ({ time: new Date(hourInfo.Timestamp), price: hourInfo.TariffUsage * 1000 }))
+        .filter((hourInfo) => hourInfo.time >= start) // remove out of bounds data
+        .filter((hourInfo) => hourInfo.time <= end);
 
-	async _makeRequest(path, postMessage, timeout) {
-		try {
-			const headers = {
-			};
-			const options = {
-				hostname: this.host,
-				port: this.port,
-				path,
-				headers,
-				method: 'GET',
-			};
-			const result = await this._makeHttpsRequest(options, postMessage, timeout);
-			this.lastResponse = result.body || result.statusCode;
-			const contentType = result.headers['content-type'];
-			if (!/\/json/.test(contentType)) {
-				throw Error(`Expected json but received ${contentType}: ${result.body}`);
-			}
-			// find errors
-			if (result.statusCode !== 200) {
-				this.lastResponse = result.statusCode;
-				throw Error(`HTTP request Failed. Status Code: ${result.statusCode}`);
-			}
-			// console.dir(JSON.parse(result.body), { depth: null });
-			return Promise.resolve(JSON.parse(result.body));
-		} catch (error) {
-			return Promise.reject(error);
-		}
-	}
+      return Promise.resolve(info);
+    } catch (error) {
+      return Promise.reject(error);
+    }
+  }
 
-	_makeHttpsRequest(options, postData, timeout) {
-		return new Promise((resolve, reject) => {
-			if (!this.httpsAgent) {
-				const agentOptions = {
-					rejectUnauthorized: false,
-				};
-				this.httpsAgent = new https.Agent(agentOptions);
-			}
-			const opts = options;
-			opts.timeout = timeout || this.timeout;
-			const req = https.request(opts, (res) => {
-				let resBody = '';
-				res.on('data', (chunk) => {
-					resBody += chunk;
-				});
-				res.once('end', () => {
-					this.lastResponse = resBody;
-					if (!res.complete) {
-						return reject(Error('The connection was terminated while the message was still being sent'));
-					}
-					res.body = resBody;
-					return resolve(res);
-				});
-			});
-			req.on('error', (e) => {
-				req.destroy();
-				this.lastResponse = e;
-				return reject(e);
-			});
-			req.on('timeout', () => {
-				req.destroy();
-			});
-			req.end(postData);
-		});
-	}
+  async _makeRequest(path, postMessage, timeout) {
+    try {
+      const headers = {
+      };
+      const options = {
+        hostname: this.host,
+        port: this.port,
+        path,
+        headers,
+        method: 'GET',
+      };
+      const result = await this._makeHttpsRequest(options, postMessage, timeout);
+      this.lastResponse = result.body || result.statusCode;
+      const contentType = result.headers['content-type'];
+      if (!/\/json/.test(contentType)) {
+        throw Error(`Expected json but received ${contentType}: ${result.body}`);
+      }
+      // find errors
+      if (result.statusCode !== 200) {
+        this.lastResponse = result.statusCode;
+        throw Error(`HTTP request Failed. Status Code: ${result.statusCode}`);
+      }
+      // console.dir(JSON.parse(result.body), { depth: null });
+      return Promise.resolve(JSON.parse(result.body));
+    } catch (error) {
+      return Promise.reject(error);
+    }
+  }
+
+  _makeHttpsRequest(options, postData, timeout) {
+    return new Promise((resolve, reject) => {
+      if (!this.httpsAgent) {
+        const agentOptions = {
+          rejectUnauthorized: false,
+        };
+        this.httpsAgent = new https.Agent(agentOptions);
+      }
+      const opts = options;
+      opts.timeout = timeout || this.timeout;
+      const req = https.request(opts, (res) => {
+        let resBody = '';
+        res.on('data', (chunk) => {
+          resBody += chunk;
+        });
+        res.once('end', () => {
+          this.lastResponse = resBody;
+          if (!res.complete) {
+            return reject(Error('The connection was terminated while the message was still being sent'));
+          }
+          res.body = resBody;
+          return resolve(res);
+        });
+      });
+      req.on('error', (e) => {
+        req.destroy();
+        this.lastResponse = e;
+        return reject(e);
+      });
+      req.on('timeout', () => {
+        req.destroy();
+      });
+      req.end(postData);
+    });
+  }
 
 }
 
@@ -172,8 +173,8 @@ module.exports = Easyenergy;
 // // easyEnergy.getPrices({ dateStart, dateEnd })
 
 // easyEnergy.getPrices({ dateStart: today, dateEnd: tomorrow })
-// 	.then((result) => console.dir(result, { depth: null }))
-// 	.catch((error) => console.log(error));
+//  .then((result) => console.dir(result, { depth: null }))
+//  .catch((error) => console.log(error));
 
 /*
 
@@ -229,149 +230,149 @@ module.exports = Easyenergy;
 ]
 
 [
-	{
-		Timestamp: '2022-05-26T22:00:00+00:00',
-		SupplierId: 0,
-		TariffUsage: 0.9689922,
-		TariffReturn: 0.9689922
-	},
-	{
-		Timestamp: '2022-05-26T23:00:00+00:00',
-		SupplierId: 0,
-		TariffUsage: 0.9689922,
-		TariffReturn: 0.9689922
-	},
-	{
-		Timestamp: '2022-05-27T00:00:00+00:00',
-		SupplierId: 0,
-		TariffUsage: 0.9689922,
-		TariffReturn: 0.9689922
-	},
-	{
-		Timestamp: '2022-05-27T01:00:00+00:00',
-		SupplierId: 0,
-		TariffUsage: 0.9689922,
-		TariffReturn: 0.9689922
-	},
-	{
-		Timestamp: '2022-05-27T02:00:00+00:00',
-		SupplierId: 0,
-		TariffUsage: 0.9689922,
-		TariffReturn: 0.9689922
-	},
-	{
-		Timestamp: '2022-05-27T03:00:00+00:00',
-		SupplierId: 0,
-		TariffUsage: 0.9689922,
-		TariffReturn: 0.9689922
-	},
-	{
-		Timestamp: '2022-05-27T04:00:00+00:00',
-		SupplierId: 0,
-		TariffUsage: 0.9793498,
-		TariffReturn: 0.9793498
-	},
-	{
-		Timestamp: '2022-05-27T05:00:00+00:00',
-		SupplierId: 0,
-		TariffUsage: 0.9793498,
-		TariffReturn: 0.9793498
-	},
-	{
-		Timestamp: '2022-05-27T06:00:00+00:00',
-		SupplierId: 0,
-		TariffUsage: 0.9793498,
-		TariffReturn: 0.9793498
-	},
-	{
-		Timestamp: '2022-05-27T07:00:00+00:00',
-		SupplierId: 0,
-		TariffUsage: 0.9793498,
-		TariffReturn: 0.9793498
-	},
-	{
-		Timestamp: '2022-05-27T08:00:00+00:00',
-		SupplierId: 0,
-		TariffUsage: 0.9793498,
-		TariffReturn: 0.9793498
-	},
-	{
-		Timestamp: '2022-05-27T09:00:00+00:00',
-		SupplierId: 0,
-		TariffUsage: 0.9793498,
-		TariffReturn: 0.9793498
-	},
-	{
-		Timestamp: '2022-05-27T10:00:00+00:00',
-		SupplierId: 0,
-		TariffUsage: 0.9793498,
-		TariffReturn: 0.9793498
-	},
-	{
-		Timestamp: '2022-05-27T11:00:00+00:00',
-		SupplierId: 0,
-		TariffUsage: 0.9793498,
-		TariffReturn: 0.9793498
-	},
-	{
-		Timestamp: '2022-05-27T12:00:00+00:00',
-		SupplierId: 0,
-		TariffUsage: 0.9793498,
-		TariffReturn: 0.9793498
-	},
-	{
-		Timestamp: '2022-05-27T13:00:00+00:00',
-		SupplierId: 0,
-		TariffUsage: 0.9793498,
-		TariffReturn: 0.9793498
-	},
-	{
-		Timestamp: '2022-05-27T14:00:00+00:00',
-		SupplierId: 0,
-		TariffUsage: 0.9793498,
-		TariffReturn: 0.9793498
-	},
-	{
-		Timestamp: '2022-05-27T15:00:00+00:00',
-		SupplierId: 0,
-		TariffUsage: 0.9793498,
-		TariffReturn: 0.9793498
-	},
-	{
-		Timestamp: '2022-05-27T16:00:00+00:00',
-		SupplierId: 0,
-		TariffUsage: 0.9793498,
-		TariffReturn: 0.9793498
-	},
-	{
-		Timestamp: '2022-05-27T17:00:00+00:00',
-		SupplierId: 0,
-		TariffUsage: 0.9793498,
-		TariffReturn: 0.9793498
-	},
-	{
-		Timestamp: '2022-05-27T18:00:00+00:00',
-		SupplierId: 0,
-		TariffUsage: 0.9793498,
-		TariffReturn: 0.9793498
-	},
-	{
-		Timestamp: '2022-05-27T19:00:00+00:00',
-		SupplierId: 0,
-		TariffUsage: 0.9793498,
-		TariffReturn: 0.9793498
-	},
-	{
-		Timestamp: '2022-05-27T20:00:00+00:00',
-		SupplierId: 0,
-		TariffUsage: 0.9793498,
-		TariffReturn: 0.9793498
-	},
-	{
-		Timestamp: '2022-05-27T21:00:00+00:00',
-		SupplierId: 0,
-		TariffUsage: 0.9793498,
-		TariffReturn: 0.9793498
-	}
+  {
+    Timestamp: '2022-05-26T22:00:00+00:00',
+    SupplierId: 0,
+    TariffUsage: 0.9689922,
+    TariffReturn: 0.9689922
+  },
+  {
+    Timestamp: '2022-05-26T23:00:00+00:00',
+    SupplierId: 0,
+    TariffUsage: 0.9689922,
+    TariffReturn: 0.9689922
+  },
+  {
+    Timestamp: '2022-05-27T00:00:00+00:00',
+    SupplierId: 0,
+    TariffUsage: 0.9689922,
+    TariffReturn: 0.9689922
+  },
+  {
+    Timestamp: '2022-05-27T01:00:00+00:00',
+    SupplierId: 0,
+    TariffUsage: 0.9689922,
+    TariffReturn: 0.9689922
+  },
+  {
+    Timestamp: '2022-05-27T02:00:00+00:00',
+    SupplierId: 0,
+    TariffUsage: 0.9689922,
+    TariffReturn: 0.9689922
+  },
+  {
+    Timestamp: '2022-05-27T03:00:00+00:00',
+    SupplierId: 0,
+    TariffUsage: 0.9689922,
+    TariffReturn: 0.9689922
+  },
+  {
+    Timestamp: '2022-05-27T04:00:00+00:00',
+    SupplierId: 0,
+    TariffUsage: 0.9793498,
+    TariffReturn: 0.9793498
+  },
+  {
+    Timestamp: '2022-05-27T05:00:00+00:00',
+    SupplierId: 0,
+    TariffUsage: 0.9793498,
+    TariffReturn: 0.9793498
+  },
+  {
+    Timestamp: '2022-05-27T06:00:00+00:00',
+    SupplierId: 0,
+    TariffUsage: 0.9793498,
+    TariffReturn: 0.9793498
+  },
+  {
+    Timestamp: '2022-05-27T07:00:00+00:00',
+    SupplierId: 0,
+    TariffUsage: 0.9793498,
+    TariffReturn: 0.9793498
+  },
+  {
+    Timestamp: '2022-05-27T08:00:00+00:00',
+    SupplierId: 0,
+    TariffUsage: 0.9793498,
+    TariffReturn: 0.9793498
+  },
+  {
+    Timestamp: '2022-05-27T09:00:00+00:00',
+    SupplierId: 0,
+    TariffUsage: 0.9793498,
+    TariffReturn: 0.9793498
+  },
+  {
+    Timestamp: '2022-05-27T10:00:00+00:00',
+    SupplierId: 0,
+    TariffUsage: 0.9793498,
+    TariffReturn: 0.9793498
+  },
+  {
+    Timestamp: '2022-05-27T11:00:00+00:00',
+    SupplierId: 0,
+    TariffUsage: 0.9793498,
+    TariffReturn: 0.9793498
+  },
+  {
+    Timestamp: '2022-05-27T12:00:00+00:00',
+    SupplierId: 0,
+    TariffUsage: 0.9793498,
+    TariffReturn: 0.9793498
+  },
+  {
+    Timestamp: '2022-05-27T13:00:00+00:00',
+    SupplierId: 0,
+    TariffUsage: 0.9793498,
+    TariffReturn: 0.9793498
+  },
+  {
+    Timestamp: '2022-05-27T14:00:00+00:00',
+    SupplierId: 0,
+    TariffUsage: 0.9793498,
+    TariffReturn: 0.9793498
+  },
+  {
+    Timestamp: '2022-05-27T15:00:00+00:00',
+    SupplierId: 0,
+    TariffUsage: 0.9793498,
+    TariffReturn: 0.9793498
+  },
+  {
+    Timestamp: '2022-05-27T16:00:00+00:00',
+    SupplierId: 0,
+    TariffUsage: 0.9793498,
+    TariffReturn: 0.9793498
+  },
+  {
+    Timestamp: '2022-05-27T17:00:00+00:00',
+    SupplierId: 0,
+    TariffUsage: 0.9793498,
+    TariffReturn: 0.9793498
+  },
+  {
+    Timestamp: '2022-05-27T18:00:00+00:00',
+    SupplierId: 0,
+    TariffUsage: 0.9793498,
+    TariffReturn: 0.9793498
+  },
+  {
+    Timestamp: '2022-05-27T19:00:00+00:00',
+    SupplierId: 0,
+    TariffUsage: 0.9793498,
+    TariffReturn: 0.9793498
+  },
+  {
+    Timestamp: '2022-05-27T20:00:00+00:00',
+    SupplierId: 0,
+    TariffUsage: 0.9793498,
+    TariffReturn: 0.9793498
+  },
+  {
+    Timestamp: '2022-05-27T21:00:00+00:00',
+    SupplierId: 0,
+    TariffUsage: 0.9793498,
+    TariffReturn: 0.9793498
+  }
 ]
 */

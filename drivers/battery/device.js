@@ -23,62 +23,63 @@ const GenericDevice = require('../generic_bat_device');
 
 class batDevice extends GenericDevice {
 
-	onInit() {
-		this.onInitDevice();
-	}
+  async onInit() {
+    await this.onInitDevice().catch(this.error);
+  }
 
-	async addSourceCapGroup() {
-		// setup if/how a HOMEY-API source device fits to a defined capability group
-		this.sourceCapGroup = null;
-		this.driver.ds.sourceCapGroups.forEach((capGroup) => {
-			if (this.sourceCapGroup) return; // stop at the first match
-			const requiredKeys = Object.values(capGroup).filter((v) => v);
-			const hasAllKeys = requiredKeys.every((k) => this.sourceDevice.capabilities.includes(k));
-			if (hasAllKeys) this.sourceCapGroup = capGroup; // all relevant capabilities were found in the source device
-		});
-		if (!this.sourceCapGroup) {
-			throw Error(`${this.sourceDevice.name} has no compatible capabilities ${this.sourceDevice.capabilities}`);
-		}
-	}
+  async addSourceCapGroup() {
+    // setup if/how a HOMEY-API source device fits to a defined capability group
+    this.sourceCapGroup = null;
+    this.driver.ds.sourceCapGroups.forEach((capGroup) => {
+      if (this.sourceCapGroup) return; // stop at the first match
+      const requiredKeys = Object.values(capGroup).filter((v) => v);
+      const hasAllKeys = requiredKeys.every((k) => this.sourceDevice.capabilities.includes(k));
+      if (hasAllKeys) this.sourceCapGroup = capGroup; // all relevant capabilities were found in the source device
+    });
+    if (!this.sourceCapGroup) {
+      throw Error(`${this.sourceDevice.name} has no compatible capabilities ${this.sourceDevice.capabilities}`);
+    }
+  }
 
-	async addListeners() {
-		// check if source device exists
-		this.sourceDevice = await this.homey.app.api.devices.getDevice({ id: this.getSettings().homey_device_id, $cache: false }) // $timeout: 15000
-			.catch(this.error);
-		const sourceDeviceExists = this.sourceDevice && this.sourceDevice.capabilitiesObj
-			&& Object.keys(this.sourceDevice.capabilitiesObj).length > 0; // && (this.sourceDevice.available !== null);
-		if (!sourceDeviceExists) throw Error('Source device is missing.');
+  async addListeners() {
+    // check if source device exists
+    this.sourceDevice = await this.homey.app.api.devices.getDevice({ id: this.getSettings().homey_device_id, $cache: false }) // $timeout: 15000
+      .catch(this.error);
+    const sourceDeviceExists = this.sourceDevice && this.sourceDevice.capabilitiesObj
+      && Object.keys(this.sourceDevice.capabilitiesObj).length > 0; // && (this.sourceDevice.available !== null);
+    if (!sourceDeviceExists) throw Error('Source device is missing.');
 
-		// start listeners for all caps
-		await this.addSourceCapGroup();
-		this.log(`registering capability listeners for ${this.sourceDevice.name}`);
-		Object.keys(this.sourceCapGroup).forEach((key) => {
-			if (this.sourceCapGroup[key]) {
-				this.capabilityInstances[key] = this.sourceDevice.makeCapabilityInstance(this.sourceCapGroup[key], (value) => {
-					this.updateValue(value, key);
-				});
-			}
-		});
-	}
+    // start listeners for all caps
+    await this.addSourceCapGroup();
+    this.log(`registering capability listeners for ${this.sourceDevice.name}`);
+    Object.keys(this.sourceCapGroup).forEach((key) => {
+      if (this.sourceCapGroup[key]) {
+        this.capabilityInstances[key] = this.sourceDevice.makeCapabilityInstance(this.sourceCapGroup[key], async (value) => {
+          await this.updateValue(value, key).catch(this.error);
+        });
+      }
+    });
+  }
 
-	async poll() {
-		// check if source device exists
-		this.sourceDevice = await this.homey.app.api.devices.getDevice({ id: this.getSettings().homey_device_id, $cache: false }) // $timeout: 15000
-			.catch(this.error);
-		const sourceDeviceExists = this.sourceDevice && this.sourceDevice.capabilitiesObj
-			&& Object.keys(this.sourceDevice.capabilitiesObj).length > 0; // && (this.sourceDevice.available !== null);
-		if (!sourceDeviceExists) throw Error('Source device is missing.');
+  async poll() {
+    // check if source device exists
+    this.sourceDevice = await this.homey.app.api.devices.getDevice({ id: this.getSettings().homey_device_id, $cache: false }) // $timeout: 15000
+      .catch(this.error);
+    const sourceDeviceExists = this.sourceDevice && this.sourceDevice.capabilitiesObj
+      && Object.keys(this.sourceDevice.capabilitiesObj).length > 0; // && (this.sourceDevice.available !== null);
+    if (!sourceDeviceExists) throw Error('Source device is missing.');
 
-		// start polling all caps
-		if (!this.sourceCapGroup) await this.addSourceCapGroup();
-		this.log(`polling ${this.sourceDevice.name}`);
-		Object.keys(this.sourceCapGroup).forEach((key) => {
-			if (this.sourceDevice.capabilitiesObj && this.sourceDevice.capabilitiesObj[this.sourceCapGroup[key]]) {
-				const val = this.sourceDevice.capabilitiesObj[this.sourceCapGroup[key]].value;
-				this.updateValue(val, key);
-			}
-		});
-	}
+    // start polling all caps
+    if (!this.sourceCapGroup) await this.addSourceCapGroup();
+    this.log(`polling ${this.sourceDevice.name}`);
+    // eslint-disable-next-line @typescript-eslint/no-misused-promises
+    Object.keys(this.sourceCapGroup).forEach(async (key) => {
+      if (this.sourceDevice.capabilitiesObj && this.sourceDevice.capabilitiesObj[this.sourceCapGroup[key]]) {
+        const val = this.sourceDevice.capabilitiesObj[this.sourceCapGroup[key]].value;
+        await this.updateValue(val, key).catch(this.error);
+      }
+    });
+  }
 
 }
 

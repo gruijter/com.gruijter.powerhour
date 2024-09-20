@@ -1,4 +1,7 @@
 {
+  "6.6.0": {
+    "en": "Fixed internal hourly trigger drift. Stability improvements. homey-api@3.6.3"
+  },
   "6.5.3": {
     "en": "homey-api@3.6.0"
   },
