@@ -32,109 +32,110 @@ const regexTime = /<Cube time='(.*)'/s;
 const regexCurrency = /<Cube currency='(.*)' /s;
 const regexRate = /rate='(.*)'/s;
 
+// Represents a session to the Easyenergy API.
 class ECB {
-	// Represents a session to the Easyenergy API.
-	constructor(opts) {
-		const options = opts || {};
-		this.host = options.host || defaultHost;
-		this.port = options.port || defaultPort;
-		this.timeout = options.timeout || defaultTimeout;
-		this.lastResponse = undefined;
-	}
 
-	/**
-	* Get the rates
-	* @returns {Promise(exchangeRates)}
-	*/
+  constructor(opts) {
+    const options = opts || {};
+    this.host = options.host || defaultHost;
+    this.port = options.port || defaultPort;
+    this.timeout = options.timeout || defaultTimeout;
+    this.lastResponse = undefined;
+  }
 
-	async getRates() {
-		try {
-			const xml = await this._makeRequest(exchangeRatesPath);
-			const raw = regexRates.exec(xml.replace(/\t/gi, ''))[1];
-			const entries = raw
-				.split('\n')
-				.filter((entry) => (entry.includes('rate') || entry.includes('time')));
-			const rates = entries.reduce((result, entry) => {
-				const accu = result;
-				if (entry.includes('time')) {
-					const date = regexTime.exec(entry)[1];
-					accu.date = new Date(date);
-				} else {
-					const currency = regexCurrency.exec(entry)[1];
-					const rate = Number(regexRate.exec(entry)[1]);
-					accu[currency] = rate;
-				}
-				return accu;
-			}, {});
-			return Promise.resolve(rates);
-		} catch (error) {
-			return Promise.reject(error);
-		}
-	}
+  /**
+  * Get the rates
+  * @returns {Promise(exchangeRates)}
+  */
 
-	async _makeRequest(path, postMessage, timeout) {
-		try {
-			const headers = {
-			};
-			const options = {
-				hostname: this.host,
-				port: this.port,
-				path,
-				headers,
-				method: 'GET',
-			};
-			const result = await this._makeHttpsRequest(options, postMessage, timeout);
-			this.lastResponse = result.body || result.statusCode;
-			const contentType = result.headers['content-type'];
-			if (!/text\/xml/.test(contentType)) {
-				throw Error(`Expected xml but received ${contentType}: ${result.body}`);
-			}
-			// find errors
-			if (result.statusCode !== 200) {
-				this.lastResponse = result.statusCode;
-				throw Error(`HTTP request Failed. Status Code: ${result.statusCode}`);
-			}
-			return Promise.resolve(result.body);
-		} catch (error) {
-			return Promise.reject(error);
-		}
-	}
+  async getRates() {
+    try {
+      const xml = await this._makeRequest(exchangeRatesPath);
+      const raw = regexRates.exec(xml.replace(/\t/gi, ''))[1];
+      const entries = raw
+        .split('\n')
+        .filter((entry) => (entry.includes('rate') || entry.includes('time')));
+      const rates = entries.reduce((result, entry) => {
+        const accu = result;
+        if (entry.includes('time')) {
+          const date = regexTime.exec(entry)[1];
+          accu.date = new Date(date);
+        } else {
+          const currency = regexCurrency.exec(entry)[1];
+          const rate = Number(regexRate.exec(entry)[1]);
+          accu[currency] = rate;
+        }
+        return accu;
+      }, {});
+      return Promise.resolve(rates);
+    } catch (error) {
+      return Promise.reject(error);
+    }
+  }
 
-	_makeHttpsRequest(options, postData, timeout) {
-		return new Promise((resolve, reject) => {
-			if (!this.httpsAgent) {
-				const agentOptions = {
-					rejectUnauthorized: false,
-				};
-				this.httpsAgent = new https.Agent(agentOptions);
-			}
-			const opts = options;
-			opts.timeout = timeout || this.timeout;
-			const req = https.request(opts, (res) => {
-				let resBody = '';
-				res.on('data', (chunk) => {
-					resBody += chunk;
-				});
-				res.once('end', () => {
-					this.lastResponse = resBody;
-					if (!res.complete) {
-						return reject(Error('The connection was terminated while the message was still being sent'));
-					}
-					res.body = resBody;
-					return resolve(res);
-				});
-			});
-			req.on('error', (e) => {
-				req.destroy();
-				this.lastResponse = e;
-				return reject(e);
-			});
-			req.on('timeout', () => {
-				req.destroy();
-			});
-			req.end(postData);
-		});
-	}
+  async _makeRequest(path, postMessage, timeout) {
+    try {
+      const headers = {
+      };
+      const options = {
+        hostname: this.host,
+        port: this.port,
+        path,
+        headers,
+        method: 'GET',
+      };
+      const result = await this._makeHttpsRequest(options, postMessage, timeout);
+      this.lastResponse = result.body || result.statusCode;
+      const contentType = result.headers['content-type'];
+      if (!/text\/xml/.test(contentType)) {
+        throw Error(`Expected xml but received ${contentType}: ${result.body}`);
+      }
+      // find errors
+      if (result.statusCode !== 200) {
+        this.lastResponse = result.statusCode;
+        throw Error(`HTTP request Failed. Status Code: ${result.statusCode}`);
+      }
+      return Promise.resolve(result.body);
+    } catch (error) {
+      return Promise.reject(error);
+    }
+  }
+
+  _makeHttpsRequest(options, postData, timeout) {
+    return new Promise((resolve, reject) => {
+      if (!this.httpsAgent) {
+        const agentOptions = {
+          rejectUnauthorized: false,
+        };
+        this.httpsAgent = new https.Agent(agentOptions);
+      }
+      const opts = options;
+      opts.timeout = timeout || this.timeout;
+      const req = https.request(opts, (res) => {
+        let resBody = '';
+        res.on('data', (chunk) => {
+          resBody += chunk;
+        });
+        res.once('end', () => {
+          this.lastResponse = resBody;
+          if (!res.complete) {
+            return reject(Error('The connection was terminated while the message was still being sent'));
+          }
+          res.body = resBody;
+          return resolve(res);
+        });
+      });
+      req.on('error', (e) => {
+        req.destroy();
+        this.lastResponse = e;
+        return reject(e);
+      });
+      req.on('timeout', () => {
+        req.destroy();
+      });
+      req.end(postData);
+    });
+  }
 
 }
 
@@ -144,8 +145,8 @@ module.exports = ECB;
 // const ecb = new ECB();
 
 // ecb.getRates()
-// 	.then((result) => console.dir(result, { depth: null }))
-// 	.catch((error) => console.log(error));
+//  .then((result) => console.dir(result, { depth: null }))
+//  .catch((error) => console.log(error));
 
 /*
 {

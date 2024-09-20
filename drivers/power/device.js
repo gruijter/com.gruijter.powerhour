@@ -22,18 +22,18 @@ along with com.gruijter.powerhour.  If not, see <http://www.gnu.org/licenses/>.s
 const GenericDevice = require('../generic_sum_device');
 
 const deviceSpecifics = {
-	cmap: {
-		this_hour: 'meter_kwh_this_hour',
-		last_hour: 'meter_kwh_last_hour',
-		this_day: 'meter_kwh_this_day',
-		last_day:	'meter_kwh_last_day',
-		this_month: 'meter_kwh_this_month',
-		last_month: 'meter_kwh_last_month',
-		this_year: 'meter_kwh_this_year',
-		last_year: 'meter_kwh_last_year',
-		meter_source: 'meter_power',
-		measure_source: 'measure_watt_avg',
-	},
+  cmap: {
+    this_hour: 'meter_kwh_this_hour',
+    last_hour: 'meter_kwh_last_hour',
+    this_day: 'meter_kwh_this_day',
+    last_day: 'meter_kwh_last_day',
+    this_month: 'meter_kwh_this_month',
+    last_month: 'meter_kwh_last_month',
+    this_year: 'meter_kwh_this_year',
+    last_year: 'meter_kwh_last_year',
+    meter_source: 'meter_power',
+    measure_source: 'measure_watt_avg',
+  },
 };
 // p1 consumption counter (low/all tariff).
 // p2 consumption counter (high tariff).
@@ -43,108 +43,107 @@ const deviceSpecifics = {
 
 class sumDevice extends GenericDevice {
 
-	onInit() {
-		this.ds = deviceSpecifics;
-		this.onInitDevice();
-	}
+  async onInit() {
+    this.ds = deviceSpecifics;
+    await this.onInitDevice().catch(this.error);
+  }
 
-	// device specific stuff below
-	async addSourceCapGroup() {
-		// setup if/how a HOMEY-API source device fits to a defined capability group
-		this.lastGroupMeterReady = false;
-		this.lastGroupMeter = {}; // last values of capability meters
-		this.sourceCapGroup = null;
-		this.driver.ds.sourceCapGroups.forEach((capGroup) => {
-			if (this.sourceCapGroup) return; // stop at the first match
-			const requiredKeys = Object.values(capGroup).filter((v) => v);
-			const hasAllKeys = requiredKeys.every((k) => this.sourceDevice.capabilities.includes(k));
-			if (hasAllKeys) this.sourceCapGroup = capGroup; // all relevant capabilities were found in the source device
-		});
-		if (!this.sourceCapGroup) {
-			throw Error(`${this.sourceDevice.name} has no compatible meter_power capabilities ${this.sourceDevice.capabilities}`);
-		}
-	}
+  // device specific stuff below
+  async addSourceCapGroup() {
+    // setup if/how a HOMEY-API source device fits to a defined capability group
+    this.lastGroupMeterReady = false;
+    this.lastGroupMeter = {}; // last values of capability meters
+    this.sourceCapGroup = null;
+    this.driver.ds.sourceCapGroups.forEach((capGroup) => {
+      if (this.sourceCapGroup) return; // stop at the first match
+      const requiredKeys = Object.values(capGroup).filter((v) => v);
+      const hasAllKeys = requiredKeys.every((k) => this.sourceDevice.capabilities.includes(k));
+      if (hasAllKeys) this.sourceCapGroup = capGroup; // all relevant capabilities were found in the source device
+    });
+    if (!this.sourceCapGroup) {
+      throw Error(`${this.sourceDevice.name} has no compatible meter_power capabilities ${this.sourceDevice.capabilities}`);
+    }
+  }
 
-	async addListeners() {
-		this.sourceDevice = await this.homey.app.api.devices.getDevice({ id: this.getSettings().homey_device_id, $cache: false }) // , $timeout: 15000
-			.catch(this.error);
+  async addListeners() {
+    this.sourceDevice = await this.homey.app.api.devices.getDevice({ id: this.getSettings().homey_device_id, $cache: false }) // , $timeout: 15000
+      .catch(this.error);
 
-		const sourceDeviceExists = this.sourceDevice && this.sourceDevice.capabilitiesObj
-			&& Object.keys(this.sourceDevice.capabilitiesObj).length > 0; // && (this.sourceDevice.available !== null);
-		if (!sourceDeviceExists) throw Error('Source device is missing.');
+    const sourceDeviceExists = this.sourceDevice && this.sourceDevice.capabilitiesObj
+      && Object.keys(this.sourceDevice.capabilitiesObj).length > 0; // && (this.sourceDevice.available !== null);
+    if (!sourceDeviceExists) throw Error('Source device is missing.');
 
-		// start listener for METER_VIA_WATT device
-		if (this.getSettings().use_measure_source) {
-			if (this.sourceDevice.capabilities.includes('measure_power')) {
-				this.log(`registering measure_power capability listener for ${this.sourceDevice.name}`);
-				this.capabilityInstances.measurePower = await this.sourceDevice.makeCapabilityInstance('measure_power', (value) => {
-					this.updateMeterFromMeasure(value).catch(this.error);
-				});
-				return;
-			}
-			throw Error(`${this.sourceDevice.name} has no measure_power capability ${this.sourceDevice.capabilities}`);
-		}
+    // start listener for METER_VIA_WATT device
+    if (this.getSettings().use_measure_source) {
+      if (this.sourceDevice.capabilities.includes('measure_power')) {
+        this.log(`registering measure_power capability listener for ${this.sourceDevice.name}`);
+        this.capabilityInstances.measurePower = await this.sourceDevice.makeCapabilityInstance('measure_power', async (value) => {
+          await this.updateMeterFromMeasure(value).catch(this.error);
+        });
+        return;
+      }
+      throw Error(`${this.sourceDevice.name} has no measure_power capability ${this.sourceDevice.capabilities}`);
+    }
 
-		// start listeners for HOMEY-API device
-		await this.addSourceCapGroup();
-		this.log(`registering meter_power capability listener for ${this.sourceDevice.name}`);
-		Object.keys(this.sourceCapGroup).forEach((key) => {
-			if (this.sourceCapGroup[key]) {
-				this.capabilityInstances[key] = this.sourceDevice.makeCapabilityInstance(this.sourceCapGroup[key], (value) => {
-					this.lastGroupMeter[key] = value;
-					this.updateGroupMeter(value, key);
-				});
-			}
-		});
-		// get the init values for this.lastGroupMeter
-		// this.pollMeter(); is done from device init
-	}
+    // start listeners for HOMEY-API device
+    await this.addSourceCapGroup();
+    this.log(`registering meter_power capability listener for ${this.sourceDevice.name}`);
+    Object.keys(this.sourceCapGroup).forEach((key) => {
+      if (this.sourceCapGroup[key]) {
+        this.capabilityInstances[key] = this.sourceDevice.makeCapabilityInstance(this.sourceCapGroup[key], async (value) => {
+          this.lastGroupMeter[key] = value;
+          await this.updateGroupMeter(value, key).catch(this.error);
+        });
+      }
+    });
+    // get the init values for this.lastGroupMeter
+    // this.pollMeter(); is done from device init
+  }
 
-	// Setup how to poll the meter
-	async pollMeter() {
+  // Setup how to poll the meter
+  async pollMeter() {
+    // poll a Homey Energy device
+    if (this.getSettings().source_device_type.includes('Homey Energy')) {
+      const report = await this.homey.app.api.energy.getLiveReport().catch(this.error);
+      // console.log(this.getName(), this.settings.homey_energy);
+      // console.dir(report, { depth: null, colors: true });
+      const value = report[this.settings.homey_energy].W;
+      await this.updateMeterFromMeasure(value).catch(this.error);
+      return;
+    }
 
-		// poll a Homey Energy device
-		if (this.getSettings().source_device_type.includes('Homey Energy')) {
-			const report = await this.homey.app.api.energy.getLiveReport().catch(this.error);
-			// console.log(this.getName(), this.settings.homey_energy);
-			// console.dir(report, { depth: null, colors: true });
-			const value = report[this.settings.homey_energy].W;
-			this.updateMeterFromMeasure(value).catch(this.error);
-			return;
-		}
+    // check if HOMEY-API source device has a defined capability group setup
+    if (!this.sourceCapGroup) await this.addSourceCapGroup();
 
-		// check if HOMEY-API source device has a defined capability group setup
-		if (!this.sourceCapGroup) await this.addSourceCapGroup();
+    // get all values for this.lastGroupMeter
+    this.sourceDevice = await this.homey.app.api.devices.getDevice({ id: this.getSettings().homey_device_id, $cache: false }) // , $timeout: 15000
+      .catch(this.error);
+    const sourceDeviceExists = this.sourceDevice && this.sourceDevice.capabilitiesObj
+      && Object.keys(this.sourceDevice.capabilitiesObj).length > 0; // && (this.sourceDevice.available !== null);
+    if (!sourceDeviceExists) throw Error('Source device is missing.');
+    Object.keys(this.sourceCapGroup)
+      .filter((k) => this.sourceCapGroup[k])
+      .forEach((k) => {
+        this.lastGroupMeter[k] = this.sourceDevice.capabilitiesObj[this.sourceCapGroup[k]].value;
+      });
+    this.lastGroupMeterReady = true;
+    await this.updateGroupMeter().catch(this.error);
+  }
 
-		// get all values for this.lastGroupMeter
-		this.sourceDevice = await this.homey.app.api.devices.getDevice({ id: this.getSettings().homey_device_id, $cache: false }) // , $timeout: 15000
-			.catch(this.error);
-		const sourceDeviceExists = this.sourceDevice && this.sourceDevice.capabilitiesObj
-			&& Object.keys(this.sourceDevice.capabilitiesObj).length > 0; // && (this.sourceDevice.available !== null);
-		if (!sourceDeviceExists) throw Error('Source device is missing.');
-		Object.keys(this.sourceCapGroup)
-			.filter((k) => this.sourceCapGroup[k])
-			.forEach((k) => {
-				this.lastGroupMeter[k] = this.sourceDevice.capabilitiesObj[this.sourceCapGroup[k]].value;
-			});
-		this.lastGroupMeterReady = true;
-		this.updateGroupMeter();
-	}
-
-	updateGroupMeter() {
-		// check if all GroupCaps have received their first value.
-		if (!this.lastGroupMeterReady) {
-			this.log(this.getName(), 'Ignoring value update. updateGroupMeter is waiting to be filled.');
-			return;
-		}
-		// calculate the sum, and update meter
-		let total = 0;
-		total = Number.isFinite(this.lastGroupMeter.p1) ? total += this.lastGroupMeter.p1 : total;
-		total = Number.isFinite(this.lastGroupMeter.p2) ? total += this.lastGroupMeter.p2 : total;
-		total = Number.isFinite(this.lastGroupMeter.n1) ? total -= this.lastGroupMeter.n1 : total;
-		total = Number.isFinite(this.lastGroupMeter.n2) ? total -= this.lastGroupMeter.n2 : total;
-		this.updateMeter(total).catch(this.error);
-	}
+  async updateGroupMeter() {
+    // check if all GroupCaps have received their first value.
+    if (!this.lastGroupMeterReady) {
+      this.log(this.getName(), 'Ignoring value update. updateGroupMeter is waiting to be filled.');
+      return;
+    }
+    // calculate the sum, and update meter
+    let total = 0;
+    total = Number.isFinite(this.lastGroupMeter.p1) ? total += this.lastGroupMeter.p1 : total;
+    total = Number.isFinite(this.lastGroupMeter.p2) ? total += this.lastGroupMeter.p2 : total;
+    total = Number.isFinite(this.lastGroupMeter.n1) ? total -= this.lastGroupMeter.n1 : total;
+    total = Number.isFinite(this.lastGroupMeter.n2) ? total -= this.lastGroupMeter.n2 : total;
+    await this.updateMeter(total).catch(this.error);
+  }
 
 }
 
@@ -153,138 +152,138 @@ module.exports = sumDevice;
 /*
 capabilitiesObj:
 {
-	measure_power: {
-		value: 430,
-		lastUpdated: '2022-01-27T15:59:52.519Z',
-		type: 'number',
-		getable: true,
-		setable: false,
-		title: 'Power',
-		desc: 'Power in watt (W)',
-		units: 'W',
-		decimals: 2,
-		chartType: 'stepLine',
-		id: 'measure_power',
-		options: {}
-	},
-	meter_power: {
-		value: 33744.268,
-		lastUpdated: '2022-01-27T15:59:52.519Z',
-		type: 'number',
-		getable: true,
-		setable: false,
-		title: 'Power meter total',
-		desc: 'Energy usage in kilowatt-hour (kWh)',
-		units: 'kWh',
-		decimals: 4,
-		chartType: 'spline',
-		id: 'meter_power',
-		options: { title: [Object], decimals: 4 }
-	},
-	meter_offPeak: {
-		value: false,
-		lastUpdated: '2022-01-27T06:00:35.274Z',
-		type: 'boolean',
-		getable: true,
-		setable: false,
-		title: 'Off peak',
-		desc: 'Is off-peak tarriff active?',
-		units: null,
-		iconObj: {
-			id: 'b4084ca4a885c7f194378c9792b56d1e',
-			url: '/icon/b4084ca4a885c7f194378c9792b56d1e/icon.svg'
-		},
-		id: 'meter_offPeak',
-		options: {}
-	},
-	'meter_power.peak': {
-		value: 15856.372,
-		lastUpdated: '2022-01-27T15:59:52.520Z',
-		type: 'number',
-		getable: true,
-		setable: false,
-		title: 'Power meter peak',
-		desc: 'Energy usage in kilowatt-hour (kWh)',
-		units: 'kWh',
-		decimals: 4,
-		chartType: 'spline',
-		id: 'meter_power.peak',
-		options: { title: [Object], decimals: 4 }
-	},
-	'meter_power.offPeak': {
-		value: 26309.979,
-		lastUpdated: '2022-01-27T06:00:15.250Z',
-		type: 'number',
-		getable: true,
-		setable: false,
-		title: 'Power meter off-peak',
-		desc: 'Energy usage in kilowatt-hour (kWh)',
-		units: 'kWh',
-		decimals: 4,
-		chartType: 'spline',
-		id: 'meter_power.offPeak',
-		options: { meter_power: [Object], title: [Object], decimals: 4 }
-	},
-	'meter_power.producedPeak': {
-		value: 6128.784,
-		lastUpdated: '2022-01-21T12:04:45.551Z',
-		type: 'number',
-		getable: true,
-		setable: false,
-		title: 'Production peak',
-		desc: 'Energy usage in kilowatt-hour (kWh)',
-		units: 'kWh',
-		decimals: 4,
-		chartType: 'spline',
-		id: 'meter_power.producedPeak',
-		options: { title: [Object], decimals: 4 }
-	},
-	'meter_power.producedOffPeak': {
-		value: 2293.299,
-		lastUpdated: '2022-01-09T14:42:54.559Z',
-		type: 'number',
-		getable: true,
-		setable: false,
-		title: 'Production off-peak',
-		desc: 'Energy usage in kilowatt-hour (kWh)',
-		units: 'kWh',
-		decimals: 4,
-		chartType: 'spline',
-		id: 'meter_power.producedOffPeak',
-		options: { title: [Object], decimals: 4 }
-	},
-	measure_gas: {
-		value: 0.463,
-		lastUpdated: '2022-01-27T15:03:50.934Z',
-		type: 'number',
-		getable: true,
-		setable: false,
-		title: 'Gas',
-		desc: 'Gas usage',
-		units: 'm³ /hr',
-		decimals: 4,
-		iconObj: {
-			id: '802e0ad3d838346f6bc6e5e3d580e53d',
-			url: '/icon/802e0ad3d838346f6bc6e5e3d580e53d/icon.svg'
-		},
-		id: 'measure_gas',
-		options: {}
-	},
-	meter_gas: {
-		value: 9308.75,
-		lastUpdated: '2022-01-27T15:03:50.935Z',
-		type: 'number',
-		getable: true,
-		setable: false,
-		title: 'Gas meter',
-		desc: 'Gas usage in cubic meter (m³)',
-		units: 'm³',
-		decimals: 2,
-		min: 0,
-		chartType: 'spline',
-		id: 'meter_gas',
-		options: {}
-	}
+  measure_power: {
+    value: 430,
+    lastUpdated: '2022-01-27T15:59:52.519Z',
+    type: 'number',
+    getable: true,
+    setable: false,
+    title: 'Power',
+    desc: 'Power in watt (W)',
+    units: 'W',
+    decimals: 2,
+    chartType: 'stepLine',
+    id: 'measure_power',
+    options: {}
+  },
+  meter_power: {
+    value: 33744.268,
+    lastUpdated: '2022-01-27T15:59:52.519Z',
+    type: 'number',
+    getable: true,
+    setable: false,
+    title: 'Power meter total',
+    desc: 'Energy usage in kilowatt-hour (kWh)',
+    units: 'kWh',
+    decimals: 4,
+    chartType: 'spline',
+    id: 'meter_power',
+    options: { title: [Object], decimals: 4 }
+  },
+  meter_offPeak: {
+    value: false,
+    lastUpdated: '2022-01-27T06:00:35.274Z',
+    type: 'boolean',
+    getable: true,
+    setable: false,
+    title: 'Off peak',
+    desc: 'Is off-peak tarriff active?',
+    units: null,
+    iconObj: {
+      id: 'b4084ca4a885c7f194378c9792b56d1e',
+      url: '/icon/b4084ca4a885c7f194378c9792b56d1e/icon.svg'
+    },
+    id: 'meter_offPeak',
+    options: {}
+  },
+  'meter_power.peak': {
+    value: 15856.372,
+    lastUpdated: '2022-01-27T15:59:52.520Z',
+    type: 'number',
+    getable: true,
+    setable: false,
+    title: 'Power meter peak',
+    desc: 'Energy usage in kilowatt-hour (kWh)',
+    units: 'kWh',
+    decimals: 4,
+    chartType: 'spline',
+    id: 'meter_power.peak',
+    options: { title: [Object], decimals: 4 }
+  },
+  'meter_power.offPeak': {
+    value: 26309.979,
+    lastUpdated: '2022-01-27T06:00:15.250Z',
+    type: 'number',
+    getable: true,
+    setable: false,
+    title: 'Power meter off-peak',
+    desc: 'Energy usage in kilowatt-hour (kWh)',
+    units: 'kWh',
+    decimals: 4,
+    chartType: 'spline',
+    id: 'meter_power.offPeak',
+    options: { meter_power: [Object], title: [Object], decimals: 4 }
+  },
+  'meter_power.producedPeak': {
+    value: 6128.784,
+    lastUpdated: '2022-01-21T12:04:45.551Z',
+    type: 'number',
+    getable: true,
+    setable: false,
+    title: 'Production peak',
+    desc: 'Energy usage in kilowatt-hour (kWh)',
+    units: 'kWh',
+    decimals: 4,
+    chartType: 'spline',
+    id: 'meter_power.producedPeak',
+    options: { title: [Object], decimals: 4 }
+  },
+  'meter_power.producedOffPeak': {
+    value: 2293.299,
+    lastUpdated: '2022-01-09T14:42:54.559Z',
+    type: 'number',
+    getable: true,
+    setable: false,
+    title: 'Production off-peak',
+    desc: 'Energy usage in kilowatt-hour (kWh)',
+    units: 'kWh',
+    decimals: 4,
+    chartType: 'spline',
+    id: 'meter_power.producedOffPeak',
+    options: { title: [Object], decimals: 4 }
+  },
+  measure_gas: {
+    value: 0.463,
+    lastUpdated: '2022-01-27T15:03:50.934Z',
+    type: 'number',
+    getable: true,
+    setable: false,
+    title: 'Gas',
+    desc: 'Gas usage',
+    units: 'm³ /hr',
+    decimals: 4,
+    iconObj: {
+      id: '802e0ad3d838346f6bc6e5e3d580e53d',
+      url: '/icon/802e0ad3d838346f6bc6e5e3d580e53d/icon.svg'
+    },
+    id: 'measure_gas',
+    options: {}
+  },
+  meter_gas: {
+    value: 9308.75,
+    lastUpdated: '2022-01-27T15:03:50.935Z',
+    type: 'number',
+    getable: true,
+    setable: false,
+    title: 'Gas meter',
+    desc: 'Gas usage in cubic meter (m³)',
+    units: 'm³',
+    decimals: 2,
+    min: 0,
+    chartType: 'spline',
+    id: 'meter_gas',
+    options: {}
+  }
 }
 
 */

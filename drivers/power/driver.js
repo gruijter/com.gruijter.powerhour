@@ -22,56 +22,58 @@ along with com.gruijter.powerhour.  If not, see <http://www.gnu.org/licenses/>.s
 const GenericDriver = require('../generic_sum_driver');
 
 const driverSpecifics = {
-	driverId: 'power',
-	originDeviceCapabilities: ['measure_power', 'meter_power', 'meter_power.peak', 'meter_power.consumed', 'meter_power.delivered',
-		'meter_power.import', 'meter_power.total_power', 'meter_power.t1', 'meter_power.consumedL1', 'measure_energy_consumption_today'],
-	sourceCapGroups: [
-		{
-			p1: 'meter_power.total_power', p2: null, n1: null, n2: null,	// huawei solar
-		},
-		{
-			p1: 'meter_power.t1', p2: 'meter_power.t2', n1: 'meter_power.rt1', n2: 'meter_power.rt2', // iungo
-		},
-		{
-			p1: 'meter_power', p2: null, n1: null, n2: null,	// youless
-		},
-		{
-			p1: 'meter_power.peak', p2: 'meter_power.offPeak', n1: null, n2: null,
-		},
-		{
-			p1: 'meter_power.consumedL1', p2: 'meter_power.consumedL2', n1: null, n2: null, // ztaz P1
-		},
-		{
-			p1: 'meter_power.consumed', p2: null, n1: 'meter_power.generated', n2: null,
-		},
-		{
-			p1: 'meter_power.consumed', p2: null, n1: 'meter_power.returned', n2: null,
-		},
-		{
-			p1: 'meter_power.delivered', p2: null, n1: 'meter_power.returned', n2: null,
-		},
-		{
-			p1: 'meter_power.import', p2: null, n1: 'meter_power.export', n2: null,	// qubino
-		},
-		{
-			p1: 'measure_energy_consumption_today', p2: null, n1: null, n2: null,	// toshiba
-		},
-	],
-	deviceCapabilities: ['meter_kwh_last_hour', 'meter_kwh_this_hour', 'meter_kwh_last_day', 'meter_kwh_this_day',
-		'meter_kwh_last_month', 'meter_kwh_this_month', 'meter_kwh_last_year', 'meter_kwh_this_year',
-		'meter_target_month_to_date', 'meter_target_year_to_date',
-		'meter_money_last_hour', 'meter_money_this_hour', 'meter_money_last_day', 'meter_money_this_day',
-		'meter_money_last_month', 'meter_money_this_month', 'meter_money_last_year', 'meter_money_this_year',
-		'meter_money_this_month_avg', 'meter_money_this_year_avg',
-		'meter_tariff', 'meter_power', 'measure_watt_avg', 'last_minmax_reset', 'measure_watt_min', 'measure_watt_max'],
+  driverId: 'power',
+  originDeviceCapabilities: ['measure_power', 'meter_power', 'meter_power.peak', 'meter_power.consumed', 'meter_power.delivered',
+    'meter_power.import', 'meter_power.total_power', 'meter_power.t1', 'meter_power.consumedL1', 'measure_energy_consumption_today'],
+  sourceCapGroups: [
+    {
+      p1: 'meter_power.total_power', p2: null, n1: null, n2: null, // huawei solar
+    },
+    {
+      p1: 'meter_power.t1', p2: 'meter_power.t2', n1: 'meter_power.rt1', n2: 'meter_power.rt2', // iungo
+    },
+    {
+      p1: 'meter_power', p2: null, n1: null, n2: null, // youless
+    },
+    {
+      p1: 'meter_power.peak', p2: 'meter_power.offPeak', n1: null, n2: null,
+    },
+    {
+      p1: 'meter_power.consumedL1', p2: 'meter_power.consumedL2', n1: null, n2: null, // ztaz P1
+    },
+    {
+      p1: 'meter_power.consumed', p2: null, n1: 'meter_power.generated', n2: null,
+    },
+    {
+      p1: 'meter_power.consumed', p2: null, n1: 'meter_power.returned', n2: null,
+    },
+    {
+      p1: 'meter_power.delivered', p2: null, n1: 'meter_power.returned', n2: null,
+    },
+    {
+      p1: 'meter_power.import', p2: null, n1: 'meter_power.export', n2: null, // qubino
+    },
+    {
+      p1: 'measure_energy_consumption_today', p2: null, n1: null, n2: null, // toshiba
+    },
+  ],
+  deviceCapabilities: ['meter_kwh_last_hour', 'meter_kwh_this_hour', 'meter_kwh_last_day', 'meter_kwh_this_day',
+    'meter_kwh_last_month', 'meter_kwh_this_month', 'meter_kwh_last_year', 'meter_kwh_this_year',
+    'meter_target_month_to_date', 'meter_target_year_to_date',
+    'meter_money_last_hour', 'meter_money_this_hour', 'meter_money_last_day', 'meter_money_this_day',
+    'meter_money_last_month', 'meter_money_this_month', 'meter_money_last_year', 'meter_money_this_year',
+    'meter_money_this_month_avg', 'meter_money_this_year_avg',
+    'meter_tariff', 'meter_power', 'measure_watt_avg', 'last_minmax_reset', 'measure_watt_min', 'measure_watt_max'],
 };
 
 class sumDriver extends GenericDriver {
-	onInit() {
-		// this.log('driver onInit');
-		this.ds = driverSpecifics;
-		this.onDriverInit();
-	}
+
+  async onInit() {
+    // this.log('driver onInit');
+    this.ds = driverSpecifics;
+    await this.onDriverInit().catch(this.error);
+  }
+
 }
 
 module.exports = sumDriver;

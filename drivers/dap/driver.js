@@ -26,52 +26,54 @@ const STEKKER = require('../../stekker');
 const GenericDriver = require('../generic_dap_driver');
 
 const driverSpecifics = {
-	driverId: 'dap',
-	deviceCapabilities: [
-		'meter_price_h0',
-		'meter_price_h1',
-		'meter_price_h2',
-		'meter_price_h3',
-		'meter_price_h4',
-		'meter_price_h5',
-		'meter_price_h6',
-		'meter_price_h7',
-		'meter_price_last_month_avg',
-		'meter_price_this_month_avg',
-		'meter_price_this_day_avg',
-		'meter_price_next_8h_avg',
-		'meter_price_next_8h_lowest',
-		'hour_next_8h_lowest',
-		'meter_price_this_day_lowest',
-		'hour_this_day_lowest',
-		'meter_price_this_day_highest',
-		'hour_this_day_highest',
-		'meter_price_next_8h_highest',
-		'hour_next_8h_highest',
-		'meter_price_next_day_lowest',
-		'hour_next_day_lowest',
-		'meter_price_next_day_highest',
-		'hour_next_day_highest',
-		'meter_price_next_day_avg',
-		'meter_rank_price_h0_this_day',
-		'meter_rank_price_h0_next_8h',
-	],
+  driverId: 'dap',
+  deviceCapabilities: [
+    'meter_price_h0',
+    'meter_price_h1',
+    'meter_price_h2',
+    'meter_price_h3',
+    'meter_price_h4',
+    'meter_price_h5',
+    'meter_price_h6',
+    'meter_price_h7',
+    'meter_price_last_month_avg',
+    'meter_price_this_month_avg',
+    'meter_price_this_day_avg',
+    'meter_price_next_8h_avg',
+    'meter_price_next_8h_lowest',
+    'hour_next_8h_lowest',
+    'meter_price_this_day_lowest',
+    'hour_this_day_lowest',
+    'meter_price_this_day_highest',
+    'hour_this_day_highest',
+    'meter_price_next_8h_highest',
+    'hour_next_8h_highest',
+    'meter_price_next_day_lowest',
+    'hour_next_day_lowest',
+    'meter_price_next_day_highest',
+    'hour_next_day_highest',
+    'meter_price_next_day_avg',
+    'meter_rank_price_h0_this_day',
+    'meter_rank_price_h0_next_8h',
+  ],
 };
 
 class dapDriver extends GenericDriver {
-	onInit() {
-		// this.log('driver onInit');
-		this.ds = driverSpecifics;
 
-		// provide all data providers to the driver in order of presedence
-		this.ds.providers = [ENTSOE, NP, STEKKER];
-		this.ds.biddingZones = {};
-		this.ds.providers.forEach((Provider) => {
-			const api = new Provider();
-			Object.assign(this.ds.biddingZones, api.getBiddingZones());
-		});
-		this.onDriverInit();
-	}
+  async onInit() {
+    // this.log('driver onInit');
+    this.ds = driverSpecifics;
+
+    // provide all data providers to the driver in order of presedence
+    this.ds.providers = [ENTSOE, NP, STEKKER];
+    this.ds.biddingZones = {};
+    this.ds.providers.forEach((Provider) => {
+      const api = new Provider();
+      Object.assign(this.ds.biddingZones, api.getBiddingZones());
+    });
+    await this.onDriverInit().catch(this.error);
+  }
+
 }
 
 module.exports = dapDriver;
