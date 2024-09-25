@@ -138,7 +138,7 @@ const biddingZones = {
   ZZ_CWE_Region: '10YDOM-REGION-1V',
 };
 
-const flatten = async (json, level) => {
+const flatten = (json, level) => {
   try {
     const lvl = level ? level + 1 : 1;
     if (lvl > 10) return json;
@@ -169,9 +169,9 @@ const flatten = async (json, level) => {
       }
       flat[key] = flatten(json[key], lvl);
     });
-    return Promise.resolve(flat);
+    return flat;
   } catch (error) {
-    return Promise.reject(error);
+    return error;
   }
 };
 
@@ -289,7 +289,7 @@ class ENTSOE {
         compact: true, nativeType: true, ignoreDeclaration: true, ignoreAttributes: true, // spaces: 2,
       };
       const json = parseXml.xml2js(result.body, parseOptions);
-      const flatJson = await flatten(json);
+      const flatJson = flatten(json);
       // console.dir(flatJson, { depth: null });
       return Promise.resolve(flatJson);
     } catch (error) {
@@ -341,17 +341,17 @@ module.exports = ENTSOE;
 // const Entsoe = new ENTSOE({ biddingZone: '10YCZ-CEPS-----N', apiKey: '' }); // '10Y1001A1001A82H'
 // console.log('REMOVE APIKEY!!!!!');
 
-// // const today = new Date();
-// // today.setHours(0);
-// // const tomorrow = new Date(today);
-// // tomorrow.setDate(tomorrow.getDate() + 1);
+// const today = new Date();
+// today.setHours(0);
+// const tomorrow = new Date(today);
+// tomorrow.setDate(tomorrow.getDate() + 1);
 
-// const dateStart = new Date('2022-12-11T23:00:00.000Z'); // today;
-// const dateEnd = new Date('2022-12-13T23:00:00.000Z'); // tomorrow;
+// // const dateStart = new Date('2022-12-11T23:00:00.000Z'); // today;
+// // const dateEnd = new Date('2022-12-13T23:00:00.000Z'); // tomorrow;
 
-// Entsoe.getPrices({ dateStart, dateEnd })
-//  .then((result) => console.dir(result, { depth: null }))
-//  .catch((error) => console.log(error));
+// Entsoe.getPrices({ today, tomorrow })
+//   .then((result) => console.dir(result, { depth: null }))
+//   .catch((error) => console.log(error));
 
 // definitions for JSDoc
 

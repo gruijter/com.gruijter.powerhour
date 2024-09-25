@@ -1,4 +1,7 @@
 {
+  "6.6.1": {
+    "en": "Fixed ENTSO-E handler."
+  },
   "6.6.0": {
     "en": "Fixed internal hourly trigger drift. Stability improvements. homey-api@3.6.3"
   },
