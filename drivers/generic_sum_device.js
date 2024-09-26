@@ -80,7 +80,6 @@ class SumMeterDevice extends Device {
     } catch (error) {
       this.initReady = false; // retry after 5 minutes
       this.error(error);
-      // this.restartDevice(10 * 60 * 1000).catch(this.error); // restart after 10 minutes
       this.setUnavailable(error.message).catch(this.error);
     }
   }
@@ -445,14 +444,14 @@ class SumMeterDevice extends Device {
       this.meterDecimalsChanged = true;
     }
 
-    await this.restartDevice(1000).catch(this.error);
+    this.restartDevice(60 * 1000).catch((error) => this.error(error));
   }
 
   // helper for action flow cards
   async setTariffGroup(group) {
     this.log('changing tariff update group via flow', this.getName(), group);
     await this.setSettings({ tariff_update_group: group }).catch(this.error);
-    await this.restartDevice(1000).catch(this.error);
+    this.restartDevice(60 * 1000).catch((error) => this.error(error));
   }
 
   destroyListeners() {

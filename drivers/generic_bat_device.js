@@ -65,7 +65,6 @@ class batDevice extends Device {
       }
     } catch (error) {
       this.error(error);
-      // this.restartDevice(10 * 60 * 1000).catch(this.error); // restart after 10 minutes
       this.setUnavailable(error.message).catch(this.error);
       this.initReady = false; // retry after 5 minutes
     }
@@ -208,7 +207,7 @@ class batDevice extends Device {
       const HP2023 = this.homey.platformVersion === 2;
       if (!HP2023 && newSettings.roiEnable) throw Error('Advanced ROI is only available on HP2023!');
     }
-    await this.restartDevice(2000).catch(this.error);
+    this.restartDevice(2000).catch((error) => this.error(error));
   }
 
   destroyListeners() {

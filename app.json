@@ -1,7 +1,7 @@
 {
   "_comment": "This file is generated. Please edit .homeycompose/app.json instead.",
   "id": "com.gruijter.powerhour",
-  "version": "6.6.1",
+  "version": "6.6.2",
   "compatibility": ">=8.0.0",
   "brandColor": "#df5020",
   "sdk": 3,
@@ -6297,6 +6297,11 @@
       },
       "class": "other",
       "capabilities": [],
+      "capabilitiesOptions": {
+        "meter_power": {
+          "decimals": 4
+        }
+      },
       "images": {
         "large": "./drivers/power/assets/images/large.jpg",
         "small": "./drivers/power/assets/images/small.jpg"
@@ -8892,28 +8897,6 @@
         "en": "¤/kWh"
       },
       "decimals": 4
-    },
-    "meter_power": {
-      "type": "number",
-      "title": {
-        "en": "Energy",
-        "nl": "Energie",
-        "de": "Energie",
-        "fr": "Énergie",
-        "it": "Energia",
-        "sv": "Energi",
-        "no": "Energi",
-        "es": "Energía",
-        "da": "Energi"
-      },
-      "decimals": 4,
-      "units": {
-        "en": "kWh"
-      },
-      "insights": true,
-      "getable": true,
-      "setable": false,
-      "uiComponent": "sensor"
     },
     "meter_power_hidden": {
       "type": "number",

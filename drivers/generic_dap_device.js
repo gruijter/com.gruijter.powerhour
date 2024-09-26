@@ -141,7 +141,7 @@ class MyDevice extends Homey.Device {
     } catch (error) {
       this.error(error);
       // this.setUnavailable(error.message).catch(this.error).catch(this.error);
-      await this.restartDevice(1 * 60 * 1000).catch(this.error); // restart after 1 minute
+      this.restartDevice(60 * 1000).catch((error) => this.error(error)); // restart after 1 minute
     }
   }
 
@@ -295,7 +295,7 @@ class MyDevice extends Homey.Device {
     if (changedKeys.includes('currency') || changedKeys.includes('decimals')) {
       this.currencyChanged = true;
     }
-    await this.restartDevice(1000).catch(this.error);
+    this.restartDevice(1000).catch((error) => this.error(error));
   }
 
   async setCapability(capability, value) {
@@ -397,13 +397,13 @@ class MyDevice extends Homey.Device {
   async setVariableMarkup(val) {
     this.log('changing variable markup via flow', this.getName(), val);
     await this.setSettings({ variableMarkup: val }).catch(this.error);
-    await this.restartDevice(1000).catch(this.error);
+    this.restartDevice(1000).catch((error) => this.error(error));
   }
 
   async setFixedMarkup(val) {
     this.log('changing fixed markup via flow', this.getName(), val);
     await this.setSettings({ fixedMarkup: val }).catch(this.error);
-    await this.restartDevice(1000).catch(this.error);
+    this.restartDevice(1000).catch((error) => this.error(error));
   }
 
   async setFixedMarkupTOD(val) {
@@ -411,20 +411,20 @@ class MyDevice extends Homey.Device {
     const todObject = todMap(val); // will throw Error if invalid
     if (todObject === null) await this.setSettings({ fixedMarkupTOD: '' }).catch(this.error);
     else await this.setSettings({ fixedMarkupTOD: val }).catch(this.error);
-    await this.restartDevice(1000).catch(this.error);
+    this.restartDevice(1000).catch((error) => this.error(error));
   }
 
   async setFixedMarkupWeekend(val) {
     this.log('changing Weekend markup via flow', this.getName(), val);
     if (!Number.isFinite(val)) throw Error('value is not a number');
     await this.setSettings({ fixedMarkupWeekend: val }).catch(this.error);
-    await this.restartDevice(1000).catch(this.error);
+    this.restartDevice(1000).catch((error) => this.error(error));
   }
 
   async setExchangeRate(val) {
     this.log('changing exchange rate via flow', this.getName(), val);
     await this.setSettings({ exchangeRate: val }).catch(this.error);
-    await this.restartDevice(1000).catch(this.error);
+    this.restartDevice(1000).catch((error) => this.error(error));
   }
 
   // EXECUTORS FOR CONDITION FLOWS AND TRIGGERS

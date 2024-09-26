@@ -1,4 +1,7 @@
 {
+  "6.6.2": {
+    "en": "Capability flows compatibility >=fw12.2.0. Fix settings timeout error."
+  },
   "6.6.1": {
     "en": "Fixed ENTSO-E handler."
   },

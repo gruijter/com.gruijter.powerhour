@@ -6,6 +6,11 @@
 	},
 	"class": "other",
 	"capabilities": [],
+	"capabilitiesOptions": {
+    "meter_power": { 
+			"decimals": 4
+    }
+	},
 	"images": {
 		"large": "./drivers/power/assets/images/large.jpg",
 		"small": "./drivers/power/assets/images/small.jpg"
