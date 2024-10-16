@@ -59,6 +59,16 @@
 						"no": "neste 8T",
 						"nl": "komende 8U"
 					}
+				},
+				{	"id": "this_month_avg",
+					"label": { 
+						"en": "this month",
+						"de": "diesen monat",
+						"sv": "denna månad",
+						"it": "questo mese",
+						"no": "denne måned",
+						"nl": "deze maand"
+					}
 				}
 			]
 		}
