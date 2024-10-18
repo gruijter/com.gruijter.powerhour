@@ -909,6 +909,7 @@ class MyDevice extends Homey.Device {
 
       priceLastMonthAvg,
       priceThisMonthAvg,
+      this_month_avg: priceThisMonthAvg,
       dayNumber,
       monthNumber,
 
