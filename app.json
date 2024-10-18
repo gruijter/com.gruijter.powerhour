@@ -1,7 +1,7 @@
 {
   "_comment": "This file is generated. Please edit .homeycompose/app.json instead.",
   "id": "com.gruijter.powerhour",
-  "version": "6.6.2",
+  "version": "6.6.3",
   "compatibility": ">=8.0.0",
   "brandColor": "#df5020",
   "sdk": 3,
@@ -1899,6 +1899,17 @@
                   "no": "neste 8T",
                   "nl": "komende 8U"
                 }
+              },
+              {
+                "id": "this_month_avg",
+                "label": {
+                  "en": "this month",
+                  "de": "diesen monat",
+                  "sv": "denna månad",
+                  "it": "questo mese",
+                  "no": "denne måned",
+                  "nl": "deze maand"
+                }
               }
             ]
           }
@@ -2037,6 +2048,17 @@
                   "it": "prossime 8h",
                   "no": "neste 8T",
                   "nl": "komende 8U"
+                }
+              },
+              {
+                "id": "this_month_avg",
+                "label": {
+                  "en": "this month",
+                  "de": "diesen monat",
+                  "sv": "denna månad",
+                  "it": "questo mese",
+                  "no": "denne måned",
+                  "nl": "deze maand"
                 }
               }
             ]
@@ -3241,7 +3263,7 @@
               "nl": "Prijzen"
             },
             "type": "string",
-            "example": "{'0':0.2747,'1':0.2678,'2':0.261,'3':0.2606,'4':0.2672,'5':0.2721,'6':0.272,'7':0.2678,'8':0.2625,'9':0.2516,'10':0.2409,'11':0.2317,'12':0.20,'13':0.15,'14':0.12,'15':0.11,'16':0.12,'17':0.20,'18':0.2772,'19':0.2927,'20':0.3052,'21':0.2944,'22':0.2856,'23':0.2725"
+            "example": "{'0':0.2747,'1':0.2678,'2':0.261,'3':0.2606,'4':0.2672,'5':0.2721,'6':0.272,'7':0.2678,'8':0.2625,'9':0.2516,'10':0.2409,'11':0.2317,'12':0.20,'13':0.15,'14':0.12,'15':0.11,'16':0.12,'17':0.20,'18':0.2772,'19':0.2927,'20':0.3052,'21':0.2944,'22':0.2856,'23':0.2725}"
           }
         ],
         "id": "prices_json"

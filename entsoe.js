@@ -215,10 +215,9 @@ class ENTSOE {
       start.setSeconds(0);
       start.setMilliseconds(0);
       end.setMinutes(0);
-      const interval = `${start.toISOString().replace(/.\d+Z$/g, 'Z').replace(':', '%3A')}`
-        + '%2F'
-        + `${end.toISOString().replace(/.\d+Z$/g, 'Z').replace(':', '%3A')}`;
-      const path = `/api?securityToken=${this.apiKey}&documentType=A44&in_Domain=${zone}&out_Domain=${zone}&TimeInterval=${interval}`;
+      const periodStart = start.toISOString().replace(/[-:T]/g, '').slice(0, 12);
+      const periodEnd = end.toISOString().replace(/[-:T]/g, '').slice(0, 12);
+      const path = `/api?securityToken=${this.apiKey}&documentType=A44&in_Domain=${zone}&out_Domain=${zone}&periodStart=${periodStart}&periodEnd=${periodEnd}`;
       const res = await this._makeRequest(path);
 
       // make array with concise info
@@ -338,18 +337,18 @@ class ENTSOE {
 module.exports = ENTSOE;
 
 // // START TEST HERE
-// const Entsoe = new ENTSOE({ biddingZone: '10YCZ-CEPS-----N', apiKey: '' }); // '10Y1001A1001A82H'
+// const Entsoe = new ENTSOE({ biddingZone: '10YLV-1001A00074', apiKey: '' }); // '10Y1001A1001A82H'
 // console.log('REMOVE APIKEY!!!!!');
 
 // const today = new Date();
 // today.setHours(0);
 // const tomorrow = new Date(today);
-// tomorrow.setDate(tomorrow.getDate() + 1);
+// tomorrow.setDate(tomorrow.getDate() + 2);
 
-// // const dateStart = new Date('2022-12-11T23:00:00.000Z'); // today;
-// // const dateEnd = new Date('2022-12-13T23:00:00.000Z'); // tomorrow;
+// // const today = new Date('2024-10-17T23:00:00.000Z'); // today;
+// // const tomorrow = new Date('2024-10-19T23:00:00.000Z'); // tomorrow;
 
-// Entsoe.getPrices({ today, tomorrow })
+// Entsoe.getPrices({ dateStart: today, dateEnd: tomorrow })
 //   .then((result) => console.dir(result, { depth: null }))
 //   .catch((error) => console.log(error));
 
