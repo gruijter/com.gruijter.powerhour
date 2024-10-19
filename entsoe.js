@@ -175,6 +175,29 @@ const flatten = (json, level) => {
   }
 };
 
+const padMissingHours = (data) => {
+  const paddedData = [];
+  data.forEach((currentEntry, idx) => {
+    if (idx > 0) {
+      const previousEntry = { ...data[idx - 1] };
+      const currTime = new Date(currentEntry.time);
+      const prevTime = new Date(previousEntry.time);
+      const prevPrice = previousEntry.price; // Set previous price for potential gaps
+      let hoursDiff = (currTime - prevTime) / (1000 * 60 * 60); // Calculate the difference in hours
+      while (hoursDiff > 1) { // If more than 1 hour difference, fill the gap
+        prevTime.setHours(prevTime.getHours() + 1);
+        paddedData.push({
+          time: new Date(prevTime), // new hour
+          price: prevPrice, // use the previous price
+        });
+        hoursDiff--;
+      }
+    }
+    paddedData.push(data[idx]); // Push the current entry to the result
+  });
+  return (paddedData);
+};
+
 // Represents a session to the ENTSOE API.
 class ENTSOE {
 
@@ -236,16 +259,17 @@ class ENTSOE {
         const allPrices = [];
         infoAllDaysArray.forEach((day) => {
           const startDate = new Date(day.Period.timeInterval.start);
-          const pricesDay = Object.values(day.Period.Point).map((value, index) => {
+          Object.values(day.Period.Point).forEach((point, index) => {
             const sd = new Date(startDate);
-            const hour = index;
+            const hour = point.position - 1;
             sd.setHours(sd.getHours() + hour);
-            return { time: sd, price: value['price.amount'] };
+            allPrices.push({ time: sd, price: point['price.amount'] });
           });
-          allPrices.push(...pricesDay);
         });
+        // pad missing hours due to A03 curve :(
+        info = padMissingHours(allPrices);
         // remove out of bounds data
-        info = allPrices
+        info = info
           .filter((price) => price.time >= start)
           .filter((price) => price.time <= end);
       } else throw Error('no timeseries data found in response');

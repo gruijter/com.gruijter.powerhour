@@ -46,6 +46,9 @@ const driverSpecifics = {
     {
       soc: 'measure_percentage.battery1', productionPower: 'measure_power.battery1', // Blauhoff Deye
     },
+    {
+      soc: 'measure_battery', usagePower: 'measure_power', // SolarEdge Growatt
+    },
   ],
   deviceCapabilities: [
     'measure_watt_avg', 'meter_kwh_stored',

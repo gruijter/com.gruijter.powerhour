@@ -1,4 +1,7 @@
 {
+  "6.6.4": {
+    "en": "DAP: Fix new ENTSO-E API. BAT: Added SolarEdge Growatt"
+  },
   "6.6.3": {
     "en": "Added flow compare to monthly average. New ENTSO-E API implemented. Fix JSON example. homey-api@3.6.3"
   },

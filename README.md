@@ -63,7 +63,7 @@ From the device settings you can set the taxes and markups your provider is char
 <br>
 <br>
 
-The electricity pricing information is fetched from ENTSO-E, the European Network of Transmission System Operators for Electricity. https://transparency.entsoe.eu/transmission-domain/r2/dayAheadPrices/show
+The electricity pricing information is fetched from ENTSO-E, the European Network of Transmission System Operators for Electricity. https://newtransparency.entsoe.eu/market/energyPrices
 Nordpool is used as backup for electricity pricing: https://www.nordpoolgroup.com/
 All Gas spot pricing (EOD and EGSI) is coming from EEX: https://www.eex.com/en/market-data/natural-gas/spot
 TTF LEBA gas pricing is derived from EasyEnergy as seen here: https://www.nieuwestroom.nl/energiemarkt/energiebeurzen/gas-handelsbeurs/
