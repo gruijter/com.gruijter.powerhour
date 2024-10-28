@@ -72,6 +72,30 @@ const biddingZonesMap = {
   NBP_EGSI: '"$E.EGSI_NBP_DAY"',
 };
 
+const padMissingHours = (data) => {
+  const paddedData = [];
+  data.forEach((currentEntry, idx) => {
+    let hoursDiff = 1;
+    if (idx > 0) {
+      const previousEntry = { ...data[idx - 1] };
+      const currTime = new Date(currentEntry.time);
+      const prevTime = new Date(previousEntry.time);
+      const prevPrice = previousEntry.price; // Set previous price for potential gaps
+      hoursDiff = (currTime - prevTime) / (1000 * 60 * 60); // Calculate the difference in hours
+      while (hoursDiff > 1) { // If more than 1 hour difference, fill the gap
+        prevTime.setUTCHours(prevTime.getUTCHours() + 1);
+        paddedData.push({
+          time: new Date(prevTime), // new hour
+          price: prevPrice, // use the previous price
+        });
+        hoursDiff--;
+      }
+    }
+    if (hoursDiff > 0) paddedData.push(data[idx]); // Push the current entry to the result, remove double hours
+  });
+  return (paddedData);
+};
+
 // Represents a session to the PowerNext API.
 class EEX {
 
@@ -131,36 +155,35 @@ class EEX {
       // path = `/query/json/getDaily/close/onexchtradevolumeeex/tradedatetimegmt/?${query}`;
 
       const res = await this._makeRequest(path, '');
-      if (!res || !res[0] || !res[0].time) throw Error('no gas price info found');
+      if (!res || !res[0] || !res[0].date) throw Error('no gas price info found');
 
       // make array with concise info per day in euro / 1000 m3 gas
       const priceInfo = res
         .filter((info) => info.descr === zone)
         .map((day) => {
-          const dayStart = new Date(day.time.setHours(0));
+          const dayStart = new Date(day.date.setHours(0));
           const timeZoneOffset = new Date(dayStart.toLocaleString('en-US', { timeZone: 'Europe/Amsterdam' })) - dayStart;
           dayStart.setMilliseconds(-timeZoneOffset); // convert date CET/CEST to UTC
-          const tariffStart = new Date(dayStart.getTime() + (6 * 60 * 60 * 1000)); // add 6 hours
+          const time = new Date(dayStart.getTime() + (6 * 60 * 60 * 1000)); // add 6 hours
           return {
-            tariffStart,
-            price: day.price * 9.7694,
-            descr: day.descr,
+            time,
+            price: day.rawPrice * 9.7694,
           };
         })
-        .filter((day) => day.tariffStart >= new Date(start - 24 * 60 * 60 * 1000)); // filter out too old days; // [];
+        .filter((day) => day.time >= new Date(start - 24 * 60 * 60 * 1000)); // filter out too old days; // [];
 
       // pad info to fill all hours in a day
-      let info = [];
-      priceInfo.forEach((day) => {
-        const startTime = new Date(day.tariffStart); // always 6am CET
-        const endTime = new Date(startTime);
-        endTime.setDate(endTime.getDate() + 1); // add a day, knows about DST I hope...
-        const time = startTime;
-        while (time < endTime) {
-          info.push({ time: new Date(time), price: day.price }); // push hourinfo
-          time.setTime(time.getTime() + (60 * 60 * 1000)); // add an hour
-        }
+      const [lastPriceHour] = priceInfo.slice(-1);
+      const endTime = new Date(lastPriceHour.time);
+      endTime.setDate(endTime.getDate() + 1); // add a day, knows about DST I hope...
+      endTime.setHours(endTime.getHours() - 1);
+      priceInfo.push({
+        time: endTime,
+        price: lastPriceHour.price,
       });
+
+      let info = padMissingHours(priceInfo);
+
       info = info // remove out of bounds data
         .filter((hourInfo) => hourInfo.time >= start)
         .filter((hourInfo) => hourInfo.time < end);
@@ -251,36 +274,36 @@ class EEX {
         // create array with daily values
         const resp = [];
         dailyInfo.forEach((day, idx) => { // { close: 55.665, onexchtradevolumeeex: 3277272, tradedatetimegmt: '1/16/2023 12:00:00 PM' }
-          const time = new Date(day.tradedatetimegmt.split(' ')[0]);
-          time.setDate(time.getDate() + 1); // is day ahead, duh...
+          const date = new Date(day.tradedatetimegmt.split(' ')[0]);
+          date.setDate(date.getDate() + 1); // is day ahead, duh...
           let mappedDay = {
-            time,
-            price: Number(day.close),
+            date,
+            rawPrice: Number(day.close),
             descr: this.tmpZone,
           };
 
           // Check if last daily entry is closed // after 20:00 CET?
           if ((idx === dailyInfo.length - 1)
-            && mappedDay.time.getDay() !== 6 // is actually price for monday after the weekend
+            && mappedDay.date.getDay() !== 6 // is actually price for monday after the weekend
             && !lastDailyIsClosed) mappedDay = null; // ignore last day info because it is not closed yet
 
           // Check if last entry is weekend info, and is closed
-          if (weekendInfo && mappedDay && mappedDay.time.getDay() === 6) {
+          if (weekendInfo && mappedDay && mappedDay.date.getDay() === 6) {
             // console.log('it is weekend');
             const [weekend] = weekendInfo.filter((dayW) => dayW.tradedatetimegmt === day.tradedatetimegmt);
             const satTime = new Date(weekend.tradedatetimegmt.split(' ')[0]);
             satTime.setDate(satTime.getDate() + 1); // is day ahead, duh...
             const sat = {
-              time,
-              price: Number(weekend.close),
+              date,
+              rawPrice: Number(weekend.close),
               descr: this.tmpZone,
             };
             const sun = { ...sat };
-            sun.time = new Date(sun.time);
-            sun.time.setDate(sun.time.getDate() + 1); // add a day, knows about DST I hope...
+            sun.date = new Date(sun.date);
+            sun.date.setDate(sun.date.getDate() + 1); // add a day, knows about DST I hope...
             const mon = { ...mappedDay };
-            mon.time = new Date(mon.time);
-            mon.time.setDate(mon.time.getDate() + 2); // add a weekend, knows about DST I hope...
+            mon.date = new Date(mon.date);
+            mon.date.setDate(mon.date.getDate() + 2); // add a weekend, knows about DST I hope...
             resp.push(sat, sun, mon); // add weekend and monday
             mappedDay = null; // skipp adding normal weekday info
           }
@@ -341,47 +364,47 @@ module.exports = EEX;
 
 // // START TEST HERE
 // const test = async () => {
-//  const next = new EEX({ biddingZone: 'TTF_EOD' });
+//   const next = new EEX({ biddingZone: 'TTF_EGSI' }); // 'TTF_EOD'
 
-//  // next.lastDailyInfo = [
-//  //  {
-//  //   close: 59.83,
-//  //   onexchtradevolumeeex: 3369840,
-//  //   tradedatetimegmt: '1/16/2023 12:00:00 PM',
-//  //  },
-//  //  {
-//  //   close: 59.83,
-//  //   onexchtradevolumeeex: 3679632,
-//  //   tradedatetimegmt: '1/17/2023 12:00:00 PM',
-//  //  },
-//  //  {
-//  //   close: 60.01,
-//  //   onexchtradevolumeeex: 3719736,
-//  //   tradedatetimegmt: '1/18/2023 12:00:00 PM',
-//  //  },
-//  //  {
-//  //   close: 61.271,
-//  //   onexchtradevolumeeex: 3815928,
-//  //   tradedatetimegmt: '1/19/2023 12:00:00 PM',
-//  //  },
-//  //  {
-//  //   close: 62.125,
-//  //   onexchtradevolumeeex: 554952,
-//  //   tradedatetimegmt: '1/20/2023 12:00:00 PM',
-//  //  },
-//  // ];
+//   // next.lastDailyInfo = [
+//   //  {
+//   //   close: 59.83,
+//   //   onexchtradevolumeeex: 3369840,
+//   //   tradedatetimegmt: '1/16/2023 12:00:00 PM',
+//   //  },
+//   //  {
+//   //   close: 59.83,
+//   //   onexchtradevolumeeex: 3679632,
+//   //   tradedatetimegmt: '1/17/2023 12:00:00 PM',
+//   //  },
+//   //  {
+//   //   close: 60.01,
+//   //   onexchtradevolumeeex: 3719736,
+//   //   tradedatetimegmt: '1/18/2023 12:00:00 PM',
+//   //  },
+//   //  {
+//   //   close: 61.271,
+//   //   onexchtradevolumeeex: 3815928,
+//   //   tradedatetimegmt: '1/19/2023 12:00:00 PM',
+//   //  },
+//   //  {
+//   //   close: 62.125,
+//   //   onexchtradevolumeeex: 554952,
+//   //   tradedatetimegmt: '1/20/2023 12:00:00 PM',
+//   //  },
+//   // ];
 
-//  const today = new Date();
-//  today.setHours(0);
-//  const yesterday = new Date(today);
-//  const tomorrow = new Date(today);
-//  yesterday.setDate(yesterday.getDate() - 3);
-//  tomorrow.setDate(tomorrow.getDate() + 2);
+//   const today = new Date();
+//   today.setHours(0);
+//   const yesterday = new Date(today);
+//   const tomorrow = new Date(today);
+//   yesterday.setDate(yesterday.getDate() - 1);
+//   tomorrow.setDate(tomorrow.getDate() + 3);
 
-//  const result = await next.getPrices({ dateStart: yesterday, dateEnd: tomorrow }).catch((error) => console.log(error));
-//  console.dir(result, { depth: null });
-//  // const result2 = await next.getPrices({ dateStart: '2024-04-06T22:00:00.000Z', dateEnd: '2024-04-08T22:00:00.000Z' }).catch((error) => console.log(error));
-//  // console.dir(result2, { depth: null });
+//   const result = await next.getPrices({ dateStart: yesterday, dateEnd: tomorrow }).catch((error) => console.log(error));
+//   console.dir(result, { depth: null });
+//   // const result2 = await next.getPrices({ dateStart: '2024-04-06T22:00:00.000Z', dateEnd: '2024-04-08T22:00:00.000Z' }).catch((error) => console.log(error));
+//   // console.dir(result2, { depth: null });
 // };
 
 // test();
