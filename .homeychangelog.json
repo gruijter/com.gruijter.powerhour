@@ -1,4 +1,7 @@
 {
+  "6.6.6": {
+    "en": "homey-api@3.6.8"
+  },
   "6.6.5": {
     "en": "DAP: Fix new ENTSO-E API. Fix EEX gas API. Fix LEBA gas API. Removed Nordpool API. Known issue: forecast not working."
   },
