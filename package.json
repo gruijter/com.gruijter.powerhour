@@ -20,7 +20,7 @@
   },
   "dependencies": {
     "glpk.js": "^4.0.2",
-    "homey-api": "^3.6.8",
+    "homey-api": "^3.11.1",
     "xml-js": "^1.6.11"
   },
   "devDependencies": {

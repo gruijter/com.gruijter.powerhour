@@ -1,4 +1,19 @@
 {
+  "6.7.0": {
+    "en": "Appstore stable release."
+  },
+  "6.6.10": {
+    "en": "Fix XOM flow distribution based on SOC"
+  },
+  "6.6.9": {
+    "en": "Fix XOM flow distribution based on SOC"
+  },
+  "6.6.8": {
+    "en": "Fix XOM flow when >2 batteries"
+  },
+  "6.6.7": {
+    "en": "homey-api@3.11.1. XOM flow optimization"
+  },
   "6.6.6": {
     "en": "homey-api@3.6.8"
   },

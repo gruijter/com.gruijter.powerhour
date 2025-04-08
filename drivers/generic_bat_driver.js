@@ -158,6 +158,8 @@ class BatDriver extends Driver {
         const cumulativePower = (report && report.totalCumulative && report.totalCumulative.W);
         if (!Number.isFinite(cumulativePower)) return;
 
+        // console.log(`Cumulative Power: ${cumulativePower} W, x: ${x}, smoothing: ${smoothing}, minLoad: ${minLoad}`);
+
         // strategy: divide required power based on SoC ratio. Assume all batteries are used!
         const devices = await this.getDevices();
         const batterieInfo = devices
@@ -180,6 +182,7 @@ class BatDriver extends Driver {
         const totalBattpower = batterieInfo.reduce((sum, currentValue) => sum + currentValue.actualPower, 0);
         const totalTarget = cumulativePower + totalBattpower - x; // x and smoothing are settable by app flow
         let strategy = []; // array of strategies per battery
+        // console.log('totalBattpower:', totalBattpower, 'totalTarget:', totalTarget, 'totalBattSoc:', totalBattSoc);
 
         // calculate strategy and headroom per battery
         strategy = batterieInfo.map((info) => {
@@ -189,7 +192,7 @@ class BatDriver extends Driver {
             fraction = (totalBattSoc > 0) ? (info.soc / totalBattSoc) : 0;
           } // discharge needed
           if (totalTarget < 0) {
-            fraction = (totalBattSoc > 0) ? ((totalBattSoc - info.soc) / totalBattSoc) : 0;
+            fraction = (totalBattSoc > 0) ? (1 - (info.soc / totalBattSoc)) : 0;
           } // charge needed
           target = totalTarget * fraction;
           // set minimum and maxumum targets
@@ -203,6 +206,7 @@ class BatDriver extends Driver {
           const strat = { ...info };
           strat.target = target;
           strat.headroom = headroom;
+          strat.fraction = fraction;
           return strat;
         });
         // console.log('strat before redist:', strategy);
