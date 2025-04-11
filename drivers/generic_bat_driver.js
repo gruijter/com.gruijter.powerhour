@@ -157,6 +157,7 @@ class BatDriver extends Driver {
         const report = await this.homey.app.api.energy.getLiveReport().catch(this.error);
         const cumulativePower = (report && report.totalCumulative && report.totalCumulative.W);
         if (!Number.isFinite(cumulativePower)) return;
+        if (Math.abs(cumulativePower) > 30000) throw new Error('Cumulative Power is not valid');
 
         // console.log(`Cumulative Power: ${cumulativePower} W, x: ${x}, smoothing: ${smoothing}, minLoad: ${minLoad}`);
 
@@ -202,7 +203,7 @@ class BatDriver extends Driver {
           // calculate power headroom
           let headroom = 0;
           if (totalTarget > 0) headroom = (info.soc > 0) ? (info.maxDischarge - target) : 0;
-          if (totalTarget < 0) headroom = (info.soc < 100) ? (target - info.maxCharge) : 0;
+          if (totalTarget < 0) headroom = (info.soc < 100) ? -(info.maxCharge + target) : 0;
           const strat = { ...info };
           strat.target = target;
           strat.headroom = headroom;
@@ -277,7 +278,7 @@ class BatDriver extends Driver {
             smoothing,
             minLoad,
           };
-          // console.log(`${device.getName()} P1act: ${cumulativePower} battAct:${strat.actualPower} BattNew:${tokens.power}`);
+          // console.log(`${device.getName()}`, tokens);
           const state = {}; // args;
           this.homey.app.triggerXOMStrategy(device, tokens, state);
         });
