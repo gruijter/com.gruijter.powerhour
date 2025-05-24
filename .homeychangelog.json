@@ -1,4 +1,10 @@
 {
+  "6.7.2": {
+    "en": "Added support for Sessy app >=3.0. homey-api@3.11.3"
+  },
+  "6.7.1": {
+    "en": "Xom headroom fix."
+  },
   "6.7.0": {
     "en": "Appstore stable release."
   },
@@ -514,8 +520,5 @@
   },
   "0.1.0": {
     "en": "First release"
-  },
-  "6.7.1": {
-    "en": "Xom headroom fix."
   }
 }
