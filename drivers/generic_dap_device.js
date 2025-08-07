@@ -316,6 +316,13 @@ class MyDevice extends Homey.Device {
     const muPrices = marketPrices.map((marketPrice) => {
       // handle exchange rate and convert from mWh to kWh
       let muPrice = (marketPrice.price * this.settings.exchangeRate) / 1000;
+      // add financial support
+      const { adjustFinancialSupport } = this.settings;
+      if (adjustFinancialSupport) {
+        if (muPrice > 0.75) {
+            muPrice = (0.75 + (muPrice - 0.75) * 0.1);
+          }  
+      }   
       // add variable markup
       let { variableMarkup, variableMarkupAbsPrice } = this.settings;
       variableMarkupAbsPrice = (marketPrice.price < 0) ? -variableMarkupAbsPrice : variableMarkupAbsPrice;
