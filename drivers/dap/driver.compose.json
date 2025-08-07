@@ -436,7 +436,20 @@
 						"dk": "Angiv beløbet, som prisen skal øges ekstra pr. kWh i løbet af hele weekenden (lørdag-søndag). Bemærk: Dette tillæg erstatter Time Of Day-tillægget!",
 						"nl": "Voer het bedrag in waarmee de prijs per kWh het hele weekend (zaterdag - zondag) moet worden verhoogd. Opmerking: deze opslag vervangt de Time Of Day-opslag!"
 					}
-				}
+				},
+				{
+					"id": "adjustFinancialSupport",
+					"type": "checkbox",
+					"label": {
+						"en": "Adjust for financial support (Norway)",
+						"nl": "Korrigér for strømstøtte"
+					},
+					"hint": {
+						"en": "Check if prices should be adjusted, ref. 'strømstøtte'. (only in Norway)",
+						"no": "Velges hvis priser skal korrigeres for strømstøtte.",
+					},
+					"value": false
+				}				
 			]
 		},
 		{
