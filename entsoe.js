@@ -178,14 +178,15 @@ const flatten = (json, level) => {
 const padMissingHours = (data) => {
   const paddedData = [];
   data.forEach((currentEntry, idx) => {
+    let hoursDiff = 1;
     if (idx > 0) {
       const previousEntry = { ...data[idx - 1] };
       const currTime = new Date(currentEntry.time);
       const prevTime = new Date(previousEntry.time);
       const prevPrice = previousEntry.price; // Set previous price for potential gaps
-      let hoursDiff = (currTime - prevTime) / (1000 * 60 * 60); // Calculate the difference in hours
+      hoursDiff = (currTime - prevTime) / (1000 * 60 * 60); // Calculate the difference in hours
       while (hoursDiff > 1) { // If more than 1 hour difference, fill the gap
-        prevTime.setHours(prevTime.getHours() + 1);
+        prevTime.setUTCHours(prevTime.getUTCHours() + 1);
         paddedData.push({
           time: new Date(prevTime), // new hour
           price: prevPrice, // use the previous price
@@ -193,7 +194,7 @@ const padMissingHours = (data) => {
         hoursDiff--;
       }
     }
-    paddedData.push(data[idx]); // Push the current entry to the result
+    if (hoursDiff > 0) paddedData.push(data[idx]); // Push the current entry to the result, remove double hours
   });
   return (paddedData);
 };
@@ -265,13 +266,19 @@ class ENTSOE {
             sd.setHours(sd.getHours() + hour);
             allPrices.push({ time: sd, price: point['price.amount'] });
           });
+          // Pad last hour when not included due to A03 curve :(
+          const endDate = new Date(day.Period.timeInterval.end);
+          endDate.setHours(endDate.getHours() - 1);
+          const [lp] = allPrices.slice(-1);
+          if (endDate > lp.time) allPrices.push({ time: endDate, price: lp.price });
         });
-        // pad missing hours due to A03 curve :(
-        info = padMissingHours(allPrices);
-        // remove out of bounds data
-        info = info
+        // sort data and remove out of bounds data
+        info = allPrices
           .filter((price) => price.time >= start)
-          .filter((price) => price.time <= end);
+          .filter((price) => price.time <= end)
+          .sort((a, b) => a.time - b.time);
+        // pad missing hours due to A03 curve :(
+        info = padMissingHours(info);
       } else throw Error('no timeseries data found in response');
       // console.dir(info, { depth: null, colors: true });
       return Promise.resolve(info);
@@ -369,8 +376,8 @@ module.exports = ENTSOE;
 // const tomorrow = new Date(today);
 // tomorrow.setDate(tomorrow.getDate() + 2);
 
-// // const today = new Date('2024-10-17T23:00:00.000Z'); // today;
-// // const tomorrow = new Date('2024-10-19T23:00:00.000Z'); // tomorrow;
+// // const today = new Date('2024-10-26T23:00:00.000Z'); // today;
+// // const tomorrow = new Date('2024-10-29T23:00:00.000Z'); // tomorrow;
 
 // Entsoe.getPrices({ dateStart: today, dateEnd: tomorrow })
 //   .then((result) => console.dir(result, { depth: null }))

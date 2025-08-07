@@ -32,6 +32,30 @@ const biddingZones = {
   TTF_LEBA_EasyEnergy: 'TTF_LEBA_EasyEnergy',
 };
 
+const padMissingHours = (data) => {
+  const paddedData = [];
+  data.forEach((currentEntry, idx) => {
+    let hoursDiff = 1;
+    if (idx > 0) {
+      const previousEntry = { ...data[idx - 1] };
+      const currTime = new Date(currentEntry.time);
+      const prevTime = new Date(previousEntry.time);
+      const prevPrice = previousEntry.price; // Set previous price for potential gaps
+      hoursDiff = (currTime - prevTime) / (1000 * 60 * 60); // Calculate the difference in hours
+      while (hoursDiff > 1) { // If more than 1 hour difference, fill the gap
+        prevTime.setUTCHours(prevTime.getUTCHours() + 1);
+        paddedData.push({
+          time: new Date(prevTime), // new hour
+          price: prevPrice, // use the previous price
+        });
+        hoursDiff--;
+      }
+    }
+    if (hoursDiff > 0) paddedData.push(data[idx]); // Push the current entry to the result, remove double hours
+  });
+  return (paddedData);
+};
+
 // Represents a session to the Easyenergy API.
 class Easyenergy {
 
@@ -78,8 +102,9 @@ class Easyenergy {
       if (!res || !res[0] || !res[0].Timestamp) throw Error('no gas price info found');
 
       // make array with concise info per day in euro / 1000 m3 gas
-      const info = res
-        .map((hourInfo) => ({ time: new Date(hourInfo.Timestamp), price: hourInfo.TariffUsage * 1000 }))
+      let info = res.map((hourInfo) => ({ time: new Date(hourInfo.Timestamp), price: hourInfo.TariffUsage * 1000 }));
+      info = padMissingHours(info);
+      info = info
         .filter((hourInfo) => hourInfo.time >= start) // remove out of bounds data
         .filter((hourInfo) => hourInfo.time <= end);
 
@@ -172,9 +197,9 @@ module.exports = Easyenergy;
 // // const dateEnd = '2023-01-08T23:00:00.000Z';
 // // easyEnergy.getPrices({ dateStart, dateEnd })
 
-// easyEnergy.getPrices({ dateStart: today, dateEnd: tomorrow })
-//  .then((result) => console.dir(result, { depth: null }))
-//  .catch((error) => console.log(error));
+// easyEnergy.getPrices({ dateStart: yesterday, dateEnd: tomorrow })
+//   .then((result) => console.dir(result, { depth: null }))
+//   .catch((error) => console.log(error));
 
 /*
 

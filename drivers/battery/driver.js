@@ -26,7 +26,10 @@ const driverSpecifics = {
   originDeviceCapabilities: ['measure_battery', 'measure_power.battery', 'measure_power.battery1'],
   sourceCapGroups: [
     {
-      soc: 'measure_battery', productionPower: 'measure_power', chargeMode: 'charge_mode', // Sessy
+      soc: 'measure_battery', productionPower: 'measure_power.battery', chargeMode: 'charge_mode', // Sessy new (=>v3.0)
+    },
+    {
+      soc: 'measure_battery', productionPower: 'measure_power', chargeMode: 'charge_mode', // Sessy old
     },
     {
       soc: 'measure_battery_soc', usagePower: 'measure_battery_power', // Solax

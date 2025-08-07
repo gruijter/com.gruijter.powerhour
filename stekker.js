@@ -375,8 +375,8 @@ module.exports = Stekker;
 // tomorrow.setDate(tomorrow.getDate() + 1);
 
 // EF.getPrices({ dateStart: today, dateEnd: tomorrow, forecast: true })
-//  .then((result) => console.dir(result, { depth: null }))
-//  .catch((error) => console.log(error));
+//   .then((result) => console.dir(result, { depth: null }))
+//   .catch((error) => console.log(error));
 
 // definitions for JSDoc
 

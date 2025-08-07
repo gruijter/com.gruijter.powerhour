@@ -1,9 +1,36 @@
 {
+  "6.7.2": {
+    "en": "Added support for Sessy app >=3.0. homey-api@3.11.3"
+  },
+  "6.7.1": {
+    "en": "Xom headroom fix."
+  },
+  "6.7.0": {
+    "en": "Appstore stable release."
+  },
+  "6.6.10": {
+    "en": "Fix XOM flow distribution based on SOC"
+  },
+  "6.6.9": {
+    "en": "Fix XOM flow distribution based on SOC"
+  },
+  "6.6.8": {
+    "en": "Fix XOM flow when >2 batteries"
+  },
+  "6.6.7": {
+    "en": "homey-api@3.11.1. XOM flow optimization"
+  },
+  "6.6.6": {
+    "en": "homey-api@3.6.8"
+  },
+  "6.6.5": {
+    "en": "DAP: Fix new ENTSO-E API. Fix EEX gas API. Fix LEBA gas API. Removed Nordpool API. Known issue: forecast not working."
+  },
   "6.6.4": {
     "en": "DAP: Fix new ENTSO-E API. BAT: Added SolarEdge Growatt"
   },
   "6.6.3": {
-    "en": "Added flow compare to monthly average. New ENTSO-E API implemented. Fix JSON example. homey-api@3.6.3"
+    "en": "Added flow compare to monthly average. New ENTSO-E API implemented. Fix JSON example. homey-api@3.6.4"
   },
   "6.6.2": {
     "en": "Capability flows compatibility >=fw12.2.0. Fix settings timeout error."
