@@ -1,0 +1,15 @@
+{
+  "type": "number",
+  "title": {
+    "en": "Price +45M"
+  },
+  "uiComponent": "sensor",
+  "icon": "/assets/tariff.svg",
+  "getable": true,
+  "setable": false,
+  "insights": false,
+  "units": {
+    "en": "€"
+  },
+  "decimals": 4
+}

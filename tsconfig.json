@@ -1,6 +1,21 @@
 {
   "compilerOptions": {
     "allowJs": true,
-    "outDir": ".homeybuild/"
-  }
+    "checkJs": false,
+    "noEmit": true,
+    "outDir": ".homeybuild/",
+    "target": "ES2019",
+    "module": "CommonJS"
+  },
+  "include": [
+    "**/*.js",
+    "**/*.jsx",
+    "**/*.ts",
+    "**/*.tsx"
+  ],
+  "exclude": [
+    "node_modules",
+    ".homeybuild",
+    "dist"
+  ]
 }

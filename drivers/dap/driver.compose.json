@@ -1,13 +1,13 @@
 {
 	"name": {
-		"en": "Day-Ahead E Prices",
-		"de": "Day-Ahead E Std. Preis",
-		"sv": "Day-Ahead E Priser",
-		"it": "Prezzi del giorno prima E",
-		"no": "Day-Ahead E Priser",
-		"fr": "Tarif demain E",
-		"dk": "Day-Ahead E priser",
-		"nl": "Day-Ahead E Prijzen"
+		"en": "Day-Ahead 60m E Prices",
+		"de": "Day-Ahead 60m E Std. Preis",
+		"sv": "Day-Ahead 60m E Priser",
+		"it": "Prezzi del giorno prima E 60m",
+		"no": "Day-Ahead 60m E Priser",
+		"fr": "Tarif demain 60m E",
+		"dk": "Day-Ahead 60m E priser",
+		"nl": "Day-Ahead 60m E Prijzen"
 	},
 	"class": "sensor",
 	"capabilities": [],

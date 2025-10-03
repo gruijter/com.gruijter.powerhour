@@ -1,6 +1,6 @@
 /* eslint-disable no-await-in-loop */
 /*
-Copyright 2019 - 2024, Robin de Gruijter (gruijter@hotmail.com)
+Copyright 2019 - 2025, Robin de Gruijter (gruijter@hotmail.com)
 
 This file is part of com.gruijter.powerhour.
 
@@ -78,10 +78,14 @@ class MyDevice extends Homey.Device {
       this.initReady = false;
       this.settings = await this.getSettings();
       this.timeZone = this.homey.clock.getTimezone();
-      this.fetchDelay = (Math.random() * 4 * 60 * 1000) + (1000 * 60 * 1.5);
+      this.fetchDelay = 0; // (Math.random() * 4 * 60 * 1000) + (1000 * 60 * 1.5);
       if (!this.prices) this.prices = this.getStoreValue('prices'); // restore from persistent memory on app restart
       if (!this.prices) this.prices = [{ time: null, price: null, muPrice: null }];
       if (!this.marketPrices) this.marketPrices = [];
+
+      this.priceInterval = 60; // default 1 hour
+      if (this.driver.id === 'dap15') this.priceInterval = 15;
+      if (this.driver.id === 'dap30') this.priceInterval = 30;
 
       // check migrations
       if (!this.migrated) await this.migrate();
@@ -112,7 +116,7 @@ class MyDevice extends Homey.Device {
       // console.log(this.getName(), this.dap[0]);
 
       // add forecast pricing provider
-      if (this.driver.ds.driverId === 'dap' && this.settings.forecastEnable) {
+      if ((this.driver.id === 'dap') && this.settings.forecastEnable) {
         const forecast = new FORECAST();
         const zones = forecast.getBiddingZones();
         const hasZone = Object.keys(zones).some((key) => zones[key].includes(this.settings.biddingZone));
@@ -121,20 +125,32 @@ class MyDevice extends Homey.Device {
 
       // fetch and handle prices now, after short random delay
       await this.setAvailable().catch(this.error);
-      await setTimeoutPromise(this.fetchDelay / 30, 'waiting is done'); // spread over 1 minute for API rate limit (400 / min)
+      await setTimeoutPromise(this.fetchDelay / 30); // spread over 1 minute for API rate limit (400 / min)
       await this.fetchExchangeRate();
       await this.fetchPrices();
       // await this.setCapabilitiesAndFlows();
 
       // start fetching and handling prices on every hour
-      this.eventListenerHour = async () => {
-        this.log('new hour event received');
-        await this.fetchExchangeRate();
-        await this.setCapabilitiesAndFlows();
-        await setTimeoutPromise(this.fetchDelay, 'waiting is done'); // spread over 30 minutes for API rate limit (400 / min)
-        await this.fetchPrices();
+      this.eventListenerHour = () => {
+        (async () => {
+          this.log('new hour event received');
+          await this.fetchExchangeRate();
+          await this.fetchPrices();
+          await this.setCapabilitiesAndFlows();
+        })().catch((err) => this.error(err));
       };
-      this.homey.on('everyhour', this.eventListenerHour);
+      this.homey.on('everyhour_PBTH', this.eventListenerHour);
+
+      // start handling prices every 15 minutes (dap15 only)
+      if (this.driver.ds.driverId === 'dap15') {
+        this.eventListener15m = () => {
+          (async () => {
+            this.log('new 15m event received');
+            await this.setCapabilitiesAndFlows();
+          })().catch((err) => this.error(err));
+        };
+        this.homey.on('every15m_PBTH', this.eventListener15m);
+      }
 
       this.initReady = true;
       this.log(`${this.getName()} finished initialization`);
@@ -154,7 +170,8 @@ class MyDevice extends Homey.Device {
   }
 
   async destroyListeners() {
-    if (this.eventListenerHour) await this.homey.removeListener('everyhour', this.eventListenerHour);
+    if (this.eventListenerHour) await this.homey.removeListener('everyhour_PBTH', this.eventListenerHour.catch(this.error));
+    if (this.eventListener15m) await this.homey.removeListener('every15m_PBTH', this.eventListener15m.catch(this.error));
   }
 
   // MIGRATE STUFF from old version < 5.0.0
@@ -162,35 +179,6 @@ class MyDevice extends Homey.Device {
     try {
       this.log(`checking device migration for ${this.getName()}`);
       // console.log(this.getName(), this.settings, this.getStore());
-
-      // migration from < v5.0
-      if (this.driver.ds.driverId === 'dap' && (this.settings.biddingZone === 'TTF_EOD' || this.settings.biddingZone === 'TTF_LEBA')) {
-        const excerpt = `The PBTH app migrated to version ${this.homey.app.manifest.version} **REMOVE AND RE-ADD YOUR GAS DAP DEVICE!**`;
-        await this.homey.notifications.createNotification({ excerpt });
-        this.setUnavailable('DEPRECATED. PLEASE REMOVE AND RE-ADD THIS DEVICE').catch(this.error);
-        this.log(this.getName(), 'is disabled (using a deprecated driver)');
-        return;
-      }
-
-      // migration from < v5.1.5
-      if (this.driver.ds.driverId === 'dapg' && (this.settings.biddingZone.includes('/17'))) {
-        if (this.settings.biddingZone === '132733/137/17') await this.setSettings({ biddingZone: 'TTF_EOD' }).catch(this.error);
-        if (this.settings.biddingZone === '132735/139/17') await this.setSettings({ biddingZone: 'TTF_EGSI' }).catch(this.error);
-        this.log(this.getName(), 'biddingZone migrated to', this.getSettings().biddingZone);
-      }
-
-      // migrate TOD/Weekend markups from < v5.4.0
-      if (this.getSettings().level < '5.4.0') {
-        const old = this.getSettings();
-        const fixedMarkupWeekend = old.weekendHasNightMarkup ? old.fixedMarkupNight : 0;
-        let fixedMarkupTOD = '';
-        const start6 = old.fixedMarkupDay ? old.fixedMarkupDay : 0;
-        const start22 = old.fixedMarkupNight ? old.fixedMarkupNight : 0;
-        if (start6 || start22) fixedMarkupTOD = `6:${start6};22:${start22}`;
-        await this.setSettings({ fixedMarkupTOD, fixedMarkupWeekend }).catch(this.error);
-        this.log(this.getName(), 'TOD/Weekend markups migrated to', { fixedMarkupTOD, fixedMarkupWeekend });
-      }
-
       // store the capability states before migration
       const sym = Object.getOwnPropertySymbols(this).find((s) => String(s) === 'Symbol(state)');
       const state = this[sym];
@@ -219,26 +207,14 @@ class MyDevice extends Homey.Device {
           this.currencyChanged = true;
         }
       }
-      if (this.getSettings().level < '4.9.1') this.currencyChanged = true;
-      // check this.settings.fetchExchangeRate  < 4.4.1
-      if (this.settings.level < '4.4.1') {
-        this.log('migrating fixed markup to exclude exchange rate');
-        await this.setSettings({ fixedMarkup: this.settings.fixedMarkup * this.settings.exchangeRate }).catch(this.error);
-      }
-      // convert sendTariff to tariff_update_group <4.7.1
-      if (this.getSettings().level < '4.7.1') {
-        const group = this.getSettings().sendTariff ? 1 : 0;
-        this.log(`Migrating tariff group for ${this.getName()} to ${group}`);
-        await this.setSettings({ tariff_update_group: group }).catch(this.error);
-      }
       // set new migrate level
       await this.setSettings({ level: this.homey.app.manifest.version }).catch(this.error);
       this.settings = await this.getSettings();
       this.migrated = true;
-      Promise.resolve(this.migrated);
+      return Promise.resolve(this.migrated);
     } catch (error) {
       this.error('Migration failed', error);
-      Promise.reject(error);
+      return Promise.reject(error);
     }
   }
 
@@ -273,16 +249,16 @@ class MyDevice extends Homey.Device {
   }
 
   async onAdded() {
-    this.log(`Meter added as device: ${this.getName()}`);
+    this.log(`DAP added as device: ${this.getName()}`);
   }
 
   async onDeleted() {
     await this.destroyListeners().catch(this.error);
-    this.log(`Meter deleted as device: ${this.getName()}`);
+    this.log(`DAP deleted as device: ${this.getName()}`);
   }
 
   onRenamed(name) {
-    this.log(`Meter renamed to: ${name}`);
+    this.log(`DAP renamed to: ${name}`);
   }
 
   async onSettings({ newSettings, changedKeys }) { // , oldSettings) {
@@ -344,11 +320,18 @@ class MyDevice extends Homey.Device {
     now.setMilliseconds(0); // toLocaleString cannot handle milliseconds...
     const nowLocal = new Date(now.toLocaleString('en-US', { timeZone: this.timeZone }));
     const homeyOffset = nowLocal - now;
+    // this quarter start in UTC
+    const quarterStart = new Date(nowLocal);
+    quarterStart.setMinutes(Math.floor(nowLocal.getMinutes() / 15) * 15);
+    quarterStart.setSeconds(0);
+    quarterStart.setMilliseconds(-homeyOffset); // convert back to UTC
     // this hour start in UTC
     const hourStart = new Date(nowLocal);
     hourStart.setMinutes(0);
     hourStart.setSeconds(0);
     hourStart.setMilliseconds(-homeyOffset); // convert back to UTC
+    // periodStart depending on driver
+    const periodStart = this.driver.id === 'dap15' ? quarterStart : hourStart;
     // this day start in UTC
     const todayStart = new Date(nowLocal);
     todayStart.setHours(0);
@@ -364,8 +347,9 @@ class MyDevice extends Homey.Device {
     // tomorrow end in UTC
     const tomorrowEnd = new Date(tomorrowStart);
     tomorrowEnd.setDate(tomorrowEnd.getDate() + 1); //  NEED TO CHECK THIS!!! IS ACTUALLY START OF NEXT DAY?
-    // get the present hour (0 - 23)
+    // get the present hour (0 - 23) and quarter (0 - 95)
     const H0 = nowLocal.getHours();
+    const Q0 = (H0 * 4) + Math.floor(nowLocal.getMinutes() / 15);
     // get day of month (1 - 31) and month of year (0 - 11);
     const monthNumber = nowLocal.getMonth();
     const dayNumber = nowLocal.getDate();
@@ -376,14 +360,13 @@ class MyDevice extends Homey.Device {
     // const lastDay = new Date(nextMonth.getTime() - 1); // Subtract one day to get the last day of the current month
     // const daysThisMonth = lastDay.getDate();   // Get the number of days in the current month
     return {
-      now, nowLocal, homeyOffset, H0, hourStart, todayStart, yesterdayStart, tomorrowStart, tomorrowEnd, dayNumber, monthNumber,
+      now, nowLocal, homeyOffset, H0, Q0, periodStart, quarterStart, hourStart, todayStart, yesterdayStart, tomorrowStart, tomorrowEnd, dayNumber, monthNumber,
     };
   }
 
   // EXECUTORS FOR ACTION FLOWS
   async createPricesJSON(period) {
     this.log('Creating prices JSON via flow', this.getName(), period);
-
     let prices = this.state.pricesNextHours;
     if (period === 'tomorrow') prices = this.state.pricesTomorrow;
     if (period === 'this_day') prices = this.state.pricesThisDay;
@@ -694,7 +677,7 @@ class MyDevice extends Homey.Device {
       end = periods.tomorrowEnd;
     }
     if (period === 'next_hours') {
-      start = periods.hourStart;
+      start = periods.periodStart;
       end = 8640000000000000; // periods.tomorrowEnd;
     }
     const oldPricesSelection = oldPrices
@@ -704,9 +687,16 @@ class MyDevice extends Homey.Device {
       .filter((hourInfo) => new Date(hourInfo.time) >= start)
       .filter((hourInfo) => new Date(hourInfo.time) < end);
 
+    if (newPricesSelection.length !== oldPricesSelection.length) {
+      this.log(`${this.getName()} different number of price periods for ${period}`);
+      this.log('oldPrices:', oldPricesSelection);
+      this.log('newPrices:', newPricesSelection);
+      if (newPricesSelection.length < oldPricesSelection.length) return; // probably incomplete info, do not trigger flow
+    }
+
     // check for DST change or incomplete info
     if (period !== 'next_hours'
-      && newPricesSelection.length !== 24) this.log(`${this.getName()} received ${newPricesSelection.length} hours of prices for ${period}`);
+      && newPricesSelection.length !== 24) this.log(`${this.getName()} received ${newPricesSelection.length} price periods for ${period}`);
 
     // check for same pricing content
     let samePrices = true;
@@ -728,15 +718,16 @@ class MyDevice extends Homey.Device {
   async checkPricesValidity(newMarketPrices, periods) {
     if ((!newMarketPrices || !newMarketPrices[0] || !newMarketPrices[0].time)) throw Error('Unable to fetch prices');
     // check if tomorrow is missing
-    const marketPricesNextHours = newMarketPrices.filter((hourInfo) => hourInfo.time >= periods.hourStart);
+    const marketPricesNextHours = newMarketPrices.filter((hourInfo) => hourInfo.time >= periods.periodStart);
     if (marketPricesNextHours.length < 10) throw Error('Unable to fetch tomorrow prices');
-    // check if hours are consecutive
-    let previousHour = new Date(newMarketPrices[0].time);
+    // check if intervals are consecutive
+    let previousTime = new Date(newMarketPrices[0].time);
     let consecutive = true;
+    const intervalMs = this.priceInterval * 60 * 1000;
     newMarketPrices.forEach((price, idx) => {
       if (idx !== 0) {
-        consecutive = consecutive && (new Date(price.time) - previousHour) === (1000 * 60 * 60);
-        previousHour = new Date(price.time);
+        consecutive = consecutive && (new Date(price.time) - previousTime) === intervalMs;
+        previousTime = new Date(price.time);
       }
     });
     if (!consecutive) {
@@ -757,15 +748,16 @@ class MyDevice extends Homey.Device {
       // fetch prices with retry and backup
       const periods = this.getUTCPeriods(); // now, nowLocal, homeyOffset, H0, hourStart, todayStart, yesterdayStart, tomorrowStart, tomorrowEnd
       if (!this.dap[0]) throw Error('no available DAP');
+      const resolution = `PT${this.priceInterval}M`;
       let newMarketPrices;
       for (let index = 0; index < this.dap.length; index += 1) {
-        newMarketPrices = await this.dap[index].getPrices({ dateStart: periods.yesterdayStart, dateEnd: periods.tomorrowEnd })
+        newMarketPrices = await this.dap[index].getPrices({ dateStart: periods.yesterdayStart, dateEnd: periods.tomorrowEnd, resolution })
           .catch(this.log);
         const valid = await this.checkPricesValidity(newMarketPrices, periods).catch(this.log);
         if (!valid) {
           this.log(`${this.getName()} Error fetching prices from ${this.dap[index].host}. Trying again in 10 minutes`);
           await setTimeoutPromise(10 * 60 * 1000, 'waiting is done');
-          newMarketPrices = await this.dap[index].getPrices({ dateStart: periods.yesterdayStart, dateEnd: periods.tomorrowEnd })
+          newMarketPrices = await this.dap[index].getPrices({ dateStart: periods.yesterdayStart, dateEnd: periods.tomorrowEnd, resolution })
             .catch(this.log);
         } else {
           if (index !== 0) this.log('prices are not from primary service', this.dap[index].host);
@@ -853,8 +845,8 @@ class MyDevice extends Homey.Device {
     const hourThisDayHighest = pricesThisDay.indexOf(priceThisDayHighest);
 
     // priceNow, hourNow
-    const { H0 } = periods; // the present hour (0 - 23)
-    let [priceNow] = selectPrices(this.prices, periods.hourStart, periods.tomorrowStart);
+    const { H0, Q0 } = periods; // the present hour (0 - 23) and quarter (0 - 95)
+    let [priceNow] = selectPrices(this.prices, periods.periodStart, periods.tomorrowStart);
     if (priceNow === undefined) priceNow = null;
 
     // avg prices this month and last month
@@ -876,12 +868,12 @@ class MyDevice extends Homey.Device {
 
     // pricesNext All Known Hours
     const pricesNextHours = this.prices
-      .filter((hourInfo) => hourInfo.time >= periods.hourStart)
+      .filter((hourInfo) => hourInfo.time >= periods.periodStart)
       .map((hourInfo) => hourInfo.muPrice);
-    const pricesNextHoursMarketLength = this.marketPrices.filter((hourInfo) => hourInfo.time >= periods.hourStart).length;
+    const pricesNextHoursMarketLength = this.marketPrices.filter((hourInfo) => hourInfo.time >= periods.periodStart).length;
 
     // pricesNext8h, avg, lowest and highest
-    const pricesNext8h = pricesNextHours.slice(0, 8);
+    const pricesNext8h = selectPrices(this.prices, periods.now, (periods.now.getTime() + 8 * 60 * 60 * 1000));
     const priceNext8hAvg = average(pricesNext8h);
     const priceNext8hLowest = Math.min(...pricesNext8h);
     const hourNext8hLowest = (H0 + pricesNext8h.indexOf(priceNext8hLowest)) % 24;
@@ -905,6 +897,7 @@ class MyDevice extends Homey.Device {
     }
 
     const state = {
+      priceinterval: this.priceInterval,
       pricesYesterday,
 
       priceLastMonthAvg,
@@ -934,6 +927,7 @@ class MyDevice extends Homey.Device {
 
       priceNow,
       H0,
+      Q0,
 
       pricesTomorrow,
       pricesTomorrowMarketLength,
@@ -947,7 +941,7 @@ class MyDevice extends Homey.Device {
   }
 
   async updatePriceCharts() {
-    const urlToday = await charts.getPriceChart(this.state.pricesThisDay);
+    const urlToday = await charts.getPriceChart(this.state.pricesThisDay, 0, 999, this.priceInterval);
     if (!this.todayPriceImage) {
       this.todayPriceImage = await this.homey.images.createImage();
       await this.todayPriceImage.setUrl(urlToday);
@@ -957,7 +951,7 @@ class MyDevice extends Homey.Device {
       await this.todayPriceImage.update();
     }
 
-    const urlTomorow = await charts.getPriceChart(this.state.pricesTomorrow, 0, this.state.pricesTomorrowMarketLength);
+    const urlTomorow = await charts.getPriceChart(this.state.pricesTomorrow, 0, this.state.pricesTomorrowMarketLength, this.priceInterval);
     if (!this.tomorrowPriceImage) {
       this.tomorrowPriceImage = await this.homey.images.createImage();
       await this.tomorrowPriceImage.setUrl(urlTomorow);
@@ -967,7 +961,8 @@ class MyDevice extends Homey.Device {
       await this.tomorrowPriceImage.update();
     }
 
-    const urlNextHours = await charts.getPriceChart(this.state.pricesNextHours, this.state.H0, this.state.pricesNextHoursMarketLength);
+    const startHour = this.priceInterval === 60 ? this.state.H0 : this.state.Q0 * (this.priceInterval / 60);
+    const urlNextHours = await charts.getPriceChart(this.state.pricesNextHours, startHour, this.state.pricesNextHoursMarketLength, this.priceInterval);
     if (!this.nextHoursPriceImage) {
       this.nextHoursPriceImage = await this.homey.images.createImage();
       await this.nextHoursPriceImage.setUrl(urlNextHours);
@@ -1015,11 +1010,12 @@ class MyDevice extends Homey.Device {
       await Promise.all(allSet);
 
       // send tariff to power or gas summarizer driver
-      const sendTo = (this.driver.ds.driverId === 'dapg') ? 'set_tariff_gas' : 'set_tariff_power';
+      const sendTo = (this.driver.ds.driverId === 'dapg') ? 'set_tariff_gas_PBTH' : 'set_tariff_power_PBTH';
       const group = this.settings.tariff_update_group;
       if (group) {
         this.homey.emit(sendTo, {
           tariff: this.state.priceNow,
+          priceInterval: this.priceInterval,
           pricesNextHours: this.state.pricesNextHours,
           pricesNextHoursMarketLength: this.state.pricesNextHoursMarketLength,
           group,

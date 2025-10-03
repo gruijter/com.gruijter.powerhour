@@ -1,6 +1,6 @@
 /* eslint-disable global-require */
 /*
-Copyright 2019 - 2024, Robin de Gruijter (gruijter@hotmail.com)
+Copyright 2019 - 2025, Robin de Gruijter (gruijter@hotmail.com)
 
 This file is part of com.gruijter.powerhour.
 
@@ -38,24 +38,14 @@ class MyApp extends Homey.App {
       //   }
       // }
 
-      // // register some listeners
-      // this.homey
-      //   .on('memwarn', () => {
-      //     this.log('memwarn!');
-      //   });
-      // do garbage collection every 10 minutes
-      // this.intervalIdGc = setInterval(() => {
-      //   global.gc();
-      // }, 1000 * 60 * 10);
-
       // login to Homey API
       this.api = await HomeyAPI.createAppAPI({ homey: this.homey });
 
-      // start polling every whole hour
+      // start polling every whole hour, 15 minutes and retry missing source devices every 5 minutes
       this.homey.setMaxListeners(30); // INCREASE LISTENERS
       this.everyHour();
-      // retry missing source devices every 5 minutes
-      this.retry();
+      this.everyXminutes(15);
+      this.retry(5);
 
       // register flows
       this.registerFlowListeners();
@@ -68,21 +58,23 @@ class MyApp extends Homey.App {
 
   async onUninit() {
     this.log('app onUninit called');
-    this.homey.removeAllListeners('everyhour');
-    this.homey.removeAllListeners('retry');
-    this.homey.removeAllListeners('set_tariff_power');
-    this.homey.removeAllListeners('set_tariff_gas');
-    this.homey.removeAllListeners('set_tariff_water');
+    this.homey.removeAllListeners('everyhour_PBTH');
+    this.homey.removeAllListeners('every15m_PBTH');
+    this.homey.removeAllListeners('retry_PBTH');
+    this.homey.removeAllListeners('set_tariff_power_PBTH');
+    this.homey.removeAllListeners('set_tariff_gas_PBTH');
+    this.homey.removeAllListeners('set_tariff_water_PBTH');
   }
 
   everyHour() {
     const scheduleNextHour = () => {
+      if (this.everyHourId) this.homey.clearTimeout(this.everyHourId); // Clear any existing timeout
       const now = new Date();
       const nextHour = new Date(now.getFullYear(), now.getMonth(), now.getDate(), now.getHours() + 1, 0, 0, 50);
       const timeToNextHour = nextHour - now;
       // console.log('everyHour starts in', timeToNextHour / 1000);
-      this.homey.setTimeout(() => {
-        this.homey.emit('everyhour', true);
+      this.everyHourId = this.homey.setTimeout(() => {
+        this.homey.emit('everyhour_PBTH', true);
         scheduleNextHour(); // Schedule the next hour
       }, timeToNextHour);
     };
@@ -90,10 +82,31 @@ class MyApp extends Homey.App {
     this.log('everyHour job started');
   }
 
-  retry() {
-    this.homey.setInterval(async () => {
-      this.homey.emit('retry', true);
-    }, 5 * 60 * 1000);
+  everyXminutes(interval = 15) {
+    const scheduleNextXminutes = () => {
+      if (this.everyXMinutesId) this.homey.clearTimeout(this.everyXMinutesId); // Clear any existing timeout
+      const now = new Date();
+      const nextXminutes = new Date(now);
+      const currentMinutes = now.getMinutes();
+      const nextMultipleOfX = currentMinutes % interval === 0 ? currentMinutes + interval : Math.ceil(currentMinutes / interval) * interval;
+      nextXminutes.setMinutes(nextMultipleOfX, 0, 0);
+      const timeToNextXminutes = nextXminutes - now;
+      // console.log('everyXminutes starts in', timeToNextXminutes / 1000);
+      this.everyXMinutesId = this.homey.setTimeout(() => {
+        // Only emit if not on a full hour
+        if (now.getMinutes() !== 0) this.homey.emit('every15m_PBTH', true);
+        scheduleNextXminutes(); // Schedule the next X minutes
+      }, timeToNextXminutes);
+    };
+    scheduleNextXminutes();
+    this.log('every15m job started');
+  }
+
+  retry(interval = 5) {
+    if (this.retryId) this.homey.clearTimeout(this.retryId);
+    this.retryId = this.homey.setInterval(async () => {
+      this.homey.emit('retry_PBTH', true);
+    }, interval * 60 * 1000);
     this.log('retry job started');
   }
 
@@ -321,15 +334,15 @@ class MyApp extends Homey.App {
 
     const setTariffPower = this.homey.flow.getActionCard('set_tariff_power');
     setTariffPower
-      .registerRunListener((args) => this.homey.emit('set_tariff_power', args));
+      .registerRunListener((args) => this.homey.emit('set_tariff_power_PBTH', args));
 
     const setTariffGas = this.homey.flow.getActionCard('set_tariff_gas');
     setTariffGas
-      .registerRunListener((args) => this.homey.emit('set_tariff_gas', args));
+      .registerRunListener((args) => this.homey.emit('set_tariff_gas_PBTH', args));
 
     const setTariffWater = this.homey.flow.getActionCard('set_tariff_water');
     setTariffWater
-      .registerRunListener((args) => this.homey.emit('set_tariff_water', args));
+      .registerRunListener((args) => this.homey.emit('set_tariff_water_PBTH', args));
 
     const setTariffGroup = this.homey.flow.getActionCard('set_tariff_group');
     setTariffGroup

@@ -1,5 +1,5 @@
 /*
-Copyright 2019 - 2024, Robin de Gruijter (gruijter@hotmail.com)
+Copyright 2019 - 2025, Robin de Gruijter (gruijter@hotmail.com)
 
 This file is part of com.gruijter.powerhour.
 
@@ -30,10 +30,10 @@ class MyDriver extends Driver {
 
   async onUninit() {
     this.log('dap driver onUninit called');
-    // this.homey.removeAllListeners('everyhour');
-    // this.homey.removeAllListeners('set_tariff_power');
-    // this.homey.removeAllListeners('set_tariff_gas');
-    // this.homey.removeAllListeners('set_tariff_water');
+    // this.homey.removeAllListeners('everyhour_PBTH');
+    // this.homey.removeAllListeners('set_tariff_power_PBTH');
+    // this.homey.removeAllListeners('set_tariff_gas_PBTH');
+    // this.homey.removeAllListeners('set_tariff_water_PBTH');
   }
 
   async onPairListDevices() {

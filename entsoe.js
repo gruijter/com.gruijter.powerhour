@@ -1,5 +1,5 @@
 /*
-Copyright 2019 - 2024, Robin de Gruijter (gruijter@hotmail.com)
+Copyright 2019 - 2025, Robin de Gruijter (gruijter@hotmail.com)
 
 This file is part of com.gruijter.powerhour.
 
@@ -138,67 +138,6 @@ const biddingZones = {
   ZZ_CWE_Region: '10YDOM-REGION-1V',
 };
 
-const flatten = (json, level) => {
-  try {
-    const lvl = level ? level + 1 : 1;
-    if (lvl > 10) return json;
-    const flat = {};
-    Object.keys(json).forEach((key) => {
-      if (key === '_attributes') {
-        Object.keys(json[key]).forEach((attr) => {
-          flat[attr] = json[key][attr];
-        });
-        return;
-      }
-      flat[key] = json[key];
-      if (Object.keys(json[key]).length === 0) {
-        flat[key] = undefined;
-        if (key === '_text') {
-          delete flat[key];
-          flat.value = json[key];
-        }
-        return;
-      }
-      if (Object.keys(json[key]).length === 1) {
-        if (Object.prototype.hasOwnProperty.call(json[key], '_text')) {
-          flat[key] = json[key]._text;
-        } else {
-          flat[key] = flatten(json[key], lvl);
-        }
-        return;
-      }
-      flat[key] = flatten(json[key], lvl);
-    });
-    return flat;
-  } catch (error) {
-    return error;
-  }
-};
-
-const padMissingHours = (data) => {
-  const paddedData = [];
-  data.forEach((currentEntry, idx) => {
-    let hoursDiff = 1;
-    if (idx > 0) {
-      const previousEntry = { ...data[idx - 1] };
-      const currTime = new Date(currentEntry.time);
-      const prevTime = new Date(previousEntry.time);
-      const prevPrice = previousEntry.price; // Set previous price for potential gaps
-      hoursDiff = (currTime - prevTime) / (1000 * 60 * 60); // Calculate the difference in hours
-      while (hoursDiff > 1) { // If more than 1 hour difference, fill the gap
-        prevTime.setUTCHours(prevTime.getUTCHours() + 1);
-        paddedData.push({
-          time: new Date(prevTime), // new hour
-          price: prevPrice, // use the previous price
-        });
-        hoursDiff--;
-      }
-    }
-    if (hoursDiff > 0) paddedData.push(data[idx]); // Push the current entry to the result, remove double hours
-  });
-  return (paddedData);
-};
-
 // Represents a session to the ENTSOE API.
 class ENTSOE {
 
@@ -209,6 +148,7 @@ class ENTSOE {
     this.timeout = options.timeout || defaultTimeout;
     this.apiKey = options.apiKey;
     this.biddingZone = options.biddingZone;
+    this.resolution = options.resolution || 'PT15M'; // 'PT15M', 'PT30M' or 'PT60M'
     this.biddingZones = biddingZones;
     this.lastResponse = undefined;
   }
@@ -223,6 +163,7 @@ class ENTSOE {
   * @property {string} [biddingZone] - e.g. '10YNL----------L'
   * @property {string} [dateStart = today] - date Object or date string, e.g. '2022-02-21T20:36:10.665Z'
   * @property {string} [dateEnd = tomorrow ] - date Object or date string, e.g. '2022-02-21T20:36:10.665Z'
+  * @property {string} [resolution] - 'PT15M', 'PT30M' or 'PT60M'
   */
   async getPrices(options) {
     try {
@@ -234,54 +175,79 @@ class ENTSOE {
       const zone = opts.biddingZone || this.biddingZone;
       const start = opts.dateStart ? new Date(opts.dateStart) : today;
       const end = opts.dateEnd ? new Date(opts.dateEnd) : tomorrow;
-      // start.setHours(0); // doesnt work with Homey time
-      start.setMinutes(0);
-      start.setSeconds(0);
-      start.setMilliseconds(0);
-      end.setMinutes(0);
+      let resolution = opts.resolution || this.resolution;
+      if (resolution === 'PT60M') resolution = 'PT15M';
+
+      start.setMinutes(0, 0, 0);
+      end.setMinutes(0, 0, 0);
+
+      let interval = 60;
+      if (resolution === 'PT15M') interval = 15;
+      if (resolution === 'PT30M') interval = 30;
+
       const periodStart = start.toISOString().replace(/[-:T]/g, '').slice(0, 12);
       const periodEnd = end.toISOString().replace(/[-:T]/g, '').slice(0, 12);
       const path = `/api?securityToken=${this.apiKey}&documentType=A44&in_Domain=${zone}&out_Domain=${zone}&periodStart=${periodStart}&periodEnd=${periodEnd}`;
       const res = await this._makeRequest(path);
 
-      // make array with concise info
-      let info = [];
-      if (res.Publication_MarketDocument && res.Publication_MarketDocument.TimeSeries) {
-        // check multiple days
-        let infoAllDays = {};
-        if (res.Publication_MarketDocument.TimeSeries['1']) {
-          infoAllDays = res.Publication_MarketDocument.TimeSeries;
-        } else infoAllDays['0'] = res.Publication_MarketDocument.TimeSeries;
-        // make array from object and filter only 'PT60M'
-        let infoAllDaysArray = [];
-        Object.values(infoAllDays).forEach((day) => infoAllDaysArray.push(day));
-        infoAllDaysArray = infoAllDaysArray.filter((day) => day.Period.resolution === 'PT60M');
-        // refactor to single array
-        const allPrices = [];
-        infoAllDaysArray.forEach((day) => {
-          const startDate = new Date(day.Period.timeInterval.start);
-          Object.values(day.Period.Point).forEach((point, index) => {
-            const sd = new Date(startDate);
-            const hour = point.position - 1;
-            sd.setHours(sd.getHours() + hour);
-            allPrices.push({ time: sd, price: point['price.amount'] });
-          });
-          // Pad last hour when not included due to A03 curve :(
-          const endDate = new Date(day.Period.timeInterval.end);
-          endDate.setHours(endDate.getHours() - 1);
-          const [lp] = allPrices.slice(-1);
-          if (endDate > lp.time) allPrices.push({ time: endDate, price: lp.price });
-        });
-        // sort data and remove out of bounds data
-        info = allPrices
-          .filter((price) => price.time >= start)
-          .filter((price) => price.time <= end)
-          .sort((a, b) => a.time - b.time);
-        // pad missing hours due to A03 curve :(
-        info = padMissingHours(info);
-      } else throw Error('no timeseries data found in response');
-      // console.dir(info, { depth: null, colors: true });
-      return Promise.resolve(info);
+      const tsArr = [].concat(res.Publication_MarketDocument?.TimeSeries || []);
+      const filtered = tsArr.filter((s) => s.Period.resolution._text === resolution);
+
+      let prices = [];
+      for (const s of filtered) {
+        const period = s.Period;
+        const startDate = new Date(period.timeInterval.start._text);
+        for (const p of [].concat(period.Point || [])) {
+          const pos = Number(p.position._text) - 1;
+          const time = new Date(startDate.getTime() + pos * interval * 60000);
+          // remove double timestamps resulting from mRID duplicates
+          if (!prices.some((entry) => entry.time.getTime() === time.getTime())) {
+            prices.push({
+              time,
+              price: Number(p['price.amount']._text),
+            });
+          }
+        }
+      }
+      prices = prices.filter((p) => p.time >= start && p.time <= end).sort((a, b) => a.time - b.time);
+
+      // Pad missing intervals with previous price
+      if (prices.length > 0) {
+        const padded = [prices[0]];
+        for (let i = 1; i < prices.length; i++) {
+          let prevTime = padded[padded.length - 1].time;
+          const currTime = prices[i].time;
+          let diff = (currTime - prevTime) / 60000;
+          while (diff > interval) {
+            prevTime = new Date(prevTime.getTime() + interval * 60000);
+            padded.push({ time: new Date(prevTime), price: padded[padded.length - 1].price });
+            diff -= interval;
+          }
+          padded.push(prices[i]);
+        }
+        prices = padded;
+      }
+
+      // If resolution is PT60M, average prices per hour and keep only hourly timestamps
+      if (opts.resolution === 'PT60M') {
+        const hourlyMap = new Map();
+        for (const entry of prices) {
+          // Defensive: always parse to Date
+          const hour = new Date(entry.time);
+          if (Number.isNaN(hour)) continue; // skip invalid dates
+          hour.setMinutes(0, 0, 0);
+          const key = hour.getTime();
+          if (!hourlyMap.has(key)) hourlyMap.set(key, []);
+          hourlyMap.get(key).push(entry.price);
+        }
+        prices = Array.from(hourlyMap.entries()).map(([time, priceArr]) => ({
+          time: new Date(Number(time)),
+          price: priceArr.reduce((a, b) => a + b, 0) / priceArr.length,
+        }));
+        prices.sort((a, b) => a.time - b.time);
+      }
+
+      return prices;
     } catch (error) {
       return Promise.reject(error);
     }
@@ -319,9 +285,9 @@ class ENTSOE {
         compact: true, nativeType: true, ignoreDeclaration: true, ignoreAttributes: true, // spaces: 2,
       };
       const json = parseXml.xml2js(result.body, parseOptions);
-      const flatJson = flatten(json);
-      // console.dir(flatJson, { depth: null });
-      return Promise.resolve(flatJson);
+      // const flatJson = flatten(json);
+      // console.dir(json, { depth: null });
+      return Promise.resolve(json);
     } catch (error) {
       return Promise.reject(error);
     }
@@ -367,8 +333,16 @@ class ENTSOE {
 
 module.exports = ENTSOE;
 
+/*
+Example and documentation:
+https://newtransparency.entsoe.eu/market/energyPrices
+https://transparencyplatform.zendesk.com/hc/en-us/articles/15692855254548-Sitemap-for-Restful-API-Integration
+https://documenter.getpostman.com/view/7009892/2s93JtP3F6#3b383df0-ada2-49fe-9a50-98b1bb201c6b
+https://gitlab.entsoe.eu/transparency/xml-examples
+*/
+
 // // START TEST HERE
-// const Entsoe = new ENTSOE({ biddingZone: '10YLV-1001A00074', apiKey: '' }); // '10Y1001A1001A82H'
+// const Entsoe = new ENTSOE({ biddingZone: '10YAT-APG------L', apiKey: '' }); // '10Y1001A1001A82H'
 // console.log('REMOVE APIKEY!!!!!');
 
 // const today = new Date();
@@ -379,7 +353,7 @@ module.exports = ENTSOE;
 // // const today = new Date('2024-10-26T23:00:00.000Z'); // today;
 // // const tomorrow = new Date('2024-10-29T23:00:00.000Z'); // tomorrow;
 
-// Entsoe.getPrices({ dateStart: today, dateEnd: tomorrow })
+// Entsoe.getPrices({ dateStart: today, dateEnd: tomorrow, resolution: 'PT60M' })
 //   .then((result) => console.dir(result, { depth: null }))
 //   .catch((error) => console.log(error));
 

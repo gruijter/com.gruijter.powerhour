@@ -1,5 +1,5 @@
 /*
-Copyright 2019 - 2024, Robin de Gruijter (gruijter@hotmail.com)
+Copyright 2019 - 2025, Robin de Gruijter (gruijter@hotmail.com)
 
 This file is part of com.gruijter.powerhour.
 
@@ -37,7 +37,7 @@ class SumMeterDriver extends Driver {
     this.log('onDriverInit');
 
     // add listener for hourly trigger
-    if (this.eventListenerHour) this.homey.removeListener('everyhour', this.eventListenerHour);
+    if (this.eventListenerHour) this.homey.removeListener('everyhour_PBTH', this.eventListenerHour);
     this.eventListenerHour = async () => {
       // console.log('new hour event received');
       const devices = this.getDevices();
@@ -118,7 +118,7 @@ class SumMeterDriver extends Driver {
         }
       });
     };
-    this.homey.on('everyhour', this.eventListenerHour);
+    this.homey.on('everyhour_PBTH', this.eventListenerHour);
 
     // add listener for tariff change
     const eventName = `set_tariff_${this.id}`;
@@ -146,7 +146,7 @@ class SumMeterDriver extends Driver {
     this.homey.on(eventName, this.eventListenerTariff);
 
     // add listener for 5 minute retry
-    if (this.eventListenerRetry) this.homey.removeListener('retry', this.eventListenerRetry);
+    if (this.eventListenerRetry) this.homey.removeListener('retry_PBTH', this.eventListenerRetry);
     this.eventListenerRetry = async () => {
       const devices = this.getDevices();
       devices.forEach(async (device) => {
@@ -178,13 +178,13 @@ class SumMeterDriver extends Driver {
         }
       });
     };
-    this.homey.on('retry', this.eventListenerRetry);
+    this.homey.on('retry_PBTH', this.eventListenerRetry);
   }
 
   async onUninit() {
     this.log('sum driver onUninit called');
-    if (this.eventListenerHour) this.homey.removeListener('everyhour', this.eventListenerHour);
-    if (this.eventListenerRetry) this.homey.removeListener('retry', this.eventListenerRetry);
+    if (this.eventListenerHour) this.homey.removeListener('everyhour_PBTH', this.eventListenerHour);
+    if (this.eventListenerRetry) this.homey.removeListener('retry_PBTH', this.eventListenerRetry);
     const eventName = `set_tariff_${this.id}`;
     if (this.eventListenerTariff) this.homey.removeListener(eventName, this.eventListenerTariff);
     await setTimeoutPromise(3000);

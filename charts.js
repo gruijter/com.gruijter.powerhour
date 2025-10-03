@@ -1,5 +1,5 @@
 /*
-Copyright 2019 - 2024, Robin de Gruijter (gruijter@hotmail.com)
+Copyright 2019 - 2025, Robin de Gruijter (gruijter@hotmail.com)
 
 This file is part of com.gruijter.powerhour.
 
@@ -25,21 +25,25 @@ const querystring = require('querystring');
 const defaultHost = 'image-charts.com';
 const chartEP = '/chart.js/2.8.0?';
 
-const getPriceChart = (prices, startHour = 0, marketLength = 99) => {
+const getPriceChart = (prices, startHour = 0, marketLength = 999, interval = 60) => {
   try {
     if (!Array.isArray(prices)) throw Error('not an array');
     // Convert input data to prices, labels and values
     let values = [...prices];
-    if (values.length < 24) values = values.concat(Array(24 - values.length).fill(null));
+    if (values.length < 24 * (interval / 60)) values = values.concat(Array(24 * (interval / 60) - values.length).fill(null));
     const labels = values.map((value, index) => {
-      const hour = (startHour + index) % 24;
-      return hour.toString().padStart(2, '0');
+      const hour = startHour + (index * (interval / 60));
+      // Check if this is a full hour (minute part is 0)
+      if (Math.abs(hour % 1) < 1e-8) {
+        return (hour % 24).toString().padStart(2, '0');
+      }
+      return '';
     });
 
     // Map color of each bar based on value.
     const sortedPrices = [...values].filter((v) => Number.isFinite(v)).sort((a, b) => b - a);
-    const peaks = [...sortedPrices].slice(0, 4);
-    const troughs = [...sortedPrices].reverse().slice(0, 4);
+    const peaks = [...sortedPrices].slice(0, 4 / (interval / 60));
+    const troughs = [...sortedPrices].reverse().slice(0, 4 / (interval / 60));
     const backgrounds = values.map((value, idx) => {
       if (value <= 0) {
         return 'rgb(189,44,188)'; // Purple (free energy)
@@ -65,8 +69,8 @@ const getPriceChart = (prices, startHour = 0, marketLength = 99) => {
     });
 
     // Build configuration for the chart
-    const height = 320;
-    const width = 427; // 540;
+    const height = 480; // 320;
+    const width = 640; // 427; // 540;
     const chart = {
       type: 'bar',
       data: {
@@ -83,13 +87,16 @@ const getPriceChart = (prices, startHour = 0, marketLength = 99) => {
         responsive: true,
         legend: {
           position: 'none',
+          labels: {
+            fontColor: 'white',
+          },
         },
         layout: {
           padding: {
             top: 35,
             bottom: 0,
-            left: 5,
-            right: 5,
+            left: 0,
+            right: 10,
           },
         },
         rectangleRadius: 6,
@@ -105,16 +112,86 @@ const getPriceChart = (prices, startHour = 0, marketLength = 99) => {
             borderColor: 'white',
             borderRadius: 100,
             font: {
-              size: 14,
+              size: 18,
             },
           },
         },
         datalabels,
+        scales: {
+          xAxes: [{
+            ticks: {
+              fontSize: 20,
+              fontColor: 'white',
+            },
+            gridLines: {
+              color: 'rgba(255,255,255,0.2)',
+            },
+          }],
+          yAxes: [{
+            ticks: {
+              fontSize: 20,
+              fontColor: 'white',
+            },
+            gridLines: {
+              color: 'rgba(255,255,255,0.2)',
+            },
+          }],
+        },
+        backgroundColor: 'black', // for some chart.js plugins
       },
     };
 
+    // // Build configuration for the chart
+    // const height = 320;
+    // const width = 427; // 540;
+    // const chart = {
+    //   type: 'bar',
+    //   data: {
+    //     labels,
+    //     datasets: [
+    //       {
+    //         label: 'Prices',
+    //         backgroundColor: backgrounds,
+    //         data: values,
+    //       },
+    //     ],
+    //   },
+    //   options: {
+    //     responsive: true,
+    //     legend: {
+    //       position: 'none',
+    //     },
+    //     layout: {
+    //       padding: {
+    //         top: 35,
+    //         bottom: 0,
+    //         left: 5,
+    //         right: 5,
+    //       },
+    //     },
+    //     rectangleRadius: 6,
+    //     plugins: {
+    //       datalabels: {
+    //         anchor: 'end',
+    //         align: 'start',
+    //         offset: -40,
+    //         padding: 5,
+    //         backgroundColor: backgrounds,
+    //         color: 'white',
+    //         borderWidth: 2,
+    //         borderColor: 'white',
+    //         borderRadius: 100,
+    //         font: {
+    //           size: 14,
+    //         },
+    //       },
+    //     },
+    //     datalabels,
+    //   },
+    // };
+
     const query = {
-      bkg: 'white',
+      bkg: 'black', // 'white',
       height,
       width,
       c: JSON.stringify(chart),

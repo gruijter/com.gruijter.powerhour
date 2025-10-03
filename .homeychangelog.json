@@ -1,4 +1,10 @@
 {
+  "7.0.1": {
+    "en": "Fixed duplicate timestamps in ENTSO-E prices. DAP 60m driver now averages 15m prices."
+  },
+  "7.0.0": {
+    "en": "DAP: Added driver for 15m. Pricecharts have black background. Removed fetch prices delay. Removed legacy migrations. homey-api@3.14.5"
+  },
   "6.7.2": {
     "en": "Added support for Sessy app >=3.0. homey-api@3.11.3"
   },

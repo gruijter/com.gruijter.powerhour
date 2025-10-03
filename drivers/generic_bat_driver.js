@@ -1,5 +1,5 @@
 /*
-Copyright 2019 - 2024, Robin de Gruijter (gruijter@hotmail.com)
+Copyright 2019 - 2025, Robin de Gruijter (gruijter@hotmail.com)
 
 This file is part of com.gruijter.powerhour.
 
@@ -34,7 +34,7 @@ class BatDriver extends Driver {
   async onDriverInit() {
     this.log('onDriverInit');
     // add listener for hourly trigger
-    if (this.eventListenerHour) this.homey.removeListener('everyhour', this.eventListenerHour);
+    if (this.eventListenerHour) this.homey.removeListener('everyhour_PBTH', this.eventListenerHour);
     this.eventListenerHour = async () => {
       // console.log('new hour event received');
       const devices = await this.getDevices();
@@ -58,10 +58,10 @@ class BatDriver extends Driver {
         }
       });
     };
-    this.homey.on('everyhour', this.eventListenerHour);
+    this.homey.on('everyhour_PBTH', this.eventListenerHour);
 
     // add listener for 5 minute retry
-    if (this.eventListenerRetry) this.homey.removeListener('retry', this.eventListenerRetry);
+    if (this.eventListenerRetry) this.homey.removeListener('retry_PBTH', this.eventListenerRetry);
     this.eventListenerRetry = async () => {
       const devices = await this.getDevices();
       devices.forEach(async (device) => {
@@ -87,7 +87,7 @@ class BatDriver extends Driver {
         }
       });
     };
-    this.homey.on('retry', this.eventListenerRetry);
+    this.homey.on('retry_PBTH', this.eventListenerRetry);
 
     // set prices for a BAT device
     this.setPricesDevice = (device) => {
@@ -104,7 +104,7 @@ class BatDriver extends Driver {
     };
 
     // add listener for new prices
-    const eventName = 'set_tariff_power';
+    const eventName = 'set_tariff_power_PBTH';
     if (this.eventListenerTariff) this.homey.removeListener(eventName, this.eventListenerTariff);
     this.eventListenerTariff = async (args) => {
       // console.log(`${eventName} received from DAP`, args);
@@ -132,9 +132,9 @@ class BatDriver extends Driver {
   async onUninit() {
     this.log('bat driver onUninit called');
     if (this.intervalIdEnergyPoll) this.homey.clearInterval(this.intervalIdEnergyPoll);
-    if (this.eventListenerHour) this.homey.removeListener('everyhour', this.eventListenerHour);
-    if (this.eventListenerRetry) this.homey.removeListener('retry', this.eventListenerRetry);
-    const eventName = 'set_tariff_power';
+    if (this.eventListenerHour) this.homey.removeListener('everyhour_PBTH', this.eventListenerHour);
+    if (this.eventListenerRetry) this.homey.removeListener('retry_PBTH', this.eventListenerRetry);
+    const eventName = 'set_tariff_power_PBTH';
     if (this.eventListenerTariff) this.homey.removeListener(eventName, this.eventListenerTariff);
     await setTimeoutPromise(3000);
   }

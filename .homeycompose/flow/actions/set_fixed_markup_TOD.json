@@ -11,7 +11,7 @@
     {
       "type": "device",
       "name": "device",
-      "filter": "driver_id=dap|dapg"
+      "filter": "driver_id=dap|dap15|dapg"
     },
     {
       "name": "value",

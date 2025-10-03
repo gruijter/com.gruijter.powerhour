@@ -1,20 +1,18 @@
 {
 	"title": {
-		"en": "New price hour",
-		"nl": "Nieuw prijs-uur",
-		"de": "Neuer Stundenpreis"
+		"en": "New price period",
+		"nl": "Nieuw prijs-periode"
 	},
 	"titleFormatted": {
-		"en": "New price hour starts",
-		"nl": "Nieuw prijs-uur begint",
-		"de": "Neuer Stundenpreis beginnt"
+		"en": "New price period starts",
+		"nl": "Nieuw prijs-periode begint"
 	},
 	"highlight": true,
 	"args": [
 		{
 		  "type": "device",
 		  "name": "device",
-		  "filter": "driver_id=dap|dapg"
+		  "filter": "driver_id=dap|dap15|dapg"
 		}
 	],
 	"tokens": [
@@ -26,7 +24,7 @@
 				"de": "Stunde"
 			},
 			"type": "number",
-			"example": 14
+			"example": 14.50
 		},
 		{
 			"name": "price",
