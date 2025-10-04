@@ -1,4 +1,7 @@
 {
+  "7.0.2": {
+    "en": "Fixed summarizer price updates. Fixed price markup 15m DAP. Stability improvements."
+  },
   "7.0.1": {
     "en": "Fixed duplicate timestamps in ENTSO-E prices. DAP 60m driver now averages 15m prices."
   },

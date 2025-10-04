@@ -25,7 +25,7 @@ const querystring = require('querystring');
 const defaultHost = 'image-charts.com';
 const chartEP = '/chart.js/2.8.0?';
 
-const getPriceChart = (prices, startHour = 0, marketLength = 999, interval = 60) => {
+const getPriceChart = async (prices, startHour = 0, marketLength = 999, interval = 60) => {
   try {
     if (!Array.isArray(prices)) throw Error('not an array');
     // Convert input data to prices, labels and values
@@ -198,13 +198,13 @@ const getPriceChart = (prices, startHour = 0, marketLength = 999, interval = 60)
     };
     const path = chartEP + querystring.stringify(query);
     const url = `https://${defaultHost}${path}`;
-    return Promise.resolve(url);
+    return url;
   } catch (error) {
-    return Promise.reject(error);
+    return error;
   }
 };
 
-const getChargeChart = (strategy, startHour = 0, marketLength = 99, maxChargePower = 2200, maxDischargePower = 1700) => {
+const getChargeChart = async (strategy, startHour = 0, marketLength = 99, maxChargePower = 2200, maxDischargePower = 1700) => {
   try {
     if (!strategy || !strategy.scheme) throw Error('strategy input is invalid');
 

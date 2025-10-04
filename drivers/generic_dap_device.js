@@ -1,4 +1,3 @@
-/* eslint-disable no-await-in-loop */
 /*
 Copyright 2019 - 2025, Robin de Gruijter (gruijter@hotmail.com)
 
@@ -170,8 +169,8 @@ class MyDevice extends Homey.Device {
   }
 
   async destroyListeners() {
-    if (this.eventListenerHour) await this.homey.removeListener('everyhour_PBTH', this.eventListenerHour.catch(this.error));
-    if (this.eventListener15m) await this.homey.removeListener('every15m_PBTH', this.eventListener15m.catch(this.error));
+    if (this.eventListenerHour) await this.homey.removeListener('everyhour_PBTH', this.eventListenerHour);
+    if (this.eventListener15m) await this.homey.removeListener('every15m_PBTH', this.eventListener15m);
   }
 
   // MIGRATE STUFF from old version < 5.0.0

@@ -1,4 +1,3 @@
-/* eslint-disable no-await-in-loop */
 /*
 Copyright 2019 - 2025, Robin de Gruijter (gruijter@hotmail.com)
 
@@ -93,7 +92,7 @@ class SumMeterDevice extends Device {
     await setTimeoutPromise(delay);
   }
 
-  // migrate stuff from old version < 5.0.2
+  // migrate stuff from old version
   async migrate() {
     try {
       this.log(`checking device migration for ${this.getName()}`);
@@ -125,25 +124,7 @@ class SumMeterDevice extends Device {
       const state = this[sym];
       // check and repair incorrect capability(order)
       let correctCaps = this.driver.ds.deviceCapabilities;
-      // add meter_target_xxx distribution setting  versions >5.0.4
-      if (this.getSettings().level < '5.0.0') {
-        let distribution = 'NONE';
-        if (this.driver.id === 'gas') distribution = 'gas_nl_2023';
-        if (this.driver.id === 'water') distribution = 'linear';
-        if (this.driver.id === 'power' && (this.settings.source_device_type === 'Homey device')) {
-          const sourceD = await this.homey.app.api.devices.getDevice({ id: this.settings.homey_device_id, $cache: false }) // $timeout:15000
-            .catch(this.error);
-          await setTimeoutPromise(3 * 1000); // wait a bit for capabilitiesObj to fill?
-          // check if source device exists
-          const sourceDeviceExists = sourceD && sourceD.capabilitiesObj;
-          if (sourceDeviceExists) {
-            if (sourceD.energyObj && sourceD.energyObj.cumulative) distribution = 'el_nl_2023';
-          }
-        }
-        this.log(`Migrating budget target distribution for ${this.getName()} to ${distribution}`);
-        await this.setSettings({ distribution }).catch(this.error);
-        await setTimeoutPromise(2 * 1000); // wait a bit for Homey to settles
-      }
+
       // remove meter_target_this_xxx caps  versions >5.0.2
       if (this.getSettings().distribution === 'NONE') correctCaps = correctCaps.filter((cap) => !cap.includes('meter_target'));
       for (let index = 0; index < correctCaps.length; index += 1) {
@@ -168,49 +149,15 @@ class SumMeterDevice extends Device {
           this.currencyChanged = true;
         }
       }
-      // if (this.currencyChanged) await setTimeoutPromise(70 * 1000);
-
-      if (this.getSettings().level < '5.4.6') this.currencyChanged = true;
-
-      // migrate to new budget setting > 5.3.0
-      const budgetSetting = this.getSettings().budget;
-      if (typeof budgetSetting === 'number') {
-        this.log(this.getName(), 'migrating budget setting from number to string', budgetSetting);
-        await this.setSettings({ budget: budgetSetting.toString() }).catch(this.error);
-      }
-
-      // convert tariff_via_flow to tariff_update_group <4.7.1
-      if (this.getSettings().level < '4.7.1') {
-        const group = this.getSettings().tariff_via_flow ? 1 : 0;
-        this.log(`Migrating tariff group for ${this.getName()} to ${group}`);
-        await this.setSettings({ tariff_update_group: group }).catch(this.error);
-      }
-
-      // set meter_power from store v3.6.0
-      const lastMoney = await this.getStoreValue('lastMoney');
-      if (lastMoney && lastMoney.meterValue) {
-        this.log('Migrating meter value from v3.6.0 store');
-        // restore the moved capabilities (min/max values)
-        this.lastMinMax = await this.getStoreValue('lastMinMax');
-        await this.minMaxReset(false, 'store migration');
-        // set new meter_source capability
-        await this.setCapabilityValue(this.ds.cmap.meter_source, lastMoney.meterValue);
-        // set money values
-        await this.setSettings({ meter_money_this_day: lastMoney.day }).catch(this.error);
-        await this.setSettings({ meter_money_this_month: lastMoney.month }).catch(this.error);
-        await this.setSettings({ meter_money_this_year: lastMoney.year }).catch(this.error);
-        // await this.setCapabilityValue('meter_money_this_year', lastMoney.year);
-        await this.unsetStoreValue('lastMoney');
-      }
 
       // set new migrate level
       await this.setSettings({ level: this.homey.app.manifest.version }).catch(this.error);
       this.settings = await this.getSettings();
       this.migrating = false;
-      Promise.resolve(true);
+      return Promise.resolve(true);
     } catch (error) {
       this.error('Migration failed', error);
-      Promise.reject(error);
+      return Promise.reject(error);
     }
   }
 
@@ -649,7 +596,7 @@ class SumMeterDevice extends Device {
       this.tariffHistory = tariffHistory;
       await this.setCapability('meter_tariff', tariff).catch(this.error);
       this.setSettings({ tariff }).catch(this.error);
-      this.setStoreValue('tariffHistory', tariffHistory);
+      await this.setStoreValue('tariffHistory', tariffHistory);
     } catch (error) {
       this.error(error);
     }
