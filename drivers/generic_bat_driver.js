@@ -35,57 +35,61 @@ class BatDriver extends Driver {
     this.log('onDriverInit');
     // add listener for hourly trigger
     if (this.eventListenerHour) this.homey.removeListener('everyhour_PBTH', this.eventListenerHour);
-    this.eventListenerHour = async () => {
+    this.eventListenerHour = () => {
       // console.log('new hour event received');
-      const devices = await this.getDevices();
-      devices.forEach(async (device) => {
+      (async () => {
         try {
-          const deviceName = device.getName();
-          // HOMEY-API device
-          // check if source device exists
-          const sourceDeviceExists = device.sourceDevice && device.sourceDevice.capabilitiesObj && (device.sourceDevice.available !== null);
-          if (!sourceDeviceExists) {
-            this.error(`Source device ${deviceName} is missing.`);
-            await device.setUnavailable('Source device is missing. Retry in 10 minutes.').catch(this.error);
-            device.restartDevice(10 * 60 * 1000).catch(this.error); // restart after 10 minutes
-            return;
+          const devices = await this.getDevices();
+          for (const device of devices) {
+            const deviceName = device.getName();
+            // HOMEY-API device
+            // check if source device exists
+            const sourceDeviceExists = device.sourceDevice && device.sourceDevice.capabilitiesObj && (device.sourceDevice.available !== null);
+            if (!sourceDeviceExists) {
+              this.error(`Source device ${deviceName} is missing.`);
+              await device.setUnavailable('Source device is missing. Retry in 10 minutes.').catch(this.error);
+              device.restartDevice(10 * 60 * 1000).catch(this.error); // restart after 10 minutes
+              continue;
+            }
+            // poll all capabilities
+            await device.poll();
+            await device.setAvailable().catch(this.error);
           }
-          // poll all capabilities
-          await device.poll();
-          await device.setAvailable().catch(this.error);
         } catch (error) {
           this.error(error);
         }
-      });
+      })().catch((err) => this.error(err));
     };
     this.homey.on('everyhour_PBTH', this.eventListenerHour);
 
     // add listener for 5 minute retry
     if (this.eventListenerRetry) this.homey.removeListener('retry_PBTH', this.eventListenerRetry);
-    this.eventListenerRetry = async () => {
-      const devices = await this.getDevices();
-      devices.forEach(async (device) => {
+    this.eventListenerRetry = () => {
+      (async () => {
         try {
-          const deviceName = device.getName();
-          if (device.migrating || device.restarting) return;
-          if (!device.initReady) {
-            this.log(`${deviceName} Restarting now`);
-            // device.onInit();
-            device.restartDevice(500).catch(this.error);
-          }
-          // HOMEY-API device - check if source device exists
-          const sourceDeviceExists = device.sourceDevice && device.sourceDevice.capabilitiesObj
-            && Object.keys(device.sourceDevice.capabilitiesObj).length > 0 && (device.sourceDevice.available !== null);
-          if (!sourceDeviceExists) {
-            // console.log(deviceName, device.sourceDevice && device.sourceDevice.capabilitiesObj, device.sourceDevice && device.sourceDevice.available);
-            this.error(`Source device ${deviceName} is missing. Restarting now.`);
-            await device.setUnavailable('Source device is missing. Retrying ..').catch(this.error);
-            device.restartDevice(500).catch(this.error);
+          const devices = await this.getDevices();
+          for (const device of devices) {
+            const deviceName = device.getName();
+            if (device.migrating || device.restarting) continue;
+            if (!device.initReady) {
+              this.log(`${deviceName} Restarting now`);
+              // device.onInit();
+              device.restartDevice(500).catch(this.error);
+            }
+            // HOMEY-API device - check if source device exists
+            const sourceDeviceExists = device.sourceDevice && device.sourceDevice.capabilitiesObj
+              && Object.keys(device.sourceDevice.capabilitiesObj).length > 0 && (device.sourceDevice.available !== null);
+            if (!sourceDeviceExists) {
+              // console.log(deviceName, device.sourceDevice && device.sourceDevice.capabilitiesObj, device.sourceDevice && device.sourceDevice.available);
+              this.error(`Source device ${deviceName} is missing. Restarting now.`);
+              await device.setUnavailable('Source device is missing. Retrying ..').catch(this.error);
+              device.restartDevice(500).catch(this.error);
+            }
           }
         } catch (error) {
           this.error(error);
         }
-      });
+      })().catch((err) => this.error(err));
     };
     this.homey.on('retry_PBTH', this.eventListenerRetry);
 
@@ -106,21 +110,27 @@ class BatDriver extends Driver {
     // add listener for new prices
     const eventName = 'set_tariff_power_PBTH';
     if (this.eventListenerTariff) this.homey.removeListener(eventName, this.eventListenerTariff);
-    this.eventListenerTariff = async (args) => {
-      // console.log(`${eventName} received from DAP`, args);
-      // eslint-disable-next-line prefer-destructuring
-      if (!args.pricesNextHours || !args.pricesNextHours[0]) {
-        this.log('no prices next hours found');
-        return;
-      }
-      if (!this.pricesNextHours) this.pricesNextHours = {};
-      if (!this.pricesNextHoursMarketLength) this.pricesNextHoursMarketLength = {};
-      this.pricesNextHours[args.group] = args.pricesNextHours;
-      this.pricesNextHoursMarketLength[args.group] = args.pricesNextHoursMarketLength;
-      // wait 2 seconds not to stress Homey and prevent race issues
-      await setTimeoutPromise(2 * 1000);
-      const devices = await this.getDevices();
-      devices.forEach((device) => this.setPricesDevice(device));
+    this.eventListenerTariff = (args) => {
+      (async () => {
+        try {
+          // console.log(`${eventName} received from DAP`, args);
+          // eslint-disable-next-line prefer-destructuring
+          if (!args.pricesNextHours || !args.pricesNextHours[0]) {
+            this.log('no prices next hours found');
+            return;
+          }
+          if (!this.pricesNextHours) this.pricesNextHours = {};
+          if (!this.pricesNextHoursMarketLength) this.pricesNextHoursMarketLength = {};
+          this.pricesNextHours[args.group] = args.pricesNextHours;
+          this.pricesNextHoursMarketLength[args.group] = args.pricesNextHoursMarketLength;
+          // wait 2 seconds not to stress Homey and prevent race issues
+          await setTimeoutPromise(2 * 1000);
+          const devices = await this.getDevices();
+          devices.forEach((device) => this.setPricesDevice(device));
+        } catch (error) {
+          this.error(error);
+        }
+      })().catch((err) => this.error(err));
     };
     this.homey.on(eventName, this.eventListenerTariff);
 

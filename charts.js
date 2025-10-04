@@ -131,6 +131,8 @@ const getPriceChart = async (prices, startHour = 0, marketLength = 999, interval
             ticks: {
               fontSize: 20,
               fontColor: 'white',
+              beginAtZero: true,
+              suggestedMin: 0,
             },
             gridLines: {
               color: 'rgba(255,255,255,0.2)',

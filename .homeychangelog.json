@@ -1,4 +1,7 @@
 {
+  "7.0.3": {
+    "en": "Fix next8Hrs selection. Fixed priceNow. Pricechart always includes 0 at y-axis. Stability improvements."
+  },
   "7.0.2": {
     "en": "Fixed summarizer price updates. Fixed price markup 15m DAP. Stability improvements."
   },

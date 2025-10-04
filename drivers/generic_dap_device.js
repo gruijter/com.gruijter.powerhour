@@ -124,7 +124,7 @@ class MyDevice extends Homey.Device {
 
       // fetch and handle prices now, after short random delay
       await this.setAvailable().catch(this.error);
-      await setTimeoutPromise(this.fetchDelay / 30); // spread over 1 minute for API rate limit (400 / min)
+      await setTimeoutPromise(20 * 1000); // wait for sum and bat devices to be ready after app start // (this.fetchDelay / 30); // spread over 1 minute for API rate limit (400 / min)
       await this.fetchExchangeRate();
       await this.fetchPrices();
       // await this.setCapabilitiesAndFlows();
@@ -872,7 +872,7 @@ class MyDevice extends Homey.Device {
     const pricesNextHoursMarketLength = this.marketPrices.filter((hourInfo) => hourInfo.time >= periods.periodStart).length;
 
     // pricesNext8h, avg, lowest and highest
-    const pricesNext8h = selectPrices(this.prices, periods.now, (periods.now.getTime() + 8 * 60 * 60 * 1000));
+    const pricesNext8h = selectPrices(this.prices, periods.periodStart, (periods.periodStart.getTime() + 8 * 60 * 60 * 1000));
     const priceNext8hAvg = average(pricesNext8h);
     const priceNext8hLowest = Math.min(...pricesNext8h);
     const hourNext8hLowest = (H0 + pricesNext8h.indexOf(priceNext8hLowest)) % 24;
