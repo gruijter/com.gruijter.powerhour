@@ -24,6 +24,7 @@ const GLPK = require('glpk.js');
 // returns the best trading strategy for all known coming hours
 const getStrategy = ({
   prices, // array of hourly prices, e.g. [0.331, 0.32, 0.322, 0.32, 0.328, 0.339, 0.429, 0.331, 0.32, 0.322, 0.32, 0.328, 0.339, 0.429];
+  priceInterval = 60, // price interval in minutes
   minPriceDelta = 0.1, // mimimum price difference to sell/buy. Should include 2x fixed costs per kWh for break even.
   soc = 0, // Battery State of Charge at start of first hour in %
   startMinute = 0, // minute of the first hour to start the calculation
@@ -85,13 +86,13 @@ const getStrategy = ({
     // charge cost per hour is chargeTime(hrs) * (power(kWh)) * (fixed cost(per kWh) + hourPrice)
     // assume chargeSpeed is on AC side, so incoming power cost is not affected by efficiency
     [...chargeSpeeds].forEach((speed, csIdx) => {
-      const chargeCost = { name: `cs${csIdx}T${hourIdx}`, coef: ((speed.power / 1000) * (fc + price)) };
+      const chargeCost = { name: `cs${csIdx}T${hourIdx}`, coef: ((speed.power / (60 / priceInterval) / 1000) * (fc + price)) };
       model.objective.vars.push(chargeCost);
     });
     // discharge cost per period is dischargeTime(hrs) * (power(kWh) * efficiency) * (fixed cost(per kWh) - hourPrice)
     // assume dischargeSpeed is on AC side, so outgoing power cost is not affected by efficiency
     [...dischargeSpeeds].forEach((speed, dsIdx) => {
-      const dischargeCost = { name: `ds${dsIdx}T${hourIdx}`, coef: ((speed.power / 1000) * (fc - price)) };
+      const dischargeCost = { name: `ds${dsIdx}T${hourIdx}`, coef: ((speed.power / (60 / priceInterval) / 1000) * (fc - price)) };
       model.objective.vars.push(dischargeCost);
     });
 
@@ -127,11 +128,11 @@ const getStrategy = ({
     for (let hIdx = 0; hIdx <= hourIdx; hIdx += 1) {
       [...chargeSpeeds].forEach((speed, csIdx) => {
         // battery is charged slower than AC power due to efficiency loss
-        SoC.vars.push({ name: `cs${csIdx}T${hIdx}`, coef: ((speed.power / 1000) * speed.eff) });
+        SoC.vars.push({ name: `cs${csIdx}T${hIdx}`, coef: ((speed.power / (60 / priceInterval) / 1000) * speed.eff) });
       });
       [...dischargeSpeeds].forEach((speed, dsIdx) => {
         // battery is discharged faster than AC power due to efficiency loss
-        SoC.vars.push({ name: `ds${dsIdx}T${hIdx}`, coef: -(speed.power / 1000) / speed.eff });
+        SoC.vars.push({ name: `ds${dsIdx}T${hIdx}`, coef: -(speed.power / (60 / priceInterval) / 1000) / speed.eff });
       });
     }
     model.subjectTo.push(SoC);

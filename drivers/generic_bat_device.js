@@ -256,6 +256,7 @@ class batDevice extends Device {
       if (this.getSettings().roiMinProfit !== args.minPriceDelta) this.setSettings({ roiMinProfit: args.minPriceDelta }).catch(this.error);
       await setTimeoutPromise(3000); // wait 3 seconds for new hourly prices to be taken in
       if (!this.pricesNextHours) throw Error('no prices available');
+      if (!this.priceInterval) throw Error('no price interval available');
       const settings = this.getSettings();
       const chargeSpeeds = [
         {
@@ -295,6 +296,7 @@ class batDevice extends Device {
         batCapacity: this.getSettings().batCapacity,
         chargeSpeeds,
         dischargeSpeeds,
+        priceInterval: this.priceInterval,
       };
       const stratOptsString = JSON.stringify(options);
       if (this.lastStratOptsString === stratOptsString) {
@@ -339,6 +341,7 @@ class batDevice extends Device {
     if (!this.pricesNextHoursMarketLength) this.pricesNextHoursMarketLength = await this.getStoreValue('pricesNextHoursMarketLength');
     if (!this.pricesNextHoursMarketLength) this.pricesNextHoursMarketLength = 99;
     if (!this.pricesNextHours) this.pricesNextHours = await this.getStoreValue('pricesNextHours');
+    if (!this.priceInterval) this.priceInterval = await this.getStoreValue('priceInterval');
     if (!this.pricesNextHours) {
       this.pricesNextHours = [0.25]; // set as default after pair
       // get DAP prices when available
@@ -433,15 +436,17 @@ class batDevice extends Device {
   }
 
   // update the prices from DAP
-  async updatePrices(pricesNextHours, pricesNextHoursMarketLength) {
+  async updatePrices(pricesNextHours, pricesNextHoursMarketLength, priceInterval) {
     try {
       if (!pricesNextHours || !pricesNextHours[0]) return;
       this.pricesNextHoursMarketLength = pricesNextHoursMarketLength;
       if (!this.initReady || JSON.stringify(pricesNextHours) === JSON.stringify(this.pricesNextHours)) return; // only update when changed
       this.pricesNextHours = pricesNextHours;
+      this.priceInterval = priceInterval;
       await this.setCapability('meter_tariff', pricesNextHours[0]).catch(this.error);
       await this.setStoreValue('pricesNextHours', pricesNextHours).catch(this.error);
       await this.setStoreValue('pricesNextHoursMarketLength', pricesNextHoursMarketLength).catch(this.error);
+      await this.setStoreValue('priceInterval', priceInterval).catch(this.error);
       // trigger ROI card
       if (this.getSettings().roiEnable) {
         await this.triggerNewRoiStrategyFlow();
