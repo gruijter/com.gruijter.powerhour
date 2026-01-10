@@ -100,11 +100,11 @@ const getStrategy = ({
 
     // build constraints
     // any one hour can not be charged/discharged more then 1 hour
-    const timeLeftinHour = hourIdx !== 0 ? 1 : (60 - startMinute) / 60; // for first hour use only minutes that are left
+    const timeLeftinPeriod = hourIdx !== 0 ? 1 : (priceInterval - startMinute) / priceInterval; // for first period use only minutes that are left
     const chargesDischarges = {
       name: `chargesDischarges${hourIdx}`,
       vars: [],
-      bnds: { type: glpk.GLP_UP, ub: timeLeftinHour, lb: 0 },
+      bnds: { type: glpk.GLP_UP, ub: timeLeftinPeriod, lb: 0 },
     };
     [...chargeSpeeds].forEach((speed, csIdx) => {
       chargesDischarges.vars.push({ name: `cs${csIdx}T${hourIdx}`, coef: 1 });
@@ -207,7 +207,7 @@ const getStrategy = ({
     });
     // summarize for this hour
     let power = totalTime > 0 ? Math.round((avgPower * 1000) / totalTime) : 0;
-    let duration = Math.round(totalTime * 60);
+    let duration = Math.round(totalTime * priceInterval);
     let SoCh = Math.abs(Math.round(100 * (storedEnergy / batCapacity)));
 
     // remove short breaks and operations
@@ -219,9 +219,9 @@ const getStrategy = ({
         storedEnergy = socAtStart;
         SoCh = Math.abs(Math.round(100 * (storedEnergy / batCapacity)));
       }
-      if (((duration < 60) && (power < 0) && (SoCh > 97)) // remove charging breaks when almost full
-        || ((duration < 60) && (power > 0) && (SoCh < 3))) { // remove discharging breaks when almost empty
-        duration = 60;
+      if (((duration < priceInterval) && (power < 0) && (SoCh > 97)) // remove charging breaks when almost full
+        || ((duration < priceInterval) && (power > 0) && (SoCh < 3))) { // remove discharging breaks when almost empty
+        duration = priceInterval;
         // storedEnergy = socAtStart;
         // storedEnergy -= power / 1000; // efficiency is not taken into account during charging
         // SoCh = Math.abs(Math.round(100 * (storedEnergy / batCapacity)));
