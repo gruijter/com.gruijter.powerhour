@@ -194,7 +194,7 @@ const getStrategy = ({
         const chrgPower = chargeSpeeds[chrgIndex].power / 1000;
         totalTime += chrgTime;
         avgPower -= chrgTime * chrgPower; // charging power is negative
-        storedEnergy += chrgTime * chrgPower * chargeSpeeds[chrgIndex].eff;
+        storedEnergy += chrgTime * chrgPower * chargeSpeeds[chrgIndex].eff / (60 / priceInterval);
       }
       if (stratKey.includes('ds') && solved.result.vars[stratKey] > 0) { // is a discharging factor
         const dchrgIndex = stratKey[2]; // third character of key name
@@ -202,7 +202,7 @@ const getStrategy = ({
         const dchrgPower = dischargeSpeeds[dchrgIndex].power / 1000;
         totalTime += dchrgTime;
         avgPower += dchrgTime * dchrgPower;
-        storedEnergy -= dchrgTime * dchrgPower;
+        storedEnergy -= dchrgTime * dchrgPower / (60 / priceInterval);
       }
     });
     // summarize for this hour
