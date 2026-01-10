@@ -521,7 +521,7 @@ class batDevice extends Device {
       const nowLocal = new Date(now.toLocaleString('en-US', { timeZone: this.timeZone }));
       const H0 = nowLocal.getHours();
       // eslint-disable-next-line max-len
-      const urlNextHours = await charts.getChargeChart(strategy, H0, this.pricesNextHoursMarketLength, this.getSettings().chargePower, this.getSettings().dischargePower);
+      const urlNextHours = await charts.getChargeChart(strategy, H0, this.pricesNextHoursMarketLength, this.getSettings().chargePower, this.getSettings().dischargePower, this.priceInterval);
       if (!this.nextHoursChargeImage) {
         this.nextHoursChargeImage = await this.homey.images.createImage();
         await this.nextHoursChargeImage.setUrl(urlNextHours);

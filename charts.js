@@ -30,7 +30,7 @@ const getPriceChart = async (prices, startHour = 0, marketLength = 999, interval
     if (!Array.isArray(prices)) throw Error('not an array');
     // Convert input data to prices, labels and values
     let values = [...prices];
-    if (values.length < 24 * (interval / 60)) values = values.concat(Array(24 * (interval / 60) - values.length).fill(null));
+    if (values.length < 24 * (60 / interval)) values = values.concat(Array(24 * (60 / interval) - values.length).fill(null));
     const labels = values.map((value, index) => {
       const hour = startHour + (index * (interval / 60));
       // Check if this is a full hour (minute part is 0)
@@ -206,7 +206,7 @@ const getPriceChart = async (prices, startHour = 0, marketLength = 999, interval
   }
 };
 
-const getChargeChart = async (strategy, startHour = 0, marketLength = 99, maxChargePower = 2200, maxDischargePower = 1700) => {
+const getChargeChart = async (strategy, startHour = 0, marketLength = 99, maxChargePower = 2200, maxDischargePower = 1700, interval = 60) => {
   try {
     if (!strategy || !strategy.scheme) throw Error('strategy input is invalid');
 
@@ -214,10 +214,14 @@ const getChargeChart = async (strategy, startHour = 0, marketLength = 99, maxCha
     const scheme = JSON.parse(strategy.scheme);
     // const SoCs = Object.keys(scheme).map((hour) => scheme[hour].soc);
     let prices = Object.keys(scheme).map((hour) => scheme[hour].price);
-    if (prices.length < 24) prices = prices.concat(Array(24 - prices.length).fill(null));
+    if (prices.length < 24 * (60 / interval)) prices = prices.concat(Array(24 * (60 / interval) - prices.length).fill(null));
     const labels = prices.map((value, index) => {
-      const hour = (startHour + index) % 24;
-      return hour.toString().padStart(2, '0');
+      const hour = startHour + (index * (interval / 60));
+      // Check if this is a full hour (minute part is 0)
+      if (Math.abs(hour % 1) < 1e-8) {
+        return (hour % 24).toString().padStart(2, '0');
+      }
+      return '';
     });
 
     // Map color of each bar based on dis/charge power.

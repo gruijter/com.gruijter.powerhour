@@ -100,7 +100,7 @@ const getStrategy = ({
 
     // build constraints
     // any one hour can not be charged/discharged more then 1 hour
-    const timeLeftinPeriod = hourIdx !== 0 ? 1 : (priceInterval - startMinute) / priceInterval; // for first period use only minutes that are left
+    const timeLeftinPeriod = hourIdx !== 0 ? 1 : (priceInterval - (startMinute % priceInterval)) / priceInterval; // for first period use only minutes that are left
     const chargesDischarges = {
       name: `chargesDischarges${hourIdx}`,
       vars: [],
