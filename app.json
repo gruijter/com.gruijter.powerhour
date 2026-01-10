@@ -3268,6 +3268,52 @@
       },
       {
         "title": {
+          "en": "Set daily fixed cost",
+          "de": "Tägliche Fixkosten festlegen",
+          "sv": "Ställ in daglig fast kostnad",
+          "it": "Imposta costo fisso giornaliero",
+          "no": "Sett daglig fast kostnad",
+          "fr": "Définir le coût fixe journalier",
+          "dk": "Sæt daglig fast omkostning",
+          "nl": "Stel dagelijkse vaste kosten in"
+        },
+        "titleFormatted": {
+          "en": "Set daily fixed cost to [[value]]",
+          "de": "Tägliche Fixkosten auf [[value]] setzen",
+          "sv": "Ställ in daglig fast kostnad till [[value]]",
+          "it": "Imposta costo fisso giornaliero a [[value]]",
+          "no": "Sett daglig fast kostnad til [[value]]",
+          "fr": "Définir le coût fixe journalier à [[value]]",
+          "dk": "Sæt daglig fast omkostning til [[value]]",
+          "nl": "Stel dagelijkse vaste kosten in op [[value]]"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=power|gas|water"
+          },
+          {
+            "type": "number",
+            "name": "value",
+            "placeholder": {
+              "en": "Daily fixed cost",
+              "de": "Tägliche Fixkosten",
+              "sv": "Daglig fast kostnad",
+              "it": "Costo fisso giornaliero",
+              "no": "Daglig fast kostnad",
+              "fr": "Coût fixe journalier",
+              "dk": "Daglig fast omkostning",
+              "nl": "Dagelijkse vaste kosten"
+            },
+            "min": 0,
+            "decimals": 4
+          }
+        ],
+        "id": "set_daily_fixed_cost"
+      },
+      {
+        "title": {
           "en": "Set a new exchange rate",
           "de": "Neuen Wechselkurs festlegen",
           "sv": "Ställ in en ny växelkurs",
