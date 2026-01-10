@@ -491,7 +491,7 @@ class batDevice extends Device {
       if (duration === 0) return;
       const now = new Date();
       const startMinute = now.getMinutes();
-      if ((startMinute + duration) >= 55) return; // do not retrigger if duration is crossing to next hour
+      if ((startMinute % this.priceInterval) + duration >= (this.priceInterval - 5)) return; // do not retrigger if duration is crossing to next period
       if (power > 0 && endSoC <= 1) return; // do not retrigger when discharging to empty
       if (power < 0 && endSoC >= 99) return; // do not retrigger when charging to full
       // Retrigger after delay when partly charging or discharging
