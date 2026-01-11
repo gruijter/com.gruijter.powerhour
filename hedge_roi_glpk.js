@@ -181,6 +181,7 @@ const getStrategy = ({
   // Create summarized strategy output.
   const strategy = {};
   let storedEnergy = startSoC;
+  let lastPower = 0;
   [...prices].forEach((price, hourIdx) => {
     const stratResultKeys = Object.keys(solved.result.vars)
       .filter((key) => key.split('T').pop() === `${hourIdx}`); // select currentHour strategy only
@@ -202,18 +203,18 @@ const getStrategy = ({
         const dchrgPower = dischargeSpeeds[dchrgIndex].power / 1000;
         totalTime += dchrgTime;
         avgPower += dchrgTime * dchrgPower;
-        storedEnergy -= dchrgTime * dchrgPower / (60 / priceInterval);
+        storedEnergy -= dchrgTime * dchrgPower / dischargeSpeeds[dchrgIndex].eff / (60 / priceInterval);
       }
     });
     // summarize for this hour
     let power = totalTime > 0 ? Math.round((avgPower * 1000) / totalTime) : 0;
     let duration = Math.round(totalTime * priceInterval);
-    let SoCh = Math.abs(Math.round(100 * (storedEnergy / batCapacity)));
+    let SoCh = Math.max(Math.round(100 * (storedEnergy / batCapacity)), 0);
 
     // remove short breaks and operations
     if (cleanUpStrategy) {
-      if (((duration < 10) && (power < 0) && (SoCh < 95)) // remove short charges, unless almost full
-        || ((duration < 10) && (power > 0) && (SoCh > 5))) { // remove short discharges, unless almost empty
+      if (((duration < 10) && (power < 0) && (SoCh < 95) && lastPower >= 0) // remove short charges, unless almost full
+        || ((duration < 10) && (power > 0) && (SoCh > 5) && lastPower <= 0)) { // remove short discharges, unless almost empty
         power = 0;
         duration = 0;
         storedEnergy = socAtStart;
@@ -227,6 +228,8 @@ const getStrategy = ({
         // SoCh = Math.abs(Math.round(100 * (storedEnergy / batCapacity)));
       }
     }
+
+    lastPower = power;
 
     strategy[hourIdx] = {
       power, duration, soc: SoCh, price,
