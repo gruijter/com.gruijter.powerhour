@@ -25,6 +25,7 @@ const util = require('util');
 const charts = require('../charts');
 const tradeStrategy = require('../hedge_strategy'); // deprecated
 const roiStrategy = require('../hedge_roi_glpk'); // new method
+const { imageUrlToStream } = require('../image');
 
 const setTimeoutPromise = util.promisify(setTimeout);
 
@@ -524,11 +525,11 @@ class batDevice extends Device {
       const urlNextHours = await charts.getChargeChart(strategy, H0, this.pricesNextHoursMarketLength, this.getSettings().chargePower, this.getSettings().dischargePower, this.priceInterval);
       if (!this.nextHoursChargeImage) {
         this.nextHoursChargeImage = await this.homey.images.createImage();
-        await this.nextHoursChargeImage.setUrl(urlNextHours);
         await this.setCameraImage('nextHoursChargeChart', ` ${this.homey.__('nextHours')}`, this.nextHoursChargeImage);
-      } else {
-        await this.nextHoursChargeImage.setUrl(urlNextHours);
       }
+      this.nextHoursChargeImage.setStream(async (stream) => {
+        return imageUrlToStream(urlNextHours, stream);
+      });
       await this.nextHoursChargeImage.update().catch(this.error);
     }
     return Promise.resolve(true);

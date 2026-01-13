@@ -24,6 +24,7 @@ const util = require('util');
 const ECB = require('../ecb_exchange_rates');
 const FORECAST = require('../stekker');
 const charts = require('../charts');
+const { imageUrlToStream } = require('../image');
 
 const setTimeoutPromise = util.promisify(setTimeout);
 
@@ -952,33 +953,33 @@ class MyDevice extends Homey.Device {
     const urlToday = await charts.getPriceChart(this.state.pricesThisDay, 0, 999, this.priceInterval);
     if (!this.todayPriceImage) {
       this.todayPriceImage = await this.homey.images.createImage();
-      await this.todayPriceImage.setUrl(urlToday);
       await this.setCameraImage('todayPriceChart', ` ${this.homey.__('today')}`, this.todayPriceImage);
-    } else {
-      await this.todayPriceImage.setUrl(urlToday);
-      await this.todayPriceImage.update();
     }
+    this.todayPriceImage.setStream(async (stream) => {
+      return imageUrlToStream(urlToday, stream);
+    });
+    await this.todayPriceImage.update();
 
     const urlTomorow = await charts.getPriceChart(this.state.pricesTomorrow, 0, this.state.pricesTomorrowMarketLength, this.priceInterval);
     if (!this.tomorrowPriceImage) {
       this.tomorrowPriceImage = await this.homey.images.createImage();
-      await this.tomorrowPriceImage.setUrl(urlTomorow);
       await this.setCameraImage('tomorrowPriceChart', ` ${this.homey.__('tomorrow')}`, this.tomorrowPriceImage);
-    } else {
-      await this.tomorrowPriceImage.setUrl(urlTomorow);
-      await this.tomorrowPriceImage.update();
     }
+    this.tomorrowPriceImage.setStream(async (stream) => {
+      return imageUrlToStream(urlTomorow, stream);
+    });
+    await this.tomorrowPriceImage.update();
 
     const startHour = this.priceInterval === 60 ? this.state.H0 : this.state.Q0 * (this.priceInterval / 60);
     const urlNextHours = await charts.getPriceChart(this.state.pricesNextHours, startHour, this.state.pricesNextHoursMarketLength, this.priceInterval);
     if (!this.nextHoursPriceImage) {
       this.nextHoursPriceImage = await this.homey.images.createImage();
-      await this.nextHoursPriceImage.setUrl(urlNextHours);
       await this.setCameraImage('nextHoursPriceChart', ` ${this.homey.__('nextHours')}`, this.nextHoursPriceImage);
-    } else {
-      await this.nextHoursPriceImage.setUrl(urlNextHours);
-      await this.nextHoursPriceImage.update();
     }
+    this.nextHoursPriceImage.setStream(async (stream) => {
+      return imageUrlToStream(urlNextHours, stream);
+    });
+    await this.nextHoursPriceImage.update();
   }
 
   async setCapabilitiesAndFlows(options) {
