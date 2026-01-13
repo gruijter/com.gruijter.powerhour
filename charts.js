@@ -143,55 +143,6 @@ const getPriceChart = async (prices, startHour = 0, marketLength = 999, interval
       },
     };
 
-    // // Build configuration for the chart
-    // const height = 320;
-    // const width = 427; // 540;
-    // const chart = {
-    //   type: 'bar',
-    //   data: {
-    //     labels,
-    //     datasets: [
-    //       {
-    //         label: 'Prices',
-    //         backgroundColor: backgrounds,
-    //         data: values,
-    //       },
-    //     ],
-    //   },
-    //   options: {
-    //     responsive: true,
-    //     legend: {
-    //       position: 'none',
-    //     },
-    //     layout: {
-    //       padding: {
-    //         top: 35,
-    //         bottom: 0,
-    //         left: 5,
-    //         right: 5,
-    //       },
-    //     },
-    //     rectangleRadius: 6,
-    //     plugins: {
-    //       datalabels: {
-    //         anchor: 'end',
-    //         align: 'start',
-    //         offset: -40,
-    //         padding: 5,
-    //         backgroundColor: backgrounds,
-    //         color: 'white',
-    //         borderWidth: 2,
-    //         borderColor: 'white',
-    //         borderRadius: 100,
-    //         font: {
-    //           size: 14,
-    //         },
-    //       },
-    //     },
-    //     datalabels,
-    //   },
-    // };
-
     const query = {
       bkg: 'black', // 'white',
       height,
@@ -267,6 +218,9 @@ const getChargeChart = async (strategy, startHour = 0, marketLength = 99, maxCha
         responsive: true,
         legend: {
           position: 'none',
+          labels: {
+            fontColor: 'white',
+          },
         },
         layout: {
           padding: {
@@ -294,11 +248,34 @@ const getChargeChart = async (strategy, startHour = 0, marketLength = 99, maxCha
           },
         },
         datalabels,
+        scales: {
+          xAxes: [{
+            ticks: {
+              fontSize: 20,
+              fontColor: 'white',
+            },
+            gridLines: {
+              color: 'rgba(255,255,255,0.2)',
+            },
+          }],
+          yAxes: [{
+            ticks: {
+              fontSize: 20,
+              fontColor: 'white',
+              beginAtZero: true,
+              suggestedMin: 0,
+            },
+            gridLines: {
+              color: 'rgba(255,255,255,0.2)',
+            },
+          }],
+        },
+        backgroundColor: 'black', // for some chart.js plugins
       },
     };
 
     const query = {
-      bkg: 'white',
+      bkg: 'black',
       height,
       width,
       c: JSON.stringify(chart),

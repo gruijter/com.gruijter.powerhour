@@ -77,7 +77,7 @@ class MyDevice extends Homey.Device {
       this.initReady = false;
       this.settings = await this.getSettings();
       this.timeZone = this.homey.clock.getTimezone();
-      this.fetchDelay = 0; // (Math.random() * 4 * 60 * 1000) + (1000 * 60 * 1.5);
+      this.fetchDelay = (Math.random() * 15 * 60 * 1000) + (1000 * 60 * 0.5); // random delay between 30 sec and 15 minutes to spread API calls on app start
       if (!this.prices) this.prices = this.getStoreValue('prices'); // restore from persistent memory on app restart
       if (!this.prices) this.prices = [{ time: null, price: null, muPrice: null }];
       if (!this.marketPrices) this.marketPrices = [];
@@ -124,18 +124,18 @@ class MyDevice extends Homey.Device {
 
       // fetch and handle prices now, after short random delay
       await this.setAvailable().catch(this.error);
-      await setTimeoutPromise(20 * 1000); // wait for sum and bat devices to be ready after app start // (this.fetchDelay / 30); // spread over 1 minute for API rate limit (400 / min)
+      await setTimeoutPromise(30 * 1000); // wait for sum and bat devices to be ready after app start
       await this.fetchExchangeRate();
       await this.fetchPrices();
-      // await this.setCapabilitiesAndFlows();
 
       // start fetching and handling prices on every hour
       this.eventListenerHour = () => {
         (async () => {
           this.log('new hour event received');
           await this.fetchExchangeRate();
-          await this.fetchPrices();
           await this.setCapabilitiesAndFlows();
+          await setTimeoutPromise(this.fetchDelay); // spread over 15 minute for API rate limit (400 / min)
+          await this.fetchPrices();
         })().catch((err) => this.error(err));
       };
       this.homey.on('everyhour_PBTH', this.eventListenerHour);
@@ -271,6 +271,7 @@ class MyDevice extends Homey.Device {
       this.currencyChanged = true;
     }
     this.restartDevice(1000).catch((error) => this.error(error));
+    return true;
   }
 
   async setCapability(capability, value) {
@@ -699,11 +700,19 @@ class MyDevice extends Homey.Device {
 
     // check for same pricing content
     let samePrices = true;
-    newPricesSelection.forEach((newHourPrice, index) => {
-      if (oldPricesSelection[index] && oldPricesSelection[index].price !== undefined) {
-        samePrices = samePrices && (newHourPrice.price === oldPricesSelection[index].price);
-      } else samePrices = false;
-    });
+    if (newPricesSelection.length !== oldPricesSelection.length) {
+      samePrices = false;
+    } else {
+      newPricesSelection.forEach((newHourPrice, index) => {
+        if (oldPricesSelection[index] && oldPricesSelection[index].price !== undefined) {
+          if (Math.abs(newHourPrice.price - oldPricesSelection[index].price) > 0.00001) {
+            samePrices = false;
+          }
+        } else {
+          samePrices = false;
+        }
+      });
+    }
 
     // trigger flow
     if (!samePrices) {
@@ -718,7 +727,7 @@ class MyDevice extends Homey.Device {
     if ((!newMarketPrices || !newMarketPrices[0] || !newMarketPrices[0].time)) throw Error('Unable to fetch prices');
     // check if tomorrow is missing
     const marketPricesNextHours = newMarketPrices.filter((hourInfo) => hourInfo.time >= periods.periodStart);
-    if (marketPricesNextHours.length < 10) throw Error('Unable to fetch tomorrow prices');
+    if (marketPricesNextHours.length < 1) throw Error('Unable to fetch current price');
     // check if intervals are consecutive
     let previousTime = new Date(newMarketPrices[0].time);
     let consecutive = true;

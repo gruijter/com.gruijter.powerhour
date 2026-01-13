@@ -19,14 +19,9 @@ along with com.gruijter.powerhour.  If not, see <http://www.gnu.org/licenses/>.
 
 'use strict';
 
-const https = require('https');
-// const util = require('util');
-
 const defaultHost = 'mijn.easyenergy.com';
-const defaultPort = 443;
 const defaultTimeout = 60000;
 const lebaPath = '/nl/api/tariff/getlebatariffs'; // gas LEBA TTF day-ahead
-// const apxPath = '/nl/api/tariff/getapxtariffs'; // electricity TTF day-ahead
 
 const biddingZones = {
   TTF_LEBA_EasyEnergy: 'TTF_LEBA_EasyEnergy',
@@ -62,7 +57,6 @@ class Easyenergy {
   constructor(opts) {
     const options = opts || {};
     this.host = options.host || defaultHost;
-    this.port = options.port || defaultPort;
     this.timeout = options.timeout || defaultTimeout;
     this.biddingZone = options.biddingZone;
     this.biddingZones = biddingZones;
@@ -93,7 +87,6 @@ class Easyenergy {
       const query = {
         startTimestamp: start.toISOString(),
         endTimestamp: end.toISOString(),
-        // grouping: '', // defaults to by hour?
         includeVat: false,
       };
       const qs = new URLSearchParams(query).toString();
@@ -101,11 +94,10 @@ class Easyenergy {
       const res = await this._makeRequest(path);
       if (!res || !res[0] || !res[0].Timestamp) throw Error('no gas price info found');
 
-      // make array with concise info per day in euro / 1000 m3 gas
       let info = res.map((hourInfo) => ({ time: new Date(hourInfo.Timestamp), price: hourInfo.TariffUsage * 1000 }));
       info = padMissingHours(info);
       info = info
-        .filter((hourInfo) => hourInfo.time >= start) // remove out of bounds data
+        .filter((hourInfo) => hourInfo.time >= start)
         .filter((hourInfo) => hourInfo.time <= end);
 
       return Promise.resolve(info);
@@ -114,71 +106,32 @@ class Easyenergy {
     }
   }
 
-  async _makeRequest(path, postMessage, timeout) {
+  async _makeRequest(path, timeout) {
     try {
-      const headers = {
-      };
+      const url = `https://${this.host}${path}`;
       const options = {
-        hostname: this.host,
-        port: this.port,
-        path,
-        headers,
         method: 'GET',
+        timeout: timeout || this.timeout,
       };
-      const result = await this._makeHttpsRequest(options, postMessage, timeout);
-      this.lastResponse = result.body || result.statusCode;
-      const contentType = result.headers['content-type'];
-      if (!/\/json/.test(contentType)) {
-        throw Error(`Expected json but received ${contentType}: ${result.body}`);
+
+      const result = await fetch(url, options);
+      this.lastResponse = result.status;
+
+      if (!result.ok) {
+        throw new Error(`HTTP request Failed. Status Code: ${result.status}`);
       }
-      // find errors
-      if (result.statusCode !== 200) {
-        this.lastResponse = result.statusCode;
-        throw Error(`HTTP request Failed. Status Code: ${result.statusCode}`);
+
+      const contentType = result.headers.get('content-type');
+      if (!/application\/json/.test(contentType)) {
+        const text = await result.text();
+        throw new Error(`Expected json but received ${contentType}: ${text.slice(0, 100)}`);
       }
-      // console.dir(JSON.parse(result.body), { depth: null });
-      return Promise.resolve(JSON.parse(result.body));
+      return result.json();
     } catch (error) {
+      this.lastResponse = error;
       return Promise.reject(error);
     }
   }
-
-  _makeHttpsRequest(options, postData, timeout) {
-    return new Promise((resolve, reject) => {
-      if (!this.httpsAgent) {
-        const agentOptions = {
-          rejectUnauthorized: false,
-        };
-        this.httpsAgent = new https.Agent(agentOptions);
-      }
-      const opts = options;
-      opts.timeout = timeout || this.timeout;
-      const req = https.request(opts, (res) => {
-        let resBody = '';
-        res.on('data', (chunk) => {
-          resBody += chunk;
-        });
-        res.once('end', () => {
-          this.lastResponse = resBody;
-          if (!res.complete) {
-            return reject(Error('The connection was terminated while the message was still being sent'));
-          }
-          res.body = resBody;
-          return resolve(res);
-        });
-      });
-      req.on('error', (e) => {
-        req.destroy();
-        this.lastResponse = e;
-        return reject(e);
-      });
-      req.on('timeout', () => {
-        req.destroy();
-      });
-      req.end(postData);
-    });
-  }
-
 }
 
 module.exports = Easyenergy;

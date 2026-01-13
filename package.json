@@ -1,10 +1,10 @@
 {
   "name": "com.gruijter.powerhour",
-  "version": "6.6.6",
+  "version": "7.0.3",
   "description": "Summarize the energy usage or (solar) production per hour, day, month and year",
   "main": "app.js",
   "engines": {
-    "node": ">=12.16.1"
+    "node": ">=22"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -20,12 +20,13 @@
   },
   "dependencies": {
     "glpk.js": "^4.0.2",
-    "homey-api": "^3.14.5",
+    "homey-api": "^3.14.22",
     "xml-js": "^1.6.11"
   },
   "devDependencies": {
     "@types/homey": "npm:homey-apps-sdk-v3-types@^0.3.12",
     "eslint": "^7.32.0",
-    "eslint-config-athom": "^3.1.5"
+    "eslint-config-athom": "^3.1.5",
+    "eslint-plugin-homey-app": "^1.0.2"
   }
 }

@@ -19,12 +19,11 @@ along with com.gruijter.powerhour.  If not, see <http://www.gnu.org/licenses/>.
 
 'use strict';
 
-const https = require('https');
 const parseXml = require('xml-js');
 // const util = require('util');
 
 const defaultHost = 'web-api.tp.entsoe.eu'; // 'transparency.entsoe.eu';
-const defaultPort = 443;
+// const defaultPort = 443;
 const defaultTimeout = 30000;
 
 const regexReasonCode = /<code>(.*)<\/code>/;
@@ -144,7 +143,7 @@ class ENTSOE {
   constructor(opts) {
     const options = opts || {};
     this.host = options.host || defaultHost;
-    this.port = options.port || defaultPort;
+    // this.port = options.port || defaultPort;
     this.timeout = options.timeout || defaultTimeout;
     this.apiKey = options.apiKey;
     this.biddingZone = options.biddingZone;
@@ -255,80 +254,47 @@ class ENTSOE {
 
   async _makeRequest(actionPath, timeout) {
     try {
-      const postMessage = '';
-      const headers = {};
+      const url = `https://${this.host}${actionPath}`;
       const options = {
-        hostname: this.host,
-        port: this.port,
-        path: actionPath,
-        headers,
         method: 'GET',
+        timeout: timeout || this.timeout,
       };
-      const result = await this._makeHttpsRequest(options, postMessage, timeout);
-      this.lastResponse = result.body || result.statusCode;
-      const contentType = result.headers['content-type'];
-      if (!/\/xml/.test(contentType)) {
-        throw Error(`Expected xml but received ${contentType}: ${result.body}`);
-      }
+
+      const result = await fetch(url, options);
+      this.lastResponse = result.status;
+
       // find errors
-      if (result.body && result.body.includes('<Reason>')) {
-        const code = regexReasonCode.exec(result.body); // 999 = error?
-        const text = regexText.exec(result.body); // error tekst
+      if (result.status === 429) {
+        throw new Error('Rate limit exceeded');
+      }
+      const body = await result.text();
+      this.lastResponse = body || result.status;
+      if (body && body.includes('<Reason>')) {
+        const code = regexReasonCode.exec(body); // 999 = error?
+        const text = regexText.exec(body); // error tekst
         if (code && code[1]) throw Error(`${code[1]} ${text[1]}`);
       }
-      if (result.statusCode !== 200) {
-        this.lastResponse = result.statusCode;
-        throw Error(`HTTP request Failed. Status Code: ${result.statusCode}`);
+      const contentType = result.headers.get('content-type');
+      if (!/\/xml/.test(contentType)) {
+        throw Error(`Expected xml but received ${contentType}: ${body}`);
+      }
+      if (result.status !== 200) {
+        this.lastResponse = result.status;
+        throw Error(`HTTP request Failed. Status Code: ${result.status}`);
       }
       // parse xml to json object
       const parseOptions = {
         compact: true, nativeType: true, ignoreDeclaration: true, ignoreAttributes: true, // spaces: 2,
       };
-      const json = parseXml.xml2js(result.body, parseOptions);
+      const json = parseXml.xml2js(body, parseOptions);
       // const flatJson = flatten(json);
       // console.dir(json, { depth: null });
       return Promise.resolve(json);
     } catch (error) {
+      this.lastResponse = error;
       return Promise.reject(error);
     }
   }
-
-  _makeHttpsRequest(options, postData, timeout) {
-    return new Promise((resolve, reject) => {
-      if (!this.httpsAgent) {
-        const agentOptions = {
-          rejectUnauthorized: false,
-        };
-        this.httpsAgent = new https.Agent(agentOptions);
-      }
-      const opts = options;
-      opts.timeout = timeout || this.timeout;
-      const req = https.request(opts, (res) => {
-        let resBody = '';
-        res.on('data', (chunk) => {
-          resBody += chunk;
-        });
-        res.once('end', () => {
-          this.lastResponse = resBody;
-          if (!res.complete) {
-            return reject(Error('The connection was terminated while the message was still being sent'));
-          }
-          res.body = resBody;
-          return resolve(res);
-        });
-      });
-      req.on('error', (e) => {
-        req.destroy();
-        this.lastResponse = e;
-        return reject(e);
-      });
-      req.on('timeout', () => {
-        req.destroy();
-      });
-      req.end(postData);
-    });
-  }
-
 }
 
 module.exports = ENTSOE;
@@ -342,8 +308,10 @@ https://gitlab.entsoe.eu/transparency/xml-examples
 */
 
 // // START TEST HERE
-// const Entsoe = new ENTSOE({ biddingZone: '10YAT-APG------L', apiKey: '' }); // '10Y1001A1001A82H'
-// console.log('REMOVE APIKEY!!!!!');
+// // eslint-disable-next-line global-require, node/no-unpublished-require
+// const apiKey = require('./env.json').ENTSOE_API_KEY;
+
+// const Entsoe = new ENTSOE({ biddingZone: '10YAT-APG------L', apiKey }); // '10Y1001A1001A82H'
 
 // const today = new Date();
 // today.setHours(0);
@@ -352,6 +320,10 @@ https://gitlab.entsoe.eu/transparency/xml-examples
 
 // // const today = new Date('2024-10-26T23:00:00.000Z'); // today;
 // // const tomorrow = new Date('2024-10-29T23:00:00.000Z'); // tomorrow;
+
+// Entsoe.getPrices({ dateStart: today, dateEnd: tomorrow, resolution: 'PT15M' })
+//   .then((result) => console.dir(result, { depth: null }))
+//   .catch((error) => console.log(error));
 
 // Entsoe.getPrices({ dateStart: today, dateEnd: tomorrow, resolution: 'PT60M' })
 //   .then((result) => console.dir(result, { depth: null }))

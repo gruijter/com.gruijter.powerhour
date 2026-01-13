@@ -19,11 +19,7 @@ along with com.gruijter.powerhour.  If not, see <http://www.gnu.org/licenses/>.
 
 'use strict';
 
-const https = require('https');
-// const util = require('util');
-
 const defaultHost = 'www.ecb.europa.eu';
-const defaultPort = 443;
 const defaultTimeout = 30000;
 const exchangeRatesPath = '/stats/eurofxref/eurofxref-daily.xml';
 
@@ -38,7 +34,6 @@ class ECB {
   constructor(opts) {
     const options = opts || {};
     this.host = options.host || defaultHost;
-    this.port = options.port || defaultPort;
     this.timeout = options.timeout || defaultTimeout;
     this.lastResponse = undefined;
   }
@@ -75,68 +70,30 @@ class ECB {
 
   async _makeRequest(path, postMessage, timeout) {
     try {
-      const headers = {
-      };
+      const url = `https://${this.host}${path}`;
       const options = {
-        hostname: this.host,
-        port: this.port,
-        path,
-        headers,
         method: 'GET',
+        timeout: timeout || this.timeout,
       };
-      const result = await this._makeHttpsRequest(options, postMessage, timeout);
-      this.lastResponse = result.body || result.statusCode;
-      const contentType = result.headers['content-type'];
+
+      const result = await fetch(url, options);
+      this.lastResponse = result.status;
+
+      if (!result.ok) {
+        throw new Error(`HTTP request Failed. Status Code: ${result.status}`);
+      }
+
+      const contentType = result.headers.get('content-type');
       if (!/text\/xml/.test(contentType)) {
-        throw Error(`Expected xml but received ${contentType}: ${result.body}`);
+        const text = await result.text();
+        throw new Error(`Expected xml but received ${contentType}: ${text.slice(0, 100)}`);
       }
-      // find errors
-      if (result.statusCode !== 200) {
-        this.lastResponse = result.statusCode;
-        throw Error(`HTTP request Failed. Status Code: ${result.statusCode}`);
-      }
-      return Promise.resolve(result.body);
+      return result.text();
     } catch (error) {
+      this.lastResponse = error;
       return Promise.reject(error);
     }
   }
-
-  _makeHttpsRequest(options, postData, timeout) {
-    return new Promise((resolve, reject) => {
-      if (!this.httpsAgent) {
-        const agentOptions = {
-          rejectUnauthorized: false,
-        };
-        this.httpsAgent = new https.Agent(agentOptions);
-      }
-      const opts = options;
-      opts.timeout = timeout || this.timeout;
-      const req = https.request(opts, (res) => {
-        let resBody = '';
-        res.on('data', (chunk) => {
-          resBody += chunk;
-        });
-        res.once('end', () => {
-          this.lastResponse = resBody;
-          if (!res.complete) {
-            return reject(Error('The connection was terminated while the message was still being sent'));
-          }
-          res.body = resBody;
-          return resolve(res);
-        });
-      });
-      req.on('error', (e) => {
-        req.destroy();
-        this.lastResponse = e;
-        return reject(e);
-      });
-      req.on('timeout', () => {
-        req.destroy();
-      });
-      req.end(postData);
-    });
-  }
-
 }
 
 module.exports = ECB;

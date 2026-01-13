@@ -20,12 +20,9 @@ along with com.gruijter.powerhour.  If not, see <http://www.gnu.org/licenses/>.
 
 'use strict';
 
-const https = require('https');
 const qs = require('querystring');
-// const util = require('util');
 
 const defaultHost = 'webservice-eex.gvsi.com'; // EOD and EGSI
-const defaultPort = 443;
 const defaultTimeout = 30000;
 
 const biddingZones = {
@@ -102,7 +99,6 @@ class EEX {
   constructor(opts) {
     const options = opts || {};
     this.host = options.host || defaultHost;
-    this.port = options.port || defaultPort;
     this.timeout = options.timeout || defaultTimeout;
     this.biddingZone = options.biddingZone;
     this.biddingZones = biddingZones;
@@ -137,24 +133,7 @@ class EEX {
       end.setSeconds(0);
       end.setMilliseconds(0);
 
-      let path = '';
-      this.tmpZone = zone;
-      const start2 = new Date(start);
-      start2.setDate(start.getDate() - 1); // start earlier to make sure weekend is fetched
-      const [chartstartdate] = start2.toISOString().split('T'); // '2022-11-30'
-      const [chartstopdate] = end.toISOString().split('T'); // '2023-01-15'
-      const priceSymbol = biddingZonesMap[zone]; // '"#E.TTF_GND1"' // "#E.EGSI_TTF_DAY" // weekend: '"#E.TTF_GWE1"' "#E.EGSI_TTF_WEEKEND"
-      const query = qs.stringify({
-        priceSymbol,
-        chartstartdate,
-        chartstopdate,
-        // dailybarinterval: 'Days',
-        // aggregatepriceselection: 'First',
-      });
-      path = `/query/json/getDaily/close/tradedatetimegmt/?${query}`;
-      // path = `/query/json/getDaily/close/onexchtradevolumeeex/tradedatetimegmt/?${query}`;
-
-      const res = await this._makeRequest(path, '');
+      const res = await this._getEEXPrices(start, end, zone);
       if (!res || !res[0] || !res[0].date) throw Error('no gas price info found');
 
       // make array with concise info per day in euro / 1000 m3 gas
@@ -193,171 +172,137 @@ class EEX {
     }
   }
 
-  async _makeRequest(path, postMessage, timeout) {
+  async _makeRequest(url, options) {
+    const res = await fetch(url, options);
+    this.lastResponse = res.status;
+
+    if (!res.ok) {
+      throw new Error(`HTTP request Failed. Status Code: ${res.status}`);
+    }
+
+    const contentType = res.headers.get('content-type');
+    if (!contentType || !contentType.includes('application/json')) {
+      const text = await res.text();
+      throw new Error(`Expected json but received ${contentType}: ${text.slice(0, 100)}`);
+    }
+
+    return res.json();
+  }
+
+  async _getEEXPrices(start, end, zone) {
     try {
-      const headers = {
-        'content-type': 'application/json',
-        Origin: 'https://www.eex.com',
-        Referer: 'https://www.eex.com',
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36',
-        Connection: 'keep-alive',
-      };
+      this.tmpZone = zone;
+      const start2 = new Date(start);
+      start2.setDate(start.getDate() - 1); // start earlier to make sure weekend is fetched
+      const [chartstartdate] = start2.toISOString().split('T'); // '2022-11-30'
+      const [chartstopdate] = end.toISOString().split('T'); // '2023-01-15'
+      const priceSymbol = biddingZonesMap[zone]; // '"#E.TTF_GND1"' // "#E.EGSI_TTF_DAY" // weekend: '"#E.TTF_GWE1"' "#E.EGSI_TTF_WEEKEND"
+      const query = qs.stringify({
+        priceSymbol,
+        chartstartdate,
+        chartstopdate,
+        // dailybarinterval: 'Days',
+        // aggregatepriceselection: 'First',
+      });
+
+      const url = `https://${this.host}/query/json/getDaily/close/tradedatetimegmt/?${query}`;
       const options = {
-        hostname: this.host,
-        port: this.port,
-        path,
-        headers,
+        headers: {
+          'content-type': 'application/json',
+          Origin: 'https://www.eex.com',
+          Referer: 'https://www.eex.com',
+          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36',
+          Connection: 'keep-alive',
+        },
         method: 'GET',
+        timeout: this.timeout,
       };
-      // console.log(options);
-      const result = await this._makeHttpsRequest(options, postMessage, timeout);
-      this.lastResponse = result.body || result.statusCode;
-      const contentType = result.headers['content-type'];
-      // find errors
-      if (result.statusCode !== 200) {
-        this.lastResponse = result.statusCode;
-        throw Error(`HTTP request Failed. Status Code: ${result.statusCode}`);
-      }
-      if (headers['content-type'] !== contentType) {
-        const body = typeof result.body === 'string' ? result.body.slice(0, 20) : '';
-        throw Error(`Expected ${headers['content-type']} but received ${contentType}: ${body}`);
-      }
 
-      // console.log(contentType, result.body);
+      const respJSON = await this._makeRequest(url, options);
 
-      // parse JSON
-      if (contentType.includes('json')) {
-        // parse daily info
-        const respJSON = JSON.parse(result.body);
-        if (!respJSON.results || !respJSON.results.items) throw Error('Invalid info');
-        const dailyInfo = respJSON.results.items;
-        const lastDaily = dailyInfo.slice(-1)[0]; // {close:55.665, onexchtradevolumeeex:3277272, tradedatetimegmt:'1/16/2023 12:00:00 PM'}
-        // console.dir(dailyInfo, { depth: null });
-        // console.dir(lastDaily, { depth: null });
+      if (!respJSON.results || !respJSON.results.items) throw Error('Invalid info');
+      const dailyInfo = respJSON.results.items;
+      const lastDaily = dailyInfo.slice(-1)[0]; // {close:55.665, onexchtradevolumeeex:3277272, tradedatetimegmt:'1/16/2023 12:00:00 PM'}
 
-        // compensate for bug in EEX
-        if (this.lastDailyInfo) {
-          dailyInfo.forEach((dayInfo, index) => {
-            if ((index > dailyInfo.length - 4) && (index < dailyInfo.length - 1)) {
-              const previousInfo = this.lastDailyInfo.find((lastDayInfo) => lastDayInfo.tradedatetimegmt === dayInfo.tradedatetimegmt);
-              if (previousInfo && previousInfo.close !== dayInfo.close) {
-                // console.log('need to compensate!', dailyInfo, previousInfo);
-                dailyInfo[index].close = previousInfo.close;
-              }
+      // compensate for bug in EEX
+      if (this.lastDailyInfo) {
+        dailyInfo.forEach((dayInfo, index) => {
+          if ((index > dailyInfo.length - 4) && (index < dailyInfo.length - 1)) {
+            const previousInfo = this.lastDailyInfo.find((lastDayInfo) => lastDayInfo.tradedatetimegmt === dayInfo.tradedatetimegmt);
+            if (previousInfo && previousInfo.close !== dayInfo.close) {
+              // console.log('need to compensate!', dailyInfo, previousInfo);
+              dailyInfo[index].close = previousInfo.close;
             }
-          });
-        }
-        this.lastDailyInfo = [...dailyInfo];
+          }
+        });
+      }
+      this.lastDailyInfo = [...dailyInfo];
 
-        // fetch weekend info ONLY FOR EOD (not EGSI)
-        let weekendInfo;
-        if (this.tmpZone.includes('EOD')) {
-          options.path = options.path.replace('ND', 'WE');
-          options.path = options.path.replace('DAY', 'WEEKEND');
-          const resultW = await this._makeHttpsRequest(options, postMessage, timeout);
-          const respWJSON = JSON.parse(resultW.body);
-          weekendInfo = respWJSON.results && respWJSON.results.items;
-        }
+      // fetch weekend info ONLY FOR EOD (not EGSI)
+      let weekendInfo;
+      if (this.tmpZone.includes('EOD')) {
+        const weekendUrl = url.replace('ND', 'WE').replace('DAY', 'WEEKEND');
+        const respWJSON = await this._makeRequest(weekendUrl, options);
+        weekendInfo = respWJSON.results && respWJSON.results.items;
+      }
 
-        // fetch today settle
-        const priceSymbol = biddingZonesMap[this.tmpZone]; // '"#E.TTF_GND1"' // weekend: '"#E.TTF_GWE1"'
-        const query = qs.stringify({ priceSymbol });
-        options.path = `/query/json/getQuotes/settledate/dir/?${query}`;
-        const resultSettle = await this._makeHttpsRequest(options, postMessage, timeout);
-        const respSettle = JSON.parse(resultSettle.body); // { settledate: '1/16/2023', dir: 55.25 } || { settledate: null, dir: 55.25 }
-        const lastSettleDate = respSettle.results && respSettle.results.items
-          && respSettle.results.items[0] && respSettle.results.items[0].settledate;
+      // fetch today settle
+      const settleQuery = qs.stringify({ priceSymbol });
+      const settleUrl = `https://${this.host}/query/json/getQuotes/settledate/dir/?${settleQuery}`;
+      const respSettle = await this._makeRequest(settleUrl, options); // { settledate: '1/16/2023', dir: 55.25 } || { settledate: null, dir: 55.25 }
+      const lastSettleDate = respSettle.results && respSettle.results.items
+        && respSettle.results.items[0] && respSettle.results.items[0].settledate;
 
-        // check if lastDaily is settled (closed)
-        const lastDailyIsClosed = lastDaily.tradedatetimegmt && (lastDaily.tradedatetimegmt.split(' ')[0] === lastSettleDate);
+      // check if lastDaily is settled (closed)
+      const lastDailyIsClosed = lastDaily.tradedatetimegmt && (lastDaily.tradedatetimegmt.split(' ')[0] === lastSettleDate);
 
-        // create array with daily values
-        const resp = [];
-        dailyInfo.forEach((day, idx) => { // { close: 55.665, onexchtradevolumeeex: 3277272, tradedatetimegmt: '1/16/2023 12:00:00 PM' }
-          const date = new Date(day.tradedatetimegmt.split(' ')[0]);
-          date.setDate(date.getDate() + 1); // is day ahead, duh...
-          let mappedDay = {
+      // create array with daily values
+      const resp = [];
+      dailyInfo.forEach((day, idx) => { // { close: 55.665, onexchtradevolumeeex: 3277272, tradedatetimegmt: '1/16/2023 12:00:00 PM' }
+        const date = new Date(day.tradedatetimegmt.split(' ')[0]);
+        date.setDate(date.getDate() + 1); // is day ahead, duh...
+        let mappedDay = {
+          date,
+          rawPrice: Number(day.close),
+          descr: this.tmpZone,
+        };
+
+        // Check if last daily entry is closed // after 20:00 CET?
+        if ((idx === dailyInfo.length - 1)
+          && mappedDay.date.getDay() !== 6 // is actually price for monday after the weekend
+          && !lastDailyIsClosed) mappedDay = null; // ignore last day info because it is not closed yet
+
+        // Check if last entry is weekend info, and is closed
+        if (weekendInfo && mappedDay && mappedDay.date.getDay() === 6) {
+          // console.log('it is weekend');
+          const [weekend] = weekendInfo.filter((dayW) => dayW.tradedatetimegmt === day.tradedatetimegmt);
+          const satTime = new Date(weekend.tradedatetimegmt.split(' ')[0]);
+          satTime.setDate(satTime.getDate() + 1); // is day ahead, duh...
+          const sat = {
             date,
-            rawPrice: Number(day.close),
+            rawPrice: Number(weekend.close),
             descr: this.tmpZone,
           };
+          const sun = { ...sat };
+          sun.date = new Date(sun.date);
+          sun.date.setDate(sun.date.getDate() + 1); // add a day, knows about DST I hope...
+          const mon = { ...mappedDay };
+          mon.date = new Date(mon.date);
+          mon.date.setDate(mon.date.getDate() + 2); // add a weekend, knows about DST I hope...
+          resp.push(sat, sun, mon); // add weekend and monday
+          mappedDay = null; // skipp adding normal weekday info
+        }
 
-          // Check if last daily entry is closed // after 20:00 CET?
-          if ((idx === dailyInfo.length - 1)
-            && mappedDay.date.getDay() !== 6 // is actually price for monday after the weekend
-            && !lastDailyIsClosed) mappedDay = null; // ignore last day info because it is not closed yet
-
-          // Check if last entry is weekend info, and is closed
-          if (weekendInfo && mappedDay && mappedDay.date.getDay() === 6) {
-            // console.log('it is weekend');
-            const [weekend] = weekendInfo.filter((dayW) => dayW.tradedatetimegmt === day.tradedatetimegmt);
-            const satTime = new Date(weekend.tradedatetimegmt.split(' ')[0]);
-            satTime.setDate(satTime.getDate() + 1); // is day ahead, duh...
-            const sat = {
-              date,
-              rawPrice: Number(weekend.close),
-              descr: this.tmpZone,
-            };
-            const sun = { ...sat };
-            sun.date = new Date(sun.date);
-            sun.date.setDate(sun.date.getDate() + 1); // add a day, knows about DST I hope...
-            const mon = { ...mappedDay };
-            mon.date = new Date(mon.date);
-            mon.date.setDate(mon.date.getDate() + 2); // add a weekend, knows about DST I hope...
-            resp.push(sat, sun, mon); // add weekend and monday
-            mappedDay = null; // skipp adding normal weekday info
-          }
-
-          // Add normal weekday info
-          if (mappedDay) resp.push(mappedDay);
-        });
-        // console.dir(resp, { depth: null });
-        // console.dir(resp.filter((info) => info.descr === this.biddingZone), { depth: null });
-        return Promise.resolve(resp);
-      }
-
-      throw Error(`No XML or JSON received: ${contentType}`);
+        // Add normal weekday info
+        if (mappedDay) resp.push(mappedDay);
+      });
+      // console.dir(resp, { depth: null });
+      // console.dir(resp.filter((info) => info.descr === this.biddingZone), { depth: null });
+      return Promise.resolve(resp);
     } catch (error) {
       return Promise.reject(error);
     }
   }
-
-  _makeHttpsRequest(options, postData, timeout) {
-    return new Promise((resolve, reject) => {
-      if (!this.httpsAgent) {
-        const agentOptions = {
-          rejectUnauthorized: false,
-        };
-        this.httpsAgent = new https.Agent(agentOptions);
-      }
-      const opts = options;
-      opts.timeout = timeout || this.timeout;
-      const req = https.request(opts, (res) => {
-        let resBody = '';
-        res.on('data', (chunk) => {
-          resBody += chunk;
-        });
-        res.once('end', () => {
-          this.lastResponse = resBody;
-          if (!res.complete) {
-            return reject(Error('The connection was terminated while the message was still being sent'));
-          }
-          res.body = resBody;
-          return resolve(res);
-        });
-      });
-      req.on('error', (e) => {
-        req.destroy();
-        this.lastResponse = e;
-        return reject(e);
-      });
-      req.on('timeout', () => {
-        req.destroy();
-      });
-      req.end(postData);
-    });
-  }
-
 }
 
 module.exports = EEX;
