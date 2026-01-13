@@ -72,7 +72,6 @@ class batDevice extends GenericDevice {
     // start polling all caps
     if (!this.sourceCapGroup) await this.addSourceCapGroup();
     this.log(`polling ${this.sourceDevice.name}`);
-    // eslint-disable-next-line @typescript-eslint/no-misused-promises
     Object.keys(this.sourceCapGroup).forEach(async (key) => {
       if (this.sourceDevice.capabilitiesObj && this.sourceDevice.capabilitiesObj[this.sourceCapGroup[key]]) {
         const val = this.sourceDevice.capabilitiesObj[this.sourceCapGroup[key]].value;

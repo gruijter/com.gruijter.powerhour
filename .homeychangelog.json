@@ -1,4 +1,7 @@
 {
+  "7.0.5": {
+    "en": "BAT fixed 15min pricing. Extra charts cache. Added flow card to set daily cost. homey-api@3.15.0"
+  },
   "7.0.4": {
     "en": "DAP ENTSOE API rate limit spreading. Fixed price change triggers. BAT charge chart black background. Replace node https with fetch. Minimum Homey v12.9.0."
   },
