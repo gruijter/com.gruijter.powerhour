@@ -365,6 +365,10 @@ class MyApp extends Homey.App {
     setFixedMarkupWeekend
       .registerRunListener((args) => args.device.setFixedMarkupWeekend(args.value));
 
+    const setDailyFixedCost = this.homey.flow.getActionCard('set_daily_fixed_cost');
+    setDailyFixedCost
+      .registerRunListener((args) => args.device.setDailyFixedCost(args.value).catch(this.error));
+
     const setExchangeRate = this.homey.flow.getActionCard('set_exchange_rate');
     setExchangeRate
       .registerRunListener((args) => args.device.setExchangeRate(args.value).catch(this.error));

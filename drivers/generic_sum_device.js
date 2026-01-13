@@ -602,6 +602,12 @@ class SumMeterDevice extends Device {
     }
   }
 
+  async setDailyFixedCost(cost) {
+    const v = Number(cost);
+    await this.setSettings({ markup_day: Number.isFinite(v) ? v : 0 });
+    return true;
+  }
+  
   async handleUpdateMeter(reading) {
     try {
       const periods = this.getPeriods(reading); // check for new hour/day/month/year
