@@ -85,7 +85,7 @@ class MyApp extends Homey.App {
   everyXminutes(interval = 15) {
     const scheduleNextXminutes = () => {
       if (this.everyXMinutesId) this.homey.clearTimeout(this.everyXMinutesId); // Clear any existing timeout
-      const now = new Date();
+      let now = new Date();
       const nextXminutes = new Date(now);
       const currentMinutes = now.getMinutes();
       const nextMultipleOfX = currentMinutes % interval === 0 ? currentMinutes + interval : Math.ceil(currentMinutes / interval) * interval;
@@ -94,6 +94,7 @@ class MyApp extends Homey.App {
       // console.log('everyXminutes starts in', timeToNextXminutes / 1000);
       this.everyXMinutesId = this.homey.setTimeout(() => {
         // Only emit if not on a full hour
+        now = new Date();
         if (now.getMinutes() !== 0) this.homey.emit('every15m_PBTH', true);
         scheduleNextXminutes(); // Schedule the next X minutes
       }, timeToNextXminutes);

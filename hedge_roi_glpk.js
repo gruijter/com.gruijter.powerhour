@@ -24,6 +24,7 @@ const GLPK = require('glpk.js');
 // returns the best trading strategy for all known coming hours
 const getStrategy = ({
   prices, // array of hourly prices, e.g. [0.331, 0.32, 0.322, 0.32, 0.328, 0.339, 0.429, 0.331, 0.32, 0.322, 0.32, 0.328, 0.339, 0.429];
+  priceInterval = 60, // price interval in minutes
   minPriceDelta = 0.1, // mimimum price difference to sell/buy. Should include 2x fixed costs per kWh for break even.
   soc = 0, // Battery State of Charge at start of first hour in %
   startMinute = 0, // minute of the first hour to start the calculation
@@ -85,13 +86,13 @@ const getStrategy = ({
     // charge cost per hour is chargeTime(hrs) * (power(kWh)) * (fixed cost(per kWh) + hourPrice)
     // assume chargeSpeed is on AC side, so incoming power cost is not affected by efficiency
     [...chargeSpeeds].forEach((speed, csIdx) => {
-      const chargeCost = { name: `cs${csIdx}T${hourIdx}`, coef: ((speed.power / 1000) * (fc + price)) };
+      const chargeCost = { name: `cs${csIdx}T${hourIdx}`, coef: ((speed.power / (60 / priceInterval) / 1000) * (fc + price)) };
       model.objective.vars.push(chargeCost);
     });
     // discharge cost per period is dischargeTime(hrs) * (power(kWh) * efficiency) * (fixed cost(per kWh) - hourPrice)
     // assume dischargeSpeed is on AC side, so outgoing power cost is not affected by efficiency
     [...dischargeSpeeds].forEach((speed, dsIdx) => {
-      const dischargeCost = { name: `ds${dsIdx}T${hourIdx}`, coef: ((speed.power / 1000) * (fc - price)) };
+      const dischargeCost = { name: `ds${dsIdx}T${hourIdx}`, coef: ((speed.power / (60 / priceInterval) / 1000) * (fc - price)) };
       model.objective.vars.push(dischargeCost);
     });
 
@@ -99,11 +100,11 @@ const getStrategy = ({
 
     // build constraints
     // any one hour can not be charged/discharged more then 1 hour
-    const timeLeftinHour = hourIdx !== 0 ? 1 : (60 - startMinute) / 60; // for first hour use only minutes that are left
+    const timeLeftinPeriod = hourIdx !== 0 ? 1 : (priceInterval - (startMinute % priceInterval)) / priceInterval; // for first period use only minutes that are left
     const chargesDischarges = {
       name: `chargesDischarges${hourIdx}`,
       vars: [],
-      bnds: { type: glpk.GLP_UP, ub: timeLeftinHour, lb: 0 },
+      bnds: { type: glpk.GLP_UP, ub: timeLeftinPeriod, lb: 0 },
     };
     [...chargeSpeeds].forEach((speed, csIdx) => {
       chargesDischarges.vars.push({ name: `cs${csIdx}T${hourIdx}`, coef: 1 });
@@ -127,11 +128,11 @@ const getStrategy = ({
     for (let hIdx = 0; hIdx <= hourIdx; hIdx += 1) {
       [...chargeSpeeds].forEach((speed, csIdx) => {
         // battery is charged slower than AC power due to efficiency loss
-        SoC.vars.push({ name: `cs${csIdx}T${hIdx}`, coef: ((speed.power / 1000) * speed.eff) });
+        SoC.vars.push({ name: `cs${csIdx}T${hIdx}`, coef: ((speed.power / (60 / priceInterval) / 1000) * speed.eff) });
       });
       [...dischargeSpeeds].forEach((speed, dsIdx) => {
         // battery is discharged faster than AC power due to efficiency loss
-        SoC.vars.push({ name: `ds${dsIdx}T${hIdx}`, coef: -(speed.power / 1000) / speed.eff });
+        SoC.vars.push({ name: `ds${dsIdx}T${hIdx}`, coef: -(speed.power / (60 / priceInterval) / 1000) / speed.eff });
       });
     }
     model.subjectTo.push(SoC);
@@ -180,6 +181,7 @@ const getStrategy = ({
   // Create summarized strategy output.
   const strategy = {};
   let storedEnergy = startSoC;
+  let lastPower = 0;
   [...prices].forEach((price, hourIdx) => {
     const stratResultKeys = Object.keys(solved.result.vars)
       .filter((key) => key.split('T').pop() === `${hourIdx}`); // select currentHour strategy only
@@ -193,7 +195,7 @@ const getStrategy = ({
         const chrgPower = chargeSpeeds[chrgIndex].power / 1000;
         totalTime += chrgTime;
         avgPower -= chrgTime * chrgPower; // charging power is negative
-        storedEnergy += chrgTime * chrgPower * chargeSpeeds[chrgIndex].eff;
+        storedEnergy += chrgTime * chrgPower * chargeSpeeds[chrgIndex].eff / (60 / priceInterval);
       }
       if (stratKey.includes('ds') && solved.result.vars[stratKey] > 0) { // is a discharging factor
         const dchrgIndex = stratKey[2]; // third character of key name
@@ -201,31 +203,33 @@ const getStrategy = ({
         const dchrgPower = dischargeSpeeds[dchrgIndex].power / 1000;
         totalTime += dchrgTime;
         avgPower += dchrgTime * dchrgPower;
-        storedEnergy -= dchrgTime * dchrgPower;
+        storedEnergy -= dchrgTime * dchrgPower / dischargeSpeeds[dchrgIndex].eff / (60 / priceInterval);
       }
     });
     // summarize for this hour
     let power = totalTime > 0 ? Math.round((avgPower * 1000) / totalTime) : 0;
-    let duration = Math.round(totalTime * 60);
-    let SoCh = Math.abs(Math.round(100 * (storedEnergy / batCapacity)));
+    let duration = Math.round(totalTime * priceInterval);
+    let SoCh = Math.max(Math.round(100 * (storedEnergy / batCapacity)), 0);
 
     // remove short breaks and operations
     if (cleanUpStrategy) {
-      if (((duration < 10) && (power < 0) && (SoCh < 95)) // remove short charges, unless almost full
-        || ((duration < 10) && (power > 0) && (SoCh > 5))) { // remove short discharges, unless almost empty
+      if (((duration < 10) && (power < 0) && (SoCh < 95) && lastPower >= 0) // remove short charges, unless almost full
+        || ((duration < 10) && (power > 0) && (SoCh > 5) && lastPower <= 0)) { // remove short discharges, unless almost empty
         power = 0;
         duration = 0;
         storedEnergy = socAtStart;
         SoCh = Math.abs(Math.round(100 * (storedEnergy / batCapacity)));
       }
-      if (((duration < 60) && (power < 0) && (SoCh > 97)) // remove charging breaks when almost full
-        || ((duration < 60) && (power > 0) && (SoCh < 3))) { // remove discharging breaks when almost empty
-        duration = 60;
+      if (((duration < priceInterval) && (power < 0) && (SoCh > 97)) // remove charging breaks when almost full
+        || ((duration < priceInterval) && (power > 0) && (SoCh < 3))) { // remove discharging breaks when almost empty
+        duration = priceInterval;
         // storedEnergy = socAtStart;
         // storedEnergy -= power / 1000; // efficiency is not taken into account during charging
         // SoCh = Math.abs(Math.round(100 * (storedEnergy / batCapacity)));
       }
     }
+
+    lastPower = power;
 
     strategy[hourIdx] = {
       power, duration, soc: SoCh, price,
