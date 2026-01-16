@@ -22,7 +22,7 @@ along with com.gruijter.powerhour.  If not, see <http://www.gnu.org/licenses/>.
 const parseXml = require('xml-js');
 // const util = require('util');
 
-const defaultHost = 'web-api.tp.entsoe.eu'; // 'transparency.entsoe.eu';
+const defaultHost = 'entsoe.stefkampen.nl'; // 'transparency.entsoe.eu';
 // const defaultPort = 443;
 const defaultTimeout = 30000;
 

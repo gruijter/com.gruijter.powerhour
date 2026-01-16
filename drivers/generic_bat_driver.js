@@ -156,7 +156,6 @@ class BatDriver extends Driver {
   async startPollingEnergy(interval) {
     const int = interval || 10; // seconden
     this.homey.clearInterval(this.intervalIdEnergyPoll);
-    await setTimeoutPromise(20000);
     this.log(`start polling Cumulative XOM Energy @${int} seconds interval`);
     this.intervalIdEnergyPoll = this.homey.setInterval(async () => {
       try {

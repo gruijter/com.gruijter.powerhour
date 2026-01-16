@@ -18,8 +18,10 @@ along with com.gruijter.powerhour.  If not, see <http://www.gnu.org/licenses/>.s
 */
 
 'use strict';
+const util = require('util');
 
 const GenericDevice = require('../generic_bat_device');
+const setTimeoutPromise = util.promisify(setTimeout);
 
 class batDevice extends GenericDevice {
 
@@ -42,11 +44,17 @@ class batDevice extends GenericDevice {
   }
 
   async addListeners() {
-    // check if source device exists
-    this.sourceDevice = await this.homey.app.api.devices.getDevice({ id: this.getSettings().homey_device_id, $cache: false }) // $timeout: 15000
-      .catch(this.error);
-    const sourceDeviceExists = this.sourceDevice && this.sourceDevice.capabilitiesObj
-      && Object.keys(this.sourceDevice.capabilitiesObj).length > 0; // && (this.sourceDevice.available !== null);
+    let sourceDeviceExists = false;
+    let retries = 0;
+    const maxRetries = 10;
+    while (!sourceDeviceExists && retries < maxRetries) {
+      await setTimeoutPromise(1000);
+      this.sourceDevice = await this.homey.app.api.devices.getDevice({ id: this.getSettings().homey_device_id, $cache: false }) // $timeout: 15000
+        .catch(this.error);
+      sourceDeviceExists = this.sourceDevice && this.sourceDevice.capabilitiesObj
+        && Object.keys(this.sourceDevice.capabilitiesObj).length > 0; // && (this.sourceDevice.available !== null);
+      retries++;
+    }
     if (!sourceDeviceExists) throw Error('Source device is missing.');
 
     // start listeners for all caps

@@ -44,6 +44,7 @@ class MyApp extends Homey.App {
       // start polling every whole hour, 15 minutes and retry missing source devices every 5 minutes
       this.homey.setMaxListeners(30); // INCREASE LISTENERS
       this.everyHour();
+      this.every2Hour();
       this.everyXminutes(15);
       this.retry(5);
 
@@ -59,11 +60,24 @@ class MyApp extends Homey.App {
   async onUninit() {
     this.log('app onUninit called');
     this.homey.removeAllListeners('everyhour_PBTH');
+    this.homey.removeAllListeners('every2hour_PBTH');
     this.homey.removeAllListeners('every15m_PBTH');
     this.homey.removeAllListeners('retry_PBTH');
     this.homey.removeAllListeners('set_tariff_power_PBTH');
     this.homey.removeAllListeners('set_tariff_gas_PBTH');
     this.homey.removeAllListeners('set_tariff_water_PBTH');
+  }
+
+  every2Hour() {
+    const scheduleNext2Hour = () => {
+      if (this.every2HourId) this.homey.clearTimeout(this.every2HourId); // Clear any existing timeout
+      this.every2HourId = this.homey.setTimeout(() => {
+        this.homey.emit('every2hour_PBTH', true);
+        scheduleNext2Hour(); // Schedule the next 2 hours
+      }, 2 * 60 * 60 * 1000);
+    };
+    scheduleNext2Hour();
+    this.log('every2Hour job started');
   }
 
   everyHour() {
