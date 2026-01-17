@@ -78,7 +78,6 @@ class MyDevice extends Homey.Device {
       this.initReady = false;
       this.settings = await this.getSettings();
       this.timeZone = this.homey.clock.getTimezone();
-      this.fetchDelay = (Math.random() * 15 * 60 * 1000) + (1000 * 60 * 0.5); // random delay between 30 sec and 15 minutes to spread API calls on app start
       if (!this.prices) this.prices = this.getStoreValue('prices'); // restore from persistent memory on app restart
       if (this.prices) {
        // time to date
@@ -138,8 +137,6 @@ class MyDevice extends Homey.Device {
           this.log('new hour event received');
           await this.fetchExchangeRate();
           await this.setCapabilitiesAndFlows();
-          await setTimeoutPromise(this.fetchDelay); // spread over 15 minute for API rate limit (400 / min)
-          await this.fetchPrices();
         })().catch((err) => this.error(err));
       };
       this.homey.on('everyhour_PBTH', this.eventListenerHour);
