@@ -59,9 +59,7 @@ class batDevice extends Device {
 
       // create Strategy and ROI chart
       if (this.getSettings().roiEnable) {
-        await setTimeoutPromise(10000 + (Math.random() * 10000)).catch(this.error);
         await this.triggerNewRoiStrategyFlow().catch(this.error);
-        await setTimeoutPromise(20000 + (Math.random() * 10000)).catch(this.error);
         await this.updateChargeChart().catch(this.error);
       }
     } catch (error) {
@@ -464,7 +462,6 @@ class batDevice extends Device {
   async triggerNewRoiStrategyFlow() {
     try {
       if (!this.getSettings().roiEnable) return Promise.resolve(null);
-      await setTimeoutPromise(5000 + Math.random() * 20000);
       // get all minPriceDelta as entered by user in trigger flows for this device
       const argValues = await this.homey.app._newRoiStrategy.getArgumentValues(this);
       const uniqueArgs = argValues.filter((a, idx) => argValues.findIndex((b) => b.minPriceDelta === argValues[idx].minPriceDelta) === idx);
@@ -476,7 +473,6 @@ class batDevice extends Device {
           await this.reTriggerNewRoiStrategyFlow(tokens, args).catch(this.error);
         }
       });
-      await setTimeoutPromise(5000 + Math.random() * 20000);
       return Promise.resolve(true);
     } catch (error) {
       return Promise.reject(error);

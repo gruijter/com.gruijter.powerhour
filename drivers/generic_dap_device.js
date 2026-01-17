@@ -78,8 +78,11 @@ class MyDevice extends Homey.Device {
       this.initReady = false;
       this.settings = await this.getSettings();
       this.timeZone = this.homey.clock.getTimezone();
-      this.fetchDelay = (Math.random() * 15 * 60 * 1000) + (1000 * 60 * 0.5); // random delay between 30 sec and 15 minutes to spread API calls on app start
       if (!this.prices) this.prices = this.getStoreValue('prices'); // restore from persistent memory on app restart
+      if (this.prices) {
+       // time to date
+       this.prices = this.prices.map((hourInfo) => ({ ...hourInfo, time: new Date(hourInfo.time) }));
+      }
       if (!this.prices) this.prices = [{ time: null, price: null, muPrice: null }];
       if (!this.marketPrices) this.marketPrices = [];
 
@@ -125,7 +128,6 @@ class MyDevice extends Homey.Device {
 
       // fetch and handle prices now, after short random delay
       await this.setAvailable().catch(this.error);
-      await setTimeoutPromise(30 * 1000); // wait for sum and bat devices to be ready after app start
       await this.fetchExchangeRate();
       await this.fetchPrices();
 
@@ -135,11 +137,17 @@ class MyDevice extends Homey.Device {
           this.log('new hour event received');
           await this.fetchExchangeRate();
           await this.setCapabilitiesAndFlows();
-          await setTimeoutPromise(this.fetchDelay); // spread over 15 minute for API rate limit (400 / min)
-          await this.fetchPrices();
         })().catch((err) => this.error(err));
       };
       this.homey.on('everyhour_PBTH', this.eventListenerHour);
+
+      this.eventListener2Hour = () => {
+        (async () => {
+          this.log('new 2 hour event received');
+          await this.fetchPrices();
+        })().catch((err) => this.error(err));
+      };
+      this.homey.on('every2hour_PBTH', this.eventListener2Hour);
 
       // start handling prices every 15 minutes (dap15 only)
       if (this.driver.ds.driverId === 'dap15') {
