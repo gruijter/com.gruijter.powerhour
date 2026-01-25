@@ -1,6 +1,6 @@
 /* eslint-disable max-len */
 /*
-Copyright 2019 - 2025, Robin de Gruijter (gruijter@hotmail.com)
+Copyright 2019 - 2026, Robin de Gruijter (gruijter@hotmail.com)
 
 This file is part of com.gruijter.powerhour.
 
