@@ -325,25 +325,28 @@ class MyApp extends Homey.App {
     const priceBattBestTradeCondition = this.homey.flow.getConditionCard('price_batt_best_trade');
     priceBattBestTradeCondition.registerRunListener((args) => args.device.priceBattBestTrade(args));
 
-    // Cheapest window condition card
+    // Cheapest window condition card (returns boolean + tokens for Advanced Flows)
     const isCheapestWindowCondition = this.homey.flow.getConditionCard('is_cheapest_window');
     isCheapestWindowCondition.registerRunListener(async (args) => {
-      const result = await args.device.isInCheapestWindow(args);
-      // Set tokens for the flow
-      if (result.tokens) {
-        Object.keys(result.tokens).forEach((key) => {
-          isCheapestWindowCondition.setArgumentValue(key, result.tokens[key]);
-        });
-      }
-      return result.result;
+      const calcResult = await args.device.calculateTimeUntilCheapest(args);
+      // Return boolean for condition, tokens are available via the action card
+      return calcResult.is_now_cheapest;
     });
 
     // action cards
-    // Calculate time until cheapest action card
+    // Calculate time until cheapest - returns all tokens for use in Advanced Flows
     const calculateTimeUntilCheapest = this.homey.flow.getActionCard('calculate_time_until_cheapest');
     calculateTimeUntilCheapest.registerRunListener(async (args) => {
       const result = await args.device.calculateTimeUntilCheapest(args);
-      return result; // Returns tokens
+      // Return object with token values for Advanced Flows
+      return {
+        hours_until_cheapest: result.hours_until_cheapest,
+        quarters_until_cheapest: result.quarters_until_cheapest,
+        minutes_until_cheapest: result.minutes_until_cheapest,
+        cheapest_window_avg_price: result.cheapest_window_avg_price,
+        cheapest_window_start_hour: result.cheapest_window_start_hour,
+        is_now_cheapest: result.is_now_cheapest,
+      };
     });
 
     const setXOMsettings = this.homey.flow.getActionCard('set_xom_settings');
