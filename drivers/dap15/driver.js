@@ -54,6 +54,15 @@ const driverSpecifics = {
     'meter_price_next_day_avg',
     // 'meter_rank_price_h0_this_day',
     // 'meter_rank_price_h0_next_8h',
+    // Time until cheapest window
+    'periods_until_cheapest',
+    'minutes_until_cheapest',
+    'meter_price_cheapest_avg',
+    // Price components (Danish tariffs)
+    'meter_price_spot',
+    'meter_price_grid_tariff',
+    'meter_price_fixed_tariffs',
+    'meter_price_total_with_vat',
   ],
 };
 

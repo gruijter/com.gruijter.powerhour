@@ -23,6 +23,7 @@ const Homey = require('homey');
 const util = require('util');
 const ECB = require('../ecb_exchange_rates');
 const FORECAST = require('../stekker');
+const EnergiDataService = require('../energidataservice');
 const charts = require('../charts');
 const { imageUrlToStream } = require('../image');
 
@@ -123,6 +124,18 @@ class MyDevice extends Homey.Device {
         if (hasZone) this.dapForecast = new FORECAST({ biddingZone: this.settings.biddingZone });
       }
 
+      // setup Danish tariff provider (if enabled)
+      this.danishTariffs = null;
+      if (this.settings.danishTariffsEnable) {
+        const gln = this.settings.gridCompanyGLN === 'custom'
+          ? this.settings.customGridCompanyGLN
+          : this.settings.gridCompanyGLN;
+        if (gln) {
+          this.energiDataService = new EnergiDataService({ gridCompanyGLN: gln });
+          await this.fetchDanishTariffs();
+        }
+      }
+
       // fetch and handle prices now, after short random delay
       await this.setAvailable().catch(this.error);
       await setTimeoutPromise(30 * 1000); // wait for sum and bat devices to be ready after app start
@@ -134,6 +147,7 @@ class MyDevice extends Homey.Device {
         (async () => {
           this.log('new hour event received');
           await this.fetchExchangeRate();
+          await this.fetchDanishTariffs(); // Refresh Danish tariffs hourly
           await this.setCapabilitiesAndFlows();
           await setTimeoutPromise(this.fetchDelay); // spread over 15 minute for API rate limit (400 / min)
           await this.fetchPrices();
@@ -291,26 +305,56 @@ class MyDevice extends Homey.Device {
   async markUpPrices(marketPrices) { // add markUp for price array, and convert price per mWh>kWh
     if (!marketPrices || !marketPrices[0]) return [];
     const muPrices = marketPrices.map((marketPrice) => {
-      // handle exchange rate and convert from mWh to kWh
-      let muPrice = (marketPrice.price * this.settings.exchangeRate) / 1000;
-      // add variable markup
-      let { variableMarkup, variableMarkupAbsPrice } = this.settings;
-      variableMarkupAbsPrice = (marketPrice.price < 0) ? -variableMarkupAbsPrice : variableMarkupAbsPrice;
-      if (variableMarkupAbsPrice) variableMarkup += variableMarkupAbsPrice;
-      muPrice *= (1 + variableMarkup / 100);
-      // add fixed markup
-      const { fixedMarkup } = this.settings;
-      muPrice += fixedMarkup;
-      // add ToD and weekend fixed markups
       const priceDate = new Date(new Date(marketPrice.time).toLocaleString('en-US', { timeZone: this.timeZone }));
+      const hour = priceDate.getHours();
       const isWeekend = priceDate.getDay() === 0 || priceDate.getDay() === 6; // 0 = sunday, 6 = saturday
-      const { fixedMarkupWeekend } = this.settings;
-      if (fixedMarkupWeekend && isWeekend) muPrice += fixedMarkupWeekend;
-      else if (this.todMarkups) muPrice += this.todMarkups[priceDate.getHours().toString()];
+
+      // handle exchange rate and convert from mWh to kWh (spot price)
+      const spotPrice = (marketPrice.price * this.settings.exchangeRate) / 1000;
+
+      let muPrice = spotPrice;
+      let gridTariff = 0;
+      let fixedTariffs = 0;
+      let vatAmount = 0;
+
+      // Danish tariffs mode: use Energi Data Service tariffs
+      if (this.settings.danishTariffsEnable && this.danishTariffs) {
+        // Grid tariff (time-of-use from Energi Data Service)
+        gridTariff = this.danishTariffs.getGridTariffForHour(hour);
+        // Fixed tariffs (system + transmission + electricity tax)
+        fixedTariffs = this.danishTariffs.fixedTariffsTotal;
+        // Calculate total before VAT
+        const totalBeforeVat = spotPrice + gridTariff + fixedTariffs;
+        // Add VAT
+        const vatRate = (this.settings.vatRate || 25) / 100;
+        vatAmount = totalBeforeVat * vatRate;
+        muPrice = totalBeforeVat + vatAmount;
+      } else {
+        // Standard mode: use configured markups
+        // add variable markup
+        let { variableMarkup, variableMarkupAbsPrice } = this.settings;
+        variableMarkupAbsPrice = (marketPrice.price < 0) ? -variableMarkupAbsPrice : variableMarkupAbsPrice;
+        if (variableMarkupAbsPrice) variableMarkup += variableMarkupAbsPrice;
+        muPrice *= (1 + variableMarkup / 100);
+        // add fixed markup
+        const { fixedMarkup } = this.settings;
+        muPrice += fixedMarkup;
+        // add ToD and weekend fixed markups
+        const { fixedMarkupWeekend } = this.settings;
+        if (fixedMarkupWeekend && isWeekend) muPrice += fixedMarkupWeekend;
+        else if (this.todMarkups) muPrice += this.todMarkups[hour.toString()];
+      }
+
       return {
         time: marketPrice.time,
         price: marketPrice.price,
         muPrice,
+        // Price components (for Danish tariffs mode)
+        spotPrice,
+        gridTariff,
+        fixedTariffs,
+        vatAmount,
+        totalWithVat: muPrice,
       };
     });
     return muPrices;
@@ -668,6 +712,51 @@ class MyDevice extends Homey.Device {
     }
   }
 
+  // Fetch Danish tariffs from Energi Data Service
+  async fetchDanishTariffs() {
+    try {
+      if (!this.settings.danishTariffsEnable || !this.energiDataService) return;
+      this.log(`${this.getName()} fetching Danish tariffs`);
+      this.danishTariffs = await this.energiDataService.getAllTariffs();
+      this.log(`${this.getName()} Danish tariffs fetched:`, {
+        systemTariff: this.danishTariffs.systemTariff,
+        transmissionTariff: this.danishTariffs.transmissionTariff,
+        electricityTax: this.danishTariffs.electricityTax,
+        fixedTariffsTotal: this.danishTariffs.fixedTariffsTotal,
+        gridTariffAvailable: !!this.danishTariffs.gridTariff,
+      });
+      // recalculate prices with new tariffs
+      if (this.rawCombinedPrices) await this.storePrices(this.rawCombinedPrices);
+    } catch (error) {
+      this.error('Error fetching Danish tariffs:', error);
+    }
+  }
+
+  // Calculate periods until cheapest window starts
+  calculatePeriodsUntilCheapest(prices, windowSize) {
+    if (!prices || prices.length < windowSize) return { periodsUntil: null, avgPrice: null };
+
+    const windows = [];
+    for (let start = 0; start <= prices.length - windowSize; start += 1) {
+      const windowPrices = prices.slice(start, start + windowSize);
+      const avgPrice = windowPrices.reduce((sum, p) => sum + p.muPrice, 0) / windowSize;
+      windows.push({
+        startIndex: start,
+        avgPrice,
+      });
+    }
+
+    if (windows.length === 0) return { periodsUntil: null, avgPrice: null };
+
+    // Find cheapest window
+    const cheapest = windows.reduce((min, w) => (w.avgPrice < min.avgPrice ? w : min));
+
+    return {
+      periodsUntil: cheapest.startIndex,
+      avgPrice: cheapest.avgPrice,
+    };
+  }
+
   // compare if new fetched market prices are same as old ones for given period, and trigger flow
   async checkNewMarketPrices(oldPrices, newPrices, period, periods) {
     // setup period this_day, tomorrow or next_hours
@@ -905,6 +994,27 @@ class MyDevice extends Homey.Device {
       hourNextDayHighest = pricesTomorrow.indexOf(priceNextDayHighest);
     }
 
+    // Calculate periods until cheapest window
+    const windowSize = this.settings.cheapestWindowSize || (this.priceInterval === 60 ? 3 : 12);
+    const upcomingPrices = this.prices.filter((hourInfo) => hourInfo.time >= periods.periodStart);
+    const cheapestWindow = this.calculatePeriodsUntilCheapest(upcomingPrices, windowSize);
+    const periodsUntilCheapest = cheapestWindow.periodsUntil;
+    const minutesUntilCheapest = periodsUntilCheapest !== null ? periodsUntilCheapest * this.priceInterval : null;
+    const cheapestWindowAvgPrice = cheapestWindow.avgPrice;
+
+    // Get current price components (for Danish tariffs mode)
+    let currentSpotPrice = null;
+    let currentGridTariff = null;
+    let currentFixedTariffs = null;
+    let currentTotalWithVat = null;
+    const currentPriceInfo = this.prices.find((p) => new Date(p.time) >= periods.periodStart);
+    if (currentPriceInfo) {
+      currentSpotPrice = currentPriceInfo.spotPrice || null;
+      currentGridTariff = currentPriceInfo.gridTariff || null;
+      currentFixedTariffs = currentPriceInfo.fixedTariffs || null;
+      currentTotalWithVat = currentPriceInfo.totalWithVat || currentPriceInfo.muPrice || null;
+    }
+
     const state = {
       priceinterval: this.priceInterval,
       pricesYesterday,
@@ -945,6 +1055,18 @@ class MyDevice extends Homey.Device {
       hourNextDayLowest,
       priceNextDayHighest,
       hourNextDayHighest,
+
+      // Periods/time until cheapest window
+      periodsUntilCheapest,
+      minutesUntilCheapest,
+      cheapestWindowAvgPrice,
+      cheapestWindowSize: windowSize,
+
+      // Current price components (Danish tariffs mode)
+      currentSpotPrice,
+      currentGridTariff,
+      currentFixedTariffs,
+      currentTotalWithVat,
     };
     this.state = state;
   }
@@ -1005,6 +1127,19 @@ class MyDevice extends Homey.Device {
       await this.setCapability('meter_price_next_day_highest', this.state.priceNextDayHighest);
       await this.setCapability('hour_next_day_highest', this.state.hourNextDayHighest);
       await this.setCapability('meter_price_next_day_avg', this.state.priceNextDayAvg);
+
+      // Set periods/time until cheapest capabilities
+      await this.setCapability('periods_until_cheapest', this.state.periodsUntilCheapest);
+      await this.setCapability('minutes_until_cheapest', this.state.minutesUntilCheapest);
+      await this.setCapability('meter_price_cheapest_avg', this.state.cheapestWindowAvgPrice);
+
+      // Set price component capabilities (Danish tariffs mode)
+      if (this.settings.danishTariffsEnable) {
+        await this.setCapability('meter_price_spot', this.state.currentSpotPrice);
+        await this.setCapability('meter_price_grid_tariff', this.state.currentGridTariff);
+        await this.setCapability('meter_price_fixed_tariffs', this.state.currentFixedTariffs);
+        await this.setCapability('meter_price_total_with_vat', this.state.currentTotalWithVat);
+      }
 
       const rankThisDay = [...this.state.pricesThisDay]
         .sort((a, b) => a - b)
