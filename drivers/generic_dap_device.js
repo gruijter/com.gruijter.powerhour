@@ -681,6 +681,132 @@ class MyDevice extends Homey.Device {
     return percent >= Number(args.percent);
   }
 
+  // Check if current period is in the cheapest window
+  // args: { granularity: 'hours'|'quarters'|'minutes', windowSize: number, lookahead: number }
+  async isInCheapestWindow(args) {
+    if (!this.prices || this.prices.length === 0) throw Error('no prices available');
+
+    const result = this.calculateCheapestWindow(args);
+
+    // Return condition result with tokens
+    return {
+      result: result.isNowCheapest,
+      tokens: {
+        current_price: this.state.priceNow,
+        cheapest_avg_price: result.cheapestAvgPrice,
+      },
+    };
+  }
+
+  // Calculate time until cheapest window - returns tokens for flow cards
+  // args: { granularity: 'hours'|'quarters'|'minutes', windowSize: number, lookahead: number }
+  async calculateTimeUntilCheapest(args) {
+    if (!this.prices || this.prices.length === 0) throw Error('no prices available');
+
+    const result = this.calculateCheapestWindow(args);
+
+    return {
+      hours_until_cheapest: result.hoursUntil,
+      quarters_until_cheapest: result.quartersUntil,
+      minutes_until_cheapest: result.minutesUntil,
+      cheapest_window_avg_price: result.cheapestAvgPrice,
+      cheapest_window_start_hour: result.cheapestStartHour,
+      is_now_cheapest: result.isNowCheapest,
+    };
+  }
+
+  // Core calculation for cheapest window
+  // Returns: { isNowCheapest, hoursUntil, quartersUntil, minutesUntil, cheapestAvgPrice, cheapestStartHour }
+  calculateCheapestWindow(args) {
+    const { granularity, windowSize, lookahead } = args;
+    const periods = this.getUTCPeriods();
+
+    // Determine period length in minutes based on granularity
+    let periodMinutes;
+    switch (granularity) {
+      case 'quarters':
+        periodMinutes = 15;
+        break;
+      case 'minutes':
+        periodMinutes = 1;
+        break;
+      case 'hours':
+      default:
+        periodMinutes = 60;
+        break;
+    }
+
+    // Get lookahead in minutes
+    const lookaheadMinutes = lookahead * 60;
+    const lookaheadEnd = new Date(periods.periodStart.getTime() + lookaheadMinutes * 60 * 1000);
+
+    // Filter prices within lookahead period
+    const upcomingPrices = this.prices.filter((p) => {
+      const priceTime = new Date(p.time);
+      return priceTime >= periods.periodStart && priceTime < lookaheadEnd;
+    });
+
+    if (upcomingPrices.length < windowSize) {
+      return {
+        isNowCheapest: false,
+        hoursUntil: null,
+        quartersUntil: null,
+        minutesUntil: null,
+        cheapestAvgPrice: null,
+        cheapestStartHour: null,
+      };
+    }
+
+    // Build windows based on the actual price periods available
+    // Note: For minute-level granularity with hourly data, we interpolate/use hourly prices
+    const windows = [];
+    for (let start = 0; start <= upcomingPrices.length - windowSize; start += 1) {
+      const windowPrices = upcomingPrices.slice(start, start + windowSize);
+      const avgPrice = windowPrices.reduce((sum, p) => sum + p.muPrice, 0) / windowSize;
+      const startTime = new Date(windowPrices[0].time);
+      const periodsFromNow = Math.round((startTime - periods.periodStart) / (this.priceInterval * 60 * 1000));
+
+      windows.push({
+        startIndex: start,
+        avgPrice,
+        startTime,
+        periodsFromNow,
+        startHour: startTime.getHours(),
+      });
+    }
+
+    if (windows.length === 0) {
+      return {
+        isNowCheapest: false,
+        hoursUntil: null,
+        quartersUntil: null,
+        minutesUntil: null,
+        cheapestAvgPrice: null,
+        cheapestStartHour: null,
+      };
+    }
+
+    // Find cheapest window
+    const cheapest = windows.reduce((min, w) => (w.avgPrice < min.avgPrice ? w : min));
+
+    // Calculate time until cheapest in different units
+    const minutesUntil = cheapest.periodsFromNow * this.priceInterval;
+    const hoursUntil = Math.floor(minutesUntil / 60);
+    const quartersUntil = Math.floor(minutesUntil / 15);
+
+    // Check if we're currently in the cheapest window
+    const isNowCheapest = cheapest.startIndex === 0;
+
+    return {
+      isNowCheapest,
+      hoursUntil,
+      quartersUntil,
+      minutesUntil,
+      cheapestAvgPrice: Math.round(cheapest.avgPrice * 10000) / 10000,
+      cheapestStartHour: cheapest.startHour,
+    };
+  }
+
   async newPricesReceived(prices, period) {
     const roundedPrices = prices.map((price) => Math.round(price * 10000) / 10000);
     const priceString = JSON.stringify(({ ...roundedPrices }));

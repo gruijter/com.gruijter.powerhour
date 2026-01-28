@@ -325,7 +325,27 @@ class MyApp extends Homey.App {
     const priceBattBestTradeCondition = this.homey.flow.getConditionCard('price_batt_best_trade');
     priceBattBestTradeCondition.registerRunListener((args) => args.device.priceBattBestTrade(args));
 
+    // Cheapest window condition card
+    const isCheapestWindowCondition = this.homey.flow.getConditionCard('is_cheapest_window');
+    isCheapestWindowCondition.registerRunListener(async (args) => {
+      const result = await args.device.isInCheapestWindow(args);
+      // Set tokens for the flow
+      if (result.tokens) {
+        Object.keys(result.tokens).forEach((key) => {
+          isCheapestWindowCondition.setArgumentValue(key, result.tokens[key]);
+        });
+      }
+      return result.result;
+    });
+
     // action cards
+    // Calculate time until cheapest action card
+    const calculateTimeUntilCheapest = this.homey.flow.getActionCard('calculate_time_until_cheapest');
+    calculateTimeUntilCheapest.registerRunListener(async (args) => {
+      const result = await args.device.calculateTimeUntilCheapest(args);
+      return result; // Returns tokens
+    });
+
     const setXOMsettings = this.homey.flow.getActionCard('set_xom_settings');
     setXOMsettings
       .registerRunListener(async (args) => {
