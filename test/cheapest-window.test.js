@@ -1,7 +1,7 @@
 /**
  * Tests for cheapest window calculation functionality
  *
- * These tests verify the flow card logic for:
+ * These tests verify the shared cheapest-window module logic for:
  * - Finding the cheapest X-hour window within a lookahead period
  * - Calculating time (hours/quarters/minutes) until cheapest window
  * - Determining if current period is in the cheapest window
@@ -9,87 +9,7 @@
 
 'use strict';
 
-// Mock the price calculation methods from generic_dap_device.js
-// We extract the core logic for testing without Homey dependencies
-
-/**
- * Calculate the cheapest window from a price array
- * This mirrors the logic in generic_dap_device.js
- */
-function calculateCheapestWindow(prices, args, currentTime, priceInterval = 60) {
-  const { granularity, windowSize, lookahead } = args;
-
-  // Get lookahead in minutes
-  const lookaheadMinutes = lookahead * 60;
-  const periodStart = new Date(currentTime);
-  periodStart.setMinutes(0, 0, 0); // Start of current hour
-  const lookaheadEnd = new Date(periodStart.getTime() + lookaheadMinutes * 60 * 1000);
-
-  // Filter prices within lookahead period
-  const upcomingPrices = prices.filter((p) => {
-    const priceTime = new Date(p.time);
-    return priceTime >= periodStart && priceTime < lookaheadEnd;
-  });
-
-  if (upcomingPrices.length < windowSize) {
-    return {
-      isNowCheapest: false,
-      hoursUntil: null,
-      quartersUntil: null,
-      minutesUntil: null,
-      cheapestAvgPrice: null,
-      cheapestStartHour: null,
-    };
-  }
-
-  // Build windows
-  const windows = [];
-  for (let start = 0; start <= upcomingPrices.length - windowSize; start += 1) {
-    const windowPrices = upcomingPrices.slice(start, start + windowSize);
-    const avgPrice = windowPrices.reduce((sum, p) => sum + p.muPrice, 0) / windowSize;
-    const startTime = new Date(windowPrices[0].time);
-    const periodsFromNow = Math.round((startTime - periodStart) / (priceInterval * 60 * 1000));
-
-    windows.push({
-      startIndex: start,
-      avgPrice,
-      startTime,
-      periodsFromNow,
-      startHour: startTime.getUTCHours(),
-    });
-  }
-
-  if (windows.length === 0) {
-    return {
-      isNowCheapest: false,
-      hoursUntil: null,
-      quartersUntil: null,
-      minutesUntil: null,
-      cheapestAvgPrice: null,
-      cheapestStartHour: null,
-    };
-  }
-
-  // Find cheapest window
-  const cheapest = windows.reduce((min, w) => (w.avgPrice < min.avgPrice ? w : min));
-
-  // Calculate time until cheapest in different units
-  const minutesUntil = cheapest.periodsFromNow * priceInterval;
-  const hoursUntil = Math.floor(minutesUntil / 60);
-  const quartersUntil = Math.floor(minutesUntil / 15);
-
-  // Check if we're currently in the cheapest window
-  const isNowCheapest = cheapest.startIndex === 0;
-
-  return {
-    isNowCheapest,
-    hoursUntil,
-    quartersUntil,
-    minutesUntil,
-    cheapestAvgPrice: Math.round(cheapest.avgPrice * 10000) / 10000,
-    cheapestStartHour: cheapest.startHour,
-  };
-}
+const { calculateCheapestWindow, calculatePeriodsUntilCheapest } = require('../cheapest-window');
 
 // Helper to generate mock price data
 function generatePrices(startTime, hours, pricePattern) {
@@ -102,6 +22,13 @@ function generatePrices(startTime, hours, pricePattern) {
     });
   }
   return prices;
+}
+
+// Helper to create periodStart from currentTime (start of current hour)
+function getPeriodStart(currentTime) {
+  const periodStart = new Date(currentTime);
+  periodStart.setMinutes(0, 0, 0);
+  return periodStart;
 }
 
 describe('Cheapest Window Calculation', () => {
@@ -121,12 +48,12 @@ describe('Cheapest Window Calculation', () => {
 
       // Current time is 10:00 (expensive period)
       const currentTime = new Date('2024-01-15T10:00:00Z');
+      const periodStart = getPeriodStart(currentTime);
 
       const result = calculateCheapestWindow(prices, {
-        granularity: 'hours',
         windowSize: 3,
         lookahead: 24,
-      }, currentTime);
+      }, periodStart);
 
       expect(result.isNowCheapest).toBe(false);
       expect(result.hoursUntil).toBeGreaterThan(0);
@@ -146,12 +73,12 @@ describe('Cheapest Window Calculation', () => {
       const prices = generatePrices(startTime, 24, pricePattern);
 
       const currentTime = new Date('2024-01-15T00:00:00Z');
+      const periodStart = getPeriodStart(currentTime);
 
       const result = calculateCheapestWindow(prices, {
-        granularity: 'hours',
         windowSize: 3,
         lookahead: 24,
-      }, currentTime);
+      }, periodStart);
 
       expect(result.isNowCheapest).toBe(true);
       expect(result.hoursUntil).toBe(0);
@@ -172,12 +99,12 @@ describe('Cheapest Window Calculation', () => {
 
       // Current time is 00:00
       const currentTime = new Date('2024-01-15T00:00:00Z');
+      const periodStart = getPeriodStart(currentTime);
 
       const result = calculateCheapestWindow(prices, {
-        granularity: 'hours',
         windowSize: 3,
         lookahead: 24,
-      }, currentTime);
+      }, periodStart);
 
       expect(result.isNowCheapest).toBe(false);
       expect(result.hoursUntil).toBe(4); // 4 hours until cheapest window
@@ -201,13 +128,13 @@ describe('Cheapest Window Calculation', () => {
       const prices = generatePrices(startTime, 24, pricePattern);
 
       const currentTime = new Date('2024-01-15T02:00:00Z');
+      const periodStart = getPeriodStart(currentTime);
 
       // Dishwasher needs 2-hour window
       const result = calculateCheapestWindow(prices, {
-        granularity: 'hours',
         windowSize: 2,
         lookahead: 24,
-      }, currentTime);
+      }, periodStart);
 
       // At 2 AM with these prices, window 0 (2-3 AM) avg=0.265 is cheapest
       // Window 1 (3-4 AM) avg=0.315, Window 2 (4-5 AM) avg=0.375
@@ -227,13 +154,13 @@ describe('Cheapest Window Calculation', () => {
       const prices = generatePrices(startTime, 24, pricePattern);
 
       const currentTime = new Date('2024-01-15T18:00:00Z');
+      const periodStart = getPeriodStart(currentTime);
 
       // Dishwasher needs 2-hour window
       const result = calculateCheapestWindow(prices, {
-        granularity: 'hours',
         windowSize: 2,
         lookahead: 24,
-      }, currentTime);
+      }, periodStart);
 
       expect(result.isNowCheapest).toBe(false);
       expect(result.hoursUntil).toBeGreaterThan(0);
@@ -257,13 +184,13 @@ describe('Cheapest Window Calculation', () => {
       const prices = generatePrices(startTime, 24, pricePattern);
 
       const currentTime = new Date('2024-01-15T22:00:00Z');
+      const periodStart = getPeriodStart(currentTime);
 
       // EV needs 4-hour charging window
       const result = calculateCheapestWindow(prices, {
-        granularity: 'hours',
         windowSize: 4,
         lookahead: 12, // Look ahead 12 hours (until 10 AM)
-      }, currentTime);
+      }, periodStart);
 
       expect(result.isNowCheapest).toBe(false);
       expect(result.hoursUntil).toBeGreaterThanOrEqual(2); // At least 2 hours wait
@@ -279,12 +206,12 @@ describe('Cheapest Window Calculation', () => {
       const prices = generatePrices(startTime, 2, [1.0, 1.2]); // Only 2 hours
 
       const currentTime = new Date('2024-01-15T00:00:00Z');
+      const periodStart = getPeriodStart(currentTime);
 
       const result = calculateCheapestWindow(prices, {
-        granularity: 'hours',
         windowSize: 3, // Need 3 hours but only have 2
         lookahead: 24,
-      }, currentTime);
+      }, periodStart);
 
       expect(result.isNowCheapest).toBe(false);
       expect(result.hoursUntil).toBeNull();
@@ -296,12 +223,12 @@ describe('Cheapest Window Calculation', () => {
       const prices = generatePrices(startTime, 24, [1.50]); // All same price
 
       const currentTime = new Date('2024-01-15T00:00:00Z');
+      const periodStart = getPeriodStart(currentTime);
 
       const result = calculateCheapestWindow(prices, {
-        granularity: 'hours',
         windowSize: 3,
         lookahead: 24,
-      }, currentTime);
+      }, periodStart);
 
       // When all prices are equal, first window should be "cheapest"
       expect(result.isNowCheapest).toBe(true);
@@ -320,12 +247,12 @@ describe('Cheapest Window Calculation', () => {
       const prices = generatePrices(startTime, 24, pricePattern);
 
       const currentTime = new Date('2024-01-15T10:00:00Z');
+      const periodStart = getPeriodStart(currentTime);
 
       const result = calculateCheapestWindow(prices, {
-        granularity: 'hours',
         windowSize: 2,
         lookahead: 24,
-      }, currentTime);
+      }, periodStart);
 
       // Should find the negative price window
       expect(result.cheapestAvgPrice).toBeLessThan(0);
@@ -343,12 +270,12 @@ describe('Cheapest Window Calculation', () => {
       const prices = generatePrices(startTime, 24, pricePattern);
 
       const currentTime = new Date('2024-01-15T00:00:00Z');
+      const periodStart = getPeriodStart(currentTime);
 
       const result = calculateCheapestWindow(prices, {
-        granularity: 'hours',
         windowSize: 1,
         lookahead: 24,
-      }, currentTime);
+      }, periodStart);
 
       expect(result.cheapestStartHour).toBe(4);
       expect(result.hoursUntil).toBe(4);
@@ -368,12 +295,12 @@ describe('Cheapest Window Calculation', () => {
       ]);
 
       const currentTime = new Date('2024-01-15T00:00:00Z');
+      const periodStart = getPeriodStart(currentTime);
 
       const result = calculateCheapestWindow(prices, {
-        granularity: 'quarters',
         windowSize: 2,
         lookahead: 24,
-      }, currentTime);
+      }, periodStart);
 
       // 4 hours = 240 minutes = 16 quarters
       expect(result.quartersUntil).toBe(result.minutesUntil / 15);
@@ -389,16 +316,85 @@ describe('Cheapest Window Calculation', () => {
       ]);
 
       const currentTime = new Date('2024-01-15T00:00:00Z');
+      const periodStart = getPeriodStart(currentTime);
 
       const result = calculateCheapestWindow(prices, {
-        granularity: 'minutes',
         windowSize: 2,
         lookahead: 24,
-      }, currentTime);
+      }, periodStart);
 
       // 2 hours = 120 minutes
       expect(result.minutesUntil).toBe(result.hoursUntil * 60);
     });
+  });
+
+  describe('15-minute interval support', () => {
+
+    test('works with 15-minute price intervals', () => {
+      const startTime = new Date('2024-01-15T00:00:00Z');
+      // Generate 96 quarter-hourly prices (24 hours)
+      const prices = [];
+      for (let i = 0; i < 96; i++) {
+        const time = new Date(startTime.getTime() + i * 15 * 60 * 1000);
+        // Price pattern: cheap at quarters 16-19 (hour 4)
+        const muPrice = (i >= 16 && i <= 19) ? 0.25 : 1.50;
+        prices.push({ time: time.toISOString(), muPrice });
+      }
+
+      const currentTime = new Date('2024-01-15T00:00:00Z');
+      const periodStart = getPeriodStart(currentTime);
+
+      const result = calculateCheapestWindow(prices, {
+        windowSize: 4, // 4 quarters = 1 hour
+        lookahead: 24,
+      }, periodStart, 15); // 15-minute intervals
+
+      expect(result.isNowCheapest).toBe(false);
+      expect(result.minutesUntil).toBe(240); // 16 quarters * 15 min = 240 min
+      expect(result.hoursUntil).toBe(4);
+    });
+  });
+});
+
+describe('calculatePeriodsUntilCheapest', () => {
+
+  test('finds cheapest window index correctly', () => {
+    const prices = [
+      { muPrice: 1.00 },
+      { muPrice: 0.80 },
+      { muPrice: 0.30 }, // Cheapest 2-period window starts here
+      { muPrice: 0.35 },
+      { muPrice: 0.60 },
+      { muPrice: 1.00 },
+    ];
+
+    const result = calculatePeriodsUntilCheapest(prices, 2);
+
+    expect(result.periodsUntil).toBe(2); // Index 2
+    expect(result.avgPrice).toBeCloseTo(0.325, 4); // (0.30 + 0.35) / 2
+  });
+
+  test('returns null for insufficient data', () => {
+    const prices = [{ muPrice: 1.00 }];
+
+    const result = calculatePeriodsUntilCheapest(prices, 3);
+
+    expect(result.periodsUntil).toBeNull();
+    expect(result.avgPrice).toBeNull();
+  });
+
+  test('returns index 0 when first window is cheapest', () => {
+    const prices = [
+      { muPrice: 0.10 },
+      { muPrice: 0.15 },
+      { muPrice: 1.00 },
+      { muPrice: 1.50 },
+    ];
+
+    const result = calculatePeriodsUntilCheapest(prices, 2);
+
+    expect(result.periodsUntil).toBe(0);
+    expect(result.avgPrice).toBeCloseTo(0.125, 4);
   });
 });
 
@@ -417,13 +413,13 @@ describe('Flow Integration Scenarios', () => {
     const prices = generatePrices(startTime, 24, pricePattern);
 
     const currentTime = new Date('2024-01-15T19:00:00Z');
+    const periodStart = getPeriodStart(currentTime);
 
     // Step 1: Calculate cheapest window (washing machine = 2 hours)
     const result = calculateCheapestWindow(prices, {
-      granularity: 'hours',
       windowSize: 2,
       lookahead: 24,
-    }, currentTime);
+    }, periodStart);
 
     // Step 2: Decision logic (what the flow would do)
     let userMessage;
@@ -456,12 +452,12 @@ describe('Flow Integration Scenarios', () => {
     const prices = generatePrices(startTime, 24, pricePattern);
 
     const currentTime = new Date('2024-01-15T14:00:00Z');
+    const periodStart = getPeriodStart(currentTime);
 
     const result = calculateCheapestWindow(prices, {
-      granularity: 'hours',
       windowSize: 3,
       lookahead: 24,
-    }, currentTime);
+    }, periodStart);
 
     // Simulate building a notification with tokens
     const notification = {
@@ -474,9 +470,9 @@ describe('Flow Integration Scenarios', () => {
     };
 
     // Verify all token values are present and valid
-    expect(result.hours_until_cheapest !== undefined || result.hoursUntil !== undefined).toBe(true);
-    expect(result.minutes_until_cheapest !== undefined || result.minutesUntil !== undefined).toBe(true);
-    expect(result.quarters_until_cheapest !== undefined || result.quartersUntil !== undefined).toBe(true);
+    expect(result.hoursUntil).toBeDefined();
+    expect(result.minutesUntil).toBeDefined();
+    expect(result.quartersUntil).toBeDefined();
     expect(result.cheapestAvgPrice).toBeGreaterThan(0);
     expect(result.cheapestStartHour).toBeGreaterThanOrEqual(0);
     expect(result.cheapestStartHour).toBeLessThanOrEqual(23);
