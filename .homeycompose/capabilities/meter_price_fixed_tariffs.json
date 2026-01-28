@@ -1,0 +1,22 @@
+{
+  "type": "number",
+  "title": {
+    "en": "Fixed tariffs",
+    "dk": "Faste tariffer",
+    "nl": "Vaste tarieven"
+  },
+  "uiComponent": "sensor",
+  "icon": "/assets/tariff.svg",
+  "getable": true,
+  "setable": false,
+  "insights": true,
+  "units": {
+    "en": "€/kWh"
+  },
+  "decimals": 4,
+  "desc": {
+    "en": "Sum of system tariff, transmission tariff and electricity tax",
+    "dk": "Sum af systemtarif, transmissionstarif og elafgift",
+    "nl": "Som van systeemtarief, transmissietarief en elektriciteitsbelasting"
+  }
+}

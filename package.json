@@ -7,7 +7,7 @@
     "node": ">=22"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "keywords": [
     "homey"
@@ -27,6 +27,7 @@
     "@types/homey": "npm:homey-apps-sdk-v3-types@^0.3.12",
     "eslint": "^7.32.0",
     "eslint-config-athom": "^3.1.5",
-    "eslint-plugin-homey-app": "^1.0.2"
+    "eslint-plugin-homey-app": "^1.0.2",
+    "jest": "^30.2.0"
   }
 }

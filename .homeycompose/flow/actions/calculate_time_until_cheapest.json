@@ -1,0 +1,137 @@
+{
+	"title": {
+		"en": "Calculate time until cheapest window",
+		"dk": "Beregn tid til billigste vindue",
+		"nl": "Bereken tijd tot goedkoopste venster"
+	},
+	"titleFormatted": {
+		"en": "Calculate time until cheapest [[windowSize]] [[granularity]] window within next [[lookahead]] hours",
+		"dk": "Beregn tid til billigste [[windowSize]] [[granularity]] vindue inden for de næste [[lookahead]] timer",
+		"nl": "Bereken tijd tot goedkoopste [[windowSize]] [[granularity]] venster binnen [[lookahead]] uur"
+	},
+	"highlight": true,
+	"args": [
+		{
+			"type": "device",
+			"name": "device",
+			"filter": "driver_id=dap|dap15"
+		},
+		{
+			"type": "dropdown",
+			"name": "granularity",
+			"title": {
+				"en": "Granularity",
+				"dk": "Granularitet",
+				"nl": "Granulariteit"
+			},
+			"values": [
+				{
+					"id": "hours",
+					"label": {
+						"en": "Hours",
+						"dk": "Timer",
+						"nl": "Uren"
+					}
+				},
+				{
+					"id": "quarters",
+					"label": {
+						"en": "Quarters (15 min)",
+						"dk": "Kvarterer (15 min)",
+						"nl": "Kwartieren (15 min)"
+					}
+				},
+				{
+					"id": "minutes",
+					"label": {
+						"en": "Minutes",
+						"dk": "Minutter",
+						"nl": "Minuten"
+					}
+				}
+			]
+		},
+		{
+			"type": "number",
+			"name": "windowSize",
+			"title": {
+				"en": "Window size",
+				"dk": "Vindue størrelse",
+				"nl": "Venster grootte"
+			},
+			"placeholder": { "en": "1-24" },
+			"min": 1,
+			"max": 96,
+			"step": 1
+		},
+		{
+			"type": "number",
+			"name": "lookahead",
+			"title": {
+				"en": "Look ahead (hours)",
+				"dk": "Se fremad (timer)",
+				"nl": "Vooruit kijken (uren)"
+			},
+			"placeholder": { "en": "1-48" },
+			"min": 1,
+			"max": 48,
+			"step": 1
+		}
+	],
+	"tokens": [
+		{
+			"name": "hours_until_cheapest",
+			"title": {
+				"en": "Hours until cheapest",
+				"dk": "Timer til billigste",
+				"nl": "Uren tot goedkoopste"
+			},
+			"type": "number"
+		},
+		{
+			"name": "quarters_until_cheapest",
+			"title": {
+				"en": "Quarters until cheapest",
+				"dk": "Kvarterer til billigste",
+				"nl": "Kwartieren tot goedkoopste"
+			},
+			"type": "number"
+		},
+		{
+			"name": "minutes_until_cheapest",
+			"title": {
+				"en": "Minutes until cheapest",
+				"dk": "Minutter til billigste",
+				"nl": "Minuten tot goedkoopste"
+			},
+			"type": "number"
+		},
+		{
+			"name": "cheapest_window_avg_price",
+			"title": {
+				"en": "Cheapest window avg price",
+				"dk": "Billigste vindue gns. pris",
+				"nl": "Goedkoopste venster gem. prijs"
+			},
+			"type": "number"
+		},
+		{
+			"name": "cheapest_window_start_hour",
+			"title": {
+				"en": "Cheapest window start hour",
+				"dk": "Billigste vindue start time",
+				"nl": "Goedkoopste venster start uur"
+			},
+			"type": "number"
+		},
+		{
+			"name": "is_now_cheapest",
+			"title": {
+				"en": "Is now in cheapest window",
+				"dk": "Er nu i billigste vindue",
+				"nl": "Is nu in goedkoopste venster"
+			},
+			"type": "boolean"
+		}
+	]
+}

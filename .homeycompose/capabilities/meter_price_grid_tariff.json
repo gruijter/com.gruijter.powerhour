@@ -1,0 +1,17 @@
+{
+  "type": "number",
+  "title": {
+    "en": "Grid tariff",
+    "dk": "Nettarif",
+    "nl": "Netwerktarief"
+  },
+  "uiComponent": "sensor",
+  "icon": "/assets/tariff.svg",
+  "getable": true,
+  "setable": false,
+  "insights": true,
+  "units": {
+    "en": "€/kWh"
+  },
+  "decimals": 4
+}

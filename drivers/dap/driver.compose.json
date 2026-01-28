@@ -442,6 +442,125 @@
 		{
 			"type": "group",
 			"label": {
+				"en": "Danish tariff settings",
+				"dk": "Danske tarifindstillinger",
+				"nl": "Deense tarief instellingen"
+			},
+			"children": [
+				{
+					"id": "danishTariffsEnable",
+					"type": "checkbox",
+					"label": {
+						"en": "Enable Danish tariffs",
+						"dk": "Aktivér danske tariffer",
+						"nl": "Deense tarieven inschakelen"
+					},
+					"hint": {
+						"en": "Automatically fetch grid tariffs, system tariff, transmission tariff and electricity tax from Energi Data Service (Denmark only).",
+						"dk": "Hent automatisk nettarif, systemtarif, transmissionstarif og elafgift fra Energi Data Service.",
+						"nl": "Automatisch netwerktarieven, systeemtarief, transmissietarief en elektriciteitsbelasting ophalen van Energi Data Service (alleen Denemarken)."
+					},
+					"value": false
+				},
+				{
+					"id": "gridCompanyGLN",
+					"type": "dropdown",
+					"label": {
+						"en": "Grid company",
+						"dk": "Netselskab",
+						"nl": "Netbeheerder"
+					},
+					"hint": {
+						"en": "Select your grid company (netselskab). Find yours at elnet.dk/nettilslutning/find-netselskab",
+						"dk": "Vælg dit netselskab. Find dit på elnet.dk/nettilslutning/find-netselskab",
+						"nl": "Selecteer uw netbeheerder."
+					},
+					"value": "5790000705689",
+					"values": [
+						{
+							"id": "5790000705689",
+							"label": { "en": "Radius Elnet (København, Nordsjælland)" }
+						},
+						{
+							"id": "5790001089030",
+							"label": { "en": "N1 (Nordjylland, Midtjylland)" }
+						},
+						{
+							"id": "5790000706686",
+							"label": { "en": "TREFOR El-net (Trekantområdet)" }
+						},
+						{
+							"id": "5790000610976",
+							"label": { "en": "Vores Elnet (Fyn)" }
+						},
+						{
+							"id": "5790000704842",
+							"label": { "en": "Konstant (Vestjylland)" }
+						},
+						{
+							"id": "5790000681075",
+							"label": { "en": "Dinel (Sønderjylland)" }
+						},
+						{
+							"id": "custom",
+							"label": { "en": "Custom GLN (enter below)" }
+						}
+					]
+				},
+				{
+					"id": "customGridCompanyGLN",
+					"type": "text",
+					"label": {
+						"en": "Custom Grid Company GLN",
+						"dk": "Brugerdefineret netselskab GLN",
+						"nl": "Aangepaste netbeheerder GLN"
+					},
+					"hint": {
+						"en": "Enter your grid company's 13-digit GLN number if not in the list above.",
+						"dk": "Indtast dit netselskabs 13-cifrede GLN-nummer, hvis det ikke er på listen ovenfor.",
+						"nl": "Voer het 13-cijferige GLN-nummer van uw netbeheerder in als deze niet in de bovenstaande lijst staat."
+					},
+					"value": ""
+				},
+				{
+					"id": "vatRate",
+					"type": "number",
+					"label": {
+						"en": "VAT rate (%)",
+						"dk": "Momssats (%)",
+						"nl": "BTW-tarief (%)"
+					},
+					"hint": {
+						"en": "VAT percentage to add to the total price. Set to 25 for Denmark.",
+						"dk": "Momsprocent der lægges til den samlede pris. Sæt til 25 for Danmark.",
+						"nl": "BTW-percentage dat wordt toegevoegd aan de totale prijs. Stel in op 25 voor Denemarken."
+					},
+					"value": 25,
+					"min": 0,
+					"max": 100
+				},
+				{
+					"id": "cheapestWindowSize",
+					"type": "number",
+					"label": {
+						"en": "Cheapest window size (hours)",
+						"dk": "Billigste vindue størrelse (timer)",
+						"nl": "Goedkoopste venster grootte (uren)"
+					},
+					"hint": {
+						"en": "Number of consecutive hours to find the cheapest window for. Used for 'time until cheapest' calculation.",
+						"dk": "Antal sammenhængende timer for at finde det billigste vindue. Bruges til beregning af 'tid til billigste'.",
+						"nl": "Aantal opeenvolgende uren om het goedkoopste venster te vinden. Gebruikt voor berekening van 'tijd tot goedkoopste'."
+					},
+					"value": 3,
+					"min": 1,
+					"max": 24
+				}
+			]
+		},
+		{
+			"type": "group",
+			"label": {
 				"en": "Various settings",
 				"de": "Diverse Einstellungen",
 				"sv": "Olika inställningar",

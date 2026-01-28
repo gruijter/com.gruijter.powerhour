@@ -1,0 +1,19 @@
+{
+  "type": "number",
+  "title": {
+    "en": "Minutes until cheapest",
+    "dk": "Minutter til billigste",
+    "nl": "Minuten tot goedkoopste"
+  },
+  "uiComponent": "sensor",
+  "icon": "/assets/tariff.svg",
+  "getable": true,
+  "setable": false,
+  "insights": true,
+  "units": {
+    "en": "min",
+    "dk": "min",
+    "nl": "min"
+  },
+  "decimals": 0
+}
