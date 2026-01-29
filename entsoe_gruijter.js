@@ -67,7 +67,7 @@ const biddingZones = {
 };
 
 // Represents a session to the ENTSOE.GRUIJTER.ORG API.
-class ENTSOE {
+class ENTSOE_GRUIJTER {
 
   constructor(opts) {
     const options = opts || {};
@@ -171,6 +171,8 @@ class ENTSOE {
         timeout: timeout || this.timeout,
       };
 
+      console.log(url);
+
       const result = await fetch(url, options);
       this.lastResponse = result.status;
 
@@ -193,34 +195,34 @@ class ENTSOE {
   }
 }
 
-module.exports = ENTSOE;
+module.exports = ENTSOE_GRUIJTER;
 
 /*
 Example and documentation:
 
 */
 
-// START TEST HERE
-// eslint-disable-next-line global-require, node/no-unpublished-require
-const apiKey = require('./env.json').ENTSOE_GRUIJTER_API_KEY;
+// // START TEST HERE
+// // eslint-disable-next-line global-require, node/no-unpublished-require
+// const apiKey = require('./env.json').ENTSOE_GRUIJTER_API_KEY;
 
-const Entsoe = new ENTSOE({ biddingZone: '10YAT-APG------L', apiKey }); // '10Y1001A1001A82H'
+// const Entsoe = new ENTSOE({ biddingZone: '10YAT-APG------L', apiKey }); // '10Y1001A1001A82H'
 
-const today = new Date();
-today.setHours(0);
-const tomorrow = new Date(today);
-tomorrow.setDate(tomorrow.getDate() + 2);
+// const today = new Date();
+// today.setHours(0);
+// const tomorrow = new Date(today);
+// tomorrow.setDate(tomorrow.getDate() + 2);
 
-// const today = new Date('2024-10-26T23:00:00.000Z'); // today;
-// const tomorrow = new Date('2024-10-29T23:00:00.000Z'); // tomorrow;
+// // const today = new Date('2024-10-26T23:00:00.000Z'); // today;
+// // const tomorrow = new Date('2024-10-29T23:00:00.000Z'); // tomorrow;
 
-Entsoe.getPrices({ dateStart: today, dateEnd: tomorrow, resolution: 'PT15M' })
-  .then((result) => console.dir(result, { depth: null }))
-  .catch((error) => console.log(error));
+// Entsoe.getPrices({ dateStart: today, dateEnd: tomorrow, resolution: 'PT15M' })
+//   .then((result) => console.dir(result, { depth: null }))
+//   .catch((error) => console.log(error));
 
-Entsoe.getPrices({ dateStart: today, dateEnd: tomorrow, resolution: 'PT60M' })
-  .then((result) => console.dir(result, { depth: null }))
-  .catch((error) => console.log(error));
+// Entsoe.getPrices({ dateStart: today, dateEnd: tomorrow, resolution: 'PT60M' })
+//   .then((result) => console.dir(result, { depth: null }))
+//   .catch((error) => console.log(error));
 
 // definitions for JSDoc
 

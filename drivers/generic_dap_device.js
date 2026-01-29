@@ -105,8 +105,10 @@ class MyDevice extends Homey.Device {
         const hasZone = Object.keys(zones).some((key) => zones[key].includes(this.settings.biddingZone));
         return hasZone;
       });
-      const apiKey = Homey.env ? Homey.env.ENTSOE_API_KEY : '';
+      let apiKey = '';
       providers.forEach((Provider, index) => {
+        if (Provider.name === 'ENTSOE_GRUIJTER') apiKey = Homey?.env?.ENTSOE_GRUIJTER_API_KEY;
+        else if (Provider.name === 'ENTSOE') apiKey = Homey?.env?.ENTSOE_API_KEY;
         this.dap[index] = new Provider({ apiKey, biddingZone: this.settings.biddingZone });
       });
       if (!this.dap[0]) {
