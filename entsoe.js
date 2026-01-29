@@ -165,91 +165,87 @@ class ENTSOE {
   * @property {string} [resolution] - 'PT15M', 'PT30M' or 'PT60M'
   */
   async getPrices(options) {
-    try {
-      const today = new Date();
-      const tomorrow = new Date(today);
-      tomorrow.setDate(today.getDate() + 1);
+    const today = new Date();
+    const tomorrow = new Date(today);
+    tomorrow.setDate(today.getDate() + 1);
 
-      const opts = options || {};
-      const zone = opts.biddingZone || this.biddingZone;
-      const start = opts.dateStart ? new Date(opts.dateStart) : today;
-      const end = opts.dateEnd ? new Date(opts.dateEnd) : tomorrow;
-      let resolution = opts.resolution || this.resolution;
-      if (resolution === 'PT60M') resolution = 'PT15M';
+    const opts = options || {};
+    const zone = opts.biddingZone || this.biddingZone;
+    const start = opts.dateStart ? new Date(opts.dateStart) : today;
+    const end = opts.dateEnd ? new Date(opts.dateEnd) : tomorrow;
+    let resolution = opts.resolution || this.resolution;
+    if (resolution === 'PT60M') resolution = 'PT15M';
 
-      start.setMinutes(0, 0, 0);
-      end.setMinutes(0, 0, 0);
+    start.setMinutes(0, 0, 0);
+    end.setMinutes(0, 0, 0);
 
-      let interval = 60;
-      if (resolution === 'PT15M') interval = 15;
-      if (resolution === 'PT30M') interval = 30;
+    let interval = 60;
+    if (resolution === 'PT15M') interval = 15;
+    if (resolution === 'PT30M') interval = 30;
 
-      const periodStart = start.toISOString().replace(/[-:T]/g, '').slice(0, 12);
-      const periodEnd = end.toISOString().replace(/[-:T]/g, '').slice(0, 12);
-      const path = `/api?securityToken=${this.apiKey}&documentType=A44&in_Domain=${zone}&out_Domain=${zone}&periodStart=${periodStart}&periodEnd=${periodEnd}`;
-      const res = await this._makeRequest(path);
+    const periodStart = start.toISOString().replace(/[-:T]/g, '').slice(0, 12);
+    const periodEnd = end.toISOString().replace(/[-:T]/g, '').slice(0, 12);
+    const path = `/api?securityToken=${this.apiKey}&documentType=A44&in_Domain=${zone}&out_Domain=${zone}&periodStart=${periodStart}&periodEnd=${periodEnd}`;
+    const res = await this._makeRequest(path);
 
-      const tsArr = [].concat(res.Publication_MarketDocument?.TimeSeries || []);
-      const filtered = tsArr.filter((s) => s.Period.resolution._text === resolution);
+    const tsArr = [].concat(res.Publication_MarketDocument?.TimeSeries || []);
+    const filtered = tsArr.filter((s) => s.Period.resolution._text === resolution);
 
-      let prices = [];
-      for (const s of filtered) {
-        const period = s.Period;
-        const startDate = new Date(period.timeInterval.start._text);
-        for (const p of [].concat(period.Point || [])) {
-          const pos = Number(p.position._text) - 1;
-          const time = new Date(startDate.getTime() + pos * interval * 60000);
-          // remove double timestamps resulting from mRID duplicates
-          if (!prices.some((entry) => entry.time.getTime() === time.getTime())) {
-            prices.push({
-              time,
-              price: Number(p['price.amount']._text),
-            });
-          }
+    let prices = [];
+    for (const s of filtered) {
+      const period = s.Period;
+      const startDate = new Date(period.timeInterval.start._text);
+      for (const p of [].concat(period.Point || [])) {
+        const pos = Number(p.position._text) - 1;
+        const time = new Date(startDate.getTime() + pos * interval * 60000);
+        // remove double timestamps resulting from mRID duplicates
+        if (!prices.some((entry) => entry.time.getTime() === time.getTime())) {
+          prices.push({
+            time,
+            price: Number(p['price.amount']._text),
+          });
         }
       }
-      prices = prices.filter((p) => p.time >= start && p.time <= end).sort((a, b) => a.time - b.time);
-
-      // Pad missing intervals with previous price
-      if (prices.length > 0) {
-        const padded = [prices[0]];
-        for (let i = 1; i < prices.length; i++) {
-          let prevTime = padded[padded.length - 1].time;
-          const currTime = prices[i].time;
-          let diff = (currTime - prevTime) / 60000;
-          while (diff > interval) {
-            prevTime = new Date(prevTime.getTime() + interval * 60000);
-            padded.push({ time: new Date(prevTime), price: padded[padded.length - 1].price });
-            diff -= interval;
-          }
-          padded.push(prices[i]);
-        }
-        prices = padded;
-      }
-
-      // If resolution is PT60M, average prices per hour and keep only hourly timestamps
-      if (opts.resolution === 'PT60M') {
-        const hourlyMap = new Map();
-        for (const entry of prices) {
-          // Defensive: always parse to Date
-          const hour = new Date(entry.time);
-          if (Number.isNaN(hour)) continue; // skip invalid dates
-          hour.setMinutes(0, 0, 0);
-          const key = hour.getTime();
-          if (!hourlyMap.has(key)) hourlyMap.set(key, []);
-          hourlyMap.get(key).push(entry.price);
-        }
-        prices = Array.from(hourlyMap.entries()).map(([time, priceArr]) => ({
-          time: new Date(Number(time)),
-          price: priceArr.reduce((a, b) => a + b, 0) / priceArr.length,
-        }));
-        prices.sort((a, b) => a.time - b.time);
-      }
-
-      return prices;
-    } catch (error) {
-      return Promise.reject(error);
     }
+    prices = prices.filter((p) => p.time >= start && p.time <= end).sort((a, b) => a.time - b.time);
+
+    // Pad missing intervals with previous price
+    if (prices.length > 0) {
+      const padded = [prices[0]];
+      for (let i = 1; i < prices.length; i++) {
+        let prevTime = padded[padded.length - 1].time;
+        const currTime = prices[i].time;
+        let diff = (currTime - prevTime) / 60000;
+        while (diff > interval) {
+          prevTime = new Date(prevTime.getTime() + interval * 60000);
+          padded.push({ time: new Date(prevTime), price: padded[padded.length - 1].price });
+          diff -= interval;
+        }
+        padded.push(prices[i]);
+      }
+      prices = padded;
+    }
+
+    // If resolution is PT60M, average prices per hour and keep only hourly timestamps
+    if (opts.resolution === 'PT60M') {
+      const hourlyMap = new Map();
+      for (const entry of prices) {
+        // Defensive: always parse to Date
+        const hour = new Date(entry.time);
+        if (Number.isNaN(hour)) continue; // skip invalid dates
+        hour.setMinutes(0, 0, 0);
+        const key = hour.getTime();
+        if (!hourlyMap.has(key)) hourlyMap.set(key, []);
+        hourlyMap.get(key).push(entry.price);
+      }
+      prices = Array.from(hourlyMap.entries()).map(([time, priceArr]) => ({
+        time: new Date(Number(time)),
+        price: priceArr.reduce((a, b) => a + b, 0) / priceArr.length,
+      }));
+      prices.sort((a, b) => a.time - b.time);
+    }
+
+    return prices;
   }
 
   async _makeRequest(actionPath, timeout) {
@@ -272,7 +268,7 @@ class ENTSOE {
       if (body && body.includes('<Reason>')) {
         const code = regexReasonCode.exec(body); // 999 = error?
         const text = regexText.exec(body); // error tekst
-        if (code && code[1]) throw Error(`${code[1]} ${text[1]}`);
+        if (code && code[1]) throw Error(`${code[1]} ${text ? text[1] : ''}`);
       }
       const contentType = result.headers.get('content-type');
       if (!/\/xml/.test(contentType)) {
@@ -289,10 +285,10 @@ class ENTSOE {
       const json = parseXml.xml2js(body, parseOptions);
       // const flatJson = flatten(json);
       // console.dir(json, { depth: null });
-      return Promise.resolve(json);
+      return json;
     } catch (error) {
       this.lastResponse = error;
-      return Promise.reject(error);
+      throw error;
     }
   }
 }

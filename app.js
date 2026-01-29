@@ -50,6 +50,9 @@ class MyApp extends Homey.App {
       // register flows
       this.registerFlowListeners();
 
+      // start webhook listener
+      await this.startWebHookListener();
+
       this.log('Power by the Hour app is running...');
     } catch (error) {
       this.error(error);
@@ -64,6 +67,22 @@ class MyApp extends Homey.App {
     this.homey.removeAllListeners('set_tariff_power_PBTH');
     this.homey.removeAllListeners('set_tariff_gas_PBTH');
     this.homey.removeAllListeners('set_tariff_water_PBTH');
+  }
+
+  async startWebHookListener() {
+    const id = Homey.env.WEBHOOK_ID; // "56db7fb12dcf75604ea7977d"
+    const secret = Homey.env.WEBHOOK_SECRET; // "2uhf83h83h4gg34..."
+    const data = {
+      // Provide unique properties for this Homey here
+      $keys: ['PBTH'], // appId is required in queery
+    };
+    const myWebhook = await this.homey.cloud.createWebhook(id, secret, data);
+    myWebhook.on('message', (args) => {
+      this.log('Got a webhook message!');
+      this.log('headers:', args.headers);
+      this.log('query:', args.query);
+      console.dir(args.body, { depth: null });
+    });
   }
 
   everyHour() {
