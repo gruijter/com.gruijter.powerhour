@@ -21,6 +21,7 @@ along with com.gruijter.powerhour.  If not, see <http://www.gnu.org/licenses/>.s
 
 const Homey = require('homey');
 const util = require('util');
+const crypto = require('crypto');
 const ECB = require('../ecb_exchange_rates');
 const FORECAST = require('../stekker');
 const charts = require('../charts');
@@ -76,6 +77,8 @@ class MyDevice extends Homey.Device {
       await this.destroyListeners();
       this.restarting = false;
       this.initReady = false;
+      this.sessionId = crypto.randomBytes(4).toString('hex');
+      const currentSessionId = this.sessionId;
       this.settings = await this.getSettings();
       this.timeZone = this.homey.clock.getTimezone();
       this.fetchDelay = (Math.random() * 15 * 60 * 1000) + (1000 * 60 * 0.5); // random delay between 30 sec and 15 minutes to spread API calls on app start
@@ -128,6 +131,7 @@ class MyDevice extends Homey.Device {
       // fetch and handle prices now, after short random delay
       await this.setAvailable().catch(this.error);
       await setTimeoutPromise(30 * 1000); // wait for sum and bat devices to be ready after app start
+      if (this.sessionId !== currentSessionId) return; // stop if new session started
       await this.fetchExchangeRate();
       await this.fetchPrices();
 
@@ -165,6 +169,7 @@ class MyDevice extends Homey.Device {
 
   async onUninit() {
     this.log(`Homey is killing ${this.getName()}`);
+    this.sessionId = null;
     await this.destroyListeners().catch(this.error);
     let delay = 1500;
     if (!this.migrated || !this.initFirstReading) delay = 10 * 1000;
@@ -756,6 +761,7 @@ class MyDevice extends Homey.Device {
   async fetchPrices() {
     try {
       this.log(this.getName(), 'fetching prices of today and tomorrow (when available)');
+      const currentSessionId = this.sessionId;
       // fetch prices with retry and backup
       const periods = this.getUTCPeriods(); // now, nowLocal, homeyOffset, H0, hourStart, todayStart, yesterdayStart, tomorrowStart, tomorrowEnd
       if (!this.dap[0]) throw Error('no available DAP');
@@ -768,6 +774,7 @@ class MyDevice extends Homey.Device {
         if (!valid) {
           this.log(`${this.getName()} Error fetching prices from ${this.dap[index].host}. Trying again in 10 minutes`);
           await setTimeoutPromise(10 * 60 * 1000, 'waiting is done');
+          if (this.sessionId !== currentSessionId) return; // stop if new session started
           newMarketPrices = await this.dap[index].getPrices({ dateStart: periods.yesterdayStart, dateEnd: periods.tomorrowEnd, resolution })
             .catch(this.log);
         } else {
