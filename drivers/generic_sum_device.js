@@ -419,27 +419,28 @@ class SumMeterDevice extends Device {
 
   stopPolling() {
     this.log(`Stop polling ${this.getName()}`);
-    this.homey.clearInterval(this.intervalIdDevicePoll);
+    if (this.intervalIdDevicePoll) {
+      this.homey.clearInterval(this.intervalIdDevicePoll);
+      this.homey.clearTimeout(this.intervalIdDevicePoll);
+    }
     // this.homey.clearTimeout(this.timeoutIdRestart);
   }
 
   startPolling(interval) {
-    this.homey.clearInterval(this.intervalIdDevicePoll);
+    this.stopPolling();
     this.log(`start polling ${this.getName()} @${interval} minutes interval`);
-    this.pollMeter().catch((error) => {
-      this.error(error);
-      this.setUnavailable(error.message).catch(this.error);
-      this.initReady = false; // restart within 5 minutes
-    });
-    this.intervalIdDevicePoll = this.homey.setInterval(async () => {
+    const poll = async () => {
       try {
         await this.pollMeter();
       } catch (error) {
-        this.error(error.message);
-        this.setUnavailable('Polling failed. Will retry soon..').catch(this.error);
+        this.error(error);
+        this.setUnavailable(error.message || 'Polling failed. Will retry soon..').catch(this.error);
         this.initReady = false; // restart within 5 minutes
+      } finally {
+        this.intervalIdDevicePoll = this.homey.setTimeout(poll, 1000 * 60 * interval);
       }
-    }, 1000 * 60 * interval);
+    };
+    poll();
   }
 
   async setCapability(capability, value) {

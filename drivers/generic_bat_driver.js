@@ -144,7 +144,10 @@ class BatDriver extends Driver {
 
   async onUninit() {
     this.log('bat driver onUninit called');
-    if (this.intervalIdEnergyPoll) this.homey.clearInterval(this.intervalIdEnergyPoll);
+    if (this.intervalIdEnergyPoll) {
+      this.homey.clearInterval(this.intervalIdEnergyPoll);
+      this.homey.clearTimeout(this.intervalIdEnergyPoll);
+    }
     if (this.eventListenerHour) this.homey.removeListener('everyhour_PBTH', this.eventListenerHour);
     if (this.eventListenerRetry) this.homey.removeListener('retry_PBTH', this.eventListenerRetry);
     const eventName = 'set_tariff_power_PBTH';
@@ -155,10 +158,13 @@ class BatDriver extends Driver {
   // Poll Cumulative Energy for NOM/XOM
   async startPollingEnergy(interval) {
     const int = interval || 10; // seconden
-    this.homey.clearInterval(this.intervalIdEnergyPoll);
+    if (this.intervalIdEnergyPoll) {
+      this.homey.clearInterval(this.intervalIdEnergyPoll);
+      this.homey.clearTimeout(this.intervalIdEnergyPoll);
+    }
     await setTimeoutPromise(20000);
     this.log(`start polling Cumulative XOM Energy @${int} seconds interval`);
-    this.intervalIdEnergyPoll = this.homey.setInterval(async () => {
+    const poll = async () => {
       try {
         // get the flow settings
         const xomSettings = await this.homey.settings.get('xomSettings') || {};
@@ -297,8 +303,11 @@ class BatDriver extends Driver {
         });
       } catch (error) {
         this.error(error);
+      } finally {
+        this.intervalIdEnergyPoll = this.homey.setTimeout(poll, 1000 * int);
       }
-    }, 1000 * int);
+    };
+    poll();
   }
 
   // stuff to find Homey battery devices
