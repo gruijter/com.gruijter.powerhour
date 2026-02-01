@@ -652,7 +652,7 @@ class SumMeterDevice extends Device {
       // filter unrealistic meter values. note: delta depends on metertype?
       const lastVal = await this.getCapabilityValue(this.ds.cmap.meter_source);
       const meterDelta = Math.abs(value - lastVal);
-      if ((lastVal !== null) && (meterDelta > 10000)) throw Error('ignoring uneralistic incoming meter value!', value);
+      if ((lastVal !== null) && (lastVal > 1) && (meterDelta > 10000)) throw Error(`ignoring unrealistic incoming meter value! ${value} (prev: ${lastVal})`);
 
       // create a readingObject from value
       const reading = await this.getReadingObject(value);
