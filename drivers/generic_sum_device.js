@@ -661,9 +661,16 @@ class SumMeterDevice extends Device {
       // Put values in queue
       if (!this.newReadings) this.newReadings = [];
       this.newReadings.push(reading);
-      while (this.newReadings.length > 0) {
-        const newReading = this.newReadings.shift();
-        await this.handleUpdateMeter(newReading);
+
+      if (this.processingReadings) return;
+      this.processingReadings = true;
+      try {
+        while (this.newReadings.length > 0) {
+          const newReading = this.newReadings.shift();
+          await this.handleUpdateMeter(newReading);
+        }
+      } finally {
+        this.processingReadings = false;
       }
     } catch (error) {
       this.error(error);
