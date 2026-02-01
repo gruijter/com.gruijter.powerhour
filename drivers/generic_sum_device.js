@@ -21,6 +21,7 @@ along with com.gruijter.powerhour.  If not, see <http://www.gnu.org/licenses/>.
 
 const { Device } = require('homey');
 const util = require('util');
+const crypto = require('crypto');
 const budget = require('../budget');
 
 const setTimeoutPromise = util.promisify(setTimeout);
@@ -34,6 +35,8 @@ class SumMeterDevice extends Device {
       this.restarting = false;
       // this.initReady = false;
       this.destroyListeners();
+      this.sessionId = crypto.randomBytes(4).toString('hex');
+      const currentSessionId = this.sessionId;
       this.timeZone = this.homey.clock.getTimezone();
       this.settings = await this.getSettings();
 
@@ -49,6 +52,7 @@ class SumMeterDevice extends Device {
           .catch(this.error);
         // wait a bit for capabilitiesObj to fill?
         await setTimeoutPromise(3 * 1000);
+        if (this.sessionId !== currentSessionId) return;
         // check if source device exists
         const sourceDeviceExists = this.sourceDevice && this.sourceDevice.capabilitiesObj
           && Object.keys(this.sourceDevice.capabilitiesObj).length > 0 && (this.sourceDevice.available !== null);
@@ -59,6 +63,7 @@ class SumMeterDevice extends Device {
       // restore device values
       await this.initDeviceValues();
 
+      if (this.sessionId !== currentSessionId) return;
       // init METER_VIA_FLOW device
       if (this.settings.source_device_type === 'virtual via flow') await this.updateMeterFromFlow(null);
       // start listener for METER_VIA_WATT device
@@ -85,6 +90,7 @@ class SumMeterDevice extends Device {
 
   async onUninit() {
     this.log(`Homey is killing ${this.getName()}`);
+    this.sessionId = null;
     this.stopPolling();
     this.destroyListeners();
     let delay = 1500;
