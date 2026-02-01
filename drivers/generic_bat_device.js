@@ -22,6 +22,7 @@ along with com.gruijter.powerhour.  If not, see <http://www.gnu.org/licenses/>.
 
 const { Device } = require('homey');
 const util = require('util');
+const crypto = require('crypto');
 const charts = require('../charts');
 const tradeStrategy = require('../hedge_strategy'); // deprecated
 const roiStrategy = require('../hedge_roi_glpk'); // new method
@@ -39,6 +40,8 @@ class batDevice extends Device {
       this.initReady = false;
       // this.initReady = false;
       this.destroyListeners();
+      this.sessionId = crypto.randomBytes(4).toString('hex');
+      const currentSessionId = this.sessionId;
       this.timeZone = this.homey.clock.getTimezone();
 
       if (!this.migrated) await this.migrate();
@@ -60,8 +63,10 @@ class batDevice extends Device {
       // create Strategy and ROI chart
       if (this.getSettings().roiEnable) {
         await setTimeoutPromise(10000 + (Math.random() * 10000)).catch(this.error);
+        if (this.sessionId !== currentSessionId) return;
         await this.triggerNewRoiStrategyFlow().catch(this.error);
         await setTimeoutPromise(20000 + (Math.random() * 10000)).catch(this.error);
+        if (this.sessionId !== currentSessionId) return;
         await this.updateChargeChart().catch(this.error);
       }
     } catch (error) {
@@ -73,6 +78,7 @@ class batDevice extends Device {
 
   async onUninit() {
     this.log(`Homey is killing ${this.getName()}`);
+    this.sessionId = null;
     this.destroyListeners();
     let delay = 1500;
     if (!this.migrated || !this.initFirstReading) delay = 10 * 1000;
@@ -253,9 +259,11 @@ class batDevice extends Device {
   async findRoiStrategy(args) {
     try {
       if (!this.getSettings().roiEnable) return Promise.resolve(null);
+      const currentSessionId = this.sessionId;
       this.log(`ROI strategy calculation started for ${this.getName()} minPriceDelta:`, args.minPriceDelta);
       if (this.getSettings().roiMinProfit !== args.minPriceDelta) this.setSettings({ roiMinProfit: args.minPriceDelta }).catch(this.error);
       await setTimeoutPromise(3000); // wait 3 seconds for new hourly prices to be taken in
+      if (this.sessionId !== currentSessionId) return Promise.resolve(null);
       if (!this.pricesNextHours) throw Error('no prices available');
       if (!this.priceInterval) throw Error('no price interval available');
       const settings = this.getSettings();
@@ -464,7 +472,9 @@ class batDevice extends Device {
   async triggerNewRoiStrategyFlow() {
     try {
       if (!this.getSettings().roiEnable) return Promise.resolve(null);
+      const currentSessionId = this.sessionId;
       await setTimeoutPromise(5000 + Math.random() * 20000);
+      if (this.sessionId !== currentSessionId) return Promise.resolve(null);
       // get all minPriceDelta as entered by user in trigger flows for this device
       const argValues = await this.homey.app._newRoiStrategy.getArgumentValues(this);
       const uniqueArgs = argValues.filter((a, idx) => argValues.findIndex((b) => b.minPriceDelta === argValues[idx].minPriceDelta) === idx);
@@ -490,6 +500,7 @@ class batDevice extends Device {
         duration, power, endSoC, scheme,
       } = tokens;
       if (duration === 0) return;
+      const currentSessionId = this.sessionId;
       const now = new Date();
       const startMinute = now.getMinutes();
       if ((startMinute % this.priceInterval) + duration >= (this.priceInterval - 5)) return; // do not retrigger if duration is crossing to next period
@@ -499,6 +510,7 @@ class batDevice extends Device {
       this.log(`Stopping ROI in ${startMinute + duration} minutes`, this.getName());
       const delay = (startMinute + duration) * 60 * 1000;
       await setTimeoutPromise(delay).catch(this.error);
+      if (this.sessionId !== currentSessionId) return;
       const state = args;
       const newTokens = {
         power: 0, duration: 0, endSoC, scheme,

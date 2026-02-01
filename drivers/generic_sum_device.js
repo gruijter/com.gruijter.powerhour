@@ -613,7 +613,7 @@ class SumMeterDevice extends Device {
     await this.setSettings({ markup_day: Number.isFinite(v) ? v : 0 });
     return true;
   }
-  
+
   async handleUpdateMeter(reading) {
     try {
       const periods = this.getPeriods(reading); // check for new hour/day/month/year
