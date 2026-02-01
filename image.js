@@ -11,7 +11,7 @@ const imageUrlToStream = async (url, stream) => {
         return readable.pipe(stream);
     }
 
-    const res = await fetch(url);
+    const res = await fetch(url, { timeout: 10000 });
     if (!res.ok) {
         throw new Error("Invalid Response");
     }

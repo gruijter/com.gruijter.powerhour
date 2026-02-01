@@ -254,6 +254,7 @@ class SumMeterDriver extends Driver {
       this.devices = [];
 
       const allDevices = await this.homey.app.api.devices.getDevices({ $timeout: 15000 }).catch(this.error);
+      if (!allDevices) return [];
       const keys = Object.keys(allDevices);
       const allCaps = this.ds.deviceCapabilities;
       const reducedCaps = allCaps.filter((cap) => !cap.includes('meter_target'));
