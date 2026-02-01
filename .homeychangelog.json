@@ -1,4 +1,7 @@
 {
+  "7.1.0": {
+    "en": "Disabled entsoe_gruijter. New api key entsoe. Many stability improvements."
+  },
   "7.0.6": {
     "en": "added entsoe_gruijter. improved entsoe. homey-api@3.16.0"
   },
