@@ -67,6 +67,7 @@ class MyApp extends Homey.App {
     this.homey.removeAllListeners('set_tariff_power_PBTH');
     this.homey.removeAllListeners('set_tariff_gas_PBTH');
     this.homey.removeAllListeners('set_tariff_water_PBTH');
+    this.homey.removeAllListeners('pbthEntsoeBridgeWebhook');
   }
 
   async startWebHookListener() {
@@ -74,16 +75,26 @@ class MyApp extends Homey.App {
     const secret = Homey.env.WEBHOOK_SECRET; // "2uhf83h83h4gg34..."
     const data = {
       // Provide unique properties for this Homey here
-      $keys: ['PBTH'], // appId is required in queery
+      $keys: ['pbth-entsoe-bridge'], // appId is required in queery
     };
-    const myWebhook = await this.homey.cloud.createWebhook(id, secret, data);
-    myWebhook.on('message', (args) => {
+    const pbthEntsoeBridgeWebhook = await this.homey.cloud.createWebhook(id, secret, data);
+    pbthEntsoeBridgeWebhook.on('message', (args) => {
       this.log('Got a webhook message!');
       this.log('headers:', args.headers);
       this.log('query:', args.query);
       console.dir(args.body, { depth: null });
     });
   }
+
+  // {
+  //   event: 'price_update',
+  //   zone: '10YCH-SWISSGRIDZ',
+  //   name: 'Switzerland',
+  //   updated: '2026-01-30T11:10:06.263Z',
+  //   data: [
+  //     { time: '2026-01-28T12:00:00.000Z', price: 160.94 },
+  //     { time: '2026-01-28T13:00:00.000Z', price: 161.78 },
+
 
   everyHour() {
     const scheduleNextHour = () => {

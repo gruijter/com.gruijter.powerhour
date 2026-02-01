@@ -19,14 +19,11 @@ along with com.gruijter.powerhour.  If not, see <http://www.gnu.org/licenses/>.
 
 'use strict';
 
+const parseXml = require('xml-js');
+
 const defaultHost = 'www.ecb.europa.eu';
 const defaultTimeout = 30000;
 const exchangeRatesPath = '/stats/eurofxref/eurofxref-daily.xml';
-
-const regexRates = /<Cube>(.*)<\/Cube>/s;
-const regexTime = /<Cube time='(.*)'/s;
-const regexCurrency = /<Cube currency='(.*)' /s;
-const regexRate = /rate='(.*)'/s;
 
 // Represents a session to the Easyenergy API.
 class ECB {
@@ -46,23 +43,20 @@ class ECB {
   async getRates() {
     try {
       const xml = await this._makeRequest(exchangeRatesPath);
-      const raw = regexRates.exec(xml.replace(/\t/gi, ''))[1];
-      const entries = raw
-        .split('\n')
-        .filter((entry) => (entry.includes('rate') || entry.includes('time')));
-      const rates = entries.reduce((result, entry) => {
-        const accu = result;
-        if (entry.includes('time')) {
-          const date = regexTime.exec(entry)[1];
-          accu.date = new Date(date);
-        } else {
-          const currency = regexCurrency.exec(entry)[1];
-          const rate = Number(regexRate.exec(entry)[1]);
-          accu[currency] = rate;
-        }
-        return accu;
-      }, {});
-      return Promise.resolve(rates);
+      const options = {
+        compact: true, nativeType: true, ignoreDeclaration: true, ignoreAttributes: false,
+      };
+      const result = parseXml.xml2js(xml, options);
+      const timeCube = result['gesmes:Envelope'].Cube.Cube;
+      const date = new Date(timeCube._attributes.time);
+      const rates = { date };
+
+      const cubes = Array.isArray(timeCube.Cube) ? timeCube.Cube : [timeCube.Cube];
+      cubes.forEach((c) => {
+        rates[c._attributes.currency] = c._attributes.rate;
+      });
+
+      return rates;
     } catch (error) {
       return Promise.reject(error);
     }
