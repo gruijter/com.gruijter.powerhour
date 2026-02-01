@@ -51,7 +51,7 @@ class MyApp extends Homey.App {
       this.registerFlowListeners();
 
       // start webhook listener
-      await this.startWebHookListener();
+      // await this.startWebHookListener();
 
       this.log('Power by the Hour app is running...');
     } catch (error) {
@@ -75,7 +75,7 @@ class MyApp extends Homey.App {
     const secret = Homey.env.WEBHOOK_SECRET; // "2uhf83h83h4gg34..."
     const data = {
       // Provide unique properties for this Homey here
-      $keys: ['pbth-entsoe-bridge'], // appId is required in queery
+      $keys: ['pbth-entsoe-bridge'], // appId is required in query
     };
     const pbthEntsoeBridgeWebhook = await this.homey.cloud.createWebhook(id, secret, data);
     pbthEntsoeBridgeWebhook.on('message', (args) => {
@@ -94,7 +94,6 @@ class MyApp extends Homey.App {
   //   data: [
   //     { time: '2026-01-28T12:00:00.000Z', price: 160.94 },
   //     { time: '2026-01-28T13:00:00.000Z', price: 161.78 },
-
 
   everyHour() {
     const scheduleNextHour = () => {
@@ -144,8 +143,8 @@ class MyApp extends Homey.App {
   registerFlowListeners() {
     const autoComplete = async (query, driverId) => {
       const driver = await this.homey.drivers.getDriver(driverId);
-      const devices = await driver.getDevices()
-        .filter((device) => device.settings.source_device_type === 'virtual via flow');
+      const devices = driver.getDevices()
+        .filter((device) => device.getSettings().source_device_type === 'virtual via flow');
       const devicesMap = devices.map((device) => (
         {
           name: device.getName(),
@@ -157,7 +156,8 @@ class MyApp extends Homey.App {
 
     const runUpdateMeter = async (args, driverId) => {
       const driver = await this.homey.drivers.getDriver(driverId);
-      const device = await driver.getDevice({ id: args.virtual_device.id });
+      const device = driver.getDevices().find((d) => d.getData().id === args.virtual_device.id);
+      if (!device) throw Error('Device not found');
       device.updateMeterFromFlow(args.value).catch(this.error);
     };
 
