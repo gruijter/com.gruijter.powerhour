@@ -608,7 +608,7 @@ class SumMeterDevice extends Device {
     }
   }
 
-  async updateMeter(val) { 
+  async updateMeter(val) {
     try {
       if (typeof val !== 'number') return;
       if (!this.migrated || this.currencyChanged) return;
@@ -680,7 +680,7 @@ class SumMeterDevice extends Device {
     }
     if (typeof value !== 'number') return;
     const deltaTm = measureTm - new Date(this.lastMeasure.measureTm);
-    
+
     const lastMeterValue = await this.getCapabilityValue(this.ds.cmap.meter_source);
     if (typeof lastMeterValue !== 'number') {
       this.error('lastMeterValue is NaN, WTF');
@@ -696,7 +696,7 @@ class SumMeterDevice extends Device {
       value,
       measureTm,
     };
-    await this.updateMeter(meter); 
+    await this.updateMeter(meter);
   }
 
   getPeriods(reading) {
@@ -707,7 +707,7 @@ class SumMeterDevice extends Device {
       this.lastReadingMonth,
       this.lastReadingYear,
       this.startDay,
-      this.startMonth
+      this.startMonth,
     );
   }
 
@@ -778,7 +778,7 @@ class SumMeterDevice extends Device {
       await this.setStoreValue('lastReadingHour', reading);
       await this.setSettings({ meter_latest: `${reading.meterValue}` }).catch(this.error);
       valHour = 0;
-      
+
       const meterCharging = await this.getCapabilityValue('meter_kwh_charging');
       const meterDischarging = await this.getCapabilityValue('meter_kwh_discharging');
       if (meterCharging) await this.setSettings({ meter_kwh_charging: meterCharging }).catch(this.error);
@@ -808,7 +808,7 @@ class SumMeterDevice extends Device {
       await this.setSettings({ meter_year_start: lastReadingYear.meterValue }).catch(this.error);
       valYear = 0;
     }
-    
+
     await this.setCapability(this.ds.cmap.this_hour, valHour).catch(this.error);
     await this.setCapability(this.ds.cmap.this_day, valDay).catch(this.error);
     await this.setCapability(this.ds.cmap.this_month, valMonth).catch(this.error);
@@ -836,14 +836,14 @@ class SumMeterDevice extends Device {
 
   async updateMoney({ ...reading }, { ...periods }) {
     let tariff = this.tariffHistory.current;
-    
+
     if (tariff !== await this.getCapabilityValue('meter_tariff')) await this.setCapability('meter_tariff', tariff).catch(this.error);
-    
+
     // use previous hour tariff just after newHour and previous tariff is less then an hour old
     if (periods.newHour && this.tariffHistory && this.tariffHistory.previousTm
       && (new Date(reading.meterTm) - new Date(this.tariffHistory.previousTm))
       < (61 + this.settings.wait_for_update) * 60 * 1000) tariff = this.tariffHistory.previous;
-    
+
     // calculate money
     const deltaMoney = (reading.meterValue - this.meterMoney.meterValue) * tariff;
     const meterMoney = {

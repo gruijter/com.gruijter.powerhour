@@ -1,4 +1,3 @@
-/* eslint-disable global-require */
 /*
 Copyright 2019 - 2026, Robin de Gruijter (gruijter@hotmail.com)
 

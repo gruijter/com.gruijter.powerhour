@@ -57,7 +57,7 @@ class SumMeterDriver extends Driver {
 
   registerHourlyListener() {
     if (this.eventListenerHour) this.homey.removeListener('everyhour_PBTH', this.eventListenerHour);
-    
+
     this.eventListenerHour = () => {
       (async () => {
         try {
@@ -77,7 +77,7 @@ class SumMeterDriver extends Driver {
 
   async handleHourlyUpdate(device) {
     const deviceName = device.getName();
-    
+
     // HOMEY_ENERGY device
     if (device.getSettings().source_device_type.includes('Homey Energy')) {
       await device.pollMeter();
@@ -93,7 +93,7 @@ class SumMeterDriver extends Driver {
     // HOMEY-API device check
     const sourceDeviceExists = device.sourceDevice && device.sourceDevice.capabilitiesObj
       && Object.keys(device.sourceDevice.capabilitiesObj).length > 0 && (device.sourceDevice.available !== null);
-    
+
     if (!sourceDeviceExists) {
       this.error(`Source device ${deviceName} is missing. Restarting now.`);
       await device.setUnavailable('Source device is missing. Retrying ..').catch(this.error);
@@ -111,7 +111,7 @@ class SumMeterDriver extends Driver {
     const ignorePollSetting = (device.getSettings().source_device_type !== 'virtual via flow')
       && !device.getSettings().use_measure_source;
     const pollingIsOn = !!device.getSettings().interval && device.intervalIdDevicePoll
-      && (device.intervalIdDevicePoll._idleTimeout > 0); 
+      && (device.intervalIdDevicePoll._idleTimeout > 0);
     const listeningIsOn = Object.keys(device.capabilityInstances).length > 0;
 
     if (ignorePollSetting && !pollingIsOn && !listeningIsOn) {
@@ -138,7 +138,7 @@ class SumMeterDriver extends Driver {
       const lastReadingTm = new Date(device.lastReadingHour.meterTm);
       if (now.getHours() === lastReadingTm.getHours()) doPoll = false;
     }
-    
+
     if (doPoll) {
       device.log('doing hourly poll', deviceName);
       await device.pollMeter();
@@ -156,15 +156,15 @@ class SumMeterDriver extends Driver {
           this.log(`${eventName} received from flow or DAP`, args);
           const currentTm = new Date();
           const tariff = args.tariff === null ? null : Number(args.tariff);
-          const group = args.group || 1; 
-          
+          const group = args.group || 1;
+
           if (!Number.isFinite(tariff)) {
             this.error('the tariff is not a valid number');
             return;
           }
-          
+
           await setTimeoutPromise(2 * 1000);
-          
+
           const devices = this.getDevices();
           for (const device of devices) {
             if (device.settings && device.settings.tariff_update_group && device.settings.tariff_update_group === group) {
@@ -185,7 +185,7 @@ class SumMeterDriver extends Driver {
 
   registerRetryListener() {
     if (this.eventListenerRetry) this.homey.removeListener('retry_PBTH', this.eventListenerRetry);
-    
+
     this.eventListenerRetry = () => {
       (async () => {
         try {
@@ -206,7 +206,7 @@ class SumMeterDriver extends Driver {
   async checkDeviceHealth(device) {
     const deviceName = device.getName();
     if (device.migrating || device.restarting) return;
-    
+
     if (!device.initReady) {
       this.log(`${deviceName} Restarting now`);
       device.restartDevice(5000 + Math.random() * 20000).catch(this.error);
@@ -218,7 +218,7 @@ class SumMeterDriver extends Driver {
     // HOMEY-API device - check if source device exists
     const sourceDeviceExists = device.sourceDevice && device.sourceDevice.capabilitiesObj
       && Object.keys(device.sourceDevice.capabilitiesObj).length > 0 && (device.sourceDevice.available !== null);
-      
+
     if (!sourceDeviceExists) {
       this.error(`Source device ${deviceName} is missing. Restarting now.`);
       await device.setUnavailable('Source device is missing. Retrying ..').catch(this.error);

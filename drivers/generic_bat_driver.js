@@ -29,7 +29,7 @@ class BatDriver extends Driver {
 
   async onDriverInit() {
     this.log('onDriverInit');
-    
+
     // Add listener for hourly trigger
     this.registerHourlyListener();
 
@@ -49,17 +49,17 @@ class BatDriver extends Driver {
       this.homey.clearInterval(this.intervalIdEnergyPoll);
       this.homey.clearTimeout(this.intervalIdEnergyPoll);
     }
-    
+
     if (this.eventListenerHour) this.homey.removeListener('everyhour_PBTH', this.eventListenerHour);
     if (this.eventListenerRetry) this.homey.removeListener('retry_PBTH', this.eventListenerRetry);
     if (this.eventListenerTariff) this.homey.removeListener('set_tariff_power_PBTH', this.eventListenerTariff);
-    
+
     await setTimeoutPromise(3000);
   }
 
   registerHourlyListener() {
     if (this.eventListenerHour) this.homey.removeListener('everyhour_PBTH', this.eventListenerHour);
-    
+
     this.eventListenerHour = () => {
       (async () => {
         try {
@@ -79,14 +79,14 @@ class BatDriver extends Driver {
     const deviceName = device.getName();
     // Check if source device exists for HOMEY-API device
     const sourceDeviceExists = device.sourceDevice && device.sourceDevice.capabilitiesObj && (device.sourceDevice.available !== null);
-    
+
     if (!sourceDeviceExists) {
       this.error(`Source device ${deviceName} is missing.`);
       await device.setUnavailable('Source device is missing. Retry in 10 minutes.').catch(this.error);
       device.restartDevice(10 * 60 * 1000).catch(this.error); // restart after 10 minutes
       return;
     }
-    
+
     // Poll all capabilities
     await device.poll();
     await device.setAvailable().catch(this.error);
@@ -94,7 +94,7 @@ class BatDriver extends Driver {
 
   registerRetryListener() {
     if (this.eventListenerRetry) this.homey.removeListener('retry_PBTH', this.eventListenerRetry);
-    
+
     this.eventListenerRetry = () => {
       (async () => {
         try {
@@ -112,7 +112,7 @@ class BatDriver extends Driver {
 
   async checkDeviceHealth(device) {
     if (device.migrating || device.restarting) return;
-    
+
     const deviceName = device.getName();
     if (!device.initReady) {
       this.log(`${deviceName} Restarting now (Init not ready)`);
@@ -122,7 +122,7 @@ class BatDriver extends Driver {
     // Check if source device exists
     const sourceDeviceExists = device.sourceDevice && device.sourceDevice.capabilitiesObj
       && Object.keys(device.sourceDevice.capabilitiesObj).length > 0 && (device.sourceDevice.available !== null);
-      
+
     if (!sourceDeviceExists) {
       this.error(`Source device ${deviceName} is missing. Restarting now.`);
       await device.setUnavailable('Source device is missing. Retrying ..').catch(this.error);
@@ -133,7 +133,7 @@ class BatDriver extends Driver {
   registerTariffListener() {
     const eventName = 'set_tariff_power_PBTH';
     if (this.eventListenerTariff) this.homey.removeListener(eventName, this.eventListenerTariff);
-    
+
     this.eventListenerTariff = (args) => {
       (async () => {
         try {
@@ -141,18 +141,18 @@ class BatDriver extends Driver {
             this.log('no prices next hours found');
             return;
           }
-          
+
           this.pricesNextHours = this.pricesNextHours || {};
           this.pricesNextHoursMarketLength = this.pricesNextHoursMarketLength || {};
           this.priceIntervals = this.priceIntervals || {};
-          
+
           this.pricesNextHours[args.group] = args.pricesNextHours;
           this.pricesNextHoursMarketLength[args.group] = args.pricesNextHoursMarketLength;
           this.priceIntervals[args.group] = args.priceInterval;
-          
+
           // Wait 2 seconds not to stress Homey and prevent race issues
           await setTimeoutPromise(2 * 1000);
-          
+
           const devices = await this.getDevices();
           devices.forEach((device) => this.setPricesDevice(device));
         } catch (error) {
@@ -166,16 +166,16 @@ class BatDriver extends Driver {
   setPricesDevice(device) {
     const deviceName = device.getName();
     const updateGroup = device.getSettings().tariff_update_group;
-    
+
     if (!updateGroup || !this.pricesNextHours || !this.pricesNextHours[updateGroup]) {
       this.log('No prices available for group', updateGroup, deviceName);
       return;
     }
-    
+
     const priceInterval = this.priceIntervals[updateGroup] || 60;
     const pricesNextHours = this.pricesNextHours[updateGroup];
     const pricesNextHoursMarketLength = this.pricesNextHoursMarketLength[updateGroup];
-    
+
     this.log('updating prices', deviceName, pricesNextHours[0], pricesNextHoursMarketLength);
     device.updatePrices([...pricesNextHours], pricesNextHoursMarketLength, priceInterval);
   }
@@ -187,10 +187,10 @@ class BatDriver extends Driver {
       this.homey.clearInterval(this.intervalIdEnergyPoll);
       this.homey.clearTimeout(this.intervalIdEnergyPoll);
     }
-    
+
     await setTimeoutPromise(20000);
     this.log(`start polling Cumulative XOM Energy @${int} seconds interval`);
-    
+
     const poll = async () => {
       try {
         await this.pollEnergyLogic(int);
@@ -207,12 +207,12 @@ class BatDriver extends Driver {
     // Get the flow settings
     const xomSettings = await this.homey.settings.get('xomSettings') || {};
     const { smoothing = 50, x = 0, minLoad = 50 } = xomSettings;
-    const samples = Math.round((smoothing / 100) * (120 / interval)); 
+    const samples = Math.round((smoothing / 100) * (120 / interval));
 
     // Get cumulative power from Homey Power
     const report = await this.homey.app.api.energy.getLiveReport().catch(this.error);
     const cumulativePower = (report && report.totalCumulative && report.totalCumulative.W);
-    
+
     if (!Number.isFinite(cumulativePower)) return;
     if (Math.abs(cumulativePower) > 30000) throw new Error('Cumulative Power is not valid');
 
@@ -222,8 +222,8 @@ class BatDriver extends Driver {
 
     const totalBattSoc = batteryInfo.reduce((sum, currentValue) => sum + currentValue.soc, 0);
     const totalBattpower = batteryInfo.reduce((sum, currentValue) => sum + currentValue.actualPower, 0);
-    const totalTarget = cumulativePower + totalBattpower - x; 
-    
+    const totalTarget = cumulativePower + totalBattpower - x;
+
     let strategy = this.calculateStrategy(batteryInfo, totalTarget, totalBattSoc, minLoad);
     strategy = this.distributeRemainingPower(strategy, totalTarget);
 
@@ -250,55 +250,60 @@ class BatDriver extends Driver {
     return batteryInfo.map((info) => {
       let fraction = 0;
       let target = 0;
-      
+
       if (totalTarget > 0) {
         fraction = (totalBattSoc > 0) ? (info.soc / totalBattSoc) : 0;
       } else if (totalTarget < 0) {
         fraction = (totalBattSoc > 0) ? (1 - (info.soc / totalBattSoc)) : 0;
       }
-      
+
       target = totalTarget * fraction;
-      
+
       // Set minimum and maximum targets
       if (target > info.maxDischarge) target = info.maxDischarge;
       if (target < -info.maxCharge) target = -info.maxCharge;
       if ((target < minLoad) && (target > -minLoad)) target = 0;
-      
+
       // Calculate power headroom
       let headroom = 0;
       if (totalTarget > 0) headroom = (info.soc > 0) ? (info.maxDischarge - target) : 0;
       if (totalTarget < 0) headroom = (info.soc < 100) ? -(info.maxCharge + target) : 0;
-      
-      return { ...info, target, headroom, fraction };
+
+      return {
+        ...info,
+        target,
+        headroom,
+        fraction,
+      };
     });
   }
 
   distributeRemainingPower(strategy, totalTarget) {
     const totalStratTarget = strategy.reduce((sum, currentValue) => sum + currentValue.target, 0);
     const totalDelta = (totalTarget - totalStratTarget);
-    
+
     if (Math.abs(totalDelta) <= 10) return strategy;
 
     let restDelta = totalDelta;
-    const maxSocDelta = 0; 
+    const maxSocDelta = 0;
 
     // Distribute remaining power over active batteries that have not reached limit
     const activeBatsWithHeadroom = strategy.filter((info) => info.target && info.headroom);
     const totalHeadroom = activeBatsWithHeadroom.reduce((sum, currentValue) => sum + currentValue.headroom, 0);
-    
+
     if (activeBatsWithHeadroom.length) {
       strategy = strategy.map((info) => {
         if (!info.headroom || !info.target || (Math.abs(restDelta) < 10)) return info;
-        
+
         let delta = restDelta * (info.headroom / totalHeadroom);
         if (restDelta > 0 && (info.headroom < restDelta)) delta = info.headroom;
         if (restDelta < 0 && (info.headroom > restDelta)) delta = info.headroom;
-        
+
         restDelta -= delta;
-        return { 
-          ...info, 
-          target: info.target + delta, 
-          headroom: info.headroom - delta 
+        return {
+          ...info,
+          target: info.target + delta,
+          headroom: info.headroom - delta,
         };
       });
     }
@@ -306,49 +311,49 @@ class BatDriver extends Driver {
     if (Math.abs(restDelta) > 10) {
       // Use best SOC first, but only if significant better soc then running batt
       if (restDelta > 0) { // discharging
-        strategy.sort((a, b) => b.soc - a.soc + maxSocDelta); 
+        strategy.sort((a, b) => b.soc - a.soc + maxSocDelta);
       } else { // charging
-        strategy.sort((a, b) => a.soc - b.soc - maxSocDelta); 
+        strategy.sort((a, b) => a.soc - b.soc - maxSocDelta);
       }
-      
+
       strategy = strategy.map((info) => {
         if (!info.headroom || (Math.abs(restDelta) < 10)) return info;
-        
+
         let delta = restDelta;
         if (restDelta > 0 && (info.headroom < restDelta)) delta = info.headroom;
         if (restDelta < 0 && (info.headroom > restDelta)) delta = info.headroom;
-        
+
         restDelta -= delta;
-        return { 
-          ...info, 
-          target: info.target + delta, 
-          headroom: info.headroom - delta 
+        return {
+          ...info,
+          target: info.target + delta,
+          headroom: info.headroom - delta,
         };
       });
     }
-    
+
     return strategy;
   }
 
   triggerXOMFlows(devices, strategy, samples, x, smoothing, minLoad) {
     devices.forEach((device) => {
       const strat = strategy.find((info) => info.id === device.getData().id);
-      let targetPower = strat ? strat.target : 0;
-      
+      const targetPower = strat ? strat.target : 0;
+
       if (!device.xomTargetPower) {
         device.xomTargetPower = targetPower;
       }
-      
+
       // Smoothing
       device.xomTargetPower = (targetPower / samples) + (device.xomTargetPower * ((samples - 1) / samples));
-      
+
       const tokens = {
         power: Math.round(device.xomTargetPower),
         x,
         smoothing,
         minLoad,
       };
-      
+
       const state = {};
       this.homey.app.triggerXOMStrategy(device, tokens, state);
     });
@@ -363,23 +368,23 @@ class BatDriver extends Driver {
 
       const allDevices = await this.homey.app.api.devices.getDevices({ $timeout: 15000 }).catch(this.error);
       if (!allDevices) return [];
-      
+
       const keys = Object.keys(allDevices);
       const allCaps = this.ds.deviceCapabilities;
-      
+
       // Check if on HP2023 > add advanced ROI capabilities
       const HP2023 = this.homey.platformVersion === 2;
       if (HP2023) {
         allCaps.push('roi_duration');
       }
-      
+
       keys.forEach((key) => {
         const homeyDevice = allDevices[key];
         const hasCapability = (capability) => homeyDevice.capabilities.includes(capability);
-        
+
         // Check for required capabilities
         let found = this.ds.originDeviceCapabilities.some(hasCapability);
-        
+
         // Check for compatible sourceCapGroup in app sources
         if (found) {
           found = this.ds.sourceCapGroups.some((capGroup) => {
@@ -387,7 +392,7 @@ class BatDriver extends Driver {
             return requiredKeys.every((k) => homeyDevice.capabilities.includes(k));
           });
         }
-        
+
         if (found) {
           const device = {
             name: `${homeyDevice.name}_Σ`,
@@ -406,7 +411,7 @@ class BatDriver extends Driver {
           devices.push(device);
         }
       });
-      
+
       return Promise.all(devices);
     } catch (error) {
       return Promise.reject(error);
