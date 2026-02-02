@@ -19,7 +19,7 @@ along with com.gruijter.powerhour.  If not, see <http://www.gnu.org/licenses/>.s
 
 'use strict';
 
-const GenericDriver = require('../generic_bat_driver');
+const GenericDriver = require('../../lib/generic_bat_driver');
 
 const driverSpecifics = {
   driverId: 'battery',

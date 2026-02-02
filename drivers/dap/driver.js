@@ -24,7 +24,7 @@ const ENTSOE = require('../../lib/providers/Entsoe');
 // const NP = require('../../nordpool');
 const STEKKER = require('../../lib/providers/Stekker');
 
-const GenericDriver = require('../generic_dap_driver');
+const GenericDriver = require('../../lib/generic_dap_driver');
 
 const driverSpecifics = {
   driverId: 'dap',

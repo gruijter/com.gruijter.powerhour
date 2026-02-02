@@ -19,7 +19,7 @@ along with com.gruijter.powerhour.  If not, see <http://www.gnu.org/licenses/>.
 
 'use strict';
 
-const GenericDevice = require('../generic_dap_device');
+const GenericDevice = require('../../lib/generic_dap_device');
 
 const deviceSpecifics = {
 };
