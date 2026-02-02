@@ -1,9 +1,22 @@
-build
+# Manual not to be synced to gitHub
 roadmap*.txt
 env.json
 templog*.txt
 zzz*
-.vscode
 
-# Added by Homey CLI
-/.homeybuild/
+# Build
+build/
+
+# Dependency directories
+node_modules/
+
+# Homey build artifacts
+.homeybuild/
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# IDE settings (optional)
+.vscode/
+.idea/
