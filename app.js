@@ -41,7 +41,7 @@ class MyApp extends Homey.App {
       this.api = await HomeyAPI.createAppAPI({ homey: this.homey });
 
       // start polling every whole hour, 15 minutes and retry missing source devices every 5 minutes
-      this.homey.setMaxListeners(30); // INCREASE LISTENERS
+      this.homey.setMaxListeners(300); // INCREASE LISTENERS
       this.everyHour();
       this.everyXminutes(15);
       this.retry(5);
@@ -60,6 +60,10 @@ class MyApp extends Homey.App {
 
   async onUninit() {
     this.log('app onUninit called');
+    if (this.everyHourId) this.homey.clearTimeout(this.everyHourId);
+    if (this.everyXMinutesId) this.homey.clearTimeout(this.everyXMinutesId);
+    if (this.retryId) this.homey.clearInterval(this.retryId);
+
     this.homey.removeAllListeners('everyhour_PBTH');
     this.homey.removeAllListeners('every15m_PBTH');
     this.homey.removeAllListeners('retry_PBTH');
@@ -102,7 +106,11 @@ class MyApp extends Homey.App {
       const timeToNextHour = nextHour - now;
       // console.log('everyHour starts in', timeToNextHour / 1000);
       this.everyHourId = this.homey.setTimeout(() => {
-        this.homey.emit('everyhour_PBTH', true);
+        try {
+          this.homey.emit('everyhour_PBTH', true);
+        } catch (error) {
+          this.error(error);
+        }
         scheduleNextHour(); // Schedule the next hour
       }, timeToNextHour);
     };
@@ -123,7 +131,13 @@ class MyApp extends Homey.App {
       this.everyXMinutesId = this.homey.setTimeout(() => {
         // Only emit if not on a full hour
         now = new Date();
-        if (now.getMinutes() !== 0) this.homey.emit('every15m_PBTH', true);
+        if (now.getMinutes() !== 0) {
+          try {
+            this.homey.emit('every15m_PBTH', true);
+          } catch (error) {
+            this.error(error);
+          }
+        }
         scheduleNextXminutes(); // Schedule the next X minutes
       }, timeToNextXminutes);
     };
@@ -132,9 +146,13 @@ class MyApp extends Homey.App {
   }
 
   retry(interval = 5) {
-    if (this.retryId) this.homey.clearTimeout(this.retryId);
+    if (this.retryId) this.homey.clearInterval(this.retryId);
     this.retryId = this.homey.setInterval(async () => {
-      this.homey.emit('retry_PBTH', true);
+      try {
+        this.homey.emit('retry_PBTH', true);
+      } catch (error) {
+        this.error(error);
+      }
     }, interval * 60 * 1000);
     this.log('retry job started');
   }
