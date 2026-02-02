@@ -14,7 +14,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with com.gruijter.powerhour.  If not, see <http://www.gnu.org/licenses/>.s
+along with com.gruijter.powerhour.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 'use strict';
@@ -37,83 +37,33 @@ class SumMeterDriver extends Driver {
     this.log('onDriverInit');
 
     // add listener for hourly trigger
+    this.registerHourlyListener();
+
+    // add listener for tariff change
+    this.registerTariffListener();
+
+    // add listener for 5 minute retry
+    this.registerRetryListener();
+  }
+
+  async onUninit() {
+    this.log('sum driver onUninit called');
     if (this.eventListenerHour) this.homey.removeListener('everyhour_PBTH', this.eventListenerHour);
+    if (this.eventListenerRetry) this.homey.removeListener('retry_PBTH', this.eventListenerRetry);
+    const eventName = `set_tariff_${this.id}_PBTH`;
+    if (this.eventListenerTariff) this.homey.removeListener(eventName, this.eventListenerTariff);
+    await setTimeoutPromise(3000);
+  }
+
+  registerHourlyListener() {
+    if (this.eventListenerHour) this.homey.removeListener('everyhour_PBTH', this.eventListenerHour);
+    
     this.eventListenerHour = () => {
       (async () => {
-        // console.log('new hour event received');
         try {
           const devices = this.getDevices();
           for (const device of devices) {
-            const deviceName = device.getName();
-            // devices that always need an immediate poll
-            // HOMEY_ENERGY device
-            if (device.getSettings().source_device_type.includes('Homey Energy')) {
-              await device.pollMeter();
-              continue;
-            }
-
-            // devices that might get udated without forced poll
-
-            // METER_VIA_FLOW device
-            if (device.getSettings().source_device_type === 'virtual via flow') {
-              await device.updateMeterFromFlow(null);
-              continue;
-            }
-
-            // HOMEY-API device
-            // check if source device exists
-            const sourceDeviceExists = device.sourceDevice && device.sourceDevice.capabilitiesObj
-              && Object.keys(device.sourceDevice.capabilitiesObj).length > 0 && (device.sourceDevice.available !== null);
-            if (!sourceDeviceExists) {
-              // console.log(deviceName, device.sourceDevice && device.sourceDevice.capabilitiesObj, device.sourceDevice && device.sourceDevice.available);
-              this.error(`Source device ${deviceName} is missing. Restarting now.`);
-              await device.setUnavailable('Source device is missing. Retrying ..').catch(this.error);
-              device.restartDevice(10000 + Math.random() * 60000).catch(this.error);
-            }
-
-            // METER_VIA_WATT device
-            if (device.driver.id === 'power' && device.getSettings().use_measure_source) {
-              await device.updateMeterFromMeasure(null);
-              continue;
-            }
-
-            // check if listener or polling is on, otherwise restart device
-            const ignorePollSetting = (device.getSettings().source_device_type !== 'virtual via flow')
-              && !device.getSettings().use_measure_source;
-            const pollingIsOn = !!device.getSettings().interval && device.intervalIdDevicePoll
-              && (device.intervalIdDevicePoll._idleTimeout > 0); // polling is on
-            const listeningIsOn = Object.keys(device.capabilityInstances).length > 0; // listener is on
-
-            if (ignorePollSetting && !pollingIsOn && !listeningIsOn) {
-              this.error(`${deviceName} is not in polling or listening mode. Restarting now..`);
-              device.restartDevice(1000).catch(this.error);
-              continue;
-            }
-
-            // check if source device is available
-            if (!device.sourceDevice.available) {
-              this.error(`Source device ${deviceName} is unavailable.`);
-              // device.setUnavailable('Source device is unavailable').catch(this.error);
-              device.log('trying hourly poll', deviceName);
-              await device.pollMeter();
-              continue;
-            }
-
-            // force poll, unless wait for listener is setup
-            let doPoll = true;
-            if (device.getSettings().wait_for_update) {
-              const waitTime = device.getSettings().wait_for_update * 60 * 1000;
-              await setTimeoutPromise(waitTime);
-              // check if new hour was already registered
-              const now = new Date();
-              const lastReadingTm = new Date(device.lastReadingHour.meterTm);
-              if (now.getHours() === lastReadingTm.getHours()) doPoll = false;
-            }
-            if (doPoll) {
-              device.log('doing hourly poll', deviceName);
-              await device.pollMeter();
-            }
-            await device.setAvailable().catch(this.error);
+            await this.handleHourlyUpdate(device);
           }
         } catch (error) {
           this.error(error);
@@ -123,8 +73,80 @@ class SumMeterDriver extends Driver {
       });
     };
     this.homey.on('everyhour_PBTH', this.eventListenerHour);
+  }
 
-    // add listener for tariff change
+  async handleHourlyUpdate(device) {
+    const deviceName = device.getName();
+    
+    // HOMEY_ENERGY device
+    if (device.getSettings().source_device_type.includes('Homey Energy')) {
+      await device.pollMeter();
+      return;
+    }
+
+    // METER_VIA_FLOW device
+    if (device.getSettings().source_device_type === 'virtual via flow') {
+      await device.updateMeterFromFlow(null);
+      return;
+    }
+
+    // HOMEY-API device check
+    const sourceDeviceExists = device.sourceDevice && device.sourceDevice.capabilitiesObj
+      && Object.keys(device.sourceDevice.capabilitiesObj).length > 0 && (device.sourceDevice.available !== null);
+    
+    if (!sourceDeviceExists) {
+      this.error(`Source device ${deviceName} is missing. Restarting now.`);
+      await device.setUnavailable('Source device is missing. Retrying ..').catch(this.error);
+      device.restartDevice(10000 + Math.random() * 60000).catch(this.error);
+      return; // Added return to stop execution for this device
+    }
+
+    // METER_VIA_WATT device
+    if (device.driver.id === 'power' && device.getSettings().use_measure_source) {
+      await device.updateMeterFromMeasure(null);
+      return;
+    }
+
+    // check if listener or polling is on, otherwise restart device
+    const ignorePollSetting = (device.getSettings().source_device_type !== 'virtual via flow')
+      && !device.getSettings().use_measure_source;
+    const pollingIsOn = !!device.getSettings().interval && device.intervalIdDevicePoll
+      && (device.intervalIdDevicePoll._idleTimeout > 0); 
+    const listeningIsOn = Object.keys(device.capabilityInstances).length > 0;
+
+    if (ignorePollSetting && !pollingIsOn && !listeningIsOn) {
+      this.error(`${deviceName} is not in polling or listening mode. Restarting now..`);
+      device.restartDevice(1000).catch(this.error);
+      return;
+    }
+
+    // check if source device is available
+    if (!device.sourceDevice.available) {
+      this.error(`Source device ${deviceName} is unavailable.`);
+      device.log('trying hourly poll', deviceName);
+      await device.pollMeter();
+      return;
+    }
+
+    // force poll, unless wait for listener is setup
+    let doPoll = true;
+    if (device.getSettings().wait_for_update) {
+      const waitTime = device.getSettings().wait_for_update * 60 * 1000;
+      await setTimeoutPromise(waitTime);
+      // check if new hour was already registered
+      const now = new Date();
+      const lastReadingTm = new Date(device.lastReadingHour.meterTm);
+      if (now.getHours() === lastReadingTm.getHours()) doPoll = false;
+    }
+    
+    if (doPoll) {
+      device.log('doing hourly poll', deviceName);
+      await device.pollMeter();
+    }
+    await device.setAvailable().catch(this.error);
+  }
+
+  registerTariffListener() {
     const eventName = `set_tariff_${this.id}_PBTH`;
     if (this.eventListenerTariff) this.homey.removeListener(eventName, this.eventListenerTariff);
 
@@ -134,13 +156,15 @@ class SumMeterDriver extends Driver {
           this.log(`${eventName} received from flow or DAP`, args);
           const currentTm = new Date();
           const tariff = args.tariff === null ? null : Number(args.tariff);
-          const group = args.group || 1; // default to group 1 if not filled in
+          const group = args.group || 1; 
+          
           if (!Number.isFinite(tariff)) {
             this.error('the tariff is not a valid number');
             return;
           }
-          // wait 2 seconds not to stress Homey and prevent race issues
+          
           await setTimeoutPromise(2 * 1000);
+          
           const devices = this.getDevices();
           for (const device of devices) {
             if (device.settings && device.settings.tariff_update_group && device.settings.tariff_update_group === group) {
@@ -157,36 +181,17 @@ class SumMeterDriver extends Driver {
       });
     };
     this.homey.on(eventName, this.eventListenerTariff);
+  }
 
-    // add listener for 5 minute retry
+  registerRetryListener() {
     if (this.eventListenerRetry) this.homey.removeListener('retry_PBTH', this.eventListenerRetry);
+    
     this.eventListenerRetry = () => {
       (async () => {
         try {
           const devices = this.getDevices();
           for (const device of devices) {
-            const deviceName = device.getName();
-            if (device.migrating || device.restarting) continue;
-            if (!device.initReady) {
-              this.log(`${deviceName} Restarting now`);
-              // device.onInit();
-              device.restartDevice(5000 + Math.random() * 20000).catch(this.error);
-            }
-
-            // return for non homey-api devices
-            const settings = device.getSettings();
-            if (settings.source_device_type !== 'Homey device') continue;
-            // if (settings.homey_energy || settings.meter_via_flow) return;
-
-            // HOMEY-API device - check if source device exists
-            const sourceDeviceExists = device.sourceDevice && device.sourceDevice.capabilitiesObj
-              && Object.keys(device.sourceDevice.capabilitiesObj).length > 0 && (device.sourceDevice.available !== null);
-            if (!sourceDeviceExists) {
-              // console.log(deviceName, device.sourceDevice && device.sourceDevice.capabilitiesObj, device.sourceDevice && device.sourceDevice.available);
-              this.error(`Source device ${deviceName} is missing. Restarting now.`);
-              await device.setUnavailable('Source device is missing. Retrying ..').catch(this.error);
-              device.restartDevice(10000 + Math.random() * 60000).catch(this.error);
-            }
+            await this.checkDeviceHealth(device);
           }
         } catch (error) {
           this.error(error);
@@ -198,13 +203,27 @@ class SumMeterDriver extends Driver {
     this.homey.on('retry_PBTH', this.eventListenerRetry);
   }
 
-  async onUninit() {
-    this.log('sum driver onUninit called');
-    if (this.eventListenerHour) this.homey.removeListener('everyhour_PBTH', this.eventListenerHour);
-    if (this.eventListenerRetry) this.homey.removeListener('retry_PBTH', this.eventListenerRetry);
-    const eventName = `set_tariff_${this.id}_PBTH`;
-    if (this.eventListenerTariff) this.homey.removeListener(eventName, this.eventListenerTariff);
-    await setTimeoutPromise(3000);
+  async checkDeviceHealth(device) {
+    const deviceName = device.getName();
+    if (device.migrating || device.restarting) return;
+    
+    if (!device.initReady) {
+      this.log(`${deviceName} Restarting now`);
+      device.restartDevice(5000 + Math.random() * 20000).catch(this.error);
+    }
+
+    const settings = device.getSettings();
+    if (settings.source_device_type !== 'Homey device') return;
+
+    // HOMEY-API device - check if source device exists
+    const sourceDeviceExists = device.sourceDevice && device.sourceDevice.capabilitiesObj
+      && Object.keys(device.sourceDevice.capabilitiesObj).length > 0 && (device.sourceDevice.available !== null);
+      
+    if (!sourceDeviceExists) {
+      this.error(`Source device ${deviceName} is missing. Restarting now.`);
+      await device.setUnavailable('Source device is missing. Retrying ..').catch(this.error);
+      device.restartDevice(10000 + Math.random() * 60000).catch(this.error);
+    }
   }
 
   async onPair(session) {
@@ -221,7 +240,6 @@ class SumMeterDriver extends Driver {
     });
     session.setHandler('showView', async (viewId) => {
       if (viewId === 'loading') {
-        // console.log('device selected', selectedDevices);
         const [dev] = selectedDevices;
         if (!dev || !dev.settings) {
           await session.showView('done');

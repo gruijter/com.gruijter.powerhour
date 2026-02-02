@@ -19,10 +19,10 @@ along with com.gruijter.powerhour.  If not, see <http://www.gnu.org/licenses/>.s
 
 'use strict';
 
-// const ENTSOE_GRUIJTER = require('../../entsoe_gruijter');
-const ENTSOE = require('../../entsoe');
+// const ENTSOE_GRUIJTER = require('../../lib/providers/EntsoeGruijter');
+const ENTSOE = require('../../lib/providers/Entsoe');
 // const NP = require('../../nordpool');
-// const STEKKER = require('../../stekker');
+// const STEKKER = require('../../lib/providers/Stekker');
 
 const GenericDriver = require('../generic_dap_driver');
 

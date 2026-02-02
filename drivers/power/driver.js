@@ -14,7 +14,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with com.gruijter.powerhour.  If not, see <http://www.gnu.org/licenses/>.s
+along with com.gruijter.powerhour.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 'use strict';
@@ -69,7 +69,6 @@ const driverSpecifics = {
 class sumDriver extends GenericDriver {
 
   async onInit() {
-    // this.log('driver onInit');
     this.ds = driverSpecifics;
     await this.onDriverInit().catch(this.error);
   }

@@ -23,10 +23,11 @@ along with com.gruijter.powerhour.  If not, see <http://www.gnu.org/licenses/>.
 const { Device } = require('homey');
 const util = require('util');
 const crypto = require('crypto');
-const charts = require('../charts');
-const tradeStrategy = require('../hedge_strategy'); // deprecated
-const roiStrategy = require('../hedge_roi_glpk'); // new method
-const { imageUrlToStream } = require('../image');
+const charts = require('../lib/Charts');
+const tradeStrategy = require('../lib/strategies/TradeStrategy'); 
+const roiStrategy = require('../lib/strategies/RoiStrategy'); 
+const { imageUrlToStream } = require('../lib/ImageHelpers');
+const MeterHelpers = require('../lib/MeterHelpers');
 
 const setTimeoutPromise = util.promisify(setTimeout);
 
@@ -38,7 +39,7 @@ class batDevice extends Device {
       // init some stuff
       this.restarting = false;
       this.initReady = false;
-      // this.initReady = false;
+      
       this.destroyListeners();
       this.sessionId = crypto.randomBytes(4).toString('hex');
       const currentSessionId = this.sessionId;
@@ -46,6 +47,7 @@ class batDevice extends Device {
 
       if (!this.migrated) await this.migrate();
       this.migrated = true;
+      
       if (this.currencyChanged) await this.migrateCurrencyOptions(this.getSettings().currency, this.getSettings().decimals);
       await this.setAvailable().catch(this.error);
 
@@ -158,8 +160,7 @@ class batDevice extends Device {
     this.destroyListeners();
     const dly = delay || 2000;
     this.log(`Device will restart in ${dly / 1000} seconds`);
-    // this.setUnavailable('Device is restarting. Wait a few minutes!').catch(this.error);
-    await setTimeoutPromise(dly); // .then(() => this.onInitDevice());
+    await setTimeoutPromise(dly); 
     await this.onInitDevice().catch(this.error);
   }
 
@@ -179,7 +180,7 @@ class batDevice extends Device {
   }
 
   // this method is called when the user has changed the device's settings in Homey.
-  async onSettings({ newSettings, changedKeys }) { // , oldSettings, changedKeys) {
+  async onSettings({ newSettings, changedKeys }) { 
     if (!this.migrated) throw Error('device is not ready. Ignoring new settings!');
     this.log(`${this.getName()} device settings changed by user`, newSettings);
     if (this.meterMoney) {
@@ -262,10 +263,13 @@ class batDevice extends Device {
       const currentSessionId = this.sessionId;
       this.log(`ROI strategy calculation started for ${this.getName()} minPriceDelta:`, args.minPriceDelta);
       if (this.getSettings().roiMinProfit !== args.minPriceDelta) this.setSettings({ roiMinProfit: args.minPriceDelta }).catch(this.error);
+      
       await setTimeoutPromise(3000); // wait 3 seconds for new hourly prices to be taken in
+      
       if (this.sessionId !== currentSessionId) return Promise.resolve(null);
       if (!this.pricesNextHours) throw Error('no prices available');
       if (!this.priceInterval) throw Error('no price interval available');
+      
       const settings = this.getSettings();
       const chargeSpeeds = [
         {
@@ -281,7 +285,8 @@ class batDevice extends Device {
           eff: 1 - (settings.chargeLoss3 / 100), // efficiency when using additional charging
         },
       ].filter((speed) => speed.power);
-      const dischargeSpeeds = [ // defaults to Sessy values
+      
+      const dischargeSpeeds = [ 
         {
           power: settings.dischargePower, // Watt. Max speed discharging power in Watt (on AC side), loss is included
           eff: 1 - (settings.dischargeLoss / 100), // efficiency when using Max speed discharging
@@ -294,7 +299,8 @@ class batDevice extends Device {
           power: settings.dischargePower3, // Watt. Additional discharging power in Watt (on AC side), loss is included
           eff: 1 - (settings.dischargeLoss3 / 100), // efficiency when using additional discharging
         },
-      ].filter((speed) => speed.power); // remove 0W entries
+      ].filter((speed) => speed.power); 
+      
       const now = new Date();
       const startMinute = now.getMinutes();
       const options = {
@@ -307,11 +313,13 @@ class batDevice extends Device {
         dischargeSpeeds,
         priceInterval: this.priceInterval,
       };
+      
       const stratOptsString = JSON.stringify(options);
       if (this.lastStratOptsString === stratOptsString) {
         this.log('Strategy is pulled from cache', this.getName());
         return Promise.resolve(this.lastStratTokens);
       }
+      
       const strat = roiStrategy.getStrategy(options);
       const tokens = {
         power: strat[0].power,
@@ -319,9 +327,9 @@ class batDevice extends Device {
         endSoC: strat[0].soc,
         scheme: JSON.stringify(strat),
       };
+      
       this.lastStratOptsString = stratOptsString;
       this.lastStratTokens = { ...tokens };
-      // global.gc();
       return Promise.resolve(tokens);
     } catch (error) {
       return Promise.reject(error);
@@ -329,17 +337,8 @@ class batDevice extends Device {
   }
 
   async getReadingObject(value) {
-    const date = new Date(); // IF value has not changed, it must be a poll ,meaning date is unchanged?
-    const dateLocal = new Date(date.toLocaleString('en-US', { timeZone: this.timeZone }));
-    const reading = {
-      hour: dateLocal.getHours(),
-      day: dateLocal.getDate(),
-      month: dateLocal.getMonth(),
-      year: dateLocal.getFullYear(),
-      meterValue: value,
-      meterTm: date,
-    };
-    return reading;
+    const date = new Date();
+    return MeterHelpers.getReadingObject(value, date, this.timeZone);
   }
 
   async initDeviceValues() {
@@ -426,7 +425,7 @@ class batDevice extends Device {
       this.log(`${this.getName()} Setting values after pair init`);
       await this.setStoreValue('lastReadingHour', reading);
       this.lastReadingHour = reading;
-      const dayStart = this.getSettings().homey_device_daily_reset ? this.getReadingObject(0) : reading;
+      const dayStart = this.getSettings().homey_device_daily_reset ? await this.getReadingObject(0) : reading;
       await this.setStoreValue('lastReadingDay', dayStart);
       this.lastReadingDay = dayStart;
       await this.setStoreValue('lastReadingMonth', reading);
@@ -549,7 +548,15 @@ class batDevice extends Device {
 
   async handleUpdateMeter(reading) {
     try {
-      const periods = this.getPeriods(reading); // check for new hour/day/month/year
+      const periods = MeterHelpers.getPeriods(
+        reading,
+        this.lastReadingHour,
+        this.lastReadingDay,
+        this.lastReadingMonth,
+        this.lastReadingYear,
+        this.startDay,
+        this.startMonth
+      );
       await this.updateMeters(reading, periods);
       await this.updateMoney(reading, periods);
     } catch (error) {
@@ -576,15 +583,14 @@ class batDevice extends Device {
     }
   }
 
-  async updateMeter(val) { // , pollTm) { // pollTm is lastUpdated when using pollMethod
+  async updateMeter(val) { 
     try {
       if (typeof val !== 'number') return;
       if (!this.migrated || this.currencyChanged) return;
-      const value = val;
-      // create a readingObject from value
-      const reading = await this.getReadingObject(value);
-      if (!this.initReady || !this.lastReadingYear) await this.initFirstReading(reading); // after app start
-      // Put values in queue
+      
+      const reading = await this.getReadingObject(val);
+      if (!this.initReady || !this.lastReadingYear) await this.initFirstReading(reading); 
+      
       if (!this.newReadings) this.newReadings = [];
       this.newReadings.push(reading);
 
@@ -608,21 +614,17 @@ class batDevice extends Device {
     if (!this.migrated) return;
     const measureTm = new Date();
     let value = val;
-    // apply power corrections
-    // charging CHARGE POWER IS ON AC SIDE, SO NO LOSS CORRECTION NEEDED
-    // if (val < 0) value /= (1 - this.getSettings().chargeLoss / 100); // add max charge loss
-    // discharging DISCHARGE POWER IS ON AC SIDE, SO NO LOSS CORRECTION NEEDED
-    // if (val > 0) value *= (1 - this.getSettings().dischargeLoss / 100); // substract max discharge loss
+    // apply power corrections if needed (currently commented out in original)
     // standby
-    if (val === 0) value -= this.getSettings().ownPowerStandby; // substract standby usage
+    if (val === 0) value -= this.getSettings().ownPowerStandby; 
 
     if (typeof value !== 'number') return;
     const deltaTm = measureTm - new Date(this.lastMeasure.measureTm);
-    // only update on >2 watt changes, or more then 2 minutes past, or value = 0
-    // if ((Math.abs(value - this.lastMeasure.value) > 2) || value === 0 || deltaTm > 120000) {
+    
     const lastMeterValue = await this.getCapabilityValue('meter_power_hidden');
     let lastChargingMeterValue = await this.getCapabilityValue('meter_kwh_charging');
     let lastDischargingMeterValue = await this.getCapabilityValue('meter_kwh_discharging');
+    
     if (typeof lastMeterValue !== 'number') {
       this.error('lastMeterValue is NaN, WTF');
       return;
@@ -631,8 +633,10 @@ class batDevice extends Device {
       this.error('deltaTm is NaN, WTF');
       return;
     }
+    
     const deltaMeter = (this.lastMeasure.value * deltaTm) / 3600000000;
     const meter = lastMeterValue + deltaMeter;
+    
     if (deltaMeter > 0) {
       lastDischargingMeterValue += deltaMeter;
       await this.setCapability('meter_kwh_discharging', lastDischargingMeterValue).catch(this.error);
@@ -640,30 +644,13 @@ class batDevice extends Device {
       lastChargingMeterValue -= deltaMeter;
       await this.setCapability('meter_kwh_charging', lastChargingMeterValue).catch(this.error);
     }
+    
     await this.setCapability('measure_watt_avg', value).catch(this.error);
     this.lastMeasure = {
       value,
       measureTm,
     };
-    await this.updateMeter(meter); // what to do with timestamp???
-  }
-
-  getPeriods(reading) { // MUST BE RUN BEFORE UPDATEMETERS!!!
-    // check for new hour, day, month year
-    const newHour = reading.hour !== this.lastReadingHour.hour;
-    const newDay = (reading.day !== this.lastReadingDay.day);
-    const newMonth = (newDay && (reading.day === this.startDay))
-      || ((reading.day >= this.startDay) && (reading.month > this.lastReadingMonth.month));
-    const newYear = (newMonth && (reading.month === this.startMonth))
-      || ((reading.month >= this.startMonth) && (reading.year > this.lastReadingYear.year));
-    if (newHour) this.log('new hour started', this.getName());
-    if (newDay) this.log('new day started', this.getName());
-    if (newMonth) this.log('new month started', this.getName());
-    if (newYear) this.log('(Happy!) new year started', this.getName());
-    const periods = {
-      newHour, newDay, newMonth, newYear,
-    };
-    return periods;
+    await this.updateMeter(meter);
   }
 
   async updateMeters({ ...reading }, { ...periods }) {
@@ -675,29 +662,24 @@ class batDevice extends Device {
     let lastReadingYear = { ...this.lastReadingYear };
     // set capabilities
     if (periods.newHour) {
-      // new hour started
-      // this.setCapability(this.ds.cmap.last_hour, valHour);
       lastReadingHour = reading;
       await this.setStoreValue('lastReadingHour', reading);
       await this.setSettings({ meter_latest: `${reading.meterValue}` }).catch(this.error);
-      // update kWh readings in settings
+      
       const meterCharging = await this.getCapabilityValue('meter_kwh_charging');
       const meterDischarging = await this.getCapabilityValue('meter_kwh_discharging');
       if (meterCharging) await this.setSettings({ meter_kwh_charging: meterCharging }).catch(this.error);
       if (meterDischarging) await this.setSettings({ meter_kwh_discharging: meterDischarging }).catch(this.error);
     }
     if (periods.newDay) {
-      // new day started
       lastReadingDay = reading;
       await this.setStoreValue('lastReadingDay', reading);
     }
     if (periods.newMonth) {
-      // new month started
       lastReadingMonth = reading;
       await this.setStoreValue('lastReadingMonth', reading);
     }
     if (periods.newYear) {
-      // new year started
       lastReadingYear = reading;
       await this.setStoreValue('lastReadingYear', reading);
     }
@@ -710,45 +692,37 @@ class batDevice extends Device {
 
   async updateMoney({ ...reading }, { ...periods }) {
     const tariff = this.pricesNextHours[0];
-    // update tariff capability
+    
     if (tariff !== await this.getCapabilityValue('meter_tariff')) await this.setCapability('meter_tariff', tariff).catch(this.error);
-    // calculate money
-    const deltaMoney = (reading.meterValue - this.meterMoney.meterValue) * tariff;
-    const meterMoney = {
-      day: this.meterMoney.day + deltaMoney,
-      month: this.meterMoney.month + deltaMoney,
-      year: this.meterMoney.year + deltaMoney,
-      meterValue: reading.meterValue,
-      lastDay: this.meterMoney.lastDay,
-      lastMonth: this.meterMoney.lastMonth,
-      lastYear: this.meterMoney.lastYear,
-    };
+    
+    // Calculate new money state using helper
+    const meterMoney = MeterHelpers.calculateMoney(this.meterMoney, reading, tariff);
+
     if (periods.newDay) {
-      // new day started
       meterMoney.lastDay = meterMoney.day;
       meterMoney.day = 0;
       await this.setCapability('meter_money_last_day', meterMoney.lastDay);
       await this.setSettings({ meter_money_last_day: meterMoney.lastDay }).catch(this.error);
     }
     if (periods.newMonth) {
-      // new month started
       meterMoney.lastMonth = meterMoney.month;
       meterMoney.month = 0;
       await this.setCapability('meter_money_last_month', meterMoney.lastMonth);
       await this.setSettings({ meter_money_last_month: meterMoney.lastMonth }).catch(this.error);
     }
     if (periods.newYear) {
-      // new year started
       meterMoney.lastYear = meterMoney.year;
       meterMoney.year = 0;
       await this.setCapability('meter_money_last_year', meterMoney.lastYear);
       await this.setSettings({ meter_money_last_year: meterMoney.lastYear }).catch(this.error);
     }
+    
     // update money_this_x capabilities
     await this.setCapability('meter_money_this_day', meterMoney.day);
     await this.setCapability('meter_money_this_month', meterMoney.month);
     await this.setCapability('meter_money_this_year', meterMoney.year);
     this.meterMoney = meterMoney;
+    
     // Update settings every hour
     if (periods.newHour) {
       await this.setSettings({ meter_money_this_day: meterMoney.day }).catch(this.error);

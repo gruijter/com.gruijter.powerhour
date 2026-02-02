@@ -34,36 +34,6 @@ class MyDriver extends Driver {
 
   async onPairListDevices() {
     const randomId = crypto.randomBytes(3).toString('hex');
-    // const devices = [{
-    //  name: 'Gas TTF (EEX EOD)',
-    //  data: {
-    //   id: `Gas_TTF_EOD_${randomId}`,
-    //  },
-    //  capabilities: this.deviceCapabilitiesGas,
-    //  settings: {
-    //   biddingZone: 'TTF_EOD',
-    //   description: 'Gas TTF End of Day',
-    //   variableMarkup: 0,
-    //   fixedMarkup: 0,
-    //   exchangeRate: 1,
-    //   sendTariff: false,
-    //  },
-    // },
-    // {
-    //  name: 'Gas TTF (LEBA)',
-    //  data: {
-    //   id: `Gas_TTF_LEBA_${randomId}`,
-    //  },
-    //  capabilities: this.deviceCapabilitiesGas,
-    //  settings: {
-    //   biddingZone: 'TTF_LEBA',
-    //   description: 'Gas TTF LEBA',
-    //   variableMarkup: 0,
-    //   fixedMarkup: 0,
-    //   exchangeRate: 1,
-    //   sendTariff: false,
-    //  },
-    // }];
     const devices = [];
     Object.entries(this.ds.biddingZones).forEach((entry) => {
       const [description, biddingZone] = entry;
