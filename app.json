@@ -2964,7 +2964,7 @@
           {
             "type": "device",
             "name": "device",
-            "filter": "driver_id=dap"
+            "filter": "driver_id=dap|dap15"
           },
           {
             "type": "number",
@@ -3023,7 +3023,7 @@
           {
             "type": "device",
             "name": "device",
-            "filter": "driver_id=dap"
+            "filter": "driver_id=dap|dap15"
           },
           {
             "type": "number",
