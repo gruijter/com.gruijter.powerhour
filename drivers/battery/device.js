@@ -43,6 +43,7 @@ class batDevice extends GenericDevice {
 
   async addListeners() {
     // check if source device exists
+    if (!this.homey.app.api) throw new Error('Homey API not ready');
     this.sourceDevice = await this.homey.app.api.devices.getDevice({ id: this.getSettings().homey_device_id, $cache: false }) // $timeout: 15000
       .catch(this.error);
     const sourceDeviceExists = this.sourceDevice && this.sourceDevice.capabilitiesObj
@@ -63,6 +64,7 @@ class batDevice extends GenericDevice {
 
   async poll() {
     // check if source device exists
+    if (!this.homey.app.api) return;
     this.sourceDevice = await this.homey.app.api.devices.getDevice({ id: this.getSettings().homey_device_id, $cache: false }) // $timeout: 15000
       .catch(this.error);
     const sourceDeviceExists = this.sourceDevice && this.sourceDevice.capabilitiesObj

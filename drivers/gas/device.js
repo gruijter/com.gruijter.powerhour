@@ -46,6 +46,7 @@ class sumDriver extends GenericDevice {
   // driver specific stuff below
 
   async addListeners() {
+    if (!this.homey.app.api) throw new Error('Homey API not ready');
     this.sourceDevice = await this.homey.app.api.devices.getDevice({ id: this.getSettings().homey_device_id, $cache: false }) // , $timeout: 15000
       .catch(this.error);
     const sourceDeviceExists = this.sourceDevice && this.sourceDevice.capabilitiesObj
@@ -82,6 +83,7 @@ class sumDriver extends GenericDevice {
   }
 
   async pollMeter() {
+    if (!this.homey.app.api) return;
     this.sourceDevice = await this.homey.app.api.devices.getDevice({ id: this.getSettings().homey_device_id, $cache: false }) // , $timeout: 15000
       .catch(this.error);
     const sourceDeviceExists = this.sourceDevice && this.sourceDevice.capabilitiesObj

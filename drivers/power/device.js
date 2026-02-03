@@ -66,6 +66,7 @@ class sumDevice extends GenericDevice {
   }
 
   async addListeners() {
+    if (!this.homey.app.api) throw new Error('Homey API not ready');
     this.sourceDevice = await this.homey.app.api.devices.getDevice({ id: this.getSettings().homey_device_id, $cache: false }) // , $timeout: 15000
       .catch(this.error);
 
@@ -102,6 +103,7 @@ class sumDevice extends GenericDevice {
 
   // Setup how to poll the meter
   async pollMeter() {
+    if (!this.homey.app.api) return;
     // poll a Homey Energy device
     if (this.getSettings().source_device_type.includes('Homey Energy')) {
       const report = await this.homey.app.api.energy.getLiveReport().catch(this.error);

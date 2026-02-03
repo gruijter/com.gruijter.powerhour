@@ -38,7 +38,7 @@ class MyApp extends Homey.App {
       // }
 
       // login to Homey API
-      this.api = await HomeyAPI.createAppAPI({ homey: this.homey });
+      await this.initApi();
 
       // start polling every whole hour, 15 minutes and retry missing source devices every 5 minutes
       this.homey.setMaxListeners(300); // INCREASE LISTENERS
@@ -63,6 +63,7 @@ class MyApp extends Homey.App {
     if (this.everyHourId) this.homey.clearTimeout(this.everyHourId);
     if (this.everyXMinutesId) this.homey.clearTimeout(this.everyXMinutesId);
     if (this.retryId) this.homey.clearInterval(this.retryId);
+    if (this.apiRetryId) this.homey.clearTimeout(this.apiRetryId);
 
     this.homey.removeAllListeners('everyhour_PBTH');
     this.homey.removeAllListeners('every15m_PBTH');
@@ -71,6 +72,22 @@ class MyApp extends Homey.App {
     this.homey.removeAllListeners('set_tariff_gas_PBTH');
     this.homey.removeAllListeners('set_tariff_water_PBTH');
     this.homey.removeAllListeners('pbthEntsoeBridgeWebhook');
+  }
+
+  async initApi() {
+    if (this.apiRetryId) this.homey.clearTimeout(this.apiRetryId);
+    try {
+      this.api = await Promise.race([
+        HomeyAPI.createAppAPI({ homey: this.homey }),
+        new Promise((resolve, reject) => {
+          setTimeout(() => reject(new Error('HomeyAPI.createAppAPI timeout')), 25000);
+        }),
+      ]);
+      this.log('HomeyAPI connected');
+    } catch (err) {
+      this.error('HomeyAPI init failed, retrying in 1 min:', err);
+      this.apiRetryId = this.homey.setTimeout(() => this.initApi(), 60000);
+    }
   }
 
   async startWebHookListener() {
