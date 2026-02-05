@@ -28,7 +28,7 @@ class myDevice extends GenericDevice {
 
   async onInit() {
     this.ds = deviceSpecifics;
-    await this.onInitDevice().catch(this.error);
+    await this.onInitDevice().catch((err) => this.error(err));
   }
 
 }
