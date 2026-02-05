@@ -1,4 +1,7 @@
 {
+  "8.0.1": {
+    "en": "Fix flow cards and capabilities calculations. Enable forecasting for DAP15. Fix chart init. Fix device settings timeout."
+  },
   "8.0.0": {
     "en": "Complete refactoring. Improved stability. Reduced price fetching rate limit issues."
   },
