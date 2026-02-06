@@ -1,4 +1,7 @@
 {
+  "8.0.2": {
+    "en": "Fix chart coloring. Fix chart refresh in mobile app. Localized hardcoded UI text. Massive translation update."
+  },
   "8.0.1": {
     "en": "Fix flow cards and capabilities calculations. Enable forecasting for DAP15. Fix chart init. Fix device settings timeout."
   },
