@@ -2,8 +2,8 @@
   "today": "Vandaag",
   "tomorrow": "Morgen",
   "nextHours": "Komende uren",
-  "repair": {
-    "warningtitle": "LET OP",
-    "warningtext": "Je staat op het punt om het bron-apparaat te wijzigen. Alle inzichten en flows blijven bewaard. Maar als het nieuwe bronapparaat een andere meterstand heeft, zul je handmatig de meter en geld startwaarden moeten aanpassen in de apparaat instellingen."
-  }
+  "device_migrating": "Apparaat is aan het migreren. Even geduld!",
+  "source_device_missing_retry": "Bronapparaat ontbreekt. Opnieuw proberen over 10 minuten.",
+  "source_device_missing_retrying": "Bronapparaat ontbreekt. Opnieuw proberen ..",
+  "polling_failed": "Pollen mislukt. Probeer het zo opnieuw.."
 }

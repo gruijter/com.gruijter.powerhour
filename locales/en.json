@@ -2,8 +2,8 @@
   "today": "Today",
   "tomorrow": "Tomorrow",
   "nextHours": "Next hours",
-  "repair": {
-    "warningtitle": "WARNING",
-    "warningtext": "You are about to change the source device. This will keep all insights and flows. But if the new source device has a different meter value, you will need to manually compensate the meter and money start values in the advanced settings."
-  }
+  "device_migrating": "Device is migrating. Please wait!",
+  "source_device_missing_retry": "Source device is missing. Retry in 10 minutes.",
+  "source_device_missing_retrying": "Source device is missing. Retrying ..",
+  "polling_failed": "Polling failed. Will retry soon.."
 }
