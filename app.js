@@ -119,7 +119,7 @@ class MyApp extends Homey.App {
     const scheduleNextHour = () => {
       if (this.everyHourId) this.homey.clearTimeout(this.everyHourId); // Clear any existing timeout
       const now = new Date();
-      const nextHour = new Date(now.getFullYear(), now.getMonth(), now.getDate(), now.getHours() + 1, 0, 0, 50);
+      const nextHour = new Date(now.getFullYear(), now.getMonth(), now.getDate(), now.getHours() + 1, 0, 0, 2000);
       const timeToNextHour = nextHour - now;
       // console.log('everyHour starts in', timeToNextHour / 1000);
       this.everyHourId = this.homey.setTimeout(() => {
@@ -142,7 +142,7 @@ class MyApp extends Homey.App {
       const nextXminutes = new Date(now);
       const currentMinutes = now.getMinutes();
       const nextMultipleOfX = currentMinutes % interval === 0 ? currentMinutes + interval : Math.ceil(currentMinutes / interval) * interval;
-      nextXminutes.setMinutes(nextMultipleOfX, 0, 0);
+      nextXminutes.setMinutes(nextMultipleOfX, 0, 2000);
       const timeToNextXminutes = nextXminutes - now;
       // console.log('everyXminutes starts in', timeToNextXminutes / 1000);
       this.everyXMinutesId = this.homey.setTimeout(() => {
