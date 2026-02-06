@@ -7,8 +7,13 @@
     "it": "kWh giornata odierna",
     "no": "kWh denne dag",
     "fr": "Kwh aujourd'hui",
-    "dk": "KWh i dag",
-    "nl": "kWh deze dag"
+    "da": "KWh i dag",
+    "nl": "kWh deze dag",
+    "ar": "كيلوواط ساعة هذا اليوم",
+    "es": "kWh este día",
+    "pl": "kWh ten dzień",
+    "ru": "кВтч этот день",
+    "ko": "오늘 kWh"
   },
   "uiComponent": "sensor",
   "icon": "/assets/kwh_d.svg",

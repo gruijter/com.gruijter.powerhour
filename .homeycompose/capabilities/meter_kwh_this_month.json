@@ -7,8 +7,13 @@
     "it": "kWh mese corrente",
     "no": "kWh denne måned",
     "fr": "KWh ce mois ci",
-    "dk": "KWh denne måned",
-    "nl": "kWh deze maand"
+    "da": "KWh denne måned",
+    "nl": "kWh deze maand",
+    "es": "kWh este mes",
+    "pl": "kWh ten miesiąc",
+    "ru": "кВтч этот месяц",
+    "ko": "이번 달 kWh",
+    "ar": "كيلوواط ساعة هذا الشهر"
   },
   "uiComponent": "sensor",
   "icon": "/assets/kwh_m.svg",

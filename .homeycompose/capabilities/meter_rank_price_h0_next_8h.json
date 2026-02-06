@@ -3,7 +3,17 @@
   "title": {
     "en": "Price now rank next 8H",
     "nl": "Prijs nu rang komende 8U",
-    "de": "Akt. Preisstufe der nächsten 8 Std."
+    "de": "Akt. Preisstufe der nächsten 8 Std.",
+    "fr": "Rang prix actuel 8 prochaines heures",
+    "it": "Rango prezzo attuale prossime 8h",
+    "sv": "Pris nu rank nästa 8H",
+    "no": "Pris nå rang neste 8T",
+    "da": "Pris nu rang næste 8T",
+    "es": "Rango precio actual próximas 8h",
+    "pl": "Ranking ceny teraz następne 8h",
+    "ru": "Ранг цены сейчас след. 8ч",
+    "ar": "تصنيف السعر الآن 8 ساعات القادمة",
+    "ko": "Price now rank next 8H"
   },
   "units": {
     "en": "/8"

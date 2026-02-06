@@ -3,12 +3,17 @@
   "title": {
     "en": "Lowest price tomorrow",
     "de": "Niedrigster Preis morgen",
-    "sv": "Lägsta pris imorgon",
-    "it": "Prezzo più basso domani",
-    "no": "Laveste pris morgen",
-    "fr": "Tarif le plus faible demain",
-    "dk": "Laveste pris i morgen",
-    "nl": "Laagste prijs morgen"
+    "sv": "Billigaste pris imorgon",
+    "it": "Prezzo più economico domani",
+    "no": "Billigste pris i morgen",
+    "fr": "Tarif le moins cher demain",
+    "da": "Billigste pris i morgen",
+    "nl": "Goedkoopste prijs morgen",
+    "ar": "أدنى سعر غداً",
+    "es": "Lowest price tomorrow",
+    "pl": "Lowest price tomorrow",
+    "ru": "Lowest price tomorrow",
+    "ko": "Lowest price tomorrow"
   },
   "uiComponent": "sensor",
   "icon": "/assets/tariff.svg",

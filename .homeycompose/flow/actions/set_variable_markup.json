@@ -6,8 +6,13 @@
     "it": "Imposta un nuovo sovraprezzo variabile",
     "no": "Sett en ny variabel påslag",
     "fr": "Définir une majoration variable",
-    "dk": "Sæt en ny variabel opmarkering",
-    "nl": "Stel een nieuwe variabele opslag in"
+    "da": "Sæt en ny variabel opmarkering",
+    "nl": "Stel een nieuwe variabele opslag in",
+    "ar": "تعيين هامش ربح متغير جديد",
+    "es": "Establecer un nuevo margen variable",
+    "pl": "Ustaw nowy narzut zmienny",
+    "ru": "Установить новую переменную наценку",
+    "ko": "새 변동 마크업 설정"
   },
   "titleFormatted": {
     "en": "Set variable markup to [[value]]%",
@@ -16,8 +21,13 @@
     "it": "Imposta sovraprezzo variabile a [[value]]%",
     "no": "Sett variabel påslag til [[value]]%",
     "fr": "Définir une majoration variable à [[value]]",
-    "dk": "Sæt variabel opmarkering til [[value]]%",
-    "nl": "Stel variabele opslag in op [[value]]%"
+    "da": "Sæt variabel opmarkering til [[value]]%",
+    "nl": "Stel variabele opslag in op [[value]]%",
+    "ar": "تعيين هامش الربح المتغير إلى [[value]]%",
+    "es": "Establecer margen variable a [[value]]%",
+    "pl": "Ustaw narzut zmienny na [[value]]%",
+    "ru": "Установить переменную наценку на [[value]]%",
+    "ko": "변동 마크업을 [[value]]%로 설정"
   },
   "highlight": true,
   "args": [
@@ -36,8 +46,13 @@
         "it": "Sovraprezzo variabile (%)",
         "no": "Variabel påslag (%)",
         "fr": "Majoration variable (%)",
-        "dk": "Variabel opmarkering (%)",
-        "nl": "Variabele opslag (%)"
+        "da": "Variabel opmarkering (%)",
+        "nl": "Variabele opslag (%)",
+        "es": "Margen variable (%)",
+        "pl": "Narzut zmienny (%)",
+        "ru": "Переменная наценка (%)",
+        "ko": "변동 마크업 (%)",
+        "ar": "هامش ربح متغير (%)"
       }
     }
   ]

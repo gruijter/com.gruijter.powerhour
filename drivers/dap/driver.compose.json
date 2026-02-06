@@ -1,13 +1,17 @@
 {
 	"name": {
 		"en": "Day-Ahead 60m E Prices",
+		"nl": "Day-Ahead 60m E Prijzen",
 		"de": "Day-Ahead 60m E Std. Preis",
-		"sv": "Day-Ahead 60m E Priser",
-		"it": "Prezzi del giorno prima E 60m",
-		"no": "Day-Ahead 60m E Priser",
 		"fr": "Tarif demain 60m E",
-		"dk": "Day-Ahead 60m E priser",
-		"nl": "Day-Ahead 60m E Prijzen"
+		"it": "Prezzi del giorno prima E 60m",
+		"sv": "Day-Ahead 60m E Priser",
+		"no": "Day-Ahead 60m E Priser",
+		"es": "Precios E 60m Día-Adelante",
+		"da": "Day-Ahead 60m E priser",
+		"pl": "Ceny E 60m Dzień Naprzód",
+		"ru": "Цены E 60м На Сутки Вперед",
+		"ar": "أسعار الكهرباء لليوم التالي (60 دقيقة)"
 	},
 	"class": "sensor",
 	"capabilities": [],
@@ -42,13 +46,17 @@
 			"type": "group",
 			"label": {
 				"en": "Bidding Zone information",
+				"nl": "Biedzone informatie",
 				"de": "Information zum Gebotsbereich",
-				"sv": "Information om elområde",
-				"it": "Informazioni sulla zona di trattativa",
-				"no": "Prisområde informasjon",
 				"fr": "Information sur les négociations",
-				"dk": "Information om elområde",
-				"nl": "Biedzone informatie"
+				"it": "Informazioni sulla zona di trattativa",
+				"sv": "Information om elområde",
+				"no": "Prisområde informasjon",
+				"es": "Información de la zona de oferta",
+				"da": "Information om elområde",
+				"pl": "Informacje o strefie licytacji",
+				"ru": "Информация о торговой зоне",
+				"ar": "معلومات منطقة العطاءات"
 			},
 			"children": [
 				{
@@ -56,13 +64,17 @@
 					"type": "label",
 					"label": {
 						"en": "Bidding zone",
+						"nl": "Biedzone",
 						"de": "Gebotsbereich",
-						"sv": "Elområde",
-						"it": "Zona di trattativa",
-						"no": "Prisområde",
 						"fr": "Zone de négociation",
-						"dk": "Elområde",
-						"nl": "Biedzone"
+						"it": "Zona di trattativa",
+						"sv": "Elområde",
+						"no": "Prisområde",
+						"es": "Zona de oferta",
+						"da": "Elområde",
+						"pl": "Strefa licytacji",
+						"ru": "Торговая зона",
+						"ar": "منطقة العطاءات"
 					},
 					"value": "unknown"
 				},
@@ -71,13 +83,17 @@
 					"type": "label",
 					"label": {
 						"en": "Description",
+						"nl": "Omschrijving",
 						"de": "Beschreibung",
-						"sv": "Beskrivning",
-						"it": "Descrizione",
-						"no": "Beskrivelse",
 						"fr": "Description",
-						"dk": "Beskrivelse",
-						"nl": "Omschrijving"
+						"it": "Descrizione",
+						"sv": "Beskrivning",
+						"no": "Beskrivelse",
+						"es": "Descripción",
+						"da": "Beskrivelse",
+						"pl": "Opis",
+						"ru": "Описание",
+						"ar": "وصف"
 					},
 					"value": "unknown"
 				}
@@ -87,13 +103,17 @@
 			"type": "group",
 			"label": {
 				"en": "Currency settings",
+				"nl": "Munteenheid instellingen",
 				"de": "Währungseinstellungen",
-				"sv": "Valutainställningar",
-				"it": "Impostazioni valuta",
-				"no": "Valutainnstillinger",
 				"fr": "Paramètre de devise",
-				"dk": "Valutaindstillinger",
-				"nl": "Munteenheid instellingen"
+				"it": "Impostazioni valuta",
+				"sv": "Valutainställningar",
+				"no": "Valutainnstillinger",
+				"es": "Configuración de moneda",
+				"da": "Valutaindstillinger",
+				"pl": "Ustawienia waluty",
+				"ru": "Настройки валюты",
+				"ar": "إعدادات العملة"
 			},
 			"children": [
 				{
@@ -101,24 +121,32 @@
 					"type": "text",
 					"label": {
 						"en": "Currency unit display",
+						"nl": "Weergave geldeenheid",
 						"de": "Währungseinheit",
-						"sv": "Visning av valutaenhet",
-						"it": "Visualizzazione unità valuta",
-						"no": "Visning av valutaenhet",
 						"fr": "Affichage de l'unité monétaire",
-						"dk": "Visning af valutaenhed",
-						"nl": "Weergave geldeenheid"
+						"it": "Visualizzazione unità valuta",
+						"sv": "Visning av valutaenhet",
+						"no": "Visning av valutaenhet",
+						"es": "Visualización de unidad de moneda",
+						"da": "Visning af valutaenhed",
+						"pl": "Wyświetlanie jednostki walutowej",
+						"ru": "Отображение валютной единицы",
+						"ar": "عرض وحدة العملة"
 					},
 					"value": "€",
 					"hint": {
 						"en": "The unit displayed as currency, e.g. €, £, EUR, SER, NOK, DKK, CHF. Leave empty to use the default €.",
+						"nl": "De weergegeven eenheid voor geld, bijv. €, £, EUR, SER, NOK, DKK, CHF. Laat leeg om de standaard € te gebruiken.",
 						"de": "Die als Währung angezeigte Einheit, z.B. €, £, EUR, SER, NOK, DKK, CHF. Leer lassen, um die Standardeinheit € zu verwenden.",
-						"sv": "Enheten som visas som valuta, t.ex. €, £, EUR, SER, NOK, DKK, CHF. Lämna tomt för att använda standardvärdet €.",
-						"it": "L'unità mostrata come valuta, es. €, £, EUR, SER, NOK, DKK, CHF. Lasciare vuoto per utilizzare € di default.",
-						"no": "Valutaenheten vises som f.eks. €, £, EUR, SER, NOK, DKK, CHF. La stå blank for å bruke default €.",
 						"fr": "Unité affichée comme devise, ex. €, £, EUR, SER, NOK, DKK, CHF. Laisser vide pour utiliser € par défaut",
-						"dk": "Valutaenheden vises f.eks. €, £, EUR, SER, NOK, DKK, CHF. Lad denne stå blank for at bruge standard €.",
-						"nl": "De weergegeven eenheid voor geld, bijv. €, £, EUR, SER, NOK, DKK, CHF. Laat leeg om de standaard € te gebruiken."
+						"it": "L'unità mostrata come valuta, es. €, £, EUR, SER, NOK, DKK, CHF. Lasciare vuoto per utilizzare € di default.",
+						"sv": "Enheten som visas som valuta, t.ex. €, £, EUR, SER, NOK, DKK, CHF. Lämna tomt för att använda standardvärdet €.",
+						"no": "Valutaenheten vises som f.eks. €, £, EUR, SER, NOK, DKK, CHF. La stå blank for å bruke default €.",
+						"es": "La unidad que se muestra como moneda, p. ej. €, £, EUR, SER, NOK, DKK, CHF. Dejar vacío para usar el valor predeterminado €.",
+						"da": "Enheden vises som valuta, f.eks. €, £, EUR, SER, NOK, DKK, CHF. Lad denne stå blank for at bruge standard €.",
+						"pl": "Jednostka wyświetlana jako waluta, np. €, £, EUR, SER, NOK, DKK, CHF. Pozostaw puste, aby użyć domyślnego €.",
+						"ru": "Единица, отображаемая как валюта, например €, £, EUR, SER, NOK, DKK, CHF. Оставьте пустым, чтобы использовать значение по умолчанию €.",
+						"ar": "الوحدة المعروضة كعملة، مثل €، £، EUR، SER، NOK، DKK، CHF. اتركها فارغة لاستخدام الافتراضي €."
 					}
 				},
 				{
@@ -126,26 +154,34 @@
 					"type": "number",
 					"label": {
 						"en": "Currency decimals",
+						"nl": "Geld decimalen",
 						"de": "Anzahl Dezimalstellen",
-						"sv": "Valuta decimaler",
-						"it": "Decimali valuta",
-						"no": "Valute desimaler",
 						"fr": "Décimales devise",
-						"dk": "Valuta decimaler",
-						"nl": "Geld decimalen"
+						"it": "Decimali valuta",
+						"sv": "Valuta decimaler",
+						"no": "Valute desimaler",
+						"es": "Decimales de moneda",
+						"da": "Valuta decimaler",
+						"pl": "Miejsca dziesiętne waluty",
+						"ru": "Десятичные знаки валюты",
+						"ar": "الكسور العشرية للعملة"
 					},
 					"value": 4,
 					"min": 0,
 					"max": 8,
 					"hint": {
 						"en": "The number of decimals to use for price.",
+						"nl": "Het aantal decimalen voor prijs.",
 						"de": "Die Anzahl der Dezimalstellen für den Preis.",
-						"sv": "Antalet decimaler som ska användas för pris.",
-						"it": "Il numero di decimali da utilizzare per il prezzo.",
-						"no": "Antall prisdesimaler",
 						"fr": "Nombre de décimales à utiliser pour le tarif",
-						"dk": "Antallet af decimaler, der bruges til prisen",
-						"nl": "Het aantal decimalen voor prijs."
+						"it": "Il numero di decimali da utilizzare per il prezzo.",
+						"sv": "Antalet decimaler som ska användas för pris.",
+						"no": "Antall prisdesimaler",
+						"es": "El número de decimales a utilizar para el precio.",
+						"da": "Antallet af decimaler, der bruges til prisen",
+						"pl": "Liczba miejsc dziesiętnych do użycia dla ceny.",
+						"ru": "Количество десятичных знаков для цены.",
+						"ar": "عدد الكسور العشرية المراد استخدامها للسعر."
 					}
 				},
 				{
@@ -153,24 +189,32 @@
 					"type": "number",
 					"label": {
 						"en": "Exchange rate with €",
+						"nl": "Wisselkoers met €",
 						"de": "Wechselkurs mit €",
-						"sv": "Växelkurs med €",
-						"it": "Tasso di cambio con €",
-						"no": "Vekslingskurs mot €",
 						"fr": "Taux de change avec €",
-						"dk": "Vekselkurs med €",
-						"nl": "Wisselkoers met €"
+						"it": "Tasso di cambio con €",
+						"sv": "Växelkurs med €",
+						"no": "Vekslingskurs mot €",
+						"es": "Tipo de cambio con €",
+						"da": "Vekselkurs med €",
+						"pl": "Kurs wymiany z €",
+						"ru": "Обменный курс с €",
+						"ar": "سعر الصرف مع €"
 					},
 					"value": 1,
 					"hint": {
 						"en": "Set at 1 if you want to use EURO, otherwise enter the exchange rate to your preferred currency.",
+						"nl": "Stel in op 1 als je EURO's wilt gebruiken, of geef de wisselkoers in naar de gewenste munteenheid.",
 						"de": "Setzen Sie den Wert auf 1, wenn Sie den Euro verwenden möchten, andernfalls geben Sie den Wechselkurs in Ihrer bevorzugten Währung ein.",
-						"sv": "Ställ in på 1 om du vill använda EURO, annars anger du växelkursen till din önskade valuta.",
-						"it": "Imposta 1 se vuoi utilizzare EURO, altrimenti inserisci il tasso di cambio della valuta che preferisci.",
-						"no": "Sett som 1 hvis du vil bruke EURO, ellers legg inn vekslingskursen for din foretrukne valuta.",
 						"fr": "Mettre à 1 si vous souhaitez utiliser EURO, sinon entrer le taux de change de la devise souhaitée",
-						"dk": "Sæt som 1 hvis du vil bruge Euro, indsæt ellers vekselkursen for din foretrukne valuta",
-						"nl": "Stel in op 1 als je EURO's wilt gebruiken, of geef de wisselkoers in naar de gewenste munteenheid."
+						"it": "Imposta 1 se vuoi utilizzare EURO, altrimenti inserisci il tasso di cambio della valuta che preferisci.",
+						"sv": "Ställ in på 1 om du vill använda EURO, annars anger du växelkursen till din önskade valuta.",
+						"no": "Sett som 1 hvis du vil bruke EURO, ellers legg inn vekslingskursen for din foretrukne valuta.",
+						"es": "Establecer en 1 si desea usar EURO, de lo contrario ingrese el tipo de cambio a su moneda preferida.",
+						"da": "Sæt som 1 hvis du vil bruge Euro, indsæt ellers vekselkursen for din foretrukne valuta",
+						"pl": "Ustaw na 1, jeśli chcesz używać EURO, w przeciwnym razie wprowadź kurs wymiany na preferowaną walutę.",
+						"ru": "Установите 1, если хотите использовать ЕВРО, в противном случае введите обменный курс к вашей предпочтительной валюте.",
+						"ar": "قم بالتعيين على 1 إذا كنت تريد استخدام اليورو، وإلا أدخل سعر الصرف لعملتك المفضلة."
 					}
 				},
 				{
@@ -179,26 +223,34 @@
 					"value": "NONE",
 					"label": {
 						"en": "Daily update the exchange rate",
+						"nl": "Update wisselkoers dagelijks",
 						"de": "Wechselkurs täglich aktualisieren",
-						"sv": "Uppdatera växelkursen dagligen",
-						"it": "Aggiorna quotidianamente il tasso di cambio",
-						"no": "Daglig oppdatering av vekslingskurs",
 						"fr": "Mise à jour quotidienne du taux de change",
-						"dk": "Opdatér dagligt valutakurs",
-						"nl": "Update wisselkoers dagelijks"
+						"it": "Aggiorna quotidianamente il tasso di cambio",
+						"sv": "Uppdatera växelkursen dagligen",
+						"no": "Daglig oppdatering av vekslingskurs",
+						"es": "Actualizar diariamente el tipo de cambio",
+						"da": "Opdatér dagligt valutakurs",
+						"pl": "Codzienna aktualizacja kursu wymiany",
+						"ru": "Ежедневное обновление обменного курса",
+						"ar": "تحديث سعر الصرف يوميا"
 					},
 					"values": [
 						{
 							"id": "NONE",
 							"label": {
 								"en": "DO NOT FETCH",
+								"nl": "NIET OPHALEN",
 								"de": "NICHT ABFRAGEN",
-								"sv": "HÄMTA INTE",
-								"it": "NON RECUPERARE",
-								"no": "IKKE HENT",
 								"fr": "NE PAS RÉCUPÉRER",
-								"dk": "HENT IKKE",
-								"nl": "NIET OPHALEN"
+								"it": "NON RECUPERARE",
+								"sv": "HÄMTA INTE",
+								"no": "IKKE HENT",
+								"es": "NO RECUPERAR",
+								"da": "HENT IKKE",
+								"pl": "NIE POBIERAJ",
+								"ru": "НЕ ПОЛУЧАТЬ",
+								"ar": "لا تجلب"
 							}
 						},
 						{
@@ -300,13 +352,17 @@
 					],
 					"hint": {
 						"en": "Enter the currency for which you want the exchange rate to be fetched automatically. Leave at 'DO NOT FETCH' if you are using Euro, or if you want to manually set the exchange rate.",
+						"nl": "Geef de munteenheid aan waarvan de wisselkoers automatisch moey worden opgehaald. Zet op 'NIET OPHALEN' als je Euro gebruit, of als je de wisselkoers handmatig wilt invoeren.",
 						"de": "Geben Sie die Währung ein, für die Sie den Wechselkurs automatisch abrufen möchten. Belassen Sie es bei 'NICHT ABFRAGEN', wenn Sie den Euro verwenden oder den Wechselkurs manuell festlegen möchten.",
-						"sv": "Ange den valuta för vilken du vill att växelkursen ska hämtas automatiskt. Lämna vid 'HÄMTA INTE' om du använder euro, eller om du vill ställa in växelkursen manuellt.",
-						"it": "Inserisci la valuta per la quale desideri che il tasso di cambio venga recuperato automaticamente. Lascia su 'NON RECUPERARE' se stai usando Euro, o se vuoi impostare manualmente il tasso di cambio.",
-						"no": "Legg inn valutaen for den vekslingskursen du ønsker å hente automatisk. La den stå på 'IKKE HENT' hvis du bruker Euro, eller hvis du vil sette vekslingkursen manuelt.",
 						"fr": "Entrer la devise pour laquelle vous souhaitez que le taux de change soit automatiquement récupérer. Laisser à 'NE PAS RÉCUPÉRER' si vous utiliser l'Euro, ou si vous souhaitez entrer manuellement le taux de change",
-						"dk": "Angiv valutaen du automatisk vil hente vekselkursen for. Lad den stå på 'HENT IKKE' hvis du bruger Euro, eller hvis du manuelt vil tilpasse vekselkursen",
-						"nl": "Geef de munteenheid aan waarvan de wisselkoers automatisch moey worden opgehaald. Zet op 'NIET OPHALEN' als je Euro gebruit, of als je de wisselkoers handmatig wilt invoeren."
+						"it": "Inserisci la valuta per la quale desideri che il tasso di cambio venga recuperato automaticamente. Lascia su 'NON RECUPERARE' se stai usando Euro, o se vuoi impostare manualmente il tasso di cambio.",
+						"sv": "Ange den valuta för vilken du vill att växelkursen ska hämtas automatiskt. Lämna vid 'HÄMTA INTE' om du använder euro, eller om du vill ställa in växelkursen manuellt.",
+						"no": "Legg inn valutaen for den vekslingskursen du ønsker å hente automatisk. La den stå på 'IKKE HENT' hvis du bruker Euro, eller hvis du vil sette vekslingkursen manuelt.",
+						"es": "Ingrese la moneda para la cual desea que el tipo de cambio se obtenga automáticamente. Deje en 'NO RECUPERAR' si está utilizando Euro, o si desea establecer manualmente el tipo de cambio.",
+						"da": "Angiv valutaen du automatisk vil hente vekselkursen for. Lad den stå på 'HENT IKKE' hvis du bruger Euro, eller hvis du manuelt vil tilpasse vekselkursen",
+						"pl": "Wprowadź walutę, dla której kurs wymiany ma być pobierany automatycznie. Pozostaw 'NIE POBIERAJ', jeśli używasz Euro lub jeśli chcesz ręcznie ustawić kurs wymiany.",
+						"ru": "Введите валюту, для которой вы хотите автоматически получать обменный курс. Оставьте 'НЕ ПОЛУЧАТЬ', если вы используете Евро, или если вы хотите вручную установить обменный курс.",
+						"ar": "أدخل العملة التي تريد جلب سعر الصرف لها تلقائيًا. اتركها عند 'لا تجلب' إذا كنت تستخدم اليورو، أو إذا كنت تريد تعيين سعر الصرف يدويًا."
 					}
 				}
 			]
@@ -315,13 +371,17 @@
 			"type": "group",
 			"label": {
 				"en": "Price settings",
+				"nl": "Prijs instellingen",
 				"de": "Preiseinstellungen",
-				"sv": "Prisinställningar",
-				"it": "Impostazioni prezzo",
-				"no": "Prisinnstillinger",
 				"fr": "Paramètre de tarification",
-				"dk": "Prisindstillinger",
-				"nl": "Prijs instellingen"
+				"it": "Impostazioni prezzo",
+				"sv": "Prisinställningar",
+				"no": "Prisinnstillinger",
+				"es": "Configuración de precios",
+				"da": "Prisindstillinger",
+				"pl": "Ustawienia cen",
+				"ru": "Настройки цен",
+				"ar": "إعدادات السعر"
 			},
 			"children": [
 				{
@@ -329,24 +389,32 @@
 					"type": "number",
 					"label": {
 						"en": "Variable markup (%)",
+						"nl": "Variabele opslag (%)",
 						"de": "Variabler Aufschlag (%)",
-						"sv": "Variabelt påslag (%)",
-						"it": "Aumento variabile (%)",
-						"no": "Variabelt påslag (%)",
 						"fr": "Augmentation variable (%)",
-						"dk": "Variabelt gebyr (%)",
-						"nl": "Variabele opslag (%)"
+						"it": "Aumento variabile (%)",
+						"sv": "Variabelt påslag (%)",
+						"no": "Variabelt påslag (%)",
+						"es": "Margen variable (%)",
+						"da": "Variabelt gebyr (%)",
+						"pl": "Narzut zmienny (%)",
+						"ru": "Переменная наценка (%)",
+						"ar": "هامش متغير (%)"
 					},
 					"value": 0,
 					"hint": {
 						"en": "Enter the percentage with which the net price must be increased. E.g. for VAT.",
+						"nl": "Voer het percentage in waarmee de netto prijs verhoogd moet worden. Bijvoorbeeld voor BTW.",
 						"de": "Geben Sie den Prozentsatz ein, um den der Nettopreis erhöht werden soll. Z.B. für die MwSt.",
-						"sv": "Ange den procentandel som nettopriset ska höjas med. T.ex. för moms.",
-						"it": "Inserisci la percentuale di aumento da applicare sul prezzo netto. Es. per IVA.",
-						"no": "Legg inn verdien i prosent som nettoprisen skal økes. f.eks. for MVA.",
 						"fr": "Entrer le pourcentage pour lequel le tarif doit être augmenter. Par exemple la TVA",
-						"dk": "Angiv procenten der tillægges nettoprisen. Eksempelvis moms.",
-						"nl": "Voer het percentage in waarmee de netto prijs verhoogd moet worden. Bijvoorbeeld voor BTW."
+						"it": "Inserisci la percentuale di aumento da applicare sul prezzo netto. Es. per IVA.",
+						"sv": "Ange den procentandel som nettopriset ska höjas med. T.ex. för moms.",
+						"no": "Legg inn verdien i prosent som nettoprisen skal økes. f.eks. for MVA.",
+						"es": "Ingrese el porcentaje con el que debe aumentarse el precio neto. P. ej. para IVA.",
+						"da": "Angiv procenten der tillægges nettoprisen. Eksempelvis moms.",
+						"pl": "Wprowadź procent, o jaki cena netto musi zostać zwiększona. Np. dla VAT.",
+						"ru": "Введите процент, на который должна быть увеличена чистая цена. Например, для НДС.",
+						"ar": "أدخل النسبة المئوية التي يجب زيادة صافي السعر بها. على سبيل المثال لضريبة القيمة المضافة."
 					}
 				},
 				{
@@ -354,24 +422,32 @@
 					"type": "number",
 					"label": {
 						"en": "Variable markup (%) @abs. price",
+						"nl": "Variabele opslag (%) @abs. prijs",
 						"de": "Variabler Aufschlag (%) @abs. Preis",
-						"sv": "Variabelt påslag (%) @abs.pris",
-						"it": "Aumento variabile (%) @prezzo assoluto",
-						"no": "Variabel påslag (%) @abs.pris",
 						"fr": "Augmentation variable (%) @prix absolu",
-						"dk": "Variabelt gebyr (%) @abs.pris",		
-						"nl": "Variabele opslag (%) @abs. prijs"
+						"it": "Aumento variabile (%) @prezzo assoluto",
+						"sv": "Variabelt påslag (%) @abs.pris",
+						"no": "Variabel påslag (%) @abs.pris",
+						"es": "Margen variable (%) @precio abs.",
+						"da": "Variabelt gebyr (%) @abs.pris",
+						"pl": "Narzut zmienny (%) @cena bezwzgl.",
+						"ru": "Переменная наценка (%) @абс. цена",
+						"ar": "هامش متغير (%) @السعر المطلق"
 					},
 					"value": 0,
 					"hint": {
 						"en": "Enter the percentage with which the |net price| must be increased. This markup is always positive, even for negative market prices.",
+						"nl": "Voer het percentage in waarmee de |netto prijs| verhoogd moet worden. Deze opslag is altijd positief, zelfs for negatieve marktprijzen.",
 						"de": "Geben Sie den Prozentsatz ein, um den der |Nettopreis| erhöht werden muss. Dieser Aufschlag ist immer positiv, auch bei negativen Marktpreisen.",
-						"sv": "Ange den procentsats med vilken |nettopriset| måste ökas. Denna marginal är alltid positiv, även för negativa marknadspriser.",
-						"it": "Inserisci la percentale con cui il |prezzo netto| deve essere aumentato. Questo ricarico è sempre positivo, anche per prezzi di mercato negativi.",
-						"no": "Skriv inn prosentsatsen som |nettoprisen| må økes med. Denne marginen er alltid positiv, selv for negative markedspriser.",
 						"fr": "Entrez le pourcentage avec lequel le |prix net| doit être augmenté. Cette marge est toujours positive, même pour les prix négatifs du marché.",
-						"dk": "Indtast den procentsats, som |nettoprisen| skal forhøjes med. Denne avance er altid positiv, selv for negative markedspriser.",
-						"nl": "Voer het percentage in waarmee de |netto prijs| verhoogd moet worden. Deze opslag is altijd positief, zelfs for negatieve marktprijzen."
+						"it": "Inserisci la percentale con cui il |prezzo netto| deve essere aumentato. Questo ricarico è sempre positivo, anche per prezzi di mercato negativi.",
+						"sv": "Ange den procentsats med vilken |nettopriset| måste ökas. Denna marginal är alltid positiv, även för negativa marknadspriser.",
+						"no": "Skriv inn prosentsatsen som |nettoprisen| må økes med. Denne marginen er alltid positiv, selv for negative markedspriser.",
+						"es": "Ingrese el porcentaje con el que debe aumentarse el |precio neto|. Este margen siempre es positivo, incluso para precios de mercado negativos.",
+						"da": "Indtast den procentsats, som |nettoprisen| skal forhøjes med. Denne avance er altid positiv, selv for negative markedspriser.",
+						"pl": "Wprowadź procent, o jaki |cena netto| musi zostać zwiększona. Ten narzut jest zawsze dodatni, nawet dla ujemnych cen rynkowych.",
+						"ru": "Введите процент, на который должна быть увеличена |чистая цена|. Эта наценка всегда положительна, даже при отрицательных рыночных ценах.",
+						"ar": "أدخل النسبة المئوية التي يجب زيادة |صافي السعر| بها. هذا الهامش دائمًا إيجابي، حتى بالنسبة لأسعار السوق السلبية."
 					}
 				},
 				{
@@ -379,24 +455,32 @@
 					"type": "number",
 					"label": {
 						"en": "Fixed markup per kWh",
+						"nl": "Vaste opslag per kWh",
 						"de": "Fester Aufschlag für kWh",
-						"sv": "Fast påslag per kWh",
-						"it": "Aumento fisso per kWh",
-						"no": "Fast påslag per kWh",
 						"fr": "Fixer l'augmentation par KWh",
-						"dk": "Fast gebyr per kWh",
-						"nl": "Vaste opslag per kWh"
+						"it": "Aumento fisso per kWh",
+						"sv": "Fast påslag per kWh",
+						"no": "Fast påslag per kWh",
+						"es": "Margen fijo por kWh",
+						"da": "Fast gebyr per kWh",
+						"pl": "Stały narzut na kWh",
+						"ru": "Фиксированная наценка за кВтч",
+						"ar": "هامش ثابت لكل كيلوواط ساعة"
 					},
 					"value": 0,
 					"hint": {
 						"en": "Enter the fixed amount with which the price must be increased per kWh, incl. VAT. E.g. for purchase fee.",
+						"nl": "Voer het vaste bedrag in waarmee de prijs per kWh verhoogd moet worden incl. BTW. Bijvoorbeeld voor inkoopvergoeding, Energie belasting, ODE.",
 						"de": "Geben Sie einen festen Betrag ein, um den der Preis pro kWh inkl. MwSt. erhöht werden muss. Z.B. für Einkaufsgebühr.",
+						"fr": "Entrez le montant fixe dont le prix doit être ajouté par kWh, incluant la TVA. Par exemple les frais d'achat",
+						"it": "Inserisci la quota fissa di aumento per kWh, incluso IVA. Es. per diritti di acquisto.",
 						"sv": "Ange det fasta belopp som priset ska höjas med per kWh, inkl. MOMS. T.ex. mot inköpsavgift.",
 						"no": "Angi det faste beløpet som prisen skal økes med per kWh, inkl. MVA.",
-						"it": "Inserisci la quota fissa di aumento per kWh, incluso IVA. Es. per diritti di acquisto.",
-						"fr": "Entrez le montant fixe dont le prix doit être ajouté par kWh, incluant la TVA. Par exemple les frais d'achat",
-						"dk": "Angiv den faste beløb som prisen skal øges med per kWh, inkl. Moms f.eks. for indkøbsafgift.",
-						"nl": "Voer het vaste bedrag in waarmee de prijs per kWh verhoogd moet worden incl. BTW. Bijvoorbeeld voor inkoopvergoeding, Energie belasting, ODE."
+						"es": "Ingrese la cantidad fija con la que se debe aumentar el precio por kWh, incl. IVA. P. ej. tarifa de compra.",
+						"da": "Angiv den faste beløb som prisen skal øges med per kWh, inkl. Moms f.eks. for indkøbsafgift.",
+						"pl": "Wprowadź stałą kwotę, o którą cena musi zostać zwiększona za kWh, w tym VAT. Np. opłata za zakup.",
+						"ru": "Введите фиксированную сумму, на которую должна быть увеличена цена за кВтч, вкл. НДС. Например, сбор за покупку.",
+						"ar": "أدخل المبلغ الثابت الذي يجب زيادة السعر به لكل كيلوواط ساعة، شاملاً ضريبة القيمة المضافة. على سبيل المثال لرسوم الشراء."
 					}
 				},
 				{
@@ -404,18 +488,32 @@
 					"type": "text",
 					"label": {
 						"en": "Extra Time Of Day markup",
-						"nl": "Extra Time Of Day opslag"
+						"nl": "Extra Time Of Day opslag",
+						"de": "Zusätzlicher Tageszeitaufschlag",
+						"fr": "Majoration supplémentaire selon l'heure de la journée",
+						"it": "Supplemento orario extra",
+						"sv": "Extra tid på dygnet-tillägg",
+						"no": "Ekstra tid på dagen påslag",
+						"es": "Recargo extra por hora del día",
+						"da": "Ekstra tidspunkt på dagen-tillæg",
+						"pl": "Dodatkowy narzut w zależności od pory dnia",
+						"ru": "Дополнительная наценка по времени суток",
+						"ar": "هامش إضافي لوقت اليوم"
 					},
 					"value": "",
 					"hint": {
 						"en": "Enter the amount with which the price must be additionally increased per kWh on certain hours of the day. Fill in the hour1:markup1;hour2;markup2 etc. E.g. if starting at 6am the markup is 0.3, and starting at 10pm the markup is 0.1 fill in the following: 6:0.3;22:0.1",
+						"nl": "Voer het bedrag in waarmee de prijs per kWh op bepaalde uren van de dag extra moet worden verhoogd. Vul uur1:opslag1;uur2;opslag2 etc. in. Bijvoorbeeld als het om 6 uur 's ochtends om 0,3 verhoogd wordt en om 22 uur om 0,1 verhoogd wordt, vul dan het volgende in: 6:0,3;22:0,1",
 						"de": "Geben Sie den Betrag an, um den der Preis pro kWh an bestimmten Tageszeiten zusätzlich erhöht werden muss. Füllen Sie die Stunde1:Aufschlag1;Stunde2;Aufschlag2 usw. aus. Z.B. wenn um 6 Uhr morgens der Aufschlag 0,3 beträgt und um 22 Uhr der Aufschlag 0,1 beträgt, geben Sie folgendes ein: 6:0,3;22:0,1",
+						"fr": "Entrez le montant par lequel le prix doit être augmenté supplémentairement par kWh à certaines heures de la journée. Remplissez l'heure1: majoration1; heure2; majoration2 etc. Par exemple, si à 6 heures du matin la majoration est de 0,3 et à 22 heures du soir la majoration est de 0,1, remplissez ce qui suit: 6:0,3;22:0,1",
+						"it": "Inserire l'importo con cui il prezzo deve essere ulteriormente aumentato per kWh in determinati orari del giorno. Compilare ora1:tasso1;ora2;tasso2 etc. Ad esempio, se inizia alle 6 del mattino con un aumento del tasso del 0,3 e alle 22 con un aumento del tasso del 0,1, compilare il seguente: 6:0,3;22:0,1",
 						"sv": "Ange beloppet med vilket priset måste ökas per kWh vid vissa tidpunkter på dagen. Fyll i timme1:tillägg1;timme2;tillägg2 etc. T.ex. om det börjar kl 6 på morgonen med tillägget 0,3 och kl 22 på kvällen med tillägget 0,1 fyll i följande: 6:0,3;22:0,1",
 						"no": "Angi beløpet som prisen må økes per kWh ved visse tidspunkter på dagen. Fyll ut time1:merke1;time2;merke2 osv. Eksempel: hvis det begynner kl 6 om morgenen med merke 0,3 og kl 22 om kvelden med merke 0,1, fyll inn følgende: 6:0,3;22:0,1",
-						"it": "Inserire l'importo con cui il prezzo deve essere ulteriormente aumentato per kWh in determinati orari del giorno. Compilare ora1:tasso1;ora2;tasso2 etc. Ad esempio, se inizia alle 6 del mattino con un aumento del tasso del 0,3 e alle 22 con un aumento del tasso del 0,1, compilare il seguente: 6:0,3;22:0,1",
-						"fr": "Entrez le montant par lequel le prix doit être augmenté supplémentairement par kWh à certaines heures de la journée. Remplissez l'heure1: majoration1; heure2; majoration2 etc. Par exemple, si à 6 heures du matin la majoration est de 0,3 et à 22 heures du soir la majoration est de 0,1, remplissez ce qui suit: 6:0,3;22:0,1",
-						"dk": "Angiv beløbet, som prisen skal øges med per kWh på visse tidspunkter i døgnet. Udfyld time1:markering1;time2;markering2 osv. Fx hvis det begynder kl. 6 om morgenen med markeringen 0,3, og kl. 22 om aftenen med markeringen 0,1, så udfyld følgende: 6:0,3;22:0,1",
-						"nl": "Voer het bedrag in waarmee de prijs per kWh op bepaalde uren van de dag extra moet worden verhoogd. Vul uur1:opslag1;uur2;opslag2 etc. in. Bijvoorbeeld als het om 6 uur 's ochtends om 0,3 verhoogd wordt en om 22 uur om 0,1 verhoogd wordt, vul dan het volgende in: 6:0,3;22:0,1"
+						"es": "Ingrese la cantidad con la que se debe aumentar adicionalmente el precio por kWh en ciertas horas del día. Complete hora1:margen1;hora2;margen2 etc. P. ej. si comienza a las 6 a.m. el margen es 0.3, y comienza a las 10 p.m. el margen es 0.1 complete lo siguiente: 6:0.3;22:0.1",
+						"da": "Angiv beløbet, som prisen skal øges med per kWh på visse tidspunkter i døgnet. Udfyld time1:markering1;time2;markering2 osv. Fx hvis det begynder kl. 6 om morgenen med markeringen 0,3, og kl. 22 om aftenen med markeringen 0,1, så udfyld følgende: 6:0,3;22:0,1",
+						"pl": "Wprowadź kwotę, o którą cena musi zostać dodatkowo zwiększona za kWh w określonych godzinach dnia. Wypełnij godzina1:narzut1;godzina2;narzut2 itd. Np. jeśli od 6 rano narzut wynosi 0,3, a od 22 narzut wynosi 0,1, wpisz następujące dane: 6:0,3;22:0,1",
+						"ru": "Введите сумму, на которую цена должна быть дополнительно увеличена за кВтч в определенные часы дня. Заполните час1:наценка1;час2;наценка2 и т.д. Например, если с 6 утра наценка составляет 0,3, а с 22:00 наценка составляет 0,1, заполните следующее: 6:0,3;22:0,1",
+						"ar": "أدخل المبلغ الذي يجب زيادة السعر به بشكل إضافي لكل كيلوواط ساعة في ساعات معينة من اليوم. املأ ساعة1:هامش1;ساعة2;هامش2 إلخ. على سبيل المثال، إذا كان الهامش يبدأ في الساعة 6 صباحًا هو 0.3، ويبدأ في الساعة 10 مساءً الهامش هو 0.1، املأ ما يلي: 6:0.3;22:0.1"
 					}
 				},
 				{
@@ -423,18 +521,32 @@
 					"type": "number",
 					"label": {
 						"en": "Extra Weekend markup",
-						"nl": "Extra Weekend opslag"
+						"nl": "Extra Weekend opslag",
+						"de": "Zusätzlicher Wochenendaufschlag",
+						"fr": "Majoration supplémentaire le week-end",
+						"it": "Supplemento extra per il fine settimana",
+						"sv": "Extra helgtillägg",
+						"no": "Ekstra helgepåslag",
+						"es": "Recargo extra de fin de semana",
+						"da": "Ekstra weekendtillæg",
+						"pl": "Dodatkowy narzut weekendowy",
+						"ru": "Дополнительная наценка на выходные",
+						"ar": "هامش إضافي لعطلة نهاية الأسبوع"
 					},
 					"value": 0,
 					"hint": {
 						"en": "Enter the amount with which the price must be additionally increased per kWh during the whole weekend (Saturday - Sunday). Note: this markup replaces the Time Of Day markup!",
+						"nl": "Voer het bedrag in waarmee de prijs per kWh het hele weekend (zaterdag - zondag) moet worden verhoogd. Opmerking: deze opslag vervangt de Time Of Day-opslag!",
 						"de": "Geben Sie den Betrag an, um den der Preis pro kWh während des gesamten Wochenendes (Samstag - Sonntag) erhöht werden muss. Hinweis: Dieser Aufschlag ersetzt den Time-Of-Day-Aufschlag!",
+						"fr": "Entrez le montant par lequel le prix doit être augmenté supplémentairement par kWh pendant tout le week-end (samedi - dimanche). Note : cette majoration remplace la majoration en fonction de l'heure!",
+						"it": "Inserire l'importo con cui il prezzo deve essere ulteriormente aumentato per kWh durante tutto il fine settimana (sabato - domenica). Nota: questo aumento del prezzo sostituisce l'aumento del prezzo in base al momento della giornata!",
 						"sv": "Ange beloppet med vilket priset måste ökas per kWh under helgen (lördag-söndag). Notera: detta tillägg ersätter Time Of Day-tillägget!",
 						"no": "Angi beløpet som prisen må økes per kWh i hele helgen (lørdag - søndag). Merk: dette merket erstatter Time Of Day-merket!",
-						"it": "Inserire l'importo con cui il prezzo deve essere ulteriormente aumentato per kWh durante tutto il fine settimana (sabato - domenica). Nota: questo aumento del prezzo sostituisce l'aumento del prezzo in base al momento della giornata!",
-						"fr": "Entrez le montant par lequel le prix doit être augmenté supplémentairement par kWh pendant tout le week-end (samedi - dimanche). Note : cette majoration remplace la majoration en fonction de l'heure!",
-						"dk": "Angiv beløbet, som prisen skal øges ekstra pr. kWh i løbet af hele weekenden (lørdag-søndag). Bemærk: Dette tillæg erstatter Time Of Day-tillægget!",
-						"nl": "Voer het bedrag in waarmee de prijs per kWh het hele weekend (zaterdag - zondag) moet worden verhoogd. Opmerking: deze opslag vervangt de Time Of Day-opslag!"
+						"es": "Ingrese la cantidad con la que se debe aumentar adicionalmente el precio por kWh durante todo el fin de semana (sábado - domingo). Nota: ¡este margen reemplaza el margen de Hora del Día!",
+						"da": "Angiv beløbet, som prisen skal øges ekstra pr. kWh i løbet af hele weekenden (lørdag-søndag). Bemærk: Dette tillæg erstatter Time Of Day-tillægget!",
+						"pl": "Wprowadź kwotę, o którą cena musi zostać dodatkowo zwiększona za kWh przez cały weekend (sobota - niedziela). Uwaga: ten narzut zastępuje narzut pory dnia!",
+						"ru": "Введите сумму, на которую цена должна быть дополнительно увеличена за кВтч в течение всех выходных (суббота - воскресенье). Примечание: эта наценка заменяет наценку по времени суток!",
+						"ar": "أدخل المبلغ الذي يجب زيادة السعر به بشكل إضافي لكل كيلوواط ساعة خلال عطلة نهاية الأسبوع بأكملها (السبت - الأحد). ملاحظة: هذا الهامش يحل محل هامش وقت اليوم!"
 					}
 				}
 			]
@@ -443,13 +555,17 @@
 			"type": "group",
 			"label": {
 				"en": "Various settings",
+				"nl": "Overige instellingen",
 				"de": "Diverse Einstellungen",
-				"sv": "Olika inställningar",
-				"it": "Impostazioni varie",
-				"no": "Øvrige innstillinger",
 				"fr": "Réglages divers",
-				"dk": "Diverse indstillinger",
-				"nl": "Overige instellingen"
+				"it": "Impostazioni varie",
+				"sv": "Olika inställningar",
+				"no": "Øvrige innstillinger",
+				"es": "Varios ajustes",
+				"da": "Diverse indstillinger",
+				"pl": "Różne ustawienia",
+				"ru": "Различные настройки",
+				"ar": "إعدادات مختلفة"
 			},
 			"children": [
 				{
@@ -457,11 +573,31 @@
 					"type": "checkbox",
 					"label": {
 						"en": "Enable forecast prices",
-						"nl": "Prijsvoorspelling aanzetten"
+						"nl": "Prijsvoorspelling aanzetten",
+						"de": "Preisvorhersage aktivieren",
+						"fr": "Activer les prévisions de prix",
+						"it": "Abilita previsioni prezzi",
+						"sv": "Aktivera prisprognoser",
+						"no": "Aktiver prisprognoser",
+						"es": "Habilitar precios de pronóstico",
+						"da": "Aktiver prisprognoser",
+						"pl": "Włącz prognozy cen",
+						"ru": "Включить прогноз цен",
+						"ar": "تمكين أسعار التوقعات"
 					},
 					"hint": { 
 						"en": "Add AI pricing forecast (when available).",
-						"nl": "Voeg AI prijsvoorspellingen toe (indien beschikbaar)"
+						"nl": "Voeg AI prijsvoorspellingen toe (indien beschikbaar)",
+						"de": "AI-Preisvorhersage hinzufügen (falls verfügbar).",
+						"fr": "Ajouter une prévision de tarification AI (lorsque disponible).",
+						"it": "Aggiungi previsione prezzi AI (se disponibile).",
+						"sv": "Lägg till AI-prisprognos (när tillgänglig).",
+						"no": "Legg til AI prisprognose (når tilgjengelig).",
+						"es": "Agregar pronóstico de precios de IA (cuando esté disponible).",
+						"da": "Tilføj AI-prisprognose (hvis tilgængelig).",
+						"pl": "Dodaj prognozę cen AI (jeśli dostępna).",
+						"ru": "Добавить прогноз цен ИИ (при наличии).",
+						"ar": "أضف توقعات أسعار الذكاء الاصطناعي (عند توفرها)."
 					},
 					"value": false
 				},
@@ -470,13 +606,17 @@
 					"type": "number",
 					"label": {
 						"en": "Send tariff to group",
+						"nl": "Stuur tarief naar group",
 						"de": "Tarif an Gruppe senden",
-						"sv": "Skicka tariff till grupp",
-						"it": "Invia tariffa al gruppo",
-						"no": "send tariff til gruppe",
 						"fr": "Envoyer tarif au groupe",
-						"dk": "Send gebyr til gruppe",
-						"nl": "Stuur tarief naar group"
+						"it": "Invia tariffa al gruppo",
+						"sv": "Skicka tariff till grupp",
+						"no": "send tariff til gruppe",
+						"es": "Enviar tarifa al grupo",
+						"da": "Send gebyr til gruppe",
+						"pl": "Wyślij taryfę do grupy",
+						"ru": "Отправить тариф в группу",
+						"ar": "إرسال التعريفة إلى المجموعة"
 					},
 					"min": 0,
 					"max": 10,
@@ -484,13 +624,17 @@
 					"value": 0,
 					"hint": {
 						"en": "Every hour the price per kWh will be sent as tariff for PBTH devices, without the need to create a flow.",
+						"nl": "Ieder uur wordt de prijs per kWh als tarief naar PBTH devices gestuurd, zonder dat een flow gemaakt hoeft te worden.",
 						"de": "Jede Stunde wird der Preis pro kWh als Tarif für PBTH Geräte gesendet, ohne dass ein Flow erstellt werden muss.",
-						"sv": "Varje timme kommer priset per kWh att skickas som tariff för PBTH-enheter, utan att behöva skapa ett flöde.",
-						"it": "Ogni ora verrà inviato il prezzo per kWh come tariffa per i dispositivi PBTH, senza necessità di creare alcun flow.",
-						"no": "Hver time vil prisen per kWh bli sendt som tariff for PBTH enheter, uten at man trenger å skape en flow.",
 						"fr": "Chaque heure, le prix du kWh sera envoyé comme tarif pour les appareils PBTH, sans qu'il soit nécessaire de créer un flow",
-						"dk": "Prisen per kWh bliver sendt som tarif til PBTH-enheder, uden brug af flows.",
-						"nl": "Ieder uur wordt de prijs per kWh als tarief naar PBTH devices gestuurd, zonder dat een flow gemaakt hoeft te worden."
+						"it": "Ogni ora verrà inviato il prezzo per kWh come tariffa per i dispositivi PBTH, senza necessità di creare alcun flow.",
+						"sv": "Varje timme kommer priset per kWh att skickas som tariff för PBTH-enheter, utan att behöva skapa ett flöde.",
+						"no": "Hver time vil prisen per kWh bli sendt som tariff for PBTH enheter, uten at man trenger å skape en flow.",
+						"es": "Cada hora se enviará el precio por kWh como tarifa para dispositivos PBTH, sin necesidad de crear un flujo.",
+						"da": "Prisen per kWh bliver sendt som tarif til PBTH-enheder, uden brug af flows.",
+						"pl": "Co godzinę cena za kWh będzie wysyłana jako taryfa dla urządzeń PBTH, bez konieczności tworzenia przepływu.",
+						"ru": "Каждый час цена за кВтч будет отправляться в качестве тарифа для устройств PBTH, без необходимости создавать поток.",
+						"ar": "كل ساعة سيتم إرسال السعر لكل كيلوواط ساعة كتعريفة لأجهزة PBTH، دون الحاجة إلى إنشاء تدفق."
 					}
 				}
 			]

@@ -3,17 +3,47 @@
 	"title": {
 		"en": "New smart ROI power available.",
 		"nl": "Nieuw smart ROI vermogen beschikbaar.",
-		"de": "Neue Smart ROI-Leistung verfügbar."
+		"de": "Neue Smart ROI-Leistung verfügbar.",
+		"fr": "Nouvelle puissance ROI intelligente disponible.",
+		"it": "Nuova potenza ROI intelligente disponibile.",
+		"sv": "Ny smart ROI-effekt tillgänglig.",
+		"no": "Ny smart ROI-effekt tilgjengelig.",
+		"es": "Nueva potencia ROI inteligente disponible.",
+		"da": "Ny smart ROI-effekt tilgængelig.",
+		"pl": "Dostępna nowa moc inteligentnego ROI.",
+		"ru": "Доступна новая мощность умного ROI.",
+		"ko": "새로운 스마트 ROI 전력 사용 가능.",
+		"ar": "طاقة عائد استثمار ذكي جديدة متاحة."
 	},
 	"titleFormatted": {
 		"en": "New smart ROI power available, with minimum [[minPriceDelta]]¤ profit per kWh.",
 		"nl": "Nieuwe smart ROI vermogen beschikbaar, met minimaal [[minPriceDelta]]¤ winst per kWh.",
-		"de": "Neue Smart ROI-Leistung verfügbar, mit minimalem [[minPriceDelta]]¤ Gewinn pro kWh."
+		"de": "Neue Smart ROI-Leistung verfügbar, mit minimalem [[minPriceDelta]]¤ Gewinn pro kWh.",
+		"fr": "Nouvelle puissance ROI intelligente disponible, avec un profit minimum de [[minPriceDelta]]¤ par kWh.",
+		"it": "Nuova potenza ROI intelligente disponibile, con un profitto minimo di [[minPriceDelta]]¤ per kWh.",
+		"sv": "Ny smart ROI-effekt tillgänglig, med minst [[minPriceDelta]]¤ vinst per kWh.",
+		"no": "Ny smart ROI-effekt tilgjengelig, med minimum [[minPriceDelta]]¤ fortjeneste per kWh.",
+		"es": "Nueva potencia ROI inteligente disponible, con un beneficio mínimo de [[minPriceDelta]]¤ por kWh.",
+		"da": "Ny smart ROI-effekt tilgængelig, med minimum [[minPriceDelta]]¤ fortjeneste pr. kWh.",
+		"pl": "Dostępna nowa moc inteligentnego ROI, z minimalnym zyskiem [[minPriceDelta]]¤ na kWh.",
+		"ru": "Доступна новая мощность умного ROI с минимальной прибылью [[minPriceDelta]]¤ за кВтч.",
+		"ko": "kWh당 최소 [[minPriceDelta]]¤ 이익으로 새로운 스마트 ROI 전력 사용 가능.",
+		"ar": "طاقة عائد استثمار ذكي جديدة متاحة، بحد أدنى للربح [[minPriceDelta]]¤ لكل كيلوواط ساعة."
 	},
 	"hint": {
 		"en": "The strategy is calculated using future hourly prices, the battery settings, and the set minimum profit per kWh.",
 		"nl": "De strategie wordt berekend met behulp van toekomstige prijzen, de batterij instellingen, en de ingestelde minimale winst per kWh.",
-		"de": "Die Strategie wird anhand der zukünftigen Stundenpreise, den Batterieeinstellungen und dem eingestellten minimalen Gewinn pro kWh berechnet."
+		"de": "Die Strategie wird anhand der zukünftigen Stundenpreise, den Batterieeinstellungen und dem eingestellten minimalen Gewinn pro kWh berechnet.",
+		"fr": "La stratégie est calculée en utilisant les prix horaires futurs, les paramètres de la batterie et le profit minimum par kWh défini.",
+		"it": "La strategia viene calcolata utilizzando i prezzi orari futuri, le impostazioni della batteria e il profitto minimo per kWh impostato.",
+		"sv": "Strategin beräknas med hjälp av framtida timpriser, batteriinställningarna och den inställda minsta vinsten per kWh.",
+		"no": "Strategien beregnes ved hjelp av fremtidige timepriser, batteriinnstillingene og den angitte minimumsfortjenesten per kWh.",
+		"es": "La estrategia se calcula utilizando los precios horarios futuros, la configuración de la batería y el beneficio mínimo por kWh establecido.",
+		"da": "Strategien beregnes ved hjælp af fremtidige timepriser, batteriindstillingerne og den indstillede minimumsfortjeneste pr. kWh.",
+		"pl": "Strategia jest obliczana przy użyciu przyszłych cen godzinowych, ustawień baterii i ustawionego minimalnego zysku na kWh.",
+		"ru": "Стратегия рассчитывается с использованием будущих почасовых цен, настроек батареи и установленной минимальной прибыли за кВтч.",
+		"ko": "전략은 미래 시간당 가격, 배터리 설정 및 설정된 kWh당 최소 이익을 사용하여 계산됩니다.",
+		"ar": "يتم حساب الاستراتيجية باستخدام أسعار الساعات المستقبلية، وإعدادات البطارية، والحد الأدنى للربح المحدد لكل كيلوواط ساعة."
 	},
 	"args": [
 		{
@@ -27,7 +57,17 @@
 			"title": { 
 				"en": "price delta",
 				"nl": "prijsverschil",
-				"de": "Preisdifferenz"
+				"de": "Preisdifferenz",
+				"fr": "différence de prix",
+				"it": "differenza di prezzo",
+				"sv": "prisskillnad",
+				"no": "prisforskjell",
+				"es": "diferencia de precio",
+				"da": "prisforskel",
+				"pl": "różnica cen",
+				"ru": "разница в цене",
+				"ko": "가격 차이",
+				"ar": "فرق السعر"
 			},
 			"min": 0,
 			"value": 0.08
@@ -39,7 +79,18 @@
       "type": "number",
       "title": {
         "en": "Power",
-	"de": "Leistung"
+	"de": "Leistung",
+	"nl": "Vermogen",
+	"fr": "Puissance",
+	"it": "Potenza",
+	"sv": "Effekt",
+	"no": "Effekt",
+	"es": "Potencia",
+	"da": "Effekt",
+	"pl": "Moc",
+	"ru": "Мощность",
+	"ko": "전력",
+	"ar": "طاقة"
       }
     },
     {
@@ -47,7 +98,18 @@
       "type": "number",
       "title": {
         "en": "Duration (minutes)",
-	"de": "Dauer (Minuten)"
+	"de": "Dauer (Minuten)",
+	"nl": "Duur (minuten)",
+	"fr": "Durée (minutes)",
+	"it": "Durata (minuti)",
+	"sv": "Varaktighet (minuter)",
+	"no": "Varighet (minutter)",
+	"es": "Duración (minutos)",
+	"da": "Varighed (minutter)",
+	"pl": "Czas trwania (minuty)",
+	"ru": "Продолжительность (минуты)",
+	"ko": "기간 (분)",
+	"ar": "المدة (دقائق)"
       }
     },
 		{
@@ -55,7 +117,18 @@
       "type": "number",
       "title": {
         "en": "SOC afterwards (%)",
-	"de": "SOC danach (%)"
+	"de": "SOC danach (%)",
+	"nl": "SOC daarna (%)",
+	"fr": "SOC après (%)",
+	"it": "SOC dopo (%)",
+	"sv": "SOC efteråt (%)",
+	"no": "SOC etterpå (%)",
+	"es": "SOC después (%)",
+	"da": "SOC bagefter (%)",
+	"pl": "SOC po (%)",
+	"ru": "SOC после (%)",
+	"ko": "이후 SOC (%)",
+	"ar": "حالة الشحن بعد ذلك (%)"
       }
     },
 		{
@@ -63,7 +136,18 @@
       "type": "string",
       "title": {
         "en": "Scheme JSON",
-	"de": "Schema JSON"
+	"de": "Schema JSON",
+	"nl": "Schema JSON",
+	"fr": "Schéma JSON",
+	"it": "Schema JSON",
+	"sv": "Schema JSON",
+	"no": "Skjema JSON",
+	"es": "Esquema JSON",
+	"da": "Skema JSON",
+	"pl": "Schemat JSON",
+	"ru": "Схема JSON",
+	"ko": "스킴 JSON",
+	"ar": "مخطط JSON"
       }
     }
   ]

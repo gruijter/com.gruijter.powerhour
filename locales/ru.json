@@ -1,0 +1,19 @@
+{
+  "today": "Сегодня",
+  "tomorrow": "Завтра",
+  "nextHours": "Следующие часы",
+  "device_migrating": "Устройство переносится. Пожалуйста, подождите!",
+  "source_device_missing_retry": "Исходное устройство отсутствует. Повторите через 10 минут.",
+  "source_device_missing_retrying": "Исходное устройство отсутствует. Повторная попытка ..",
+  "polling_failed": "Опрос не удался. Скоро повторю..",
+  "source_device_missing_retry_named": "Исходное устройство %name% отсутствует. Повторите через 10 минут.",
+  "error_device_not_ready": "Устройство не готово. Игнорирование новых настроек!",
+  "error_roi_hp2023": "Расширенный ROI доступен только на HP2023!",
+  "error_value_not_number": "Значение не является числом",
+  "error_budget_custom_12": "Пользовательский бюджет не содержит 12 числовых значений",
+  "error_budget_invalid": "Бюджет не является допустимым числом",
+  "error_device_corrupt": "Устройство повреждено!",
+  "error_no_prices": "Цены недоступны",
+  "error_no_price_interval": "Интервал цен недоступен",
+  "error_homey_api_not_ready": "API Homey не готов"
+}

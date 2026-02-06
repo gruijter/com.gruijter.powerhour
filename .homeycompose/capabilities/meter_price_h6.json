@@ -7,8 +7,13 @@
     "it": "Prezzo +6h",
     "no": "Pris +6T",
     "fr": "Tarif +6h",
-    "dk": "Pris +6T",
-    "nl": "Prijs +6U"
+    "da": "Pris +6T",
+    "nl": "Prijs +6U",
+    "es": "Precio +6h",
+    "pl": "Cena +6h",
+    "ru": "Цена +6ч",
+    "ko": "가격 +6시간",
+    "ar": "السعر +6س"
   },
   "uiComponent": "sensor",
   "icon": "/assets/tariff.svg",

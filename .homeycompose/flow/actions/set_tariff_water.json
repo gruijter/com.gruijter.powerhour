@@ -6,8 +6,13 @@
     "it": "Imposta una nuova tariffa acqua",
     "no": "Sett en ny vanntariff",
     "fr": "Définir un nouveau tarif d'eau", 
-    "dk": "Sæt en ny vandafgift",
-    "nl": "Stel een nieuw watertarief in"
+    "da": "Sæt en ny vandafgift",
+    "nl": "Stel een nieuw watertarief in",
+    "ar": "تعيين تعريفة مياه جديدة",
+    "es": "Establecer una nueva tarifa de agua",
+    "pl": "Ustaw nową taryfę wodną",
+    "ru": "Установить новый тариф на воду",
+    "ko": "새 수도 요금 설정"
   },
   "titleFormatted": {
     "en": "Set water tariff [[group]] to [[tariff]]",
@@ -16,8 +21,13 @@
     "it": "Imposta tariffa acqua [[group]] a [[tariff]]",
     "no": "Sett vanntariff [[group]] til [[tariff]]",
     "fr": "Définir le tarif d'eau [[group]] à [[tariff]]",
-    "dk": "Sæt ny vandafgift [[group]] til [[tariff]]",
-    "nl": "Stel watertarief [[group]] in op [[tariff]]"
+    "da": "Sæt ny vandafgift [[group]] til [[tariff]]",
+    "nl": "Stel watertarief [[group]] in op [[tariff]]",
+    "ar": "تعيين تعريفة المياه [[group]] إلى [[tariff]]",
+    "es": "Establecer tarifa de agua [[group]] a [[tariff]]",
+    "pl": "Ustaw taryfę wodną [[group]] na [[tariff]]",
+    "ru": "Установить тариф на воду [[group]] на [[tariff]]",
+    "ko": "수도 요금 [[group]]을(를) [[tariff]]로 설정"
   },
   "highlight": true,
   "args": [
@@ -31,15 +41,32 @@
         "it": "La tariffa per m³",
         "no": "Tariff per m³",
         "fr": "Le tarif par m³",
-        "dk": "Afgift per m³",
-        "nl": "Het tarief per m³"
+        "da": "Afgift per m³",
+        "nl": "Het tarief per m³",
+        "es": "La tarifa por m³",
+        "pl": "Taryfa za m³",
+        "ru": "Тариф за м³",
+        "ko": "m³당 요금",
+        "ar": "التعريفة لكل متر مكعب"
       }
     },
     {
       "name": "group",
       "type": "number",
       "placeholder": {
-        "en": "Update group"
+        "en": "Update group",
+        "de": "Update-Gruppe",
+        "sv": "Uppdateringsgrupp",
+        "it": "Gruppo di aggiornamento",
+        "no": "Oppdateringsgruppe",
+        "fr": "Groupe de mise à jour",
+        "da": "Opdateringsgruppe",
+        "nl": "Update groep",
+        "es": "Grupo de actualización",
+        "pl": "Grupa aktualizacji",
+        "ru": "Группа обновления",
+        "ko": "업데이트 그룹",
+        "ar": "تحديث المجموعة"
       },
       "required": false,
       "min": 1,

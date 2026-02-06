@@ -7,8 +7,13 @@
     "it": "m³ ora precedente",
     "no": "m³ forrige time",
     "fr": "m³ heure précédente",
-    "dk": "m³ sidste time",
-    "nl": "m³ vorig uur"
+    "da": "m³ sidste time",
+    "nl": "m³ vorig uur",
+    "es": "m³ hora anterior",
+    "pl": "m³ poprzednia godzina",
+    "ru": "м³ пред. час",
+    "ko": "지난 시간 m³",
+    "ar": "م³ الساعة السابقة"
   },
   "uiComponent": "sensor",
   "icon": "/assets/m3_h.svg",

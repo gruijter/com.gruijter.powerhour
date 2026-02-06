@@ -8,7 +8,11 @@
 		"sv": "Strömmen ändrades",
 		"no": "Strømmen ble endret",
 		"es": "La potencia ha cambiado",
-		"da": "Strømmen ændrede sig"
+		"da": "Strømmen ændrede sig",
+		"pl": "Moc uległa zmianie",
+		"ru": "Мощность изменилась",
+		"ko": "전력이 변경됨",
+		"ar": "تغيرت الطاقة"
 	},
 	"args": [
 		{
@@ -29,7 +33,11 @@
 			"sv": "Effekt",
 			"no": "Effekt",
 			"es": "Potencia",
-			"da": "Effekt"
+			"da": "Effekt",
+			"pl": "Moc",
+			"ru": "Мощность",
+			"ko": "전력",
+			"ar": "طاقة"
 		},
 		"type": "number",
 		"example": 7.5

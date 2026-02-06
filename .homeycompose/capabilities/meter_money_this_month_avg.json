@@ -3,7 +3,17 @@
   "title": {
     "en": "Avg. money this month",
     "nl": "Gem. geld deze maand",
-    "de": "Durchschn. Kosten dieser Monat"
+    "de": "Durchschn. Kosten dieser Monat",
+    "fr": "Argent moyen ce mois-ci",
+    "it": "Denaro medio questo mese",
+    "sv": "Genomsnittliga pengar denna månad",
+    "no": "Gj.snitt penger denne måned",
+    "da": "Gns. penge denne måned",
+    "es": "Dinero promedio este mes",
+    "pl": "Średnie pieniądze w tym miesiącu",
+    "ru": "Средние деньги в этом месяце",
+    "ko": "이번 달 평균 금액",
+    "ar": "متوسط المال هذا الشهر"
   },
   "uiComponent": "sensor",
   "icon": "/assets/money_avg.svg",

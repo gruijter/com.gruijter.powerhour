@@ -7,8 +7,13 @@
     "it": "m³ giornata odierna",
     "no": "m³ denne dag",
     "fr": "m³ aujourd'hui",
-    "dk": "m³ i dag",
-    "nl": "m³ deze dag"
+    "da": "m³ i dag",
+    "nl": "m³ deze dag",
+    "ar": "م³ هذا اليوم",
+    "es": "m³ this day",
+    "pl": "m³ this day",
+    "ru": "m³ this day",
+    "ko": "m³ this day"
   },
   "uiComponent": "sensor",
   "icon": "/assets/m3_d.svg",

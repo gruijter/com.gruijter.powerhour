@@ -7,8 +7,13 @@
     "it": "Prezzo medio prossime 8h",
     "no": "Gj.snitt pris neste 8T",
     "fr": "Tarif moyen les 8 prochaines heures",
-    "dk": "Gn. snt. pris næste 8T",
-    "nl": "Gem. prijs komende 8U"
+    "da": "Gn. snt. pris næste 8T",
+    "nl": "Gem. prijs komende 8U",
+    "ar": "متوسط السعر في الـ 8 ساعات القادمة",
+    "es": "Precio medio próximas 8h",
+    "pl": "Średnia cena następne 8h",
+    "ru": "Средняя цена следующие 8ч",
+    "ko": "다음 8시간 평균 가격"
   },
   "uiComponent": "sensor",
   "icon": "/assets/tariff.svg",

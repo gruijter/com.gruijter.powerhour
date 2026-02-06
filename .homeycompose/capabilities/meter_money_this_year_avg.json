@@ -3,7 +3,17 @@
   "title": {
     "en": "Avg. money this year",
     "nl": "Gem. geld dit jaar",
-    "de": "Durschn. Kosten dieses Jahr"
+    "de": "Durschn. Kosten dieses Jahr",
+    "fr": "Argent moyen cette année",
+    "it": "Denaro medio quest'anno",
+    "sv": "Genomsnittliga pengar i år",
+    "no": "Gj.snitt penger i år",
+    "da": "Gns. penge i år",
+    "es": "Dinero promedio este año",
+    "pl": "Średnie pieniądze w tym roku",
+    "ru": "Средние деньги в этом году",
+    "ko": "올해 평균 금액",
+    "ar": "متوسط المال هذا العام"
   },
   "uiComponent": "sensor",
   "icon": "/assets/money_avg.svg",

@@ -7,8 +7,13 @@
     "it": "kWh anno precedente",
     "no": "kWh forrige år",
     "fr": "KWh l'année dernière",
-    "dk": "KWh sidste år",
-    "nl": "kWh vorig jaar"
+    "da": "KWh sidste år",
+    "nl": "kWh vorig jaar",
+    "es": "kWh año anterior",
+    "pl": "kWh poprzedni rok",
+    "ru": "кВтч пред. год",
+    "ko": "작년 kWh",
+    "ar": "كيلوواط ساعة العام السابق"
   },
   "uiComponent": "sensor",
   "icon": "/assets/kwh_y.svg",

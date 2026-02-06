@@ -7,8 +7,13 @@
     "it": "Massimo",
     "no": "Maximum",
     "fr": "Maximum",
-    "dk": "Maximum",
-    "nl": "Maximum"
+    "da": "Maximum",
+    "nl": "Maximum",
+    "es": "Máximo",
+    "pl": "Maksimum",
+    "ru": "Максимум",
+    "ko": "최대",
+    "ar": "الحد الأقصى"
   },
   "uiComponent": "sensor",
   "icon": "/assets/maximum.svg",

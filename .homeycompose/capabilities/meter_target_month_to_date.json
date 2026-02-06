@@ -3,7 +3,17 @@
   "title": {
     "en": "On budget Month To Date",
     "nl": "Op budget Maand Zover",
-    "de": "Im Monatsbudget bis heute"
+    "de": "Im Monatsbudget bis heute",
+    "fr": "Dans le budget du mois à ce jour",
+    "it": "In budget mese fino ad oggi",
+    "sv": "På budget månad till datum",
+    "no": "På budsjett måned til dato",
+    "da": "På budget måned til dato",
+    "es": "En presupuesto mes hasta la fecha",
+    "pl": "W budżecie miesiąc do daty",
+    "ru": "В бюджете месяц до даты",
+    "ko": "월 예산 대비 현재",
+    "ar": "في الميزانية الشهر حتى الآن"
   },
   "uiComponent": "sensor",
   "icon": "/assets/target.svg",

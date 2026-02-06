@@ -2,12 +2,32 @@
 	"title": {
 		"en": "The price !{{is|isn't}} one of the lowest the next hours",
 		"nl": "De prijs !{{is|is niet}} een van de laagste de komende uren",
-		"de": "Der Preis !{{ist|ist nicht}} einer der niedrigsten die nächsten Stunden"
+		"de": "Der Preis !{{ist|ist nicht}} einer der niedrigsten die nächsten Stunden",
+		"ar": "السعر !{{هو|ليس}} من بين الأدنى في الساعات القادمة",
+    "it": "Il prezzo !{{è|non è}} uno dei più bassi nelle prossime ore",
+		"no": "Prisen !{{er|er ikke}} en av de laveste de neste timene",
+		"sv": "Priset !{{är|är inte}} ett av de lägsta de kommande timmarna",
+    "da": "Prisen !{{er|er ikke}} en af de laveste de næste timer",
+		"fr": "Le prix !{{est|n'est pas}} l'un des plus bas dans les prochaines heures",
+		"es": "El precio !{{es|no es}} uno de los más bajos en las próximas horas",
+		"pl": "Cena !{{jest|nie jest}} jedną z najniższych w ciągu następnych godzin",
+		"ru": "Цена !{{одна из|не одна из}} самых низких в следующие часы",
+		"ko": "가격이 다음 몇 시간 동안 가장 낮은 가격 중 하나!{{입니다|가 아닙니다}}"
 	},
 	"titleFormatted": {
 		"en": "The price !{{is|isn't}} one of [[number]] lowest in the next [[period]] hours",
 		"nl": "De prijs !{{is|is niet}} een van de [[number]] laagste in de komende [[period]] uren",
-		"de": "Der Preis !{{ist|ist nicht}} einer der [[number]] niedrigsten in den nächsten [[period]] Stunden"
+		"de": "Der Preis !{{ist|ist nicht}} einer der [[number]] niedrigsten in den nächsten [[period]] Stunden",
+		"ar": "السعر !{{هو|ليس}} من بين [[number]] الأدنى في [[period]] ساعة القادمة",
+		"no": "Prisen !{{er|er ikke}} en av de [[number]] laveste i de neste [[period]] timene",
+		"sv": "Priset !{{är|är inte}} ett av de [[number]] lägsta under de kommande [[period]] timmarna",
+    "it": "Il prezzo !{{è|non è}} uno dei [[number]] più bassi nelle prossime [[period]] ore",
+    "da": "Prisen !{{er|er ikke}} en af de [[number]] laveste i de næste [[period]] timer",
+		"fr": "Le prix !{{est|n'est pas}} l'un des [[number]] plus bas dans les [[period]] prochaines heures",
+		"es": "El precio !{{es|no es}} uno de los [[number]] más bajos en las próximas [[period]] horas",
+		"pl": "Cena !{{jest|nie jest}} jedną z [[number]] najniższych w ciągu następnych [[period]] godzin",
+		"ru": "Цена !{{одна из|не одна из}} [[number]] самых низких за следующие [[period]] часов",
+		"ko": "가격이 다음 [[period]]시간 동안 가장 낮은 [[number]]개 중 하나!{{입니다|가 아닙니다}}"
 	},
 	"highlight": true,
 	"args": [
@@ -25,8 +45,14 @@
 				"de": "Zeitraum",
 				"sv": "period",
 				"it": "periodo",
-				"dk": "periode",
-				"nl": "periode"
+        "da": "periode",
+				"nl": "periode",
+				"fr": "période",
+				"es": "período",
+				"pl": "okres",
+				"ru": "период",
+				"ar": "فترة",
+				"ko": "기간"
 			},
 			"placeholder": { "en": "6 - 10" },
 			"min": 6,
@@ -42,8 +68,14 @@
 				"de": "Anzahl",
 				"sv": "antal",
 				"it": "numero",
-				"dk": "nummer",
-				"nl": "aantal"
+        "da": "nummer",
+				"nl": "aantal",
+				"fr": "nombre",
+				"es": "número",
+				"pl": "liczba",
+				"ru": "количество",
+				"ar": "عدد",
+				"ko": "수"
 			},
 			"placeholder": { "en": "1 - 5" },
 			"min": 1,

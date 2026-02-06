@@ -5,5 +5,15 @@
   "device_migrating": "الجهاز قيد الترحيل. يرجى الانتظار!",
   "source_device_missing_retry": "الجهاز المصدر مفقود. إعادة المحاولة خلال 10 دقائق.",
   "source_device_missing_retrying": "الجهاز المصدر مفقود. جاري إعادة المحاولة ..",
-  "polling_failed": "فشل الاستطلاع. سأحاول مرة أخرى قريبا.."
+  "polling_failed": "فشل الاستطلاع. سأحاول مرة أخرى قريبا..",
+  "source_device_missing_retry_named": "الجهاز المصدر %name% مفقود. إعادة المحاولة خلال 10 دقائق.",
+  "error_device_not_ready": "الجهاز غير جاهز. تجاهل الإعدادات الجديدة!",
+  "error_roi_hp2023": "عائد الاستثمار المتقدم متاح فقط في HP2023!",
+  "error_value_not_number": "القيمة ليست رقماً",
+  "error_budget_custom_12": "الميزانية المخصصة لا تحتوي على 12 قيمة رقمية",
+  "error_budget_invalid": "الميزانية ليست رقماً صحيحاً",
+  "error_device_corrupt": "الجهاز تالف!",
+  "error_no_prices": "لا توجد أسعار متاحة",
+  "error_no_price_interval": "لا توجد فترة سعر متاحة",
+  "error_homey_api_not_ready": "واجهة برمجة تطبيقات Homey غير جاهزة"
 }

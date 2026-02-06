@@ -7,8 +7,13 @@
     "it": "Spesa ora precedente",
     "no": "Kostnad forrige time",
     "fr": "Argent heure précédente",
-    "dk": "Penge sidste time",
-    "nl": "Geld vorig uur"
+    "da": "Penge sidste time",
+    "nl": "Geld vorig uur",
+    "es": "Money prev. hour",
+    "pl": "Money prev. hour",
+    "ru": "Money prev. hour",
+    "ko": "Money prev. hour",
+    "ar": "Money prev. hour"
   },
   "uiComponent": "sensor",
   "icon": "/assets/money_h.svg",

@@ -1,0 +1,19 @@
+{
+  "today": "Dzisiaj",
+  "tomorrow": "Jutro",
+  "nextHours": "Następne godziny",
+  "device_migrating": "Urządzenie jest migrowane. Proszę czekać!",
+  "source_device_missing_retry": "Brak urządzenia źródłowego. Spróbuj ponownie za 10 minut.",
+  "source_device_missing_retrying": "Brak urządzenia źródłowego. Ponawianie ..",
+  "polling_failed": "Odpytywanie nie powiodło się. Wkrótce spróbuję ponownie..",
+  "source_device_missing_retry_named": "Brak urządzenia źródłowego %name%. Spróbuj ponownie za 10 minut.",
+  "error_device_not_ready": "Urządzenie nie jest gotowe. Ignorowanie nowych ustawień!",
+  "error_roi_hp2023": "Zaawansowane ROI jest dostępne tylko na HP2023!",
+  "error_value_not_number": "Wartość nie jest liczbą",
+  "error_budget_custom_12": "Niestandardowy budżet nie ma 12 wartości liczbowych",
+  "error_budget_invalid": "Budżet nie jest prawidłową liczbą",
+  "error_device_corrupt": "Urządzenie jest uszkodzone!",
+  "error_no_prices": "Brak dostępnych cen",
+  "error_no_price_interval": "Brak dostępnego przedziału cenowego",
+  "error_homey_api_not_ready": "API Homey nie jest gotowe"
+}

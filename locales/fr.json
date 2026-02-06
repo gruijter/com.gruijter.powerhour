@@ -1,0 +1,19 @@
+{
+  "today": "Aujourd'hui",
+  "tomorrow": "Demain",
+  "nextHours": "Prochaines heures",
+  "device_migrating": "L'appareil est en cours de migration. Veuillez patienter !",
+  "source_device_missing_retry": "L'appareil source est manquant. Réessayez dans 10 minutes.",
+  "source_device_missing_retrying": "L'appareil source est manquant. Nouvelle tentative ..",
+  "polling_failed": "L'interrogation a échoué. Réessayera bientôt..",
+  "source_device_missing_retry_named": "L'appareil source %name% est manquant. Réessayez dans 10 minutes.",
+  "error_device_not_ready": "L'appareil n'est pas prêt. Les nouveaux paramètres sont ignorés !",
+  "error_roi_hp2023": "Le ROI avancé est uniquement disponible sur HP2023 !",
+  "error_value_not_number": "La valeur n'est pas un nombre",
+  "error_budget_custom_12": "Le budget personnalisé n'a pas 12 valeurs numériques",
+  "error_budget_invalid": "Le budget n'est pas un nombre valide",
+  "error_device_corrupt": "L'appareil est corrompu !",
+  "error_no_prices": "Aucun prix disponible",
+  "error_no_price_interval": "Aucun intervalle de prix disponible",
+  "error_homey_api_not_ready": "API Homey non prête"
+}

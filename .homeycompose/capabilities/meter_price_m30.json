@@ -1,7 +1,19 @@
 {
   "type": "number",
   "title": {
-    "en": "Price +30M"
+    "en": "Price +30M",
+    "nl": "Prijs +30M",
+    "de": "Preis +30Min",
+    "fr": "Tarif +30M",
+    "it": "Prezzo +30m",
+    "sv": "Pris +30M",
+    "no": "Pris +30M",
+    "da": "Pris +30M",
+    "es": "Precio +30M",
+    "pl": "Cena +30M",
+    "ru": "Цена +30М",
+    "ar": "السعر +30د",
+    "ko": "가격 +30분"
   },
   "uiComponent": "sensor",
   "icon": "/assets/tariff.svg",

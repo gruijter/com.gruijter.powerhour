@@ -1,8 +1,17 @@
 {
   "name": {
     "en": "Water Summarizer",
+    "nl": "Water Samenvatter",
     "de": "Wasserzähler",
-    "sv": "Vatten Summerare"
+    "fr": "Résumé Eau",
+    "it": "Riepilogo Acqua",
+    "sv": "Vatten Summerare",
+    "no": "Vann Oppsummering",
+    "es": "Resumen de Agua",
+    "da": "Vand Opsummering",
+    "pl": "Podsumowanie Wody",
+    "ru": "Сводка Воды",
+    "ar": "ملخص المياه"
   },
   "images": {
     "large": "./drivers/water/assets/images/large.jpg",
@@ -27,35 +36,47 @@
     }
   ],
   "repair": [
-		{
-			"id": "repair_warning",
-			"navigation": { "next": "list_devices" }
-		},
-		{
-			"id": "list_devices",
-			"template": "list_devices",
-			"options": { "singular": true },
-			"navigation": { "next": "loading" }
-			},
-			{
-				"id": "loading",
-				"template": "loading"
-			},
-			{
-				"id": "done",
-				"template": "done"
-			}
+    {
+      "id": "repair_warning",
+      "navigation": {
+        "next": "list_devices"
+      }
+    },
+    {
+      "id": "list_devices",
+      "template": "list_devices",
+      "options": {
+        "singular": true
+      },
+      "navigation": {
+        "next": "loading"
+      }
+    },
+    {
+      "id": "loading",
+      "template": "loading"
+    },
+    {
+      "id": "done",
+      "template": "done"
+    }
   ],
   "settings": [
     {
       "type": "group",
       "label": {
         "en": "Homey source device information",
+        "nl": "Homey bronapparaat informatie",
         "de": "Informationen zum Homey Gerät",
-        "sv": "Homey källenhetsinformation",
-        "it": "Informazioni dispositivo sorgente Homey",
         "fr": "Informations sur l'appareil source Homey",
-        "nl": "Homey bronapparaat informatie"
+        "it": "Informazioni dispositivo sorgente Homey",
+        "sv": "Homey källenhetsinformation",
+        "no": "Homey kildeenhetsinformasjon",
+        "es": "Información del dispositivo de origen Homey",
+        "da": "Homey kildeenhedsinformation",
+        "pl": "Informacje o urządzeniu źródłowym Homey",
+        "ru": "Информация об исходном устройстве Homey",
+        "ar": "معلومات جهاز مصدر Homey"
       },
       "children": [
         {
@@ -63,11 +84,17 @@
           "type": "label",
           "label": {
             "en": "Device ID",
+            "nl": "Apparaat ID",
             "de": "Geräte ID",
-            "sv": "Enhets ID",
-            "it": "ID dispositivo",
             "fr": "ID de l'appareil",
-            "nl": "Apparaat ID"
+            "it": "ID dispositivo",
+            "sv": "Enhets ID",
+            "no": "Enhets ID",
+            "es": "ID del dispositivo",
+            "da": "Enheds-ID",
+            "pl": "ID urządzenia",
+            "ru": "ID устройства",
+            "ar": "معرف الجهاز"
           },
           "value": "unknown"
         },
@@ -76,11 +103,17 @@
           "type": "label",
           "label": {
             "en": "Device name",
+            "nl": "Apparaat naam",
             "de": "Gerätename",
-            "sv": "Enhets namn",
-            "it": "Nome dispositivo",
             "fr": "Nom de l'appareil",
-            "nl": "Apparaat naam"
+            "it": "Nome dispositivo",
+            "sv": "Enhets namn",
+            "no": "Enhets navn",
+            "es": "Nombre del dispositivo",
+            "da": "Enhedsnavn",
+            "pl": "Nazwa urządzenia",
+            "ru": "Имя устройства",
+            "ar": "اسم الجهاز"
           },
           "value": "unknown"
         },
@@ -89,21 +122,32 @@
           "type": "label",
           "label": {
             "en": "Source device type",
+            "nl": "Type bron apparaat",
             "de": "Gerätetyp",
-            "sv": "Källenhetstyp",
-            "it": "Tipo dispositivo sorgente",
             "fr": "Type d'appareil source",
-            "nl": "Type bron apparaat"
+            "it": "Tipo dispositivo sorgente",
+            "sv": "Källenhetstyp",
+            "no": "Kildeenhetstype",
+            "es": "Tipo de dispositivo de origen",
+            "da": "Kildeenhedstype",
+            "pl": "Typ urządzenia źródłowego",
+            "ru": "Тип исходного устройства",
+            "ar": "نوع جهاز المصدر"
           },
           "value": "Homey device",
           "hint": {
             "en": "Either Homey device or Virtual device. The meter of a virtual device can only be updated via a flow.",
+            "nl": "Homey apparaat of virtueel apparaat. De meter van een virtueel apparaat kan alleen worden geupdated via een flow.",
             "de": "Homey Gerät oder virtuelles Gerät. Der Zähler eines virtuellen Geräts kann nur über einen Flow aktualisiert werden.",
-            "sv": "Antingen Homey enhet eller virtuell enhet. Mätaren för en virtuell enhet kan endast uppdateras via ett flöde.",
-            "it": "Dispositivo Homey o dispositivo virtuale. Il contatore di un dispositivo virtuale può essere aggiornato solo tramite un flow.",
-            "no": "Enten Homey enhet eller virtuell enhet. Meteret til en virtuell enhet kan bare oppdateres via en flow.",
             "fr": "Appareil Homey soit appareil virtuel. Le compteur d'un appareil virtuel peut être mis à jour uniquement via un flow",
-            "nl": "Homey apparaat of virtueel apparaat. De meter van een virtueel apparaat kan alleen worden geupdated via een flow."
+            "it": "Dispositivo Homey o dispositivo virtuale. Il contatore di un dispositivo virtuale può essere aggiornato solo tramite un flow.",
+            "sv": "Antingen Homey enhet eller virtuell enhet. Mätaren för en virtuell enhet kan endast uppdateras via ett flöde.",
+            "no": "Enten Homey enhet eller virtuell enhet. Meteret til en virtuell enhet kan bare oppdateres via en flow.",
+            "es": "Dispositivo Homey o dispositivo virtual. El medidor de un dispositivo virtual solo se puede actualizar a través de un flujo.",
+            "da": "Enten Homey-enhed eller virtuel enhed. Måleren på en virtuel enhed kan kun opdateres via et flow.",
+            "pl": "Urządzenie Homey lub urządzenie wirtualne. Licznik urządzenia wirtualnego można zaktualizować tylko za pomocą przepływu.",
+            "ru": "Либо устройство Homey, либо виртуальное устройство. Счетчик виртуального устройства можно обновить только через поток.",
+            "ar": "إما جهاز Homey أو جهاز افتراضي. لا يمكن تحديث عداد الجهاز الافتراضي إلا عبر التدفق."
           }
         },
         {
@@ -111,21 +155,31 @@
           "type": "checkbox",
           "label": {
             "en": "Has daily reset",
+            "nl": "Heeft dagelijkse reset",
             "de": "Tägliches Zurücksetzen",
-            "sv": "Har daglig återställning",
-            "it": "Effettua reset giornaliero",
-            "no": "Har daglig resetting",
             "fr": "A une remise à zéro quotidienne",
-            "nl": "Heeft dagelijkse reset"
+            "it": "Effettua reset giornaliero",
+            "sv": "Har daglig återställning",
+            "no": "Har daglig resetting",
+            "es": "Tiene reinicio diario",
+            "da": "Har daglig nulstilling",
+            "pl": "Ma codzienny reset",
+            "ru": "Имеет ежедневный сброс",
+            "ar": "لديه إعادة تعيين يومية"
           },
           "hint": {
             "en": "The meter of this source device resets every midnight to 0",
+            "nl": "De meter van dit bronapparaat reset naar 0 om middernacht",
             "de": "Der Zähler dieses Geräts wird um Mitternacht auf 0 zurückgesetzt",
-            "sv": "Mätaren för denna källenhet återställs varje midnatt till 0",
-            "it": "Il contatore di questo dispositivo sorgente viene resettato ogni mezzanotte",
-            "no": "Meteret til denne kilden resetter hver midnatt til 0",
             "fr": "Le compteur de cette source se remet à zéro chaque nuit à minuit",
-            "nl": "De meter van dit bronapparaat reset naar 0 om middernacht"
+            "it": "Il contatore di questo dispositivo sorgente viene resettato ogni mezzanotte",
+            "sv": "Mätaren för denna källenhet återställs varje midnatt till 0",
+            "no": "Meteret til denne kilden resetter hver midnatt til 0",
+            "es": "El medidor de este dispositivo de origen se reinicia cada medianoche a 0",
+            "da": "Måleren på denne kildeenhed nulstilles hver midnat til 0",
+            "pl": "Licznik tego urządzenia źródłowego resetuje się co północ do 0",
+            "ru": "Счетчик этого исходного устройства сбрасывается каждую полночь в 0",
+            "ar": "يعيد عداد جهاز المصدر هذا التعيين كل منتصف ليل إلى 0"
           },
           "value": false
         },
@@ -134,21 +188,31 @@
           "type": "number",
           "label": {
             "en": "Update interval (minutes)",
+            "nl": "Update interval (minuten)",
             "de": "Update-Intervall (Minuten)",
-            "sv": "Uppdateringsintervall (minuter)",
-            "it": "Intervallo aggiornamento (minuti)",
-            "no": "Oppdateringsintervall (minutter)",
             "fr": "Intervale de mise à jour (minutes)",
-            "nl": "Update interval (minuten)"
+            "it": "Intervallo aggiornamento (minuti)",
+            "sv": "Uppdateringsintervall (minuter)",
+            "no": "Oppdateringsintervall (minutter)",
+            "es": "Intervalo de actualización (minutos)",
+            "da": "Opdateringsinterval (minutter)",
+            "pl": "Interwał aktualizacji (minuty)",
+            "ru": "Интервал обновления (минуты)",
+            "ar": "فاصل التحديث (بالدقائق)"
           },
           "hint": {
             "en": "Set to 0 to get immediate updates. This can slightly increase system load. This setting is ignored for virtual source devices.",
+            "nl": "Zet op 0 voor directe updates. Dit kan echter de systeem belasting iets verhogen. Deze instelling wordt niet gebruikt voor virtuele bron apparaten.",
             "de": "Für sofortige Updates auf 0 setzen. Dies kann die Systemlast jedoch leicht erhöhen. Diese Einstellung wird nicht für virtuelle Geräte verwendet.",
-            "sv": "Ställ in 0 för att få omedelbara uppdateringar. Detta kan öka systembelastningen något. Denna inställning ignoreras för Watt och virtuella källenheter.",
-            "it": "Imposta a 0 per aggiornamenti immediati. Ciò può aumentare leggermente il carico del sistema. Questa impostazione viene ignorata per i dispositivi sorgente virtuali.",
-            "no": "Sett til 0 for å få umiddlebare oppdateringer. Dette kan øke systembelastningen litt. Denne innstillingen ignoreres for Watt og virtuelle kilde enheter.",
             "fr": "Mettre à 0 pour avoir une mise à jour imméfiate. Cela peut augmenter légèrement la charge du système. Ce paramètre est ignoré pour les périphériques source virtuels.",
-            "nl": "Zet op 0 voor directe updates. Dit kan echter de systeem belasting iets verhogen. Deze instelling wordt niet gebruikt voor virtuele bron apparaten."
+            "it": "Imposta a 0 per aggiornamenti immediati. Ciò può aumentare leggermente il carico del sistema. Questa impostazione viene ignorata per i dispositivi sorgente virtuali.",
+            "sv": "Ställ in 0 för att få omedelbara uppdateringar. Detta kan öka systembelastningen något. Denna inställning ignoreras för Watt och virtuella källenheter.",
+            "no": "Sett til 0 for å få umiddlebare oppdateringer. Dette kan øke systembelastningen litt. Denne innstillingen ignoreres for Watt og virtuelle kilde enheter.",
+            "es": "Establecer en 0 para obtener actualizaciones inmediatas. Esto puede aumentar ligeramente la carga del sistema. Esta configuración se ignora para dispositivos de origen virtuales.",
+            "da": "Indstil til 0 for at få øjeblikkelige opdateringer. Dette kan øge systembelastningen en smule. Denne indstilling ignoreres for virtuelle kildeenheder.",
+            "pl": "Ustaw na 0, aby otrzymywać natychmiastowe aktualizacje. Może to nieznacznie zwiększyć obciążenie systemu. To ustawienie jest ignorowane dla wirtualnych urządzeń źródłowych.",
+            "ru": "Установите 0 для получения мгновенных обновлений. Это может немного увеличить нагрузку на систему. Этот параметр игнорируется для виртуальных исходных устройств.",
+            "ar": "تعيين إلى 0 للحصول على تحديثات فورية. هذا يمكن أن يزيد قليلا تحميل النظام. يتم تجاهل هذا الإعداد لأجهزة المصدر الافتراضية."
           },
           "value": 0,
           "min": 0,
@@ -156,126 +220,229 @@
           "step": 1
         },
         {
-					"id": "wait_for_update",
-					"type": "number",
-					"label": {
-						"en": "Delay hourly poll (minutes)",
-						"nl": "Vertraag uurlijkse poll (minuten)"
-					},
-					"hint": {
-						"en": "Set to 0 to get immediate updates on the hour.",
-						"nl": "Zet op 0 voor directe poll op het hele uur."
-					},
-					"value": 0,
-					"min": 0,
-					"max": 15,
-					"step": 1
-				}
+          "id": "wait_for_update",
+          "type": "number",
+          "label": {
+            "en": "Delay hourly poll (minutes)",
+            "nl": "Vertraag uurlijkse poll (minuten)",
+            "de": "Stündliche Abfrage verzögern (Minuten)",
+            "fr": "Retarder le sondage horaire (minutes)",
+            "it": "Ritardare sondaggio orario (minuti)",
+            "sv": "Fördröj timvis pollning (minuter)",
+            "no": "Forsink timevis polling (minutter)",
+            "es": "Retrasar sondeo horario (minutos)",
+            "da": "Forsink timesmåling (minutter)",
+            "pl": "Opóźnij ankietę godzinową (minuty)",
+            "ru": "Задержка ежечасного опроса (минуты)",
+            "ar": "تأخير الاستطلاع الساعي (دقائق)"
+          },
+          "hint": {
+            "en": "Set to 0 to get immediate updates on the hour.",
+            "nl": "Zet op 0 voor directe poll op het hele uur.",
+            "de": "Auf 0 setzen, um sofortige Updates zur vollen Stunde zu erhalten.",
+            "fr": "Réglez sur 0 pour obtenir des mises à jour immédiates à l'heure.",
+            "it": "Impostare su 0 per ottenere aggiornamenti immediati all'ora.",
+            "sv": "Ställ in på 0 för att få omedelbara uppdateringar varje timme.",
+            "no": "Sett til 0 for å få umiddelbare oppdateringer på timen.",
+            "es": "Establecer en 0 para obtener actualizaciones inmediatas cada hora.",
+            "da": "Indstil til 0 for at få øjeblikkelige opdateringer hver time.",
+            "pl": "Ustaw na 0, aby otrzymywać natychmiastowe aktualizacje co godzinę.",
+            "ru": "Установите 0 для получения мгновенных обновлений каждый час.",
+            "ar": "تعيين إلى 0 للحصول على تحديثات فورية على مدار الساعة."
+          },
+          "value": 0,
+          "min": 0,
+          "max": 15,
+          "step": 1
+        }
       ]
     },
     {
-			"type": "group",
-			"label": {
-				"en": "Year start and water budget",
-				"de": "Jahresbeginn und Wasserbudget",
-				"sv": "Årets början och vattenbudget",
-				"it": "Inizio anno e bilancio acqua",
-				"no": "Årets start og vannbudsjett",
-				"fr": "Début d'année et budget d'eau",
-				"nl": "Jaarstart en water budget"
-			},
-			"children": [
-				{
-					"id": "start_date",
-					"type": "text",
-					"label": {
-						"en": "New year start date",
-						"de": "Startdatum neues Jahr",
-						"sv": "Nytt år startdatum",
-						"it": "Data inizio nuovo anno",
-						"no": "Startdato for nyttår",
-						"fr": "Date de début de nouvelle année",
-						"nl": "Start datum nieuw jaar"
-					},
-					"value": "0101",
-					"hint": {
-						"en": "On this date the month and year total will reset to 0. Format is ddmm. Default is 0101 (1 January). ATTENTION: If you change this date you need to manually correct the This Month Start and This Year Start values.",
-						"nl": "Op deze datum wordt het jaar en maand totaal op 0 gezet. Het formaat is ddmm. Standaard is 0101 (1 january). LET OP: Als deze datum wordt gewijzigd zal Deze Maand Start en Dit Jaar Start handmatig aangepast moeten worden.",
-						"de": "An diesem Datum wird die Monats- und Jahressumme auf 0 zurückgesetzt. Das Format ist ddmm. Standardwert ist 0101 (1. Januar). ACHTUNG: Wenn Sie dieses Datum ändern, müssen Sie die Werte 'Monatsbeginn' und 'Jahresbeginn' manuell korrigieren.",
-						"sv": "På det här datumet återställs totalsumman för månad och år till 0. Formatet är ddmm. Standard är 0101 (1 januari). OBSERVERA: Om du ändrar detta datum måste du manuellt korrigera värdena för start för denna månad och start för detta år.",
-						"it": "In questa data il mese e l'anno saranno resettati a 0. Il formato è ggmm. Default è 0101 (1 Gennaio). ATTENZIONE: Se modifichi questa data dovrai correggere manualmente i valori Inizio Mese Corrente e Inzio Anno Corrente.",
-						"no": "På denne dato vil total for måned og år resettes til 0. Format er ddmm. Default er 0101 (1 Januar). NB: Hvis du endrer denne datoen må du manuelt korrigere Denne måned start og  dette år start verdier.",
-						"fr": "À cette date, le total du mois et de l'année sera remit à 0. Le format est jjmm. La valeur par défaut est 0101 (1er janvier). ATTENTION: Si vous modifiez cette date, vous devez corriger manuellement les valeurs Début de ce mois et Début de cette année."
-					}
-				},
-				{
-					"id": "budget",
-					"type": "text",
-					"label": {
-						"en": "Year target budget (m³)",
-						"nl": "Jaar doelbudget (m³)",
-  						"de": "Jahreszielbudget (m³)"
-					},
-					"value": "150",
-					"hint": {
-						"en": "The total target budget for a year. Attention: the year starts at the set start date. When selecting CUSTOM BUDGET distribution, fill in the 12 values from Jan-Dec seperated by ;",
-						"nl": "Het totale doelbudget voor een jaar. LET OP: het jaar begint bij de ingestelde start datum. Als HANDMATIGE BUDGET verdeling is gekozen, vul dan de 12 waarden in van jan-dec, gescheiden door ;",
- 						"de": "Das gesamte Zielbudget für ein Jahr. Achtung: Das Jahr beginnt mit dem festgelegten Startdatum. Geben Sie bei Auswahl der BENUTZERDEFINIERTEN Verteilung die 12 Werte von Jan-Dez getrennt durch ;"
-					}
-				},
-				{
-					"id": "distribution",
-					"type": "dropdown",
-					"value": "linear",
-					"label": {
-						"en": "Distribution scheme",
-						"nl": "Verdeling schema",
-  						"de": "Verteilungsschema"
-					},
-					"hint": {
-						"en": "The day by day distribution of usage over the year.",
-						"nl": "De verdeling van het dagelijkse verbruik over het jaar heen.",
-  						"de": "Die Verteilung des Tagesverbrauchs über das Jahr."
-					},
-					"values": [
-						{
-							"id": "NONE",
-							"label": {
-								"en": "DISABLE TARGET BUDGET",
-								"nl": "DOELBUDGET NIET ACTIEF",
-  								"de": "ZIELBUDGET NICHT AKTIV"
-							}
-						},
-						{
-							"id": "CUSTOM",
-							"label": {
-								"en": "CUSTOM BUDGET",
-								"nl": "HANDMATIG BUDGET",
-								"de": "BENUTZERDEFINIERT"
-							}
-						},
+      "type": "group",
+      "label": {
+        "en": "Year start and water budget",
+        "nl": "Jaarstart en water budget",
+        "de": "Jahresbeginn und Wasserbudget",
+        "fr": "Début d'année et budget d'eau",
+        "it": "Inizio anno e bilancio acqua",
+        "sv": "Årets början och vattenbudget",
+        "no": "Årets start og vannbudsjett",
+        "es": "Inicio del año y presupuesto de agua",
+        "da": "Årsstart og vandbudget",
+        "pl": "Początek roku i budżet wodny",
+        "ru": "Начало года и бюджет на воду",
+        "ar": "بداية العام وميزانية المياه"
+      },
+      "children": [
+        {
+          "id": "start_date",
+          "type": "text",
+          "label": {
+            "en": "New year start date",
+            "nl": "Start datum nieuw jaar",
+            "de": "Startdatum neues Jahr",
+            "fr": "Date de début de nouvelle année",
+            "it": "Data inizio nuovo anno",
+            "sv": "Nytt år startdatum",
+            "no": "Startdato for nyttår",
+            "es": "Fecha de inicio del año nuevo",
+            "da": "Startdato for nytår",
+            "pl": "Data rozpoczęcia nowego roku",
+            "ru": "Дата начала нового года",
+            "ar": "تاريخ بدء العام الجديد"
+          },
+          "value": "0101",
+          "hint": {
+            "en": "On this date the month and year total will reset to 0. Format is ddmm. Default is 0101 (1 January). ATTENTION: If you change this date you need to manually correct the This Month Start and This Year Start values.",
+            "nl": "Op deze datum wordt het jaar en maand totaal op 0 gezet. Het formaat is ddmm. Standaard is 0101 (1 january). LET OP: Als deze datum wordt gewijzigd zal Deze Maand Start en Dit Jaar Start handmatig aangepast moeten worden.",
+            "de": "An diesem Datum wird die Monats- und Jahressumme auf 0 zurückgesetzt. Das Format ist ddmm. Standardwert ist 0101 (1. Januar). ACHTUNG: Wenn Sie dieses Datum ändern, müssen Sie die Werte 'Monatsbeginn' und 'Jahresbeginn' manuell korrigieren.",
+            "fr": "À cette date, le total du mois et de l'année sera remit à 0. Le format est jjmm. La valeur par défaut est 0101 (1er janvier). ATTENTION: Si vous modifiez cette date, vous devez corriger manuellement les valeurs Début de ce mois et Début de cette année.",
+            "it": "In questa data il mese e l'anno saranno resettati a 0. Il formato è ggmm. Default è 0101 (1 Gennaio). ATTENZIONE: Se modifichi questa data dovrai correggere manualmente i valori Inizio Mese Corrente e Inzio Anno Corrente.",
+            "sv": "På det här datumet återställs totalsumman för månad och år till 0. Formatet är ddmm. Standard är 0101 (1 januari). OBSERVERA: Om du ändrar detta datum måste du manuellt korrigera värdena för start för denna månad och start för detta år.",
+            "no": "På denne dato vil total for måned og år resettes til 0. Format er ddmm. Default er 0101 (1 Januar). NB: Hvis du endrer denne datoen må du manuelt korrigere Denne måned start og  dette år start verdier.",
+            "es": "En esta fecha, el total del mes y del año se reiniciará a 0. El formato es ddmm. El valor predeterminado es 0101 (1 de enero). ATENCIÓN: Si cambia esta fecha, debe corregir manualmente los valores de Inicio de este mes e Inicio de este año.",
+            "da": "På denne dato nulstilles måneds- og årstotalen til 0. Formatet er ddmm. Standard er 0101 (1. januar). BEMÆRK: Hvis du ændrer denne dato, skal du manuelt rette værdierne for Denne måned start og Dette år start.",
+            "pl": "W tym dniu suma miesiąca i roku zresetuje się do 0. Format to ddmm. Domyślnie jest to 0101 (1 stycznia). UWAGA: Jeśli zmienisz tę datę, musisz ręcznie poprawić wartości Początek tego miesiąca i Początek tego roku.",
+            "ru": "В эту дату итоги месяца и года будут сброшены до 0. Формат ддмм. По умолчанию 0101 (1 января). ВНИМАНИЕ: Если вы измените эту дату, вам нужно будет вручную исправить значения Начало этого месяца и Начало этого года.",
+            "ar": "في هذا التاريخ سيتم إعادة تعيين إجمالي الشهر والسنة إلى 0. التنسيق هو ddmm. الافتراضي هو 0101 (1 يناير). انتبه: إذا قمت بتغيير هذا التاريخ، فأنت بحاجة إلى تصحيح قيم بداية هذا الشهر وبداية هذا العام يدويًا."
+          }
+        },
+        {
+          "id": "budget",
+          "type": "text",
+          "label": {
+            "en": "Year target budget (m³)",
+            "nl": "Jaar doelbudget (m³)",
+            "de": "Jahreszielbudget (m³)",
+            "fr": "Budget cible annuel (m³)",
+            "it": "Budget obiettivo annuale (m³)",
+            "sv": "Årsmålbudget (m³)",
+            "no": "Årlig målbudsjett (m³)",
+            "es": "Presupuesto objetivo anual (m³)",
+            "da": "Årligt målbudget (m³)",
+            "pl": "Roczny budżet docelowy (m³)",
+            "ru": "Годовой целевой бюджет (м³)",
+            "ar": "الميزانية السنوية المستهدفة (م³)"
+          },
+          "value": "150",
+          "hint": {
+            "en": "The total target budget for a year. Attention: the year starts at the set start date. When selecting CUSTOM BUDGET distribution, fill in the 12 values from Jan-Dec seperated by ;",
+            "nl": "Het totale doelbudget voor een jaar. LET OP: het jaar begint bij de ingestelde start datum. Als HANDMATIGE BUDGET verdeling is gekozen, vul dan de 12 waarden in van jan-dec, gescheiden door ;",
+            "de": "Das gesamte Zielbudget für ein Jahr. Achtung: Das Jahr beginnt mit dem festgelegten Startdatum. Geben Sie bei Auswahl der BENUTZERDEFINIERTEN Verteilung die 12 Werte von Jan-Dez getrennt durch ;",
+            "fr": "Le budget cible total pour une année. Attention : l'année commence à la date de début définie. Lors de la sélection de la distribution BUDGET PERSONNALISÉ, remplissez les 12 valeurs de janv. à déc. séparées par ;",
+            "it": "Il budget totale obiettivo per un anno. Attenzione: l'anno inizia alla data di inizio impostata. Quando si seleziona la distribuzione BUDGET PERSONALIZZATO, inserire i 12 valori da Gen-Dic separati da ;",
+            "sv": "Den totala målbudgeten för ett år. Observera: året börjar vid det inställda startdatumet. När du väljer ANPASSAD BUDGET-distribution, fyll i de 12 värdena från Jan-Dec separerade med ;",
+            "no": "Det totale målbudsjettet for et år. OBS: året starter på den innstilte startdatoen. Når du velger EGENDEFINERT BUDSJETT fordeling, fyll inn de 12 verdiene fra Jan-Des separert med ;",
+            "es": "El presupuesto objetivo total para un año. Atención: el año comienza en la fecha de inicio establecida. Al seleccionar la distribución de PRESUPUESTO PERSONALIZADO, complete los 12 valores de Ene-Dic separados por ;",
+            "da": "Det samlede målbudget for et år. Bemærk: året starter på den indstillede startdato. Når du vælger BRUGERDEFINERET BUDGET fordeling, skal du udfylde de 12 værdier fra Jan-Dec adskilt af ;",
+            "pl": "Całkowity budżet docelowy na rok. Uwaga: rok rozpoczyna się w ustawionej dacie rozpoczęcia. Wybierając dystrybucję BUDŻETU NIESTANDARDOWEGO, wpisz 12 wartości od stycznia do grudnia oddzielonych ;",
+            "ru": "Общий целевой бюджет на год. Внимание: год начинается с установленной даты начала. При выборе РАСПРЕДЕЛЕНИЯ ПОЛЬЗОВАТЕЛЬСКОГО БЮДЖЕТА заполните 12 значений с января по декабрь, разделенных ;",
+            "ar": "إجمالي الميزانية المستهدفة لعام. انتبه: تبدأ السنة في تاريخ البدء المحدد. عند اختيار توزيع الميزانية المخصصة، املأ القيم الـ 12 من يناير إلى ديسمبر مفصولة بـ ;"
+          }
+        },
+        {
+          "id": "distribution",
+          "type": "dropdown",
+          "value": "linear",
+          "label": {
+            "en": "Distribution scheme",
+            "nl": "Verdeling schema",
+            "de": "Verteilungsschema",
+            "fr": "Schéma de distribution",
+            "it": "Schema di distribuzione",
+            "sv": "Distributionsschema",
+            "no": "Distribusjonsskjema",
+            "es": "Esquema de distribución",
+            "da": "Distributionsskema",
+            "pl": "Schemat dystrybucji",
+            "ru": "Схема распределения",
+            "ar": "مخطط التوزيع"
+          },
+          "hint": {
+            "en": "The day by day distribution of usage over the year.",
+            "nl": "De verdeling van het dagelijkse verbruik over het jaar heen.",
+            "de": "Die Verteilung des Tagesverbrauchs über das Jahr.",
+            "fr": "La distribution quotidienne de l'utilisation sur l'année.",
+            "it": "La distribuzione giornaliera dell'utilizzo durante l'anno.",
+            "sv": "Den dagliga fördelningen av användningen under året.",
+            "no": "Den daglige fordelingen av bruk gjennom året.",
+            "es": "La distribución día a día del uso durante el año.",
+            "da": "Den daglige fordeling af forbrug over året.",
+            "pl": "Codzienny rozkład zużycia w ciągu roku.",
+            "ru": "Ежедневное распределение использования в течение года.",
+            "ar": "توزيع الاستخدام يومًا بعد يوم على مدار العام."
+          },
+          "values": [
             {
-							"id": "linear",
-							"label": {
-								"en": "Linear",
-								"nl": "Lineair",
-  								"de": "Linear"
-							}
-						}
-					]
-				}
-			]
-		},
+              "id": "NONE",
+              "label": {
+                "en": "DISABLE TARGET BUDGET",
+                "nl": "DOELBUDGET NIET ACTIEF",
+                "de": "ZIELBUDGET NICHT AKTIV",
+                "fr": "DÉSACTIVER LE BUDGET CIBLE",
+                "it": "DISABILITA BUDGET OBIETTIVO",
+                "sv": "INAKTIVERA MÅLBUDGET",
+                "no": "DEAKTIVER MÅLBUDSJETT",
+                "es": "DESACTIVAR PRESUPUESTO OBJETIVO",
+                "da": "DEAKTIVER MÅLBUDGET",
+                "pl": "WYŁĄCZ BUDŻET DOCELOWY",
+                "ru": "ОТКЛЮЧИТЬ ЦЕЛЕВОЙ БЮДЖЕТ",
+                "ar": "تعطيل الميزانية المستهدفة"
+              }
+            },
+            {
+              "id": "CUSTOM",
+              "label": {
+                "en": "CUSTOM BUDGET",
+                "nl": "HANDMATIG BUDGET",
+                "de": "BENUTZERDEFINIERT",
+                "fr": "BUDGET PERSONNALISÉ",
+                "it": "BUDGET PERSONALIZZATO",
+                "sv": "ANPASSAD BUDGET",
+                "no": "EGENDEFINERT BUDSJETT",
+                "es": "PRESUPUESTO PERSONALIZADO",
+                "da": "BRUGERDEFINERET BUDGET",
+                "pl": "BUDŻET NIESTANDARDOWY",
+                "ru": "ПОЛЬЗОВАТЕЛЬСКИЙ БЮДЖЕТ",
+                "ar": "ميزانية مخصصة"
+              }
+            },
+            {
+              "id": "linear",
+              "label": {
+                "en": "Linear",
+                "nl": "Lineair",
+                "de": "Linear",
+                "fr": "Linéaire",
+                "it": "Lineare",
+                "sv": "Linjär",
+                "no": "Lineær",
+                "es": "Lineal",
+                "da": "Lineær",
+                "pl": "Liniowy",
+                "ru": "Линейный",
+                "ar": "خطي"
+              }
+            }
+          ]
+        }
+      ]
+    },
     {
       "type": "group",
       "label": {
         "en": "Meter readings",
+        "nl": "Meter waarden",
         "de": "Zählerstände",
-        "sv": "Mätaravläsningar",
-        "it": "Letture contatore",
-        "no": "Meter verdier",
         "fr": "Lecture de compteur",
-        "nl": "Meter waarden"
+        "it": "Letture contatore",
+        "sv": "Mätaravläsningar",
+        "no": "Meter verdier",
+        "es": "Lecturas del medidor",
+        "da": "Måleraflæsninger",
+        "pl": "Odczyty licznika",
+        "ru": "Показания счетчика",
+        "ar": "قراءات العداد"
       },
       "children": [
         {
@@ -283,24 +450,34 @@
           "type": "number",
           "label": {
             "en": "Number of decimals",
+            "nl": "Aantal decimalen",
             "de": "Anzahl Dezimalstellen",
-            "sv": "Antalet decimaler",
-            "it": "numero di decimali",
-            "no": "Antall desimaler",
             "fr": "Nombre de décimales",
-            "nl": "Aantal decimalen"
+            "it": "Numero di decimali",
+            "sv": "Antalet decimaler",
+            "no": "Antall desimaler",
+            "es": "Número de decimales",
+            "da": "Antal decimaler",
+            "pl": "Liczba miejsc dziesiętnych",
+            "ru": "Количество десятичных знаков",
+            "ar": "عدد الكسور العشرية"
           },
           "value": 4,
           "min": 0,
           "max": 8,
           "hint": {
             "en": "The number of decimals to use.",
+            "nl": "Het aantal decimalen.",
             "de": "Die Anzahl der Dezimalstellen.",
-            "sv": "Antalet decimaler som ska användas.",
-            "it": "Iil numero di decimali.",
-            "no": "Antall desimaler.",
             "fr": "Nombre de décimales.",
-            "nl": "Het aantal decimalen."
+            "it": "Il numero di decimali.",
+            "sv": "Antalet decimaler som ska användas.",
+            "no": "Antall desimaler.",
+            "es": "El número de decimales a utilizar.",
+            "da": "Antallet af decimaler, der skal bruges.",
+            "pl": "Liczba miejsc dziesiętnych do użycia.",
+            "ru": "Количество используемых десятичных знаков.",
+            "ar": "عدد الكسور العشرية المراد استخدامها."
           }
         },
         {
@@ -308,22 +485,32 @@
           "type": "label",
           "label": {
             "en": "This hour start",
+            "nl": "Huidige waarde",
             "de": "Aktueller Zählerstand",
-            "sv": "Nuvarande avläsning",
-            "it": "Inzio ora corrente",
-            "no": "Startverdi denne time",
             "fr": "Cette heure commence",
-            "nl": "Huidige waarde"
+            "it": "Inzio ora corrente",
+            "sv": "Nuvarande avläsning",
+            "no": "Startverdi denne time",
+            "es": "Inicio de esta hora",
+            "da": "Denne time starter",
+            "pl": "Początek tej godziny",
+            "ru": "Начало этого часа",
+            "ar": "بداية هذه الساعة"
           },
           "value": "0",
           "hint": {
             "en": "This is the meter reading from the soure device, updated once an hour.",
-            "sv": "Detta är mätarställningen från käll enheten, uppdaterad en gång i timmen.",
             "nl": "Dit is de meter stand van het bronapparaat, eenmaal per uur geupdated.",
             "de": "Dies ist der Zählerstand des Homey Geräts, der einmal pro Stunde aktualisiert wird.",
+            "fr": "Ceci est la lecture compteur de l'appareil source, mise à jour chaque heure",
             "it": "Questa è la lettura del contatore dal dispositivo sorgente, aggiornata ogni ora.",
+            "sv": "Detta är mätarställningen från käll enheten, uppdaterad en gång i timmen.",
             "no": "Dette er måleravlesningen fra kildeenheten, oppdatert en gang i timen.",
-            "fr": "Ceci est la lecture compteur de l'appareil source, mise à jour chaque heure"
+            "es": "Esta es la lectura del medidor del dispositivo de origen, actualizada una vez por hora.",
+            "da": "Dette er måleraflæsningen fra kildeenheden, opdateret en gang i timen.",
+            "pl": "To jest odczyt licznika z urządzenia źródłowego, aktualizowany raz na godzinę.",
+            "ru": "Это показание счетчика с исходного устройства, обновляемое раз в час.",
+            "ar": "هذه هي قراءة العداد من جهاز المصدر، يتم تحديثها مرة واحدة في الساعة."
           }
         },
         {
@@ -331,22 +518,32 @@
           "type": "number",
           "label": {
             "en": "This day start",
+            "nl": "Deze dag start",
             "de": "Tagesbeginn",
-            "sv": "Denna dag börjar",
-            "it": "Inzio giorno corrente",
-            "no": "Startverdi denne dag",
             "fr": "Ce jour commence",
-            "nl": "Deze dag start"
+            "it": "Inzio giorno corrente",
+            "sv": "Denna dag börjar",
+            "no": "Startverdi denne dag",
+            "es": "Inicio de este día",
+            "da": "Denne dag starter",
+            "pl": "Początek tego dnia",
+            "ru": "Начало этого дня",
+            "ar": "بداية هذا اليوم"
           },
           "value": 0,
           "hint": {
             "en": "Enter the meter reading at the start of this day. It is automatically updated at midnight.",
             "nl": "Geef de meterstand in aan het begin van deze dag. Het wordt middernacht automatisch geupdated.",
             "de": "Geben Sie den Zählerstand zu Beginn des Tages ein. Er wird um Mitternacht automatisch aktualisiert.",
-            "sv": "Ange mätarställningen i början av denna dag. Den uppdateras automatiskt vid midnatt.",
+            "fr": "Entrer la lecture compteur au début de ce jour. Ce sera automatiquement mis à jour à minuit",
             "it": "Inserisci la lettura del contatore all'inizio di questa giornata. Viene aggiornata automaticamente a mezzanotte.",
+            "sv": "Ange mätarställningen i början av denna dag. Den uppdateras automatiskt vid midnatt.",
             "no": "Legg inn målerverdi ved denne dagens start. Den blir automatisk oppdatert ved midnatt.",
-            "fr": "Entrer la lecture compteur au début de ce jour. Ce sera automatiquement mis à jour à minuit"
+            "es": "Ingrese la lectura del medidor al comienzo de este día. Se actualiza automáticamente a medianoche.",
+            "da": "Indtast måleraflæsningen ved starten af denne dag. Den opdateres automatisk ved midnat.",
+            "pl": "Wprowadź odczyt licznika na początku tego dnia. Jest on automatycznie aktualizowany o północy.",
+            "ru": "Введите показание счетчика в начале этого дня. Оно автоматически обновляется в полночь.",
+            "ar": "أدخل قراءة العداد في بداية هذا اليوم. يتم تحديثها تلقائيًا في منتصف الليل."
           }
         },
         {
@@ -354,22 +551,32 @@
           "type": "number",
           "label": {
             "en": "This month start",
+            "nl": "Deze maand start",
             "de": "Monatsbeginn",
-            "sv": "Denna månad börjar",
-            "it": "Inzio mese corrente",
-            "no": "Startverdi denne måned",
             "fr": "Ce mois commence",
-            "nl": "Deze maand start"
+            "it": "Inzio mese corrente",
+            "sv": "Denna månad börjar",
+            "no": "Startverdi denne måned",
+            "es": "Inicio de este mes",
+            "da": "Denne måned starter",
+            "pl": "Początek tego miesiąca",
+            "ru": "Начало этого месяца",
+            "ar": "بداية هذا الشهر"
           },
           "value": 0,
           "hint": {
             "en": "Enter the meter reading at the start of this month. It is automatically updated first day of a new month.",
             "nl": "Geef de meterstand in aan het begin van deze maand. Het wordt de eerste dag van de maand automatisch geupdated.",
             "de": "Geben Sie den Zählerstand zu Beginn dieses Monats ein. Er wird automatisch am ersten Tag eines neuen Monats aktualisiert.",
-            "sv": "Ange mätarställningen i början av denna månad. Den uppdateras automatiskt första dagen i en ny månad.",
+            "fr": "Entrer la lecture compteur au début de ce mois. Ce sera automatiquement mis à jour chaque début de mois",
             "it": "Inserisci la lettura del contatore all'inizio di questo mese. Viene aggiornata automaticamente il primo giorno del nuovo mese.",
+            "sv": "Ange mätarställningen i början av denna månad. Den uppdateras automatiskt första dagen i en ny månad.",
             "no": "Legg inn målerverdi ved denne måneds start. Den blir automatisk oppdatert første dagen ved ny måned.",
-            "fr": "Entrer la lecture compteur au début de ce mois. Ce sera automatiquement mis à jour chaque début de mois"
+            "es": "Ingrese la lectura del medidor al comienzo de este mes. Se actualiza automáticamente el primer día de un nuevo mes.",
+            "da": "Indtast måleraflæsningen ved starten af denne måned. Den opdateres automatisk den første dag i en ny måned.",
+            "pl": "Wprowadź odczyt licznika na początku tego miesiąca. Jest on automatycznie aktualizowany pierwszego dnia nowego miesiąca.",
+            "ru": "Введите показание счетчика в начале этого месяца. Оно автоматически обновляется в первый день нового месяца.",
+            "ar": "أدخل قراءة العداد في بداية هذا الشهر. يتم تحديثها تلقائيًا في اليوم الأول من الشهر الجديد."
           }
         },
         {
@@ -377,22 +584,32 @@
           "type": "number",
           "label": {
             "en": "This year start",
+            "nl": "Dit jaar start",
             "de": "Jahresbeginn",
-            "sv": "Årets start",
-            "it": "Inzio anno corrente",
-            "no": "Startverdi dette år",
             "fr": "Cette année commence",
-            "nl": "Dit jaar start"
+            "it": "Inzio anno corrente",
+            "sv": "Årets start",
+            "no": "Startverdi dette år",
+            "es": "Inicio de este año",
+            "da": "Dette år starter",
+            "pl": "Początek tego roku",
+            "ru": "Начало этого года",
+            "ar": "بداية هذا العام"
           },
           "value": 0,
           "hint": {
             "en": "Enter the meter reading at the start of this year. It is automatically updated first day of a new year.",
             "nl": "Geef de meterstand in aan het begin van dit jaar. Het wordt de eerste dag van het jaar automatisch geupdated.",
             "de": "Geben Sie den Zählerstand zu Beginn des Jahres ein. Er wird am ersten Tag eines neuen Jahres automatisch aktualisiert.",
-            "sv": "Ange mätarställningen i början av detta år. Den uppdateras automatiskt första dagen på ett nytt år.",
+            "fr": "Entrer la lecture compteur au début de cette année. Ce sera automatiquement mis à jour chaque début de nouvelle année",
             "it": "Inserisci la lettura del contatore all'inizio di quest'anno. Viene aggiornata automaticamente il primo giorno del nuovo anno.",
+            "sv": "Ange mätarställningen i början av detta år. Den uppdateras automatiskt första dagen på ett nytt år.",
             "no": "Legg inn målerverdi ved dette årets start. Den blir automatisk oppdatert første dagen ved nytt år.",
-            "fr": "Entrer la lecture compteur au début de cette année. Ce sera automatiquement mis à jour chaque début de nouvelle année"
+            "es": "Ingrese la lectura del medidor al comienzo de este año. Se actualiza automáticamente el primer día de un nuevo año.",
+            "da": "Indtast måleraflæsningen ved starten af dette år. Den opdateres automatisk den første dag i et nyt år.",
+            "pl": "Wprowadź odczyt licznika na początku tego roku. Jest on automatycznie aktualizowany pierwszego dnia nowego roku.",
+            "ru": "Введите показание счетчика в начале этого года. Оно автоматически обновляется в первый день нового года.",
+            "ar": "أدخل قراءة العداد في بداية هذا العام. يتم تحديثها تلقائيًا في اليوم الأول من العام الجديد."
           }
         },
         {
@@ -400,84 +617,119 @@
           "type": "dropdown",
           "label": {
             "en": "Reset Min/Max values",
+            "nl": "Reset Min/Max waarden",
             "de": "Min/Max Werte zurücksetzen",
-            "sv": "Återställ Min/Max-värden",
-            "it": "Resetta valori Min/Max",
-            "no": "Resett Min/Max verdier",
             "fr": "Remise à zéro des valeurs Min/Max",
-            "nl": "Reset Min/Max waarden"
+            "it": "Resetta valori Min/Max",
+            "sv": "Återställ Min/Max-värden",
+            "no": "Resett Min/Max verdier",
+            "es": "Restablecer valores Mín/Máx",
+            "da": "Nulstil Min/Max værdier",
+            "pl": "Resetuj wartości Min/Max",
+            "ru": "Сброс мин/макс значений",
+            "ar": "إعادة تعيين قيم الحد الأدنى/الأقصى"
           },
           "values": [
             {
               "id": "hour",
               "label": {
                 "en": "Hour",
+                "nl": "Uur",
                 "de": "Stunde",
-                "sv": "timme",
-                "it": "Ora",
-                "no": "Time",
                 "fr": "Heure",
-                "nl": "Uur"
+                "it": "Ora",
+                "sv": "timme",
+                "no": "Time",
+                "es": "Hora",
+                "da": "Time",
+                "pl": "Godzina",
+                "ru": "Час",
+                "ar": "ساعة"
               }
             },
             {
               "id": "day",
               "label": {
                 "en": "Day",
+                "nl": "Dag",
                 "de": "Tag",
-                "sv": "Dag",
-                "it": "Giorno",
-                "no": "Dag",
                 "fr": "Jour",
-                "nl": "Dag"
+                "it": "Giorno",
+                "sv": "Dag",
+                "no": "Dag",
+                "es": "Día",
+                "da": "Dag",
+                "pl": "Dzień",
+                "ru": "День",
+                "ar": "يوم"
               }
             },
             {
               "id": "month",
               "label": {
                 "en": "Month",
+                "nl": "Maand",
                 "de": "Monat",
-                "sv": "Månad",
-                "it": "Mese",
-                "no": "Måned",
                 "fr": "Mois",
-                "nl": "Maand"
+                "it": "Mese",
+                "sv": "Månad",
+                "no": "Måned",
+                "es": "Mes",
+                "da": "Måned",
+                "pl": "Miesiąc",
+                "ru": "Месяц",
+                "ar": "شهر"
               }
             },
             {
               "id": "year",
               "label": {
                 "en": "Year",
+                "nl": "Jaar",
                 "de": "Jahr",
-                "sv": "År",
-                "it": "Anno",
-                "no": "År",
                 "fr": "Année",
-                "nl": "Jaar"
+                "it": "Anno",
+                "sv": "År",
+                "no": "År",
+                "es": "Año",
+                "da": "År",
+                "pl": "Rok",
+                "ru": "Год",
+                "ar": "سنة"
               }
             },
             {
               "id": "never",
               "label": {
                 "en": "Never",
+                "nl": "Nooit",
                 "de": "Nie",
-                "sv": "Aldrig",
-                "it": "Mai",
-                "no": "Aldri",
                 "fr": "Jamais",
-                "nl": "Nooit"
+                "it": "Mai",
+                "sv": "Aldrig",
+                "no": "Aldri",
+                "es": "Nunca",
+                "da": "Aldrig",
+                "pl": "Nigdy",
+                "ru": "Никогда",
+                "ar": "أبدا"
               }
             }
           ],
           "value": "day",
           "hint": {
             "en": "The minimum/maximum values will be reset on every new period. The values can also be reset at any time via a flow.",
+            "nl": "De minimum/maximum waarden worden iedere nieuwe periode gereset. De waarden kunnen ook op ieder moment worden gereset via een flow.",
             "de": "Die Min/Max Werte werden bei jeder neuen Periode zurückgesetzt. Die Werte können auch jederzeit über einen Flow zurückgesetzt werden.",
-            "sv": "Minsta/maximivärdena återställs vid varje ny period. Värdena kan också återställas när som helst via ett flöde.",
-            "it": "I valori minimo/massimo verranno resettati ad ogni nuovo periodo. I valori possono anche essere resettati tramite un flow.",
-            "no": "Minimum/maximum verdiene blir resatt hver ny periode. Verdiene kan også bli resatt når som helst via flow.",
             "fr": "Les valeurs minimales/maximales seront réinitialisées à chaque nouvelle période. Les valeurs peuvent également être réinitialisées à tout moment via un flow",
-            "nl": "De minimum/maximum waarden worden iedere nieuwe periode gereset. De waarden kunnen ook op ieder moment worden gereset via een flow."
+            "it": "I valori minimo/massimo verranno resettati ad ogni nuovo periodo. I valori possono anche essere resettati tramite un flow.",
+            "sv": "Minsta/maximivärdena återställs vid varje ny period. Värdena kan också återställas när som helst via ett flöde.",
+            "no": "Minimum/maximum verdiene blir resatt hver ny periode. Verdiene kan også bli resatt når som helst via flow.",
+            "es": "Los valores mínimos/máximos se restablecerán en cada nuevo período. Los valores también se pueden restablecer en cualquier momento a través de un flujo.",
+            "da": "Minimum/maksimum værdier nulstilles ved hver ny periode. Værdierne kan også nulstilles til enhver tid via et flow.",
+            "pl": "Wartości minimalne/maksymalne będą resetowane w każdym nowym okresie. Wartości można również zresetować w dowolnym momencie za pomocą przepływu.",
+            "ru": "Минимальные/максимальные значения будут сбрасываться каждый новый период. Значения также можно сбросить в любое время через поток.",
+            "ar": "سيتم إعادة تعيين قيم الحد الأدنى/الأقصى في كل فترة جديدة. يمكن أيضًا إعادة تعيين القيم في أي وقت عبر التدفق."
           }
         }
       ]
@@ -486,12 +738,17 @@
       "type": "group",
       "label": {
         "en": "Monetary value",
+        "nl": "Geldwaarde",
         "de": "Geldbetrag",
-        "sv": "Penningvärde",
-        "it": "Valore monetario",
-        "no": "Pengeverdi",
         "fr": "Valeur monétaire",
-        "nl": "Geldwaarde"
+        "it": "Valore monetario",
+        "sv": "Penningvärde",
+        "no": "Pengeverdi",
+        "es": "Valor monetario",
+        "da": "Pengeværdi",
+        "pl": "Wartość pieniężna",
+        "ru": "Денежная стоимость",
+        "ar": "القيمة النقدية"
       },
       "children": [
         {
@@ -499,22 +756,32 @@
           "type": "text",
           "label": {
             "en": "Currency unit",
+            "nl": "Geldeenheid",
             "de": "Währung",
-            "sv": "Valutaenhet",
-            "it": "Unità valuta",
-            "no": "Valutaenhet",
             "fr": "Unité monétaire",
-            "nl": "Geldeenheid"
+            "it": "Unità valuta",
+            "sv": "Valutaenhet",
+            "no": "Valutaenhet",
+            "es": "Unidad de moneda",
+            "da": "Valutaenhed",
+            "pl": "Jednostka walutowa",
+            "ru": "Валютная единица",
+            "ar": "وحدة العملة"
           },
           "value": "¤",
           "hint": {
             "en": "The unit displayed as currency, e.g. €, £, EUR, SER, NOK, DKK, CHF. Leave empty to use the default ¤.",
+            "nl": "De weergegeven eenheid voor geld, bijv. €, £, EUR, SER, NOK, DKK, CHF. Laat leeg om de standaard ¤ te gebruiken.",
             "de": "Die als Währung angezeigte Einheit, z.B. €, £, EUR, SER, NOK, DKK, CHF. Leer lassen, um die Standardeinstellung zu verwenden ¤.",
-            "sv": "Enheten som visas som valuta, t.ex. €, £, EUR, SER, NOK, DKK, CHF. Lämna tomt för att använda standardvärdet ¤.",
-            "it": "L'unità visualizzata come valuta, es. €, £, EUR, SER, NOK, DKK, CHF. Lasciare vuoto per utilizzare ¤ di default.",
-            "no": "Enheten vist som valuta, e.g. €, £, EUR, SER, NOK, DKK, CHF. La være blank for å bruke default ¤.",
             "fr": "L'unité de devise affichée, ex. €, £, EUR, SER, NOK, DKK, CHF. Laisser vide pour utiliser ¤ par défaut.",
-            "nl": "De weergegeven eenheid voor geld, bijv. €, £, EUR, SER, NOK, DKK, CHF. Laat leeg om de standaard ¤ te gebruiken."
+            "it": "L'unità visualizzata come valuta, es. €, £, EUR, SER, NOK, DKK, CHF. Lasciare vuoto per utilizzare ¤ di default.",
+            "sv": "Enheten som visas som valuta, t.ex. €, £, EUR, SER, NOK, DKK, CHF. Lämna tomt för att använda standardvärdet ¤.",
+            "no": "Enheten vist som valuta, e.g. €, £, EUR, SER, NOK, DKK, CHF. La være blank for å bruke default ¤.",
+            "es": "La unidad que se muestra como moneda, p. ej. €, £, EUR, SER, NOK, DKK, CHF. Dejar vacío para usar el valor predeterminado ¤.",
+            "da": "Enheden vises som valuta, f.eks. €, £, EUR, SER, NOK, DKK, CHF. Lad stå tomt for at bruge standard ¤.",
+            "pl": "Jednostka wyświetlana jako waluta, np. €, £, EUR, SER, NOK, DKK, CHF. Pozostaw puste, aby użyć domyślnego ¤.",
+            "ru": "Единица, отображаемая как валюта, например €, £, EUR, SER, NOK, DKK, CHF. Оставьте пустым, чтобы использовать значение по умолчанию ¤.",
+            "ar": "الوحدة المعروضة كعملة، مثل €، £، EUR، SER، NOK، DKK، CHF. اتركها فارغة لاستخدام الافتراضي ¤."
           }
         },
         {
@@ -522,24 +789,34 @@
           "type": "number",
           "label": {
             "en": "Currency decimals",
+            "nl": "Geld decimalen",
             "de": "Anzahl Dezimalstellen",
-            "sv": "Valuta decimaler",
-            "it": "Decimali valuta",
-            "no": "Valuta desimaler",
             "fr": "Décimales monétaires",
-            "nl": "Geld decimalen"
+            "it": "Decimali valuta",
+            "sv": "Valuta decimaler",
+            "no": "Valuta desimaler",
+            "es": "Decimales de moneda",
+            "da": "Valutadecimaler",
+            "pl": "Miejsca dziesiętne waluty",
+            "ru": "Десятичные знаки валюты",
+            "ar": "الكسور العشرية للعملة"
           },
           "value": 2,
           "min": 0,
           "max": 8,
           "hint": {
             "en": "The number of decimals to use for monetary value.",
+            "nl": "Het aantal decimalen voor geldwaarde.",
             "de": "Die Anzahl der Dezimalstellen für den Preis.",
-            "sv": "Antalet decimaler som ska användas för monetärt värde.",
-            "it": "Il numero di decimali da utilizzare per il valore monetario.",
-            "no": "Antall desimaler for pengeverdi.",
             "fr": "Nombre de décimales à utiliser pour la valeur monétaire",
-            "nl": "Het aantal decimalen voor geldwaarde."
+            "it": "Il numero di decimali da utilizzare per il valore monetario.",
+            "sv": "Antalet decimaler som ska användas för monetärt värde.",
+            "no": "Antall desimaler for pengeverdi.",
+            "es": "El número de decimales a utilizar para el valor monetario.",
+            "da": "Antallet af decimaler, der skal bruges til pengeværdi.",
+            "pl": "Liczba miejsc dziesiętnych do użycia dla wartości pieniężnej.",
+            "ru": "Количество десятичных знаков для денежной стоимости.",
+            "ar": "عدد الكسور العشرية المراد استخدامها للقيمة النقدية."
           }
         },
         {
@@ -547,23 +824,33 @@
           "type": "number",
           "label": {
             "en": "Monetary value of this day",
+            "nl": "Geldwaarde van deze dag",
             "de": "Geldbetrag des Tages",
-            "sv": "Dagens monetära värde",
-            "it": "Valore monetario odierno",
-            "no": "Kostnad denne dag",
             "fr": "Valeur monétaire aujourd'hui",
-            "nl": "Geldwaarde van deze dag"
+            "it": "Valore monetario odierno",
+            "sv": "Dagens monetära värde",
+            "no": "Kostnad denne dag",
+            "es": "Valor monetario de este día",
+            "da": "Pengeværdi af denne dag",
+            "pl": "Wartość pieniężna tego dnia",
+            "ru": "Денежная стоимость этого дня",
+            "ar": "القيمة النقدية لهذا اليوم"
           },
           "value": 0,
           "decimals": 4,
           "hint": {
             "en": "Actual monetary value. It is automatically updated.",
+            "nl": "Actuele gelwaarde. Wordt automatisch geupdated.",
             "de": "Aktueller Geldbetrag. Er wird automatisch aktualisiert.",
-            "sv": "Faktiskt penningvärde. Den uppdateras automatiskt.",
-            "it": "Valore monetario attuale. Viene aggiornato automaticamente.",
-            "no": "Aktuell kostnad. Blir automatisk oppdatert",
             "fr": "Valeur monétaire actuelle. Elle est mise à jour automatiquement",
-            "nl": "Actuele gelwaarde. Wordt automatisch geupdated."
+            "it": "Valore monetario attuale. Viene aggiornato automaticamente.",
+            "sv": "Faktiskt penningvärde. Den uppdateras automatiskt.",
+            "no": "Aktuell kostnad. Blir automatisk oppdatert",
+            "es": "Valor monetario actual. Se actualiza automáticamente.",
+            "da": "Faktisk pengeværdi. Den opdateres automatisk.",
+            "pl": "Rzeczywista wartość pieniężna. Jest ona automatycznie aktualizowana.",
+            "ru": "Фактическая денежная стоимость. Она автоматически обновляется.",
+            "ar": "القيمة النقدية الفعلية. يتم تحديثها تلقائيًا."
           }
         },
         {
@@ -571,23 +858,33 @@
           "type": "number",
           "label": {
             "en": "Monetary value of this month",
+            "nl": "Geldwaarde van deze maand",
             "de": "Geldbetrag des Monats",
-            "sv": "Denna månads monetära värde",
-            "it": "Valore monetario mese corrente",
-            "no": "Kostnad denne måned",
             "fr": "Valeur monétaire de ce mois",
-            "nl": "Geldwaarde van deze maand"
+            "it": "Valore monetario mese corrente",
+            "sv": "Denna månads monetära värde",
+            "no": "Kostnad denne måned",
+            "es": "Valor monetario de este mes",
+            "da": "Pengeværdi af denne måned",
+            "pl": "Wartość pieniężna tego miesiąca",
+            "ru": "Денежная стоимость этого месяца",
+            "ar": "القيمة النقدية لهذا الشهر"
           },
           "value": 0,
           "decimals": 4,
           "hint": {
             "en": "Actual monetary value. It is automatically updated.",
+            "nl": "Actuele gelwaarde. Wordt automatisch geupdated.",
             "de": "Aktueller Geldbetrag. Er wird automatisch aktualisiert.",
-            "sv": "Faktiskt penningvärde. Den uppdateras automatiskt.",
-            "it": "Valore monetario attuale. Viene aggiornato automaticamente.",
-            "no": "Aktuell kostnad. Blir automatisk oppdatert",
             "fr": "Valeur monétaire actuelle. Elle est mise à jour automatiquement",
-            "nl": "Actuele gelwaarde. Wordt automatisch geupdated."
+            "it": "Valore monetario attuale. Viene aggiornato automaticamente.",
+            "sv": "Faktiskt penningvärde. Den uppdateras automatiskt.",
+            "no": "Aktuell kostnad. Blir automatisk oppdatert",
+            "es": "Valor monetario actual. Se actualiza automáticamente.",
+            "da": "Faktisk pengeværdi. Den opdateres automatisk.",
+            "pl": "Rzeczywista wartość pieniężna. Jest ona automatycznie aktualizowana.",
+            "ru": "Фактическая денежная стоимость. Она автоматически обновляется.",
+            "ar": "القيمة النقدية الفعلية. يتم تحديثها تلقائيًا."
           }
         },
         {
@@ -595,23 +892,33 @@
           "type": "number",
           "label": {
             "en": "Monetary value of this year",
+            "nl": "Geldwaarde van dit jaar",
             "de": "Geldbetrag des Jahres",
-            "sv": "Årets monetära värde",
-            "it": "Valore monetario anno corrente",
-            "no": "Kostnad dette år",
             "fr": "Valeur monétaire de cette année",
-            "nl": "Geldwaarde van dit jaar"
+            "it": "Valore monetario anno corrente",
+            "sv": "Årets monetära värde",
+            "no": "Kostnad dette år",
+            "es": "Valor monetario de este año",
+            "da": "Pengeværdi af dette år",
+            "pl": "Wartość pieniężna tego roku",
+            "ru": "Денежная стоимость этого года",
+            "ar": "القيمة النقدية لهذا العام"
           },
           "value": 0,
           "decimals": 4,
           "hint": {
             "en": "Actual monetary value. It is automatically updated.",
+            "nl": "Actuele gelwaarde. Wordt automatisch geupdated.",
             "de": "Aktueller Geldbetrag. Er wird automatisch aktualisiert.",
-            "sv": "Faktiskt penningvärde. Den uppdateras automatiskt.",
-            "it": "Valore monetario attuale. Viene aggiornato automaticamente.",
-            "no": "Aktuell kostnad. Blir automatisk oppdatert",
             "fr": "Valeur monétaire actuelle. Elle est mise à jour automatiquement",
-            "nl": "Actuele gelwaarde. Wordt automatisch geupdated."
+            "it": "Valore monetario attuale. Viene aggiornato automaticamente.",
+            "sv": "Faktiskt penningvärde. Den uppdateras automatiskt.",
+            "no": "Aktuell kostnad. Blir automatisk oppdatert",
+            "es": "Valor monetario actual. Se actualiza automáticamente.",
+            "da": "Faktisk pengeværdi. Den opdateres automatisk.",
+            "pl": "Rzeczywista wartość pieniężna. Jest ona automatycznie aktualizowana.",
+            "ru": "Фактическая денежная стоимость. Она автоматически обновляется.",
+            "ar": "القيمة النقدية الفعلية. يتم تحديثها تلقائيًا."
           }
         },
         {
@@ -619,23 +926,33 @@
           "type": "number",
           "label": {
             "en": "Monetary value prev. day",
+            "nl": "Geldwaarde van vorige dag",
             "de": "Geldbetrag des Vortages",
-            "sv": "Monetärt värde igår",
-            "it": "Valore monetario giorno prec.",
-            "no": "Kostnad forrige dag",
             "fr": "Valeur monétaire d'hier",
-            "nl": "Geldwaarde van vorige dag"
+            "it": "Valore monetario giorno prec.",
+            "sv": "Monetärt värde igår",
+            "no": "Kostnad forrige dag",
+            "es": "Valor monetario día anterior",
+            "da": "Pengeværdi forrige dag",
+            "pl": "Wartość pieniężna poprz. dnia",
+            "ru": "Денежная стоимость пред. дня",
+            "ar": "القيمة النقدية لليوم السابق"
           },
           "value": 0,
           "decimals": 4,
           "hint": {
             "en": "Monetary value of the previous day. It is automatically updated.",
+            "nl": "Gelwaarde van de vorige dag. Wordt automatisch geupdated.",
             "de": "Geldbetrag des Vortages. Er wird automatisch aktualisiert.",
-            "sv": "Monetärt värde för föregående dag. Den uppdateras automatiskt.",
-            "it": "Valore monetario del giorno precedente. Viene aggiornato automaticamente.",
-            "no": "Kostnad forrige dag. Blir automatisk oppdatert",
             "fr": "Valeur monétaire d'hier. Elle est mise à jour automatiquement",
-            "nl": "Gelwaarde van de vorige dag. Wordt automatisch geupdated."
+            "it": "Valore monetario del giorno precedente. Viene aggiornato automaticamente.",
+            "sv": "Monetärt värde för föregående dag. Den uppdateras automatiskt.",
+            "no": "Kostnad forrige dag. Blir automatisk oppdatert",
+            "es": "Valor monetario del día anterior. Se actualiza automáticamente.",
+            "da": "Pengeværdien af den foregående dag. Den opdateres automatisk.",
+            "pl": "Wartość pieniężna poprzedniego dnia. Jest ona automatycznie aktualizowana.",
+            "ru": "Денежная стоимость предыдущего дня. Она автоматически обновляется.",
+            "ar": "القيمة النقدية لليوم السابق. يتم تحديثها تلقائيًا."
           }
         },
         {
@@ -643,23 +960,33 @@
           "type": "number",
           "label": {
             "en": "Monetary value prev. month",
+            "nl": "Geldwaarde van vorige maand",
             "de": "Geldbetrag des Vormonats",
-            "sv": "Monetärt värde föregående månad",
-            "it": "Valore monetario mese prec.",
-            "no": "Kostnad forrige måned",
             "fr": "Valeur monétaire du mois dernier",
-            "nl": "Geldwaarde van vorige maand"
+            "it": "Valore monetario mese prec.",
+            "sv": "Monetärt värde föregående månad",
+            "no": "Kostnad forrige måned",
+            "es": "Valor monetario mes anterior",
+            "da": "Pengeværdi forrige måned",
+            "pl": "Wartość pieniężna poprz. miesiąca",
+            "ru": "Денежная стоимость пред. месяца",
+            "ar": "القيمة النقدية للشهر السابق"
           },
           "value": 0,
           "decimals": 4,
           "hint": {
             "en": "Monetary value of the previous month. It is automatically updated.",
+            "nl": "Gelwaarde van de vorige maand. Wordt automatisch geupdated.",
             "de": "Geldbetrag des Vormonats. Er wird automatisch aktualisiert.",
-            "sv": "Föregående månads monetära värde. Den uppdateras automatiskt.",
-            "it": "Valore monetario del mese precedente. Viene aggiornato automaticamente.",
-            "no": "Kostnad forrige måned. Blir automatisk oppdatert",
             "fr": "Valeur monétaire du mois dernier. Elle est mise à jour automatiquement",
-            "nl": "Gelwaarde van de vorige maand. Wordt automatisch geupdated."
+            "it": "Valore monetario del mese precedente. Viene aggiornato automaticamente.",
+            "sv": "Föregående månads monetära värde. Den uppdateras automatiskt.",
+            "no": "Kostnad forrige måned. Blir automatisk oppdatert",
+            "es": "Valor monetario del mes anterior. Se actualiza automáticamente.",
+            "da": "Pengeværdien af den foregående måned. Den opdateres automatisk.",
+            "pl": "Wartość pieniężna poprzedniego miesiąca. Jest ona automatycznie aktualizowana.",
+            "ru": "Денежная стоимость предыдущего месяца. Она автоматически обновляется.",
+            "ar": "القيمة النقدية للشهر السابق. يتم تحديثها تلقائيًا."
           }
         },
         {
@@ -667,23 +994,33 @@
           "type": "number",
           "label": {
             "en": "Monetary value prev. year",
+            "nl": "Geldwaarde van vorig jaar",
             "de": "Geldbetrag des Vorjahres",
-            "sv": "Monetärt värde föregående år",
-            "it": "Valore monetario anno prec.",
-            "no": "Kostnad forrige år",
             "fr": "Valeur monétaire de l'année dernière",
-            "nl": "Geldwaarde van vorig jaar"
+            "it": "Valore monetario anno prec.",
+            "sv": "Monetärt värde föregående år",
+            "no": "Kostnad forrige år",
+            "es": "Valor monetario año anterior",
+            "da": "Pengeværdi forrige år",
+            "pl": "Wartość pieniężna poprz. roku",
+            "ru": "Денежная стоимость пред. года",
+            "ar": "القيمة النقدية للعام السابق"
           },
           "value": 0,
           "decimals": 4,
           "hint": {
             "en": "Monetary value of the previous year. It is automatically updated.",
+            "nl": "Gelwaarde van het vorige jaar. Wordt automatisch geupdated.",
             "de": "Geldbetrag des Vorjahres. Er wird automatisch aktualisiert.",
-            "sv": "Föregående års monetära värde. Den uppdateras automatiskt.",
-            "it": "Valore monetario dell'anno precedente. Viene aggiornato automaticamente.",
-            "no": "Kostnad forrige år. Blir automatisk oppdatert",
             "fr": "Valeur monétaire de l'année dernière. Elle est mise à jour automatiquement",
-            "nl": "Gelwaarde van het vorige jaar. Wordt automatisch geupdated."
+            "it": "Valore monetario dell'anno precedente. Viene aggiornato automaticamente.",
+            "sv": "Föregående års monetära värde. Den uppdateras automatiskt.",
+            "no": "Kostnad forrige år. Blir automatisk oppdatert",
+            "es": "Valor monetario del año anterior. Se actualiza automáticamente.",
+            "da": "Pengeværdien af det foregående år. Den opdateres automatisk.",
+            "pl": "Wartość pieniężna poprzedniego roku. Jest ona automatycznie aktualizowana.",
+            "ru": "Денежная стоимость предыдущего года. Она автоматически обновляется.",
+            "ar": "القيمة النقدية للعام السابق. يتم تحديثها تلقائيًا."
           }
         }
       ]
@@ -692,12 +1029,17 @@
       "type": "group",
       "label": {
         "en": "Tariff",
+        "nl": "Tarief",
         "de": "Tarif",
-        "sv": "Tariff",
-        "it": "Tariffa",
-        "no": "Tariff",
         "fr": "Tarif",
-        "nl": "Tarief"
+        "it": "Tariffa",
+        "sv": "Tariff",
+        "no": "Tariff",
+        "es": "Tarifa",
+        "da": "Takst",
+        "pl": "Taryfa",
+        "ru": "Тариф",
+        "ar": "تعريفة"
       },
       "children": [
         {
@@ -705,23 +1047,33 @@
           "type": "number",
           "label": {
             "en": "Actual tariff per m³",
+            "nl": "Actueel tarief per m³",
             "de": "Aktueller Tarif pro m³",
-            "sv": "Faktisk tariff per m³",
-            "it": "Tariff attuale per m³",
-            "no": "Aktuell tariff per m³",
             "fr": "Tarif actuel par m³",
-            "nl": "Actueel tarief per m³"
+            "it": "Tariffa attuale per m³",
+            "sv": "Faktisk tariff per m³",
+            "no": "Aktuell tariff per m³",
+            "es": "Tarifa actual por m³",
+            "da": "Faktisk takst pr. m³",
+            "pl": "Aktualna taryfa za m³",
+            "ru": "Текущий тариф за м³",
+            "ar": "التعريفة الحالية لكل م³"
           },
           "value": 0.85,
           "decimals": 8,
           "hint": {
             "en": "The tariff is used to calculate the monetary value. It can be dynamically changed via a flow.",
+            "nl": "Het tarief wordt gebruikt om de geldwaarde te berekenen. Het kan dynamisch worden aangepast via een flow.",
             "de": "Der Kurs wird zur Berechnung des Geldbetrags verwendet. Er kann über einen Flow dynamisch angepasst werden.",
-            "sv": "Tariffen används för att beräkna penningvärdet. Det kan ändras dynamiskt via ett flöde.",
-            "it": "La tariffa viene utilizzata per calcolare il valore monetario. Può essere cambiata dinamicamente tramite un flow.",
-            "no": "Tariffen blir brukt til å kalkulere pengeverdien. Den kan endres dynamisk via en flow.",
             "fr": "Le tarif est utilisé pour calculer la valeur monétaire. Il peut être changé dynamiquement par un flow",
-            "nl": "Het tarief wordt gebruikt om de geldwaarde te berekenen. Het kan dynamisch worden aangepast via een flow."
+            "it": "La tariffa viene utilizzata per calcolare il valore monetario. Può essere cambiata dinamicamente tramite un flow.",
+            "sv": "Tariffen används för att beräkna penningvärdet. Det kan ändras dynamiskt via ett flöde.",
+            "no": "Tariffen blir brukt til å kalkulere pengeverdien. Den kan endres dynamisk via en flow.",
+            "es": "La tarifa se utiliza para calcular el valor monetario. Se puede cambiar dinámicamente a través de un flujo.",
+            "da": "Taksten bruges til at beregne pengeværdien. Den kan ændres dynamisk via et flow.",
+            "pl": "Taryfa służy do obliczania wartości pieniężnej. Można ją dynamicznie zmieniać za pomocą przepływu.",
+            "ru": "Тариф используется для расчета денежной стоимости. Его можно динамически изменять через поток.",
+            "ar": "يتم استخدام التعريفة لحساب القيمة النقدية. يمكن تغييرها ديناميكيًا عبر التدفق."
           }
         },
         {
@@ -729,11 +1081,31 @@
           "type": "number",
           "label": {
             "en": "Tariff update group (flow)",
-            "de": "Tarifaktualisierungsgruppe (Flow)"
+            "de": "Tarifaktualisierungsgruppe (Flow)",
+            "nl": "Tarief update groep (flow)",
+            "fr": "Groupe de mise à jour tarifaire (flux)",
+            "it": "Gruppo aggiornamento tariffa (flusso)",
+            "sv": "Tariffuppdateringsgrupp (flöde)",
+            "no": "Tariff oppdateringsgruppe (flyt)",
+            "es": "Grupo de actualización de tarifas (flujo)",
+            "da": "Takstopdateringsgruppe (flow)",
+            "pl": "Grupa aktualizacji taryf (przepływ)",
+            "ru": "Группа обновления тарифов (поток)",
+            "ar": "مجموعة تحديث التعريفة (التدفق)"
           },
           "hint": {
             "en": "Group number when setting a new tariff via flow. Set at 0 to exclude updating the tariff.",
-  	    "de": "Gruppennummer beim Einstellen eines neuen Tarifs über Flow. Auf 0 setzen, um die Aktualisierung des Tarifs auszuschließen."
+            "de": "Gruppennummer beim Einstellen eines neuen Tarifs über Flow. Auf 0 setzen, um die Aktualisierung des Tarifs auszuschließen.",
+            "nl": "Groepsnummer bij het instellen van een nieuw tarief via flow. Zet op 0 om het bijwerken van het tarief uit te sluiten.",
+            "fr": "Numéro de groupe lors de la définition d'un nouveau tarif via le flux. Réglez sur 0 pour exclure la mise à jour du tarif.",
+            "it": "Numero del gruppo durante l'impostazione di una nuova tariffa tramite flusso. Impostare su 0 per escludere l'aggiornamento della tariffa.",
+            "sv": "Gruppnummer när du ställer in en ny tariff via flöde. Ställ in på 0 för att utesluta uppdatering av tariffen.",
+            "no": "Gruppenummer når du angir en ny tariff via flyt. Sett til 0 for å ekskludere oppdatering av tariffen.",
+            "es": "Número de grupo al establecer una nueva tarifa a través del flujo. Establecer en 0 para excluir la actualización de la tarifa.",
+            "da": "Gruppenummer ved indstilling af en ny takst via flow. Indstil til 0 for at udelukke opdatering af taksten.",
+            "pl": "Numer grupy podczas ustawiania nowej taryfy za pomocą przepływu. Ustaw na 0, aby wykluczyć aktualizację taryfy.",
+            "ru": "Номер группы при установке нового тарифа через поток. Установите 0, чтобы исключить обновление тарифа.",
+            "ar": "رقم المجموعة عند تعيين تعريفة جديدة عبر التدفق. قم بالتعيين على 0 لاستبعاد تحديث التعريفة."
           },
           "value": 1,
           "min": 0,
@@ -745,11 +1117,31 @@
           "type": "number",
           "label": {
             "en": "Fixed monthly costs",
- 	    "de": "Fixkosten pro Monat"
+            "de": "Fixkosten pro Monat",
+            "nl": "Vaste maandelijkse kosten",
+            "fr": "Coûts mensuels fixes",
+            "it": "Costi fissi mensili",
+            "sv": "Fasta månadskostnader",
+            "no": "Faste månedlige kostnader",
+            "es": "Costos mensuales fijos",
+            "da": "Faste månedlige omkostninger",
+            "pl": "Stałe koszty miesięczne",
+            "ru": "Фиксированные ежемесячные расходы",
+            "ar": "التكاليف الشهرية الثابتة"
           },
           "hint": {
             "en": "Fixed costs that will be added at the start of every new month.",
-  	    "de": "Fixkosten, die zu Beginn eines jeden neuen Monats hinzukommen."
+            "de": "Fixkosten, die zu Beginn eines jeden neuen Monats hinzukommen.",
+            "nl": "Vaste kosten die aan het begin van elke nieuwe maand worden toegevoegd.",
+            "fr": "Coûts fixes qui seront ajoutés au début de chaque nouveau mois.",
+            "it": "Costi fissi che verranno aggiunti all'inizio di ogni nuovo mese.",
+            "sv": "Fasta kostnader som läggs till i början av varje ny månad.",
+            "no": "Faste kostnader som legges til ved starten av hver ny måned.",
+            "es": "Costos fijos que se agregarán al comienzo de cada nuevo mes.",
+            "da": "Faste omkostninger, der tilføjes ved starten af hver ny måned.",
+            "pl": "Stałe koszty, które będą dodawane na początku każdego nowego miesiąca.",
+            "ru": "Фиксированные расходы, которые будут добавляться в начале каждого нового месяца.",
+            "ar": "التكاليف الثابتة التي سيتم إضافتها في بداية كل شهر جديد."
           },
           "value": 0
         },
@@ -758,11 +1150,31 @@
           "type": "number",
           "label": {
             "en": "Fixed daily costs",
-  	    "de": "Fixkosten pro Tag"
+            "de": "Fixkosten pro Tag",
+            "nl": "Vaste dagelijkse kosten",
+            "fr": "Coûts quotidiens fixes",
+            "it": "Costi fissi giornalieri",
+            "sv": "Fasta dagliga kostnader",
+            "no": "Faste daglige kostnader",
+            "es": "Costos diarios fijos",
+            "da": "Faste daglige omkostninger",
+            "pl": "Stałe koszty dzienne",
+            "ru": "Фиксированные ежедневные расходы",
+            "ar": "التكاليف اليومية الثابتة"
           },
           "hint": {
             "en": "Fixed costs that will be added at the start of every new day.",
-  	    "de": "Fixkosten, die zu Beginn eines jeden neuen Tages hinzukommen."
+            "de": "Fixkosten, die zu Beginn eines jeden neuen Tages hinzukommen.",
+            "nl": "Vaste kosten die aan het begin van elke nieuwe dag worden toegevoegd.",
+            "fr": "Coûts fixes qui seront ajoutés au début de chaque nouveau jour.",
+            "it": "Costi fissi che verranno aggiunti all'inizio di ogni nuovo giorno.",
+            "sv": "Fasta kostnader som läggs till i början av varje ny dag.",
+            "no": "Faste kostnader som legges til ved starten av hver ny dag.",
+            "es": "Costos fijos que se agregarán al comienzo de cada nuevo día.",
+            "da": "Faste omkostninger, der tilføjes ved starten af hver ny dag.",
+            "pl": "Stałe koszty, które będą dodawane na początku każdego nowego dnia.",
+            "ru": "Фиксированные расходы, которые будут добавляться в начале каждого нового дня.",
+            "ar": "التكاليف الثابتة التي سيتم إضافتها في بداية كل يوم جديد."
           },
           "value": 0
         },
@@ -771,11 +1183,31 @@
           "type": "number",
           "label": {
             "en": "Fixed hourly costs",
-  	    "de": "Fixkosten pro Stunde"
+            "de": "Fixkosten pro Stunde",
+            "nl": "Vaste uurlikse kosten",
+            "fr": "Coûts horaires fixes",
+            "it": "Costi fissi orari",
+            "sv": "Fasta timkostnader",
+            "no": "Faste timekostnader",
+            "es": "Costos por hora fijos",
+            "da": "Faste timeomkostninger",
+            "pl": "Stałe koszty godzinowe",
+            "ru": "Фиксированные почасовые расходы",
+            "ar": "التكاليف الساعية الثابتة"
           },
           "hint": {
             "en": "Fixed costs that will be added at the start of every new hour.",
-  	    "de": "Fixkosten, die zu Beginn einer jeden neuen Stunde hinzukommen."
+            "de": "Fixkosten, die zu Beginn einer jeden neuen Stunde hinzukommen.",
+            "nl": "Vaste kosten die aan het begin van elke nieuwe uur worden toegevoegd.",
+            "fr": "Coûts fixes qui seront ajoutés au début de chaque nouvelle heure.",
+            "it": "Costi fissi che verranno aggiunti all'inizio di ogni nuova ora.",
+            "sv": "Fasta kostnader som läggs till i början av varje ny timme.",
+            "no": "Faste kostnader som legges til ved starten av hver ny time.",
+            "es": "Costos fijos que se agregarán al comienzo de cada nueva hora.",
+            "da": "Faste omkostninger, der tilføjes ved starten af hver ny time.",
+            "pl": "Stałe koszty, które będą dodawane na początku każdej nowej godziny.",
+            "ru": "Фиксированные расходы, которые будут добавляться в начале каждого нового часа.",
+            "ar": "التكاليف الثابتة التي سيتم إضافتها في بداية كل ساعة جديدة."
           },
           "value": 0
         }

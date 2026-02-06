@@ -5,7 +5,14 @@
 		"sv": "Priset blir det lägsta",
 		"it": "Il prezzo sarà il più basso",
 		"no": "Prisen blir lavest",
-		"nl": "De prijs wordt het laagst"
+		"nl": "De prijs wordt het laagst",
+		"fr": "Le prix devient le plus bas",
+		"da": "Prisen bliver lavest",
+		"es": "El precio se vuelve el más bajo",
+		"pl": "Cena staje się najniższa",
+		"ru": "Цена становится самой низкой",
+		"ko": "가격이 가장 낮아집니다",
+		"ar": "يصبح السعر الأدنى"
 	},
 	"titleFormatted": {
 		"en": "The price becomes lowest for [[period]]",
@@ -13,7 +20,14 @@
 		"sv": "Priset blir lägst för [[period]]",
 		"it": "Il prezzo sarà più basso per [[period]]",
 		"no": "Prisen blir lavest for [[period]]",
-		"nl": "De prijs wordt het laagst voor [[period]]"
+		"nl": "De prijs wordt het laagst voor [[period]]",
+		"fr": "Le prix devient le plus bas pour [[period]]",
+		"da": "Prisen bliver lavest i [[period]]",
+		"es": "El precio se vuelve el más bajo para [[period]]",
+		"pl": "Cena staje się najniższa dla [[period]]",
+		"ru": "Цена становится самой низкой за [[period]]",
+		"ko": "가격이 [[period]] 동안 가장 낮아집니다",
+		"ar": "يصبح السعر الأدنى لـ [[period]]"
 	},
 	"highlight": true,
 	"args": [
@@ -31,7 +45,14 @@
 				"sv": "period",
 				"it": "periodo",
 				"no": "periode",
-				"nl": "periode"
+				"da": "periode",
+				"nl": "periode",
+				"fr": "période",
+				"es": "período",
+				"pl": "okres",
+				"ru": "период",
+				"ko": "기간",
+				"ar": "فترة"
 			},
 			"values": [
 				{	"id": "this_day",
@@ -41,7 +62,14 @@
 						"sv": "idag",
 						"it": "giornata odierna",
 						"no": "idag",
-						"nl": "deze dag"
+						"da": "i dag",
+						"nl": "deze dag",
+						"fr": "ce jour",
+						"es": "este día",
+						"pl": "ten dzień",
+						"ru": "этот день",
+						"ko": "오늘",
+						"ar": "هذا اليوم"
 					}
 				},
 				{	"id": "2",
@@ -51,7 +79,14 @@
 						"sv": "nästa 2H",
 						"it": "prossime 2h",
 						"no": "neste 2T",
-						"nl": "komende 2U"
+						"da": "næste 2T",
+						"nl": "komende 2U",
+						"fr": "2 prochaines heures",
+						"es": "próximas 2H",
+						"pl": "następne 2H",
+						"ru": "след. 2Ч",
+						"ko": "다음 2시간",
+						"ar": "الساعتين القادمتين"
 					}
 				},
 				{	"id": "3",
@@ -61,7 +96,14 @@
 						"sv": "nästa 3H",
 						"it": "prossime 3h",
 						"no": "neste 3T",
-						"nl": "komende 3U"
+						"da": "næste 3T",
+						"nl": "komende 3U",
+						"fr": "3 prochaines heures",
+						"es": "próximas 3H",
+						"pl": "następne 3H",
+						"ru": "след. 3Ч",
+						"ko": "다음 3시간",
+						"ar": "3 ساعات القادمة"
 					}
 				},
 				{	"id": "4",
@@ -71,7 +113,14 @@
 						"sv": "nästa 4H",
 						"it": "prossime 4h",
 						"no": "neste 4T",
-						"nl": "komende 4U"
+						"da": "næste 4T",
+						"nl": "komende 4U",
+						"fr": "4 prochaines heures",
+						"es": "próximas 4H",
+						"pl": "następne 4H",
+						"ru": "след. 4Ч",
+						"ko": "다음 4시간",
+						"ar": "4 ساعات القادمة"
 					}
 				},
 				{	"id": "5",
@@ -81,7 +130,14 @@
 						"sv": "nästa 5H",
 						"it": "prossime 5h",
 						"no": "neste 5T",
-						"nl": "komende 5U"
+						"da": "næste 5T",
+						"nl": "komende 5U",
+						"fr": "5 prochaines heures",
+						"es": "próximas 5H",
+						"pl": "następne 5H",
+						"ru": "след. 5Ч",
+						"ko": "다음 5시간",
+						"ar": "5 ساعات القادمة"
 					}
 				},
 				{	"id": "6",
@@ -91,7 +147,14 @@
 						"sv": "nästa 6H",
 						"it": "prossime 6h",
 						"no": "neste 6T",
-						"nl": "komende 6U"
+						"da": "næste 6T",
+						"nl": "komende 6U",
+						"fr": "6 prochaines heures",
+						"es": "próximas 6H",
+						"pl": "następne 6H",
+						"ru": "след. 6Ч",
+						"ko": "다음 6시간",
+						"ar": "6 ساعات القادمة"
 					}
 				},
 				{	"id": "7",
@@ -101,7 +164,14 @@
 						"sv": "nästa 7H",
 						"it": "prossime 7h",
 						"no": "neste 7T",
-						"nl": "komende 7U"
+						"da": "næste 7T",
+						"nl": "komende 7U",
+						"fr": "7 prochaines heures",
+						"es": "próximas 7H",
+						"pl": "następne 7H",
+						"ru": "след. 7Ч",
+						"ko": "다음 7시간",
+						"ar": "7 ساعات القادمة"
 					}
 				},
 				{	"id": "8",
@@ -111,7 +181,14 @@
 						"sv": "nästa 8H",
 						"it": "prossime 8h",
 						"no": "neste 8T",
-						"nl": "komende 8U"
+						"da": "næste 8T",
+						"nl": "komende 8U",
+						"fr": "8 prochaines heures",
+						"es": "próximas 8H",
+						"pl": "następne 8H",
+						"ru": "след. 8Ч",
+						"ko": "다음 8시간",
+						"ar": "8 ساعات القادمة"
 					}
 				}
 			]
@@ -126,7 +203,14 @@
 			"sv": "Pris just nu",
 			"it": "Prezzo attuale",
 			"no": "Pris nå",
-			"nl": "Prijs nu"
+			"da": "Pris nu",
+			"nl": "Prijs nu",
+			"fr": "Tarif actuel",
+			"es": "Precio ahora",
+			"pl": "Cena teraz",
+			"ru": "Цена сейчас",
+			"ko": "현재 가격",
+			"ar": "السعر الآن"
 		},
 		"type": "number",
 		"example": 27.5

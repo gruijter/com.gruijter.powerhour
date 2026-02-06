@@ -5,8 +5,14 @@
 		"de": "Preis !{{ist|ist nicht}} der höchsten für eine bestimmte Zeit",
 		"sv": "Priset !{{är|är inte}} det högsta före ett specifikt tidpunkt",
 		"it": "Il prezzo !{{è|non è}} il più alto prima di un certo orario",
-		"dk": "Prisen !{{er|er ikke}} højest indenfor et bestemt tidspunkt",
-		"nl": "De prijs !{{is|is niet}} het hoogst voor een bepaalde tijd"
+		"da": "Prisen !{{er|er ikke}} højest indenfor et bestemt tidspunkt",
+		"nl": "De prijs !{{is|is niet}} het hoogst voor een bepaalde tijd",
+		"fr": "Le prix !{{est|n'est pas}} le plus élevé avant une certaine heure",
+		"es": "El precio !{{es|no es}} más alto antes de cierta hora",
+		"pl": "Cena !{{jest|nie jest}} najwyższa przed określonym czasem",
+		"ru": "Цена !{{самая|не самая}} высокая до определенного времени",
+		"ar": "السعر !{{هو|ليس}} الأعلى قبل وقت معين",
+		"ko": "가격이 특정 시간 전에 가장 높음!{{입니다|이 아닙니다}}"
 	},
 	"titleFormatted": {
 		"en": "The price !{{is|isn't}} one of [[number]] highest in the [[period]] hours before [[time]] o'clock",
@@ -14,8 +20,14 @@
 		"sv": "Priset !{{är|är inte}} en av de [[number]] högsta i [[period]] timmar före [[time]]",
 		"no": "Prisen !{{er|er ikke}} en av de [[number]] høyest i [[period]] timer før [[time]]",
 		"it": "Il prezzo !{{è|non è}} uno dei [[number]] più alto nelle [[period]] ore prima delle [[time]] in punto",
-		"dk": "Prisen !{{er|er ikke}} en af de [[number]] højest indenfor [[period]] timer før [[time]]",
-		"nl": "De prijs !{{is|is niet}} een van de [[number]] hoogste in de [[period]] uren voor [[time]] uur"
+		"da": "Prisen !{{er|er ikke}} en af de [[number]] højest indenfor [[period]] timer før [[time]]",
+		"nl": "De prijs !{{is|is niet}} een van de [[number]] hoogste in de [[period]] uren voor [[time]] uur",
+		"fr": "Le prix !{{est|n'est pas}} l'un des [[number]] plus élevés dans les [[period]] heures avant [[time]] heures",
+		"es": "El precio !{{es|no es}} uno de los [[number]] más altos en las [[period]] horas antes de las [[time]]",
+		"pl": "Cena !{{jest|nie jest}} jedną z [[number]] najwyższych w ciągu [[period]] godzin przed [[time]]",
+		"ru": "Цена !{{самая|не самая}} высокая из [[number]] за [[period]] часов до [[time]] часов",
+		"ar": "السعر !{{هو|ليس}} من بين [[number]] الأعلى في [[period]] ساعة قبل الساعة [[time]]",
+		"ko": "가격이 [[time]]시 전 [[period]]시간 동안 가장 높은 [[number]]개 중 하나!{{입니다|가 아닙니다}}"
 	},
 	"highlight": true,
 	"args": [
@@ -33,8 +45,14 @@
 				"de": "Zeitraum",
 				"sv": "period",
 				"it": "periodo",
-				"dk": "periode",
-				"nl": "periode"
+				"da": "periode",
+				"nl": "periode",
+				"fr": "période",
+				"es": "período",
+				"pl": "okres",
+				"ru": "период",
+				"ar": "فترة",
+				"ko": "기간"
 			},
 			"placeholder": { "en": "2 - 23" },
 			"min": 2,
@@ -50,8 +68,14 @@
 				"de": "Anzahl",
 				"sv": "antal",
 				"it": "numero",
-				"dk": "nummer",
-				"nl": "aantal"
+				"da": "nummer",
+				"nl": "aantal",
+				"fr": "nombre",
+				"es": "número",
+				"pl": "liczba",
+				"ru": "количество",
+				"ar": "عدد",
+				"ko": "수"
 			},
 			"placeholder": { "en": "1 - 8" },
 			"min": 1,
@@ -67,8 +91,14 @@
 				"de": "Zeit",
 				"sv": "tid",
 				"it": "tempo",
-				"dk": "tid",
-				"nl": "tijd"
+				"da": "tid",
+				"nl": "tijd",
+				"fr": "heure",
+				"es": "hora",
+				"pl": "czas",
+				"ru": "время",
+				"ar": "وقت",
+				"ko": "시간"
 			},
 			"placeholder": { "en": "01 - 24" },
 			"min": 1,

@@ -7,8 +7,13 @@
     "it": "m³ giorno precedente",
     "no": "m³ forrige dag",
     "fr": "m³ hier",
-    "dk": "m³ i går",
-    "nl": "m³ vorige dag"
+    "da": "m³ i går",
+    "nl": "m³ vorige dag",
+    "ar": "م³ اليوم السابق",
+    "es": "m³ día anterior",
+    "pl": "m³ poprzedni dzień",
+    "ru": "м³ пред. день",
+    "ko": "어제 m³"
   },
   "uiComponent": "sensor",
   "icon": "/assets/m3_d.svg",

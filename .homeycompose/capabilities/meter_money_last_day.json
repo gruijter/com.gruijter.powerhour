@@ -7,8 +7,13 @@
     "it": "Spesa giorno precedente",
     "no": "Kostnad forrige dag",
     "fr": "Argent hier",
-    "dk": "Penge i går",
-    "nl": "Geld vorige dag"
+    "da": "Penge i går",
+    "nl": "Geld vorige dag",
+    "ar": "التكلفة اليوم السابق",
+    "es": "Money prev. day",
+    "pl": "Money prev. day",
+    "ru": "Money prev. day",
+    "ko": "Money prev. day"
   },
   "uiComponent": "sensor",
   "icon": "/assets/money_d.svg",

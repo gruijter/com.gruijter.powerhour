@@ -9,7 +9,11 @@
       "sv": "Energi",
       "no": "Energi",
       "es": "Energía",
-      "da": "Energi"
+      "da": "Energi",
+      "pl": "Energy",
+      "ru": "Energy",
+      "ko": "Energy",
+      "ar": "Energy"
     },
     "decimals": 4,
     "units": {

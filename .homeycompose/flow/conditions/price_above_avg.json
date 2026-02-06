@@ -5,7 +5,14 @@
 		"sv": "Priset !{{är|är inte}} över snittet.",
 		"it": "Il prezzo !{{è|non è}} sopra la media",
 		"no": "Prisen !{{er|er ikke}} over gjennomsnittet.",
-		"nl": "De prijs !{{is|is niet}} hoger dan gem."
+		"nl": "De prijs !{{is|is niet}} hoger dan gem.",
+		"fr": "Le prix !{{est|n'est pas}} supérieur à la moyenne.",
+		"da": "Prisen !{{er|er ikke}} over gennemsnittet.",
+		"es": "El precio !{{es|no es}} superior al promedio.",
+		"pl": "Cena !{{jest|nie jest}} powyżej średniej.",
+		"ru": "Цена !{{выше|не выше}} средней.",
+		"ar": "السعر !{{هو|ليس}} أعلى من المتوسط.",
+		"ko": "가격이 평균 이상!{{입니다|이 아닙니다}}."
 	},
 	"titleFormatted": {
 		"en": "The price !{{is|isn't}} [[percent]]% above avg. [[period]]",
@@ -13,7 +20,14 @@
 		"sv": "Priset !{{är|är inte}} [[percent]]% över snittet. [[period]]",
 		"it": "Il prezzo !{{è|non è}} [[percent]]% sopra la media di [[period]]",
 		"no": "Prisen !{{er|er ikke}} [[percent]]% over gjenomsnittet [[period]]",
-		"nl": "De prijs !{{is|is niet}} [[percent]]% hoger dan gem. [[period]]"
+		"nl": "De prijs !{{is|is niet}} [[percent]]% hoger dan gem. [[period]]",
+		"fr": "Le prix !{{est|n'est pas}} [[percent]]% supérieur à la moyenne [[period]]",
+		"da": "Prisen !{{er|er ikke}} [[percent]]% over gennemsnittet [[period]]",
+		"es": "El precio !{{es|no es}} [[percent]]% superior al promedio [[period]]",
+		"pl": "Cena !{{jest|nie jest}} [[percent]]% powyżej średniej [[period]]",
+		"ru": "Цена !{{выше|не выше}} [[percent]]% средней [[period]]",
+		"ar": "السعر !{{هو|ليس}} [[percent]]% أعلى من المتوسط [[period]]",
+		"ko": "가격이 [[period]] 평균보다 [[percent]]% 이상!{{입니다|이 아닙니다}}"
 	},
 	"highlight": true,
 	"args": [
@@ -37,7 +51,15 @@
 				"sv": "period",
 				"it": "periodo",
 				"no": "periode",
-				"nl": "periode"
+				"nl": "periode",
+				"fr": "période",
+				"da": "periode",
+				"da": "periode",
+				"es": "período",
+				"pl": "okres",
+				"ru": "период",
+				"ar": "فترة",
+				"ko": "기간"
 			},
 			"values": [
 				{	"id": "this_day_avg",
@@ -47,7 +69,14 @@
 						"sv": "idag",
 						"it": "giornata odierna",
 						"no": "idag",
-						"nl": "deze dag"
+						"nl": "deze dag",
+						"fr": "ce jour",
+						"da": "i dag",
+						"es": "este día",
+						"pl": "ten dzień",
+						"ru": "этот день",
+						"ar": "هذا اليوم",
+						"ko": "오늘"
 					}
 				},
 				{	"id": "next_8h_avg",
@@ -57,7 +86,14 @@
 						"sv": "nästa 8H",
 						"it": "prossime 8h",
 						"no": "neste 8T",
-						"nl": "komende 8U"
+						"nl": "komende 8U",
+						"fr": "8 prochaines heures",
+						"da": "næste 8T",
+						"es": "próximas 8H",
+						"pl": "następne 8H",
+						"ru": "след. 8Ч",
+						"ar": "8 ساعات القادمة",
+						"ko": "다음 8시간"
 					}
 				},
 				{	"id": "this_month_avg",
@@ -67,7 +103,14 @@
 						"sv": "denna månad",
 						"it": "questo mese",
 						"no": "denne måned",
-						"nl": "deze maand"
+						"nl": "deze maand",
+						"fr": "ce mois",
+						"da": "denne måned",
+						"es": "este mes",
+						"pl": "ten miesiąc",
+						"ru": "этот месяц",
+						"ar": "هذا الشهر",
+						"ko": "이번 달"
 					}
 				}
 			]

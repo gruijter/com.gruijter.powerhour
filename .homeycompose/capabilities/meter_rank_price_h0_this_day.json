@@ -3,7 +3,17 @@
   "title": {
     "en": "Price now rank this day",
     "nl": "Prijs nu rang vandaag",
-    "de": "Akt. Preisstufe heute"
+    "de": "Akt. Preisstufe heute",
+    "fr": "Rang prix actuel aujourd'hui",
+    "it": "Rango prezzo attuale oggi",
+    "sv": "Pris nu rank idag",
+    "no": "Pris nå rang i dag",
+    "da": "Pris nu rang i dag",
+    "es": "Rango precio actual hoy",
+    "pl": "Ranking ceny teraz dzisiaj",
+    "ru": "Ранг цены сейчас сегодня",
+    "ar": "تصنيف السعر الآن اليوم",
+    "ko": "현재 가격 순위 오늘"
   },
   "units": {
     "en": "/24"

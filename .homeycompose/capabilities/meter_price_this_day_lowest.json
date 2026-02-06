@@ -3,12 +3,17 @@
   "title": {
     "en": "Lowest price this day",
     "de": "Niedrigster Preis dieser Tag",
-    "sv": "Lägsta pris idag",
-    "it": "Prezzo più basso giornata odierna",
-    "no": "Laveste pris idag",
-    "fr": "Tarif le plus faible aujourd'hui",
-    "dk": "Laveste pris i dag",
-    "nl": "Laagste prijs deze dag"
+    "sv": "Billigaste pris idag",
+    "it": "Prezzo più economico giornata odierna",
+    "no": "Billigste pris i dag",
+    "fr": "Tarif le moins cher aujourd'hui",
+    "da": "Billigste pris i dag",
+    "nl": "Goedkoopste prijs deze dag",
+    "ar": "أدنى سعر اليوم",
+    "es": "Lowest price this day",
+    "pl": "Lowest price this day",
+    "ru": "Lowest price this day",
+    "ko": "Lowest price this day"
   },
   "uiComponent": "sensor",
   "icon": "/assets/tariff.svg",

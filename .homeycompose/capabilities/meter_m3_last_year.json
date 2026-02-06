@@ -7,8 +7,13 @@
     "it": "m³ anno precedente",
     "no": "m³ forrige år",
     "fr": "m³ l'année dernière",
-    "dk": "m³ sidste år",
-    "nl": "m³ vorig jaar"
+    "da": "m³ sidste år",
+    "nl": "m³ vorig jaar",
+    "es": "m³ prev. year",
+    "pl": "m³ prev. year",
+    "ru": "m³ prev. year",
+    "ko": "m³ prev. year",
+    "ar": "m³ prev. year"
   },
   "uiComponent": "sensor",
   "icon": "/assets/m3_y.svg",

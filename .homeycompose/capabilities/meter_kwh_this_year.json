@@ -7,8 +7,13 @@
     "it": "kWh anno corrente",
     "no": "kWh dette år",
     "fr": "KWh cette année",
-    "dk": "KWh i år",
-    "nl": "kWh dit jaar"
+    "da": "KWh i år",
+    "nl": "kWh dit jaar",
+    "ar": "كيلوواط ساعة هذا العام",
+    "es": "kWh this year",
+    "pl": "kWh this year",
+    "ru": "kWh this year",
+    "ko": "kWh this year"
   },
   "uiComponent": "sensor",
   "icon": "/assets/kwh_y.svg",

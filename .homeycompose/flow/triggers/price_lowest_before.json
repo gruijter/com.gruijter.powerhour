@@ -5,7 +5,14 @@
 		"sv": "Priset blir lägst före en viss tidpunkt",
 		"it": "Il prezzo diventa più basso prima di un certo momento",
 		"no": "Prisen blir lavest før en viss tid",
-		"nl": "De prijs wordt het laagst voor een bepaalde tijd"
+		"nl": "De prijs wordt het laagst voor een bepaalde tijd",
+		"fr": "Le prix devient le plus bas avant une certaine heure",
+		"da": "Prisen bliver lavest før et bestemt tidspunkt",
+		"es": "El precio se vuelve más bajo antes de cierta hora",
+		"pl": "Cena staje się najniższa przed określonym czasem",
+		"ru": "Цена становится самой низкой до определенного времени",
+		"ko": "가격이 특정 시간 전에 가장 낮아집니다",
+		"ar": "يصبح السعر الأدنى قبل وقت معين"
 	},
 	"titleFormatted": {
 		"en": "The price becomes one of [[number]] lowest in the [[period]] hours before [[time]] o'clock",
@@ -13,7 +20,14 @@
 		"sv": "Priset blir ett av [[number]] lägsta under [[period]] timmarna före klockan [[time]]",
 		"it": "Il prezzo diventa uno dei [[number]] più bassi nelle [[period]] ore prima delle [[time]] in punto",
 		"no": "Prisen blir en av [[number]] laveste i de [[period]] timene før klokken [[time]]",
-		"nl": "De prijs wordt een van de [[number]] laagste in de [[period]] uren voor [[time]] uur"
+		"nl": "De prijs wordt een van de [[number]] laagste in de [[period]] uren voor [[time]] uur",
+		"fr": "Le prix devient l'un des [[number]] plus bas dans les [[period]] heures avant [[time]] heures",
+		"da": "Prisen bliver en af de [[number]] laveste i de [[period]] timer før [[time]]",
+		"es": "El precio se vuelve uno de los [[number]] más bajos en las [[period]] horas antes de las [[time]]",
+		"pl": "Cena staje się jedną z [[number]] najniższych w ciągu [[period]] godzin przed [[time]]",
+		"ru": "Цена становится одной из [[number]] самых низких за [[period]] часов до [[time]] часов",
+		"ko": "가격이 [[time]]시 전 [[period]]시간 동안 가장 낮은 [[number]]개 중 하나가 됩니다",
+		"ar": "يصبح السعر من بين [[number]] الأدنى في [[period]] ساعة قبل الساعة [[time]]"
 	},
 	"highlight": true,
 	"args": [
@@ -31,7 +45,14 @@
 				"sv": "period",
 				"it": "periodo",
 				"no": "periode",
-				"nl": "periode"
+				"da": "periode",
+				"nl": "periode",
+				"fr": "période",
+				"es": "período",
+				"pl": "okres",
+				"ru": "период",
+				"ko": "기간",
+				"ar": "فترة"
 			},
 			"placeholder": { "en": "2 - 23" },
 			"min": 2,
@@ -47,7 +68,14 @@
 				"sv": "antal",
 				"it": "numero",
 				"no": "antall",
-				"nl": "aantal"
+				"da": "antal",
+				"nl": "aantal",
+				"fr": "nombre",
+				"es": "número",
+				"pl": "liczba",
+				"ru": "количество",
+				"ko": "수",
+				"ar": "عدد"
 			},
 			"placeholder": { "en": "1 - 8" },
 			"min": 1,
@@ -63,7 +91,14 @@
 				"sv": "tid",
 				"it": "tempo",
 				"no": "tid",
-				"nl": "tijd"
+				"da": "tid",
+				"nl": "tijd",
+				"fr": "heure",
+				"es": "hora",
+				"pl": "czas",
+				"ru": "время",
+				"ko": "시간",
+				"ar": "وقت"
 			},
 			"placeholder": { "en": "01 - 24" },
 			"min": 1,
@@ -80,7 +115,14 @@
 			"sv": "Pris just nu",
 			"it": "Prezzo attuale",
 			"no": "Pris nå",
-			"nl": "Prijs nu"
+			"da": "Pris nu",
+			"nl": "Prijs nu",
+			"fr": "Tarif actuel",
+			"es": "Precio ahora",
+			"pl": "Cena teraz",
+			"ru": "Цена сейчас",
+			"ko": "현재 가격",
+			"ar": "السعر الآن"
 		},
 		"type": "number",
 		"example": 27.5

@@ -3,7 +3,17 @@
   "title": {
     "en": "Charging Total",
     "nl": "Laden Totaal",
-    "de": "Aufladung Gesamt"
+    "de": "Aufladung Gesamt",
+    "sv": "Laddning totalt",
+    "it": "Ricarica totale",
+    "no": "Lading totalt",
+    "fr": "Charge totale",
+    "da": "Opladning total",
+    "es": "Carga total",
+    "pl": "Ładowanie łącznie",
+    "ru": "Всего заряжено",
+    "ko": "총 충전량",
+    "ar": "إجمالي الشحن"
   },
   "uiComponent": "sensor",
   "icon": "/assets/charged.svg",

@@ -2,39 +2,62 @@
   "name": {
     "en": "Home Battery Monitor",
     "nl": "Thuisbatterij Monitor",
-    "de": "Batteriespeicherüberwachung"
+    "de": "Batteriespeicherüberwachung",
+    "fr": "Moniteur de batterie domestique",
+    "it": "Monitoraggio batteria domestica",
+    "sv": "Hem Batteri Övervakare",
+    "no": "Hjemmebatteri Monitor",
+    "es": "Monitor de batería doméstica",
+    "da": "Hjemmebatteri Monitor",
+    "pl": "Monitor baterii domowej",
+    "ru": "Монитор домашней батареи",
+    "ar": "مراقب بطارية المنزل"
   },
   "class": "other",
   "capabilities": [],
   "capabilitiesOptions": {
-	"meter_tariff": {
-		"decimals": 2,
-		"units": { "en": "€" }
-	},
-	"meter_money_this_day": {
-		"decimals": 2,
-		"units": { "en": "€" }
-	},
-	"meter_money_last_day": {
-		"decimals": 2,
-		"units": { "en": "€" }
-	},
+    "meter_tariff": {
+      "decimals": 2,
+      "units": {
+        "en": "€"
+      }
+    },
+    "meter_money_this_day": {
+      "decimals": 2,
+      "units": {
+        "en": "€"
+      }
+    },
+    "meter_money_last_day": {
+      "decimals": 2,
+      "units": {
+        "en": "€"
+      }
+    },
     "meter_money_this_month": {
-		"decimals": 2,
-		"units": { "en": "€" }
-	},
-	"meter_money_last_month": {
-		"decimals": 2,
-		"units": { "en": "€" }
-	},
-	"meter_money_this_year": {
-		"decimals": 2,
-		"units": { "en": "€" }
-	},
-	"meter_money_last_year": {
-		"decimals": 2,
-		"units": { "en": "€" }
-	}
+      "decimals": 2,
+      "units": {
+        "en": "€"
+      }
+    },
+    "meter_money_last_month": {
+      "decimals": 2,
+      "units": {
+        "en": "€"
+      }
+    },
+    "meter_money_this_year": {
+      "decimals": 2,
+      "units": {
+        "en": "€"
+      }
+    },
+    "meter_money_last_year": {
+      "decimals": 2,
+      "units": {
+        "en": "€"
+      }
+    }
   },
   "platforms": [
     "local"
@@ -45,613 +68,1081 @@
     "large": "{{driverAssetsPath}}/images/large.png"
   },
   "pair": [
-		{
-			"id": "list_devices",
-			"template": "list_devices",
-			"navigation": {
-				"next": "add_devices"
-			},
-			"options": {
-				"singular": true
-			}
-		},
-		{
-			"id": "add_devices",
-			"template": "add_devices"
-		}
-	],
-  "settings": [
-		{
-			"type": "group",
-			"label": {
-				"en": "Homey source device information",
-				"no": "Homey kildeenhetsinformasjon",
-				"de": "Informationen zum Homey Gerät",
-				"sv": "Homey källenhetsinformation",
-				"it": "Informazioni dispositivo sorgente Homey",
-				"fr": "Informations sur l'appareil source Homey",
-				"nl": "Homey bronapparaat informatie"
-			},
-			"children": [
-				{
-					"id": "homey_device_id",
-					"type": "label",
-					"label": {
-						"en": "Device ID",
-						"no": "Enhets ID",
-						"de": "Geräte ID",
-						"sv": "Enhets ID",
-						"it": "ID dispositivo",
-						"fr": "ID de l'appareil",
-						"nl": "Apparaat ID"
-					},
-					"value": "unknown"
-				},
-				{
-					"id": "homey_device_name",
-					"type": "label",
-					"label": {
-						"en": "Device name",
-						"no": "Enhets navn",
-						"de": "Gerätename",
-						"sv": "Enhets namn",
-						"it": "Nome dispositivo",
-						"fr": "Nom de l'appareil",
-						"nl": "Apparaat naam"
-					},
-					"value": "unknown"
-				}
-			]
-		},
     {
-			"type": "group",
-			"label": {
-				"en": "Battery properties",
-				"nl": "Batterij eigenschappen",
-				"de": "Batterie Eigenschaften"
-			},
-			"children": [
-				{
-					"id": "batCapacity",
-					"type": "number",
-					"label": {
-						"en": "Capacity (kWh)",
-						"nl": "Capaciteit (kWh)",
-						"de": "Kapazität (kWh)"
-					},
-					"value": 5.05,
-					"decimals": 2,
-					"hint": {
-						"en": "Total storage capacity in kWh.",
-						"nl": "Totale opslag capaciteit in kWh.",
-						"de": "Gesamte Speicherkapazität in kWh."
-					}
-				},
-				{
-					"id": "ownPowerStandby",
-					"type": "number",
-					"label": {
-						"en": "Own use when idle (W)",
-						"nl": "Eigen verbruik in rust (W)",
-						"de": "Standby Eigenverbrauch (W)"
-					},
-					"value": 2.5,
-					"min": 0,
-					"decimals": 1,
-					"hint": {
-						"en": "Own power usage not reported by the battery.",
-						"nl": "Eigen verbruik niet gerapporteerd door de batterij.",
-						"de": "Eigenverbrauch, der von der Batterie nicht gemeldet wird."
-					}
-				}
-			]
-		},
-		{
-			"type": "group",
-			"label": {
-				"en": "Maximum power values",
-				"nl": "Maximale vermogens waarden",
-				"de": "Maximale Leistungswerte"
-			},
-			"children": [
-				{
-					"id": "chargePower",
-					"type": "number",
-					"label": {
-						"en": "Max. charging power (W)",
-						"nl": "Max. laadvermogen (W)",
-						"de": "Max. Ladeleistung (W)"
-					},
-					"value": 2200,
-					"min": 0,
-					"decimals": 0,
-					"hint": {
-						"en": "The maximum power at which the battery can be charged.",
-						"nl": "Het maximale vermogen waarmee de batterij kan worden geladen.",
-						"de": "Die maximale Leistung, mit der die Batterie geladen werden kann."
-					}
-				},
-				{
-					"id": "chargeLoss",
-					"type": "number",
-					"label": {
-						"en": "Max. charging loss (%)",
-						"nl": "Max. laden verlies (%)",
-						"de": "Max. Ladeverlust (%)"
-					},
-					"min": 0,
-					"max": 30,
-					"value": 10,
-					"decimals": 2,
-					"hint": {
-						"en": "Conversion loss.",
-						"nl": "Conversie verlies.",
-						"de": "Konvertierungsverlust."
-					}
-				},
-				{
-					"id": "dischargePower",
-					"type": "number",
-					"label": {
-						"en": "Max. discharging power (W)",
-						"nl": "Max. ontlaadvermogen (W)",
-						"de": "Max. Entladungsleistung (W)"
-					},
-					"value": 1700,
-					"min": 0,
-					"decimals": 0,
-					"hint": {
-						"en": "The maximum power at which the battery can be discharged.",
-						"nl": "Het maximale vermogen waarmee de batterij kan worden ontladen.",
-						"de": "Die maximale Leistung in Watt, mit der die Batterie entladen werden kann."
-					}
-				},
-				{
-					"id": "dischargeLoss",
-					"type": "number",
-					"label": {
-						"en": "Max. discharging loss (%)",
-						"nl": "Max. ontladen verlies (%)",
-						"de": "Max. Entladeverlust (%)"
-					},
-					"min": 0,
-					"max": 30,
-					"value": 8,
-					"decimals": 2,
-					"hint": {
-						"en": "Conversion loss.",
-						"nl": "Conversie verlies.",
-						"de": "Konvertierungsverlust."
-					}
-				}
-			]
-		},
-		{
-			"type": "group",
-			"label": {
-				"en": "Efficient power values",
-				"nl": "Efficiente vermogens waarden",
-				"de": "Effiziente Leistungswerte"
-			},
-			"children": [
-				{
-					"id": "chargePowerEff",
-					"type": "number",
-					"label": {
-						"en": "Eff. charging power (W)",
-						"nl": "Eff. laadvermogen (W)",
-						"de": "Eff. Ladeleistung (W)"
-					},
-					"value": 1050,
-					"min": 0,
-					"decimals": 0,
-					"hint": {
-						"en": "The most efficient power at which the battery can be charged. Set to 0 to ignore this setting.",
-						"nl": "Het meest efficiente vermogen waarmee de batterij kan worden geladen. Stel op 0 in om deze instelling te negeren.",
-						"de": "Die effizienteste Leistung, mit der die Batterie geladen werden kann. Auf 0 setzen, um diese Einstellung zu ignorieren"
-					}
-				},
-				{
-					"id": "chargeLossEff",
-					"type": "number",
-					"label": {
-						"en": "Eff. charging loss (%)",
-						"nl": "Eff. laden verlies (%)",
-						"de": "Eff. Ladeverlust (%)"
-					},
-					"min": 0,
-					"max": 30,
-					"value": 5,
-					"decimals": 2,
-					"hint": {
-						"en": "Conversion loss.",
-						"nl": "Conversie verlies.",
-						"de": "Konvertierungsverlust."
-					}
-				},
-				{
-					"id": "dischargePowerEff",
-					"type": "number",
-					"label": {
-						"en": "Eff. discharging power (W)",
-						"nl": "Eff. ontlaadvermogen (W)",
-						"de": "Eff. Entladungsleistung (W)"
-					},
-					"value": 765,
-					"min": 0,
-					"decimals": 0,
-					"hint": {
-						"en": "The most efficient power at which the battery can be discharged.",
-						"nl": "Het meest efficiente vermogen waarmee de batterij kan worden ontladen.",
-						"de": "Die effizienteste Leistung in Watt, mit der die Batterie entladen werden kann."
-					}
-				},
-				{
-					"id": "dischargeLossEff",
-					"type": "number",
-					"label": {
-						"en": "Eff. discharging loss (%)",
-						"nl": "Eff. ontladen verlies (%)",
-						"de": "Eff. Entladeverlust (%)"
-					},
-					"min": 0,
-					"max": 30,
-					"value": 4,
-					"decimals": 2,
-					"hint": {
-						"en": "Conversion loss.",
-						"nl": "Conversie verlies.",
-						"de": "Konvertierungsverlust."
-					}
-				}
-			]
-		},
-		{
-			"type": "group",
-			"label": {
-				"en": "Additional power values",
-				"nl": "Aanvullende vermogens waarden",
-				"de": "Zusätzliche Leistungswerte"
-			},
-			"children": [
-				{
-					"id": "chargePower3",
-					"type": "number",
-					"label": {
-						"en": "Additional charging power (W)",
-						"nl": "Aanvullend laadvermogen (W)",
-						"de": "Zusätzliche Ladeleistung (W)"
-					},
-					"value": 1791,
-					"min": 0,
-					"decimals": 0,
-					"hint": {
-						"en": "Additional power at which the battery can be charged in Watts.",
-						"nl": "Aanvullend vermogen waarmee de batterij kan worden geladen in Watt.",
-						"de": "Zusätzliche Leistung, mit der die Batterie geladen werden kann."
-					}
-				},
-				{
-					"id": "chargeLoss3",
-					"type": "number",
-					"label": {
-						"en": "Additional charging loss (%)",
-						"nl": "Aanvullend laden verlies (%)",
-						"de": "Zusätzlicher Ladeverlust (%)"
-					},
-					"min": 0,
-					"max": 30,
-					"value": 7,
-					"decimals": 2,
-					"hint": {
-						"en": "Conversion loss.",
-						"nl": "Conversie verlies.",
-						"de": "Konvertierungsverlust."
-					}
-				},
-				{
-					"id": "dischargePower3",
-					"type": "number",
-					"label": {
-						"en": "Additional discharging power (W)",
-						"nl": "Aanvullend ontlaadvermogen (W)",
-						"de": "Zusätzliche Entladungsleistung (W)"
-					},
-					"value": 1179,
-					"min": 0,
-					"decimals": 0,
-					"hint": {
-						"en": "Additional power at which the battery can be discharged.",
-						"nl": "Aanvullend vermogen waarmee de batterij kan worden ontladen.",
-						"de": "Zusätzliche Leistung, mit der die Batterie entladen werden kann."
-					}
-				},
-				{
-					"id": "dischargeLoss3",
-					"type": "number",
-					"label": {
-						"en": "Additional discharging loss (%)",
-						"nl": "Aanvullend ontladen verlies (%)",
-						"de": "Zusätzlicher Entladeverlust (%)"
-					},
-					"min": 0,
-					"max": 30,
-					"value": 6,
-					"decimals": 2,
-					"hint": {
-						"en": "Conversion loss.",
-						"nl": "Conversie verlies.",
-						"de": "Konvertierungsverlust."
-					}
-				}
+      "id": "list_devices",
+      "template": "list_devices",
+      "navigation": {
+        "next": "add_devices"
+      },
+      "options": {
+        "singular": true
+      }
+    },
+    {
+      "id": "add_devices",
+      "template": "add_devices"
+    }
+  ],
+  "settings": [
+    {
+      "type": "group",
+      "label": {
+        "en": "Homey source device information",
+        "nl": "Homey bronapparaat informatie",
+        "de": "Informationen zum Homey Gerät",
+        "fr": "Informations sur l'appareil source Homey",
+        "it": "Informazioni dispositivo sorgente Homey",
+        "sv": "Homey källenhetsinformation",
+        "no": "Homey kildeenhetsinformasjon",
+        "es": "Información del dispositivo de origen Homey",
+        "da": "Homey kildeenhedsinformation",
+        "pl": "Informacje o urządzeniu źródłowym Homey",
+        "ru": "Информация об исходном устройстве Homey",
+        "ar": "معلومات جهاز مصدر Homey"
+      },
+      "children": [
+        {
+          "id": "homey_device_id",
+          "type": "label",
+          "label": {
+            "en": "Device ID",
+            "nl": "Apparaat ID",
+            "de": "Geräte ID",
+            "fr": "ID de l'appareil",
+            "it": "ID dispositivo",
+            "sv": "Enhets ID",
+            "no": "Enhets ID",
+            "es": "ID del dispositivo",
+            "da": "Enheds-ID",
+            "pl": "ID urządzenia",
+            "ru": "ID устройства",
+            "ar": "معرف الجهاز"
+          },
+          "value": "unknown"
+        },
+        {
+          "id": "homey_device_name",
+          "type": "label",
+          "label": {
+            "en": "Device name",
+            "nl": "Apparaat naam",
+            "de": "Gerätename",
+            "fr": "Nom de l'appareil",
+            "it": "Nome dispositivo",
+            "sv": "Enhets namn",
+            "no": "Enhets navn",
+            "es": "Nombre del dispositivo",
+            "da": "Enhedsnavn",
+            "pl": "Nazwa urządzenia",
+            "ru": "Имя устройства",
+            "ar": "اسم الجهاز"
+          },
+          "value": "unknown"
+        }
       ]
     },
-		{
-			"type": "group",
-			"label": {
-				"en": "Advanced ROI settings (HP2023)",
-				"nl": "Geavanceerde ROI instellingen (HP2023)",
-				"de": "Erweiterte ROI Einstellungen (HP2023)"
-			},
-			"children": [
-				{
-					"id": "roiEnable",
-					"type": "checkbox",
-					"label": {
-						"en": "Enable advanced ROI",
-						"nl": "ROI functie aanzetten",
-						"de": "ROI Funktion aktivieren"
-					},
-					"hint": { 
-						"en": "Advanced ROI flows are only available on HP2023!",
-						"nl": "Geavanceerde ROI flows zijn alleen beschikbaar op HP2023!",
-						"de": "Erweiterte ROI Flows sind nur auf dem HP2023 verfügbar!"
-					},
-					"value": false
-				},
-				{
-					"id": "roiMinProfit",
-					"type": "number",
-					"label": {
-						"en": "Graph minimum profit per kWh",
-						"nl": "Grafiek minimale winst per kWh",
-						"de": "Grafik Mindestgewinn pro kWh"
-					},
-					"hint": {
-						"en": "The strategy graph is calculated using future hourly prices, the battery settings, and the set minimum profit per kWh. (HP2023 Only!)",
-						"nl": "De strategie grafiek wordt berekend met behulp van toekomstige prijzen, de batterij instellingen, en de ingestelde minimale winst per kWh. (Alleen HP2023!)",
-						"de": "Die Strategiegrafik wird anhand der zukünftigen Preise, der Batterieeinstellungen und des eingestellten Mindestgewinns pro kWh berechnet. (Nur HP2023!)"
-					},
-					"value": 0.08,
-					"min": 0
-				}
-			]
-		},
-		{
-			"type": "group",
-			"label": {
-				"en": "Monetary value",
-				"de": "Geldbetrag",
-				"sv": "Penningvärde",
-				"it": "Valore monetario",
-				"no": "Kostnad",
-				"fr": "Valeur monétaire",
-				"nl": "Geldwaarde"
-			},
-			"children": [
-				{
-					"id": "tariff_update_group",
-					"type": "number",
-					"label": {
-						"en": "Tariff update group (DAP)",
-						"nl": "Tarief update groep (DAP)",
-						"de": "Tarif Aktualisierungsgruppe (DAP)"
-					},
-					"hint": {
-						"en": "Group number for getting new tariffs via DAP.",
-						"nl": "Groepnummer voor het krijgen van de tarieven via DAP.",
-						"de": "Gruppennummer für den Bezug neuer Tarife über DAP."
-					},
-					"value": 1,
-					"min": 0,
-					"max": 10,
-					"step": 1
-				},
-				{
-					"id": "currency",
-					"type": "text",
-					"label": {
-						"en": "Currency unit display",
-						"de": "Währungseinheit",
-						"sv": "Visning av valutaenhet",
-						"it": "Visualizzazione unità valuta",
-						"no": "Visning av valutaenhet",
-						"fr": "Affichage de l'unité monétaire",
-						"dk": "Visning af valutaenhed",
-						"nl": "Weergave geldeenheid"
-					},
-					"value": "€",
-					"hint": {
-						"en": "The unit displayed as currency, e.g. €, £, EUR, SER, NOK, DKK, CHF. Leave empty to use the default €.",
-						"de": "Die als Währung angezeigte Einheit, z.B. €, £, EUR, SER, NOK, DKK, CHF. Leer lassen, um die Standardeinheit € zu verwenden.",
-						"sv": "Enheten som visas som valuta, t.ex. €, £, EUR, SER, NOK, DKK, CHF. Lämna tomt för att använda standardvärdet €.",
-						"it": "L'unità mostrata come valuta, es. €, £, EUR, SER, NOK, DKK, CHF. Lasciare vuoto per utilizzare € di default.",
-						"no": "Valutaenheten vises som f.eks. €, £, EUR, SER, NOK, DKK, CHF. La stå blank for å bruke default €.",
-						"fr": "Unité affichée comme devise, ex. €, £, EUR, SER, NOK, DKK, CHF. Laisser vide pour utiliser € par défaut",
-						"dk": "Valutaenheden vises f.eks. €, £, EUR, SER, NOK, DKK, CHF. Lad denne stå blank for at bruge standard €.",
-						"nl": "De weergegeven eenheid voor geld, bijv. €, £, EUR, SER, NOK, DKK, CHF. Laat leeg om de standaard € te gebruiken."
-					}
-				},
-				{
-					"id": "decimals",
-					"type": "number",
-					"label": {
-						"en": "Currency decimals",
-						"de": "Anzahl Dezimalstellen",
-						"sv": "Valuta decimaler",
-						"it": "Decimali valuta",
-						"no": "Valute desimaler",
-						"fr": "Décimales devise",
-						"dk": "Valuta decimaler",
-						"nl": "Geld decimalen"
-					},
-					"value": 2,
-					"min": 0,
-					"max": 8,
-					"hint": {
-						"en": "The number of decimals to use for price.",
-						"de": "Die Anzahl der Dezimalstellen für den Preis.",
-						"sv": "Antalet decimaler som ska användas för pris.",
-						"it": "Il numero di decimali da utilizzare per il prezzo.",
-						"no": "Antall prisdesimaler",
-						"fr": "Nombre de décimales à utiliser pour le tarif",
-						"dk": "Antallet af decimaler, der bruges til prisen",
-						"nl": "Het aantal decimalen voor prijs."
-					}
-				},
-				{
-					"id": "meter_money_this_month",
-					"type": "number",
-					"label": {
-						"en": "Monetary value of this month",
-						"de": "Geldbetrag des Monats",
-						"sv": "Denna månads monetära värde",
-						"it": "Valore monetario mese corrente",
-						"no": "Kostnad denne måned",
-						"fr": "Valeur monétaire de ce mois",
-						"nl": "Geldwaarde van deze maand"
-					},
-					"value": 0,
-					"decimals": 4,
-					"hint": {
-						"en": "Actual monetary value. It is automatically updated.",
-						"de": "Aktueller Geldbetrag. Er wird automatisch aktualisiert.",
-						"sv": "Faktiskt penningvärde. Den uppdateras automatiskt.",
-						"it": "Valore monetario attuale. Viene aggiornato automaticamente.",
-						"no": "Aktuell kostnad. Blir automatisk oppdatert",
-						"fr": "Valeur monétaire actuelle. Elle est mise à jour automatiquement",
-						"nl": "Actuele geldwaarde. Wordt automatisch geupdated."
-					}
-				},
-				{
-					"id": "meter_money_this_year",
-					"type": "number",
-					"label": {
-						"en": "Monetary value of this year",
-						"de": "Geldbetrag des Jahres",
-						"sv": "Årets monetära värde",
-						"it": "Valore monetario anno corrente",
-						"no": "Kostnad dette år",
-						"fr": "Valeur monétaire de cette année",
-						"nl": "Geldwaarde van dit jaar"
-					},
-					"value": 0,
-					"decimals": 4,
-					"hint": {
-						"en": "Actual monetary value. It is automatically updated.",
-						"de": "Aktueller Geldbetrag. Er wird automatisch aktualisiert.",
-						"sv": "Faktiskt penningvärde. Den uppdateras automatiskt.",
-						"it": "Valore monetario attuale. Viene aggiornato automaticamente.",
-						"no": "Aktuell kostnad. Blir automatisk oppdatert",
-						"fr": "Valeur monétaire actuelle. Elle est mise à jour automatiquement",
-						"nl": "Actuele geldwaarde. Wordt automatisch geupdated."
-					}
-				},
-				{
-					"id": "meter_money_last_month",
-					"type": "number",
-					"label": {
-						"en": "Monetary value prev. month",
-						"de": "Geldbetrag des Vormonats",
-						"sv": "Monetärt värde föregående månad",
-						"it": "Valore monetario mese prec.",
-						"no": "Kostnad forrige måned",
-						"fr": "Valeur monétaire du mois dernier",
-						"nl": "Geldwaarde van vorige maand"
-					},
-					"value": 0,
-					"decimals": 4,
-					"hint": {
-						"en": "Monetary value of the previous month. It is automatically updated.",
-						"de": "Geldbetrag des Vormonats. Er wird automatisch aktualisiert.",
-						"sv": "Föregående månads monetära värde. Den uppdateras automatiskt.",
-						"it": "Valore monetario mese precedenre. Viene aggiornato automaticamente.",
-						"no": "Kostnad forrige måned. Blir automatisk oppdatert",
-						"fr": "Valeur monétaire du mois dernier. Elle est mise à jour automatiquement",
-						"nl": "Geldwaarde van de vorige maand. Wordt automatisch geupdated."
-					}
-				},
-				{
-					"id": "meter_money_last_year",
-					"type": "number",
-					"label": {
-						"en": "Monetary value prev. year",
-						"de": "Geldbetrag des Vorjahres",
-						"sv": "Monetärt värde föregående år",
-						"it": "Valore monetario anno prec.",
-						"no": "Kostnad forrige år",
-						"fr": "Valeur monétaire de l'année dernière",
-						"nl": "Geldwaarde van vorig jaar"
-					},
-					"value": 0,
-					"decimals": 4,
-					"hint": {
-						"en": "Monetary value of the previous year. It is automatically updated.",
-						"de": "Geldbetrag des Vorjahres. Er wird automatisch aktualisiert.",
-						"sv": "Föregående års monetära värde. Den uppdateras automatiskt.",
-						"it": "Valore monetario anno precedenre. Viene aggiornato automaticamente.",
-						"no": "Kostnad forrige år. Blir automatisk oppdatert",
-						"fr": "Valeur monétaire de l'année dernière. Elle est mise à jour automatiquement",
-						"nl": "Geldwaarde van het vorige jaar. Wordt automatisch geupdated."
-					}
-				}
-			]
-		},
-		{
-			"type": "group",
-			"label": {
-				"en": "Meter readings",
-				"de": "Zählerstände",
-				"sv": "Mätaravläsningar",
-				"it": "Letture contatore",
-				"no": "Meterverdier",
-				"fr": "Lecture compteur",
-				"nl": "Meter waarden"
-			},
-			"children": [
-				{
-					"id": "meter_kwh_charging",
-					"type": "number",
-					"label": {
-						"en": "Charging Total (kWh)",
-						"nl": "Laden Totaal (kWh)",
-						"de": "Aufladung Gesamt (kWh)"
-					},
-					"min": 0,
-					"value": 0,
-					"hint": {
-						"en": "This value is automatically generated and updated once an hour. It is advised not to change this value, unless you need to.",
-						"nl": "Deze waarde wordt automatisch gegenereerd en één keer per uur bijgewerkt. Het wordt aanbevolen deze waarde niet te wijzigen, tenzij dit noodzakelijk is.",
-						"de": "Dieser Wert wird automatisch generiert und einmal pro Stunde aktualisiert. Es wird empfohlen, diesen Wert nicht zu ändern, es sei denn, dies ist erforderlich."
-					}
-				},
-				{
-					"id": "meter_kwh_discharging",
-					"type": "number",
-					"label": {
-						"en": "Discharging Total (kWh)",
-						"nl": "Ontladen Totaal (kWh)",
-						"de": "Entladung Gesamt (kWh)"
-					},
-					"min": 0,
-					"value": 0,
-					"hint": {
-						"en": "This value is automatically generated and updated once an hour. It is advised not to change this value, unless you need to.",
-						"nl": "Deze waarde wordt automatisch gegenereerd en één keer per uur bijgewerkt. Het wordt aanbevolen deze waarde niet te wijzigen, tenzij dit noodzakelijk is.",
-						"de": "Dieser Wert wird automatisch generiert und einmal pro Stunde aktualisiert. Es wird empfohlen, diesen Wert nicht zu ändern, es sei denn, dies ist erforderlich."
-					}
-				}
-			]
-		}
-	]
+    {
+      "type": "group",
+      "label": {
+        "en": "Battery properties",
+        "nl": "Batterij eigenschappen",
+        "de": "Batterie Eigenschaften",
+        "fr": "Propriétés de la batterie",
+        "it": "Proprietà della batteria",
+        "sv": "Batteriegenskaper",
+        "no": "Batteriegenskaper",
+        "es": "Propiedades de la batería",
+        "da": "Batteriegenskaber",
+        "pl": "Właściwości baterii",
+        "ru": "Свойства батареи",
+        "ar": "خصائص البطارية"
+      },
+      "children": [
+        {
+          "id": "batCapacity",
+          "type": "number",
+          "label": {
+            "en": "Capacity (kWh)",
+            "nl": "Capaciteit (kWh)",
+            "de": "Kapazität (kWh)",
+            "fr": "Capacité (kWh)",
+            "it": "Capacità (kWh)",
+            "sv": "Kapacitet (kWh)",
+            "no": "Kapasitet (kWh)",
+            "es": "Capacidad (kWh)",
+            "da": "Kapacitet (kWh)",
+            "pl": "Pojemność (kWh)",
+            "ru": "Емкость (кВтч)",
+            "ar": "السعة (كيلوواط ساعة)"
+          },
+          "value": 5.05,
+          "decimals": 2,
+          "hint": {
+            "en": "Total storage capacity in kWh.",
+            "nl": "Totale opslag capaciteit in kWh.",
+            "de": "Gesamte Speicherkapazität in kWh.",
+            "fr": "Capacité de stockage totale en kWh.",
+            "it": "Capacità totale di accumulo in kWh.",
+            "sv": "Total lagringskapacitet i kWh.",
+            "no": "Total lagringskapasitet i kWh.",
+            "es": "Capacidad total de almacenamiento en kWh.",
+            "da": "Samlet lagerkapacitet i kWh.",
+            "pl": "Całkowita pojemność magazynowa w kWh.",
+            "ru": "Общая емкость хранения в кВтч.",
+            "ar": "إجمالي سعة التخزين بالكيلوواط ساعة."
+          }
+        },
+        {
+          "id": "ownPowerStandby",
+          "type": "number",
+          "label": {
+            "en": "Own use when idle (W)",
+            "nl": "Eigen verbruik in rust (W)",
+            "de": "Standby Eigenverbrauch (W)",
+            "fr": "Consommation propre au repos (W)",
+            "it": "Consumo proprio a riposo (W)",
+            "sv": "Egen förbrukning vid tomgång (W)",
+            "no": "Eget forbruk ved tomgang (W)",
+            "es": "Consumo propio en reposo (W)",
+            "da": "Eget forbrug ved tomgang (W)",
+            "pl": "Własne zużycie w stanie spoczynku (W)",
+            "ru": "Собственное потребление в режиме ожидания (Вт)",
+            "ar": "الاستهلاك الذاتي عند الخمول (واط)"
+          },
+          "value": 2.5,
+          "min": 0,
+          "decimals": 1,
+          "hint": {
+            "en": "Own power usage not reported by the battery.",
+            "nl": "Eigen verbruik niet gerapporteerd door de batterij.",
+            "de": "Eigenverbrauch, der von der Batterie nicht gemeldet wird.",
+            "fr": "Propre consommation d'énergie non signalée par la batterie.",
+            "it": "Consumo energetico proprio non riportato dalla batteria.",
+            "sv": "Egen energianvändning som inte rapporteras av batteriet.",
+            "no": "Eget strømforbruk som ikke rapporteres av batteriet.",
+            "es": "Consumo de energía propio no reportado por la batería.",
+            "da": "Eget strømforbrug ikke rapporteret af batteriet.",
+            "pl": "Własne zużycie energii nie zgłaszane przez baterię.",
+            "ru": "Собственное энергопотребление, не сообщаемое батареей.",
+            "ar": "استهلاك الطاقة الخاص لا يتم الإبلاغ عنه بواسطة البطارية."
+          }
+        }
+      ]
+    },
+    {
+      "type": "group",
+      "label": {
+        "en": "Maximum power values",
+        "nl": "Maximale vermogens waarden",
+        "de": "Maximale Leistungswerte",
+        "fr": "Valeurs de puissance maximale",
+        "it": "Valori di potenza massima",
+        "sv": "Maximala effektvärden",
+        "no": "Maximale effektverdier",
+        "es": "Valores de potencia máxima",
+        "da": "Maksimale effektværdier",
+        "pl": "Maksymalne wartości mocy",
+        "ru": "Максимальные значения мощности",
+        "ar": "قيم الطاقة القصوى"
+      },
+      "children": [
+        {
+          "id": "chargePower",
+          "type": "number",
+          "label": {
+            "en": "Max. charging power (W)",
+            "nl": "Max. laadvermogen (W)",
+            "de": "Max. Ladeleistung (W)",
+            "fr": "Puissance de charge max. (W)",
+            "it": "Potenza di carica max. (W)",
+            "sv": "Max. laddeffekt (W)",
+            "no": "Maks. ladeeffekt (W)",
+            "es": "Potencia de carga máx. (W)",
+            "da": "Maks. ladeeffekt (W)",
+            "pl": "Maks. moc ładowania (W)",
+            "ru": "Макс. мощность зарядки (Вт)",
+            "ar": "الحد الأقصى لطاقة الشحن (واط)"
+          },
+          "value": 2200,
+          "min": 0,
+          "decimals": 0,
+          "hint": {
+            "en": "The maximum power at which the battery can be charged.",
+            "nl": "Het maximale vermogen waarmee de batterij kan worden geladen.",
+            "de": "Die maximale Leistung, mit der die Batterie geladen werden kann.",
+            "fr": "La puissance maximale à laquelle la batterie peut être chargée.",
+            "it": "La potenza massima alla quale la batteria può essere caricata.",
+            "sv": "Den maximala effekten med vilken batteriet kan laddas.",
+            "no": "Den maksimale effekten batteriet kan lades med.",
+            "es": "La potencia máxima a la que se puede cargar la batería.",
+            "da": "Den maksimale effekt, hvormed batteriet kan oplades.",
+            "pl": "Maksymalna moc, z jaką można ładować baterię.",
+            "ru": "Максимальная мощность, при которой батарея может заряжаться.",
+            "ar": "الحد الأقصى للطاقة التي يمكن شحن البطارية بها."
+          }
+        },
+        {
+          "id": "chargeLoss",
+          "type": "number",
+          "label": {
+            "en": "Max. charging loss (%)",
+            "nl": "Max. laden verlies (%)",
+            "de": "Max. Ladeverlust (%)",
+            "fr": "Perte de charge max. (%)",
+            "it": "Perdita di carica max. (%)",
+            "sv": "Max. laddningsförlust (%)",
+            "no": "Maks. lade tap (%)",
+            "es": "Pérdida de carga máx. (%)",
+            "da": "Maks. ladetab (%)",
+            "pl": "Maks. strata ładowania (%)",
+            "ru": "Макс. потеря зарядки (%)",
+            "ar": "الحد الأقصى لفقد الشحن (%)"
+          },
+          "min": 0,
+          "max": 30,
+          "value": 10,
+          "decimals": 2,
+          "hint": {
+            "en": "Conversion loss.",
+            "nl": "Conversie verlies.",
+            "de": "Konvertierungsverlust.",
+            "fr": "Perte de conversion.",
+            "it": "Perdita di conversione.",
+            "sv": "Omvandlingsförlust.",
+            "no": "Konverteringstap.",
+            "es": "Pérdida de conversión.",
+            "da": "Konverteringstab.",
+            "pl": "Strata konwersji.",
+            "ru": "Потеря преобразования.",
+            "ar": "خسارة التحويل."
+          }
+        },
+        {
+          "id": "dischargePower",
+          "type": "number",
+          "label": {
+            "en": "Max. discharging power (W)",
+            "nl": "Max. ontlaadvermogen (W)",
+            "de": "Max. Entladungsleistung (W)",
+            "fr": "Puissance de décharge max. (W)",
+            "it": "Potenza di scarica max. (W)",
+            "sv": "Max. urladdningseffekt (W)",
+            "no": "Maks. utladningseffekt (W)",
+            "es": "Potencia de descarga máx. (W)",
+            "da": "Maks. afladningseffekt (W)",
+            "pl": "Maks. moc rozładowania (W)",
+            "ru": "Макс. мощность разрядки (Вт)",
+            "ar": "الحد الأقصى لطاقة التفريغ (واط)"
+          },
+          "value": 1700,
+          "min": 0,
+          "decimals": 0,
+          "hint": {
+            "en": "The maximum power at which the battery can be discharged.",
+            "nl": "Het maximale vermogen waarmee de batterij kan worden ontladen.",
+            "de": "Die maximale Leistung in Watt, mit der die Batterie entladen werden kann.",
+            "fr": "La puissance maximale à laquelle la batterie peut être déchargée.",
+            "it": "La potenza massima alla quale la batteria può essere scaricata.",
+            "sv": "Den maximala effekten med vilken batteriet kan laddas ur.",
+            "no": "Den maksimale effekten batteriet kan lades ut med.",
+            "es": "La potencia máxima a la que se puede descargar la batería.",
+            "da": "Den maksimale effekt, hvormed batteriet kan aflades.",
+            "pl": "Maksymalna moc, z jaką można rozładować baterię.",
+            "ru": "Максимальная мощность, при которой батарея может разряжаться.",
+            "ar": "الحد الأقصى للطاقة التي يمكن تفريغ البطارية بها."
+          }
+        },
+        {
+          "id": "dischargeLoss",
+          "type": "number",
+          "label": {
+            "en": "Max. discharging loss (%)",
+            "nl": "Max. ontladen verlies (%)",
+            "de": "Max. Entladeverlust (%)",
+            "fr": "Perte de décharge max. (%)",
+            "it": "Perdita di scarica max. (%)",
+            "sv": "Max. urladdningsförlust (%)",
+            "no": "Maks. utladnings tap (%)",
+            "es": "Pérdida de descarga máx. (%)",
+            "da": "Maks. afladningstab (%)",
+            "pl": "Maks. strata rozładowania (%)",
+            "ru": "Макс. потеря разрядки (%)",
+            "ar": "الحد الأقصى لفقد التفريغ (%)"
+          },
+          "min": 0,
+          "max": 30,
+          "value": 8,
+          "decimals": 2,
+          "hint": {
+            "en": "Conversion loss.",
+            "nl": "Conversie verlies.",
+            "de": "Konvertierungsverlust.",
+            "fr": "Perte de conversion.",
+            "it": "Perdita di conversione.",
+            "sv": "Omvandlingsförlust.",
+            "no": "Konverteringstap.",
+            "es": "Pérdida de conversión.",
+            "da": "Konverteringstab.",
+            "pl": "Strata konwersji.",
+            "ru": "Потеря преобразования.",
+            "ar": "خسارة التحويل."
+          }
+        }
+      ]
+    },
+    {
+      "type": "group",
+      "label": {
+        "en": "Efficient power values",
+        "nl": "Efficiente vermogens waarden",
+        "de": "Effiziente Leistungswerte",
+        "fr": "Valeurs de puissance efficaces",
+        "it": "Valori di potenza efficienti",
+        "sv": "Effektiva effektvärden",
+        "no": "Effektive effektverdier",
+        "es": "Valores de potencia eficientes",
+        "da": "Effektive effektværdier",
+        "pl": "Efektywne wartości mocy",
+        "ru": "Эффективные значения мощности",
+        "ar": "قيم الطاقة الفعالة"
+      },
+      "children": [
+        {
+          "id": "chargePowerEff",
+          "type": "number",
+          "label": {
+            "en": "Eff. charging power (W)",
+            "nl": "Eff. laadvermogen (W)",
+            "de": "Eff. Ladeleistung (W)",
+            "fr": "Puissance de charge eff. (W)",
+            "it": "Potenza di carica eff. (W)",
+            "sv": "Eff. laddeffekt (W)",
+            "no": "Eff. ladeeffekt (W)",
+            "es": "Potencia de carga ef. (W)",
+            "da": "Eff. ladeeffekt (W)",
+            "pl": "Ef. moc ładowania (W)",
+            "ru": "Эфф. мощность зарядки (Вт)",
+            "ar": "طاقة الشحن الفعالة (واط)"
+          },
+          "value": 1050,
+          "min": 0,
+          "decimals": 0,
+          "hint": {
+            "en": "The most efficient power at which the battery can be charged. Set to 0 to ignore this setting.",
+            "nl": "Het meest efficiente vermogen waarmee de batterij kan worden geladen. Stel op 0 in om deze instelling te negeren.",
+            "de": "Die effizienteste Leistung, mit der die Batterie geladen werden kann. Auf 0 setzen, um diese Einstellung zu ignorieren",
+            "fr": "La puissance la plus efficace à laquelle la batterie peut être chargée. Réglez sur 0 pour ignorer ce paramètre.",
+            "it": "La potenza più efficiente alla quale la batteria può essere caricata. Impostare su 0 per ignorare questa impostazione.",
+            "sv": "Den mest effektiva effekten med vilken batteriet kan laddas. Ställ in på 0 för att ignorera denna inställning.",
+            "no": "Den mest effektive effekten batteriet kan lades med. Sett til 0 for å ignorere denne innstillingen.",
+            "es": "La potencia más eficiente a la que se puede cargar la batería. Establezca en 0 para ignorar esta configuración.",
+            "da": "Den mest effektive effekt, hvormed batteriet kan oplades. Indstil til 0 for at ignorere denne indstilling.",
+            "pl": "Najbardziej efektywna moc, z jaką można ładować baterię. Ustaw na 0, aby zignorować to ustawienie.",
+            "ru": "Наиболее эффективная мощность, при которой батарея может заряжаться. Установите 0, чтобы игнорировать этот параметр.",
+            "ar": "الطاقة الأكثر كفاءة التي يمكن شحن البطارية بها. قم بالتعيين على 0 لتجاهل هذا الإعداد."
+          }
+        },
+        {
+          "id": "chargeLossEff",
+          "type": "number",
+          "label": {
+            "en": "Eff. charging loss (%)",
+            "nl": "Eff. laden verlies (%)",
+            "de": "Eff. Ladeverlust (%)",
+            "fr": "Perte de charge eff. (%)",
+            "it": "Perdita di carica eff. (%)",
+            "sv": "Eff. laddningsförlust (%)",
+            "no": "Eff. lade tap (%)",
+            "es": "Pérdida de carga ef. (%)",
+            "da": "Eff. ladetab (%)",
+            "pl": "Ef. strata ładowania (%)",
+            "ru": "Эфф. потеря зарядки (%)",
+            "ar": "فقد الشحن الفعال (%)"
+          },
+          "min": 0,
+          "max": 30,
+          "value": 5,
+          "decimals": 2,
+          "hint": {
+            "en": "Conversion loss.",
+            "nl": "Conversie verlies.",
+            "de": "Konvertierungsverlust.",
+            "fr": "Perte de conversion.",
+            "it": "Perdita di conversione.",
+            "sv": "Omvandlingsförlust.",
+            "no": "Konverteringstap.",
+            "es": "Pérdida de conversión.",
+            "da": "Konverteringstab.",
+            "pl": "Strata konwersji.",
+            "ru": "Потеря преобразования.",
+            "ar": "خسارة التحويل."
+          }
+        },
+        {
+          "id": "dischargePowerEff",
+          "type": "number",
+          "label": {
+            "en": "Eff. discharging power (W)",
+            "nl": "Eff. ontlaadvermogen (W)",
+            "de": "Eff. Entladungsleistung (W)",
+            "fr": "Puissance de décharge eff. (W)",
+            "it": "Potenza di scarica eff. (W)",
+            "sv": "Eff. urladdningseffekt (W)",
+            "no": "Eff. utladningseffekt (W)",
+            "es": "Potencia de descarga ef. (W)",
+            "da": "Eff. afladningseffekt (W)",
+            "pl": "Ef. moc rozładowania (W)",
+            "ru": "Эфф. мощность разрядки (Вт)",
+            "ar": "طاقة التفريغ الفعالة (واط)"
+          },
+          "value": 765,
+          "min": 0,
+          "decimals": 0,
+          "hint": {
+            "en": "The most efficient power at which the battery can be discharged.",
+            "nl": "Het meest efficiente vermogen waarmee de batterij kan worden ontladen.",
+            "de": "Die effizienteste Leistung in Watt, mit der die Batterie entladen werden kann.",
+            "fr": "La puissance la plus efficace à laquelle la batterie peut être déchargée.",
+            "it": "La potenza più efficiente alla quale la batteria può essere scaricata.",
+            "sv": "Den mest effektiva effekten med vilken batteriet kan laddas ur.",
+            "no": "Den mest effektive effekten batteriet kan lades ut med.",
+            "es": "La potencia más eficiente a la que se puede descargar la batería.",
+            "da": "Den mest effektive effekt, hvormed batteriet kan aflades.",
+            "pl": "Najbardziej efektywna moc, z jaką można rozładować baterię.",
+            "ru": "Наиболее эффективная мощность, при которой батарея может разряжаться.",
+            "ar": "الطاقة الأكثر كفاءة التي يمكن تفريغ البطارية بها."
+          }
+        },
+        {
+          "id": "dischargeLossEff",
+          "type": "number",
+          "label": {
+            "en": "Eff. discharging loss (%)",
+            "nl": "Eff. ontladen verlies (%)",
+            "de": "Eff. Entladeverlust (%)",
+            "fr": "Perte de décharge eff. (%)",
+            "it": "Perdita di scarica eff. (%)",
+            "sv": "Eff. urladdningsförlust (%)",
+            "no": "Eff. utladnings tap (%)",
+            "es": "Pérdida de descarga ef. (%)",
+            "da": "Eff. afladningstab (%)",
+            "pl": "Ef. strata rozładowania (%)",
+            "ru": "Эфф. потеря разрядки (%)",
+            "ar": "فقد التفريغ الفعال (%)"
+          },
+          "min": 0,
+          "max": 30,
+          "value": 4,
+          "decimals": 2,
+          "hint": {
+            "en": "Conversion loss.",
+            "nl": "Conversie verlies.",
+            "de": "Konvertierungsverlust.",
+            "fr": "Perte de conversion.",
+            "it": "Perdita di conversione.",
+            "sv": "Omvandlingsförlust.",
+            "no": "Konverteringstap.",
+            "es": "Pérdida de conversión.",
+            "da": "Konverteringstab.",
+            "pl": "Strata konwersji.",
+            "ru": "Потеря преобразования.",
+            "ar": "خسارة التحويل."
+          }
+        }
+      ]
+    },
+    {
+      "type": "group",
+      "label": {
+        "en": "Additional power values",
+        "nl": "Aanvullende vermogens waarden",
+        "de": "Zusätzliche Leistungswerte",
+        "fr": "Valeurs de puissance supplémentaires",
+        "it": "Valori di potenza aggiuntivi",
+        "sv": "Ytterligare effektvärden",
+        "no": "Ytterligere effektverdier",
+        "es": "Valores de potencia adicionales",
+        "da": "Yderligere effektværdier",
+        "pl": "Dodatkowe wartości mocy",
+        "ru": "Дополнительные значения мощности",
+        "ar": "قيم الطاقة الإضافية"
+      },
+      "children": [
+        {
+          "id": "chargePower3",
+          "type": "number",
+          "label": {
+            "en": "Additional charging power (W)",
+            "nl": "Aanvullend laadvermogen (W)",
+            "de": "Zusätzliche Ladeleistung (W)",
+            "fr": "Puissance de charge supplémentaire (W)",
+            "it": "Potenza di carica aggiuntiva (W)",
+            "sv": "Ytterligare laddningseffekt (W)",
+            "no": "Ytterligere ladeeffekt (W)",
+            "es": "Potencia de carga adicional (W)",
+            "da": "Yderligere ladeeffekt (W)",
+            "pl": "Dodatkowa moc ładowania (W)",
+            "ru": "Дополнительная мощность зарядки (Вт)",
+            "ar": "طاقة الشحن الإضافية (واط)"
+          },
+          "value": 1791,
+          "min": 0,
+          "decimals": 0,
+          "hint": {
+            "en": "Additional power at which the battery can be charged in Watts.",
+            "nl": "Aanvullend vermogen waarmee de batterij kan worden geladen in Watt.",
+            "de": "Zusätzliche Leistung, mit der die Batterie geladen werden kann.",
+            "fr": "Puissance supplémentaire à laquelle la batterie peut être chargée en watts.",
+            "it": "Potenza aggiuntiva alla quale la batteria può essere caricata in Watt.",
+            "sv": "Ytterligare effekt vid vilken batteriet kan laddas i Watt.",
+            "no": "Ytterligere effekt som batteriet kan lades med i Watt.",
+            "es": "Potencia adicional a la que se puede cargar la batería en vatios.",
+            "da": "Yderligere effekt, hvormed batteriet kan oplades i watt.",
+            "pl": "Dodatkowa moc, z jaką można ładować baterię w watach.",
+            "ru": "Дополнительная мощность, при которой батарея может заряжаться в ваттах.",
+            "ar": "طاقة إضافية يمكن شحن البطارية بها بالواط."
+          }
+        },
+        {
+          "id": "chargeLoss3",
+          "type": "number",
+          "label": {
+            "en": "Additional charging loss (%)",
+            "nl": "Aanvullend laden verlies (%)",
+            "de": "Zusätzlicher Ladeverlust (%)",
+            "fr": "Perte de charge supplémentaire (%)",
+            "it": "Perdita di carica aggiuntiva (%)",
+            "sv": "Ytterligare laddningsförlust (%)",
+            "no": "Ytterligere lade tap (%)",
+            "es": "Pérdida de carga adicional (%)",
+            "da": "Yderligere ladetab (%)",
+            "pl": "Dodatkowa strata ładowania (%)",
+            "ru": "Дополнительная потеря зарядки (%)",
+            "ar": "فقد الشحن الإضافي (%)"
+          },
+          "min": 0,
+          "max": 30,
+          "value": 7,
+          "decimals": 2,
+          "hint": {
+            "en": "Conversion loss.",
+            "nl": "Conversie verlies.",
+            "de": "Konvertierungsverlust.",
+            "fr": "Perte de conversion.",
+            "it": "Perdita di conversione.",
+            "sv": "Omvandlingsförlust.",
+            "no": "Konverteringstap.",
+            "es": "Pérdida de conversión.",
+            "da": "Konverteringstab.",
+            "pl": "Strata konwersji.",
+            "ru": "Потеря преобразования.",
+            "ar": "خسارة التحويل."
+          }
+        },
+        {
+          "id": "dischargePower3",
+          "type": "number",
+          "label": {
+            "en": "Additional discharging power (W)",
+            "nl": "Aanvullend ontlaadvermogen (W)",
+            "de": "Zusätzliche Entladungsleistung (W)",
+            "fr": "Puissance de décharge supplémentaire (W)",
+            "it": "Potenza di scarica aggiuntiva (W)",
+            "sv": "Ytterligare urladdningseffekt (W)",
+            "no": "Ytterligere utladningseffekt (W)",
+            "es": "Potencia de descarga adicional (W)",
+            "da": "Yderligere afladningseffekt (W)",
+            "pl": "Dodatkowa moc rozładowania (W)",
+            "ru": "Дополнительная мощность разрядки (Вт)",
+            "ar": "طاقة التفريغ الإضافية (واط)"
+          },
+          "value": 1179,
+          "min": 0,
+          "decimals": 0,
+          "hint": {
+            "en": "Additional power at which the battery can be discharged.",
+            "nl": "Aanvullend vermogen waarmee de batterij kan worden ontladen.",
+            "de": "Zusätzliche Leistung, mit der die Batterie entladen werden kann.",
+            "fr": "Puissance supplémentaire à laquelle la batterie peut être déchargée.",
+            "it": "Potenza aggiuntiva alla quale la batteria può essere scaricata.",
+            "sv": "Ytterligare effekt vid vilken batteriet kan laddas ur.",
+            "no": "Ytterligere effekt som batteriet kan lades ut med.",
+            "es": "Potencia adicional a la que se puede descargar la batería.",
+            "da": "Yderligere effekt, hvormed batteriet kan aflades.",
+            "pl": "Dodatkowa moc, z jaką można rozładować baterię.",
+            "ru": "Дополнительная мощность, при которой батарея может разряжаться.",
+            "ar": "طاقة إضافية يمكن تفريغ البطارية بها."
+          }
+        },
+        {
+          "id": "dischargeLoss3",
+          "type": "number",
+          "label": {
+            "en": "Additional discharging loss (%)",
+            "nl": "Aanvullend ontladen verlies (%)",
+            "de": "Zusätzlicher Entladeverlust (%)",
+            "fr": "Perte de décharge supplémentaire (%)",
+            "it": "Perdita di scarica aggiuntiva (%)",
+            "sv": "Ytterligare urladdningsförlust (%)",
+            "no": "Ytterligere utladnings tap (%)",
+            "es": "Pérdida de descarga adicional (%)",
+            "da": "Yderligere afladningstab (%)",
+            "pl": "Dodatkowa strata rozładowania (%)",
+            "ru": "Дополнительная потеря разрядки (%)",
+            "ar": "فقد التفريغ الإضافي (%)"
+          },
+          "min": 0,
+          "max": 30,
+          "value": 6,
+          "decimals": 2,
+          "hint": {
+            "en": "Conversion loss.",
+            "nl": "Conversie verlies.",
+            "de": "Konvertierungsverlust.",
+            "fr": "Perte de conversion.",
+            "it": "Perdita di conversione.",
+            "sv": "Omvandlingsförlust.",
+            "no": "Konverteringstap.",
+            "es": "Pérdida de conversión.",
+            "da": "Konverteringstab.",
+            "pl": "Strata konwersji.",
+            "ru": "Потеря преобразования.",
+            "ar": "خسارة التحويل."
+          }
+        }
+      ]
+    },
+    {
+      "type": "group",
+      "label": {
+        "en": "Advanced ROI settings (HP2023)",
+        "nl": "Geavanceerde ROI instellingen (HP2023)",
+        "de": "Erweiterte ROI Einstellungen (HP2023)",
+        "fr": "Paramètres ROI avancés (HP2023)",
+        "it": "Impostazioni ROI avanzate (HP2023)",
+        "sv": "Avancerade ROI-inställningar (HP2023)",
+        "no": "Avanserte ROI-innstillinger (HP2023)",
+        "es": "Configuración avanzada de ROI (HP2023)",
+        "da": "Avancerede ROI-indstillinger (HP2023)",
+        "pl": "Zaawansowane ustawienia ROI (HP2023)",
+        "ru": "Расширенные настройки ROI (HP2023)",
+        "ar": "إعدادات عائد الاستثمار المتقدمة (HP2023)"
+      },
+      "children": [
+        {
+          "id": "roiEnable",
+          "type": "checkbox",
+          "label": {
+            "en": "Enable advanced ROI",
+            "nl": "ROI functie aanzetten",
+            "de": "ROI Funktion aktivieren",
+            "fr": "Activer le ROI avancé",
+            "it": "Abilita ROI avanzato",
+            "sv": "Aktivera avancerad ROI",
+            "no": "Aktiver avansert ROI",
+            "es": "Habilitar ROI avanzado",
+            "da": "Aktiver avanceret ROI",
+            "pl": "Włącz zaawansowane ROI",
+            "ru": "Включить расширенный ROI",
+            "ar": "تمكين عائد الاستثمار المتقدم"
+          },
+          "hint": {
+            "en": "Advanced ROI flows are only available on HP2023!",
+            "nl": "Geavanceerde ROI flows zijn alleen beschikbaar op HP2023!",
+            "de": "Erweiterte ROI Flows sind nur auf dem HP2023 verfügbar!",
+            "fr": "Les flux ROI avancés ne sont disponibles que sur HP2023 !",
+            "it": "I flussi ROI avanzati sono disponibili solo su HP2023!",
+            "sv": "Avancerade ROI-flöden är endast tillgängliga på HP2023!",
+            "no": "Avanserte ROI-flyter er bare tilgjengelige på HP2023!",
+            "es": "¡Los flujos de ROI avanzados solo están disponibles en HP2023!",
+            "da": "Avancerede ROI-flows er kun tilgængelige på HP2023!",
+            "pl": "Zaawansowane przepływy ROI są dostępne tylko w HP2023!",
+            "ru": "Расширенные потоки ROI доступны только на HP2023!",
+            "ar": "تتوفر تدفقات عائد الاستثمار المتقدمة فقط في HP2023!"
+          },
+          "value": false
+        },
+        {
+          "id": "roiMinProfit",
+          "type": "number",
+          "label": {
+            "en": "Graph minimum profit per kWh",
+            "nl": "Grafiek minimale winst per kWh",
+            "de": "Grafik Mindestgewinn pro kWh",
+            "fr": "Graphique profit minimum par kWh",
+            "it": "Grafico profitto minimo per kWh",
+            "sv": "Graf minsta vinst per kWh",
+            "no": "Graf minimum fortjeneste per kWh",
+            "es": "Gráfico de beneficio mínimo por kWh",
+            "da": "Graf minimum fortjeneste pr. kWh",
+            "pl": "Wykres minimalnego zysku na kWh",
+            "ru": "График минимальной прибыли за кВтч",
+            "ar": "الرسم البياني للحد الأدنى للربح لكل كيلوواط ساعة"
+          },
+          "hint": {
+            "en": "The strategy graph is calculated using future hourly prices, the battery settings, and the set minimum profit per kWh. (HP2023 Only!)",
+            "nl": "De strategie grafiek wordt berekend met behulp van toekomstige prijzen, de batterij instellingen, en de ingestelde minimale winst per kWh. (Alleen HP2023!)",
+            "de": "Die Strategiegrafik wird anhand der zukünftigen Preise, der Batterieeinstellungen und des eingestellten Mindestgewinns pro kWh berechnet. (Nur HP2023!)",
+            "fr": "Le graphique de stratégie est calculé en utilisant les prix horaires futurs, les paramètres de la batterie et le profit minimum défini par kWh. (HP2023 uniquement !)",
+            "it": "Il grafico della strategia viene calcolato utilizzando i prezzi orari futuri, le impostazioni della batteria e il profitto minimo impostato per kWh. (Solo HP2023!)",
+            "sv": "Strategigrafen beräknas med hjälp av framtida timpriser, batteriinställningarna och den inställda minsta vinsten per kWh. (Endast HP2023!)",
+            "no": "Strategigrafen beregnes ved hjelp av fremtidige timepriser, batteriinnstillingene og den innstilte minimumsfortjenesten per kWh. (Bare HP2023!)",
+            "es": "El gráfico de estrategia se calcula utilizando los precios horarios futuros, la configuración de la batería y el beneficio mínimo establecido por kWh. (¡Solo HP2023!)",
+            "da": "Strategigrafer beregnes ved hjælp af fremtidige timepriser, batteriindstillingerne og den indstillede minimumsfortjeneste pr. kWh. (Kun HP2023!)",
+            "pl": "Wykres strategii jest obliczany na podstawie przyszłych cen godzinowych, ustawień baterii i ustawionego minimalnego zysku na kWh. (Tylko HP2023!)",
+            "ru": "График стратегии рассчитывается с использованием будущих почасовых цен, настроек батареи и установленной минимальной прибыли за кВтч. (Только HP2023!)",
+            "ar": "يتم حساب رسم استراتيجية باستخدام الأسعار الساعية المستقبلية، وإعدادات البطارية، والحد الأدنى للربح المحدد لكل كيلوواط ساعة. (فقط HP2023!)"
+          },
+          "value": 0.08,
+          "min": 0
+        }
+      ]
+    },
+    {
+      "type": "group",
+      "label": {
+        "en": "Monetary value",
+        "de": "Geldbetrag",
+        "sv": "Penningvärde",
+        "it": "Valore monetario",
+        "no": "Kostnad",
+        "fr": "Valeur monétaire",
+        "nl": "Geldwaarde",
+        "es": "Valor monetario",
+        "da": "Pengeværdi",
+        "pl": "Wartość pieniężna",
+        "ru": "Денежная стоимость",
+        "ar": "القيمة النقدية"
+      },
+      "children": [
+        {
+          "id": "tariff_update_group",
+          "type": "number",
+          "label": {
+            "en": "Tariff update group (DAP)",
+            "nl": "Tarief update groep (DAP)",
+            "de": "Tarif Aktualisierungsgruppe (DAP)",
+            "fr": "Groupe de mise à jour tarifaire (DAP)",
+            "it": "Gruppo aggiornamento tariffa (DAP)",
+            "sv": "Tariffuppdateringsgrupp (DAP)",
+            "no": "Tariff oppdateringsgruppe (DAP)",
+            "es": "Grupo de actualización de tarifas (DAP)",
+            "da": "Takstopdateringsgruppe (DAP)",
+            "pl": "Grupa aktualizacji taryf (DAP)",
+            "ru": "Группа обновления тарифов (DAP)",
+            "ar": "مجموعة تحديث التعريفة (DAP)"
+          },
+          "hint": {
+            "en": "Group number for getting new tariffs via DAP.",
+            "nl": "Groepnummer voor het krijgen van de tarieven via DAP.",
+            "de": "Gruppennummer für den Bezug neuer Tarife über DAP.",
+            "fr": "Numéro de groupe pour obtenir de nouveaux tarifs via DAP.",
+            "it": "Numero del gruppo per ottenere nuove tariffe tramite DAP.",
+            "sv": "Gruppnummer för att få nya tariffer via DAP.",
+            "no": "Gruppenummer for å få nye tariffer via DAP.",
+            "es": "Número de grupo para obtener nuevas tarifas a través de DAP.",
+            "da": "Gruppenummer til at få nye takster via DAP.",
+            "pl": "Numer grupy do uzyskiwania nowych taryf przez DAP.",
+            "ru": "Номер группы для получения новых тарифов через DAP.",
+            "ar": "رقم المجموعة للحصول على تعريفات جديدة عبر DAP."
+          },
+          "value": 1,
+          "min": 0,
+          "max": 10,
+          "step": 1
+        },
+        {
+          "id": "currency",
+          "type": "text",
+          "label": {
+            "en": "Currency unit display",
+            "de": "Währungseinheit",
+            "sv": "Visning av valutaenhet",
+            "it": "Visualizzazione unità valuta",
+            "no": "Visning av valutaenhet",
+            "fr": "Affichage de l'unité monétaire",
+            "da": "Visning af valutaenhed",
+            "nl": "Weergave geldeenheid",
+            "es": "Visualización de unidad de moneda",
+            "pl": "Wyświetlanie jednostki walutowej",
+            "ru": "Отображение валютной единицы",
+            "ar": "عرض وحدة العملة"
+          },
+          "value": "€",
+          "hint": {
+            "en": "The unit displayed as currency, e.g. €, £, EUR, SER, NOK, DKK, CHF. Leave empty to use the default €.",
+            "de": "Die als Währung angezeigte Einheit, z.B. €, £, EUR, SER, NOK, DKK, CHF. Leer lassen, um die Standardeinheit € zu verwenden.",
+            "sv": "Enheten som visas som valuta, t.ex. €, £, EUR, SER, NOK, DKK, CHF. Lämna tomt för att använda standardvärdet €.",
+            "it": "L'unità mostrata come valuta, es. €, £, EUR, SER, NOK, DKK, CHF. Lasciare vuoto per utilizzare € di default.",
+            "no": "Valutaenheten vises som f.eks. €, £, EUR, SER, NOK, DKK, CHF. La stå blank for å bruke default €.",
+            "fr": "Unité affichée comme devise, ex. €, £, EUR, SER, NOK, DKK, CHF. Laisser vide pour utiliser € par défaut",
+            "da": "Valutaenheden vises f.eks. €, £, EUR, SER, NOK, DKK, CHF. Lad denne stå blank for at bruge standard €.",
+            "nl": "De weergegeven eenheid voor geld, bijv. €, £, EUR, SER, NOK, DKK, CHF. Laat leeg om de standaard € te gebruiken.",
+            "es": "La unidad que se muestra como moneda, p. ej. €, £, EUR, SER, NOK, DKK, CHF. Dejar vacío para usar el valor predeterminado €.",
+            "pl": "Jednostka wyświetlana jako waluta, np. €, £, EUR, SER, NOK, DKK, CHF. Pozostaw puste, aby użyć domyślnego €.",
+            "ru": "Единица, отображаемая как валюта, например €, £, EUR, SER, NOK, DKK, CHF. Оставьте пустым, чтобы использовать значение по умолчанию €.",
+            "ar": "الوحدة المعروضة كعملة، مثل €، £، EUR، SER، NOK، DKK، CHF. اتركها فارغة لاستخدام الافتراضي €."
+          }
+        },
+        {
+          "id": "decimals",
+          "type": "number",
+          "label": {
+            "en": "Currency decimals",
+            "de": "Anzahl Dezimalstellen",
+            "sv": "Valuta decimaler",
+            "it": "Decimali valuta",
+            "no": "Valute desimaler",
+            "fr": "Décimales devise",
+            "da": "Valuta decimaler",
+            "nl": "Geld decimalen",
+            "es": "Decimales de moneda",
+            "pl": "Miejsca dziesiętne waluty",
+            "ru": "Десятичные знаки валюты",
+            "ar": "الكسور العشرية للعملة"
+          },
+          "value": 2,
+          "min": 0,
+          "max": 8,
+          "hint": {
+            "en": "The number of decimals to use for price.",
+            "de": "Die Anzahl der Dezimalstellen für den Preis.",
+            "sv": "Antalet decimaler som ska användas för pris.",
+            "it": "Il numero di decimali da utilizzare per il prezzo.",
+            "no": "Antall prisdesimaler",
+            "fr": "Nombre de décimales à utiliser pour le tarif",
+            "da": "Antallet af decimaler, der bruges til prisen",
+            "nl": "Het aantal decimalen voor prijs.",
+            "es": "El número de decimales a utilizar para el precio.",
+            "pl": "Liczba miejsc dziesiętnych do użycia dla ceny.",
+            "ru": "Количество десятичных знаков для цены.",
+            "ar": "عدد الكسور العشرية المراد استخدامها للسعر."
+          }
+        },
+        {
+          "id": "meter_money_this_month",
+          "type": "number",
+          "label": {
+            "en": "Monetary value of this month",
+            "de": "Geldbetrag des Monats",
+            "sv": "Denna månads monetära värde",
+            "it": "Valore monetario mese corrente",
+            "no": "Kostnad denne måned",
+            "fr": "Valeur monétaire de ce mois",
+            "nl": "Geldwaarde van deze maand",
+            "es": "Valor monetario de este mes",
+            "da": "Pengeværdi af denne måned",
+            "pl": "Wartość pieniężna tego miesiąca",
+            "ru": "Денежная стоимость этого месяца",
+            "ar": "القيمة النقدية لهذا الشهر"
+          },
+          "value": 0,
+          "decimals": 4,
+          "hint": {
+            "en": "Actual monetary value. It is automatically updated.",
+            "de": "Aktueller Geldbetrag. Er wird automatisch aktualisiert.",
+            "sv": "Faktiskt penningvärde. Den uppdateras automatiskt.",
+            "it": "Valore monetario attuale. Viene aggiornato automaticamente.",
+            "no": "Aktuell kostnad. Blir automatisk oppdatert",
+            "fr": "Valeur monétaire actuelle. Elle est mise à jour automatiquement",
+            "nl": "Actuele geldwaarde. Wordt automatisch geupdated.",
+            "es": "Valor monetario actual. Se actualiza automáticamente.",
+            "da": "Faktisk pengeværdi. Den opdateres automatisk.",
+            "pl": "Rzeczywista wartość pieniężna. Jest ona automatycznie aktualizowana.",
+            "ru": "Фактическая денежная стоимость. Она автоматически обновляется.",
+            "ar": "القيمة النقدية الفعلية. يتم تحديثها تلقائيًا."
+          }
+        },
+        {
+          "id": "meter_money_this_year",
+          "type": "number",
+          "label": {
+            "en": "Monetary value of this year",
+            "de": "Geldbetrag des Jahres",
+            "sv": "Årets monetära värde",
+            "it": "Valore monetario anno corrente",
+            "no": "Kostnad dette år",
+            "fr": "Valeur monétaire de cette année",
+            "nl": "Geldwaarde van dit jaar",
+            "es": "Valor monetario de este año",
+            "da": "Pengeværdi af dette år",
+            "pl": "Wartość pieniężna tego roku",
+            "ru": "Денежная стоимость этого года",
+            "ar": "القيمة النقدية لهذا العام"
+          },
+          "value": 0,
+          "decimals": 4,
+          "hint": {
+            "en": "Actual monetary value. It is automatically updated.",
+            "de": "Aktueller Geldbetrag. Er wird automatisch aktualisiert.",
+            "sv": "Faktiskt penningvärde. Den uppdateras automatiskt.",
+            "it": "Valore monetario attuale. Viene aggiornato automaticamente.",
+            "no": "Aktuell kostnad. Blir automatisk oppdatert",
+            "fr": "Valeur monétaire actuelle. Elle est mise à jour automatiquement",
+            "nl": "Actuele geldwaarde. Wordt automatisch geupdated.",
+            "es": "Valor monetario actual. Se actualiza automáticamente.",
+            "da": "Faktisk pengeværdi. Den opdateres automatisk.",
+            "pl": "Rzeczywista wartość pieniężna. Jest ona automatycznie aktualizowana.",
+            "ru": "Фактическая денежная стоимость. Она автоматически обновляется.",
+            "ar": "القيمة النقدية الفعلية. يتم تحديثها تلقائيًا."
+          }
+        },
+        {
+          "id": "meter_money_last_month",
+          "type": "number",
+          "label": {
+            "en": "Monetary value prev. month",
+            "de": "Geldbetrag des Vormonats",
+            "sv": "Monetärt värde föregående månad",
+            "it": "Valore monetario mese prec.",
+            "no": "Kostnad forrige måned",
+            "fr": "Valeur monétaire du mois dernier",
+            "nl": "Geldwaarde van vorige maand",
+            "es": "Valor monetario mes anterior",
+            "da": "Pengeværdi forrige måned",
+            "pl": "Wartość pieniężna poprz. miesiąca",
+            "ru": "Денежная стоимость пред. месяца",
+            "ar": "القيمة النقدية للشهر السابق"
+          },
+          "value": 0,
+          "decimals": 4,
+          "hint": {
+            "en": "Monetary value of the previous month. It is automatically updated.",
+            "de": "Geldbetrag des Vormonats. Er wird automatisch aktualisiert.",
+            "sv": "Föregående månads monetära värde. Den uppdateras automatiskt.",
+            "it": "Valore monetario mese precedenre. Viene aggiornato automaticamente.",
+            "no": "Kostnad forrige måned. Blir automatisk oppdatert",
+            "fr": "Valeur monétaire du mois dernier. Elle est mise à jour automatiquement",
+            "nl": "Geldwaarde van de vorige maand. Wordt automatisch geupdated.",
+            "es": "Valor monetario del mes anterior. Se actualiza automáticamente.",
+            "da": "Pengeværdien af den foregående måned. Den opdateres automatisk.",
+            "pl": "Wartość pieniężna poprzedniego miesiąca. Jest ona automatycznie aktualizowana.",
+            "ru": "Денежная стоимость предыдущего месяца. Она автоматически обновляется.",
+            "ar": "القيمة النقدية للشهر السابق. يتم تحديثها تلقائيًا."
+          }
+        },
+        {
+          "id": "meter_money_last_year",
+          "type": "number",
+          "label": {
+            "en": "Monetary value prev. year",
+            "de": "Geldbetrag des Vorjahres",
+            "sv": "Monetärt värde föregående år",
+            "it": "Valore monetario anno prec.",
+            "no": "Kostnad forrige år",
+            "fr": "Valeur monétaire de l'année dernière",
+            "nl": "Geldwaarde van vorig jaar",
+            "es": "Valor monetario año anterior",
+            "da": "Pengeværdi forrige år",
+            "pl": "Wartość pieniężna poprz. roku",
+            "ru": "Денежная стоимость пред. года",
+            "ar": "القيمة النقدية للعام السابق"
+          },
+          "value": 0,
+          "decimals": 4,
+          "hint": {
+            "en": "Monetary value of the previous year. It is automatically updated.",
+            "de": "Geldbetrag des Vorjahres. Er wird automatisch aktualisiert.",
+            "sv": "Föregående års monetära värde. Den uppdateras automatiskt.",
+            "it": "Valore monetario anno precedenre. Viene aggiornato automaticamente.",
+            "no": "Kostnad forrige år. Blir automatisk oppdatert",
+            "fr": "Valeur monétaire de l'année dernière. Elle est mise à jour automatiquement",
+            "nl": "Geldwaarde van het vorige jaar. Wordt automatisch geupdated.",
+            "es": "Valor monetario del año anterior. Se actualiza automáticamente.",
+            "da": "Pengeværdien af det foregående år. Den opdateres automatisk.",
+            "pl": "Wartość pieniężna poprzedniego roku. Jest ona automatycznie aktualizowana.",
+            "ru": "Денежная стоимость предыдущего года. Она автоматически обновляется.",
+            "ar": "القيمة النقدية للعام السابق. يتم تحديثها تلقائيًا."
+          }
+        }
+      ]
+    },
+    {
+      "type": "group",
+      "label": {
+        "en": "Meter readings",
+        "de": "Zählerstände",
+        "sv": "Mätaravläsningar",
+        "it": "Letture contatore",
+        "no": "Meterverdier",
+        "fr": "Lecture compteur",
+        "nl": "Meter waarden",
+        "es": "Lecturas del medidor",
+        "da": "Måleraflæsninger",
+        "pl": "Odczyty licznika",
+        "ru": "Показания счетчика",
+        "ar": "قراءات العداد"
+      },
+      "children": [
+        {
+          "id": "meter_kwh_charging",
+          "type": "number",
+          "label": {
+            "en": "Charging Total (kWh)",
+            "nl": "Laden Totaal (kWh)",
+            "de": "Aufladung Gesamt (kWh)",
+            "fr": "Total de charge (kWh)",
+            "it": "Totale ricarica (kWh)",
+            "sv": "Laddning totalt (kWh)",
+            "no": "Lading totalt (kWh)",
+            "es": "Carga total (kWh)",
+            "da": "Opladning i alt (kWh)",
+            "pl": "Ładowanie ogółem (kWh)",
+            "ru": "Всего зарядки (кВтч)",
+            "ar": "إجمالي الشحن (كيلوواط ساعة)"
+          },
+          "min": 0,
+          "value": 0,
+          "hint": {
+            "en": "This value is automatically generated and updated once an hour. It is advised not to change this value, unless you need to.",
+            "nl": "Deze waarde wordt automatisch gegenereerd en één keer per uur bijgewerkt. Het wordt aanbevolen deze waarde niet te wijzigen, tenzij dit noodzakelijk is.",
+            "de": "Dieser Wert wird automatisch generiert und einmal pro Stunde aktualisiert. Es wird empfohlen, diesen Wert nicht zu ändern, es sei denn, dies ist erforderlich.",
+            "fr": "Cette valeur est générée automatiquement et mise à jour une fois par heure. Il est conseillé de ne pas modifier cette valeur, sauf si vous le devez.",
+            "it": "Questo valore viene generato automaticamente e aggiornato una volta all'ora. Si consiglia di non modificare questo valore, a meno che non sia necessario.",
+            "sv": "Detta värde genereras automatiskt och uppdateras en gång i timmen. Det rekommenderas att inte ändra detta värde, om du inte måste.",
+            "no": "Denne verdien genereres automatisk og oppdateres en gang i timen. Det anbefales ikke å endre denne verdien, med mindre du må.",
+            "es": "Este valor se genera y actualiza automáticamente una vez por hora. Se aconseja no cambiar este valor, a menos que sea necesario.",
+            "da": "Denne værdi genereres automatisk og opdateres en gang i timen. Det anbefales ikke at ændre denne værdi, medmindre du er nødt til det.",
+            "pl": "Wartość ta jest generowana automatycznie i aktualizowana raz na godzinę. Zaleca się nie zmieniać tej wartości, chyba że jest to konieczne.",
+            "ru": "Это значение генерируется и обновляется автоматически раз в час. Рекомендуется не изменять это значение, если в этом нет необходимости.",
+            "ar": "يتم إنشاء هذه القيمة وتحديثها تلقائيًا مرة واحدة في الساعة. ينصح بعدم تغيير هذه القيمة، إلا إذا كنت بحاجة إلى ذلك."
+          }
+        },
+        {
+          "id": "meter_kwh_discharging",
+          "type": "number",
+          "label": {
+            "en": "Discharging Total (kWh)",
+            "nl": "Ontladen Totaal (kWh)",
+            "de": "Entladung Gesamt (kWh)",
+            "fr": "Total de décharge (kWh)",
+            "it": "Totale scarica (kWh)",
+            "sv": "Urladdning totalt (kWh)",
+            "no": "Utladning totalt (kWh)",
+            "es": "Descarga total (kWh)",
+            "da": "Afladning i alt (kWh)",
+            "pl": "Rozładowanie ogółem (kWh)",
+            "ru": "Всего разрядки (кВтч)",
+            "ar": "إجمالي التفريغ (كيلوواط ساعة)"
+          },
+          "min": 0,
+          "value": 0,
+          "hint": {
+            "en": "This value is automatically generated and updated once an hour. It is advised not to change this value, unless you need to.",
+            "nl": "Deze waarde wordt automatisch gegenereerd en één keer per uur bijgewerkt. Het wordt aanbevolen deze waarde niet te wijzigen, tenzij dit noodzakelijk is.",
+            "de": "Dieser Wert wird automatisch generiert und einmal pro Stunde aktualisiert. Es wird empfohlen, diesen Wert nicht zu ändern, es sei denn, dies ist erforderlich.",
+            "fr": "Cette valeur est générée automatiquement et mise à jour une fois par heure. Il est conseillé de ne pas modifier cette valeur, sauf si vous le devez.",
+            "it": "Questo valore viene generato automaticamente e aggiornato una volta all'ora. Si consiglia di non modificare questo valore, a meno che non sia necessario.",
+            "sv": "Detta värde genereras automatiskt och uppdateras en gång i timmen. Det rekommenderas att inte ändra detta värde, om du inte måste.",
+            "no": "Denne verdien genereres automatisk og oppdateres en gang i timen. Det anbefales ikke å endre denne verdien, med mindre du må.",
+            "es": "Este valor se genera y actualiza automáticamente una vez por hora. Se aconseja no cambiar este valor, a menos que sea necesario.",
+            "da": "Denne værdi genereres automatisk og opdateres en gang i timen. Det anbefales ikke at ændre denne værdi, medmindre du er nødt til det.",
+            "pl": "Wartość ta jest generowana automatycznie i aktualizowana raz na godzinę. Zaleca się nie zmieniać tej wartości, chyba że jest to konieczne.",
+            "ru": "Это значение генерируется и обновляется автоматически раз в час. Рекомендуется не изменять это значение, если в этом нет необходимости.",
+            "ar": "يتم إنشاء هذه القيمة وتحديثها تلقائيًا مرة واحدة في الساعة. ينصح بعدم تغيير هذه القيمة، إلا إذا كنت بحاجة إلى ذلك."
+          }
+        }
+      ]
+    }
+  ]
 }

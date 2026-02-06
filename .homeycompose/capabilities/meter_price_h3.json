@@ -7,8 +7,13 @@
     "it": "Prezzo +3h",
     "no": "Pris +3T",
     "fr": "Tarif +3h",
-    "dk": "Pris +3T",
-    "nl": "Prijs +3U"
+    "da": "Pris +3T",
+    "nl": "Prijs +3U",
+    "es": "Precio +3h",
+    "pl": "Cena +3h",
+    "ru": "Цена +3ч",
+    "ko": "가격 +3시간",
+    "ar": "السعر +3س"
   },
   "uiComponent": "sensor",
   "icon": "/assets/tariff.svg",

@@ -6,8 +6,13 @@
     "it": "Imposta una nuova tariffa energia",
     "no": "Sett en ny energitariff",
     "fr": "Définir un nouveau tarif électrique",
-    "dk": "Sæt en ny elafgift",
-    "nl": "Stel een nieuw energietarief in"
+    "da": "Sæt en ny elafgift",
+    "nl": "Stel een nieuw energietarief in",
+    "ar": "تعيين تعريفة طاقة جديدة",
+    "es": "Establecer una nueva tarifa de energía",
+    "pl": "Ustaw nową taryfę energetyczną",
+    "ru": "Установить новый тариф на энергию",
+    "ko": "새 전력 요금 설정"
   },
   "titleFormatted": {
     "en": "Set energy tariff for group [[group]] to [[tariff]]",
@@ -16,8 +21,13 @@
     "it": "Imposta [[group]] tariffa energia a [[tariff]]",
     "no": "Sett [[group]] energitariff to [[tariff]]",
     "fr": "Définir [[group]] le tarif électrique à [[tariff]]",
-    "dk": "Sæt [[group]] en elafgift til [[tariff]]",
-    "nl": "Stel energietarief groep [[group]] in op [[tariff]]"
+    "da": "Sæt [[group]] en elafgift til [[tariff]]",
+    "nl": "Stel energietarief groep [[group]] in op [[tariff]]",
+    "ar": "تعيين تعريفة الطاقة للمجموعة [[group]] إلى [[tariff]]",
+    "es": "Establecer tarifa de energía para el grupo [[group]] a [[tariff]]",
+    "pl": "Ustaw taryfę energetyczną dla grupy [[group]] na [[tariff]]",
+    "ru": "Установить тариф на энергию для группы [[group]] на [[tariff]]",
+    "ko": "그룹 [[group]]의 전력 요금을 [[tariff]]로 설정"
   },
   "highlight": true,
   "args": [
@@ -31,15 +41,32 @@
         "it": "La tariffa per kWh",
         "no": "Tariff per kWh",
         "fr": "Le tarif par KWh",
-        "dk": "Elafgiften per kWh",
-        "nl": "Het tarief per kWh"
+        "da": "Elafgiften per kWh",
+        "nl": "Het tarief per kWh",
+        "es": "La tarifa por kWh",
+        "pl": "Taryfa za kWh",
+        "ru": "Тариф за кВтч",
+        "ko": "kWh당 요금",
+        "ar": "التعريفة لكل كيلوواط ساعة"
       }
     },
     {
       "name": "group",
       "type": "number",
       "placeholder": {
-        "en": "Update group"
+        "en": "Update group",
+        "de": "Update-Gruppe",
+        "sv": "Uppdateringsgrupp",
+        "it": "Gruppo di aggiornamento",
+        "no": "Oppdateringsgruppe",
+        "fr": "Groupe de mise à jour",
+        "da": "Opdateringsgruppe",
+        "nl": "Update groep",
+        "es": "Grupo de actualización",
+        "pl": "Grupa aktualizacji",
+        "ru": "Группа обновления",
+        "ko": "업데이트 그룹",
+        "ar": "تحديث المجموعة"
       },
       "required": false,
       "min": 1,

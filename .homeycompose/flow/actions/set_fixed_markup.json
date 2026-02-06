@@ -6,8 +6,13 @@
     "it": "Imposta un nuovo sovraprezzo fisso",
     "no": "Sett en ny fast påslag",
     "fr": "Définir une nouvelle majoration fixe",
-    "dk": "Sæt en ny fast opmarkering",
-    "nl": "Stel een nieuwe vaste opslag in"
+    "da": "Sæt en ny fast opmarkering",
+    "nl": "Stel een nieuwe vaste opslag in",
+    "ar": "تعيين هامش ربح ثابت جديد",
+    "es": "Establecer un nuevo margen fijo",
+    "pl": "Ustaw nowy narzut stały",
+    "ru": "Установить новую фиксированную наценку",
+    "ko": "새 고정 마크업 설정"
   },
   "titleFormatted": {
     "en": "Set fixed markup to [[value]]",
@@ -16,8 +21,13 @@
     "it": "Imposta sovraprezzo fisso a [[value]]",
     "no": "Sett en ny fast påslag til [[value]]",
     "fr": "Définir une majoration fixe à [[value]]",
-    "dk": "Sæt en ny fast opmarkering til [[value]]",
-    "nl": "Stel vaste opslag in op [[value]]"
+    "da": "Sæt en ny fast opmarkering til [[value]]",
+    "nl": "Stel vaste opslag in op [[value]]",
+    "ar": "تعيين هامش الربح الثابت إلى [[value]]",
+    "es": "Establecer margen fijo a [[value]]",
+    "pl": "Ustaw narzut stały na [[value]]",
+    "ru": "Установить фиксированную наценку на [[value]]",
+    "ko": "고정 마크업을 [[value]]로 설정"
   },
   "highlight": true,
   "args": [
@@ -36,8 +46,13 @@
         "it": "Sovraprezzo fisso per kWh/m3",
         "no": "Fast påslag per kWh or m3",
         "nl": "Vaste opslag per kWh of m3",
-        "dk": "Fast opmarkering per kWh eller m3",
-        "fr": "Majoration fixe par KWh ou m3"
+        "da": "Fast opmarkering per kWh eller m3",
+        "fr": "Majoration fixe par KWh ou m3",
+        "ar": "هامش ربح ثابت لكل كيلوواط ساعة أو متر مكعب",
+        "es": "Margen fijo por kWh o m3",
+        "pl": "Narzut stały za kWh lub m3",
+        "ru": "Фиксированная наценка за кВтч или м3",
+        "ko": "kWh 또는 m3당 고정 마크업"
       }
     }
   ]

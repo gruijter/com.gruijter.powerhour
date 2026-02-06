@@ -1,11 +1,33 @@
 {
 	"title": {
 		"en": "New price period",
-		"nl": "Nieuw prijs-periode"
+		"nl": "Nieuw prijs-periode",
+		"de": "Neuer Preiszeitraum",
+		"fr": "Nouvelle période de prix",
+		"it": "Nuovo periodo di prezzo",
+		"sv": "Ny prisperiod",
+		"no": "Ny prisperiode",
+		"es": "Nuevo período de precios",
+		"da": "Ny prisperiode",
+		"pl": "Nowy okres cenowy",
+		"ru": "Новый ценовой период",
+		"ko": "새 가격 기간",
+		"ar": "فترة سعر جديدة"
 	},
 	"titleFormatted": {
 		"en": "New price period starts",
-		"nl": "Nieuw prijs-periode begint"
+		"nl": "Nieuw prijs-periode begint",
+		"de": "Neuer Preiszeitraum beginnt",
+		"fr": "Nouvelle période de prix commence",
+		"it": "Inizia nuovo periodo di prezzo",
+		"sv": "Ny prisperiod börjar",
+		"no": "Ny prisperiode starter",
+		"es": "Comienza nuevo período de precios",
+		"da": "Ny prisperiode starter",
+		"pl": "Rozpoczyna się nowy okres cenowy",
+		"ru": "Начинается новый ценовой период",
+		"ko": "새 가격 기간 시작",
+		"ar": "تبدأ فترة سعر جديدة"
 	},
 	"highlight": true,
 	"args": [
@@ -21,7 +43,17 @@
 			"title": {
 				"en": "Hour",
 				"nl": "Uur",
-				"de": "Stunde"
+				"de": "Stunde",
+				"fr": "Heure",
+				"it": "Ora",
+				"sv": "Timme",
+				"no": "Time",
+				"es": "Hora",
+				"da": "Time",
+				"pl": "Godzina",
+				"ru": "Час",
+				"ko": "시간",
+				"ar": "ساعة"
 			},
 			"type": "number",
 			"example": 14.50
@@ -31,7 +63,17 @@
 			"title": {
 				"en": "Price",
 				"nl": "Prijs",
-				"de": "Preis"
+				"de": "Preis",
+				"fr": "Prix",
+				"it": "Prezzo",
+				"sv": "Pris",
+				"no": "Pris",
+				"es": "Precio",
+				"da": "Pris",
+				"pl": "Cena",
+				"ru": "Цена",
+				"ko": "가격",
+				"ar": "السعر"
 			},
 			"type": "number",
 			"example": 0.2747

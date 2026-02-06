@@ -5,8 +5,14 @@
 		"de": "Der durchschn. Preis der kommenden Stunde !{{ist|ist nicht}} der niedrigste",
 		"sv": "Det genomsnittliga priset de kommande timmarna !{{är|är inte}} det lägsta",
 		"it": "Il prezzo medio nelle prossime ore !{{è|non è}} il più basso",
-		"dk": "Gn. snt. prisen den næste time !{{er|er ikke}} lavest",
-		"nl": "De gem. prijs de komende uren !{{is|is niet}} het laagst"
+		"da": "Gn. snt. prisen den næste time !{{er|er ikke}} lavest",
+		"nl": "De gem. prijs de komende uren !{{is|is niet}} het laagst",
+		"fr": "Le prix moyen des prochaines heures !{{est|n'est pas}} le plus bas",
+		"es": "El precio promedio de las próximas horas !{{es|no es}} el más bajo",
+		"pl": "Średnia cena w następnych godzinach !{{jest|nie jest}} najniższa",
+		"ru": "Средняя цена в следующие часы !{{самая|не самая}} низкая",
+		"ar": "متوسط السعر في الساعات القادمة !{{هو|ليس}} الأدنى",
+		"ko": "다음 몇 시간 동안의 평균 가격이 가장 낮음!{{입니다|이 아닙니다}}"
 	},
 	"titleFormatted": {
 		"en": "The avg. price [[hours]] !{{is|isn't}} lowest within [[period]]",
@@ -14,8 +20,14 @@
 		"de": "Der durchschn. Preis kommenden [[hours]]Std. !{{ist|ist nicht}} der niedrigste innerhalb [[period]]",
 		"sv": "Det genomsnittliga priset kommande[[hours]]H !{{är|är inte}} det lägsta inom [[period]]",
 		"it": "Il prezzo medio [[hours]]H !{{è|non è}} il più basso entro [[period]]",
-		"dk": "Gn. snt. prisen næste [[hours]]T !{{er|er ikke}} lavest indenfor [[period]]",
-		"nl": "De gem. prijs komende [[hours]]U !{{is|is niet}} het laagst binnen [[period]]"
+		"da": "Gn. snt. prisen næste [[hours]]T !{{er|er ikke}} lavest indenfor [[period]]",
+		"nl": "De gem. prijs komende [[hours]]U !{{is|is niet}} het laagst binnen [[period]]",
+		"fr": "Le prix moyen des [[hours]] prochaines heures !{{est|n'est pas}} le plus bas dans [[period]]",
+		"es": "El precio promedio de las próximas [[hours]]H !{{es|no es}} el más bajo dentro de [[period]]",
+		"pl": "Średnia cena w następnych [[hours]]H !{{jest|nie jest}} najniższa w ciągu [[period]]",
+		"ru": "Средняя цена в следующие [[hours]]Ч !{{самая|не самая}} низкая в течение [[period]]",
+		"ar": "متوسط السعر في [[hours]] ساعة القادمة !{{هو|ليس}} الأدنى خلال [[period]]",
+		"ko": "다음 [[hours]]시간 동안의 평균 가격이 [[period]] 내에서 가장 낮음!{{입니다|이 아닙니다}}"
 	},
 	"highlight": true,
 	"args": [
@@ -33,8 +45,14 @@
 				"de": "Zeitraum",
 				"sv": "period",
 				"it": "periodo",
-				"dk": "periode",
-				"nl": "periode"
+				"da": "periode",
+				"nl": "periode",
+				"fr": "période",
+				"es": "período",
+				"pl": "okres",
+				"ru": "период",
+				"ar": "فترة",
+				"ko": "기간"
 			},
 			"values": [
 				{	"id": "this_day",
@@ -44,8 +62,14 @@
 						"de": "des Tages",
 						"sv": "idag",
 						"it": "giornata odierna",
-						"dk": "i dag",
-						"nl": "deze dag"
+						"da": "i dag",
+						"nl": "deze dag",
+						"fr": "ce jour",
+						"es": "este día",
+						"pl": "ten dzień",
+						"ru": "этот день",
+						"ar": "هذا اليوم",
+						"ko": "오늘"
 					}
 				},
 				{	"id": "8",
@@ -55,8 +79,14 @@
 						"de": "der nächsten 8 Std.",
 						"sv": "nästa 8H",
 						"it": "prossime 8h",
-						"dk": "næste 8T",
-						"nl": "komende 8U"
+						"da": "næste 8T",
+						"nl": "komende 8U",
+						"fr": "8 prochaines heures",
+						"es": "próximas 8H",
+						"pl": "następne 8H",
+						"ru": "след. 8Ч",
+						"ar": "8 ساعات القادمة",
+						"ko": "다음 8시간"
 					}
 				}
 			]
@@ -70,8 +100,14 @@
 				"sv": "nästa H",
 				"it": "prossime h",
 				"no": "neste T",
-				"dk": "næste T",
-				"nl": "komende uren"
+				"da": "næste T",
+				"nl": "komende uren",
+				"fr": "prochaines heures",
+				"es": "próximas horas",
+				"pl": "następne godziny",
+				"ru": "следующие часы",
+				"ar": "الساعات القادمة",
+				"ko": "다음 시간"
 			},
 			"placeholder": { "en": "2-6" },
 			"min": 2,

@@ -7,8 +7,13 @@
     "it": "Prezzo medio giornata odierna",
     "no": "Gj.snitt pris denne dag",
     "fr": "Tarif moyen aujourd'hui",
-    "dk": "Gn. snt. pris i dag",
-    "nl": "Gem. prijs deze dag"
+    "da": "Gn. snt. pris i dag",
+    "nl": "Gem. prijs deze dag",
+    "ar": "متوسط السعر هذا اليوم",
+    "es": "Avg. price this day",
+    "pl": "Avg. price this day",
+    "ru": "Avg. price this day",
+    "ko": "Avg. price this day"
   },
   "uiComponent": "sensor",
   "icon": "/assets/tariff.svg",
