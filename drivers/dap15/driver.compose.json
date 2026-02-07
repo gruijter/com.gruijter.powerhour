@@ -15,6 +15,18 @@
 	},
 	"class": "sensor",
 	"capabilities": [],
+	"capabilitiesOptions": {
+		"meter_rank_price_h0_next_8h": {
+			"units": {
+				"en": "/32"
+			}
+		},
+		"meter_rank_price_h0_this_day": {
+			"units": {
+				"en": "/96"
+			}
+		}
+	},
 	"platforms": [
 		"local"
 	],
