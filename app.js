@@ -50,7 +50,7 @@ class MyApp extends Homey.App {
       this.registerFlowListeners();
 
       // start webhook listener
-      // await this.startWebHookListener();
+      await this.startWebHookListener();
 
       this.log('Power by the Hour app is running...');
     } catch (error) {
@@ -71,7 +71,9 @@ class MyApp extends Homey.App {
     this.homey.removeAllListeners('set_tariff_power_PBTH');
     this.homey.removeAllListeners('set_tariff_gas_PBTH');
     this.homey.removeAllListeners('set_tariff_water_PBTH');
-    this.homey.removeAllListeners('pbthEntsoeBridgeWebhook');
+    if (this.webhook) {
+      await this.webhook.unregister().catch(this.error);
+    }
   }
 
   async initApi() {
@@ -90,22 +92,6 @@ class MyApp extends Homey.App {
     }
   }
 
-  async startWebHookListener() {
-    const id = Homey.env.WEBHOOK_ID; // "56db7fb12dcf75604ea7977d"
-    const secret = Homey.env.WEBHOOK_SECRET; // "2uhf83h83h4gg34..."
-    const data = {
-      // Provide unique properties for this Homey here
-      $keys: ['pbth-entsoe-bridge'], // appId is required in query
-    };
-    const pbthEntsoeBridgeWebhook = await this.homey.cloud.createWebhook(id, secret, data);
-    pbthEntsoeBridgeWebhook.on('message', (args) => {
-      this.log('Got a webhook message!');
-      this.log('headers:', args.headers);
-      this.log('query:', args.query);
-      console.dir(args.body, { depth: null });
-    });
-  }
-
   // {
   //   event: 'price_update',
   //   zone: '10YCH-SWISSGRIDZ',
@@ -114,6 +100,36 @@ class MyApp extends Homey.App {
   //   data: [
   //     { time: '2026-01-28T12:00:00.000Z', price: 160.94 },
   //     { time: '2026-01-28T13:00:00.000Z', price: 161.78 },
+  async startWebHookListener() {
+    const id = Homey.env.WEBHOOK_ID; // "56db7fb12dcf75604ea7977d"
+    const secret = Homey.env.WEBHOOK_SECRET; // "2uhf83h83h4gg34..."
+    const data = {
+      // Provide unique properties for this Homey here
+      $keys: ['pbth-entsoe-bridge'], // appId is required in query
+    };
+    this.webhook = await this.homey.cloud.createWebhook(id, secret, data);
+    this.webhook.on('message', async (args) => {
+      this.log('Got a webhook message!');
+      // this.log('headers:', args.headers);
+      // this.log('query:', args.query);
+      // console.dir(args.body, { depth: null });
+      try {
+        const { body } = args;
+        if (body && body.event === 'price_update' && body.zone && body.data) {
+          this.log('Received price update for zone:', body.zone);
+          const drivers = ['dap', 'dap15'];
+          for (const driverId of drivers) {
+            const driver = await this.homey.drivers.getDriver(driverId).catch(() => null);
+            if (driver && driver.handlePriceUpdate) {
+              await driver.handlePriceUpdate(body.zone, body.data);
+            }
+          }
+        }
+      } catch (err) {
+        this.error('Error handling webhook message', err);
+      }
+    });
+  }
 
   everyHour() {
     const scheduleNextHour = () => {
