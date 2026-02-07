@@ -23,21 +23,10 @@ const Homey = require('homey');
 const { HomeyAPI } = require('homey-api');
 const Flows = require('./lib/Flows');
 
-// require('inspector').open(9229, '0.0.0.0', false);
-
 class MyApp extends Homey.App {
 
   async onInit() {
     try {
-      // for debugging
-      // if (process.env.DEBUG === '1') {
-      //   try {
-      //     require('inspector').waitForDebugger();
-      //   }  catch (error) {
-      //     require('inspector').open(9222, '0.0.0.0', true);
-      //   }
-      // }
-
       // register flows
       this.registerFlowListeners();
 
@@ -93,27 +82,15 @@ class MyApp extends Homey.App {
     }
   }
 
-  // {
-  //   event: 'price_update',
-  //   zone: '10YCH-SWISSGRIDZ',
-  //   name: 'Switzerland',
-  //   updated: '2026-01-30T11:10:06.263Z',
-  //   data: [
-  //     { time: '2026-01-28T12:00:00.000Z', price: 160.94 },
-  //     { time: '2026-01-28T13:00:00.000Z', price: 161.78 },
   async startWebHookListener() {
-    const id = Homey.env.WEBHOOK_ID; // "56db7fb12dcf75604ea7977d"
-    const secret = Homey.env.WEBHOOK_SECRET; // "2uhf83h83h4gg34..."
+    const id = Homey.env.WEBHOOK_ID;
+    const secret = Homey.env.WEBHOOK_SECRET;
     const data = {
-      // Provide unique properties for this Homey here
       $keys: ['pbth-entsoe-bridge'], // appId is required in query
     };
     this.webhook = await this.homey.cloud.createWebhook(id, secret, data);
     this.webhook.on('message', async (args) => {
       this.log('Got a webhook message!');
-      // this.log('headers:', args.headers);
-      // this.log('query:', args.query);
-      // console.dir(args.body, { depth: null });
       try {
         const { body } = args;
         if (body && body.event === 'price_update' && body.zone && body.data) {
@@ -133,50 +110,52 @@ class MyApp extends Homey.App {
   }
 
   everyHour() {
-    const scheduleNextHour = () => {
-      if (this.everyHourId) this.homey.clearTimeout(this.everyHourId); // Clear any existing timeout
-      const now = new Date();
-      const nextHour = new Date(now.getFullYear(), now.getMonth(), now.getDate(), now.getHours() + 1, 0, 0, 2000);
-      const timeToNextHour = nextHour - now;
-      // console.log('everyHour starts in', timeToNextHour / 1000);
-      this.everyHourId = this.homey.setTimeout(() => {
-        try {
-          this.homey.emit('everyhour_PBTH', true);
-        } catch (error) {
-          this.error(error);
-        }
-        scheduleNextHour(); // Schedule the next hour
-      }, timeToNextHour);
-    };
-    scheduleNextHour();
+    this.scheduleNextHour();
     this.log('everyHour job started');
   }
 
+  scheduleNextHour() {
+    if (this.everyHourId) this.homey.clearTimeout(this.everyHourId);
+    const now = new Date();
+    const nextHour = new Date(now.getFullYear(), now.getMonth(), now.getDate(), now.getHours() + 1, 0, 0, 2000);
+    const delay = nextHour - now;
+
+    this.everyHourId = this.homey.setTimeout(() => {
+      try {
+        this.homey.emit('everyhour_PBTH', true);
+      } catch (error) {
+        this.error(error);
+      }
+      this.scheduleNextHour();
+    }, delay);
+  }
+
   everyXminutes(interval = 15) {
-    const scheduleNextXminutes = () => {
-      if (this.everyXMinutesId) this.homey.clearTimeout(this.everyXMinutesId); // Clear any existing timeout
-      let now = new Date();
-      const nextXminutes = new Date(now);
-      const currentMinutes = now.getMinutes();
-      const nextMultipleOfX = currentMinutes % interval === 0 ? currentMinutes + interval : Math.ceil(currentMinutes / interval) * interval;
-      nextXminutes.setMinutes(nextMultipleOfX, 0, 2000);
-      const timeToNextXminutes = nextXminutes - now;
-      // console.log('everyXminutes starts in', timeToNextXminutes / 1000);
-      this.everyXMinutesId = this.homey.setTimeout(() => {
-        // Only emit if not on a full hour
-        now = new Date();
-        if (now.getMinutes() !== 0) {
-          try {
-            this.homey.emit('every15m_PBTH', true);
-          } catch (error) {
-            this.error(error);
-          }
-        }
-        scheduleNextXminutes(); // Schedule the next X minutes
-      }, timeToNextXminutes);
-    };
-    scheduleNextXminutes();
+    this.scheduleNextXminutes(interval);
     this.log('every15m job started');
+  }
+
+  scheduleNextXminutes(interval) {
+    if (this.everyXMinutesId) this.homey.clearTimeout(this.everyXMinutesId);
+    const now = new Date();
+    const currentMinutes = now.getMinutes();
+    const nextMultipleOfX = currentMinutes % interval === 0 ? currentMinutes + interval : Math.ceil(currentMinutes / interval) * interval;
+    const nextXminutes = new Date(now);
+    nextXminutes.setMinutes(nextMultipleOfX, 0, 2000);
+    const delay = nextXminutes - now;
+
+    this.everyXMinutesId = this.homey.setTimeout(() => {
+      const currentNow = new Date();
+      // Only emit if not on a full hour (handled by everyHour)
+      if (currentNow.getMinutes() !== 0) {
+        try {
+          this.homey.emit('every15m_PBTH', true);
+        } catch (error) {
+          this.error(error);
+        }
+      }
+      this.scheduleNextXminutes(interval);
+    }, delay);
   }
 
   retry(interval = 5) {
