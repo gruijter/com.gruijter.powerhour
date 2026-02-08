@@ -1,4 +1,7 @@
 {
+  "8.0.4": {
+    "en": "new price period fixed for DAP15. Price markup are now imediately effective on settings save."
+  },
   "8.0.3": {
     "en": "Added and fixed DAP15 capabilities. Improved chart coloring predicted prices. Prepared for entsoe_gruijter price push. Refactored app scheduler. Massive refactoring of Flow code."
   },
