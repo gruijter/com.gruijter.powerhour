@@ -1,4 +1,7 @@
 {
+  "8.0.3": {
+    "en": "Added and fixed DAP15 capabilities. Improved chart coloring predicted prices. Prepared for entsoe_gruijter price push. Refactored app scheduler. Massive refactoring of Flow code."
+  },
   "8.0.2": {
     "en": "Fix chart coloring. Fix chart refresh in mobile app. Localized hardcoded UI text. Massive translation update."
   },
