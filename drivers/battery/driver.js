@@ -65,7 +65,7 @@ const driverSpecifics = {
   ],
 };
 
-class sumDriver extends GenericDriver {
+class BatteryDriver extends GenericDriver {
 
   async onInit() {
     // this.log('driver onInit');
@@ -75,4 +75,4 @@ class sumDriver extends GenericDriver {
 
 }
 
-module.exports = sumDriver;
+module.exports = BatteryDriver;

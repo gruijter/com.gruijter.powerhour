@@ -21,7 +21,7 @@ along with com.gruijter.powerhour.  If not, see <http://www.gnu.org/licenses/>.s
 
 const GenericDevice = require('../../lib/generic_bat_device');
 
-class batDevice extends GenericDevice {
+class BatDevice extends GenericDevice {
 
   async onInit() {
     await this.onInitDevice().catch(this.error);
@@ -29,12 +29,9 @@ class batDevice extends GenericDevice {
 
   async addSourceCapGroup() {
     // setup if/how a HOMEY-API source device fits to a defined capability group
-    this.sourceCapGroup = null;
-    this.driver.ds.sourceCapGroups.forEach((capGroup) => {
-      if (this.sourceCapGroup) return; // stop at the first match
+    this.sourceCapGroup = this.driver.ds.sourceCapGroups.find((capGroup) => {
       const requiredKeys = Object.values(capGroup).filter((v) => v);
-      const hasAllKeys = requiredKeys.every((k) => this.sourceDevice.capabilities.includes(k));
-      if (hasAllKeys) this.sourceCapGroup = capGroup; // all relevant capabilities were found in the source device
+      return requiredKeys.every((k) => this.sourceDevice.capabilities.includes(k));
     });
     if (!this.sourceCapGroup) {
       throw Error(`${this.sourceDevice.name} has no compatible capabilities ${this.sourceDevice.capabilities}`);
@@ -84,4 +81,4 @@ class batDevice extends GenericDevice {
 
 }
 
-module.exports = batDevice;
+module.exports = BatDevice;
