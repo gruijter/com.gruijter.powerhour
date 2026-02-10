@@ -1,4 +1,7 @@
 {
+  "8.1.0": {
+    "en": "LP module replaced. Advanced ROI calculation vastly improved. Advanced ROI enabled on HP2016/2019. Tariff update propagation fixes. Stability improvements."
+  },
   "8.0.4": {
     "en": "new price period fixed for DAP15. Price markup are now imediately effective on settings save."
   },
