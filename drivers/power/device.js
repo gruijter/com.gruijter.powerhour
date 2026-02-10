@@ -41,7 +41,7 @@ const deviceSpecifics = {
 // n2 returned counter (high tariff).
 // total energy counter = p1+p2-n1-n2
 
-class sumDevice extends GenericDevice {
+class PowerDevice extends GenericDevice {
 
   async onInit() {
     this.ds = deviceSpecifics;
@@ -53,12 +53,9 @@ class sumDevice extends GenericDevice {
     // setup if/how a HOMEY-API source device fits to a defined capability group
     this.lastGroupMeterReady = false;
     this.lastGroupMeter = {}; // last values of capability meters
-    this.sourceCapGroup = null;
-    this.driver.ds.sourceCapGroups.forEach((capGroup) => {
-      if (this.sourceCapGroup) return; // stop at the first match
+    this.sourceCapGroup = this.driver.ds.sourceCapGroups.find((capGroup) => {
       const requiredKeys = Object.values(capGroup).filter((v) => v);
-      const hasAllKeys = requiredKeys.every((k) => this.sourceDevice.capabilities.includes(k));
-      if (hasAllKeys) this.sourceCapGroup = capGroup; // all relevant capabilities were found in the source device
+      return requiredKeys.every((k) => this.sourceDevice.capabilities.includes(k));
     });
     if (!this.sourceCapGroup) {
       throw Error(`${this.sourceDevice.name} has no compatible meter_power capabilities ${this.sourceDevice.capabilities}`);
@@ -149,7 +146,7 @@ class sumDevice extends GenericDevice {
 
 }
 
-module.exports = sumDevice;
+module.exports = PowerDevice;
 
 /*
 capabilitiesObj:

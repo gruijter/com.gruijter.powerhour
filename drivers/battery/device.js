@@ -71,12 +71,13 @@ class BatDevice extends GenericDevice {
     // start polling all caps
     if (!this.sourceCapGroup) await this.addSourceCapGroup();
     this.log(`polling ${this.sourceDevice.name}`);
-    Object.keys(this.sourceCapGroup).forEach(async (key) => {
+    const promises = Object.keys(this.sourceCapGroup).map(async (key) => {
       if (this.sourceDevice.capabilitiesObj && this.sourceDevice.capabilitiesObj[this.sourceCapGroup[key]]) {
         const val = this.sourceDevice.capabilitiesObj[this.sourceCapGroup[key]].value;
         await this.updateValue(val, key).catch(this.error);
       }
     });
+    await Promise.all(promises);
   }
 
 }

@@ -66,7 +66,7 @@ const driverSpecifics = {
     'meter_tariff', 'meter_power', 'measure_watt_avg', 'last_minmax_reset', 'measure_watt_min', 'measure_watt_max'],
 };
 
-class sumDriver extends GenericDriver {
+class PowerDriver extends GenericDriver {
 
   async onInit() {
     this.ds = driverSpecifics;
@@ -75,4 +75,4 @@ class sumDriver extends GenericDriver {
 
 }
 
-module.exports = sumDriver;
+module.exports = PowerDriver;
