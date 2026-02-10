@@ -20,8 +20,8 @@
     "url": "https://github.com/gruijter/com.gruijter.powerhour.git"
   },
   "dependencies": {
-    "glpk.js": "^4.0.2",
     "homey-api": "^3.16.0",
+    "javascript-lp-solver": "^1.0.3",
     "xml-js": "^1.6.11"
   },
   "devDependencies": {
