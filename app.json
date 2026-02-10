@@ -6789,18 +6789,18 @@
         {
           "type": "group",
           "label": {
-            "en": "Advanced ROI settings (HP2023)",
-            "nl": "Geavanceerde ROI instellingen (HP2023)",
-            "de": "Erweiterte ROI Einstellungen (HP2023)",
-            "fr": "Paramètres ROI avancés (HP2023)",
-            "it": "Impostazioni ROI avanzate (HP2023)",
-            "sv": "Avancerade ROI-inställningar (HP2023)",
-            "no": "Avanserte ROI-innstillinger (HP2023)",
-            "es": "Configuración avanzada de ROI (HP2023)",
-            "da": "Avancerede ROI-indstillinger (HP2023)",
-            "pl": "Zaawansowane ustawienia ROI (HP2023)",
-            "ru": "Расширенные настройки ROI (HP2023)",
-            "ar": "إعدادات عائد الاستثمار المتقدمة (HP2023)"
+            "en": "Advanced ROI settings",
+            "nl": "Geavanceerde ROI instellingen",
+            "de": "Erweiterte ROI Einstellungen",
+            "fr": "Paramètres ROI avancés",
+            "it": "Impostazioni ROI avanzate",
+            "sv": "Avancerade ROI-inställningar",
+            "no": "Avanserte ROI-innstillinger",
+            "es": "Configuración avanzada de ROI",
+            "da": "Avancerede ROI-indstillinger",
+            "pl": "Zaawansowane ustawienia ROI",
+            "ru": "Расширенные настройки ROI",
+            "ar": "إعدادات عائد الاستثمار المتقدمة"
           },
           "children": [
             {
@@ -6821,18 +6821,18 @@
                 "ar": "تمكين عائد الاستثمار المتقدم"
               },
               "hint": {
-                "en": "Advanced ROI flows are only available on HP2023!",
-                "nl": "Geavanceerde ROI flows zijn alleen beschikbaar op HP2023!",
-                "de": "Erweiterte ROI Flows sind nur auf dem HP2023 verfügbar!",
-                "fr": "Les flux ROI avancés ne sont disponibles que sur HP2023 !",
-                "it": "I flussi ROI avanzati sono disponibili solo su HP2023!",
-                "sv": "Avancerade ROI-flöden är endast tillgängliga på HP2023!",
-                "no": "Avanserte ROI-flyter er bare tilgjengelige på HP2023!",
-                "es": "¡Los flujos de ROI avanzados solo están disponibles en HP2023!",
-                "da": "Avancerede ROI-flows er kun tilgængelige på HP2023!",
-                "pl": "Zaawansowane przepływy ROI są dostępne tylko w HP2023!",
-                "ru": "Расширенные потоки ROI доступны только на HP2023!",
-                "ar": "تتوفر تدفقات عائد الاستثمار المتقدمة فقط في HP2023!"
+                "en": "Advanced ROI flows use a lot of memory and CPU on Homey!",
+                "nl": "Geavanceerde ROI flows gebruiken veel geheugen en CPU op Homey!",
+                "de": "Erweiterte ROI-Flows verbrauchen viel Speicher und CPU auf Homey!",
+                "fr": "Les flux ROI avancés utilisent beaucoup de mémoire et de CPU sur Homey !",
+                "it": "I flussi ROI avanzati utilizzano molta memoria e CPU su Homey!",
+                "sv": "Avancerade ROI-flöden använder mycket minne och CPU på Homey!",
+                "no": "Avanserte ROI-flyter bruker mye minne og CPU på Homey!",
+                "es": "¡Los flujos de ROI avanzados utilizan mucha memoria y CPU en Homey!",
+                "da": "Avancerede ROI-flows bruger meget hukommelse og CPU på Homey!",
+                "pl": "Zaawansowane przepływy ROI zużywają dużo pamięci i procesora w Homey!",
+                "ru": "Расширенные потоки ROI используют много памяти и ресурсов процессора на Homey!",
+                "ar": "تستخدم تدفقات عائد الاستثمار المتقدمة الكثير من الذاكرة ووحدة المعالجة المركزية في Homey!"
               },
               "value": false
             },
