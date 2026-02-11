@@ -1,85 +1,87 @@
 {
-	"title": {
-		"en": "The price becomes on of the lowest of today",
-		"de": "Preis wird heute einer der niedrigsten sein",
-		"sv": "Priset blir bland de lägsta i dag",
-		"it": "Il prezzo sarà uno dei più bassi di oggi",
-		"no": "Prisen blir en av dagens laveste",
-		"nl": "De prijs wordt één van de laagste van vandaag",
-		"fr": "Le prix devient l'un des plus bas d'aujourd'hui",
-		"da": "Prisen bliver en af de laveste i dag",
-		"es": "El precio se vuelve uno de los más bajos de hoy",
-		"pl": "Cena staje się jedną z najniższych dzisiaj",
-		"ru": "Цена становится одной из самых низких сегодня",
-		"ko": "가격이 오늘 가장 낮은 가격 중 하나가 됩니다",
-		"ar": "يصبح السعر من بين الأدنى اليوم"
-	},
-	"titleFormatted": {
-		"en": "The price becomes one of [[number]] lowest of today",
-		"de": "Preis wird heute einer der [[number]] niedrigsten sein",
-		"sv": "Priset blir ett av dagens [[number]] lägsta",
-		"it": "Il prezzo sarà uno dei [[number]] più bassi di oggi",
-		"no": "Prisen blir en av dagens [[number]] laveste",
-		"nl": "De prijs wordt een van de [[number]] laagste van vandaag",
-		"fr": "Le prix devient l'un des [[number]] plus bas d'aujourd'hui",
-		"da": "Prisen bliver en af de [[number]] laveste i dag",
-		"es": "El precio se vuelve uno de los [[number]] más bajos de hoy",
-		"pl": "Cena staje się jedną z [[number]] najniższych dzisiaj",
-		"ru": "Цена становится одной из [[number]] самых низких сегодня",
-		"ko": "가격이 오늘 가장 낮은 [[number]]개 중 하나가 됩니다",
-		"ar": "يصبح السعر من بين [[number]] الأدنى اليوم"
-	},
-	"highlight": true,
-	"args": [
-		{
-		  "type": "device",
-		  "name": "device",
-		  "filter": "driver_id=dap|dap15|dapg"
-		},
-		{
-			"type": "number",
-			"name": "number",
-			"title": { 
-				"en": "number",
-				"de": "Anzahl",
-				"sv": "antal",
-				"it": "numero",
-				"no": "antall",
-				"da": "antal",
-				"nl": "aantal",
-				"fr": "nombre",
-				"es": "número",
-				"pl": "liczba",
-				"ru": "количество",
-				"ko": "수",
-				"ar": "عدد"
-			},
-			"placeholder": { "en": "1 - 16" },
-			"min": 1,
-			"max": 16,
-			"step": 1
-		}
-	],
-	"tokens": [
-		{
-		"name": "meter_price_h0",
-		"title": {
-			"en": "Price now",
-			"de": "Preis aktuell",
-			"sv": "Pris just nu",
-			"it": "Prezzo attuale",
-			"no": "Pris nå",
-			"da": "Pris nu",
-			"nl": "Prijs nu",
-			"fr": "Tarif actuel",
-			"es": "Precio ahora",
-			"pl": "Cena teraz",
-			"ru": "Цена сейчас",
-			"ko": "현재 가격",
-			"ar": "السعر الآن"
-		},
-		"type": "number",
-		"example": 27.5
-		}
-	]
+  "title": {
+    "en": "The price becomes on of the lowest of today",
+    "de": "Preis wird heute einer der niedrigsten sein",
+    "sv": "Priset blir bland de lägsta i dag",
+    "it": "Il prezzo sarà uno dei più bassi di oggi",
+    "no": "Prisen blir en av dagens laveste",
+    "nl": "De prijs wordt één van de laagste van vandaag",
+    "fr": "Le prix devient l'un des plus bas d'aujourd'hui",
+    "da": "Prisen bliver en af de laveste i dag",
+    "es": "El precio se vuelve uno de los más bajos de hoy",
+    "pl": "Cena staje się jedną z najniższych dzisiaj",
+    "ru": "Цена становится одной из самых низких сегодня",
+    "ko": "가격이 오늘 가장 낮은 가격 중 하나가 됩니다",
+    "ar": "يصبح السعر من بين الأدنى اليوم"
+  },
+  "titleFormatted": {
+    "en": "The price becomes one of [[number]] lowest of today",
+    "de": "Preis wird heute einer der [[number]] niedrigsten sein",
+    "sv": "Priset blir ett av dagens [[number]] lägsta",
+    "it": "Il prezzo sarà uno dei [[number]] più bassi di oggi",
+    "no": "Prisen blir en av dagens [[number]] laveste",
+    "nl": "De prijs wordt een van de [[number]] laagste van vandaag",
+    "fr": "Le prix devient l'un des [[number]] plus bas d'aujourd'hui",
+    "da": "Prisen bliver en af de [[number]] laveste i dag",
+    "es": "El precio se vuelve uno de los [[number]] más bajos de hoy",
+    "pl": "Cena staje się jedną z [[number]] najniższych dzisiaj",
+    "ru": "Цена становится одной из [[number]] самых низких сегодня",
+    "ko": "가격이 오늘 가장 낮은 [[number]]개 중 하나가 됩니다",
+    "ar": "يصبح السعر من بين [[number]] الأدنى اليوم"
+  },
+  "highlight": true,
+  "args": [
+    {
+      "type": "device",
+      "name": "device",
+      "filter": "driver_id=dap|dap15|dapg"
+    },
+    {
+      "type": "number",
+      "name": "number",
+      "title": {
+        "en": "number",
+        "de": "Anzahl",
+        "sv": "antal",
+        "it": "numero",
+        "no": "antall",
+        "da": "antal",
+        "nl": "aantal",
+        "fr": "nombre",
+        "es": "número",
+        "pl": "liczba",
+        "ru": "количество",
+        "ko": "수",
+        "ar": "عدد"
+      },
+      "placeholder": {
+        "en": "1 - 16"
+      },
+      "min": 1,
+      "max": 16,
+      "step": 1
+    }
+  ],
+  "tokens": [
+    {
+      "name": "meter_price_h0",
+      "title": {
+        "en": "Price now",
+        "de": "Preis aktuell",
+        "sv": "Pris just nu",
+        "it": "Prezzo attuale",
+        "no": "Pris nå",
+        "da": "Pris nu",
+        "nl": "Prijs nu",
+        "fr": "Tarif actuel",
+        "es": "Precio ahora",
+        "pl": "Cena teraz",
+        "ru": "Цена сейчас",
+        "ko": "현재 가격",
+        "ar": "السعر الآن"
+      },
+      "type": "number",
+      "example": 27.5
+    }
+  ]
 }

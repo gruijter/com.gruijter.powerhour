@@ -1,134 +1,137 @@
 {
-	"title": {
-		"en": "New prices received",
-		"de": "Neue Preise erhalten",
-		"sv": "Nya priser inkomna",
-		"it": "Nuovi prezzi ricevuti",
-		"no": "Nye priser mottatt",
-		"nl": "Nieuwe prijzen ontvangen",
-		"fr": "Nouveaux prix reçus",
-		"da": "Nye priser modtaget",
-		"es": "Nuevos precios recibidos",
-		"pl": "Otrzymano nowe ceny",
-		"ru": "Получены новые цены",
-		"ko": "새 가격 수신됨",
-		"ar": "تم استلام أسعار جديدة"
-	},
-	"titleFormatted": {
-		"en": "New prices received for [[period]]",
-		"de": "Neue Preise für [[period]] erhalten",
-		"sv": "Nya priser inkomna för [[period]]",
-		"it": "Nuovi prezzi ricevuti per [[period]]",
-		"no": "Nye priser mottatt for [[period]]",
-		"nl": "Nieuwe prijzen ontvangen voor [[period]]",
-		"fr": "Nouveaux prix reçus pour [[period]]",
-		"da": "Nye priser modtaget for [[period]]",
-		"es": "Nuevos precios recibidos para [[period]]",
-		"pl": "Otrzymano nowe ceny dla [[period]]",
-		"ru": "Получены новые цены для [[period]]",
-		"ko": "[[period]]에 대한 새 가격 수신됨",
-		"ar": "تم استلام أسعار جديدة لـ [[period]]"
-	},
-	"highlight": true,
-	"args": [
-		{
-		  "type": "device",
-		  "name": "device",
-		  "filter": "driver_id=dap|dap15|dapg"
-		},
-		{
-			"type": "dropdown",
-			"name": "period",
-			"title": { 
-				"en": "period",
-				"de": "Zeitraum",
-				"sv": "period",
-				"it": "periodo",
-				"no": "periode",
-				"nl": "periode",
-				"fr": "période",
-				"da": "periode",
-				"es": "período",
-				"pl": "okres",
-				"ru": "период",
-				"ko": "기간",
-				"ar": "فترة"
-			},
-			"values": [
-				{	"id": "this_day",
-					"label": { 
-						"en": "this day",
-						"de": "diesen Tag",
-						"sv": "idag",
-						"it": "giornata odierna",
-						"no": "idag",
-						"nl": "deze dag",
-						"fr": "ce jour",
-						"da": "i dag",
-						"es": "este día",
-						"pl": "ten dzień",
-						"ru": "этот день",
-						"ko": "오늘",
-						"ar": "هذا اليوم"
-					}
-				},
-				{	"id": "tomorrow",
-					"label": { 
-						"en": "tomorrow",
-						"de": "Morgen",
-						"sv": "i morgon",
-						"it": "domani",
-						"no": "i morgen",
-						"nl": "morgen",
-						"fr": "demain",
-						"da": "i morgen",
-						"es": "mañana",
-						"pl": "jutro",
-						"ru": "завтра",
-						"ko": "내일",
-						"ar": "غداً"
-					}
-				},
-				{	"id": "next_hours",
-					"label": { 
-						"en": "Next hours",
-						"nl": "Komende uren",
-						"de": "Kommende Std.",
-						"sv": "Kommande timmar",
-						"it": "Prossime ore",
-						"no": "Kommende timer",
-						"fr": "Prochaines heures",
-						"da": "Næste timer",
-						"es": "Próximas horas",
-						"pl": "Następne godziny",
-						"ru": "Следующие часы",
-						"ko": "다음 시간",
-						"ar": "الساعات القادمة"
-					}
-				}
-			]
-		}
-	],
-	"tokens": [
-		{
-			"name": "prices",
-			"title": {
-				"en": "Prices",
-				"de": "Preise",
-				"sv": "Priser",
-				"it": "Prezzi",
-				"no": "Priser",
-				"nl": "Prijzen",
-				"fr": "Prix",
-				"da": "Priser",
-				"es": "Precios",
-				"pl": "Ceny",
-				"ru": "Цены",
-				"ko": "가격",
-				"ar": "الأسعار"
-			},
-			"type": "string",
-			"example": "{'0':0.2747,'1':0.2678,'2':0.261,'3':0.2606,'4':0.2672,'5':0.2721,'6':0.272,'7':0.2678,'8':0.2625,'9':0.2516,'10':0.2409,'11':0.2317,'12':0.20,'13':0.15,'14':0.12,'15':0.11,'16':0.12,'17':0.20,'18':0.2772,'19':0.2927,'20':0.3052,'21':0.2944,'22':0.2856,'23':0.2725"
-		}
-	]
+  "title": {
+    "en": "New prices received",
+    "de": "Neue Preise erhalten",
+    "sv": "Nya priser inkomna",
+    "it": "Nuovi prezzi ricevuti",
+    "no": "Nye priser mottatt",
+    "nl": "Nieuwe prijzen ontvangen",
+    "fr": "Nouveaux prix reçus",
+    "da": "Nye priser modtaget",
+    "es": "Nuevos precios recibidos",
+    "pl": "Otrzymano nowe ceny",
+    "ru": "Получены новые цены",
+    "ko": "새 가격 수신됨",
+    "ar": "تم استلام أسعار جديدة"
+  },
+  "titleFormatted": {
+    "en": "New prices received for [[period]]",
+    "de": "Neue Preise für [[period]] erhalten",
+    "sv": "Nya priser inkomna för [[period]]",
+    "it": "Nuovi prezzi ricevuti per [[period]]",
+    "no": "Nye priser mottatt for [[period]]",
+    "nl": "Nieuwe prijzen ontvangen voor [[period]]",
+    "fr": "Nouveaux prix reçus pour [[period]]",
+    "da": "Nye priser modtaget for [[period]]",
+    "es": "Nuevos precios recibidos para [[period]]",
+    "pl": "Otrzymano nowe ceny dla [[period]]",
+    "ru": "Получены новые цены для [[period]]",
+    "ko": "[[period]]에 대한 새 가격 수신됨",
+    "ar": "تم استلام أسعار جديدة لـ [[period]]"
+  },
+  "highlight": true,
+  "args": [
+    {
+      "type": "device",
+      "name": "device",
+      "filter": "driver_id=dap|dap15|dapg"
+    },
+    {
+      "type": "dropdown",
+      "name": "period",
+      "title": {
+        "en": "period",
+        "de": "Zeitraum",
+        "sv": "period",
+        "it": "periodo",
+        "no": "periode",
+        "nl": "periode",
+        "fr": "période",
+        "da": "periode",
+        "es": "período",
+        "pl": "okres",
+        "ru": "период",
+        "ko": "기간",
+        "ar": "فترة"
+      },
+      "values": [
+        {
+          "id": "this_day",
+          "label": {
+            "en": "this day",
+            "de": "diesen Tag",
+            "sv": "idag",
+            "it": "giornata odierna",
+            "no": "idag",
+            "nl": "deze dag",
+            "fr": "ce jour",
+            "da": "i dag",
+            "es": "este día",
+            "pl": "ten dzień",
+            "ru": "этот день",
+            "ko": "오늘",
+            "ar": "هذا اليوم"
+          }
+        },
+        {
+          "id": "tomorrow",
+          "label": {
+            "en": "tomorrow",
+            "de": "Morgen",
+            "sv": "i morgon",
+            "it": "domani",
+            "no": "i morgen",
+            "nl": "morgen",
+            "fr": "demain",
+            "da": "i morgen",
+            "es": "mañana",
+            "pl": "jutro",
+            "ru": "завтра",
+            "ko": "내일",
+            "ar": "غداً"
+          }
+        },
+        {
+          "id": "next_hours",
+          "label": {
+            "en": "Next hours",
+            "nl": "Komende uren",
+            "de": "Kommende Std.",
+            "sv": "Kommande timmar",
+            "it": "Prossime ore",
+            "no": "Kommende timer",
+            "fr": "Prochaines heures",
+            "da": "Næste timer",
+            "es": "Próximas horas",
+            "pl": "Następne godziny",
+            "ru": "Следующие часы",
+            "ko": "다음 시간",
+            "ar": "الساعات القادمة"
+          }
+        }
+      ]
+    }
+  ],
+  "tokens": [
+    {
+      "name": "prices",
+      "title": {
+        "en": "Prices",
+        "de": "Preise",
+        "sv": "Priser",
+        "it": "Prezzi",
+        "no": "Priser",
+        "nl": "Prijzen",
+        "fr": "Prix",
+        "da": "Priser",
+        "es": "Precios",
+        "pl": "Ceny",
+        "ru": "Цены",
+        "ko": "가격",
+        "ar": "الأسعار"
+      },
+      "type": "string",
+      "example": "{'0':0.2747,'1':0.2678,'2':0.261,'3':0.2606,'4':0.2672,'5':0.2721,'6':0.272,'7':0.2678,'8':0.2625,'9':0.2516,'10':0.2409,'11':0.2317,'12':0.20,'13':0.15,'14':0.12,'15':0.11,'16':0.12,'17':0.20,'18':0.2772,'19':0.2927,'20':0.3052,'21':0.2944,'22':0.2856,'23':0.2725"
+    }
+  ]
 }

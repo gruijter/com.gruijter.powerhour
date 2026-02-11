@@ -34,7 +34,7 @@
     {
       "name": "virtual_device",
       "type": "autocomplete",
-      "title": { 
+      "title": {
         "en": "Virtual device",
         "de": "Virtuelles Gerät",
         "sv": "Virtuell enhet",

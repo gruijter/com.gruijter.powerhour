@@ -1,131 +1,137 @@
 {
-	"title": {
-		"en": "The avg. price becomes lowest before a certain time",
-		"nl": "De gem. prijs wordt het laagst voor een bepaalde tijd",
-		"de": "Der durschn. Preis wird vor einer bestimmten Uhrzeit am niedrigsten sein",
-		"fr": "Le prix moyen devient le plus bas avant une certaine heure",
-		"it": "Il prezzo medio diventa più basso prima di un certo orario",
-		"sv": "Det genomsnittliga priset blir lägst före en viss tid",
-		"no": "Gjennomsnittsprisen blir lavest før en viss tid",
-		"es": "El precio promedio se vuelve más bajo antes de cierta hora",
-		"da": "Gn. snt. prisen bliver lavest før et bestemt tidspunkt",
-		"pl": "Średnia cena staje się najniższa przed określonym czasem",
-		"ru": "Средняя цена становится самой низкой до определенного времени",
-		"ko": "평균 가격이 특정 시간 전에 가장 낮아집니다",
-		"ar": "يصبح متوسط السعر الأدنى قبل وقت معين"
-	},
-	"titleFormatted": {
-		"en": "The avg. price coming [[hours]]H becomes lowest in the [[period]] hours before [[time]] o'clock",
-		"nl": "De gem. prijs komende [[hours]]U wordt het laagst in de [[period]] uren voor [[time]] uur",
-		"de": "Der durschn. Preis der nächsten [[hours]]Std. wird der günstigste in den [[period]] Stunden vor [[time]] Uhr sein",
-		"fr": "Le prix moyen des [[hours]] prochaines heures devient le plus bas dans les [[period]] heures avant [[time]] heures",
-		"it": "Il prezzo medio prossime [[hours]]H diventa più basso nelle [[period]] ore prima delle [[time]]",
-		"sv": "Det genomsnittliga priset kommande [[hours]]H blir lägst under [[period]] timmar före [[time]]",
-		"no": "Gjennomsnittsprisen kommende [[hours]]T blir lavest i de [[period]] timene før [[time]]",
-		"es": "El precio promedio de las próximas [[hours]]H se vuelve más bajo en las [[period]] horas antes de las [[time]]",
-		"da": "Gn. snt. prisen næste [[hours]]T bliver lavest i de [[period]] timer før [[time]]",
-		"pl": "Średnia cena w ciągu następnych [[hours]]H staje się najniższa w ciągu [[period]] godzin przed [[time]]",
-		"ru": "Средняя цена следующих [[hours]]Ч становится самой низкой за [[period]] часов до [[time]] часов",
-		"ko": "다음 [[hours]]시간 동안의 평균 가격이 [[time]]시 전 [[period]]시간 동안 가장 낮아집니다",
-		"ar": "يصبح متوسط السعر القادم [[hours]] ساعة الأدنى في [[period]] ساعة قبل الساعة [[time]]"
-	},
-	"highlight": true,
-	"args": [
-		{
-		  "type": "device",
-		  "name": "device",
-		  "filter": "driver_id=dap|dap15|dapg"
-		},
-		{
-			"type": "number",
-			"name": "hours",
-			"title": { 
-				"en": "next hours",
-				"de": "der nächsten Std.",
-				"sv": "nästa H",
-				"it": "prossime h",
-				"no": "neste T",
-				"da": "næste T",
-				"nl": "komende uren",
-				"fr": "prochaines heures",
-				"es": "próximas horas",
-				"pl": "następne godziny",
-				"ru": "следующие часы",
-				"ko": "다음 시간",
-				"ar": "الساعات القادمة"
-			},
-			"placeholder": { "en": "2-8" },
-			"min": 2,
-			"max": 8,
-			"step": 1
-		},
-		{
-			"type": "number",
-			"name": "period",
-			"title": { 
-				"en": "period",
-				"de": "Zeitraum",
-				"sv": "period",
-				"it": "periodo",
-				"no": "periode",
-				"da": "periode",
-				"nl": "periode",
-				"fr": "période",
-				"es": "período",
-				"pl": "okres",
-				"ru": "период",
-				"ko": "기간",
-				"ar": "فترة"
-			},
-			"placeholder": { "en": "2 - 23" },
-			"min": 2,
-			"max": 23,
-			"step": 1
-		},
-		{
-			"type": "number",
-			"name": "time",
-			"title": { 
-				"en": "time",
-				"de": "Zeit",
-				"sv": "tid",
-				"it": "tempo",
-				"no": "tid",
-				"da": "tid",
-				"nl": "tijd",
-				"fr": "heure",
-				"es": "hora",
-				"pl": "czas",
-				"ru": "время",
-				"ko": "시간",
-				"ar": "وقت"
-			},
-			"placeholder": { "en": "01 - 24" },
-			"min": 1,
-			"max": 24,
-			"step": 1
-		}
-	],
-	"tokens": [
-		{
-		"name": "meter_price_h0",
-		"title": {
-			"en": "Price now",
-			"de": "Preis aktuell",
-			"sv": "Pris just nu",
-			"it": "Prezzo attuale",
-			"no": "Pris nå",
-			"da": "Pris nu",
-			"nl": "Prijs nu",
-			"fr": "Tarif actuel",
-			"es": "Precio ahora",
-			"pl": "Cena teraz",
-			"ru": "Цена сейчас",
-			"ko": "현재 가격",
-			"ar": "السعر الآن"
-		},
-		"type": "number",
-		"example": 27.5
-		}
-	]
+  "title": {
+    "en": "The avg. price becomes lowest before a certain time",
+    "nl": "De gem. prijs wordt het laagst voor een bepaalde tijd",
+    "de": "Der durschn. Preis wird vor einer bestimmten Uhrzeit am niedrigsten sein",
+    "fr": "Le prix moyen devient le plus bas avant une certaine heure",
+    "it": "Il prezzo medio diventa più basso prima di un certo orario",
+    "sv": "Det genomsnittliga priset blir lägst före en viss tid",
+    "no": "Gjennomsnittsprisen blir lavest før en viss tid",
+    "es": "El precio promedio se vuelve más bajo antes de cierta hora",
+    "da": "Gn. snt. prisen bliver lavest før et bestemt tidspunkt",
+    "pl": "Średnia cena staje się najniższa przed określonym czasem",
+    "ru": "Средняя цена становится самой низкой до определенного времени",
+    "ko": "평균 가격이 특정 시간 전에 가장 낮아집니다",
+    "ar": "يصبح متوسط السعر الأدنى قبل وقت معين"
+  },
+  "titleFormatted": {
+    "en": "The avg. price coming [[hours]]H becomes lowest in the [[period]] hours before [[time]] o'clock",
+    "nl": "De gem. prijs komende [[hours]]U wordt het laagst in de [[period]] uren voor [[time]] uur",
+    "de": "Der durschn. Preis der nächsten [[hours]]Std. wird der günstigste in den [[period]] Stunden vor [[time]] Uhr sein",
+    "fr": "Le prix moyen des [[hours]] prochaines heures devient le plus bas dans les [[period]] heures avant [[time]] heures",
+    "it": "Il prezzo medio prossime [[hours]]H diventa più basso nelle [[period]] ore prima delle [[time]]",
+    "sv": "Det genomsnittliga priset kommande [[hours]]H blir lägst under [[period]] timmar före [[time]]",
+    "no": "Gjennomsnittsprisen kommende [[hours]]T blir lavest i de [[period]] timene før [[time]]",
+    "es": "El precio promedio de las próximas [[hours]]H se vuelve más bajo en las [[period]] horas antes de las [[time]]",
+    "da": "Gn. snt. prisen næste [[hours]]T bliver lavest i de [[period]] timer før [[time]]",
+    "pl": "Średnia cena w ciągu następnych [[hours]]H staje się najniższa w ciągu [[period]] godzin przed [[time]]",
+    "ru": "Средняя цена следующих [[hours]]Ч становится самой низкой за [[period]] часов до [[time]] часов",
+    "ko": "다음 [[hours]]시간 동안의 평균 가격이 [[time]]시 전 [[period]]시간 동안 가장 낮아집니다",
+    "ar": "يصبح متوسط السعر القادم [[hours]] ساعة الأدنى في [[period]] ساعة قبل الساعة [[time]]"
+  },
+  "highlight": true,
+  "args": [
+    {
+      "type": "device",
+      "name": "device",
+      "filter": "driver_id=dap|dap15|dapg"
+    },
+    {
+      "type": "number",
+      "name": "hours",
+      "title": {
+        "en": "next hours",
+        "de": "der nächsten Std.",
+        "sv": "nästa H",
+        "it": "prossime h",
+        "no": "neste T",
+        "da": "næste T",
+        "nl": "komende uren",
+        "fr": "prochaines heures",
+        "es": "próximas horas",
+        "pl": "następne godziny",
+        "ru": "следующие часы",
+        "ko": "다음 시간",
+        "ar": "الساعات القادمة"
+      },
+      "placeholder": {
+        "en": "2-8"
+      },
+      "min": 2,
+      "max": 8,
+      "step": 1
+    },
+    {
+      "type": "number",
+      "name": "period",
+      "title": {
+        "en": "period",
+        "de": "Zeitraum",
+        "sv": "period",
+        "it": "periodo",
+        "no": "periode",
+        "da": "periode",
+        "nl": "periode",
+        "fr": "période",
+        "es": "período",
+        "pl": "okres",
+        "ru": "период",
+        "ko": "기간",
+        "ar": "فترة"
+      },
+      "placeholder": {
+        "en": "2 - 23"
+      },
+      "min": 2,
+      "max": 23,
+      "step": 1
+    },
+    {
+      "type": "number",
+      "name": "time",
+      "title": {
+        "en": "time",
+        "de": "Zeit",
+        "sv": "tid",
+        "it": "tempo",
+        "no": "tid",
+        "da": "tid",
+        "nl": "tijd",
+        "fr": "heure",
+        "es": "hora",
+        "pl": "czas",
+        "ru": "время",
+        "ko": "시간",
+        "ar": "وقت"
+      },
+      "placeholder": {
+        "en": "01 - 24"
+      },
+      "min": 1,
+      "max": 24,
+      "step": 1
+    }
+  ],
+  "tokens": [
+    {
+      "name": "meter_price_h0",
+      "title": {
+        "en": "Price now",
+        "de": "Preis aktuell",
+        "sv": "Pris just nu",
+        "it": "Prezzo attuale",
+        "no": "Pris nå",
+        "da": "Pris nu",
+        "nl": "Prijs nu",
+        "fr": "Tarif actuel",
+        "es": "Precio ahora",
+        "pl": "Cena teraz",
+        "ru": "Цена сейчас",
+        "ko": "현재 가격",
+        "ar": "السعر الآن"
+      },
+      "type": "number",
+      "example": 27.5
+    }
+  ]
 }

@@ -807,19 +807,19 @@
           "ar": "طاقة عائد استثمار ذكي جديدة متاحة."
         },
         "titleFormatted": {
-          "en": "New smart ROI power available, with minimum [[minPriceDelta]]¤ profit per kWh.",
-          "nl": "Nieuwe smart ROI vermogen beschikbaar, met minimaal [[minPriceDelta]]¤ winst per kWh.",
-          "de": "Neue Smart ROI-Leistung verfügbar, mit minimalem [[minPriceDelta]]¤ Gewinn pro kWh.",
-          "fr": "Nouvelle puissance ROI intelligente disponible, avec un profit minimum de [[minPriceDelta]]¤ par kWh.",
-          "it": "Nuova potenza ROI intelligente disponibile, con un profitto minimo di [[minPriceDelta]]¤ per kWh.",
-          "sv": "Ny smart ROI-effekt tillgänglig, med minst [[minPriceDelta]]¤ vinst per kWh.",
-          "no": "Ny smart ROI-effekt tilgjengelig, med minimum [[minPriceDelta]]¤ fortjeneste per kWh.",
-          "es": "Nueva potencia ROI inteligente disponible, con un beneficio mínimo de [[minPriceDelta]]¤ por kWh.",
-          "da": "Ny smart ROI-effekt tilgængelig, med minimum [[minPriceDelta]]¤ fortjeneste pr. kWh.",
-          "pl": "Dostępna nowa moc inteligentnego ROI, z minimalnym zyskiem [[minPriceDelta]]¤ na kWh.",
-          "ru": "Доступна новая мощность умного ROI с минимальной прибылью [[minPriceDelta]]¤ за кВтч.",
-          "ko": "kWh당 최소 [[minPriceDelta]]¤ 이익으로 새로운 스마트 ROI 전력 사용 가능.",
-          "ar": "طاقة عائد استثمار ذكي جديدة متاحة، بحد أدنى للربح [[minPriceDelta]]¤ لكل كيلوواط ساعة."
+          "en": "New smart ROI power available (inverted: [[invert_power]]), with minimum [[minPriceDelta]]¤ profit per kWh.",
+          "nl": "Nieuwe smart ROI vermogen beschikbaar (geïnverteerd: [[invert_power]]), met minimaal [[minPriceDelta]]¤ winst per kWh.",
+          "de": "Neue Smart ROI-Leistung verfügbar (invertiert: [[invert_power]]), mit minimalem [[minPriceDelta]]¤ Gewinn pro kWh.",
+          "fr": "Nouvelle puissance ROI intelligente disponible (inversée : [[invert_power]]), avec un profit minimum de [[minPriceDelta]]¤ par kWh.",
+          "it": "Nuova potenza ROI intelligente disponibile (invertita: [[invert_power]]), con un profitto minimo di [[minPriceDelta]]¤ per kWh.",
+          "sv": "Ny smart ROI-effekt tillgänglig (inverterad: [[invert_power]]), med minst [[minPriceDelta]]¤ vinst per kWh.",
+          "no": "Ny smart ROI-effekt tilgjengelig (invertert: [[invert_power]]), med minimum [[minPriceDelta]]¤ fortjeneste per kWh.",
+          "es": "Nueva potencia ROI inteligente disponible (invertida: [[invert_power]]), con un beneficio mínimo de [[minPriceDelta]]¤ por kWh.",
+          "da": "Ny smart ROI-effekt tilgængelig (inverteret: [[invert_power]]), med minimum [[minPriceDelta]]¤ fortjeneste pr. kWh.",
+          "pl": "Dostępna nowa moc inteligentnego ROI (odwrócona: [[invert_power]]), z minimalnym zyskiem [[minPriceDelta]]¤ na kWh.",
+          "ru": "Доступна новая мощность умного ROI (инвертировано: [[invert_power]]) с минимальной прибылью [[minPriceDelta]]¤ за кВтч.",
+          "ko": "kWh당 최소 [[minPriceDelta]]¤ 이익으로 새로운 스마트 ROI 전력 사용 가능 (반전: [[invert_power]]).",
+          "ar": "طاقة عائد استثمار ذكي جديدة متاحة (معكوسة: [[invert_power]])، بحد أدنى للربح [[minPriceDelta]]¤ لكل كيلوواط ساعة."
         },
         "hint": {
           "en": "The strategy is calculated using future hourly prices, the battery settings, and the set minimum profit per kWh. Charging is negative power (-), discharging is positive power (+).",
@@ -864,7 +864,7 @@
             "value": 0.08
           },
           {
-            "type": "boolean",
+            "type": "checkbox",
             "name": "invert_power",
             "title": {
               "en": "Invert power sign",
@@ -3112,26 +3112,6 @@
                 }
               }
             ]
-          },
-          {
-            "type": "boolean",
-            "name": "invert_power",
-            "title": {
-              "en": "Invert power sign",
-              "nl": "Inverteer vermogen teken",
-              "de": "Leistungsvorzeichen umkehren",
-              "fr": "Inverser le signe de puissance",
-              "it": "Inverti il segno della potenza",
-              "sv": "Invertera effekttecken",
-              "no": "Inverter effekttegn",
-              "es": "Invertir signo de potencia",
-              "da": "Inverter effekttegn",
-              "pl": "Odwróć znak mocy",
-              "ru": "Инвертировать знак мощности",
-              "ko": "전력 부호 반전",
-              "ar": "عكس إشارة الطاقة"
-            },
-            "default": false
           }
         ],
         "id": "price_batt_best_trade"
@@ -4782,19 +4762,19 @@
           "ar": "حساب أفضل طاقة عائد استثمار ذكي."
         },
         "titleFormatted": {
-          "en": "Calculate the best smart ROI power, with minimum [[minPriceDelta]]¤ profit per kWh.",
-          "nl": "Bereken het beste smart ROI vermogen, met minimaal [[minPriceDelta]]¤ winst per kWh.",
-          "de": "Berechne die beste Smart ROI-Leistung, mit minimalem [[minPriceDelta]]¤ Gewinn pro kWh.",
-          "fr": "Calculer la meilleure puissance ROI intelligente, avec un profit minimum de [[minPriceDelta]]¤ par kWh.",
-          "it": "Calcola la migliore potenza ROI intelligente, con un profitto minimo di [[minPriceDelta]]¤ per kWh.",
-          "sv": "Beräkna bästa smarta ROI-effekt, med minst [[minPriceDelta]]¤ vinst per kWh.",
-          "no": "Beregn beste smarte ROI-effekt, med minimum [[minPriceDelta]]¤ fortjeneste per kWh.",
-          "da": "Beregn den bedste smarte ROI-effekt, med minimum [[minPriceDelta]]¤ fortjeneste pr. kWh.",
-          "es": "Calcular la mejor potencia ROI inteligente, con un beneficio mínimo de [[minPriceDelta]]¤ por kWh.",
-          "pl": "Oblicz najlepszą moc inteligentnego ROI, z minimalnym zyskiem [[minPriceDelta]]¤ na kWh.",
-          "ru": "Рассчитать лучшую мощность умного ROI с минимальной прибылью [[minPriceDelta]]¤ за кВтч.",
-          "ko": "kWh당 최소 [[minPriceDelta]]¤ 이익으로 최고의 스마트 ROI 전력 계산.",
-          "ar": "حساب أفضل طاقة عائد استثمار ذكي، بحد أدنى للربح [[minPriceDelta]]¤ لكل كيلوواط ساعة."
+          "en": "Calculate the best smart ROI power (inverted: [[invert_power]]), with minimum [[minPriceDelta]]¤ profit per kWh.",
+          "nl": "Bereken het beste smart ROI vermogen (geïnverteerd: [[invert_power]]), met minimaal [[minPriceDelta]]¤ winst per kWh.",
+          "de": "Berechne die beste Smart ROI-Leistung (invertiert: [[invert_power]]), mit minimalem [[minPriceDelta]]¤ Gewinn pro kWh.",
+          "fr": "Calculer la meilleure puissance ROI intelligente (inversée : [[invert_power]]), avec un profit minimum de [[minPriceDelta]]¤ par kWh.",
+          "it": "Calcola la migliore potenza ROI intelligente (invertita: [[invert_power]]), con un profitto minimo di [[minPriceDelta]]¤ per kWh.",
+          "sv": "Beräkna bästa smarta ROI-effekt (inverterad: [[invert_power]]), med minst [[minPriceDelta]]¤ vinst per kWh.",
+          "no": "Beregn beste smarte ROI-effekt (invertert: [[invert_power]]), med minimum [[minPriceDelta]]¤ fortjeneste per kWh.",
+          "da": "Beregn den bedste smarte ROI-effekt (inverteret: [[invert_power]]), med minimum [[minPriceDelta]]¤ fortjeneste pr. kWh.",
+          "es": "Calcular la mejor potencia ROI inteligente (invertida: [[invert_power]]), con un beneficio mínimo de [[minPriceDelta]]¤ por kWh.",
+          "pl": "Oblicz najlepszą moc inteligentnego ROI (odwrócona: [[invert_power]]), z minimalnym zyskiem [[minPriceDelta]]¤ na kWh.",
+          "ru": "Рассчитать лучшую мощность умного ROI (инвертировано: [[invert_power]]) с минимальной прибылью [[minPriceDelta]]¤ за кВтч.",
+          "ko": "kWh당 최소 [[minPriceDelta]]¤ 이익으로 최고의 스마트 ROI 전력 계산 (반전: [[invert_power]]).",
+          "ar": "حساب أفضل طاقة عائد استثمار ذكي (معكوسة: [[invert_power]])، بحد أدنى للربح [[minPriceDelta]]¤ لكل كيلوواط ساعة."
         },
         "hint": {
           "en": "The strategy is calculated using future hourly prices, the battery settings, and the set minimum profit per kWh. Charging is negative power (-), discharging is positive power (+).",
@@ -4839,7 +4819,7 @@
             "value": 0.1
           },
           {
-            "type": "boolean",
+            "type": "checkbox",
             "name": "invert_power",
             "title": {
               "en": "Invert power sign",

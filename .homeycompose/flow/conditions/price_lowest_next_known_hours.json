@@ -1,63 +1,65 @@
 {
-	"title": {
-		"en": "The price !{{is|isn't}} one of the lowest in next known hours",
-		"nl": "De prijs !{{is|is niet}} een van de laagste de komende bekende uren",
-		"de": "Der Preis !{{ist|ist nicht}} einer der niedrigsten in den nächsten Stunden",
-		"ar": "السعر !{{هو|ليس}} من بين الأدنى في الساعات المعروفة القادمة",
-		"sv": "Priset !{{är|är inte}} en av de lägsta under nästa kända timmar",
-		"it": "Il prezzo !{{è|non è}} uno dei più bassi nelle prossime ore note",
-		"fr": "Le prix !{{est|n'est pas}} l'un des plus bas dans les prochaines heures connues",
-		"es": "El precio !{{es|no es}} uno de los más bajos en las próximas horas conocidas",
-		"pl": "Cena !{{jest|nie jest}} jedną z najniższych w następnych znanych godzinach",
-		"ru": "Цена !{{одна из|не одна из}} самых низких в следующие известные часы",
-		"no": "Prisen !{{er|er ikke}} en av de laveste de neste kjente timene",
-		"da": "Prisen !{{er|er ikke}} en af de laveste i de næste kendte timer",
-		"ko": "가격이 다음 알려진 시간 동안 가장 낮은 가격 중 하나!{{입니다|가 아닙니다}}"
-	},
-	"titleFormatted": {
-		"en": "The price !{{is|isn't}} one of [[number]] lowest in the next known hours",
-		"nl": "De prijs !{{is|is niet}} een van de [[number]] laagste in de komende bekende uren",
-		"de": "Der Preis !{{ist|ist nicht}} einer der [[number]] niedrigsten in den nächsten bekannten Stunden",
-		"ar": "السعر !{{هو|ليس}} من بين [[number]] الأدنى في الساعات المعروفة القادمة",
-		"sv": "Priset !{{är|är inte}} en av de [[number]] lägsta under nästa kända timmar",
-		"it": "Il prezzo !{{è|non è}} uno dei [[number]] più bassi nelle prossime ore note",
-		"fr": "Le prix !{{est|n'est pas}} l'un des [[number]] plus bas dans les prochaines heures connues",
-		"es": "El precio !{{es|no es}} uno de los [[number]] más bajos en las próximas horas conocidas",
-		"pl": "Cena !{{jest|nie jest}} jedną z [[number]] najniższych w następnych znanych godzinach",
-		"ru": "Цена !{{одна из|не одна из}} [[number]] самых низких в следующие известные часы",
-		"no": "Prisen !{{er|er ikke}} en av de [[number]] laveste de neste kjente timene",
-		"da": "Prisen !{{er|er ikke}} en af de [[number]] laveste i de næste kendte timer",
-		"ko": "가격이 다음 알려진 시간 동안 가장 낮은 [[number]]개 중 하나!{{입니다|가 아닙니다}}"
-	},
-	"highlight": true,
-	"args": [
-		{
-		  "type": "device",
-		  "name": "device",
-		  "filter": "driver_id=dap|dap15"
-		},
-		{
-			"type": "number",
-			"name": "number",
-			"title": { 
-				"en": "number",
-				"no": "antall",
-				"de": "Anzahl",
-				"sv": "antal",
-				"it": "numero",
-				"da": "nummer",
-				"nl": "aantal",
-				"fr": "nombre",
-				"es": "número",
-				"pl": "liczba",
-				"ru": "количество",
-				"ar": "عدد",
-				"ko": "수"
-			},
-			"placeholder": { "en": "1 - 20" },
-			"min": 1,
-			"max": 20,
-			"step": 1
-		}
-	]
+  "title": {
+    "en": "The price !{{is|isn't}} one of the lowest in next known hours",
+    "nl": "De prijs !{{is|is niet}} een van de laagste de komende bekende uren",
+    "de": "Der Preis !{{ist|ist nicht}} einer der niedrigsten in den nächsten Stunden",
+    "ar": "السعر !{{هو|ليس}} من بين الأدنى في الساعات المعروفة القادمة",
+    "sv": "Priset !{{är|är inte}} en av de lägsta under nästa kända timmar",
+    "it": "Il prezzo !{{è|non è}} uno dei più bassi nelle prossime ore note",
+    "fr": "Le prix !{{est|n'est pas}} l'un des plus bas dans les prochaines heures connues",
+    "es": "El precio !{{es|no es}} uno de los más bajos en las próximas horas conocidas",
+    "pl": "Cena !{{jest|nie jest}} jedną z najniższych w następnych znanych godzinach",
+    "ru": "Цена !{{одна из|не одна из}} самых низких в следующие известные часы",
+    "no": "Prisen !{{er|er ikke}} en av de laveste de neste kjente timene",
+    "da": "Prisen !{{er|er ikke}} en af de laveste i de næste kendte timer",
+    "ko": "가격이 다음 알려진 시간 동안 가장 낮은 가격 중 하나!{{입니다|가 아닙니다}}"
+  },
+  "titleFormatted": {
+    "en": "The price !{{is|isn't}} one of [[number]] lowest in the next known hours",
+    "nl": "De prijs !{{is|is niet}} een van de [[number]] laagste in de komende bekende uren",
+    "de": "Der Preis !{{ist|ist nicht}} einer der [[number]] niedrigsten in den nächsten bekannten Stunden",
+    "ar": "السعر !{{هو|ليس}} من بين [[number]] الأدنى في الساعات المعروفة القادمة",
+    "sv": "Priset !{{är|är inte}} en av de [[number]] lägsta under nästa kända timmar",
+    "it": "Il prezzo !{{è|non è}} uno dei [[number]] più bassi nelle prossime ore note",
+    "fr": "Le prix !{{est|n'est pas}} l'un des [[number]] plus bas dans les prochaines heures connues",
+    "es": "El precio !{{es|no es}} uno de los [[number]] más bajos en las próximas horas conocidas",
+    "pl": "Cena !{{jest|nie jest}} jedną z [[number]] najniższych w następnych znanych godzinach",
+    "ru": "Цена !{{одна из|не одна из}} [[number]] самых низких в следующие известные часы",
+    "no": "Prisen !{{er|er ikke}} en av de [[number]] laveste de neste kjente timene",
+    "da": "Prisen !{{er|er ikke}} en af de [[number]] laveste i de næste kendte timer",
+    "ko": "가격이 다음 알려진 시간 동안 가장 낮은 [[number]]개 중 하나!{{입니다|가 아닙니다}}"
+  },
+  "highlight": true,
+  "args": [
+    {
+      "type": "device",
+      "name": "device",
+      "filter": "driver_id=dap|dap15"
+    },
+    {
+      "type": "number",
+      "name": "number",
+      "title": {
+        "en": "number",
+        "no": "antall",
+        "de": "Anzahl",
+        "sv": "antal",
+        "it": "numero",
+        "da": "nummer",
+        "nl": "aantal",
+        "fr": "nombre",
+        "es": "número",
+        "pl": "liczba",
+        "ru": "количество",
+        "ar": "عدد",
+        "ko": "수"
+      },
+      "placeholder": {
+        "en": "1 - 20"
+      },
+      "min": 1,
+      "max": 20,
+      "step": 1
+    }
+  ]
 }

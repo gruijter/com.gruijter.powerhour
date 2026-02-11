@@ -1,116 +1,116 @@
 {
-	"highlight": true,
-	"title": {
-		"en": "Calculate the best smart ROI power.",
-		"nl": "Bereken het beste smart ROI vermogen.",
-		"de": "Berechne die beste Smart ROI-Leistung.",
-		"fr": "Calculer la meilleure puissance ROI intelligente.",
-		"it": "Calcola la migliore potenza ROI intelligente.",
-		"sv": "Beräkna bästa smarta ROI-effekt.",
-		"no": "Beregn beste smarte ROI-effekt.",
-		"da": "Beregn den bedste smarte ROI-effekt.",
-		"es": "Calcular la mejor potencia ROI inteligente.",
-		"pl": "Oblicz najlepszą moc inteligentnego ROI.",
-		"ru": "Рассчитать лучшую мощность умного ROI.",
-		"ko": "최고의 스마트 ROI 전력 계산.",
-		"ar": "حساب أفضل طاقة عائد استثمار ذكي."
-	},
-	"titleFormatted": {
-		"en": "Calculate the best smart ROI power, with minimum [[minPriceDelta]]¤ profit per kWh.",
-		"nl": "Bereken het beste smart ROI vermogen, met minimaal [[minPriceDelta]]¤ winst per kWh.",
-		"de": "Berechne die beste Smart ROI-Leistung, mit minimalem [[minPriceDelta]]¤ Gewinn pro kWh.",
-		"fr": "Calculer la meilleure puissance ROI intelligente, avec un profit minimum de [[minPriceDelta]]¤ par kWh.",
-		"it": "Calcola la migliore potenza ROI intelligente, con un profitto minimo di [[minPriceDelta]]¤ per kWh.",
-		"sv": "Beräkna bästa smarta ROI-effekt, med minst [[minPriceDelta]]¤ vinst per kWh.",
-		"no": "Beregn beste smarte ROI-effekt, med minimum [[minPriceDelta]]¤ fortjeneste per kWh.",
-		"da": "Beregn den bedste smarte ROI-effekt, med minimum [[minPriceDelta]]¤ fortjeneste pr. kWh.",
-		"es": "Calcular la mejor potencia ROI inteligente, con un beneficio mínimo de [[minPriceDelta]]¤ por kWh.",
-		"pl": "Oblicz najlepszą moc inteligentnego ROI, z minimalnym zyskiem [[minPriceDelta]]¤ na kWh.",
-		"ru": "Рассчитать лучшую мощность умного ROI с минимальной прибылью [[minPriceDelta]]¤ за кВтч.",
-		"ko": "kWh당 최소 [[minPriceDelta]]¤ 이익으로 최고의 스마트 ROI 전력 계산.",
-		"ar": "حساب أفضل طاقة عائد استثمار ذكي، بحد أدنى للربح [[minPriceDelta]]¤ لكل كيلوواط ساعة."
-	},
-	"hint": {
-		"en": "The strategy is calculated using future hourly prices, the battery settings, and the set minimum profit per kWh. Charging is negative power (-), discharging is positive power (+).",
-		"nl": "De strategie wordt berekend met behulp van toekomstige prijzen, de batterij instellingen, en de ingestelde minimale winst per kWh. Laden is negatief vermogen (-), ontladen is positief vermogen (+).",
-		"de": "Die Strategie wird anhand der zukünftigen Stundenpreise, den Batterieeinstellungen und dem eingestellten minimalen Gewinn pro kWh berechnet. Laden ist negative Leistung (-), Entladen ist positive Leistung (+).",
-		"fr": "La stratégie est calculée en utilisant les prix horaires futurs, les paramètres de la batterie et le profit minimum par kWh défini. La charge est une puissance négative (-), la décharge est une puissance positive (+).",
-		"it": "La strategia viene calcolata utilizzando i prezzi orari futuri, le impostazioni della batteria e il profitto minimo per kWh impostato. La carica è potenza negativa (-), la scarica è potenza positiva (+).",
-		"sv": "Strategin beräknas med hjälp av framtida timpriser, batteriinställningarna och den inställda minsta vinsten per kWh. Laddning är negativ effekt (-), urladdning är positiv effekt (+).",
-		"no": "Strategien beregnes ved hjelp av fremtidige timepriser, batteriinnstillingene og den angitte minimumsfortjenesten per kWh. Lading er negativ effekt (-), utlading er positiv effekt (+).",
-		"da": "Strategien beregnes ved hjælp af fremtidige timepriser, batteriindstillingerne og den indstillede minimumsfortjeneste pr. kWh. Opladning er negativ effekt (-), afladning er positiv effekt (+).",
-		"es": "La estrategia se calcula utilizando los precios horarios futuros, la configuración de la batería y el beneficio mínimo por kWh establecido. La carga es potencia negativa (-), la descarga es potencia positiva (+).",
-		"pl": "Strategia jest obliczana przy użyciu przyszłych cen godzinowych, ustawień baterii i ustawionego minimalnego zysku na kWh. Ładowanie to moc ujemna (-), rozładowywanie to moc dodatnia (+).",
-		"ru": "Стратегия рассчитывается с использованием будущих почасовых цен, настроек батареи и установленной минимальной прибыли за кВтч. Зарядка - отрицательная мощность (-), разрядка - положительная мощность (+).",
-		"ko": "전략은 미래 시간당 가격, 배터리 설정 및 설정된 kWh당 최소 이익을 사용하여 계산됩니다. 충전은 음의 전력(-), 방전은 양의 전력(+)입니다.",
-		"ar": "يتم حساب الاستراتيجية باستخدام أسعار الساعات المستقبلية، وإعدادات البطارية، والحد الأدنى للربح المحدد لكل كيلوواط ساعة. الشحن هو طاقة سلبية (-)، والتفريغ هو طاقة إيجابية (+)."
-	},
-	"args": [
-		{
-		  "type": "device",
-		  "name": "device",
-		  "filter": "driver_id=battery&capabilities=roi_duration"
-		},
-		{
-			"type": "number",
-			"name": "minPriceDelta",
-			"title": { 
-				"en": "price delta",
-				"nl": "prijsverschil",
-				"de": "Preisdifferenz",
-				"fr": "différence de prix",
-				"it": "differenza di prezzo",
-				"sv": "prisskillnad",
-				"no": "prisforskjell",
-				"da": "prisforskel",
-				"es": "diferencia de precio",
-				"pl": "różnica cen",
-				"ru": "разница в цене",
-				"ko": "가격 차이",
-				"ar": "فرق السعر"
-			},
-			"min": 0,
-			"value": 0.1
-		},
-		{
-			"type": "checkbox",
-			"name": "invert_power",
-			"title": {
-				"en": "Invert power sign",
-				"nl": "Inverteer vermogen teken",
-				"de": "Leistungsvorzeichen umkehren",
-				"fr": "Inverser le signe de puissance",
-				"it": "Inverti il segno della potenza",
-				"sv": "Invertera effekttecken",
-				"no": "Inverter effekttegn",
-				"es": "Invertir signo de potencia",
-				"da": "Inverter effekttegn",
-				"pl": "Odwróć znak mocy",
-				"ru": "Инвертировать знак мощности",
-				"ko": "전력 부호 반전",
-				"ar": "عكس إشارة الطاقة"
-			},
-			"default": false
-		}
-	],
-	"tokens": [
+  "highlight": true,
+  "title": {
+    "en": "Calculate the best smart ROI power.",
+    "nl": "Bereken het beste smart ROI vermogen.",
+    "de": "Berechne die beste Smart ROI-Leistung.",
+    "fr": "Calculer la meilleure puissance ROI intelligente.",
+    "it": "Calcola la migliore potenza ROI intelligente.",
+    "sv": "Beräkna bästa smarta ROI-effekt.",
+    "no": "Beregn beste smarte ROI-effekt.",
+    "da": "Beregn den bedste smarte ROI-effekt.",
+    "es": "Calcular la mejor potencia ROI inteligente.",
+    "pl": "Oblicz najlepszą moc inteligentnego ROI.",
+    "ru": "Рассчитать лучшую мощность умного ROI.",
+    "ko": "최고의 스마트 ROI 전력 계산.",
+    "ar": "حساب أفضل طاقة عائد استثمار ذكي."
+  },
+  "titleFormatted": {
+    "en": "Calculate the best smart ROI power (inverted: [[invert_power]]), with minimum [[minPriceDelta]]¤ profit per kWh.",
+    "nl": "Bereken het beste smart ROI vermogen (geïnverteerd: [[invert_power]]), met minimaal [[minPriceDelta]]¤ winst per kWh.",
+    "de": "Berechne die beste Smart ROI-Leistung (invertiert: [[invert_power]]), mit minimalem [[minPriceDelta]]¤ Gewinn pro kWh.",
+    "fr": "Calculer la meilleure puissance ROI intelligente (inversée : [[invert_power]]), avec un profit minimum de [[minPriceDelta]]¤ par kWh.",
+    "it": "Calcola la migliore potenza ROI intelligente (invertita: [[invert_power]]), con un profitto minimo di [[minPriceDelta]]¤ per kWh.",
+    "sv": "Beräkna bästa smarta ROI-effekt (inverterad: [[invert_power]]), med minst [[minPriceDelta]]¤ vinst per kWh.",
+    "no": "Beregn beste smarte ROI-effekt (invertert: [[invert_power]]), med minimum [[minPriceDelta]]¤ fortjeneste per kWh.",
+    "da": "Beregn den bedste smarte ROI-effekt (inverteret: [[invert_power]]), med minimum [[minPriceDelta]]¤ fortjeneste pr. kWh.",
+    "es": "Calcular la mejor potencia ROI inteligente (invertida: [[invert_power]]), con un beneficio mínimo de [[minPriceDelta]]¤ por kWh.",
+    "pl": "Oblicz najlepszą moc inteligentnego ROI (odwrócona: [[invert_power]]), z minimalnym zyskiem [[minPriceDelta]]¤ na kWh.",
+    "ru": "Рассчитать лучшую мощность умного ROI (инвертировано: [[invert_power]]) с минимальной прибылью [[minPriceDelta]]¤ за кВтч.",
+    "ko": "kWh당 최소 [[minPriceDelta]]¤ 이익으로 최고의 스마트 ROI 전력 계산 (반전: [[invert_power]]).",
+    "ar": "حساب أفضل طاقة عائد استثمار ذكي (معكوسة: [[invert_power]])، بحد أدنى للربح [[minPriceDelta]]¤ لكل كيلوواط ساعة."
+  },
+  "hint": {
+    "en": "The strategy is calculated using future hourly prices, the battery settings, and the set minimum profit per kWh. Non-inverted charging power is negative (-), discharging is positive (+).",
+    "nl": "De strategie wordt berekend met behulp van toekomstige uurprijzen, de batterij-instellingen en de ingestelde minimale winst per kWh. Niet-geïnverteerd laadvermogen is negatief (-), ontladen is positief (+).",
+    "de": "Die Strategie wird anhand der zukünftigen Stundenpreise, den Batterieeinstellungen und dem eingestellten minimalen Gewinn pro kWh berechnet. Nicht invertierte Ladeleistung ist negativ (-), Entladen ist positiv (+).",
+    "fr": "La stratégie est calculée en utilisant les prix horaires futurs, les paramètres de la batterie et le profit minimum par kWh défini. La puissance de charge non inversée est négative (-), la décharge est positive (+).",
+    "it": "La strategia viene calcolata utilizzando i prezzi orari futuri, le impostazioni della batteria e il profitto minimo per kWh impostato. La potenza di carica non invertita è negativa (-), la scarica è positiva (+).",
+    "sv": "Strategin beräknas med hjälp av framtida timpriser, batteriinställningarna och den inställda minsta vinsten per kWh. Icke-inverterad laddningseffekt är negativ (-), urladdning är positiv (+).",
+    "no": "Strategien beregnes ved hjelp av fremtidige timepriser, batteriinnstillingene og den angitte minimumsfortjenesten per kWh. Ikke-invertert ladeeffekt er negativ (-), utlading er positiv (+).",
+    "es": "La estrategia se calcula utilizando los precios horarios futuros, la configuración de la batería y el beneficio mínimo por kWh establecido. La potencia de carga no invertida es negativa (-), la descarga es positiva (+).",
+    "da": "Strategien beregnes ved hjælp af fremtidige timepriser, batteriindstillingerne og den indstillede minimumsfortjeneste pr. kWh. Ikke-inverteret ladeeffekt er negativ (-), afladning er positiv (+).",
+    "pl": "Strategia jest obliczana przy użyciu przyszłych cen godzinowych, ustawień baterii i ustawionego minimalnego zysku na kWh. Nieodwrócona moc ładowania jest ujemna (-), rozładowywanie jest dodatnie (+).",
+    "ru": "Стратегия рассчитывается с использованием будущих почасовых цен, настроек батареи и установленной минимальной прибыли за кВтч. Неинвертированная мощность зарядки отрицательная (-), разрядка положительная (+).",
+    "ko": "전략은 미래 시간당 가격, 배터리 설정 및 설정된 kWh당 최소 이익을 사용하여 계산됩니다. 반전되지 않은 충전 전력은 음의 전력(-), 방전은 양의 전력(+)입니다.",
+    "ar": "يتم حساب الاستراتيجية باستخدام أسعار الساعات المستقبلية، وإعدادات البطارية، والحد الأدنى للربح المحدد لكل كيلوواط ساعة. طاقة الشحن غير المعكوسة سلبية (-)، والتفريغ إيجابي (+)."
+  },
+  "args": [
+    {
+      "type": "device",
+      "name": "device",
+      "filter": "driver_id=battery&capabilities=roi_duration"
+    },
+    {
+      "type": "number",
+      "name": "minPriceDelta",
+      "title": {
+        "en": "price delta",
+        "nl": "prijsverschil",
+        "de": "Preisdifferenz",
+        "fr": "différence de prix",
+        "it": "differenza di prezzo",
+        "sv": "prisskillnad",
+        "no": "prisforskjell",
+        "da": "prisforskel",
+        "es": "diferencia de precio",
+        "pl": "różnica cen",
+        "ru": "разница в цене",
+        "ko": "가격 차이",
+        "ar": "فرق السعر"
+      },
+      "min": 0,
+      "value": 0.1
+    },
+    {
+      "type": "checkbox",
+      "name": "invert_power",
+      "title": {
+        "en": "Invert power sign",
+        "nl": "Inverteer vermogen teken",
+        "de": "Leistungsvorzeichen umkehren",
+        "fr": "Inverser le signe de puissance",
+        "it": "Inverti il segno della potenza",
+        "sv": "Invertera effekttecken",
+        "no": "Inverter effekttegn",
+        "es": "Invertir signo de potencia",
+        "da": "Inverter effekttegn",
+        "pl": "Odwróć znak mocy",
+        "ru": "Инвертировать знак мощности",
+        "ko": "전력 부호 반전",
+        "ar": "عكس إشارة الطاقة"
+      },
+      "default": false
+    }
+  ],
+  "tokens": [
     {
       "name": "power",
       "type": "number",
       "title": {
         "en": "Power",
-	"de": "Leistung",
-	"nl": "Vermogen",
-	"fr": "Puissance",
-	"it": "Potenza",
-	"sv": "Effekt",
-	"no": "Effekt",
-	"da": "Effekt",
-	"es": "Potencia",
-	"pl": "Moc",
-	"ru": "Мощность",
-	"ko": "전력",
-	"ar": "طاقة"
+        "de": "Leistung",
+        "nl": "Vermogen",
+        "fr": "Puissance",
+        "it": "Potenza",
+        "sv": "Effekt",
+        "no": "Effekt",
+        "da": "Effekt",
+        "es": "Potencia",
+        "pl": "Moc",
+        "ru": "Мощность",
+        "ko": "전력",
+        "ar": "طاقة"
       }
     },
     {
@@ -118,56 +118,56 @@
       "type": "number",
       "title": {
         "en": "Duration (minutes)",
-	"de": "Dauer (Minuten)",
-	"nl": "Duur (minuten)",
-	"fr": "Durée (minutes)",
-	"it": "Durata (minuti)",
-	"sv": "Varaktighet (minuter)",
-	"no": "Varighet (minutter)",
-	"da": "Varighed (minutter)",
-	"es": "Duración (minutos)",
-	"pl": "Czas trwania (minuty)",
-	"ru": "Продолжительность (минуты)",
-	"ko": "기간 (분)",
-	"ar": "المدة (دقائق)"
+        "de": "Dauer (Minuten)",
+        "nl": "Duur (minuten)",
+        "fr": "Durée (minutes)",
+        "it": "Durata (minuti)",
+        "sv": "Varaktighet (minuter)",
+        "no": "Varighet (minutter)",
+        "da": "Varighed (minutter)",
+        "es": "Duración (minutos)",
+        "pl": "Czas trwania (minuty)",
+        "ru": "Продолжительность (минуты)",
+        "ko": "기간 (분)",
+        "ar": "المدة (دقائق)"
       }
     },
-		{
+    {
       "name": "endSoC",
       "type": "number",
       "title": {
         "en": "SOC afterwards (%)",
-	"de": "SOC danach (%)",
-	"nl": "SOC erna (%)",
-	"fr": "SOC après (%)",
-	"it": "SOC dopo (%)",
-	"sv": "SOC efteråt (%)",
-	"no": "SOC etterpå (%)",
-	"da": "SOC bagefter (%)",
-	"es": "SOC después (%)",
-	"pl": "SOC po (%)",
-	"ru": "SOC после (%)",
-	"ko": "이후 SOC (%)",
-	"ar": "حالة الشحن بعد ذلك (%)"
+        "de": "SOC danach (%)",
+        "nl": "SOC erna (%)",
+        "fr": "SOC après (%)",
+        "it": "SOC dopo (%)",
+        "sv": "SOC efteråt (%)",
+        "no": "SOC etterpå (%)",
+        "da": "SOC bagefter (%)",
+        "es": "SOC después (%)",
+        "pl": "SOC po (%)",
+        "ru": "SOC после (%)",
+        "ko": "이후 SOC (%)",
+        "ar": "حالة الشحن بعد ذلك (%)"
       }
     },
-		{
+    {
       "name": "scheme",
       "type": "string",
       "title": {
         "en": "Scheme JSON",
-	"de": "Schema JSON",
-	"nl": "Schema JSON",
-	"fr": "Schéma JSON",
-	"it": "Schema JSON",
-	"sv": "Schema JSON",
-	"no": "Skjema JSON",
-	"da": "Skema JSON",
-	"es": "Esquema JSON",
-	"pl": "Schemat JSON",
-	"ru": "Схема JSON",
-	"ko": "스킴 JSON",
-	"ar": "مخطط JSON"
+        "de": "Schema JSON",
+        "nl": "Schema JSON",
+        "fr": "Schéma JSON",
+        "it": "Schema JSON",
+        "sv": "Schema JSON",
+        "no": "Skjema JSON",
+        "da": "Skema JSON",
+        "es": "Esquema JSON",
+        "pl": "Schemat JSON",
+        "ru": "Схема JSON",
+        "ko": "스킴 JSON",
+        "ar": "مخطط JSON"
       }
     }
   ]

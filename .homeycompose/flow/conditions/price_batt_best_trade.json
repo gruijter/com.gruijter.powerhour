@@ -1,157 +1,137 @@
 {
-	"title": {
-		"en": "The price !{{is|isn't}} best for (dis)charging home battery.",
-		"nl": "De prijs !{{is|is niet}} het beste om thuisbatterij te (ont)laden.",
-		"de": "Der Preis !{{ist|ist nicht}} der Beste zum (Ent-)Laden des Batteriespeichers.",
-		"sv": "Priset !{{är|är inte}} bäst för (ur)laddning av hembatteri.",
-		"it": "Il prezzo !{{è|non è}} il migliore per (s)caricare la batteria domestica.",
-		"no": "Prisen !{{er|er ikke}} best for å (ut)lade hjemmebatteriet.",
-		"fr": "Le prix !{{est|n'est pas}} le meilleur pour (dé)charger la batterie domestique.",
-		"da": "Prisen !{{er|er ikke}} bedst til at (af)oplade husbatteriet.",
-		"es": "El precio !{{es|no es}} el mejor para (des)cargar la batería doméstica.",
-		"pl": "Cena !{{jest|nie jest}} najlepsza do (roz)ładowania baterii domowej.",
-		"ru": "Цена !{{лучшая|не лучшая}} для (раз)зарядки домашней батареи.",
-		"ar": "السعر !{{هو|ليس}} الأفضل لـ (تفريغ)شحن بطارية المنزل.",
-		"ko": "가격이 가정용 배터리 (방)충전에 가장 좋음!{{입니다|이 아닙니다}}."
-	},
-	"titleFormatted": {
-		"en": "The price !{{is|isn't}} best to [[strat]] home battery with minimum [[minPriceDelta]]€ price delta.",
-		"nl": "De prijs !{{is|is niet}} het beste om thuisbatterij te [[strat]] met minimaal [[minPriceDelta]]€ prijsverschil.",
-		"de": "Der Preis !{{ist|ist nicht}} der Beste zum [[strat]] des Batteriespeichers mit minimaler [[minPriceDelta]]€ Preisdifferenz.",
-		"sv": "Priset !{{är|är inte}} bäst att [[strat]] hembatteri med minst [[minPriceDelta]]€ prisskillnad.",
-		"it": "Il prezzo !{{è|non è}} il migliore per [[strat]] batteria domestica con delta prezzo minimo di [[minPriceDelta]]€.",
-		"no": "Prisen !{{er|er ikke}} best å [[strat]] hjemmebatteri med minimum [[minPriceDelta]]€ prisdifferanse.",
-		"fr": "Le prix !{{est|n'est pas}} le meilleur pour [[strat]] la batterie avec un delta de prix min de [[minPriceDelta]]€.",
-		"da": "Prisen !{{er|er ikke}} bedst til at [[strat]] husbatteri med minimum [[minPriceDelta]]€ prisforskel.",
-		"es": "El precio !{{es|no es}} el mejor para [[strat]] la batería con un delta de precio mínimo de [[minPriceDelta]]€.",
-		"pl": "Cena !{{jest|nie jest}} najlepsza do [[strat]] baterii z minimalną różnicą ceny [[minPriceDelta]]€.",
-		"ru": "Цена !{{лучшая|не лучшая}} для [[strat]] батареи с мин. разницей цены [[minPriceDelta]]€.",
-		"ar": "السعر !{{هو|ليس}} الأفضل لـ [[strat]] البطارية بفارق سعر أدنى [[minPriceDelta]] يورو.",
-		"ko": "가격이 최소 [[minPriceDelta]]€ 가격 차이로 가정용 배터리를 [[strat]]하기에 가장 좋음!{{입니다|이 아닙니다}}."
-	},
-	"hint": {
-		"en": "The basic ROI strategy is ao calculated using the known future hourly prices and the minimum price difference between highest and lowest prices.",
-		"nl": "De eenvoudige ROI strategie wordt o.a. berekend met behulp van alle bekende toekomstige prijzen en het minimale prijsverschil tussen hoogste en laagste prijs.",
-		"de": "Die einfache ROI-Strategie wird unter anderem anhand der bekannten zukünftigen Stundenpreise und der minimalen Preisdifferenz zwischen Höchst- und Tiefstpreis berechnet.",
-		"sv": "Den grundläggande ROI-strategin beräknas bl.a. med hjälp av kända framtida timpriser och den minsta prisskillnaden mellan högsta och lägsta priser.",
-		"it": "La strategia ROI di base è calcolata utilizzando i prezzi orari futuri noti e la differenza di prezzo minima tra i prezzi più alti e più bassi.",
-		"no": "Den grunnleggende ROI-strategien beregnes bl.a. ved hjelp av kjente fremtidige timepriser og den minste prisforskjellen mellom høyeste og laveste priser.",
-		"fr": "La stratégie ROI de base est calculée en utilisant les prix horaires futurs connus et la différence de prix minimale entre les prix les plus hauts et les plus bas.",
-		"da": "Den grundlæggende ROI-strategi beregnes bl.a. ved hjælp af kendte fremtidige timepriser og den mindste prisforskel mellem højeste og laveste priser.",
-		"es": "La estrategia básica de ROI se calcula utilizando los precios horarios futuros conocidos y la diferencia de precio mínima entre los precios más altos y más bajos.",
-		"pl": "Podstawowa strategia ROI jest obliczana m.in. przy użyciu znanych przyszłych cen godzinowych i minimalnej różnicy cen między najwyższymi i najniższymi cenami.",
-		"ru": "Базовая стратегия ROI рассчитывается, в частности, с использованием известных будущих почасовых цен и минимальной разницы цен между самыми высокими и самыми низкими ценами.",
-		"ar": "يتم حساب استراتيجية العائد على الاستثمار الأساسية باستخدام أسعار الساعة المستقبلية المعروفة والحد الأدنى لفرق السعر بين أعلى وأدنى الأسعار.",
-		"ko": "기본 ROI 전략은 알려진 미래 시간당 가격과 최고 가격과 최저 가격 간의 최소 가격 차이를 사용하여 계산됩니다."
-	},
-	"highlight": true,
-	"args": [
-		{
-			"type": "device",
-			"name": "device",
-			"filter": "driver_id=battery"
-		},
-		{
-			"type": "number",
-			"name": "minPriceDelta",
-			"title": {
-				"en": "price delta",
-				"nl": "prijsverschil",
-				"de": "Preisdifferenz",
-				"sv": "prisdelta",
-				"it": "delta prezzo",
-				"no": "prisdelta",
-				"fr": "delta prix",
-				"da": "prisforskel",
-				"es": "delta de precio",
-				"pl": "różnica cen",
-				"ru": "разница цен",
-				"ar": "فرق السعر",
-				"ko": "가격 차이"
-			},
-			"placeholder": {
-				"en": "> 0.05"
-			},
-			"min": 0.05,
-			"max": 1,
-			"value": 0.1
-		},
-		{
-			"type": "dropdown",
-			"name": "strat",
-			"title": {
-				"en": "(dis)charge",
-				"nl": "(ont)laden",
-				"de": "(Ent-)Laden",
-				"sv": "(ur)ladda",
-				"it": "(s)carica",
-				"no": "(ut)lade",
-				"fr": "(dé)charger",
-				"da": "(af)oplade",
-				"es": "(des)cargar",
-				"pl": "(roz)ładować",
-				"ru": "(раз)заряжать",
-				"ar": "(تفريغ)شحن",
-				"ko": "(방)충전"
-			},
-			"values": [
-				{
-					"id": "1",
-					"label": {
-						"en": "discharge",
-						"nl": "ontladen",
-						"de": "entladen",
-						"sv": "ladda ur",
-						"it": "scaricare",
-						"no": "lade ut",
-						"fr": "décharger",
-						"da": "aflade",
-						"es": "descargar",
-						"pl": "rozładować",
-						"ru": "разрядить",
-						"ar": "تفريغ",
-						"ko": "방전"
-					}
-				},
-				{
-					"id": "-1",
-					"label": {
-						"en": "charge",
-						"nl": "laden",
-						"de": "laden",
-						"sv": "ladda",
-						"it": "caricare",
-						"no": "lade",
-						"fr": "charger",
-						"da": "oplade",
-						"es": "cargar",
-						"pl": "ładować",
-						"ru": "зарядить",
-						"ar": "شحن",
-						"ko": "충전"
-					}
-				}
-			]
-		},
-		{
-			"type": "checkbox",
-			"name": "invert_power",
-			"title": {
-				"en": "Invert power sign",
-				"nl": "Inverteer vermogen teken",
-				"de": "Leistungsvorzeichen umkehren",
-				"fr": "Inverser le signe de puissance",
-				"it": "Inverti il segno della potenza",
-				"sv": "Invertera effekttecken",
-				"no": "Inverter effekttegn",
-				"es": "Invertir signo de potencia",
-				"da": "Inverter effekttegn",
-				"pl": "Odwróć znak mocy",
-				"ru": "Инвертировать знак мощности",
-				"ko": "전력 부호 반전",
-				"ar": "عكس إشارة الطاقة"
-			},
-			"default": false
-		}
-	]
+  "title": {
+    "en": "The price !{{is|isn't}} best for (dis)charging home battery.",
+    "nl": "De prijs !{{is|is niet}} het beste om thuisbatterij te (ont)laden.",
+    "de": "Der Preis !{{ist|ist nicht}} der Beste zum (Ent-)Laden des Batteriespeichers.",
+    "sv": "Priset !{{är|är inte}} bäst för (ur)laddning av hembatteri.",
+    "it": "Il prezzo !{{è|non è}} il migliore per (s)caricare la batteria domestica.",
+    "no": "Prisen !{{er|er ikke}} best for å (ut)lade hjemmebatteriet.",
+    "fr": "Le prix !{{est|n'est pas}} le meilleur pour (dé)charger la batterie domestique.",
+    "da": "Prisen !{{er|er ikke}} bedst til at (af)oplade husbatteriet.",
+    "es": "El precio !{{es|no es}} el mejor para (des)cargar la batería doméstica.",
+    "pl": "Cena !{{jest|nie jest}} najlepsza do (roz)ładowania baterii domowej.",
+    "ru": "Цена !{{лучшая|не лучшая}} для (раз)зарядки домашней батареи.",
+    "ar": "السعر !{{هو|ليس}} الأفضل لـ (تفريغ)شحن بطارية المنزل.",
+    "ko": "가격이 가정용 배터리 (방)충전에 가장 좋음!{{입니다|이 아닙니다}}."
+  },
+  "titleFormatted": {
+    "en": "The price !{{is|isn't}} best to [[strat]] home battery with minimum [[minPriceDelta]]€ price delta.",
+    "nl": "De prijs !{{is|is niet}} het beste om thuisbatterij te [[strat]] met minimaal [[minPriceDelta]]€ prijsverschil.",
+    "de": "Der Preis !{{ist|ist nicht}} der Beste zum [[strat]] des Batteriespeichers mit minimaler [[minPriceDelta]]€ Preisdifferenz.",
+    "sv": "Priset !{{är|är inte}} bäst att [[strat]] hembatteri med minst [[minPriceDelta]]€ prisskillnad.",
+    "it": "Il prezzo !{{è|non è}} il migliore per [[strat]] batteria domestica con delta prezzo minimo di [[minPriceDelta]]€.",
+    "no": "Prisen !{{er|er ikke}} best å [[strat]] hjemmebatteri med minimum [[minPriceDelta]]€ prisdifferanse.",
+    "fr": "Le prix !{{est|n'est pas}} le meilleur pour [[strat]] la batterie avec un delta de prix min de [[minPriceDelta]]€.",
+    "da": "Prisen !{{er|er ikke}} bedst til at [[strat]] husbatteri med minimum [[minPriceDelta]]€ prisforskel.",
+    "es": "El precio !{{es|no es}} el mejor para [[strat]] la batería con un delta de precio mínimo de [[minPriceDelta]]€.",
+    "pl": "Cena !{{jest|nie jest}} najlepsza do [[strat]] baterii z minimalną różnicą ceny [[minPriceDelta]]€.",
+    "ru": "Цена !{{лучшая|не лучшая}} для [[strat]] батареи с мин. разницей цены [[minPriceDelta]]€.",
+    "ar": "السعر !{{هو|ليس}} الأفضل لـ [[strat]] البطارية بفارق سعر أدنى [[minPriceDelta]] يورو.",
+    "ko": "가격이 최소 [[minPriceDelta]]€ 가격 차이로 가정용 배터리를 [[strat]]하기에 가장 좋음!{{입니다|이 아닙니다}}."
+  },
+  "hint": {
+    "en": "The basic ROI strategy is ao calculated using the known future hourly prices and the minimum price difference between highest and lowest prices.",
+    "nl": "De eenvoudige ROI strategie wordt o.a. berekend met behulp van alle bekende toekomstige prijzen en het minimale prijsverschil tussen hoogste en laagste prijs.",
+    "de": "Die einfache ROI-Strategie wird unter anderem anhand der bekannten zukünftigen Stundenpreise und der minimalen Preisdifferenz zwischen Höchst- und Tiefstpreis berechnet.",
+    "sv": "Den grundläggande ROI-strategin beräknas bl.a. med hjälp av kända framtida timpriser och den minsta prisskillnaden mellan högsta och lägsta priser.",
+    "it": "La strategia ROI di base è calcolata utilizzando i prezzi orari futuri noti e la differenza di prezzo minima tra i prezzi più alti e più bassi.",
+    "no": "Den grunnleggende ROI-strategien beregnes bl.a. ved hjelp av kjente fremtidige timepriser og den minste prisforskjellen mellom høyeste og laveste priser.",
+    "fr": "La stratégie ROI de base est calculée en utilisant les prix horaires futurs connus et la différence de prix minimale entre les prix les plus hauts et les plus bas.",
+    "da": "Den grundlæggende ROI-strategi beregnes bl.a. ved hjælp af kendte fremtidige timepriser og den mindste prisforskel mellem højeste og laveste priser.",
+    "es": "La estrategia básica de ROI se calcula utilizando los precios horarios futuros conocidos y la diferencia de precio mínima entre los precios más altos y más bajos.",
+    "pl": "Podstawowa strategia ROI jest obliczana m.in. przy użyciu znanych przyszłych cen godzinowych i minimalnej różnicy cen między najwyższymi i najniższymi cenami.",
+    "ru": "Базовая стратегия ROI рассчитывается, в частности, с использованием известных будущих почасовых цен и минимальной разницы цен между самыми высокими и самыми низкими ценами.",
+    "ar": "يتم حساب استراتيجية العائد على الاستثمار الأساسية باستخدام أسعار الساعة المستقبلية المعروفة والحد الأدنى لفرق السعر بين أعلى وأدنى الأسعار.",
+    "ko": "기본 ROI 전략은 알려진 미래 시간당 가격과 최고 가격과 최저 가격 간의 최소 가격 차이를 사용하여 계산됩니다."
+  },
+  "highlight": true,
+  "args": [
+    {
+      "type": "device",
+      "name": "device",
+      "filter": "driver_id=battery"
+    },
+    {
+      "type": "number",
+      "name": "minPriceDelta",
+      "title": {
+        "en": "price delta",
+        "nl": "prijsverschil",
+        "de": "Preisdifferenz",
+        "sv": "prisdelta",
+        "it": "delta prezzo",
+        "no": "prisdelta",
+        "fr": "delta prix",
+        "da": "prisforskel",
+        "es": "delta de precio",
+        "pl": "różnica cen",
+        "ru": "разница цен",
+        "ar": "فرق السعر",
+        "ko": "가격 차이"
+      },
+      "placeholder": {
+        "en": "> 0.05"
+      },
+      "min": 0.05,
+      "max": 1,
+      "value": 0.1
+    },
+    {
+      "type": "dropdown",
+      "name": "strat",
+      "title": {
+        "en": "(dis)charge",
+        "nl": "(ont)laden",
+        "de": "(Ent-)Laden",
+        "sv": "(ur)ladda",
+        "it": "(s)carica",
+        "no": "(ut)lade",
+        "fr": "(dé)charger",
+        "da": "(af)oplade",
+        "es": "(des)cargar",
+        "pl": "(roz)ładować",
+        "ru": "(раз)заряжать",
+        "ar": "(تفريغ)شحن",
+        "ko": "(방)충전"
+      },
+      "values": [
+        {
+          "id": "1",
+          "label": {
+            "en": "discharge",
+            "nl": "ontladen",
+            "de": "entladen",
+            "sv": "ladda ur",
+            "it": "scaricare",
+            "no": "lade ut",
+            "fr": "décharger",
+            "da": "aflade",
+            "es": "descargar",
+            "pl": "rozładować",
+            "ru": "разрядить",
+            "ar": "تفريغ",
+            "ko": "방전"
+          }
+        },
+        {
+          "id": "-1",
+          "label": {
+            "en": "charge",
+            "nl": "laden",
+            "de": "laden",
+            "sv": "ladda",
+            "it": "caricare",
+            "no": "lade",
+            "fr": "charger",
+            "da": "oplade",
+            "es": "cargar",
+            "pl": "ładować",
+            "ru": "зарядить",
+            "ar": "شحن",
+            "ko": "충전"
+          }
+        }
+      ]
+    }
+  ]
 }
