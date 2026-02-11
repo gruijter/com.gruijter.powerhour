@@ -47,14 +47,14 @@
 	"highlight": true,
 	"args": [
 		{
-		  "type": "device",
-		  "name": "device",
-		  "filter": "driver_id=battery"
+			"type": "device",
+			"name": "device",
+			"filter": "driver_id=battery"
 		},
 		{
 			"type": "number",
 			"name": "minPriceDelta",
-			"title": { 
+			"title": {
 				"en": "price delta",
 				"nl": "prijsverschil",
 				"de": "Preisdifferenz",
@@ -69,7 +69,9 @@
 				"ar": "فرق السعر",
 				"ko": "가격 차이"
 			},
-			"placeholder": { "en": "> 0.05" },
+			"placeholder": {
+				"en": "> 0.05"
+			},
 			"min": 0.05,
 			"max": 1,
 			"value": 0.1
@@ -77,7 +79,7 @@
 		{
 			"type": "dropdown",
 			"name": "strat",
-			"title": { 
+			"title": {
 				"en": "(dis)charge",
 				"nl": "(ont)laden",
 				"de": "(Ent-)Laden",
@@ -93,8 +95,9 @@
 				"ko": "(방)충전"
 			},
 			"values": [
-				{	"id": "1",
-					"label": { 
+				{
+					"id": "1",
+					"label": {
 						"en": "discharge",
 						"nl": "ontladen",
 						"de": "entladen",
@@ -110,8 +113,9 @@
 						"ko": "방전"
 					}
 				},
-				{	"id": "-1",
-					"label": { 
+				{
+					"id": "-1",
+					"label": {
 						"en": "charge",
 						"nl": "laden",
 						"de": "laden",
@@ -128,6 +132,26 @@
 					}
 				}
 			]
+		},
+		{
+			"type": "boolean",
+			"name": "invert_power",
+			"title": {
+				"en": "Invert power sign",
+				"nl": "Inverteer vermogen teken",
+				"de": "Leistungsvorzeichen umkehren",
+				"fr": "Inverser le signe de puissance",
+				"it": "Inverti il segno della potenza",
+				"sv": "Invertera effekttecken",
+				"no": "Inverter effekttegn",
+				"es": "Invertir signo de potencia",
+				"da": "Inverter effekttegn",
+				"pl": "Odwróć znak mocy",
+				"ru": "Инвертировать знак мощности",
+				"ko": "전력 부호 반전",
+				"ar": "عكس إشارة الطاقة"
+			},
+			"default": false
 		}
 	]
 }
