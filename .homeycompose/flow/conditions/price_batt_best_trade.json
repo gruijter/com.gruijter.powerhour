@@ -96,7 +96,7 @@
       },
       "values": [
         {
-          "id": "1",
+          "id": "-1",
           "label": {
             "en": "discharge",
             "nl": "ontladen",
@@ -114,7 +114,7 @@
           }
         },
         {
-          "id": "-1",
+          "id": "1",
           "label": {
             "en": "charge",
             "nl": "laden",
