@@ -61,7 +61,7 @@ const driverSpecifics = {
     'meter_money_last_year', 'meter_money_this_year',
     'meter_tariff',
     'meter_power_hidden',
-    // 'roi_duration', // added only for HP2023
+    // 'roi_duration', // added only for advanced ROI
   ],
 };
 
