@@ -72,7 +72,7 @@ class MyApp extends Homey.App {
       this.api = await Promise.race([
         HomeyAPI.createAppAPI({ homey: this.homey }),
         new Promise((resolve, reject) => {
-          setTimeout(() => reject(new Error('HomeyAPI.createAppAPI timeout')), 25000);
+          setTimeout(() => reject(new Error('HomeyAPI.createAppAPI timeout')), 10000);
         }),
       ]);
       this.log('HomeyAPI connected');
