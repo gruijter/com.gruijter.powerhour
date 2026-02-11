@@ -1,4 +1,7 @@
 {
+  "8.2.1": {
+    "en": "Fixed and improved XOM. XOM refactoring. Stability improvements."
+  },
   "8.2.0": {
     "en": "Comply to Homey charge/discharge sign convention. Detect and map additional home battery brands and types based on Homey energy object."
   },
