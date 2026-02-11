@@ -134,7 +134,7 @@
 			]
 		},
 		{
-			"type": "boolean",
+			"type": "checkbox",
 			"name": "invert_power",
 			"title": {
 				"en": "Invert power sign",
