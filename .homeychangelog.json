@@ -1,4 +1,7 @@
 {
+  "8.2.2": {
+    "en": "Fixed and improved XOM. Optimize battery efficiency during XOM handling."
+  },
   "8.2.1": {
     "en": "Fixed and improved XOM. XOM refactoring. Stability improvements."
   },
