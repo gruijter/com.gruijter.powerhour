@@ -31,19 +31,19 @@
     "ar": "طاقة عائد استثمار ذكي جديدة متاحة (معكوسة: [[invert_power]])، بحد أدنى للربح [[minPriceDelta]]¤ لكل كيلوواط ساعة."
   },
   "hint": {
-    "en": "The strategy is calculated using future hourly prices, the battery settings, and the set minimum profit per kWh. Non-inverted charging power is negative (-), discharging is positive (+).",
-    "nl": "De strategie wordt berekend met behulp van toekomstige uurprijzen, de batterij-instellingen en de ingestelde minimale winst per kWh. Niet-geïnverteerd laadvermogen is negatief (-), ontladen is positief (+).",
-    "de": "Die Strategie wird anhand der zukünftigen Stundenpreise, den Batterieeinstellungen und dem eingestellten minimalen Gewinn pro kWh berechnet. Nicht invertierte Ladeleistung ist negativ (-), Entladen ist positiv (+).",
-    "fr": "La stratégie est calculée en utilisant les prix horaires futurs, les paramètres de la batterie et le profit minimum par kWh défini. La puissance de charge non inversée est négative (-), la décharge est positive (+).",
-    "it": "La strategia viene calcolata utilizzando i prezzi orari futuri, le impostazioni della batteria e il profitto minimo per kWh impostato. La potenza di carica non invertita è negativa (-), la scarica è positiva (+).",
-    "sv": "Strategin beräknas med hjälp av framtida timpriser, batteriinställningarna och den inställda minsta vinsten per kWh. Icke-inverterad laddningseffekt är negativ (-), urladdning är positiv (+).",
-    "no": "Strategien beregnes ved hjelp av fremtidige timepriser, batteriinnstillingene og den angitte minimumsfortjenesten per kWh. Ikke-invertert ladeeffekt er negativ (-), utlading er positiv (+).",
-    "es": "La estrategia se calcula utilizando los precios horarios futuros, la configuración de la batería y el beneficio mínimo por kWh establecido. La potencia de carga no invertida es negativa (-), la descarga es positiva (+).",
-    "da": "Strategien beregnes ved hjælp af fremtidige timepriser, batteriindstillingerne og den indstillede minimumsfortjeneste pr. kWh. Ikke-inverteret ladeeffekt er negativ (-), afladning er positiv (+).",
-    "pl": "Strategia jest obliczana przy użyciu przyszłych cen godzinowych, ustawień baterii i ustawionego minimalnego zysku na kWh. Nieodwrócona moc ładowania jest ujemna (-), rozładowywanie jest dodatnie (+).",
-    "ru": "Стратегия рассчитывается с использованием будущих почасовых цен, настроек батареи и установленной минимальной прибыли за кВтч. Неинвертированная мощность зарядки отрицательная (-), разрядка положительная (+).",
-    "ko": "전략은 미래 시간당 가격, 배터리 설정 및 설정된 kWh당 최소 이익을 사용하여 계산됩니다. 반전되지 않은 충전 전력은 음의 전력(-), 방전은 양의 전력(+)입니다.",
-    "ar": "يتم حساب الاستراتيجية باستخدام أسعار الساعات المستقبلية، وإعدادات البطارية، والحد الأدنى للربح المحدد لكل كيلوواط ساعة. طاقة الشحن غير المعكوسة سلبية (-)، والتفريغ إيجابي (+)."
+    "en": "The strategy is calculated using future hourly prices, the battery settings, and the set minimum profit per kWh. Non-inverted charging power is positive (+), discharging is negative (-).",
+    "nl": "De strategie wordt berekend met behulp van toekomstige uurprijzen, de batterij-instellingen en de ingestelde minimale winst per kWh. Niet-geïnverteerd laadvermogen is positief (+), ontladen is negatief (-).",
+    "de": "Die Strategie wird anhand der zukünftigen Stundenpreise, den Batterieeinstellungen und dem eingestellten minimalen Gewinn pro kWh berechnet. Nicht invertierte Ladeleistung ist positiv (+), Entladen ist negativ (-).",
+    "fr": "La stratégie est calculée en utilisant les prix horaires futurs, les paramètres de la batterie et le profit minimum par kWh défini. La puissance de charge non inversée est positive (+), la décharge est négative (-).",
+    "it": "La strategia viene calcolata utilizzando i prezzi orari futuri, le impostazioni della batteria e il profitto minimo per kWh impostato. La potenza di carica non invertita è positiva (+), la scarica è negativa (-).",
+    "sv": "Strategin beräknas med hjälp av framtida timpriser, batteriinställningarna och den inställda minsta vinsten per kWh. Icke-inverterad laddningseffekt är positiv (+), urladdning är negativ (-).",
+    "no": "Strategien beregnes ved hjelp av fremtidige timepriser, batteriinnstillingene og den angitte minimumsfortjenesten per kWh. Ikke-invertert ladeeffekt er positiv (+), utlading er negativ (-).",
+    "es": "La estrategia se calcula utilizando los precios horarios futuros, la configuración de la batería y el beneficio mínimo por kWh establecido. La potencia de carga no invertida es positiva (+), la descarga es negativa (-).",
+    "da": "Strategien beregnes ved hjælp af fremtidige timepriser, batteriindstillingerne og den indstillede minimumsfortjeneste pr. kWh. Ikke-inverteret ladeeffekt er positiv (+), afladning er negativ (-).",
+    "pl": "Strategia jest obliczana przy użyciu przyszłych cen godzinowych, ustawień baterii i ustawionego minimalnego zysku na kWh. Nieodwrócona moc ładowania jest dodatnia (+), rozładowywanie jest ujemne (-).",
+    "ru": "Стратегия рассчитывается с использованием будущих почасовых цен, настроек батареи и установленной минимальной прибыли за кВтч. Неинвертированная мощность зарядки положительная (+), разрядка отрицательная (-).",
+    "ko": "전략은 미래 시간당 가격, 배터리 설정 및 설정된 kWh당 최소 이익을 사용하여 계산됩니다. 반전되지 않은 충전 전력은 양의 전력(+), 방전은 음의 전력(-)입니다.",
+    "ar": "يتم حساب الاستراتيجية باستخدام أسعار الساعات المستقبلية، وإعدادات البطارية، والحد الأدنى للربح المحدد لكل كيلوواط ساعة. طاقة الشحن غير المعكوسة إيجابي (+)، والتفريغ سلبية (-)."
   },
   "args": [
     {

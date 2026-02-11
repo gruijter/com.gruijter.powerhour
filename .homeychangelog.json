@@ -1,4 +1,7 @@
 {
+  "8.2.0": {
+    "en": "Comply to Homey charge/discharge sign convention. Detect and map additional home battery brands and types based on Homey energy object."
+  },
   "8.1.0": {
     "en": "LP module replaced. Advanced ROI calculation vastly improved. Advanced ROI enabled on HP2016/2019. Tariff update propagation fixes. Stability improvements."
   },

@@ -16,40 +16,60 @@
     "ar": "طاقة XOM جديدة متاحة."
   },
   "titleFormatted": {
-    "en": "New XOM power available.",
-    "nl": "Nieuw XOM vermogen beschikbaar.",
-    "de": "Neuer XOM Strom verfügbar.",
-    "fr": "Nouvelle puissance XOM disponible.",
-    "it": "Nuova potenza XOM disponibile.",
-    "sv": "Ny XOM-effekt tillgänglig.",
-    "no": "Ny XOM-effekt tilgjengelig.",
-    "es": "Nueva potencia XOM disponible.",
-    "da": "Ny XOM-effekt tilgængelig.",
-    "pl": "Dostępna nowa moc XOM.",
-    "ru": "Доступна новая мощность XOM.",
-    "ko": "새로운 XOM 전력 사용 가능.",
-    "ar": "طاقة XOM جديدة متاحة."
+    "en": "New XOM power available (inverted: [[invert_power]]).",
+    "nl": "Nieuw XOM vermogen beschikbaar (geïnverteerd: [[invert_power]]).",
+    "de": "Neuer XOM Strom verfügbar (invertiert: [[invert_power]]).",
+    "fr": "Nouvelle puissance XOM disponible (inversée : [[invert_power]]).",
+    "it": "Nuova potenza XOM disponibile (invertita: [[invert_power]]).",
+    "sv": "Ny XOM-effekt tillgänglig (inverterad: [[invert_power]]).",
+    "no": "Ny XOM-effekt tilgjengelig (invertert: [[invert_power]]).",
+    "es": "Nueva potencia XOM disponible (invertida: [[invert_power]]).",
+    "da": "Ny XOM-effekt tilgængelig (inverteret: [[invert_power]]).",
+    "pl": "Dostępna nowa moc XOM (odwrócona: [[invert_power]]).",
+    "ru": "Доступна новая мощность XOM (инвертировано: [[invert_power]]).",
+    "ko": "새로운 XOM 전력 사용 가능 (반전: [[invert_power]]).",
+    "ar": "طاقة XOM جديدة متاحة (معكوسة: [[invert_power]])."
   },
   "hint": {
-    "en": "The battery power is calculated so that the cumulative usage will be close to the set X Watt. All available batteries are used pro rata. X defaults to 0 and can be set via the 'Set XOM' flow.",
-    "nl": "Het accu vermogen wordt zodanig berekend dat het cumulatieve verbruik de ingestelde X Watt nadert. Alle beschikbare accu's worden naar rato gebruikt. X is standaard 0 en kan via de 'Zet XOM' flow worden ingesteld.",
-    "de": "Die Batterieleistung wird so berechnet, dass sich der kumulierte Verbrauch dem festgelegten Wert X Watt nähert. Alle verfügbaren Batterien werden anteilig genutzt. X ist standardmäßig 0 und kann über den Fluss 'XOM einstellen' eingestellt werden.",
-    "fr": "La puissance de la batterie est calculée pour que l'usage cumulé soit proche de la valeur X Watt définie. Toutes les batteries disponibles sont utilisées au prorata. X est par défaut à 0 et peut être défini via le flux 'Définir XOM'.",
-    "it": "La potenza della batteria è calcolata in modo che l'uso cumulativo sia vicino al valore X Watt impostato. Tutte le batterie disponibili sono utilizzate pro quota. X è predefinito a 0 e può essere impostato tramite il flusso 'Imposta XOM'.",
-    "sv": "Batterieffekten beräknas så att den kumulativa användningen kommer att ligga nära det inställda X Watt. Alla tillgängliga batterier används proportionellt. X är standard 0 och kan ställas in via 'Ställ in XOM'-flödet.",
-    "no": "Batteristrømmen beregnes slik at den kumulative bruken vil være nær den angitte X Watt. Alle tilgjengelige batterier brukes forholdsmessig. X er standard 0 og kan angis via 'Sett XOM'-flyten.",
-    "es": "La potencia de la batería se calcula para que el uso acumulado esté cerca del valor X Watt establecido. Todas las baterías disponibles se utilizan a prorrata. X es por defecto 0 y se puede establecer a través del flujo 'Establecer XOM'.",
-    "da": "Batteristrømmen beregnes, så det kumulative forbrug vil være tæt på det indstillede X Watt. Alle tilgængelige batterier bruges forholdsmæssigt. X er standard 0 og kan indstilles via 'Sæt XOM'-flowet.",
-    "pl": "Moc baterii jest obliczana tak, aby łączne zużycie było bliskie ustawionej wartości X Wat. Wszystkie dostępne baterie są używane proporcjonalnie. X domyślnie wynosi 0 i można go ustawić za pomocą przepływu 'Ustaw XOM'.",
-    "ru": "Мощность батареи рассчитывается так, чтобы совокупное использование было близко к установленному значению X Ватт. Все доступные батареи используются пропорционально. X по умолчанию равен 0 и может быть установлен через поток 'Установить XOM'.",
-    "ko": "배터리 전력은 누적 사용량이 설정된 X 와트에 근접하도록 계산됩니다. 사용 가능한 모든 배터리는 비례하여 사용됩니다. X는 기본적으로 0이며 'XOM 설정' 흐름을 통해 설정할 수 있습니다.",
-    "ar": "يتم حساب طاقة البطارية بحيث يكون الاستخدام التراكمي قريبًا من القيمة X واط المحددة. يتم استخدام جميع البطاريات المتاحة بالتناسب. القيمة الافتراضية لـ X هي 0 ويمكن تعيينها عبر تدفق 'تعيين XOM'."
+    "en": "The battery power is calculated so that the cumulative usage will be close to the set X Watt. All available batteries are used pro rata. X defaults to 0 and can be set via the 'Set XOM' flow. Non-inverted charging power is positive (+), discharging is negative (-).",
+    "nl": "Het accu vermogen wordt zodanig berekend dat het cumulatieve verbruik de ingestelde X Watt nadert. Alle beschikbare accu's worden naar rato gebruikt. X is standaard 0 en kan via de 'Zet XOM' flow worden ingesteld. Niet-geïnverteerd laadvermogen is positief (+), ontladen is negatief (-).",
+    "de": "Die Batterieleistung wird so berechnet, dass sich der kumulierte Verbrauch dem festgelegten Wert X Watt nähert. Alle verfügbaren Batterien werden anteilig genutzt. X ist standardmäßig 0 und kann über den Fluss 'XOM einstellen' eingestellt werden. Nicht invertierte Ladeleistung ist positiv (+), Entladen ist negativ (-).",
+    "fr": "La puissance de la batterie est calculée pour que l'usage cumulé soit proche de la valeur X Watt définie. Toutes les batteries disponibles sont utilisées au prorata. X est par défaut à 0 et peut être défini via le flux 'Définir XOM'. La puissance de charge non inversée est positive (+), la décharge est négative (-).",
+    "it": "La potenza della batteria è calcolata in modo che l'uso cumulativo sia vicino al valore X Watt impostato. Tutte le batterie disponibili sono utilizzate pro quota. X è predefinito a 0 e può essere impostato tramite il flusso 'Imposta XOM'. La potenza di carica non invertita è positiva (+), la scarica è negativa (-).",
+    "sv": "Batterieffekten beräknas så att den kumulativa användningen kommer att ligga nära det inställda X Watt. Alla tillgängliga batterier används proportionellt. X är standard 0 och kan ställas in via 'Ställ in XOM'-flödet. Icke-inverterad laddningseffekt är positiv (+), urladdning är negativ (-).",
+    "no": "Batteristrømmen beregnes slik at den kumulative bruken vil være nær den angitte X Watt. Alle tilgjengelige batterier brukes forholdsmessig. X er standard 0 og kan angis via 'Sett XOM'-flyten. Ikke-invertert ladeeffekt er positiv (+), utlading er negativ (-).",
+    "es": "La potencia de la batería se calcula para que el uso acumulado esté cerca del valor X Watt establecido. Todas las baterías disponibles se utilizan a prorrata. X es por defecto 0 y se puede establecer a través del flujo 'Establecer XOM'. La potencia de carga no invertida es positiva (+), la descarga es negativa (-).",
+    "da": "Batteristrømmen beregnes, så det kumulative forbrug vil være tæt på det indstillede X Watt. Alle tilgængelige batterier bruges forholdsmæssigt. X er standard 0 og kan indstilles via 'Sæt XOM'-flowet. Ikke-inverteret ladeeffekt er positiv (+), afladning er negativ (-).",
+    "pl": "Moc baterii jest obliczana tak, aby łączne zużycie było bliskie ustawionej wartości X Wat. Wszystkie dostępne baterie są używane proporcjonalnie. X domyślnie wynosi 0 i można go ustawić za pomocą przepływu 'Ustaw XOM'. Nieodwrócona moc ładowania jest dodatnia (+), rozładowywanie jest ujemne (-).",
+    "ru": "Мощность батареи рассчитывается так, чтобы совокупное использование было близко к установленному значению X Ватт. Все доступные батареи используются пропорционально. X по умолчанию равен 0 и может быть установлен через поток 'Установить XOM'. Неинвертированная мощность зарядки положительная (+), разрядка отрицательная (-).",
+    "ko": "배터리 전력은 누적 사용량이 설정된 X 와트에 근접하도록 계산됩니다. 사용 가능한 모든 배터리는 비례하여 사용됩니다. X는 기본적으로 0이며 'XOM 설정' 흐름을 통해 설정할 수 있습니다. 반전되지 않은 충전 전력은 양의 전력(+), 방전은 음의 전력(-)입니다.",
+    "ar": "يتم حساب طاقة البطارية بحيث يكون الاستخدام التراكمي قريبًا من القيمة X واط المحددة. يتم استخدام جميع البطاريات المتاحة بالتناسب. القيمة الافتراضية لـ X هي 0 ويمكن تعيينها عبر تدفق 'تعيين XOM'. طاقة الشحن غير المعكوسة إيجابي (+)، والتفريغ سلبية (-)."
   },
   "args": [
     {
       "type": "device",
       "name": "device",
       "filter": "driver_id=battery"
+    },
+    {
+      "type": "checkbox",
+      "name": "invert_power",
+      "title": {
+        "en": "Invert power sign",
+        "nl": "Inverteer vermogen teken",
+        "de": "Leistungsvorzeichen umkehren",
+        "fr": "Inverser le signe de puissance",
+        "it": "Inverti il segno della potenza",
+        "sv": "Invertera effekttecken",
+        "no": "Inverter effekttegn",
+        "es": "Invertir signo de potencia",
+        "da": "Inverter effekttegn",
+        "pl": "Odwróć znak mocy",
+        "ru": "Инвертировать знак мощности",
+        "ko": "전력 부호 반전",
+        "ar": "عكس إشارة الطاقة"
+      },
+      "default": false
     }
   ],
   "tokens": [
