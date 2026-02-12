@@ -1,4 +1,7 @@
 {
+  "8.2.3": {
+    "en": "ENTSOE Webhook fix"
+  },
   "8.2.2": {
     "en": "Fixed and improved XOM. Optimize battery efficiency during XOM handling."
   },
