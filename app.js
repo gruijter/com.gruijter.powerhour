@@ -95,13 +95,12 @@ class MyApp extends Homey.App {
         const { body } = args;
         if (body && body.event === 'price_update' && body.zone && body.data) {
           this.log('Received price update for zone:', body.zone);
-          const drivers = ['dap', 'dap15'];
-          for (const driverId of drivers) {
+          Promise.all(['dap', 'dap15'].map(async (driverId) => {
             const driver = await this.homey.drivers.getDriver(driverId).catch(() => null);
             if (driver && driver.handlePriceUpdate) {
               await driver.handlePriceUpdate(body.zone, body.data);
             }
-          }
+          })).catch((err) => this.error('Error processing price update:', err));
         }
       } catch (err) {
         this.error('Error handling webhook message', err);
