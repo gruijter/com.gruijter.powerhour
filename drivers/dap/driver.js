@@ -66,7 +66,7 @@ class dapDriver extends GenericDriver {
     this.ds = driverSpecifics;
 
     // provide all data providers to the driver in order of presedence
-    this.ds.providers = [ENTSOE_GRUIJTER, ENTSOE, NORDPOOL, STEKKER];
+    this.ds.providers = [ENTSOE_GRUIJTER, NORDPOOL, ENTSOE, STEKKER];
     this.ds.biddingZones = {};
     this.ds.providers.forEach((Provider) => {
       const api = new Provider();
