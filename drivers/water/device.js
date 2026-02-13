@@ -40,7 +40,7 @@ class sumDriver extends GenericDevice {
 
   async onInit() {
     this.ds = deviceSpecifics;
-    await this.onInit().catch(this.error);
+    await super.onInit().catch((err) => this.error(err));
   }
 
   // driver specific stuff below
