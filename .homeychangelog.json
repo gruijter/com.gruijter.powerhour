@@ -1,6 +1,6 @@
 {
   "8.3.0": {
-    "en": "Fix EVB exchange rate fetching. Fix save settings issues. Refactoring and stability improvements."
+    "en": "Fix ECB exchange rate fetching. Fix save settings issues. Refactoring and stability improvements."
   },
   "8.2.3": {
     "en": "ENTSOE Webhook fix"
