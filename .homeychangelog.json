@@ -1,4 +1,7 @@
 {
+  "8.4.0": {
+    "en": "Update and enable EntsoeGruijter. Added Nordpool. Smart price fetch iteration and time based retries. Apply settings immediately."
+  },
   "8.3.0": {
     "en": "Fix ECB exchange rate fetching. Fix save settings issues. Refactoring and stability improvements."
   },
