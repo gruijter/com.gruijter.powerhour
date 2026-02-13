@@ -20,6 +20,7 @@ along with com.gruijter.powerhour.  If not, see <http://www.gnu.org/licenses/>.
 'use strict';
 
 const GenericDevice = require('../../lib/generic_sum_device');
+const SourceDeviceHelper = require('../../lib/SourceDeviceHelper');
 
 const deviceSpecifics = {
   cmap: {
@@ -45,14 +46,15 @@ class sumDriver extends GenericDevice {
 
   // driver specific stuff below
 
+  async getSourceDevice() {
+    this.sourceDevice = await SourceDeviceHelper.getSourceDevice(this);
+    return this.sourceDevice;
+  }
+
   async addListeners() {
     if (!this.homey.app.api) throw new Error('Homey API not ready');
-    this.sourceDevice = await this.homey.app.api.devices.getDevice({ id: this.getSettings().homey_device_id, $cache: false }) // , $timeout: 15000
-      .catch(this.error);
-    const sourceDeviceExists = this.sourceDevice && this.sourceDevice.capabilitiesObj
-      && Object.keys(this.sourceDevice.capabilitiesObj).length > 0; // && (this.sourceDevice.available !== null);
-    if (!sourceDeviceExists) throw Error('Source device is missing.');
-    // make listener for meter_gas
+    await this.getSourceDevice();
+    // make listener for meter_water
     if (this.sourceDevice.capabilities.includes('meter_water')) {
       this.log(`registering meter_water capability listener for ${this.sourceDevice.name}`);
       this.capabilityInstances.meterWater = this.sourceDevice.makeCapabilityInstance('meter_water', async (value) => {
@@ -63,11 +65,7 @@ class sumDriver extends GenericDevice {
 
   async pollMeter() {
     if (!this.homey.app.api) return;
-    this.sourceDevice = await this.homey.app.api.devices.getDevice({ id: this.getSettings().homey_device_id, $cache: false }) // , $timeout: 15000
-      .catch(this.error);
-    const sourceDeviceExists = this.sourceDevice && this.sourceDevice.capabilitiesObj
-      && Object.keys(this.sourceDevice.capabilitiesObj).length > 0; // && (this.sourceDevice.available !== null);
-    if (!sourceDeviceExists) throw Error('Source device is missing.');
+    await this.getSourceDevice();
     const pollValue = this.sourceDevice.capabilitiesObj.meter_water.value;
     await this.updateMeter(pollValue).catch(this.error);
   }

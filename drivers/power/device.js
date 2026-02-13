@@ -20,6 +20,7 @@ along with com.gruijter.powerhour.  If not, see <http://www.gnu.org/licenses/>.
 'use strict';
 
 const GenericDevice = require('../../lib/generic_sum_device');
+const SourceDeviceHelper = require('../../lib/SourceDeviceHelper');
 
 const deviceSpecifics = {
   cmap: {
@@ -49,6 +50,11 @@ class PowerDevice extends GenericDevice {
   }
 
   // device specific stuff below
+  async getSourceDevice() {
+    this.sourceDevice = await SourceDeviceHelper.getSourceDevice(this);
+    return this.sourceDevice;
+  }
+
   async addSourceCapGroup() {
     // setup if/how a HOMEY-API source device fits to a defined capability group
     this.lastGroupMeterReady = false;
@@ -64,12 +70,7 @@ class PowerDevice extends GenericDevice {
 
   async addListeners() {
     if (!this.homey.app.api) throw new Error('Homey API not ready');
-    this.sourceDevice = await this.homey.app.api.devices.getDevice({ id: this.getSettings().homey_device_id, $cache: false }) // , $timeout: 15000
-      .catch(this.error);
-
-    const sourceDeviceExists = this.sourceDevice && this.sourceDevice.capabilitiesObj
-      && Object.keys(this.sourceDevice.capabilitiesObj).length > 0; // && (this.sourceDevice.available !== null);
-    if (!sourceDeviceExists) throw Error('Source device is missing.');
+    await this.getSourceDevice();
 
     // start listener for METER_VIA_WATT device
     if (this.getSettings().use_measure_source) {
@@ -115,11 +116,7 @@ class PowerDevice extends GenericDevice {
     if (!this.sourceCapGroup) await this.addSourceCapGroup();
 
     // get all values for this.lastGroupMeter
-    this.sourceDevice = await this.homey.app.api.devices.getDevice({ id: this.getSettings().homey_device_id, $cache: false }) // , $timeout: 15000
-      .catch(this.error);
-    const sourceDeviceExists = this.sourceDevice && this.sourceDevice.capabilitiesObj
-      && Object.keys(this.sourceDevice.capabilitiesObj).length > 0; // && (this.sourceDevice.available !== null);
-    if (!sourceDeviceExists) throw Error('Source device is missing.');
+    await this.getSourceDevice();
     Object.keys(this.sourceCapGroup)
       .filter((k) => this.sourceCapGroup[k])
       .forEach((k) => {
