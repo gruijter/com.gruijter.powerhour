@@ -39,9 +39,6 @@ class MyApp extends Homey.App {
       this.everyXminutes(15);
       this.retry(5);
 
-      // start webhook listener
-      await this.startWebHookListener();
-
       this.log('Power by the Hour app is running...');
     } catch (error) {
       this.error(error);
@@ -61,9 +58,6 @@ class MyApp extends Homey.App {
     this.homey.removeAllListeners('set_tariff_power_PBTH');
     this.homey.removeAllListeners('set_tariff_gas_PBTH');
     this.homey.removeAllListeners('set_tariff_water_PBTH');
-    if (this.webhook) {
-      await this.webhook.unregister().catch((err) => this.error(err));
-    }
   }
 
   async initApi() {
@@ -80,32 +74,6 @@ class MyApp extends Homey.App {
       this.error('HomeyAPI init failed, retrying in 1 min:', err);
       this.apiRetryId = this.homey.setTimeout(() => this.initApi(), 60000);
     }
-  }
-
-  async startWebHookListener() {
-    const id = Homey.env.WEBHOOK_ID;
-    const secret = Homey.env.WEBHOOK_SECRET;
-    const data = {
-      $keys: ['pbth-entsoe-bridge'], // appId is required in query
-    };
-    this.webhook = await this.homey.cloud.createWebhook(id, secret, data);
-    this.webhook.on('message', async (args) => {
-      this.log('Got a webhook message!');
-      try {
-        const { body } = args;
-        if (body && body.event === 'price_update' && body.zone && body.data) {
-          this.log('Received price update for zone:', body.zone);
-          Promise.all(['dap', 'dap15'].map(async (driverId) => {
-            const driver = await this.homey.drivers.getDriver(driverId).catch(() => null);
-            if (driver && driver.handlePriceUpdate) {
-              await driver.handlePriceUpdate(body.zone, body.data);
-            }
-          })).catch((err) => this.error('Error processing price update:', err));
-        }
-      } catch (err) {
-        this.error('Error handling webhook message', err);
-      }
-    });
   }
 
   everyHour() {
