@@ -19,7 +19,7 @@ along with com.gruijter.powerhour.  If not, see <http://www.gnu.org/licenses/>.s
 
 'use strict';
 
-// const ENTSOE_GRUIJTER = require('../../lib/providers/EntsoeGruijter');
+const ENTSOE_GRUIJTER = require('../../lib/providers/EntsoeGruijter');
 const ENTSOE = require('../../lib/providers/Entsoe');
 // const NP = require('../../nordpool');
 // const STEKKER = require('../../lib/providers/Stekker');
@@ -65,7 +65,7 @@ class dapDriver extends GenericDriver {
     this.ds = driverSpecifics;
 
     // provide all data providers to the driver in order of presedence
-    this.ds.providers = [ENTSOE]; // [ENTSOE_GRUIJTER,ENTSOE, NP, STEKKER];
+    this.ds.providers = [ENTSOE_GRUIJTER, ENTSOE]; // [ENTSOE_GRUIJTER,ENTSOE, NP, STEKKER];
     this.ds.biddingZones = {};
     this.ds.providers.forEach((Provider) => {
       const api = new Provider();
