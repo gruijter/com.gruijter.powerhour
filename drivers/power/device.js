@@ -45,7 +45,7 @@ class PowerDevice extends GenericDevice {
 
   async onInit() {
     this.ds = deviceSpecifics;
-    await this.onInitDevice().catch(this.error);
+    await this.onInit().catch(this.error);
   }
 
   // device specific stuff below
