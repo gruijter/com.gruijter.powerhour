@@ -71,7 +71,7 @@ class dapDriver extends GenericDriver {
       const api = new Provider();
       Object.assign(this.ds.biddingZones, api.getBiddingZones());
     });
-    await this.onDriverInit().catch((err) => this.error(err));
+    await super.onInit().catch(this.error);
   }
 
 }

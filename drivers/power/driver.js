@@ -70,7 +70,7 @@ class PowerDriver extends GenericDriver {
 
   async onInit() {
     this.ds = driverSpecifics;
-    await this.onDriverInit().catch(this.error);
+    await super.onInit().catch(this.error);
   }
 
 }

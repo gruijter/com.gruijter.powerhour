@@ -52,7 +52,7 @@ class dapgDriver extends GenericDriver {
       const api = new Provider();
       Object.assign(this.ds.biddingZones, api.getBiddingZones());
     });
-    await this.onDriverInit().catch(this.error);
+    await super.onInit().catch(this.error);
   }
 
 }

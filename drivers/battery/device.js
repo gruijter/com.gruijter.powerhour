@@ -24,7 +24,7 @@ const GenericDevice = require('../../lib/generic_bat_device');
 class BatDevice extends GenericDevice {
 
   async onInit() {
-    await super.onInit().catch((err) => this.error(err));
+    await super.onInit().catch(this.error);
   }
 
   async addSourceCapGroup() {
