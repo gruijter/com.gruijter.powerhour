@@ -1,0 +1,22 @@
+{
+  "type": "number",
+  "title": {
+    "en": "Total price (incl. VAT)",
+    "dk": "Total pris (inkl. moms)",
+    "nl": "Totaalprijs (incl. BTW)"
+  },
+  "uiComponent": "sensor",
+  "icon": "/assets/tariff.svg",
+  "getable": true,
+  "setable": false,
+  "insights": true,
+  "units": {
+    "en": "€/kWh"
+  },
+  "decimals": 4,
+  "desc": {
+    "en": "Total price including spot price, grid tariff, fixed tariffs and VAT",
+    "dk": "Total pris inklusive spotpris, nettarif, faste tariffer og moms",
+    "nl": "Totaalprijs inclusief spotprijs, netwerktarief, vaste tarieven en BTW"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "type": "number",
+  "title": {
+    "en": "Periods until cheapest",
+    "dk": "Perioder til billigste",
+    "nl": "Periodes tot goedkoopste"
+  },
+  "uiComponent": "sensor",
+  "icon": "/assets/tariff.svg",
+  "getable": true,
+  "setable": false,
+  "insights": true,
+  "units": {
+    "en": "periods",
+    "dk": "perioder",
+    "nl": "periodes"
+  },
+  "decimals": 0
+}

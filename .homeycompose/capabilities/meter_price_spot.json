@@ -1,0 +1,17 @@
+{
+  "type": "number",
+  "title": {
+    "en": "Spot price",
+    "dk": "Spotpris",
+    "nl": "Spotprijs"
+  },
+  "uiComponent": "sensor",
+  "icon": "/assets/tariff.svg",
+  "getable": true,
+  "setable": false,
+  "insights": true,
+  "units": {
+    "en": "€/kWh"
+  },
+  "decimals": 4
+}

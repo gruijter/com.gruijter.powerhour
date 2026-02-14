@@ -1,0 +1,22 @@
+{
+  "type": "number",
+  "title": {
+    "en": "Cheapest window avg price",
+    "dk": "Billigste vindue gns. pris",
+    "nl": "Goedkoopste venster gem. prijs"
+  },
+  "uiComponent": "sensor",
+  "icon": "/assets/tariff.svg",
+  "getable": true,
+  "setable": false,
+  "insights": true,
+  "units": {
+    "en": "€/kWh"
+  },
+  "decimals": 4,
+  "desc": {
+    "en": "Average price of the cheapest consecutive window",
+    "dk": "Gennemsnitspris for det billigste sammenhængende vindue",
+    "nl": "Gemiddelde prijs van het goedkoopste opeenvolgende venster"
+  }
+}
