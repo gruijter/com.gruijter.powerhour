@@ -1,4 +1,7 @@
 {
+  "8.4.1": {
+    "en": "NOM/XOM optimizations. DAP Price fetching optimizations."
+  },
   "8.4.0": {
     "en": "Update and enable EntsoeGruijter. Added Nordpool. Smart price fetch iteration and time based retries. Apply settings immediately."
   },
