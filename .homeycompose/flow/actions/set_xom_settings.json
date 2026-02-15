@@ -1,68 +1,158 @@
 {
-	"highlight": true,
-	"title": {
-		"en": "Set values for Battery XOM flow.",
-		"nl": "Zet waarden voor Batterij XOM flow.",
-		"de": "Werte für Batterie XOM Flow festlegen."
-	},
-	"titleFormatted": {
-		"en": "Set Battery XOM flows. XOM-target: [[x]]W, smoothing: [[smoothing]]%, min. battery load: [[minLoad]]W.",
-		"nl": "Zet Batterij XOM flows. XOM-doel: [[x]]W, smoothing: [[smoothing]]%, min. accu vermogen: [[minLoad]]W.",
-		"de": "Batterie XOM Flow festlegen. XOM-Ziel: [[x]]W, Glättung: [[smoothing]]%, min. Ladeleistung: [[minLoad]]W."
-	},
-	"hint": {
-		"en": "Settings for Battery XOM flows. The battery power is calculated so that the cumulative usage will be close to the set XOM-target. Low smoothing gives faster response to short power peaks. Use 50% or higher for a more stable control.",
-		"nl": "Instellingen tbv thuisbatterij XOM flows. Het accu vermogen wordt zodanig berekend dat het cumulatieve verbruik het ingestelde XOM-doel nadert. Lage smoothing geeft een snellere respons op korte vermogenpieken. Gebruik 50% of hoger voor een stabielere sturing.",
-		"de": "Einstellungen für Batterie-XOM Flows. Die Batteriekapazität wird so berechnet, dass der kumulierte Verbrauch in der Nähe des eingestellten XOM-Ziels liegt. Eine niedrige Glättung ermöglicht eine schnellere Reaktion auf kurze Leistungsspitzen. Verwenden Sie 50 % oder mehr für eine stabilere Regelung."
-	},
-	"args": [
-		{
-			"type": "number",
-			"name": "x",
-			"title": { 
-				"en": "XOM-target (W)",
-				"nl": "XOM-doel (W)",
-				"de": "XOM-Ziel (W)"
-			},
+  "highlight": true,
+  "title": {
+    "en": "Set values for Battery XOM flow.",
+    "nl": "Zet waarden voor Batterij XOM flow.",
+    "de": "Werte für Batterie XOM Flow festlegen.",
+    "ar": "تعيين قيم لتدفق بطارية XOM.",
+    "sv": "Ställ in värden för batteri XOM-flöde.",
+    "it": "Imposta valori per il flusso XOM della batteria.",
+    "no": "Angi verdier for batteri XOM-flyt.",
+    "fr": "Définir les valeurs pour le flux XOM de la batterie.",
+    "da": "Indstil værdier for batteri XOM-flow.",
+    "es": "Establecer valores para el flujo XOM de la batería.",
+    "pl": "Ustaw wartości dla przepływu baterii XOM.",
+    "ru": "Установить значения для потока батареи XOM.",
+    "ko": "배터리 XOM 흐름 값 설정."
+  },
+  "titleFormatted": {
+    "en": "Set Battery XOM flows. XOM-target: [[x]]W, smoothing: [[smoothing]]%, min. battery load: [[minLoad]]W.",
+    "nl": "Zet Batterij XOM flows. XOM-doel: [[x]]W, smoothing: [[smoothing]]%, min. accu vermogen: [[minLoad]]W.",
+    "de": "Batterie XOM Flow festlegen. XOM-Ziel: [[x]]W, Glättung: [[smoothing]]%, min. Ladeleistung: [[minLoad]]W.",
+    "ar": "تعيين تدفقات بطارية XOM. هدف XOM: [[x]] واط، التنعيم: [[smoothing]]%، الحد الأدنى لحمل البطارية: [[minLoad]] واط.",
+    "sv": "Ställ in batteri XOM-flöden. XOM-mål: [[x]]W, utjämning: [[smoothing]]%, min. batterilast: [[minLoad]]W.",
+    "it": "Imposta flussi XOM batteria. Target XOM: [[x]]W, smussamento: [[smoothing]]%, carico min. batteria: [[minLoad]]W.",
+    "no": "Angi batteri XOM-flyt. XOM-mål: [[x]]W, utjevning: [[smoothing]]%, min. batterilast: [[minLoad]]W.",
+    "fr": "Définir les flux XOM batterie. Cible XOM : [[x]]W, lissage : [[smoothing]]%, charge min. batterie : [[minLoad]]W.",
+    "da": "Indstil batteri XOM-flow. XOM-mål: [[x]]W, udjævning: [[smoothing]]%, min. batteribelastning: [[minLoad]]W.",
+    "es": "Establecer flujos XOM de batería. Objetivo XOM: [[x]]W, suavizado: [[smoothing]]%, carga mín. batería: [[minLoad]]W.",
+    "pl": "Ustaw przepływy baterii XOM. Cel XOM: [[x]]W, wygładzanie: [[smoothing]]%, min. obciążenie baterii: [[minLoad]]W.",
+    "ru": "Установить потоки батареи XOM. Цель XOM: [[x]]Вт, сглаживание: [[smoothing]]%, мин. нагрузка батареи: [[minLoad]]Вт.",
+    "ko": "배터리 XOM 흐름 설정. XOM 목표: [[x]]W, 스무딩: [[smoothing]]%, 최소 배터리 부하: [[minLoad]]W."
+  },
+  "hint": {
+    "en": "Settings for Battery XOM flows. The battery power is calculated so that the cumulative usage will be close to the set XOM-target. Low smoothing gives faster response to short power peaks. Use 50% or higher for a more stable control.",
+    "nl": "Instellingen tbv thuisbatterij XOM flows. Het accu vermogen wordt zodanig berekend dat het cumulatieve verbruik het ingestelde XOM-doel nadert. Lage smoothing geeft een snellere respons op korte vermogenpieken. Gebruik 50% of hoger voor een stabielere sturing.",
+    "de": "Einstellungen für Batterie-XOM Flows. Die Batteriekapazität wird so berechnet, dass der kumulierte Verbrauch in der Nähe des eingestellten XOM-Ziels liegt. Eine niedrige Glättung ermöglicht eine schnellere Reaktion auf kurze Leistungsspitzen. Verwenden Sie 50 % oder mehr für eine stabilere Regelung.",
+    "sv": "Inställningar för batteri XOM-flöden. Batteriefekten beräknas så att den kumulativa användningen kommer att ligga nära det inställda XOM-målet. Låg utjämning ger snabbare svar på korta effekttoppar. Använd 50% eller högre för en stabilare kontroll.",
+    "it": "Impostazioni per flussi XOM batteria. La potenza della batteria è calcolata in modo che l'uso cumulativo sia vicino al target XOM impostato. Un basso smussamento dà una risposta più rapida ai brevi picchi di potenza. Usa 50% o superiore per un controllo più stabile.",
+    "no": "Innstillinger for batteri XOM-flyt. Batteristrømmen beregnes slik at den kumulative bruken vil være nær det angitte XOM-målet. Lav utjevning gir raskere respons på korte strømtopper. Bruk 50% eller høyere for en mer stabil kontroll.",
+    "fr": "Paramètres pour les flux XOM de batterie. La puissance de la batterie est calculée pour que l'usage cumulé soit proche de la cible XOM définie. Un lissage faible donne une réponse plus rapide aux pics de puissance courts. Utilisez 50% ou plus pour un contrôle plus stable.",
+    "da": "Indstillinger for batteri XOM-flow. Batteristrømmen beregnes, så det kumulative forbrug vil være tæt på det indstillede XOM-mål. Lav udjævning giver hurtigere respons på korte strømspidser. Brug 50% eller højere for en mere stabil kontrol.",
+    "es": "Configuración para flujos XOM de batería. La potencia de la batería se calcula para que el uso acumulado esté cerca del objetivo XOM establecido. Un suavizado bajo da una respuesta más rápida a los picos cortos de potencia. Use 50% o más para un control más estable.",
+    "pl": "Ustawienia przepływów baterii XOM. Moc baterii jest obliczana tak, aby łączne zużycie było bliskie ustawionemu celowi XOM. Niskie wygładzanie daje szybszą reakcję na krótkie skoki mocy. Użyj 50% lub więcej dla bardziej stabilnej kontroli.",
+    "ru": "Настройки потоков батареи XOM. Мощность батареи рассчитывается так, чтобы совокупное использование было близко к установленной цели XOM. Низкое сглаживание дает более быстрый отклик на короткие пики мощности. Используйте 50% или выше для более стабильного контроля.",
+    "ko": "배터리 XOM 흐름 설정. 배터리 전력은 누적 사용량이 설정된 XOM 목표에 근접하도록 계산됩니다. 낮은 스무딩은 짧은 전력 피크에 더 빠르게 반응합니다. 더 안정적인 제어를 위해 50% 이상을 사용하십시오.",
+    "ar": "إعدادات تدفقات بطارية XOM. يتم حساب طاقة البطارية بحيث يكون الاستخدام التراكمي قريبًا من هدف XOM المحدد. يعطي التنعيم المنخفض استجابة أسرع لقمم الطاقة القصيرة. استخدم 50% أو أعلى لتحكم أكثر استقرارًا."
+  },
+  "args": [
+    {
+      "type": "number",
+      "name": "x",
+      "title": {
+        "en": "XOM-target (W)",
+        "nl": "XOM-doel (W)",
+        "de": "XOM-Ziel (W)",
+        "sv": "XOM-mål (W)",
+        "it": "Target XOM (W)",
+        "no": "XOM-mål (W)",
+        "fr": "Cible XOM (W)",
+        "da": "XOM-mål (W)",
+        "es": "Objetivo XOM (W)",
+        "pl": "Cel XOM (W)",
+        "ru": "Цель XOM (Вт)",
+        "ko": "XOM 목표 (W)",
+        "ar": "هدف XOM (واط)"
+      },
       "placeholder": {
         "en": "default 0W",
-				"nl": "standaard 0W",
-	      			"de": "Standardwert 0 W"
+        "nl": "standaard 0W",
+        "de": "Standardwert 0 W",
+        "sv": "standard 0W",
+        "it": "predefinito 0W",
+        "no": "standard 0W",
+        "fr": "par défaut 0W",
+        "da": "standard 0W",
+        "es": "por defecto 0W",
+        "pl": "domyślnie 0W",
+        "ru": "по умолчанию 0W",
+        "ko": "기본값 0W",
+        "ar": "الافتراضي 0 واط"
       },
-			"value": 0
-		},
-		{
-			"type": "number",
-			"name": "smoothing",
-			"title": { 
-				"en": "smoothing (%)",
-				"nl": "smoothing (%)",
-				"de": "Glättung (%)"
-			},
-			"placeholder": {
+      "value": 0
+    },
+    {
+      "type": "number",
+      "name": "smoothing",
+      "title": {
+        "en": "smoothing (%)",
+        "nl": "smoothing (%)",
+        "de": "Glättung (%)",
+        "sv": "utjämning (%)",
+        "it": "smussamento (%)",
+        "no": "utjevning (%)",
+        "fr": "lissage (%)",
+        "da": "udjævning (%)",
+        "es": "suavizado (%)",
+        "pl": "wygładzanie (%)",
+        "ru": "сглаживание (%)",
+        "ko": "스무딩 (%)",
+        "ar": "التنعيم (%)"
+      },
+      "placeholder": {
         "en": "30 - 100 %",
-				"nl": "30 - 100 %",
-				"de": "30 - 100 %"
+        "nl": "30 - 100 %",
+        "de": "30 - 100 %",
+        "sv": "30 - 100 %",
+        "it": "30 - 100 %",
+        "no": "30 - 100 %",
+        "fr": "30 - 100 %",
+        "da": "30 - 100 %",
+        "es": "30 - 100 %",
+        "pl": "30 - 100 %",
+        "ru": "30 - 100 %",
+        "ko": "30 - 100 %",
+        "ar": "30 - 100 %"
       },
-			"min": 25,
-			"max": 100,
-			"value": 50
-		},
-		{
-			"type": "number",
-			"name": "minLoad",
-			"title": { 
-				"en": "Minimum battery power (W)",
-				"nl": "Minimaal accu vermogen (W)",
-				"de": "Minimale Batteriekapazität (W)"
-			},
+      "min": 25,
+      "max": 100,
+      "value": 50
+    },
+    {
+      "type": "number",
+      "name": "minLoad",
+      "title": {
+        "en": "Minimum battery power (W)",
+        "nl": "Minimaal accu vermogen (W)",
+        "de": "Minimale Batteriekapazität (W)",
+        "sv": "Minsta batterieffekt (W)",
+        "it": "Potenza minima batteria (W)",
+        "no": "Minimum batteristrøm (W)",
+        "fr": "Puissance min. de la batterie (W)",
+        "da": "Min. batteristrøm (W)",
+        "es": "Potencia mínima de la batería (W)",
+        "pl": "Minimalna moc baterii (W)",
+        "ru": "Минимальная мощность батареи (Вт)",
+        "ko": "최소 배터리 전력 (W)",
+        "ar": "الحد الأدنى لطاقة البطارية (واط)"
+      },
       "placeholder": {
         "en": "default 50W",
-				"nl": "standaard 50W",
-	      			"de": "Standardwert 50 W"
+        "nl": "standaard 50W",
+        "de": "Standardwert 50 W",
+        "sv": "standard 50W",
+        "it": "predefinito 50W",
+        "no": "standard 50W",
+        "fr": "par défaut 50W",
+        "da": "standard 50W",
+        "es": "por defecto 50W",
+        "pl": "domyślnie 50W",
+        "ru": "по умолчанию 50W",
+        "ko": "기본값 50W",
+        "ar": "الافتراضي 50 واط"
       },
-			"min": 0,
-			"value": 50
-		}
-	]
+      "min": 0,
+      "value": 50
+    }
+  ]
 }

@@ -6,8 +6,13 @@
     "it": "Reimposta i valori Min/Max",
     "no": "Resett  Min/Max verdier",
     "fr": "Remettre à zéro les valeur Min/Max",
-    "dk": "Nulstil Min/Max værdier",
-    "nl": "Reset de Min/Max waarden"
+    "da": "Nulstil Min/Max værdier",
+    "nl": "Reset de Min/Max waarden",
+    "ar": "إعادة تعيين قيم الحد الأدنى/الأقصى",
+    "es": "Restablecer los valores Mín/Máx",
+    "pl": "Zresetuj wartości Min/Max",
+    "ru": "Сбросить значения Мин/Макс",
+    "ko": "최소/최대 값 재설정"
   },
   "highlight": true,
   "args": [

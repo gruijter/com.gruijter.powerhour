@@ -6,8 +6,13 @@
     "it": "Imposta costo fisso giornaliero",
     "no": "Sett daglig fast kostnad",
     "fr": "Définir le coût fixe journalier",
-    "dk": "Sæt daglig fast omkostning",
-    "nl": "Stel dagelijkse vaste kosten in"
+    "da": "Sæt daglig fast omkostning",
+    "nl": "Stel dagelijkse vaste kosten in",
+    "ar": "تعيين التكلفة الثابتة اليومية",
+    "es": "Establecer costo fijo diario",
+    "pl": "Ustaw dzienny koszt stały",
+    "ru": "Установить ежедневную фиксированную стоимость",
+    "ko": "일일 고정 비용 설정"
   },
   "titleFormatted": {
     "en": "Set daily fixed cost to [[value]]",
@@ -16,8 +21,13 @@
     "it": "Imposta costo fisso giornaliero a [[value]]",
     "no": "Sett daglig fast kostnad til [[value]]",
     "fr": "Définir le coût fixe journalier à [[value]]",
-    "dk": "Sæt daglig fast omkostning til [[value]]",
-    "nl": "Stel dagelijkse vaste kosten in op [[value]]"
+    "da": "Sæt daglig fast omkostning til [[value]]",
+    "nl": "Stel dagelijkse vaste kosten in op [[value]]",
+    "ar": "تعيين التكلفة الثابتة اليومية إلى [[value]]",
+    "es": "Establecer costo fijo diario a [[value]]",
+    "pl": "Ustaw dzienny koszt stały na [[value]]",
+    "ru": "Установить ежедневную фиксированную стоимость на [[value]]",
+    "ko": "일일 고정 비용을 [[value]]로 설정"
   },
   "args": [
     {
@@ -35,8 +45,13 @@
         "it": "Costo fisso giornaliero",
         "no": "Daglig fast kostnad",
         "fr": "Coût fixe journalier",
-        "dk": "Daglig fast omkostning",
-        "nl": "Dagelijkse vaste kosten"
+        "da": "Daglig fast omkostning",
+        "nl": "Dagelijkse vaste kosten",
+        "ar": "التكلفة الثابتة اليومية",
+        "es": "Costo fijo diario",
+        "pl": "Dzienny koszt stały",
+        "ru": "Ежедневная фиксированная стоимость",
+        "ko": "일일 고정 비용"
       },
       "min": 0,
       "decimals": 4

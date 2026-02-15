@@ -3,7 +3,17 @@
   "title": {
     "en": "On budget Year To date",
     "nl": "Op budget Jaar Zover",
-    "de": "Im Jahresbudget bis heute"
+    "de": "Im Jahresbudget bis heute",
+    "sv": "På budget år till datum",
+    "it": "In budget anno fino ad oggi",
+    "no": "På budsjett år til dato",
+    "fr": "Dans le budget de l'année à ce jour",
+    "da": "På budget år til dato",
+    "es": "En presupuesto año hasta la fecha",
+    "pl": "W budżecie rok do daty",
+    "ru": "В бюджете год до даты",
+    "ko": "연 예산 대비 현재",
+    "ar": "في الميزانية السنة حتى الآن"
   },
   "uiComponent": "sensor",
   "icon": "/assets/target.svg",

@@ -7,8 +7,13 @@
     "it": "Minimo",
     "no": "Minimum",
     "fr": "Minimum",
-    "dk": "Minimum",
-    "nl": "Minimum"
+    "da": "Minimum",
+    "nl": "Minimum",
+    "es": "Mínimo",
+    "pl": "Minimum",
+    "ru": "Минимум",
+    "ko": "최소",
+    "ar": "الحد الأدنى"
   },
   "uiComponent": "sensor",
   "icon": "/assets/minimum.svg",
@@ -22,8 +27,13 @@
     "it": "L/minuto",
     "no": "L/minutt",
     "fr": "L/Minute",
-    "dk": "L/Minuttet",
-    "nl": "L/minuut"
+    "da": "L/Minuttet",
+    "nl": "L/minuut",
+    "es": "L/minuto",
+    "pl": "L/minutę",
+    "ru": "л/минуту",
+    "ko": "L/분",
+    "ar": "لتر/دقيقة"
   },
   "decimals": 2
 }

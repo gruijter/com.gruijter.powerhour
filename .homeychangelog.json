@@ -1,4 +1,43 @@
 {
+  "8.4.1": {
+    "en": "NOM/XOM optimizations. DAP Price fetching optimizations."
+  },
+  "8.4.0": {
+    "en": "Update and enable EntsoeGruijter. Added Nordpool. Smart price fetch iteration and time based retries. Apply settings immediately."
+  },
+  "8.3.0": {
+    "en": "Fix ECB exchange rate fetching. Fix save settings issues. Refactoring and stability improvements."
+  },
+  "8.2.3": {
+    "en": "ENTSOE Webhook fix"
+  },
+  "8.2.2": {
+    "en": "Fixed and improved XOM. Optimize battery efficiency during XOM handling."
+  },
+  "8.2.1": {
+    "en": "Fixed and improved XOM. XOM refactoring. Stability improvements."
+  },
+  "8.2.0": {
+    "en": "Comply to Homey charge/discharge sign convention. Detect and map additional home battery brands and types based on Homey energy object."
+  },
+  "8.1.0": {
+    "en": "LP module replaced. Advanced ROI calculation vastly improved. Advanced ROI enabled on HP2016/2019. Tariff update propagation fixes. Stability improvements."
+  },
+  "8.0.4": {
+    "en": "new price period fixed for DAP15. Price markup are now imediately effective on settings save."
+  },
+  "8.0.3": {
+    "en": "Added and fixed DAP15 capabilities. Improved chart coloring predicted prices. Prepared for entsoe_gruijter price push. Refactored app scheduler. Massive refactoring of Flow code."
+  },
+  "8.0.2": {
+    "en": "Fix chart coloring. Fix chart refresh in mobile app. Localized hardcoded UI text. Massive translation update."
+  },
+  "8.0.1": {
+    "en": "Fix flow cards and capabilities calculations. Enable forecasting for DAP15. Fix chart init. Fix device settings timeout."
+  },
+  "8.0.0": {
+    "en": "Complete refactoring. Improved stability. Reduced price fetching rate limit issues."
+  },
   "7.1.0": {
     "en": "Disabled entsoe_gruijter. New api key entsoe. Many stability improvements."
   },

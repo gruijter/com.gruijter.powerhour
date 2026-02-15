@@ -14,12 +14,12 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with com.gruijter.powerhour.  If not, see <http://www.gnu.org/licenses/>.s
+along with com.gruijter.powerhour.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 'use strict';
 
-const GenericDriver = require('../generic_sum_driver');
+const GenericDriver = require('../../lib/generic_sum_driver');
 
 const driverSpecifics = {
   driverId: 'power',
@@ -66,14 +66,13 @@ const driverSpecifics = {
     'meter_tariff', 'meter_power', 'measure_watt_avg', 'last_minmax_reset', 'measure_watt_min', 'measure_watt_max'],
 };
 
-class sumDriver extends GenericDriver {
+class PowerDriver extends GenericDriver {
 
   async onInit() {
-    // this.log('driver onInit');
     this.ds = driverSpecifics;
-    await this.onDriverInit().catch(this.error);
+    await super.onInit().catch(this.error);
   }
 
 }
 
-module.exports = sumDriver;
+module.exports = PowerDriver;

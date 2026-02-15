@@ -19,35 +19,35 @@ along with com.gruijter.powerhour.  If not, see <http://www.gnu.org/licenses/>.s
 
 'use strict';
 
-const GenericDevice = require('../generic_bat_device');
+const GenericDevice = require('../../lib/generic_bat_device');
+const SourceDeviceHelper = require('../../lib/SourceDeviceHelper');
 
-class batDevice extends GenericDevice {
+class BatDevice extends GenericDevice {
 
   async onInit() {
-    await this.onInitDevice().catch(this.error);
+    await super.onInit().catch(this.error);
   }
 
   async addSourceCapGroup() {
     // setup if/how a HOMEY-API source device fits to a defined capability group
-    this.sourceCapGroup = null;
-    this.driver.ds.sourceCapGroups.forEach((capGroup) => {
-      if (this.sourceCapGroup) return; // stop at the first match
+    this.sourceCapGroup = this.driver.ds.sourceCapGroups.find((capGroup) => {
       const requiredKeys = Object.values(capGroup).filter((v) => v);
-      const hasAllKeys = requiredKeys.every((k) => this.sourceDevice.capabilities.includes(k));
-      if (hasAllKeys) this.sourceCapGroup = capGroup; // all relevant capabilities were found in the source device
+      return requiredKeys.every((k) => this.sourceDevice.capabilities.includes(k));
     });
     if (!this.sourceCapGroup) {
       throw Error(`${this.sourceDevice.name} has no compatible capabilities ${this.sourceDevice.capabilities}`);
     }
   }
 
+  async getSourceDevice() {
+    this.sourceDevice = await SourceDeviceHelper.getSourceDevice(this);
+    return this.sourceDevice;
+  }
+
   async addListeners() {
     // check if source device exists
-    this.sourceDevice = await this.homey.app.api.devices.getDevice({ id: this.getSettings().homey_device_id, $cache: false }) // $timeout: 15000
-      .catch(this.error);
-    const sourceDeviceExists = this.sourceDevice && this.sourceDevice.capabilitiesObj
-      && Object.keys(this.sourceDevice.capabilitiesObj).length > 0; // && (this.sourceDevice.available !== null);
-    if (!sourceDeviceExists) throw Error('Source device is missing.');
+    if (!this.homey.app.api) throw new Error('Homey API not ready');
+    await this.getSourceDevice();
 
     // start listeners for all caps
     await this.addSourceCapGroup();
@@ -63,23 +63,21 @@ class batDevice extends GenericDevice {
 
   async poll() {
     // check if source device exists
-    this.sourceDevice = await this.homey.app.api.devices.getDevice({ id: this.getSettings().homey_device_id, $cache: false }) // $timeout: 15000
-      .catch(this.error);
-    const sourceDeviceExists = this.sourceDevice && this.sourceDevice.capabilitiesObj
-      && Object.keys(this.sourceDevice.capabilitiesObj).length > 0; // && (this.sourceDevice.available !== null);
-    if (!sourceDeviceExists) throw Error('Source device is missing.');
+    if (!this.homey.app.api) return;
+    await this.getSourceDevice();
 
     // start polling all caps
     if (!this.sourceCapGroup) await this.addSourceCapGroup();
     this.log(`polling ${this.sourceDevice.name}`);
-    Object.keys(this.sourceCapGroup).forEach(async (key) => {
+    const promises = Object.keys(this.sourceCapGroup).map(async (key) => {
       if (this.sourceDevice.capabilitiesObj && this.sourceDevice.capabilitiesObj[this.sourceCapGroup[key]]) {
         const val = this.sourceDevice.capabilitiesObj[this.sourceCapGroup[key]].value;
         await this.updateValue(val, key).catch(this.error);
       }
     });
+    await Promise.all(promises);
   }
 
 }
 
-module.exports = batDevice;
+module.exports = BatDevice;

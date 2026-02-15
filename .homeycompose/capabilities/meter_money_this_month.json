@@ -7,8 +7,13 @@
     "it": "Spesa mese corrente",
     "no": "Kostnad denne måned",
     "fr": "Argent ce mois ci",
-    "dk": "Penge denne måned",
-    "nl": "Geld deze maand"
+    "da": "Penge denne måned",
+    "nl": "Geld deze maand",
+    "es": "Money this month",
+    "pl": "Money this month",
+    "ru": "Money this month",
+    "ko": "Money this month",
+    "ar": "Money this month"
   },
   "uiComponent": "sensor",
   "icon": "/assets/money_m.svg",

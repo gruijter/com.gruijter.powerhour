@@ -3,7 +3,17 @@
   "title": {
     "en": "Discharging Total",
     "nl": "Ontladen Totaal",
-    "de": "Entladung Gesamt"
+    "de": "Entladung Gesamt",
+    "sv": "Urladdning totalt",
+    "it": "Scarica totale",
+    "no": "Utlading totalt",
+    "fr": "Décharge totale",
+    "da": "Afladning total",
+    "es": "Descarga total",
+    "pl": "Rozładowanie łącznie",
+    "ru": "Всего разряжено",
+    "ko": "총 방전량",
+    "ar": "إجمالي التفريغ"
   },
   "uiComponent": "sensor",
   "icon": "/assets/discharged.svg",

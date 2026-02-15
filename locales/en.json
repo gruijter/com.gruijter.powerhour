@@ -2,8 +2,18 @@
   "today": "Today",
   "tomorrow": "Tomorrow",
   "nextHours": "Next hours",
-  "repair": {
-    "warningtitle": "WARNING",
-    "warningtext": "You are about to change the source device. This will keep all insights and flows. But if the new source device has a different meter value, you will need to manually compensate the meter and money start values in the advanced settings."
-  }
+  "device_migrating": "Device is migrating. Please wait!",
+  "source_device_missing_retry": "Source device is missing. Retry in 10 minutes.",
+  "source_device_missing_retrying": "Source device is missing. Retrying ..",
+  "polling_failed": "Polling failed. Will retry soon..",
+  "source_device_missing_retry_named": "Source device %name% is missing. Retry in 10 minutes.",
+  "error_device_not_ready": "Device is not ready. Ignoring new settings!",
+  "error_roi_hp2023": "Advanced ROI is only available on HP2023!",
+  "error_value_not_number": "Value is not a number",
+  "error_budget_custom_12": "Custom budget does not have 12 number values",
+  "error_budget_invalid": "Budget is not a valid number",
+  "error_device_corrupt": "Device is corrupt!",
+  "error_no_prices": "No prices available",
+  "error_no_price_interval": "No price interval available",
+  "error_homey_api_not_ready": "Homey API not ready"
 }

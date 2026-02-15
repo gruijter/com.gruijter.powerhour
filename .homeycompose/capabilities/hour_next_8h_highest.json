@@ -3,12 +3,17 @@
   "title": {
     "en": "Highest hour next 8H",
     "de": "Teuerste Stunde nächste 8 Std.",
-    "sv": "Högsta timmen nästa 8H",
-    "it": "Ora più alta prossime 8h",
-    "no": "Høyeste time neste 8T",
-    "fr": "Heure la plus élevée les 8 prochaines heures",
-    "dk": "Højeste time næste 8T",
-    "nl": "Hoogste uur komende 8U"
+    "sv": "Dyraste timmen nästa 8H",
+    "it": "Ora più cara prossime 8h",
+    "no": "Dyreste time neste 8T",
+    "fr": "Heure la plus chère les 8 prochaines heures",
+    "da": "Dyreste time næste 8T",
+    "nl": "Duurste uur komende 8U",
+    "es": "Hora más cara próximas 8h",
+    "pl": "Najdroższa godzina następne 8h",
+    "ru": "Максимальный час следующие 8ч",
+    "ko": "다음 8시간 중 최고 시간",
+    "ar": "أعلى ساعة في الـ 8 ساعات القادمة"
   },
   "uiComponent": "sensor",
   "icon": "/assets/tariff.svg",
@@ -21,7 +26,14 @@
     "de": "Uhr",
     "sv": "Timme",
     "it": "Ora",
-    "nl": "Uur"
+    "nl": "Uur",
+    "fr": "Heure",
+    "da": "Time",
+    "es": "Hora",
+    "pl": "Godzina",
+    "ru": "Час",
+    "ko": "시",
+    "ar": "ساعة"
   },
   "decimals": 2
 }

@@ -1,0 +1,19 @@
+{
+  "today": "Idag",
+  "tomorrow": "Imorgon",
+  "nextHours": "Kommande timmar",
+  "device_migrating": "Enheten migrerar. Vänta!",
+  "source_device_missing_retry": "Källenhet saknas. Försök igen om 10 minuter.",
+  "source_device_missing_retrying": "Källenhet saknas. Försöker igen ..",
+  "polling_failed": "Polling misslyckades. Försöker snart igen..",
+  "source_device_missing_retry_named": "Källenhet %name% saknas. Försök igen om 10 minutter.",
+  "error_device_not_ready": "Enheten är inte redo. Ignorerar nya inställningar!",
+  "error_roi_hp2023": "Avancerad ROI är endast tillgänglig på HP2023!",
+  "error_value_not_number": "Värdet är inte ett nummer",
+  "error_budget_custom_12": "Anpassad budget har inte 12 nummervärden",
+  "error_budget_invalid": "Budgeten är inte ett giltigt nummer",
+  "error_device_corrupt": "Enheten är korrupt!",
+  "error_no_prices": "Inga priser tillgängliga",
+  "error_no_price_interval": "Inget prisintervall tillgängligt",
+  "error_homey_api_not_ready": "Homey API inte redo"
+}

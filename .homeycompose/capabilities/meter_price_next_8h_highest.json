@@ -3,12 +3,17 @@
   "title": {
     "en": "Highest price next 8H",
     "de": "Höchstpreis nächste 8 Std.",
-    "sv": "Högsta pris nästa 8H",
-    "it": "Prezzo più alta prossime 8h",
-    "no": "Høyeste pris neste 8T",
-    "fr": "Tarif le plus élevée les 8 prochaines heures",
-    "dk": "Højeste pris næste 8T",
-    "nl": "Hoogste prijs komende 8U"
+    "sv": "Dyraste pris nästa 8H",
+    "it": "Prezzo più caro prossime 8h",
+    "no": "Dyreste pris neste 8T",
+    "fr": "Tarif le plus cher les 8 prochaines heures",
+    "da": "Dyreste pris næste 8T",
+    "nl": "Duurste prijs komende 8U",
+    "ar": "أعلى سعر في الـ 8 ساعات القادمة",
+    "es": "Highest price next 8H",
+    "pl": "Highest price next 8H",
+    "ru": "Highest price next 8H",
+    "ko": "Highest price next 8H"
   },
   "uiComponent": "sensor",
   "icon": "/assets/tariff.svg",

@@ -1,11 +1,33 @@
 {
   "title": {
     "en": "Set a new weekend markup",
-    "de": "Neuen Wochenendaufschlag setzen"
+    "de": "Neuen Wochenendaufschlag setzen",
+    "nl": "Stel een nieuwe weekend opslag in",
+    "ar": "تعيين هامش ربح جديد لعطلة نهاية الأسبوع",
+    "sv": "Ställ in ett nytt helgpåslag",
+    "it": "Imposta un nuovo sovraprezzo weekend",
+    "no": "Sett en ny helgepåslag",
+    "fr": "Définir une nouvelle majoration week-end",
+    "da": "Sæt en ny weekendopmarkering",
+    "es": "Establecer un nuevo margen de fin de semana",
+    "pl": "Ustaw nowy narzut weekendowy",
+    "ru": "Установить новую наценку выходного дня",
+    "ko": "새 주말 마크업 설정"
   },
   "titleFormatted": {
     "en": "Set weekend markup to [[value]]",
-    "de": "Wochenendaufschlag auf [[value]] setzen"
+    "de": "Wochenendaufschlag auf [[value]] setzen",
+    "nl": "Stel weekend opslag in op [[value]]",
+    "ar": "تعيين هامش ربح عطلة نهاية الأسبوع إلى [[value]]",
+    "sv": "Ställ in helgpåslag till [[value]]",
+    "it": "Imposta sovraprezzo weekend a [[value]]",
+    "no": "Sett helgepåslag til [[value]]",
+    "fr": "Définir la majoration week-end à [[value]]",
+    "da": "Sæt weekendopmarkering til [[value]]",
+    "es": "Establecer margen de fin de semana a [[value]]",
+    "pl": "Ustaw narzut weekendowy na [[value]]",
+    "ru": "Установить наценку выходного дня на [[value]]",
+    "ko": "주말 마크업을 [[value]]로 설정"
   },
   "args": [
     {
@@ -17,7 +39,19 @@
       "name": "value",
       "type": "number",
       "placeholder": {
-        "en": "E.g. 0.5"
+        "en": "E.g. 0.5",
+        "nl": "Bijv. 0.5",
+        "de": "z.B. 0.5",
+        "fr": "Par ex. 0.5",
+        "it": "Es. 0.5",
+        "sv": "T.ex. 0.5",
+        "no": "F.eks. 0.5",
+        "da": "F.eks. 0.5",
+        "es": "P.ej. 0.5",
+        "pl": "Np. 0.5",
+        "ru": "Напр. 0.5",
+        "ar": "مثال 0.5",
+        "ko": "예: 0.5"
       }
     }
   ]

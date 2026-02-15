@@ -3,7 +3,17 @@
   "title": {
     "en": "ROI duration",
     "nl": "ROI duur",
-    "de": "ROI Dauer"
+    "de": "ROI Dauer",
+    "sv": "ROI varaktighet",
+    "it": "Durata ROI",
+    "no": "ROI varighet",
+    "fr": "Durée ROI",
+    "da": "ROI varighed",
+    "es": "Duración ROI",
+    "pl": "Czas zwrotu ROI",
+    "ru": "Срок окупаемости",
+    "ko": "ROI 기간",
+    "ar": "مدة العائد على الاستثمار"
   },
   "uiComponent": null,
   "icon": "/assets/tariff.svg",
@@ -12,7 +22,18 @@
   "insights": false,
   "units": {
     "en": "Min.",
-    "nl": "Min."
+    "nl": "Min.",
+    "de": "Min.",
+    "sv": "Min.",
+    "it": "Min.",
+    "no": "Min.",
+    "fr": "Min.",
+    "da": "Min.",
+    "es": "Min.",
+    "pl": "Min.",
+    "ru": "Мин.",
+    "ko": "분",
+    "ar": "دقيقة"
   },
   "decimals": 0
 }

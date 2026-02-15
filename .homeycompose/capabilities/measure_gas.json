@@ -7,8 +7,13 @@
     "it": "Gas",
     "no": "Gass",
     "fr": "Gaz",
-    "dk": "Gas",
-    "nl": "Gas"
+    "da": "Gas",
+    "nl": "Gas",
+    "es": "Gas",
+    "pl": "Gaz",
+    "ru": "Газ",
+    "ko": "가스",
+    "ar": "غاز"
   },
   "desc": {
     "en": "Gas usage",
@@ -17,8 +22,13 @@
     "it": "Utilizzo gas",
     "no": "Gass forbruk",
     "fr": "Utilisation gaz",
-    "dk": "Gasforbrug",
-    "nl": "Gasverbruik"
+    "da": "Gasforbrug",
+    "nl": "Gasverbruik",
+    "es": "Uso de gas",
+    "pl": "Zużycie gazu",
+    "ru": "Потребление газа",
+    "ko": "가스 사용량",
+    "ar": "استخدام الغاز"
   },
   "decimals": 4,
   "units": {
@@ -28,8 +38,13 @@
     "it": "L/minuto",
     "no": "L/minutt",
     "fr": "L/Minute",
-    "dk": "L/minuttet",
-    "nl": "L/minuut"
+    "da": "L/minuttet",
+    "nl": "L/minuut",
+    "es": "L/minuto",
+    "pl": "L/minutę",
+    "ru": "л/минуту",
+    "ko": "L/분",
+    "ar": "لتر/دقيقة"
   },
   "getable": true,
   "setable": false,

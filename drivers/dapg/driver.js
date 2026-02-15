@@ -19,10 +19,10 @@ along with com.gruijter.powerhour.  If not, see <http://www.gnu.org/licenses/>.s
 
 'use strict';
 
-const EasyEnergy = require('../../easyenergy');
-const EEX = require('../../eex');
+const EasyEnergy = require('../../lib/providers/Easyenergy');
+const EEX = require('../../lib/providers/EEX');
 
-const GenericDriver = require('../generic_dap_driver');
+const GenericDriver = require('../../lib/generic_dap_driver');
 
 const driverSpecifics = {
   driverId: 'dapg',
@@ -43,7 +43,6 @@ const driverSpecifics = {
 class dapgDriver extends GenericDriver {
 
   async onInit() {
-    // this.log('driver onInit');
     this.ds = driverSpecifics;
 
     // provide all data providers to the driver in order of presedence
@@ -53,7 +52,7 @@ class dapgDriver extends GenericDriver {
       const api = new Provider();
       Object.assign(this.ds.biddingZones, api.getBiddingZones());
     });
-    await this.onDriverInit().catch(this.error);
+    await super.onInit().catch(this.error);
   }
 
 }

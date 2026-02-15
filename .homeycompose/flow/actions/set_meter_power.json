@@ -6,8 +6,13 @@
     "it": "Invia lettura energia a contatore virtuale",
     "no": "Send energiavlesing til virtuelt meter",
     "fr": "Envoyer le relevé électrique vers un compteur virtuel",
-    "dk": "Send energiaflæsning til virtuel måler",
-    "nl": "Stuur energiestand naar virtueel apparaat"
+    "da": "Send energiaflæsning til virtuel måler",
+    "nl": "Stuur energiestand naar virtueel apparaat",
+    "ar": "إرسال قراءة الطاقة إلى العداد الافتراضي",
+    "es": "Enviar lectura de energía a medidor virtual",
+    "pl": "Wyślij odczyt energii do wirtualnego licznika",
+    "ru": "Отправить показания энергии на виртуальный счетчик",
+    "ko": "가상 미터로 에너지 판독값 보내기"
   },
   "titleFormatted": {
     "en": "Send [[value]] reading to [[virtual_device]]",
@@ -16,23 +21,33 @@
     "it": "Invia lettura [[value]] a [[virtual_device]]",
     "no": "Send [[value]] avlesing til [[virtual_device]]",
     "fr": "Envoyer le relevé [[value]] vers [[virtual_device]]",
-    "dk": "Send [[value]] aflæsning til [[virtual_device]]",
-    "nl": "Stuur [[value]] stand naar [[virtual_device]]"
+    "da": "Send [[value]] aflæsning til [[virtual_device]]",
+    "nl": "Stuur [[value]] stand naar [[virtual_device]]",
+    "ar": "إرسال قراءة [[value]] إلى [[virtual_device]]",
+    "es": "Enviar lectura de [[value]] a [[virtual_device]]",
+    "pl": "Wyślij odczyt [[value]] do [[virtual_device]]",
+    "ru": "Отправить показания [[value]] на [[virtual_device]]",
+    "ko": "[[value]] 판독값을 [[virtual_device]]로 보내기"
   },
   "highlight": true,
   "args": [
     {
       "name": "virtual_device",
       "type": "autocomplete",
-      "title": { 
+      "title": {
         "en": "Virtual device",
         "de": "Virtuelles Gerät",
         "sv": "Virtuell enhet",
         "it": "Dispositivo virtuale",
         "no": "virtuell enhet",
         "fr": "Appareil virtuel",
-        "dk": "Virtuel enhed",
-        "nl": "Virtueel apparaat"
+        "da": "Virtuel enhed",
+        "nl": "Virtueel apparaat",
+        "ar": "جهاز افتراضي",
+        "es": "Dispositivo virtual",
+        "pl": "Urządzenie wirtualne",
+        "ru": "Виртуальное устройство",
+        "ko": "가상 장치"
       }
     },
     {
@@ -45,11 +60,14 @@
         "it": "Energia (kWh)",
         "no": "Energi (kWh)",
         "fr": "Énergie (kWh)",
-        "dk": "Energi (kWh)",
-        "nl": "Energie (kWh)"
+        "da": "Energi (kWh)",
+        "nl": "Energie (kWh)",
+        "ar": "طاقة (كيلوواط ساعة)",
+        "es": "Energía (kWh)",
+        "pl": "Energia (kWh)",
+        "ru": "Энергия (кВтч)",
+        "ko": "에너지 (kWh)"
       }
     }
   ]
 }
-
-

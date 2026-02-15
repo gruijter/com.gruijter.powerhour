@@ -3,12 +3,17 @@
   "title": {
     "en": "Lowest hour tomorrow",
     "de": "Günstigste Stunde morgen",
-    "sv": "Lägsta timmen imorgen",
-    "it": "Ora più bassa di domani",
-    "no": "Laveste time morgen",
-    "fr": "Heure la plus faible demain",
-    "dk": "Laveste pris i morgen",
-    "nl": "Laagste uur morgen"
+    "sv": "Billigaste timmen imorgon",
+    "it": "Ora più economica di domani",
+    "no": "Billigste time i morgen",
+    "fr": "Heure la moins chère demain",
+    "da": "Billigste time i morgen",
+    "nl": "Goedkoopste uur morgen",
+    "es": "Hora más barata mañana",
+    "pl": "Najtańsza godzina jutro",
+    "ru": "Минимальный час завтра",
+    "ko": "내일 최저 시간",
+    "ar": "أدنى ساعة غداً"
   },
   "uiComponent": "sensor",
   "icon": "/assets/tariff.svg",
@@ -21,7 +26,14 @@
     "de": "Uhr",
     "sv": "Timme",
     "it": "Ora",
-    "nl": "Uur"
+    "nl": "Uur",
+    "fr": "Heure",
+    "da": "Time",
+    "es": "Hora",
+    "pl": "Godzina",
+    "ru": "Час",
+    "ko": "시",
+    "ar": "ساعة"
   },
   "decimals": 2
 }

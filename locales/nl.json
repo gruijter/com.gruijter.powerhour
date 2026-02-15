@@ -2,8 +2,18 @@
   "today": "Vandaag",
   "tomorrow": "Morgen",
   "nextHours": "Komende uren",
-  "repair": {
-    "warningtitle": "LET OP",
-    "warningtext": "Je staat op het punt om het bron-apparaat te wijzigen. Alle inzichten en flows blijven bewaard. Maar als het nieuwe bronapparaat een andere meterstand heeft, zul je handmatig de meter en geld startwaarden moeten aanpassen in de apparaat instellingen."
-  }
+  "device_migrating": "Apparaat is aan het migreren. Even geduld!",
+  "source_device_missing_retry": "Bronapparaat ontbreekt. Opnieuw proberen over 10 minuten.",
+  "source_device_missing_retrying": "Bronapparaat ontbreekt. Opnieuw proberen ..",
+  "polling_failed": "Pollen mislukt. Probeer het zo opnieuw..",
+  "source_device_missing_retry_named": "Bronapparaat %name% ontbreekt. Opnieuw proberen over 10 minuten.",
+  "error_device_not_ready": "Apparaat is niet gereed. Nieuwe instellingen worden genegeerd!",
+  "error_roi_hp2023": "Geavanceerde ROI is alleen beschikbaar op HP2023!",
+  "error_value_not_number": "Waarde is geen getal",
+  "error_budget_custom_12": "Aangepast budget heeft geen 12 getalwaarden",
+  "error_budget_invalid": "Budget is geen geldig getal",
+  "error_device_corrupt": "Apparaat is corrupt!",
+  "error_no_prices": "Geen prijzen beschikbaar",
+  "error_no_price_interval": "Geen prijsinterval beschikbaar",
+  "error_homey_api_not_ready": "Homey API niet gereed"
 }

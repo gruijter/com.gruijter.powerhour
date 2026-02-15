@@ -7,8 +7,13 @@
     "it": "Spesa ora corrente",
     "no": "Kostnad denne timen",
     "fr": "Argent cette heure ci",
-    "dk": "Penge denne time",
-    "nl": "Geld dit uur"
+    "da": "Penge denne time",
+    "nl": "Geld dit uur",
+    "es": "Money this hour",
+    "pl": "Money this hour",
+    "ru": "Money this hour",
+    "ko": "Money this hour",
+    "ar": "Money this hour"
   },
   "uiComponent": "sensor",
   "icon": "/assets/money_h.svg",

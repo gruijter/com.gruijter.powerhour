@@ -1,0 +1,19 @@
+{
+  "today": "Heute",
+  "tomorrow": "Morgen",
+  "nextHours": "Nächste Stunden",
+  "device_migrating": "Gerät wird migriert. Bitte warten!",
+  "source_device_missing_retry": "Quellgerät fehlt. Erneuter Versuch in 10 Minuten.",
+  "source_device_missing_retrying": "Quellgerät fehlt. Erneuter Versuch ..",
+  "polling_failed": "Abfrage fehlgeschlagen. Versuche es bald erneut..",
+  "source_device_missing_retry_named": "Quellgerät %name% fehlt. Erneuter Versuch in 10 Minuten.",
+  "error_device_not_ready": "Gerät ist nicht bereit. Neue Einstellungen werden ignoriert!",
+  "error_roi_hp2023": "Erweiterter ROI ist nur auf HP2023 verfügbar!",
+  "error_value_not_number": "Wert ist keine Zahl",
+  "error_budget_custom_12": "Benutzerdefiniertes Budget hat keine 12 Zahlenwerte",
+  "error_budget_invalid": "Budget ist keine gültige Zahl",
+  "error_device_corrupt": "Gerät ist beschädigt!",
+  "error_no_prices": "Keine Preise verfügbar",
+  "error_no_price_interval": "Kein Preisintervall verfügbar",
+  "error_homey_api_not_ready": "Homey API nicht bereit"
+}

@@ -7,8 +7,13 @@
     "it": "Prezzo medio mese scorso",
     "no": "Gj.snitt pris forrige måned",
     "fr": "Tarif moyen le mois dernier",
-    "dk": "Gn. snt. pris sidste måned",
-    "nl": "Gem. prijs vorige maand"
+    "da": "Gn. snt. pris sidste måned",
+    "nl": "Gem. prijs vorige maand",
+    "ar": "متوسط السعر الشهر الماضي",
+    "es": "Avg. price last month",
+    "pl": "Avg. price last month",
+    "ru": "Avg. price last month",
+    "ko": "Avg. price last month"
   },
   "uiComponent": "sensor",
   "icon": "/assets/tariff.svg",

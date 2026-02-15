@@ -7,8 +7,13 @@
     "it": "Spesa mese precedente",
     "no": "Kostnad forrige måned",
     "fr": "Argent mois dernier",
-    "dk": "Penge sidste måned",
-    "nl": "Geld vorige maand"
+    "da": "Penge sidste måned",
+    "nl": "Geld vorige maand",
+    "es": "Money prev. month",
+    "pl": "Money prev. month",
+    "ru": "Money prev. month",
+    "ko": "Money prev. month",
+    "ar": "Money prev. month"
   },
   "uiComponent": "sensor",
   "icon": "/assets/money_m.svg",

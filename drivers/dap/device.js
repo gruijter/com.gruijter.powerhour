@@ -14,12 +14,12 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with com.gruijter.powerhour.  If not, see <http://www.gnu.org/licenses/>.s
+along with com.gruijter.powerhour.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 'use strict';
 
-const GenericDevice = require('../generic_dap_device');
+const GenericDevice = require('../../lib/generic_dap_device');
 
 const deviceSpecifics = {
 };
@@ -28,7 +28,7 @@ class myDevice extends GenericDevice {
 
   async onInit() {
     this.ds = deviceSpecifics;
-    await this.onInitDevice().catch(this.error);
+    await super.onInit().catch(this.error);
   }
 
 }

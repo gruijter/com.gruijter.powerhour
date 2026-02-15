@@ -3,7 +3,17 @@
   "title": {
     "en": "Stored",
     "nl": "Opgeslagen",
-    "de": "Gespeichert"
+    "de": "Gespeichert",
+    "sv": "Lagrad",
+    "it": "Immagazzinato",
+    "no": "Lagret",
+    "fr": "Stocké",
+    "da": "Lagret",
+    "es": "Almacenado",
+    "pl": "Zmagazynowane",
+    "ru": "Сохранено",
+    "ko": "저장됨",
+    "ar": "مخزن"
   },
   "uiComponent": "sensor",
   "icon": "/assets/stored.svg",

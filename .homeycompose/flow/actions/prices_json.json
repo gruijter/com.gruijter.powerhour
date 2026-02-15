@@ -1,74 +1,137 @@
 {
-	"title": {
-		"en": "Provide prices JSON",
-		"de": "Preise bereitstellen (JSON)"
-	},
-	"titleFormatted": {
-		"en": "Provide prices JSON for [[period]]",
-		"de": "Preise für [[period]] bereitstellen (JSON)"
-	},
-	"highlight": true,
-	"args": [
-		{
-		  "type": "device",
-		  "name": "device",
-		  "filter": "driver_id=dap|dap15|dapg"
-		},
-		{
-			"type": "dropdown",
-			"name": "period",
-			"title": { 
-				"en": "period",
-				"de": "Zeitraum",
-				"sv": "period",
-				"it": "periodo",
-				"no": "periode",
-				"nl": "periode"
-			},
-			"values": [
-				{	"id": "this_day",
-					"label": { 
-						"en": "This day",
-						"de": "diesen Tag",
-						"sv": "idag",
-						"it": "giornata odierna",
-						"no": "idag",
-						"nl": "Deze dag"
-					}
-				},
-				{	"id": "tomorrow",
-					"label": { 
-						"en": "Tomorrow",
-						"de": "Morgen",
-						"sv": "i morgon",
-						"it": "domani",
-						"no": "i morgen",
-						"nl": "Morgen"
-					}
-				},
-				{	"id": "next_hours",
-					"label": { 
-						"en": "Next hours",
-						"nl": "Komende uren",
-						"de": "Kommende Stunden"
-					}
-				}
-			]
-		}
-	],
-	"tokens": [
-		{
-			"name": "prices",
-			"title": {
-				"en": "Prices",
-				"de": "Preise",
-				"sv": "Priser",
-				"it": "Prezzi",
-				"no": "Priser",
-				"nl": "Prijzen"
-			},
-			"type": "string",
-			"example": "{'0':0.2747,'1':0.2678,'2':0.261,'3':0.2606,'4':0.2672,'5':0.2721,'6':0.272,'7':0.2678,'8':0.2625,'9':0.2516,'10':0.2409,'11':0.2317,'12':0.20,'13':0.15,'14':0.12,'15':0.11,'16':0.12,'17':0.20,'18':0.2772,'19':0.2927,'20':0.3052,'21':0.2944,'22':0.2856,'23':0.2725}"
-		}
-	]
+  "title": {
+    "en": "Provide prices JSON",
+    "de": "Preise bereitstellen (JSON)",
+    "ar": "توفير أسعار JSON",
+    "nl": "Geef prijzen JSON op",
+    "fr": "Fournir les prix JSON",
+    "it": "Fornisci prezzi JSON",
+    "sv": "Ange priser JSON",
+    "no": "Angi priser JSON",
+    "da": "Angiv priser JSON",
+    "es": "Proporcionar precios JSON",
+    "pl": "Podaj ceny JSON",
+    "ru": "Предоставить цены JSON",
+    "ko": "가격 JSON 제공"
+  },
+  "titleFormatted": {
+    "en": "Provide prices JSON for [[period]]",
+    "de": "Preise für [[period]] bereitstellen (JSON)",
+    "ar": "توفير أسعار JSON لـ [[period]]",
+    "nl": "Geef prijzen JSON op voor [[period]]",
+    "fr": "Fournir les prix JSON pour [[period]]",
+    "it": "Fornisci prezzi JSON per [[period]]",
+    "sv": "Ange priser JSON för [[period]]",
+    "no": "Angi priser JSON for [[period]]",
+    "da": "Angiv priser JSON for [[period]]",
+    "es": "Proporcionar precios JSON para [[period]]",
+    "pl": "Podaj ceny JSON dla [[period]]",
+    "ru": "Предоставить цены JSON для [[period]]",
+    "ko": "[[period]]에 대한 가격 JSON 제공"
+  },
+  "highlight": true,
+  "args": [
+    {
+      "type": "device",
+      "name": "device",
+      "filter": "driver_id=dap|dap15|dapg"
+    },
+    {
+      "type": "dropdown",
+      "name": "period",
+      "title": {
+        "en": "period",
+        "de": "Zeitraum",
+        "sv": "period",
+        "it": "periodo",
+        "no": "periode",
+        "nl": "periode",
+        "ar": "فترة",
+        "fr": "période",
+        "da": "periode",
+        "es": "período",
+        "pl": "okres",
+        "ru": "период",
+        "ko": "기간"
+      },
+      "values": [
+        {
+          "id": "this_day",
+          "label": {
+            "en": "This day",
+            "de": "diesen Tag",
+            "sv": "idag",
+            "it": "giornata odierna",
+            "no": "idag",
+            "nl": "Deze dag",
+            "ar": "هذا اليوم",
+            "fr": "Ce jour",
+            "da": "I dag",
+            "es": "Este día",
+            "pl": "Ten dzień",
+            "ru": "Этот день",
+            "ko": "오늘"
+          }
+        },
+        {
+          "id": "tomorrow",
+          "label": {
+            "en": "Tomorrow",
+            "de": "Morgen",
+            "sv": "i morgon",
+            "it": "domani",
+            "no": "i morgen",
+            "nl": "Morgen",
+            "ar": "غداً",
+            "fr": "Demain",
+            "da": "I morgen",
+            "es": "Mañana",
+            "pl": "Jutro",
+            "ru": "Завтра",
+            "ko": "내일"
+          }
+        },
+        {
+          "id": "next_hours",
+          "label": {
+            "en": "Next hours",
+            "nl": "Komende uren",
+            "de": "Kommende Stunden",
+            "ar": "الساعات القادمة",
+            "sv": "Kommande timmar",
+            "it": "Prossime ore",
+            "no": "Neste timer",
+            "fr": "Prochaines heures",
+            "da": "Næste timer",
+            "es": "Próximas horas",
+            "pl": "Następne godziny",
+            "ru": "Следующие часы",
+            "ko": "다음 시간"
+          }
+        }
+      ]
+    }
+  ],
+  "tokens": [
+    {
+      "name": "prices",
+      "title": {
+        "en": "Prices",
+        "de": "Preise",
+        "sv": "Priser",
+        "it": "Prezzi",
+        "no": "Priser",
+        "nl": "Prijzen",
+        "ar": "الأسعار",
+        "fr": "Prix",
+        "da": "Priser",
+        "es": "Precios",
+        "pl": "Ceny",
+        "ru": "Цены",
+        "ko": "가격"
+      },
+      "type": "string",
+      "example": "{'0':0.2747,'1':0.2678,'2':0.261,'3':0.2606,'4':0.2672,'5':0.2721,'6':0.272,'7':0.2678,'8':0.2625,'9':0.2516,'10':0.2409,'11':0.2317,'12':0.20,'13':0.15,'14':0.12,'15':0.11,'16':0.12,'17':0.20,'18':0.2772,'19':0.2927,'20':0.3052,'21':0.2944,'22':0.2856,'23':0.2725}"
+    }
+  ]
 }

@@ -1,54 +1,90 @@
 {
-	"title": {
-		"en": "The price !{{is|isn't}} one of the highest the next hours",
-		"nl": "De prijs !{{is|is niet}} een van de hoogste de komende uren",
-		"de": "Der Preis !{{ist|ist nicht}} einer der höchsten die nächsten Stunden"
-	},
-	"titleFormatted": {
-		"en": "The price !{{is|isn't}} one of [[number]] highest in the next [[period]] hours",
-		"nl": "De prijs !{{is|is niet}} een van de [[number]] hoogste in de komende [[period]] uren",
-		"de": "Der Preis !{{ist|ist nicht}} einer der [[number]] höchsten in den nächsten [[period]] Stunden"
-	},
-	"highlight": true,
-	"args": [
-		{
-		  "type": "device",
-		  "name": "device",
-		  "filter": "driver_id=dap"
-		},
-		{
-			"type": "number",
-			"name": "period",
-			"title": { 
-				"en": "period",
-				"no": "periode",
-				"de": "Zeitraum",
-				"sv": "period",
-				"it": "periodo",
-				"dk": "periode",
-				"nl": "periode"
-			},
-			"placeholder": { "en": "6 - 10" },
-			"min": 6,
-			"max": 10,
-			"step": 1
-		},
-		{
-			"type": "number",
-			"name": "number",
-			"title": { 
-				"en": "number",
-				"no": "antall",
-				"de": "Anzahl",
-				"sv": "antal",
-				"it": "numero",
-				"dk": "nummer",
-				"nl": "aantal"
-			},
-			"placeholder": { "en": "1 - 5" },
-			"min": 1,
-			"max": 5,
-			"step": 1
-		}
-	]
+  "title": {
+    "en": "The price !{{is|isn't}} one of the highest the next hours",
+    "nl": "De prijs !{{is|is niet}} een van de hoogste de komende uren",
+    "de": "Der Preis !{{ist|ist nicht}} einer der höchsten die nächsten Stunden",
+    "fr": "Le prix !{{est|n'est pas}} l'un des plus élevés dans les prochaines heures",
+    "no": "Prisen !{{er|er ikke}} en av de høyeste de neste timene",
+    "sv": "Priset !{{är|är inte}} ett av de högsta de kommande timmarna",
+    "it": "Il prezzo !{{è|non è}} uno dei più alti nelle prossime ore",
+    "da": "Prisen !{{er|er ikke}} en af de højeste de næste timer",
+    "es": "El precio !{{es|no es}} uno de los más altos en las próximas horas",
+    "pl": "Cena !{{jest|nie jest}} jedną z najwyższych w ciągu następnych godzin",
+    "ru": "Цена !{{одна из|не одна из}} самых высоких в следующие часы",
+    "ar": "السعر !{{هو|ليس}} من بين الأعلى في الساعات القادمة",
+    "ko": "가격이 다음 몇 시간 동안 가장 높은 가격 중 하나!{{입니다|가 아닙니다}}"
+  },
+  "titleFormatted": {
+    "en": "The price !{{is|isn't}} one of [[number]] highest in the next [[period]] hours",
+    "nl": "De prijs !{{is|is niet}} een van de [[number]] hoogste in de komende [[period]] uren",
+    "de": "Der Preis !{{ist|ist nicht}} einer der [[number]] höchsten in den nächsten [[period]] Stunden",
+    "fr": "Le prix !{{est|n'est pas}} l'un des [[number]] plus élevés dans les [[period]] prochaines heures",
+    "no": "Prisen !{{er|er ikke}} en av de [[number]] høyeste i de neste [[period]] timene",
+    "sv": "Priset !{{är|är inte}} ett av de [[number]] högsta under de kommande [[period]] timmarna",
+    "it": "Il prezzo !{{è|non è}} uno dei [[number]] più alti nelle prossime [[period]] ore",
+    "da": "Prisen !{{er|er ikke}} en af de [[number]] højeste i de næste [[period]] timer",
+    "es": "El precio !{{es|no es}} uno de los [[number]] más altos en las próximas [[period]] horas",
+    "pl": "Cena !{{jest|nie jest}} jedną z [[number]] najwyższych w ciągu następnych [[period]] godzin",
+    "ru": "Цена !{{одна из|не одна из}} [[number]] самых высоких за следующие [[period]] часов",
+    "ar": "السعر !{{هو|ليس}} من بين [[number]] الأعلى في [[period]] ساعة القادمة",
+    "ko": "가격이 다음 [[period]]시간 동안 가장 높은 [[number]]개 중 하나!{{입니다|가 아닙니다}}"
+  },
+  "highlight": true,
+  "args": [
+    {
+      "type": "device",
+      "name": "device",
+      "filter": "driver_id=dap"
+    },
+    {
+      "type": "number",
+      "name": "period",
+      "title": {
+        "en": "period",
+        "no": "periode",
+        "de": "Zeitraum",
+        "sv": "period",
+        "it": "periodo",
+        "da": "periode",
+        "nl": "periode",
+        "fr": "période",
+        "es": "período",
+        "pl": "okres",
+        "ru": "период",
+        "ar": "فترة",
+        "ko": "기간"
+      },
+      "placeholder": {
+        "en": "6 - 10"
+      },
+      "min": 6,
+      "max": 10,
+      "step": 1
+    },
+    {
+      "type": "number",
+      "name": "number",
+      "title": {
+        "en": "number",
+        "no": "antall",
+        "de": "Anzahl",
+        "sv": "antal",
+        "it": "numero",
+        "da": "nummer",
+        "nl": "aantal",
+        "fr": "nombre",
+        "es": "número",
+        "pl": "liczba",
+        "ru": "количество",
+        "ar": "عدد",
+        "ko": "수"
+      },
+      "placeholder": {
+        "en": "1 - 5"
+      },
+      "min": 1,
+      "max": 5,
+      "step": 1
+    }
+  ]
 }

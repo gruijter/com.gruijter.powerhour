@@ -7,8 +7,13 @@
     "it": "kWh giorno precedente",
     "no": "kWh forrige dag",
     "fr": "KWh hier",
-    "dk": "KWh i går",
-    "nl": "kWh vorige dag"
+    "da": "KWh i går",
+    "nl": "kWh vorige dag",
+    "es": "kWh día anterior",
+    "pl": "kWh poprzedni dzień",
+    "ru": "кВтч пред. день",
+    "ko": "어제 kWh",
+    "ar": "كيلوواط ساعة اليوم السابق"
   },
   "uiComponent": "sensor",
   "icon": "/assets/kwh_d.svg",

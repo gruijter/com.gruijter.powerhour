@@ -7,8 +7,13 @@
     "it": "Spesa oggi",
     "no": "Kostnad idag",
     "fr": "Argent aujourd'hui",
-    "dk": "Penge i dag",
-    "nl": "Geld deze dag"
+    "da": "Penge i dag",
+    "nl": "Geld deze dag",
+    "ar": "التكلفة هذا اليوم",
+    "es": "Money this day",
+    "pl": "Money this day",
+    "ru": "Money this day",
+    "ko": "Money this day"
   },
   "uiComponent": "sensor",
   "icon": "/assets/money_d.svg",

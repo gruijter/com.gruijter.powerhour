@@ -1,33 +1,47 @@
 {
-	"title": {
-		"en": "The price has changed",
-		"de": "Preis hat sich geändert",
-		"sv": "Priset har förändrats",
-		"it": "Il prezzo è cambiato",
-		"no": "Prisen er endret",
-		"nl": "De prijs is veranderd"
-	},
-	"highlight": true,
-	"args": [
-		{
-		  "type": "device",
-		  "name": "device",
-		  "filter": "driver_id=dap|dap15|dapg"
-		}
-	],
-	"tokens": [
-		{
-		"name": "meter_price_h0",
-		"title": {
-			"en": "Price now",
-			"de": "Preis aktuell",
-			"sv": "Pris just nu",
-			"it": "Prezzo attuale",
-			"no": "Pris nå",
-			"nl": "Prijs nu"
-		},
-		"type": "number",
-		"example": 27.5
-		}
-	]
+  "title": {
+    "en": "The price has changed",
+    "de": "Preis hat sich geändert",
+    "sv": "Priset har förändrats",
+    "it": "Il prezzo è cambiato",
+    "no": "Prisen er endret",
+    "nl": "De prijs is veranderd",
+    "fr": "Le prix a changé",
+    "da": "Prisen er ændret",
+    "es": "El precio ha cambiado",
+    "pl": "Cena uległa zmianie",
+    "ru": "Цена изменилась",
+    "ko": "가격이 변경됨",
+    "ar": "تغير السعر"
+  },
+  "highlight": true,
+  "args": [
+    {
+      "type": "device",
+      "name": "device",
+      "filter": "driver_id=dap|dap15|dapg"
+    }
+  ],
+  "tokens": [
+    {
+      "name": "meter_price_h0",
+      "title": {
+        "en": "Price now",
+        "de": "Preis aktuell",
+        "sv": "Pris just nu",
+        "it": "Prezzo attuale",
+        "no": "Pris nå",
+        "nl": "Prijs nu",
+        "fr": "Tarif actuel",
+        "da": "Pris nu",
+        "es": "Precio ahora",
+        "pl": "Cena teraz",
+        "ru": "Цена сейчас",
+        "ko": "현재 가격",
+        "ar": "السعر الآن"
+      },
+      "type": "number",
+      "example": 27.5
+    }
+  ]
 }

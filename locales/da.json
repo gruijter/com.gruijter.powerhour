@@ -1,0 +1,19 @@
+{
+  "today": "I dag",
+  "tomorrow": "I morgen",
+  "nextHours": "Næste timer",
+  "device_migrating": "Enheden migrerer. Vent venligst!",
+  "source_device_missing_retry": "Kildeenhed mangler. Prøv igen om 10 minutter.",
+  "source_device_missing_retrying": "Kildeenhed mangler. Prøver igen ..",
+  "polling_failed": "Polling mislykkedes. Vil prøve igen snart..",
+  "source_device_missing_retry_named": "Kildeenhed %name% mangler. Prøv igen om 10 minutter.",
+  "error_device_not_ready": "Enheden er ikke klar. Ignorerer nye indstillinger!",
+  "error_roi_hp2023": "Avanceret ROI er kun tilgængelig på HP2023!",
+  "error_value_not_number": "Værdien er ikke et tal",
+  "error_budget_custom_12": "Brugerdefineret budget har ikke 12 talværdier",
+  "error_budget_invalid": "Budgettet er ikke et gyldigt tal",
+  "error_device_corrupt": "Enheden er korrupt!",
+  "error_no_prices": "Ingen priser tilgængelige",
+  "error_no_price_interval": "Intet prisinterval tilgængeligt",
+  "error_homey_api_not_ready": "Homey API ikke klar"
+}

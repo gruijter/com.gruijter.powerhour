@@ -1,83 +1,139 @@
 {
-	"title": {
-		"en": "The price becomes above avg.",
-		"de": "Preis wird höher sein als der Durchschn.",
-		"sv": "Priset blir över snittet.",
-		"it": "Il prezzo diventa oltre la media",
-		"no": "Prisen blir over gjennomsnittet.",
-		"nl": "De prijs wordt hoger dan gem."
-	},
-	"titleFormatted": {
-		"en": "The price becomes [[percent]]% above avg. [[period]]",
-		"de": "Preis wird [[percent]]% höher sein als der Durchschn. [[period]]",
-		"sv": "Priset blir [[percent]]% över snittet. [[period]]",
-		"it": "Il prezzo diventa [[percent]]% oltre la media di [[period]]",
-		"no": "Prisen blir [[percent]]% over gjenomsnittet [[period]]",
-		"nl": "De prijs wordt [[percent]]% hoger dan gem. [[period]]"
-	},
-	"highlight": true,
-	"args": [
-		{
-		  "type": "device",
-		  "name": "device",
-		  "filter": "driver_id=dap|dap15|dapg"
-		},
-		{
-			"type": "number",
-			"name": "percent",
-			"title": { "en": "%" },
-			"min": 0
-		},
-		{
-			"type": "dropdown",
-			"name": "period",
-			"title": { 
-				"en": "period",
-				"de": "Zeitraum",
-				"sv": "period",
-				"it": "periodo",
-				"no": "periode",
-				"nl": "periode"
-			},
-			"values": [
-				{	"id": "this_day",
-					"label": { 
-						"en": "this day",
-						"no": "idag",
-						"de": "des Tages",
-						"sv": "idag",
-						"it": "giornata odierna",
-						"dk": "i dag",
-						"nl": "deze dag"
-					}
-				},
-				{	"id": "8",
-					"label": { 
-						"en": "next 8H",
-						"no": "neste 8T",
-						"de": "der nächsten 8 Std.",
-						"sv": "nästa 8H",
-						"it": "prossime 8h",
-						"dk": "næste 8T",
-						"nl": "komende 8U"
-					}
-				}
-			]
-		}
-	],
-	"tokens": [
-		{
-		"name": "meter_price_h0",
-		"title": {
-			"en": "Price now",
-			"de": "Preis aktuell",
-			"sv": "Pris just nu",
-			"it": "Prezzo attuale",
-			"no": "Pris nå",
-			"nl": "Prijs nu"
-		},
-		"type": "number",
-		"example": 27.5
-		}
-	]
+  "title": {
+    "en": "The price becomes above avg.",
+    "de": "Preis wird höher sein als der Durchschn.",
+    "sv": "Priset blir över snittet.",
+    "it": "Il prezzo diventa oltre la media",
+    "no": "Prisen blir over gjennomsnittet.",
+    "nl": "De prijs wordt hoger dan gem.",
+    "fr": "Le prix devient supérieur à la moyenne.",
+    "da": "Prisen bliver over gennemsnittet.",
+    "es": "El precio se vuelve superior al promedio.",
+    "pl": "Cena staje się powyżej średniej.",
+    "ru": "Цена становится выше средней.",
+    "ko": "가격이 평균 이상이 됩니다.",
+    "ar": "يصبح السعر أعلى من المتوسط."
+  },
+  "titleFormatted": {
+    "en": "The price becomes [[percent]]% above avg. [[period]]",
+    "de": "Preis wird [[percent]]% höher sein als der Durchschn. [[period]]",
+    "sv": "Priset blir [[percent]]% över snittet. [[period]]",
+    "it": "Il prezzo diventa [[percent]]% oltre la media di [[period]]",
+    "no": "Prisen blir [[percent]]% over gjenomsnittet [[period]]",
+    "nl": "De prijs wordt [[percent]]% hoger dan gem. [[period]]",
+    "fr": "Le prix devient [[percent]]% supérieur à la moyenne [[period]]",
+    "da": "Prisen bliver [[percent]]% over gennemsnittet [[period]]",
+    "es": "El precio se vuelve [[percent]]% superior al promedio [[period]]",
+    "pl": "Cena staje się [[percent]]% powyżej średniej [[period]]",
+    "ru": "Цена становится на [[percent]]% выше средней [[period]]",
+    "ko": "가격이 [[period]] 평균보다 [[percent]]% 이상이 됩니다.",
+    "ar": "يصبح السعر [[percent]]% أعلى من المتوسط [[period]]"
+  },
+  "highlight": true,
+  "args": [
+    {
+      "type": "device",
+      "name": "device",
+      "filter": "driver_id=dap|dap15|dapg"
+    },
+    {
+      "type": "number",
+      "name": "percent",
+      "title": {
+        "en": "%",
+        "de": "%",
+        "sv": "%",
+        "it": "%",
+        "no": "%",
+        "da": "%",
+        "nl": "%",
+        "fr": "%",
+        "es": "%",
+        "pl": "%",
+        "ru": "%",
+        "ko": "%",
+        "ar": "%"
+      },
+      "min": 0
+    },
+    {
+      "type": "dropdown",
+      "name": "period",
+      "title": {
+        "en": "period",
+        "de": "Zeitraum",
+        "sv": "period",
+        "it": "periodo",
+        "no": "periode",
+        "da": "periode",
+        "nl": "periode",
+        "fr": "période",
+        "es": "período",
+        "pl": "okres",
+        "ru": "период",
+        "ko": "기간",
+        "ar": "فترة"
+      },
+      "values": [
+        {
+          "id": "this_day",
+          "label": {
+            "en": "this day",
+            "no": "idag",
+            "de": "des Tages",
+            "sv": "idag",
+            "it": "giornata odierna",
+            "da": "i dag",
+            "nl": "deze dag",
+            "fr": "ce jour",
+            "es": "este día",
+            "pl": "ten dzień",
+            "ru": "этот день",
+            "ko": "오늘",
+            "ar": "هذا اليوم"
+          }
+        },
+        {
+          "id": "8",
+          "label": {
+            "en": "next 8H",
+            "no": "neste 8T",
+            "de": "der nächsten 8 Std.",
+            "sv": "nästa 8H",
+            "it": "prossime 8h",
+            "da": "næste 8T",
+            "nl": "komende 8U",
+            "fr": "8 prochaines heures",
+            "es": "próximas 8H",
+            "pl": "następne 8H",
+            "ru": "след. 8Ч",
+            "ko": "다음 8시간",
+            "ar": "8 ساعات القادمة"
+          }
+        }
+      ]
+    }
+  ],
+  "tokens": [
+    {
+      "name": "meter_price_h0",
+      "title": {
+        "en": "Price now",
+        "de": "Preis aktuell",
+        "sv": "Pris just nu",
+        "it": "Prezzo attuale",
+        "no": "Pris nå",
+        "da": "Pris nu",
+        "nl": "Prijs nu",
+        "fr": "Tarif actuel",
+        "es": "Precio ahora",
+        "pl": "Cena teraz",
+        "ru": "Цена сейчас",
+        "ko": "현재 가격",
+        "ar": "السعر الآن"
+      },
+      "type": "number",
+      "example": 27.5
+    }
+  ]
 }

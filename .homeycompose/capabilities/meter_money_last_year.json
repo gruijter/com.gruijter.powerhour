@@ -7,8 +7,13 @@
     "it": "Spesa anno precedente",
     "no": "Kostnad forrige år",
     "fr": "Argent année dernière",
-    "dk": "Penge sidste år",
-    "nl": "Geld vorig jaar"
+    "da": "Penge sidste år",
+    "nl": "Geld vorig jaar",
+    "es": "Money prev. year",
+    "pl": "Money prev. year",
+    "ru": "Money prev. year",
+    "ko": "Money prev. year",
+    "ar": "Money prev. year"
   },
   "uiComponent": "sensor",
   "icon": "/assets/money_y.svg",

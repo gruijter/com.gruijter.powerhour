@@ -6,9 +6,14 @@
     "sv": "Minimum",
     "it": "Minimo",
     "no": "Minimum",
-    "fr": "Maximum",
-    "dk": "Maximum",
-    "nl": "Minimum"
+    "fr": "Minimum",
+    "da": "Minimum",
+    "nl": "Minimum",
+    "es": "Mínimo",
+    "pl": "Minimum",
+    "ru": "Минимум",
+    "ko": "최소",
+    "ar": "الحد الأدنى"
   },
   "uiComponent": "sensor",
   "icon": "/assets/minimum.svg",

@@ -1,38 +1,46 @@
 {
-	"title": {
-		"en": "The power changed",
-		"nl": "Het vermogen is veranderd",
-		"de": "Der Verbrauch hat sich geändert",
-		"fr": "L'énergie a changé",
-		"it": "L'energia è cambiata",
-		"sv": "Strömmen ändrades",
-		"no": "Strømmen ble endret",
-		"es": "La potencia ha cambiado",
-		"da": "Strømmen ændrede sig"
-	},
-	"args": [
-		{
-		  "type": "device",
-		  "name": "device",
-		  "filter": "driver_id=power"
-		}
-	],
-	"tokens": [
-		{
-		"name": "measure_watt_avg",
-		"title": {
-			"en": "Power",
-			"nl": "Vermogen",
-			"de": "Leistung",
-			"fr": "Puissance",
-			"it": "Potenza",
-			"sv": "Effekt",
-			"no": "Effekt",
-			"es": "Potencia",
-			"da": "Effekt"
-		},
-		"type": "number",
-		"example": 7.5
-		}
-	]
+  "title": {
+    "en": "The power changed",
+    "nl": "Het vermogen is veranderd",
+    "de": "Der Verbrauch hat sich geändert",
+    "fr": "L'énergie a changé",
+    "it": "L'energia è cambiata",
+    "sv": "Strömmen ändrades",
+    "no": "Strømmen ble endret",
+    "es": "La potencia ha cambiado",
+    "da": "Strømmen ændrede sig",
+    "pl": "Moc uległa zmianie",
+    "ru": "Мощность изменилась",
+    "ko": "전력이 변경됨",
+    "ar": "تغيرت الطاقة"
+  },
+  "args": [
+    {
+      "type": "device",
+      "name": "device",
+      "filter": "driver_id=power"
+    }
+  ],
+  "tokens": [
+    {
+      "name": "measure_watt_avg",
+      "title": {
+        "en": "Power",
+        "nl": "Vermogen",
+        "de": "Leistung",
+        "fr": "Puissance",
+        "it": "Potenza",
+        "sv": "Effekt",
+        "no": "Effekt",
+        "es": "Potencia",
+        "da": "Effekt",
+        "pl": "Moc",
+        "ru": "Мощность",
+        "ko": "전력",
+        "ar": "طاقة"
+      },
+      "type": "number",
+      "example": 7.5
+    }
+  ]
 }

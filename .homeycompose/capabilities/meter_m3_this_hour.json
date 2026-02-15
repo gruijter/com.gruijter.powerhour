@@ -7,8 +7,13 @@
     "it": "m³ ora corrente",
     "no": "m³ denne time",
     "fr": "m³ cette heure ci",
-    "dk": "m³ denne time",
-    "nl": "m³ dit uur"
+    "da": "m³ denne time",
+    "nl": "m³ dit uur",
+    "es": "m³ this hour",
+    "pl": "m³ this hour",
+    "ru": "m³ this hour",
+    "ko": "m³ this hour",
+    "ar": "m³ this hour"
   },
   "uiComponent": "sensor",
   "icon": "/assets/m3_h.svg",

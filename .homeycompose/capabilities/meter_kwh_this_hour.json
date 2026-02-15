@@ -7,8 +7,13 @@
     "it": "kWh ora corrente",
     "no": "kWh denne time",
     "fr": "KWh cette heure ci",
-    "dk": "KWh denne time",
-    "nl": "kWh dit uur"
+    "da": "KWh denne time",
+    "nl": "kWh dit uur",
+    "es": "kWh esta hora",
+    "pl": "kWh ta godzina",
+    "ru": "кВтч этот час",
+    "ko": "이번 시간 kWh",
+    "ar": "كيلوواط ساعة هذه الساعة"
   },
   "uiComponent": "sensor",
   "icon": "/assets/kwh_h.svg",

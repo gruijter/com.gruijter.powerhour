@@ -1,11 +1,33 @@
 {
   "title": {
     "en": "Set a new Time Of Day markup",
-    "de": "Neuen Time Of Day Aufschlag setzen"
+    "de": "Neuen Time Of Day Aufschlag setzen",
+    "nl": "Stel een nieuwe Time Of Day opslag in",
+    "ar": "تعيين هامش ربح جديد حسب وقت اليوم",
+    "sv": "Ställ in ett nytt Time Of Day-påslag",
+    "it": "Imposta un nuovo sovraprezzo Time Of Day",
+    "no": "Sett en ny Time Of Day-påslag",
+    "fr": "Définir une nouvelle majoration Time Of Day",
+    "da": "Sæt en ny Time Of Day-opmarkering",
+    "es": "Establecer un nuevo margen Time Of Day",
+    "pl": "Ustaw nowy narzut Time Of Day",
+    "ru": "Установить новую наценку Time Of Day",
+    "ko": "새 시간대별 마크업 설정"
   },
   "titleFormatted": {
     "en": "Set Time Of Day markup to [[value]]",
-    "de": "Time Of Day Aufschlag auf [[value]] setzen"
+    "de": "Time Of Day Aufschlag auf [[value]] setzen",
+    "nl": "Stel Time Of Day opslag in op [[value]]",
+    "ar": "تعيين هامش الربح حسب وقت اليوم إلى [[value]]",
+    "sv": "Ställ in Time Of Day-påslag till [[value]]",
+    "it": "Imposta sovraprezzo Time Of Day a [[value]]",
+    "no": "Sett Time Of Day-påslag til [[value]]",
+    "fr": "Définir la majoration Time Of Day à [[value]]",
+    "da": "Sæt Time Of Day-opmarkering til [[value]]",
+    "es": "Establecer margen Time Of Day a [[value]]",
+    "pl": "Ustaw narzut Time Of Day na [[value]]",
+    "ru": "Установить наценку Time Of Day на [[value]]",
+    "ko": "시간대별 마크업을 [[value]]로 설정"
   },
   "args": [
     {

@@ -1,0 +1,19 @@
+{
+  "today": "오늘",
+  "tomorrow": "내일",
+  "nextHours": "다음 시간",
+  "device_migrating": "장치가 마이그레이션 중입니다. 잠시만 기다려주세요!",
+  "source_device_missing_retry": "소스 장치가 없습니다. 10분 후에 다시 시도하십시오.",
+  "source_device_missing_retrying": "소스 장치가 없습니다. 다시 시도 중 ..",
+  "polling_failed": "폴링 실패. 곧 다시 시도합니다..",
+  "source_device_missing_retry_named": "소스 장치 %name%이(가) 없습니다. 10분 후에 다시 시도하십시오.",
+  "error_device_not_ready": "장치가 준비되지 않았습니다. 새 설정을 무시합니다!",
+  "error_roi_hp2023": "고급 ROI는 HP2023에서만 사용할 수 있습니다!",
+  "error_value_not_number": "값이 숫자가 아닙니다",
+  "error_budget_custom_12": "사용자 지정 예산에 12개의 숫자 값이 없습니다",
+  "error_budget_invalid": "예산이 유효한 숫자가 아닙니다",
+  "error_device_corrupt": "장치가 손상되었습니다!",
+  "error_no_prices": "가격을 이용할 수 없습니다",
+  "error_no_price_interval": "가격 간격을 이용할 수 없습니다",
+  "error_homey_api_not_ready": "Homey API가 준비되지 않았습니다"
+}

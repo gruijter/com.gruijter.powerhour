@@ -7,8 +7,13 @@
     "it": "m³ mese precedente",
     "no": "m³ forrige måned",
     "fr": "m³ le mois dernier",
-    "dk": "m³ sidste måned",
-    "nl": "m³ vorige maand"
+    "da": "m³ sidste måned",
+    "nl": "m³ vorige maand",
+    "ar": "م³ الشهر السابق",
+    "es": "m³ mes anterior",
+    "pl": "m³ poprzedni miesiąc",
+    "ru": "м³ пред. месяц",
+    "ko": "지난 달 m³"
   },
   "uiComponent": "sensor",
   "icon": "/assets/m3_m.svg",

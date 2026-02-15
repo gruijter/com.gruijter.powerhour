@@ -7,8 +7,13 @@
     "it": "m³ mese corrente",
     "no": "m³ denne måned",
     "fr": "m³ ce mois ci",
-    "dk": "m³ denne måned",
-    "nl": "m³ deze maand"
+    "da": "m³ denne måned",
+    "nl": "m³ deze maand",
+    "es": "m³ this month",
+    "pl": "m³ this month",
+    "ru": "m³ this month",
+    "ko": "m³ this month",
+    "ar": "m³ this month"
   },
   "uiComponent": "sensor",
   "icon": "/assets/m3_m.svg",

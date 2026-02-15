@@ -14,12 +14,13 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with com.gruijter.powerhour.  If not, see <http://www.gnu.org/licenses/>.s
+along with com.gruijter.powerhour.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 'use strict';
 
-const GenericDevice = require('../generic_sum_device');
+const GenericDevice = require('../../lib/generic_sum_device');
+const SourceDeviceHelper = require('../../lib/SourceDeviceHelper');
 
 const deviceSpecifics = {
   cmap: {
@@ -41,24 +42,26 @@ const deviceSpecifics = {
 // n2 returned counter (high tariff).
 // total energy counter = p1+p2-n1-n2
 
-class sumDevice extends GenericDevice {
+class PowerDevice extends GenericDevice {
 
   async onInit() {
     this.ds = deviceSpecifics;
-    await this.onInitDevice().catch(this.error);
+    await super.onInit().catch(this.error);
   }
 
   // device specific stuff below
+  async getSourceDevice() {
+    this.sourceDevice = await SourceDeviceHelper.getSourceDevice(this);
+    return this.sourceDevice;
+  }
+
   async addSourceCapGroup() {
     // setup if/how a HOMEY-API source device fits to a defined capability group
     this.lastGroupMeterReady = false;
     this.lastGroupMeter = {}; // last values of capability meters
-    this.sourceCapGroup = null;
-    this.driver.ds.sourceCapGroups.forEach((capGroup) => {
-      if (this.sourceCapGroup) return; // stop at the first match
+    this.sourceCapGroup = this.driver.ds.sourceCapGroups.find((capGroup) => {
       const requiredKeys = Object.values(capGroup).filter((v) => v);
-      const hasAllKeys = requiredKeys.every((k) => this.sourceDevice.capabilities.includes(k));
-      if (hasAllKeys) this.sourceCapGroup = capGroup; // all relevant capabilities were found in the source device
+      return requiredKeys.every((k) => this.sourceDevice.capabilities.includes(k));
     });
     if (!this.sourceCapGroup) {
       throw Error(`${this.sourceDevice.name} has no compatible meter_power capabilities ${this.sourceDevice.capabilities}`);
@@ -66,12 +69,8 @@ class sumDevice extends GenericDevice {
   }
 
   async addListeners() {
-    this.sourceDevice = await this.homey.app.api.devices.getDevice({ id: this.getSettings().homey_device_id, $cache: false }) // , $timeout: 15000
-      .catch(this.error);
-
-    const sourceDeviceExists = this.sourceDevice && this.sourceDevice.capabilitiesObj
-      && Object.keys(this.sourceDevice.capabilitiesObj).length > 0; // && (this.sourceDevice.available !== null);
-    if (!sourceDeviceExists) throw Error('Source device is missing.');
+    if (!this.homey.app.api) throw new Error('Homey API not ready');
+    await this.getSourceDevice();
 
     // start listener for METER_VIA_WATT device
     if (this.getSettings().use_measure_source) {
@@ -102,6 +101,7 @@ class sumDevice extends GenericDevice {
 
   // Setup how to poll the meter
   async pollMeter() {
+    if (!this.homey.app.api) return;
     // poll a Homey Energy device
     if (this.getSettings().source_device_type.includes('Homey Energy')) {
       const report = await this.homey.app.api.energy.getLiveReport().catch(this.error);
@@ -116,11 +116,7 @@ class sumDevice extends GenericDevice {
     if (!this.sourceCapGroup) await this.addSourceCapGroup();
 
     // get all values for this.lastGroupMeter
-    this.sourceDevice = await this.homey.app.api.devices.getDevice({ id: this.getSettings().homey_device_id, $cache: false }) // , $timeout: 15000
-      .catch(this.error);
-    const sourceDeviceExists = this.sourceDevice && this.sourceDevice.capabilitiesObj
-      && Object.keys(this.sourceDevice.capabilitiesObj).length > 0; // && (this.sourceDevice.available !== null);
-    if (!sourceDeviceExists) throw Error('Source device is missing.');
+    await this.getSourceDevice();
     Object.keys(this.sourceCapGroup)
       .filter((k) => this.sourceCapGroup[k])
       .forEach((k) => {
@@ -147,7 +143,7 @@ class sumDevice extends GenericDevice {
 
 }
 
-module.exports = sumDevice;
+module.exports = PowerDevice;
 
 /*
 capabilitiesObj:

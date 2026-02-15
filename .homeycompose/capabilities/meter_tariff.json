@@ -7,8 +7,13 @@
     "it": "Tariffa attiva",
     "no": "Aktiv tariff",
     "fr": "Tarif actif",
-    "dk": "Aktuel afgift",
-    "nl": "Actief tarief"
+    "da": "Aktuel afgift",
+    "nl": "Actief tarief",
+    "es": "Tarifa activa",
+    "pl": "Aktywna taryfa",
+    "ru": "Активный тариф",
+    "ko": "활성 요금제",
+    "ar": "التعريفة النشطة"
   },
   "uiComponent": "sensor",
   "icon": "/assets/tariff.svg",

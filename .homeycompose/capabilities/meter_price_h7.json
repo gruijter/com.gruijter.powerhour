@@ -7,8 +7,13 @@
     "it": "Prezzo +7h",
     "no": "Pris +7T",
     "fr": "Tarif +7h",
-    "dk": "Pris +7T",
-    "nl": "Prijs +7U"
+    "da": "Pris +7T",
+    "nl": "Prijs +7U",
+    "es": "Precio +7h",
+    "pl": "Cena +7h",
+    "ru": "Цена +7ч",
+    "ko": "가격 +7시간",
+    "ar": "السعر +7س"
   },
   "uiComponent": "sensor",
   "icon": "/assets/tariff.svg",

@@ -7,8 +7,13 @@
     "it": "kWh mese precedente",
     "no": "kWh forrige måned",
     "fr": "KWh le mois dernier",
-    "dk": "KWh sidste måned",
-    "nl": "kWh vorige maand"
+    "da": "KWh sidste måned",
+    "nl": "kWh vorige maand",
+    "ar": "كيلوواط ساعة الشهر السابق",
+    "es": "kWh mes anterior",
+    "pl": "kWh poprzedni miesiąc",
+    "ru": "кВтч пред. месяц",
+    "ko": "지난 달 kWh"
   },
   "uiComponent": "sensor",
   "icon": "/assets/kwh_m.svg",

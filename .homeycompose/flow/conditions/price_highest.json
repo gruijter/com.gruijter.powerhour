@@ -1,131 +1,205 @@
 {
-	"title": {
-		"en": "The price !{{is|isn't}} highest",
-		"no": "Prisen !{{er|er ikke}} høyest",
-		"de": "Preis !{{ist|ist nicht}} am höchsten",
-		"sv": "Priset !{{är|är inte}} det högsta",
-		"it": "Il prezzo !{{è|non è}} il più alto",
-		"dk": "Prisen !{{er|er ikke}} højest",
-		"nl": "De prijs !{{is|is niet}} het hoogst"
-	},
-	"titleFormatted": {
-		"en": "The price !{{is|isn't}} highest for [[period]]",
-		"no": "Prisen !{{er|er ikke}} høyest for [[period]]",
-		"de": "Preis !{{ist|ist nicht}} am höchsten für [[period]]",
-		"sv": "Priset !{{är|är inte}} det högsta [[period]]",
-		"it": "Il prezzo !{{è|non è}} il più alto per [[period]]",
-		"dk": "Prisen !{{er|er ikke}} højest i [[period]]",
-		"nl": "De prijs !{{is|is niet}} het hoogst voor [[period]]"
-	},
-	"highlight": true,
-	"args": [
-		{
-		  "type": "device",
-		  "name": "device",
-		  "filter": "driver_id=dap|dap15|dapg"
-		},
-		{
-			"type": "dropdown",
-			"name": "period",
-			"title": { 
-				"en": "period",
-				"no": "periode",
-				"de": "Zeitraum",
-				"sv": "period",
-				"it": "periodo",
-				"dk": "periode",
-				"nl": "periode"
-			},
-			"values": [
-				{	"id": "this_day",
-					"label": { 
-						"en": "this day",
-						"no": "denne dag",
-						"de": "diesen Tag",
-						"sv": "idag",
-						"it": "giornata odierna",
-						"dk": "denne dag",
-						"nl": "deze dag"
-					}
-				},
-				{	"id": "2",
-					"label": { 
-						"en": "next 2H",
-						"no": "neste 2T",
-						"de": "die nächsten 2 Std.",
-						"sv": "nästa 2H",
-						"it": "prossime 2h",
-						"dk": "næste 2T",
-						"nl": "komende 2U"
-					}
-				},
-				{	"id": "3",
-					"label": { 
-						"en": "next 3H",
-						"no": "neste 3T",
-						"de": "die nächsten 3 Std.",
-						"sv": "nästa 3H",
-						"it": "prossime 3h",
-						"dk": "næste 3T",
-						"nl": "komende 3U"
-					}
-				},
-				{	"id": "4",
-					"label": { 
-						"en": "next 4H",
-						"no": "neste 4T",
-						"de": "die nächsten 4 Std.",
-						"sv": "nästa 4H",
-						"it": "prossime 4h",
-						"dk": "næste 4T",
-						"nl": "komende 4U"
-					}
-				},
-				{	"id": "5",
-					"label": { 
-						"en": "next 5H",
-						"no": "neste 5T",
-						"de": "die nächsten 5 Std.",
-						"sv": "nästa 5H",
-						"it": "prossime 5h",
-						"dk": "næste 5T",
-						"nl": "komende 5U"
-					}
-				},
-				{	"id": "6",
-					"label": { 
-						"en": "next 6H",
-						"no": "neste 6T",
-						"de": "die nächsten 6 Std.",
-						"sv": "nästa 6H",
-						"it": "prossime 6h",
-						"dk": "næste 6T",
-						"nl": "komende 6U"
-					}
-				},
-				{	"id": "7",
-					"label": { 
-						"en": "next 7H",
-						"no": "neste 7T",
-						"de": "die nächsten 7 Std.",
-						"sv": "nästa 7H",
-						"it": "prossime 7h",
-						"dk": "næste 7T",
-						"nl": "komende 7U"
-					}
-				},
-				{	"id": "8",
-					"label": { 
-						"en": "next 8H",
-						"no": "neste 8T",
-						"de": "die nächsten 8 Std.",
-						"sv": "nästa 8H",
-						"it": "prossime 8h",
-						"dk": "næste 8T",
-						"nl": "komende 8U"
-					}
-				}
-			]
-		}
-	]
+  "title": {
+    "en": "The price !{{is|isn't}} highest",
+    "no": "Prisen !{{er|er ikke}} høyest",
+    "de": "Preis !{{ist|ist nicht}} am höchsten",
+    "sv": "Priset !{{är|är inte}} det högsta",
+    "it": "Il prezzo !{{è|non è}} il più alto",
+    "da": "Prisen !{{er|er ikke}} højest",
+    "nl": "De prijs !{{is|is niet}} het hoogst",
+    "fr": "Le prix !{{est|n'est pas}} le plus élevé",
+    "es": "El precio !{{es|no es}} el más alto",
+    "pl": "Cena !{{jest|nie jest}} najwyższa",
+    "ru": "Цена !{{самая|не самая}} высокая",
+    "ar": "السعر !{{هو|ليس}} الأعلى",
+    "ko": "가격이 가장 높음!{{입니다|이 아닙니다}}"
+  },
+  "titleFormatted": {
+    "en": "The price !{{is|isn't}} highest for [[period]]",
+    "no": "Prisen !{{er|er ikke}} høyest for [[period]]",
+    "de": "Preis !{{ist|ist nicht}} am höchsten für [[period]]",
+    "sv": "Priset !{{är|är inte}} det högsta [[period]]",
+    "it": "Il prezzo !{{è|non è}} il più alto per [[period]]",
+    "da": "Prisen !{{er|er ikke}} højest i [[period]]",
+    "nl": "De prijs !{{is|is niet}} het hoogst voor [[period]]",
+    "fr": "Le prix !{{est|n'est pas}} le plus élevé pour [[period]]",
+    "es": "El precio !{{es|no es}} el más alto para [[period]]",
+    "pl": "Cena !{{jest|nie jest}} najwyższa dla [[period]]",
+    "ru": "Цена !{{самая|не самая}} высокая за [[period]]",
+    "ar": "السعر !{{هو|ليس}} الأعلى لـ [[period]]",
+    "ko": "가격이 [[period]] 동안 가장 높음!{{입니다|이 아닙니다}}"
+  },
+  "highlight": true,
+  "args": [
+    {
+      "type": "device",
+      "name": "device",
+      "filter": "driver_id=dap|dap15|dapg"
+    },
+    {
+      "type": "dropdown",
+      "name": "period",
+      "title": {
+        "en": "period",
+        "no": "periode",
+        "de": "Zeitraum",
+        "sv": "period",
+        "it": "periodo",
+        "da": "periode",
+        "nl": "periode",
+        "fr": "période",
+        "es": "período",
+        "pl": "okres",
+        "ru": "период",
+        "ar": "فترة",
+        "ko": "기간"
+      },
+      "values": [
+        {
+          "id": "this_day",
+          "label": {
+            "en": "this day",
+            "no": "denne dag",
+            "de": "diesen Tag",
+            "sv": "idag",
+            "it": "giornata odierna",
+            "da": "denne dag",
+            "nl": "deze dag",
+            "fr": "ce jour",
+            "es": "este día",
+            "pl": "ten dzień",
+            "ru": "этот день",
+            "ar": "هذا اليوم",
+            "ko": "오늘"
+          }
+        },
+        {
+          "id": "2",
+          "label": {
+            "en": "next 2H",
+            "no": "neste 2T",
+            "de": "die nächsten 2 Std.",
+            "sv": "nästa 2H",
+            "it": "prossime 2h",
+            "da": "næste 2T",
+            "nl": "komende 2U",
+            "fr": "2 prochaines heures",
+            "es": "próximas 2H",
+            "pl": "następne 2H",
+            "ru": "след. 2Ч",
+            "ar": "الساعتين القادمتين",
+            "ko": "다음 2시간"
+          }
+        },
+        {
+          "id": "3",
+          "label": {
+            "en": "next 3H",
+            "no": "neste 3T",
+            "de": "die nächsten 3 Std.",
+            "sv": "nästa 3H",
+            "it": "prossime 3h",
+            "da": "næste 3T",
+            "nl": "komende 3U",
+            "fr": "3 prochaines heures",
+            "es": "próximas 3H",
+            "pl": "następne 3H",
+            "ru": "след. 3Ч",
+            "ar": "3 ساعات القادمة",
+            "ko": "다음 3시간"
+          }
+        },
+        {
+          "id": "4",
+          "label": {
+            "en": "next 4H",
+            "no": "neste 4T",
+            "de": "die nächsten 4 Std.",
+            "sv": "nästa 4H",
+            "it": "prossime 4h",
+            "da": "næste 4T",
+            "nl": "komende 4U",
+            "fr": "4 prochaines heures",
+            "es": "próximas 4H",
+            "pl": "następne 4H",
+            "ru": "след. 4Ч",
+            "ar": "4 ساعات القادمة",
+            "ko": "다음 4시간"
+          }
+        },
+        {
+          "id": "5",
+          "label": {
+            "en": "next 5H",
+            "no": "neste 5T",
+            "de": "die nächsten 5 Std.",
+            "sv": "nästa 5H",
+            "it": "prossime 5h",
+            "da": "næste 5T",
+            "nl": "komende 5U",
+            "fr": "5 prochaines heures",
+            "es": "próximas 5H",
+            "pl": "następne 5H",
+            "ru": "след. 5Ч",
+            "ar": "5 ساعات القادمة",
+            "ko": "다음 5시간"
+          }
+        },
+        {
+          "id": "6",
+          "label": {
+            "en": "next 6H",
+            "no": "neste 6T",
+            "de": "die nächsten 6 Std.",
+            "sv": "nästa 6H",
+            "it": "prossime 6h",
+            "da": "næste 6T",
+            "nl": "komende 6U",
+            "fr": "6 prochaines heures",
+            "es": "próximas 6H",
+            "pl": "następne 6H",
+            "ru": "след. 6Ч",
+            "ar": "6 ساعات القادمة",
+            "ko": "다음 6시간"
+          }
+        },
+        {
+          "id": "7",
+          "label": {
+            "en": "next 7H",
+            "no": "neste 7T",
+            "de": "die nächsten 7 Std.",
+            "sv": "nästa 7H",
+            "it": "prossime 7h",
+            "da": "næste 7T",
+            "nl": "komende 7U",
+            "fr": "7 prochaines heures",
+            "es": "próximas 7H",
+            "pl": "następne 7H",
+            "ru": "след. 7Ч",
+            "ar": "7 ساعات القادمة",
+            "ko": "다음 7시간"
+          }
+        },
+        {
+          "id": "8",
+          "label": {
+            "en": "next 8H",
+            "no": "neste 8T",
+            "de": "die nächsten 8 Std.",
+            "sv": "nästa 8H",
+            "it": "prossime 8h",
+            "da": "næste 8T",
+            "nl": "komende 8U",
+            "fr": "8 prochaines heures",
+            "es": "próximas 8H",
+            "pl": "następne 8H",
+            "ru": "след. 8Ч",
+            "ar": "8 ساعات القادمة",
+            "ko": "다음 8시간"
+          }
+        }
+      ]
+    }
+  ]
 }

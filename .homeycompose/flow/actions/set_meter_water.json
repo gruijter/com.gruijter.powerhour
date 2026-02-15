@@ -6,8 +6,13 @@
     "it": "Invia lettura acqua a contatore virtuale",
     "no": "Send vannavlesning til virtuelt meter",
     "fr": "Envoyer le relevé d'eau vers un compteur virtuel",
-    "dk": "Send vandaflæsning til virtuel måler",
-    "nl": "Stuur waterstand naar virtueel apparaat"
+    "da": "Send vandaflæsning til virtuel måler",
+    "nl": "Stuur waterstand naar virtueel apparaat",
+    "ar": "إرسال قراءة المياه إلى العداد الافتراضي",
+    "es": "Enviar lectura de agua a medidor virtual",
+    "pl": "Wyślij odczyt wody do wirtualnego licznika",
+    "ru": "Отправить показания воды на виртуальный счетчик",
+    "ko": "가상 미터로 수도 판독값 보내기"
   },
   "titleFormatted": {
     "en": "Send [[value]] reading to [[virtual_device]]",
@@ -16,23 +21,33 @@
     "it": "Invia lettura [[value]] a [[virtual_device]]",
     "no": "Send [[value]] avlesing til [[virtual_device]]",
     "fr": "Envoyer le relevé [[value]] vers [[virtual_device]]",
-    "dk": "Send [[value]] aflæsning til [[virtual_device]]",
-    "nl": "Stuur [[value]] stand naar [[virtual_device]]"
+    "da": "Send [[value]] aflæsning til [[virtual_device]]",
+    "nl": "Stuur [[value]] stand naar [[virtual_device]]",
+    "ar": "إرسال قراءة [[value]] إلى [[virtual_device]]",
+    "es": "Enviar lectura de [[value]] a [[virtual_device]]",
+    "pl": "Wyślij odczyt [[value]] do [[virtual_device]]",
+    "ru": "Отправить показания [[value]] на [[virtual_device]]",
+    "ko": "[[value]] 판독값을 [[virtual_device]]로 보내기"
   },
   "highlight": true,
   "args": [
     {
       "name": "virtual_device",
       "type": "autocomplete",
-      "title": { 
+      "title": {
         "en": "Virtual device",
         "de": "Virtuelles Gerät",
         "sv": "Virtuell enhet",
         "it": "Dispositivo virtuale",
         "no": "virtuell enhet",
         "fr": "Appareil virtuel",
-        "dk": "Virtuel enhed",
-        "nl": "Virtueel apparaat"
+        "da": "Virtuel enhed",
+        "nl": "Virtueel apparaat",
+        "ar": "جهاز افتراضي",
+        "es": "Dispositivo virtual",
+        "pl": "Urządzenie wirtualne",
+        "ru": "Виртуальное устройство",
+        "ko": "가상 장치"
       }
     },
     {
@@ -45,10 +60,14 @@
         "it": "Acqua (m³)",
         "no": "Vann (m³)",
         "fr": "Eau (m³)",
-        "nl": "Water (m³)"
+        "nl": "Water (m³)",
+        "ar": "مياه (م³)",
+        "da": "Vand (m³)",
+        "es": "Agua (m³)",
+        "pl": "Woda (m³)",
+        "ru": "Вода (м³)",
+        "ko": "물 (m³)"
       }
     }
   ]
 }
-
-

@@ -9,7 +9,11 @@
     "sv": "Effekt",
     "no": "Effekt",
     "es": "Potencia",
-    "da": "Effekt"
+    "da": "Effekt",
+    "pl": "Moc",
+    "ru": "Мощность",
+    "ko": "전력",
+    "ar": "طاقة"
   },
   "desc": {
     "en": "Power in Watt (W)",
@@ -20,7 +24,11 @@
     "sv": "Effekt i watt (W)",
     "no": "Effekt i watt (W)",
     "es": "Potencia en vatios (W)",
-    "da": "Effekt i Watt (W)"
+    "da": "Effekt i Watt (W)",
+    "pl": "Moc w watach (W)",
+    "ru": "Мощность в Ваттах (Вт)",
+    "ko": "전력 (와트)",
+    "ar": "القدرة بالواط (W)"
   },
   "units": {
     "en": "Watt"

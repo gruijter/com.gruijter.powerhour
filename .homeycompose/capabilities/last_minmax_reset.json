@@ -7,8 +7,13 @@
 		"it": "Min/Max Da",
 		"no": "Min/Max Siden",
 		"fr": "Min/Max Depuis",
-		"dk": "Min/Max siden",
-		"nl": "Min/Max Sinds"
+		"da": "Min/Max siden",
+		"nl": "Min/Max Sinds",
+		"es": "Mín/Máx desde",
+		"pl": "Min/Maks od",
+		"ru": "Мин/Макс с",
+		"ko": "최소/최대 시작",
+		"ar": "الحد الأدنى/الأقصى منذ"
 	},
 	"getable": true,
 	"setable": false,

@@ -7,8 +7,13 @@
     "it": "m³ anno corrente",
     "no": "m³ dette år",
     "fr": "m³ cette année",
-    "dk": "m³ i år",
-    "nl": "m³ dit jaar"
+    "da": "m³ i år",
+    "nl": "m³ dit jaar",
+    "ar": "م³ هذا العام",
+    "es": "m³ this year",
+    "pl": "m³ this year",
+    "ru": "m³ this year",
+    "ko": "m³ this year"
   },
   "uiComponent": "sensor",
   "icon": "/assets/m3_y.svg",

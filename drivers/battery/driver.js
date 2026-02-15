@@ -19,7 +19,7 @@ along with com.gruijter.powerhour.  If not, see <http://www.gnu.org/licenses/>.s
 
 'use strict';
 
-const GenericDriver = require('../generic_bat_driver');
+const GenericDriver = require('../../lib/generic_bat_driver');
 
 const driverSpecifics = {
   driverId: 'battery',
@@ -61,18 +61,18 @@ const driverSpecifics = {
     'meter_money_last_year', 'meter_money_this_year',
     'meter_tariff',
     'meter_power_hidden',
-    // 'roi_duration', // added only for HP2023
+    // 'roi_duration', // added only for advanced ROI
   ],
 };
 
-class sumDriver extends GenericDriver {
+class BatteryDriver extends GenericDriver {
 
   async onInit() {
     // this.log('driver onInit');
     this.ds = driverSpecifics;
-    await this.onDriverInit().catch(this.error);
+    await super.onInit().catch(this.error);
   }
 
 }
 
-module.exports = sumDriver;
+module.exports = BatteryDriver;
