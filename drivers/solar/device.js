@@ -238,7 +238,24 @@ class SolarDevice extends GenericDevice {
 
   async updateLearning() {
     // Get current power (W)
-    const currentPower = this.getCapabilityValue('measure_power');
+    let currentPower = this.getCapabilityValue('measure_power');
+
+    // Calculate average power from energy meter if available (to smooth out clouds)
+    const currentEnergy = this.getCapabilityValue('meter_power');
+    if (typeof currentEnergy === 'number') {
+      const now = Date.now();
+      if (this.lastEnergyState && this.lastEnergyState.time) {
+        const dTime = now - this.lastEnergyState.time;
+        const dEnergy = currentEnergy - this.lastEnergyState.energy;
+        // Only use average if time diff is significant (> 1 min) and energy valid
+        if (dTime > 60000 && dEnergy >= 0) {
+          const avgPower = (dEnergy / (dTime / 3600000)) * 1000; // kWh -> W
+          this.log(`Using average power: ${Math.round(avgPower)}W (Inst: ${currentPower}W) over ${(dTime / 60000).toFixed(1)} min`);
+          currentPower = avgPower;
+        }
+      }
+      this.lastEnergyState = { time: now, energy: currentEnergy };
+    }
 
     // Record history
     if (typeof currentPower === 'number') {
