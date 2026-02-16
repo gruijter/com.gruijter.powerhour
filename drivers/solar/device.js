@@ -23,6 +23,7 @@ const GenericDevice = require('../../lib/generic_sum_device');
 const SourceDeviceHelper = require('../../lib/SourceDeviceHelper');
 const { imageUrlToStream } = require('../../lib/ImageHelpers');
 const { getSolarChart } = require('../../lib/charts/SolarChart');
+const OpenMeteo = require('../../lib/providers/OpenMeteo');
 
 const deviceSpecifics = {
   cmap: {
@@ -206,17 +207,9 @@ class SolarDevice extends GenericDevice {
       return;
     }
 
-    const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&hourly=shortwave_radiation_instant&forecast_days=2&timezone=auto`;
-    const response = await fetch(url);
-    if (!response.ok) throw new Error(`Open-Meteo API error: ${response.statusText}`);
-    const data = await response.json();
-
-    if (data && data.hourly) {
-      this.forecastData = {};
-      data.hourly.time.forEach((t, i) => {
-        const time = new Date(t).getTime();
-        this.forecastData[time] = data.hourly.shortwave_radiation_instant[i];
-      });
+    const data = await OpenMeteo.fetchForecast(lat, lon);
+    if (data && Object.keys(data).length > 0) {
+      this.forecastData = data;
       await this.setStoreValue('forecastData', this.forecastData);
       this.log('Forecast updated');
     }
