@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 /*
 Copyright 2019 - 2026, Robin de Gruijter (gruijter@hotmail.com)
 
@@ -26,6 +27,7 @@ const { getSolarChart } = require('../../lib/charts/SolarChart');
 const OpenMeteo = require('../../lib/providers/OpenMeteo');
 const SolarLearningStrategy = require('../../lib/strategies/SolarLearningStrategy');
 const { setTimeoutPromise } = require('../../lib/Util');
+const SolarFlows = require('../../lib/flows/SolarFlows');
 
 const deviceSpecifics = {
   cmap: {
@@ -47,6 +49,7 @@ class SolarDevice extends GenericDevice {
   async onInit() {
     this.ds = deviceSpecifics;
     await super.onInit().catch(this.error);
+    this.flows = new SolarFlows(this);
 
     // Initialize solar specific properties
     this.yieldFactors = await this.getStoreValue('yieldFactors') || new Array(96).fill(1.0);
@@ -58,8 +61,6 @@ class SolarDevice extends GenericDevice {
       .filter((e) => e && typeof e.time === 'number' && typeof e.power === 'number')
       .slice(-400);
     if (this.powerHistory.length !== history.length) await this.setStoreValue('powerHistory', this.powerHistory);
-
-    this.curtailmentActive = false;
 
     // Start loops
     this.startForecastLoop();
@@ -265,10 +266,31 @@ class SolarDevice extends GenericDevice {
         this.powerHistory.push({ time: now.getTime(), power: currentPower });
         if (this.powerHistory.length > 400) this.powerHistory.shift();
         await this.setStoreValue('powerHistory', this.powerHistory);
+
+        // Heuristic Curtailment Detection
+        const hourTime = new Date(now);
+        hourTime.setMinutes(0, 0, 0);
+        const forecastRadiation = this.forecastData[hourTime.getTime()] || 0;
+        const slotIndex = (now.getHours() * 4) + Math.floor(now.getMinutes() / 15);
+        const yieldFactor = this.yieldFactors[slotIndex] !== undefined ? this.yieldFactors[slotIndex] : 1.0;
+        const expectedPower = forecastRadiation * yieldFactor;
+        const isCurtailmentActive = this.getCapabilityValue('alarm_power');
+
+        // Detect drop to near zero while expecting significant power
+        if (expectedPower > 300 && currentPower < 20 && lastEntry && lastEntry.power > 300) {
+          if (!isCurtailmentActive) {
+            await this.setCapabilityValue('alarm_power', true).catch(this.error);
+            this.log(`Curtailment detected: Expected ${Math.round(expectedPower)}W, Actual ${Math.round(currentPower)}W`);
+          }
+        } else if (isCurtailmentActive && currentPower > 50) {
+          // Reset if power returns
+          await this.setCapabilityValue('alarm_power', false).catch(this.error);
+          this.log(`Curtailment ended: Power restored to ${Math.round(currentPower)}W`);
+        }
       }
     }
 
-    if (this.curtailmentActive) {
+    if (this.getCapabilityValue('alarm_power')) {
       this.log('Curtailment active, skipping learning');
       return;
     }
@@ -322,11 +344,37 @@ class SolarDevice extends GenericDevice {
 
     // --- Update Charts ---
 
+    const getSunBounds = (dateObj) => {
+      const startOfDay = new Date(dateObj);
+      startOfDay.setHours(0, 0, 0, 0);
+      const endOfDay = new Date(startOfDay);
+      endOfDay.setDate(endOfDay.getDate() + 1);
+      const noon = new Date(startOfDay);
+      noon.setHours(12, 0, 0, 0);
+
+      const timestamps = Object.keys(this.forecastData)
+        .map(Number)
+        .filter((ts) => ts >= startOfDay.getTime() && ts < endOfDay.getTime() && this.forecastData[ts] > 0)
+        .sort((a, b) => a - b);
+
+      if (timestamps.length === 0) {
+        const s = new Date(noon); s.setHours(3, 0, 0, 0);
+        const e = new Date(noon); e.setHours(21, 0, 0, 0);
+        return { start: s, end: e };
+      }
+
+      const start = new Date(timestamps[0]);
+      start.setHours(start.getHours() - 1);
+
+      const end = new Date(timestamps[timestamps.length - 1]);
+      end.setHours(end.getHours() + 2);
+
+      const diff = Math.max(noon - start, end - noon);
+      return { start: new Date(noon.getTime() - diff), end: new Date(noon.getTime() + diff) };
+    };
+
     // 1. Today
-    const todayStart = new Date(now);
-    todayStart.setHours(0, 0, 0, 0);
-    const todayEnd = new Date(todayStart);
-    todayEnd.setDate(todayEnd.getDate() + 1);
+    const { start: todayStart, end: todayEnd } = getSunBounds(now);
 
     const urlToday = await getSolarChart(this.forecastData, this.yieldFactors, todayStart, todayEnd, 'Forecast Today', this.powerHistory);
     if (urlToday) {
@@ -339,9 +387,9 @@ class SolarDevice extends GenericDevice {
     }
 
     // 2. Tomorrow
-    const tomorrowStart = new Date(todayEnd);
-    const tomorrowEnd = new Date(tomorrowStart);
-    tomorrowEnd.setDate(tomorrowEnd.getDate() + 1);
+    const tomorrow = new Date(now);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    const { start: tomorrowStart, end: tomorrowEnd } = getSunBounds(tomorrow);
 
     const urlTomorrow = await getSolarChart(this.forecastData, this.yieldFactors, tomorrowStart, tomorrowEnd, 'Forecast Tomorrow', this.powerHistory);
     if (urlTomorrow) {
@@ -373,16 +421,6 @@ class SolarDevice extends GenericDevice {
     if (this.forecastTimeout) this.homey.clearTimeout(this.forecastTimeout);
     if (this.learningTimeout) this.homey.clearTimeout(this.learningTimeout);
     await super.onUninit();
-  }
-
-  // Override runFlowAction to handle curtailment
-  async runFlowAction(id, args) {
-    if (id === 'set_curtailment') {
-      this.curtailmentActive = args.state;
-      this.log(`Curtailment set to ${this.curtailmentActive}`);
-      return Promise.resolve(true);
-    }
-    return super.runFlowAction(id, args);
   }
 
 }

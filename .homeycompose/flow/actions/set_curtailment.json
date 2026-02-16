@@ -1,0 +1,43 @@
+{
+  "title": {
+    "en": "Set curtailment",
+    "nl": "Zet curtailment",
+    "de": "Curtailment setzen",
+    "fr": "Définir la réduction",
+    "it": "Imposta riduzione",
+    "sv": "Ställ in begränsning",
+    "no": "Sett begrensning",
+    "es": "Establecer reducción",
+    "da": "Indstil begrænsning",
+    "pl": "Ustaw ograniczenie",
+    "ru": "Установить ограничение",
+    "ar": "تعيين التقليص"
+  },
+  "hint": {
+    "en": "When curtailment is active, the solar learning logic is paused.",
+    "nl": "Wanneer curtailment actief is, wordt de solar learning logica gepauzeerd."
+  },
+  "args": [
+    {
+      "type": "device",
+      "name": "device",
+      "filter": "driver_id=solar"
+    },
+    {
+      "type": "checkbox",
+      "name": "state",
+      "title": {
+        "en": "Active",
+        "nl": "Actief",
+        "de": "Aktiv",
+        "fr": "Actif",
+        "it": "Attivo",
+        "sv": "Aktiv",
+        "no": "Aktiv",
+        "es": "Activo",
+        "da": "Aktiv"
+      },
+      "default": true
+    }
+  ]
+}

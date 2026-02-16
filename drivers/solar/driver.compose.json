@@ -16,7 +16,8 @@
   "class": "solarpanel",
   "capabilities": [
     "measure_power",
-    "meter_power"
+    "meter_power",
+    "alarm_power"
   ],
   "capabilitiesOptions": {
     "meter_power": {
