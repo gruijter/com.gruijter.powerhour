@@ -19,7 +19,7 @@ along with com.gruijter.powerhour.  If not, see <http://www.gnu.org/licenses/>.
 
 'use strict';
 
-const GenericDevice = require('../../lib/generic_sum_device');
+const GenericDevice = require('../../lib/genericDeviceDrivers/generic_sum_device');
 const SourceDeviceHelper = require('../../lib/SourceDeviceHelper');
 const { imageUrlToStream } = require('../../lib/charts/ImageHelpers');
 const { getSolarChart } = require('../../lib/charts/SolarChart');

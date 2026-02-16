@@ -21,7 +21,7 @@ along with com.gruijter.powerhour.  If not, see <http://www.gnu.org/licenses/>.
 
 const Homey = require('homey');
 const { HomeyAPI } = require('homey-api');
-const Flows = require('./lib/Flows');
+const Flows = require('./lib/flows/Flows');
 
 class MyApp extends Homey.App {
 

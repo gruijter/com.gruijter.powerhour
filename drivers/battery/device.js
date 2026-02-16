@@ -19,7 +19,7 @@ along with com.gruijter.powerhour.  If not, see <http://www.gnu.org/licenses/>.s
 
 'use strict';
 
-const GenericDevice = require('../../lib/generic_bat_device');
+const GenericDevice = require('../../lib/genericDeviceDrivers/generic_bat_device');
 const SourceDeviceHelper = require('../../lib/SourceDeviceHelper');
 
 class BatDevice extends GenericDevice {

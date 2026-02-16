@@ -22,7 +22,7 @@ along with com.gruijter.powerhour.  If not, see <http://www.gnu.org/licenses/>.s
 const EasyEnergy = require('../../lib/providers/Easyenergy');
 const EEX = require('../../lib/providers/EEX');
 
-const GenericDriver = require('../../lib/generic_dap_driver');
+const GenericDriver = require('../../lib/genericDeviceDrivers/generic_dap_driver');
 
 const driverSpecifics = {
   driverId: 'dapg',
