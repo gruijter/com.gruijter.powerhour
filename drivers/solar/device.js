@@ -21,7 +21,7 @@ along with com.gruijter.powerhour.  If not, see <http://www.gnu.org/licenses/>.
 
 const GenericDevice = require('../../lib/generic_sum_device');
 const SourceDeviceHelper = require('../../lib/SourceDeviceHelper');
-const { imageUrlToStream } = require('../../lib/ImageHelpers');
+const { imageUrlToStream } = require('../../lib/charts/ImageHelpers');
 const { getSolarChart } = require('../../lib/charts/SolarChart');
 const OpenMeteo = require('../../lib/providers/OpenMeteo');
 
