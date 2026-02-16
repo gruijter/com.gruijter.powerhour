@@ -317,7 +317,7 @@ class SolarDevice extends GenericDevice {
         this.solarTodayImage = await this.homey.images.createImage();
         await this.setCameraImage('solarToday', 'Solar Today', this.solarTodayImage);
       }
-      this.solarTodayImage.setStream(async (stream) => imageUrlToStream(urlToday, stream));
+      this.solarTodayImage.setStream(async (stream) => imageUrlToStream(urlToday, stream, this));
       await this.solarTodayImage.update();
     }
 
@@ -332,7 +332,7 @@ class SolarDevice extends GenericDevice {
         this.solarTomorrowImage = await this.homey.images.createImage();
         await this.setCameraImage('solarTomorrow', 'Solar Tomorrow', this.solarTomorrowImage);
       }
-      this.solarTomorrowImage.setStream(async (stream) => imageUrlToStream(urlTomorrow, stream));
+      this.solarTomorrowImage.setStream(async (stream) => imageUrlToStream(urlTomorrow, stream, this));
       await this.solarTomorrowImage.update();
     }
 
@@ -347,7 +347,7 @@ class SolarDevice extends GenericDevice {
         this.solarNextImage = await this.homey.images.createImage();
         await this.setCameraImage('solarNext', 'Solar Next 8h', this.solarNextImage);
       }
-      this.solarNextImage.setStream(async (stream) => imageUrlToStream(urlNext, stream));
+      this.solarNextImage.setStream(async (stream) => imageUrlToStream(urlNext, stream, this));
       await this.solarNextImage.update();
     }
   }
