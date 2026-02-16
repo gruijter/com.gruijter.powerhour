@@ -24,6 +24,7 @@ const SourceDeviceHelper = require('../../lib/SourceDeviceHelper');
 const { imageUrlToStream } = require('../../lib/charts/ImageHelpers');
 const { getSolarChart } = require('../../lib/charts/SolarChart');
 const OpenMeteo = require('../../lib/providers/OpenMeteo');
+const SolarLearningStrategy = require('../../lib/strategies/SolarLearningStrategy');
 
 const deviceSpecifics = {
   cmap: {
@@ -221,36 +222,21 @@ class SolarDevice extends GenericDevice {
       return;
     }
 
-    const now = new Date();
-    // Round to nearest hour for forecast lookup (Open-Meteo is hourly)
-    const hourTime = new Date(now);
-    hourTime.setMinutes(0, 0, 0);
-    const forecastRadiation = this.forecastData[hourTime.getTime()];
-
-    if (forecastRadiation === undefined || forecastRadiation < 50) {
-      // Ignore low radiation or missing data
-      return;
-    }
-
     // Get current power (W)
-    let currentPower = this.getCapabilityValue('measure_power');
+    const currentPower = this.getCapabilityValue('measure_power');
     // If capability is not set yet or invalid, skip
     if (typeof currentPower !== 'number') return;
 
-    // Ensure positive power (PV generation)
-    if (currentPower < 0) currentPower = 0;
-
-    const yieldFactor = currentPower / forecastRadiation;
-
-    // Update EMA
-    const slotIndex = (now.getHours() * 4) + Math.floor(now.getMinutes() / 15);
-    const oldYield = this.yieldFactors[slotIndex] !== undefined ? this.yieldFactors[slotIndex] : 1.0;
-    const alpha = 0.2; // Learning rate
-    const newYield = (alpha * yieldFactor) + ((1 - alpha) * oldYield);
-
-    this.yieldFactors[slotIndex] = newYield;
-    await this.setStoreValue('yieldFactors', this.yieldFactors);
-    this.log(`Updated yield factor for slot ${slotIndex}: ${oldYield.toFixed(2)} -> ${newYield.toFixed(2)} (P=${currentPower}, R=${forecastRadiation})`);
+    const result = SolarLearningStrategy.getStrategy({
+      currentPower,
+      forecastData: this.forecastData,
+      yieldFactors: this.yieldFactors,
+    });
+    if (result.updated) {
+      this.yieldFactors = result.yieldFactors;
+      await this.setStoreValue('yieldFactors', this.yieldFactors);
+      this.log(result.log);
+    }
   }
 
   async updateForecastDisplay() {
