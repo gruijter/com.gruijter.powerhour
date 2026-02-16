@@ -64,7 +64,7 @@ class SolarDevice extends GenericDevice {
     // Start loops
     this.startForecastLoop();
     // Delay learning loop to allow source device to settle/update
-    setTimeoutPromise(15000).then(() => {
+    setTimeoutPromise(15000, this).then(() => {
       this.startLearningLoop();
     });
   }
