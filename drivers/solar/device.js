@@ -51,8 +51,14 @@ class SolarDevice extends GenericDevice {
     await super.onInit().catch(this.error);
     this.flows = new SolarFlows(this);
 
+    this.registerCapabilityListener('button.retrain', async () => {
+      await this.retrainSolarModel();
+      return true;
+    });
+
     // Initialize solar specific properties
-    this.yieldFactors = await this.getStoreValue('yieldFactors') || new Array(96).fill(1.0);
+    const storedYieldFactors = await this.getStoreValue('yieldFactors');
+    this.yieldFactors = storedYieldFactors || new Array(96).fill(1.0);
     this.forecastData = await this.getStoreValue('forecastData') || {}; // { time: radiation }
 
     let history = await this.getStoreValue('powerHistory');
@@ -65,8 +71,12 @@ class SolarDevice extends GenericDevice {
     // Start loops
     this.startForecastLoop();
     // Delay learning loop to allow source device to settle/update
-    setTimeoutPromise(15000, this).then(() => {
+    setTimeoutPromise(15000, this).then(async () => {
       this.startLearningLoop();
+      if (!storedYieldFactors) {
+        this.log('First initialization: Auto-starting model retraining...');
+        await this.retrainSolarModel();
+      }
     });
   }
 
@@ -312,6 +322,121 @@ class SolarDevice extends GenericDevice {
     }
   }
 
+  async retrainSolarModel() {
+    this.log('Starting solar model retraining...');
+    try {
+      if (!this.homey.app.api) throw new Error('Homey API not ready');
+
+      const sourceDevice = await this.getSourceDevice();
+      if (!sourceDevice) throw new Error('No source device found');
+      this.log('Source Device ID:', sourceDevice.id);
+
+      // 1. Fetch Weather History (31 days) - needed for both steps
+      const endDate = new Date();
+      const startDate31 = new Date();
+      startDate31.setDate(startDate31.getDate() - 31);
+
+      let { lat, lon } = this.getSettings();
+      if (!lat || !lon) {
+        lat = this.homey.geolocation.getLatitude();
+        lon = this.homey.geolocation.getLongitude();
+      }
+      if (!lat || !lon) throw new Error('Location not set');
+
+      this.log(`Fetching weather history from ${startDate31.toISOString()}`);
+      const weatherHistory = await OpenMeteo.fetchHistoric(lat, lon, startDate31, endDate);
+      if (!weatherHistory || weatherHistory.length === 0) {
+        throw new Error('No historic weather data found');
+      }
+      this.log(`Got ${weatherHistory.length} weather samples`);
+
+      // 2. Locate Insights Log
+      const insightUri = `homey:device:${sourceDevice.id}:measure_power`;
+      let allLogs = await this.homey.app.api.insights.getLogs().catch(() => []);
+      if (!Array.isArray(allLogs)) allLogs = Object.values(allLogs);
+
+      const deviceLogs = allLogs.filter((log) => log.uri && log.uri.includes(sourceDevice.id));
+      let targetLog = deviceLogs.find((log) => log.uri.endsWith(':measure_power'));
+      if (!targetLog) targetLog = deviceLogs.find((log) => log.uri.endsWith(':energy_power'));
+
+      if (!targetLog) {
+        const availableCaps = deviceLogs.map((l) => l.uri.split(':').pop()).join(', ');
+        throw new Error(`Insights log not found for ${insightUri}. Available logs: ${availableCaps || 'none'}`);
+      }
+      this.log(`Found target log: ${targetLog.name || 'unknown'} (ID: ${targetLog.id})`);
+
+      // 3. Step 1: Coarse Learning (31 days, hourly)
+      this.log('Step 1: Coarse learning (31 days, hourly)');
+      try {
+        const logs31 = await this.homey.app.api.insights.getLogEntries({
+          id: targetLog.id,
+          start: startDate31.toISOString(),
+          end: endDate.toISOString(),
+          resolution: 'last31Days',
+        });
+
+        if (logs31 && logs31.values && logs31.values.length > 50) {
+          const result1 = SolarLearningStrategy.processHistoricData({
+            powerEntries: logs31.values,
+            weatherEntries: weatherHistory,
+            currentYieldFactors: this.yieldFactors,
+            resolution: 'hourly',
+          });
+          if (result1.updated) {
+            this.yieldFactors = result1.yieldFactors;
+            this.log(`Step 1 complete: ${result1.log}`);
+          } else {
+            this.log('Step 1: No updates derived from data.');
+          }
+        } else {
+          this.log('Step 1 skipped: Insufficient hourly data.');
+        }
+      } catch (e) {
+        this.error('Step 1 failed:', e);
+      }
+
+      // 4. Step 2: Fine Tuning (7 days, 15m)
+      this.log('Step 2: Fine tuning (7 days, 15m)');
+      try {
+        const startDate7 = new Date();
+        startDate7.setDate(startDate7.getDate() - 7);
+
+        const logs7 = await this.homey.app.api.insights.getLogEntries({
+          id: targetLog.id,
+          start: startDate7.toISOString(),
+          end: endDate.toISOString(),
+          resolution: 'last7Days',
+        });
+
+        if (logs7 && logs7.values && logs7.values.length > 50) {
+          const result2 = SolarLearningStrategy.processHistoricData({
+            powerEntries: logs7.values,
+            weatherEntries: weatherHistory,
+            currentYieldFactors: this.yieldFactors,
+            resolution: 'high',
+          });
+          if (result2.updated) {
+            this.yieldFactors = result2.yieldFactors;
+            this.log(`Step 2 complete: ${result2.log}`);
+          } else {
+            this.log('Step 2: No updates derived from data.');
+          }
+        } else {
+          this.log('Step 2 skipped: Insufficient high-res data.');
+        }
+      } catch (e) {
+        this.error('Step 2 failed:', e);
+      }
+
+      // 5. Save and Update
+      await this.setStoreValue('yieldFactors', this.yieldFactors);
+      await this.updateForecastDisplay();
+      this.log('Retraining finished.');
+    } catch (err) {
+      this.error('Retraining failed:', err);
+    }
+  }
+
   async updateForecastDisplay() {
     const now = new Date();
     const hourTime = new Date(now);
@@ -380,11 +505,12 @@ class SolarDevice extends GenericDevice {
 
     const urlToday = await getSolarChart(this.forecastData, this.yieldFactors, todayStart, todayEnd, 'Forecast Today', this.powerHistory);
     if (urlToday) {
+      const url = `${urlToday}${urlToday.includes('?') ? '&' : '?'}t=${Date.now()}`;
       if (!this.solarTodayImage) {
         this.solarTodayImage = await this.homey.images.createImage();
         await this.setCameraImage('solarToday', 'Solar Today', this.solarTodayImage);
       }
-      this.solarTodayImage.setStream(async (stream) => imageUrlToStream(urlToday, stream, this));
+      this.solarTodayImage.setStream(async (stream) => imageUrlToStream(url, stream, this));
       await this.solarTodayImage.update();
     }
 
@@ -395,11 +521,12 @@ class SolarDevice extends GenericDevice {
 
     const urlTomorrow = await getSolarChart(this.forecastData, this.yieldFactors, tomorrowStart, tomorrowEnd, 'Forecast Tomorrow', this.powerHistory);
     if (urlTomorrow) {
+      const url = `${urlTomorrow}${urlTomorrow.includes('?') ? '&' : '?'}t=${Date.now()}`;
       if (!this.solarTomorrowImage) {
         this.solarTomorrowImage = await this.homey.images.createImage();
         await this.setCameraImage('solarTomorrow', 'Solar Tomorrow', this.solarTomorrowImage);
       }
-      this.solarTomorrowImage.setStream(async (stream) => imageUrlToStream(urlTomorrow, stream, this));
+      this.solarTomorrowImage.setStream(async (stream) => imageUrlToStream(url, stream, this));
       await this.solarTomorrowImage.update();
     }
 
@@ -410,11 +537,12 @@ class SolarDevice extends GenericDevice {
 
     const urlNext = await getSolarChart(this.forecastData, this.yieldFactors, nextStart, nextEnd, 'Forecast Next 8h', this.powerHistory);
     if (urlNext) {
+      const url = `${urlNext}${urlNext.includes('?') ? '&' : '?'}t=${Date.now()}`;
       if (!this.solarNextImage) {
         this.solarNextImage = await this.homey.images.createImage();
         await this.setCameraImage('solarNext', 'Solar Next 8h', this.solarNextImage);
       }
-      this.solarNextImage.setStream(async (stream) => imageUrlToStream(urlNext, stream, this));
+      this.solarNextImage.setStream(async (stream) => imageUrlToStream(url, stream, this));
       await this.solarNextImage.update();
     }
   }

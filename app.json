@@ -11669,11 +11669,43 @@
       "capabilities": [
         "measure_power",
         "meter_power",
-        "alarm_power"
+        "alarm_power",
+        "button.retrain"
       ],
       "capabilitiesOptions": {
         "meter_power": {
           "decimals": 4
+        },
+        "button.retrain": {
+          "maintenanceAction": true,
+          "title": {
+            "en": "Retrain solar forecast",
+            "nl": "Hertrain zonne-voorspelling",
+            "de": "Solarprognose neu trainieren",
+            "fr": "Réentraîner les prévisions solaires",
+            "it": "Riestrai previsione solare",
+            "sv": "Träna om solprognos",
+            "no": "Tren solprognose på nytt",
+            "es": "Reentrenar pronóstico solar",
+            "da": "Gentræn solprognose",
+            "pl": "Przetrenuj prognozę solarną",
+            "ru": "Переобучить солнечный прогноз",
+            "ar": "إعادة تدريب التنبؤ الشمسي"
+          },
+          "desc": {
+            "en": "Reset and retrain the solar forecaster based on Homey Insights of the solar panels.",
+            "nl": "Reset en hertrain de zonne-voorspeller op basis van Homey Insights van de zonnepanelen.",
+            "de": "Setzen Sie den Solarprognostiker zurück und trainieren Sie ihn neu basierend auf Homey Insights der Solarmodule.",
+            "fr": "Réinitialisez et réentraînez le prévisionniste solaire en fonction des Homey Insights des panneaux solaires.",
+            "it": "Reimposta e riaddestra il previsore solare basato su Homey Insights dei pannelli solari.",
+            "sv": "Återställ och träna om solprognosen baserat på Homey Insights från solpanelerna.",
+            "no": "Tilbakestill og tren solprognosen på nytt basert på Homey Insights fra solcellepanelene.",
+            "es": "Restablezca y vuelva a entrenar el pronosticador solar basado en Homey Insights de los paneles solares.",
+            "da": "Nulstil og gentræn solprognosen baseret på Homey Insights fra solpanelerne.",
+            "pl": "Zresetuj i ponownie przeszkol prognozę solarną na podstawie Homey Insights paneli słonecznych.",
+            "ru": "Сбросьте и переобучите солнечный прогнозист на основе Homey Insights солнечных панелей.",
+            "ar": "إعادة تعيين وإعادة تدريب المتنبئ الشمسي بناءً على رؤى Homey للألواح الشمسية."
+          }
         }
       },
       "images": {

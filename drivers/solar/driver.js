@@ -65,7 +65,7 @@ const driverSpecifics = {
     'meter_money_last_month', 'meter_money_this_month', 'meter_money_last_year', 'meter_money_this_year',
     'meter_money_this_month_avg', 'meter_money_this_year_avg',
     'meter_tariff', 'meter_power', 'last_minmax_reset', 'measure_watt_min', 'measure_watt_max',
-    'measure_power', 'measure_power.forecast', 'meter_power.forecast'],
+    'measure_power', 'measure_power.forecast', 'meter_power.forecast', 'button.retrain'],
 };
 
 class SolarDriver extends GenericDriver {
