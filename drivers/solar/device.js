@@ -193,12 +193,17 @@ class SolarDevice extends GenericDevice {
   }
 
   async fetchForecast() {
-    const { lat, lon } = this.getSettings();
+    let { lat, lon } = this.getSettings();
+
+    // Fallback to Homey location if not set in settings
     if (!lat || !lon) {
-      if (!lat || !lon) {
-        this.log('Missing Latitude/Longitude for forecast');
-        return;
-      }
+      lat = this.homey.geolocation.getLatitude();
+      lon = this.homey.geolocation.getLongitude();
+    }
+
+    if (!lat || !lon) {
+      this.log('Missing Latitude/Longitude for forecast');
+      return;
     }
 
     const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&hourly=shortwave_radiation_instant&forecast_days=2&timezone=auto`;
