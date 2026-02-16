@@ -50,6 +50,7 @@ class SolarDevice extends GenericDevice {
     // Initialize solar specific properties
     this.yieldFactors = await this.getStoreValue('yieldFactors') || new Array(96).fill(1.0);
     this.forecastData = await this.getStoreValue('forecastData') || {}; // { time: radiation }
+    this.powerHistory = await this.getStoreValue('powerHistory') || [];
     this.curtailmentActive = false;
 
     // Start loops
@@ -217,13 +218,25 @@ class SolarDevice extends GenericDevice {
   }
 
   async updateLearning() {
+    // Get current power (W)
+    const currentPower = this.getCapabilityValue('measure_power');
+
+    // Record history
+    if (typeof currentPower === 'number') {
+      const now = new Date();
+      const lastEntry = this.powerHistory[this.powerHistory.length - 1];
+      if (!lastEntry || (now.getTime() - lastEntry.time) > 10 * 60 * 1000) {
+        this.powerHistory.push({ time: now.getTime(), power: currentPower });
+        if (this.powerHistory.length > 200) this.powerHistory.shift();
+        await this.setStoreValue('powerHistory', this.powerHistory);
+      }
+    }
+
     if (this.curtailmentActive) {
       this.log('Curtailment active, skipping learning');
       return;
     }
 
-    // Get current power (W)
-    const currentPower = this.getCapabilityValue('measure_power');
     // If capability is not set yet or invalid, skip
     if (typeof currentPower !== 'number') return;
 
@@ -279,7 +292,7 @@ class SolarDevice extends GenericDevice {
     const todayEnd = new Date(todayStart);
     todayEnd.setDate(todayEnd.getDate() + 1);
 
-    const urlToday = await getSolarChart(this.forecastData, this.yieldFactors, todayStart, todayEnd, 'Forecast Today');
+    const urlToday = await getSolarChart(this.forecastData, this.yieldFactors, todayStart, todayEnd, 'Forecast Today', this.powerHistory);
     if (urlToday) {
       if (!this.solarTodayImage) {
         this.solarTodayImage = await this.homey.images.createImage();
@@ -294,7 +307,7 @@ class SolarDevice extends GenericDevice {
     const tomorrowEnd = new Date(tomorrowStart);
     tomorrowEnd.setDate(tomorrowEnd.getDate() + 1);
 
-    const urlTomorrow = await getSolarChart(this.forecastData, this.yieldFactors, tomorrowStart, tomorrowEnd, 'Forecast Tomorrow');
+    const urlTomorrow = await getSolarChart(this.forecastData, this.yieldFactors, tomorrowStart, tomorrowEnd, 'Forecast Tomorrow', this.powerHistory);
     if (urlTomorrow) {
       if (!this.solarTomorrowImage) {
         this.solarTomorrowImage = await this.homey.images.createImage();
@@ -309,7 +322,7 @@ class SolarDevice extends GenericDevice {
     const nextEnd = new Date(now);
     nextEnd.setHours(nextEnd.getHours() + 8);
 
-    const urlNext = await getSolarChart(this.forecastData, this.yieldFactors, nextStart, nextEnd, 'Forecast Next 8h');
+    const urlNext = await getSolarChart(this.forecastData, this.yieldFactors, nextStart, nextEnd, 'Forecast Next 8h', this.powerHistory);
     if (urlNext) {
       if (!this.solarNextImage) {
         this.solarNextImage = await this.homey.images.createImage();
