@@ -238,75 +238,77 @@ class SolarDevice extends GenericDevice {
   }
 
   async updateLearning() {
+    const now = new Date();
+    const currentTimestamp = now.getTime();
+
     // Get current power (W)
-    let currentPower = this.getCapabilityValue('measure_power');
-
-    // Calculate average power from energy meter if available (to smooth out clouds)
+    const rawPower = this.getCapabilityValue('measure_power');
     const currentEnergy = this.getCapabilityValue('meter_power');
-    if (typeof currentEnergy === 'number') {
-      const now = Date.now();
-      if (this.lastEnergyState && this.lastEnergyState.time) {
-        const dTime = now - this.lastEnergyState.time;
-        const dEnergy = currentEnergy - this.lastEnergyState.energy;
-        // Only use average if time diff is significant (> 1 min) and energy valid
-        if (dTime > 50000 && dEnergy >= 0) {
-          const avgPower = (dEnergy / (dTime / 3600000)) * 1000; // kWh -> W
-          this.log(`Using average power: ${Math.round(avgPower)}W (Inst: ${currentPower}W) over ${(dTime / 60000).toFixed(1)} min`);
-          currentPower = avgPower;
-        }
-      }
-      this.lastEnergyState = { time: now, energy: currentEnergy };
-    }
 
-    // Record history
+    // 1. Smooth Power
+    const { smoothedPower, newEnergyState } = SolarLearningStrategy.calculateSmoothedPower({
+      currentPower: rawPower,
+      currentEnergy,
+      lastEnergyState: this.lastEnergyState,
+      currentTimestamp,
+    });
+    this.lastEnergyState = newEnergyState;
+    const currentPower = smoothedPower;
+
+    // 2. Record History & Detect Curtailment
     if (typeof currentPower === 'number') {
-      const now = new Date();
       const lastEntry = this.powerHistory[this.powerHistory.length - 1];
-      if (!lastEntry || (now.getTime() - lastEntry.time) > 50000) {
-        this.powerHistory.push({ time: now.getTime(), power: currentPower });
+      if (!lastEntry || (currentTimestamp - lastEntry.time) > 50000) {
+        this.powerHistory.push({ time: currentTimestamp, power: currentPower });
         if (this.powerHistory.length > 400) this.powerHistory.shift();
         await this.setStoreValue('powerHistory', this.powerHistory);
 
-        // Heuristic Curtailment Detection
-        const hourTime = new Date(now);
-        hourTime.setMinutes(0, 0, 0);
-        const forecastRadiation = this.forecastData[hourTime.getTime()] || 0;
-        const slotIndex = (now.getHours() * 4) + Math.floor(now.getMinutes() / 15);
-        const yieldFactor = this.yieldFactors[slotIndex] !== undefined ? this.yieldFactors[slotIndex] : 1.0;
-        const expectedPower = forecastRadiation * yieldFactor;
-        const isCurtailmentActive = this.getCapabilityValue('alarm_power');
+        const curtailment = SolarLearningStrategy.detectCurtailment({
+          currentPower,
+          lastPower: lastEntry ? lastEntry.power : 0,
+          forecastData: this.forecastData,
+          yieldFactors: this.yieldFactors,
+          isCurtailmentActive: this.getCapabilityValue('alarm_power'),
+          timestamp: now,
+        });
 
-        // Detect drop to near zero while expecting significant power
-        if (expectedPower > 300 && currentPower < 20 && lastEntry && lastEntry.power > 300) {
-          if (!isCurtailmentActive) {
-            await this.setCapabilityValue('alarm_power', true).catch(this.error);
-            this.log(`Curtailment detected: Expected ${Math.round(expectedPower)}W, Actual ${Math.round(currentPower)}W`);
-          }
-        } else if (isCurtailmentActive && currentPower > 50) {
-          // Reset if power returns
-          await this.setCapabilityValue('alarm_power', false).catch(this.error);
-          this.log(`Curtailment ended: Power restored to ${Math.round(currentPower)}W`);
+        if (curtailment.changed) {
+          await this.setCapabilityValue('alarm_power', curtailment.isActive).catch(this.error);
+          if (curtailment.log) this.log(curtailment.log);
         }
       }
     }
 
-    if (this.getCapabilityValue('alarm_power')) {
-      this.log('Curtailment active, skipping learning');
-      return;
-    }
-
-    // If capability is not set yet or invalid, skip
-    if (typeof currentPower !== 'number') return;
-
-    const result = SolarLearningStrategy.getStrategy({
+    // 3. Bucket Learning
+    const currentSlotIndex = (now.getHours() * 4) + Math.floor(now.getMinutes() / 15);
+    const bucketResult = SolarLearningStrategy.processBucket({
+      bucket: this.learningBucket,
+      currentSlotIndex,
+      currentTimestamp,
       currentPower,
-      forecastData: this.forecastData,
-      yieldFactors: this.yieldFactors,
+      currentEnergy,
     });
-    if (result.updated) {
-      this.yieldFactors = result.yieldFactors;
-      await this.setStoreValue('yieldFactors', this.yieldFactors);
-      this.log(result.log);
+
+    this.learningBucket = bucketResult.bucket;
+
+    if (bucketResult.finishedBucket) {
+      if (bucketResult.finishedBucket.log) this.log(bucketResult.finishedBucket.log);
+
+      if (this.getCapabilityValue('alarm_power')) {
+        this.log('Curtailment active, skipping learning for this bucket');
+      } else {
+        const result = SolarLearningStrategy.getStrategy({
+          currentPower: bucketResult.finishedBucket.avgPower,
+          forecastData: this.forecastData,
+          yieldFactors: this.yieldFactors,
+          timestamp: new Date(bucketResult.finishedBucket.startTime),
+        });
+        if (result.updated) {
+          this.yieldFactors = result.yieldFactors;
+          await this.setStoreValue('yieldFactors', this.yieldFactors);
+          this.log(result.log);
+        }
+      }
     }
   }
 
