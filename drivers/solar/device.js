@@ -191,7 +191,7 @@ class SolarDevice extends GenericDevice {
   }
 
   async startLearningLoop() {
-    // Update learning every 5 mins
+    // Update learning every 1 min
     const loop = async () => {
       if (this.isDestroyed) return;
       try {
@@ -201,12 +201,12 @@ class SolarDevice extends GenericDevice {
         this.error('Learning update failed:', err);
       } finally {
         if (!this.isDestroyed) {
-          // Align to next 5 min slot
+          // Align to next 1 min slot
           const now = new Date();
           const nextSlot = new Date(now);
-          nextSlot.setMinutes(Math.ceil(now.getMinutes() / 5) * 5, 0, 0);
+          nextSlot.setMinutes(now.getMinutes() + 1, 0, 0);
           let delay = nextSlot - now;
-          if (delay < 1000) delay += 5 * 60 * 1000;
+          if (delay < 1000) delay += 60 * 1000;
           this.learningTimeout = this.homey.setTimeout(loop, delay);
         }
       }
@@ -248,7 +248,7 @@ class SolarDevice extends GenericDevice {
         const dTime = now - this.lastEnergyState.time;
         const dEnergy = currentEnergy - this.lastEnergyState.energy;
         // Only use average if time diff is significant (> 1 min) and energy valid
-        if (dTime > 60000 && dEnergy >= 0) {
+        if (dTime > 50000 && dEnergy >= 0) {
           const avgPower = (dEnergy / (dTime / 3600000)) * 1000; // kWh -> W
           this.log(`Using average power: ${Math.round(avgPower)}W (Inst: ${currentPower}W) over ${(dTime / 60000).toFixed(1)} min`);
           currentPower = avgPower;
@@ -261,7 +261,7 @@ class SolarDevice extends GenericDevice {
     if (typeof currentPower === 'number') {
       const now = new Date();
       const lastEntry = this.powerHistory[this.powerHistory.length - 1];
-      if (!lastEntry || (now.getTime() - lastEntry.time) > 4 * 60 * 1000) {
+      if (!lastEntry || (now.getTime() - lastEntry.time) > 50000) {
         this.powerHistory.push({ time: now.getTime(), power: currentPower });
         if (this.powerHistory.length > 400) this.powerHistory.shift();
         await this.setStoreValue('powerHistory', this.powerHistory);
