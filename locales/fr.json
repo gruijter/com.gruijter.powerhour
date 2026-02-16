@@ -15,5 +15,9 @@
   "error_device_corrupt": "L'appareil est corrompu !",
   "error_no_prices": "Aucun prix disponible",
   "error_no_price_interval": "Aucun intervalle de prix disponible",
-  "error_homey_api_not_ready": "API Homey non prête"
+  "error_homey_api_not_ready": "API Homey non prête",
+  "repair": {
+    "warningtitle": "ATTENTION",
+    "warningtext": "Vous êtes sur le point de changer l'appareil source. Cela préserve toutes les informations et les flux. Mais si le nouvel appareil source a un relevé de compteur différent, vous devez compenser manuellement les valeurs de départ du compteur et de l'argent dans les paramètres avancés."
+  }
 }

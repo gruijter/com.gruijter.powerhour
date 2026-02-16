@@ -15,5 +15,9 @@
   "error_device_corrupt": "Gerät ist beschädigt!",
   "error_no_prices": "Keine Preise verfügbar",
   "error_no_price_interval": "Kein Preisintervall verfügbar",
-  "error_homey_api_not_ready": "Homey API nicht bereit"
+  "error_homey_api_not_ready": "Homey API nicht bereit",
+  "repair": {
+    "warningtitle": "WARNUNG",
+    "warningtext": "Sie sind im Begriff, das Quellgerät zu ändern. Dies bewahrt alle Einblicke und Flows. Wenn das neue Quellgerät jedoch einen anderen Zählerstand hat, müssen Sie die Zähler- und Geldstartwerte in den erweiterten Einstellungen manuell kompensieren."
+  }
 }

@@ -15,5 +15,9 @@
   "error_device_corrupt": "Enheten är korrupt!",
   "error_no_prices": "Inga priser tillgängliga",
   "error_no_price_interval": "Inget prisintervall tillgängligt",
-  "error_homey_api_not_ready": "Homey API inte redo"
+  "error_homey_api_not_ready": "Homey API inte redo",
+  "repair": {
+    "warningtitle": "VARNING",
+    "warningtext": "Du håller på att byta källenhet. Detta bevarar alla insikter och flöden. Men om den nya källenheten har en annan mätarställning måste du manuellt kompensera mätar- och pengastartvärdena i de avancerade inställningarna."
+  }
 }

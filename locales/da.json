@@ -15,5 +15,9 @@
   "error_device_corrupt": "Enheden er korrupt!",
   "error_no_prices": "Ingen priser tilgængelige",
   "error_no_price_interval": "Intet prisinterval tilgængeligt",
-  "error_homey_api_not_ready": "Homey API ikke klar"
+  "error_homey_api_not_ready": "Homey API ikke klar",
+  "repair": {
+    "warningtitle": "ADVARSEL",
+    "warningtext": "Du er ved at ændre kildeenheden. Dette bevarer al indsigt og flows. Men hvis den nye kildeenhed har en anden måleraflæsning, skal du manuelt kompensere måler- og pengestartværdierne i de avancerede indstillinger."
+  }
 }

@@ -15,5 +15,9 @@
   "error_device_corrupt": "Il dispositivo è corrotto!",
   "error_no_prices": "Nessun prezzo disponibile",
   "error_no_price_interval": "Nessun intervallo di prezzo disponibile",
-  "error_homey_api_not_ready": "API Homey non pronta"
+  "error_homey_api_not_ready": "API Homey non pronta",
+  "repair": {
+    "warningtitle": "ATTENZIONE",
+    "warningtext": "Stai per cambiare il dispositivo sorgente. Questo preserva tutte le intuizioni e i flussi. Ma se il nuovo dispositivo sorgente ha una lettura del contatore diversa, devi compensare manualmente i valori iniziali del contatore e del denaro nelle impostazioni avanzate."
+  }
 }

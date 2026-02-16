@@ -53,10 +53,10 @@ class SolarDevice extends GenericDevice {
     // Start loops
     this.startForecastLoop();
     this.startLearningLoop();
-    
+
     // Initial chart update
     setTimeout(() => {
-        this.updateForecastDisplay().catch(this.error);
+      this.updateForecastDisplay().catch(this.error);
     }, 5000);
   }
 
@@ -193,13 +193,11 @@ class SolarDevice extends GenericDevice {
   }
 
   async fetchForecast() {
-    let lat = this.getSettings().lat;
-    let lon = this.getSettings().lon;
-
+    const { lat, lon } = this.getSettings();
     if (!lat || !lon) {
       if (!lat || !lon) {
-         this.log('Missing Latitude/Longitude for forecast');
-         return;
+        this.log('Missing Latitude/Longitude for forecast');
+        return;
       }
     }
 
@@ -240,7 +238,7 @@ class SolarDevice extends GenericDevice {
     let currentPower = this.getCapabilityValue('measure_power');
     // If capability is not set yet or invalid, skip
     if (typeof currentPower !== 'number') return;
-    
+
     // Ensure positive power (PV generation)
     if (currentPower < 0) currentPower = 0;
 
@@ -262,10 +260,10 @@ class SolarDevice extends GenericDevice {
     const hourTime = new Date(now);
     hourTime.setMinutes(0, 0, 0);
     const forecastRadiation = this.forecastData[hourTime.getTime()] || 0;
-    
+
     const slotIndex = (now.getHours() * 4) + Math.floor(now.getMinutes() / 15);
     const yieldFactor = this.yieldFactors[slotIndex] !== undefined ? this.yieldFactors[slotIndex] : 1.0;
-    
+
     const expectedPower = forecastRadiation * yieldFactor;
     await this.setCapabilityValue('measure_power.forecast', Math.round(expectedPower)).catch(this.error);
 
@@ -273,70 +271,68 @@ class SolarDevice extends GenericDevice {
     let totalYield = 0;
     const startOfDay = new Date(now);
     startOfDay.setHours(0, 0, 0, 0);
-    
+
     // Iterate 96 slots of today
     for (let i = 0; i < 96; i++) {
-        // Calculate timestamp for this slot
-        const slotTime = new Date(startOfDay.getTime() + (i * 15 * 60 * 1000));
-        // Align to hour for forecast lookup
-        slotTime.setMinutes(0, 0, 0);
-        
-        const rad = this.forecastData[slotTime.getTime()] || 0;
-        const yf = this.yieldFactors[i] !== undefined ? this.yieldFactors[i] : 1.0;
-        const power = rad * yf;
-        
-        // Power (W) * 0.25h / 1000 = kWh
-        totalYield += (power * 0.25) / 1000;
+      // Calculate timestamp for this slot
+      const slotTime = new Date(startOfDay.getTime() + (i * 15 * 60 * 1000));
+      // Align to hour for forecast lookup
+      slotTime.setMinutes(0, 0, 0);
+      const rad = this.forecastData[slotTime.getTime()] || 0;
+      const yf = this.yieldFactors[i] !== undefined ? this.yieldFactors[i] : 1.0;
+      const power = rad * yf;
+      // Power (W) * 0.25h / 1000 = kWh
+      totalYield += (power * 0.25) / 1000;
     }
-    
+
     await this.setCapabilityValue('meter_power.forecast', Number(totalYield.toFixed(2))).catch(this.error);
-    
+
     // --- Update Charts ---
-    
+
     // 1. Today
     const todayStart = new Date(now);
     todayStart.setHours(0, 0, 0, 0);
     const todayEnd = new Date(todayStart);
     todayEnd.setDate(todayEnd.getDate() + 1);
-    
+
     const urlToday = await getSolarChart(this.forecastData, this.yieldFactors, todayStart, todayEnd, 'Forecast Today');
     if (urlToday) {
-        if (!this.solarTodayImage) {
-            this.solarTodayImage = await this.homey.images.createImage();
-            await this.setCameraImage('solarToday', 'Solar Today', this.solarTodayImage);
-        }
-        this.solarTodayImage.setStream(async (stream) => imageUrlToStream(urlToday, stream));
-        await this.solarTodayImage.update();
+      if (!this.solarTodayImage) {
+        this.solarTodayImage = await this.homey.images.createImage();
+        await this.setCameraImage('solarToday', 'Solar Today', this.solarTodayImage);
+      }
+      this.solarTodayImage.setStream(async (stream) => imageUrlToStream(urlToday, stream));
+      await this.solarTodayImage.update();
     }
 
     // 2. Tomorrow
     const tomorrowStart = new Date(todayEnd);
     const tomorrowEnd = new Date(tomorrowStart);
     tomorrowEnd.setDate(tomorrowEnd.getDate() + 1);
-    
+
     const urlTomorrow = await getSolarChart(this.forecastData, this.yieldFactors, tomorrowStart, tomorrowEnd, 'Forecast Tomorrow');
     if (urlTomorrow) {
-        if (!this.solarTomorrowImage) {
-            this.solarTomorrowImage = await this.homey.images.createImage();
-            await this.setCameraImage('solarTomorrow', 'Solar Tomorrow', this.solarTomorrowImage);
-        }
-        this.solarTomorrowImage.setStream(async (stream) => imageUrlToStream(urlTomorrow, stream));
-        await this.solarTomorrowImage.update();
+      if (!this.solarTomorrowImage) {
+        this.solarTomorrowImage = await this.homey.images.createImage();
+        await this.setCameraImage('solarTomorrow', 'Solar Tomorrow', this.solarTomorrowImage);
+      }
+      this.solarTomorrowImage.setStream(async (stream) => imageUrlToStream(urlTomorrow, stream));
+      await this.solarTomorrowImage.update();
     }
 
     // 3. Next Hours (e.g. 8 hours)
     const nextStart = new Date(now);
     const nextEnd = new Date(now);
     nextEnd.setHours(nextEnd.getHours() + 8);
-    
+
     const urlNext = await getSolarChart(this.forecastData, this.yieldFactors, nextStart, nextEnd, 'Forecast Next 8h');
     if (urlNext) {
-        if (!this.solarNextImage) {
-            this.solarNextImage = await this.homey.images.createImage();
-            await this.setCameraImage('solarNext', 'Solar Next 8h', this.solarNextImage);
-        }
-        this.solarNextImage.setStream(async (stream) => imageUrlToStream(urlNext, stream));
-        await this.solarNextImage.update();
+      if (!this.solarNextImage) {
+        this.solarNextImage = await this.homey.images.createImage();
+        await this.setCameraImage('solarNext', 'Solar Next 8h', this.solarNextImage);
+      }
+      this.solarNextImage.setStream(async (stream) => imageUrlToStream(urlNext, stream));
+      await this.solarNextImage.update();
     }
   }
 
@@ -345,15 +341,15 @@ class SolarDevice extends GenericDevice {
     if (this.learningTimeout) this.homey.clearTimeout(this.learningTimeout);
     await super.onUninit();
   }
-  
+
   // Override runFlowAction to handle curtailment
   async runFlowAction(id, args) {
-      if (id === 'set_curtailment') {
-          this.curtailmentActive = args.state;
-          this.log(`Curtailment set to ${this.curtailmentActive}`);
-          return Promise.resolve(true);
-      }
-      return super.runFlowAction(id, args);
+    if (id === 'set_curtailment') {
+      this.curtailmentActive = args.state;
+      this.log(`Curtailment set to ${this.curtailmentActive}`);
+      return Promise.resolve(true);
+    }
+    return super.runFlowAction(id, args);
   }
 
 }

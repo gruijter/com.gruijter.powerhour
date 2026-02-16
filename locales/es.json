@@ -15,5 +15,9 @@
   "error_device_corrupt": "¡El dispositivo está dañado!",
   "error_no_prices": "No hay precios disponibles",
   "error_no_price_interval": "No hay intervalo de precios disponible",
-  "error_homey_api_not_ready": "API de Homey no lista"
+  "error_homey_api_not_ready": "API de Homey no lista",
+  "repair": {
+    "warningtitle": "ADVERTENCIA",
+    "warningtext": "Está a punto de cambiar el dispositivo de origen. Esto conserva todos los conocimientos y flujos. Pero si el nuevo dispositivo de origen tiene una lectura de medidor diferente, debe compensar manualmente los valores de inicio del medidor y del dinero en la configuración avanzada."
+  }
 }

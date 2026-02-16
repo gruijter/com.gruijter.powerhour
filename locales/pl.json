@@ -15,5 +15,9 @@
   "error_device_corrupt": "Urządzenie jest uszkodzone!",
   "error_no_prices": "Brak dostępnych cen",
   "error_no_price_interval": "Brak dostępnego przedziału cenowego",
-  "error_homey_api_not_ready": "API Homey nie jest gotowe"
+  "error_homey_api_not_ready": "API Homey nie jest gotowe",
+  "repair": {
+    "warningtitle": "OSTRZEŻENIE",
+    "warningtext": "Zamierzasz zmienić urządzenie źródłowe. Zachowa to wszystkie statystyki i przepływy. Ale jeśli nowe urządzenie źródłowe ma inny odczyt licznika, musisz ręcznie skompensować wartości początkowe licznika i pieniędzy w ustawieniach zaawansowanych."
+  }
 }

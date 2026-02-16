@@ -15,5 +15,9 @@
   "error_device_corrupt": "Apparaat is corrupt!",
   "error_no_prices": "Geen prijzen beschikbaar",
   "error_no_price_interval": "Geen prijsinterval beschikbaar",
-  "error_homey_api_not_ready": "Homey API niet gereed"
+  "error_homey_api_not_ready": "Homey API niet gereed",
+  "repair": {
+    "warningtitle": "WAARSCHUWING",
+    "warningtext": "Je staat op het punt het bronapparaat te wijzigen. Dit behoudt alle inzichten en flows. Maar als het nieuwe bronapparaat een andere meterstand heeft, moet je de meter- en geldstartwaarden handmatig compenseren in de geavanceerde instellingen."
+  }
 }
