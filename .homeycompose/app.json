@@ -409,7 +409,8 @@
     ]
   },
   "permissions": [
-    "homey:manager:api"
+    "homey:manager:api",
+    "homey:manager:geolocation"
   ],
   "images": {
     "large": "/assets/images/large.jpg",

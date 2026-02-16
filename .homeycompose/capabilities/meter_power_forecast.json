@@ -1,0 +1,14 @@
+{
+  "type": "number",
+  "title": {
+    "en": "Forecast Yield Today",
+    "nl": "Verwachte Opbrengst Vandaag"
+  },
+  "units": {
+    "en": "kWh"
+  },
+  "decimals": 2,
+  "chartType": "stepLine",
+  "getable": true,
+  "setable": false
+}

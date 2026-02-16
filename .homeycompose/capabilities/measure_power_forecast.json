@@ -1,0 +1,14 @@
+{
+  "type": "number",
+  "title": {
+    "en": "Forecast Power",
+    "nl": "Verwacht Vermogen"
+  },
+  "units": {
+    "en": "W"
+  },
+  "decimals": 0,
+  "chartType": "spline",
+  "getable": true,
+  "setable": false
+}
