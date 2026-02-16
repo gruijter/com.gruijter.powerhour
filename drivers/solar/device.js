@@ -25,6 +25,7 @@ const { imageUrlToStream } = require('../../lib/charts/ImageHelpers');
 const { getSolarChart } = require('../../lib/charts/SolarChart');
 const OpenMeteo = require('../../lib/providers/OpenMeteo');
 const SolarLearningStrategy = require('../../lib/strategies/SolarLearningStrategy');
+const { setTimeoutPromise } = require('../../lib/Util');
 
 const deviceSpecifics = {
   cmap: {
@@ -50,17 +51,22 @@ class SolarDevice extends GenericDevice {
     // Initialize solar specific properties
     this.yieldFactors = await this.getStoreValue('yieldFactors') || new Array(96).fill(1.0);
     this.forecastData = await this.getStoreValue('forecastData') || {}; // { time: radiation }
-    this.powerHistory = await this.getStoreValue('powerHistory') || [];
+
+    let history = await this.getStoreValue('powerHistory');
+    if (!Array.isArray(history)) history = [];
+    this.powerHistory = history
+      .filter((e) => e && typeof e.time === 'number' && typeof e.power === 'number')
+      .slice(-400);
+    if (this.powerHistory.length !== history.length) await this.setStoreValue('powerHistory', this.powerHistory);
+
     this.curtailmentActive = false;
 
     // Start loops
     this.startForecastLoop();
-    this.startLearningLoop();
-
-    // Initial chart update
-    setTimeout(() => {
-      this.updateForecastDisplay().catch(this.error);
-    }, 5000);
+    // Delay learning loop to allow source device to settle/update
+    setTimeoutPromise(15000).then(() => {
+      this.startLearningLoop();
+    });
   }
 
   // --- Source Device Integration (Copied/Adapted from PowerDevice) ---
@@ -110,6 +116,14 @@ class SolarDevice extends GenericDevice {
         });
       }
     });
+
+    // also listen to measure_power for better real-time updates
+    if (this.sourceDevice.capabilities.includes('measure_power')) {
+      this.log(`registering measure_power capability listener for ${this.sourceDevice.name}`);
+      this.capabilityInstances.measurePowerRealtime = await this.sourceDevice.makeCapabilityInstance('measure_power', async (value) => {
+        await this.setCapability('measure_power', value).catch(this.error);
+      });
+    }
   }
 
   // Setup how to poll the meter
@@ -135,6 +149,11 @@ class SolarDevice extends GenericDevice {
       });
     this.lastGroupMeterReady = true;
     await this.updateGroupMeter().catch(this.error);
+
+    // also poll measure_power for better real-time updates
+    if (this.sourceDevice.capabilitiesObj && this.sourceDevice.capabilitiesObj.measure_power) {
+      await this.setCapability('measure_power', this.sourceDevice.capabilitiesObj.measure_power.value).catch(this.error);
+    }
   }
 
   async updateGroupMeter() {
@@ -172,7 +191,7 @@ class SolarDevice extends GenericDevice {
   }
 
   async startLearningLoop() {
-    // Update learning every 15 mins
+    // Update learning every 5 mins
     const loop = async () => {
       if (this.isDestroyed) return;
       try {
@@ -182,12 +201,12 @@ class SolarDevice extends GenericDevice {
         this.error('Learning update failed:', err);
       } finally {
         if (!this.isDestroyed) {
-          // Align to next 15 min slot
+          // Align to next 5 min slot
           const now = new Date();
-          const nextQuarter = new Date(now);
-          nextQuarter.setMinutes(Math.ceil(now.getMinutes() / 15) * 15, 0, 0);
-          let delay = nextQuarter - now;
-          if (delay < 1000) delay += 15 * 60 * 1000;
+          const nextSlot = new Date(now);
+          nextSlot.setMinutes(Math.ceil(now.getMinutes() / 5) * 5, 0, 0);
+          let delay = nextSlot - now;
+          if (delay < 1000) delay += 5 * 60 * 1000;
           this.learningTimeout = this.homey.setTimeout(loop, delay);
         }
       }
@@ -225,9 +244,9 @@ class SolarDevice extends GenericDevice {
     if (typeof currentPower === 'number') {
       const now = new Date();
       const lastEntry = this.powerHistory[this.powerHistory.length - 1];
-      if (!lastEntry || (now.getTime() - lastEntry.time) > 10 * 60 * 1000) {
+      if (!lastEntry || (now.getTime() - lastEntry.time) > 4 * 60 * 1000) {
         this.powerHistory.push({ time: now.getTime(), power: currentPower });
-        if (this.powerHistory.length > 200) this.powerHistory.shift();
+        if (this.powerHistory.length > 400) this.powerHistory.shift();
         await this.setStoreValue('powerHistory', this.powerHistory);
       }
     }
