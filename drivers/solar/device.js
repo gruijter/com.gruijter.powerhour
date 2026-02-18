@@ -279,6 +279,7 @@ class SolarDevice extends GenericDevice {
       this.forecastData = data;
       await this.setStoreValue('forecastData', this.forecastData);
       this.log('Forecast updated');
+      this.forecastChanged = true;
     }
   }
 
@@ -582,19 +583,21 @@ class SolarDevice extends GenericDevice {
     }
 
     // 2. Tomorrow
-    const tomorrow = new Date(now);
-    tomorrow.setDate(tomorrow.getDate() + 1);
-    const { start: tomorrowStart, end: tomorrowEnd } = getSunBounds(tomorrow);
+    if (yieldFactorsUpdated || this.forecastChanged || !this.solarTomorrowImage) {
+      const tomorrow = new Date(now);
+      tomorrow.setDate(tomorrow.getDate() + 1);
+      const { start: tomorrowStart, end: tomorrowEnd } = getSunBounds(tomorrow);
 
-    const urlTomorrow = await getSolarChart(this.forecastData, this.yieldFactors, tomorrowStart, tomorrowEnd, 'Forecast Tomorrow', this.powerHistory);
-    if (urlTomorrow) {
-      const url = `${urlTomorrow}${urlTomorrow.includes('?') ? '&' : '?'}t=${Date.now()}`;
-      if (!this.solarTomorrowImage) {
-        this.solarTomorrowImage = await this.homey.images.createImage();
-        await this.setCameraImage('solarTomorrow', 'Solar Tomorrow', this.solarTomorrowImage);
+      const urlTomorrow = await getSolarChart(this.forecastData, this.yieldFactors, tomorrowStart, tomorrowEnd, 'Forecast Tomorrow', this.powerHistory);
+      if (urlTomorrow) {
+        const url = `${urlTomorrow}${urlTomorrow.includes('?') ? '&' : '?'}t=${Date.now()}`;
+        if (!this.solarTomorrowImage) {
+          this.solarTomorrowImage = await this.homey.images.createImage();
+          await this.setCameraImage('solarTomorrow', 'Solar Tomorrow', this.solarTomorrowImage);
+        }
+        this.solarTomorrowImage.setStream(async (stream) => imageUrlToStream(url, stream, this));
+        await this.solarTomorrowImage.update();
       }
-      this.solarTomorrowImage.setStream(async (stream) => imageUrlToStream(url, stream, this));
-      await this.solarTomorrowImage.update();
     }
 
     // 3. Distribution
@@ -610,6 +613,8 @@ class SolarDevice extends GenericDevice {
         await this.solarDistributionImage.update();
       }
     }
+
+    this.forecastChanged = false;
   }
 
   destroyListeners() {
