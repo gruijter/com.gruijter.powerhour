@@ -40,7 +40,7 @@ const driverSpecifics = {
   ],
 };
 
-class dapgDriver extends GenericDriver {
+class DapGDriver extends GenericDriver {
 
   async onInit() {
     this.ds = driverSpecifics;
@@ -57,4 +57,4 @@ class dapgDriver extends GenericDriver {
 
 }
 
-module.exports = dapgDriver;
+module.exports = DapGDriver;

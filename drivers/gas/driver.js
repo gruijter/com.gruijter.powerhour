@@ -33,7 +33,7 @@ const driverSpecifics = {
     'meter_tariff', 'meter_gas', 'measure_gas', 'last_minmax_reset', 'measure_lpm_min', 'measure_lpm_max'],
 };
 
-class sumDriver extends GenericDriver {
+class GasDriver extends GenericDriver {
 
   async onInit() {
     this.ds = driverSpecifics;
@@ -42,4 +42,4 @@ class sumDriver extends GenericDriver {
 
 }
 
-module.exports = sumDriver;
+module.exports = GasDriver;

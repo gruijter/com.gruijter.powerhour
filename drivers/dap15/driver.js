@@ -58,7 +58,7 @@ const driverSpecifics = {
   ],
 };
 
-class dapDriver extends GenericDriver {
+class Dap15Driver extends GenericDriver {
 
   async onInit() {
     // this.log('driver onInit');
@@ -76,4 +76,4 @@ class dapDriver extends GenericDriver {
 
 }
 
-module.exports = dapDriver;
+module.exports = Dap15Driver;

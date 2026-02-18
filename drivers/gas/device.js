@@ -37,7 +37,7 @@ const deviceSpecifics = {
   },
 };
 
-class sumDriver extends GenericDevice {
+class GasDevice extends GenericDevice {
 
   async onInit() {
     this.ds = deviceSpecifics;
@@ -64,21 +64,21 @@ class sumDriver extends GenericDevice {
     // make listener for meter_gas.reading
     if (this.sourceDevice.capabilities.includes('meter_gas.reading')) {
       this.log(`registering meter_gas.reading capability listener for ${this.sourceDevice.name}`);
-      this.capabilityInstances.meterGas = this.sourceDevice.makeCapabilityInstance('meter_gas.reading', async (value) => {
+      this.capabilityInstances.meterGasReading = this.sourceDevice.makeCapabilityInstance('meter_gas.reading', async (value) => {
         await this.updateMeter(value).catch(this.error);
       });
     }
     // make listener for meter_gas.consumed
     if (this.sourceDevice.capabilities.includes('meter_gas.consumed')) {
       this.log(`registering meter_gas.consumed capability listener for ${this.sourceDevice.name}`);
-      this.capabilityInstances.meterGas = this.sourceDevice.makeCapabilityInstance('meter_gas.consumed', async (value) => {
+      this.capabilityInstances.meterGasConsumed = this.sourceDevice.makeCapabilityInstance('meter_gas.consumed', async (value) => {
         await this.updateMeter(value).catch(this.error);
       });
     }
     // make listener for meter_gas.current (ZTAZ P1)
     if (this.sourceDevice.capabilities.includes('meter_gas.current')) {
       this.log(`registering meter_gas.current capability listener for ${this.sourceDevice.name}`);
-      this.capabilityInstances.meterGas = this.sourceDevice.makeCapabilityInstance('meter_gas.current', async (value) => {
+      this.capabilityInstances.meterGasCurrent = this.sourceDevice.makeCapabilityInstance('meter_gas.current', async (value) => {
         await this.updateMeter(value).catch(this.error);
       });
     }
@@ -108,4 +108,4 @@ class sumDriver extends GenericDevice {
 
 }
 
-module.exports = sumDriver;
+module.exports = GasDevice;

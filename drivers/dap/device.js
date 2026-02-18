@@ -24,7 +24,7 @@ const GenericDevice = require('../../lib/genericDeviceDrivers/generic_dap_device
 const deviceSpecifics = {
 };
 
-class myDevice extends GenericDevice {
+class DapDevice extends GenericDevice {
 
   async onInit() {
     this.ds = deviceSpecifics;
@@ -33,4 +33,4 @@ class myDevice extends GenericDevice {
 
 }
 
-module.exports = myDevice;
+module.exports = DapDevice;
