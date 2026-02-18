@@ -23,7 +23,7 @@ along with com.gruijter.powerhour.  If not, see <http://www.gnu.org/licenses/>.
 const GenericDevice = require('../../lib/genericDeviceDrivers/generic_sum_device');
 const SourceDeviceHelper = require('../../lib/SourceDeviceHelper');
 const { imageUrlToStream } = require('../../lib/charts/ImageHelpers');
-const { getSolarChart } = require('../../lib/charts/SolarChart');
+const { getSolarChart, getDistributionChart } = require('../../lib/charts/SolarChart');
 const OpenMeteo = require('../../lib/providers/OpenMeteo');
 const SolarLearningStrategy = require('../../lib/strategies/SolarLearningStrategy');
 const SolarFlows = require('../../lib/flows/SolarFlows');
@@ -212,8 +212,8 @@ class SolarDevice extends GenericDevice {
     const loop = async () => {
       if (this.isDestroyed) return;
       try {
-        await this.updateLearning();
-        await this.updateForecastDisplay();
+        const updated = await this.updateLearning();
+        await this.updateForecastDisplay(updated);
       } catch (err) {
         this.error('Learning update failed:', err);
       } finally {
@@ -254,6 +254,7 @@ class SolarDevice extends GenericDevice {
   }
 
   async updateLearning() {
+    let updated = false;
     const now = new Date();
     const currentTimestamp = now.getTime();
 
@@ -323,9 +324,11 @@ class SolarDevice extends GenericDevice {
           this.yieldFactors = result.yieldFactors;
           await this.setStoreValue('yieldFactors', this.yieldFactors);
           this.log(result.log);
+          updated = true;
         }
       }
     }
+    return updated;
   }
 
   async retrainSolarModel() {
@@ -436,14 +439,14 @@ class SolarDevice extends GenericDevice {
 
       // 5. Save and Update
       await this.setStoreValue('yieldFactors', this.yieldFactors);
-      await this.updateForecastDisplay();
+      await this.updateForecastDisplay(true);
       this.log('Retraining finished.');
     } catch (err) {
       this.error('Retraining failed:', err);
     }
   }
 
-  async updateForecastDisplay() {
+  async updateForecastDisplay(yieldFactorsUpdated = false) {
     const now = new Date();
 
     // Helper for interpolation
@@ -543,6 +546,20 @@ class SolarDevice extends GenericDevice {
       }
       this.solarTomorrowImage.setStream(async (stream) => imageUrlToStream(url, stream, this));
       await this.solarTomorrowImage.update();
+    }
+
+    // 3. Distribution
+    if (yieldFactorsUpdated || !this.solarDistributionImage) {
+      const urlDist = await getDistributionChart(this.yieldFactors, 'Yield Distribution');
+      if (urlDist) {
+        const url = `${urlDist}${urlDist.includes('?') ? '&' : '?'}t=${Date.now()}`;
+        if (!this.solarDistributionImage) {
+          this.solarDistributionImage = await this.homey.images.createImage();
+          await this.setCameraImage('solarDistribution', 'Solar Distribution', this.solarDistributionImage);
+        }
+        this.solarDistributionImage.setStream(async (stream) => imageUrlToStream(url, stream, this));
+        await this.solarDistributionImage.update();
+      }
     }
   }
 
