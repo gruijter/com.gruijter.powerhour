@@ -398,16 +398,17 @@ class SolarDevice extends GenericDevice {
       const availableCaps = deviceLogs.map((l) => l.uri.split(':').pop()).join(', ');
       this.log(`Available Insight logs for ${sourceDevice.name}: ${availableCaps}`);
 
-      let targetLog = deviceLogs.find((log) => log.uri.endsWith(':measure_power'));
-      if (!targetLog) targetLog = deviceLogs.find((log) => log.uri.endsWith(':meter_power'));
-      if (!targetLog) targetLog = deviceLogs.find((log) => log.uri.endsWith(':energy_power'));
+      // Prioritize Power (W) over Energy (kWh)
+      const targetLog = deviceLogs.find((log) => log.uri.endsWith(':measure_power'))
+        || deviceLogs.find((log) => log.uri.endsWith(':energy_power'))
+        || deviceLogs.find((log) => log.uri.endsWith(':meter_power'));
 
       if (!targetLog) {
         throw new Error(`Insights log not found for ${insightUri}. Available logs: ${availableCaps || 'none'}`);
       }
       this.log(`Found target log: ${targetLog.name || 'unknown'} (ID: ${targetLog.id})`);
 
-      const isCumulative = targetLog.uri.endsWith(':energy_power') || targetLog.uri.endsWith(':meter_power');
+      const isCumulative = targetLog.uri.endsWith(':meter_power');
       if (isCumulative) this.log('Using cumulative energy log (converting to power)...');
 
       // Initialize fresh yield factors for training to remove old artifacts
