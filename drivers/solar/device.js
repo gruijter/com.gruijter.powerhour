@@ -57,6 +57,9 @@ class SolarDevice extends GenericDevice {
     });
 
     // Initialize solar specific properties
+    if (this.hasCapability('alarm_power') && this.getCapabilityValue('alarm_power') === null) {
+      await this.setCapabilityValue('alarm_power', false).catch(this.error);
+    }
     const storedYieldFactors = await this.getStoreValue('yieldFactors');
     this.yieldFactors = storedYieldFactors || new Array(96).fill(1.0);
     this.forecastData = await this.getStoreValue('forecastData') || {}; // { time: radiation }

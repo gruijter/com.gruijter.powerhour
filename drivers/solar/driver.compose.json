@@ -24,6 +24,22 @@
     "meter_power": {
       "decimals": 4
     },
+    "alarm_power": {
+      "title": {
+        "en": "Curtailment active",
+        "nl": "Begrenzing actief",
+        "de": "Abregelung aktiv",
+        "fr": "Écrêtement actif",
+        "it": "Limitazione attiva",
+        "sv": "Begränsning aktiv",
+        "no": "Begrensning aktiv",
+        "es": "Limitación activa",
+        "da": "Begrænsning aktiv",
+        "pl": "Ograniczenie aktywne",
+        "ru": "Ограничение активно",
+        "ar": "التقليص نشط"
+      }
+    },
     "button.retrain": {
       "maintenanceAction": true,
       "title": {

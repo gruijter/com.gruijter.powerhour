@@ -5107,21 +5107,45 @@
       {
         "title": {
           "en": "Set curtailment",
-          "nl": "Zet curtailment",
-          "de": "Curtailment setzen",
-          "fr": "Définir la réduction",
-          "it": "Imposta riduzione",
+          "nl": "Zet begrenzing",
+          "de": "Abregelung setzen",
+          "fr": "Définir l'écrêtement",
+          "it": "Imposta limitazione",
           "sv": "Ställ in begränsning",
           "no": "Sett begrensning",
-          "es": "Establecer reducción",
+          "es": "Establecer limitación",
           "da": "Indstil begrænsning",
           "pl": "Ustaw ograniczenie",
           "ru": "Установить ограничение",
           "ar": "تعيين التقليص"
         },
+        "titleFormatted": {
+          "en": "Set curtailment to [[state]]",
+          "nl": "Zet begrenzing op [[state]]",
+          "de": "Setze Abregelung auf [[state]]",
+          "fr": "Définir l'écrêtement sur [[state]]",
+          "it": "Imposta limitazione su [[state]]",
+          "sv": "Ställ in begränsning till [[state]]",
+          "no": "Sett begrensning til [[state]]",
+          "es": "Establecer limitación en [[state]]",
+          "da": "Sæt begrænsning til [[state]]",
+          "pl": "Ustaw ograniczenie na [[state]]",
+          "ru": "Установить ограничение на [[state]]",
+          "ar": "تعيين التقليص على [[state]]"
+        },
         "hint": {
           "en": "When curtailment is active, the solar learning logic is paused.",
-          "nl": "Wanneer curtailment actief is, wordt de solar learning logica gepauzeerd."
+          "nl": "Wanneer begrenzing actief is, wordt de solar learning logica gepauzeerd.",
+          "de": "Wenn die Abregelung aktiv ist, wird die Solar-Lernlogik pausiert.",
+          "fr": "Lorsque l'écrêtement est actif, la logique d'apprentissage solaire est mise en pause.",
+          "it": "Quando la limitazione è attiva, la logica di apprendimento solare è in pausa.",
+          "sv": "När begränsning är aktiv pausas solinlärningslogiken.",
+          "no": "Når begrensning er aktiv, settes sol-læringslogikken på pause.",
+          "es": "Cuando la limitación está activa, la lógica de aprendizaje solar se pausa.",
+          "da": "Når begrænsning er aktiv, sættes sol-læringslogikken på pause.",
+          "pl": "Gdy ograniczenie jest aktywne, logika uczenia solarnego jest wstrzymana.",
+          "ru": "Когда ограничение активно, логика солнечного обучения приостанавливается.",
+          "ar": "عندما يكون التقليص نشطًا، يتم إيقاف منطق التعلم الشمسي مؤقتًا."
         },
         "args": [
           {
@@ -5141,7 +5165,10 @@
               "sv": "Aktiv",
               "no": "Aktiv",
               "es": "Activo",
-              "da": "Aktiv"
+              "da": "Aktiv",
+              "pl": "Aktywne",
+              "ru": "Активно",
+              "ar": "نشط"
             },
             "default": true
           }
@@ -11675,6 +11702,22 @@
       "capabilitiesOptions": {
         "meter_power": {
           "decimals": 4
+        },
+        "alarm_power": {
+          "title": {
+            "en": "Curtailment active",
+            "nl": "Begrenzing actief",
+            "de": "Abregelung aktiv",
+            "fr": "Écrêtement actif",
+            "it": "Limitazione attiva",
+            "sv": "Begränsning aktiv",
+            "no": "Begrensning aktiv",
+            "es": "Limitación activa",
+            "da": "Begrænsning aktiv",
+            "pl": "Ograniczenie aktywne",
+            "ru": "Ограничение активно",
+            "ar": "التقليص نشط"
+          }
         },
         "button.retrain": {
           "maintenanceAction": true,
