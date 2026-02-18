@@ -43,6 +43,35 @@ const deviceSpecifics = {
   },
 };
 
+// Helper to convert cumulative energy (kWh) to average power (W)
+const convertCumulativeToPower = (entries) => {
+  const powerEntries = [];
+  for (let i = 1; i < entries.length; i++) {
+    const prev = entries[i - 1];
+    const curr = entries[i];
+    const prevVal = prev.y !== undefined ? prev.y : prev.v;
+    const currVal = curr.y !== undefined ? curr.y : curr.v;
+
+    if (typeof prevVal !== 'number' || typeof currVal !== 'number') continue;
+
+    const t1 = new Date(prev.t).getTime();
+    const t2 = new Date(curr.t).getTime();
+    const dt = (t2 - t1) / 3600000; // hours
+
+    if (dt > 0.01 && dt < 24) { // ignore tiny or huge gaps
+      const dE = currVal - prevVal; // Energy diff (kWh)
+      if (dE >= -0.0001) { // ignore resets, but allow small float noise
+        const safeDE = Math.max(0, dE);
+        const power = (safeDE / dt) * 1000; // kWh -> W
+        // Use midpoint timestamp for better alignment with radiation
+        const tMid = new Date(t1 + (t2 - t1) / 2).toISOString();
+        powerEntries.push({ t: tMid, y: power });
+      }
+    }
+  }
+  return powerEntries;
+};
+
 class SolarDevice extends GenericDevice {
 
   async onInit() {
@@ -365,14 +394,23 @@ class SolarDevice extends GenericDevice {
       if (!Array.isArray(allLogs)) allLogs = Object.values(allLogs);
 
       const deviceLogs = allLogs.filter((log) => log.uri && log.uri.includes(sourceDevice.id));
+      const availableCaps = deviceLogs.map((l) => l.uri.split(':').pop()).join(', ');
+      this.log(`Available Insight logs for ${sourceDevice.name}: ${availableCaps}`);
+
       let targetLog = deviceLogs.find((log) => log.uri.endsWith(':measure_power'));
+      if (!targetLog) targetLog = deviceLogs.find((log) => log.uri.endsWith(':meter_power'));
       if (!targetLog) targetLog = deviceLogs.find((log) => log.uri.endsWith(':energy_power'));
 
       if (!targetLog) {
-        const availableCaps = deviceLogs.map((l) => l.uri.split(':').pop()).join(', ');
         throw new Error(`Insights log not found for ${insightUri}. Available logs: ${availableCaps || 'none'}`);
       }
       this.log(`Found target log: ${targetLog.name || 'unknown'} (ID: ${targetLog.id})`);
+
+      const isCumulative = targetLog.uri.endsWith(':energy_power') || targetLog.uri.endsWith(':meter_power');
+      if (isCumulative) this.log('Using cumulative energy log (converting to power)...');
+
+      // Initialize fresh yield factors for training to remove old artifacts
+      let trainingYieldFactors = new Array(96).fill(1.0);
 
       // 3. Step 1: Coarse Learning (31 days, hourly)
       this.log('Step 1: Coarse learning (31 days, hourly)');
@@ -385,14 +423,19 @@ class SolarDevice extends GenericDevice {
         });
 
         if (logs31 && logs31.values && logs31.values.length > 50) {
+          let powerEntries = logs31.values;
+          if (isCumulative) {
+            powerEntries = convertCumulativeToPower(powerEntries);
+          }
+
           const result1 = SolarLearningStrategy.processHistoricData({
-            powerEntries: logs31.values,
+            powerEntries,
             weatherEntries: weatherHistory,
-            currentYieldFactors: this.yieldFactors,
+            currentYieldFactors: trainingYieldFactors,
             resolution: 'hourly',
           });
           if (result1.updated) {
-            this.yieldFactors = result1.yieldFactors;
+            trainingYieldFactors = result1.yieldFactors;
             this.log(`Step 1 complete: ${result1.log}`);
           } else {
             this.log('Step 1: No updates derived from data.');
@@ -418,14 +461,19 @@ class SolarDevice extends GenericDevice {
         });
 
         if (logs7 && logs7.values && logs7.values.length > 50) {
+          let powerEntries = logs7.values;
+          if (isCumulative) {
+            powerEntries = convertCumulativeToPower(powerEntries);
+          }
+
           const result2 = SolarLearningStrategy.processHistoricData({
-            powerEntries: logs7.values,
+            powerEntries,
             weatherEntries: weatherHistory,
-            currentYieldFactors: this.yieldFactors,
+            currentYieldFactors: trainingYieldFactors,
             resolution: 'high',
           });
           if (result2.updated) {
-            this.yieldFactors = result2.yieldFactors;
+            trainingYieldFactors = result2.yieldFactors;
             this.log(`Step 2 complete: ${result2.log}`);
           } else {
             this.log('Step 2: No updates derived from data.');
@@ -438,6 +486,7 @@ class SolarDevice extends GenericDevice {
       }
 
       // 5. Save and Update
+      this.yieldFactors = trainingYieldFactors;
       await this.setStoreValue('yieldFactors', this.yieldFactors);
       await this.updateForecastDisplay(true);
       this.log('Retraining finished.');
