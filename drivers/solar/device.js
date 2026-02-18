@@ -69,7 +69,7 @@ class SolarDevice extends GenericDevice {
     if (!Array.isArray(history)) history = [];
     this.powerHistory = history
       .filter((e) => e && typeof e.time === 'number' && typeof e.power === 'number')
-      .slice(-400);
+      .slice(-1500);
     if (this.powerHistory.length !== history.length) await this.setStoreValue('powerHistory', this.powerHistory);
 
     // Start loops
@@ -276,7 +276,7 @@ class SolarDevice extends GenericDevice {
       const lastEntry = this.powerHistory[this.powerHistory.length - 1];
       if (!lastEntry || (currentTimestamp - lastEntry.time) > 50000) {
         this.powerHistory.push({ time: currentTimestamp, power: currentPower });
-        if (this.powerHistory.length > 400) this.powerHistory.shift();
+        if (this.powerHistory.length > 1500) this.powerHistory.shift();
         await this.setStoreValue('powerHistory', this.powerHistory);
 
         const curtailment = SolarLearningStrategy.detectCurtailment({
@@ -445,9 +445,20 @@ class SolarDevice extends GenericDevice {
 
   async updateForecastDisplay() {
     const now = new Date();
-    const hourTime = new Date(now);
-    hourTime.setMinutes(0, 0, 0);
-    const forecastRadiation = this.forecastData[hourTime.getTime()] || 0;
+
+    // Helper for interpolation
+    const getInterpolatedRad = (t) => {
+      const date = new Date(t);
+      date.setMinutes(0, 0, 0, 0);
+      const t1 = date.getTime();
+      const t2 = t1 + 3600000;
+      const r1 = this.forecastData[t1];
+      const r2 = this.forecastData[t2];
+      if (r1 === undefined && r2 === undefined) return 0;
+      return (r1 || r2) + ((r2 || r1) - (r1 || r2)) * ((t - t1) / 3600000);
+    };
+
+    const forecastRadiation = getInterpolatedRad(now.getTime());
 
     const slotIndex = (now.getHours() * 4) + Math.floor(now.getMinutes() / 15);
     const yieldFactor = this.yieldFactors[slotIndex] !== undefined ? this.yieldFactors[slotIndex] : 1.0;
@@ -464,9 +475,7 @@ class SolarDevice extends GenericDevice {
     for (let i = 0; i < 96; i++) {
       // Calculate timestamp for this slot
       const slotTime = new Date(startOfDay.getTime() + (i * 15 * 60 * 1000));
-      // Align to hour for forecast lookup
-      slotTime.setMinutes(0, 0, 0);
-      const rad = this.forecastData[slotTime.getTime()] || 0;
+      const rad = getInterpolatedRad(slotTime.getTime());
       const yf = this.yieldFactors[i] !== undefined ? this.yieldFactors[i] : 1.0;
       const power = rad * yf;
       // Power (W) * 0.25h / 1000 = kWh
