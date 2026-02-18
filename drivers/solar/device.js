@@ -205,12 +205,14 @@ class SolarDevice extends GenericDevice {
   }
 
   async startLearningLoop() {
+    let firstRun = true;
     // Update learning every 1 min
     const loop = async () => {
       if (this.isDestroyed) return;
       try {
-        await this.updateLearning();
-        await this.updateForecastDisplay();
+        const bucketFinished = await this.updateLearning();
+        await this.updateForecastDisplay(bucketFinished || firstRun);
+        firstRun = false;
       } catch (err) {
         this.error('Learning update failed:', err);
       } finally {
@@ -323,6 +325,7 @@ class SolarDevice extends GenericDevice {
         }
       }
     }
+    return !!bucketResult.finishedBucket;
   }
 
   async retrainSolarModel() {
@@ -433,14 +436,14 @@ class SolarDevice extends GenericDevice {
 
       // 5. Save and Update
       await this.setStoreValue('yieldFactors', this.yieldFactors);
-      await this.updateForecastDisplay();
+      await this.updateForecastDisplay(true);
       this.log('Retraining finished.');
     } catch (err) {
       this.error('Retraining failed:', err);
     }
   }
 
-  async updateForecastDisplay() {
+  async updateForecastDisplay(updateTomorrow = true) {
     const now = new Date();
     const hourTime = new Date(now);
     hourTime.setMinutes(0, 0, 0);
@@ -518,19 +521,21 @@ class SolarDevice extends GenericDevice {
     }
 
     // 2. Tomorrow
-    const tomorrow = new Date(now);
-    tomorrow.setDate(tomorrow.getDate() + 1);
-    const { start: tomorrowStart, end: tomorrowEnd } = getSunBounds(tomorrow);
+    if (updateTomorrow) {
+      const tomorrow = new Date(now);
+      tomorrow.setDate(tomorrow.getDate() + 1);
+      const { start: tomorrowStart, end: tomorrowEnd } = getSunBounds(tomorrow);
 
-    const urlTomorrow = await getSolarChart(this.forecastData, this.yieldFactors, tomorrowStart, tomorrowEnd, 'Forecast Tomorrow', this.powerHistory);
-    if (urlTomorrow) {
-      const url = `${urlTomorrow}${urlTomorrow.includes('?') ? '&' : '?'}t=${Date.now()}`;
-      if (!this.solarTomorrowImage) {
-        this.solarTomorrowImage = await this.homey.images.createImage();
-        await this.setCameraImage('solarTomorrow', 'Solar Tomorrow', this.solarTomorrowImage);
+      const urlTomorrow = await getSolarChart(this.forecastData, this.yieldFactors, tomorrowStart, tomorrowEnd, 'Forecast Tomorrow', this.powerHistory);
+      if (urlTomorrow) {
+        const url = `${urlTomorrow}${urlTomorrow.includes('?') ? '&' : '?'}t=${Date.now()}`;
+        if (!this.solarTomorrowImage) {
+          this.solarTomorrowImage = await this.homey.images.createImage();
+          await this.setCameraImage('solarTomorrow', 'Solar Tomorrow', this.solarTomorrowImage);
+        }
+        this.solarTomorrowImage.setStream(async (stream) => imageUrlToStream(url, stream, this));
+        await this.solarTomorrowImage.update();
       }
-      this.solarTomorrowImage.setStream(async (stream) => imageUrlToStream(url, stream, this));
-      await this.solarTomorrowImage.update();
     }
   }
 
