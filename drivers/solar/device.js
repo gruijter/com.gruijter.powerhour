@@ -370,10 +370,10 @@ class SolarDevice extends GenericDevice {
       if (!sourceDevice) throw new Error('No source device found');
       this.log('Source Device ID:', sourceDevice.id);
 
-      // 1. Fetch Weather History (31 days) - needed for both steps
+      // 1. Fetch Weather History (14 days) - needed for both steps
       const endDate = new Date();
-      const startDate31 = new Date();
-      startDate31.setDate(startDate31.getDate() - 31);
+      const startDate14 = new Date();
+      startDate14.setDate(startDate14.getDate() - 14);
 
       let { lat, lon } = this.getSettings();
       if (!lat || !lon) {
@@ -382,12 +382,25 @@ class SolarDevice extends GenericDevice {
       }
       if (!lat || !lon) throw new Error('Location not set');
 
-      this.log(`Fetching weather history from ${startDate31.toISOString()}`);
-      const weatherHistory = await OpenMeteo.fetchHistoric(lat, lon, startDate31, endDate);
+      // Ensure inputs are numbers for accurate processing
+      lat = Number(lat);
+      lon = Number(lon);
+
+      this.log(`Fetching weather history from ${startDate14.toISOString()}`);
+      const weatherHistory = await OpenMeteo.fetchHistoric(lat, lon, startDate14, endDate);
       if (!weatherHistory || weatherHistory.length === 0) {
         throw new Error('No historic weather data found');
       }
       this.log(`Got ${weatherHistory.length} weather samples`);
+
+      // Apply Time Shift
+      const timeShift = this.getSettings().solar_time_shift || 0;
+      if (timeShift !== 0) {
+        this.log(`Applying time shift of ${timeShift} hours to weather data`);
+        weatherHistory.forEach((w) => {
+          w.time += timeShift * 3600000;
+        });
+      }
 
       // 2. Locate Insights Log
       const insightUri = `homey:device:${sourceDevice.id}:measure_power`;
@@ -414,18 +427,18 @@ class SolarDevice extends GenericDevice {
       // Initialize fresh yield factors for training to remove old artifacts
       let trainingYieldFactors = new Array(96).fill(1.0);
 
-      // 3. Step 1: Coarse Learning (31 days, hourly)
-      this.log('Step 1: Coarse learning (31 days, hourly)');
+      // 3. Step 1: Coarse Learning (14 days, hourly)
+      this.log('Step 1: Coarse learning (14 days, hourly)');
       try {
-        const logs31 = await this.homey.app.api.insights.getLogEntries({
+        const logs14 = await this.homey.app.api.insights.getLogEntries({
           id: targetLog.id,
-          start: startDate31.toISOString(),
+          start: startDate14.toISOString(),
           end: endDate.toISOString(),
-          resolution: 'last31Days',
+          resolution: 'last14Days',
         });
 
-        if (logs31 && logs31.values && logs31.values.length > 50) {
-          let powerEntries = logs31.values;
+        if (logs14 && logs14.values && logs14.values.length > 50) {
+          let powerEntries = logs14.values;
           if (isCumulative) {
             powerEntries = convertCumulativeToPower(powerEntries);
           }
@@ -449,21 +462,21 @@ class SolarDevice extends GenericDevice {
         this.error('Step 1 failed:', e);
       }
 
-      // 4. Step 2: Fine Tuning (7 days, 15m)
-      this.log('Step 2: Fine tuning (7 days, 15m)');
+      // 4. Step 2: Fine Tuning (24 hours, 5m)
+      this.log('Step 2: Fine tuning (24 hours, 5m)');
       try {
-        const startDate7 = new Date();
-        startDate7.setDate(startDate7.getDate() - 7);
+        const startDate24h = new Date();
+        startDate24h.setDate(startDate24h.getDate() - 1);
 
-        const logs7 = await this.homey.app.api.insights.getLogEntries({
+        const logs24h = await this.homey.app.api.insights.getLogEntries({
           id: targetLog.id,
-          start: startDate7.toISOString(),
+          start: startDate24h.toISOString(),
           end: endDate.toISOString(),
-          resolution: 'last7Days',
+          resolution: 'last24Hours',
         });
 
-        if (logs7 && logs7.values && logs7.values.length > 50) {
-          let powerEntries = logs7.values;
+        if (logs24h && logs24h.values && logs24h.values.length > 50) {
+          let powerEntries = logs24h.values;
           if (isCumulative) {
             powerEntries = convertCumulativeToPower(powerEntries);
           }
