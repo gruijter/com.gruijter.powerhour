@@ -529,22 +529,6 @@ class SolarDevice extends GenericDevice {
       this.solarTomorrowImage.setStream(async (stream) => imageUrlToStream(url, stream, this));
       await this.solarTomorrowImage.update();
     }
-
-    // 3. Next Hours (e.g. 8 hours)
-    const nextStart = new Date(now);
-    const nextEnd = new Date(now);
-    nextEnd.setHours(nextEnd.getHours() + 8);
-
-    const urlNext = await getSolarChart(this.forecastData, this.yieldFactors, nextStart, nextEnd, 'Forecast Next 8h', this.powerHistory);
-    if (urlNext) {
-      const url = `${urlNext}${urlNext.includes('?') ? '&' : '?'}t=${Date.now()}`;
-      if (!this.solarNextImage) {
-        this.solarNextImage = await this.homey.images.createImage();
-        await this.setCameraImage('solarNext', 'Solar Next 8h', this.solarNextImage);
-      }
-      this.solarNextImage.setStream(async (stream) => imageUrlToStream(url, stream, this));
-      await this.solarNextImage.update();
-    }
   }
 
   async onUninit() {
