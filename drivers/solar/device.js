@@ -91,7 +91,7 @@ class SolarDevice extends GenericDevice {
 
     // Initialize solar specific properties
     const storedYieldFactors = await this.getStoreValue('yieldFactors');
-    this.yieldFactors = storedYieldFactors || new Array(96).fill(1.0);
+    this.yieldFactors = storedYieldFactors || new Array(96).fill(0);
     this.forecastData = await this.getStoreValue('forecastData') || {}; // { time: radiation }
 
     let history = await this.getStoreValue('powerHistory');
@@ -425,7 +425,7 @@ class SolarDevice extends GenericDevice {
       if (isCumulative) this.log('Using cumulative energy log (converting to power)...');
 
       // Initialize fresh yield factors for training to remove old artifacts
-      let trainingYieldFactors = new Array(96).fill(1.0);
+      let trainingYieldFactors = new Array(96).fill(0);
 
       // 3. Step 1: Coarse Learning (14 days, hourly)
       this.log('Step 1: Coarse learning (14 days, hourly)');
@@ -528,7 +528,7 @@ class SolarDevice extends GenericDevice {
     const forecastRadiation = getInterpolatedRad(now.getTime());
 
     const slotIndex = (now.getHours() * 4) + Math.floor(now.getMinutes() / 15);
-    const yieldFactor = this.yieldFactors[slotIndex] !== undefined ? this.yieldFactors[slotIndex] : 1.0;
+    const yieldFactor = this.yieldFactors[slotIndex] !== undefined ? this.yieldFactors[slotIndex] : 0;
 
     const expectedPower = forecastRadiation * yieldFactor;
     await this.setCapabilityValue('measure_power.forecast', Math.round(expectedPower)).catch(this.error);
@@ -543,7 +543,7 @@ class SolarDevice extends GenericDevice {
       // Calculate timestamp for this slot
       const slotTime = new Date(startOfDay.getTime() + (i * 15 * 60 * 1000));
       const rad = getInterpolatedRad(slotTime.getTime());
-      const yf = this.yieldFactors[i] !== undefined ? this.yieldFactors[i] : 1.0;
+      const yf = this.yieldFactors[i] !== undefined ? this.yieldFactors[i] : 0;
       const power = rad * yf;
       // Power (W) * 0.25h / 1000 = kWh
       totalYield += (power * 0.25) / 1000;
