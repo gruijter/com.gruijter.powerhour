@@ -509,15 +509,17 @@ class SolarDevice extends GenericDevice {
     // 1. Today
     const { start: todayStart, end: todayEnd } = getSunBounds(now);
 
-    const urlToday = await getSolarChart(this.forecastData, this.yieldFactors, todayStart, todayEnd, 'Forecast Today', this.powerHistory);
-    if (urlToday) {
-      const url = `${urlToday}${urlToday.includes('?') ? '&' : '?'}t=${Date.now()}`;
-      if (!this.solarTodayImage) {
-        this.solarTodayImage = await this.homey.images.createImage();
-        await this.setCameraImage('solarToday', 'Solar Today', this.solarTodayImage);
+    if (!this.solarTodayImage || (now >= todayStart && now <= todayEnd)) {
+      const urlToday = await getSolarChart(this.forecastData, this.yieldFactors, todayStart, todayEnd, 'Forecast Today', this.powerHistory);
+      if (urlToday) {
+        const url = `${urlToday}${urlToday.includes('?') ? '&' : '?'}t=${Date.now()}`;
+        if (!this.solarTodayImage) {
+          this.solarTodayImage = await this.homey.images.createImage();
+          await this.setCameraImage('solarToday', 'Solar Today', this.solarTodayImage);
+        }
+        this.solarTodayImage.setStream(async (stream) => imageUrlToStream(url, stream, this));
+        await this.solarTodayImage.update();
       }
-      this.solarTodayImage.setStream(async (stream) => imageUrlToStream(url, stream, this));
-      await this.solarTodayImage.update();
     }
 
     // 2. Tomorrow
