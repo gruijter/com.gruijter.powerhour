@@ -34,7 +34,7 @@ class MyApp extends Homey.App {
       await this.initApi();
 
       // start polling every whole hour, 15 minutes and retry missing source devices every 5 minutes
-      this.homey.setMaxListeners(300); // INCREASE LISTENERS
+      this.homey.setMaxListeners(100); // INCREASE LISTENERS
       this.everyHour();
       this.everyXminutes(15);
       this.retry(5);
