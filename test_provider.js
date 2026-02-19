@@ -59,13 +59,14 @@ async function main() {
     });
     console.log(`  ${providerKeys.length + 1}: ALL POWER`);
     console.log(`  ${providerKeys.length + 2}: ALL GAS`);
+    console.log(`  ${providerKeys.length + 3}: ALL POWER (Single Zone)`);
 
     const providerIndex = await askQuestion('Select a provider (number): ');
     const selection = parseInt(providerIndex, 10);
 
     if (selection === providerKeys.length + 1 || selection === providerKeys.length + 2) {
       const isGasTest = selection === providerKeys.length + 2;
-      const providersToTest = isGasTest ? ['EASYENERGY', 'EEX'] : ['ENTSOE', 'ENTSOE_GRUIJTER', 'NORDPOOL', 'STEKKER'];
+      const providersToTest = isGasTest ? ['EASYENERGY', 'EEX'] : ['NORDPOOL', 'ENTSOE', 'ENTSOE_GRUIJTER', 'STEKKER'];
 
       if (!isGasTest) {
         // --- ALL POWER TEST (Per Bidding Zone) ---
@@ -90,114 +91,122 @@ async function main() {
 
           // eslint-disable-next-line no-restricted-syntax
           for (const name of providersToTest) {
-            const ProviderClass = providers[name];
-            if (!ProviderClass) continue;
+            // eslint-disable-next-line no-restricted-syntax
+            for (const resolution of ['PT60M', 'PT15M']) {
+              const ProviderClass = providers[name];
+              if (!ProviderClass) continue;
 
-            const resultRow = {
-              Provider: name,
-              Pass: '?',
-              First: '-',
-              Last: '-',
-              Interval: '-',
-              Error: '',
-            };
+              const resultRow = {
+                Provider: name,
+                Res: resolution,
+                Pass: '?',
+                First: '-',
+                Last: '-',
+                Interval: '-',
+                Error: '',
+              };
 
-            try {
-              // Check if provider supports this zone
-              const tempProvider = new ProviderClass({});
-              const supportedZones = tempProvider.getBiddingZones();
-              if (!supportedZones[zoneKey]) {
-                resultRow.Pass = '-';
-                resultRow.Error = 'Not supported';
-                results.push(resultRow);
-                continue;
-              }
-
-              let apiKey = '';
-              if (name === 'ENTSOE') apiKey = process.env.ENTSOE_API_KEY || '';
-              if (name === 'ENTSOE_GRUIJTER') apiKey = process.env.ENTSOE_GRUIJTER_API_KEY || '';
-
-              const provider = new ProviderClass({ apiKey });
-              const today = new Date();
-              today.setHours(0, 0, 0, 0);
-              const tomorrow = new Date(today);
-              tomorrow.setDate(today.getDate() + 1);
-              tomorrow.setHours(23, 59, 59, 999);
-
-              // eslint-disable-next-line no-await-in-loop
-              const prices = await provider.getPrices({
-                biddingZone: zoneCode,
-                dateStart: today,
-                dateEnd: tomorrow,
-                resolution: 'PT15M',
-              });
-
-              if (!prices || prices.length === 0) {
-                resultRow.Pass = 'No';
-                resultRow.Error = 'No prices';
-              } else {
-                // Validity check
-                let consecutive = true;
-                const startTime = new Date(prices[0].time);
-                let intervalMs = 0;
-                let intervalMin = 0;
-                if (prices.length > 1) {
-                  intervalMs = new Date(prices[1].time) - startTime;
-                  intervalMin = intervalMs / 60000;
+              try {
+                // Check if provider supports this zone
+                const tempProvider = new ProviderClass({});
+                const supportedZones = tempProvider.getBiddingZones();
+                if (!supportedZones[zoneKey]) {
+                  resultRow.Pass = '-';
+                  resultRow.Error = 'Not supported';
+                  results.push(resultRow);
+                  continue;
                 }
-                let previousTime = startTime;
-                for (let i = 1; i < prices.length; i += 1) {
-                  const currentTime = new Date(prices[i].time);
-                  const diff = currentTime - previousTime;
-                  if (diff !== intervalMs) {
-                    consecutive = false;
-                    break;
+
+                let apiKey = '';
+                if (name === 'ENTSOE') apiKey = process.env.ENTSOE_API_KEY || '';
+                if (name === 'ENTSOE_GRUIJTER') apiKey = process.env.ENTSOE_GRUIJTER_API_KEY || '';
+
+                const provider = new ProviderClass({ apiKey });
+                const today = new Date();
+                today.setHours(0, 0, 0, 0);
+                const tomorrow = new Date(today);
+                tomorrow.setDate(today.getDate() + 1);
+                tomorrow.setHours(23, 59, 59, 999);
+
+                // eslint-disable-next-line no-await-in-loop
+                const prices = await provider.getPrices({
+                  biddingZone: zoneCode,
+                  dateStart: today,
+                  dateEnd: tomorrow,
+                  resolution,
+                });
+
+                if (!prices || prices.length === 0) {
+                  resultRow.Pass = 'No';
+                  resultRow.Error = 'No prices';
+                } else {
+                  // Validity check
+                  let consecutive = true;
+                  const startTime = new Date(prices[0].time);
+                  let intervalMs = 0;
+                  let intervalMin = 0;
+                  if (prices.length > 1) {
+                    intervalMs = new Date(prices[1].time) - startTime;
+                    intervalMin = intervalMs / 60000;
                   }
-                  previousTime = currentTime;
+                  let previousTime = startTime;
+                  for (let i = 1; i < prices.length; i += 1) {
+                    const currentTime = new Date(prices[i].time);
+                    const diff = currentTime - previousTime;
+                    if (diff !== intervalMs) {
+                      consecutive = false;
+                      break;
+                    }
+                    previousTime = currentTime;
+                  }
+
+                  resultRow.Pass = consecutive ? 'Yes' : 'No';
+                  if (!consecutive) resultRow.Error = 'Non-consecutive';
+
+                  resultRow.First = `${prices[0].time.toISOString()} (${prices[0].price})`;
+                  resultRow.Last = `${prices[prices.length - 1].time.toISOString()} (${prices[prices.length - 1].price})`;
+                  resultRow.Interval = `${intervalMin}m`;
+
+                  if (consecutive) {
+                    validData.push({
+                      name,
+                      resolution,
+                      firstTime: prices[0].time.getTime(),
+                      firstPrice: prices[0].price,
+                      lastTime: prices[prices.length - 1].time.getTime(),
+                      lastPrice: prices[prices.length - 1].price,
+                    });
+                  }
                 }
-
-                resultRow.Pass = consecutive ? 'Yes' : 'No';
-                if (!consecutive) resultRow.Error = 'Non-consecutive';
-
-                resultRow.First = `${prices[0].time.toISOString()} (${prices[0].price})`;
-                resultRow.Last = `${prices[prices.length - 1].time.toISOString()} (${prices[prices.length - 1].price})`;
-                resultRow.Interval = `${intervalMin}m`;
-
-                if (consecutive) {
-                  validData.push({
-                    name,
-                    firstTime: prices[0].time.getTime(),
-                    firstPrice: prices[0].price,
-                    lastTime: prices[prices.length - 1].time.getTime(),
-                    lastPrice: prices[prices.length - 1].price,
-                  });
-                }
+              } catch (err) {
+                resultRow.Pass = 'No';
+                resultRow.Error = err.message;
               }
-            } catch (err) {
-              resultRow.Pass = 'No';
-              resultRow.Error = err.message;
+              results.push(resultRow);
             }
-            results.push(resultRow);
           }
 
-          // Compare results against reference (ENTSOE or first valid)
-          if (validData.length > 1) {
-            let ref = validData.find((d) => d.name === 'ENTSOE');
-            if (!ref) [ref] = validData;
+          // Compare results against reference (ENTSOE or first valid) per resolution
+          for (const resolution of ['PT60M', 'PT15M']) {
+            const validDataRes = validData.filter((d) => d.resolution === resolution);
+            if (validDataRes.length > 1) {
+              let ref = validDataRes.find((d) => d.name === 'ENTSOE');
+              if (!ref) [ref] = validDataRes;
 
-            for (const d of validData) {
-              if (d === ref) continue;
-              const diffs = [];
-              if (d.firstTime !== ref.firstTime) diffs.push('FirstTime');
-              if (Math.abs(d.firstPrice - ref.firstPrice) > 0.01) diffs.push('FirstPrice');
-              if (d.lastTime !== ref.lastTime) diffs.push('LastTime');
-              if (Math.abs(d.lastPrice - ref.lastPrice) > 0.01) diffs.push('LastPrice');
+              for (const d of validDataRes) {
+                if (d === ref) continue;
+                const diffs = [];
+                if (d.firstTime !== ref.firstTime) diffs.push('FirstTime');
+                if (Math.abs(d.firstPrice - ref.firstPrice) > 0.01) diffs.push('FirstPrice');
+                if (d.lastTime !== ref.lastTime) diffs.push('LastTime');
+                if (Math.abs(d.lastPrice - ref.lastPrice) > 0.01) diffs.push('LastPrice');
 
-              if (diffs.length > 0) {
-                const row = results.find((r) => r.Provider === d.name);
-                if (row) {
-                  if (row.Error) row.Error += '; ';
-                  row.Error += `Diff vs ${ref.name}: ${diffs.join(', ')}`;
+                if (diffs.length > 0) {
+                  const row = results.find((r) => r.Provider === d.name && r.Res === d.resolution);
+                  if (row) {
+                    if (row.Error) row.Error += '; ';
+                    row.Error += `Diff vs ${ref.name}: ${diffs.join(', ')}`;
+                  }
                 }
               }
             }
@@ -300,6 +309,163 @@ async function main() {
       return;
     }
 
+    if (selection === providerKeys.length + 3) {
+      const providersToTest = ['NORDPOOL', 'ENTSOE', 'ENTSOE_GRUIJTER', 'STEKKER'];
+      const allZones = {};
+      // eslint-disable-next-line no-restricted-syntax
+      for (const name of providersToTest) {
+        const ProviderClass = providers[name];
+        if (ProviderClass) {
+          const p = new ProviderClass({});
+          Object.assign(allZones, p.getBiddingZones());
+        }
+      }
+      const zoneKeys = Object.keys(allZones).sort();
+      zoneKeys.forEach((key, index) => {
+        console.log(`  ${index + 1}: ${key}`);
+      });
+
+      const zoneIndex = await askQuestion('Select a zone (number): ');
+      const zoneKey = zoneKeys[parseInt(zoneIndex, 10) - 1];
+
+      if (!zoneKey) {
+        console.error('Invalid zone selection');
+        return;
+      }
+
+      const results = [];
+      const validData = [];
+
+      console.log(`\n--- Zone: ${zoneKey} ---`);
+
+      // eslint-disable-next-line no-restricted-syntax
+      for (const name of providersToTest) {
+        // eslint-disable-next-line no-restricted-syntax
+        for (const resolution of ['PT60M', 'PT15M']) {
+          const ProviderClass = providers[name];
+          if (!ProviderClass) continue;
+
+          const resultRow = {
+            Provider: name,
+            Res: resolution,
+            Pass: '?',
+            First: '-',
+            Last: '-',
+            Interval: '-',
+            Error: '',
+          };
+
+          try {
+            const tempProvider = new ProviderClass({});
+            const supportedZones = tempProvider.getBiddingZones();
+            if (!supportedZones[zoneKey]) {
+              resultRow.Pass = '-';
+              resultRow.Error = 'Not supported';
+              results.push(resultRow);
+              continue;
+            }
+            const zoneCode = supportedZones[zoneKey];
+
+            let apiKey = '';
+            if (name === 'ENTSOE') apiKey = process.env.ENTSOE_API_KEY || '';
+            if (name === 'ENTSOE_GRUIJTER') apiKey = process.env.ENTSOE_GRUIJTER_API_KEY || '';
+
+            const provider = new ProviderClass({ apiKey });
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            const tomorrow = new Date(today);
+            tomorrow.setDate(today.getDate() + 1);
+            tomorrow.setHours(23, 59, 59, 999);
+
+            // eslint-disable-next-line no-await-in-loop
+            const prices = await provider.getPrices({
+              biddingZone: zoneCode,
+              dateStart: today,
+              dateEnd: tomorrow,
+              resolution,
+            });
+
+            if (!prices || prices.length === 0) {
+              resultRow.Pass = 'No';
+              resultRow.Error = 'No prices';
+            } else {
+              let consecutive = true;
+              const startTime = new Date(prices[0].time);
+              let intervalMs = 0;
+              let intervalMin = 0;
+              if (prices.length > 1) {
+                intervalMs = new Date(prices[1].time) - startTime;
+                intervalMin = intervalMs / 60000;
+              }
+              let previousTime = startTime;
+              for (let i = 1; i < prices.length; i += 1) {
+                const currentTime = new Date(prices[i].time);
+                const diff = currentTime - previousTime;
+                if (diff !== intervalMs) {
+                  consecutive = false;
+                  break;
+                }
+                previousTime = currentTime;
+              }
+
+              resultRow.Pass = consecutive ? 'Yes' : 'No';
+              if (!consecutive) resultRow.Error = 'Non-consecutive';
+
+              resultRow.First = `${prices[0].time.toISOString()} (${prices[0].price})`;
+              resultRow.Last = `${prices[prices.length - 1].time.toISOString()} (${prices[prices.length - 1].price})`;
+              resultRow.Interval = `${intervalMin}m`;
+
+              if (consecutive) {
+                validData.push({
+                  name,
+                  resolution,
+                  firstTime: prices[0].time.getTime(),
+                  firstPrice: prices[0].price,
+                  lastTime: prices[prices.length - 1].time.getTime(),
+                  lastPrice: prices[prices.length - 1].price,
+                });
+              }
+            }
+          } catch (err) {
+            resultRow.Pass = 'No';
+            resultRow.Error = err.message;
+          }
+          results.push(resultRow);
+        }
+      }
+
+      // Compare results against reference (ENTSOE or first valid) per resolution
+      // eslint-disable-next-line no-restricted-syntax
+      for (const resolution of ['PT60M', 'PT15M']) {
+        const validDataRes = validData.filter((d) => d.resolution === resolution);
+        if (validDataRes.length > 1) {
+          let ref = validDataRes.find((d) => d.name === 'ENTSOE');
+          if (!ref) [ref] = validDataRes;
+
+          // eslint-disable-next-line no-restricted-syntax
+          for (const d of validDataRes) {
+            if (d === ref) continue;
+            const diffs = [];
+            if (d.firstTime !== ref.firstTime) diffs.push('FirstTime');
+            if (Math.abs(d.firstPrice - ref.firstPrice) > 0.01) diffs.push('FirstPrice');
+            if (d.lastTime !== ref.lastTime) diffs.push('LastTime');
+            if (Math.abs(d.lastPrice - ref.lastPrice) > 0.01) diffs.push('LastPrice');
+
+            if (diffs.length > 0) {
+              const row = results.find((r) => r.Provider === d.name && r.Res === d.resolution);
+              if (row) {
+                if (row.Error) row.Error += '; ';
+                row.Error += `Diff vs ${ref.name}: ${diffs.join(', ')}`;
+              }
+            }
+          }
+        }
+      }
+
+      printTable(results);
+      return;
+    }
+
     const providerName = providerKeys[parseInt(providerIndex, 10) - 1];
 
     if (!providerName) {
@@ -324,87 +490,88 @@ async function main() {
     const provider = new ProviderClass({ apiKey });
     const zones = provider.getBiddingZones();
 
-    // 3. Select Bidding Zone
-    console.log(`\nAvailable Bidding Zones for ${providerName}:`);
-    const zoneKeys = Object.keys(zones);
-    zoneKeys.forEach((key, index) => {
-      console.log(`  ${index + 1}: ${key} (${zones[key]})`);
-    });
+    // 3. Loop through all zones, resolutions, days
+    console.log(`\nTesting all zones for ${providerName}...`);
+    const results = [];
+    const zoneKeys = Object.keys(zones).sort();
+    const resolutions = ['PT60M', 'PT30M', 'PT15M'];
+    const days = ['Today', 'Tomorrow'];
 
-    const zoneIndex = await askQuestion('Select a bidding zone (number): ');
-    const selectedZoneKey = zoneKeys[parseInt(zoneIndex, 10) - 1];
+    // eslint-disable-next-line no-restricted-syntax
+    for (const zoneKey of zoneKeys) {
+      const zoneCode = zones[zoneKey];
+      // eslint-disable-next-line no-restricted-syntax
+      for (const resolution of resolutions) {
+        // eslint-disable-next-line no-restricted-syntax
+        for (const day of days) {
+          const resultRow = {
+            Zone: zoneKey,
+            Res: resolution,
+            Day: day,
+            Pass: '?',
+            Count: '-',
+            First: '-',
+            Last: '-',
+            Error: '',
+          };
 
-    if (!selectedZoneKey) {
-      console.error('Invalid zone selection.');
-      return;
-    }
+          try {
+            const dateStart = new Date();
+            dateStart.setHours(0, 0, 0, 0);
+            if (day === 'Tomorrow') dateStart.setDate(dateStart.getDate() + 1);
 
-    const zoneCode = zones[selectedZoneKey];
-    console.log(`You selected: ${selectedZoneKey}`);
+            const dateEnd = new Date(dateStart);
+            dateEnd.setHours(23, 59, 59, 999);
 
-    // 4. Fetch prices
-    console.log(`\nFetching prices for ${providerName} - Zone: ${zoneCode}`);
-    if (apiKey) console.log('Using provided API Key');
+            // eslint-disable-next-line no-await-in-loop
+            const prices = await provider.getPrices({
+              biddingZone: zoneCode,
+              dateStart,
+              dateEnd,
+              resolution,
+            });
 
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
+            if (!prices || prices.length === 0) {
+              resultRow.Pass = 'No';
+              resultRow.Error = 'No prices';
+            } else {
+              let consecutive = true;
+              const startTime = new Date(prices[0].time);
+              let intervalMs = 0;
+              if (prices.length > 1) {
+                intervalMs = new Date(prices[1].time) - startTime;
+              }
 
-    const tomorrow = new Date(today);
-    tomorrow.setDate(today.getDate() + 1);
-    tomorrow.setHours(23, 59, 59, 999);
+              let previousTime = startTime;
+              for (let i = 1; i < prices.length; i += 1) {
+                const currentTime = new Date(prices[i].time);
+                const diff = currentTime - previousTime;
+                if (diff !== intervalMs) {
+                  consecutive = false;
+                  break;
+                }
+                previousTime = currentTime;
+              }
 
-    const isGas = providerName === 'EASYENERGY' || providerName === 'EEX';
-    const resolution = isGas ? 'PT60M' : 'PT15M';
+              resultRow.Pass = consecutive ? 'Yes' : 'No';
+              if (!consecutive) resultRow.Error = 'Non-consecutive';
 
-    const prices = await provider.getPrices({
-      biddingZone: zoneCode,
-      dateStart: today,
-      dateEnd: tomorrow,
-      resolution,
-    });
+              resultRow.Count = prices.length;
+              resultRow.First = `${prices[0].time.toISOString().split('T')[1].slice(0, 5)} (${prices[0].price})`;
+              resultRow.Last = `${prices[prices.length - 1].time.toISOString().split('T')[1].slice(0, 5)} (${prices[prices.length - 1].price})`;
+            }
+          } catch (err) {
+            resultRow.Pass = 'No';
+            resultRow.Error = err.message;
+          }
+          results.push(resultRow);
 
-    console.log(`\nSuccess! Received ${prices.length} price entries.`);
-
-    if (prices.length > 0) {
-      // Validity check similar to generic_dap_device
-      let consecutive = true;
-      const startTime = new Date(prices[0].time);
-      let intervalMs = 0;
-
-      if (prices.length > 1) {
-        intervalMs = new Date(prices[1].time) - startTime;
-        console.log(`Detected interval: ${intervalMs / 60000} minutes`);
-      }
-
-      let previousTime = startTime;
-      for (let i = 1; i < prices.length; i += 1) {
-        const currentTime = new Date(prices[i].time);
-        const diff = currentTime - previousTime;
-        if (diff !== intervalMs) {
-          consecutive = false;
-          console.error(`Validity Error: Non-consecutive prices at index ${i}`);
-          console.error(`  Previous: ${previousTime.toISOString()}`);
-          console.error(`  Current:  ${currentTime.toISOString()}`);
-          console.error(`  Diff:     ${diff / 60000} min (Expected: ${intervalMs / 60000} min)`);
-          break;
+          // eslint-disable-next-line no-await-in-loop
+          await new Promise((resolve) => setTimeout(resolve, 250));
         }
-        previousTime = currentTime;
       }
-
-      if (consecutive) {
-        console.log('Validity Check: PASSED (Prices are consecutive)');
-      } else {
-        console.log('Validity Check: FAILED');
-      }
-
-      console.log('\nFirst 3 entries:');
-      prices.slice(0, 3).forEach((p) => console.log(`  ${p.time.toISOString()}: ${p.price}`));
-
-      console.log('\nLast 3 entries:');
-      prices.slice(-3).forEach((p) => console.log(`  ${p.time.toISOString()}: ${p.price}`));
-    } else {
-      console.log('No prices returned for this period.');
     }
+    printTable(results);
   } catch (error) {
     console.error('\nError:');
     console.error(error);
