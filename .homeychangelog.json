@@ -1,4 +1,7 @@
 {
+  "8.5.0": {
+    "en": "Many DAP Price fetching fixes and optimizations. Added re-pair for BAT. Reduce memory and CPU usage on BAT solver. Prepare for Solar Yield prediction."
+  },
   "8.4.1": {
     "en": "NOM/XOM optimizations. DAP Price fetching optimizations."
   },

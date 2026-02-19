@@ -1,4 +1,5 @@
 {
+  "deprecated": true,
   "name": {
     "en": "PV Summarizer",
     "nl": "Zonne-energie Samenvatter",
