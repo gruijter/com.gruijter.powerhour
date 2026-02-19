@@ -39,6 +39,16 @@ function askQuestion(query) {
   }));
 }
 
+const printTable = (data) => {
+  if (data.length === 0) return;
+  const headers = Object.keys(data[0]);
+  const widths = headers.map((h) => Math.max(h.length, ...data.map((r) => String(r[h] || '').length)));
+  const rowToString = (row) => headers.map((h, i) => String(row[h] || '').padEnd(widths[i])).join(' | ');
+  console.log(headers.map((h, i) => h.padEnd(widths[i])).join(' | '));
+  console.log(widths.map((w) => '-'.repeat(w)).join('-|-'));
+  data.forEach((row) => console.log(rowToString(row)));
+};
+
 async function main() {
   try {
     // 1. Select Provider
@@ -47,14 +57,20 @@ async function main() {
     providerKeys.forEach((key, index) => {
       console.log(`  ${index + 1}: ${key}`);
     });
-    console.log(`  ${providerKeys.length + 1}: ALL`);
+    console.log(`  ${providerKeys.length + 1}: ALL POWER`);
+    console.log(`  ${providerKeys.length + 2}: ALL GAS`);
 
     const providerIndex = await askQuestion('Select a provider (number): ');
+    const selection = parseInt(providerIndex, 10);
 
-    if (parseInt(providerIndex, 10) === providerKeys.length + 1) {
+    if (selection === providerKeys.length + 1 || selection === providerKeys.length + 2) {
+      const isGasTest = selection === providerKeys.length + 2;
+      const providersToTest = isGasTest ? ['EASYENERGY', 'EEX'] : ['ENTSOE', 'ENTSOE_GRUIJTER', 'NORDPOOL', 'STEKKER'];
       const results = [];
       // eslint-disable-next-line no-restricted-syntax
-      for (const [name, ProviderClass] of Object.entries(providers)) {
+      for (const name of providersToTest) {
+        const ProviderClass = providers[name];
+        if (!ProviderClass) continue;
         try {
           let apiKey = '';
           if (name === 'ENTSOE') apiKey = process.env.ENTSOE_API_KEY || '';
@@ -137,7 +153,7 @@ async function main() {
           });
         }
       }
-      console.table(results);
+      printTable(results);
       return;
     }
 
