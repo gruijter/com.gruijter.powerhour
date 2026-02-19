@@ -513,77 +513,19 @@ class SolarDevice extends GenericDevice {
   async updateForecastDisplay(yieldFactorsUpdated = false) {
     const now = new Date();
 
-    // Helper for interpolation
-    const getInterpolatedRad = (t) => {
-      const date = new Date(t);
-      date.setMinutes(0, 0, 0, 0);
-      const t1 = date.getTime();
-      const t2 = t1 + 3600000;
-      const r1 = this.forecastData[t1];
-      const r2 = this.forecastData[t2];
-      if (r1 === undefined && r2 === undefined) return 0;
-      return (r1 || r2) + ((r2 || r1) - (r1 || r2)) * ((t - t1) / 3600000);
-    };
+    const { expectedPower, totalYield } = SolarLearningStrategy.calculateForecast({
+      forecastData: this.forecastData,
+      yieldFactors: this.yieldFactors,
+      timestamp: now,
+    });
 
-    const forecastRadiation = getInterpolatedRad(now.getTime());
-
-    const slotIndex = (now.getHours() * 4) + Math.floor(now.getMinutes() / 15);
-    const yieldFactor = this.yieldFactors[slotIndex] !== undefined ? this.yieldFactors[slotIndex] : 0;
-
-    const expectedPower = forecastRadiation * yieldFactor;
-    await this.setCapabilityValue('measure_power.forecast', Math.round(expectedPower)).catch(this.error);
-
-    // Calculate total expected yield for today
-    let totalYield = 0;
-    const startOfDay = new Date(now);
-    startOfDay.setHours(0, 0, 0, 0);
-
-    // Iterate 96 slots of today
-    for (let i = 0; i < 96; i++) {
-      // Calculate timestamp for this slot
-      const slotTime = new Date(startOfDay.getTime() + (i * 15 * 60 * 1000));
-      const rad = getInterpolatedRad(slotTime.getTime());
-      const yf = this.yieldFactors[i] !== undefined ? this.yieldFactors[i] : 0;
-      const power = rad * yf;
-      // Power (W) * 0.25h / 1000 = kWh
-      totalYield += (power * 0.25) / 1000;
-    }
-
-    await this.setCapabilityValue('meter_power.forecast', Number(totalYield.toFixed(2))).catch(this.error);
+    await this.setCapabilityValue('measure_power.forecast', expectedPower).catch(this.error);
+    await this.setCapabilityValue('meter_power.forecast', totalYield).catch(this.error);
 
     // --- Update Charts ---
 
-    const getSunBounds = (dateObj) => {
-      const startOfDay = new Date(dateObj);
-      startOfDay.setHours(0, 0, 0, 0);
-      const endOfDay = new Date(startOfDay);
-      endOfDay.setDate(endOfDay.getDate() + 1);
-      const noon = new Date(startOfDay);
-      noon.setHours(12, 0, 0, 0);
-
-      const timestamps = Object.keys(this.forecastData)
-        .map(Number)
-        .filter((ts) => ts >= startOfDay.getTime() && ts < endOfDay.getTime() && this.forecastData[ts] > 0)
-        .sort((a, b) => a - b);
-
-      if (timestamps.length === 0) {
-        const s = new Date(noon); s.setHours(3, 0, 0, 0);
-        const e = new Date(noon); e.setHours(21, 0, 0, 0);
-        return { start: s, end: e };
-      }
-
-      const start = new Date(timestamps[0]);
-      start.setHours(start.getHours() - 1);
-
-      const end = new Date(timestamps[timestamps.length - 1]);
-      end.setHours(end.getHours() + 2);
-
-      const diff = Math.max(noon - start, end - noon);
-      return { start: new Date(noon.getTime() - diff), end: new Date(noon.getTime() + diff) };
-    };
-
     // 1. Today
-    const { start: todayStart, end: todayEnd } = getSunBounds(now);
+    const { start: todayStart, end: todayEnd } = SolarLearningStrategy.getSunBounds(now, this.forecastData);
 
     const urlToday = await getSolarChart(this.forecastData, this.yieldFactors, todayStart, todayEnd, 'Forecast Today', this.powerHistory);
     if (urlToday) {
@@ -600,7 +542,7 @@ class SolarDevice extends GenericDevice {
     if (yieldFactorsUpdated || this.forecastChanged || !this.solarTomorrowImage) {
       const tomorrow = new Date(now);
       tomorrow.setDate(tomorrow.getDate() + 1);
-      const { start: tomorrowStart, end: tomorrowEnd } = getSunBounds(tomorrow);
+      const { start: tomorrowStart, end: tomorrowEnd } = SolarLearningStrategy.getSunBounds(tomorrow, this.forecastData);
 
       const urlTomorrow = await getSolarChart(this.forecastData, this.yieldFactors, tomorrowStart, tomorrowEnd, 'Forecast Tomorrow', this.powerHistory);
       if (urlTomorrow) {
