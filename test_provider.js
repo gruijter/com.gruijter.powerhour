@@ -47,8 +47,100 @@ async function main() {
     providerKeys.forEach((key, index) => {
       console.log(`  ${index + 1}: ${key}`);
     });
+    console.log(`  ${providerKeys.length + 1}: ALL`);
 
     const providerIndex = await askQuestion('Select a provider (number): ');
+
+    if (parseInt(providerIndex, 10) === providerKeys.length + 1) {
+      const results = [];
+      // eslint-disable-next-line no-restricted-syntax
+      for (const [name, ProviderClass] of Object.entries(providers)) {
+        try {
+          let apiKey = '';
+          if (name === 'ENTSOE') apiKey = process.env.ENTSOE_API_KEY || '';
+          if (name === 'ENTSOE_GRUIJTER') apiKey = process.env.ENTSOE_GRUIJTER_API_KEY || '';
+
+          const provider = new ProviderClass({ apiKey });
+          const zones = provider.getBiddingZones();
+          const zoneKeys = Object.keys(zones);
+          // prefer NL, else first
+          let selectedZoneKey = zoneKeys.find((k) => k.includes('NL'));
+          if (!selectedZoneKey) [selectedZoneKey] = zoneKeys;
+          const zoneCode = zones[selectedZoneKey];
+
+          const today = new Date();
+          today.setHours(0, 0, 0, 0);
+          const tomorrow = new Date(today);
+          tomorrow.setDate(today.getDate() + 1);
+          tomorrow.setHours(23, 59, 59, 999);
+
+          const isGas = name === 'EASYENERGY' || name === 'EEX';
+          const resolution = isGas ? 'PT60M' : 'PT15M';
+
+          // eslint-disable-next-line no-await-in-loop
+          const prices = await provider.getPrices({
+            biddingZone: zoneCode,
+            dateStart: today,
+            dateEnd: tomorrow,
+            resolution,
+          });
+
+          let pass = 'Yes';
+          let errorMsg = '';
+          let intervalMin = '-';
+
+          if (!prices || prices.length === 0) {
+            pass = 'No';
+            errorMsg = 'No prices';
+          } else {
+            // Validity check
+            let consecutive = true;
+            const startTime = new Date(prices[0].time);
+            let intervalMs = 0;
+            if (prices.length > 1) {
+              intervalMs = new Date(prices[1].time) - startTime;
+              intervalMin = intervalMs / 60000;
+            }
+            let previousTime = startTime;
+            for (let i = 1; i < prices.length; i += 1) {
+              const currentTime = new Date(prices[i].time);
+              const diff = currentTime - previousTime;
+              if (diff !== intervalMs) {
+                consecutive = false;
+                break;
+              }
+              previousTime = currentTime;
+            }
+            if (!consecutive) {
+              pass = 'No';
+              errorMsg = 'Non-consecutive';
+            }
+          }
+
+          results.push({
+            Provider: name,
+            Pass: pass,
+            First: prices && prices.length > 0 ? `${prices[0].time.toISOString()} (${prices[0].price})` : '-',
+            Last: prices && prices.length > 0 ? `${prices[prices.length - 1].time.toISOString()} (${prices[prices.length - 1].price})` : '-',
+            Interval: `${intervalMin}m`,
+            Error: errorMsg,
+          });
+        } catch (err) {
+          console.error(`Error testing ${name}:`, err.message);
+          results.push({
+            Provider: name,
+            Pass: 'No',
+            First: '-',
+            Last: '-',
+            Interval: '-',
+            Error: err.message,
+          });
+        }
+      }
+      console.table(results);
+      return;
+    }
+
     const providerName = providerKeys[parseInt(providerIndex, 10) - 1];
 
     if (!providerName) {
@@ -102,15 +194,50 @@ async function main() {
     tomorrow.setDate(today.getDate() + 1);
     tomorrow.setHours(23, 59, 59, 999);
 
+    const isGas = providerName === 'EASYENERGY' || providerName === 'EEX';
+    const resolution = isGas ? 'PT60M' : 'PT15M';
+
     const prices = await provider.getPrices({
       biddingZone: zoneCode,
       dateStart: today,
       dateEnd: tomorrow,
+      resolution,
     });
 
     console.log(`\nSuccess! Received ${prices.length} price entries.`);
 
     if (prices.length > 0) {
+      // Validity check similar to generic_dap_device
+      let consecutive = true;
+      const startTime = new Date(prices[0].time);
+      let intervalMs = 0;
+
+      if (prices.length > 1) {
+        intervalMs = new Date(prices[1].time) - startTime;
+        console.log(`Detected interval: ${intervalMs / 60000} minutes`);
+      }
+
+      let previousTime = startTime;
+      for (let i = 1; i < prices.length; i += 1) {
+        const currentTime = new Date(prices[i].time);
+        const diff = currentTime - previousTime;
+        if (diff !== intervalMs) {
+          consecutive = false;
+          console.error(`Validity Error: Non-consecutive prices at index ${i}`);
+          console.error(`  Previous: ${previousTime.toISOString()}`);
+          console.error(`  Current:  ${currentTime.toISOString()}`);
+          console.error(`  Diff:     ${diff / 60000} min (Expected: ${intervalMs / 60000} min)`);
+          break;
+        }
+        previousTime = currentTime;
+      }
+
+      if (consecutive) {
+        console.log('Validity Check: PASSED (Prices are consecutive)');
+      } else {
+        console.log('Validity Check: FAILED');
+      }
+
       console.log('\nFirst 3 entries:');
       prices.slice(0, 3).forEach((p) => console.log(`  ${p.time.toISOString()}: ${p.price}`));
 
