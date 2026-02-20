@@ -327,7 +327,7 @@ class SolarDevice extends GenericDevice {
     }
 
     // 3. Bucket Learning
-    const currentSlotIndex = (now.getHours() * 4) + Math.floor(now.getMinutes() / 15);
+    const currentSlotIndex = (now.getUTCHours() * 4) + Math.floor(now.getUTCMinutes() / 15);
     const bucketResult = SolarLearningStrategy.processBucket({
       bucket: this.learningBucket,
       currentSlotIndex,
@@ -525,6 +525,7 @@ class SolarDevice extends GenericDevice {
       forecastData: this.forecastData,
       yieldFactors: this.yieldFactors,
       timestamp: now,
+      timezone: this.timeZone,
     });
 
     await this.setCapabilityValue('measure_power.forecast', expectedPower).catch(this.error);
@@ -533,9 +534,9 @@ class SolarDevice extends GenericDevice {
     // --- Update Charts ---
 
     // 1. Today
-    const { start: todayStart, end: todayEnd } = SolarLearningStrategy.getSunBounds(now, this.forecastData);
+    const { start: todayStart, end: todayEnd } = SolarLearningStrategy.getSunBounds(now, this.forecastData, this.timeZone);
 
-    const urlToday = await getSolarChart(this.forecastData, this.yieldFactors, todayStart, todayEnd, 'Forecast Today', this.powerHistory);
+    const urlToday = await getSolarChart(this.forecastData, this.yieldFactors, todayStart, todayEnd, 'Forecast Today', this.powerHistory, this.timeZone);
     if (urlToday) {
       const url = `${urlToday}${urlToday.includes('?') ? '&' : '?'}t=${Date.now()}`;
       if (!this.solarTodayImage) {
@@ -550,9 +551,9 @@ class SolarDevice extends GenericDevice {
     if (yieldFactorsUpdated || this.forecastChanged || !this.solarTomorrowImage) {
       const tomorrow = new Date(now);
       tomorrow.setDate(tomorrow.getDate() + 1);
-      const { start: tomorrowStart, end: tomorrowEnd } = SolarLearningStrategy.getSunBounds(tomorrow, this.forecastData);
+      const { start: tomorrowStart, end: tomorrowEnd } = SolarLearningStrategy.getSunBounds(tomorrow, this.forecastData, this.timeZone);
 
-      const urlTomorrow = await getSolarChart(this.forecastData, this.yieldFactors, tomorrowStart, tomorrowEnd, 'Forecast Tomorrow', this.powerHistory);
+      const urlTomorrow = await getSolarChart(this.forecastData, this.yieldFactors, tomorrowStart, tomorrowEnd, 'Forecast Tomorrow', this.powerHistory, this.timeZone);
       if (urlTomorrow) {
         const url = `${urlTomorrow}${urlTomorrow.includes('?') ? '&' : '?'}t=${Date.now()}`;
         if (!this.solarTomorrowImage) {
@@ -566,7 +567,7 @@ class SolarDevice extends GenericDevice {
 
     // 3. Distribution
     if (yieldFactorsUpdated || !this.solarDistributionImage) {
-      const urlDist = await getDistributionChart(this.yieldFactors, 'Yield Distribution');
+      const urlDist = await getDistributionChart(this.yieldFactors, 'Yield Distribution', this.timeZone);
       if (urlDist) {
         const url = `${urlDist}${urlDist.includes('?') ? '&' : '?'}t=${Date.now()}`;
         if (!this.solarDistributionImage) {
