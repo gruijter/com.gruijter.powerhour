@@ -1,4 +1,7 @@
 {
+  "8.6.0": {
+    "en": "Extend flow cards. Adapt/fix flow cards for 15 minute DAP. Consistent internal use of UTC. Make price fetch more robust and refactoring. Stability improvements.Prepare for Solar Yield prediction."
+  },
   "8.5.0": {
     "en": "Many DAP Price fetching fixes and optimizations. Added re-pair for BAT. Reduce memory and CPU usage on BAT solver. Prepare for Solar Yield prediction."
   },
