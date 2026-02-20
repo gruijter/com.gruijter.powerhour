@@ -429,6 +429,7 @@ class SolarDevice extends GenericDevice {
 
       // 3. Step 1: Coarse Learning (14 days, hourly)
       this.log('Step 1: Coarse learning (14 days, hourly)');
+      let step1Accumulators = null;
       try {
         const logs14 = await this.homey.app.api.insights.getLogEntries({
           id: targetLog.id,
@@ -438,7 +439,12 @@ class SolarDevice extends GenericDevice {
         });
 
         if (logs14 && logs14.values && logs14.values.length > 50) {
-          let powerEntries = logs14.values;
+          // Filter out the last 24 hours from coarse data to avoid double counting
+          // (Step 2 will cover the last 24h with higher resolution)
+          const cutoffTime = new Date();
+          cutoffTime.setDate(cutoffTime.getDate() - 1);
+          let powerEntries = logs14.values.filter((e) => new Date(e.t) < cutoffTime);
+
           if (isCumulative) {
             powerEntries = convertCumulativeToPower(powerEntries);
           }
@@ -451,6 +457,7 @@ class SolarDevice extends GenericDevice {
           });
           if (result1.updated) {
             trainingYieldFactors = result1.yieldFactors;
+            step1Accumulators = result1.slotAccumulators;
             this.log(`Step 1 complete: ${result1.log}`);
           } else {
             this.log('Step 1: No updates derived from data.');
@@ -485,6 +492,7 @@ class SolarDevice extends GenericDevice {
             powerEntries,
             weatherEntries: weatherHistory,
             currentYieldFactors: trainingYieldFactors,
+            previousAccumulators: step1Accumulators,
             resolution: 'high',
           });
           if (result2.updated) {
