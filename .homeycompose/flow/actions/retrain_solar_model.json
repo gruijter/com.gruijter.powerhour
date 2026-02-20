@@ -1,0 +1,37 @@
+{
+  "title": {
+    "en": "Retrain solar model",
+    "nl": "Hertrain zonnemodel",
+    "de": "Solar-Modell neu trainieren",
+    "fr": "Réentraîner le modèle solaire",
+    "it": "Riestra modello solare",
+    "sv": "Träna om solmodell",
+    "no": "Tren solmodell på nytt",
+    "es": "Reentrenar modelo solar",
+    "da": "Genoptræn solmodel",
+    "pl": "Przekwalifikuj model solarny",
+    "ru": "Переобучить солнечную модель",
+    "ar": "إعادة تدريب النموذج الشمسي"
+  },
+  "hint": {
+    "en": "Start the retraining process for the solar yield prediction model. This can take a few minutes.",
+    "nl": "Start het hertrainingsproces voor het zonne-opbrengst voorspellingsmodel. Dit kan enkele minuten duren.",
+    "de": "Starten Sie den Umschulungsprozess für das Solarertragsprognosemodell. Dies kann einige Minuten dauern.",
+    "fr": "Lancez le processus de réentraînement pour le modèle de prévision du rendement solaire. Cela peut prendre quelques minutes.",
+    "it": "Avvia il processo di riqualificazione per il modello di previsione della resa solare. Questo può richiedere alcuni minuti.",
+    "sv": "Starta omskolningsprocessen för solavkastningsprognosmodellen. Detta kan ta några minuter.",
+    "no": "Start omskoleringsprosessen for solenergiprognosemodellen. Dette kan ta noen minutter.",
+    "es": "Inicie el proceso de reentrenamiento para el modelo de predicción de rendimiento solar. Esto puede tardar unos minutos.",
+    "da": "Start omskolingsprocessen for soludbytteprognosemodellen. Dette kan tage et par minutter.",
+    "pl": "Rozpocznij proces przekwalifikowania modelu prognozowania uzysku słonecznego. Może to potrwać kilka minut.",
+    "ru": "Запустите процесс переобучения для модели прогнозирования солнечной энергии. Это может занять несколько минут.",
+    "ar": "ابدأ عملية إعادة التدريب لنموذج التنبؤ بالعائد الشمسي. قد يستغرق هذا بضع دقائق."
+  },
+  "args": [
+    {
+      "type": "device",
+      "name": "device",
+      "filter": "driver_id=solar"
+    }
+  ]
+}

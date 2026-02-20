@@ -1,0 +1,68 @@
+{
+  "title": {
+    "en": "The price is one of the highest in next known hours",
+    "nl": "De prijs is een van de hoogste de komende bekende uren",
+    "de": "Der Preis ist einer der höchsten in den nächsten Stunden",
+    "ar": "السعر من بين الأعلى في الساعات المعروفة القادمة",
+    "sv": "Priset är en av de högsta under nästa kända timmar",
+    "it": "Il prezzo è uno dei più alti nelle prossime ore note",
+    "fr": "Le prix est l'un des plus élevés dans les prochaines heures connues",
+    "es": "El precio es uno de los más altos en las próximas horas conocidas",
+    "pl": "Cena jest jedną z najwyższych w następnych znanych godzinach",
+    "ru": "Цена одна из самых высоких в следующие известные часы",
+    "no": "Prisen er en av de høyeste de neste kjente timene",
+    "da": "Prisen er en af de højeste i de næste kendte timer",
+    "ko": "가격이 다음 알려진 시간 동안 가장 높은 가격 중 하나입니다"
+  },
+  "titleFormatted": {
+    "en": "The price is one of [[number]] highest in the next known hours",
+    "nl": "De prijs is een van de [[number]] hoogste in de komende bekende uren",
+    "de": "Der Preis ist einer der [[number]] höchsten in den nächsten bekannten Stunden",
+    "ar": "السعر من بين [[number]] الأعلى في الساعات المعروفة القادمة",
+    "sv": "Priset är en av de [[number]] högsta under nästa kända timmar",
+    "it": "Il prezzo è uno dei [[number]] più alti nelle prossime ore note",
+    "fr": "Le prix est l'un des [[number]] plus élevés dans les prochaines heures connues",
+    "es": "El precio es uno de los [[number]] más altos en las próximas horas conocidas",
+    "pl": "Cena jest jedną z [[number]] najwyższych w następnych znanych godzinach",
+    "ru": "Цена одна из [[number]] самых высоких в следующие известные часы",
+    "no": "Prisen er en av de [[number]] høyeste de neste kjente timene",
+    "da": "Prisen er en af de [[number]] højeste i de næste kendte timer",
+    "ko": "가격이 다음 알려진 시간 동안 가장 높은 [[number]]개 중 하나입니다"
+  },
+  "highlight": true,
+  "args": [
+    {
+      "type": "device",
+      "name": "device",
+      "filter": "driver_id=dap|dap15"
+    },
+    {
+      "type": "number",
+      "name": "number",
+      "title": {
+        "en": "number",
+        "no": "antall",
+        "de": "Anzahl",
+        "sv": "antal",
+        "it": "numero",
+        "da": "nummer",
+        "nl": "aantal",
+        "fr": "nombre",
+        "es": "número",
+        "pl": "liczba",
+        "ru": "количество",
+        "ar": "عدد",
+        "ko": "수"
+      },
+      "placeholder": {
+        "en": "1 - 192"
+      },
+      "hint": {
+        "en": "Enter the number of periods (hours for dap, quarters for dap15)."
+      },
+      "min": 1,
+      "max": 192,
+      "step": 1
+    }
+  ]
+}

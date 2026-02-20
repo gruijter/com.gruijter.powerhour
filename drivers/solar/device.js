@@ -600,6 +600,10 @@ class SolarDevice extends GenericDevice {
     this.forecastChanged = false;
   }
 
+  async retrain_solar_model() {
+    return this.retrainSolarModel();
+  }
+
   destroyListeners() {
     super.destroyListeners();
     if (this.retrainListener) {

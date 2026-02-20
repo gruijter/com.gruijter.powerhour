@@ -57,8 +57,23 @@
       "placeholder": {
         "en": "1 - 16"
       },
+      "hint": {
+        "en": "Enter the number of periods (hours for dap, quarters for dap15).",
+        "nl": "Voer het aantal periodes in (uren voor dap, kwartieren voor dap15).",
+        "de": "Geben Sie die Anzahl der Perioden ein (Stunden für dap, Viertelstunden für dap15).",
+        "fr": "Entrez le nombre de périodes (heures pour dap, quarts d'heure pour dap15).",
+        "it": "Inserisci il numero di periodi (ore per dap, quarti d'ora per dap15).",
+        "sv": "Ange antal perioder (timmar för dap, kvartar för dap15).",
+        "no": "Angi antall perioder (timer for dap, kvarter for dap15).",
+        "es": "Introduzca el número de períodos (horas para dap, cuartos de hora para dap15).",
+        "da": "Indtast antallet af perioder (timer for dap, kvarter for dap15).",
+        "pl": "Wprowadź liczbę okresów (godziny dla dap, kwadranse dla dap15).",
+        "ru": "Введите количество периодов (часы для dap, четверти часа для dap15).",
+        "ar": "أدخل عدد الفترات (ساعات لـ dap، أرباع ساعة لـ dap15).",
+        "ko": "기간 수를 입력하세요 (dap의 경우 시간, dap15의 경우 15분)."
+      },
       "min": 1,
-      "max": 16,
+      "max": 96,
       "step": 1
     }
   ],
