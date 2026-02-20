@@ -69,7 +69,13 @@ class PowerDevice extends GenericDevice {
   }
 
   async addListeners() {
-    if (!this.homey.app.api) throw new Error('Homey API not ready');
+    let api;
+    try {
+      api = this.homey.app.api;
+    } catch (e) {
+      // ignore
+    }
+    if (!api) throw new Error('Homey API not ready');
     await this.getSourceDevice();
 
     // start listener for METER_VIA_WATT device
@@ -101,10 +107,16 @@ class PowerDevice extends GenericDevice {
 
   // Setup how to poll the meter
   async pollMeter() {
-    if (!this.homey.app.api) return;
+    let api;
+    try {
+      api = this.homey.app.api;
+    } catch (e) {
+      return;
+    }
+    if (!api) return;
     // poll a Homey Energy device
     if (this.getSettings().source_device_type.includes('Homey Energy')) {
-      const report = await this.homey.app.api.energy.getLiveReport().catch(this.error);
+      const report = await api.energy.getLiveReport().catch(this.error);
       // console.log(this.getName(), this.settings.homey_energy);
       // console.dir(report, { depth: null, colors: true });
       const value = report[this.settings.homey_energy].W;

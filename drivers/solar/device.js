@@ -136,7 +136,13 @@ class SolarDevice extends GenericDevice {
   }
 
   async addListeners() {
-    if (!this.homey.app.api) throw new Error('Homey API not ready');
+    let api;
+    try {
+      api = this.homey.app.api;
+    } catch (e) {
+      // ignore
+    }
+    if (!api) throw new Error('Homey API not ready');
     await this.getSourceDevice();
 
     // start listener for METER_VIA_WATT device
@@ -174,10 +180,16 @@ class SolarDevice extends GenericDevice {
 
   // Setup how to poll the meter
   async pollMeter() {
-    if (!this.homey.app.api) return;
+    let api;
+    try {
+      api = this.homey.app.api;
+    } catch (e) {
+      return;
+    }
+    if (!api) return;
     // poll a Homey Energy device
     if (this.getSettings().source_device_type.includes('Homey Energy')) {
-      const report = await this.homey.app.api.energy.getLiveReport().catch(this.error);
+      const report = await api.energy.getLiveReport().catch(this.error);
       const value = report[this.settings.homey_energy].W;
       await this.updateMeterFromMeasure(value).catch(this.error);
       return;
@@ -364,7 +376,13 @@ class SolarDevice extends GenericDevice {
   async retrainSolarModel() {
     this.log('Starting solar model retraining...');
     try {
-      if (!this.homey.app.api) throw new Error('Homey API not ready');
+      let api;
+      try {
+        api = this.homey.app.api;
+      } catch (e) {
+        // ignore
+      }
+      if (!api) throw new Error('Homey API not ready');
 
       const sourceDevice = await this.getSourceDevice();
       if (!sourceDevice) throw new Error('No source device found');
@@ -404,7 +422,7 @@ class SolarDevice extends GenericDevice {
 
       // 2. Locate Insights Log
       const insightUri = `homey:device:${sourceDevice.id}:measure_power`;
-      let allLogs = await this.homey.app.api.insights.getLogs().catch(() => []);
+      let allLogs = await api.insights.getLogs().catch(() => []);
       if (!Array.isArray(allLogs)) allLogs = Object.values(allLogs);
 
       const deviceLogs = allLogs.filter((log) => log.uri && log.uri.includes(sourceDevice.id));
@@ -431,7 +449,7 @@ class SolarDevice extends GenericDevice {
       this.log('Step 1: Coarse learning (14 days, hourly)');
       let step1Accumulators = null;
       try {
-        const logs14 = await this.homey.app.api.insights.getLogEntries({
+        const logs14 = await api.insights.getLogEntries({
           id: targetLog.id,
           start: startDate14.toISOString(),
           end: endDate.toISOString(),
@@ -475,7 +493,7 @@ class SolarDevice extends GenericDevice {
         const startDate24h = new Date();
         startDate24h.setDate(startDate24h.getDate() - 1);
 
-        const logs24h = await this.homey.app.api.insights.getLogEntries({
+        const logs24h = await api.insights.getLogEntries({
           id: targetLog.id,
           start: startDate24h.toISOString(),
           end: endDate.toISOString(),

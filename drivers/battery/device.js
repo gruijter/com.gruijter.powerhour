@@ -46,7 +46,13 @@ class BatDevice extends GenericDevice {
 
   async addListeners() {
     // check if source device exists
-    if (!this.homey.app.api) throw new Error('Homey API not ready');
+    let api;
+    try {
+      api = this.homey.app.api;
+    } catch (e) {
+      // ignore
+    }
+    if (!api) throw new Error('Homey API not ready');
     await this.getSourceDevice();
 
     // start listeners for all caps
@@ -63,7 +69,13 @@ class BatDevice extends GenericDevice {
 
   async poll() {
     // check if source device exists
-    if (!this.homey.app.api) return;
+    let api;
+    try {
+      api = this.homey.app.api;
+    } catch (e) {
+      return;
+    }
+    if (!api) return;
     await this.getSourceDevice();
 
     // start polling all caps
