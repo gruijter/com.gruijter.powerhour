@@ -146,11 +146,12 @@ class PowerDevice extends GenericDevice {
     }
     // calculate the sum, and update meter
     let total = 0;
-    total = Number.isFinite(this.lastGroupMeter.p1) ? total += this.lastGroupMeter.p1 : total;
-    total = Number.isFinite(this.lastGroupMeter.p2) ? total += this.lastGroupMeter.p2 : total;
-    total = Number.isFinite(this.lastGroupMeter.n1) ? total -= this.lastGroupMeter.n1 : total;
-    total = Number.isFinite(this.lastGroupMeter.n2) ? total -= this.lastGroupMeter.n2 : total;
-    await this.updateMeter(total).catch(this.error);
+    let hasValue = false;
+    if (Number.isFinite(this.lastGroupMeter.p1)) { total += this.lastGroupMeter.p1; hasValue = true; }
+    if (Number.isFinite(this.lastGroupMeter.p2)) { total += this.lastGroupMeter.p2; hasValue = true; }
+    if (Number.isFinite(this.lastGroupMeter.n1)) { total -= this.lastGroupMeter.n1; hasValue = true; }
+    if (Number.isFinite(this.lastGroupMeter.n2)) { total -= this.lastGroupMeter.n2; hasValue = true; }
+    if (hasValue) await this.updateMeter(total).catch(this.error);
   }
 
 }
