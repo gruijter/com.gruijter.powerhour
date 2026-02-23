@@ -42,8 +42,8 @@ function askQuestion(query) {
 const printTable = (data) => {
   if (data.length === 0) return;
   const headers = Object.keys(data[0]);
-  const widths = headers.map((h) => Math.max(h.length, ...data.map((r) => String(r[h] || '').length)));
-  const rowToString = (row) => headers.map((h, i) => String(row[h] || '').padEnd(widths[i])).join(' | ');
+  const widths = headers.map((h) => Math.max(h.length, ...data.map((r) => String((r[h] !== undefined && r[h] !== null) ? r[h] : '').length)));
+  const rowToString = (row) => headers.map((h, i) => String((row[h] !== undefined && row[h] !== null) ? row[h] : '').padEnd(widths[i])).join(' | ');
   console.log(headers.map((h, i) => h.padEnd(widths[i])).join(' | '));
   console.log(widths.map((w) => '-'.repeat(w)).join('-|-'));
   data.forEach((row) => console.log(rowToString(row)));
@@ -140,6 +140,7 @@ async function main() {
                   resultRow.Pass = 'No';
                   resultRow.Error = 'No prices';
                 } else {
+                  prices.sort((a, b) => new Date(a.time) - new Date(b.time));
                   // Validity check
                   let consecutive = true;
                   const startTime = new Date(prices[0].time);
@@ -155,13 +156,14 @@ async function main() {
                     const diff = currentTime - previousTime;
                     if (diff !== intervalMs) {
                       consecutive = false;
+                      resultRow.Error = `Gap: ${previousTime.toISOString()} -> ${currentTime.toISOString()} (${diff / 60000}m)`;
                       break;
                     }
                     previousTime = currentTime;
                   }
 
                   resultRow.Pass = consecutive ? 'Yes' : 'No';
-                  if (!consecutive) resultRow.Error = 'Non-consecutive';
+                  if (!consecutive && !resultRow.Error) resultRow.Error = 'Non-consecutive';
 
                   resultRow.First = `${prices[0].time.toISOString()} (${prices[0].price})`;
                   resultRow.Last = `${prices[prices.length - 1].time.toISOString()} (${prices[prices.length - 1].price})`;
@@ -275,11 +277,12 @@ async function main() {
               const diff = currentTime - previousTime;
               if (diff !== intervalMs) {
                 consecutive = false;
+                errorMsg = `Gap: ${previousTime.toISOString()} -> ${currentTime.toISOString()} (${diff / 60000}m)`;
                 break;
               }
               previousTime = currentTime;
             }
-            if (!consecutive) {
+            if (!consecutive && !errorMsg) {
               pass = 'No';
               errorMsg = 'Non-consecutive';
             }
@@ -349,6 +352,7 @@ async function main() {
             Provider: name,
             Res: resolution,
             Pass: '?',
+            Count: '-',
             First: '-',
             Last: '-',
             Interval: '-',
@@ -388,7 +392,9 @@ async function main() {
             if (!prices || prices.length === 0) {
               resultRow.Pass = 'No';
               resultRow.Error = 'No prices';
+              resultRow.Count = 0;
             } else {
+              prices.sort((a, b) => new Date(a.time) - new Date(b.time));
               let consecutive = true;
               const startTime = new Date(prices[0].time);
               let intervalMs = 0;
@@ -403,14 +409,16 @@ async function main() {
                 const diff = currentTime - previousTime;
                 if (diff !== intervalMs) {
                   consecutive = false;
+                  resultRow.Error = `Gap: ${previousTime.toISOString()} -> ${currentTime.toISOString()} (${diff / 60000}m)`;
                   break;
                 }
                 previousTime = currentTime;
               }
 
               resultRow.Pass = consecutive ? 'Yes' : 'No';
-              if (!consecutive) resultRow.Error = 'Non-consecutive';
+              if (!consecutive && !resultRow.Error) resultRow.Error = 'Non-consecutive';
 
+              resultRow.Count = prices.length;
               resultRow.First = `${prices[0].time.toISOString()} (${prices[0].price})`;
               resultRow.Last = `${prices[prices.length - 1].time.toISOString()} (${prices[prices.length - 1].price})`;
               resultRow.Interval = `${intervalMin}m`;
@@ -535,6 +543,7 @@ async function main() {
               resultRow.Pass = 'No';
               resultRow.Error = 'No prices';
             } else {
+              prices.sort((a, b) => new Date(a.time) - new Date(b.time));
               let consecutive = true;
               const startTime = new Date(prices[0].time);
               let intervalMs = 0;
@@ -548,13 +557,14 @@ async function main() {
                 const diff = currentTime - previousTime;
                 if (diff !== intervalMs) {
                   consecutive = false;
+                  resultRow.Error = `Gap: ${previousTime.toISOString()} -> ${currentTime.toISOString()} (${diff / 60000}m)`;
                   break;
                 }
                 previousTime = currentTime;
               }
 
               resultRow.Pass = consecutive ? 'Yes' : 'No';
-              if (!consecutive) resultRow.Error = 'Non-consecutive';
+              if (!consecutive && !resultRow.Error) resultRow.Error = 'Non-consecutive';
 
               resultRow.Count = prices.length;
               resultRow.First = `${prices[0].time.toISOString().split('T')[1].slice(0, 5)} (${prices[0].price})`;
