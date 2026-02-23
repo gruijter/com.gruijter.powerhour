@@ -1,4 +1,7 @@
 {
+  "8.6.1": {
+    "en": "Price fetching tweaks. Removed DE_Germany bidding zonde. Fix DST handling. Fix some flow cards."
+  },
   "8.6.0": {
     "en": "Extend flow cards. Adapt/fix flow cards for 15 minute DAP. Consistent internal use of UTC. Make price fetch more robust and refactoring. Stability improvements.Prepare for Solar Yield prediction."
   },
