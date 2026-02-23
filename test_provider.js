@@ -100,6 +100,7 @@ async function main() {
                 Provider: name,
                 Res: resolution,
                 Pass: '?',
+                Count: '-',
                 First: '-',
                 Last: '-',
                 Interval: '-',
@@ -139,6 +140,7 @@ async function main() {
                 if (!prices || prices.length === 0) {
                   resultRow.Pass = 'No';
                   resultRow.Error = 'No prices';
+                  resultRow.Count = 0;
                 } else {
                   prices.sort((a, b) => new Date(a.time) - new Date(b.time));
                   // Validity check
@@ -165,6 +167,7 @@ async function main() {
                   resultRow.Pass = consecutive ? 'Yes' : 'No';
                   if (!consecutive && !resultRow.Error) resultRow.Error = 'Non-consecutive';
 
+                  resultRow.Count = prices.length;
                   resultRow.First = `${prices[0].time.toISOString()} (${prices[0].price})`;
                   resultRow.Last = `${prices[prices.length - 1].time.toISOString()} (${prices[prices.length - 1].price})`;
                   resultRow.Interval = `${intervalMin}m`;
