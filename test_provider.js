@@ -10,7 +10,7 @@
  * - `new Date()` returns the current time in UTC.
  * - Local time calculations (e.g. start of day) depend on the Homey's configured location/timezone.
  * - The app uses `TimeHelpers.getUTCPeriods(timeZone)` to calculate the UTC start/end timestamps
- *   for "Today", "Tomorrow", etc., based on the user's local timezone.
+ *   for "Today", "Tomorrow", etc., from the Homey's location based local timezone.
  *
  * Test Environment (Laptop/PC):
  * - This script simulates the Homey environment.
