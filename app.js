@@ -19,6 +19,17 @@ along with com.gruijter.powerhour.  If not, see <http://www.gnu.org/licenses/>.
 
 'use strict';
 
+/**
+ * TIME HANDLING DOCUMENTATION
+ *
+ * Homey Environment (Intended Runtime):
+ * - Homey runs its internal clock in UTC.
+ * - `new Date()` returns the current time in UTC.
+ * - Local time calculations (e.g. start of day) depend on the Homey's configured location/timezone.
+ * - The app uses `TimeHelpers.getUTCPeriods(timeZone)` to calculate the UTC start/end timestamps
+ *   for "Today", "Tomorrow", etc., from the Homey's location based local timezone.
+ */
+
 const Homey = require('homey');
 const { HomeyAPI } = require('homey-api');
 const Flows = require('./lib/flows/Flows');
@@ -39,7 +50,7 @@ class MyApp extends Homey.App {
       this.everyXminutes(15);
       this.retry(5);
 
-      this.log('Power by the Hour app is running...');
+      this.log(`Power by the Hour app is running... Timezone: ${this.homey.clock.getTimezone()}`);
     } catch (error) {
       this.error(error);
     }
