@@ -225,8 +225,8 @@ async function main() {
                   if (!consecutive && !resultRow.Error) resultRow.Error = 'Non-consecutive';
 
                   resultRow.Count = prices.length;
-                  resultRow.First = `${prices[0].time.toISOString()} (${prices[0].price})`;
-                  resultRow.Last = `${prices[prices.length - 1].time.toISOString()} (${prices[prices.length - 1].price})`;
+                  resultRow.First = `${prices[0].time.toISOString().replace('T', ' ').slice(5, 16)} (${parseFloat(prices[0].price.toFixed(10))})`;
+                  resultRow.Last = `${prices[prices.length - 1].time.toISOString().replace('T', ' ').slice(5, 16)} (${parseFloat(prices[prices.length - 1].price.toFixed(10))})`;
                   resultRow.Interval = `${intervalMin}m`;
 
                   if (consecutive) {
@@ -363,8 +363,8 @@ async function main() {
           results.push({
             Provider: name,
             Pass: pass,
-            First: prices && prices.length > 0 ? `${prices[0].time.toISOString()} (${prices[0].price})` : '-',
-            Last: prices && prices.length > 0 ? `${prices[prices.length - 1].time.toISOString()} (${prices[prices.length - 1].price})` : '-',
+            First: prices && prices.length > 0 ? `${prices[0].time.toISOString().replace('T', ' ').slice(5, 16)} (${parseFloat(prices[0].price.toFixed(10))})` : '-',
+            Last: prices && prices.length > 0 ? `${prices[prices.length - 1].time.toISOString().replace('T', ' ').slice(5, 16)} (${parseFloat(prices[prices.length - 1].price.toFixed(10))})` : '-',
             Interval: `${intervalMin}m`,
             Error: errorMsg,
           });
@@ -492,8 +492,8 @@ async function main() {
               if (!consecutive && !resultRow.Error) resultRow.Error = 'Non-consecutive';
 
               resultRow.Count = prices.length;
-              resultRow.First = `${prices[0].time.toISOString()} (${prices[0].price})`;
-              resultRow.Last = `${prices[prices.length - 1].time.toISOString()} (${prices[prices.length - 1].price})`;
+              resultRow.First = `${prices[0].time.toISOString().replace('T', ' ').slice(5, 16)} (${parseFloat(prices[0].price.toFixed(10))})`;
+              resultRow.Last = `${prices[prices.length - 1].time.toISOString().replace('T', ' ').slice(5, 16)} (${parseFloat(prices[prices.length - 1].price.toFixed(10))})`;
               resultRow.Interval = `${intervalMin}m`;
 
               if (consecutive) {
@@ -651,8 +651,8 @@ async function main() {
               if (!consecutive && !resultRow.Error) resultRow.Error = 'Non-consecutive';
 
               resultRow.Count = prices.length;
-              resultRow.First = `${prices[0].time.toISOString().split('T')[1].slice(0, 5)} (${prices[0].price})`;
-              resultRow.Last = `${prices[prices.length - 1].time.toISOString().split('T')[1].slice(0, 5)} (${prices[prices.length - 1].price})`;
+              resultRow.First = `${prices[0].time.toISOString().split('T')[1].slice(0, 5)} (${parseFloat(prices[0].price.toFixed(10))})`;
+              resultRow.Last = `${prices[prices.length - 1].time.toISOString().split('T')[1].slice(0, 5)} (${parseFloat(prices[prices.length - 1].price.toFixed(10))})`;
             }
           } catch (err) {
             resultRow.Pass = 'No';
