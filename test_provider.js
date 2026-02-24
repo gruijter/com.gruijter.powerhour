@@ -10,6 +10,7 @@ const Nordpool = require('./lib/providers/Nordpool');
 const Stekker = require('./lib/providers/Stekker');
 const Easyenergy = require('./lib/providers/Easyenergy');
 const EEX = require('./lib/providers/EEX');
+const TimeHelpers = require('./lib/TimeHelpers');
 
 const providers = {
   ENTSOE: Entsoe,
@@ -37,6 +38,41 @@ function askQuestion(query) {
   return new Promise((resolve) => rl.question(query, (ans) => {
     resolve(ans);
   }));
+}
+
+const zoneTimezones = {
+  // WET / WEST
+  '10YIE-1001A00010': 'Europe/Dublin',
+  '10Y1001A1001A92E': 'Europe/London',
+  '10YGB----------A': 'Europe/London',
+  '10Y1001A1001A016': 'Europe/London',
+  '10YPT-REN------W': 'Europe/Lisbon',
+
+  // EET / EEST
+  '10YFI-1--------U': 'Europe/Helsinki',
+  '10Y1001A1001A39I': 'Europe/Tallinn',
+  '10YLV-1001A00074': 'Europe/Riga',
+  '10YLT-1001A0008Q': 'Europe/Vilnius',
+  '10YRO-TEL------P': 'Europe/Bucharest',
+  '10YCA-BULGARIA-R': 'Europe/Sofia',
+  '10YGR-HTSO-----Y': 'Europe/Athens',
+  '10YUA-WEPS-----0': 'Europe/Kiev',
+  '10Y1001C--00003F': 'Europe/Kiev',
+  '10Y1001C--000182': 'Europe/Kiev',
+  '10Y1001A1001A869': 'Europe/Kiev',
+
+  // Turkey
+  '10YTR-TEIAS----W': 'Europe/Istanbul',
+
+  // Gas
+  NBP_EOD: 'Europe/London',
+  NBP_EGSI: 'Europe/London',
+  PVB_EOD: 'Europe/Madrid',
+  PVB_EGSI: 'Europe/Madrid',
+};
+
+function getTimeZone(zoneCode) {
+  return zoneTimezones[zoneCode] || 'Europe/Paris';
 }
 
 const printTable = (data) => {
@@ -123,17 +159,18 @@ async function main() {
                 if (name === 'ENTSOE_GRUIJTER') apiKey = process.env.ENTSOE_GRUIJTER_API_KEY || '';
 
                 const provider = new ProviderClass({ apiKey });
-                const today = new Date();
-                today.setHours(0, 0, 0, 0);
-                const tomorrow = new Date(today);
-                tomorrow.setDate(today.getDate() + 1);
-                tomorrow.setHours(23, 59, 59, 999);
+                const timeZone = getTimeZone(zoneCode);
+                const periods = TimeHelpers.getUTCPeriods(timeZone);
+                const period = {
+                  start: periods.todayStart,
+                  end: new Date(periods.tomorrowStart.getTime() - 1),
+                };
 
                 // eslint-disable-next-line no-await-in-loop
                 const prices = await provider.getPrices({
                   biddingZone: zoneCode,
-                  dateStart: today,
-                  dateEnd: tomorrow,
+                  dateStart: period.start,
+                  dateEnd: period.end,
                   resolution,
                 });
 
@@ -176,6 +213,7 @@ async function main() {
                     validData.push({
                       name,
                       resolution,
+                      prices,
                       firstTime: prices[0].time.getTime(),
                       firstPrice: prices[0].price,
                       lastTime: prices[prices.length - 1].time.getTime(),
@@ -205,6 +243,16 @@ async function main() {
                 if (Math.abs(d.firstPrice - ref.firstPrice) > 0.01) diffs.push('FirstPrice');
                 if (d.lastTime !== ref.lastTime) diffs.push('LastTime');
                 if (Math.abs(d.lastPrice - ref.lastPrice) > 0.01) diffs.push('LastPrice');
+
+                if (d.prices.length !== ref.prices.length) {
+                  diffs.push(`Count(${d.prices.length}!=${ref.prices.length})`);
+                } else {
+                  let mismatches = 0;
+                  for (let i = 0; i < d.prices.length; i += 1) {
+                    if (Math.abs(d.prices[i].price - ref.prices[i].price) > 0.01) mismatches += 1;
+                  }
+                  if (mismatches > 0) diffs.push(`Mismatches(${mismatches})`);
+                }
 
                 if (diffs.length > 0) {
                   const row = results.find((r) => r.Provider === d.name && r.Res === d.resolution);
@@ -241,11 +289,12 @@ async function main() {
           if (!selectedZoneKey) [selectedZoneKey] = zoneKeys;
           const zoneCode = zones[selectedZoneKey];
 
-          const today = new Date();
-          today.setHours(0, 0, 0, 0);
-          const tomorrow = new Date(today);
-          tomorrow.setDate(today.getDate() + 1);
-          tomorrow.setHours(23, 59, 59, 999);
+          const timeZone = getTimeZone(zoneCode);
+          const periods = TimeHelpers.getUTCPeriods(timeZone);
+          const period = {
+            start: periods.todayStart,
+            end: new Date(periods.tomorrowStart.getTime() - 1),
+          };
 
           const isGas = name === 'EASYENERGY' || name === 'EEX';
           const resolution = isGas ? 'PT60M' : 'PT15M';
@@ -253,8 +302,8 @@ async function main() {
           // eslint-disable-next-line no-await-in-loop
           const prices = await provider.getPrices({
             biddingZone: zoneCode,
-            dateStart: today,
-            dateEnd: tomorrow,
+            dateStart: period.start,
+            dateEnd: period.end,
             resolution,
           });
 
@@ -378,17 +427,18 @@ async function main() {
             if (name === 'ENTSOE_GRUIJTER') apiKey = process.env.ENTSOE_GRUIJTER_API_KEY || '';
 
             const provider = new ProviderClass({ apiKey });
-            const today = new Date();
-            today.setHours(0, 0, 0, 0);
-            const tomorrow = new Date(today);
-            tomorrow.setDate(today.getDate() + 1);
-            tomorrow.setHours(23, 59, 59, 999);
+            const timeZone = getTimeZone(zoneCode);
+            const periods = TimeHelpers.getUTCPeriods(timeZone);
+            const period = {
+              start: periods.todayStart,
+              end: new Date(periods.tomorrowStart.getTime() - 1),
+            };
 
             // eslint-disable-next-line no-await-in-loop
             const prices = await provider.getPrices({
               biddingZone: zoneCode,
-              dateStart: today,
-              dateEnd: tomorrow,
+              dateStart: period.start,
+              dateEnd: period.end,
               resolution,
             });
 
@@ -538,18 +588,18 @@ async function main() {
           };
 
           try {
-            const dateStart = new Date();
-            dateStart.setHours(0, 0, 0, 0);
-            if (day === 'Tomorrow') dateStart.setDate(dateStart.getDate() + 1);
-
-            const dateEnd = new Date(dateStart);
-            dateEnd.setHours(23, 59, 59, 999);
+            const timeZone = getTimeZone(zoneCode);
+            const periods = TimeHelpers.getUTCPeriods(timeZone);
+            const period = {
+              start: day === 'Tomorrow' ? periods.tomorrowStart : periods.todayStart,
+              end: day === 'Tomorrow' ? new Date(periods.tomorrowEnd.getTime() - 1) : new Date(periods.tomorrowStart.getTime() - 1),
+            };
 
             // eslint-disable-next-line no-await-in-loop
             const prices = await provider.getPrices({
               biddingZone: zoneCode,
-              dateStart,
-              dateEnd,
+              dateStart: period.start,
+              dateEnd: period.end,
               resolution,
             });
 
