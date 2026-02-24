@@ -76,10 +76,10 @@ const zoneTimezones = {
   '10YRO-TEL------P': 'Europe/Bucharest',
   '10YCA-BULGARIA-R': 'Europe/Sofia',
   '10YGR-HTSO-----Y': 'Europe/Athens',
-  '10YUA-WEPS-----0': 'Europe/Kiev',
-  '10Y1001C--00003F': 'Europe/Kiev',
-  '10Y1001C--000182': 'Europe/Kiev',
-  '10Y1001A1001A869': 'Europe/Kiev',
+  '10YUA-WEPS-----0': 'Europe/Kyiv',
+  '10Y1001C--00003F': 'Europe/Kyiv',
+  '10Y1001C--000182': 'Europe/Kyiv',
+  '10Y1001A1001A869': 'Europe/Kyiv',
 
   // Turkey
   '10YTR-TEIAS----W': 'Europe/Istanbul',
