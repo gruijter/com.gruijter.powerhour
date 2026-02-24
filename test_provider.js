@@ -430,6 +430,7 @@ async function main() {
                 validData.push({
                   name,
                   resolution,
+                  prices,
                   firstTime: prices[0].time.getTime(),
                   firstPrice: prices[0].price,
                   lastTime: prices[prices.length - 1].time.getTime(),
@@ -461,6 +462,16 @@ async function main() {
             if (Math.abs(d.firstPrice - ref.firstPrice) > 0.01) diffs.push('FirstPrice');
             if (d.lastTime !== ref.lastTime) diffs.push('LastTime');
             if (Math.abs(d.lastPrice - ref.lastPrice) > 0.01) diffs.push('LastPrice');
+
+            if (d.prices.length !== ref.prices.length) {
+              diffs.push(`Count(${d.prices.length}!=${ref.prices.length})`);
+            } else {
+              let mismatches = 0;
+              for (let i = 0; i < d.prices.length; i += 1) {
+                if (Math.abs(d.prices[i].price - ref.prices[i].price) > 0.01) mismatches += 1;
+              }
+              if (mismatches > 0) diffs.push(`Mismatches(${mismatches})`);
+            }
 
             if (diffs.length > 0) {
               const row = results.find((r) => r.Provider === d.name && r.Res === d.resolution);
