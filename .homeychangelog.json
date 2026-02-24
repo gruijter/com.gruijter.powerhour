@@ -1,4 +1,7 @@
 {
+  "8.6.3": {
+    "en": "Chronon quantum theory fixes. Better timeLord. Various priceFetch fixes. Various BAT and SUM fixes."
+  },
   "8.6.2": {
     "en": "Fix skipFetch tomorrow. Handle market decoupling edge cases."
   },
