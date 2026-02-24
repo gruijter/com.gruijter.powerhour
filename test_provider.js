@@ -2,6 +2,26 @@
 
 'use strict';
 
+/**
+ * TIME HANDLING DOCUMENTATION
+ *
+ * Homey Environment (Intended Runtime):
+ * - Homey runs its internal clock in UTC.
+ * - `new Date()` returns the current time in UTC.
+ * - Local time calculations (e.g. start of day) depend on the Homey's configured location/timezone.
+ * - The app uses `TimeHelpers.getUTCPeriods(timeZone)` to calculate the UTC start/end timestamps
+ *   for "Today", "Tomorrow", etc., based on the user's local timezone.
+ *
+ * Test Environment (Laptop/PC):
+ * - This script simulates the Homey environment.
+ * - Since the laptop might be in a different timezone than the bidding zone being tested,
+ *   we explicitly define the timezone for each bidding zone (`zoneTimezones`).
+ * - We use `TimeHelpers.getUTCPeriods(zoneTimeZone)` to calculate the correct UTC query parameters
+ *   for the APIs, ensuring that "Today" corresponds to the local day of the bidding zone,
+ *   regardless of the laptop's system time.
+ * - This ensures consistent testing of day boundaries and DST transitions across different regions.
+ */
+
 const readline = require('readline');
 const fs = require('fs');
 const Entsoe = require('./lib/providers/Entsoe');
