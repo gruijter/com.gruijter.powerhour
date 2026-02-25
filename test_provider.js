@@ -176,7 +176,6 @@ async function main() {
 
                 let apiKey = '';
                 if (name === 'ENTSOE') apiKey = process.env.ENTSOE_API_KEY || '';
-                if (name === 'ENTSOE_GRUIJTER') apiKey = process.env.ENTSOE_GRUIJTER_API_KEY || '';
 
                 const provider = new ProviderClass({ apiKey });
                 const timeZone = getTimeZone(zoneCode);
@@ -299,7 +298,6 @@ async function main() {
         try {
           let apiKey = '';
           if (name === 'ENTSOE') apiKey = process.env.ENTSOE_API_KEY || '';
-          if (name === 'ENTSOE_GRUIJTER') apiKey = process.env.ENTSOE_GRUIJTER_API_KEY || '';
 
           const provider = new ProviderClass({ apiKey });
           const zones = provider.getBiddingZones();
@@ -444,7 +442,6 @@ async function main() {
 
             let apiKey = '';
             if (name === 'ENTSOE') apiKey = process.env.ENTSOE_API_KEY || '';
-            if (name === 'ENTSOE_GRUIJTER') apiKey = process.env.ENTSOE_GRUIJTER_API_KEY || '';
 
             const provider = new ProviderClass({ apiKey });
             const timeZone = getTimeZone(zoneCode);
@@ -574,9 +571,6 @@ async function main() {
       apiKey = await askQuestion(`Enter API Key for ${providerName} (or press Enter to use environment variable ENTSOE_API_KEY): `);
       if (!apiKey) apiKey = process.env.ENTSOE_API_KEY || '';
       if (!apiKey) throw new Error('API Key is required for ENTSOE');
-    } else if (providerName === 'ENTSOE_GRUIJTER') {
-      apiKey = await askQuestion(`Enter API Key for ${providerName} (or press Enter to use environment variable ENTSOE_GRUIJTER_API_KEY): `);
-      if (!apiKey) apiKey = process.env.ENTSOE_GRUIJTER_API_KEY || '';
     }
 
     const provider = new ProviderClass({ apiKey });

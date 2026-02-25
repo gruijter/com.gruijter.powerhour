@@ -288,7 +288,19 @@ class SolarDevice extends GenericDevice {
 
     const data = await OpenMeteo.fetchForecast(lat, lon);
     if (data && Object.keys(data).length > 0) {
-      this.forecastData = data;
+      // Apply Time Shift
+      const timeShift = this.getSettings().solar_time_shift || 0;
+      if (timeShift !== 0) {
+        const shiftedData = {};
+        Object.keys(data).forEach((t) => {
+          const newTime = Number(t) + (timeShift * 3600000);
+          shiftedData[newTime] = data[t];
+        });
+        this.forecastData = shiftedData;
+      } else {
+        this.forecastData = data;
+      }
+
       await this.setStoreValue('forecastData', this.forecastData);
       this.log('Forecast updated');
       this.forecastChanged = true;
@@ -419,6 +431,15 @@ class SolarDevice extends GenericDevice {
           w.time += timeShift * 3600000;
         });
       }
+
+      // Update forecastData with the fresh (and potentially shifted) weather data
+      const freshForecast = {};
+      weatherHistory.forEach((e) => {
+        freshForecast[e.time] = e.radiation;
+      });
+      this.forecastData = { ...this.forecastData, ...freshForecast };
+      await this.setStoreValue('forecastData', this.forecastData);
+      this.forecastChanged = true;
 
       // 2. Locate Insights Log
       const insightUri = `homey:device:${sourceDevice.id}:measure_power`;
