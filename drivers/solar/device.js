@@ -93,12 +93,13 @@ class SolarDevice extends GenericDevice {
     const storedYieldFactors = await this.getStoreValue('yieldFactors');
     this.yieldFactors = storedYieldFactors || new Array(96).fill(0);
     this.forecastData = await this.getStoreValue('forecastData') || {}; // { time: radiation }
+    this.forecastHistory = await this.getStoreValue('forecastHistory') || { today: null, yesterday: null };
 
     let history = await this.getStoreValue('powerHistory');
     if (!Array.isArray(history)) history = [];
     this.powerHistory = history
       .filter((e) => e && typeof e.time === 'number' && typeof e.power === 'number')
-      .slice(-1500);
+      .slice(-5000);
     if (this.powerHistory.length !== history.length) await this.setStoreValue('powerHistory', this.powerHistory);
 
     // Start loops
@@ -106,6 +107,8 @@ class SolarDevice extends GenericDevice {
     // Delay learning loop to allow source device to settle/update
     if (this.initLearningTimeout) this.homey.clearTimeout(this.initLearningTimeout);
     this.initLearningTimeout = this.homey.setTimeout(async () => {
+      // Ensure we have history for the graph (e.g. after app update)
+      await this.populatePowerHistory();
       this.startLearningLoop();
       if (!storedYieldFactors) {
         this.log('First initialization: Auto-starting model retraining...');
@@ -331,7 +334,7 @@ class SolarDevice extends GenericDevice {
       const lastEntry = this.powerHistory[this.powerHistory.length - 1];
       if (!lastEntry || (currentTimestamp - lastEntry.time) > 50000) {
         this.powerHistory.push({ time: currentTimestamp, power: currentPower });
-        if (this.powerHistory.length > 1500) this.powerHistory.shift();
+        if (this.powerHistory.length > 5000) this.powerHistory.shift();
         await this.setStoreValue('powerHistory', this.powerHistory);
 
         const curtailment = SolarLearningStrategy.detectCurtailment({
@@ -488,6 +491,13 @@ class SolarDevice extends GenericDevice {
             powerEntries = convertCumulativeToPower(powerEntries);
           }
 
+          // Populate powerHistory from coarse data
+          const history = powerEntries.map((e) => ({
+            time: new Date(e.t).getTime(),
+            power: e.y !== undefined ? e.y : e.v,
+          })).filter((e) => typeof e.power === 'number');
+          this.powerHistory = history;
+
           const result1 = SolarLearningStrategy.processHistoricData({
             powerEntries,
             weatherEntries: weatherHistory,
@@ -527,6 +537,21 @@ class SolarDevice extends GenericDevice {
             powerEntries = convertCumulativeToPower(powerEntries);
           }
 
+          // Merge fine data into powerHistory
+          const recentHistory = powerEntries.map((e) => ({
+            time: new Date(e.t).getTime(),
+            power: e.y !== undefined ? e.y : e.v,
+          })).filter((e) => typeof e.power === 'number');
+
+          if (recentHistory.length > 0) {
+            const minRecentTime = recentHistory[0].time;
+            this.powerHistory = this.powerHistory.filter((e) => e.time < minRecentTime);
+            this.powerHistory = this.powerHistory.concat(recentHistory);
+          }
+          this.powerHistory.sort((a, b) => a.time - b.time);
+          if (this.powerHistory.length > 5000) this.powerHistory = this.powerHistory.slice(-5000);
+          await this.setStoreValue('powerHistory', this.powerHistory);
+
           const result2 = SolarLearningStrategy.processHistoricData({
             powerEntries,
             weatherEntries: weatherHistory,
@@ -557,9 +582,175 @@ class SolarDevice extends GenericDevice {
     }
   }
 
+  async populatePowerHistory() {
+    try {
+      const now = Date.now();
+      this.log(`[populatePowerHistory] Checking history. Length: ${this.powerHistory.length}`);
+      if (this.powerHistory.length > 0) {
+        this.log(`[populatePowerHistory] Range: ${new Date(this.powerHistory[0].time).toISOString()} - ${new Date(this.powerHistory[this.powerHistory.length - 1].time).toISOString()}`);
+      }
+
+      // Check if we have sufficient history (at least 24h worth of data)
+      // Need ~40 hours to cover yesterday morning from today evening
+      const hasData = this.powerHistory.length > 24 && this.powerHistory[0].time < (now - 40 * 60 * 60 * 1000);
+      const hasRecent = this.powerHistory.length > 0 && this.powerHistory[this.powerHistory.length - 1].time > (now - 6 * 60 * 60 * 1000);
+
+      if (hasData && hasRecent) {
+        this.log('[populatePowerHistory] History sufficient and recent. Skipping.');
+        return;
+      }
+
+      this.log('[populatePowerHistory] Populating power history from Insights...');
+
+      let api;
+      try {
+        api = this.homey.app.api;
+      } catch (e) { }
+      if (!api) {
+        this.log('[populatePowerHistory] Homey API not ready');
+        return;
+      }
+
+      const sourceDevice = await this.getSourceDevice();
+      if (!sourceDevice) {
+        this.log('[populatePowerHistory] No source device');
+        return;
+      }
+
+      // Locate Insights Log
+      let allLogs = await api.insights.getLogs().catch(() => []);
+      if (!Array.isArray(allLogs)) allLogs = Object.values(allLogs);
+
+      const deviceLogs = allLogs.filter((log) => log.uri && log.uri.includes(sourceDevice.id));
+      const targetLog = deviceLogs.find((log) => log.uri.endsWith(':measure_power'))
+        || deviceLogs.find((log) => log.uri.endsWith(':energy_power'))
+        || deviceLogs.find((log) => log.uri.endsWith(':meter_power'));
+
+      if (!targetLog) {
+        this.log('[populatePowerHistory] No target log found');
+        return;
+      }
+
+      const isCumulative = targetLog.uri.endsWith(':meter_power');
+
+      // Fetch last 2 days ending at start of today (to avoid overwriting today's realtime data)
+      let endDate = new Date();
+      try {
+        const now = new Date();
+        const nowLocal = new Date(now.toLocaleString('en-US', { timeZone: this.timeZone }));
+        const offset = nowLocal.getTime() - now.getTime();
+        const midnightLocal = new Date(nowLocal);
+        midnightLocal.setHours(0, 0, 0, 0);
+        endDate = new Date(midnightLocal.getTime() - offset);
+      } catch (e) { }
+
+      const startDate = new Date(endDate);
+      startDate.setDate(startDate.getDate() - 2);
+
+      this.log(`[populatePowerHistory] Fetching logs for ${targetLog.uri} from ${startDate.toISOString()} to ${endDate.toISOString()}`);
+
+      const logs = await api.insights.getLogEntries({
+        id: targetLog.id,
+        start: startDate.toISOString(),
+        end: endDate.toISOString(),
+        resolution: 'yesterday', // 5 minute resolution
+      });
+
+      if (logs && logs.values && logs.values.length > 0) {
+        this.log(`[populatePowerHistory] Got ${logs.values.length} entries`);
+        let entries = logs.values;
+        if (isCumulative) {
+          entries = convertCumulativeToPower(entries);
+        }
+
+        const newHistory = entries.map((e) => ({
+          time: new Date(e.t).getTime(),
+          power: e.y !== undefined ? e.y : e.v,
+        })).filter((e) => typeof e.power === 'number');
+
+        // Merge with existing history
+        const existingMap = new Map(this.powerHistory.map((e) => [e.time, e]));
+        newHistory.forEach((e) => existingMap.set(e.time, e));
+
+        this.powerHistory = Array.from(existingMap.values())
+          .sort((a, b) => a.time - b.time)
+          .slice(-5000);
+
+        await this.setStoreValue('powerHistory', this.powerHistory);
+        this.log(`[populatePowerHistory] Populated power history. New length: ${this.powerHistory.length}`);
+        await this.updateForecastDisplay(true);
+      } else {
+        this.log('[populatePowerHistory] No entries received from Insights');
+      }
+    } catch (err) {
+      this.error('[populatePowerHistory] Error:', err);
+    }
+  }
+
   async updateForecastDisplay(yieldFactorsUpdated = false) {
     const now = new Date();
 
+    // --- 0. Manage Forecast History (For Fixed Yesterday Chart) ---
+    const nowLocalStr = now.toLocaleDateString('en-CA', { timeZone: this.timeZone }); // YYYY-MM-DD
+
+    // Calculate Today's Power Series (Forecast) to cache
+    const todayMidnight = new Date(now.toLocaleString('en-US', { timeZone: this.timeZone }));
+    todayMidnight.setHours(0, 0, 0, 0);
+    const tomorrowMidnight = new Date(todayMidnight);
+    tomorrowMidnight.setDate(tomorrowMidnight.getDate() + 1);
+
+    const todaySeries = {};
+    // Iterate 15 min slots for the full local day
+    for (let t = todayMidnight.getTime(); t < tomorrowMidnight.getTime(); t += 15 * 60 * 1000) {
+      const rad = SolarLearningStrategy.getInterpolatedRadiation(t, this.forecastData);
+      const slot = (new Date(t).getUTCHours() * 4) + Math.floor(new Date(t).getUTCMinutes() / 15);
+      const yf = this.yieldFactors[slot] || 0;
+      todaySeries[t] = Math.round(rad * yf);
+    }
+
+    // Rotate history if day changed
+    if (this.forecastHistory.today && this.forecastHistory.today.date !== nowLocalStr) {
+      this.log(`[updateForecastDisplay] Rotating history. Moving ${this.forecastHistory.today.date} to Yesterday. New Today: ${nowLocalStr}`);
+      this.forecastHistory.yesterday = this.forecastHistory.today;
+    }
+
+    // Backfill yesterday if missing (e.g. new device or after retrain)
+    if (!this.forecastHistory.yesterday) {
+      const yesterday = new Date(now);
+      yesterday.setDate(yesterday.getDate() - 1);
+      const yesterdayLocalStr = yesterday.toLocaleDateString('en-CA', { timeZone: this.timeZone });
+
+      const yesterdayMidnight = new Date(todayMidnight);
+      yesterdayMidnight.setDate(yesterdayMidnight.getDate() - 1);
+      const yesterdayEnd = new Date(yesterdayMidnight);
+      yesterdayEnd.setDate(yesterdayEnd.getDate() + 1);
+
+      // Check if we have weather data for yesterday
+      const hasData = Object.keys(this.forecastData).some((t) => {
+        const time = Number(t);
+        return time >= yesterdayMidnight.getTime() && time < yesterdayEnd.getTime();
+      });
+
+      if (hasData) {
+        this.log(`[updateForecastDisplay] Backfilling yesterday forecast for ${yesterdayLocalStr}`);
+        const yesterdaySeries = {};
+        for (let t = yesterdayMidnight.getTime(); t < yesterdayEnd.getTime(); t += 15 * 60 * 1000) {
+          const rad = SolarLearningStrategy.getInterpolatedRadiation(t, this.forecastData);
+          const slot = (new Date(t).getUTCHours() * 4) + Math.floor(new Date(t).getUTCMinutes() / 15);
+          const yf = this.yieldFactors[slot] || 0;
+          yesterdaySeries[t] = Math.round(rad * yf);
+        }
+        this.forecastHistory.yesterday = { date: yesterdayLocalStr, data: yesterdaySeries };
+      } else {
+        this.log(`[updateForecastDisplay] Cannot backfill yesterday: No weather data for ${yesterdayLocalStr}`);
+      }
+    }
+
+    // Update today's cache
+    this.forecastHistory.today = { date: nowLocalStr, data: todaySeries };
+    await this.setStoreValue('forecastHistory', this.forecastHistory);
+
+    // --- Calculate Totals ---
     const { expectedPower, totalYield } = SolarLearningStrategy.calculateForecast({
       forecastData: this.forecastData,
       yieldFactors: this.yieldFactors,
@@ -601,6 +792,31 @@ class SolarDevice extends GenericDevice {
         }
         this.solarTomorrowImage.setStream(async (stream) => imageUrlToStream(url, stream, this));
         await this.solarTomorrowImage.update();
+      }
+    }
+
+    // 3. Yesterday (Fixed Forecast)
+    if (this.forecastHistory.yesterday && (!this.solarYesterdayImage || yieldFactorsUpdated)) {
+      const yesterday = new Date(now);
+      yesterday.setDate(yesterday.getDate() - 1);
+
+      // Use the frozen power data from history to determine bounds and draw chart
+      const frozenData = this.forecastHistory.yesterday.data;
+      const { start: yStart, end: yEnd } = SolarLearningStrategy.getSunBounds(yesterday, frozenData, this.timeZone);
+
+      // Pass dummy yield factors (1.0) because frozenData is already Power (W), not Radiation
+      const dummyYields = new Array(96).fill(1.0);
+      this.log(`[updateForecastDisplay] Updating Yesterday Chart (${this.forecastHistory.yesterday.date}). PowerHistory: ${this.powerHistory.length}`);
+      const urlYesterday = await getSolarChart(frozenData, dummyYields, yStart, yEnd, 'Solar Yesterday', this.powerHistory, this.timeZone);
+
+      if (urlYesterday) {
+        const url = `${urlYesterday}${urlYesterday.includes('?') ? '&' : '?'}t=${Date.now()}`;
+        if (!this.solarYesterdayImage) {
+          this.solarYesterdayImage = await this.homey.images.createImage();
+          await this.setCameraImage('solarYesterday', 'Solar Yesterday', this.solarYesterdayImage);
+        }
+        this.solarYesterdayImage.setStream(async (stream) => imageUrlToStream(url, stream, this));
+        await this.solarYesterdayImage.update();
       }
     }
 
