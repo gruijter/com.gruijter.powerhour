@@ -167,7 +167,7 @@ class SolarDevice extends GenericDevice {
       if (this.sourceCapGroup[key]) {
         this.capabilityInstances[key] = this.sourceDevice.makeCapabilityInstance(this.sourceCapGroup[key], async (value) => {
           this.lastGroupMeter[key] = value;
-          await this.updateGroupMeter(value, key).catch(this.error);
+          await this.updateGroupMeter().catch(this.error);
         });
       }
     });
