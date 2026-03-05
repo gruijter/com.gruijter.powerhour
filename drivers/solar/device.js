@@ -689,6 +689,7 @@ class SolarDevice extends GenericDevice {
 
   async updateForecastDisplay(yieldFactorsUpdated = false) {
     const now = new Date();
+    let dayChanged = false;
 
     // --- 0. Manage Forecast History (For Fixed Yesterday Chart) ---
     const nowLocalStr = now.toLocaleDateString('en-CA', { timeZone: this.timeZone }); // YYYY-MM-DD
@@ -712,6 +713,7 @@ class SolarDevice extends GenericDevice {
     if (this.forecastHistory.today && this.forecastHistory.today.date !== nowLocalStr) {
       this.log(`[updateForecastDisplay] Rotating history. Moving ${this.forecastHistory.today.date} to Yesterday. New Today: ${nowLocalStr}`);
       this.forecastHistory.yesterday = this.forecastHistory.today;
+      dayChanged = true;
     }
 
     // Backfill yesterday if missing (e.g. new device or after retrain)
@@ -741,6 +743,7 @@ class SolarDevice extends GenericDevice {
           yesterdaySeries[t] = Math.round(rad * yf);
         }
         this.forecastHistory.yesterday = { date: yesterdayLocalStr, data: yesterdaySeries };
+        dayChanged = true;
       } else {
         this.log(`[updateForecastDisplay] Cannot backfill yesterday: No weather data for ${yesterdayLocalStr}`);
       }
@@ -796,7 +799,7 @@ class SolarDevice extends GenericDevice {
     }
 
     // 3. Yesterday (Fixed Forecast)
-    if (this.forecastHistory.yesterday && (!this.solarYesterdayImage || yieldFactorsUpdated)) {
+    if (this.forecastHistory.yesterday && (!this.solarYesterdayImage || yieldFactorsUpdated || dayChanged)) {
       const yesterday = new Date(now);
       yesterday.setDate(yesterday.getDate() - 1);
 
