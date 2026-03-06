@@ -23,41 +23,6 @@ const GenericDriver = require('../../lib/genericDeviceDrivers/generic_sum_driver
 
 const driverSpecifics = {
   driverId: 'solar',
-  requiredClass: 'solarpanel',
-  originDeviceCapabilities: ['measure_power', 'meter_power', 'meter_power.peak', 'meter_power.consumed', 'meter_power.delivered',
-    'meter_power.import', 'meter_power.total_power', 'meter_power.t1', 'meter_power.consumedL1', 'measure_energy_consumption_today'],
-  sourceCapGroups: [
-    {
-      p1: 'meter_power.total_power', p2: null, n1: null, n2: null, // huawei solar
-    },
-    {
-      p1: 'meter_power.t1', p2: 'meter_power.t2', n1: 'meter_power.rt1', n2: 'meter_power.rt2', // iungo
-    },
-    {
-      p1: 'meter_power', p2: null, n1: null, n2: null, // youless
-    },
-    {
-      p1: 'meter_power.peak', p2: 'meter_power.offPeak', n1: null, n2: null,
-    },
-    {
-      p1: 'meter_power.consumedL1', p2: 'meter_power.consumedL2', n1: null, n2: null, // ztaz P1
-    },
-    {
-      p1: 'meter_power.consumed', p2: null, n1: 'meter_power.generated', n2: null,
-    },
-    {
-      p1: 'meter_power.consumed', p2: null, n1: 'meter_power.returned', n2: null,
-    },
-    {
-      p1: 'meter_power.delivered', p2: null, n1: 'meter_power.returned', n2: null,
-    },
-    {
-      p1: 'meter_power.import', p2: null, n1: 'meter_power.export', n2: null, // qubino
-    },
-    {
-      p1: 'measure_energy_consumption_today', p2: null, n1: null, n2: null, // toshiba
-    },
-  ],
   deviceCapabilities: ['meter_kwh_last_hour', 'meter_kwh_this_hour', 'meter_kwh_last_day', 'meter_kwh_this_day',
     'meter_kwh_last_month', 'meter_kwh_this_month', 'meter_kwh_last_year', 'meter_kwh_this_year',
     'meter_target_month_to_date', 'meter_target_year_to_date',

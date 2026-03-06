@@ -129,10 +129,20 @@ class SolarDevice extends GenericDevice {
     // setup if/how a HOMEY-API source device fits to a defined capability group
     this.lastGroupMeterReady = false;
     this.lastGroupMeter = {}; // last values of capability meters
-    this.sourceCapGroup = this.driver.ds.sourceCapGroups.find((capGroup) => {
-      const requiredKeys = Object.values(capGroup).filter((v) => v);
-      return requiredKeys.every((k) => this.sourceDevice.capabilities.includes(k));
-    });
+
+    if (this.sourceDevice.energy && this.sourceDevice.energy.meterPowerExportedCapability) {
+      const cap = this.sourceDevice.energy.meterPowerExportedCapability;
+      if (this.sourceDevice.capabilities.includes(cap)) {
+        this.sourceCapGroup = {
+          p1: cap, p2: null, n1: null, n2: null,
+        };
+      }
+    }
+    if (!this.sourceCapGroup && this.sourceDevice.capabilities.includes('meter_power')) {
+      this.sourceCapGroup = {
+        p1: 'meter_power', p2: null, n1: null, n2: null,
+      };
+    }
     if (!this.sourceCapGroup) {
       throw Error(`${this.sourceDevice.name} has no compatible meter_power capabilities ${this.sourceDevice.capabilities}`);
     }
