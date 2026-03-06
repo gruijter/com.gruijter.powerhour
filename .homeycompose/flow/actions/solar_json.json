@@ -1,0 +1,137 @@
+{
+  "title": {
+    "en": "Provide solar forecast JSON",
+    "de": "Solarprognose JSON bereitstellen",
+    "nl": "Geef zonnevoorspelling JSON op",
+    "ar": "توفير JSON توقعات الطاقة الشمسية",
+    "da": "Angiv JSON for solprognose",
+    "es": "Proporcionar JSON de pronóstico solar",
+    "fr": "Fournir le JSON de la prévision solaire",
+    "it": "Fornire JSON previsioni solari",
+    "ko": "태양광 예측 JSON 제공",
+    "no": "Gi JSON for solvarsel",
+    "pl": "Dostarcz JSON prognozy słonecznej",
+    "ru": "Предоставить JSON прогноза солнечной энергии",
+    "sv": "Tillhandahåll JSON för solprognos"
+  },
+  "titleFormatted": {
+    "en": "Provide solar forecast JSON for [[period]]",
+    "de": "Solarprognose JSON für [[period]] bereitstellen",
+    "nl": "Geef zonnevoorspelling JSON op voor [[period]]",
+    "ar": "توفير JSON توقعات الطاقة الشمسية لـ [[period]]",
+    "da": "Angiv JSON for solprognose for [[period]]",
+    "es": "Proporcionar JSON de pronóstico solar para [[period]]",
+    "fr": "Fournir le JSON de la prévision solaire pour [[period]]",
+    "it": "Fornire JSON previsioni solari per [[period]]",
+    "ko": "[[period]]에 대한 태양광 예측 JSON 제공",
+    "no": "Gi JSON for solvarsel for [[period]]",
+    "pl": "Dostarcz JSON prognozy słonecznej dla [[period]]",
+    "ru": "Предоставить JSON прогноза солнечной энергии для [[period]]",
+    "sv": "Tillhandahåll JSON för solprognos för [[period]]"
+  },
+  "highlight": true,
+  "args": [
+    {
+      "type": "device",
+      "name": "device",
+      "filter": "driver_id=solar"
+    },
+    {
+      "type": "dropdown",
+      "name": "period",
+      "title": {
+        "en": "period",
+        "de": "Zeitraum",
+        "nl": "periode",
+        "ar": "فترة",
+        "da": "periode",
+        "es": "período",
+        "fr": "période",
+        "it": "periodo",
+        "ko": "기간",
+        "no": "periode",
+        "pl": "okres",
+        "ru": "период",
+        "sv": "period"
+      },
+      "values": [
+        {
+          "id": "this_day",
+          "label": {
+            "en": "This day",
+            "de": "diesen Tag",
+            "nl": "Deze dag",
+            "ar": "هذا اليوم",
+            "da": "I dag",
+            "es": "Este día",
+            "fr": "Ce jour",
+            "it": "giornata odierna",
+            "ko": "오늘",
+            "no": "idag",
+            "pl": "Ten dzień",
+            "ru": "Этот день",
+            "sv": "idag"
+          }
+        },
+        {
+          "id": "tomorrow",
+          "label": {
+            "en": "Tomorrow",
+            "de": "Morgen",
+            "nl": "Morgen",
+            "ar": "غداً",
+            "da": "I morgen",
+            "es": "Mañana",
+            "fr": "Demain",
+            "it": "domani",
+            "ko": "내일",
+            "no": "i morgen",
+            "pl": "Jutro",
+            "ru": "Завтра",
+            "sv": "i morgon"
+          }
+        },
+        {
+          "id": "next_hours",
+          "label": {
+            "en": "Next hours",
+            "nl": "Komende uren",
+            "de": "Kommende Stunden",
+            "ar": "الساعات القادمة",
+            "da": "Næste timer",
+            "es": "Próximas horas",
+            "fr": "Prochaines heures",
+            "it": "Prossime ore",
+            "ko": "다음 시간",
+            "no": "Neste timer",
+            "pl": "Następne godziny",
+            "ru": "Следующие часы",
+            "sv": "Kommande timmar"
+          }
+        }
+      ]
+    }
+  ],
+  "tokens": [
+    {
+      "name": "solar",
+      "title": {
+        "en": "Solar Forecast JSON",
+        "de": "Solarprognose JSON",
+        "nl": "Zonnevoorspelling JSON",
+        "ar": "JSON توقعات الطاقة الشمسية",
+        "da": "JSON Solprognose",
+        "es": "JSON Pronóstico Solar",
+        "fr": "JSON Prévision Solaire",
+        "it": "JSON Previsione Solare",
+        "ko": "태양광 예측 JSON",
+        "no": "JSON Solvarsel",
+        "pl": "JSON Prognoza Słoneczna",
+        "ru": "JSON Прогноз Солнечной Энергии",
+        "sv": "JSON Solprognos"
+      },
+      "type": "string",
+      "example": "[0,0,50,120,300]"
+    }
+  ]
+}
