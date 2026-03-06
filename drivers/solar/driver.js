@@ -24,14 +24,16 @@ const GenericDriver = require('../../lib/genericDeviceDrivers/generic_sum_driver
 const driverSpecifics = {
   driverId: 'solar',
   requiredClass: 'solarpanel',
-  deviceCapabilities: ['meter_kwh_last_hour', 'meter_kwh_this_hour', 'meter_kwh_last_day', 'meter_kwh_this_day',
+  deviceCapabilities: ['measure_power', 'measure_watt_forecast.h0', 'measure_watt_forecast.m15', 'measure_watt_forecast.m30',
+    'measure_watt_forecast.m45', 'measure_watt_forecast.h1', 'measure_watt_forecast.h2', 'measure_watt_forecast.h3',
+    'meter_kwh_last_hour', 'meter_kwh_this_hour', 'meter_kwh_last_day', 'meter_kwh_this_day',
     'meter_kwh_last_month', 'meter_kwh_this_month', 'meter_kwh_last_year', 'meter_kwh_this_year',
     'meter_target_month_to_date', 'meter_target_year_to_date',
     'meter_money_last_hour', 'meter_money_this_hour', 'meter_money_last_day', 'meter_money_this_day',
     'meter_money_last_month', 'meter_money_this_month', 'meter_money_last_year', 'meter_money_this_year',
     'meter_money_this_month_avg', 'meter_money_this_year_avg',
     'meter_tariff', 'meter_power', 'last_minmax_reset', 'measure_watt_min', 'measure_watt_max',
-    'measure_power', 'measure_power.forecast', 'meter_power.forecast', 'button.retrain', 'alarm_power'],
+    'meter_power.forecast', 'button.retrain', 'alarm_power'],
 };
 
 class SolarDriver extends GenericDriver {

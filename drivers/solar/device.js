@@ -287,7 +287,7 @@ class SolarDevice extends GenericDevice {
     // We run this frequently to:
     // 1. Collect power samples for accurate averaging (essential for devices without energy meters).
     // 2. Detect curtailment events in near real-time.
-    // 3. Update the real-time forecast capability (measure_power.forecast).
+    // 3. Update the real-time forecast capability (measure_watt_forecast.h0).
     // Note: The actual model retraining (getStrategy) only occurs once per 15-minute slot when a bucket finishes.
     const loop = async () => {
       if (this.isDestroyed) return;
@@ -804,7 +804,23 @@ class SolarDevice extends GenericDevice {
       timezone: this.timeZone,
     });
 
-    await this.setCapabilityValue('measure_power.forecast', expectedPower).catch(this.error);
+    const getForecast = (offsetMinutes) => {
+      const t = now.getTime() + offsetMinutes * 60 * 1000;
+      const rad = SolarLearningStrategy.getInterpolatedRadiation(t, this.forecastData);
+      const dateT = new Date(t);
+      const slotIndex = (dateT.getUTCHours() * 4) + Math.floor(dateT.getUTCMinutes() / 15);
+      const yf = this.yieldFactors[slotIndex] !== undefined ? this.yieldFactors[slotIndex] : 0;
+      return Math.round(rad * yf);
+    };
+
+    await this.setCapabilityValue('measure_watt_forecast.h0', expectedPower).catch(this.error);
+    await this.setCapabilityValue('measure_watt_forecast.m15', getForecast(15)).catch(this.error);
+    await this.setCapabilityValue('measure_watt_forecast.m30', getForecast(30)).catch(this.error);
+    await this.setCapabilityValue('measure_watt_forecast.m45', getForecast(45)).catch(this.error);
+    await this.setCapabilityValue('measure_watt_forecast.h1', getForecast(60)).catch(this.error);
+    await this.setCapabilityValue('measure_watt_forecast.h2', getForecast(120)).catch(this.error);
+    await this.setCapabilityValue('measure_watt_forecast.h3', getForecast(180)).catch(this.error);
+
     await this.setCapabilityValue('meter_power.forecast', totalYield).catch(this.error);
 
     // --- Update Charts ---

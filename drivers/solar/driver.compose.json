@@ -15,14 +15,123 @@
   },
   "class": "other",
   "capabilities": [
-    "measure_power",
-    "meter_power",
-    "alarm_power",
-    "button.retrain"
   ],
   "capabilitiesOptions": {
     "meter_power": {
       "decimals": 4
+    },
+    "measure_watt_forecast.h0": {
+      "title": {
+        "en": "Power forecast",
+        "nl": "Verwacht vermogen",
+        "de": "Leistungsprognose",
+        "fr": "Prévision de puissance",
+        "it": "Previsione di potenza",
+        "sv": "Effektprognos",
+        "no": "Effektprognose",
+        "es": "Previsión de potencia",
+        "da": "Effektprognose",
+        "pl": "Prognoza mocy",
+        "ru": "Прогноз мощности",
+        "ar": "توقعات الطاقة"
+      },
+      "insights": true
+    },
+    "measure_watt_forecast.m15": {
+      "title": {
+        "en": "Power +15M",
+        "nl": "Vermogen +15M",
+        "de": "Leistung +15Min",
+        "fr": "Puissance +15M",
+        "it": "Potenza +15m",
+        "sv": "Effekt +15M",
+        "no": "Effekt +15M",
+        "es": "Potencia +15M",
+        "da": "Effekt +15M",
+        "pl": "Moc +15M",
+        "ru": "Мощность +15М",
+        "ar": "الطاقة +15د"
+      }
+    },
+    "measure_watt_forecast.m30": {
+      "title": {
+        "en": "Power +30M",
+        "nl": "Vermogen +30M",
+        "de": "Leistung +30Min",
+        "fr": "Puissance +30M",
+        "it": "Potenza +30m",
+        "sv": "Effekt +30M",
+        "no": "Effekt +30M",
+        "es": "Potencia +30M",
+        "da": "Effekt +30M",
+        "pl": "Moc +30M",
+        "ru": "Мощность +30М",
+        "ar": "الطاقة +30د"
+      }
+    },
+    "measure_watt_forecast.m45": {
+      "title": {
+        "en": "Power +45M",
+        "nl": "Vermogen +45M",
+        "de": "Leistung +45Min",
+        "fr": "Puissance +45M",
+        "it": "Potenza +45m",
+        "sv": "Effekt +45M",
+        "no": "Effekt +45M",
+        "es": "Potencia +45M",
+        "da": "Effekt +45M",
+        "pl": "Moc +45M",
+        "ru": "Мощность +45М",
+        "ar": "الطاقة +45د"
+      }
+    },
+    "measure_watt_forecast.h1": {
+      "title": {
+        "en": "Power +1H",
+        "nl": "Vermogen +1U",
+        "de": "Leistung +1Std.",
+        "fr": "Puissance +1h",
+        "it": "Potenza +1h",
+        "sv": "Effekt +1H",
+        "no": "Effekt +1T",
+        "es": "Potencia +1h",
+        "da": "Effekt +1T",
+        "pl": "Moc +1h",
+        "ru": "Мощность +1ч",
+        "ar": "الطاقة +1س"
+      }
+    },
+    "measure_watt_forecast.h2": {
+      "title": {
+        "en": "Power +2H",
+        "nl": "Vermogen +2U",
+        "de": "Leistung +2Std.",
+        "fr": "Puissance +2h",
+        "it": "Potenza +2h",
+        "sv": "Effekt +2H",
+        "no": "Effekt +2T",
+        "es": "Potencia +2h",
+        "da": "Effekt +2T",
+        "pl": "Moc +2h",
+        "ru": "Мощность +2ч",
+        "ar": "الطاقة +2س"
+      }
+    },
+    "measure_watt_forecast.h3": {
+      "title": {
+        "en": "Power +3H",
+        "nl": "Vermogen +3U",
+        "de": "Leistung +3Std.",
+        "fr": "Puissance +3h",
+        "it": "Potenza +3h",
+        "sv": "Effekt +3H",
+        "no": "Effekt +3T",
+        "es": "Potencia +3h",
+        "da": "Effekt +3T",
+        "pl": "Moc +3h",
+        "ru": "Мощность +3ч",
+        "ar": "الطاقة +3س"
+      }
     },
     "alarm_power": {
       "title": {

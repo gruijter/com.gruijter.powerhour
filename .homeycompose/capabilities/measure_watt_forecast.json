@@ -1,0 +1,16 @@
+{
+  "type": "number",
+  "title": {
+    "en": "Forecast Power",
+    "nl": "Verwacht Vermogen"
+  },
+  "uiComponent": "sensor",
+  "icon": "/assets/measure_watt_forecast.svg",
+  "getable": true,
+  "setable": false,
+  "insights": false,
+  "units": {
+    "en": "W"
+  },
+  "decimals": 0
+}
