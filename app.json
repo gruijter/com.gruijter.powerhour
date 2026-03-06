@@ -17055,7 +17055,8 @@
       "insights": false,
       "units": {
         "en": "kWh"
-      }
+      },
+      "decimals": 2
     },
     "meter_kwh_last_day": {
       "type": "number",

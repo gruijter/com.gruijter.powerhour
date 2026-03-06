@@ -41,6 +41,18 @@ class SolarDriver extends GenericDriver {
   async onInit() {
     this.ds = driverSpecifics;
     await super.onInit().catch(this.error);
+
+    // Also listen to power driver tariff events since DAP might not emit to 'solar' yet
+    if (this.eventListenerTariff) {
+      this.homey.on('set_tariff_power_PBTH', this.eventListenerTariff);
+    }
+  }
+
+  async onUninit() {
+    if (this.eventListenerTariff) {
+      this.homey.removeListener('set_tariff_power_PBTH', this.eventListenerTariff);
+    }
+    await super.onUninit();
   }
 
 }
