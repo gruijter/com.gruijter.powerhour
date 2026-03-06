@@ -44,6 +44,40 @@ class GasDevice extends GenericDevice {
     await super.onInit().catch(this.error);
   }
 
+  async ensureValidSettings() {
+    if (this.settings.use_measure_source) {
+      this.log(this.getName(), 'fixing wrong use_measure_source setting');
+      await this.setSettings({ use_measure_source: false }).catch((err) => this.error(err));
+      this.settings = this.getSettings();
+    }
+  }
+
+  getCurrencyUnit() {
+    return 'm³';
+  }
+
+  shouldUpdateCurrencyOnAdd() {
+    return true;
+  }
+
+  calculateMeasureTrend(deltaMeter, deltaTm) {
+    // Gas/Water (m3 -> liter/min)
+    return Math.round((deltaMeter / deltaTm) * 600000000) / 10;
+  }
+
+  async checkMinMax(val, reading) {
+    const { lpmMax, lpmMin } = this.lastMinMax;
+    if (lpmMax === null || val > lpmMax) this.lastMinMax.lpmMax = val;
+    if (lpmMin === null || val < lpmMin) this.lastMinMax.lpmMin = val;
+    this.lastMinMax.reading = reading;
+    if (this.minMaxInitReady) {
+      await this.setCapability('measure_lpm_max', this.lastMinMax.lpmMax).catch((err) => this.error(err));
+      await this.setCapability('measure_lpm_min', this.lastMinMax.lpmMin).catch((err) => this.error(err));
+    }
+    this.minMaxInitReady = true;
+    await this.setStoreValue('lastMinMax', this.lastMinMax);
+  }
+
   // driver specific stuff below
 
   async getSourceDevice() {

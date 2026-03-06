@@ -118,6 +118,10 @@ class SolarDevice extends GenericDevice {
     }, 15000);
   }
 
+  shouldUpdateCurrencyOnAdd() {
+    return true;
+  }
+
   // --- Source Device Integration (Copied/Adapted from PowerDevice) ---
 
   async getSourceDevice() {
