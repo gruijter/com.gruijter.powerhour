@@ -1,20 +1,19 @@
 {
-  "deprecated": true,
   "name": {
-    "en": "PV Summarizer",
-    "nl": "Zonne-energie Samenvatter",
-    "de": "PV-Zähler",
-    "fr": "Résumé Photovoltaïque",
-    "it": "Riepilogo Fotovoltaico",
-    "sv": "Solenergi Summerare",
-    "no": "Solkraft Oppsummering",
-    "es": "Resumen Fotovoltaico",
-    "da": "Solenergi Opsummering",
-    "pl": "Podsumowanie PV",
-    "ru": "Сводка ФЭ",
-    "ar": "ملخص الطاقة الضوئية"
+    "en": "PV Monitor",
+    "nl": "Zonne-energie Monitor",
+    "de": "PV-Überwachung",
+    "fr": "Moniteur Photovoltaïque",
+    "it": "Monitoraggio Fotovoltaico",
+    "sv": "Solenergi Övervakare",
+    "no": "Solkraft Monitor",
+    "es": "Monitor Fotovoltaico",
+    "da": "Solenergi Monitor",
+    "pl": "Monitor PV",
+    "ru": "Монитор ФЭ",
+    "ar": "مراقب الطاقة الضوئية"
   },
-  "class": "solarpanel",
+  "class": "other",
   "capabilities": [
     "measure_power",
     "meter_power",
