@@ -23,6 +23,7 @@ const GenericDriver = require('../../lib/genericDeviceDrivers/generic_sum_driver
 
 const driverSpecifics = {
   driverId: 'solar',
+  requiredClass: 'solarpanel',
   deviceCapabilities: ['meter_kwh_last_hour', 'meter_kwh_this_hour', 'meter_kwh_last_day', 'meter_kwh_this_day',
     'meter_kwh_last_month', 'meter_kwh_this_month', 'meter_kwh_last_year', 'meter_kwh_this_year',
     'meter_target_month_to_date', 'meter_target_year_to_date',

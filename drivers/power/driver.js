@@ -73,6 +73,88 @@ class PowerDriver extends GenericDriver {
     await super.onInit().catch(this.error);
   }
 
+  checkDeviceCompatibility(homeyDevice) {
+    const result = super.checkDeviceCompatibility(homeyDevice);
+    if (!result.found) return result;
+
+    let hasSourceCapGroup = false;
+    for (const capGroup of this.ds.sourceCapGroups) {
+      if (hasSourceCapGroup) continue; // stop at the first match
+      const requiredKeys = Object.values(capGroup).filter((v) => v);
+      const hasAllKeys = requiredKeys.every((k) => homeyDevice.capabilities.includes(k));
+      if (hasAllKeys) hasSourceCapGroup = true; // all relevant capabilities were found in the source device
+    }
+
+    if (!hasSourceCapGroup && !homeyDevice.capabilities.includes('measure_power')) {
+      // this.log('incompatible source caps', homeyDevice.driverId, homeyDevice.capabilities);
+      result.found = false;
+    }
+    result.useMeasureSource = !hasSourceCapGroup;
+    return result;
+  }
+
+  getDeviceSettings(homeyDevice) {
+    const settings = super.getDeviceSettings(homeyDevice);
+    if (homeyDevice.energyObj && homeyDevice.energyObj.cumulative) settings.distribution = 'el_nl_2023';
+    return settings;
+  }
+
+  getVirtualDevices(randomId, allCaps, reducedCaps) {
+    return [
+      {
+        name: `HOMEY_ENERGY_SMARTMETERS_Σ${this.ds.driverId}`,
+        data: {
+          id: `PH_${this.ds.driverId}_HE_CUMULATIVE_${randomId}`,
+        },
+        settings: {
+          homey_device_id: `PH_${this.ds.driverId}_HE_CUMULATIVE_${randomId}`,
+          homey_device_name: `HOMEY_ENERGY_CUMULATIVE_${randomId}`,
+          level: this.homey.app.manifest.version,
+          homey_energy: 'totalCumulative',
+          interval: 1,
+          source_device_type: 'Homey Energy Smart Meters',
+          tariff_update_group: 1,
+          distribution: 'linear',
+        },
+        capabilities: allCaps,
+      },
+      {
+        name: `HOMEY_ENERGY_SOLARPANELS_Σ${this.ds.driverId}`,
+        data: {
+          id: `PH_${this.ds.driverId}_HE_GENERATED_${randomId}`,
+        },
+        settings: {
+          homey_device_id: `PH_${this.ds.driverId}_HE_GENERATED_${randomId}`,
+          homey_device_name: `HOMEY_ENERGY_GENERATED_${randomId}`,
+          level: this.homey.app.manifest.version,
+          homey_energy: 'totalGenerated',
+          interval: 1,
+          source_device_type: 'Homey Energy Solar Panels',
+          tariff_update_group: 1,
+          distribution: 'NONE',
+        },
+        capabilities: reducedCaps,
+      },
+      {
+        name: `HOMEY_ENERGY_DEVICES_Σ${this.ds.driverId}`,
+        data: {
+          id: `PH_${this.ds.driverId}_HE_CONSUMED_${randomId}`,
+        },
+        settings: {
+          homey_device_id: `PH_${this.ds.driverId}_HE_CONSUMED_${randomId}`,
+          homey_device_name: `HOMEY_ENERGY_DEVICES_${randomId}`,
+          level: this.homey.app.manifest.version,
+          homey_energy: 'totalConsumed',
+          interval: 1,
+          source_device_type: 'Homey Energy Devices',
+          tariff_update_group: 1,
+          distribution: 'NONE',
+        },
+        capabilities: reducedCaps,
+      },
+    ];
+  }
+
 }
 
 module.exports = PowerDriver;
