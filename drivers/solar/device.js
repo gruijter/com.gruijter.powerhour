@@ -94,6 +94,7 @@ class SolarDevice extends GenericDevice {
     this.yieldFactors = storedYieldFactors || new Array(96).fill(0);
     this.forecastData = await this.getStoreValue('forecastData') || {}; // { time: radiation }
     this.forecastHistory = await this.getStoreValue('forecastHistory') || { today: null, yesterday: null };
+    this.lastAutoRetrain = await this.getStoreValue('lastAutoRetrain') || 0;
 
     let history = await this.getStoreValue('powerHistory');
     if (!Array.isArray(history)) history = [];
@@ -254,6 +255,22 @@ class SolarDevice extends GenericDevice {
       if (this.isDestroyed) return;
       try {
         await this.fetchForecast();
+
+        // Automatic nightly retrain (at 01:00) to maintain model stability.
+        // This ensures the "Batch" part of the hybrid model actually happens,
+        // correcting drift and seasonal changes without user intervention.
+        const now = new Date();
+        if (now.getHours() === 1) {
+          const lastRun = new Date(this.lastAutoRetrain);
+          const isSameDay = lastRun.getDate() === now.getDate() && lastRun.getMonth() === now.getMonth() && lastRun.getFullYear() === now.getFullYear();
+
+          if (!isSameDay) {
+            this.log('Running automatic nightly solar model retraining...');
+            await this.retrainSolarModel();
+            this.lastAutoRetrain = now.getTime();
+            await this.setStoreValue('lastAutoRetrain', this.lastAutoRetrain);
+          }
+        }
       } catch (err) {
         this.error('Forecast fetch failed:', err);
       } finally {
@@ -266,7 +283,12 @@ class SolarDevice extends GenericDevice {
   }
 
   async startLearningLoop() {
-    // Update learning every 1 min
+    // Update learning loop runs every 1 min.
+    // We run this frequently to:
+    // 1. Collect power samples for accurate averaging (essential for devices without energy meters).
+    // 2. Detect curtailment events in near real-time.
+    // 3. Update the real-time forecast capability (measure_power.forecast).
+    // Note: The actual model retraining (getStrategy) only occurs once per 15-minute slot when a bucket finishes.
     const loop = async () => {
       if (this.isDestroyed) return;
       try {
@@ -587,7 +609,14 @@ class SolarDevice extends GenericDevice {
       }
 
       // 5. Save and Update
-      this.yieldFactors = trainingYieldFactors;
+      const mergeResult = SolarLearningStrategy.mergeYields({
+        historicYields: trainingYieldFactors,
+        liveYields: this.yieldFactors,
+        alpha: 0.7, // Rebase with 70% weight on historic data
+      });
+      this.yieldFactors = mergeResult.yieldFactors;
+      this.log(mergeResult.log);
+
       await this.setStoreValue('yieldFactors', this.yieldFactors);
       await this.updateForecastDisplay(true);
       this.log('Retraining finished.');
