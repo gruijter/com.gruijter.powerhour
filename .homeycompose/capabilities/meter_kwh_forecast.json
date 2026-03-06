@@ -4,11 +4,13 @@
     "en": "Forecast Yield Today",
     "nl": "Verwachte Opbrengst Vandaag"
   },
+  "uiComponent": "sensor",
+  "icon": "/assets/meter_kwh_forecast.svg",
+  "getable": true,
+  "setable": false,
+  "insights": false,
   "units": {
     "en": "kWh"
   },
-  "decimals": 2,
-  "chartType": "stepLine",
-  "getable": true,
-  "setable": false
+  "decimals": 2
 }

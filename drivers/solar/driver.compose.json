@@ -133,6 +133,39 @@
         "ar": "الطاقة +3س"
       }
     },
+    "meter_kwh_forecast.this_day": {
+      "title": {
+        "en": "Forecast today",
+        "nl": "Prognose vandaag",
+        "de": "Prognose heute",
+        "fr": "Prévision aujourd'hui",
+        "it": "Previsione oggi",
+        "sv": "Prognos idag",
+        "no": "Prognose i dag",
+        "es": "Pronóstico hoy",
+        "da": "Prognose i dag",
+        "pl": "Prognoza dzisiaj",
+        "ru": "Прогноз сегодня",
+        "ar": "توقعات اليوم"
+      }
+    },
+    "meter_kwh_forecast.h0": {
+      "title": {
+        "en": "Forecast this hour",
+        "nl": "Prognose dit uur",
+        "de": "Prognose diese Stunde",
+        "fr": "Prévision cette heure",
+        "it": "Previsione quest'ora",
+        "sv": "Prognos denna timme",
+        "no": "Prognose denne timen",
+        "es": "Pronóstico esta hora",
+        "da": "Prognose denne time",
+        "pl": "Prognoza w tej godzinie",
+        "ru": "Прогноз в этот час",
+        "ar": "توقعات هذه الساعة"
+      },
+      "insights": true
+    },
     "alarm_power": {
       "title": {
         "en": "Curtailment active",

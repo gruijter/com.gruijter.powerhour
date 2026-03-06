@@ -821,7 +821,21 @@ class SolarDevice extends GenericDevice {
     await this.setCapabilityValue('measure_watt_forecast.h2', getForecast(120)).catch(this.error);
     await this.setCapabilityValue('measure_watt_forecast.h3', getForecast(180)).catch(this.error);
 
-    await this.setCapabilityValue('meter_power.forecast', totalYield).catch(this.error);
+    // Calculate Forecast This Hour (h0)
+    let forecastH0 = 0;
+    const startOfHour = new Date(now);
+    startOfHour.setMinutes(0, 0, 0);
+    for (let i = 0; i < 4; i += 1) {
+      const t = startOfHour.getTime() + i * 15 * 60 * 1000;
+      const rad = SolarLearningStrategy.getInterpolatedRadiation(t, this.forecastData);
+      const dateT = new Date(t);
+      const slotIndex = (dateT.getUTCHours() * 4) + Math.floor(dateT.getUTCMinutes() / 15);
+      const yf = this.yieldFactors[slotIndex] !== undefined ? this.yieldFactors[slotIndex] : 0;
+      const power = rad * yf; // Watts
+      forecastH0 += (power * 0.25) / 1000; // kWh
+    }
+    await this.setCapabilityValue('meter_kwh_forecast.h0', Number(forecastH0.toFixed(2))).catch(this.error);
+    await this.setCapabilityValue('meter_kwh_forecast.this_day', totalYield).catch(this.error);
 
     // --- Update Charts ---
 
