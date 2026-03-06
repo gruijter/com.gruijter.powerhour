@@ -1,0 +1,137 @@
+{
+  "title": {
+    "en": "The average price becomes highest between certain times",
+    "de": "Der Durchschnittspreis wird zwischen bestimmten Zeiten am höchsten",
+    "sv": "Medelpriset blir högst mellan vissa tider",
+    "it": "Il prezzo medio diventa più alto tra determinati orari",
+    "no": "Gjennomsnittsprisen blir høyest mellom visse tider",
+    "nl": "De gemiddelde prijs wordt het hoogst tussen bepaalde tijden",
+    "fr": "Le prix moyen devient le plus élevé entre certaines heures",
+    "da": "Gennemsnitsprisen bliver højest mellem bestemte tidspunkter",
+    "es": "El precio medio se vuelve el más alto entre ciertas horas",
+    "pl": "Średnia cena staje się najwyższa między określonymi godzinami",
+    "ru": "Средняя цена становится самой высокой между определенными временами",
+    "ko": "평균 가격이 특정 시간 사이에 가장 높아집니다",
+    "ar": "يصبح متوسط السعر هو الأعلى بين أوقات معينة"
+  },
+  "titleFormatted": {
+    "en": "The [[duration]]-period average price becomes highest between [[time1]] and [[time2]]",
+    "de": "Der [[duration]]-Perioden-Durchschnittspreis wird am höchsten zwischen [[time1]] und [[time2]]",
+    "sv": "Det [[duration]]-period genomsnittspriset blir högst mellan [[time1]] och [[time2]]",
+    "it": "Il prezzo medio di [[duration]] periodi diventa più alto tra le [[time1]] e le [[time2]]",
+    "no": "Gjennomsnittsprisen for [[duration]] perioder blir høyest mellom [[time1]] og [[time2]]",
+    "nl": "De [[duration]]-periode gemiddelde prijs wordt het hoogst tussen [[time1]] en [[time2]]",
+    "fr": "Le prix moyen sur [[duration]] périodes devient le plus élevé entre [[time1]] et [[time2]]",
+    "da": "Den [[duration]]-perioder gennemsnitspris bliver højest mellem [[time1]] og [[time2]]",
+    "es": "El precio medio de [[duration]] períodos se vuelve el más alto entre las [[time1]] y las [[time2]]",
+    "pl": "Średnia cena z [[duration]] okresów staje się najwyższa między [[time1]] a [[time2]]",
+    "ru": "Средняя цена за [[duration]] периодов становится самой высокой между [[time1]] и [[time2]]",
+    "ko": "[[duration]]기간 평균 가격이 [[time1]]와 [[time2]] 사이에서 가장 높아집니다",
+    "ar": "يصبح متوسط السعر لمدة [[duration]] فترة هو الأعلى بين [[time1]] و [[time2]]"
+  },
+  "highlight": true,
+  "args": [
+    {
+      "type": "device",
+      "name": "device",
+      "filter": "driver_id=dap|dap15|dapg"
+    },
+    {
+      "type": "number",
+      "name": "duration",
+      "title": {
+        "en": "duration",
+        "de": "Dauer",
+        "sv": "varaktighet",
+        "it": "durata",
+        "no": "varighet",
+        "da": "varighed",
+        "nl": "duur",
+        "fr": "durée",
+        "es": "duración",
+        "pl": "czas trwania",
+        "ru": "длительность",
+        "ko": "기간",
+        "ar": "المدة"
+      },
+      "min": 1,
+      "max": 48,
+      "step": 1,
+      "hint": {
+        "en": "Enter the number of periods (hours for hourly pricing, quarters for 15m pricing).",
+        "nl": "Voer het aantal periodes in (uren voor uurprijzen, kwartieren voor 15m prijzen).",
+        "de": "Geben Sie die Anzahl der Perioden ein (Stunden für Stundenpreise, Viertelstunden für 15m-Preise).",
+        "fr": "Entrez le nombre de périodes (heures pour tarification horaire, quarts d'heure pour tarification 15m).",
+        "it": "Inserisci il numero di periodi (ore per prezzi orari, quarti d'ora per prezzi 15m).",
+        "sv": "Ange antal perioder (timmar för timpriser, kvartar för 15m-priser).",
+        "no": "Angi antall perioder (timer for timepriser, kvarter for 15m-priser).",
+        "es": "Introduzca el número de períodos (horas para precios por hora, cuartos de hora para precios de 15m).",
+        "da": "Indtast antallet af perioder (timer for timepriser, kvarter for 15m priser).",
+        "pl": "Wprowadź liczbę okresów (godziny dla cen godzinowych, kwadranse dla cen 15m).",
+        "ru": "Введите количество периодов (часы для почасовых цен, четверти часа для 15-минутных цен).",
+        "ar": "أدخل عدد الفترات (ساعات للأسعار بالساعة، أرباع ساعة لأسعار 15 دقيقة).",
+        "ko": "기간 수를 입력하세요 (시간당 가격의 경우 시간, 15분 가격의 경우 15분)."
+      }
+    },
+    {
+      "type": "time",
+      "name": "time1",
+      "title": {
+        "en": "between",
+        "de": "zwischen",
+        "sv": "mellan",
+        "it": "fra",
+        "no": "mellom",
+        "da": "mellem",
+        "nl": "tussen",
+        "fr": "entre",
+        "es": "entre",
+        "pl": "pomiędzy",
+        "ru": "между",
+        "ko": "사이",
+        "ar": "بين"
+      }
+    },
+    {
+      "type": "time",
+      "name": "time2",
+      "title": {
+        "en": "and",
+        "de": "und",
+        "sv": "och",
+        "it": "e",
+        "no": "og",
+        "da": "og",
+        "nl": "en",
+        "fr": "et",
+        "es": "y",
+        "pl": "i",
+        "ru": "и",
+        "ko": "그리고",
+        "ar": "و"
+      }
+    }
+  ],
+  "tokens": [
+    {
+      "name": "meter_price_h0",
+      "title": {
+        "en": "Price now",
+        "de": "Preis aktuell",
+        "sv": "Pris just nu",
+        "it": "Prezzo attuale",
+        "no": "Pris nå",
+        "da": "Pris nu",
+        "nl": "Prijs nu",
+        "fr": "Tarif actuel",
+        "es": "Precio ahora",
+        "pl": "Cena teraz",
+        "ru": "Цена сейчас",
+        "ko": "현재 가격",
+        "ar": "السعر الآن"
+      },
+      "type": "number",
+      "example": 27.5
+    }
+  ]
+}

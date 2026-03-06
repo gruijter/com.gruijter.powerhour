@@ -1,0 +1,115 @@
+{
+  "title": {
+    "en": "The price !{{is|isn't}} highest between certain times",
+    "de": "Der Preis !{{ist|ist nicht}} zwischen bestimmten Zeiten am höchsten",
+    "sv": "Priset !{{är|är inte}} högst mellan vissa tider",
+    "it": "Il prezzo !{{è|non è}} più alto tra determinati orari",
+    "no": "Prisen !{{er|er ikke}} høyest mellom visse tider",
+    "nl": "De prijs !{{is|is niet}} het hoogst tussen bepaalde tijden",
+    "fr": "Le prix !{{est|n'est pas}} le plus élevé entre certaines heures",
+    "da": "Prisen !{{er|er ikke}} højest mellem bestemte tidspunkter",
+    "es": "El precio !{{es|no es}} el más alto entre ciertas horas",
+    "pl": "Cena !{{jest|nie jest}} najwyższa między określonymi godzinami",
+    "ru": "Цена !{{самая|не самая}} высокая между определенными временами",
+    "ko": "가격이 특정 시간 사이에 가장 높음!{{입니다|이 아닙니다}}",
+    "ar": "السعر !{{هو|ليس}} الأعلى بين أوقات معينة"
+  },
+  "titleFormatted": {
+    "en": "The price !{{is|isn't}} one of [[number]] highest between [[time1]] and [[time2]]",
+    "de": "Der Preis !{{ist|ist nicht}} einer der [[number]] höchsten zwischen [[time1]] und [[time2]]",
+    "sv": "Priset !{{är|är inte}} ett av de [[number]] högsta mellan [[time1]] och [[time2]]",
+    "it": "Il prezzo !{{è|non è}} uno dei [[number]] più alti tra le [[time1]] e le [[time2]]",
+    "no": "Prisen !{{er|er ikke}} en av de [[number]] høyeste mellom [[time1]] og [[time2]]",
+    "nl": "De prijs !{{is|is niet}} een van de [[number]] hoogste tussen [[time1]] en [[time2]]",
+    "fr": "Le prix !{{est|n'est pas}} l'un des [[number]] plus élevés entre [[time1]] et [[time2]]",
+    "da": "Prisen !{{er|er ikke}} en af de [[number]] højeste mellem [[time1]] og [[time2]]",
+    "es": "El precio !{{es|no es}} uno de los [[number]] más altos entre las [[time1]] y las [[time2]]",
+    "pl": "Cena !{{jest|nie jest}} jedną z [[number]] najwyższych między [[time1]] a [[time2]]",
+    "ru": "Цена !{{является одной из|не является одной из}} [[number]] самых высоких между [[time1]] и [[time2]]",
+    "ko": "가격이 [[time1]]와 [[time2]] 사이에서 [[number]]번째로 높음!{{입니다|이 아닙니다}}",
+    "ar": "السعر !{{هو|ليس}} واحد من [[number]] الأعلى بين [[time1]] و [[time2]]"
+  },
+  "highlight": true,
+  "args": [
+    {
+      "type": "device",
+      "name": "device",
+      "filter": "driver_id=dap|dap15|dapg"
+    },
+    {
+      "type": "number",
+      "name": "number",
+      "title": {
+        "en": "number",
+        "de": "Anzahl",
+        "sv": "antal",
+        "it": "numero",
+        "no": "antall",
+        "da": "antal",
+        "nl": "aantal",
+        "fr": "nombre",
+        "es": "número",
+        "pl": "liczba",
+        "ru": "количество",
+        "ko": "수",
+        "ar": "عدد"
+      },
+      "min": 1,
+      "max": 48,
+      "step": 1,
+      "hint": {
+        "en": "Enter the number of periods (max 12 for hourly pricing, 48 for 15m pricing).",
+        "nl": "Voer het aantal periodes in (max 12 voor uurprijzen, 48 voor 15m prijzen).",
+        "de": "Geben Sie die Anzahl der Perioden ein (max. 12 für Stundenpreise, 48 für 15m-Preise).",
+        "fr": "Entrez le nombre de périodes (max 12 pour tarification horaire, 48 pour tarification 15m).",
+        "it": "Inserisci il numero di periodi (max 12 per prezzi orari, 48 per prezzi 15m).",
+        "sv": "Ange antal perioder (max 12 för timpriser, 48 för 15m-priser).",
+        "no": "Angi antall perioder (maks 12 for timepriser, 48 for 15m-priser).",
+        "es": "Introduzca el número de períodos (máx. 12 para precios por hora, 48 para precios de 15m).",
+        "da": "Indtast antallet af perioder (maks. 12 for timepriser, 48 for 15m priser).",
+        "pl": "Wprowadź liczbę okresów (maks. 12 dla cen godzinowych, 48 dla cen 15m).",
+        "ru": "Введите количество периодов (макс. 12 для почасовых цен, 48 для 15-минутных цен).",
+        "ar": "أدخل عدد الفترات (الحد الأقصى 12 للأسعار بالساعة، 48 لأسعار 15 دقيقة).",
+        "ko": "기간 수를 입력하세요 (시간당 가격의 경우 최대 12, 15분 가격의 경우 최대 48)."
+      }
+    },
+    {
+      "type": "number",
+      "name": "time1",
+      "title": {
+        "en": "between",
+        "de": "zwischen",
+        "sv": "mellan",
+        "it": "fra",
+        "no": "mellom",
+        "da": "mellem",
+        "nl": "tussen",
+        "fr": "entre",
+        "es": "entre",
+        "pl": "pomiędzy",
+        "ru": "между",
+        "ko": "사이",
+        "ar": "بين"
+      }
+    },
+    {
+      "type": "time",
+      "name": "time2",
+      "title": {
+        "en": "and",
+        "de": "und",
+        "sv": "och",
+        "it": "e",
+        "no": "og",
+        "da": "og",
+        "nl": "en",
+        "fr": "et",
+        "es": "y",
+        "pl": "i",
+        "ru": "и",
+        "ko": "그리고",
+        "ar": "و"
+      }
+    }
+  ]
+}

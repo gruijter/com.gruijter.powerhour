@@ -1,0 +1,115 @@
+{
+  "title": {
+    "en": "The average price !{{is|isn't}} lowest between certain times",
+    "de": "Der Durchschnittspreis !{{ist|ist nicht}} zwischen bestimmten Zeiten am niedrigsten",
+    "sv": "Medelpriset !{{är|är inte}} lägst mellan vissa tider",
+    "it": "Il prezzo medio !{{è|non è}} più basso tra determinati orari",
+    "no": "Gjennomsnittsprisen !{{er|er ikke}} lavest mellom visse tider",
+    "nl": "De gemiddelde prijs !{{is|is niet}} het laagst tussen bepaalde tijden",
+    "fr": "Le prix moyen !{{est|n'est pas}} le plus bas entre certaines heures",
+    "da": "Gennemsnitsprisen !{{er|er ikke}} lavest mellem bestemte tidspunkter",
+    "es": "El precio medio !{{es|no es}} el más bajo entre ciertas horas",
+    "pl": "Średnia cena !{{jest|nie jest}} najniższa między określonymi godzinami",
+    "ru": "Средняя цена !{{самая|не самая}} низкая между определенными временами",
+    "ko": "평균 가격이 특정 시간 사이에 가장 낮음!{{입니다|이 아닙니다}}",
+    "ar": "متوسط السعر !{{هو|ليس}} الأدنى بين أوقات معينة"
+  },
+  "titleFormatted": {
+    "en": "The [[duration]]-period average price !{{is|isn't}} lowest between [[time1]] and [[time2]]",
+    "de": "Der [[duration]]-Perioden-Durchschnittspreis !{{ist|ist nicht}} am niedrigsten zwischen [[time1]] und [[time2]]",
+    "sv": "Det [[duration]]-period genomsnittspriset !{{är|är inte}} lägst mellan [[time1]] och [[time2]]",
+    "it": "Il prezzo medio di [[duration]] periodi !{{è|non è}} più basso tra le [[time1]] e le [[time2]]",
+    "no": "Gjennomsnittsprisen for [[duration]] perioder !{{er|er ikke}} lavest mellom [[time1]] og [[time2]]",
+    "nl": "De [[duration]]-periode gemiddelde prijs !{{is|is niet}} het laagst tussen [[time1]] en [[time2]]",
+    "fr": "Le prix moyen sur [[duration]] périodes !{{est|n'est pas}} le plus bas entre [[time1]] et [[time2]]",
+    "da": "Den [[duration]]-perioder gennemsnitspris !{{er|er ikke}} lavest mellem [[time1]] og [[time2]]",
+    "es": "El precio medio de [[duration]] períodos !{{es|no es}} el más bajo entre las [[time1]] y las [[time2]]",
+    "pl": "Średnia cena z [[duration]] okresów !{{jest|nie jest}} najniższa między [[time1]] a [[time2]]",
+    "ru": "Средняя цена за [[duration]] периодов !{{самая|не самая}} низкая между [[time1]] и [[time2]]",
+    "ko": "[[duration]]기간 평균 가격이 [[time1]]와 [[time2]] 사이에서 가장 낮음!{{입니다|이 아닙니다}}",
+    "ar": "متوسط السعر لمدة [[duration]] فترة !{{هو|ليس}} الأدنى بين [[time1]] و [[time2]]"
+  },
+  "highlight": true,
+  "args": [
+    {
+      "type": "device",
+      "name": "device",
+      "filter": "driver_id=dap|dap15|dapg"
+    },
+    {
+      "type": "number",
+      "name": "duration",
+      "title": {
+        "en": "duration",
+        "de": "Dauer",
+        "sv": "varaktighet",
+        "it": "durata",
+        "no": "varighet",
+        "da": "varighed",
+        "nl": "duur",
+        "fr": "durée",
+        "es": "duración",
+        "pl": "czas trwania",
+        "ru": "длительность",
+        "ko": "기간",
+        "ar": "المدة"
+      },
+      "min": 1,
+      "max": 48,
+      "step": 1,
+      "hint": {
+        "en": "Enter the number of periods (hours for hourly pricing, quarters for 15m pricing).",
+        "nl": "Voer het aantal periodes in (uren voor uurprijzen, kwartieren voor 15m prijzen).",
+        "de": "Geben Sie die Anzahl der Perioden ein (Stunden für Stundenpreise, Viertelstunden für 15m-Preise).",
+        "fr": "Entrez le nombre de périodes (heures pour tarification horaire, quarts d'heure pour tarification 15m).",
+        "it": "Inserisci il numero di periodi (ore per prezzi orari, quarti d'ora per prezzi 15m).",
+        "sv": "Ange antal perioder (timmar för timpriser, kvartar för 15m-priser).",
+        "no": "Angi antall perioder (timer for timepriser, kvarter for 15m-priser).",
+        "es": "Introduzca el número de períodos (horas para precios por hora, cuartos de hora para precios de 15m).",
+        "da": "Indtast antallet af perioder (timer for timepriser, kvarter for 15m priser).",
+        "pl": "Wprowadź liczbę okresów (godziny dla cen godzinowych, kwadranse dla cen 15m).",
+        "ru": "Введите количество периодов (часы для почасовых цен, четверти часа для 15-минутных цен).",
+        "ar": "أدخل عدد الفترات (ساعات للأسعار بالساعة، أرباع ساعة لأسعار 15 دقيقة).",
+        "ko": "기간 수를 입력하세요 (시간당 가격의 경우 시간, 15분 가격의 경우 15분)."
+      }
+    },
+    {
+      "type": "time",
+      "name": "time1",
+      "title": {
+        "en": "between",
+        "de": "zwischen",
+        "sv": "mellan",
+        "it": "fra",
+        "no": "mellom",
+        "da": "mellem",
+        "nl": "tussen",
+        "fr": "entre",
+        "es": "entre",
+        "pl": "pomiędzy",
+        "ru": "между",
+        "ko": "사이",
+        "ar": "بين"
+      }
+    },
+    {
+      "type": "time",
+      "name": "time2",
+      "title": {
+        "en": "and",
+        "de": "und",
+        "sv": "och",
+        "it": "e",
+        "no": "og",
+        "da": "og",
+        "nl": "en",
+        "fr": "et",
+        "es": "y",
+        "pl": "i",
+        "ru": "и",
+        "ko": "그리고",
+        "ar": "و"
+      }
+    }
+  ]
+}
