@@ -843,14 +843,14 @@ class SolarDevice extends GenericDevice {
     // 1. Today
     const { start: todayStart, end: todayEnd } = SolarLearningStrategy.getSunBounds(now, this.forecastData, this.timeZone);
 
-    const urlToday = await getSolarChart(this.forecastData, this.yieldFactors, todayStart, todayEnd, 'Forecast Today', this.powerHistory, this.timeZone);
-    if (urlToday) {
-      const url = `${urlToday}${urlToday.includes('?') ? '&' : '?'}t=${Date.now()}`;
+    const chartToday = await getSolarChart(this.forecastData, this.yieldFactors, todayStart, todayEnd, 'Forecast Today', this.powerHistory, this.timeZone);
+    if (chartToday) {
+      this.chartSolarToday = chartToday;
       if (!this.solarTodayImage) {
         this.solarTodayImage = await this.homey.images.createImage();
+        this.solarTodayImage.setStream(async (stream) => imageUrlToStream(this.chartSolarToday, stream, this));
         await this.setCameraImage('solarToday', 'Solar Today', this.solarTodayImage);
       }
-      this.solarTodayImage.setStream(async (stream) => imageUrlToStream(url, stream, this));
       await this.solarTodayImage.update();
     }
 
@@ -860,14 +860,14 @@ class SolarDevice extends GenericDevice {
       tomorrow.setDate(tomorrow.getDate() + 1);
       const { start: tomorrowStart, end: tomorrowEnd } = SolarLearningStrategy.getSunBounds(tomorrow, this.forecastData, this.timeZone);
 
-      const urlTomorrow = await getSolarChart(this.forecastData, this.yieldFactors, tomorrowStart, tomorrowEnd, 'Forecast Tomorrow', this.powerHistory, this.timeZone);
-      if (urlTomorrow) {
-        const url = `${urlTomorrow}${urlTomorrow.includes('?') ? '&' : '?'}t=${Date.now()}`;
+      const chartTomorrow = await getSolarChart(this.forecastData, this.yieldFactors, tomorrowStart, tomorrowEnd, 'Forecast Tomorrow', this.powerHistory, this.timeZone);
+      if (chartTomorrow) {
+        this.chartSolarTomorrow = chartTomorrow;
         if (!this.solarTomorrowImage) {
           this.solarTomorrowImage = await this.homey.images.createImage();
+          this.solarTomorrowImage.setStream(async (stream) => imageUrlToStream(this.chartSolarTomorrow, stream, this));
           await this.setCameraImage('solarTomorrow', 'Solar Tomorrow', this.solarTomorrowImage);
         }
-        this.solarTomorrowImage.setStream(async (stream) => imageUrlToStream(url, stream, this));
         await this.solarTomorrowImage.update();
       }
     }
@@ -884,34 +884,34 @@ class SolarDevice extends GenericDevice {
       // Pass dummy yield factors (1.0) because frozenData is already Power (W), not Radiation
       const dummyYields = new Array(96).fill(1.0);
       this.log(`[updateForecastDisplay] Updating Yesterday Chart (${this.forecastHistory.yesterday.date}). PowerHistory: ${this.powerHistory.length}`);
-      const urlYesterday = await getSolarChart(frozenData, dummyYields, yStart, yEnd, 'Solar Yesterday', this.powerHistory, this.timeZone);
+      const chartYesterday = await getSolarChart(frozenData, dummyYields, yStart, yEnd, 'Solar Yesterday', this.powerHistory, this.timeZone);
 
-      if (urlYesterday) {
-        const url = `${urlYesterday}${urlYesterday.includes('?') ? '&' : '?'}t=${Date.now()}`;
+      if (chartYesterday) {
+        this.chartSolarYesterday = chartYesterday;
         if (!this.solarYesterdayImage) {
           this.solarYesterdayImage = await this.homey.images.createImage();
+          this.solarYesterdayImage.setStream(async (stream) => imageUrlToStream(this.chartSolarYesterday, stream, this));
           await this.setCameraImage('solarYesterday', 'Solar Yesterday', this.solarYesterdayImage);
         }
-        this.solarYesterdayImage.setStream(async (stream) => imageUrlToStream(url, stream, this));
         await this.solarYesterdayImage.update();
       }
     }
 
     // 3. Distribution
     if (yieldFactorsUpdated || !this.solarDistributionImage) {
-      const urlDist = await getDistributionChart(this.yieldFactors, 'Yield Distribution', this.timeZone);
-      if (urlDist) {
-        const url = `${urlDist}${urlDist.includes('?') ? '&' : '?'}t=${Date.now()}`;
+      const chartDist = await getDistributionChart(this.yieldFactors, 'Yield Distribution', this.timeZone);
+      if (chartDist) {
+        this.chartSolarDistribution = chartDist;
         if (!this.solarDistributionImage) {
           this.solarDistributionImage = await this.homey.images.createImage();
+          this.solarDistributionImage.setStream(async (stream) => imageUrlToStream(this.chartSolarDistribution, stream, this));
           await this.setCameraImage('solarDistribution', 'Solar Distribution', this.solarDistributionImage);
         }
-        this.solarDistributionImage.setStream(async (stream) => imageUrlToStream(url, stream, this));
         await this.solarDistributionImage.update();
       }
     }
 
-    // 4. Trigger Solar Yield Flows at the start of a new 15 minute period 
+    // 4. Trigger Solar Yield Flows at the start of a new 15 minute period
     const currentSlot = (now.getUTCHours() * 4) + Math.floor(now.getUTCMinutes() / 15);
     if (this.lastSolarTriggerSlot !== currentSlot || yieldFactorsUpdated || this.forecastChanged) {
       this.lastSolarTriggerSlot = currentSlot;
@@ -919,10 +919,6 @@ class SolarDevice extends GenericDevice {
     }
 
     this.forecastChanged = false;
-  }
-
-  async retrain_solar_model() {
-    return this.retrainSolarModel();
   }
 
   getForecastRemaining(targetDateLocal) {
@@ -933,37 +929,7 @@ class SolarDevice extends GenericDevice {
     // If target is in the past relative to now, return 0
     if (targetDateLocal <= nowLocal) return 0;
 
-    // Calculate end time in UTC
-    // We need to sum from NOW until targetDateLocal
-    // Convert targetDateLocal back to UTC timestamp
-    // Simple offset calculation:
-    const offset = nowLocal.getTime() - now.getTime();
-    const endTimeUTC = targetDateLocal.getTime() - offset;
-    const startTimeUTC = now.getTime();
-
-    let totalYield = 0;
-    // Iterate 15 min slots
-    // Align start to next 15m slot or integrate partial?
-    // SolarLearningStrategy uses 15 min slots.
-    const startSlot = Math.ceil(startTimeUTC / (15 * 60 * 1000)) * 15 * 60 * 1000;
-
-    // Partial first slot? Ignoring for simplicity, taking next full slot onwards or current slot
-    // Let's iterate from current 15m block
-    for (let t = startSlot; t < endTimeUTC; t += 15 * 60 * 1000) {
-      const rad = SolarLearningStrategy.getInterpolatedRadiation(t, this.forecastData);
-      const dateT = new Date(t);
-      const slotIndex = (dateT.getUTCHours() * 4) + Math.floor(dateT.getUTCMinutes() / 15);
-      const yf = this.yieldFactors[slotIndex] !== undefined ? this.yieldFactors[slotIndex] : 0;
-      const power = rad * yf; // Watts
-      totalYield += (power * 0.25) / 1000; // kWh
-    }
-
-    // Add partial current slot (optional, but cleaner to just start from 'now')
-    // For robustness, just using aligned slots is usually fine for this granularity.
-    // But let's check if we are significantly before startSlot.
-    // If now is 12:05, startSlot is 12:15. We miss 10 mins.
-    // Given the request is approximate "remaining yield", aligned slots are acceptable.
-    return Number(totalYield.toFixed(2));
+    return this.getForecastBetween(nowLocal, targetDateLocal);
   }
 
   getForecastBetween(startLocal, endLocal) {
