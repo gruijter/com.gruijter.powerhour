@@ -911,21 +911,11 @@ class SolarDevice extends GenericDevice {
       }
     }
 
-    // 4. Trigger Solar Yield Flows
-    // Trigger at the start of a new 15 minute period (event based)
+    // 4. Trigger Solar Yield Flows at the start of a new 15 minute period 
     const currentSlot = (now.getUTCHours() * 4) + Math.floor(now.getUTCMinutes() / 15);
     if (this.lastSolarTriggerSlot !== currentSlot || yieldFactorsUpdated || this.forecastChanged) {
       this.lastSolarTriggerSlot = currentSlot;
-      if (this.homey.app.trigger_solar_yield_remaining) {
-        await this.homey.app.trigger_solar_yield_remaining(this, {}, {}).catch((err) => {
-          this.error('Error triggering solar_yield_remaining', err);
-        });
-      }
-      if (this.homey.app.trigger_solar_yield_between) {
-        await this.homey.app.trigger_solar_yield_between(this, {}, {}).catch((err) => {
-          this.error('Error triggering solar_yield_between', err);
-        });
-      }
+      await this.flows.triggerSolarYieldFlows().catch((err) => this.error('Error triggering solar yield flows', err));
     }
 
     this.forecastChanged = false;
