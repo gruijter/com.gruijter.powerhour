@@ -1,0 +1,54 @@
+{
+  "title": {
+    "en": "Yield between times is less than",
+    "de": "Ertrag zwischen Zeiten ist weniger als",
+    "nl": "Opbrengst tussen tijden is minder dan",
+    "fr": "Le rendement entre les heures est inférieur à",
+    "it": "Il rendimento tra gli orari è inferiore a",
+    "sv": "Avkastning mellan tider är mindre än",
+    "no": "Avkastning mellom tider er mindre enn",
+    "da": "Udbytte mellem tider er mindre end",
+    "es": "El rendimiento entre horas es menor que",
+    "pl": "Uzysk między czasami jest mniejszy niż",
+    "ru": "Доход между временем меньше чем",
+    "ko": "시간 사이 수익이 다음보다 적음"
+  },
+  "titleFormatted": {
+    "en": "Yield between [[start_time]] and [[end_time]] is less than [[value]] kWh",
+    "de": "Ertrag zwischen [[start_time]] und [[end_time]] ist weniger als [[value]] kWh",
+    "nl": "Opbrengst tussen [[start_time]] en [[end_time]] is minder dan [[value]] kWh",
+    "fr": "Le rendement entre [[start_time]] et [[end_time]] est inférieur à [[value]] kWh",
+    "it": "Il rendimento tra [[start_time]] e [[end_time]] è inferiore a [[value]] kWh",
+    "sv": "Avkastning mellan [[start_time]] och [[end_time]] är mindre än [[value]] kWh",
+    "no": "Avkastning mellom [[start_time]] og [[end_time]] er mindre enn [[value]] kWh",
+    "da": "Udbytte mellem [[start_time]] og [[end_time]] er mindre end [[value]] kWh",
+    "es": "El rendimiento entre [[start_time]] y [[end_time]] es menor que [[value]] kWh",
+    "pl": "Uzysk między [[start_time]] a [[end_time]] jest mniejszy niż [[value]] kWh",
+    "ru": "Доход между [[start_time]] и [[end_time]] меньше чем [[value]] кВтч",
+    "ko": "[[start_time]]와 [[end_time]] 사이 수익이 [[value]] kWh보다 적음"
+  },
+  "args": [
+    {
+      "type": "device",
+      "name": "device",
+      "filter": "driver_id=solar"
+    },
+    {
+      "type": "time",
+      "name": "start_time",
+      "required": true
+    },
+    {
+      "type": "time",
+      "name": "end_time",
+      "required": true
+    },
+    {
+      "type": "number",
+      "name": "value",
+      "required": true,
+      "min": 0,
+      "step": 0.1
+    }
+  ]
+}

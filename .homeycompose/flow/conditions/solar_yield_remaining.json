@@ -1,0 +1,49 @@
+{
+  "title": {
+    "en": "Remaining yield before time is !{{less|more}} than",
+    "de": "Verbleibender Ertrag vor Zeit ist !{{weniger|mehr}} als",
+    "nl": "Resterende opbrengst voor tijd is !{{minder|meer}} dan",
+    "fr": "Le rendement restant avant l'heure est !{{inférieur|supérieur}} à",
+    "it": "Il rendimento rimanente prima del tempo è !{{inferiore|superiore}} a",
+    "sv": "Återstående avkastning före tid är !{{mindre|mer}} än",
+    "no": "Gjenværende avkastning før tid er !{{mindre|mer}} enn",
+    "da": "Resterende udbytte før tid er !{{mindre|mere}} end",
+    "es": "El rendimiento restante antes de tiempo es !{{menor|mayor}} que",
+    "pl": "Pozostały uzysk przed czasem jest !{{mniejszy|większy}} niż",
+    "ru": "Оставшийся доход до времени !{{меньше|больше}} чем",
+    "ko": "시간 전 남은 수익이 다음보다 !{{적음|많음}}"
+  },
+  "titleFormatted": {
+    "en": "Remaining yield before [[time]] is !{{less|more}} than [[value]] kWh",
+    "de": "Verbleibender Ertrag vor [[time]] ist !{{weniger|mehr}} als [[value]] kWh",
+    "nl": "Resterende opbrengst voor [[time]] is !{{minder|meer}} dan [[value]] kWh",
+    "fr": "Le rendement restant avant [[time]] est !{{inférieur|supérieur}} à [[value]] kWh",
+    "it": "Il rendimento rimanente prima delle [[time]] è !{{inferiore|superiore}} a [[value]] kWh",
+    "sv": "Återstående avkastning före [[time]] är !{{mindre|mer}} än [[value]] kWh",
+    "no": "Gjenværende avkastning før [[time]] er !{{mindre|mer}} enn [[value]] kWh",
+    "da": "Resterende udbytte før [[time]] er !{{mindre|mere}} end [[value]] kWh",
+    "es": "El rendimiento restante antes de [[time]] es !{{menor|mayor}} que [[value]] kWh",
+    "pl": "Pozostały uzysk przed [[time]] jest !{{mniejszy|większy}} niż [[value]] kWh",
+    "ru": "Оставшийся доход до [[time]] !{{меньше|больше}} чем [[value]] кВтч",
+    "ko": "[[time]] 전 남은 수익이 [[value]] kWh보다 !{{적음|많음}}"
+  },
+  "args": [
+    {
+      "type": "device",
+      "name": "device",
+      "filter": "driver_id=solar"
+    },
+    {
+      "type": "time",
+      "name": "time",
+      "required": true
+    },
+    {
+      "type": "number",
+      "name": "value",
+      "required": true,
+      "min": 0,
+      "step": 0.1
+    }
+  ]
+}

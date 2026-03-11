@@ -95,6 +95,7 @@ class SolarDevice extends GenericDevice {
     this.forecastData = await this.getStoreValue('forecastData') || {}; // { time: radiation }
     this.forecastHistory = await this.getStoreValue('forecastHistory') || { today: null, yesterday: null };
     this.lastAutoRetrain = await this.getStoreValue('lastAutoRetrain') || 0;
+    this.lastSolarTriggerSlot = -1;
 
     let history = await this.getStoreValue('powerHistory');
     if (!Array.isArray(history)) history = [];
@@ -910,11 +911,106 @@ class SolarDevice extends GenericDevice {
       }
     }
 
+    // 4. Trigger Solar Yield Flows
+    // Trigger at the start of a new 15 minute period (event based)
+    const currentSlot = (now.getUTCHours() * 4) + Math.floor(now.getUTCMinutes() / 15);
+    if (this.lastSolarTriggerSlot !== currentSlot || yieldFactorsUpdated || this.forecastChanged) {
+      this.lastSolarTriggerSlot = currentSlot;
+      if (this.homey.app.trigger_solar_yield_remaining) {
+        await this.homey.app.trigger_solar_yield_remaining(this, {}, {}).catch((err) => {
+          this.error('Error triggering solar_yield_remaining', err);
+        });
+      }
+      if (this.homey.app.trigger_solar_yield_between) {
+        await this.homey.app.trigger_solar_yield_between(this, {}, {}).catch((err) => {
+          this.error('Error triggering solar_yield_between', err);
+        });
+      }
+    }
+
     this.forecastChanged = false;
   }
 
   async retrain_solar_model() {
     return this.retrainSolarModel();
+  }
+
+  getForecastRemaining(targetDateLocal) {
+    const now = new Date();
+    const timezone = this.timeZone || 'UTC';
+    const nowLocal = new Date(now.toLocaleString('en-US', { timeZone: timezone }));
+
+    // If target is in the past relative to now, return 0
+    if (targetDateLocal <= nowLocal) return 0;
+
+    // Calculate end time in UTC
+    // We need to sum from NOW until targetDateLocal
+    // Convert targetDateLocal back to UTC timestamp
+    // Simple offset calculation:
+    const offset = nowLocal.getTime() - now.getTime();
+    const endTimeUTC = targetDateLocal.getTime() - offset;
+    const startTimeUTC = now.getTime();
+
+    let totalYield = 0;
+    // Iterate 15 min slots
+    // Align start to next 15m slot or integrate partial?
+    // SolarLearningStrategy uses 15 min slots.
+    const startSlot = Math.ceil(startTimeUTC / (15 * 60 * 1000)) * 15 * 60 * 1000;
+
+    // Partial first slot? Ignoring for simplicity, taking next full slot onwards or current slot
+    // Let's iterate from current 15m block
+    for (let t = startSlot; t < endTimeUTC; t += 15 * 60 * 1000) {
+      const rad = SolarLearningStrategy.getInterpolatedRadiation(t, this.forecastData);
+      const dateT = new Date(t);
+      const slotIndex = (dateT.getUTCHours() * 4) + Math.floor(dateT.getUTCMinutes() / 15);
+      const yf = this.yieldFactors[slotIndex] !== undefined ? this.yieldFactors[slotIndex] : 0;
+      const power = rad * yf; // Watts
+      totalYield += (power * 0.25) / 1000; // kWh
+    }
+
+    // Add partial current slot (optional, but cleaner to just start from 'now')
+    // For robustness, just using aligned slots is usually fine for this granularity.
+    // But let's check if we are significantly before startSlot.
+    // If now is 12:05, startSlot is 12:15. We miss 10 mins.
+    // Given the request is approximate "remaining yield", aligned slots are acceptable.
+    return Number(totalYield.toFixed(2));
+  }
+
+  getForecastBetween(startLocal, endLocal) {
+    const now = new Date();
+    const timezone = this.timeZone || 'UTC';
+    const nowLocal = new Date(now.toLocaleString('en-US', { timeZone: timezone }));
+
+    // Adjust end date if it is before start (e.g. crossing midnight 22:00 -> 06:00)
+    // Note: This logic assumes 'end' is the next occurance of that time relative to start.
+    const adjustedEnd = new Date(endLocal);
+    if (adjustedEnd < startLocal) {
+      adjustedEnd.setDate(adjustedEnd.getDate() + 1);
+    }
+
+    // Convert Local Start/End to UTC timestamps
+    // Simple offset calculation based on 'now'
+    const offset = nowLocal.getTime() - now.getTime();
+    const startTimeUTC = startLocal.getTime() - offset;
+    const endTimeUTC = adjustedEnd.getTime() - offset;
+
+    let totalYield = 0;
+    const startSlot = Math.ceil(startTimeUTC / (15 * 60 * 1000)) * 15 * 60 * 1000;
+
+    for (let t = startSlot; t < endTimeUTC; t += 15 * 60 * 1000) {
+      const rad = SolarLearningStrategy.getInterpolatedRadiation(t, this.forecastData);
+      // Determine slot index for this specific timestamp
+      // Need to convert back to local to find the correct 0-95 slot index
+      // Fast approximation of local time from UTC t using the fixed offset calculated earlier
+      const tLocal = new Date(t + offset);
+
+      const slotIndex = (tLocal.getHours() * 4) + Math.floor(tLocal.getMinutes() / 15);
+      const yf = this.yieldFactors[slotIndex] !== undefined ? this.yieldFactors[slotIndex] : 0;
+      const power = rad * yf; // Watts
+      totalYield += (power * 0.25) / 1000; // kWh
+    }
+
+    return Number(totalYield.toFixed(2));
   }
 
   destroyListeners() {
