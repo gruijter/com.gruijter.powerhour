@@ -1,3 +1,4 @@
-Pobieraj dane z licznika energii/gazu/wody Homey i wyświetlaj zużycie/produkcję na godzinę, dzień, miesiąc i rok. Poznaj wartość pieniężną i korzystaj z dynamicznych taryf. Dowiedz się, ile zużywają Twoje urządzenia typu 'Always-on' i zaoszczędź setki euro rocznie!
-Tej aplikacji można używać na przykład razem z aplikacją Enelogic i Youless, aplikacją Plugwise Smile P1, aplikacją BeeClear, aplikacją Solar Power, aplikacją Homewizard, Tibber pulse lub dowolną inną aplikacją posiadającą funkcję licznika energii lub mocy, licznika gazu lub licznika wody.
-PBTH obsługuje teraz również ceny Spot (ceny godzinowe dnia następnego) dla dostawców energii ze wszystkich krajów UE. Rozpocznij i zatrzymaj ładowanie samochodu w oparciu o najlepszą stawkę godzinową!
+Rozpocznij i zatrzymaj ładowanie samochodu lub inteligentnego akumulatora w oparciu o najlepszą stawkę 15-minutową i produkcję paneli słonecznych! Pobieraj dane z licznika energii/gazu/wody Homey i wyświetlaj zużycie/produkcję na godzinę, dzień, miesiąc i rok. Poznaj wartość pieniężną i korzystaj z dynamicznych taryf. Dowiedz się, ile zużywają Twoje urządzenia typu 'Always-on' i zaoszczędź setki euro rocznie!
+Tej aplikacji można używać z dowolną aplikacją lub urządzeniem posiadającym funkcję licznika energii lub mocy, funkcję licznika gazu lub funkcję licznika wody.
+PBTH zawiera inteligentny monitor baterii i prognozę solarną, która z czasem uczy się unikalnych cech Twoich paneli słonecznych.
+Obsługuje również ceny Spot (ceny 15-minutowe dnia następnego) dla dostawców energii ze wszystkich krajów UE.

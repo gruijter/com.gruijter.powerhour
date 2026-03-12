@@ -54,6 +54,13 @@ The Minimum value can be used to detect a gas leak or water leak. If the minimum
 <br>
 <br>
 
+## Solar Forecaster
+The app includes a powerful Solar Forecaster that learns the unique characteristics of your solar panels (orientation, shading, efficiency) over time. To use it, simply add a `Solar Panel` device. During setup, select the device that measures your solar production (e.g. an Enphase, SolarEdge, or Shelly device).
+
+The forecaster will automatically analyze the last 14 days of power history and combine it with local weather data to build a custom model for your array. It updates this model continuously. You can view the forecast for Today and Tomorrow, as well as the 'Yield Distribution' curve which shows your array's efficiency throughout the day, directly on the device interface.
+<br>
+<br>
+
 ## Using Day-Ahead pricing (EU market spot pricing)
 If you have a European energy provider that changes its pricing every hour (electricity) or every day (gas), you can use the built-in `Day-ahead Pricing` driver. Add the pricing device and select the correct Bidding Zone.
 From the device settings you can set the taxes and markups your provider is charging on top of the net purchase price. All purchase prices are in EURO, but you can set an exchange rate to any other currency. If you enable 'Send tariff' all PBTH power summarize devices will be automatically updated every hour. Use the price_changed flowcard, combined with the average price for the next 8 hours, to save money. E.g. Control the car charging per hour, start the dish-washer at the perfect moment, or even put fridges ‘on pause’ for an hour if that is cost effective.

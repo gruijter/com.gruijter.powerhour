@@ -1,4 +1,7 @@
 {
+  "8.7.0": {
+    "en": "Test release SolarForecaster. New flow cards. Fixed flow cards. Charts now handled by QuickChart.io. Code refactoring."
+  },
   "8.6.4": {
     "en": "Fix flow cards race conditions. Improved SolarForecaster. Code refactoring."
   },

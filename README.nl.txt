@@ -1,3 +1,4 @@
-Leest data van een Homey energie/gas/water apparaat, en toont het gebruik/levering per uur, per dag, per maand en per jaar. Zie de geldwaarde en gebruik dynamische tarieven. Weet hoeveel je Altijd-Aan apparaten gebruiken en bespaar honderden Euro's per jaar!
-Deze app kan bijvoorbeeld worden gebruikt samen met de Enelogic en Youless app, de Plugwise Smile P1 app, de BeeClear app, de Solar Panel app, de Homewizard app, Tibber pulse, of iedere andere app met energie/vermogen, gas of water capability.
-PBTH ondersteund nu ook Spot Prijzen (Day-Ahead 1 uur prijs) van energie providers uit ieder EU land. Start en stop het laden van je auto op basis van het beste uurtarief!
+Start en stop het laden van je auto of thuisbatterij op basis van het beste kwartiertarief en de productie van je zonnepanelen! Leest data van een Homey energie/gas/water apparaat, en toont het gebruik/levering per uur, per dag, per maand en per jaar. Zie de geldwaarde en gebruik dynamische tarieven. Weet hoeveel je Altijd-Aan apparaten gebruiken en bespaar honderden Euro's per jaar!
+Deze app kan worden gebruikt met iedere app of apparaat met een energie/vermogen, gas of water capability.
+PBTH bevat een slimme Batterij Monitor en een Zonne-voorspeller die de unieke eigenschappen van je zonnepanelen leert in de loop van de tijd.
+Het ondersteunt ook Spot Prijzen (Day-Ahead kwartierprijzen) van energie providers uit ieder EU land.

@@ -1,3 +1,4 @@
-Få data fra en Homey strøm-, gas- eller vandmåler og vis forbruget / produktionen per time, per dag, per måned og per år. Kend den monetære værdi og benyt dynamiske tariffer. Find ud af hvad dine Always-on hvidevarer bruger og spar tusindvis af kroner per år!
-Denne app kan blive brugt sammmen med f.eks. Enelogic og Youless app, Plugwise Smile P1 app, BeeClear app, Solar Power app, Homewizard app, Tibber pulse eller hvilken som helst anden app, som har energi eller strømmåleregenskaber, gasmåleregenskaber eller vandmåleregenskaber.
-PBTH understøtter nu også Spotpriser (Dagsforudsigelser) for alle elleverandørerer på tværs af EU. Start eller stop ladning af din elbil baseret på den bedste elpris!
+Start og stop opladning af din bil eller dit smarte batteri baseret på den bedste 15-minutters pris og din solproduktion! Få data fra en Homey strøm-, gas- eller vandmåler og vis forbruget / produktionen per time, per dag, per måned og per år. Kend den monetære værdi og benyt dynamiske tariffer. Find ud af hvad dine Always-on hvidevarer bruger og spar tusindvis af kroner per år!
+Denne app kan bruges sammen med enhver app eller enhed, der har en energi- eller strømmålerfunktion, en gasmålerfunktion eller en vandmålerfunktion.
+PBTH inkluderer en smart batterimonitor og en solprognose, der lærer dine solpanelers unikke egenskaber over tid.
+Den understøtter også Spotpriser (Day-Ahead 15-minutters priser) for energileverandører fra alle EU-lande.

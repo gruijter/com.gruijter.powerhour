@@ -1,3 +1,4 @@
-Hent data fra en Homey power/gas/water meter enhet, og vis forbruk / produksjon per time, per dag, per måned og per år. Hold oversikt over kostnader og dynamisk tariff. Vit hvor mye dine alltid på enheter bruker, og spar tusenvis av kroner hvert år.
-Denne appen kan for eksempel brukes sammen med Enelogic og Youless app, Plugwise Smile P1 app, BeeClear app, Solar Power app, Homewizard app, Tibber pulse, eller hvilken som helst annen app som har en Energi eller effekt meter egenskap, en Gass Meter egenskap, eller en vann meter egenskap.
-PBTH støtter nå også spotprising (Day-Ahead 1 hour pricing) for energileverandører fra alle EU land. Start og stopp lading av bilen din basert på the beste timeprisen! 
+Start og stopp lading av bilen eller hjemmebatteriet basert på den beste 15-minutters prisen og solcelleproduksjonen din! Hent data fra en Homey strøm-/gass-/vannmålerenhet, og vis forbruk/produksjon per time, per dag, per måned og per år. Hold oversikt over kostnader og bruk dynamiske tariffer. Vit hvor mye dine alltid på enheter bruker, og spar tusenvis av kroner hvert år!
+Denne appen kan brukes med hvilken som helst app eller enhet som har en energi- eller effektmåleregenskap, en gassmåleregenskap eller en vannmåleregenskap.
+PBTH inkluderer en smart batterimonitor og en solvarsler som lærer de unike egenskapene til solcellepanelene dine over tid.
+Den støtter også Spotpris (Day-Ahead 15 minutters priser) for energileverandører fra alle EU-land.
