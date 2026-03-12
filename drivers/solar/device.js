@@ -85,7 +85,7 @@ class SolarDevice extends GenericDevice {
     }
 
     this.retrainListener = this.registerCapabilityListener('button.retrain', async () => {
-      await this.retrainSolarModel();
+      await this.retrainSolarModel(true); // Manual trigger: Retrain from scratch
       return true;
     });
 
@@ -94,6 +94,7 @@ class SolarDevice extends GenericDevice {
     this.yieldFactors = storedYieldFactors || new Array(96).fill(0);
     this.forecastData = await this.getStoreValue('forecastData') || {}; // { time: radiation }
     this.forecastHistory = await this.getStoreValue('forecastHistory') || { today: null, yesterday: null };
+    this.globalMaxYF = await this.getStoreValue('globalMaxYF') || 0;
     this.lastAutoRetrain = await this.getStoreValue('lastAutoRetrain') || 0;
     this.lastSolarTriggerSlot = -1;
 
@@ -114,7 +115,7 @@ class SolarDevice extends GenericDevice {
       this.startLearningLoop();
       if (!storedYieldFactors) {
         this.log('First initialization: Auto-starting model retraining...');
-        await this.retrainSolarModel();
+        await this.retrainSolarModel(true); // First run: Start fresh
       }
       this.initLearningTimeout = null;
     }, 15000);
@@ -267,7 +268,7 @@ class SolarDevice extends GenericDevice {
 
           if (!isSameDay) {
             this.log('Running automatic nightly solar model retraining...');
-            await this.retrainSolarModel();
+            await this.retrainSolarModel(false); // Nightly: Blend with existing data
             this.lastAutoRetrain = now.getTime();
             await this.setStoreValue('lastAutoRetrain', this.lastAutoRetrain);
           }
@@ -413,6 +414,7 @@ class SolarDevice extends GenericDevice {
           forecastData: this.forecastData,
           yieldFactors: this.yieldFactors,
           timestamp: new Date(bucketResult.finishedBucket.startTime),
+          globalMaxYF: this.globalMaxYF,
         });
         if (result.updated) {
           this.yieldFactors = result.yieldFactors;
@@ -425,8 +427,8 @@ class SolarDevice extends GenericDevice {
     return updated;
   }
 
-  async retrainSolarModel() {
-    this.log('Starting solar model retraining...');
+  async retrainSolarModel(fromScratch = false) {
+    this.log(`Starting solar model retraining... (Mode: ${fromScratch ? 'From Scratch' : 'Blend'})`);
     try {
       let api;
       try {
@@ -505,6 +507,7 @@ class SolarDevice extends GenericDevice {
 
       // Initialize fresh yield factors for training to remove old artifacts
       let trainingYieldFactors = new Array(96).fill(0);
+      let physicalLimit = 0;
 
       // 3. Step 1: Coarse Learning (14 days, hourly)
       this.log('Step 1: Coarse learning (14 days, hourly)');
@@ -544,6 +547,7 @@ class SolarDevice extends GenericDevice {
           if (result1.updated) {
             trainingYieldFactors = result1.yieldFactors;
             step1Accumulators = result1.slotAccumulators;
+            physicalLimit = result1.limit; // Capture the robust Power-based limit
             this.log(`Step 1 complete: ${result1.log}`);
           } else {
             this.log('Step 1: No updates derived from data.');
@@ -595,6 +599,7 @@ class SolarDevice extends GenericDevice {
             currentYieldFactors: trainingYieldFactors,
             previousAccumulators: step1Accumulators,
             resolution: 'high',
+            maxYieldFactorLimit: physicalLimit, // Enforce the robust limit found in Step 1
           });
           if (result2.updated) {
             trainingYieldFactors = result2.yieldFactors;
@@ -612,11 +617,17 @@ class SolarDevice extends GenericDevice {
       // 5. Save and Update
       const mergeResult = SolarLearningStrategy.mergeYields({
         historicYields: trainingYieldFactors,
-        liveYields: this.yieldFactors,
-        alpha: 0.7, // Rebase with 70% weight on historic data
+        liveYields: fromScratch ? new Array(96).fill(0) : this.yieldFactors, // Ignore live data if scratch
+        alpha: fromScratch ? 1.0 : 0.7, // 100% historic if scratch, else 70% weight
+        limit: physicalLimit, // Enforce the physical limit found in Step 1
       });
       this.yieldFactors = mergeResult.yieldFactors;
       this.log(mergeResult.log);
+
+      // Recalculate and store the global max from the new model
+      this.globalMaxYF = Math.max(0, ...this.yieldFactors);
+      await this.setStoreValue('globalMaxYF', this.globalMaxYF);
+      this.log(`New Global Max Yield Factor: ${this.globalMaxYF.toFixed(2)} (Est. Wpeak: ~${Math.round(this.globalMaxYF * 1000)}W)`);
 
       await this.setStoreValue('yieldFactors', this.yieldFactors);
       await this.updateForecastDisplay(true);
