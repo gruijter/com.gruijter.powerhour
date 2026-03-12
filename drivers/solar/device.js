@@ -488,17 +488,44 @@ class SolarDevice extends GenericDevice {
       let allLogs = await api.insights.getLogs().catch(() => []);
       if (!Array.isArray(allLogs)) allLogs = Object.values(allLogs);
 
-      const deviceLogs = allLogs.filter((log) => log.uri && log.uri.includes(sourceDevice.id));
-      const availableCaps = deviceLogs.map((l) => l.uri.split(':').pop()).join(', ');
+      const deviceLogs = allLogs.filter((log) => {
+        const logId = log.id || log.uri || '';
+        return logId.includes(sourceDevice.id) && !logId.includes('PH_');
+      });
+      const availableCaps = deviceLogs.map((l) => (l.id || l.uri || '').split(':').pop()).join(', ');
       this.log(`Available Insight logs for ${sourceDevice.name}: ${availableCaps}`);
 
-      // Prioritize Power (W) over Energy (kWh)
-      const targetLog = deviceLogs.find((log) => log.uri.endsWith(':measure_power'))
-        || deviceLogs.find((log) => log.uri.endsWith(':energy_power'))
-        || deviceLogs.find((log) => log.uri.endsWith(':meter_power'));
+      const candidates = [
+        deviceLogs.find((log) => (log.id || log.uri || '').endsWith(':measure_power')),
+        deviceLogs.find((log) => (log.id || log.uri || '').endsWith(':energy_power')),
+        deviceLogs.find((log) => (log.id || log.uri || '').endsWith(':meter_power')),
+      ].filter(Boolean);
+
+      let targetLog = null;
+      for (const candidate of candidates) {
+        const testLogs = await api.insights.getLogEntries({
+          id: candidate.id,
+          start: startDate14.toISOString(),
+          end: endDate.toISOString(),
+          resolution: 'last14Days',
+        }).catch(() => null);
+
+        if (testLogs && testLogs.values && testLogs.values.length > 0) {
+          let entries = testLogs.values;
+          if ((candidate.uri || '').endsWith(':meter_power')) entries = convertCumulativeToPower(entries);
+          const hasData = entries.some((e) => {
+            const p = e.y !== undefined ? e.y : e.v;
+            return typeof p === 'number' && p > 10;
+          });
+          if (hasData) {
+            targetLog = candidate;
+            break;
+          }
+        }
+      }
 
       if (!targetLog) {
-        throw new Error(`Insights log not found for ${insightUri}. Available logs: ${availableCaps || 'none'}`);
+        throw new Error(`No Insights log with valid >10W data found for ${insightUri}. Available logs: ${availableCaps || 'none'}`);
       }
       this.log(`Found target log: ${targetLog.name || 'unknown'} (ID: ${targetLog.id})`);
 
@@ -550,7 +577,7 @@ class SolarDevice extends GenericDevice {
             physicalLimit = result1.limit; // Capture the robust Power-based limit
             this.log(`Step 1 complete: ${result1.log}`);
           } else {
-            this.log('Step 1: No updates derived from data.');
+            this.log(`Step 1: ${result1.log}`);
           }
         } else {
           this.log('Step 1 skipped: Insufficient hourly data.');
@@ -605,7 +632,7 @@ class SolarDevice extends GenericDevice {
             trainingYieldFactors = result2.yieldFactors;
             this.log(`Step 2 complete: ${result2.log}`);
           } else {
-            this.log('Step 2: No updates derived from data.');
+            this.log(`Step 2: ${result2.log}`);
           }
         } else {
           this.log('Step 2 skipped: Insufficient high-res data.');
@@ -676,10 +703,37 @@ class SolarDevice extends GenericDevice {
       let allLogs = await api.insights.getLogs().catch(() => []);
       if (!Array.isArray(allLogs)) allLogs = Object.values(allLogs);
 
-      const deviceLogs = allLogs.filter((log) => log.uri && log.uri.includes(sourceDevice.id));
-      const targetLog = deviceLogs.find((log) => log.uri.endsWith(':measure_power'))
-        || deviceLogs.find((log) => log.uri.endsWith(':energy_power'))
-        || deviceLogs.find((log) => log.uri.endsWith(':meter_power'));
+      const deviceLogs = allLogs.filter((log) => {
+        const logId = log.id || log.uri || '';
+        return logId.includes(sourceDevice.id) && !logId.includes('PH_');
+      });
+
+      const candidates = [
+        deviceLogs.find((log) => (log.id || log.uri || '').endsWith(':measure_power')),
+        deviceLogs.find((log) => (log.id || log.uri || '').endsWith(':energy_power')),
+        deviceLogs.find((log) => (log.id || log.uri || '').endsWith(':meter_power')),
+      ].filter(Boolean);
+
+      let targetLog = candidates[0]; // Default to first if none have data
+      for (const candidate of candidates) {
+        const testLogs = await api.insights.getLogEntries({
+          id: candidate.id,
+          resolution: 'last14Days',
+        }).catch(() => null);
+
+        if (testLogs && testLogs.values && testLogs.values.length > 0) {
+          let entries = testLogs.values;
+          if ((candidate.uri || '').endsWith(':meter_power')) entries = convertCumulativeToPower(entries);
+          const hasData = entries.some((e) => {
+            const p = e.y !== undefined ? e.y : e.v;
+            return typeof p === 'number' && p > 10;
+          });
+          if (hasData) {
+            targetLog = candidate;
+            break;
+          }
+        }
+      }
 
       if (!targetLog) {
         this.log('[populatePowerHistory] No target log found');
