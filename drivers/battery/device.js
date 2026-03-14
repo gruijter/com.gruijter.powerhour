@@ -20,7 +20,6 @@ along with com.gruijter.powerhour.  If not, see <http://www.gnu.org/licenses/>.s
 'use strict';
 
 const GenericDevice = require('../../lib/genericDeviceDrivers/generic_bat_device');
-const SourceDeviceHelper = require('../../lib/SourceDeviceHelper');
 
 class BatDevice extends GenericDevice {
 
@@ -37,11 +36,6 @@ class BatDevice extends GenericDevice {
     if (!this.sourceCapGroup) {
       throw Error(`${this.sourceDevice.name} has no compatible capabilities ${this.sourceDevice.capabilities}`);
     }
-  }
-
-  async getSourceDevice() {
-    this.sourceDevice = await SourceDeviceHelper.getSourceDevice(this);
-    return this.sourceDevice;
   }
 
   async addListeners() {

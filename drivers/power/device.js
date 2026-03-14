@@ -20,7 +20,6 @@ along with com.gruijter.powerhour.  If not, see <http://www.gnu.org/licenses/>.
 'use strict';
 
 const GenericDevice = require('../../lib/genericDeviceDrivers/generic_sum_device');
-const SourceDeviceHelper = require('../../lib/SourceDeviceHelper');
 
 const deviceSpecifics = {
   cmap: {
@@ -50,11 +49,6 @@ class PowerDevice extends GenericDevice {
   }
 
   // device specific stuff below
-  async getSourceDevice() {
-    this.sourceDevice = await SourceDeviceHelper.getSourceDevice(this);
-    return this.sourceDevice;
-  }
-
   async addSourceCapGroup() {
     // setup if/how a HOMEY-API source device fits to a defined capability group
     this.lastGroupMeterReady = false;

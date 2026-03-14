@@ -21,7 +21,6 @@ along with com.gruijter.powerhour.  If not, see <http://www.gnu.org/licenses/>.
 'use strict';
 
 const GenericDevice = require('../../lib/genericDeviceDrivers/generic_sum_device');
-const SourceDeviceHelper = require('../../lib/SourceDeviceHelper');
 const { imageUrlToStream } = require('../../lib/charts/ImageHelpers');
 const { getSolarChart, getDistributionChart } = require('../../lib/charts/SolarChart');
 const OpenMeteo = require('../../lib/providers/OpenMeteo');
@@ -126,11 +125,6 @@ class SolarDevice extends GenericDevice {
   }
 
   // --- Source Device Integration (Copied/Adapted from PowerDevice) ---
-
-  async getSourceDevice() {
-    this.sourceDevice = await SourceDeviceHelper.getSourceDevice(this);
-    return this.sourceDevice;
-  }
 
   async addSourceCapGroup() {
     // setup if/how a HOMEY-API source device fits to a defined capability group
