@@ -170,6 +170,7 @@ class SolarDevice extends GenericDevice {
       if (this.sourceDevice.capabilities.includes('measure_power')) {
         this.log(`registering measure_power capability listener for ${this.sourceDevice.name}`);
         this.capabilityInstances.measurePower = await this.sourceDevice.makeCapabilityInstance('measure_power', async (value) => {
+          await this.setCapability('measure_power', value).catch(this.error);
           await this.updateMeterFromMeasure(value).catch(this.error);
         });
         return;
@@ -484,7 +485,6 @@ class SolarDevice extends GenericDevice {
       this.forecastChanged = true;
 
       // 2. Locate Insights Log
-      const insightUri = `homey:device:${sourceDevice.id}:measure_power`;
       let allLogs = await api.insights.getLogs().catch(() => []);
       if (!Array.isArray(allLogs)) allLogs = Object.values(allLogs);
 
@@ -496,7 +496,6 @@ class SolarDevice extends GenericDevice {
       this.log(`Available Insight logs for ${sourceDevice.name}: ${availableCaps}`);
 
       const candidates = [
-        deviceLogs.find((log) => (log.id || log.uri || '').endsWith(':measure_power')),
         deviceLogs.find((log) => (log.id || log.uri || '').endsWith(':energy_power')),
         deviceLogs.find((log) => (log.id || log.uri || '').endsWith(':meter_power')),
       ].filter(Boolean);
@@ -525,7 +524,7 @@ class SolarDevice extends GenericDevice {
       }
 
       if (!targetLog) {
-        throw new Error(`No Insights log with valid >10W data found for ${insightUri}. Available logs: ${availableCaps || 'none'}`);
+        throw new Error(`No Insights log with valid >10W data found for device ${sourceDevice.id}. Available logs: ${availableCaps || 'none'}`);
       }
       this.log(`Found target log: ${targetLog.name || 'unknown'} (ID: ${targetLog.id})`);
 
@@ -709,7 +708,6 @@ class SolarDevice extends GenericDevice {
       });
 
       const candidates = [
-        deviceLogs.find((log) => (log.id || log.uri || '').endsWith(':measure_power')),
         deviceLogs.find((log) => (log.id || log.uri || '').endsWith(':energy_power')),
         deviceLogs.find((log) => (log.id || log.uri || '').endsWith(':meter_power')),
       ].filter(Boolean);
