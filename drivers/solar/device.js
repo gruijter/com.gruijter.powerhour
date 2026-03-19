@@ -563,6 +563,7 @@ class SolarDevice extends GenericDevice {
             weatherEntries: weatherHistory,
             currentYieldFactors: trainingYieldFactors,
             resolution: 'hourly',
+            logger: (msg) => this.log(msg),
           });
           if (result1.updated) {
             trainingYieldFactors = result1.yieldFactors;
@@ -620,6 +621,7 @@ class SolarDevice extends GenericDevice {
             previousAccumulators: step1Accumulators,
             resolution: 'high',
             maxYieldFactorLimit: physicalLimit, // Enforce the robust limit found in Step 1
+            logger: (msg) => this.log(msg),
           });
           if (result2.updated) {
             trainingYieldFactors = result2.yieldFactors;
