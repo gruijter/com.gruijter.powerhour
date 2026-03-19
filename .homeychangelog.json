@@ -1,4 +1,7 @@
 {
+  "8.7.3": {
+    "en": "Improve SolarForecaster strategy. Fix power spikes in SUM and SOLAR device. Fix several flow cards. Refactoring." 
+  },
   "8.7.2": {
     "en": "Improve SolarForecaster source data fetching. Fix several flow cards. Homey-api 3.17.4"
   },
