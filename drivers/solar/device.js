@@ -542,10 +542,6 @@ class SolarDevice extends GenericDevice {
   async populatePowerHistory() {
     try {
       const now = Date.now();
-      this.log(`[populatePowerHistory] Checking history. Length: ${this.powerHistory.length}`);
-      if (this.powerHistory.length > 0) {
-        this.log(`[populatePowerHistory] Range: ${new Date(this.powerHistory[0].time).toISOString()} - ${new Date(this.powerHistory[this.powerHistory.length - 1].time).toISOString()}`);
-      }
 
       // Check if we have sufficient history (at least 24h worth of data)
       // Need ~40 hours to cover yesterday morning from today evening
@@ -553,7 +549,6 @@ class SolarDevice extends GenericDevice {
       const hasRecent = this.powerHistory.length > 0 && this.powerHistory[this.powerHistory.length - 1].time > (now - 6 * 60 * 60 * 1000);
 
       if (hasData && hasRecent) {
-        this.log('[populatePowerHistory] History sufficient and recent. Skipping.');
         return;
       }
 
@@ -828,7 +823,6 @@ class SolarDevice extends GenericDevice {
 
       // Pass dummy yield factors (1.0) because frozenData is already Power (W), not Radiation
       const dummyYields = new Array(96).fill(1.0);
-      this.log(`[updateForecastDisplay] Updating Yesterday Chart (${this.forecastHistory.yesterday.date}). PowerHistory: ${this.powerHistory.length}`);
       const chartYesterday = await getSolarChart(frozenData, dummyYields, yStart, yEnd, 'Solar Yesterday', this.powerHistory, this.timeZone);
 
       if (chartYesterday) {
