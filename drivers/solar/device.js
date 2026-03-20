@@ -788,13 +788,13 @@ class SolarDevice extends GenericDevice {
     // 1. Today
     const { start: todayStart, end: todayEnd } = SolarLearningStrategy.getSunBounds(now, this.forecastData, this.timeZone);
 
-    const chartToday = await getSolarChart(this.forecastData, this.yieldFactors, todayStart, todayEnd, 'Forecast Today', this.powerHistory, this.timeZone);
+    const chartToday = await getSolarChart(this.forecastData, this.yieldFactors, todayStart, todayEnd, 'Forecast This Day', this.powerHistory, this.timeZone);
     if (chartToday) {
       this.chartSolarToday = chartToday;
       if (!this.solarTodayImage) {
         this.solarTodayImage = await this.homey.images.createImage();
         this.solarTodayImage.setStream(async (stream) => imageUrlToStream(this.chartSolarToday, stream, this));
-        await this.setCameraImage('solarToday', 'Solar Today', this.solarTodayImage);
+        await this.setCameraImage('solarToday', 'Solar This Day', this.solarTodayImage);
       }
       await this.solarTodayImage.update();
     }
