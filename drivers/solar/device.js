@@ -777,6 +777,12 @@ class SolarDevice extends GenericDevice {
     await this.setCapabilityValue('meter_kwh_forecast.h0', Number(forecastH0.toFixed(2))).catch(this.error);
     await this.setCapabilityValue('meter_kwh_forecast.this_day', totalYield).catch(this.error);
 
+    // Calculate Forecast Tomorrow
+    const dayAfterTomorrowMidnight = new Date(tomorrowMidnight);
+    dayAfterTomorrowMidnight.setDate(dayAfterTomorrowMidnight.getDate() + 1);
+    const forecastTomorrow = this.getForecastBetween(tomorrowMidnight, dayAfterTomorrowMidnight);
+    await this.setCapabilityValue('meter_kwh_forecast.tomorrow', forecastTomorrow).catch(this.error);
+
     // --- Update Charts ---
 
     // 1. Today

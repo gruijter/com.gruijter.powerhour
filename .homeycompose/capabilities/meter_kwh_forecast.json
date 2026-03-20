@@ -1,8 +1,7 @@
 {
   "type": "number",
   "title": {
-    "en": "Forecast Yield Today",
-    "nl": "Verwachte Opbrengst Vandaag"
+    "en": "Forecast Yield"
   },
   "uiComponent": "sensor",
   "icon": "/assets/meter_kwh_forecast.svg",

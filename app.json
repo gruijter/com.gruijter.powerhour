@@ -13758,6 +13758,22 @@
             "ar": "توقعات اليوم"
           }
         },
+        "meter_kwh_forecast.tomorrow": {
+          "title": {
+            "en": "Forecast tomorrow",
+            "nl": "Prognose morgen",
+            "de": "Prognose morgen",
+            "fr": "Prévision demain",
+            "it": "Previsione domani",
+            "sv": "Prognos i morgon",
+            "no": "Prognose i morgen",
+            "es": "Pronóstico mañana",
+            "da": "Prognose i morgen",
+            "pl": "Prognoza jutro",
+            "ru": "Прогноз завтра",
+            "ar": "توقعات الغد"
+          }
+        },
         "meter_kwh_forecast.h0": {
           "title": {
             "en": "Forecast this hour",
@@ -16908,8 +16924,7 @@
     "meter_kwh_forecast": {
       "type": "number",
       "title": {
-        "en": "Forecast Yield Today",
-        "nl": "Verwachte Opbrengst Vandaag"
+        "en": "Forecast Yield"
       },
       "uiComponent": "sensor",
       "icon": "/assets/meter_kwh_forecast.svg",
