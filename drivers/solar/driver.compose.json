@@ -165,6 +165,22 @@
         "ar": "توقعات الغد"
       }
     },
+    "measure_watt_forecast.tomorrow_peak": {
+      "title": {
+        "en": "Peak forecast tomorrow",
+        "nl": "Piekverwachting morgen",
+        "de": "Spitzenprognose morgen",
+        "fr": "Prévision de pointe demain",
+        "it": "Previsione di picco domani",
+        "sv": "Toppprognos i morgon",
+        "no": "Toppprognose i morgen",
+        "es": "Pronóstico pico mañana",
+        "da": "Toppprognose i morgen",
+        "pl": "Szczytowa prognoza jutro",
+        "ru": "Пиковый прогноз на завтра",
+        "ar": "توقعات الذروة غدا"
+      }
+    },
     "meter_kwh_forecast.h0": {
       "title": {
         "en": "Forecast this hour",

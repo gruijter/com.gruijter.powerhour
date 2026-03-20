@@ -30,10 +30,10 @@ const driverSpecifics = {
     'measure_watt_forecast.h2', 'measure_watt_forecast.h3',
     'meter_kwh_this_hour', 'meter_kwh_forecast.h0',
     'meter_kwh_this_day', 'meter_kwh_forecast.this_day',
-    'meter_kwh_forecast.tomorrow',
+    'measure_watt_forecast.tomorrow_peak', 'meter_kwh_forecast.tomorrow',
     'meter_kwh_last_hour', 'meter_kwh_last_day',
-    'meter_kwh_last_month', 'meter_kwh_this_month', 'meter_kwh_last_year', 'meter_kwh_this_year',
-
+    'meter_kwh_last_month', 'meter_kwh_this_month',
+    'meter_kwh_last_year', 'meter_kwh_this_year',
     'meter_target_month_to_date', 'meter_target_year_to_date',
     'meter_money_last_hour', 'meter_money_this_hour',
     'meter_money_last_day', 'meter_money_this_day',

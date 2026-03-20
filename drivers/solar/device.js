@@ -775,8 +775,9 @@ class SolarDevice extends GenericDevice {
     // Calculate Forecast Tomorrow
     const dayAfterTomorrowMidnight = new Date(tomorrowMidnight);
     dayAfterTomorrowMidnight.setDate(dayAfterTomorrowMidnight.getDate() + 1);
-    const forecastTomorrow = this.getForecastBetween(tomorrowMidnight, dayAfterTomorrowMidnight);
-    await this.setCapabilityValue('meter_kwh_forecast.tomorrow', forecastTomorrow).catch(this.error);
+    const tomorrowStats = this.getForecastStatsBetween(tomorrowMidnight, dayAfterTomorrowMidnight);
+    await this.setCapabilityValue('meter_kwh_forecast.tomorrow', tomorrowStats.totalYield).catch(this.error);
+    await this.setCapabilityValue('measure_watt_forecast.tomorrow_peak', tomorrowStats.peakPower).catch(this.error);
 
     // --- Update Charts ---
 
@@ -871,7 +872,7 @@ class SolarDevice extends GenericDevice {
     return this.getForecastBetween(nowLocal, targetDateLocal);
   }
 
-  getForecastBetween(startLocal, endLocal) {
+  getForecastStatsBetween(startLocal, endLocal) {
     const now = new Date();
     const timezone = this.timeZone || 'UTC';
     const nowLocal = new Date(now.toLocaleString('en-US', { timeZone: timezone }));
@@ -890,6 +891,7 @@ class SolarDevice extends GenericDevice {
     const endTimeUTC = adjustedEnd.getTime() - offset;
 
     let totalYield = 0;
+    let peakPower = 0;
     const startSlot = Math.ceil(startTimeUTC / (15 * 60 * 1000)) * 15 * 60 * 1000;
 
     for (let t = startSlot; t < endTimeUTC; t += 15 * 60 * 1000) {
@@ -902,10 +904,19 @@ class SolarDevice extends GenericDevice {
       const slotIndex = (tLocal.getHours() * 4) + Math.floor(tLocal.getMinutes() / 15);
       const yf = this.yieldFactors[slotIndex] !== undefined ? this.yieldFactors[slotIndex] : 0;
       const power = rad * yf; // Watts
+      const roundedPower = Math.round(power);
+      if (roundedPower > peakPower) peakPower = roundedPower;
       totalYield += (power * 0.25) / 1000; // kWh
     }
 
-    return Number(totalYield.toFixed(2));
+    return {
+      totalYield: Number(totalYield.toFixed(2)),
+      peakPower,
+    };
+  }
+
+  getForecastBetween(startLocal, endLocal) {
+    return this.getForecastStatsBetween(startLocal, endLocal).totalYield;
   }
 
   destroyListeners() {
