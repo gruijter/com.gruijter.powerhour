@@ -28,6 +28,40 @@ class BatDevice extends GenericDevice {
   }
 
   async addSourceCapGroup() {
+    // 1. Check for new Homey energy standard (battery class)
+    if (this.sourceDevice.class === 'battery' || this.sourceDevice.virtualClass === 'battery') {
+
+      const hasCapability = (capability) => this.sourceDevice.capabilities.includes(capability);
+      let soc = null;
+      let newMeasurePower = null;
+      let chargingState = null;
+      let meterCharging = null;
+      let meterDischarging = null;
+
+      if (hasCapability('measure_battery')) soc = 'measure_battery';
+      if (hasCapability('measure_power')) newMeasurePower = 'measure_power';
+      if (hasCapability('battery_charging_state')) chargingState = 'battery_charging_state';
+
+      const energyData = this.sourceDevice.energyObj || this.sourceDevice.energy;
+      if (energyData?.meterPowerImportedCapability && hasCapability(energyData.meterPowerImportedCapability)) {
+        meterCharging = energyData.meterPowerImportedCapability;
+      }
+      if (energyData?.meterPowerExportedCapability && hasCapability(energyData.meterPowerExportedCapability)) {
+        meterDischarging = energyData.meterPowerExportedCapability;
+      }
+
+      if (soc && newMeasurePower) {
+        this.sourceCapGroup = {
+          soc,
+          newMeasurePower,
+          chargingState,
+          meterCharging,
+          meterDischarging,
+        };
+        return;
+      }
+    }
+
     // setup if/how a HOMEY-API source device fits to a defined capability group
     this.sourceCapGroup = this.driver.ds.sourceCapGroups.find((capGroup) => {
       const requiredKeys = Object.values(capGroup).filter((v) => v);
