@@ -1,7 +1,7 @@
 {
   "_comment": "This file is generated. Please edit .homeycompose/app.json instead.",
   "id": "com.gruijter.powerhour",
-  "version": "8.7.4",
+  "version": "8.7.5",
   "compatibility": ">=12.9.0",
   "brandColor": "#df5020",
   "sdk": 3,
@@ -1533,38 +1533,38 @@
             "type": "time",
             "name": "time1",
             "title": {
-              "en": "between",
-              "de": "zwischen",
-              "sv": "mellan",
-              "it": "fra",
-              "no": "mellom",
-              "da": "mellem",
-              "nl": "tussen",
-              "fr": "entre",
-              "es": "entre",
-              "pl": "pomiędzy",
-              "ru": "между",
-              "ko": "사이",
-              "ar": "بين"
+              "en": "time from",
+              "de": "Zeit von",
+              "sv": "tid från",
+              "it": "tempo da",
+              "no": "tid fra",
+              "da": "tid fra",
+              "nl": "tijd vanaf",
+              "fr": "heure de",
+              "es": "tiempo desde",
+              "pl": "czas od",
+              "ru": "время с",
+              "ko": "시작 시간",
+              "ar": "وقت من"
             }
           },
           {
             "type": "time",
             "name": "time2",
             "title": {
-              "en": "and",
-              "de": "und",
-              "sv": "och",
-              "it": "e",
-              "no": "og",
-              "da": "og",
-              "nl": "en",
-              "fr": "et",
-              "es": "y",
-              "pl": "i",
-              "ru": "и",
-              "ko": "그리고",
-              "ar": "و"
+              "en": "time to",
+              "de": "Zeit bis",
+              "sv": "tid till",
+              "it": "tempo a",
+              "no": "tid til",
+              "da": "tid til",
+              "nl": "tijd tot",
+              "fr": "heure à",
+              "es": "tiempo hasta",
+              "pl": "czas do",
+              "ru": "время до",
+              "ko": "종료 시간",
+              "ar": "وقت إلى"
             }
           }
         ],
@@ -1839,38 +1839,38 @@
             "type": "number",
             "name": "time1",
             "title": {
-              "en": "between",
-              "de": "zwischen",
-              "sv": "mellan",
-              "it": "fra",
-              "no": "mellom",
-              "da": "mellem",
-              "nl": "tussen",
-              "fr": "entre",
-              "es": "entre",
-              "pl": "pomiędzy",
-              "ru": "между",
-              "ko": "사이",
-              "ar": "بين"
+              "en": "time from",
+              "de": "Zeit von",
+              "sv": "tid från",
+              "it": "tempo da",
+              "no": "tid fra",
+              "da": "tid fra",
+              "nl": "tijd vanaf",
+              "fr": "heure de",
+              "es": "tiempo desde",
+              "pl": "czas od",
+              "ru": "время с",
+              "ko": "시작 시간",
+              "ar": "وقت من"
             }
           },
           {
             "type": "time",
             "name": "time2",
             "title": {
-              "en": "and",
-              "de": "und",
-              "sv": "och",
-              "it": "e",
-              "no": "og",
-              "da": "og",
-              "nl": "en",
-              "fr": "et",
-              "es": "y",
-              "pl": "i",
-              "ru": "и",
-              "ko": "그리고",
-              "ar": "و"
+              "en": "time to",
+              "de": "Zeit bis",
+              "sv": "tid till",
+              "it": "tempo a",
+              "no": "tid til",
+              "da": "tid til",
+              "nl": "tijd tot",
+              "fr": "heure à",
+              "es": "tiempo hasta",
+              "pl": "czas do",
+              "ru": "время до",
+              "ko": "종료 시간",
+              "ar": "وقت إلى"
             }
           }
         ],
@@ -2822,38 +2822,38 @@
             "type": "time",
             "name": "time1",
             "title": {
-              "en": "between",
-              "de": "zwischen",
-              "sv": "mellan",
-              "it": "fra",
-              "no": "mellom",
-              "da": "mellem",
-              "nl": "tussen",
-              "fr": "entre",
-              "es": "entre",
-              "pl": "pomiędzy",
-              "ru": "между",
-              "ko": "사이",
-              "ar": "بين"
+              "en": "time from",
+              "de": "Zeit von",
+              "sv": "tid från",
+              "it": "tempo da",
+              "no": "tid fra",
+              "da": "tid fra",
+              "nl": "tijd vanaf",
+              "fr": "heure de",
+              "es": "tiempo desde",
+              "pl": "czas od",
+              "ru": "время с",
+              "ko": "시작 시간",
+              "ar": "وقت من"
             }
           },
           {
             "type": "time",
             "name": "time2",
             "title": {
-              "en": "and",
-              "de": "und",
-              "sv": "och",
-              "it": "e",
-              "no": "og",
-              "da": "og",
-              "nl": "en",
-              "fr": "et",
-              "es": "y",
-              "pl": "i",
-              "ru": "и",
-              "ko": "그리고",
-              "ar": "و"
+              "en": "time to",
+              "de": "Zeit bis",
+              "sv": "tid till",
+              "it": "tempo a",
+              "no": "tid til",
+              "da": "tid til",
+              "nl": "tijd tot",
+              "fr": "heure à",
+              "es": "tiempo hasta",
+              "pl": "czas do",
+              "ru": "время до",
+              "ko": "종료 시간",
+              "ar": "وقت إلى"
             }
           }
         ],
@@ -3128,38 +3128,38 @@
             "type": "number",
             "name": "time1",
             "title": {
-              "en": "between",
-              "de": "zwischen",
-              "sv": "mellan",
-              "it": "fra",
-              "no": "mellom",
-              "da": "mellem",
-              "nl": "tussen",
-              "fr": "entre",
-              "es": "entre",
-              "pl": "pomiędzy",
-              "ru": "между",
-              "ko": "사이",
-              "ar": "بين"
+              "en": "time from",
+              "de": "Zeit von",
+              "sv": "tid från",
+              "it": "tempo da",
+              "no": "tid fra",
+              "da": "tid fra",
+              "nl": "tijd vanaf",
+              "fr": "heure de",
+              "es": "tiempo desde",
+              "pl": "czas od",
+              "ru": "время с",
+              "ko": "시작 시간",
+              "ar": "وقت من"
             }
           },
           {
             "type": "time",
             "name": "time2",
             "title": {
-              "en": "and",
-              "de": "und",
-              "sv": "och",
-              "it": "e",
-              "no": "og",
-              "da": "og",
-              "nl": "en",
-              "fr": "et",
-              "es": "y",
-              "pl": "i",
-              "ru": "и",
-              "ko": "그리고",
-              "ar": "و"
+              "en": "time to",
+              "de": "Zeit bis",
+              "sv": "tid till",
+              "it": "tempo a",
+              "no": "tid til",
+              "da": "tid til",
+              "nl": "tijd tot",
+              "fr": "heure à",
+              "es": "tiempo hasta",
+              "pl": "czas do",
+              "ru": "время до",
+              "ko": "종료 시간",
+              "ar": "وقت إلى"
             }
           }
         ],
@@ -3478,6 +3478,262 @@
       },
       {
         "title": {
+          "en": "Solar curtailment detected",
+          "de": "Solar-Abregelung erkannt",
+          "nl": "Zonnepanelen begrenzing gedetecteerd",
+          "ar": "تم اكتشاف تقليص الطاقة الشمسية",
+          "da": "Solnedskæring registreret",
+          "es": "Reducción solar detectada",
+          "fr": "Réduction solaire détectée",
+          "it": "Riduzione solare rilevata",
+          "ko": "태양광 출력 제한 감지됨",
+          "no": "Solnedskjæring oppdaget",
+          "pl": "Wykryto ograniczenie mocy słonecznej",
+          "ru": "Обнаружено ограничение солнечной энергии",
+          "sv": "Solnedskärning upptäckt"
+        },
+        "highlight": true,
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=solar"
+          }
+        ],
+        "id": "solar_curtailment_active"
+      },
+      {
+        "title": {
+          "en": "Solar curtailment ended",
+          "de": "Solar-Abregelung beendet",
+          "nl": "Zonnepanelen begrenzing beëindigd",
+          "ar": "انتهى تقليص الطاقة الشمسية",
+          "da": "Solnedskæring afsluttet",
+          "es": "Reducción solar finalizada",
+          "fr": "Réduction solaire terminée",
+          "it": "Riduzione solare terminata",
+          "ko": "태양광 출력 제한 종료됨",
+          "no": "Solnedskjæring avsluttet",
+          "pl": "Zakończono ograniczenie mocy słonecznej",
+          "ru": "Ограничение солнечной энергии завершено",
+          "sv": "Solnedskärning avslutad"
+        },
+        "highlight": true,
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=solar"
+          }
+        ],
+        "id": "solar_curtailment_inactive"
+      },
+      {
+        "title": {
+          "en": "Solar forecast updated",
+          "de": "Solarprognose aktualisiert",
+          "nl": "Zonnevoorspelling bijgewerkt",
+          "ar": "تم تحديث توقعات الطاقة الشمسية",
+          "da": "Solprognose opdateret",
+          "es": "Pronóstico solar actualizado",
+          "fr": "Prévision solaire mise à jour",
+          "it": "Previsione solare aggiornata",
+          "ko": "태양광 예측 업데이트됨",
+          "no": "Solvarsel oppdatert",
+          "pl": "Prognoza słoneczna zaktualizowana",
+          "ru": "Прогноз солнечной энергии обновлен",
+          "sv": "Solprognos uppdaterad"
+        },
+        "titleFormatted": {
+          "en": "Solar forecast for [[period]] updated",
+          "de": "Solarprognose für [[period]] aktualisiert",
+          "nl": "Zonnevoorspelling voor [[period]] bijgewerkt",
+          "ar": "تحديث توقعات الطاقة الشمسية لـ [[period]]",
+          "da": "Solprognose for [[period]] opdateret",
+          "es": "Pronóstico solar para [[period]] actualizado",
+          "fr": "Prévision solaire pour [[period]] mise à jour",
+          "it": "Previsione solare per [[period]] aggiornata",
+          "ko": "[[period]]에 대한 태양광 예측 업데이트됨",
+          "no": "Solvarsel for [[period]] oppdatert",
+          "pl": "Prognoza słoneczna dla [[period]] zaktualizowana",
+          "ru": "Прогноз солнечной энергии для [[period]] обновлен",
+          "sv": "Solprognos för [[period]] uppdaterad"
+        },
+        "highlight": true,
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=solar"
+          },
+          {
+            "type": "dropdown",
+            "name": "period",
+            "title": {
+              "en": "period",
+              "de": "Zeitraum",
+              "nl": "periode",
+              "ar": "فترة",
+              "da": "periode",
+              "es": "período",
+              "fr": "période",
+              "it": "periodo",
+              "ko": "기간",
+              "no": "periode",
+              "pl": "okres",
+              "ru": "период",
+              "sv": "period"
+            },
+            "values": [
+              {
+                "id": "this_day",
+                "label": {
+                  "en": "This day",
+                  "de": "diesen Tag",
+                  "nl": "Deze dag",
+                  "ar": "هذا اليوم",
+                  "da": "I dag",
+                  "es": "Este día",
+                  "fr": "Ce jour",
+                  "it": "giornata odierna",
+                  "ko": "오늘",
+                  "no": "idag",
+                  "pl": "Ten dzień",
+                  "ru": "Этот день",
+                  "sv": "idag"
+                }
+              },
+              {
+                "id": "tomorrow",
+                "label": {
+                  "en": "Tomorrow",
+                  "de": "Morgen",
+                  "nl": "Morgen",
+                  "ar": "غداً",
+                  "da": "I morgen",
+                  "es": "Mañana",
+                  "fr": "Demain",
+                  "it": "domani",
+                  "ko": "내일",
+                  "no": "i morgen",
+                  "pl": "Jutro",
+                  "ru": "Завтра",
+                  "sv": "i morgon"
+                }
+              },
+              {
+                "id": "next_hours",
+                "label": {
+                  "en": "Next hours",
+                  "nl": "Komende uren",
+                  "de": "Kommende Stunden",
+                  "ar": "الساعات القادمة",
+                  "da": "Næste timer",
+                  "es": "Próximas horas",
+                  "fr": "Prochaines heures",
+                  "it": "Prossime ore",
+                  "ko": "다음 시간",
+                  "no": "Neste timer",
+                  "pl": "Następne godziny",
+                  "ru": "Следующие часы",
+                  "sv": "Kommande timmar"
+                }
+              }
+            ]
+          }
+        ],
+        "tokens": [
+          {
+            "name": "solar",
+            "title": {
+              "en": "Solar Forecast JSON",
+              "de": "Solarprognose JSON",
+              "nl": "Zonnevoorspelling JSON",
+              "ar": "JSON توقعات الطاقة الشمسية",
+              "da": "JSON Solprognose",
+              "es": "JSON Pronóstico Solar",
+              "fr": "JSON Prévision Solaire",
+              "it": "JSON Previsione Solare",
+              "ko": "태양광 예측 JSON",
+              "no": "JSON Solvarsel",
+              "pl": "JSON Prognoza Słoneczna",
+              "ru": "JSON Прогноз Солнечной Энергии",
+              "sv": "JSON Solprognos"
+            },
+            "type": "string",
+            "example": "[0,0,50,120,300]"
+          }
+        ],
+        "id": "solar_forecast_updated"
+      },
+      {
+        "title": {
+          "en": "Solar production enters top hours",
+          "nl": "Zonneproductie bereikt top uren",
+          "de": "Solarproduktion erreicht Top-Stunden",
+          "sv": "Solproduktion går in i topptimmar",
+          "it": "La produzione solare entra nelle ore di punta",
+          "no": "Solproduksjon går inn i topptimer",
+          "da": "Solproduktion går ind i toptimer",
+          "fr": "La production solaire entre dans les heures de pointe",
+          "es": "La producción solar entra en las horas pico",
+          "pl": "Produkcja słoneczna wchodzi w godziny szczytu",
+          "ru": "Производство солнечной энергии входит в пиковые часы",
+          "ko": "태양광 생산이 최고 시간에 진입함",
+          "ar": "إنتاج الطاقة الشمسية يدخل ساعات الذروة"
+        },
+        "titleFormatted": {
+          "en": "Solar production becomes one of the top [[number]] hours of today",
+          "nl": "Zonneproductie wordt een van de top [[number]] uren van vandaag",
+          "de": "Solarproduktion wird eine der Top [[number]] Stunden des Tages",
+          "sv": "Solproduktion blir en av de [[number]] bästa timmarna idag",
+          "it": "La produzione solare diventa una delle migliori [[number]] ore di oggi",
+          "no": "Solproduksjon blir en av de [[number]] beste timene i dag",
+          "da": "Solproduktion bliver en af de [[number]] bedste timer i dag",
+          "fr": "La production solaire devient l'une des [[number]] meilleures heures d'aujourd'hui",
+          "es": "La producción solar se convierte en una de las [[number]] mejores horas de hoy",
+          "pl": "Produkcja słoneczna staje się jedną z [[number]] najlepszych godzin dzisiaj",
+          "ru": "Производство солнечной энергии становится одним из [[number]] лучших часов сегодня",
+          "ko": "태양광 생산이 오늘의 최고 [[number]]시간 중 하나가 됩니다",
+          "ar": "يصبح إنتاج الطاقة الشمسية من بين أفضل [[number]] ساعات اليوم"
+        },
+        "highlight": true,
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=solar"
+          },
+          {
+            "type": "number",
+            "name": "number",
+            "title": {
+              "en": "hours",
+              "nl": "uren",
+              "de": "Stunden",
+              "sv": "timmar",
+              "it": "ore",
+              "no": "timer",
+              "da": "timer",
+              "fr": "heures",
+              "es": "horas",
+              "pl": "godziny",
+              "ru": "часы",
+              "ko": "시간",
+              "ar": "ساعات"
+            },
+            "min": 1,
+            "max": 12,
+            "step": 1,
+            "placeholder": {
+              "en": "1 - 12"
+            }
+          }
+        ],
+        "id": "solar_production_enters_top"
+      },
+      {
+        "title": {
           "en": "Yield between times is less than",
           "de": "Ertrag zwischen Zeiten ist weniger als",
           "nl": "Opbrengst tussen tijden is minder dan",
@@ -3489,7 +3745,8 @@
           "es": "El rendimiento entre horas es menor que",
           "pl": "Uzysk między czasami jest mniejszy niż",
           "ru": "Доход между временем меньше чем",
-          "ko": "시간 사이 수익이 다음보다 적음"
+          "ko": "시간 사이 수익이 다음보다 적음",
+          "ar": "العائد بين الأوقات أقل من"
         },
         "titleFormatted": {
           "en": "Yield between [[start_time]] and [[end_time]] is less than [[value]] kWh",
@@ -3503,8 +3760,10 @@
           "es": "El rendimiento entre [[start_time]] y [[end_time]] es menor que [[value]] kWh",
           "pl": "Uzysk między [[start_time]] a [[end_time]] jest mniejszy niż [[value]] kWh",
           "ru": "Доход между [[start_time]] и [[end_time]] меньше чем [[value]] кВтч",
-          "ko": "[[start_time]]와 [[end_time]] 사이 수익이 [[value]] kWh보다 적음"
+          "ko": "[[start_time]]와 [[end_time]] 사이 수익이 [[value]] kWh보다 적음",
+          "ar": "العائد بين [[start_time]] و [[end_time]] أقل من [[value]] كيلوواط ساعة"
         },
+        "highlight": true,
         "args": [
           {
             "type": "device",
@@ -3544,7 +3803,8 @@
           "es": "El rendimiento restante antes de tiempo es menor que",
           "pl": "Pozostały uzysk przed czasem jest mniejszy niż",
           "ru": "Оставшийся доход до времени меньше чем",
-          "ko": "시간 전 남은 수익이 다음보다 적음"
+          "ko": "시간 전 남은 수익이 다음보다 적음",
+          "ar": "العائد المتبقي قبل الوقت أقل من"
         },
         "titleFormatted": {
           "en": "Remaining yield before [[time]] is less than [[value]] kWh",
@@ -3558,8 +3818,10 @@
           "es": "El rendimiento restante antes de [[time]] es menor que [[value]] kWh",
           "pl": "Pozostały uzysk przed [[time]] jest mniejszy niż [[value]] kWh",
           "ru": "Оставшийся доход до [[time]] меньше чем [[value]] кВтч",
-          "ko": "[[time]] 전 남은 수익이 [[value]] kWh보다 적음"
+          "ko": "[[time]] 전 남은 수익이 [[value]] kWh보다 적음",
+          "ar": "العائد المتبقي قبل [[time]] أقل من [[value]] كيلوواط ساعة"
         },
+        "highlight": true,
         "args": [
           {
             "type": "device",
@@ -4692,38 +4954,38 @@
             "type": "time",
             "name": "time1",
             "title": {
-              "en": "between",
-              "de": "zwischen",
-              "sv": "mellan",
-              "it": "fra",
-              "no": "mellom",
-              "da": "mellem",
-              "nl": "tussen",
-              "fr": "entre",
-              "es": "entre",
-              "pl": "pomiędzy",
-              "ru": "между",
-              "ko": "사이",
-              "ar": "بين"
+              "en": "time from",
+              "de": "Zeit von",
+              "sv": "tid från",
+              "it": "tempo da",
+              "no": "tid fra",
+              "da": "tid fra",
+              "nl": "tijd vanaf",
+              "fr": "heure de",
+              "es": "tiempo desde",
+              "pl": "czas od",
+              "ru": "время с",
+              "ko": "시작 시간",
+              "ar": "وقت من"
             }
           },
           {
             "type": "time",
             "name": "time2",
             "title": {
-              "en": "and",
-              "de": "und",
-              "sv": "och",
-              "it": "e",
-              "no": "og",
-              "da": "og",
-              "nl": "en",
-              "fr": "et",
-              "es": "y",
-              "pl": "i",
-              "ru": "и",
-              "ko": "그리고",
-              "ar": "و"
+              "en": "time to",
+              "de": "Zeit bis",
+              "sv": "tid till",
+              "it": "tempo a",
+              "no": "tid til",
+              "da": "tid til",
+              "nl": "tijd tot",
+              "fr": "heure à",
+              "es": "tiempo hasta",
+              "pl": "czas do",
+              "ru": "время до",
+              "ko": "종료 시간",
+              "ar": "وقت إلى"
             }
           }
         ],
@@ -4954,38 +5216,38 @@
             "type": "number",
             "name": "time1",
             "title": {
-              "en": "between",
-              "de": "zwischen",
-              "sv": "mellan",
-              "it": "fra",
-              "no": "mellom",
-              "da": "mellem",
-              "nl": "tussen",
-              "fr": "entre",
-              "es": "entre",
-              "pl": "pomiędzy",
-              "ru": "между",
-              "ko": "사이",
-              "ar": "بين"
+              "en": "time from",
+              "de": "Zeit von",
+              "sv": "tid från",
+              "it": "tempo da",
+              "no": "tid fra",
+              "da": "tid fra",
+              "nl": "tijd vanaf",
+              "fr": "heure de",
+              "es": "tiempo desde",
+              "pl": "czas od",
+              "ru": "время с",
+              "ko": "시작 시간",
+              "ar": "وقت من"
             }
           },
           {
             "type": "time",
             "name": "time2",
             "title": {
-              "en": "and",
-              "de": "und",
-              "sv": "och",
-              "it": "e",
-              "no": "og",
-              "da": "og",
-              "nl": "en",
-              "fr": "et",
-              "es": "y",
-              "pl": "i",
-              "ru": "и",
-              "ko": "그리고",
-              "ar": "و"
+              "en": "time to",
+              "de": "Zeit bis",
+              "sv": "tid till",
+              "it": "tempo a",
+              "no": "tid til",
+              "da": "tid til",
+              "nl": "tijd tot",
+              "fr": "heure à",
+              "es": "tiempo hasta",
+              "pl": "czas do",
+              "ru": "время до",
+              "ko": "종료 시간",
+              "ar": "وقت إلى"
             }
           }
         ],
@@ -5831,38 +6093,38 @@
             "type": "time",
             "name": "time1",
             "title": {
-              "en": "between",
-              "de": "zwischen",
-              "sv": "mellan",
-              "it": "fra",
-              "no": "mellom",
-              "da": "mellem",
-              "nl": "tussen",
-              "fr": "entre",
-              "es": "entre",
-              "pl": "pomiędzy",
-              "ru": "между",
-              "ko": "사이",
-              "ar": "بين"
+              "en": "time from",
+              "de": "Zeit von",
+              "sv": "tid från",
+              "it": "tempo da",
+              "no": "tid fra",
+              "da": "tid fra",
+              "nl": "tijd vanaf",
+              "fr": "heure de",
+              "es": "tiempo desde",
+              "pl": "czas od",
+              "ru": "время с",
+              "ko": "시작 시간",
+              "ar": "وقت من"
             }
           },
           {
             "type": "time",
             "name": "time2",
             "title": {
-              "en": "and",
-              "de": "und",
-              "sv": "och",
-              "it": "e",
-              "no": "og",
-              "da": "og",
-              "nl": "en",
-              "fr": "et",
-              "es": "y",
-              "pl": "i",
-              "ru": "и",
-              "ko": "그리고",
-              "ar": "و"
+              "en": "time to",
+              "de": "Zeit bis",
+              "sv": "tid till",
+              "it": "tempo a",
+              "no": "tid til",
+              "da": "tid til",
+              "nl": "tijd tot",
+              "fr": "heure à",
+              "es": "tiempo hasta",
+              "pl": "czas do",
+              "ru": "время до",
+              "ko": "종료 시간",
+              "ar": "وقت إلى"
             }
           }
         ],
@@ -6093,38 +6355,38 @@
             "type": "number",
             "name": "time1",
             "title": {
-              "en": "between",
-              "de": "zwischen",
-              "sv": "mellan",
-              "it": "fra",
-              "no": "mellom",
-              "da": "mellem",
-              "nl": "tussen",
-              "fr": "entre",
-              "es": "entre",
-              "pl": "pomiędzy",
-              "ru": "между",
-              "ko": "사이",
-              "ar": "بين"
+              "en": "time from",
+              "de": "Zeit von",
+              "sv": "tid från",
+              "it": "tempo da",
+              "no": "tid fra",
+              "da": "tid fra",
+              "nl": "tijd vanaf",
+              "fr": "heure de",
+              "es": "tiempo desde",
+              "pl": "czas od",
+              "ru": "время с",
+              "ko": "시작 시간",
+              "ar": "وقت من"
             }
           },
           {
             "type": "time",
             "name": "time2",
             "title": {
-              "en": "and",
-              "de": "und",
-              "sv": "och",
-              "it": "e",
-              "no": "og",
-              "da": "og",
-              "nl": "en",
-              "fr": "et",
-              "es": "y",
-              "pl": "i",
-              "ru": "и",
-              "ko": "그리고",
-              "ar": "و"
+              "en": "time to",
+              "de": "Zeit bis",
+              "sv": "tid till",
+              "it": "tempo a",
+              "no": "tid til",
+              "da": "tid til",
+              "nl": "tijd tot",
+              "fr": "heure à",
+              "es": "tiempo hasta",
+              "pl": "czas do",
+              "ru": "время до",
+              "ko": "종료 시간",
+              "ar": "وقت إلى"
             }
           }
         ],
@@ -6415,6 +6677,98 @@
       },
       {
         "title": {
+          "en": "Solar curtailment !{{is|isn't}} active",
+          "de": "Solar-Abregelung !{{ist|ist nicht}} aktiv",
+          "nl": "Zonnepanelen begrenzing !{{is|is niet}} actief",
+          "ar": "تقليص الطاقة الشمسية !{{نشط|ليس نشطًا}}",
+          "da": "Solnedskæring !{{er|er ikke}} aktiv",
+          "es": "Reducción solar !{{está|no está}} activa",
+          "fr": "Réduction solaire !{{est|n'est pas}} active",
+          "it": "Riduzione solare !{{è|non è}} attiva",
+          "ko": "태양광 출력 제한이 활성 상태!{{입니다|가 아닙니다}}",
+          "no": "Solnedskjæring !{{er|er ikke}} aktiv",
+          "pl": "Ograniczenie mocy słonecznej !{{jest|nie jest}} aktywne",
+          "ru": "Ограничение солнечной энергии !{{активно|не активно}}",
+          "sv": "Solnedskärning !{{är|är inte}} aktiv"
+        },
+        "highlight": true,
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=solar"
+          }
+        ],
+        "id": "solar_curtailment_active"
+      },
+      {
+        "title": {
+          "en": "Solar production !{{is|isn't}} in top hours",
+          "nl": "Zonneproductie !{{is|is niet}} in top uren",
+          "de": "Solarproduktion !{{ist|ist nicht}} in Top-Stunden",
+          "sv": "Solproduktion !{{är|är inte}} i topptimmar",
+          "it": "La produzione solare !{{è|non è}} nelle ore di punta",
+          "no": "Solproduksjon !{{er|er ikke}} i topptimer",
+          "da": "Solproduktion !{{er|er ikke}} i toptimer",
+          "fr": "La production solaire !{{est|n'est pas}} dans les heures de pointe",
+          "es": "La producción solar !{{está|no está}} en las horas pico",
+          "pl": "Produkcja słoneczna !{{jest|nie jest}} w godzinach szczytu",
+          "ru": "Производство солнечной энергии !{{в|не в}} пиковых часах",
+          "ko": "태양광 생산이 최고 시간에 진입!{{했습니다|하지 않았습니다}}",
+          "ar": "إنتاج الطاقة الشمسية !{{في|ليس في}} ساعات الذروة"
+        },
+        "titleFormatted": {
+          "en": "Solar production !{{is|isn't}} one of the top [[number]] hours of today",
+          "nl": "Zonneproductie !{{is|is niet}} een van de top [[number]] uren van vandaag",
+          "de": "Solarproduktion !{{ist|ist nicht}} eine der Top [[number]] Stunden des Tages",
+          "sv": "Solproduktion !{{är|är inte}} en av de [[number]] bästa timmarna idag",
+          "it": "La produzione solare !{{è|non è}} una delle migliori [[number]] ore di oggi",
+          "no": "Solproduksjon !{{er|er ikke}} en av de [[number]] beste timene i dag",
+          "da": "Solproduktion !{{er|er ikke}} en af de [[number]] bedste timer i dag",
+          "fr": "La production solaire !{{est|n'est pas}} l'une des [[number]] meilleures heures d'aujourd'hui",
+          "es": "La producción solar !{{es|no es}} una de las [[number]] mejores horas de hoy",
+          "pl": "Produkcja słoneczna !{{jest|nie jest}} jedną z [[number]] najlepszych godzin dzisiaj",
+          "ru": "Производство солнечной энергии !{{является|не является}} одним из [[number]] лучших часов сегодня",
+          "ko": "태양광 생산이 오늘의 최고 [[number]]시간 중 하나!{{입니다|가 아닙니다}}",
+          "ar": "إنتاج الطاقة الشمسية !{{هو|ليس}} من بين أفضل [[number]] ساعات اليوم"
+        },
+        "highlight": true,
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=solar"
+          },
+          {
+            "type": "number",
+            "name": "number",
+            "title": {
+              "en": "hours",
+              "nl": "uren",
+              "de": "Stunden",
+              "sv": "timmar",
+              "it": "ore",
+              "no": "timer",
+              "da": "timer",
+              "fr": "heures",
+              "es": "horas",
+              "pl": "godziny",
+              "ru": "часы",
+              "ko": "시간",
+              "ar": "ساعات"
+            },
+            "min": 1,
+            "max": 12,
+            "step": 1,
+            "placeholder": {
+              "en": "1 - 12"
+            }
+          }
+        ],
+        "id": "solar_production_in_top"
+      },
+      {
+        "title": {
           "en": "Yield between times is !{{less|more}} than",
           "de": "Ertrag zwischen Zeiten ist !{{weniger|mehr}} als",
           "nl": "Opbrengst tussen tijden is !{{minder|meer}} dan",
@@ -6426,7 +6780,8 @@
           "es": "El rendimiento entre horas es !{{menor|mayor}} que",
           "pl": "Uzysk między czasami jest !{{mniejszy|większy}} niż",
           "ru": "Доход между временем !{{меньше|больше}} чем",
-          "ko": "시간 사이 수익이 다음보다 !{{적음|많음}}"
+          "ko": "시간 사이 수익이 다음보다 !{{적음|많음}}",
+          "ar": "العائد بين الأوقات !{{أقل|أكثر}} من"
         },
         "titleFormatted": {
           "en": "Yield between [[start_time]] and [[end_time]] is !{{less|more}} than [[value]] kWh",
@@ -6440,8 +6795,10 @@
           "es": "El rendimiento entre [[start_time]] y [[end_time]] es !{{menor|mayor}} que [[value]] kWh",
           "pl": "Uzysk między [[start_time]] a [[end_time]] jest !{{mniejszy|większy}} niż [[value]] kWh",
           "ru": "Доход между [[start_time]] и [[end_time]] !{{меньше|больше}} чем [[value]] кВтч",
-          "ko": "[[start_time]]와 [[end_time]] 사이 수익이 [[value]] kWh보다 !{{적음|많음}}"
+          "ko": "[[start_time]]와 [[end_time]] 사이 수익이 [[value]] kWh보다 !{{적음|많음}}",
+          "ar": "العائد بين [[start_time]] و [[end_time]] !{{أقل|أكثر}} من [[value]] كيلوواط ساعة"
         },
+        "highlight": true,
         "args": [
           {
             "type": "device",
@@ -6470,6 +6827,157 @@
       },
       {
         "title": {
+          "en": "Tomorrow's yield is !{{better|worse}} than today's",
+          "nl": "Opbrengst van morgen is !{{beter|slechter}} dan vandaag",
+          "de": "Der morgige Ertrag ist !{{besser|schlechter}} als heute",
+          "fr": "Le rendement de demain est !{{meilleur|pire}} qu'aujourd'hui",
+          "sv": "Morgondagens avkastning är !{{bättre|sämre}} än dagens",
+          "no": "Morgendagens avkastning er !{{bedre|dårligere}} enn dagens",
+          "da": "Morgendagens udbytte er !{{bedre|dårligere}} end i dag",
+          "it": "Il rendimento di domani è !{{migliore|peggiore}} di oggi",
+          "es": "El rendimiento de mañana es !{{mejor|peor}} que hoy",
+          "pl": "Uzysk jutra jest !{{lepszy|gorszy}} niż dzisiaj",
+          "ru": "Доход завтра !{{лучше|хуже}} чем сегодня",
+          "ko": "내일의 수익이 오늘보다 !{{좋음|나쁨}}",
+          "ar": "عائد الغد !{{أفضل|أسوأ}} من اليوم"
+        },
+        "highlight": true,
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=solar"
+          }
+        ],
+        "id": "solar_yield_comparison"
+      },
+      {
+        "title": {
+          "en": "Yield for period is !{{more|less}} than",
+          "nl": "Opbrengst voor periode is !{{meer|minder}} dan",
+          "de": "Ertrag für Zeitraum ist !{{mehr|weniger}} als",
+          "fr": "Le rendement pour la période est !{{supérieur|inférieur}} à",
+          "sv": "Avkastning för perioden är !{{mer|mindre}} än",
+          "no": "Avkastning for perioden er !{{mer|mindre}} enn",
+          "da": "Udbytte for perioden er !{{mere|mindre}} end",
+          "it": "Il rendimento per il periodo è !{{maggiore|minore}} di",
+          "es": "El rendimiento para el período es !{{mayor|menor}} que",
+          "pl": "Uzysk dla okresu jest !{{większy|mniejszy}} niż",
+          "ru": "Доход за период !{{больше|меньше}} чем",
+          "ko": "기간 수익이 다음보다 !{{많음|적음}}",
+          "ar": "العائد للفترة !{{أكثر|أقل}} من"
+        },
+        "titleFormatted": {
+          "en": "Expected yield for [[period]] is !{{more|less}} than [[value]] kWh",
+          "nl": "Verwachte opbrengst voor [[period]] is !{{meer|minder}} dan [[value]] kWh",
+          "de": "Erwarteter Ertrag für [[period]] ist !{{mehr|weniger}} als [[value]] kWh",
+          "fr": "Le rendement attendu pour [[period]] est !{{supérieur|inférieur}} à [[value]] kWh",
+          "sv": "Förväntad avkastning för [[period]] är !{{mer|mindre}} än [[value]] kWh",
+          "no": "Forventet avkastning for [[period]] er !{{mer|mindre}} enn [[value]] kWh",
+          "da": "Forventet udbytte for [[period]] er !{{mere|mindre}} end [[value]] kWh",
+          "it": "Il rendimento previsto per [[period]] è !{{maggiore|minore}} di [[value]] kWh",
+          "es": "El rendimiento esperado para [[period]] es !{{mayor|menor}} que [[value]] kWh",
+          "pl": "Oczekiwany uzysk dla [[period]] jest !{{większy|mniejszy}} niż [[value]] kWh",
+          "ru": "Ожидаемый доход за [[period]] !{{больше|меньше}} чем [[value]] кВтч",
+          "ko": "[[period]] 예상 수익이 [[value]] kWh보다 !{{많음|적음}}",
+          "ar": "العائد المتوقع لـ [[period]] !{{أكثر|أقل}} من [[value]] كيلوواط ساعة"
+        },
+        "highlight": true,
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=solar"
+          },
+          {
+            "type": "dropdown",
+            "name": "period",
+            "title": {
+              "en": "period",
+              "nl": "periode",
+              "de": "Zeitraum",
+              "fr": "période",
+              "sv": "period",
+              "no": "periode",
+              "da": "periode",
+              "it": "periodo",
+              "es": "período",
+              "pl": "okres",
+              "ru": "период",
+              "ko": "기간",
+              "ar": "فترة"
+            },
+            "values": [
+              {
+                "id": "this_day",
+                "label": {
+                  "en": "Today",
+                  "nl": "Vandaag",
+                  "de": "Heute",
+                  "fr": "Aujourd'hui",
+                  "sv": "Idag",
+                  "no": "I dag",
+                  "da": "I dag",
+                  "it": "Oggi",
+                  "es": "Hoy",
+                  "pl": "Dzisiaj",
+                  "ru": "Сегодня",
+                  "ko": "오늘",
+                  "ar": "هذا اليوم"
+                }
+              },
+              {
+                "id": "tomorrow",
+                "label": {
+                  "en": "Tomorrow",
+                  "nl": "Morgen",
+                  "de": "Morgen",
+                  "fr": "Demain",
+                  "sv": "I morgon",
+                  "no": "I morgen",
+                  "da": "I morgen",
+                  "it": "Domani",
+                  "es": "Mañana",
+                  "pl": "Jutro",
+                  "ru": "Завтра",
+                  "ko": "내일",
+                  "ar": "غداً"
+                }
+              },
+              {
+                "id": "next_hours",
+                "label": {
+                  "en": "Next hours",
+                  "nl": "Komende uren",
+                  "de": "Kommende Stunden",
+                  "fr": "Prochaines heures",
+                  "sv": "Kommande timmar",
+                  "no": "Neste timer",
+                  "da": "Næste timer",
+                  "it": "Prossime ore",
+                  "es": "Próximas horas",
+                  "pl": "Następne godziny",
+                  "ru": "Следующие часы",
+                  "ko": "다음 시간",
+                  "ar": "الساعات القادمة"
+                }
+              }
+            ]
+          },
+          {
+            "type": "number",
+            "name": "value",
+            "title": {
+              "en": "kWh"
+            },
+            "min": 0,
+            "step": 0.1
+          }
+        ],
+        "id": "solar_yield_period"
+      },
+      {
+        "title": {
           "en": "Remaining yield before time is !{{less|more}} than",
           "de": "Verbleibender Ertrag vor Zeit ist !{{weniger|mehr}} als",
           "nl": "Resterende opbrengst voor tijd is !{{minder|meer}} dan",
@@ -6481,7 +6989,8 @@
           "es": "El rendimiento restante antes de tiempo es !{{menor|mayor}} que",
           "pl": "Pozostały uzysk przed czasem jest !{{mniejszy|większy}} niż",
           "ru": "Оставшийся доход до времени !{{меньше|больше}} чем",
-          "ko": "시간 전 남은 수익이 다음보다 !{{적음|많음}}"
+          "ko": "시간 전 남은 수익이 다음보다 !{{적음|많음}}",
+          "ar": "العائد المتبقي قبل الوقت !{{أقل|أكثر}} من"
         },
         "titleFormatted": {
           "en": "Remaining yield before [[time]] is !{{less|more}} than [[value]] kWh",
@@ -6495,8 +7004,10 @@
           "es": "El rendimiento restante antes de [[time]] es !{{menor|mayor}} que [[value]] kWh",
           "pl": "Pozostały uzysk przed [[time]] jest !{{mniejszy|większy}} niż [[value]] kWh",
           "ru": "Оставшийся доход до [[time]] !{{меньше|больше}} чем [[value]] кВтч",
-          "ko": "[[time]] 전 남은 수익이 [[value]] kWh보다 !{{적음|많음}}"
+          "ko": "[[time]] 전 남은 수익이 [[value]] kWh보다 !{{적음|많음}}",
+          "ar": "العائد المتبقي قبل [[time]] !{{أقل|أكثر}} من [[value]] كيلوواط ساعة"
         },
+        "highlight": true,
         "args": [
           {
             "type": "device",
@@ -6872,7 +7383,8 @@
           "da": "Genoptræn solmodel",
           "pl": "Przekwalifikuj model solarny",
           "ru": "Переобучить солнечную модель",
-          "ar": "إعادة تدريب النموذج الشمسي"
+          "ar": "إعادة تدريب النموذج الشمسي",
+          "ko": "태양광 모델 재학습"
         },
         "hint": {
           "en": "Start the retraining process for the solar yield prediction model. This can take a few minutes.",
@@ -6886,7 +7398,8 @@
           "da": "Start omskolingsprocessen for soludbytteprognosemodellen. Dette kan tage et par minutter.",
           "pl": "Rozpocznij proces przekwalifikowania modelu prognozowania uzysku słonecznego. Może to potrwać kilka minut.",
           "ru": "Запустите процесс переобучения для модели прогнозирования солнечной энергии. Это может занять несколько минут.",
-          "ar": "ابدأ عملية إعادة التدريب لنموذج التنبؤ بالعائد الشمسي. قد يستغرق هذا بضع دقائق."
+          "ar": "ابدأ عملية إعادة التدريب لنموذج التنبؤ بالعائد الشمسي. قد يستغرق هذا بضع دقائق.",
+          "ko": "태양광 수익 예측 모델에 대한 재학습 프로세스를 시작합니다. 몇 분 정도 걸릴 수 있습니다."
         },
         "args": [
           {
@@ -6910,7 +7423,8 @@
           "da": "Indstil begrænsning",
           "pl": "Ustaw ograniczenie",
           "ru": "Установить ограничение",
-          "ar": "تعيين التقليص"
+          "ar": "تعيين التقليص",
+          "ko": "출력 제한 설정"
         },
         "titleFormatted": {
           "en": "Set curtailment to [[state]]",
@@ -6924,7 +7438,8 @@
           "da": "Sæt begrænsning til [[state]]",
           "pl": "Ustaw ograniczenie na [[state]]",
           "ru": "Установить ограничение на [[state]]",
-          "ar": "تعيين التقليص على [[state]]"
+          "ar": "تعيين التقليص على [[state]]",
+          "ko": "출력 제한을 [[state]]로 설정"
         },
         "hint": {
           "en": "When curtailment is active, the solar learning logic is paused.",
@@ -6938,7 +7453,8 @@
           "da": "Når begrænsning er aktiv, sættes sol-læringslogikken på pause.",
           "pl": "Gdy ograniczenie jest aktywne, logika uczenia solarnego jest wstrzymana.",
           "ru": "Когда ограничение активно, логика солнечного обучения приостанавливается.",
-          "ar": "عندما يكون التقليص نشطًا، يتم إيقاف منطق التعلم الشمسي مؤقتًا."
+          "ar": "عندما يكون التقليص نشطًا، يتم إيقاف منطق التعلم الشمسي مؤقتًا.",
+          "ko": "출력 제한이 활성화되면 태양광 학습 로직이 일시 중지됩니다."
         },
         "args": [
           {
@@ -6961,7 +7477,8 @@
               "da": "Aktiv",
               "pl": "Aktywne",
               "ru": "Активно",
-              "ar": "نشط"
+              "ar": "نشط",
+              "ko": "활성"
             },
             "default": true
           }

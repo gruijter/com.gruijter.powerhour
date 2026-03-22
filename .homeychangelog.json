@@ -1,4 +1,7 @@
 {
+  "8.7.5": {
+    "en": "Added many flow cards for Solar. Solar shading learning improved. Flow translation updates." 
+  },
   "8.7.4": {
     "en": "Prioritize Homey Battery standards for Battery. Added forecast tomorrow capabilities for Solar." 
   },
