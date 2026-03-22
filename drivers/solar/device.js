@@ -406,7 +406,8 @@ class SolarDevice extends GenericDevice {
       if (isCumulative) this.log('Using cumulative energy log (converting to power)...');
 
       // Initialize fresh yield factors for training to remove old artifacts
-      let trainingYieldFactors = new Array(96).fill(0);
+      // Use null to safely identify missing data vs valid 0-yield shading
+      let trainingYieldFactors = new Array(96).fill(null);
       let physicalLimit = 0;
 
       // 3. Step 1: Coarse Learning (14 days, hourly)
