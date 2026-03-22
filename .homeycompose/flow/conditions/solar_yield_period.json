@@ -1,0 +1,82 @@
+{
+  "title": {
+    "en": "Yield for period is !{{more|less}} than",
+    "nl": "Opbrengst voor periode is !{{meer|minder}} dan",
+    "de": "Ertrag für Zeitraum ist !{{mehr|weniger}} als",
+    "fr": "Le rendement pour la période est !{{supérieur|inférieur}} à",
+    "sv": "Avkastning för perioden är !{{mer|mindre}} än",
+    "no": "Avkastning for perioden er !{{mer|mindre}} enn",
+    "da": "Udbytte for perioden er !{{mere|mindre}} end",
+    "it": "Il rendimento per il periodo è !{{maggiore|minore}} di",
+    "es": "El rendimiento para el período es !{{mayor|menor}} que",
+    "pl": "Uzysk dla okresu jest !{{większy|mniejszy}} niż",
+    "ru": "Доход за период !{{больше|меньше}} чем",
+    "ko": "기간 수익이 다음보다 !{{많음|적음}}",
+    "ar": "العائد للفترة !{{أكثر|أقل}} من"
+  },
+  "titleFormatted": {
+    "en": "Expected yield for [[period]] is !{{more|less}} than [[value]] kWh",
+    "nl": "Verwachte opbrengst voor [[period]] is !{{meer|minder}} dan [[value]] kWh",
+    "de": "Erwarteter Ertrag für [[period]] ist !{{mehr|weniger}} als [[value]] kWh",
+    "fr": "Le rendement attendu pour [[period]] est !{{supérieur|inférieur}} à [[value]] kWh",
+    "sv": "Förväntad avkastning för [[period]] är !{{mer|mindre}} än [[value]] kWh",
+    "no": "Forventet avkastning for [[period]] er !{{mer|mindre}} enn [[value]] kWh",
+    "da": "Forventet udbytte for [[period]] er !{{mere|mindre}} end [[value]] kWh",
+    "it": "Il rendimento previsto per [[period]] è !{{maggiore|minore}} di [[value]] kWh",
+    "es": "El rendimiento esperado para [[period]] es !{{mayor|menor}} que [[value]] kWh",
+    "pl": "Oczekiwany uzysk dla [[period]] jest !{{większy|mniejszy}} niż [[value]] kWh",
+    "ru": "Ожидаемый доход за [[period]] !{{больше|меньше}} чем [[value]] кВтч",
+    "ko": "[[period]] 예상 수익이 [[value]] kWh보다 !{{많음|적음}}",
+    "ar": "العائد المتوقع لـ [[period]] !{{أكثر|أقل}} من [[value]] كيلوواط ساعة"
+  },
+  "highlight": true,
+  "args": [
+    {
+      "type": "device",
+      "name": "device",
+      "filter": "driver_id=solar"
+    },
+    {
+      "type": "dropdown",
+      "name": "period",
+      "title": {
+        "en": "period",
+        "nl": "periode",
+        "de": "Zeitraum",
+        "fr": "période",
+        "sv": "period",
+        "no": "periode",
+        "da": "periode",
+        "it": "periodo",
+        "es": "período",
+        "pl": "okres",
+        "ru": "период",
+        "ko": "기간",
+        "ar": "فترة"
+      },
+      "values": [
+        {
+          "id": "this_day",
+          "label": { "en": "Today", "nl": "Vandaag", "de": "Heute", "fr": "Aujourd'hui", "sv": "Idag", "no": "I dag", "da": "I dag", "it": "Oggi", "es": "Hoy", "pl": "Dzisiaj", "ru": "Сегодня", "ko": "오늘", "ar": "هذا اليوم" }
+        },
+        {
+          "id": "tomorrow",
+          "label": { "en": "Tomorrow", "nl": "Morgen", "de": "Morgen", "fr": "Demain", "sv": "I morgon", "no": "I morgen", "da": "I morgen", "it": "Domani", "es": "Mañana", "pl": "Jutro", "ru": "Завтра", "ko": "내일", "ar": "غداً" }
+        },
+        {
+          "id": "next_hours",
+          "label": { "en": "Next hours", "nl": "Komende uren", "de": "Kommende Stunden", "fr": "Prochaines heures", "sv": "Kommande timmar", "no": "Neste timer", "da": "Næste timer", "it": "Prossime ore", "es": "Próximas horas", "pl": "Następne godziny", "ru": "Следующие часы", "ko": "다음 시간", "ar": "الساعات القادمة" }
+        }
+      ]
+    },
+    {
+      "type": "number",
+      "name": "value",
+      "title": {
+        "en": "kWh"
+      },
+      "min": 0,
+      "step": 0.1
+    }
+  ]
+}

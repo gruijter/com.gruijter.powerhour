@@ -1,0 +1,25 @@
+{
+  "title": {
+    "en": "Tomorrow's yield is !{{better|worse}} than today's",
+    "nl": "Opbrengst van morgen is !{{beter|slechter}} dan vandaag",
+    "de": "Der morgige Ertrag ist !{{besser|schlechter}} als heute",
+    "fr": "Le rendement de demain est !{{meilleur|pire}} qu'aujourd'hui",
+    "sv": "Morgondagens avkastning är !{{bättre|sämre}} än dagens",
+    "no": "Morgendagens avkastning er !{{bedre|dårligere}} enn dagens",
+    "da": "Morgendagens udbytte er !{{bedre|dårligere}} end i dag",
+    "it": "Il rendimento di domani è !{{migliore|peggiore}} di oggi",
+    "es": "El rendimiento de mañana es !{{mejor|peor}} que hoy",
+    "pl": "Uzysk jutra jest !{{lepszy|gorszy}} niż dzisiaj",
+    "ru": "Доход завтра !{{лучше|хуже}} чем сегодня",
+    "ko": "내일의 수익이 오늘보다 !{{좋음|나쁨}}",
+    "ar": "عائد الغد !{{أفضل|أسوأ}} من اليوم"
+  },
+  "highlight": true,
+  "args": [
+    {
+      "type": "device",
+      "name": "device",
+      "filter": "driver_id=solar"
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "title": {
+    "en": "Solar curtailment ended",
+    "de": "Solar-Abregelung beendet",
+    "nl": "Zonnepanelen begrenzing beëindigd",
+    "ar": "انتهى تقليص الطاقة الشمسية",
+    "da": "Solnedskæring afsluttet",
+    "es": "Reducción solar finalizada",
+    "fr": "Réduction solaire terminée",
+    "it": "Riduzione solare terminata",
+    "ko": "태양광 출력 제한 종료됨",
+    "no": "Solnedskjæring avsluttet",
+    "pl": "Zakończono ograniczenie mocy słonecznej",
+    "ru": "Ограничение солнечной энергии завершено",
+    "sv": "Solnedskärning avslutad"
+  },
+  "highlight": true,
+  "args": [
+    {
+      "type": "device",
+      "name": "device",
+      "filter": "driver_id=solar"
+    }
+  ]
+}

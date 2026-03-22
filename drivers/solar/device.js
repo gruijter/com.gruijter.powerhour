@@ -262,6 +262,13 @@ class SolarDevice extends GenericDevice {
         if (curtailment.changed) {
           await this.setCapabilityValue('alarm_power', curtailment.isActive).catch(this.error);
           if (curtailment.log) this.log(curtailment.log);
+
+          // Trigger explicit curtailment flow cards
+          if (curtailment.isActive && this.homey.app.trigger_solar_curtailment_active) {
+            this.homey.app.trigger_solar_curtailment_active(this, {}, {}).catch(this.error);
+          } else if (!curtailment.isActive && this.homey.app.trigger_solar_curtailment_inactive) {
+            this.homey.app.trigger_solar_curtailment_inactive(this, {}, {}).catch(this.error);
+          }
         }
       }
     }
@@ -859,6 +866,10 @@ class SolarDevice extends GenericDevice {
       await this.flows.triggerSolarYieldFlows().catch((err) => this.error('Error triggering solar yield flows', err));
     }
 
+    if (yieldFactorsUpdated || this.forecastChanged) {
+      await this.flows.triggerForecastUpdated().catch((err) => this.error('Error triggering forecast updated flows', err));
+    }
+
     this.forecastChanged = false;
   }
 
@@ -942,6 +953,24 @@ class SolarDevice extends GenericDevice {
       this.homey.clearTimeout(this.initLearningTimeout);
       this.initLearningTimeout = null;
     }
+  }
+
+  // EXECUTORS FOR ACTION FLOWS
+  async runFlowAction(id, args) {
+    if (this.flows[id]) return this.flows[id](args);
+    throw new Error(`Action ${id} not implemented`);
+  }
+
+  // EXECUTORS FOR CONDITION FLOWS
+  async runFlowCondition(id, args) {
+    if (this.flows[id]) return this.flows[id](args);
+    throw new Error(`Condition ${id} not implemented`);
+  }
+
+  // EXECUTORS FOR FLOW TRIGGERS
+  async runFlowTrigger(id, args) {
+    if (this.flows[id]) return this.flows[id](args);
+    throw new Error(`Trigger ${id} not implemented`);
   }
 
 }

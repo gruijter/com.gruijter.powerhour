@@ -11,7 +11,8 @@
     "da": "Indstil begrænsning",
     "pl": "Ustaw ograniczenie",
     "ru": "Установить ограничение",
-    "ar": "تعيين التقليص"
+    "ar": "تعيين التقليص",
+    "ko": "출력 제한 설정"
   },
   "titleFormatted": {
     "en": "Set curtailment to [[state]]",
@@ -25,7 +26,8 @@
     "da": "Sæt begrænsning til [[state]]",
     "pl": "Ustaw ograniczenie na [[state]]",
     "ru": "Установить ограничение на [[state]]",
-    "ar": "تعيين التقليص على [[state]]"
+    "ar": "تعيين التقليص على [[state]]",
+    "ko": "출력 제한을 [[state]]로 설정"
   },
   "hint": {
     "en": "When curtailment is active, the solar learning logic is paused.",
@@ -39,7 +41,8 @@
     "da": "Når begrænsning er aktiv, sættes sol-læringslogikken på pause.",
     "pl": "Gdy ograniczenie jest aktywne, logika uczenia solarnego jest wstrzymana.",
     "ru": "Когда ограничение активно, логика солнечного обучения приостанавливается.",
-    "ar": "عندما يكون التقليص نشطًا، يتم إيقاف منطق التعلم الشمسي مؤقتًا."
+    "ar": "عندما يكون التقليص نشطًا، يتم إيقاف منطق التعلم الشمسي مؤقتًا.",
+    "ko": "출력 제한이 활성화되면 태양광 학습 로직이 일시 중지됩니다."
   },
   "args": [
     {
@@ -62,7 +65,8 @@
         "da": "Aktiv",
         "pl": "Aktywne",
         "ru": "Активно",
-        "ar": "نشط"
+        "ar": "نشط",
+        "ko": "활성"
       },
       "default": true
     }

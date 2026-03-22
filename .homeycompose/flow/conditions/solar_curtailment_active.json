@@ -1,0 +1,25 @@
+{
+  "title": {
+    "en": "Solar curtailment !{{is|isn't}} active",
+    "de": "Solar-Abregelung !{{ist|ist nicht}} aktiv",
+    "nl": "Zonnepanelen begrenzing !{{is|is niet}} actief",
+    "ar": "تقليص الطاقة الشمسية !{{نشط|ليس نشطًا}}",
+    "da": "Solnedskæring !{{er|er ikke}} aktiv",
+    "es": "Reducción solar !{{está|no está}} activa",
+    "fr": "Réduction solaire !{{est|n'est pas}} active",
+    "it": "Riduzione solare !{{è|non è}} attiva",
+    "ko": "태양광 출력 제한이 활성 상태!{{입니다|가 아닙니다}}",
+    "no": "Solnedskjæring !{{er|er ikke}} aktiv",
+    "pl": "Ograniczenie mocy słonecznej !{{jest|nie jest}} aktywne",
+    "ru": "Ограничение солнечной энергии !{{активно|не активно}}",
+    "sv": "Solnedskärning !{{är|är inte}} aktiv"
+  },
+  "highlight": true,
+  "args": [
+    {
+      "type": "device",
+      "name": "device",
+      "filter": "driver_id=solar"
+    }
+  ]
+}

@@ -1,0 +1,137 @@
+{
+  "title": {
+    "en": "Solar forecast updated",
+    "de": "Solarprognose aktualisiert",
+    "nl": "Zonnevoorspelling bijgewerkt",
+    "ar": "تم تحديث توقعات الطاقة الشمسية",
+    "da": "Solprognose opdateret",
+    "es": "Pronóstico solar actualizado",
+    "fr": "Prévision solaire mise à jour",
+    "it": "Previsione solare aggiornata",
+    "ko": "태양광 예측 업데이트됨",
+    "no": "Solvarsel oppdatert",
+    "pl": "Prognoza słoneczna zaktualizowana",
+    "ru": "Прогноз солнечной энергии обновлен",
+    "sv": "Solprognos uppdaterad"
+  },
+  "titleFormatted": {
+    "en": "Solar forecast for [[period]] updated",
+    "de": "Solarprognose für [[period]] aktualisiert",
+    "nl": "Zonnevoorspelling voor [[period]] bijgewerkt",
+    "ar": "تحديث توقعات الطاقة الشمسية لـ [[period]]",
+    "da": "Solprognose for [[period]] opdateret",
+    "es": "Pronóstico solar para [[period]] actualizado",
+    "fr": "Prévision solaire pour [[period]] mise à jour",
+    "it": "Previsione solare per [[period]] aggiornata",
+    "ko": "[[period]]에 대한 태양광 예측 업데이트됨",
+    "no": "Solvarsel for [[period]] oppdatert",
+    "pl": "Prognoza słoneczna dla [[period]] zaktualizowana",
+    "ru": "Прогноз солнечной энергии для [[period]] обновлен",
+    "sv": "Solprognos för [[period]] uppdaterad"
+  },
+  "highlight": true,
+  "args": [
+    {
+      "type": "device",
+      "name": "device",
+      "filter": "driver_id=solar"
+    },
+    {
+      "type": "dropdown",
+      "name": "period",
+      "title": {
+        "en": "period",
+        "de": "Zeitraum",
+        "nl": "periode",
+        "ar": "فترة",
+        "da": "periode",
+        "es": "período",
+        "fr": "période",
+        "it": "periodo",
+        "ko": "기간",
+        "no": "periode",
+        "pl": "okres",
+        "ru": "период",
+        "sv": "period"
+      },
+      "values": [
+        {
+          "id": "this_day",
+          "label": {
+            "en": "This day",
+            "de": "diesen Tag",
+            "nl": "Deze dag",
+            "ar": "هذا اليوم",
+            "da": "I dag",
+            "es": "Este día",
+            "fr": "Ce jour",
+            "it": "giornata odierna",
+            "ko": "오늘",
+            "no": "idag",
+            "pl": "Ten dzień",
+            "ru": "Этот день",
+            "sv": "idag"
+          }
+        },
+        {
+          "id": "tomorrow",
+          "label": {
+            "en": "Tomorrow",
+            "de": "Morgen",
+            "nl": "Morgen",
+            "ar": "غداً",
+            "da": "I morgen",
+            "es": "Mañana",
+            "fr": "Demain",
+            "it": "domani",
+            "ko": "내일",
+            "no": "i morgen",
+            "pl": "Jutro",
+            "ru": "Завтра",
+            "sv": "i morgon"
+          }
+        },
+        {
+          "id": "next_hours",
+          "label": {
+            "en": "Next hours",
+            "nl": "Komende uren",
+            "de": "Kommende Stunden",
+            "ar": "الساعات القادمة",
+            "da": "Næste timer",
+            "es": "Próximas horas",
+            "fr": "Prochaines heures",
+            "it": "Prossime ore",
+            "ko": "다음 시간",
+            "no": "Neste timer",
+            "pl": "Następne godziny",
+            "ru": "Следующие часы",
+            "sv": "Kommande timmar"
+          }
+        }
+      ]
+    }
+  ],
+  "tokens": [
+    {
+      "name": "solar",
+      "title": {
+        "en": "Solar Forecast JSON",
+        "de": "Solarprognose JSON",
+        "nl": "Zonnevoorspelling JSON",
+        "ar": "JSON توقعات الطاقة الشمسية",
+        "da": "JSON Solprognose",
+        "es": "JSON Pronóstico Solar",
+        "fr": "JSON Prévision Solaire",
+        "it": "JSON Previsione Solare",
+        "ko": "태양광 예측 JSON",
+        "no": "JSON Solvarsel",
+        "pl": "JSON Prognoza Słoneczna",
+        "ru": "JSON Прогноз Солнечной Энергии",
+        "sv": "JSON Solprognos"
+      },
+      "type": "string",
+      "example": "[0,0,50,120,300]"
+    }
+  ]
+}

@@ -11,7 +11,8 @@
     "es": "El rendimiento entre horas es !{{menor|mayor}} que",
     "pl": "Uzysk między czasami jest !{{mniejszy|większy}} niż",
     "ru": "Доход между временем !{{меньше|больше}} чем",
-    "ko": "시간 사이 수익이 다음보다 !{{적음|많음}}"
+    "ko": "시간 사이 수익이 다음보다 !{{적음|많음}}",
+    "ar": "العائد بين الأوقات !{{أقل|أكثر}} من"
   },
   "titleFormatted": {
     "en": "Yield between [[start_time]] and [[end_time]] is !{{less|more}} than [[value]] kWh",
@@ -25,8 +26,10 @@
     "es": "El rendimiento entre [[start_time]] y [[end_time]] es !{{menor|mayor}} que [[value]] kWh",
     "pl": "Uzysk między [[start_time]] a [[end_time]] jest !{{mniejszy|większy}} niż [[value]] kWh",
     "ru": "Доход между [[start_time]] и [[end_time]] !{{меньше|больше}} чем [[value]] кВтч",
-    "ko": "[[start_time]]와 [[end_time]] 사이 수익이 [[value]] kWh보다 !{{적음|많음}}"
+    "ko": "[[start_time]]와 [[end_time]] 사이 수익이 [[value]] kWh보다 !{{적음|많음}}",
+    "ar": "العائد بين [[start_time]] و [[end_time]] !{{أقل|أكثر}} من [[value]] كيلوواط ساعة"
   },
+  "highlight": true,
   "args": [
     {
       "type": "device",

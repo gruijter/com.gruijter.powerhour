@@ -11,7 +11,8 @@
     "es": "El rendimiento restante antes de tiempo es menor que",
     "pl": "Pozostały uzysk przed czasem jest mniejszy niż",
     "ru": "Оставшийся доход до времени меньше чем",
-    "ko": "시간 전 남은 수익이 다음보다 적음"
+    "ko": "시간 전 남은 수익이 다음보다 적음",
+    "ar": "العائد المتبقي قبل الوقت أقل من"
   },
   "titleFormatted": {
     "en": "Remaining yield before [[time]] is less than [[value]] kWh",
@@ -25,8 +26,10 @@
     "es": "El rendimiento restante antes de [[time]] es menor que [[value]] kWh",
     "pl": "Pozostały uzysk przed [[time]] jest mniejszy niż [[value]] kWh",
     "ru": "Оставшийся доход до [[time]] меньше чем [[value]] кВтч",
-    "ko": "[[time]] 전 남은 수익이 [[value]] kWh보다 적음"
+    "ko": "[[time]] 전 남은 수익이 [[value]] kWh보다 적음",
+    "ar": "العائد المتبقي قبل [[time]] أقل من [[value]] كيلوواط ساعة"
   },
+  "highlight": true,
   "args": [
     {
       "type": "device",

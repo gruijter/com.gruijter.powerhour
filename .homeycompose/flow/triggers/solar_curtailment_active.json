@@ -1,0 +1,25 @@
+{
+  "title": {
+    "en": "Solar curtailment detected",
+    "de": "Solar-Abregelung erkannt",
+    "nl": "Zonnepanelen begrenzing gedetecteerd",
+    "ar": "تم اكتشاف تقليص الطاقة الشمسية",
+    "da": "Solnedskæring registreret",
+    "es": "Reducción solar detectada",
+    "fr": "Réduction solaire détectée",
+    "it": "Riduzione solare rilevata",
+    "ko": "태양광 출력 제한 감지됨",
+    "no": "Solnedskjæring oppdaget",
+    "pl": "Wykryto ograniczenie mocy słonecznej",
+    "ru": "Обнаружено ограничение солнечной энергии",
+    "sv": "Solnedskärning upptäckt"
+  },
+  "highlight": true,
+  "args": [
+    {
+      "type": "device",
+      "name": "device",
+      "filter": "driver_id=solar"
+    }
+  ]
+}

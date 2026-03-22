@@ -1,0 +1,65 @@
+{
+  "title": {
+    "en": "Solar production enters top hours",
+    "nl": "Zonneproductie bereikt top uren",
+    "de": "Solarproduktion erreicht Top-Stunden",
+    "sv": "Solproduktion går in i topptimmar",
+    "it": "La produzione solare entra nelle ore di punta",
+    "no": "Solproduksjon går inn i topptimer",
+    "da": "Solproduktion går ind i toptimer",
+    "fr": "La production solaire entre dans les heures de pointe",
+    "es": "La producción solar entra en las horas pico",
+    "pl": "Produkcja słoneczna wchodzi w godziny szczytu",
+    "ru": "Производство солнечной энергии входит в пиковые часы",
+    "ko": "태양광 생산이 최고 시간에 진입함",
+    "ar": "إنتاج الطاقة الشمسية يدخل ساعات الذروة"
+  },
+  "titleFormatted": {
+    "en": "Solar production becomes one of the top [[number]] hours of today",
+    "nl": "Zonneproductie wordt een van de top [[number]] uren van vandaag",
+    "de": "Solarproduktion wird eine der Top [[number]] Stunden des Tages",
+    "sv": "Solproduktion blir en av de [[number]] bästa timmarna idag",
+    "it": "La produzione solare diventa una delle migliori [[number]] ore di oggi",
+    "no": "Solproduksjon blir en av de [[number]] beste timene i dag",
+    "da": "Solproduktion bliver en af de [[number]] bedste timer i dag",
+    "fr": "La production solaire devient l'une des [[number]] meilleures heures d'aujourd'hui",
+    "es": "La producción solar se convierte en una de las [[number]] mejores horas de hoy",
+    "pl": "Produkcja słoneczna staje się jedną z [[number]] najlepszych godzin dzisiaj",
+    "ru": "Производство солнечной энергии становится одним из [[number]] лучших часов сегодня",
+    "ko": "태양광 생산이 오늘의 최고 [[number]]시간 중 하나가 됩니다",
+    "ar": "يصبح إنتاج الطاقة الشمسية من بين أفضل [[number]] ساعات اليوم"
+  },
+  "highlight": true,
+  "args": [
+    {
+      "type": "device",
+      "name": "device",
+      "filter": "driver_id=solar"
+    },
+    {
+      "type": "number",
+      "name": "number",
+      "title": {
+        "en": "hours",
+        "nl": "uren",
+        "de": "Stunden",
+        "sv": "timmar",
+        "it": "ore",
+        "no": "timer",
+        "da": "timer",
+        "fr": "heures",
+        "es": "horas",
+        "pl": "godziny",
+        "ru": "часы",
+        "ko": "시간",
+        "ar": "ساعات"
+      },
+      "min": 1,
+      "max": 12,
+      "step": 1,
+      "placeholder": {
+        "en": "1 - 12"
+      }
+    }
+  ]
+}
