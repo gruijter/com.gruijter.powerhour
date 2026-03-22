@@ -9475,6 +9475,22 @@
               },
               "value": 0.08,
               "min": 0
+            },
+            {
+              "id": "roiHomePowerUsage",
+              "type": "number",
+              "label": {
+                "en": "Avg. home power usage (W)",
+                "nl": "Gem. huis stroomverbruik (W)",
+                "de": "Durchschn. Hausstromverbrauch (W)"
+              },
+              "hint": {
+                "en": "Fixed average power usage of your home. Used by the ROI strategy to estimate net grid import/export.",
+                "nl": "Vast gemiddeld stroomverbruik van uw huis. Gebruikt door de ROI strategie om de netto net import/export te schatten.",
+                "de": "Fester durchschnittlicher Stromverbrauch Ihres Hauses. Wird von der ROI-Strategie verwendet, um den Netto-Stromimport/-export zu schätzen."
+              },
+              "value": 300,
+              "min": 0
             }
           ]
         },
@@ -9527,6 +9543,24 @@
                 "ar": "رقم المجموعة للحصول على تعريفات جديدة عبر DAP."
               },
               "value": 1,
+              "min": 0,
+              "max": 10,
+              "step": 1
+            },
+            {
+              "id": "feedback_tariff_update_group",
+              "type": "number",
+              "label": {
+                "en": "Feedback tariff update group (DAP)",
+                "nl": "Teruglever tarief update groep (DAP)",
+                "de": "Einspeisetarif Aktualisierungsgruppe (DAP)"
+              },
+              "hint": {
+                "en": "Group number for getting new feedback tariffs via DAP. Leave at 0 to use the standard Tariff update group for both purchase and feedback.",
+                "nl": "Groepsnummer voor het verkrijgen van nieuwe teruglevertarieven via DAP. Laat op 0 staan om de standaard Tarief update groep te gebruiken voor zowel inkoop als teruglevering.",
+                "de": "Gruppennummer für den Bezug neuer Einspeisetarife über DAP. Belassen Sie den Wert bei 0, um die Standard Tarifgruppe sowohl für den Einkauf als auch für die Einspeisung zu verwenden."
+              },
+              "value": 0,
               "min": 0,
               "max": 10,
               "step": 1
