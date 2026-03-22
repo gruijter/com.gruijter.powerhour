@@ -9395,6 +9395,97 @@
         {
           "type": "group",
           "label": {
+            "en": "Tariffs",
+            "nl": "Tarieven",
+            "de": "Tarife",
+            "fr": "Tarifs",
+            "it": "Tariffe",
+            "sv": "Tariffer",
+            "no": "Tariffer",
+            "es": "Tarifas",
+            "da": "Takster",
+            "pl": "Taryfy",
+            "ru": "Тарифы",
+            "ar": "التعريفات"
+          },
+          "children": [
+            {
+              "id": "tariff_update_group",
+              "type": "number",
+              "label": {
+                "en": "Tariff update group (DAP)",
+                "nl": "Tarief update groep (DAP)",
+                "de": "Tarif Aktualisierungsgruppe (DAP)",
+                "fr": "Groupe de mise à jour tarifaire (DAP)",
+                "it": "Gruppo aggiornamento tariffa (DAP)",
+                "sv": "Tariffuppdateringsgrupp (DAP)",
+                "no": "Tariff oppdateringsgruppe (DAP)",
+                "es": "Grupo de actualización de tarifas (DAP)",
+                "da": "Takstopdateringsgruppe (DAP)",
+                "pl": "Grupa aktualizacji taryf (DAP)",
+                "ru": "Группа обновления тарифов (DAP)",
+                "ar": "مجموعة تحديث التعريفة (DAP)"
+              },
+              "hint": {
+                "en": "Group number for getting grid usage tariffs via Day Ahead Pricing (DAP).",
+                "nl": "Groepnummer voor het krijgen van netgebruik tarieven via Day Ahead Pricing (DAP).",
+                "de": "Gruppennummer für den Bezug von Netznutzungstarifen über Day Ahead Pricing (DAP).",
+                "fr": "Numéro de groupe pour obtenir les tarifs d'utilisation du réseau via Day Ahead Pricing (DAP).",
+                "it": "Numero del gruppo per ottenere le tariffe di utilizzo della rete tramite Day Ahead Pricing (DAP).",
+                "sv": "Gruppnummer för att få nätanvändningstariffer via Day Ahead Pricing (DAP).",
+                "no": "Gruppenummer for å få nettleie tariffer via Day Ahead Pricing (DAP).",
+                "es": "Número de grupo para obtener tarifas de uso de red a través de Day Ahead Pricing (DAP).",
+                "da": "Gruppenummer til at få netbrugstakster via Day Ahead Pricing (DAP).",
+                "pl": "Numer grupy do uzyskiwania taryf za korzystanie z sieci przez Day Ahead Pricing (DAP).",
+                "ru": "Номер группы для получения тарифов на использование сети через Day Ahead Pricing (DAP).",
+                "ar": "رقم المجموعة للحصول على تعريفات استخدام الشبكة عبر Day Ahead Pricing (DAP)."
+              },
+              "value": 1,
+              "min": 0,
+              "max": 10,
+              "step": 1
+            },
+            {
+              "id": "feedback_tariff_update_group",
+              "type": "number",
+              "label": {
+                "en": "Feedback tariff update group (DAP)",
+                "nl": "Teruglever tarief update groep (DAP)",
+                "de": "Einspeisetarif Aktualisierungsgruppe (DAP)",
+                "fr": "Groupe de mise à jour du tarif de réinjection (DAP)",
+                "it": "Gruppo aggiornamento tariffa di immissione (DAP)",
+                "sv": "Grupp för uppdatering av inmatningstariff (DAP)",
+                "no": "Oppdateringsgruppe for innmatingstariff (DAP)",
+                "es": "Grupo de actualización de tarifa de inyección (DAP)",
+                "da": "Opdateringsgruppe for indfødningstakst (DAP)",
+                "pl": "Grupa aktualizacji taryfy za wprowadzanie (DAP)",
+                "ru": "Группа обновления тарифа на подачу (DAP)",
+                "ar": "مجموعة تحديث تعريفة التغذية (DAP)"
+              },
+              "hint": {
+                "en": "Group number for getting grid feedback tariffs via Day Ahead Pricing (DAP). Leave at 0 to use the standard Tariff update group for both purchase and feedback.",
+                "nl": "Groepsnummer voor het verkrijgen van net teruglevertarieven via Day Ahead Pricing (DAP). Laat op 0 staan om de standaard Tarief update groep te gebruiken voor zowel inkoop als teruglevering.",
+                "de": "Gruppennummer für den Bezug von Netzeinspeisetarifen über Day Ahead Pricing (DAP). Belassen Sie den Wert bei 0, um die Standard Tarifgruppe sowohl für den Einkauf als auch für die Einspeisung zu verwenden.",
+                "fr": "Numéro de groupe pour obtenir les tarifs de réinjection sur le réseau via Day Ahead Pricing (DAP). Laissez à 0 pour utiliser le groupe de mise à jour de tarif standard à la fois pour l'achat et la réinjection.",
+                "it": "Numero di gruppo per ottenere le tariffe di immissione in rete tramite Day Ahead Pricing (DAP). Lascia a 0 per utilizzare il gruppo di aggiornamento tariffa standard sia per l'acquisto che per l'immissione.",
+                "sv": "Gruppnummer för att få nätinmatningstariffer via Day Ahead Pricing (DAP). Lämna på 0 för att använda standardtariffuppdateringsgruppen för både inköp och inmatning.",
+                "no": "Gruppenummer for å få nettinnmatingstariffer via Day Ahead Pricing (DAP). La stå på 0 for å bruke standard tariff oppdateringsgruppe for både kjøp og innmating.",
+                "es": "Número de grupo para obtener tarifas de inyección a la red a través de Day Ahead Pricing (DAP). Deje en 0 para usar el grupo de actualización de tarifas estándar tanto para la compra como para la inyección.",
+                "da": "Gruppenummer til at få netindfødningstakster via Day Ahead Pricing (DAP). Lad stå på 0 for at bruge den standard takstopdateringsgruppe til både køb og indfødning.",
+                "pl": "Numer grupy do uzyskiwania taryf za wprowadzanie do sieci za pośrednictwem Day Ahead Pricing (DAP). Pozostaw wartość 0, aby użyć standardowej grupy aktualizacji taryf zarówno do zakupu, jak i wprowadzania.",
+                "ru": "Номер группы для получения тарифов на подачу в сеть через Day Ahead Pricing (DAP). Оставьте 0, чтобы использовать стандартную группу обновления тарифов как для покупки, так и для подачи.",
+                "ar": "رقم المجموعة للحصول على تعريفات التغذية في الشبكة عبر Day Ahead Pricing (DAP). اترك القيمة عند 0 لاستخدام مجموعة تحديث التعريفة القياسية لكل من الشراء والتغذية."
+              },
+              "value": 0,
+              "min": 0,
+              "max": 10,
+              "step": 1
+            }
+          ]
+        },
+        {
+          "type": "group",
+          "label": {
             "en": "Advanced ROI settings",
             "nl": "Geavanceerde ROI instellingen",
             "de": "Erweiterte ROI Einstellungen",
@@ -9482,12 +9573,30 @@
               "label": {
                 "en": "Avg. home power usage (W)",
                 "nl": "Gem. huis stroomverbruik (W)",
-                "de": "Durchschn. Hausstromverbrauch (W)"
+                "de": "Durchschn. Hausstromverbrauch (W)",
+                "fr": "Consommation moyenne de la maison (W)",
+                "it": "Consumo medio domestico (W)",
+                "sv": "Genomsnittlig hemelanvändning (W)",
+                "no": "Gjennomsnittlig strømforbruk (W)",
+                "es": "Consumo de energía medio del hogar (W)",
+                "da": "Gns. husstrømforbrug (W)",
+                "pl": "Średnie zużycie energii w domu (W)",
+                "ru": "Ср. энергопотребление дома (Вт)",
+                "ar": "متوسط استهلاك طاقة المنزل (واط)"
               },
               "hint": {
                 "en": "Fixed average power usage of your home. Used by the ROI strategy to estimate net grid import/export.",
                 "nl": "Vast gemiddeld stroomverbruik van uw huis. Gebruikt door de ROI strategie om de netto net import/export te schatten.",
-                "de": "Fester durchschnittlicher Stromverbrauch Ihres Hauses. Wird von der ROI-Strategie verwendet, um den Netto-Stromimport/-export zu schätzen."
+                "de": "Fester durchschnittlicher Stromverbrauch Ihres Hauses. Wird von der ROI-Strategie verwendet, um den Netto-Stromimport/-export zu schätzen.",
+                "fr": "Consommation électrique moyenne fixe de votre domicile. Utilisé par la stratégie de ROI pour estimer l'importation/exportation nette du réseau.",
+                "it": "Consumo medio di energia fisso della tua casa. Utilizzato dalla strategia ROI per stimare l'importazione/esportazione netta della rete.",
+                "sv": "Fast genomsnittlig strömförbrukning för ditt hem. Används av ROI-strategin för att uppskatta nätimport/export netto.",
+                "no": "Fast gjennomsnittlig strømforbruk i hjemmet ditt. Brukes av ROI-strategien for å estimere netto nettimport/eksport.",
+                "es": "Consumo medio de energía fijo de su hogar. Utilizado por la estrategia de ROI para estimar la importación/exportación neta de la red.",
+                "da": "Fast gennemsnitligt strømforbrug i dit hjem. Bruges af ROI-strategien til at estimere netto netimport/-eksport.",
+                "pl": "Stałe średnie zużycie energii w Twoim domu. Wykorzystywane przez strategię ROI do oszacowania netto importu/eksportu sieci.",
+                "ru": "Фиксированное среднее энергопотребление вашего дома. Используется стратегией ROI для оценки чистого импорта/экспорта в сеть.",
+                "ar": "متوسط استهلاك الطاقة الثابت لمنزلك. تُستخدم بواسطة إستراتيجية عائد الاستثمار لتقدير استيراد/تصدير الشبكة الصافي."
               },
               "value": 300,
               "min": 0
@@ -9511,60 +9620,6 @@
             "ar": "القيمة النقدية"
           },
           "children": [
-            {
-              "id": "tariff_update_group",
-              "type": "number",
-              "label": {
-                "en": "Tariff update group (DAP)",
-                "nl": "Tarief update groep (DAP)",
-                "de": "Tarif Aktualisierungsgruppe (DAP)",
-                "fr": "Groupe de mise à jour tarifaire (DAP)",
-                "it": "Gruppo aggiornamento tariffa (DAP)",
-                "sv": "Tariffuppdateringsgrupp (DAP)",
-                "no": "Tariff oppdateringsgruppe (DAP)",
-                "es": "Grupo de actualización de tarifas (DAP)",
-                "da": "Takstopdateringsgruppe (DAP)",
-                "pl": "Grupa aktualizacji taryf (DAP)",
-                "ru": "Группа обновления тарифов (DAP)",
-                "ar": "مجموعة تحديث التعريفة (DAP)"
-              },
-              "hint": {
-                "en": "Group number for getting new tariffs via DAP.",
-                "nl": "Groepnummer voor het krijgen van de tarieven via DAP.",
-                "de": "Gruppennummer für den Bezug neuer Tarife über DAP.",
-                "fr": "Numéro de groupe pour obtenir de nouveaux tarifs via DAP.",
-                "it": "Numero del gruppo per ottenere nuove tariffe tramite DAP.",
-                "sv": "Gruppnummer för att få nya tariffer via DAP.",
-                "no": "Gruppenummer for å få nye tariffer via DAP.",
-                "es": "Número de grupo para obtener nuevas tarifas a través de DAP.",
-                "da": "Gruppenummer til at få nye takster via DAP.",
-                "pl": "Numer grupy do uzyskiwania nowych taryf przez DAP.",
-                "ru": "Номер группы для получения новых тарифов через DAP.",
-                "ar": "رقم المجموعة للحصول على تعريفات جديدة عبر DAP."
-              },
-              "value": 1,
-              "min": 0,
-              "max": 10,
-              "step": 1
-            },
-            {
-              "id": "feedback_tariff_update_group",
-              "type": "number",
-              "label": {
-                "en": "Feedback tariff update group (DAP)",
-                "nl": "Teruglever tarief update groep (DAP)",
-                "de": "Einspeisetarif Aktualisierungsgruppe (DAP)"
-              },
-              "hint": {
-                "en": "Group number for getting new feedback tariffs via DAP. Leave at 0 to use the standard Tariff update group for both purchase and feedback.",
-                "nl": "Groepsnummer voor het verkrijgen van nieuwe teruglevertarieven via DAP. Laat op 0 staan om de standaard Tarief update groep te gebruiken voor zowel inkoop als teruglevering.",
-                "de": "Gruppennummer für den Bezug neuer Einspeisetarife über DAP. Belassen Sie den Wert bei 0, um die Standard Tarifgruppe sowohl für den Einkauf als auch für die Einspeisung zu verwenden."
-              },
-              "value": 0,
-              "min": 0,
-              "max": 10,
-              "step": 1
-            },
             {
               "id": "currency",
               "type": "text",
