@@ -113,7 +113,7 @@ class SolarDriver extends GenericDriver {
   }
 
   async startPollingEnergy(interval) {
-    const int = interval || 5; 
+    const int = interval || 5;
     if (this.intervalIdEnergyPoll) {
       this.homey.clearInterval(this.intervalIdEnergyPoll);
       this.homey.clearTimeout(this.intervalIdEnergyPoll);
