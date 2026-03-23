@@ -759,8 +759,8 @@
           "id": "tariff_update_group",
           "type": "number",
           "label": {
-            "en": "Tariff update group (DAP)",
-            "nl": "Tarief update groep (DAP)",
+            "en": "Import tariff update group (DAP)",
+            "nl": "Import tarief update groep (DAP)",
             "de": "Tarif Aktualisierungsgruppe (DAP)",
             "fr": "Groupe de mise à jour tarifaire (DAP)",
             "it": "Gruppo aggiornamento tariffa (DAP)",
@@ -773,8 +773,8 @@
             "ar": "مجموعة تحديث التعريفة (DAP)"
           },
           "hint": {
-            "en": "Group number for getting grid usage tariffs via Day Ahead Pricing (DAP).",
-            "nl": "Groepnummer voor het krijgen van netgebruik tarieven via Day Ahead Pricing (DAP).",
+            "en": "Group number for getting grid import tariffs via Day Ahead Pricing (DAP).",
+            "nl": "Groepnummer voor het krijgen van net import tarieven via Day Ahead Pricing (DAP).",
             "de": "Gruppennummer für den Bezug von Netznutzungstarifen über Day Ahead Pricing (DAP).",
             "fr": "Numéro de groupe pour obtenir les tarifs d'utilisation du réseau via Day Ahead Pricing (DAP).",
             "it": "Numero del gruppo per ottenere le tariffe di utilizzo della rete tramite Day Ahead Pricing (DAP).",
@@ -792,11 +792,11 @@
           "step": 1
         },
         {
-          "id": "feedback_tariff_update_group",
+          "id": "export_tariff_update_group",
           "type": "number",
           "label": {
-            "en": "Feedback tariff update group (DAP)",
-            "nl": "Teruglever tarief update groep (DAP)",
+            "en": "Export tariff update group (DAP)",
+            "nl": "Export tarief update groep (DAP)",
             "de": "Einspeisetarif Aktualisierungsgruppe (DAP)",
             "fr": "Groupe de mise à jour du tarif de réinjection (DAP)",
             "it": "Gruppo aggiornamento tariffa di immissione (DAP)",
@@ -809,8 +809,8 @@
             "ar": "مجموعة تحديث تعريفة التغذية (DAP)"
           },
           "hint": {
-            "en": "Group number for getting grid feedback tariffs via Day Ahead Pricing (DAP). Leave at 0 to use the standard Tariff update group for both purchase and feedback.",
-            "nl": "Groepsnummer voor het verkrijgen van net teruglevertarieven via Day Ahead Pricing (DAP). Laat op 0 staan om de standaard Tarief update groep te gebruiken voor zowel inkoop als teruglevering.",
+            "en": "Group number for getting grid export tariffs via Day Ahead Pricing (DAP). Leave at 0 to use the standard Import tariff update group for both import and export.",
+            "nl": "Groepsnummer voor het verkrijgen van net export tarieven via Day Ahead Pricing (DAP). Laat op 0 staan om de standaard Import tarief update groep te gebruiken voor zowel import als export.",
             "de": "Gruppennummer für den Bezug von Netzeinspeisetarifen über Day Ahead Pricing (DAP). Belassen Sie den Wert bei 0, um die Standard Tarifgruppe sowohl für den Einkauf als auch für die Einspeisung zu verwenden.",
             "fr": "Numéro de groupe pour obtenir les tarifs de réinjection sur le réseau via Day Ahead Pricing (DAP). Laissez à 0 pour utiliser le groupe de mise à jour de tarif standard à la fois pour l'achat et la réinjection.",
             "it": "Numero di gruppo per ottenere le tariffe di immissione in rete tramite Day Ahead Pricing (DAP). Lascia a 0 per utilizzare il gruppo di aggiornamento tariffa standard sia per l'acquisto che per l'immissione.",
