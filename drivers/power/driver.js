@@ -20,6 +20,7 @@ along with com.gruijter.powerhour.  If not, see <http://www.gnu.org/licenses/>.
 'use strict';
 
 const GenericDriver = require('../../lib/genericDeviceDrivers/generic_sum_driver');
+const { setTimeoutPromise } = require('../../lib/Util');
 
 const driverSpecifics = {
   driverId: 'power',
@@ -71,6 +72,47 @@ class PowerDriver extends GenericDriver {
   async onInit() {
     this.ds = driverSpecifics;
     await super.onInit().catch(this.error);
+  }
+
+  registerTariffListener() {
+    const eventName = `set_tariff_${this.ds.driverId}_PBTH`;
+    if (this.eventListenerTariff) this.homey.removeListener(eventName, this.eventListenerTariff);
+
+    this.eventListenerTariff = (args) => {
+      (async () => {
+        try {
+          const currentTm = new Date();
+          const tariff = args.tariff === null ? null : Number(args.tariff);
+          const group = args.group || 1;
+
+          if (tariff === null || !Number.isFinite(tariff)) return;
+
+          this.tariffs = this.tariffs || {};
+          this.tariffs[group] = tariff;
+
+          await setTimeoutPromise(2 * 1000, this);
+
+          const devices = this.getDevices();
+          for (const device of devices) {
+            const s = device.getSettings();
+            if (s.tariff_update_group === group || s.export_tariff_update_group === group) {
+              if (typeof device.updateGridTariffs === 'function') {
+                device.updateGridTariffs(currentTm);
+              }
+            }
+          }
+        } catch (error) {
+          this.error(error);
+        }
+      })().catch(this.error);
+    };
+    this.homey.on(eventName, this.eventListenerTariff);
+  }
+
+  updateDeviceTariff(device, overrideGroup) {
+    if (typeof device.updateGridTariffs === 'function') {
+      device.updateGridTariffs(new Date());
+    }
   }
 
   checkDeviceCompatibility(homeyDevice) {
