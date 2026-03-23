@@ -20,6 +20,7 @@ along with com.gruijter.powerhour.  If not, see <http://www.gnu.org/licenses/>.
 'use strict';
 
 const GenericDriver = require('../../lib/genericDeviceDrivers/generic_sum_driver');
+const { setTimeoutPromise } = require('../../lib/Util');
 
 const driverSpecifics = {
   driverId: 'solar',
@@ -55,13 +56,109 @@ class SolarDriver extends GenericDriver {
     if (this.eventListenerTariff) {
       this.homey.on('set_tariff_power_PBTH', this.eventListenerTariff);
     }
+
+    this.startPollingEnergy(5).catch((err) => this.error(err));
   }
 
   async onUninit() {
     if (this.eventListenerTariff) {
       this.homey.removeListener('set_tariff_power_PBTH', this.eventListenerTariff);
     }
+    if (this.intervalIdEnergyPoll) {
+      this.homey.clearInterval(this.intervalIdEnergyPoll);
+      this.homey.clearTimeout(this.intervalIdEnergyPoll);
+    }
     await super.onUninit();
+  }
+
+  registerTariffListener() {
+    const eventName = `set_tariff_${this.ds.driverId}_PBTH`;
+    if (this.eventListenerTariff) this.homey.removeListener(eventName, this.eventListenerTariff);
+
+    this.eventListenerTariff = (args) => {
+      (async () => {
+        try {
+          const currentTm = new Date();
+          const tariff = args.tariff === null ? null : Number(args.tariff);
+          const group = args.group || 1;
+
+          if (tariff === null || !Number.isFinite(tariff)) return;
+
+          this.tariffs = this.tariffs || {};
+          this.tariffs[group] = tariff;
+
+          await setTimeoutPromise(2 * 1000, this);
+
+          const devices = this.getDevices();
+          for (const device of devices) {
+            const s = device.getSettings();
+            if (s.tariff_update_group === group || s.export_tariff_update_group === group) {
+              if (typeof device.updateGridTariffs === 'function') {
+                device.updateGridTariffs(currentTm);
+              }
+            }
+          }
+        } catch (error) {
+          this.error(error);
+        }
+      })().catch(this.error);
+    };
+    this.homey.on(eventName, this.eventListenerTariff);
+  }
+
+  updateDeviceTariff(device, overrideGroup) {
+    if (typeof device.updateGridTariffs === 'function') {
+      device.updateGridTariffs(new Date());
+    }
+  }
+
+  async startPollingEnergy(interval) {
+    const int = interval || 5; 
+    if (this.intervalIdEnergyPoll) {
+      this.homey.clearInterval(this.intervalIdEnergyPoll);
+      this.homey.clearTimeout(this.intervalIdEnergyPoll);
+    }
+
+    let retries = 0;
+    let api;
+    while (!api && retries < 60) {
+      try {
+        api = this.homey.app.api;
+      } catch (e) {
+        // ignore
+      }
+      if (api) break;
+      await setTimeoutPromise(1000, this);
+      retries += 1;
+      if (this.isDestroyed) return;
+    }
+    if (!api) {
+      this.log('Homey API not ready, cannot start energy polling');
+      return;
+    }
+
+    this.log(`start polling Cumulative Energy @${int} seconds interval`);
+
+    const poll = async () => {
+      if (this.isDestroyed) return;
+      try {
+        const report = await api.energy.getLiveReport().catch(() => null);
+        const cumulativePower = report?.totalCumulative?.W;
+        if (Number.isFinite(cumulativePower)) {
+          const devices = this.getDevices();
+          devices.forEach((device) => {
+            device.currentGridPower = cumulativePower;
+          });
+        }
+      } catch (error) {
+        this.error(error);
+      } finally {
+        if (!this.isDestroyed) {
+          this.intervalIdEnergyPoll = this.homey.setTimeout(poll, 1000 * int);
+        }
+      }
+    };
+    poll();
   }
 
 }

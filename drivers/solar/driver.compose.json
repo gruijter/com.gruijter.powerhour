@@ -1409,9 +1409,9 @@
           "id": "tariff_update_group",
           "type": "number",
           "label": {
-            "en": "Tariff update group (flow or DAP)",
+            "en": "Import tariff update group (flow or DAP)",
             "de": "Tarifaktualisierungsgruppe (Flow oder DAP)",
-            "nl": "Tarief update groep (flow of DAP)",
+            "nl": "Import tarief update groep (flow of DAP)",
             "fr": "Groupe de mise à jour tarifaire (flux ou DAP)",
             "it": "Gruppo aggiornamento tariffa (flusso o DAP)",
             "sv": "Tariffuppdateringsgrupp (flöde eller DAP)",
@@ -1423,9 +1423,9 @@
             "ar": "مجموعة تحديث التعريفة (التدفق أو DAP)"
           },
           "hint": {
-            "en": "Group number when setting a new tariff via flow or DAP. Set at 0 to exclude updating the tariff.",
+            "en": "Group number when setting a new import tariff via flow or DAP. Set at 0 to exclude updating the import tariff.",
             "de": "Gruppennummer beim Einstellen eines neuen Tarifs über Flow oder DAP. Auf 0 setzen, um die Aktualisierung des Tarifs auszuschließen.",
-            "nl": "Groepsnummer bij het instellen van een nieuw tarief via flow of DAP. Zet op 0 om het bijwerken van het tarief uit te sluiten.",
+            "nl": "Groepsnummer bij het instellen van een nieuw import tarief via flow of DAP. Zet op 0 om het bijwerken van het import tarief uit te sluiten.",
             "fr": "Numéro de groupe lors de la définition d'un nouveau tarif via le flux ou DAP. Réglez sur 0 pour exclure la mise à jour du tarif.",
             "it": "Numero del gruppo durante l'impostazione di una nuova tariffa tramite flusso o DAP. Impostare su 0 per escludere l'aggiornamento della tariffa.",
             "sv": "Gruppnummer när du ställer in en ny tariff via flöde eller DAP. Ställ in på 0 för att utesluta uppdatering av tariffen.",
@@ -1437,6 +1437,32 @@
             "ar": "رقم المجموعة عند تعيين تعريفة جديدة عبر التدفق أو DAP. قم بالتعيين على 0 لاستبعاد تحديث التعريفة."
           },
           "value": 1,
+          "min": 0,
+          "max": 10,
+          "step": 1
+        },
+        {
+          "id": "export_tariff_update_group",
+          "type": "number",
+          "label": {
+            "en": "Export tariff update group (flow or DAP)",
+            "nl": "Export tarief update groep (flow of DAP)",
+            "de": "Einspeisetarif Aktualisierungsgruppe (Flow oder DAP)",
+            "fr": "Groupe de mise à jour du tarif de réinjection (flux ou DAP)",
+            "it": "Gruppo aggiornamento tariffa di immissione (flusso o DAP)",
+            "sv": "Grupp för uppdatering av inmatningstariff (flöde eller DAP)",
+            "no": "Oppdateringsgruppe for innmatingstariff (flyt eller DAP)",
+            "es": "Grupo de actualización de tarifa de inyección (flujo o DAP)",
+            "da": "Opdateringsgruppe for indfødningstakst (flow eller DAP)",
+            "pl": "Grupa aktualizacji taryfy za wprowadzanie (przepływ lub DAP)",
+            "ru": "Группа обновления тарифа на подачу (поток или DAP)",
+            "ar": "مجموعة تحديث تعريفة التغذية (التدفق أو DAP)"
+          },
+          "hint": {
+            "en": "Group number for getting grid export tariffs via flow or Day Ahead Pricing (DAP). Leave at 0 to use the standard Import tariff update group for both import and export.",
+            "nl": "Groepsnummer voor het verkrijgen van net export tarieven via flow of Day Ahead Pricing (DAP). Laat op 0 staan om de standaard Import tarief update groep te gebruiken voor zowel import als export."
+          },
+          "value": 0,
           "min": 0,
           "max": 10,
           "step": 1
