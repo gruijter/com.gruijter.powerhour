@@ -14230,6 +14230,7 @@
         "ar": "مراقب الطاقة الضوئية"
       },
       "class": "other",
+      "deprecated": false,
       "capabilities": [],
       "capabilitiesOptions": {
         "meter_power": {
