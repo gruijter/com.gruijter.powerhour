@@ -30,6 +30,7 @@ const driverSpecifics = {
   driverId: 'dap',
   deviceCapabilities: [
     'meter_price_h0',
+    'meter_price_h0_export',
     'meter_price_h1',
     'meter_price_h2',
     'meter_price_h3',

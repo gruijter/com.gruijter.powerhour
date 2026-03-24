@@ -30,6 +30,7 @@ const driverSpecifics = {
   driverId: 'dap15',
   deviceCapabilities: [
     'meter_price_h0',
+    'meter_price_h0_export',
     'meter_price_m15',
     'meter_price_m30',
     'meter_price_m45',

@@ -1,0 +1,27 @@
+{
+  "type": "number",
+  "title": {
+    "en": "Price now (export)",
+    "nl": "Prijs nu (export)",
+    "de": "Preis aktuell (export)",
+    "sv": "Pris just nu (export)",
+    "it": "Prezzo attuale (export)",
+    "no": "Pris nå (export)",
+    "fr": "Tarif actuel (export)",
+    "da": "Pris nu (export)",
+    "es": "Precio ahora (export)",
+    "pl": "Cena teraz (export)",
+    "ru": "Цена сейчас (export)",
+    "ko": "현재 가격 (export)",
+    "ar": "السعر الآن (export)"
+  },
+  "uiComponent": "sensor",
+  "icon": "/assets/tariff.svg",
+  "getable": true,
+  "setable": false,
+  "insights": true,
+  "units": {
+    "en": "€"
+  },
+  "decimals": 4
+}
