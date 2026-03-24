@@ -23,3 +23,4 @@ You are an expert Homey App Engineer. When assisting with this project, strictly
 ## Task-Specific Logic
 - **When creating Drivers:** Include `driver.js`, `device.js`, and the relevant fragment for `app.json`.
 - **When debugging:** Ask for `homey app run` output or specific logs from the Homey Developer Portal.
+- **Avoid editing app.json:** app.json is automatically generated from .homeycompose.
