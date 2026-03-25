@@ -16511,39 +16511,6 @@
           },
           "children": [
             {
-              "id": "peakPower",
-              "type": "number",
-              "label": {
-                "en": "Peak Power (W)",
-                "nl": "Piekvermogen (W)",
-                "de": "Spitzenleistung (W)",
-                "fr": "Puissance Crête (W)",
-                "it": "Potenza di Picco (W)",
-                "sv": "Toppeffekt (W)",
-                "no": "Toppeffekt (W)",
-                "es": "Potencia Pico (W)",
-                "da": "Spidseffekt (W)",
-                "pl": "Moc Szczytowa (W)",
-                "ru": "Пиковая мощность (Вт)",
-                "ar": "ذروة الطاقة (واط)"
-              },
-              "value": 0,
-              "hint": {
-                "en": "Maximum power of your inverter.",
-                "nl": "Maximaal vermogen van je omvormer.",
-                "de": "Maximale Leistung Ihres Wechselrichters.",
-                "fr": "Puissance maximale de votre onduleur.",
-                "it": "Potenza massima dell'inverter.",
-                "sv": "Maximal effekt för din växelriktare.",
-                "no": "Maksimal effekt for din inverter.",
-                "es": "Potencia máxima de su inversor.",
-                "da": "Maksimal effekt for din inverter.",
-                "pl": "Maksymalna moc falownika.",
-                "ru": "Максимальная мощность вашего инвертора.",
-                "ar": "أقصى طاقة للعاكس الخاص بك."
-              }
-            },
-            {
               "id": "peakPowerAuto",
               "type": "checkbox",
               "label": {
@@ -16562,18 +16529,51 @@
               },
               "value": true,
               "hint": {
-                "en": "Automatically overwrite the Peak Power setting based on history and retrains.",
-                "nl": "Overschrijft het piekvermogen automatisch op basis van historie en hertrainingen.",
-                "de": "Überschreibt die Spitzenleistungseinstellung automatisch basierend auf Verlauf und Neutraining.",
-                "fr": "Écrase automatiquement le paramètre de Puissance Crête en fonction de l'historique et des réentraînements.",
-                "it": "Sovrascrive automaticamente l'impostazione della Potenza di Picco in base alla cronologia e ai riaddestramenti.",
-                "sv": "Skriver automatiskt över inställningen för Toppeffekt baserat på historik och omträning.",
-                "no": "Overskriver automatisk innstillingen for Toppeffekt basert på historikk og nytrening.",
-                "es": "Sobrescribe automáticamente la configuración de Potencia Pico según el historial y los reentrenamientos.",
-                "da": "Overskriver automatisk indstillingen for Spidseffekt baseret på historik og gentræninger.",
-                "pl": "Automatycznie nadpisuje ustawienie Mocy Szczytowej na podstawie historii i ponownych szkoleń.",
-                "ru": "Автоматически перезаписывает настройку пиковой мощности на основе истории и переобучения.",
-                "ar": "يستبدل إعداد ذروة الطاقة تلقائيًا بناءً على السجل وإعادة التدريب."
+                "en": "Dynamically learn the Peak Power. Set to NO when you want to set the Peak Power manually.",
+                "nl": "Leer dynamisch het piekvermogen. Zet op NEE als u het piekvermogen handmatig wilt instellen.",
+                "de": "Ermittle die Spitzenleistung dynamisch. Auf NEIN setzen, wenn Sie die Spitzenleistung manuell einstellen möchten.",
+                "fr": "Apprenez dynamiquement la Puissance Crête. Réglez sur NON si vous souhaitez définir la Puissance Crête manuellement.",
+                "it": "Apprendi dinamicamente la Potenza di Picco. Imposta su NO se desideri impostare la Potenza di Picco manualmente.",
+                "sv": "Lär dig dynamiskt Toppeffekten. Ställ in på NEJ när du vill ställa in Toppeffekten manuellt.",
+                "no": "Lær dynamisk Toppeffekten. Sett til NEI når du vil stille inn Toppeffekten manuelt.",
+                "es": "Aprende dinámicamente la Potencia Pico. Ajústalo a NO si deseas establecer la Potencia Pico manualmente.",
+                "da": "Lær dynamisk Spidseffekten. Indstil til NEJ, hvis du vil indstille Spidseffekten manuelt.",
+                "pl": "Dynamicznie ucz się Mocy Szczytowej. Ustaw na NIE, jeśli chcesz ustawić Moc Szczytową ręcznie.",
+                "ru": "Динамически изучайте пиковую мощность. Установите НЕТ, если хотите задать пиковую мощность вручную.",
+                "ar": "تعلم ديناميكيًا ذروة الطاقة. قم بالتعيين على لا عندما تريد تعيين ذروة الطاقة يدويًا."
+              }
+            },
+            {
+              "id": "peakPower",
+              "type": "number",
+              "label": {
+                "en": "Peak Power (W)",
+                "nl": "Piekvermogen (W)",
+                "de": "Spitzenleistung (W)",
+                "fr": "Puissance Crête (W)",
+                "it": "Potenza di Picco (W)",
+                "sv": "Toppeffekt (W)",
+                "no": "Toppeffekt (W)",
+                "es": "Potencia Pico (W)",
+                "da": "Spidseffekt (W)",
+                "pl": "Moc Szczytowa (W)",
+                "ru": "Пиковая мощность (Вт)",
+                "ar": "ذروة الطاقة (واط)"
+              },
+              "value": 0,
+              "hint": {
+                "en": "Maximum power of your PV system.",
+                "nl": "Maximaal vermogen van je PV-systeem.",
+                "de": "Maximale Leistung Ihres PV-Systems.",
+                "fr": "Puissance maximale de votre système photovoltaïque.",
+                "it": "Potenza massima del tuo sistema fotovoltaico.",
+                "sv": "Maximal effekt för ditt solcellssystem.",
+                "no": "Maksimal effekt for ditt solcellesystem.",
+                "es": "Potencia máxima de su sistema fotovoltaico.",
+                "da": "Maksimal effekt for dit solcellesystem.",
+                "pl": "Maksymalna moc Twojego systemu PV.",
+                "ru": "Максимальная мощность вашей фотоэлектрической системы.",
+                "ar": "أقصى طاقة لنظامك الكهروضوئي."
               }
             },
             {
