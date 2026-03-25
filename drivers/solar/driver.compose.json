@@ -329,18 +329,18 @@
           },
           "value": 0,
           "hint": {
-            "en": "Maximum power of your inverter. 0 = auto-detect.",
-            "nl": "Maximaal vermogen van je omvormer. 0 = auto-detectie.",
-            "de": "Maximale Leistung Ihres Wechselrichters. 0 = automatische Erkennung.",
-            "fr": "Puissance maximale de votre onduleur. 0 = détection automatique.",
-            "it": "Potenza massima dell'inverter. 0 = rilevamento automatico.",
-            "sv": "Maximal effekt för din växelriktare. 0 = autodetektering.",
-            "no": "Maksimal effekt for din inverter. 0 = autodetektering.",
-            "es": "Potencia máxima de su inversor. 0 = detección automática.",
-            "da": "Maksimal effekt for din inverter. 0 = autodetektering.",
-            "pl": "Maksymalna moc falownika. 0 = automatyczne wykrywanie.",
-            "ru": "Максимальная мощность вашего инвертора. 0 = автоопределение.",
-            "ar": "أقصى طاقة للعاكس الخاص بك. 0 = اكتشاف تلقائي."
+            "en": "Maximum power of your inverter.",
+            "nl": "Maximaal vermogen van je omvormer.",
+            "de": "Maximale Leistung Ihres Wechselrichters.",
+            "fr": "Puissance maximale de votre onduleur.",
+            "it": "Potenza massima dell'inverter.",
+            "sv": "Maximal effekt för din växelriktare.",
+            "no": "Maksimal effekt for din inverter.",
+            "es": "Potencia máxima de su inversor.",
+            "da": "Maksimal effekt for din inverter.",
+            "pl": "Maksymalna moc falownika.",
+            "ru": "Максимальная мощность вашего инвертора.",
+            "ar": "أقصى طاقة للعاكس الخاص بك."
           }
         },
         {
