@@ -114,11 +114,11 @@ class SolarDevice extends GenericDevice {
     this.initLearningTimeout = this.homey.setTimeout(async () => {
       // Ensure we have history for the graph (e.g. after app update)
       await this.populatePowerHistory();
-      this.startLearningLoop();
       if (!storedYieldFactors) {
         this.log('First initialization: Auto-starting model retraining...');
         await this.retrainSolarModel(true); // First run: Start fresh
       }
+      this.startLearningLoop(); // Start live tracking safely AFTER initialization/retrain is done
       this.initLearningTimeout = null;
     }, 15000);
   }
@@ -303,8 +303,11 @@ class SolarDevice extends GenericDevice {
     const loop = async () => {
       if (this.isDestroyed) return;
       try {
-        const updated = await this.updateLearning();
-        await this.updateForecastDisplay(updated);
+        // Pause live updates if the heavy insights batch-processor is busy to prevent race conditions
+        if (!this.retraining) {
+          const updated = await this.updateLearning();
+          await this.updateForecastDisplay(updated);
+        }
       } catch (err) {
         this.error('Learning update failed:', err);
       } finally {
@@ -430,12 +433,15 @@ class SolarDevice extends GenericDevice {
       if (this.getCapabilityValue('alarm_power')) {
         this.log('Curtailment active, skipping learning for this bucket');
       } else {
+        const peakPowerSetting = this.getSettings().peakPower || 0;
+
         const result = SolarLearningStrategy.getStrategy({
           currentPower: bucketResult.finishedBucket.avgPower,
           forecastData: this.forecastData,
           yieldFactors: this.yieldFactors,
           timestamp: new Date(bucketResult.finishedBucket.startTime),
           globalMaxYF: this.globalMaxYF,
+          peakPower: peakPowerSetting,
         });
         if (result.updated) {
           this.yieldFactors = result.yieldFactors;
@@ -449,6 +455,11 @@ class SolarDevice extends GenericDevice {
   }
 
   async retrainSolarModel(fromScratch = false) {
+    if (this.retraining) {
+      this.log('Already retraining, skipping...');
+      return;
+    }
+    this.retraining = true; // Lock live updates to prevent race conditions while processing Insights
     this.log(`Starting solar model retraining... (Mode: ${fromScratch ? 'From Scratch' : 'Blend'})`);
     try {
       let api;
@@ -556,6 +567,8 @@ class SolarDevice extends GenericDevice {
       let trainingYieldFactors = new Array(96).fill(null);
       let physicalLimit = 0;
 
+      const peakPowerSetting = this.getSettings().peakPower || 0;
+
       // 3. Step 1: Coarse Learning (14 days, hourly)
       this.log('Step 1: Coarse learning (14 days, hourly)');
       let step1Accumulators = null;
@@ -600,6 +613,7 @@ class SolarDevice extends GenericDevice {
             weatherEntries: weatherHistory,
             currentYieldFactors: trainingYieldFactors,
             resolution: 'hourly',
+            peakPower: peakPowerSetting,
             logger: (msg) => this.log(msg),
           });
           if (result1.updated) {
@@ -668,6 +682,7 @@ class SolarDevice extends GenericDevice {
             previousAccumulators: step1Accumulators,
             resolution: 'high',
             maxYieldFactorLimit: physicalLimit, // Enforce the robust limit found in Step 1
+            peakPower: peakPowerSetting,
             logger: (msg) => this.log(msg),
           });
           if (result2.updated) {
@@ -711,6 +726,8 @@ class SolarDevice extends GenericDevice {
       this.log('Retraining finished.');
     } catch (err) {
       this.error('Retraining failed:', err);
+    } finally {
+      this.retraining = false; // Release lock
     }
   }
 
