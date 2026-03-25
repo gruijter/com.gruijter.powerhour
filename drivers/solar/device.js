@@ -718,7 +718,7 @@ class SolarDevice extends GenericDevice {
         this.globalMaxYF = 0;
       }
       await this.setStoreValue('globalMaxYF', this.globalMaxYF);
-      this.log(`New Global Max Yield Factor: ${this.globalMaxYF.toFixed(2)} (Est. Wpeak: ~${Math.round(this.globalMaxYF * 1000)}W)`);
+      this.log(`New Global Max Yield Factor: ${this.globalMaxYF.toFixed(2)} (Est. Wpeak: ~${Math.round(this.globalMaxYF * 850)}W)`);
 
       await this.setStoreValue('yieldFactors', this.yieldFactors);
 
@@ -974,7 +974,8 @@ class SolarDevice extends GenericDevice {
     // --- Update Charts ---
 
     // Use manual setting/clipping limit, or fallback to the highest of All-Time Peak or Estimated System Wpeak
-    const estimatedWpeak = this.globalMaxYF > 0 ? Math.round(this.globalMaxYF * 1000) : 0;
+    // Use 850 instead of 1000. GHI (horizontal) is roughly 85% of GTI (tilted) during summer peaks on a 20-40 deg roof.
+    const estimatedWpeak = this.globalMaxYF > 0 ? Math.round(this.globalMaxYF * 850) : 0;
     const autoPeak = Math.max(this.peakPowerAllTime, estimatedWpeak);
     const currentSettings = this.getSettings();
     let chartPeak = currentSettings.peakPower;
