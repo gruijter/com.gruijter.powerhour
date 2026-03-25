@@ -113,6 +113,7 @@ class SolarDevice extends GenericDevice {
     this.peakPowerAllTime = await this.getStoreValue('peakPowerAllTime') || 0;
     this.lastAutoRetrain = await this.getStoreValue('lastAutoRetrain') || 0;
     this.lastSolarTriggerSlot = -1;
+    this.manualCurtailment = await this.getStoreValue('manualCurtailment') || false;
 
     let history = await this.getStoreValue('powerHistory');
     if (!Array.isArray(history)) history = [];
@@ -406,6 +407,8 @@ class SolarDevice extends GenericDevice {
         if (this.powerHistory.length > 5000) this.powerHistory.shift();
         await this.setStoreValue('powerHistory', this.powerHistory);
 
+        const peak = Math.max(this.peakPowerAllTime || 0, this.getSettings().peakPower || 0);
+
         const curtailment = SolarLearningStrategy.detectCurtailment({
           currentPower,
           lastPower: lastEntry ? lastEntry.power : 0,
@@ -413,6 +416,8 @@ class SolarDevice extends GenericDevice {
           yieldFactors: this.yieldFactors,
           isCurtailmentActive: this.getCapabilityValue('alarm_power'),
           timestamp: now,
+          manualCurtailment: this.manualCurtailment || false,
+          peakPower: peak,
         });
 
         if (curtailment.changed) {
@@ -475,6 +480,14 @@ class SolarDevice extends GenericDevice {
     }
     this.retraining = true; // Lock live updates to prevent race conditions while processing Insights
     this.log(`Starting solar model retraining... (Mode: ${fromScratch ? 'From Scratch' : 'Blend'})`);
+
+    if (this.manualCurtailment) {
+      this.manualCurtailment = false;
+      await this.setStoreValue('manualCurtailment', false).catch(this.error);
+      await this.setCapabilityValue('alarm_power', false).catch(this.error);
+      this.log('Reset manual curtailment due to model retrain');
+    }
+
     try {
       let api;
       try {
@@ -1177,6 +1190,13 @@ class SolarDevice extends GenericDevice {
 
   // EXECUTORS FOR ACTION FLOWS
   async runFlowAction(id, args) {
+    if (id === 'set_curtailment') {
+      this.manualCurtailment = args.state === true;
+      await this.setStoreValue('manualCurtailment', this.manualCurtailment).catch(this.error);
+      await this.setCapabilityValue('alarm_power', this.manualCurtailment).catch(this.error);
+      this.log(`Manual curtailment state updated via flow: ${this.manualCurtailment}`);
+      return true;
+    }
     if (this.flows[id]) return this.flows[id](args);
     throw new Error(`Action ${id} not implemented`);
   }
