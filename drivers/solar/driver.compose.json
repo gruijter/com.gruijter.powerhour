@@ -297,7 +297,17 @@
       "type": "group",
       "label": {
         "en": "Solar Settings",
-        "nl": "Zonne-energie Instellingen"
+        "nl": "Zonne-energie Instellingen",
+        "de": "Solar-Einstellungen",
+        "fr": "Paramètres Solaires",
+        "it": "Impostazioni Solari",
+        "sv": "Solinställningar",
+        "no": "Solinnstillinger",
+        "es": "Ajustes Solares",
+        "da": "Solindstillinger",
+        "pl": "Ustawienia Solarne",
+        "ru": "Настройки солнечной энергии",
+        "ar": "إعدادات الطاقة الشمسية"
       },
       "children": [
         {
@@ -305,34 +315,131 @@
           "type": "number",
           "label": {
             "en": "Peak Power (W)",
-            "nl": "Piekvermogen (W)"
+            "nl": "Piekvermogen (W)",
+            "de": "Spitzenleistung (W)",
+            "fr": "Puissance Crête (W)",
+            "it": "Potenza di Picco (W)",
+            "sv": "Toppeffekt (W)",
+            "no": "Toppeffekt (W)",
+            "es": "Potencia Pico (W)",
+            "da": "Spidseffekt (W)",
+            "pl": "Moc Szczytowa (W)",
+            "ru": "Пиковая мощность (Вт)",
+            "ar": "ذروة الطاقة (واط)"
           },
           "value": 0,
           "hint": {
             "en": "Maximum power of your inverter. 0 = auto-detect.",
-            "nl": "Maximaal vermogen van je omvormer. 0 = auto-detectie."
+            "nl": "Maximaal vermogen van je omvormer. 0 = auto-detectie.",
+            "de": "Maximale Leistung Ihres Wechselrichters. 0 = automatische Erkennung.",
+            "fr": "Puissance maximale de votre onduleur. 0 = détection automatique.",
+            "it": "Potenza massima dell'inverter. 0 = rilevamento automatico.",
+            "sv": "Maximal effekt för din växelriktare. 0 = autodetektering.",
+            "no": "Maksimal effekt for din inverter. 0 = autodetektering.",
+            "es": "Potencia máxima de su inversor. 0 = detección automática.",
+            "da": "Maksimal effekt for din inverter. 0 = autodetektering.",
+            "pl": "Maksymalna moc falownika. 0 = automatyczne wykrywanie.",
+            "ru": "Максимальная мощность вашего инвертора. 0 = автоопределение.",
+            "ar": "أقصى طاقة للعاكس الخاص بك. 0 = اكتشاف تلقائي."
+          }
+        },
+        {
+          "id": "peakPowerAuto",
+          "type": "checkbox",
+          "label": {
+            "en": "Auto-detect Peak Power",
+            "nl": "Piekvermogen auto-detectie",
+            "de": "Spitzenleistung automatisch erkennen",
+            "fr": "Détection auto de la Puissance Crête",
+            "it": "Rilevamento automatico Potenza di Picco",
+            "sv": "Autodetektera Toppeffekt",
+            "no": "Autodetekter Toppeffekt",
+            "es": "Detección automática de Potencia Pico",
+            "da": "Autodetekter Spidseffekt",
+            "pl": "Automatyczne wykrywanie Mocy Szczytowej",
+            "ru": "Автоопределение пиковой мощности",
+            "ar": "اكتشاف تلقائي لذروة الطاقة"
+          },
+          "value": true,
+          "hint": {
+            "en": "Automatically overwrite the Peak Power setting based on history and retrains.",
+            "nl": "Overschrijft het piekvermogen automatisch op basis van historie en hertrainingen.",
+            "de": "Überschreibt die Spitzenleistungseinstellung automatisch basierend auf Verlauf und Neutraining.",
+            "fr": "Écrase automatiquement le paramètre de Puissance Crête en fonction de l'historique et des réentraînements.",
+            "it": "Sovrascrive automaticamente l'impostazione della Potenza di Picco in base alla cronologia e ai riaddestramenti.",
+            "sv": "Skriver automatiskt över inställningen för Toppeffekt baserat på historik och omträning.",
+            "no": "Overskriver automatisk innstillingen for Toppeffekt basert på historikk og nytrening.",
+            "es": "Sobrescribe automáticamente la configuración de Potencia Pico según el historial y los reentrenamientos.",
+            "da": "Overskriver automatisk indstillingen for Spidseffekt baseret på historik og gentræninger.",
+            "pl": "Automatycznie nadpisuje ustawienie Mocy Szczytowej na podstawie historii i ponownych szkoleń.",
+            "ru": "Автоматически перезаписывает настройку пиковой мощности на основе истории и переобучения.",
+            "ar": "يستبدل إعداد ذروة الطاقة تلقائيًا بناءً على السجل وإعادة التدريب."
           }
         },
         {
           "id": "lat",
           "type": "text",
           "label": {
-            "en": "Latitude"
+            "en": "Latitude",
+            "nl": "Breedtegraad",
+            "de": "Breitengrad",
+            "fr": "Latitude",
+            "it": "Latitudine",
+            "sv": "Latitud",
+            "no": "Breddegrad",
+            "es": "Latitud",
+            "da": "Breddegrad",
+            "pl": "Szerokość geograficzna",
+            "ru": "Широта",
+            "ar": "خط العرض"
           },
           "value": "",
           "hint": {
-            "en": "Leave empty to try auto-detect or enter manually e.g. 52.12"
+            "en": "Leave empty to try auto-detect or enter manually e.g. 52.12",
+            "nl": "Laat leeg voor auto-detectie of vul handmatig in, bijv. 52.12",
+            "de": "Leer lassen für automatische Erkennung oder manuell eingeben, z.B. 52.12",
+            "fr": "Laisser vide pour la détection auto ou entrer manuellement ex. 52.12",
+            "it": "Lascia vuoto per il rilevamento automatico o inserisci manualmente es. 52.12",
+            "sv": "Lämna tomt för autodetektering eller ange manuellt t.ex. 52.12",
+            "no": "La stå tom for autodetektering eller angi manuelt f.eks. 52.12",
+            "es": "Deje vacío para detección automática o ingrese manualmente, ej. 52.12",
+            "da": "Lad stå tomt for autodetektering eller indtast manuelt f.eks. 52.12",
+            "pl": "Pozostaw puste, aby automatycznie wykryć, lub wpisz ręcznie, np. 52.12",
+            "ru": "Оставьте пустым для автоопределения или введите вручную, например 52.12",
+            "ar": "اتركه فارغًا للمحاولة الاكتشاف التلقائي أو أدخله يدويًا على سبيل المثال 52.12"
           }
         },
         {
           "id": "lon",
           "type": "text",
           "label": {
-            "en": "Longitude"
+            "en": "Longitude",
+            "nl": "Lengtegraad",
+            "de": "Längengrad",
+            "fr": "Longitude",
+            "it": "Longitudine",
+            "sv": "Longitud",
+            "no": "Lengdegrad",
+            "es": "Longitud",
+            "da": "Længdegrad",
+            "pl": "Długość geograficzna",
+            "ru": "Долгота",
+            "ar": "خط الطول"
           },
           "value": "",
           "hint": {
-            "en": "Leave empty to try auto-detect or enter manually e.g. 5.12"
+            "en": "Leave empty to try auto-detect or enter manually e.g. 5.12",
+            "nl": "Laat leeg voor auto-detectie of vul handmatig in, bijv. 5.12",
+            "de": "Leer lassen für automatische Erkennung oder manuell eingeben, z.B. 5.12",
+            "fr": "Laisser vide pour la détection auto ou entrer manuellement ex. 5.12",
+            "it": "Lascia vuoto per il rilevamento automatico o inserisci manualmente es. 5.12",
+            "sv": "Lämna tomt för autodetektering eller ange manuellt t.ex. 5.12",
+            "no": "La stå tom for autodetektering eller angi manuelt f.eks. 5.12",
+            "es": "Deje vacío para detección automática o ingrese manualmente, ej. 5.12",
+            "da": "Lad stå tomt for autodetektering eller indtast manuelt f.eks. 5.12",
+            "pl": "Pozostaw puste, aby automatycznie wykryć, lub wpisz ręcznie, np. 5.12",
+            "ru": "Оставьте пустым для автоопределения или введите вручную, например 5.12",
+            "ar": "اتركه فارغًا للمحاولة الاكتشاف التلقائي أو أدخله يدويًا على سبيل المثال 5.12"
           }
         }
       ]

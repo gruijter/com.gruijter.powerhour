@@ -16501,6 +16501,19 @@
           },
           "children": [
             {
+              "id": "peakPower",
+              "type": "number",
+              "label": {
+                "en": "Peak Power (W)",
+                "nl": "Piekvermogen (W)"
+              },
+              "value": 0,
+              "hint": {
+                "en": "Maximum power of your inverter. 0 = auto-detect.",
+                "nl": "Maximaal vermogen van je omvormer. 0 = auto-detectie."
+              }
+            },
+            {
               "id": "lat",
               "type": "text",
               "label": {

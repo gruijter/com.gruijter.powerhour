@@ -959,12 +959,20 @@ class SolarDevice extends GenericDevice {
     // Use manual setting/clipping limit, or fallback to the highest of All-Time Peak or Estimated System Wpeak
     const estimatedWpeak = this.globalMaxYF > 0 ? Math.round(this.globalMaxYF * 1000) : 0;
     const autoPeak = Math.max(this.peakPowerAllTime, estimatedWpeak);
-    let chartPeak = this.getSettings().peakPower;
+    const currentSettings = this.getSettings();
+    let chartPeak = currentSettings.peakPower;
+    const isAutoDetect = currentSettings.peakPowerAuto !== false; // defaults to true
 
-    if (!chartPeak && autoPeak > 0) {
-      chartPeak = Math.round(autoPeak / 100) * 100;
+    const roundedAutoPeak = Math.round(autoPeak / 100) * 100;
+
+    if (isAutoDetect && roundedAutoPeak > 0 && chartPeak !== roundedAutoPeak) {
+      chartPeak = roundedAutoPeak;
       this.setSettings({ peakPower: chartPeak }).catch(this.error);
-      this.log(`Auto-filled peakPower setting to ${chartPeak}W`);
+      this.log(`Auto-updated peakPower setting to ${chartPeak}W`);
+    } else if (!isAutoDetect && !chartPeak && roundedAutoPeak > 0) {
+      chartPeak = roundedAutoPeak;
+      this.setSettings({ peakPower: chartPeak }).catch(this.error);
+      this.log(`Auto-filled peakPower setting to ${chartPeak}W (was 0)`);
     } else if (!chartPeak) {
       chartPeak = autoPeak;
     }
