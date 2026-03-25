@@ -83,6 +83,20 @@ class SolarDevice extends GenericDevice {
       await this.setCapabilityValue('alarm_power', false).catch(this.error);
     }
 
+    // Auto-fill empty lat/lon settings at startup
+    const currentSettings = this.getSettings();
+    if (!currentSettings.lat || !currentSettings.lon) {
+      const homeyLat = this.homey.geolocation.getLatitude();
+      const homeyLon = this.homey.geolocation.getLongitude();
+      if (homeyLat && homeyLon) {
+        await this.setSettings({
+          lat: String(homeyLat),
+          lon: String(homeyLon),
+        }).catch(this.error);
+        this.log(`Auto-filled empty lat/lon settings with Homey location: ${homeyLat}, ${homeyLon}`);
+      }
+    }
+
     this.retrainListener = this.registerCapabilityListener('button.retrain', async () => {
       this.peakPowerAllTime = 0;
       await this.setStoreValue('peakPowerAllTime', 0);
