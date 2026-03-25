@@ -694,7 +694,14 @@ class SolarDevice extends GenericDevice {
       this.log(mergeResult.log);
 
       // Recalculate and store the global max from the new model
-      this.globalMaxYF = Math.max(0, ...this.yieldFactors);
+      // Use the 90th percentile instead of Math.max to safely ignore isolated morning/evening math spikes
+      const activeYields = [...this.yieldFactors].filter((y) => y > 0).sort((a, b) => a - b);
+      if (activeYields.length > 0) {
+        const p90Index = Math.floor(activeYields.length * 0.90);
+        this.globalMaxYF = activeYields[p90Index];
+      } else {
+        this.globalMaxYF = 0;
+      }
       await this.setStoreValue('globalMaxYF', this.globalMaxYF);
       this.log(`New Global Max Yield Factor: ${this.globalMaxYF.toFixed(2)} (Est. Wpeak: ~${Math.round(this.globalMaxYF * 1000)}W)`);
 
