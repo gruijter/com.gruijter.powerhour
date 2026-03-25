@@ -84,6 +84,8 @@ class SolarDevice extends GenericDevice {
     }
 
     this.retrainListener = this.registerCapabilityListener('button.retrain', async () => {
+      this.peakPowerAllTime = 0;
+      await this.setStoreValue('peakPowerAllTime', 0);
       await this.retrainSolarModel(true); // Manual trigger: Retrain from scratch
       return true;
     });
@@ -94,6 +96,7 @@ class SolarDevice extends GenericDevice {
     this.forecastData = await this.getStoreValue('forecastData') || {}; // { time: radiation }
     this.forecastHistory = await this.getStoreValue('forecastHistory') || { today: null, yesterday: null };
     this.globalMaxYF = await this.getStoreValue('globalMaxYF') || 0;
+    this.peakPowerAllTime = await this.getStoreValue('peakPowerAllTime') || 0;
     this.lastAutoRetrain = await this.getStoreValue('lastAutoRetrain') || 0;
     this.lastSolarTriggerSlot = -1;
 
@@ -375,6 +378,11 @@ class SolarDevice extends GenericDevice {
 
     // 2. Record History & Detect Curtailment
     if (typeof currentPower === 'number') {
+      if (currentPower > this.peakPowerAllTime) {
+        this.peakPowerAllTime = currentPower;
+        this.setStoreValue('peakPowerAllTime', this.peakPowerAllTime).catch(this.error);
+      }
+
       const lastEntry = this.powerHistory[this.powerHistory.length - 1];
       if (!lastEntry || (currentTimestamp - lastEntry.time) > 50000) {
         this.powerHistory.push({ time: currentTimestamp, power: currentPower });
@@ -570,6 +578,16 @@ class SolarDevice extends GenericDevice {
             powerEntries = convertCumulativeToPower(powerEntries);
           }
 
+          let maxSeen = 0;
+          powerEntries.forEach((e) => {
+            const p = e.y !== undefined ? e.y : e.v;
+            if (typeof p === 'number' && p > maxSeen) maxSeen = p;
+          });
+          if (maxSeen > this.peakPowerAllTime) {
+            this.peakPowerAllTime = maxSeen;
+            await this.setStoreValue('peakPowerAllTime', this.peakPowerAllTime);
+          }
+
           // Populate powerHistory from coarse data
           const history = powerEntries.map((e) => ({
             time: new Date(e.t).getTime(),
@@ -616,6 +634,16 @@ class SolarDevice extends GenericDevice {
           let powerEntries = logs24h.values;
           if (isCumulative) {
             powerEntries = convertCumulativeToPower(powerEntries);
+          }
+
+          let maxSeen2 = 0;
+          powerEntries.forEach((e) => {
+            const p = e.y !== undefined ? e.y : e.v;
+            if (typeof p === 'number' && p > maxSeen2) maxSeen2 = p;
+          });
+          if (maxSeen2 > this.peakPowerAllTime) {
+            this.peakPowerAllTime = maxSeen2;
+            await this.setStoreValue('peakPowerAllTime', this.peakPowerAllTime);
           }
 
           // Merge fine data into powerHistory
@@ -671,6 +699,15 @@ class SolarDevice extends GenericDevice {
       this.log(`New Global Max Yield Factor: ${this.globalMaxYF.toFixed(2)} (Est. Wpeak: ~${Math.round(this.globalMaxYF * 1000)}W)`);
 
       await this.setStoreValue('yieldFactors', this.yieldFactors);
+
+      // Auto-fill peakPower setting if unconfigured
+      const currentSettings = this.getSettings();
+      if ((!currentSettings.peakPower || currentSettings.peakPower === 0) && this.peakPowerAllTime > 0) {
+        const roundedPeak = Math.round(this.peakPowerAllTime / 100) * 100;
+        await this.setSettings({ peakPower: roundedPeak }).catch(this.error);
+        this.log(`Auto-filled peakPower setting to ${roundedPeak}W`);
+      }
+
       await this.updateForecastDisplay(true);
       this.log('Retraining finished.');
     } catch (err) {
@@ -920,10 +957,12 @@ class SolarDevice extends GenericDevice {
 
     // --- Update Charts ---
 
+    const chartPeak = this.getSettings().peakPower || this.peakPowerAllTime;
+
     // 1. Today
     const { start: todayStart, end: todayEnd } = SolarLearningStrategy.getSunBounds(now, this.forecastData, this.timeZone);
 
-    const chartToday = await getSolarChart(this.forecastData, this.yieldFactors, todayStart, todayEnd, 'Forecast This Day', this.powerHistory, this.timeZone, this.globalMaxYF);
+    const chartToday = await getSolarChart(this.forecastData, this.yieldFactors, todayStart, todayEnd, 'Forecast This Day', this.powerHistory, this.timeZone, chartPeak);
     if (chartToday) {
       this.chartSolarToday = chartToday;
       if (!this.solarTodayImage) {
@@ -940,7 +979,7 @@ class SolarDevice extends GenericDevice {
       tomorrow.setDate(tomorrow.getDate() + 1);
       const { start: tomorrowStart, end: tomorrowEnd } = SolarLearningStrategy.getSunBounds(tomorrow, this.forecastData, this.timeZone);
 
-      const chartTomorrow = await getSolarChart(this.forecastData, this.yieldFactors, tomorrowStart, tomorrowEnd, 'Forecast Tomorrow', this.powerHistory, this.timeZone, this.globalMaxYF);
+      const chartTomorrow = await getSolarChart(this.forecastData, this.yieldFactors, tomorrowStart, tomorrowEnd, 'Forecast Tomorrow', this.powerHistory, this.timeZone, chartPeak);
       if (chartTomorrow) {
         this.chartSolarTomorrow = chartTomorrow;
         if (!this.solarTomorrowImage) {
@@ -963,7 +1002,7 @@ class SolarDevice extends GenericDevice {
 
       // Pass dummy yield factors (1.0) because frozenData is already Power (W), not Radiation
       const dummyYields = new Array(96).fill(1.0);
-      const chartYesterday = await getSolarChart(frozenData, dummyYields, yStart, yEnd, 'Solar Yesterday', this.powerHistory, this.timeZone, this.globalMaxYF);
+      const chartYesterday = await getSolarChart(frozenData, dummyYields, yStart, yEnd, 'Solar Yesterday', this.powerHistory, this.timeZone, chartPeak);
 
       if (chartYesterday) {
         this.chartSolarYesterday = chartYesterday;
