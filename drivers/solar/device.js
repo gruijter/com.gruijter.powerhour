@@ -707,14 +707,6 @@ class SolarDevice extends GenericDevice {
 
       await this.setStoreValue('yieldFactors', this.yieldFactors);
 
-      // Auto-fill peakPower setting if unconfigured
-      const currentSettings = this.getSettings();
-      if ((!currentSettings.peakPower || currentSettings.peakPower === 0) && this.peakPowerAllTime > 0) {
-        const roundedPeak = Math.round(this.peakPowerAllTime / 100) * 100;
-        await this.setSettings({ peakPower: roundedPeak }).catch(this.error);
-        this.log(`Auto-filled peakPower setting to ${roundedPeak}W`);
-      }
-
       await this.updateForecastDisplay(true);
       this.log('Retraining finished.');
     } catch (err) {
@@ -967,7 +959,15 @@ class SolarDevice extends GenericDevice {
     // Use manual setting/clipping limit, or fallback to the highest of All-Time Peak or Estimated System Wpeak
     const estimatedWpeak = this.globalMaxYF > 0 ? Math.round(this.globalMaxYF * 1000) : 0;
     const autoPeak = Math.max(this.peakPowerAllTime, estimatedWpeak);
-    const chartPeak = this.getSettings().peakPower || autoPeak;
+    let chartPeak = this.getSettings().peakPower;
+
+    if (!chartPeak && autoPeak > 0) {
+      chartPeak = Math.round(autoPeak / 100) * 100;
+      this.setSettings({ peakPower: chartPeak }).catch(this.error);
+      this.log(`Auto-filled peakPower setting to ${chartPeak}W`);
+    } else if (!chartPeak) {
+      chartPeak = autoPeak;
+    }
 
     // 1. Today
     const { start: todayStart, end: todayEnd } = SolarLearningStrategy.getSunBounds(now, this.forecastData, this.timeZone);
