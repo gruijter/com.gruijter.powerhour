@@ -964,7 +964,10 @@ class SolarDevice extends GenericDevice {
 
     // --- Update Charts ---
 
-    const chartPeak = this.getSettings().peakPower || this.peakPowerAllTime;
+    // Use manual setting/clipping limit, or fallback to the highest of All-Time Peak or Estimated System Wpeak
+    const estimatedWpeak = this.globalMaxYF > 0 ? Math.round(this.globalMaxYF * 1000) : 0;
+    const autoPeak = Math.max(this.peakPowerAllTime, estimatedWpeak);
+    const chartPeak = this.getSettings().peakPower || autoPeak;
 
     // 1. Today
     const { start: todayStart, end: todayEnd } = SolarLearningStrategy.getSunBounds(now, this.forecastData, this.timeZone);
