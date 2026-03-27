@@ -15,6 +15,7 @@
   "error_device_corrupt": "Apparaat is corrupt!",
   "error_no_prices": "Geen prijzen beschikbaar",
   "error_no_price_interval": "Geen prijsinterval beschikbaar",
+  "error_no_location": "Geen locatie beschikbaar in apparaatinstellingen",
   "error_homey_api_not_ready": "Homey API niet gereed",
   "repair": {
     "warningtitle": "WAARSCHUWING",

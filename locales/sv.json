@@ -15,6 +15,7 @@
   "error_device_corrupt": "Enheten är korrupt!",
   "error_no_prices": "Inga priser tillgängliga",
   "error_no_price_interval": "Inget prisintervall tillgängligt",
+  "error_no_location": "Ingen plats tillgänglig i enhetsinställningar",
   "error_homey_api_not_ready": "Homey API inte redo",
   "repair": {
     "warningtitle": "VARNING",

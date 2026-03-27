@@ -15,5 +15,6 @@
   "error_device_corrupt": "장치가 손상되었습니다!",
   "error_no_prices": "가격을 이용할 수 없습니다",
   "error_no_price_interval": "가격 간격을 이용할 수 없습니다",
+  "error_no_location": "기기 설정에 사용할 수 있는 위치가 없습니다",
   "error_homey_api_not_ready": "Homey API가 준비되지 않았습니다"
 }

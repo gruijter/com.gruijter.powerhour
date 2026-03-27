@@ -15,6 +15,7 @@
   "error_device_corrupt": "L'appareil est corrompu !",
   "error_no_prices": "Aucun prix disponible",
   "error_no_price_interval": "Aucun intervalle de prix disponible",
+  "error_no_location": "Aucun emplacement disponible dans les paramètres de l'appareil",
   "error_homey_api_not_ready": "API Homey non prête",
   "repair": {
     "warningtitle": "ATTENTION",

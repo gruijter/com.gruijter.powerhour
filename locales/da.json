@@ -15,6 +15,7 @@
   "error_device_corrupt": "Enheden er korrupt!",
   "error_no_prices": "Ingen priser tilgængelige",
   "error_no_price_interval": "Intet prisinterval tilgængeligt",
+  "error_no_location": "Ingen placering tilgængelig i enhedsindstillinger",
   "error_homey_api_not_ready": "Homey API ikke klar",
   "repair": {
     "warningtitle": "ADVARSEL",

@@ -15,6 +15,7 @@
   "error_device_corrupt": "Device is corrupt!",
   "error_no_prices": "No prices available",
   "error_no_price_interval": "No price interval available",
+  "error_no_location": "No location available in device settings",
   "error_homey_api_not_ready": "Homey API not ready",
   "repair": {
     "warningtitle": "WARNING",

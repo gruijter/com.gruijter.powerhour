@@ -15,6 +15,7 @@
   "error_device_corrupt": "Urządzenie jest uszkodzone!",
   "error_no_prices": "Brak dostępnych cen",
   "error_no_price_interval": "Brak dostępnego przedziału cenowego",
+  "error_no_location": "Brak dostępnej lokalizacji w ustawieniach urządzenia",
   "error_homey_api_not_ready": "API Homey nie jest gotowe",
   "repair": {
     "warningtitle": "OSTRZEŻENIE",

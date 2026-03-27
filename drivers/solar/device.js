@@ -97,6 +97,15 @@ class SolarDevice extends GenericDevice {
       }
     }
 
+    const s = this.getSettings();
+    const lat = Number(s.lat);
+    const lon = Number(s.lon);
+    if (!s.lat || !s.lon || (lat === 0 && lon === 0) || Number.isNaN(lat) || Number.isNaN(lon)) {
+      await this.setUnavailable(this.homey.__('error_no_location')).catch(this.error);
+      return; // Stop initialization until valid location is provided
+    }
+    await this.setAvailable().catch(this.error);
+
     this.retrainListener = this.registerCapabilityListener('button.retrain', async () => {
       this.peakPowerAllTime = 0;
       await this.setStoreValue('peakPowerAllTime', 0);

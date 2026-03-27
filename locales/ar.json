@@ -15,5 +15,6 @@
   "error_device_corrupt": "الجهاز تالف!",
   "error_no_prices": "لا توجد أسعار متاحة",
   "error_no_price_interval": "لا توجد فترة سعر متاحة",
+  "error_no_location": "لا يوجد موقع متاح في إعدادات الجهاز",
   "error_homey_api_not_ready": "واجهة برمجة تطبيقات Homey غير جاهزة"
 }
