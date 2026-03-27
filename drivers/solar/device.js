@@ -1019,19 +1019,8 @@ class SolarDevice extends GenericDevice {
     const autoPeak = Math.max(this.peakPowerAllTime, estimatedWpeak);
     const currentSettings = this.getSettings();
     let chartPeak = currentSettings.peakPower;
-    const isAutoDetect = currentSettings.peakPowerAuto !== false; // defaults to true
 
-    const roundedAutoPeak = Math.round(autoPeak / 100) * 100;
-
-    if (isAutoDetect && roundedAutoPeak > 0 && chartPeak !== roundedAutoPeak) {
-      chartPeak = roundedAutoPeak;
-      this.setSettings({ peakPower: chartPeak }).catch(this.error);
-      this.log(`Auto-updated peakPower setting to ${chartPeak}W`);
-    } else if (!isAutoDetect && !chartPeak && roundedAutoPeak > 0) {
-      chartPeak = roundedAutoPeak;
-      this.setSettings({ peakPower: chartPeak }).catch(this.error);
-      this.log(`Auto-filled peakPower setting to ${chartPeak}W (was 0)`);
-    } else if (!chartPeak) {
+    if (!chartPeak) {
       chartPeak = autoPeak;
     }
 
