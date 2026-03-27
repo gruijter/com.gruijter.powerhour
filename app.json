@@ -10623,39 +10623,6 @@
           },
           "children": [
             {
-              "id": "export_show_chart_line",
-              "type": "checkbox",
-              "label": {
-                "en": "Show export price in chart",
-                "nl": "Toon exportprijs in grafiek",
-                "de": "Exportpreis im Diagramm anzeigen",
-                "fr": "Afficher le prix d'exportation dans le graphique",
-                "it": "Mostra il prezzo di esportazione nel grafico",
-                "sv": "Visa exportpris i diagram",
-                "no": "Vis eksportpris i graf",
-                "es": "Mostrar precio de exportación en el gráfico",
-                "da": "Vis eksportpris i diagram",
-                "pl": "Pokaż cenę eksportu na wykresie",
-                "ru": "Показать экспортную цену на графике",
-                "ar": "إظهار سعر التصدير في الرسم البياني"
-              },
-              "value": false,
-              "hint": {
-                "en": "Check this to display the export price as a line in the price charts.",
-                "nl": "Vink dit aan om de exportprijs als een lijn in de prijsgrafieken weer te geven.",
-                "de": "Aktivieren Sie dies, um den Exportpreis als Linie in den Preisdiagrammen anzuzeigen.",
-                "fr": "Cochez cette case pour afficher le prix d'exportation sous forme de ligne dans les graphiques de prix.",
-                "it": "Seleziona per visualizzare il prezzo di esportazione come linea nei grafici dei prezzi.",
-                "sv": "Kryssa i detta för att visa exportpriset som en linje i prisdiagrammen.",
-                "no": "Kryss av for å vise eksportprisen som en linje i prisgrafene.",
-                "es": "Marque esto para mostrar el precio de exportación como una línea en los gráficos de precios.",
-                "da": "Sæt kryds for at vise eksportprisen som en linje i prisdiagrammerne.",
-                "pl": "Zaznacz, aby wyświetlić cenę eksportu jako linię na wykresach cen.",
-                "ru": "Отметьте, чтобы отображать экспортную цену в виде линии на графиках цен.",
-                "ar": "حدد هذا لعرض سعر التصدير كخط في الرسوم البيانية للأسعار."
-              }
-            },
-            {
               "id": "export_ignore_market_price",
               "type": "checkbox",
               "label": {
@@ -10851,6 +10818,39 @@
                 "pl": "Wprowadź kwotę, o którą cena eksportu musi zostać dodatkowo zmodyfikowana za kWh przez cały weekend (sobota - niedziela).",
                 "ru": "Введите сумму, на которую цена экспорта должна быть дополнительно изменена за кВтч в течение всех выходных (суббота - воскресенье).",
                 "ar": "أدخل المبلغ الذي يجب تعديل سعر التصدير به بشكل إضافي لكل كيلوواط ساعة خلال عطلة نهاية الأسبوع بأكملها (السبت - الأحد)."
+              }
+            },
+            {
+              "id": "export_show_chart_line",
+              "type": "checkbox",
+              "label": {
+                "en": "Show export price in chart",
+                "nl": "Toon exportprijs in grafiek",
+                "de": "Exportpreis im Diagramm anzeigen",
+                "fr": "Afficher le prix d'exportation dans le graphique",
+                "it": "Mostra il prezzo di esportazione nel grafico",
+                "sv": "Visa exportpris i diagram",
+                "no": "Vis eksportpris i graf",
+                "es": "Mostrar precio de exportación en el gráfico",
+                "da": "Vis eksportpris i diagram",
+                "pl": "Pokaż cenę eksportu na wykresie",
+                "ru": "Показать экспортную цену на графике",
+                "ar": "إظهار سعر التصدير في الرسم البياني"
+              },
+              "value": false,
+              "hint": {
+                "en": "Check this to display the export price as a line in the price charts.",
+                "nl": "Vink dit aan om de exportprijs als een lijn in de prijsgrafieken weer te geven.",
+                "de": "Aktivieren Sie dies, um den Exportpreis als Linie in den Preisdiagrammen anzuzeigen.",
+                "fr": "Cochez cette case pour afficher le prix d'exportation sous forme de ligne dans les graphiques de prix.",
+                "it": "Seleziona per visualizzare il prezzo di esportazione come linea nei grafici dei prezzi.",
+                "sv": "Kryssa i detta för att visa exportpriset som en linje i prisdiagrammen.",
+                "no": "Kryss av for å vise eksportprisen som en linje i prisgrafene.",
+                "es": "Marque esto para mostrar el precio de exportación como una línea en los gráficos de precios.",
+                "da": "Sæt kryds for at vise eksportprisen som en linje i prisdiagrammerne.",
+                "pl": "Zaznacz, aby wyświetlić cenę eksportu jako linię na wykresach cen.",
+                "ru": "Отметьте, чтобы отображать экспортную цену в виде линии на графиках цен.",
+                "ar": "حدد هذا لعرض سعر التصدير كخط في الرسوم البيانية للأسعار."
               }
             }
           ]
@@ -11562,39 +11562,6 @@
           },
           "children": [
             {
-              "id": "export_show_chart_line",
-              "type": "checkbox",
-              "label": {
-                "en": "Show export price in chart",
-                "nl": "Toon exportprijs in grafiek",
-                "de": "Exportpreis im Diagramm anzeigen",
-                "fr": "Afficher le prix d'exportation dans le graphique",
-                "it": "Mostra il prezzo di esportazione nel grafico",
-                "sv": "Visa exportpris i diagram",
-                "no": "Vis eksportpris i graf",
-                "es": "Mostrar precio de exportación en el gráfico",
-                "da": "Vis eksportpris i diagram",
-                "pl": "Pokaż cenę eksportu na wykresie",
-                "ru": "Показать экспортную цену на графике",
-                "ar": "إظهار سعر التصدير في الرسم البياني"
-              },
-              "value": false,
-              "hint": {
-                "en": "Check this to display the export price as a line in the price charts.",
-                "nl": "Vink dit aan om de exportprijs als een lijn in de prijsgrafieken weer te geven.",
-                "de": "Aktivieren Sie dies, um den Exportpreis als Linie in den Preisdiagrammen anzuzeigen.",
-                "fr": "Cochez cette case pour afficher le prix d'exportation sous forme de ligne dans les graphiques de prix.",
-                "it": "Seleziona per visualizzare il prezzo di esportazione come linea nei grafici dei prezzi.",
-                "sv": "Kryssa i detta för att visa exportpriset som en linje i prisdiagrammen.",
-                "no": "Kryss av for å vise eksportprisen som en linje i prisgrafene.",
-                "es": "Marque esto para mostrar el precio de exportación como una línea en los gráficos de precios.",
-                "da": "Sæt kryds for at vise eksportprisen som en linje i prisdiagrammerne.",
-                "pl": "Zaznacz, aby wyświetlić cenę eksportu jako linię na wykresach cen.",
-                "ru": "Отметьте, чтобы отображать экспортную цену в виде линии на графиках цен.",
-                "ar": "حدد هذا لعرض سعر التصدير كخط في الرسوم البيانية للأسعار."
-              }
-            },
-            {
               "id": "export_ignore_market_price",
               "type": "checkbox",
               "label": {
@@ -11790,6 +11757,39 @@
                 "pl": "Wprowadź kwotę, o którą cena eksportu musi zostać dodatkowo zmodyfikowana za kWh przez cały weekend (sobota - niedziela).",
                 "ru": "Введите сумму, на которую цена экспорта должна быть дополнительно изменена за кВтч в течение всех выходных (суббота - воскресенье).",
                 "ar": "أدخل المبلغ الذي يجب تعديل سعر التصدير به بشكل إضافي لكل كيلوواط ساعة خلال عطلة نهاية الأسبوع بأكملها (السبت - الأحد)."
+              }
+            },
+            {
+              "id": "export_show_chart_line",
+              "type": "checkbox",
+              "label": {
+                "en": "Show export price in chart",
+                "nl": "Toon exportprijs in grafiek",
+                "de": "Exportpreis im Diagramm anzeigen",
+                "fr": "Afficher le prix d'exportation dans le graphique",
+                "it": "Mostra il prezzo di esportazione nel grafico",
+                "sv": "Visa exportpris i diagram",
+                "no": "Vis eksportpris i graf",
+                "es": "Mostrar precio de exportación en el gráfico",
+                "da": "Vis eksportpris i diagram",
+                "pl": "Pokaż cenę eksportu na wykresie",
+                "ru": "Показать экспортную цену на графике",
+                "ar": "إظهار سعر التصدير في الرسم البياني"
+              },
+              "value": false,
+              "hint": {
+                "en": "Check this to display the export price as a line in the price charts.",
+                "nl": "Vink dit aan om de exportprijs als een lijn in de prijsgrafieken weer te geven.",
+                "de": "Aktivieren Sie dies, um den Exportpreis als Linie in den Preisdiagrammen anzuzeigen.",
+                "fr": "Cochez cette case pour afficher le prix d'exportation sous forme de ligne dans les graphiques de prix.",
+                "it": "Seleziona per visualizzare il prezzo di esportazione come linea nei grafici dei prezzi.",
+                "sv": "Kryssa i detta för att visa exportpriset som en linje i prisdiagrammen.",
+                "no": "Kryss av for å vise eksportprisen som en linje i prisgrafene.",
+                "es": "Marque esto para mostrar el precio de exportación como una línea en los gráficos de precios.",
+                "da": "Sæt kryds for at vise eksportprisen som en linje i prisdiagrammerne.",
+                "pl": "Zaznacz, aby wyświetlić cenę eksportu jako linię na wykresach cen.",
+                "ru": "Отметьте, чтобы отображать экспортную цену в виде линии на графиках цен.",
+                "ar": "حدد هذا لعرض سعر التصدير كخط في الرسوم البيانية للأسعار."
               }
             }
           ]
@@ -16423,39 +16423,6 @@
           },
           "children": [
             {
-              "id": "peakPowerAuto",
-              "type": "checkbox",
-              "label": {
-                "en": "Auto-estimate Peak Power",
-                "nl": "Auto-schatting piekvermogen",
-                "de": "Spitzenleistung automatisch schätzen",
-                "fr": "Estimation auto de la Puissance Crête",
-                "it": "Stima automatica Potenza di Picco",
-                "sv": "Autouppskatta Toppeffekt",
-                "no": "Auto-estimer Toppeffekt",
-                "es": "Estimación automática de Potencia Pico",
-                "da": "Auto-estimer Spidseffekt",
-                "pl": "Automatyczne szacowanie Mocy Szczytowej",
-                "ru": "Автооценка пиковой мощности",
-                "ar": "تقدير تلقائي لذروة الطاقة"
-              },
-              "value": true,
-              "hint": {
-                "en": "Dynamically learn the Peak Power. Set to NO when you want to set the Peak Power manually.",
-                "nl": "Leer dynamisch het piekvermogen. Zet op NEE als u het piekvermogen handmatig wilt instellen.",
-                "de": "Ermittle die Spitzenleistung dynamisch. Auf NEIN setzen, wenn Sie die Spitzenleistung manuell einstellen möchten.",
-                "fr": "Apprenez dynamiquement la Puissance Crête. Réglez sur NON si vous souhaitez définir la Puissance Crête manuellement.",
-                "it": "Apprendi dinamicamente la Potenza di Picco. Imposta su NO se desideri impostare la Potenza di Picco manualmente.",
-                "sv": "Lär dig dynamiskt Toppeffekten. Ställ in på NEJ när du vill ställa in Toppeffekten manuellt.",
-                "no": "Lær dynamisk Toppeffekten. Sett til NEI når du vil stille inn Toppeffekten manuelt.",
-                "es": "Aprende dinámicamente la Potencia Pico. Ajústalo a NO si deseas establecer la Potencia Pico manualmente.",
-                "da": "Lær dynamisk Spidseffekten. Indstil til NEJ, hvis du vil indstille Spidseffekten manuelt.",
-                "pl": "Dynamicznie ucz się Mocy Szczytowej. Ustaw na NIE, jeśli chcesz ustawić Moc Szczytową ręcznie.",
-                "ru": "Динамически изучайте пиковую мощность. Установите НЕТ, если хотите задать пиковую мощность вручную.",
-                "ar": "تعلم ديناميكيًا ذروة الطاقة. قم بالتعيين على لا عندما تريد تعيين ذروة الطاقة يدويًا."
-              }
-            },
-            {
               "id": "peakPower",
               "type": "number",
               "label": {
@@ -16474,18 +16441,18 @@
               },
               "value": 0,
               "hint": {
-                "en": "Maximum power of your PV system.",
-                "nl": "Maximaal vermogen van je PV-systeem.",
-                "de": "Maximale Leistung Ihres PV-Systems.",
-                "fr": "Puissance maximale de votre système photovoltaïque.",
-                "it": "Potenza massima del tuo sistema fotovoltaico.",
-                "sv": "Maximal effekt för ditt solcellssystem.",
-                "no": "Maksimal effekt for ditt solcellesystem.",
-                "es": "Potencia máxima de su sistema fotovoltaico.",
-                "da": "Maksimal effekt for dit solcellesystem.",
-                "pl": "Maksymalna moc Twojego systemu PV.",
-                "ru": "Максимальная мощность вашей фотоэлектрической системы.",
-                "ar": "أقصى طاقة لنظامك الكهروضوئي."
+                "en": "Maximum power of your PV system. Set to 0 to automatically estimate the peak power. This value is used for scaling the graphs and filtering data during automatic learning.",
+                "nl": "Maximaal vermogen van je PV-systeem. Zet op 0 om het piekvermogen automatisch te schatten. Deze waarde wordt gebruikt voor de schaling van de grafieken en het filteren van data tijdens het automatisch leren.",
+                "de": "Maximale Leistung Ihres PV-Systems. Auf 0 setzen, um die Spitzenleistung automatisch zu schätzen. Dieser Wert wird zur Skalierung der Diagramme und zum Filtern von Daten während des automatischen Lernens verwendet.",
+                "fr": "Puissance maximale de votre système photovoltaïque. Réglez sur 0 pour estimer automatiquement la puissance crête. Cette valeur est utilisée pour mettre à l'échelle les graphiques et filtrer les données lors de l'apprentissage automatique.",
+                "it": "Potenza massima del tuo sistema fotovoltaico. Impostare su 0 per stimare automaticamente la potenza di picco. Questo valore viene utilizzato per ridimensionare i grafici e filtrare i dati durante l'apprendimento automatico.",
+                "sv": "Maximal effekt för ditt solcellssystem. Ställ in på 0 för att automatiskt uppskatta toppeffekten. Detta värde används för att skala graferna och filtrera data under automatisk inlärning.",
+                "no": "Maksimal effekt for ditt solcellesystem. Sett til 0 for å estimere toppeffekten automatisk. Denne verdien brukes til å skalere grafene og filtrere data under automatisk læring.",
+                "es": "Potencia máxima de su sistema fotovoltaico. Establecer en 0 para estimar automáticamente la potencia pico. Este valor se utiliza para escalar los gráficos y filtrar datos durante el aprendizaje automático.",
+                "da": "Maksimal effekt for dit solcellesystem. Indstil til 0 for automatisk at estimere spidseffekten. Denne værdi bruges til at skalere graferne og filtrere data under automatisk indlæring.",
+                "pl": "Maksymalna moc Twojego systemu PV. Ustaw na 0, aby automatycznie oszacować moc szczytową. Wartość ta służy do skalowania wykresów i filtrowania danych podczas automatycznego uczenia się.",
+                "ru": "Максимальная мощность вашей фотоэлектрической системы. Установите 0 для автоматической оценки пиковой мощности. Это значение используется для масштабирования графиков и фильтрации данных во время автоматического обучения.",
+                "ar": "أقصى طاقة لنظامك الكهروضوئي. قم بالتعيين إلى 0 لتقدير ذروة الطاقة تلقائيًا. تُستخدم هذه القيمة لتوسيع نطاق الرسوم البيانية وتصفية البيانات أثناء التعلم التلقائي."
               }
             },
             {

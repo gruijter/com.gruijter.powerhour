@@ -1,938 +1,938 @@
 {
-	"name": {
-		"en": "Day-Ahead 15m E Prices",
-		"nl": "Day-Ahead 15m E Prijzen",
-		"de": "Day-Ahead 15m E Std. Preis",
-		"fr": "Tarif demain 15m E",
-		"it": "Prezzi del giorno prima E 15m",
-		"sv": "Day-Ahead 15m E Priser",
-		"no": "Day-Ahead 15m E Priser",
-		"es": "Precios E 15m Día-Adelante",
-		"da": "Day-Ahead 15m E priser",
-		"pl": "Ceny E 15m Dzień Naprzód",
-		"ru": "Цены E 15м На Сутки Вперед",
-		"ar": "أسعار الكهرباء لليوم التالي (15 دقيقة)"
-	},
-	"class": "sensor",
-	"capabilities": [],
-	"capabilitiesOptions": {
-		"meter_rank_price_h0_next_8h": {
-			"units": {
-				"en": "/32"
-			}
-		},
-		"meter_rank_price_h0_this_day": {
-			"units": {
-				"en": "/96"
-			}
-		}
-	},
-	"platforms": [
-		"local"
-	],
-	"connectivity": [
-		"lan"
-	],
-	"images": {
-		"small": "{{driverAssetsPath}}/images/small.png",
-		"large": "{{driverAssetsPath}}/images/large.png"
-	},
-	"pair": [
-		{
-			"id": "list_devices",
-			"template": "list_devices",
-			"options": {
-				"singular": true
-			},
-			"navigation": {
-				"next": "add_devices"
-			}
-		},
-		{
-			"id": "add_devices",
-			"template": "add_devices"
-		}
-	],
-	"settings": [
-		{
-			"type": "group",
-			"label": {
-				"en": "Bidding Zone information",
-				"nl": "Biedzone informatie",
-				"de": "Information zum Gebotsbereich",
-				"fr": "Information sur les négociations",
-				"it": "Informazioni sulla zona di trattativa",
-				"sv": "Information om elområde",
-				"no": "Prisområde informasjon",
-				"es": "Información de la zona de oferta",
-				"da": "Information om elområde",
-				"pl": "Informacje o strefie licytacji",
-				"ru": "Информация о торговой зоне",
-				"ar": "معلومات منطقة العطاءات"
-			},
-			"children": [
-				{
-					"id": "biddingZone",
-					"type": "label",
-					"label": {
-						"en": "Bidding zone",
-						"nl": "Biedzone",
-						"de": "Gebotsbereich",
-						"fr": "Zone de négociation",
-						"it": "Zona di trattativa",
-						"sv": "Elområde",
-						"no": "Prisområde",
-						"es": "Zona de oferta",
-						"da": "Elområde",
-						"pl": "Strefa licytacji",
-						"ru": "Торговая зона",
-						"ar": "منطقة العطاءات"
-					},
-					"value": "unknown"
-				},
-				{
-					"id": "description",
-					"type": "label",
-					"label": {
-						"en": "Description",
-						"nl": "Omschrijving",
-						"de": "Beschreibung",
-						"fr": "Description",
-						"it": "Descrizione",
-						"sv": "Beskrivning",
-						"no": "Beskrivelse",
-						"es": "Descripción",
-						"da": "Beskrivelse",
-						"pl": "Opis",
-						"ru": "Описание",
-						"ar": "وصف"
-					},
-					"value": "unknown"
-				}
-			]
-		},
-		{
-			"type": "group",
-			"label": {
-				"en": "Currency settings",
-				"nl": "Munteenheid instellingen",
-				"de": "Währungseinstellungen",
-				"fr": "Paramètre de devise",
-				"it": "Impostazioni valuta",
-				"sv": "Valutainställningar",
-				"no": "Valutainnstillinger",
-				"es": "Configuración de moneda",
-				"da": "Valutaindstillinger",
-				"pl": "Ustawienia waluty",
-				"ru": "Настройки валюты",
-				"ar": "إعدادات العملة"
-			},
-			"children": [
-				{
-					"id": "currency",
-					"type": "text",
-					"label": {
-						"en": "Currency unit display",
-						"nl": "Weergave geldeenheid",
-						"de": "Währungseinheit",
-						"fr": "Affichage de l'unité monétaire",
-						"it": "Visualizzazione unità valuta",
-						"sv": "Visning av valutaenhet",
-						"no": "Visning av valutaenhet",
-						"es": "Visualización de unidad de moneda",
-						"da": "Visning af valutaenhed",
-						"pl": "Wyświetlanie jednostki walutowej",
-						"ru": "Отображение валютной единицы",
-						"ar": "عرض وحدة العملة"
-					},
-					"value": "€",
-					"hint": {
-						"en": "The unit displayed as currency, e.g. €, £, EUR, SER, NOK, DKK, CHF. Leave empty to use the default €.",
-						"nl": "De weergegeven eenheid voor geld, bijv. €, £, EUR, SER, NOK, DKK, CHF. Laat leeg om de standaard € te gebruiken.",
-						"de": "Die als Währung angezeigte Einheit, z.B. €, £, EUR, SER, NOK, DKK, CHF. Leer lassen, um die Standardeinheit € zu verwenden.",
-						"fr": "Unité affichée comme devise, ex. €, £, EUR, SER, NOK, DKK, CHF. Laisser vide pour utiliser € par défaut",
-						"it": "L'unità mostrata come valuta, es. €, £, EUR, SER, NOK, DKK, CHF. Lasciare vuoto per utilizzare € di default.",
-						"sv": "Enheten som visas som valuta, t.ex. €, £, EUR, SER, NOK, DKK, CHF. Lämna tomt för att använda standardvärdet €.",
-						"no": "Valutaenheten vises som f.eks. €, £, EUR, SER, NOK, DKK, CHF. La stå blank for å bruke default €.",
-						"es": "La unidad que se muestra como moneda, p. ej. €, £, EUR, SER, NOK, DKK, CHF. Dejar vacío para usar el valor predeterminado €.",
-						"da": "Enheden vises som valuta, f.eks. €, £, EUR, SER, NOK, DKK, CHF. Lad denne stå blank for at bruge standard €.",
-						"pl": "Jednostka wyświetlana jako waluta, np. €, £, EUR, SER, NOK, DKK, CHF. Pozostaw puste, aby użyć domyślnego €.",
-						"ru": "Единица, отображаемая как валюта, например €, £, EUR, SER, NOK, DKK, CHF. Оставьте пустым, чтобы использовать значение по умолчанию €.",
-						"ar": "الوحدة المعروضة كعملة، مثل €، £، EUR، SER، NOK، DKK، CHF. اتركها فارغة لاستخدام الافتراضي €."
-					}
-				},
-				{
-					"id": "decimals",
-					"type": "number",
-					"label": {
-						"en": "Currency decimals",
-						"nl": "Geld decimalen",
-						"de": "Anzahl Dezimalstellen",
-						"fr": "Décimales devise",
-						"it": "Decimali valuta",
-						"sv": "Valuta decimaler",
-						"no": "Valute desimaler",
-						"es": "Decimales de moneda",
-						"da": "Valuta decimaler",
-						"pl": "Miejsca dziesiętne waluty",
-						"ru": "Десятичные знаки валюты",
-						"ar": "الكسور العشرية للعملة"
-					},
-					"value": 4,
-					"min": 0,
-					"max": 8,
-					"hint": {
-						"en": "The number of decimals to use for price.",
-						"nl": "Het aantal decimalen voor prijs.",
-						"de": "Die Anzahl der Dezimalstellen für den Preis.",
-						"fr": "Nombre de décimales à utiliser pour le tarif",
-						"it": "Il numero di decimali da utilizzare per il prezzo.",
-						"sv": "Antalet decimaler som ska användas för pris.",
-						"no": "Antall prisdesimaler",
-						"es": "El número de decimales a utilizar para el precio.",
-						"da": "Antallet af decimaler, der bruges til prisen",
-						"pl": "Liczba miejsc dziesiętnych do użycia dla ceny.",
-						"ru": "Количество десятичных знаков для цены.",
-						"ar": "عدد الكسور العشرية المراد استخدامها للسعر."
-					}
-				},
-				{
-					"id": "exchangeRate",
-					"type": "number",
-					"label": {
-						"en": "Exchange rate with €",
-						"nl": "Wisselkoers met €",
-						"de": "Wechselkurs mit €",
-						"fr": "Taux de change avec €",
-						"it": "Tasso di cambio con €",
-						"sv": "Växelkurs med €",
-						"no": "Vekslingskurs mot €",
-						"es": "Tipo de cambio con €",
-						"da": "Vekselkurs med €",
-						"pl": "Kurs wymiany z €",
-						"ru": "Обменный курс с €",
-						"ar": "سعر الصرف مع €"
-					},
-					"value": 1,
-					"hint": {
-						"en": "Set at 1 if you want to use EURO, otherwise enter the exchange rate to your preferred currency.",
-						"nl": "Stel in op 1 als je EURO's wilt gebruiken, of geef de wisselkoers in naar de gewenste munteenheid.",
-						"de": "Setzen Sie den Wert auf 1, wenn Sie den Euro verwenden möchten, andernfalls geben Sie den Wechselkurs in Ihrer bevorzugten Währung ein.",
-						"fr": "Mettre à 1 si vous souhaitez utiliser EURO, sinon entrer le taux de change de la devise souhaitée",
-						"it": "Imposta 1 se vuoi utilizzare EURO, altrimenti inserisci il tasso di cambio della valuta che preferisci.",
-						"sv": "Ställ in på 1 om du vill använda EURO, annars anger du växelkursen till din önskade valuta.",
-						"no": "Sett som 1 hvis du vil bruke EURO, ellers legg inn vekslingskursen for din foretrukne valuta.",
-						"es": "Establecer en 1 si desea usar EURO, de lo contrario ingrese el tipo de cambio a su moneda preferida.",
-						"da": "Sæt som 1 hvis du vil bruge Euro, indsæt ellers vekselkursen for din foretrukne valuta",
-						"pl": "Ustaw na 1, jeśli chcesz używać EURO, w przeciwnym razie wprowadź kurs wymiany na preferowaną walutę.",
-						"ru": "Установите 1, если хотите использовать ЕВРО, в противном случае введите обменный курс к вашей предпочтительной валюте.",
-						"ar": "قم بالتعيين على 1 إذا كنت تريد استخدام اليورو، وإلا أدخل سعر الصرف لعملتك المفضلة."
-					}
-				},
-				{
-					"id": "fetchExchangeRate",
-					"type": "dropdown",
-					"value": "NONE",
-					"label": {
-						"en": "Daily update the exchange rate",
-						"nl": "Update wisselkoers dagelijks",
-						"de": "Wechselkurs täglich aktualisieren",
-						"fr": "Mise à jour quotidienne du taux de change",
-						"it": "Aggiorna quotidianamente il tasso di cambio",
-						"sv": "Uppdatera växelkursen dagligen",
-						"no": "Daglig oppdatering av vekslingskurs",
-						"es": "Actualizar diariamente el tipo de cambio",
-						"da": "Opdatér dagligt valutakurs",
-						"pl": "Codzienna aktualizacja kursu wymiany",
-						"ru": "Ежедневное обновление обменного курса",
-						"ar": "تحديث سعر الصرف يوميا"
-					},
-					"values": [
-						{
-							"id": "NONE",
-							"label": {
-								"en": "DO NOT FETCH",
-								"nl": "NIET OPHALEN",
-								"de": "NICHT ABFRAGEN",
-								"fr": "NE PAS RÉCUPÉRER",
-								"it": "NON RECUPERARE",
-								"sv": "HÄMTA INTE",
-								"no": "IKKE HENT",
-								"es": "NO RECUPERAR",
-								"da": "HENT IKKE",
-								"pl": "NIE POBIERAJ",
-								"ru": "НЕ ПОЛУЧАТЬ",
-								"ar": "لا تجلب"
-							}
-						},
-						{
-							"id": "BGN",
-							"label": {
-								"en": "BGN"
-							}
-						},
-						{
-							"id": "CHF",
-							"label": {
-								"en": "CHF"
-							}
-						},
-						{
-							"id": "CZK",
-							"label": {
-								"en": "CZK"
-							}
-						},
-						{
-							"id": "DKK",
-							"label": {
-								"en": "DKK"
-							}
-						},
-						{
-							"id": "GBP",
-							"label": {
-								"en": "GBP"
-							}
-						},
-						{
-							"id": "HRK",
-							"label": {
-								"en": "HRK"
-							}
-						},
-						{
-							"id": "HUF",
-							"label": {
-								"en": "HUF"
-							}
-						},
-						{
-							"id": "ISK",
-							"label": {
-								"en": "ISK"
-							}
-						},
-						{
-							"id": "NOK",
-							"label": {
-								"en": "NOK"
-							}
-						},
-						{
-							"id": "PLN",
-							"label": {
-								"en": "PLN"
-							}
-						},
-						{
-							"id": "RON",
-							"label": {
-								"en": "RON"
-							}
-						},
-						{
-							"id": "RUB",
-							"label": {
-								"en": "RUB"
-							}
-						},
-						{
-							"id": "SEK",
-							"label": {
-								"en": "SEK"
-							}
-						},
-						{
-							"id": "TRY",
-							"label": {
-								"en": "TRY"
-							}
-						},
-						{
-							"id": "AUD",
-							"label": {
-								"en": "AUD"
-							}
-						},
-						{
-							"id": "USD",
-							"label": {
-								"en": "USD"
-							}
-						}
-					],
-					"hint": {
-						"en": "Enter the currency for which you want the exchange rate to be fetched automatically. Leave at 'DO NOT FETCH' if you are using Euro, or if you want to manually set the exchange rate.",
-						"nl": "Geef de munteenheid aan waarvan de wisselkoers automatisch moey worden opgehaald. Zet op 'NIET OPHALEN' als je Euro gebruit, of als je de wisselkoers handmatig wilt invoeren.",
-						"de": "Geben Sie die Währung ein, für die Sie den Wechselkurs automatisch abrufen möchten. Belassen Sie es bei 'NICHT ABFRAGEN', wenn Sie den Euro verwenden oder den Wechselkurs manuell festlegen möchten.",
-						"fr": "Entrer la devise pour laquelle vous souhaitez que le taux de change soit automatiquement récupérer. Laisser à 'NE PAS RÉCUPÉRER' si vous utiliser l'Euro, ou si vous souhaitez entrer manuellement le taux de change",
-						"it": "Inserisci la valuta per la quale desideri che il tasso di cambio venga recuperato automaticamente. Lascia su 'NON RECUPERARE' se stai usando Euro, o se vuoi impostare manualmente il tasso di cambio.",
-						"sv": "Ange den valuta för vilken du vill att växelkursen ska hämtas automatiskt. Lämna vid 'HÄMTA INTE' om du använder euro, eller om du vill ställa in växelkursen manuellt.",
-						"no": "Legg inn valutaen for den vekslingskursen du ønsker å hente automatisk. La den stå på 'IKKE HENT' hvis du bruker Euro, eller hvis du vil sette vekslingkursen manuelt.",
-						"es": "Ingrese la moneda para la cual desea que el tipo de cambio se obtenga automáticamente. Deje en 'NO RECUPERAR' si está utilizando Euro, o si desea establecer manualmente el tipo de cambio.",
-						"da": "Angiv valutaen du automatisk vil hente vekselkursen for. Lad den stå på 'HENT IKKE' hvis du bruger Euro, eller hvis du manuelt vil tilpasse vekselkursen",
-						"pl": "Wprowadź walutę, dla której kurs wymiany ma być pobierany automatycznie. Pozostaw 'NIE POBIERAJ', jeśli używasz Euro lub jeśli chcesz ręcznie ustawić kurs wymiany.",
-						"ru": "Введите валюту, для которой вы хотите автоматически получать обменный курс. Оставьте 'НЕ ПОЛУЧАТЬ', если вы используете Евро, или если вы хотите вручную установить обменный курс.",
-						"ar": "أدخل العملة التي تريد جلب سعر الصرف لها تلقائيًا. اتركها عند 'لا تجلب' إذا كنت تستخدم اليورو، أو إذا كنت تريد تعيين سعر الصرف يدويًا."
-					}
-				}
-			]
-		},
-		{
-			"type": "group",
-			"label": {
-				"en": "Import price settings",
-				"nl": "Import prijs instellingen",
-				"de": "Importpreiseinstellungen",
-				"fr": "Paramètres de prix d'importation",
-				"it": "Impostazioni prezzo di importazione",
-				"sv": "Importprisinställningar",
-				"no": "Importprisinnstillinger",
-				"es": "Configuración de precios de importación",
-				"da": "Importprisindstillinger",
-				"pl": "Ustawienia cen importu",
-				"ru": "Настройки цен импорта",
-				"ar": "إعدادات سعر الاستيراد"
-			},
-			"children": [
-				{
-					"id": "ignore_market_price",
-					"type": "checkbox",
-					"label": {
-						"en": "Ignore market price (Fixed price only)",
-						"nl": "Negeer marktprijs (Alleen vaste prijs)",
-						"de": "Marktpreis ignorieren (Nur Festpreis)",
-						"fr": "Ignorer le prix du marché (Prix fixe uniquement)",
-						"it": "Ignora prezzo di mercato (Solo prezzo fisso)",
-						"sv": "Ignorera marknadspris (Endast fast pris)",
-						"no": "Ignorer markedspris (Kun fastpris)",
-						"es": "Ignorar precio de mercado (Solo precio fijo)",
-						"da": "Ignorer markedspris (Kun fast pris)",
-						"pl": "Ignoruj cenę rynkową (Tylko stała cena)",
-						"ru": "Игнорировать рыночную цену (Только фиксированная цена)",
-						"ar": "تجاهل سعر السوق (سعر ثابت فقط)"
-					},
-					"value": false,
-					"hint": {
-						"en": "Check this if you have a fixed price contract. The market prices and % markups will be ignored. Only the fixed markups below will be used to calculate the price.",
-						"nl": "Vink dit aan als je een vast contract hebt. De marktprijzen en % opslagen worden genegeerd. Alleen de vaste opslagen hieronder worden gebruikt om de prijs te berekenen.",
-						"de": "Aktivieren Sie dies, wenn Sie einen Festpreisvertrag haben. Die Marktpreise und % Aufschläge werden ignoriert. Nur die unten stehenden festen Aufschläge werden verwendet.",
-						"fr": "Cochez cette case si vous avez un contrat à prix fixe. Les prix du marché et les majorations en % seront ignorés. Seules les majorations fixes seront utilisées.",
-						"it": "Seleziona se hai un contratto a prezzo fisso. I prezzi di mercato e i ricarichi in % verranno ignorati. Verranno utilizzati solo i ricarichi fissi di seguito.",
-						"sv": "Kryssa i detta om du har ett fastprisavtal. Marknadspriserna och % påslag kommer att ignoreras. Endast de fasta påslagen nedan kommer att användas.",
-						"no": "Kryss av her hvis du har en fastprisavtale. Markedsprisene og % påslag vil bli ignorert. Kun de faste påslagene nedenfor vil bli brukt.",
-						"es": "Marque esto si tiene un contrato de precio fijo. Los precios de mercado y los márgenes en % serán ignorados. Solo se usarán los márgenes fijos.",
-						"da": "Marker dette, hvis du har en fastprisaftale. Markedspriserne og %-tillæg ignoreres. Kun de faste tillæg nedenfor vil blive brugt.",
-						"pl": "Zaznacz, jeśli masz umowę o stałej cenie. Ceny rynkowe i narzuty % zostaną zignorowane. Zostaną użyte tylko poniższe stałe narzuty.",
-						"ru": "Отметьте это, если у вас контракт с фиксированной ценой. Рыночные цены и % наценки будут проигнорированы. Будут использоваться только фиксированные наценки.",
-						"ar": "حدد هذا إذا كان لديك عقد بسعر ثابت. سيتم تجاهل أسعار السوق والنسب المئوية. سيتم استخدام الهوامش الثابتة فقط أدناه لحساب السعر."
-					}
-				},
-				{
-					"id": "variableMarkup",
-					"type": "number",
-					"label": {
-						"en": "Import variable markup (%)",
-						"nl": "Import variabele opslag (%)",
-						"de": "Import Variabler Aufschlag (%)",
-						"fr": "Import Augmentation variable (%)",
-						"it": "Import Aumento variabile (%)",
-						"sv": "Import Variabelt påslag (%)",
-						"no": "Import Variabelt påslag (%)",
-						"es": "Import Margen variable (%)",
-						"da": "Import Variabelt gebyr (%)",
-						"pl": "Import Narzut zmienny (%)",
-						"ru": "Import Переменная наценка (%)",
-						"ar": "Import هامش متغير (%)"
-					},
-					"value": 0,
-					"hint": {
-						"en": "Enter the percentage with which the net import price must be increased. E.g. for VAT.",
-						"nl": "Voer het percentage in waarmee de netto import prijs verhoogd moet worden. Bijvoorbeeld voor BTW.",
-						"de": "Geben Sie den Prozentsatz ein, um den der Nettoimportpreis erhöht werden soll. Z.B. für die MwSt.",
-						"fr": "Entrez le pourcentage pour lequel le tarif d'importation net doit être augmenté. Par exemple la TVA.",
-						"it": "Inserisci la percentuale di aumento da applicare sul prezzo netto di importazione. Es. per IVA.",
-						"sv": "Ange den procentandel som nettoimportpriset ska höjas med. T.ex. för moms.",
-						"no": "Legg inn verdien i prosent som nettoimportprisen skal økes. f.eks. for MVA.",
-						"es": "Ingrese el porcentaje con el que debe aumentarse el precio neto de importación. P. ej. para IVA.",
-						"da": "Angiv procenten der tillægges nettoimportprisen. Eksempelvis moms.",
-						"pl": "Wprowadź procent, o jaki cena netto importu musi zostać zwiększona. Np. dla VAT.",
-						"ru": "Введите процент, на который должна быть увеличена чистая цена импорта. Например, для НДС.",
-						"ar": "أدخل النسبة المئوية التي يجب زيادة صافي سعر الاستيراد بها. على سبيل المثال لضريبة القيمة المضافة."
-					}
-				},
-				{
-					"id": "variableMarkupAbsPrice",
-					"type": "number",
-					"label": {
-						"en": "Import variable markup (%) @abs. price",
-						"nl": "Import variabele opslag (%) @abs. prijs",
-						"de": "Import Variabler Aufschlag (%) @abs. Preis",
-						"fr": "Import Augmentation variable (%) @prix absolu",
-						"it": "Import Aumento variabile (%) @prezzo assoluto",
-						"sv": "Import Variabelt påslag (%) @abs.pris",
-						"no": "Import Variabel påslag (%) @abs.pris",
-						"es": "Import Margen variable (%) @precio abs.",
-						"da": "Import Variabelt gebyr (%) @abs.pris",
-						"pl": "Import Narzut zmienny (%) @cena bezwzgl.",
-						"ru": "Import Переменная наценка (%) @абс. цена",
-						"ar": "Import هامش متغير (%) @السعر المطلق"
-					},
-					"value": 0,
-					"hint": {
-						"en": "Enter the percentage with which the |net import price| must be increased. This markup is always positive, even for negative market prices.",
-						"nl": "Voer het percentage in waarmee de |netto import prijs| verhoogd moet worden. Deze opslag is altijd positief, zelfs for negatieve marktprijzen.",
-						"de": "Geben Sie den Prozentsatz ein, um den der |Nettoimportpreis| erhöht werden muss. Dieser Aufschlag ist immer positiv, auch bei negativen Marktpreisen.",
-						"fr": "Entrez le pourcentage avec lequel le |prix net d'importation| doit être augmenté. Cette marge est toujours positive, même pour les prix négatifs du marché.",
-						"it": "Inserisci la percentale con cui il |prezzo netto di importazione| deve essere aumentato. Questo ricarico è sempre positivo, anche per prezzi di mercato negativi.",
-						"sv": "Ange den procentsats med vilken |nettoimportpriset| måste ökas. Denna marginal är alltid positiv, även för negativa marknadspriser.",
-						"no": "Skriv inn prosentsatsen som |nettoimportprisen| må økes med. Denne marginen er alltid positiv, selv for negative markedspriser.",
-						"es": "Ingrese el porcentaje con el que debe aumentarse el |precio neto de importación|. Este margen siempre es positivo, incluso para precios de mercado negativos.",
-						"da": "Indtast den procentsats, som |nettoimportprisen| skal forhøjes med. Denne avance er altid positiv, selv for negative markedspriser.",
-						"pl": "Wprowadź procent, o jaki |cena netto importu| musi zostać zwiększona. Ten narzut jest zawsze dodatni, nawet dla ujemnych cen rynkowych.",
-						"ru": "Введите процент, на который должна быть увеличена |чистая цена импорта|. Эта наценка всегда положительна, даже при отрицательных рыночных ценах.",
-						"ar": "أدخل النسبة المئوية التي يجب زيادة |صافي سعر الاستيراد| بها. هذا الهامش دائمًا إيجابي، حتى بالنسبة لأسعار السوق السلبية."
-					}
-				},
-				{
-					"id": "fixedMarkup",
-					"type": "number",
-					"label": {
-						"en": "Import fixed markup per kWh",
-						"nl": "Import vaste opslag per kWh",
-						"de": "Import Fester Aufschlag für kWh",
-						"fr": "Import Fixer l'augmentation par KWh",
-						"it": "Import Aumento fisso per kWh",
-						"sv": "Import Fast påslag per kWh",
-						"no": "Import Fast påslag per kWh",
-						"es": "Import Margen fijo por kWh",
-						"da": "Import Fast gebyr per kWh",
-						"pl": "Import Stały narzut na kWh",
-						"ru": "Import Фиксированная наценка за кВтч",
-						"ar": "Import هامش ثابت لكل كيلوواط ساعة"
-					},
-					"value": 0,
-					"hint": {
-						"en": "Enter the fixed amount with which the import price must be increased per kWh, incl. VAT. E.g. for purchase fee.",
-						"nl": "Voer het vaste bedrag in waarmee de import prijs per kWh verhoogd moet worden incl. BTW. Bijvoorbeeld voor inkoopvergoeding, Energie belasting, ODE.",
-						"de": "Geben Sie einen festen Betrag ein, um den der Importpreis pro kWh inkl. MwSt. erhöht werden muss. Z.B. für Einkaufsgebühr.",
-						"fr": "Entrez le montant fixe dont le prix d'importation doit être ajouté par kWh, incluant la TVA. Par exemple les frais d'achat.",
-						"it": "Inserisci la quota fissa di aumento per kWh di importazione, incluso IVA. Es. per diritti di acquisto.",
-						"sv": "Ange det fasta belopp som importpriset ska höjas med per kWh, inkl. MOMS. T.ex. mot inköpsavgift.",
-						"no": "Angi det faste beløpet som importprisen skal økes med per kWh, inkl. MVA.",
-						"es": "Ingrese la cantidad fija con la que se debe aumentar el precio de importación por kWh, incl. IVA. P. ej. tarifa de compra.",
-						"da": "Angiv den faste beløb som importprisen skal øges med per kWh, inkl. Moms f.eks. for indkøbsafgift.",
-						"pl": "Wprowadź stałą kwotę, o którą cena importu musi zostać zwiększona za kWh, w tym VAT. Np. opłata za zakup.",
-						"ru": "Введите фиксированную сумму, на которую должна быть увеличена цена импорта за кВтч, вкл. НДС. Например, сбор за покупку.",
-						"ar": "أدخل المبلغ الثابت الذي يجب زيادة سعر الاستيراد به لكل كيلوواط ساعة، شاملاً ضريبة القيمة المضافة. على سبيل المثال لرسوم الشراء."
-					}
-				},
-				{
-					"id": "fixedMarkupTOD",
-					"type": "text",
-					"label": {
-						"en": "Import Extra Time Of Day markup",
-						"nl": "Import Extra Time Of Day opslag",
-						"de": "Import Zusätzlicher Tageszeitaufschlag",
-						"fr": "Import Majoration supplémentaire selon l'heure de la journée",
-						"it": "Import Supplemento orario extra",
-						"sv": "Import Extra tid på dygnet-tillägg",
-						"no": "Import Ekstra tid på dagen påslag",
-						"es": "Import Recargo extra por hora del día",
-						"da": "Import Ekstra tidspunkt på dagen-tillæg",
-						"pl": "Import Dodatkowy narzut w zależności od pory dnia",
-						"ru": "Import Дополнительная наценка по времени суток",
-						"ar": "Import هامش إضافي لوقت اليوم"
-					},
-					"value": "",
-					"hint": {
-						"en": "Enter the amount with which the import price must be additionally increased per kWh on certain hours of the day. Fill in the hour1:markup1;hour2:markup2 etc. E.g. if starting at 6am the markup is 0.3, and starting at 10pm the markup is 0.1 fill in the following: 6:0.3;22:0.1",
-						"nl": "Voer het bedrag in waarmee de import prijs per kWh op bepaalde uren van de dag extra moet worden verhoogd. Vul uur1:opslag1;uur2:opslag2 etc. in. Bijvoorbeeld als het om 6 uur 's ochtends om 0,3 verhoogd wordt en om 22 uur om 0,1 verhoogd wordt, vul dan het volgende in: 6:0,3;22:0,1",
-						"de": "Geben Sie den Betrag an, um den der Importpreis pro kWh an bestimmten Tageszeiten zusätzlich erhöht werden muss. Füllen Sie die Stunde1:Aufschlag1;Stunde2:Aufschlag2 usw. aus. Z.B. wenn um 6 Uhr morgens der Aufschlag 0,3 beträgt und um 22 Uhr der Aufschlag 0,1 beträgt, geben Sie folgendes ein: 6:0,3;22:0,1",
-						"fr": "Entrez le montant par lequel le prix d'importation doit être augmenté supplémentairement par kWh à certaines heures de la journée. Remplissez l'heure1:majoration1;heure2:majoration2 etc.",
-						"it": "Inserire l'importo con cui il prezzo di importazione deve essere ulteriormente aumentato per kWh in determinati orari del giorno. Compilare ora1:tasso1;ora2:tasso2 etc.",
-						"sv": "Ange beloppet med vilket importpriset måste ökas per kWh vid vissa tidpunkter på dagen. Fyll i timme1:tillägg1;timme2:tillägg2 etc.",
-						"no": "Angi beløpet som importprisen må økes per kWh ved visse tidspunkter på dagen. Fyll ut time1:merke1;time2:merke2 osv.",
-						"es": "Ingrese la cantidad con la que se debe aumentar adicionalmente el precio de importación por kWh en ciertas horas del día. Complete hora1:margen1;hora2:margen2 etc.",
-						"da": "Angiv beløbet, som importprisen skal øges med per kWh på visse tidspunkter i døgnet. Udfyld time1:markering1;time2:markering2 osv.",
-						"pl": "Wprowadź kwotę, o którą cena importu musi zostać dodatkowo zwiększona za kWh w określonych godzinach dnia. Wypełnij godzina1:narzut1;godzina2:narzut2 itd.",
-						"ru": "Введите сумму, на которую цена импорта должна быть дополнительно увеличена за кВтч в определенные часы дня. Заполните час1:наценка1;час2:наценка2 и т.д.",
-						"ar": "أدخل المبلغ الذي يجب زيادة سعر الاستيراد به بشكل إضافي لكل كيلوواط ساعة في ساعات معينة من اليوم. املأ ساعة1:هامش1;ساعة2:هامش2 إلخ."
-					}
-				},
-				{
-					"id": "fixedMarkupWeekend",
-					"type": "number",
-					"label": {
-						"en": "Import Extra Weekend markup",
-						"nl": "Import Extra Weekend opslag",
-						"de": "Import Zusätzlicher Wochenendaufschlag",
-						"fr": "Import Majoration supplémentaire le week-end",
-						"it": "Import Supplemento extra per il fine settimana",
-						"sv": "Import Extra helgtillägg",
-						"no": "Import Ekstra helgepåslag",
-						"es": "Import Recargo extra de fin de semana",
-						"da": "Import Ekstra weekendtillæg",
-						"pl": "Import Dodatkowy narzut weekendowy",
-						"ru": "Import Дополнительная наценка на выходные",
-						"ar": "Import هامش إضافي لعطلة نهاية الأسبوع"
-					},
-					"value": 0,
-					"hint": {
-						"en": "Enter the amount with which the import price must be additionally increased per kWh during the whole weekend (Saturday - Sunday). Note: this markup replaces the Time Of Day markup!",
-						"nl": "Voer het bedrag in waarmee de import prijs per kWh het hele weekend (zaterdag - zondag) extra moet worden verhoogd. Opmerking: deze opslag vervangt de Time Of Day-opslag!",
-						"de": "Geben Sie den Betrag an, um den der Importpreis pro kWh während des gesamten Wochenendes (Samstag - Sonntag) zusätzlich erhöht werden muss. Hinweis: Dieser Aufschlag ersetzt den Time-Of-Day-Aufschlag!",
-						"fr": "Entrez le montant par lequel le prix d'importation doit être augmenté supplémentairement par kWh pendant tout le week-end (samedi - dimanche).",
-						"it": "Inserire l'importo con cui il prezzo di importazione deve essere ulteriormente aumentato per kWh durante tutto il fine settimana (sabato - domenica).",
-						"sv": "Ange beloppet med vilket importpriset måste ökas per kWh under helgen (lördag-söndag).",
-						"no": "Angi beløpet som importprisen må økes per kWh i hele helgen (lørdag - søndag).",
-						"es": "Ingrese la cantidad con la que se debe aumentar adicionalmente el precio de importación por kWh durante todo el fin de semana (sábado - domingo).",
-						"da": "Angiv beløbet, som importprisen skal øges ekstra pr. kWh i løbet af hele weekenden (lørdag-søndag).",
-						"pl": "Wprowadź kwotę, o którą cena importu musi zostać dodatkowo zwiększona za kWh przez cały weekend (sobota - niedziela).",
-						"ru": "Введите сумму, на которую цена импорта должна быть дополнительно увеличена за кВтч в течение всех выходных (суббота - воскресенье).",
-						"ar": "أدخل المبلغ الذي يجب زيادة سعر الاستيراد به بشكل إضافي لكل كيلوواط ساعة خلال عطلة نهاية الأسبوع بأكملها (السبت - الأحد)."
-					}
-				}
-			]
-		},
-		{
-			"type": "group",
-			"label": {
-				"en": "Export price settings",
-				"nl": "Export prijs instellingen",
-				"de": "Exportpreiseinstellungen",
-				"fr": "Paramètres de prix d'exportation",
-				"it": "Impostazioni prezzo di esportazione",
-				"sv": "Exportprisinställningar",
-				"no": "Eksportprisinnstillinger",
-				"es": "Configuración de precios de exportación",
-				"da": "Eksportprisindstillinger",
-				"pl": "Ustawienia cen eksportu",
-				"ru": "Настройки цен экспорта",
-				"ar": "إعدادات سعر التصدير"
-			},
-			"children": [
-				{
-					"id": "export_show_chart_line",
-					"type": "checkbox",
-					"label": {
-						"en": "Show export price in chart",
-						"nl": "Toon exportprijs in grafiek",
-						"de": "Exportpreis im Diagramm anzeigen",
-						"fr": "Afficher le prix d'exportation dans le graphique",
-						"it": "Mostra il prezzo di esportazione nel grafico",
-						"sv": "Visa exportpris i diagram",
-						"no": "Vis eksportpris i graf",
-						"es": "Mostrar precio de exportación en el gráfico",
-						"da": "Vis eksportpris i diagram",
-						"pl": "Pokaż cenę eksportu na wykresie",
-						"ru": "Показать экспортную цену на графике",
-						"ar": "إظهار سعر التصدير في الرسم البياني"
-					},
-					"value": false,
-					"hint": {
-						"en": "Check this to display the export price as a line in the price charts.",
-						"nl": "Vink dit aan om de exportprijs als een lijn in de prijsgrafieken weer te geven.",
-						"de": "Aktivieren Sie dies, um den Exportpreis als Linie in den Preisdiagrammen anzuzeigen.",
-						"fr": "Cochez cette case pour afficher le prix d'exportation sous forme de ligne dans les graphiques de prix.",
-						"it": "Seleziona per visualizzare il prezzo di esportazione come linea nei grafici dei prezzi.",
-						"sv": "Kryssa i detta för att visa exportpriset som en linje i prisdiagrammen.",
-						"no": "Kryss av for å vise eksportprisen som en linje i prisgrafene.",
-						"es": "Marque esto para mostrar el precio de exportación como una línea en los gráficos de precios.",
-						"da": "Sæt kryds for at vise eksportprisen som en linje i prisdiagrammerne.",
-						"pl": "Zaznacz, aby wyświetlić cenę eksportu jako linię na wykresach cen.",
-						"ru": "Отметьте, чтобы отображать экспортную цену в виде линии на графиках цен.",
-						"ar": "حدد هذا لعرض سعر التصدير كخط في الرسوم البيانية للأسعار."
-					}
-				},
-				{
-					"id": "export_ignore_market_price",
-					"type": "checkbox",
-					"label": {
-						"en": "Ignore market price (Fixed price only)",
-						"nl": "Negeer marktprijs (Alleen vaste prijs)",
-						"de": "Marktpreis ignorieren (Nur Festpreis)",
-						"fr": "Ignorer le prix du marché (Prix fixe uniquement)",
-						"it": "Ignora prezzo di mercato (Solo prezzo fisso)",
-						"sv": "Ignorera marknadspris (Endast fast pris)",
-						"no": "Ignorer markedspris (Kun fastpris)",
-						"es": "Ignorar precio de mercado (Solo precio fijo)",
-						"da": "Ignorer markedspris (Kun fast pris)",
-						"pl": "Ignoruj cenę rynkową (Tylko stała cena)",
-						"ru": "Игнорировать рыночную цену (Только фиксированная цена)",
-						"ar": "تجاهل سعر السوق (سعر ثابت فقط)"
-					},
-					"value": false,
-					"hint": {
-						"en": "Check this if you have a fixed price contract. The market prices and % markups will be ignored. Only the fixed markups below will be used to calculate the export price.",
-						"nl": "Vink dit aan als je een vast contract hebt. De marktprijzen en % opslagen worden genegeerd. Alleen de vaste opslagen hieronder worden gebruikt om de exportprijs te berekenen.",
-						"de": "Aktivieren Sie dies, wenn Sie einen Festpreisvertrag haben. Die Marktpreise und % Aufschläge werden ignoriert. Nur die unten stehenden festen Aufschläge werden verwendet, um den Exportpreis zu berechnen.",
-						"fr": "Cochez cette case si vous avez un contrat à prix fixe. Les prix du marché et les majorations en % seront ignorés. Seules les majorations fixes seront utilisées pour calculer le prix d'exportation.",
-						"it": "Seleziona se hai un contratto a prezzo fisso. I prezzi di mercato e i ricarichi in % verranno ignorati. Verranno utilizzati solo i ricarichi fissi per calcolare il prezzo di esportazione.",
-						"sv": "Kryssa i detta om du har ett fastprisavtal. Marknadspriserna och % påslag kommer att ignoreras. Endast de fasta påslagen nedan kommer att användas för att beräkna exportpriset.",
-						"no": "Kryss av her hvis du har en fastprisavtale. Markedsprisene og % påslag vil bli ignorert. Kun de faste påslagene nedenfor vil bli brukt til å beregne eksportprisen.",
-						"es": "Marque esto si tiene un contrato de precio fijo. Los precios de mercado y los márgenes en % serán ignorados. Solo se usarán los márgenes fijos para calcular el precio de exportación.",
-						"da": "Marker dette, hvis du har en fastprisaftale. Markedspriserne og %-tillæg ignoreres. Kun de faste tillæg nedenfor vil blive brugt til at beregne eksportprisen.",
-						"pl": "Zaznacz, jeśli masz umowę o stałej cenie. Ceny rynkowe i narzuty % zostaną zignorowane. Zostaną użyte tylko poniższe stałe narzuty do obliczenia ceny eksportu.",
-						"ru": "Отметьте это, если у вас контракт с фиксированной ценой. Рыночные цены и % наценки будут проигнорированы. Для расчета цены экспорта будут использоваться только фиксированные наценки.",
-						"ar": "حدد هذا إذا كان لديك عقد بسعر ثابت. سيتم تجاهل أسعار السوق والنسب المئوية. سيتم استخدام الهوامش الثابتة فقط أدناه لحساب سعر التصدير."
-					}
-				},
-				{
-					"id": "export_variableMarkup",
-					"type": "number",
-					"label": {
-						"en": "Export variable markup (%)",
-						"nl": "Export variabele opslag (%)",
-						"de": "Export Variabler Aufschlag (%)",
-						"fr": "Export Augmentation variable (%)",
-						"it": "Export Aumento variabile (%)",
-						"sv": "Export Variabelt påslag (%)",
-						"no": "Export Variabelt påslag (%)",
-						"es": "Export Margen variable (%)",
-						"da": "Export Variabelt gebyr (%)",
-						"pl": "Export Narzut zmienny (%)",
-						"ru": "Export Переменная наценка (%)",
-						"ar": "Export هامش متغير (%)"
-					},
-					"value": 0,
-					"hint": {
-						"en": "Enter the percentage with which the net export price must be modified.",
-						"nl": "Voer het percentage in waarmee de netto export prijs gewijzigd moet worden.",
-						"de": "Geben Sie den Prozentsatz ein, um den der Nettoexportpreis geändert werden soll.",
-						"fr": "Entrez le pourcentage pour lequel le tarif d'exportation net doit être modifié.",
-						"it": "Inserisci la percentuale per modificare il prezzo netto di esportazione.",
-						"sv": "Ange den procentandel som nettoexportpriset ska ändras med.",
-						"no": "Legg inn verdien i prosent som nettoeksportprisen skal endres med.",
-						"es": "Ingrese el porcentaje con el que debe modificarse el precio neto de exportación.",
-						"da": "Angiv procenten som nettoeksportprisen skal ændres med.",
-						"pl": "Wprowadź procent, o jaki cena netto eksportu musi zostać zmodyfikowana.",
-						"ru": "Введите процент, на который должна быть изменена чистая цена экспорта.",
-						"ar": "أدخل النسبة المئوية التي يجب تعديل صافي سعر التصدير بها."
-					}
-				},
-				{
-					"id": "export_variableMarkupAbsPrice",
-					"type": "number",
-					"label": {
-						"en": "Export variable markup (%) @abs. price",
-						"nl": "Export variabele opslag (%) @abs. prijs",
-						"de": "Export Variabler Aufschlag (%) @abs. Preis",
-						"fr": "Export Augmentation variable (%) @prix absolu",
-						"it": "Export Aumento variabile (%) @prezzo assoluto",
-						"sv": "Export Variabelt påslag (%) @abs.pris",
-						"no": "Export Variabel påslag (%) @abs.pris",
-						"es": "Export Margen variable (%) @precio abs.",
-						"da": "Export Variabelt gebyr (%) @abs.pris",
-						"pl": "Export Narzut zmienny (%) @cena bezwzgl.",
-						"ru": "Export Переменная наценка (%) @абс. цена",
-						"ar": "Export هامش متغير (%) @السعر المطلق"
-					},
-					"value": 0,
-					"hint": {
-						"en": "Enter the percentage with which the |net export price| must be modified. This markup is always positive, even for negative market prices.",
-						"nl": "Voer het percentage in waarmee de |netto export prijs| gewijzigd moet worden. Deze opslag is altijd positief, zelfs for negatieve marktprijzen.",
-						"de": "Geben Sie den Prozentsatz ein, um den der |Nettoexportpreis| geändert werden muss. Dieser Aufschlag ist immer positiv, auch bei negativen Marktpreisen.",
-						"fr": "Entrez le pourcentage avec lequel le |prix net d'exportation| doit être modifié. Cette marge est toujours positive, même pour les prix négatifs du marché.",
-						"it": "Inserisci la percentale con cui il |prezzo netto di esportazione| deve essere modificato. Questo ricarico è sempre positivo, anche per prezzi di mercato negativi.",
-						"sv": "Ange den procentsats med vilken |nettoexportpriset| måste ändras. Denna marginal är alltid positiv, även för negativa marknadspriser.",
-						"no": "Skriv inn prosentsatsen som |nettoeksportprisen| må endres med. Denne marginen er alltid positiv, selv for negative markedspriser.",
-						"es": "Ingrese el porcentaje con el que debe modificarse el |precio neto de exportación|. Este margen siempre es positivo, incluso para precios de mercado negativos.",
-						"da": "Indtast den procentsats, som |nettoeksportprisen| skal ændres med. Denne avance er altid positiv, selv for negative markedspriser.",
-						"pl": "Wprowadź procent, o jaki |cena netto eksportu| musi zostać zmodyfikowana. Ten narzut jest zawsze dodatni, nawet dla ujemnych cen rynkowych.",
-						"ru": "Введите процент, на который должна быть изменена |чистая цена экспорта|. Эта наценка всегда положительна, даже при отрицательных рыночных ценах.",
-						"ar": "أدخل النسبة المئوية التي يجب تعديل |صافي سعر التصدير| بها. هذا الهامش دائمًا إيجابي، حتى بالنسبة لأسعار السوق السلبية."
-					}
-				},
-				{
-					"id": "export_fixedMarkup",
-					"type": "number",
-					"label": {
-						"en": "Export fixed markup per kWh",
-						"nl": "Export vaste opslag per kWh",
-						"de": "Export Fester Aufschlag für kWh",
-						"fr": "Export Fixer l'augmentation par KWh",
-						"it": "Export Aumento fisso per kWh",
-						"sv": "Export Fast påslag per kWh",
-						"no": "Export Fast påslag per kWh",
-						"es": "Export Margen fijo por kWh",
-						"da": "Export Fast gebyr per kWh",
-						"pl": "Export Stały narzut na kWh",
-						"ru": "Export Фиксированная наценка за кВтч",
-						"ar": "Export هامش ثابت لكل كيلوواط ساعة"
-					},
-					"value": 0,
-					"hint": {
-						"en": "Enter the fixed amount with which the export price must be modified per kWh, incl. VAT.",
-						"nl": "Voer het vaste bedrag in waarmee de export prijs per kWh gewijzigd moet worden incl. BTW.",
-						"de": "Geben Sie einen festen Betrag ein, um den der Exportpreis pro kWh inkl. MwSt. geändert werden muss.",
-						"fr": "Entrez le montant fixe dont le prix d'exportation doit être modifié par kWh, incluant la TVA.",
-						"it": "Inserisci la quota fissa per modificare il prezzo per kWh di esportazione, incluso IVA.",
-						"sv": "Ange det fasta belopp som exportpriset ska ändras med per kWh, inkl. MOMS.",
-						"no": "Angi det faste beløpet som eksportprisen skal endres med per kWh, inkl. MVA.",
-						"es": "Ingrese la cantidad fija con la que se debe modificar el precio de exportación por kWh, incl. IVA.",
-						"da": "Angiv den faste beløb som eksportprisen skal ændres med per kWh, inkl. Moms.",
-						"pl": "Wprowadź stałą kwotę, o którą cena eksportu musi zostać zmodyfikowana za kWh, w tym VAT.",
-						"ru": "Введите фиксированную сумму, на которую должна быть изменена цена экспорта за кВтч, вкл. НДС.",
-						"ar": "أدخل المبلغ الثابت الذي يجب تعديل سعر التصدير به لكل كيلوواط ساعة، شاملاً ضريبة القيمة المضافة."
-					}
-				},
-				{
-					"id": "export_fixedMarkupTOD",
-					"type": "text",
-					"label": {
-						"en": "Export Extra Time Of Day markup",
-						"nl": "Export Extra Time Of Day opslag",
-						"de": "Export Zusätzlicher Tageszeitaufschlag",
-						"fr": "Export Majoration supplémentaire selon l'heure",
-						"it": "Export Supplemento orario extra",
-						"sv": "Export Extra tid på dygnet-tillägg",
-						"no": "Export Ekstra tid på dagen påslag",
-						"es": "Export Recargo extra por hora del día",
-						"da": "Export Ekstra tidspunkt på dagen-tillæg",
-						"pl": "Export Dodatkowy narzut w zależności od pory dnia",
-						"ru": "Export Дополнительная наценка по времени суток",
-						"ar": "Export هامش إضافي لوقت اليوم"
-					},
-					"value": "",
-					"hint": {
-						"en": "Enter the amount with which the export price must be additionally modified per kWh on certain hours of the day. Fill in the hour1:markup1;hour2:markup2 etc. E.g. if starting at 6am the markup is 0.3, and starting at 10pm the markup is 0.1 fill in the following: 6:0.3;22:0.1",
-						"nl": "Voer het bedrag in waarmee de export prijs per kWh op bepaalde uren van de dag extra moet worden gewijzigd. Vul uur1:opslag1;uur2:opslag2 etc. in.",
-						"de": "Geben Sie den Betrag an, um den der Exportpreis pro kWh an bestimmten Tageszeiten zusätzlich geändert werden muss. Füllen Sie die Stunde1:Aufschlag1;Stunde2:Aufschlag2 usw. aus.",
-						"fr": "Entrez le montant par lequel le prix d'exportation doit être modifié supplémentairement par kWh à certaines heures de la journée. Remplissez l'heure1:majoration1;heure2:majoration2 etc.",
-						"it": "Inserire l'importo con cui il prezzo di esportazione deve essere ulteriormente modificato per kWh in determinati orari del giorno. Compilare ora1:tasso1;ora2:tasso2 etc.",
-						"sv": "Ange beloppet med vilket exportpriset måste ändras per kWh vid vissa tidpunkter på dagen. Fyll i timme1:tillägg1;timme2:tillägg2 etc.",
-						"no": "Angi beløpet som eksportprisen må endres per kWh ved visse tidspunkter på dagen. Fyll ut time1:merke1;time2:merke2 osv.",
-						"es": "Ingrese la cantidad con la que se debe modificar adicionalmente el precio de exportación por kWh en ciertas horas del día. Complete hora1:margen1;hora2:margen2 etc.",
-						"da": "Angiv beløbet, som eksportprisen skal ændres med per kWh på visse tidspunkter i døgnet. Udfyld time1:markering1;time2:markering2 osv.",
-						"pl": "Wprowadź kwotę, o którą cena eksportu musi zostać dodatkowo zmodyfikowana za kWh w określonych godzinach dnia. Wypełnij godzina1:narzut1;godzina2:narzut2 itd.",
-						"ru": "Введите сумму, на которую цена экспорта должна быть дополнительно изменена за кВтч в определенные часы дня. Заполните час1:наценка1;час2:наценка2 и т.д.",
-						"ar": "أدخل المبلغ الذي يجب تعديل سعر التصدير به بشكل إضافي لكل كيلوواط ساعة في ساعات معينة من اليوم. املأ ساعة1:هامش1;ساعة2:هامش2 إلخ."
-					}
-				},
-				{
-					"id": "export_fixedMarkupWeekend",
-					"type": "number",
-					"label": {
-						"en": "Export Extra Weekend markup",
-						"nl": "Export Extra Weekend opslag",
-						"de": "Export Zusätzlicher Wochenendaufschlag",
-						"fr": "Export Majoration supplémentaire le week-end",
-						"it": "Export Supplemento extra per il fine settimana",
-						"sv": "Export Extra helgtillägg",
-						"no": "Export Ekstra helgepåslag",
-						"es": "Export Recargo extra de fin de semana",
-						"da": "Export Ekstra weekendtillæg",
-						"pl": "Export Dodatkowy narzut weekendowy",
-						"ru": "Export Дополнительная наценка на выходные",
-						"ar": "Export هامش إضافي لعطلة نهاية الأسبوع"
-					},
-					"value": 0,
-					"hint": {
-						"en": "Enter the amount with which the export price must be additionally modified per kWh during the whole weekend (Saturday - Sunday). Note: this markup replaces the Time Of Day markup!",
-						"nl": "Voer het bedrag in waarmee de export prijs per kWh het hele weekend (zaterdag - zondag) extra moet worden gewijzigd. Opmerking: deze opslag vervangt de Time Of Day-opslag!",
-						"de": "Geben Sie den Betrag an, um den der Exportpreis pro kWh während des gesamten Wochenendes (Samstag - Sonntag) zusätzlich geändert werden muss. Hinweis: Dieser Aufschlag ersetzt den Time-Of-Day-Aufschlag!",
-						"fr": "Entrez le montant par lequel le prix d'exportation doit être modifié supplémentairement par kWh pendant tout le week-end (samedi - dimanche).",
-						"it": "Inserire l'importo con cui il prezzo di esportazione deve essere ulteriormente modificato per kWh durante tutto il fine settimana (sabato - domenica).",
-						"sv": "Ange beloppet med vilket exportpriset måste ändras per kWh under helgen (lördag-söndag).",
-						"no": "Angi beløpet som eksportprisen må endres per kWh i hele helgen (lørdag - søndag).",
-						"es": "Ingrese la cantidad con la que se debe modificar adicionalmente el precio de exportación por kWh durante todo el fin de semana (sábado - domingo).",
-						"da": "Angiv beløbet, som eksportprisen skal ændres ekstra pr. kWh i løbet af hele weekenden (lørdag-søndag).",
-						"pl": "Wprowadź kwotę, o którą cena eksportu musi zostać dodatkowo zmodyfikowana za kWh przez cały weekend (sobota - niedziela).",
-						"ru": "Введите сумму, на которую цена экспорта должна быть дополнительно изменена за кВтч в течение всех выходных (суббота - воскресенье).",
-						"ar": "أدخل المبلغ الذي يجب تعديل سعر التصدير به بشكل إضافي لكل كيلوواط ساعة خلال عطلة نهاية الأسبوع بأكملها (السبت - الأحد)."
-					}
-				}
-			]
-		},
-		{
-			"type": "group",
-			"label": {
-				"en": "Various settings",
-				"nl": "Overige instellingen",
-				"de": "Diverse Einstellungen",
-				"fr": "Réglages divers",
-				"it": "Impostazioni varie",
-				"sv": "Olika inställningar",
-				"no": "Øvrige innstillinger",
-				"es": "Varios ajustes",
-				"da": "Diverse indstillinger",
-				"pl": "Różne ustawienia",
-				"ru": "Различные настройки",
-				"ar": "إعدادات مختلفة"
-			},
-			"children": [
-				{
-					"id": "forecastEnable",
-					"type": "checkbox",
-					"label": {
-						"en": "Enable forecast prices",
-						"nl": "Prijsvoorspelling aanzetten",
-						"de": "Preisvorhersage aktivieren",
-						"fr": "Activer les prévisions de prix",
-						"it": "Abilita previsioni prezzi",
-						"sv": "Aktivera prisprognoser",
-						"no": "Aktiver prisprognoser",
-						"es": "Habilitar precios de pronóstico",
-						"da": "Aktiver prisprognoser",
-						"pl": "Włącz prognozy cen",
-						"ru": "Включить прогноз цен",
-						"ar": "تمكين أسعار التوقعات"
-					},
-					"hint": { 
-						"en": "Add AI pricing forecast (when available).",
-						"nl": "Voeg AI prijsvoorspellingen toe (indien beschikbaar)",
-						"de": "AI-Preisvorhersage hinzufügen (falls verfügbar).",
-						"fr": "Ajouter une prévision de tarification AI (lorsque disponible).",
-						"it": "Aggiungi previsione prezzi AI (se disponibile).",
-						"sv": "Lägg till AI-prisprognos (när tillgänglig).",
-						"no": "Legg til AI prisprognose (når tilgjengelig).",
-						"es": "Agregar pronóstico de precios de IA (cuando esté disponible).",
-						"da": "Tilføj AI-prisprognose (hvis tilgængelig).",
-						"pl": "Dodaj prognozę cen AI (jeśli dostępna).",
-						"ru": "Добавить прогноз цен ИИ (при наличии).",
-						"ar": "أضف توقعات أسعار الذكاء الاصطناعي (عند توفرها)."
-					},
-					"value": false
-				},
-				{
-					"id": "tariff_update_group",
-					"type": "number",
-					"label": {
-						"en": "Send tariff to group",
-						"nl": "Stuur tarief naar group",
-						"de": "Tarif an Gruppe senden",
-						"fr": "Envoyer tarif au groupe",
-						"it": "Invia tariffa al gruppo",
-						"sv": "Skicka tariff till grupp",
-						"no": "send tariff til gruppe",
-						"es": "Enviar tarifa al grupo",
-						"da": "Send gebyr til gruppe",
-						"pl": "Wyślij taryfę do grupy",
-						"ru": "Отправить тариф в группу",
-						"ar": "إرسال التعريفة إلى المجموعة"
-					},
-					"min": 0,
-					"max": 10,
-					"step": 1,
-					"value": 0,
-					"hint": {
-						"en": "Every hour the price per kWh will be sent as tariff for PBTH devices, without the need to create a flow.",
-						"nl": "Ieder uur wordt de prijs per kWh als tarief naar PBTH devices gestuurd, zonder dat een flow gemaakt hoeft te worden.",
-						"de": "Jede Stunde wird der Preis pro kWh als Tarif für PBTH Geräte gesendet, ohne dass ein Flow erstellt werden muss.",
-						"fr": "Chaque heure, le prix du kWh sera envoyé comme tarif pour les appareils PBTH, sans qu'il soit nécessaire de créer un flow",
-						"it": "Ogni ora verrà inviato il prezzo per kWh come tariffa per i dispositivi PBTH, senza necessità di creare alcun flow.",
-						"sv": "Varje timme kommer priset per kWh att skickas som tariff för PBTH-enheter, utan att behöva skapa ett flöde.",
-						"no": "Hver time vil prisen per kWh bli sendt som tariff for PBTH enheter, uten at man trenger å skape en flow.",
-						"es": "Cada hora se enviará el precio por kWh como tarifa para dispositivos PBTH, sin necesidad de crear un flujo.",
-						"da": "Prisen per kWh bliver sendt som tarif til PBTH-enheder, uden brug af flows.",
-						"pl": "Co godzinę cena za kWh będzie wysyłana jako taryfa dla urządzeń PBTH, bez konieczności tworzenia przepływu.",
-						"ru": "Каждый час цена за кВтч будет отправляться в качестве тарифа для устройств PBTH, без необходимости создавать поток.",
-						"ar": "كل ساعة سيتم إرسال السعر لكل كيلوواط ساعة كتعريفة لأجهزة PBTH، دون الحاجة إلى إنشاء تدفق."
-					}
-				}
-			]
-		}
-	]
+  "name": {
+    "en": "Day-Ahead 15m E Prices",
+    "nl": "Day-Ahead 15m E Prijzen",
+    "de": "Day-Ahead 15m E Std. Preis",
+    "fr": "Tarif demain 15m E",
+    "it": "Prezzi del giorno prima E 15m",
+    "sv": "Day-Ahead 15m E Priser",
+    "no": "Day-Ahead 15m E Priser",
+    "es": "Precios E 15m Día-Adelante",
+    "da": "Day-Ahead 15m E priser",
+    "pl": "Ceny E 15m Dzień Naprzód",
+    "ru": "Цены E 15м На Сутки Вперед",
+    "ar": "أسعار الكهرباء لليوم التالي (15 دقيقة)"
+  },
+  "class": "sensor",
+  "capabilities": [],
+  "capabilitiesOptions": {
+    "meter_rank_price_h0_next_8h": {
+      "units": {
+        "en": "/32"
+      }
+    },
+    "meter_rank_price_h0_this_day": {
+      "units": {
+        "en": "/96"
+      }
+    }
+  },
+  "platforms": [
+    "local"
+  ],
+  "connectivity": [
+    "lan"
+  ],
+  "images": {
+    "small": "{{driverAssetsPath}}/images/small.png",
+    "large": "{{driverAssetsPath}}/images/large.png"
+  },
+  "pair": [
+    {
+      "id": "list_devices",
+      "template": "list_devices",
+      "options": {
+        "singular": true
+      },
+      "navigation": {
+        "next": "add_devices"
+      }
+    },
+    {
+      "id": "add_devices",
+      "template": "add_devices"
+    }
+  ],
+  "settings": [
+    {
+      "type": "group",
+      "label": {
+        "en": "Bidding Zone information",
+        "nl": "Biedzone informatie",
+        "de": "Information zum Gebotsbereich",
+        "fr": "Information sur les négociations",
+        "it": "Informazioni sulla zona di trattativa",
+        "sv": "Information om elområde",
+        "no": "Prisområde informasjon",
+        "es": "Información de la zona de oferta",
+        "da": "Information om elområde",
+        "pl": "Informacje o strefie licytacji",
+        "ru": "Информация о торговой зоне",
+        "ar": "معلومات منطقة العطاءات"
+      },
+      "children": [
+        {
+          "id": "biddingZone",
+          "type": "label",
+          "label": {
+            "en": "Bidding zone",
+            "nl": "Biedzone",
+            "de": "Gebotsbereich",
+            "fr": "Zone de négociation",
+            "it": "Zona di trattativa",
+            "sv": "Elområde",
+            "no": "Prisområde",
+            "es": "Zona de oferta",
+            "da": "Elområde",
+            "pl": "Strefa licytacji",
+            "ru": "Торговая зона",
+            "ar": "منطقة العطاءات"
+          },
+          "value": "unknown"
+        },
+        {
+          "id": "description",
+          "type": "label",
+          "label": {
+            "en": "Description",
+            "nl": "Omschrijving",
+            "de": "Beschreibung",
+            "fr": "Description",
+            "it": "Descrizione",
+            "sv": "Beskrivning",
+            "no": "Beskrivelse",
+            "es": "Descripción",
+            "da": "Beskrivelse",
+            "pl": "Opis",
+            "ru": "Описание",
+            "ar": "وصف"
+          },
+          "value": "unknown"
+        }
+      ]
+    },
+    {
+      "type": "group",
+      "label": {
+        "en": "Currency settings",
+        "nl": "Munteenheid instellingen",
+        "de": "Währungseinstellungen",
+        "fr": "Paramètre de devise",
+        "it": "Impostazioni valuta",
+        "sv": "Valutainställningar",
+        "no": "Valutainnstillinger",
+        "es": "Configuración de moneda",
+        "da": "Valutaindstillinger",
+        "pl": "Ustawienia waluty",
+        "ru": "Настройки валюты",
+        "ar": "إعدادات العملة"
+      },
+      "children": [
+        {
+          "id": "currency",
+          "type": "text",
+          "label": {
+            "en": "Currency unit display",
+            "nl": "Weergave geldeenheid",
+            "de": "Währungseinheit",
+            "fr": "Affichage de l'unité monétaire",
+            "it": "Visualizzazione unità valuta",
+            "sv": "Visning av valutaenhet",
+            "no": "Visning av valutaenhet",
+            "es": "Visualización de unidad de moneda",
+            "da": "Visning af valutaenhed",
+            "pl": "Wyświetlanie jednostki walutowej",
+            "ru": "Отображение валютной единицы",
+            "ar": "عرض وحدة العملة"
+          },
+          "value": "€",
+          "hint": {
+            "en": "The unit displayed as currency, e.g. €, £, EUR, SER, NOK, DKK, CHF. Leave empty to use the default €.",
+            "nl": "De weergegeven eenheid voor geld, bijv. €, £, EUR, SER, NOK, DKK, CHF. Laat leeg om de standaard € te gebruiken.",
+            "de": "Die als Währung angezeigte Einheit, z.B. €, £, EUR, SER, NOK, DKK, CHF. Leer lassen, um die Standardeinheit € zu verwenden.",
+            "fr": "Unité affichée comme devise, ex. €, £, EUR, SER, NOK, DKK, CHF. Laisser vide pour utiliser € par défaut",
+            "it": "L'unità mostrata come valuta, es. €, £, EUR, SER, NOK, DKK, CHF. Lasciare vuoto per utilizzare € di default.",
+            "sv": "Enheten som visas som valuta, t.ex. €, £, EUR, SER, NOK, DKK, CHF. Lämna tomt för att använda standardvärdet €.",
+            "no": "Valutaenheten vises som f.eks. €, £, EUR, SER, NOK, DKK, CHF. La stå blank for å bruke default €.",
+            "es": "La unidad que se muestra como moneda, p. ej. €, £, EUR, SER, NOK, DKK, CHF. Dejar vacío para usar el valor predeterminado €.",
+            "da": "Enheden vises som valuta, f.eks. €, £, EUR, SER, NOK, DKK, CHF. Lad denne stå blank for at bruge standard €.",
+            "pl": "Jednostka wyświetlana jako waluta, np. €, £, EUR, SER, NOK, DKK, CHF. Pozostaw puste, aby użyć domyślnego €.",
+            "ru": "Единица, отображаемая как валюта, например €, £, EUR, SER, NOK, DKK, CHF. Оставьте пустым, чтобы использовать значение по умолчанию €.",
+            "ar": "الوحدة المعروضة كعملة، مثل €، £، EUR، SER، NOK، DKK، CHF. اتركها فارغة لاستخدام الافتراضي €."
+          }
+        },
+        {
+          "id": "decimals",
+          "type": "number",
+          "label": {
+            "en": "Currency decimals",
+            "nl": "Geld decimalen",
+            "de": "Anzahl Dezimalstellen",
+            "fr": "Décimales devise",
+            "it": "Decimali valuta",
+            "sv": "Valuta decimaler",
+            "no": "Valute desimaler",
+            "es": "Decimales de moneda",
+            "da": "Valuta decimaler",
+            "pl": "Miejsca dziesiętne waluty",
+            "ru": "Десятичные знаки валюты",
+            "ar": "الكسور العشرية للعملة"
+          },
+          "value": 4,
+          "min": 0,
+          "max": 8,
+          "hint": {
+            "en": "The number of decimals to use for price.",
+            "nl": "Het aantal decimalen voor prijs.",
+            "de": "Die Anzahl der Dezimalstellen für den Preis.",
+            "fr": "Nombre de décimales à utiliser pour le tarif",
+            "it": "Il numero di decimali da utilizzare per il prezzo.",
+            "sv": "Antalet decimaler som ska användas för pris.",
+            "no": "Antall prisdesimaler",
+            "es": "El número de decimales a utilizar para el precio.",
+            "da": "Antallet af decimaler, der bruges til prisen",
+            "pl": "Liczba miejsc dziesiętnych do użycia dla ceny.",
+            "ru": "Количество десятичных знаков для цены.",
+            "ar": "عدد الكسور العشرية المراد استخدامها للسعر."
+          }
+        },
+        {
+          "id": "exchangeRate",
+          "type": "number",
+          "label": {
+            "en": "Exchange rate with €",
+            "nl": "Wisselkoers met €",
+            "de": "Wechselkurs mit €",
+            "fr": "Taux de change avec €",
+            "it": "Tasso di cambio con €",
+            "sv": "Växelkurs med €",
+            "no": "Vekslingskurs mot €",
+            "es": "Tipo de cambio con €",
+            "da": "Vekselkurs med €",
+            "pl": "Kurs wymiany z €",
+            "ru": "Обменный курс с €",
+            "ar": "سعر الصرف مع €"
+          },
+          "value": 1,
+          "hint": {
+            "en": "Set at 1 if you want to use EURO, otherwise enter the exchange rate to your preferred currency.",
+            "nl": "Stel in op 1 als je EURO's wilt gebruiken, of geef de wisselkoers in naar de gewenste munteenheid.",
+            "de": "Setzen Sie den Wert auf 1, wenn Sie den Euro verwenden möchten, andernfalls geben Sie den Wechselkurs in Ihrer bevorzugten Währung ein.",
+            "fr": "Mettre à 1 si vous souhaitez utiliser EURO, sinon entrer le taux de change de la devise souhaitée",
+            "it": "Imposta 1 se vuoi utilizzare EURO, altrimenti inserisci il tasso di cambio della valuta che preferisci.",
+            "sv": "Ställ in på 1 om du vill använda EURO, annars anger du växelkursen till din önskade valuta.",
+            "no": "Sett som 1 hvis du vil bruke EURO, ellers legg inn vekslingskursen for din foretrukne valuta.",
+            "es": "Establecer en 1 si desea usar EURO, de lo contrario ingrese el tipo de cambio a su moneda preferida.",
+            "da": "Sæt som 1 hvis du vil bruge Euro, indsæt ellers vekselkursen for din foretrukne valuta",
+            "pl": "Ustaw na 1, jeśli chcesz używać EURO, w przeciwnym razie wprowadź kurs wymiany na preferowaną walutę.",
+            "ru": "Установите 1, если хотите использовать ЕВРО, в противном случае введите обменный курс к вашей предпочтительной валюте.",
+            "ar": "قم بالتعيين على 1 إذا كنت تريد استخدام اليورو، وإلا أدخل سعر الصرف لعملتك المفضلة."
+          }
+        },
+        {
+          "id": "fetchExchangeRate",
+          "type": "dropdown",
+          "value": "NONE",
+          "label": {
+            "en": "Daily update the exchange rate",
+            "nl": "Update wisselkoers dagelijks",
+            "de": "Wechselkurs täglich aktualisieren",
+            "fr": "Mise à jour quotidienne du taux de change",
+            "it": "Aggiorna quotidianamente il tasso di cambio",
+            "sv": "Uppdatera växelkursen dagligen",
+            "no": "Daglig oppdatering av vekslingskurs",
+            "es": "Actualizar diariamente el tipo de cambio",
+            "da": "Opdatér dagligt valutakurs",
+            "pl": "Codzienna aktualizacja kursu wymiany",
+            "ru": "Ежедневное обновление обменного курса",
+            "ar": "تحديث سعر الصرف يوميا"
+          },
+          "values": [
+            {
+              "id": "NONE",
+              "label": {
+                "en": "DO NOT FETCH",
+                "nl": "NIET OPHALEN",
+                "de": "NICHT ABFRAGEN",
+                "fr": "NE PAS RÉCUPÉRER",
+                "it": "NON RECUPERARE",
+                "sv": "HÄMTA INTE",
+                "no": "IKKE HENT",
+                "es": "NO RECUPERAR",
+                "da": "HENT IKKE",
+                "pl": "NIE POBIERAJ",
+                "ru": "НЕ ПОЛУЧАТЬ",
+                "ar": "لا تجلب"
+              }
+            },
+            {
+              "id": "BGN",
+              "label": {
+                "en": "BGN"
+              }
+            },
+            {
+              "id": "CHF",
+              "label": {
+                "en": "CHF"
+              }
+            },
+            {
+              "id": "CZK",
+              "label": {
+                "en": "CZK"
+              }
+            },
+            {
+              "id": "DKK",
+              "label": {
+                "en": "DKK"
+              }
+            },
+            {
+              "id": "GBP",
+              "label": {
+                "en": "GBP"
+              }
+            },
+            {
+              "id": "HRK",
+              "label": {
+                "en": "HRK"
+              }
+            },
+            {
+              "id": "HUF",
+              "label": {
+                "en": "HUF"
+              }
+            },
+            {
+              "id": "ISK",
+              "label": {
+                "en": "ISK"
+              }
+            },
+            {
+              "id": "NOK",
+              "label": {
+                "en": "NOK"
+              }
+            },
+            {
+              "id": "PLN",
+              "label": {
+                "en": "PLN"
+              }
+            },
+            {
+              "id": "RON",
+              "label": {
+                "en": "RON"
+              }
+            },
+            {
+              "id": "RUB",
+              "label": {
+                "en": "RUB"
+              }
+            },
+            {
+              "id": "SEK",
+              "label": {
+                "en": "SEK"
+              }
+            },
+            {
+              "id": "TRY",
+              "label": {
+                "en": "TRY"
+              }
+            },
+            {
+              "id": "AUD",
+              "label": {
+                "en": "AUD"
+              }
+            },
+            {
+              "id": "USD",
+              "label": {
+                "en": "USD"
+              }
+            }
+          ],
+          "hint": {
+            "en": "Enter the currency for which you want the exchange rate to be fetched automatically. Leave at 'DO NOT FETCH' if you are using Euro, or if you want to manually set the exchange rate.",
+            "nl": "Geef de munteenheid aan waarvan de wisselkoers automatisch moey worden opgehaald. Zet op 'NIET OPHALEN' als je Euro gebruit, of als je de wisselkoers handmatig wilt invoeren.",
+            "de": "Geben Sie die Währung ein, für die Sie den Wechselkurs automatisch abrufen möchten. Belassen Sie es bei 'NICHT ABFRAGEN', wenn Sie den Euro verwenden oder den Wechselkurs manuell festlegen möchten.",
+            "fr": "Entrer la devise pour laquelle vous souhaitez que le taux de change soit automatiquement récupérer. Laisser à 'NE PAS RÉCUPÉRER' si vous utiliser l'Euro, ou si vous souhaitez entrer manuellement le taux de change",
+            "it": "Inserisci la valuta per la quale desideri che il tasso di cambio venga recuperato automaticamente. Lascia su 'NON RECUPERARE' se stai usando Euro, o se vuoi impostare manualmente il tasso di cambio.",
+            "sv": "Ange den valuta för vilken du vill att växelkursen ska hämtas automatiskt. Lämna vid 'HÄMTA INTE' om du använder euro, eller om du vill ställa in växelkursen manuellt.",
+            "no": "Legg inn valutaen for den vekslingskursen du ønsker å hente automatisk. La den stå på 'IKKE HENT' hvis du bruker Euro, eller hvis du vil sette vekslingkursen manuelt.",
+            "es": "Ingrese la moneda para la cual desea que el tipo de cambio se obtenga automáticamente. Deje en 'NO RECUPERAR' si está utilizando Euro, o si desea establecer manualmente el tipo de cambio.",
+            "da": "Angiv valutaen du automatisk vil hente vekselkursen for. Lad den stå på 'HENT IKKE' hvis du bruger Euro, eller hvis du manuelt vil tilpasse vekselkursen",
+            "pl": "Wprowadź walutę, dla której kurs wymiany ma być pobierany automatycznie. Pozostaw 'NIE POBIERAJ', jeśli używasz Euro lub jeśli chcesz ręcznie ustawić kurs wymiany.",
+            "ru": "Введите валюту, для которой вы хотите автоматически получать обменный курс. Оставьте 'НЕ ПОЛУЧАТЬ', если вы используете Евро, или если вы хотите вручную установить обменный курс.",
+            "ar": "أدخل العملة التي تريد جلب سعر الصرف لها تلقائيًا. اتركها عند 'لا تجلب' إذا كنت تستخدم اليورو، أو إذا كنت تريد تعيين سعر الصرف يدويًا."
+          }
+        }
+      ]
+    },
+    {
+      "type": "group",
+      "label": {
+        "en": "Import price settings",
+        "nl": "Import prijs instellingen",
+        "de": "Importpreiseinstellungen",
+        "fr": "Paramètres de prix d'importation",
+        "it": "Impostazioni prezzo di importazione",
+        "sv": "Importprisinställningar",
+        "no": "Importprisinnstillinger",
+        "es": "Configuración de precios de importación",
+        "da": "Importprisindstillinger",
+        "pl": "Ustawienia cen importu",
+        "ru": "Настройки цен импорта",
+        "ar": "إعدادات سعر الاستيراد"
+      },
+      "children": [
+        {
+          "id": "ignore_market_price",
+          "type": "checkbox",
+          "label": {
+            "en": "Ignore market price (Fixed price only)",
+            "nl": "Negeer marktprijs (Alleen vaste prijs)",
+            "de": "Marktpreis ignorieren (Nur Festpreis)",
+            "fr": "Ignorer le prix du marché (Prix fixe uniquement)",
+            "it": "Ignora prezzo di mercato (Solo prezzo fisso)",
+            "sv": "Ignorera marknadspris (Endast fast pris)",
+            "no": "Ignorer markedspris (Kun fastpris)",
+            "es": "Ignorar precio de mercado (Solo precio fijo)",
+            "da": "Ignorer markedspris (Kun fast pris)",
+            "pl": "Ignoruj cenę rynkową (Tylko stała cena)",
+            "ru": "Игнорировать рыночную цену (Только фиксированная цена)",
+            "ar": "تجاهل سعر السوق (سعر ثابت فقط)"
+          },
+          "value": false,
+          "hint": {
+            "en": "Check this if you have a fixed price contract. The market prices and % markups will be ignored. Only the fixed markups below will be used to calculate the price.",
+            "nl": "Vink dit aan als je een vast contract hebt. De marktprijzen en % opslagen worden genegeerd. Alleen de vaste opslagen hieronder worden gebruikt om de prijs te berekenen.",
+            "de": "Aktivieren Sie dies, wenn Sie einen Festpreisvertrag haben. Die Marktpreise und % Aufschläge werden ignoriert. Nur die unten stehenden festen Aufschläge werden verwendet.",
+            "fr": "Cochez cette case si vous avez un contrat à prix fixe. Les prix du marché et les majorations en % seront ignorés. Seules les majorations fixes seront utilisées.",
+            "it": "Seleziona se hai un contratto a prezzo fisso. I prezzi di mercato e i ricarichi in % verranno ignorati. Verranno utilizzati solo i ricarichi fissi di seguito.",
+            "sv": "Kryssa i detta om du har ett fastprisavtal. Marknadspriserna och % påslag kommer att ignoreras. Endast de fasta påslagen nedan kommer att användas.",
+            "no": "Kryss av her hvis du har en fastprisavtale. Markedsprisene og % påslag vil bli ignorert. Kun de faste påslagene nedenfor vil bli brukt.",
+            "es": "Marque esto si tiene un contrato de precio fijo. Los precios de mercado y los márgenes en % serán ignorados. Solo se usarán los márgenes fijos.",
+            "da": "Marker dette, hvis du har en fastprisaftale. Markedspriserne og %-tillæg ignoreres. Kun de faste tillæg nedenfor vil blive brugt.",
+            "pl": "Zaznacz, jeśli masz umowę o stałej cenie. Ceny rynkowe i narzuty % zostaną zignorowane. Zostaną użyte tylko poniższe stałe narzuty.",
+            "ru": "Отметьте это, если у вас контракт с фиксированной ценой. Рыночные цены и % наценки будут проигнорированы. Будут использоваться только фиксированные наценки.",
+            "ar": "حدد هذا إذا كان لديك عقد بسعر ثابت. سيتم تجاهل أسعار السوق والنسب المئوية. سيتم استخدام الهوامش الثابتة فقط أدناه لحساب السعر."
+          }
+        },
+        {
+          "id": "variableMarkup",
+          "type": "number",
+          "label": {
+            "en": "Import variable markup (%)",
+            "nl": "Import variabele opslag (%)",
+            "de": "Import Variabler Aufschlag (%)",
+            "fr": "Import Augmentation variable (%)",
+            "it": "Import Aumento variabile (%)",
+            "sv": "Import Variabelt påslag (%)",
+            "no": "Import Variabelt påslag (%)",
+            "es": "Import Margen variable (%)",
+            "da": "Import Variabelt gebyr (%)",
+            "pl": "Import Narzut zmienny (%)",
+            "ru": "Import Переменная наценка (%)",
+            "ar": "Import هامش متغير (%)"
+          },
+          "value": 0,
+          "hint": {
+            "en": "Enter the percentage with which the net import price must be increased. E.g. for VAT.",
+            "nl": "Voer het percentage in waarmee de netto import prijs verhoogd moet worden. Bijvoorbeeld voor BTW.",
+            "de": "Geben Sie den Prozentsatz ein, um den der Nettoimportpreis erhöht werden soll. Z.B. für die MwSt.",
+            "fr": "Entrez le pourcentage pour lequel le tarif d'importation net doit être augmenté. Par exemple la TVA.",
+            "it": "Inserisci la percentuale di aumento da applicare sul prezzo netto di importazione. Es. per IVA.",
+            "sv": "Ange den procentandel som nettoimportpriset ska höjas med. T.ex. för moms.",
+            "no": "Legg inn verdien i prosent som nettoimportprisen skal økes. f.eks. for MVA.",
+            "es": "Ingrese el porcentaje con el que debe aumentarse el precio neto de importación. P. ej. para IVA.",
+            "da": "Angiv procenten der tillægges nettoimportprisen. Eksempelvis moms.",
+            "pl": "Wprowadź procent, o jaki cena netto importu musi zostać zwiększona. Np. dla VAT.",
+            "ru": "Введите процент, на который должна быть увеличена чистая цена импорта. Например, для НДС.",
+            "ar": "أدخل النسبة المئوية التي يجب زيادة صافي سعر الاستيراد بها. على سبيل المثال لضريبة القيمة المضافة."
+          }
+        },
+        {
+          "id": "variableMarkupAbsPrice",
+          "type": "number",
+          "label": {
+            "en": "Import variable markup (%) @abs. price",
+            "nl": "Import variabele opslag (%) @abs. prijs",
+            "de": "Import Variabler Aufschlag (%) @abs. Preis",
+            "fr": "Import Augmentation variable (%) @prix absolu",
+            "it": "Import Aumento variabile (%) @prezzo assoluto",
+            "sv": "Import Variabelt påslag (%) @abs.pris",
+            "no": "Import Variabel påslag (%) @abs.pris",
+            "es": "Import Margen variable (%) @precio abs.",
+            "da": "Import Variabelt gebyr (%) @abs.pris",
+            "pl": "Import Narzut zmienny (%) @cena bezwzgl.",
+            "ru": "Import Переменная наценка (%) @абс. цена",
+            "ar": "Import هامش متغير (%) @السعر المطلق"
+          },
+          "value": 0,
+          "hint": {
+            "en": "Enter the percentage with which the |net import price| must be increased. This markup is always positive, even for negative market prices.",
+            "nl": "Voer het percentage in waarmee de |netto import prijs| verhoogd moet worden. Deze opslag is altijd positief, zelfs for negatieve marktprijzen.",
+            "de": "Geben Sie den Prozentsatz ein, um den der |Nettoimportpreis| erhöht werden muss. Dieser Aufschlag ist immer positiv, auch bei negativen Marktpreisen.",
+            "fr": "Entrez le pourcentage avec lequel le |prix net d'importation| doit être augmenté. Cette marge est toujours positive, même pour les prix négatifs du marché.",
+            "it": "Inserisci la percentale con cui il |prezzo netto di importazione| deve essere aumentato. Questo ricarico è sempre positivo, anche per prezzi di mercato negativi.",
+            "sv": "Ange den procentsats med vilken |nettoimportpriset| måste ökas. Denna marginal är alltid positiv, även för negativa marknadspriser.",
+            "no": "Skriv inn prosentsatsen som |nettoimportprisen| må økes med. Denne marginen er alltid positiv, selv for negative markedspriser.",
+            "es": "Ingrese el porcentaje con el que debe aumentarse el |precio neto de importación|. Este margen siempre es positivo, incluso para precios de mercado negativos.",
+            "da": "Indtast den procentsats, som |nettoimportprisen| skal forhøjes med. Denne avance er altid positiv, selv for negative markedspriser.",
+            "pl": "Wprowadź procent, o jaki |cena netto importu| musi zostać zwiększona. Ten narzut jest zawsze dodatni, nawet dla ujemnych cen rynkowych.",
+            "ru": "Введите процент, на который должна быть увеличена |чистая цена импорта|. Эта наценка всегда положительна, даже при отрицательных рыночных ценах.",
+            "ar": "أدخل النسبة المئوية التي يجب زيادة |صافي سعر الاستيراد| بها. هذا الهامش دائمًا إيجابي، حتى بالنسبة لأسعار السوق السلبية."
+          }
+        },
+        {
+          "id": "fixedMarkup",
+          "type": "number",
+          "label": {
+            "en": "Import fixed markup per kWh",
+            "nl": "Import vaste opslag per kWh",
+            "de": "Import Fester Aufschlag für kWh",
+            "fr": "Import Fixer l'augmentation par KWh",
+            "it": "Import Aumento fisso per kWh",
+            "sv": "Import Fast påslag per kWh",
+            "no": "Import Fast påslag per kWh",
+            "es": "Import Margen fijo por kWh",
+            "da": "Import Fast gebyr per kWh",
+            "pl": "Import Stały narzut na kWh",
+            "ru": "Import Фиксированная наценка за кВтч",
+            "ar": "Import هامش ثابت لكل كيلوواط ساعة"
+          },
+          "value": 0,
+          "hint": {
+            "en": "Enter the fixed amount with which the import price must be increased per kWh, incl. VAT. E.g. for purchase fee.",
+            "nl": "Voer het vaste bedrag in waarmee de import prijs per kWh verhoogd moet worden incl. BTW. Bijvoorbeeld voor inkoopvergoeding, Energie belasting, ODE.",
+            "de": "Geben Sie einen festen Betrag ein, um den der Importpreis pro kWh inkl. MwSt. erhöht werden muss. Z.B. für Einkaufsgebühr.",
+            "fr": "Entrez le montant fixe dont le prix d'importation doit être ajouté par kWh, incluant la TVA. Par exemple les frais d'achat.",
+            "it": "Inserisci la quota fissa di aumento per kWh di importazione, incluso IVA. Es. per diritti di acquisto.",
+            "sv": "Ange det fasta belopp som importpriset ska höjas med per kWh, inkl. MOMS. T.ex. mot inköpsavgift.",
+            "no": "Angi det faste beløpet som importprisen skal økes med per kWh, inkl. MVA.",
+            "es": "Ingrese la cantidad fija con la que se debe aumentar el precio de importación por kWh, incl. IVA. P. ej. tarifa de compra.",
+            "da": "Angiv den faste beløb som importprisen skal øges med per kWh, inkl. Moms f.eks. for indkøbsafgift.",
+            "pl": "Wprowadź stałą kwotę, o którą cena importu musi zostać zwiększona za kWh, w tym VAT. Np. opłata za zakup.",
+            "ru": "Введите фиксированную сумму, на которую должна быть увеличена цена импорта за кВтч, вкл. НДС. Например, сбор за покупку.",
+            "ar": "أدخل المبلغ الثابت الذي يجب زيادة سعر الاستيراد به لكل كيلوواط ساعة، شاملاً ضريبة القيمة المضافة. على سبيل المثال لرسوم الشراء."
+          }
+        },
+        {
+          "id": "fixedMarkupTOD",
+          "type": "text",
+          "label": {
+            "en": "Import Extra Time Of Day markup",
+            "nl": "Import Extra Time Of Day opslag",
+            "de": "Import Zusätzlicher Tageszeitaufschlag",
+            "fr": "Import Majoration supplémentaire selon l'heure de la journée",
+            "it": "Import Supplemento orario extra",
+            "sv": "Import Extra tid på dygnet-tillägg",
+            "no": "Import Ekstra tid på dagen påslag",
+            "es": "Import Recargo extra por hora del día",
+            "da": "Import Ekstra tidspunkt på dagen-tillæg",
+            "pl": "Import Dodatkowy narzut w zależności od pory dnia",
+            "ru": "Import Дополнительная наценка по времени суток",
+            "ar": "Import هامش إضافي لوقت اليوم"
+          },
+          "value": "",
+          "hint": {
+            "en": "Enter the amount with which the import price must be additionally increased per kWh on certain hours of the day. Fill in the hour1:markup1;hour2:markup2 etc. E.g. if starting at 6am the markup is 0.3, and starting at 10pm the markup is 0.1 fill in the following: 6:0.3;22:0.1",
+            "nl": "Voer het bedrag in waarmee de import prijs per kWh op bepaalde uren van de dag extra moet worden verhoogd. Vul uur1:opslag1;uur2:opslag2 etc. in. Bijvoorbeeld als het om 6 uur 's ochtends om 0,3 verhoogd wordt en om 22 uur om 0,1 verhoogd wordt, vul dan het volgende in: 6:0,3;22:0,1",
+            "de": "Geben Sie den Betrag an, um den der Importpreis pro kWh an bestimmten Tageszeiten zusätzlich erhöht werden muss. Füllen Sie die Stunde1:Aufschlag1;Stunde2:Aufschlag2 usw. aus. Z.B. wenn um 6 Uhr morgens der Aufschlag 0,3 beträgt und um 22 Uhr der Aufschlag 0,1 beträgt, geben Sie folgendes ein: 6:0,3;22:0,1",
+            "fr": "Entrez le montant par lequel le prix d'importation doit être augmenté supplémentairement par kWh à certaines heures de la journée. Remplissez l'heure1:majoration1;heure2:majoration2 etc.",
+            "it": "Inserire l'importo con cui il prezzo di importazione deve essere ulteriormente aumentato per kWh in determinati orari del giorno. Compilare ora1:tasso1;ora2:tasso2 etc.",
+            "sv": "Ange beloppet med vilket importpriset måste ökas per kWh vid vissa tidpunkter på dagen. Fyll i timme1:tillägg1;timme2:tillägg2 etc.",
+            "no": "Angi beløpet som importprisen må økes per kWh ved visse tidspunkter på dagen. Fyll ut time1:merke1;time2:merke2 osv.",
+            "es": "Ingrese la cantidad con la que se debe aumentar adicionalmente el precio de importación por kWh en ciertas horas del día. Complete hora1:margen1;hora2:margen2 etc.",
+            "da": "Angiv beløbet, som importprisen skal øges med per kWh på visse tidspunkter i døgnet. Udfyld time1:markering1;time2:markering2 osv.",
+            "pl": "Wprowadź kwotę, o którą cena importu musi zostać dodatkowo zwiększona za kWh w określonych godzinach dnia. Wypełnij godzina1:narzut1;godzina2:narzut2 itd.",
+            "ru": "Введите сумму, на которую цена импорта должна быть дополнительно увеличена за кВтч в определенные часы дня. Заполните час1:наценка1;час2:наценка2 и т.д.",
+            "ar": "أدخل المبلغ الذي يجب زيادة سعر الاستيراد به بشكل إضافي لكل كيلوواط ساعة في ساعات معينة من اليوم. املأ ساعة1:هامش1;ساعة2:هامش2 إلخ."
+          }
+        },
+        {
+          "id": "fixedMarkupWeekend",
+          "type": "number",
+          "label": {
+            "en": "Import Extra Weekend markup",
+            "nl": "Import Extra Weekend opslag",
+            "de": "Import Zusätzlicher Wochenendaufschlag",
+            "fr": "Import Majoration supplémentaire le week-end",
+            "it": "Import Supplemento extra per il fine settimana",
+            "sv": "Import Extra helgtillägg",
+            "no": "Import Ekstra helgepåslag",
+            "es": "Import Recargo extra de fin de semana",
+            "da": "Import Ekstra weekendtillæg",
+            "pl": "Import Dodatkowy narzut weekendowy",
+            "ru": "Import Дополнительная наценка на выходные",
+            "ar": "Import هامش إضافي لعطلة نهاية الأسبوع"
+          },
+          "value": 0,
+          "hint": {
+            "en": "Enter the amount with which the import price must be additionally increased per kWh during the whole weekend (Saturday - Sunday). Note: this markup replaces the Time Of Day markup!",
+            "nl": "Voer het bedrag in waarmee de import prijs per kWh het hele weekend (zaterdag - zondag) extra moet worden verhoogd. Opmerking: deze opslag vervangt de Time Of Day-opslag!",
+            "de": "Geben Sie den Betrag an, um den der Importpreis pro kWh während des gesamten Wochenendes (Samstag - Sonntag) zusätzlich erhöht werden muss. Hinweis: Dieser Aufschlag ersetzt den Time-Of-Day-Aufschlag!",
+            "fr": "Entrez le montant par lequel le prix d'importation doit être augmenté supplémentairement par kWh pendant tout le week-end (samedi - dimanche).",
+            "it": "Inserire l'importo con cui il prezzo di importazione deve essere ulteriormente aumentato per kWh durante tutto il fine settimana (sabato - domenica).",
+            "sv": "Ange beloppet med vilket importpriset måste ökas per kWh under helgen (lördag-söndag).",
+            "no": "Angi beløpet som importprisen må økes per kWh i hele helgen (lørdag - søndag).",
+            "es": "Ingrese la cantidad con la que se debe aumentar adicionalmente el precio de importación por kWh durante todo el fin de semana (sábado - domingo).",
+            "da": "Angiv beløbet, som importprisen skal øges ekstra pr. kWh i løbet af hele weekenden (lørdag-søndag).",
+            "pl": "Wprowadź kwotę, o którą cena importu musi zostać dodatkowo zwiększona za kWh przez cały weekend (sobota - niedziela).",
+            "ru": "Введите сумму, на которую цена импорта должна быть дополнительно увеличена за кВтч в течение всех выходных (суббота - воскресенье).",
+            "ar": "أدخل المبلغ الذي يجب زيادة سعر الاستيراد به بشكل إضافي لكل كيلوواط ساعة خلال عطلة نهاية الأسبوع بأكملها (السبت - الأحد)."
+          }
+        }
+      ]
+    },
+    {
+      "type": "group",
+      "label": {
+        "en": "Export price settings",
+        "nl": "Export prijs instellingen",
+        "de": "Exportpreiseinstellungen",
+        "fr": "Paramètres de prix d'exportation",
+        "it": "Impostazioni prezzo di esportazione",
+        "sv": "Exportprisinställningar",
+        "no": "Eksportprisinnstillinger",
+        "es": "Configuración de precios de exportación",
+        "da": "Eksportprisindstillinger",
+        "pl": "Ustawienia cen eksportu",
+        "ru": "Настройки цен экспорта",
+        "ar": "إعدادات سعر التصدير"
+      },
+      "children": [
+        {
+          "id": "export_ignore_market_price",
+          "type": "checkbox",
+          "label": {
+            "en": "Ignore market price (Fixed price only)",
+            "nl": "Negeer marktprijs (Alleen vaste prijs)",
+            "de": "Marktpreis ignorieren (Nur Festpreis)",
+            "fr": "Ignorer le prix du marché (Prix fixe uniquement)",
+            "it": "Ignora prezzo di mercato (Solo prezzo fisso)",
+            "sv": "Ignorera marknadspris (Endast fast pris)",
+            "no": "Ignorer markedspris (Kun fastpris)",
+            "es": "Ignorar precio de mercado (Solo precio fijo)",
+            "da": "Ignorer markedspris (Kun fast pris)",
+            "pl": "Ignoruj cenę rynkową (Tylko stała cena)",
+            "ru": "Игнорировать рыночную цену (Только фиксированная цена)",
+            "ar": "تجاهل سعر السوق (سعر ثابت فقط)"
+          },
+          "value": false,
+          "hint": {
+            "en": "Check this if you have a fixed price contract. The market prices and % markups will be ignored. Only the fixed markups below will be used to calculate the export price.",
+            "nl": "Vink dit aan als je een vast contract hebt. De marktprijzen en % opslagen worden genegeerd. Alleen de vaste opslagen hieronder worden gebruikt om de exportprijs te berekenen.",
+            "de": "Aktivieren Sie dies, wenn Sie einen Festpreisvertrag haben. Die Marktpreise und % Aufschläge werden ignoriert. Nur die unten stehenden festen Aufschläge werden verwendet, um den Exportpreis zu berechnen.",
+            "fr": "Cochez cette case si vous avez un contrat à prix fixe. Les prix du marché et les majorations en % seront ignorés. Seules les majorations fixes seront utilisées pour calculer le prix d'exportation.",
+            "it": "Seleziona se hai un contratto a prezzo fisso. I prezzi di mercato e i ricarichi in % verranno ignorati. Verranno utilizzati solo i ricarichi fissi per calcolare il prezzo di esportazione.",
+            "sv": "Kryssa i detta om du har ett fastprisavtal. Marknadspriserna och % påslag kommer att ignoreras. Endast de fasta påslagen nedan kommer att användas för att beräkna exportpriset.",
+            "no": "Kryss av her hvis du har en fastprisavtale. Markedsprisene og % påslag vil bli ignorert. Kun de faste påslagene nedenfor vil bli brukt til å beregne eksportprisen.",
+            "es": "Marque esto si tiene un contrato de precio fijo. Los precios de mercado y los márgenes en % serán ignorados. Solo se usarán los márgenes fijos para calcular el precio de exportación.",
+            "da": "Marker dette, hvis du har en fastprisaftale. Markedspriserne og %-tillæg ignoreres. Kun de faste tillæg nedenfor vil blive brugt til at beregne eksportprisen.",
+            "pl": "Zaznacz, jeśli masz umowę o stałej cenie. Ceny rynkowe i narzuty % zostaną zignorowane. Zostaną użyte tylko poniższe stałe narzuty do obliczenia ceny eksportu.",
+            "ru": "Отметьте это, если у вас контракт с фиксированной ценой. Рыночные цены и % наценки будут проигнорированы. Для расчета цены экспорта будут использоваться только фиксированные наценки.",
+            "ar": "حدد هذا إذا كان لديك عقد بسعر ثابت. سيتم تجاهل أسعار السوق والنسب المئوية. سيتم استخدام الهوامش الثابتة فقط أدناه لحساب سعر التصدير."
+          }
+        },
+        {
+          "id": "export_variableMarkup",
+          "type": "number",
+          "label": {
+            "en": "Export variable markup (%)",
+            "nl": "Export variabele opslag (%)",
+            "de": "Export Variabler Aufschlag (%)",
+            "fr": "Export Augmentation variable (%)",
+            "it": "Export Aumento variabile (%)",
+            "sv": "Export Variabelt påslag (%)",
+            "no": "Export Variabelt påslag (%)",
+            "es": "Export Margen variable (%)",
+            "da": "Export Variabelt gebyr (%)",
+            "pl": "Export Narzut zmienny (%)",
+            "ru": "Export Переменная наценка (%)",
+            "ar": "Export هامش متغير (%)"
+          },
+          "value": 0,
+          "hint": {
+            "en": "Enter the percentage with which the net export price must be modified.",
+            "nl": "Voer het percentage in waarmee de netto export prijs gewijzigd moet worden.",
+            "de": "Geben Sie den Prozentsatz ein, um den der Nettoexportpreis geändert werden soll.",
+            "fr": "Entrez le pourcentage pour lequel le tarif d'exportation net doit être modifié.",
+            "it": "Inserisci la percentuale per modificare il prezzo netto di esportazione.",
+            "sv": "Ange den procentandel som nettoexportpriset ska ändras med.",
+            "no": "Legg inn verdien i prosent som nettoeksportprisen skal endres med.",
+            "es": "Ingrese el porcentaje con el que debe modificarse el precio neto de exportación.",
+            "da": "Angiv procenten som nettoeksportprisen skal ændres med.",
+            "pl": "Wprowadź procent, o jaki cena netto eksportu musi zostać zmodyfikowana.",
+            "ru": "Введите процент, на который должна быть изменена чистая цена экспорта.",
+            "ar": "أدخل النسبة المئوية التي يجب تعديل صافي سعر التصدير بها."
+          }
+        },
+        {
+          "id": "export_variableMarkupAbsPrice",
+          "type": "number",
+          "label": {
+            "en": "Export variable markup (%) @abs. price",
+            "nl": "Export variabele opslag (%) @abs. prijs",
+            "de": "Export Variabler Aufschlag (%) @abs. Preis",
+            "fr": "Export Augmentation variable (%) @prix absolu",
+            "it": "Export Aumento variabile (%) @prezzo assoluto",
+            "sv": "Export Variabelt påslag (%) @abs.pris",
+            "no": "Export Variabel påslag (%) @abs.pris",
+            "es": "Export Margen variable (%) @precio abs.",
+            "da": "Export Variabelt gebyr (%) @abs.pris",
+            "pl": "Export Narzut zmienny (%) @cena bezwzgl.",
+            "ru": "Export Переменная наценка (%) @абс. цена",
+            "ar": "Export هامش متغير (%) @السعر المطلق"
+          },
+          "value": 0,
+          "hint": {
+            "en": "Enter the percentage with which the |net export price| must be modified. This markup is always positive, even for negative market prices.",
+            "nl": "Voer het percentage in waarmee de |netto export prijs| gewijzigd moet worden. Deze opslag is altijd positief, zelfs for negatieve marktprijzen.",
+            "de": "Geben Sie den Prozentsatz ein, um den der |Nettoexportpreis| geändert werden muss. Dieser Aufschlag ist immer positiv, auch bei negativen Marktpreisen.",
+            "fr": "Entrez le pourcentage avec lequel le |prix net d'exportation| doit être modifié. Cette marge est toujours positive, même pour les prix négatifs du marché.",
+            "it": "Inserisci la percentale con cui il |prezzo netto di esportazione| deve essere modificato. Questo ricarico è sempre positivo, anche per prezzi di mercato negativi.",
+            "sv": "Ange den procentsats med vilken |nettoexportpriset| måste ändras. Denna marginal är alltid positiv, även för negativa marknadspriser.",
+            "no": "Skriv inn prosentsatsen som |nettoeksportprisen| må endres med. Denne marginen er alltid positiv, selv for negative markedspriser.",
+            "es": "Ingrese el porcentaje con el que debe modificarse el |precio neto de exportación|. Este margen siempre es positivo, incluso para precios de mercado negativos.",
+            "da": "Indtast den procentsats, som |nettoeksportprisen| skal ændres med. Denne avance er altid positiv, selv for negative markedspriser.",
+            "pl": "Wprowadź procent, o jaki |cena netto eksportu| musi zostać zmodyfikowana. Ten narzut jest zawsze dodatni, nawet dla ujemnych cen rynkowych.",
+            "ru": "Введите процент, на который должна быть изменена |чистая цена экспорта|. Эта наценка всегда положительна, даже при отрицательных рыночных ценах.",
+            "ar": "أدخل النسبة المئوية التي يجب تعديل |صافي سعر التصدير| بها. هذا الهامش دائمًا إيجابي، حتى بالنسبة لأسعار السوق السلبية."
+          }
+        },
+        {
+          "id": "export_fixedMarkup",
+          "type": "number",
+          "label": {
+            "en": "Export fixed markup per kWh",
+            "nl": "Export vaste opslag per kWh",
+            "de": "Export Fester Aufschlag für kWh",
+            "fr": "Export Fixer l'augmentation par KWh",
+            "it": "Export Aumento fisso per kWh",
+            "sv": "Export Fast påslag per kWh",
+            "no": "Export Fast påslag per kWh",
+            "es": "Export Margen fijo por kWh",
+            "da": "Export Fast gebyr per kWh",
+            "pl": "Export Stały narzut na kWh",
+            "ru": "Export Фиксированная наценка за кВтч",
+            "ar": "Export هامش ثابت لكل كيلوواط ساعة"
+          },
+          "value": 0,
+          "hint": {
+            "en": "Enter the fixed amount with which the export price must be modified per kWh, incl. VAT.",
+            "nl": "Voer het vaste bedrag in waarmee de export prijs per kWh gewijzigd moet worden incl. BTW.",
+            "de": "Geben Sie einen festen Betrag ein, um den der Exportpreis pro kWh inkl. MwSt. geändert werden muss.",
+            "fr": "Entrez le montant fixe dont le prix d'exportation doit être modifié par kWh, incluant la TVA.",
+            "it": "Inserisci la quota fissa per modificare il prezzo per kWh di esportazione, incluso IVA.",
+            "sv": "Ange det fasta belopp som exportpriset ska ändras med per kWh, inkl. MOMS.",
+            "no": "Angi det faste beløpet som eksportprisen skal endres med per kWh, inkl. MVA.",
+            "es": "Ingrese la cantidad fija con la que se debe modificar el precio de exportación por kWh, incl. IVA.",
+            "da": "Angiv den faste beløb som eksportprisen skal ændres med per kWh, inkl. Moms.",
+            "pl": "Wprowadź stałą kwotę, o którą cena eksportu musi zostać zmodyfikowana za kWh, w tym VAT.",
+            "ru": "Введите фиксированную сумму, на которую должна быть изменена цена экспорта за кВтч, вкл. НДС.",
+            "ar": "أدخل المبلغ الثابت الذي يجب تعديل سعر التصدير به لكل كيلوواط ساعة، شاملاً ضريبة القيمة المضافة."
+          }
+        },
+        {
+          "id": "export_fixedMarkupTOD",
+          "type": "text",
+          "label": {
+            "en": "Export Extra Time Of Day markup",
+            "nl": "Export Extra Time Of Day opslag",
+            "de": "Export Zusätzlicher Tageszeitaufschlag",
+            "fr": "Export Majoration supplémentaire selon l'heure",
+            "it": "Export Supplemento orario extra",
+            "sv": "Export Extra tid på dygnet-tillägg",
+            "no": "Export Ekstra tid på dagen påslag",
+            "es": "Export Recargo extra por hora del día",
+            "da": "Export Ekstra tidspunkt på dagen-tillæg",
+            "pl": "Export Dodatkowy narzut w zależności od pory dnia",
+            "ru": "Export Дополнительная наценка по времени суток",
+            "ar": "Export هامش إضافي لوقت اليوم"
+          },
+          "value": "",
+          "hint": {
+            "en": "Enter the amount with which the export price must be additionally modified per kWh on certain hours of the day. Fill in the hour1:markup1;hour2:markup2 etc. E.g. if starting at 6am the markup is 0.3, and starting at 10pm the markup is 0.1 fill in the following: 6:0.3;22:0.1",
+            "nl": "Voer het bedrag in waarmee de export prijs per kWh op bepaalde uren van de dag extra moet worden gewijzigd. Vul uur1:opslag1;uur2:opslag2 etc. in.",
+            "de": "Geben Sie den Betrag an, um den der Exportpreis pro kWh an bestimmten Tageszeiten zusätzlich geändert werden muss. Füllen Sie die Stunde1:Aufschlag1;Stunde2:Aufschlag2 usw. aus.",
+            "fr": "Entrez le montant par lequel le prix d'exportation doit être modifié supplémentairement par kWh à certaines heures de la journée. Remplissez l'heure1:majoration1;heure2:majoration2 etc.",
+            "it": "Inserire l'importo con cui il prezzo di esportazione deve essere ulteriormente modificato per kWh in determinati orari del giorno. Compilare ora1:tasso1;ora2:tasso2 etc.",
+            "sv": "Ange beloppet med vilket exportpriset måste ändras per kWh vid vissa tidpunkter på dagen. Fyll i timme1:tillägg1;timme2:tillägg2 etc.",
+            "no": "Angi beløpet som eksportprisen må endres per kWh ved visse tidspunkter på dagen. Fyll ut time1:merke1;time2:merke2 osv.",
+            "es": "Ingrese la cantidad con la que se debe modificar adicionalmente el precio de exportación por kWh en ciertas horas del día. Complete hora1:margen1;hora2:margen2 etc.",
+            "da": "Angiv beløbet, som eksportprisen skal ændres med per kWh på visse tidspunkter i døgnet. Udfyld time1:markering1;time2:markering2 osv.",
+            "pl": "Wprowadź kwotę, o którą cena eksportu musi zostać dodatkowo zmodyfikowana za kWh w określonych godzinach dnia. Wypełnij godzina1:narzut1;godzina2:narzut2 itd.",
+            "ru": "Введите сумму, на которую цена экспорта должна быть дополнительно изменена за кВтч в определенные часы дня. Заполните час1:наценка1;час2:наценка2 и т.д.",
+            "ar": "أدخل المبلغ الذي يجب تعديل سعر التصدير به بشكل إضافي لكل كيلوواط ساعة في ساعات معينة من اليوم. املأ ساعة1:هامش1;ساعة2:هامش2 إلخ."
+          }
+        },
+        {
+          "id": "export_fixedMarkupWeekend",
+          "type": "number",
+          "label": {
+            "en": "Export Extra Weekend markup",
+            "nl": "Export Extra Weekend opslag",
+            "de": "Export Zusätzlicher Wochenendaufschlag",
+            "fr": "Export Majoration supplémentaire le week-end",
+            "it": "Export Supplemento extra per il fine settimana",
+            "sv": "Export Extra helgtillägg",
+            "no": "Export Ekstra helgepåslag",
+            "es": "Export Recargo extra de fin de semana",
+            "da": "Export Ekstra weekendtillæg",
+            "pl": "Export Dodatkowy narzut weekendowy",
+            "ru": "Export Дополнительная наценка на выходные",
+            "ar": "Export هامش إضافي لعطلة نهاية الأسبوع"
+          },
+          "value": 0,
+          "hint": {
+            "en": "Enter the amount with which the export price must be additionally modified per kWh during the whole weekend (Saturday - Sunday). Note: this markup replaces the Time Of Day markup!",
+            "nl": "Voer het bedrag in waarmee de export prijs per kWh het hele weekend (zaterdag - zondag) extra moet worden gewijzigd. Opmerking: deze opslag vervangt de Time Of Day-opslag!",
+            "de": "Geben Sie den Betrag an, um den der Exportpreis pro kWh während des gesamten Wochenendes (Samstag - Sonntag) zusätzlich geändert werden muss. Hinweis: Dieser Aufschlag ersetzt den Time-Of-Day-Aufschlag!",
+            "fr": "Entrez le montant par lequel le prix d'exportation doit être modifié supplémentairement par kWh pendant tout le week-end (samedi - dimanche).",
+            "it": "Inserire l'importo con cui il prezzo di esportazione deve essere ulteriormente modificato per kWh durante tutto il fine settimana (sabato - domenica).",
+            "sv": "Ange beloppet med vilket exportpriset måste ändras per kWh under helgen (lördag-söndag).",
+            "no": "Angi beløpet som eksportprisen må endres per kWh i hele helgen (lørdag - søndag).",
+            "es": "Ingrese la cantidad con la que se debe modificar adicionalmente el precio de exportación por kWh durante todo el fin de semana (sábado - domingo).",
+            "da": "Angiv beløbet, som eksportprisen skal ændres ekstra pr. kWh i løbet af hele weekenden (lørdag-søndag).",
+            "pl": "Wprowadź kwotę, o którą cena eksportu musi zostać dodatkowo zmodyfikowana za kWh przez cały weekend (sobota - niedziela).",
+            "ru": "Введите сумму, на которую цена экспорта должна быть дополнительно изменена за кВтч в течение всех выходных (суббота - воскресенье).",
+            "ar": "أدخل المبلغ الذي يجب تعديل سعر التصدير به بشكل إضافي لكل كيلوواط ساعة خلال عطلة نهاية الأسبوع بأكملها (السبت - الأحد)."
+          }
+        },
+        {
+          "id": "export_show_chart_line",
+          "type": "checkbox",
+          "label": {
+            "en": "Show export price in chart",
+            "nl": "Toon exportprijs in grafiek",
+            "de": "Exportpreis im Diagramm anzeigen",
+            "fr": "Afficher le prix d'exportation dans le graphique",
+            "it": "Mostra il prezzo di esportazione nel grafico",
+            "sv": "Visa exportpris i diagram",
+            "no": "Vis eksportpris i graf",
+            "es": "Mostrar precio de exportación en el gráfico",
+            "da": "Vis eksportpris i diagram",
+            "pl": "Pokaż cenę eksportu na wykresie",
+            "ru": "Показать экспортную цену на графике",
+            "ar": "إظهار سعر التصدير في الرسم البياني"
+          },
+          "value": false,
+          "hint": {
+            "en": "Check this to display the export price as a line in the price charts.",
+            "nl": "Vink dit aan om de exportprijs als een lijn in de prijsgrafieken weer te geven.",
+            "de": "Aktivieren Sie dies, um den Exportpreis als Linie in den Preisdiagrammen anzuzeigen.",
+            "fr": "Cochez cette case pour afficher le prix d'exportation sous forme de ligne dans les graphiques de prix.",
+            "it": "Seleziona per visualizzare il prezzo di esportazione come linea nei grafici dei prezzi.",
+            "sv": "Kryssa i detta för att visa exportpriset som en linje i prisdiagrammen.",
+            "no": "Kryss av for å vise eksportprisen som en linje i prisgrafene.",
+            "es": "Marque esto para mostrar el precio de exportación como una línea en los gráficos de precios.",
+            "da": "Sæt kryds for at vise eksportprisen som en linje i prisdiagrammerne.",
+            "pl": "Zaznacz, aby wyświetlić cenę eksportu jako linię na wykresach cen.",
+            "ru": "Отметьте, чтобы отображать экспортную цену в виде линии на графиках цен.",
+            "ar": "حدد هذا لعرض سعر التصدير كخط في الرسوم البيانية للأسعار."
+          }
+        }
+      ]
+    },
+    {
+      "type": "group",
+      "label": {
+        "en": "Various settings",
+        "nl": "Overige instellingen",
+        "de": "Diverse Einstellungen",
+        "fr": "Réglages divers",
+        "it": "Impostazioni varie",
+        "sv": "Olika inställningar",
+        "no": "Øvrige innstillinger",
+        "es": "Varios ajustes",
+        "da": "Diverse indstillinger",
+        "pl": "Różne ustawienia",
+        "ru": "Различные настройки",
+        "ar": "إعدادات مختلفة"
+      },
+      "children": [
+        {
+          "id": "forecastEnable",
+          "type": "checkbox",
+          "label": {
+            "en": "Enable forecast prices",
+            "nl": "Prijsvoorspelling aanzetten",
+            "de": "Preisvorhersage aktivieren",
+            "fr": "Activer les prévisions de prix",
+            "it": "Abilita previsioni prezzi",
+            "sv": "Aktivera prisprognoser",
+            "no": "Aktiver prisprognoser",
+            "es": "Habilitar precios de pronóstico",
+            "da": "Aktiver prisprognoser",
+            "pl": "Włącz prognozy cen",
+            "ru": "Включить прогноз цен",
+            "ar": "تمكين أسعار التوقعات"
+          },
+          "hint": {
+            "en": "Add AI pricing forecast (when available).",
+            "nl": "Voeg AI prijsvoorspellingen toe (indien beschikbaar)",
+            "de": "AI-Preisvorhersage hinzufügen (falls verfügbar).",
+            "fr": "Ajouter une prévision de tarification AI (lorsque disponible).",
+            "it": "Aggiungi previsione prezzi AI (se disponibile).",
+            "sv": "Lägg till AI-prisprognos (när tillgänglig).",
+            "no": "Legg til AI prisprognose (når tilgjengelig).",
+            "es": "Agregar pronóstico de precios de IA (cuando esté disponible).",
+            "da": "Tilføj AI-prisprognose (hvis tilgængelig).",
+            "pl": "Dodaj prognozę cen AI (jeśli dostępna).",
+            "ru": "Добавить прогноз цен ИИ (при наличии).",
+            "ar": "أضف توقعات أسعار الذكاء الاصطناعي (عند توفرها)."
+          },
+          "value": false
+        },
+        {
+          "id": "tariff_update_group",
+          "type": "number",
+          "label": {
+            "en": "Send tariff to group",
+            "nl": "Stuur tarief naar group",
+            "de": "Tarif an Gruppe senden",
+            "fr": "Envoyer tarif au groupe",
+            "it": "Invia tariffa al gruppo",
+            "sv": "Skicka tariff till grupp",
+            "no": "send tariff til gruppe",
+            "es": "Enviar tarifa al grupo",
+            "da": "Send gebyr til gruppe",
+            "pl": "Wyślij taryfę do grupy",
+            "ru": "Отправить тариф в группу",
+            "ar": "إرسال التعريفة إلى المجموعة"
+          },
+          "min": 0,
+          "max": 10,
+          "step": 1,
+          "value": 0,
+          "hint": {
+            "en": "Every hour the price per kWh will be sent as tariff for PBTH devices, without the need to create a flow.",
+            "nl": "Ieder uur wordt de prijs per kWh als tarief naar PBTH devices gestuurd, zonder dat een flow gemaakt hoeft te worden.",
+            "de": "Jede Stunde wird der Preis pro kWh als Tarif für PBTH Geräte gesendet, ohne dass ein Flow erstellt werden muss.",
+            "fr": "Chaque heure, le prix du kWh sera envoyé comme tarif pour les appareils PBTH, sans qu'il soit nécessaire de créer un flow",
+            "it": "Ogni ora verrà inviato il prezzo per kWh come tariffa per i dispositivi PBTH, senza necessità di creare alcun flow.",
+            "sv": "Varje timme kommer priset per kWh att skickas som tariff för PBTH-enheter, utan att behöva skapa ett flöde.",
+            "no": "Hver time vil prisen per kWh bli sendt som tariff for PBTH enheter, uten at man trenger å skape en flow.",
+            "es": "Cada hora se enviará el precio por kWh como tarifa para dispositivos PBTH, sin necesidad de crear un flujo.",
+            "da": "Prisen per kWh bliver sendt som tarif til PBTH-enheder, uden brug af flows.",
+            "pl": "Co godzinę cena za kWh będzie wysyłana jako taryfa dla urządzeń PBTH, bez konieczności tworzenia przepływu.",
+            "ru": "Каждый час цена за кВтч будет отправляться в качестве тарифа для устройств PBTH, без необходимости создавать поток.",
+            "ar": "كل ساعة سيتم إرسال السعر لكل كيلوواط ساعة كتعريفة لأجهزة PBTH، دون الحاجة إلى إنشاء تدفق."
+          }
+        }
+      ]
+    }
+  ]
 }

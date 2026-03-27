@@ -861,18 +861,18 @@
             "ar": "الرسم البياني للحد الأدنى للربح لكل كيلوواط ساعة"
           },
           "hint": {
-            "en": "The strategy graph is calculated using future hourly prices, the battery settings, and the set minimum profit per kWh. (HP2023 Only!)",
-            "nl": "De strategie grafiek wordt berekend met behulp van toekomstige prijzen, de batterij instellingen, en de ingestelde minimale winst per kWh. (Alleen HP2023!)",
-            "de": "Die Strategiegrafik wird anhand der zukünftigen Preise, der Batterieeinstellungen und des eingestellten Mindestgewinns pro kWh berechnet. (Nur HP2023!)",
-            "fr": "Le graphique de stratégie est calculé en utilisant les prix horaires futurs, les paramètres de la batterie et le profit minimum défini par kWh. (HP2023 uniquement !)",
-            "it": "Il grafico della strategia viene calcolato utilizzando i prezzi orari futuri, le impostazioni della batteria e il profitto minimo impostato per kWh. (Solo HP2023!)",
-            "sv": "Strategigrafen beräknas med hjälp av framtida timpriser, batteriinställningarna och den inställda minsta vinsten per kWh. (Endast HP2023!)",
-            "no": "Strategigrafen beregnes ved hjelp av fremtidige timepriser, batteriinnstillingene og den innstilte minimumsfortjenesten per kWh. (Bare HP2023!)",
-            "es": "El gráfico de estrategia se calcula utilizando los precios horarios futuros, la configuración de la batería y el beneficio mínimo establecido por kWh. (¡Solo HP2023!)",
-            "da": "Strategigrafer beregnes ved hjælp af fremtidige timepriser, batteriindstillingerne og den indstillede minimumsfortjeneste pr. kWh. (Kun HP2023!)",
-            "pl": "Wykres strategii jest obliczany na podstawie przyszłych cen godzinowych, ustawień baterii i ustawionego minimalnego zysku na kWh. (Tylko HP2023!)",
-            "ru": "График стратегии рассчитывается с использованием будущих почасовых цен, настроек батареи и установленной минимальной прибыли за кВтч. (Только HP2023!)",
-            "ar": "يتم حساب رسم استراتيجية باستخدام الأسعار الساعية المستقبلية، وإعدادات البطارية، والحد الأدنى للربح المحدد لكل كيلوواط ساعة. (فقط HP2023!)"
+            "en": "The strategy graph is calculated using future hourly prices, the battery settings, and the set minimum profit per kWh.",
+            "nl": "De strategie grafiek wordt berekend met behulp van toekomstige prijzen, de batterij instellingen, en de ingestelde minimale winst per kWh.",
+            "de": "Die Strategiegrafik wird anhand der zukünftigen Preise, der Batterieeinstellungen und des eingestellten Mindestgewinns pro kWh berechnet.",
+            "fr": "Le graphique de stratégie est calculé en utilisant les prix horaires futurs, les paramètres de la batterie et le profit minimum défini par kWh.",
+            "it": "Il grafico della strategia viene calcolato utilizzando i prezzi orari futuri, le impostazioni della batteria e il profitto minimo impostato per kWh.",
+            "sv": "Strategigrafen beräknas med hjälp av framtida timpriser, batteriinställningarna och den inställda minsta vinsten per kWh.",
+            "no": "Strategigrafen beregnes ved hjelp av fremtidige timepriser, batteriinnstillingene og den innstilte minimumsfortjenesten per kWh.",
+            "es": "El gráfico de estrategia se calcula utilizando los precios horarios futuros, la configuración de la batería y el beneficio mínimo establecido por kWh.",
+            "da": "Strategigrafer beregnes ved hjælp af fremtidige timepriser, batteriindstillingerne og den indstillede minimumsfortjeneste pr. kWh.",
+            "pl": "Wykres strategii jest obliczany na podstawie przyszłych cen godzinowych, ustawień baterii i ustawionego minimalnego zysku na kWh.",
+            "ru": "График стратегии рассчитывается с использованием будущих почасовых цен, настроек батареи и установленной минимальной прибыли за кВтч.",
+            "ar": "يتم حساب رسم استراتيجية باستخدام الأسعار الساعية المستقبلية، وإعدادات البطارية، والحد الأدنى للربح المحدد لكل كيلوواط ساعة."
           },
           "value": 0.08,
           "min": 0
