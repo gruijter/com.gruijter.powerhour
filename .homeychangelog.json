@@ -1,4 +1,7 @@
 {
+  "8.8.0": {
+    "en": "Add use of Import vs Export DAP tariffs in all drivers. Reduce memory footprint. Add PV Max power setting. Fix battery earnings. Fix avg price capabilities. Solar location check on start. Improve Solar charts. Solar cloudiness learning improved. Solar curtailment detection and handling improved. New solar icon. Updated translations. Code refactoring. Homey-api@3.17.12." 
+  },
   "8.7.5": {
     "en": "Added many flow cards for Solar. Solar shading learning improved. Flow translation updates." 
   },
