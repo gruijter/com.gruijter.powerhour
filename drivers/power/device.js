@@ -73,14 +73,22 @@ class PowerDevice extends GenericDevice {
 
     // Decide which tariff to use based on live power or meter delta
     let activeTariff = tariff;
-    const livePower = this.getCapabilityValue(this.ds.cmap.measure_source);
+    const tariffType = this.getSettings().tariff_type || 'dynamic';
 
-    if (typeof livePower === 'number') {
-      activeTariff = livePower >= 0 ? tariff : exportTariff;
+    if (tariffType === 'import') {
+      activeTariff = tariff;
+    } else if (tariffType === 'export') {
+      activeTariff = exportTariff;
     } else {
-      // fallback: check meter delta
-      const deltaMeter = reading.meterValue - this.meterMoney.meterValue;
-      activeTariff = deltaMeter >= 0 ? tariff : exportTariff;
+      const livePower = this.getCapabilityValue(this.ds.cmap.measure_source);
+
+      if (typeof livePower === 'number') {
+        activeTariff = livePower >= 0 ? tariff : exportTariff;
+      } else {
+        // fallback: check meter delta
+        const deltaMeter = reading.meterValue - this.meterMoney.meterValue;
+        activeTariff = deltaMeter >= 0 ? tariff : exportTariff;
+      }
     }
 
     // Calculate money

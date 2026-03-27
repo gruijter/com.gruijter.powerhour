@@ -176,8 +176,16 @@ class SolarDevice extends GenericDevice {
 
     // Decide which tariff to use based on live grid power
     let activeTariff = tariff;
-    if (typeof this.currentGridPower === 'number') {
-      activeTariff = this.currentGridPower < 0 ? exportTariff : tariff;
+    const tariffType = this.getSettings().tariff_type || 'dynamic';
+
+    if (tariffType === 'import') {
+      activeTariff = tariff;
+    } else if (tariffType === 'export') {
+      activeTariff = exportTariff;
+    } else {
+      if (typeof this.currentGridPower === 'number') {
+        activeTariff = this.currentGridPower < 0 ? exportTariff : tariff;
+      }
     }
 
     // Calculate money

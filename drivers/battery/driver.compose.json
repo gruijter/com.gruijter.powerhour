@@ -790,6 +790,53 @@
           "min": 0,
           "max": 10,
           "step": 1
+        },
+        {
+          "id": "tariff_type",
+          "type": "dropdown",
+          "label": {
+            "en": "Tariff selection",
+            "nl": "Tariefselectie",
+            "de": "Tarifauswahl",
+            "fr": "Sélection du tarif",
+            "it": "Selezione tariffa",
+            "sv": "Tariffval",
+            "no": "Tariffvalg",
+            "es": "Selección de tarifa",
+            "da": "Tarifvalg",
+            "pl": "Wybór taryfy",
+            "ru": "Выбор тарифа",
+            "ar": "اختيار التعريفة"
+          },
+          "hint": {
+            "en": "Select which tariff to use for monetary calculations. 'Dynamic' automatically switches based on grid import/export.",
+            "nl": "Selecteer welk tarief gebruikt moet worden voor geldberekeningen. 'Dynamisch' schakelt automatisch op basis van netto import/export.",
+            "de": "Wählen Sie, welcher Tarif für Geldberechnungen verwendet werden soll. 'Dynamisch' wechselt automatisch basierend auf Netzimport/-export.",
+            "fr": "Sélectionnez le tarif à utiliser pour les calculs monétaires. 'Dynamique' bascule automatiquement en fonction de l'importation/exportation du réseau.",
+            "it": "Seleziona quale tariffa utilizzare per i calcoli monetari. 'Dinamico' cambia automaticamente in base all'importazione/esportazione della rete.",
+            "sv": "Välj vilken tariff som ska användas för monetära beräkningar. 'Dynamisk' växlar automatiskt baserat på nätimport/-export.",
+            "no": "Velg hvilken tariff som skal brukes for kostnadsberegninger. 'Dynamisk' bytter automatisk basert på nettimport/-eksport.",
+            "es": "Seleccione qué tarifa usar para los cálculos monetarios. 'Dinámico' cambia automáticamente según la importación/exportación de la red.",
+            "da": "Vælg, hvilken takst der skal bruges til pengeberegninger. 'Dynamisk' skifter automatisk baseret på netimport/-eksport.",
+            "pl": "Wybierz, której taryfy użyć do obliczeń pieniężnych. 'Dynamiczna' automatycznie przełącza się na podstawie importu/eksportu sieci.",
+            "ru": "Выберите, какой тариф использовать для денежных расчетов. «Динамический» автоматически переключается в зависимости от импорта/экспорта сети.",
+            "ar": "حدد التعريفة التي سيتم استخدامها للحسابات النقدية. 'الديناميكي' يتبدل تلقائيًا بناءً على استيراد/تصدير الشبكة."
+          },
+          "value": "dynamic",
+          "values": [
+            {
+              "id": "dynamic",
+              "label": { "en": "Dynamic", "nl": "Dynamisch", "de": "Dynamisch", "fr": "Dynamique", "it": "Dinamico", "sv": "Dynamisk", "no": "Dynamisk", "es": "Dinámico", "da": "Dynamisk", "pl": "Dynamiczna", "ru": "Динамический", "ar": "ديناميكي" }
+            },
+            {
+              "id": "import",
+              "label": { "en": "Always Import", "nl": "Altijd Import", "de": "Immer Import", "fr": "Toujours Importer", "it": "Sempre Importazione", "sv": "Alltid Import", "no": "Alltid Import", "es": "Siempre Importar", "da": "Altid Import", "pl": "Zawsze Import", "ru": "Всегда Импорт", "ar": "استيراد دائما" }
+            },
+            {
+              "id": "export",
+              "label": { "en": "Always Export", "nl": "Altijd Export", "de": "Immer Export", "fr": "Toujours Exporter", "it": "Sempre Esportazione", "sv": "Alltid Export", "no": "Alltid Eksport", "es": "Siempre Exportar", "da": "Altid Eksport", "pl": "Zawsze Eksport", "ru": "Всегда Экспорт", "ar": "تصدير دائما" }
+            }
+          ]
         }
       ]
     },
