@@ -772,20 +772,20 @@
             "ru": "Валютная единица",
             "ar": "وحدة العملة"
           },
-          "value": "¤",
+          "value": "",
           "hint": {
-            "en": "The unit displayed as currency, e.g. €, £, EUR, SER, NOK, DKK, CHF. Leave empty to use the default ¤.",
-            "nl": "De weergegeven eenheid voor geld, bijv. €, £, EUR, SER, NOK, DKK, CHF. Laat leeg om de standaard ¤ te gebruiken.",
-            "de": "Die als Währung angezeigte Einheit, z.B. €, £, EUR, SER, NOK, DKK, CHF. Leer lassen, um die Standardeinstellung zu verwenden ¤.",
-            "fr": "L'unité de devise affichée, ex. €, £, EUR, SER, NOK, DKK, CHF. Laisser vide pour utiliser ¤ par défaut.",
-            "it": "L'unità visualizzata come valuta, es. €, £, EUR, SER, NOK, DKK, CHF. Lasciare vuoto per utilizzare ¤ di default.",
-            "sv": "Enheten som visas som valuta, t.ex. €, £, EUR, SER, NOK, DKK, CHF. Lämna tomt för att använda standardvärdet ¤.",
-            "no": "Enheten vist som valuta, f.eks. €, £, EUR, SER, NOK, DKK, CHF. La være blank for å bruke default ¤.",
-            "es": "La unidad que se muestra como moneda, p. ej. €, £, EUR, SER, NOK, DKK, CHF. Dejar vacío para usar el valor predeterminado ¤.",
-            "da": "Enheden vises som valuta, f.eks. €, £, EUR, SER, NOK, DKK, CHF. Lad stå tomt for at bruge standard ¤.",
-            "pl": "Jednostka wyświetlana jako waluta, np. €, £, EUR, SER, NOK, DKK, CHF. Pozostaw puste, aby użyć domyślnego ¤.",
-            "ru": "Единица, отображаемая как валюта, например €, £, EUR, SER, NOK, DKK, CHF. Оставьте пустым, чтобы использовать значение по умолчанию ¤.",
-            "ar": "الوحدة المعروضة كعملة، مثل €، £، EUR، SER، NOK، DKK، CHF. اتركها فارغة لاستخدام الافتراضي ¤."
+            "en": "The unit displayed as currency, e.g. €, £, EUR, SER, NOK, DKK, CHF. Leave empty to automatically use the currency from the Day-ahead pricing source.",
+            "nl": "De weergegeven eenheid voor geld, bijv. €, £, EUR, SER, NOK, DKK, CHF. Laat leeg om automatisch de valuta van de Day-ahead pricing bron te gebruiken.",
+            "de": "Die als Währung angezeigte Einheit, z.B. €, £, EUR, SER, NOK, DKK, CHF. Leer lassen, um automatisch die Währung von der Day-ahead-Pricing-Quelle zu verwenden.",
+            "fr": "L'unité de devise affichée, ex. €, £, EUR, SER, NOK, DKK, CHF. Laisser vide pour utiliser automatiquement la devise de la source de tarification Day-ahead.",
+            "it": "L'unità mostrata come valuta, es. €, £, EUR, SER, NOK, DKK, CHF. Lasciare vuoto per utilizzare automaticamente la valuta dalla fonte di prezzo Day-ahead.",
+            "sv": "Enheten som visas som valuta, t.ex. €, £, EUR, SER, NOK, DKK, CHF. Lämna tomt för att automatiskt använda valutan från Day-ahead-priskällan.",
+            "no": "Valutaenheten vises som f.eks. €, £, EUR, SER, NOK, DKK, CHF. La stå blank for å automatisk bruke valutaen fra Day-ahead-priskilden.",
+            "es": "La unidad que se muestra como moneda, p. ej. €, £, EUR, SER, NOK, DKK, CHF. Dejar vacío para usar automáticamente la moneda de la fuente de precios Day-ahead.",
+            "da": "Valutaenheden vises f.eks. €, £, EUR, SER, NOK, DKK, CHF. Lad denne stå blank for automatisk at bruge valutaen fra Day-ahead-priskilden.",
+            "pl": "Jednostka wyświetlana jako waluta, np. €, £, EUR, SER, NOK, DKK, CHF. Pozostaw puste, aby automatycznie użyć waluty ze źródła cen Day-ahead.",
+            "ru": "Единица, отображаемая как валюта, например €, £, EUR, SER, NOK, DKK, CHF. Оставьте пустым, чтобы автоматически использовать валюту из источника цен Day-ahead.",
+            "ar": "الوحدة المعروضة كعملة، مثل €، £، EUR، SER، NOK، DKK، CHF. اتركها فارغة لاستخدام العملة تلقائيًا من مصدر تسعير اليوم التالي."
           }
         },
         {
@@ -1084,9 +1084,9 @@
           "id": "tariff_update_group",
           "type": "number",
           "label": {
-            "en": "Import tariff update group (flow or DAP)",
+            "en": "Tariff update group (flow or DAP)",
             "de": "Tarifaktualisierungsgruppe (Flow oder DAP)",
-            "nl": "Import tarief update groep (flow of DAP)",
+            "nl": "Tarief update groep (flow of DAP)",
             "fr": "Groupe de mise à jour tarifaire (flux ou DAP)",
             "it": "Gruppo aggiornamento tariffa (flusso o DAP)",
             "sv": "Tariffuppdateringsgrupp (flöde eller DAP)",
@@ -1098,46 +1098,20 @@
             "ar": "مجموعة تحديث التعريفة (التدفق أو DAP)"
           },
           "hint": {
-            "en": "Group number when setting a new import tariff via flow or DAP. Set at 0 to exclude updating the import tariff.",
-            "de": "Gruppennummer beim Einstellen eines neuen Tarifs über Flow oder DAP. Auf 0 setzen, um die Aktualisierung des Tarifs auszuschließen.",
-            "nl": "Groepsnummer bij het instellen van een nieuw import tarief via flow of DAP. Zet op 0 om het bijwerken van het import tarief uit te sluiten.",
-            "fr": "Numéro de groupe lors de la définition d'un nouveau tarif via le flux ou DAP. Réglez sur 0 pour exclure la mise à jour du tarif.",
-            "it": "Numero del gruppo durante l'impostazione di una nuova tariffa tramite flusso o DAP. Impostare su 0 per escludere l'aggiornamento della tariffa.",
-            "sv": "Gruppnummer när du ställer in en ny tariff via flöde eller DAP. Ställ in på 0 för att utesluta uppdatering av tariffen.",
-            "no": "Gruppenummer når du angir en ny tariff via flyt eller DAP. Sett til 0 for å ekskludere oppdatering av tariffen.",
-            "es": "Número de grupo al establecer una nueva tarifa a través del flujo o DAP. Establecer en 0 para excluir la actualización de la tarifa.",
-            "da": "Gruppenummer ved indstilling af en ny takst via flow eller DAP. Indstil til 0 for at udelukke opdatering af taksten.",
-            "pl": "Numer grupy podczas ustawiania nowej taryfy za pomocą przepływu lub DAP. Ustaw na 0, aby wykluczyć aktualizację taryfy.",
-            "ru": "Номер группы при установке нового тарифа через поток или DAP. Установите 0, чтобы исключить обновление тарифа.",
-            "ar": "رقم المجموعة عند تعيين تعريفة جديدة عبر التدفق أو DAP. قم بالتعيين على 0 لاستبعاد تحديث التعريفة."
+            "en": "Group number for getting grid tariffs via flow or Day Ahead Pricing (DAP). Set at 0 to disable tariff updates.",
+            "nl": "Groepsnummer voor het verkrijgen van net tarieven via flow of Day Ahead Pricing (DAP). Zet op 0 om tarief updates uit te schakelen.",
+            "de": "Gruppennummer für den Bezug von Netztarifen über Flow oder Day Ahead Pricing (DAP). Auf 0 setzen, um Tarifaktualisierungen zu deaktivieren.",
+            "fr": "Numéro de groupe pour obtenir les tarifs du réseau via le flux ou Day Ahead Pricing (DAP). Réglez sur 0 pour désactiver les mises à jour tarifaires.",
+            "it": "Numero di gruppo per ottenere le tariffe di rete tramite flusso o Day Ahead Pricing (DAP). Impostare su 0 per disabilitare gli aggiornamenti tariffari.",
+            "sv": "Gruppnummer för att få nättariffer via flöde eller Day Ahead Pricing (DAP). Ställ in på 0 för att inaktivera tariffuppdateringar.",
+            "no": "Gruppenummer for å få nettariffer via flyt eller Day Ahead Pricing (DAP). Sett til 0 for å deaktivere tariffoppdateringer.",
+            "es": "Número de grupo para obtener tarifas de red a través de flujo o Day Ahead Pricing (DAP). Establecer en 0 para deshabilitar las actualizaciones de tarifas.",
+            "da": "Gruppenummer til at få nettakster via flow eller Day Ahead Pricing (DAP). Indstil til 0 for at deaktivere takstopdateringer.",
+            "pl": "Numer grupy do uzyskiwania taryf sieciowych za pomocą przepływu lub Day Ahead Pricing (DAP). Ustaw na 0, aby wyłączyć aktualizacje taryf.",
+            "ru": "Номер группы для получения сетевых тарифов через поток или Day Ahead Pricing (DAP). Установите 0, чтобы отключить обновления тарифов.",
+            "ar": "رقم المجموعة للحصول على تعريفات الشبكة عبر التدفق أو تسعير اليوم التالي (DAP). قم بالتعيين على 0 لتعطيل تحديثات التعريفة."
           },
           "value": 1,
-          "min": 0,
-          "max": 10,
-          "step": 1
-        },
-        {
-          "id": "export_tariff_update_group",
-          "type": "number",
-          "label": {
-            "en": "Export tariff update group (flow or DAP)",
-            "nl": "Export tarief update groep (flow of DAP)",
-            "de": "Einspeisetarif Aktualisierungsgruppe (Flow oder DAP)",
-            "fr": "Groupe de mise à jour du tarif de réinjection (flux ou DAP)",
-            "it": "Gruppo aggiornamento tariffa di immissione (flusso o DAP)",
-            "sv": "Grupp för uppdatering av inmatningstariff (flöde eller DAP)",
-            "no": "Oppdateringsgruppe for innmatingstariff (flyt eller DAP)",
-            "es": "Grupo de actualización de tarifa de inyección (flujo o DAP)",
-            "da": "Opdateringsgruppe for indfødningstakst (flow eller DAP)",
-            "pl": "Grupa aktualizacji taryfy za wprowadzanie (przepływ lub DAP)",
-            "ru": "Группа обновления тарифа на подачу (поток или DAP)",
-            "ar": "مجموعة تحديث تعريفة التغذية (التدفق أو DAP)"
-          },
-          "hint": {
-            "en": "Group number for getting grid export tariffs via flow or Day Ahead Pricing (DAP). Leave at 0 to use the standard Import tariff update group for both import and export.",
-            "nl": "Groepsnummer voor het verkrijgen van net export tarieven via flow of Day Ahead Pricing (DAP). Laat op 0 staan om de standaard Import tarief update groep te gebruiken voor zowel import als export."
-          },
-          "value": 0,
           "min": 0,
           "max": 10,
           "step": 1

@@ -49,11 +49,6 @@ class PowerDevice extends GenericDevice {
   }
 
   async onSettings(opts) {
-    if (opts.changedKeys.includes('export_tariff_update_group')) {
-      if (typeof this.driver.updateDeviceTariff === 'function') {
-        this.driver.updateDeviceTariff(this);
-      }
-    }
     if (super.onSettings) {
       return super.onSettings(opts);
     }
@@ -65,15 +60,24 @@ class PowerDevice extends GenericDevice {
       if (!this.migrated || !this.tariffHistory) return;
 
       const s = this.getSettings();
-      const purchaseGroup = s.tariff_update_group;
-      const exportGroup = s.export_tariff_update_group || 0;
+      const updateGroup = s.tariff_update_group;
 
       const driverTariffs = this.driver.tariffs || {};
-      let purchaseTariff = driverTariffs[purchaseGroup];
+      const driverExportTariffs = this.driver.exportTariffs || {};
+      const driverCurrencies = this.driver.currencies || {};
+
+      let purchaseTariff = driverTariffs[updateGroup];
       if (purchaseTariff === undefined) purchaseTariff = this.tariffHistory.current;
 
-      let exportTariff = driverTariffs[exportGroup];
-      if (exportGroup === 0 || exportTariff === undefined) exportTariff = purchaseTariff;
+      let exportTariff = driverExportTariffs[updateGroup];
+      if (exportTariff === undefined) exportTariff = purchaseTariff;
+
+      const currency = driverCurrencies[updateGroup];
+      if (currency && s.currency === '') {
+        this.log(`Auto-setting currency to ${currency} from DAP source`);
+        await this.setSettings({ currency }).catch((err) => this.error(err));
+        this.currencyChanged = true;
+      }
 
       const tariffHistory = {
         previous: this.tariffHistory.current,
