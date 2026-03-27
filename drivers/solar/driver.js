@@ -78,23 +78,29 @@ class SolarDriver extends GenericDriver {
     this.eventListenerTariff = (args) => {
       (async () => {
         try {
-          const currentTm = new Date();
           const tariff = args.tariff === null ? null : Number(args.tariff);
-          const group = args.group || 1;
-
           if (tariff === null || !Number.isFinite(tariff)) return;
 
+          const group = args.group || 1;
+          const exportTariff = args.exportTariff === null ? null : Number(args.exportTariff);
+          const { currency } = args;
+
           this.tariffs = this.tariffs || {};
+          this.exportTariffs = this.exportTariffs || {};
+          this.currencies = this.currencies || {};
+
           this.tariffs[group] = tariff;
+          this.exportTariffs[group] = exportTariff;
+          this.currencies[group] = currency;
 
           await setTimeoutPromise(2 * 1000, this);
 
           const devices = this.getDevices();
           for (const device of devices) {
             const s = device.getSettings();
-            if (s.tariff_update_group === group || s.export_tariff_update_group === group) {
+            if (s.tariff_update_group === group) {
               if (typeof device.updateGridTariffs === 'function') {
-                device.updateGridTariffs(currentTm);
+                device.updateGridTariffs(new Date());
               }
             }
           }
