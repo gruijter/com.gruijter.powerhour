@@ -49,48 +49,6 @@ class GridDevice extends GenericDevice {
     return Promise.resolve(true);
   }
 
-  async updateGridTariffs(currentTm) {
-    try {
-      if (!this.migrated || !this.tariffHistory) return;
-
-      const s = this.getSettings();
-      const updateGroup = s.tariff_update_group;
-
-      const driverTariffs = this.driver.tariffs || {};
-      const driverExportTariffs = this.driver.exportTariffs || {};
-      const driverCurrencies = this.driver.currencies || {};
-
-      let purchaseTariff = driverTariffs[updateGroup];
-      if (purchaseTariff === undefined) purchaseTariff = this.tariffHistory.current;
-
-      let exportTariff = driverExportTariffs[updateGroup];
-      if (exportTariff === undefined) exportTariff = purchaseTariff;
-
-      const currency = driverCurrencies[updateGroup];
-      if (currency && s.currency === '') {
-        this.log(`Auto-setting currency to ${currency} from DAP source`);
-        await this.setSettings({ currency }).catch((err) => this.error(err));
-        this.currencyChanged = true;
-      }
-
-      const tariffHistory = {
-        previous: this.tariffHistory.current,
-        previousExport: this.tariffHistory.currentExport !== undefined ? this.tariffHistory.currentExport : this.tariffHistory.current,
-        previousTm: this.tariffHistory.currentTm,
-        current: purchaseTariff,
-        currentExport: exportTariff,
-        currentTm,
-      };
-
-      this.tariffHistory = tariffHistory;
-      await this.setCapability('meter_tariff', purchaseTariff).catch(this.error);
-      this.setSettings({ tariff: purchaseTariff }).catch(this.error);
-      await this.setStoreValue('tariffHistory', tariffHistory);
-    } catch (error) {
-      this.error(error);
-    }
-  }
-
   async updateMoney({ ...reading }, { ...periods }) {
     let tariff = this.tariffHistory.current;
     let exportTariff = this.tariffHistory.currentExport !== undefined ? this.tariffHistory.currentExport : tariff;
