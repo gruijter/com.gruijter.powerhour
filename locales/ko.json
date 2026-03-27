@@ -16,5 +16,9 @@
   "error_no_prices": "가격을 이용할 수 없습니다",
   "error_no_price_interval": "가격 간격을 이용할 수 없습니다",
   "error_no_location": "기기 설정에 사용할 수 있는 위치가 없습니다",
-  "error_homey_api_not_ready": "Homey API가 준비되지 않았습니다"
+  "error_homey_api_not_ready": "Homey API가 준비되지 않았습니다",
+  "repair": {
+    "warningtitle": "경고",
+    "warningtext": "소스 장치를 변경하려고 합니다. 이렇게 하면 모든 인사이트와 흐름이 유지됩니다. 하지만 새 소스 장치의 미터 값이 다른 경우 고급 설정에서 미터 및 금액 시작 값을 수동으로 보정해야 합니다."
+  }
 }
