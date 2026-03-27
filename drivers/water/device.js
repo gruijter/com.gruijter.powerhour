@@ -36,7 +36,7 @@ const deviceSpecifics = {
   },
 };
 
-class sumDriver extends GenericDevice {
+class WaterDevice extends GenericDevice {
 
   async onInit() {
     this.ds = deviceSpecifics;
@@ -66,4 +66,4 @@ class sumDriver extends GenericDevice {
 
 }
 
-module.exports = sumDriver;
+module.exports = WaterDevice;

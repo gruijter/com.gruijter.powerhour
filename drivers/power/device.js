@@ -48,30 +48,7 @@ class PowerDevice extends GenericDevice {
     await super.onInit().catch(this.error);
   }
 
-  async onSettings(opts) {
-    if (super.onSettings) {
-      return super.onSettings(opts);
-    }
-    return Promise.resolve(true);
-  }
-
-  async updateMoney({ ...reading }, { ...periods }) {
-    let tariff = this.tariffHistory.current;
-    let exportTariff = this.tariffHistory.currentExport !== undefined ? this.tariffHistory.currentExport : tariff;
-
-    if (tariff !== this.getCapabilityValue('meter_tariff')) {
-      await this.setCapability('meter_tariff', tariff).catch(this.error);
-    }
-
-    // Use previous hour tariff just after newHour if previous tariff is less than an hour old
-    if (periods.newHour && this.tariffHistory && this.tariffHistory.previousTm
-      && (new Date(reading.meterTm) - new Date(this.tariffHistory.previousTm))
-      < (61 + (this.getSettings().wait_for_update || 0)) * 60 * 1000) {
-      tariff = this.tariffHistory.previous;
-      exportTariff = this.tariffHistory.previousExport !== undefined ? this.tariffHistory.previousExport : tariff;
-    }
-
-    // Decide which tariff to use based on live power or meter delta
+  getActiveTariff(reading, tariff, exportTariff) {
     let activeTariff = tariff;
     const tariffType = this.getSettings().tariff_type || 'dynamic';
 
@@ -90,69 +67,7 @@ class PowerDevice extends GenericDevice {
         activeTariff = deltaMeter >= 0 ? tariff : exportTariff;
       }
     }
-
-    // Calculate money
-    const deltaMoney = (reading.meterValue - this.meterMoney.meterValue) * activeTariff;
-    const meterMoney = {
-      hour: this.meterMoney.hour + deltaMoney,
-      day: this.meterMoney.day + deltaMoney,
-      month: this.meterMoney.month + deltaMoney,
-      year: this.meterMoney.year + deltaMoney,
-      meterValue: reading.meterValue,
-      lastHour: this.meterMoney.lastHour,
-      lastDay: this.meterMoney.lastDay,
-      lastMonth: this.meterMoney.lastMonth,
-      lastYear: this.meterMoney.lastYear,
-    };
-
-    let fixedMarkup = 0;
-    if (periods.newHour) {
-      meterMoney.lastHour = meterMoney.hour;
-      meterMoney.hour = 0;
-      fixedMarkup += (this.getSettings().markup_hour || 0);
-      await this.setCapability('meter_money_last_hour', meterMoney.lastHour);
-      await this.setSettings({ meter_money_last_hour: meterMoney.lastHour }).catch(this.error);
-    }
-    if (periods.newDay) {
-      meterMoney.lastDay = meterMoney.day;
-      meterMoney.day = 0;
-      fixedMarkup += (this.getSettings().markup_day || 0);
-      await this.setCapability('meter_money_last_day', meterMoney.lastDay);
-      await this.setSettings({ meter_money_last_day: meterMoney.lastDay }).catch(this.error);
-    }
-    if (periods.newMonth) {
-      meterMoney.lastMonth = meterMoney.month;
-      meterMoney.month = 0;
-      fixedMarkup += (this.getSettings().markup_month || 0);
-      await this.setCapability('meter_money_last_month', meterMoney.lastMonth);
-      await this.setSettings({ meter_money_last_month: meterMoney.lastMonth }).catch(this.error);
-    }
-    if (periods.newYear) {
-      meterMoney.lastYear = meterMoney.year;
-      meterMoney.year = 0;
-      await this.setCapability('meter_money_last_year', meterMoney.lastYear);
-      await this.setSettings({ meter_money_last_year: meterMoney.lastYear }).catch(this.error);
-    }
-
-    // add fixed markups
-    meterMoney.hour += fixedMarkup;
-    meterMoney.day += fixedMarkup;
-    meterMoney.month += fixedMarkup;
-    meterMoney.year += fixedMarkup;
-
-    // update money_this_x capabilities
-    await this.setCapability('meter_money_this_hour', meterMoney.hour);
-    await this.setCapability('meter_money_this_day', meterMoney.day);
-    await this.setCapability('meter_money_this_month', meterMoney.month);
-    await this.setCapability('meter_money_this_year', meterMoney.year);
-    this.meterMoney = meterMoney;
-
-    // Update settings every hour
-    if (periods.newHour) {
-      await this.setSettings({ meter_money_this_day: meterMoney.day }).catch(this.error);
-      await this.setSettings({ meter_money_this_month: meterMoney.month }).catch(this.error);
-      await this.setSettings({ meter_money_this_year: meterMoney.year }).catch(this.error);
-    }
+    return activeTariff;
   }
 
 }
