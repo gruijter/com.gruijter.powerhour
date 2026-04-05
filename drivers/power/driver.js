@@ -85,7 +85,13 @@ class PowerDriver extends GenericDriver {
           if (tariff === null || !Number.isFinite(tariff)) return;
 
           const group = args.group || 1;
-          const exportTariff = args.exportTariff === null ? null : Number(args.exportTariff);
+          let { exportTariff } = args;
+          if (exportTariff !== undefined && exportTariff !== null) {
+            exportTariff = Number(exportTariff);
+          }
+          if (exportTariff !== undefined && exportTariff !== null && !Number.isFinite(exportTariff)) {
+            exportTariff = undefined;
+          }
           const { currency } = args;
 
           this.tariffs = this.tariffs || {};
