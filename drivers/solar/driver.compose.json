@@ -214,6 +214,74 @@
         "ar": "التقليص نشط"
       }
     },
+    "measure_solar_use.this_hour": {
+      "title": {
+        "en": "Own usage (Hour)",
+        "nl": "Eigen verbruik (Uur)",
+        "de": "Eigennutzung (Stunde)",
+        "fr": "Propre usage (Heure)",
+        "it": "Autoconsumo (Ora)",
+        "sv": "Egenanvändning (Timme)",
+        "no": "Eget forbruk (Time)",
+        "es": "Autoconsumo (Hora)",
+        "da": "Eget forbrug (Time)",
+        "pl": "Własne zużycie (Godzina)",
+        "ru": "Собственное потребление (Час)",
+        "ko": "자가 소비 (시간)",
+        "ar": "الاستخدام الذاتي (ساعة)"
+      }
+    },
+    "measure_solar_use.this_day": {
+      "title": {
+        "en": "Own usage (Day)",
+        "nl": "Eigen verbruik (Dag)",
+        "de": "Eigennutzung (Tag)",
+        "fr": "Propre usage (Jour)",
+        "it": "Autoconsumo (Giorno)",
+        "sv": "Egenanvändning (Dag)",
+        "no": "Eget forbruk (Dag)",
+        "es": "Autoconsumo (Día)",
+        "da": "Eget forbrug (Dag)",
+        "pl": "Własne zużycie (Dzień)",
+        "ru": "Собственное потребление (День)",
+        "ko": "자가 소비 (일)",
+        "ar": "الاستخدام الذاتي (يوم)"
+      }
+    },
+    "measure_solar_use.this_month": {
+      "title": {
+        "en": "Own usage (Month)",
+        "nl": "Eigen verbruik (Maand)",
+        "de": "Eigennutzung (Monat)",
+        "fr": "Propre usage (Mois)",
+        "it": "Autoconsumo (Mese)",
+        "sv": "Egenanvändning (Månad)",
+        "no": "Eget forbruk (Måned)",
+        "es": "Autoconsumo (Mes)",
+        "da": "Eget forbrug (Måned)",
+        "pl": "Własne zużycie (Miesiąc)",
+        "ru": "Собственное потребление (Месяц)",
+        "ko": "자가 소비 (월)",
+        "ar": "الاستخدام الذاتي (شهر)"
+      }
+    },
+    "measure_solar_use.this_year": {
+      "title": {
+        "en": "Own usage (Year)",
+        "nl": "Eigen verbruik (Jaar)",
+        "de": "Eigennutzung (Jahr)",
+        "fr": "Propre usage (Année)",
+        "it": "Autoconsumo (Anno)",
+        "sv": "Egenanvändning (År)",
+        "no": "Eget forbruk (År)",
+        "es": "Autoconsumo (Año)",
+        "da": "Eget forbrug (År)",
+        "pl": "Własne zużycie (Rok)",
+        "ru": "Собственное потребление (Год)",
+        "ko": "자가 소비 (년)",
+        "ar": "الاستخدام الذاتي (سنة)"
+      }
+    },
     "button.retrain": {
       "maintenanceAction": true,
       "title": {

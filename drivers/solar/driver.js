@@ -41,6 +41,8 @@ const driverSpecifics = {
     'meter_money_last_month', 'meter_money_this_month',
     'meter_money_last_year', 'meter_money_this_year',
     'meter_money_this_month_avg', 'meter_money_this_year_avg',
+    'measure_solar_use.this_hour', 'measure_solar_use.this_day',
+    'measure_solar_use.this_month', 'measure_solar_use.this_year',
     'meter_tariff', 'meter_power',
     'last_minmax_reset', 'measure_watt_max',
     'button.retrain', 'alarm_power'],
@@ -152,8 +154,29 @@ class SolarDriver extends GenericDriver {
         const cumulativePower = report?.totalCumulative?.W;
         if (Number.isFinite(cumulativePower)) {
           const devices = this.getDevices();
+
+          // 1. Calculate total solar power across the whole house
+          let totalSolarPower = 0;
+          devices.forEach((device) => {
+            const power = device.getCapabilityValue('measure_power') || 0;
+            if (power > 0) totalSolarPower += power;
+          });
+
+          // 2. Assign values and calculate proportional self-consumption
           devices.forEach((device) => {
             device.currentGridPower = cumulativePower;
+
+            const power = device.getCapabilityValue('measure_power') || 0;
+            if (power <= 0) {
+              device.currentSelfConsumedPower = 0;
+            } else if (cumulativePower >= 0) {
+              device.currentSelfConsumedPower = power;
+            } else {
+              const exportPower = Math.abs(cumulativePower);
+              const deviceRatio = power / totalSolarPower;
+              const deviceExport = exportPower * deviceRatio;
+              device.currentSelfConsumedPower = Math.max(0, power - deviceExport);
+            }
           });
         }
       } catch (error) {

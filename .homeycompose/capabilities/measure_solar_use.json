@@ -1,0 +1,14 @@
+{
+  "type": "number",
+  "title": {
+    "en": "Own usage"
+  },
+  "uiComponent": "sensor",
+  "getable": true,
+  "setable": false,
+  "insights": true,
+  "units": {
+    "en": "%"
+  },
+  "decimals": 0
+}

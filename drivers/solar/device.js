@@ -122,6 +122,7 @@ class SolarDevice extends GenericDevice {
     this.peakPowerAllTime = await this.getStoreValue('peakPowerAllTime') || 0;
     this.lastAutoRetrain = await this.getStoreValue('lastAutoRetrain') || 0;
     this.lastSolarTriggerSlot = -1;
+    this.meterSelfConsumed = await this.getStoreValue('meterSelfConsumed') || 0;
     this.manualCurtailment = await this.getStoreValue('manualCurtailment') || false;
 
     let history = await this.getStoreValue('powerHistory');
@@ -277,6 +278,16 @@ class SolarDevice extends GenericDevice {
     const currentEnergy = this.getCapabilityValue('meter_power');
 
     // 1. Smooth Power
+    // Integrate self-consumed energy
+    const deltaTmMs = currentTimestamp - (this.lastLearningTimestamp || currentTimestamp);
+    this.lastLearningTimestamp = currentTimestamp;
+    if (deltaTmMs > 0 && deltaTmMs < 300000) { // max 5 min gap
+      const scPower = this.currentSelfConsumedPower !== undefined ? this.currentSelfConsumedPower : (rawPower || 0);
+      const deltaKwh = (Math.max(0, scPower) * deltaTmMs) / 3600000000;
+      this.meterSelfConsumed += deltaKwh;
+      this.setStoreValue('meterSelfConsumed', this.meterSelfConsumed).catch(this.error);
+    }
+
     const { smoothedPower, newEnergyState } = SolarLearningStrategy.calculateSmoothedPower({
       currentPower: rawPower,
       currentEnergy,
@@ -985,6 +996,37 @@ class SolarDevice extends GenericDevice {
     }
 
     this.forecastChanged = false;
+  }
+
+  async getReadingObject(value) {
+    const reading = await super.getReadingObject(value);
+    reading.selfConsumed = this.meterSelfConsumed || 0;
+    return reading;
+  }
+
+  async updateMeters(reading, periods) {
+    // Capture deltas before super.updateMeters updates the lastReading objects
+    const valHour = reading.meterValue - (this.lastReadingHour?.meterValue || 0);
+    const valHourSC = reading.selfConsumed - (this.lastReadingHour?.selfConsumed || 0);
+
+    const valDay = reading.meterValue - (this.lastReadingDay?.meterValue || 0);
+    const valDaySC = reading.selfConsumed - (this.lastReadingDay?.selfConsumed || 0);
+
+    const valMonth = reading.meterValue - (this.lastReadingMonth?.meterValue || 0);
+    const valMonthSC = reading.selfConsumed - (this.lastReadingMonth?.selfConsumed || 0);
+
+    const valYear = reading.meterValue - (this.lastReadingYear?.meterValue || 0);
+    const valYearSC = reading.selfConsumed - (this.lastReadingYear?.selfConsumed || 0);
+
+    await super.updateMeters(reading, periods);
+
+    // Calculate and update self-consumption percentages
+    const calcPct = (valSC, valTotal) => (valTotal > 0 ? Math.min(100, Math.max(0, Math.round((valSC / valTotal) * 100))) : 0);
+
+    if (this.hasCapability('measure_solar_use.this_hour')) await this.setCapability('measure_solar_use.this_hour', calcPct(valHourSC, valHour));
+    if (this.hasCapability('measure_solar_use.this_day')) await this.setCapability('measure_solar_use.this_day', calcPct(valDaySC, valDay));
+    if (this.hasCapability('measure_solar_use.this_month')) await this.setCapability('measure_solar_use.this_month', calcPct(valMonthSC, valMonth));
+    if (this.hasCapability('measure_solar_use.this_year')) await this.setCapability('measure_solar_use.this_year', calcPct(valYearSC, valYear));
   }
 
   getForecastRemaining(targetDateLocal) {
