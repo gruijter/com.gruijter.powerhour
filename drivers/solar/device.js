@@ -73,6 +73,12 @@ const convertCumulativeToPower = (entries) => {
 
 class SolarDevice extends GenericDevice {
 
+  async initDeviceValues() {
+    // Load self consumed meter before super.initDeviceValues to prevent zeroing out during initial poll
+    this.meterSelfConsumed = await this.getStoreValue('meterSelfConsumed') || 0;
+    await super.initDeviceValues();
+  }
+
   async onInit() {
     this.ds = deviceSpecifics;
     await super.onInit().catch(this.error);
@@ -122,7 +128,6 @@ class SolarDevice extends GenericDevice {
     this.peakPowerAllTime = await this.getStoreValue('peakPowerAllTime') || 0;
     this.lastAutoRetrain = await this.getStoreValue('lastAutoRetrain') || 0;
     this.lastSolarTriggerSlot = -1;
-    this.meterSelfConsumed = await this.getStoreValue('meterSelfConsumed') || 0;
     this.manualCurtailment = await this.getStoreValue('manualCurtailment') || false;
 
     let history = await this.getStoreValue('powerHistory');
@@ -1021,12 +1026,19 @@ class SolarDevice extends GenericDevice {
     await super.updateMeters(reading, periods);
 
     // Calculate and update self-consumption percentages
-    const calcPct = (valSC, valTotal) => (valTotal > 0 ? Math.min(100, Math.max(0, Math.round((valSC / valTotal) * 100))) : 0);
+    const setPct = async (cap, valSC, valTotal, isNewPeriod) => {
+      if (valTotal > 0) {
+        const pct = Math.min(100, Math.max(0, Math.round((valSC / valTotal) * 100)));
+        if (this.hasCapability(cap)) await this.setCapability(cap, pct);
+      } else if (isNewPeriod && this.hasCapability(cap)) {
+        await this.setCapability(cap, 0);
+      }
+    };
 
-    if (this.hasCapability('measure_solar_use.this_hour')) await this.setCapability('measure_solar_use.this_hour', calcPct(valHourSC, valHour));
-    if (this.hasCapability('measure_solar_use.this_day')) await this.setCapability('measure_solar_use.this_day', calcPct(valDaySC, valDay));
-    if (this.hasCapability('measure_solar_use.this_month')) await this.setCapability('measure_solar_use.this_month', calcPct(valMonthSC, valMonth));
-    if (this.hasCapability('measure_solar_use.this_year')) await this.setCapability('measure_solar_use.this_year', calcPct(valYearSC, valYear));
+    await setPct('measure_solar_use.this_hour', valHourSC, valHour, periods.newHour);
+    await setPct('measure_solar_use.this_day', valDaySC, valDay, periods.newDay);
+    await setPct('measure_solar_use.this_month', valMonthSC, valMonth, periods.newMonth);
+    await setPct('measure_solar_use.this_year', valYearSC, valYear, periods.newYear);
   }
 
   getForecastRemaining(targetDateLocal) {

@@ -10,5 +10,6 @@
   "units": {
     "en": "%"
   },
-  "decimals": 0
+  "decimals": 0,
+  "icon": "/assets/solar_use.svg"
 }

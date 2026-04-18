@@ -10958,6 +10958,85 @@
           },
           "children": [
             {
+              "id": "priceProvider",
+              "type": "dropdown",
+              "value": "AUTO",
+              "label": {
+                "en": "Price Provider",
+                "nl": "Prijs Aanbieder",
+                "de": "Preisanbieter",
+                "fr": "Fournisseur de prix",
+                "it": "Fornitore di prezzi",
+                "sv": "Prisleverantör",
+                "no": "Prisleverandør",
+                "es": "Proveedor de precios",
+                "da": "Prisudbyder",
+                "pl": "Dostawca cen",
+                "ru": "Поставщик цен",
+                "ko": "가격 제공자",
+                "ar": "مزود السعر"
+              },
+              "hint": {
+                "en": "Select the provider to fetch prices from. 'AUTO' uses the most optimal provider automatically with fallback options.",
+                "nl": "Selecteer de aanbieder om prijzen van op te halen. 'AUTO' gebruikt automatisch de meest optimale aanbieder met fallback opties.",
+                "de": "Wählen Sie den Anbieter aus, von dem die Preise abgerufen werden sollen. 'AUTO' verwendet automatisch den optimalsten Anbieter mit Fallback-Optionen.",
+                "fr": "Sélectionnez le fournisseur auprès duquel récupérer les prix. 'AUTO' utilise automatiquement le fournisseur le plus optimal avec des options de secours.",
+                "it": "Seleziona il fornitore da cui recuperare i prezzi. 'AUTO' utilizza automaticamente il fornitore più ottimale con opzioni di fallback.",
+                "sv": "Välj leverantören att hämta priser från. 'AUTO' använder den mest optimala leverantören automatiskt med reservalternativ.",
+                "no": "Velg leverandøren du vil hente priser fra. 'AUTO' bruker den mest optimale leverandøren automatisk med reservealternativer.",
+                "es": "Seleccione el proveedor para obtener precios. 'AUTO' utiliza automáticamente el proveedor más óptimo con opciones de respaldo.",
+                "da": "Vælg udbyderen, der skal hentes priser fra. 'AUTO' bruger automatisk den mest optimale udbyder med fallback-muligheder.",
+                "pl": "Wybierz dostawcę, od którego chcesz pobierać ceny. 'AUTO' automatycznie wykorzystuje najbardziej optymalnego dostawcę z opcjami awaryjnymi.",
+                "ru": "Выберите поставщика для получения цен. «AUTO» автоматически использует наиболее оптимального поставщика с резервными вариантами.",
+                "ko": "가격을 가져올 제공자를 선택하십시오. 'AUTO'는 대체 옵션과 함께 가장 최적의 제공자를 자동으로 사용합니다.",
+                "ar": "حدد المزود لجلب الأسعار منه. يستخدم 'AUTO' المزود الأكثر مثالية تلقائيًا مع خيارات احتياطية."
+              },
+              "values": [
+                {
+                  "id": "AUTO",
+                  "label": {
+                    "en": "Automatic (recommended)",
+                    "nl": "Automatisch (aanbevolen)",
+                    "de": "Automatisch (empfohlen)",
+                    "fr": "Automatique (recommandé)",
+                    "it": "Automatico (consigliato)",
+                    "sv": "Automatisk (rekommenderas)",
+                    "no": "Automatisk (anbefalt)",
+                    "es": "Automático (recomendado)",
+                    "da": "Automatisk (anbefales)",
+                    "pl": "Automatyczny (zalecane)",
+                    "ru": "Автоматически (рекомендуется)",
+                    "ko": "자동 (권장)",
+                    "ar": "تلقائي (مستحسن)"
+                  }
+                },
+                {
+                  "id": "ENTSOE_GRUIJTER",
+                  "label": {
+                    "en": "ENTSOE Gruijter"
+                  }
+                },
+                {
+                  "id": "Nordpool",
+                  "label": {
+                    "en": "Nordpool"
+                  }
+                },
+                {
+                  "id": "ENTSOE",
+                  "label": {
+                    "en": "ENTSOE"
+                  }
+                },
+                {
+                  "id": "Stekker",
+                  "label": {
+                    "en": "Stekker"
+                  }
+                }
+              ]
+            },
+            {
               "id": "forecastEnable",
               "type": "checkbox",
               "label": {
@@ -11897,6 +11976,85 @@
           },
           "children": [
             {
+              "id": "priceProvider",
+              "type": "dropdown",
+              "value": "AUTO",
+              "label": {
+                "en": "Price Provider",
+                "nl": "Prijs Aanbieder",
+                "de": "Preisanbieter",
+                "fr": "Fournisseur de prix",
+                "it": "Fornitore di prezzi",
+                "sv": "Prisleverantör",
+                "no": "Prisleverandør",
+                "es": "Proveedor de precios",
+                "da": "Prisudbyder",
+                "pl": "Dostawca cen",
+                "ru": "Поставщик цен",
+                "ko": "가격 제공자",
+                "ar": "مزود السعر"
+              },
+              "hint": {
+                "en": "Select the provider to fetch prices from. 'AUTO' uses the most optimal provider automatically with fallback options.",
+                "nl": "Selecteer de aanbieder om prijzen van op te halen. 'AUTO' gebruikt automatisch de meest optimale aanbieder met fallback opties.",
+                "de": "Wählen Sie den Anbieter aus, von dem die Preise abgerufen werden sollen. 'AUTO' verwendet automatisch den optimalsten Anbieter mit Fallback-Optionen.",
+                "fr": "Sélectionnez le fournisseur auprès duquel récupérer les prix. 'AUTO' utilise automatiquement le fournisseur le plus optimal avec des options de secours.",
+                "it": "Seleziona il fornitore da cui recuperare i prezzi. 'AUTO' utilizza automaticamente il fornitore più ottimale con opzioni di fallback.",
+                "sv": "Välj leverantören att hämta priser från. 'AUTO' använder den mest optimala leverantören automatiskt med reservalternativ.",
+                "no": "Velg leverandøren du vil hente priser fra. 'AUTO' bruker den mest optimale leverandøren automatisk med reservealternativer.",
+                "es": "Seleccione el proveedor para obtener precios. 'AUTO' utiliza automáticamente el proveedor más óptimo con opciones de respaldo.",
+                "da": "Vælg udbyderen, der skal hentes priser fra. 'AUTO' bruger automatisk den mest optimale udbyder med fallback-muligheder.",
+                "pl": "Wybierz dostawcę, od którego chcesz pobierać ceny. 'AUTO' automatycznie wykorzystuje najbardziej optymalnego dostawcę z opcjami awaryjnymi.",
+                "ru": "Выберите поставщика для получения цен. «AUTO» автоматически использует наиболее оптимального поставщика с резервными вариантами.",
+                "ko": "가격을 가져올 제공자를 선택하십시오. 'AUTO'는 대체 옵션과 함께 가장 최적의 제공자를 자동으로 사용합니다.",
+                "ar": "حدد المزود لجلب الأسعار منه. يستخدم 'AUTO' المزود الأكثر مثالية تلقائيًا مع خيارات احتياطية."
+              },
+              "values": [
+                {
+                  "id": "AUTO",
+                  "label": {
+                    "en": "Automatic (recommended)",
+                    "nl": "Automatisch (aanbevolen)",
+                    "de": "Automatisch (empfohlen)",
+                    "fr": "Automatique (recommandé)",
+                    "it": "Automatico (consigliato)",
+                    "sv": "Automatisk (rekommenderas)",
+                    "no": "Automatisk (anbefalt)",
+                    "es": "Automático (recomendado)",
+                    "da": "Automatisk (anbefales)",
+                    "pl": "Automatyczny (zalecane)",
+                    "ru": "Автоматически (рекомендуется)",
+                    "ko": "자동 (권장)",
+                    "ar": "تلقائي (مستحسن)"
+                  }
+                },
+                {
+                  "id": "ENTSOE_GRUIJTER",
+                  "label": {
+                    "en": "ENTSOE Gruijter"
+                  }
+                },
+                {
+                  "id": "Nordpool",
+                  "label": {
+                    "en": "Nordpool"
+                  }
+                },
+                {
+                  "id": "ENTSOE",
+                  "label": {
+                    "en": "ENTSOE"
+                  }
+                },
+                {
+                  "id": "Stekker",
+                  "label": {
+                    "en": "Stekker"
+                  }
+                }
+              ]
+            },
+            {
               "id": "forecastEnable",
               "type": "checkbox",
               "label": {
@@ -12398,6 +12556,73 @@
             "nl": "Overige instellingen"
           },
           "children": [
+            {
+              "id": "priceProvider",
+              "type": "dropdown",
+              "value": "AUTO",
+              "label": {
+                "en": "Price Provider",
+                "nl": "Prijs Aanbieder",
+                "de": "Preisanbieter",
+                "fr": "Fournisseur de prix",
+                "it": "Fornitore di prezzi",
+                "sv": "Prisleverantör",
+                "no": "Prisleverandør",
+                "es": "Proveedor de precios",
+                "da": "Prisudbyder",
+                "pl": "Dostawca cen",
+                "ru": "Поставщик цен",
+                "ko": "가격 제공자",
+                "ar": "مزود السعر"
+              },
+              "hint": {
+                "en": "Select the provider to fetch prices from. 'AUTO' uses the most optimal provider automatically with fallback options.",
+                "nl": "Selecteer de aanbieder om prijzen van op te halen. 'AUTO' gebruikt automatisch de meest optimale aanbieder met fallback opties.",
+                "de": "Wählen Sie den Anbieter aus, von dem die Preise abgerufen werden sollen. 'AUTO' verwendet automatisch den optimalsten Anbieter mit Fallback-Optionen.",
+                "fr": "Sélectionnez le fournisseur auprès duquel récupérer les prix. 'AUTO' utilise automatiquement le fournisseur le plus optimal avec des options de secours.",
+                "it": "Seleziona il fornitore da cui recuperare i prezzi. 'AUTO' utilizza automaticamente il fornitore più ottimale con opzioni di fallback.",
+                "sv": "Välj leverantören att hämta priser från. 'AUTO' använder den mest optimala leverantören automatiskt med reservalternativ.",
+                "no": "Velg leverandøren du vil hente priser fra. 'AUTO' bruker den mest optimale leverandøren automatisk med reservealternativer.",
+                "es": "Seleccione el proveedor para obtener precios. 'AUTO' utiliza automáticamente el proveedor más óptimo con opciones de respaldo.",
+                "da": "Vælg udbyderen, der skal hentes priser fra. 'AUTO' bruger automatisk den mest optimale udbyder med fallback-muligheder.",
+                "pl": "Wybierz dostawcę, od którego chcesz pobierać ceny. 'AUTO' automatycznie wykorzystuje najbardziej optymalnego dostawcę z opcjami awaryjnymi.",
+                "ru": "Выберите поставщика для получения цен. «AUTO» автоматически использует наиболее оптимального поставщика с резервными вариантами.",
+                "ko": "가격을 가져올 제공자를 선택하십시오. 'AUTO'는 대체 옵션과 함께 가장 최적의 제공자를 자동으로 사용합니다.",
+                "ar": "حدد المزود لجلب الأسعار منه. يستخدم 'AUTO' المزود الأكثر مثالية تلقائيًا مع خيارات احتياطية."
+              },
+              "values": [
+                {
+                  "id": "AUTO",
+                  "label": {
+                    "en": "Automatic (recommended)",
+                    "nl": "Automatisch (aanbevolen)",
+                    "de": "Automatisch (empfohlen)",
+                    "fr": "Automatique (recommandé)",
+                    "it": "Automatico (consigliato)",
+                    "sv": "Automatisk (rekommenderas)",
+                    "no": "Automatisk (anbefalt)",
+                    "es": "Automático (recomendado)",
+                    "da": "Automatisk (anbefales)",
+                    "pl": "Automatyczny (zalecane)",
+                    "ru": "Автоматически (рекомендуется)",
+                    "ko": "자동 (권장)",
+                    "ar": "تلقائي (مستحسن)"
+                  }
+                },
+                {
+                  "id": "Easyenergy",
+                  "label": {
+                    "en": "EasyEnergy"
+                  }
+                },
+                {
+                  "id": "EEX",
+                  "label": {
+                    "en": "EEX"
+                  }
+                }
+              ]
+            },
             {
               "id": "tariff_update_group",
               "type": "number",
@@ -16583,6 +16808,74 @@
             "ar": "التقليص نشط"
           }
         },
+        "measure_solar_use.this_hour": {
+          "title": {
+            "en": "Own usage this hour",
+            "nl": "Eigen verbruik dit uur",
+            "de": "Eigennutzung diese Stunde",
+            "fr": "Propre usage cette heure",
+            "it": "Autoconsumo quest'ora",
+            "sv": "Egenanvändning denna timme",
+            "no": "Eget forbruk denne time",
+            "es": "Autoconsumo esta hora",
+            "da": "Eget forbrug denne time",
+            "pl": "Własne zużycie w tej godzinie",
+            "ru": "Собственное потребление в этот час",
+            "ko": "이번 시간 자가 소비",
+            "ar": "الاستخدام الذاتي هذه الساعة"
+          }
+        },
+        "measure_solar_use.this_day": {
+          "title": {
+            "en": "Own usage this day",
+            "nl": "Eigen verbruik deze dag",
+            "de": "Eigennutzung dieser Tag",
+            "fr": "Propre usage ce jour",
+            "it": "Autoconsumo questo giorno",
+            "sv": "Egenanvändning denna dag",
+            "no": "Eget forbruk denne dag",
+            "es": "Autoconsumo este día",
+            "da": "Eget forbrug denne dag",
+            "pl": "Własne zużycie tego dnia",
+            "ru": "Собственное потребление в этот день",
+            "ko": "오늘 자가 소비",
+            "ar": "الاستخدام الذاتي هذا اليوم"
+          }
+        },
+        "measure_solar_use.this_month": {
+          "title": {
+            "en": "Own usage this month",
+            "nl": "Eigen verbruik deze maand",
+            "de": "Eigennutzung dieser Monat",
+            "fr": "Propre usage ce mois",
+            "it": "Autoconsumo questo mese",
+            "sv": "Egenanvändning denna månad",
+            "no": "Eget forbruk denne måned",
+            "es": "Autoconsumo este mes",
+            "da": "Eget forbrug denne måned",
+            "pl": "Własne zużycie w tym miesiącu",
+            "ru": "Собственное потребление в этом месяце",
+            "ko": "이번 달 자가 소비",
+            "ar": "الاستخدام الذاتي هذا الشهر"
+          }
+        },
+        "measure_solar_use.this_year": {
+          "title": {
+            "en": "Own usage this year",
+            "nl": "Eigen verbruik dit jaar",
+            "de": "Eigennutzung dieses Jahr",
+            "fr": "Propre usage cette année",
+            "it": "Autoconsumo quest'anno",
+            "sv": "Egenanvändning i år",
+            "no": "Eget forbruk dette år",
+            "es": "Autoconsumo este año",
+            "da": "Eget forbrug i år",
+            "pl": "Własne zużycie w tym roku",
+            "ru": "Собственное потребление в этом году",
+            "ko": "올해 자가 소비",
+            "ar": "الاستخدام الذاتي هذا العام"
+          }
+        },
         "button.retrain": {
           "maintenanceAction": true,
           "title": {
@@ -19704,6 +19997,21 @@
         "ar": "لتر/دقيقة"
       },
       "decimals": 2
+    },
+    "measure_solar_use": {
+      "type": "number",
+      "title": {
+        "en": "Own usage"
+      },
+      "uiComponent": "sensor",
+      "getable": true,
+      "setable": false,
+      "insights": true,
+      "units": {
+        "en": "%"
+      },
+      "decimals": 0,
+      "icon": "/assets/solar_use.svg"
     },
     "measure_watt_avg": {
       "type": "number",
