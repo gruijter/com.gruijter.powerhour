@@ -1,0 +1,70 @@
+{
+  "name": {
+    "en": "EV Charger Summarizer",
+    "nl": "EV Lader Samenvatter",
+    "de": "EV Ladegerät Zusammenfasser",
+    "fr": "Résumé Chargeur EV",
+    "it": "Riepilogo Caricatore EV",
+    "sv": "EV Laddare Summerare",
+    "no": "EV Lader Oppsummering",
+    "es": "Resumen de Cargador EV",
+    "da": "EV Oplader Opsummering",
+    "pl": "Podsumowanie Ładowarki EV",
+    "ru": "Сводка зарядки электромобиля",
+    "ar": "ملخص شاحن المركبات الكهربائية"
+  },
+  "class": "other",
+  "deprecated": true,
+  "capabilities": [],
+  "capabilitiesOptions": {
+    "meter_power": {
+      "decimals": 4
+    }
+  },
+  "images": {
+    "large": "./drivers/evCharger/assets/images/large.jpg",
+    "small": "./drivers/evCharger/assets/images/small.jpg"
+  },
+  "pair": [
+    {
+      "id": "list_devices",
+      "template": "list_devices",
+      "navigation": {
+        "next": "add_devices"
+      },
+      "options": {
+        "singular": true
+      }
+    },
+    {
+      "id": "add_devices",
+      "template": "add_devices"
+    }
+  ],
+  "repair": [
+    {
+      "id": "repair_warning",
+      "navigation": {
+        "next": "list_devices"
+      }
+    },
+    {
+      "id": "list_devices",
+      "template": "list_devices",
+      "options": {
+        "singular": true
+      },
+      "navigation": {
+        "next": "loading"
+      }
+    },
+    {
+      "id": "loading",
+      "template": "loading"
+    },
+    {
+      "id": "done",
+      "template": "done"
+    }
+  ]
+}
