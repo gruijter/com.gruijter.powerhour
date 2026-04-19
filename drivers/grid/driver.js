@@ -23,14 +23,15 @@ const GenericDriver = require('../../lib/genericDeviceDrivers/generic_sum_driver
 
 const driverSpecifics = {
   driverId: 'grid',
-  deviceCapabilities: ['meter_kwh_last_hour', 'meter_kwh_this_hour', 'meter_kwh_last_day', 'meter_kwh_this_day',
+  deviceCapabilities: ['measure_power.grid', 'measure_power.home',
+    'meter_kwh_last_hour', 'meter_kwh_this_hour', 'meter_kwh_last_day', 'meter_kwh_this_day',
     'meter_kwh_last_month', 'meter_kwh_this_month', 'meter_kwh_last_year', 'meter_kwh_this_year',
     'meter_target_month_to_date', 'meter_target_year_to_date',
     'meter_money_last_hour', 'meter_money_this_hour', 'meter_money_last_day', 'meter_money_this_day',
     'meter_money_last_month', 'meter_money_this_month', 'meter_money_last_year', 'meter_money_this_year',
     'meter_money_this_month_avg', 'meter_money_this_year_avg',
-    'meter_tariff', 'meter_power', 'measure_power.grid', 'last_minmax_reset', 'measure_watt_min', 'measure_watt_max',
-    'measure_power.home', 'meter_power.home'],
+    'meter_tariff', 'meter_power', 'last_minmax_reset', 'measure_watt_min', 'measure_watt_max',
+    'meter_power.home'],
 };
 
 class GridDriver extends GenericDriver {

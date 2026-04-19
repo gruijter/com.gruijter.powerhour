@@ -14232,6 +14232,22 @@
         "meter_power": {
           "decimals": 4
         },
+        "measure_power.grid": {
+          "title": {
+            "en": "Grid Power",
+            "nl": "Net Vermogen",
+            "de": "Netz Leistung",
+            "fr": "Puissance Réseau",
+            "it": "Potenza Rete",
+            "sv": "Nät Effekt",
+            "no": "Nett Effekt",
+            "es": "Potencia Red",
+            "da": "Net Effekt",
+            "pl": "Moc Sieci",
+            "ru": "Мощность сети",
+            "ar": "طاقة الشبكة"
+          }
+        },
         "measure_power.home": {
           "title": {
             "en": "Home Power",
@@ -14400,39 +14416,6 @@
                 "ru": "Либо устройство Homey, либо виртуальное устройство. Счетчик виртуального устройства можно обновить только через поток.",
                 "ar": "إما جهاز Homey أو جهاز افتراضي. لا يمكن تحديث عداد الجهاز الافتراضي إلا عبر التدفق."
               }
-            },
-            {
-              "id": "use_measure_source",
-              "type": "checkbox",
-              "label": {
-                "en": "Use Watt as source",
-                "nl": "Gebruik Watt als bron",
-                "de": "Watt als Quelle benutzen",
-                "fr": "Utiliser Watt comme source",
-                "it": "Usa Watt come sorgente",
-                "sv": "Använd Watt som källa",
-                "no": "Bruk Watt som kilde",
-                "es": "Usar Watt como fuente",
-                "da": "Brug Watt som kilde",
-                "pl": "Użyj Wata jako źródła",
-                "ru": "Использовать Ватт как источник",
-                "ar": "استخدم وات كمصدر"
-              },
-              "hint": {
-                "en": "Some source devices do not have a kWh meter. Using W is a less accurate fallback method. ONLY USE THIS IF kWh IS NOT POSSIBLE!",
-                "nl": "Sommige bron apparaten hebben geen kWh meter. Het gebruik van W is een minder nauwkeurig alternatief. ALLEEN GEBRUIKEN ALS kWh NIET MOGELIJK IS!",
-                "de": "Einige Geräte haben keinen kWh-Zähler. Die Verwendung von W ist eine weniger genaue Ausweichmethode. VERWENDEN SIE DIESE METHODE NUR, WENN kWh NICHT MÖGLICH IST!",
-                "fr": "Certains appareils sources n'ont pas de compteur kWh. L'utilisation de W est une méthode de secours moins précise. UTILISER UNIQUEMENT SI LE kWh N'EST PAS POSSIBLE !",
-                "it": "Alcuni dispositivi sorgente non dispongono di contatore kWh. L'uso di W è un metodo di ripiego meno accurato. UTILIZZARE SOLO SE kWh NON È POSSIBILE!",
-                "sv": "Vissa källenheter har ingen kWh-mätare. Att använda W är en mindre exakt reservmetod. ANVÄND ENDAST DETTA OM kWh INTE ÄR MÖJLIGT!",
-                "no": "Noen kildeenheter har ikke kWh meter. Å bruke W er et mindre nøyaktig alternativ. BRUK BARE DETTE OM KWH IKKE ER MULIG!",
-                "es": "Algunos dispositivos de origen no tienen un medidor de kWh. Usar W es un método de respaldo menos preciso. ¡UTILICE ESTO SOLO SI NO ES POSIBLE kWh!",
-                "da": "Nogle kildeenheder har ikke en kWh-måler. Brug af W er en mindre nøjagtig fallback-metode. BRUG KUN DETTE HVIS kWh IKKE ER MULIGT!",
-                "pl": "Niektóre urządzenia źródłowe nie mają licznika kWh. Użycie W jest mniej dokładną metodą awaryjną. UŻYWAJ TEGO TYLKO, JEŚLI kWh NIE JEST MOŻLIWE!",
-                "ru": "У некоторых исходных устройств нет счетчика кВтч. Использование Вт является менее точным резервным методом. ИСПОЛЬЗУЙТЕ ТОЛЬКО ЕСЛИ кВтч НЕВОЗМОЖНО!",
-                "ar": "بعض أجهزة المصدر ليس لديها عداد كيلوواط ساعة. استخدام وات هو طريقة احتياطية أقل دقة. استخدم هذا فقط إذا لم يكن الكيلوواط ساعة ممكنًا!"
-              },
-              "value": false
             },
             {
               "id": "wait_for_update",

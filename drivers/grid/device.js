@@ -40,10 +40,14 @@ class GridDevice extends GenericDevice {
   async onInit() {
     this.ds = deviceSpecifics;
     await super.onInit().catch(this.error);
+  }
+
+  async initDeviceValues() {
     this.meterPowerHome = await this.getStoreValue('meterPowerHome') || 0;
     if (this.hasCapability('meter_power.home')) {
       await this.setCapabilityValue('meter_power.home', this.meterPowerHome).catch(this.error);
     }
+    await super.initDeviceValues();
   }
 
   async setCapability(capability, value) {
