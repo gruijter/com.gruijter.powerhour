@@ -32,7 +32,7 @@ const deviceSpecifics = {
     this_year: 'meter_kwh_this_year',
     last_year: 'meter_kwh_last_year',
     meter_source: 'meter_power',
-    measure_source: 'measure_watt_avg',
+    measure_source: 'measure_power.grid',
   },
 };
 
@@ -49,14 +49,14 @@ class GridDevice extends GenericDevice {
   async setCapability(capability, value) {
     await super.setCapability(capability, value);
     // Calculate home power real-time in sync with the grid power updates
-    if (capability === 'measure_watt_avg') {
+    if (capability === 'measure_power.grid') {
       this.calculateHomePower().catch(this.error);
     }
   }
 
   async calculateHomePower() {
     try {
-      const gridPower = this.getCapabilityValue('measure_watt_avg') || 0;
+      const gridPower = this.getCapabilityValue('measure_power.grid') || 0;
 
       let solarPower = 0;
       const solarDriver = this.homey.drivers.getDriver('solar');
@@ -117,15 +117,8 @@ class GridDevice extends GenericDevice {
     } else if (tariffType === 'export') {
       activeTariff = exportTariff;
     } else {
-      const livePower = this.getCapabilityValue(this.ds.cmap.measure_source);
-
-      if (typeof livePower === 'number') {
-        activeTariff = livePower >= 0 ? tariff : exportTariff;
-      } else {
-        // fallback: check meter delta
-        const deltaMeter = reading.meterValue - this.meterMoney.meterValue;
-        activeTariff = deltaMeter >= 0 ? tariff : exportTariff;
-      }
+      const livePower = this.getCapabilityValue(this.ds.cmap.measure_source) || 0;
+      activeTariff = livePower >= 0 ? tariff : exportTariff;
     }
     return activeTariff;
   }
