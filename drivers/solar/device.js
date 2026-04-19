@@ -76,6 +76,7 @@ class SolarDevice extends GenericDevice {
   async initDeviceValues() {
     // Load self consumed meter before super.initDeviceValues to prevent zeroing out during initial poll
     this.meterSelfConsumed = await this.getStoreValue('meterSelfConsumed') || 0;
+    this.meterTotalIntegrated = await this.getStoreValue('meterTotalIntegrated') || 0;
     await super.initDeviceValues();
   }
 
@@ -291,6 +292,11 @@ class SolarDevice extends GenericDevice {
       const deltaKwh = (Math.max(0, scPower) * deltaTmMs) / 3600000000;
       this.meterSelfConsumed += deltaKwh;
       this.setStoreValue('meterSelfConsumed', this.meterSelfConsumed).catch(this.error);
+
+      const safePower = Math.max(0, rawPower || 0);
+      const deltaTotalKwh = (safePower * deltaTmMs) / 3600000000;
+      this.meterTotalIntegrated = (this.meterTotalIntegrated || 0) + deltaTotalKwh;
+      this.setStoreValue('meterTotalIntegrated', this.meterTotalIntegrated).catch(this.error);
     }
 
     const { smoothedPower, newEnergyState } = SolarLearningStrategy.calculateSmoothedPower({
@@ -1006,6 +1012,7 @@ class SolarDevice extends GenericDevice {
   async getReadingObject(value) {
     const reading = await super.getReadingObject(value);
     reading.selfConsumed = this.meterSelfConsumed || 0;
+    reading.totalIntegrated = this.meterTotalIntegrated || 0;
     return reading;
   }
 
@@ -1013,15 +1020,19 @@ class SolarDevice extends GenericDevice {
     // Capture deltas before super.updateMeters updates the lastReading objects
     const valHour = reading.meterValue - (this.lastReadingHour?.meterValue || 0);
     const valHourSC = reading.selfConsumed - (this.lastReadingHour?.selfConsumed || 0);
+    const valHourTot = this.lastReadingHour?.totalIntegrated !== undefined ? reading.totalIntegrated - this.lastReadingHour.totalIntegrated : valHour;
 
     const valDay = reading.meterValue - (this.lastReadingDay?.meterValue || 0);
     const valDaySC = reading.selfConsumed - (this.lastReadingDay?.selfConsumed || 0);
+    const valDayTot = this.lastReadingDay?.totalIntegrated !== undefined ? reading.totalIntegrated - this.lastReadingDay.totalIntegrated : valDay;
 
     const valMonth = reading.meterValue - (this.lastReadingMonth?.meterValue || 0);
     const valMonthSC = reading.selfConsumed - (this.lastReadingMonth?.selfConsumed || 0);
+    const valMonthTot = this.lastReadingMonth?.totalIntegrated !== undefined ? reading.totalIntegrated - this.lastReadingMonth.totalIntegrated : valMonth;
 
     const valYear = reading.meterValue - (this.lastReadingYear?.meterValue || 0);
     const valYearSC = reading.selfConsumed - (this.lastReadingYear?.selfConsumed || 0);
+    const valYearTot = this.lastReadingYear?.totalIntegrated !== undefined ? reading.totalIntegrated - this.lastReadingYear.totalIntegrated : valYear;
 
     await super.updateMeters(reading, periods);
 
@@ -1035,10 +1046,10 @@ class SolarDevice extends GenericDevice {
       }
     };
 
-    await setPct('measure_solar_use.this_hour', valHourSC, valHour, periods.newHour);
-    await setPct('measure_solar_use.this_day', valDaySC, valDay, periods.newDay);
-    await setPct('measure_solar_use.this_month', valMonthSC, valMonth, periods.newMonth);
-    await setPct('measure_solar_use.this_year', valYearSC, valYear, periods.newYear);
+    await setPct('measure_solar_use.this_hour', valHourSC, valHourTot, periods.newHour);
+    await setPct('measure_solar_use.this_day', valDaySC, valDayTot, periods.newDay);
+    await setPct('measure_solar_use.this_month', valMonthSC, valMonthTot, periods.newMonth);
+    await setPct('measure_solar_use.this_year', valYearSC, valYearTot, periods.newYear);
   }
 
   getForecastRemaining(targetDateLocal) {
