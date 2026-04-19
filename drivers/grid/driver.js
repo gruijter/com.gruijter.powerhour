@@ -49,12 +49,20 @@ class GridDriver extends GenericDriver {
     this.eventListenerTariff = (args) => {
       (async () => {
         try {
-          const tariff = args.tariff === null ? null : Number(args.tariff);
+          let tariff = args.tariff === null ? null : Number(args.tariff);
+          if (!Number.isFinite(tariff) && args.pricesNextHours && args.pricesNextHours.length > 0) {
+            tariff = Number(args.pricesNextHours[0]);
+          }
 
           if (tariff === null || !Number.isFinite(tariff)) return;
 
           const group = args.group || 1;
-          const exportTariff = args.exportTariff === null ? null : Number(args.exportTariff);
+          let exportTariff = args.exportTariff === null ? null : Number(args.exportTariff);
+          if (!Number.isFinite(exportTariff) && args.exportPricesNextHours && args.exportPricesNextHours.length > 0) {
+            exportTariff = Number(args.exportPricesNextHours[0]);
+          } else if (!Number.isFinite(exportTariff)) {
+            exportTariff = tariff;
+          }
           const { currency } = args;
 
           this.tariffs = this.tariffs || {};
