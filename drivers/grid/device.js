@@ -40,6 +40,72 @@ class GridDevice extends GenericDevice {
   async onInit() {
     this.ds = deviceSpecifics;
     await super.onInit().catch(this.error);
+    this.meterPowerHome = await this.getStoreValue('meterPowerHome') || 0;
+    if (this.hasCapability('meter_power.home')) {
+      await this.setCapabilityValue('meter_power.home', this.meterPowerHome).catch(this.error);
+    }
+  }
+
+  async setCapability(capability, value) {
+    await super.setCapability(capability, value);
+    // Calculate home power real-time in sync with the grid power updates
+    if (capability === 'measure_watt_avg') {
+      this.calculateHomePower().catch(this.error);
+    }
+  }
+
+  async calculateHomePower() {
+    try {
+      const gridPower = this.getCapabilityValue('measure_watt_avg') || 0;
+
+      let solarPower = 0;
+      const solarDriver = this.homey.drivers.getDriver('solar');
+      if (solarDriver) {
+        solarDriver.getDevices().forEach((dev) => {
+          solarPower += (dev.getCapabilityValue('measure_power') || 0);
+        });
+      }
+
+      let batteryPower = 0;
+      const batDriver = this.homey.drivers.getDriver('battery');
+      if (batDriver) {
+        batDriver.getDevices().forEach((dev) => {
+          batteryPower += (dev.getCapabilityValue('measure_watt_avg') || 0);
+        });
+      }
+
+      let evPower = 0;
+      const evDriver = this.homey.drivers.getDriver('evCharger');
+      if (evDriver) {
+        evDriver.getDevices().forEach((dev) => {
+          evPower += (dev.getCapabilityValue('measure_watt_avg') || 0);
+        });
+      }
+
+      // Wiskunde voor eigen verbruik: Grid (import = +) + Solar (prod = +) - Battery (laden = +) - EV (laden = +)
+      const homePower = Math.round(gridPower + solarPower - batteryPower - evPower);
+      await this.setCapability('measure_power.home', homePower).catch(this.error);
+
+      const now = Date.now();
+      if (this.lastHomePowerCalcTm) {
+        const dt = now - this.lastHomePowerCalcTm; // ms
+        if (dt > 0 && dt < 300000) {
+          const safePower = Math.max(0, this.lastHomePower || 0);
+          const deltaKwh = (safePower * dt) / 3600000000;
+          this.meterPowerHome = (this.meterPowerHome || 0) + deltaKwh;
+          await this.setCapability('meter_power.home', Number(this.meterPowerHome.toFixed(4))).catch(this.error);
+
+          if (!this.lastHomePowerSaveTm || (now - this.lastHomePowerSaveTm > 60000)) {
+            this.setStoreValue('meterPowerHome', this.meterPowerHome).catch(this.error);
+            this.lastHomePowerSaveTm = now;
+          }
+        }
+      }
+      this.lastHomePower = homePower;
+      this.lastHomePowerCalcTm = now;
+    } catch (err) {
+      this.error('Error calculating home power:', err);
+    }
   }
 
   getActiveTariff(reading, tariff, exportTariff) {

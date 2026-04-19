@@ -224,6 +224,65 @@
       },
       {
         "title": {
+          "en": "New EV strategy active",
+          "nl": "Nieuwe EV strategie actief",
+          "de": "Neue EV-Strategie aktiv",
+          "fr": "Nouvelle stratégie EV active"
+        },
+        "hint": {
+          "en": "Triggers every price interval (e.g. 15m or 60m) or when settings change. Provides the optimal charging power and duration for the current interval.",
+          "nl": "Triggert bij elke prijsinterval (bijv. 15m of 60m) of wanneer instellingen veranderen. Geeft het optimale laadvermogen en duur voor het huidige interval.",
+          "de": "Wird in jedem Preisintervall (z. B. 15 Min. oder 60 Min.) oder bei Einstellungsänderungen ausgelöst. Bietet die optimale Ladeleistung und Dauer für das aktuelle Intervall.",
+          "fr": "Se déclenche à chaque intervalle de prix (par ex. 15m ou 60m) ou lorsque les paramètres changent. Fournit la puissance de charge optimale pour l'intervalle actuel."
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=evCharger"
+          }
+        ],
+        "tokens": [
+          {
+            "name": "power",
+            "type": "number",
+            "title": {
+              "en": "Power (W)",
+              "nl": "Vermogen (W)",
+              "de": "Leistung (W)"
+            }
+          },
+          {
+            "name": "duration",
+            "type": "number",
+            "title": {
+              "en": "Duration (minutes)",
+              "nl": "Duur (minuten)",
+              "de": "Dauer (Minuten)"
+            }
+          },
+          {
+            "name": "targetSoC",
+            "type": "number",
+            "title": {
+              "en": "Target SOC (%)",
+              "nl": "Doel SOC (%)",
+              "de": "Ziel-SOC (%)"
+            }
+          },
+          {
+            "name": "scheme",
+            "type": "string",
+            "title": {
+              "en": "Scheme JSON",
+              "nl": "Schema JSON"
+            }
+          }
+        ],
+        "id": "new_ev_strategy"
+      },
+      {
+        "title": {
           "en": "New price period",
           "nl": "Nieuw prijs-periode",
           "de": "Neuer Preiszeitraum",
@@ -12718,6 +12777,201 @@
     },
     {
       "name": {
+        "en": "EV Charger Summarizer",
+        "nl": "EV Lader Samenvatter",
+        "de": "EV Ladegerät Zusammenfasser",
+        "fr": "Résumé Chargeur EV",
+        "it": "Riepilogo Caricatore EV",
+        "sv": "EV Laddare Summerare",
+        "no": "EV Lader Oppsummering",
+        "es": "Resumen de Cargador EV",
+        "da": "EV Oplader Opsummering",
+        "pl": "Podsumowanie Ładowarki EV",
+        "ru": "Сводка зарядки электромобиля",
+        "ar": "ملخص شاحن المركبات الكهربائية"
+      },
+      "class": "other",
+      "deprecated": true,
+      "capabilities": [],
+      "capabilitiesOptions": {
+        "meter_power": {
+          "decimals": 4
+        }
+      },
+      "images": {
+        "large": "./drivers/evCharger/assets/images/large.jpg",
+        "small": "./drivers/evCharger/assets/images/small.jpg"
+      },
+      "pair": [
+        {
+          "id": "list_devices",
+          "template": "list_devices",
+          "navigation": {
+            "next": "add_devices"
+          },
+          "options": {
+            "singular": true
+          }
+        },
+        {
+          "id": "add_devices",
+          "template": "add_devices"
+        }
+      ],
+      "repair": [
+        {
+          "id": "repair_warning",
+          "navigation": {
+            "next": "list_devices"
+          }
+        },
+        {
+          "id": "list_devices",
+          "template": "list_devices",
+          "options": {
+            "singular": true
+          },
+          "navigation": {
+            "next": "loading"
+          }
+        },
+        {
+          "id": "loading",
+          "template": "loading"
+        },
+        {
+          "id": "done",
+          "template": "done"
+        }
+      ],
+      "settings": [
+        {
+          "type": "group",
+          "label": {
+            "en": "EV Strategy Settings",
+            "nl": "EV Strategie Instellingen",
+            "de": "EV Strategie-Einstellungen",
+            "fr": "Paramètres de stratégie EV",
+            "it": "Impostazioni Strategia EV",
+            "sv": "EV-strategiinställningar",
+            "no": "EV-strategiinnstillinger",
+            "es": "Configuración de estrategia EV",
+            "da": "EV-strategiindstillinger",
+            "pl": "Ustawienia strategii EV",
+            "ru": "Настройки стратегии EV",
+            "ar": "إعدادات استراتيجية المركبات الكهربائية"
+          },
+          "children": [
+            {
+              "id": "chargePower",
+              "type": "number",
+              "label": {
+                "en": "Max. charging power (W)",
+                "nl": "Max. laadvermogen (W)",
+                "de": "Max. Ladeleistung (W)",
+                "fr": "Puissance de charge max. (W)",
+                "it": "Potenza di carica max. (W)",
+                "sv": "Max. laddeffekt (W)",
+                "no": "Maks. ladeeffekt (W)",
+                "es": "Potencia de carga máx. (W)",
+                "da": "Maks. ladeeffekt (W)",
+                "pl": "Maks. moc ładowania (W)",
+                "ru": "Макс. мощность зарядки (Вт)",
+                "ar": "الحد الأقصى لطاقة الشحن (واط)"
+              },
+              "value": 11000,
+              "min": 0,
+              "decimals": 0
+            },
+            {
+              "id": "variableChargePower",
+              "type": "checkbox",
+              "label": {
+                "en": "Variable charging power",
+                "nl": "Variabel laadvermogen",
+                "de": "Variable Ladeleistung",
+                "fr": "Puissance de charge variable",
+                "it": "Potenza di ricarica variabile",
+                "sv": "Variabel laddningseffekt",
+                "no": "Variabel ladeeffekt",
+                "es": "Potencia de carga variable"
+              },
+              "hint": {
+                "en": "Check this if your EV charger supports dynamic power adjustment. If unchecked, it will charge at maximum power and stop when the target is reached.",
+                "nl": "Vink dit aan als je EV lader dynamische vermogensaanpassing ondersteunt. Indien uitgevinkt, wordt er op maximaal vermogen geladen en stopt het wanneer het doel is bereikt.",
+                "de": "Aktivieren Sie dies, wenn Ihr EV-Ladegerät eine dynamische Leistungsanpassung unterstützt. Wenn nicht aktiviert, wird mit maximaler Leistung geladen und gestoppt, wenn das Ziel erreicht ist."
+              },
+              "value": false
+            },
+            {
+              "id": "batCapacity",
+              "type": "number",
+              "label": {
+                "en": "Battery Capacity (kWh)",
+                "nl": "Batterij Capaciteit (kWh)",
+                "de": "Batteriekapazität (kWh)",
+                "fr": "Capacité de la batterie (kWh)",
+                "it": "Capacità della batteria (kWh)",
+                "sv": "Batterikapacitet (kWh)",
+                "no": "Batterikapasitet (kWh)",
+                "es": "Capacidad de la batería (kWh)",
+                "da": "Batterikapacitet (kWh)",
+                "pl": "Pojemność baterii (kWh)",
+                "ru": "Емкость батареи (кВтч)",
+                "ar": "سعة البطارية (كيلوواط ساعة)"
+              },
+              "value": 50,
+              "min": 1,
+              "decimals": 1
+            },
+            {
+              "id": "targetSoc",
+              "type": "number",
+              "label": {
+                "en": "Target SoC (%)",
+                "nl": "Doel SoC (%)",
+                "de": "Ziel SoC (%)",
+                "fr": "SoC cible (%)",
+                "it": "SoC target (%)",
+                "sv": "Mål SoC (%)",
+                "no": "Mål SoC (%)",
+                "es": "SoC objetivo (%)",
+                "da": "Mål SoC (%)",
+                "pl": "Docelowy SoC (%)",
+                "ru": "Целевой SoC (%)",
+                "ar": "الهدف SoC (%)"
+              },
+              "value": 100,
+              "min": 10,
+              "max": 100,
+              "decimals": 0
+            },
+            {
+              "id": "departureTime",
+              "type": "text",
+              "label": {
+                "en": "Departure Time (HH:MM)",
+                "nl": "Vertrektijd (UU:MM)",
+                "de": "Abfahrtszeit (HH:MM)",
+                "fr": "Heure de départ (HH:MM)",
+                "it": "Orario di partenza (HH:MM)",
+                "sv": "Avgångstid (HH:MM)",
+                "no": "Avgangstid (TT:MM)",
+                "es": "Hora de salida (HH:MM)",
+                "da": "Afgangstid (TT:MM)",
+                "pl": "Czas odjazdu (GG:MM)",
+                "ru": "Время отправления (ЧЧ:ММ)",
+                "ar": "وقت المغادرة (ساعة:دقيقة)"
+              },
+              "value": "08:00"
+            }
+          ]
+        }
+      ],
+      "id": "evCharger"
+    },
+    {
+      "name": {
         "en": "Gas Summarizer",
         "nl": "Gas Samenvatter",
         "de": "Gaszähler",
@@ -13973,10 +14227,42 @@
         "ar": "ملخص شبكة الكهرباء"
       },
       "class": "other",
-      "deprecated": true,
       "capabilities": [],
       "capabilitiesOptions": {
         "meter_power": {
+          "decimals": 4
+        },
+        "measure_power.home": {
+          "title": {
+            "en": "Home Power",
+            "nl": "Huis Vermogen",
+            "de": "Haus Leistung",
+            "fr": "Puissance Maison",
+            "it": "Potenza Casa",
+            "sv": "Hem Effekt",
+            "no": "Hjem Effekt",
+            "es": "Potencia Casa",
+            "da": "Hjem Effekt",
+            "pl": "Moc Domu",
+            "ru": "Мощность Дома",
+            "ar": "طاقة المنزل"
+          }
+        },
+        "meter_power.home": {
+          "title": {
+            "en": "Home Energy",
+            "nl": "Huis Energie",
+            "de": "Haus Energie",
+            "fr": "Énergie Maison",
+            "it": "Energia Casa",
+            "sv": "Hem Energi",
+            "no": "Hjem Energi",
+            "es": "Energía Casa",
+            "da": "Hjem Energi",
+            "pl": "Energia Domu",
+            "ru": "Энергия Дома",
+            "ar": "طاقة المنزل"
+          },
           "decimals": 4
         }
       },

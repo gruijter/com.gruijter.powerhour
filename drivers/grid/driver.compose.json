@@ -14,10 +14,42 @@
     "ar": "ملخص شبكة الكهرباء"
   },
   "class": "other",
-  "deprecated": true,
   "capabilities": [],
   "capabilitiesOptions": {
     "meter_power": {
+      "decimals": 4
+    },
+    "measure_power.home": {
+      "title": {
+        "en": "Home Power",
+        "nl": "Huis Vermogen",
+        "de": "Haus Leistung",
+        "fr": "Puissance Maison",
+        "it": "Potenza Casa",
+        "sv": "Hem Effekt",
+        "no": "Hjem Effekt",
+        "es": "Potencia Casa",
+        "da": "Hjem Effekt",
+        "pl": "Moc Domu",
+        "ru": "Мощность Дома",
+        "ar": "طاقة المنزل"
+      }
+    },
+    "meter_power.home": {
+      "title": {
+        "en": "Home Energy",
+        "nl": "Huis Energie",
+        "de": "Haus Energie",
+        "fr": "Énergie Maison",
+        "it": "Energia Casa",
+        "sv": "Hem Energi",
+        "no": "Hjem Energi",
+        "es": "Energía Casa",
+        "da": "Hjem Energi",
+        "pl": "Energia Domu",
+        "ru": "Энергия Дома",
+        "ar": "طاقة المنزل"
+      },
       "decimals": 4
     }
   },

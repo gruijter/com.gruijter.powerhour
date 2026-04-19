@@ -30,7 +30,8 @@ const driverSpecifics = {
     'meter_money_last_hour', 'meter_money_this_hour', 'meter_money_last_day', 'meter_money_this_day',
     'meter_money_last_month', 'meter_money_this_month', 'meter_money_last_year', 'meter_money_this_year',
     'meter_money_this_month_avg', 'meter_money_this_year_avg',
-    'meter_tariff', 'meter_power', 'measure_watt_avg', 'last_minmax_reset', 'measure_watt_min', 'measure_watt_max'],
+    'meter_tariff', 'meter_power', 'measure_watt_avg', 'last_minmax_reset', 'measure_watt_min', 'measure_watt_max',
+    'measure_power.home', 'meter_power.home'],
 };
 
 class GridDriver extends GenericDriver {
@@ -91,8 +92,12 @@ class GridDriver extends GenericDriver {
 
     // Filter for devices that act as a cumulative main grid meter
     if (energyData && energyData.cumulative === true) {
-      const useMeasureSource = !homeyDevice.capabilities.some((cap) => cap.startsWith('meter_power')) && homeyDevice.capabilities.includes('measure_power');
-      return { found: true, useMeasureSource };
+      const hasMeterPower = homeyDevice.capabilities.some((cap) => cap.startsWith('meter_power'));
+      const hasMeasurePower = homeyDevice.capabilities.includes('measure_power');
+      if (hasMeterPower || hasMeasurePower) {
+        const useMeasureSource = !hasMeterPower && hasMeasurePower;
+        return { found: true, useMeasureSource };
+      }
     }
 
     return { found: false };
