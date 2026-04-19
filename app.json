@@ -12791,7 +12791,6 @@
         "ar": "ملخص شاحن المركبات الكهربائية"
       },
       "class": "other",
-      "deprecated": true,
       "capabilities": [],
       "capabilitiesOptions": {
         "meter_power": {
@@ -12964,6 +12963,291 @@
                 "ar": "وقت المغادرة (ساعة:دقيقة)"
               },
               "value": "08:00"
+            }
+          ]
+        },
+        {
+          "type": "group",
+          "label": {
+            "en": "Homey source device information",
+            "nl": "Homey bronapparaat informatie",
+            "de": "Informationen zum Homey Gerät",
+            "fr": "Informations sur l'appareil source Homey",
+            "it": "Informazioni dispositivo sorgente Homey",
+            "sv": "Homey källenhetsinformation",
+            "no": "Homey kildeenhetsinformasjon",
+            "es": "Información del dispositivo de origen Homey",
+            "da": "Homey kildeenhedsinformation",
+            "pl": "Informacje o urządzeniu źródłowym Homey",
+            "ru": "Информация об исходном устройстве Homey",
+            "ar": "معلومات جهاز مصدر Homey"
+          },
+          "children": [
+            {
+              "id": "homey_device_id",
+              "type": "label",
+              "label": {
+                "en": "Device ID",
+                "nl": "Apparaat ID",
+                "de": "Geräte ID",
+                "fr": "ID de l'appareil",
+                "it": "ID dispositivo",
+                "sv": "Enhets ID",
+                "no": "Enhets ID",
+                "es": "ID del dispositivo",
+                "da": "Enheds-ID",
+                "pl": "ID urządzenia",
+                "ru": "ID устройства",
+                "ar": "معرف الجهاز"
+              },
+              "value": "unknown"
+            },
+            {
+              "id": "homey_device_name",
+              "type": "label",
+              "label": {
+                "en": "Device name",
+                "nl": "Apparaat naam",
+                "de": "Gerätename",
+                "fr": "Nom de l'appareil",
+                "it": "Nome dispositivo",
+                "sv": "Enhets namn",
+                "no": "Enhets namn",
+                "es": "Nombre del dispositivo",
+                "da": "Enhedsnavn",
+                "pl": "Nazwa urządzenia",
+                "ru": "Имя устройства",
+                "ar": "اسم الجهاز"
+              },
+              "value": "unknown"
+            }
+          ]
+        },
+        {
+          "type": "group",
+          "label": {
+            "en": "Tariffs",
+            "nl": "Tarieven",
+            "de": "Tarife",
+            "fr": "Tarifs",
+            "it": "Tariffe",
+            "sv": "Tariffer",
+            "no": "Tariffer",
+            "es": "Tarifas",
+            "da": "Takster",
+            "pl": "Taryfy",
+            "ru": "Тарифы",
+            "ar": "التعريفات"
+          },
+          "children": [
+            {
+              "id": "tariff_update_group",
+              "type": "number",
+              "label": {
+                "en": "Tariff update group (DAP)",
+                "nl": "Tarief update groep (DAP)",
+                "de": "Tarif Aktualisierungsgruppe (DAP)",
+                "fr": "Groupe de mise à jour tarifaire (DAP)",
+                "it": "Gruppo aggiornamento tariffa (DAP)",
+                "sv": "Tariffuppdateringsgrupp (DAP)",
+                "no": "Tariff oppdateringsgruppe (DAP)",
+                "es": "Grupo de actualización de tarifas (DAP)",
+                "da": "Takstopdateringsgruppe (DAP)",
+                "pl": "Grupa aktualizacji taryf (DAP)",
+                "ru": "Группа обновления тарифов (DAP)",
+                "ar": "مجموعة تحديث التعريفة (DAP)"
+              },
+              "hint": {
+                "en": "Group number for getting grid tariffs via Day Ahead Pricing (DAP).",
+                "nl": "Groepnummer voor het krijgen van net tarieven via Day Ahead Pricing (DAP).",
+                "de": "Gruppennummer für den Bezug von Netztarifen über Day Ahead Pricing (DAP).",
+                "fr": "Numéro de groupe pour obtenir les tarifs du réseau via Day Ahead Pricing (DAP).",
+                "it": "Numero del gruppo per ottenere le tariffe di rete tramite Day Ahead Pricing (DAP).",
+                "sv": "Gruppnummer för att få nättariffer via Day Ahead Pricing (DAP).",
+                "no": "Gruppenummer for å få nettariffer via Day Ahead Pricing (DAP).",
+                "es": "Número de grupo para obtener tarifas de red a través de Day Ahead Pricing (DAP).",
+                "da": "Gruppenummer til at få nettakster via Day Ahead Pricing (DAP).",
+                "pl": "Numer grupy do uzyskiwania taryf sieciowych przez Day Ahead Pricing (DAP).",
+                "ru": "Номер группы для получения сетевых тарифов через Day Ahead Pricing (DAP).",
+                "ar": "رقم المجموعة للحصول على تعريفات الشبكة عبر Day Ahead Pricing (DAP)."
+              },
+              "value": 1,
+              "min": 0,
+              "max": 10,
+              "step": 1
+            },
+            {
+              "id": "tariff_type",
+              "type": "dropdown",
+              "label": {
+                "en": "Tariff selection",
+                "nl": "Tariefselectie",
+                "de": "Tarifauswahl",
+                "fr": "Sélection du tarif",
+                "it": "Selezione tariffa",
+                "sv": "Tariffval",
+                "no": "Tariffvalg",
+                "es": "Selección de tarifa",
+                "da": "Tarifvalg",
+                "pl": "Wybór taryfy",
+                "ru": "Выбор тарифа",
+                "ar": "اختيار التعريفة"
+              },
+              "hint": {
+                "en": "Select which tariff to use for monetary calculations. 'Dynamic' automatically switches based on grid import/export.",
+                "nl": "Selecteer welk tarief gebruikt moet worden voor geldberekeningen. 'Dynamisch' schakelt automatisch op basis van netto import/export.",
+                "de": "Wählen Sie, welcher Tarif für Geldberechnungen verwendet werden soll. 'Dynamisch' wechselt automatisch basierend auf Netzimport/-export.",
+                "fr": "Sélectionnez le tarif à utiliser pour les calculs monétaires. 'Dynamique' bascule automatiquement en fonction de l'importation/exportation du réseau.",
+                "it": "Seleziona quale tariffa utilizzare per i calcoli monetari. 'Dinamico' cambia automaticamente in base all'importazione/esportazione della rete.",
+                "sv": "Välj vilken tariff som ska användas för monetära beräkningar. 'Dynamisk' växlar automatiskt baserat på nätimport/-export.",
+                "no": "Velg hvilken tariff som skal brukes for kostnadsberegninger. 'Dynamisk' bytter automatisk basert på nettimport/-eksport.",
+                "es": "Seleccione qué tarifa usar para los cálculos monetarios. 'Dinámico' cambia automáticamente según la importación/exportación de la red.",
+                "da": "Vælg, hvilken takst der skal bruges til pengeberegninger. 'Dynamisk' skifter automatisk baseret på netimport/-eksport.",
+                "pl": "Wybierz, której taryfy użyć do obliczeń pieniężnych. 'Dynamiczna' automatycznie przełącza się na podstawie importu/eksportu sieci.",
+                "ru": "Выберите, какой тариф использовать для денежных расчетов. «Динамический» автоматически переключается в зависимости от импорта/экспорта сети.",
+                "ar": "حدد التعريفة التي سيتم استخدامها للحسابات النقدية. 'الديناميكي' يتبدل تلقائيًا بناءً على استيراد/تصدير الشبكة."
+              },
+              "value": "dynamic",
+              "values": [
+                {
+                  "id": "dynamic",
+                  "label": {
+                    "en": "Dynamic",
+                    "nl": "Dynamisch",
+                    "de": "Dynamisch",
+                    "fr": "Dynamique",
+                    "it": "Dinamico",
+                    "sv": "Dynamisk",
+                    "no": "Dynamisk",
+                    "es": "Dinámico",
+                    "da": "Dynamisk",
+                    "pl": "Dynamiczna",
+                    "ru": "Динамический",
+                    "ar": "ديناميكي"
+                  }
+                },
+                {
+                  "id": "import",
+                  "label": {
+                    "en": "Always Import",
+                    "nl": "Altijd Import",
+                    "de": "Immer Import",
+                    "fr": "Toujours Importer",
+                    "it": "Sempre Importazione",
+                    "sv": "Alltid Import",
+                    "no": "Alltid Import",
+                    "es": "Siempre Importar",
+                    "da": "Altid Import",
+                    "pl": "Zawsze Import",
+                    "ru": "Всегда Импорт",
+                    "ar": "استيراد دائما"
+                  }
+                },
+                {
+                  "id": "export",
+                  "label": {
+                    "en": "Always Export",
+                    "nl": "Altijd Export",
+                    "de": "Immer Export",
+                    "fr": "Toujours Exporter",
+                    "it": "Sempre Esportazione",
+                    "sv": "Alltid Export",
+                    "no": "Alltid Eksport",
+                    "es": "Siempre Exportar",
+                    "da": "Altid Eksport",
+                    "pl": "Zawsze Eksport",
+                    "ru": "Всегда Экспорт",
+                    "ar": "تصدير دائما"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "group",
+          "label": {
+            "en": "Monetary value",
+            "de": "Geldbetrag",
+            "sv": "Penningvärde",
+            "it": "Valore monetario",
+            "no": "Kostnad",
+            "fr": "Valeur monétaire",
+            "nl": "Geldwaarde",
+            "es": "Valor monetario",
+            "da": "Pengeværdi",
+            "pl": "Wartość pieniężna",
+            "ru": "Денежная стоимость",
+            "ar": "القيمة النقدية"
+          },
+          "children": [
+            {
+              "id": "currency",
+              "type": "text",
+              "label": {
+                "en": "Currency unit display",
+                "de": "Währungseinheit",
+                "sv": "Visning av valutaenhet",
+                "it": "Visualizzazione unità valuta",
+                "no": "Visning av valutaenhet",
+                "fr": "Affichage de l'unité monétaire",
+                "da": "Visning af valutaenhed",
+                "nl": "Weergave geldeenheid",
+                "es": "Visualización de unidad de moneda",
+                "pl": "Wyświetlanie jednostki walutowej",
+                "ru": "Отображение валютной единицы",
+                "ar": "عرض وحدة العملة"
+              },
+              "value": "",
+              "hint": {
+                "en": "The unit displayed as currency, e.g. €, £, EUR, SER, NOK, DKK, CHF. Leave empty to automatically use the currency from the Day-ahead pricing source.",
+                "de": "Die als Währung angezeigte Einheit, z.B. €, £, EUR, SER, NOK, DKK, CHF. Leer lassen, um automatisch die Währung von der Day-ahead-Pricing-Quelle zu verwenden.",
+                "sv": "Enheten som visas som valuta, t.ex. €, £, EUR, SER, NOK, DKK, CHF. Lämna tomt för att automatiskt använda valutan från Day-ahead-priskällan.",
+                "it": "L'unità mostrata come valuta, es. €, £, EUR, SER, NOK, DKK, CHF. Lasciare vuoto per utilizzare automaticamente la valuta dalla fonte di prezzo Day-ahead.",
+                "no": "Valutaenheten vises som f.eks. €, £, EUR, SER, NOK, DKK, CHF. La stå blank for å automatisk bruke valutaen fra Day-ahead-priskilden.",
+                "fr": "Unité affichée comme devise, ex. €, £, EUR, SER, NOK, DKK, CHF. Laisser vide pour utiliser automatiquement la devise de la source de tarification Day-ahead.",
+                "da": "Valutaenheden vises f.eks. €, £, EUR, SER, NOK, DKK, CHF. Lad denne stå blank for automatisk at bruge valutaen fra Day-ahead-priskilden.",
+                "nl": "De weergegeven eenheid voor geld, bijv. €, £, EUR, SER, NOK, DKK, CHF. Laat leeg om automatisch de valuta van de Day-ahead pricing bron te gebruiken.",
+                "es": "La unidad que se muestra como moneda, p. ej. €, £, EUR, SER, NOK, DKK, CHF. Dejar vacío para usar automáticamente la moneda de la fuente de precios Day-ahead.",
+                "pl": "Jednostka wyświetlana jako waluta, np. €, £, EUR, SER, NOK, DKK, CHF. Pozostaw puste, aby automatycznie użyć waluty ze źródła cen Day-ahead.",
+                "ru": "Единица, отображаемая как валюта, например €, £, EUR, SER, NOK, DKK, CHF. Оставьте пустым, чтобы автоматически использовать валюту из источника цен Day-ahead.",
+                "ar": "الوحدة المعروضة كعملة، مثل €، £، EUR، SER، NOK، DKK، CHF. اتركها فارغة لاستخدام العملة تلقائيًا من مصدر تسعير اليوم التالي."
+              }
+            },
+            {
+              "id": "decimals",
+              "type": "number",
+              "label": {
+                "en": "Currency decimals",
+                "de": "Anzahl Dezimalstellen",
+                "sv": "Valuta decimaler",
+                "it": "Decimali valuta",
+                "no": "Valute desimaler",
+                "fr": "Décimales devise",
+                "da": "Valuta decimaler",
+                "nl": "Geld decimalen",
+                "es": "Decimales de moneda",
+                "pl": "Miejsca dziesiętne waluty",
+                "ru": "Десятичные знаки валюты",
+                "ar": "الكسور العشرية للعملة"
+              },
+              "value": 2,
+              "min": 0,
+              "max": 8,
+              "hint": {
+                "en": "The number of decimals to use for price.",
+                "de": "Die Anzahl der Dezimalstellen für den Preis.",
+                "sv": "Antalet decimaler som ska användas för pris.",
+                "it": "Il numero di decimali da utilizzare per il prezzo.",
+                "no": "Antall prisdesimaler",
+                "fr": "Nombre de décimales à utiliser pour le tarif",
+                "da": "Antallet af decimaler, der bruges til prisen",
+                "nl": "Het aantal decimalen voor prijs.",
+                "es": "El número de decimales a utilizar para el precio.",
+                "pl": "Liczba miejsc dziesiętnych do użycia dla ceny.",
+                "ru": "Количество десятичных знаков для цены.",
+                "ar": "عدد الكسور العشرية المراد استخدامها للسعر."
+              }
             }
           ]
         }
@@ -14229,7 +14513,21 @@
       "class": "other",
       "capabilities": [],
       "capabilitiesOptions": {
-        "meter_power": {
+        "meter_power.grid": {
+          "title": {
+            "en": "Grid Energy",
+            "nl": "Net Energie",
+            "de": "Netz Energie",
+            "fr": "Énergie Réseau",
+            "it": "Energia Rete",
+            "sv": "Nät Energi",
+            "no": "Nett Energi",
+            "es": "Energía Red",
+            "da": "Net Energi",
+            "pl": "Energia Sieci",
+            "ru": "Энергия сети",
+            "ar": "طاقة الشبكة"
+          },
           "decimals": 4
         },
         "measure_power.grid": {

@@ -48,15 +48,6 @@ class CarChargeDriver extends GenericDriver {
 
     return { found: false };
   }
-
-  getDeviceSettings(homeyDevice) {
-    return {
-      homey_device_id: homeyDevice.id,
-      homey_device_name: homeyDevice.name,
-      level: this.homey.app.manifest.version,
-      tariff_update_group: 1,
-    };
-  }
 }
 
 module.exports = CarChargeDriver;

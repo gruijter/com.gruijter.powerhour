@@ -28,8 +28,8 @@ const deviceSpecifics = {
 class CarChargeDevice extends GenericDevice {
   async onInit() {
     this.ds = deviceSpecifics;
-    await super.onInit().catch(this.error);
     this.flows = new EvFlows(this);
+    await super.onInit().catch(this.error);
   }
 
   async addSourceCapGroup() {
@@ -154,7 +154,15 @@ class CarChargeDevice extends GenericDevice {
     });
 
     if (strategy) {
-      await this.flows.triggerNewEvStrategyFlow(strategy).catch(this.error);
+      if (typeof this.flows.triggerNewEvStrategyFlow === 'function') {
+        await this.flows.triggerNewEvStrategyFlow(strategy).catch(this.error);
+      }
+
+      if (this.pricesNextHoursIsForecast) {
+        Object.keys(strategy).forEach((k) => {
+          if (this.pricesNextHoursIsForecast[k]) strategy[k].isForecast = true;
+        });
+      }
 
       const now = new Date();
       now.setMilliseconds(0);
@@ -162,7 +170,7 @@ class CarChargeDevice extends GenericDevice {
       const H0 = nowLocal.getHours();
       const M0 = Math.floor(nowLocal.getMinutes() / this.priceInterval) * this.priceInterval;
 
-      const chartNextHours = await getChargeChart(strategy, H0 + (M0 / 60), this.pricesNextHoursMarketLength, chargePower, 0, this.priceInterval, null);
+      const chartNextHours = await getChargeChart({ scheme: JSON.stringify(strategy) }, H0 + (M0 / 60), this.pricesNextHoursMarketLength, chargePower, 0, this.priceInterval, null);
 
       this.chartNextHoursCharge = chartNextHours;
       if (!this.nextHoursChargeImage) {
