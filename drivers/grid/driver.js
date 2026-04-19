@@ -20,7 +20,6 @@ along with com.gruijter.powerhour.  If not, see <http://www.gnu.org/licenses/>.
 'use strict';
 
 const GenericDriver = require('../../lib/genericDeviceDrivers/generic_sum_driver');
-const { setTimeoutPromise } = require('../../lib/Util');
 
 const driverSpecifics = {
   driverId: 'grid',
@@ -39,60 +38,6 @@ class GridDriver extends GenericDriver {
   async onInit() {
     this.ds = driverSpecifics;
     await super.onInit().catch(this.error);
-  }
-
-  registerTariffListener() {
-    // Listen specifically to 'power' tariffs from DAP for grid pricing
-    const eventName = 'set_tariff_power_PBTH';
-    if (this.eventListenerTariff) this.homey.removeListener(eventName, this.eventListenerTariff);
-
-    this.eventListenerTariff = (args) => {
-      (async () => {
-        try {
-          let tariff = args.tariff === null ? null : Number(args.tariff);
-          if (!Number.isFinite(tariff) && args.pricesNextHours && args.pricesNextHours.length > 0) {
-            tariff = Number(args.pricesNextHours[0]);
-          }
-
-          if (tariff === null || !Number.isFinite(tariff)) return;
-
-          const group = args.group || 1;
-          let exportTariff = args.exportTariff === null ? null : Number(args.exportTariff);
-          if (!Number.isFinite(exportTariff) && args.exportPricesNextHours && args.exportPricesNextHours.length > 0) {
-            exportTariff = Number(args.exportPricesNextHours[0]);
-          } else if (!Number.isFinite(exportTariff)) {
-            exportTariff = tariff;
-          }
-          const { currency } = args;
-
-          this.tariffs = this.tariffs || {};
-          this.exportTariffs = this.exportTariffs || {};
-          this.currencies = this.currencies || {};
-
-          this.tariffs[group] = tariff;
-          this.exportTariffs[group] = exportTariff;
-          this.currencies[group] = currency;
-
-          await setTimeoutPromise(2 * 1000, this);
-
-          const devices = this.getDevices();
-          for (const device of devices) {
-            const s = device.getSettings();
-            if (s.tariff_update_group === group) {
-              device.updateGridTariffs(new Date());
-            }
-          }
-        } catch (error) {
-          this.error(error);
-        }
-      })().catch(this.error);
-    };
-    this.homey.on(eventName, this.eventListenerTariff);
-  }
-
-  updateDeviceTariff(device, overrideGroup) {
-    // Ensure both groups update immediately when changed in settings
-    device.updateGridTariffs(new Date());
   }
 
   checkDeviceCompatibility(homeyDevice) {
