@@ -1,0 +1,58 @@
+{
+  "title": {
+    "en": "New EV strategy active",
+    "nl": "Nieuwe EV strategie actief",
+    "de": "Neue EV-Strategie aktiv",
+    "fr": "Nouvelle stratégie EV active"
+  },
+  "hint": {
+    "en": "Triggers every price interval (e.g. 15m or 60m) or when settings change. Provides the optimal charging power and duration for the current interval.",
+    "nl": "Triggert bij elke prijsinterval (bijv. 15m of 60m) of wanneer instellingen veranderen. Geeft het optimale laadvermogen en duur voor het huidige interval.",
+    "de": "Wird in jedem Preisintervall (z. B. 15 Min. oder 60 Min.) oder bei Einstellungsänderungen ausgelöst. Bietet die optimale Ladeleistung und Dauer für das aktuelle Intervall.",
+    "fr": "Se déclenche à chaque intervalle de prix (par ex. 15m ou 60m) ou lorsque les paramètres changent. Fournit la puissance de charge optimale pour l'intervalle actuel."
+  },
+  "args": [
+    {
+      "type": "device",
+      "name": "device",
+      "filter": "driver_id=evCharger"
+    }
+  ],
+  "tokens": [
+    {
+      "name": "power",
+      "type": "number",
+      "title": {
+        "en": "Power (W)",
+        "nl": "Vermogen (W)",
+        "de": "Leistung (W)"
+      }
+    },
+    {
+      "name": "duration",
+      "type": "number",
+      "title": {
+        "en": "Duration (minutes)",
+        "nl": "Duur (minuten)",
+        "de": "Dauer (Minuten)"
+      }
+    },
+    {
+      "name": "targetSoC",
+      "type": "number",
+      "title": {
+        "en": "Target SOC (%)",
+        "nl": "Doel SOC (%)",
+        "de": "Ziel-SOC (%)"
+      }
+    },
+    {
+      "name": "scheme",
+      "type": "string",
+      "title": {
+        "en": "Scheme JSON",
+        "nl": "Schema JSON"
+      }
+    }
+  ]
+}

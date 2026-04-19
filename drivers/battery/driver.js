@@ -20,6 +20,7 @@ along with com.gruijter.powerhour.  If not, see <http://www.gnu.org/licenses/>.s
 'use strict';
 
 const GenericDriver = require('../../lib/genericDeviceDrivers/generic_bat_driver');
+const nomXomStrategy = require('../../lib/strategies/NomXomStrategy');
 
 const driverSpecifics = {
   driverId: 'battery',
@@ -62,9 +63,136 @@ const driverSpecifics = {
 class BatteryDriver extends GenericDriver {
 
   async onInit() {
-    // this.log('driver onInit');
     this.ds = driverSpecifics;
     await super.onInit().catch(this.error);
+    await this.startPollingEnergy(5).catch((err) => this.error(err));
+  }
+
+  async onUninit() {
+    if (this.intervalIdEnergyPoll) {
+      this.homey.clearInterval(this.intervalIdEnergyPoll);
+      this.homey.clearTimeout(this.intervalIdEnergyPoll);
+    }
+    await super.onUninit();
+  }
+
+  async startPollingEnergy(interval) {
+    const int = interval || 5;
+    if (this.intervalIdEnergyPoll) {
+      this.homey.clearInterval(this.intervalIdEnergyPoll);
+      this.homey.clearTimeout(this.intervalIdEnergyPoll);
+    }
+
+    let retries = 0;
+    let api;
+    while (!api && retries < 60) {
+      try {
+        api = this.homey.app.api;
+      } catch (e) {}
+      if (api) break;
+      await new Promise((resolve) => this.homey.setTimeout(resolve, 1000));
+      retries += 1;
+      if (this.isDestroyed) return;
+    }
+    if (!api) {
+      this.log('Homey API not ready, cannot start energy polling');
+      return;
+    }
+
+    this.log(`start polling Cumulative XOM Energy @${int} seconds interval`);
+
+    let lastCumulativePower = null;
+    let lastProcessTime = 0;
+
+    const poll = async () => {
+      if (this.isDestroyed) return;
+      try {
+        const report = await api.energy.getLiveReport().catch((err) => this.error(err));
+        const cumulativePower = report?.totalCumulative?.W;
+        if (Number.isFinite(cumulativePower) && Math.abs(cumulativePower) <= 30000) {
+          const now = Date.now();
+          if (cumulativePower !== lastCumulativePower || (now - lastProcessTime) > 10000) {
+            const timeDelta = lastProcessTime > 0 ? (now - lastProcessTime) / 1000 : int;
+            lastCumulativePower = cumulativePower;
+            lastProcessTime = now;
+            await this.processEnergyLogic(cumulativePower, timeDelta);
+          }
+        }
+      } catch (error) {
+        this.error(error);
+      } finally {
+        if (!this.isDestroyed) {
+          this.intervalIdEnergyPoll = this.homey.setTimeout(poll, 1000 * int);
+        }
+      }
+    };
+    poll();
+  }
+
+  async processEnergyLogic(cumulativePower, interval) {
+    let app;
+    try {
+      app = this.homey.app;
+    } catch (e) {
+      return;
+    }
+    const xomSettings = app.xomSettings || this.homey.settings.get('xomSettings') || {};
+    const { smoothing = 50, x = 0, minLoad = 50 } = xomSettings;
+    const samples = Math.max(1, Math.round((smoothing / 100) * (120 / Math.max(1, interval))));
+
+    const devices = this.getDevices();
+    devices.forEach((device) => {
+      device.currentGridPower = cumulativePower;
+    });
+
+    const strategy = nomXomStrategy.getStrategy({
+      devices,
+      cumulativePower,
+      x,
+      minLoad,
+    });
+
+    const promises = devices.map((device) => {
+      const strat = strategy.find((info) => info.id === device.getData().id);
+      return device.triggerXOMFlow(strat, samples, x, smoothing, minLoad, cumulativePower);
+    });
+    await Promise.all(promises);
+  }
+
+  checkDeviceCompatibility(homeyDevice) {
+    const hasCapability = (capability) => homeyDevice.capabilities.includes(capability);
+    let found = false;
+
+    if (homeyDevice.class === 'battery' || homeyDevice.virtualClass === 'battery') {
+      if (hasCapability('measure_battery') && hasCapability('measure_power')) {
+        found = true;
+      }
+    }
+
+    if (!found) {
+      found = this.ds.originDeviceCapabilities.some(hasCapability);
+      if (found) {
+        found = this.ds.sourceCapGroups.some((capGroup) => {
+          const requiredKeys = Object.values(capGroup).filter((v) => v);
+          return requiredKeys.every((k) => homeyDevice.capabilities.includes(k));
+        });
+      }
+    }
+    return { found, useMeasureSource: false };
+  }
+
+  getDeviceSettings(homeyDevice) {
+    const settings = super.getDeviceSettings(homeyDevice);
+    const HP2023 = this.homey.platformVersion === 2;
+    settings.roiEnable = HP2023;
+    return settings;
+  }
+
+  getDeviceCapabilities() {
+    const caps = [...this.ds.deviceCapabilities];
+    const HP2023 = this.homey.platformVersion === 2;
+    if (HP2023) caps.push('roi_duration');
+    return caps;
   }
 
 }

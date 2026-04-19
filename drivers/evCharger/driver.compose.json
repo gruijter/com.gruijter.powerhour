@@ -75,7 +75,14 @@
         "nl": "EV Strategie Instellingen",
         "de": "EV Strategie-Einstellungen",
         "fr": "Paramètres de stratégie EV",
-        "it": "Impostazioni Strategia EV"
+        "it": "Impostazioni Strategia EV",
+        "sv": "EV-strategiinställningar",
+        "no": "EV-strategiinnstillinger",
+        "es": "Configuración de estrategia EV",
+        "da": "EV-strategiindstillinger",
+        "pl": "Ustawienia strategii EV",
+        "ru": "Настройки стратегии EV",
+        "ar": "إعدادات استراتيجية المركبات الكهربائية"
       },
       "children": [
         {
@@ -84,11 +91,40 @@
           "label": {
             "en": "Max. charging power (W)",
             "nl": "Max. laadvermogen (W)",
-            "de": "Max. Ladeleistung (W)"
+            "de": "Max. Ladeleistung (W)",
+            "fr": "Puissance de charge max. (W)",
+            "it": "Potenza di carica max. (W)",
+            "sv": "Max. laddeffekt (W)",
+            "no": "Maks. ladeeffekt (W)",
+            "es": "Potencia de carga máx. (W)",
+            "da": "Maks. ladeeffekt (W)",
+            "pl": "Maks. moc ładowania (W)",
+            "ru": "Макс. мощность зарядки (Вт)",
+            "ar": "الحد الأقصى لطاقة الشحن (واط)"
           },
           "value": 11000,
           "min": 0,
           "decimals": 0
+        },
+        {
+          "id": "variableChargePower",
+          "type": "checkbox",
+          "label": {
+            "en": "Variable charging power",
+            "nl": "Variabel laadvermogen",
+            "de": "Variable Ladeleistung",
+            "fr": "Puissance de charge variable",
+            "it": "Potenza di ricarica variabile",
+            "sv": "Variabel laddningseffekt",
+            "no": "Variabel ladeeffekt",
+            "es": "Potencia de carga variable"
+          },
+          "hint": {
+            "en": "Check this if your EV charger supports dynamic power adjustment. If unchecked, it will charge at maximum power and stop when the target is reached.",
+            "nl": "Vink dit aan als je EV lader dynamische vermogensaanpassing ondersteunt. Indien uitgevinkt, wordt er op maximaal vermogen geladen en stopt het wanneer het doel is bereikt.",
+            "de": "Aktivieren Sie dies, wenn Ihr EV-Ladegerät eine dynamische Leistungsanpassung unterstützt. Wenn nicht aktiviert, wird mit maximaler Leistung geladen und gestoppt, wenn das Ziel erreicht ist."
+          },
+          "value": false
         },
         {
           "id": "batCapacity",
@@ -96,7 +132,16 @@
           "label": {
             "en": "Battery Capacity (kWh)",
             "nl": "Batterij Capaciteit (kWh)",
-            "de": "Batteriekapazität (kWh)"
+            "de": "Batteriekapazität (kWh)",
+            "fr": "Capacité de la batterie (kWh)",
+            "it": "Capacità della batteria (kWh)",
+            "sv": "Batterikapacitet (kWh)",
+            "no": "Batterikapasitet (kWh)",
+            "es": "Capacidad de la batería (kWh)",
+            "da": "Batterikapacitet (kWh)",
+            "pl": "Pojemność baterii (kWh)",
+            "ru": "Емкость батареи (кВтч)",
+            "ar": "سعة البطارية (كيلوواط ساعة)"
           },
           "value": 50,
           "min": 1,
@@ -108,7 +153,16 @@
           "label": {
             "en": "Target SoC (%)",
             "nl": "Doel SoC (%)",
-            "de": "Ziel SoC (%)"
+            "de": "Ziel SoC (%)",
+            "fr": "SoC cible (%)",
+            "it": "SoC target (%)",
+            "sv": "Mål SoC (%)",
+            "no": "Mål SoC (%)",
+            "es": "SoC objetivo (%)",
+            "da": "Mål SoC (%)",
+            "pl": "Docelowy SoC (%)",
+            "ru": "Целевой SoC (%)",
+            "ar": "الهدف SoC (%)"
           },
           "value": 100,
           "min": 10,
@@ -121,7 +175,16 @@
           "label": {
             "en": "Departure Time (HH:MM)",
             "nl": "Vertrektijd (UU:MM)",
-            "de": "Abfahrtszeit (HH:MM)"
+            "de": "Abfahrtszeit (HH:MM)",
+            "fr": "Heure de départ (HH:MM)",
+            "it": "Orario di partenza (HH:MM)",
+            "sv": "Avgångstid (HH:MM)",
+            "no": "Avgangstid (TT:MM)",
+            "es": "Hora de salida (HH:MM)",
+            "da": "Afgangstid (TT:MM)",
+            "pl": "Czas odjazdu (GG:MM)",
+            "ru": "Время отправления (ЧЧ:ММ)",
+            "ar": "وقت المغادرة (ساعة:دقيقة)"
           },
           "value": "08:00"
         }

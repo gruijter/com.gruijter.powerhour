@@ -20,11 +20,31 @@ along with com.gruijter.powerhour.  If not, see <http://www.gnu.org/licenses/>.s
 'use strict';
 
 const GenericDevice = require('../../lib/genericDeviceDrivers/generic_bat_device');
+const { getChargeChart } = require('../../lib/charts/ChargeChart');
+const { imageUrlToStream } = require('../../lib/charts/ImageHelpers');
 
 class BatDevice extends GenericDevice {
 
   async onInit() {
     await super.onInit().catch(this.error);
+    const currentSessionId = this.sessionId;
+    if (this.getSettings().roiEnable) {
+      this.homey.setTimeout(async () => {
+        await new Promise((resolve) => this.homey.setTimeout(resolve, 10000 + (Math.random() * 60000)));
+        if (this.sessionId !== currentSessionId) return;
+        if (this.pricesNextHours) {
+          await this.flows.triggerNewRoiStrategyFlow().catch((err) => this.error(err));
+          await this.updateChargeChart().catch((err) => this.error(err));
+        }
+      }, 0);
+    }
+  }
+
+  async onPricesUpdated() {
+    if (this.getSettings().roiEnable) {
+      await this.flows.triggerNewRoiStrategyFlow();
+      await this.updateChargeChart();
+    }
   }
 
   async addSourceCapGroup() {
@@ -118,6 +138,42 @@ class BatDevice extends GenericDevice {
     await Promise.all(promises);
   }
 
+  async updateChargeChart() {
+    if (!this.pricesNextHours) return;
+    this.log('updating charge chart', this.getName());
+    const minPriceDelta = this.getSettings().roiMinProfit;
+    const strategy = await this.flows.find_roi_strategy({ minPriceDelta }).catch((err) => this.error(err));
+    if (strategy) {
+      await this.setCapability('roi_duration', strategy.duration).catch((err) => this.error(err));
+      if (this.pricesNextHoursIsForecast) {
+        const scheme = JSON.parse(strategy.scheme);
+        Object.keys(scheme).forEach((k) => {
+          if (this.pricesNextHoursIsForecast[k]) scheme[k].isForecast = true;
+        });
+        strategy.scheme = JSON.stringify(scheme);
+      }
+      const now = new Date();
+      now.setMilliseconds(0);
+      const nowLocal = new Date(now.toLocaleString('en-US', { timeZone: this.timeZone }));
+      const H0 = nowLocal.getHours();
+      const M0 = Math.floor(nowLocal.getMinutes() / this.priceInterval) * this.priceInterval;
+      const startHour = H0 + (M0 / 60);
+      // eslint-disable-next-line max-len
+      const chartNextHours = await getChargeChart(strategy, startHour, this.pricesNextHoursMarketLength, this.getSettings().chargePower, this.getSettings().dischargePower, this.priceInterval, this.exportPricesNextHours);
+      this.chartNextHoursCharge = chartNextHours;
+      if (!this.nextHoursChargeImage) {
+        this.nextHoursChargeImage = await this.homey.images.createImage();
+        this.nextHoursChargeImage.setStream(async (stream) => imageUrlToStream(this.chartNextHoursCharge, stream, this));
+        await this.setCameraImage('nextHoursChargeChart', ` ${this.homey.__('nextHours')}`, this.nextHoursChargeImage);
+      }
+      await this.nextHoursChargeImage.update().catch((err) => this.error(err));
+    }
+  }
+
+  triggerXOMFlow(strat, samples, x, smoothing, minLoad, cumulativePower) {
+    if (!this.flows) return Promise.resolve(false);
+    return this.flows.triggerXomFlow(strat, samples, x, smoothing, minLoad, cumulativePower);
+  }
 }
 
 module.exports = BatDevice;

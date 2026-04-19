@@ -4,7 +4,7 @@ Copyright 2019 - 2026, Robin de Gruijter (gruijter@hotmail.com)
 
 'use strict';
 
-const GenericDriver = require('../../lib/genericDeviceDrivers/generic_sum_driver');
+const GenericDriver = require('../../lib/genericDeviceDrivers/generic_bat_driver');
 
 const driverSpecifics = {
   driverId: 'evCharger',
@@ -46,7 +46,16 @@ class CarChargeDriver extends GenericDriver {
       }
     }
 
-    return { found: false, useMeasureSource: false };
+    return { found: false };
+  }
+
+  getDeviceSettings(homeyDevice) {
+    return {
+      homey_device_id: homeyDevice.id,
+      homey_device_name: homeyDevice.name,
+      level: this.homey.app.manifest.version,
+      tariff_update_group: 1,
+    };
   }
 }
 
