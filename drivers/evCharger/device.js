@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 /*
 Copyright 2019 - 2026, Robin de Gruijter (gruijter@hotmail.com)
 */
@@ -26,10 +27,24 @@ const deviceSpecifics = {
 };
 
 class CarChargeDevice extends GenericDevice {
+  async initDeviceValues() {
+    this.lastKnownSoc = await this.getStoreValue('lastKnownSoc') || 0;
+    await super.initDeviceValues();
+  }
+
   async onInit() {
     this.ds = deviceSpecifics;
     this.flows = new EvFlows(this);
     await super.onInit().catch(this.error);
+
+    const currentSessionId = this.sessionId;
+    this.homey.setTimeout(async () => {
+      await new Promise((resolve) => this.homey.setTimeout(resolve, 10000 + (Math.random() * 15000)));
+      if (this.sessionId !== currentSessionId) return;
+      if (this.pricesNextHours) {
+        await this.updateChargeChart().catch((err) => this.error(err));
+      }
+    }, 0);
   }
 
   async addSourceCapGroup() {
@@ -41,8 +56,11 @@ class CarChargeDevice extends GenericDevice {
     if (this.sourceDevice.capabilities.includes('measure_power')) {
       this.sourceCapGroup.measure = 'measure_power';
     }
-    if (!this.sourceCapGroup.p1 && !this.sourceCapGroup.measure) {
-      throw Error(`${this.sourceDevice.name} has no compatible meter_power or measure_power capabilities`);
+    if (this.sourceDevice.capabilities.includes('measure_battery')) {
+      this.sourceCapGroup.soc = 'measure_battery';
+    }
+    if (!this.sourceCapGroup.p1 && !this.sourceCapGroup.measure && !this.sourceCapGroup.soc) {
+      throw Error(`${this.sourceDevice.name} has no compatible meter_power, measure_power or measure_battery capabilities`);
     }
   }
 
@@ -71,6 +89,24 @@ class CarChargeDevice extends GenericDevice {
           // If no kWh meter, integrate Watt to kWh
           if (!this.sourceCapGroup.p1) {
             await this.updateMeterFromMeasure(-value).catch(this.error);
+          }
+        }
+      });
+    }
+
+    if (this.sourceCapGroup.soc) {
+      this.capabilityInstances.socRealtime = await this.sourceDevice.makeCapabilityInstance('measure_battery', async (value) => {
+        if (typeof value === 'number') {
+          const oldSoc = this.lastKnownSoc !== undefined ? this.lastKnownSoc : value;
+          this.lastKnownSoc = value;
+          this.setStoreValue('lastKnownSoc', this.lastKnownSoc).catch(this.error);
+          // Recalculate if SoC changed by 2% or more (prevents spamming during charge)
+          if (Math.abs(value - oldSoc) >= 2) {
+            this.log(`EV SoC changed from ${oldSoc}% to ${value}%, recalculating strategy...`);
+            if (this.socUpdateTimeout) this.homey.clearTimeout(this.socUpdateTimeout);
+            this.socUpdateTimeout = this.homey.setTimeout(() => {
+              this.updateChargeChart().catch(this.error);
+            }, 5000);
           }
         }
       });
@@ -105,6 +141,22 @@ class CarChargeDevice extends GenericDevice {
         }
       }
     }
+
+    if (this.sourceCapGroup.soc && this.sourceDevice.capabilitiesObj && this.sourceDevice.capabilitiesObj.measure_battery) {
+      const val = this.sourceDevice.capabilitiesObj.measure_battery.value;
+      if (typeof val === 'number') {
+        const oldSoc = this.lastKnownSoc !== undefined ? this.lastKnownSoc : val;
+        if (Math.abs(val - oldSoc) >= 2) {
+          this.lastKnownSoc = val;
+          this.setStoreValue('lastKnownSoc', this.lastKnownSoc).catch(this.error);
+          this.log(`EV SoC changed during poll from ${oldSoc}% to ${val}%, recalculating strategy...`);
+          this.updateChargeChart().catch(this.error);
+        } else {
+          this.lastKnownSoc = val;
+          this.setStoreValue('lastKnownSoc', this.lastKnownSoc).catch(this.error);
+        }
+      }
+    }
   }
 
   async onSettings({ newSettings, changedKeys }) {
@@ -136,10 +188,12 @@ class CarChargeDevice extends GenericDevice {
 
     const settings = this.getSettings();
     const chargePower = settings.chargePower || 11000;
-    let currentSoc = 0;
-    if (this.sourceDevice && this.sourceDevice.capabilitiesObj && this.sourceDevice.capabilitiesObj.measure_battery) {
-      currentSoc = this.sourceDevice.capabilitiesObj.measure_battery.value || 0;
+    let currentSoc = typeof this.lastKnownSoc === 'number' ? this.lastKnownSoc : 0;
+    if (this.sourceCapGroup && this.sourceCapGroup.soc && this.sourceDevice && this.sourceDevice.capabilitiesObj && this.sourceDevice.capabilitiesObj.measure_battery) {
+      const val = this.sourceDevice.capabilitiesObj.measure_battery.value;
+      if (typeof val === 'number') currentSoc = val;
     }
+    this.lastKnownSoc = currentSoc;
 
     const strategy = EvChargeStrategy.getStrategy({
       prices: this.pricesNextHours,

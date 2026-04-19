@@ -1,0 +1,29 @@
+{
+  "title": {
+    "en": "Set EV State of Charge",
+    "nl": "Zet EV batterijniveau (SoC)",
+    "de": "EV Ladezustand festlegen",
+    "fr": "Définir l'état de charge de l'EV"
+  },
+  "hint": {
+    "en": "Manually set the current battery percentage of the EV. Useful if your charger does not report the battery level.",
+    "nl": "Zet handmatig het huidige batterijpercentage van de EV. Handig als je lader dit niet doorgeeft."
+  },
+  "args": [
+    {
+      "type": "device",
+      "name": "device",
+      "filter": "driver_id=evCharger"
+    },
+    {
+      "type": "number",
+      "name": "soc",
+      "min": 0,
+      "max": 100,
+      "title": {
+        "en": "SoC (%)",
+        "nl": "SoC (%)"
+      }
+    }
+  ]
+}
