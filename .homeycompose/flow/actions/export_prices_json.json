@@ -132,6 +132,26 @@
       },
       "type": "string",
       "example": "[0.2747,0.2678,0.261,0.2606,0.2672,0.2721,0.272,0.2678,0.2625,0.2516,0.2409,0.2317,0.20,0.15,0.12,0.11,0.12,0.20,0.2772,0.2927,0.3052,0.2944,0.2856,0.2725]"
+    },
+    {
+      "name": "provider",
+      "title": {
+        "en": "Provider",
+        "de": "Anbieter",
+        "sv": "Leverantör",
+        "it": "Fornitore",
+        "no": "Leverandør",
+        "nl": "Aanbieder",
+        "fr": "Fournisseur",
+        "da": "Udbyder",
+        "es": "Proveedor",
+        "pl": "Dostawca",
+        "ru": "Провайдер",
+        "ko": "공급자",
+        "ar": "مزود"
+      },
+      "type": "string",
+      "example": "ENTSOE"
     }
   ]
 }
