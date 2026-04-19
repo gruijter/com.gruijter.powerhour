@@ -16,7 +16,21 @@
   "class": "other",
   "capabilities": [],
   "capabilitiesOptions": {
-    "meter_power": {
+    "meter_power.grid": {
+      "title": {
+        "en": "Grid Energy",
+        "nl": "Net Energie",
+        "de": "Netz Energie",
+        "fr": "Énergie Réseau",
+        "it": "Energia Rete",
+        "sv": "Nät Energi",
+        "no": "Nett Energi",
+        "es": "Energía Red",
+        "da": "Net Energi",
+        "pl": "Energia Sieci",
+        "ru": "Энергия сети",
+        "ar": "طاقة الشبكة"
+      },
       "decimals": 4
     },
     "measure_power.grid": {

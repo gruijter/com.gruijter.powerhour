@@ -31,7 +31,7 @@ const deviceSpecifics = {
     last_month: 'meter_kwh_last_month',
     this_year: 'meter_kwh_this_year',
     last_year: 'meter_kwh_last_year',
-    meter_source: 'meter_power',
+    meter_source: 'meter_power.grid',
     measure_source: 'measure_power.grid',
   },
 };
