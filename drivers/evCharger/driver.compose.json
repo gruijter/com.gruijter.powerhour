@@ -66,5 +66,66 @@
       "id": "done",
       "template": "done"
     }
+  ],
+  "settings": [
+    {
+      "type": "group",
+      "label": {
+        "en": "EV Strategy Settings",
+        "nl": "EV Strategie Instellingen",
+        "de": "EV Strategie-Einstellungen",
+        "fr": "Paramètres de stratégie EV",
+        "it": "Impostazioni Strategia EV"
+      },
+      "children": [
+        {
+          "id": "chargePower",
+          "type": "number",
+          "label": {
+            "en": "Max. charging power (W)",
+            "nl": "Max. laadvermogen (W)",
+            "de": "Max. Ladeleistung (W)"
+          },
+          "value": 11000,
+          "min": 0,
+          "decimals": 0
+        },
+        {
+          "id": "batCapacity",
+          "type": "number",
+          "label": {
+            "en": "Battery Capacity (kWh)",
+            "nl": "Batterij Capaciteit (kWh)",
+            "de": "Batteriekapazität (kWh)"
+          },
+          "value": 50,
+          "min": 1,
+          "decimals": 1
+        },
+        {
+          "id": "targetSoc",
+          "type": "number",
+          "label": {
+            "en": "Target SoC (%)",
+            "nl": "Doel SoC (%)",
+            "de": "Ziel SoC (%)"
+          },
+          "value": 100,
+          "min": 10,
+          "max": 100,
+          "decimals": 0
+        },
+        {
+          "id": "departureTime",
+          "type": "text",
+          "label": {
+            "en": "Departure Time (HH:MM)",
+            "nl": "Vertrektijd (UU:MM)",
+            "de": "Abfahrtszeit (HH:MM)"
+          },
+          "value": "08:00"
+        }
+      ]
+    }
   ]
 }
