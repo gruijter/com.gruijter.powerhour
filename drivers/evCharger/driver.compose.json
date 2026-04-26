@@ -13,6 +13,7 @@
     "ru": "Сводка зарядки электромобиля",
     "ar": "ملخص شاحن المركبات الكهربائية"
   },
+  "deprecated": true,
   "class": "other",
   "capabilities": [],
   "capabilitiesOptions": {
