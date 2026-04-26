@@ -5207,7 +5207,19 @@
               "ko": "시간"
             },
             "placeholder": {
-              "en": "01 - 24"
+              "en": "01 - 24",
+              "nl": "01 - 24",
+              "de": "01 - 24",
+              "fr": "01 - 24",
+              "it": "01 - 24",
+              "sv": "01 - 24",
+              "no": "01 - 24",
+              "es": "01 - 24",
+              "da": "01 - 24",
+              "pl": "01 - 24",
+              "ru": "01 - 24",
+              "ko": "01 - 24",
+              "ar": "01 - 24"
             },
             "min": 1,
             "max": 24,
@@ -5513,7 +5525,19 @@
               "en": "1 - 192"
             },
             "hint": {
-              "en": "Enter the number of periods (hours for dap, quarters for dap15)."
+              "en": "Enter the number of periods (hours for dap, quarters for dap15).",
+              "nl": "Voer het aantal periodes in (uren voor dap, kwartieren voor dap15).",
+              "de": "Geben Sie die Anzahl der Perioden ein (Stunden für dap, Viertelstunden für dap15).",
+              "fr": "Entrez le nombre de périodes (heures pour dap, quarts d'heure pour dap15).",
+              "it": "Inserisci il numero di periodi (ore per dap, quarti d'ora per dap15).",
+              "sv": "Ange antal perioder (timmar för dap, kvartar för dap15).",
+              "no": "Angi antall perioder (timer for dap, kvarter for dap15).",
+              "es": "Introduzca el número de períodos (horas para dap, cuartos de hora para dap15).",
+              "da": "Indtast antallet af perioder (timer for dap, kvarter for dap15).",
+              "pl": "Wprowadź liczbę okresów (godziny dla dap, kwadranse dla dap15).",
+              "ru": "Введите количество периодов (часы для dap, четверти часа для dap15).",
+              "ar": "أدخل عدد الفترات (ساعات لـ dap، أرباع ساعة لـ dap15).",
+              "ko": "기간 수를 입력하세요 (dap의 경우 시간, dap15의 경우 15분)."
             },
             "min": 1,
             "max": 192,
@@ -7808,11 +7832,46 @@
           "en": "Set EV departure and target SoC",
           "nl": "Zet EV vertrektijd en doel SoC",
           "de": "EV Abfahrtszeit und Ziel-SoC festlegen",
-          "fr": "Définir le départ de l'EV et le SoC cible"
+          "fr": "Définir le départ de l'EV et le SoC cible",
+          "it": "Imposta partenza EV e SoC di destinazione",
+          "sv": "Ställ in EV-avgång och mål-SoC",
+          "no": "Angi EV-avgang og mål-SoC",
+          "es": "Establecer salida de EV y SoC objetivo",
+          "da": "Indstil EV-afgang og mål-SoC",
+          "pl": "Ustaw odjazd EV i docelowy SoC",
+          "ru": "Установить отправление EV и целевой SoC",
+          "ko": "EV 출발 및 목표 SoC 설정",
+          "ar": "ضبط مغادرة السيارة الكهربائية والـ SoC المستهدف"
+        },
+        "titleFormatted": {
+          "en": "Set EV departure to [[departureTime]] and target SoC to [[targetSoc]]%",
+          "nl": "Zet EV vertrektijd op [[departureTime]] en doel SoC op [[targetSoc]]%",
+          "de": "Setze EV Abfahrtszeit auf [[departureTime]] und Ziel-SoC auf [[targetSoc]]%",
+          "fr": "Définir le départ de l'EV à [[departureTime]] et le SoC cible à [[targetSoc]]%",
+          "it": "Imposta partenza EV alle [[departureTime]] e SoC di destinazione al [[targetSoc]]%",
+          "sv": "Ställ in EV-avgång till [[departureTime]] och mål-SoC till [[targetSoc]]%",
+          "no": "Angi EV-avgang til [[departureTime]] og mål-SoC til [[targetSoc]]%",
+          "es": "Establecer salida de EV a las [[departureTime]] y SoC objetivo al [[targetSoc]]%",
+          "da": "Indstil EV-afgang til [[departureTime]] og mål-SoC til [[targetSoc]]%",
+          "pl": "Ustaw odjazd EV na [[departureTime]] i docelowy SoC na [[targetSoc]]%",
+          "ru": "Установить отправление EV на [[departureTime]] и целевой SoC на [[targetSoc]]%",
+          "ko": "EV 출발을 [[departureTime]]로, 목표 SoC를 [[targetSoc]]%로 설정",
+          "ar": "ضبط مغادرة السيارة الكهربائية إلى [[departureTime]] والـ SoC المستهدف إلى [[targetSoc]]%"
         },
         "hint": {
           "en": "Set a new departure time and target SoC for the EV charging strategy.",
-          "nl": "Stel een nieuwe vertrektijd en doel SoC in voor de EV laadstrategie."
+          "nl": "Stel een nieuwe vertrektijd en doel SoC in voor de EV laadstrategie.",
+          "de": "Legen Sie eine neue Abfahrtszeit und ein Ziel-SoC für die EV-Ladestrategie fest.",
+          "fr": "Définir une nouvelle heure de départ et un SoC cible pour la stratégie de charge de l'EV.",
+          "it": "Imposta un nuovo orario di partenza e un SoC di destinazione per la strategia di ricarica EV.",
+          "sv": "Ställ in en ny avgångstid och mål-SoC för EV-laddningsstrategin.",
+          "no": "Angi en ny avgangstid og mål-SoC for EV-ladestrategien.",
+          "es": "Establezca una nueva hora de salida y un SoC objetivo para la estrategia de carga de EV.",
+          "da": "Indstil en ny afgangstid og et mål-SoC for EV-opladningsstrategien.",
+          "pl": "Ustaw nowy czas odjazdu i docelowy SoC dla strategii ładowania EV.",
+          "ru": "Установите новое время отправления и целевой SoC для стратегии зарядки EV.",
+          "ko": "EV 충전 전략에 대한 새로운 출발 시간 및 목표 SoC를 설정합니다.",
+          "ar": "ضبط وقت مغادرة جديد و SoC مستهدف لاستراتيجية شحن السيارة الكهربائية."
         },
         "args": [
           {
@@ -7826,7 +7885,18 @@
             "placeholder": "08:00",
             "title": {
               "en": "Departure Time (HH:MM)",
-              "nl": "Vertrektijd (UU:MM)"
+              "nl": "Vertrektijd (UU:MM)",
+              "de": "Abfahrtszeit (HH:MM)",
+              "fr": "Heure de départ (HH:MM)",
+              "it": "Orario di partenza (HH:MM)",
+              "sv": "Avgångstid (HH:MM)",
+              "no": "Avgangstid (HH:MM)",
+              "es": "Hora de salida (HH:MM)",
+              "da": "Afgangstid (HH:MM)",
+              "pl": "Godzina odjazdu (HH:MM)",
+              "ru": "Время отправления (ЧЧ:ММ)",
+              "ko": "출발 시간 (HH:MM)",
+              "ar": "وقت المغادرة (HH:MM)"
             }
           },
           {
@@ -7836,7 +7906,18 @@
             "max": 100,
             "title": {
               "en": "Target SoC (%)",
-              "nl": "Doel SoC (%)"
+              "nl": "Doel SoC (%)",
+              "de": "Ziel-SoC (%)",
+              "fr": "SoC cible (%)",
+              "it": "SoC di destinazione (%)",
+              "sv": "Mål-SoC (%)",
+              "no": "Mål-SoC (%)",
+              "es": "SoC objetivo (%)",
+              "da": "Mål-SoC (%)",
+              "pl": "Docelowy SoC (%)",
+              "ru": "Целевой SoC (%)",
+              "ko": "목표 SoC (%)",
+              "ar": "SoC المستهدف (%)"
             }
           }
         ],
@@ -7847,11 +7928,46 @@
           "en": "Set EV State of Charge",
           "nl": "Zet EV batterijniveau (SoC)",
           "de": "EV Ladezustand festlegen",
-          "fr": "Définir l'état de charge de l'EV"
+          "fr": "Définir l'état de charge de l'EV",
+          "it": "Imposta Stato di Carica EV",
+          "sv": "Ställ in EV-laddningsstatus",
+          "no": "Angi EV-ladestatus",
+          "es": "Establecer estado de carga del VE",
+          "da": "Indstil EV-ladestatus",
+          "pl": "Ustaw stan naładowania EV",
+          "ru": "Установить состояние заряда EV",
+          "ko": "EV 충전 상태 설정",
+          "ar": "ضبط حالة شحن السيارة الكهربائية"
+        },
+        "titleFormatted": {
+          "en": "Set EV State of Charge to [[soc]]%",
+          "nl": "Zet EV batterijniveau (SoC) op [[soc]]%",
+          "de": "EV Ladezustand auf [[soc]]% festlegen",
+          "fr": "Définir l'état de charge de l'EV à [[soc]]%",
+          "it": "Imposta Stato di Carica EV al [[soc]]%",
+          "sv": "Ställ in EV-laddningsstatus till [[soc]]%",
+          "no": "Angi EV-ladestatus til [[soc]]%",
+          "es": "Establecer estado de carga del VE al [[soc]]%",
+          "da": "Indstil EV-ladestatus til [[soc]]%",
+          "pl": "Ustaw stan naładowania EV na [[soc]]%",
+          "ru": "Установить состояние заряда EV на [[soc]]%",
+          "ko": "EV 충전 상태를 [[soc]]%로 설정",
+          "ar": "ضبط حالة شحن السيارة الكهربائية إلى [[soc]]%"
         },
         "hint": {
           "en": "Manually set the current battery percentage of the EV. Useful if your charger does not report the battery level.",
-          "nl": "Zet handmatig het huidige batterijpercentage van de EV. Handig als je lader dit niet doorgeeft."
+          "nl": "Zet handmatig het huidige batterijpercentage van de EV. Handig als je lader dit niet doorgeeft.",
+          "de": "Manuelles Einstellen des aktuellen Batteriestands des E-Fahrzeugs. Nützlich, wenn Ihr Ladegerät den Batteriestand nicht meldet.",
+          "fr": "Définir manuellement le pourcentage de batterie actuel de l'EV. Utile si votre chargeur ne signale pas le niveau de la batterie.",
+          "it": "Imposta manualmente la percentuale di batteria corrente dell'EV. Utile se il tuo caricabatterie non segnala il livello della batteria.",
+          "sv": "Ställ in den aktuella batteriprocenten för elbilen manuellt. Användbart om din laddare inte rapporterar batterinivån.",
+          "no": "Angi gjeldende batteriprosent for elbilen manuelt. Nyttig hvis laderen din ikke rapporterer batterinivået.",
+          "es": "Establezca manualmente el porcentaje de batería actual del VE. Útil si su cargador no informa el nivel de la batería.",
+          "da": "Indstil manuelt den aktuelle batteriprocent for elbilen. Nyttigt, hvis din oplader ikke rapporterer batteriniveauet.",
+          "pl": "Ręcznie ustaw aktualny procent naładowania baterii pojazdu elektrycznego. Przydatne, jeśli ładowarka nie zgłasza poziomu naładowania baterii.",
+          "ru": "Вручную установите текущий процент заряда батареи электромобиля. Полезно, если ваше зарядное устройство не сообщает уровень заряда батареи.",
+          "ko": "EV의 현재 배터리 백분율을 수동으로 설정합니다. 충전기가 배터리 수준을 보고하지 않는 경우 유용합니다.",
+          "ar": "ضبط النسبة المئوية الحالية لبطارية السيارة الكهربائية يدويًا. مفيد إذا كان الشاحن الخاص بك لا يبلغ عن مستوى البطارية."
         },
         "args": [
           {
@@ -7866,7 +7982,18 @@
             "max": 100,
             "title": {
               "en": "SoC (%)",
-              "nl": "SoC (%)"
+              "nl": "SoC (%)",
+              "de": "SoC (%)",
+              "fr": "SoC (%)",
+              "it": "SoC (%)",
+              "sv": "SoC (%)",
+              "no": "SoC (%)",
+              "es": "SoC (%)",
+              "da": "SoC (%)",
+              "pl": "SoC (%)",
+              "ru": "SoC (%)",
+              "ko": "SoC (%)",
+              "ar": "SoC (%)"
             }
           }
         ],
