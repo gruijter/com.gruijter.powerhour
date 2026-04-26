@@ -3,11 +3,46 @@
     "en": "Set EV State of Charge",
     "nl": "Zet EV batterijniveau (SoC)",
     "de": "EV Ladezustand festlegen",
-    "fr": "Définir l'état de charge de l'EV"
+    "fr": "Définir l'état de charge de l'EV",
+    "it": "Imposta Stato di Carica EV",
+    "sv": "Ställ in EV-laddningsstatus",
+    "no": "Angi EV-ladestatus",
+    "es": "Establecer estado de carga del VE",
+    "da": "Indstil EV-ladestatus",
+    "pl": "Ustaw stan naładowania EV",
+    "ru": "Установить состояние заряда EV",
+    "ko": "EV 충전 상태 설정",
+    "ar": "ضبط حالة شحن السيارة الكهربائية"
+  },
+  "titleFormatted": {
+    "en": "Set EV State of Charge to [[soc]]%",
+    "nl": "Zet EV batterijniveau (SoC) op [[soc]]%",
+    "de": "EV Ladezustand auf [[soc]]% festlegen",
+    "fr": "Définir l'état de charge de l'EV à [[soc]]%",
+    "it": "Imposta Stato di Carica EV al [[soc]]%",
+    "sv": "Ställ in EV-laddningsstatus till [[soc]]%",
+    "no": "Angi EV-ladestatus til [[soc]]%",
+    "es": "Establecer estado de carga del VE al [[soc]]%",
+    "da": "Indstil EV-ladestatus til [[soc]]%",
+    "pl": "Ustaw stan naładowania EV na [[soc]]%",
+    "ru": "Установить состояние заряда EV на [[soc]]%",
+    "ko": "EV 충전 상태를 [[soc]]%로 설정",
+    "ar": "ضبط حالة شحن السيارة الكهربائية إلى [[soc]]%"
   },
   "hint": {
     "en": "Manually set the current battery percentage of the EV. Useful if your charger does not report the battery level.",
-    "nl": "Zet handmatig het huidige batterijpercentage van de EV. Handig als je lader dit niet doorgeeft."
+    "nl": "Zet handmatig het huidige batterijpercentage van de EV. Handig als je lader dit niet doorgeeft.",
+    "de": "Manuelles Einstellen des aktuellen Batteriestands des E-Fahrzeugs. Nützlich, wenn Ihr Ladegerät den Batteriestand nicht meldet.",
+    "fr": "Définir manuellement le pourcentage de batterie actuel de l'EV. Utile si votre chargeur ne signale pas le niveau de la batterie.",
+    "it": "Imposta manualmente la percentuale di batteria corrente dell'EV. Utile se il tuo caricabatterie non segnala il livello della batteria.",
+    "sv": "Ställ in den aktuella batteriprocenten för elbilen manuellt. Användbart om din laddare inte rapporterar batterinivån.",
+    "no": "Angi gjeldende batteriprosent for elbilen manuelt. Nyttig hvis laderen din ikke rapporterer batterinivået.",
+    "es": "Establezca manualmente el porcentaje de batería actual del VE. Útil si su cargador no informa el nivel de la batería.",
+    "da": "Indstil manuelt den aktuelle batteriprocent for elbilen. Nyttigt, hvis din oplader ikke rapporterer batteriniveauet.",
+    "pl": "Ręcznie ustaw aktualny procent naładowania baterii pojazdu elektrycznego. Przydatne, jeśli ładowarka nie zgłasza poziomu naładowania baterii.",
+    "ru": "Вручную установите текущий процент заряда батареи электромобиля. Полезно, если ваше зарядное устройство не сообщает уровень заряда батареи.",
+    "ko": "EV의 현재 배터리 백분율을 수동으로 설정합니다. 충전기가 배터리 수준을 보고하지 않는 경우 유용합니다.",
+    "ar": "ضبط النسبة المئوية الحالية لبطارية السيارة الكهربائية يدويًا. مفيد إذا كان الشاحن الخاص بك لا يبلغ عن مستوى البطارية."
   },
   "args": [
     {
@@ -22,7 +57,18 @@
       "max": 100,
       "title": {
         "en": "SoC (%)",
-        "nl": "SoC (%)"
+        "nl": "SoC (%)",
+        "de": "SoC (%)",
+        "fr": "SoC (%)",
+        "it": "SoC (%)",
+        "sv": "SoC (%)",
+        "no": "SoC (%)",
+        "es": "SoC (%)",
+        "da": "SoC (%)",
+        "pl": "SoC (%)",
+        "ru": "SoC (%)",
+        "ko": "SoC (%)",
+        "ar": "SoC (%)"
       }
     }
   ]

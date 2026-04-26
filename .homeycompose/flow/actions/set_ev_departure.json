@@ -3,11 +3,46 @@
     "en": "Set EV departure and target SoC",
     "nl": "Zet EV vertrektijd en doel SoC",
     "de": "EV Abfahrtszeit und Ziel-SoC festlegen",
-    "fr": "Définir le départ de l'EV et le SoC cible"
+    "fr": "Définir le départ de l'EV et le SoC cible",
+    "it": "Imposta partenza EV e SoC di destinazione",
+    "sv": "Ställ in EV-avgång och mål-SoC",
+    "no": "Angi EV-avgang og mål-SoC",
+    "es": "Establecer salida de EV y SoC objetivo",
+    "da": "Indstil EV-afgang og mål-SoC",
+    "pl": "Ustaw odjazd EV i docelowy SoC",
+    "ru": "Установить отправление EV и целевой SoC",
+    "ko": "EV 출발 및 목표 SoC 설정",
+    "ar": "ضبط مغادرة السيارة الكهربائية والـ SoC المستهدف"
+  },
+  "titleFormatted": {
+    "en": "Set EV departure to [[departureTime]] and target SoC to [[targetSoc]]%",
+    "nl": "Zet EV vertrektijd op [[departureTime]] en doel SoC op [[targetSoc]]%",
+    "de": "Setze EV Abfahrtszeit auf [[departureTime]] und Ziel-SoC auf [[targetSoc]]%",
+    "fr": "Définir le départ de l'EV à [[departureTime]] et le SoC cible à [[targetSoc]]%",
+    "it": "Imposta partenza EV alle [[departureTime]] e SoC di destinazione al [[targetSoc]]%",
+    "sv": "Ställ in EV-avgång till [[departureTime]] och mål-SoC till [[targetSoc]]%",
+    "no": "Angi EV-avgang til [[departureTime]] og mål-SoC til [[targetSoc]]%",
+    "es": "Establecer salida de EV a las [[departureTime]] y SoC objetivo al [[targetSoc]]%",
+    "da": "Indstil EV-afgang til [[departureTime]] og mål-SoC til [[targetSoc]]%",
+    "pl": "Ustaw odjazd EV na [[departureTime]] i docelowy SoC na [[targetSoc]]%",
+    "ru": "Установить отправление EV на [[departureTime]] и целевой SoC на [[targetSoc]]%",
+    "ko": "EV 출발을 [[departureTime]]로, 목표 SoC를 [[targetSoc]]%로 설정",
+    "ar": "ضبط مغادرة السيارة الكهربائية إلى [[departureTime]] والـ SoC المستهدف إلى [[targetSoc]]%"
   },
   "hint": {
     "en": "Set a new departure time and target SoC for the EV charging strategy.",
-    "nl": "Stel een nieuwe vertrektijd en doel SoC in voor de EV laadstrategie."
+    "nl": "Stel een nieuwe vertrektijd en doel SoC in voor de EV laadstrategie.",
+    "de": "Legen Sie eine neue Abfahrtszeit und ein Ziel-SoC für die EV-Ladestrategie fest.",
+    "fr": "Définir une nouvelle heure de départ et un SoC cible pour la stratégie de charge de l'EV.",
+    "it": "Imposta un nuovo orario di partenza e un SoC di destinazione per la strategia di ricarica EV.",
+    "sv": "Ställ in en ny avgångstid och mål-SoC för EV-laddningsstrategin.",
+    "no": "Angi en ny avgangstid og mål-SoC for EV-ladestrategien.",
+    "es": "Establezca una nueva hora de salida y un SoC objetivo para la estrategia de carga de EV.",
+    "da": "Indstil en ny afgangstid og et mål-SoC for EV-opladningsstrategien.",
+    "pl": "Ustaw nowy czas odjazdu i docelowy SoC dla strategii ładowania EV.",
+    "ru": "Установите новое время отправления и целевой SoC для стратегии зарядки EV.",
+    "ko": "EV 충전 전략에 대한 새로운 출발 시간 및 목표 SoC를 설정합니다.",
+    "ar": "ضبط وقت مغادرة جديد و SoC مستهدف لاستراتيجية شحن السيارة الكهربائية."
   },
   "args": [
     {
@@ -21,7 +56,18 @@
       "placeholder": "08:00",
       "title": {
         "en": "Departure Time (HH:MM)",
-        "nl": "Vertrektijd (UU:MM)"
+        "nl": "Vertrektijd (UU:MM)",
+        "de": "Abfahrtszeit (HH:MM)",
+        "fr": "Heure de départ (HH:MM)",
+        "it": "Orario di partenza (HH:MM)",
+        "sv": "Avgångstid (HH:MM)",
+        "no": "Avgangstid (HH:MM)",
+        "es": "Hora de salida (HH:MM)",
+        "da": "Afgangstid (HH:MM)",
+        "pl": "Godzina odjazdu (HH:MM)",
+        "ru": "Время отправления (ЧЧ:ММ)",
+        "ko": "출발 시간 (HH:MM)",
+        "ar": "وقت المغادرة (HH:MM)"
       }
     },
     {
@@ -31,7 +77,18 @@
       "max": 100,
       "title": {
         "en": "Target SoC (%)",
-        "nl": "Doel SoC (%)"
+        "nl": "Doel SoC (%)",
+        "de": "Ziel-SoC (%)",
+        "fr": "SoC cible (%)",
+        "it": "SoC di destinazione (%)",
+        "sv": "Mål-SoC (%)",
+        "no": "Mål-SoC (%)",
+        "es": "SoC objetivo (%)",
+        "da": "Mål-SoC (%)",
+        "pl": "Docelowy SoC (%)",
+        "ru": "Целевой SoC (%)",
+        "ko": "목표 SoC (%)",
+        "ar": "SoC المستهدف (%)"
       }
     }
   ]
