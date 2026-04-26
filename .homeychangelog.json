@@ -1,6 +1,6 @@
 {
   "8.9.0": {
-    "en": "Added option to configure a personal ENTSO-E API key for Day-Ahead pricing. Improved Solar Forecaster accuracy. Improved Battery and EV Charger ROI strategies. General stability fixes. Homey-api 3.18.3"
+    "en": "Option for personal ENTSO-E API key. Fix Nordpool prices. Improved price charts. Improved Solar Forecaster accuracy. Improved Battery ROI strategies. General stability fixes. Homey-api 3.18.3"
   },
   "8.8.2": {
     "en": "Added solar_usage % capability. Improved pice fetching stability. Added manual price source setting. Fix using export tariffs. Fix internal price handling and flows. Fix money calculations. General stability fixes. Homey-api 3.18.2"
