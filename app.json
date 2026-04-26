@@ -7805,6 +7805,75 @@
       },
       {
         "title": {
+          "en": "Set EV departure and target SoC",
+          "nl": "Zet EV vertrektijd en doel SoC",
+          "de": "EV Abfahrtszeit und Ziel-SoC festlegen",
+          "fr": "Définir le départ de l'EV et le SoC cible"
+        },
+        "hint": {
+          "en": "Set a new departure time and target SoC for the EV charging strategy.",
+          "nl": "Stel een nieuwe vertrektijd en doel SoC in voor de EV laadstrategie."
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=evCharger"
+          },
+          {
+            "type": "text",
+            "name": "departureTime",
+            "placeholder": "08:00",
+            "title": {
+              "en": "Departure Time (HH:MM)",
+              "nl": "Vertrektijd (UU:MM)"
+            }
+          },
+          {
+            "type": "number",
+            "name": "targetSoc",
+            "min": 10,
+            "max": 100,
+            "title": {
+              "en": "Target SoC (%)",
+              "nl": "Doel SoC (%)"
+            }
+          }
+        ],
+        "id": "set_ev_departure"
+      },
+      {
+        "title": {
+          "en": "Set EV State of Charge",
+          "nl": "Zet EV batterijniveau (SoC)",
+          "de": "EV Ladezustand festlegen",
+          "fr": "Définir l'état de charge de l'EV"
+        },
+        "hint": {
+          "en": "Manually set the current battery percentage of the EV. Useful if your charger does not report the battery level.",
+          "nl": "Zet handmatig het huidige batterijpercentage van de EV. Handig als je lader dit niet doorgeeft."
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=evCharger"
+          },
+          {
+            "type": "number",
+            "name": "soc",
+            "min": 0,
+            "max": 100,
+            "title": {
+              "en": "SoC (%)",
+              "nl": "SoC (%)"
+            }
+          }
+        ],
+        "id": "set_ev_soc"
+      },
+      {
+        "title": {
           "en": "Set a new exchange rate",
           "de": "Neuen Wechselkurs festlegen",
           "sv": "Ställ in en ny växelkurs",
