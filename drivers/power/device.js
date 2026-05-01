@@ -57,14 +57,12 @@ class PowerDevice extends GenericDevice {
     } else if (tariffType === 'export') {
       activeTariff = exportTariff;
     } else {
-      const livePower = this.getCapabilityValue(this.ds.cmap.measure_source);
-
-      if (typeof livePower === 'number') {
-        activeTariff = livePower >= 0 ? tariff : exportTariff;
+      const deltaMeter = reading.meterValue - this.meterMoney.meterValue;
+      if (deltaMeter !== 0) {
+        activeTariff = deltaMeter > 0 ? tariff : exportTariff;
       } else {
-        // fallback: check meter delta
-        const deltaMeter = reading.meterValue - this.meterMoney.meterValue;
-        activeTariff = deltaMeter >= 0 ? tariff : exportTariff;
+        const livePower = this.getCapabilityValue(this.ds.cmap.measure_source);
+        activeTariff = (typeof livePower === 'number' && livePower < 0) ? exportTariff : tariff;
       }
     }
     return activeTariff;
