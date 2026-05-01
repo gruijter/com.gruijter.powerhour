@@ -28,7 +28,7 @@ const Entsoe = require('./lib/providers/Entsoe');
 const EntsoeGruijter = require('./lib/providers/EntsoeGruijter');
 const Nordpool = require('./lib/providers/Nordpool');
 const Stekker = require('./lib/providers/Stekker');
-const Easyenergy = require('./lib/providers/Easyenergy');
+const Energyzero = require('./lib/providers/Energyzero');
 const EEX = require('./lib/providers/EEX');
 const TimeHelpers = require('./lib/TimeHelpers');
 
@@ -37,7 +37,7 @@ const providers = {
   ENTSOE_GRUIJTER: EntsoeGruijter,
   NORDPOOL: Nordpool,
   STEKKER: Stekker,
-  EASYENERGY: Easyenergy,
+  ENERGYZERO: Energyzero,
   EEX,
 };
 
@@ -122,7 +122,7 @@ async function main() {
 
     if (selection === providerKeys.length + 1 || selection === providerKeys.length + 2) {
       const isGasTest = selection === providerKeys.length + 2;
-      const providersToTest = isGasTest ? ['EASYENERGY', 'EEX'] : ['NORDPOOL', 'ENTSOE', 'ENTSOE_GRUIJTER', 'STEKKER'];
+      const providersToTest = isGasTest ? ['ENERGYZERO', 'EEX'] : ['NORDPOOL', 'ENTSOE', 'ENTSOE_GRUIJTER', 'STEKKER'];
 
       if (!isGasTest) {
         // --- ALL POWER TEST (Per Bidding Zone) ---
@@ -314,7 +314,7 @@ async function main() {
             end: new Date(periods.tomorrowStart.getTime() - 1),
           };
 
-          const isGas = name === 'EASYENERGY' || name === 'EEX';
+          const isGas = name === 'EEX' || name === 'ENERGYZERO';
           const resolution = isGas ? 'PT60M' : 'PT15M';
 
           // eslint-disable-next-line no-await-in-loop

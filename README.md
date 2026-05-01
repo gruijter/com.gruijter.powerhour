@@ -75,7 +75,7 @@ To ensure reliable access to ENTSO-E data and avoid shared rate limits, it is hi
 
 Nordpool is used as backup for electricity pricing: https://www.nordpoolgroup.com/
 All Gas spot pricing (EOD and EGSI) is coming from EEX: https://www.eex.com/en/market-data/natural-gas/spot
-TTF LEBA gas pricing is derived from EasyEnergy as seen here: https://www.nieuwestroom.nl/energiemarkt/energiebeurzen/gas-handelsbeurs/
+Day-Ahead Gas pricing (TTF) is derived from EnergyZero: https://www.energyzero.nl/
 
 ### DONATE
 If you like the app, don't hesitate to [DONATE](https://www.paypal.me/gruijter)
