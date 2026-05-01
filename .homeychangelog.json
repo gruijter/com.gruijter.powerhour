@@ -1,4 +1,7 @@
 {
+  "8.9.1": {
+    "en": "Change to new EEX API (GAS). Replace easyenergy with energyzero API (NL GAS). Fix price tag example. Improve import/export price usage. Improve battery strategy timimg."
+  },
   "8.9.0": {
     "en": "Option for personal ENTSO-E API key. Fix Nordpool prices. Improved price charts. Improved Solar Forecaster accuracy. Improved Battery ROI strategies. General stability fixes. Homey-api 3.18.3"
   },
