@@ -89,6 +89,12 @@ const zoneTimezones = {
   NBP_EGSI: 'Europe/London',
   PVB_EOD: 'Europe/Madrid',
   PVB_EGSI: 'Europe/Madrid',
+  FIN_EOD: 'Europe/Helsinki',
+  FIN_EGSI: 'Europe/Helsinki',
+  LTU_EOD: 'Europe/Vilnius',
+  LTU_EGSI: 'Europe/Vilnius',
+  LVA_EST_EOD: 'Europe/Riga',
+  LVA_EST_EGSI: 'Europe/Riga',
 };
 
 function getTimeZone(zoneCode) {
@@ -655,7 +661,8 @@ async function main() {
           results.push(resultRow);
 
           // eslint-disable-next-line no-await-in-loop
-          await new Promise((resolve) => setTimeout(resolve, 250));
+          const delay = providerName === 'EEX' ? 1500 : 250;
+          await new Promise((resolve) => setTimeout(resolve, delay));
         }
       }
     }
