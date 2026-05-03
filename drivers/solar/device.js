@@ -21,6 +21,7 @@ along with com.gruijter.powerhour.  If not, see <http://www.gnu.org/licenses/>.
 'use strict';
 
 const GenericDevice = require('../../lib/genericDeviceDrivers/generic_sum_device');
+const MeterHelpers = require('../../lib/MeterHelpers');
 const { imageUrlToStream } = require('../../lib/charts/ImageHelpers');
 const { getSolarChart, getDistributionChart } = require('../../lib/charts/SolarChart');
 const OpenMeteo = require('../../lib/providers/OpenMeteo');
@@ -159,17 +160,16 @@ class SolarDevice extends GenericDevice {
   }
 
   getActiveTariff(reading, tariff, exportTariff) {
-    let activeTariff = tariff;
-    const tariffType = this.getSettings().tariff_type || 'dynamic';
-
-    if (tariffType === 'import') {
-      activeTariff = tariff;
-    } else if (tariffType === 'export') {
-      activeTariff = exportTariff;
-    } else if (typeof this.currentGridPower === 'number') {
-      activeTariff = this.currentGridPower < 0 ? exportTariff : tariff;
-    }
-    return activeTariff;
+    const livePower = this.getCapabilityValue(this.ds.cmap.measure_source);
+    return MeterHelpers.getActiveTariff(
+      this.getSettings(),
+      this.currentGridPower,
+      livePower,
+      null,
+      tariff,
+      exportTariff,
+      true, // isSolar
+    );
   }
 
   // --- Solar Logic ---

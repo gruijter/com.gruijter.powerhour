@@ -20,6 +20,7 @@ along with com.gruijter.powerhour.  If not, see <http://www.gnu.org/licenses/>.
 'use strict';
 
 const GenericDevice = require('../../lib/genericDeviceDrivers/generic_sum_device');
+const MeterHelpers = require('../../lib/MeterHelpers');
 
 const deviceSpecifics = {
   cmap: {
@@ -49,23 +50,16 @@ class PowerDevice extends GenericDevice {
   }
 
   getActiveTariff(reading, tariff, exportTariff) {
-    let activeTariff = tariff;
-    const tariffType = this.getSettings().tariff_type || 'dynamic';
-
-    if (tariffType === 'import') {
-      activeTariff = tariff;
-    } else if (tariffType === 'export') {
-      activeTariff = exportTariff;
-    } else {
-      const deltaMeter = reading.meterValue - this.meterMoney.meterValue;
-      if (deltaMeter !== 0) {
-        activeTariff = deltaMeter > 0 ? tariff : exportTariff;
-      } else {
-        const livePower = this.getCapabilityValue(this.ds.cmap.measure_source);
-        activeTariff = (typeof livePower === 'number' && livePower < 0) ? exportTariff : tariff;
-      }
-    }
-    return activeTariff;
+    const deltaMeter = reading.meterValue - this.meterMoney.meterValue;
+    const livePower = this.getCapabilityValue(this.ds.cmap.measure_source);
+    return MeterHelpers.getActiveTariff(
+      this.getSettings(),
+      this.currentGridPower,
+      livePower,
+      deltaMeter,
+      tariff,
+      exportTariff,
+    );
   }
 
 }
