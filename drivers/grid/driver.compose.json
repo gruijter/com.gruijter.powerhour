@@ -13,6 +13,7 @@
     "ru": "Сводка Электросети",
     "ar": "ملخص شبكة الكهرباء"
   },
+  "deprecated": "true",
   "class": "other",
   "capabilities": [],
   "capabilitiesOptions": {
