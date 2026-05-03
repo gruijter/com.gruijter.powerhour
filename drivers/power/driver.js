@@ -21,6 +21,7 @@ along with com.gruijter.powerhour.  If not, see <http://www.gnu.org/licenses/>.
 
 const GenericDriver = require('../../lib/genericDeviceDrivers/generic_sum_driver');
 const EnergyPollingHelper = require('../../lib/EnergyPollingHelper');
+const { getGridPowerFallback } = require('../../lib/Util');
 
 const driverSpecifics = {
   driverId: 'power',
@@ -84,7 +85,9 @@ class PowerDriver extends GenericDriver {
 
   async startPollingEnergy(interval) {
     this.energyPollCallback = async (report) => {
-      const cumulativePower = report?.totalCumulative?.W;
+      let cumulativePower = getGridPowerFallback(this.homey);
+      if (cumulativePower === null) cumulativePower = report?.totalCumulative?.W;
+
       if (Number.isFinite(cumulativePower)) {
         const devices = this.getDevices();
         devices.forEach((device) => {

@@ -118,16 +118,11 @@ class GridDevice extends GenericDevice {
     if (tariffType === 'import') return tariff;
     if (tariffType === 'export') return exportTariff;
 
-    // 1. Use global grid power if available (most reliable)
-    if (typeof this.currentGridPower === 'number') {
-      return this.currentGridPower < 0 ? exportTariff : tariff;
-    }
-
-    // 2. Fallback to local values for the main meter device
+    // 1. Use local values for the main meter device
     const livePower = this.getCapabilityValue(this.ds.cmap.measure_source);
     if (typeof livePower === 'number') return livePower < 0 ? exportTariff : tariff;
 
-    // 3. Default to import tariff
+    // 2. Default to import tariff
     return tariff;
   }
 

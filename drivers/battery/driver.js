@@ -22,6 +22,7 @@ along with com.gruijter.powerhour.  If not, see <http://www.gnu.org/licenses/>.
 const GenericDriver = require('../../lib/genericDeviceDrivers/generic_bat_driver');
 const nomXomStrategy = require('../../lib/strategies/NomXomStrategy');
 const EnergyPollingHelper = require('../../lib/EnergyPollingHelper');
+const { getGridPowerFallback } = require('../../lib/Util');
 
 const driverSpecifics = {
   driverId: 'battery',
@@ -81,7 +82,9 @@ class BatteryDriver extends GenericDriver {
     let lastProcessTime = 0;
 
     this.energyPollCallback = async (report) => {
-      const cumulativePower = report?.totalCumulative?.W;
+      let cumulativePower = getGridPowerFallback(this.homey);
+      if (cumulativePower === null) cumulativePower = report?.totalCumulative?.W;
+
       if (Number.isFinite(cumulativePower) && Math.abs(cumulativePower) <= 30000) {
         const devices = this.getDevices();
         devices.forEach((device) => {

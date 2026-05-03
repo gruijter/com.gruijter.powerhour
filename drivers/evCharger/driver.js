@@ -6,6 +6,7 @@ Copyright 2019 - 2026, Robin de Gruijter (gruijter@hotmail.com)
 
 const GenericDriver = require('../../lib/genericDeviceDrivers/generic_bat_driver');
 const EnergyPollingHelper = require('../../lib/EnergyPollingHelper');
+const { getGridPowerFallback } = require('../../lib/Util');
 
 const driverSpecifics = {
   driverId: 'evCharger',
@@ -36,7 +37,9 @@ class CarChargeDriver extends GenericDriver {
 
   async startPollingEnergy(interval) {
     this.energyPollCallback = async (report) => {
-      const cumulativePower = report?.totalCumulative?.W;
+      let cumulativePower = getGridPowerFallback(this.homey);
+      if (cumulativePower === null) cumulativePower = report?.totalCumulative?.W;
+
       if (Number.isFinite(cumulativePower)) {
         const devices = this.getDevices();
         devices.forEach((device) => {
