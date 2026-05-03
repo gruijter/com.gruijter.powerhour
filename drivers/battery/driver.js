@@ -66,12 +66,12 @@ class BatteryDriver extends GenericDriver {
   async onInit() {
     this.ds = driverSpecifics;
     await super.onInit().catch(this.error);
-    this.energyPoller = new EnergyPollingHelper(this.homey, { log: this.log.bind(this), error: this.error.bind(this) });
+    EnergyPollingHelper.init(this.homey, { log: this.log.bind(this), error: this.error.bind(this) });
     await this.startPollingEnergy(5).catch((err) => this.error(err));
   }
 
   async onUninit() {
-    if (this.energyPoller) this.energyPoller.stopPolling();
+    if (this.energyPollCallback) EnergyPollingHelper.unregister(this.energyPollCallback);
     await super.onUninit();
   }
 
@@ -80,9 +80,14 @@ class BatteryDriver extends GenericDriver {
     let lastCumulativePower = null;
     let lastProcessTime = 0;
 
-    await this.energyPoller.startPolling(int, async (report) => {
+    this.energyPollCallback = async (report) => {
       const cumulativePower = report?.totalCumulative?.W;
       if (Number.isFinite(cumulativePower) && Math.abs(cumulativePower) <= 30000) {
+        const devices = this.getDevices();
+        devices.forEach((device) => {
+          device.currentGridPower = cumulativePower;
+        });
+
         const now = Date.now();
         if (cumulativePower !== lastCumulativePower || (now - lastProcessTime) > 10000) {
           const timeDelta = lastProcessTime > 0 ? (now - lastProcessTime) / 1000 : int;
@@ -91,7 +96,8 @@ class BatteryDriver extends GenericDriver {
           await this.processEnergyLogic(cumulativePower, timeDelta);
         }
       }
-    });
+    };
+    await EnergyPollingHelper.register(this.energyPollCallback);
   }
 
   async processEnergyLogic(cumulativePower, interval) {
@@ -106,9 +112,6 @@ class BatteryDriver extends GenericDriver {
     const samples = Math.max(1, Math.round((smoothing / 100) * (120 / Math.max(1, interval))));
 
     const devices = this.getDevices();
-    devices.forEach((device) => {
-      device.currentGridPower = cumulativePower;
-    });
 
     const strategy = nomXomStrategy.getStrategy({
       devices,

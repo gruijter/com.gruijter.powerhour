@@ -54,19 +54,17 @@ class SolarDriver extends GenericDriver {
     this.ds = driverSpecifics;
     await super.onInit().catch(this.error);
 
-    this.energyPoller = new EnergyPollingHelper(this.homey, { log: this.log.bind(this), error: this.error.bind(this) });
+    EnergyPollingHelper.init(this.homey, { log: this.log.bind(this), error: this.error.bind(this) });
     this.startPollingEnergy(5).catch((err) => this.error(err));
   }
 
   async onUninit() {
-    if (this.energyPoller) this.energyPoller.stopPolling();
+    if (this.energyPollCallback) EnergyPollingHelper.unregister(this.energyPollCallback);
     await super.onUninit();
   }
 
   async startPollingEnergy(interval) {
-    const int = interval || 5;
-
-    await this.energyPoller.startPolling(int, async (report) => {
+    this.energyPollCallback = async (report) => {
       const cumulativePower = report?.totalCumulative?.W;
       if (Number.isFinite(cumulativePower)) {
         const devices = this.getDevices();
@@ -95,7 +93,8 @@ class SolarDriver extends GenericDriver {
           }
         });
       }
-    });
+    };
+    await EnergyPollingHelper.register(this.energyPollCallback);
   }
 
 }
