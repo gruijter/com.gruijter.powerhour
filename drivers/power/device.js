@@ -48,28 +48,6 @@ class PowerDevice extends GenericDevice {
     await super.onInit().catch(this.error);
   }
 
-  getActiveTariff(reading, tariff, exportTariff) {
-    const settings = this.getSettings();
-    const tariffType = settings?.tariff_type || 'dynamic';
-    if (tariffType === 'import') return tariff;
-    if (tariffType === 'export') return exportTariff;
-
-    // 1. Use global grid power if available (most reliable)
-    if (typeof this.currentGridPower === 'number') {
-      return this.currentGridPower < 0 ? exportTariff : tariff;
-    }
-
-    // 2. Fallback to local values for the main meter device
-    const deltaMeter = reading.meterValue - this.meterMoney.meterValue;
-    if (deltaMeter !== 0) return deltaMeter < 0 ? exportTariff : tariff;
-
-    const livePower = this.getCapabilityValue(this.ds.cmap.measure_source);
-    if (typeof livePower === 'number') return livePower < 0 ? exportTariff : tariff;
-
-    // 3. Default to import tariff
-    return tariff;
-  }
-
 }
 
 module.exports = PowerDevice;
