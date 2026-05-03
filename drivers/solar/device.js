@@ -160,15 +160,11 @@ class SolarDevice extends GenericDevice {
   }
 
   getActiveTariff(reading, tariff, exportTariff) {
-    const livePower = this.getCapabilityValue(this.ds.cmap.measure_source);
     return MeterHelpers.getActiveTariff(
       this.getSettings(),
       this.currentGridPower,
-      livePower,
-      null,
       tariff,
       exportTariff,
-      true, // isSolar
     );
   }
 
