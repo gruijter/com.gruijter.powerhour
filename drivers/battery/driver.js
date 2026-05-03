@@ -21,6 +21,7 @@ along with com.gruijter.powerhour.  If not, see <http://www.gnu.org/licenses/>.
 
 const GenericDriver = require('../../lib/genericDeviceDrivers/generic_bat_driver');
 const nomXomStrategy = require('../../lib/strategies/NomXomStrategy');
+const EnergyPollingHelper = require('../../lib/EnergyPollingHelper');
 
 const driverSpecifics = {
   driverId: 'battery',
@@ -65,68 +66,32 @@ class BatteryDriver extends GenericDriver {
   async onInit() {
     this.ds = driverSpecifics;
     await super.onInit().catch(this.error);
+    this.energyPoller = new EnergyPollingHelper(this.homey, { log: this.log.bind(this), error: this.error.bind(this) });
     await this.startPollingEnergy(5).catch((err) => this.error(err));
   }
 
   async onUninit() {
-    if (this.intervalIdEnergyPoll) {
-      this.homey.clearInterval(this.intervalIdEnergyPoll);
-      this.homey.clearTimeout(this.intervalIdEnergyPoll);
-    }
+    if (this.energyPoller) this.energyPoller.stopPolling();
     await super.onUninit();
   }
 
   async startPollingEnergy(interval) {
     const int = interval || 5;
-    if (this.intervalIdEnergyPoll) {
-      this.homey.clearInterval(this.intervalIdEnergyPoll);
-      this.homey.clearTimeout(this.intervalIdEnergyPoll);
-    }
-
-    let retries = 0;
-    let api;
-    while (!api && retries < 60) {
-      try {
-        api = this.homey.app.api;
-      } catch (e) {}
-      if (api) break;
-      await new Promise((resolve) => this.homey.setTimeout(resolve, 1000));
-      retries += 1;
-      if (this.isDestroyed) return;
-    }
-    if (!api) {
-      this.log('Homey API not ready, cannot start energy polling');
-      return;
-    }
-
-    this.log(`start polling Cumulative XOM Energy @${int} seconds interval`);
-
     let lastCumulativePower = null;
     let lastProcessTime = 0;
 
-    const poll = async () => {
-      if (this.isDestroyed) return;
-      try {
-        const report = await api.energy.getLiveReport().catch((err) => this.error(err));
-        const cumulativePower = report?.totalCumulative?.W;
-        if (Number.isFinite(cumulativePower) && Math.abs(cumulativePower) <= 30000) {
-          const now = Date.now();
-          if (cumulativePower !== lastCumulativePower || (now - lastProcessTime) > 10000) {
-            const timeDelta = lastProcessTime > 0 ? (now - lastProcessTime) / 1000 : int;
-            lastCumulativePower = cumulativePower;
-            lastProcessTime = now;
-            await this.processEnergyLogic(cumulativePower, timeDelta);
-          }
-        }
-      } catch (error) {
-        this.error(error);
-      } finally {
-        if (!this.isDestroyed) {
-          this.intervalIdEnergyPoll = this.homey.setTimeout(poll, 1000 * int);
+    await this.energyPoller.startPolling(int, async (report) => {
+      const cumulativePower = report?.totalCumulative?.W;
+      if (Number.isFinite(cumulativePower) && Math.abs(cumulativePower) <= 30000) {
+        const now = Date.now();
+        if (cumulativePower !== lastCumulativePower || (now - lastProcessTime) > 10000) {
+          const timeDelta = lastProcessTime > 0 ? (now - lastProcessTime) / 1000 : int;
+          lastCumulativePower = cumulativePower;
+          lastProcessTime = now;
+          await this.processEnergyLogic(cumulativePower, timeDelta);
         }
       }
-    };
-    poll();
+    });
   }
 
   async processEnergyLogic(cumulativePower, interval) {

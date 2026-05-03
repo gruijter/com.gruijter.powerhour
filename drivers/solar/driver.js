@@ -20,7 +20,7 @@ along with com.gruijter.powerhour.  If not, see <http://www.gnu.org/licenses/>.
 'use strict';
 
 const GenericDriver = require('../../lib/genericDeviceDrivers/generic_sum_driver');
-const { setTimeoutPromise } = require('../../lib/Util');
+const EnergyPollingHelper = require('../../lib/EnergyPollingHelper');
 
 const driverSpecifics = {
   driverId: 'solar',
@@ -54,85 +54,48 @@ class SolarDriver extends GenericDriver {
     this.ds = driverSpecifics;
     await super.onInit().catch(this.error);
 
+    this.energyPoller = new EnergyPollingHelper(this.homey, { log: this.log.bind(this), error: this.error.bind(this) });
     this.startPollingEnergy(5).catch((err) => this.error(err));
   }
 
   async onUninit() {
-    if (this.intervalIdEnergyPoll) {
-      this.homey.clearInterval(this.intervalIdEnergyPoll);
-      this.homey.clearTimeout(this.intervalIdEnergyPoll);
-    }
+    if (this.energyPoller) this.energyPoller.stopPolling();
     await super.onUninit();
   }
 
   async startPollingEnergy(interval) {
     const int = interval || 5;
-    if (this.intervalIdEnergyPoll) {
-      this.homey.clearInterval(this.intervalIdEnergyPoll);
-      this.homey.clearTimeout(this.intervalIdEnergyPoll);
-    }
 
-    let retries = 0;
-    let api;
-    while (!api && retries < 60) {
-      try {
-        api = this.homey.app.api;
-      } catch (e) {
-        // ignore
+    await this.energyPoller.startPolling(int, async (report) => {
+      const cumulativePower = report?.totalCumulative?.W;
+      if (Number.isFinite(cumulativePower)) {
+        const devices = this.getDevices();
+
+        // 1. Calculate total solar power across the whole house
+        let totalSolarPower = 0;
+        devices.forEach((device) => {
+          const power = device.getCapabilityValue('measure_power') || 0;
+          if (power > 0) totalSolarPower += power;
+        });
+
+        // 2. Assign values and calculate proportional self-consumption
+        devices.forEach((device) => {
+          device.currentGridPower = cumulativePower;
+
+          const power = device.getCapabilityValue('measure_power') || 0;
+          if (power <= 0) {
+            device.currentSelfConsumedPower = 0;
+          } else if (cumulativePower >= 0) {
+            device.currentSelfConsumedPower = power;
+          } else {
+            const exportPower = Math.abs(cumulativePower);
+            const deviceRatio = power / totalSolarPower;
+            const deviceExport = exportPower * deviceRatio;
+            device.currentSelfConsumedPower = Math.max(0, power - deviceExport);
+          }
+        });
       }
-      if (api) break;
-      await setTimeoutPromise(1000, this);
-      retries += 1;
-      if (this.isDestroyed) return;
-    }
-    if (!api) {
-      this.log('Homey API not ready, cannot start energy polling');
-      return;
-    }
-
-    this.log(`start polling Cumulative Energy @${int} seconds interval`);
-
-    const poll = async () => {
-      if (this.isDestroyed) return;
-      try {
-        const report = await api.energy.getLiveReport().catch(() => null);
-        const cumulativePower = report?.totalCumulative?.W;
-        if (Number.isFinite(cumulativePower)) {
-          const devices = this.getDevices();
-
-          // 1. Calculate total solar power across the whole house
-          let totalSolarPower = 0;
-          devices.forEach((device) => {
-            const power = device.getCapabilityValue('measure_power') || 0;
-            if (power > 0) totalSolarPower += power;
-          });
-
-          // 2. Assign values and calculate proportional self-consumption
-          devices.forEach((device) => {
-            device.currentGridPower = cumulativePower;
-
-            const power = device.getCapabilityValue('measure_power') || 0;
-            if (power <= 0) {
-              device.currentSelfConsumedPower = 0;
-            } else if (cumulativePower >= 0) {
-              device.currentSelfConsumedPower = power;
-            } else {
-              const exportPower = Math.abs(cumulativePower);
-              const deviceRatio = power / totalSolarPower;
-              const deviceExport = exportPower * deviceRatio;
-              device.currentSelfConsumedPower = Math.max(0, power - deviceExport);
-            }
-          });
-        }
-      } catch (error) {
-        this.error(error);
-      } finally {
-        if (!this.isDestroyed) {
-          this.intervalIdEnergyPoll = this.homey.setTimeout(poll, 1000 * int);
-        }
-      }
-    };
-    poll();
+    });
   }
 
 }
