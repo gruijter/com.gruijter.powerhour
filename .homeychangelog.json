@@ -1,4 +1,7 @@
 {
+  "8.9.2": {
+    "en": "Improve import/export detection and price usage. Fetch DAP prices immediately after new device pair. Refactoring and stability improvements."
+  },
   "8.9.1": {
     "en": "Change to new EEX API (GAS). Replace easyenergy with energyzero API (NL GAS). Fix price tag example. Improve import/export price usage. Improve battery strategy timimg."
   },
