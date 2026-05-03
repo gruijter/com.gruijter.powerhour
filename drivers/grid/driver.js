@@ -20,6 +20,7 @@ along with com.gruijter.powerhour.  If not, see <http://www.gnu.org/licenses/>.
 'use strict';
 
 const GenericDriver = require('../../lib/genericDeviceDrivers/generic_sum_driver');
+const EnergyPollingHelper = require('../../lib/EnergyPollingHelper');
 
 const driverSpecifics = {
   driverId: 'grid',
@@ -39,6 +40,21 @@ class GridDriver extends GenericDriver {
   async onInit() {
     this.ds = driverSpecifics;
     await super.onInit().catch(this.error);
+
+    EnergyPollingHelper.init(this.homey, { log: this.log.bind(this), error: this.error.bind(this) });
+    this.startPollingEnergy().catch((err) => this.error(err));
+  }
+
+  async onUninit() {
+    if (this.energyPollCallback) EnergyPollingHelper.unregister(this.energyPollCallback);
+    await super.onUninit();
+  }
+
+  async startPollingEnergy() {
+    this.energyPollCallback = async (report) => {
+      this.lastEnergyReport = report;
+    };
+    await EnergyPollingHelper.register(this.energyPollCallback);
   }
 
   checkDeviceCompatibility(homeyDevice) {

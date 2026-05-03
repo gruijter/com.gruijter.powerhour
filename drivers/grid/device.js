@@ -63,11 +63,24 @@ class GridDevice extends GenericDevice {
       const gridPower = this.getCapabilityValue('measure_power.grid') || 0;
 
       let solarPower = 0;
+      let hasPbthSolar = false;
       const solarDriver = this.homey.drivers.getDriver('solar');
       if (solarDriver) {
-        solarDriver.getDevices().forEach((dev) => {
-          solarPower += (dev.getCapabilityValue('measure_power') || 0);
-        });
+        const solarDevices = solarDriver.getDevices();
+        if (solarDevices && solarDevices.length > 0) {
+          hasPbthSolar = true;
+          solarDevices.forEach((dev) => {
+            solarPower += (dev.getCapabilityValue('measure_power') || 0);
+          });
+        }
+      }
+
+      // Fallback to central Homey Energy report if no PbtH solar devices are found
+      if (!hasPbthSolar) {
+        const report = this.driver.lastEnergyReport;
+        if (report && report.totalGenerated && typeof report.totalGenerated.W === 'number') {
+          solarPower = report.totalGenerated.W;
+        }
       }
 
       let batteryPower = 0;
