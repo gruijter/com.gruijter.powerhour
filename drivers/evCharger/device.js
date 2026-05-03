@@ -85,7 +85,6 @@ class CarChargeDevice extends GenericDevice {
       this.capabilityInstances.measurePowerRealtime = await this.sourceDevice.makeCapabilityInstance('measure_power', async (value) => {
         if (typeof value === 'number') {
           if (targetMeasureCap) await this.setCapability(targetMeasureCap, value).catch(this.error);
-          this.currentGridPower = value;
           // If no kWh meter, integrate Watt to kWh
           if (!this.sourceCapGroup.p1) {
             await this.updateMeterFromMeasure(-value).catch(this.error);
@@ -135,7 +134,6 @@ class CarChargeDevice extends GenericDevice {
       const rtValue = this.sourceDevice.capabilitiesObj.measure_power.value;
       if (typeof rtValue === 'number') {
         if (targetMeasureCap) await this.setCapability(targetMeasureCap, rtValue).catch(this.error);
-        this.currentGridPower = rtValue;
         if (!this.sourceCapGroup.p1) {
           await this.updateMeterFromMeasure(-rtValue).catch(this.error);
         }

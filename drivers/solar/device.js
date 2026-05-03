@@ -159,15 +159,6 @@ class SolarDevice extends GenericDevice {
     return true;
   }
 
-  getActiveTariff(reading, tariff, exportTariff) {
-    return MeterHelpers.getActiveTariff(
-      this.getSettings(),
-      this.currentGridPower,
-      tariff,
-      exportTariff,
-    );
-  }
-
   // --- Solar Logic ---
 
   async startForecastLoop() {
