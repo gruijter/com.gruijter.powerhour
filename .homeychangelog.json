@@ -1,4 +1,7 @@
 {
+  "8.9.3": {
+    "en": "Fix export monetary values. Reduce persistent power writes. Stability improvements. Homey-api@3.19.0"
+  },
   "8.9.2": {
     "en": "Improve import/export detection and price usage. Fetch DAP prices immediately after new device pair. Refactoring and stability improvements."
   },
