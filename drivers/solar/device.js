@@ -326,10 +326,16 @@ class SolarDevice extends GenericDevice {
           if (curtailment.log) this.log(curtailment.log);
 
           // Trigger explicit curtailment flow cards
-          if (curtailment.isActive && this.homey.app.trigger_solar_curtailment_active) {
-            this.homey.app.trigger_solar_curtailment_active(this, {}, {}).catch(this.error);
-          } else if (!curtailment.isActive && this.homey.app.trigger_solar_curtailment_inactive) {
-            this.homey.app.trigger_solar_curtailment_inactive(this, {}, {}).catch(this.error);
+          let app;
+          try {
+            app = this.homey.app;
+          } catch (e) {
+            // ignore
+          }
+          if (curtailment.isActive && app && app.trigger_solar_curtailment_active) {
+            app.trigger_solar_curtailment_active(this, {}, {}).catch(this.error);
+          } else if (!curtailment.isActive && app && app.trigger_solar_curtailment_inactive) {
+            app.trigger_solar_curtailment_inactive(this, {}, {}).catch(this.error);
           }
         }
       }
