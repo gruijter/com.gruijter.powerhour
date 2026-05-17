@@ -21,7 +21,6 @@ along with com.gruijter.powerhour.  If not, see <http://www.gnu.org/licenses/>.
 'use strict';
 
 const GenericDevice = require('../../lib/genericDeviceDrivers/generic_sum_device');
-const MeterHelpers = require('../../lib/MeterHelpers');
 const { imageUrlToStream } = require('../../lib/charts/ImageHelpers');
 const { getSolarChart, getDistributionChart } = require('../../lib/charts/SolarChart');
 const OpenMeteo = require('../../lib/providers/OpenMeteo');
@@ -306,7 +305,7 @@ class SolarDevice extends GenericDevice {
       if (!lastEntry || (currentTimestamp - lastEntry.time) > 50000) {
         this.powerHistory.push({ time: currentTimestamp, power: currentPower });
         if (this.powerHistory.length > 5000) this.powerHistory.shift();
-        await this.setStoreValue('powerHistory', this.powerHistory);
+        await this.setStoreValue('powerHistory', this.powerHistory).catch(this.error);
 
         const peak = Math.max(this.peakPowerAllTime || 0, this.getSettings().peakPower || 0);
 
