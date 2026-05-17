@@ -131,6 +131,15 @@ class GridDevice extends GenericDevice {
     if (tariffType === 'import') return tariff;
     if (tariffType === 'export') return exportTariff;
 
+    let deltaMeter;
+    if (this.meterMoney && typeof this.meterMoney.meterValue === 'number' && typeof reading.meterValue === 'number') {
+      deltaMeter = reading.meterValue - this.meterMoney.meterValue;
+    }
+
+    if (typeof deltaMeter === 'number' && deltaMeter !== 0) {
+      return deltaMeter < 0 ? exportTariff : tariff;
+    }
+
     // 1. Use local values for the main meter device
     const livePower = this.getCapabilityValue(this.ds.cmap.measure_source);
     if (typeof livePower === 'number') return livePower < 0 ? exportTariff : tariff;
