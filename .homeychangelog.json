@@ -1,6 +1,6 @@
 {
   "8.9.4": {
-    "en": "Resolve missing prices issue. Prevent battery provider flip-flopping. Improve EV charger strategy mid-session recalculation. Fix Homey overload on hourly updates. General stability improvements. Homey-api 3.19.1"
+    "en": "Resolve missing prices issue. Prevent battery provider flip-flopping. Improve EV charger strategy mid-session recalculation. Fix Homey overload on hourly updates. General stability improvements. Homey-api 3.19.1 "
   },
   "8.9.3": {
     "en": "Fix export monetary values. Reduce persistent power writes. Stability improvements. Homey-api@3.19.0"
