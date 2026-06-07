@@ -99,9 +99,12 @@ class CarChargeDevice extends GenericDevice {
           const oldSoc = this.lastKnownSoc !== undefined ? this.lastKnownSoc : value;
           this.lastKnownSoc = value;
           this.setStoreValue('lastKnownSoc', this.lastKnownSoc).catch(this.error);
-          // Recalculate if SoC changed by 2% or more (prevents spamming during charge)
-          if (Math.abs(value - oldSoc) >= 2) {
-            this.log(`EV SoC changed from ${oldSoc}% to ${value}%, recalculating strategy...`);
+          
+          const referenceSoc = this.lastRecalculatedSoc !== undefined ? this.lastRecalculatedSoc : oldSoc;
+          // Recalculate if cumulative SoC changed by 2% or more (prevents spamming during charge)
+          if (Math.abs(value - referenceSoc) >= 2) {
+            this.lastRecalculatedSoc = value;
+            this.log(`EV SoC changed significantly to ${value}%, recalculating strategy...`);
             if (this.socUpdateTimeout) this.homey.clearTimeout(this.socUpdateTimeout);
             this.socUpdateTimeout = this.homey.setTimeout(() => {
               this.updateChargeChart().catch(this.error);
@@ -144,14 +147,14 @@ class CarChargeDevice extends GenericDevice {
       const val = this.sourceDevice.capabilitiesObj.measure_battery.value;
       if (typeof val === 'number') {
         const oldSoc = this.lastKnownSoc !== undefined ? this.lastKnownSoc : val;
-        if (Math.abs(val - oldSoc) >= 2) {
-          this.lastKnownSoc = val;
-          this.setStoreValue('lastKnownSoc', this.lastKnownSoc).catch(this.error);
-          this.log(`EV SoC changed during poll from ${oldSoc}% to ${val}%, recalculating strategy...`);
+        this.lastKnownSoc = val;
+        this.setStoreValue('lastKnownSoc', this.lastKnownSoc).catch(this.error);
+
+        const referenceSoc = this.lastRecalculatedSoc !== undefined ? this.lastRecalculatedSoc : oldSoc;
+        if (Math.abs(val - referenceSoc) >= 2) {
+          this.lastRecalculatedSoc = val;
+          this.log(`EV SoC changed during poll to ${val}%, recalculating strategy...`);
           this.updateChargeChart().catch(this.error);
-        } else {
-          this.lastKnownSoc = val;
-          this.setStoreValue('lastKnownSoc', this.lastKnownSoc).catch(this.error);
         }
       }
     }
