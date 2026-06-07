@@ -1,4 +1,7 @@
 {
+  "8.9.4": {
+    "en": "Resolve missing prices issue. Prevent battery provider flip-flopping. Improve EV charger strategy mid-session recalculation. Fix Homey overload on hourly updates. General stability improvements. Homey-api 3.19.1"
+  },
   "8.9.3": {
     "en": "Fix export monetary values. Reduce persistent power writes. Stability improvements. Homey-api@3.19.0"
   },
@@ -18,16 +21,16 @@
     "en": "Fix monetary NaN. Allow negative average home usage in battery. Fix active tariff capability. Homey-api 3.18.1 "
   },
   "8.8.0": {
-    "en": "Add use of Import vs Export DAP tariffs in all drivers. Reduce memory footprint. Add PV Max power setting. Fix battery earnings. Fix avg price capabilities. Solar location check on start. Improve Solar charts. Solar cloudiness learning improved. Solar curtailment detection and handling improved. New solar icon. Updated translations. Code refactoring. Homey-api@3.17.12." 
+    "en": "Add use of Import vs Export DAP tariffs in all drivers. Reduce memory footprint. Add PV Max power setting. Fix battery earnings. Fix avg price capabilities. Solar location check on start. Improve Solar charts. Solar cloudiness learning improved. Solar curtailment detection and handling improved. New solar icon. Updated translations. Code refactoring. Homey-api@3.17.12."
   },
   "8.7.5": {
-    "en": "Added many flow cards for Solar. Solar shading learning improved. Flow translation updates." 
+    "en": "Added many flow cards for Solar. Solar shading learning improved. Flow translation updates."
   },
   "8.7.4": {
-    "en": "Prioritize Homey Battery standards for Battery. Added forecast tomorrow capabilities for Solar." 
+    "en": "Prioritize Homey Battery standards for Battery. Added forecast tomorrow capabilities for Solar."
   },
   "8.7.3": {
-    "en": "Improve SolarForecaster strategy. Fix power spikes in SUM and SOLAR device. Fix several flow cards. Refactoring." 
+    "en": "Improve SolarForecaster strategy. Fix power spikes in SUM and SOLAR device. Fix several flow cards. Refactoring."
   },
   "8.7.2": {
     "en": "Improve SolarForecaster source data fetching. Fix several flow cards. Homey-api 3.17.4"
