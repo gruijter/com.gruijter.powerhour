@@ -1,0 +1,137 @@
+{
+  "title": {
+    "en": "Provide load forecast JSON",
+    "de": "Lastprognose JSON bereitstellen",
+    "nl": "Geef verbruiksvoorspelling JSON op",
+    "ar": "توفير JSON توقعات الحمل",
+    "da": "Angiv JSON for forbrugsprognose",
+    "es": "Proporcionar JSON de pronóstico de carga",
+    "fr": "Fournir le JSON de la prévision de charge",
+    "it": "Fornire JSON previsioni carico",
+    "ko": "부하 예측 JSON 제공",
+    "no": "Gi JSON for lastvarsel",
+    "pl": "Dostarcz JSON prognozy obciążenia",
+    "ru": "Предоставить JSON прогноза нагрузки",
+    "sv": "Tillhandahåll JSON för lastprognos"
+  },
+  "titleFormatted": {
+    "en": "Provide load forecast JSON for [[period]]",
+    "de": "Lastprognose JSON für [[period]] bereitstellen",
+    "nl": "Geef verbruiksvoorspelling JSON op voor [[period]]",
+    "ar": "توفير JSON توقعات الحمل لـ [[period]]",
+    "da": "Angiv JSON for forbrugsprognose for [[period]]",
+    "es": "Proporcionar JSON de pronóstico de carga para [[period]]",
+    "fr": "Fournir le JSON de la prévision de charge pour [[period]]",
+    "it": "Fornire JSON previsioni carico per [[period]]",
+    "ko": "[[period]]에 대한 부하 예측 JSON 제공",
+    "no": "Gi JSON for lastvarsel for [[period]]",
+    "pl": "Dostarcz JSON prognozy obciążenia dla [[period]]",
+    "ru": "Предоставить JSON прогноза нагрузки для [[period]]",
+    "sv": "Tillhandahåll JSON för lastprognos för [[period]]"
+  },
+  "highlight": true,
+  "args": [
+    {
+      "type": "device",
+      "name": "device",
+      "filter": "driver_id=grid"
+    },
+    {
+      "type": "dropdown",
+      "name": "period",
+      "title": {
+        "en": "period",
+        "de": "Zeitraum",
+        "nl": "periode",
+        "ar": "فترة",
+        "da": "periode",
+        "es": "período",
+        "fr": "période",
+        "it": "periodo",
+        "ko": "기간",
+        "no": "periode",
+        "pl": "okres",
+        "ru": "период",
+        "sv": "period"
+      },
+      "values": [
+        {
+          "id": "this_day",
+          "label": {
+            "en": "This day",
+            "de": "diesen Tag",
+            "nl": "Deze dag",
+            "ar": "هذا اليوم",
+            "da": "I dag",
+            "es": "Este día",
+            "fr": "Ce jour",
+            "it": "giornata odierna",
+            "ko": "오늘",
+            "no": "idag",
+            "pl": "Ten dzień",
+            "ru": "Этот день",
+            "sv": "idag"
+          }
+        },
+        {
+          "id": "tomorrow",
+          "label": {
+            "en": "Tomorrow",
+            "de": "Morgen",
+            "nl": "Morgen",
+            "ar": "غداً",
+            "da": "I morgen",
+            "es": "Mañana",
+            "fr": "Demain",
+            "it": "domani",
+            "ko": "내일",
+            "no": "i morgen",
+            "pl": "Jutro",
+            "ru": "Завтра",
+            "sv": "i morgon"
+          }
+        },
+        {
+          "id": "next_hours",
+          "label": {
+            "en": "Next hours",
+            "nl": "Komende uren",
+            "de": "Kommende Stunden",
+            "ar": "الساعات القادمة",
+            "da": "Næste timer",
+            "es": "Próximas horas",
+            "fr": "Prochaines heures",
+            "it": "Prossime ore",
+            "ko": "다음 시간",
+            "no": "Neste timer",
+            "pl": "Następne godziny",
+            "ru": "Следующие часы",
+            "sv": "Kommande timmar"
+          }
+        }
+      ]
+    }
+  ],
+  "tokens": [
+    {
+      "name": "load",
+      "title": {
+        "en": "Load Forecast JSON",
+        "de": "Lastprognose JSON",
+        "nl": "Verbruiksvoorspelling JSON",
+        "ar": "JSON توقعات الحمل",
+        "da": "JSON Forbrugsprognose",
+        "es": "JSON Pronóstico de Carga",
+        "fr": "JSON Prévision de Charge",
+        "it": "JSON Previsione Carico",
+        "ko": "부하 예측 JSON",
+        "no": "JSON Lastvarsel",
+        "pl": "JSON Prognoza Obciążenia",
+        "ru": "JSON Прогноз Нагрузки",
+        "sv": "JSON Lastprognos"
+      },
+      "type": "string",
+      "example": "[500,550,600,450,300]"
+    }
+  ]
+}

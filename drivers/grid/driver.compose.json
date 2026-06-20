@@ -13,8 +13,8 @@
     "ru": "Сводка Электросети",
     "ar": "ملخص شبكة الكهرباء"
   },
-  "deprecated": true,
   "class": "other",
+  "deprecated": true,
   "capabilities": [],
   "capabilitiesOptions": {
     "meter_power.grid": {
@@ -64,7 +64,8 @@
         "pl": "Moc Domu",
         "ru": "Мощность Дома",
         "ar": "طاقة المنزل"
-      }
+      },
+      "insights": true
     },
     "meter_power.home": {
       "title": {
@@ -81,7 +82,217 @@
         "ru": "Энергия Дома",
         "ar": "طاقة المنزل"
       },
-      "decimals": 4
+      "decimals": 4,
+      "insights": true
+    },
+    "measure_watt_forecast.h0": {
+      "title": {
+        "en": "Load forecast",
+        "nl": "Verwacht verbruik",
+        "de": "Lastprognose",
+        "fr": "Prévision de charge",
+        "it": "Previsione carico",
+        "sv": "Lastprognos",
+        "no": "Lastprognose",
+        "es": "Previsión de carga",
+        "da": "Forbrugsprognose",
+        "pl": "Prognoza obciążenia",
+        "ru": "Прогноз нагрузки",
+        "ar": "توقعات الحمل"
+      },
+      "insights": true
+    },
+    "measure_watt_forecast.m15": {
+      "title": {
+        "en": "Load +15M",
+        "nl": "Verbruik +15M",
+        "de": "Last +15Min",
+        "fr": "Charge +15M",
+        "it": "Carico +15m",
+        "sv": "Last +15M",
+        "no": "Last +15M",
+        "es": "Carga +15M",
+        "da": "Forbrug +15M",
+        "pl": "Obciążenie +15M",
+        "ru": "Нагрузка +15М",
+        "ar": "الحمل +15د"
+      }
+    },
+    "measure_watt_forecast.m30": {
+      "title": {
+        "en": "Load +30M",
+        "nl": "Verbruik +30M",
+        "de": "Last +30Min",
+        "fr": "Charge +30M",
+        "it": "Carico +30m",
+        "sv": "Last +30M",
+        "no": "Last +30M",
+        "es": "Carga +30M",
+        "da": "Forbrug +30M",
+        "pl": "Obciążenie +30M",
+        "ru": "Нагрузка +30М",
+        "ar": "الحمل +30د"
+      }
+    },
+    "measure_watt_forecast.m45": {
+      "title": {
+        "en": "Load +45M",
+        "nl": "Verbruik +45M",
+        "de": "Last +45Min",
+        "fr": "Charge +45M",
+        "it": "Carico +45m",
+        "sv": "Last +45M",
+        "no": "Last +45M",
+        "es": "Carga +45M",
+        "da": "Forbrug +45M",
+        "pl": "Obciążenie +45M",
+        "ru": "Нагрузка +45М",
+        "ar": "الحمل +45د"
+      }
+    },
+    "measure_watt_forecast.h1": {
+      "title": {
+        "en": "Load +1H",
+        "nl": "Verbruik +1U",
+        "de": "Last +1Std.",
+        "fr": "Charge +1h",
+        "it": "Carico +1h",
+        "sv": "Last +1H",
+        "no": "Last +1T",
+        "es": "Carga +1h",
+        "da": "Forbrug +1T",
+        "pl": "Obciążenie +1h",
+        "ru": "Нагрузка +1ч",
+        "ar": "الحمل +1س"
+      }
+    },
+    "measure_watt_forecast.h2": {
+      "title": {
+        "en": "Load +2H",
+        "nl": "Verbruik +2U",
+        "de": "Last +2Std.",
+        "fr": "Charge +2h",
+        "it": "Carico +2h",
+        "sv": "Last +2H",
+        "no": "Last +2T",
+        "es": "Carga +2h",
+        "da": "Forbrug +2T",
+        "pl": "Obciążenie +2h",
+        "ru": "Нагрузка +2ч",
+        "ar": "الحمل +2س"
+      }
+    },
+    "measure_watt_forecast.h3": {
+      "title": {
+        "en": "Load +3H",
+        "nl": "Verbruik +3U",
+        "de": "Last +3Std.",
+        "fr": "Charge +3h",
+        "it": "Carico +3h",
+        "sv": "Last +3H",
+        "no": "Last +3T",
+        "es": "Carga +3h",
+        "da": "Forbrug +3T",
+        "pl": "Obciążenie +3h",
+        "ru": "Нагрузка +3ч",
+        "ar": "الحمل +3س"
+      }
+    },
+    "meter_kwh_forecast.this_day": {
+      "title": {
+        "en": "Forecast load this day",
+        "nl": "Prognose verbruik deze dag",
+        "de": "Lastprognose dieser Tag",
+        "fr": "Prévision charge ce jour",
+        "it": "Previsione carico di questo giorno",
+        "sv": "Lastprognos denna dag",
+        "no": "Lastprognose denne dag",
+        "es": "Pronóstico carga este día",
+        "da": "Forbrugsprognose denne dag",
+        "pl": "Prognoza obciążenia tego dnia",
+        "ru": "Прогноз нагрузки в этот день",
+        "ar": "توقعات الحمل هذا اليوم"
+      }
+    },
+    "meter_kwh_forecast.tomorrow": {
+      "title": {
+        "en": "Forecast load tomorrow",
+        "nl": "Prognose verbruik morgen",
+        "de": "Lastprognose morgen",
+        "fr": "Prévision charge demain",
+        "it": "Previsione carico domani",
+        "sv": "Lastprognos i morgon",
+        "no": "Lastprognose i morgen",
+        "es": "Pronóstico carga mañana",
+        "da": "Forbrugsprognose i morgen",
+        "pl": "Prognoza obciążenia jutro",
+        "ru": "Прогноз нагрузки завтра",
+        "ar": "توقعات الحمل الغд"
+      }
+    },
+    "measure_watt_forecast.tomorrow_peak": {
+      "title": {
+        "en": "Peak load forecast tomorrow",
+        "nl": "Piekverbruiksverwachting morgen",
+        "de": "Spitzenlastprognose morgen",
+        "fr": "Prévision de pointe de charge demain",
+        "it": "Previsione picco di carico domani",
+        "sv": "Topplastprognos i morgon",
+        "no": "Topplastprognose i morgen",
+        "es": "Pronóstico carga pico mañana",
+        "da": "Spidsforbrugsprognose i morgen",
+        "pl": "Prognoza obciążenia szczytowego jutro",
+        "ru": "Пиковый прогноз нагрузки на завтра",
+        "ar": "توقعات ذروة الحمل غدا"
+      }
+    },
+    "meter_kwh_forecast.h0": {
+      "title": {
+        "en": "Forecast load this hour",
+        "nl": "Prognose verbruik dit uur",
+        "de": "Lastprognose diese Stunde",
+        "fr": "Prévision charge cette heure",
+        "it": "Previsione carico quest'ora",
+        "sv": "Lastprognos denna timme",
+        "no": "Lastprognose denne timen",
+        "es": "Pronóstico carga esta hora",
+        "da": "Forbrugsprognose denne time",
+        "pl": "Prognoza obciążenia w tej godzinie",
+        "ru": "Прогноз нагрузки в этот час",
+        "ar": "توقعات الحمل هذه الساعة"
+      },
+      "insights": true
+    },
+    "button.retrain_load": {
+      "maintenanceAction": true,
+      "title": {
+        "en": "Retrain load forecast",
+        "nl": "Hertrain verbruiksvoorspelling",
+        "de": "Lastprognose neu trainieren",
+        "fr": "Réentraîner les prévisions de charge",
+        "it": "Riestrai previsione carico",
+        "sv": "Träna om lastprognos",
+        "no": "Tren lastprognose på nytt",
+        "es": "Reentrenar pronóstico de carga",
+        "da": "Gentræn forbrugsprognose",
+        "pl": "Przetrenuj prognozę obciążenia",
+        "ru": "Переобучить прогноз нагрузки",
+        "ar": "إعادة تدريب توقعات الحمل"
+      },
+      "desc": {
+        "en": "Reset and retrain the load forecaster based on Homey Insights of the house consumption.",
+        "nl": "Reset en hertrain de verbruiksvoorspeller op basis van Homey Insights van het huisverbruik.",
+        "de": "Setzen Sie den Lastprognostiker zurück und trainieren Sie ihn neu basierend auf Homey Insights des Hausverbrauchs.",
+        "fr": "Réinitialisez et réentraînez le prévisionniste de charge en fonction des Homey Insights de la consommation de la maison.",
+        "it": "Reimposta e riaddestra il previsore del carico basato su Homey Insights del consumo domestico.",
+        "sv": "Återställ och träna om lastprognosen baserat på Homey Insights från husets konsumtion.",
+        "no": "Tilbakestill og tren lastprognosen på nytt basert på Homey Insights fra husets forbruk.",
+        "es": "Restablezca y vuelva a entrenar el pronosticador de carga basado en Homey Insights del consumo de la casa.",
+        "da": "Nulstil og gentræn forbrugsprognosen baseret på Homey Insights fra husets forbrug.",
+        "pl": "Zresetuj i opnieuw przeszkol prognozę obciążenia na podstawie Homey Insights zużycia w domu.",
+        "ru": "Сбросьте и переобучите прогнозист нагрузки на основе Homey Insights энергопотребления дома.",
+        "ar": "إعادة تعيين وإعادة تدريب المتنبئ بالحمل بناءً على رؤى Homey لاستهلاك المنزل."
+      }
     }
   },
   "images": {
@@ -1181,15 +1392,54 @@
           "values": [
             {
               "id": "dynamic",
-              "label": { "en": "Dynamic", "nl": "Dynamisch", "de": "Dynamisch", "fr": "Dynamique", "it": "Dinamico", "sv": "Dynamisk", "no": "Dynamisk", "es": "Dinámico", "da": "Dynamisk", "pl": "Dynamiczna", "ru": "Динамический", "ar": "ديناميكي" }
+              "label": {
+                "en": "Dynamic",
+                "nl": "Dynamisch",
+                "de": "Dynamisch",
+                "fr": "Dynamique",
+                "it": "Dinamico",
+                "sv": "Dynamisk",
+                "no": "Dynamisk",
+                "es": "Dinámico",
+                "da": "Dynamisk",
+                "pl": "Dynamiczna",
+                "ru": "Динамический",
+                "ar": "ديناميكي"
+              }
             },
             {
               "id": "import",
-              "label": { "en": "Always Import", "nl": "Altijd Import", "de": "Immer Import", "fr": "Toujours Importer", "it": "Sempre Importazione", "sv": "Alltid Import", "no": "Alltid Import", "es": "Siempre Importar", "da": "Altid Import", "pl": "Zawsze Import", "ru": "Всегда Импорт", "ar": "استيراد دائما" }
+              "label": {
+                "en": "Always Import",
+                "nl": "Altijd Import",
+                "de": "Immer Import",
+                "fr": "Toujours Importer",
+                "it": "Sempre Importazione",
+                "sv": "Alltid Import",
+                "no": "Alltid Import",
+                "es": "Siempre Importar",
+                "da": "Altid Import",
+                "pl": "Zawsze Import",
+                "ru": "Всегда Импорт",
+                "ar": "استيراد دائما"
+              }
             },
             {
               "id": "export",
-              "label": { "en": "Always Export", "nl": "Altijd Export", "de": "Immer Export", "fr": "Toujours Exporter", "it": "Sempre Esportazione", "sv": "Alltid Export", "no": "Alltid Eksport", "es": "Siempre Exportar", "da": "Altid Eksport", "pl": "Zawsze Eksport", "ru": "Всегда Экспорт", "ar": "تصدير دائما" }
+              "label": {
+                "en": "Always Export",
+                "nl": "Altijd Export",
+                "de": "Immer Export",
+                "fr": "Toujours Exporter",
+                "it": "Sempre Esportazione",
+                "sv": "Alltid Export",
+                "no": "Alltid Eksport",
+                "es": "Siempre Exportar",
+                "da": "Altid Eksport",
+                "pl": "Zawsze Eksport",
+                "ru": "Всегда Экспорт",
+                "ar": "تصدير دائما"
+              }
             }
           ]
         },
