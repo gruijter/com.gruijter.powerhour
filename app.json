@@ -1915,7 +1915,7 @@
             }
           },
           {
-            "type": "number",
+            "type": "time",
             "name": "time1",
             "title": {
               "en": "time from",
@@ -3204,7 +3204,7 @@
             }
           },
           {
-            "type": "number",
+            "type": "time",
             "name": "time1",
             "title": {
               "en": "time from",
@@ -5304,7 +5304,7 @@
             }
           },
           {
-            "type": "number",
+            "type": "time",
             "name": "time1",
             "title": {
               "en": "time from",
@@ -6455,7 +6455,7 @@
             }
           },
           {
-            "type": "number",
+            "type": "time",
             "name": "time1",
             "title": {
               "en": "time from",
