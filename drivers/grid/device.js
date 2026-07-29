@@ -243,25 +243,31 @@ class GridDevice extends GenericDevice {
   // --- Load Forecast Logic ---
 
   async startForecastLoop() {
+    let firstRun = true;
     const loop = async () => {
       if (this.isDestroyed) return;
       try {
-        const now = new Date();
-        const localNow = new Date(now.toLocaleString('en-US', { timeZone: this.timeZone }));
-        if (localNow.getHours() === 2) {
-          const lastRun = new Date(this.lastAutoRetrainLoad);
-          const isSameDay = lastRun.getDate() === localNow.getDate() && lastRun.getMonth() === localNow.getMonth() && lastRun.getFullYear() === localNow.getFullYear();
+        // Skip the nightly retrain check on the very first invocation (startup)
+        // to avoid conflicting with the explicit startup retraining in initLearningTimeout.
+        if (!firstRun) {
+          const now = new Date();
+          const localNow = new Date(now.toLocaleString('en-US', { timeZone: this.timeZone }));
+          if (localNow.getHours() === 2) {
+            const lastRun = new Date(this.lastAutoRetrainLoad);
+            const isSameDay = lastRun.getDate() === localNow.getDate() && lastRun.getMonth() === localNow.getMonth() && lastRun.getFullYear() === localNow.getFullYear();
 
-          if (!isSameDay) {
-            this.log('Running automatic nightly load model retraining...');
-            await this.retrainLoadModel(false); // Nightly: Blend with existing data
-            this.lastAutoRetrainLoad = now.getTime();
-            await this.setStoreValue('lastAutoRetrainLoad', this.lastAutoRetrainLoad);
+            if (!isSameDay) {
+              this.log('Running automatic nightly load model retraining...');
+              await this.retrainLoadModel(false); // Nightly: Blend with existing data
+              this.lastAutoRetrainLoad = now.getTime();
+              await this.setStoreValue('lastAutoRetrainLoad', this.lastAutoRetrainLoad);
+            }
           }
         }
       } catch (err) {
         this.error('Load forecast loop failed:', err);
       } finally {
+        firstRun = false;
         if (!this.isDestroyed) {
           this.forecastTimeout = this.homey.setTimeout(loop, 60 * 60 * 1000); // 1 hour
         }
@@ -310,6 +316,11 @@ class GridDevice extends GenericDevice {
     });
     this.lastEnergyState = newEnergyState;
     const currentPower = smoothedPower;
+
+    // Bug 4: only proceed if we have a valid numeric power reading
+    if (typeof currentPower !== 'number' || Number.isNaN(currentPower) || currentPower < 0) {
+      return updated;
+    }
 
     const details = LoadForecastStrategy.getLocalTimeDetails(now, this.timeZone);
     const currentSlotIndex = details.slotIndex;
@@ -366,26 +377,30 @@ class GridDevice extends GenericDevice {
     await this.setCapabilityValue('meter_kwh_forecast.tomorrow', forecast.totalTomorrowKwh).catch(this.error);
     await this.setCapabilityValue('measure_watt_forecast.tomorrow_peak', forecast.tomorrowPeakW).catch(this.error);
 
-    const details = LoadForecastStrategy.getLocalTimeDetails(now, this.timeZone);
-    const currentSlot = details.slotIndex;
+    const { slotIndex: currentSlot } = LoadForecastStrategy.getLocalTimeDetails(now, this.timeZone);
 
     // --- Update Charts ---
+    // Bug 2: DST-aware local midnight to UTC conversion (two-pass method)
+    const { timeZone } = this;
     const getLocalMidnightUTC = (d) => {
-      const local = new Date(d.toLocaleString('en-US', { timeZone: this.timeZone }));
-      const offset = local.getTime() - d.getTime();
-      const midnightLocal = new Date(local);
-      midnightLocal.setHours(0, 0, 0, 0);
-      return midnightLocal.getTime() - offset;
+      const homeyOffset = new Date(d.toLocaleString('en-US', { timeZone })).getTime() - d.getTime();
+      const local = new Date(d.getTime() + homeyOffset);
+      local.setHours(0, 0, 0, 0);
+      const midnightUTCEstimate = new Date(local.getTime() - homeyOffset);
+      // Second pass: verify and correct for DST boundary
+      const checkLocal = new Date(midnightUTCEstimate.toLocaleString('en-US', { timeZone }));
+      const diff = local.getTime() - checkLocal.getTime();
+      return new Date(midnightUTCEstimate.getTime() + diff);
     };
 
-    const startOfToday = new Date(getLocalMidnightUTC(now));
+    const startOfToday = getLocalMidnightUTC(now);
     const endOfToday = new Date(startOfToday.getTime() + 24 * 60 * 60 * 1000);
 
     const startOfYesterday = new Date(startOfToday.getTime() - 24 * 60 * 60 * 1000);
     const endOfYesterday = startOfToday;
 
     const tomorrow = new Date(now.getTime() + 24 * 60 * 60 * 1000);
-    const startOfTomorrow = new Date(getLocalMidnightUTC(tomorrow));
+    const startOfTomorrow = getLocalMidnightUTC(tomorrow);
     const endOfTomorrow = new Date(startOfTomorrow.getTime() + 24 * 60 * 60 * 1000);
 
     // 1. Yesterday Chart (Forecast vs Real)
@@ -517,9 +532,12 @@ class GridDevice extends GenericDevice {
       }
 
       if (powerEntries.length > 0) {
+        // Bug 5: round Insights timestamps to nearest 5 minutes before keying the merge Map
+        // to avoid duplicates when mixing 5-min Insights resolution with ms-precision real-time entries.
+        const roundTo5Min = (t) => Math.round(t / (5 * 60 * 1000)) * (5 * 60 * 1000);
         const historyMapped = powerEntries
           .map((e) => {
-            const time = new Date(e.t).getTime();
+            const time = roundTo5Min(new Date(e.t).getTime());
             let power = 0;
             if (typeof e.v === 'number') power = Math.round(e.v);
             else if (typeof e.y === 'number') power = Math.round(e.y);
@@ -527,7 +545,8 @@ class GridDevice extends GenericDevice {
           })
           .filter((e) => e.power >= 0 && e.power <= 30000);
         if (!Array.isArray(this.powerHistory)) this.powerHistory = [];
-        const existingMap = new Map(this.powerHistory.map((e) => [e.time, e]));
+        // Also round existing real-time entries before merging
+        const existingMap = new Map(this.powerHistory.map((e) => [roundTo5Min(e.time), e]));
         historyMapped.forEach((entry) => {
           existingMap.set(entry.time, entry);
         });
@@ -568,12 +587,14 @@ class GridDevice extends GenericDevice {
 
   async populatePowerHistory() {
     try {
-      const now = Date.now();
+      // Bug 1: use Date object, not Date.now() number, so .toLocaleString() works correctly
+      const now = new Date();
+      const nowMs = now.getTime();
 
       if (!Array.isArray(this.powerHistory)) this.powerHistory = [];
       // Check if we have sufficient history (at least 24h worth of data)
-      const hasData = this.powerHistory.length > 24 && this.powerHistory[0].time < (now - 40 * 60 * 60 * 1000);
-      const hasRecent = this.powerHistory.length > 0 && this.powerHistory[this.powerHistory.length - 1].time > (now - 6 * 60 * 60 * 1000);
+      const hasData = this.powerHistory.length > 24 && this.powerHistory[0].time < (nowMs - 40 * 60 * 60 * 1000);
+      const hasRecent = this.powerHistory.length > 0 && this.powerHistory[this.powerHistory.length - 1].time > (nowMs - 6 * 60 * 60 * 1000);
 
       if (hasData && hasRecent) {
         return;
@@ -601,15 +622,16 @@ class GridDevice extends GenericDevice {
 
       let powerEntries = [];
 
-      // Calculate time range: last 2 days ending at start of today (to avoid overwriting today's realtime data)
-      let endDate = new Date();
-      try {
-        const nowLocal = new Date(now.toLocaleString('en-US', { timeZone: this.timeZone }));
-        const offset = nowLocal.getTime() - now.getTime();
-        const midnightLocal = new Date(nowLocal);
-        midnightLocal.setHours(0, 0, 0, 0);
-        endDate = new Date(midnightLocal.getTime() - offset);
-      } catch (e) { }
+      // Bug 1: Calculate time range using a proper Date object.
+      // End at local midnight today (so we don't overlap with today's real-time data).
+      const homeyOffset = new Date(now.toLocaleString('en-US', { timeZone: this.timeZone })).getTime() - nowMs;
+      const localNow = new Date(nowMs + homeyOffset);
+      localNow.setHours(0, 0, 0, 0);
+      const midnightUTCEstimate = new Date(localNow.getTime() - homeyOffset);
+      // Two-pass DST correction
+      const checkLocal = new Date(midnightUTCEstimate.toLocaleString('en-US', { timeZone: this.timeZone }));
+      const diff = localNow.getTime() - checkLocal.getTime();
+      const endDate = new Date(midnightUTCEstimate.getTime() + diff);
 
       const startDate = new Date(endDate.getTime() - 2 * 24 * 60 * 60 * 1000);
 
@@ -640,9 +662,11 @@ class GridDevice extends GenericDevice {
       }
 
       if (powerEntries.length > 0) {
+        // Bug 5: round timestamps to nearest 5 minutes to avoid duplicates from mixed resolution sources
+        const roundTo5Min = (t) => Math.round(t / (5 * 60 * 1000)) * (5 * 60 * 1000);
         const historyMapped = powerEntries
           .map((e) => {
-            const time = new Date(e.t).getTime();
+            const time = roundTo5Min(new Date(e.t).getTime());
             let power = 0;
             if (typeof e.v === 'number') power = Math.round(e.v);
             else if (typeof e.y === 'number') power = Math.round(e.y);
@@ -651,7 +675,7 @@ class GridDevice extends GenericDevice {
           .filter((e) => e.power >= 0 && e.power <= 30000);
 
         if (!Array.isArray(this.powerHistory)) this.powerHistory = [];
-        const existingMap = new Map(this.powerHistory.map((e) => [e.time, e]));
+        const existingMap = new Map(this.powerHistory.map((e) => [roundTo5Min(e.time), e]));
         historyMapped.forEach((entry) => {
           existingMap.set(entry.time, entry);
         });
@@ -780,12 +804,17 @@ class GridDevice extends GenericDevice {
       return [];
     }
 
+    // Bug 6: For each component driver, prefer instantaneous power (measure_power / measure_watt_avg)
+    // over cumulative meter (meter_power) to avoid mixing Watts with converted-kWh Watts.
+    // Only fall back to meter_power if no measure_power log exists for that device.
     const solarEntriesList = [];
     const solarDriver = this.homey.drivers.getDriver('solar');
     if (solarDriver) {
       for (const dev of solarDriver.getDevices()) {
-        const entries = await getLogEntriesForDevice(dev.getData().id, [':measure_power', ':meter_power']);
-        if (entries) solarEntriesList.push(entries);
+        const devId = dev.getData().id;
+        let entries = await getLogEntriesForDevice(devId, [':measure_power']);
+        if (!entries || entries.length === 0) entries = await getLogEntriesForDevice(devId, [':meter_power']);
+        if (entries && entries.length > 0) solarEntriesList.push(entries);
       }
     }
 
@@ -793,8 +822,10 @@ class GridDevice extends GenericDevice {
     const batDriver = this.homey.drivers.getDriver('battery');
     if (batDriver) {
       for (const dev of batDriver.getDevices()) {
-        const entries = await getLogEntriesForDevice(dev.getData().id, [':measure_watt_avg', ':measure_power']);
-        if (entries) batteryEntriesList.push(entries);
+        const devId = dev.getData().id;
+        let entries = await getLogEntriesForDevice(devId, [':measure_watt_avg']);
+        if (!entries || entries.length === 0) entries = await getLogEntriesForDevice(devId, [':measure_power']);
+        if (entries && entries.length > 0) batteryEntriesList.push(entries);
       }
     }
 
@@ -802,8 +833,10 @@ class GridDevice extends GenericDevice {
     const evDriver = this.homey.drivers.getDriver('evCharger');
     if (evDriver) {
       for (const dev of evDriver.getDevices()) {
-        const entries = await getLogEntriesForDevice(dev.getData().id, [':measure_watt_avg', ':measure_power']);
-        if (entries) evEntriesList.push(entries);
+        const devId = dev.getData().id;
+        let entries = await getLogEntriesForDevice(devId, [':measure_watt_avg']);
+        if (!entries || entries.length === 0) entries = await getLogEntriesForDevice(devId, [':measure_power']);
+        if (entries && entries.length > 0) evEntriesList.push(entries);
       }
     }
 
