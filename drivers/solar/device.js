@@ -168,15 +168,18 @@ class SolarDevice extends GenericDevice {
       try {
         await this.fetchForecast();
 
-        // Automatic nightly retrain (at 01:00) to maintain model stability.
+        // Automatic nightly retrain (at 01:00 local time) to maintain model stability.
         // This ensures the "Batch" part of the hybrid model actually happens,
         // correcting drift and seasonal changes without user intervention.
         const now = new Date();
-        if (now.getHours() === 1) {
+        // Use local hour — now.getHours() returns UTC hour which is wrong in non-UTC timezones
+        const localNow = new Date(now.toLocaleString('en-US', { timeZone: this.timeZone }));
+        if (localNow.getHours() === 1) {
           const lastRun = new Date(this.lastAutoRetrain);
-          const isSameDay = lastRun.getDate() === now.getDate() && lastRun.getMonth() === now.getMonth() && lastRun.getFullYear() === now.getFullYear();
+          const isSameLocalDay = lastRun.toLocaleDateString('en-CA', { timeZone: this.timeZone })
+            === localNow.toLocaleDateString('en-CA', { timeZone: this.timeZone });
 
-          if (!isSameDay) {
+          if (!isSameLocalDay) {
             this.log('Running automatic nightly solar model retraining...');
             await this.retrainSolarModel(false); // Nightly: Blend with existing data
             this.lastAutoRetrain = now.getTime();
@@ -807,18 +810,24 @@ class SolarDevice extends GenericDevice {
     // --- 0. Manage Forecast History (For Fixed Yesterday Chart) ---
     const nowLocalStr = now.toLocaleDateString('en-CA', { timeZone: this.timeZone }); // YYYY-MM-DD
 
-    // Calculate Today's Power Series (Forecast) to cache
-    const todayMidnight = new Date(now.toLocaleString('en-US', { timeZone: this.timeZone }));
-    todayMidnight.setHours(0, 0, 0, 0);
-    const tomorrowMidnight = new Date(todayMidnight);
-    tomorrowMidnight.setDate(tomorrowMidnight.getDate() + 1);
+    // Calculate Today's Power Series (Forecast) to cache.
+    // NOTE: localDayStart / localDayEnd are "fake-local" Date objects: the local clock
+    // time (e.g. 00:00 local) is stored numerically as if it were UTC. This is the
+    // established "local-slot-as-UTC" convention used throughout the solar device so that
+    // getUTCHours() returns the local hour and yieldFactors[] (indexed 0-95 by local slot)
+    // can be addressed directly.
+    const localDayStart = new Date(now.toLocaleString('en-US', { timeZone: this.timeZone }));
+    localDayStart.setHours(0, 0, 0, 0); // fake-local midnight: local 00:00 as UTC ms
+    const localDayEnd = new Date(localDayStart);
+    localDayEnd.setDate(localDayEnd.getDate() + 1); // fake-local end: local 00:00 next day
 
     const todaySeries = {};
-    // Iterate 15 min slots for the full local day
-    for (let t = todayMidnight.getTime(); t < tomorrowMidnight.getTime(); t += 15 * 60 * 1000) {
+    // Iterate 15 min slots for the full local day using fake-local ms values
+    for (let t = localDayStart.getTime(); t < localDayEnd.getTime(); t += 15 * 60 * 1000) {
       const rad = SolarLearningStrategy.getInterpolatedRadiation(t, this.forecastData);
-      const slot = (new Date(t).getUTCHours() * 4) + Math.floor(new Date(t).getUTCMinutes() / 15);
-      const yf = this.yieldFactors[slot] || 0;
+      // getUTCHours/getUTCMinutes give local hours because t is fake-local
+      const localSlotIndex = (new Date(t).getUTCHours() * 4) + Math.floor(new Date(t).getUTCMinutes() / 15);
+      const yf = this.yieldFactors[localSlotIndex] || 0;
       todaySeries[t] = Math.round(rad * yf);
     }
 
@@ -835,24 +844,24 @@ class SolarDevice extends GenericDevice {
       yesterday.setDate(yesterday.getDate() - 1);
       const yesterdayLocalStr = yesterday.toLocaleDateString('en-CA', { timeZone: this.timeZone });
 
-      const yesterdayMidnight = new Date(todayMidnight);
-      yesterdayMidnight.setDate(yesterdayMidnight.getDate() - 1);
-      const yesterdayEnd = new Date(yesterdayMidnight);
-      yesterdayEnd.setDate(yesterdayEnd.getDate() + 1);
+      // Fake-local yesterday midnight and end (same convention as localDayStart above)
+      const localYesterdayStart = new Date(localDayStart);
+      localYesterdayStart.setDate(localYesterdayStart.getDate() - 1);
+      const localYesterdayEnd = localDayStart; // yesterday ends at today's fake-local midnight
 
       // Check if we have weather data for yesterday
       const hasData = Object.keys(this.forecastData).some((t) => {
         const time = Number(t);
-        return time >= yesterdayMidnight.getTime() && time < yesterdayEnd.getTime();
+        return time >= localYesterdayStart.getTime() && time < localYesterdayEnd.getTime();
       });
 
       if (hasData) {
         this.log(`[updateForecastDisplay] Backfilling yesterday forecast for ${yesterdayLocalStr}`);
         const yesterdaySeries = {};
-        for (let t = yesterdayMidnight.getTime(); t < yesterdayEnd.getTime(); t += 15 * 60 * 1000) {
+        for (let t = localYesterdayStart.getTime(); t < localYesterdayEnd.getTime(); t += 15 * 60 * 1000) {
           const rad = SolarLearningStrategy.getInterpolatedRadiation(t, this.forecastData);
-          const slot = (new Date(t).getUTCHours() * 4) + Math.floor(new Date(t).getUTCMinutes() / 15);
-          const yf = this.yieldFactors[slot] || 0;
+          const localSlotIndex = (new Date(t).getUTCHours() * 4) + Math.floor(new Date(t).getUTCMinutes() / 15);
+          const yf = this.yieldFactors[localSlotIndex] || 0;
           yesterdaySeries[t] = Math.round(rad * yf);
         }
         this.forecastHistory.yesterday = { date: yesterdayLocalStr, data: yesterdaySeries };
@@ -908,9 +917,11 @@ class SolarDevice extends GenericDevice {
     await this.setCapabilityValue('meter_kwh_forecast.this_day', totalYield).catch(this.error);
 
     // Calculate Forecast Tomorrow
-    const dayAfterTomorrowMidnight = new Date(tomorrowMidnight);
-    dayAfterTomorrowMidnight.setDate(dayAfterTomorrowMidnight.getDate() + 1);
-    const tomorrowStats = this.getForecastStatsBetween(tomorrowMidnight, dayAfterTomorrowMidnight);
+    // Use fake-local convention: localDayEnd is fake-local midnight of tomorrow;
+    // add one fake-local day to get the day-after-tomorrow fake-local midnight.
+    const localDayAfterTomorrowStart = new Date(localDayEnd);
+    localDayAfterTomorrowStart.setDate(localDayAfterTomorrowStart.getDate() + 1);
+    const tomorrowStats = this.getForecastStatsBetween(localDayEnd, localDayAfterTomorrowStart);
     await this.setCapabilityValue('meter_kwh_forecast.tomorrow', tomorrowStats.totalYield).catch(this.error);
     await this.setCapabilityValue('measure_watt_forecast.tomorrow_peak', tomorrowStats.peakPower).catch(this.error);
 
