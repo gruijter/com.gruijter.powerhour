@@ -82,6 +82,7 @@ class SolarDevice extends GenericDevice {
 
   async onInit() {
     this.ds = deviceSpecifics;
+    this.powerHistory = [];
     await super.onInit().catch(this.error);
     this.flows = new SolarFlows(this);
 
@@ -135,7 +136,7 @@ class SolarDevice extends GenericDevice {
     if (!Array.isArray(history)) history = [];
     this.powerHistory = history
       .filter((e) => e && typeof e.time === 'number' && typeof e.power === 'number')
-      .slice(-5000);
+      .slice(-2880);
     if (this.powerHistory.length !== history.length) await this.setStoreValue('powerHistory', this.powerHistory);
 
     // Start loops
@@ -301,11 +302,15 @@ class SolarDevice extends GenericDevice {
         this.setStoreValue('peakPowerAllTime', this.peakPowerAllTime).catch(this.error);
       }
 
+      if (!Array.isArray(this.powerHistory)) this.powerHistory = [];
       const lastEntry = this.powerHistory[this.powerHistory.length - 1];
       if (!lastEntry || (currentTimestamp - lastEntry.time) > 50000) {
         this.powerHistory.push({ time: currentTimestamp, power: currentPower });
-        if (this.powerHistory.length > 5000) this.powerHistory.shift();
-        await this.setStoreValue('powerHistory', this.powerHistory).catch(this.error);
+        if (this.powerHistory.length > 2880) this.powerHistory.shift();
+        if (!this.lastPowerHistorySaveTm || (currentTimestamp - this.lastPowerHistorySaveTm > 15 * 60 * 1000)) {
+          await this.setStoreValue('powerHistory', this.powerHistory).catch(this.error);
+          this.lastPowerHistorySaveTm = currentTimestamp;
+        }
 
         const peak = Math.max(this.peakPowerAllTime || 0, this.getSettings().peakPower || 0);
 
@@ -599,14 +604,16 @@ class SolarDevice extends GenericDevice {
             power: e.y !== undefined ? e.y : e.v,
           })).filter((e) => typeof e.power === 'number');
 
+          if (!Array.isArray(this.powerHistory)) this.powerHistory = [];
           if (recentHistory.length > 0) {
             const minRecentTime = recentHistory[0].time;
             this.powerHistory = this.powerHistory.filter((e) => e.time < minRecentTime);
             this.powerHistory = this.powerHistory.concat(recentHistory);
           }
           this.powerHistory.sort((a, b) => a.time - b.time);
-          if (this.powerHistory.length > 5000) this.powerHistory = this.powerHistory.slice(-5000);
+          if (this.powerHistory.length > 2880) this.powerHistory = this.powerHistory.slice(-2880);
           await this.setStoreValue('powerHistory', this.powerHistory);
+          this.lastPowerHistorySaveTm = Date.now();
 
           const result2 = SolarLearningStrategy.processHistoricData({
             powerEntries,
@@ -668,6 +675,7 @@ class SolarDevice extends GenericDevice {
     try {
       const now = Date.now();
 
+      if (!Array.isArray(this.powerHistory)) this.powerHistory = [];
       // Check if we have sufficient history (at least 24h worth of data)
       // Need ~40 hours to cover yesterday morning from today evening
       const hasData = this.powerHistory.length > 24 && this.powerHistory[0].time < (now - 40 * 60 * 60 * 1000);
@@ -771,15 +779,17 @@ class SolarDevice extends GenericDevice {
           power: e.y !== undefined ? e.y : e.v,
         })).filter((e) => typeof e.power === 'number');
 
+        if (!Array.isArray(this.powerHistory)) this.powerHistory = [];
         // Merge with existing history
         const existingMap = new Map(this.powerHistory.map((e) => [e.time, e]));
         newHistory.forEach((e) => existingMap.set(e.time, e));
 
         this.powerHistory = Array.from(existingMap.values())
           .sort((a, b) => a.time - b.time)
-          .slice(-5000);
+          .slice(-2880);
 
         await this.setStoreValue('powerHistory', this.powerHistory);
+        this.lastPowerHistorySaveTm = Date.now();
         this.log(`[populatePowerHistory] Populated power history. New length: ${this.powerHistory.length}`);
         await this.updateForecastDisplay(true);
       } else {

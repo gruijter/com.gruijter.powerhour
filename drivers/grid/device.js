@@ -42,6 +42,7 @@ const deviceSpecifics = {
 
 class GridDevice extends GenericDevice {
   async onInit() {
+    this.powerHistory = [];
     this.ds = deviceSpecifics;
     await super.onInit().catch(this.error);
 
@@ -67,7 +68,8 @@ class GridDevice extends GenericDevice {
         else if (typeof e.y === 'number') power = e.y;
         return { time, power };
       })
-      .filter((e) => e.power >= 0 && e.power <= 30000);
+      .filter((e) => e.power >= 0 && e.power <= 30000)
+      .slice(-2880);
 
     // Register button capability listener
     this.retrainLoadListener = this.registerCapabilityListener('button.retrain_load', async () => {
@@ -153,12 +155,16 @@ class GridDevice extends GenericDevice {
       await this.setCapability('measure_power.home', safeHomePower).catch(this.error);
 
       const now = Date.now();
+      if (!Array.isArray(this.powerHistory)) this.powerHistory = [];
       if (typeof safeHomePower === 'number' && safeHomePower >= 0 && safeHomePower <= 30000) {
         const lastEntry = this.powerHistory[this.powerHistory.length - 1];
         if (!lastEntry || (now - lastEntry.time) > 50000) {
           this.powerHistory.push({ time: now, power: safeHomePower });
-          if (this.powerHistory.length > 5000) this.powerHistory.shift();
-          this.setStoreValue('powerHistory', this.powerHistory).catch(this.error);
+          if (this.powerHistory.length > 2880) this.powerHistory.shift();
+          if (!this.lastPowerHistorySaveTm || (now - this.lastPowerHistorySaveTm > 15 * 60 * 1000)) {
+            this.setStoreValue('powerHistory', this.powerHistory).catch(this.error);
+            this.lastPowerHistorySaveTm = now;
+          }
         }
       }
       if (this.lastHomePowerCalcTm) {
@@ -522,14 +528,16 @@ class GridDevice extends GenericDevice {
             return { time, power };
           })
           .filter((e) => e.power >= 0 && e.power <= 30000);
+        if (!Array.isArray(this.powerHistory)) this.powerHistory = [];
         const existingMap = new Map(this.powerHistory.map((e) => [e.time, e]));
         historyMapped.forEach((entry) => {
           existingMap.set(entry.time, entry);
         });
         this.powerHistory = Array.from(existingMap.values());
         this.powerHistory.sort((a, b) => a.time - b.time);
-        if (this.powerHistory.length > 5000) this.powerHistory = this.powerHistory.slice(-5000);
+        if (this.powerHistory.length > 2880) this.powerHistory = this.powerHistory.slice(-2880);
         await this.setStoreValue('powerHistory', this.powerHistory).catch(this.error);
+        this.lastPowerHistorySaveTm = Date.now();
         this.log(`Merged ${historyMapped.length} historical entries into powerHistory. Total length: ${this.powerHistory.length}`);
       }
 
@@ -564,6 +572,7 @@ class GridDevice extends GenericDevice {
     try {
       const now = Date.now();
 
+      if (!Array.isArray(this.powerHistory)) this.powerHistory = [];
       // Check if we have sufficient history (at least 24h worth of data)
       const hasData = this.powerHistory.length > 24 && this.powerHistory[0].time < (now - 40 * 60 * 60 * 1000);
       const hasRecent = this.powerHistory.length > 0 && this.powerHistory[this.powerHistory.length - 1].time > (now - 6 * 60 * 60 * 1000);
@@ -643,6 +652,7 @@ class GridDevice extends GenericDevice {
           })
           .filter((e) => e.power >= 0 && e.power <= 30000);
 
+        if (!Array.isArray(this.powerHistory)) this.powerHistory = [];
         const existingMap = new Map(this.powerHistory.map((e) => [e.time, e]));
         historyMapped.forEach((entry) => {
           existingMap.set(entry.time, entry);
@@ -650,8 +660,9 @@ class GridDevice extends GenericDevice {
 
         this.powerHistory = Array.from(existingMap.values());
         this.powerHistory.sort((a, b) => a.time - b.time);
-        if (this.powerHistory.length > 5000) this.powerHistory = this.powerHistory.slice(-5000);
+        if (this.powerHistory.length > 2880) this.powerHistory = this.powerHistory.slice(-2880);
         await this.setStoreValue('powerHistory', this.powerHistory).catch(this.error);
+        this.lastPowerHistorySaveTm = Date.now();
         this.log(`Merged ${historyMapped.length} historical entries into powerHistory. Total length: ${this.powerHistory.length}`);
         await this.updateForecastDisplay(true);
       }
