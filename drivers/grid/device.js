@@ -44,10 +44,8 @@ class GridDevice extends GenericDevice {
   async onInit() {
     this.powerHistory = [];
     this.ds = deviceSpecifics;
-    await super.onInit().catch(this.error);
-
-    // Override flows with GridFlows subclass
     this.flows = new GridFlows(this);
+    await super.onInit().catch(this.error);
 
     // Load forecast settings and profiles
     this.timeZone = this.homey.clock.getTimezone();

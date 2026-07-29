@@ -82,9 +82,9 @@ class SolarDevice extends GenericDevice {
 
   async onInit() {
     this.ds = deviceSpecifics;
+    this.flows = new SolarFlows(this);
     this.powerHistory = [];
     await super.onInit().catch(this.error);
-    this.flows = new SolarFlows(this);
 
     // Initialize alarm_power
     if (this.hasCapability('alarm_power') && this.getCapabilityValue('alarm_power') === null) {
@@ -1001,7 +1001,9 @@ class SolarDevice extends GenericDevice {
     const currentSlot = (now.getUTCHours() * 4) + Math.floor(now.getUTCMinutes() / 15);
     if (this.lastSolarTriggerSlot !== currentSlot || yieldFactorsUpdated || this.forecastChanged) {
       this.lastSolarTriggerSlot = currentSlot;
-      await this.flows.triggerSolarYieldFlows().catch((err) => this.error('Error triggering solar yield flows', err));
+      if (typeof this.flows?.triggerSolarYieldFlows === 'function') {
+        await this.flows.triggerSolarYieldFlows().catch((err) => this.error('Error triggering solar yield flows', err));
+      }
     }
 
     if (yieldFactorsUpdated || this.forecastChanged) {
