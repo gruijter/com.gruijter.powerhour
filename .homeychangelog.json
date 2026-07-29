@@ -1,4 +1,7 @@
 {
+  "8.10.0": {
+    "en": "Many stability improvements. Reduced memory footptint and lazy loading. Extensive review and revision of time handling functions. Fixed grid forecaster. Homey-api@3.19.2"
+  },
   "8.9.5": {
     "en": "Fix several flow cards. Work on grid power forecaster."
   },
