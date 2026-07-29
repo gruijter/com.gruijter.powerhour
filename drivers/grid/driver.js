@@ -20,7 +20,7 @@ along with com.gruijter.powerhour.  If not, see <http://www.gnu.org/licenses/>.
 'use strict';
 
 const GenericDriver = require('../../lib/genericDeviceDrivers/generic_sum_driver');
-const EnergyPollingHelper = require('../../lib/EnergyPollingHelper');
+// Dependencies are lazy loaded in methods to save memory
 
 const driverSpecifics = {
   driverId: 'grid',
@@ -45,12 +45,27 @@ class GridDriver extends GenericDriver {
     this.ds = driverSpecifics;
     await super.onInit().catch(this.error);
 
+    // Only initialize polling if there are devices.
+    // If a device is paired later, checkStartPolling will handle it.
+    if (this.getDevices().length > 0) {
+      await this.checkStartPolling();
+    }
+  }
+
+  async checkStartPolling() {
+    if (this.energyPollCallback) return; // Already polling
+    // eslint-disable-next-line global-require
+    const EnergyPollingHelper = require('../../lib/EnergyPollingHelper');
     EnergyPollingHelper.init(this.homey, { log: this.log.bind(this), error: this.error.bind(this) });
-    this.startPollingEnergy().catch((err) => this.error(err));
+    await this.startPollingEnergy().catch((err) => this.error(err));
   }
 
   async onUninit() {
-    if (this.energyPollCallback) EnergyPollingHelper.unregister(this.energyPollCallback);
+    if (this.energyPollCallback) {
+      // eslint-disable-next-line global-require
+      const EnergyPollingHelper = require('../../lib/EnergyPollingHelper');
+      EnergyPollingHelper.unregister(this.energyPollCallback);
+    }
     await super.onUninit();
   }
 
@@ -58,6 +73,8 @@ class GridDriver extends GenericDriver {
     this.energyPollCallback = async (report) => {
       this.lastEnergyReport = report;
     };
+    // eslint-disable-next-line global-require
+    const EnergyPollingHelper = require('../../lib/EnergyPollingHelper');
     await EnergyPollingHelper.register(this.energyPollCallback);
   }
 

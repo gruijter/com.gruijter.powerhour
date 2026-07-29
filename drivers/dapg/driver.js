@@ -19,8 +19,7 @@ along with com.gruijter.powerhour.  If not, see <http://www.gnu.org/licenses/>.
 
 'use strict';
 
-const EasyEnergy = require('../../lib/providers/Easyenergy');
-const EEX = require('../../lib/providers/EEX');
+// Providers are lazy loaded below to save memory
 
 const GenericDriver = require('../../lib/genericDeviceDrivers/generic_dap_driver');
 
@@ -45,13 +44,14 @@ class DapGDriver extends GenericDriver {
   async onInit() {
     this.ds = driverSpecifics;
 
-    // provide all data providers to the driver in order of presedence
-    this.ds.providers = [EasyEnergy, EEX];
-    this.ds.biddingZones = {};
-    this.ds.providers.forEach((Provider) => {
-      const api = new Provider();
-      Object.assign(this.ds.biddingZones, api.getBiddingZones());
-    });
+    // Provide all data providers to the driver as lazy factories
+    this.ds.providers = [
+      // eslint-disable-next-line global-require
+      () => require('../../lib/providers/Easyenergy'),
+      // eslint-disable-next-line global-require
+      () => require('../../lib/providers/EEX'),
+    ];
+    this.ds.biddingZones = {}; // Populated dynamically in onPairListDevices
     await super.onInit().catch(this.error);
   }
 

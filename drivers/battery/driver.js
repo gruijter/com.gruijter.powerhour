@@ -20,9 +20,7 @@ along with com.gruijter.powerhour.  If not, see <http://www.gnu.org/licenses/>.
 'use strict';
 
 const GenericDriver = require('../../lib/genericDeviceDrivers/generic_bat_driver');
-const nomXomStrategy = require('../../lib/strategies/NomXomStrategy');
-const EnergyPollingHelper = require('../../lib/EnergyPollingHelper');
-const { getGridPowerFallback } = require('../../lib/Util');
+// Dependencies are lazy loaded in methods to save memory
 
 const driverSpecifics = {
   driverId: 'battery',
@@ -67,12 +65,28 @@ class BatteryDriver extends GenericDriver {
   async onInit() {
     this.ds = driverSpecifics;
     await super.onInit().catch(this.error);
+
+    // Only initialize polling if there are devices.
+    // If a device is paired later, checkStartPolling will handle it.
+    if (this.getDevices().length > 0) {
+      await this.checkStartPolling();
+    }
+  }
+
+  async checkStartPolling() {
+    if (this.energyPollCallback) return; // Already polling
+    // eslint-disable-next-line global-require
+    const EnergyPollingHelper = require('../../lib/EnergyPollingHelper');
     EnergyPollingHelper.init(this.homey, { log: this.log.bind(this), error: this.error.bind(this) });
     await this.startPollingEnergy(5).catch((err) => this.error(err));
   }
 
   async onUninit() {
-    if (this.energyPollCallback) EnergyPollingHelper.unregister(this.energyPollCallback);
+    if (this.energyPollCallback) {
+      // eslint-disable-next-line global-require
+      const EnergyPollingHelper = require('../../lib/EnergyPollingHelper');
+      EnergyPollingHelper.unregister(this.energyPollCallback);
+    }
     await super.onUninit();
   }
 
@@ -82,6 +96,8 @@ class BatteryDriver extends GenericDriver {
     let lastProcessTime = 0;
 
     this.energyPollCallback = async (report) => {
+      // eslint-disable-next-line global-require
+      const { getGridPowerFallback } = require('../../lib/Util');
       let cumulativePower = getGridPowerFallback(this.homey);
       if (cumulativePower === null) cumulativePower = report?.totalCumulative?.W;
 
@@ -100,6 +116,8 @@ class BatteryDriver extends GenericDriver {
         }
       }
     };
+    // eslint-disable-next-line global-require
+    const EnergyPollingHelper = require('../../lib/EnergyPollingHelper');
     await EnergyPollingHelper.register(this.energyPollCallback);
   }
 
@@ -116,6 +134,8 @@ class BatteryDriver extends GenericDriver {
 
     const devices = this.getDevices();
 
+    // eslint-disable-next-line global-require
+    const nomXomStrategy = require('../../lib/strategies/NomXomStrategy');
     const strategy = nomXomStrategy.getStrategy({
       devices,
       cumulativePower,

@@ -5,8 +5,7 @@ Copyright 2019 - 2026, Robin de Gruijter (gruijter@hotmail.com)
 'use strict';
 
 const GenericDriver = require('../../lib/genericDeviceDrivers/generic_bat_driver');
-const EnergyPollingHelper = require('../../lib/EnergyPollingHelper');
-const { getGridPowerFallback } = require('../../lib/Util');
+// Dependencies are lazy loaded in methods to save memory
 
 const driverSpecifics = {
   driverId: 'evCharger',
@@ -26,17 +25,33 @@ class CarChargeDriver extends GenericDriver {
     this.ds = driverSpecifics;
     await super.onInit().catch(this.error);
 
+    // Only initialize polling if there are devices.
+    // If a device is paired later, checkStartPolling will handle it.
+    if (this.getDevices().length > 0) {
+      await this.checkStartPolling();
+    }
+  }
+
+  async checkStartPolling() {
+    if (this.energyPollCallback) return; // Already polling
+    const EnergyPollingHelper = require('../../lib/EnergyPollingHelper');
     EnergyPollingHelper.init(this.homey, { log: this.log.bind(this), error: this.error.bind(this) });
-    this.startPollingEnergy(5).catch((err) => this.error(err));
+    await this.startPollingEnergy(5).catch((err) => this.error(err));
   }
 
   async onUninit() {
-    if (this.energyPollCallback) EnergyPollingHelper.unregister(this.energyPollCallback);
+    if (this.energyPollCallback) {
+      // eslint-disable-next-line global-require
+      const EnergyPollingHelper = require('../../lib/EnergyPollingHelper');
+      EnergyPollingHelper.unregister(this.energyPollCallback);
+    }
     await super.onUninit();
   }
 
   async startPollingEnergy(interval) {
     this.energyPollCallback = async (report) => {
+      // eslint-disable-next-line global-require
+      const { getGridPowerFallback } = require('../../lib/Util');
       let cumulativePower = getGridPowerFallback(this.homey);
       if (cumulativePower === null) cumulativePower = report?.totalCumulative?.W;
 
@@ -47,6 +62,7 @@ class CarChargeDriver extends GenericDriver {
         });
       }
     };
+    const EnergyPollingHelper = require('../../lib/EnergyPollingHelper');
     await EnergyPollingHelper.register(this.energyPollCallback);
   }
 

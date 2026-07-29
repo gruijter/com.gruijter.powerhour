@@ -19,10 +19,7 @@ along with com.gruijter.powerhour.  If not, see <http://www.gnu.org/licenses/>.
 
 'use strict';
 
-const ENTSOE_GRUIJTER = require('../../lib/providers/EntsoeGruijter');
-const ENTSOE = require('../../lib/providers/Entsoe');
-const NORDPOOL = require('../../lib/providers/Nordpool');
-const STEKKER = require('../../lib/providers/Stekker');
+// Providers are lazy loaded below to save memory
 
 const GenericDriver = require('../../lib/genericDeviceDrivers/generic_dap_driver');
 
@@ -65,13 +62,18 @@ class Dap15Driver extends GenericDriver {
     // this.log('driver onInit');
     this.ds = driverSpecifics;
 
-    // provide all data providers to the driver in order of presedence
-    this.ds.providers = [ENTSOE_GRUIJTER, NORDPOOL, ENTSOE, STEKKER];
-    this.ds.biddingZones = {};
-    this.ds.providers.forEach((Provider) => {
-      const api = new Provider();
-      Object.assign(this.ds.biddingZones, api.getBiddingZones());
-    });
+    // Provide all data providers to the driver as lazy factories
+    this.ds.providers = [
+      // eslint-disable-next-line global-require
+      () => require('../../lib/providers/EntsoeGruijter'),
+      // eslint-disable-next-line global-require
+      () => require('../../lib/providers/Nordpool'),
+      // eslint-disable-next-line global-require
+      () => require('../../lib/providers/Entsoe'),
+      // eslint-disable-next-line global-require
+      () => require('../../lib/providers/Stekker'),
+    ];
+    this.ds.biddingZones = {}; // Populated dynamically in onPairListDevices
     await super.onInit().catch(this.error);
   }
 
