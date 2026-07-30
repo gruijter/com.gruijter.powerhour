@@ -34,6 +34,7 @@ class CarChargeDriver extends GenericDriver {
 
   async checkStartPolling() {
     if (this.energyPollCallback) return; // Already polling
+    // eslint-disable-next-line global-require
     const EnergyPollingHelper = require('../../lib/EnergyPollingHelper');
     EnergyPollingHelper.init(this.homey, { log: this.log.bind(this), error: this.error.bind(this) });
     await this.startPollingEnergy(5).catch((err) => this.error(err));
@@ -62,6 +63,7 @@ class CarChargeDriver extends GenericDriver {
         });
       }
     };
+    // eslint-disable-next-line global-require
     const EnergyPollingHelper = require('../../lib/EnergyPollingHelper');
     await EnergyPollingHelper.register(this.energyPollCallback);
   }

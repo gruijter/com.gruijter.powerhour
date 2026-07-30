@@ -42,6 +42,7 @@ const deviceSpecifics = {
 
 class GridDevice extends GenericDevice {
   async onInit() {
+    this.startupTime = Date.now(); // Fix 1: stamp startup so boot-time entries can be excluded from guard
     this.powerHistory = [];
     this.ds = deviceSpecifics;
     this.flows = new GridFlows(this);
@@ -592,9 +593,11 @@ class GridDevice extends GenericDevice {
       const nowMs = now.getTime();
 
       if (!Array.isArray(this.powerHistory)) this.powerHistory = [];
-      // Check if we have sufficient history (at least 24h worth of data)
-      const hasData = this.powerHistory.length > 24 && this.powerHistory[0].time < (nowMs - 40 * 60 * 60 * 1000);
-      const hasRecent = this.powerHistory.length > 0 && this.powerHistory[this.powerHistory.length - 1].time > (nowMs - 6 * 60 * 60 * 1000);
+      // Fix 2: Exclude entries written during this startup session (by calculateHomePower firing
+      // before/during onInit) so a single boot-time entry doesn't falsely satisfy hasRecent.
+      const preStartupHistory = this.powerHistory.filter((e) => e.time < (this.startupTime || 0));
+      const hasData = preStartupHistory.length > 24 && preStartupHistory[0].time < (nowMs - 40 * 60 * 60 * 1000);
+      const hasRecent = preStartupHistory.length > 0 && preStartupHistory[preStartupHistory.length - 1].time > (nowMs - 6 * 60 * 60 * 1000);
 
       if (hasData && hasRecent) {
         return;
@@ -622,17 +625,9 @@ class GridDevice extends GenericDevice {
 
       let powerEntries = [];
 
-      // Bug 1: Calculate time range using a proper Date object.
-      // End at local midnight today (so we don't overlap with today's real-time data).
-      const homeyOffset = new Date(now.toLocaleString('en-US', { timeZone: this.timeZone })).getTime() - nowMs;
-      const localNow = new Date(nowMs + homeyOffset);
-      localNow.setHours(0, 0, 0, 0);
-      const midnightUTCEstimate = new Date(localNow.getTime() - homeyOffset);
-      // Two-pass DST correction
-      const checkLocal = new Date(midnightUTCEstimate.toLocaleString('en-US', { timeZone: this.timeZone }));
-      const diff = localNow.getTime() - checkLocal.getTime();
-      const endDate = new Date(midnightUTCEstimate.getTime() + diff);
-
+      // Fix 3: Extend fetch window to now (not midnight) so today's data is also
+      // populated after a restart, not just data up to the previous midnight.
+      const endDate = new Date(nowMs);
       const startDate = new Date(endDate.getTime() - 2 * 24 * 60 * 60 * 1000);
 
       if (targetLog) {
