@@ -150,10 +150,23 @@ class GridDevice extends GenericDevice {
 
       // Wiskunde voor eigen verbruik: Grid (import = +) + Solar (prod = +) - Battery (laden = +) - EV (laden = +)
       const homePower = Math.round(gridPower + solarPower - batteryPower - evPower);
-      const safeHomePower = Math.max(0, Math.min(30000, homePower));
+
+      // Apply a 2-minute rolling average to eliminate ghost spikes caused by timing mismatches.
+      // Grid (P1), battery and solar meters all report at different cadences. When the battery
+      // switches charge/discharge state, the grid and battery measures can be out of sync by
+      // 10–30 s, causing the formula to temporarily double-count the battery contribution.
+      const now = Date.now();
+      if (!Array.isArray(this.homePowerBuffer)) this.homePowerBuffer = [];
+      if (homePower >= 0 && homePower <= 30000) {
+        this.homePowerBuffer.push({ time: now, value: homePower });
+      }
+      this.homePowerBuffer = this.homePowerBuffer.filter((e) => now - e.time <= 2 * 60 * 1000);
+      const smoothedHomePower = this.homePowerBuffer.length > 0
+        ? Math.round(this.homePowerBuffer.reduce((sum, e) => sum + e.value, 0) / this.homePowerBuffer.length)
+        : Math.max(0, homePower);
+      const safeHomePower = Math.max(0, Math.min(30000, smoothedHomePower));
       await this.setCapability('measure_power.home', safeHomePower).catch(this.error);
 
-      const now = Date.now();
       if (!Array.isArray(this.powerHistory)) this.powerHistory = [];
       if (typeof safeHomePower === 'number' && safeHomePower >= 0 && safeHomePower <= 30000) {
         const lastEntry = this.powerHistory[this.powerHistory.length - 1];
@@ -703,25 +716,47 @@ class GridDevice extends GenericDevice {
         return logId.includes(deviceId) && !logId.includes('PH_');
       });
 
-      const matchingLogs = [];
-      const isCumulativeList = [];
+      const matchingLogsMap = new Map();
 
       deviceLogs.forEach((log) => {
         const logId = log.id || log.uri || '';
-        const matches = endings.some((ending) => logId.endsWith(ending));
-        if (matches) {
-          matchingLogs.push(log);
-          isCumulativeList.push(logId.includes(':meter_power'));
+        // Find the index of the first ending that matches this log
+        const matchIndex = endings.findIndex((ending) => logId.endsWith(ending));
+        if (matchIndex !== -1) {
+          matchingLogsMap.set(logId, { log, priority: matchIndex, isCumulative: logId.includes(':meter_power') });
         }
       });
 
-      if (matchingLogs.length === 0) return null;
+      if (matchingLogsMap.size === 0) return null;
+
+      // Deduplication:
+      // If we are looking for cumulative totals, and we found the absolute total (e.g., ':meter_power'),
+      // we must discard sub-totals (like '.t1' or '.imported') to prevent double counting.
+      // But if we found phase meters ('.l1', '.l2', '.l3') or tariff meters ('.t1', '.t2'), we want to sum them.
+      let finalLogs = Array.from(matchingLogsMap.values());
+      const hasBaseMeterPower = finalLogs.some((item) => (item.log.id || item.log.uri || '').endsWith(':meter_power'));
+      const hasBaseMeasurePower = finalLogs.some((item) => (item.log.id || item.log.uri || '').endsWith(':measure_power'));
+
+      if (hasBaseMeterPower) {
+        // If we have the grand total cumulative meter, filter out sub-tariffs and imported variants
+        finalLogs = finalLogs.filter((item) => {
+          const id = item.log.id || item.log.uri || '';
+          return id.endsWith(':meter_power') || id.endsWith(':meter_power.exported');
+        });
+      }
+
+      if (hasBaseMeasurePower) {
+        // If we have the grand total instantaneous meter, filter out phase variants
+        finalLogs = finalLogs.filter((item) => {
+          const id = item.log.id || item.log.uri || '';
+          return id.endsWith(':measure_power') || id.endsWith(':measure_power.exported');
+        });
+      }
 
       try {
         const allEntries = [];
-        for (let i = 0; i < matchingLogs.length; i++) {
-          const log = matchingLogs[i];
-          const isCumulative = isCumulativeList[i];
+        for (let i = 0; i < finalLogs.length; i++) {
+          const { log, isCumulative } = finalLogs[i];
 
           const logData = await api.insights.getLogEntries({
             id: log.id,
@@ -765,8 +800,12 @@ class GridDevice extends GenericDevice {
 
     // 1. Fetch grid entries. Try real-time power first, otherwise cumulative import & export.
     let gridEntries = [];
-    const measurePowerEntries = await getLogEntriesForDevice(sourceDevice.id, [':measure_power']);
-    const measurePowerExportEntries = await getLogEntriesForDevice(sourceDevice.id, [':measure_power.exported']);
+    const measurePowerEntries = await getLogEntriesForDevice(sourceDevice.id, [
+      ':measure_power'
+    ]);
+    const measurePowerExportEntries = await getLogEntriesForDevice(sourceDevice.id, [
+      ':measure_power.exported'
+    ]);
 
     if (measurePowerEntries && measurePowerEntries.length > 0) {
       gridEntries = measurePowerEntries;
@@ -794,6 +833,25 @@ class GridDevice extends GenericDevice {
       }
     }
 
+    // Temporary diagnostic to prove what the Insights API actually returned to us
+    const activeEntries = gridEntries.length > 0 ? gridEntries : importPowerEntries;
+    const dataSource = gridEntries.length > 0 ? 'measure_power (Instant)' : 'meter_power (Cumulative kWh)';
+    const lowEntries = activeEntries.filter((e) => e.v < 300);
+
+    // Find what logs ACTUALLY exist for the SmartMeter
+    const deviceLogs = allLogs.filter((log) => (log.id || log.uri || '').includes(sourceDevice.id));
+    const deviceLogUris = deviceLogs.map((l) => l.id || l.uri);
+
+    this.log(`[API Diagnostic] SmartMeter Device ID: ${sourceDevice.id}`);
+    this.log(`[API Diagnostic] Available Insights Logs for SmartMeter: ${JSON.stringify(deviceLogUris)}`);
+    this.log(`[API Diagnostic] PBTH is using Data Source: ${dataSource}`);
+    this.log(`[API Diagnostic] The API returned ${activeEntries.length} total samples (last14Days resolution).`);
+    this.log(`[API Diagnostic] Number of samples below 300W returned by the API: ${lowEntries.length}`);
+    if (activeEntries.length > 0) {
+      const lowestRawValue = Math.min(...activeEntries.map((e) => e.v));
+      this.log(`[API Diagnostic] The ABSOLUTE LOWEST raw SmartMeter value the API sent us was: ${lowestRawValue}W`);
+    }
+
     if (gridEntries.length === 0 && importPowerEntries.length === 0) {
       this.log('No grid power entries or cumulative meter logs found. Cannot reconstruct.');
       return [];
@@ -807,7 +865,9 @@ class GridDevice extends GenericDevice {
     if (solarDriver) {
       for (const dev of solarDriver.getDevices()) {
         const devId = dev.getData().id;
-        let entries = await getLogEntriesForDevice(devId, [':measure_power']);
+        let entries = await getLogEntriesForDevice(devId, [
+          ':measure_power'
+        ]);
         if (!entries || entries.length === 0) entries = await getLogEntriesForDevice(devId, [':meter_power']);
         if (entries && entries.length > 0) solarEntriesList.push(entries);
       }
@@ -818,8 +878,10 @@ class GridDevice extends GenericDevice {
     if (batDriver) {
       for (const dev of batDriver.getDevices()) {
         const devId = dev.getData().id;
-        let entries = await getLogEntriesForDevice(devId, [':measure_watt_avg']);
-        if (!entries || entries.length === 0) entries = await getLogEntriesForDevice(devId, [':measure_power']);
+        let entries = await getLogEntriesForDevice(devId, [
+          ':measure_watt_avg', ':measure_power'
+        ]);
+        if (!entries || entries.length === 0) entries = await getLogEntriesForDevice(devId, [':meter_power']);
         if (entries && entries.length > 0) batteryEntriesList.push(entries);
       }
     }
@@ -829,8 +891,10 @@ class GridDevice extends GenericDevice {
     if (evDriver) {
       for (const dev of evDriver.getDevices()) {
         const devId = dev.getData().id;
-        let entries = await getLogEntriesForDevice(devId, [':measure_watt_avg']);
-        if (!entries || entries.length === 0) entries = await getLogEntriesForDevice(devId, [':measure_power']);
+        let entries = await getLogEntriesForDevice(devId, [
+          ':measure_watt_avg', ':measure_power'
+        ]);
+        if (!entries || entries.length === 0) entries = await getLogEntriesForDevice(devId, [':meter_power']);
         if (entries && entries.length > 0) evEntriesList.push(entries);
       }
     }
@@ -914,8 +978,15 @@ class GridDevice extends GenericDevice {
           const safeDE = Math.max(0, dE);
           const power = (safeDE / dt) * 1000;
           if (power >= 0 && power <= 30000) {
-            const tMid = new Date(t1 + (t2 - t1) / 2).toISOString();
-            powerEntries.push({ t: tMid, y: power });
+            // Emit continuous samples every 5 minutes across the cumulative gap
+            // to prevent 15-minute slots from being left empty and dropping to 0W.
+            const stepMs = 5 * 60 * 1000;
+            const steps = Math.max(1, Math.floor((t2 - t1) / stepMs));
+            for (let j = 1; j <= steps; j++) {
+              const fraction = j / (steps + 1);
+              const tStep = new Date(t1 + (t2 - t1) * fraction).getTime();
+              powerEntries.push({ t: tStep, y: power });
+            }
           }
         }
       }
