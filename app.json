@@ -13527,61 +13527,218 @@
               "min": 10,
               "max": 100,
               "decimals": 0
-            },
-            {
-              "id": "departureTime",
-              "type": "text",
-              "label": {
-                "en": "Departure Time (HH:MM)",
-                "nl": "Vertrektijd (UU:MM)",
-                "de": "Abfahrtszeit (HH:MM)",
-                "fr": "Heure de départ (HH:MM)",
-                "it": "Orario di partenza (HH:MM)",
-                "sv": "Avgångstid (HH:MM)",
-                "no": "Avgangstid (TT:MM)",
-                "es": "Hora de salida (HH:MM)",
-                "da": "Afgangstid (TT:MM)",
-                "pl": "Czas odjazdu (GG:MM)",
-                "ru": "Время отправления (ЧЧ:ММ)",
-                "ar": "وقت المغادرة (ساعة:دقيقة)"
-              },
-              "value": "08:00"
             }
           ]
         },
         {
           "type": "group",
           "label": {
-            "en": "Homey source device information",
-            "nl": "Homey bronapparaat informatie",
-            "de": "Informationen zum Homey Gerät",
-            "fr": "Informations sur l'appareil source Homey",
-            "it": "Informazioni dispositivo sorgente Homey",
-            "sv": "Homey källenhetsinformation",
-            "no": "Homey kildeenhetsinformasjon",
-            "es": "Información del dispositivo de origen Homey",
-            "da": "Homey kildeenhedsinformation",
-            "pl": "Informacje o urządzeniu źródłowym Homey",
-            "ru": "Информация об исходном устройстве Homey",
-            "ar": "معلومات جهاز مصدر Homey"
+            "en": "Departure Schedule",
+            "nl": "Vertrekschema",
+            "de": "Abfahrtsplan",
+            "fr": "Horaire de départ",
+            "it": "Programma di partenza",
+            "sv": "Avgångssschema",
+            "no": "Avgangsskjema",
+            "es": "Horario de salida",
+            "da": "Afgangsplan",
+            "pl": "Harmonogram odjazdu",
+            "ru": "Расписание отправления",
+            "ar": "جدول المغادرة"
+          },
+          "children": [
+            {
+              "id": "autoDepartureLearning",
+              "type": "checkbox",
+              "label": {
+                "en": "Auto-learn departure times",
+                "nl": "Automatisch vertrektijden leren",
+                "de": "Abfahrtszeiten automatisch lernen",
+                "fr": "Apprendre automatiquement les heures de départ",
+                "it": "Impara automaticamente gli orari di partenza",
+                "sv": "Lär automatiskt avgångstider",
+                "no": "Lær avgangstider automatisk",
+                "es": "Aprender horarios de salida automáticamente",
+                "da": "Lær automatisk afgangstider",
+                "pl": "Automatyczne uczenie się czasów odjazdu",
+                "ru": "Автообучение времени отправления",
+                "ar": "التعلم التلقائي لأوقات المغادرة"
+              },
+              "hint": {
+                "en": "When enabled, PBTH learns your typical departure times from history. Manual times below override the learned times when filled in.",
+                "nl": "Wanneer ingeschakeld leert PBTH uw typische vertrektijden uit de geschiedenis. Handmatige tijden hieronder overschrijven de geleerde tijden.",
+                "de": "Wenn aktiviert, lernt PBTH Ihre typischen Abfahrtszeiten aus der Geschichte. Manuelle Zeiten unten überschreiben die gelernten Zeiten."
+              },
+              "value": true
+            },
+            {
+              "id": "departureTime_0",
+              "type": "text",
+              "label": {
+                "en": "Monday departure (HH:MM, empty = auto)",
+                "nl": "Maandag vertrek (UU:MM, leeg = auto)",
+                "de": "Montag Abfahrt (HH:MM, leer = auto)",
+                "fr": "Départ lundi (HH:MM, vide = auto)",
+                "it": "Partenza lunedì (HH:MM, vuoto = auto)",
+                "sv": "Måndag avgång (HH:MM, tom = auto)",
+                "no": "Mandag avgang (HH:MM, tom = auto)",
+                "es": "Salida lunes (HH:MM, vacío = auto)",
+                "da": "Mandag afgang (HH:MM, tom = auto)",
+                "pl": "Poniedziałek odjazd (HH:MM, puste = auto)",
+                "ru": "Пн отправление (ЧЧ:ММ, пусто = авто)",
+                "ar": "مغادرة الاثنين (ساعة:دقيقة, فارغ = تلقائي)"
+              },
+              "value": ""
+            },
+            {
+              "id": "departureTime_1",
+              "type": "text",
+              "label": {
+                "en": "Tuesday departure (HH:MM, empty = auto)",
+                "nl": "Dinsdag vertrek (UU:MM, leeg = auto)",
+                "de": "Dienstag Abfahrt (HH:MM, leer = auto)",
+                "fr": "Départ mardi (HH:MM, vide = auto)",
+                "it": "Partenza martedì (HH:MM, vuoto = auto)",
+                "sv": "Tisdag avgång (HH:MM, tom = auto)",
+                "no": "Tirsdag avgang (HH:MM, tom = auto)",
+                "es": "Salida martes (HH:MM, vacío = auto)",
+                "da": "Tirsdag afgang (HH:MM, tom = auto)",
+                "pl": "Wtorek odjazd (HH:MM, puste = auto)",
+                "ru": "Вт отправление (ЧЧ:ММ, пусто = авто)",
+                "ar": "مغادرة الثلاثاء (ساعة:دقيقة, فارغ = تلقائي)"
+              },
+              "value": ""
+            },
+            {
+              "id": "departureTime_2",
+              "type": "text",
+              "label": {
+                "en": "Wednesday departure (HH:MM, empty = auto)",
+                "nl": "Woensdag vertrek (UU:MM, leeg = auto)",
+                "de": "Mittwoch Abfahrt (HH:MM, leer = auto)",
+                "fr": "Départ mercredi (HH:MM, vide = auto)",
+                "it": "Partenza mercoledì (HH:MM, vuoto = auto)",
+                "sv": "Onsdag avgång (HH:MM, tom = auto)",
+                "no": "Onsdag avgang (HH:MM, tom = auto)",
+                "es": "Salida miércoles (HH:MM, vacío = auto)",
+                "da": "Onsdag afgang (HH:MM, tom = auto)",
+                "pl": "Środa odjazd (HH:MM, puste = auto)",
+                "ru": "Ср отправление (ЧЧ:ММ, пусто = авто)",
+                "ar": "مغادرة الأربعاء (ساعة:دقيقة, فارغ = تلقائي)"
+              },
+              "value": ""
+            },
+            {
+              "id": "departureTime_3",
+              "type": "text",
+              "label": {
+                "en": "Thursday departure (HH:MM, empty = auto)",
+                "nl": "Donderdag vertrek (UU:MM, leeg = auto)",
+                "de": "Donnerstag Abfahrt (HH:MM, leer = auto)",
+                "fr": "Départ jeudi (HH:MM, vide = auto)",
+                "it": "Partenza giovedì (HH:MM, vuoto = auto)",
+                "sv": "Torsdag avgång (HH:MM, tom = auto)",
+                "no": "Torsdag avgang (HH:MM, tom = auto)",
+                "es": "Salida jueves (HH:MM, vacío = auto)",
+                "da": "Torsdag afgang (HH:MM, tom = auto)",
+                "pl": "Czwartek odjazd (HH:MM, puste = auto)",
+                "ru": "Чт отправление (ЧЧ:ММ, пусто = авто)",
+                "ar": "مغادرة الخميس (ساعة:دقيقة, فارغ = تلقائي)"
+              },
+              "value": ""
+            },
+            {
+              "id": "departureTime_4",
+              "type": "text",
+              "label": {
+                "en": "Friday departure (HH:MM, empty = auto)",
+                "nl": "Vrijdag vertrek (UU:MM, leeg = auto)",
+                "de": "Freitag Abfahrt (HH:MM, leer = auto)",
+                "fr": "Départ vendredi (HH:MM, vide = auto)",
+                "it": "Partenza venerdì (HH:MM, vuoto = auto)",
+                "sv": "Fredag avgång (HH:MM, tom = auto)",
+                "no": "Fredag avgang (HH:MM, tom = auto)",
+                "es": "Salida viernes (HH:MM, vacío = auto)",
+                "da": "Fredag afgang (HH:MM, tom = auto)",
+                "pl": "Piątek odjazd (HH:MM, puste = auto)",
+                "ru": "Пт отправление (ЧЧ:ММ, пусто = авто)",
+                "ar": "مغادرة الجمعة (ساعة:دقيقة, فارغ = تلقائي)"
+              },
+              "value": ""
+            },
+            {
+              "id": "departureTime_5",
+              "type": "text",
+              "label": {
+                "en": "Saturday departure (HH:MM, empty = auto)",
+                "nl": "Zaterdag vertrek (UU:MM, leeg = auto)",
+                "de": "Samstag Abfahrt (HH:MM, leer = auto)",
+                "fr": "Départ samedi (HH:MM, vide = auto)",
+                "it": "Partenza sabato (HH:MM, vuoto = auto)",
+                "sv": "Lördag avgång (HH:MM, tom = auto)",
+                "no": "Lørdag avgang (HH:MM, tom = auto)",
+                "es": "Salida sábado (HH:MM, vacío = auto)",
+                "da": "Lørdag afgang (HH:MM, tom = auto)",
+                "pl": "Sobota odjazd (HH:MM, puste = auto)",
+                "ru": "Сб отправление (ЧЧ:ММ, пусто = авто)",
+                "ar": "مغادرة السبت (ساعة:دقيقة, فارغ = تلقائي)"
+              },
+              "value": ""
+            },
+            {
+              "id": "departureTime_6",
+              "type": "text",
+              "label": {
+                "en": "Sunday departure (HH:MM, empty = auto)",
+                "nl": "Zondag vertrek (UU:MM, leeg = auto)",
+                "de": "Sonntag Abfahrt (HH:MM, leer = auto)",
+                "fr": "Départ dimanche (HH:MM, vide = auto)",
+                "it": "Partenza domenica (HH:MM, vuoto = auto)",
+                "sv": "Söndag avgång (HH:MM, tom = auto)",
+                "no": "Søndag avgang (HH:MM, tom = auto)",
+                "es": "Salida domingo (HH:MM, vacío = auto)",
+                "da": "Søndag afgang (HH:MM, tom = auto)",
+                "pl": "Niedziela odjazd (HH:MM, puste = auto)",
+                "ru": "Вс отправление (ЧЧ:ММ, пусто = авто)",
+                "ar": "مغادرة الأحد (ساعة:دقيقة, فارغ = تلقائي)"
+              },
+              "value": ""
+            }
+          ]
+        },
+        {
+          "type": "group",
+          "label": {
+            "en": "Linked Devices",
+            "nl": "Gekoppelde Apparaten",
+            "de": "Verknüpfte Geräte",
+            "fr": "Appareils liés",
+            "it": "Dispositivi collegati",
+            "sv": "Länkade enheter",
+            "no": "Tilkoblede enheter",
+            "es": "Dispositivos vinculados",
+            "da": "Tilknyttede enheder",
+            "pl": "Połączone urządzenia",
+            "ru": "Связанные устройства",
+            "ar": "الأجهزة المرتبطة"
           },
           "children": [
             {
               "id": "homey_device_id",
               "type": "label",
               "label": {
-                "en": "Device ID",
-                "nl": "Apparaat ID",
-                "de": "Geräte ID",
-                "fr": "ID de l'appareil",
-                "it": "ID dispositivo",
-                "sv": "Enhets ID",
-                "no": "Enhets ID",
-                "es": "ID del dispositivo",
-                "da": "Enheds-ID",
-                "pl": "ID urządzenia",
-                "ru": "ID устройства",
-                "ar": "معرف الجهاز"
+                "en": "Charger device ID",
+                "nl": "Lader apparaat ID",
+                "de": "Ladegerät Geräte-ID",
+                "fr": "ID appareil chargeur",
+                "it": "ID dispositivo caricatore",
+                "sv": "Laddare enhets-ID",
+                "no": "Lader enhets-ID",
+                "es": "ID del dispositivo cargador",
+                "da": "Oplader enheds-ID",
+                "pl": "ID urządzenia ładowarki",
+                "ru": "ID устройства зарядки",
+                "ar": "معرف جهاز الشاحن"
               },
               "value": "unknown"
             },
@@ -13589,20 +13746,210 @@
               "id": "homey_device_name",
               "type": "label",
               "label": {
-                "en": "Device name",
-                "nl": "Apparaat naam",
-                "de": "Gerätename",
-                "fr": "Nom de l'appareil",
-                "it": "Nome dispositivo",
-                "sv": "Enhets namn",
-                "no": "Enhets namn",
-                "es": "Nombre del dispositivo",
-                "da": "Enhedsnavn",
-                "pl": "Nazwa urządzenia",
-                "ru": "Имя устройства",
-                "ar": "اسم الجهاز"
+                "en": "Charger device name",
+                "nl": "Lader apparaatnaam",
+                "de": "Ladegerät Gerätename",
+                "fr": "Nom de l'appareil chargeur",
+                "it": "Nome dispositivo caricatore",
+                "sv": "Laddare enhetsnamn",
+                "no": "Lader enhetsnamn",
+                "es": "Nombre del dispositivo cargador",
+                "da": "Oplader enhedsnavn",
+                "pl": "Nazwa urządzenia ładowarki",
+                "ru": "Имя устройства зарядки",
+                "ar": "اسم جهاز الشاحن"
               },
               "value": "unknown"
+            },
+            {
+              "id": "ev_device_id",
+              "type": "label",
+              "label": {
+                "en": "EV car device ID",
+                "nl": "EV auto apparaat ID",
+                "de": "E-Auto Geräte-ID",
+                "fr": "ID appareil voiture EV",
+                "it": "ID dispositivo auto EV",
+                "sv": "EV bil enhets-ID",
+                "no": "EV bil enhets-ID",
+                "es": "ID del dispositivo coche EV",
+                "da": "EV bil enheds-ID",
+                "pl": "ID urządzenia samochodu EV",
+                "ru": "ID устройства EV автомобиля",
+                "ar": "معرف جهاز سيارة EV"
+              },
+              "value": "none"
+            },
+            {
+              "id": "ev_device_name",
+              "type": "label",
+              "label": {
+                "en": "EV car device name",
+                "nl": "EV auto apparaatnaam",
+                "de": "E-Auto Gerätename",
+                "fr": "Nom de l'appareil voiture EV",
+                "it": "Nome dispositivo auto EV",
+                "sv": "EV bil enhetsnamn",
+                "no": "EV bil enhetsnamn",
+                "es": "Nombre del dispositivo coche EV",
+                "da": "EV bil enhedsnavn",
+                "pl": "Nazwa urządzenia samochodu EV",
+                "ru": "Имя устройства EV автомобиля",
+                "ar": "اسم جهاز سيارة EV"
+              },
+              "value": "none"
+            }
+          ]
+        },
+        {
+          "type": "group",
+          "label": {
+            "en": "Learned Departure Profile (read-only)",
+            "nl": "Geleerd Vertrekprofiel (alleen lezen)",
+            "de": "Gelerntes Abfahrtsprofil (nur lesen)",
+            "fr": "Profil de départ appris (lecture seule)",
+            "it": "Profilo di partenza appreso (sola lettura)",
+            "sv": "Inlärt avgångsprofil (skrivskyddad)",
+            "no": "Lært avgangsprofil (skrivebeskyttet)",
+            "es": "Perfil de salida aprendido (solo lectura)",
+            "da": "Lært afgangsprofil (skrivebeskyttet)",
+            "pl": "Nauczony profil odjazdu (tylko do odczytu)",
+            "ru": "Изученный профиль отправления (только чтение)",
+            "ar": "ملف المغادرة المُتعلَّم (للقراءة فقط)"
+          },
+          "children": [
+            {
+              "id": "learned_profile_mon",
+              "type": "label",
+              "label": {
+                "en": "Monday",
+                "nl": "Maandag",
+                "de": "Montag",
+                "fr": "Lundi",
+                "it": "Lunedì",
+                "sv": "Måndag",
+                "no": "Mandag",
+                "es": "Lunes",
+                "da": "Mandag",
+                "pl": "Poniedziałek",
+                "ru": "Пн",
+                "ar": "الاثنين"
+              },
+              "value": "not yet learned"
+            },
+            {
+              "id": "learned_profile_tue",
+              "type": "label",
+              "label": {
+                "en": "Tuesday",
+                "nl": "Dinsdag",
+                "de": "Dienstag",
+                "fr": "Mardi",
+                "it": "Martedì",
+                "sv": "Tisdag",
+                "no": "Tirsdag",
+                "es": "Martes",
+                "da": "Tirsdag",
+                "pl": "Wtorek",
+                "ru": "Вт",
+                "ar": "الثلاثاء"
+              },
+              "value": "not yet learned"
+            },
+            {
+              "id": "learned_profile_wed",
+              "type": "label",
+              "label": {
+                "en": "Wednesday",
+                "nl": "Woensdag",
+                "de": "Mittwoch",
+                "fr": "Mercredi",
+                "it": "Mercoledì",
+                "sv": "Onsdag",
+                "no": "Onsdag",
+                "es": "Miércoles",
+                "da": "Onsdag",
+                "pl": "Środa",
+                "ru": "Ср",
+                "ar": "الأربعاء"
+              },
+              "value": "not yet learned"
+            },
+            {
+              "id": "learned_profile_thu",
+              "type": "label",
+              "label": {
+                "en": "Thursday",
+                "nl": "Donderdag",
+                "de": "Donnerstag",
+                "fr": "Jeudi",
+                "it": "Giovedì",
+                "sv": "Torsdag",
+                "no": "Torsdag",
+                "es": "Jueves",
+                "da": "Torsdag",
+                "pl": "Czwartek",
+                "ru": "Чт",
+                "ar": "الخميس"
+              },
+              "value": "not yet learned"
+            },
+            {
+              "id": "learned_profile_fri",
+              "type": "label",
+              "label": {
+                "en": "Friday",
+                "nl": "Vrijdag",
+                "de": "Freitag",
+                "fr": "Vendredi",
+                "it": "Venerdì",
+                "sv": "Fredag",
+                "no": "Fredag",
+                "es": "Viernes",
+                "da": "Fredag",
+                "pl": "Piątek",
+                "ru": "Пт",
+                "ar": "الجمعة"
+              },
+              "value": "not yet learned"
+            },
+            {
+              "id": "learned_profile_sat",
+              "type": "label",
+              "label": {
+                "en": "Saturday",
+                "nl": "Zaterdag",
+                "de": "Samstag",
+                "fr": "Samedi",
+                "it": "Sabato",
+                "sv": "Lördag",
+                "no": "Lørdag",
+                "es": "Sábado",
+                "da": "Lørdag",
+                "pl": "Sobota",
+                "ru": "Сб",
+                "ar": "السبت"
+              },
+              "value": "not yet learned"
+            },
+            {
+              "id": "learned_profile_sun",
+              "type": "label",
+              "label": {
+                "en": "Sunday",
+                "nl": "Zondag",
+                "de": "Sonntag",
+                "fr": "Dimanche",
+                "it": "Domenica",
+                "sv": "Söndag",
+                "no": "Søndag",
+                "es": "Domingo",
+                "da": "Søndag",
+                "pl": "Niedziela",
+                "ru": "Вс",
+                "ar": "الأحد"
+              },
+              "value": "not yet learned"
             }
           ]
         },

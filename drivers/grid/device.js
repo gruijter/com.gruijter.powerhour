@@ -801,10 +801,10 @@ class GridDevice extends GenericDevice {
     // 1. Fetch grid entries. Try real-time power first, otherwise cumulative import & export.
     let gridEntries = [];
     const measurePowerEntries = await getLogEntriesForDevice(sourceDevice.id, [
-      ':measure_power'
+      ':measure_power',
     ]);
     const measurePowerExportEntries = await getLogEntriesForDevice(sourceDevice.id, [
-      ':measure_power.exported'
+      ':measure_power.exported',
     ]);
 
     if (measurePowerEntries && measurePowerEntries.length > 0) {
@@ -866,7 +866,7 @@ class GridDevice extends GenericDevice {
       for (const dev of solarDriver.getDevices()) {
         const devId = dev.getData().id;
         let entries = await getLogEntriesForDevice(devId, [
-          ':measure_power'
+          ':measure_power',
         ]);
         if (!entries || entries.length === 0) entries = await getLogEntriesForDevice(devId, [':meter_power']);
         if (entries && entries.length > 0) solarEntriesList.push(entries);
@@ -879,7 +879,7 @@ class GridDevice extends GenericDevice {
       for (const dev of batDriver.getDevices()) {
         const devId = dev.getData().id;
         let entries = await getLogEntriesForDevice(devId, [
-          ':measure_watt_avg', ':measure_power'
+          ':measure_watt_avg', ':measure_power',
         ]);
         if (!entries || entries.length === 0) entries = await getLogEntriesForDevice(devId, [':meter_power']);
         if (entries && entries.length > 0) batteryEntriesList.push(entries);
@@ -892,7 +892,7 @@ class GridDevice extends GenericDevice {
       for (const dev of evDriver.getDevices()) {
         const devId = dev.getData().id;
         let entries = await getLogEntriesForDevice(devId, [
-          ':measure_watt_avg', ':measure_power'
+          ':measure_watt_avg', ':measure_power',
         ]);
         if (!entries || entries.length === 0) entries = await getLogEntriesForDevice(devId, [':meter_power']);
         if (entries && entries.length > 0) evEntriesList.push(entries);

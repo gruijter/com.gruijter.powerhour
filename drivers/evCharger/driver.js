@@ -68,28 +68,125 @@ class CarChargeDriver extends GenericDriver {
     await EnergyPollingHelper.register(this.energyPollCallback);
   }
 
-  checkDeviceCompatibility(homeyDevice) {
-    const energyData = homeyDevice.energyObj || homeyDevice.energy;
-    let isEV = false;
+  // ─── Device compatibility checks ────────────────────────────────────────────
 
-    // Controleer op class of energy object tag volgens Homey Energy EV charger documentatie
+  /**
+   * Check if a Homey device is a suitable EV charger (wallbox / smart plug used as charger).
+   * Returns { found, useMeasureSource } or { found: false }.
+   */
+  checkDeviceCompatibility(homeyDevice) {
+    const caps = homeyDevice.capabilities || []; // guard against null capabilities
+    const energyData = homeyDevice.energyObj || homeyDevice.energy;
+    let isCharger = false;
+
     if (homeyDevice.class === 'evcharger' || homeyDevice.virtualClass === 'evcharger') {
-      isEV = true;
+      isCharger = true;
     } else if (energyData && energyData.isEVCharger === true) {
-      isEV = true;
+      isCharger = true;
+    } else if (homeyDevice.class === 'socket' || homeyDevice.class === 'other' || homeyDevice.class === 'heater') {
+      // Smart plugs: only match if tagged as isEVCharger or name contains charger/lader/ev/wallbox/laadpaal
+      const name = (homeyDevice.name || '').toLowerCase();
+      if (energyData?.isEVCharger === true || /ev|charger|lader|wallbox|laadpaal/i.test(name)) {
+        isCharger = true;
+      }
     }
 
-    if (isEV) {
-      const hasMeter = homeyDevice.capabilities.includes('meter_power');
-      const hasMeasure = homeyDevice.capabilities.includes('measure_power');
+    if (isCharger) {
+      const hasMeter = caps.includes('meter_power');
+      const hasMeasure = caps.includes('measure_power');
       const useMeasureSource = !hasMeter && hasMeasure;
-
       if (hasMeter || hasMeasure) {
         return { found: true, useMeasureSource };
       }
     }
 
     return { found: false };
+  }
+
+  /**
+   * Check if a Homey device is a suitable EV car (provides SoC or connection state).
+   * Returns { found: true } or { found: false }.
+   */
+  checkCarCompatibility(homeyDevice) {
+    const caps = homeyDevice.capabilities || [];
+    // Exclude PBTH's own summary devices
+    const name = homeyDevice.name || '';
+    if ((homeyDevice.driverUri || '').includes('powerhour') || name.endsWith('_Σ') || name.endsWith('_ΣEV')) {
+      return { found: false };
+    }
+    if (homeyDevice.class === 'car' || homeyDevice.virtualClass === 'car') return { found: true };
+    if (caps.includes('measure_battery') || caps.includes('evcharger_charging_state')) {
+      return { found: true };
+    }
+    return { found: false };
+  }
+
+  getDeviceSettings(homeyDevice) {
+    return {
+      homey_device_id: homeyDevice.id,
+      homey_device_name: homeyDevice.name,
+      ev_device_id: 'none',
+      ev_device_name: 'none',
+      level: this.homey.app.manifest.version,
+      tariff_update_group: 1,
+    };
+  }
+
+  // ─── Internal helpers ────────────────────────────────────────────────────────
+
+  async _getAllHomeyDevices() {
+    let api;
+    try {
+      api = this.homey.app.api;
+    } catch (e) { /* ignore */ }
+    if (!api) throw new Error(this.homey.__('error_homey_api_not_ready'));
+    const allDevices = await api.devices.getDevices({ $timeout: 15000 }).catch((err) => this.error(err));
+    return allDevices || {};
+  }
+
+  async _listChargerDevices() {
+    try {
+      const allDevices = await this._getAllHomeyDevices();
+      const allCaps = [...this.ds.deviceCapabilities];
+      const listed = [];
+
+      Object.values(allDevices).forEach((homeyDevice) => {
+        const compat = this.checkDeviceCompatibility(homeyDevice);
+        if (!compat.found) return;
+
+        listed.push({
+          id: homeyDevice.id,
+          name: homeyDevice.name,
+          useMeasureSource: !!compat.useMeasureSource,
+          capabilities: allCaps,
+        });
+      });
+
+      return listed;
+    } catch (err) {
+      return Promise.reject(err);
+    }
+  }
+
+  async _listCarDevices() {
+    try {
+      const allDevices = await this._getAllHomeyDevices();
+      const listed = [];
+
+      Object.values(allDevices).forEach((homeyDevice) => {
+        const compat = this.checkCarCompatibility(homeyDevice);
+        if (!compat.found) return;
+
+        listed.push({
+          id: homeyDevice.id,
+          name: homeyDevice.name,
+        });
+      });
+
+      return listed;
+    } catch (err) {
+      return Promise.reject(err);
+    }
   }
 }
 
