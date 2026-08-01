@@ -439,20 +439,69 @@ class CarChargeDevice extends GenericDevice {
     await this.updateChargeChart().catch(this.error);
   }
 
-  getActualPowerForInterval(startMs, endMs) {
+  async refreshDapPrices() {
+    if (this.sourceDevice && Array.isArray(this.sourceDevice.prices) && this.sourceDevice.prices.length > 0) {
+      this.dapPrices = this.sourceDevice.prices;
+      return;
+    }
+    try {
+      const dapDriver = this.homey.drivers.getDriver('dap');
+      if (dapDriver) {
+        const devices = dapDriver.getDevices();
+        if (devices && devices.length > 0) {
+          const dapDev = devices[0];
+          if (dapDev && Array.isArray(dapDev.prices) && dapDev.prices.length > 0) {
+            this.dapPrices = dapDev.prices;
+          }
+        }
+      }
+    } catch (err) {
+      // ignore
+    }
+  }
+
+  getPriceForTimestamp(slotMs) {
+    let pricesList = null;
+    if (this.sourceDevice && Array.isArray(this.sourceDevice.prices) && this.sourceDevice.prices.length > 0) {
+      pricesList = this.sourceDevice.prices;
+    } else if (Array.isArray(this.dapPrices) && this.dapPrices.length > 0) {
+      pricesList = this.dapPrices;
+    }
+    if (pricesList && pricesList.length > 0) {
+      const match = pricesList.find((p) => {
+        const pTime = typeof p.time === 'number' ? p.time : new Date(p.time).getTime();
+        return pTime <= slotMs && pTime + (3600 * 1000) > slotMs;
+      });
+      if (match && typeof match.muPrice === 'number') {
+        return match.muPrice;
+      }
+      if (match && typeof match.price === 'number') {
+        return match.price;
+      }
+    }
+    return (this.pricesNextHours && this.pricesNextHours[0]) || 0.25;
+  }
+
+  getActualPowerForTime(timeMs) {
     if (!Array.isArray(this.powerHistory) || this.powerHistory.length === 0) {
       return null;
     }
-    const samples = this.powerHistory.filter((e) => e.time >= startMs && e.time < endMs);
-    if (samples.length === 0) return null;
-    const sum = samples.reduce((acc, curr) => acc + (typeof curr.power === 'number' ? curr.power : 0), 0);
-    return Math.round(sum / samples.length);
+    const candidates = this.powerHistory.filter((d) => Math.abs(d.time - timeMs) < 15 * 60 * 1000);
+    if (candidates.length === 0) return null;
+    const closest = candidates.sort((a, b) => Math.abs(a.time - timeMs) - Math.abs(b.time - timeMs))[0];
+    return typeof closest.power === 'number' ? closest.power : null;
   }
 
   async handleUpdateMeter(reading) {
     await super.handleUpdateMeter(reading);
 
-    const livePower = (reading && reading.measure_power) || this.getCapabilityValue('measure_power') || 0;
+    let livePower = (reading && typeof reading.measure_power === 'number') ? reading.measure_power : null;
+    if (livePower === null) livePower = this.getCapabilityValue('measure_power');
+    if (livePower === null && this.sourceDevice && typeof this.sourceDevice.getCapabilityValue === 'function') {
+      livePower = this.sourceDevice.getCapabilityValue('measure_power');
+    }
+    if (typeof livePower !== 'number') livePower = 0;
+
     const currentTimestamp = (reading && reading.meterTm) ? new Date(reading.meterTm).getTime() : Date.now();
     if (!Array.isArray(this.powerHistory)) this.powerHistory = [];
     const lastEntry = this.powerHistory[this.powerHistory.length - 1];
@@ -464,16 +513,12 @@ class CarChargeDevice extends GenericDevice {
 
     if (livePower > 500) {
       const storedMax = (await this.getStoreValue('detectedMaxPower')) || 0;
-      this.log(`[EV Power Auto-Detect] Live power: ${livePower} W (stored peak: ${storedMax} W, manual setting: ${this.getSettings().chargePower})`);
       if (livePower > storedMax) {
         const roundedMax = Math.round(livePower / 100) * 100;
         await this.setStoreValue('detectedMaxPower', roundedMax);
         this.log(`[EV Power Auto-Detect] New peak power detected! Updated stored peak from ${storedMax} W to ${roundedMax} W`);
-        const currentSetting = this.getSettings().chargePower;
-        if (!currentSetting || currentSetting === 11000) {
-          await this.setSettings({ chargePower: roundedMax }).catch(this.error);
-          this.log(`[EV Power Auto-Detect] Automatically updated chargePower setting to ${roundedMax} W`);
-        }
+        await this.setSettings({ chargePower: roundedMax }).catch(this.error);
+        this.updateChargeChart().catch(this.error);
       }
     }
 
@@ -510,8 +555,8 @@ class CarChargeDevice extends GenericDevice {
 
     const settings = this.getSettings();
     const detectedPower = (await this.getStoreValue('detectedMaxPower')) || null;
-    const manualPower = Number(settings.chargePower);
-    const chargePower = (manualPower && manualPower > 0) ? manualPower : (detectedPower || 3700);
+    const manualPower = Number(settings.chargePower) || 0;
+    const chargePower = (detectedPower && detectedPower > manualPower) ? detectedPower : (manualPower || 3700);
     this.log(`[EV Slot] Resolved charge power: ${chargePower} W (manual setting=${settings.chargePower}, auto-detected=${detectedPower})`);
     const batCapacity = settings.batCapacity || 50;
     const tz = this.timeZone || this.homey.clock.getTimezone();
@@ -599,7 +644,8 @@ class CarChargeDevice extends GenericDevice {
       const todayStartLocal = new Date(nowLocal.getFullYear(), nowLocal.getMonth(), nowLocal.getDate(), 0, 0, 0, 0);
       const todayStartMs = todayStartLocal.getTime();
       const intervalMs = (this.priceInterval || 60) * 60 * 1000;
-      const fallbackPrice = (this.pricesNextHours && this.pricesNextHours[0]) || 0.25;
+
+      await this.refreshDapPrices().catch(() => {});
 
       // 1. Image 1: Yesterday (00:00 to 23:59 Yesterday)
       const yesterdayStartMs = todayStartMs - (24 * 60 * 60 * 1000);
@@ -607,16 +653,16 @@ class CarChargeDevice extends GenericDevice {
 
       for (let i = 0; i < totalDaySlots; i += 1) {
         const slotStartMs = yesterdayStartMs + (i * intervalMs);
-        const slotEndMs = slotStartMs + intervalMs;
-        let actualP = this.getActualPowerForInterval(slotStartMs, slotEndMs);
+        let actualP = this.getActualPowerForTime(slotStartMs);
         if (actualP === null) actualP = 0;
+        const slotPrice = this.getPriceForTimestamp(slotStartMs);
 
         yesterdayStrategy[i] = {
           power: 0,
           actualPower: actualP,
           duration: 0,
           soc: null,
-          price: fallbackPrice,
+          price: slotPrice,
           isForecast: false,
         };
       }
@@ -644,10 +690,10 @@ class CarChargeDevice extends GenericDevice {
 
       for (let i = 0; i < totalDaySlots; i += 1) {
         const slotStartMs = todayStartMs + (i * intervalMs);
-        const slotEndMs = slotStartMs + intervalMs;
         const isPastOrPresent = slotStartMs <= now.getTime();
-        let actualP = this.getActualPowerForInterval(slotStartMs, slotEndMs);
+        let actualP = this.getActualPowerForTime(slotStartMs);
         if (isPastOrPresent && actualP === null) actualP = 0;
+        const slotPrice = this.getPriceForTimestamp(slotStartMs);
 
         if (i < currentSlotInDay) {
           todayStrategy[i] = {
@@ -655,7 +701,7 @@ class CarChargeDevice extends GenericDevice {
             actualPower: actualP,
             duration: 0,
             soc: currentSoc,
-            price: fallbackPrice,
+            price: slotPrice,
             isForecast: true,
           };
         } else {
@@ -671,7 +717,7 @@ class CarChargeDevice extends GenericDevice {
               actualPower: isPastOrPresent ? actualP : null,
               duration: 0,
               soc: currentSoc,
-              price: fallbackPrice,
+              price: slotPrice,
               isForecast: true,
             };
           }
@@ -788,7 +834,7 @@ class CarChargeDevice extends GenericDevice {
           });
           if (log) {
             this.log(`[EV Slot] Found Insights log: ${log.id || log.uri || log.name}`);
-            for (const resStr of ['last31Days', 'last14Days', 'last7Days']) {
+            for (const resStr of ['today', 'last7Days', 'last14Days', 'last31Days']) {
               const data = await api.insights.getLogEntries({
                 id: log.id,
                 start: startDate.toISOString(),
@@ -851,13 +897,21 @@ class CarChargeDevice extends GenericDevice {
         return;
       }
 
-      if (!Array.isArray(this.powerHistory) || this.powerHistory.length < 50) {
-        this.powerHistory = powerEntries.map((e) => ({
-          time: typeof e.t === 'number' ? e.t : new Date(e.t).getTime(),
-          power: Math.round(e.v || 0),
-        }));
+      if (powerEntries && powerEntries.length > 0) {
+        const newHistoryMap = new Map();
+        if (Array.isArray(this.powerHistory)) {
+          this.powerHistory.forEach((e) => newHistoryMap.set(e.time, e.power));
+        }
+        powerEntries.forEach((e) => {
+          const t = typeof e.t === 'number' ? e.t : new Date(e.t).getTime();
+          newHistoryMap.set(t, Math.round(e.v || 0));
+        });
+        this.powerHistory = Array.from(newHistoryMap.entries())
+          .map(([time, power]) => ({ time, power }))
+          .sort((a, b) => a.time - b.time);
+        if (this.powerHistory.length > 2880) this.powerHistory = this.powerHistory.slice(-2880);
         await this.setStoreValue('powerHistory', this.powerHistory).catch(this.error);
-        this.log(`[EV Slot] Populated ${this.powerHistory.length} power history entries from Insights.`);
+        this.log(`[EV Slot] Populated ${this.powerHistory.length} spot power history entries from Insights.`);
       }
 
       const chargingPowers = powerEntries
