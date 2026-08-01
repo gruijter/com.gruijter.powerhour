@@ -1,4 +1,7 @@
 {
+  "8.10.1": {
+    "en": "Fix grid forecaster. Fix in-house load forecaster. Rewrite evCharger driver. Added app-2app pricing api. Massive readme rewrite."
+  },
   "8.10.0": {
     "en": "Many stability improvements. Reduced memory footptint and lazy loading. Extensive review and revision of time handling functions. Fixed grid forecaster. Homey-api@3.19.2"
   },

@@ -32,13 +32,8 @@ along with com.gruijter.powerhour.  If not, see <http://www.gnu.org/licenses/>.
  *   'dap-prices-updated'
  */
 
-module.exports = [
-  {
-    description: 'Get all future DAP/DAP15/DAPg import+export price slots for every configured device',
-    method: 'GET',
-    path: '/dap-prices',
-    fn: async function fn({ homey }) {
-      return homey.app.getDapPricesPayload();
-    },
+module.exports = {
+  async getDapPrices({ homey }) {
+    return homey.app.getDapPricesPayload();
   },
-];
+};

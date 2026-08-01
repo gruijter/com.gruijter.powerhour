@@ -65,6 +65,12 @@
     "homey:manager:api",
     "homey:manager:geolocation"
   ],
+  "api": {
+    "getDapPrices": {
+      "method": "get",
+      "path": "/dap-prices"
+    }
+  },
   "images": {
     "large": "/assets/images/large.jpg",
     "small": "/assets/images/small.jpg"
