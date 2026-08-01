@@ -50,6 +50,19 @@ class CarChargeDevice extends GenericDevice {
     this.isCarConnected = true; // optimistic default until we know otherwise
     await super.onInit().catch(this.error);
 
+    if (this.hasCapability('ev_charge_mode')) {
+      if (!this.getCapabilityValue('ev_charge_mode')) {
+        await this.setCapabilityValue('ev_charge_mode', 'scheduled_price').catch(this.error);
+      }
+      this.registerCapabilityListener('ev_charge_mode', async (value) => {
+        this.log(`EV charge mode set to ${value}`);
+        if (this.homey.app.trigger_ev_charge_mode_changed) {
+          await this.homey.app.trigger_ev_charge_mode_changed(this, { mode: value }, {}).catch(this.error);
+        }
+        await this.updateChargeChart().catch(this.error);
+      });
+    }
+
     const currentSessionId = this.sessionId;
     this.homey.setTimeout(async () => {
       await new Promise((resolve) => this.homey.setTimeout(resolve, 2000));
@@ -434,7 +447,9 @@ class CarChargeDevice extends GenericDevice {
     this.lastKnownSoc = currentSoc;
 
     const departureTime = this._getEffectiveDepartureTime();
-    this.log(`[EV Slot] Effective departure time: ${departureTime}`);
+    const chargeMode = this.getCapabilityValue('ev_charge_mode') || 'scheduled_price';
+    const tripOverride = this.getStoreValue('tripOverride') || null;
+    this.log(`[EV Slot] Effective departure time: ${departureTime}, mode: ${chargeMode}`);
 
     const strategy = EvChargeStrategy.getStrategy({
       prices: this.pricesNextHours,
@@ -446,6 +461,9 @@ class CarChargeDevice extends GenericDevice {
       departureTime,
       timezone: tz,
       variableChargePower: settings.variableChargePower || false,
+      chargeMode,
+      tripOverrideTime: tripOverride ? tripOverride.departureTime : null,
+      tripOverrideSoc: tripOverride ? tripOverride.targetSoc : null,
     });
 
     if (strategy) {

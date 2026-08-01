@@ -1,0 +1,77 @@
+{
+  "title": {
+    "en": "Set EV charge mode",
+    "nl": "Zet EV laadmodus",
+    "de": "EV Lademodus festlegen",
+    "fr": "Définir le mode de charge EV"
+  },
+  "titleFormatted": {
+    "en": "Set EV charge mode to [[mode]]",
+    "nl": "Zet EV laadmodus op [[mode]]",
+    "de": "Setze EV Lademodus auf [[mode]]",
+    "fr": "Définir le mode de charge EV sur [[mode]]"
+  },
+  "hint": {
+    "en": "Set the active charging mode (Scheduled Price Slots, Solar Surplus, Fast Charge, or Off).",
+    "nl": "Stel de actieve laadmodus in (Geplande Prijsuren, Zonne-overschot, Snelladen of Uit).",
+    "de": "Legen Sie den aktiven Lademodus fest."
+  },
+  "args": [
+    {
+      "type": "device",
+      "name": "device",
+      "filter": "driver_id=evCharger"
+    },
+    {
+      "type": "dropdown",
+      "name": "mode",
+      "title": {
+        "en": "Mode",
+        "nl": "Modus",
+        "de": "Modus"
+      },
+      "values": [
+        {
+          "id": "scheduled_price",
+          "label": {
+            "en": "Scheduled Price Slots",
+            "nl": "Geplande Prijsuren",
+            "de": "Geplante Preis-Slots"
+          }
+        },
+        {
+          "id": "solar_only",
+          "label": {
+            "en": "Solar Surplus Only",
+            "nl": "Alleen Zonne-overschot",
+            "de": "Nur Solarüberschuss"
+          }
+        },
+        {
+          "id": "solar_and_grid",
+          "label": {
+            "en": "Solar + Price Slots",
+            "nl": "Zonne-overschot + Prijsuren",
+            "de": "Solar + Preis-Slots"
+          }
+        },
+        {
+          "id": "fast_charge",
+          "label": {
+            "en": "Fast Charge",
+            "nl": "Snelladen",
+            "de": "Schnellladen"
+          }
+        },
+        {
+          "id": "off",
+          "label": {
+            "en": "Off",
+            "nl": "Uit",
+            "de": "Aus"
+          }
+        }
+      ]
+    }
+  ]
+}

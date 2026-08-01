@@ -1,0 +1,74 @@
+{
+  "title": {
+    "en": "EV charge mode is !",
+    "nl": "EV laadmodus is !",
+    "de": "EV Lademodus ist !"
+  },
+  "titleFormatted": {
+    "en": "EV charge mode is [[mode]]",
+    "nl": "EV laadmodus is [[mode]]",
+    "de": "EV Lademodus ist [[mode]]"
+  },
+  "hint": {
+    "en": "Checks if the current EV charge mode matches the selected mode.",
+    "nl": "Controleert of de huidige EV laadmodus overeenkomt met de geselecteerde modus."
+  },
+  "args": [
+    {
+      "type": "device",
+      "name": "device",
+      "filter": "driver_id=evCharger"
+    },
+    {
+      "type": "dropdown",
+      "name": "mode",
+      "title": {
+        "en": "Mode",
+        "nl": "Modus",
+        "de": "Modus"
+      },
+      "values": [
+        {
+          "id": "scheduled_price",
+          "label": {
+            "en": "Scheduled Price Slots",
+            "nl": "Geplande Prijsuren",
+            "de": "Geplante Preis-Slots"
+          }
+        },
+        {
+          "id": "solar_only",
+          "label": {
+            "en": "Solar Surplus Only",
+            "nl": "Alleen Zonne-overschot",
+            "de": "Nur Solarüberschuss"
+          }
+        },
+        {
+          "id": "solar_and_grid",
+          "label": {
+            "en": "Solar + Price Slots",
+            "nl": "Zonne-overschot + Prijsuren",
+            "de": "Solar + Preis-Slots"
+          }
+        },
+        {
+          "id": "fast_charge",
+          "label": {
+            "en": "Fast Charge",
+            "nl": "Snelladen",
+            "de": "Schnellladen"
+          }
+        },
+        {
+          "id": "off",
+          "label": {
+            "en": "Off",
+            "nl": "Uit",
+            "de": "Aus"
+          }
+        }
+      ]
+    }
+  ]
+}

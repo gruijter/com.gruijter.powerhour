@@ -1,0 +1,67 @@
+{
+  "type": "enum",
+  "title": {
+    "en": "Charge Mode",
+    "nl": "Laadmodus",
+    "de": "Lademodus",
+    "fr": "Mode de charge",
+    "it": "Modalità di ricarica",
+    "sv": "Laddningsläge",
+    "no": "Lademodus",
+    "es": "Modo de carga",
+    "da": "Opladningstilstand",
+    "pl": "Tryb ładowania",
+    "ru": "Режим зарядки",
+    "ar": "وضع الشحن"
+  },
+  "uiComponent": "picker",
+  "getable": true,
+  "setable": true,
+  "values": [
+    {
+      "id": "scheduled_price",
+      "title": {
+        "en": "Scheduled Price Slots",
+        "nl": "Geplande Prijsuren",
+        "de": "Geplante Preis-Slots",
+        "fr": "Créneaux de prix programmés"
+      }
+    },
+    {
+      "id": "solar_only",
+      "title": {
+        "en": "Solar Surplus Only",
+        "nl": "Alleen Zonne-overschot",
+        "de": "Nur Solarüberschuss",
+        "fr": "Surplus solaire uniquement"
+      }
+    },
+    {
+      "id": "solar_and_grid",
+      "title": {
+        "en": "Solar + Price Slots",
+        "nl": "Zonne-overschot + Prijsuren",
+        "de": "Solar + Preis-Slots",
+        "fr": "Solaire + Créneaux de prix"
+      }
+    },
+    {
+      "id": "fast_charge",
+      "title": {
+        "en": "Fast Charge",
+        "nl": "Snelladen",
+        "de": "Schnellladen",
+        "fr": "Charge rapide"
+      }
+    },
+    {
+      "id": "off",
+      "title": {
+        "en": "Off",
+        "nl": "Uit",
+        "de": "Aus",
+        "fr": "Désactivé"
+      }
+    }
+  ]
+}

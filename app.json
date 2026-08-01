@@ -135,6 +135,41 @@
     "triggers": [
       {
         "title": {
+          "en": "EV charge mode changed",
+          "nl": "EV laadmodus veranderd",
+          "de": "EV Lademodus geändert"
+        },
+        "titleFormatted": {
+          "en": "EV charge mode changed to [[mode]]",
+          "nl": "EV laadmodus veranderd naar [[mode]]",
+          "de": "EV Lademodus geändert zu [[mode]]"
+        },
+        "hint": {
+          "en": "Triggers when the EV charge mode is updated via device UI or flow action.",
+          "nl": "Triggert wanneer de EV laadmodus wordt aangepast via de UI of flow."
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=evCharger"
+          }
+        ],
+        "tokens": [
+          {
+            "name": "mode",
+            "type": "string",
+            "title": {
+              "en": "Charge Mode",
+              "nl": "Laadmodus",
+              "de": "Lademodus"
+            }
+          }
+        ],
+        "id": "ev_charge_mode_changed"
+      },
+      {
+        "title": {
           "en": "Load forecast updated",
           "de": "Lastprognose aktualisiert",
           "nl": "Verbruiksvoorspelling bijgewerkt",
@@ -4224,6 +4259,81 @@
     "conditions": [
       {
         "title": {
+          "en": "EV charge mode is !",
+          "nl": "EV laadmodus is !",
+          "de": "EV Lademodus ist !"
+        },
+        "titleFormatted": {
+          "en": "EV charge mode is [[mode]]",
+          "nl": "EV laadmodus is [[mode]]",
+          "de": "EV Lademodus ist [[mode]]"
+        },
+        "hint": {
+          "en": "Checks if the current EV charge mode matches the selected mode.",
+          "nl": "Controleert of de huidige EV laadmodus overeenkomt met de geselecteerde modus."
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=evCharger"
+          },
+          {
+            "type": "dropdown",
+            "name": "mode",
+            "title": {
+              "en": "Mode",
+              "nl": "Modus",
+              "de": "Modus"
+            },
+            "values": [
+              {
+                "id": "scheduled_price",
+                "label": {
+                  "en": "Scheduled Price Slots",
+                  "nl": "Geplande Prijsuren",
+                  "de": "Geplante Preis-Slots"
+                }
+              },
+              {
+                "id": "solar_only",
+                "label": {
+                  "en": "Solar Surplus Only",
+                  "nl": "Alleen Zonne-overschot",
+                  "de": "Nur Solarüberschuss"
+                }
+              },
+              {
+                "id": "solar_and_grid",
+                "label": {
+                  "en": "Solar + Price Slots",
+                  "nl": "Zonne-overschot + Prijsuren",
+                  "de": "Solar + Preis-Slots"
+                }
+              },
+              {
+                "id": "fast_charge",
+                "label": {
+                  "en": "Fast Charge",
+                  "nl": "Snelladen",
+                  "de": "Schnellladen"
+                }
+              },
+              {
+                "id": "off",
+                "label": {
+                  "en": "Off",
+                  "nl": "Uit",
+                  "de": "Aus"
+                }
+              }
+            ]
+          }
+        ],
+        "id": "ev_charge_mode_is"
+      },
+      {
+        "title": {
           "en": "The price !{{is|isn't}} above avg.",
           "de": "Preis !{{ist|ist nicht}} höher als der Durchschn.",
           "sv": "Priset !{{är|är inte}} över snittet.",
@@ -7280,6 +7390,31 @@
     "actions": [
       {
         "title": {
+          "en": "Clear temporary EV trip override",
+          "nl": "Wis tijdelijke EV rit",
+          "de": "Vorübergehende EV-Fahrt löschen"
+        },
+        "titleFormatted": {
+          "en": "Clear temporary EV trip override",
+          "nl": "Wis tijdelijke EV rit",
+          "de": "Vorübergehende EV-Fahrt löschen"
+        },
+        "hint": {
+          "en": "Removes any active one-off trip override and reverts to standard daily departure schedules.",
+          "nl": "Verwijdert een actieve tijdelijke ritoverrule en keert terug naar het standaard vertrekschema.",
+          "de": "Löscht eine aktive vorübergehende Fahrt."
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=evCharger"
+          }
+        ],
+        "id": "clear_ev_trip_override"
+      },
+      {
+        "title": {
           "en": "Provide export prices JSON",
           "de": "Exportpreise bereitstellen (JSON)",
           "ar": "توفير أسعار التصدير JSON",
@@ -8151,6 +8286,84 @@
       },
       {
         "title": {
+          "en": "Set EV charge mode",
+          "nl": "Zet EV laadmodus",
+          "de": "EV Lademodus festlegen",
+          "fr": "Définir le mode de charge EV"
+        },
+        "titleFormatted": {
+          "en": "Set EV charge mode to [[mode]]",
+          "nl": "Zet EV laadmodus op [[mode]]",
+          "de": "Setze EV Lademodus auf [[mode]]",
+          "fr": "Définir le mode de charge EV sur [[mode]]"
+        },
+        "hint": {
+          "en": "Set the active charging mode (Scheduled Price Slots, Solar Surplus, Fast Charge, or Off).",
+          "nl": "Stel de actieve laadmodus in (Geplande Prijsuren, Zonne-overschot, Snelladen of Uit).",
+          "de": "Legen Sie den aktiven Lademodus fest."
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=evCharger"
+          },
+          {
+            "type": "dropdown",
+            "name": "mode",
+            "title": {
+              "en": "Mode",
+              "nl": "Modus",
+              "de": "Modus"
+            },
+            "values": [
+              {
+                "id": "scheduled_price",
+                "label": {
+                  "en": "Scheduled Price Slots",
+                  "nl": "Geplande Prijsuren",
+                  "de": "Geplante Preis-Slots"
+                }
+              },
+              {
+                "id": "solar_only",
+                "label": {
+                  "en": "Solar Surplus Only",
+                  "nl": "Alleen Zonne-overschot",
+                  "de": "Nur Solarüberschuss"
+                }
+              },
+              {
+                "id": "solar_and_grid",
+                "label": {
+                  "en": "Solar + Price Slots",
+                  "nl": "Zonne-overschot + Prijsuren",
+                  "de": "Solar + Preis-Slots"
+                }
+              },
+              {
+                "id": "fast_charge",
+                "label": {
+                  "en": "Fast Charge",
+                  "nl": "Snelladen",
+                  "de": "Schnellladen"
+                }
+              },
+              {
+                "id": "off",
+                "label": {
+                  "en": "Off",
+                  "nl": "Uit",
+                  "de": "Aus"
+                }
+              }
+            ]
+          }
+        ],
+        "id": "set_ev_charge_mode"
+      },
+      {
+        "title": {
           "en": "Set EV departure and target SoC",
           "nl": "Zet EV vertrektijd en doel SoC",
           "de": "EV Abfahrtszeit und Ziel-SoC festlegen",
@@ -8320,6 +8533,52 @@
           }
         ],
         "id": "set_ev_soc"
+      },
+      {
+        "title": {
+          "en": "Set temporary EV trip override",
+          "nl": "Stel tijdelijke EV rit in",
+          "de": "Vorübergehende EV-Fahrt festlegen"
+        },
+        "titleFormatted": {
+          "en": "Set temporary trip departure to [[departureTime]] with target SoC [[targetSoc]]%",
+          "nl": "Stel tijdelijke rit in op vertrek [[departureTime]] met doel SoC [[targetSoc]]%",
+          "de": "Vorübergehende Fahrt auf [[departureTime]] mit Ziel-SoC [[targetSoc]]% festlegen"
+        },
+        "hint": {
+          "en": "Override default departure strategy for a specific upcoming trip (e.g. tomorrow or specific hour).",
+          "nl": "Overrule de standaard vertrekstrategie voor een specifieke komende rit.",
+          "de": "Überschreiben Sie die Standard-Abfahrtsstrategie für eine bestimmte bevorstehende Fahrt."
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=evCharger"
+          },
+          {
+            "type": "text",
+            "name": "departureTime",
+            "placeholder": "08:00",
+            "title": {
+              "en": "Departure Time (HH:MM)",
+              "nl": "Vertrektijd (UU:MM)",
+              "de": "Abfahrtszeit (HH:MM)"
+            }
+          },
+          {
+            "type": "number",
+            "name": "targetSoc",
+            "min": 10,
+            "max": 100,
+            "title": {
+              "en": "Target SoC (%)",
+              "nl": "Doel SoC (%)",
+              "de": "Ziel-SoC (%)"
+            }
+          }
+        ],
+        "id": "set_ev_trip_override"
       },
       {
         "title": {
@@ -13380,7 +13639,9 @@
       },
       "deprecated": true,
       "class": "other",
-      "capabilities": [],
+      "capabilities": [
+        "ev_charge_mode"
+      ],
       "capabilitiesOptions": {
         "meter_power": {
           "decimals": 4
@@ -21387,6 +21648,73 @@
     }
   ],
   "capabilities": {
+    "ev_charge_mode": {
+      "type": "enum",
+      "title": {
+        "en": "Charge Mode",
+        "nl": "Laadmodus",
+        "de": "Lademodus",
+        "fr": "Mode de charge",
+        "it": "Modalità di ricarica",
+        "sv": "Laddningsläge",
+        "no": "Lademodus",
+        "es": "Modo de carga",
+        "da": "Opladningstilstand",
+        "pl": "Tryb ładowania",
+        "ru": "Режим зарядки",
+        "ar": "وضع الشحن"
+      },
+      "uiComponent": "picker",
+      "getable": true,
+      "setable": true,
+      "values": [
+        {
+          "id": "scheduled_price",
+          "title": {
+            "en": "Scheduled Price Slots",
+            "nl": "Geplande Prijsuren",
+            "de": "Geplante Preis-Slots",
+            "fr": "Créneaux de prix programmés"
+          }
+        },
+        {
+          "id": "solar_only",
+          "title": {
+            "en": "Solar Surplus Only",
+            "nl": "Alleen Zonne-overschot",
+            "de": "Nur Solarüberschuss",
+            "fr": "Surplus solaire uniquement"
+          }
+        },
+        {
+          "id": "solar_and_grid",
+          "title": {
+            "en": "Solar + Price Slots",
+            "nl": "Zonne-overschot + Prijsuren",
+            "de": "Solar + Preis-Slots",
+            "fr": "Solaire + Créneaux de prix"
+          }
+        },
+        {
+          "id": "fast_charge",
+          "title": {
+            "en": "Fast Charge",
+            "nl": "Snelladen",
+            "de": "Schnellladen",
+            "fr": "Charge rapide"
+          }
+        },
+        {
+          "id": "off",
+          "title": {
+            "en": "Off",
+            "nl": "Uit",
+            "de": "Aus",
+            "fr": "Désactivé"
+          }
+        }
+      ]
+    },
     "hour_next_8h_highest": {
       "type": "number",
       "title": {

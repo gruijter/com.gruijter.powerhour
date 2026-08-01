@@ -1,0 +1,24 @@
+{
+  "title": {
+    "en": "Clear temporary EV trip override",
+    "nl": "Wis tijdelijke EV rit",
+    "de": "Vorübergehende EV-Fahrt löschen"
+  },
+  "titleFormatted": {
+    "en": "Clear temporary EV trip override",
+    "nl": "Wis tijdelijke EV rit",
+    "de": "Vorübergehende EV-Fahrt löschen"
+  },
+  "hint": {
+    "en": "Removes any active one-off trip override and reverts to standard daily departure schedules.",
+    "nl": "Verwijdert een actieve tijdelijke ritoverrule en keert terug naar het standaard vertrekschema.",
+    "de": "Löscht eine aktive vorübergehende Fahrt."
+  },
+  "args": [
+    {
+      "type": "device",
+      "name": "device",
+      "filter": "driver_id=evCharger"
+    }
+  ]
+}

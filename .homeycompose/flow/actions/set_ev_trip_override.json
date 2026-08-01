@@ -1,0 +1,45 @@
+{
+  "title": {
+    "en": "Set temporary EV trip override",
+    "nl": "Stel tijdelijke EV rit in",
+    "de": "Vorübergehende EV-Fahrt festlegen"
+  },
+  "titleFormatted": {
+    "en": "Set temporary trip departure to [[departureTime]] with target SoC [[targetSoc]]%",
+    "nl": "Stel tijdelijke rit in op vertrek [[departureTime]] met doel SoC [[targetSoc]]%",
+    "de": "Vorübergehende Fahrt auf [[departureTime]] mit Ziel-SoC [[targetSoc]]% festlegen"
+  },
+  "hint": {
+    "en": "Override default departure strategy for a specific upcoming trip (e.g. tomorrow or specific hour).",
+    "nl": "Overrule de standaard vertrekstrategie voor een specifieke komende rit.",
+    "de": "Überschreiben Sie die Standard-Abfahrtsstrategie für eine bestimmte bevorstehende Fahrt."
+  },
+  "args": [
+    {
+      "type": "device",
+      "name": "device",
+      "filter": "driver_id=evCharger"
+    },
+    {
+      "type": "text",
+      "name": "departureTime",
+      "placeholder": "08:00",
+      "title": {
+        "en": "Departure Time (HH:MM)",
+        "nl": "Vertrektijd (UU:MM)",
+        "de": "Abfahrtszeit (HH:MM)"
+      }
+    },
+    {
+      "type": "number",
+      "name": "targetSoc",
+      "min": 10,
+      "max": 100,
+      "title": {
+        "en": "Target SoC (%)",
+        "nl": "Doel SoC (%)",
+        "de": "Ziel-SoC (%)"
+      }
+    }
+  ]
+}

@@ -15,7 +15,9 @@
   },
   "deprecated": true,
   "class": "other",
-  "capabilities": [],
+  "capabilities": [
+    "ev_charge_mode"
+  ],
   "capabilitiesOptions": {
     "meter_power": {
       "decimals": 4

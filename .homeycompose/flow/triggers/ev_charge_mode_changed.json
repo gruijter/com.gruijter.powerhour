@@ -1,0 +1,34 @@
+{
+  "title": {
+    "en": "EV charge mode changed",
+    "nl": "EV laadmodus veranderd",
+    "de": "EV Lademodus geändert"
+  },
+  "titleFormatted": {
+    "en": "EV charge mode changed to [[mode]]",
+    "nl": "EV laadmodus veranderd naar [[mode]]",
+    "de": "EV Lademodus geändert zu [[mode]]"
+  },
+  "hint": {
+    "en": "Triggers when the EV charge mode is updated via device UI or flow action.",
+    "nl": "Triggert wanneer de EV laadmodus wordt aangepast via de UI of flow."
+  },
+  "args": [
+    {
+      "type": "device",
+      "name": "device",
+      "filter": "driver_id=evCharger"
+    }
+  ],
+  "tokens": [
+    {
+      "name": "mode",
+      "type": "string",
+      "title": {
+        "en": "Charge Mode",
+        "nl": "Laadmodus",
+        "de": "Lademodus"
+      }
+    }
+  ]
+}
