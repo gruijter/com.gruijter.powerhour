@@ -15,9 +15,7 @@
   },
   "deprecated": true,
   "class": "other",
-  "capabilities": [
-    "ev_charge_mode"
-  ],
+  "capabilities": [],
   "capabilitiesOptions": {
     "meter_power": {
       "decimals": 4
@@ -104,7 +102,13 @@
             "ru": "Макс. мощность зарядки (Вт)",
             "ar": "الحد الأقصى لطاقة الشحن (واط)"
           },
-          "value": 11000,
+          "hint": {
+            "en": "Set to 0 to auto-detect maximum charging speed from charger history and live measurements.",
+            "nl": "Stel in op 0 voor automatische detectie van de laadsnelheid uit historie en metingen.",
+            "de": "Auf 0 setzen, um die maximale Ladeleistung automatisch aus Historie und Messungen zu erkennen.",
+            "fr": "Réglez sur 0 pour détecter automatiquement la vitesse de charge à partir de l'historique et des mesures."
+          },
+          "value": 0,
           "min": 0,
           "decimals": 0
         },

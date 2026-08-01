@@ -1,7 +1,10 @@
 {
+  "yesterday": "Igår",
   "today": "Idag",
   "tomorrow": "Imorgon",
   "nextHours": "Kommande timmar",
+  "distribution": "Fördelning",
+  "weekly": "Veckovis",
   "device_migrating": "Enheten migrerar. Vänta!",
   "source_device_missing_retry": "Källenhet saknas. Försök igen om 10 minuter.",
   "source_device_missing_retrying": "Källenhet saknas. Försöker igen ..",

@@ -47,8 +47,16 @@ class CarChargeDevice extends GenericDevice {
     this.evDevice = null; // optional secondary car device
     this.sourceCapGroup = {};
     this.carCapGroup = {};
-    this.isCarConnected = true; // optimistic default until we know otherwise
     await super.onInit().catch(this.error);
+
+    for (const cap of ['ev_charge_mode', 'ev_next_departure', 'ev_target_soc', 'ev_departure_time']) {
+      if (!this.hasCapability(cap)) {
+        this.log(`Adding missing capability ${cap} to device ${this.getName()}`);
+        await this.addCapability(cap).catch(this.error);
+      }
+    }
+
+    this.powerHistory = (await this.getStoreValue('powerHistory')) || [];
 
     if (this.hasCapability('ev_charge_mode')) {
       if (!this.getCapabilityValue('ev_charge_mode')) {
@@ -58,6 +66,44 @@ class CarChargeDevice extends GenericDevice {
         this.log(`EV charge mode set to ${value}`);
         if (this.homey.app.trigger_ev_charge_mode_changed) {
           await this.homey.app.trigger_ev_charge_mode_changed(this, { mode: value }, {}).catch(this.error);
+        }
+        await this.updateChargeChart().catch(this.error);
+      });
+    }
+
+    if (this.hasCapability('ev_target_soc')) {
+      this.registerCapabilityListener('ev_target_soc', async (value) => {
+        const numVal = Number(value) || 80;
+        this.log(`EV target SoC UI picker changed to ${numVal}%`);
+        const tripOverride = this.getStoreValue('tripOverride');
+        if (tripOverride) {
+          tripOverride.targetSoc = numVal;
+          await this.setStoreValue('tripOverride', tripOverride);
+        } else {
+          await this.setSettings({ targetSoc: numVal }).catch(this.error);
+        }
+        await this.updateChargeChart().catch(this.error);
+      });
+    }
+
+    if (this.hasCapability('ev_departure_time')) {
+      this.registerCapabilityListener('ev_departure_time', async (value) => {
+        this.log(`EV departure time UI picker changed to ${value}`);
+        if (value === 'until_next_schedule') {
+          await this.setStoreValue('tripOverride', null);
+          this.log('Cleared trip override via UI picker');
+        } else if (value === 'indefinite') {
+          const tripOverride = this.getStoreValue('tripOverride') || {};
+          tripOverride.departureTime = 'indefinite';
+          await this.setStoreValue('tripOverride', tripOverride);
+        } else {
+          const tripOverride = this.getStoreValue('tripOverride');
+          if (tripOverride) {
+            tripOverride.departureTime = value;
+            await this.setStoreValue('tripOverride', tripOverride);
+          } else {
+            await this.setSettings({ departureTime: value }).catch(this.error);
+          }
         }
         await this.updateChargeChart().catch(this.error);
       });
@@ -108,7 +154,7 @@ class CarChargeDevice extends GenericDevice {
       let api;
       try {
         api = this.homey.app.api;
-      } catch (e) {}
+      } catch (e) { }
       if (api) {
         let ev = null;
         if (evDeviceId && evDeviceId !== 'none') {
@@ -122,7 +168,7 @@ class CarChargeDevice extends GenericDevice {
           if (carDev) {
             ev = carDev;
             evDeviceId = carDev.id;
-            await this.setSettings({ ev_device_id: carDev.id, ev_device_name: carDev.name }).catch(() => {});
+            await this.setSettings({ ev_device_id: carDev.id, ev_device_name: carDev.name }).catch(() => { });
           }
         }
 
@@ -156,7 +202,7 @@ class CarChargeDevice extends GenericDevice {
     let api;
     try {
       api = this.homey.app.api;
-    } catch (e) {}
+    } catch (e) { }
     if (!api) throw new Error('Homey API not ready');
     await this.getSourceDevice();
     await this.addSourceCapGroup();
@@ -320,7 +366,7 @@ class CarChargeDevice extends GenericDevice {
       let api;
       try {
         api = this.homey.app.api;
-      } catch (e) {}
+      } catch (e) { }
 
       // Prefer car device SoC
       if (this.evDevice && this.carCapGroup.soc && api) {
@@ -393,8 +439,44 @@ class CarChargeDevice extends GenericDevice {
     await this.updateChargeChart().catch(this.error);
   }
 
+  getActualPowerForInterval(startMs, endMs) {
+    if (!Array.isArray(this.powerHistory) || this.powerHistory.length === 0) {
+      return null;
+    }
+    const samples = this.powerHistory.filter((e) => e.time >= startMs && e.time < endMs);
+    if (samples.length === 0) return null;
+    const sum = samples.reduce((acc, curr) => acc + (typeof curr.power === 'number' ? curr.power : 0), 0);
+    return Math.round(sum / samples.length);
+  }
+
   async handleUpdateMeter(reading) {
     await super.handleUpdateMeter(reading);
+
+    const livePower = (reading && reading.measure_power) || this.getCapabilityValue('measure_power') || 0;
+    const currentTimestamp = (reading && reading.meterTm) ? new Date(reading.meterTm).getTime() : Date.now();
+    if (!Array.isArray(this.powerHistory)) this.powerHistory = [];
+    const lastEntry = this.powerHistory[this.powerHistory.length - 1];
+    if (!lastEntry || Math.abs(currentTimestamp - lastEntry.time) >= 60000) {
+      this.powerHistory.push({ time: currentTimestamp, power: livePower });
+      if (this.powerHistory.length > 2880) this.powerHistory.shift();
+      await this.setStoreValue('powerHistory', this.powerHistory).catch(this.error);
+    }
+
+    if (livePower > 500) {
+      const storedMax = (await this.getStoreValue('detectedMaxPower')) || 0;
+      this.log(`[EV Power Auto-Detect] Live power: ${livePower} W (stored peak: ${storedMax} W, manual setting: ${this.getSettings().chargePower})`);
+      if (livePower > storedMax) {
+        const roundedMax = Math.round(livePower / 100) * 100;
+        await this.setStoreValue('detectedMaxPower', roundedMax);
+        this.log(`[EV Power Auto-Detect] New peak power detected! Updated stored peak from ${storedMax} W to ${roundedMax} W`);
+        const currentSetting = this.getSettings().chargePower;
+        if (!currentSetting || currentSetting === 11000) {
+          await this.setSettings({ chargePower: roundedMax }).catch(this.error);
+          this.log(`[EV Power Auto-Detect] Automatically updated chargePower setting to ${roundedMax} W`);
+        }
+      }
+    }
+
     const now = new Date(reading.meterTm);
     const currentSlot = (now.getUTCHours() * (60 / (this.priceInterval || 60)))
       + Math.floor(now.getUTCMinutes() / (this.priceInterval || 60));
@@ -427,7 +509,10 @@ class CarChargeDevice extends GenericDevice {
     this.log('updating EV charge chart', this.getName(), `(connected=${this.isCarConnected})`);
 
     const settings = this.getSettings();
-    const chargePower = settings.chargePower || 11000;
+    const detectedPower = (await this.getStoreValue('detectedMaxPower')) || null;
+    const manualPower = Number(settings.chargePower);
+    const chargePower = (manualPower && manualPower > 0) ? manualPower : (detectedPower || 3700);
+    this.log(`[EV Slot] Resolved charge power: ${chargePower} W (manual setting=${settings.chargePower}, auto-detected=${detectedPower})`);
     const batCapacity = settings.batCapacity || 50;
     const tz = this.timeZone || this.homey.clock.getTimezone();
 
@@ -446,10 +531,28 @@ class CarChargeDevice extends GenericDevice {
     }
     this.lastKnownSoc = currentSoc;
 
-    const departureTime = this._getEffectiveDepartureTime();
-    const chargeMode = this.getCapabilityValue('ev_charge_mode') || 'scheduled_price';
     const tripOverride = this.getStoreValue('tripOverride') || null;
-    this.log(`[EV Slot] Effective departure time: ${departureTime}, mode: ${chargeMode}`);
+    const effectiveDepartureTime = tripOverride ? tripOverride.departureTime : this._getEffectiveDepartureTime();
+    const effectiveTargetSoc = tripOverride ? tripOverride.targetSoc : (settings.targetSoc || 100);
+    const chargeMode = this.getCapabilityValue('ev_charge_mode') || 'scheduled_price';
+    this.log(`[EV Slot] Effective departure time: ${effectiveDepartureTime}, target SoC: ${effectiveTargetSoc}%, mode: ${chargeMode}`);
+
+    if (this.hasCapability('ev_departure_time')) {
+      await this.setCapabilityValue('ev_departure_time', String(effectiveDepartureTime)).catch(this.error);
+    }
+    if (this.hasCapability('ev_target_soc')) {
+      await this.setCapabilityValue('ev_target_soc', String(effectiveTargetSoc)).catch(this.error);
+    }
+    if (this.hasCapability('ev_next_departure')) {
+      let displayStr;
+      if (effectiveDepartureTime === 'indefinite') {
+        displayStr = `Onbepaald (${effectiveTargetSoc}%)`;
+      } else {
+        const tag = tripOverride ? 'Override' : 'Schedule';
+        displayStr = `${tag}: ${effectiveDepartureTime} (${effectiveTargetSoc}%)`;
+      }
+      await this.setCapabilityValue('ev_next_departure', displayStr).catch(this.error);
+    }
 
     const strategy = EvChargeStrategy.getStrategy({
       prices: this.pricesNextHours,
@@ -458,7 +561,7 @@ class CarChargeDevice extends GenericDevice {
       currentSoc,
       targetSoc: settings.targetSoc || 100,
       batCapacity,
-      departureTime,
+      departureTime: effectiveDepartureTime,
       timezone: tz,
       variableChargePower: settings.variableChargePower || false,
       chargeMode,
@@ -489,7 +592,148 @@ class CarChargeDevice extends GenericDevice {
       const nowLocal = new Date(now.toLocaleString('en-US', { timeZone: tz }));
       const H0 = nowLocal.getHours();
       const M0 = Math.floor(nowLocal.getMinutes() / this.priceInterval) * this.priceInterval;
+      const slotsPerHour = 60 / this.priceInterval;
+      const currentSlotInDay = Math.floor((H0 + (M0 / 60)) * slotsPerHour);
+      const totalDaySlots = 24 * slotsPerHour;
 
+      const todayStartLocal = new Date(nowLocal.getFullYear(), nowLocal.getMonth(), nowLocal.getDate(), 0, 0, 0, 0);
+      const todayStartMs = todayStartLocal.getTime();
+      const intervalMs = (this.priceInterval || 60) * 60 * 1000;
+      const fallbackPrice = (this.pricesNextHours && this.pricesNextHours[0]) || 0.25;
+
+      // 1. Image 1: Yesterday (00:00 to 23:59 Yesterday)
+      const yesterdayStartMs = todayStartMs - (24 * 60 * 60 * 1000);
+      const yesterdayStrategy = {};
+
+      for (let i = 0; i < totalDaySlots; i += 1) {
+        const slotStartMs = yesterdayStartMs + (i * intervalMs);
+        const slotEndMs = slotStartMs + intervalMs;
+        let actualP = this.getActualPowerForInterval(slotStartMs, slotEndMs);
+        if (actualP === null) actualP = 0;
+
+        yesterdayStrategy[i] = {
+          power: 0,
+          actualPower: actualP,
+          duration: 0,
+          soc: null,
+          price: fallbackPrice,
+          isForecast: false,
+        };
+      }
+
+      const chartYesterday = await getChargeChart(
+        { scheme: JSON.stringify(yesterdayStrategy) },
+        0,
+        totalDaySlots,
+        chargePower,
+        0,
+        this.priceInterval,
+        null,
+      );
+
+      this.chartYesterdayCharge = chartYesterday;
+      if (!this.yesterdayChargeImage) {
+        this.yesterdayChargeImage = await this.homey.images.createImage();
+        this.yesterdayChargeImage.setStream(async (stream) => imageUrlToStream(this.chartYesterdayCharge, stream, this));
+        await this.setCameraImage('yesterdayChargeChart', ` ${this.homey.__('yesterday')}`, this.yesterdayChargeImage);
+      }
+      await this.yesterdayChargeImage.update().catch(this.error);
+
+      // 2. Image 2: Today (00:00 to 23:59 Today)
+      const todayStrategy = {};
+
+      for (let i = 0; i < totalDaySlots; i += 1) {
+        const slotStartMs = todayStartMs + (i * intervalMs);
+        const slotEndMs = slotStartMs + intervalMs;
+        const isPastOrPresent = slotStartMs <= now.getTime();
+        let actualP = this.getActualPowerForInterval(slotStartMs, slotEndMs);
+        if (isPastOrPresent && actualP === null) actualP = 0;
+
+        if (i < currentSlotInDay) {
+          todayStrategy[i] = {
+            power: 0,
+            actualPower: actualP,
+            duration: 0,
+            soc: currentSoc,
+            price: fallbackPrice,
+            isForecast: true,
+          };
+        } else {
+          const stratIdx = i - currentSlotInDay;
+          if (strategy && strategy[stratIdx]) {
+            todayStrategy[i] = {
+              ...strategy[stratIdx],
+              actualPower: isPastOrPresent ? actualP : (strategy[stratIdx].actualPower || null),
+            };
+          } else {
+            todayStrategy[i] = {
+              power: 0,
+              actualPower: isPastOrPresent ? actualP : null,
+              duration: 0,
+              soc: currentSoc,
+              price: fallbackPrice,
+              isForecast: true,
+            };
+          }
+        }
+      }
+
+      const chartToday = await getChargeChart(
+        { scheme: JSON.stringify(todayStrategy) },
+        0,
+        totalDaySlots,
+        chargePower,
+        0,
+        this.priceInterval,
+        null,
+      );
+
+      this.chartTodayCharge = chartToday;
+      if (!this.todayChargeImage) {
+        this.todayChargeImage = await this.homey.images.createImage();
+        this.todayChargeImage.setStream(async (stream) => imageUrlToStream(this.chartTodayCharge, stream, this));
+        await this.setCameraImage('todayChargeChart', ` ${this.homey.__('today')}`, this.todayChargeImage);
+      }
+      await this.todayChargeImage.update().catch(this.error);
+
+      // 2. Image 2: Tomorrow (00:00 to 23:59 Tomorrow)
+      const tomorrowStrategy = {};
+      const remainingTodaySlots = totalDaySlots - currentSlotInDay;
+
+      for (let i = 0; i < totalDaySlots; i += 1) {
+        const stratIdx = remainingTodaySlots + i;
+        if (strategy && strategy[stratIdx]) {
+          tomorrowStrategy[i] = strategy[stratIdx];
+        } else {
+          tomorrowStrategy[i] = {
+            power: 0,
+            duration: 0,
+            soc: null,
+            price: null,
+            isForecast: true,
+          };
+        }
+      }
+
+      const chartTomorrow = await getChargeChart(
+        { scheme: JSON.stringify(tomorrowStrategy) },
+        0,
+        totalDaySlots,
+        chargePower,
+        0,
+        this.priceInterval,
+        null,
+      );
+
+      this.chartTomorrowCharge = chartTomorrow;
+      if (!this.tomorrowChargeImage) {
+        this.tomorrowChargeImage = await this.homey.images.createImage();
+        this.tomorrowChargeImage.setStream(async (stream) => imageUrlToStream(this.chartTomorrowCharge, stream, this));
+        await this.setCameraImage('tomorrowChargeChart', ` ${this.homey.__('tomorrow')}`, this.tomorrowChargeImage);
+      }
+      await this.tomorrowChargeImage.update().catch(this.error);
+
+      // 3. Image 3: Next Hours (Rolling Window starting from current hour H0)
       const chartNextHours = await getChargeChart(
         { scheme: JSON.stringify(strategy) },
         H0 + (M0 / 60),
@@ -518,7 +762,7 @@ class CarChargeDevice extends GenericDevice {
       let api;
       try {
         api = this.homey.app.api;
-      } catch (e) {}
+      } catch (e) { }
       if (!api) {
         this.log('[EV Slot] Homey API not ready for Insights learning.');
         return;
@@ -607,12 +851,49 @@ class CarChargeDevice extends GenericDevice {
         return;
       }
 
+      if (!Array.isArray(this.powerHistory) || this.powerHistory.length < 50) {
+        this.powerHistory = powerEntries.map((e) => ({
+          time: typeof e.t === 'number' ? e.t : new Date(e.t).getTime(),
+          power: Math.round(e.v || 0),
+        }));
+        await this.setStoreValue('powerHistory', this.powerHistory).catch(this.error);
+        this.log(`[EV Slot] Populated ${this.powerHistory.length} power history entries from Insights.`);
+      }
+
+      const chargingPowers = powerEntries
+        .map((e) => e.v)
+        .filter((p) => typeof p === 'number' && p > 500)
+        .sort((a, b) => a - b);
+
+      this.log(`[EV Power Auto-Detect] Found ${chargingPowers.length} active charging entries (>500W) in history.`);
+      if (chargingPowers.length > 0) {
+        const minP = Math.round(chargingPowers[0]);
+        const p50P = Math.round(chargingPowers[Math.floor(chargingPowers.length * 0.50)]);
+        const p90P = Math.round(chargingPowers[Math.floor(chargingPowers.length * 0.90)]);
+        const p95P = Math.round(chargingPowers[Math.floor(chargingPowers.length * 0.95)]);
+        const p99P = Math.round(chargingPowers[Math.floor(chargingPowers.length * 0.99)]);
+        const maxP = Math.round(chargingPowers[chargingPowers.length - 1]);
+        this.log(`[EV Power Auto-Detect] History Percentiles (Watts) -> min: ${minP}W, 50th: ${p50P}W, 90th: ${p90P}W, 95th: ${p95P}W, 99th: ${p99P}W, max: ${maxP}W`);
+
+        const detectedMax = Math.round(p99P / 100) * 100;
+        this.log(`[EV Power Auto-Detect] Selected peak power estimate (99th percentile): ${detectedMax} W`);
+        if (detectedMax >= 1000) {
+          await this.setStoreValue('detectedMaxPower', detectedMax);
+          const currentSetting = this.getSettings().chargePower;
+          if (!currentSetting || currentSetting === 11000) {
+            await this.setSettings({ chargePower: detectedMax }).catch(this.error);
+            this.log(`[EV Power Auto-Detect] Automatically updated chargePower setting from default to detected ${detectedMax} W`);
+          }
+        }
+      }
+
       this.socForecastModel = EvDepartureStrategy.bootstrapFromHistory(
         powerEntries, socEntries, tz, batCap,
       );
       await this.setStoreValue('socForecastModel', this.socForecastModel).catch(this.error);
       await this._updateLearnedProfileSettings();
       this.log('[EV Slot] Departure learning complete. Model updated from history.');
+      await this.updateChargeChart().catch((err) => this.error(err));
     } catch (err) {
       this.error('[EV Slot] learnDeparturePattern failed:', err);
     }

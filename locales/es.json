@@ -1,7 +1,10 @@
 {
+  "yesterday": "Ayer",
   "today": "Hoy",
   "tomorrow": "Mañana",
   "nextHours": "Próximas horas",
+  "distribution": "Distribución",
+  "weekly": "Semanal",
   "device_migrating": "El dispositivo está migrando. ¡Por favor espere!",
   "source_device_missing_retry": "Falta el dispositivo de origen. Reintentar en 10 minutos.",
   "source_device_missing_retrying": "Falta el dispositivo de origen. Reintentando ..",

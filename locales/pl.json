@@ -1,7 +1,10 @@
 {
+  "yesterday": "Wczoraj",
   "today": "Dzisiaj",
   "tomorrow": "Jutro",
   "nextHours": "Następne godziny",
+  "distribution": "Dystrybucja",
+  "weekly": "Tygodniowy",
   "device_migrating": "Urządzenie jest migrowane. Proszę czekać!",
   "source_device_missing_retry": "Brak urządzenia źródłowego. Spróbuj ponownie za 10 minut.",
   "source_device_missing_retrying": "Brak urządzenia źródłowego. Ponawianie ..",

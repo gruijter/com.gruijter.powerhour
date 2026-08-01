@@ -424,7 +424,7 @@ class GridDevice extends GenericDevice {
       if (!this.gridYesterdayImage) {
         this.gridYesterdayImage = await this.homey.images.createImage();
         this.gridYesterdayImage.setStream(async (stream) => imageUrlToStream(this.chartGridYesterday, stream, this));
-        await this.setCameraImage('gridYesterday', 'In-house Usage Yesterday', this.gridYesterdayImage);
+        await this.setCameraImage('gridYesterday', ` ${this.homey.__('yesterday')}`, this.gridYesterdayImage);
       }
       await this.gridYesterdayImage.update().catch(this.error);
     }
@@ -436,7 +436,7 @@ class GridDevice extends GenericDevice {
       if (!this.gridTodayImage) {
         this.gridTodayImage = await this.homey.images.createImage();
         this.gridTodayImage.setStream(async (stream) => imageUrlToStream(this.chartGridToday, stream, this));
-        await this.setCameraImage('gridToday', 'In-house Usage Today', this.gridTodayImage);
+        await this.setCameraImage('gridToday', ` ${this.homey.__('today')}`, this.gridTodayImage);
       }
       await this.gridTodayImage.update().catch(this.error);
     }
@@ -449,7 +449,7 @@ class GridDevice extends GenericDevice {
         if (!this.gridTomorrowImage) {
           this.gridTomorrowImage = await this.homey.images.createImage();
           this.gridTomorrowImage.setStream(async (stream) => imageUrlToStream(this.chartGridTomorrow, stream, this));
-          await this.setCameraImage('gridTomorrow', 'In-house Usage Tomorrow', this.gridTomorrowImage);
+          await this.setCameraImage('gridTomorrow', ` ${this.homey.__('tomorrow')}`, this.gridTomorrowImage);
         }
         await this.gridTomorrowImage.update().catch(this.error);
       }
@@ -463,7 +463,7 @@ class GridDevice extends GenericDevice {
         if (!this.gridWeeklyImage) {
           this.gridWeeklyImage = await this.homey.images.createImage();
           this.gridWeeklyImage.setStream(async (stream) => imageUrlToStream(this.chartGridWeekly, stream, this));
-          await this.setCameraImage('gridWeekly', 'Weekly Baseline', this.gridWeeklyImage);
+          await this.setCameraImage('gridWeekly', ` ${this.homey.__('weekly')}`, this.gridWeeklyImage);
         }
         await this.gridWeeklyImage.update().catch(this.error);
       }

@@ -1,7 +1,10 @@
 {
+  "yesterday": "I går",
   "today": "I dag",
   "tomorrow": "I morgen",
   "nextHours": "Næste timer",
+  "distribution": "Fordeling",
+  "weekly": "Ugentlig",
   "device_migrating": "Enheden migrerer. Vent venligst!",
   "source_device_missing_retry": "Kildeenhed mangler. Prøv igen om 10 minutter.",
   "source_device_missing_retrying": "Kildeenhed mangler. Prøver igen ..",

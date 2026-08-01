@@ -1,0 +1,14 @@
+{
+  "type": "string",
+  "title": {
+    "en": "Next Departure",
+    "nl": "Volgend Vertrek",
+    "de": "Nächste Abfahrt",
+    "fr": "Prochain départ"
+  },
+  "uiComponent": "sensor",
+  "icon": "/assets/charged.svg",
+  "getable": true,
+  "setable": false,
+  "insights": false
+}

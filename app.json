@@ -13639,9 +13639,7 @@
       },
       "deprecated": true,
       "class": "other",
-      "capabilities": [
-        "ev_charge_mode"
-      ],
+      "capabilities": [],
       "capabilitiesOptions": {
         "meter_power": {
           "decimals": 4
@@ -13728,7 +13726,13 @@
                 "ru": "Макс. мощность зарядки (Вт)",
                 "ar": "الحد الأقصى لطاقة الشحن (واط)"
               },
-              "value": 11000,
+              "hint": {
+                "en": "Set to 0 to auto-detect maximum charging speed from charger history and live measurements.",
+                "nl": "Stel in op 0 voor automatische detectie van de laadsnelheid uit historie en metingen.",
+                "de": "Auf 0 setzen, um die maximale Ladeleistung automatisch aus Historie und Messungen zu erkennen.",
+                "fr": "Réglez sur 0 pour détecter automatiquement la vitesse de charge à partir de l'historique et des mesures."
+              },
+              "value": 0,
               "min": 0,
               "decimals": 0
             },
@@ -21711,6 +21715,498 @@
             "nl": "Uit",
             "de": "Aus",
             "fr": "Désactivé"
+          }
+        }
+      ]
+    },
+    "ev_departure_time": {
+      "type": "enum",
+      "title": {
+        "en": "Departure Time",
+        "nl": "Vertrektijd",
+        "de": "Abfahrtszeit",
+        "fr": "Heure de départ"
+      },
+      "uiComponent": "picker",
+      "getable": true,
+      "setable": true,
+      "values": [
+        {
+          "id": "indefinite",
+          "title": {
+            "en": "No fixed departure (Indefinite)",
+            "nl": "Geen vaste vertrektijd (Onbepaald)",
+            "de": "Keine feste Abfahrtszeit (Unbefristet)"
+          }
+        },
+        {
+          "id": "until_next_schedule",
+          "title": {
+            "en": "Until next schedule",
+            "nl": "Tot volgend vertrekschema",
+            "de": "Bis zum nächsten Zeitplan"
+          }
+        },
+        {
+          "id": "00:00",
+          "title": {
+            "en": "00:00",
+            "nl": "00:00"
+          }
+        },
+        {
+          "id": "00:30",
+          "title": {
+            "en": "00:30",
+            "nl": "00:30"
+          }
+        },
+        {
+          "id": "01:00",
+          "title": {
+            "en": "01:00",
+            "nl": "01:00"
+          }
+        },
+        {
+          "id": "01:30",
+          "title": {
+            "en": "01:30",
+            "nl": "01:30"
+          }
+        },
+        {
+          "id": "02:00",
+          "title": {
+            "en": "02:00",
+            "nl": "02:00"
+          }
+        },
+        {
+          "id": "02:30",
+          "title": {
+            "en": "02:30",
+            "nl": "02:30"
+          }
+        },
+        {
+          "id": "03:00",
+          "title": {
+            "en": "03:00",
+            "nl": "03:00"
+          }
+        },
+        {
+          "id": "03:30",
+          "title": {
+            "en": "03:30",
+            "nl": "03:30"
+          }
+        },
+        {
+          "id": "04:00",
+          "title": {
+            "en": "04:00",
+            "nl": "04:00"
+          }
+        },
+        {
+          "id": "04:30",
+          "title": {
+            "en": "04:30",
+            "nl": "04:30"
+          }
+        },
+        {
+          "id": "05:00",
+          "title": {
+            "en": "05:00",
+            "nl": "05:00"
+          }
+        },
+        {
+          "id": "05:30",
+          "title": {
+            "en": "05:30",
+            "nl": "05:30"
+          }
+        },
+        {
+          "id": "06:00",
+          "title": {
+            "en": "06:00",
+            "nl": "06:00"
+          }
+        },
+        {
+          "id": "06:30",
+          "title": {
+            "en": "06:30",
+            "nl": "06:30"
+          }
+        },
+        {
+          "id": "07:00",
+          "title": {
+            "en": "07:00",
+            "nl": "07:00"
+          }
+        },
+        {
+          "id": "07:30",
+          "title": {
+            "en": "07:30",
+            "nl": "07:30"
+          }
+        },
+        {
+          "id": "08:00",
+          "title": {
+            "en": "08:00",
+            "nl": "08:00"
+          }
+        },
+        {
+          "id": "08:30",
+          "title": {
+            "en": "08:30",
+            "nl": "08:30"
+          }
+        },
+        {
+          "id": "09:00",
+          "title": {
+            "en": "09:00",
+            "nl": "09:00"
+          }
+        },
+        {
+          "id": "09:30",
+          "title": {
+            "en": "09:30",
+            "nl": "09:30"
+          }
+        },
+        {
+          "id": "10:00",
+          "title": {
+            "en": "10:00",
+            "nl": "10:00"
+          }
+        },
+        {
+          "id": "10:30",
+          "title": {
+            "en": "10:30",
+            "nl": "10:30"
+          }
+        },
+        {
+          "id": "11:00",
+          "title": {
+            "en": "11:00",
+            "nl": "11:00"
+          }
+        },
+        {
+          "id": "11:30",
+          "title": {
+            "en": "11:30",
+            "nl": "11:30"
+          }
+        },
+        {
+          "id": "12:00",
+          "title": {
+            "en": "12:00",
+            "nl": "12:00"
+          }
+        },
+        {
+          "id": "12:30",
+          "title": {
+            "en": "12:30",
+            "nl": "12:30"
+          }
+        },
+        {
+          "id": "13:00",
+          "title": {
+            "en": "13:00",
+            "nl": "13:00"
+          }
+        },
+        {
+          "id": "13:30",
+          "title": {
+            "en": "13:30",
+            "nl": "13:30"
+          }
+        },
+        {
+          "id": "14:00",
+          "title": {
+            "en": "14:00",
+            "nl": "14:00"
+          }
+        },
+        {
+          "id": "14:30",
+          "title": {
+            "en": "14:30",
+            "nl": "14:30"
+          }
+        },
+        {
+          "id": "15:00",
+          "title": {
+            "en": "15:00",
+            "nl": "15:00"
+          }
+        },
+        {
+          "id": "15:30",
+          "title": {
+            "en": "15:30",
+            "nl": "15:30"
+          }
+        },
+        {
+          "id": "16:00",
+          "title": {
+            "en": "16:00",
+            "nl": "16:00"
+          }
+        },
+        {
+          "id": "16:30",
+          "title": {
+            "en": "16:30",
+            "nl": "16:30"
+          }
+        },
+        {
+          "id": "17:00",
+          "title": {
+            "en": "17:00",
+            "nl": "17:00"
+          }
+        },
+        {
+          "id": "17:30",
+          "title": {
+            "en": "17:30",
+            "nl": "17:30"
+          }
+        },
+        {
+          "id": "18:00",
+          "title": {
+            "en": "18:00",
+            "nl": "18:00"
+          }
+        },
+        {
+          "id": "18:30",
+          "title": {
+            "en": "18:30",
+            "nl": "18:30"
+          }
+        },
+        {
+          "id": "19:00",
+          "title": {
+            "en": "19:00",
+            "nl": "19:00"
+          }
+        },
+        {
+          "id": "19:30",
+          "title": {
+            "en": "19:30",
+            "nl": "19:30"
+          }
+        },
+        {
+          "id": "20:00",
+          "title": {
+            "en": "20:00",
+            "nl": "20:00"
+          }
+        },
+        {
+          "id": "20:30",
+          "title": {
+            "en": "20:30",
+            "nl": "20:30"
+          }
+        },
+        {
+          "id": "21:00",
+          "title": {
+            "en": "21:00",
+            "nl": "21:00"
+          }
+        },
+        {
+          "id": "21:30",
+          "title": {
+            "en": "21:30",
+            "nl": "21:30"
+          }
+        },
+        {
+          "id": "22:00",
+          "title": {
+            "en": "22:00",
+            "nl": "22:00"
+          }
+        },
+        {
+          "id": "22:30",
+          "title": {
+            "en": "22:30",
+            "nl": "22:30"
+          }
+        },
+        {
+          "id": "23:00",
+          "title": {
+            "en": "23:00",
+            "nl": "23:00"
+          }
+        },
+        {
+          "id": "23:30",
+          "title": {
+            "en": "23:30",
+            "nl": "23:30"
+          }
+        }
+      ]
+    },
+    "ev_next_departure": {
+      "type": "string",
+      "title": {
+        "en": "Next Departure",
+        "nl": "Volgend Vertrek",
+        "de": "Nächste Abfahrt",
+        "fr": "Prochain départ"
+      },
+      "uiComponent": "sensor",
+      "icon": "/assets/charged.svg",
+      "getable": true,
+      "setable": false,
+      "insights": false
+    },
+    "ev_target_soc": {
+      "type": "enum",
+      "title": {
+        "en": "Target SoC",
+        "nl": "Doel SoC",
+        "de": "Ziel-SoC",
+        "fr": "SoC cible"
+      },
+      "uiComponent": "picker",
+      "getable": true,
+      "setable": true,
+      "values": [
+        {
+          "id": "100",
+          "title": {
+            "en": "100%",
+            "nl": "100%"
+          }
+        },
+        {
+          "id": "95",
+          "title": {
+            "en": "95%",
+            "nl": "95%"
+          }
+        },
+        {
+          "id": "90",
+          "title": {
+            "en": "90%",
+            "nl": "90%"
+          }
+        },
+        {
+          "id": "85",
+          "title": {
+            "en": "85%",
+            "nl": "85%"
+          }
+        },
+        {
+          "id": "80",
+          "title": {
+            "en": "80%",
+            "nl": "80%"
+          }
+        },
+        {
+          "id": "75",
+          "title": {
+            "en": "75%",
+            "nl": "75%"
+          }
+        },
+        {
+          "id": "70",
+          "title": {
+            "en": "70%",
+            "nl": "70%"
+          }
+        },
+        {
+          "id": "65",
+          "title": {
+            "en": "65%",
+            "nl": "65%"
+          }
+        },
+        {
+          "id": "60",
+          "title": {
+            "en": "60%",
+            "nl": "60%"
+          }
+        },
+        {
+          "id": "55",
+          "title": {
+            "en": "55%",
+            "nl": "55%"
+          }
+        },
+        {
+          "id": "50",
+          "title": {
+            "en": "50%",
+            "nl": "50%"
+          }
+        },
+        {
+          "id": "40",
+          "title": {
+            "en": "40%",
+            "nl": "40%"
+          }
+        },
+        {
+          "id": "30",
+          "title": {
+            "en": "30%",
+            "nl": "30%"
+          }
+        },
+        {
+          "id": "20",
+          "title": {
+            "en": "20%",
+            "nl": "20%"
           }
         }
       ]

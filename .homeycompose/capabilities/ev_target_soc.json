@@ -1,0 +1,28 @@
+{
+  "type": "enum",
+  "title": {
+    "en": "Target SoC",
+    "nl": "Doel SoC",
+    "de": "Ziel-SoC",
+    "fr": "SoC cible"
+  },
+  "uiComponent": "picker",
+  "getable": true,
+  "setable": true,
+  "values": [
+    { "id": "100", "title": { "en": "100%", "nl": "100%" } },
+    { "id": "95", "title": { "en": "95%", "nl": "95%" } },
+    { "id": "90", "title": { "en": "90%", "nl": "90%" } },
+    { "id": "85", "title": { "en": "85%", "nl": "85%" } },
+    { "id": "80", "title": { "en": "80%", "nl": "80%" } },
+    { "id": "75", "title": { "en": "75%", "nl": "75%" } },
+    { "id": "70", "title": { "en": "70%", "nl": "70%" } },
+    { "id": "65", "title": { "en": "65%", "nl": "65%" } },
+    { "id": "60", "title": { "en": "60%", "nl": "60%" } },
+    { "id": "55", "title": { "en": "55%", "nl": "55%" } },
+    { "id": "50", "title": { "en": "50%", "nl": "50%" } },
+    { "id": "40", "title": { "en": "40%", "nl": "40%" } },
+    { "id": "30", "title": { "en": "30%", "nl": "30%" } },
+    { "id": "20", "title": { "en": "20%", "nl": "20%" } }
+  ]
+}

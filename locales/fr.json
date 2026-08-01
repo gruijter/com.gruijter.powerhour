@@ -1,7 +1,10 @@
 {
+  "yesterday": "Hier",
   "today": "Aujourd'hui",
   "tomorrow": "Demain",
   "nextHours": "Prochaines heures",
+  "distribution": "Distribution",
+  "weekly": "Hebdomadaire",
   "device_migrating": "L'appareil est en cours de migration. Veuillez patienter !",
   "source_device_missing_retry": "L'appareil source est manquant. Réessayez dans 10 minutes.",
   "source_device_missing_retrying": "L'appareil source est manquant. Nouvelle tentative ..",

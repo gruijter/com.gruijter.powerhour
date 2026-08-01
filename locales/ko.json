@@ -1,7 +1,10 @@
 {
+  "yesterday": "어제",
   "today": "오늘",
   "tomorrow": "내일",
   "nextHours": "다음 시간",
+  "distribution": "분포",
+  "weekly": "주간",
   "device_migrating": "장치가 마이그레이션 중입니다. 잠시만 기다려주세요!",
   "source_device_missing_retry": "소스 장치가 없습니다. 10분 후에 다시 시도하십시오.",
   "source_device_missing_retrying": "소스 장치가 없습니다. 다시 시도 중 ..",

@@ -947,7 +947,7 @@ class SolarDevice extends GenericDevice {
       if (!this.solarTodayImage) {
         this.solarTodayImage = await this.homey.images.createImage();
         this.solarTodayImage.setStream(async (stream) => imageUrlToStream(this.chartSolarToday, stream, this));
-        await this.setCameraImage('solarToday', 'Solar This Day', this.solarTodayImage);
+        await this.setCameraImage('solarToday', ` ${this.homey.__('today')}`, this.solarTodayImage);
       }
       await this.solarTodayImage.update();
     }
@@ -964,7 +964,7 @@ class SolarDevice extends GenericDevice {
         if (!this.solarTomorrowImage) {
           this.solarTomorrowImage = await this.homey.images.createImage();
           this.solarTomorrowImage.setStream(async (stream) => imageUrlToStream(this.chartSolarTomorrow, stream, this));
-          await this.setCameraImage('solarTomorrow', 'Solar Tomorrow', this.solarTomorrowImage);
+          await this.setCameraImage('solarTomorrow', ` ${this.homey.__('tomorrow')}`, this.solarTomorrowImage);
         }
         await this.solarTomorrowImage.update();
       }
@@ -988,7 +988,7 @@ class SolarDevice extends GenericDevice {
         if (!this.solarYesterdayImage) {
           this.solarYesterdayImage = await this.homey.images.createImage();
           this.solarYesterdayImage.setStream(async (stream) => imageUrlToStream(this.chartSolarYesterday, stream, this));
-          await this.setCameraImage('solarYesterday', 'Solar Yesterday', this.solarYesterdayImage);
+          await this.setCameraImage('solarYesterday', ` ${this.homey.__('yesterday')}`, this.solarYesterdayImage);
         }
         await this.solarYesterdayImage.update();
       }
@@ -1002,7 +1002,7 @@ class SolarDevice extends GenericDevice {
         if (!this.solarDistributionImage) {
           this.solarDistributionImage = await this.homey.images.createImage();
           this.solarDistributionImage.setStream(async (stream) => imageUrlToStream(this.chartSolarDistribution, stream, this));
-          await this.setCameraImage('solarDistribution', 'Solar Distribution', this.solarDistributionImage);
+          await this.setCameraImage('solarDistribution', ` ${this.homey.__('distribution')}`, this.solarDistributionImage);
         }
         await this.solarDistributionImage.update();
       }

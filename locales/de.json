@@ -1,7 +1,10 @@
 {
+  "yesterday": "Gestern",
   "today": "Heute",
   "tomorrow": "Morgen",
   "nextHours": "Nächste Stunden",
+  "distribution": "Verteilung",
+  "weekly": "Wöchentlich",
   "device_migrating": "Gerät wird migriert. Bitte warten!",
   "source_device_missing_retry": "Quellgerät fehlt. Erneuter Versuch in 10 Minuten.",
   "source_device_missing_retrying": "Quellgerät fehlt. Erneuter Versuch ..",

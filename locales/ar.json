@@ -1,7 +1,10 @@
 {
+  "yesterday": "أمس",
   "today": "اليوم",
   "tomorrow": "غداً",
   "nextHours": "الساعات القادمة",
+  "distribution": "التوزيع",
+  "weekly": "أسبوعي",
   "device_migrating": "الجهاز قيد الترحيل. يرجى الانتظار!",
   "source_device_missing_retry": "الجهاز المصدر مفقود. إعادة المحاولة خلال 10 دقائق.",
   "source_device_missing_retrying": "الجهاز المصدر مفقود. جاري إعادة المحاولة ..",

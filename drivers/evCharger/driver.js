@@ -17,6 +17,7 @@ const driverSpecifics = {
     'meter_money_last_month', 'meter_money_this_month', 'meter_money_last_year', 'meter_money_this_year',
     'meter_money_this_month_avg', 'meter_money_this_year_avg',
     'meter_tariff', 'meter_power', 'measure_watt_avg', 'last_minmax_reset', 'measure_watt_min', 'measure_watt_max',
+    'ev_charge_mode', 'ev_next_departure', 'ev_target_soc', 'ev_departure_time',
   ],
 };
 

@@ -1,7 +1,10 @@
 {
+  "yesterday": "Gisteren",
   "today": "Vandaag",
   "tomorrow": "Morgen",
   "nextHours": "Komende uren",
+  "distribution": "Verdeling",
+  "weekly": "Wekelijks",
   "device_migrating": "Apparaat is aan het migreren. Even geduld!",
   "source_device_missing_retry": "Bronapparaat ontbreekt. Opnieuw proberen over 10 minuten.",
   "source_device_missing_retrying": "Bronapparaat ontbreekt. Opnieuw proberen ..",
