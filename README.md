@@ -58,12 +58,40 @@ For source devices with non-standard capability names or split tariffs:
 
 ---
 
-## 📡 Market Data Providers
+## 📡 Data Sources, Online Services & Credits
 
-PBTH integrates data directly from official European energy market exchanges:
-- **Electricity Spot Prices:** [ENTSO-E Transparency Platform](https://transparency.entsoe.eu/) & [Nordpool](https://www.nordpoolgroup.com/)
-- **Gas Spot Prices:** [EEX (European Energy Exchange)](https://www.eex.com/) & [EasyEnergy](https://www.easyenergy.com/)
-- **AI Price Forecasting:** [Stekker.ai](https://stekker.ai/)
+Power by the Hour integrates data from external market data providers and online services to retrieve spot pricing, forecasts, exchange rates, and chart rendering.
+
+### 🌐 Data Sources & Credits
+- **ENTSO-E (European Network of Transmission System Operators for Electricity):** The electricity pricing information is fetched from ENTSO-E.
+  - Website: [ENTSO-E Transparency Platform](https://newtransparency.entsoe.eu/)
+  - Terms of Use: [ENTSO-E Data Terms and Conditions](https://transparency.entsoe.eu/content/static_content/Static%20content/data%20terms%20and%20conditions/data-terms-and-conditions.html)
+- **EEX (European Energy Exchange):** The TTF Gas spot pricing (EOD and EGSI) is coming from EEX.
+  - Website: [EEX](https://www.eex.com/)
+  - Terms of Use: [EEX Terms of Use](https://www.eex.com/en/terms-of-use)
+- **EasyEnergy / Nieuwestroom:** The TTF LEBA gas pricing is derived from EasyEnergy as seen on [Nieuwestroom Gas Handelsbeurs](https://www.nieuwestroom.nl/energiemarkt/energiebeurzen/gas-handelsbeurs/).
+  - Website: [EasyEnergy](https://www.easyenergy.com/) | [Nieuwestroom](https://www.nieuwestroom.nl/)
+  - Terms of Use: [Nieuwestroom Voorwaarden](https://www.nieuwestroom.nl/voorwaarden/)
+- **EnergyZero:** Dynamic electricity and gas retail prices for the Netherlands.
+  - Website: [EnergyZero](https://www.energyzero.nl/)
+  - Terms of Use: [EnergyZero Algemene Voorwaarden](https://www.energyzero.nl/voorwaarden)
+- **Nord Pool:** Day-ahead electricity spot prices for Nordic, Baltic, and European bidding zones.
+  - Website: [Nord Pool Group](https://www.nordpoolgroup.com/)
+  - Terms of Use: [Nord Pool Terms & Conditions](https://www.nordpoolgroup.com/en/About-us/Terms-and-conditions-for-website-use/)
+- **Open-Meteo:** Solar radiation and weather forecast data for solar production forecasting.
+  - Website: [Open-Meteo](https://open-meteo.com/)
+  - Terms & License: [Open-Meteo Terms & Attribution](https://open-meteo.com/en/terms)
+- **Stekker.ai:** AI price forecasting and smart charging optimization data.
+  - Website: [Stekker.ai](https://stekker.ai/)
+  - Terms of Use: [Stekker Terms](https://stekker.app/terms)
+- **European Central Bank (ECB):** Foreign exchange reference rates for multi-currency conversion.
+  - Website: [European Central Bank](https://www.ecb.europa.eu/)
+  - Terms of Use: [ECB Copyright & Disclaimer](https://www.ecb.europa.eu/services/disclaimer/html/index.en.html)
+
+### 📊 Online Services & Tools
+- **QuickChart:** Online chart rendering service used to generate dynamic graph images for Homey devices and flow notifications.
+  - Website: [QuickChart](https://quickchart.io/)
+  - Terms of Use: [QuickChart Terms of Service](https://quickchart.io/terms/)
 
 ---
 
