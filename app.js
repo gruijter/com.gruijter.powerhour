@@ -153,6 +153,67 @@ class MyApp extends Homey.App {
     flows.register();
   }
 
+  /**
+   * Build the normalized DAP prices payload for the inter-app API.
+   * Includes all future slots (from the current period onwards) for every
+   * configured dap, dap15 and dapg device that has valid prices.
+   *
+   * @returns {object} payload  { generatedAt, prices: [...] }
+   */
+  getDapPricesPayload() {
+    const DAP_DRIVER_IDS = ['dap', 'dap15', 'dapg'];
+    const priceEntries = [];
+    const now = new Date();
+
+    DAP_DRIVER_IDS.forEach((driverId) => {
+      let driver;
+      try {
+        driver = this.homey.drivers.getDriver(driverId);
+      } catch (e) {
+        return; // driver not loaded (e.g. no dapg devices paired)
+      }
+
+      const devices = driver.getDevices();
+      devices.forEach((device) => {
+        if (!device.prices || !device.prices[0] || !device.prices[0].time) return;
+
+        const settings = device.settings || device.getSettings();
+        const priceInterval = device.priceInterval || 60;
+
+        // Only future slots (>= start of current period)
+        const periodMs = priceInterval * 60 * 1000;
+        const currentPeriodStart = new Date(Math.floor(now.getTime() / periodMs) * periodMs);
+
+        const slots = device.prices
+          .filter((p) => new Date(p.time) >= currentPeriodStart)
+          .sort((a, b) => new Date(a.time) - new Date(b.time))
+          .map((p) => ({
+            time: new Date(p.time).toISOString(),
+            importPrice: p.muPrice,
+            exportPrice: p.exportPrice,
+            isForecast: p.isForecast || false,
+          }));
+
+        if (slots.length === 0) return;
+
+        priceEntries.push({
+          deviceId: device.getData().id,
+          deviceName: device.getName(),
+          driverType: driverId,
+          biddingZone: settings.biddingZone || '',
+          currency: settings.currency || '€',
+          priceInterval,
+          slots,
+        });
+      });
+    });
+
+    return {
+      generatedAt: now.toISOString(),
+      prices: priceEntries,
+    };
+  }
+
 }
 
 module.exports = MyApp;
