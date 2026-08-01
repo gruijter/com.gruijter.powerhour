@@ -1,81 +1,84 @@
 # Power by the Hour
 
-Get data from a Homey power/gas/water meter device, and show the usage / production per hour, per day, per month and per year. Know the monetary value and use dynamic tariffs. Know how much your Always-on appliances are using and safe hundreds of Euros per year!
+**Power by the Hour (PBTH)** turns Homey into a complete Home Energy Management System. Track power, gas, and water usage, forecast solar yield, optimize home battery storage, and automate appliances using dynamic European Day-Ahead energy spot prices.
 
-This app can be used for instance together with the Enelogic and Youless app, the Plugwise Smile P1 app, the BeeClear app, the Solar Power app, the Homewizard app, Tibber pulse, or any other app that has a cumulative Energy Meter (meter_power capability), a Power Meter (measure_power capability) a cumulative Gas Meter (meter_gas capability), or a cumulative Water Meter (meter_water capability).
+<img src="./assets/images/large.jpg" alt="Power by the Hour" width="500"/>
 
-<img src="https://global.discourse-cdn.com/business4/uploads/athom/original/3X/5/5/55d1f95545e8389c18729221bf901a71321811fb.jpeg" alt="device information tile" width="375"/>
- <br>
- <br>
- <br>
+---
 
-## PBTH summarizer device setup
-Add a PBTH device and select if you want to summarize power, gas or water. A list of all compatible source devices is shown. Just select the one you want to add. Note that PBTH allows you to use power meters (Watt) as source device. This is however a fallback method that is less accurate then when using an energy meter (kWh) as source device. During pairing PBTH will automatically select the best available source. In the device settings you can manually switch this. If your device doesn't show up at all, you can select the VIRTUAL_METER at the bottom of the list. 
+## 🎯 Use Case Directory
 
-<img src="https://global.discourse-cdn.com/business4/uploads/athom/original/3X/1/2/12a1275dde87ca9c92c8d79ce12db4f586e2866b.jpeg" alt="driver selection" width="250"/>
-<img src="https://global.discourse-cdn.com/business4/uploads/athom/optimized/3X/5/0/50cf03f760502098a2a017832b2b1aeb9948c6d5_2_225x500.jpeg" alt="device selection" width="200"/>  
-<br>
-<br>
-<br>
+Select a use case below for detailed setup instructions, settings guides, and community-proven flow recipes:
 
-## Using the PBTH Virtual Meter Summarizer
-Selecting the virtual meter will allow any app/device that has an energy(kWh)/gas(m3)/water(m3) meter to use PBTH, even when the source app is using non-standard meter capability naming. The meter values must then be send to PBTH via a flow. Note that the meter value for energy must be the total kWh, meaning (consumed_high + consumed_low - returned_high - returned_low).
+| Use Case | Core Driver | Detailed Guide |
+|---|---|---|
+| ⚡ **Track Electricity Usage & Standby Power** | Power Summarizer (`power`) | [→ README.power.md](./README.power.md) |
+| 🛢️ **Monitor Gas Consumption & Leak Alarms** | Gas Summarizer (`gas`) | [→ README.gas.md](./README.gas.md) |
+| 💧 **Track Water Usage & Dripping Taps** | Water Summarizer (`water`) | [→ README.water.md](./README.water.md) |
+| ☀️ **Forecast Solar Production & Self-Consumption** | Solar Forecaster (`solar`) | [→ README.solar.md](./README.solar.md) |
+| 🔋 **Optimize Home Battery Balancing & ROI** | Home Battery Manager (`battery`) | [→ README.battery.md](./README.battery.md) |
+| 💶 **Dynamic Electricity Spot Prices (1H & 15M)** | Day-Ahead Pricing (`dap` / `dap15`) | [→ README.dap.md](./README.dap.md) |
+| ⚡ **Dynamic Gas Spot Prices** | Gas Day-Ahead Pricing (`dapg`) | [→ README.dapg.md](./README.dapg.md) |
+| 💻 **App-to-App & HomeyScript Developer API** | Inter-App API | [→ README.dap-api.md](./README.dap-api.md) |
 
-<img src="https://global.discourse-cdn.com/business4/uploads/athom/original/3X/5/5/55e82da0ff03a2e8357db5e83bf71d458e72040b.png" alt="virtual meter upload flow" width="200"/>  
- <br>
- <br>
- <br>
+---
 
-## Setting summarizer meter readings
-From the device settings you can enter the meter readings as they were at the beginning of a period (this month, this year). You only need to do this once after adding the PBTH device. The meter values will automatically be updated every hour.  
-<br>
+## 🚀 Quick Start — The Most Popular Setup
 
-## Setting tariff and money values
-**PBTH can be used with any currency.** From the device settings you can set the monetary values of various periods (month, year). You only need to do this once after adding the PBTH device. The money values will automatically be updated every hour based on the tariff you set. If your tariff only changes once once a year it is easiest to do this from the device settings. If your tariff often changes, e.g. during nights and weekends, you can dynamically set the active tariff from a flow. You can use a scheduler app to do this, or use a flow like below example.  
+Get dynamic electricity tracking running in 3 simple steps:
 
-<img src="https://global.discourse-cdn.com/business4/uploads/athom/original/3X/4/d/4d66a18295c0e18112eed0150d22ca9864a2773c.jpeg" alt="tariff change flow" width="200"/> 
-<br>
-<br>
-<br>
+1. **Add Day-Ahead Pricing:** Add a `Day-ahead Pricing` device, select your Bidding Zone (e.g. `NL`, `BE`, `DE-LU`, `NO1`, `SE3`, `DK1`), and set **Tariff Update Group** to `1` in device settings.
+2. **Add Power Summarizer:** Add a `Power Summarizer` device and select your P1 Smart Meter or main energy meter as the source.
+3. **Connect Tariff Broadcast:** Set **Tariff Update Group** to `1` in the Power Summarizer settings.
 
-## Compare usage with a yearly budget
-Real-time comparison with a yearly reference gas/electricity/water usage, based on a settable budget. Since in winter you usually use more then in summer, a distribution is applied. Next to a linear (flat) distribution, I implemented the distribution that is used by the Netherlands Government for the 2023 price ceiling (‘prijsplafond’), and a PV-system (solar panels) distribution.
+*Your Power Summarizer now updates its electricity tariff automatically every hour based on official market spot prices!*
 
-## Finding out how much your Always-On appliances are using
-The Minimum value from your main meter can be used to see how much power your always-on equipment is using (e.g. wifi routers, NAS, TV in stand-by, etc). **Every 10 Watt you save on this value will result in a yearly saving of around 90kWh (20 Euro)!** Note that if you have solar panels you can only measure this value correctly at night. The best moment is therefore just before sunrise in the morning.
+---
 
-<img src="https://global.discourse-cdn.com/business4/uploads/athom/original/3X/2/3/238b5a7c7a3495dd4e375d5b8f3621ccc97b8bf6.jpeg" alt="detecting leaks" width="200"/>  
-<br>
-<br>
-<br>
+## 💡 Shared Core Concepts
 
-## Finding out gas or water leaks
-The Minimum value can be used to detect a gas leak or water leak. If the minimum over a 24Hr period is not 0, you have a leak! Note that a leak is only detected this way if the leakage is more then 0.5 liter per minute.
-<br>
-<br>
+To avoid repeating configuration steps across guides, key shared mechanisms are explained here:
 
-## Solar Forecaster
-The app includes a powerful Solar Forecaster that learns the unique characteristics of your solar panels (orientation, shading, efficiency) over time. To use it, simply add a `Solar Panel` device. During setup, select the device that measures your solar production (e.g. an Enphase, SolarEdge, or Shelly device).
+### 1. Tariff Update Groups
+Tariff Update Groups link pricing providers (`dap`, `dap15`, `dapg`) to consumer summarizer devices (`power`, `gas`).
+- Assign a group number (e.g. `1`) to both the pricing device and the summarizer device.
+- Whenever prices update or time slots change, the pricing device automatically broadcasts updated tariffs to all summarizers in that group.
 
-The forecaster will automatically analyze the last 14 days of power history and combine it with local weather data to build a custom model for your array. It updates this model continuously. You can view the forecast for Today and Tomorrow, as well as the 'Yield Distribution' curve which shows your array's efficiency throughout the day, directly on the device interface.
-<br>
-<br>
+### 2. Annual Budget Distribution Models
+PBTH compares real-time usage against annual reference targets using seasonal distribution models:
+- **Linear:** Equal allocation for each month ($30.4\text{ days/month}$).
+- **Dutch 2023 Price Ceiling (`el_nl_2023` / `gas_nl_2023`):** Weighted according to seasonal heating and household consumption profiles.
+- **Solar PV:** Weighted according to typical European solar irradiance curves.
 
-## Using Day-Ahead pricing (EU market spot pricing)
-If you have a European energy provider that changes its pricing every hour (electricity) or every day (gas), you can use the built-in `Day-ahead Pricing` driver. Add the pricing device and select the correct Bidding Zone.
-From the device settings you can set the taxes and markups your provider is charging on top of the net purchase price. All purchase prices are in EURO, but you can set an exchange rate to any other currency. If you enable 'Send tariff' all PBTH power summarize devices will be automatically updated every hour. Use the price_changed flowcard, combined with the average price for the next 8 hours, to save money. E.g. Control the car charging per hour, start the dish-washer at the perfect moment, or even put fridges ‘on pause’ for an hour if that is cost effective.
+### 3. Virtual Meter Setup
+For source devices with non-standard capability names or split tariffs:
+1. Select **VIRTUAL_METER** during driver pairing.
+2. Push cumulative meter readings via a Flow using the action **Update Virtual Meter Value**.
+3. Pass total net cumulative energy: $\text{kWh}_{\text{total}} = (\text{consumed}_{\text{high}} + \text{consumed}_{\text{low}}) - (\text{returned}_{\text{high}} + \text{returned}_{\text{low}})$.
 
-<img src="https://global.discourse-cdn.com/business4/uploads/athom/original/3X/b/5/b536b76cdb308d7d3745e087f17280ac481600b4.jpeg" alt="1H Day-Ahead pricing" width="200"/> 
-<br>
-<br>
-<br>
+---
 
-The electricity pricing information is fetched from ENTSO-E, the European Network of Transmission System Operators for Electricity. https://newtransparency.entsoe.eu/market/energyPrices
-To ensure reliable access to ENTSO-E data and avoid shared rate limits, it is highly recommended to request your own free API key at https://transparency.entsoe.eu/ and enter it in the Advanced Settings of your Day-Ahead pricing device.
+## 📡 Market Data Providers
 
-Nordpool is used as backup for electricity pricing: https://www.nordpoolgroup.com/
-All Gas spot pricing (EOD and EGSI) is coming from EEX: https://www.eex.com/en/market-data/natural-gas/spot
-Day-Ahead Gas pricing (TTF) is derived from EnergyZero: https://www.energyzero.nl/
+PBTH integrates data directly from official European energy market exchanges:
+- **Electricity Spot Prices:** [ENTSO-E Transparency Platform](https://transparency.entsoe.eu/) & [Nordpool](https://www.nordpoolgroup.com/)
+- **Gas Spot Prices:** [EEX (European Energy Exchange)](https://www.eex.com/) & [EasyEnergy](https://www.easyenergy.com/)
+- **AI Price Forecasting:** [Stekker.ai](https://stekker.ai/)
 
-### DONATE
-If you like the app, don't hesitate to [DONATE](https://www.paypal.me/gruijter)
+---
+
+## 👨‍💻 Developer API
+
+Other Homey apps and HomeyScript can query prices or listen for real-time slot pushes via the PBTH Inter-App API:
+- `GET /dap-prices` — fetch all current future price slots.
+- Realtime event `dap-prices-updated` — emitted on slot changes and price updates.
+
+See **[README.dap-api.md](./README.dap-api.md)** for full API reference and code examples.
+
+---
+
+## ❤️ Donate & Support
+
+If Power by the Hour helps you save energy and money, consider supporting development:
+
+[![Donate with PayPal](https://img.shields.io/badge/Donate-PayPal-blue.svg)](https://www.paypal.me/gruijter)
