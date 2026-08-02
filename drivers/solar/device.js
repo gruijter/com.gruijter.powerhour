@@ -136,7 +136,7 @@ class SolarDevice extends GenericDevice {
     if (!Array.isArray(history)) history = [];
     this.powerHistory = history
       .filter((e) => e && typeof e.time === 'number' && typeof e.power === 'number')
-      .slice(-2880);
+      .slice(-576);
     if (this.powerHistory.length !== history.length) await this.setStoreValue('powerHistory', this.powerHistory);
 
     // Start loops
@@ -216,12 +216,19 @@ class SolarDevice extends GenericDevice {
         this.error('Learning update failed:', err);
       } finally {
         if (!this.isDestroyed) {
-          // Align to next 1 min slot
           const now = new Date();
+          const { start: sunStart, end: sunEnd } = SolarLearningStrategy.getSunBounds(now, this.forecastData, this.timeZone);
+          const isNight = sunStart && sunEnd && (now < sunStart || now > sunEnd);
+
           const nextSlot = new Date(now);
-          nextSlot.setMinutes(now.getMinutes() + 1, 0, 0);
+          const currentMins = now.getMinutes();
+          if (isNight) {
+            nextSlot.setMinutes(Math.floor(currentMins / 15) * 15 + 15, 0, 0);
+          } else {
+            nextSlot.setMinutes(currentMins + 1, 0, 0);
+          }
           let delay = nextSlot - now;
-          if (delay < 1000) delay += 60 * 1000;
+          if (delay < 1000) delay += (isNight ? 15 : 1) * 60 * 1000;
           this.learningTimeout = this.homey.setTimeout(loop, delay);
         }
       }
@@ -309,7 +316,7 @@ class SolarDevice extends GenericDevice {
       const lastEntry = this.powerHistory[this.powerHistory.length - 1];
       if (!lastEntry || (currentTimestamp - lastEntry.time) > 50000) {
         this.powerHistory.push({ time: currentTimestamp, power: currentPower });
-        if (this.powerHistory.length > 2880) this.powerHistory.shift();
+        if (this.powerHistory.length > 576) this.powerHistory.shift();
         if (!this.lastPowerHistorySaveTm || (currentTimestamp - this.lastPowerHistorySaveTm > 15 * 60 * 1000)) {
           await this.setStoreValue('powerHistory', this.powerHistory).catch(this.error);
           this.lastPowerHistorySaveTm = currentTimestamp;
@@ -614,7 +621,7 @@ class SolarDevice extends GenericDevice {
             this.powerHistory = this.powerHistory.concat(recentHistory);
           }
           this.powerHistory.sort((a, b) => a.time - b.time);
-          if (this.powerHistory.length > 2880) this.powerHistory = this.powerHistory.slice(-2880);
+          if (this.powerHistory.length > 576) this.powerHistory = this.powerHistory.slice(-576);
           await this.setStoreValue('powerHistory', this.powerHistory);
           this.lastPowerHistorySaveTm = Date.now();
 
@@ -939,17 +946,19 @@ class SolarDevice extends GenericDevice {
     }
 
     // 1. Today
-    const { start: todayStart, end: todayEnd } = SolarLearningStrategy.getSunBounds(now, this.forecastData, this.timeZone);
+    if (yieldFactorsUpdated || this.forecastChanged || (now.getMinutes() % 15 === 0) || !this.solarTodayImage) {
+      const { start: todayStart, end: todayEnd } = SolarLearningStrategy.getSunBounds(now, this.forecastData, this.timeZone);
 
-    const chartToday = await getSolarChart(this.forecastData, this.yieldFactors, todayStart, todayEnd, 'Forecast This Day', this.powerHistory, this.timeZone, chartPeak);
-    if (chartToday) {
-      this.chartSolarToday = chartToday;
-      if (!this.solarTodayImage) {
-        this.solarTodayImage = await this.homey.images.createImage();
-        this.solarTodayImage.setStream(async (stream) => imageUrlToStream(this.chartSolarToday, stream, this));
-        await this.setCameraImage('solarToday', ` ${this.homey.__('today')}`, this.solarTodayImage);
+      const chartToday = await getSolarChart(this.forecastData, this.yieldFactors, todayStart, todayEnd, 'Forecast This Day', this.powerHistory, this.timeZone, chartPeak);
+      if (chartToday) {
+        this.chartSolarToday = chartToday;
+        if (!this.solarTodayImage) {
+          this.solarTodayImage = await this.homey.images.createImage();
+          this.solarTodayImage.setStream(async (stream) => imageUrlToStream(this.chartSolarToday, stream, this));
+          await this.setCameraImage('solarToday', ` ${this.homey.__('today')}`, this.solarTodayImage);
+        }
+        await this.solarTodayImage.update();
       }
-      await this.solarTodayImage.update();
     }
 
     // 2. Tomorrow

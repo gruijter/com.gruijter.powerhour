@@ -172,7 +172,7 @@ class GridDevice extends GenericDevice {
         const lastEntry = this.powerHistory[this.powerHistory.length - 1];
         if (!lastEntry || (now - lastEntry.time) > 50000) {
           this.powerHistory.push({ time: now, power: safeHomePower });
-          if (this.powerHistory.length > 2880) this.powerHistory.shift();
+          if (this.powerHistory.length > 576) this.powerHistory.shift();
           if (!this.lastPowerHistorySaveTm || (now - this.lastPowerHistorySaveTm > 15 * 60 * 1000)) {
             this.setStoreValue('powerHistory', this.powerHistory).catch(this.error);
             this.lastPowerHistorySaveTm = now;
@@ -418,27 +418,31 @@ class GridDevice extends GenericDevice {
     const endOfTomorrow = new Date(startOfTomorrow.getTime() + 24 * 60 * 60 * 1000);
 
     // 1. Yesterday Chart (Forecast vs Real)
-    const chartYesterday = await getGridForecastChart(this.weeklyProfile, startOfYesterday, endOfYesterday, 'In-house Usage Yesterday', this.powerHistory, this.timeZone);
-    if (chartYesterday) {
-      this.chartGridYesterday = chartYesterday;
-      if (!this.gridYesterdayImage) {
-        this.gridYesterdayImage = await this.homey.images.createImage();
-        this.gridYesterdayImage.setStream(async (stream) => imageUrlToStream(this.chartGridYesterday, stream, this));
-        await this.setCameraImage('gridYesterday', ` ${this.homey.__('yesterday')}`, this.gridYesterdayImage);
+    if (updated || !this.gridYesterdayImage) {
+      const chartYesterday = await getGridForecastChart(this.weeklyProfile, startOfYesterday, endOfYesterday, 'In-house Usage Yesterday', this.powerHistory, this.timeZone);
+      if (chartYesterday) {
+        this.chartGridYesterday = chartYesterday;
+        if (!this.gridYesterdayImage) {
+          this.gridYesterdayImage = await this.homey.images.createImage();
+          this.gridYesterdayImage.setStream(async (stream) => imageUrlToStream(this.chartGridYesterday, stream, this));
+          await this.setCameraImage('gridYesterday', ` ${this.homey.__('yesterday')}`, this.gridYesterdayImage);
+        }
+        await this.gridYesterdayImage.update().catch(this.error);
       }
-      await this.gridYesterdayImage.update().catch(this.error);
     }
 
-    // 2. Today Chart (Forecast vs Real)
-    const chartToday = await getGridForecastChart(this.weeklyProfile, startOfToday, endOfToday, 'In-house Usage Today', this.powerHistory, this.timeZone);
-    if (chartToday) {
-      this.chartGridToday = chartToday;
-      if (!this.gridTodayImage) {
-        this.gridTodayImage = await this.homey.images.createImage();
-        this.gridTodayImage.setStream(async (stream) => imageUrlToStream(this.chartGridToday, stream, this));
-        await this.setCameraImage('gridToday', ` ${this.homey.__('today')}`, this.gridTodayImage);
+    // 2. Today Chart (Forecast vs Real - updated every 15 mins or on model update)
+    if (updated || (now.getMinutes() % 15 === 0) || !this.gridTodayImage) {
+      const chartToday = await getGridForecastChart(this.weeklyProfile, startOfToday, endOfToday, 'In-house Usage Today', this.powerHistory, this.timeZone);
+      if (chartToday) {
+        this.chartGridToday = chartToday;
+        if (!this.gridTodayImage) {
+          this.gridTodayImage = await this.homey.images.createImage();
+          this.gridTodayImage.setStream(async (stream) => imageUrlToStream(this.chartGridToday, stream, this));
+          await this.setCameraImage('gridToday', ` ${this.homey.__('today')}`, this.gridTodayImage);
+        }
+        await this.gridTodayImage.update().catch(this.error);
       }
-      await this.gridTodayImage.update().catch(this.error);
     }
 
     // 3. Tomorrow Chart (Forecast only)
@@ -566,7 +570,7 @@ class GridDevice extends GenericDevice {
         });
         this.powerHistory = Array.from(existingMap.values());
         this.powerHistory.sort((a, b) => a.time - b.time);
-        if (this.powerHistory.length > 2880) this.powerHistory = this.powerHistory.slice(-2880);
+        if (this.powerHistory.length > 576) this.powerHistory = this.powerHistory.slice(-576);
         await this.setStoreValue('powerHistory', this.powerHistory).catch(this.error);
         this.lastPowerHistorySaveTm = Date.now();
         this.log(`Merged ${historyMapped.length} historical entries into powerHistory. Total length: ${this.powerHistory.length}`);
@@ -690,7 +694,7 @@ class GridDevice extends GenericDevice {
 
         this.powerHistory = Array.from(existingMap.values());
         this.powerHistory.sort((a, b) => a.time - b.time);
-        if (this.powerHistory.length > 2880) this.powerHistory = this.powerHistory.slice(-2880);
+        if (this.powerHistory.length > 576) this.powerHistory = this.powerHistory.slice(-576);
         await this.setStoreValue('powerHistory', this.powerHistory).catch(this.error);
         this.lastPowerHistorySaveTm = Date.now();
         this.log(`Merged ${historyMapped.length} historical entries into powerHistory. Total length: ${this.powerHistory.length}`);
