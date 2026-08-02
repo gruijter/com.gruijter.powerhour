@@ -24,7 +24,7 @@ const GenericDevice = require('../../lib/genericDeviceDrivers/generic_sum_device
 const { imageUrlToStream } = require('../../lib/charts/ImageHelpers');
 const { getSolarChart, getDistributionChart } = require('../../lib/charts/SolarChart');
 const OpenMeteo = require('../../lib/providers/OpenMeteo');
-const SolarLearningStrategy = require('../../lib/strategies/SolarLearningStrategy');
+const SolarLearningStrategy = require('../../lib/helpers/SolarLearningStrategy');
 const SolarFlows = require('../../lib/flows/SolarFlows');
 
 const deviceSpecifics = {
@@ -949,7 +949,7 @@ class SolarDevice extends GenericDevice {
     if (yieldFactorsUpdated || this.forecastChanged || (now.getMinutes() % 15 === 0) || !this.solarTodayImage) {
       const { start: todayStart, end: todayEnd } = SolarLearningStrategy.getSunBounds(now, this.forecastData, this.timeZone);
 
-      const chartToday = await getSolarChart(this.forecastData, this.yieldFactors, todayStart, todayEnd, 'Forecast This Day', this.powerHistory, this.timeZone, chartPeak);
+      const chartToday = await getSolarChart(this.forecastData, this.yieldFactors, todayStart, todayEnd, 'Forecast This Day', this.powerHistory, this.timeZone, chartPeak, true);
       if (chartToday) {
         this.chartSolarToday = chartToday;
         if (!this.solarTodayImage) {
@@ -967,7 +967,7 @@ class SolarDevice extends GenericDevice {
       tomorrow.setDate(tomorrow.getDate() + 1);
       const { start: tomorrowStart, end: tomorrowEnd } = SolarLearningStrategy.getSunBounds(tomorrow, this.forecastData, this.timeZone);
 
-      const chartTomorrow = await getSolarChart(this.forecastData, this.yieldFactors, tomorrowStart, tomorrowEnd, 'Forecast Tomorrow', this.powerHistory, this.timeZone, chartPeak);
+      const chartTomorrow = await getSolarChart(this.forecastData, this.yieldFactors, tomorrowStart, tomorrowEnd, 'Forecast Tomorrow', this.powerHistory, this.timeZone, chartPeak, false);
       if (chartTomorrow) {
         this.chartSolarTomorrow = chartTomorrow;
         if (!this.solarTomorrowImage) {
@@ -990,7 +990,7 @@ class SolarDevice extends GenericDevice {
 
       // Pass dummy yield factors (1.0) because frozenData is already Power (W), not Radiation
       const dummyYields = new Array(96).fill(1.0);
-      const chartYesterday = await getSolarChart(frozenData, dummyYields, yStart, yEnd, 'Solar Yesterday', this.powerHistory, this.timeZone, chartPeak);
+      const chartYesterday = await getSolarChart(frozenData, dummyYields, yStart, yEnd, 'Solar Yesterday', this.powerHistory, this.timeZone, chartPeak, false);
 
       if (chartYesterday) {
         this.chartSolarYesterday = chartYesterday;

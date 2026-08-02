@@ -20,7 +20,7 @@ along with com.gruijter.powerhour.  If not, see <http://www.gnu.org/licenses/>.
 'use strict';
 
 const GenericDevice = require('../../lib/genericDeviceDrivers/generic_sum_device');
-const LoadForecastStrategy = require('../../lib/strategies/LoadForecastStrategy');
+const LoadForecastStrategy = require('../../lib/helpers/LoadForecastStrategy');
 const GridFlows = require('../../lib/flows/GridFlows');
 const { imageUrlToStream } = require('../../lib/charts/ImageHelpers');
 const { getGridForecastChart, getGridWeeklyChart } = require('../../lib/charts/GridChart');
@@ -419,7 +419,7 @@ class GridDevice extends GenericDevice {
 
     // 1. Yesterday Chart (Forecast vs Real)
     if (updated || !this.gridYesterdayImage) {
-      const chartYesterday = await getGridForecastChart(this.weeklyProfile, startOfYesterday, endOfYesterday, 'In-house Usage Yesterday', this.powerHistory, this.timeZone);
+      const chartYesterday = await getGridForecastChart(this.weeklyProfile, startOfYesterday, endOfYesterday, 'In-house Usage Yesterday', this.powerHistory, this.timeZone, false);
       if (chartYesterday) {
         this.chartGridYesterday = chartYesterday;
         if (!this.gridYesterdayImage) {
@@ -433,7 +433,7 @@ class GridDevice extends GenericDevice {
 
     // 2. Today Chart (Forecast vs Real - updated every 15 mins or on model update)
     if (updated || (now.getMinutes() % 15 === 0) || !this.gridTodayImage) {
-      const chartToday = await getGridForecastChart(this.weeklyProfile, startOfToday, endOfToday, 'In-house Usage Today', this.powerHistory, this.timeZone);
+      const chartToday = await getGridForecastChart(this.weeklyProfile, startOfToday, endOfToday, 'In-house Usage Today', this.powerHistory, this.timeZone, true);
       if (chartToday) {
         this.chartGridToday = chartToday;
         if (!this.gridTodayImage) {
@@ -447,7 +447,7 @@ class GridDevice extends GenericDevice {
 
     // 3. Tomorrow Chart (Forecast only)
     if (updated || !this.gridTomorrowImage) {
-      const chartTomorrow = await getGridForecastChart(this.weeklyProfile, startOfTomorrow, endOfTomorrow, 'In-house Usage Tomorrow', [], this.timeZone);
+      const chartTomorrow = await getGridForecastChart(this.weeklyProfile, startOfTomorrow, endOfTomorrow, 'In-house Usage Tomorrow', [], this.timeZone, false);
       if (chartTomorrow) {
         this.chartGridTomorrow = chartTomorrow;
         if (!this.gridTomorrowImage) {
