@@ -1,4 +1,7 @@
 {
+  "8.11.0": {
+    "en": "evCharger extensions. Charts upgrades. Massive memory spike reduction."
+  },
   "8.10.1": {
     "en": "Fix grid forecaster. Fix in-house load forecaster. Rewrite evCharger driver. Added app-2app pricing api. Massive readme rewrite."
   },
