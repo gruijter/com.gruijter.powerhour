@@ -173,8 +173,6 @@ class BatDevice extends GenericDevice {
         const id = l.id || l.uri || l.ownerUri || '';
         return id.includes(sourceId);
       });
-      this.log(`[Insights] Device logs for ${this.sourceDevice.name}:`, devLogs.map((l) => l.name || l.id));
-
       const endDate = new Date();
       const startDate = new Date(endDate.getTime() - 48 * 60 * 60 * 1000);
 
@@ -192,7 +190,6 @@ class BatDevice extends GenericDevice {
             resolution: resStr,
           }).catch(() => null);
           if (data && data.values && data.values.length > 0) {
-            this.log(`[Insights] Fetched ${data.values.length} entries from ${log.name || id} (res=${resStr}, cumulative=${isCumulative})`);
             if (isCumulative && data.values.length > 1) {
               const powerWatts = [];
               for (let i = 1; i < data.values.length; i++) {
@@ -214,7 +211,6 @@ class BatDevice extends GenericDevice {
                   powerWatts.push({ time: prevT, power: Math.round(watts) });
                 }
               }
-              this.log(`[Insights] Converted ${powerWatts.length} cumulative entries -> Watts`);
               return { entries: powerWatts, isWatts: true };
             }
             const isHourly = resStr === 'last7Days' || resStr === 'last14Days';
@@ -267,7 +263,6 @@ class BatDevice extends GenericDevice {
             .sort((a, b) => a.time - b.time);
           if (this.powerHistory.length > 2880) this.powerHistory = this.powerHistory.slice(-2880);
           await this.setStoreValue('powerHistory', this.powerHistory).catch(this.error);
-          this.log(`[Insights] Stored ${this.powerHistory.length} power entries (source: ${powerLog.id || powerLog.name})`);
         }
       } else {
         this.log(`[Insights] No power log found for source device ${sourceId}`);

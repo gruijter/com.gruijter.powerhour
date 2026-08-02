@@ -808,7 +808,6 @@ class CarChargeDevice extends GenericDevice {
             return id.includes(deviceId) && (id.endsWith(`:${capName}`) || l.name === capName);
           });
           if (log) {
-            this.log(`[EV Slot] Found Insights log: ${log.id || log.uri || log.name}`);
             for (const resStr of ['last7Days', 'last14Days', 'last31Days', 'today']) {
               const data = await api.insights.getLogEntries({
                 id: log.id,
@@ -817,8 +816,6 @@ class CarChargeDevice extends GenericDevice {
                 resolution: resStr,
               }).catch(() => null);
               if (data && data.values && data.values.length > 0) {
-                this.log(`[EV Slot] Retrieved ${data.values.length} entries from ${log.name || log.id} (res=${resStr})`);
-
                 const isCumulative = capName.includes('meter') || capName.includes('energy');
                 if (isCumulative && data.values.length > 1) {
                   const powerWatts = [];
@@ -841,7 +838,6 @@ class CarChargeDevice extends GenericDevice {
                       powerWatts.push({ t: prevT, v: watts });
                     }
                   }
-                  this.log(`[EV Slot] Converted ${powerWatts.length} cumulative entries to power (Watts)`);
                   return powerWatts;
                 }
 
