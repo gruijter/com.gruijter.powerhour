@@ -299,6 +299,12 @@ class BatDevice extends GenericDevice {
   }
 
   async handleUpdateMeter(reading) {
+    // This override previously shadowed GenericDevice#handleUpdateMeter entirely (same method
+    // name), silently skipping the base class's meter-period bookkeeping (meter_power_hidden,
+    // lastReadingHour/Day/Month/Year) and money calculation (meter_money_*) since the "graphs
+    // upgrade" commit that introduced this override. Restore the base behaviour.
+    await super.handleUpdateMeter(reading);
+
     // Neither this device nor the HomeyAPI sourceDevice wrapper expose a 'measure_power'
     // capability/method, so that lookup always failed. The device's own live signed
     // charge(+)/discharge(-) power is published on 'measure_watt_avg'.
