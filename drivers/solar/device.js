@@ -26,6 +26,7 @@ const { getSolarChart, getDistributionChart } = require('../../lib/charts/SolarC
 const OpenMeteo = require('../../lib/providers/OpenMeteo');
 const SolarLearningStrategy = require('../../lib/helpers/SolarLearningStrategy');
 const SolarFlows = require('../../lib/flows/SolarFlows');
+const TimeHelpers = require('../../lib/TimeHelpers');
 
 const deviceSpecifics = {
   cmap: {
@@ -818,23 +819,19 @@ class SolarDevice extends GenericDevice {
     const nowLocalStr = now.toLocaleDateString('en-CA', { timeZone: this.timeZone }); // YYYY-MM-DD
 
     // Calculate Today's Power Series (Forecast) to cache.
-    // NOTE: localDayStart / localDayEnd are "fake-local" Date objects: the local clock
-    // time (e.g. 00:00 local) is stored numerically as if it were UTC. This is the
-    // established "local-slot-as-UTC" convention used throughout the solar device so that
-    // getUTCHours() returns the local hour and yieldFactors[] (indexed 0-95 by local slot)
-    // can be addressed directly.
-    const localDayStart = new Date(now.toLocaleString('en-US', { timeZone: this.timeZone }));
-    localDayStart.setHours(0, 0, 0, 0); // fake-local midnight: local 00:00 as UTC ms
-    const localDayEnd = new Date(localDayStart);
-    localDayEnd.setDate(localDayEnd.getDate() + 1); // fake-local end: local 00:00 next day
+    // localDayStart / localDayEnd are real UTC Date objects marking local midnight boundaries
+    // (DST-safe, via TimeHelpers). yieldFactors[] is trained and indexed by genuine UTC hour
+    // (see updateLearning()), so slots must be read back with getUTCHours()/getUTCMinutes()
+    // directly on these real timestamps — no local-time conversion.
+    const localDayStart = TimeHelpers.getLocalMidnightUTC(now, this.timeZone);
+    const localDayEnd = new Date(localDayStart.getTime() + 26 * 60 * 60 * 1000);
+    localDayEnd.setTime(TimeHelpers.getLocalMidnightUTC(localDayEnd, this.timeZone).getTime());
 
     const todaySeries = {};
-    // Iterate 15 min slots for the full local day using fake-local ms values
     for (let t = localDayStart.getTime(); t < localDayEnd.getTime(); t += 15 * 60 * 1000) {
       const rad = SolarLearningStrategy.getInterpolatedRadiation(t, this.forecastData);
-      // getUTCHours/getUTCMinutes give local hours because t is fake-local
-      const localSlotIndex = (new Date(t).getUTCHours() * 4) + Math.floor(new Date(t).getUTCMinutes() / 15);
-      const yf = this.yieldFactors[localSlotIndex] || 0;
+      const slotIndex = (new Date(t).getUTCHours() * 4) + Math.floor(new Date(t).getUTCMinutes() / 15);
+      const yf = this.yieldFactors[slotIndex] || 0;
       todaySeries[t] = Math.round(rad * yf);
     }
 
@@ -851,10 +848,9 @@ class SolarDevice extends GenericDevice {
       yesterday.setDate(yesterday.getDate() - 1);
       const yesterdayLocalStr = yesterday.toLocaleDateString('en-CA', { timeZone: this.timeZone });
 
-      // Fake-local yesterday midnight and end (same convention as localDayStart above)
-      const localYesterdayStart = new Date(localDayStart);
-      localYesterdayStart.setDate(localYesterdayStart.getDate() - 1);
-      const localYesterdayEnd = localDayStart; // yesterday ends at today's fake-local midnight
+      // Real UTC yesterday midnight and end (DST-safe, same convention as localDayStart above)
+      const localYesterdayStart = TimeHelpers.getLocalMidnightUTC(yesterday, this.timeZone);
+      const localYesterdayEnd = localDayStart; // yesterday ends at today's real UTC midnight
 
       // Check if we have weather data for yesterday
       const hasData = Object.keys(this.forecastData).some((t) => {
@@ -867,8 +863,8 @@ class SolarDevice extends GenericDevice {
         const yesterdaySeries = {};
         for (let t = localYesterdayStart.getTime(); t < localYesterdayEnd.getTime(); t += 15 * 60 * 1000) {
           const rad = SolarLearningStrategy.getInterpolatedRadiation(t, this.forecastData);
-          const localSlotIndex = (new Date(t).getUTCHours() * 4) + Math.floor(new Date(t).getUTCMinutes() / 15);
-          const yf = this.yieldFactors[localSlotIndex] || 0;
+          const slotIndex = (new Date(t).getUTCHours() * 4) + Math.floor(new Date(t).getUTCMinutes() / 15);
+          const yf = this.yieldFactors[slotIndex] || 0;
           yesterdaySeries[t] = Math.round(rad * yf);
         }
         this.forecastHistory.yesterday = { date: yesterdayLocalStr, data: yesterdaySeries };
@@ -923,14 +919,24 @@ class SolarDevice extends GenericDevice {
     await this.setCapabilityValue('meter_kwh_forecast.h0', Number(forecastH0.toFixed(2))).catch(this.error);
     await this.setCapabilityValue('meter_kwh_forecast.this_day', totalYield).catch(this.error);
 
-    // Calculate Forecast Tomorrow
-    // Use fake-local convention: localDayEnd is fake-local midnight of tomorrow;
-    // add one fake-local day to get the day-after-tomorrow fake-local midnight.
-    const localDayAfterTomorrowStart = new Date(localDayEnd);
-    localDayAfterTomorrowStart.setDate(localDayAfterTomorrowStart.getDate() + 1);
-    const tomorrowStats = this.getForecastStatsBetween(localDayEnd, localDayAfterTomorrowStart);
-    await this.setCapabilityValue('meter_kwh_forecast.tomorrow', tomorrowStats.totalYield).catch(this.error);
-    await this.setCapabilityValue('measure_watt_forecast.tomorrow_peak', tomorrowStats.peakPower).catch(this.error);
+    // Calculate Forecast Tomorrow (real UTC boundaries, DST-safe): localDayEnd is already
+    // tomorrow's local midnight; find the local midnight after that the same way.
+    const localDayAfterTomorrowStart = TimeHelpers.getLocalMidnightUTC(
+      new Date(localDayEnd.getTime() + 26 * 60 * 60 * 1000),
+      this.timeZone,
+    );
+    let tomorrowYield = 0;
+    let tomorrowPeak = 0;
+    for (let t = localDayEnd.getTime(); t < localDayAfterTomorrowStart.getTime(); t += 15 * 60 * 1000) {
+      const rad = SolarLearningStrategy.getInterpolatedRadiation(t, this.forecastData);
+      const slotIndex = (new Date(t).getUTCHours() * 4) + Math.floor(new Date(t).getUTCMinutes() / 15);
+      const yf = this.yieldFactors[slotIndex] || 0;
+      const power = rad * yf;
+      if (Math.round(power) > tomorrowPeak) tomorrowPeak = Math.round(power);
+      tomorrowYield += (power * 0.25) / 1000;
+    }
+    await this.setCapabilityValue('meter_kwh_forecast.tomorrow', Number(tomorrowYield.toFixed(2))).catch(this.error);
+    await this.setCapabilityValue('measure_watt_forecast.tomorrow_peak', tomorrowPeak).catch(this.error);
 
     // --- Update Charts ---
 
@@ -1111,12 +1117,9 @@ class SolarDevice extends GenericDevice {
 
     for (let t = startSlot; t < endTimeUTC; t += 15 * 60 * 1000) {
       const rad = SolarLearningStrategy.getInterpolatedRadiation(t, this.forecastData);
-      // Determine slot index for this specific timestamp
-      // Need to convert back to local to find the correct 0-95 slot index
-      // Fast approximation of local time from UTC t using the fixed offset calculated earlier
-      const tLocal = new Date(t + offset);
-
-      const slotIndex = (tLocal.getHours() * 4) + Math.floor(tLocal.getMinutes() / 15);
+      // yieldFactors[] is trained and indexed by genuine UTC hour (see updateLearning()),
+      // so read it back directly from t's real UTC hour — no local-time conversion.
+      const slotIndex = (new Date(t).getUTCHours() * 4) + Math.floor(new Date(t).getUTCMinutes() / 15);
       const yf = this.yieldFactors[slotIndex] !== undefined ? this.yieldFactors[slotIndex] : 0;
       const power = rad * yf; // Watts
       const roundedPower = Math.round(power);
