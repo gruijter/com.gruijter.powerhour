@@ -479,6 +479,30 @@ class GridDevice extends GenericDevice {
     }
   }
 
+  /**
+   * Resolve this device's own Homey device UUID (as used in Insights log IDs:
+   * 'homey:device:<UUID>:<capability>'). getData().id is this app's own synthetic
+   * pairing ID (e.g. 'PH_grid_<sourceId>_<random>') and never appears in Insights log
+   * IDs, so it cannot be used to find this device's own logs directly. Instead, find
+   * this device inside the full device list by matching on the preserved pairing data.
+   */
+  async getOwnHomeyDeviceId(api) {
+    if (this._ownHomeyDeviceId) return this._ownHomeyDeviceId;
+    try {
+      const ownDataId = this.getData().id;
+      const allDevices = await api.devices.getDevices().catch(() => null);
+      if (!allDevices) return null;
+      const match = Object.values(allDevices).find((d) => d && d.data && d.data.id === ownDataId);
+      if (match && match.id) {
+        this._ownHomeyDeviceId = match.id;
+        return this._ownHomeyDeviceId;
+      }
+    } catch (err) {
+      this.error('Error resolving own Homey device id:', err);
+    }
+    return null;
+  }
+
   async retrainLoadModel(fromScratch = false) {
     if (this.retrainingLoad) {
       this.log('Already retraining load model, skipping...');
@@ -498,10 +522,11 @@ class GridDevice extends GenericDevice {
       let allLogs = await api.insights.getLogs().catch(() => []);
       if (!Array.isArray(allLogs)) allLogs = Object.values(allLogs);
 
-      const targetLog = allLogs.find((log) => {
+      const ownHomeyDeviceId = await this.getOwnHomeyDeviceId(api);
+      const targetLog = ownHomeyDeviceId ? allLogs.find((log) => {
         const logId = log.id || log.uri || '';
-        return logId.includes(this.getData().id) && logId.endsWith(':measure_power.home');
-      });
+        return logId.includes(ownHomeyDeviceId) && logId.endsWith(':measure_power.home');
+      }) : null;
 
       let powerEntries = [];
 
@@ -635,10 +660,11 @@ class GridDevice extends GenericDevice {
       let allLogs = await api.insights.getLogs().catch(() => []);
       if (!Array.isArray(allLogs)) allLogs = Object.values(allLogs);
 
-      const targetLog = allLogs.find((log) => {
+      const ownHomeyDeviceId = await this.getOwnHomeyDeviceId(api);
+      const targetLog = ownHomeyDeviceId ? allLogs.find((log) => {
         const logId = log.id || log.uri || '';
-        return logId.includes(this.getData().id) && logId.endsWith(':measure_power.home');
-      });
+        return logId.includes(ownHomeyDeviceId) && logId.endsWith(':measure_power.home');
+      }) : null;
 
       let powerEntries = [];
 

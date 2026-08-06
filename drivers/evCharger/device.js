@@ -442,10 +442,12 @@ class CarChargeDevice extends GenericDevice {
 
   async handleUpdateMeter(reading) {
 
+    // Neither this device nor the HomeyAPI sourceDevice wrapper expose a 'measure_power'
+    // capability/method, so that lookup always failed. The device's own live charge
+    // power is published on 'measure_watt_avg'.
     let livePower = (reading && typeof reading.measure_power === 'number') ? reading.measure_power : null;
-    if (livePower === null) livePower = this.getCapabilityValue('measure_power');
-    if (livePower === null && this.sourceDevice && typeof this.sourceDevice.getCapabilityValue === 'function') {
-      livePower = this.sourceDevice.getCapabilityValue('measure_power');
+    if (livePower === null && this.hasCapability('measure_watt_avg')) {
+      livePower = this.getCapabilityValue('measure_watt_avg');
     }
     if (typeof livePower !== 'number') livePower = 0;
 
@@ -675,6 +677,10 @@ class CarChargeDevice extends GenericDevice {
             todayStrategy[i] = {
               ...strategy[stratIdx],
               actualPower: isPastOrPresent ? actualP : (strategy[stratIdx].actualPower || null),
+              // strategy's own isForecast flag reflects whether the *price* for that slot is
+              // forecasted, not whether the slot itself has actually happened yet. A slot that
+              // hasn't occurred must always render as planned/forecast, regardless of price origin.
+              isForecast: isPastOrPresent ? !!strategy[stratIdx].isForecast : true,
             };
           } else {
             todayStrategy[i] = {
