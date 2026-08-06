@@ -25,27 +25,46 @@ const GenericDriver = require('../../lib/genericDeviceDrivers/generic_bat_driver
 const driverSpecifics = {
   driverId: 'battery',
   originDeviceCapabilities: ['measure_battery', 'measure_power.battery', 'measure_power.battery1'],
+  // Exceptions list, used only when a source device does NOT already qualify for the official
+  // Homey battery-energy-class detection in addSourceCapGroup() (class 'battery' + 'measure_battery'
+  // + 'measure_power'). Per https://apps.developer.homey.app/the-basics/devices/energy#home-batteries
+  // the Homey standard for measure_power/target_power is: positive = charging, negative = discharging.
+  // Every entry here must resolve to that same convention:
+  //   - `power` + `invertPower`: a single already-signed capability. Set invertPower: true when the
+  //     vendor's own native sign convention is the opposite of the Homey standard.
+  //   - `chargePower` + `dischargePower`: a pair of non-negative MAGNITUDE capabilities (no sign of
+  //     their own, direction is implied by which one is reporting). No invert flag needed since the
+  //     direction is unambiguous from which capability fired.
   sourceCapGroups: [
     {
-      soc: 'measure_battery_soc', usagePower: 'measure_battery_power', // Solax
+      soc: 'measure_battery_soc', power: 'measure_battery_power', invertPower: true, // Solax (pre-existing behaviour, unverified against Solax's own docs)
     },
     {
-      soc: 'battery_capacity', usagePower: 'measure_power.battery', // Victron
+      soc: 'battery_capacity', power: 'measure_power.battery', invertPower: true, // Victron (pre-existing behaviour, unverified against Victron's own docs)
     },
     {
-      soc: 'measure_battery', productionPower: 'measure_power.batt_in', usagePower: 'measure_power.batt_out', // Sonnen
+      // Sessy fallback: current Sessy versions expose a Homey-standard-compliant 'measure_power'
+      // and are matched via the official Homey battery-class check in addSourceCapGroup() instead.
+      // This entry only applies as a fallback (e.g. an older Sessy app without class 'battery').
+      // Sessy's legacy 'measure_power.battery' capability still uses the old, inverted convention.
+      soc: 'measure_battery', power: 'measure_power.battery', invertPower: true, // Sessy (legacy fallback)
     },
     {
-      soc: 'measure_battery', productionPower: 'from_battery_capability', usagePower: 'to_battery_capability', // Sonnen Batterie
+      // 'in'/'out' unambiguously indicate direction: batt_in = charging, batt_out = discharging.
+      soc: 'measure_battery', chargePower: 'measure_power.batt_in', dischargePower: 'measure_power.batt_out', // Sonnen
     },
     {
-      soc: 'measure_percentage.bat_soc', productionPower: 'measure_power.battery', // Blauhoff Afore
+      // 'from'/'to' the battery unambiguously indicate direction: from = discharging, to = charging.
+      soc: 'measure_battery', chargePower: 'to_battery_capability', dischargePower: 'from_battery_capability', // Sonnen Batterie
     },
     {
-      soc: 'measure_percentage.battery1', productionPower: 'measure_power.battery1', // Blauhoff Deye
+      soc: 'measure_percentage.bat_soc', power: 'measure_power.battery', invertPower: true, // Blauhoff Afore (pre-existing behaviour, unverified against Blauhoff's own docs)
     },
     {
-      soc: 'measure_battery', usagePower: 'measure_power', // SolarEdge Growatt
+      soc: 'measure_percentage.battery1', power: 'measure_power.battery1', invertPower: true, // Blauhoff Deye (pre-existing behaviour, unverified against Blauhoff's own docs)
+    },
+    {
+      soc: 'measure_battery', power: 'measure_power', invertPower: true, // SolarEdge Growatt (pre-existing behaviour, unverified against SolarEdge/Growatt's own docs)
     },
   ],
   deviceCapabilities: [

@@ -54,7 +54,9 @@ class BatDevice extends GenericDevice {
   }
 
   async addSourceCapGroup() {
-    // 1. Check for new Homey energy standard (battery class)
+    // 1. Prefer the official Homey battery-energy-class standard: class 'battery' with
+    // 'measure_battery' + 'measure_power', where measure_power already follows the Homey
+    // convention (positive = charging, negative = discharging) - no sign correction needed.
     if (this.sourceDevice.class === 'battery' || this.sourceDevice.virtualClass === 'battery') {
 
       const hasCapability = (capability) => this.sourceDevice.capabilities.includes(capability);
@@ -84,18 +86,28 @@ class BatDevice extends GenericDevice {
           meterCharging,
           meterDischarging,
         };
+        this.sourcePowerInvert = false;
         return;
       }
     }
 
-    // setup if/how a HOMEY-API source device fits to a defined capability group
-    this.sourceCapGroup = this.driver.ds.sourceCapGroups.find((capGroup) => {
-      const requiredKeys = Object.values(capGroup).filter((v) => v);
+    // 2. Fall back to the documented vendor exceptions list (see driver.js sourceCapGroups) for
+    // source devices that don't (yet) comply with the official Homey battery energy standard.
+    // 'invertPower' is metadata, not a capability name, so it must not be used as a required
+    // capability nor registered as a listener target below.
+    const matchedGroup = this.driver.ds.sourceCapGroups.find((capGroup) => {
+      const requiredKeys = Object.keys(capGroup)
+        .filter((k) => k !== 'invertPower')
+        .map((k) => capGroup[k])
+        .filter((v) => v);
       return requiredKeys.every((k) => this.sourceDevice.capabilities.includes(k));
     });
-    if (!this.sourceCapGroup) {
+    if (!matchedGroup) {
       throw Error(`${this.sourceDevice.name} has no compatible capabilities ${this.sourceDevice.capabilities}`);
     }
+    this.sourcePowerInvert = !!matchedGroup.invertPower;
+    this.sourceCapGroup = { ...matchedGroup };
+    delete this.sourceCapGroup.invertPower;
   }
 
   async addListeners() {
@@ -180,7 +192,14 @@ class BatDevice extends GenericDevice {
         if (!log) return null;
         const id = log.id || log.uri || '';
         const cap = id.split(':').pop() || '';
-        const isCumulative = cap.includes('meter') || cap.includes('energy');
+        // Homey stores the Insights log for the 'measure_power' capability itself (on devices with
+        // energy-class registration, e.g. batteries) under the internal log id 'energy_power' - it
+        // is the SAME signal as measure_power, just under a different Insights log name/id, not a
+        // separate derived value. It is INSTANTANEOUS power (Watts), NOT cumulative, despite the
+        // name. This log commonly exists (with full history) even when 'measure_power' itself has
+        // no log of its own yet (confirmed empirically: energy_power values matched live
+        // measure_power values almost exactly - same scale, same sign, 5-minute resolution).
+        const isCumulative = cap.includes('meter') || (cap.includes('energy') && cap !== 'energy_power');
 
         for (const resStr of ['last7Days', 'last14Days', 'today']) {
           const data = await api.insights.getLogEntries({
@@ -213,7 +232,11 @@ class BatDevice extends GenericDevice {
               }
               return { entries: powerWatts, isWatts: true };
             }
-            const isHourly = resStr === 'last7Days' || resStr === 'last14Days';
+            // 'energy_power' hourly entries are already stamped at the START of the hour they
+            // represent (confirmed empirically: raw timestamp 09:00 UTC lined up exactly with the
+            // real 11:00 local transition seen in Homey's own Insights graph) - unlike other hourly
+            // logs, which are END-of-interval stamped and need the -1h correction below.
+            const isHourly = (resStr === 'last7Days' || resStr === 'last14Days') && cap !== 'energy_power';
             const entries = data.values.map((e) => {
               const rawT = typeof e.t === 'number' ? e.t : new Date(e.t).getTime();
               const t = isHourly ? rawT - 3600000 : rawT;
@@ -228,24 +251,52 @@ class BatDevice extends GenericDevice {
         return null;
       };
 
-      // 1. Power history: Priority measure_power -> measure_power.* -> energy_power -> meter_power
-      const powerCapPriority = ['measure_power', 'measure_power.battery', 'measure_power.sessy', 'energy_power', 'meter_power'];
+      // 1. Power history. Prefer the exact capability already resolved by addSourceCapGroup()
+      // (matches what the live capability listener reads), including its sign correction - this
+      // avoids independently re-guessing and silently falling back to a legacy/inverted capability
+      // (e.g. Sessy's 'measure_power.battery') purely because Homey Insights hasn't logged the
+      // correct one yet.
+      //
+      // IMPORTANT (confirmed empirically, don't re-break this): on devices with energy-class
+      // registration, Homey stores the Insights log for 'measure_power' itself under the internal
+      // log id 'energy_power' - same signal, different log name, NOT a separate derived value and
+      // NOT cumulative despite the name. It commonly has full history even when 'measure_power' has
+      // no Insights log of its own yet - always try it as a fallback, and never invert it (it's
+      // measure_power's own history, already Homey-standard-signed by construction).
+      const resolvedPowerCap = (this.sourceCapGroup && (this.sourceCapGroup.newMeasurePower || this.sourceCapGroup.power)) || null;
+      const resolvedPowerInvert = !!this.sourcePowerInvert;
+
+      const powerCandidates = [];
+      if (resolvedPowerCap) powerCandidates.push({ cap: resolvedPowerCap, invert: resolvedPowerInvert });
+      powerCandidates.push({ cap: 'energy_power', invert: false });
+      if (!resolvedPowerCap) {
+        // No single signed power capability resolved (e.g. a chargePower/dischargePower magnitude
+        // pair vendor) - fall back to the broad priority guess as a last resort.
+        ['measure_power', 'measure_power.battery', 'measure_power.sessy', 'meter_power'].forEach((cap) => powerCandidates.push({ cap, invert: false }));
+      }
+
       let powerLog = null;
-      for (const capName of powerCapPriority) {
-        powerLog = devLogs.find((l) => {
+      let powerLogInvert = false;
+      for (const candidate of powerCandidates) {
+        const found = devLogs.find((l) => {
           const id = l.id || l.uri || l.ownerUri || '';
           const cap = id.split(':').pop() || '';
-          return cap === capName || l.name === capName;
+          return cap === candidate.cap || l.name === candidate.cap;
         });
-        if (powerLog) break;
+        if (found) {
+          powerLog = found;
+          powerLogInvert = candidate.invert;
+          break;
+        }
       }
-      if (!powerLog) {
+      if (!powerLog && !resolvedPowerCap) {
         powerLog = devLogs.find((l) => {
           const id = l.id || l.uri || l.ownerUri || '';
           const cap = id.split(':').pop() || '';
           return cap.startsWith('measure_power.');
         });
       }
+      if (!powerLog) this.log(`[Insights] No power log found for source device ${sourceId} (tried: ${powerCandidates.map((c) => c.cap).join(', ')})`);
 
       if (powerLog) {
         const result = await fetchEntries(powerLog);
@@ -255,7 +306,8 @@ class BatDevice extends GenericDevice {
             this.powerHistory.forEach((e) => powerMap.set(e.time, e.power));
           }
           result.entries.forEach((e) => {
-            const val = result.isWatts ? e.power : e.value;
+            let val = result.isWatts ? e.power : e.value;
+            if (powerLogInvert) val = -val;
             powerMap.set(e.time, val);
           });
           this.powerHistory = Array.from(powerMap.entries())
@@ -264,8 +316,6 @@ class BatDevice extends GenericDevice {
           if (this.powerHistory.length > 2880) this.powerHistory = this.powerHistory.slice(-2880);
           await this.setStoreValue('powerHistory', this.powerHistory).catch(this.error);
         }
-      } else {
-        this.log(`[Insights] No power log found for source device ${sourceId}`);
       }
 
       // 2. SoC history: measure_battery (or soc)

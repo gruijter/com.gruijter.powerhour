@@ -225,8 +225,12 @@ class CarChargeDevice extends GenericDevice {
         'measure_power',
         async (value) => {
           if (typeof value === 'number') {
+            // measure_power on an EV charger follows Homey's standard (positive = charging the
+            // car); updateMeterFromMeasure() internally re-writes measure_watt_avg with whatever
+            // sign it's given (overwriting the setCapability above) and also buckets kWh into
+            // meter_kwh_charging/discharging based on this same sign, so it must not be negated.
             if (targetMeasureCap) await this.setCapability(targetMeasureCap, value).catch(this.error);
-            if (!this.sourceCapGroup.p1) await this.updateMeterFromMeasure(-value).catch(this.error);
+            if (!this.sourceCapGroup.p1) await this.updateMeterFromMeasure(value).catch(this.error);
           }
         },
       );
@@ -412,7 +416,8 @@ class CarChargeDevice extends GenericDevice {
       const rtValue = this.sourceDevice.capabilitiesObj.measure_power.value;
       if (typeof rtValue === 'number') {
         if (targetMeasureCap) await this.setCapability(targetMeasureCap, rtValue).catch(this.error);
-        if (!this.sourceCapGroup.p1) await this.updateMeterFromMeasure(-rtValue).catch(this.error);
+        // See addListeners() for why this must not be negated (Homey standard: charging = positive).
+        if (!this.sourceCapGroup.p1) await this.updateMeterFromMeasure(rtValue).catch(this.error);
       }
     }
 
@@ -827,7 +832,11 @@ class CarChargeDevice extends GenericDevice {
                 resolution: resStr,
               }).catch(() => null);
               if (data && data.values && data.values.length > 0) {
-                const isCumulative = capName.includes('meter') || capName.includes('energy');
+                // On devices with energy-class registration, Homey stores the Insights log for
+                // 'measure_power' itself under the internal log id 'energy_power' - same signal,
+                // different log name, NOT a separate derived value and NOT cumulative despite the
+                // name (confirmed empirically: same scale/sign as live measure_power).
+                const isCumulative = capName.includes('meter') || (capName.includes('energy') && capName !== 'energy_power');
                 if (isCumulative && data.values.length > 1) {
                   const powerWatts = [];
                   for (let i = 1; i < data.values.length; i++) {
@@ -852,7 +861,10 @@ class CarChargeDevice extends GenericDevice {
                   return powerWatts;
                 }
 
-                const isHourly = resStr === 'last7Days' || resStr === 'last14Days';
+                // 'energy_power' hourly entries are already stamped at the START of the hour they
+                // represent (confirmed empirically against a real device) - unlike other hourly
+                // logs, which are END-of-interval stamped and need the -1h correction below.
+                const isHourly = (resStr === 'last7Days' || resStr === 'last14Days') && capName !== 'energy_power';
                 return data.values.map((e) => {
                   let val = 0;
                   if (typeof e.v === 'number') val = e.v;
@@ -869,7 +881,10 @@ class CarChargeDevice extends GenericDevice {
       };
 
       // Fetch charger power entries for session boundary detection
-      const powerEntries = await fetchLog(chargerId, ['measure_power', 'meter_power', 'energy_power']);
+      // 'energy_power' is where Homey actually stores measure_power's own Insights history for
+      // many energy-class devices (see isCumulative comment above) - try it right after
+      // measure_power, before falling back to the cumulative meter_power.
+      const powerEntries = await fetchLog(chargerId, ['measure_power', 'energy_power', 'meter_power']);
 
       // Fetch SoC entries from car device if available
       let socEntries = null;
