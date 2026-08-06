@@ -490,7 +490,7 @@ class SolarDevice extends GenericDevice {
 
         if (testLogs && testLogs.values && testLogs.values.length > 0) {
           let entries = testLogs.values;
-          if ((candidate.uri || '').endsWith(':meter_power')) entries = convertCumulativeToPower(entries);
+          if ((candidate.id || candidate.uri || '').endsWith(':meter_power')) entries = convertCumulativeToPower(entries);
           const hasData = entries.some((e) => {
             const p = e.y !== undefined ? e.y : e.v;
             return typeof p === 'number' && p > 10;
@@ -507,7 +507,7 @@ class SolarDevice extends GenericDevice {
       }
       this.log(`Found target log: ${targetLog.name || 'unknown'} (ID: ${targetLog.id})`);
 
-      const isCumulative = targetLog.uri.endsWith(':meter_power');
+      const isCumulative = (targetLog.id || targetLog.uri || '').endsWith(':meter_power');
       if (isCumulative) this.log('Using cumulative energy log (converting to power)...');
 
       // Initialize fresh yield factors for training to remove old artifacts
@@ -735,7 +735,7 @@ class SolarDevice extends GenericDevice {
 
         if (testLogs && testLogs.values && testLogs.values.length > 0) {
           let entries = testLogs.values;
-          if ((candidate.uri || '').endsWith(':meter_power')) entries = convertCumulativeToPower(entries);
+          if ((candidate.id || candidate.uri || '').endsWith(':meter_power')) entries = convertCumulativeToPower(entries);
           const hasData = entries.some((e) => {
             const p = e.y !== undefined ? e.y : e.v;
             return typeof p === 'number' && p > 10;
@@ -752,7 +752,7 @@ class SolarDevice extends GenericDevice {
         return;
       }
 
-      const isCumulative = targetLog.uri.endsWith(':meter_power');
+      const isCumulative = (targetLog.id || targetLog.uri || '').endsWith(':meter_power');
 
       // Fetch last 2 days ending at start of today (to avoid overwriting today's realtime data)
       let endDate = new Date();
@@ -768,7 +768,7 @@ class SolarDevice extends GenericDevice {
       const startDate = new Date(endDate);
       startDate.setDate(startDate.getDate() - 2);
 
-      this.log(`[populatePowerHistory] Fetching logs for ${targetLog.uri} from ${startDate.toISOString()} to ${endDate.toISOString()}`);
+      this.log(`[populatePowerHistory] Fetching logs for ${targetLog.id || targetLog.uri} from ${startDate.toISOString()} to ${endDate.toISOString()}`);
 
       const logs = await api.insights.getLogEntries({
         id: targetLog.id,

@@ -170,7 +170,11 @@ class GridDevice extends GenericDevice {
       if (!Array.isArray(this.powerHistory)) this.powerHistory = [];
       if (typeof safeHomePower === 'number' && safeHomePower >= 0 && safeHomePower <= 30000) {
         const lastEntry = this.powerHistory[this.powerHistory.length - 1];
-        if (!lastEntry || (now - lastEntry.time) > 50000) {
+        // The 576-entry cap is sized for 48h of 5-minute-spaced samples (576 * 5min = 48h), matching
+        // the Insights-merge granularity in populatePowerHistory/retrainLoadModel. A push interval
+        // shorter than 5 minutes fills the array much faster than that, evicting the merged multi-day
+        // history within a few hours of any restart/retrain instead of the intended 48h.
+        if (!lastEntry || (now - lastEntry.time) > 5 * 60 * 1000) {
           this.powerHistory.push({ time: now, power: safeHomePower });
           if (this.powerHistory.length > 576) this.powerHistory.shift();
           if (!this.lastPowerHistorySaveTm || (now - this.lastPowerHistorySaveTm > 15 * 60 * 1000)) {
@@ -501,6 +505,29 @@ class GridDevice extends GenericDevice {
       this.error('Error resolving own Homey device id:', err);
     }
     return null;
+  }
+
+  /**
+   * Same resolution as getOwnHomeyDeviceId, but for arbitrary powerhour devices (e.g. the
+   * solar/battery/evCharger component devices used by reconstructHomePowerHistory): maps each
+   * device's synthetic pairing id (getData().id) to its real Homey UUID, since only the UUID
+   * appears in Insights log ids.
+   */
+  async resolveHomeyDeviceIdMap(api) {
+    if (this._homeyDeviceIdMap) return this._homeyDeviceIdMap;
+    const map = new Map();
+    try {
+      const allDevices = await api.devices.getDevices().catch(() => null);
+      if (allDevices) {
+        Object.values(allDevices).forEach((d) => {
+          if (d && d.data && d.data.id && d.id) map.set(d.data.id, d.id);
+        });
+      }
+    } catch (err) {
+      this.error('Error resolving Homey device id map:', err);
+    }
+    this._homeyDeviceIdMap = map;
+    return map;
   }
 
   async retrainLoadModel(fromScratch = false) {
@@ -890,11 +917,16 @@ class GridDevice extends GenericDevice {
     // Bug 6: For each component driver, prefer instantaneous power (measure_power / measure_watt_avg)
     // over cumulative meter (meter_power) to avoid mixing Watts with converted-kWh Watts.
     // Only fall back to meter_power if no measure_power log exists for that device.
+    // Component devices are other powerhour devices: getData().id is their synthetic pairing id,
+    // not the real Homey UUID that Insights log ids use, so it must be resolved first.
+    const homeyIdMap = await this.resolveHomeyDeviceIdMap(api);
+
     const solarEntriesList = [];
     const solarDriver = this.homey.drivers.getDriver('solar');
     if (solarDriver) {
       for (const dev of solarDriver.getDevices()) {
-        const devId = dev.getData().id;
+        const devId = homeyIdMap.get(dev.getData().id);
+        if (!devId) continue;
         let entries = await getLogEntriesForDevice(devId, [
           ':measure_power',
         ]);
@@ -907,7 +939,8 @@ class GridDevice extends GenericDevice {
     const batDriver = this.homey.drivers.getDriver('battery');
     if (batDriver) {
       for (const dev of batDriver.getDevices()) {
-        const devId = dev.getData().id;
+        const devId = homeyIdMap.get(dev.getData().id);
+        if (!devId) continue;
         let entries = await getLogEntriesForDevice(devId, [
           ':measure_watt_avg', ':measure_power',
         ]);
@@ -920,7 +953,8 @@ class GridDevice extends GenericDevice {
     const evDriver = this.homey.drivers.getDriver('evCharger');
     if (evDriver) {
       for (const dev of evDriver.getDevices()) {
-        const devId = dev.getData().id;
+        const devId = homeyIdMap.get(dev.getData().id);
+        if (!devId) continue;
         let entries = await getLogEntriesForDevice(devId, [
           ':measure_watt_avg', ':measure_power',
         ]);
