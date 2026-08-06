@@ -18,6 +18,14 @@ const driverSpecifics = {
     'meter_money_this_month_avg', 'meter_money_this_year_avg',
     'meter_tariff', 'meter_power', 'measure_watt_avg', 'last_minmax_reset', 'measure_watt_min', 'measure_watt_max',
     'ev_charge_mode', 'ev_next_departure', 'ev_target_soc', 'ev_departure_time',
+    // Needed by the shared generic_bat_device.js base class (same as drivers/battery/driver.js):
+    // meter_power_hidden anchors updateMeterFromMeasure()'s delta baseline and the large-jump
+    // anomaly guard in handleUpdateMeter(); without it, updateMeterFromMeasure() silently no-ops
+    // on every call for any EV charger paired via the "measure_power only" path (no separate
+    // cumulative meter capability on the source device), so kWh/money never accumulate for it.
+    // Appended at the end (not interspersed) so migration only adds these, it doesn't reorder or
+    // touch any already-declared capability on existing paired devices.
+    'meter_power_hidden', 'meter_kwh_charging', 'meter_kwh_discharging',
   ],
 };
 
