@@ -856,9 +856,13 @@ class GridDevice extends GenericDevice {
     }
 
     // 1. Fetch grid entries. Try real-time power first, otherwise cumulative import & export.
+    // On devices with Homey energy-class registration (which smart meters can have), the Insights
+    // log for 'measure_power' itself is sometimes filed under the internal log id 'energy_power'
+    // instead (same signal, different log name - see getLogEntriesForDevice's dedup below, which
+    // already prefers a literal ':measure_power' log over ':energy_power' when both exist).
     let gridEntries = [];
     const measurePowerEntries = await getLogEntriesForDevice(sourceDevice.id, [
-      ':measure_power',
+      ':measure_power', ':energy_power',
     ]);
     const measurePowerExportEntries = await getLogEntriesForDevice(sourceDevice.id, [
       ':measure_power.exported',
