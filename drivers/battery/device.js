@@ -462,6 +462,8 @@ class BatDevice extends GenericDevice {
       power: this.homey.__('power') || 'Vermogen',
       soc: this.homey.__('soc') || 'SoC',
     };
+    const showPower = !!this.getSettings().chartShowPower;
+    const showSoc = this.getSettings().chartShowSoc !== false;
 
     // 1. Image 1: Yesterday (00:00 to 23:59 Yesterday)
     const yesterdayStartMs = todayStartMs - (24 * 60 * 60 * 1000);
@@ -496,6 +498,9 @@ class BatDevice extends GenericDevice {
       currency,
       translations,
       false,
+      this.timeZone,
+      showPower,
+      showSoc,
     );
 
     this.chartYesterdayCharge = chartYesterday;
@@ -569,6 +574,8 @@ class BatDevice extends GenericDevice {
       translations,
       true,
       this.timeZone,
+      showPower,
+      showSoc,
     );
 
     this.chartTodayCharge = chartToday;
@@ -609,6 +616,9 @@ class BatDevice extends GenericDevice {
       currency,
       translations,
       false,
+      this.timeZone,
+      showPower,
+      showSoc,
     );
 
     this.chartTomorrowCharge = chartTomorrow;
@@ -631,6 +641,9 @@ class BatDevice extends GenericDevice {
       currency,
       translations,
       false,
+      this.timeZone,
+      showPower,
+      showSoc,
     );
     this.chartNextHoursCharge = chartNextHours;
     if (!this.nextHoursChargeImage) {

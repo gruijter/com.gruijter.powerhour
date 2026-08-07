@@ -637,6 +637,11 @@ class CarChargeDevice extends GenericDevice {
         power: this.homey.__('power') || 'Vermogen',
         soc: this.homey.__('soc') || 'SoC',
       };
+      const showPower = !!this.getSettings().chartShowPower;
+      // Force-disabled when neither the connected car nor the charger itself reports a real SoC
+      // (this.sourceCapGroup.soc is resolved once per device start in addSourceCapGroup()) -
+      // otherwise the chart would show a purely predicted/guessed SoC line with no way to tell.
+      const showSoc = this.getSettings().chartShowSoc !== false && !!(this.sourceCapGroup && this.sourceCapGroup.soc);
 
       const chartYesterday = await getChargeChart(
         { scheme: JSON.stringify(yesterdayStrategy) },
@@ -649,6 +654,9 @@ class CarChargeDevice extends GenericDevice {
         currency,
         translations,
         false,
+        this.timeZone,
+        showPower,
+        showSoc,
       );
 
       this.chartYesterdayCharge = chartYesterday;
@@ -717,6 +725,8 @@ class CarChargeDevice extends GenericDevice {
         translations,
         true,
         this.timeZone,
+        showPower,
+        showSoc,
       );
 
       this.chartTodayCharge = chartToday;
@@ -757,6 +767,9 @@ class CarChargeDevice extends GenericDevice {
         currency,
         translations,
         false,
+        this.timeZone,
+        showPower,
+        showSoc,
       );
 
       this.chartTomorrowCharge = chartTomorrow;
@@ -779,6 +792,9 @@ class CarChargeDevice extends GenericDevice {
         currency,
         translations,
         false,
+        this.timeZone,
+        showPower,
+        showSoc,
       );
 
       this.chartNextHoursCharge = chartNextHours;

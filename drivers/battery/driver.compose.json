@@ -1268,6 +1268,91 @@
           }
         }
       ]
+    },
+    {
+      "type": "group",
+      "label": {
+        "en": "Graph display",
+        "nl": "Grafiek weergave",
+        "de": "Grafikanzeige",
+        "fr": "Affichage du graphique",
+        "it": "Visualizzazione grafico",
+        "sv": "Grafvisning",
+        "no": "Grafvisning",
+        "es": "Visualización del gráfico",
+        "da": "Grafvisning",
+        "pl": "Wyświetlanie wykresu",
+        "ru": "Отображение графика",
+        "ar": "عرض الرسم البياني"
+      },
+      "children": [
+        {
+          "id": "chartShowPower",
+          "type": "checkbox",
+          "label": {
+            "en": "Show power on graph",
+            "nl": "Vermogen tonen in grafiek",
+            "de": "Leistung im Diagramm anzeigen",
+            "fr": "Afficher la puissance sur le graphique",
+            "it": "Mostra potenza nel grafico",
+            "sv": "Visa effekt i diagrammet",
+            "no": "Vis effekt i diagrammet",
+            "es": "Mostrar potencia en el gráfico",
+            "da": "Vis effekt i diagrammet",
+            "pl": "Pokaż moc na wykresie",
+            "ru": "Показывать мощность на графике",
+            "ar": "إظهار الطاقة في الرسم البياني"
+          },
+          "hint": {
+            "en": "Show the actual/planned power (kW) line and its axis on the charge charts.",
+            "nl": "Toon de werkelijke/geplande vermogenslijn (kW) en de bijbehorende as in de laadgrafieken.",
+            "de": "Zeigt die tatsächliche/geplante Leistungslinie (kW) und ihre Achse in den Ladediagrammen an.",
+            "fr": "Afficher la ligne de puissance réelle/prévue (kW) et son axe sur les graphiques de charge.",
+            "it": "Mostra la linea di potenza effettiva/pianificata (kW) e il relativo asse nei grafici di ricarica.",
+            "sv": "Visa den faktiska/planerade effektlinjen (kW) och dess axel i laddningsdiagrammen.",
+            "no": "Vis den faktiske/planlagte effektlinjen (kW) og aksen i ladediagrammene.",
+            "es": "Mostrar la línea de potencia real/planificada (kW) y su eje en los gráficos de carga.",
+            "da": "Vis den faktiske/planlagte effektlinje (kW) og dens akse i opladningsdiagrammerne.",
+            "pl": "Pokaż linię mocy rzeczywistej/planowanej (kW) i jej oś na wykresach ładowania.",
+            "ru": "Показывать линию фактической/запланированной мощности (кВт) и её ось на графиках зарядки.",
+            "ar": "إظهار خط الطاقة الفعلية/المخططة (كيلوواط) ومحوره في رسوم الشحن البيانية."
+          },
+          "value": false
+        },
+        {
+          "id": "chartShowSoc",
+          "type": "checkbox",
+          "label": {
+            "en": "Show State of Charge on graph",
+            "nl": "Laadniveau (SoC) tonen in grafiek",
+            "de": "Ladezustand (SoC) im Diagramm anzeigen",
+            "fr": "Afficher l'état de charge (SoC) sur le graphique",
+            "it": "Mostra stato di carica (SoC) nel grafico",
+            "sv": "Visa laddningsnivå (SoC) i diagrammet",
+            "no": "Vis ladenivå (SoC) i diagrammet",
+            "es": "Mostrar estado de carga (SoC) en el gráfico",
+            "da": "Vis ladetilstand (SoC) i diagrammet",
+            "pl": "Pokaż stan naładowania (SoC) na wykresie",
+            "ru": "Показывать уровень заряда (SoC) на графике",
+            "ar": "إظهار حالة الشحن (SoC) في الرسم البياني"
+          },
+          "hint": {
+            "en": "Show the SoC (%) line and its axis on the charge charts.",
+            "nl": "Toon de SoC-lijn (%) en de bijbehorende as in de laadgrafieken.",
+            "de": "Zeigt die SoC-Linie (%) und ihre Achse in den Ladediagrammen an.",
+            "fr": "Afficher la ligne SoC (%) et son axe sur les graphiques de charge.",
+            "it": "Mostra la linea SoC (%) e il relativo asse nei grafici di ricarica.",
+            "sv": "Visa SoC-linjen (%) och dess axel i laddningsdiagrammen.",
+            "no": "Vis SoC-linjen (%) og aksen i ladediagrammene.",
+            "es": "Mostrar la línea de SoC (%) y su eje en los gráficos de carga.",
+            "da": "Vis SoC-linjen (%) og dens akse i opladningsdiagrammerne.",
+            "pl": "Pokaż linię SoC (%) i jej oś na wykresach ładowania.",
+            "ru": "Показывать линию SoC (%) и её ось на графиках зарядки.",
+            "ar": "إظهار خط SoC (%) ومحوره في رسوم الشحن البيانية."
+          },
+          "value": true
+        }
+      ]
     }
   ]
 }
