@@ -24,6 +24,27 @@ const LoadForecastStrategy = require('../../lib/helpers/LoadForecastStrategy');
 const GridFlows = require('../../lib/flows/GridFlows');
 const { imageUrlToStream } = require('../../lib/charts/ImageHelpers');
 const { getGridForecastChart, getGridWeeklyChart } = require('../../lib/charts/GridChart');
+const MeterHelpers = require('../../lib/MeterHelpers');
+
+// Experimental, grid-driver-only per-direction money calculation (see
+// zzz_export_import_netting_research_and_plan.md). Mirrors the shape of
+// MeterHelpers.calculateMoney() but prices import and export deltas separately
+// instead of netting them first: deltaMoney = (Δimport x importTariff) - (Δexport x exportTariff).
+// Deliberately kept local to this driver rather than added to the shared MeterHelpers -
+// this is an opt-in comparison feature, not a change to existing money calculations.
+function calculateDirectionalMoney(current, deltaImport, deltaExport, importTariff, exportTariff, periods) {
+  const deltaMoney = (deltaImport * importTariff) - (deltaExport * exportTariff);
+  const safeAdd = (base, delta) => {
+    const b = (typeof base === 'number' && !Number.isNaN(base)) ? base : 0;
+    return b + delta;
+  };
+  return {
+    hour: periods.newHour ? deltaMoney : safeAdd(current.hour, deltaMoney),
+    day: periods.newDay ? deltaMoney : safeAdd(current.day, deltaMoney),
+    month: periods.newMonth ? deltaMoney : safeAdd(current.month, deltaMoney),
+    year: periods.newYear ? deltaMoney : safeAdd(current.year, deltaMoney),
+  };
+}
 
 const deviceSpecifics = {
   cmap: {
@@ -47,6 +68,25 @@ class GridDevice extends GenericDevice {
     this.ds = deviceSpecifics;
     this.flows = new GridFlows(this);
     await super.onInit().catch(this.error);
+
+    // Additive migration: directional-netting capabilities added after this device may
+    // already have been paired (grid driver is unreleased/hidden, but keep this safe).
+    for (const cap of ['meter_money_this_hour_directional', 'meter_money_this_day_directional',
+      'meter_money_this_month_directional', 'meter_money_this_year_directional']) {
+      if (!this.hasCapability(cap)) {
+        this.log(`Adding missing capability ${cap} to device ${this.getName()}`);
+        await this.addCapability(cap).catch(this.error);
+      }
+    }
+
+    // Restore experimental per-direction netting state (no-op / harmless when the
+    // 'enableDirectionalNetting' setting is off - see zzz_export_import_netting_research_and_plan.md)
+    this.directionalMeter = (await this.getStoreValue('directionalMeter')) || { importValue: null, exportValue: null };
+    this.lastDirectionalSnapshot = await this.getStoreValue('lastDirectionalSnapshot');
+    this.meterMoneyDirectional = (await this.getStoreValue('meterMoneyDirectional')) || {
+      hour: 0, day: 0, month: 0, year: 0,
+    };
+    this.directionalPseudoState = await this.getStoreValue('directionalPseudoState');
 
     // Load forecast settings and profiles
     this.timeZone = this.homey.clock.getTimezone();
@@ -256,6 +296,142 @@ class GridDevice extends GenericDevice {
     }
 
     throw Error(`${this.sourceDevice.name} has no compatible grid capabilities defined in the energy object.`);
+  }
+
+  // --- Experimental per-direction (import/export) price netting ---------------------
+  // Opt-in via the 'enableDirectionalNetting' setting (default off). Entirely additive:
+  // every override below calls super.*() first so the existing meter_money_* behavior is
+  // completely unchanged. See zzz_export_import_netting_research_and_plan.md.
+
+  async updateGroupMeter() {
+    const result = await super.updateGroupMeter();
+    if (this.getSettings().enableDirectionalNetting) {
+      this.log(`[VERIFY directional] updateGroupMeter tick, lastGroupMeter=${JSON.stringify(this.lastGroupMeter)}`);
+      await this.updateDirectionalRegisters(this.lastGroupMeter.p1, this.lastGroupMeter.n1).catch((err) => this.error(err));
+    }
+    return result;
+  }
+
+  async updateMeterFromMeasure(val) {
+    const result = await super.updateMeterFromMeasure(val);
+    if (this.getSettings().enableDirectionalNetting && typeof val === 'number') {
+      await this.updateDirectionalFromSignedPower(val).catch((err) => this.error(err));
+    }
+    return result;
+  }
+
+  // Case 3 (clamp/CT meter via 'use_measure_source'): measure_power has no cumulative
+  // register at all, but its sign (Homey standard: + import, - export) lets us reconstruct
+  // pseudo import/export registers by integrating each direction separately - the same
+  // integration math the base class already uses for its single net total.
+  async updateDirectionalFromSignedPower(value) {
+    const nowTm = Date.now();
+    if (!this.directionalPseudoState) {
+      this.directionalPseudoState = { lastTm: nowTm, importTotal: 0, exportTotal: 0 };
+      await this.setStoreValue('directionalPseudoState', this.directionalPseudoState).catch((err) => this.error(err));
+      return;
+    }
+    const deltaTm = nowTm - this.directionalPseudoState.lastTm;
+    if (!(deltaTm > 0)) return;
+    const deltaKwh = (Math.abs(value) * deltaTm) / 3600000000;
+    if (value > 0) this.directionalPseudoState.importTotal += deltaKwh;
+    else if (value < 0) this.directionalPseudoState.exportTotal += deltaKwh;
+    this.directionalPseudoState.lastTm = nowTm;
+    await this.setStoreValue('directionalPseudoState', this.directionalPseudoState).catch((err) => this.error(err));
+    await this.updateDirectionalRegisters(this.directionalPseudoState.importTotal, this.directionalPseudoState.exportTotal);
+  }
+
+  // Records the latest known cumulative import/export values (case 1: real registers,
+  // case 3: pseudo registers from updateDirectionalFromSignedPower). Case 2 (import-only,
+  // no export data at all) simply never receives a numeric exportValue here, so
+  // updateMoneyDirectional() below stays a no-op for that device - by design, not a bug.
+  async updateDirectionalRegisters(importValue, exportValue) {
+    if (!this.directionalMeter) this.directionalMeter = { importValue: null, exportValue: null };
+    if (typeof importValue === 'number') this.directionalMeter.importValue = importValue;
+    if (typeof exportValue === 'number') this.directionalMeter.exportValue = exportValue;
+    await this.setStoreValue('directionalMeter', this.directionalMeter).catch((err) => this.error(err));
+    await this.updateMoneyDirectional();
+  }
+
+  // The actual per-direction money calculation. Mirrors the slot-boundary tariff-selection
+  // logic already in generic_sum_device.js#updateMoney() (newPricePeriod / previous-vs-
+  // current tariff), reusing this.tariffHistory and this.priceInterval as-is (both already
+  // correctly maintained by the unchanged, shared updateTariffHistory()) - just applied to
+  // two separate deltas instead of one netted delta.
+  async updateMoneyDirectional() {
+    const { importValue, exportValue } = this.directionalMeter || {};
+    this.log(`[VERIFY directional] importValue=${importValue} exportValue=${exportValue} tariffHistory=${JSON.stringify(this.tariffHistory)}`);
+    if (typeof importValue !== 'number' || typeof exportValue !== 'number') return; // case 2: no export data
+
+    if (!this.tariffHistory || typeof this.tariffHistory.current !== 'number') return; // prices not ready yet
+    const importTariff = this.tariffHistory.current;
+    const exportTariff = typeof this.tariffHistory.currentExport === 'number' ? this.tariffHistory.currentExport : importTariff;
+
+    const now = new Date();
+
+    if (!this.lastDirectionalSnapshot) {
+      this.lastDirectionalSnapshot = { importValue, exportValue, tm: now.getTime() };
+      await this.setStoreValue('lastDirectionalSnapshot', this.lastDirectionalSnapshot).catch((err) => this.error(err));
+      this.log('[VERIFY directional] first observation, stored snapshot, no delta yet');
+      return;
+    }
+
+    const deltaImport = importValue - this.lastDirectionalSnapshot.importValue;
+    const deltaExport = exportValue - this.lastDirectionalSnapshot.exportValue;
+    this.log(`[VERIFY directional] deltaImport=${deltaImport} deltaExport=${deltaExport}`);
+    if (!Number.isFinite(deltaImport) || !Number.isFinite(deltaExport)) return;
+    if (deltaImport === 0 && deltaExport === 0) return;
+
+    // Slot-boundary tariff selection (same shape as updateMoney()'s newPricePeriod logic):
+    // if this reading crosses into a new price interval, and the tariff was only updated
+    // at/after that boundary, price the accumulated delta at the PREVIOUS period's tariff.
+    const priceInterval = this.priceInterval || 60;
+    const startOfNow = new Date(now);
+    startOfNow.setUTCMinutes(Math.floor(now.getUTCMinutes() / priceInterval) * priceInterval, 0, 0);
+    const lastTm = new Date(this.lastDirectionalSnapshot.tm);
+    const startOfLast = new Date(lastTm);
+    startOfLast.setUTCMinutes(Math.floor(lastTm.getUTCMinutes() / priceInterval) * priceInterval, 0, 0);
+    const newPricePeriod = startOfNow.getTime() > startOfLast.getTime();
+
+    let effImportTariff = importTariff;
+    let effExportTariff = exportTariff;
+    if (newPricePeriod && this.tariffHistory.currentTm) {
+      const tariffSetTm = new Date(this.tariffHistory.currentTm);
+      if (tariffSetTm.getTime() >= startOfNow.getTime()) {
+        effImportTariff = typeof this.tariffHistory.previous === 'number' ? this.tariffHistory.previous : importTariff;
+        effExportTariff = typeof this.tariffHistory.previousExport === 'number' ? this.tariffHistory.previousExport : exportTariff;
+      }
+    }
+
+    const reading = MeterHelpers.getReadingObject(0, now, this.timeZone);
+    let periods;
+    try {
+      periods = this.getPeriods(reading);
+    } catch (err) {
+      this.error('[VERIFY directional] getPeriods threw', err);
+      periods = {
+        newHour: false, newDay: false, newMonth: false, newYear: false,
+      };
+    }
+    this.log(`[VERIFY directional] effImportTariff=${effImportTariff} effExportTariff=${effExportTariff} periods=${JSON.stringify(periods)} before=${JSON.stringify(this.meterMoneyDirectional)}`);
+    this.meterMoneyDirectional = calculateDirectionalMoney(
+      this.meterMoneyDirectional || {},
+      deltaImport,
+      deltaExport,
+      effImportTariff,
+      effExportTariff,
+      periods,
+    );
+    this.log(`[VERIFY directional] after=${JSON.stringify(this.meterMoneyDirectional)}`);
+
+    await this.setCapability('meter_money_this_hour_directional', this.meterMoneyDirectional.hour).catch((err) => this.error(err));
+    await this.setCapability('meter_money_this_day_directional', this.meterMoneyDirectional.day).catch((err) => this.error(err));
+    await this.setCapability('meter_money_this_month_directional', this.meterMoneyDirectional.month).catch((err) => this.error(err));
+    await this.setCapability('meter_money_this_year_directional', this.meterMoneyDirectional.year).catch((err) => this.error(err));
+
+    this.lastDirectionalSnapshot = { importValue, exportValue, tm: now.getTime() };
+    await this.setStoreValue('meterMoneyDirectional', this.meterMoneyDirectional).catch((err) => this.error(err));
+    await this.setStoreValue('lastDirectionalSnapshot', this.lastDirectionalSnapshot).catch((err) => this.error(err));
   }
 
   // --- Load Forecast Logic ---

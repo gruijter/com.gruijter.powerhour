@@ -1,0 +1,27 @@
+{
+  "type": "number",
+  "title": {
+    "en": "Money this day (directional, experimental)",
+    "de": "Kosten dieser Tag (richtungsabhängig, experimentell)",
+    "sv": "Pengar idag (riktningsbaserad, experimentell)",
+    "it": "Spesa oggi (per direzione, sperimentale)",
+    "no": "Kostnad idag (retningsbasert, eksperimentell)",
+    "fr": "Argent aujourd'hui (par direction, expérimental)",
+    "da": "Penge i dag (retningsbaseret, eksperimentel)",
+    "nl": "Geld deze dag (per richting, experimenteel)",
+    "ar": "التكلفة هذا اليوم (حسب الاتجاه، تجريبي)",
+    "es": "Money this day (directional, experimental)",
+    "pl": "Money this day (directional, experimental)",
+    "ru": "Money this day (directional, experimental)",
+    "ko": "Money this day (directional, experimental)"
+  },
+  "uiComponent": "sensor",
+  "icon": "/assets/money_d.svg",
+  "getable": true,
+  "setable": false,
+  "insights": true,
+  "units": {
+    "en": "¤"
+  },
+  "decimals": 2
+}

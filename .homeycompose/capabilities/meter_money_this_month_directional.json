@@ -1,0 +1,27 @@
+{
+  "type": "number",
+  "title": {
+    "en": "Money this month (directional, experimental)",
+    "de": "Kosten dieser Monat (richtungsabhängig, experimentell)",
+    "sv": "Pengar denna månad (riktningsbaserad, experimentell)",
+    "it": "Spesa mese corrente (per direzione, sperimentale)",
+    "no": "Kostnad denne måned (retningsbasert, eksperimentell)",
+    "fr": "Argent ce mois ci (par direction, expérimental)",
+    "da": "Penge denne måned (retningsbaseret, eksperimentel)",
+    "nl": "Geld deze maand (per richting, experimenteel)",
+    "es": "Money this month (directional, experimental)",
+    "pl": "Money this month (directional, experimental)",
+    "ru": "Money this month (directional, experimental)",
+    "ko": "Money this month (directional, experimental)",
+    "ar": "Money this month (directional, experimental)"
+  },
+  "uiComponent": "sensor",
+  "icon": "/assets/money_m.svg",
+  "getable": true,
+  "setable": false,
+  "insights": true,
+  "units": {
+    "en": "¤"
+  },
+  "decimals": 2
+}

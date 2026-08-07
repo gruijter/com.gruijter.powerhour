@@ -36,7 +36,9 @@ const driverSpecifics = {
     'measure_watt_forecast.h0', 'measure_watt_forecast.m15', 'measure_watt_forecast.m30',
     'measure_watt_forecast.m45', 'measure_watt_forecast.h1', 'measure_watt_forecast.h2',
     'measure_watt_forecast.h3', 'meter_kwh_forecast.h0', 'meter_kwh_forecast.this_day',
-    'meter_kwh_forecast.tomorrow', 'measure_watt_forecast.tomorrow_peak', 'button.retrain_load'],
+    'meter_kwh_forecast.tomorrow', 'measure_watt_forecast.tomorrow_peak', 'button.retrain_load',
+    'meter_money_this_hour_directional', 'meter_money_this_day_directional',
+    'meter_money_this_month_directional', 'meter_money_this_year_directional'],
 };
 
 class GridDriver extends GenericDriver {
@@ -88,6 +90,14 @@ class GridDriver extends GenericDriver {
       if (hasMeterPower && hasMeasurePower) {
         return { found: true, useMeasureSource: false };
       }
+    }
+
+    // Fallback: clamp/CT-style devices with no cumulative kWh register at all, only a
+    // signed measure_power (positive = import, negative = export, Homey standard). Paired
+    // with the 'use_measure_source' setting, the shared base class self-integrates this
+    // into a meter total (see generic_sum_device.js#addListeners()/updateMeterFromMeasure).
+    if (homeyDevice.capabilities.includes('measure_power')) {
+      return { found: true, useMeasureSource: true };
     }
 
     return { found: false };

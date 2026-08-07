@@ -16365,6 +16365,39 @@
               }
             },
             {
+              "id": "use_measure_source",
+              "type": "checkbox",
+              "label": {
+                "en": "Use Watt as source",
+                "nl": "Gebruik Watt als bron",
+                "de": "Watt als Quelle benutzen",
+                "fr": "Utiliser Watt comme source",
+                "it": "Usa Watt come sorgente",
+                "sv": "Använd Watt som källa",
+                "no": "Bruk Watt som kilde",
+                "es": "Usar Watt como fuente",
+                "da": "Brug Watt som kilde",
+                "pl": "Użyj Wata jako źródła",
+                "ru": "Использовать Ватт как источник",
+                "ar": "استخدم وات كمصدر"
+              },
+              "hint": {
+                "en": "Some source devices do not have a kWh meter. Using W is a less accurate fallback method. ONLY USE THIS IF kWh IS NOT POSSIBLE!",
+                "nl": "Sommige bron apparaten hebben geen kWh meter. Het gebruik van W is een minder nauwkeurig alternatief. ALLEEN GEBRUIKEN ALS kWh NIET MOGELIJK IS!",
+                "de": "Einige Geräte haben keinen kWh-Zähler. Die Verwendung von W ist eine weniger genaue Ausweichmethode. VERWENDEN SIE DIESE METHODE NUR, WENN kWh NICHT MÖGLICH IST!",
+                "fr": "Certains appareils sources n'ont pas de compteur kWh. L'utilisation de W est une méthode de secours moins précise. UTILISER UNIQUEMENT SI LE kWh N'EST PAS POSSIBLE !",
+                "it": "Alcuni dispositivi sorgente non dispongono di contatore kWh. L'uso di W è un metodo di ripiego meno accurato. UTILIZZARE SOLO SE kWh NON È POSSIBILE!",
+                "sv": "Vissa källenheter har ingen kWh-mätare. Att använda W är en mindre exakt reservmetod. ANVÄND ENDAST DETTA OM kWh INTE ÄR MÖJLIGT!",
+                "no": "Noen kildeenheter har ikke kWh meter. Å bruke W er et mindre nøyaktig alternativ. BRUK BARE DETTE OM KWH IKKE ER MULIG!",
+                "es": "Algunos dispositivos de origen no tienen un medidor de kWh. Usar W es un método de respaldo menos preciso. ¡UTILICE ESTO SOLO SI NO ES POSIBLE kWh!",
+                "da": "Nogle kildeenheder har ikke en kWh-måler. Brug af W er en mindre nøjagtig fallback-metode. BRUG KUN DETTE HVIS kWh IKKE ER MULIGT!",
+                "pl": "Niektóre urządzenia źródłowe nie mają licznika kWh. Użycie W jest mniej dokładną metodą awaryjną. UŻYWAJ TEGO TYLKO, JEŚLI kWh NIE JEST MOŻLIWE!",
+                "ru": "У некоторых исходных устройств нет счетчика кВтч. Использование Вт является менее точным резервным методом. ИСПОЛЬЗУЙТЕ ТОЛЬКО ЕСЛИ кВтч НЕВОЗМОЖНО!",
+                "ar": "بعض أجهزة المصدر ليس لديها عداد كيلوواط ساعة. استخدام وات هو طريقة احتياطية أقل دقة. استخدم هذا فقط إذا لم يكن الكيلوواط ساعة ممكنًا!"
+              },
+              "value": false
+            },
+            {
               "id": "wait_for_update",
               "type": "number",
               "label": {
@@ -17376,6 +17409,39 @@
                   }
                 }
               ]
+            },
+            {
+              "id": "enableDirectionalNetting",
+              "type": "checkbox",
+              "label": {
+                "en": "Experimental: per-direction price netting",
+                "nl": "Experimenteel: prijsverrekening per richting",
+                "de": "Experimentell: richtungsabhängige Preisverrechnung",
+                "fr": "Expérimental : tarification séparée par direction",
+                "it": "Sperimentale: tariffazione separata per direzione",
+                "sv": "Experimentell: riktningsbaserad prisnettning",
+                "no": "Eksperimentell: retningsbasert prisnetting",
+                "es": "Experimental: tarificación por dirección",
+                "da": "Eksperimentel: retningsbaseret prisnetting",
+                "pl": "Eksperymentalne: rozliczanie cen według kierunku",
+                "ru": "Экспериментально: раздельный расчёт цены по направлению",
+                "ar": "تجريبي: تسعير منفصل حسب الاتجاه"
+              },
+              "hint": {
+                "en": "Calculates a second, experimental set of money totals by pricing imported and exported energy separately (import kWh × import price, minus export kWh × export price) instead of netting them first. Only produces output when the source device (or the 'Use Watt as source' clamp-meter fallback) can distinguish import from export. Use this to compare against your actual energy bill - it does not replace the existing money totals.",
+                "nl": "Berekent een tweede, experimentele set geldtotalen door geïmporteerde en geëxporteerde energie apart te prijzen (import kWh × importprijs, min export kWh × exportprijs) in plaats van eerst te salderen. Werkt alleen als het bronapparaat (of de 'Gebruik Watt als bron' klemmeter-fallback) import van export kan onderscheiden. Gebruik dit om te vergelijken met uw werkelijke energierekening - het vervangt de bestaande geldtotalen niet.",
+                "de": "Berechnet einen zweiten, experimentellen Satz von Geldsummen, indem importierte und exportierte Energie separat bepreist wird (Import kWh × Importpreis, minus Export kWh × Exportpreis), anstatt zuerst zu verrechnen. Funktioniert nur, wenn das Quellgerät (oder der Zangenmesser-Fallback 'Watt als Quelle') Import von Export unterscheiden kann. Damit können Sie mit Ihrer tatsächlichen Energierechnung vergleichen - die bestehenden Geldsummen werden nicht ersetzt.",
+                "fr": "Calcule un second ensemble expérimental de totaux monétaires en tarifant séparément l'énergie importée et exportée (kWh importés × prix d'import, moins kWh exportés × prix d'export) au lieu de les compenser d'abord. Ne produit un résultat que si l'appareil source (ou le repli pince ampèremétrique 'Utiliser Watt comme source') peut distinguer l'import de l'export. Utilisez ceci pour comparer avec votre facture d'énergie réelle - cela ne remplace pas les totaux existants.",
+                "it": "Calcola un secondo set sperimentale di totali monetari tariffando separatamente l'energia importata ed esportata (kWh importati × prezzo import, meno kWh esportati × prezzo export) invece di compensarli prima. Produce un risultato solo se il dispositivo sorgente (o il fallback a pinza amperometrica 'Usa Watt come sorgente') può distinguere import da export. Usalo per confrontare con la tua bolletta energetica reale - non sostituisce i totali esistenti.",
+                "sv": "Beräknar en andra, experimentell uppsättning penningtotaler genom att prissätta importerad och exporterad energi separat (import kWh × importpris, minus export kWh × exportpris) istället för att nettoberäkna dem först. Ger endast resultat om källenheten (eller reservlösningen 'Använd Watt som källa' för tångmätare) kan skilja import från export. Använd detta för att jämföra med din faktiska elräkning - det ersätter inte de befintliga penningtotalerna.",
+                "no": "Beregner et andre, eksperimentelt sett med pengetotaler ved å prise importert og eksportert energi separat (import kWh × importpris, minus eksport kWh × eksportpris) i stedet for å nette dem først. Gir kun resultat når kildeenheten (eller klemmemåler-reserveløsningen 'Bruk Watt som kilde') kan skille import fra eksport. Bruk dette til å sammenligne med din faktiske strømregning - det erstatter ikke de eksisterende pengetotalene.",
+                "es": "Calcula un segundo conjunto experimental de totales monetarios tarificando la energía importada y exportada por separado (kWh importados × precio de importación, menos kWh exportados × precio de exportación) en lugar de compensarlos primero. Solo produce resultados cuando el dispositivo de origen (o el respaldo de pinza amperométrica 'Usar Watt como fuente') puede distinguir importación de exportación. Úselo para comparar con su factura de energía real - no reemplaza los totales de dinero existentes.",
+                "da": "Beregner et andet, eksperimentelt sæt af pengetotaler ved at prissætte importeret og eksporteret energi separat (import kWh × importpris, minus eksport kWh × eksportpris) i stedet for først at modregne dem. Giver kun resultat, når kildeenheden (eller tangamperemeter-fallbacken 'Brug Watt som kilde') kan skelne import fra eksport. Brug dette til at sammenligne med din faktiske energiregning - det erstatter ikke de eksisterende pengetotaler.",
+                "pl": "Oblicza drugi, eksperymentalny zestaw sum pieniężnych, wyceniając energię importowaną i eksportowaną osobno (kWh importu × cena importu, minus kWh eksportu × cena eksportu) zamiast najpierw je bilansować. Daje wynik tylko wtedy, gdy urządzenie źródłowe (lub rozwiązanie zastępcze z cęgami pomiarowymi 'Użyj Wata jako źródła') potrafi odróżnić import od eksportu. Użyj tego do porównania z rzeczywistym rachunkiem za energię - nie zastępuje to istniejących sum pieniężnych.",
+                "ru": "Рассчитывает второй, экспериментальный набор денежных итогов, оценивая импортированную и экспортированную энергию раздельно (кВтч импорта × цена импорта, минус кВтч экспорта × цена экспорта) вместо предварительного взаимозачёта. Даёт результат только если исходное устройство (или резервный вариант с токовыми клещами «Использовать Ватт как источник») может отличить импорт от экспорта. Используйте это для сравнения с реальным счётом за электроэнергию - это не заменяет существующие денежные итоги.",
+                "ar": "يحسب مجموعة ثانية تجريبية من الإجماليات النقدية عن طريق تسعير الطاقة المستوردة والمصدَّرة بشكل منفصل (كيلوواط ساعة مستورد × سعر الاستيراد، ناقص كيلوواط ساعة مصدَّر × سعر التصدير) بدلاً من موازنتها أولاً. لا يُنتج نتيجة إلا عندما يستطيع الجهاز المصدر (أو بديل مقياس الملقط 'استخدم وات كمصدر') التمييز بين الاستيراد والتصدير. استخدم هذا للمقارنة مع فاتورة الطاقة الفعلية - فهو لا يستبدل الإجماليات النقدية الحالية."
+              },
+              "value": false
             },
             {
               "id": "markup_month",
@@ -23622,6 +23688,33 @@
       },
       "decimals": 2
     },
+    "meter_money_this_day_directional": {
+      "type": "number",
+      "title": {
+        "en": "Money this day (directional, experimental)",
+        "de": "Kosten dieser Tag (richtungsabhängig, experimentell)",
+        "sv": "Pengar idag (riktningsbaserad, experimentell)",
+        "it": "Spesa oggi (per direzione, sperimentale)",
+        "no": "Kostnad idag (retningsbasert, eksperimentell)",
+        "fr": "Argent aujourd'hui (par direction, expérimental)",
+        "da": "Penge i dag (retningsbaseret, eksperimentel)",
+        "nl": "Geld deze dag (per richting, experimenteel)",
+        "ar": "التكلفة هذا اليوم (حسب الاتجاه، تجريبي)",
+        "es": "Money this day (directional, experimental)",
+        "pl": "Money this day (directional, experimental)",
+        "ru": "Money this day (directional, experimental)",
+        "ko": "Money this day (directional, experimental)"
+      },
+      "uiComponent": "sensor",
+      "icon": "/assets/money_d.svg",
+      "getable": true,
+      "setable": false,
+      "insights": true,
+      "units": {
+        "en": "¤"
+      },
+      "decimals": 2
+    },
     "meter_money_this_hour": {
       "type": "number",
       "title": {
@@ -23638,6 +23731,33 @@
         "ru": "Money this hour",
         "ko": "Money this hour",
         "ar": "Money this hour"
+      },
+      "uiComponent": "sensor",
+      "icon": "/assets/money_h.svg",
+      "getable": true,
+      "setable": false,
+      "insights": true,
+      "units": {
+        "en": "¤"
+      },
+      "decimals": 2
+    },
+    "meter_money_this_hour_directional": {
+      "type": "number",
+      "title": {
+        "en": "Money this hour (directional, experimental)",
+        "de": "Kosten diese Stunde (richtungsabhängig, experimentell)",
+        "sv": "Pengar denna timme (riktningsbaserad, experimentell)",
+        "it": "Spesa ora corrente (per direzione, sperimentale)",
+        "no": "Kostnad denne timen (retningsbasert, eksperimentell)",
+        "fr": "Argent cette heure ci (par direction, expérimental)",
+        "da": "Penge denne time (retningsbaseret, eksperimentel)",
+        "nl": "Geld dit uur (per richting, experimenteel)",
+        "es": "Money this hour (directional, experimental)",
+        "pl": "Money this hour (directional, experimental)",
+        "ru": "Money this hour (directional, experimental)",
+        "ko": "Money this hour (directional, experimental)",
+        "ar": "Money this hour (directional, experimental)"
       },
       "uiComponent": "sensor",
       "icon": "/assets/money_h.svg",
@@ -23703,6 +23823,33 @@
       },
       "decimals": 4
     },
+    "meter_money_this_month_directional": {
+      "type": "number",
+      "title": {
+        "en": "Money this month (directional, experimental)",
+        "de": "Kosten dieser Monat (richtungsabhängig, experimentell)",
+        "sv": "Pengar denna månad (riktningsbaserad, experimentell)",
+        "it": "Spesa mese corrente (per direzione, sperimentale)",
+        "no": "Kostnad denne måned (retningsbasert, eksperimentell)",
+        "fr": "Argent ce mois ci (par direction, expérimental)",
+        "da": "Penge denne måned (retningsbaseret, eksperimentel)",
+        "nl": "Geld deze maand (per richting, experimenteel)",
+        "es": "Money this month (directional, experimental)",
+        "pl": "Money this month (directional, experimental)",
+        "ru": "Money this month (directional, experimental)",
+        "ko": "Money this month (directional, experimental)",
+        "ar": "Money this month (directional, experimental)"
+      },
+      "uiComponent": "sensor",
+      "icon": "/assets/money_m.svg",
+      "getable": true,
+      "setable": false,
+      "insights": true,
+      "units": {
+        "en": "¤"
+      },
+      "decimals": 2
+    },
     "meter_money_this_year": {
       "type": "number",
       "title": {
@@ -23756,6 +23903,33 @@
         "en": "¤/kWh"
       },
       "decimals": 4
+    },
+    "meter_money_this_year_directional": {
+      "type": "number",
+      "title": {
+        "en": "Money this year (directional, experimental)",
+        "de": "Kosten dieses Jahr (richtungsabhängig, experimentell)",
+        "sv": "Pengar i år (riktningsbaserad, experimentell)",
+        "it": "Spesa anno corrente (per direzione, sperimentale)",
+        "no": "Kostnad dette året (retningsbasert, eksperimentell)",
+        "fr": "Argent cette année (par direction, expérimental)",
+        "da": "Penge i år (retningsbaseret, eksperimentel)",
+        "nl": "Geld dit jaar (per richting, experimenteel)",
+        "ar": "التكلفة هذا العام (حسب الاتجاه، تجريبي)",
+        "es": "Money this year (directional, experimental)",
+        "pl": "Money this year (directional, experimental)",
+        "ru": "Money this year (directional, experimental)",
+        "ko": "Money this year (directional, experimental)"
+      },
+      "uiComponent": "sensor",
+      "icon": "/assets/money_y.svg",
+      "getable": true,
+      "setable": false,
+      "insights": true,
+      "units": {
+        "en": "¤"
+      },
+      "decimals": 2
     },
     "meter_power_hidden": {
       "type": "number",

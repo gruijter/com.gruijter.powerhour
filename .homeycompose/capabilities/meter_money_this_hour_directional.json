@@ -1,0 +1,27 @@
+{
+  "type": "number",
+  "title": {
+    "en": "Money this hour (directional, experimental)",
+    "de": "Kosten diese Stunde (richtungsabhängig, experimentell)",
+    "sv": "Pengar denna timme (riktningsbaserad, experimentell)",
+    "it": "Spesa ora corrente (per direzione, sperimentale)",
+    "no": "Kostnad denne timen (retningsbasert, eksperimentell)",
+    "fr": "Argent cette heure ci (par direction, expérimental)",
+    "da": "Penge denne time (retningsbaseret, eksperimentel)",
+    "nl": "Geld dit uur (per richting, experimenteel)",
+    "es": "Money this hour (directional, experimental)",
+    "pl": "Money this hour (directional, experimental)",
+    "ru": "Money this hour (directional, experimental)",
+    "ko": "Money this hour (directional, experimental)",
+    "ar": "Money this hour (directional, experimental)"
+  },
+  "uiComponent": "sensor",
+  "icon": "/assets/money_h.svg",
+  "getable": true,
+  "setable": false,
+  "insights": true,
+  "units": {
+    "en": "¤"
+  },
+  "decimals": 2
+}
