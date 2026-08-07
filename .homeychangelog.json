@@ -1,4 +1,7 @@
 {
+  "8.12.0": {
+    "en": "Fix multiple flows. Fix charts. Fix power sign handling. Fix data source fetching. Fix SoC and Power Insights fetching. Fix Solar timezone handling. Fix updateMeter bug. Add graph settings. Add grid directional metering."
+  },
   "8.11.0": {
     "en": "evCharger extensions. Charts upgrades. Massive memory spike reduction."
   },
