@@ -201,59 +201,96 @@ class BatDevice extends GenericDevice {
         // measure_power values almost exactly - same scale, same sign, 5-minute resolution).
         const isCumulative = cap.includes('meter') || (cap.includes('energy') && cap !== 'energy_power');
 
-        for (const resStr of ['last7Days', 'last14Days', 'today']) {
+        const convert = (data, resStr) => {
+          if (!data || !data.values || data.values.length === 0) return null;
+          if (isCumulative && data.values.length > 1) {
+            const powerWatts = [];
+            for (let i = 1; i < data.values.length; i++) {
+              const prev = data.values[i - 1];
+              const curr = data.values[i];
+              const getVal = (item) => {
+                if (typeof item.v === 'number') return item.v;
+                if (typeof item.y === 'number') return item.y;
+                return 0;
+              };
+              const prevV = getVal(prev);
+              const currV = getVal(curr);
+              const prevT = typeof prev.t === 'number' ? prev.t : new Date(prev.t).getTime();
+              const currT = typeof curr.t === 'number' ? curr.t : new Date(curr.t).getTime();
+              const dtHours = (currT - prevT) / 3600000;
+              const dKwh = currV - prevV;
+              if (dtHours > 0 && Math.abs(dKwh) < 500) {
+                const watts = (dKwh / dtHours) * 1000;
+                powerWatts.push({ time: prevT, power: Math.round(watts) });
+              }
+            }
+            return { entries: powerWatts, isWatts: true };
+          }
+          // 'energy_power' AND 'measure_battery' hourly entries are already stamped at the START
+          // of the hour they represent (confirmed empirically against a real device: both logs'
+          // raw 09:00 UTC entry lined up exactly with the real 11:00 local transition seen in
+          // Homey's own Insights graph - the SoC entry started rising at the same raw timestamp
+          // the power entry jumped to charging). Applying the -1h correction below to either one
+          // produces a real, visible 1-hour-too-early shift (SoC/power changing "before" they
+          // should relative to each other). Unlike these two, other hourly logs ARE
+          // END-of-interval stamped and DO need the -1h correction.
+          const startStampedCaps = ['energy_power', 'measure_battery'];
+          const isHourly = (resStr === 'last7Days' || resStr === 'last14Days') && !startStampedCaps.includes(cap);
+          const entries = data.values.map((e) => {
+            const rawT = typeof e.t === 'number' ? e.t : new Date(e.t).getTime();
+            const t = isHourly ? rawT - 3600000 : rawT;
+            let v = 0;
+            if (typeof e.v === 'number') v = e.v;
+            else if (typeof e.y === 'number') v = e.y;
+            return { time: t, value: Math.round(v) };
+          });
+          return { entries, isWatts: false };
+        };
+
+        // Two-stage fetch, mirroring solar's approach (drivers/solar/device.js): a single
+        // 'last7Days'/'last14Days' fetch only ever returns HOURLY points, and since the old code
+        // stopped at the first resolution with any data, it locked onto hourly and never tried a
+        // finer one - this is why battery/SoC charts stepped hourly even when the price source
+        // (e.g. dap15) is 15-minute resolution. 'last24Hours' gives ~5-minute resolution for the
+        // most recent day (confirmed working in solar's fine-tuning fetch); merge it over the
+        // coarse hourly data so the last 24h is fine-grained and 24-48h ago stays hourly (that's
+        // all Insights offers that far back).
+        let coarse = null;
+        for (const resStr of ['last7Days', 'last14Days']) {
           const data = await api.insights.getLogEntries({
             id: log.id || log.uri,
             start: startDate.toISOString(),
             end: endDate.toISOString(),
             resolution: resStr,
           }).catch(() => null);
-          if (data && data.values && data.values.length > 0) {
-            if (isCumulative && data.values.length > 1) {
-              const powerWatts = [];
-              for (let i = 1; i < data.values.length; i++) {
-                const prev = data.values[i - 1];
-                const curr = data.values[i];
-                const getVal = (item) => {
-                  if (typeof item.v === 'number') return item.v;
-                  if (typeof item.y === 'number') return item.y;
-                  return 0;
-                };
-                const prevV = getVal(prev);
-                const currV = getVal(curr);
-                const prevT = typeof prev.t === 'number' ? prev.t : new Date(prev.t).getTime();
-                const currT = typeof curr.t === 'number' ? curr.t : new Date(curr.t).getTime();
-                const dtHours = (currT - prevT) / 3600000;
-                const dKwh = currV - prevV;
-                if (dtHours > 0 && Math.abs(dKwh) < 500) {
-                  const watts = (dKwh / dtHours) * 1000;
-                  powerWatts.push({ time: prevT, power: Math.round(watts) });
-                }
-              }
-              return { entries: powerWatts, isWatts: true };
-            }
-            // 'energy_power' AND 'measure_battery' hourly entries are already stamped at the START
-            // of the hour they represent (confirmed empirically against a real device: both logs'
-            // raw 09:00 UTC entry lined up exactly with the real 11:00 local transition seen in
-            // Homey's own Insights graph - the SoC entry started rising at the same raw timestamp
-            // the power entry jumped to charging). Applying the -1h correction below to either one
-            // produces a real, visible 1-hour-too-early shift (SoC/power changing "before" they
-            // should relative to each other). Unlike these two, other hourly logs ARE
-            // END-of-interval stamped and DO need the -1h correction.
-            const startStampedCaps = ['energy_power', 'measure_battery'];
-            const isHourly = (resStr === 'last7Days' || resStr === 'last14Days') && !startStampedCaps.includes(cap);
-            const entries = data.values.map((e) => {
-              const rawT = typeof e.t === 'number' ? e.t : new Date(e.t).getTime();
-              const t = isHourly ? rawT - 3600000 : rawT;
-              let v = 0;
-              if (typeof e.v === 'number') v = e.v;
-              else if (typeof e.y === 'number') v = e.y;
-              return { time: t, value: Math.round(v) };
-            });
-            return { entries, isWatts: false };
-          }
+          coarse = convert(data, resStr);
+          if (coarse) break;
         }
-        return null;
+
+        const fineStart = new Date(endDate.getTime() - 24 * 60 * 60 * 1000);
+        const fineData = await api.insights.getLogEntries({
+          id: log.id || log.uri,
+          start: fineStart.toISOString(),
+          end: endDate.toISOString(),
+          resolution: 'last24Hours',
+        }).catch(() => null);
+        const fine = convert(fineData, 'last24Hours');
+
+        if (!coarse && !fine) {
+          const todayData = await api.insights.getLogEntries({
+            id: log.id || log.uri,
+            start: startDate.toISOString(),
+            end: endDate.toISOString(),
+            resolution: 'today',
+          }).catch(() => null);
+          return convert(todayData, 'today');
+        }
+        if (!fine) return coarse;
+        if (!coarse) return fine;
+
+        const fineMinTime = Math.min(...fine.entries.map((e) => e.time));
+        const merged = coarse.entries.filter((e) => e.time < fineMinTime).concat(fine.entries);
+        return { entries: merged, isWatts: fine.isWatts };
       };
 
       // 1. Power history. Prefer the exact capability already resolved by addSourceCapGroup()
