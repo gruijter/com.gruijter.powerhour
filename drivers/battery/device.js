@@ -232,11 +232,16 @@ class BatDevice extends GenericDevice {
               }
               return { entries: powerWatts, isWatts: true };
             }
-            // 'energy_power' hourly entries are already stamped at the START of the hour they
-            // represent (confirmed empirically: raw timestamp 09:00 UTC lined up exactly with the
-            // real 11:00 local transition seen in Homey's own Insights graph) - unlike other hourly
-            // logs, which are END-of-interval stamped and need the -1h correction below.
-            const isHourly = (resStr === 'last7Days' || resStr === 'last14Days') && cap !== 'energy_power';
+            // 'energy_power' AND 'measure_battery' hourly entries are already stamped at the START
+            // of the hour they represent (confirmed empirically against a real device: both logs'
+            // raw 09:00 UTC entry lined up exactly with the real 11:00 local transition seen in
+            // Homey's own Insights graph - the SoC entry started rising at the same raw timestamp
+            // the power entry jumped to charging). Applying the -1h correction below to either one
+            // produces a real, visible 1-hour-too-early shift (SoC/power changing "before" they
+            // should relative to each other). Unlike these two, other hourly logs ARE
+            // END-of-interval stamped and DO need the -1h correction.
+            const startStampedCaps = ['energy_power', 'measure_battery'];
+            const isHourly = (resStr === 'last7Days' || resStr === 'last14Days') && !startStampedCaps.includes(cap);
             const entries = data.values.map((e) => {
               const rawT = typeof e.t === 'number' ? e.t : new Date(e.t).getTime();
               const t = isHourly ? rawT - 3600000 : rawT;

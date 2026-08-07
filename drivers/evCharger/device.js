@@ -861,10 +861,14 @@ class CarChargeDevice extends GenericDevice {
                   return powerWatts;
                 }
 
-                // 'energy_power' hourly entries are already stamped at the START of the hour they
-                // represent (confirmed empirically against a real device) - unlike other hourly
-                // logs, which are END-of-interval stamped and need the -1h correction below.
-                const isHourly = (resStr === 'last7Days' || resStr === 'last14Days') && capName !== 'energy_power';
+                // 'energy_power' AND 'measure_battery' (used here for the car's SoC) hourly entries
+                // are already stamped at the START of the hour they represent (confirmed
+                // empirically against a real device: both logs' raw hourly entry lined up exactly
+                // with the real transition seen in Homey's own Insights graph, at the same raw
+                // timestamp) - unlike other hourly logs, which are END-of-interval stamped and need
+                // the -1h correction below.
+                const startStampedCaps = ['energy_power', 'measure_battery'];
+                const isHourly = (resStr === 'last7Days' || resStr === 'last14Days') && !startStampedCaps.includes(capName);
                 return data.values.map((e) => {
                   let val = 0;
                   if (typeof e.v === 'number') val = e.v;
