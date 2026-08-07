@@ -464,10 +464,12 @@ class BatDevice extends GenericDevice {
     };
     const showPower = !!this.getSettings().chartShowPower;
     const showSoc = this.getSettings().chartShowSoc !== false;
+    const showExportPrice = this.getSettings().chartShowExportPrice !== false;
 
     // 1. Image 1: Yesterday (00:00 to 23:59 Yesterday)
     const yesterdayStartMs = todayStartMs - (24 * 60 * 60 * 1000);
     const yesterdayStrategy = {};
+    const yesterdayExportPrices = [];
 
     for (let i = 0; i < totalDaySlots; i += 1) {
       const slotStartMs = yesterdayStartMs + (i * intervalMs);
@@ -476,6 +478,7 @@ class BatDevice extends GenericDevice {
       const actualSoc = this.getActualSocForTime(slotStartMs);
       const slotPrice = this.getPriceForTimestamp(slotStartMs);
       const planned = this.getPlannedScheduleForSlot(i, true);
+      yesterdayExportPrices[i] = this.getExportPriceForTimestamp(slotStartMs);
 
       yesterdayStrategy[i] = {
         power: planned.power,
@@ -494,13 +497,14 @@ class BatDevice extends GenericDevice {
       chargePower,
       dischargePower,
       this.priceInterval,
-      null,
+      yesterdayExportPrices,
       currency,
       translations,
       false,
       this.timeZone,
       showPower,
       showSoc,
+      showExportPrice,
     );
 
     this.chartYesterdayCharge = chartYesterday;
@@ -514,6 +518,7 @@ class BatDevice extends GenericDevice {
     // 2. Image 2: Today (00:00 to 23:59 Today)
     const todayStrategy = {};
     const todayDateStr = nowLocal.toDateString();
+    const todayExportPrices = [];
     await this.recordPlannedSchedule(stratScheme, currentSlotInDay, totalDaySlots, todayDateStr);
 
     for (let i = 0; i < totalDaySlots; i += 1) {
@@ -526,6 +531,7 @@ class BatDevice extends GenericDevice {
         actualSoc = typeof this.soc === 'number' ? this.soc : null;
       }
       const slotPrice = this.getPriceForTimestamp(slotStartMs);
+      todayExportPrices[i] = this.getExportPriceForTimestamp(slotStartMs);
 
       if (i < currentSlotInDay) {
         const planned = this.getPlannedScheduleForSlot(i);
@@ -569,13 +575,14 @@ class BatDevice extends GenericDevice {
       chargePower,
       dischargePower,
       this.priceInterval,
-      null,
+      todayExportPrices,
       currency,
       translations,
       true,
       this.timeZone,
       showPower,
       showSoc,
+      showExportPrice,
     );
 
     this.chartTodayCharge = chartToday;
@@ -589,6 +596,8 @@ class BatDevice extends GenericDevice {
     // 3. Image 3: Tomorrow (00:00 to 23:59 Tomorrow)
     const tomorrowStrategy = {};
     const remainingTodaySlots = totalDaySlots - currentSlotInDay;
+    const tomorrowStartMs = todayStartMs + (24 * 60 * 60 * 1000);
+    const tomorrowExportPrices = [];
 
     for (let i = 0; i < totalDaySlots; i += 1) {
       const stratIdx = remainingTodaySlots + i;
@@ -603,6 +612,7 @@ class BatDevice extends GenericDevice {
           isForecast: true,
         };
       }
+      tomorrowExportPrices[i] = this.getExportPriceForTimestamp(tomorrowStartMs + (i * intervalMs));
     }
 
     const chartTomorrow = await getChargeChart(
@@ -612,13 +622,14 @@ class BatDevice extends GenericDevice {
       chargePower,
       dischargePower,
       this.priceInterval,
-      null,
+      tomorrowExportPrices,
       currency,
       translations,
       false,
       this.timeZone,
       showPower,
       showSoc,
+      showExportPrice,
     );
 
     this.chartTomorrowCharge = chartTomorrow;
@@ -644,6 +655,7 @@ class BatDevice extends GenericDevice {
       this.timeZone,
       showPower,
       showSoc,
+      showExportPrice,
     );
     this.chartNextHoursCharge = chartNextHours;
     if (!this.nextHoursChargeImage) {

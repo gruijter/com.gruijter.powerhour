@@ -621,6 +621,39 @@
             "ar": "إظهار خط SoC (%) ومحوره في رسوم الشحن البيانية. يتم التعطيل تلقائيًا إذا لم تُبلغ السيارة المتصلة ولا الشاحن عن SoC حقيقي."
           },
           "value": true
+        },
+        {
+          "id": "chartShowExportPrice",
+          "type": "checkbox",
+          "label": {
+            "en": "Show export price on graph",
+            "nl": "Exportprijs tonen in grafiek",
+            "de": "Exportpreis im Diagramm anzeigen",
+            "fr": "Afficher le prix d'exportation sur le graphique",
+            "it": "Mostra prezzo di esportazione nel grafico",
+            "sv": "Visa exportpris i diagrammet",
+            "no": "Vis eksportpris i diagrammet",
+            "es": "Mostrar precio de exportación en el gráfico",
+            "da": "Vis eksportpris i diagrammet",
+            "pl": "Pokaż cenę eksportu na wykresie",
+            "ru": "Показывать экспортную цену на графике",
+            "ar": "إظهار سعر التصدير في الرسم البياني"
+          },
+          "hint": {
+            "en": "Show the export price line (yellow) on the charge charts.",
+            "nl": "Toon de exportprijslijn (geel) in de laadgrafieken.",
+            "de": "Zeigt die Exportpreislinie (gelb) in den Ladediagrammen an.",
+            "fr": "Afficher la ligne de prix d'exportation (jaune) sur les graphiques de charge.",
+            "it": "Mostra la linea del prezzo di esportazione (gialla) nei grafici di ricarica.",
+            "sv": "Visa exportprislinjen (gul) i laddningsdiagrammen.",
+            "no": "Vis eksportprislinjen (gul) i ladediagrammene.",
+            "es": "Mostrar la línea de precio de exportación (amarilla) en los gráficos de carga.",
+            "da": "Vis eksportprislinjen (gul) i opladningsdiagrammerne.",
+            "pl": "Pokaż linię ceny eksportu (żółta) na wykresach ładowania.",
+            "ru": "Показывать линию экспортной цены (жёлтая) на графиках зарядки.",
+            "ar": "إظهار خط سعر التصدير (الأصفر) في رسوم الشحن البيانية."
+          },
+          "value": true
         }
       ]
     }
