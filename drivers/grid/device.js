@@ -303,19 +303,41 @@ class GridDevice extends GenericDevice {
   // every override below calls super.*() first so the existing meter_money_* behavior is
   // completely unchanged. See zzz_export_import_netting_research_and_plan.md.
 
+  // this.lastReadingHour/Day/Month/Year are shared mutable state that super.*() below
+  // advances the instant it detects a boundary crossing (generic_sum_device.js
+  // updateMeters(), only when periods.newHour/newDay/etc is true). If we asked
+  // this.getPeriods() for our own answer AFTER calling super, the boundary would already
+  // be consumed and we'd always see false - the directional money would then never reset
+  // and would grow across hour/day/month/year boundaries forever. So we snapshot periods
+  // BEFORE calling super, using the same not-yet-mutated state super is about to compare against.
+  capturePeriodsForDirectional() {
+    if (!this.getSettings().enableDirectionalNetting) return null;
+    try {
+      const preReading = MeterHelpers.getReadingObject(0, new Date(), this.timeZone);
+      return this.getPeriods(preReading);
+    } catch (err) {
+      this.error('[VERIFY directional] capturePeriodsForDirectional threw', err);
+      return {
+        newHour: false, newDay: false, newMonth: false, newYear: false,
+      };
+    }
+  }
+
   async updateGroupMeter() {
+    const directionalPeriods = this.capturePeriodsForDirectional();
     const result = await super.updateGroupMeter();
     if (this.getSettings().enableDirectionalNetting) {
       this.log(`[VERIFY directional] updateGroupMeter tick, lastGroupMeter=${JSON.stringify(this.lastGroupMeter)}`);
-      await this.updateDirectionalRegisters(this.lastGroupMeter.p1, this.lastGroupMeter.n1).catch((err) => this.error(err));
+      await this.updateDirectionalRegisters(this.lastGroupMeter.p1, this.lastGroupMeter.n1, directionalPeriods).catch((err) => this.error(err));
     }
     return result;
   }
 
   async updateMeterFromMeasure(val) {
+    const directionalPeriods = (typeof val === 'number') ? this.capturePeriodsForDirectional() : null;
     const result = await super.updateMeterFromMeasure(val);
     if (this.getSettings().enableDirectionalNetting && typeof val === 'number') {
-      await this.updateDirectionalFromSignedPower(val).catch((err) => this.error(err));
+      await this.updateDirectionalFromSignedPower(val, directionalPeriods).catch((err) => this.error(err));
     }
     return result;
   }
@@ -324,7 +346,7 @@ class GridDevice extends GenericDevice {
   // register at all, but its sign (Homey standard: + import, - export) lets us reconstruct
   // pseudo import/export registers by integrating each direction separately - the same
   // integration math the base class already uses for its single net total.
-  async updateDirectionalFromSignedPower(value) {
+  async updateDirectionalFromSignedPower(value, periods) {
     const nowTm = Date.now();
     if (!this.directionalPseudoState) {
       this.directionalPseudoState = { lastTm: nowTm, importTotal: 0, exportTotal: 0 };
@@ -338,19 +360,19 @@ class GridDevice extends GenericDevice {
     else if (value < 0) this.directionalPseudoState.exportTotal += deltaKwh;
     this.directionalPseudoState.lastTm = nowTm;
     await this.setStoreValue('directionalPseudoState', this.directionalPseudoState).catch((err) => this.error(err));
-    await this.updateDirectionalRegisters(this.directionalPseudoState.importTotal, this.directionalPseudoState.exportTotal);
+    await this.updateDirectionalRegisters(this.directionalPseudoState.importTotal, this.directionalPseudoState.exportTotal, periods);
   }
 
   // Records the latest known cumulative import/export values (case 1: real registers,
   // case 3: pseudo registers from updateDirectionalFromSignedPower). Case 2 (import-only,
   // no export data at all) simply never receives a numeric exportValue here, so
   // updateMoneyDirectional() below stays a no-op for that device - by design, not a bug.
-  async updateDirectionalRegisters(importValue, exportValue) {
+  async updateDirectionalRegisters(importValue, exportValue, periods) {
     if (!this.directionalMeter) this.directionalMeter = { importValue: null, exportValue: null };
     if (typeof importValue === 'number') this.directionalMeter.importValue = importValue;
     if (typeof exportValue === 'number') this.directionalMeter.exportValue = exportValue;
     await this.setStoreValue('directionalMeter', this.directionalMeter).catch((err) => this.error(err));
-    await this.updateMoneyDirectional();
+    await this.updateMoneyDirectional(periods);
   }
 
   // The actual per-direction money calculation. Mirrors the slot-boundary tariff-selection
@@ -358,7 +380,7 @@ class GridDevice extends GenericDevice {
   // current tariff), reusing this.tariffHistory and this.priceInterval as-is (both already
   // correctly maintained by the unchanged, shared updateTariffHistory()) - just applied to
   // two separate deltas instead of one netted delta.
-  async updateMoneyDirectional() {
+  async updateMoneyDirectional(periods) {
     const { importValue, exportValue } = this.directionalMeter || {};
     this.log(`[VERIFY directional] importValue=${importValue} exportValue=${exportValue} tariffHistory=${JSON.stringify(this.tariffHistory)}`);
     if (typeof importValue !== 'number' || typeof exportValue !== 'number') return; // case 2: no export data
@@ -403,24 +425,17 @@ class GridDevice extends GenericDevice {
       }
     }
 
-    const reading = MeterHelpers.getReadingObject(0, now, this.timeZone);
-    let periods;
-    try {
-      periods = this.getPeriods(reading);
-    } catch (err) {
-      this.error('[VERIFY directional] getPeriods threw', err);
-      periods = {
-        newHour: false, newDay: false, newMonth: false, newYear: false,
-      };
-    }
-    this.log(`[VERIFY directional] effImportTariff=${effImportTariff} effExportTariff=${effExportTariff} periods=${JSON.stringify(periods)} before=${JSON.stringify(this.meterMoneyDirectional)}`);
+    const safePeriods = periods || {
+      newHour: false, newDay: false, newMonth: false, newYear: false,
+    };
+    this.log(`[VERIFY directional] effImportTariff=${effImportTariff} effExportTariff=${effExportTariff} periods=${JSON.stringify(safePeriods)} before=${JSON.stringify(this.meterMoneyDirectional)}`);
     this.meterMoneyDirectional = calculateDirectionalMoney(
       this.meterMoneyDirectional || {},
       deltaImport,
       deltaExport,
       effImportTariff,
       effExportTariff,
-      periods,
+      safePeriods,
     );
     this.log(`[VERIFY directional] after=${JSON.stringify(this.meterMoneyDirectional)}`);
 
