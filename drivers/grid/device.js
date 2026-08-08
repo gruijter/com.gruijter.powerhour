@@ -31,18 +31,16 @@ const MeterHelpers = require('../../lib/MeterHelpers');
 // MeterHelpers.calculateMoney() but prices import and export deltas separately
 // instead of netting them first: deltaMoney = (Δimport x importTariff) - (Δexport x exportTariff).
 // Deliberately kept local to this driver rather than added to the shared MeterHelpers -
-// this is an opt-in comparison feature, not a change to existing money calculations.
+// this is an opt-in comparison feature, not a change to existing money calculations. It
+// does reuse MeterHelpers.safeAdd(), an additive-only helper factored out of
+// calculateMoney()'s identical inline closure, so this doesn't carry its own copy.
 function calculateDirectionalMoney(current, deltaImport, deltaExport, importTariff, exportTariff, periods) {
   const deltaMoney = (deltaImport * importTariff) - (deltaExport * exportTariff);
-  const safeAdd = (base, delta) => {
-    const b = (typeof base === 'number' && !Number.isNaN(base)) ? base : 0;
-    return b + delta;
-  };
   return {
-    hour: periods.newHour ? deltaMoney : safeAdd(current.hour, deltaMoney),
-    day: periods.newDay ? deltaMoney : safeAdd(current.day, deltaMoney),
-    month: periods.newMonth ? deltaMoney : safeAdd(current.month, deltaMoney),
-    year: periods.newYear ? deltaMoney : safeAdd(current.year, deltaMoney),
+    hour: periods.newHour ? deltaMoney : MeterHelpers.safeAdd(current.hour, deltaMoney),
+    day: periods.newDay ? deltaMoney : MeterHelpers.safeAdd(current.day, deltaMoney),
+    month: periods.newMonth ? deltaMoney : MeterHelpers.safeAdd(current.month, deltaMoney),
+    year: periods.newYear ? deltaMoney : MeterHelpers.safeAdd(current.year, deltaMoney),
   };
 }
 
@@ -63,11 +61,19 @@ const deviceSpecifics = {
 
 class GridDevice extends GenericDevice {
   async onInit() {
-    this.startupTime = Date.now(); // Fix 1: stamp startup so boot-time entries can be excluded from guard
+    this.startupTime = Date.now(); // stamp startup so boot-time entries can be excluded from guard
     this.powerHistory = [];
     this.ds = deviceSpecifics;
     this.flows = new GridFlows(this);
     await super.onInit().catch(this.error);
+
+    // A newer onInit() (via restartDevice(), e.g. on a detected currency mismatch) can start
+    // while the super.onInit() call above is still awaiting network/timer calls - the base
+    // class handles that internally via its own this.sessionId staleness guard, but that
+    // guard only protects the base's own state. Capture the winning session here too, so the
+    // loop-starting section below can bail out rather than layer a duplicate forecast/
+    // learning loop on top of the one the newer call already started.
+    const sessionIdAfterSuper = this.sessionId;
 
     // Additive migration: directional-netting capabilities added after this device may
     // already have been paired (grid driver is unreleased/hidden, but keep this safe).
@@ -117,6 +123,7 @@ class GridDevice extends GenericDevice {
     });
 
     // Start Loops
+    if (this.sessionId !== sessionIdAfterSuper) return; // superseded by a newer onInit() meanwhile
     this.startForecastLoop();
     if (this.initLearningTimeout) this.homey.clearTimeout(this.initLearningTimeout);
     this.initLearningTimeout = this.homey.setTimeout(async () => {
@@ -244,26 +251,26 @@ class GridDevice extends GenericDevice {
     }
   }
 
+  // super.getActiveTariff() resolves its 'dynamic' fallback via this.currentGridPower, which
+  // no driver (this one included) ever populates - so that fallback is always dead and it
+  // always ends up returning `tariff` (plain import) whenever deltaMeter is 0 or unusable.
+  // For a fixed tariff_type, or a nonzero deltaMeter, super's result already matches what we'd
+  // compute ourselves, so just delegate. Only the dead-fallback case needs a local override,
+  // using this driver's own live measure_source capability instead of the unpopulated field.
   getActiveTariff(reading, tariff, exportTariff) {
-    const settings = this.getSettings();
-    const tariffType = settings?.tariff_type || 'dynamic';
-    if (tariffType === 'import') return tariff;
-    if (tariffType === 'export') return exportTariff;
+    const tariffType = this.getSettings()?.tariff_type || 'dynamic';
+    if (tariffType !== 'dynamic') return super.getActiveTariff(reading, tariff, exportTariff);
 
     let deltaMeter;
     if (this.meterMoney && typeof this.meterMoney.meterValue === 'number' && typeof reading.meterValue === 'number') {
       deltaMeter = reading.meterValue - this.meterMoney.meterValue;
     }
-
     if (typeof deltaMeter === 'number' && deltaMeter !== 0) {
-      return deltaMeter < 0 ? exportTariff : tariff;
+      return super.getActiveTariff(reading, tariff, exportTariff);
     }
 
-    // 1. Use local values for the main meter device
     const livePower = this.getCapabilityValue(this.ds.cmap.measure_source);
     if (typeof livePower === 'number') return livePower < 0 ? exportTariff : tariff;
-
-    // 2. Default to import tariff
     return tariff;
   }
 
@@ -300,53 +307,54 @@ class GridDevice extends GenericDevice {
 
   // --- Experimental per-direction (import/export) price netting ---------------------
   // Opt-in via the 'enableDirectionalNetting' setting (default off). Entirely additive:
-  // every override below calls super.*() first so the existing meter_money_* behavior is
-  // completely unchanged. See zzz_export_import_netting_research_and_plan.md.
+  // updateMeters() below calls super.updateMeters() first so the existing meter_money_*
+  // behavior is completely unchanged. See zzz_export_import_netting_research_and_plan.md.
 
-  // this.lastReadingHour/Day/Month/Year are shared mutable state that super.*() below
-  // advances the instant it detects a boundary crossing (generic_sum_device.js
-  // updateMeters(), only when periods.newHour/newDay/etc is true). If we asked
-  // this.getPeriods() for our own answer AFTER calling super, the boundary would already
-  // be consumed and we'd always see false - the directional money would then never reset
-  // and would grow across hour/day/month/year boundaries forever. So we snapshot periods
-  // BEFORE calling super, using the same not-yet-mutated state super is about to compare against.
-  capturePeriodsForDirectional() {
-    if (!this.getSettings().enableDirectionalNetting) return null;
-    try {
-      const preReading = MeterHelpers.getReadingObject(0, new Date(), this.timeZone);
-      return this.getPeriods(preReading);
-    } catch (err) {
-      this.error('[VERIFY directional] capturePeriodsForDirectional threw', err);
-      return {
-        newHour: false, newDay: false, newMonth: false, newYear: false,
-      };
+  // Hooking in at updateMeters() (rather than updateGroupMeter()/updateMeterFromMeasure(),
+  // where an earlier version of this lived) matters for correctness: updateMeters() only
+  // ever runs from inside generic_sum_device.js's single serialized reading-queue drain
+  // loop (updateMeter() -> handleUpdateMeter() -> updateMeters()), and always receives the
+  // exact `periods` the base class itself just computed and is about to act on. A P1 smart
+  // meter's import (p1) and export (n1) capabilities typically update within milliseconds
+  // of each other, each independently calling updateGroupMeter() - a second concurrent call
+  // can be silently absorbed into the first call's drain loop (see updateMeter()'s
+  // this.processingReadings guard) and return before its own reading is actually
+  // processed, which made any periods captured independently around that call stale/wrong.
+  // Reusing the `periods` argument sidesteps that race entirely - it's already correct by
+  // construction, no snapshotting needed.
+  async updateMeters(reading, periods) {
+    await super.updateMeters(reading, periods);
+    if (!this.getSettings().enableDirectionalNetting) return;
+    if (typeof this.directionalLastWatt === 'number') {
+      // case 3: pseudo registers, reconstructed from the most recently observed signed
+      // measure_power/Homey Energy watt value (cached in updateMeterFromMeasure() below).
+      await this.integrateDirectionalFromSignedPower(this.directionalLastWatt, periods).catch((err) => this.error(err));
+      return;
     }
+    // case 1: real p1/n1 cumulative registers
+    await this.updateDirectionalRegisters(this.lastGroupMeter.p1, this.lastGroupMeter.n1, periods).catch((err) => this.error(err));
   }
 
-  async updateGroupMeter() {
-    const directionalPeriods = this.capturePeriodsForDirectional();
-    const result = await super.updateGroupMeter();
-    if (this.getSettings().enableDirectionalNetting) {
-      this.log(`[VERIFY directional] updateGroupMeter tick, lastGroupMeter=${JSON.stringify(this.lastGroupMeter)}`);
-      await this.updateDirectionalRegisters(this.lastGroupMeter.p1, this.lastGroupMeter.n1, directionalPeriods).catch((err) => this.error(err));
-    }
-    return result;
-  }
-
+  // Case 1 vs case 3 is mutually exclusive per device for its whole lifetime (generic_sum_
+  // device.js only ever wires up either the group-capability listeners or the measure_power/
+  // Homey-Energy path for a given source_device_type/use_measure_source combination, never
+  // both), so caching the latest watt value unconditionally here is safe: a case-1 device
+  // simply never calls this method, so this.directionalLastWatt stays undefined and
+  // updateMeters() above always takes the case-1 branch.
   async updateMeterFromMeasure(val) {
-    const directionalPeriods = (typeof val === 'number') ? this.capturePeriodsForDirectional() : null;
-    const result = await super.updateMeterFromMeasure(val);
     if (this.getSettings().enableDirectionalNetting && typeof val === 'number') {
-      await this.updateDirectionalFromSignedPower(val, directionalPeriods).catch((err) => this.error(err));
+      this.directionalLastWatt = val;
     }
-    return result;
+    return super.updateMeterFromMeasure(val);
   }
 
-  // Case 3 (clamp/CT meter via 'use_measure_source'): measure_power has no cumulative
-  // register at all, but its sign (Homey standard: + import, - export) lets us reconstruct
-  // pseudo import/export registers by integrating each direction separately - the same
-  // integration math the base class already uses for its single net total.
-  async updateDirectionalFromSignedPower(value, periods) {
+  // Case 3 (clamp/CT meter via 'use_measure_source', or a Homey Energy source): measure_power
+  // has no cumulative register at all, but its sign (Homey standard: + import, - export) lets
+  // us reconstruct pseudo import/export registers by integrating each direction separately -
+  // the same integration math the base class already uses for its single net total. This
+  // keeps its own independent Date.now()-based clock, decoupled from reading identity, so it
+  // doesn't need a precise 1:1 pairing with the reading that triggered updateMeters().
+  async integrateDirectionalFromSignedPower(value, periods) {
     const nowTm = Date.now();
     if (!this.directionalPseudoState) {
       this.directionalPseudoState = { lastTm: nowTm, importTotal: 0, exportTotal: 0 };
@@ -364,7 +372,7 @@ class GridDevice extends GenericDevice {
   }
 
   // Records the latest known cumulative import/export values (case 1: real registers,
-  // case 3: pseudo registers from updateDirectionalFromSignedPower). Case 2 (import-only,
+  // case 3: pseudo registers from integrateDirectionalFromSignedPower). Case 2 (import-only,
   // no export data at all) simply never receives a numeric exportValue here, so
   // updateMoneyDirectional() below stays a no-op for that device - by design, not a bug.
   async updateDirectionalRegisters(importValue, exportValue, periods) {
@@ -382,53 +390,37 @@ class GridDevice extends GenericDevice {
   // two separate deltas instead of one netted delta.
   async updateMoneyDirectional(periods) {
     const { importValue, exportValue } = this.directionalMeter || {};
-    this.log(`[VERIFY directional] importValue=${importValue} exportValue=${exportValue} tariffHistory=${JSON.stringify(this.tariffHistory)}`);
     if (typeof importValue !== 'number' || typeof exportValue !== 'number') return; // case 2: no export data
-
     if (!this.tariffHistory || typeof this.tariffHistory.current !== 'number') return; // prices not ready yet
-    const importTariff = this.tariffHistory.current;
-    const exportTariff = typeof this.tariffHistory.currentExport === 'number' ? this.tariffHistory.currentExport : importTariff;
 
     const now = new Date();
 
     if (!this.lastDirectionalSnapshot) {
       this.lastDirectionalSnapshot = { importValue, exportValue, tm: now.getTime() };
       await this.setStoreValue('lastDirectionalSnapshot', this.lastDirectionalSnapshot).catch((err) => this.error(err));
-      this.log('[VERIFY directional] first observation, stored snapshot, no delta yet');
       return;
     }
 
     const deltaImport = importValue - this.lastDirectionalSnapshot.importValue;
     const deltaExport = exportValue - this.lastDirectionalSnapshot.exportValue;
-    this.log(`[VERIFY directional] deltaImport=${deltaImport} deltaExport=${deltaExport}`);
     if (!Number.isFinite(deltaImport) || !Number.isFinite(deltaExport)) return;
     if (deltaImport === 0 && deltaExport === 0) return;
 
-    // Slot-boundary tariff selection (same shape as updateMoney()'s newPricePeriod logic):
-    // if this reading crosses into a new price interval, and the tariff was only updated
-    // at/after that boundary, price the accumulated delta at the PREVIOUS period's tariff.
+    // Slot-boundary tariff selection: if this reading crosses into a new price interval, and
+    // the tariff was only updated at/after that boundary, price the accumulated delta at the
+    // PREVIOUS period's tariff (same shape as updateMoney()'s newPricePeriod logic, factored
+    // out into MeterHelpers.getPeriodTariff() so this doesn't carry its own copy).
     const priceInterval = this.priceInterval || 60;
-    const startOfNow = new Date(now);
-    startOfNow.setUTCMinutes(Math.floor(now.getUTCMinutes() / priceInterval) * priceInterval, 0, 0);
-    const lastTm = new Date(this.lastDirectionalSnapshot.tm);
-    const startOfLast = new Date(lastTm);
-    startOfLast.setUTCMinutes(Math.floor(lastTm.getUTCMinutes() / priceInterval) * priceInterval, 0, 0);
-    const newPricePeriod = startOfNow.getTime() > startOfLast.getTime();
-
-    let effImportTariff = importTariff;
-    let effExportTariff = exportTariff;
-    if (newPricePeriod && this.tariffHistory.currentTm) {
-      const tariffSetTm = new Date(this.tariffHistory.currentTm);
-      if (tariffSetTm.getTime() >= startOfNow.getTime()) {
-        effImportTariff = typeof this.tariffHistory.previous === 'number' ? this.tariffHistory.previous : importTariff;
-        effExportTariff = typeof this.tariffHistory.previousExport === 'number' ? this.tariffHistory.previousExport : exportTariff;
-      }
-    }
+    const { tariff: effImportTariff, exportTariff: effExportTariff } = MeterHelpers.getPeriodTariff(
+      this.tariffHistory,
+      priceInterval,
+      now,
+      this.lastDirectionalSnapshot.tm,
+    );
 
     const safePeriods = periods || {
       newHour: false, newDay: false, newMonth: false, newYear: false,
     };
-    this.log(`[VERIFY directional] effImportTariff=${effImportTariff} effExportTariff=${effExportTariff} periods=${JSON.stringify(safePeriods)} before=${JSON.stringify(this.meterMoneyDirectional)}`);
     this.meterMoneyDirectional = calculateDirectionalMoney(
       this.meterMoneyDirectional || {},
       deltaImport,
@@ -437,7 +429,6 @@ class GridDevice extends GenericDevice {
       effExportTariff,
       safePeriods,
     );
-    this.log(`[VERIFY directional] after=${JSON.stringify(this.meterMoneyDirectional)}`);
 
     await this.setCapability('meter_money_this_hour_directional', this.meterMoneyDirectional.hour).catch((err) => this.error(err));
     await this.setCapability('meter_money_this_day_directional', this.meterMoneyDirectional.day).catch((err) => this.error(err));
@@ -452,6 +443,10 @@ class GridDevice extends GenericDevice {
   // --- Load Forecast Logic ---
 
   async startForecastLoop() {
+    // Idempotent: cancel any previous chain before starting a new one, so if this ever gets
+    // called twice (e.g. an onInit() staleness check elsewhere gets bypassed) only one
+    // perpetual hourly loop survives rather than two running side by side forever.
+    if (this.forecastTimeout) this.homey.clearTimeout(this.forecastTimeout);
     let firstRun = true;
     const loop = async () => {
       if (this.isDestroyed) return;
@@ -526,7 +521,7 @@ class GridDevice extends GenericDevice {
     this.lastEnergyState = newEnergyState;
     const currentPower = smoothedPower;
 
-    // Bug 4: only proceed if we have a valid numeric power reading
+    // only proceed if we have a valid numeric power reading
     if (typeof currentPower !== 'number' || Number.isNaN(currentPower) || currentPower < 0) {
       return updated;
     }
@@ -589,7 +584,7 @@ class GridDevice extends GenericDevice {
     const { slotIndex: currentSlot } = LoadForecastStrategy.getLocalTimeDetails(now, this.timeZone);
 
     // --- Update Charts ---
-    // Bug 2: DST-aware local midnight to UTC conversion (two-pass method)
+    // DST-aware local midnight to UTC conversion (two-pass method)
     const { timeZone } = this;
     const getLocalMidnightUTC = (d) => {
       const homeyOffset = new Date(d.toLocaleString('en-US', { timeZone })).getTime() - d.getTime();
@@ -793,7 +788,7 @@ class GridDevice extends GenericDevice {
       }
 
       if (powerEntries.length > 0) {
-        // Bug 5: round Insights timestamps to nearest 5 minutes before keying the merge Map
+        // round Insights timestamps to nearest 5 minutes before keying the merge Map
         // to avoid duplicates when mixing 5-min Insights resolution with ms-precision real-time entries.
         const roundTo5Min = (t) => Math.round(t / (5 * 60 * 1000)) * (5 * 60 * 1000);
         const historyMapped = powerEntries
@@ -848,12 +843,12 @@ class GridDevice extends GenericDevice {
 
   async populatePowerHistory() {
     try {
-      // Bug 1: use Date object, not Date.now() number, so .toLocaleString() works correctly
+      // use Date object, not Date.now() number, so .toLocaleString() works correctly
       const now = new Date();
       const nowMs = now.getTime();
 
       if (!Array.isArray(this.powerHistory)) this.powerHistory = [];
-      // Fix 2: Exclude entries written during this startup session (by calculateHomePower firing
+      // Exclude entries written during this startup session (by calculateHomePower firing
       // before/during onInit) so a single boot-time entry doesn't falsely satisfy hasRecent.
       const preStartupHistory = this.powerHistory.filter((e) => e.time < (this.startupTime || 0));
       const hasData = preStartupHistory.length > 24 && preStartupHistory[0].time < (nowMs - 40 * 60 * 60 * 1000);
@@ -886,7 +881,7 @@ class GridDevice extends GenericDevice {
 
       let powerEntries = [];
 
-      // Fix 3: Extend fetch window to now (not midnight) so today's data is also
+      // Extend fetch window to now (not midnight) so today's data is also
       // populated after a restart, not just data up to the previous midnight.
       const endDate = new Date(nowMs);
       const startDate = new Date(endDate.getTime() - 2 * 24 * 60 * 60 * 1000);
@@ -918,7 +913,7 @@ class GridDevice extends GenericDevice {
       }
 
       if (powerEntries.length > 0) {
-        // Bug 5: round timestamps to nearest 5 minutes to avoid duplicates from mixed resolution sources
+        // round timestamps to nearest 5 minutes to avoid duplicates from mixed resolution sources
         const roundTo5Min = (t) => Math.round(t / (5 * 60 * 1000)) * (5 * 60 * 1000);
         const historyMapped = powerEntries
           .map((e) => {
@@ -1109,7 +1104,7 @@ class GridDevice extends GenericDevice {
       return [];
     }
 
-    // Bug 6: For each component driver, prefer instantaneous power (measure_power / measure_watt_avg)
+    // For each component driver, prefer instantaneous power (measure_power / measure_watt_avg)
     // over cumulative meter (meter_power) to avoid mixing Watts with converted-kWh Watts.
     // Only fall back to meter_power if no measure_power log exists for that device.
     // Component devices are other powerhour devices: getData().id is their synthetic pairing id,
