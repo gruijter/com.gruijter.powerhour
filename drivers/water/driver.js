@@ -29,7 +29,11 @@ const driverSpecifics = {
     'meter_target_month_to_date', 'meter_target_year_to_date',
     'meter_money_last_hour', 'meter_money_this_hour', 'meter_money_last_day', 'meter_money_this_day',
     'meter_money_last_month', 'meter_money_this_month', 'meter_money_last_year', 'meter_money_this_year',
-    'meter_tariff', 'meter_water', 'measure_water', 'last_minmax_reset', 'measure_lpm_min', 'measure_lpm_max'],
+    'meter_tariff', 'meter_water', 'measure_water',
+    // Min/max (day, month, year - independently auto-resetting)
+    'measure_lpm_min.day', 'measure_lpm_max.day',
+    'measure_lpm_min.month', 'measure_lpm_max.month',
+    'measure_lpm_min.year', 'measure_lpm_max.year'],
 };
 
 class sumDriver extends GenericDriver {

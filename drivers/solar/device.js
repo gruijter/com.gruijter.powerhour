@@ -40,6 +40,7 @@ const deviceSpecifics = {
     last_year: 'meter_kwh_last_year',
     meter_source: 'meter_power',
     measure_source: 'measure_power', // Updated to use measure_power directly
+    minMaxPrefix: 'measure_watt',
   },
 };
 

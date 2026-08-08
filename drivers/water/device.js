@@ -33,6 +33,7 @@ const deviceSpecifics = {
     last_year: 'meter_m3_last_year',
     meter_source: 'meter_water',
     measure_source: 'measure_water',
+    minMaxPrefix: 'measure_lpm',
   },
 };
 
@@ -41,6 +42,13 @@ class WaterDevice extends GenericDevice {
   async onInit() {
     this.ds = deviceSpecifics;
     await super.onInit().catch(this.error);
+  }
+
+  // Same m3 -> liter/min conversion as gas (drivers/gas/device.js) - was missing here entirely,
+  // so this device previously inherited the base class's kWh -> Watt formula by mistake, meaning
+  // measure_lpm_min/max never received real liter/min data via the trend-calculation path.
+  calculateMeasureTrend(deltaMeter, deltaTm) {
+    return Math.round((deltaMeter / deltaTm) * 600000000) / 10;
   }
 
   // driver specific stuff below

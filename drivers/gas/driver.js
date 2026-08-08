@@ -31,7 +31,11 @@ const driverSpecifics = {
     'meter_money_last_hour', 'meter_money_this_hour', 'meter_money_last_day', 'meter_money_this_day',
     'meter_money_last_month', 'meter_money_this_month', 'meter_money_last_year', 'meter_money_this_year',
     'meter_money_this_month_avg', 'meter_money_this_year_avg',
-    'meter_tariff', 'meter_gas', 'measure_gas', 'last_minmax_reset', 'measure_lpm_min', 'measure_lpm_max'],
+    'meter_tariff', 'meter_gas', 'measure_gas',
+    // Min/max (day, month, year - independently auto-resetting)
+    'measure_lpm_min.day', 'measure_lpm_max.day',
+    'measure_lpm_min.month', 'measure_lpm_max.month',
+    'measure_lpm_min.year', 'measure_lpm_max.year'],
 };
 
 class GasDriver extends GenericDriver {

@@ -51,8 +51,14 @@ const driverSpecifics = {
     'meter_kwh_last_year.exported', 'meter_kwh_this_year.exported',
     'meter_money_last_month.exported', 'meter_money_this_month.exported',
     'meter_money_last_year.exported', 'meter_money_this_year.exported',
-    // Min/max + reset
-    'measure_watt_min', 'measure_watt_max', 'last_minmax_reset',
+    // Min/max (day, month, year - independently auto-resetting)
+    'measure_watt_min.day', 'measure_watt_max.day',
+    'measure_watt_min.month', 'measure_watt_max.month',
+    'measure_watt_min.year', 'measure_watt_max.year',
+    // Peak average load (day, month, year - independently auto-resetting, fixed-slot average)
+    'measure_watt_peak.day', 'measure_watt_peak_export.day',
+    'measure_watt_peak.month', 'measure_watt_peak_export.month',
+    'measure_watt_peak.year', 'measure_watt_peak_export.year',
     // Forecast (home load)
     'measure_watt_forecast.h0', 'measure_watt_forecast.m15', 'measure_watt_forecast.m30',
     'measure_watt_forecast.m45', 'measure_watt_forecast.h1', 'measure_watt_forecast.h2',

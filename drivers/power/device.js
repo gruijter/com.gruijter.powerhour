@@ -33,6 +33,7 @@ const deviceSpecifics = {
     last_year: 'meter_kwh_last_year',
     meter_source: 'meter_power',
     measure_source: 'measure_watt_avg',
+    minMaxPrefix: 'measure_watt',
   },
 };
 // p1 consumption counter (low/all tariff).

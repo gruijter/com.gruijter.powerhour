@@ -360,6 +360,198 @@
         "ar": "المال العام السابق (مُصدَّر)"
       }
     },
+    "measure_watt_min.day": {
+      "title": {
+        "en": "Minimum (day)",
+        "nl": "Minimum (dag)",
+        "de": "Minimum (Tag)",
+        "fr": "Minimum (jour)",
+        "it": "Minimo (giorno)",
+        "sv": "Minimum (dag)",
+        "no": "Minimum (dag)",
+        "es": "Mínimo (día)",
+        "da": "Minimum (dag)",
+        "pl": "Minimum (dzień)",
+        "ru": "Минимум (день)",
+        "ar": "الحد الأدنى (يوم)"
+      }
+    },
+    "measure_watt_max.day": {
+      "title": {
+        "en": "Maximum (day)",
+        "nl": "Maximum (dag)",
+        "de": "Maximum (Tag)",
+        "fr": "Maximum (jour)",
+        "it": "Massimo (giorno)",
+        "sv": "Maximum (dag)",
+        "no": "Maksimum (dag)",
+        "es": "Máximo (día)",
+        "da": "Maksimum (dag)",
+        "pl": "Maksimum (dzień)",
+        "ru": "Максимум (день)",
+        "ar": "الحد الأقصى (يوم)"
+      }
+    },
+    "measure_watt_min.month": {
+      "title": {
+        "en": "Minimum (month)",
+        "nl": "Minimum (maand)",
+        "de": "Minimum (Monat)",
+        "fr": "Minimum (mois)",
+        "it": "Minimo (mese)",
+        "sv": "Minimum (månad)",
+        "no": "Minimum (måned)",
+        "es": "Mínimo (mes)",
+        "da": "Minimum (måned)",
+        "pl": "Minimum (miesiąc)",
+        "ru": "Минимум (месяц)",
+        "ar": "الحد الأدنى (شهر)"
+      }
+    },
+    "measure_watt_max.month": {
+      "title": {
+        "en": "Maximum (month)",
+        "nl": "Maximum (maand)",
+        "de": "Maximum (Monat)",
+        "fr": "Maximum (mois)",
+        "it": "Massimo (mese)",
+        "sv": "Maximum (månad)",
+        "no": "Maksimum (måned)",
+        "es": "Máximo (mes)",
+        "da": "Maksimum (måned)",
+        "pl": "Maksimum (miesiąc)",
+        "ru": "Максимум (месяц)",
+        "ar": "الحد الأقصى (شهر)"
+      }
+    },
+    "measure_watt_min.year": {
+      "title": {
+        "en": "Minimum (year)",
+        "nl": "Minimum (jaar)",
+        "de": "Minimum (Jahr)",
+        "fr": "Minimum (année)",
+        "it": "Minimo (anno)",
+        "sv": "Minimum (år)",
+        "no": "Minimum (år)",
+        "es": "Mínimo (año)",
+        "da": "Minimum (år)",
+        "pl": "Minimum (rok)",
+        "ru": "Минимум (год)",
+        "ar": "الحد الأدنى (عام)"
+      }
+    },
+    "measure_watt_max.year": {
+      "title": {
+        "en": "Maximum (year)",
+        "nl": "Maximum (jaar)",
+        "de": "Maximum (Jahr)",
+        "fr": "Maximum (année)",
+        "it": "Massimo (anno)",
+        "sv": "Maximum (år)",
+        "no": "Maksimum (år)",
+        "es": "Máximo (año)",
+        "da": "Maksimum (år)",
+        "pl": "Maksimum (rok)",
+        "ru": "Максимум (год)",
+        "ar": "الحد الأقصى (عام)"
+      }
+    },
+    "measure_watt_peak.day": {
+      "title": {
+        "en": "Peak load (day)",
+        "nl": "Piekbelasting (dag)",
+        "de": "Spitzenlast (Tag)",
+        "fr": "Charge de pointe (jour)",
+        "it": "Picco di carico (giorno)",
+        "sv": "Topplast (dag)",
+        "no": "Toppbelastning (dag)",
+        "es": "Carga máxima (día)",
+        "da": "Spidsbelastning (dag)",
+        "pl": "Obciążenie szczytowe (dzień)",
+        "ru": "Пиковая нагрузка (день)",
+        "ar": "الحمل الأقصى (يوم)"
+      }
+    },
+    "measure_watt_peak_export.day": {
+      "title": {
+        "en": "Peak export (day)",
+        "nl": "Piekexport (dag)",
+        "de": "Spitzeneinspeisung (Tag)",
+        "fr": "Pointe d'exportation (jour)",
+        "it": "Picco di esportazione (giorno)",
+        "sv": "Toppexport (dag)",
+        "no": "Toppeksport (dag)",
+        "es": "Exportación máxima (día)",
+        "da": "Spidseksport (dag)",
+        "pl": "Szczyt eksportu (dzień)",
+        "ru": "Пиковый экспорт (день)",
+        "ar": "ذروة التصدير (يوم)"
+      }
+    },
+    "measure_watt_peak.month": {
+      "title": {
+        "en": "Peak load (month)",
+        "nl": "Piekbelasting (maand)",
+        "de": "Spitzenlast (Monat)",
+        "fr": "Charge de pointe (mois)",
+        "it": "Picco di carico (mese)",
+        "sv": "Topplast (månad)",
+        "no": "Toppbelastning (måned)",
+        "es": "Carga máxima (mes)",
+        "da": "Spidsbelastning (måned)",
+        "pl": "Obciążenie szczytowe (miesiąc)",
+        "ru": "Пиковая нагрузка (месяц)",
+        "ar": "الحمل الأقصى (شهر)"
+      }
+    },
+    "measure_watt_peak_export.month": {
+      "title": {
+        "en": "Peak export (month)",
+        "nl": "Piekexport (maand)",
+        "de": "Spitzeneinspeisung (Monat)",
+        "fr": "Pointe d'exportation (mois)",
+        "it": "Picco di esportazione (mese)",
+        "sv": "Toppexport (månad)",
+        "no": "Toppeksport (måned)",
+        "es": "Exportación máxima (mes)",
+        "da": "Spidseksport (måned)",
+        "pl": "Szczyt eksportu (miesiąc)",
+        "ru": "Пиковый экспорт (месяц)",
+        "ar": "ذروة التصدير (شهر)"
+      }
+    },
+    "measure_watt_peak.year": {
+      "title": {
+        "en": "Peak load (year)",
+        "nl": "Piekbelasting (jaar)",
+        "de": "Spitzenlast (Jahr)",
+        "fr": "Charge de pointe (année)",
+        "it": "Picco di carico (anno)",
+        "sv": "Topplast (år)",
+        "no": "Toppbelastning (år)",
+        "es": "Carga máxima (año)",
+        "da": "Spidsbelastning (år)",
+        "pl": "Obciążenie szczytowe (rok)",
+        "ru": "Пиковая нагрузка (год)",
+        "ar": "الحمل الأقصى (عام)"
+      }
+    },
+    "measure_watt_peak_export.year": {
+      "title": {
+        "en": "Peak export (year)",
+        "nl": "Piekexport (jaar)",
+        "de": "Spitzeneinspeisung (Jahr)",
+        "fr": "Pointe d'exportation (année)",
+        "it": "Picco di esportazione (anno)",
+        "sv": "Toppexport (år)",
+        "no": "Toppeksport (år)",
+        "es": "Exportación máxima (año)",
+        "da": "Spidseksport (år)",
+        "pl": "Szczyt eksportu (rok)",
+        "ru": "Пиковый экспорт (год)",
+        "ar": "ذروة التصدير (عام)"
+      }
+    },
     "measure_watt_forecast.h0": {
       "title": {
         "en": "Home load forecast",
@@ -1164,126 +1356,6 @@
             "ru": "Введите показание счетчика в начале этого года. Оно автоматически обновляется в первый день нового года.",
             "ar": "أدخل قراءة العداد في بداية هذا العام. يتم تحديثها تلقائيًا في اليوم الأول من العام الجديد."
           }
-        },
-        {
-          "id": "min_max_reset",
-          "type": "dropdown",
-          "label": {
-            "en": "Reset Min/Max values",
-            "nl": "Reset Min/Max waarden",
-            "de": "Min/Max Werte zurücksetzen",
-            "fr": "Remise à zéro des valeurs Min/Max",
-            "it": "Resetta i valori Min/Max",
-            "sv": "Återställ Min/Max-värden",
-            "no": "Resett Min/Max verdier",
-            "es": "Restablecer valores Mín/Máx",
-            "da": "Nulstil Min/Max værdier",
-            "pl": "Resetuj wartości Min/Max",
-            "ru": "Сброс мин/макс значений",
-            "ar": "إعادة تعيين قيم الحد الأدنى/الأقصى"
-          },
-          "values": [
-            {
-              "id": "hour",
-              "label": {
-                "en": "Hour",
-                "nl": "Uur",
-                "de": "Stunde",
-                "fr": "Heure",
-                "it": "Ora",
-                "sv": "timme",
-                "no": "Time",
-                "es": "Hora",
-                "da": "Time",
-                "pl": "Godzina",
-                "ru": "Час",
-                "ar": "ساعة"
-              }
-            },
-            {
-              "id": "day",
-              "label": {
-                "en": "Day",
-                "nl": "Dag",
-                "de": "Tag",
-                "fr": "Jour",
-                "it": "Giorno",
-                "sv": "Dag",
-                "no": "Dag",
-                "es": "Día",
-                "da": "Dag",
-                "pl": "Dzień",
-                "ru": "День",
-                "ar": "يوم"
-              }
-            },
-            {
-              "id": "month",
-              "label": {
-                "en": "Month",
-                "nl": "Maand",
-                "de": "Monat",
-                "fr": "Mois",
-                "it": "Mese",
-                "sv": "Månad",
-                "no": "Måned",
-                "es": "Mes",
-                "da": "Måned",
-                "pl": "Miesiąc",
-                "ru": "Месяц",
-                "ar": "شهر"
-              }
-            },
-            {
-              "id": "year",
-              "label": {
-                "en": "Year",
-                "nl": "Jaar",
-                "de": "Jahr",
-                "fr": "Année",
-                "it": "Anno",
-                "sv": "År",
-                "no": "År",
-                "es": "Año",
-                "da": "År",
-                "pl": "Rok",
-                "ru": "Год",
-                "ar": "سنة"
-              }
-            },
-            {
-              "id": "never",
-              "label": {
-                "en": "Never",
-                "nl": "Nooit",
-                "de": "Nie",
-                "fr": "Jamais",
-                "it": "Mai",
-                "sv": "Aldrig",
-                "no": "Aldri",
-                "es": "Nunca",
-                "da": "Aldrig",
-                "pl": "Nigdy",
-                "ru": "Никогда",
-                "ar": "أبدا"
-              }
-            }
-          ],
-          "value": "day",
-          "hint": {
-            "en": "The minimum/maximum values will be reset on every new period. The values can also be reset at any time via a flow.",
-            "nl": "De minimum/maximum waarden worden iedere nieuwe periode gereset. De waarden kunnen ook op ieder moment worden gereset via een flow.",
-            "de": "Die Min/Max Werte werden bei jeder neuen Periode zurückgesetzt. Die Werte können auch jederzeit über einen Flow zurückgesetzt werden.",
-            "fr": "Les valeurs minimales/maximales seront réinitialisées à chaque nouvelle période. Les valeurs peuvent également être réinitialisées à tout moment via un flow",
-            "it": "I valori minimo/massimo verranno resettati ad ogni nuovo periodo. I valori possono anche essere resettati in qualsiasi momento tramite un flow.",
-            "sv": "Minsta/maximivärdena återställs vid varje ny period. Värdena kan också återställas när som helst via ett flöde.",
-            "no": "Minimum/maximum verdiene blir resatt hver ny periode. Verdiene kan også bli resatt når som helst via flow.",
-            "es": "Los valores mínimos/máximos se restablecerán en cada nuevo período. Los valores también se pueden restablecer en cualquier momento a través de un flujo.",
-            "da": "Minimum/maksimum værdier nulstilles ved hver ny periode. Værdierne kan også nulstilles til enhver tid via et flow.",
-            "pl": "Wartości minimalne/maksymalne będą resetowane w każdym nowym okresie. Wartości można również zresetować w dowolnym momencie za pomocą przepływu.",
-            "ru": "Минимальные/максимальные значения будут сбрасываться каждый новый период. Значения также можно сбросить в любое время через поток.",
-            "ar": "سيتم إعادة تعيين قيم الحد الأدنى/الأقصى في كل فترة جديدة. يمكن أيضًا إعادة تعيين القيم في أي وقت عبر التدفق."
-          }
         }
       ]
     },
@@ -1900,6 +1972,65 @@
                 "en": "45 minutes", "nl": "45 minuten", "de": "45 Minuten", "fr": "45 minutes",
                 "it": "45 minuti", "sv": "45 minuter", "no": "45 minutter", "es": "45 minutos",
                 "da": "45 minutter", "pl": "45 minut", "ru": "45 минут", "ar": "45 دقيقة"
+              }
+            },
+            {
+              "id": "60",
+              "label": {
+                "en": "60 minutes", "nl": "60 minuten", "de": "60 Minuten", "fr": "60 minutes",
+                "it": "60 minuti", "sv": "60 minuter", "no": "60 minutter", "es": "60 minutos",
+                "da": "60 minutter", "pl": "60 minut", "ru": "60 минут", "ar": "60 دقيقة"
+              }
+            }
+          ]
+        },
+        {
+          "id": "peakLoadIntervalMinutes",
+          "type": "dropdown",
+          "label": {
+            "en": "Peak load interval",
+            "nl": "Piekbelasting interval",
+            "de": "Spitzenlast-Intervall",
+            "fr": "Intervalle de charge de pointe",
+            "it": "Intervallo picco di carico",
+            "sv": "Topplast-intervall",
+            "no": "Toppbelastning-intervall",
+            "es": "Intervalo de carga máxima",
+            "da": "Spidsbelastning interval",
+            "pl": "Interwał obciążenia szczytowego",
+            "ru": "Интервал пиковой нагрузки",
+            "ar": "فاصل الحمل الأقصى"
+          },
+          "hint": {
+            "en": "Length of the averaging window used to compute peak load (measure_watt_peak.day/month/year). Match your grid operator's capacity-tariff standard: 15 minutes (Belgium, Germany, most of the EU), 30 minutes (UK), or 60 minutes (Norway, some Swedish DSOs).",
+            "nl": "Lengte van het middelingsvenster voor de piekbelasting (measure_watt_peak.day/month/year). Sluit aan bij de capaciteitstarief-standaard van uw netbeheerder: 15 minuten (België, Duitsland, grootste deel van de EU), 30 minuten (VK), of 60 minuten (Noorwegen, sommige Zweedse netbeheerders).",
+            "de": "Länge des Mittelungsfensters zur Berechnung der Spitzenlast (measure_watt_peak.day/month/year). Passend zum Kapazitätstarif-Standard Ihres Netzbetreibers: 15 Minuten (Belgien, Deutschland, Großteil der EU), 30 Minuten (UK) oder 60 Minuten (Norwegen, einige schwedische Netzbetreiber).",
+            "fr": "Durée de la fenêtre de moyennage utilisée pour calculer la charge de pointe (measure_watt_peak.day/month/year). À faire correspondre à la norme de tarif de capacité de votre gestionnaire de réseau : 15 minutes (Belgique, Allemagne, majeure partie de l'UE), 30 minutes (Royaume-Uni), ou 60 minutes (Norvège, certains gestionnaires suédois).",
+            "it": "Durata della finestra di media usata per calcolare il picco di carico (measure_watt_peak.day/month/year). Da far corrispondere allo standard di tariffa di capacità del proprio gestore di rete: 15 minuti (Belgio, Germania, gran parte dell'UE), 30 minuti (Regno Unito), o 60 minuti (Norvegia, alcuni gestori svedesi).",
+            "sv": "Längden på medelvärdesfönstret som används för att beräkna topplast (measure_watt_peak.day/month/year). Matcha din nätägares effekttariff-standard: 15 minuter (Belgien, Tyskland, större delen av EU), 30 minuter (Storbritannien), eller 60 minuter (Norge, vissa svenska nätägare).",
+            "no": "Lengden på gjennomsnittsvinduet som brukes til å beregne toppbelastning (measure_watt_peak.day/month/year). Match nettselskapets effekttariff-standard: 15 minutter (Belgia, Tyskland, det meste av EU), 30 minutter (Storbritannia), eller 60 minutter (Norge, enkelte svenske nettselskaper).",
+            "es": "Duración de la ventana de promediado usada para calcular la carga máxima (measure_watt_peak.day/month/year). Debe coincidir con el estándar de tarifa de capacidad de su operador de red: 15 minutos (Bélgica, Alemania, gran parte de la UE), 30 minutos (Reino Unido), o 60 minutos (Noruega, algunos operadores suecos).",
+            "da": "Længden af det gennemsnitsvindue, der bruges til at beregne spidsbelastning (measure_watt_peak.day/month/year). Match din netoperatørs kapacitetstarif-standard: 15 minutter (Belgien, Tyskland, det meste af EU), 30 minutter (UK), eller 60 minutter (Norge, nogle svenske netoperatører).",
+            "pl": "Długość okna uśredniania używanego do obliczania obciążenia szczytowego (measure_watt_peak.day/month/year). Dopasuj do standardu taryfy mocowej operatora sieci: 15 minut (Belgia, Niemcy, większość UE), 30 minut (Wielka Brytania) lub 60 minut (Norwegia, niektórzy szwedzcy operatorzy).",
+            "ru": "Длина окна усреднения, используемого для расчёта пиковой нагрузки (measure_watt_peak.day/month/year). Согласуйте со стандартом тарифа за мощность вашего сетевого оператора: 15 минут (Бельгия, Германия, большая часть ЕС), 30 минут (Великобритания) или 60 минут (Норвегия, некоторые шведские операторы).",
+            "ar": "طول نافذة المتوسط المستخدمة لحساب الحمل الأقصى (measure_watt_peak.day/month/year). طابق معيار تعرفة السعة الخاص بمشغل الشبكة لديك: 15 دقيقة (بلجيكا، ألمانيا، معظم الاتحاد الأوروبي)، أو 30 دقيقة (المملكة المتحدة)، أو 60 دقيقة (النرويج، بعض مشغلي الشبكات السويديين)."
+          },
+          "value": "15",
+          "values": [
+            {
+              "id": "15",
+              "label": {
+                "en": "15 minutes", "nl": "15 minuten", "de": "15 Minuten", "fr": "15 minutes",
+                "it": "15 minuti", "sv": "15 minuter", "no": "15 minutter", "es": "15 minutos",
+                "da": "15 minutter", "pl": "15 minut", "ru": "15 минут", "ar": "15 دقيقة"
+              }
+            },
+            {
+              "id": "30",
+              "label": {
+                "en": "30 minutes", "nl": "30 minuten", "de": "30 Minuten", "fr": "30 minutes",
+                "it": "30 minuti", "sv": "30 minuter", "no": "30 minutter", "es": "30 minutos",
+                "da": "30 minutter", "pl": "30 minut", "ru": "30 минут", "ar": "30 دقيقة"
               }
             },
             {

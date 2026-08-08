@@ -43,6 +43,7 @@ const deviceSpecifics = {
     // device.js's use of the bare 'meter_power_hidden' capability).
     meter_source: 'meter_power_hidden.grid',
     measure_source: 'measure_power.grid',
+    minMaxPrefix: 'measure_watt',
   },
 };
 
@@ -117,6 +118,11 @@ class GridDevice extends GenericDevice {
     this.lastDirectionalReadingMonth = await this.getStoreValue('lastDirectionalReadingMonth');
     this.lastDirectionalReadingYear = await this.getStoreValue('lastDirectionalReadingYear');
     this.splitMoney = await this.getStoreValue('splitMoney');
+
+    // Peak average load (capacity-tariff style) accumulator state - see updatePeakLoad() below.
+    // Left undefined until lazily bootstrapped on first tick, same style as the split state above.
+    this.peakLoad = await this.getStoreValue('peakLoad');
+    this.lastPeakLoadReading = await this.getStoreValue('lastPeakLoadReading');
 
     // Load forecast settings and profiles
     this.timeZone = this.homey.clock.getTimezone();
@@ -406,6 +412,14 @@ class GridDevice extends GenericDevice {
       return null;
     });
 
+    // Peak average load (capacity-tariff style, see updatePeakLoad() below) - deliberately NOT
+    // gated by splitActive below: it only needs a numeric importValue, so it still works for
+    // case 2 (import-only, no export data) devices, which is exactly the common case for
+    // capacity-tariff billing (no solar/export, still billed on import peak).
+    if (typeof this.directionalMeter?.importValue === 'number') {
+      await this.updatePeakLoad(reading).catch((err) => this.error(err));
+    }
+
     // Split imported/exported month/year capabilities - independent of directionalNettingScheme
     // (see updateSplitMeters()/updateSplitMoney() below). Only meaningful when this device
     // actually has export data (case 2 - import-only - permanently has no exportValue).
@@ -474,6 +488,16 @@ class GridDevice extends GenericDevice {
     if (!setting || setting === 'auto') return this.priceInterval || 60;
     const n = Number(setting);
     return [15, 30, 45, 60].includes(n) ? n : (this.priceInterval || 60);
+  }
+
+  // Averaging window for peak-load tracking (updatePeakLoad() below) - independent of
+  // directionalBlockMinutes above (different concern: capacity-tariff peak-load averaging vs
+  // money-netting block size). No 'auto' here - capacity tariffs are defined by the grid
+  // operator's own standard, not this device's price-update cadence.
+  getPeakLoadIntervalMinutes() {
+    const setting = this.getSettings().peakLoadIntervalMinutes;
+    const n = Number(setting);
+    return [15, 30, 60].includes(n) ? n : 15;
   }
 
   // Resolves the raw import/export delta since the last processed tick, bootstrapping and
@@ -669,6 +693,111 @@ class GridDevice extends GenericDevice {
 
     this.splitMoney = money;
     await this.setStoreValue('splitMoney', money).catch((err) => this.error(err));
+  }
+
+  // Peak average load, capacity-tariff style (e.g. Belgian/Flemish "capaciteitstarief" via
+  // Fluvius: billed on the peak 15-minute AVERAGE import power within the month - a genuinely
+  // different metric from the day/month/year measure_watt_min/max capabilities, which track
+  // extremes of ~instantaneous readings, not the average over a fixed slot). Deliberately does
+  // NOT reuse this._directionalTickDelta/resolveDirectionalDelta() - those require both
+  // importValue AND exportValue to be numbers, which would silently disable this for case 2
+  // (import-only, no export at all) devices - exactly the common case for capacity-tariff
+  // billing (no solar, still billed on import peak). Keeps its own independent anchor instead,
+  // same pattern updateSplitMeters() already uses for the same reason.
+  async updatePeakLoad(reading) {
+    const { importValue, exportValue } = this.directionalMeter;
+
+    if (!this.lastPeakLoadReading) {
+      this.lastPeakLoadReading = { importValue, exportValue };
+      await this.setStoreValue('lastPeakLoadReading', this.lastPeakLoadReading).catch((err) => this.error(err));
+      return; // bootstrap - nothing to accumulate yet
+    }
+
+    const deltaImportKwh = Math.max(0, importValue - this.lastPeakLoadReading.importValue);
+    const hasExport = typeof exportValue === 'number' && typeof this.lastPeakLoadReading.exportValue === 'number';
+    const deltaExportKwh = hasExport ? Math.max(0, exportValue - this.lastPeakLoadReading.exportValue) : 0;
+    this.lastPeakLoadReading = { importValue, exportValue };
+
+    if (!this.peakLoad) {
+      this.peakLoad = {
+        slotStart: null,
+        importKwhInSlot: 0,
+        exportKwhInSlot: 0,
+        day: { max: null, day: null, month: null },
+        month: { max: null, month: null, year: null },
+        year: { max: null, year: null },
+        exportDay: { max: null, day: null, month: null },
+        exportMonth: { max: null, month: null, year: null },
+        exportYear: { max: null, year: null },
+      };
+    }
+
+    const intervalMinutes = this.getPeakLoadIntervalMinutes();
+    const slotStart = MeterHelpers.startOfBlock(reading.meterTm, intervalMinutes);
+    if (this.peakLoad.slotStart === null) {
+      this.peakLoad.slotStart = slotStart; // bootstrap - don't close a slot that never opened
+    } else if (slotStart !== this.peakLoad.slotStart) {
+      // the previous slot just closed - its average kW is the total kWh accumulated in that
+      // slot divided by the slot length in hours
+      const slotHours = intervalMinutes / 60;
+      const importAvgW = Math.round((this.peakLoad.importKwhInSlot / slotHours) * 1000);
+      await this.checkPeakMax('measure_watt_peak', this.peakLoad.day, this.peakLoad.month, this.peakLoad.year, importAvgW, reading);
+      if (this.peakLoad.exportKwhInSlot > 0) {
+        const exportAvgW = Math.round((this.peakLoad.exportKwhInSlot / slotHours) * 1000);
+        await this.checkPeakMax(
+          'measure_watt_peak_export',
+          this.peakLoad.exportDay,
+          this.peakLoad.exportMonth,
+          this.peakLoad.exportYear,
+          exportAvgW,
+          reading,
+        );
+      }
+      this.peakLoad.importKwhInSlot = 0;
+      this.peakLoad.exportKwhInSlot = 0;
+      this.peakLoad.slotStart = slotStart;
+    }
+
+    this.peakLoad.importKwhInSlot += deltaImportKwh;
+    if (hasExport) this.peakLoad.exportKwhInSlot += deltaExportKwh;
+
+    await this.setStoreValue('peakLoad', this.peakLoad).catch((err) => this.error(err));
+  }
+
+  // Rolls over (clears) each period whose boundary was crossed, then updates the running max for
+  // a just-closed slot's average - self-contained calendar-field comparison, same pattern
+  // checkMinMax() (lib/genericDeviceDrivers/generic_sum_device.js) uses, but max-only and
+  // against a slot average rather than an instantaneous value.
+  async checkPeakMax(prefix, day, month, year, avgW, reading) {
+    let changed = false;
+    if (day.day !== null && (day.day !== reading.day || day.month !== reading.month)) {
+      day.max = null; changed = true;
+    }
+    if (month.month !== null && (month.month !== reading.month || month.year !== reading.year)) {
+      month.max = null; changed = true;
+    }
+    if (year.year !== null && year.year !== reading.year) {
+      year.max = null; changed = true;
+    }
+    day.day = reading.day; day.month = reading.month;
+    month.month = reading.month; month.year = reading.year;
+    year.year = reading.year;
+
+    if (day.max === null || avgW > day.max) {
+      day.max = avgW; changed = true;
+    }
+    if (month.max === null || avgW > month.max) {
+      month.max = avgW; changed = true;
+    }
+    if (year.max === null || avgW > year.max) {
+      year.max = avgW; changed = true;
+    }
+
+    if (changed) {
+      await this.setCapability(`${prefix}.day`, day.max).catch((err) => this.error(err));
+      await this.setCapability(`${prefix}.month`, month.max).catch((err) => this.error(err));
+      await this.setCapability(`${prefix}.year`, year.max).catch((err) => this.error(err));
+    }
   }
 
   // 'fixedBlock' scheme (Model A - net within a closed, fixed time block, then price the

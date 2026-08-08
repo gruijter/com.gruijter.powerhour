@@ -1,0 +1,26 @@
+{
+  "type": "number",
+  "title": {
+    "en": "Peak load",
+    "de": "Spitzenlast",
+    "sv": "Topplast",
+    "it": "Picco di carico",
+    "no": "Toppbelastning",
+    "fr": "Charge de pointe",
+    "da": "Spidsbelastning",
+    "nl": "Piekbelasting",
+    "es": "Carga máxima",
+    "pl": "Obciążenie szczytowe",
+    "ru": "Пиковая нагрузка",
+    "ko": "최대 부하",
+    "ar": "الحمل الأقصى"
+  },
+  "uiComponent": "sensor",
+  "getable": true,
+  "setable": false,
+  "insights": true,
+  "units": {
+    "en": "Watt"
+  },
+  "decimals": 0
+}

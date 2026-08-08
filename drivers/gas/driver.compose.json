@@ -19,6 +19,104 @@
   },
   "class": "other",
   "capabilities": [],
+  "capabilitiesOptions": {
+    "measure_lpm_min.day": {
+      "title": {
+        "en": "Minimum (day)",
+        "nl": "Minimum (dag)",
+        "de": "Minimum (Tag)",
+        "fr": "Minimum (jour)",
+        "it": "Minimo (giorno)",
+        "sv": "Minimum (dag)",
+        "no": "Minimum (dag)",
+        "es": "Mínimo (día)",
+        "da": "Minimum (dag)",
+        "pl": "Minimum (dzień)",
+        "ru": "Минимум (день)",
+        "ar": "الحد الأدنى (يوم)"
+      }
+    },
+    "measure_lpm_max.day": {
+      "title": {
+        "en": "Maximum (day)",
+        "nl": "Maximum (dag)",
+        "de": "Maximum (Tag)",
+        "fr": "Maximum (jour)",
+        "it": "Massimo (giorno)",
+        "sv": "Maximum (dag)",
+        "no": "Maksimum (dag)",
+        "es": "Máximo (día)",
+        "da": "Maksimum (dag)",
+        "pl": "Maksimum (dzień)",
+        "ru": "Максимум (день)",
+        "ar": "الحد الأقصى (يوم)"
+      }
+    },
+    "measure_lpm_min.month": {
+      "title": {
+        "en": "Minimum (month)",
+        "nl": "Minimum (maand)",
+        "de": "Minimum (Monat)",
+        "fr": "Minimum (mois)",
+        "it": "Minimo (mese)",
+        "sv": "Minimum (månad)",
+        "no": "Minimum (måned)",
+        "es": "Mínimo (mes)",
+        "da": "Minimum (måned)",
+        "pl": "Minimum (miesiąc)",
+        "ru": "Минимум (месяц)",
+        "ar": "الحد الأدنى (شهر)"
+      }
+    },
+    "measure_lpm_max.month": {
+      "title": {
+        "en": "Maximum (month)",
+        "nl": "Maximum (maand)",
+        "de": "Maximum (Monat)",
+        "fr": "Maximum (mois)",
+        "it": "Massimo (mese)",
+        "sv": "Maximum (månad)",
+        "no": "Maksimum (måned)",
+        "es": "Máximo (mes)",
+        "da": "Maksimum (måned)",
+        "pl": "Maksimum (miesiąc)",
+        "ru": "Максимум (месяц)",
+        "ar": "الحد الأقصى (شهر)"
+      }
+    },
+    "measure_lpm_min.year": {
+      "title": {
+        "en": "Minimum (year)",
+        "nl": "Minimum (jaar)",
+        "de": "Minimum (Jahr)",
+        "fr": "Minimum (année)",
+        "it": "Minimo (anno)",
+        "sv": "Minimum (år)",
+        "no": "Minimum (år)",
+        "es": "Mínimo (año)",
+        "da": "Minimum (år)",
+        "pl": "Minimum (rok)",
+        "ru": "Минимум (год)",
+        "ar": "الحد الأدنى (عام)"
+      }
+    },
+    "measure_lpm_max.year": {
+      "title": {
+        "en": "Maximum (year)",
+        "nl": "Maximum (jaar)",
+        "de": "Maximum (Jahr)",
+        "fr": "Maximum (année)",
+        "it": "Massimo (anno)",
+        "sv": "Maximum (år)",
+        "no": "Maksimum (år)",
+        "es": "Máximo (año)",
+        "da": "Maksimum (år)",
+        "pl": "Maksimum (rok)",
+        "ru": "Максимум (год)",
+        "ar": "الحد الأقصى (عام)"
+      }
+    }
+  },
   "pair": [
     {
       "id": "list_devices",
@@ -627,126 +725,6 @@
             "pl": "Wprowadź odczyt licznika na początku tego roku. Jest on automatycznie aktualizowany pierwszego dnia nowego roku.",
             "ru": "Введите показание счетчика в начале этого года. Оно автоматически обновляется в первый день нового года.",
             "ar": "أدخل قراءة العداد في بداية هذا العام. يتم تحديثها تلقائيًا في اليوم الأول من العام الجديد."
-          }
-        },
-        {
-          "id": "min_max_reset",
-          "type": "dropdown",
-          "label": {
-            "en": "Reset Min/Max values",
-            "nl": "Reset Min/Max waarden",
-            "de": "Min/Max Werte zurücksetzen",
-            "fr": "Remise à zéro des valeurs Min/Max",
-            "it": "Resetta i valori Min/Max",
-            "sv": "Återställ Min/Max-värden",
-            "no": "Resett Min/Max verdier",
-            "es": "Restablecer valores Mín/Máx",
-            "da": "Nulstil Min/Max værdier",
-            "pl": "Resetuj wartości Min/Max",
-            "ru": "Сброс мин/макс значений",
-            "ar": "إعادة تعيين قيم الحد الأدنى/الأقصى"
-          },
-          "values": [
-            {
-              "id": "hour",
-              "label": {
-                "en": "Hour",
-                "nl": "Uur",
-                "de": "Stunde",
-                "fr": "Heure",
-                "it": "Ora",
-                "sv": "timme",
-                "no": "Time",
-                "es": "Hora",
-                "da": "Time",
-                "pl": "Godzina",
-                "ru": "Час",
-                "ar": "ساعة"
-              }
-            },
-            {
-              "id": "day",
-              "label": {
-                "en": "Day",
-                "nl": "Dag",
-                "de": "Tag",
-                "fr": "Jour",
-                "it": "Giorno",
-                "sv": "Dag",
-                "no": "Dag",
-                "es": "Día",
-                "da": "Dag",
-                "pl": "Dzień",
-                "ru": "День",
-                "ar": "يوم"
-              }
-            },
-            {
-              "id": "month",
-              "label": {
-                "en": "Month",
-                "nl": "Maand",
-                "de": "Monat",
-                "fr": "Mois",
-                "it": "Mese",
-                "sv": "Månad",
-                "no": "Måned",
-                "es": "Mes",
-                "da": "Måned",
-                "pl": "Miesiąc",
-                "ru": "Месяц",
-                "ar": "شهر"
-              }
-            },
-            {
-              "id": "year",
-              "label": {
-                "en": "Year",
-                "nl": "Jaar",
-                "de": "Jahr",
-                "fr": "Année",
-                "it": "Anno",
-                "sv": "År",
-                "no": "År",
-                "es": "Año",
-                "da": "År",
-                "pl": "Rok",
-                "ru": "Год",
-                "ar": "سنة"
-              }
-            },
-            {
-              "id": "never",
-              "label": {
-                "en": "Never",
-                "nl": "Nooit",
-                "de": "Nie",
-                "fr": "Jamais",
-                "it": "Mai",
-                "sv": "Aldrig",
-                "no": "Aldri",
-                "es": "Nunca",
-                "da": "Aldrig",
-                "pl": "Nigdy",
-                "ru": "Никогда",
-                "ar": "أبدا"
-              }
-            }
-          ],
-          "value": "day",
-          "hint": {
-            "en": "The minimum/maximum values will be reset on every new period. The values can also be reset at any time via a flow.",
-            "nl": "De minimum/maximum waarden worden iedere nieuwe periode gereset. De waarden kunnen ook op ieder moment worden gereset via een flow.",
-            "de": "Die Min/Max Werte werden bei jeder neuen Periode zurückgesetzt. Die Werte können auch jederzeit über einen Flow zurückgesetzt werden.",
-            "fr": "Les valeurs minimales/maximales seront réinitialisées à chaque nouvelle période. Les valeurs peuvent également être réinitialisées à tout moment via un flow",
-            "it": "I valori minimo/massimo saranno resettati ad ogni nuovo periodo. I valori possono anche essere resettati in qualsiasi momento tramite un flow.",
-            "sv": "Minsta/maximivärdena återställs vid varje ny period. Värdena kan också återställas när som helst via ett flöde.",
-            "no": "Minimum/maximum verdiene blir resatt hver ny periode. Verdiene kan også bli resatt når som helst via flow.",
-            "es": "Los valores mínimos/máximos se restablecerán en cada nuevo período. Los valores también se pueden restablecer en cualquier momento a través de un flujo.",
-            "da": "Minimum/maksimum værdier nulstilles ved hver ny periode. Værdierne kan også nulstilles til enhver tid via et flow.",
-            "pl": "Wartości minimalne/maksymalne będą resetowane w każdym nowym okresie. Wartości można również zresetować w dowolnym momencie za pomocą przepływu.",
-            "ru": "Минимальные/максимальные значения будут сбрасываться каждый новый период. Значения также можно сбросить в любое время через поток.",
-            "ar": "سيتم إعادة تعيين قيم الحد الأدنى/الأقصى في كل فترة جديدة. يمكن أيضًا إعادة تعيين القيم في أي وقت عبر التدفق."
           }
         }
       ]

@@ -44,7 +44,10 @@ const driverSpecifics = {
     'measure_solar_use.this_hour', 'measure_solar_use.this_day',
     'measure_solar_use.this_month', 'measure_solar_use.this_year',
     'meter_tariff', 'meter_power',
-    'last_minmax_reset', 'measure_watt_max',
+    // Max (day, month, year - independently auto-resetting). No min: solar's production floor
+    // is trivially ~0 at night, deliberately not tracked (see grid's driver.js for the
+    // symmetric min+max version used by drivers where min is meaningful).
+    'measure_watt_max.day', 'measure_watt_max.month', 'measure_watt_max.year',
     'button.retrain', 'alarm_power'],
 };
 

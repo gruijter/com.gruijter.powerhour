@@ -1,0 +1,26 @@
+{
+  "type": "number",
+  "title": {
+    "en": "Peak export",
+    "de": "Spitzeneinspeisung",
+    "sv": "Toppexport",
+    "it": "Picco di esportazione",
+    "no": "Toppeksport",
+    "fr": "Pointe d'exportation",
+    "da": "Spidseksport",
+    "nl": "Piekexport",
+    "es": "Exportación máxima",
+    "pl": "Szczyt eksportu",
+    "ru": "Пиковый экспорт",
+    "ko": "최대 수출",
+    "ar": "ذروة التصدير"
+  },
+  "uiComponent": "sensor",
+  "getable": true,
+  "setable": false,
+  "insights": true,
+  "units": {
+    "en": "Watt"
+  },
+  "decimals": 0
+}
