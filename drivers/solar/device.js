@@ -87,6 +87,14 @@ class SolarDevice extends GenericDevice {
     this.powerHistory = [];
     await super.onInit().catch(this.error);
 
+    // A newer onInit() (via restartDevice(), e.g. on a detected currency mismatch) can start
+    // while the super.onInit() call above is still awaiting network/timer calls - the base
+    // class handles that internally via its own this.sessionId staleness guard, but that
+    // guard only protects the base's own state. Capture the winning session here too, so the
+    // loop-starting section below can bail out rather than layer a duplicate forecast/
+    // learning loop on top of the one the newer call already started.
+    const sessionIdAfterSuper = this.sessionId;
+
     // Initialize alarm_power
     if (this.hasCapability('alarm_power') && this.getCapabilityValue('alarm_power') === null) {
       await this.setCapabilityValue('alarm_power', false).catch(this.error);
@@ -141,6 +149,7 @@ class SolarDevice extends GenericDevice {
     if (this.powerHistory.length !== history.length) await this.setStoreValue('powerHistory', this.powerHistory);
 
     // Start loops
+    if (this.sessionId !== sessionIdAfterSuper) return; // superseded by a newer onInit() meanwhile
     this.startForecastLoop();
     // Delay learning loop to allow source device to settle/update
     if (this.initLearningTimeout) this.homey.clearTimeout(this.initLearningTimeout);
@@ -163,6 +172,10 @@ class SolarDevice extends GenericDevice {
   // --- Solar Logic ---
 
   async startForecastLoop() {
+    // Idempotent: cancel any previous chain before starting a new one, so if this ever gets
+    // called twice (e.g. an onInit() staleness check elsewhere gets bypassed) only one
+    // perpetual hourly loop survives rather than two running side by side forever.
+    if (this.forecastTimeout) this.homey.clearTimeout(this.forecastTimeout);
     // Fetch forecast every hour
     const loop = async () => {
       if (this.isDestroyed) return;
@@ -1046,8 +1059,17 @@ class SolarDevice extends GenericDevice {
     return reading;
   }
 
-  async updateMeters(reading, periods) {
-    // Capture deltas before super.updateMeters updates the lastReading objects
+  // Hooking in at handleUpdateMeter() (matching battery/evCharger's and grid's convention for
+  // this kind of per-reading extension) rather than updateMeters() directly: handleUpdateMeter()
+  // only ever runs from inside generic_sum_device.js's single serialized reading-queue drain
+  // loop, one reading at a time, so it can never be re-entered concurrently - which makes it
+  // safe to capture `periods` synchronously right here, before calling super, the same way the
+  // deltas below are captured before super.handleUpdateMeter() -> updateMeters() mutates the
+  // lastReading objects.
+  async handleUpdateMeter(reading) {
+    const periods = this.getPeriods(reading);
+
+    // Capture deltas before super.handleUpdateMeter() -> updateMeters() updates the lastReading objects
     const valHour = reading.meterValue - (this.lastReadingHour?.meterValue || 0);
     const valHourSC = reading.selfConsumed - (this.lastReadingHour?.selfConsumed || 0);
     const valHourTot = this.lastReadingHour?.totalIntegrated !== undefined ? reading.totalIntegrated - this.lastReadingHour.totalIntegrated : valHour;
@@ -1064,7 +1086,7 @@ class SolarDevice extends GenericDevice {
     const valYearSC = reading.selfConsumed - (this.lastReadingYear?.selfConsumed || 0);
     const valYearTot = this.lastReadingYear?.totalIntegrated !== undefined ? reading.totalIntegrated - this.lastReadingYear.totalIntegrated : valYear;
 
-    await super.updateMeters(reading, periods);
+    await super.handleUpdateMeter(reading);
 
     // Calculate and update self-consumption percentages
     const setPct = async (cap, valSC, valTotal, isNewPeriod) => {

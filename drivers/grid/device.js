@@ -307,24 +307,28 @@ class GridDevice extends GenericDevice {
 
   // --- Experimental per-direction (import/export) price netting ---------------------
   // Opt-in via the 'enableDirectionalNetting' setting (default off). Entirely additive:
-  // updateMeters() below calls super.updateMeters() first so the existing meter_money_*
-  // behavior is completely unchanged. See zzz_export_import_netting_research_and_plan.md.
+  // handleUpdateMeter() below calls super.handleUpdateMeter() first so the existing
+  // meter_money_* behavior is completely unchanged. See zzz_export_import_netting_research_and_plan.md.
 
-  // Hooking in at updateMeters() (rather than updateGroupMeter()/updateMeterFromMeasure(),
-  // where an earlier version of this lived) matters for correctness: updateMeters() only
-  // ever runs from inside generic_sum_device.js's single serialized reading-queue drain
-  // loop (updateMeter() -> handleUpdateMeter() -> updateMeters()), and always receives the
-  // exact `periods` the base class itself just computed and is about to act on. A P1 smart
-  // meter's import (p1) and export (n1) capabilities typically update within milliseconds
-  // of each other, each independently calling updateGroupMeter() - a second concurrent call
-  // can be silently absorbed into the first call's drain loop (see updateMeter()'s
-  // this.processingReadings guard) and return before its own reading is actually
-  // processed, which made any periods captured independently around that call stale/wrong.
-  // Reusing the `periods` argument sidesteps that race entirely - it's already correct by
-  // construction, no snapshotting needed.
-  async updateMeters(reading, periods) {
-    await super.updateMeters(reading, periods);
-    if (!this.getSettings().enableDirectionalNetting) return;
+  // Hooking in at handleUpdateMeter() (rather than updateGroupMeter()/updateMeterFromMeasure(),
+  // where an earlier version of this lived, matching battery/evCharger's established
+  // convention for this kind of per-reading extension) matters for correctness:
+  // handleUpdateMeter() only ever runs from inside generic_sum_device.js's single serialized
+  // reading-queue drain loop (updateMeter() -> handleUpdateMeter()), one reading at a time -
+  // unlike updateGroupMeter()/updateMeterFromMeasure(), it can never itself be re-entered
+  // concurrently, so capturing `periods` synchronously right here, before calling super, is
+  // safe (no other call can interleave between this line and super.handleUpdateMeter()'s own
+  // internal, consistent recomputation of the same periods for the same reading). A P1 smart
+  // meter's import (p1) and export (n1) capabilities typically update within milliseconds of
+  // each other, each independently calling updateGroupMeter() - THAT is the layer where a
+  // second concurrent call can be silently absorbed into the first call's drain loop (see
+  // updateMeter()'s this.processingReadings guard) and return before its own reading is
+  // actually processed, which is what made periods captured around updateGroupMeter() itself
+  // stale/wrong in an earlier version of this code.
+  async handleUpdateMeter(reading) {
+    const periods = this.getSettings().enableDirectionalNetting ? this.getPeriods(reading) : null;
+    await super.handleUpdateMeter(reading);
+    if (!periods) return;
     if (typeof this.directionalLastWatt === 'number') {
       // case 3: pseudo registers, reconstructed from the most recently observed signed
       // measure_power/Homey Energy watt value (cached in updateMeterFromMeasure() below).
@@ -340,7 +344,7 @@ class GridDevice extends GenericDevice {
   // Homey-Energy path for a given source_device_type/use_measure_source combination, never
   // both), so caching the latest watt value unconditionally here is safe: a case-1 device
   // simply never calls this method, so this.directionalLastWatt stays undefined and
-  // updateMeters() above always takes the case-1 branch.
+  // handleUpdateMeter() above always takes the case-1 branch.
   async updateMeterFromMeasure(val) {
     if (this.getSettings().enableDirectionalNetting && typeof val === 'number') {
       this.directionalLastWatt = val;
@@ -353,7 +357,7 @@ class GridDevice extends GenericDevice {
   // us reconstruct pseudo import/export registers by integrating each direction separately -
   // the same integration math the base class already uses for its single net total. This
   // keeps its own independent Date.now()-based clock, decoupled from reading identity, so it
-  // doesn't need a precise 1:1 pairing with the reading that triggered updateMeters().
+  // doesn't need a precise 1:1 pairing with the reading that triggered handleUpdateMeter().
   async integrateDirectionalFromSignedPower(value, periods) {
     const nowTm = Date.now();
     if (!this.directionalPseudoState) {
