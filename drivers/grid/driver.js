@@ -82,20 +82,25 @@ class GridDriver extends GenericDriver {
   checkDeviceCompatibility(homeyDevice) {
     const energyData = homeyDevice.energyObj || homeyDevice.energy;
 
+    // Require the device to be flagged as a cumulative energy source in Homey's own energy
+    // object first. Without this, the measure_power-only fallback below matched almost any
+    // power-metering device (smart plugs, appliance monitors, EV chargers, ...) since
+    // measure_power is extremely common - not just actual main-meter/CT-clamp candidates.
+    if (!energyData || energyData.cumulative !== true) return { found: false };
+
     // Filter for devices that act as a cumulative main grid meter
-    if (energyData && energyData.cumulative === true) {
-      const hasMeterPower = homeyDevice.capabilities.some((cap) => cap.startsWith('meter_power'));
-      const hasMeasurePower = homeyDevice.capabilities.includes('measure_power');
-      if (hasMeterPower && hasMeasurePower) {
-        return { found: true, useMeasureSource: false };
-      }
+    const hasMeterPower = homeyDevice.capabilities.some((cap) => cap.startsWith('meter_power'));
+    const hasMeasurePower = homeyDevice.capabilities.includes('measure_power');
+    if (hasMeterPower && hasMeasurePower) {
+      return { found: true, useMeasureSource: false };
     }
 
-    // Fallback: clamp/CT-style devices with no cumulative kWh register at all, only a
-    // signed measure_power (positive = import, negative = export, Homey standard). Paired
-    // with the 'use_measure_source' setting, the shared base class self-integrates this
-    // into a meter total (see generic_sum_device.js#addListeners()/updateMeterFromMeasure).
-    if (homeyDevice.capabilities.includes('measure_power')) {
+    // Fallback: clamp/CT-style devices with no cumulative kWh register capability at all,
+    // only a signed measure_power (positive = import, negative = export, Homey standard),
+    // but still flagged cumulative in Homey's own energy object. Paired with the
+    // 'use_measure_source' setting, the shared base class self-integrates this into a
+    // meter total (see generic_sum_device.js#addListeners()/updateMeterFromMeasure).
+    if (hasMeasurePower) {
       return { found: true, useMeasureSource: true };
     }
 
