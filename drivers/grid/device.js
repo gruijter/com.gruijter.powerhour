@@ -36,7 +36,12 @@ const deviceSpecifics = {
     last_month: 'meter_kwh_last_month',
     this_year: 'meter_kwh_this_year',
     last_year: 'meter_kwh_last_year',
-    meter_source: 'meter_power.grid',
+    // meter_power_hidden.grid is a hidden (uiComponent: null) capability - internal accounting
+    // anchor for the base class's meter tracking (last-known-value sanity checks, kWh delta
+    // math), not user-facing. Same established pattern the battery/evCharger drivers already
+    // use for their own primary cumulative meter (see lib/genericDeviceDrivers/generic_bat_
+    // device.js's use of the bare 'meter_power_hidden' capability).
+    meter_source: 'meter_power_hidden.grid',
     measure_source: 'measure_power.grid',
   },
 };
@@ -106,6 +111,13 @@ class GridDevice extends GenericDevice {
     this.directionalPseudoState = await this.getStoreValue('directionalPseudoState');
     this.directionalBlockState = await this.getStoreValue('directionalBlockState');
 
+    // Split imported/exported month/year accumulator state - see updateSplitMeters()/
+    // updateSplitMoney() below. Left undefined until lazily bootstrapped on first tick,
+    // same style as lastDirectionalSnapshot above.
+    this.lastDirectionalReadingMonth = await this.getStoreValue('lastDirectionalReadingMonth');
+    this.lastDirectionalReadingYear = await this.getStoreValue('lastDirectionalReadingYear');
+    this.splitMoney = await this.getStoreValue('splitMoney');
+
     // Load forecast settings and profiles
     this.timeZone = this.homey.clock.getTimezone();
     const storedProfile = await this.getStoreValue('weeklyProfile');
@@ -152,8 +164,8 @@ class GridDevice extends GenericDevice {
 
   async initDeviceValues() {
     this.meterPowerHome = await this.getStoreValue('meterPowerHome') || 0;
-    if (this.hasCapability('meter_power.home')) {
-      await this.setCapabilityValue('meter_power.home', this.meterPowerHome).catch(this.error);
+    if (this.hasCapability('meter_power_hidden.home')) {
+      await this.setCapabilityValue('meter_power_hidden.home', this.meterPowerHome).catch(this.error);
     }
     await super.initDeviceValues();
   }
@@ -285,7 +297,7 @@ class GridDevice extends GenericDevice {
           const safePower = Math.max(0, this.lastHomePower || 0);
           const deltaKwh = (safePower * dt) / 3600000000;
           this.meterPowerHome = (this.meterPowerHome || 0) + deltaKwh;
-          await this.setCapability('meter_power.home', Number(this.meterPowerHome.toFixed(4))).catch(this.error);
+          await this.setCapability('meter_power_hidden.home', Number(this.meterPowerHome.toFixed(4))).catch(this.error);
 
           if (!this.lastHomePowerSaveTm || (now - this.lastHomePowerSaveTm > 60000)) {
             this.setStoreValue('meterPowerHome', this.meterPowerHome).catch(this.error);
@@ -383,7 +395,29 @@ class GridDevice extends GenericDevice {
       // case 1: real p1/n1 cumulative registers
       await this.updateDirectionalRegisters(this.lastGroupMeter.p1, this.lastGroupMeter.n1).catch((err) => this.error(err));
     }
+
+    // Resolve this tick's shared import/export delta ONCE (bootstraps/advances
+    // this.lastDirectionalSnapshot). getMoneyDeltaOverride() below (invoked later, from
+    // deep inside super.handleUpdateMeter() -> updateMoney()) consumes this SAME cached
+    // result - resolveDirectionalDelta() must not run a second time this tick, or it would
+    // see an already-advanced snapshot and silently under-count.
+    this._directionalTickDelta = await this.resolveDirectionalDelta().catch((err) => {
+      this.error(err);
+      return null;
+    });
+
+    // Split imported/exported month/year capabilities - independent of directionalNettingScheme
+    // (see updateSplitMeters()/updateSplitMoney() below). Only meaningful when this device
+    // actually has export data (case 2 - import-only - permanently has no exportValue).
+    const splitActive = typeof this.directionalMeter?.exportValue === 'number';
+    if (splitActive) {
+      const periods = this.getPeriods(reading); // pure read, safe before super - see updateSplitMeters()
+      await this.updateSplitMeters(periods).catch((err) => this.error(err));
+      await this.updateSplitMoney(periods).catch((err) => this.error(err));
+    }
+
     await super.handleUpdateMeter(reading);
+    this._directionalTickDelta = null;
   }
 
   // Case 1 vs case 3 is mutually exclusive per device for its whole lifetime (generic_sum_
@@ -442,10 +476,13 @@ class GridDevice extends GenericDevice {
     return [15, 30, 45, 60].includes(n) ? n : (this.priceInterval || 60);
   }
 
-  // Shared prologue for both non-continuousNet schemes below: resolves the raw import/export
-  // delta since the last processed tick, bootstrapping the snapshot on first call. Returns
-  // null when there's nothing to price yet (prices not ready, first observation, or a
-  // genuinely zero delta) - callers should just return in that case.
+  // Resolves the raw import/export delta since the last processed tick, bootstrapping and
+  // advancing this.lastDirectionalSnapshot itself (called exactly once per tick, from
+  // handleUpdateMeter() above - getMoneyDeltaOverride() below and updateSplitMoney() both
+  // consume the cached result rather than calling this a second time, which would see an
+  // already-advanced snapshot and silently under-count). Returns null when there's nothing
+  // to report (prices not ready, first observation, a genuinely zero delta, or case 2 - no
+  // export data at all) - callers should just treat that as "nothing new this tick."
   async resolveDirectionalDelta() {
     const { importValue, exportValue } = this.directionalMeter || {};
     if (typeof importValue !== 'number' || typeof exportValue !== 'number') return null; // case 2: no export data
@@ -464,28 +501,31 @@ class GridDevice extends GenericDevice {
     if (!Number.isFinite(deltaImport) || !Number.isFinite(deltaExport)) return null;
     if (deltaImport === 0 && deltaExport === 0) return null;
 
+    const lastTm = this.lastDirectionalSnapshot.tm;
+    this.lastDirectionalSnapshot = { importValue, exportValue, tm: now.getTime() };
+    await this.setStoreValue('lastDirectionalSnapshot', this.lastDirectionalSnapshot).catch((err) => this.error(err));
+
     return {
-      deltaImport, deltaExport, now, importValue, exportValue,
+      deltaImport, deltaExport, now, lastTm, importValue, exportValue,
     };
   }
 
   // The hook generic_sum_device.js#updateMoney() calls to compute this tick's deltaMoney -
   // see the base class for the full contract. Returning null defers to the base's own
   // sign-based net-then-price calc ('continuousNet'); a number here becomes the actual
-  // deltaMoney folded into meter_money_this_hour/day/month/year.
+  // deltaMoney folded into meter_money_this_hour/day/month/year. Consumes the delta already
+  // resolved once this tick by handleUpdateMeter() - does not call resolveDirectionalDelta()
+  // itself (see that method's own comment for why).
   async getMoneyDeltaOverride() {
     const scheme = this.getSettings().directionalNettingScheme || 'perDirection';
     if (scheme === 'continuousNet') return null;
     if (typeof this.directionalMeter?.exportValue !== 'number') return null; // case 2: nothing these schemes can do differently
 
-    const resolved = await this.resolveDirectionalDelta();
+    const resolved = this._directionalTickDelta;
     if (!resolved) return 0; // tracking direction, but nothing new to price on this tick
     const {
-      deltaImport, deltaExport, now, importValue, exportValue,
+      deltaImport, deltaExport, now, lastTm,
     } = resolved;
-    const lastTm = this.lastDirectionalSnapshot.tm;
-    this.lastDirectionalSnapshot = { importValue, exportValue, tm: now.getTime() };
-    await this.setStoreValue('lastDirectionalSnapshot', this.lastDirectionalSnapshot).catch((err) => this.error(err));
 
     if (scheme === 'fixedBlock') {
       return this.computeFixedBlockDeltaMoney(deltaImport, deltaExport, now);
@@ -503,6 +543,132 @@ class GridDevice extends GenericDevice {
       lastTm,
     );
     return (deltaImport * effImportTariff) - (deltaExport * effExportTariff);
+  }
+
+  // Physical import/export kWh split for the current + previous month/year - independent of
+  // directionalNettingScheme (a physical fact, not a pricing choice). Uses the same
+  // anchor-snapshot-diff-and-reset technique generic_sum_device.js#updateMeters() uses for the
+  // net total: this.directionalMeter.importValue/exportValue are cumulative running totals
+  // (guaranteed fresh before this runs - see handleUpdateMeter() above), diffed against a
+  // stored per-period baseline, reset on the SAME periods.newMonth/newYear flags the base
+  // class's own net accumulators use, so split and net totals always cover an identical span.
+  // Only called when this.directionalMeter.exportValue is a number (never for case 2).
+  async updateSplitMeters(periods) {
+    const { importValue, exportValue } = this.directionalMeter;
+
+    if (!this.lastDirectionalReadingMonth) {
+      this.lastDirectionalReadingMonth = { importValue, exportValue };
+      await this.setStoreValue('lastDirectionalReadingMonth', this.lastDirectionalReadingMonth).catch((err) => this.error(err));
+    }
+    if (!this.lastDirectionalReadingYear) {
+      this.lastDirectionalReadingYear = { importValue, exportValue };
+      await this.setStoreValue('lastDirectionalReadingYear', this.lastDirectionalReadingYear).catch((err) => this.error(err));
+    }
+
+    let lastMonth = { ...this.lastDirectionalReadingMonth };
+    let lastYear = { ...this.lastDirectionalReadingYear };
+
+    let valMonthImport = importValue - lastMonth.importValue;
+    let valMonthExport = exportValue - lastMonth.exportValue;
+    let valYearImport = importValue - lastYear.importValue;
+    let valYearExport = exportValue - lastYear.exportValue;
+
+    if (periods.newMonth) {
+      await this.setCapability('meter_kwh_last_month.imported', valMonthImport).catch((err) => this.error(err));
+      await this.setCapability('meter_kwh_last_month.exported', valMonthExport).catch((err) => this.error(err));
+      lastMonth = { importValue, exportValue };
+      await this.setStoreValue('lastDirectionalReadingMonth', lastMonth).catch((err) => this.error(err));
+      valMonthImport = 0; valMonthExport = 0;
+    }
+    if (periods.newYear) {
+      await this.setCapability('meter_kwh_last_year.imported', valYearImport).catch((err) => this.error(err));
+      await this.setCapability('meter_kwh_last_year.exported', valYearExport).catch((err) => this.error(err));
+      lastYear = { importValue, exportValue };
+      await this.setStoreValue('lastDirectionalReadingYear', lastYear).catch((err) => this.error(err));
+      valYearImport = 0; valYearExport = 0;
+    }
+
+    await this.setCapability('meter_kwh_this_month.imported', valMonthImport).catch((err) => this.error(err));
+    await this.setCapability('meter_kwh_this_month.exported', valMonthExport).catch((err) => this.error(err));
+    await this.setCapability('meter_kwh_this_year.imported', valYearImport).catch((err) => this.error(err));
+    await this.setCapability('meter_kwh_this_year.exported', valYearExport).catch((err) => this.error(err));
+
+    if (periods.newMonth) this.lastDirectionalReadingMonth = lastMonth;
+    if (periods.newYear) this.lastDirectionalReadingYear = lastYear;
+  }
+
+  // Split money for the current + previous month/year, always priced perDirection-style (each
+  // direction's delta x the tariff in effect over that delta's span) REGARDLESS of the chosen
+  // directionalNettingScheme - this answers "what would each direction cost individually",
+  // which is what a supplier's bill itemizes, not "what's the net total" (which is what the
+  // scheme setting controls for meter_money_this/last_month/year). Consequence: under
+  // 'perDirection' scheme, net ~= imported - exported exactly; under 'continuousNet'/
+  // 'fixedBlock' they won't reconcile - expected, those are alternate ways to compute one net
+  // total, not alternate ways to split a bill. Deliberately NOT reset by onSettings()'s
+  // scheme-change handler (unlike the net meterMoney.month/year) - this formula doesn't depend
+  // on that setting, so it should keep accumulating across a scheme switch, not reset.
+  async updateSplitMoney(periods) {
+    if (!this.splitMoney) {
+      this.splitMoney = {
+        month: { imported: 0, exported: 0 },
+        year: { imported: 0, exported: 0 },
+        lastMonth: { imported: 0, exported: 0 },
+        lastYear: { imported: 0, exported: 0 },
+      };
+    }
+    const money = { ...this.splitMoney };
+
+    let deltaImportMoney = 0;
+    let deltaExportMoney = 0;
+    const resolved = this._directionalTickDelta;
+    if (resolved) {
+      const {
+        deltaImport, deltaExport, now, lastTm,
+      } = resolved;
+      const priceInterval = this.priceInterval || 60;
+      const { tariff: effImportTariff, exportTariff: effExportTariff } = MeterHelpers.getPeriodTariff(
+        this.tariffHistory,
+        priceInterval,
+        now,
+        lastTm,
+      );
+      deltaImportMoney = deltaImport * effImportTariff;
+      deltaExportMoney = deltaExport * effExportTariff;
+    }
+
+    if (periods.newMonth) {
+      money.lastMonth = { ...money.month };
+      await this.setCapability('meter_money_last_month.imported', money.lastMonth.imported).catch((err) => this.error(err));
+      await this.setCapability('meter_money_last_month.exported', money.lastMonth.exported).catch((err) => this.error(err));
+      money.month = { imported: 0, exported: 0 };
+    }
+    if (periods.newYear) {
+      money.lastYear = { ...money.year };
+      await this.setCapability('meter_money_last_year.imported', money.lastYear.imported).catch((err) => this.error(err));
+      await this.setCapability('meter_money_last_year.exported', money.lastYear.exported).catch((err) => this.error(err));
+      money.year = { imported: 0, exported: 0 };
+    }
+
+    // Fixed monthly markup mirrors generic_sum_device.js#updateMoney()'s own markup
+    // application, attributed to the imported side only (a standing charge, not an export
+    // credit). No markup_year setting exists (only markup_hour/day/month), so no yearly term.
+    let markup = 0;
+    if (periods.newMonth) markup += (this.getSettings().markup_month || 0);
+
+    money.month.imported += deltaImportMoney;
+    money.month.exported += deltaExportMoney;
+    money.year.imported += deltaImportMoney;
+    money.year.exported += deltaExportMoney;
+    money.month.imported += markup;
+    money.year.imported += markup;
+
+    await this.setCapability('meter_money_this_month.imported', money.month.imported).catch((err) => this.error(err));
+    await this.setCapability('meter_money_this_month.exported', money.month.exported).catch((err) => this.error(err));
+    await this.setCapability('meter_money_this_year.imported', money.year.imported).catch((err) => this.error(err));
+    await this.setCapability('meter_money_this_year.exported', money.year.exported).catch((err) => this.error(err));
+
+    this.splitMoney = money;
+    await this.setStoreValue('splitMoney', money).catch((err) => this.error(err));
   }
 
   // 'fixedBlock' scheme (Model A - net within a closed, fixed time block, then price the
@@ -614,7 +780,7 @@ class GridDevice extends GenericDevice {
     const currentTimestamp = now.getTime();
 
     const rawPower = this.getCapabilityValue('measure_power.home');
-    const currentEnergy = this.getCapabilityValue('meter_power.home');
+    const currentEnergy = this.getCapabilityValue('meter_power_hidden.home');
 
     const { smoothedPower, newEnergyState } = LoadForecastStrategy.calculateSmoothedPower({
       currentPower: rawPower,

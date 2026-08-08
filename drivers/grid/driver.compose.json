@@ -17,22 +17,8 @@
   "deprecated": true,
   "capabilities": [],
   "capabilitiesOptions": {
-    "meter_power.grid": {
-      "title": {
-        "en": "Grid Energy",
-        "nl": "Net Energie",
-        "de": "Netz Energie",
-        "fr": "Énergie Réseau",
-        "it": "Energia Rete",
-        "sv": "Nät Energi",
-        "no": "Nett Energi",
-        "es": "Energía Red",
-        "da": "Net Energi",
-        "pl": "Energia Sieci",
-        "ru": "Энергия сети",
-        "ar": "طاقة الشبكة"
-      },
-      "decimals": 4
+    "meter_power_hidden.grid": {
+      "insights": false
     },
     "measure_power.grid": {
       "title": {
@@ -115,23 +101,264 @@
       },
       "insights": true
     },
-    "meter_power.home": {
+    "meter_power_hidden.home": {
+      "insights": false
+    },
+    "meter_kwh_this_month.imported": {
       "title": {
-        "en": "Home Energy",
-        "nl": "Huis Energie",
-        "de": "Haus Energie",
-        "fr": "Énergie Maison",
-        "it": "Energia Casa",
-        "sv": "Hem Energi",
-        "no": "Hjem Energi",
-        "es": "Energía Casa",
-        "da": "Hjem Energi",
-        "pl": "Energia Domu",
-        "ru": "Энергия Дома",
-        "ar": "طاقة المنزل"
-      },
-      "decimals": 4,
-      "insights": true
+        "en": "kWh this month (imported)",
+        "nl": "kWh deze maand (geïmporteerd)",
+        "de": "kWh dieser Monat (importiert)",
+        "fr": "kWh ce mois-ci (importé)",
+        "it": "kWh mese corrente (importato)",
+        "sv": "kWh denna månad (importerad)",
+        "no": "kWh denne måned (importert)",
+        "es": "kWh este mes (importado)",
+        "da": "kWh denne måned (importeret)",
+        "pl": "kWh ten miesiąc (import)",
+        "ru": "кВтч этот месяц (импорт)",
+        "ar": "كيلوواط ساعة هذا الشهر (مستورد)"
+      }
+    },
+    "meter_kwh_this_month.exported": {
+      "title": {
+        "en": "kWh this month (exported)",
+        "nl": "kWh deze maand (geëxporteerd)",
+        "de": "kWh dieser Monat (exportiert)",
+        "fr": "kWh ce mois-ci (exporté)",
+        "it": "kWh mese corrente (esportato)",
+        "sv": "kWh denna månad (exporterad)",
+        "no": "kWh denne måned (eksportert)",
+        "es": "kWh este mes (exportado)",
+        "da": "kWh denne måned (eksporteret)",
+        "pl": "kWh ten miesiąc (eksport)",
+        "ru": "кВтч этот месяц (экспорт)",
+        "ar": "كيلوواط ساعة هذا الشهر (مُصدَّر)"
+      }
+    },
+    "meter_kwh_last_month.imported": {
+      "title": {
+        "en": "kWh prev. month (imported)",
+        "nl": "kWh vorige maand (geïmporteerd)",
+        "de": "kWh Vormonat (importiert)",
+        "fr": "kWh mois dernier (importé)",
+        "it": "kWh mese prec. (importato)",
+        "sv": "kWh föreg. månad (importerad)",
+        "no": "kWh forrige måned (importert)",
+        "es": "kWh mes anterior (importado)",
+        "da": "kWh forrige måned (importeret)",
+        "pl": "kWh poprz. miesiąc (import)",
+        "ru": "кВтч пред. месяц (импорт)",
+        "ar": "كيلوواط ساعة الشهر السابق (مستورد)"
+      }
+    },
+    "meter_kwh_last_month.exported": {
+      "title": {
+        "en": "kWh prev. month (exported)",
+        "nl": "kWh vorige maand (geëxporteerd)",
+        "de": "kWh Vormonat (exportiert)",
+        "fr": "kWh mois dernier (exporté)",
+        "it": "kWh mese prec. (esportato)",
+        "sv": "kWh föreg. månad (exporterad)",
+        "no": "kWh forrige måned (eksportert)",
+        "es": "kWh mes anterior (exportado)",
+        "da": "kWh forrige måned (eksporteret)",
+        "pl": "kWh poprz. miesiąc (eksport)",
+        "ru": "кВтч пред. месяц (экспорт)",
+        "ar": "كيلوواط ساعة الشهر السابق (مُصدَّر)"
+      }
+    },
+    "meter_kwh_this_year.imported": {
+      "title": {
+        "en": "kWh this year (imported)",
+        "nl": "kWh dit jaar (geïmporteerd)",
+        "de": "kWh dieses Jahr (importiert)",
+        "fr": "kWh cette année (importé)",
+        "it": "kWh anno corrente (importato)",
+        "sv": "kWh detta år (importerad)",
+        "no": "kWh dette år (importert)",
+        "es": "kWh este año (importado)",
+        "da": "kWh dette år (importeret)",
+        "pl": "kWh ten rok (import)",
+        "ru": "кВтч этот год (импорт)",
+        "ar": "كيلوواط ساعة هذا العام (مستورد)"
+      }
+    },
+    "meter_kwh_this_year.exported": {
+      "title": {
+        "en": "kWh this year (exported)",
+        "nl": "kWh dit jaar (geëxporteerd)",
+        "de": "kWh dieses Jahr (exportiert)",
+        "fr": "kWh cette année (exporté)",
+        "it": "kWh anno corrente (esportato)",
+        "sv": "kWh detta år (exporterad)",
+        "no": "kWh dette år (eksportert)",
+        "es": "kWh este año (exportado)",
+        "da": "kWh dette år (eksporteret)",
+        "pl": "kWh ten rok (eksport)",
+        "ru": "кВтч этот год (экспорт)",
+        "ar": "كيلوواط ساعة هذا العام (مُصدَّر)"
+      }
+    },
+    "meter_kwh_last_year.imported": {
+      "title": {
+        "en": "kWh prev. year (imported)",
+        "nl": "kWh vorig jaar (geïmporteerd)",
+        "de": "kWh Vorjahr (importiert)",
+        "fr": "kWh année dernière (importé)",
+        "it": "kWh anno prec. (importato)",
+        "sv": "kWh föreg. år (importerad)",
+        "no": "kWh forrige år (importert)",
+        "es": "kWh año anterior (importado)",
+        "da": "kWh forrige år (importeret)",
+        "pl": "kWh poprz. rok (import)",
+        "ru": "кВтч пред. год (импорт)",
+        "ar": "كيلوواط ساعة العام السابق (مستورد)"
+      }
+    },
+    "meter_kwh_last_year.exported": {
+      "title": {
+        "en": "kWh prev. year (exported)",
+        "nl": "kWh vorig jaar (geëxporteerd)",
+        "de": "kWh Vorjahr (exportiert)",
+        "fr": "kWh année dernière (exporté)",
+        "it": "kWh anno prec. (esportato)",
+        "sv": "kWh föreg. år (exporterad)",
+        "no": "kWh forrige år (eksportert)",
+        "es": "kWh año anterior (exportado)",
+        "da": "kWh forrige år (eksporteret)",
+        "pl": "kWh poprz. rok (eksport)",
+        "ru": "кВтч пред. год (экспорт)",
+        "ar": "كيلوواط ساعة العام السابق (مُصدَّر)"
+      }
+    },
+    "meter_money_this_month.imported": {
+      "title": {
+        "en": "Money this month (imported)",
+        "nl": "Geld deze maand (geïmporteerd)",
+        "de": "Kosten dieser Monat (importiert)",
+        "fr": "Argent ce mois-ci (importé)",
+        "it": "Spesa mese corrente (importato)",
+        "sv": "Pengar denna månad (importerad)",
+        "no": "Kostnad denne måned (importert)",
+        "es": "Dinero este mes (importado)",
+        "da": "Penge denne måned (importeret)",
+        "pl": "Pieniądze ten miesiąc (import)",
+        "ru": "Деньги этот месяц (импорт)",
+        "ar": "المال هذا الشهر (مستورد)"
+      }
+    },
+    "meter_money_this_month.exported": {
+      "title": {
+        "en": "Money this month (exported)",
+        "nl": "Geld deze maand (geëxporteerd)",
+        "de": "Erlös dieser Monat (exportiert)",
+        "fr": "Argent ce mois-ci (exporté)",
+        "it": "Ricavo mese corrente (esportato)",
+        "sv": "Pengar denna månad (exporterad)",
+        "no": "Inntekt denne måned (eksportert)",
+        "es": "Dinero este mes (exportado)",
+        "da": "Penge denne måned (eksporteret)",
+        "pl": "Pieniądze ten miesiąc (eksport)",
+        "ru": "Деньги этот месяц (экспорт)",
+        "ar": "المال هذا الشهر (مُصدَّر)"
+      }
+    },
+    "meter_money_last_month.imported": {
+      "title": {
+        "en": "Money prev. month (imported)",
+        "nl": "Geld vorige maand (geïmporteerd)",
+        "de": "Kosten Vormonat (importiert)",
+        "fr": "Argent mois dernier (importé)",
+        "it": "Spesa mese prec. (importato)",
+        "sv": "Pengar föreg. månad (importerad)",
+        "no": "Kostnad forrige måned (importert)",
+        "es": "Dinero mes anterior (importado)",
+        "da": "Penge forrige måned (importeret)",
+        "pl": "Pieniądze poprz. miesiąc (import)",
+        "ru": "Деньги пред. месяц (импорт)",
+        "ar": "المال الشهر السابق (مستورد)"
+      }
+    },
+    "meter_money_last_month.exported": {
+      "title": {
+        "en": "Money prev. month (exported)",
+        "nl": "Geld vorige maand (geëxporteerd)",
+        "de": "Erlös Vormonat (exportiert)",
+        "fr": "Argent mois dernier (exporté)",
+        "it": "Ricavo mese prec. (esportato)",
+        "sv": "Pengar föreg. månad (exporterad)",
+        "no": "Inntekt forrige måned (eksportert)",
+        "es": "Dinero mes anterior (exportado)",
+        "da": "Penge forrige måned (eksporteret)",
+        "pl": "Pieniądze poprz. miesiąc (eksport)",
+        "ru": "Деньги пред. месяц (экспорт)",
+        "ar": "المال الشهر السابق (مُصدَّر)"
+      }
+    },
+    "meter_money_this_year.imported": {
+      "title": {
+        "en": "Money this year (imported)",
+        "nl": "Geld dit jaar (geïmporteerd)",
+        "de": "Kosten dieses Jahr (importiert)",
+        "fr": "Argent cette année (importé)",
+        "it": "Spesa anno corrente (importato)",
+        "sv": "Pengar detta år (importerad)",
+        "no": "Kostnad dette år (importert)",
+        "es": "Dinero este año (importado)",
+        "da": "Penge dette år (importeret)",
+        "pl": "Pieniądze ten rok (import)",
+        "ru": "Деньги этот год (импорт)",
+        "ar": "المال هذا العام (مستورد)"
+      }
+    },
+    "meter_money_this_year.exported": {
+      "title": {
+        "en": "Money this year (exported)",
+        "nl": "Geld dit jaar (geëxporteerd)",
+        "de": "Erlös dieses Jahr (exportiert)",
+        "fr": "Argent cette année (exporté)",
+        "it": "Ricavo anno corrente (esportato)",
+        "sv": "Pengar detta år (exporterad)",
+        "no": "Inntekt dette år (eksportert)",
+        "es": "Dinero este año (exportado)",
+        "da": "Penge dette år (eksporteret)",
+        "pl": "Pieniądze ten rok (eksport)",
+        "ru": "Деньги этот год (экспорт)",
+        "ar": "المال هذا العام (مُصدَّر)"
+      }
+    },
+    "meter_money_last_year.imported": {
+      "title": {
+        "en": "Money prev. year (imported)",
+        "nl": "Geld vorig jaar (geïmporteerd)",
+        "de": "Kosten Vorjahr (importiert)",
+        "fr": "Argent année dernière (importé)",
+        "it": "Spesa anno prec. (importato)",
+        "sv": "Pengar föreg. år (importerad)",
+        "no": "Kostnad forrige år (importert)",
+        "es": "Dinero año anterior (importado)",
+        "da": "Penge forrige år (importeret)",
+        "pl": "Pieniądze poprz. rok (import)",
+        "ru": "Деньги пред. год (импорт)",
+        "ar": "المال العام السابق (مستورد)"
+      }
+    },
+    "meter_money_last_year.exported": {
+      "title": {
+        "en": "Money prev. year (exported)",
+        "nl": "Geld vorig jaar (geëxporteerd)",
+        "de": "Erlös Vorjahr (exportiert)",
+        "fr": "Argent année dernière (exporté)",
+        "it": "Ricavo anno prec. (esportato)",
+        "sv": "Pengar föreg. år (exporterad)",
+        "no": "Inntekt forrige år (eksportert)",
+        "es": "Dinero año anterior (exportado)",
+        "da": "Penge forrige år (eksporteret)",
+        "pl": "Pieniądze poprz. rok (eksport)",
+        "ru": "Деньги пред. год (экспорт)",
+        "ar": "المال العام السابق (مُصدَّر)"
+      }
     },
     "measure_watt_forecast.h0": {
       "title": {

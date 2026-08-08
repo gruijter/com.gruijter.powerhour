@@ -24,16 +24,36 @@ const GenericDriver = require('../../lib/genericDeviceDrivers/generic_sum_driver
 
 const driverSpecifics = {
   driverId: 'grid',
-  deviceCapabilities: ['measure_power.grid',
-    'measure_power.solar', 'measure_power.battery', 'measure_power.evcharger', 'measure_power.home',
+  deviceCapabilities: [
+    // Active tariff + live power (meter_power_hidden.* are internal accounting anchors only -
+    // uiComponent: null, no visible tile, no Insights, no flow cards - see drivers/grid/device.js)
+    'meter_tariff',
+    'measure_power.grid', 'meter_power_hidden.grid',
+    'measure_power.home', 'meter_power_hidden.home',
+    'measure_power.solar', 'measure_power.battery', 'measure_power.evcharger',
+    // kWh (net)
     'meter_kwh_last_hour', 'meter_kwh_this_hour', 'meter_kwh_last_day', 'meter_kwh_this_day',
     'meter_kwh_last_month', 'meter_kwh_this_month', 'meter_kwh_last_year', 'meter_kwh_this_year',
+    // Budget
     'meter_target_month_to_date', 'meter_target_year_to_date',
+    // Money (net)
     'meter_money_last_hour', 'meter_money_this_hour', 'meter_money_last_day', 'meter_money_this_day',
     'meter_money_last_month', 'meter_money_this_month', 'meter_money_last_year', 'meter_money_this_year',
+    // Money avg
     'meter_money_this_month_avg', 'meter_money_this_year_avg',
-    'meter_tariff', 'last_minmax_reset', 'measure_watt_min', 'measure_watt_max',
-    'meter_power.grid', 'meter_power.home',
+    // Imported (kWh, then money)
+    'meter_kwh_last_month.imported', 'meter_kwh_this_month.imported',
+    'meter_kwh_last_year.imported', 'meter_kwh_this_year.imported',
+    'meter_money_last_month.imported', 'meter_money_this_month.imported',
+    'meter_money_last_year.imported', 'meter_money_this_year.imported',
+    // Exported (kWh, then money)
+    'meter_kwh_last_month.exported', 'meter_kwh_this_month.exported',
+    'meter_kwh_last_year.exported', 'meter_kwh_this_year.exported',
+    'meter_money_last_month.exported', 'meter_money_this_month.exported',
+    'meter_money_last_year.exported', 'meter_money_this_year.exported',
+    // Min/max + reset
+    'measure_watt_min', 'measure_watt_max', 'last_minmax_reset',
+    // Forecast (home load)
     'measure_watt_forecast.h0', 'measure_watt_forecast.m15', 'measure_watt_forecast.m30',
     'measure_watt_forecast.m45', 'measure_watt_forecast.h1', 'measure_watt_forecast.h2',
     'measure_watt_forecast.h3', 'meter_kwh_forecast.h0', 'meter_kwh_forecast.this_day',
