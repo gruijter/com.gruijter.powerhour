@@ -15984,6 +15984,54 @@
             "ar": "طاقة الشبكة"
           }
         },
+        "measure_power.solar": {
+          "title": {
+            "en": "Solar Power",
+            "nl": "Zon Vermogen",
+            "de": "Solar Leistung",
+            "fr": "Puissance Solaire",
+            "it": "Potenza Solare",
+            "sv": "Sol Effekt",
+            "no": "Sol Effekt",
+            "es": "Potencia Solar",
+            "da": "Sol Effekt",
+            "pl": "Moc Solarna",
+            "ru": "Солнечная мощность",
+            "ar": "طاقة شمسية"
+          }
+        },
+        "measure_power.battery": {
+          "title": {
+            "en": "Battery Power",
+            "nl": "Accu Vermogen",
+            "de": "Batterie Leistung",
+            "fr": "Puissance Batterie",
+            "it": "Potenza Batteria",
+            "sv": "Batteri Effekt",
+            "no": "Batteri Effekt",
+            "es": "Potencia Batería",
+            "da": "Batteri Effekt",
+            "pl": "Moc Baterii",
+            "ru": "Мощность батареи",
+            "ar": "طاقة البطارية"
+          }
+        },
+        "measure_power.evcharger": {
+          "title": {
+            "en": "EV Charger Power",
+            "nl": "EV Lader Vermogen",
+            "de": "E-Auto Ladeleistung",
+            "fr": "Puissance Chargeur VE",
+            "it": "Potenza Caricatore EV",
+            "sv": "Laddare Effekt",
+            "no": "Lader Effekt",
+            "es": "Potencia Cargador VE",
+            "da": "Oplader Effekt",
+            "pl": "Moc Ładowarki EV",
+            "ru": "Мощность зарядки EV",
+            "ar": "طاقة شاحن السيارة الكهربائية"
+          }
+        },
         "measure_power.home": {
           "title": {
             "en": "Home Power",

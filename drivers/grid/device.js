@@ -240,6 +240,10 @@ class GridDevice extends GenericDevice {
         });
       }
 
+      await this.setCapability('measure_power.solar', Math.round(solarPower)).catch(this.error);
+      await this.setCapability('measure_power.battery', Math.round(batteryPower)).catch(this.error);
+      await this.setCapability('measure_power.evcharger', Math.round(evPower)).catch(this.error);
+
       // Wiskunde voor eigen verbruik: Grid (import = +) + Solar (prod = +) - Battery (laden = +) - EV (laden = +)
       const homePower = Math.round(gridPower + solarPower - batteryPower - evPower);
 
