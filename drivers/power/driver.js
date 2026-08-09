@@ -126,7 +126,7 @@ class PowerDriver extends GenericDriver {
 
     let hasSourceCapGroup = false;
     for (const capGroup of this.ds.sourceCapGroups) {
-      if (hasSourceCapGroup) continue;
+      if (hasSourceCapGroup) break;
       const requiredKeys = Object.values(capGroup).filter((v) => v);
       const hasAllKeys = requiredKeys.every((k) => homeyDevice.capabilities.includes(k));
       if (hasAllKeys) hasSourceCapGroup = true;
