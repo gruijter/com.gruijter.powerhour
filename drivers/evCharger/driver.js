@@ -85,8 +85,9 @@ class CarChargeDriver extends GenericDriver {
    * Returns { found, useMeasureSource } or { found: false }.
    */
   checkDeviceCompatibility(homeyDevice) {
-    // Exclude PBTH's own summary devices (e.g. this driver's previously paired charger)
-    if ((homeyDevice.driverUri || '').includes('powerhour')) {
+    // Exclude PBTH's own summary devices, same convention as generic_sum_driver.js
+    // (used by gas/solar/water): driverId, not the device's own editable name.
+    if ((homeyDevice.driverId || '').includes('com.gruijter.powerhour')) {
       return { found: false };
     }
 
@@ -119,9 +120,9 @@ class CarChargeDriver extends GenericDriver {
    * Returns { found: true } or { found: false }.
    */
   checkCarCompatibility(homeyDevice) {
-    // Exclude PBTH's own summary devices — identified by the owning app (driverUri),
-    // never by the device's own (user-editable) name.
-    if ((homeyDevice.driverUri || '').includes('powerhour')) {
+    // Exclude PBTH's own summary devices, same convention as generic_sum_driver.js
+    // (used by gas/solar/water): driverId, not the device's own editable name.
+    if ((homeyDevice.driverId || '').includes('com.gruijter.powerhour')) {
       return { found: false };
     }
 
@@ -133,9 +134,6 @@ class CarChargeDriver extends GenericDriver {
     if (carClasses.includes(homeyDevice.class) || carClasses.includes(homeyDevice.virtualClass)) {
       return { found: true };
     }
-    // driverId is set by the app developer, not the device owner, so unlike the
-    // device's display name it's a structural (if app-specific) identifier.
-    if (homeyDevice.driverId === 'car') return { found: true };
     // Fallback for apps that use a generic class (e.g. 'sensor') for their car driver.
     // Require a charge-state capability together with a SoC reading: measure_battery
     // alone is far too common (any battery-powered sensor has it) to be a reliable signal.
