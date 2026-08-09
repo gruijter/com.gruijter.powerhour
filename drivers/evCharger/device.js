@@ -775,7 +775,7 @@ class CarChargeDevice extends GenericDevice {
       }
       await this.todayChargeImage.update().catch(this.error);
 
-      // 2. Image 2: Tomorrow (00:00 to 23:59 Tomorrow)
+      // 3. Image 3: Tomorrow (00:00 to 23:59 Tomorrow)
       const tomorrowStrategy = {};
       const remainingTodaySlots = totalDaySlots - currentSlotInDay;
       const tomorrowStartMs = todayStartMs + (24 * 60 * 60 * 1000);
@@ -822,7 +822,7 @@ class CarChargeDevice extends GenericDevice {
       }
       await this.tomorrowChargeImage.update().catch(this.error);
 
-      // 3. Image 3: Next Hours (Rolling Window starting from current hour H0)
+      // 4. Image 4: Next Hours (Rolling Window starting from current hour H0)
       const chartNextHours = await getChargeChart(
         { scheme: JSON.stringify(strategy) },
         H0 + (M0 / 60),
@@ -980,7 +980,6 @@ class CarChargeDevice extends GenericDevice {
       // measure_power, before falling back to the cumulative meter_power.
       const powerEntries = await fetchLog(chargerId, ['measure_power', 'energy_power', 'meter_power']);
 
-      // Fetch SoC entries from car device if available
       let socEntries = null;
       if (evId && evId !== 'none') {
         socEntries = await fetchLog(evId, ['measure_battery']);

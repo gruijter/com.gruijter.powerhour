@@ -93,7 +93,7 @@ class BatteryDriver extends GenericDriver {
   }
 
   async checkStartPolling() {
-    if (this.energyPollCallback) return; // Already polling
+    if (this.energyPollCallback) return;
     // eslint-disable-next-line global-require
     const EnergyPollingHelper = require('../../lib/EnergyPollingHelper');
     EnergyPollingHelper.init(this.homey, { log: this.log.bind(this), error: this.error.bind(this) });

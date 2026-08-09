@@ -111,7 +111,6 @@ class BatDevice extends GenericDevice {
   }
 
   async addListeners() {
-    // check if source device exists
     let api;
     try {
       api = this.homey.app.api;
@@ -121,7 +120,6 @@ class BatDevice extends GenericDevice {
     if (!api) throw new Error('Homey API not ready');
     await this.getSourceDevice();
 
-    // start listeners for all caps
     await this.addSourceCapGroup();
     this.log(`registering capability listeners for ${this.sourceDevice.name}`);
     Object.keys(this.sourceCapGroup).forEach((key) => {
@@ -134,7 +132,6 @@ class BatDevice extends GenericDevice {
   }
 
   async poll() {
-    // check if source device exists
     let api;
     try {
       api = this.homey.app.api;
@@ -144,7 +141,6 @@ class BatDevice extends GenericDevice {
     if (!api) return;
     await this.getSourceDevice();
 
-    // start polling all caps
     if (!this.sourceCapGroup) await this.addSourceCapGroup();
     this.log(`polling ${this.sourceDevice.name}`);
     const promises = Object.keys(this.sourceCapGroup).map(async (key) => {

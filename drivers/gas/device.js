@@ -65,33 +65,28 @@ class GasDevice extends GenericDevice {
     return Math.round((deltaMeter / deltaTm) * 600000000) / 10;
   }
 
-  // driver specific stuff below
-
   async addListeners() {
     if (!this.homey.app.api) throw new Error('Homey API not ready');
     await this.getSourceDevice();
-    // make listener for meter_gas
     if (this.sourceDevice.capabilities.includes('meter_gas')) {
       this.log(`registering meter_gas capability listener for ${this.sourceDevice.name}`);
       this.capabilityInstances.meterGas = this.sourceDevice.makeCapabilityInstance('meter_gas', async (value) => {
         await this.updateMeter(value).catch(this.error);
       });
     }
-    // make listener for meter_gas.reading
     if (this.sourceDevice.capabilities.includes('meter_gas.reading')) {
       this.log(`registering meter_gas.reading capability listener for ${this.sourceDevice.name}`);
       this.capabilityInstances.meterGasReading = this.sourceDevice.makeCapabilityInstance('meter_gas.reading', async (value) => {
         await this.updateMeter(value).catch(this.error);
       });
     }
-    // make listener for meter_gas.consumed
     if (this.sourceDevice.capabilities.includes('meter_gas.consumed')) {
       this.log(`registering meter_gas.consumed capability listener for ${this.sourceDevice.name}`);
       this.capabilityInstances.meterGasConsumed = this.sourceDevice.makeCapabilityInstance('meter_gas.consumed', async (value) => {
         await this.updateMeter(value).catch(this.error);
       });
     }
-    // make listener for meter_gas.current (ZTAZ P1)
+    // meter_gas.current is used by ZTAZ P1 meters
     if (this.sourceDevice.capabilities.includes('meter_gas.current')) {
       this.log(`registering meter_gas.current capability listener for ${this.sourceDevice.name}`);
       this.capabilityInstances.meterGasCurrent = this.sourceDevice.makeCapabilityInstance('meter_gas.current', async (value) => {

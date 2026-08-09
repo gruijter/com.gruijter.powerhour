@@ -38,14 +38,11 @@ class MyApp extends Homey.App {
 
   async onInit() {
     try {
-      // register flows
       this.registerFlowListeners();
-
-      // login to Homey API
       await this.initApi();
 
       // start polling every whole hour, 15 minutes and retry missing source devices every 5 minutes
-      this.homey.setMaxListeners(100); // INCREASE LISTENERS
+      this.homey.setMaxListeners(100);
       this.everyHour();
       this.everyXminutes(15);
       this.retry(5);

@@ -60,10 +60,8 @@ const driverSpecifics = {
 class DapDriver extends GenericDriver {
 
   async onInit() {
-    // this.log('driver onInit');
     this.ds = driverSpecifics;
 
-    // Provide all data providers to the driver as lazy factories
     this.ds.providers = [
       // eslint-disable-next-line global-require
       () => require('../../lib/providers/EntsoeGruijter'),

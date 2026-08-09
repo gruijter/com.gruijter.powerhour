@@ -148,13 +148,11 @@ class GridDevice extends GenericDevice {
       .filter((e) => e.power >= 0 && e.power <= 30000)
       .slice(-2880);
 
-    // Register button capability listener
     this.retrainLoadListener = this.registerCapabilityListener('button.retrain_load', async () => {
       await this.retrainLoadModel(true); // From scratch
       return true;
     });
 
-    // Start Loops
     if (this.sessionId !== sessionIdAfterSuper) return; // superseded by a newer onInit() meanwhile
     this.startForecastLoop();
     if (this.initLearningTimeout) this.homey.clearTimeout(this.initLearningTimeout);
@@ -301,7 +299,7 @@ class GridDevice extends GenericDevice {
       await this.setCapability('measure_power.battery', Math.round(batteryPower)).catch(this.error);
       await this.setCapability('measure_power.evcharger', Math.round(evPower)).catch(this.error);
 
-      // Wiskunde voor eigen verbruik: Grid (import = +) + Solar (prod = +) - Battery (laden = +) - EV (laden = +)
+      // Self-consumption formula: Grid (import = +) + Solar (production = +) - Battery (charging = +) - EV (charging = +)
       const homePower = Math.round(gridPower + solarPower - batteryPower - evPower);
 
       // Apply a 2-minute rolling average to eliminate ghost spikes caused by timing mismatches.

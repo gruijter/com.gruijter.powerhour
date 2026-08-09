@@ -51,12 +51,9 @@ class WaterDevice extends GenericDevice {
     return Math.round((deltaMeter / deltaTm) * 600000000) / 10;
   }
 
-  // driver specific stuff below
-
   async addListeners() {
     if (!this.homey.app.api) throw new Error('Homey API not ready');
     await this.getSourceDevice();
-    // make listener for meter_water
     if (this.sourceDevice.capabilities.includes('meter_water')) {
       this.log(`registering meter_water capability listener for ${this.sourceDevice.name}`);
       this.capabilityInstances.meterWater = this.sourceDevice.makeCapabilityInstance('meter_water', async (value) => {

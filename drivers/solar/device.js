@@ -39,7 +39,7 @@ const deviceSpecifics = {
     this_year: 'meter_kwh_this_year',
     last_year: 'meter_kwh_last_year',
     meter_source: 'meter_power',
-    measure_source: 'measure_power', // Updated to use measure_power directly
+    measure_source: 'measure_power',
     minMaxPrefix: 'measure_watt',
   },
 };
@@ -113,7 +113,6 @@ class SolarDevice extends GenericDevice {
     // learning loop on top of the one the newer call already started.
     const sessionIdAfterSuper = this.sessionId;
 
-    // Initialize alarm_power
     if (this.hasCapability('alarm_power') && this.getCapabilityValue('alarm_power') === null) {
       await this.setCapabilityValue('alarm_power', false).catch(this.error);
     }
@@ -304,7 +303,6 @@ class SolarDevice extends GenericDevice {
   async fetchForecast() {
     let { lat, lon } = this.getSettings();
 
-    // Fallback to Homey location if not set in settings
     if (!lat || !lon) {
       lat = this.homey.geolocation.getLatitude();
       lon = this.homey.geolocation.getLongitude();
@@ -341,11 +339,9 @@ class SolarDevice extends GenericDevice {
     const now = new Date();
     const currentTimestamp = now.getTime();
 
-    // Get current power (W)
     const rawPower = this.getCapabilityValue('measure_power');
     const currentEnergy = this.getCapabilityValue('meter_power');
 
-    // 1. Smooth Power
     // Integrate self-consumed energy
     const deltaTmMs = currentTimestamp - (this.lastLearningTimestamp || currentTimestamp);
     this.lastLearningTimestamp = currentTimestamp;
@@ -863,7 +859,6 @@ class SolarDevice extends GenericDevice {
     // --- 0. Manage Forecast History (For Fixed Yesterday Chart) ---
     const nowLocalStr = now.toLocaleDateString('en-CA', { timeZone: this.timeZone }); // YYYY-MM-DD
 
-    // Calculate Today's Power Series (Forecast) to cache.
     // localDayStart / localDayEnd are real UTC Date objects marking local midnight boundaries
     // (DST-safe, via TimeHelpers). yieldFactors[] is trained and indexed by genuine UTC hour
     // (see updateLearning()), so slots must be read back with getUTCHours()/getUTCMinutes()
@@ -880,7 +875,6 @@ class SolarDevice extends GenericDevice {
       todaySeries[t] = Math.round(rad * yf);
     }
 
-    // Rotate history if day changed
     if (this.forecastHistory.today && this.forecastHistory.today.date !== nowLocalStr) {
       this.log(`[updateForecastDisplay] Rotating history. Moving ${this.forecastHistory.today.date} to Yesterday. New Today: ${nowLocalStr}`);
       this.forecastHistory.yesterday = this.forecastHistory.today;
