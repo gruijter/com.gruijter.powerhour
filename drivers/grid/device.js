@@ -160,12 +160,46 @@ class GridDevice extends GenericDevice {
       await this.populatePowerHistory();
       await this.updateForecastDisplay();
       if (!storedProfile) {
-        this.log('First initialization: Auto-starting load model retraining...');
-        await this.retrainLoadModel(true); // First run: Start fresh
+        await this.attemptInitialBackfill();
       }
       this.startLearningLoop();
       this.initLearningTimeout = null;
     }, 15000);
+  }
+
+  // The one-shot post-pairing backfill (retrainLoadModel(true), which reconstructs the full
+  // week from Insights) needs this.homey.app.api to be connected - but app.js can still be
+  // mid-connect (up to a 10s timeout, then only a 60s-later retry) when this fires 15s after
+  // pairing. retrainLoadModel() itself catches "API not ready" as a logged no-op rather than
+  // rethrowing, so retry here by re-checking API readiness directly instead of catching an
+  // error. Without this, a device paired while the API wasn't ready yet gets NO automatic
+  // backfill ever again (the !storedProfile gate is one-time-ever) and its weekly baseline
+  // chart only fills in via live incremental learning - i.e. only from the moment of pairing
+  // onward, leaving prior days of the week empty until a full week has elapsed.
+  async attemptInitialBackfill(attempt = 1) {
+    const maxAttempts = 5;
+    const retryDelayMs = 30000;
+    let api;
+    try {
+      api = this.homey.app.api;
+    } catch (e) { }
+    if (!api) {
+      if (attempt >= maxAttempts) {
+        this.error(`[attemptInitialBackfill] Homey API still not ready after ${maxAttempts} attempts, `
+          + 'giving up. Weekly profile will build up via live learning instead.');
+        return;
+      }
+      this.log(`[attemptInitialBackfill] Homey API not ready yet (attempt ${attempt}/${maxAttempts}), `
+        + `retrying in ${retryDelayMs / 1000}s...`);
+      if (this.initialBackfillRetryTimeout) this.homey.clearTimeout(this.initialBackfillRetryTimeout);
+      this.initialBackfillRetryTimeout = this.homey.setTimeout(async () => {
+        this.initialBackfillRetryTimeout = null;
+        await this.attemptInitialBackfill(attempt + 1);
+      }, retryDelayMs);
+      return;
+    }
+    this.log('First initialization: Auto-starting load model retraining...');
+    await this.retrainLoadModel(true); // First run: Start fresh
   }
 
   async initDeviceValues() {
@@ -1158,8 +1192,24 @@ class GridDevice extends GenericDevice {
           });
 
           if (logs14 && logs14.values && logs14.values.length > 0) {
-            this.log(`Got ${logs14.values.length} log entries from Insights.`);
-            powerEntries = logs14.values;
+            // Insights returns a null-padded array spanning the FULL requested 14-day window
+            // even when the device (and therefore its own measure_power.home history) only
+            // started collecting a few hours ago - raw array length alone doesn't mean real
+            // historic coverage, so check the oldest entry that actually has a value instead.
+            const validEntries = logs14.values.filter((e) => typeof e.v === 'number' || typeof e.y === 'number');
+            const oldestValidMs = validEntries.length
+              ? Math.min(...validEntries.map((e) => new Date(e.t).getTime()))
+              : null;
+            const sixDaysAgo = Date.now() - (6 * 24 * 60 * 60 * 1000);
+            if (oldestValidMs !== null && oldestValidMs <= sixDaysAgo) {
+              this.log(`Got ${validEntries.length} valid log entries from Insights, `
+                + `covering back to ${new Date(oldestValidMs).toISOString()}.`);
+              powerEntries = validEntries;
+            } else {
+              this.log('[retrainLoadModel] Own measure_power.home log only covers back to '
+                + `${oldestValidMs ? new Date(oldestValidMs).toISOString() : 'n/a'} (device likely `
+                + 'paired recently) - not enough for a full weekly profile, falling back to reconstruction.');
+            }
           }
         } catch (err) {
           this.error('Failed to retrieve log entries for targetLog:', err);
@@ -1167,8 +1217,8 @@ class GridDevice extends GenericDevice {
       }
 
       if (powerEntries.length === 0) {
-        this.log('[retrainLoadModel] Insights log for measure_power.home is empty or missing. '
-          + 'Attempting to reconstruct from Grid, Solar, Battery, and EV charger logs...');
+        this.log('[retrainLoadModel] Insights log for measure_power.home is empty, missing, or '
+          + 'too short. Attempting to reconstruct from Grid, Solar, Battery, and EV charger logs...');
         powerEntries = await this.reconstructHomePowerHistory(api, allLogs).catch((err) => {
           this.error('History reconstruction failed:', err);
           return [];
@@ -1668,6 +1718,10 @@ class GridDevice extends GenericDevice {
     if (this.initLearningTimeout) {
       this.homey.clearTimeout(this.initLearningTimeout);
       this.initLearningTimeout = null;
+    }
+    if (this.initialBackfillRetryTimeout) {
+      this.homey.clearTimeout(this.initialBackfillRetryTimeout);
+      this.initialBackfillRetryTimeout = null;
     }
   }
 }

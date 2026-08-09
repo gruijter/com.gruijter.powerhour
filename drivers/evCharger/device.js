@@ -118,8 +118,39 @@ class CarChargeDevice extends GenericDevice {
         await this.updateChargeChart().catch((err) => this.error(err));
       }
       // Bootstrap departure model from Insights history
-      await this.learnDeparturePattern().catch((err) => this.error(err));
+      await this.attemptInitialBackfill(currentSessionId);
     }, 0);
+  }
+
+  // learnDeparturePattern() needs this.homey.app.api to be connected - but app.js can still be
+  // mid-connect (up to a 10s timeout, then only a 60s-later retry) when this fires only ~2s
+  // after onInit. learnDeparturePattern() itself treats "API not ready" as a logged no-op
+  // rather than throwing, so retry here by re-checking API readiness directly instead of
+  // catching an error. Unlike grid/solar (see identical fix in those drivers' device.js),
+  // there's no nightly retrain safety net for the departure model, so a failed bootstrap here
+  // would otherwise stick until the next full app/device restart. Guarded by sessionId (the
+  // same guard already used above) rather than an explicit timeout handle, since this file
+  // doesn't currently track/clear its init timers on delete.
+  async attemptInitialBackfill(sessionId, attempt = 1) {
+    if (this.sessionId !== sessionId) return; // superseded by a newer onInit/delete meanwhile
+    const maxAttempts = 5;
+    const retryDelayMs = 30000;
+    let api;
+    try {
+      api = this.homey.app.api;
+    } catch (e) { }
+    if (!api) {
+      if (attempt >= maxAttempts) {
+        this.error(`[attemptInitialBackfill] Homey API still not ready after ${maxAttempts} attempts, `
+          + 'giving up. Departure model will stay unlearned until the next app/device restart.');
+        return;
+      }
+      this.log(`[attemptInitialBackfill] Homey API not ready yet (attempt ${attempt}/${maxAttempts}), `
+        + `retrying in ${retryDelayMs / 1000}s...`);
+      this.homey.setTimeout(() => this.attemptInitialBackfill(sessionId, attempt + 1), retryDelayMs);
+      return;
+    }
+    await this.learnDeparturePattern().catch((err) => this.error(err));
   }
 
   // ─── Source device capability group resolution ──────────────────────────────

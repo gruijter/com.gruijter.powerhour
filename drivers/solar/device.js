@@ -158,12 +158,45 @@ class SolarDevice extends GenericDevice {
       // Ensure we have history for the graph (e.g. after app update)
       await this.populatePowerHistory();
       if (!storedYieldFactors) {
-        this.log('First initialization: Auto-starting model retraining...');
-        await this.retrainSolarModel(true); // First run: Start fresh
+        await this.attemptInitialBackfill();
       }
       this.startLearningLoop(); // Start live tracking safely AFTER initialization/retrain is done
       this.initLearningTimeout = null;
     }, 15000);
+  }
+
+  // The one-shot post-pairing backfill (retrainSolarModel(true)) needs this.homey.app.api to be
+  // connected - but app.js can still be mid-connect (up to a 10s timeout, then only a 60s-later
+  // retry) when this fires 15s after pairing. retrainSolarModel() itself catches "API not ready"
+  // as a logged no-op rather than rethrowing, so retry here by re-checking API readiness
+  // directly instead of catching an error. Without this, a device paired while the API wasn't
+  // ready yet gets NO automatic backfill ever again (the !storedYieldFactors gate is
+  // one-time-ever) and its yield-factor model only fills in via live incremental learning.
+  // Mirrors the identical fix in drivers/grid/device.js.
+  async attemptInitialBackfill(attempt = 1) {
+    const maxAttempts = 5;
+    const retryDelayMs = 30000;
+    let api;
+    try {
+      api = this.homey.app.api;
+    } catch (e) { }
+    if (!api) {
+      if (attempt >= maxAttempts) {
+        this.error(`[attemptInitialBackfill] Homey API still not ready after ${maxAttempts} attempts, `
+          + 'giving up. Yield factor model will build up via live learning instead.');
+        return;
+      }
+      this.log(`[attemptInitialBackfill] Homey API not ready yet (attempt ${attempt}/${maxAttempts}), `
+        + `retrying in ${retryDelayMs / 1000}s...`);
+      if (this.initialBackfillRetryTimeout) this.homey.clearTimeout(this.initialBackfillRetryTimeout);
+      this.initialBackfillRetryTimeout = this.homey.setTimeout(async () => {
+        this.initialBackfillRetryTimeout = null;
+        await this.attemptInitialBackfill(attempt + 1);
+      }, retryDelayMs);
+      return;
+    }
+    this.log('First initialization: Auto-starting model retraining...');
+    await this.retrainSolarModel(true); // First run: Start fresh
   }
 
   shouldUpdateCurrencyOnAdd() {
@@ -1181,6 +1214,10 @@ class SolarDevice extends GenericDevice {
     if (this.initLearningTimeout) {
       this.homey.clearTimeout(this.initLearningTimeout);
       this.initLearningTimeout = null;
+    }
+    if (this.initialBackfillRetryTimeout) {
+      this.homey.clearTimeout(this.initialBackfillRetryTimeout);
+      this.initialBackfillRetryTimeout = null;
     }
   }
 
