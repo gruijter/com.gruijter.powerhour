@@ -25,6 +25,7 @@
   "error_homey_api_not_ready": "API de Homey no lista",
   "repair": {
     "warningtitle": "ADVERTENCIA",
-    "warningtext": "Está a punto de cambiar el dispositivo de origen. Esto conserva todos los conocimientos y flujos. Pero si el nuevo dispositivo de origen tiene una lectura de medidor diferente, debe compensar manualmente los valores de inicio del medidor y del dinero en la configuración avanzada."
+    "warningtext": "Está a punto de cambiar el dispositivo de origen. Esto conserva todos los conocimientos y flujos. Pero si el nuevo dispositivo de origen tiene una lectura de medidor diferente, debe compensar manualmente los valores de inicio del medidor y del dinero en la configuración avanzada.",
+    "evChargerWarningText": "Estás a punto de cambiar el cargador EV y/o el coche EV vinculados. Esto conserva todos los conocimientos y flujos. Pero si el nuevo cargador tiene una lectura de medidor diferente, debe compensar manualmente los valores de inicio del medidor y del dinero en la configuración avanzada."
   }
 }

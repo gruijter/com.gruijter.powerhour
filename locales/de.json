@@ -25,6 +25,7 @@
   "error_homey_api_not_ready": "Homey API nicht bereit",
   "repair": {
     "warningtitle": "WARNUNG",
-    "warningtext": "Sie sind im Begriff, das Quellgerät zu ändern. Dies bewahrt alle Einblicke und Flows. Wenn das neue Quellgerät jedoch einen anderen Zählerstand hat, müssen Sie die Zähler- und Geldstartwerte in den erweiterten Einstellungen manuell kompensieren."
+    "warningtext": "Sie sind im Begriff, das Quellgerät zu ändern. Dies bewahrt alle Einblicke und Flows. Wenn das neue Quellgerät jedoch einen anderen Zählerstand hat, müssen Sie die Zähler- und Geldstartwerte in den erweiterten Einstellungen manuell kompensieren.",
+    "evChargerWarningText": "Sie sind im Begriff, den verknüpften EV-Lader und/oder das EV-Auto zu ändern. Dies bewahrt alle Einblicke und Flows. Wenn der neue Lader jedoch einen anderen Zählerstand hat, müssen Sie die Zähler- und Geldstartwerte in den erweiterten Einstellungen manuell kompensieren."
   }
 }

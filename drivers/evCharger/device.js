@@ -179,30 +179,18 @@ class CarChargeDevice extends GenericDevice {
     }
 
     // --- Optional EV car device ---
+    // No auto-discovery: 'none' means the user did not link a car at pair/repair time.
+    // They can attach one later via repair.
     this.carCapGroup = {};
-    let evDeviceId = this.getSettings().ev_device_id;
+    const evDeviceId = this.getSettings().ev_device_id;
 
     try {
       let api;
       try {
         api = this.homey.app.api;
       } catch (e) { }
-      if (api) {
-        let ev = null;
-        if (evDeviceId && evDeviceId !== 'none') {
-          ev = await api.devices.getDevice({ id: evDeviceId, $cache: false }).catch(() => null);
-        } else {
-          // Auto-discover car device in Homey
-          const allDevs = await api.devices.getDevices({ $cache: false }).catch(() => ({}));
-          const carDev = Object.values(allDevs || {}).find((d) => (
-            d.class === 'car' || d.virtualClass === 'car'
-          ));
-          if (carDev) {
-            ev = carDev;
-            evDeviceId = carDev.id;
-            await this.setSettings({ ev_device_id: carDev.id, ev_device_name: carDev.name }).catch(() => { });
-          }
-        }
+      if (api && evDeviceId && evDeviceId !== 'none') {
+        const ev = await api.devices.getDevice({ id: evDeviceId, $cache: false }).catch(() => null);
 
         if (ev && ev.capabilitiesObj) {
           this.evDevice = ev;

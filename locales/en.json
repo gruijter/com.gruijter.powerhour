@@ -25,6 +25,7 @@
   "error_homey_api_not_ready": "Homey API not ready",
   "repair": {
     "warningtitle": "WARNING",
-    "warningtext": "You are about to change the source device. This will keep all insights and flows. But if the new source device has a different meter value, you will need to manually compensate the meter and money start values in the advanced settings."
+    "warningtext": "You are about to change the source device. This will keep all insights and flows. But if the new source device has a different meter value, you will need to manually compensate the meter and money start values in the advanced settings.",
+    "evChargerWarningText": "You are about to change the linked EV charger and/or EV car. This will keep all insights and flows. But if the new charger has a different meter value, you will need to manually compensate the meter and money start values in the advanced settings."
   }
 }

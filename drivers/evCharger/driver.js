@@ -4,6 +4,7 @@ Copyright 2019 - 2026, Robin de Gruijter (gruijter@hotmail.com)
 
 'use strict';
 
+const crypto = require('crypto');
 const GenericDriver = require('../../lib/genericDeviceDrivers/generic_bat_driver');
 // Dependencies are lazy loaded in methods to save memory
 
@@ -84,6 +85,11 @@ class CarChargeDriver extends GenericDriver {
    * Returns { found, useMeasureSource } or { found: false }.
    */
   checkDeviceCompatibility(homeyDevice) {
+    // Exclude PBTH's own summary devices (e.g. this driver's previously paired charger)
+    if ((homeyDevice.driverUri || '').includes('powerhour')) {
+      return { found: false };
+    }
+
     const caps = homeyDevice.capabilities || []; // guard against null capabilities
     const energyData = homeyDevice.energyObj || homeyDevice.energy;
     let isCharger = false;
@@ -91,13 +97,9 @@ class CarChargeDriver extends GenericDriver {
     if (homeyDevice.class === 'evcharger' || homeyDevice.virtualClass === 'evcharger') {
       isCharger = true;
     } else if (energyData && energyData.isEVCharger === true) {
+      // Covers smart plugs/sockets too: Homey's own "This device is an EV charger"
+      // energy setting, not a guess based on the device's (user-editable) name.
       isCharger = true;
-    } else if (homeyDevice.class === 'socket' || homeyDevice.class === 'other' || homeyDevice.class === 'heater') {
-      // Smart plugs: only match if tagged as isEVCharger or name contains charger/lader/ev/wallbox/laadpaal
-      const name = (homeyDevice.name || '').toLowerCase();
-      if (energyData?.isEVCharger === true || /ev|charger|lader|wallbox|laadpaal/i.test(name)) {
-        isCharger = true;
-      }
     }
 
     if (isCharger) {
@@ -117,16 +119,29 @@ class CarChargeDriver extends GenericDriver {
    * Returns { found: true } or { found: false }.
    */
   checkCarCompatibility(homeyDevice) {
-    const caps = homeyDevice.capabilities || [];
-    // Exclude PBTH's own summary devices
-    const name = homeyDevice.name || '';
-    if ((homeyDevice.driverUri || '').includes('powerhour') || name.endsWith('_Σ') || name.endsWith('_ΣEV')) {
+    // Exclude PBTH's own summary devices — identified by the owning app (driverUri),
+    // never by the device's own (user-editable) name.
+    if ((homeyDevice.driverUri || '').includes('powerhour')) {
       return { found: false };
     }
-    if (homeyDevice.class === 'car' || homeyDevice.virtualClass === 'car') return { found: true };
-    if (caps.includes('measure_battery') || caps.includes('evcharger_charging_state')) {
+
+    const caps = homeyDevice.capabilities || [];
+    // 'vehicle' is Homey's official class for cars/bikes/scooters when 'car' doesn't apply
+    // (e.g. this developer's own com.kia_hyundai app uses it); virtualClass is the
+    // user's explicit "what type is this" override in Homey's device settings.
+    const carClasses = ['car', 'vehicle'];
+    if (carClasses.includes(homeyDevice.class) || carClasses.includes(homeyDevice.virtualClass)) {
       return { found: true };
     }
+    // driverId is set by the app developer, not the device owner, so unlike the
+    // device's display name it's a structural (if app-specific) identifier.
+    if (homeyDevice.driverId === 'car') return { found: true };
+    // Fallback for apps that use a generic class (e.g. 'sensor') for their car driver.
+    // Require a charge-state capability together with a SoC reading: measure_battery
+    // alone is far too common (any battery-powered sensor has it) to be a reliable signal.
+    const hasChargeState = caps.includes('evcharger_charging_state') || caps.includes('evcharger_charging');
+    const hasSoc = caps.includes('measure_battery');
+    if (hasChargeState && hasSoc) return { found: true };
     return { found: false };
   }
 
@@ -196,6 +211,76 @@ class CarChargeDriver extends GenericDriver {
     } catch (err) {
       return Promise.reject(err);
     }
+  }
+
+  // ─── Pairing / repairing ─────────────────────────────────────────────────────
+
+  /**
+   * Lists one entry per charger (no car linked), plus one entry per
+   * charger+car combination, so the user picks both in a single, familiar
+   * device-selection list instead of a separate car-picking step.
+   */
+  async onPairListDevices() {
+    const randomId = crypto.randomBytes(3).toString('hex');
+    const allCaps = [...this.ds.deviceCapabilities];
+    const [chargers, cars] = await Promise.all([this._listChargerDevices(), this._listCarDevices()]);
+    const devices = [];
+
+    chargers.forEach((charger) => {
+      const baseSettings = this.getDeviceSettings(charger);
+      if (charger.useMeasureSource) baseSettings.use_measure_source = true;
+
+      devices.push({
+        name: `${charger.name}_Σ`,
+        data: { id: `PH_${this.ds.driverId}_${charger.id}_${randomId}` },
+        settings: { ...baseSettings },
+        capabilities: allCaps,
+      });
+
+      cars.forEach((car) => {
+        devices.push({
+          name: `${charger.name}_Σ (${car.name})`,
+          data: { id: `PH_${this.ds.driverId}_${charger.id}_${car.id}_${randomId}` },
+          settings: { ...baseSettings, ev_device_id: car.id, ev_device_name: car.name },
+          capabilities: allCaps,
+        });
+      });
+    });
+
+    return devices;
+  }
+
+  // Same as the generic_bat_driver base version, but also persists the EV car link.
+  async onRepair(session, device) {
+    this.log('Repairing of device started', device.getName());
+    let selectedDevices = [];
+    session.setHandler('list_devices', () => this.onPairListDevices());
+    session.setHandler('list_devices_selection', (devices) => {
+      selectedDevices = devices;
+    });
+    session.setHandler('showView', async (viewId) => {
+      if (viewId === 'loading') {
+        const [dev] = selectedDevices;
+        if (!dev || !dev.settings) {
+          await session.showView('done');
+          throw Error(this.homey.__('error_device_corrupt'));
+        }
+        const newSettings = {
+          homey_device_id: dev.settings.homey_device_id,
+          homey_device_name: dev.settings.homey_device_name,
+          ev_device_id: dev.settings.ev_device_id,
+          ev_device_name: dev.settings.ev_device_name,
+        };
+        this.log('old settings:', device.getSettings());
+        await device.setSettings(newSettings).catch((err) => this.error(err));
+        await session.showView('done');
+        this.log('new settings:', device.getSettings());
+        device.restartDevice().catch((err) => this.error(err));
+      }
+    });
+    session.setHandler('disconnect', () => {
+      this.log('Repairing of device ended', device.getName());
+    });
   }
 }
 

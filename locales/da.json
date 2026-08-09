@@ -25,6 +25,7 @@
   "error_homey_api_not_ready": "Homey API ikke klar",
   "repair": {
     "warningtitle": "ADVARSEL",
-    "warningtext": "Du er ved at ændre kildeenheden. Dette bevarer al indsigt og flows. Men hvis den nye kildeenhed har en anden måleraflæsning, skal du manuelt kompensere måler- og pengestartværdierne i de avancerede indstillinger."
+    "warningtext": "Du er ved at ændre kildeenheden. Dette bevarer al indsigt og flows. Men hvis den nye kildeenhed har en anden måleraflæsning, skal du manuelt kompensere måler- og pengestartværdierne i de avancerede indstillinger.",
+    "evChargerWarningText": "Du er ved at ændre den tilknyttede EV-oplader og/eller EV-bil. Dette bevarer al indsigt og flows. Men hvis den nye oplader har en anden måleraflæsning, skal du manuelt kompensere måler- og pengestartværdierne i de avancerede indstillinger."
   }
 }

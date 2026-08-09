@@ -25,6 +25,7 @@
   "error_homey_api_not_ready": "API Homey nie jest gotowe",
   "repair": {
     "warningtitle": "OSTRZEŻENIE",
-    "warningtext": "Zamierzasz zmienić urządzenie źródłowe. Zachowa to wszystkie statystyki i przepływy. Ale jeśli nowe urządzenie źródłowe ma inny odczyt licznika, musisz ręcznie skompensować wartości początkowe licznika i pieniędzy w ustawieniach zaawansowanych."
+    "warningtext": "Zamierzasz zmienić urządzenie źródłowe. Zachowa to wszystkie statystyki i przepływy. Ale jeśli nowe urządzenie źródłowe ma inny odczyt licznika, musisz ręcznie skompensować wartości początkowe licznika i pieniędzy w ustawieniach zaawansowanych.",
+    "evChargerWarningText": "Zamierzasz zmienić połączoną ładowarkę EV i/lub samochód EV. Zachowa to wszystkie statystyki i przepływy. Ale jeśli nowa ładowarka ma inny odczyt licznika, musisz ręcznie skompensować wartości początkowe licznika i pieniędzy w ustawieniach zaawansowanych."
   }
 }
