@@ -58,6 +58,7 @@ class CarChargeDevice extends GenericDevice {
     }
 
     this.powerHistory = (await this.getStoreValue('powerHistory')) || [];
+    this.socHistory = (await this.getStoreValue('socHistory')) || [];
 
     if (this.hasCapability('ev_charge_mode')) {
       if (!this.getCapabilityValue('ev_charge_mode')) {
@@ -374,6 +375,18 @@ class CarChargeDevice extends GenericDevice {
     this.lastKnownSoc = value;
     this.setStoreValue('lastKnownSoc', value).catch(this.error);
 
+    // Same dedup/cap approach as powerHistory in handleUpdateMeter(): at most one sample
+    // per minute, capped to 2880 entries (48h), so getActualSocForTime() has real data for
+    // the yesterday/today charts instead of the flat "current SoC everywhere" placeholder.
+    const currentTimestamp = Date.now();
+    if (!Array.isArray(this.socHistory)) this.socHistory = [];
+    const lastSocEntry = this.socHistory[this.socHistory.length - 1];
+    if (!lastSocEntry || Math.abs(currentTimestamp - lastSocEntry.time) >= 60000) {
+      this.socHistory.push({ time: currentTimestamp, soc: value });
+      if (this.socHistory.length > 2880) this.socHistory.shift();
+      this.setStoreValue('socHistory', this.socHistory).catch(this.error);
+    }
+
     const referenceSoc = this.lastRecalculatedSoc !== undefined ? this.lastRecalculatedSoc : oldSoc;
     if (Math.abs(value - referenceSoc) >= 2) {
       this.lastRecalculatedSoc = value;
@@ -659,7 +672,7 @@ class CarChargeDevice extends GenericDevice {
           power: planned.power,
           actualPower: actualP,
           duration: planned.duration,
-          soc: null,
+          soc: this.getActualSocForTime(slotStartMs),
           price: slotPrice,
           isForecast: false,
         };
@@ -706,11 +719,14 @@ class CarChargeDevice extends GenericDevice {
 
         if (i < currentSlotInDay) {
           const planned = this.getPlannedScheduleForSlot(i);
+          const actualSoc = this.getActualSocForTime(slotStartMs);
           todayStrategy[i] = {
             power: planned.power,
             actualPower: actualP,
             duration: planned.duration,
-            soc: currentSoc,
+            // Fall back to the live current SoC if no historical sample exists yet for this
+            // slot (e.g. right after pairing, before socHistory has built up any data).
+            soc: actualSoc !== null ? actualSoc : currentSoc,
             price: slotPrice,
             isForecast: false,
           };
@@ -993,6 +1009,23 @@ class CarChargeDevice extends GenericDevice {
         if (this.powerHistory.length > 2880) this.powerHistory = this.powerHistory.slice(-2880);
         await this.setStoreValue('powerHistory', this.powerHistory).catch(this.error);
         this.log(`[EV Slot] Populated ${this.powerHistory.length} spot power history entries from Insights.`);
+      }
+
+      if (socEntries && socEntries.length > 0) {
+        const newSocHistoryMap = new Map();
+        if (Array.isArray(this.socHistory)) {
+          this.socHistory.forEach((e) => newSocHistoryMap.set(e.time, e.soc));
+        }
+        socEntries.forEach((e) => {
+          const t = typeof e.t === 'number' ? e.t : new Date(e.t).getTime();
+          if (typeof e.v === 'number') newSocHistoryMap.set(t, e.v);
+        });
+        this.socHistory = Array.from(newSocHistoryMap.entries())
+          .map(([time, soc]) => ({ time, soc }))
+          .sort((a, b) => a.time - b.time);
+        if (this.socHistory.length > 2880) this.socHistory = this.socHistory.slice(-2880);
+        await this.setStoreValue('socHistory', this.socHistory).catch(this.error);
+        this.log(`[EV Slot] Populated ${this.socHistory.length} spot SoC history entries from Insights.`);
       }
 
       const chargingPowers = powerEntries

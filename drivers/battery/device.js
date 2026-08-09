@@ -152,16 +152,6 @@ class BatDevice extends GenericDevice {
     await Promise.all(promises);
   }
 
-  getActualSocForTime(timeMs) {
-    if (!Array.isArray(this.socHistory) || this.socHistory.length === 0) {
-      return null;
-    }
-    const candidates = this.socHistory.filter((d) => Math.abs(d.time - timeMs) < 60 * 60 * 1000);
-    if (candidates.length === 0) return null;
-    const closest = candidates.sort((a, b) => Math.abs(a.time - timeMs) - Math.abs(b.time - timeMs))[0];
-    return typeof closest.soc === 'number' ? closest.soc : null;
-  }
-
   async populateHistoryFromInsights() {
     try {
       if (!this.sourceDevice) {
