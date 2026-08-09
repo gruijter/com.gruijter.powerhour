@@ -16344,7 +16344,7 @@
         },
         "measure_watt_peak.day": {
           "title": {
-            "en": "Peak load (day)",
+            "en": "Peak demand (import day)",
             "nl": "Piekbelasting (dag)",
             "de": "Spitzenlast (Tag)",
             "fr": "Charge de pointe (jour)",
@@ -16360,7 +16360,7 @@
         },
         "measure_watt_peak_export.day": {
           "title": {
-            "en": "Peak export (day)",
+            "en": "Peak demand (export day)",
             "nl": "Piekexport (dag)",
             "de": "Spitzeneinspeisung (Tag)",
             "fr": "Pointe d'exportation (jour)",
@@ -16376,7 +16376,7 @@
         },
         "measure_watt_peak.month": {
           "title": {
-            "en": "Peak load (month)",
+            "en": "Peak demand (import month)",
             "nl": "Piekbelasting (maand)",
             "de": "Spitzenlast (Monat)",
             "fr": "Charge de pointe (mois)",
@@ -16392,7 +16392,7 @@
         },
         "measure_watt_peak_export.month": {
           "title": {
-            "en": "Peak export (month)",
+            "en": "Peak demand (export month)",
             "nl": "Piekexport (maand)",
             "de": "Spitzeneinspeisung (Monat)",
             "fr": "Pointe d'exportation (mois)",
@@ -16408,7 +16408,7 @@
         },
         "measure_watt_peak.year": {
           "title": {
-            "en": "Peak load (year)",
+            "en": "Peak demand (import year)",
             "nl": "Piekbelasting (jaar)",
             "de": "Spitzenlast (Jahr)",
             "fr": "Charge de pointe (année)",
@@ -16424,7 +16424,7 @@
         },
         "measure_watt_peak_export.year": {
           "title": {
-            "en": "Peak export (year)",
+            "en": "Peak demand (export year)",
             "nl": "Piekexport (jaar)",
             "de": "Spitzeneinspeisung (Jahr)",
             "fr": "Pointe d'exportation (année)",
@@ -23468,7 +23468,7 @@
     "measure_watt_peak": {
       "type": "number",
       "title": {
-        "en": "Peak load",
+        "en": "Peak demand (import)",
         "de": "Spitzenlast",
         "sv": "Topplast",
         "it": "Picco di carico",
@@ -23483,6 +23483,7 @@
         "ar": "الحمل الأقصى"
       },
       "uiComponent": "sensor",
+      "icon": "/assets/measure_watt_peak.svg",
       "getable": true,
       "setable": false,
       "insights": true,
@@ -23494,7 +23495,7 @@
     "measure_watt_peak_export": {
       "type": "number",
       "title": {
-        "en": "Peak export",
+        "en": "Peak demand (export)",
         "de": "Spitzeneinspeisung",
         "sv": "Toppexport",
         "it": "Picco di esportazione",
@@ -23509,6 +23510,7 @@
         "ar": "ذروة التصدير"
       },
       "uiComponent": "sensor",
+      "icon": "/assets/measure_watt_peak_export.svg",
       "getable": true,
       "setable": false,
       "insights": true,

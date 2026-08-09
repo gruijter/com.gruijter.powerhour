@@ -25,6 +25,7 @@ const GridFlows = require('../../lib/flows/GridFlows');
 const { imageUrlToStream } = require('../../lib/charts/ImageHelpers');
 const { getGridForecastChart, getGridWeeklyChart } = require('../../lib/charts/GridChart');
 const MeterHelpers = require('../../lib/MeterHelpers');
+const DeviceMigrator = require('../../lib/DeviceMigrator');
 
 const deviceSpecifics = {
   cmap: {
@@ -123,6 +124,7 @@ class GridDevice extends GenericDevice {
     // Left undefined until lazily bootstrapped on first tick, same style as the split state above.
     this.peakLoad = await this.getStoreValue('peakLoad');
     this.lastPeakLoadReading = await this.getStoreValue('lastPeakLoadReading');
+    await this.updatePeakLoadCapabilityTitles().catch(this.error);
 
     // Load forecast settings and profiles
     this.timeZone = this.homey.clock.getTimezone();
@@ -239,6 +241,9 @@ class GridDevice extends GenericDevice {
         'meter_money_this_month_avg', 'meter_money_this_year_avg']) {
         await this.setCapability(cap, 0).catch(this.error);
       }
+    }
+    if (changedKeys.includes('peakLoadIntervalMinutes')) {
+      await this.updatePeakLoadCapabilityTitles().catch(this.error);
     }
     return super.onSettings({ newSettings, changedKeys });
   }
@@ -532,6 +537,34 @@ class GridDevice extends GenericDevice {
     const setting = this.getSettings().peakLoadIntervalMinutes;
     const n = Number(setting);
     return [15, 30, 60].includes(n) ? n : 15;
+  }
+
+  // Bakes the currently configured averaging window into the peak-demand capability titles
+  // (e.g. "15 min Peak demand (import day)") so the interval is visible without opening device
+  // settings. Merges onto the manifest-declared title (DeviceMigrator's own pattern for this, see
+  // its getManifestCapabilitiesOptions() doc comment) rather than device.getCapabilityOptions(),
+  // so repeated calls (onInit + every onSettings) always start from the clean compose-defined
+  // title instead of compounding a "15 min" prefix onto a previous run's already-prefixed title.
+  async updatePeakLoadCapabilityTitles() {
+    const intervalMinutes = this.getPeakLoadIntervalMinutes();
+    const minUnit = { ru: 'мин', ar: 'د' };
+    const manifestOptions = DeviceMigrator.getManifestCapabilitiesOptions(this);
+    const capIds = [
+      'measure_watt_peak.day', 'measure_watt_peak.month', 'measure_watt_peak.year',
+      'measure_watt_peak_export.day', 'measure_watt_peak_export.month', 'measure_watt_peak_export.year',
+    ];
+    for (const capId of capIds) {
+      if (this.hasCapability(capId)) {
+        const baseOptions = manifestOptions[capId] || {};
+        const baseTitle = baseOptions.title || {};
+        const title = {};
+        Object.keys(baseTitle).forEach((locale) => {
+          const unit = minUnit[locale] || 'min';
+          title[locale] = `${intervalMinutes} ${unit} ${baseTitle[locale]}`;
+        });
+        await this.setCapabilityOptions(capId, { ...baseOptions, title }).catch((err) => this.error(err));
+      }
+    }
   }
 
   // Resolves the raw import/export delta since the last processed tick, bootstrapping and

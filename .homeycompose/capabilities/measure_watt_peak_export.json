@@ -1,7 +1,7 @@
 {
   "type": "number",
   "title": {
-    "en": "Peak export",
+    "en": "Peak demand (export)",
     "de": "Spitzeneinspeisung",
     "sv": "Toppexport",
     "it": "Picco di esportazione",
@@ -16,6 +16,7 @@
     "ar": "ذروة التصدير"
   },
   "uiComponent": "sensor",
+  "icon": "/assets/measure_watt_peak_export.svg",
   "getable": true,
   "setable": false,
   "insights": true,

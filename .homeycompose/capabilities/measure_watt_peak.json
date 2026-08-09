@@ -1,7 +1,7 @@
 {
   "type": "number",
   "title": {
-    "en": "Peak load",
+    "en": "Peak demand (import)",
     "de": "Spitzenlast",
     "sv": "Topplast",
     "it": "Picco di carico",
@@ -16,6 +16,7 @@
     "ar": "الحمل الأقصى"
   },
   "uiComponent": "sensor",
+  "icon": "/assets/measure_watt_peak.svg",
   "getable": true,
   "setable": false,
   "insights": true,
