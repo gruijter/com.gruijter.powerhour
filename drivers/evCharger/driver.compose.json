@@ -19,6 +19,37 @@
   "capabilitiesOptions": {
     "meter_power": {
       "decimals": 4
+    },
+    "button.retrain": {
+      "maintenanceAction": true,
+      "title": {
+        "en": "Retrain departure learning",
+        "nl": "Hertrain vertrekleren",
+        "de": "Abfahrtslernen neu trainieren",
+        "fr": "Réentraîner l'apprentissage des départs",
+        "it": "Riaddestra apprendimento partenze",
+        "sv": "Träna om avgångsinlärning",
+        "no": "Tren avgangslæring på nytt",
+        "es": "Reentrenar aprendizaje de salidas",
+        "da": "Gentræn afgangslæring",
+        "pl": "Przetrenuj naukę odjazdów",
+        "ru": "Переобучить изучение отправлений",
+        "ar": "إعادة تدريب تعلم المغادرة"
+      },
+      "desc": {
+        "en": "Reset and retrain the departure/return time and SoC model based on Homey Insights of the charger.",
+        "nl": "Reset en hertrain het vertrek/terugkeer-tijd en SoC-model op basis van Homey Insights van de lader.",
+        "de": "Setzen Sie das Abfahrts-/Rückkehrzeit- und SoC-Modell zurück und trainieren Sie es neu basierend auf Homey Insights des Laders.",
+        "fr": "Réinitialisez et réentraînez le modèle d'heure de départ/retour et de SoC en fonction des Homey Insights du chargeur.",
+        "it": "Reimposta e riaddestra il modello di orario di partenza/ritorno e SoC basato su Homey Insights del caricatore.",
+        "sv": "Återställ och träna om modellen för avgångs-/återkomsttid och SoC baserat på Homey Insights från laddaren.",
+        "no": "Tilbakestill og tren modellen for avgangs-/returtid og SoC på nytt basert på Homey Insights fra laderen.",
+        "es": "Restablezca y vuelva a entrenar el modelo de hora de salida/regreso y SoC basado en Homey Insights del cargador.",
+        "da": "Nulstil og gentræn modellen for afgangs-/hjemkomsttid og SoC baseret på Homey Insights fra opladeren.",
+        "pl": "Zresetuj i ponownie przeszkol model czasu odjazdu/powrotu i SoC na podstawie Homey Insights ładowarki.",
+        "ru": "Сбросьте и переобучите модель времени отправления/возвращения и SoC на основе Homey Insights зарядного устройства.",
+        "ar": "إعادة تعيين وإعادة تدريب نموذج وقت المغادرة/العودة وSoC بناءً على رؤى Homey لجهاز الشحن."
+      }
     }
   },
   "images": {

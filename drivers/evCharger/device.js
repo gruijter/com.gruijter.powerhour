@@ -50,7 +50,7 @@ class CarChargeDevice extends GenericDevice {
     this.carCapGroup = {};
     await super.onInit().catch(this.error);
 
-    for (const cap of ['ev_charge_mode', 'ev_next_departure', 'ev_target_soc', 'ev_departure_time']) {
+    for (const cap of ['ev_charge_mode', 'ev_next_departure', 'ev_target_soc', 'ev_departure_time', 'button.retrain']) {
       if (!this.hasCapability(cap)) {
         this.log(`Adding missing capability ${cap} to device ${this.getName()}`);
         await this.addCapability(cap).catch(this.error);
@@ -108,6 +108,14 @@ class CarChargeDevice extends GenericDevice {
           }
         }
         await this.updateChargeChart().catch(this.error);
+      });
+    }
+
+    if (this.hasCapability('button.retrain')) {
+      this.retrainListener = this.registerCapabilityListener('button.retrain', async () => {
+        this.log('[EV Slot] Manual retrain triggered via button.retrain');
+        await this.learnDeparturePattern(); // Fully overwrites socForecastModel from scratch
+        return true;
       });
     }
 
@@ -197,8 +205,21 @@ class CarChargeDevice extends GenericDevice {
           this.evDevice = ev;
           const evCaps = ev.capabilities || [];
           if (evCaps.includes('measure_battery')) this.carCapGroup.soc = 'measure_battery';
+          // 'ev_charging_state' is Homey's standard charging-state capability for car/vehicle-class
+          // devices (e.g. this developer's own com.kia_hyundai app) - 'evcharger_charging_state' is
+          // the equivalent for evcharger-class devices. Both share the identical enum
+          // (plugged_in_charging/plugged_in_discharging/plugged_in_paused/plugged_in/plugged_out).
+          // NOT used directly for departure/return detection on its own - it only says the car is
+          // plugged in SOMEWHERE (home, work, a public station), not specifically at THIS charger.
+          // Instead it feeds this.carPluggedIn, a tracked flag combined with the charger's own
+          // power in the power-gap fallback below: charger power alone can't tell our car apart
+          // from a different car charging at the same monitored charger, and the car's own state
+          // alone can't tell "at this charger" apart from "charging elsewhere" - requiring BOTH to
+          // agree resolves both ambiguities at once.
           if (evCaps.includes('evcharger_charging_state')) {
             this.carCapGroup.connState = 'evcharger_charging_state';
+          } else if (evCaps.includes('ev_charging_state')) {
+            this.carCapGroup.connState = 'ev_charging_state';
           } else if (evCaps.includes('evcharger_charging')) {
             this.carCapGroup.connStateBool = 'evcharger_charging';
           }
@@ -288,15 +309,18 @@ class CarChargeDevice extends GenericDevice {
         );
       }
 
+      // Tracks whether the linked car reports itself plugged in ANYWHERE, not specifically at
+      // this charger - see the power-gap fallback in handleUpdateMeter() for how this is
+      // combined with the charger's own power to resolve that ambiguity.
       if (this.carCapGroup.connState) {
         this.capabilityInstances.carConnState = await this.evDevice.makeCapabilityInstance(
           this.carCapGroup.connState,
-          async (value) => this._handleConnectionState(value, 'car'),
+          async (value) => this._handleCarPluggedInSignal(value),
         );
       } else if (this.carCapGroup.connStateBool) {
         this.capabilityInstances.carConnBool = await this.evDevice.makeCapabilityInstance(
           this.carCapGroup.connStateBool,
-          async (value) => this._handleConnectionState(value ? 'charging' : 'disconnected', 'car'),
+          async (value) => this._handleCarPluggedInSignal(value ? 'charging' : 'disconnected'),
         );
       }
     }
@@ -304,9 +328,19 @@ class CarChargeDevice extends GenericDevice {
 
   // ─── Connection state handler ───────────────────────────────────────────────
 
+  // 'disconnected' is only ever synthesized by this file itself (the boolean-capability
+  // fallback, e.g. evcharger_charging: false -> 'disconnected', and the power-gap fallback
+  // below). The REAL "not connected" value for Homey's enum charging-state capabilities
+  // (evcharger_charging_state, ev_charging_state - confirmed identical enum for both) is
+  // 'plugged_out', which used to go unrecognized here - a genuine disconnect on the enum path
+  // was silently never detected.
+  _isConnectedStateValue(stateValue) {
+    return stateValue !== 'disconnected' && stateValue !== 'plugged_out' && stateValue !== false;
+  }
+
   async _handleConnectionState(stateValue, source) {
     const wasConnected = this.isCarConnected;
-    const isNowConnected = stateValue !== 'disconnected' && stateValue !== false;
+    const isNowConnected = this._isConnectedStateValue(stateValue);
 
     this.log(`[EV Slot] Connection state update from ${source}: ${stateValue} (connected=${isNowConnected})`);
 
@@ -318,6 +352,43 @@ class CarChargeDevice extends GenericDevice {
       // --- RETURN detected ---
       this.isCarConnected = true;
       await this._onReturn();
+    }
+  }
+
+  // Tracks the linked car's own plug state (plugged in SOMEWHERE, not specifically at this
+  // charger) without itself firing a departure/return - see _checkPowerGapConnectionState().
+  _handleCarPluggedInSignal(stateValue) {
+    this.carPluggedIn = this._isConnectedStateValue(stateValue);
+  }
+
+  // Live departure/return fallback for chargers with no connection-state capability of their
+  // own (e.g. a plain smart plug tagged as an EV charger - confirmed the common case: this
+  // driver's own compatibility check accepts 'socket'/'other'/'heater' class devices with just
+  // measure_power). Mirrors EvDepartureStrategy.bootstrapFromHistory()'s one-time Insights
+  // backfill heuristic (same ACTIVE_POWER_THRESHOLD/SESSION_GAP_MS), run continuously instead.
+  //
+  // Charger power alone can't tell "our car" apart from a different car charging at the same
+  // monitored charger; the car's own plug state alone can't tell "at this charger" apart from
+  // "charging elsewhere". Requiring both to agree (when the car's own signal is available)
+  // resolves both ambiguities - see addSourceCapGroup()'s carCapGroup.connState comment.
+  _checkPowerGapConnectionState(power, timestamp) {
+    const chargerActive = power > EvDepartureStrategy.ACTIVE_POWER_THRESHOLD;
+    const carSignalKnown = typeof this.carPluggedIn === 'boolean';
+    const isActive = chargerActive && (!carSignalKnown || this.carPluggedIn);
+
+    if (isActive) {
+      this.lastActivePowerGapTm = timestamp;
+      if (this.powerGapDepartureDeclared) {
+        this.powerGapDepartureDeclared = false;
+        this._handleConnectionState('charging', 'charger-power-gap').catch(this.error);
+      }
+      return;
+    }
+
+    if (!this.powerGapDepartureDeclared && this.lastActivePowerGapTm
+      && (timestamp - this.lastActivePowerGapTm) > EvDepartureStrategy.SESSION_GAP_MS) {
+      this.powerGapDepartureDeclared = true;
+      this._handleConnectionState('plugged_out', 'charger-power-gap').catch(this.error);
     }
   }
 
@@ -500,6 +571,13 @@ class CarChargeDevice extends GenericDevice {
       this.powerHistory.push({ time: currentTimestamp, power: livePower });
       if (this.powerHistory.length > 2880) this.powerHistory.shift();
       await this.setStoreValue('powerHistory', this.powerHistory).catch(this.error);
+    }
+
+    // Only needed when the charger has no connection-state capability of its own - when it
+    // does (a real wallbox), that's already the location-accurate signal driving
+    // _handleConnectionState() directly (see addListeners()).
+    if (!this.sourceCapGroup.connState && !this.sourceCapGroup.connStateBool) {
+      this._checkPowerGapConnectionState(livePower, currentTimestamp);
     }
 
     if (livePower > 500) {

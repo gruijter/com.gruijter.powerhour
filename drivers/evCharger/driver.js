@@ -27,6 +27,9 @@ const driverSpecifics = {
     // Appended at the end (not interspersed) so migration only adds these, it doesn't reorder or
     // touch any already-declared capability on existing paired devices.
     'meter_power_hidden', 'meter_kwh_charging', 'meter_kwh_discharging',
+    // Lets the user force a re-learn of the departure/return model, same as solar's own
+    // button.retrain. Also appended at the end for the same DeviceMigrator reason above.
+    'button.retrain',
   ],
 };
 
@@ -137,7 +140,9 @@ class CarChargeDriver extends GenericDriver {
     // Fallback for apps that use a generic class (e.g. 'sensor') for their car driver.
     // Require a charge-state capability together with a SoC reading: measure_battery
     // alone is far too common (any battery-powered sensor has it) to be a reliable signal.
-    const hasChargeState = caps.includes('evcharger_charging_state') || caps.includes('evcharger_charging');
+    // 'ev_charging_state' is the car/vehicle-class equivalent of 'evcharger_charging_state'
+    // (identical enum, see device.js's addSourceCapGroup() for the full explanation).
+    const hasChargeState = caps.includes('evcharger_charging_state') || caps.includes('ev_charging_state') || caps.includes('evcharger_charging');
     const hasSoc = caps.includes('measure_battery');
     if (hasChargeState && hasSoc) return { found: true };
     return { found: false };
