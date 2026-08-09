@@ -73,6 +73,23 @@ const convertCumulativeToPower = (entries) => {
   return powerEntries;
 };
 
+// Homey Insights' named 'yesterday' resolution (5-minute buckets) always returns the fixed
+// previous calendar day - it ignores any start/end passed alongside it and never includes
+// today's in-progress data (confirmed empirically on the grid driver: a request with end=now
+// still came back with its last sample from the previous day). 'today' is the matching
+// same-resolution counterpart for the current calendar day so far - combining them gives real
+// "yesterday through now" coverage, so a restart backfills today's gap instead of leaving it to
+// rebuild from scratch via live pushes alone.
+const fetchYesterdayAndToday = async (api, logId) => {
+  const fetchRes = async (resolution) => api.insights.getLogEntries({ id: logId, resolution }).catch(() => null);
+  const [yesterday, today] = await Promise.all([fetchRes('yesterday'), fetchRes('today')]);
+  const values = [
+    ...(yesterday && yesterday.values ? yesterday.values : []),
+    ...(today && today.values ? today.values : []),
+  ];
+  return { values };
+};
+
 class SolarDevice extends GenericDevice {
 
   async initDeviceValues() {
@@ -802,28 +819,9 @@ class SolarDevice extends GenericDevice {
 
       const isCumulative = (targetLog.id || targetLog.uri || '').endsWith(':meter_power');
 
-      // Fetch last 2 days ending at start of today (to avoid overwriting today's realtime data)
-      let endDate = new Date();
-      try {
-        const now = new Date();
-        const nowLocal = new Date(now.toLocaleString('en-US', { timeZone: this.timeZone }));
-        const offset = nowLocal.getTime() - now.getTime();
-        const midnightLocal = new Date(nowLocal);
-        midnightLocal.setHours(0, 0, 0, 0);
-        endDate = new Date(midnightLocal.getTime() - offset);
-      } catch (e) { }
+      this.log(`[populatePowerHistory] Fetching yesterday+today logs for ${targetLog.id || targetLog.uri}`);
 
-      const startDate = new Date(endDate);
-      startDate.setDate(startDate.getDate() - 2);
-
-      this.log(`[populatePowerHistory] Fetching logs for ${targetLog.id || targetLog.uri} from ${startDate.toISOString()} to ${endDate.toISOString()}`);
-
-      const logs = await api.insights.getLogEntries({
-        id: targetLog.id,
-        start: startDate.toISOString(),
-        end: endDate.toISOString(),
-        resolution: 'yesterday', // 5 minute resolution
-      });
+      const logs = await fetchYesterdayAndToday(api, targetLog.id);
 
       if (logs && logs.values && logs.values.length > 0) {
         this.log(`[populatePowerHistory] Got ${logs.values.length} entries`);

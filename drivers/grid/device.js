@@ -27,23 +27,6 @@ const { getGridForecastChart, getGridWeeklyChart } = require('../../lib/charts/G
 const MeterHelpers = require('../../lib/MeterHelpers');
 const DeviceMigrator = require('../../lib/DeviceMigrator');
 
-// TEMP DIAGNOSTIC - buckets a powerEntries-shaped array ({t, v|y}) into a day-of-week x
-// local-hour count matrix and logs it as one line per day, to see exactly which day/hour
-// combinations have zero source coverage, without flooding the log with a line per sample or
-// per 15-min slot. Remove once the flat-afternoon-forecast root cause (reported on the
-// 'yesterday' chart after retraining) is found.
-const logCoverageHistogram = (logFn, label, entries, timezone) => {
-  const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-  const hist = new Array(7).fill(null).map(() => new Array(24).fill(0));
-  entries.forEach((e) => {
-    const ts = typeof e.t === 'number' ? e.t : new Date(e.t).getTime();
-    const local = new Date(new Date(ts).toLocaleString('en-US', { timeZone: timezone || 'UTC' }));
-    hist[local.getDay()][local.getHours()] += 1;
-  });
-  logFn(`[Diag] ${label}: ${entries.length} entries (rows = day, columns = local hour 0-23)`);
-  hist.forEach((row, day) => logFn(`[Diag]   ${dayNames[day]}: ${row.join(',')}`));
-};
-
 const deviceSpecifics = {
   cmap: {
     this_hour: 'meter_kwh_this_hour',
@@ -1295,8 +1278,6 @@ class GridDevice extends GenericDevice {
       // existing populator for that buffer - it fetches 'yesterday'-resolution (5-minute)
       // entries specifically, matching the chart's granularity.
 
-      logCoverageHistogram((msg) => this.log(msg), 'retrainLoadModel: final powerEntries fed to processHistoricData', powerEntries, this.timeZone);
-
       // 2. Process
       const trainingProfile = fromScratch ? LoadForecastStrategy.initializeProfile() : this.weeklyProfile;
 
@@ -1364,22 +1345,12 @@ class GridDevice extends GenericDevice {
 
       let powerEntries = [];
 
-      // Extend fetch window to now (not midnight) so today's data is also
-      // populated after a restart, not just data up to the previous midnight.
-      const endDate = new Date(nowMs);
-      const startDate = new Date(endDate.getTime() - 2 * 24 * 60 * 60 * 1000);
-
       if (targetLog) {
         try {
-          const logs = await api.insights.getLogEntries({
-            id: targetLog.id,
-            start: startDate.toISOString(),
-            end: endDate.toISOString(),
-            resolution: 'yesterday', // 5 minute resolution
-          });
+          const logs = await this.fetchYesterdayAndToday(api, targetLog.id);
 
           if (logs && logs.values && logs.values.length > 5) {
-            this.log(`Got ${logs.values.length} yesterday resolution log entries from measure_power.home Insights.`);
+            this.log(`Got ${logs.values.length} yesterday+today resolution log entries from measure_power.home Insights.`);
             powerEntries = logs.values;
           }
         } catch (err) {
@@ -1389,7 +1360,9 @@ class GridDevice extends GenericDevice {
 
       if (powerEntries.length === 0) {
         this.log('Insights log for measure_power.home is empty or missing for yesterday. Reconstructing from component logs...');
-        powerEntries = await this.reconstructHomePowerHistory(api, allLogs, startDate, endDate, 'yesterday').catch((err) => {
+        // customStart/customEnd are irrelevant for resolution 'yesterday' - see
+        // fetchYesterdayAndToday()'s doc comment - so there's nothing meaningful to pass here.
+        powerEntries = await this.reconstructHomePowerHistory(api, allLogs, null, null, 'yesterday').catch((err) => {
           this.error('History reconstruction failed:', err);
           return [];
         });
@@ -1425,6 +1398,22 @@ class GridDevice extends GenericDevice {
     } catch (err) {
       this.error('Error populating power history:', err);
     }
+  }
+
+  // Homey Insights' named 'yesterday' resolution (5-minute buckets) always returns the fixed
+  // previous calendar day - it ignores any start/end passed alongside it and never includes
+  // today's in-progress data, confirmed empirically (a request with end=now still came back
+  // with its last sample from ~22:00 the previous day). 'today' is the matching same-resolution
+  // counterpart for the current calendar day so far. No start/end is passed for either - since
+  // named resolutions ignore them anyway, passing them would just be misleading to a reader.
+  async fetchYesterdayAndToday(api, logId) {
+    const fetchRes = async (resolution) => api.insights.getLogEntries({ id: logId, resolution }).catch(() => null);
+    const [yesterday, today] = await Promise.all([fetchRes('yesterday'), fetchRes('today')]);
+    const values = [
+      ...(yesterday && yesterday.values ? yesterday.values : []),
+      ...(today && today.values ? today.values : []),
+    ];
+    return { values };
   }
 
   async reconstructHomePowerHistory(api, allLogs, customStart = null, customEnd = null, customResolution = null) {
@@ -1484,12 +1473,20 @@ class GridDevice extends GenericDevice {
         for (let i = 0; i < finalLogs.length; i++) {
           const { log, isCumulative } = finalLogs[i];
 
-          const logData = await api.insights.getLogEntries({
-            id: log.id,
-            start: startDate.toISOString(),
-            end: endDate.toISOString(),
-            resolution,
-          }).catch(() => null);
+          // 'yesterday' is a named Homey Insights resolution that always returns the fixed
+          // previous calendar day, ignoring start/end entirely (confirmed empirically) - it
+          // never includes today's in-progress data no matter how far into the future `end` is
+          // set. fetchYesterdayAndToday() combines it with a 'today' fetch for real "yesterday
+          // through now" coverage. Any other resolution (e.g. 'last14Days', used by
+          // retrainLoadModel()) already extends to now on its own and doesn't need this.
+          const logData = resolution === 'yesterday'
+            ? await this.fetchYesterdayAndToday(api, log.id)
+            : await api.insights.getLogEntries({
+              id: log.id,
+              start: startDate.toISOString(),
+              end: endDate.toISOString(),
+              resolution,
+            }).catch(() => null);
 
           if (logData && logData.values && logData.values.length > 0) {
             let { values } = logData;
@@ -1586,8 +1583,6 @@ class GridDevice extends GenericDevice {
       this.log('No grid power entries or cumulative meter logs found. Cannot reconstruct.');
       return [];
     }
-
-    logCoverageHistogram((msg) => this.log(msg), 'reconstructHomePowerHistory: raw grid source entries', gridEntries.length > 0 ? gridEntries : importPowerEntries, this.timeZone);
 
     // For each component driver, prefer instantaneous power (measure_power / measure_watt_avg)
     // over cumulative meter (meter_power) to avoid mixing Watts with converted-kWh Watts.
@@ -1735,7 +1730,6 @@ class GridDevice extends GenericDevice {
     });
 
     this.log(`Successfully reconstructed ${reconstructed.length} home power entries from component history.`);
-    logCoverageHistogram((msg) => this.log(msg), 'reconstructHomePowerHistory: final reconstructed entries', reconstructed, this.timeZone);
     return reconstructed;
   }
 
