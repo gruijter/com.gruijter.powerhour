@@ -26,6 +26,7 @@ const { imageUrlToStream } = require('../../lib/charts/ImageHelpers');
 const { getGridForecastChart, getGridWeeklyChart } = require('../../lib/charts/GridChart');
 const MeterHelpers = require('../../lib/MeterHelpers');
 const DeviceMigrator = require('../../lib/DeviceMigrator');
+const { fetchYesterdayAndToday, convertCumulativeToPower } = require('../../lib/helpers/HistoryLookup');
 
 const deviceSpecifics = {
   cmap: {
@@ -1134,30 +1135,6 @@ class GridDevice extends GenericDevice {
   }
 
   /**
-   * Resolve this device's own Homey device UUID (as used in Insights log IDs:
-   * 'homey:device:<UUID>:<capability>'). getData().id is this app's own synthetic
-   * pairing ID (e.g. 'PH_grid_<sourceId>_<random>') and never appears in Insights log
-   * IDs, so it cannot be used to find this device's own logs directly. Instead, find
-   * this device inside the full device list by matching on the preserved pairing data.
-   */
-  async getOwnHomeyDeviceId(api) {
-    if (this._ownHomeyDeviceId) return this._ownHomeyDeviceId;
-    try {
-      const ownDataId = this.getData().id;
-      const allDevices = await api.devices.getDevices().catch(() => null);
-      if (!allDevices) return null;
-      const match = Object.values(allDevices).find((d) => d && d.data && d.data.id === ownDataId);
-      if (match && match.id) {
-        this._ownHomeyDeviceId = match.id;
-        return this._ownHomeyDeviceId;
-      }
-    } catch (err) {
-      this.error('Error resolving own Homey device id:', err);
-    }
-    return null;
-  }
-
-  /**
    * Same resolution as getOwnHomeyDeviceId, but for arbitrary powerhour devices (e.g. the
    * solar/battery/evCharger component devices used by reconstructHomePowerHistory): maps each
    * device's synthetic pairing id (getData().id) to its real Homey UUID, since only the UUID
@@ -1195,66 +1172,21 @@ class GridDevice extends GenericDevice {
       } catch (e) { }
       if (!api) throw new Error('Homey API not ready');
 
-      // 1. Locate Insights Log for home power capability
+      // Always train from the underlying source devices' own long-running Insights logs
+      // (grid meter, solar, battery, EV charger) - never from this device's own derived
+      // measure_power.home log. That log is itself the *output* of calculateHomePower(),
+      // only as old as this app-device instance has been alive and actively computing it,
+      // so treating it as a primary training input would be training the forecaster on its
+      // own (short-lived, potentially gappy) past output instead of the real, independently
+      // measured history - see reconstructHomePowerHistory(), which sources exclusively from
+      // the physical devices (excludes any 'PH_' PowerHour-own log).
       let allLogs = await api.insights.getLogs().catch(() => []);
       if (!Array.isArray(allLogs)) allLogs = Object.values(allLogs);
 
-      const ownHomeyDeviceId = await this.getOwnHomeyDeviceId(api);
-      const targetLog = ownHomeyDeviceId ? allLogs.find((log) => {
-        const logId = log.id || log.uri || '';
-        return logId.includes(ownHomeyDeviceId) && logId.endsWith(':measure_power.home');
-      }) : null;
-
-      let powerEntries = [];
-
-      if (targetLog) {
-        this.log(`Found target log: ${targetLog.name || 'unknown'} (ID: ${targetLog.id})`);
-
-        const endDate = new Date();
-        const startDate14 = new Date();
-        startDate14.setDate(startDate14.getDate() - 14);
-
-        try {
-          const logs14 = await api.insights.getLogEntries({
-            id: targetLog.id,
-            start: startDate14.toISOString(),
-            end: endDate.toISOString(),
-            resolution: 'last14Days',
-          });
-
-          if (logs14 && logs14.values && logs14.values.length > 0) {
-            // Insights returns a null-padded array spanning the FULL requested 14-day window
-            // even when the device (and therefore its own measure_power.home history) only
-            // started collecting a few hours ago - raw array length alone doesn't mean real
-            // historic coverage, so check the oldest entry that actually has a value instead.
-            const validEntries = logs14.values.filter((e) => typeof e.v === 'number' || typeof e.y === 'number');
-            const oldestValidMs = validEntries.length
-              ? Math.min(...validEntries.map((e) => new Date(e.t).getTime()))
-              : null;
-            const sixDaysAgo = Date.now() - (6 * 24 * 60 * 60 * 1000);
-            if (oldestValidMs !== null && oldestValidMs <= sixDaysAgo) {
-              this.log(`Got ${validEntries.length} valid log entries from Insights, `
-                + `covering back to ${new Date(oldestValidMs).toISOString()}.`);
-              powerEntries = validEntries;
-            } else {
-              this.log('[retrainLoadModel] Own measure_power.home log only covers back to '
-                + `${oldestValidMs ? new Date(oldestValidMs).toISOString() : 'n/a'} (device likely `
-                + 'paired recently) - not enough for a full weekly profile, falling back to reconstruction.');
-            }
-          }
-        } catch (err) {
-          this.error('Failed to retrieve log entries for targetLog:', err);
-        }
-      }
-
-      if (powerEntries.length === 0) {
-        this.log('[retrainLoadModel] Insights log for measure_power.home is empty, missing, or '
-          + 'too short. Attempting to reconstruct from Grid, Solar, Battery, and EV charger logs...');
-        powerEntries = await this.reconstructHomePowerHistory(api, allLogs).catch((err) => {
-          this.error('History reconstruction failed:', err);
-          return [];
-        });
-      }
+      const powerEntries = await this.reconstructHomePowerHistory(api, allLogs).catch((err) => {
+        this.error('History reconstruction failed:', err);
+        return [];
+      });
 
       if (powerEntries.length === 0) {
         this.log('[retrainLoadModel] History reconstruction yielded no data. '
@@ -1332,39 +1264,18 @@ class GridDevice extends GenericDevice {
       }
 
       // Locate Insights Log for home power capability
+      // Always reconstruct from the underlying source devices' own logs (grid, solar, battery,
+      // EV charger), never from this device's own derived measure_power.home log - same
+      // reasoning as retrainLoadModel() above. customStart/customEnd are irrelevant for
+      // resolution 'yesterday' - see fetchYesterdayAndToday()'s doc comment - so there's
+      // nothing meaningful to pass here.
       let allLogs = await api.insights.getLogs().catch(() => []);
       if (!Array.isArray(allLogs)) allLogs = Object.values(allLogs);
 
-      const ownHomeyDeviceId = await this.getOwnHomeyDeviceId(api);
-      const targetLog = ownHomeyDeviceId ? allLogs.find((log) => {
-        const logId = log.id || log.uri || '';
-        return logId.includes(ownHomeyDeviceId) && logId.endsWith(':measure_power.home');
-      }) : null;
-
-      let powerEntries = [];
-
-      if (targetLog) {
-        try {
-          const logs = await this.fetchYesterdayAndToday(api, targetLog.id);
-
-          if (logs && logs.values && logs.values.length > 5) {
-            this.log(`Got ${logs.values.length} yesterday+today resolution log entries from measure_power.home Insights.`);
-            powerEntries = logs.values;
-          }
-        } catch (err) {
-          this.error('Failed to retrieve log entries for targetLog:', err);
-        }
-      }
-
-      if (powerEntries.length === 0) {
-        this.log('Insights log for measure_power.home is empty or missing for yesterday. Reconstructing from component logs...');
-        // customStart/customEnd are irrelevant for resolution 'yesterday' - see
-        // fetchYesterdayAndToday()'s doc comment - so there's nothing meaningful to pass here.
-        powerEntries = await this.reconstructHomePowerHistory(api, allLogs, null, null, 'yesterday').catch((err) => {
-          this.error('History reconstruction failed:', err);
-          return [];
-        });
-      }
+      const powerEntries = await this.reconstructHomePowerHistory(api, allLogs, null, null, 'yesterday').catch((err) => {
+        this.error('History reconstruction failed:', err);
+        return [];
+      });
 
       if (powerEntries.length > 0) {
         // round timestamps to nearest 5 minutes to avoid duplicates from mixed resolution sources
@@ -1396,22 +1307,6 @@ class GridDevice extends GenericDevice {
     } catch (err) {
       this.error('Error populating power history:', err);
     }
-  }
-
-  // Homey Insights' named 'yesterday' resolution (5-minute buckets) always returns the fixed
-  // previous calendar day - it ignores any start/end passed alongside it and never includes
-  // today's in-progress data, confirmed empirically (a request with end=now still came back
-  // with its last sample from ~22:00 the previous day). 'today' is the matching same-resolution
-  // counterpart for the current calendar day so far. No start/end is passed for either - since
-  // named resolutions ignore them anyway, passing them would just be misleading to a reader.
-  async fetchYesterdayAndToday(api, logId) {
-    const fetchRes = async (resolution) => api.insights.getLogEntries({ id: logId, resolution }).catch(() => null);
-    const [yesterday, today] = await Promise.all([fetchRes('yesterday'), fetchRes('today')]);
-    const values = [
-      ...(yesterday && yesterday.values ? yesterday.values : []),
-      ...(today && today.values ? today.values : []),
-    ];
-    return { values };
   }
 
   async reconstructHomePowerHistory(api, allLogs, customStart = null, customEnd = null, customResolution = null) {
@@ -1478,7 +1373,7 @@ class GridDevice extends GenericDevice {
           // through now" coverage. Any other resolution (e.g. 'last14Days', used by
           // retrainLoadModel()) already extends to now on its own and doesn't need this.
           const logData = resolution === 'yesterday'
-            ? await this.fetchYesterdayAndToday(api, log.id)
+            ? await fetchYesterdayAndToday(api, log.id)
             : await api.insights.getLogEntries({
               id: log.id,
               start: startDate.toISOString(),
@@ -1489,7 +1384,7 @@ class GridDevice extends GenericDevice {
           if (logData && logData.values && logData.values.length > 0) {
             let { values } = logData;
             if (isCumulative) {
-              values = this.convertCumulativeToPower(values);
+              values = convertCumulativeToPower(values);
             }
             allEntries.push(...values.map((e) => ({
               t: new Date(e.t).getTime(),
@@ -1729,42 +1624,6 @@ class GridDevice extends GenericDevice {
 
     this.log(`Successfully reconstructed ${reconstructed.length} home power entries from component history.`);
     return reconstructed;
-  }
-
-  convertCumulativeToPower(entries) {
-    const powerEntries = [];
-    for (let i = 1; i < entries.length; i += 1) {
-      const prev = entries[i - 1];
-      const curr = entries[i];
-      const prevVal = prev.y !== undefined ? prev.y : prev.v;
-      const currVal = curr.y !== undefined ? curr.y : curr.v;
-
-      if (typeof prevVal !== 'number' || typeof currVal !== 'number') continue;
-
-      const t1 = new Date(prev.t).getTime();
-      const t2 = new Date(curr.t).getTime();
-      const dt = (t2 - t1) / 3600000;
-
-      if (dt > 0.01 && dt < 24) {
-        const dE = currVal - prevVal;
-        if (dE >= -0.0001) {
-          const safeDE = Math.max(0, dE);
-          const power = (safeDE / dt) * 1000;
-          if (power >= 0 && power <= 30000) {
-            // Emit continuous samples every 5 minutes across the cumulative gap
-            // to prevent 15-minute slots from being left empty and dropping to 0W.
-            const stepMs = 5 * 60 * 1000;
-            const steps = Math.max(1, Math.floor((t2 - t1) / stepMs));
-            for (let j = 1; j <= steps; j++) {
-              const fraction = j / (steps + 1);
-              const tStep = new Date(t1 + (t2 - t1) * fraction).getTime();
-              powerEntries.push({ t: tStep, y: power });
-            }
-          }
-        }
-      }
-    }
-    return powerEntries;
   }
 
   destroyListeners() {

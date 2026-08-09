@@ -27,6 +27,7 @@ const OpenMeteo = require('../../lib/providers/OpenMeteo');
 const SolarLearningStrategy = require('../../lib/helpers/SolarLearningStrategy');
 const SolarFlows = require('../../lib/flows/SolarFlows');
 const TimeHelpers = require('../../lib/TimeHelpers');
+const { fetchYesterdayAndToday, convertCumulativeToPower } = require('../../lib/helpers/HistoryLookup');
 
 const deviceSpecifics = {
   cmap: {
@@ -42,52 +43,6 @@ const deviceSpecifics = {
     measure_source: 'measure_power',
     minMaxPrefix: 'measure_watt',
   },
-};
-
-// Helper to convert cumulative energy (kWh) to average power (W)
-const convertCumulativeToPower = (entries) => {
-  const powerEntries = [];
-  for (let i = 1; i < entries.length; i++) {
-    const prev = entries[i - 1];
-    const curr = entries[i];
-    const prevVal = prev.y !== undefined ? prev.y : prev.v;
-    const currVal = curr.y !== undefined ? curr.y : curr.v;
-
-    if (typeof prevVal !== 'number' || typeof currVal !== 'number') continue;
-
-    const t1 = new Date(prev.t).getTime();
-    const t2 = new Date(curr.t).getTime();
-    const dt = (t2 - t1) / 3600000; // hours
-
-    if (dt > 0.01 && dt < 24) { // ignore tiny or huge gaps
-      const dE = currVal - prevVal; // Energy diff (kWh)
-      if (dE >= -0.0001) { // ignore resets, but allow small float noise
-        const safeDE = Math.max(0, dE);
-        const power = (safeDE / dt) * 1000; // kWh -> W
-        // Use midpoint timestamp for better alignment with radiation
-        const tMid = new Date(t1 + (t2 - t1) / 2).toISOString();
-        powerEntries.push({ t: tMid, y: power });
-      }
-    }
-  }
-  return powerEntries;
-};
-
-// Homey Insights' named 'yesterday' resolution (5-minute buckets) always returns the fixed
-// previous calendar day - it ignores any start/end passed alongside it and never includes
-// today's in-progress data (confirmed empirically on the grid driver: a request with end=now
-// still came back with its last sample from the previous day). 'today' is the matching
-// same-resolution counterpart for the current calendar day so far - combining them gives real
-// "yesterday through now" coverage, so a restart backfills today's gap instead of leaving it to
-// rebuild from scratch via live pushes alone.
-const fetchYesterdayAndToday = async (api, logId) => {
-  const fetchRes = async (resolution) => api.insights.getLogEntries({ id: logId, resolution }).catch(() => null);
-  const [yesterday, today] = await Promise.all([fetchRes('yesterday'), fetchRes('today')]);
-  const values = [
-    ...(yesterday && yesterday.values ? yesterday.values : []),
-    ...(today && today.values ? today.values : []),
-  ];
-  return { values };
 };
 
 class SolarDevice extends GenericDevice {
