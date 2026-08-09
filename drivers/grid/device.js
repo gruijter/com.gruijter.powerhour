@@ -27,6 +27,23 @@ const { getGridForecastChart, getGridWeeklyChart } = require('../../lib/charts/G
 const MeterHelpers = require('../../lib/MeterHelpers');
 const DeviceMigrator = require('../../lib/DeviceMigrator');
 
+// TEMP DIAGNOSTIC - buckets a powerEntries-shaped array ({t, v|y}) into a day-of-week x
+// local-hour count matrix and logs it as one line per day, to see exactly which day/hour
+// combinations have zero source coverage, without flooding the log with a line per sample or
+// per 15-min slot. Remove once the flat-afternoon-forecast root cause (reported on the
+// 'yesterday' chart after retraining) is found.
+const logCoverageHistogram = (logFn, label, entries, timezone) => {
+  const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+  const hist = new Array(7).fill(null).map(() => new Array(24).fill(0));
+  entries.forEach((e) => {
+    const ts = typeof e.t === 'number' ? e.t : new Date(e.t).getTime();
+    const local = new Date(new Date(ts).toLocaleString('en-US', { timeZone: timezone || 'UTC' }));
+    hist[local.getDay()][local.getHours()] += 1;
+  });
+  logFn(`[Diag] ${label}: ${entries.length} entries (rows = day, columns = local hour 0-23)`);
+  hist.forEach((row, day) => logFn(`[Diag]   ${dayNames[day]}: ${row.join(',')}`));
+};
+
 const deviceSpecifics = {
   cmap: {
     this_hour: 'meter_kwh_this_hour',
@@ -1269,32 +1286,16 @@ class GridDevice extends GenericDevice {
         return;
       }
 
-      if (powerEntries.length > 0) {
-        // round Insights timestamps to nearest 5 minutes before keying the merge Map
-        // to avoid duplicates when mixing 5-min Insights resolution with ms-precision real-time entries.
-        const roundTo5Min = (t) => Math.round(t / (5 * 60 * 1000)) * (5 * 60 * 1000);
-        const historyMapped = powerEntries
-          .map((e) => {
-            const time = roundTo5Min(new Date(e.t).getTime());
-            let power = 0;
-            if (typeof e.v === 'number') power = Math.round(e.v);
-            else if (typeof e.y === 'number') power = Math.round(e.y);
-            return { time, power };
-          })
-          .filter((e) => e.power >= 0 && e.power <= 30000);
-        if (!Array.isArray(this.powerHistory)) this.powerHistory = [];
-        // Also round existing real-time entries before merging
-        const existingMap = new Map(this.powerHistory.map((e) => [roundTo5Min(e.time), e]));
-        historyMapped.forEach((entry) => {
-          existingMap.set(entry.time, entry);
-        });
-        this.powerHistory = Array.from(existingMap.values());
-        this.powerHistory.sort((a, b) => a.time - b.time);
-        if (this.powerHistory.length > 576) this.powerHistory = this.powerHistory.slice(-576);
-        await this.setStoreValue('powerHistory', this.powerHistory).catch(this.error);
-        this.lastPowerHistorySaveTm = Date.now();
-        this.log(`Merged ${historyMapped.length} historical entries into powerHistory. Total length: ${this.powerHistory.length}`);
-      }
+      // Deliberately NOT merged into this.powerHistory here - powerEntries at this point is
+      // 'last14Days'-resolution (~hourly), while this.powerHistory backs the Today/Yesterday
+      // spot charts, which match a real sample to each 15-min slot within only a ±10-minute
+      // window (see GridChart.js's getGridForecastChart()). Hourly samples plotted against
+      // that narrow a window leave ~3 of every 4 slots null, rendering as a sawtooth of spikes
+      // instead of a smooth curve. populatePowerHistory() (below) is the correct, already-
+      // existing populator for that buffer - it fetches 'yesterday'-resolution (5-minute)
+      // entries specifically, matching the chart's granularity.
+
+      logCoverageHistogram((msg) => this.log(msg), 'retrainLoadModel: final powerEntries fed to processHistoricData', powerEntries, this.timeZone);
 
       // 2. Process
       const trainingProfile = fromScratch ? LoadForecastStrategy.initializeProfile() : this.weeklyProfile;
@@ -1586,6 +1587,8 @@ class GridDevice extends GenericDevice {
       return [];
     }
 
+    logCoverageHistogram((msg) => this.log(msg), 'reconstructHomePowerHistory: raw grid source entries', gridEntries.length > 0 ? gridEntries : importPowerEntries, this.timeZone);
+
     // For each component driver, prefer instantaneous power (measure_power / measure_watt_avg)
     // over cumulative meter (meter_power) to avoid mixing Watts with converted-kWh Watts.
     // Only fall back to meter_power if no measure_power log exists for that device.
@@ -1593,6 +1596,12 @@ class GridDevice extends GenericDevice {
     // not the real Homey UUID that Insights log ids use, so it must be resolved first.
     const homeyIdMap = await this.resolveHomeyDeviceIdMap(api);
 
+    // Each entry carries its own devId (not just a bare entries array) so multiple devices of
+    // the same type (e.g. 2 solar arrays, 2 batteries) can be summed rather than averaged
+    // together below - averaging would blend two independent physical devices' readings as if
+    // they were repeated samples of the same thing, silently halving (for 2 devices) the
+    // combined contribution. Matches the live calculateHomePower() semantics (device.js
+    // ~line 254), which already sums `dev.getCapabilityValue(...)` per device correctly.
     const solarEntriesList = [];
     const solarDriver = this.homey.drivers.getDriver('solar');
     if (solarDriver) {
@@ -1603,7 +1612,7 @@ class GridDevice extends GenericDevice {
           ':measure_power',
         ]);
         if (!entries || entries.length === 0) entries = await getLogEntriesForDevice(devId, [':meter_power']);
-        if (entries && entries.length > 0) solarEntriesList.push(entries);
+        if (entries && entries.length > 0) solarEntriesList.push({ devId, entries });
       }
     }
 
@@ -1617,7 +1626,7 @@ class GridDevice extends GenericDevice {
           ':measure_watt_avg', ':measure_power',
         ]);
         if (!entries || entries.length === 0) entries = await getLogEntriesForDevice(devId, [':meter_power']);
-        if (entries && entries.length > 0) batteryEntriesList.push(entries);
+        if (entries && entries.length > 0) batteryEntriesList.push({ devId, entries });
       }
     }
 
@@ -1631,23 +1640,32 @@ class GridDevice extends GenericDevice {
           ':measure_watt_avg', ':measure_power',
         ]);
         if (!entries || entries.length === 0) entries = await getLogEntriesForDevice(devId, [':meter_power']);
-        if (entries && entries.length > 0) evEntriesList.push(entries);
+        if (entries && entries.length > 0) evEntriesList.push({ devId, entries });
       }
     }
 
     const timeIndex = {};
     const roundTo15Mins = (t) => Math.round(new Date(t).getTime() / (15 * 60 * 1000)) * (15 * 60 * 1000);
 
-    const addEntries = (entries, type) => {
+    // For 'gridImport'/'gridExport' (a single source device, never multiple), entries is a flat
+    // array as before. For 'solar'/'battery'/'ev', entries is grouped per devId so the
+    // combination step below can average each device's own samples within the bucket (handling
+    // that device's own polling jitter) and then SUM across devices - not average across them.
+    const addEntries = (entries, type, devId) => {
       entries.forEach((e) => {
         const key = roundTo15Mins(e.t);
         if (!timeIndex[key]) {
           timeIndex[key] = {
-            gridImport: [], gridExport: [], solar: [], battery: [], ev: [],
+            gridImport: [], gridExport: [], solar: {}, battery: {}, ev: {},
           };
         }
         const val = e.v !== undefined ? e.v : e.y;
-        timeIndex[key][type].push(val);
+        if (type === 'gridImport' || type === 'gridExport') {
+          timeIndex[key][type].push(val);
+        } else {
+          if (!timeIndex[key][type][devId]) timeIndex[key][type][devId] = [];
+          timeIndex[key][type][devId].push(val);
+        }
       });
     };
 
@@ -1663,9 +1681,9 @@ class GridDevice extends GenericDevice {
       addEntries(exportPowerEntries, 'gridExport');
     }
 
-    solarEntriesList.forEach((list) => addEntries(list, 'solar'));
-    batteryEntriesList.forEach((list) => addEntries(list, 'battery'));
-    evEntriesList.forEach((list) => addEntries(list, 'ev'));
+    solarEntriesList.forEach(({ devId, entries }) => addEntries(entries, 'solar', devId));
+    batteryEntriesList.forEach(({ devId, entries }) => addEntries(entries, 'battery', devId));
+    evEntriesList.forEach(({ devId, entries }) => addEntries(entries, 'ev', devId));
 
     const reconstructed = [];
     const timestamps = Object.keys(timeIndex).map(Number).sort((a, b) => a - b);
@@ -1678,11 +1696,37 @@ class GridDevice extends GenericDevice {
       const gridExport = data.gridExport.length > 0 ? data.gridExport.reduce((a, b) => a + b, 0) / data.gridExport.length : 0;
       const gridPower = gridImport - gridExport;
 
-      const solarPower = data.solar.length > 0 ? data.solar.reduce((a, b) => a + b, 0) / data.solar.length : 0;
-      const batteryPower = data.battery.length > 0 ? data.battery.reduce((a, b) => a + b, 0) / data.battery.length : 0;
-      const evPower = data.ev.length > 0 ? data.ev.reduce((a, b) => a + b, 0) / data.ev.length : 0;
+      // Sum each device's own within-bucket average - see addEntries()'s comment above for why
+      // this must not flatten multiple devices' samples into one averaged pool.
+      const sumAcrossDevices = (perDevice) => Object.values(perDevice)
+        .reduce((total, samples) => total + (samples.reduce((a, b) => a + b, 0) / samples.length), 0);
+      const solarPower = sumAcrossDevices(data.solar);
+      const batteryPower = sumAcrossDevices(data.battery);
+      const evPower = sumAcrossDevices(data.ev);
 
       const homePower = gridPower + solarPower - batteryPower - evPower;
+
+      // Home load can never be physically negative - grid export can never exceed what solar +
+      // discharging batteries are actually delivering (energy conservation at the meter). A
+      // negative residual here is therefore always a measurement/timing artifact, not reality -
+      // e.g. a battery doing grid arbitrage (charge cheap, export expensive) under-reports its
+      // own discharge slightly (its inverter's own overhead isn't reflected in the reported
+      // watt figure), and the single-point-in-time grid sample vs. the averaged solar/battery
+      // samples in this bucket aren't perfectly simultaneous. A small negative residual is just
+      // that kind of slop and safely clamps to ~0; a large one means this sample's components
+      // weren't reliable enough to combine at all, and gets dropped rather than faked to a 0W
+      // reading - a fabricated 0 would otherwise get trained into the weekly profile as if it
+      // were a genuine "no load" observation, dragging that slot's forecast down for weeks
+      // (see the p40-of-2-samples math in LoadForecastStrategy.js's processHistoricData()).
+      // Left for the existing per-slot interpolation to bridge from real neighboring samples.
+      const IMPLAUSIBLE_NEGATIVE_RESIDUAL_W = -150;
+      if (homePower < IMPLAUSIBLE_NEGATIVE_RESIDUAL_W) {
+        this.log(`[Diag] Dropping implausible reconstructed sample at ${new Date(t).toISOString()}: `
+          + `gridImport=${Math.round(gridImport)} gridExport=${Math.round(gridExport)} `
+          + `solarPower=${Math.round(solarPower)} batteryPower=${Math.round(batteryPower)} evPower=${Math.round(evPower)} `
+          + `-> homePower(raw)=${Math.round(homePower)}`);
+        return;
+      }
 
       reconstructed.push({
         t: new Date(t).toISOString(),
@@ -1691,6 +1735,7 @@ class GridDevice extends GenericDevice {
     });
 
     this.log(`Successfully reconstructed ${reconstructed.length} home power entries from component history.`);
+    logCoverageHistogram((msg) => this.log(msg), 'reconstructHomePowerHistory: final reconstructed entries', reconstructed, this.timeZone);
     return reconstructed;
   }
 
