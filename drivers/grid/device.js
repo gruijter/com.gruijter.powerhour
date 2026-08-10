@@ -26,9 +26,8 @@ const { imageUrlToStream } = require('../../lib/charts/ImageHelpers');
 const { getGridForecastChart, getGridWeeklyChart } = require('../../lib/charts/GridChart');
 const MeterHelpers = require('../../lib/MeterHelpers');
 const DeviceMigrator = require('../../lib/DeviceMigrator');
-const {
-  fetchYesterdayAndToday, convertCumulativeToPower, smoothTimeSeries,
-} = require('../../lib/helpers/HistoryLookup');
+const { fetchYesterdayAndToday, convertCumulativeToPower } = require('../../lib/helpers/HistoryLookup');
+const { combineComponentsToHomePower } = require('../../lib/helpers/HomePowerReconstruction');
 
 const deviceSpecifics = {
   cmap: {
@@ -1136,29 +1135,6 @@ class GridDevice extends GenericDevice {
     }
   }
 
-  /**
-   * Same resolution as getOwnHomeyDeviceId, but for arbitrary powerhour devices (e.g. the
-   * solar/battery/evCharger component devices used by reconstructHomePowerHistory): maps each
-   * device's synthetic pairing id (getData().id) to its real Homey UUID, since only the UUID
-   * appears in Insights log ids.
-   */
-  async resolveHomeyDeviceIdMap(api) {
-    if (this._homeyDeviceIdMap) return this._homeyDeviceIdMap;
-    const map = new Map();
-    try {
-      const allDevices = await api.devices.getDevices().catch(() => null);
-      if (allDevices) {
-        Object.values(allDevices).forEach((d) => {
-          if (d && d.data && d.data.id && d.id) map.set(d.data.id, d.id);
-        });
-      }
-    } catch (err) {
-      this.error('Error resolving Homey device id map:', err);
-    }
-    this._homeyDeviceIdMap = map;
-    return map;
-  }
-
   async retrainLoadModel(fromScratch = false) {
     if (this.retrainingLoad) {
       this.log('Already retraining load model, skipping...');
@@ -1452,25 +1428,6 @@ class GridDevice extends GenericDevice {
       }
     }
 
-    // Temporary diagnostic to prove what the Insights API actually returned to us
-    const activeEntries = gridEntries.length > 0 ? gridEntries : importPowerEntries;
-    const dataSource = gridEntries.length > 0 ? 'measure_power (Instant)' : 'meter_power (Cumulative kWh)';
-    const lowEntries = activeEntries.filter((e) => e.v < 300);
-
-    // Find what logs ACTUALLY exist for the SmartMeter
-    const deviceLogs = allLogs.filter((log) => (log.id || log.uri || '').includes(sourceDevice.id));
-    const deviceLogUris = deviceLogs.map((l) => l.id || l.uri);
-
-    this.log(`[API Diagnostic] SmartMeter Device ID: ${sourceDevice.id}`);
-    this.log(`[API Diagnostic] Available Insights Logs for SmartMeter: ${JSON.stringify(deviceLogUris)}`);
-    this.log(`[API Diagnostic] PBTH is using Data Source: ${dataSource}`);
-    this.log(`[API Diagnostic] The API returned ${activeEntries.length} total samples (last14Days resolution).`);
-    this.log(`[API Diagnostic] Number of samples below 300W returned by the API: ${lowEntries.length}`);
-    if (activeEntries.length > 0) {
-      const lowestRawValue = Math.min(...activeEntries.map((e) => e.v));
-      this.log(`[API Diagnostic] The ABSOLUTE LOWEST raw SmartMeter value the API sent us was: ${lowestRawValue}W`);
-    }
-
     if (gridEntries.length === 0 && importPowerEntries.length === 0) {
       this.log('No grid power entries or cumulative meter logs found. Cannot reconstruct.');
       return [];
@@ -1479,10 +1436,24 @@ class GridDevice extends GenericDevice {
     // For each component driver, prefer instantaneous power (measure_power / measure_watt_avg)
     // over cumulative meter (meter_power) to avoid mixing Watts with converted-kWh Watts.
     // Only fall back to meter_power if no measure_power log exists for that device.
-    // Component devices are other powerhour devices: getData().id is their synthetic pairing id,
-    // not the real Homey UUID that Insights log ids use, so it must be resolved first.
-    const homeyIdMap = await this.resolveHomeyDeviceIdMap(api);
-
+    //
+    // Component devices are other PowerHour devices - resolve each one to the REAL physical
+    // source device via its own 'homey_device_id' setting (the exact same setting
+    // getSourceDevice()/SourceDeviceHelper.js already use for the grid device's own source).
+    // A previous version of this resolved via a generic 'homeyIdMap' built from
+    // `api.devices.getDevices()`'s data.id -> id for every device - which is WRONG for
+    // PowerHour devices specifically: iterating that same device list necessarily includes the
+    // PowerHour device itself, whose own data.id equals dev.getData().id by definition, so the
+    // lookup always resolved back to the PowerHour device's OWN id, never the physical source.
+    // Confirmed empirically (2026-08-10): reconstruction had been reading each PowerHour
+    // component device's own re-published 'measure_watt_avg'/'energy_power' capability history
+    // (shorter/differently-computed than the real meter's) instead of the physical device's -
+    // e.g. the EV charger's own history read 0W at two real historical charging sessions,
+    // while the actual charger's physical Insights log showed ~2600W at those exact timestamps.
+    // This is very likely the primary explanation for the prod/dev weekly-profile divergence
+    // investigated this session, since each side's PowerHour devices have independently-aged,
+    // independently-computed histories even when reading the identical physical hardware.
+    //
     // Each entry carries its own devId (not just a bare entries array) so multiple devices of
     // the same type (e.g. 2 solar arrays, 2 batteries) can be summed rather than averaged
     // together below - averaging would blend two independent physical devices' readings as if
@@ -1493,13 +1464,13 @@ class GridDevice extends GenericDevice {
     const solarDriver = this.homey.drivers.getDriver('solar');
     if (solarDriver) {
       for (const dev of solarDriver.getDevices()) {
-        const devId = homeyIdMap.get(dev.getData().id);
+        const devId = dev.getSettings().homey_device_id;
         if (!devId) continue;
         let entries = await getLogEntriesForDevice(devId, [
           ':energy_power',
         ]);
         if (!entries || entries.length === 0) entries = await getLogEntriesForDevice(devId, [':meter_power']);
-        if (entries && entries.length > 0) solarEntriesList.push({ devId, entries: smoothTimeSeries(entries) });
+        if (entries && entries.length > 0) solarEntriesList.push({ devId, entries });
       }
     }
 
@@ -1507,13 +1478,13 @@ class GridDevice extends GenericDevice {
     const batDriver = this.homey.drivers.getDriver('battery');
     if (batDriver) {
       for (const dev of batDriver.getDevices()) {
-        const devId = homeyIdMap.get(dev.getData().id);
+        const devId = dev.getSettings().homey_device_id;
         if (!devId) continue;
         let entries = await getLogEntriesForDevice(devId, [
           ':measure_watt_avg', ':energy_power',
         ]);
         if (!entries || entries.length === 0) entries = await getLogEntriesForDevice(devId, [':meter_power']);
-        if (entries && entries.length > 0) batteryEntriesList.push({ devId, entries: smoothTimeSeries(entries) });
+        if (entries && entries.length > 0) batteryEntriesList.push({ devId, entries });
       }
     }
 
@@ -1521,107 +1492,42 @@ class GridDevice extends GenericDevice {
     const evDriver = this.homey.drivers.getDriver('evCharger');
     if (evDriver) {
       for (const dev of evDriver.getDevices()) {
-        const devId = homeyIdMap.get(dev.getData().id);
+        const devId = dev.getSettings().homey_device_id;
         if (!devId) continue;
         let entries = await getLogEntriesForDevice(devId, [
           ':measure_watt_avg', ':energy_power',
         ]);
         if (!entries || entries.length === 0) entries = await getLogEntriesForDevice(devId, [':meter_power']);
-        if (entries && entries.length > 0) evEntriesList.push({ devId, entries: smoothTimeSeries(entries) });
+        if (entries && entries.length > 0) evEntriesList.push({ devId, entries });
       }
     }
 
-    const timeIndex = {};
-    const roundTo15Mins = (t) => Math.round(new Date(t).getTime() / (15 * 60 * 1000)) * (15 * 60 * 1000);
-
-    // For 'gridImport'/'gridExport' (a single source device, never multiple), entries is a flat
-    // array as before. For 'solar'/'battery'/'ev', entries is grouped per devId so the
-    // combination step below can average each device's own samples within the bucket (handling
-    // that device's own polling jitter) and then SUM across devices - not average across them.
-    const addEntries = (entries, type, devId) => {
-      entries.forEach((e) => {
-        const key = roundTo15Mins(e.t);
-        if (!timeIndex[key]) {
-          timeIndex[key] = {
-            gridImport: [], gridExport: [], solar: {}, battery: {}, ev: {},
-          };
-        }
-        const val = e.v !== undefined ? e.v : e.y;
-        if (type === 'gridImport' || type === 'gridExport') {
-          timeIndex[key][type].push(val);
-        } else {
-          if (!timeIndex[key][type][devId]) timeIndex[key][type][devId] = [];
-          timeIndex[key][type][devId].push(val);
-        }
-      });
-    };
-
+    // Resolve which grid entries to use for import/export - this decision (instantaneous vs.
+    // cumulative fallback, whether export entries are even meaningful for this meter) depends on
+    // what was actually fetched above, so it stays here; the actual per-bucket combination across
+    // grid/solar/battery/EV is a pure function in HomePowerReconstruction.js, shared with any
+    // offline analysis so it's never a second, independently-drifting copy of this logic.
+    let gridImportEntries = [];
+    let gridExportEntries = [];
     if (gridEntries.length > 0) {
-      // Check the sign on the raw (pre-smoothing) entries - smoothing a signal that's
-      // supposed to be strictly non-negative can introduce small negative edge artifacts
-      // that would otherwise trip this check.
-      const hasNegative = gridEntries.some((e) => (e.y !== undefined ? e.y : e.v) < -1);
-      addEntries(smoothTimeSeries(gridEntries), 'gridImport');
+      gridImportEntries = gridEntries;
       // If measure_power is always positive (non-negative) and we have export entries, add them to gridExport
+      const hasNegative = gridEntries.some((e) => (e.y !== undefined ? e.y : e.v) < -1);
       if (!hasNegative && measurePowerExportEntries && measurePowerExportEntries.length > 0) {
-        addEntries(smoothTimeSeries(measurePowerExportEntries), 'gridExport');
+        gridExportEntries = measurePowerExportEntries;
       }
     } else {
-      addEntries(smoothTimeSeries(importPowerEntries), 'gridImport');
-      addEntries(smoothTimeSeries(exportPowerEntries), 'gridExport');
+      gridImportEntries = importPowerEntries;
+      gridExportEntries = exportPowerEntries;
     }
 
-    solarEntriesList.forEach(({ devId, entries }) => addEntries(entries, 'solar', devId));
-    batteryEntriesList.forEach(({ devId, entries }) => addEntries(entries, 'battery', devId));
-    evEntriesList.forEach(({ devId, entries }) => addEntries(entries, 'ev', devId));
-
-    const reconstructed = [];
-    const timestamps = Object.keys(timeIndex).map(Number).sort((a, b) => a - b);
-
-    timestamps.forEach((t) => {
-      const data = timeIndex[t];
-      if (data.gridImport.length === 0) return;
-
-      const gridImport = data.gridImport.reduce((a, b) => a + b, 0) / data.gridImport.length;
-      const gridExport = data.gridExport.length > 0 ? data.gridExport.reduce((a, b) => a + b, 0) / data.gridExport.length : 0;
-      const gridPower = gridImport - gridExport;
-
-      // Sum each device's own within-bucket average - see addEntries()'s comment above for why
-      // this must not flatten multiple devices' samples into one averaged pool.
-      const sumAcrossDevices = (perDevice) => Object.values(perDevice)
-        .reduce((total, samples) => total + (samples.reduce((a, b) => a + b, 0) / samples.length), 0);
-      const solarPower = sumAcrossDevices(data.solar);
-      const batteryPower = sumAcrossDevices(data.battery);
-      const evPower = sumAcrossDevices(data.ev);
-
-      const homePower = gridPower + solarPower - batteryPower - evPower;
-
-      // Home load can never be physically negative - grid export can never exceed what solar +
-      // discharging batteries are actually delivering (energy conservation at the meter). A
-      // negative residual here is therefore always a measurement/timing artifact, not reality -
-      // e.g. a battery doing grid arbitrage (charge cheap, export expensive) under-reports its
-      // own discharge slightly (its inverter's own overhead isn't reflected in the reported
-      // watt figure), and the single-point-in-time grid sample vs. the averaged solar/battery
-      // samples in this bucket aren't perfectly simultaneous. A small negative residual is just
-      // that kind of slop and safely clamps to ~0; a large one means this sample's components
-      // weren't reliable enough to combine at all, and gets dropped rather than faked to a 0W
-      // reading - a fabricated 0 would otherwise get trained into the weekly profile as if it
-      // were a genuine "no load" observation, dragging that slot's forecast down for weeks
-      // (see the p40-of-2-samples math in LoadForecastStrategy.js's processHistoricData()).
-      // Left for the existing per-slot interpolation to bridge from real neighboring samples.
-      const IMPLAUSIBLE_NEGATIVE_RESIDUAL_W = -150;
-      if (homePower < IMPLAUSIBLE_NEGATIVE_RESIDUAL_W) {
-        this.log(`[Diag] Dropping implausible reconstructed sample at ${new Date(t).toISOString()}: `
-          + `gridImport=${Math.round(gridImport)} gridExport=${Math.round(gridExport)} `
-          + `solarPower=${Math.round(solarPower)} batteryPower=${Math.round(batteryPower)} evPower=${Math.round(evPower)} `
-          + `-> homePower(raw)=${Math.round(homePower)}`);
-        return;
-      }
-
-      reconstructed.push({
-        t: new Date(t).toISOString(),
-        y: Math.max(0, Math.min(30000, Math.round(homePower))),
-      });
+    const reconstructed = combineComponentsToHomePower({
+      gridImportEntries,
+      gridExportEntries,
+      solarEntriesList,
+      batteryEntriesList,
+      evEntriesList,
+      logger: (msg) => this.log(msg),
     });
 
     this.log(`Successfully reconstructed ${reconstructed.length} home power entries from component history.`);
