@@ -1056,11 +1056,14 @@ class CarChargeDevice extends GenericDevice {
         return null;
       };
 
-      // Fetch charger power entries for session boundary detection
-      // 'energy_power' is where Homey actually stores measure_power's own Insights history for
-      // many energy-class devices (see isCumulative comment above) - try it right after
-      // measure_power, before falling back to the cumulative meter_power.
-      const powerEntries = await fetchLog(chargerId, ['measure_power', 'energy_power', 'meter_power']);
+      // Fetch charger power entries for session boundary detection. Never search for a log
+      // literally named 'measure_power' - Homey always logs that capability's own Insights
+      // history under the internal log id 'energy_power' instead (see isCumulative comment
+      // above, and homey-app-development skill Section 3). A literal 'measure_power' log CAN
+      // exist in the log listing but with zero real samples (confirmed on grid's SmartMeter,
+      // 2026-08-10), so it's not even tried here; fall back to cumulative meter_power only if
+      // energy_power itself has no history.
+      const powerEntries = await fetchLog(chargerId, ['energy_power', 'meter_power']);
 
       let socEntries = null;
       if (evId && evId !== 'none') {

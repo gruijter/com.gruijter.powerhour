@@ -1341,23 +1341,17 @@ class GridDevice extends GenericDevice {
       // If we are looking for cumulative totals, and we found the absolute total (e.g., ':meter_power'),
       // we must discard sub-totals (like '.t1' or '.imported') to prevent double counting.
       // But if we found phase meters ('.l1', '.l2', '.l3') or tariff meters ('.t1', '.t2'), we want to sum them.
+      // (No equivalent dedup is needed for ':measure_power' vs ':energy_power' - callers never
+      // request the former as an Insights log id in the first place, see endings arrays above;
+      // Homey always logs that capability's history under ':energy_power' instead.)
       let finalLogs = Array.from(matchingLogsMap.values());
       const hasBaseMeterPower = finalLogs.some((item) => (item.log.id || item.log.uri || '').endsWith(':meter_power'));
-      const hasBaseMeasurePower = finalLogs.some((item) => (item.log.id || item.log.uri || '').endsWith(':measure_power'));
 
       if (hasBaseMeterPower) {
         // If we have the grand total cumulative meter, filter out sub-tariffs and imported variants
         finalLogs = finalLogs.filter((item) => {
           const id = item.log.id || item.log.uri || '';
           return id.endsWith(':meter_power') || id.endsWith(':meter_power.exported');
-        });
-      }
-
-      if (hasBaseMeasurePower) {
-        // If we have the grand total instantaneous meter, filter out phase variants
-        finalLogs = finalLogs.filter((item) => {
-          const id = item.log.id || item.log.uri || '';
-          return id.endsWith(':measure_power') || id.endsWith(':measure_power.exported');
         });
       }
 
@@ -1415,13 +1409,16 @@ class GridDevice extends GenericDevice {
     }
 
     // 1. Fetch grid entries. Try real-time power first, otherwise cumulative import & export.
-    // On devices with Homey energy-class registration (which smart meters can have), the Insights
-    // log for 'measure_power' itself is sometimes filed under the internal log id 'energy_power'
-    // instead (same signal, different log name - see getLogEntriesForDevice's dedup below, which
-    // already prefers a literal ':measure_power' log over ':energy_power' when both exist).
+    // Never search for a log literally named ':measure_power' - Homey always logs that
+    // capability's own Insights history under the internal log id ':energy_power' instead (same
+    // signal, not cumulative despite the name - see homey-app-development skill, Section 3). A
+    // literal ':measure_power' log CAN exist in the log listing but with zero real samples -
+    // confirmed on production's SmartMeter (2026-08-10): 100% null across 14 days, while
+    // ':energy_power' had complete real history, causing reconstruction to silently learn zero
+    // overnight baseload. Only ':energy_power' is a valid target for the base capability.
     let gridEntries = [];
     const measurePowerEntries = await getLogEntriesForDevice(sourceDevice.id, [
-      ':measure_power', ':energy_power',
+      ':energy_power',
     ]);
     const measurePowerExportEntries = await getLogEntriesForDevice(sourceDevice.id, [
       ':measure_power.exported',
@@ -1497,7 +1494,7 @@ class GridDevice extends GenericDevice {
         const devId = homeyIdMap.get(dev.getData().id);
         if (!devId) continue;
         let entries = await getLogEntriesForDevice(devId, [
-          ':measure_power',
+          ':energy_power',
         ]);
         if (!entries || entries.length === 0) entries = await getLogEntriesForDevice(devId, [':meter_power']);
         if (entries && entries.length > 0) solarEntriesList.push({ devId, entries });
@@ -1511,7 +1508,7 @@ class GridDevice extends GenericDevice {
         const devId = homeyIdMap.get(dev.getData().id);
         if (!devId) continue;
         let entries = await getLogEntriesForDevice(devId, [
-          ':measure_watt_avg', ':measure_power',
+          ':measure_watt_avg', ':energy_power',
         ]);
         if (!entries || entries.length === 0) entries = await getLogEntriesForDevice(devId, [':meter_power']);
         if (entries && entries.length > 0) batteryEntriesList.push({ devId, entries });
@@ -1525,7 +1522,7 @@ class GridDevice extends GenericDevice {
         const devId = homeyIdMap.get(dev.getData().id);
         if (!devId) continue;
         let entries = await getLogEntriesForDevice(devId, [
-          ':measure_watt_avg', ':measure_power',
+          ':measure_watt_avg', ':energy_power',
         ]);
         if (!entries || entries.length === 0) entries = await getLogEntriesForDevice(devId, [':meter_power']);
         if (entries && entries.length > 0) evEntriesList.push({ devId, entries });

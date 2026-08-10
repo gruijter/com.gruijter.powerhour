@@ -285,22 +285,28 @@ class BatDevice extends GenericDevice {
       // (e.g. Sessy's 'measure_power.battery') purely because Homey Insights hasn't logged the
       // correct one yet.
       //
-      // IMPORTANT (confirmed empirically, don't re-break this): on devices with energy-class
-      // registration, Homey stores the Insights log for 'measure_power' itself under the internal
-      // log id 'energy_power' - same signal, different log name, NOT a separate derived value and
-      // NOT cumulative despite the name. It commonly has full history even when 'measure_power' has
-      // no Insights log of its own yet - always try it as a fallback, and never invert it (it's
-      // measure_power's own history, already Homey-standard-signed by construction).
+      // IMPORTANT: never search for a log literally named 'measure_power' - Homey always logs
+      // that capability's own Insights history under the internal log id 'energy_power' instead
+      // (same signal, NOT a separate derived value, NOT cumulative despite the name - see
+      // homey-app-development skill, Section 3). A literal 'measure_power' log CAN exist in the
+      // log listing but with zero real samples (confirmed on grid's SmartMeter, 2026-08-10: 100%
+      // null across 14 days while 'energy_power' had complete history) - so if the resolved live
+      // capability IS the bare 'measure_power', redirect straight to 'energy_power' instead
+      // (uninverted - it's already Homey-standard-signed by construction). Suffixed variants
+      // ('measure_power.battery', 'measure_power.sessy', etc.) are unaffected by this - those
+      // remain valid, real per-vendor capabilities in their own right.
       const resolvedPowerCap = (this.sourceCapGroup && (this.sourceCapGroup.newMeasurePower || this.sourceCapGroup.power)) || null;
       const resolvedPowerInvert = !!this.sourcePowerInvert;
 
       const powerCandidates = [];
-      if (resolvedPowerCap) powerCandidates.push({ cap: resolvedPowerCap, invert: resolvedPowerInvert });
+      if (resolvedPowerCap && resolvedPowerCap !== 'measure_power') {
+        powerCandidates.push({ cap: resolvedPowerCap, invert: resolvedPowerInvert });
+      }
       powerCandidates.push({ cap: 'energy_power', invert: false });
       if (!resolvedPowerCap) {
         // No single signed power capability resolved (e.g. a chargePower/dischargePower magnitude
         // pair vendor) - fall back to the broad priority guess as a last resort.
-        ['measure_power', 'measure_power.battery', 'measure_power.sessy', 'meter_power'].forEach((cap) => powerCandidates.push({ cap, invert: false }));
+        ['measure_power.battery', 'measure_power.sessy', 'meter_power'].forEach((cap) => powerCandidates.push({ cap, invert: false }));
       }
 
       let powerLog = null;
