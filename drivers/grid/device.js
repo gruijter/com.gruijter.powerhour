@@ -26,7 +26,9 @@ const { imageUrlToStream } = require('../../lib/charts/ImageHelpers');
 const { getGridForecastChart, getGridWeeklyChart } = require('../../lib/charts/GridChart');
 const MeterHelpers = require('../../lib/MeterHelpers');
 const DeviceMigrator = require('../../lib/DeviceMigrator');
-const { fetchYesterdayAndToday, convertCumulativeToPower } = require('../../lib/helpers/HistoryLookup');
+const {
+  fetchYesterdayAndToday, convertCumulativeToPower, smoothTimeSeries,
+} = require('../../lib/helpers/HistoryLookup');
 
 const deviceSpecifics = {
   cmap: {
@@ -1497,7 +1499,7 @@ class GridDevice extends GenericDevice {
           ':energy_power',
         ]);
         if (!entries || entries.length === 0) entries = await getLogEntriesForDevice(devId, [':meter_power']);
-        if (entries && entries.length > 0) solarEntriesList.push({ devId, entries });
+        if (entries && entries.length > 0) solarEntriesList.push({ devId, entries: smoothTimeSeries(entries) });
       }
     }
 
@@ -1511,7 +1513,7 @@ class GridDevice extends GenericDevice {
           ':measure_watt_avg', ':energy_power',
         ]);
         if (!entries || entries.length === 0) entries = await getLogEntriesForDevice(devId, [':meter_power']);
-        if (entries && entries.length > 0) batteryEntriesList.push({ devId, entries });
+        if (entries && entries.length > 0) batteryEntriesList.push({ devId, entries: smoothTimeSeries(entries) });
       }
     }
 
@@ -1525,7 +1527,7 @@ class GridDevice extends GenericDevice {
           ':measure_watt_avg', ':energy_power',
         ]);
         if (!entries || entries.length === 0) entries = await getLogEntriesForDevice(devId, [':meter_power']);
-        if (entries && entries.length > 0) evEntriesList.push({ devId, entries });
+        if (entries && entries.length > 0) evEntriesList.push({ devId, entries: smoothTimeSeries(entries) });
       }
     }
 
@@ -1555,15 +1557,18 @@ class GridDevice extends GenericDevice {
     };
 
     if (gridEntries.length > 0) {
-      addEntries(gridEntries, 'gridImport');
-      // If measure_power is always positive (non-negative) and we have export entries, add them to gridExport
+      // Check the sign on the raw (pre-smoothing) entries - smoothing a signal that's
+      // supposed to be strictly non-negative can introduce small negative edge artifacts
+      // that would otherwise trip this check.
       const hasNegative = gridEntries.some((e) => (e.y !== undefined ? e.y : e.v) < -1);
+      addEntries(smoothTimeSeries(gridEntries), 'gridImport');
+      // If measure_power is always positive (non-negative) and we have export entries, add them to gridExport
       if (!hasNegative && measurePowerExportEntries && measurePowerExportEntries.length > 0) {
-        addEntries(measurePowerExportEntries, 'gridExport');
+        addEntries(smoothTimeSeries(measurePowerExportEntries), 'gridExport');
       }
     } else {
-      addEntries(importPowerEntries, 'gridImport');
-      addEntries(exportPowerEntries, 'gridExport');
+      addEntries(smoothTimeSeries(importPowerEntries), 'gridImport');
+      addEntries(smoothTimeSeries(exportPowerEntries), 'gridExport');
     }
 
     solarEntriesList.forEach(({ devId, entries }) => addEntries(entries, 'solar', devId));

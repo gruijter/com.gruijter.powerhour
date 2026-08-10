@@ -285,16 +285,21 @@ class BatDevice extends GenericDevice {
       // (e.g. Sessy's 'measure_power.battery') purely because Homey Insights hasn't logged the
       // correct one yet.
       //
-      // IMPORTANT: never search for a log literally named 'measure_power' - Homey always logs
-      // that capability's own Insights history under the internal log id 'energy_power' instead
-      // (same signal, NOT a separate derived value, NOT cumulative despite the name - see
-      // homey-app-development skill, Section 3). A literal 'measure_power' log CAN exist in the
-      // log listing but with zero real samples (confirmed on grid's SmartMeter, 2026-08-10: 100%
-      // null across 14 days while 'energy_power' had complete history) - so if the resolved live
-      // capability IS the bare 'measure_power', redirect straight to 'energy_power' instead
-      // (uninverted - it's already Homey-standard-signed by construction). Suffixed variants
-      // ('measure_power.battery', 'measure_power.sessy', etc.) are unaffected by this - those
-      // remain valid, real per-vendor capabilities in their own right.
+      // IMPORTANT: never search for a log literally named 'measure_power' - a log entry by that
+      // exact name CAN exist in the log listing but with zero real samples (confirmed on grid's
+      // SmartMeter and on Sessy1, both 2026-08-10: 100% null across 14 days). 'energy_power' IS
+      // the real Insights log for that same bare 'measure_power' capability - same signal,
+      // already Homey-standard-signed, just filed under a different log id. (On Sessy1,
+      // 'energy_power' matched exactly -1x 'measure_power.battery' - but that's just transitive
+      // arithmetic, since 'measure_power.battery' below is itself a capability THIS APP defined
+      // as -1x 'measure_power' to correct for Sessy's inverted-from-Homey-convention hardware.
+      // It doesn't mean 'energy_power' "follows" whatever capability is registered as some
+      // energy-class source - no device has been observed where it diverges from bare
+      // 'measure_power'.) So: if the resolved live capability IS the bare 'measure_power',
+      // redirect to 'energy_power' uninverted; for any other resolved capability (suffixed
+      // variants like 'measure_power.battery', 'measure_power.sessy', etc.), keep searching
+      // under its own real name as before - those are unaffected by this and already correctly
+      // matched a real, populated log.
       const resolvedPowerCap = (this.sourceCapGroup && (this.sourceCapGroup.newMeasurePower || this.sourceCapGroup.power)) || null;
       const resolvedPowerInvert = !!this.sourcePowerInvert;
 
