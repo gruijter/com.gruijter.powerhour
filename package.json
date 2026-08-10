@@ -20,9 +20,9 @@
     "url": "https://github.com/gruijter/com.gruijter.powerhour.git"
   },
   "dependencies": {
+    "fast-xml-parser": "^4.5.7",
     "homey-api": "^3.19.2",
-    "javascript-lp-solver": "^1.0.3",
-    "xml-js": "^1.6.11"
+    "javascript-lp-solver": "^1.0.3"
   },
   "devDependencies": {
     "@types/homey": "npm:homey-apps-sdk-v3-types@^0.3.12",

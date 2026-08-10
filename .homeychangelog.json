@@ -1,4 +1,7 @@
 {
+  "8.13.0": {
+    "en": "Added grid directional settlement schemes for import/export netting. Added peak demand (capacity tariff) tracking for grid. Improved min/max power detection accuracy. Fixed grid weekly load forecast accuracy - wrong source devices and meter-timing spikes. Fixed home load calculation during retrain and after startup. Fixed EV charger pairing, SoC chart, and retrain button. Fixed capability migration and naming. Replace xml-js with fast-xml-parser. General stability improvements."
+  },
   "8.12.0": {
     "en": "Fix multiple flows. Fix charts. Fix power sign handling. Fix data source fetching. Fix SoC and Power Insights fetching. Fix Solar timezone handling. Fix updateMeter bug. Add graph settings. Add grid directional metering."
   },
