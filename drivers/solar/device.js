@@ -330,7 +330,11 @@ class SolarDevice extends GenericDevice {
 
       if (!Array.isArray(this.powerHistory)) this.powerHistory = [];
       const lastEntry = this.powerHistory[this.powerHistory.length - 1];
-      if (!lastEntry || (currentTimestamp - lastEntry.time) > 50000) {
+      // The 576-entry cap is sized for 48h of 5-minute-spaced samples (576 * 5min = 48h), matching
+      // the "yesterday" chart's ~40h requirement (see populatePowerHistory) and the same pattern
+      // used by the grid driver. A shorter push interval fills the array much faster than that,
+      // evicting yesterday's data within a few hours instead of the intended 48h.
+      if (!lastEntry || (currentTimestamp - lastEntry.time) > 5 * 60 * 1000) {
         this.powerHistory.push({ time: currentTimestamp, power: currentPower });
         if (this.powerHistory.length > 576) this.powerHistory.shift();
         if (!this.lastPowerHistorySaveTm || (currentTimestamp - this.lastPowerHistorySaveTm > 15 * 60 * 1000)) {
@@ -836,16 +840,26 @@ class SolarDevice extends GenericDevice {
       dayChanged = true;
     }
 
-    // Backfill yesterday if missing (e.g. new device or after retrain)
-    if (!this.forecastHistory.yesterday) {
-      const yesterday = new Date(now);
-      yesterday.setDate(yesterday.getDate() - 1);
-      const yesterdayLocalStr = yesterday.toLocaleDateString('en-CA', { timeZone: this.timeZone });
+    // Backfill yesterday if missing, if the frozen snapshot is degenerate (all-zero), or if its
+    // keys don't line up with the current (correct) local-midnight grid. The latter catches a
+    // snapshot frozen by an older, buggy build of getLocalMidnightUTC() that leaked a few hundred
+    // ms of residue into every key (fixed 2026-08-11) - such a snapshot has real, non-zero values
+    // so the degenerate check alone would never catch it, and it would otherwise sit there
+    // silently wrong until the next natural midnight rollover replaces it.
+    const yesterday = new Date(now);
+    yesterday.setDate(yesterday.getDate() - 1);
+    const yesterdayLocalStr = yesterday.toLocaleDateString('en-CA', { timeZone: this.timeZone });
+    const localYesterdayStart = TimeHelpers.getLocalMidnightUTC(yesterday, this.timeZone);
+    const localYesterdayEnd = localDayStart; // yesterday ends at today's real UTC midnight
 
-      // Real UTC yesterday midnight and end (DST-safe, same convention as localDayStart above)
-      const localYesterdayStart = TimeHelpers.getLocalMidnightUTC(yesterday, this.timeZone);
-      const localYesterdayEnd = localDayStart; // yesterday ends at today's real UTC midnight
-
+    const yesterdayIsDegenerate = this.forecastHistory.yesterday
+      && !Object.values(this.forecastHistory.yesterday.data).some((v) => v > 0);
+    const yesterdayKeysMisaligned = this.forecastHistory.yesterday
+      && !Object.prototype.hasOwnProperty.call(this.forecastHistory.yesterday.data, String(localYesterdayStart.getTime()));
+    if (!this.forecastHistory.yesterday || yesterdayIsDegenerate || yesterdayKeysMisaligned) {
+      if (yesterdayKeysMisaligned && !yesterdayIsDegenerate) {
+        this.log('[updateForecastDisplay] Yesterday snapshot keys are misaligned with the current local-midnight grid, rebuilding.');
+      }
       // Check if we have weather data for yesterday
       const hasData = Object.keys(this.forecastData).some((t) => {
         const time = Number(t);
@@ -981,9 +995,6 @@ class SolarDevice extends GenericDevice {
 
     // 3. Yesterday (Fixed Forecast)
     if (this.forecastHistory.yesterday && (!this.solarYesterdayImage || yieldFactorsUpdated || dayChanged)) {
-      const yesterday = new Date(now);
-      yesterday.setDate(yesterday.getDate() - 1);
-
       // Use the frozen power data from history to determine bounds and draw chart
       const frozenData = this.forecastHistory.yesterday.data;
       const { start: yStart, end: yEnd } = SolarLearningStrategy.getSunBounds(yesterday, frozenData, this.timeZone);

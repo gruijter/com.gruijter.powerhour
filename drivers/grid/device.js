@@ -28,6 +28,7 @@ const MeterHelpers = require('../../lib/MeterHelpers');
 const DeviceMigrator = require('../../lib/DeviceMigrator');
 const { fetchYesterdayAndToday, convertCumulativeToPower } = require('../../lib/helpers/HistoryLookup');
 const { combineComponentsToHomePower } = require('../../lib/helpers/HomePowerReconstruction');
+const TimeHelpers = require('../../lib/TimeHelpers');
 
 const deviceSpecifics = {
   cmap: {
@@ -1050,18 +1051,8 @@ class GridDevice extends GenericDevice {
     const { slotIndex: currentSlot } = LoadForecastStrategy.getLocalTimeDetails(now, this.timeZone);
 
     // --- Update Charts ---
-    // DST-aware local midnight to UTC conversion (two-pass method)
     const { timeZone } = this;
-    const getLocalMidnightUTC = (d) => {
-      const homeyOffset = new Date(d.toLocaleString('en-US', { timeZone })).getTime() - d.getTime();
-      const local = new Date(d.getTime() + homeyOffset);
-      local.setHours(0, 0, 0, 0);
-      const midnightUTCEstimate = new Date(local.getTime() - homeyOffset);
-      // Second pass: verify and correct for DST boundary
-      const checkLocal = new Date(midnightUTCEstimate.toLocaleString('en-US', { timeZone }));
-      const diff = local.getTime() - checkLocal.getTime();
-      return new Date(midnightUTCEstimate.getTime() + diff);
-    };
+    const getLocalMidnightUTC = (d) => TimeHelpers.getLocalMidnightUTC(d, timeZone);
 
     const startOfToday = getLocalMidnightUTC(now);
     const endOfToday = new Date(startOfToday.getTime() + 24 * 60 * 60 * 1000);
