@@ -107,6 +107,14 @@ class GridDevice extends GenericDevice {
       }
     }
 
+    // One-time fix for chart display order: today, tomorrow, yesterday, weekly.
+    await DeviceMigrator.migrateImageCapabilityOrder(this, {
+      gridToday: 'gridTodayImage',
+      gridTomorrow: 'gridTomorrowImage',
+      gridYesterday: 'gridYesterdayImage',
+      gridWeekly: 'gridWeeklyImage',
+    }, 'chartOrderMigrated_v1');
+
     // Restore per-direction (import/export) register state - used by the 'perDirection' and
     // 'fixedBlock' schemes to split the net meter reading into import/export deltas before
     // pricing (see getMoneyDeltaOverride() below). Harmless bookkeeping when the scheme is
@@ -1064,21 +1072,7 @@ class GridDevice extends GenericDevice {
     const startOfTomorrow = getLocalMidnightUTC(tomorrow);
     const endOfTomorrow = new Date(startOfTomorrow.getTime() + 24 * 60 * 60 * 1000);
 
-    // 1. Yesterday Chart (Forecast vs Real)
-    if (updated || !this.gridYesterdayImage) {
-      const chartYesterday = await getGridForecastChart(this.weeklyProfile, startOfYesterday, endOfYesterday, 'Home Load Yesterday', this.powerHistory, this.timeZone, false);
-      if (chartYesterday) {
-        this.chartGridYesterday = chartYesterday;
-        if (!this.gridYesterdayImage) {
-          this.gridYesterdayImage = await this.homey.images.createImage();
-          this.gridYesterdayImage.setStream(async (stream) => imageUrlToStream(this.chartGridYesterday, stream, this));
-          await this.setCameraImage('gridYesterday', ` ${this.homey.__('yesterday')}`, this.gridYesterdayImage);
-        }
-        await this.gridYesterdayImage.update().catch(this.error);
-      }
-    }
-
-    // 2. Today Chart (Forecast vs Real - updated every 15 mins or on model update)
+    // 1. Today Chart (Forecast vs Real - updated every 15 mins or on model update)
     if (updated || (now.getMinutes() % 15 === 0) || !this.gridTodayImage) {
       const chartToday = await getGridForecastChart(this.weeklyProfile, startOfToday, endOfToday, 'Home Load Today', this.powerHistory, this.timeZone, true);
       if (chartToday) {
@@ -1092,7 +1086,7 @@ class GridDevice extends GenericDevice {
       }
     }
 
-    // 3. Tomorrow Chart (Forecast only)
+    // 2. Tomorrow Chart (Forecast only)
     if (updated || !this.gridTomorrowImage) {
       const chartTomorrow = await getGridForecastChart(this.weeklyProfile, startOfTomorrow, endOfTomorrow, 'Home Load Tomorrow', [], this.timeZone, false);
       if (chartTomorrow) {
@@ -1103,6 +1097,20 @@ class GridDevice extends GenericDevice {
           await this.setCameraImage('gridTomorrow', ` ${this.homey.__('tomorrow')}`, this.gridTomorrowImage);
         }
         await this.gridTomorrowImage.update().catch(this.error);
+      }
+    }
+
+    // 3. Yesterday Chart (Forecast vs Real)
+    if (updated || !this.gridYesterdayImage) {
+      const chartYesterday = await getGridForecastChart(this.weeklyProfile, startOfYesterday, endOfYesterday, 'Home Load Yesterday', this.powerHistory, this.timeZone, false);
+      if (chartYesterday) {
+        this.chartGridYesterday = chartYesterday;
+        if (!this.gridYesterdayImage) {
+          this.gridYesterdayImage = await this.homey.images.createImage();
+          this.gridYesterdayImage.setStream(async (stream) => imageUrlToStream(this.chartGridYesterday, stream, this));
+          await this.setCameraImage('gridYesterday', ` ${this.homey.__('yesterday')}`, this.gridYesterdayImage);
+        }
+        await this.gridYesterdayImage.update().catch(this.error);
       }
     }
 

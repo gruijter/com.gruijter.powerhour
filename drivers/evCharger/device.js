@@ -12,6 +12,7 @@ const EvChargeStrategy = require('../../lib/strategies/EvChargeStrategy');
 const EvDepartureStrategy = require('../../lib/helpers/EvDepartureStrategy');
 const EvFlows = require('../../lib/flows/EvFlows');
 const ChargeDeviceHelpers = require('../../lib/helpers/ChargeDeviceHelpers');
+const DeviceMigrator = require('../../lib/DeviceMigrator');
 
 const deviceSpecifics = {
   cmap: {
@@ -59,6 +60,14 @@ class CarChargeDevice extends GenericDevice {
 
     this.powerHistory = (await this.getStoreValue('powerHistory')) || [];
     this.socHistory = (await this.getStoreValue('socHistory')) || [];
+
+    // One-time fix for chart display order: today, tomorrow, next hours, yesterday.
+    await DeviceMigrator.migrateImageCapabilityOrder(this, {
+      todayChargeChart: 'todayChargeImage',
+      tomorrowChargeChart: 'tomorrowChargeImage',
+      nextHoursChargeChart: 'nextHoursChargeImage',
+      yesterdayChargeChart: 'yesterdayChargeImage',
+    }, 'chartOrderMigrated_v1');
 
     if (this.hasCapability('ev_charge_mode')) {
       if (!this.getCapabilityValue('ev_charge_mode')) {
@@ -733,55 +742,7 @@ class CarChargeDevice extends GenericDevice {
       const showSoc = this.getSettings().chartShowSoc !== false && !!(this.sourceCapGroup && this.sourceCapGroup.soc);
       const showExportPrice = this.getSettings().chartShowExportPrice !== false;
 
-      // 1. Image 1: Yesterday (00:00 to 23:59 Yesterday)
-      const yesterdayStartMs = todayStartMs - (24 * 60 * 60 * 1000);
-      const yesterdayStrategy = {};
-      const yesterdayExportPrices = [];
-
-      for (let i = 0; i < totalDaySlots; i += 1) {
-        const slotStartMs = yesterdayStartMs + (i * intervalMs);
-        let actualP = this.getActualPowerForTime(slotStartMs);
-        if (actualP === null) actualP = 0;
-        const slotPrice = this.getPriceForTimestamp(slotStartMs);
-        const planned = this.getPlannedScheduleForSlot(i, true);
-        yesterdayExportPrices[i] = this.getExportPriceForTimestamp(slotStartMs);
-
-        yesterdayStrategy[i] = {
-          power: planned.power,
-          actualPower: actualP,
-          duration: planned.duration,
-          soc: this.getActualSocForTime(slotStartMs),
-          price: slotPrice,
-          isForecast: false,
-        };
-      }
-
-      const chartYesterday = await getChargeChart(
-        { scheme: JSON.stringify(yesterdayStrategy) },
-        0,
-        totalDaySlots,
-        chargePower,
-        0,
-        this.priceInterval,
-        yesterdayExportPrices,
-        currency,
-        translations,
-        false,
-        this.timeZone,
-        showPower,
-        showSoc,
-        showExportPrice,
-      );
-
-      this.chartYesterdayCharge = chartYesterday;
-      if (!this.yesterdayChargeImage) {
-        this.yesterdayChargeImage = await this.homey.images.createImage();
-        this.yesterdayChargeImage.setStream(async (stream) => imageUrlToStream(this.chartYesterdayCharge, stream, this));
-        await this.setCameraImage('yesterdayChargeChart', ` ${this.homey.__('yesterday')}`, this.yesterdayChargeImage);
-      }
-      await this.yesterdayChargeImage.update().catch(this.error);
-
-      // 2. Image 2: Today (00:00 to 23:59 Today)
+      // 1. Image 1: Today (00:00 to 23:59 Today)
       const todayStrategy = {};
       const todayDateStr = nowLocal.toDateString();
       const todayExportPrices = [];
@@ -857,7 +818,7 @@ class CarChargeDevice extends GenericDevice {
       }
       await this.todayChargeImage.update().catch(this.error);
 
-      // 3. Image 3: Tomorrow (00:00 to 23:59 Tomorrow)
+      // 2. Image 2: Tomorrow (00:00 to 23:59 Tomorrow)
       const tomorrowStrategy = {};
       const remainingTodaySlots = totalDaySlots - currentSlotInDay;
       const tomorrowStartMs = todayStartMs + (24 * 60 * 60 * 1000);
@@ -904,7 +865,7 @@ class CarChargeDevice extends GenericDevice {
       }
       await this.tomorrowChargeImage.update().catch(this.error);
 
-      // 4. Image 4: Next Hours (Rolling Window starting from current hour H0)
+      // 3. Image 3: Next Hours (Rolling Window starting from current hour H0)
       const chartNextHours = await getChargeChart(
         { scheme: JSON.stringify(strategy) },
         H0 + (M0 / 60),
@@ -929,6 +890,54 @@ class CarChargeDevice extends GenericDevice {
         await this.setCameraImage('nextHoursChargeChart', ` ${this.homey.__('nextHours')}`, this.nextHoursChargeImage);
       }
       await this.nextHoursChargeImage.update().catch(this.error);
+
+      // 4. Image 4: Yesterday (00:00 to 23:59 Yesterday)
+      const yesterdayStartMs = todayStartMs - (24 * 60 * 60 * 1000);
+      const yesterdayStrategy = {};
+      const yesterdayExportPrices = [];
+
+      for (let i = 0; i < totalDaySlots; i += 1) {
+        const slotStartMs = yesterdayStartMs + (i * intervalMs);
+        let actualP = this.getActualPowerForTime(slotStartMs);
+        if (actualP === null) actualP = 0;
+        const slotPrice = this.getPriceForTimestamp(slotStartMs);
+        const planned = this.getPlannedScheduleForSlot(i, true);
+        yesterdayExportPrices[i] = this.getExportPriceForTimestamp(slotStartMs);
+
+        yesterdayStrategy[i] = {
+          power: planned.power,
+          actualPower: actualP,
+          duration: planned.duration,
+          soc: this.getActualSocForTime(slotStartMs),
+          price: slotPrice,
+          isForecast: false,
+        };
+      }
+
+      const chartYesterday = await getChargeChart(
+        { scheme: JSON.stringify(yesterdayStrategy) },
+        0,
+        totalDaySlots,
+        chargePower,
+        0,
+        this.priceInterval,
+        yesterdayExportPrices,
+        currency,
+        translations,
+        false,
+        this.timeZone,
+        showPower,
+        showSoc,
+        showExportPrice,
+      );
+
+      this.chartYesterdayCharge = chartYesterday;
+      if (!this.yesterdayChargeImage) {
+        this.yesterdayChargeImage = await this.homey.images.createImage();
+        this.yesterdayChargeImage.setStream(async (stream) => imageUrlToStream(this.chartYesterdayCharge, stream, this));
+        await this.setCameraImage('yesterdayChargeChart', ` ${this.homey.__('yesterday')}`, this.yesterdayChargeImage);
+      }
+      await this.yesterdayChargeImage.update().catch(this.error);
     }
   }
 
