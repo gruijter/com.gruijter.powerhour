@@ -1,4 +1,7 @@
 {
+  "8.13.1": {
+    "en": "Fix solar yesterday graph. Re-order graphs. Tweak solarforecaster low light hours. Fix DAP milliseconds bug."
+  },
   "8.13.0": {
     "en": "Added grid directional settlement schemes for import/export netting. Added peak demand (capacity tariff) tracking for grid. Improved min/max power detection accuracy. Fixed grid weekly load forecast accuracy - wrong source devices and meter-timing spikes. Fixed home load calculation during retrain and after startup. Fixed EV charger pairing, SoC chart, and retrain button. Fixed capability migration and naming. Replace xml-js with fast-xml-parser. General stability improvements."
   },
