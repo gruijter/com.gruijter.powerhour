@@ -1,4 +1,7 @@
 {
+  "8.13.2": {
+    "en": "Added solar eclipse awareness to solar forecaster."
+  },
   "8.13.1": {
     "en": "Fix solar yesterday graph. Re-order graphs. Tweak solarforecaster low light hours. Fix DAP milliseconds bug."
   },
