@@ -20,6 +20,7 @@
     "url": "https://github.com/gruijter/com.gruijter.powerhour.git"
   },
   "dependencies": {
+    "astronomy-engine": "^2.1.19",
     "fast-xml-parser": "^4.5.7",
     "homey-api": "^3.19.2",
     "javascript-lp-solver": "^1.0.3"

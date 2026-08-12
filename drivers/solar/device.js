@@ -24,6 +24,7 @@ const GenericDevice = require('../../lib/genericDeviceDrivers/generic_sum_device
 const { imageUrlToStream } = require('../../lib/charts/ImageHelpers');
 const { getSolarChart, getDistributionChart } = require('../../lib/charts/SolarChart');
 const OpenMeteo = require('../../lib/providers/OpenMeteo');
+const SolarEclipse = require('../../lib/helpers/SolarEclipse');
 const SolarLearningStrategy = require('../../lib/helpers/SolarLearningStrategy');
 const SolarFlows = require('../../lib/flows/SolarFlows');
 const TimeHelpers = require('../../lib/TimeHelpers');
@@ -270,17 +271,23 @@ class SolarDevice extends GenericDevice {
 
     const data = await OpenMeteo.fetchForecast(lat, lon);
     if (data && Object.keys(data).length > 0) {
+      // Knock down forecasted radiation during a local solar eclipse - Open-Meteo's weather
+      // models don't account for it. Must run before the time shift below: eclipse timing is
+      // tied to true astronomical time, not the user's manual forecast offset.
+      this.eclipseCache = this.eclipseCache || {};
+      const eclipseAdjusted = SolarEclipse.applyToForecast(data, lat, lon, this.eclipseCache);
+
       // Apply Time Shift
       const timeShift = this.getSettings().solar_time_shift || 0;
       if (timeShift !== 0) {
         const shiftedData = {};
-        Object.keys(data).forEach((t) => {
+        Object.keys(eclipseAdjusted).forEach((t) => {
           const newTime = Number(t) + (timeShift * 3600000);
-          shiftedData[newTime] = data[t];
+          shiftedData[newTime] = eclipseAdjusted[t];
         });
         this.forecastData = shiftedData;
       } else {
-        this.forecastData = data;
+        this.forecastData = eclipseAdjusted;
       }
 
       await this.setStoreValue('forecastData', this.forecastData);
@@ -464,6 +471,22 @@ class SolarDevice extends GenericDevice {
         throw new Error('No historic weather data found');
       }
       this.log(`Got ${weatherHistory.length} weather samples`);
+
+      // Knock down radiation during a local solar eclipse, before any time shift below - eclipse
+      // timing is tied to true astronomical time. Reuses the same cache as fetchForecast(), so a
+      // retrain can't undo the adjustment already applied to today's/upcoming forecast data.
+      this.eclipseCache = this.eclipseCache || {};
+      const eclipseMap = SolarEclipse.applyToForecast(
+        weatherHistory.reduce((m, e) => {
+          m[e.time] = e.radiation; return m;
+        }, {}),
+        lat,
+        lon,
+        this.eclipseCache,
+      );
+      weatherHistory.forEach((e) => {
+        e.radiation = eclipseMap[e.time];
+      });
 
       // Apply Time Shift
       const timeShift = this.getSettings().solar_time_shift || 0;
