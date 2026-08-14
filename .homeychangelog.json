@@ -1,4 +1,7 @@
 {
+  "8.13.3": {
+    "en": "Fix solar data interpolation and capping"
+  },
   "8.13.2": {
     "en": "Added solar eclipse awareness to solar forecaster."
   },
