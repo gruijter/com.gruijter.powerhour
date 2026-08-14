@@ -697,6 +697,7 @@ class SolarDevice extends GenericDevice {
         liveYields: fromScratch ? new Array(96).fill(0) : this.yieldFactors, // Ignore live data if scratch
         alpha: fromScratch ? 1.0 : 0.7, // 100% historic if scratch, else 70% weight
         limit: physicalLimit, // Enforce the physical limit found in Step 1
+        peakPower: peakPowerSetting,
       });
       this.yieldFactors = mergeResult.yieldFactors;
       this.log(mergeResult.log);
