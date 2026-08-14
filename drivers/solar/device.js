@@ -311,12 +311,19 @@ class SolarDevice extends GenericDevice {
       const scPower = this.currentSelfConsumedPower !== undefined ? this.currentSelfConsumedPower : (rawPower || 0);
       const deltaKwh = (Math.max(0, scPower) * deltaTmMs) / 3600000000;
       this.meterSelfConsumed += deltaKwh;
-      this.setStoreValue('meterSelfConsumed', this.meterSelfConsumed).catch(this.error);
 
       const safePower = Math.max(0, rawPower || 0);
       const deltaTotalKwh = (safePower * deltaTmMs) / 3600000000;
       this.meterTotalIntegrated = (this.meterTotalIntegrated || 0) + deltaTotalKwh;
-      this.setStoreValue('meterTotalIntegrated', this.meterTotalIntegrated).catch(this.error);
+
+      // Both counters only need to survive a restart, not be durable to the minute - persist
+      // at most every 15 min (same tolerance already accepted for powerHistory below) instead
+      // of writing to the store on every 1-minute learning tick.
+      if (!this.lastMeterIntegratedSaveTm || (currentTimestamp - this.lastMeterIntegratedSaveTm > 15 * 60 * 1000)) {
+        this.setStoreValue('meterSelfConsumed', this.meterSelfConsumed).catch(this.error);
+        this.setStoreValue('meterTotalIntegrated', this.meterTotalIntegrated).catch(this.error);
+        this.lastMeterIntegratedSaveTm = currentTimestamp;
+      }
     }
 
     const { smoothedPower, newEnergyState } = SolarLearningStrategy.calculateSmoothedPower({
@@ -850,65 +857,78 @@ class SolarDevice extends GenericDevice {
     const localDayEnd = new Date(localDayStart.getTime() + 26 * 60 * 60 * 1000);
     localDayEnd.setTime(TimeHelpers.getLocalMidnightUTC(localDayEnd, this.timeZone).getTime());
 
-    const todaySeries = {};
-    for (let t = localDayStart.getTime(); t < localDayEnd.getTime(); t += 15 * 60 * 1000) {
-      const rad = SolarLearningStrategy.getInterpolatedRadiation(t, this.forecastData);
-      const slotIndex = (new Date(t).getUTCHours() * 4) + Math.floor(new Date(t).getUTCMinutes() / 15);
-      const yf = this.yieldFactors[slotIndex] || 0;
-      todaySeries[t] = Math.round(rad * yf);
-    }
-
-    if (this.forecastHistory.today && this.forecastHistory.today.date !== nowLocalStr) {
-      this.log(`[updateForecastDisplay] Rotating history. Moving ${this.forecastHistory.today.date} to Yesterday. New Today: ${nowLocalStr}`);
-      this.forecastHistory.yesterday = this.forecastHistory.today;
-      dayChanged = true;
-    }
-
-    // Backfill yesterday if missing, if the frozen snapshot is degenerate (all-zero), or if its
-    // keys don't line up with the current (correct) local-midnight grid. The latter catches a
-    // snapshot frozen by an older, buggy build of getLocalMidnightUTC() that leaked a few hundred
-    // ms of residue into every key (fixed 2026-08-11) - such a snapshot has real, non-zero values
-    // so the degenerate check alone would never catch it, and it would otherwise sit there
-    // silently wrong until the next natural midnight rollover replaces it.
+    // This whole block (today series rebuild + yesterday backfill + store write) only depends on
+    // forecastData/yieldFactors (which change at most once per 15-min learning bucket) and the
+    // local calendar date - never on the current minute. Recomputing and persisting it on every
+    // 1-minute learning tick was pure waste during daylight hours; only redo it when something
+    // that actually feeds it has changed (or on the very first run).
+    // yesterday's Date object is also needed below (chart rendering) regardless of whether the
+    // rebuild block runs, so it's hoisted out here rather than declared inside the gated block.
     const yesterday = new Date(now);
     yesterday.setDate(yesterday.getDate() - 1);
-    const yesterdayLocalStr = yesterday.toLocaleDateString('en-CA', { timeZone: this.timeZone });
-    const localYesterdayStart = TimeHelpers.getLocalMidnightUTC(yesterday, this.timeZone);
-    const localYesterdayEnd = localDayStart; // yesterday ends at today's real UTC midnight
 
-    const yesterdayIsDegenerate = this.forecastHistory.yesterday
-      && !Object.values(this.forecastHistory.yesterday.data).some((v) => v > 0);
-    const yesterdayKeysMisaligned = this.forecastHistory.yesterday
-      && !Object.prototype.hasOwnProperty.call(this.forecastHistory.yesterday.data, String(localYesterdayStart.getTime()));
-    if (!this.forecastHistory.yesterday || yesterdayIsDegenerate || yesterdayKeysMisaligned) {
-      if (yesterdayKeysMisaligned && !yesterdayIsDegenerate) {
-        this.log('[updateForecastDisplay] Yesterday snapshot keys are misaligned with the current local-midnight grid, rebuilding.');
+    const dateRolledOver = this.forecastHistory.today && this.forecastHistory.today.date !== nowLocalStr;
+    const needsHistoryRebuild = yieldFactorsUpdated || !this.forecastHistory.today || dateRolledOver;
+
+    if (needsHistoryRebuild) {
+      const todaySeries = {};
+      for (let t = localDayStart.getTime(); t < localDayEnd.getTime(); t += 15 * 60 * 1000) {
+        const rad = SolarLearningStrategy.getInterpolatedRadiation(t, this.forecastData);
+        const slotIndex = (new Date(t).getUTCHours() * 4) + Math.floor(new Date(t).getUTCMinutes() / 15);
+        const yf = this.yieldFactors[slotIndex] || 0;
+        todaySeries[t] = Math.round(rad * yf);
       }
-      // Check if we have weather data for yesterday
-      const hasData = Object.keys(this.forecastData).some((t) => {
-        const time = Number(t);
-        return time >= localYesterdayStart.getTime() && time < localYesterdayEnd.getTime();
-      });
 
-      if (hasData) {
-        this.log(`[updateForecastDisplay] Backfilling yesterday forecast for ${yesterdayLocalStr}`);
-        const yesterdaySeries = {};
-        for (let t = localYesterdayStart.getTime(); t < localYesterdayEnd.getTime(); t += 15 * 60 * 1000) {
-          const rad = SolarLearningStrategy.getInterpolatedRadiation(t, this.forecastData);
-          const slotIndex = (new Date(t).getUTCHours() * 4) + Math.floor(new Date(t).getUTCMinutes() / 15);
-          const yf = this.yieldFactors[slotIndex] || 0;
-          yesterdaySeries[t] = Math.round(rad * yf);
-        }
-        this.forecastHistory.yesterday = { date: yesterdayLocalStr, data: yesterdaySeries };
+      if (dateRolledOver) {
+        this.log(`[updateForecastDisplay] Rotating history. Moving ${this.forecastHistory.today.date} to Yesterday. New Today: ${nowLocalStr}`);
+        this.forecastHistory.yesterday = this.forecastHistory.today;
         dayChanged = true;
-      } else {
-        this.log(`[updateForecastDisplay] Cannot backfill yesterday: No weather data for ${yesterdayLocalStr}`);
       }
-    }
 
-    // Update today's cache
-    this.forecastHistory.today = { date: nowLocalStr, data: todaySeries };
-    await this.setStoreValue('forecastHistory', this.forecastHistory);
+      // Backfill yesterday if missing, if the frozen snapshot is degenerate (all-zero), or if its
+      // keys don't line up with the current (correct) local-midnight grid. The latter catches a
+      // snapshot frozen by an older, buggy build of getLocalMidnightUTC() that leaked a few hundred
+      // ms of residue into every key (fixed 2026-08-11) - such a snapshot has real, non-zero values
+      // so the degenerate check alone would never catch it, and it would otherwise sit there
+      // silently wrong until the next natural midnight rollover replaces it.
+      const yesterdayLocalStr = yesterday.toLocaleDateString('en-CA', { timeZone: this.timeZone });
+      const localYesterdayStart = TimeHelpers.getLocalMidnightUTC(yesterday, this.timeZone);
+      const localYesterdayEnd = localDayStart; // yesterday ends at today's real UTC midnight
+
+      const yesterdayIsDegenerate = this.forecastHistory.yesterday
+        && !Object.values(this.forecastHistory.yesterday.data).some((v) => v > 0);
+      const yesterdayKeysMisaligned = this.forecastHistory.yesterday
+        && !Object.prototype.hasOwnProperty.call(this.forecastHistory.yesterday.data, String(localYesterdayStart.getTime()));
+      if (!this.forecastHistory.yesterday || yesterdayIsDegenerate || yesterdayKeysMisaligned) {
+        if (yesterdayKeysMisaligned && !yesterdayIsDegenerate) {
+          this.log('[updateForecastDisplay] Yesterday snapshot keys are misaligned with the current local-midnight grid, rebuilding.');
+        }
+        // Check if we have weather data for yesterday
+        const hasData = Object.keys(this.forecastData).some((t) => {
+          const time = Number(t);
+          return time >= localYesterdayStart.getTime() && time < localYesterdayEnd.getTime();
+        });
+
+        if (hasData) {
+          this.log(`[updateForecastDisplay] Backfilling yesterday forecast for ${yesterdayLocalStr}`);
+          const yesterdaySeries = {};
+          for (let t = localYesterdayStart.getTime(); t < localYesterdayEnd.getTime(); t += 15 * 60 * 1000) {
+            const rad = SolarLearningStrategy.getInterpolatedRadiation(t, this.forecastData);
+            const slotIndex = (new Date(t).getUTCHours() * 4) + Math.floor(new Date(t).getUTCMinutes() / 15);
+            const yf = this.yieldFactors[slotIndex] || 0;
+            yesterdaySeries[t] = Math.round(rad * yf);
+          }
+          this.forecastHistory.yesterday = { date: yesterdayLocalStr, data: yesterdaySeries };
+          dayChanged = true;
+        } else {
+          this.log(`[updateForecastDisplay] Cannot backfill yesterday: No weather data for ${yesterdayLocalStr}`);
+        }
+      }
+
+      // Update today's cache
+      this.forecastHistory.today = { date: nowLocalStr, data: todaySeries };
+      await this.setStoreValue('forecastHistory', this.forecastHistory);
+    }
 
     // --- Calculate Totals ---
     const { expectedPower, totalYield } = SolarLearningStrategy.calculateForecast({
