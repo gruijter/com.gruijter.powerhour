@@ -1,4 +1,7 @@
 {
+  "8.13.4": {
+    "en": "Fix solar data interpolation and capping more. Add era5 model high weight solar learning."
+  },
   "8.13.3": {
     "en": "Fix solar data interpolation and capping"
   },
