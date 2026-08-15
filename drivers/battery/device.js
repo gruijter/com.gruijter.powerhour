@@ -57,6 +57,7 @@ class BatDevice extends GenericDevice {
 
   async onPricesUpdated() {
     if (this.getSettings().roiEnable) {
+      this.pricesUpdated = true;
       await this.flows.triggerNewRoiStrategyFlow();
       await this.updateChargeChart();
     }
@@ -418,6 +419,10 @@ class BatDevice extends GenericDevice {
     if (!lastEntry || Math.abs(currentTimestamp - lastEntry.time) >= 60000) {
       this.powerHistory.push({ time: currentTimestamp, power: livePower });
       if (this.powerHistory.length > 2880) this.powerHistory.shift();
+      if (!this.lastPowerHistorySaveTm || (currentTimestamp - this.lastPowerHistorySaveTm > 15 * 60 * 1000)) {
+        await this.setStoreValue('powerHistory', this.powerHistory).catch(this.error);
+        this.lastPowerHistorySaveTm = currentTimestamp;
+      }
     }
   }
 
@@ -550,52 +555,57 @@ class BatDevice extends GenericDevice {
     }
     await this.todayChargeImage.update().catch((err) => this.error(err));
 
-    // 2. Image 2: Tomorrow (00:00 to 23:59 Tomorrow)
-    const tomorrowStrategy = {};
-    const remainingTodaySlots = totalDaySlots - currentSlotInDay;
-    const tomorrowStartMs = todayStartMs + (24 * 60 * 60 * 1000);
-    const tomorrowExportPrices = [];
+    // 2. Image 2: Tomorrow (00:00 to 23:59 Tomorrow) - only rebuild on date rollover, price change, or initial render
+    const dateRolledOver = !this.lastRenderedDateStr || (this.lastRenderedDateStr !== todayDateStr);
+    this.lastRenderedDateStr = todayDateStr;
 
-    for (let i = 0; i < totalDaySlots; i += 1) {
-      const stratIdx = remainingTodaySlots + i;
-      if (stratScheme && stratScheme[stratIdx]) {
-        tomorrowStrategy[i] = stratScheme[stratIdx];
-      } else {
-        tomorrowStrategy[i] = {
-          power: 0,
-          duration: 0,
-          soc: null,
-          price: null,
-          isForecast: true,
-        };
+    if (dateRolledOver || this.pricesUpdated || !this.tomorrowChargeImage) {
+      const tomorrowStrategy = {};
+      const remainingTodaySlots = totalDaySlots - currentSlotInDay;
+      const tomorrowStartMs = todayStartMs + (24 * 60 * 60 * 1000);
+      const tomorrowExportPrices = [];
+
+      for (let i = 0; i < totalDaySlots; i += 1) {
+        const stratIdx = remainingTodaySlots + i;
+        if (stratScheme && stratScheme[stratIdx]) {
+          tomorrowStrategy[i] = stratScheme[stratIdx];
+        } else {
+          tomorrowStrategy[i] = {
+            power: 0,
+            duration: 0,
+            soc: null,
+            price: null,
+            isForecast: true,
+          };
+        }
+        tomorrowExportPrices[i] = this.getExportPriceForTimestamp(tomorrowStartMs + (i * intervalMs));
       }
-      tomorrowExportPrices[i] = this.getExportPriceForTimestamp(tomorrowStartMs + (i * intervalMs));
-    }
 
-    const chartTomorrow = await getChargeChart(
-      { scheme: JSON.stringify(tomorrowStrategy) },
-      0,
-      totalDaySlots,
-      chargePower,
-      dischargePower,
-      this.priceInterval,
-      tomorrowExportPrices,
-      currency,
-      translations,
-      false,
-      this.timeZone,
-      showPower,
-      showSoc,
-      showExportPrice,
-    );
+      const chartTomorrow = await getChargeChart(
+        { scheme: JSON.stringify(tomorrowStrategy) },
+        0,
+        totalDaySlots,
+        chargePower,
+        dischargePower,
+        this.priceInterval,
+        tomorrowExportPrices,
+        currency,
+        translations,
+        false,
+        this.timeZone,
+        showPower,
+        showSoc,
+        showExportPrice,
+      );
 
-    this.chartTomorrowCharge = chartTomorrow;
-    if (!this.tomorrowChargeImage) {
-      this.tomorrowChargeImage = await this.homey.images.createImage();
-      this.tomorrowChargeImage.setStream(async (stream) => imageUrlToStream(this.chartTomorrowCharge, stream, this));
-      await this.setCameraImage('tomorrowChargeChart', ` ${this.homey.__('tomorrow')}`, this.tomorrowChargeImage);
+      this.chartTomorrowCharge = chartTomorrow;
+      if (!this.tomorrowChargeImage) {
+        this.tomorrowChargeImage = await this.homey.images.createImage();
+        this.tomorrowChargeImage.setStream(async (stream) => imageUrlToStream(this.chartTomorrowCharge, stream, this));
+        await this.setCameraImage('tomorrowChargeChart', ` ${this.homey.__('tomorrow')}`, this.tomorrowChargeImage);
+      }
+      await this.tomorrowChargeImage.update().catch((err) => this.error(err));
     }
-    await this.tomorrowChargeImage.update().catch((err) => this.error(err));
 
     // 3. Image 3: Next Hours (Rolling Window starting from current hour H0)
     const chartNextHours = await getChargeChart(
@@ -622,54 +632,58 @@ class BatDevice extends GenericDevice {
     }
     await this.nextHoursChargeImage.update().catch((err) => this.error(err));
 
-    // 4. Image 4: Yesterday (00:00 to 23:59 Yesterday)
-    const yesterdayStartMs = todayStartMs - (24 * 60 * 60 * 1000);
-    const yesterdayStrategy = {};
-    const yesterdayExportPrices = [];
+    // 4. Image 4: Yesterday (00:00 to 23:59 Yesterday) - only rebuild on date rollover or initial render
+    if (dateRolledOver || !this.yesterdayChargeImage) {
+      const yesterdayStartMs = todayStartMs - (24 * 60 * 60 * 1000);
+      const yesterdayStrategy = {};
+      const yesterdayExportPrices = [];
 
-    for (let i = 0; i < totalDaySlots; i += 1) {
-      const slotStartMs = yesterdayStartMs + (i * intervalMs);
-      let actualP = this.getActualPowerForTime(slotStartMs);
-      if (actualP === null) actualP = 0;
-      const actualSoc = this.getActualSocForTime(slotStartMs);
-      const slotPrice = this.getPriceForTimestamp(slotStartMs);
-      const planned = this.getPlannedScheduleForSlot(i, true);
-      yesterdayExportPrices[i] = this.getExportPriceForTimestamp(slotStartMs);
+      for (let i = 0; i < totalDaySlots; i += 1) {
+        const slotStartMs = yesterdayStartMs + (i * intervalMs);
+        let actualP = this.getActualPowerForTime(slotStartMs);
+        if (actualP === null) actualP = 0;
+        const actualSoc = this.getActualSocForTime(slotStartMs);
+        const slotPrice = this.getPriceForTimestamp(slotStartMs);
+        const planned = this.getPlannedScheduleForSlot(i, true);
+        yesterdayExportPrices[i] = this.getExportPriceForTimestamp(slotStartMs);
 
-      yesterdayStrategy[i] = {
-        power: planned.power,
-        actualPower: actualP,
-        duration: planned.duration,
-        soc: actualSoc,
-        price: slotPrice,
-        isForecast: false,
-      };
+        yesterdayStrategy[i] = {
+          power: planned.power,
+          actualPower: actualP,
+          duration: planned.duration,
+          soc: actualSoc,
+          price: slotPrice,
+          isForecast: false,
+        };
+      }
+
+      const chartYesterday = await getChargeChart(
+        { scheme: JSON.stringify(yesterdayStrategy) },
+        0,
+        totalDaySlots,
+        chargePower,
+        dischargePower,
+        this.priceInterval,
+        yesterdayExportPrices,
+        currency,
+        translations,
+        false,
+        this.timeZone,
+        showPower,
+        showSoc,
+        showExportPrice,
+      );
+
+      this.chartYesterdayCharge = chartYesterday;
+      if (!this.yesterdayChargeImage) {
+        this.yesterdayChargeImage = await this.homey.images.createImage();
+        this.yesterdayChargeImage.setStream(async (stream) => imageUrlToStream(this.chartYesterdayCharge, stream, this));
+        await this.setCameraImage('yesterdayChargeChart', ` ${this.homey.__('yesterday')}`, this.yesterdayChargeImage);
+      }
+      await this.yesterdayChargeImage.update().catch((err) => this.error(err));
     }
 
-    const chartYesterday = await getChargeChart(
-      { scheme: JSON.stringify(yesterdayStrategy) },
-      0,
-      totalDaySlots,
-      chargePower,
-      dischargePower,
-      this.priceInterval,
-      yesterdayExportPrices,
-      currency,
-      translations,
-      false,
-      this.timeZone,
-      showPower,
-      showSoc,
-      showExportPrice,
-    );
-
-    this.chartYesterdayCharge = chartYesterday;
-    if (!this.yesterdayChargeImage) {
-      this.yesterdayChargeImage = await this.homey.images.createImage();
-      this.yesterdayChargeImage.setStream(async (stream) => imageUrlToStream(this.chartYesterdayCharge, stream, this));
-      await this.setCameraImage('yesterdayChargeChart', ` ${this.homey.__('yesterday')}`, this.yesterdayChargeImage);
-    }
-    await this.yesterdayChargeImage.update().catch((err) => this.error(err));
+    this.pricesUpdated = false;
   }
 
   triggerXOMFlow(strat, samples, x, smoothing, minLoad, cumulativePower) {

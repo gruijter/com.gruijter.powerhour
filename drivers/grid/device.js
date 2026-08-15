@@ -961,7 +961,11 @@ class GridDevice extends GenericDevice {
       try {
         if (!this.retrainingLoad) {
           const updated = await this.updateLearning();
-          await this.updateForecastDisplay(updated);
+          const now = new Date();
+          const is15mBoundary = (now.getMinutes() % 15 === 0);
+          if (updated || is15mBoundary || !this.gridTodayImage) {
+            await this.updateForecastDisplay(updated);
+          }
         }
       } catch (err) {
         this.error('Load learning update failed:', err);

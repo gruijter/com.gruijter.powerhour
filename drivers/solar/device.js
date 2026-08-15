@@ -230,7 +230,11 @@ class SolarDevice extends GenericDevice {
         // Pause live updates if the heavy insights batch-processor is busy to prevent race conditions
         if (!this.retraining) {
           const updated = await this.updateLearning();
-          await this.updateForecastDisplay(updated);
+          const now = new Date();
+          const is15mBoundary = (now.getMinutes() % 15 === 0);
+          if (updated || this.forecastChanged || is15mBoundary || !this.solarTodayImage) {
+            await this.updateForecastDisplay(updated);
+          }
         }
       } catch (err) {
         this.error('Learning update failed:', err);
