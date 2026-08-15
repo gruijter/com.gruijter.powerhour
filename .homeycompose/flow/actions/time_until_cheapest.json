@@ -1,0 +1,216 @@
+{
+  "title": {
+    "en": "Calculate time until cheapest window",
+    "de": "Zeit bis zum günstigsten Zeitraum berechnen",
+    "sv": "Beräkna tid till billigaste perioden",
+    "it": "Calcola il tempo fino al periodo più economico",
+    "no": "Beregn tid til billigste periode",
+    "nl": "Bereken tijd tot goedkoopste periode",
+    "fr": "Calculer le temps jusqu'à la période la moins chère",
+    "da": "Beregn tid til billigste periode",
+    "es": "Calcular el tiempo hasta el período más barato",
+    "pl": "Oblicz czas do najtańszego okresu",
+    "ru": "Рассчитать время до самого дешёвого периода",
+    "ko": "가장 저렴한 기간까지 남은 시간 계산",
+    "ar": "احسب الوقت المتبقي حتى أرخص فترة"
+  },
+  "titleFormatted": {
+    "en": "Calculate time until the cheapest [[duration]]-period window within the next [[lookahead]] hours",
+    "de": "Berechne die Zeit bis zum günstigsten [[duration]]-Perioden-Zeitraum innerhalb der nächsten [[lookahead]] Stunden",
+    "sv": "Beräkna tiden till det billigaste [[duration]]-periodersfönstret inom de kommande [[lookahead]] timmarna",
+    "it": "Calcola il tempo fino al periodo più economico di [[duration]] periodi entro le prossime [[lookahead]] ore",
+    "no": "Beregn tiden til det billigste [[duration]]-periodersvinduet innen de neste [[lookahead]] timene",
+    "nl": "Bereken de tijd tot de goedkoopste [[duration]]-periode binnen de komende [[lookahead]] uur",
+    "fr": "Calculer le temps jusqu'à la fenêtre la moins chère de [[duration]] périodes dans les [[lookahead]] prochaines heures",
+    "da": "Beregn tiden til det billigste [[duration]]-periodersvindue inden for de næste [[lookahead]] timer",
+    "es": "Calcular el tiempo hasta la ventana más barata de [[duration]] períodos dentro de las próximas [[lookahead]] horas",
+    "pl": "Oblicz czas do najtańszego okna [[duration]] okresów w ciągu najbliższych [[lookahead]] godzin",
+    "ru": "Рассчитать время до самого дешёвого окна из [[duration]] периодов в течение следующих [[lookahead]] часов",
+    "ko": "다음 [[lookahead]]시간 이내에 가장 저렴한 [[duration]]기간 구간까지 남은 시간을 계산합니다",
+    "ar": "احسب الوقت المتبقي حتى أرخص نافذة مكونة من [[duration]] فترة خلال الساعات [[lookahead]] القادمة"
+  },
+  "hint": {
+    "en": "Finds the cheapest contiguous window of [[duration]] periods within the next [[lookahead]] hours, and returns how long until it starts.",
+    "de": "Findet den günstigsten zusammenhängenden Zeitraum von [[duration]] Perioden innerhalb der nächsten [[lookahead]] Stunden und gibt zurück, wie lange es dauert, bis er beginnt.",
+    "sv": "Hittar det billigaste sammanhängande fönstret av [[duration]] perioder inom de kommande [[lookahead]] timmarna och returnerar hur lång tid det är kvar innan det börjar.",
+    "it": "Trova la finestra contigua più economica di [[duration]] periodi entro le prossime [[lookahead]] ore e restituisce quanto tempo manca al suo inizio.",
+    "no": "Finner det billigste sammenhengende vinduet på [[duration]] perioder innen de neste [[lookahead]] timene, og returnerer hvor lenge det er til det starter.",
+    "nl": "Zoekt de goedkoopste aaneengesloten periode van [[duration]] periodes binnen de komende [[lookahead]] uur, en geeft aan hoe lang het nog duurt tot deze begint.",
+    "fr": "Trouve la fenêtre contiguë la moins chère de [[duration]] périodes dans les [[lookahead]] prochaines heures, et indique le temps restant avant son début.",
+    "da": "Finder det billigste sammenhængende vindue på [[duration]] perioder inden for de næste [[lookahead]] timer, og returnerer hvor lang tid der er, til det starter.",
+    "es": "Encuentra la ventana contigua más barata de [[duration]] períodos dentro de las próximas [[lookahead]] horas y devuelve cuánto falta para que comience.",
+    "pl": "Znajduje najtańsze ciągłe okno [[duration]] okresów w ciągu najbliższych [[lookahead]] godzin i zwraca, ile czasu pozostało do jego rozpoczęcia.",
+    "ru": "Находит самое дешёвое непрерывное окно из [[duration]] периодов в течение следующих [[lookahead]] часов и возвращает, сколько времени осталось до его начала.",
+    "ko": "다음 [[lookahead]]시간 이내에서 [[duration]]기간으로 이루어진 가장 저렴한 연속 구간을 찾아, 시작까지 남은 시간을 반환합니다.",
+    "ar": "يجد أرخص نافذة متصلة من [[duration]] فترة خلال الساعات [[lookahead]] القادمة، ويعيد المدة المتبقية حتى بدايتها."
+  },
+  "highlight": true,
+  "args": [
+    {
+      "type": "device",
+      "name": "device",
+      "filter": "driver_id=dap|dap15|dapg"
+    },
+    {
+      "type": "number",
+      "name": "duration",
+      "title": {
+        "en": "window duration",
+        "de": "Dauer des Zeitraums",
+        "sv": "periodens varaktighet",
+        "it": "durata del periodo",
+        "no": "periodens varighet",
+        "nl": "duur van de periode",
+        "fr": "durée de la période",
+        "da": "periodens varighed",
+        "es": "duración del período",
+        "pl": "czas trwania okresu",
+        "ru": "длительность периода",
+        "ko": "기간 길이",
+        "ar": "مدة الفترة"
+      },
+      "placeholder": {
+        "en": "1-96"
+      },
+      "hint": {
+        "en": "Enter the window length in periods (hours for dap/dapg, quarters for dap15).",
+        "de": "Geben Sie die Länge des Zeitraums in Perioden ein (Stunden für dap/dapg, Viertelstunden für dap15).",
+        "sv": "Ange periodens längd i perioder (timmar för dap/dapg, kvartar för dap15).",
+        "it": "Inserisci la lunghezza del periodo in periodi (ore per dap/dapg, quarti d'ora per dap15).",
+        "no": "Angi periodens lengde i perioder (timer for dap/dapg, kvarter for dap15).",
+        "nl": "Voer de duur van de periode in (uren voor dap/dapg, kwartieren voor dap15).",
+        "fr": "Entrez la longueur de la période en périodes (heures pour dap/dapg, quarts d'heure pour dap15).",
+        "da": "Indtast periodens længde i perioder (timer for dap/dapg, kvarter for dap15).",
+        "es": "Introduzca la duración del período en períodos (horas para dap/dapg, cuartos de hora para dap15).",
+        "pl": "Wprowadź długość okresu w okresach (godziny dla dap/dapg, kwadranse dla dap15).",
+        "ru": "Введите длину периода в периодах (часы для dap/dapg, четверти часа для dap15).",
+        "ko": "기간 길이를 입력하세요 (dap/dapg의 경우 시간, dap15의 경우 15분).",
+        "ar": "أدخل طول الفترة بالفترات (ساعات لـ dap/dapg، أرباع ساعة لـ dap15)."
+      },
+      "min": 1,
+      "max": 96,
+      "step": 1,
+      "value": 1
+    },
+    {
+      "type": "number",
+      "name": "lookahead",
+      "title": {
+        "en": "lookahead (hours)",
+        "de": "Vorschauzeitraum (Stunden)",
+        "sv": "framförhållning (timmar)",
+        "it": "anticipo (ore)",
+        "no": "fremtidsvindu (timer)",
+        "nl": "vooruitkijken (uren)",
+        "fr": "anticipation (heures)",
+        "da": "fremadrettet vindue (timer)",
+        "es": "anticipación (horas)",
+        "pl": "okres prognozy (godziny)",
+        "ru": "горизонт поиска (часы)",
+        "ko": "탐색 범위 (시간)",
+        "ar": "نطاق البحث (ساعات)"
+      },
+      "hint": {
+        "en": "How many hours ahead to search for the cheapest window.",
+        "de": "Wie viele Stunden im Voraus nach dem günstigsten Zeitraum gesucht werden soll.",
+        "sv": "Hur många timmar framåt som ska sökas efter det billigaste fönstret.",
+        "it": "Quante ore in anticipo cercare la finestra più economica.",
+        "no": "Hvor mange timer frem det skal søkes etter det billigste vinduet.",
+        "nl": "Hoeveel uur vooruit gezocht moet worden naar de goedkoopste periode.",
+        "fr": "Nombre d'heures à l'avance pour rechercher la fenêtre la moins chère.",
+        "da": "Hvor mange timer frem der skal søges efter det billigste vindue.",
+        "es": "Cuántas horas por delante buscar la ventana más barata.",
+        "pl": "Ile godzin naprzód szukać najtańszego okna.",
+        "ru": "На сколько часов вперёд искать самое дешёвое окно.",
+        "ko": "가장 저렴한 구간을 몇 시간 앞까지 검색할지 설정합니다.",
+        "ar": "عدد الساعات المستقبلية للبحث فيها عن أرخص نافذة."
+      },
+      "min": 1,
+      "max": 48,
+      "step": 1,
+      "value": 24
+    }
+  ],
+  "tokens": [
+    {
+      "name": "minutesUntil",
+      "title": {
+        "en": "Minutes until start",
+        "de": "Minuten bis Beginn",
+        "sv": "Minuter till start",
+        "it": "Minuti all'inizio",
+        "no": "Minutter til start",
+        "nl": "Minuten tot start",
+        "fr": "Minutes avant le début",
+        "da": "Minutter til start",
+        "es": "Minutos hasta el inicio",
+        "pl": "Minuty do rozpoczęcia",
+        "ru": "Минут до начала",
+        "ko": "시작까지 남은 분",
+        "ar": "الدقائق حتى البدء"
+      },
+      "type": "number",
+      "example": 180
+    },
+    {
+      "name": "hoursUntil",
+      "title": {
+        "en": "Hours until start",
+        "de": "Stunden bis Beginn",
+        "sv": "Timmar till start",
+        "it": "Ore all'inizio",
+        "no": "Timer til start",
+        "nl": "Uren tot start",
+        "fr": "Heures avant le début",
+        "da": "Timer til start",
+        "es": "Horas hasta el inicio",
+        "pl": "Godziny do rozpoczęcia",
+        "ru": "Часов до начала",
+        "ko": "시작까지 남은 시간",
+        "ar": "الساعات حتى البدء"
+      },
+      "type": "number",
+      "example": 3
+    },
+    {
+      "name": "startTime",
+      "title": {
+        "en": "Start time",
+        "de": "Startzeit",
+        "sv": "Starttid",
+        "it": "Ora di inizio",
+        "no": "Starttid",
+        "nl": "Starttijd",
+        "fr": "Heure de début",
+        "da": "Starttid",
+        "es": "Hora de inicio",
+        "pl": "Czas rozpoczęcia",
+        "ru": "Время начала",
+        "ko": "시작 시간",
+        "ar": "وقت البدء"
+      },
+      "type": "string",
+      "example": "14:00"
+    },
+    {
+      "name": "avgPrice",
+      "title": {
+        "en": "Average price in window",
+        "de": "Durchschnittspreis im Zeitraum",
+        "sv": "Medelpris i perioden",
+        "it": "Prezzo medio nel periodo",
+        "no": "Gjennomsnittspris i perioden",
+        "nl": "Gemiddelde prijs in periode",
+        "fr": "Prix moyen dans la période",
+        "da": "Gennemsnitspris i perioden",
+        "es": "Precio medio en el período",
+        "pl": "Średnia cena w okresie",
+        "ru": "Средняя цена в периоде",
+        "ko": "구간 평균 가격",
+        "ar": "متوسط السعر في الفترة"
+      },
+      "type": "number",
+      "example": 0.21
+    }
+  ]
+}
