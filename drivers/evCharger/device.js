@@ -685,6 +685,7 @@ class CarChargeDevice extends GenericDevice {
 
     const strategy = EvChargeStrategy.getStrategy({
       prices: this.pricesNextHours,
+      exportPrices: this.exportPricesNextHours,
       priceInterval: this.priceInterval,
       chargePower,
       currentSoc,
