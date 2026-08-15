@@ -18,6 +18,7 @@
   "error_value_not_number": "El valor no es un número",
   "error_budget_custom_12": "El presupuesto personalizado no tiene 12 valores numéricos",
   "error_budget_invalid": "El presupuesto no es un número válido",
+  "error_meter_start_invalid": "El valor inicial no puede ser superior a la lectura actual del medidor",
   "error_device_corrupt": "¡El dispositivo está dañado!",
   "error_no_prices": "No hay precios disponibles",
   "error_no_price_interval": "No hay intervalo de precios disponible",

@@ -18,6 +18,7 @@
   "error_value_not_number": "Wartość nie jest liczbą",
   "error_budget_custom_12": "Niestandardowy budżet nie ma 12 wartości liczbowych",
   "error_budget_invalid": "Budżet nie jest prawidłową liczbą",
+  "error_meter_start_invalid": "Wartość początkowa nie może być wyższa niż bieżący odczyt licznika",
   "error_device_corrupt": "Urządzenie jest uszkodzone!",
   "error_no_prices": "Brak dostępnych cen",
   "error_no_price_interval": "Brak dostępnego przedziału cenowego",

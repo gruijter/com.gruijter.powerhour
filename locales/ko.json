@@ -18,6 +18,7 @@
   "error_value_not_number": "값이 숫자가 아닙니다",
   "error_budget_custom_12": "사용자 지정 예산에 12개의 숫자 값이 없습니다",
   "error_budget_invalid": "예산이 유효한 숫자가 아닙니다",
+  "error_meter_start_invalid": "시작 값은 현재 계량기 값보다 클 수 없습니다",
   "error_device_corrupt": "장치가 손상되었습니다!",
   "error_no_prices": "가격을 이용할 수 없습니다",
   "error_no_price_interval": "가격 간격을 이용할 수 없습니다",

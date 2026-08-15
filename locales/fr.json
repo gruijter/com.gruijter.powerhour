@@ -18,6 +18,7 @@
   "error_value_not_number": "La valeur n'est pas un nombre",
   "error_budget_custom_12": "Le budget personnalisé n'a pas 12 valeurs numériques",
   "error_budget_invalid": "Le budget n'est pas un nombre valide",
+  "error_meter_start_invalid": "La valeur de départ ne peut pas être supérieure au relevé actuel du compteur",
   "error_device_corrupt": "L'appareil est corrompu !",
   "error_no_prices": "Aucun prix disponible",
   "error_no_price_interval": "Aucun intervalle de prix disponible",

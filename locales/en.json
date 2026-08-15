@@ -18,6 +18,7 @@
   "error_value_not_number": "Value is not a number",
   "error_budget_custom_12": "Custom budget does not have 12 number values",
   "error_budget_invalid": "Budget is not a valid number",
+  "error_meter_start_invalid": "Start value cannot be higher than the current meter reading",
   "error_device_corrupt": "Device is corrupt!",
   "error_no_prices": "No prices available",
   "error_no_price_interval": "No price interval available",

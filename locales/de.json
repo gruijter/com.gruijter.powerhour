@@ -18,6 +18,7 @@
   "error_value_not_number": "Wert ist keine Zahl",
   "error_budget_custom_12": "Benutzerdefiniertes Budget hat keine 12 Zahlenwerte",
   "error_budget_invalid": "Budget ist keine gültige Zahl",
+  "error_meter_start_invalid": "Startwert darf nicht höher sein als der aktuelle Zählerstand",
   "error_device_corrupt": "Gerät ist beschädigt!",
   "error_no_prices": "Keine Preise verfügbar",
   "error_no_price_interval": "Kein Preisintervall verfügbar",

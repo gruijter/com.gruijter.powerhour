@@ -18,6 +18,7 @@
   "error_value_not_number": "Værdien er ikke et tal",
   "error_budget_custom_12": "Brugerdefineret budget har ikke 12 talværdier",
   "error_budget_invalid": "Budgettet er ikke et gyldigt tal",
+  "error_meter_start_invalid": "Startværdien kan ikke være højere end den aktuelle måleraflæsning",
   "error_device_corrupt": "Enheden er korrupt!",
   "error_no_prices": "Ingen priser tilgængelige",
   "error_no_price_interval": "Intet prisinterval tilgængeligt",

@@ -18,6 +18,7 @@
   "error_value_not_number": "Verdien er ikke et tall",
   "error_budget_custom_12": "Tilpasset budsjett har ikke 12 tallverdier",
   "error_budget_invalid": "Budsjettet er ikke et gyldig tall",
+  "error_meter_start_invalid": "Startverdien kan ikke være høyere enn den nåværende måleravlesningen",
   "error_device_corrupt": "Enheten er korrupt!",
   "error_no_prices": "Ingen priser tilgjengelig",
   "error_no_price_interval": "Ingen prisintervall tilgjengelig",

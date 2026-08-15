@@ -18,6 +18,7 @@
   "error_value_not_number": "Värdet är inte ett nummer",
   "error_budget_custom_12": "Anpassad budget har inte 12 nummervärden",
   "error_budget_invalid": "Budgeten är inte ett giltigt nummer",
+  "error_meter_start_invalid": "Startvärdet kan inte vara högre än den aktuella mätaravläsningen",
   "error_device_corrupt": "Enheten är korrupt!",
   "error_no_prices": "Inga priser tillgängliga",
   "error_no_price_interval": "Inget prisintervall tillgängligt",

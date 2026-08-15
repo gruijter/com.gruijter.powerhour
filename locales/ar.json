@@ -18,6 +18,7 @@
   "error_value_not_number": "القيمة ليست رقماً",
   "error_budget_custom_12": "الميزانية المخصصة لا تحتوي على 12 قيمة رقمية",
   "error_budget_invalid": "الميزانية ليست رقماً صحيحاً",
+  "error_meter_start_invalid": "لا يمكن أن تكون القيمة الابتدائية أعلى من قراءة العداد الحالية",
   "error_device_corrupt": "الجهاز تالف!",
   "error_no_prices": "لا توجد أسعار متاحة",
   "error_no_price_interval": "لا توجد فترة سعر متاحة",

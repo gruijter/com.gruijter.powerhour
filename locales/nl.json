@@ -18,6 +18,7 @@
   "error_value_not_number": "Waarde is geen getal",
   "error_budget_custom_12": "Aangepast budget heeft geen 12 getalwaarden",
   "error_budget_invalid": "Budget is geen geldig getal",
+  "error_meter_start_invalid": "Startwaarde kan niet hoger zijn dan de huidige meterstand",
   "error_device_corrupt": "Apparaat is corrupt!",
   "error_no_prices": "Geen prijzen beschikbaar",
   "error_no_price_interval": "Geen prijsinterval beschikbaar",
