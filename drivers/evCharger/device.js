@@ -635,7 +635,6 @@ class CarChargeDevice extends GenericDevice {
 
   async updateChargeChart() {
     if (!this.pricesNextHours) return;
-    this.log('updating EV charge chart', this.getName(), `(connected=${this.isCarConnected})`);
 
     const settings = this.getSettings();
     const detectedPower = (await this.getStoreValue('detectedMaxPower')) || null;

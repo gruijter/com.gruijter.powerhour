@@ -46,7 +46,6 @@ class MyApp extends Homey.App {
       this.everyHour();
       this.everyXminutes(15);
       this.retry(5);
-      this.startPerformanceMonitor();
 
       this.log(`Power by the Hour app is running... Timezone: ${this.homey.clock.getTimezone()}`);
     } catch (error) {
@@ -56,7 +55,6 @@ class MyApp extends Homey.App {
 
   async onUninit() {
     this.log('app onUninit called');
-    if (this.perfInterval) this.homey.clearInterval(this.perfInterval);
     if (this.everyHourId) this.homey.clearTimeout(this.everyHourId);
     if (this.everyXMinutesId) this.homey.clearTimeout(this.everyXMinutesId);
     if (this.retryId) this.homey.clearInterval(this.retryId);
@@ -68,31 +66,6 @@ class MyApp extends Homey.App {
     this.homey.removeAllListeners('set_tariff_power_PBTH');
     this.homey.removeAllListeners('set_tariff_gas_PBTH');
     this.homey.removeAllListeners('set_tariff_water_PBTH');
-  }
-
-  startPerformanceMonitor() {
-    let peakHeapUsed = 0;
-    let peakPhysical = 0;
-
-    this.perfInterval = this.homey.setInterval(() => {
-      try {
-        // eslint-disable-next-line global-require
-        const v8 = require('v8');
-        const stats = v8.getHeapStatistics();
-        const heapUsedMb = Math.round((stats.used_heap_size / 1024 / 1024) * 100) / 100;
-        const heapTotalMb = Math.round((stats.total_heap_size / 1024 / 1024) * 100) / 100;
-        const physicalMb = Math.round((stats.total_physical_size / 1024 / 1024) * 100) / 100;
-
-        if (heapUsedMb > peakHeapUsed) peakHeapUsed = heapUsedMb;
-        if (physicalMb > peakPhysical) peakPhysical = physicalMb;
-
-        const logMsg = `[PERF TELEMETRY] HeapUsed: ${heapUsedMb}MB (Peak: ${peakHeapUsed}MB) `
-          + `| HeapTotal: ${heapTotalMb}MB | Physical: ${physicalMb}MB (Peak: ${peakPhysical}MB)`;
-        this.log(logMsg);
-      } catch (err) {
-        this.error('[PERF TELEMETRY ERROR]', err);
-      }
-    }, 60000);
   }
 
   async initApi() {

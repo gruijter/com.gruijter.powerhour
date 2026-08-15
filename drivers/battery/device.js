@@ -152,7 +152,6 @@ class BatDevice extends GenericDevice {
     await this.getSourceDevice();
 
     if (!this.sourceCapGroup) await this.addSourceCapGroup();
-    this.log(`polling ${this.sourceDevice.name}`);
     const promises = Object.keys(this.sourceCapGroup).map(async (key) => {
       if (this.sourceDevice.capabilitiesObj && this.sourceDevice.capabilitiesObj[this.sourceCapGroup[key]]) {
         const val = this.sourceDevice.capabilitiesObj[this.sourceCapGroup[key]].value;
@@ -429,7 +428,6 @@ class BatDevice extends GenericDevice {
   async updateChargeChart() {
     if (!this.pricesNextHours) return;
     await this.refreshDapPrices().catch(() => {});
-    this.log('updating charge chart', this.getName());
     const minPriceDelta = this.getSettings().roiMinProfit;
     const strategy = await this.flows.find_roi_strategy({ minPriceDelta }).catch((err) => this.error(err));
     if (!strategy) return;
