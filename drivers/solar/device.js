@@ -124,6 +124,9 @@ class SolarDevice extends GenericDevice {
     // Start loops
     if (this.sessionId !== sessionIdAfterSuper) return; // superseded by a newer onInit() meanwhile
     this.startForecastLoop();
+    if (this.forecastData && Object.keys(this.forecastData).length > 0) {
+      this.updateForecastDisplay(false).catch(this.error);
+    }
     // Delay learning loop to allow source device to settle/update
     if (this.initLearningTimeout) this.homey.clearTimeout(this.initLearningTimeout);
     this.initLearningTimeout = this.homey.setTimeout(async () => {
@@ -187,6 +190,7 @@ class SolarDevice extends GenericDevice {
       if (this.isDestroyed) return;
       try {
         await this.fetchForecast();
+        await this.updateForecastDisplay(false);
 
         // Automatic nightly retrain (at 01:00 local time) to maintain model stability.
         // This ensures the "Batch" part of the hybrid model actually happens,
