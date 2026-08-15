@@ -24,6 +24,9 @@
   "error_no_price_interval": "Ingen prisintervall tilgjengelig",
   "error_no_location": "Ingen plassering tilgjengelig i enhetsinnstillinger",
   "error_homey_api_not_ready": "Homey API ikke klar",
+  "solar_bootstrap_warning": "Solprognosemodellen bygges opp - det kan ta opptil 2 ukers historikk før den er helt nøyaktig.",
+  "solar_bootstrap_status": "Bygger opp - __days__ av 14 dagers historikk samlet",
+  "solar_trained_status": "Fullt trent (siste gjentrening: __date__)",
   "repair": {
     "warningtitle": "ADVARSEL",
     "warningtext": "Du er i ferd med å endre kildeenheten. Dette bevarer all innsikt og flyt. Men hvis den nye kildeenheten har en annen måleravlesning, må du manuelt kompensere måler- og pengestartverdiene i de avanserte innstillingene.",

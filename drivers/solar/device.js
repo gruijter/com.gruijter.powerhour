@@ -113,6 +113,10 @@ class SolarDevice extends GenericDevice {
     this.lastAutoRetrain = await this.getStoreValue('lastAutoRetrain') || 0;
     this.lastSolarTriggerSlot = -1;
     this.manualCurtailment = await this.getStoreValue('manualCurtailment') || false;
+    this.trainingCoverageDays = await this.getStoreValue('trainingCoverageDays') || 0;
+    this.trainingConfidence = await this.getStoreValue('trainingConfidence') || new Array(96).fill(0);
+    this.lastRetrainFinishedAt = await this.getStoreValue('lastRetrainFinishedAt') || 0;
+    await this.updateTrainingStatus();
 
     let history = await this.getStoreValue('powerHistory');
     if (!Array.isArray(history)) history = [];
@@ -146,7 +150,8 @@ class SolarDevice extends GenericDevice {
   // as a logged no-op rather than rethrowing, so retry here by re-checking API readiness
   // directly instead of catching an error. Without this, a device paired while the API wasn't
   // ready yet gets NO automatic backfill ever again (the !storedYieldFactors gate is
-  // one-time-ever) and its yield-factor model only fills in via live incremental learning.
+  // one-time-ever) and its yield-factor model never gets a chance to train at all until the
+  // next nightly retrain finds enough Insights history on its own.
   // Mirrors the identical fix in drivers/grid/device.js.
   async attemptInitialBackfill(attempt = 1) {
     const maxAttempts = 5;
@@ -158,7 +163,7 @@ class SolarDevice extends GenericDevice {
     if (!api) {
       if (attempt >= maxAttempts) {
         this.error(`[attemptInitialBackfill] Homey API still not ready after ${maxAttempts} attempts, `
-          + 'giving up. Yield factor model will build up via live learning instead.');
+          + 'giving up. Yield factor model will build up via the nightly retrain instead.');
         return;
       }
       this.log(`[attemptInitialBackfill] Homey API not ready yet (attempt ${attempt}/${maxAttempts}), `
@@ -172,6 +177,30 @@ class SolarDevice extends GenericDevice {
     }
     this.log('First initialization: Auto-starting model retraining...');
     await this.retrainSolarModel(true); // First run: Start fresh
+  }
+
+  // There's no separate "bootstrap mode" flag - trainingCoverageDays (set in
+  // retrainSolarModel(), derived from how much Homey Insights history actually exists) is
+  // measured fresh on every retrain and simply compared against the full 14-day window this
+  // driver trains on. Surfaces that to the user two ways: a device warning banner (visible
+  // right on the device tile, cleared automatically once trained) and a settings-page label
+  // (see driver.compose.json's "training_status" field) with a bit more detail.
+  async updateTrainingStatus() {
+    const BOOTSTRAP_THRESHOLD_DAYS = 14;
+    const days = this.trainingCoverageDays || 0;
+
+    if (days < BOOTSTRAP_THRESHOLD_DAYS) {
+      await this.setWarning(this.homey.__('solar_bootstrap_warning')).catch(this.error);
+      await this.setSettings({
+        training_status: this.homey.__('solar_bootstrap_status', { days: days.toFixed(1) }),
+      }).catch(this.error);
+    } else {
+      await this.unsetWarning().catch(this.error);
+      const lastRetrainDate = this.lastRetrainFinishedAt ? new Date(this.lastRetrainFinishedAt) : new Date();
+      await this.setSettings({
+        training_status: this.homey.__('solar_trained_status', { date: lastRetrainDate.toLocaleDateString('en-CA') }),
+      }).catch(this.error);
+    }
   }
 
   shouldUpdateCurrencyOnAdd() {
@@ -222,22 +251,24 @@ class SolarDevice extends GenericDevice {
   }
 
   async startLearningLoop() {
-    // Update learning loop runs every 1 min.
-    // We run this frequently to:
-    // 1. Collect power samples for accurate averaging (essential for devices without energy meters).
-    // 2. Detect curtailment events in near real-time.
-    // 3. Update the real-time forecast capability (measure_watt_forecast.h0).
-    // Note: The actual model retraining (getStrategy) only occurs once per 15-minute slot when a bucket finishes.
+    // Update learning loop runs every 1 min. The yieldFactor model itself is no longer
+    // written here - it's trained solely by the nightly/on-demand batch retrain
+    // (retrainSolarModel()), which has far more robust statistics (14-day history,
+    // confidence-weighted aggregation) than a per-minute live update ever could. This loop
+    // still runs frequently to:
+    // 1. Detect curtailment events in near real-time (reads the model, doesn't write it).
+    // 2. Update the real-time forecast capability (measure_watt_forecast.h0).
+    // 3. Record power history (charts) and integrate self-consumed energy.
     const loop = async () => {
       if (this.isDestroyed) return;
       try {
         // Pause live updates if the heavy insights batch-processor is busy to prevent race conditions
         if (!this.retraining) {
-          const updated = await this.updateLearning();
+          await this.updateLearning();
           const now = new Date();
           const is15mBoundary = (now.getMinutes() % 15 === 0);
-          if (updated || this.forecastChanged || is15mBoundary || !this.solarTodayImage) {
-            await this.updateForecastDisplay(updated);
+          if (this.forecastChanged || is15mBoundary || !this.solarTodayImage) {
+            await this.updateForecastDisplay(false);
           }
         }
       } catch (err) {
@@ -305,7 +336,6 @@ class SolarDevice extends GenericDevice {
   }
 
   async updateLearning() {
-    let updated = false;
     const now = new Date();
     const currentTimestamp = now.getTime();
 
@@ -396,44 +426,6 @@ class SolarDevice extends GenericDevice {
         }
       }
     }
-
-    // 3. Bucket Learning
-    const currentSlotIndex = (now.getUTCHours() * 4) + Math.floor(now.getUTCMinutes() / 15);
-    const bucketResult = SolarLearningStrategy.processBucket({
-      bucket: this.learningBucket,
-      currentSlotIndex,
-      currentTimestamp,
-      currentPower,
-      currentEnergy,
-    });
-
-    this.learningBucket = bucketResult.bucket;
-
-    if (bucketResult.finishedBucket) {
-      if (bucketResult.finishedBucket.log) this.log(bucketResult.finishedBucket.log);
-
-      if (this.getCapabilityValue('alarm_power')) {
-        this.log('Curtailment active, skipping learning for this bucket');
-      } else {
-        const peakPowerSetting = this.getSettings().peakPower || 0;
-
-        const result = SolarLearningStrategy.getStrategy({
-          currentPower: bucketResult.finishedBucket.avgPower,
-          forecastData: this.forecastData,
-          yieldFactors: this.yieldFactors,
-          timestamp: new Date(bucketResult.finishedBucket.startTime),
-          globalMaxYF: this.globalMaxYF,
-          peakPower: peakPowerSetting,
-        });
-        if (result.updated) {
-          this.yieldFactors = result.yieldFactors;
-          await this.setStoreValue('yieldFactors', this.yieldFactors);
-          this.log(result.log);
-          updated = true;
-        }
-      }
-    }
-    return updated;
   }
 
   async retrainSolarModel(fromScratch = false) {
@@ -568,16 +560,17 @@ class SolarDevice extends GenericDevice {
       const isCumulative = (targetLog.id || targetLog.uri || '').endsWith(':meter_power');
       if (isCumulative) this.log('Using cumulative energy log (converting to power)...');
 
-      // Initialize fresh yield factors for training to remove old artifacts
-      // Use null to safely identify missing data vs valid 0-yield shading
-      let trainingYieldFactors = new Array(96).fill(null);
-      let physicalLimit = 0;
+      // Per-slot samples from Step 1 (hourly) and Step 2 (5-min), concatenated and aggregated
+      // once at the end - see extractSlotSamples()/aggregateYieldFactors() in
+      // SolarLearningStrategy.js for why this replaced the old two-pass
+      // Step1-ratchets-Step2 reconciliation.
+      let slotSamples1 = new Array(96).fill(0).map(() => []);
+      let slotSamples2 = new Array(96).fill(0).map(() => []);
 
       const peakPowerSetting = this.getSettings().peakPower || 0;
 
       // 3. Step 1: Coarse Learning (14 days, hourly)
       this.log('Step 1: Coarse learning (14 days, hourly)');
-      let step1Accumulators = null;
       try {
         const logs14 = await api.insights.getLogEntries({
           id: targetLog.id,
@@ -585,6 +578,18 @@ class SolarDevice extends GenericDevice {
           end: endDate.toISOString(),
           resolution: 'last14Days',
         });
+
+        // Training coverage: how much Insights history actually exists yet, derived from data
+        // already fetched above (no extra API call). Drives the pairing-time bootstrap warning
+        // and settings label (see onInit()/updateTrainingStatus()) - there's no dedicated
+        // "bootstrap mode" flag, this is just measured fresh on every retrain.
+        if (logs14 && logs14.values && logs14.values.length > 0) {
+          const earliestMs = Math.min(...logs14.values.map((e) => new Date(e.t).getTime()));
+          const coverageDays = Math.min(14, (endDate.getTime() - earliestMs) / (24 * 60 * 60 * 1000));
+          this.trainingCoverageDays = Math.round(coverageDays * 10) / 10;
+          await this.setStoreValue('trainingCoverageDays', this.trainingCoverageDays);
+          await this.updateTrainingStatus();
+        }
 
         if (logs14 && logs14.values && logs14.values.length > 50) {
           // Filter out the last 24 hours from coarse data to avoid double counting
@@ -614,22 +619,18 @@ class SolarDevice extends GenericDevice {
           })).filter((e) => typeof e.power === 'number');
           this.powerHistory = history;
 
-          const result1 = SolarLearningStrategy.processHistoricData({
+          const result1 = SolarLearningStrategy.extractSlotSamples({
             powerEntries,
             weatherEntries: weatherHistory,
-            currentYieldFactors: trainingYieldFactors,
             resolution: 'hourly',
             peakPower: peakPowerSetting,
+            lat,
+            lon,
             logger: (msg) => this.log(msg),
           });
-          if (result1.updated) {
-            trainingYieldFactors = result1.yieldFactors;
-            step1Accumulators = result1.slotAccumulators;
-            physicalLimit = result1.limit; // Capture the robust Power-based limit
-            this.log(`Step 1 complete: ${result1.log}`);
-          } else {
-            this.log(`Step 1: ${result1.log}`);
-          }
+          slotSamples1 = result1.slotSamples;
+          this.log(`Step 1 complete: extracted samples from ${powerEntries.length} entries `
+            + `(max power seen: ${result1.maxPowerSeen.toFixed(1)}W).`);
         } else {
           this.log('Step 1 skipped: Insufficient hourly data.');
         }
@@ -683,22 +684,18 @@ class SolarDevice extends GenericDevice {
           await this.setStoreValue('powerHistory', this.powerHistory);
           this.lastPowerHistorySaveTm = Date.now();
 
-          const result2 = SolarLearningStrategy.processHistoricData({
+          const result2 = SolarLearningStrategy.extractSlotSamples({
             powerEntries,
             weatherEntries: weatherHistory,
-            currentYieldFactors: trainingYieldFactors,
-            previousAccumulators: step1Accumulators,
             resolution: 'high',
-            maxYieldFactorLimit: physicalLimit, // Enforce the robust limit found in Step 1
             peakPower: peakPowerSetting,
+            lat,
+            lon,
             logger: (msg) => this.log(msg),
           });
-          if (result2.updated) {
-            trainingYieldFactors = result2.yieldFactors;
-            this.log(`Step 2 complete: ${result2.log}`);
-          } else {
-            this.log(`Step 2: ${result2.log}`);
-          }
+          slotSamples2 = result2.slotSamples;
+          this.log(`Step 2 complete: extracted samples from ${powerEntries.length} entries `
+            + `(max power seen: ${result2.maxPowerSeen.toFixed(1)}W).`);
         } else {
           this.log('Step 2 skipped: Insufficient high-res data.');
         }
@@ -706,16 +703,31 @@ class SolarDevice extends GenericDevice {
         this.error('Step 2 failed:', e);
       }
 
-      // 5. Save and Update
+      // 5. Aggregate Step 1 + Step 2 samples in one confidence-weighted pass, then blend with
+      // the previous model.
+      const combinedSlotSamples = slotSamples1.map((samples, idx) => [...samples, ...slotSamples2[idx]]);
+      const aggregateResult = SolarLearningStrategy.aggregateYieldFactors({
+        combinedSlotSamples,
+        peakPower: peakPowerSetting,
+        logger: (msg) => this.log(msg),
+      });
+      this.log(aggregateResult.log);
+
       const mergeResult = SolarLearningStrategy.mergeYields({
-        historicYields: trainingYieldFactors,
-        liveYields: fromScratch ? new Array(96).fill(0) : this.yieldFactors, // Ignore live data if scratch
+        historicYields: aggregateResult.yieldFactors,
+        previousYields: fromScratch ? new Array(96).fill(0) : this.yieldFactors, // Ignore previous model if scratch
         alpha: fromScratch ? 1.0 : 0.7, // 100% historic if scratch, else 70% weight
-        limit: physicalLimit, // Enforce the physical limit found in Step 1
+        limit: aggregateResult.limit, // Enforce the robust limit found during aggregation
         peakPower: peakPowerSetting,
       });
       this.yieldFactors = mergeResult.yieldFactors;
       this.log(mergeResult.log);
+
+      // Not blended with the previous model like yieldFactors is (see mergeYields above) -
+      // this should reflect how well-corroborated *tonight's* fresh 14-day window is, not a
+      // damped history, so it stays a direct, honest read of the just-completed aggregation.
+      this.trainingConfidence = aggregateResult.trainingConfidence;
+      await this.setStoreValue('trainingConfidence', this.trainingConfidence);
 
       // Recalculate and store the global max from the new model
       // Use the 90th percentile instead of Math.max to safely ignore isolated morning/evening math spikes
@@ -730,6 +742,10 @@ class SolarDevice extends GenericDevice {
       this.log(`New Global Max Yield Factor: ${this.globalMaxYF.toFixed(2)} (Est. Wpeak: ~${Math.round(this.globalMaxYF * 850)}W)`);
 
       await this.setStoreValue('yieldFactors', this.yieldFactors);
+
+      this.lastRetrainFinishedAt = Date.now();
+      await this.setStoreValue('lastRetrainFinishedAt', this.lastRetrainFinishedAt);
+      await this.updateTrainingStatus();
 
       await this.updateForecastDisplay(true);
       this.log('Retraining finished.');
@@ -1068,7 +1084,7 @@ class SolarDevice extends GenericDevice {
 
     // 3. Distribution
     if (yieldFactorsUpdated || !this.solarDistributionImage) {
-      const chartDist = await getDistributionChart(this.yieldFactors, 'Yield Distribution', this.timeZone);
+      const chartDist = await getDistributionChart(this.yieldFactors, 'Yield Distribution', this.timeZone, this.trainingConfidence);
       if (chartDist) {
         this.chartSolarDistribution = chartDist;
         if (!this.solarDistributionImage) {

@@ -24,6 +24,9 @@
   "error_no_price_interval": "No hay intervalo de precios disponible",
   "error_no_location": "No hay ubicación disponible en la configuración del dispositivo",
   "error_homey_api_not_ready": "API de Homey no lista",
+  "solar_bootstrap_warning": "Se está construyendo el modelo de previsión solar - puede tardar hasta 2 semanas de historial en alcanzar la precisión completa.",
+  "solar_bootstrap_status": "Inicializando - __days__ de 14 días de historial recopilados",
+  "solar_trained_status": "Completamente entrenado (último reentrenamiento: __date__)",
   "repair": {
     "warningtitle": "ADVERTENCIA",
     "warningtext": "Está a punto de cambiar el dispositivo de origen. Esto conserva todos los conocimientos y flujos. Pero si el nuevo dispositivo de origen tiene una lectura de medidor diferente, debe compensar manualmente los valores de inicio del medidor y del dinero en la configuración avanzada.",

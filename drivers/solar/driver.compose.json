@@ -427,6 +427,26 @@
       },
       "children": [
         {
+          "id": "training_status",
+          "type": "label",
+          "label": {
+            "en": "Training status",
+            "nl": "Trainingsstatus",
+            "de": "Trainingsstatus",
+            "fr": "Statut d'entraînement",
+            "it": "Stato di addestramento",
+            "sv": "Träningsstatus",
+            "no": "Treningsstatus",
+            "es": "Estado de entrenamiento",
+            "da": "Træningsstatus",
+            "pl": "Status treningu",
+            "ru": "Статус обучения",
+            "ko": "훈련 상태",
+            "ar": "حالة التدريب"
+          },
+          "value": "unknown"
+        },
+        {
           "id": "peakPower",
           "type": "number",
           "label": {

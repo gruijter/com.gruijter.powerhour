@@ -24,6 +24,9 @@
   "error_no_price_interval": "Geen prijsinterval beschikbaar",
   "error_no_location": "Geen locatie beschikbaar in apparaatinstellingen",
   "error_homey_api_not_ready": "Homey API niet gereed",
+  "solar_bootstrap_warning": "Zonne-voorspellingsmodel wordt opgebouwd - houd rekening met tot 2 weken historie voor volledige nauwkeurigheid.",
+  "solar_bootstrap_status": "Bezig met opbouwen - __days__ van de 14 dagen historie verzameld",
+  "solar_trained_status": "Volledig getraind (laatste training: __date__)",
   "repair": {
     "warningtitle": "WAARSCHUWING",
     "warningtext": "Je staat op het punt het bronapparaat te wijzigen. Dit behoudt alle inzichten en flows. Maar als het nieuwe bronapparaat een andere meterstand heeft, moet je de meter- en geldstartwaarden handmatig compenseren in de geavanceerde instellingen.",
