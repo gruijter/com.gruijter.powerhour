@@ -27,6 +27,8 @@
   "solar_bootstrap_warning": "Zonne-voorspellingsmodel wordt opgebouwd - houd rekening met tot 2 weken historie voor volledige nauwkeurigheid.",
   "solar_bootstrap_status": "Bezig met opbouwen - __days__ van de 14 dagen historie verzameld",
   "solar_trained_status": "Volledig getraind (laatste training: __date__)",
+  "solar_chart_yield_factor": "Opbrengstfactor",
+  "solar_chart_model_fit": "Modelfit (%)",
   "repair": {
     "warningtitle": "WAARSCHUWING",
     "warningtext": "Je staat op het punt het bronapparaat te wijzigen. Dit behoudt alle inzichten en flows. Maar als het nieuwe bronapparaat een andere meterstand heeft, moet je de meter- en geldstartwaarden handmatig compenseren in de geavanceerde instellingen.",

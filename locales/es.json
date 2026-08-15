@@ -27,6 +27,8 @@
   "solar_bootstrap_warning": "Se está construyendo el modelo de previsión solar - puede tardar hasta 2 semanas de historial en alcanzar la precisión completa.",
   "solar_bootstrap_status": "Inicializando - __days__ de 14 días de historial recopilados",
   "solar_trained_status": "Completamente entrenado (último reentrenamiento: __date__)",
+  "solar_chart_yield_factor": "Factor de rendimiento",
+  "solar_chart_model_fit": "Ajuste del modelo (%)",
   "repair": {
     "warningtitle": "ADVERTENCIA",
     "warningtext": "Está a punto de cambiar el dispositivo de origen. Esto conserva todos los conocimientos y flujos. Pero si el nuevo dispositivo de origen tiene una lectura de medidor diferente, debe compensar manualmente los valores de inicio del medidor y del dinero en la configuración avanzada.",

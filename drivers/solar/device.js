@@ -1084,7 +1084,10 @@ class SolarDevice extends GenericDevice {
 
     // 3. Distribution
     if (yieldFactorsUpdated || !this.solarDistributionImage) {
-      const chartDist = await getDistributionChart(this.yieldFactors, 'Yield Distribution', this.timeZone, this.trainingConfidence);
+      const chartDist = await getDistributionChart(this.yieldFactors, 'Yield Distribution', this.timeZone, this.trainingConfidence, {
+        yieldFactor: this.homey.__('solar_chart_yield_factor'),
+        modelFit: this.homey.__('solar_chart_model_fit'),
+      });
       if (chartDist) {
         this.chartSolarDistribution = chartDist;
         if (!this.solarDistributionImage) {

@@ -27,6 +27,8 @@
   "solar_bootstrap_warning": "Il modello di previsione solare è in fase di costruzione - possono essere necessarie fino a 2 settimane di storico per la piena precisione.",
   "solar_bootstrap_status": "Inizializzazione in corso - __days__ di 14 giorni di storico raccolti",
   "solar_trained_status": "Completamente addestrato (ultimo riaddestramento: __date__)",
+  "solar_chart_yield_factor": "Fattore di resa",
+  "solar_chart_model_fit": "Adattamento del modello (%)",
   "repair": {
     "warningtitle": "ATTENZIONE",
     "warningtext": "Stai per cambiare il dispositivo sorgente. Questo preserva tutte le intuizioni e i flussi. Ma se il nuovo dispositivo sorgente ha una lettura del contatore diversa, devi compensare manualmente i valori iniziali del contatore e del denaro nelle impostazioni avanzate.",

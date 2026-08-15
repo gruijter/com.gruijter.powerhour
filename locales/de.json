@@ -27,6 +27,8 @@
   "solar_bootstrap_warning": "Das Solarprognosemodell wird aufgebaut - für volle Genauigkeit sind bis zu 2 Wochen Verlauf nötig.",
   "solar_bootstrap_status": "Wird aufgebaut - __days__ von 14 Tagen Verlauf gesammelt",
   "solar_trained_status": "Vollständig trainiert (letztes Training: __date__)",
+  "solar_chart_yield_factor": "Ertragsfaktor",
+  "solar_chart_model_fit": "Modellanpassung (%)",
   "repair": {
     "warningtitle": "WARNUNG",
     "warningtext": "Sie sind im Begriff, das Quellgerät zu ändern. Dies bewahrt alle Einblicke und Flows. Wenn das neue Quellgerät jedoch einen anderen Zählerstand hat, müssen Sie die Zähler- und Geldstartwerte in den erweiterten Einstellungen manuell kompensieren.",

@@ -27,6 +27,8 @@
   "solar_bootstrap_warning": "Model prognozy słonecznej jest w trakcie budowania - pełna dokładność może wymagać do 2 tygodni historii.",
   "solar_bootstrap_status": "Budowanie modelu - zebrano __days__ z 14 dni historii",
   "solar_trained_status": "W pełni wytrenowany (ostatni trening: __date__)",
+  "solar_chart_yield_factor": "Współczynnik wydajności",
+  "solar_chart_model_fit": "Dopasowanie modelu (%)",
   "repair": {
     "warningtitle": "OSTRZEŻENIE",
     "warningtext": "Zamierzasz zmienić urządzenie źródłowe. Zachowa to wszystkie statystyki i przepływy. Ale jeśli nowe urządzenie źródłowe ma inny odczyt licznika, musisz ręcznie skompensować wartości początkowe licznika i pieniędzy w ustawieniach zaawansowanych.",

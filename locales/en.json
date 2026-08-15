@@ -27,6 +27,8 @@
   "solar_bootstrap_warning": "Building the solar forecast model - allow up to 2 weeks of history for full accuracy.",
   "solar_bootstrap_status": "Bootstrapping - __days__ of 14 days of history collected",
   "solar_trained_status": "Fully trained (last retrain: __date__)",
+  "solar_chart_yield_factor": "Yield Factor",
+  "solar_chart_model_fit": "Model Fit (%)",
   "repair": {
     "warningtitle": "WARNING",
     "warningtext": "You are about to change the source device. This will keep all insights and flows. But if the new source device has a different meter value, you will need to manually compensate the meter and money start values in the advanced settings.",

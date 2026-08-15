@@ -27,6 +27,8 @@
   "solar_bootstrap_warning": "Solprognosmodellen byggs upp - det kan ta upp till 2 veckors historik innan den är fullt korrekt.",
   "solar_bootstrap_status": "Bygger upp - __days__ av 14 dagars historik insamlad",
   "solar_trained_status": "Fullt tränad (senaste omträning: __date__)",
+  "solar_chart_yield_factor": "Avkastningsfaktor",
+  "solar_chart_model_fit": "Modellanpassning (%)",
   "repair": {
     "warningtitle": "VARNING",
     "warningtext": "Du håller på att byta källenhet. Detta bevarar alla insikter och flöden. Men om den nya källenheten har en annan mätarställning måste du manuellt kompensera mätar- och pengastartvärdena i de avancerade inställningarna.",

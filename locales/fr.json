@@ -27,6 +27,8 @@
   "solar_bootstrap_warning": "Le modèle de prévision solaire est en cours de construction - prévoyez jusqu'à 2 semaines d'historique pour une précision optimale.",
   "solar_bootstrap_status": "Initialisation en cours - __days__ jours d'historique collectés sur 14",
   "solar_trained_status": "Entièrement entraîné (dernier entraînement : __date__)",
+  "solar_chart_yield_factor": "Facteur de rendement",
+  "solar_chart_model_fit": "Ajustement du modèle (%)",
   "repair": {
     "warningtitle": "ATTENTION",
     "warningtext": "Vous êtes sur le point de changer l'appareil source. Cela préserve toutes les informations et les flux. Mais si le nouvel appareil source a un relevé de compteur différent, vous devez compenser manuellement les valeurs de départ du compteur et de l'argent dans les paramètres avancés.",

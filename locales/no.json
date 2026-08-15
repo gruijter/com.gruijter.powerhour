@@ -27,6 +27,8 @@
   "solar_bootstrap_warning": "Solprognosemodellen bygges opp - det kan ta opptil 2 ukers historikk før den er helt nøyaktig.",
   "solar_bootstrap_status": "Bygger opp - __days__ av 14 dagers historikk samlet",
   "solar_trained_status": "Fullt trent (siste gjentrening: __date__)",
+  "solar_chart_yield_factor": "Utbyttefaktor",
+  "solar_chart_model_fit": "Modelltilpasning (%)",
   "repair": {
     "warningtitle": "ADVARSEL",
     "warningtext": "Du er i ferd med å endre kildeenheten. Dette bevarer all innsikt og flyt. Men hvis den nye kildeenheten har en annen måleravlesning, må du manuelt kompensere måler- og pengestartverdiene i de avanserte innstillingene.",
