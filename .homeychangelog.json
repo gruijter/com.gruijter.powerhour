@@ -1,6 +1,6 @@
 {
   "8.15.0": {
-    "en": "Further reduce memory peaks. Improve ROI strategy. Extend solar forecast local weather models. Add action flow 'time_until_cheapest'. Fix anomalous meter jumps at period boundaries."
+    "en": "Further reduce memory peaks. Improve ROI strategy. Extend solar forecast local weather models. Add action flow 'time_until_cheapest'. Fix anomalous meter jumps at period boundaries. Refactoring and code cleanup."
   },
   "8.14.0": {
     "en": "Reduce memory peaks. Fix water meter bug. Fix several potential racing issues."
