@@ -71,35 +71,27 @@ class MyApp extends Homey.App {
   }
 
   startPerformanceMonitor() {
-    let lastCpu = process.cpuUsage();
-    let lastTime = Date.now();
     let peakHeapUsed = 0;
-    let peakRss = 0;
-    let peakCpuPct = 0;
+    let peakPhysical = 0;
 
     this.perfInterval = this.homey.setInterval(() => {
-      const mem = process.memoryUsage();
-      const heapUsedMb = Math.round((mem.heapUsed / 1024 / 1024) * 100) / 100;
-      const heapTotalMb = Math.round((mem.heapTotal / 1024 / 1024) * 100) / 100;
-      const rssMb = Math.round((mem.rss / 1024 / 1024) * 100) / 100;
+      try {
+        // eslint-disable-next-line global-require
+        const v8 = require('v8');
+        const stats = v8.getHeapStatistics();
+        const heapUsedMb = Math.round((stats.used_heap_size / 1024 / 1024) * 100) / 100;
+        const heapTotalMb = Math.round((stats.total_heap_size / 1024 / 1024) * 100) / 100;
+        const physicalMb = Math.round((stats.total_physical_size / 1024 / 1024) * 100) / 100;
 
-      const now = Date.now();
-      const elapsedMs = now - lastTime;
-      const cpuDelta = process.cpuUsage(lastCpu);
-      lastCpu = process.cpuUsage();
-      lastTime = now;
+        if (heapUsedMb > peakHeapUsed) peakHeapUsed = heapUsedMb;
+        if (physicalMb > peakPhysical) peakPhysical = physicalMb;
 
-      const cpuUsageMicros = cpuDelta.user + cpuDelta.system;
-      const cpuPercent = elapsedMs > 0 ? Math.round((cpuUsageMicros / (elapsedMs * 1000)) * 1000) / 10 : 0;
-
-      if (heapUsedMb > peakHeapUsed) peakHeapUsed = heapUsedMb;
-      if (rssMb > peakRss) peakRss = rssMb;
-      if (cpuPercent > peakCpuPct) peakCpuPct = cpuPercent;
-
-      const logMsg = `[PERF TELEMETRY] HeapUsed: ${heapUsedMb}MB (Peak: ${peakHeapUsed}MB) `
-        + `| HeapTotal: ${heapTotalMb}MB | RSS: ${rssMb}MB (Peak: ${peakRss}MB) `
-        + `| CPU: ${cpuPercent}% (Peak: ${peakCpuPct}%)`;
-      this.log(logMsg);
+        const logMsg = `[PERF TELEMETRY] HeapUsed: ${heapUsedMb}MB (Peak: ${peakHeapUsed}MB) `
+          + `| HeapTotal: ${heapTotalMb}MB | Physical: ${physicalMb}MB (Peak: ${peakPhysical}MB)`;
+        this.log(logMsg);
+      } catch (err) {
+        this.error('[PERF TELEMETRY ERROR]', err);
+      }
     }, 60000);
   }
 
