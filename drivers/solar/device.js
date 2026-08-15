@@ -25,9 +25,9 @@ const { imageUrlToStream } = require('../../lib/charts/ImageHelpers');
 const { getSolarChart, getDistributionChart } = require('../../lib/charts/SolarChart');
 const OpenMeteo = require('../../lib/providers/OpenMeteo');
 const SolarEclipse = require('../../lib/helpers/SolarEclipse');
-const SolarLearningStrategy = require('../../lib/helpers/SolarLearningStrategy');
+const SolarLearningStrategy = require('../../lib/strategies/SolarLearningStrategy');
 const SolarFlows = require('../../lib/flows/SolarFlows');
-const TimeHelpers = require('../../lib/TimeHelpers');
+const TimeHelpers = require('../../lib/helpers/TimeHelpers');
 const { fetchYesterdayAndToday, convertCumulativeToPower } = require('../../lib/helpers/HistoryLookup');
 
 const deviceSpecifics = {

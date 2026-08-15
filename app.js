@@ -46,6 +46,7 @@ class MyApp extends Homey.App {
       this.everyHour();
       this.everyXminutes(15);
       this.retry(5);
+      this.startPerformanceMonitor();
 
       this.log(`Power by the Hour app is running... Timezone: ${this.homey.clock.getTimezone()}`);
     } catch (error) {
@@ -55,6 +56,7 @@ class MyApp extends Homey.App {
 
   async onUninit() {
     this.log('app onUninit called');
+    if (this.perfInterval) this.homey.clearInterval(this.perfInterval);
     if (this.everyHourId) this.homey.clearTimeout(this.everyHourId);
     if (this.everyXMinutesId) this.homey.clearTimeout(this.everyXMinutesId);
     if (this.retryId) this.homey.clearInterval(this.retryId);
@@ -66,6 +68,39 @@ class MyApp extends Homey.App {
     this.homey.removeAllListeners('set_tariff_power_PBTH');
     this.homey.removeAllListeners('set_tariff_gas_PBTH');
     this.homey.removeAllListeners('set_tariff_water_PBTH');
+  }
+
+  startPerformanceMonitor() {
+    let lastCpu = process.cpuUsage();
+    let lastTime = Date.now();
+    let peakHeapUsed = 0;
+    let peakRss = 0;
+    let peakCpuPct = 0;
+
+    this.perfInterval = this.homey.setInterval(() => {
+      const mem = process.memoryUsage();
+      const heapUsedMb = Math.round((mem.heapUsed / 1024 / 1024) * 100) / 100;
+      const heapTotalMb = Math.round((mem.heapTotal / 1024 / 1024) * 100) / 100;
+      const rssMb = Math.round((mem.rss / 1024 / 1024) * 100) / 100;
+
+      const now = Date.now();
+      const elapsedMs = now - lastTime;
+      const cpuDelta = process.cpuUsage(lastCpu);
+      lastCpu = process.cpuUsage();
+      lastTime = now;
+
+      const cpuUsageMicros = cpuDelta.user + cpuDelta.system;
+      const cpuPercent = elapsedMs > 0 ? Math.round((cpuUsageMicros / (elapsedMs * 1000)) * 1000) / 10 : 0;
+
+      if (heapUsedMb > peakHeapUsed) peakHeapUsed = heapUsedMb;
+      if (rssMb > peakRss) peakRss = rssMb;
+      if (cpuPercent > peakCpuPct) peakCpuPct = cpuPercent;
+
+      const logMsg = `[PERF TELEMETRY] HeapUsed: ${heapUsedMb}MB (Peak: ${peakHeapUsed}MB) `
+        + `| HeapTotal: ${heapTotalMb}MB | RSS: ${rssMb}MB (Peak: ${peakRss}MB) `
+        + `| CPU: ${cpuPercent}% (Peak: ${peakCpuPct}%)`;
+      this.log(logMsg);
+    }, 60000);
   }
 
   async initApi() {

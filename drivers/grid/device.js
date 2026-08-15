@@ -20,15 +20,15 @@ along with com.gruijter.powerhour.  If not, see <http://www.gnu.org/licenses/>.
 'use strict';
 
 const GenericDevice = require('../../lib/genericDeviceDrivers/generic_sum_device');
-const LoadForecastStrategy = require('../../lib/helpers/LoadForecastStrategy');
+const LoadForecastStrategy = require('../../lib/strategies/LoadForecastStrategy');
 const GridFlows = require('../../lib/flows/GridFlows');
 const { imageUrlToStream } = require('../../lib/charts/ImageHelpers');
 const { getGridForecastChart, getGridWeeklyChart } = require('../../lib/charts/GridChart');
-const MeterHelpers = require('../../lib/MeterHelpers');
+const MeterHelpers = require('../../lib/helpers/MeterHelpers');
 const DeviceMigrator = require('../../lib/DeviceMigrator');
 const { fetchYesterdayAndToday, convertCumulativeToPower } = require('../../lib/helpers/HistoryLookup');
 const { combineComponentsToHomePower } = require('../../lib/helpers/HomePowerReconstruction');
-const TimeHelpers = require('../../lib/TimeHelpers');
+const TimeHelpers = require('../../lib/helpers/TimeHelpers');
 
 const deviceSpecifics = {
   cmap: {

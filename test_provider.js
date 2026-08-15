@@ -30,7 +30,7 @@ const Nordpool = require('./lib/providers/Nordpool');
 const Stekker = require('./lib/providers/Stekker');
 const Energyzero = require('./lib/providers/Energyzero');
 const EEX = require('./lib/providers/EEX');
-const TimeHelpers = require('./lib/TimeHelpers');
+const TimeHelpers = require('./lib/helpers/TimeHelpers');
 
 const providers = {
   ENTSOE: Entsoe,

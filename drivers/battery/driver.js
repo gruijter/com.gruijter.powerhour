@@ -95,7 +95,7 @@ class BatteryDriver extends GenericDriver {
   async checkStartPolling() {
     if (this.energyPollCallback) return;
     // eslint-disable-next-line global-require
-    const EnergyPollingHelper = require('../../lib/EnergyPollingHelper');
+    const EnergyPollingHelper = require('../../lib/helpers/EnergyPollingHelper');
     EnergyPollingHelper.init(this.homey, { log: this.log.bind(this), error: this.error.bind(this) });
     await this.startPollingEnergy(5).catch((err) => this.error(err));
   }
@@ -103,7 +103,7 @@ class BatteryDriver extends GenericDriver {
   async onUninit() {
     if (this.energyPollCallback) {
       // eslint-disable-next-line global-require
-      const EnergyPollingHelper = require('../../lib/EnergyPollingHelper');
+      const EnergyPollingHelper = require('../../lib/helpers/EnergyPollingHelper');
       EnergyPollingHelper.unregister(this.energyPollCallback);
     }
     await super.onUninit();
@@ -116,7 +116,7 @@ class BatteryDriver extends GenericDriver {
 
     this.energyPollCallback = async (report) => {
       // eslint-disable-next-line global-require
-      const { getGridPowerFallback } = require('../../lib/Util');
+      const { getGridPowerFallback } = require('../../lib/helpers/Util');
       let cumulativePower = getGridPowerFallback(this.homey);
       if (cumulativePower === null) cumulativePower = report?.totalCumulative?.W;
 
@@ -136,7 +136,7 @@ class BatteryDriver extends GenericDriver {
       }
     };
     // eslint-disable-next-line global-require
-    const EnergyPollingHelper = require('../../lib/EnergyPollingHelper');
+    const EnergyPollingHelper = require('../../lib/helpers/EnergyPollingHelper');
     await EnergyPollingHelper.register(this.energyPollCallback);
   }
 

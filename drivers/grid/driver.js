@@ -82,7 +82,7 @@ class GridDriver extends GenericDriver {
   async checkStartPolling() {
     if (this.energyPollCallback) return; // Already polling
     // eslint-disable-next-line global-require
-    const EnergyPollingHelper = require('../../lib/EnergyPollingHelper');
+    const EnergyPollingHelper = require('../../lib/helpers/EnergyPollingHelper');
     EnergyPollingHelper.init(this.homey, { log: this.log.bind(this), error: this.error.bind(this) });
     await this.startPollingEnergy().catch((err) => this.error(err));
   }
@@ -90,7 +90,7 @@ class GridDriver extends GenericDriver {
   async onUninit() {
     if (this.energyPollCallback) {
       // eslint-disable-next-line global-require
-      const EnergyPollingHelper = require('../../lib/EnergyPollingHelper');
+      const EnergyPollingHelper = require('../../lib/helpers/EnergyPollingHelper');
       EnergyPollingHelper.unregister(this.energyPollCallback);
     }
     await super.onUninit();
@@ -101,7 +101,7 @@ class GridDriver extends GenericDriver {
       this.lastEnergyReport = report;
     };
     // eslint-disable-next-line global-require
-    const EnergyPollingHelper = require('../../lib/EnergyPollingHelper');
+    const EnergyPollingHelper = require('../../lib/helpers/EnergyPollingHelper');
     await EnergyPollingHelper.register(this.energyPollCallback);
   }
 
