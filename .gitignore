@@ -3,6 +3,7 @@ roadmap*.txt
 env.json
 templog*.txt
 zzz*
+scratch/
 
 # Build
 build/
