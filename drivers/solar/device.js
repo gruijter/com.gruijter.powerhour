@@ -719,6 +719,10 @@ class SolarDevice extends GenericDevice {
         alpha: fromScratch ? 1.0 : 0.7, // 100% historic if scratch, else 70% weight
         limit: aggregateResult.limit, // Enforce the robust limit found during aggregation
         peakPower: peakPowerSetting,
+        // Scale that 70% weight down per-slot by how corroborated tonight's value actually is -
+        // see mergeYields()'s own comment for why a flat weight let single-sample slots swing
+        // the model too far.
+        trainingConfidence: aggregateResult.trainingConfidence,
       });
       this.yieldFactors = mergeResult.yieldFactors;
       this.log(mergeResult.log);
