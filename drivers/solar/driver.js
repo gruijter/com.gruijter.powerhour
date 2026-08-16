@@ -48,7 +48,7 @@ const driverSpecifics = {
     // is trivially ~0 at night, deliberately not tracked (see grid's driver.js for the
     // symmetric min+max version used by drivers where min is meaningful).
     'measure_watt_max.day', 'measure_watt_max.month', 'measure_watt_max.year',
-    'button.retrain', 'alarm_power'],
+    'button.retrain', 'button.export_diagnostics', 'alarm_power'],
 };
 
 class SolarDriver extends GenericDriver {

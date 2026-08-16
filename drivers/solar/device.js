@@ -103,6 +103,11 @@ class SolarDevice extends GenericDevice {
       return true;
     });
 
+    this.exportDiagnosticsListener = this.registerCapabilityListener('button.export_diagnostics', async () => {
+      await this.exportDiagnostics();
+      return true;
+    });
+
     // Initialize solar specific properties
     const storedYieldFactors = await this.getStoreValue('yieldFactors');
     this.yieldFactors = storedYieldFactors || new Array(96).fill(0);
@@ -428,6 +433,60 @@ class SolarDevice extends GenericDevice {
     }
   }
 
+  // Shared by retrainSolarModel() and exportDiagnostics(): find this device's usable Homey
+  // Insights log (prefers :energy_power, falls back to :meter_power with cumulative->power
+  // conversion) by actually test-fetching each candidate and checking it has real (>10W) data,
+  // rather than trusting capability presence alone (a log can exist with no real values yet).
+  async findTargetInsightsLog(api, sourceDevice, startDate14, endDate) {
+    let allLogs = await api.insights.getLogs().catch(() => []);
+    if (!Array.isArray(allLogs)) allLogs = Object.values(allLogs);
+
+    const deviceLogs = allLogs.filter((log) => {
+      const logId = log.id || log.uri || '';
+      return logId.includes(sourceDevice.id) && !logId.includes('PH_');
+    });
+    const availableCaps = deviceLogs.map((l) => (l.id || l.uri || '').split(':').pop()).join(', ');
+    this.log(`Available Insight logs for ${sourceDevice.name}: ${availableCaps}`);
+
+    const candidates = [
+      deviceLogs.find((log) => (log.id || log.uri || '').endsWith(':energy_power')),
+      deviceLogs.find((log) => (log.id || log.uri || '').endsWith(':meter_power')),
+    ].filter(Boolean);
+
+    let targetLog = null;
+    for (const candidate of candidates) {
+      const testLogs = await api.insights.getLogEntries({
+        id: candidate.id,
+        start: startDate14.toISOString(),
+        end: endDate.toISOString(),
+        resolution: 'last14Days',
+      }).catch(() => null);
+
+      if (testLogs && testLogs.values && testLogs.values.length > 0) {
+        let entries = testLogs.values;
+        if ((candidate.id || candidate.uri || '').endsWith(':meter_power')) entries = convertCumulativeToPower(entries);
+        const hasData = entries.some((e) => {
+          const p = e.y !== undefined ? e.y : e.v;
+          return typeof p === 'number' && p > 10;
+        });
+        if (hasData) {
+          targetLog = candidate;
+          break;
+        }
+      }
+    }
+
+    if (!targetLog) {
+      throw new Error(`No Insights log with valid >10W data found for device ${sourceDevice.id}. Available logs: ${availableCaps || 'none'}`);
+    }
+    this.log(`Found target log: ${targetLog.name || 'unknown'} (ID: ${targetLog.id})`);
+
+    const isCumulative = (targetLog.id || targetLog.uri || '').endsWith(':meter_power');
+    if (isCumulative) this.log('Using cumulative energy log (converting to power)...');
+
+    return { targetLog, isCumulative };
+  }
+
   async retrainSolarModel(fromScratch = false) {
     if (this.retraining) {
       this.log('Already retraining, skipping...');
@@ -514,51 +573,7 @@ class SolarDevice extends GenericDevice {
       this.forecastChanged = true;
 
       // 2. Locate Insights Log
-      let allLogs = await api.insights.getLogs().catch(() => []);
-      if (!Array.isArray(allLogs)) allLogs = Object.values(allLogs);
-
-      const deviceLogs = allLogs.filter((log) => {
-        const logId = log.id || log.uri || '';
-        return logId.includes(sourceDevice.id) && !logId.includes('PH_');
-      });
-      const availableCaps = deviceLogs.map((l) => (l.id || l.uri || '').split(':').pop()).join(', ');
-      this.log(`Available Insight logs for ${sourceDevice.name}: ${availableCaps}`);
-
-      const candidates = [
-        deviceLogs.find((log) => (log.id || log.uri || '').endsWith(':energy_power')),
-        deviceLogs.find((log) => (log.id || log.uri || '').endsWith(':meter_power')),
-      ].filter(Boolean);
-
-      let targetLog = null;
-      for (const candidate of candidates) {
-        const testLogs = await api.insights.getLogEntries({
-          id: candidate.id,
-          start: startDate14.toISOString(),
-          end: endDate.toISOString(),
-          resolution: 'last14Days',
-        }).catch(() => null);
-
-        if (testLogs && testLogs.values && testLogs.values.length > 0) {
-          let entries = testLogs.values;
-          if ((candidate.id || candidate.uri || '').endsWith(':meter_power')) entries = convertCumulativeToPower(entries);
-          const hasData = entries.some((e) => {
-            const p = e.y !== undefined ? e.y : e.v;
-            return typeof p === 'number' && p > 10;
-          });
-          if (hasData) {
-            targetLog = candidate;
-            break;
-          }
-        }
-      }
-
-      if (!targetLog) {
-        throw new Error(`No Insights log with valid >10W data found for device ${sourceDevice.id}. Available logs: ${availableCaps || 'none'}`);
-      }
-      this.log(`Found target log: ${targetLog.name || 'unknown'} (ID: ${targetLog.id})`);
-
-      const isCumulative = (targetLog.id || targetLog.uri || '').endsWith(':meter_power');
-      if (isCumulative) this.log('Using cumulative energy log (converting to power)...');
+      const { targetLog, isCumulative } = await this.findTargetInsightsLog(api, sourceDevice, startDate14, endDate);
 
       // Per-slot samples from Step 1 (hourly) and Step 2 (5-min), concatenated and aggregated
       // once at the end - see extractSlotSamples()/aggregateYieldFactors() in
@@ -758,6 +773,75 @@ class SolarDevice extends GenericDevice {
     } finally {
       this.retraining = false; // Release lock
     }
+  }
+
+  // Maintenance action: logs this array's settings and raw Insights power history (14-day
+  // hourly + last-24h 5-min) as one structured JSON blob, so a user can send it via a Homey App
+  // Diagnostics Report when reporting a forecaster problem - see zzz_solarLearning_modelling/
+  // aiprompt.txt for the working set this feeds. Deliberately read-only: does NOT call
+  // retrainSolarModel(), does NOT touch this.yieldFactors/peakPowerAllTime/the stored model in
+  // any way - the whole point is collecting evidence without perturbing what's being reported
+  // on. Deliberately does NOT fetch/log weather data either - Open-Meteo's historic archive is
+  // public and re-fetchable later from lat/lon alone (see lib/providers/OpenMeteo.js), so
+  // there's no reason to make the user's diagnostics report bigger for data that isn't tied to
+  // their account. Throws (rather than resolves) even on success, because a Homey maintenance
+  // action has no dedicated "show this message" surface - a thrown Error's text is what actually
+  // reaches the user as a pop-up, matching the pattern this app doesn't otherwise use but is a
+  // standard workaround for this exact gap in the platform.
+  async exportDiagnostics() {
+    let api;
+    try {
+      api = this.homey.app.api;
+    } catch (e) {
+      // ignore
+    }
+    if (!api) throw new Error('Homey API not ready - please try again in a moment.');
+
+    const sourceDevice = await this.getSourceDevice();
+    if (!sourceDevice) throw new Error('No source device found');
+
+    const endDate = new Date();
+    const startDate14 = new Date();
+    startDate14.setDate(startDate14.getDate() - 14);
+    const startDate24h = new Date();
+    startDate24h.setDate(startDate24h.getDate() - 1);
+
+    const { targetLog, isCumulative } = await this.findTargetInsightsLog(api, sourceDevice, startDate14, endDate);
+
+    const logs14 = await api.insights.getLogEntries({
+      id: targetLog.id, start: startDate14.toISOString(), end: endDate.toISOString(), resolution: 'last14Days',
+    });
+    const logs24h = await api.insights.getLogEntries({
+      id: targetLog.id, start: startDate24h.toISOString(), end: endDate.toISOString(), resolution: 'last24Hours',
+    });
+
+    let hourly14d = (logs14 && logs14.values) || [];
+    let high24h = (logs24h && logs24h.values) || [];
+    if (isCumulative) {
+      hourly14d = convertCumulativeToPower(hourly14d);
+      high24h = convertCumulativeToPower(high24h);
+    }
+    // Normalize to { t, y } - matches the CSV format already used throughout
+    // zzz_solarLearning_modelling/data/<scenario>/*.csv, so this can be converted to a new
+    // scenario folder with zero transformation.
+    const normalize = (entries) => entries
+      .filter((e) => e && e.t !== undefined && (e.y !== undefined || e.v !== undefined))
+      .map((e) => ({ t: e.t, y: e.y !== undefined ? e.y : e.v }));
+
+    const { peakPower, lat, lon } = this.getSettings();
+    const diagnostics = {
+      exportedAt: new Date().toISOString(),
+      homeyDeviceName: this.getName(),
+      settings: { peakPower, lat, lon },
+      sourceDeviceId: sourceDevice.id,
+      isCumulativeSource: isCumulative,
+      hourly_14d: normalize(hourly14d),
+      high_res_24h: normalize(high24h),
+    };
+
+    this.log(`[SOLAR DIAGNOSTICS EXPORT] ${JSON.stringify(diagnostics)}`);
+
+    throw new Error(this.homey.__('solar_export_diagnostics_popup'));
   }
 
   async populatePowerHistory() {

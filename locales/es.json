@@ -29,6 +29,7 @@
   "solar_trained_status": "Completamente entrenado (último reentrenamiento: __date__)",
   "solar_chart_yield_factor": "Factor de rendimiento",
   "solar_chart_model_fit": "Ajuste del modelo (%)",
+  "solar_export_diagnostics_popup": "Datos de diagnóstico registrados. Envíe ahora un informe de diagnóstico de la aplicación Homey para esta app, e indique la orientación de este conjunto de paneles (p. ej. Sur, Este u Oeste) y cualquier detalle adicional sobre el problema.",
   "repair": {
     "warningtitle": "ADVERTENCIA",
     "warningtext": "Está a punto de cambiar el dispositivo de origen. Esto conserva todos los conocimientos y flujos. Pero si el nuevo dispositivo de origen tiene una lectura de medidor diferente, debe compensar manualmente los valores de inicio del medidor y del dinero en la configuración avanzada.",
