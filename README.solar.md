@@ -57,6 +57,8 @@ If your system is intentionally "over-paneled" (panel Wp higher than the inverte
 
 Leaving this at **0** makes the app auto-estimate a value from observed history, which works but gives the learning algorithm a weaker safety net: several internal checks use Peak Power to reject or cap implausible readings (most importantly around sunrise/sunset, where a tiny amount of noise in the measurement can otherwise get misread as an extreme value). Filling in the real, correct value from the start gives the model the strongest protection against learning bad data as normal — this is the single most impactful setting for forecast quality and robustness.
 
+The device settings also show **Auto-detected Peak Power (W)** — a read-only field with the highest power ever measured for this array. It's a useful reference point when deciding what to fill in above. When Peak Power is left at 0, this auto-detected value is used automatically as a fallback for *some* of the internal safety checks — but never for filtering out raw readings, since this value starts low and only grows over time, so relying on it there could wrongly discard your own array's genuine higher output before it's had a chance to catch up (e.g. a system paired outside its peak season). It resets when you run **Retrain solar forecast** from scratch.
+
 ---
 
 ## Yield Distribution & Capabilities

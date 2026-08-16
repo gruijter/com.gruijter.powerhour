@@ -206,6 +206,12 @@ class SolarDevice extends GenericDevice {
         training_status: this.homey.__('solar_trained_status', { date: lastRetrainDate.toLocaleDateString('en-CA') }),
       }).catch(this.error);
     }
+
+    // Refresh the read-only "Auto-detected Peak Power" label at the same cadence as
+    // training_status above (init + every retrain) - this.peakPowerAllTime itself updates far
+    // more often (every live reading, see updateLearning()), but that's not worth pushing to a
+    // settings-page label users only glance at occasionally.
+    await this.setSettings({ peakPowerAllTime: String(Math.round(this.peakPowerAllTime || 0)) }).catch(this.error);
   }
 
   shouldUpdateCurrencyOnAdd() {
@@ -583,6 +589,18 @@ class SolarDevice extends GenericDevice {
       let slotSamples2 = new Array(96).fill(0).map(() => []);
 
       const peakPowerSetting = this.getSettings().peakPower || 0;
+      // Falls back to the auto-tracked all-time observed max ONLY for the soft ceiling checks in
+      // aggregateYieldFactors()/mergeYields() (see their own peakPower-gated physicalCeiling
+      // logic) - deliberately NOT for extractSlotSamples()'s raw admission/reject filter
+      // (`power > peakPower * 1.1` -> reject), which stays gated on the user's own setting only.
+      // Reasoning: those soft ceilings can only ever LOOSEN a cap for an already-trusted sample,
+      // so a still-growing peakPowerAllTime can't cause harm there - but peakPowerAllTime starts
+      // low and grows over the array's life (e.g. a device paired outside peak season), so
+      // plugging it into the hard reject filter would risk silently discarding a device's own
+      // later, genuinely higher readings as "physically impossible" for however long it takes
+      // peakPowerAllTime to catch up. Only kicks in when the user hasn't set Peak Power at all -
+      // an explicit setting is always respected as-is, never blended with the auto-tracked one.
+      const effectivePeakPower = peakPowerSetting > 0 ? peakPowerSetting : this.peakPowerAllTime;
 
       // 3. Step 1: Coarse Learning (14 days, hourly)
       this.log('Step 1: Coarse learning (14 days, hourly)');
@@ -723,7 +741,7 @@ class SolarDevice extends GenericDevice {
       const combinedSlotSamples = slotSamples1.map((samples, idx) => [...samples, ...slotSamples2[idx]]);
       const aggregateResult = SolarLearningStrategy.aggregateYieldFactors({
         combinedSlotSamples,
-        peakPower: peakPowerSetting,
+        peakPower: effectivePeakPower,
         logger: (msg) => this.log(msg),
       });
       this.log(aggregateResult.log);
@@ -733,7 +751,7 @@ class SolarDevice extends GenericDevice {
         previousYields: fromScratch ? new Array(96).fill(0) : this.yieldFactors, // Ignore previous model if scratch
         alpha: fromScratch ? 1.0 : 0.7, // 100% historic if scratch, else 70% weight
         limit: aggregateResult.limit, // Enforce the robust limit found during aggregation
-        peakPower: peakPowerSetting,
+        peakPower: effectivePeakPower,
         // Scale that 70% weight down per-slot by how corroborated tonight's value actually is -
         // see mergeYields()'s own comment for why a flat weight let single-sample slots swing
         // the model too far.
