@@ -29,7 +29,7 @@
   "solar_trained_status": "Vollständig trainiert (letztes Training: __date__)",
   "solar_chart_yield_factor": "Ertragsfaktor",
   "solar_chart_model_fit": "Modellanpassung (%)",
-  "solar_export_diagnostics_popup": "Diagnosedaten protokolliert. Bitte senden Sie jetzt einen Homey-App-Diagnosebericht für diese App und geben Sie die Ausrichtung dieses Arrays an (z. B. Süd, Ost oder West) sowie weitere Details zum Problem.",
+  "solar_export_diagnostics_popup": "Erstellen Sie jetzt einen App-Diagnosebericht mit Nachricht: Ausrichtung (z. B. Süd/Ost/West).",
   "repair": {
     "warningtitle": "WARNUNG",
     "warningtext": "Sie sind im Begriff, das Quellgerät zu ändern. Dies bewahrt alle Einblicke und Flows. Wenn das neue Quellgerät jedoch einen anderen Zählerstand hat, müssen Sie die Zähler- und Geldstartwerte in den erweiterten Einstellungen manuell kompensieren.",

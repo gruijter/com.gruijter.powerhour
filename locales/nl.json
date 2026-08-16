@@ -29,7 +29,7 @@
   "solar_trained_status": "Volledig getraind (laatste training: __date__)",
   "solar_chart_yield_factor": "Opbrengstfactor",
   "solar_chart_model_fit": "Modelfit (%)",
-  "solar_export_diagnostics_popup": "Diagnostische data gelogd. Stuur nu een Homey App Diagnostics Report voor deze app, en vermeld daarin de paneeloriëntatie van dit array (bijv. Zuid, Oost of West) en eventuele extra toelichting over het probleem.",
+  "solar_export_diagnostics_popup": "Maak nu een app diagnostics report aan met als bericht: paneeloriëntatie (bijv. Zuid/Oost/West).",
   "repair": {
     "warningtitle": "WAARSCHUWING",
     "warningtext": "Je staat op het punt het bronapparaat te wijzigen. Dit behoudt alle inzichten en flows. Maar als het nieuwe bronapparaat een andere meterstand heeft, moet je de meter- en geldstartwaarden handmatig compenseren in de geavanceerde instellingen.",

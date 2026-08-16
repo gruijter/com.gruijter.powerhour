@@ -29,7 +29,7 @@
   "solar_trained_status": "학습 완료 (마지막 재학습: __date__)",
   "solar_chart_yield_factor": "수율 계수",
   "solar_chart_model_fit": "모델 적합도 (%)",
-  "solar_export_diagnostics_popup": "진단 데이터가 기록되었습니다. 이제 이 앱에 대한 Homey 앱 진단 보고서를 보내주시고, 이 어레이의 패널 방향(예: 남, 동, 서)과 문제에 대한 추가 세부 정보를 함께 알려주세요.",
+  "solar_export_diagnostics_popup": "이제 앱 진단 보고서를 메시지와 함께 작성하세요: 방향 (예: 남/동/서).",
   "repair": {
     "warningtitle": "경고",
     "warningtext": "소스 장치를 변경하려고 합니다. 이렇게 하면 모든 인사이트와 흐름이 유지됩니다. 하지만 새 소스 장치의 미터 값이 다른 경우 고급 설정에서 미터 및 금액 시작 값을 수동으로 보정해야 합니다.",

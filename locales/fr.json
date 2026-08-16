@@ -29,7 +29,7 @@
   "solar_trained_status": "Entièrement entraîné (dernier entraînement : __date__)",
   "solar_chart_yield_factor": "Facteur de rendement",
   "solar_chart_model_fit": "Ajustement du modèle (%)",
-  "solar_export_diagnostics_popup": "Données de diagnostic enregistrées. Veuillez maintenant envoyer un rapport de diagnostic de l'application Homey pour cette application, et mentionner l'orientation de ce groupe de panneaux (par ex. Sud, Est ou Ouest) ainsi que tout détail supplémentaire sur le problème.",
+  "solar_export_diagnostics_popup": "Créez maintenant un rapport de diagnostic de l'application avec le message : orientation (ex. Sud/Est/Ouest).",
   "repair": {
     "warningtitle": "ATTENTION",
     "warningtext": "Vous êtes sur le point de changer l'appareil source. Cela préserve toutes les informations et les flux. Mais si le nouvel appareil source a un relevé de compteur différent, vous devez compenser manuellement les valeurs de départ du compteur et de l'argent dans les paramètres avancés.",

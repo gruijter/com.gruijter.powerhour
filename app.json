@@ -20062,21 +20062,23 @@
             "da": "Gentræn solprognose",
             "pl": "Przetrenuj prognozę solarną",
             "ru": "Переобучить солнечный прогноз",
+            "ko": "태양광 예측 재학습",
             "ar": "إعادة تدريب التنبؤ الشمسي"
           },
           "desc": {
-            "en": "Reset and retrain the solar forecaster based on Homey Insights of the solar panels.",
-            "nl": "Reset en hertrain de zonne-voorspeller op basis van Homey Insights van de zonnepanelen.",
-            "de": "Setzen Sie den Solarprognostiker zurück und trainieren Sie ihn neu basierend auf Homey Insights der Solarmodule.",
-            "fr": "Réinitialisez et réentraînez le prévisionniste solaire en fonction des Homey Insights des panneaux solaires.",
-            "it": "Reimposta e riaddestra il previsore solare basato su Homey Insights dei pannelli solari.",
-            "sv": "Återställ och träna om solprognosen baserat på Homey Insights från solpanelerna.",
-            "no": "Tilbakestill og tren solprognosen på nytt basert på Homey Insights fra solcellepanelene.",
-            "es": "Restablezca y vuelva a entrenar el pronosticador solar basado en Homey Insights de los paneles solares.",
-            "da": "Nulstil og gentræn solprognosen baseret på Homey Insights fra solpanelerne.",
-            "pl": "Zresetuj i ponownie przeszkol prognozę solarną na podstawie Homey Insights paneli słonecznych.",
-            "ru": "Сбросьте и переобучите солнечный прогнозист на основе Homey Insights солнечных панелей.",
-            "ar": "إعادة تعيين وإعادة تدريب المتنبئ الشمسي بناءً على رؤى Homey للألواح الشمسية."
+            "en": "Retrain the forecaster based on 14 days of history. WARNING: This will reset all long term learnings!",
+            "nl": "Hertrain de voorspeller op basis van 14 dagen geschiedenis. WAARSCHUWING: dit reset alle langetermijn-leerresultaten!",
+            "de": "Trainieren Sie den Prognostiker anhand von 14 Tagen Verlauf neu. WARNUNG: Dies setzt alle langfristigen Lernergebnisse zurück!",
+            "fr": "Réentraînez le prévisionniste sur la base de 14 jours d'historique. ATTENTION : cela réinitialise tous les apprentissages à long terme !",
+            "it": "Riaddestra il previsore in base a 14 giorni di cronologia. ATTENZIONE: questo azzererà tutti gli apprendimenti a lungo termine!",
+            "sv": "Träna om prognosen baserat på 14 dagars historik. VARNING: Detta återställer all långsiktig inlärning!",
+            "no": "Tren prognosen på nytt basert på 14 dagers historikk. ADVARSEL: Dette tilbakestiller all langsiktig læring!",
+            "es": "Reentrene el pronosticador basándose en 14 días de historial. ADVERTENCIA: esto restablecerá todo el aprendizaje a largo plazo.",
+            "da": "Gentræn prognosen baseret på 14 dages historik. ADVARSEL: Dette nulstiller al langsigtet læring!",
+            "pl": "Przetrenuj prognozę na podstawie 14 dni historii. UWAGA: spowoduje to zresetowanie całej długoterminowej nauki!",
+            "ru": "Переобучите прогноз на основе 14-дневной истории. ВНИМАНИЕ: это сбросит все долгосрочное обучение!",
+            "ko": "14일간의 기록을 기반으로 예측 모델을 재학습합니다. 경고: 모든 장기 학습 내용이 초기화됩니다!",
+            "ar": "أعد تدريب المتنبئ استنادًا إلى 14 يومًا من السجل. تحذير: سيؤدي هذا إلى إعادة تعيين جميع التعلمات طويلة المدى!"
           }
         },
         "button.export_diagnostics": {
@@ -20097,19 +20099,19 @@
             "ar": "تصدير بيانات التشخيص"
           },
           "desc": {
-            "en": "Log this array's settings and Insights power history for troubleshooting, without changing the forecast model.",
-            "nl": "Log de instellingen en Insights-vermogensgeschiedenis van dit array voor troubleshooting, zonder het voorspelmodel te wijzigen.",
-            "de": "Protokolliert die Einstellungen und den Insights-Leistungsverlauf dieses Arrays zur Fehlerbehebung, ohne das Prognosemodell zu ändern.",
-            "fr": "Enregistre les paramètres et l'historique de puissance Insights de ce groupe de panneaux pour le dépannage, sans modifier le modèle de prévision.",
-            "it": "Registra le impostazioni e la cronologia di potenza Insights di questo array per la risoluzione dei problemi, senza modificare il modello di previsione.",
-            "sv": "Loggar denna arrays inställningar och Insights-effekthistorik för felsökning, utan att ändra prognosmodellen.",
-            "no": "Logger denne arrayens innstillinger og Insights-effekthistorikk for feilsøking, uten å endre prognosemodellen.",
-            "es": "Registra la configuración y el historial de potencia de Insights de este conjunto para la resolución de problemas, sin modificar el modelo de previsión.",
-            "da": "Logger dette arrays indstillinger og Insights-effekthistorik til fejlfinding, uden at ændre prognosemodellen.",
-            "pl": "Rejestruje ustawienia i historię mocy Insights tego zestawu w celu rozwiązywania problemów, bez zmiany modelu prognozy.",
-            "ru": "Записывает настройки и историю мощности Insights этого массива для устранения неполадок, не изменяя модель прогноза.",
-            "ko": "예측 모델을 변경하지 않고 문제 해결을 위해 이 어레이의 설정과 Insights 전력 기록을 기록합니다.",
-            "ar": "يسجل إعدادات هذه المصفوفة وسجل طاقة Insights لاستكشاف الأخطاء وإصلاحها، دون تغيير نموذج التنبؤ."
+            "en": "Log this array's settings and Insights power history for troubleshooting.",
+            "nl": "Log de instellingen en Insights-vermogensgeschiedenis van dit array voor troubleshooting.",
+            "de": "Protokolliert die Einstellungen und den Insights-Leistungsverlauf dieses Arrays zur Fehlerbehebung.",
+            "fr": "Enregistre les paramètres et l'historique de puissance Insights de ce groupe de panneaux pour le dépannage.",
+            "it": "Registra le impostazioni e la cronologia di potenza Insights di questo array per la risoluzione dei problemi.",
+            "sv": "Loggar denna arrays inställningar och Insights-effekthistorik för felsökning.",
+            "no": "Logger denne arrayens innstillinger og Insights-effekthistorikk for feilsøking.",
+            "es": "Registra la configuración y el historial de potencia de Insights de este conjunto para la resolución de problemas.",
+            "da": "Logger dette arrays indstillinger og Insights-effekthistorik til fejlfinding.",
+            "pl": "Rejestruje ustawienia i historię mocy Insights tego zestawu w celu rozwiązywania problemów.",
+            "ru": "Записывает настройки и историю мощности Insights этого массива для устранения неполадок.",
+            "ko": "문제 해결을 위해 이 어레이의 설정과 Insights 전력 기록을 기록합니다.",
+            "ar": "يسجل إعدادات هذه المصفوفة وسجل طاقة Insights لاستكشاف الأخطاء وإصلاحها."
           }
         }
       },
@@ -20250,19 +20252,19 @@
               },
               "value": "0",
               "hint": {
-                "en": "The highest power ever measured for this array (from live readings and Insights history). For reference only when Peak Power above is 0 - not directly editable. Used automatically as a fallback for some internal safety checks when Peak Power is left at 0, but never for filtering raw readings, so it's still best to fill in the real value above yourself. Resets to 0 when you run 'Retrain solar forecast' from scratch.",
-                "nl": "Het hoogste ooit gemeten vermogen van dit array (uit live metingen en Insights-geschiedenis). Alleen ter referentie wanneer Piekvermogen hierboven op 0 staat - niet direct bewerkbaar. Wordt automatisch als terugvalwaarde gebruikt voor enkele interne veiligheidscontroles wanneer Piekvermogen op 0 staat, maar nooit voor het filteren van ruwe metingen - vul dus bij voorkeur zelf de echte waarde hierboven in. Wordt teruggezet naar 0 bij het volledig hertrainen via 'Hertrain zonne-voorspelling'.",
-                "de": "Die höchste jemals für dieses Array gemessene Leistung (aus Live-Messwerten und Insights-Verlauf). Nur zur Referenz, wenn die Spitzenleistung oben auf 0 steht - nicht direkt bearbeitbar. Wird automatisch als Fallback für einige interne Sicherheitsprüfungen verwendet, wenn die Spitzenleistung auf 0 steht, aber nie zum Filtern von Rohmesswerten - tragen Sie daher vorzugsweise selbst den echten Wert oben ein. Wird beim vollständigen Neutraining über 'Solarprognose neu trainieren' auf 0 zurückgesetzt.",
-                "fr": "La puissance la plus élevée jamais mesurée pour ce groupe de panneaux (à partir des relevés en direct et de l'historique Insights). À titre indicatif uniquement lorsque la puissance crête ci-dessus est à 0 - non modifiable directement. Utilisée automatiquement comme valeur de repli pour certains contrôles de sécurité internes lorsque la puissance crête est laissée à 0, mais jamais pour filtrer les relevés bruts - il est donc préférable de renseigner vous-même la valeur réelle ci-dessus. Revient à 0 lors d'un réentraînement complet via « Réentraîner les prévisions solaires ».",
-                "it": "La potenza più alta mai misurata per questo array (da letture in tempo reale e cronologia Insights). Solo a scopo di riferimento quando la Potenza di Picco sopra è 0 - non modificabile direttamente. Usata automaticamente come valore di riserva per alcuni controlli di sicurezza interni quando la Potenza di Picco è lasciata a 0, ma mai per filtrare le letture grezze - è quindi preferibile inserire tu stesso il valore reale sopra. Si azzera quando esegui un riaddestramento completo tramite 'Riaddestra previsione solare'.",
-                "sv": "Den högsta effekt som någonsin uppmätts för denna array (från liveavläsningar och Insights-historik). Endast som referens när Toppeffekt ovan är 0 - inte direkt redigerbar. Används automatiskt som reservvärde för vissa interna säkerhetskontroller när Toppeffekt lämnas på 0, men aldrig för att filtrera råa avläsningar - fyll därför helst i det verkliga värdet ovan själv. Återställs till 0 när du kör en fullständig omträning via 'Träna om solprognos'.",
-                "no": "Den høyeste effekten som noensinne er målt for denne arrayen (fra sanntidsavlesninger og Insights-historikk). Kun til referanse når Toppeffekt ovenfor er 0 - ikke direkte redigerbar. Brukes automatisk som reserveverdi for enkelte interne sikkerhetskontroller når Toppeffekt står på 0, men aldri for å filtrere rå avlesninger - fyll derfor helst inn den reelle verdien ovenfor selv. Nullstilles til 0 når du kjører en full gjentrening via 'Tren solprognose på nytt'.",
-                "es": "La potencia más alta jamás medida para este conjunto (a partir de lecturas en vivo e historial de Insights). Solo como referencia cuando la Potencia Pico anterior es 0 - no editable directamente. Se usa automáticamente como valor de respaldo para algunas comprobaciones de seguridad internas cuando la Potencia Pico se deja en 0, pero nunca para filtrar lecturas sin procesar - por eso es preferible que introduzca usted mismo el valor real arriba. Se restablece a 0 al ejecutar un reentrenamiento completo mediante 'Reentrenar pronóstico solar'.",
-                "da": "Den højeste effekt der nogensinde er målt for dette array (fra liveaflæsninger og Insights-historik). Kun til reference når Spidseffekt ovenfor er 0 - ikke direkte redigerbar. Bruges automatisk som reserveværdi til nogle interne sikkerhedstjek, når Spidseffekt er sat til 0, men aldrig til at filtrere rå aflæsninger - udfyld derfor helst selv den rigtige værdi ovenfor. Nulstilles til 0, når du kører en fuld gentræning via 'Gentræn solprognose'.",
-                "pl": "Najwyższa moc kiedykolwiek zmierzona dla tego zestawu (z odczytów na żywo i historii Insights). Wyłącznie w celach informacyjnych, gdy Moc Szczytowa powyżej wynosi 0 - nie do bezpośredniej edycji. Używana automatycznie jako wartość zastępcza dla niektórych wewnętrznych kontroli bezpieczeństwa, gdy Moc Szczytowa pozostaje na 0, ale nigdy do filtrowania surowych odczytów - dlatego najlepiej samodzielnie wpisać powyżej rzeczywistą wartość. Resetuje się do 0 po pełnym przeszkoleniu za pomocą 'Przetrenuj prognozę solarną'.",
-                "ru": "Самая высокая мощность, когда-либо измеренная для этого массива (по данным в реальном времени и истории Insights). Только для справки, когда Пиковая мощность выше равна 0 - нельзя редактировать напрямую. Автоматически используется как запасное значение для некоторых внутренних проверок безопасности, когда Пиковая мощность оставлена на 0, но никогда для фильтрации необработанных показаний - поэтому лучше самостоятельно указать реальное значение выше. Сбрасывается на 0 при полном переобучении через 'Переобучить солнечный прогноз'.",
-                "ko": "이 어레이에서 지금까지 측정된 최고 전력(실시간 측정값 및 Insights 기록 기준). 위의 최대 출력이 0일 때만 참고용이며 직접 편집할 수 없습니다. 최대 출력을 0으로 두면 일부 내부 안전 검사에서 자동으로 대체값으로 사용되지만, 원시 측정값 필터링에는 절대 사용되지 않으므로 가능하면 위에 실제 값을 직접 입력하는 것이 좋습니다. '태양광 예측 재학습'으로 처음부터 다시 학습하면 0으로 재설정됩니다.",
-                "ar": "أعلى طاقة تم قياسها على الإطلاق لهذه المصفوفة (من القراءات المباشرة وسجل Insights). للمرجعية فقط عندما تكون ذروة الطاقة أعلاه 0 - لا يمكن تعديلها مباشرة. تُستخدم تلقائيًا كقيمة احتياطية لبعض فحوصات السلامة الداخلية عندما تُترك ذروة الطاقة على 0، لكن لا تُستخدم أبدًا لتصفية القراءات الخام - لذا يُفضّل إدخال القيمة الحقيقية أعلاه بنفسك. تُعاد إلى 0 عند إعادة التدريب الكامل عبر 'إعادة تدريب التنبؤ الشمسي'."
+                "en": "Highest power ever measured. Used as a fallback when Peak Power above is 0. Resets on full retrain.",
+                "nl": "Hoogst gemeten vermogen. Terugvalwaarde wanneer Piekvermogen hierboven op 0 staat. Reset bij volledige hertraining.",
+                "de": "Höchste je gemessene Leistung. Fallback, wenn die Spitzenleistung oben 0 ist. Setzt sich bei vollständigem Neutraining zurück.",
+                "fr": "Puissance maximale jamais mesurée. Valeur de repli lorsque la puissance crête ci-dessus est à 0. Se réinitialise lors d'un réentraînement complet.",
+                "it": "Potenza massima mai misurata. Valore di riserva quando la Potenza di Picco sopra è 0. Si azzera con un riaddestramento completo.",
+                "sv": "Högsta uppmätta effekten. Reservvärde när Toppeffekt ovan är 0. Återställs vid full omträning.",
+                "no": "Høyeste målte effekt. Reserve når Toppeffekt ovenfor er 0. Nullstilles ved full gjentrening.",
+                "es": "Potencia máxima jamás medida. Valor de respaldo cuando la Potencia Pico anterior es 0. Se reinicia con un reentrenamiento completo.",
+                "da": "Højeste målte effekt. Reserve når Spidseffekt ovenfor er 0. Nulstilles ved fuld gentræning.",
+                "pl": "Najwyższa zmierzona moc. Wartość zastępcza, gdy Moc Szczytowa powyżej wynosi 0. Resetuje się przy pełnym przeszkoleniu.",
+                "ru": "Максимальная измеренная мощность. Запасное значение, когда Пиковая мощность выше равна 0. Сбрасывается при полном переобучении.",
+                "ko": "지금까지 측정된 최고 전력입니다. 위의 최대 출력이 0일 때 대체값으로 사용됩니다. 전체 재학습 시 초기화됩니다.",
+                "ar": "أعلى طاقة تم قياسها على الإطلاق. تُستخدم كقيمة احتياطية عندما تكون ذروة الطاقة أعلاه 0. تُعاد عند إعادة التدريب الكامل."
               }
             },
             {

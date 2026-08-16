@@ -802,10 +802,18 @@ class SolarDevice extends GenericDevice {
   // on. Deliberately does NOT fetch/log weather data either - Open-Meteo's historic archive is
   // public and re-fetchable later from lat/lon alone (see lib/providers/OpenMeteo.js), so
   // there's no reason to make the user's diagnostics report bigger for data that isn't tied to
-  // their account. Throws (rather than resolves) even on success, because a Homey maintenance
-  // action has no dedicated "show this message" surface - a thrown Error's text is what actually
-  // reaches the user as a pop-up, matching the pattern this app doesn't otherwise use but is a
-  // standard workaround for this exact gap in the platform.
+  // their account.
+  //
+  // BUG FOUND AND FIXED (2026-08-16, real device, mobile app): a maintenance action has no
+  // dedicated "show this message" surface. Two other channels were tried and rejected first:
+  // (1) throwing an Error - works on the web app (shows the thrown message) but the mobile app
+  // only ever shows a generic "Could not start maintenance action", never the actual text; (2)
+  // this.homey.notifications.createNotification() - lands in the Timeline feed, but confirmed on
+  // a real device that it's not seen either: nothing shows until you navigate all the way back
+  // to the main menu, easy to miss right after pressing a button on a settings page. Landed on
+  // setWarning() instead: confirmed on a real device that it DOES visibly pop up when leaving
+  // the device's settings screen - not merely a passive icon you'd have to go looking for, as
+  // originally assumed. Kept as a device warning rather than a Timeline notification.
   async exportDiagnostics() {
     let api;
     try {
@@ -859,7 +867,7 @@ class SolarDevice extends GenericDevice {
 
     this.log(`[SOLAR DIAGNOSTICS EXPORT] ${JSON.stringify(diagnostics)}`);
 
-    throw new Error(this.homey.__('solar_export_diagnostics_popup'));
+    await this.setWarning(this.homey.__('solar_export_diagnostics_popup')).catch(this.error);
   }
 
   async populatePowerHistory() {

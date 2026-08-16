@@ -29,7 +29,7 @@
   "solar_trained_status": "Fully trained (last retrain: __date__)",
   "solar_chart_yield_factor": "Yield Factor",
   "solar_chart_model_fit": "Model Fit (%)",
-  "solar_export_diagnostics_popup": "Diagnostics logged. Please now send a Homey App Diagnostics Report for this app, and mention this array's panel orientation (e.g. South, East or West) and any extra details about the problem.",
+  "solar_export_diagnostics_popup": "Now create an app diagnostics report with Message: panel orientation (e.g. South/East/West).",
   "repair": {
     "warningtitle": "WARNING",
     "warningtext": "You are about to change the source device. This will keep all insights and flows. But if the new source device has a different meter value, you will need to manually compensate the meter and money start values in the advanced settings.",

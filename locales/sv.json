@@ -29,7 +29,7 @@
   "solar_trained_status": "Fullt tränad (senaste omträning: __date__)",
   "solar_chart_yield_factor": "Avkastningsfaktor",
   "solar_chart_model_fit": "Modellanpassning (%)",
-  "solar_export_diagnostics_popup": "Diagnostikdata loggad. Skicka nu en Homey-appdiagnostikrapport för denna app, och ange denna arrays panelorientering (t.ex. Söder, Öster eller Väster) samt eventuella ytterligare detaljer om problemet.",
+  "solar_export_diagnostics_popup": "Skapa nu en appdiagnostikrapport med meddelande: orientering (t.ex. Söder/Öster/Väster).",
   "repair": {
     "warningtitle": "VARNING",
     "warningtext": "Du håller på att byta källenhet. Detta bevarar alla insikter och flöden. Men om den nya källenheten har en annan mätarställning måste du manuellt kompensera mätar- och pengastartvärdena i de avancerade inställningarna.",
