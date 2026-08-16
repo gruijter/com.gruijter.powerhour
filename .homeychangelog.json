@@ -1,4 +1,7 @@
 {
+  "8.16.0": {
+    "en": "Removed daytime solarLearning. Full rewrite of nightly solarLearning. Added solar model fit indication. Added solar data collection maintenance action."
+  },
   "8.15.0": {
     "en": "Further reduce memory peaks. Improve ROI strategy. Extend solar forecast local weather models. Add action flow 'time_until_cheapest'. Fix anomalous meter jumps at period boundaries. Refactoring and code cleanup."
   },
