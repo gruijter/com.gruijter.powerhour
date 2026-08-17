@@ -1,4 +1,7 @@
 {
+  "8.16.1": {
+    "en": "Fix and refactor chart image init"
+  },
   "8.16.0": {
     "en": "Removed daytime solarLearning. Full rewrite of nightly solarLearning. Added solar model fit indication. Added solar data collection maintenance action."
   },
