@@ -77,6 +77,21 @@ const driverSpecifics = {
     'meter_power_hidden',
     // 'roi_duration', // added only for advanced ROI
   ],
+  // Canonical display order for this driver's chart images - see lib/helpers/ChartImages.js.
+  chartImages: [
+    {
+      id: 'todayChargeChart', prop: 'todayChargeImage', chartProp: 'chartTodayCharge', titleKey: 'today',
+    },
+    {
+      id: 'tomorrowChargeChart', prop: 'tomorrowChargeImage', chartProp: 'chartTomorrowCharge', titleKey: 'tomorrow',
+    },
+    {
+      id: 'nextHoursChargeChart', prop: 'nextHoursChargeImage', chartProp: 'chartNextHoursCharge', titleKey: 'nextHours',
+    },
+    {
+      id: 'yesterdayChargeChart', prop: 'yesterdayChargeImage', chartProp: 'chartYesterdayCharge', titleKey: 'yesterday',
+    },
+  ],
 };
 
 class BatteryDriver extends GenericDriver {

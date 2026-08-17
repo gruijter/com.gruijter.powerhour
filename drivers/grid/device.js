@@ -22,10 +22,11 @@ along with com.gruijter.powerhour.  If not, see <http://www.gnu.org/licenses/>.
 const GenericDevice = require('../../lib/genericDeviceDrivers/generic_sum_device');
 const LoadForecastStrategy = require('../../lib/strategies/LoadForecastStrategy');
 const GridFlows = require('../../lib/flows/GridFlows');
-const { imageUrlToStream } = require('../../lib/charts/ImageHelpers');
 const { getGridForecastChart, getGridWeeklyChart } = require('../../lib/charts/GridChart');
 const MeterHelpers = require('../../lib/helpers/MeterHelpers');
 const DeviceMigrator = require('../../lib/DeviceMigrator');
+const ChartImages = require('../../lib/helpers/ChartImages');
+const { setTimeoutPromise } = require('../../lib/helpers/Util');
 const { fetchYesterdayAndToday, convertCumulativeToPower } = require('../../lib/helpers/HistoryLookup');
 const { combineComponentsToHomePower } = require('../../lib/helpers/HomePowerReconstruction');
 const TimeHelpers = require('../../lib/helpers/TimeHelpers');
@@ -57,6 +58,15 @@ class GridDevice extends GenericDevice {
     this.powerHistory = [];
     this.ds = deviceSpecifics;
     this.flows = new GridFlows(this);
+
+    // Register chart images in canonical order before any periodic update can render into them.
+    // Deliberately before super.onInit(): the base class (generic_sum_device.js) sets
+    // initReady = true partway through its own onInit, and this driver has no guarantee that
+    // nothing gated on initReady could reach a chart-update path before this line otherwise.
+    // Only needs device.homey/device.driver, both set by the platform before any onInit runs, so
+    // this has no dependency on super.onInit().
+    await ChartImages.registerChartImages(this, this.driver.ds.chartImages);
+
     await super.onInit().catch(this.error);
 
     // A newer onInit() (via restartDevice(), e.g. on a detected currency mismatch) can start
@@ -104,16 +114,9 @@ class GridDevice extends GenericDevice {
       if (this.hasCapability(cap)) {
         this.log(`Removing obsolete capability ${cap} from device ${this.getName()}`);
         await this.removeCapability(cap).catch(this.error);
+        await setTimeoutPromise(2 * 1000, this); // wait a bit for Homey to settle
       }
     }
-
-    // One-time fix for chart display order: today, tomorrow, yesterday, weekly.
-    await DeviceMigrator.migrateImageCapabilityOrder(this, {
-      gridToday: 'gridTodayImage',
-      gridTomorrow: 'gridTomorrowImage',
-      gridYesterday: 'gridYesterdayImage',
-      gridWeekly: 'gridWeeklyImage',
-    }, 'chartOrderMigrated_v1');
 
     // Restore per-direction (import/export) register state - used by the 'perDirection' and
     // 'fixedBlock' schemes to split the net meter reading into import/export deltas before
@@ -963,7 +966,7 @@ class GridDevice extends GenericDevice {
           const updated = await this.updateLearning();
           const now = new Date();
           const is15mBoundary = (now.getMinutes() % 15 === 0);
-          if (updated || is15mBoundary || !this.gridTodayImage) {
+          if (updated || is15mBoundary || !this.chartGridToday) {
             await this.updateForecastDisplay(updated);
           }
         }
@@ -1077,57 +1080,37 @@ class GridDevice extends GenericDevice {
     const endOfTomorrow = new Date(startOfTomorrow.getTime() + 24 * 60 * 60 * 1000);
 
     // 1. Today Chart (Forecast vs Real - updated every 15 mins or on model update)
-    if (updated || (now.getMinutes() % 15 === 0) || !this.gridTodayImage) {
+    if (updated || (now.getMinutes() % 15 === 0) || !this.chartGridToday) {
       const chartToday = await getGridForecastChart(this.weeklyProfile, startOfToday, endOfToday, 'Home Load Today', this.powerHistory, this.timeZone, true);
       if (chartToday) {
         this.chartGridToday = chartToday;
-        if (!this.gridTodayImage) {
-          this.gridTodayImage = await this.homey.images.createImage();
-          this.gridTodayImage.setStream(async (stream) => imageUrlToStream(this.chartGridToday, stream, this));
-          await this.setCameraImage('gridToday', ` ${this.homey.__('today')}`, this.gridTodayImage);
-        }
         await this.gridTodayImage.update().catch(this.error);
       }
     }
 
     // 2. Tomorrow Chart (Forecast only)
-    if (updated || !this.gridTomorrowImage) {
+    if (updated || !this.chartGridTomorrow) {
       const chartTomorrow = await getGridForecastChart(this.weeklyProfile, startOfTomorrow, endOfTomorrow, 'Home Load Tomorrow', [], this.timeZone, false);
       if (chartTomorrow) {
         this.chartGridTomorrow = chartTomorrow;
-        if (!this.gridTomorrowImage) {
-          this.gridTomorrowImage = await this.homey.images.createImage();
-          this.gridTomorrowImage.setStream(async (stream) => imageUrlToStream(this.chartGridTomorrow, stream, this));
-          await this.setCameraImage('gridTomorrow', ` ${this.homey.__('tomorrow')}`, this.gridTomorrowImage);
-        }
         await this.gridTomorrowImage.update().catch(this.error);
       }
     }
 
     // 3. Yesterday Chart (Forecast vs Real)
-    if (updated || !this.gridYesterdayImage) {
+    if (updated || !this.chartGridYesterday) {
       const chartYesterday = await getGridForecastChart(this.weeklyProfile, startOfYesterday, endOfYesterday, 'Home Load Yesterday', this.powerHistory, this.timeZone, false);
       if (chartYesterday) {
         this.chartGridYesterday = chartYesterday;
-        if (!this.gridYesterdayImage) {
-          this.gridYesterdayImage = await this.homey.images.createImage();
-          this.gridYesterdayImage.setStream(async (stream) => imageUrlToStream(this.chartGridYesterday, stream, this));
-          await this.setCameraImage('gridYesterday', ` ${this.homey.__('yesterday')}`, this.gridYesterdayImage);
-        }
         await this.gridYesterdayImage.update().catch(this.error);
       }
     }
 
     // 4. Weekly Chart (Monday to Sunday baseline profile)
-    if (updated || !this.gridWeeklyImage) {
+    if (updated || !this.chartGridWeekly) {
       const chartWeekly = await getGridWeeklyChart(this.weeklyProfile, 'Weekly Baseline Profile');
       if (chartWeekly) {
         this.chartGridWeekly = chartWeekly;
-        if (!this.gridWeeklyImage) {
-          this.gridWeeklyImage = await this.homey.images.createImage();
-          this.gridWeeklyImage.setStream(async (stream) => imageUrlToStream(this.chartGridWeekly, stream, this));
-          await this.setCameraImage('gridWeekly', ` ${this.homey.__('weekly')}`, this.gridWeeklyImage);
-        }
         await this.gridWeeklyImage.update().catch(this.error);
       }
     }

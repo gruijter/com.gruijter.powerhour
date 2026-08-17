@@ -64,6 +64,21 @@ const driverSpecifics = {
     'measure_watt_forecast.m45', 'measure_watt_forecast.h1', 'measure_watt_forecast.h2',
     'measure_watt_forecast.h3', 'meter_kwh_forecast.h0', 'meter_kwh_forecast.this_day',
     'meter_kwh_forecast.tomorrow', 'measure_watt_forecast.tomorrow_peak', 'button.retrain_load'],
+  // Canonical display order for this driver's chart images - see lib/helpers/ChartImages.js.
+  chartImages: [
+    {
+      id: 'gridToday', prop: 'gridTodayImage', chartProp: 'chartGridToday', titleKey: 'today',
+    },
+    {
+      id: 'gridTomorrow', prop: 'gridTomorrowImage', chartProp: 'chartGridTomorrow', titleKey: 'tomorrow',
+    },
+    {
+      id: 'gridYesterday', prop: 'gridYesterdayImage', chartProp: 'chartGridYesterday', titleKey: 'yesterday',
+    },
+    {
+      id: 'gridWeekly', prop: 'gridWeeklyImage', chartProp: 'chartGridWeekly', titleKey: 'weekly',
+    },
+  ],
 };
 
 class GridDriver extends GenericDriver {

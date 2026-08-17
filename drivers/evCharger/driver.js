@@ -31,6 +31,21 @@ const driverSpecifics = {
     // button.retrain. Also appended at the end for the same DeviceMigrator reason above.
     'button.retrain',
   ],
+  // Canonical display order for this driver's chart images - see lib/helpers/ChartImages.js.
+  chartImages: [
+    {
+      id: 'todayChargeChart', prop: 'todayChargeImage', chartProp: 'chartTodayCharge', titleKey: 'today',
+    },
+    {
+      id: 'tomorrowChargeChart', prop: 'tomorrowChargeImage', chartProp: 'chartTomorrowCharge', titleKey: 'tomorrow',
+    },
+    {
+      id: 'nextHoursChargeChart', prop: 'nextHoursChargeImage', chartProp: 'chartNextHoursCharge', titleKey: 'nextHours',
+    },
+    {
+      id: 'yesterdayChargeChart', prop: 'yesterdayChargeImage', chartProp: 'chartYesterdayCharge', titleKey: 'yesterday',
+    },
+  ],
 };
 
 class CarChargeDriver extends GenericDriver {

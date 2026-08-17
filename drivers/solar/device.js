@@ -21,13 +21,13 @@ along with com.gruijter.powerhour.  If not, see <http://www.gnu.org/licenses/>.
 'use strict';
 
 const GenericDevice = require('../../lib/genericDeviceDrivers/generic_sum_device');
-const { imageUrlToStream } = require('../../lib/charts/ImageHelpers');
 const { getSolarChart, getDistributionChart } = require('../../lib/charts/SolarChart');
 const OpenMeteo = require('../../lib/providers/OpenMeteo');
 const SolarEclipse = require('../../lib/helpers/SolarEclipse');
 const SolarLearningStrategy = require('../../lib/strategies/SolarLearningStrategy');
 const SolarFlows = require('../../lib/flows/SolarFlows');
 const TimeHelpers = require('../../lib/helpers/TimeHelpers');
+const ChartImages = require('../../lib/helpers/ChartImages');
 const { fetchYesterdayAndToday, convertCumulativeToPower } = require('../../lib/helpers/HistoryLookup');
 
 const deviceSpecifics = {
@@ -59,6 +59,15 @@ class SolarDevice extends GenericDevice {
     this.ds = deviceSpecifics;
     this.flows = new SolarFlows(this);
     this.powerHistory = [];
+
+    // Register chart images in canonical order before any periodic update can render into them.
+    // Deliberately before super.onInit(): the base class (generic_sum_device.js) sets
+    // initReady = true partway through its own onInit, and this driver has no guarantee that
+    // nothing gated on initReady could reach a chart-update path before this line otherwise.
+    // Only needs device.homey/device.driver, both set by the platform before any onInit runs, so
+    // this has no dependency on super.onInit().
+    await ChartImages.registerChartImages(this, this.driver.ds.chartImages);
+
     await super.onInit().catch(this.error);
 
     // A newer onInit() (via restartDevice(), e.g. on a detected currency mismatch) can start
@@ -278,7 +287,7 @@ class SolarDevice extends GenericDevice {
           await this.updateLearning();
           const now = new Date();
           const is15mBoundary = (now.getMinutes() % 15 === 0);
-          if (this.forecastChanged || is15mBoundary || !this.solarTodayImage) {
+          if (this.forecastChanged || is15mBoundary || !this.chartSolarToday) {
             await this.updateForecastDisplay(false);
           }
         }
@@ -1142,23 +1151,18 @@ class SolarDevice extends GenericDevice {
     }
 
     // 1. Today
-    if (yieldFactorsUpdated || this.forecastChanged || (now.getMinutes() % 15 === 0) || !this.solarTodayImage) {
+    if (yieldFactorsUpdated || this.forecastChanged || (now.getMinutes() % 15 === 0) || !this.chartSolarToday) {
       const { start: todayStart, end: todayEnd } = SolarLearningStrategy.getSunBounds(now, this.forecastData, this.timeZone);
 
       const chartToday = await getSolarChart(this.forecastData, this.yieldFactors, todayStart, todayEnd, 'Forecast This Day', this.powerHistory, this.timeZone, chartPeak, true);
       if (chartToday) {
         this.chartSolarToday = chartToday;
-        if (!this.solarTodayImage) {
-          this.solarTodayImage = await this.homey.images.createImage();
-          this.solarTodayImage.setStream(async (stream) => imageUrlToStream(this.chartSolarToday, stream, this));
-          await this.setCameraImage('solarToday', ` ${this.homey.__('today')}`, this.solarTodayImage);
-        }
         await this.solarTodayImage.update();
       }
     }
 
     // 2. Tomorrow
-    if (yieldFactorsUpdated || this.forecastChanged || !this.solarTomorrowImage) {
+    if (yieldFactorsUpdated || this.forecastChanged || !this.chartSolarTomorrow) {
       const tomorrow = new Date(now);
       tomorrow.setDate(tomorrow.getDate() + 1);
       const { start: tomorrowStart, end: tomorrowEnd } = SolarLearningStrategy.getSunBounds(tomorrow, this.forecastData, this.timeZone);
@@ -1166,17 +1170,12 @@ class SolarDevice extends GenericDevice {
       const chartTomorrow = await getSolarChart(this.forecastData, this.yieldFactors, tomorrowStart, tomorrowEnd, 'Forecast Tomorrow', this.powerHistory, this.timeZone, chartPeak, false);
       if (chartTomorrow) {
         this.chartSolarTomorrow = chartTomorrow;
-        if (!this.solarTomorrowImage) {
-          this.solarTomorrowImage = await this.homey.images.createImage();
-          this.solarTomorrowImage.setStream(async (stream) => imageUrlToStream(this.chartSolarTomorrow, stream, this));
-          await this.setCameraImage('solarTomorrow', ` ${this.homey.__('tomorrow')}`, this.solarTomorrowImage);
-        }
         await this.solarTomorrowImage.update();
       }
     }
 
     // 3. Yesterday (Fixed Forecast)
-    if (this.forecastHistory.yesterday && (!this.solarYesterdayImage || yieldFactorsUpdated || dayChanged)) {
+    if (this.forecastHistory.yesterday && (!this.chartSolarYesterday || yieldFactorsUpdated || dayChanged)) {
       // Use the frozen power data from history to determine bounds and draw chart
       const frozenData = this.forecastHistory.yesterday.data;
       const { start: yStart, end: yEnd } = SolarLearningStrategy.getSunBounds(yesterday, frozenData, this.timeZone);
@@ -1187,28 +1186,18 @@ class SolarDevice extends GenericDevice {
 
       if (chartYesterday) {
         this.chartSolarYesterday = chartYesterday;
-        if (!this.solarYesterdayImage) {
-          this.solarYesterdayImage = await this.homey.images.createImage();
-          this.solarYesterdayImage.setStream(async (stream) => imageUrlToStream(this.chartSolarYesterday, stream, this));
-          await this.setCameraImage('solarYesterday', ` ${this.homey.__('yesterday')}`, this.solarYesterdayImage);
-        }
         await this.solarYesterdayImage.update();
       }
     }
 
     // 3. Distribution
-    if (yieldFactorsUpdated || !this.solarDistributionImage) {
+    if (yieldFactorsUpdated || !this.chartSolarDistribution) {
       const chartDist = await getDistributionChart(this.yieldFactors, 'Yield Distribution', this.timeZone, this.trainingConfidence, {
         yieldFactor: this.homey.__('solar_chart_yield_factor'),
         modelFit: this.homey.__('solar_chart_model_fit'),
       });
       if (chartDist) {
         this.chartSolarDistribution = chartDist;
-        if (!this.solarDistributionImage) {
-          this.solarDistributionImage = await this.homey.images.createImage();
-          this.solarDistributionImage.setStream(async (stream) => imageUrlToStream(this.chartSolarDistribution, stream, this));
-          await this.setCameraImage('solarDistribution', ` ${this.homey.__('distribution')}`, this.solarDistributionImage);
-        }
         await this.solarDistributionImage.update();
       }
     }

@@ -49,6 +49,21 @@ const driverSpecifics = {
     // symmetric min+max version used by drivers where min is meaningful).
     'measure_watt_max.day', 'measure_watt_max.month', 'measure_watt_max.year',
     'button.retrain', 'button.export_diagnostics', 'alarm_power'],
+  // Canonical display order for this driver's chart images - see lib/helpers/ChartImages.js.
+  chartImages: [
+    {
+      id: 'solarToday', prop: 'solarTodayImage', chartProp: 'chartSolarToday', titleKey: 'today',
+    },
+    {
+      id: 'solarTomorrow', prop: 'solarTomorrowImage', chartProp: 'chartSolarTomorrow', titleKey: 'tomorrow',
+    },
+    {
+      id: 'solarYesterday', prop: 'solarYesterdayImage', chartProp: 'chartSolarYesterday', titleKey: 'yesterday',
+    },
+    {
+      id: 'solarDistribution', prop: 'solarDistributionImage', chartProp: 'chartSolarDistribution', titleKey: 'distribution',
+    },
+  ],
 };
 
 class SolarDriver extends GenericDriver {
