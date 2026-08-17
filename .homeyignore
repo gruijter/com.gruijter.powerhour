@@ -4,4 +4,6 @@ zzz*
 *.OLD.js
 .vscode
 .github
+.claude
+AGENTS.md
 scratch/

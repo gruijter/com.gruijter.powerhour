@@ -21,3 +21,8 @@ Thumbs.db
 # IDE settings (optional)
 .vscode/
 .idea/
+
+# AI agent tooling (local-only, not part of the published app or repo history)
+.claude/
+.github/
+AGENTS.md
