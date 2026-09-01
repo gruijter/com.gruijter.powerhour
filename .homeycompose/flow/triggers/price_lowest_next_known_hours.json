@@ -58,7 +58,19 @@
         "en": "1 - 192"
       },
       "hint": {
-        "en": "Enter the number of periods (hours for dap, quarters for dap15)."
+        "en": "Enter the number of periods (hours for hourly pricing, quarters for 15m pricing).",
+        "nl": "Voer het aantal periodes in (uren voor uurprijzen, kwartieren voor 15m prijzen).",
+        "de": "Geben Sie die Anzahl der Perioden ein (Stunden für Stundenpreise, Viertelstunden für 15m-Preise).",
+        "fr": "Entrez le nombre de périodes (heures pour tarification horaire, quarts d'heure pour tarification 15m).",
+        "it": "Inserisci il numero di periodi (ore per prezzi orari, quarti d'ora per prezzi 15m).",
+        "sv": "Ange antal perioder (timmar för timpriser, kvartar för 15m-priser).",
+        "no": "Angi antall perioder (timer for timepriser, kvarter for 15m-priser).",
+        "es": "Introduzca el número de períodos (horas para precios por hora, cuartos de hora para precios de 15m).",
+        "da": "Indtast antallet af perioder (timer for timepriser, kvarter for 15m priser).",
+        "pl": "Wprowadź liczbę okresów (godziny dla cen godzinowych, kwadranse dla cen 15m).",
+        "ru": "Введите количество периодов (часы для почасовых цен, четверти часа для 15-минутных цен).",
+        "ar": "أدخل عدد الفترات (ساعات للأسعار بالساعة، أرباع ساعة لأسعار 15 دقيقة).",
+        "ko": "기간 수를 입력하세요 (시간당 가격의 경우 시간, 15분 가격의 경우 15분)."
       },
       "min": 1,
       "max": 192,
