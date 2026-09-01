@@ -1,6 +1,6 @@
 {
   "8.17.0": {
-    "en": ""
+    "en": "Add set_export_markup flows. Add grid import/export this_day. Fix checkMeterJump and handle negative energy meters. Improve hints in flows. Pin Node v22. Fast-cml-parser@5.11.1. Homey-api@3.19.3."
   },
   "8.16.1": {
     "en": "Fix and refactor chart image init"
