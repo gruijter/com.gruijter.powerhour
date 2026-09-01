@@ -21,8 +21,8 @@
   },
   "dependencies": {
     "astronomy-engine": "^2.1.19",
-    "fast-xml-parser": "^4.5.7",
-    "homey-api": "^3.19.2",
+    "fast-xml-parser": "^5.11.1",
+    "homey-api": "^3.19.3",
     "javascript-lp-solver": "^1.0.3"
   },
   "devDependencies": {
