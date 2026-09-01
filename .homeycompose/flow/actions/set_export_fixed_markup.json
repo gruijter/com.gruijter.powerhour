@@ -1,0 +1,59 @@
+{
+  "title": {
+    "en": "Set a new fixed markup (export)",
+    "de": "Neuen festen Aufschlag festlegen (export)",
+    "sv": "Ställ in ett nytt fast påslag (export)",
+    "it": "Imposta un nuovo sovraprezzo fisso (export)",
+    "no": "Sett en ny fast påslag (export)",
+    "fr": "Définir une nouvelle majoration fixe (export)",
+    "da": "Sæt en ny fast opmarkering (export)",
+    "nl": "Stel een nieuwe vaste opslag in (export)",
+    "ar": "تعيين هامش ربح ثابت جديد (export)",
+    "es": "Establecer un nuevo margen fijo (export)",
+    "pl": "Ustaw nowy narzut stały (export)",
+    "ru": "Установить новую фиксированную наценку (export)",
+    "ko": "새 고정 마크업 설정 (export)"
+  },
+  "titleFormatted": {
+    "en": "Set fixed markup to [[value]] (export)",
+    "de": "Festen Aufschlag einstellen auf [[value]] (export)",
+    "sv": "Ställ in fast påslag till [[value]] (export)",
+    "it": "Imposta sovraprezzo fisso a [[value]] (export)",
+    "no": "Sett en ny fast påslag til [[value]] (export)",
+    "fr": "Définir une majoration fixe à [[value]] (export)",
+    "da": "Sæt en ny fast opmarkering til [[value]] (export)",
+    "nl": "Stel vaste opslag in op [[value]] (export)",
+    "ar": "تعيين هامش الربح الثابت إلى [[value]] (export)",
+    "es": "Establecer margen fijo a [[value]] (export)",
+    "pl": "Ustaw narzut stały na [[value]] (export)",
+    "ru": "Установить фиксированную наценку на [[value]] (export)",
+    "ko": "고정 마크업을 [[value]]로 설정 (export)"
+  },
+  "highlight": true,
+  "args": [
+    {
+      "type": "device",
+      "name": "device",
+      "filter": "driver_id=dap|dap15"
+    },
+    {
+      "name": "value",
+      "type": "number",
+      "placeholder": {
+        "de": "Fester Aufschlag pro kWh/m3",
+        "en": "Fixed markup per kWh or m3",
+        "sv": "Fast påslag per kWh eller m3",
+        "it": "Sovraprezzo fisso per kWh/m3",
+        "no": "Fast påslag per kWh or m3",
+        "nl": "Vaste opslag per kWh of m3",
+        "da": "Fast opmarkering per kWh eller m3",
+        "fr": "Majoration fixe par KWh ou m3",
+        "ar": "هامش ربح ثابت لكل كيلوواط ساعة أو متر مكعب",
+        "es": "Margen fijo por kWh o m3",
+        "pl": "Narzut stały za kWh lub m3",
+        "ru": "Фиксированная наценка за кВтч или м3",
+        "ko": "kWh 또는 m3당 고정 마크업"
+      }
+    }
+  ]
+}

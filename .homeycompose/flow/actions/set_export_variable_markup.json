@@ -1,0 +1,59 @@
+{
+  "title": {
+    "en": "Set a new variable markup (export)",
+    "de": "Neuen variablen Aufschlag festlegen (export)",
+    "sv": "Ställ in ett nytt variabelt påslag (export)",
+    "it": "Imposta un nuovo sovraprezzo variabile (export)",
+    "no": "Sett en ny variabel påslag (export)",
+    "fr": "Définir une majoration variable (export)",
+    "da": "Sæt en ny variabel opmarkering (export)",
+    "nl": "Stel een nieuwe variabele opslag in (export)",
+    "ar": "تعيين هامش ربح متغير جديد (export)",
+    "es": "Establecer un nuevo margen variable (export)",
+    "pl": "Ustaw nowy narzut zmienny (export)",
+    "ru": "Установить новую переменную наценку (export)",
+    "ko": "새 변동 마크업 설정 (export)"
+  },
+  "titleFormatted": {
+    "en": "Set variable markup to [[value]]% (export)",
+    "sv": "Ställ in variabelpåslag till [[value]]% (export)",
+    "de": "Variablen Aufschlag einstellen auf [[value]]% (export)",
+    "it": "Imposta sovraprezzo variabile a [[value]]% (export)",
+    "no": "Sett variabel påslag til [[value]]% (export)",
+    "fr": "Définir une majoration variable à [[value]] (export)",
+    "da": "Sæt variabel opmarkering til [[value]]% (export)",
+    "nl": "Stel variabele opslag in op [[value]]% (export)",
+    "ar": "تعيين هامش الربح المتغير إلى [[value]]% (export)",
+    "es": "Establecer margen variable a [[value]]% (export)",
+    "pl": "Ustaw narzut zmienny na [[value]]% (export)",
+    "ru": "Установить переменную наценку на [[value]]% (export)",
+    "ko": "변동 마크업을 [[value]]%로 설정 (export)"
+  },
+  "highlight": true,
+  "args": [
+    {
+      "type": "device",
+      "name": "device",
+      "filter": "driver_id=dap|dap15"
+    },
+    {
+      "name": "value",
+      "type": "number",
+      "placeholder": {
+        "en": "Variable markup (%)",
+        "de": "Variabler Aufschlag (%)",
+        "sv": "Variabel påslag (%)",
+        "it": "Sovraprezzo variabile (%)",
+        "no": "Variabel påslag (%)",
+        "fr": "Majoration variable (%)",
+        "da": "Variabel opmarkering (%)",
+        "nl": "Variabele opslag (%)",
+        "es": "Margen variable (%)",
+        "pl": "Narzut zmienny (%)",
+        "ru": "Переменная наценка (%)",
+        "ko": "변동 마크업 (%)",
+        "ar": "هامش ربح متغير (%)"
+      }
+    }
+  ]
+}

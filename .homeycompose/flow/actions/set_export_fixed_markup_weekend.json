@@ -1,0 +1,58 @@
+{
+  "title": {
+    "en": "Set a new weekend markup (export)",
+    "de": "Neuen Wochenendaufschlag setzen (export)",
+    "nl": "Stel een nieuwe weekend opslag in (export)",
+    "ar": "تعيين هامش ربح جديد لعطلة نهاية الأسبوع (export)",
+    "sv": "Ställ in ett nytt helgpåslag (export)",
+    "it": "Imposta un nuovo sovraprezzo weekend (export)",
+    "no": "Sett en ny helgepåslag (export)",
+    "fr": "Définir une nouvelle majoration week-end (export)",
+    "da": "Sæt en ny weekendopmarkering (export)",
+    "es": "Establecer un nuevo margen de fin de semana (export)",
+    "pl": "Ustaw nowy narzut weekendowy (export)",
+    "ru": "Установить новую наценку выходного дня (export)",
+    "ko": "새 주말 마크업 설정 (export)"
+  },
+  "titleFormatted": {
+    "en": "Set weekend markup to [[value]] (export)",
+    "de": "Wochenendaufschlag auf [[value]] setzen (export)",
+    "nl": "Stel weekend opslag in op [[value]] (export)",
+    "ar": "تعيين هامش ربح عطلة نهاية الأسبوع إلى [[value]] (export)",
+    "sv": "Ställ in helgpåslag till [[value]] (export)",
+    "it": "Imposta sovraprezzo weekend a [[value]] (export)",
+    "no": "Sett helgepåslag til [[value]] (export)",
+    "fr": "Définir la majoration week-end à [[value]] (export)",
+    "da": "Sæt weekendopmarkering til [[value]] (export)",
+    "es": "Establecer margen de fin de semana a [[value]] (export)",
+    "pl": "Ustaw narzut weekendowy na [[value]] (export)",
+    "ru": "Установить наценку выходного дня на [[value]] (export)",
+    "ko": "주말 마크업을 [[value]]로 설정 (export)"
+  },
+  "args": [
+    {
+      "type": "device",
+      "name": "device",
+      "filter": "driver_id=dap|dap15"
+    },
+    {
+      "name": "value",
+      "type": "number",
+      "placeholder": {
+        "en": "E.g. 0.5",
+        "nl": "Bijv. 0.5",
+        "de": "z.B. 0.5",
+        "fr": "Par ex. 0.5",
+        "it": "Es. 0.5",
+        "sv": "T.ex. 0.5",
+        "no": "F.eks. 0.5",
+        "da": "F.eks. 0.5",
+        "es": "P.ej. 0.5",
+        "pl": "Np. 0.5",
+        "ru": "Напр. 0.5",
+        "ar": "مثال 0.5",
+        "ko": "예: 0.5"
+      }
+    }
+  ]
+}

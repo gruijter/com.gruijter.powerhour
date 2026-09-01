@@ -1,0 +1,46 @@
+{
+  "title": {
+    "en": "Set a new Time Of Day markup (export)",
+    "de": "Neuen Time Of Day Aufschlag setzen (export)",
+    "nl": "Stel een nieuwe Time Of Day opslag in (export)",
+    "ar": "تعيين هامش ربح جديد حسب وقت اليوم (export)",
+    "sv": "Ställ in ett nytt Time Of Day-påslag (export)",
+    "it": "Imposta un nuovo sovraprezzo Time Of Day (export)",
+    "no": "Sett en ny Time Of Day-påslag (export)",
+    "fr": "Définir une nouvelle majoration Time Of Day (export)",
+    "da": "Sæt en ny Time Of Day-opmarkering (export)",
+    "es": "Establecer un nuevo margen Time Of Day (export)",
+    "pl": "Ustaw nowy narzut Time Of Day (export)",
+    "ru": "Установить новую наценку Time Of Day (export)",
+    "ko": "새 시간대별 마크업 설정 (export)"
+  },
+  "titleFormatted": {
+    "en": "Set Time Of Day markup to [[value]] (export)",
+    "de": "Time Of Day Aufschlag auf [[value]] setzen (export)",
+    "nl": "Stel Time Of Day opslag in op [[value]] (export)",
+    "ar": "تعيين هامش الربح حسب وقت اليوم إلى [[value]] (export)",
+    "sv": "Ställ in Time Of Day-påslag till [[value]] (export)",
+    "it": "Imposta sovraprezzo Time Of Day a [[value]] (export)",
+    "no": "Sett Time Of Day-påslag til [[value]] (export)",
+    "fr": "Définir la majoration Time Of Day à [[value]] (export)",
+    "da": "Sæt Time Of Day-opmarkering til [[value]] (export)",
+    "es": "Establecer margen Time Of Day a [[value]] (export)",
+    "pl": "Ustaw narzut Time Of Day na [[value]] (export)",
+    "ru": "Установить наценку Time Of Day на [[value]] (export)",
+    "ko": "시간대별 마크업을 [[value]]로 설정 (export)"
+  },
+  "args": [
+    {
+      "type": "device",
+      "name": "device",
+      "filter": "driver_id=dap|dap15"
+    },
+    {
+      "name": "value",
+      "type": "text",
+      "placeholder": {
+        "en": "6:0.3;22:0.1"
+      }
+    }
+  ]
+}
