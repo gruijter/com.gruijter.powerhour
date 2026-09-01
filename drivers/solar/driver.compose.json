@@ -14,8 +14,7 @@
     "ar": "مراقب الطاقة الضوئية"
   },
   "class": "other",
-  "capabilities": [
-  ],
+  "capabilities": [],
   "capabilitiesOptions": {
     "meter_power": {
       "decimals": 4
@@ -1649,116 +1648,56 @@
           "values": [
             {
               "id": "dynamic",
-              "label": { "en": "Automatic", "nl": "Automatisch", "de": "Automatisch", "fr": "Automatique", "it": "Automatico", "sv": "Automatisk", "no": "Automatisk", "es": "Automático", "da": "Automatisk", "pl": "Automatyczny", "ru": "Автоматический", "ar": "تلقائي" }
+              "label": {
+                "en": "Automatic",
+                "nl": "Automatisch",
+                "de": "Automatisch",
+                "fr": "Automatique",
+                "it": "Automatico",
+                "sv": "Automatisk",
+                "no": "Automatisk",
+                "es": "Automático",
+                "da": "Automatisk",
+                "pl": "Automatyczny",
+                "ru": "Автоматический",
+                "ar": "تلقائي"
+              }
             },
             {
               "id": "import",
-              "label": { "en": "Always Import", "nl": "Altijd Import", "de": "Immer Import", "fr": "Toujours Importer", "it": "Sempre Importazione", "sv": "Alltid Import", "no": "Alltid Import", "es": "Siempre Importar", "da": "Altid Import", "pl": "Zawsze Import", "ru": "Всегда Импорт", "ar": "استيراد دائما" }
+              "label": {
+                "en": "Always Import",
+                "nl": "Altijd Import",
+                "de": "Immer Import",
+                "fr": "Toujours Importer",
+                "it": "Sempre Importazione",
+                "sv": "Alltid Import",
+                "no": "Alltid Import",
+                "es": "Siempre Importar",
+                "da": "Altid Import",
+                "pl": "Zawsze Import",
+                "ru": "Всегда Импорт",
+                "ar": "استيراد دائما"
+              }
             },
             {
               "id": "export",
-              "label": { "en": "Always Export", "nl": "Altijd Export", "de": "Immer Export", "fr": "Toujours Exporter", "it": "Sempre Esportazione", "sv": "Alltid Export", "no": "Alltid Eksport", "es": "Siempre Exportar", "da": "Altid Eksport", "pl": "Zawsze Eksport", "ru": "Всегда Экспорт", "ar": "تصدير دائما" }
+              "label": {
+                "en": "Always Export",
+                "nl": "Altijd Export",
+                "de": "Immer Export",
+                "fr": "Toujours Exporter",
+                "it": "Sempre Esportazione",
+                "sv": "Alltid Export",
+                "no": "Alltid Eksport",
+                "es": "Siempre Exportar",
+                "da": "Altid Eksport",
+                "pl": "Zawsze Eksport",
+                "ru": "Всегда Экспорт",
+                "ar": "تصدير دائما"
+              }
             }
           ]
-        },
-        {
-          "id": "markup_month",
-          "type": "number",
-          "label": {
-            "en": "Fixed monthly costs",
-            "de": "Fixkosten pro Monat",
-            "nl": "Vaste maandelijkse kosten",
-            "fr": "Coûts mensuels fixes",
-            "it": "Costi fissi mensili",
-            "sv": "Fasta månadskostnader",
-            "no": "Faste månedlige kostnader",
-            "es": "Costos mensuales fijos",
-            "da": "Faste månedlige omkostninger",
-            "pl": "Stałe koszty miesięczne",
-            "ru": "Фиксированные ежемесячные расходы",
-            "ar": "التكاليف الشهرية الثابتة"
-          },
-          "hint": {
-            "en": "Fixed costs that will be added at the start of every new month.",
-            "de": "Fixkosten, die zu Beginn eines jeden neuen Monats hinzukommen.",
-            "nl": "Vaste kosten die aan het begin van elke nieuwe maand worden toegevoegd.",
-            "fr": "Coûts fixes qui seront ajoutés au début de chaque nouveau mois.",
-            "it": "Costi fissi che verranno aggiunti all'inizio di ogni nuovo mese.",
-            "sv": "Fasta kostnader som läggs till i början av varje ny månad.",
-            "no": "Faste kostnader som legges til ved starten av hver ny måned.",
-            "es": "Costos fijos que se agregarán al comienzo de cada nuevo mes.",
-            "da": "Faste omkostninger, der tilføjes ved starten af hver ny måned.",
-            "pl": "Stałe koszty, które będą dodawane na początku każdego nowego miesiąca.",
-            "ru": "Фиксированные расходы, которые будут добавляться в начале каждого нового месяца.",
-            "ar": "التكاليف الثابتة التي سيتم إضافتها في بداية كل شهر جديد."
-          },
-          "value": 0
-        },
-        {
-          "id": "markup_day",
-          "type": "number",
-          "label": {
-            "en": "Fixed daily costs",
-            "de": "Fixkosten pro Tag",
-            "nl": "Vaste dagelijkse kosten",
-            "fr": "Coûts quotidiens fixes",
-            "it": "Costi fissi giornalieri",
-            "sv": "Fasta dagliga kostnader",
-            "no": "Faste daglige kostnader",
-            "es": "Costos diarios fijos",
-            "da": "Faste daglige omkostninger",
-            "pl": "Stałe koszty dzienne",
-            "ru": "Фиксированные ежедневные расходы",
-            "ar": "التكاليف اليومية الثابتة"
-          },
-          "hint": {
-            "en": "Fixed costs that will be added at the start of every new day.",
-            "de": "Fixkosten, die zu Beginn eines jeden neuen Tages hinzukommen.",
-            "nl": "Vaste kosten die aan het begin van elke nieuwe dag worden toegevoegd.",
-            "fr": "Coûts fixes qui seront ajoutés au début de chaque nouveau jour.",
-            "it": "Costi fissi che verranno aggiunti all'inizio di ogni nuovo giorno.",
-            "sv": "Fasta kostnader som läggs till i början av varje ny day.",
-            "no": "Faste kostnader som legges til ved starten av hver ny dag.",
-            "es": "Costos fijos que se agregarán al comienzo de cada nuevo día.",
-            "da": "Faste omkostninger, der tilføjes ved starten af hver ny dag.",
-            "pl": "Stałe koszty, które będą dodawane na początku każdego nowego dnia.",
-            "ru": "Фиксированные расходы, которые будут добавляться в начале каждого нового дня.",
-            "ar": "التكاليف الثابتة التي سيتم إضافتها في بداية كل يوم جديد."
-          },
-          "value": 0
-        },
-        {
-          "id": "markup_hour",
-          "type": "number",
-          "label": {
-            "en": "Fixed hourly costs",
-            "de": "Fixkosten pro Stunde",
-            "nl": "Vaste uurlijkse kosten",
-            "fr": "Coûts horaires fixes",
-            "it": "Costi fissi orari",
-            "sv": "Fasta timkostnader",
-            "no": "Faste timekostnader",
-            "es": "Costos por hora fijos",
-            "da": "Faste timeomkostninger",
-            "pl": "Stałe koszty godzinowe",
-            "ru": "Фиксированные почасовые расходы",
-            "ar": "التكاليف الساعية الثابتة"
-          },
-          "hint": {
-            "en": "Fixed costs that will be added at the start of every new hour.",
-            "de": "Fixkosten, die zu Beginn einer jeden neuen Stunde hinzukommen.",
-            "nl": "Vaste kosten die aan het begin van elke nieuwe uur worden toegevoegd.",
-            "fr": "Coûts fixes qui seront ajoutés au début de chaque nouvelle heure.",
-            "it": "Costi fissi che verranno aggiunti all'inizio di ogni nuova ora.",
-            "sv": "Fasta kostnader som läggs till i början av varje ny timme.",
-            "no": "Faste kostnader som legges til ved starten av hver ny time.",
-            "es": "Costos fijos que se agregarán al comienzo de cada nueva hora.",
-            "da": "Faste omkostninger, der tilføjes ved starten af hver ny time.",
-            "pl": "Stałe koszty, które będą dodawane na początku każdej nowej godziny.",
-            "ru": "Фиксированные расходы, которые будут добавляться в начале каждого нового часа.",
-            "ar": "التكاليف الثابتة التي سيتم إضافتها في بداية كل ساعة جديدة."
-          },
-          "value": 0
         }
       ]
     }

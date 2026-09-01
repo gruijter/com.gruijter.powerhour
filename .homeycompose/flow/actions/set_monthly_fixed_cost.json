@@ -1,0 +1,60 @@
+{
+  "title": {
+    "en": "Set monthly fixed cost",
+    "de": "Monatliche Fixkosten festlegen",
+    "sv": "Ställ in månatlig fast kostnad",
+    "it": "Imposta costo fisso mensile",
+    "no": "Sett månedlig fast kostnad",
+    "fr": "Définir le coût fixe mensuel",
+    "da": "Sæt månedlig fast omkostning",
+    "nl": "Stel maandelijkse vaste kosten in",
+    "ar": "تعيين التكلفة الثابتة الشهرية",
+    "es": "Establecer costo fijo mensual",
+    "pl": "Ustaw miesięczny koszt stały",
+    "ru": "Установить ежемесячную фиксированную стоимость",
+    "ko": "월 고정 비용 설정"
+  },
+  "titleFormatted": {
+    "en": "Set monthly fixed cost to [[value]]",
+    "de": "Monatliche Fixkosten auf [[value]] setzen",
+    "sv": "Ställ in månatlig fast kostnad till [[value]]",
+    "it": "Imposta costo fisso mensile a [[value]]",
+    "no": "Sett månedlig fast kostnad til [[value]]",
+    "fr": "Définir le coût fixe mensuel à [[value]]",
+    "da": "Sæt månedlig fast omkostning til [[value]]",
+    "nl": "Stel maandelijkse vaste kosten in op [[value]]",
+    "ar": "تعيين التكلفة الثابتة الشهرية إلى [[value]]",
+    "es": "Establecer costo fijo mensual a [[value]]",
+    "pl": "Ustaw miesięczny koszt stały na [[value]]",
+    "ru": "Установить ежемесячную фиксированную стоимость на [[value]]",
+    "ko": "월 고정 비용을 [[value]]로 설정"
+  },
+  "args": [
+    {
+      "type": "device",
+      "name": "device",
+      "filter": "driver_id=power|gas|water|grid"
+    },
+    {
+      "type": "number",
+      "name": "value",
+      "placeholder": {
+        "en": "Monthly fixed cost",
+        "de": "Monatliche Fixkosten",
+        "sv": "Månatlig fast kostnad",
+        "it": "Costo fisso mensile",
+        "no": "Månedlig fast kostnad",
+        "fr": "Coût fixe mensuel",
+        "da": "Månedlig fast omkostning",
+        "nl": "Maandelijkse vaste kosten",
+        "ar": "التكلفة الثابتة الشهرية",
+        "es": "Costo fijo mensual",
+        "pl": "Miesięczny koszt stały",
+        "ru": "Ежемесячная фиксированная стоимость",
+        "ko": "월 고정 비용"
+      },
+      "min": 0,
+      "decimals": 4
+    }
+  ]
+}

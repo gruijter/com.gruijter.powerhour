@@ -1,0 +1,60 @@
+{
+  "title": {
+    "en": "Set hourly fixed cost",
+    "de": "Stündliche Fixkosten festlegen",
+    "sv": "Ställ in timvis fast kostnad",
+    "it": "Imposta costo fisso orario",
+    "no": "Sett timebasert fast kostnad",
+    "fr": "Définir le coût fixe horaire",
+    "da": "Sæt timebaseret fast omkostning",
+    "nl": "Stel uurlijkse vaste kosten in",
+    "ar": "تعيين التكلفة الثابتة بالساعة",
+    "es": "Establecer costo fijo por hora",
+    "pl": "Ustaw godzinowy koszt stały",
+    "ru": "Установить ежечасную фиксированную стоимость",
+    "ko": "시간당 고정 비용 설정"
+  },
+  "titleFormatted": {
+    "en": "Set hourly fixed cost to [[value]]",
+    "de": "Stündliche Fixkosten auf [[value]] setzen",
+    "sv": "Ställ in timvis fast kostnad till [[value]]",
+    "it": "Imposta costo fisso orario a [[value]]",
+    "no": "Sett timebasert fast kostnad til [[value]]",
+    "fr": "Définir le coût fixe horaire à [[value]]",
+    "da": "Sæt timebaseret fast omkostning til [[value]]",
+    "nl": "Stel uurlijkse vaste kosten in op [[value]]",
+    "ar": "تعيين التكلفة الثابتة بالساعة إلى [[value]]",
+    "es": "Establecer costo fijo por hora a [[value]]",
+    "pl": "Ustaw godzinowy koszt stały na [[value]]",
+    "ru": "Установить ежечасную фиксированную стоимость на [[value]]",
+    "ko": "시간당 고정 비용을 [[value]]로 설정"
+  },
+  "args": [
+    {
+      "type": "device",
+      "name": "device",
+      "filter": "driver_id=power|gas|water|grid"
+    },
+    {
+      "type": "number",
+      "name": "value",
+      "placeholder": {
+        "en": "Hourly fixed cost",
+        "de": "Stündliche Fixkosten",
+        "sv": "Timvis fast kostnad",
+        "it": "Costo fisso orario",
+        "no": "Timebasert fast kostnad",
+        "fr": "Coût fixe horaire",
+        "da": "Timebaseret fast omkostning",
+        "nl": "Uurlijkse vaste kosten",
+        "ar": "التكلفة الثابتة بالساعة",
+        "es": "Costo fijo por hora",
+        "pl": "Godzinowy koszt stały",
+        "ru": "Ежечасная фиксированная стоимость",
+        "ko": "시간당 고정 비용"
+      },
+      "min": 0,
+      "decimals": 4
+    }
+  ]
+}

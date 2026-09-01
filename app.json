@@ -8352,7 +8352,7 @@
           {
             "type": "device",
             "name": "device",
-            "filter": "driver_id=power|gas|water"
+            "filter": "driver_id=power|gas|water|grid"
           },
           {
             "type": "number",
@@ -9128,6 +9128,67 @@
       },
       {
         "title": {
+          "en": "Set hourly fixed cost",
+          "de": "Stündliche Fixkosten festlegen",
+          "sv": "Ställ in timvis fast kostnad",
+          "it": "Imposta costo fisso orario",
+          "no": "Sett timebasert fast kostnad",
+          "fr": "Définir le coût fixe horaire",
+          "da": "Sæt timebaseret fast omkostning",
+          "nl": "Stel uurlijkse vaste kosten in",
+          "ar": "تعيين التكلفة الثابتة بالساعة",
+          "es": "Establecer costo fijo por hora",
+          "pl": "Ustaw godzinowy koszt stały",
+          "ru": "Установить ежечасную фиксированную стоимость",
+          "ko": "시간당 고정 비용 설정"
+        },
+        "titleFormatted": {
+          "en": "Set hourly fixed cost to [[value]]",
+          "de": "Stündliche Fixkosten auf [[value]] setzen",
+          "sv": "Ställ in timvis fast kostnad till [[value]]",
+          "it": "Imposta costo fisso orario a [[value]]",
+          "no": "Sett timebasert fast kostnad til [[value]]",
+          "fr": "Définir le coût fixe horaire à [[value]]",
+          "da": "Sæt timebaseret fast omkostning til [[value]]",
+          "nl": "Stel uurlijkse vaste kosten in op [[value]]",
+          "ar": "تعيين التكلفة الثابتة بالساعة إلى [[value]]",
+          "es": "Establecer costo fijo por hora a [[value]]",
+          "pl": "Ustaw godzinowy koszt stały na [[value]]",
+          "ru": "Установить ежечасную фиксированную стоимость на [[value]]",
+          "ko": "시간당 고정 비용을 [[value]]로 설정"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=power|gas|water|grid"
+          },
+          {
+            "type": "number",
+            "name": "value",
+            "placeholder": {
+              "en": "Hourly fixed cost",
+              "de": "Stündliche Fixkosten",
+              "sv": "Timvis fast kostnad",
+              "it": "Costo fisso orario",
+              "no": "Timebasert fast kostnad",
+              "fr": "Coût fixe horaire",
+              "da": "Timebaseret fast omkostning",
+              "nl": "Uurlijkse vaste kosten",
+              "ar": "التكلفة الثابتة بالساعة",
+              "es": "Costo fijo por hora",
+              "pl": "Godzinowy koszt stały",
+              "ru": "Ежечасная фиксированная стоимость",
+              "ko": "시간당 고정 비용"
+            },
+            "min": 0,
+            "decimals": 4
+          }
+        ],
+        "id": "set_hourly_fixed_cost"
+      },
+      {
+        "title": {
           "en": "Send gas reading to virtual meter",
           "de": "Gasmesswert an virtuelles Gerät senden",
           "sv": "Skicka gasavläsning till virtuell mätare",
@@ -9347,6 +9408,67 @@
           }
         ],
         "id": "set_meter_water"
+      },
+      {
+        "title": {
+          "en": "Set monthly fixed cost",
+          "de": "Monatliche Fixkosten festlegen",
+          "sv": "Ställ in månatlig fast kostnad",
+          "it": "Imposta costo fisso mensile",
+          "no": "Sett månedlig fast kostnad",
+          "fr": "Définir le coût fixe mensuel",
+          "da": "Sæt månedlig fast omkostning",
+          "nl": "Stel maandelijkse vaste kosten in",
+          "ar": "تعيين التكلفة الثابتة الشهرية",
+          "es": "Establecer costo fijo mensual",
+          "pl": "Ustaw miesięczny koszt stały",
+          "ru": "Установить ежемесячную фиксированную стоимость",
+          "ko": "월 고정 비용 설정"
+        },
+        "titleFormatted": {
+          "en": "Set monthly fixed cost to [[value]]",
+          "de": "Monatliche Fixkosten auf [[value]] setzen",
+          "sv": "Ställ in månatlig fast kostnad till [[value]]",
+          "it": "Imposta costo fisso mensile a [[value]]",
+          "no": "Sett månedlig fast kostnad til [[value]]",
+          "fr": "Définir le coût fixe mensuel à [[value]]",
+          "da": "Sæt månedlig fast omkostning til [[value]]",
+          "nl": "Stel maandelijkse vaste kosten in op [[value]]",
+          "ar": "تعيين التكلفة الثابتة الشهرية إلى [[value]]",
+          "es": "Establecer costo fijo mensual a [[value]]",
+          "pl": "Ustaw miesięczny koszt stały na [[value]]",
+          "ru": "Установить ежемесячную фиксированную стоимость на [[value]]",
+          "ko": "월 고정 비용을 [[value]]로 설정"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=power|gas|water|grid"
+          },
+          {
+            "type": "number",
+            "name": "value",
+            "placeholder": {
+              "en": "Monthly fixed cost",
+              "de": "Monatliche Fixkosten",
+              "sv": "Månatlig fast kostnad",
+              "it": "Costo fisso mensile",
+              "no": "Månedlig fast kostnad",
+              "fr": "Coût fixe mensuel",
+              "da": "Månedlig fast omkostning",
+              "nl": "Maandelijkse vaste kosten",
+              "ar": "التكلفة الثابتة الشهرية",
+              "es": "Costo fijo mensual",
+              "pl": "Miesięczny koszt stały",
+              "ru": "Ежемесячная фиксированная стоимость",
+              "ko": "월 고정 비용"
+            },
+            "min": 0,
+            "decimals": 4
+          }
+        ],
+        "id": "set_monthly_fixed_cost"
       },
       {
         "title": {
@@ -21845,105 +21967,6 @@
                   }
                 }
               ]
-            },
-            {
-              "id": "markup_month",
-              "type": "number",
-              "label": {
-                "en": "Fixed monthly costs",
-                "de": "Fixkosten pro Monat",
-                "nl": "Vaste maandelijkse kosten",
-                "fr": "Coûts mensuels fixes",
-                "it": "Costi fissi mensili",
-                "sv": "Fasta månadskostnader",
-                "no": "Faste månedlige kostnader",
-                "es": "Costos mensuales fijos",
-                "da": "Faste månedlige omkostninger",
-                "pl": "Stałe koszty miesięczne",
-                "ru": "Фиксированные ежемесячные расходы",
-                "ar": "التكاليف الشهرية الثابتة"
-              },
-              "hint": {
-                "en": "Fixed costs that will be added at the start of every new month.",
-                "de": "Fixkosten, die zu Beginn eines jeden neuen Monats hinzukommen.",
-                "nl": "Vaste kosten die aan het begin van elke nieuwe maand worden toegevoegd.",
-                "fr": "Coûts fixes qui seront ajoutés au début de chaque nouveau mois.",
-                "it": "Costi fissi che verranno aggiunti all'inizio di ogni nuovo mese.",
-                "sv": "Fasta kostnader som läggs till i början av varje ny månad.",
-                "no": "Faste kostnader som legges til ved starten av hver ny måned.",
-                "es": "Costos fijos que se agregarán al comienzo de cada nuevo mes.",
-                "da": "Faste omkostninger, der tilføjes ved starten af hver ny måned.",
-                "pl": "Stałe koszty, które będą dodawane na początku każdego nowego miesiąca.",
-                "ru": "Фиксированные расходы, которые будут добавляться в начале каждого нового месяца.",
-                "ar": "التكاليف الثابتة التي سيتم إضافتها في بداية كل شهر جديد."
-              },
-              "value": 0
-            },
-            {
-              "id": "markup_day",
-              "type": "number",
-              "label": {
-                "en": "Fixed daily costs",
-                "de": "Fixkosten pro Tag",
-                "nl": "Vaste dagelijkse kosten",
-                "fr": "Coûts quotidiens fixes",
-                "it": "Costi fissi giornalieri",
-                "sv": "Fasta dagliga kostnader",
-                "no": "Faste daglige kostnader",
-                "es": "Costos diarios fijos",
-                "da": "Faste daglige omkostninger",
-                "pl": "Stałe koszty dzienne",
-                "ru": "Фиксированные ежедневные расходы",
-                "ar": "التكاليف اليومية الثابتة"
-              },
-              "hint": {
-                "en": "Fixed costs that will be added at the start of every new day.",
-                "de": "Fixkosten, die zu Beginn eines jeden neuen Tages hinzukommen.",
-                "nl": "Vaste kosten die aan het begin van elke nieuwe dag worden toegevoegd.",
-                "fr": "Coûts fixes qui seront ajoutés au début de chaque nouveau jour.",
-                "it": "Costi fissi che verranno aggiunti all'inizio di ogni nuovo giorno.",
-                "sv": "Fasta kostnader som läggs till i början av varje ny day.",
-                "no": "Faste kostnader som legges til ved starten av hver ny dag.",
-                "es": "Costos fijos que se agregarán al comienzo de cada nuevo día.",
-                "da": "Faste omkostninger, der tilføjes ved starten af hver ny dag.",
-                "pl": "Stałe koszty, które będą dodawane na początku każdego nowego dnia.",
-                "ru": "Фиксированные расходы, которые будут добавляться в начале каждого нового дня.",
-                "ar": "التكاليف الثابتة التي سيتم إضافتها في بداية كل يوم جديد."
-              },
-              "value": 0
-            },
-            {
-              "id": "markup_hour",
-              "type": "number",
-              "label": {
-                "en": "Fixed hourly costs",
-                "de": "Fixkosten pro Stunde",
-                "nl": "Vaste uurlijkse kosten",
-                "fr": "Coûts horaires fixes",
-                "it": "Costi fissi orari",
-                "sv": "Fasta timkostnader",
-                "no": "Faste timekostnader",
-                "es": "Costos por hora fijos",
-                "da": "Faste timeomkostninger",
-                "pl": "Stałe koszty godzinowe",
-                "ru": "Фиксированные почасовые расходы",
-                "ar": "التكاليف الساعية الثابتة"
-              },
-              "hint": {
-                "en": "Fixed costs that will be added at the start of every new hour.",
-                "de": "Fixkosten, die zu Beginn einer jeden neuen Stunde hinzukommen.",
-                "nl": "Vaste kosten die aan het begin van elke nieuwe uur worden toegevoegd.",
-                "fr": "Coûts fixes qui seront ajoutés au début de chaque nouvelle heure.",
-                "it": "Costi fissi che verranno aggiunti all'inizio di ogni nuova ora.",
-                "sv": "Fasta kostnader som läggs till i början av varje ny timme.",
-                "no": "Faste kostnader som legges til ved starten av hver ny time.",
-                "es": "Costos fijos que se agregarán al comienzo de cada nueva hora.",
-                "da": "Faste omkostninger, der tilføjes ved starten af hver ny time.",
-                "pl": "Stałe koszty, które będą dodawane na początku każdej nowej godziny.",
-                "ru": "Фиксированные расходы, которые будут добавляться в начале каждого нового часа.",
-                "ar": "التكاليف الثابتة التي سيتم إضافتها في بداية كل ساعة جديدة."
-              },
-              "value": 0
             }
           ]
         }
