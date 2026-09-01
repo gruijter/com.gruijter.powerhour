@@ -42,13 +42,17 @@ const driverSpecifics = {
     // Money avg
     'meter_money_this_month_avg', 'meter_money_this_year_avg',
     // Imported (kWh, then money)
+    'meter_kwh_last_day.imported', 'meter_kwh_this_day.imported',
     'meter_kwh_last_month.imported', 'meter_kwh_this_month.imported',
     'meter_kwh_last_year.imported', 'meter_kwh_this_year.imported',
+    'meter_money_last_day.imported', 'meter_money_this_day.imported',
     'meter_money_last_month.imported', 'meter_money_this_month.imported',
     'meter_money_last_year.imported', 'meter_money_this_year.imported',
     // Exported (kWh, then money)
+    'meter_kwh_last_day.exported', 'meter_kwh_this_day.exported',
     'meter_kwh_last_month.exported', 'meter_kwh_this_month.exported',
     'meter_kwh_last_year.exported', 'meter_kwh_this_year.exported',
+    'meter_money_last_day.exported', 'meter_money_this_day.exported',
     'meter_money_last_month.exported', 'meter_money_this_month.exported',
     'meter_money_last_year.exported', 'meter_money_this_year.exported',
     // Min/max (day, month, year - independently auto-resetting)

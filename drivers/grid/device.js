@@ -127,9 +127,10 @@ class GridDevice extends GenericDevice {
     this.directionalPseudoState = await this.getStoreValue('directionalPseudoState');
     this.directionalBlockState = await this.getStoreValue('directionalBlockState');
 
-    // Split imported/exported month/year accumulator state - see updateSplitMeters()/
+    // Split imported/exported day/month/year accumulator state - see updateSplitMeters()/
     // updateSplitMoney() below. Left undefined until lazily bootstrapped on first tick,
     // same style as lastDirectionalSnapshot above.
+    this.lastDirectionalReadingDay = await this.getStoreValue('lastDirectionalReadingDay');
     this.lastDirectionalReadingMonth = await this.getStoreValue('lastDirectionalReadingMonth');
     this.lastDirectionalReadingYear = await this.getStoreValue('lastDirectionalReadingYear');
     this.splitMoney = await this.getStoreValue('splitMoney');
@@ -648,7 +649,7 @@ class GridDevice extends GenericDevice {
     return (deltaImport * effImportTariff) - (deltaExport * effExportTariff);
   }
 
-  // Physical import/export kWh split for the current + previous month/year - independent of
+  // Physical import/export kWh split for the current + previous day/month/year - independent of
   // directionalNettingScheme (a physical fact, not a pricing choice). Uses the same
   // anchor-snapshot-diff-and-reset technique generic_sum_device.js#updateMeters() uses for the
   // net total: this.directionalMeter.importValue/exportValue are cumulative running totals
@@ -659,6 +660,10 @@ class GridDevice extends GenericDevice {
   async updateSplitMeters(periods) {
     const { importValue, exportValue } = this.directionalMeter;
 
+    if (!this.lastDirectionalReadingDay) {
+      this.lastDirectionalReadingDay = { importValue, exportValue };
+      await this.setStoreValue('lastDirectionalReadingDay', this.lastDirectionalReadingDay).catch((err) => this.error(err));
+    }
     if (!this.lastDirectionalReadingMonth) {
       this.lastDirectionalReadingMonth = { importValue, exportValue };
       await this.setStoreValue('lastDirectionalReadingMonth', this.lastDirectionalReadingMonth).catch((err) => this.error(err));
@@ -668,14 +673,24 @@ class GridDevice extends GenericDevice {
       await this.setStoreValue('lastDirectionalReadingYear', this.lastDirectionalReadingYear).catch((err) => this.error(err));
     }
 
+    let lastDay = { ...this.lastDirectionalReadingDay };
     let lastMonth = { ...this.lastDirectionalReadingMonth };
     let lastYear = { ...this.lastDirectionalReadingYear };
 
+    let valDayImport = importValue - lastDay.importValue;
+    let valDayExport = exportValue - lastDay.exportValue;
     let valMonthImport = importValue - lastMonth.importValue;
     let valMonthExport = exportValue - lastMonth.exportValue;
     let valYearImport = importValue - lastYear.importValue;
     let valYearExport = exportValue - lastYear.exportValue;
 
+    if (periods.newDay) {
+      await this.setCapability('meter_kwh_last_day.imported', valDayImport).catch((err) => this.error(err));
+      await this.setCapability('meter_kwh_last_day.exported', valDayExport).catch((err) => this.error(err));
+      lastDay = { importValue, exportValue };
+      await this.setStoreValue('lastDirectionalReadingDay', lastDay).catch((err) => this.error(err));
+      valDayImport = 0; valDayExport = 0;
+    }
     if (periods.newMonth) {
       await this.setCapability('meter_kwh_last_month.imported', valMonthImport).catch((err) => this.error(err));
       await this.setCapability('meter_kwh_last_month.exported', valMonthExport).catch((err) => this.error(err));
@@ -691,16 +706,19 @@ class GridDevice extends GenericDevice {
       valYearImport = 0; valYearExport = 0;
     }
 
+    await this.setCapability('meter_kwh_this_day.imported', valDayImport).catch((err) => this.error(err));
+    await this.setCapability('meter_kwh_this_day.exported', valDayExport).catch((err) => this.error(err));
     await this.setCapability('meter_kwh_this_month.imported', valMonthImport).catch((err) => this.error(err));
     await this.setCapability('meter_kwh_this_month.exported', valMonthExport).catch((err) => this.error(err));
     await this.setCapability('meter_kwh_this_year.imported', valYearImport).catch((err) => this.error(err));
     await this.setCapability('meter_kwh_this_year.exported', valYearExport).catch((err) => this.error(err));
 
+    if (periods.newDay) this.lastDirectionalReadingDay = lastDay;
     if (periods.newMonth) this.lastDirectionalReadingMonth = lastMonth;
     if (periods.newYear) this.lastDirectionalReadingYear = lastYear;
   }
 
-  // Split money for the current + previous month/year, always priced perDirection-style (each
+  // Split money for the current + previous day/month/year, always priced perDirection-style (each
   // direction's delta x the tariff in effect over that delta's span) REGARDLESS of the chosen
   // directionalNettingScheme - this answers "what would each direction cost individually",
   // which is what a supplier's bill itemizes, not "what's the net total" (which is what the
@@ -713,13 +731,17 @@ class GridDevice extends GenericDevice {
   async updateSplitMoney(periods) {
     if (!this.splitMoney) {
       this.splitMoney = {
+        day: { imported: 0, exported: 0 },
         month: { imported: 0, exported: 0 },
         year: { imported: 0, exported: 0 },
+        lastDay: { imported: 0, exported: 0 },
         lastMonth: { imported: 0, exported: 0 },
         lastYear: { imported: 0, exported: 0 },
       };
     }
     const money = { ...this.splitMoney };
+    if (!money.day) money.day = { imported: 0, exported: 0 };
+    if (!money.lastDay) money.lastDay = { imported: 0, exported: 0 };
 
     let deltaImportMoney = 0;
     let deltaExportMoney = 0;
@@ -739,6 +761,12 @@ class GridDevice extends GenericDevice {
       deltaExportMoney = deltaExport * effExportTariff;
     }
 
+    if (periods.newDay) {
+      money.lastDay = { ...money.day };
+      await this.setCapability('meter_money_last_day.imported', money.lastDay.imported).catch((err) => this.error(err));
+      await this.setCapability('meter_money_last_day.exported', money.lastDay.exported).catch((err) => this.error(err));
+      money.day = { imported: 0, exported: 0 };
+    }
     if (periods.newMonth) {
       money.lastMonth = { ...money.month };
       await this.setCapability('meter_money_last_month.imported', money.lastMonth.imported).catch((err) => this.error(err));
@@ -752,19 +780,27 @@ class GridDevice extends GenericDevice {
       money.year = { imported: 0, exported: 0 };
     }
 
-    // Fixed monthly markup mirrors generic_sum_device.js#updateMoney()'s own markup
-    // application, attributed to the imported side only (a standing charge, not an export
-    // credit). No markup_year setting exists (only markup_hour/day/month), so no yearly term.
+    // Fixed markups mirror generic_sum_device.js#updateMoney(): one combined amount from
+    // markup_hour/day/month added to EVERY tier (there is no markup_year setting), so the split
+    // totals stay reconcilable with the net meter_money_* meters. Attributed to the imported
+    // side only - a standing charge is a cost, not an export credit.
     let markup = 0;
+    if (periods.newHour) markup += (this.getSettings().markup_hour || 0);
+    if (periods.newDay) markup += (this.getSettings().markup_day || 0);
     if (periods.newMonth) markup += (this.getSettings().markup_month || 0);
 
+    money.day.imported += deltaImportMoney;
+    money.day.exported += deltaExportMoney;
     money.month.imported += deltaImportMoney;
     money.month.exported += deltaExportMoney;
     money.year.imported += deltaImportMoney;
     money.year.exported += deltaExportMoney;
+    money.day.imported += markup;
     money.month.imported += markup;
     money.year.imported += markup;
 
+    await this.setCapability('meter_money_this_day.imported', money.day.imported).catch((err) => this.error(err));
+    await this.setCapability('meter_money_this_day.exported', money.day.exported).catch((err) => this.error(err));
     await this.setCapability('meter_money_this_month.imported', money.month.imported).catch((err) => this.error(err));
     await this.setCapability('meter_money_this_month.exported', money.month.exported).catch((err) => this.error(err));
     await this.setCapability('meter_money_this_year.imported', money.year.imported).catch((err) => this.error(err));

@@ -104,6 +104,54 @@
     "meter_power_hidden.home": {
       "insights": false
     },
+    "meter_kwh_this_day.imported": {
+      "title": {
+        "en": "kWh this day (imported)",
+        "nl": "kWh deze dag (geïmporteerd)",
+        "de": "kWh dieser Tag (importiert)",
+        "it": "kWh questo giorno (importato)",
+        "sv": "kWh denna dag (importerad)",
+        "no": "kWh denne dag (importert)",
+        "es": "kWh este día (importado)",
+        "pl": "kWh ten dzień (import)",
+        "ru": "кВтч этот день (импорт)",
+        "ar": "كيلوواط ساعة هذا اليوم (مستورد)"
+      }
+    },
+    "meter_kwh_this_day.exported": {
+      "title": {
+        "en": "kWh this day (exported)",
+        "nl": "kWh deze dag (geëxporteerd)",
+        "de": "kWh dieser Tag (exportiert)",
+        "it": "kWh questo giorno (esportato)",
+        "sv": "kWh denna dag (exporterad)",
+        "no": "kWh denne dag (eksportert)",
+        "es": "kWh este día (exportado)",
+        "pl": "kWh ten dzień (eksport)",
+        "ru": "кВтч этот день (экспорт)",
+        "ar": "كيلوواط ساعة هذا اليوم (مُصدَّر)"
+      }
+    },
+    "meter_kwh_last_day.imported": {
+      "title": {
+        "en": "kWh prev. day (imported)",
+        "nl": "kWh vorige dag (geïmporteerd)",
+        "no": "kWh forrige dag (importert)",
+        "es": "kWh día anterior (importado)",
+        "ru": "кВтч пред. день (импорт)",
+        "ar": "كيلوواط ساعة اليوم السابق (مستورد)"
+      }
+    },
+    "meter_kwh_last_day.exported": {
+      "title": {
+        "en": "kWh prev. day (exported)",
+        "nl": "kWh vorige dag (geëxporteerd)",
+        "no": "kWh forrige dag (eksportert)",
+        "es": "kWh día anterior (exportado)",
+        "ru": "кВтч пред. день (экспорт)",
+        "ar": "كيلوواط ساعة اليوم السابق (مُصدَّر)"
+      }
+    },
     "meter_kwh_this_month.imported": {
       "title": {
         "en": "kWh this month (imported)",
@@ -230,6 +278,40 @@
         "pl": "kWh poprz. rok (eksport)",
         "ru": "кВтч пред. год (экспорт)",
         "ar": "كيلوواط ساعة العام السابق (مُصدَّر)"
+      }
+    },
+    "meter_money_this_day.imported": {
+      "title": {
+        "en": "Money this day (imported)",
+        "nl": "Geld deze dag (geïmporteerd)",
+        "de": "Kosten dieser Tag (importiert)",
+        "it": "Spesa oggi (importato)",
+        "sv": "Pengar idag (importerad)",
+        "no": "Kostnad idag (importert)",
+        "da": "Penge i dag (importeret)"
+      }
+    },
+    "meter_money_this_day.exported": {
+      "title": {
+        "en": "Money this day (exported)",
+        "nl": "Geld deze dag (geëxporteerd)",
+        "sv": "Pengar idag (exporterad)",
+        "da": "Penge i dag (eksporteret)"
+      }
+    },
+    "meter_money_last_day.imported": {
+      "title": {
+        "en": "Money prev. day (imported)",
+        "nl": "Geld vorige dag (geïmporteerd)",
+        "fr": "Argent hier (importé)",
+        "no": "Kostnad forrige dag (importert)"
+      }
+    },
+    "meter_money_last_day.exported": {
+      "title": {
+        "en": "Money prev. day (exported)",
+        "nl": "Geld vorige dag (geëxporteerd)",
+        "fr": "Argent hier (exporté)"
       }
     },
     "meter_money_this_month.imported": {
@@ -1859,9 +1941,18 @@
             {
               "id": "continuousNet",
               "label": {
-                "en": "Continuous net", "nl": "Continu salderen", "de": "Fortlaufend verrechnen", "fr": "Compensation continue", "it": "Compensazione continua",
-                "sv": "Kontinuerlig nettoberäkning", "no": "Kontinuerlig netting", "es": "Compensación continua", "da": "Løbende modregning", "pl": "Ciągłe bilansowanie",
-                "ru": "Непрерывный взаимозачёт", "ar": "الموازنة المستمرة"
+                "en": "Continuous net",
+                "nl": "Continu salderen",
+                "de": "Fortlaufend verrechnen",
+                "fr": "Compensation continue",
+                "it": "Compensazione continua",
+                "sv": "Kontinuerlig nettoberäkning",
+                "no": "Kontinuerlig netting",
+                "es": "Compensación continua",
+                "da": "Løbende modregning",
+                "pl": "Ciągłe bilansowanie",
+                "ru": "Непрерывный взаимозачёт",
+                "ar": "الموازنة المستمرة"
               }
             },
             {
@@ -1953,33 +2044,69 @@
             {
               "id": "15",
               "label": {
-                "en": "15 minutes", "nl": "15 minuten", "de": "15 Minuten", "fr": "15 minutes",
-                "it": "15 minuti", "sv": "15 minuter", "no": "15 minutter", "es": "15 minutos",
-                "da": "15 minutter", "pl": "15 minut", "ru": "15 минут", "ar": "15 دقيقة"
+                "en": "15 minutes",
+                "nl": "15 minuten",
+                "de": "15 Minuten",
+                "fr": "15 minutes",
+                "it": "15 minuti",
+                "sv": "15 minuter",
+                "no": "15 minutter",
+                "es": "15 minutos",
+                "da": "15 minutter",
+                "pl": "15 minut",
+                "ru": "15 минут",
+                "ar": "15 دقيقة"
               }
             },
             {
               "id": "30",
               "label": {
-                "en": "30 minutes", "nl": "30 minuten", "de": "30 Minuten", "fr": "30 minutes",
-                "it": "30 minuti", "sv": "30 minuter", "no": "30 minutter", "es": "30 minutos",
-                "da": "30 minutter", "pl": "30 minut", "ru": "30 минут", "ar": "30 دقيقة"
+                "en": "30 minutes",
+                "nl": "30 minuten",
+                "de": "30 Minuten",
+                "fr": "30 minutes",
+                "it": "30 minuti",
+                "sv": "30 minuter",
+                "no": "30 minutter",
+                "es": "30 minutos",
+                "da": "30 minutter",
+                "pl": "30 minut",
+                "ru": "30 минут",
+                "ar": "30 دقيقة"
               }
             },
             {
               "id": "45",
               "label": {
-                "en": "45 minutes", "nl": "45 minuten", "de": "45 Minuten", "fr": "45 minutes",
-                "it": "45 minuti", "sv": "45 minuter", "no": "45 minutter", "es": "45 minutos",
-                "da": "45 minutter", "pl": "45 minut", "ru": "45 минут", "ar": "45 دقيقة"
+                "en": "45 minutes",
+                "nl": "45 minuten",
+                "de": "45 Minuten",
+                "fr": "45 minutes",
+                "it": "45 minuti",
+                "sv": "45 minuter",
+                "no": "45 minutter",
+                "es": "45 minutos",
+                "da": "45 minutter",
+                "pl": "45 minut",
+                "ru": "45 минут",
+                "ar": "45 دقيقة"
               }
             },
             {
               "id": "60",
               "label": {
-                "en": "60 minutes", "nl": "60 minuten", "de": "60 Minuten", "fr": "60 minutes",
-                "it": "60 minuti", "sv": "60 minuter", "no": "60 minutter", "es": "60 minutos",
-                "da": "60 minutter", "pl": "60 minut", "ru": "60 минут", "ar": "60 دقيقة"
+                "en": "60 minutes",
+                "nl": "60 minuten",
+                "de": "60 Minuten",
+                "fr": "60 minutes",
+                "it": "60 minuti",
+                "sv": "60 minuter",
+                "no": "60 minutter",
+                "es": "60 minutos",
+                "da": "60 minutter",
+                "pl": "60 minut",
+                "ru": "60 минут",
+                "ar": "60 دقيقة"
               }
             }
           ]
@@ -2020,25 +2147,52 @@
             {
               "id": "15",
               "label": {
-                "en": "15 minutes", "nl": "15 minuten", "de": "15 Minuten", "fr": "15 minutes",
-                "it": "15 minuti", "sv": "15 minuter", "no": "15 minutter", "es": "15 minutos",
-                "da": "15 minutter", "pl": "15 minut", "ru": "15 минут", "ar": "15 دقيقة"
+                "en": "15 minutes",
+                "nl": "15 minuten",
+                "de": "15 Minuten",
+                "fr": "15 minutes",
+                "it": "15 minuti",
+                "sv": "15 minuter",
+                "no": "15 minutter",
+                "es": "15 minutos",
+                "da": "15 minutter",
+                "pl": "15 minut",
+                "ru": "15 минут",
+                "ar": "15 دقيقة"
               }
             },
             {
               "id": "30",
               "label": {
-                "en": "30 minutes", "nl": "30 minuten", "de": "30 Minuten", "fr": "30 minutes",
-                "it": "30 minuti", "sv": "30 minuter", "no": "30 minutter", "es": "30 minutos",
-                "da": "30 minutter", "pl": "30 minut", "ru": "30 минут", "ar": "30 دقيقة"
+                "en": "30 minutes",
+                "nl": "30 minuten",
+                "de": "30 Minuten",
+                "fr": "30 minutes",
+                "it": "30 minuti",
+                "sv": "30 minuter",
+                "no": "30 minutter",
+                "es": "30 minutos",
+                "da": "30 minutter",
+                "pl": "30 minut",
+                "ru": "30 минут",
+                "ar": "30 دقيقة"
               }
             },
             {
               "id": "60",
               "label": {
-                "en": "60 minutes", "nl": "60 minuten", "de": "60 Minuten", "fr": "60 minutes",
-                "it": "60 minuti", "sv": "60 minuter", "no": "60 minutter", "es": "60 minutos",
-                "da": "60 minutter", "pl": "60 minut", "ru": "60 минут", "ar": "60 دقيقة"
+                "en": "60 minutes",
+                "nl": "60 minuten",
+                "de": "60 Minuten",
+                "fr": "60 minutes",
+                "it": "60 minuti",
+                "sv": "60 minuter",
+                "no": "60 minutter",
+                "es": "60 minutos",
+                "da": "60 minutter",
+                "pl": "60 minut",
+                "ru": "60 минут",
+                "ar": "60 دقيقة"
               }
             }
           ]
