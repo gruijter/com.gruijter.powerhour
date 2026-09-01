@@ -1,10 +1,10 @@
 {
   "name": "com.gruijter.powerhour",
-  "version": "8.16.1",
+  "version": "8.17.0",
   "description": "Summarize the energy usage or (solar) production per hour, day, month and year",
   "main": "app.js",
   "engines": {
-    "node": ">=22"
+    "node": "22.x"
   },
   "scripts": {
     "lint": "eslint .",
