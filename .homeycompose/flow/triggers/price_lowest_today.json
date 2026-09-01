@@ -55,7 +55,7 @@
         "ar": "عدد"
       },
       "placeholder": {
-        "en": "1 - 16"
+        "en": "1 - 96"
       },
       "hint": {
         "en": "Enter the number of periods (hours for hourly pricing, quarters for 15m pricing).",

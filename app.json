@@ -1498,22 +1498,22 @@
               "ar": "الساعات القادمة"
             },
             "placeholder": {
-              "en": "2-6"
+              "en": "2 - 96"
             },
             "hint": {
-              "en": "Enter the number of periods (hours for hourly pricing, quarters for 15m pricing).",
-              "nl": "Voer het aantal periodes in (uren voor uurprijzen, kwartieren voor 15m prijzen).",
-              "de": "Geben Sie die Anzahl der Perioden ein (Stunden für Stundenpreise, Viertelstunden für 15m-Preise).",
-              "fr": "Entrez le nombre de périodes (heures pour tarification horaire, quarts d'heure pour tarification 15m).",
-              "it": "Inserisci il numero di periodi (ore per prezzi orari, quarti d'ora per prezzi 15m).",
-              "sv": "Ange antal perioder (timmar för timpriser, kvartar för 15m-priser).",
-              "no": "Angi antall perioder (timer for timepriser, kvarter for 15m-priser).",
-              "es": "Introduzca el número de períodos (horas para precios por hora, cuartos de hora para precios de 15m).",
-              "da": "Indtast antallet af perioder (timer for timepriser, kvarter for 15m priser).",
-              "pl": "Wprowadź liczbę okresów (godziny dla cen godzinowych, kwadranse dla cen 15m).",
-              "ru": "Введите количество периодов (часы для почасовых цен, четверти часа для 15-минутных цен).",
-              "ar": "أدخل عدد الفترات (ساعات للأسعار بالساعة، أرباع ساعة لأسعار 15 دقيقة).",
-              "ko": "기간 수를 입력하세요 (시간당 가격의 경우 시간, 15분 가격의 경우 15분)."
+              "en": "Enter the number of hours.",
+              "nl": "Voer het aantal uren in.",
+              "de": "Geben Sie die Anzahl der Stunden ein.",
+              "fr": "Entrez le nombre d'heures.",
+              "it": "Inserisci il numero di ore.",
+              "sv": "Ange antal timmar.",
+              "no": "Angi antall timer.",
+              "es": "Introduzca el número de horas.",
+              "da": "Indtast antallet af timer.",
+              "pl": "Wprowadź liczbę godzin.",
+              "ru": "Введите количество часов.",
+              "ar": "أدخل عدد الساعات.",
+              "ko": "시간을 입력하세요."
             },
             "min": 2,
             "max": 96,
@@ -1601,22 +1601,22 @@
               "ar": "الساعات القادمة"
             },
             "placeholder": {
-              "en": "2-8"
+              "en": "2 - 96"
             },
             "hint": {
-              "en": "Enter the number of periods (hours for hourly pricing, quarters for 15m pricing).",
-              "nl": "Voer het aantal periodes in (uren voor uurprijzen, kwartieren voor 15m prijzen).",
-              "de": "Geben Sie die Anzahl der Perioden ein (Stunden für Stundenpreise, Viertelstunden für 15m-Preise).",
-              "fr": "Entrez le nombre de périodes (heures pour tarification horaire, quarts d'heure pour tarification 15m).",
-              "it": "Inserisci il numero di periodi (ore per prezzi orari, quarti d'ora per prezzi 15m).",
-              "sv": "Ange antal perioder (timmar för timpriser, kvartar för 15m-priser).",
-              "no": "Angi antall perioder (timer for timepriser, kvarter for 15m-priser).",
-              "es": "Introduzca el número de períodos (horas para precios por hora, cuartos de hora para precios de 15m).",
-              "da": "Indtast antallet af perioder (timer for timepriser, kvarter for 15m priser).",
-              "pl": "Wprowadź liczbę okresów (godziny dla cen godzinowych, kwadranse dla cen 15m).",
-              "ru": "Введите количество периодов (часы для почасовых цен, четверти часа для 15-минутных цен).",
-              "ar": "أدخل عدد الفترات (ساعات للأسعار بالساعة، أرباع ساعة لأسعار 15 دقيقة).",
-              "ko": "기간 수를 입력하세요 (시간당 가격의 경우 시간, 15분 가격의 경우 15분)."
+              "en": "Enter the number of hours.",
+              "nl": "Voer het aantal uren in.",
+              "de": "Geben Sie die Anzahl der Stunden ein.",
+              "fr": "Entrez le nombre d'heures.",
+              "it": "Inserisci il numero di ore.",
+              "sv": "Ange antal timmar.",
+              "no": "Angi antall timer.",
+              "es": "Introduzca el número de horas.",
+              "da": "Indtast antallet af timer.",
+              "pl": "Wprowadź liczbę godzin.",
+              "ru": "Введите количество часов.",
+              "ar": "أدخل عدد الساعات.",
+              "ko": "시간을 입력하세요."
             },
             "min": 2,
             "max": 96,
@@ -1947,7 +1947,7 @@
               "ar": "عدد"
             },
             "placeholder": {
-              "en": "1 - 8"
+              "en": "1 - 96"
             },
             "hint": {
               "en": "Enter the number of periods (hours for hourly pricing, quarters for 15m pricing).",
@@ -2213,7 +2213,7 @@
               "ko": "기간"
             },
             "placeholder": {
-              "en": "6 - 10"
+              "en": "6 - 48"
             },
             "hint": {
               "en": "Enter the number of hours.",
@@ -2279,7 +2279,19 @@
           {
             "name": "meter_price_h0",
             "title": {
-              "en": "Price now"
+              "en": "Price now",
+              "de": "Preis aktuell",
+              "sv": "Pris just nu",
+              "it": "Prezzo attuale",
+              "no": "Pris nå",
+              "da": "Pris nu",
+              "nl": "Prijs nu",
+              "fr": "Tarif actuel",
+              "es": "Precio ahora",
+              "pl": "Cena teraz",
+              "ru": "Цена сейчас",
+              "ko": "현재 가격",
+              "ar": "السعر الآن"
             },
             "type": "number",
             "example": 27.5
@@ -2370,7 +2382,19 @@
           {
             "name": "meter_price_h0",
             "title": {
-              "en": "Price now"
+              "en": "Price now",
+              "de": "Preis aktuell",
+              "sv": "Pris just nu",
+              "it": "Prezzo attuale",
+              "no": "Pris nå",
+              "da": "Pris nu",
+              "nl": "Prijs nu",
+              "fr": "Tarif actuel",
+              "es": "Precio ahora",
+              "pl": "Cena teraz",
+              "ru": "Цена сейчас",
+              "ko": "현재 가격",
+              "ar": "السعر الآن"
             },
             "type": "number",
             "example": 27.5
@@ -2435,7 +2459,7 @@
               "ar": "عدد"
             },
             "placeholder": {
-              "en": "1 - 16"
+              "en": "1 - 96"
             },
             "hint": {
               "en": "Enter the number of periods (hours for hourly pricing, quarters for 15m pricing).",
@@ -2823,22 +2847,22 @@
               "ar": "الساعات القادمة"
             },
             "placeholder": {
-              "en": "2-6"
+              "en": "2 - 96"
             },
             "hint": {
-              "en": "Enter the number of periods (hours for hourly pricing, quarters for 15m pricing).",
-              "nl": "Voer het aantal periodes in (uren voor uurprijzen, kwartieren voor 15m prijzen).",
-              "de": "Geben Sie die Anzahl der Perioden ein (Stunden für Stundenpreise, Viertelstunden für 15m-Preise).",
-              "fr": "Entrez le nombre de périodes (heures pour tarification horaire, quarts d'heure pour tarification 15m).",
-              "it": "Inserisci il numero di periodi (ore per prezzi orari, quarti d'ora per prezzi 15m).",
-              "sv": "Ange antal perioder (timmar för timpriser, kvartar för 15m-priser).",
-              "no": "Angi antall perioder (timer for timepriser, kvarter for 15m-priser).",
-              "es": "Introduzca el número de períodos (horas para precios por hora, cuartos de hora para precios de 15m).",
-              "da": "Indtast antallet af perioder (timer for timepriser, kvarter for 15m priser).",
-              "pl": "Wprowadź liczbę okresów (godziny dla cen godzinowych, kwadranse dla cen 15m).",
-              "ru": "Введите количество периодов (часы для почасовых цен, четверти часа для 15-минутных цен).",
-              "ar": "أدخل عدد الفترات (ساعات للأسعار بالساعة، أرباع ساعة لأسعار 15 دقيقة).",
-              "ko": "기간 수를 입력하세요 (시간당 가격의 경우 시간, 15분 가격의 경우 15분)."
+              "en": "Enter the number of hours.",
+              "nl": "Voer het aantal uren in.",
+              "de": "Geben Sie die Anzahl der Stunden ein.",
+              "fr": "Entrez le nombre d'heures.",
+              "it": "Inserisci il numero di ore.",
+              "sv": "Ange antal timmar.",
+              "no": "Angi antall timer.",
+              "es": "Introduzca el número de horas.",
+              "da": "Indtast antallet af timer.",
+              "pl": "Wprowadź liczbę godzin.",
+              "ru": "Введите количество часов.",
+              "ar": "أدخل عدد الساعات.",
+              "ko": "시간을 입력하세요."
             },
             "min": 2,
             "max": 96,
@@ -2926,22 +2950,22 @@
               "ar": "الساعات القادمة"
             },
             "placeholder": {
-              "en": "2-8"
+              "en": "2 - 96"
             },
             "hint": {
-              "en": "Enter the number of periods (hours for hourly pricing, quarters for 15m pricing).",
-              "nl": "Voer het aantal periodes in (uren voor uurprijzen, kwartieren voor 15m prijzen).",
-              "de": "Geben Sie die Anzahl der Perioden ein (Stunden für Stundenpreise, Viertelstunden für 15m-Preise).",
-              "fr": "Entrez le nombre de périodes (heures pour tarification horaire, quarts d'heure pour tarification 15m).",
-              "it": "Inserisci il numero di periodi (ore per prezzi orari, quarti d'ora per prezzi 15m).",
-              "sv": "Ange antal perioder (timmar för timpriser, kvartar för 15m-priser).",
-              "no": "Angi antall perioder (timer for timepriser, kvarter for 15m-priser).",
-              "es": "Introduzca el número de períodos (horas para precios por hora, cuartos de hora para precios de 15m).",
-              "da": "Indtast antallet af perioder (timer for timepriser, kvarter for 15m priser).",
-              "pl": "Wprowadź liczbę okresów (godziny dla cen godzinowych, kwadranse dla cen 15m).",
-              "ru": "Введите количество периодов (часы для почасовых цен, четверти часа для 15-минутных цен).",
-              "ar": "أدخل عدد الفترات (ساعات للأسعار بالساعة، أرباع ساعة لأسعار 15 دقيقة).",
-              "ko": "기간 수를 입력하세요 (시간당 가격의 경우 시간, 15분 가격의 경우 15분)."
+              "en": "Enter the number of hours.",
+              "nl": "Voer het aantal uren in.",
+              "de": "Geben Sie die Anzahl der Stunden ein.",
+              "fr": "Entrez le nombre d'heures.",
+              "it": "Inserisci il numero di ore.",
+              "sv": "Ange antal timmar.",
+              "no": "Angi antall timer.",
+              "es": "Introduzca el número de horas.",
+              "da": "Indtast antallet af timer.",
+              "pl": "Wprowadź liczbę godzin.",
+              "ru": "Введите количество часов.",
+              "ar": "أدخل عدد الساعات.",
+              "ko": "시간을 입력하세요."
             },
             "min": 2,
             "max": 96,
@@ -3272,7 +3296,7 @@
               "ar": "عدد"
             },
             "placeholder": {
-              "en": "1 - 8"
+              "en": "1 - 96"
             },
             "hint": {
               "en": "Enter the number of periods (hours for hourly pricing, quarters for 15m pricing).",
@@ -3538,7 +3562,7 @@
               "ko": "기간"
             },
             "placeholder": {
-              "en": "6 - 10"
+              "en": "6 - 48"
             },
             "hint": {
               "en": "Enter the number of hours.",
@@ -3604,7 +3628,19 @@
           {
             "name": "meter_price_h0",
             "title": {
-              "en": "Price now"
+              "en": "Price now",
+              "de": "Preis aktuell",
+              "sv": "Pris just nu",
+              "it": "Prezzo attuale",
+              "no": "Pris nå",
+              "da": "Pris nu",
+              "nl": "Prijs nu",
+              "fr": "Tarif actuel",
+              "es": "Precio ahora",
+              "pl": "Cena teraz",
+              "ru": "Цена сейчас",
+              "ko": "현재 가격",
+              "ar": "السعر الآن"
             },
             "type": "number",
             "example": 27.5
@@ -3695,7 +3731,19 @@
           {
             "name": "meter_price_h0",
             "title": {
-              "en": "Price now"
+              "en": "Price now",
+              "de": "Preis aktuell",
+              "sv": "Pris just nu",
+              "it": "Prezzo attuale",
+              "no": "Pris nå",
+              "da": "Pris nu",
+              "nl": "Prijs nu",
+              "fr": "Tarif actuel",
+              "es": "Precio ahora",
+              "pl": "Cena teraz",
+              "ru": "Цена сейчас",
+              "ko": "현재 가격",
+              "ar": "السعر الآن"
             },
             "type": "number",
             "example": 27.5
@@ -3760,7 +3808,7 @@
               "ar": "عدد"
             },
             "placeholder": {
-              "en": "1 - 16"
+              "en": "1 - 96"
             },
             "hint": {
               "en": "Enter the number of periods (hours for hourly pricing, quarters for 15m pricing).",
@@ -5113,19 +5161,19 @@
               "en": "2-96"
             },
             "hint": {
-              "en": "Enter the number of periods (hours for hourly pricing, quarters for 15m pricing).",
-              "nl": "Voer het aantal periodes in (uren voor uurprijzen, kwartieren voor 15m prijzen).",
-              "de": "Geben Sie die Anzahl der Perioden ein (Stunden für Stundenpreise, Viertelstunden für 15m-Preise).",
-              "fr": "Entrez le nombre de périodes (heures pour tarification horaire, quarts d'heure pour tarification 15m).",
-              "it": "Inserisci il numero di periodi (ore per prezzi orari, quarti d'ora per prezzi 15m).",
-              "sv": "Ange antal perioder (timmar för timpriser, kvartar för 15m-priser).",
-              "no": "Angi antall perioder (timer for timepriser, kvarter for 15m-priser).",
-              "es": "Introduzca el número de períodos (horas para precios por hora, cuartos de hora para precios de 15m).",
-              "da": "Indtast antallet af perioder (timer for timepriser, kvarter for 15m priser).",
-              "pl": "Wprowadź liczbę okresów (godziny dla cen godzinowych, kwadranse dla cen 15m).",
-              "ru": "Введите количество периодов (часы для почасовых цен, четверти часа для 15-минутных цен).",
-              "ar": "أدخل عدد الفترات (ساعات للأسعار بالساعة، أرباع ساعة لأسعار 15 دقيقة).",
-              "ko": "기간 수를 입력하세요 (시간당 가격의 경우 시간, 15분 가격의 경우 15분)."
+              "en": "Enter the number of hours.",
+              "nl": "Voer het aantal uren in.",
+              "de": "Geben Sie die Anzahl der Stunden ein.",
+              "fr": "Entrez le nombre d'heures.",
+              "it": "Inserisci il numero di ore.",
+              "sv": "Ange antal timmar.",
+              "no": "Angi antall timer.",
+              "es": "Introduzca el número de horas.",
+              "da": "Indtast antallet af timer.",
+              "pl": "Wprowadź liczbę godzin.",
+              "ru": "Введите количество часов.",
+              "ar": "أدخل عدد الساعات.",
+              "ko": "시간을 입력하세요."
             },
             "min": 2,
             "max": 96,
@@ -5194,19 +5242,19 @@
               "en": "2-96"
             },
             "hint": {
-              "en": "Enter the number of periods (hours for hourly pricing, quarters for 15m pricing).",
-              "nl": "Voer het aantal periodes in (uren voor uurprijzen, kwartieren voor 15m prijzen).",
-              "de": "Geben Sie die Anzahl der Perioden ein (Stunden für Stundenpreise, Viertelstunden für 15m-Preise).",
-              "fr": "Entrez le nombre de périodes (heures pour tarification horaire, quarts d'heure pour tarification 15m).",
-              "it": "Inserisci il numero di periodi (ore per prezzi orari, quarti d'ora per prezzi 15m).",
-              "sv": "Ange antal perioder (timmar för timpriser, kvartar för 15m-priser).",
-              "no": "Angi antall perioder (timer for timepriser, kvarter for 15m-priser).",
-              "es": "Introduzca el número de períodos (horas para precios por hora, cuartos de hora para precios de 15m).",
-              "da": "Indtast antallet af perioder (timer for timepriser, kvarter for 15m priser).",
-              "pl": "Wprowadź liczbę okresów (godziny dla cen godzinowych, kwadranse dla cen 15m).",
-              "ru": "Введите количество периодов (часы для почасовых цен, четверти часа для 15-минутных цен).",
-              "ar": "أدخل عدد الفترات (ساعات للأسعار بالساعة، أرباع ساعة لأسعار 15 دقيقة).",
-              "ko": "기간 수를 입력하세요 (시간당 가격의 경우 시간, 15분 가격의 경우 15분)."
+              "en": "Enter the number of hours.",
+              "nl": "Voer het aantal uren in.",
+              "de": "Geben Sie die Anzahl der Stunden ein.",
+              "fr": "Entrez le nombre d'heures.",
+              "it": "Inserisci il numero di ore.",
+              "sv": "Ange antal timmar.",
+              "no": "Angi antall timer.",
+              "es": "Introduzca el número de horas.",
+              "da": "Indtast antallet af timer.",
+              "pl": "Wprowadź liczbę godzin.",
+              "ru": "Введите количество часов.",
+              "ar": "أدخل عدد الساعات.",
+              "ko": "시간을 입력하세요."
             },
             "min": 2,
             "max": 96,
@@ -5727,7 +5775,7 @@
               "ko": "기간"
             },
             "placeholder": {
-              "en": "6 - 10"
+              "en": "6 - 48"
             },
             "hint": {
               "en": "Enter the number of hours.",
@@ -6176,7 +6224,7 @@
           "ko": "다음 몇 시간 동안의 평균 가격이 가장 낮음!{{입니다|이 아닙니다}}"
         },
         "titleFormatted": {
-          "en": "The avg. price [[hours]] !{{is|isn't}} lowest within [[period]]",
+          "en": "The avg. price next [[hours]]H !{{is|isn't}} lowest within [[period]]",
           "no": "Gj.snittprisen neste [[hours]]T !{{er|er ikke}} lavest innen [[period]]",
           "de": "Der durchschn. Preis kommenden [[hours]]Std. !{{ist|ist nicht}} der niedrigste innerhalb [[period]]",
           "sv": "Det genomsnittliga priset kommande[[hours]]H !{{är|är inte}} det lägsta inom [[period]]",
@@ -6276,19 +6324,19 @@
               "en": "2-96"
             },
             "hint": {
-              "en": "Enter the number of periods (hours for hourly pricing, quarters for 15m pricing).",
-              "nl": "Voer het aantal periodes in (uren voor uurprijzen, kwartieren voor 15m prijzen).",
-              "de": "Geben Sie die Anzahl der Perioden ein (Stunden für Stundenpreise, Viertelstunden für 15m-Preise).",
-              "fr": "Entrez le nombre de périodes (heures pour tarification horaire, quarts d'heure pour tarification 15m).",
-              "it": "Inserisci il numero di periodi (ore per prezzi orari, quarti d'ora per prezzi 15m).",
-              "sv": "Ange antal perioder (timmar för timpriser, kvartar för 15m-priser).",
-              "no": "Angi antall perioder (timer for timepriser, kvarter for 15m-priser).",
-              "es": "Introduzca el número de períodos (horas para precios por hora, cuartos de hora para precios de 15m).",
-              "da": "Indtast antallet af perioder (timer for timepriser, kvarter for 15m priser).",
-              "pl": "Wprowadź liczbę okresów (godziny dla cen godzinowych, kwadranse dla cen 15m).",
-              "ru": "Введите количество периодов (часы для почасовых цен, четверти часа для 15-минутных цен).",
-              "ar": "أدخل عدد الفترات (ساعات للأسعار بالساعة، أرباع ساعة لأسعار 15 دقيقة).",
-              "ko": "기간 수를 입력하세요 (시간당 가격의 경우 시간, 15분 가격의 경우 15분)."
+              "en": "Enter the number of hours.",
+              "nl": "Voer het aantal uren in.",
+              "de": "Geben Sie die Anzahl der Stunden ein.",
+              "fr": "Entrez le nombre d'heures.",
+              "it": "Inserisci il numero di ore.",
+              "sv": "Ange antal timmar.",
+              "no": "Angi antall timer.",
+              "es": "Introduzca el número de horas.",
+              "da": "Indtast antallet af timer.",
+              "pl": "Wprowadź liczbę godzin.",
+              "ru": "Введите количество часов.",
+              "ar": "أدخل عدد الساعات.",
+              "ko": "시간을 입력하세요."
             },
             "min": 2,
             "max": 96,
@@ -6357,19 +6405,19 @@
               "en": "2-96"
             },
             "hint": {
-              "en": "Enter the number of periods (hours for hourly pricing, quarters for 15m pricing).",
-              "nl": "Voer het aantal periodes in (uren voor uurprijzen, kwartieren voor 15m prijzen).",
-              "de": "Geben Sie die Anzahl der Perioden ein (Stunden für Stundenpreise, Viertelstunden für 15m-Preise).",
-              "fr": "Entrez le nombre de périodes (heures pour tarification horaire, quarts d'heure pour tarification 15m).",
-              "it": "Inserisci il numero di periodi (ore per prezzi orari, quarti d'ora per prezzi 15m).",
-              "sv": "Ange antal perioder (timmar för timpriser, kvartar för 15m-priser).",
-              "no": "Angi antall perioder (timer for timepriser, kvarter for 15m-priser).",
-              "es": "Introduzca el número de períodos (horas para precios por hora, cuartos de hora para precios de 15m).",
-              "da": "Indtast antallet af perioder (timer for timepriser, kvarter for 15m priser).",
-              "pl": "Wprowadź liczbę okresów (godziny dla cen godzinowych, kwadranse dla cen 15m).",
-              "ru": "Введите количество периодов (часы для почасовых цен, четверти часа для 15-минутных цен).",
-              "ar": "أدخل عدد الفترات (ساعات للأسعار بالساعة، أرباع ساعة لأسعار 15 دقيقة).",
-              "ko": "기간 수를 입력하세요 (시간당 가격의 경우 시간, 15분 가격의 경우 15분)."
+              "en": "Enter the number of hours.",
+              "nl": "Voer het aantal uren in.",
+              "de": "Geben Sie die Anzahl der Stunden ein.",
+              "fr": "Entrez le nombre d'heures.",
+              "it": "Inserisci il numero di ore.",
+              "sv": "Ange antal timmar.",
+              "no": "Angi antall timer.",
+              "es": "Introduzca el número de horas.",
+              "da": "Indtast antallet af timer.",
+              "pl": "Wprowadź liczbę godzin.",
+              "ru": "Введите количество часов.",
+              "ar": "أدخل عدد الساعات.",
+              "ko": "시간을 입력하세요."
             },
             "min": 2,
             "max": 96,
@@ -6878,7 +6926,7 @@
               "ko": "기간"
             },
             "placeholder": {
-              "en": "6 - 10"
+              "en": "6 - 48"
             },
             "hint": {
               "en": "Enter the number of hours.",

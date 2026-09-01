@@ -81,7 +81,19 @@
     {
       "name": "meter_price_h0",
       "title": {
-        "en": "Price now"
+        "en": "Price now",
+        "de": "Preis aktuell",
+        "sv": "Pris just nu",
+        "it": "Prezzo attuale",
+        "no": "Pris nå",
+        "da": "Pris nu",
+        "nl": "Prijs nu",
+        "fr": "Tarif actuel",
+        "es": "Precio ahora",
+        "pl": "Cena teraz",
+        "ru": "Цена сейчас",
+        "ko": "현재 가격",
+        "ar": "السعر الآن"
       },
       "type": "number",
       "example": 27.5
