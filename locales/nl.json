@@ -30,6 +30,7 @@
   "solar_chart_yield_factor": "Opbrengstfactor",
   "solar_chart_model_fit": "Modelfit (%)",
   "solar_export_diagnostics_popup": "Maak nu een app diagnostics report aan met als bericht: paneeloriëntatie (bijv. Zuid/Oost/West).",
+  "tariff_group_interval_conflict": "Tariefgroep __group__ ontvangt tegenstrijdige prijsintervallen (__sources__). Nu __interval__ min. Geef 15- en 60-minuten prijsdevices een eigen tariefgroep.",
   "repair": {
     "warningtitle": "WAARSCHUWING",
     "warningtext": "Je staat op het punt het bronapparaat te wijzigen. Dit behoudt alle inzichten en flows. Maar als het nieuwe bronapparaat een andere meterstand heeft, moet je de meter- en geldstartwaarden handmatig compenseren in de geavanceerde instellingen.",

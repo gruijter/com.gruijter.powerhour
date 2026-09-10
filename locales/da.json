@@ -30,6 +30,7 @@
   "solar_chart_yield_factor": "Udbyttefaktor",
   "solar_chart_model_fit": "Modeltilpasning (%)",
   "solar_export_diagnostics_popup": "Opret nu en app-diagnosticeringsrapport med besked: orientering (f.eks. Syd/Øst/Vest).",
+  "tariff_group_interval_conflict": "Tarifgruppe __group__ modtager modstridende prisintervaller (__sources__). Bruger __interval__ min. Giv 15- og 60-minutters prisenheder deres egne tarifgrupper.",
   "repair": {
     "warningtitle": "ADVARSEL",
     "warningtext": "Du er ved at ændre kildeenheden. Dette bevarer al indsigt og flows. Men hvis den nye kildeenhed har en anden måleraflæsning, skal du manuelt kompensere måler- og pengestartværdierne i de avancerede indstillinger.",

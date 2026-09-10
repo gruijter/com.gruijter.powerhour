@@ -30,6 +30,7 @@
   "solar_chart_yield_factor": "Factor de rendimiento",
   "solar_chart_model_fit": "Ajuste del modelo (%)",
   "solar_export_diagnostics_popup": "Cree ahora un informe de diagnóstico de la app con mensaje: orientación (p. ej. Sur/Este/Oeste).",
+  "tariff_group_interval_conflict": "El grupo tarifario __group__ recibe intervalos de precio contradictorios (__sources__). Usando __interval__ min. Asigne grupos tarifarios propios a los dispositivos de precio de 15 y 60 minutos.",
   "repair": {
     "warningtitle": "ADVERTENCIA",
     "warningtext": "Está a punto de cambiar el dispositivo de origen. Esto conserva todos los conocimientos y flujos. Pero si el nuevo dispositivo de origen tiene una lectura de medidor diferente, debe compensar manualmente los valores de inicio del medidor y del dinero en la configuración avanzada.",

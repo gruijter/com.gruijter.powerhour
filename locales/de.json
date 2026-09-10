@@ -30,6 +30,7 @@
   "solar_chart_yield_factor": "Ertragsfaktor",
   "solar_chart_model_fit": "Modellanpassung (%)",
   "solar_export_diagnostics_popup": "Erstellen Sie jetzt einen App-Diagnosebericht mit Nachricht: Ausrichtung (z. B. Süd/Ost/West).",
+  "tariff_group_interval_conflict": "Tarifgruppe __group__ erhält widersprüchliche Preisintervalle (__sources__). Aktuell __interval__ Min. Geben Sie 15- und 60-Minuten-Preisgeräten eigene Tarifgruppen.",
   "repair": {
     "warningtitle": "WARNUNG",
     "warningtext": "Sie sind im Begriff, das Quellgerät zu ändern. Dies bewahrt alle Einblicke und Flows. Wenn das neue Quellgerät jedoch einen anderen Zählerstand hat, müssen Sie die Zähler- und Geldstartwerte in den erweiterten Einstellungen manuell kompensieren.",
