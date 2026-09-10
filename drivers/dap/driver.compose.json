@@ -910,6 +910,10 @@
               "label": { "en": "ENTSOE Gruijter" }
             },
             {
+              "id": "SMARD",
+              "label": { "en": "SMARD (Bundesnetzagentur)" }
+            },
+            {
               "id": "Nordpool",
               "label": { "en": "Nordpool" }
             },

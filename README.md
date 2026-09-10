@@ -81,6 +81,10 @@ Power by the Hour integrates data from external market data providers and online
 - **Open-Meteo:** Solar radiation and weather forecast data for solar production forecasting.
   - Website: [Open-Meteo](https://open-meteo.com/)
   - Terms & License: [Open-Meteo Terms & Attribution](https://open-meteo.com/en/terms)
+- **SMARD | Bundesnetzagentur:** Day-ahead electricity spot prices for the German market area and its neighbouring bidding zones, used as an independent backup source.
+  - Website: [SMARD.de](https://www.smard.de/en)
+  - Terms of Use: [SMARD Data Use](https://www.smard.de/en/datennutzung)
+  - License: Data licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/), attributed to **Bundesnetzagentur | SMARD.de**.
 - **Stekker.ai:** AI price forecasting and smart charging optimization data.
   - Website: [Stekker.ai](https://stekker.ai/)
   - Terms of Use: [Stekker Terms](https://stekker.app/terms)

@@ -66,6 +66,8 @@ class DapDriver extends GenericDriver {
       // eslint-disable-next-line global-require
       () => require('../../lib/providers/EntsoeGruijter'),
       // eslint-disable-next-line global-require
+      () => require('../../lib/providers/Smard'),
+      // eslint-disable-next-line global-require
       () => require('../../lib/providers/Nordpool'),
       // eslint-disable-next-line global-require
       () => require('../../lib/providers/Entsoe'),
