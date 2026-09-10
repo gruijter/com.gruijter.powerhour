@@ -1,4 +1,7 @@
 {
+  "8.18.0": {
+    "en": "DAP: many improvements for resilient price fetching. Fix stuck meter due to meter jump. Add timeline warning when multiple DAP's use the same tariff group. Code refactoring and optimizations. Homey-api@3.20.0."
+  },
   "8.17.0": {
     "en": "Add set_export_markup flows. Add grid import/export this_day. Fix checkMeterJump and handle negative energy meters. Improve hints in flows. Pin Node v22. Fast-cml-parser@5.11.1. Homey-api@3.19.3."
   },
