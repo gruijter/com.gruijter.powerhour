@@ -28,6 +28,7 @@ const Entsoe = require('./lib/providers/Entsoe');
 const EntsoeGruijter = require('./lib/providers/EntsoeGruijter');
 const Nordpool = require('./lib/providers/Nordpool');
 const Smard = require('./lib/providers/Smard');
+const Omie = require('./lib/providers/Omie');
 const Stekker = require('./lib/providers/Stekker');
 const Energyzero = require('./lib/providers/Energyzero');
 const EEX = require('./lib/providers/EEX');
@@ -36,6 +37,7 @@ const TimeHelpers = require('./lib/helpers/TimeHelpers');
 const providers = {
   ENTSOE: Entsoe,
   ENTSOE_GRUIJTER: EntsoeGruijter,
+  OMIE: Omie,
   SMARD: Smard,
   NORDPOOL: Nordpool,
   STEKKER: Stekker,

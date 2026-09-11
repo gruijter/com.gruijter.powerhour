@@ -906,6 +906,10 @@
               }
             },
             {
+              "id": "OMIE",
+              "label": { "en": "OMIE (Spain/Portugal)" }
+            },
+            {
               "id": "ENTSOE_GRUIJTER",
               "label": { "en": "ENTSOE Gruijter" }
             },

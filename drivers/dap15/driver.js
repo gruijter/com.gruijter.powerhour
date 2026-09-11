@@ -63,6 +63,8 @@ class Dap15Driver extends GenericDriver {
 
     this.ds.providers = [
       // eslint-disable-next-line global-require
+      () => require('../../lib/providers/Omie'),
+      // eslint-disable-next-line global-require
       () => require('../../lib/providers/EntsoeGruijter'),
       // eslint-disable-next-line global-require
       () => require('../../lib/providers/Smard'),

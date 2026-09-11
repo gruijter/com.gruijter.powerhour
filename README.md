@@ -78,6 +78,9 @@ Power by the Hour integrates data from external market data providers and online
 - **Nord Pool:** Day-ahead electricity spot prices for Nordic, Baltic, and European bidding zones.
   - Website: [Nord Pool Group](https://www.nordpoolgroup.com/)
   - Terms of Use: [Nord Pool Terms & Conditions](https://www.nordpoolgroup.com/en/About-us/Terms-and-conditions-for-website-use/)
+- **OMIE (Operador del Mercado Ibérico de Energía):** Day-ahead spot prices for the Iberian market (Spain and Portugal). OMIE is the market operator that runs the MIBEL auction, so it is the primary source for these zones.
+  - Website: [OMIE](https://www.omie.es/)
+  - Terms of Use: [OMIE Aviso Legal](https://www.omie.es/es/aviso-legal)
 - **Open-Meteo:** Solar radiation and weather forecast data for solar production forecasting.
   - Website: [Open-Meteo](https://open-meteo.com/)
   - Terms & License: [Open-Meteo Terms & Attribution](https://open-meteo.com/en/terms)
