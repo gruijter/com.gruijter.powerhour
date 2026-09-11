@@ -1,4 +1,7 @@
 {
+  "8.18.1": {
+    "en": "Add SMARD and OMIE as data providers. Set OMIE as preferred supplier for PT and ES. Fix and cleanup bidding zones."
+  },
   "8.18.0": {
     "en": "DAP: many improvements for resilient price fetching. Fix stuck meter due to meter jump. Add timeline warning when multiple DAP's use the same tariff group. Code refactoring and optimizations. Homey-api@3.20.0."
   },
