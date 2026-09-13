@@ -560,19 +560,34 @@
           "ar": "تم استلام أسعار جديدة"
         },
         "titleFormatted": {
-          "en": "New prices received for [[period]]",
-          "de": "Neue Preise für [[period]] erhalten",
-          "sv": "Nya priser inkomna för [[period]]",
-          "it": "Nuovi prezzi ricevuti per [[period]]",
-          "no": "Nye priser mottatt for [[period]]",
-          "nl": "Nieuwe prijzen ontvangen voor [[period]]",
-          "fr": "Nouveaux prix reçus pour [[period]]",
-          "da": "Nye priser modtaget for [[period]]",
-          "es": "Nuevos precios recibidos para [[period]]",
-          "pl": "Otrzymano nowe ceny dla [[period]]",
-          "ru": "Получены новые цены для [[period]]",
-          "ko": "[[period]]에 대한 새 가격 수신됨",
-          "ar": "تم استلام أسعار جديدة لـ [[period]]"
+          "en": "New prices received for [[period]] (include forecast: [[includeForecast]])",
+          "de": "Neue Preise für [[period]] erhalten (Prognose einbeziehen: [[includeForecast]])",
+          "sv": "Nya priser inkomna för [[period]] (inkludera prognos: [[includeForecast]])",
+          "it": "Nuovi prezzi ricevuti per [[period]] (includi previsione: [[includeForecast]])",
+          "no": "Nye priser mottatt for [[period]] (inkluder prognose: [[includeForecast]])",
+          "nl": "Nieuwe prijzen ontvangen voor [[period]] (incl. forecast: [[includeForecast]])",
+          "fr": "Nouveaux prix reçus pour [[period]] (inclure prévision : [[includeForecast]])",
+          "da": "Nye priser modtaget for [[period]] (inkluder prognose: [[includeForecast]])",
+          "es": "Nuevos precios recibidos para [[period]] (incluir previsión: [[includeForecast]])",
+          "pl": "Otrzymano nowe ceny dla [[period]] (uwzględnij prognozę: [[includeForecast]])",
+          "ru": "Получены новые цены для [[period]] (включая прогноз: [[includeForecast]])",
+          "ko": "[[period]]에 대한 새 가격 수신됨 (예측 포함: [[includeForecast]])",
+          "ar": "تم استلام أسعار جديدة لـ [[period]] (تضمين التوقعات: [[includeForecast]])"
+        },
+        "hint": {
+          "en": "When unchecked, the trigger only fires for confirmed market prices, not for forecast price updates.",
+          "de": "Wenn nicht aktiviert, löst der Auslöser nur bei bestätigten Marktpreisen aus, nicht bei Prognosepreis-Updates.",
+          "sv": "Om avmarkerad utlöses triggern endast för bekräftade marknadspriser, inte för prognosprisuppdateringar.",
+          "it": "Se deselezionato, il trigger si attiva solo per prezzi di mercato confermati, non per aggiornamenti dei prezzi di previsione.",
+          "no": "Når avmerkingen fjernes, utløses triggeren kun for bekreftede markedspriser, ikke for prognoseprisoppdateringer.",
+          "nl": "Indien uitgevinkt, wordt de trigger alleen geactiveerd bij bevestigde marktprijzen, niet bij forecast prijs-updates.",
+          "fr": "Si décochée, le déclencheur ne se déclenche que pour les prix de marché confirmés, pas pour les mises à jour des prix prévisionnels.",
+          "da": "Hvis fravalgt, udløses triggeren kun for bekræftede markedspriser, ikke for opdateringer af prognosepriser.",
+          "es": "Si está desmarcada, el disparador solo se activa para precios de mercado confirmados, no para actualizaciones de precios de previsión.",
+          "pl": "Jeśli odznaczone, wyzwalacz uruchamia się tylko dla potwierdzonych cen rynkowych, a nie dla aktualizacji cen prognozy.",
+          "ru": "Если флажок снят, триггер срабатывает только для подтверждённых рыночных цен, а не для обновлений прогнозных цен.",
+          "ko": "선택 해제 시, 확정된 시장 가격에서만 트리거가 작동하며 예측 가격 업데이트에는 작동하지 않습니다.",
+          "ar": "عند إلغاء التحديد، يتم تشغيل المشغّل فقط للأسعار السوقية المؤكدة، وليس لتحديثات أسعار التوقعات."
         },
         "highlight": true,
         "args": [
@@ -655,6 +670,26 @@
                 }
               }
             ]
+          },
+          {
+            "type": "checkbox",
+            "name": "includeForecast",
+            "title": {
+              "en": "Include forecast prices",
+              "de": "Prognosepreise einbeziehen",
+              "sv": "Inkludera prognospriser",
+              "it": "Includi prezzi di previsione",
+              "no": "Inkluder prognosepriser",
+              "nl": "Inclusief forecast prijzen",
+              "fr": "Inclure les prix prévisionnels",
+              "da": "Inkluder prognosepriser",
+              "es": "Incluir precios de previsión",
+              "pl": "Uwzględnij ceny prognozy",
+              "ru": "Включать прогнозные цены",
+              "ko": "예측 가격 포함",
+              "ar": "تضمين أسعار التوقعات"
+            },
+            "default": true
           }
         ],
         "tokens": [
