@@ -233,10 +233,19 @@ class SolarDevice extends GenericDevice {
     // Idempotent: cancel any previous chain before starting a new one, so if this ever gets
     // called twice (e.g. an onInit() staleness check elsewhere gets bypassed) only one
     // perpetual hourly loop survives rather than two running side by side forever.
+    //
+    // Clearing the pending timer is necessary but NOT sufficient on its own: it only cancels a
+    // chain that is currently parked in setTimeout. An invocation already mid-flight - and this
+    // one awaits fetchForecast() and retrainSolarModel(), both long-running network/Insights
+    // work - still reaches its own finally and schedules the next tick, resurrecting itself
+    // alongside the new chain. The epoch token makes a superseded invocation stand down instead.
+    // Mirrors drivers/grid/device.js#startForecastLoop().
     if (this.forecastTimeout) this.homey.clearTimeout(this.forecastTimeout);
+    this.forecastEpoch = (this.forecastEpoch || 0) + 1;
+    const epoch = this.forecastEpoch;
     // Fetch forecast every hour
     const loop = async () => {
-      if (this.isDestroyed) return;
+      if (this.isDestroyed || epoch !== this.forecastEpoch) return;
       try {
         await this.fetchForecast();
         await this.updateForecastDisplay(false);
@@ -262,7 +271,7 @@ class SolarDevice extends GenericDevice {
       } catch (err) {
         this.error('Forecast fetch failed:', err);
       } finally {
-        if (!this.isDestroyed) {
+        if (!this.isDestroyed && epoch === this.forecastEpoch) {
           this.forecastTimeout = this.homey.setTimeout(loop, 60 * 60 * 1000); // 1 hour
         }
       }
@@ -279,8 +288,16 @@ class SolarDevice extends GenericDevice {
     // 1. Detect curtailment events in near real-time (reads the model, doesn't write it).
     // 2. Update the real-time forecast capability (measure_watt_forecast.h0).
     // 3. Record power history (charts) and integrate self-consumed energy.
+    //
+    // Same idempotency contract as startForecastLoop() above - see there for why the epoch token
+    // is needed on top of clearing the pending timer. This loop previously had neither guard, so
+    // a second call (a restartDevice() racing the initLearningTimeout that starts it) layered a
+    // second per-minute chain on top of the first, each overwriting the other's timeout handle.
+    if (this.learningTimeout) this.homey.clearTimeout(this.learningTimeout);
+    this.learningEpoch = (this.learningEpoch || 0) + 1;
+    const epoch = this.learningEpoch;
     const loop = async () => {
-      if (this.isDestroyed) return;
+      if (this.isDestroyed || epoch !== this.learningEpoch) return;
       try {
         // Pause live updates if the heavy insights batch-processor is busy to prevent race conditions
         if (!this.retraining) {
@@ -294,7 +311,7 @@ class SolarDevice extends GenericDevice {
       } catch (err) {
         this.error('Learning update failed:', err);
       } finally {
-        if (!this.isDestroyed) {
+        if (!this.isDestroyed && epoch === this.learningEpoch) {
           const now = new Date();
           const { start: sunStart, end: sunEnd } = SolarLearningStrategy.getSunBounds(now, this.forecastData, this.timeZone);
           const isNight = sunStart && sunEnd && (now < sunStart || now > sunEnd);
@@ -1335,6 +1352,13 @@ class SolarDevice extends GenericDevice {
 
   stopPolling() {
     super.stopPolling();
+    // Retire the current forecast/learning chains before clearing their timers. Clearing alone
+    // only cancels a chain parked in setTimeout - an invocation already mid-flight reaches its
+    // own finally afterwards and would schedule a fresh timeout, quietly undoing the stop unless
+    // the device also happens to be destroyed. Bumping the epochs makes those stand down; see
+    // startForecastLoop().
+    this.forecastEpoch = (this.forecastEpoch || 0) + 1;
+    this.learningEpoch = (this.learningEpoch || 0) + 1;
     if (this.forecastTimeout) {
       this.homey.clearTimeout(this.forecastTimeout);
       this.forecastTimeout = null;
