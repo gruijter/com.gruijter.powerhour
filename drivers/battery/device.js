@@ -477,6 +477,15 @@ class BatDevice extends GenericDevice {
     const showSoc = this.getSettings().chartShowSoc !== false;
     const showExportPrice = this.getSettings().chartShowExportPrice !== false;
 
+    // Today and Next Hours rebuild on every call, so they always reflect these settings
+    // immediately. Tomorrow and Yesterday are cached (only rebuilt on date rollover / new
+    // prices) and would otherwise keep showing a stale image - built with the old
+    // showPower/showSoc/showExportPrice - until one of those unrelated triggers happens to
+    // fire, which could be hours. Force a rebuild when the display settings themselves change.
+    const chartDisplaySettingsKey = `${showPower}|${showSoc}|${showExportPrice}`;
+    const chartDisplaySettingsChanged = this.lastChartDisplaySettingsKey !== chartDisplaySettingsKey;
+    this.lastChartDisplaySettingsKey = chartDisplaySettingsKey;
+
     // 1. Image 1: Today (00:00 to 23:59 Today)
     const todayStrategy = {};
     const todayDateStr = nowLocal.toDateString();
@@ -558,7 +567,7 @@ class BatDevice extends GenericDevice {
     const dateRolledOver = !this.lastRenderedDateStr || (this.lastRenderedDateStr !== todayDateStr);
     this.lastRenderedDateStr = todayDateStr;
 
-    if (dateRolledOver || this.pricesUpdated || !this.chartTomorrowCharge) {
+    if (dateRolledOver || this.pricesUpdated || chartDisplaySettingsChanged || !this.chartTomorrowCharge) {
       const tomorrowStrategy = {};
       const remainingTodaySlots = totalDaySlots - currentSlotInDay;
       const tomorrowStartMs = todayStartMs + (24 * 60 * 60 * 1000);
@@ -625,7 +634,7 @@ class BatDevice extends GenericDevice {
     await this.nextHoursChargeImage.update().catch((err) => this.error(err));
 
     // 4. Image 4: Yesterday (00:00 to 23:59 Yesterday) - only rebuild on date rollover or initial render
-    if (dateRolledOver || !this.chartYesterdayCharge) {
+    if (dateRolledOver || chartDisplaySettingsChanged || !this.chartYesterdayCharge) {
       const yesterdayStartMs = todayStartMs - (24 * 60 * 60 * 1000);
       const yesterdayStrategy = {};
       const yesterdayExportPrices = [];
