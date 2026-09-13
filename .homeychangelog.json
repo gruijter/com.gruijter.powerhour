@@ -1,6 +1,6 @@
 {
   "8.19.0": {
-    "en": "Add option to not trigger on new forecast prices. Fix data source naming in flows. Fix price triggers due to rounding noise. Fix chart rendering."
+    "en": "Add option to not trigger on new forecast prices. Add many missing translations. Unify used terminology. Fix data source naming in flows. Fix price triggers due to rounding noise. Fix chart rendering. Many grid fixes and improvements."
   },
   "8.18.1": {
     "en": "Add SMARD and OMIE as data providers. Set OMIE as preferred supplier for PT and ES. Fix and cleanup bidding zones."
