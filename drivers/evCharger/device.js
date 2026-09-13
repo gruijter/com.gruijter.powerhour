@@ -705,11 +705,12 @@ class CarChargeDevice extends GenericDevice {
         await this.flows.triggerNewEvStrategyFlow(strategy).catch(this.error);
       }
 
-      if (this.pricesNextHoursIsForecast) {
-        Object.keys(strategy).forEach((k) => {
-          if (this.pricesNextHoursIsForecast[k]) strategy[k].isForecast = true;
-        });
-      }
+      Object.keys(strategy).forEach((k) => {
+        if (this.pricesNextHoursIsForecast && this.pricesNextHoursIsForecast[k]) strategy[k].isForecast = true;
+        // The EV charge strategy is a forward-looking plan: none of it has executed yet,
+        // regardless of whether the underlying price itself is a genuine forecast.
+        if (strategy[k] && typeof strategy[k] === 'object') strategy[k].isFuture = true;
+      });
 
       // If car is not connected, mark all strategy slots as forecast (grey)
       if (!this.isCarConnected) {
@@ -776,6 +777,7 @@ class CarChargeDevice extends GenericDevice {
             soc: actualSoc !== null ? actualSoc : currentSoc,
             price: slotPrice,
             isForecast: false,
+            isFuture: false,
           };
         } else {
           const stratIdx = i - currentSlotInDay;
@@ -783,10 +785,12 @@ class CarChargeDevice extends GenericDevice {
             todayStrategy[i] = {
               ...strategy[stratIdx],
               actualPower: isPastOrPresent ? actualP : (strategy[stratIdx].actualPower || null),
-              // strategy's own isForecast flag reflects whether the *price* for that slot is
-              // forecasted, not whether the slot itself has actually happened yet. A slot that
-              // hasn't occurred must always render as planned/forecast, regardless of price origin.
-              isForecast: isPastOrPresent ? !!strategy[stratIdx].isForecast : true,
+              // isForecast reflects whether the *price* for this slot is a genuine forecast
+              // (not yet published market data) - independent of whether it has happened yet.
+              isForecast: !!strategy[stratIdx].isForecast,
+              // isFuture reflects whether the slot's plan has actually executed - drives the
+              // SoC/power wash, unrelated to price origin. A slot that hasn't occurred is future.
+              isFuture: !isPastOrPresent,
             };
           } else {
             todayStrategy[i] = {
@@ -796,6 +800,7 @@ class CarChargeDevice extends GenericDevice {
               soc: currentSoc,
               price: slotPrice,
               isForecast: true,
+              isFuture: !isPastOrPresent,
             };
           }
         }
@@ -834,7 +839,9 @@ class CarChargeDevice extends GenericDevice {
         for (let i = 0; i < totalDaySlots; i += 1) {
           const stratIdx = remainingTodaySlots + i;
           if (strategy && strategy[stratIdx]) {
-            tomorrowStrategy[i] = strategy[stratIdx];
+            // Tomorrow is entirely a forward plan - never executed yet, regardless of the
+            // slot's own isFuture (already true from the strategy scheme, kept explicit here).
+            tomorrowStrategy[i] = { ...strategy[stratIdx], isFuture: true };
           } else {
             tomorrowStrategy[i] = {
               power: 0,
@@ -842,6 +849,7 @@ class CarChargeDevice extends GenericDevice {
               soc: null,
               price: null,
               isForecast: true,
+              isFuture: true,
             };
           }
           tomorrowExportPrices[i] = this.getExportPriceForTimestamp(tomorrowStartMs + (i * intervalMs));
@@ -910,6 +918,7 @@ class CarChargeDevice extends GenericDevice {
             soc: this.getActualSocForTime(slotStartMs),
             price: slotPrice,
             isForecast: false,
+            isFuture: false,
           };
         }
 

@@ -432,10 +432,13 @@ class BatDevice extends GenericDevice {
     if (!strategy) return;
 
     await this.setCapability('roi_duration', strategy.duration).catch((err) => this.error(err));
-    if (this.pricesNextHoursIsForecast) {
+    {
       const scheme = JSON.parse(strategy.scheme);
       Object.keys(scheme).forEach((k) => {
-        if (this.pricesNextHoursIsForecast[k]) scheme[k].isForecast = true;
+        if (this.pricesNextHoursIsForecast && this.pricesNextHoursIsForecast[k]) scheme[k].isForecast = true;
+        // The ROI strategy is a forward-looking plan: none of it has executed yet, regardless
+        // of whether the underlying price itself is a genuine forecast (isForecast).
+        scheme[k].isFuture = true;
       });
       strategy.scheme = JSON.stringify(scheme);
     }
@@ -501,6 +504,7 @@ class BatDevice extends GenericDevice {
           soc: actualSoc,
           price: slotPrice,
           isForecast: false,
+          isFuture: false,
         };
       } else {
         const stratIdx = i - currentSlotInDay;
@@ -509,10 +513,12 @@ class BatDevice extends GenericDevice {
             ...stratScheme[stratIdx],
             actualPower: isPastOrPresent ? actualP : (stratScheme[stratIdx].actualPower || null),
             soc: isPastOrPresent && actualSoc !== null ? actualSoc : (stratScheme[stratIdx].soc || null),
-            // stratScheme's own isForecast flag reflects whether the *price* for that slot is
-            // forecasted, not whether the slot itself has actually happened yet. A slot that
-            // hasn't occurred must always render as planned/forecast, regardless of price origin.
-            isForecast: isPastOrPresent ? !!stratScheme[stratIdx].isForecast : true,
+            // isForecast reflects whether the *price* for this slot is a genuine forecast (not
+            // yet published market data) - independent of whether the slot has happened yet.
+            isForecast: !!stratScheme[stratIdx].isForecast,
+            // isFuture reflects whether the slot's plan has actually executed - drives the
+            // SoC/power wash, unrelated to price origin. A slot that hasn't occurred is future.
+            isFuture: !isPastOrPresent,
           };
         } else {
           todayStrategy[i] = {
@@ -522,6 +528,7 @@ class BatDevice extends GenericDevice {
             soc: isPastOrPresent ? actualSoc : null,
             price: slotPrice,
             isForecast: true,
+            isFuture: !isPastOrPresent,
           };
         }
       }
@@ -560,7 +567,9 @@ class BatDevice extends GenericDevice {
       for (let i = 0; i < totalDaySlots; i += 1) {
         const stratIdx = remainingTodaySlots + i;
         if (stratScheme && stratScheme[stratIdx]) {
-          tomorrowStrategy[i] = stratScheme[stratIdx];
+          // Tomorrow is entirely a forward plan - never executed yet, regardless of the
+          // slot's own isFuture (already true from the strategy scheme, kept explicit here).
+          tomorrowStrategy[i] = { ...stratScheme[stratIdx], isFuture: true };
         } else {
           tomorrowStrategy[i] = {
             power: 0,
@@ -568,6 +577,7 @@ class BatDevice extends GenericDevice {
             soc: null,
             price: null,
             isForecast: true,
+            isFuture: true,
           };
         }
         tomorrowExportPrices[i] = this.getExportPriceForTimestamp(tomorrowStartMs + (i * intervalMs));
@@ -636,6 +646,7 @@ class BatDevice extends GenericDevice {
           soc: actualSoc,
           price: slotPrice,
           isForecast: false,
+          isFuture: false,
         };
       }
 
