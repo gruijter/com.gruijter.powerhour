@@ -20,7 +20,6 @@ along with com.gruijter.powerhour.  If not, see <http://www.gnu.org/licenses/>.
 'use strict';
 
 const GenericDevice = require('../../lib/genericDeviceDrivers/generic_bat_device');
-const { getChargeChart } = require('../../lib/charts/ChargeChart');
 const ChargeDeviceHelpers = require('../../lib/helpers/ChargeDeviceHelpers');
 const ChartImages = require('../../lib/helpers/ChartImages');
 
@@ -432,255 +431,21 @@ class BatDevice extends GenericDevice {
     if (!strategy) return;
 
     await this.setCapability('roi_duration', strategy.duration).catch((err) => this.error(err));
-    {
-      const scheme = JSON.parse(strategy.scheme);
-      Object.keys(scheme).forEach((k) => {
-        if (this.pricesNextHoursIsForecast && this.pricesNextHoursIsForecast[k]) scheme[k].isForecast = true;
-        // The ROI strategy is a forward-looking plan: none of it has executed yet, regardless
-        // of whether the underlying price itself is a genuine forecast (isForecast).
-        scheme[k].isFuture = true;
-      });
-      strategy.scheme = JSON.stringify(scheme);
-    }
 
-    const stratScheme = JSON.parse(strategy.scheme);
+    const scheme = JSON.parse(strategy.scheme);
+    Object.keys(scheme).forEach((k) => {
+      if (this.pricesNextHoursIsForecast && this.pricesNextHoursIsForecast[k]) scheme[k].isForecast = true;
+    });
 
-    const now = new Date();
-    now.setMilliseconds(0);
-    const tz = this.timeZone || this.homey.clock.getTimezone();
-    const nowLocal = new Date(now.toLocaleString('en-US', { timeZone: tz }));
-    const H0 = nowLocal.getHours();
-    const M0 = Math.floor(nowLocal.getMinutes() / this.priceInterval) * this.priceInterval;
-    const startHour = H0 + (M0 / 60);
-
-    const slotsPerHour = 60 / this.priceInterval;
-    const currentSlotInDay = Math.floor((H0 + (M0 / 60)) * slotsPerHour);
-    const totalDaySlots = 24 * slotsPerHour;
-
-    // Compute UTC-equivalent of local midnight: subtract local time components from current UTC time
-    const todayStartMs = now.getTime()
-      - (nowLocal.getHours() * 3600000)
-      - (nowLocal.getMinutes() * 60000)
-      - (nowLocal.getSeconds() * 1000)
-      - nowLocal.getMilliseconds();
-    const intervalMs = (this.priceInterval || 60) * 60 * 1000;
-
-    const chargePower = this.getSettings().chargePower || 2200;
-    const dischargePower = this.getSettings().dischargePower || 1700;
-    const currency = (this.getSettings() && this.getSettings().currency) || this.currency || (this.settings && this.settings.currency) || '€';
-    const translations = {
-      price: this.homey.__('price') || 'Prijs',
-      power: this.homey.__('power') || 'Vermogen',
-      soc: this.homey.__('soc') || 'SoC',
-    };
-    const showPower = !!this.getSettings().chartShowPower;
-    const showSoc = this.getSettings().chartShowSoc !== false;
-    const showExportPrice = this.getSettings().chartShowExportPrice !== false;
-
-    // Today and Next Hours rebuild on every call, so they always reflect these settings
-    // immediately. Tomorrow and Yesterday are cached (only rebuilt on date rollover / new
-    // prices) and would otherwise keep showing a stale image - built with the old
-    // showPower/showSoc/showExportPrice - until one of those unrelated triggers happens to
-    // fire, which could be hours. Force a rebuild when the display settings themselves change.
-    const chartDisplaySettingsKey = `${showPower}|${showSoc}|${showExportPrice}`;
-    const chartDisplaySettingsChanged = this.lastChartDisplaySettingsKey !== chartDisplaySettingsKey;
-    this.lastChartDisplaySettingsKey = chartDisplaySettingsKey;
-
-    // 1. Image 1: Today (00:00 to 23:59 Today)
-    const todayStrategy = {};
-    const todayDateStr = nowLocal.toDateString();
-    const todayExportPrices = [];
-    await this.recordPlannedSchedule(stratScheme, currentSlotInDay, totalDaySlots, todayDateStr);
-
-    for (let i = 0; i < totalDaySlots; i += 1) {
-      const slotStartMs = todayStartMs + (i * intervalMs);
-      const isPastOrPresent = slotStartMs <= now.getTime();
-      let actualP = this.getActualPowerForTime(slotStartMs);
-      if (isPastOrPresent && actualP === null) actualP = 0;
-      let actualSoc = this.getActualSocForTime(slotStartMs);
-      if (isPastOrPresent && actualSoc === null && i <= currentSlotInDay) {
-        actualSoc = typeof this.soc === 'number' ? this.soc : null;
-      }
-      const slotPrice = this.getPriceForTimestamp(slotStartMs);
-      todayExportPrices[i] = this.getExportPriceForTimestamp(slotStartMs);
-
-      if (i < currentSlotInDay) {
-        const planned = this.getPlannedScheduleForSlot(i);
-        todayStrategy[i] = {
-          power: planned.power,
-          actualPower: actualP,
-          duration: planned.duration,
-          soc: actualSoc,
-          price: slotPrice,
-          isForecast: false,
-          isFuture: false,
-        };
-      } else {
-        const stratIdx = i - currentSlotInDay;
-        if (stratScheme && stratScheme[stratIdx]) {
-          todayStrategy[i] = {
-            ...stratScheme[stratIdx],
-            actualPower: isPastOrPresent ? actualP : (stratScheme[stratIdx].actualPower || null),
-            soc: isPastOrPresent && actualSoc !== null ? actualSoc : (stratScheme[stratIdx].soc || null),
-            // isForecast reflects whether the *price* for this slot is a genuine forecast (not
-            // yet published market data) - independent of whether the slot has happened yet.
-            isForecast: !!stratScheme[stratIdx].isForecast,
-            // isFuture reflects whether the slot's plan has actually executed - drives the
-            // SoC/power wash, unrelated to price origin. A slot that hasn't occurred is future.
-            isFuture: !isPastOrPresent,
-          };
-        } else {
-          todayStrategy[i] = {
-            power: 0,
-            actualPower: isPastOrPresent ? actualP : null,
-            duration: 0,
-            soc: isPastOrPresent ? actualSoc : null,
-            price: slotPrice,
-            isForecast: true,
-            isFuture: !isPastOrPresent,
-          };
-        }
-      }
-    }
-
-    const chartToday = await getChargeChart(
-      { scheme: JSON.stringify(todayStrategy) },
-      0,
-      totalDaySlots,
-      chargePower,
-      dischargePower,
-      this.priceInterval,
-      todayExportPrices,
-      currency,
-      translations,
-      true,
-      this.timeZone,
-      showPower,
-      showSoc,
-      showExportPrice,
-    );
-
-    this.chartTodayCharge = chartToday;
-    await this.todayChargeImage.update().catch((err) => this.error(err));
-
-    // 2. Image 2: Tomorrow (00:00 to 23:59 Tomorrow) - only rebuild on date rollover, price change, or initial render
-    const dateRolledOver = !this.lastRenderedDateStr || (this.lastRenderedDateStr !== todayDateStr);
-    this.lastRenderedDateStr = todayDateStr;
-
-    if (dateRolledOver || this.pricesUpdated || chartDisplaySettingsChanged || !this.chartTomorrowCharge) {
-      const tomorrowStrategy = {};
-      const remainingTodaySlots = totalDaySlots - currentSlotInDay;
-      const tomorrowStartMs = todayStartMs + (24 * 60 * 60 * 1000);
-      const tomorrowExportPrices = [];
-
-      for (let i = 0; i < totalDaySlots; i += 1) {
-        const stratIdx = remainingTodaySlots + i;
-        if (stratScheme && stratScheme[stratIdx]) {
-          // Tomorrow is entirely a forward plan - never executed yet, regardless of the
-          // slot's own isFuture (already true from the strategy scheme, kept explicit here).
-          tomorrowStrategy[i] = { ...stratScheme[stratIdx], isFuture: true };
-        } else {
-          tomorrowStrategy[i] = {
-            power: 0,
-            duration: 0,
-            soc: null,
-            price: null,
-            isForecast: true,
-            isFuture: true,
-          };
-        }
-        tomorrowExportPrices[i] = this.getExportPriceForTimestamp(tomorrowStartMs + (i * intervalMs));
-      }
-
-      const chartTomorrow = await getChargeChart(
-        { scheme: JSON.stringify(tomorrowStrategy) },
-        0,
-        totalDaySlots,
-        chargePower,
-        dischargePower,
-        this.priceInterval,
-        tomorrowExportPrices,
-        currency,
-        translations,
-        false,
-        this.timeZone,
-        showPower,
-        showSoc,
-        showExportPrice,
-      );
-
-      this.chartTomorrowCharge = chartTomorrow;
-      await this.tomorrowChargeImage.update().catch((err) => this.error(err));
-    }
-
-    // 3. Image 3: Next Hours (Rolling Window starting from current hour H0)
-    const chartNextHours = await getChargeChart(
-      strategy,
-      startHour,
-      this.pricesNextHoursMarketLength,
-      chargePower,
-      dischargePower,
-      this.priceInterval,
-      this.exportPricesNextHours,
-      currency,
-      translations,
-      false,
-      this.timeZone,
-      showPower,
-      showSoc,
-      showExportPrice,
-    );
-    this.chartNextHoursCharge = chartNextHours;
-    await this.nextHoursChargeImage.update().catch((err) => this.error(err));
-
-    // 4. Image 4: Yesterday (00:00 to 23:59 Yesterday) - only rebuild on date rollover or initial render
-    if (dateRolledOver || chartDisplaySettingsChanged || !this.chartYesterdayCharge) {
-      const yesterdayStartMs = todayStartMs - (24 * 60 * 60 * 1000);
-      const yesterdayStrategy = {};
-      const yesterdayExportPrices = [];
-
-      for (let i = 0; i < totalDaySlots; i += 1) {
-        const slotStartMs = yesterdayStartMs + (i * intervalMs);
-        let actualP = this.getActualPowerForTime(slotStartMs);
-        if (actualP === null) actualP = 0;
-        const actualSoc = this.getActualSocForTime(slotStartMs);
-        const slotPrice = this.getPriceForTimestamp(slotStartMs);
-        const planned = this.getPlannedScheduleForSlot(i, true);
-        yesterdayExportPrices[i] = this.getExportPriceForTimestamp(slotStartMs);
-
-        yesterdayStrategy[i] = {
-          power: planned.power,
-          actualPower: actualP,
-          duration: planned.duration,
-          soc: actualSoc,
-          price: slotPrice,
-          isForecast: false,
-          isFuture: false,
-        };
-      }
-
-      const chartYesterday = await getChargeChart(
-        { scheme: JSON.stringify(yesterdayStrategy) },
-        0,
-        totalDaySlots,
-        chargePower,
-        dischargePower,
-        this.priceInterval,
-        yesterdayExportPrices,
-        currency,
-        translations,
-        false,
-        this.timeZone,
-        showPower,
-        showSoc,
-        showExportPrice,
-      );
-
-      this.chartYesterdayCharge = chartYesterday;
-      await this.yesterdayChargeImage.update().catch((err) => this.error(err));
-    }
-
-    this.pricesUpdated = false;
+    await this.renderChargeCharts({
+      scheme,
+      chargePower: this.getSettings().chargePower || 2200,
+      dischargePower: this.getSettings().dischargePower || 1700,
+      socFallback: typeof this.soc === 'number' ? this.soc : null,
+      showPower: !!this.getSettings().chartShowPower,
+      showSoc: this.getSettings().chartShowSoc !== false,
+      showExportPrice: this.getSettings().chartShowExportPrice !== false,
+    });
   }
 
   triggerXOMFlow(strat, samples, x, smoothing, minLoad, cumulativePower) {
