@@ -16,7 +16,8 @@
     "ko": "Price now rank next 8H"
   },
   "units": {
-    "en": "/8"
+    "en": "/8",
+    "ko": "/8"
   },
   "uiComponent": "sensor",
   "icon": "/assets/target.svg",

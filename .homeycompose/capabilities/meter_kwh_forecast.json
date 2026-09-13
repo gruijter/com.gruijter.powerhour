@@ -1,7 +1,8 @@
 {
   "type": "number",
   "title": {
-    "en": "Forecast Yield"
+    "en": "Forecast Yield",
+    "ko": "예측 발전량"
   },
   "uiComponent": "sensor",
   "icon": "/assets/meter_kwh_forecast.svg",
@@ -9,7 +10,8 @@
   "setable": false,
   "insights": false,
   "units": {
-    "en": "kWh"
+    "en": "kWh",
+    "ko": "kWh"
   },
   "decimals": 2
 }

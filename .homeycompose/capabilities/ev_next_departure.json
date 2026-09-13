@@ -4,7 +4,8 @@
     "en": "Next Departure",
     "nl": "Volgend Vertrek",
     "de": "Nächste Abfahrt",
-    "fr": "Prochain départ"
+    "fr": "Prochain départ",
+    "ko": "다음 출발"
   },
   "uiComponent": "sensor",
   "icon": "/assets/charged.svg",

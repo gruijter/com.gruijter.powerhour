@@ -73,7 +73,8 @@
       "type": "number",
       "name": "value",
       "title": {
-        "en": "kWh"
+        "en": "kWh",
+        "ko": "kWh"
       },
       "min": 0,
       "step": 0.1

@@ -21,7 +21,8 @@
   "setable": false,
   "insights": true,
   "units": {
-    "en": "Watt"
+    "en": "Watt",
+    "ko": "Watt"
   },
   "decimals": 0
 }

@@ -11,7 +11,8 @@
     "da": "Solenergi Monitor",
     "pl": "Monitor PV",
     "ru": "Монитор ФЭ",
-    "ar": "مراقب الطاقة الضوئية"
+    "ar": "مراقب الطاقة الضوئية",
+    "ko": "PV 모니터"
   },
   "class": "other",
   "capabilities": [],
@@ -32,7 +33,8 @@
         "da": "Maksimum (dag)",
         "pl": "Maksimum (dzień)",
         "ru": "Максимум (день)",
-        "ar": "الحد الأقصى (يوم)"
+        "ar": "الحد الأقصى (يوم)",
+        "ko": "최대 (일)"
       }
     },
     "measure_watt_max.month": {
@@ -48,7 +50,8 @@
         "da": "Maksimum (måned)",
         "pl": "Maksimum (miesiąc)",
         "ru": "Максимум (месяц)",
-        "ar": "الحد الأقصى (شهر)"
+        "ar": "الحد الأقصى (شهر)",
+        "ko": "최대 (월)"
       }
     },
     "measure_watt_max.year": {
@@ -64,7 +67,8 @@
         "da": "Maksimum (år)",
         "pl": "Maksimum (rok)",
         "ru": "Максимум (год)",
-        "ar": "الحد الأقصى (عام)"
+        "ar": "الحد الأقصى (عام)",
+        "ko": "최대 (년)"
       }
     },
     "measure_watt_forecast.h0": {
@@ -80,7 +84,8 @@
         "da": "Effektprognose",
         "pl": "Prognoza mocy",
         "ru": "Прогноз мощности",
-        "ar": "توقعات الطاقة"
+        "ar": "توقعات الطاقة",
+        "ko": "전력 예측"
       },
       "insights": true
     },
@@ -97,7 +102,8 @@
         "da": "Effekt +15M",
         "pl": "Moc +15M",
         "ru": "Мощность +15М",
-        "ar": "الطاقة +15د"
+        "ar": "الطاقة +15د",
+        "ko": "전력 +15분"
       }
     },
     "measure_watt_forecast.m30": {
@@ -113,7 +119,8 @@
         "da": "Effekt +30M",
         "pl": "Moc +30M",
         "ru": "Мощность +30М",
-        "ar": "الطاقة +30د"
+        "ar": "الطاقة +30د",
+        "ko": "전력 +30분"
       }
     },
     "measure_watt_forecast.m45": {
@@ -129,7 +136,8 @@
         "da": "Effekt +45M",
         "pl": "Moc +45M",
         "ru": "Мощность +45М",
-        "ar": "الطاقة +45د"
+        "ar": "الطاقة +45د",
+        "ko": "전력 +45분"
       }
     },
     "measure_watt_forecast.h1": {
@@ -145,7 +153,8 @@
         "da": "Effekt +1T",
         "pl": "Moc +1h",
         "ru": "Мощность +1ч",
-        "ar": "الطاقة +1س"
+        "ar": "الطاقة +1س",
+        "ko": "전력 +1시간"
       }
     },
     "measure_watt_forecast.h2": {
@@ -161,7 +170,8 @@
         "da": "Effekt +2T",
         "pl": "Moc +2h",
         "ru": "Мощность +2ч",
-        "ar": "الطاقة +2س"
+        "ar": "الطاقة +2س",
+        "ko": "전력 +2시간"
       }
     },
     "measure_watt_forecast.h3": {
@@ -177,7 +187,8 @@
         "da": "Effekt +3T",
         "pl": "Moc +3h",
         "ru": "Мощность +3ч",
-        "ar": "الطاقة +3س"
+        "ar": "الطاقة +3س",
+        "ko": "전력 +3시간"
       }
     },
     "meter_kwh_forecast.this_day": {
@@ -193,7 +204,8 @@
         "da": "Prognose denne dag",
         "pl": "Prognoza tego dnia",
         "ru": "Прогноз в этот день",
-        "ar": "توقعات هذا اليوم"
+        "ar": "توقعات هذا اليوم",
+        "ko": "오늘 예측"
       }
     },
     "meter_kwh_forecast.tomorrow": {
@@ -209,7 +221,8 @@
         "da": "Prognose i morgen",
         "pl": "Prognoza jutro",
         "ru": "Прогноз завтра",
-        "ar": "توقعات الغد"
+        "ar": "توقعات الغد",
+        "ko": "내일 예측"
       }
     },
     "measure_watt_forecast.tomorrow_peak": {
@@ -225,7 +238,8 @@
         "da": "Toppprognose i morgen",
         "pl": "Szczytowa prognoza jutro",
         "ru": "Пиковый прогноз на завтра",
-        "ar": "توقعات الذروة غدا"
+        "ar": "توقعات الذروة غدا",
+        "ko": "내일 피크 예측"
       }
     },
     "meter_kwh_forecast.h0": {
@@ -241,7 +255,8 @@
         "da": "Prognose denne time",
         "pl": "Prognoza w tej godzinie",
         "ru": "Прогноз в этот час",
-        "ar": "توقعات هذه الساعة"
+        "ar": "توقعات هذه الساعة",
+        "ko": "이번 시간 예측"
       },
       "insights": true
     },
@@ -258,7 +273,8 @@
         "da": "Begrænsning aktiv",
         "pl": "Ograniczenie aktywne",
         "ru": "Ограничение активно",
-        "ar": "التقليص نشط"
+        "ar": "التقليص نشط",
+        "ko": "출력 제한 활성"
       }
     },
     "measure_solar_use.this_hour": {
@@ -457,7 +473,8 @@
         "da": "Solindstillinger",
         "pl": "Ustawienia Solarne",
         "ru": "Настройки солнечной энергии",
-        "ar": "إعدادات الطاقة الشمسية"
+        "ar": "إعدادات الطاقة الشمسية",
+        "ko": "태양광 설정"
       },
       "children": [
         {
@@ -495,7 +512,8 @@
             "da": "Spidseffekt (W)",
             "pl": "Moc Szczytowa (W)",
             "ru": "Пиковая мощность (Вт)",
-            "ar": "ذروة الطاقة (واط)"
+            "ar": "ذروة الطاقة (واط)",
+            "ko": "피크 전력 (W)"
           },
           "value": 0,
           "hint": {
@@ -510,7 +528,8 @@
             "da": "Maksimal effekt for dit solcellesystem. Indstil til 0 for automatisk at estimere spidseffekten. Denne værdi bruges til at skalere graferne og filtrere data under automatisk indlæring.",
             "pl": "Maksymalna moc Twojego systemu PV. Ustaw na 0, aby automatycznie oszacować moc szczytową. Wartość ta służy do skalowania wykresów i filtrowania danych podczas automatycznego uczenia się.",
             "ru": "Максимальная мощность вашей фотоэлектрической системы. Установите 0 для автоматической оценки пиковой мощности. Это значение используется для масштабирования графиков и фильтрации данных во время автоматического обучения.",
-            "ar": "أقصى طاقة لنظامك الكهروضوئي. قم بالتعيين إلى 0 لتقدير ذروة الطاقة تلقائيًا. تُستخدم هذه القيمة لتوسيع نطاق الرسوم البيانية وتصفية البيانات أثناء التعلم التلقائي."
+            "ar": "أقصى طاقة لنظامك الكهروضوئي. قم بالتعيين إلى 0 لتقدير ذروة الطاقة تلقائيًا. تُستخدم هذه القيمة لتوسيع نطاق الرسوم البيانية وتصفية البيانات أثناء التعلم التلقائي.",
+            "ko": "PV 시스템의 최대 전력입니다. 0으로 설정하면 피크 전력을 자동으로 추정합니다. 이 값은 그래프 스케일링과 자동 학습 중 데이터 필터링에 사용됩니다."
           }
         },
         {
@@ -563,7 +582,8 @@
             "da": "Breddegrad",
             "pl": "Szerokość geograficzna",
             "ru": "Широта",
-            "ar": "خط العرض"
+            "ar": "خط العرض",
+            "ko": "위도"
           },
           "value": "",
           "hint": {
@@ -578,7 +598,8 @@
             "da": "Lad stå tomt for autodetektering eller indtast manuelt f.eks. 52.12",
             "pl": "Pozostaw puste, aby automatycznie wykryć, lub wpisz ręcznie, np. 52.12",
             "ru": "Оставьте пустым для автоопределения или введите вручную, например 52.12",
-            "ar": "اتركه فارغًا للمحاولة الاكتشاف التلقائي أو أدخله يدويًا على سبيل المثال 52.12"
+            "ar": "اتركه فارغًا للمحاولة الاكتشاف التلقائي أو أدخله يدويًا على سبيل المثال 52.12",
+            "ko": "비워두면 자동 감지를 시도하거나, 직접 입력하세요 (예: 52.12)"
           }
         },
         {
@@ -596,7 +617,8 @@
             "da": "Længdegrad",
             "pl": "Długość geograficzna",
             "ru": "Долгота",
-            "ar": "خط الطول"
+            "ar": "خط الطول",
+            "ko": "경도"
           },
           "value": "",
           "hint": {
@@ -611,7 +633,8 @@
             "da": "Lad stå tomt for autodetektering eller indtast manuelt f.eks. 5.12",
             "pl": "Pozostaw puste, aby automatycznie wykryć, lub wpisz ręcznie, np. 5.12",
             "ru": "Оставьте пустым для автоопределения или введите вручную, например 5.12",
-            "ar": "اتركه فارغًا للمحاولة الاكتشاف التلقائي أو أدخله يدويًا على سبيل المثال 5.12"
+            "ar": "اتركه فارغًا للمحاولة الاكتشاف التلقائي أو أدخله يدويًا على سبيل المثال 5.12",
+            "ko": "비워두면 자동 감지를 시도하거나, 직접 입력하세요 (예: 5.12)"
           }
         }
       ]
@@ -630,7 +653,8 @@
         "da": "Homey kildeenhedsinformation",
         "pl": "Informacje o urządzeniu źródłowym Homey",
         "ru": "Информация об исходном устройстве Homey",
-        "ar": "معلومات جهاز مصدر Homey"
+        "ar": "معلومات جهاز مصدر Homey",
+        "ko": "Homey 소스 장치 정보"
       },
       "children": [
         {
@@ -648,7 +672,8 @@
             "da": "Enheds-ID",
             "pl": "ID urządzenia",
             "ru": "ID устройства",
-            "ar": "معرف الجهاز"
+            "ar": "معرف الجهاز",
+            "ko": "장치 ID"
           },
           "value": "unknown"
         },
@@ -667,7 +692,8 @@
             "da": "Enhedsnavn",
             "pl": "Nazwa urządzenia",
             "ru": "Имя устройства",
-            "ar": "اسم الجهاز"
+            "ar": "اسم الجهاز",
+            "ko": "장치 이름"
           },
           "value": "unknown"
         },
@@ -686,7 +712,8 @@
             "da": "Kildeenhedstype",
             "pl": "Typ urządzenia źródłowego",
             "ru": "Тип исходного устройства",
-            "ar": "نوع جهاز المصدر"
+            "ar": "نوع جهاز المصدر",
+            "ko": "소스 장치 유형"
           },
           "value": "Homey device",
           "hint": {
@@ -701,7 +728,8 @@
             "da": "Enten Homey-enhed eller virtuel enhed. Måleren på en virtuel enhed kan kun opdateres via et flow.",
             "pl": "Urządzenie Homey lub urządzenie wirtualne. Licznik urządzenia wirtualnego można zaktualizować tylko za pomocą przepływu.",
             "ru": "Либо устройство Homey, либо виртуальное устройство. Счетчик виртуального устройства можно обновить только через поток.",
-            "ar": "إما جهاز Homey أو جهاز افتراضي. لا يمكن تحديث عداد الجهاز الافتراضي إلا عبر التدفق."
+            "ar": "إما جهاز Homey أو جهاز افتراضي. لا يمكن تحديث عداد الجهاز الافتراضي إلا عبر التدفق.",
+            "ko": "Homey 장치 또는 가상 장치를 선택하세요. 가상 장치의 계량기는 flow를 통해서만 업데이트할 수 있습니다."
           }
         },
         {
@@ -719,7 +747,8 @@
             "da": "Brug Watt som kilde",
             "pl": "Użyj Wata jako źródła",
             "ru": "Использовать Ватт как источник",
-            "ar": "استخدم وات كمصدر"
+            "ar": "استخدم وات كمصدر",
+            "ko": "Watt를 소스로 사용"
           },
           "hint": {
             "en": "Some source devices do not have a kWh meter. Using W is a less accurate fallback method. ONLY USE THIS IF kWh IS NOT POSSIBLE!",
@@ -733,7 +762,8 @@
             "da": "Nogle kildeenheder har ikke en kWh-måler. Brug af W er en mindre nøjagtig fallback-metode. BRUG KUN DETTE HVIS kWh IKKE ER MULIGT!",
             "pl": "Niektóre urządzenia źródłowe nie mają licznika kWh. Użycie W jest mniej dokładną metodą awaryjną. UŻYWAJ TEGO TYLKO, JEŚLI kWh NIE JEST MOŻLIWE!",
             "ru": "У некоторых исходных устройств нет счетчика кВтч. Использование Вт является менее точным резервным методом. ИСПОЛЬЗУЙТЕ ТОЛЬКО ЕСЛИ кВтч НЕВОЗМОЖНО!",
-            "ar": "بعض أجهزة المصدر ليس لديها عداد كيلوواط ساعة. استخدام وات هو طريقة احتياطية أقل دقة. استخدم هذا فقط إذا لم يكن الكيلوواط ساعة ممكنًا!"
+            "ar": "بعض أجهزة المصدر ليس لديها عداد كيلوواط ساعة. استخدام وات هو طريقة احتياطية أقل دقة. استخدم هذا فقط إذا لم يكن الكيلوواط ساعة ممكنًا!",
+            "ko": "일부 소스 장치에는 kWh 계량기가 없습니다. W를 사용하는 것은 덜 정확한 대체 방법입니다. kWh를 사용할 수 없는 경우에만 사용하세요!"
           },
           "value": false
         },
@@ -752,7 +782,8 @@
             "da": "Har daglig nulstilling",
             "pl": "Ma codzienny reset",
             "ru": "Имеет ежедневный сброс",
-            "ar": "لديه إعادة تعيين يومية"
+            "ar": "لديه إعادة تعيين يومية",
+            "ko": "매일 초기화됨"
           },
           "hint": {
             "en": "The meter of this source device resets every midnight to 0",
@@ -766,7 +797,8 @@
             "da": "Måleren på denne kildeenhed nulstilles hver midnat til 0",
             "pl": "Licznik tego urządzenia źródłowego resetuje się co północ do 0",
             "ru": "Счетчик этого исходного устройства сбрасывается каждую полночь в 0",
-            "ar": "يعيد عداد جهاز المصدر هذا التعيين كل منتصف ليل إلى 0"
+            "ar": "يعيد عداد جهاز المصدر هذا التعيين كل منتصف ليل إلى 0",
+            "ko": "이 소스 장치의 계량기는 매일 자정에 0으로 초기화됩니다"
           },
           "value": false
         },
@@ -785,7 +817,8 @@
             "da": "Opdateringsinterval (minutter)",
             "pl": "Interwał aktualizacji (minuty)",
             "ru": "Интервал обновления (минуты)",
-            "ar": "فاصل التحديث (بالدقائق)"
+            "ar": "فاصل التحديث (بالدقائق)",
+            "ko": "업데이트 간격 (분)"
           },
           "hint": {
             "en": "Set to 0 to get immediate updates. This can slightly increase system load. This setting is ignored for Watt and virtual source devices.",
@@ -799,7 +832,8 @@
             "da": "Indstil til 0 for at få øjeblikkelige opdateringer. Dette kan øge systembelastningen en smule. Denne indstilling ignoreres for Watt og virtuelle kildeenheder.",
             "pl": "Ustaw na 0, aby otrzymywać natychmiastowe aktualizacje. Może to nieznacznie zwiększyć obciążenie systemu. To ustawienie jest ignorowane dla Watt i wirtualnych urządzeń źródłowych.",
             "ru": "Установите 0 для получения мгновенных обновлений. Это может немного увеличить нагрузку на систему. Этот параметр игнорируется для Вт и виртуальных исходных устройств.",
-            "ar": "تعيين إلى 0 للحصول على تحديثات فورية. هذا يمكن أن يزيد قليلا تحميل النظام. يتم تجاهل هذا الإعداد للوات وأجهزة المصدر الافتراضية."
+            "ar": "تعيين إلى 0 للحصول على تحديثات فورية. هذا يمكن أن يزيد قليلا تحميل النظام. يتم تجاهل هذا الإعداد للوات وأجهزة المصدر الافتراضية.",
+            "ko": "0으로 설정하면 즉시 업데이트됩니다. 시스템 부하가 약간 증가할 수 있습니다. 이 설정은 Watt 및 가상 소스 장치에는 적용되지 않습니다."
           },
           "value": 0,
           "min": 0,
@@ -821,7 +855,8 @@
             "da": "Forsink timesmåling (minutter)",
             "pl": "Opóźnij ankietę godzinową (minuty)",
             "ru": "Задержка ежечасного опроса (минуты)",
-            "ar": "تأخير الاستطلاع الساعي (دقائق)"
+            "ar": "تأخير الاستطلاع الساعي (دقائق)",
+            "ko": "시간별 폴링 지연 (분)"
           },
           "hint": {
             "en": "Set to 0 to get immediate updates on the hour. This setting is ignored for Watt and virtual source devices.",
@@ -835,7 +870,8 @@
             "da": "Indstil til 0 for at få øjeblikkelige opdateringer hver time. Denne indstilling ignoreres for Watt og virtuelle kildeenheder.",
             "pl": "Ustaw na 0, aby otrzymywać natychmiastowe aktualizacje co godzinę. To ustawienie jest ignorowane dla Watt i wirtualnych urządzeń źródłowych.",
             "ru": "Установите 0 для получения мгновенных обновлений каждый час. Этот параметр игнорируется для Вт и виртуальных исходных устройств.",
-            "ar": "تعيين إلى 0 للحصول على تحديثات فورية على مدار الساعة. يتم تجاهل هذا الإعداد للوات وأجهزة المصدر الافتراضية."
+            "ar": "تعيين إلى 0 للحصول على تحديثات فورية على مدار الساعة. يتم تجاهل هذا الإعداد للوات وأجهزة المصدر الافتراضية.",
+            "ko": "0으로 설정하면 매 정각에 즉시 업데이트됩니다. 이 설정은 Watt 및 가상 소스 장치에는 적용되지 않습니다."
           },
           "value": 1,
           "min": 0,
@@ -858,7 +894,8 @@
         "da": "Årsstart og energibudget",
         "pl": "Początek roku i budżet energetyczny",
         "ru": "Начало года и энергетический бюджет",
-        "ar": "بداية العام وميزانية الطاقة"
+        "ar": "بداية العام وميزانية الطاقة",
+        "ko": "연 시작 및 에너지 예산"
       },
       "children": [
         {
@@ -876,7 +913,8 @@
             "da": "Startdato for nytår",
             "pl": "Data rozpoczęcia nowego roku",
             "ru": "Дата начала нового года",
-            "ar": "تاريخ بدء العام الجديد"
+            "ar": "تاريخ بدء العام الجديد",
+            "ko": "새해 시작일"
           },
           "value": "0101",
           "hint": {
@@ -891,7 +929,8 @@
             "da": "På denne dato nulstilles måneds- og årstotalen til 0. Formatet er ddmm. Standard er 0101 (1. januar). BEMÆRK: Hvis du ændrer denne dato, skal du manuelt rette værdierne for Denne måned start og Dette år start.",
             "pl": "W tym dniu suma miesiąca i roku zresetuje się do 0. Format to ddmm. Domyślnie jest to 0101 (1 stycznia). UWAGA: Jeśli zmienisz tę datę, musisz ręcznie poprawić wartości Początek tego miesiąca i Początek tego roku.",
             "ru": "В эту дату итоги месяца и года будут сброшены до 0. Формат ддмм. По умолчанию 0101 (1 января). ВНИМАНИЕ: Если вы измените эту дату, вам нужно будет вручную исправить значения Начало этого месяца и Начало этого года.",
-            "ar": "في هذا التاريخ سيتم إعادة تعيين إجمالي الشهر والسنة إلى 0. التنسيق هو ddmm. الافتراضي هو 0101 (1 يناير). انتبه: إذا قمت بتغيير هذا التاريخ، فأنت بحاجة إلى تصحيح قيم بداية هذا الشهر وبداية هذا العام يدويًا."
+            "ar": "في هذا التاريخ سيتم إعادة تعيين إجمالي الشهر والسنة إلى 0. التنسيق هو ddmm. الافتراضي هو 0101 (1 يناير). انتبه: إذا قمت بتغيير هذا التاريخ، فأنت بحاجة إلى تصحيح قيم بداية هذا الشهر وبداية هذا العام يدويًا.",
+            "ko": "이 날짜에 월 및 연 합계가 0으로 초기화됩니다. 형식은 ddmm이며 기본값은 0101(1월 1일)입니다. 주의: 이 날짜를 변경하면 \"이번 달 시작\" 및 \"올해 시작\" 값을 직접 수정해야 합니다."
           }
         },
         {
@@ -909,7 +948,8 @@
             "da": "Årligt målbudget (kWh)",
             "pl": "Roczny budżet docelowy (kWh)",
             "ru": "Годовой целевой бюджет (кВтч)",
-            "ar": "الميزانية السنوية المستهدفة (كيلوواط ساعة)"
+            "ar": "الميزانية السنوية المستهدفة (كيلوواط ساعة)",
+            "ko": "연간 목표 예산 (kWh)"
           },
           "value": "2900",
           "hint": {
@@ -924,7 +964,8 @@
             "da": "Det samlede målbudget for et år. Bemærk: året starter på den indstillede startdato. Når du vælger BRUGERDEFINERET BUDGET fordeling, skal du udfylde de 12 værdier fra Jan-Dec adskilt af ;",
             "pl": "Całkowity budżet docelowy na rok. Uwaga: rok rozpoczyna się w ustawionej dacie rozpoczęcia. Wybierając dystrybucję BUDŻETU NIESTANDARDOWEGO, wpisz 12 wartości od stycznia do grudnia oddzielonych ;",
             "ru": "Общий целевой бюджет на год. Внимание: год начинается с установленной даты начала. При выборе РАСПРЕДЕЛЕНИЯ ПОЛЬЗОВАТЕЛЬСКОГО БЮДЖЕТА заполните 12 значений с января по декабрь, разделенных ;",
-            "ar": "إجمالي الميزانية المستهدفة لعام. انتبه: تبدأ السنة في تاريخ البدء المحدد. عند اختيار توزيع الميزانية المخصصة، املأ القيم الـ 12 من يناير إلى ديسمبر مفصولة بـ ;"
+            "ar": "إجمالي الميزانية المستهدفة لعام. انتبه: تبدأ السنة في تاريخ البدء المحدد. عند اختيار توزيع الميزانية المخصصة، املأ القيم الـ 12 من يناير إلى ديسمبر مفصولة بـ ;",
+            "ko": "연간 총 목표 예산입니다. 주의: 연도는 설정한 시작일부터 시작합니다. \"사용자 지정 예산\" 분배를 선택하면 1월부터 12월까지 12개의 값을 ;로 구분하여 입력하세요."
           }
         },
         {
@@ -943,7 +984,8 @@
             "da": "Distributionsskema",
             "pl": "Schemat dystrybucji",
             "ru": "Схема распределения",
-            "ar": "مخطط التوزيع"
+            "ar": "مخطط التوزيع",
+            "ko": "분배 방식"
           },
           "hint": {
             "en": "The day by day distribution of usage over the year.",
@@ -957,7 +999,8 @@
             "da": "Den daglige fordeling af forbrug over året.",
             "pl": "Codzienny rozkład zużycia w ciągu roku.",
             "ru": "Ежедневное распределение использования в течение года.",
-            "ar": "توزيع الاستخدام يومًا بعد يوم على مدار العام."
+            "ar": "توزيع الاستخدام يومًا بعد يوم على مدار العام.",
+            "ko": "연중 일별 사용량 분포입니다."
           },
           "values": [
             {
@@ -974,7 +1017,8 @@
                 "da": "DEAKTIVER MÅLBUDGET",
                 "pl": "WYŁĄCZ BUDŻET DOCELOWY",
                 "ru": "ОТКЛЮЧИТЬ ЦЕЛЕВОЙ БЮДЖЕТ",
-                "ar": "تعطيل الميزانية المستهدفة"
+                "ar": "تعطيل الميزانية المستهدفة",
+                "ko": "목표 예산 비활성화"
               }
             },
             {
@@ -991,7 +1035,8 @@
                 "da": "BRUGERDEFINERET BUDGET",
                 "pl": "BUDŻET NIESTANDARDOWY",
                 "ru": "ПОЛЬЗОВАТЕЛЬСКИЙ БЮДЖЕТ",
-                "ar": "ميزانية مخصصة"
+                "ar": "ميزانية مخصصة",
+                "ko": "사용자 지정 예산"
               }
             },
             {
@@ -1008,7 +1053,8 @@
                 "da": "Lineær",
                 "pl": "Liniowy",
                 "ru": "Линейный",
-                "ar": "خطي"
+                "ar": "خطي",
+                "ko": "선형"
               }
             },
             {
@@ -1025,7 +1071,8 @@
                 "da": "NL prisloft 2023",
                 "pl": "Pułap cenowy NL 2023",
                 "ru": "Потолок цен NL 2023",
-                "ar": "سقف أسعار هولندا 2023"
+                "ar": "سقف أسعار هولندا 2023",
+                "ko": "NL 가격 상한 2023"
               }
             },
             {
@@ -1042,7 +1089,8 @@
                 "da": "PV N-Europa, hældning 40°S",
                 "pl": "PV N-Europa, nachylenie 40°S",
                 "ru": "ФЭ С-Европа, наклон 40°Ю",
-                "ar": "الطاقة الكهروضوئية شمال أوروبا، إمالة 40 درجة جنوبًا"
+                "ar": "الطاقة الكهروضوئية شمال أوروبا، إمالة 40 درجة جنوبًا",
+                "ko": "PV 북유럽, 경사 40°S"
               }
             }
           ]
@@ -1063,7 +1111,8 @@
         "da": "Måleraflæsninger",
         "pl": "Odczyty licznika",
         "ru": "Показания счетчика",
-        "ar": "قراءات العداد"
+        "ar": "قراءات العداد",
+        "ko": "계량기 값"
       },
       "children": [
         {
@@ -1081,7 +1130,8 @@
             "da": "Antal decimaler",
             "pl": "Liczba miejsc dziesiętnych",
             "ru": "Количество десятичных знаков",
-            "ar": "عدد الكسور العشرية"
+            "ar": "عدد الكسور العشرية",
+            "ko": "소수 자릿수"
           },
           "value": 4,
           "min": 0,
@@ -1098,7 +1148,8 @@
             "da": "Antallet af decimaler, der skal bruges.",
             "pl": "Liczba miejsc dziesiętnych do użycia.",
             "ru": "Количество используемых десятичных знаков.",
-            "ar": "عدد الكسور العشرية المراد استخدامها."
+            "ar": "عدد الكسور العشرية المراد استخدامها.",
+            "ko": "사용할 소수 자릿수입니다."
           }
         },
         {
@@ -1116,7 +1167,8 @@
             "da": "Nuværende aflæsning",
             "pl": "Obecny odczyt",
             "ru": "Текущее показание",
-            "ar": "القراءة الحالية"
+            "ar": "القراءة الحالية",
+            "ko": "현재 계량기 값"
           },
           "value": "0",
           "hint": {
@@ -1131,7 +1183,8 @@
             "da": "Dette er måleraflæsningen fra kildeenheden, opdateret en gang i timen.",
             "pl": "To jest odczyt licznika z urządzenia źródłowego, aktualizowany raz na godzinę.",
             "ru": "Это показание счетчика с исходного устройства, обновляемое раз в час.",
-            "ar": "هذه هي قراءة العداد من جهاز المصدر، يتم تحديثها مرة واحدة في الساعة."
+            "ar": "هذه هي قراءة العداد من جهاز المصدر، يتم تحديثها مرة واحدة في الساعة.",
+            "ko": "소스 장치의 계량기 값이며, 시간마다 한 번씩 업데이트됩니다."
           }
         },
         {
@@ -1149,7 +1202,8 @@
             "da": "Denne dag starter",
             "pl": "Początek tego dnia",
             "ru": "Начало этого дня",
-            "ar": "بداية هذا اليوم"
+            "ar": "بداية هذا اليوم",
+            "ko": "오늘 시작값"
           },
           "value": 0,
           "hint": {
@@ -1164,7 +1218,8 @@
             "da": "Indtast måleraflæsningen ved starten af denne dag. Den opdateres automatisk ved midnat.",
             "pl": "Wprowadź odczyt licznika na początku tego dnia. Jest on automatycznie aktualizowany o północy.",
             "ru": "Введите показание счетчика в начале этого дня. Оно автоматически обновляется в полночь.",
-            "ar": "أدخل قراءة العداد في بداية هذا اليوم. يتم تحديثها تلقائيًا في منتصف الليل."
+            "ar": "أدخل قراءة العداد في بداية هذا اليوم. يتم تحديثها تلقائيًا في منتصف الليل.",
+            "ko": "오늘 시작 시점의 계량기 값을 입력하세요. 자정에 자동으로 업데이트됩니다."
           }
         },
         {
@@ -1182,7 +1237,8 @@
             "da": "Denne måned starter",
             "pl": "Początek tego miesiąca",
             "ru": "Начало этого месяца",
-            "ar": "بداية هذا الشهر"
+            "ar": "بداية هذا الشهر",
+            "ko": "이번 달 시작값"
           },
           "value": 0,
           "hint": {
@@ -1197,7 +1253,8 @@
             "da": "Indtast måleraflæsningen ved starten af denne måned. Den opdateres automatisk den første dag i en ny måned.",
             "pl": "Wprowadź odczyt licznika na początku tego miesiąca. Jest on automatycznie aktualizowany pierwszego dnia nowego miesiąca.",
             "ru": "Введите показание счетчика в начале этого месяца. Оно автоматически обновляется в первый день нового месяца.",
-            "ar": "أدخل قراءة العداد في بداية هذا الشهر. يتم تحديثها تلقائيًا في اليوم الأول من الشهر الجديد."
+            "ar": "أدخل قراءة العداد في بداية هذا الشهر. يتم تحديثها تلقائيًا في اليوم الأول من الشهر الجديد.",
+            "ko": "이번 달 시작 시점의 계량기 값을 입력하세요. 매월 1일에 자동으로 업데이트됩니다."
           }
         },
         {
@@ -1215,7 +1272,8 @@
             "da": "Dette år starter",
             "pl": "Początek tego roku",
             "ru": "Начало этого года",
-            "ar": "بداية هذا العام"
+            "ar": "بداية هذا العام",
+            "ko": "올해 시작값"
           },
           "value": 0,
           "hint": {
@@ -1230,7 +1288,8 @@
             "da": "Indtast måleraflæsningen ved starten af dette år. Den opdateres automatisk den første dag i et nyt år.",
             "pl": "Wprowadź odczyt licznika na początku tego roku. Jest on automatycznie aktualizowany pierwszego dnia nowego roku.",
             "ru": "Введите показание счетчика в начале этого года. Оно автоматически обновляется в первый день нового года.",
-            "ar": "أدخل قراءة العداد في بداية هذا العام. يتم تحديثها تلقائيًا في اليوم الأول من العام الجديد."
+            "ar": "أدخل قراءة العداد في بداية هذا العام. يتم تحديثها تلقائيًا في اليوم الأول من العام الجديد.",
+            "ko": "올해 시작 시점의 계량기 값을 입력하세요. 매년 1월 1일에 자동으로 업데이트됩니다."
           }
         }
       ]
@@ -1249,7 +1308,8 @@
         "da": "Pengeværdi",
         "pl": "Wartość pieniężna",
         "ru": "Денежная стоимость",
-        "ar": "القيمة النقدية"
+        "ar": "القيمة النقدية",
+        "ko": "금전적 가치"
       },
       "children": [
         {
@@ -1267,7 +1327,8 @@
             "da": "Valutaenhed",
             "pl": "Jednostka walutowa",
             "ru": "Валютная единица",
-            "ar": "وحدة العملة"
+            "ar": "وحدة العملة",
+            "ko": "통화 단위"
           },
           "value": "",
           "hint": {
@@ -1282,7 +1343,8 @@
             "da": "Valutaenheden vises f.eks. €, £, EUR, SER, NOK, DKK, CHF. Lad denne stå blank for automatisk at bruge valutaen fra Day-ahead-priskilden.",
             "pl": "Jednostka wyświetlana jako waluta, np. €, £, EUR, SER, NOK, DKK, CHF. Pozostaw puste, aby automatycznie użyć waluty ze źródła cen Day-ahead.",
             "ru": "Единица, отображаемая как валюта, например €, £, EUR, SER, NOK, DKK, CHF. Оставьте пустым, чтобы автоматически использовать валюту из источника цен Day-ahead.",
-            "ar": "الوحدة المعروضة كعملة، مثل €، £، EUR، SER، NOK، DKK، CHF. اتركها فارغة لاستخدام العملة تلقائيًا من مصدر تسعير اليوم التالي."
+            "ar": "الوحدة المعروضة كعملة، مثل €، £، EUR، SER، NOK، DKK، CHF. اتركها فارغة لاستخدام العملة تلقائيًا من مصدر تسعير اليوم التالي.",
+            "ko": "통화로 표시할 단위입니다 (예: €, £, EUR, SER, NOK, DKK, CHF). 비워두면 전일 가격 소스의 통화를 자동으로 사용합니다."
           }
         },
         {
@@ -1300,7 +1362,8 @@
             "da": "Valutadecimaler",
             "pl": "Miejsca dziesiętne waluty",
             "ru": "Десятичные знаки валюты",
-            "ar": "الكسور العشرية للعملة"
+            "ar": "الكسور العشرية للعملة",
+            "ko": "통화 소수 자릿수"
           },
           "value": 2,
           "min": 0,
@@ -1317,7 +1380,8 @@
             "da": "Antallet af decimaler, der skal bruges til pengeværdi.",
             "pl": "Liczba miejsc dziesiętnych do użycia dla wartości pieniężnej.",
             "ru": "Количество десятичных знаков для денежной стоимости.",
-            "ar": "عدد الكسور العشرية المراد استخدامها للقيمة النقدية."
+            "ar": "عدد الكسور العشرية المراد استخدامها للقيمة النقدية.",
+            "ko": "금전적 가치에 사용할 소수 자릿수입니다."
           }
         },
         {
@@ -1335,7 +1399,8 @@
             "da": "Pengeværdi af denne dag",
             "pl": "Wartość pieniężna tego dnia",
             "ru": "Денежная стоимость этого дня",
-            "ar": "القيمة النقدية لهذا اليوم"
+            "ar": "القيمة النقدية لهذا اليوم",
+            "ko": "오늘의 금전적 가치"
           },
           "value": 0,
           "decimals": 4,
@@ -1351,7 +1416,8 @@
             "da": "Faktisk pengeværdi. Den opdateres automatisk.",
             "pl": "Rzeczywista wartość pieniężna. Jest ona automatycznie aktualizowana.",
             "ru": "Фактическая денежная стоимость. Она автоматически обновляется.",
-            "ar": "القيمة النقدية الفعلية. يتم تحديثها تلقائيًا."
+            "ar": "القيمة النقدية الفعلية. يتم تحديثها تلقائيًا.",
+            "ko": "실제 금전적 가치입니다. 자동으로 업데이트됩니다."
           }
         },
         {
@@ -1369,7 +1435,8 @@
             "da": "Pengeværdi af denne måned",
             "pl": "Wartość pieniężna tego miesiąca",
             "ru": "Денежная стоимость этого месяца",
-            "ar": "القيمة النقدية لهذا الشهر"
+            "ar": "القيمة النقدية لهذا الشهر",
+            "ko": "이번 달의 금전적 가치"
           },
           "value": 0,
           "decimals": 4,
@@ -1385,7 +1452,8 @@
             "da": "Faktisk pengeværdi. Den opdateres automatisk.",
             "pl": "Rzeczywista wartość pieniężna. Jest ona automatycznie aktualizowana.",
             "ru": "Фактическая денежная стоимость. Она автоматически обновляется.",
-            "ar": "القيمة النقدية الفعلية. يتم تحديثها تلقائيًا."
+            "ar": "القيمة النقدية الفعلية. يتم تحديثها تلقائيًا.",
+            "ko": "실제 금전적 가치입니다. 자동으로 업데이트됩니다."
           }
         },
         {
@@ -1403,7 +1471,8 @@
             "da": "Pengeværdi af dette år",
             "pl": "Wartość pieniężna tego roku",
             "ru": "Денежная стоимость этого года",
-            "ar": "القيمة النقدية لهذا العام"
+            "ar": "القيمة النقدية لهذا العام",
+            "ko": "올해의 금전적 가치"
           },
           "value": 0,
           "decimals": 4,
@@ -1419,7 +1488,8 @@
             "da": "Faktisk pengeværdi. Den opdateres automatisk.",
             "pl": "Rzeczywista wartość pieniężna. Jest ona automatycznie aktualizowana.",
             "ru": "Фактическая денежная стоимость. Она автоматически обновляется.",
-            "ar": "القيمة النقدية الفعلية. يتم تحديثها تلقائيًا."
+            "ar": "القيمة النقدية الفعلية. يتم تحديثها تلقائيًا.",
+            "ko": "실제 금전적 가치입니다. 자동으로 업데이트됩니다."
           }
         },
         {
@@ -1437,7 +1507,8 @@
             "da": "Pengeværdi forrige dag",
             "pl": "Wartość pieniężna poprz. dnia",
             "ru": "Денежная стоимость пред. дня",
-            "ar": "القيمة النقدية لليوم السابق"
+            "ar": "القيمة النقدية لليوم السابق",
+            "ko": "전날 금전적 가치"
           },
           "value": 0,
           "decimals": 4,
@@ -1453,7 +1524,8 @@
             "da": "Pengeværdien af den foregående dag. Den opdateres automatisk.",
             "pl": "Wartość pieniężna poprzedniego dnia. Jest ona automatycznie aktualizowana.",
             "ru": "Денежная стоимость предыдущего дня. Она автоматически обновляется.",
-            "ar": "القيمة النقدية لليوم السابق. يتم تحديثها تلقائيًا."
+            "ar": "القيمة النقدية لليوم السابق. يتم تحديثها تلقائيًا.",
+            "ko": "전날의 금전적 가치입니다. 자동으로 업데이트됩니다."
           }
         },
         {
@@ -1471,7 +1543,8 @@
             "da": "Pengeværdi forrige måned",
             "pl": "Wartość pieniężna poprz. miesiąca",
             "ru": "Денежная стоимость пред. месяца",
-            "ar": "القيمة النقدية للشهر السابق"
+            "ar": "القيمة النقدية للشهر السابق",
+            "ko": "지난달 금전적 가치"
           },
           "value": 0,
           "decimals": 4,
@@ -1487,7 +1560,8 @@
             "da": "Pengeværdien af den foregående måned. Den opdateres automatisk.",
             "pl": "Wartość pieniężna poprzedniego miesiąca. Jest ona automatycznie aktualizowana.",
             "ru": "Денежная стоимость предыдущего месяца. Она автоматически обновляется.",
-            "ar": "القيمة النقدية للشهر السابق. يتم تحديثها تلقائيًا."
+            "ar": "القيمة النقدية للشهر السابق. يتم تحديثها تلقائيًا.",
+            "ko": "지난달의 금전적 가치입니다. 자동으로 업데이트됩니다."
           }
         },
         {
@@ -1505,7 +1579,8 @@
             "da": "Pengeværdi forrige år",
             "pl": "Wartość pieniężna poprz. roku",
             "ru": "Денежная стоимость пред. года",
-            "ar": "القيمة النقدية للعام السابق"
+            "ar": "القيمة النقدية للعام السابق",
+            "ko": "작년 금전적 가치"
           },
           "value": 0,
           "decimals": 4,
@@ -1521,7 +1596,8 @@
             "da": "Pengeværdien af det foregående år. Den opdateres automatisk.",
             "pl": "Wartość pieniężna poprzedniego roku. Jest ona automatycznie aktualizowana.",
             "ru": "Денежная стоимость предыдущего года. Она автоматически обновляется.",
-            "ar": "القيمة النقدية للعام السابق. يتم تحديثها تلقائيًا."
+            "ar": "القيمة النقدية للعام السابق. يتم تحديثها تلقائيًا.",
+            "ko": "작년의 금전적 가치입니다. 자동으로 업데이트됩니다."
           }
         }
       ]
@@ -1540,7 +1616,8 @@
         "da": "Takst",
         "pl": "Taryfa",
         "ru": "Тариф",
-        "ar": "تعريفة"
+        "ar": "تعريفة",
+        "ko": "요금"
       },
       "children": [
         {
@@ -1558,7 +1635,8 @@
             "da": "Faktisk takst pr. kWh",
             "pl": "Aktualna taryfa za kWh",
             "ru": "Текущий тариф за кВтч",
-            "ar": "التعريفة الحالية لكل كيلوواط ساعة"
+            "ar": "التعريفة الحالية لكل كيلوواط ساعة",
+            "ko": "kWh당 실제 요금"
           },
           "value": 0.25,
           "decimals": 8,
@@ -1574,7 +1652,8 @@
             "da": "Taksten bruges til at beregne pengeværdien. Den kan ændres dynamisk via et flow/DAP.",
             "pl": "Taryfa służy do obliczania wartości pieniężnej. Można ją dynamicznie zmieniać za pomocą przepływu/DAP.",
             "ru": "Тариф используется для расчета денежной стоимости. Его можно динамически изменять через поток/DAP.",
-            "ar": "يتم استخدام التعريفة لحساب القيمة النقدية. يمكن تغييرها ديناميكيًا عبر التدفق/DAP."
+            "ar": "يتم استخدام التعريفة لحساب القيمة النقدية. يمكن تغييرها ديناميكيًا عبر التدفق/DAP.",
+            "ko": "요금은 금전적 가치를 계산하는 데 사용됩니다. flow/DAP를 통해 동적으로 변경할 수 있습니다."
           }
         },
         {
@@ -1592,7 +1671,8 @@
             "da": "Takstopdateringsgruppe (flow eller DAP)",
             "pl": "Grupa aktualizacji taryf (przepływ lub DAP)",
             "ru": "Группа обновления тарифов (поток или DAP)",
-            "ar": "مجموعة تحديث التعريفة (التدفق أو DAP)"
+            "ar": "مجموعة تحديث التعريفة (التدفق أو DAP)",
+            "ko": "요금 업데이트 그룹 (flow 또는 DAP)"
           },
           "hint": {
             "en": "Group number for getting grid tariffs via flow or Day Ahead Pricing (DAP). Set at 0 to disable tariff updates.",
@@ -1606,7 +1686,8 @@
             "da": "Gruppenummer til at få nettakster via flow eller Day Ahead Pricing (DAP). Indstil til 0 for at deaktivere takstopdateringer.",
             "pl": "Numer grupy do uzyskiwania taryf sieciowych za pomocą przepływu lub Day Ahead Pricing (DAP). Ustaw na 0, aby wyłączyć aktualizacje taryf.",
             "ru": "Номер группы для получения сетевых тарифов через поток или Day Ahead Pricing (DAP). Установите 0, чтобы отключить обновления тарифов.",
-            "ar": "رقم المجموعة للحصول على تعريفات الشبكة عبر التدفق أو تسعير اليوم التالي (DAP). قم بالتعيين على 0 لتعطيل تحديثات التعريفة."
+            "ar": "رقم المجموعة للحصول على تعريفات الشبكة عبر التدفق أو تسعير اليوم التالي (DAP). قم بالتعيين على 0 لتعطيل تحديثات التعريفة.",
+            "ko": "flow 또는 전일 가격(DAP)을 통해 계통 요금을 가져올 그룹 번호입니다. 요금 업데이트를 비활성화하려면 0으로 설정하세요."
           },
           "value": 1,
           "min": 0,
@@ -1628,7 +1709,8 @@
             "da": "Tarifvalg",
             "pl": "Wybór taryfy",
             "ru": "Выбор тарифа",
-            "ar": "اختيار التعريفة"
+            "ar": "اختيار التعريفة",
+            "ko": "요금 선택"
           },
           "hint": {
             "en": "Select which tariff to use for monetary calculations. 'Automatic' automatically switches based on grid import/export.",
@@ -1642,7 +1724,8 @@
             "da": "Vælg, hvilken takst der skal bruges til pengeberegninger. 'Automatisk' skifter automatisk baseret på netimport/-eksport.",
             "pl": "Wybierz, której taryfy użyć do obliczeń pieniężnych. 'Automatyczny' automatycznie przełącza się na podstawie importu/eksportu sieci.",
             "ru": "Выберите, какой тариф использовать для денежных расчетов. «Автоматический» автоматически переключается в зависимости от импорта/экспорта сети.",
-            "ar": "حدد التعريفة التي سيتم استخدامها للحسابات النقدية. 'التلقائي' يتبدل تلقائيًا بناءً على استيراد/تصدير الشبكة."
+            "ar": "حدد التعريفة التي سيتم استخدامها للحسابات النقدية. 'التلقائي' يتبدل تلقائيًا بناءً على استيراد/تصدير الشبكة.",
+            "ko": "금전 계산에 사용할 요금을 선택하세요. '자동'을 선택하면 계통 수전/송전에 따라 자동으로 전환됩니다."
           },
           "value": "dynamic",
           "values": [
@@ -1660,7 +1743,8 @@
                 "da": "Automatisk",
                 "pl": "Automatyczny",
                 "ru": "Автоматический",
-                "ar": "تلقائي"
+                "ar": "تلقائي",
+                "ko": "자동"
               }
             },
             {
@@ -1677,7 +1761,8 @@
                 "da": "Altid Import",
                 "pl": "Zawsze Import",
                 "ru": "Всегда Импорт",
-                "ar": "استيراد دائما"
+                "ar": "استيراد دائما",
+                "ko": "항상 수전(수입)"
               }
             },
             {
@@ -1694,7 +1779,8 @@
                 "da": "Altid Eksport",
                 "pl": "Zawsze Eksport",
                 "ru": "Всегда Экспорт",
-                "ar": "تصدير دائما"
+                "ar": "تصدير دائما",
+                "ko": "항상 송전(수출)"
               }
             }
           ]

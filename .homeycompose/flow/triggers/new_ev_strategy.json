@@ -3,13 +3,15 @@
     "en": "New EV strategy active",
     "nl": "Nieuwe EV strategie actief",
     "de": "Neue EV-Strategie aktiv",
-    "fr": "Nouvelle stratégie EV active"
+    "fr": "Nouvelle stratégie EV active",
+    "ko": "새 EV 전략 활성"
   },
   "hint": {
     "en": "Triggers every price interval (e.g. 15m or 60m) or when settings change. Provides the optimal charging power and duration for the current interval.",
     "nl": "Triggert bij elke prijsinterval (bijv. 15m of 60m) of wanneer instellingen veranderen. Geeft het optimale laadvermogen en duur voor het huidige interval.",
     "de": "Wird in jedem Preisintervall (z. B. 15 Min. oder 60 Min.) oder bei Einstellungsänderungen ausgelöst. Bietet die optimale Ladeleistung und Dauer für das aktuelle Intervall.",
-    "fr": "Se déclenche à chaque intervalle de prix (par ex. 15m ou 60m) ou lorsque les paramètres changent. Fournit la puissance de charge optimale pour l'intervalle actuel."
+    "fr": "Se déclenche à chaque intervalle de prix (par ex. 15m ou 60m) ou lorsque les paramètres changent. Fournit la puissance de charge optimale pour l'intervalle actuel.",
+    "ko": "매 가격 구간(예: 15분 또는 60분)마다 또는 설정이 변경될 때 트리거됩니다. 현재 구간에 대한 최적의 충전 전력과 시간을 제공합니다."
   },
   "args": [
     {
@@ -25,7 +27,8 @@
       "title": {
         "en": "Power (W)",
         "nl": "Vermogen (W)",
-        "de": "Leistung (W)"
+        "de": "Leistung (W)",
+        "ko": "전력 (W)"
       }
     },
     {
@@ -34,7 +37,8 @@
       "title": {
         "en": "Duration (minutes)",
         "nl": "Duur (minuten)",
-        "de": "Dauer (Minuten)"
+        "de": "Dauer (Minuten)",
+        "ko": "지속 시간 (분)"
       }
     },
     {
@@ -43,7 +47,8 @@
       "title": {
         "en": "Target SOC (%)",
         "nl": "Doel SOC (%)",
-        "de": "Ziel-SOC (%)"
+        "de": "Ziel-SOC (%)",
+        "ko": "목표 SOC (%)"
       }
     },
     {
@@ -51,7 +56,8 @@
       "type": "string",
       "title": {
         "en": "Scheme JSON",
-        "nl": "Schema JSON"
+        "nl": "Schema JSON",
+        "ko": "스킴 JSON"
       }
     }
   ]

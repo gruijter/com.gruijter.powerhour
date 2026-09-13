@@ -8,7 +8,8 @@
 		"fr": "Tarif demain Gas",
 		"da": "Day-Ahead Gas priser",
 		"nl": "Day-Ahead Gas Prijzen",
-		"ar": "أسعار الغاز لليوم التالي"
+		"ar": "أسعار الغاز لليوم التالي",
+		"ko": "전일 가스 가격"
 	},
 	"class": "sensor",
 	"capabilities": [],
@@ -49,7 +50,8 @@
 				"no": "Prisområde informasjon",
 				"fr": "Information sur les négociations",
 				"da": "Information om elområde",
-				"nl": "Biedzone informatie"
+				"nl": "Biedzone informatie",
+				"ko": "입찰 구역 정보"
 			},
 			"children": [
 				{
@@ -63,7 +65,8 @@
 						"no": "Prisområde",
 						"fr": "Zone de négociation",
 						"da": "Elområde",
-						"nl": "Biedzone"
+						"nl": "Biedzone",
+						"ko": "입찰 구역"
 					},
 					"value": "unknown"
 				},
@@ -78,7 +81,8 @@
 						"no": "Beskrivelse",
 						"fr": "Description",
 						"da": "Beskrivelse",
-						"nl": "Omschrijving"
+						"nl": "Omschrijving",
+						"ko": "설명"
 					},
 					"value": "unknown"
 				}
@@ -94,7 +98,8 @@
 				"no": "Valutainnstillinger",
 				"fr": "Paramètre de devise",
 				"da": "Valutaindstillinger",
-				"nl": "Munteenheid instellingen"
+				"nl": "Munteenheid instellingen",
+				"ko": "통화 설정"
 			},
 			"children": [
 				{
@@ -108,7 +113,8 @@
 						"no": "Visning av valutaenhet",
 						"fr": "Affichage de l'unité monétaire",
 						"da": "Visning af valutaenhed",
-						"nl": "Weergave geldeenheid"
+						"nl": "Weergave geldeenheid",
+						"ko": "표시할 통화 단위"
 					},
 					"value": "€",
 					"hint": {
@@ -119,7 +125,8 @@
 						"no": "Valutaenheten vises som f.eks. €, £, EUR, SER, NOK, DKK, CHF. La stå blank for å bruke default €.",
 						"fr": "Unité affichée comme devise, ex. €, £, EUR, SER, NOK, DKK, CHF. Laisser vide pour utiliser € par défaut",
 						"da": "Valutaenheden vises f.eks. €, £, EUR, SER, NOK, DKK, CHF. Lad denne stå blank for at bruge standard €.",
-						"nl": "De weergegeven eenheid voor geld, bijv. €, £, EUR, SER, NOK, DKK, CHF. Laat leeg om de standaard € te gebruiken."
+						"nl": "De weergegeven eenheid voor geld, bijv. €, £, EUR, SER, NOK, DKK, CHF. Laat leeg om de standaard € te gebruiken.",
+						"ko": "통화로 표시할 단위입니다 (예: €, £, EUR, SER, NOK, DKK, CHF). 비워두면 기본값 €를 사용합니다."
 					}
 				},
 				{
@@ -133,7 +140,8 @@
 						"no": "Valute desimaler",
 						"fr": "Décimales devise",
 						"da": "Valuta decimaler",
-						"nl": "Geld decimalen"
+						"nl": "Geld decimalen",
+						"ko": "통화 소수 자릿수"
 					},
 					"value": 4,
 					"min": 0,
@@ -146,7 +154,8 @@
 						"no": "Antall prisdesimaler",
 						"fr": "Nombre de décimales à utiliser pour le tarif",
 						"da": "Antallet af decimaler, der bruges til prisen",
-						"nl": "Het aantal decimalen voor prijs."
+						"nl": "Het aantal decimalen voor prijs.",
+						"ko": "가격에 사용할 소수 자릿수입니다."
 					}
 				},
 				{
@@ -160,7 +169,8 @@
 						"no": "Vekslingskurs mot €",
 						"fr": "Taux de change avec €",
 						"da": "Vekselkurs med €",
-						"nl": "Wisselkoers met €"
+						"nl": "Wisselkoers met €",
+						"ko": "€ 대비 환율"
 					},
 					"value": 1,
 					"hint": {
@@ -171,7 +181,8 @@
 						"no": "Sett som 1 hvis du vil bruke EURO, ellers legg inn vekslingskursen for din foretrukne valuta.",
 						"fr": "Mettre à 1 si vous souhaitez utiliser EURO, sinon entrer le taux de change de la devise souhaitée",
 						"da": "Sæt som 1 hvis du vil bruge Euro, indsæt ellers vekselkursen for din foretrukne valuta",
-						"nl": "Stel in op 1 als je EURO's wilt gebruiken, of geef de wisselkoers in naar de gewenste munteenheid."
+						"nl": "Stel in op 1 als je EURO's wilt gebruiken, of geef de wisselkoers in naar de gewenste munteenheid.",
+						"ko": "유로를 사용하려면 1로 설정하고, 그렇지 않으면 원하는 통화에 대한 환율을 입력하세요."
 					}
 				},
 				{
@@ -186,7 +197,8 @@
 						"no": "Daglig oppdatering av vekslingskurs",
 						"fr": "Mise à jour quotidienne du taux de change",
 						"da": "Opdatér dagligt valutakurs",
-						"nl": "Update wisselkoers dagelijks"
+						"nl": "Update wisselkoers dagelijks",
+						"ko": "매일 환율 업데이트"
 					},
 					"values": [
 						{
@@ -199,103 +211,120 @@
 								"no": "IKKE HENT",
 								"fr": "NE PAS RÉCUPÉRER",
 								"da": "HENT IKKE",
-								"nl": "NIET OPHALEN"
+								"nl": "NIET OPHALEN",
+								"ko": "가져오지 않음"
 							}
 						},
 						{
 							"id": "BGN",
 							"label": {
-								"en": "BGN"
+								"en": "BGN",
+								"ko": "BGN"
 							}
 						},
 						{
 							"id": "CHF",
 							"label": {
-								"en": "CHF"
+								"en": "CHF",
+								"ko": "CHF"
 							}
 						},
 						{
 							"id": "CZK",
 							"label": {
-								"en": "CZK"
+								"en": "CZK",
+								"ko": "CZK"
 							}
 						},
 						{
 							"id": "DKK",
 							"label": {
-								"en": "DKK"
+								"en": "DKK",
+								"ko": "DKK"
 							}
 						},
 						{
 							"id": "GBP",
 							"label": {
-								"en": "GBP"
+								"en": "GBP",
+								"ko": "GBP"
 							}
 						},
 						{
 							"id": "HRK",
 							"label": {
-								"en": "HRK"
+								"en": "HRK",
+								"ko": "HRK"
 							}
 						},
 						{
 							"id": "HUF",
 							"label": {
-								"en": "HUF"
+								"en": "HUF",
+								"ko": "HUF"
 							}
 						},
 						{
 							"id": "ISK",
 							"label": {
-								"en": "ISK"
+								"en": "ISK",
+								"ko": "ISK"
 							}
 						},
 						{
 							"id": "NOK",
 							"label": {
-								"en": "NOK"
+								"en": "NOK",
+								"ko": "NOK"
 							}
 						},
 						{
 							"id": "PLN",
 							"label": {
-								"en": "PLN"
+								"en": "PLN",
+								"ko": "PLN"
 							}
 						},
 						{
 							"id": "RON",
 							"label": {
-								"en": "RON"
+								"en": "RON",
+								"ko": "RON"
 							}
 						},
 						{
 							"id": "RUB",
 							"label": {
-								"en": "RUB"
+								"en": "RUB",
+								"ko": "RUB"
 							}
 						},
 						{
 							"id": "SEK",
 							"label": {
-								"en": "SEK"
+								"en": "SEK",
+								"ko": "SEK"
 							}
 						},
 						{
 							"id": "TRY",
 							"label": {
-								"en": "TRY"
+								"en": "TRY",
+								"ko": "TRY"
 							}
 						},
 						{
 							"id": "AUD",
 							"label": {
-								"en": "AUD"
+								"en": "AUD",
+								"ko": "AUD"
 							}
 						},
 						{
 							"id": "USD",
 							"label": {
-								"en": "USD"
+								"en": "USD",
+								"ko": "USD"
 							}
 						}
 					],
@@ -307,7 +336,8 @@
 						"no": "Legg inn valutaen for den vekslingskursen du ønsker å hente automatisk. La den stå på 'IKKE HENT' hvis du bruker Euro, eller hvis du vil sette vekslingkursen manuelt.",
 						"fr": "Entrer la devise pour laquelle vous souhaitez que le taux de change soit automatiquement récupérer. Laisser à 'NE PAS RÉCUPÉRER' si vous utiliser l'Euro, ou si vous souhaitez entrer manuellement le taux de change",
 						"da": "Angiv valutaen du automatisk vil hente vekselkursen for. Lad den stå på 'HENT IKKE' hvis du bruger Euro, eller hvis du manuelt vil tilpasse vekselkursen",
-						"nl": "Geef de munteenheid aan waarvan de wisselkoers automatisch moey worden opgehaald. Zet op 'NIET OPHALEN' als je Euro gebruit, of als je de wisselkoers handmatig wilt invoeren."
+						"nl": "Geef de munteenheid aan waarvan de wisselkoers automatisch moey worden opgehaald. Zet op 'NIET OPHALEN' als je Euro gebruit, of als je de wisselkoers handmatig wilt invoeren.",
+						"ko": "환율을 자동으로 가져올 통화를 입력하세요. 유로를 사용 중이거나 환율을 직접 설정하려면 '가져오지 않음'으로 두세요."
 					}
 				}
 			]
@@ -322,7 +352,8 @@
 				"no": "Prisinnstillinger",
 				"fr": "Paramètre de tarification",
 				"da": "Prisindstillinger",
-				"nl": "Prijs instellingen"
+				"nl": "Prijs instellingen",
+				"ko": "가격 설정"
 			},
 			"children": [
 				{
@@ -336,7 +367,8 @@
 						"no": "Variabelt påslag (%)",
 						"fr": "Augmentation variable (%)",
 						"da": "Variabelt gebyr (%)",
-						"nl": "Variabele opslag (%)"
+						"nl": "Variabele opslag (%)",
+						"ko": "변동 마크업 (%)"
 					},
 					"value": 0,
 					"hint": {
@@ -347,7 +379,8 @@
 						"no": "Legg inn verdien i prosent som nettoprisen skal økes. f.eks. for MVA.",
 						"fr": "Entrer le pourcentage pour lequel le tarif doit être augmenter. Par exemple la TVA",
 						"da": "Angiv procenten der tillægges nettoprisen. Eksempelvis moms.",
-						"nl": "Voer het percentage in waarmee de netto prijs verhoogd moet worden. Bijvoorbeeld voor BTW."
+						"nl": "Voer het percentage in waarmee de netto prijs verhoogd moet worden. Bijvoorbeeld voor BTW.",
+						"ko": "순 가격에 인상할 백분율을 입력하세요. 예: 부가세."
 					}
 				},
 				{
@@ -361,7 +394,8 @@
 						"no": "Fast påslag per m3",
 						"fr": "Fixer l'augmentation par m3",
 						"da": "Fast gebyr per m3",
-						"nl": "Vaste opslag per m3"
+						"nl": "Vaste opslag per m3",
+						"ko": "m3당 고정 마크업"
 					},
 					"value": 0,
 					"hint": {
@@ -372,14 +406,16 @@
 						"it": "Inserisci la quota fissa di aumento per m3, incluso IVA. Es. per diritti di acquisto.",
 						"fr": "Entrez le montant fixe dont le prix doit être ajouté par m3, incluant la TVA. Par exemple les frais d'achat",
 						"da": "Angiv den faste beløb som prisen skal øges med per m3, inkl. Moms f.eks. for indkøbsafgift.",
-						"nl": "Voer het vaste bedrag in waarmee de prijs per m3 verhoogd moet worden incl. BTW. Bijvoorbeeld voor inkoopvergoeding, Energie belasting, ODE."
+						"nl": "Voer het vaste bedrag in waarmee de prijs per m3 verhoogd moet worden incl. BTW. Bijvoorbeeld voor inkoopvergoeding, Energie belasting, ODE.",
+						"ko": "부가세 포함, m3당 가격에 인상할 고정 금액을 입력하세요. 예: 구매 수수료."
 					}
 				},
 				{
 					"id": "fixedMarkupTOD",
 					"type": "text",
 					"label": {
-						"en": "Extra Time Of Day markup"
+						"en": "Extra Time Of Day markup",
+						"ko": "시간대별 추가 마크업"
 					},
 					"value": "",
 					"hint": {
@@ -390,14 +426,16 @@
 						"it": "Inserire l'importo con cui il prezzo deve essere ulteriormente aumentato per m3 in determinati orari del giorno. Compilare ora1:tasso1;ora2;tasso2 etc. Ad esempio, se inizia alle 6 del mattino con un aumento del tasso del 0,3 e alle 22 con un aumento del tasso del 0,1, compilare il seguente: 6:0,3;22:0,1",
 						"fr": "Entrez le montant par lequel le prix doit être augmenté supplémentairement par m3 à certaines heures de la journée. Remplissez l'heure1: majoration1; heure2; majoration2 etc. Par exemple, si à 6 heures du matin la majoration est de 0,3 et à 22 heures du soir la majoration est de 0,1, remplissez ce qui suit: 6:0,3;22:0,1",
 						"da": "Angiv beløbet, som prisen skal øges med per m3 på visse tidspunkter i døgnet. Udfyld time1:markering1;time2;markering2 osv. Fx hvis det begynder kl. 6 om morgenen med markeringen 0,3, og kl. 22 om aftenen med markeringen 0,1, så udfyld følgende: 6:0,3;22:0,1",
-						"nl": "Voer het bedrag in waarmee de prijs per m3 op bepaalde uren van de dag extra moet worden verhoogd. Vul uur1:opslag1;uur2;opslag2 etc. in. Bijvoorbeeld als het om 6 uur 's ochtends om 0,3 verhoogd wordt en om 22 uur om 0,1 verhoogd wordt, vul dan het volgende in: 6:0,3;22:0,1"
+						"nl": "Voer het bedrag in waarmee de prijs per m3 op bepaalde uren van de dag extra moet worden verhoogd. Vul uur1:opslag1;uur2;opslag2 etc. in. Bijvoorbeeld als het om 6 uur 's ochtends om 0,3 verhoogd wordt en om 22 uur om 0,1 verhoogd wordt, vul dan het volgende in: 6:0,3;22:0,1",
+						"ko": "하루 중 특정 시간대에 m3당 가격에 추가로 인상할 금액을 입력하세요. hour1:markup1;hour2:markup2 형식으로 입력합니다. 예: 오전 6시부터 마크업 0.3, 오후 10시부터 마크업 0.1이면 다음과 같이 입력: 6:0.3;22:0.1"
 					}
 				},
 				{
 					"id": "fixedMarkupWeekend",
 					"type": "number",
 					"label": {
-						"en": "Extra Weekend markup"
+						"en": "Extra Weekend markup",
+						"ko": "주말 추가 마크업"
 					},
 					"value": 0,
 					"hint": {
@@ -408,7 +446,8 @@
 						"it": "Inserire l'importo con cui il prezzo deve essere ulteriormente aumentato per m3 durante tutto il fine settimana (sabato - domenica). Nota: questo aumento del prezzo sostituisce l'aumento del prezzo in base al momento della giornata!",
 						"fr": "Entrez le montant par lequel le prix doit être augmenté supplémentairement par m3 pendant tout le week-end (samedi - dimanche). Note : cette majoration remplace la majoration en fonction de l'heure!",
 						"da": "Angiv beløbet, som prisen skal øges ekstra pr. m3 i løbet af hele weekenden (lørdag-søndag). Bemærk: Dette tillæg erstatter Time Of Day-tillægget!",
-						"nl": "Voer het bedrag in waarmee de prijs per m3 het hele weekend (zaterdag - zondag) moet worden verhoogd. Opmerking: deze opslag vervangt de Time Of Day-opslag!"
+						"nl": "Voer het bedrag in waarmee de prijs per m3 het hele weekend (zaterdag - zondag) moet worden verhoogd. Opmerking: deze opslag vervangt de Time Of Day-opslag!",
+						"ko": "주말 전체(토요일-일요일) 동안 m3당 가격에 추가로 인상할 금액을 입력하세요. 참고: 이 마크업은 시간대별 마크업을 대체합니다!"
 					}
 				}
 			]
@@ -423,7 +462,8 @@
 				"no": "Øvrige innstillinger",
 				"fr": "Réglages divers",
 				"da": "Diverse indstillinger",
-				"nl": "Overige instellingen"
+				"nl": "Overige instellingen",
+				"ko": "기타 설정"
 			},
 			"children": [
 				{
@@ -481,11 +521,11 @@
 						},
 						{
 							"id": "Energyzero",
-							"label": { "en": "EnergyZero" }
+							"label": { "en": "EnergyZero", "ko": "EnergyZero" }
 						},
 						{
 							"id": "EEX",
-							"label": { "en": "EEX" }
+							"label": { "en": "EEX", "ko": "EEX" }
 						}
 					]
 				},
@@ -500,7 +540,8 @@
 						"no": "send tariff til gruppe",
 						"fr": "Envoyer tarif au groupe",
 						"da": "Send gebyr til gruppe",
-						"nl": "Stuur tarief naar group"
+						"nl": "Stuur tarief naar group",
+						"ko": "그룹에 요금 전송"
 					},
 					"min": 0,
 					"max": 10,
@@ -514,7 +555,8 @@
 						"no": "Hver time vil prisen per m3 bli sendt som tariff for PBTH enheter, uten at man trenger å skape en flow.",
 						"fr": "Chaque heure, le prix du m3 sera envoyé comme tarif pour les appareils PBTH, sans qu'il soit nécessaire de créer un flow",
 						"da": "Prisen per m3 bliver sendt som tarif til PBTH-enheder, uden brug af flows.",
-						"nl": "Ieder uur wordt de prijs per m3 als tarief naar PBTH devices gestuurd, zonder dat een flow gemaakt hoeft te worden."
+						"nl": "Ieder uur wordt de prijs per m3 als tarief naar PBTH devices gestuurd, zonder dat een flow gemaakt hoeft te worden.",
+						"ko": "매시간 m3당 가격이 flow를 만들 필요 없이 PBTH 장치의 요금으로 전송됩니다."
 					}
 				}
 			]

@@ -31,7 +31,8 @@
     "ar": "القدرة بالواط (W)"
   },
   "units": {
-    "en": "Watt"
+    "en": "Watt",
+    "ko": "Watt"
   },
   "decimals": 1,
   "getable": true,

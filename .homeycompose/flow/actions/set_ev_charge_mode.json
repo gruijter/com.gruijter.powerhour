@@ -3,18 +3,21 @@
     "en": "Set EV charge mode",
     "nl": "Zet EV laadmodus",
     "de": "EV Lademodus festlegen",
-    "fr": "Définir le mode de charge EV"
+    "fr": "Définir le mode de charge EV",
+    "ko": "EV 충전 모드 설정"
   },
   "titleFormatted": {
     "en": "Set EV charge mode to [[mode]]",
     "nl": "Zet EV laadmodus op [[mode]]",
     "de": "Setze EV Lademodus auf [[mode]]",
-    "fr": "Définir le mode de charge EV sur [[mode]]"
+    "fr": "Définir le mode de charge EV sur [[mode]]",
+    "ko": "EV 충전 모드를 [[mode]](으)로 설정"
   },
   "hint": {
     "en": "Set the active charging mode (Scheduled Price Slots, Solar Surplus, Fast Charge, or Off).",
     "nl": "Stel de actieve laadmodus in (Geplande Prijsuren, Zonne-overschot, Snelladen of Uit).",
-    "de": "Legen Sie den aktiven Lademodus fest."
+    "de": "Legen Sie den aktiven Lademodus fest.",
+    "ko": "활성 충전 모드를 설정합니다 (예약된 가격 구간, 태양광 잉여, 급속 충전 또는 끄기)."
   },
   "args": [
     {
@@ -28,7 +31,8 @@
       "title": {
         "en": "Mode",
         "nl": "Modus",
-        "de": "Modus"
+        "de": "Modus",
+        "ko": "모드"
       },
       "values": [
         {
@@ -36,7 +40,8 @@
           "label": {
             "en": "Scheduled Price Slots",
             "nl": "Geplande Prijsuren",
-            "de": "Geplante Preis-Slots"
+            "de": "Geplante Preis-Slots",
+            "ko": "예약된 가격 구간"
           }
         },
         {
@@ -44,7 +49,8 @@
           "label": {
             "en": "Solar Surplus Only",
             "nl": "Alleen Zonne-overschot",
-            "de": "Nur Solarüberschuss"
+            "de": "Nur Solarüberschuss",
+            "ko": "태양광 잉여만"
           }
         },
         {
@@ -52,7 +58,8 @@
           "label": {
             "en": "Solar + Price Slots",
             "nl": "Zonne-overschot + Prijsuren",
-            "de": "Solar + Preis-Slots"
+            "de": "Solar + Preis-Slots",
+            "ko": "태양광 + 가격 구간"
           }
         },
         {
@@ -60,7 +67,8 @@
           "label": {
             "en": "Fast Charge",
             "nl": "Snelladen",
-            "de": "Schnellladen"
+            "de": "Schnellladen",
+            "ko": "급속 충전"
           }
         },
         {
@@ -68,7 +76,8 @@
           "label": {
             "en": "Off",
             "nl": "Uit",
-            "de": "Aus"
+            "de": "Aus",
+            "ko": "끄기"
           }
         }
       ]

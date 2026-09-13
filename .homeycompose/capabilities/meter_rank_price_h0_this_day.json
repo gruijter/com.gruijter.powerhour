@@ -16,7 +16,8 @@
     "ko": "현재 가격 순위 오늘"
   },
   "units": {
-    "en": "/24"
+    "en": "/24",
+    "ko": "/24"
   },
   "uiComponent": "sensor",
   "icon": "/assets/target.svg",

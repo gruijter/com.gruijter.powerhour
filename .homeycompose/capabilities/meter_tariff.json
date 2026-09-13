@@ -21,7 +21,8 @@
   "setable": false,
   "insights": true,
   "units": {
-    "en": "¤"
+    "en": "¤",
+    "ko": "¤"
   },
   "decimals": 4
 }

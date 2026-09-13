@@ -2,17 +2,20 @@
   "title": {
     "en": "Set temporary EV trip override",
     "nl": "Stel tijdelijke EV rit in",
-    "de": "Vorübergehende EV-Fahrt festlegen"
+    "de": "Vorübergehende EV-Fahrt festlegen",
+    "ko": "임시 EV 여행 재정의 설정"
   },
   "titleFormatted": {
     "en": "Set temporary trip departure to [[departureTime]] with target SoC [[targetSoc]]%",
     "nl": "Stel tijdelijke rit in op vertrek [[departureTime]] met doel SoC [[targetSoc]]%",
-    "de": "Vorübergehende Fahrt auf [[departureTime]] mit Ziel-SoC [[targetSoc]]% festlegen"
+    "de": "Vorübergehende Fahrt auf [[departureTime]] mit Ziel-SoC [[targetSoc]]% festlegen",
+    "ko": "임시 여행 출발을 [[departureTime]](으)로, 목표 SoC를 [[targetSoc]]%로 설정"
   },
   "hint": {
     "en": "Override default departure strategy for a specific upcoming trip (e.g. tomorrow or specific hour).",
     "nl": "Overrule de standaard vertrekstrategie voor een specifieke komende rit.",
-    "de": "Überschreiben Sie die Standard-Abfahrtsstrategie für eine bestimmte bevorstehende Fahrt."
+    "de": "Überschreiben Sie die Standard-Abfahrtsstrategie für eine bestimmte bevorstehende Fahrt.",
+    "ko": "특정 예정 여행(예: 내일 또는 특정 시간)에 대해 기본 출발 전략을 재정의합니다."
   },
   "args": [
     {
@@ -27,7 +30,8 @@
       "title": {
         "en": "Departure Time (HH:MM)",
         "nl": "Vertrektijd (UU:MM)",
-        "de": "Abfahrtszeit (HH:MM)"
+        "de": "Abfahrtszeit (HH:MM)",
+        "ko": "출발 시간 (HH:MM)"
       }
     },
     {
@@ -38,7 +42,8 @@
       "title": {
         "en": "Target SoC (%)",
         "nl": "Doel SoC (%)",
-        "de": "Ziel-SoC (%)"
+        "de": "Ziel-SoC (%)",
+        "ko": "목표 SoC (%)"
       }
     }
   ]

@@ -55,7 +55,8 @@
         "ko": "기간"
       },
       "placeholder": {
-        "en": "2 - 23"
+        "en": "2 - 23",
+        "ko": "2 - 23"
       },
       "hint": {
         "en": "Enter the number of hours.",
@@ -95,7 +96,8 @@
         "ko": "수"
       },
       "placeholder": {
-        "en": "1 - 96"
+        "en": "1 - 96",
+        "ko": "1 - 96"
       },
       "hint": {
         "en": "Enter the number of periods (hours for hourly pricing, quarters for 15m pricing).",

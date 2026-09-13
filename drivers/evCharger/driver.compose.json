@@ -11,7 +11,8 @@
     "da": "EV Oplader Opsummering",
     "pl": "Podsumowanie Ładowarki EV",
     "ru": "Сводка зарядки электромобиля",
-    "ar": "ملخص شاحن المركبات الكهربائية"
+    "ar": "ملخص شاحن المركبات الكهربائية",
+    "ko": "EV 충전기 요약기"
   },
   "deprecated": true,
   "class": "other",
@@ -34,7 +35,8 @@
         "da": "Gentræn afgangslæring",
         "pl": "Przetrenuj naukę odjazdów",
         "ru": "Переобучить изучение отправлений",
-        "ar": "إعادة تدريب تعلم المغادرة"
+        "ar": "إعادة تدريب تعلم المغادرة",
+        "ko": "출발 학습 다시 훈련"
       },
       "desc": {
         "en": "Reset and retrain the departure/return time and SoC model based on Homey Insights of the charger.",
@@ -48,7 +50,8 @@
         "da": "Nulstil og gentræn modellen for afgangs-/hjemkomsttid og SoC baseret på Homey Insights fra opladeren.",
         "pl": "Zresetuj i ponownie przeszkol model czasu odjazdu/powrotu i SoC na podstawie Homey Insights ładowarki.",
         "ru": "Сбросьте и переобучите модель времени отправления/возвращения и SoC на основе Homey Insights зарядного устройства.",
-        "ar": "إعادة تعيين وإعادة تدريب نموذج وقت المغادرة/العودة وSoC بناءً على رؤى Homey لجهاز الشحن."
+        "ar": "إعادة تعيين وإعادة تدريب نموذج وقت المغادرة/العودة وSoC بناءً على رؤى Homey لجهاز الشحن.",
+        "ko": "충전기의 Homey Insights를 기반으로 출발/귀가 시간 및 SoC 모델을 초기화하고 다시 학습시킵니다."
       }
     }
   },
@@ -113,7 +116,8 @@
         "da": "EV-strategiindstillinger",
         "pl": "Ustawienia strategii EV",
         "ru": "Настройки стратегии EV",
-        "ar": "إعدادات استراتيجية المركبات الكهربائية"
+        "ar": "إعدادات استراتيجية المركبات الكهربائية",
+        "ko": "EV 전략 설정"
       },
       "children": [
         {
@@ -131,13 +135,15 @@
             "da": "Maks. ladeeffekt (W)",
             "pl": "Maks. moc ładowania (W)",
             "ru": "Макс. мощность зарядки (Вт)",
-            "ar": "الحد الأقصى لطاقة الشحن (واط)"
+            "ar": "الحد الأقصى لطاقة الشحن (واط)",
+            "ko": "최대 충전 전력 (W)"
           },
           "hint": {
             "en": "Set to 0 to auto-detect maximum charging speed from charger history and live measurements.",
             "nl": "Stel in op 0 voor automatische detectie van de laadsnelheid uit historie en metingen.",
             "de": "Auf 0 setzen, um die maximale Ladeleistung automatisch aus Historie und Messungen zu erkennen.",
-            "fr": "Réglez sur 0 pour détecter automatiquement la vitesse de charge à partir de l'historique et des mesures."
+            "fr": "Réglez sur 0 pour détecter automatiquement la vitesse de charge à partir de l'historique et des mesures.",
+            "ko": "0으로 설정하면 충전기 기록과 실시간 측정값에서 최대 충전 속도를 자동으로 감지합니다."
           },
           "value": 0,
           "min": 0,
@@ -154,12 +160,14 @@
             "it": "Potenza di ricarica variabile",
             "sv": "Variabel laddningseffekt",
             "no": "Variabel ladeeffekt",
-            "es": "Potencia de carga variable"
+            "es": "Potencia de carga variable",
+            "ko": "가변 충전 전력"
           },
           "hint": {
             "en": "Check this if your EV charger supports dynamic power adjustment. If unchecked, it will charge at maximum power and stop when the target is reached.",
             "nl": "Vink dit aan als je EV lader dynamische vermogensaanpassing ondersteunt. Indien uitgevinkt, wordt er op maximaal vermogen geladen en stopt het wanneer het doel is bereikt.",
-            "de": "Aktivieren Sie dies, wenn Ihr EV-Ladegerät eine dynamische Leistungsanpassung unterstützt. Wenn nicht aktiviert, wird mit maximaler Leistung geladen und gestoppt, wenn das Ziel erreicht ist."
+            "de": "Aktivieren Sie dies, wenn Ihr EV-Ladegerät eine dynamische Leistungsanpassung unterstützt. Wenn nicht aktiviert, wird mit maximaler Leistung geladen und gestoppt, wenn das Ziel erreicht ist.",
+            "ko": "EV 충전기가 동적 전력 조절을 지원하는 경우 선택하세요. 선택하지 않으면 최대 전력으로 충전하고 목표에 도달하면 멈춥니다."
           },
           "value": false
         },
@@ -178,7 +186,8 @@
             "da": "Batterikapacitet (kWh)",
             "pl": "Pojemność baterii (kWh)",
             "ru": "Емкость батареи (кВтч)",
-            "ar": "سعة البطارية (كيلوواط ساعة)"
+            "ar": "سعة البطارية (كيلوواط ساعة)",
+            "ko": "배터리 용량 (kWh)"
           },
           "value": 50,
           "min": 1,
@@ -199,7 +208,8 @@
             "da": "Mål SoC (%)",
             "pl": "Docelowy SoC (%)",
             "ru": "Целевой SoC (%)",
-            "ar": "الهدف SoC (%)"
+            "ar": "الهدف SoC (%)",
+            "ko": "목표 SoC (%)"
           },
           "value": 100,
           "min": 10,
@@ -222,56 +232,57 @@
         "da": "Afgangsplan",
         "pl": "Harmonogram odjazdu",
         "ru": "Расписание отправления",
-        "ar": "جدول المغادرة"
+        "ar": "جدول المغادرة",
+        "ko": "출발 일정"
       },
       "children": [
         {
           "id": "autoDepartureLearning",
           "type": "checkbox",
-          "label": { "en": "Auto-learn departure times", "nl": "Automatisch vertrektijden leren", "de": "Abfahrtszeiten automatisch lernen", "fr": "Apprendre automatiquement les heures de départ", "it": "Impara automaticamente gli orari di partenza", "sv": "Lär automatiskt avgångstider", "no": "Lær avgangstider automatisk", "es": "Aprender horarios de salida automáticamente", "da": "Lær automatisk afgangstider", "pl": "Automatyczne uczenie się czasów odjazdu", "ru": "Автообучение времени отправления", "ar": "التعلم التلقائي لأوقات المغادرة" },
-          "hint": { "en": "When enabled, PBTH learns your typical departure times from history. Manual times below override the learned times when filled in.", "nl": "Wanneer ingeschakeld leert PBTH uw typische vertrektijden uit de geschiedenis. Handmatige tijden hieronder overschrijven de geleerde tijden.", "de": "Wenn aktiviert, lernt PBTH Ihre typischen Abfahrtszeiten aus der Geschichte. Manuelle Zeiten unten überschreiben die gelernten Zeiten." },
+          "label": { "en": "Auto-learn departure times", "nl": "Automatisch vertrektijden leren", "de": "Abfahrtszeiten automatisch lernen", "fr": "Apprendre automatiquement les heures de départ", "it": "Impara automaticamente gli orari di partenza", "sv": "Lär automatiskt avgångstider", "no": "Lær avgangstider automatisk", "es": "Aprender horarios de salida automáticamente", "da": "Lær automatisk afgangstider", "pl": "Automatyczne uczenie się czasów odjazdu", "ru": "Автообучение времени отправления", "ar": "التعلم التلقائي لأوقات المغادرة", "ko": "출발 시간 자동 학습" },
+          "hint": { "en": "When enabled, PBTH learns your typical departure times from history. Manual times below override the learned times when filled in.", "nl": "Wanneer ingeschakeld leert PBTH uw typische vertrektijden uit de geschiedenis. Handmatige tijden hieronder overschrijven de geleerde tijden.", "de": "Wenn aktiviert, lernt PBTH Ihre typischen Abfahrtszeiten aus der Geschichte. Manuelle Zeiten unten überschreiben die gelernten Zeiten.", "ko": "활성화하면 PBTH가 기록을 바탕으로 일반적인 출발 시간을 학습합니다. 아래에 수동 시간을 입력하면 학습된 시간을 재정의합니다." },
           "value": true
         },
         {
           "id": "departureTime_0",
           "type": "text",
-          "label": { "en": "Monday departure (HH:MM, empty = auto)", "nl": "Maandag vertrek (UU:MM, leeg = auto)", "de": "Montag Abfahrt (HH:MM, leer = auto)", "fr": "Départ lundi (HH:MM, vide = auto)", "it": "Partenza lunedì (HH:MM, vuoto = auto)", "sv": "Måndag avgång (HH:MM, tom = auto)", "no": "Mandag avgang (HH:MM, tom = auto)", "es": "Salida lunes (HH:MM, vacío = auto)", "da": "Mandag afgang (HH:MM, tom = auto)", "pl": "Poniedziałek odjazd (HH:MM, puste = auto)", "ru": "Пн отправление (ЧЧ:ММ, пусто = авто)", "ar": "مغادرة الاثنين (ساعة:دقيقة, فارغ = تلقائي)" },
+          "label": { "en": "Monday departure (HH:MM, empty = auto)", "nl": "Maandag vertrek (UU:MM, leeg = auto)", "de": "Montag Abfahrt (HH:MM, leer = auto)", "fr": "Départ lundi (HH:MM, vide = auto)", "it": "Partenza lunedì (HH:MM, vuoto = auto)", "sv": "Måndag avgång (HH:MM, tom = auto)", "no": "Mandag avgang (HH:MM, tom = auto)", "es": "Salida lunes (HH:MM, vacío = auto)", "da": "Mandag afgang (HH:MM, tom = auto)", "pl": "Poniedziałek odjazd (HH:MM, puste = auto)", "ru": "Пн отправление (ЧЧ:ММ, пусто = авто)", "ar": "مغادرة الاثنين (ساعة:دقيقة, فارغ = تلقائي)", "ko": "월요일 출발 (HH:MM, 비워두면 자동)" },
           "value": ""
         },
         {
           "id": "departureTime_1",
           "type": "text",
-          "label": { "en": "Tuesday departure (HH:MM, empty = auto)", "nl": "Dinsdag vertrek (UU:MM, leeg = auto)", "de": "Dienstag Abfahrt (HH:MM, leer = auto)", "fr": "Départ mardi (HH:MM, vide = auto)", "it": "Partenza martedì (HH:MM, vuoto = auto)", "sv": "Tisdag avgång (HH:MM, tom = auto)", "no": "Tirsdag avgang (HH:MM, tom = auto)", "es": "Salida martes (HH:MM, vacío = auto)", "da": "Tirsdag afgang (HH:MM, tom = auto)", "pl": "Wtorek odjazd (HH:MM, puste = auto)", "ru": "Вт отправление (ЧЧ:ММ, пусто = авто)", "ar": "مغادرة الثلاثاء (ساعة:دقيقة, فارغ = تلقائي)" },
+          "label": { "en": "Tuesday departure (HH:MM, empty = auto)", "nl": "Dinsdag vertrek (UU:MM, leeg = auto)", "de": "Dienstag Abfahrt (HH:MM, leer = auto)", "fr": "Départ mardi (HH:MM, vide = auto)", "it": "Partenza martedì (HH:MM, vuoto = auto)", "sv": "Tisdag avgång (HH:MM, tom = auto)", "no": "Tirsdag avgang (HH:MM, tom = auto)", "es": "Salida martes (HH:MM, vacío = auto)", "da": "Tirsdag afgang (HH:MM, tom = auto)", "pl": "Wtorek odjazd (HH:MM, puste = auto)", "ru": "Вт отправление (ЧЧ:ММ, пусто = авто)", "ar": "مغادرة الثلاثاء (ساعة:دقيقة, فارغ = تلقائي)", "ko": "화요일 출발 (HH:MM, 비워두면 자동)" },
           "value": ""
         },
         {
           "id": "departureTime_2",
           "type": "text",
-          "label": { "en": "Wednesday departure (HH:MM, empty = auto)", "nl": "Woensdag vertrek (UU:MM, leeg = auto)", "de": "Mittwoch Abfahrt (HH:MM, leer = auto)", "fr": "Départ mercredi (HH:MM, vide = auto)", "it": "Partenza mercoledì (HH:MM, vuoto = auto)", "sv": "Onsdag avgång (HH:MM, tom = auto)", "no": "Onsdag avgang (HH:MM, tom = auto)", "es": "Salida miércoles (HH:MM, vacío = auto)", "da": "Onsdag afgang (HH:MM, tom = auto)", "pl": "Środa odjazd (HH:MM, puste = auto)", "ru": "Ср отправление (ЧЧ:ММ, пусто = авто)", "ar": "مغادرة الأربعاء (ساعة:دقيقة, فارغ = تلقائي)" },
+          "label": { "en": "Wednesday departure (HH:MM, empty = auto)", "nl": "Woensdag vertrek (UU:MM, leeg = auto)", "de": "Mittwoch Abfahrt (HH:MM, leer = auto)", "fr": "Départ mercredi (HH:MM, vide = auto)", "it": "Partenza mercoledì (HH:MM, vuoto = auto)", "sv": "Onsdag avgång (HH:MM, tom = auto)", "no": "Onsdag avgang (HH:MM, tom = auto)", "es": "Salida miércoles (HH:MM, vacío = auto)", "da": "Onsdag afgang (HH:MM, tom = auto)", "pl": "Środa odjazd (HH:MM, puste = auto)", "ru": "Ср отправление (ЧЧ:ММ, пусто = авто)", "ar": "مغادرة الأربعاء (ساعة:دقيقة, فارغ = تلقائي)", "ko": "수요일 출발 (HH:MM, 비워두면 자동)" },
           "value": ""
         },
         {
           "id": "departureTime_3",
           "type": "text",
-          "label": { "en": "Thursday departure (HH:MM, empty = auto)", "nl": "Donderdag vertrek (UU:MM, leeg = auto)", "de": "Donnerstag Abfahrt (HH:MM, leer = auto)", "fr": "Départ jeudi (HH:MM, vide = auto)", "it": "Partenza giovedì (HH:MM, vuoto = auto)", "sv": "Torsdag avgång (HH:MM, tom = auto)", "no": "Torsdag avgang (HH:MM, tom = auto)", "es": "Salida jueves (HH:MM, vacío = auto)", "da": "Torsdag afgang (HH:MM, tom = auto)", "pl": "Czwartek odjazd (HH:MM, puste = auto)", "ru": "Чт отправление (ЧЧ:ММ, пусто = авто)", "ar": "مغادرة الخميس (ساعة:دقيقة, فارغ = تلقائي)" },
+          "label": { "en": "Thursday departure (HH:MM, empty = auto)", "nl": "Donderdag vertrek (UU:MM, leeg = auto)", "de": "Donnerstag Abfahrt (HH:MM, leer = auto)", "fr": "Départ jeudi (HH:MM, vide = auto)", "it": "Partenza giovedì (HH:MM, vuoto = auto)", "sv": "Torsdag avgång (HH:MM, tom = auto)", "no": "Torsdag avgang (HH:MM, tom = auto)", "es": "Salida jueves (HH:MM, vacío = auto)", "da": "Torsdag afgang (HH:MM, tom = auto)", "pl": "Czwartek odjazd (HH:MM, puste = auto)", "ru": "Чт отправление (ЧЧ:ММ, пусто = авто)", "ar": "مغادرة الخميس (ساعة:دقيقة, فارغ = تلقائي)", "ko": "목요일 출발 (HH:MM, 비워두면 자동)" },
           "value": ""
         },
         {
           "id": "departureTime_4",
           "type": "text",
-          "label": { "en": "Friday departure (HH:MM, empty = auto)", "nl": "Vrijdag vertrek (UU:MM, leeg = auto)", "de": "Freitag Abfahrt (HH:MM, leer = auto)", "fr": "Départ vendredi (HH:MM, vide = auto)", "it": "Partenza venerdì (HH:MM, vuoto = auto)", "sv": "Fredag avgång (HH:MM, tom = auto)", "no": "Fredag avgang (HH:MM, tom = auto)", "es": "Salida viernes (HH:MM, vacío = auto)", "da": "Fredag afgang (HH:MM, tom = auto)", "pl": "Piątek odjazd (HH:MM, puste = auto)", "ru": "Пт отправление (ЧЧ:ММ, пусто = авто)", "ar": "مغادرة الجمعة (ساعة:دقيقة, فارغ = تلقائي)" },
+          "label": { "en": "Friday departure (HH:MM, empty = auto)", "nl": "Vrijdag vertrek (UU:MM, leeg = auto)", "de": "Freitag Abfahrt (HH:MM, leer = auto)", "fr": "Départ vendredi (HH:MM, vide = auto)", "it": "Partenza venerdì (HH:MM, vuoto = auto)", "sv": "Fredag avgång (HH:MM, tom = auto)", "no": "Fredag avgang (HH:MM, tom = auto)", "es": "Salida viernes (HH:MM, vacío = auto)", "da": "Fredag afgang (HH:MM, tom = auto)", "pl": "Piątek odjazd (HH:MM, puste = auto)", "ru": "Пт отправление (ЧЧ:ММ, пусто = авто)", "ar": "مغادرة الجمعة (ساعة:دقيقة, فارغ = تلقائي)", "ko": "금요일 출발 (HH:MM, 비워두면 자동)" },
           "value": ""
         },
         {
           "id": "departureTime_5",
           "type": "text",
-          "label": { "en": "Saturday departure (HH:MM, empty = auto)", "nl": "Zaterdag vertrek (UU:MM, leeg = auto)", "de": "Samstag Abfahrt (HH:MM, leer = auto)", "fr": "Départ samedi (HH:MM, vide = auto)", "it": "Partenza sabato (HH:MM, vuoto = auto)", "sv": "Lördag avgång (HH:MM, tom = auto)", "no": "Lørdag avgang (HH:MM, tom = auto)", "es": "Salida sábado (HH:MM, vacío = auto)", "da": "Lørdag afgang (HH:MM, tom = auto)", "pl": "Sobota odjazd (HH:MM, puste = auto)", "ru": "Сб отправление (ЧЧ:ММ, пусто = авто)", "ar": "مغادرة السبت (ساعة:دقيقة, فارغ = تلقائي)" },
+          "label": { "en": "Saturday departure (HH:MM, empty = auto)", "nl": "Zaterdag vertrek (UU:MM, leeg = auto)", "de": "Samstag Abfahrt (HH:MM, leer = auto)", "fr": "Départ samedi (HH:MM, vide = auto)", "it": "Partenza sabato (HH:MM, vuoto = auto)", "sv": "Lördag avgång (HH:MM, tom = auto)", "no": "Lørdag avgang (HH:MM, tom = auto)", "es": "Salida sábado (HH:MM, vacío = auto)", "da": "Lørdag afgang (HH:MM, tom = auto)", "pl": "Sobota odjazd (HH:MM, puste = auto)", "ru": "Сб отправление (ЧЧ:ММ, пусто = авто)", "ar": "مغادرة السبت (ساعة:دقيقة, فارغ = تلقائي)", "ko": "토요일 출발 (HH:MM, 비워두면 자동)" },
           "value": ""
         },
         {
           "id": "departureTime_6",
           "type": "text",
-          "label": { "en": "Sunday departure (HH:MM, empty = auto)", "nl": "Zondag vertrek (UU:MM, leeg = auto)", "de": "Sonntag Abfahrt (HH:MM, leer = auto)", "fr": "Départ dimanche (HH:MM, vide = auto)", "it": "Partenza domenica (HH:MM, vuoto = auto)", "sv": "Söndag avgång (HH:MM, tom = auto)", "no": "Søndag avgang (HH:MM, tom = auto)", "es": "Salida domingo (HH:MM, vacío = auto)", "da": "Søndag afgang (HH:MM, tom = auto)", "pl": "Niedziela odjazd (HH:MM, puste = auto)", "ru": "Вс отправление (ЧЧ:ММ, пусто = авто)", "ar": "مغادرة الأحد (ساعة:دقيقة, فارغ = تلقائي)" },
+          "label": { "en": "Sunday departure (HH:MM, empty = auto)", "nl": "Zondag vertrek (UU:MM, leeg = auto)", "de": "Sonntag Abfahrt (HH:MM, leer = auto)", "fr": "Départ dimanche (HH:MM, vide = auto)", "it": "Partenza domenica (HH:MM, vuoto = auto)", "sv": "Söndag avgång (HH:MM, tom = auto)", "no": "Søndag avgang (HH:MM, tom = auto)", "es": "Salida domingo (HH:MM, vacío = auto)", "da": "Søndag afgang (HH:MM, tom = auto)", "pl": "Niedziela odjazd (HH:MM, puste = auto)", "ru": "Вс отправление (ЧЧ:ММ, пусто = авто)", "ar": "مغادرة الأحد (ساعة:دقيقة, فارغ = تلقائي)", "ko": "일요일 출발 (HH:MM, 비워두면 자동)" },
           "value": ""
         }
       ]
@@ -290,31 +301,32 @@
         "da": "Tilknyttede enheder",
         "pl": "Połączone urządzenia",
         "ru": "Связанные устройства",
-        "ar": "الأجهزة المرتبطة"
+        "ar": "الأجهزة المرتبطة",
+        "ko": "연결된 장치"
       },
       "children": [
         {
           "id": "homey_device_id",
           "type": "label",
-          "label": { "en": "Charger device ID", "nl": "Lader apparaat ID", "de": "Ladegerät Geräte-ID", "fr": "ID appareil chargeur", "it": "ID dispositivo caricatore", "sv": "Laddare enhets-ID", "no": "Lader enhets-ID", "es": "ID del dispositivo cargador", "da": "Oplader enheds-ID", "pl": "ID urządzenia ładowarki", "ru": "ID устройства зарядки", "ar": "معرف جهاز الشاحن" },
+          "label": { "en": "Charger device ID", "nl": "Lader apparaat ID", "de": "Ladegerät Geräte-ID", "fr": "ID appareil chargeur", "it": "ID dispositivo caricatore", "sv": "Laddare enhets-ID", "no": "Lader enhets-ID", "es": "ID del dispositivo cargador", "da": "Oplader enheds-ID", "pl": "ID urządzenia ładowarki", "ru": "ID устройства зарядки", "ar": "معرف جهاز الشاحن", "ko": "충전기 장치 ID" },
           "value": "unknown"
         },
         {
           "id": "homey_device_name",
           "type": "label",
-          "label": { "en": "Charger device name", "nl": "Lader apparaatnaam", "de": "Ladegerät Gerätename", "fr": "Nom de l'appareil chargeur", "it": "Nome dispositivo caricatore", "sv": "Laddare enhetsnamn", "no": "Lader enhetsnamn", "es": "Nombre del dispositivo cargador", "da": "Oplader enhedsnavn", "pl": "Nazwa urządzenia ładowarki", "ru": "Имя устройства зарядки", "ar": "اسم جهاز الشاحن" },
+          "label": { "en": "Charger device name", "nl": "Lader apparaatnaam", "de": "Ladegerät Gerätename", "fr": "Nom de l'appareil chargeur", "it": "Nome dispositivo caricatore", "sv": "Laddare enhetsnamn", "no": "Lader enhetsnamn", "es": "Nombre del dispositivo cargador", "da": "Oplader enhedsnavn", "pl": "Nazwa urządzenia ładowarki", "ru": "Имя устройства зарядки", "ar": "اسم جهاز الشاحن", "ko": "충전기 장치 이름" },
           "value": "unknown"
         },
         {
           "id": "ev_device_id",
           "type": "label",
-          "label": { "en": "EV car device ID", "nl": "EV auto apparaat ID", "de": "E-Auto Geräte-ID", "fr": "ID appareil voiture EV", "it": "ID dispositivo auto EV", "sv": "EV bil enhets-ID", "no": "EV bil enhets-ID", "es": "ID del dispositivo coche EV", "da": "EV bil enheds-ID", "pl": "ID urządzenia samochodu EV", "ru": "ID устройства EV автомобиля", "ar": "معرف جهاز سيارة EV" },
+          "label": { "en": "EV car device ID", "nl": "EV auto apparaat ID", "de": "E-Auto Geräte-ID", "fr": "ID appareil voiture EV", "it": "ID dispositivo auto EV", "sv": "EV bil enhets-ID", "no": "EV bil enhets-ID", "es": "ID del dispositivo coche EV", "da": "EV bil enheds-ID", "pl": "ID urządzenia samochodu EV", "ru": "ID устройства EV автомобиля", "ar": "معرف جهاز سيارة EV", "ko": "EV 차량 장치 ID" },
           "value": "none"
         },
         {
           "id": "ev_device_name",
           "type": "label",
-          "label": { "en": "EV car device name", "nl": "EV auto apparaatnaam", "de": "E-Auto Gerätename", "fr": "Nom de l'appareil voiture EV", "it": "Nome dispositivo auto EV", "sv": "EV bil enhetsnamn", "no": "EV bil enhetsnamn", "es": "Nombre del dispositivo coche EV", "da": "EV bil enhedsnavn", "pl": "Nazwa urządzenia samochodu EV", "ru": "Имя устройства EV автомобиля", "ar": "اسم جهاز سيارة EV" },
+          "label": { "en": "EV car device name", "nl": "EV auto apparaatnaam", "de": "E-Auto Gerätename", "fr": "Nom de l'appareil voiture EV", "it": "Nome dispositivo auto EV", "sv": "EV bil enhetsnamn", "no": "EV bil enhetsnamn", "es": "Nombre del dispositivo coche EV", "da": "EV bil enhedsnavn", "pl": "Nazwa urządzenia samochodu EV", "ru": "Имя устройства EV автомобиля", "ar": "اسم جهاز سيارة EV", "ko": "EV 차량 장치 이름" },
           "value": "none"
         }
       ]
@@ -333,49 +345,50 @@
         "da": "Lært afgangsprofil (skrivebeskyttet)",
         "pl": "Nauczony profil odjazdu (tylko do odczytu)",
         "ru": "Изученный профиль отправления (только чтение)",
-        "ar": "ملف المغادرة المُتعلَّم (للقراءة فقط)"
+        "ar": "ملف المغادرة المُتعلَّم (للقراءة فقط)",
+        "ko": "학습된 출발 프로필 (읽기 전용)"
       },
       "children": [
         {
           "id": "learned_profile_mon",
           "type": "label",
-          "label": { "en": "Monday", "nl": "Maandag", "de": "Montag", "fr": "Lundi", "it": "Lunedì", "sv": "Måndag", "no": "Mandag", "es": "Lunes", "da": "Mandag", "pl": "Poniedziałek", "ru": "Пн", "ar": "الاثنين" },
+          "label": { "en": "Monday", "nl": "Maandag", "de": "Montag", "fr": "Lundi", "it": "Lunedì", "sv": "Måndag", "no": "Mandag", "es": "Lunes", "da": "Mandag", "pl": "Poniedziałek", "ru": "Пн", "ar": "الاثنين", "ko": "월요일" },
           "value": "not yet learned"
         },
         {
           "id": "learned_profile_tue",
           "type": "label",
-          "label": { "en": "Tuesday", "nl": "Dinsdag", "de": "Dienstag", "fr": "Mardi", "it": "Martedì", "sv": "Tisdag", "no": "Tirsdag", "es": "Martes", "da": "Tirsdag", "pl": "Wtorek", "ru": "Вт", "ar": "الثلاثاء" },
+          "label": { "en": "Tuesday", "nl": "Dinsdag", "de": "Dienstag", "fr": "Mardi", "it": "Martedì", "sv": "Tisdag", "no": "Tirsdag", "es": "Martes", "da": "Tirsdag", "pl": "Wtorek", "ru": "Вт", "ar": "الثلاثاء", "ko": "화요일" },
           "value": "not yet learned"
         },
         {
           "id": "learned_profile_wed",
           "type": "label",
-          "label": { "en": "Wednesday", "nl": "Woensdag", "de": "Mittwoch", "fr": "Mercredi", "it": "Mercoledì", "sv": "Onsdag", "no": "Onsdag", "es": "Miércoles", "da": "Onsdag", "pl": "Środa", "ru": "Ср", "ar": "الأربعاء" },
+          "label": { "en": "Wednesday", "nl": "Woensdag", "de": "Mittwoch", "fr": "Mercredi", "it": "Mercoledì", "sv": "Onsdag", "no": "Onsdag", "es": "Miércoles", "da": "Onsdag", "pl": "Środa", "ru": "Ср", "ar": "الأربعاء", "ko": "수요일" },
           "value": "not yet learned"
         },
         {
           "id": "learned_profile_thu",
           "type": "label",
-          "label": { "en": "Thursday", "nl": "Donderdag", "de": "Donnerstag", "fr": "Jeudi", "it": "Giovedì", "sv": "Torsdag", "no": "Torsdag", "es": "Jueves", "da": "Torsdag", "pl": "Czwartek", "ru": "Чт", "ar": "الخميس" },
+          "label": { "en": "Thursday", "nl": "Donderdag", "de": "Donnerstag", "fr": "Jeudi", "it": "Giovedì", "sv": "Torsdag", "no": "Torsdag", "es": "Jueves", "da": "Torsdag", "pl": "Czwartek", "ru": "Чт", "ar": "الخميس", "ko": "목요일" },
           "value": "not yet learned"
         },
         {
           "id": "learned_profile_fri",
           "type": "label",
-          "label": { "en": "Friday", "nl": "Vrijdag", "de": "Freitag", "fr": "Vendredi", "it": "Venerdì", "sv": "Fredag", "no": "Fredag", "es": "Viernes", "da": "Fredag", "pl": "Piątek", "ru": "Пт", "ar": "الجمعة" },
+          "label": { "en": "Friday", "nl": "Vrijdag", "de": "Freitag", "fr": "Vendredi", "it": "Venerdì", "sv": "Fredag", "no": "Fredag", "es": "Viernes", "da": "Fredag", "pl": "Piątek", "ru": "Пт", "ar": "الجمعة", "ko": "금요일" },
           "value": "not yet learned"
         },
         {
           "id": "learned_profile_sat",
           "type": "label",
-          "label": { "en": "Saturday", "nl": "Zaterdag", "de": "Samstag", "fr": "Samedi", "it": "Sabato", "sv": "Lördag", "no": "Lørdag", "es": "Sábado", "da": "Lørdag", "pl": "Sobota", "ru": "Сб", "ar": "السبت" },
+          "label": { "en": "Saturday", "nl": "Zaterdag", "de": "Samstag", "fr": "Samedi", "it": "Sabato", "sv": "Lördag", "no": "Lørdag", "es": "Sábado", "da": "Lørdag", "pl": "Sobota", "ru": "Сб", "ar": "السبت", "ko": "토요일" },
           "value": "not yet learned"
         },
         {
           "id": "learned_profile_sun",
           "type": "label",
-          "label": { "en": "Sunday", "nl": "Zondag", "de": "Sonntag", "fr": "Dimanche", "it": "Domenica", "sv": "Söndag", "no": "Søndag", "es": "Domingo", "da": "Søndag", "pl": "Niedziela", "ru": "Вс", "ar": "الأحد" },
+          "label": { "en": "Sunday", "nl": "Zondag", "de": "Sonntag", "fr": "Dimanche", "it": "Domenica", "sv": "Söndag", "no": "Søndag", "es": "Domingo", "da": "Søndag", "pl": "Niedziela", "ru": "Вс", "ar": "الأحد", "ko": "일요일" },
           "value": "not yet learned"
         }
       ]
@@ -395,7 +408,8 @@
         "da": "Takster",
         "pl": "Taryfy",
         "ru": "Тарифы",
-        "ar": "التعريفات"
+        "ar": "التعريفات",
+        "ko": "요금"
       },
       "children": [
         {
@@ -413,7 +427,8 @@
             "da": "Takstopdateringsgruppe (DAP)",
             "pl": "Grupa aktualizacji taryf (DAP)",
             "ru": "Группа обновления тарифов (DAP)",
-            "ar": "مجموعة تحديث التعريفة (DAP)"
+            "ar": "مجموعة تحديث التعريفة (DAP)",
+            "ko": "요금 업데이트 그룹 (DAP)"
           },
           "hint": {
             "en": "Group number for getting grid tariffs via Day Ahead Pricing (DAP).",
@@ -427,7 +442,8 @@
             "da": "Gruppenummer til at få nettakster via Day Ahead Pricing (DAP).",
             "pl": "Numer grupy do uzyskiwania taryf sieciowych przez Day Ahead Pricing (DAP).",
             "ru": "Номер группы для получения сетевых тарифов через Day Ahead Pricing (DAP).",
-            "ar": "رقم المجموعة للحصول على تعريفات الشبكة عبر Day Ahead Pricing (DAP)."
+            "ar": "رقم المجموعة للحصول على تعريفات الشبكة عبر Day Ahead Pricing (DAP).",
+            "ko": "전일 가격(DAP)을 통해 계통 요금을 가져올 그룹 번호입니다."
           },
           "value": 1,
           "min": 0,
@@ -449,7 +465,8 @@
             "da": "Tarifvalg",
             "pl": "Wybór taryfy",
             "ru": "Выбор тарифа",
-            "ar": "اختيار التعريفة"
+            "ar": "اختيار التعريفة",
+            "ko": "요금 선택"
           },
           "hint": {
             "en": "Select which tariff to use for monetary calculations. 'Automatic' automatically switches based on grid import/export.",
@@ -463,21 +480,22 @@
             "da": "Vælg, hvilken takst der skal bruges til pengeberegninger. 'Automatisk' skifter automatisk baseret på netimport/-eksport.",
             "pl": "Wybierz, której taryfy użyć do obliczeń pieniężnych. 'Automatyczny' automatycznie przełącza się na podstawie importu/eksportu sieci.",
             "ru": "Выберите, какой тариф использовать для денежных расчетов. «Автоматический» автоматически переключается в зависимости от импорта/экспорта сети.",
-            "ar": "حدد التعريفة التي سيتم استخدامها للحسابات النقدية. 'التلقائي' يتبدل تلقائيًا بناءً على استيراد/تصدير الشبكة."
+            "ar": "حدد التعريفة التي سيتم استخدامها للحسابات النقدية. 'التلقائي' يتبدل تلقائيًا بناءً على استيراد/تصدير الشبكة.",
+            "ko": "금전 계산에 사용할 요금을 선택하세요. '자동'을 선택하면 계통 수전/송전에 따라 자동으로 전환됩니다."
           },
           "value": "dynamic",
           "values": [
             {
               "id": "dynamic",
-              "label": { "en": "Automatic", "nl": "Automatisch", "de": "Automatisch", "fr": "Automatique", "it": "Automatico", "sv": "Automatisk", "no": "Automatisk", "es": "Automático", "da": "Automatisk", "pl": "Automatyczny", "ru": "Автоматический", "ar": "تلقائي" }
+              "label": { "en": "Automatic", "nl": "Automatisch", "de": "Automatisch", "fr": "Automatique", "it": "Automatico", "sv": "Automatisk", "no": "Automatisk", "es": "Automático", "da": "Automatisk", "pl": "Automatyczny", "ru": "Автоматический", "ar": "تلقائي", "ko": "자동" }
             },
             {
               "id": "import",
-              "label": { "en": "Always Import", "nl": "Altijd Import", "de": "Immer Import", "fr": "Toujours Importer", "it": "Sempre Importazione", "sv": "Alltid Import", "no": "Alltid Import", "es": "Siempre Importar", "da": "Altid Import", "pl": "Zawsze Import", "ru": "Всегда Импорт", "ar": "استيراد دائما" }
+              "label": { "en": "Always Import", "nl": "Altijd Import", "de": "Immer Import", "fr": "Toujours Importer", "it": "Sempre Importazione", "sv": "Alltid Import", "no": "Alltid Import", "es": "Siempre Importar", "da": "Altid Import", "pl": "Zawsze Import", "ru": "Всегда Импорт", "ar": "استيراد دائما", "ko": "항상 수전(수입)" }
             },
             {
               "id": "export",
-              "label": { "en": "Always Export", "nl": "Altijd Export", "de": "Immer Export", "fr": "Toujours Exporter", "it": "Sempre Esportazione", "sv": "Alltid Export", "no": "Alltid Eksport", "es": "Siempre Exportar", "da": "Altid Eksport", "pl": "Zawsze Eksport", "ru": "Всегда Экспорт", "ar": "تصدير دائما" }
+              "label": { "en": "Always Export", "nl": "Altijd Export", "de": "Immer Export", "fr": "Toujours Exporter", "it": "Sempre Esportazione", "sv": "Alltid Export", "no": "Alltid Eksport", "es": "Siempre Exportar", "da": "Altid Eksport", "pl": "Zawsze Eksport", "ru": "Всегда Экспорт", "ar": "تصدير دائما", "ko": "항상 송전(수출)" }
             }
           ]
         }
@@ -497,7 +515,8 @@
         "da": "Pengeværdi",
         "pl": "Wartość pieniężna",
         "ru": "Денежная стоимость",
-        "ar": "القيمة النقدية"
+        "ar": "القيمة النقدية",
+        "ko": "금전적 가치"
       },
       "children": [
         {
@@ -515,7 +534,8 @@
             "es": "Visualización de unidad de moneda",
             "pl": "Wyświetlanie jednostki walutowej",
             "ru": "Отображение валютной единицы",
-            "ar": "عرض وحدة العملة"
+            "ar": "عرض وحدة العملة",
+            "ko": "표시할 통화 단위"
           },
           "value": "",
           "hint": {
@@ -530,7 +550,8 @@
             "es": "La unidad que se muestra como moneda, p. ej. €, £, EUR, SER, NOK, DKK, CHF. Dejar vacío para usar automáticamente la moneda de la fuente de precios Day-ahead.",
             "pl": "Jednostka wyświetlana jako waluta, np. €, £, EUR, SER, NOK, DKK, CHF. Pozostaw puste, aby automatycznie użyć waluty ze źródła cen Day-ahead.",
             "ru": "Единица, отображаемая как валюта, например €, £, EUR, SER, NOK, DKK, CHF. Оставьте пустым, чтобы автоматически использовать валюту из источника цен Day-ahead.",
-            "ar": "الوحدة المعروضة كعملة، مثل €، £، EUR، SER، NOK، DKK، CHF. اتركها فارغة لاستخدام العملة تلقائيًا من مصدر تسعير اليوم التالي."
+            "ar": "الوحدة المعروضة كعملة، مثل €، £، EUR، SER، NOK، DKK، CHF. اتركها فارغة لاستخدام العملة تلقائيًا من مصدر تسعير اليوم التالي.",
+            "ko": "통화로 표시할 단위입니다 (예: €, £, EUR, SER, NOK, DKK, CHF). 비워두면 전일 가격 소스의 통화를 자동으로 사용합니다."
           }
         },
         {
@@ -548,7 +569,8 @@
             "es": "Decimales de moneda",
             "pl": "Miejsca dziesiętne waluty",
             "ru": "Десятичные знаки валюты",
-            "ar": "الكسور العشرية للعملة"
+            "ar": "الكسور العشرية للعملة",
+            "ko": "통화 소수 자릿수"
           },
           "value": 2,
           "min": 0,
@@ -565,7 +587,8 @@
             "es": "El número de decimales a utilizar para el precio.",
             "pl": "Liczba miejsc dziesiętnych do użycia dla ceny.",
             "ru": "Количество десятичных знаков для цены.",
-            "ar": "عدد الكسور العشرية المراد استخدامها للسعر."
+            "ar": "عدد الكسور العشرية المراد استخدامها للسعر.",
+            "ko": "가격에 사용할 소수 자릿수입니다."
           }
         }
       ]
@@ -584,7 +607,8 @@
         "da": "Grafvisning",
         "pl": "Wyświetlanie wykresu",
         "ru": "Отображение графика",
-        "ar": "عرض الرسم البياني"
+        "ar": "عرض الرسم البياني",
+        "ko": "그래프 표시"
       },
       "children": [
         {
@@ -602,7 +626,8 @@
             "da": "Vis effekt i diagrammet",
             "pl": "Pokaż moc na wykresie",
             "ru": "Показывать мощность на графике",
-            "ar": "إظهار الطاقة في الرسم البياني"
+            "ar": "إظهار الطاقة في الرسم البياني",
+            "ko": "그래프에 전력 표시"
           },
           "hint": {
             "en": "Show the actual/planned power (kW) line and its axis on the charge charts.",
@@ -616,7 +641,8 @@
             "da": "Vis den faktiske/planlagte effektlinje (kW) og dens akse i opladningsdiagrammerne.",
             "pl": "Pokaż linię mocy rzeczywistej/planowanej (kW) i jej oś na wykresach ładowania.",
             "ru": "Показывать линию фактической/запланированной мощности (кВт) и её ось на графиках зарядки.",
-            "ar": "إظهار خط الطاقة الفعلية/المخططة (كيلوواط) ومحوره في رسوم الشحن البيانية."
+            "ar": "إظهار خط الطاقة الفعلية/المخططة (كيلوواط) ومحوره في رسوم الشحن البيانية.",
+            "ko": "충전 차트에 실제/계획 전력(kW) 선과 축을 표시합니다."
           },
           "value": false
         },
@@ -635,7 +661,8 @@
             "da": "Vis ladetilstand (SoC) i diagrammet",
             "pl": "Pokaż stan naładowania (SoC) na wykresie",
             "ru": "Показывать уровень заряда (SoC) на графике",
-            "ar": "إظهار حالة الشحن (SoC) في الرسم البياني"
+            "ar": "إظهار حالة الشحن (SoC) في الرسم البياني",
+            "ko": "그래프에 충전 상태 표시"
           },
           "hint": {
             "en": "Show the SoC (%) line and its axis on the charge charts. Automatically disabled if neither the connected car nor the charger reports a real SoC.",
@@ -649,7 +676,8 @@
             "da": "Vis SoC-linjen (%) og dens akse i opladningsdiagrammerne. Deaktiveres automatisk, hvis hverken den tilsluttede bil eller opladeren rapporterer en reel SoC.",
             "pl": "Pokaż linię SoC (%) i jej oś na wykresach ładowania. Automatycznie wyłączane, jeśli ani podłączony samochód, ani ładowarka nie zgłaszają rzeczywistego SoC.",
             "ru": "Показывать линию SoC (%) и её ось на графиках зарядки. Автоматически отключается, если ни подключённый автомобиль, ни зарядное устройство не сообщают реальный SoC.",
-            "ar": "إظهار خط SoC (%) ومحوره في رسوم الشحن البيانية. يتم التعطيل تلقائيًا إذا لم تُبلغ السيارة المتصلة ولا الشاحن عن SoC حقيقي."
+            "ar": "إظهار خط SoC (%) ومحوره في رسوم الشحن البيانية. يتم التعطيل تلقائيًا إذا لم تُبلغ السيارة المتصلة ولا الشاحن عن SoC حقيقي.",
+            "ko": "충전 차트에 SoC (%) 선과 축을 표시합니다. 연결된 차량과 충전기 모두 실제 SoC를 보고하지 않으면 자동으로 비활성화됩니다."
           },
           "value": true
         },
@@ -668,7 +696,8 @@
             "da": "Vis eksportpris i diagrammet",
             "pl": "Pokaż cenę eksportu na wykresie",
             "ru": "Показывать экспортную цену на графике",
-            "ar": "إظهار سعر التصدير في الرسم البياني"
+            "ar": "إظهار سعر التصدير في الرسم البياني",
+            "ko": "그래프에 송전(수출) 가격 표시"
           },
           "hint": {
             "en": "Show the export price line (yellow) on the charge charts.",
@@ -682,7 +711,8 @@
             "da": "Vis eksportprislinjen (gul) i opladningsdiagrammerne.",
             "pl": "Pokaż linię ceny eksportu (żółta) na wykresach ładowania.",
             "ru": "Показывать линию экспортной цены (жёлтая) на графиках зарядки.",
-            "ar": "إظهار خط سعر التصدير (الأصفر) في رسوم الشحن البيانية."
+            "ar": "إظهار خط سعر التصدير (الأصفر) في رسوم الشحن البيانية.",
+            "ko": "충전 차트에 송전(수출) 가격 선(노란색)을 표시합니다."
           },
           "value": true
         }

@@ -21,7 +21,8 @@
   "setable": false,
   "insights": true,
   "units": {
-    "en": "kWh"
+    "en": "kWh",
+    "ko": "kWh"
   },
   "decimals": 2
 }

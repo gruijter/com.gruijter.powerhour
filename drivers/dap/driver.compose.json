@@ -11,7 +11,8 @@
     "da": "Day-Ahead 60m E priser",
     "pl": "Ceny E 60m Dzień Naprzód",
     "ru": "Цены E 60м На Сутки Вперед",
-    "ar": "أسعار الكهرباء لليوم التالي (60 دقيقة)"
+    "ar": "أسعار الكهرباء لليوم التالي (60 دقيقة)",
+    "ko": "60분 단위 전일 전력 가격"
   },
   "class": "sensor",
   "capabilities": [],
@@ -57,7 +58,8 @@
         "da": "Information om elområde",
         "pl": "Informacje o strefie licytacji",
         "ru": "Информация о торговой зоне",
-        "ar": "معلومات منطقة العطاءات"
+        "ar": "معلومات منطقة العطاءات",
+        "ko": "입찰 구역 정보"
       },
       "children": [
         {
@@ -75,7 +77,8 @@
             "da": "Elområde",
             "pl": "Strefa licytacji",
             "ru": "Торговая зона",
-            "ar": "منطقة العطاءات"
+            "ar": "منطقة العطاءات",
+            "ko": "입찰 구역"
           },
           "value": "unknown"
         },
@@ -94,7 +97,8 @@
             "da": "Beskrivelse",
             "pl": "Opis",
             "ru": "Описание",
-            "ar": "وصف"
+            "ar": "وصف",
+            "ko": "설명"
           },
           "value": "unknown"
         }
@@ -114,7 +118,8 @@
         "da": "Valutaindstillinger",
         "pl": "Ustawienia waluty",
         "ru": "Настройки валюты",
-        "ar": "إعدادات العملة"
+        "ar": "إعدادات العملة",
+        "ko": "통화 설정"
       },
       "children": [
         {
@@ -132,7 +137,8 @@
             "da": "Visning af valutaenhed",
             "pl": "Wyświetlanie jednostki walutowej",
             "ru": "Отображение валютной единицы",
-            "ar": "عرض وحدة العملة"
+            "ar": "عرض وحدة العملة",
+            "ko": "표시할 통화 단위"
           },
           "value": "€",
           "hint": {
@@ -147,7 +153,8 @@
             "da": "Enheden vises som valuta, f.eks. €, £, EUR, SER, NOK, DKK, CHF. Lad denne stå blank for at bruge standard €.",
             "pl": "Jednostka wyświetlana jako waluta, np. €, £, EUR, SER, NOK, DKK, CHF. Pozostaw puste, aby użyć domyślnego €.",
             "ru": "Единица, отображаемая как валюта, например €, £, EUR, SER, NOK, DKK, CHF. Оставьте пустым, чтобы использовать значение по умолчанию €.",
-            "ar": "الوحدة المعروضة كعملة، مثل €، £، EUR، SER، NOK، DKK، CHF. اتركها فارغة لاستخدام الافتراضي €."
+            "ar": "الوحدة المعروضة كعملة، مثل €، £، EUR، SER، NOK، DKK، CHF. اتركها فارغة لاستخدام الافتراضي €.",
+            "ko": "통화로 표시할 단위입니다 (예: €, £, EUR, SER, NOK, DKK, CHF). 비워두면 기본값 €를 사용합니다."
           }
         },
         {
@@ -165,7 +172,8 @@
             "da": "Valuta decimaler",
             "pl": "Miejsca dziesiętne waluty",
             "ru": "Десятичные знаки валюты",
-            "ar": "الكسور العشرية للعملة"
+            "ar": "الكسور العشرية للعملة",
+            "ko": "통화 소수 자릿수"
           },
           "value": 4,
           "min": 0,
@@ -182,7 +190,8 @@
             "da": "Antallet af decimaler, der bruges til prisen",
             "pl": "Liczba miejsc dziesiętnych do użycia dla ceny.",
             "ru": "Количество десятичных знаков для цены.",
-            "ar": "عدد الكسور العشرية المراد استخدامها للسعر."
+            "ar": "عدد الكسور العشرية المراد استخدامها للسعر.",
+            "ko": "가격에 사용할 소수 자릿수입니다."
           }
         },
         {
@@ -200,7 +209,8 @@
             "da": "Vekselkurs med €",
             "pl": "Kurs wymiany z €",
             "ru": "Обменный курс с €",
-            "ar": "سعر الصرف مع €"
+            "ar": "سعر الصرف مع €",
+            "ko": "€ 대비 환율"
           },
           "value": 1,
           "hint": {
@@ -215,7 +225,8 @@
             "da": "Sæt som 1 hvis du vil bruge Euro, indsæt ellers vekselkursen for din foretrukne valuta",
             "pl": "Ustaw na 1, jeśli chcesz używać EURO, w przeciwnym razie wprowadź kurs wymiany na preferowaną walutę.",
             "ru": "Установите 1, если хотите использовать ЕВРО, в противном случае введите обменный курс к вашей предпочтительной валюте.",
-            "ar": "قم بالتعيين على 1 إذا كنت تريد استخدام اليورو، وإلا أدخل سعر الصرف لعملتك المفضلة."
+            "ar": "قم بالتعيين على 1 إذا كنت تريد استخدام اليورو، وإلا أدخل سعر الصرف لعملتك المفضلة.",
+            "ko": "유로를 사용하려면 1로 설정하고, 그렇지 않으면 원하는 통화에 대한 환율을 입력하세요."
           }
         },
         {
@@ -234,7 +245,8 @@
             "da": "Opdatér dagligt valutakurs",
             "pl": "Codzienna aktualizacja kursu wymiany",
             "ru": "Ежедневное обновление обменного курса",
-            "ar": "تحديث سعر الصرف يوميا"
+            "ar": "تحديث سعر الصرف يوميا",
+            "ko": "매일 환율 업데이트"
           },
           "values": [
             {
@@ -251,103 +263,120 @@
                 "da": "HENT IKKE",
                 "pl": "NIE POBIERAJ",
                 "ru": "НЕ ПОЛУЧАТЬ",
-                "ar": "لا تجلب"
+                "ar": "لا تجلب",
+                "ko": "가져오지 않음"
               }
             },
             {
               "id": "BGN",
               "label": {
-                "en": "BGN"
+                "en": "BGN",
+                "ko": "BGN"
               }
             },
             {
               "id": "CHF",
               "label": {
-                "en": "CHF"
+                "en": "CHF",
+                "ko": "CHF"
               }
             },
             {
               "id": "CZK",
               "label": {
-                "en": "CZK"
+                "en": "CZK",
+                "ko": "CZK"
               }
             },
             {
               "id": "DKK",
               "label": {
-                "en": "DKK"
+                "en": "DKK",
+                "ko": "DKK"
               }
             },
             {
               "id": "GBP",
               "label": {
-                "en": "GBP"
+                "en": "GBP",
+                "ko": "GBP"
               }
             },
             {
               "id": "HRK",
               "label": {
-                "en": "HRK"
+                "en": "HRK",
+                "ko": "HRK"
               }
             },
             {
               "id": "HUF",
               "label": {
-                "en": "HUF"
+                "en": "HUF",
+                "ko": "HUF"
               }
             },
             {
               "id": "ISK",
               "label": {
-                "en": "ISK"
+                "en": "ISK",
+                "ko": "ISK"
               }
             },
             {
               "id": "NOK",
               "label": {
-                "en": "NOK"
+                "en": "NOK",
+                "ko": "NOK"
               }
             },
             {
               "id": "PLN",
               "label": {
-                "en": "PLN"
+                "en": "PLN",
+                "ko": "PLN"
               }
             },
             {
               "id": "RON",
               "label": {
-                "en": "RON"
+                "en": "RON",
+                "ko": "RON"
               }
             },
             {
               "id": "RUB",
               "label": {
-                "en": "RUB"
+                "en": "RUB",
+                "ko": "RUB"
               }
             },
             {
               "id": "SEK",
               "label": {
-                "en": "SEK"
+                "en": "SEK",
+                "ko": "SEK"
               }
             },
             {
               "id": "TRY",
               "label": {
-                "en": "TRY"
+                "en": "TRY",
+                "ko": "TRY"
               }
             },
             {
               "id": "AUD",
               "label": {
-                "en": "AUD"
+                "en": "AUD",
+                "ko": "AUD"
               }
             },
             {
               "id": "USD",
               "label": {
-                "en": "USD"
+                "en": "USD",
+                "ko": "USD"
               }
             }
           ],
@@ -363,7 +392,8 @@
             "da": "Angiv valutaen du automatisk vil hente vekselkursen for. Lad den stå på 'HENT IKKE' hvis du bruger Euro, eller hvis du manuelt vil tilpasse vekselkursen",
             "pl": "Wprowadź walutę, dla której kurs wymiany ma być pobierany automatycznie. Pozostaw 'NIE POBIERAJ', jeśli używasz Euro lub jeśli chcesz ręcznie ustawić kurs wymiany.",
             "ru": "Введите валюту, для которой вы хотите автоматически получать обменный курс. Оставьте 'НЕ ПОЛУЧАТЬ', если вы используете Евро, или если вы хотите вручную установить обменный курс.",
-            "ar": "أدخل العملة التي تريد جلب سعر الصرف لها تلقائيًا. اتركها عند 'لا تجلب' إذا كنت تستخدم اليورو، أو إذا كنت تريد تعيين سعر الصرف يدويًا."
+            "ar": "أدخل العملة التي تريد جلب سعر الصرف لها تلقائيًا. اتركها عند 'لا تجلب' إذا كنت تستخدم اليورو، أو إذا كنت تريد تعيين سعر الصرف يدويًا.",
+            "ko": "환율을 자동으로 가져올 통화를 입력하세요. 유로를 사용 중이거나 환율을 직접 설정하려면 '가져오지 않음'으로 두세요."
           }
         }
       ]
@@ -382,7 +412,8 @@
         "da": "Importprisindstillinger",
         "pl": "Ustawienia cen importu",
         "ru": "Настройки цен импорта",
-        "ar": "إعدادات سعر الاستيراد"
+        "ar": "إعدادات سعر الاستيراد",
+        "ko": "수전(수입) 가격 설정"
       },
       "children": [
         {
@@ -400,7 +431,8 @@
             "da": "Ignorer markedspris (Kun fast pris)",
             "pl": "Ignoruj cenę rynkową (Tylko stała cena)",
             "ru": "Игнорировать рыночную цену (Только фиксированная цена)",
-            "ar": "تجاهل سعر السوق (سعر ثابت فقط)"
+            "ar": "تجاهل سعر السوق (سعر ثابت فقط)",
+            "ko": "시장 가격 무시 (고정 가격만 사용)"
           },
           "value": false,
           "hint": {
@@ -415,7 +447,8 @@
             "da": "Marker dette, hvis du har en fastprisaftale. Markedspriserne og %-tillæg ignoreres. Kun de faste tillæg nedenfor vil blive brugt.",
             "pl": "Zaznacz, jeśli masz umowę o stałej cenie. Ceny rynkowe i narzuty % zostaną zignorowane. Zostaną użyte tylko poniższe stałe narzuty.",
             "ru": "Отметьте это, если у вас контракт с фиксированной ценой. Рыночные цены и % наценки будут проигнорированы. Будут использоваться только фиксированные наценки.",
-            "ar": "حدد هذا إذا كان لديك عقد بسعر ثابت. سيتم تجاهل أسعار السوق والنسب المئوية. سيتم استخدام الهوامش الثابتة فقط أدناه لحساب السعر."
+            "ar": "حدد هذا إذا كان لديك عقد بسعر ثابت. سيتم تجاهل أسعار السوق والنسب المئوية. سيتم استخدام الهوامش الثابتة فقط أدناه لحساب السعر.",
+            "ko": "고정가 계약인 경우 이 옵션을 선택하세요. 시장 가격과 % 마크업은 무시됩니다. 아래의 고정 마크업만 가격 계산에 사용됩니다."
           }
         },
         {
@@ -433,7 +466,8 @@
             "da": "Import Variabelt gebyr (%)",
             "pl": "Import Narzut zmienny (%)",
             "ru": "Import Переменная наценка (%)",
-            "ar": "Import هامش متغير (%)"
+            "ar": "Import هامش متغير (%)",
+            "ko": "수전(수입) 변동 마크업 (%)"
           },
           "value": 0,
           "hint": {
@@ -448,7 +482,8 @@
             "da": "Angiv procenten der tillægges nettoimportprisen. Eksempelvis moms.",
             "pl": "Wprowadź procent, o jaki cena netto importu musi zostać zwiększona. Np. dla VAT.",
             "ru": "Введите процент, на который должна быть увеличена чистая цена импорта. Например, для НДС.",
-            "ar": "أدخل النسبة المئوية التي يجب زيادة صافي سعر الاستيراد بها. على سبيل المثال لضريبة القيمة المضافة."
+            "ar": "أدخل النسبة المئوية التي يجب زيادة صافي سعر الاستيراد بها. على سبيل المثال لضريبة القيمة المضافة.",
+            "ko": "순 수전(수입) 가격에 인상할 백분율을 입력하세요. 예: 부가세."
           }
         },
         {
@@ -466,7 +501,8 @@
             "da": "Import Variabelt gebyr (%) @abs.pris",
             "pl": "Import Narzut zmienny (%) @cena bezwzgl.",
             "ru": "Import Переменная наценка (%) @абс. цена",
-            "ar": "Import هامش متغير (%) @السعر المطلق"
+            "ar": "Import هامش متغير (%) @السعر المطلق",
+            "ko": "수전(수입) 변동 마크업 (%) @절대 가격"
           },
           "value": 0,
           "hint": {
@@ -481,7 +517,8 @@
             "da": "Indtast den procentsats, som |nettoimportprisen| skal forhøjes med. Denne avance er altid positiv, selv for negative markedspriser.",
             "pl": "Wprowadź procent, o jaki |cena netto importu| musi zostać zwiększona. Ten narzut jest zawsze dodatni, nawet dla ujemnych cen rynkowych.",
             "ru": "Введите процент, на который должна быть увеличена |чистая цена импорта|. Эта наценка всегда положительна, даже при отрицательных рыночных ценах.",
-            "ar": "أدخل النسبة المئوية التي يجب زيادة |صافي سعر الاستيراد| بها. هذا الهامش دائمًا إيجابي، حتى بالنسبة لأسعار السوق السلبية."
+            "ar": "أدخل النسبة المئوية التي يجب زيادة |صافي سعر الاستيراد| بها. هذا الهامش دائمًا إيجابي، حتى بالنسبة لأسعار السوق السلبية.",
+            "ko": "|순 수전(수입) 가격|에 인상할 백분율을 입력하세요. 이 마크업은 시장 가격이 마이너스여도 항상 양수로 적용됩니다."
           }
         },
         {
@@ -499,7 +536,8 @@
             "da": "Import Fast gebyr per kWh",
             "pl": "Import Stały narzut na kWh",
             "ru": "Import Фиксированная наценка за кВтч",
-            "ar": "Import هامش ثابت لكل كيلوواط ساعة"
+            "ar": "Import هامش ثابت لكل كيلوواط ساعة",
+            "ko": "kWh당 수전(수입) 고정 마크업"
           },
           "value": 0,
           "hint": {
@@ -514,7 +552,8 @@
             "da": "Angiv den faste beløb som importprisen skal øges med per kWh, inkl. Moms f.eks. for indkøbsafgift.",
             "pl": "Wprowadź stałą kwotę, o którą cena importu musi zostać zwiększona za kWh, w tym VAT. Np. opłata za zakup.",
             "ru": "Введите фиксированную сумму, на которую должна быть увеличена цена импорта за кВтч, вкл. НДС. Например, сбор за покупку.",
-            "ar": "أدخل المبلغ الثابت الذي يجب زيادة سعر الاستيراد به لكل كيلوواط ساعة، شاملاً ضريبة القيمة المضافة. على سبيل المثال لرسوم الشراء."
+            "ar": "أدخل المبلغ الثابت الذي يجب زيادة سعر الاستيراد به لكل كيلوواط ساعة، شاملاً ضريبة القيمة المضافة. على سبيل المثال لرسوم الشراء.",
+            "ko": "부가세 포함, kWh당 수전(수입) 가격에 인상할 고정 금액을 입력하세요. 예: 구매 수수료."
           }
         },
         {
@@ -532,7 +571,8 @@
             "da": "Import Ekstra tidspunkt på dagen-tillæg",
             "pl": "Import Dodatkowy narzut w zależności od pory dnia",
             "ru": "Import Дополнительная наценка по времени суток",
-            "ar": "Import هامش إضافي لوقت اليوم"
+            "ar": "Import هامش إضافي لوقت اليوم",
+            "ko": "수전(수입) 시간대별 추가 마크업"
           },
           "value": "",
           "hint": {
@@ -547,7 +587,8 @@
             "da": "Angiv beløbet, som importprisen skal øges med per kWh på visse tidspunkter i døgnet. Udfyld time1:markering1;time2:markering2 osv.",
             "pl": "Wprowadź kwotę, o którą cena importu musi zostać dodatkowo zwiększona za kWh w określonych godzinach dnia. Wypełnij godzina1:narzut1;godzina2:narzut2 itd.",
             "ru": "Введите сумму, на которую цена импорта должна быть дополнительно увеличена за кВтч в определенные часы дня. Заполните час1:наценка1;час2:наценка2 и т.д.",
-            "ar": "أدخل المبلغ الذي يجب زيادة سعر الاستيراد به بشكل إضافي لكل كيلوواط ساعة في ساعات معينة من اليوم. املأ ساعة1:هامش1;ساعة2:هامش2 إلخ."
+            "ar": "أدخل المبلغ الذي يجب زيادة سعر الاستيراد به بشكل إضافي لكل كيلوواط ساعة في ساعات معينة من اليوم. املأ ساعة1:هامش1;ساعة2:هامش2 إلخ.",
+            "ko": "하루 중 특정 시간대에 kWh당 수전(수입) 가격에 추가로 인상할 금액을 입력하세요. hour1:markup1;hour2:markup2 형식으로 입력합니다. 예: 오전 6시부터 마크업 0.3, 오후 10시부터 마크업 0.1이면 다음과 같이 입력: 6:0.3;22:0.1"
           }
         },
         {
@@ -565,7 +606,8 @@
             "da": "Import Ekstra weekendtillæg",
             "pl": "Import Dodatkowy narzut weekendowy",
             "ru": "Import Дополнительная наценка на выходные",
-            "ar": "Import هامش إضافي لعطلة نهاية الأسبوع"
+            "ar": "Import هامش إضافي لعطلة نهاية الأسبوع",
+            "ko": "수전(수입) 주말 추가 마크업"
           },
           "value": 0,
           "hint": {
@@ -580,7 +622,8 @@
             "da": "Angiv beløbet, som importprisen skal øges ekstra pr. kWh i løbet af hele weekenden (lørdag-søndag).",
             "pl": "Wprowadź kwotę, o którą cena importu musi zostać dodatkowo zwiększona za kWh przez cały weekend (sobota - niedziela).",
             "ru": "Введите сумму, на которую цена импорта должна быть дополнительно увеличена за кВтч в течение всех выходных (суббота - воскресенье).",
-            "ar": "أدخل المبلغ الذي يجب زيادة سعر الاستيراد به بشكل إضافي لكل كيلوواط ساعة خلال عطلة نهاية الأسبوع بأكملها (السبت - الأحد)."
+            "ar": "أدخل المبلغ الذي يجب زيادة سعر الاستيراد به بشكل إضافي لكل كيلوواط ساعة خلال عطلة نهاية الأسبوع بأكملها (السبت - الأحد).",
+            "ko": "주말 전체(토요일-일요일) 동안 kWh당 수전(수입) 가격에 추가로 인상할 금액을 입력하세요. 참고: 이 마크업은 시간대별 마크업을 대체합니다!"
           }
         }
       ]
@@ -599,7 +642,8 @@
         "da": "Eksportprisindstillinger",
         "pl": "Ustawienia cen eksportu",
         "ru": "Настройки цен экспорта",
-        "ar": "إعدادات سعر التصدير"
+        "ar": "إعدادات سعر التصدير",
+        "ko": "송전(수출) 가격 설정"
       },
       "children": [
         {
@@ -617,7 +661,8 @@
             "da": "Ignorer markedspris (Kun fast pris)",
             "pl": "Ignoruj cenę rynkową (Tylko stała cena)",
             "ru": "Игнорировать рыночную цену (Только фиксированная цена)",
-            "ar": "تجاهل سعر السوق (سعر ثابت فقط)"
+            "ar": "تجاهل سعر السوق (سعر ثابت فقط)",
+            "ko": "시장 가격 무시 (고정 가격만 사용)"
           },
           "value": false,
           "hint": {
@@ -632,7 +677,8 @@
             "da": "Marker dette, hvis du har en fastprisaftale. Markedspriserne og %-tillæg ignoreres. Kun de faste tillæg nedenfor vil blive brugt til at beregne eksportprisen.",
             "pl": "Zaznacz, jeśli masz umowę o stałej cenie. Ceny rynkowe i narzuty % zostaną zignorowane. Zostaną użyte tylko poniższe stałe narzuty do obliczenia ceny eksportu.",
             "ru": "Отметьте это, если у вас контракт с фиксированной ценой. Рыночные цены и % наценки будут проигнорированы. Для расчета цены экспорта будут использоваться только фиксированные наценки.",
-            "ar": "حدد هذا إذا كان لديك عقد بسعر ثابت. سيتم تجاهل أسعار السوق والنسب المئوية. سيتم استخدام الهوامش الثابتة فقط أدناه لحساب سعر التصدير."
+            "ar": "حدد هذا إذا كان لديك عقد بسعر ثابت. سيتم تجاهل أسعار السوق والنسب المئوية. سيتم استخدام الهوامش الثابتة فقط أدناه لحساب سعر التصدير.",
+            "ko": "고정가 계약인 경우 이 옵션을 선택하세요. 시장 가격과 % 마크업은 무시됩니다. 아래의 고정 마크업만 송전(수출) 가격 계산에 사용됩니다."
           }
         },
         {
@@ -650,7 +696,8 @@
             "da": "Export Variabelt gebyr (%)",
             "pl": "Export Narzut zmienny (%)",
             "ru": "Export Переменная наценка (%)",
-            "ar": "Export هامش متغير (%)"
+            "ar": "Export هامش متغير (%)",
+            "ko": "송전(수출) 변동 마크업 (%)"
           },
           "value": 0,
           "hint": {
@@ -665,7 +712,8 @@
             "da": "Angiv procenten som nettoeksportprisen skal ændres med.",
             "pl": "Wprowadź procent, o jaki cena netto eksportu musi zostać zmodyfikowana.",
             "ru": "Введите процент, на который должна быть изменена чистая цена экспорта.",
-            "ar": "أدخل النسبة المئوية التي يجب تعديل صافي سعر التصدير بها."
+            "ar": "أدخل النسبة المئوية التي يجب تعديل صافي سعر التصدير بها.",
+            "ko": "순 송전(수출) 가격에 적용할 백분율을 입력하세요."
           }
         },
         {
@@ -683,7 +731,8 @@
             "da": "Export Variabelt gebyr (%) @abs.pris",
             "pl": "Export Narzut zmienny (%) @cena bezwzgl.",
             "ru": "Export Переменная наценка (%) @абс. цена",
-            "ar": "Export هامش متغير (%) @السعر المطلق"
+            "ar": "Export هامش متغير (%) @السعر المطلق",
+            "ko": "송전(수출) 변동 마크업 (%) @절대 가격"
           },
           "value": 0,
           "hint": {
@@ -698,7 +747,8 @@
             "da": "Indtast den procentsats, som |nettoeksportprisen| skal ændres med. Denne avance er altid positiv, selv for negative markedspriser.",
             "pl": "Wprowadź procent, o jaki |cena netto eksportu| musi zostać zmodyfikowana. Ten narzut jest zawsze dodatni, nawet dla ujemnych cen rynkowych.",
             "ru": "Введите процент, на который должна быть изменена |чистая цена экспорта|. Эта наценка всегда положительна, даже при отрицательных рыночных ценах.",
-            "ar": "أدخل النسبة المئوية التي يجب تعديل |صافي سعر التصدير| بها. هذا الهامش دائمًا إيجابي، حتى بالنسبة لأسعار السوق السلبية."
+            "ar": "أدخل النسبة المئوية التي يجب تعديل |صافي سعر التصدير| بها. هذا الهامش دائمًا إيجابي، حتى بالنسبة لأسعار السوق السلبية.",
+            "ko": "|순 송전(수출) 가격|에 적용할 백분율을 입력하세요. 이 마크업은 시장 가격이 마이너스여도 항상 양수로 적용됩니다."
           }
         },
         {
@@ -716,7 +766,8 @@
             "da": "Export Fast gebyr per kWh",
             "pl": "Export Stały narzut na kWh",
             "ru": "Export Фиксированная наценка за кВтч",
-            "ar": "Export هامش ثابت لكل كيلوواط ساعة"
+            "ar": "Export هامش ثابت لكل كيلوواط ساعة",
+            "ko": "kWh당 송전(수출) 고정 마크업"
           },
           "value": 0,
           "hint": {
@@ -731,7 +782,8 @@
             "da": "Angiv den faste beløb som eksportprisen skal ændres med per kWh, inkl. Moms.",
             "pl": "Wprowadź stałą kwotę, o którą cena eksportu musi zostać zmodyfikowana za kWh, w tym VAT.",
             "ru": "Введите фиксированную сумму, на которую должна быть изменена цена экспорта за кВтч, вкл. НДС.",
-            "ar": "أدخل المبلغ الثابت الذي يجب تعديل سعر التصدير به لكل كيلوواط ساعة، شاملاً ضريبة القيمة المضافة."
+            "ar": "أدخل المبلغ الثابت الذي يجب تعديل سعر التصدير به لكل كيلوواط ساعة، شاملاً ضريبة القيمة المضافة.",
+            "ko": "부가세 포함, kWh당 송전(수출) 가격에 적용할 고정 금액을 입력하세요."
           }
         },
         {
@@ -749,7 +801,8 @@
             "da": "Export Ekstra tidspunkt på dagen-tillæg",
             "pl": "Export Dodatkowy narzut w zależności od pory dnia",
             "ru": "Export Дополнительная наценка по времени суток",
-            "ar": "Export هامش إضافي لوقت اليوم"
+            "ar": "Export هامش إضافي لوقت اليوم",
+            "ko": "송전(수출) 시간대별 추가 마크업"
           },
           "value": "",
           "hint": {
@@ -764,7 +817,8 @@
             "da": "Angiv beløbet, som eksportprisen skal ændres med per kWh på visse tidspunkter i døgnet. Udfyld time1:markering1;time2:markering2 osv.",
             "pl": "Wprowadź kwotę, o którą cena eksportu musi zostać dodatkowo zmodyfikowana za kWh w określonych godzinach dnia. Wypełnij godzina1:narzut1;godzina2:narzut2 itd.",
             "ru": "Введите сумму, на которую цена экспорта должна быть дополнительно изменена за кВтч в определенные часы дня. Заполните час1:наценка1;час2:наценка2 и т.д.",
-            "ar": "أدخل المبلغ الذي يجب تعديل سعر التصدير به بشكل إضافي لكل كيلوواط ساعة في ساعات معينة من اليوم. املأ ساعة1:هامش1;ساعة2:هامش2 إلخ."
+            "ar": "أدخل المبلغ الذي يجب تعديل سعر التصدير به بشكل إضافي لكل كيلوواط ساعة في ساعات معينة من اليوم. املأ ساعة1:هامش1;ساعة2:هامش2 إلخ.",
+            "ko": "하루 중 특정 시간대에 kWh당 송전(수출) 가격에 추가로 적용할 금액을 입력하세요. hour1:markup1;hour2:markup2 형식으로 입력합니다. 예: 오전 6시부터 마크업 0.3, 오후 10시부터 마크업 0.1이면 다음과 같이 입력: 6:0.3;22:0.1"
           }
         },
         {
@@ -782,7 +836,8 @@
             "da": "Export Ekstra weekendtillæg",
             "pl": "Export Dodatkowy narzut weekendowy",
             "ru": "Export Дополнительная наценка на выходные",
-            "ar": "Export هامش إضافي لعطلة نهاية الأسبوع"
+            "ar": "Export هامش إضافي لعطلة نهاية الأسبوع",
+            "ko": "송전(수출) 주말 추가 마크업"
           },
           "value": 0,
           "hint": {
@@ -797,7 +852,8 @@
             "da": "Angiv beløbet, som eksportprisen skal ændres ekstra pr. kWh i løbet af hele weekenden (lørdag-søndag).",
             "pl": "Wprowadź kwotę, o którą cena eksportu musi zostać dodatkowo zmodyfikowana za kWh przez cały weekend (sobota - niedziela).",
             "ru": "Введите сумму, на которую цена экспорта должна быть дополнительно изменена за кВтч в течение всех выходных (суббота - воскресенье).",
-            "ar": "أدخل المبلغ الذي يجب تعديل سعر التصدير به بشكل إضافي لكل كيلوواط ساعة خلال عطلة نهاية الأسبوع بأكملها (السبت - الأحد)."
+            "ar": "أدخل المبلغ الذي يجب تعديل سعر التصدير به بشكل إضافي لكل كيلوواط ساعة خلال عطلة نهاية الأسبوع بأكملها (السبت - الأحد).",
+            "ko": "주말 전체(토요일-일요일) 동안 kWh당 송전(수출) 가격에 추가로 적용할 금액을 입력하세요. 참고: 이 마크업은 시간대별 마크업을 대체합니다!"
           }
         },
         {
@@ -815,7 +871,8 @@
             "da": "Vis eksportpris i diagram",
             "pl": "Pokaż cenę eksportu na wykresie",
             "ru": "Показать экспортную цену на графике",
-            "ar": "إظهار سعر التصدير في الرسم البياني"
+            "ar": "إظهار سعر التصدير في الرسم البياني",
+            "ko": "차트에 송전(수출) 가격 표시"
           },
           "value": false,
           "hint": {
@@ -830,7 +887,8 @@
             "da": "Sæt kryds for at vise eksportprisen som en linje i prisdiagrammerne.",
             "pl": "Zaznacz, aby wyświetlić cenę eksportu jako linię na wykresach cen.",
             "ru": "Отметьте, чтобы отображать экспортную цену в виде линии на графиках цен.",
-            "ar": "حدد هذا لعرض سعر التصدير كخط في الرسوم البيانية للأسعار."
+            "ar": "حدد هذا لعرض سعر التصدير كخط في الرسوم البيانية للأسعار.",
+            "ko": "송전(수출) 가격을 가격 차트에 선으로 표시하려면 선택하세요."
           }
         }
       ]
@@ -849,7 +907,8 @@
         "da": "Diverse indstillinger",
         "pl": "Różne ustawienia",
         "ru": "Различные настройки",
-        "ar": "إعدادات مختلفة"
+        "ar": "إعدادات مختلفة",
+        "ko": "기타 설정"
       },
       "children": [
         {
@@ -907,27 +966,27 @@
             },
             {
               "id": "OMIE",
-              "label": { "en": "OMIE (Spain/Portugal)" }
+              "label": { "en": "OMIE (Spain/Portugal)", "ko": "OMIE (Spain/Portugal)" }
             },
             {
               "id": "ENTSOE_GRUIJTER",
-              "label": { "en": "ENTSOE Gruijter" }
+              "label": { "en": "ENTSOE Gruijter", "ko": "ENTSOE Gruijter" }
             },
             {
               "id": "SMARD",
-              "label": { "en": "SMARD (Bundesnetzagentur)" }
+              "label": { "en": "SMARD (Bundesnetzagentur)", "ko": "SMARD (Bundesnetzagentur)" }
             },
             {
               "id": "Nordpool",
-              "label": { "en": "Nordpool" }
+              "label": { "en": "Nordpool", "ko": "Nordpool" }
             },
             {
               "id": "ENTSOE",
-              "label": { "en": "ENTSOE" }
+              "label": { "en": "ENTSOE", "ko": "ENTSOE" }
             },
             {
               "id": "Stekker",
-              "label": { "en": "Stekker" }
+              "label": { "en": "Stekker", "ko": "Stekker" }
             }
           ]
         },
@@ -981,7 +1040,8 @@
             "da": "Aktiver prisprognoser",
             "pl": "Włącz prognozy cen",
             "ru": "Включить прогноз цен",
-            "ar": "تمكين أسعار التوقعات"
+            "ar": "تمكين أسعار التوقعات",
+            "ko": "가격 예측 활성화"
           },
           "hint": {
             "en": "Add AI pricing forecast (when available).",
@@ -995,7 +1055,8 @@
             "da": "Tilføj AI-prisprognose (hvis tilgængelig).",
             "pl": "Dodaj prognozę cen AI (jeśli dostępna).",
             "ru": "Добавить прогноз цен ИИ (при наличии).",
-            "ar": "أضف توقعات أسعار الذكاء الاصطناعي (عند توفرها)."
+            "ar": "أضف توقعات أسعار الذكاء الاصطناعي (عند توفرها).",
+            "ko": "AI 가격 예측을 추가합니다 (사용 가능한 경우)."
           },
           "value": false
         },
@@ -1014,7 +1075,8 @@
             "da": "Send gebyr til gruppe",
             "pl": "Wyślij taryfę do grupy",
             "ru": "Отправить тариф в группу",
-            "ar": "إرسال التعريفة إلى المجموعة"
+            "ar": "إرسال التعريفة إلى المجموعة",
+            "ko": "그룹에 요금 전송"
           },
           "min": 0,
           "max": 10,
@@ -1032,7 +1094,8 @@
             "da": "Prisen per kWh bliver sendt som tarif til PBTH-enheder, uden brug af flows.",
             "pl": "Co godzinę cena za kWh będzie wysyłana jako taryfa dla urządzeń PBTH, bez konieczności tworzenia przepływu.",
             "ru": "Каждый час цена за кВтч будет отправляться в качестве тарифа для устройств PBTH, без необходимости создавать поток.",
-            "ar": "كل ساعة سيتم إرسال السعر لكل كيلوواط ساعة كتعريفة لأجهزة PBTH، دون الحاجة إلى إنشاء تدفق."
+            "ar": "كل ساعة سيتم إرسال السعر لكل كيلوواط ساعة كتعريفة لأجهزة PBTH، دون الحاجة إلى إنشاء تدفق.",
+            "ko": "매시간 kWh당 가격이 flow를 만들 필요 없이 PBTH 장치의 요금으로 전송됩니다."
           }
         }
       ]

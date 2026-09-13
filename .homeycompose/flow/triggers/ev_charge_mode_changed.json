@@ -2,16 +2,19 @@
   "title": {
     "en": "EV charge mode changed",
     "nl": "EV laadmodus veranderd",
-    "de": "EV Lademodus geändert"
+    "de": "EV Lademodus geändert",
+    "ko": "EV 충전 모드 변경됨"
   },
   "titleFormatted": {
     "en": "EV charge mode changed to [[mode]]",
     "nl": "EV laadmodus veranderd naar [[mode]]",
-    "de": "EV Lademodus geändert zu [[mode]]"
+    "de": "EV Lademodus geändert zu [[mode]]",
+    "ko": "EV 충전 모드가 [[mode]](으)로 변경됨"
   },
   "hint": {
     "en": "Triggers when the EV charge mode is updated via device UI or flow action.",
-    "nl": "Triggert wanneer de EV laadmodus wordt aangepast via de UI of flow."
+    "nl": "Triggert wanneer de EV laadmodus wordt aangepast via de UI of flow.",
+    "ko": "장치 UI 또는 flow 작업을 통해 EV 충전 모드가 업데이트되면 트리거됩니다."
   },
   "args": [
     {
@@ -27,7 +30,8 @@
       "title": {
         "en": "Charge Mode",
         "nl": "Laadmodus",
-        "de": "Lademodus"
+        "de": "Lademodus",
+        "ko": "충전 모드"
       }
     }
   ]

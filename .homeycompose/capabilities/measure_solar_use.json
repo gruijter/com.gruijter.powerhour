@@ -1,14 +1,16 @@
 {
   "type": "number",
   "title": {
-    "en": "Own usage"
+    "en": "Own usage",
+    "ko": "자체 사용량"
   },
   "uiComponent": "sensor",
   "getable": true,
   "setable": false,
   "insights": true,
   "units": {
-    "en": "%"
+    "en": "%",
+    "ko": "%"
   },
   "decimals": 0,
   "icon": "/assets/solar_use.svg"

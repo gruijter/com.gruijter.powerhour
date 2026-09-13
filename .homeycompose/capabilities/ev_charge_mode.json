@@ -12,7 +12,8 @@
     "da": "Opladningstilstand",
     "pl": "Tryb ładowania",
     "ru": "Режим зарядки",
-    "ar": "وضع الشحن"
+    "ar": "وضع الشحن",
+    "ko": "충전 모드"
   },
   "uiComponent": "picker",
   "getable": true,
@@ -24,7 +25,8 @@
         "en": "Scheduled Price Slots",
         "nl": "Geplande Prijsuren",
         "de": "Geplante Preis-Slots",
-        "fr": "Créneaux de prix programmés"
+        "fr": "Créneaux de prix programmés",
+        "ko": "예약된 가격 구간"
       }
     },
     {
@@ -33,7 +35,8 @@
         "en": "Solar Surplus Only",
         "nl": "Alleen Zonne-overschot",
         "de": "Nur Solarüberschuss",
-        "fr": "Surplus solaire uniquement"
+        "fr": "Surplus solaire uniquement",
+        "ko": "태양광 잉여만"
       }
     },
     {
@@ -42,7 +45,8 @@
         "en": "Solar + Price Slots",
         "nl": "Zonne-overschot + Prijsuren",
         "de": "Solar + Preis-Slots",
-        "fr": "Solaire + Créneaux de prix"
+        "fr": "Solaire + Créneaux de prix",
+        "ko": "태양광 + 가격 구간"
       }
     },
     {
@@ -51,7 +55,8 @@
         "en": "Fast Charge",
         "nl": "Snelladen",
         "de": "Schnellladen",
-        "fr": "Charge rapide"
+        "fr": "Charge rapide",
+        "ko": "급속 충전"
       }
     },
     {
@@ -60,7 +65,8 @@
         "en": "Off",
         "nl": "Uit",
         "de": "Aus",
-        "fr": "Désactivé"
+        "fr": "Désactivé",
+        "ko": "끄기"
       }
     }
   ]

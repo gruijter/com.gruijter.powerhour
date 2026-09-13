@@ -2,16 +2,19 @@
   "title": {
     "en": "EV charge mode is !",
     "nl": "EV laadmodus is !",
-    "de": "EV Lademodus ist !"
+    "de": "EV Lademodus ist !",
+    "ko": "EV 충전 모드가 !"
   },
   "titleFormatted": {
     "en": "EV charge mode is [[mode]]",
     "nl": "EV laadmodus is [[mode]]",
-    "de": "EV Lademodus ist [[mode]]"
+    "de": "EV Lademodus ist [[mode]]",
+    "ko": "EV 충전 모드가 [[mode]]"
   },
   "hint": {
     "en": "Checks if the current EV charge mode matches the selected mode.",
-    "nl": "Controleert of de huidige EV laadmodus overeenkomt met de geselecteerde modus."
+    "nl": "Controleert of de huidige EV laadmodus overeenkomt met de geselecteerde modus.",
+    "ko": "현재 EV 충전 모드가 선택한 모드와 일치하는지 확인합니다."
   },
   "args": [
     {
@@ -25,7 +28,8 @@
       "title": {
         "en": "Mode",
         "nl": "Modus",
-        "de": "Modus"
+        "de": "Modus",
+        "ko": "모드"
       },
       "values": [
         {
@@ -33,7 +37,8 @@
           "label": {
             "en": "Scheduled Price Slots",
             "nl": "Geplande Prijsuren",
-            "de": "Geplante Preis-Slots"
+            "de": "Geplante Preis-Slots",
+            "ko": "예약된 가격 구간"
           }
         },
         {
@@ -41,7 +46,8 @@
           "label": {
             "en": "Solar Surplus Only",
             "nl": "Alleen Zonne-overschot",
-            "de": "Nur Solarüberschuss"
+            "de": "Nur Solarüberschuss",
+            "ko": "태양광 잉여만"
           }
         },
         {
@@ -49,7 +55,8 @@
           "label": {
             "en": "Solar + Price Slots",
             "nl": "Zonne-overschot + Prijsuren",
-            "de": "Solar + Preis-Slots"
+            "de": "Solar + Preis-Slots",
+            "ko": "태양광 + 가격 구간"
           }
         },
         {
@@ -57,7 +64,8 @@
           "label": {
             "en": "Fast Charge",
             "nl": "Snelladen",
-            "de": "Schnellladen"
+            "de": "Schnellladen",
+            "ko": "급속 충전"
           }
         },
         {
@@ -65,7 +73,8 @@
           "label": {
             "en": "Off",
             "nl": "Uit",
-            "de": "Aus"
+            "de": "Aus",
+            "ko": "끄기"
           }
         }
       ]

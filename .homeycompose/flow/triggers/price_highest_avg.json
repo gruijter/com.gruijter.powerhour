@@ -112,7 +112,8 @@
         "ar": "الساعات القادمة"
       },
       "placeholder": {
-        "en": "2 - 96"
+        "en": "2 - 96",
+        "ko": "2 - 96"
       },
       "hint": {
         "en": "Enter the number of hours.",

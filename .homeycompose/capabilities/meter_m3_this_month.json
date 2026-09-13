@@ -21,7 +21,8 @@
   "setable": false,
   "insights": true,
   "units": {
-    "en": "m³"
+    "en": "m³",
+    "ko": "m³"
   },
   "decimals": 4
 }

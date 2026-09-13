@@ -40,7 +40,8 @@
       "type": "number",
       "name": "percent",
       "title": {
-        "en": "%"
+        "en": "%",
+        "ko": "%"
       },
       "min": 0
     },

@@ -5,7 +5,8 @@
   "brandColor": "#df5020",
   "sdk": 3,
   "name": {
-    "en": "Power by the Hour"
+    "en": "Power by the Hour",
+    "ko": "Power by the Hour"
   },
   "description": {
     "en": "Summarize the energy/water usage or (solar) production per hour, day, month and year. Use dynamic tariffs.",
@@ -19,7 +20,8 @@
     "es": "Resuma el uso de energía/agua o la producción (solar) por hora, día, mes y año. Utilice tarifas dinámicas.",
     "pl": "Podsumuj zużycie energii/wody lub produkcję (słoneczną) na godzinę, dzień, miesiąc i rok. Korzystaj z dynamicznych taryf.",
     "ru": "Сводка потребления энергии/воды или (солнечной) генерации за час, день, месяц и год. Используйте динамические тарифы.",
-    "ar": "تلخيص استهلاك الطاقة/المياه أو الإنتاج (الشمسي) في الساعة واليوم والشهر والسنة. استخدم التعريفات الديناميكية."
+    "ar": "تلخيص استهلاك الطاقة/المياه أو الإنتاج (الشمسي) في الساعة واليوم والشهر والسنة. استخدم التعريفات الديناميكية.",
+    "ko": "시간, 일, 월, 연 단위로 에너지/수도 사용량 또는 (태양광) 생산량을 집계합니다. 동적 요금제를 사용하세요."
   },
   "category": "energy",
   "tags": {

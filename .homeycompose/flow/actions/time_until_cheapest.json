@@ -70,7 +70,8 @@
         "ar": "مدة الفترة"
       },
       "placeholder": {
-        "en": "1-96"
+        "en": "1-96",
+        "ko": "1-96"
       },
       "hint": {
         "en": "Enter the window length in periods (hours for hourly pricing, quarters for 15m pricing).",

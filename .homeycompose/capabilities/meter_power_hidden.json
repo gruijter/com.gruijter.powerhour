@@ -17,7 +17,8 @@
     },
     "decimals": 4,
     "units": {
-      "en": "kWh"
+      "en": "kWh",
+      "ko": "kWh"
     },
     "insights": true,
     "getable": true,

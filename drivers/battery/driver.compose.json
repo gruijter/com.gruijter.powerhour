@@ -11,7 +11,8 @@
     "da": "Hjemmebatteri Monitor",
     "pl": "Monitor baterii domowej",
     "ru": "Монитор домашней батареи",
-    "ar": "مراقب بطارية المنزل"
+    "ar": "مراقب بطارية المنزل",
+    "ko": "가정용 배터리 모니터"
   },
   "class": "other",
   "capabilities": [],
@@ -19,43 +20,50 @@
     "meter_tariff": {
       "decimals": 2,
       "units": {
-        "en": "€"
+        "en": "€",
+        "ko": "€"
       }
     },
     "meter_money_this_day": {
       "decimals": 2,
       "units": {
-        "en": "€"
+        "en": "€",
+        "ko": "€"
       }
     },
     "meter_money_last_day": {
       "decimals": 2,
       "units": {
-        "en": "€"
+        "en": "€",
+        "ko": "€"
       }
     },
     "meter_money_this_month": {
       "decimals": 2,
       "units": {
-        "en": "€"
+        "en": "€",
+        "ko": "€"
       }
     },
     "meter_money_last_month": {
       "decimals": 2,
       "units": {
-        "en": "€"
+        "en": "€",
+        "ko": "€"
       }
     },
     "meter_money_this_year": {
       "decimals": 2,
       "units": {
-        "en": "€"
+        "en": "€",
+        "ko": "€"
       }
     },
     "meter_money_last_year": {
       "decimals": 2,
       "units": {
-        "en": "€"
+        "en": "€",
+        "ko": "€"
       }
     }
   },
@@ -124,7 +132,8 @@
         "da": "Homey kildeenhedsinformation",
         "pl": "Informacje o urządzeniu źródłowym Homey",
         "ru": "Информация об исходном устройстве Homey",
-        "ar": "معلومات جهاز مصدر Homey"
+        "ar": "معلومات جهاز مصدر Homey",
+        "ko": "Homey 소스 장치 정보"
       },
       "children": [
         {
@@ -142,7 +151,8 @@
             "da": "Enheds-ID",
             "pl": "ID urządzenia",
             "ru": "ID устройства",
-            "ar": "معرف الجهاز"
+            "ar": "معرف الجهاز",
+            "ko": "장치 ID"
           },
           "value": "unknown"
         },
@@ -161,7 +171,8 @@
             "da": "Enhedsnavn",
             "pl": "Nazwa urządzenia",
             "ru": "Имя устройства",
-            "ar": "اسم الجهاز"
+            "ar": "اسم الجهاز",
+            "ko": "장치 이름"
           },
           "value": "unknown"
         }
@@ -181,7 +192,8 @@
         "da": "Batteriegenskaber",
         "pl": "Właściwości baterii",
         "ru": "Свойства батареи",
-        "ar": "خصائص البطارية"
+        "ar": "خصائص البطارية",
+        "ko": "배터리 속성"
       },
       "children": [
         {
@@ -199,7 +211,8 @@
             "da": "Kapacitet (kWh)",
             "pl": "Pojemność (kWh)",
             "ru": "Емкость (кВтч)",
-            "ar": "السعة (كيلوواط ساعة)"
+            "ar": "السعة (كيلوواط ساعة)",
+            "ko": "용량 (kWh)"
           },
           "value": 5.05,
           "decimals": 2,
@@ -215,7 +228,8 @@
             "da": "Samlet lagerkapacitet i kWh.",
             "pl": "Całkowita pojemność magazynowa w kWh.",
             "ru": "Общая емкость хранения в кВтч.",
-            "ar": "إجمالي سعة التخزين بالكيلوواط ساعة."
+            "ar": "إجمالي سعة التخزين بالكيلوواط ساعة.",
+            "ko": "총 저장 용량(kWh)입니다."
           }
         },
         {
@@ -233,7 +247,8 @@
             "da": "Eget forbrug ved tomgang (W)",
             "pl": "Własne zużycie w stanie spoczynku (W)",
             "ru": "Собственное потребление в режиме ожидания (Вт)",
-            "ar": "الاستهلاك الذاتي عند الخمول (واط)"
+            "ar": "الاستهلاك الذاتي عند الخمول (واط)",
+            "ko": "대기 시 자체 사용량 (W)"
           },
           "value": 2.5,
           "min": 0,
@@ -250,7 +265,8 @@
             "da": "Eget strømforbrug ikke rapporteret af batteriet.",
             "pl": "Własne zużycie energii nie zgłaszane przez baterię.",
             "ru": "Собственное энергопотребление, не сообщаемое батареей.",
-            "ar": "استهلاك الطاقة الخاص لا يتم الإبلاغ عنه بواسطة البطارية."
+            "ar": "استهلاك الطاقة الخاص لا يتم الإبلاغ عنه بواسطة البطارية.",
+            "ko": "배터리가 보고하지 않는 자체 전력 사용량입니다."
           }
         }
       ]
@@ -269,7 +285,8 @@
         "da": "Maksimale effektværdier",
         "pl": "Maksymalne wartości mocy",
         "ru": "Максимальные значения мощности",
-        "ar": "قيم الطاقة القصوى"
+        "ar": "قيم الطاقة القصوى",
+        "ko": "최대 전력 값"
       },
       "children": [
         {
@@ -287,7 +304,8 @@
             "da": "Maks. ladeeffekt (W)",
             "pl": "Maks. moc ładowania (W)",
             "ru": "Макс. мощность зарядки (Вт)",
-            "ar": "الحد الأقصى لطاقة الشحن (واط)"
+            "ar": "الحد الأقصى لطاقة الشحن (واط)",
+            "ko": "최대 충전 전력 (W)"
           },
           "value": 2200,
           "min": 0,
@@ -304,7 +322,8 @@
             "da": "Den maksimale effekt, hvormed batteriet kan oplades.",
             "pl": "Maksymalna moc, z jaką można ładować baterię.",
             "ru": "Максимальная мощность, при которой батарея может заряжаться.",
-            "ar": "الحد الأقصى للطاقة التي يمكن شحن البطارية بها."
+            "ar": "الحد الأقصى للطاقة التي يمكن شحن البطارية بها.",
+            "ko": "배터리를 충전할 수 있는 최대 전력입니다."
           }
         },
         {
@@ -322,7 +341,8 @@
             "da": "Maks. ladetab (%)",
             "pl": "Maks. strata ładowania (%)",
             "ru": "Макс. потеря зарядки (%)",
-            "ar": "الحد الأقصى لفقد الشحن (%)"
+            "ar": "الحد الأقصى لفقد الشحن (%)",
+            "ko": "최대 충전 손실 (%)"
           },
           "min": 0,
           "max": 30,
@@ -340,7 +360,8 @@
             "da": "Konverteringstab.",
             "pl": "Strata konwersji.",
             "ru": "Потеря преобразования.",
-            "ar": "خسارة التحويل."
+            "ar": "خسارة التحويل.",
+            "ko": "변환 손실."
           }
         },
         {
@@ -358,7 +379,8 @@
             "da": "Maks. afladningseffekt (W)",
             "pl": "Maks. moc rozładowania (W)",
             "ru": "Макс. мощность разрядки (Вт)",
-            "ar": "الحد الأقصى لطاقة التفريغ (واط)"
+            "ar": "الحد الأقصى لطاقة التفريغ (واط)",
+            "ko": "최대 방전 전력 (W)"
           },
           "value": 1700,
           "min": 0,
@@ -375,7 +397,8 @@
             "da": "Den maksimale effekt, hvormed batteriet kan aflades.",
             "pl": "Maksymalna moc, z jaką można rozładować baterię.",
             "ru": "Максимальная мощность, при которой батарея может разряжаться.",
-            "ar": "الحد الأقصى للطاقة التي يمكن تفريغ البطارية بها."
+            "ar": "الحد الأقصى للطاقة التي يمكن تفريغ البطارية بها.",
+            "ko": "배터리를 방전할 수 있는 최대 전력입니다."
           }
         },
         {
@@ -393,7 +416,8 @@
             "da": "Maks. afladningstab (%)",
             "pl": "Maks. strata rozładowania (%)",
             "ru": "Макс. потеря разрядки (%)",
-            "ar": "الحد الأقصى لفقد التفريغ (%)"
+            "ar": "الحد الأقصى لفقد التفريغ (%)",
+            "ko": "최대 방전 손실 (%)"
           },
           "min": 0,
           "max": 30,
@@ -411,7 +435,8 @@
             "da": "Konverteringstab.",
             "pl": "Strata konwersji.",
             "ru": "Потеря преобразования.",
-            "ar": "خسارة التحويل."
+            "ar": "خسارة التحويل.",
+            "ko": "변환 손실."
           }
         }
       ]
@@ -430,7 +455,8 @@
         "da": "Effektive effektværdier",
         "pl": "Efektywne wartości mocy",
         "ru": "Эффективные значения мощности",
-        "ar": "قيم الطاقة الفعالة"
+        "ar": "قيم الطاقة الفعالة",
+        "ko": "효율적 전력 값"
       },
       "children": [
         {
@@ -448,7 +474,8 @@
             "da": "Eff. ladeeffekt (W)",
             "pl": "Ef. moc ładowania (W)",
             "ru": "Эфф. мощность зарядки (Вт)",
-            "ar": "طاقة الشحن الفعالة (واط)"
+            "ar": "طاقة الشحن الفعالة (واط)",
+            "ko": "효율적 충전 전력 (W)"
           },
           "value": 1050,
           "min": 0,
@@ -465,7 +492,8 @@
             "da": "Den mest effektive effekt, hvormed batteriet kan oplades. Indstil til 0 for at ignorere denne indstilling.",
             "pl": "Najbardziej efektywna moc, z jaką można ładować baterię. Ustaw na 0, aby zignorować to ustawienie.",
             "ru": "Наиболее эффективная мощность, при которой батарея может заряжаться. Установите 0, чтобы игнорировать этот параметр.",
-            "ar": "الطاقة الأكثر كفاءة التي يمكن شحن البطارية بها. قم بالتعيين على 0 لتجاهل هذا الإعداد."
+            "ar": "الطاقة الأكثر كفاءة التي يمكن شحن البطارية بها. قم بالتعيين على 0 لتجاهل هذا الإعداد.",
+            "ko": "배터리를 가장 효율적으로 충전할 수 있는 전력입니다. 이 설정을 무시하려면 0으로 설정하세요."
           }
         },
         {
@@ -483,7 +511,8 @@
             "da": "Eff. ladetab (%)",
             "pl": "Ef. strata ładowania (%)",
             "ru": "Эфф. потеря зарядки (%)",
-            "ar": "فقد الشحن الفعال (%)"
+            "ar": "فقد الشحن الفعال (%)",
+            "ko": "효율적 충전 손실 (%)"
           },
           "min": 0,
           "max": 30,
@@ -501,7 +530,8 @@
             "da": "Konverteringstab.",
             "pl": "Strata konwersji.",
             "ru": "Потеря преобразования.",
-            "ar": "خسارة التحويل."
+            "ar": "خسارة التحويل.",
+            "ko": "변환 손실."
           }
         },
         {
@@ -519,7 +549,8 @@
             "da": "Eff. afladningseffekt (W)",
             "pl": "Ef. moc rozładowania (W)",
             "ru": "Эфф. мощность разрядки (Вт)",
-            "ar": "طاقة التفريغ الفعالة (واط)"
+            "ar": "طاقة التفريغ الفعالة (واط)",
+            "ko": "효율적 방전 전력 (W)"
           },
           "value": 765,
           "min": 0,
@@ -536,7 +567,8 @@
             "da": "Den mest effektive effekt, hvormed batteriet kan aflades.",
             "pl": "Najbardziej efektywna moc, z jaką można rozładować baterię.",
             "ru": "Наиболее эффективная мощность, при которой батарея может разряжаться.",
-            "ar": "الطاقة الأكثر كفاءة التي يمكن تفريغ البطارية بها."
+            "ar": "الطاقة الأكثر كفاءة التي يمكن تفريغ البطارية بها.",
+            "ko": "배터리를 가장 효율적으로 방전할 수 있는 전력입니다."
           }
         },
         {
@@ -554,7 +586,8 @@
             "da": "Eff. afladningstab (%)",
             "pl": "Ef. strata rozładowania (%)",
             "ru": "Эфф. потеря разрядки (%)",
-            "ar": "فقد التفريغ الفعال (%)"
+            "ar": "فقد التفريغ الفعال (%)",
+            "ko": "효율적 방전 손실 (%)"
           },
           "min": 0,
           "max": 30,
@@ -572,7 +605,8 @@
             "da": "Konverteringstab.",
             "pl": "Strata konwersji.",
             "ru": "Потеря преобразования.",
-            "ar": "خسارة التحويل."
+            "ar": "خسارة التحويل.",
+            "ko": "변환 손실."
           }
         }
       ]
@@ -591,7 +625,8 @@
         "da": "Yderligere effektværdier",
         "pl": "Dodatkowe wartości mocy",
         "ru": "Дополнительные значения мощности",
-        "ar": "قيم الطاقة الإضافية"
+        "ar": "قيم الطاقة الإضافية",
+        "ko": "추가 전력 값"
       },
       "children": [
         {
@@ -609,7 +644,8 @@
             "da": "Yderligere ladeeffekt (W)",
             "pl": "Dodatkowa moc ładowania (W)",
             "ru": "Дополнительная мощность зарядки (Вт)",
-            "ar": "طاقة الشحن الإضافية (واط)"
+            "ar": "طاقة الشحن الإضافية (واط)",
+            "ko": "추가 충전 전력 (W)"
           },
           "value": 1791,
           "min": 0,
@@ -626,7 +662,8 @@
             "da": "Yderligere effekt, hvormed batteriet kan oplades i watt.",
             "pl": "Dodatkowa moc, z jaką można ładować baterię w watach.",
             "ru": "Дополнительная мощность, при которой батарея может заряжаться в ваттах.",
-            "ar": "طاقة إضافية يمكن شحن البطارية بها بالواط."
+            "ar": "طاقة إضافية يمكن شحن البطارية بها بالواط.",
+            "ko": "배터리를 추가로 충전할 수 있는 전력(와트)입니다."
           }
         },
         {
@@ -644,7 +681,8 @@
             "da": "Yderligere ladetab (%)",
             "pl": "Dodatkowa strata ładowania (%)",
             "ru": "Дополнительная потеря зарядки (%)",
-            "ar": "فقد الشحن الإضافي (%)"
+            "ar": "فقد الشحن الإضافي (%)",
+            "ko": "추가 충전 손실 (%)"
           },
           "min": 0,
           "max": 30,
@@ -662,7 +700,8 @@
             "da": "Konverteringstab.",
             "pl": "Strata konwersji.",
             "ru": "Потеря преобразования.",
-            "ar": "خسارة التحويل."
+            "ar": "خسارة التحويل.",
+            "ko": "변환 손실."
           }
         },
         {
@@ -680,7 +719,8 @@
             "da": "Yderligere afladningseffekt (W)",
             "pl": "Dodatkowa moc rozładowania (W)",
             "ru": "Дополнительная мощность разрядки (Вт)",
-            "ar": "طاقة التفريغ الإضافية (واط)"
+            "ar": "طاقة التفريغ الإضافية (واط)",
+            "ko": "추가 방전 전력 (W)"
           },
           "value": 1179,
           "min": 0,
@@ -697,7 +737,8 @@
             "da": "Yderligere effekt, hvormed batteriet kan aflades.",
             "pl": "Dodatkowa moc, z jaką można rozładować baterię.",
             "ru": "Дополнительная мощность, при которой батарея может разряжаться.",
-            "ar": "طاقة إضافية يمكن تفريغ البطارية بها."
+            "ar": "طاقة إضافية يمكن تفريغ البطارية بها.",
+            "ko": "배터리를 추가로 방전할 수 있는 전력입니다."
           }
         },
         {
@@ -715,7 +756,8 @@
             "da": "Yderligere afladningstab (%)",
             "pl": "Dodatkowa strata rozładowania (%)",
             "ru": "Дополнительная потеря разрядки (%)",
-            "ar": "فقد التفريغ الإضافي (%)"
+            "ar": "فقد التفريغ الإضافي (%)",
+            "ko": "추가 방전 손실 (%)"
           },
           "min": 0,
           "max": 30,
@@ -733,7 +775,8 @@
             "da": "Konverteringstab.",
             "pl": "Strata konwersji.",
             "ru": "Потеря преобразования.",
-            "ar": "خسارة التحويل."
+            "ar": "خسارة التحويل.",
+            "ko": "변환 손실."
           }
         }
       ]
@@ -752,7 +795,8 @@
         "da": "Takster",
         "pl": "Taryfy",
         "ru": "Тарифы",
-        "ar": "التعريفات"
+        "ar": "التعريفات",
+        "ko": "요금"
       },
       "children": [
         {
@@ -770,7 +814,8 @@
             "da": "Takstopdateringsgruppe (DAP)",
             "pl": "Grupa aktualizacji taryf (DAP)",
             "ru": "Группа обновления тарифов (DAP)",
-            "ar": "مجموعة تحديث التعريفة (DAP)"
+            "ar": "مجموعة تحديث التعريفة (DAP)",
+            "ko": "요금 업데이트 그룹 (DAP)"
           },
           "hint": {
             "en": "Group number for getting grid tariffs via Day Ahead Pricing (DAP).",
@@ -784,7 +829,8 @@
             "da": "Gruppenummer til at få nettakster via Day Ahead Pricing (DAP).",
             "pl": "Numer grupy do uzyskiwania taryf sieciowych przez Day Ahead Pricing (DAP).",
             "ru": "Номер группы для получения сетевых тарифов через Day Ahead Pricing (DAP).",
-            "ar": "رقم المجموعة للحصول على تعريفات الشبكة عبر Day Ahead Pricing (DAP)."
+            "ar": "رقم المجموعة للحصول على تعريفات الشبكة عبر Day Ahead Pricing (DAP).",
+            "ko": "전일 가격(DAP)을 통해 계통 요금을 가져올 그룹 번호입니다."
           },
           "value": 1,
           "min": 0,
@@ -806,7 +852,8 @@
             "da": "Tarifvalg",
             "pl": "Wybór taryfy",
             "ru": "Выбор тарифа",
-            "ar": "اختيار التعريفة"
+            "ar": "اختيار التعريفة",
+            "ko": "요금 선택"
           },
           "hint": {
             "en": "Select which tariff to use for monetary calculations. 'Automatic' automatically switches based on grid import/export.",
@@ -820,21 +867,22 @@
             "da": "Vælg, hvilken takst der skal bruges til pengeberegninger. 'Automatisk' skifter automatisk baseret på netimport/-eksport.",
             "pl": "Wybierz, której taryfy użyć do obliczeń pieniężnych. 'Automatyczny' automatycznie przełącza się na podstawie importu/eksportu sieci.",
             "ru": "Выберите, какой тариф использовать для денежных расчетов. «Автоматический» автоматически переключается в зависимости от импорта/экспорта сети.",
-            "ar": "حدد التعريفة التي سيتم استخدامها للحسابات النقدية. 'التلقائي' يتبدل تلقائيًا بناءً على استيراد/تصدير الشبكة."
+            "ar": "حدد التعريفة التي سيتم استخدامها للحسابات النقدية. 'التلقائي' يتبدل تلقائيًا بناءً على استيراد/تصدير الشبكة.",
+            "ko": "금전 계산에 사용할 요금을 선택하세요. '자동'을 선택하면 계통 수전/송전에 따라 자동으로 전환됩니다."
           },
           "value": "dynamic",
           "values": [
             {
               "id": "dynamic",
-              "label": { "en": "Automatic", "nl": "Automatisch", "de": "Automatisch", "fr": "Automatique", "it": "Automatico", "sv": "Automatisk", "no": "Automatisk", "es": "Automático", "da": "Automatisk", "pl": "Automatyczny", "ru": "Автоматический", "ar": "تلقائي" }
+              "label": { "en": "Automatic", "nl": "Automatisch", "de": "Automatisch", "fr": "Automatique", "it": "Automatico", "sv": "Automatisk", "no": "Automatisk", "es": "Automático", "da": "Automatisk", "pl": "Automatyczny", "ru": "Автоматический", "ar": "تلقائي", "ko": "자동" }
             },
             {
               "id": "import",
-              "label": { "en": "Always Import", "nl": "Altijd Import", "de": "Immer Import", "fr": "Toujours Importer", "it": "Sempre Importazione", "sv": "Alltid Import", "no": "Alltid Import", "es": "Siempre Importar", "da": "Altid Import", "pl": "Zawsze Import", "ru": "Всегда Импорт", "ar": "استيراد دائما" }
+              "label": { "en": "Always Import", "nl": "Altijd Import", "de": "Immer Import", "fr": "Toujours Importer", "it": "Sempre Importazione", "sv": "Alltid Import", "no": "Alltid Import", "es": "Siempre Importar", "da": "Altid Import", "pl": "Zawsze Import", "ru": "Всегда Импорт", "ar": "استيراد دائما", "ko": "항상 수전(수입)" }
             },
             {
               "id": "export",
-              "label": { "en": "Always Export", "nl": "Altijd Export", "de": "Immer Export", "fr": "Toujours Exporter", "it": "Sempre Esportazione", "sv": "Alltid Export", "no": "Alltid Eksport", "es": "Siempre Exportar", "da": "Altid Eksport", "pl": "Zawsze Eksport", "ru": "Всегда Экспорт", "ar": "تصدير دائما" }
+              "label": { "en": "Always Export", "nl": "Altijd Export", "de": "Immer Export", "fr": "Toujours Exporter", "it": "Sempre Esportazione", "sv": "Alltid Export", "no": "Alltid Eksport", "es": "Siempre Exportar", "da": "Altid Eksport", "pl": "Zawsze Eksport", "ru": "Всегда Экспорт", "ar": "تصدير دائما", "ko": "항상 송전(수출)" }
             }
           ]
         }
@@ -854,7 +902,8 @@
         "da": "Avancerede ROI-indstillinger",
         "pl": "Zaawansowane ustawienia ROI",
         "ru": "Расширенные настройки ROI",
-        "ar": "إعدادات عائد الاستثمار المتقدمة"
+        "ar": "إعدادات عائد الاستثمار المتقدمة",
+        "ko": "고급 ROI 설정"
       },
       "children": [
         {
@@ -872,7 +921,8 @@
             "da": "Aktiver avanceret ROI",
             "pl": "Włącz zaawansowane ROI",
             "ru": "Включить расширенный ROI",
-            "ar": "تمكين عائد الاستثمار المتقدم"
+            "ar": "تمكين عائد الاستثمار المتقدم",
+            "ko": "고급 ROI 활성화"
           },
           "hint": {
             "en": "Advanced ROI flows use a lot of memory and CPU on Homey!",
@@ -886,7 +936,8 @@
             "da": "Avancerede ROI-flows bruger meget hukommelse og CPU på Homey!",
             "pl": "Zaawansowane przepływy ROI zużywają dużo pamięci i procesora w Homey!",
             "ru": "Расширенные потоки ROI используют много памяти и ресурсов процессора на Homey!",
-            "ar": "تستخدم تدفقات عائد الاستثمار المتقدمة الكثير من الذاكرة ووحدة المعالجة المركزية في Homey!"
+            "ar": "تستخدم تدفقات عائد الاستثمار المتقدمة الكثير من الذاكرة ووحدة المعالجة المركزية في Homey!",
+            "ko": "고급 ROI 플로우는 Homey의 메모리와 CPU를 많이 사용합니다!"
           },
           "value": false
         },
@@ -905,7 +956,8 @@
             "da": "Graf minimum fortjeneste pr. kWh",
             "pl": "Wykres minimalnego zysku na kWh",
             "ru": "График минимальной прибыли за кВтч",
-            "ar": "الرسم البياني للحد الأدنى للربح لكل كيلوواط ساعة"
+            "ar": "الرسم البياني للحد الأدنى للربح لكل كيلوواط ساعة",
+            "ko": "그래프 kWh당 최소 이익"
           },
           "hint": {
             "en": "The strategy graph is calculated using future hourly prices, the battery settings, and the set minimum profit per kWh.",
@@ -919,7 +971,8 @@
             "da": "Strategigrafer beregnes ved hjælp af fremtidige timepriser, batteriindstillingerne og den indstillede minimumsfortjeneste pr. kWh.",
             "pl": "Wykres strategii jest obliczany na podstawie przyszłych cen godzinowych, ustawień baterii i ustawionego minimalnego zysku na kWh.",
             "ru": "График стратегии рассчитывается с использованием будущих почасовых цен, настроек батареи и установленной минимальной прибыли за кВтч.",
-            "ar": "يتم حساب رسم استراتيجية باستخدام الأسعار الساعية المستقبلية، وإعدادات البطارية، والحد الأدنى للربح المحدد لكل كيلوواط ساعة."
+            "ar": "يتم حساب رسم استراتيجية باستخدام الأسعار الساعية المستقبلية، وإعدادات البطارية، والحد الأدنى للربح المحدد لكل كيلوواط ساعة.",
+            "ko": "전략 그래프는 향후 시간별 가격, 배터리 설정, 설정된 kWh당 최소 이익을 사용하여 계산됩니다."
           },
           "value": 0.08,
           "min": 0
@@ -939,7 +992,8 @@
             "da": "Gns. husstrømforbrug (W)",
             "pl": "Średnie zużycie energii w domu (W)",
             "ru": "Ср. энергопотребление дома (Вт)",
-            "ar": "متوسط استهلاك طاقة المنزل (واط)"
+            "ar": "متوسط استهلاك طاقة المنزل (واط)",
+            "ko": "평균 가정 전력 사용량 (W)"
           },
           "hint": {
             "en": "Fixed average power usage of your home. Used by the ROI strategy to estimate net grid import/export.",
@@ -953,7 +1007,8 @@
             "da": "Fast gennemsnitligt strømforbrug i dit hjem. Bruges af ROI-strategien til at estimere netto netimport/-eksport.",
             "pl": "Stałe średnie zużycie energii w Twoim domu. Wykorzystywane przez strategię ROI do oszacowania netto importu/eksportu sieci.",
             "ru": "Фиксированное среднее энергопотребление вашего дома. Используется стратегией ROI для оценки чистого импорта/экспорта в сеть.",
-            "ar": "متوسط استهلاك الطاقة الثابت لمنزلك. تُستخدم بواسطة إستراتيجية عائد الاستثمار لتقدير استيراد/تصدير الشبكة الصافي."
+            "ar": "متوسط استهلاك الطاقة الثابت لمنزلك. تُستخدم بواسطة إستراتيجية عائد الاستثمار لتقدير استيراد/تصدير الشبكة الصافي.",
+            "ko": "가정의 고정 평균 전력 사용량입니다. ROI 전략이 순 계통 수전/송전을 추정하는 데 사용됩니다."
           },
           "value": 300
         }
@@ -973,7 +1028,8 @@
         "da": "Pengeværdi",
         "pl": "Wartość pieniężna",
         "ru": "Денежная стоимость",
-        "ar": "القيمة النقدية"
+        "ar": "القيمة النقدية",
+        "ko": "금전적 가치"
       },
       "children": [
         {
@@ -991,7 +1047,8 @@
             "es": "Visualización de unidad de moneda",
             "pl": "Wyświetlanie jednostki walutowej",
             "ru": "Отображение валютной единицы",
-            "ar": "عرض وحدة العملة"
+            "ar": "عرض وحدة العملة",
+            "ko": "표시할 통화 단위"
           },
           "value": "",
           "hint": {
@@ -1006,7 +1063,8 @@
             "es": "La unidad que se muestra como moneda, p. ej. €, £, EUR, SER, NOK, DKK, CHF. Dejar vacío para usar automáticamente la moneda de la fuente de precios Day-ahead.",
             "pl": "Jednostka wyświetlana jako waluta, np. €, £, EUR, SER, NOK, DKK, CHF. Pozostaw puste, aby automatycznie użyć waluty ze źródła cen Day-ahead.",
             "ru": "Единица, отображаемая как валюта, например €, £, EUR, SER, NOK, DKK, CHF. Оставьте пустым, чтобы автоматически использовать валюту из источника цен Day-ahead.",
-            "ar": "الوحدة المعروضة كعملة، مثل €، £، EUR، SER، NOK، DKK، CHF. اتركها فارغة لاستخدام العملة تلقائيًا من مصدر تسعير اليوم التالي."
+            "ar": "الوحدة المعروضة كعملة، مثل €، £، EUR، SER، NOK، DKK، CHF. اتركها فارغة لاستخدام العملة تلقائيًا من مصدر تسعير اليوم التالي.",
+            "ko": "통화로 표시할 단위입니다 (예: €, £, EUR, SER, NOK, DKK, CHF). 비워두면 전일 가격 소스의 통화를 자동으로 사용합니다."
           }
         },
         {
@@ -1024,7 +1082,8 @@
             "es": "Decimales de moneda",
             "pl": "Miejsca dziesiętne waluty",
             "ru": "Десятичные знаки валюты",
-            "ar": "الكسور العشرية للعملة"
+            "ar": "الكسور العشرية للعملة",
+            "ko": "통화 소수 자릿수"
           },
           "value": 2,
           "min": 0,
@@ -1041,7 +1100,8 @@
             "es": "El número de decimales a utilizar para el precio.",
             "pl": "Liczba miejsc dziesiętnych do użycia dla ceny.",
             "ru": "Количество десятичных знаков для цены.",
-            "ar": "عدد الكسور العشرية المراد استخدامها للسعر."
+            "ar": "عدد الكسور العشرية المراد استخدامها للسعر.",
+            "ko": "가격에 사용할 소수 자릿수입니다."
           }
         },
         {
@@ -1059,7 +1119,8 @@
             "da": "Pengeværdi af denne måned",
             "pl": "Wartość pieniężna tego miesiąca",
             "ru": "Денежная стоимость этого месяца",
-            "ar": "القيمة النقدية لهذا الشهر"
+            "ar": "القيمة النقدية لهذا الشهر",
+            "ko": "이번 달의 금전적 가치"
           },
           "value": 0,
           "decimals": 4,
@@ -1075,7 +1136,8 @@
             "da": "Faktisk pengeværdi. Den opdateres automatisk.",
             "pl": "Rzeczywista wartość pieniężna. Jest ona automatycznie aktualizowana.",
             "ru": "Фактическая денежная стоимость. Она автоматически обновляется.",
-            "ar": "القيمة النقدية الفعلية. يتم تحديثها تلقائيًا."
+            "ar": "القيمة النقدية الفعلية. يتم تحديثها تلقائيًا.",
+            "ko": "실제 금전적 가치입니다. 자동으로 업데이트됩니다."
           }
         },
         {
@@ -1093,7 +1155,8 @@
             "da": "Pengeværdi af dette år",
             "pl": "Wartość pieniężna tego roku",
             "ru": "Денежная стоимость этого года",
-            "ar": "القيمة النقدية لهذا العام"
+            "ar": "القيمة النقدية لهذا العام",
+            "ko": "올해의 금전적 가치"
           },
           "value": 0,
           "decimals": 4,
@@ -1109,7 +1172,8 @@
             "da": "Faktisk pengeværdi. Den opdateres automatisk.",
             "pl": "Rzeczywista wartość pieniężna. Jest ona automatycznie aktualizowana.",
             "ru": "Фактическая денежная стоимость. Она автоматически обновляется.",
-            "ar": "القيمة النقدية الفعلية. يتم تحديثها تلقائيًا."
+            "ar": "القيمة النقدية الفعلية. يتم تحديثها تلقائيًا.",
+            "ko": "실제 금전적 가치입니다. 자동으로 업데이트됩니다."
           }
         },
         {
@@ -1127,7 +1191,8 @@
             "da": "Pengeværdi forrige måned",
             "pl": "Wartość pieniężna poprz. miesiąca",
             "ru": "Денежная стоимость пред. месяца",
-            "ar": "القيمة النقدية للشهر السابق"
+            "ar": "القيمة النقدية للشهر السابق",
+            "ko": "지난달 금전적 가치"
           },
           "value": 0,
           "decimals": 4,
@@ -1143,7 +1208,8 @@
             "da": "Pengeværdien af den foregående måned. Den opdateres automatisk.",
             "pl": "Wartość pieniężna poprzedniego miesiąca. Jest ona automatycznie aktualizowana.",
             "ru": "Денежная стоимость предыдущего месяца. Она автоматически обновляется.",
-            "ar": "القيمة النقدية للشهر السابق. يتم تحديثها تلقائيًا."
+            "ar": "القيمة النقدية للشهر السابق. يتم تحديثها تلقائيًا.",
+            "ko": "지난달의 금전적 가치입니다. 자동으로 업데이트됩니다."
           }
         },
         {
@@ -1161,7 +1227,8 @@
             "da": "Pengeværdi forrige år",
             "pl": "Wartość pieniężna poprz. roku",
             "ru": "Денежная стоимость пред. года",
-            "ar": "القيمة النقدية للعام السابق"
+            "ar": "القيمة النقدية للعام السابق",
+            "ko": "작년 금전적 가치"
           },
           "value": 0,
           "decimals": 4,
@@ -1177,7 +1244,8 @@
             "da": "Pengeværdien af det foregående år. Den opdateres automatisk.",
             "pl": "Wartość pieniężna poprzedniego roku. Jest ona automatycznie aktualizowana.",
             "ru": "Денежная стоимость предыдущего года. Она автоматически обновляется.",
-            "ar": "القيمة النقدية للعام السابق. يتم تحديثها تلقائيًا."
+            "ar": "القيمة النقدية للعام السابق. يتم تحديثها تلقائيًا.",
+            "ko": "작년의 금전적 가치입니다. 자동으로 업데이트됩니다."
           }
         }
       ]
@@ -1196,7 +1264,8 @@
         "da": "Måleraflæsninger",
         "pl": "Odczyty licznika",
         "ru": "Показания счетчика",
-        "ar": "قراءات العداد"
+        "ar": "قراءات العداد",
+        "ko": "계량기 값"
       },
       "children": [
         {
@@ -1214,7 +1283,8 @@
             "da": "Opladning i alt (kWh)",
             "pl": "Ładowanie ogółem (kWh)",
             "ru": "Всего зарядки (кВтч)",
-            "ar": "إجمالي الشحن (كيلوواط ساعة)"
+            "ar": "إجمالي الشحن (كيلوواط ساعة)",
+            "ko": "총 충전량 (kWh)"
           },
           "min": 0,
           "value": 0,
@@ -1230,7 +1300,8 @@
             "da": "Denne værdi genereres automatisk og opdateres en gang i timen. Det anbefales ikke at ændre denne værdi, medmindre du er nødt til det.",
             "pl": "Wartość ta jest generowana automatycznie i aktualizowana raz na godzinę. Zaleca się nie zmieniać tej wartości, chyba że jest to konieczne.",
             "ru": "Это значение генерируется и обновляется автоматически раз в час. Рекомендуется не изменять это значение, если в этом нет необходимости.",
-            "ar": "يتم إنشاء هذه القيمة وتحديثها تلقائيًا مرة واحدة في الساعة. ينصح بعدم تغيير هذه القيمة، إلا إذا كنت بحاجة إلى ذلك."
+            "ar": "يتم إنشاء هذه القيمة وتحديثها تلقائيًا مرة واحدة في الساعة. ينصح بعدم تغيير هذه القيمة، إلا إذا كنت بحاجة إلى ذلك.",
+            "ko": "이 값은 자동으로 생성되며 시간마다 한 번씩 업데이트됩니다. 필요한 경우가 아니면 이 값을 변경하지 않는 것이 좋습니다."
           }
         },
         {
@@ -1248,7 +1319,8 @@
             "da": "Afladning i alt (kWh)",
             "pl": "Rozładowanie ogółem (kWh)",
             "ru": "Всего разрядки (кВтч)",
-            "ar": "إجمالي التفريغ (كيلوواط ساعة)"
+            "ar": "إجمالي التفريغ (كيلوواط ساعة)",
+            "ko": "총 방전량 (kWh)"
           },
           "min": 0,
           "value": 0,
@@ -1264,7 +1336,8 @@
             "da": "Denne værdi genereres automatisk og opdateres en gang i timen. Det anbefales ikke at ændre denne værdi, medmindre du er nødt til det.",
             "pl": "Wartość ta jest generowana automatycznie i aktualizowana raz na godzinę. Zaleca się nie zmieniać tej wartości, chyba że jest to konieczne.",
             "ru": "Это значение генерируется и обновляется автоматически раз в час. Рекомендуется не изменять это значение, если в этом нет необходимости.",
-            "ar": "يتم إنشاء هذه القيمة وتحديثها تلقائيًا مرة واحدة في الساعة. ينصح بعدم تغيير هذه القيمة، إلا إذا كنت بحاجة إلى ذلك."
+            "ar": "يتم إنشاء هذه القيمة وتحديثها تلقائيًا مرة واحدة في الساعة. ينصح بعدم تغيير هذه القيمة، إلا إذا كنت بحاجة إلى ذلك.",
+            "ko": "이 값은 자동으로 생성되며 시간마다 한 번씩 업데이트됩니다. 필요한 경우가 아니면 이 값을 변경하지 않는 것이 좋습니다."
           }
         }
       ]
@@ -1283,7 +1356,8 @@
         "da": "Grafvisning",
         "pl": "Wyświetlanie wykresu",
         "ru": "Отображение графика",
-        "ar": "عرض الرسم البياني"
+        "ar": "عرض الرسم البياني",
+        "ko": "그래프 표시"
       },
       "children": [
         {
@@ -1301,7 +1375,8 @@
             "da": "Vis effekt i diagrammet",
             "pl": "Pokaż moc na wykresie",
             "ru": "Показывать мощность на графике",
-            "ar": "إظهار الطاقة في الرسم البياني"
+            "ar": "إظهار الطاقة في الرسم البياني",
+            "ko": "그래프에 전력 표시"
           },
           "hint": {
             "en": "Show the actual/planned power (kW) line and its axis on the charge charts.",
@@ -1315,7 +1390,8 @@
             "da": "Vis den faktiske/planlagte effektlinje (kW) og dens akse i opladningsdiagrammerne.",
             "pl": "Pokaż linię mocy rzeczywistej/planowanej (kW) i jej oś na wykresach ładowania.",
             "ru": "Показывать линию фактической/запланированной мощности (кВт) и её ось на графиках зарядки.",
-            "ar": "إظهار خط الطاقة الفعلية/المخططة (كيلوواط) ومحوره في رسوم الشحن البيانية."
+            "ar": "إظهار خط الطاقة الفعلية/المخططة (كيلوواط) ومحوره في رسوم الشحن البيانية.",
+            "ko": "충전 차트에 실제/계획 전력(kW) 선과 축을 표시합니다."
           },
           "value": false
         },
@@ -1334,7 +1410,8 @@
             "da": "Vis ladetilstand (SoC) i diagrammet",
             "pl": "Pokaż stan naładowania (SoC) na wykresie",
             "ru": "Показывать уровень заряда (SoC) на графике",
-            "ar": "إظهار حالة الشحن (SoC) في الرسم البياني"
+            "ar": "إظهار حالة الشحن (SoC) في الرسم البياني",
+            "ko": "그래프에 충전 상태 표시"
           },
           "hint": {
             "en": "Show the SoC (%) line and its axis on the charge charts.",
@@ -1348,7 +1425,8 @@
             "da": "Vis SoC-linjen (%) og dens akse i opladningsdiagrammerne.",
             "pl": "Pokaż linię SoC (%) i jej oś na wykresach ładowania.",
             "ru": "Показывать линию SoC (%) и её ось на графиках зарядки.",
-            "ar": "إظهار خط SoC (%) ومحوره في رسوم الشحن البيانية."
+            "ar": "إظهار خط SoC (%) ومحوره في رسوم الشحن البيانية.",
+            "ko": "충전 차트에 SoC (%) 선과 축을 표시합니다."
           },
           "value": true
         },
@@ -1367,7 +1445,8 @@
             "da": "Vis eksportpris i diagrammet",
             "pl": "Pokaż cenę eksportu na wykresie",
             "ru": "Показывать экспортную цену на графике",
-            "ar": "إظهار سعر التصدير في الرسم البياني"
+            "ar": "إظهار سعر التصدير في الرسم البياني",
+            "ko": "그래프에 송전(수출) 가격 표시"
           },
           "hint": {
             "en": "Show the export price line (yellow) on the charge charts.",
@@ -1381,7 +1460,8 @@
             "da": "Vis eksportprislinjen (gul) i opladningsdiagrammerne.",
             "pl": "Pokaż linię ceny eksportu (żółta) na wykresach ładowania.",
             "ru": "Показывать линию экспортной цены (жёлтая) на графиках зарядки.",
-            "ar": "إظهار خط سعر التصدير (الأصفر) في رسوم الشحن البيانية."
+            "ar": "إظهار خط سعر التصدير (الأصفر) في رسوم الشحن البيانية.",
+            "ko": "충전 차트에 송전(수출) 가격 선(노란색)을 표시합니다."
           },
           "value": true
         }

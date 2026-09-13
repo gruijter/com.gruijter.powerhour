@@ -2,17 +2,20 @@
   "title": {
     "en": "Clear temporary EV trip override",
     "nl": "Wis tijdelijke EV rit",
-    "de": "Vorübergehende EV-Fahrt löschen"
+    "de": "Vorübergehende EV-Fahrt löschen",
+    "ko": "임시 EV 여행 재정의 지우기"
   },
   "titleFormatted": {
     "en": "Clear temporary EV trip override",
     "nl": "Wis tijdelijke EV rit",
-    "de": "Vorübergehende EV-Fahrt löschen"
+    "de": "Vorübergehende EV-Fahrt löschen",
+    "ko": "임시 EV 여행 재정의 지우기"
   },
   "hint": {
     "en": "Removes any active one-off trip override and reverts to standard daily departure schedules.",
     "nl": "Verwijdert een actieve tijdelijke ritoverrule en keert terug naar het standaard vertrekschema.",
-    "de": "Löscht eine aktive vorübergehende Fahrt."
+    "de": "Löscht eine aktive vorübergehende Fahrt.",
+    "ko": "활성화된 일회성 여행 재정의를 제거하고 표준 일일 출발 일정으로 되돌립니다."
   },
   "args": [
     {
