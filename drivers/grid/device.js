@@ -270,8 +270,11 @@ class GridDevice extends GenericDevice {
       };
       this.directionalBlockState = null;
       this.lastDirectionalSnapshot = null;
-      await this.setStoreValue('directionalBlockState', null).catch(this.error);
-      await this.setStoreValue('lastDirectionalSnapshot', null).catch(this.error);
+      // Same reasoning as reanchorExtraBaselines(): one ordered path, forced, so no dirty mark
+      // from the last tick can write the pre-switch state back afterwards.
+      this.markStoreDirty('directionalBlockState');
+      this.markStoreDirty('lastDirectionalSnapshot');
+      await this.flushDirtyStore({ force: true });
       for (const cap of ['meter_money_this_hour', 'meter_money_this_day',
         'meter_money_this_month', 'meter_money_this_year',
         'meter_money_this_month_avg', 'meter_money_this_year_avg']) {
@@ -515,14 +518,21 @@ class GridDevice extends GenericDevice {
     // (see updateSplitMeters()/updateSplitMoney() below). Only meaningful when this device
     // actually has export data (case 2 - import-only - permanently has no exportValue).
     const splitActive = typeof this.directionalMeter?.exportValue === 'number';
+    const periods = this.getPeriods(reading); // pure read, safe before super - see updateSplitMeters()
     if (splitActive) {
-      const periods = this.getPeriods(reading); // pure read, safe before super - see updateSplitMeters()
       await this.updateSplitMeters(periods).catch((err) => this.error(err));
       await this.updateSplitMoney(periods).catch((err) => this.error(err));
     }
 
     await super.handleUpdateMeter(reading);
     this._directionalTickDelta = null;
+
+    // Persist this tick's bookkeeping - throttled to one batched flush per STORE_FLUSH_MS, except
+    // on a period boundary, where the just-closed period's totals shouldn't be left at risk in
+    // memory. Deliberately AFTER super, so the anchors written here are the ones matching the
+    // reading the base class has finished accounting for. See flushDirtyStore().
+    const boundary = periods.newHour || periods.newDay || periods.newMonth || periods.newYear;
+    await this.flushDirtyStore({ force: boundary }).catch((err) => this.error(err));
   }
 
   // Case 1 vs case 3 is mutually exclusive per device for its whole lifetime (generic_sum_
@@ -546,7 +556,7 @@ class GridDevice extends GenericDevice {
     const nowTm = Date.now();
     if (!this.directionalPseudoState) {
       this.directionalPseudoState = { lastTm: nowTm, importTotal: 0, exportTotal: 0 };
-      await this.setStoreValue('directionalPseudoState', this.directionalPseudoState).catch((err) => this.error(err));
+      this.markStoreDirty('directionalPseudoState');
       return;
     }
     const deltaTm = nowTm - this.directionalPseudoState.lastTm;
@@ -555,8 +565,63 @@ class GridDevice extends GenericDevice {
     if (value > 0) this.directionalPseudoState.importTotal += deltaKwh;
     else if (value < 0) this.directionalPseudoState.exportTotal += deltaKwh;
     this.directionalPseudoState.lastTm = nowTm;
-    await this.setStoreValue('directionalPseudoState', this.directionalPseudoState).catch((err) => this.error(err));
+    this.markStoreDirty('directionalPseudoState');
     await this.updateDirectionalRegisters(this.directionalPseudoState.importTotal, this.directionalPseudoState.exportTotal);
+  }
+
+  // --- Throttled persistence of the per-reading bookkeeping ------------------------------
+  // Every key below used to be written to the device store on EVERY meter reading. On a
+  // listener-driven meter that is several ticks a minute (one per Wh of register movement), and
+  // each write is an awaited IPC round-trip inside the serialized reading-queue drain loop - so
+  // this driver alone accounted for four of the app's five per-tick store writes. They are now
+  // marked dirty in memory and flushed together at most once per STORE_FLUSH_MS, matching what
+  // battery/evCharger/solar already do for their own per-reading state, and what this driver
+  // already did for powerHistory and meterPowerHome.
+  //
+  // ORDER MATTERS, which is why this is an explicit list and not a Set iteration. The
+  // accumulators must reach the store before the anchors they are advanced from:
+  //  - splitMoney accumulates the delta that lastDirectionalSnapshot anchors;
+  //  - peakLoad.importKwhInSlot accumulates the delta that lastPeakLoadReading anchors;
+  //  - directionalBlockState accumulates the same delta as splitMoney;
+  //  - directionalPseudoState (case 3) IS the register the anchors are measured against.
+  // Persist an anchor while its accumulator is still stale and a crash in between silently drops
+  // that energy - the anchor says "already counted", the accumulator never counted it. The
+  // reverse order is harmless: a stale anchor just makes the next delta larger, and the registers
+  // are cumulative, so nothing is lost.
+  static STORE_FLUSH_ORDER = [
+    // accumulators first
+    'directionalPseudoState', 'peakLoad', 'splitMoney', 'directionalBlockState',
+    // then the anchors that point into them
+    'directionalMeter', 'lastDirectionalSnapshot', 'lastPeakLoadReading',
+    'lastDirectionalReadingDay', 'lastDirectionalReadingMonth', 'lastDirectionalReadingYear',
+  ];
+
+  // Every store key handled here is held on an instance property of the same name, so the flush
+  // can read the value back off `this` without the caller passing it in.
+  markStoreDirty(key) {
+    if (!this.dirtyStore) this.dirtyStore = new Set();
+    this.dirtyStore.add(key);
+  }
+
+  // `force` skips the time check - used on a period boundary (where the just-closed period's
+  // totals should not be at risk) and on shutdown via flushStore().
+  async flushDirtyStore({ force = false } = {}) {
+    if (!this.dirtyStore || this.dirtyStore.size === 0) return;
+    const nowTm = Date.now();
+    if (!force && this.lastStoreFlushTm && (nowTm - this.lastStoreFlushTm) <= GenericDevice.STORE_FLUSH_MS) return;
+    this.lastStoreFlushTm = nowTm;
+    const keys = GridDevice.STORE_FLUSH_ORDER.filter((key) => this.dirtyStore.has(key));
+    this.dirtyStore.clear();
+    // Sequential on purpose - see STORE_FLUSH_ORDER above. Promise.all() would let an anchor land
+    // before its accumulator.
+    for (const key of keys) {
+      await this.setStoreValue(key, this[key]).catch((err) => this.error(err));
+    }
+  }
+
+  async flushStore() {
+    await this.flushDirtyStore({ force: true }).catch((err) => this.error(err));
+    return super.flushStore();
   }
 
   // See generic_sum_device.js#reanchorExtraBaselines() for the contract. Drops every anchor
@@ -591,15 +656,14 @@ class GridDevice extends GenericDevice {
     this.lastDirectionalReadingYear = null;
     this.lastPeakLoadReading = null;
     this._directionalTickDelta = null;
-    const writes = [
-      ['directionalMeter', this.directionalMeter],
-      ['lastDirectionalSnapshot', null],
-      ['lastDirectionalReadingDay', null],
-      ['lastDirectionalReadingMonth', null],
-      ['lastDirectionalReadingYear', null],
-      ['lastPeakLoadReading', null],
-    ];
-    await Promise.all(writes.map(([key, value]) => this.setStoreValue(key, value).catch((err) => this.error(err))));
+    // Routed through the same ordered flush rather than writing here: the cleared values are on
+    // `this` already, and going through one path means a dirty mark left over from the last tick
+    // can never resurrect a pre-reanchor value afterwards. force, because a re-anchor is a
+    // correctness reset - it must not wait out the throttle window.
+    ['directionalMeter', 'lastDirectionalSnapshot', 'lastPeakLoadReading',
+      'lastDirectionalReadingDay', 'lastDirectionalReadingMonth', 'lastDirectionalReadingYear',
+    ].forEach((key) => this.markStoreDirty(key));
+    await this.flushDirtyStore({ force: true });
   }
 
   // Records the latest known cumulative import/export values (case 1: real registers,
@@ -612,7 +676,7 @@ class GridDevice extends GenericDevice {
     if (!this.directionalMeter) this.directionalMeter = { importValue: null, exportValue: null };
     if (typeof importValue === 'number') this.directionalMeter.importValue = importValue;
     if (typeof exportValue === 'number') this.directionalMeter.exportValue = exportValue;
-    await this.setStoreValue('directionalMeter', this.directionalMeter).catch((err) => this.error(err));
+    this.markStoreDirty('directionalMeter');
   }
 
   // Only meaningful under the 'fixedBlock' scheme. 'auto' (the setting's default) tracks
@@ -695,7 +759,7 @@ class GridDevice extends GenericDevice {
 
     if (!this.lastDirectionalSnapshot) {
       this.lastDirectionalSnapshot = { importValue, exportValue, tm: now.getTime() };
-      await this.setStoreValue('lastDirectionalSnapshot', this.lastDirectionalSnapshot).catch((err) => this.error(err));
+      this.markStoreDirty('lastDirectionalSnapshot');
       return null;
     }
 
@@ -706,7 +770,7 @@ class GridDevice extends GenericDevice {
 
     const lastTm = this.lastDirectionalSnapshot.tm;
     this.lastDirectionalSnapshot = { importValue, exportValue, tm: now.getTime() };
-    await this.setStoreValue('lastDirectionalSnapshot', this.lastDirectionalSnapshot).catch((err) => this.error(err));
+    this.markStoreDirty('lastDirectionalSnapshot');
 
     return {
       deltaImport, deltaExport, now, lastTm, importValue, exportValue,
@@ -761,15 +825,15 @@ class GridDevice extends GenericDevice {
 
     if (!this.lastDirectionalReadingDay) {
       this.lastDirectionalReadingDay = { importValue, exportValue };
-      await this.setStoreValue('lastDirectionalReadingDay', this.lastDirectionalReadingDay).catch((err) => this.error(err));
+      this.markStoreDirty('lastDirectionalReadingDay');
     }
     if (!this.lastDirectionalReadingMonth) {
       this.lastDirectionalReadingMonth = { importValue, exportValue };
-      await this.setStoreValue('lastDirectionalReadingMonth', this.lastDirectionalReadingMonth).catch((err) => this.error(err));
+      this.markStoreDirty('lastDirectionalReadingMonth');
     }
     if (!this.lastDirectionalReadingYear) {
       this.lastDirectionalReadingYear = { importValue, exportValue };
-      await this.setStoreValue('lastDirectionalReadingYear', this.lastDirectionalReadingYear).catch((err) => this.error(err));
+      this.markStoreDirty('lastDirectionalReadingYear');
     }
 
     let lastDay = { ...this.lastDirectionalReadingDay };
@@ -787,21 +851,21 @@ class GridDevice extends GenericDevice {
       await this.setCapability('meter_kwh_last_day.imported', valDayImport).catch((err) => this.error(err));
       await this.setCapability('meter_kwh_last_day.exported', valDayExport).catch((err) => this.error(err));
       lastDay = { importValue, exportValue };
-      await this.setStoreValue('lastDirectionalReadingDay', lastDay).catch((err) => this.error(err));
+      this.markStoreDirty('lastDirectionalReadingDay');
       valDayImport = 0; valDayExport = 0;
     }
     if (periods.newMonth) {
       await this.setCapability('meter_kwh_last_month.imported', valMonthImport).catch((err) => this.error(err));
       await this.setCapability('meter_kwh_last_month.exported', valMonthExport).catch((err) => this.error(err));
       lastMonth = { importValue, exportValue };
-      await this.setStoreValue('lastDirectionalReadingMonth', lastMonth).catch((err) => this.error(err));
+      this.markStoreDirty('lastDirectionalReadingMonth');
       valMonthImport = 0; valMonthExport = 0;
     }
     if (periods.newYear) {
       await this.setCapability('meter_kwh_last_year.imported', valYearImport).catch((err) => this.error(err));
       await this.setCapability('meter_kwh_last_year.exported', valYearExport).catch((err) => this.error(err));
       lastYear = { importValue, exportValue };
-      await this.setStoreValue('lastDirectionalReadingYear', lastYear).catch((err) => this.error(err));
+      this.markStoreDirty('lastDirectionalReadingYear');
       valYearImport = 0; valYearExport = 0;
     }
 
@@ -906,7 +970,7 @@ class GridDevice extends GenericDevice {
     await this.setCapability('meter_money_this_year.exported', money.year.exported).catch((err) => this.error(err));
 
     this.splitMoney = money;
-    await this.setStoreValue('splitMoney', money).catch((err) => this.error(err));
+    this.markStoreDirty('splitMoney');
   }
 
   // Peak average load, capacity-tariff style (e.g. Belgian/Flemish "capaciteitstarief" via
@@ -923,7 +987,7 @@ class GridDevice extends GenericDevice {
 
     if (!this.lastPeakLoadReading) {
       this.lastPeakLoadReading = { importValue, exportValue };
-      await this.setStoreValue('lastPeakLoadReading', this.lastPeakLoadReading).catch((err) => this.error(err));
+      this.markStoreDirty('lastPeakLoadReading');
       return; // bootstrap - nothing to accumulate yet
     }
 
@@ -931,6 +995,7 @@ class GridDevice extends GenericDevice {
     const hasExport = typeof exportValue === 'number' && typeof this.lastPeakLoadReading.exportValue === 'number';
     const deltaExportKwh = hasExport ? Math.max(0, exportValue - this.lastPeakLoadReading.exportValue) : 0;
     this.lastPeakLoadReading = { importValue, exportValue };
+    this.markStoreDirty('lastPeakLoadReading');
 
     if (!this.peakLoad) {
       this.peakLoad = {
@@ -984,7 +1049,7 @@ class GridDevice extends GenericDevice {
     this.peakLoad.importKwhInSlot += deltaImportKwh;
     if (hasExport) this.peakLoad.exportKwhInSlot += deltaExportKwh;
 
-    await this.setStoreValue('peakLoad', this.peakLoad).catch((err) => this.error(err));
+    this.markStoreDirty('peakLoad');
   }
 
   // Rolls over (clears) each period whose boundary was crossed, then updates the running max for
@@ -1058,7 +1123,7 @@ class GridDevice extends GenericDevice {
     }
     this.directionalBlockState.importAccum += Math.max(0, deltaImport);
     this.directionalBlockState.exportAccum += Math.max(0, deltaExport);
-    await this.setStoreValue('directionalBlockState', this.directionalBlockState).catch((err) => this.error(err));
+    this.markStoreDirty('directionalBlockState');
     return deltaMoney;
   }
 
