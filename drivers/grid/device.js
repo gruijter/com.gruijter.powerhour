@@ -31,6 +31,19 @@ const { fetchYesterdayAndToday, convertCumulativeToPower } = require('../../lib/
 const { combineComponentsToHomePower } = require('../../lib/helpers/HomePowerReconstruction');
 const TimeHelpers = require('../../lib/helpers/TimeHelpers');
 
+// Fallback grid connection when the settings are missing or nonsensical: 3x25A @ 230V, the
+// standard Dutch domestic connection and this driver's compose-defined default.
+const DEFAULT_CONNECTION_LIMIT_W = 3 * 25 * 230; // 17250 W
+
+// How far above the connection limit a reconstructed HOME load is still considered plausible.
+// The connection limit caps what crosses the meter, not what the house consumes: solar
+// production and battery discharge feed the house on top of whatever is imported, so the house
+// can legitimately draw well past the connection's rating. Neither of those is capped by
+// anything this device knows, and both are rarely larger than the connection itself, so 2x is a
+// deliberately loose sanity bound whose only job is rejecting absurd values - it is not a
+// physical constraint and must never be used as one.
+const HOME_POWER_CEILING_FACTOR = 2;
+
 const deviceSpecifics = {
   cmap: {
     this_hour: 'meter_kwh_this_hour',
@@ -172,6 +185,7 @@ class GridDevice extends GenericDevice {
     // Load power history
     let history = await this.getStoreValue('powerHistory');
     if (!Array.isArray(history)) history = [];
+    const ceilingW = this.getHomePowerCeilingW();
     this.powerHistory = history
       .map((e) => {
         const time = e.time || (e.t ? new Date(e.t).getTime() : Date.now());
@@ -181,7 +195,7 @@ class GridDevice extends GenericDevice {
         else if (typeof e.y === 'number') power = e.y;
         return { time, power };
       })
-      .filter((e) => e.power >= 0 && e.power <= 30000)
+      .filter((e) => e.power >= 0 && e.power <= ceilingW)
       .slice(-2880);
 
     this.retrainLoadListener = this.registerCapabilityListener('button.retrain_load', async () => {
@@ -355,22 +369,23 @@ class GridDevice extends GenericDevice {
       // negative the buffer emptied entirely and smoothedHomePower fell back to 0, so
       // measure_power.home swung between inflated and zero instead of settling near the truth.
       // 0 is the physically correct value for such a sample, and keeping it in the buffer lets
-      // it pull the average down the way it should. NaN fails `<= 30000`, so it is still
-      // excluded; the upper bound deliberately still SKIPS rather than clamps - a >30 kW result
-      // is an implausible reading, not a sign artifact, and clamping it to 30000 would pin the
-      // average high instead of ignoring a bad sample.
-      if (homePower <= 30000) {
+      // it pull the average down the way it should. NaN fails the ceiling test, so it is still
+      // excluded; the upper bound deliberately still SKIPS rather than clamps - a result past
+      // the ceiling is an implausible reading, not a sign artifact, and clamping it would pin
+      // the average high instead of ignoring a bad sample.
+      const ceilingW = this.getHomePowerCeilingW();
+      if (homePower <= ceilingW) {
         this.homePowerBuffer.push({ time: now, value: Math.max(0, homePower) });
       }
       this.homePowerBuffer = this.homePowerBuffer.filter((e) => now - e.time <= 2 * 60 * 1000);
       const smoothedHomePower = this.homePowerBuffer.length > 0
         ? Math.round(this.homePowerBuffer.reduce((sum, e) => sum + e.value, 0) / this.homePowerBuffer.length)
         : Math.max(0, homePower);
-      const safeHomePower = Math.max(0, Math.min(30000, smoothedHomePower));
+      const safeHomePower = Math.max(0, Math.min(ceilingW, smoothedHomePower));
       await this.setCapability('measure_power.home', safeHomePower).catch(this.error);
 
       if (!Array.isArray(this.powerHistory)) this.powerHistory = [];
-      if (typeof safeHomePower === 'number' && safeHomePower >= 0 && safeHomePower <= 30000) {
+      if (typeof safeHomePower === 'number' && safeHomePower >= 0 && safeHomePower <= ceilingW) {
         const lastEntry = this.powerHistory[this.powerHistory.length - 1];
         // The 576-entry cap is sized for 48h of 5-minute-spaced samples (576 * 5min = 48h), matching
         // the Insights-merge granularity in populatePowerHistory/retrainLoadModel. A push interval
@@ -629,6 +644,27 @@ class GridDevice extends GenericDevice {
     const setting = this.getSettings().peakLoadIntervalMinutes;
     const n = Number(setting);
     return [15, 30, 60].includes(n) ? n : 15;
+  }
+
+  // The physical grid connection's rating in Watt: phases x fuse rating x nominal phase voltage.
+  // Falls back to the 3x25A default rather than to 0 on unusable settings - a 0 limit would
+  // collapse every ceiling derived from it and silently discard all data.
+  getConnectionLimitW() {
+    const s = this.getSettings();
+    const phases = Number(s.connectionPhases) === 1 ? 1 : 3;
+    const amps = Number(s.connectionAmps);
+    const volts = Number(s.connectionVoltage);
+    if (!(amps > 0) || !(volts > 0)) return DEFAULT_CONNECTION_LIMIT_W;
+    return phases * amps * volts;
+  }
+
+  // Plausibility ceiling for the reconstructed home load - see HOME_POWER_CEILING_FACTOR above
+  // for why this is a multiple of the connection limit and not the limit itself. Replaces a flat
+  // hardcoded 30000 W, which happened to be about right for the 3x25A default but silently
+  // discarded real samples on anything larger, and was far too permissive on a 1x35A connection
+  // (8050 W limit, so a 30 kW "house load" was accepted as plausible).
+  getHomePowerCeilingW() {
+    return this.getConnectionLimitW() * HOME_POWER_CEILING_FACTOR;
   }
 
   // Bakes the currently configured averaging window into the peak-demand capability titles
@@ -1357,6 +1393,7 @@ class GridDevice extends GenericDevice {
       });
 
       if (powerEntries.length > 0) {
+        const ceilingW = this.getHomePowerCeilingW();
         // round timestamps to nearest 5 minutes to avoid duplicates from mixed resolution sources
         const roundTo5Min = (t) => Math.round(t / (5 * 60 * 1000)) * (5 * 60 * 1000);
         const historyMapped = powerEntries
@@ -1367,7 +1404,7 @@ class GridDevice extends GenericDevice {
             else if (typeof e.y === 'number') power = Math.round(e.y);
             return { time, power };
           })
-          .filter((e) => e.power >= 0 && e.power <= 30000);
+          .filter((e) => e.power >= 0 && e.power <= ceilingW);
 
         if (!Array.isArray(this.powerHistory)) this.powerHistory = [];
         const existingMap = new Map(this.powerHistory.map((e) => [roundTo5Min(e.time), e]));

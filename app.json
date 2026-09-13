@@ -17714,6 +17714,175 @@
         {
           "type": "group",
           "label": {
+            "en": "Grid connection",
+            "nl": "Netaansluiting",
+            "de": "Netzanschluss",
+            "fr": "Raccordement au réseau",
+            "it": "Allacciamento alla rete",
+            "sv": "Nätanslutning",
+            "no": "Nettilknytning",
+            "es": "Conexión a la red",
+            "da": "Nettilslutning",
+            "pl": "Przyłącze sieciowe",
+            "ru": "Подключение к сети",
+            "ar": "توصيل الشبكة",
+            "ko": "계통 연결"
+          },
+          "children": [
+            {
+              "id": "connectionPhases",
+              "type": "dropdown",
+              "label": {
+                "en": "Phases",
+                "nl": "Fasen",
+                "de": "Phasen",
+                "fr": "Phases",
+                "it": "Fasi",
+                "sv": "Faser",
+                "no": "Faser",
+                "es": "Fases",
+                "da": "Faser",
+                "pl": "Fazy",
+                "ru": "Фазы",
+                "ar": "الأطوار",
+                "ko": "상 수"
+              },
+              "hint": {
+                "en": "Number of phases of your grid connection.",
+                "nl": "Aantal fasen van uw netaansluiting.",
+                "de": "Anzahl der Phasen Ihres Netzanschlusses.",
+                "fr": "Nombre de phases de votre raccordement au réseau.",
+                "it": "Numero di fasi del vostro allacciamento alla rete.",
+                "sv": "Antal faser i din nätanslutning.",
+                "no": "Antall faser i nettilknytningen din.",
+                "es": "Número de fases de su conexión a la red.",
+                "da": "Antal faser i din nettilslutning.",
+                "pl": "Liczba faz przyłącza sieciowego.",
+                "ru": "Количество фаз вашего подключения к сети.",
+                "ar": "عدد أطوار توصيل الشبكة لديك.",
+                "ko": "계통 연결의 상 수입니다."
+              },
+              "value": "3",
+              "values": [
+                {
+                  "id": "1",
+                  "label": {
+                    "en": "1 phase",
+                    "nl": "1 fase",
+                    "de": "1 Phase",
+                    "fr": "1 phase",
+                    "it": "1 fase",
+                    "sv": "1 fas",
+                    "no": "1 fase",
+                    "es": "1 fase",
+                    "da": "1 fase",
+                    "pl": "1 faza",
+                    "ru": "1 фаза",
+                    "ar": "طور واحد",
+                    "ko": "1상"
+                  }
+                },
+                {
+                  "id": "3",
+                  "label": {
+                    "en": "3 phases",
+                    "nl": "3 fasen",
+                    "de": "3 Phasen",
+                    "fr": "3 phases",
+                    "it": "3 fasi",
+                    "sv": "3 faser",
+                    "no": "3 faser",
+                    "es": "3 fases",
+                    "da": "3 faser",
+                    "pl": "3 fazy",
+                    "ru": "3 фазы",
+                    "ar": "ثلاثة أطوار",
+                    "ko": "3상"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "connectionAmps",
+              "type": "number",
+              "label": {
+                "en": "Main fuse",
+                "nl": "Hoofdzekering",
+                "de": "Hauptsicherung",
+                "fr": "Fusible principal",
+                "it": "Fusibile principale",
+                "sv": "Huvudsäkring",
+                "no": "Hovedsikring",
+                "es": "Fusible principal",
+                "da": "Hovedsikring",
+                "pl": "Bezpiecznik główny",
+                "ru": "Главный предохранитель",
+                "ar": "المصهر الرئيسي",
+                "ko": "메인 퓨즈"
+              },
+              "hint": {
+                "en": "Rated current per phase, in ampere.",
+                "nl": "Nominale stroom per fase, in ampère.",
+                "de": "Nennstrom pro Phase, in Ampere.",
+                "fr": "Courant nominal par phase, en ampères.",
+                "it": "Corrente nominale per fase, in ampere.",
+                "sv": "Märkström per fas, i ampere.",
+                "no": "Merkestrøm per fase, i ampere.",
+                "es": "Corriente nominal por fase, en amperios.",
+                "da": "Mærkestrøm per fase, i ampere.",
+                "pl": "Prąd znamionowy na fazę, w amperach.",
+                "ru": "Номинальный ток на фазу, в амперах.",
+                "ar": "التيار المقنن لكل طور، بالأمبير.",
+                "ko": "상당 정격 전류(암페어)입니다."
+              },
+              "value": 25,
+              "min": 1,
+              "max": 250,
+              "step": 1
+            },
+            {
+              "id": "connectionVoltage",
+              "type": "number",
+              "label": {
+                "en": "Voltage",
+                "nl": "Spanning",
+                "de": "Spannung",
+                "fr": "Tension",
+                "it": "Tensione",
+                "sv": "Spänning",
+                "no": "Spenning",
+                "es": "Tensión",
+                "da": "Spænding",
+                "pl": "Napięcie",
+                "ru": "Напряжение",
+                "ar": "الجهد",
+                "ko": "전압"
+              },
+              "hint": {
+                "en": "Nominal voltage per phase, in volt.",
+                "nl": "Nominale spanning per fase, in volt.",
+                "de": "Nennspannung pro Phase, in Volt.",
+                "fr": "Tension nominale par phase, en volts.",
+                "it": "Tensione nominale per fase, in volt.",
+                "sv": "Nominell spänning per fas, i volt.",
+                "no": "Nominell spenning per fase, i volt.",
+                "es": "Tensión nominal por fase, en voltios.",
+                "da": "Nominel spænding per fase, i volt.",
+                "pl": "Napięcie znamionowe na fazę, w woltach.",
+                "ru": "Номинальное напряжение на фазу, в вольтах.",
+                "ar": "الجهد الاسمي لكل طور، بالفولت.",
+                "ko": "상당 공칭 전압(볼트)입니다."
+              },
+              "value": 230,
+              "min": 100,
+              "max": 500,
+              "step": 1
+            }
+          ]
+        },
+        {
+          "type": "group",
+          "label": {
             "en": "Year start and energy budget",
             "nl": "Jaarstart en energie budget",
             "de": "Jahresbeginn und Energiebudget",
