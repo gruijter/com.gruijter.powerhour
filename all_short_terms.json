@@ -1,0 +1,6362 @@
+[
+  {
+    "file": "./.homeycompose/flow/triggers/measure_watt_avg_changed.json",
+    "path": "title",
+    "key": "title",
+    "en": "The power changed"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/measure_watt_avg_changed.json",
+    "path": "tokens[0].title",
+    "key": "title",
+    "en": "Power"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/xom_strategy.json",
+    "path": "title",
+    "key": "title",
+    "en": "New XOM power available."
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/xom_strategy.json",
+    "path": "args[1].title",
+    "key": "title",
+    "en": "Invert power sign"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/xom_strategy.json",
+    "path": "tokens[0].title",
+    "key": "title",
+    "en": "Power"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/xom_strategy.json",
+    "path": "tokens[1].title",
+    "key": "title",
+    "en": "XOM-target (W)"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/xom_strategy.json",
+    "path": "tokens[2].title",
+    "key": "title",
+    "en": "smoothing (%)"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/xom_strategy.json",
+    "path": "tokens[3].title",
+    "key": "title",
+    "en": "Minimum battery power (W)"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/price_highest_today.json",
+    "path": "title",
+    "key": "title",
+    "en": "The price becomes on of the highest of today"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/price_highest_today.json",
+    "path": "args[1].title",
+    "key": "title",
+    "en": "number"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/price_highest_today.json",
+    "path": "tokens[0].title",
+    "key": "title",
+    "en": "Price now"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/solar_forecast_updated.json",
+    "path": "title",
+    "key": "title",
+    "en": "Solar forecast updated"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/solar_forecast_updated.json",
+    "path": "args[1].title",
+    "key": "title",
+    "en": "period"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/solar_forecast_updated.json",
+    "path": "args[1].values[0].label",
+    "key": "label",
+    "en": "This day"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/solar_forecast_updated.json",
+    "path": "args[1].values[1].label",
+    "key": "label",
+    "en": "Tomorrow"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/solar_forecast_updated.json",
+    "path": "args[1].values[2].label",
+    "key": "label",
+    "en": "Next hours"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/solar_forecast_updated.json",
+    "path": "tokens[0].title",
+    "key": "title",
+    "en": "Solar Forecast JSON"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/solar_curtailment_active.json",
+    "path": "title",
+    "key": "title",
+    "en": "Solar curtailment detected"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/price_highest_between.json",
+    "path": "title",
+    "key": "title",
+    "en": "The price becomes highest between certain times"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/price_highest_between.json",
+    "path": "args[1].title",
+    "key": "title",
+    "en": "number"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/price_highest_between.json",
+    "path": "args[2].title",
+    "key": "title",
+    "en": "time from"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/price_highest_between.json",
+    "path": "args[3].title",
+    "key": "title",
+    "en": "time to"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/price_highest_between.json",
+    "path": "tokens[0].title",
+    "key": "title",
+    "en": "Price now"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/price_below_avg.json",
+    "path": "title",
+    "key": "title",
+    "en": "The price becomes below avg."
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/price_below_avg.json",
+    "path": "args[1].title",
+    "key": "title",
+    "en": "%"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/price_below_avg.json",
+    "path": "args[2].title",
+    "key": "title",
+    "en": "period"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/price_below_avg.json",
+    "path": "args[2].values[0].label",
+    "key": "label",
+    "en": "this day"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/price_below_avg.json",
+    "path": "args[2].values[1].label",
+    "key": "label",
+    "en": "next 8H"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/price_below_avg.json",
+    "path": "tokens[0].title",
+    "key": "title",
+    "en": "Price now"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/solar_yield_remaining.json",
+    "path": "title",
+    "key": "title",
+    "en": "Remaining yield before time is less than"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/price_lowest_between.json",
+    "path": "title",
+    "key": "title",
+    "en": "The price becomes lowest between certain times"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/price_lowest_between.json",
+    "path": "args[1].title",
+    "key": "title",
+    "en": "number"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/price_lowest_between.json",
+    "path": "args[2].title",
+    "key": "title",
+    "en": "time from"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/price_lowest_between.json",
+    "path": "args[3].title",
+    "key": "title",
+    "en": "time to"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/price_lowest_between.json",
+    "path": "tokens[0].title",
+    "key": "title",
+    "en": "Price now"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/price_lowest.json",
+    "path": "title",
+    "key": "title",
+    "en": "The price becomes lowest"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/price_lowest.json",
+    "path": "args[1].title",
+    "key": "title",
+    "en": "period"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/price_lowest.json",
+    "path": "args[1].values[0].label",
+    "key": "label",
+    "en": "this day"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/price_lowest.json",
+    "path": "args[1].values[1].label",
+    "key": "label",
+    "en": "next 2H"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/price_lowest.json",
+    "path": "args[1].values[2].label",
+    "key": "label",
+    "en": "next 3H"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/price_lowest.json",
+    "path": "args[1].values[3].label",
+    "key": "label",
+    "en": "next 4H"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/price_lowest.json",
+    "path": "args[1].values[4].label",
+    "key": "label",
+    "en": "next 5H"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/price_lowest.json",
+    "path": "args[1].values[5].label",
+    "key": "label",
+    "en": "next 6H"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/price_lowest.json",
+    "path": "args[1].values[6].label",
+    "key": "label",
+    "en": "next 7H"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/price_lowest.json",
+    "path": "args[1].values[7].label",
+    "key": "label",
+    "en": "next 8H"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/price_lowest.json",
+    "path": "tokens[0].title",
+    "key": "title",
+    "en": "Price now"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/load_forecast_updated.json",
+    "path": "title",
+    "key": "title",
+    "en": "Load forecast updated"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/load_forecast_updated.json",
+    "path": "args[1].title",
+    "key": "title",
+    "en": "period"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/load_forecast_updated.json",
+    "path": "args[1].values[0].label",
+    "key": "label",
+    "en": "This day"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/load_forecast_updated.json",
+    "path": "args[1].values[1].label",
+    "key": "label",
+    "en": "Tomorrow"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/load_forecast_updated.json",
+    "path": "args[1].values[2].label",
+    "key": "label",
+    "en": "Next hours"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/load_forecast_updated.json",
+    "path": "tokens[0].title",
+    "key": "title",
+    "en": "Load Forecast JSON"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/meter_price_h0_changed.json",
+    "path": "title",
+    "key": "title",
+    "en": "The price has changed"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/meter_price_h0_changed.json",
+    "path": "tokens[0].title",
+    "key": "title",
+    "en": "Price now"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/new_roi_strategy.json",
+    "path": "title",
+    "key": "title",
+    "en": "New smart ROI power available."
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/new_roi_strategy.json",
+    "path": "args[1].title",
+    "key": "title",
+    "en": "price delta"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/new_roi_strategy.json",
+    "path": "args[2].title",
+    "key": "title",
+    "en": "Invert power sign"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/new_roi_strategy.json",
+    "path": "tokens[0].title",
+    "key": "title",
+    "en": "Power"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/new_roi_strategy.json",
+    "path": "tokens[1].title",
+    "key": "title",
+    "en": "Duration (minutes)"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/new_roi_strategy.json",
+    "path": "tokens[2].title",
+    "key": "title",
+    "en": "SOC afterwards (%)"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/new_roi_strategy.json",
+    "path": "tokens[3].title",
+    "key": "title",
+    "en": "Scheme JSON"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/price_highest_avg.json",
+    "path": "title",
+    "key": "title",
+    "en": "The avg. price next hours becomes highest"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/price_highest_avg.json",
+    "path": "args[1].title",
+    "key": "title",
+    "en": "period"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/price_highest_avg.json",
+    "path": "args[1].values[0].label",
+    "key": "label",
+    "en": "this day"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/price_highest_avg.json",
+    "path": "args[1].values[1].label",
+    "key": "label",
+    "en": "next 8H"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/price_highest_avg.json",
+    "path": "args[2].title",
+    "key": "title",
+    "en": "next hours"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/price_highest_avg.json",
+    "path": "tokens[0].title",
+    "key": "title",
+    "en": "Price now"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/price_lowest_avg_between.json",
+    "path": "title",
+    "key": "title",
+    "en": "The average price becomes lowest between certain times"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/price_lowest_avg_between.json",
+    "path": "args[1].title",
+    "key": "title",
+    "en": "duration"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/price_lowest_avg_between.json",
+    "path": "args[2].title",
+    "key": "title",
+    "en": "time from"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/price_lowest_avg_between.json",
+    "path": "args[3].title",
+    "key": "title",
+    "en": "time to"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/price_lowest_avg_between.json",
+    "path": "tokens[0].title",
+    "key": "title",
+    "en": "Price now"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/price_highest_next_hours.json",
+    "path": "title",
+    "key": "title",
+    "en": "The price becomes one of the highest the next hours"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/price_highest_next_hours.json",
+    "path": "args[1].title",
+    "key": "title",
+    "en": "period"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/price_highest_next_hours.json",
+    "path": "args[2].title",
+    "key": "title",
+    "en": "number"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/price_highest_next_hours.json",
+    "path": "tokens[0].title",
+    "key": "title",
+    "en": "Price now"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/price_lowest_avg_before.json",
+    "path": "title",
+    "key": "title",
+    "en": "The avg. price becomes lowest before a certain time"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/price_lowest_avg_before.json",
+    "path": "args[1].title",
+    "key": "title",
+    "en": "next hours"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/price_lowest_avg_before.json",
+    "path": "args[2].title",
+    "key": "title",
+    "en": "period"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/price_lowest_avg_before.json",
+    "path": "args[3].title",
+    "key": "title",
+    "en": "time"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/price_lowest_avg_before.json",
+    "path": "tokens[0].title",
+    "key": "title",
+    "en": "Price now"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/price_lowest_today.json",
+    "path": "title",
+    "key": "title",
+    "en": "The price becomes on of the lowest of today"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/price_lowest_today.json",
+    "path": "args[1].title",
+    "key": "title",
+    "en": "number"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/price_lowest_today.json",
+    "path": "tokens[0].title",
+    "key": "title",
+    "en": "Price now"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/price_highest_avg_before.json",
+    "path": "title",
+    "key": "title",
+    "en": "The avg. price becomes highest before a certain time"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/price_highest_avg_before.json",
+    "path": "args[1].title",
+    "key": "title",
+    "en": "next hours"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/price_highest_avg_before.json",
+    "path": "args[2].title",
+    "key": "title",
+    "en": "period"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/price_highest_avg_before.json",
+    "path": "args[3].title",
+    "key": "title",
+    "en": "time"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/price_highest_avg_before.json",
+    "path": "tokens[0].title",
+    "key": "title",
+    "en": "Price now"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/new_ev_strategy.json",
+    "path": "title",
+    "key": "title",
+    "en": "New EV strategy active"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/new_ev_strategy.json",
+    "path": "tokens[0].title",
+    "key": "title",
+    "en": "Power (W)"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/new_ev_strategy.json",
+    "path": "tokens[1].title",
+    "key": "title",
+    "en": "Duration (minutes)"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/new_ev_strategy.json",
+    "path": "tokens[2].title",
+    "key": "title",
+    "en": "Target SOC (%)"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/new_ev_strategy.json",
+    "path": "tokens[3].title",
+    "key": "title",
+    "en": "Scheme JSON"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/price_highest_avg_between.json",
+    "path": "title",
+    "key": "title",
+    "en": "The average price becomes highest between certain times"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/price_highest_avg_between.json",
+    "path": "args[1].title",
+    "key": "title",
+    "en": "duration"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/price_highest_avg_between.json",
+    "path": "args[2].title",
+    "key": "title",
+    "en": "time from"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/price_highest_avg_between.json",
+    "path": "args[3].title",
+    "key": "title",
+    "en": "time to"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/price_highest_avg_between.json",
+    "path": "tokens[0].title",
+    "key": "title",
+    "en": "Price now"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/solar_curtailment_inactive.json",
+    "path": "title",
+    "key": "title",
+    "en": "Solar curtailment ended"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/solar_production_enters_top.json",
+    "path": "title",
+    "key": "title",
+    "en": "Solar production enters top hours"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/solar_production_enters_top.json",
+    "path": "args[1].title",
+    "key": "title",
+    "en": "hours"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/price_lowest_avg.json",
+    "path": "title",
+    "key": "title",
+    "en": "The avg. price next hours becomes lowest"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/price_lowest_avg.json",
+    "path": "args[1].title",
+    "key": "title",
+    "en": "period"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/price_lowest_avg.json",
+    "path": "args[1].values[0].label",
+    "key": "label",
+    "en": "this day"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/price_lowest_avg.json",
+    "path": "args[1].values[1].label",
+    "key": "label",
+    "en": "next 8H"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/price_lowest_avg.json",
+    "path": "args[2].title",
+    "key": "title",
+    "en": "next hours"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/price_lowest_avg.json",
+    "path": "tokens[0].title",
+    "key": "title",
+    "en": "Price now"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/new_prices.json",
+    "path": "title",
+    "key": "title",
+    "en": "New prices received"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/new_prices.json",
+    "path": "args[1].title",
+    "key": "title",
+    "en": "period"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/new_prices.json",
+    "path": "args[1].values[0].label",
+    "key": "label",
+    "en": "this day"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/new_prices.json",
+    "path": "args[1].values[1].label",
+    "key": "label",
+    "en": "tomorrow"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/new_prices.json",
+    "path": "args[1].values[2].label",
+    "key": "label",
+    "en": "Next hours"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/new_prices.json",
+    "path": "args[2].title",
+    "key": "title",
+    "en": "Include forecast prices"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/new_prices.json",
+    "path": "tokens[0].title",
+    "key": "title",
+    "en": "Prices"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/new_prices.json",
+    "path": "tokens[1].title",
+    "key": "title",
+    "en": "Provider"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/price_lowest_next_known_hours.json",
+    "path": "title",
+    "key": "title",
+    "en": "The price becomes one of the lowest in next known hours"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/price_lowest_next_known_hours.json",
+    "path": "args[1].title",
+    "key": "title",
+    "en": "number"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/price_lowest_next_known_hours.json",
+    "path": "tokens[0].title",
+    "key": "title",
+    "en": "Price now"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/price_above_avg.json",
+    "path": "title",
+    "key": "title",
+    "en": "The price becomes above avg."
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/price_above_avg.json",
+    "path": "args[1].title",
+    "key": "title",
+    "en": "%"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/price_above_avg.json",
+    "path": "args[2].title",
+    "key": "title",
+    "en": "period"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/price_above_avg.json",
+    "path": "args[2].values[0].label",
+    "key": "label",
+    "en": "this day"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/price_above_avg.json",
+    "path": "args[2].values[1].label",
+    "key": "label",
+    "en": "next 8H"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/price_above_avg.json",
+    "path": "tokens[0].title",
+    "key": "title",
+    "en": "Price now"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/price_highest_before.json",
+    "path": "title",
+    "key": "title",
+    "en": "The price becomes highest before a certain time"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/price_highest_before.json",
+    "path": "args[1].title",
+    "key": "title",
+    "en": "period"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/price_highest_before.json",
+    "path": "args[2].title",
+    "key": "title",
+    "en": "number"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/price_highest_before.json",
+    "path": "args[3].title",
+    "key": "title",
+    "en": "time"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/price_highest_before.json",
+    "path": "tokens[0].title",
+    "key": "title",
+    "en": "Price now"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/new_hour.json",
+    "path": "title",
+    "key": "title",
+    "en": "New price period"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/new_hour.json",
+    "path": "tokens[0].title",
+    "key": "title",
+    "en": "Hour"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/new_hour.json",
+    "path": "tokens[1].title",
+    "key": "title",
+    "en": "Price"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/ev_charge_mode_changed.json",
+    "path": "title",
+    "key": "title",
+    "en": "EV charge mode changed"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/ev_charge_mode_changed.json",
+    "path": "tokens[0].title",
+    "key": "title",
+    "en": "Charge Mode"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/price_highest_next_known_hours.json",
+    "path": "title",
+    "key": "title",
+    "en": "The price becomes one of the highest in next known hours"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/price_highest_next_known_hours.json",
+    "path": "args[1].title",
+    "key": "title",
+    "en": "number"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/price_highest_next_known_hours.json",
+    "path": "tokens[0].title",
+    "key": "title",
+    "en": "Price now"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/solar_yield_between.json",
+    "path": "title",
+    "key": "title",
+    "en": "Yield between times is less than"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/price_lowest_before.json",
+    "path": "title",
+    "key": "title",
+    "en": "The price becomes lowest before a certain time"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/price_lowest_before.json",
+    "path": "args[1].title",
+    "key": "title",
+    "en": "period"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/price_lowest_before.json",
+    "path": "args[2].title",
+    "key": "title",
+    "en": "number"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/price_lowest_before.json",
+    "path": "args[3].title",
+    "key": "title",
+    "en": "time"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/price_lowest_before.json",
+    "path": "tokens[0].title",
+    "key": "title",
+    "en": "Price now"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/price_lowest_next_hours.json",
+    "path": "title",
+    "key": "title",
+    "en": "The price becomes one of the lowest the next hours"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/price_lowest_next_hours.json",
+    "path": "args[1].title",
+    "key": "title",
+    "en": "period"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/price_lowest_next_hours.json",
+    "path": "args[2].title",
+    "key": "title",
+    "en": "number"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/price_lowest_next_hours.json",
+    "path": "tokens[0].title",
+    "key": "title",
+    "en": "Price now"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/price_highest.json",
+    "path": "title",
+    "key": "title",
+    "en": "The price becomes highest"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/price_highest.json",
+    "path": "args[1].title",
+    "key": "title",
+    "en": "period"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/price_highest.json",
+    "path": "args[1].values[0].label",
+    "key": "label",
+    "en": "this day"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/price_highest.json",
+    "path": "args[1].values[1].label",
+    "key": "label",
+    "en": "next 2H"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/price_highest.json",
+    "path": "args[1].values[2].label",
+    "key": "label",
+    "en": "next 3H"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/price_highest.json",
+    "path": "args[1].values[3].label",
+    "key": "label",
+    "en": "next 4H"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/price_highest.json",
+    "path": "args[1].values[4].label",
+    "key": "label",
+    "en": "next 5H"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/price_highest.json",
+    "path": "args[1].values[5].label",
+    "key": "label",
+    "en": "next 6H"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/price_highest.json",
+    "path": "args[1].values[6].label",
+    "key": "label",
+    "en": "next 7H"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/price_highest.json",
+    "path": "args[1].values[7].label",
+    "key": "label",
+    "en": "next 8H"
+  },
+  {
+    "file": "./.homeycompose/flow/triggers/price_highest.json",
+    "path": "tokens[0].title",
+    "key": "title",
+    "en": "Price now"
+  },
+  {
+    "file": "./.homeycompose/flow/actions/clear_ev_trip_override.json",
+    "path": "title",
+    "key": "title",
+    "en": "Clear temporary EV trip override"
+  },
+  {
+    "file": "./.homeycompose/flow/actions/set_export_fixed_markup_weekend.json",
+    "path": "title",
+    "key": "title",
+    "en": "Set a new weekend markup (export)"
+  },
+  {
+    "file": "./.homeycompose/flow/actions/set_meter_power.json",
+    "path": "title",
+    "key": "title",
+    "en": "Send energy reading to virtual meter"
+  },
+  {
+    "file": "./.homeycompose/flow/actions/set_meter_power.json",
+    "path": "args[0].title",
+    "key": "title",
+    "en": "Virtual device"
+  },
+  {
+    "file": "./.homeycompose/flow/actions/set_xom_settings.json",
+    "path": "title",
+    "key": "title",
+    "en": "Set values for Battery XOM flow."
+  },
+  {
+    "file": "./.homeycompose/flow/actions/set_xom_settings.json",
+    "path": "args[0].title",
+    "key": "title",
+    "en": "XOM-target (W)"
+  },
+  {
+    "file": "./.homeycompose/flow/actions/set_xom_settings.json",
+    "path": "args[1].title",
+    "key": "title",
+    "en": "smoothing (%)"
+  },
+  {
+    "file": "./.homeycompose/flow/actions/set_xom_settings.json",
+    "path": "args[2].title",
+    "key": "title",
+    "en": "Minimum battery power (W)"
+  },
+  {
+    "file": "./.homeycompose/flow/actions/set_tariff_gas.json",
+    "path": "title",
+    "key": "title",
+    "en": "Set a new gas tariff"
+  },
+  {
+    "file": "./.homeycompose/flow/actions/set_export_fixed_markup.json",
+    "path": "title",
+    "key": "title",
+    "en": "Set a new fixed markup (export)"
+  },
+  {
+    "file": "./.homeycompose/flow/actions/set_fixed_markup.json",
+    "path": "title",
+    "key": "title",
+    "en": "Set a new fixed markup"
+  },
+  {
+    "file": "./.homeycompose/flow/actions/set_monthly_fixed_cost.json",
+    "path": "title",
+    "key": "title",
+    "en": "Set monthly fixed cost"
+  },
+  {
+    "file": "./.homeycompose/flow/actions/set_meter_water.json",
+    "path": "title",
+    "key": "title",
+    "en": "Send water reading to virtual meter"
+  },
+  {
+    "file": "./.homeycompose/flow/actions/set_meter_water.json",
+    "path": "args[0].title",
+    "key": "title",
+    "en": "Virtual device"
+  },
+  {
+    "file": "./.homeycompose/flow/actions/set_tariff_group.json",
+    "path": "title",
+    "key": "title",
+    "en": "Set a new tariff update group"
+  },
+  {
+    "file": "./.homeycompose/flow/actions/set_export_fixed_markup_TOD.json",
+    "path": "title",
+    "key": "title",
+    "en": "Set a new Time Of Day markup (export)"
+  },
+  {
+    "file": "./.homeycompose/flow/actions/time_until_cheapest.json",
+    "path": "title",
+    "key": "title",
+    "en": "Calculate time until cheapest window"
+  },
+  {
+    "file": "./.homeycompose/flow/actions/time_until_cheapest.json",
+    "path": "args[1].title",
+    "key": "title",
+    "en": "window duration"
+  },
+  {
+    "file": "./.homeycompose/flow/actions/time_until_cheapest.json",
+    "path": "args[2].title",
+    "key": "title",
+    "en": "lookahead (hours)"
+  },
+  {
+    "file": "./.homeycompose/flow/actions/time_until_cheapest.json",
+    "path": "tokens[0].title",
+    "key": "title",
+    "en": "Minutes until start"
+  },
+  {
+    "file": "./.homeycompose/flow/actions/time_until_cheapest.json",
+    "path": "tokens[1].title",
+    "key": "title",
+    "en": "Hours until start"
+  },
+  {
+    "file": "./.homeycompose/flow/actions/time_until_cheapest.json",
+    "path": "tokens[2].title",
+    "key": "title",
+    "en": "Start time"
+  },
+  {
+    "file": "./.homeycompose/flow/actions/time_until_cheapest.json",
+    "path": "tokens[3].title",
+    "key": "title",
+    "en": "Average price in window"
+  },
+  {
+    "file": "./.homeycompose/flow/actions/set_ev_soc.json",
+    "path": "title",
+    "key": "title",
+    "en": "Set EV State of Charge"
+  },
+  {
+    "file": "./.homeycompose/flow/actions/set_ev_soc.json",
+    "path": "args[1].title",
+    "key": "title",
+    "en": "SoC (%)"
+  },
+  {
+    "file": "./.homeycompose/flow/actions/set_tariff_power.json",
+    "path": "title",
+    "key": "title",
+    "en": "Set a new energy tariff"
+  },
+  {
+    "file": "./.homeycompose/flow/actions/retrain_load_model.json",
+    "path": "title",
+    "key": "title",
+    "en": "Retrain home load model"
+  },
+  {
+    "file": "./.homeycompose/flow/actions/set_hourly_fixed_cost.json",
+    "path": "title",
+    "key": "title",
+    "en": "Set hourly fixed cost"
+  },
+  {
+    "file": "./.homeycompose/flow/actions/export_prices_json.json",
+    "path": "title",
+    "key": "title",
+    "en": "Provide export prices JSON"
+  },
+  {
+    "file": "./.homeycompose/flow/actions/export_prices_json.json",
+    "path": "args[1].title",
+    "key": "title",
+    "en": "period"
+  },
+  {
+    "file": "./.homeycompose/flow/actions/export_prices_json.json",
+    "path": "args[1].values[0].label",
+    "key": "label",
+    "en": "This day"
+  },
+  {
+    "file": "./.homeycompose/flow/actions/export_prices_json.json",
+    "path": "args[1].values[1].label",
+    "key": "label",
+    "en": "Tomorrow"
+  },
+  {
+    "file": "./.homeycompose/flow/actions/export_prices_json.json",
+    "path": "args[1].values[2].label",
+    "key": "label",
+    "en": "Next hours"
+  },
+  {
+    "file": "./.homeycompose/flow/actions/export_prices_json.json",
+    "path": "tokens[0].title",
+    "key": "title",
+    "en": "Export Prices"
+  },
+  {
+    "file": "./.homeycompose/flow/actions/export_prices_json.json",
+    "path": "tokens[1].title",
+    "key": "title",
+    "en": "Provider"
+  },
+  {
+    "file": "./.homeycompose/flow/actions/set_ev_charge_mode.json",
+    "path": "title",
+    "key": "title",
+    "en": "Set EV charge mode"
+  },
+  {
+    "file": "./.homeycompose/flow/actions/set_ev_charge_mode.json",
+    "path": "args[1].title",
+    "key": "title",
+    "en": "Mode"
+  },
+  {
+    "file": "./.homeycompose/flow/actions/set_ev_charge_mode.json",
+    "path": "args[1].values[0].label",
+    "key": "label",
+    "en": "Scheduled Price Slots"
+  },
+  {
+    "file": "./.homeycompose/flow/actions/set_ev_charge_mode.json",
+    "path": "args[1].values[1].label",
+    "key": "label",
+    "en": "Solar Surplus Only"
+  },
+  {
+    "file": "./.homeycompose/flow/actions/set_ev_charge_mode.json",
+    "path": "args[1].values[2].label",
+    "key": "label",
+    "en": "Solar + Price Slots"
+  },
+  {
+    "file": "./.homeycompose/flow/actions/set_ev_charge_mode.json",
+    "path": "args[1].values[3].label",
+    "key": "label",
+    "en": "Fast Charge"
+  },
+  {
+    "file": "./.homeycompose/flow/actions/set_ev_charge_mode.json",
+    "path": "args[1].values[4].label",
+    "key": "label",
+    "en": "Off"
+  },
+  {
+    "file": "./.homeycompose/flow/actions/set_ev_trip_override.json",
+    "path": "title",
+    "key": "title",
+    "en": "Set temporary EV trip override"
+  },
+  {
+    "file": "./.homeycompose/flow/actions/set_ev_trip_override.json",
+    "path": "args[1].title",
+    "key": "title",
+    "en": "Departure Time (HH:MM)"
+  },
+  {
+    "file": "./.homeycompose/flow/actions/set_ev_trip_override.json",
+    "path": "args[2].title",
+    "key": "title",
+    "en": "Target SoC (%)"
+  },
+  {
+    "file": "./.homeycompose/flow/actions/solar_json.json",
+    "path": "title",
+    "key": "title",
+    "en": "Provide solar forecast JSON"
+  },
+  {
+    "file": "./.homeycompose/flow/actions/solar_json.json",
+    "path": "args[1].title",
+    "key": "title",
+    "en": "period"
+  },
+  {
+    "file": "./.homeycompose/flow/actions/solar_json.json",
+    "path": "args[1].values[0].label",
+    "key": "label",
+    "en": "This day"
+  },
+  {
+    "file": "./.homeycompose/flow/actions/solar_json.json",
+    "path": "args[1].values[1].label",
+    "key": "label",
+    "en": "Tomorrow"
+  },
+  {
+    "file": "./.homeycompose/flow/actions/solar_json.json",
+    "path": "args[1].values[2].label",
+    "key": "label",
+    "en": "Next hours"
+  },
+  {
+    "file": "./.homeycompose/flow/actions/solar_json.json",
+    "path": "tokens[0].title",
+    "key": "title",
+    "en": "Solar Forecast JSON"
+  },
+  {
+    "file": "./.homeycompose/flow/actions/set_fixed_markup_TOD.json",
+    "path": "title",
+    "key": "title",
+    "en": "Set a new Time Of Day markup"
+  },
+  {
+    "file": "./.homeycompose/flow/actions/load_json.json",
+    "path": "title",
+    "key": "title",
+    "en": "Provide load forecast JSON"
+  },
+  {
+    "file": "./.homeycompose/flow/actions/load_json.json",
+    "path": "args[1].title",
+    "key": "title",
+    "en": "period"
+  },
+  {
+    "file": "./.homeycompose/flow/actions/load_json.json",
+    "path": "args[1].values[0].label",
+    "key": "label",
+    "en": "This day"
+  },
+  {
+    "file": "./.homeycompose/flow/actions/load_json.json",
+    "path": "args[1].values[1].label",
+    "key": "label",
+    "en": "Tomorrow"
+  },
+  {
+    "file": "./.homeycompose/flow/actions/load_json.json",
+    "path": "args[1].values[2].label",
+    "key": "label",
+    "en": "Next hours"
+  },
+  {
+    "file": "./.homeycompose/flow/actions/load_json.json",
+    "path": "tokens[0].title",
+    "key": "title",
+    "en": "Load Forecast JSON"
+  },
+  {
+    "file": "./.homeycompose/flow/actions/set_tariff_water.json",
+    "path": "title",
+    "key": "title",
+    "en": "Set a new water tariff"
+  },
+  {
+    "file": "./.homeycompose/flow/actions/find_roi_strategy.json",
+    "path": "title",
+    "key": "title",
+    "en": "Calculate the best smart ROI power."
+  },
+  {
+    "file": "./.homeycompose/flow/actions/find_roi_strategy.json",
+    "path": "args[1].title",
+    "key": "title",
+    "en": "price delta"
+  },
+  {
+    "file": "./.homeycompose/flow/actions/find_roi_strategy.json",
+    "path": "args[2].title",
+    "key": "title",
+    "en": "Invert power sign"
+  },
+  {
+    "file": "./.homeycompose/flow/actions/find_roi_strategy.json",
+    "path": "tokens[0].title",
+    "key": "title",
+    "en": "Power"
+  },
+  {
+    "file": "./.homeycompose/flow/actions/find_roi_strategy.json",
+    "path": "tokens[1].title",
+    "key": "title",
+    "en": "Duration (minutes)"
+  },
+  {
+    "file": "./.homeycompose/flow/actions/find_roi_strategy.json",
+    "path": "tokens[2].title",
+    "key": "title",
+    "en": "SOC afterwards (%)"
+  },
+  {
+    "file": "./.homeycompose/flow/actions/find_roi_strategy.json",
+    "path": "tokens[3].title",
+    "key": "title",
+    "en": "Scheme JSON"
+  },
+  {
+    "file": "./.homeycompose/flow/actions/retrain_solar_model.json",
+    "path": "title",
+    "key": "title",
+    "en": "Retrain solar model"
+  },
+  {
+    "file": "./.homeycompose/flow/actions/set_daily_fixed_cost.json",
+    "path": "title",
+    "key": "title",
+    "en": "Set daily fixed cost"
+  },
+  {
+    "file": "./.homeycompose/flow/actions/prices_json.json",
+    "path": "title",
+    "key": "title",
+    "en": "Provide import prices JSON"
+  },
+  {
+    "file": "./.homeycompose/flow/actions/prices_json.json",
+    "path": "args[1].title",
+    "key": "title",
+    "en": "period"
+  },
+  {
+    "file": "./.homeycompose/flow/actions/prices_json.json",
+    "path": "args[1].values[0].label",
+    "key": "label",
+    "en": "This day"
+  },
+  {
+    "file": "./.homeycompose/flow/actions/prices_json.json",
+    "path": "args[1].values[1].label",
+    "key": "label",
+    "en": "Tomorrow"
+  },
+  {
+    "file": "./.homeycompose/flow/actions/prices_json.json",
+    "path": "args[1].values[2].label",
+    "key": "label",
+    "en": "Next hours"
+  },
+  {
+    "file": "./.homeycompose/flow/actions/prices_json.json",
+    "path": "tokens[0].title",
+    "key": "title",
+    "en": "Prices"
+  },
+  {
+    "file": "./.homeycompose/flow/actions/prices_json.json",
+    "path": "tokens[1].title",
+    "key": "title",
+    "en": "Provider"
+  },
+  {
+    "file": "./.homeycompose/flow/actions/set_fixed_markup_weekend.json",
+    "path": "title",
+    "key": "title",
+    "en": "Set a new weekend markup"
+  },
+  {
+    "file": "./.homeycompose/flow/actions/set_ev_departure.json",
+    "path": "title",
+    "key": "title",
+    "en": "Set EV departure and target SoC"
+  },
+  {
+    "file": "./.homeycompose/flow/actions/set_ev_departure.json",
+    "path": "args[1].title",
+    "key": "title",
+    "en": "Departure Time (HH:MM)"
+  },
+  {
+    "file": "./.homeycompose/flow/actions/set_ev_departure.json",
+    "path": "args[2].title",
+    "key": "title",
+    "en": "Target SoC (%)"
+  },
+  {
+    "file": "./.homeycompose/flow/actions/set_export_variable_markup.json",
+    "path": "title",
+    "key": "title",
+    "en": "Set a new variable markup (export)"
+  },
+  {
+    "file": "./.homeycompose/flow/actions/set_variable_markup.json",
+    "path": "title",
+    "key": "title",
+    "en": "Set a new variable markup"
+  },
+  {
+    "file": "./.homeycompose/flow/actions/set_exchange_rate.json",
+    "path": "title",
+    "key": "title",
+    "en": "Set a new exchange rate"
+  },
+  {
+    "file": "./.homeycompose/flow/actions/set_curtailment.json",
+    "path": "title",
+    "key": "title",
+    "en": "Set curtailment"
+  },
+  {
+    "file": "./.homeycompose/flow/actions/set_curtailment.json",
+    "path": "args[1].title",
+    "key": "title",
+    "en": "Active"
+  },
+  {
+    "file": "./.homeycompose/flow/actions/set_meter_gas.json",
+    "path": "title",
+    "key": "title",
+    "en": "Send gas reading to virtual meter"
+  },
+  {
+    "file": "./.homeycompose/flow/actions/set_meter_gas.json",
+    "path": "args[0].title",
+    "key": "title",
+    "en": "Virtual device"
+  },
+  {
+    "file": "./.homeycompose/flow/conditions/price_highest_today.json",
+    "path": "title",
+    "key": "title",
+    "en": "The price !{{is|isn't}} one of the highest of today"
+  },
+  {
+    "file": "./.homeycompose/flow/conditions/price_highest_today.json",
+    "path": "args[1].title",
+    "key": "title",
+    "en": "number"
+  },
+  {
+    "file": "./.homeycompose/flow/conditions/solar_curtailment_active.json",
+    "path": "title",
+    "key": "title",
+    "en": "Solar curtailment !{{is|isn't}} active"
+  },
+  {
+    "file": "./.homeycompose/flow/conditions/price_highest_between.json",
+    "path": "title",
+    "key": "title",
+    "en": "The price !{{is|isn't}} highest between certain times"
+  },
+  {
+    "file": "./.homeycompose/flow/conditions/price_highest_between.json",
+    "path": "args[1].title",
+    "key": "title",
+    "en": "number"
+  },
+  {
+    "file": "./.homeycompose/flow/conditions/price_highest_between.json",
+    "path": "args[2].title",
+    "key": "title",
+    "en": "time from"
+  },
+  {
+    "file": "./.homeycompose/flow/conditions/price_highest_between.json",
+    "path": "args[3].title",
+    "key": "title",
+    "en": "time to"
+  },
+  {
+    "file": "./.homeycompose/flow/conditions/price_below_avg.json",
+    "path": "title",
+    "key": "title",
+    "en": "The price !{{is|isn't}} below avg."
+  },
+  {
+    "file": "./.homeycompose/flow/conditions/price_below_avg.json",
+    "path": "args[1].title",
+    "key": "title",
+    "en": "%"
+  },
+  {
+    "file": "./.homeycompose/flow/conditions/price_below_avg.json",
+    "path": "args[2].title",
+    "key": "title",
+    "en": "period"
+  },
+  {
+    "file": "./.homeycompose/flow/conditions/price_below_avg.json",
+    "path": "args[2].values[0].label",
+    "key": "label",
+    "en": "this day"
+  },
+  {
+    "file": "./.homeycompose/flow/conditions/price_below_avg.json",
+    "path": "args[2].values[1].label",
+    "key": "label",
+    "en": "next 8H"
+  },
+  {
+    "file": "./.homeycompose/flow/conditions/price_below_avg.json",
+    "path": "args[2].values[2].label",
+    "key": "label",
+    "en": "this month"
+  },
+  {
+    "file": "./.homeycompose/flow/conditions/solar_yield_remaining.json",
+    "path": "title",
+    "key": "title",
+    "en": "Remaining yield before time is !{{less|more}} than"
+  },
+  {
+    "file": "./.homeycompose/flow/conditions/price_lowest_between.json",
+    "path": "title",
+    "key": "title",
+    "en": "The price !{{is|isn't}} lowest between certain times"
+  },
+  {
+    "file": "./.homeycompose/flow/conditions/price_lowest_between.json",
+    "path": "args[1].title",
+    "key": "title",
+    "en": "number"
+  },
+  {
+    "file": "./.homeycompose/flow/conditions/price_lowest_between.json",
+    "path": "args[2].title",
+    "key": "title",
+    "en": "time from"
+  },
+  {
+    "file": "./.homeycompose/flow/conditions/price_lowest_between.json",
+    "path": "args[3].title",
+    "key": "title",
+    "en": "time to"
+  },
+  {
+    "file": "./.homeycompose/flow/conditions/price_lowest.json",
+    "path": "title",
+    "key": "title",
+    "en": "The price !{{is|isn't}} lowest"
+  },
+  {
+    "file": "./.homeycompose/flow/conditions/price_lowest.json",
+    "path": "args[1].title",
+    "key": "title",
+    "en": "period"
+  },
+  {
+    "file": "./.homeycompose/flow/conditions/price_lowest.json",
+    "path": "args[1].values[0].label",
+    "key": "label",
+    "en": "this day"
+  },
+  {
+    "file": "./.homeycompose/flow/conditions/price_lowest.json",
+    "path": "args[1].values[1].label",
+    "key": "label",
+    "en": "next 2H"
+  },
+  {
+    "file": "./.homeycompose/flow/conditions/price_lowest.json",
+    "path": "args[1].values[2].label",
+    "key": "label",
+    "en": "next 3H"
+  },
+  {
+    "file": "./.homeycompose/flow/conditions/price_lowest.json",
+    "path": "args[1].values[3].label",
+    "key": "label",
+    "en": "next 4H"
+  },
+  {
+    "file": "./.homeycompose/flow/conditions/price_lowest.json",
+    "path": "args[1].values[4].label",
+    "key": "label",
+    "en": "next 5H"
+  },
+  {
+    "file": "./.homeycompose/flow/conditions/price_lowest.json",
+    "path": "args[1].values[5].label",
+    "key": "label",
+    "en": "next 6H"
+  },
+  {
+    "file": "./.homeycompose/flow/conditions/price_lowest.json",
+    "path": "args[1].values[6].label",
+    "key": "label",
+    "en": "next 7H"
+  },
+  {
+    "file": "./.homeycompose/flow/conditions/price_lowest.json",
+    "path": "args[1].values[7].label",
+    "key": "label",
+    "en": "next 8H"
+  },
+  {
+    "file": "./.homeycompose/flow/conditions/solar_production_in_top.json",
+    "path": "title",
+    "key": "title",
+    "en": "Solar production !{{is|isn't}} in top hours"
+  },
+  {
+    "file": "./.homeycompose/flow/conditions/solar_production_in_top.json",
+    "path": "args[1].title",
+    "key": "title",
+    "en": "hours"
+  },
+  {
+    "file": "./.homeycompose/flow/conditions/price_batt_best_trade.json",
+    "path": "title",
+    "key": "title",
+    "en": "The price !{{is|isn't}} best for (dis)charging home battery."
+  },
+  {
+    "file": "./.homeycompose/flow/conditions/price_batt_best_trade.json",
+    "path": "args[1].title",
+    "key": "title",
+    "en": "price delta"
+  },
+  {
+    "file": "./.homeycompose/flow/conditions/price_batt_best_trade.json",
+    "path": "args[2].title",
+    "key": "title",
+    "en": "(dis)charge"
+  },
+  {
+    "file": "./.homeycompose/flow/conditions/price_batt_best_trade.json",
+    "path": "args[2].values[0].label",
+    "key": "label",
+    "en": "discharge"
+  },
+  {
+    "file": "./.homeycompose/flow/conditions/price_batt_best_trade.json",
+    "path": "args[2].values[1].label",
+    "key": "label",
+    "en": "charge"
+  },
+  {
+    "file": "./.homeycompose/flow/conditions/solar_yield_period.json",
+    "path": "title",
+    "key": "title",
+    "en": "Yield for period is !{{more|less}} than"
+  },
+  {
+    "file": "./.homeycompose/flow/conditions/solar_yield_period.json",
+    "path": "args[1].title",
+    "key": "title",
+    "en": "period"
+  },
+  {
+    "file": "./.homeycompose/flow/conditions/solar_yield_period.json",
+    "path": "args[1].values[0].label",
+    "key": "label",
+    "en": "Today"
+  },
+  {
+    "file": "./.homeycompose/flow/conditions/solar_yield_period.json",
+    "path": "args[1].values[1].label",
+    "key": "label",
+    "en": "Tomorrow"
+  },
+  {
+    "file": "./.homeycompose/flow/conditions/solar_yield_period.json",
+    "path": "args[1].values[2].label",
+    "key": "label",
+    "en": "Next hours"
+  },
+  {
+    "file": "./.homeycompose/flow/conditions/solar_yield_period.json",
+    "path": "args[2].title",
+    "key": "title",
+    "en": "kWh"
+  },
+  {
+    "file": "./.homeycompose/flow/conditions/price_highest_avg.json",
+    "path": "title",
+    "key": "title",
+    "en": "The avg. price next hours !{{is|isn't}} highest"
+  },
+  {
+    "file": "./.homeycompose/flow/conditions/price_highest_avg.json",
+    "path": "args[1].title",
+    "key": "title",
+    "en": "period"
+  },
+  {
+    "file": "./.homeycompose/flow/conditions/price_highest_avg.json",
+    "path": "args[1].values[0].label",
+    "key": "label",
+    "en": "this day"
+  },
+  {
+    "file": "./.homeycompose/flow/conditions/price_highest_avg.json",
+    "path": "args[1].values[1].label",
+    "key": "label",
+    "en": "next 8H"
+  },
+  {
+    "file": "./.homeycompose/flow/conditions/price_highest_avg.json",
+    "path": "args[2].title",
+    "key": "title",
+    "en": "next hours"
+  },
+  {
+    "file": "./.homeycompose/flow/conditions/price_lowest_avg_between.json",
+    "path": "title",
+    "key": "title",
+    "en": "The average price !{{is|isn't}} lowest between certain times"
+  },
+  {
+    "file": "./.homeycompose/flow/conditions/price_lowest_avg_between.json",
+    "path": "args[1].title",
+    "key": "title",
+    "en": "duration"
+  },
+  {
+    "file": "./.homeycompose/flow/conditions/price_lowest_avg_between.json",
+    "path": "args[2].title",
+    "key": "title",
+    "en": "time from"
+  },
+  {
+    "file": "./.homeycompose/flow/conditions/price_lowest_avg_between.json",
+    "path": "args[3].title",
+    "key": "title",
+    "en": "time to"
+  },
+  {
+    "file": "./.homeycompose/flow/conditions/price_highest_next_hours.json",
+    "path": "title",
+    "key": "title",
+    "en": "The price !{{is|isn't}} one of the highest the next hours"
+  },
+  {
+    "file": "./.homeycompose/flow/conditions/price_highest_next_hours.json",
+    "path": "args[1].title",
+    "key": "title",
+    "en": "period"
+  },
+  {
+    "file": "./.homeycompose/flow/conditions/price_highest_next_hours.json",
+    "path": "args[2].title",
+    "key": "title",
+    "en": "number"
+  },
+  {
+    "file": "./.homeycompose/flow/conditions/price_lowest_avg_before.json",
+    "path": "title",
+    "key": "title",
+    "en": "The avg. price !{{is|isn't}} lowest before a certain time"
+  },
+  {
+    "file": "./.homeycompose/flow/conditions/price_lowest_avg_before.json",
+    "path": "args[1].title",
+    "key": "title",
+    "en": "next hours"
+  },
+  {
+    "file": "./.homeycompose/flow/conditions/price_lowest_avg_before.json",
+    "path": "args[2].title",
+    "key": "title",
+    "en": "period"
+  },
+  {
+    "file": "./.homeycompose/flow/conditions/price_lowest_avg_before.json",
+    "path": "args[3].title",
+    "key": "title",
+    "en": "time"
+  },
+  {
+    "file": "./.homeycompose/flow/conditions/price_lowest_today.json",
+    "path": "title",
+    "key": "title",
+    "en": "The price !{{is|isn't}} one of the lowest of today"
+  },
+  {
+    "file": "./.homeycompose/flow/conditions/price_lowest_today.json",
+    "path": "args[1].title",
+    "key": "title",
+    "en": "number"
+  },
+  {
+    "file": "./.homeycompose/flow/conditions/price_highest_avg_before.json",
+    "path": "title",
+    "key": "title",
+    "en": "The avg. price !{{is|isn't}} highest before a certain time"
+  },
+  {
+    "file": "./.homeycompose/flow/conditions/price_highest_avg_before.json",
+    "path": "args[1].title",
+    "key": "title",
+    "en": "next hours"
+  },
+  {
+    "file": "./.homeycompose/flow/conditions/price_highest_avg_before.json",
+    "path": "args[2].title",
+    "key": "title",
+    "en": "period"
+  },
+  {
+    "file": "./.homeycompose/flow/conditions/price_highest_avg_before.json",
+    "path": "args[3].title",
+    "key": "title",
+    "en": "time"
+  },
+  {
+    "file": "./.homeycompose/flow/conditions/price_highest_avg_between.json",
+    "path": "title",
+    "key": "title",
+    "en": "The average price !{{is|isn't}} highest between certain times"
+  },
+  {
+    "file": "./.homeycompose/flow/conditions/price_highest_avg_between.json",
+    "path": "args[1].title",
+    "key": "title",
+    "en": "duration"
+  },
+  {
+    "file": "./.homeycompose/flow/conditions/price_highest_avg_between.json",
+    "path": "args[2].title",
+    "key": "title",
+    "en": "time from"
+  },
+  {
+    "file": "./.homeycompose/flow/conditions/price_highest_avg_between.json",
+    "path": "args[3].title",
+    "key": "title",
+    "en": "time to"
+  },
+  {
+    "file": "./.homeycompose/flow/conditions/price_lowest_avg.json",
+    "path": "title",
+    "key": "title",
+    "en": "The avg. price next hours !{{is|isn't}} the lowest"
+  },
+  {
+    "file": "./.homeycompose/flow/conditions/price_lowest_avg.json",
+    "path": "args[1].title",
+    "key": "title",
+    "en": "period"
+  },
+  {
+    "file": "./.homeycompose/flow/conditions/price_lowest_avg.json",
+    "path": "args[1].values[0].label",
+    "key": "label",
+    "en": "this day"
+  },
+  {
+    "file": "./.homeycompose/flow/conditions/price_lowest_avg.json",
+    "path": "args[1].values[1].label",
+    "key": "label",
+    "en": "next 8H"
+  },
+  {
+    "file": "./.homeycompose/flow/conditions/price_lowest_avg.json",
+    "path": "args[2].title",
+    "key": "title",
+    "en": "next hours"
+  },
+  {
+    "file": "./.homeycompose/flow/conditions/price_lowest_next_known_hours.json",
+    "path": "title",
+    "key": "title",
+    "en": "The price !{{is|isn't}} one of the lowest in next known hours"
+  },
+  {
+    "file": "./.homeycompose/flow/conditions/price_lowest_next_known_hours.json",
+    "path": "args[1].title",
+    "key": "title",
+    "en": "number"
+  },
+  {
+    "file": "./.homeycompose/flow/conditions/solar_yield_comparison.json",
+    "path": "title",
+    "key": "title",
+    "en": "Tomorrow's yield is !{{better|worse}} than today's"
+  },
+  {
+    "file": "./.homeycompose/flow/conditions/price_above_avg.json",
+    "path": "title",
+    "key": "title",
+    "en": "The price !{{is|isn't}} above avg."
+  },
+  {
+    "file": "./.homeycompose/flow/conditions/price_above_avg.json",
+    "path": "args[1].title",
+    "key": "title",
+    "en": "%"
+  },
+  {
+    "file": "./.homeycompose/flow/conditions/price_above_avg.json",
+    "path": "args[2].title",
+    "key": "title",
+    "en": "period"
+  },
+  {
+    "file": "./.homeycompose/flow/conditions/price_above_avg.json",
+    "path": "args[2].values[0].label",
+    "key": "label",
+    "en": "this day"
+  },
+  {
+    "file": "./.homeycompose/flow/conditions/price_above_avg.json",
+    "path": "args[2].values[1].label",
+    "key": "label",
+    "en": "next 8H"
+  },
+  {
+    "file": "./.homeycompose/flow/conditions/price_above_avg.json",
+    "path": "args[2].values[2].label",
+    "key": "label",
+    "en": "this month"
+  },
+  {
+    "file": "./.homeycompose/flow/conditions/price_highest_before.json",
+    "path": "title",
+    "key": "title",
+    "en": "The price !{{is|isn't}} highest before a certain time"
+  },
+  {
+    "file": "./.homeycompose/flow/conditions/price_highest_before.json",
+    "path": "args[1].title",
+    "key": "title",
+    "en": "period"
+  },
+  {
+    "file": "./.homeycompose/flow/conditions/price_highest_before.json",
+    "path": "args[2].title",
+    "key": "title",
+    "en": "number"
+  },
+  {
+    "file": "./.homeycompose/flow/conditions/price_highest_before.json",
+    "path": "args[3].title",
+    "key": "title",
+    "en": "time"
+  },
+  {
+    "file": "./.homeycompose/flow/conditions/price_highest_next_known_hours.json",
+    "path": "title",
+    "key": "title",
+    "en": "The price !{{is|isn't}} one of the highest in next known hours"
+  },
+  {
+    "file": "./.homeycompose/flow/conditions/price_highest_next_known_hours.json",
+    "path": "args[1].title",
+    "key": "title",
+    "en": "number"
+  },
+  {
+    "file": "./.homeycompose/flow/conditions/solar_yield_between.json",
+    "path": "title",
+    "key": "title",
+    "en": "Yield between times is !{{less|more}} than"
+  },
+  {
+    "file": "./.homeycompose/flow/conditions/ev_charge_mode_is.json",
+    "path": "title",
+    "key": "title",
+    "en": "EV charge mode is !"
+  },
+  {
+    "file": "./.homeycompose/flow/conditions/ev_charge_mode_is.json",
+    "path": "args[1].title",
+    "key": "title",
+    "en": "Mode"
+  },
+  {
+    "file": "./.homeycompose/flow/conditions/ev_charge_mode_is.json",
+    "path": "args[1].values[0].label",
+    "key": "label",
+    "en": "Scheduled Price Slots"
+  },
+  {
+    "file": "./.homeycompose/flow/conditions/ev_charge_mode_is.json",
+    "path": "args[1].values[1].label",
+    "key": "label",
+    "en": "Solar Surplus Only"
+  },
+  {
+    "file": "./.homeycompose/flow/conditions/ev_charge_mode_is.json",
+    "path": "args[1].values[2].label",
+    "key": "label",
+    "en": "Solar + Price Slots"
+  },
+  {
+    "file": "./.homeycompose/flow/conditions/ev_charge_mode_is.json",
+    "path": "args[1].values[3].label",
+    "key": "label",
+    "en": "Fast Charge"
+  },
+  {
+    "file": "./.homeycompose/flow/conditions/ev_charge_mode_is.json",
+    "path": "args[1].values[4].label",
+    "key": "label",
+    "en": "Off"
+  },
+  {
+    "file": "./.homeycompose/flow/conditions/price_lowest_before.json",
+    "path": "title",
+    "key": "title",
+    "en": "The price !{{is|isn't}} lowest before a certain time"
+  },
+  {
+    "file": "./.homeycompose/flow/conditions/price_lowest_before.json",
+    "path": "args[1].title",
+    "key": "title",
+    "en": "period"
+  },
+  {
+    "file": "./.homeycompose/flow/conditions/price_lowest_before.json",
+    "path": "args[2].title",
+    "key": "title",
+    "en": "number"
+  },
+  {
+    "file": "./.homeycompose/flow/conditions/price_lowest_before.json",
+    "path": "args[3].title",
+    "key": "title",
+    "en": "time"
+  },
+  {
+    "file": "./.homeycompose/flow/conditions/price_lowest_next_hours.json",
+    "path": "title",
+    "key": "title",
+    "en": "The price !{{is|isn't}} one of the lowest the next hours"
+  },
+  {
+    "file": "./.homeycompose/flow/conditions/price_lowest_next_hours.json",
+    "path": "args[1].title",
+    "key": "title",
+    "en": "period"
+  },
+  {
+    "file": "./.homeycompose/flow/conditions/price_lowest_next_hours.json",
+    "path": "args[2].title",
+    "key": "title",
+    "en": "number"
+  },
+  {
+    "file": "./.homeycompose/flow/conditions/price_highest.json",
+    "path": "title",
+    "key": "title",
+    "en": "The price !{{is|isn't}} highest"
+  },
+  {
+    "file": "./.homeycompose/flow/conditions/price_highest.json",
+    "path": "args[1].title",
+    "key": "title",
+    "en": "period"
+  },
+  {
+    "file": "./.homeycompose/flow/conditions/price_highest.json",
+    "path": "args[1].values[0].label",
+    "key": "label",
+    "en": "this day"
+  },
+  {
+    "file": "./.homeycompose/flow/conditions/price_highest.json",
+    "path": "args[1].values[1].label",
+    "key": "label",
+    "en": "next 2H"
+  },
+  {
+    "file": "./.homeycompose/flow/conditions/price_highest.json",
+    "path": "args[1].values[2].label",
+    "key": "label",
+    "en": "next 3H"
+  },
+  {
+    "file": "./.homeycompose/flow/conditions/price_highest.json",
+    "path": "args[1].values[3].label",
+    "key": "label",
+    "en": "next 4H"
+  },
+  {
+    "file": "./.homeycompose/flow/conditions/price_highest.json",
+    "path": "args[1].values[4].label",
+    "key": "label",
+    "en": "next 5H"
+  },
+  {
+    "file": "./.homeycompose/flow/conditions/price_highest.json",
+    "path": "args[1].values[5].label",
+    "key": "label",
+    "en": "next 6H"
+  },
+  {
+    "file": "./.homeycompose/flow/conditions/price_highest.json",
+    "path": "args[1].values[6].label",
+    "key": "label",
+    "en": "next 7H"
+  },
+  {
+    "file": "./.homeycompose/flow/conditions/price_highest.json",
+    "path": "args[1].values[7].label",
+    "key": "label",
+    "en": "next 8H"
+  },
+  {
+    "file": "./.homeycompose/capabilities/meter_money_this_hour.json",
+    "path": "title",
+    "key": "title",
+    "en": "Money this hour"
+  },
+  {
+    "file": "./.homeycompose/capabilities/meter_rank_price_h0_next_8h.json",
+    "path": "title",
+    "key": "title",
+    "en": "Price now rank next 8H"
+  },
+  {
+    "file": "./.homeycompose/capabilities/last_minmax_reset.json",
+    "path": "title",
+    "key": "title",
+    "en": "Min/Max Since"
+  },
+  {
+    "file": "./.homeycompose/capabilities/meter_money_last_day.json",
+    "path": "title",
+    "key": "title",
+    "en": "Money prev. day"
+  },
+  {
+    "file": "./.homeycompose/capabilities/measure_watt_min.json",
+    "path": "title",
+    "key": "title",
+    "en": "Minimum"
+  },
+  {
+    "file": "./.homeycompose/capabilities/meter_kwh_this_year.json",
+    "path": "title",
+    "key": "title",
+    "en": "kWh this year"
+  },
+  {
+    "file": "./.homeycompose/capabilities/meter_price_h5.json",
+    "path": "title",
+    "key": "title",
+    "en": "Price +5H"
+  },
+  {
+    "file": "./.homeycompose/capabilities/hour_this_day_highest.json",
+    "path": "title",
+    "key": "title",
+    "en": "Highest hour this day"
+  },
+  {
+    "file": "./.homeycompose/capabilities/meter_m3_this_day.json",
+    "path": "title",
+    "key": "title",
+    "en": "m³ this day"
+  },
+  {
+    "file": "./.homeycompose/capabilities/meter_price_m15.json",
+    "path": "title",
+    "key": "title",
+    "en": "Price +15M"
+  },
+  {
+    "file": "./.homeycompose/capabilities/hour_next_8h_highest.json",
+    "path": "title",
+    "key": "title",
+    "en": "Highest hour next 8H"
+  },
+  {
+    "file": "./.homeycompose/capabilities/meter_price_m45.json",
+    "path": "title",
+    "key": "title",
+    "en": "Price +45M"
+  },
+  {
+    "file": "./.homeycompose/capabilities/measure_watt_peak.json",
+    "path": "title",
+    "key": "title",
+    "en": "Peak demand (import)"
+  },
+  {
+    "file": "./.homeycompose/capabilities/meter_kwh_discharging.json",
+    "path": "title",
+    "key": "title",
+    "en": "Discharging Total"
+  },
+  {
+    "file": "./.homeycompose/capabilities/meter_price_next_8h_highest.json",
+    "path": "title",
+    "key": "title",
+    "en": "Highest price next 8H"
+  },
+  {
+    "file": "./.homeycompose/capabilities/meter_kwh_last_hour.json",
+    "path": "title",
+    "key": "title",
+    "en": "kWh prev. hour"
+  },
+  {
+    "file": "./.homeycompose/capabilities/meter_m3_last_day.json",
+    "path": "title",
+    "key": "title",
+    "en": "m³ prev. day"
+  },
+  {
+    "file": "./.homeycompose/capabilities/ev_next_departure.json",
+    "path": "title",
+    "key": "title",
+    "en": "Next Departure"
+  },
+  {
+    "file": "./.homeycompose/capabilities/measure_watt_peak_export.json",
+    "path": "title",
+    "key": "title",
+    "en": "Peak demand (export)"
+  },
+  {
+    "file": "./.homeycompose/capabilities/measure_watt_avg.json",
+    "path": "title",
+    "key": "title",
+    "en": "Power"
+  },
+  {
+    "file": "./.homeycompose/capabilities/measure_watt_avg.json",
+    "path": "desc",
+    "key": "desc",
+    "en": "Power in Watt (W)"
+  },
+  {
+    "file": "./.homeycompose/capabilities/meter_kwh_this_hour.json",
+    "path": "title",
+    "key": "title",
+    "en": "kWh this hour"
+  },
+  {
+    "file": "./.homeycompose/capabilities/meter_price_last_month_avg.json",
+    "path": "title",
+    "key": "title",
+    "en": "Avg. price last month"
+  },
+  {
+    "file": "./.homeycompose/capabilities/meter_target_month_to_date.json",
+    "path": "title",
+    "key": "title",
+    "en": "On budget Month To Date"
+  },
+  {
+    "file": "./.homeycompose/capabilities/measure_watt_max.json",
+    "path": "title",
+    "key": "title",
+    "en": "Maximum"
+  },
+  {
+    "file": "./.homeycompose/capabilities/meter_kwh_this_month.json",
+    "path": "title",
+    "key": "title",
+    "en": "kWh this month"
+  },
+  {
+    "file": "./.homeycompose/capabilities/hour_next_day_lowest.json",
+    "path": "title",
+    "key": "title",
+    "en": "Lowest hour tomorrow"
+  },
+  {
+    "file": "./.homeycompose/capabilities/meter_money_last_hour.json",
+    "path": "title",
+    "key": "title",
+    "en": "Money prev. hour"
+  },
+  {
+    "file": "./.homeycompose/capabilities/meter_price_next_day_avg.json",
+    "path": "title",
+    "key": "title",
+    "en": "Avg. price tomorrow"
+  },
+  {
+    "file": "./.homeycompose/capabilities/meter_money_this_year.json",
+    "path": "title",
+    "key": "title",
+    "en": "Money this year"
+  },
+  {
+    "file": "./.homeycompose/capabilities/meter_price_m30.json",
+    "path": "title",
+    "key": "title",
+    "en": "Price +30M"
+  },
+  {
+    "file": "./.homeycompose/capabilities/hour_next_8h_lowest.json",
+    "path": "title",
+    "key": "title",
+    "en": "Lowest hour next 8H"
+  },
+  {
+    "file": "./.homeycompose/capabilities/measure_watt_forecast.json",
+    "path": "title",
+    "key": "title",
+    "en": "Forecast Power"
+  },
+  {
+    "file": "./.homeycompose/capabilities/meter_kwh_stored.json",
+    "path": "title",
+    "key": "title",
+    "en": "Stored"
+  },
+  {
+    "file": "./.homeycompose/capabilities/meter_kwh_charging.json",
+    "path": "title",
+    "key": "title",
+    "en": "Charging Total"
+  },
+  {
+    "file": "./.homeycompose/capabilities/meter_tariff.json",
+    "path": "title",
+    "key": "title",
+    "en": "Active tariff"
+  },
+  {
+    "file": "./.homeycompose/capabilities/meter_m3_last_hour.json",
+    "path": "title",
+    "key": "title",
+    "en": "m³ prev. hour"
+  },
+  {
+    "file": "./.homeycompose/capabilities/roi_duration.json",
+    "path": "title",
+    "key": "title",
+    "en": "ROI duration"
+  },
+  {
+    "file": "./.homeycompose/capabilities/meter_price_next_day_highest.json",
+    "path": "title",
+    "key": "title",
+    "en": "Highest price tomorrow"
+  },
+  {
+    "file": "./.homeycompose/capabilities/meter_price_h4.json",
+    "path": "title",
+    "key": "title",
+    "en": "Price +4H"
+  },
+  {
+    "file": "./.homeycompose/capabilities/meter_money_this_month_avg.json",
+    "path": "title",
+    "key": "title",
+    "en": "Avg. money this month"
+  },
+  {
+    "file": "./.homeycompose/capabilities/meter_price_next_day_lowest.json",
+    "path": "title",
+    "key": "title",
+    "en": "Lowest price tomorrow"
+  },
+  {
+    "file": "./.homeycompose/capabilities/meter_price_h0_export.json",
+    "path": "title",
+    "key": "title",
+    "en": "Price now (export)"
+  },
+  {
+    "file": "./.homeycompose/capabilities/meter_price_h3.json",
+    "path": "title",
+    "key": "title",
+    "en": "Price +3H"
+  },
+  {
+    "file": "./.homeycompose/capabilities/meter_kwh_forecast.json",
+    "path": "title",
+    "key": "title",
+    "en": "Forecast Yield"
+  },
+  {
+    "file": "./.homeycompose/capabilities/meter_m3_this_hour.json",
+    "path": "title",
+    "key": "title",
+    "en": "m³ this hour"
+  },
+  {
+    "file": "./.homeycompose/capabilities/meter_price_h7.json",
+    "path": "title",
+    "key": "title",
+    "en": "Price +7H"
+  },
+  {
+    "file": "./.homeycompose/capabilities/meter_m3_this_month.json",
+    "path": "title",
+    "key": "title",
+    "en": "m³ this month"
+  },
+  {
+    "file": "./.homeycompose/capabilities/meter_price_h6.json",
+    "path": "title",
+    "key": "title",
+    "en": "Price +6H"
+  },
+  {
+    "file": "./.homeycompose/capabilities/meter_price_next_8h_lowest.json",
+    "path": "title",
+    "key": "title",
+    "en": "Lowest price next 8H"
+  },
+  {
+    "file": "./.homeycompose/capabilities/ev_charge_mode.json",
+    "path": "title",
+    "key": "title",
+    "en": "Charge Mode"
+  },
+  {
+    "file": "./.homeycompose/capabilities/ev_charge_mode.json",
+    "path": "values[0].title",
+    "key": "title",
+    "en": "Scheduled Price Slots"
+  },
+  {
+    "file": "./.homeycompose/capabilities/ev_charge_mode.json",
+    "path": "values[1].title",
+    "key": "title",
+    "en": "Solar Surplus Only"
+  },
+  {
+    "file": "./.homeycompose/capabilities/ev_charge_mode.json",
+    "path": "values[2].title",
+    "key": "title",
+    "en": "Solar + Price Slots"
+  },
+  {
+    "file": "./.homeycompose/capabilities/ev_charge_mode.json",
+    "path": "values[3].title",
+    "key": "title",
+    "en": "Fast Charge"
+  },
+  {
+    "file": "./.homeycompose/capabilities/ev_charge_mode.json",
+    "path": "values[4].title",
+    "key": "title",
+    "en": "Off"
+  },
+  {
+    "file": "./.homeycompose/capabilities/meter_price_h1.json",
+    "path": "title",
+    "key": "title",
+    "en": "Price +1H"
+  },
+  {
+    "file": "./.homeycompose/capabilities/meter_power_hidden.json",
+    "path": "title",
+    "key": "title",
+    "en": "Energy"
+  },
+  {
+    "file": "./.homeycompose/capabilities/meter_kwh_last_month.json",
+    "path": "title",
+    "key": "title",
+    "en": "kWh prev. month"
+  },
+  {
+    "file": "./.homeycompose/capabilities/meter_m3_last_year.json",
+    "path": "title",
+    "key": "title",
+    "en": "m³ prev. year"
+  },
+  {
+    "file": "./.homeycompose/capabilities/meter_m3_last_month.json",
+    "path": "title",
+    "key": "title",
+    "en": "m³ prev. month"
+  },
+  {
+    "file": "./.homeycompose/capabilities/meter_kwh_last_day.json",
+    "path": "title",
+    "key": "title",
+    "en": "kWh prev. day"
+  },
+  {
+    "file": "./.homeycompose/capabilities/measure_gas.json",
+    "path": "title",
+    "key": "title",
+    "en": "Gas"
+  },
+  {
+    "file": "./.homeycompose/capabilities/measure_gas.json",
+    "path": "desc",
+    "key": "desc",
+    "en": "Gas usage"
+  },
+  {
+    "file": "./.homeycompose/capabilities/meter_price_this_day_highest.json",
+    "path": "title",
+    "key": "title",
+    "en": "Highest price this day"
+  },
+  {
+    "file": "./.homeycompose/capabilities/meter_price_this_day_lowest.json",
+    "path": "title",
+    "key": "title",
+    "en": "Lowest price this day"
+  },
+  {
+    "file": "./.homeycompose/capabilities/meter_kwh_this_day.json",
+    "path": "title",
+    "key": "title",
+    "en": "kWh this day"
+  },
+  {
+    "file": "./.homeycompose/capabilities/meter_price_h0.json",
+    "path": "title",
+    "key": "title",
+    "en": "Price now"
+  },
+  {
+    "file": "./.homeycompose/capabilities/meter_money_this_month.json",
+    "path": "title",
+    "key": "title",
+    "en": "Money this month"
+  },
+  {
+    "file": "./.homeycompose/capabilities/hour_next_day_highest.json",
+    "path": "title",
+    "key": "title",
+    "en": "Highest hour tomorrow"
+  },
+  {
+    "file": "./.homeycompose/capabilities/ev_departure_time.json",
+    "path": "title",
+    "key": "title",
+    "en": "Departure Time"
+  },
+  {
+    "file": "./.homeycompose/capabilities/ev_departure_time.json",
+    "path": "values[0].title",
+    "key": "title",
+    "en": "No fixed departure (Indefinite)"
+  },
+  {
+    "file": "./.homeycompose/capabilities/ev_departure_time.json",
+    "path": "values[1].title",
+    "key": "title",
+    "en": "Until next schedule"
+  },
+  {
+    "file": "./.homeycompose/capabilities/ev_departure_time.json",
+    "path": "values[2].title",
+    "key": "title",
+    "en": "00:00"
+  },
+  {
+    "file": "./.homeycompose/capabilities/ev_departure_time.json",
+    "path": "values[3].title",
+    "key": "title",
+    "en": "00:30"
+  },
+  {
+    "file": "./.homeycompose/capabilities/ev_departure_time.json",
+    "path": "values[4].title",
+    "key": "title",
+    "en": "01:00"
+  },
+  {
+    "file": "./.homeycompose/capabilities/ev_departure_time.json",
+    "path": "values[5].title",
+    "key": "title",
+    "en": "01:30"
+  },
+  {
+    "file": "./.homeycompose/capabilities/ev_departure_time.json",
+    "path": "values[6].title",
+    "key": "title",
+    "en": "02:00"
+  },
+  {
+    "file": "./.homeycompose/capabilities/ev_departure_time.json",
+    "path": "values[7].title",
+    "key": "title",
+    "en": "02:30"
+  },
+  {
+    "file": "./.homeycompose/capabilities/ev_departure_time.json",
+    "path": "values[8].title",
+    "key": "title",
+    "en": "03:00"
+  },
+  {
+    "file": "./.homeycompose/capabilities/ev_departure_time.json",
+    "path": "values[9].title",
+    "key": "title",
+    "en": "03:30"
+  },
+  {
+    "file": "./.homeycompose/capabilities/ev_departure_time.json",
+    "path": "values[10].title",
+    "key": "title",
+    "en": "04:00"
+  },
+  {
+    "file": "./.homeycompose/capabilities/ev_departure_time.json",
+    "path": "values[11].title",
+    "key": "title",
+    "en": "04:30"
+  },
+  {
+    "file": "./.homeycompose/capabilities/ev_departure_time.json",
+    "path": "values[12].title",
+    "key": "title",
+    "en": "05:00"
+  },
+  {
+    "file": "./.homeycompose/capabilities/ev_departure_time.json",
+    "path": "values[13].title",
+    "key": "title",
+    "en": "05:30"
+  },
+  {
+    "file": "./.homeycompose/capabilities/ev_departure_time.json",
+    "path": "values[14].title",
+    "key": "title",
+    "en": "06:00"
+  },
+  {
+    "file": "./.homeycompose/capabilities/ev_departure_time.json",
+    "path": "values[15].title",
+    "key": "title",
+    "en": "06:30"
+  },
+  {
+    "file": "./.homeycompose/capabilities/ev_departure_time.json",
+    "path": "values[16].title",
+    "key": "title",
+    "en": "07:00"
+  },
+  {
+    "file": "./.homeycompose/capabilities/ev_departure_time.json",
+    "path": "values[17].title",
+    "key": "title",
+    "en": "07:30"
+  },
+  {
+    "file": "./.homeycompose/capabilities/ev_departure_time.json",
+    "path": "values[18].title",
+    "key": "title",
+    "en": "08:00"
+  },
+  {
+    "file": "./.homeycompose/capabilities/ev_departure_time.json",
+    "path": "values[19].title",
+    "key": "title",
+    "en": "08:30"
+  },
+  {
+    "file": "./.homeycompose/capabilities/ev_departure_time.json",
+    "path": "values[20].title",
+    "key": "title",
+    "en": "09:00"
+  },
+  {
+    "file": "./.homeycompose/capabilities/ev_departure_time.json",
+    "path": "values[21].title",
+    "key": "title",
+    "en": "09:30"
+  },
+  {
+    "file": "./.homeycompose/capabilities/ev_departure_time.json",
+    "path": "values[22].title",
+    "key": "title",
+    "en": "10:00"
+  },
+  {
+    "file": "./.homeycompose/capabilities/ev_departure_time.json",
+    "path": "values[23].title",
+    "key": "title",
+    "en": "10:30"
+  },
+  {
+    "file": "./.homeycompose/capabilities/ev_departure_time.json",
+    "path": "values[24].title",
+    "key": "title",
+    "en": "11:00"
+  },
+  {
+    "file": "./.homeycompose/capabilities/ev_departure_time.json",
+    "path": "values[25].title",
+    "key": "title",
+    "en": "11:30"
+  },
+  {
+    "file": "./.homeycompose/capabilities/ev_departure_time.json",
+    "path": "values[26].title",
+    "key": "title",
+    "en": "12:00"
+  },
+  {
+    "file": "./.homeycompose/capabilities/ev_departure_time.json",
+    "path": "values[27].title",
+    "key": "title",
+    "en": "12:30"
+  },
+  {
+    "file": "./.homeycompose/capabilities/ev_departure_time.json",
+    "path": "values[28].title",
+    "key": "title",
+    "en": "13:00"
+  },
+  {
+    "file": "./.homeycompose/capabilities/ev_departure_time.json",
+    "path": "values[29].title",
+    "key": "title",
+    "en": "13:30"
+  },
+  {
+    "file": "./.homeycompose/capabilities/ev_departure_time.json",
+    "path": "values[30].title",
+    "key": "title",
+    "en": "14:00"
+  },
+  {
+    "file": "./.homeycompose/capabilities/ev_departure_time.json",
+    "path": "values[31].title",
+    "key": "title",
+    "en": "14:30"
+  },
+  {
+    "file": "./.homeycompose/capabilities/ev_departure_time.json",
+    "path": "values[32].title",
+    "key": "title",
+    "en": "15:00"
+  },
+  {
+    "file": "./.homeycompose/capabilities/ev_departure_time.json",
+    "path": "values[33].title",
+    "key": "title",
+    "en": "15:30"
+  },
+  {
+    "file": "./.homeycompose/capabilities/ev_departure_time.json",
+    "path": "values[34].title",
+    "key": "title",
+    "en": "16:00"
+  },
+  {
+    "file": "./.homeycompose/capabilities/ev_departure_time.json",
+    "path": "values[35].title",
+    "key": "title",
+    "en": "16:30"
+  },
+  {
+    "file": "./.homeycompose/capabilities/ev_departure_time.json",
+    "path": "values[36].title",
+    "key": "title",
+    "en": "17:00"
+  },
+  {
+    "file": "./.homeycompose/capabilities/ev_departure_time.json",
+    "path": "values[37].title",
+    "key": "title",
+    "en": "17:30"
+  },
+  {
+    "file": "./.homeycompose/capabilities/ev_departure_time.json",
+    "path": "values[38].title",
+    "key": "title",
+    "en": "18:00"
+  },
+  {
+    "file": "./.homeycompose/capabilities/ev_departure_time.json",
+    "path": "values[39].title",
+    "key": "title",
+    "en": "18:30"
+  },
+  {
+    "file": "./.homeycompose/capabilities/ev_departure_time.json",
+    "path": "values[40].title",
+    "key": "title",
+    "en": "19:00"
+  },
+  {
+    "file": "./.homeycompose/capabilities/ev_departure_time.json",
+    "path": "values[41].title",
+    "key": "title",
+    "en": "19:30"
+  },
+  {
+    "file": "./.homeycompose/capabilities/ev_departure_time.json",
+    "path": "values[42].title",
+    "key": "title",
+    "en": "20:00"
+  },
+  {
+    "file": "./.homeycompose/capabilities/ev_departure_time.json",
+    "path": "values[43].title",
+    "key": "title",
+    "en": "20:30"
+  },
+  {
+    "file": "./.homeycompose/capabilities/ev_departure_time.json",
+    "path": "values[44].title",
+    "key": "title",
+    "en": "21:00"
+  },
+  {
+    "file": "./.homeycompose/capabilities/ev_departure_time.json",
+    "path": "values[45].title",
+    "key": "title",
+    "en": "21:30"
+  },
+  {
+    "file": "./.homeycompose/capabilities/ev_departure_time.json",
+    "path": "values[46].title",
+    "key": "title",
+    "en": "22:00"
+  },
+  {
+    "file": "./.homeycompose/capabilities/ev_departure_time.json",
+    "path": "values[47].title",
+    "key": "title",
+    "en": "22:30"
+  },
+  {
+    "file": "./.homeycompose/capabilities/ev_departure_time.json",
+    "path": "values[48].title",
+    "key": "title",
+    "en": "23:00"
+  },
+  {
+    "file": "./.homeycompose/capabilities/ev_departure_time.json",
+    "path": "values[49].title",
+    "key": "title",
+    "en": "23:30"
+  },
+  {
+    "file": "./.homeycompose/capabilities/meter_price_next_8h_avg.json",
+    "path": "title",
+    "key": "title",
+    "en": "Avg. price next 8H"
+  },
+  {
+    "file": "./.homeycompose/capabilities/hour_this_day_lowest.json",
+    "path": "title",
+    "key": "title",
+    "en": "Lowest hour this day"
+  },
+  {
+    "file": "./.homeycompose/capabilities/meter_rank_price_h0_this_day.json",
+    "path": "title",
+    "key": "title",
+    "en": "Price now rank this day"
+  },
+  {
+    "file": "./.homeycompose/capabilities/measure_lpm_max.json",
+    "path": "title",
+    "key": "title",
+    "en": "Maximum"
+  },
+  {
+    "file": "./.homeycompose/capabilities/meter_money_last_year.json",
+    "path": "title",
+    "key": "title",
+    "en": "Money prev. year"
+  },
+  {
+    "file": "./.homeycompose/capabilities/meter_money_this_year_avg.json",
+    "path": "title",
+    "key": "title",
+    "en": "Avg. money this year"
+  },
+  {
+    "file": "./.homeycompose/capabilities/meter_kwh_last_year.json",
+    "path": "title",
+    "key": "title",
+    "en": "kWh prev. year"
+  },
+  {
+    "file": "./.homeycompose/capabilities/meter_money_this_day.json",
+    "path": "title",
+    "key": "title",
+    "en": "Money this day"
+  },
+  {
+    "file": "./.homeycompose/capabilities/meter_m3_this_year.json",
+    "path": "title",
+    "key": "title",
+    "en": "m³ this year"
+  },
+  {
+    "file": "./.homeycompose/capabilities/meter_target_year_to_date.json",
+    "path": "title",
+    "key": "title",
+    "en": "On budget Year To date"
+  },
+  {
+    "file": "./.homeycompose/capabilities/ev_target_soc.json",
+    "path": "title",
+    "key": "title",
+    "en": "Target SoC"
+  },
+  {
+    "file": "./.homeycompose/capabilities/ev_target_soc.json",
+    "path": "values[0].title",
+    "key": "title",
+    "en": "100%"
+  },
+  {
+    "file": "./.homeycompose/capabilities/ev_target_soc.json",
+    "path": "values[1].title",
+    "key": "title",
+    "en": "95%"
+  },
+  {
+    "file": "./.homeycompose/capabilities/ev_target_soc.json",
+    "path": "values[2].title",
+    "key": "title",
+    "en": "90%"
+  },
+  {
+    "file": "./.homeycompose/capabilities/ev_target_soc.json",
+    "path": "values[3].title",
+    "key": "title",
+    "en": "85%"
+  },
+  {
+    "file": "./.homeycompose/capabilities/ev_target_soc.json",
+    "path": "values[4].title",
+    "key": "title",
+    "en": "80%"
+  },
+  {
+    "file": "./.homeycompose/capabilities/ev_target_soc.json",
+    "path": "values[5].title",
+    "key": "title",
+    "en": "75%"
+  },
+  {
+    "file": "./.homeycompose/capabilities/ev_target_soc.json",
+    "path": "values[6].title",
+    "key": "title",
+    "en": "70%"
+  },
+  {
+    "file": "./.homeycompose/capabilities/ev_target_soc.json",
+    "path": "values[7].title",
+    "key": "title",
+    "en": "65%"
+  },
+  {
+    "file": "./.homeycompose/capabilities/ev_target_soc.json",
+    "path": "values[8].title",
+    "key": "title",
+    "en": "60%"
+  },
+  {
+    "file": "./.homeycompose/capabilities/ev_target_soc.json",
+    "path": "values[9].title",
+    "key": "title",
+    "en": "55%"
+  },
+  {
+    "file": "./.homeycompose/capabilities/ev_target_soc.json",
+    "path": "values[10].title",
+    "key": "title",
+    "en": "50%"
+  },
+  {
+    "file": "./.homeycompose/capabilities/ev_target_soc.json",
+    "path": "values[11].title",
+    "key": "title",
+    "en": "40%"
+  },
+  {
+    "file": "./.homeycompose/capabilities/ev_target_soc.json",
+    "path": "values[12].title",
+    "key": "title",
+    "en": "30%"
+  },
+  {
+    "file": "./.homeycompose/capabilities/ev_target_soc.json",
+    "path": "values[13].title",
+    "key": "title",
+    "en": "20%"
+  },
+  {
+    "file": "./.homeycompose/capabilities/meter_price_this_month_avg.json",
+    "path": "title",
+    "key": "title",
+    "en": "Avg. price this month"
+  },
+  {
+    "file": "./.homeycompose/capabilities/measure_solar_use.json",
+    "path": "title",
+    "key": "title",
+    "en": "Own usage"
+  },
+  {
+    "file": "./.homeycompose/capabilities/measure_lpm_min.json",
+    "path": "title",
+    "key": "title",
+    "en": "Minimum"
+  },
+  {
+    "file": "./.homeycompose/capabilities/meter_price_h2.json",
+    "path": "title",
+    "key": "title",
+    "en": "Price +2H"
+  },
+  {
+    "file": "./.homeycompose/capabilities/meter_money_last_month.json",
+    "path": "title",
+    "key": "title",
+    "en": "Money prev. month"
+  },
+  {
+    "file": "./.homeycompose/capabilities/meter_price_this_day_avg.json",
+    "path": "title",
+    "key": "title",
+    "en": "Avg. price this day"
+  },
+  {
+    "file": "./.homeycompose/app.json",
+    "path": "name",
+    "key": "name",
+    "en": "Power by the Hour"
+  },
+  {
+    "file": "./drivers/grid/driver.compose.json",
+    "path": "name",
+    "key": "name",
+    "en": "Grid power summarizer"
+  },
+  {
+    "file": "./drivers/grid/driver.compose.json",
+    "path": "capabilitiesOptions.measure_power.grid.title",
+    "key": "title",
+    "en": "Grid Power"
+  },
+  {
+    "file": "./drivers/grid/driver.compose.json",
+    "path": "capabilitiesOptions.measure_power.solar.title",
+    "key": "title",
+    "en": "Solar Power"
+  },
+  {
+    "file": "./drivers/grid/driver.compose.json",
+    "path": "capabilitiesOptions.measure_power.battery.title",
+    "key": "title",
+    "en": "Battery Power"
+  },
+  {
+    "file": "./drivers/grid/driver.compose.json",
+    "path": "capabilitiesOptions.measure_power.evcharger.title",
+    "key": "title",
+    "en": "EV Charger Power"
+  },
+  {
+    "file": "./drivers/grid/driver.compose.json",
+    "path": "capabilitiesOptions.measure_power.home.title",
+    "key": "title",
+    "en": "Home Power"
+  },
+  {
+    "file": "./drivers/grid/driver.compose.json",
+    "path": "capabilitiesOptions.meter_kwh_this_day.imported.title",
+    "key": "title",
+    "en": "kWh this day (imported)"
+  },
+  {
+    "file": "./drivers/grid/driver.compose.json",
+    "path": "capabilitiesOptions.meter_kwh_this_day.exported.title",
+    "key": "title",
+    "en": "kWh this day (exported)"
+  },
+  {
+    "file": "./drivers/grid/driver.compose.json",
+    "path": "capabilitiesOptions.meter_kwh_last_day.imported.title",
+    "key": "title",
+    "en": "kWh prev. day (imported)"
+  },
+  {
+    "file": "./drivers/grid/driver.compose.json",
+    "path": "capabilitiesOptions.meter_kwh_last_day.exported.title",
+    "key": "title",
+    "en": "kWh prev. day (exported)"
+  },
+  {
+    "file": "./drivers/grid/driver.compose.json",
+    "path": "capabilitiesOptions.meter_kwh_this_month.imported.title",
+    "key": "title",
+    "en": "kWh this month (imported)"
+  },
+  {
+    "file": "./drivers/grid/driver.compose.json",
+    "path": "capabilitiesOptions.meter_kwh_this_month.exported.title",
+    "key": "title",
+    "en": "kWh this month (exported)"
+  },
+  {
+    "file": "./drivers/grid/driver.compose.json",
+    "path": "capabilitiesOptions.meter_kwh_last_month.imported.title",
+    "key": "title",
+    "en": "kWh prev. month (imported)"
+  },
+  {
+    "file": "./drivers/grid/driver.compose.json",
+    "path": "capabilitiesOptions.meter_kwh_last_month.exported.title",
+    "key": "title",
+    "en": "kWh prev. month (exported)"
+  },
+  {
+    "file": "./drivers/grid/driver.compose.json",
+    "path": "capabilitiesOptions.meter_kwh_this_year.imported.title",
+    "key": "title",
+    "en": "kWh this year (imported)"
+  },
+  {
+    "file": "./drivers/grid/driver.compose.json",
+    "path": "capabilitiesOptions.meter_kwh_this_year.exported.title",
+    "key": "title",
+    "en": "kWh this year (exported)"
+  },
+  {
+    "file": "./drivers/grid/driver.compose.json",
+    "path": "capabilitiesOptions.meter_kwh_last_year.imported.title",
+    "key": "title",
+    "en": "kWh prev. year (imported)"
+  },
+  {
+    "file": "./drivers/grid/driver.compose.json",
+    "path": "capabilitiesOptions.meter_kwh_last_year.exported.title",
+    "key": "title",
+    "en": "kWh prev. year (exported)"
+  },
+  {
+    "file": "./drivers/grid/driver.compose.json",
+    "path": "capabilitiesOptions.meter_money_this_day.imported.title",
+    "key": "title",
+    "en": "Money this day (imported)"
+  },
+  {
+    "file": "./drivers/grid/driver.compose.json",
+    "path": "capabilitiesOptions.meter_money_this_day.exported.title",
+    "key": "title",
+    "en": "Money this day (exported)"
+  },
+  {
+    "file": "./drivers/grid/driver.compose.json",
+    "path": "capabilitiesOptions.meter_money_last_day.imported.title",
+    "key": "title",
+    "en": "Money prev. day (imported)"
+  },
+  {
+    "file": "./drivers/grid/driver.compose.json",
+    "path": "capabilitiesOptions.meter_money_last_day.exported.title",
+    "key": "title",
+    "en": "Money prev. day (exported)"
+  },
+  {
+    "file": "./drivers/grid/driver.compose.json",
+    "path": "capabilitiesOptions.meter_money_this_month.imported.title",
+    "key": "title",
+    "en": "Money this month (imported)"
+  },
+  {
+    "file": "./drivers/grid/driver.compose.json",
+    "path": "capabilitiesOptions.meter_money_this_month.exported.title",
+    "key": "title",
+    "en": "Money this month (exported)"
+  },
+  {
+    "file": "./drivers/grid/driver.compose.json",
+    "path": "capabilitiesOptions.meter_money_last_month.imported.title",
+    "key": "title",
+    "en": "Money prev. month (imported)"
+  },
+  {
+    "file": "./drivers/grid/driver.compose.json",
+    "path": "capabilitiesOptions.meter_money_last_month.exported.title",
+    "key": "title",
+    "en": "Money prev. month (exported)"
+  },
+  {
+    "file": "./drivers/grid/driver.compose.json",
+    "path": "capabilitiesOptions.meter_money_this_year.imported.title",
+    "key": "title",
+    "en": "Money this year (imported)"
+  },
+  {
+    "file": "./drivers/grid/driver.compose.json",
+    "path": "capabilitiesOptions.meter_money_this_year.exported.title",
+    "key": "title",
+    "en": "Money this year (exported)"
+  },
+  {
+    "file": "./drivers/grid/driver.compose.json",
+    "path": "capabilitiesOptions.meter_money_last_year.imported.title",
+    "key": "title",
+    "en": "Money prev. year (imported)"
+  },
+  {
+    "file": "./drivers/grid/driver.compose.json",
+    "path": "capabilitiesOptions.meter_money_last_year.exported.title",
+    "key": "title",
+    "en": "Money prev. year (exported)"
+  },
+  {
+    "file": "./drivers/grid/driver.compose.json",
+    "path": "capabilitiesOptions.measure_watt_min.day.title",
+    "key": "title",
+    "en": "Minimum (day)"
+  },
+  {
+    "file": "./drivers/grid/driver.compose.json",
+    "path": "capabilitiesOptions.measure_watt_max.day.title",
+    "key": "title",
+    "en": "Maximum (day)"
+  },
+  {
+    "file": "./drivers/grid/driver.compose.json",
+    "path": "capabilitiesOptions.measure_watt_min.month.title",
+    "key": "title",
+    "en": "Minimum (month)"
+  },
+  {
+    "file": "./drivers/grid/driver.compose.json",
+    "path": "capabilitiesOptions.measure_watt_max.month.title",
+    "key": "title",
+    "en": "Maximum (month)"
+  },
+  {
+    "file": "./drivers/grid/driver.compose.json",
+    "path": "capabilitiesOptions.measure_watt_min.year.title",
+    "key": "title",
+    "en": "Minimum (year)"
+  },
+  {
+    "file": "./drivers/grid/driver.compose.json",
+    "path": "capabilitiesOptions.measure_watt_max.year.title",
+    "key": "title",
+    "en": "Maximum (year)"
+  },
+  {
+    "file": "./drivers/grid/driver.compose.json",
+    "path": "capabilitiesOptions.measure_watt_peak.day.title",
+    "key": "title",
+    "en": "Peak demand (import day)"
+  },
+  {
+    "file": "./drivers/grid/driver.compose.json",
+    "path": "capabilitiesOptions.measure_watt_peak_export.day.title",
+    "key": "title",
+    "en": "Peak demand (export day)"
+  },
+  {
+    "file": "./drivers/grid/driver.compose.json",
+    "path": "capabilitiesOptions.measure_watt_peak.month.title",
+    "key": "title",
+    "en": "Peak demand (import month)"
+  },
+  {
+    "file": "./drivers/grid/driver.compose.json",
+    "path": "capabilitiesOptions.measure_watt_peak_export.month.title",
+    "key": "title",
+    "en": "Peak demand (export month)"
+  },
+  {
+    "file": "./drivers/grid/driver.compose.json",
+    "path": "capabilitiesOptions.measure_watt_peak.year.title",
+    "key": "title",
+    "en": "Peak demand (import year)"
+  },
+  {
+    "file": "./drivers/grid/driver.compose.json",
+    "path": "capabilitiesOptions.measure_watt_peak_export.year.title",
+    "key": "title",
+    "en": "Peak demand (export year)"
+  },
+  {
+    "file": "./drivers/grid/driver.compose.json",
+    "path": "capabilitiesOptions.measure_watt_forecast.h0.title",
+    "key": "title",
+    "en": "Home load forecast"
+  },
+  {
+    "file": "./drivers/grid/driver.compose.json",
+    "path": "capabilitiesOptions.measure_watt_forecast.m15.title",
+    "key": "title",
+    "en": "Home load +15M"
+  },
+  {
+    "file": "./drivers/grid/driver.compose.json",
+    "path": "capabilitiesOptions.measure_watt_forecast.m30.title",
+    "key": "title",
+    "en": "Home load +30M"
+  },
+  {
+    "file": "./drivers/grid/driver.compose.json",
+    "path": "capabilitiesOptions.measure_watt_forecast.m45.title",
+    "key": "title",
+    "en": "Home load +45M"
+  },
+  {
+    "file": "./drivers/grid/driver.compose.json",
+    "path": "capabilitiesOptions.measure_watt_forecast.h1.title",
+    "key": "title",
+    "en": "Home load +1H"
+  },
+  {
+    "file": "./drivers/grid/driver.compose.json",
+    "path": "capabilitiesOptions.measure_watt_forecast.h2.title",
+    "key": "title",
+    "en": "Home load +2H"
+  },
+  {
+    "file": "./drivers/grid/driver.compose.json",
+    "path": "capabilitiesOptions.measure_watt_forecast.h3.title",
+    "key": "title",
+    "en": "Home load +3H"
+  },
+  {
+    "file": "./drivers/grid/driver.compose.json",
+    "path": "capabilitiesOptions.meter_kwh_forecast.this_day.title",
+    "key": "title",
+    "en": "Forecast home load this day"
+  },
+  {
+    "file": "./drivers/grid/driver.compose.json",
+    "path": "capabilitiesOptions.meter_kwh_forecast.tomorrow.title",
+    "key": "title",
+    "en": "Forecast home load tomorrow"
+  },
+  {
+    "file": "./drivers/grid/driver.compose.json",
+    "path": "capabilitiesOptions.measure_watt_forecast.tomorrow_peak.title",
+    "key": "title",
+    "en": "Peak home load forecast tomorrow"
+  },
+  {
+    "file": "./drivers/grid/driver.compose.json",
+    "path": "capabilitiesOptions.meter_kwh_forecast.h0.title",
+    "key": "title",
+    "en": "Forecast home load this hour"
+  },
+  {
+    "file": "./drivers/grid/driver.compose.json",
+    "path": "capabilitiesOptions.button.retrain_load.title",
+    "key": "title",
+    "en": "Retrain home load forecast"
+  },
+  {
+    "file": "./drivers/grid/driver.compose.json",
+    "path": "capabilitiesOptions.button.retrain_load.desc",
+    "key": "desc",
+    "en": "Reset and retrain the load forecaster based on Homey Insights of the home load."
+  },
+  {
+    "file": "./drivers/grid/driver.compose.json",
+    "path": "settings[0].label",
+    "key": "label",
+    "en": "Homey source device information"
+  },
+  {
+    "file": "./drivers/grid/driver.compose.json",
+    "path": "settings[0].children[0].label",
+    "key": "label",
+    "en": "Device ID"
+  },
+  {
+    "file": "./drivers/grid/driver.compose.json",
+    "path": "settings[0].children[1].label",
+    "key": "label",
+    "en": "Device name"
+  },
+  {
+    "file": "./drivers/grid/driver.compose.json",
+    "path": "settings[0].children[2].label",
+    "key": "label",
+    "en": "Source device type"
+  },
+  {
+    "file": "./drivers/grid/driver.compose.json",
+    "path": "settings[0].children[3].label",
+    "key": "label",
+    "en": "Use Watt as source"
+  },
+  {
+    "file": "./drivers/grid/driver.compose.json",
+    "path": "settings[0].children[4].label",
+    "key": "label",
+    "en": "Delay hourly poll (minutes)"
+  },
+  {
+    "file": "./drivers/grid/driver.compose.json",
+    "path": "settings[1].label",
+    "key": "label",
+    "en": "Grid connection"
+  },
+  {
+    "file": "./drivers/grid/driver.compose.json",
+    "path": "settings[1].children[0].label",
+    "key": "label",
+    "en": "Phases"
+  },
+  {
+    "file": "./drivers/grid/driver.compose.json",
+    "path": "settings[1].children[0].values[0].label",
+    "key": "label",
+    "en": "1 phase"
+  },
+  {
+    "file": "./drivers/grid/driver.compose.json",
+    "path": "settings[1].children[0].values[1].label",
+    "key": "label",
+    "en": "3 phases"
+  },
+  {
+    "file": "./drivers/grid/driver.compose.json",
+    "path": "settings[1].children[1].label",
+    "key": "label",
+    "en": "Main fuse"
+  },
+  {
+    "file": "./drivers/grid/driver.compose.json",
+    "path": "settings[1].children[2].label",
+    "key": "label",
+    "en": "Voltage"
+  },
+  {
+    "file": "./drivers/grid/driver.compose.json",
+    "path": "settings[2].label",
+    "key": "label",
+    "en": "Year start and energy budget"
+  },
+  {
+    "file": "./drivers/grid/driver.compose.json",
+    "path": "settings[2].children[0].label",
+    "key": "label",
+    "en": "New year start date"
+  },
+  {
+    "file": "./drivers/grid/driver.compose.json",
+    "path": "settings[2].children[1].label",
+    "key": "label",
+    "en": "Year target budget (kWh)"
+  },
+  {
+    "file": "./drivers/grid/driver.compose.json",
+    "path": "settings[2].children[2].label",
+    "key": "label",
+    "en": "Distribution scheme"
+  },
+  {
+    "file": "./drivers/grid/driver.compose.json",
+    "path": "settings[2].children[2].values[0].label",
+    "key": "label",
+    "en": "DISABLE TARGET BUDGET"
+  },
+  {
+    "file": "./drivers/grid/driver.compose.json",
+    "path": "settings[2].children[2].values[1].label",
+    "key": "label",
+    "en": "CUSTOM BUDGET"
+  },
+  {
+    "file": "./drivers/grid/driver.compose.json",
+    "path": "settings[2].children[2].values[2].label",
+    "key": "label",
+    "en": "Linear"
+  },
+  {
+    "file": "./drivers/grid/driver.compose.json",
+    "path": "settings[2].children[2].values[3].label",
+    "key": "label",
+    "en": "NL price ceiling 2023"
+  },
+  {
+    "file": "./drivers/grid/driver.compose.json",
+    "path": "settings[2].children[2].values[4].label",
+    "key": "label",
+    "en": "PV N-Europe, tilt 40°S"
+  },
+  {
+    "file": "./drivers/grid/driver.compose.json",
+    "path": "settings[3].label",
+    "key": "label",
+    "en": "Meter readings"
+  },
+  {
+    "file": "./drivers/grid/driver.compose.json",
+    "path": "settings[3].children[0].label",
+    "key": "label",
+    "en": "Number of decimals"
+  },
+  {
+    "file": "./drivers/grid/driver.compose.json",
+    "path": "settings[3].children[1].label",
+    "key": "label",
+    "en": "Present reading"
+  },
+  {
+    "file": "./drivers/grid/driver.compose.json",
+    "path": "settings[3].children[2].label",
+    "key": "label",
+    "en": "This day start"
+  },
+  {
+    "file": "./drivers/grid/driver.compose.json",
+    "path": "settings[3].children[3].label",
+    "key": "label",
+    "en": "This month start"
+  },
+  {
+    "file": "./drivers/grid/driver.compose.json",
+    "path": "settings[3].children[4].label",
+    "key": "label",
+    "en": "This year start"
+  },
+  {
+    "file": "./drivers/grid/driver.compose.json",
+    "path": "settings[4].label",
+    "key": "label",
+    "en": "Monetary value"
+  },
+  {
+    "file": "./drivers/grid/driver.compose.json",
+    "path": "settings[4].children[0].label",
+    "key": "label",
+    "en": "Currency unit"
+  },
+  {
+    "file": "./drivers/grid/driver.compose.json",
+    "path": "settings[4].children[1].label",
+    "key": "label",
+    "en": "Currency decimals"
+  },
+  {
+    "file": "./drivers/grid/driver.compose.json",
+    "path": "settings[4].children[2].label",
+    "key": "label",
+    "en": "Monetary value of this day"
+  },
+  {
+    "file": "./drivers/grid/driver.compose.json",
+    "path": "settings[4].children[3].label",
+    "key": "label",
+    "en": "Monetary value of this month"
+  },
+  {
+    "file": "./drivers/grid/driver.compose.json",
+    "path": "settings[4].children[4].label",
+    "key": "label",
+    "en": "Monetary value of this year"
+  },
+  {
+    "file": "./drivers/grid/driver.compose.json",
+    "path": "settings[4].children[5].label",
+    "key": "label",
+    "en": "Monetary value prev. day"
+  },
+  {
+    "file": "./drivers/grid/driver.compose.json",
+    "path": "settings[4].children[6].label",
+    "key": "label",
+    "en": "Monetary value prev. month"
+  },
+  {
+    "file": "./drivers/grid/driver.compose.json",
+    "path": "settings[4].children[7].label",
+    "key": "label",
+    "en": "Monetary value prev. year"
+  },
+  {
+    "file": "./drivers/grid/driver.compose.json",
+    "path": "settings[5].label",
+    "key": "label",
+    "en": "Tariff"
+  },
+  {
+    "file": "./drivers/grid/driver.compose.json",
+    "path": "settings[5].children[0].label",
+    "key": "label",
+    "en": "Actual tariff per kWh"
+  },
+  {
+    "file": "./drivers/grid/driver.compose.json",
+    "path": "settings[5].children[1].label",
+    "key": "label",
+    "en": "Tariff update group (flow or DAP)"
+  },
+  {
+    "file": "./drivers/grid/driver.compose.json",
+    "path": "settings[5].children[2].label",
+    "key": "label",
+    "en": "Tariff selection"
+  },
+  {
+    "file": "./drivers/grid/driver.compose.json",
+    "path": "settings[5].children[2].values[0].label",
+    "key": "label",
+    "en": "Automatic"
+  },
+  {
+    "file": "./drivers/grid/driver.compose.json",
+    "path": "settings[5].children[2].values[1].label",
+    "key": "label",
+    "en": "Always Import"
+  },
+  {
+    "file": "./drivers/grid/driver.compose.json",
+    "path": "settings[5].children[2].values[2].label",
+    "key": "label",
+    "en": "Always Export"
+  },
+  {
+    "file": "./drivers/grid/driver.compose.json",
+    "path": "settings[5].children[3].label",
+    "key": "label",
+    "en": "Price settlement scheme"
+  },
+  {
+    "file": "./drivers/grid/driver.compose.json",
+    "path": "settings[5].children[3].values[0].label",
+    "key": "label",
+    "en": "Continuous net"
+  },
+  {
+    "file": "./drivers/grid/driver.compose.json",
+    "path": "settings[5].children[3].values[1].label",
+    "key": "label",
+    "en": "Per direction (continuous)"
+  },
+  {
+    "file": "./drivers/grid/driver.compose.json",
+    "path": "settings[5].children[3].values[2].label",
+    "key": "label",
+    "en": "Block settlement"
+  },
+  {
+    "file": "./drivers/grid/driver.compose.json",
+    "path": "settings[5].children[4].label",
+    "key": "label",
+    "en": "Block settlement size"
+  },
+  {
+    "file": "./drivers/grid/driver.compose.json",
+    "path": "settings[5].children[4].values[0].label",
+    "key": "label",
+    "en": "Auto (match price interval)"
+  },
+  {
+    "file": "./drivers/grid/driver.compose.json",
+    "path": "settings[5].children[4].values[1].label",
+    "key": "label",
+    "en": "15 minutes"
+  },
+  {
+    "file": "./drivers/grid/driver.compose.json",
+    "path": "settings[5].children[4].values[2].label",
+    "key": "label",
+    "en": "30 minutes"
+  },
+  {
+    "file": "./drivers/grid/driver.compose.json",
+    "path": "settings[5].children[4].values[3].label",
+    "key": "label",
+    "en": "45 minutes"
+  },
+  {
+    "file": "./drivers/grid/driver.compose.json",
+    "path": "settings[5].children[4].values[4].label",
+    "key": "label",
+    "en": "60 minutes"
+  },
+  {
+    "file": "./drivers/grid/driver.compose.json",
+    "path": "settings[5].children[5].label",
+    "key": "label",
+    "en": "Peak load interval"
+  },
+  {
+    "file": "./drivers/grid/driver.compose.json",
+    "path": "settings[5].children[5].values[0].label",
+    "key": "label",
+    "en": "15 minutes"
+  },
+  {
+    "file": "./drivers/grid/driver.compose.json",
+    "path": "settings[5].children[5].values[1].label",
+    "key": "label",
+    "en": "30 minutes"
+  },
+  {
+    "file": "./drivers/grid/driver.compose.json",
+    "path": "settings[5].children[5].values[2].label",
+    "key": "label",
+    "en": "60 minutes"
+  },
+  {
+    "file": "./drivers/grid/driver.compose.json",
+    "path": "settings[5].children[6].label",
+    "key": "label",
+    "en": "Fixed monthly costs"
+  },
+  {
+    "file": "./drivers/grid/driver.compose.json",
+    "path": "settings[5].children[7].label",
+    "key": "label",
+    "en": "Fixed daily costs"
+  },
+  {
+    "file": "./drivers/grid/driver.compose.json",
+    "path": "settings[5].children[8].label",
+    "key": "label",
+    "en": "Fixed hourly costs"
+  },
+  {
+    "file": "./drivers/dap15/driver.compose.json",
+    "path": "name",
+    "key": "name",
+    "en": "Day-Ahead 15m E Prices"
+  },
+  {
+    "file": "./drivers/dap15/driver.compose.json",
+    "path": "settings[0].label",
+    "key": "label",
+    "en": "Bidding Zone information"
+  },
+  {
+    "file": "./drivers/dap15/driver.compose.json",
+    "path": "settings[0].children[0].label",
+    "key": "label",
+    "en": "Bidding zone"
+  },
+  {
+    "file": "./drivers/dap15/driver.compose.json",
+    "path": "settings[0].children[1].label",
+    "key": "label",
+    "en": "Description"
+  },
+  {
+    "file": "./drivers/dap15/driver.compose.json",
+    "path": "settings[1].label",
+    "key": "label",
+    "en": "Currency settings"
+  },
+  {
+    "file": "./drivers/dap15/driver.compose.json",
+    "path": "settings[1].children[0].label",
+    "key": "label",
+    "en": "Currency unit display"
+  },
+  {
+    "file": "./drivers/dap15/driver.compose.json",
+    "path": "settings[1].children[1].label",
+    "key": "label",
+    "en": "Currency decimals"
+  },
+  {
+    "file": "./drivers/dap15/driver.compose.json",
+    "path": "settings[1].children[2].label",
+    "key": "label",
+    "en": "Exchange rate with €"
+  },
+  {
+    "file": "./drivers/dap15/driver.compose.json",
+    "path": "settings[1].children[3].label",
+    "key": "label",
+    "en": "Daily update the exchange rate"
+  },
+  {
+    "file": "./drivers/dap15/driver.compose.json",
+    "path": "settings[1].children[3].values[0].label",
+    "key": "label",
+    "en": "DO NOT FETCH"
+  },
+  {
+    "file": "./drivers/dap15/driver.compose.json",
+    "path": "settings[1].children[3].values[1].label",
+    "key": "label",
+    "en": "BGN"
+  },
+  {
+    "file": "./drivers/dap15/driver.compose.json",
+    "path": "settings[1].children[3].values[2].label",
+    "key": "label",
+    "en": "CHF"
+  },
+  {
+    "file": "./drivers/dap15/driver.compose.json",
+    "path": "settings[1].children[3].values[3].label",
+    "key": "label",
+    "en": "CZK"
+  },
+  {
+    "file": "./drivers/dap15/driver.compose.json",
+    "path": "settings[1].children[3].values[4].label",
+    "key": "label",
+    "en": "DKK"
+  },
+  {
+    "file": "./drivers/dap15/driver.compose.json",
+    "path": "settings[1].children[3].values[5].label",
+    "key": "label",
+    "en": "GBP"
+  },
+  {
+    "file": "./drivers/dap15/driver.compose.json",
+    "path": "settings[1].children[3].values[6].label",
+    "key": "label",
+    "en": "HRK"
+  },
+  {
+    "file": "./drivers/dap15/driver.compose.json",
+    "path": "settings[1].children[3].values[7].label",
+    "key": "label",
+    "en": "HUF"
+  },
+  {
+    "file": "./drivers/dap15/driver.compose.json",
+    "path": "settings[1].children[3].values[8].label",
+    "key": "label",
+    "en": "ISK"
+  },
+  {
+    "file": "./drivers/dap15/driver.compose.json",
+    "path": "settings[1].children[3].values[9].label",
+    "key": "label",
+    "en": "NOK"
+  },
+  {
+    "file": "./drivers/dap15/driver.compose.json",
+    "path": "settings[1].children[3].values[10].label",
+    "key": "label",
+    "en": "PLN"
+  },
+  {
+    "file": "./drivers/dap15/driver.compose.json",
+    "path": "settings[1].children[3].values[11].label",
+    "key": "label",
+    "en": "RON"
+  },
+  {
+    "file": "./drivers/dap15/driver.compose.json",
+    "path": "settings[1].children[3].values[12].label",
+    "key": "label",
+    "en": "RUB"
+  },
+  {
+    "file": "./drivers/dap15/driver.compose.json",
+    "path": "settings[1].children[3].values[13].label",
+    "key": "label",
+    "en": "SEK"
+  },
+  {
+    "file": "./drivers/dap15/driver.compose.json",
+    "path": "settings[1].children[3].values[14].label",
+    "key": "label",
+    "en": "TRY"
+  },
+  {
+    "file": "./drivers/dap15/driver.compose.json",
+    "path": "settings[1].children[3].values[15].label",
+    "key": "label",
+    "en": "AUD"
+  },
+  {
+    "file": "./drivers/dap15/driver.compose.json",
+    "path": "settings[1].children[3].values[16].label",
+    "key": "label",
+    "en": "USD"
+  },
+  {
+    "file": "./drivers/dap15/driver.compose.json",
+    "path": "settings[2].label",
+    "key": "label",
+    "en": "Import price settings"
+  },
+  {
+    "file": "./drivers/dap15/driver.compose.json",
+    "path": "settings[2].children[0].label",
+    "key": "label",
+    "en": "Ignore market price (Fixed price only)"
+  },
+  {
+    "file": "./drivers/dap15/driver.compose.json",
+    "path": "settings[2].children[1].label",
+    "key": "label",
+    "en": "Import variable markup (%)"
+  },
+  {
+    "file": "./drivers/dap15/driver.compose.json",
+    "path": "settings[2].children[2].label",
+    "key": "label",
+    "en": "Import variable markup (%) @abs. price"
+  },
+  {
+    "file": "./drivers/dap15/driver.compose.json",
+    "path": "settings[2].children[3].label",
+    "key": "label",
+    "en": "Import fixed markup per kWh"
+  },
+  {
+    "file": "./drivers/dap15/driver.compose.json",
+    "path": "settings[2].children[4].label",
+    "key": "label",
+    "en": "Import Extra Time Of Day markup"
+  },
+  {
+    "file": "./drivers/dap15/driver.compose.json",
+    "path": "settings[2].children[5].label",
+    "key": "label",
+    "en": "Import Extra Weekend markup"
+  },
+  {
+    "file": "./drivers/dap15/driver.compose.json",
+    "path": "settings[3].label",
+    "key": "label",
+    "en": "Export price settings"
+  },
+  {
+    "file": "./drivers/dap15/driver.compose.json",
+    "path": "settings[3].children[0].label",
+    "key": "label",
+    "en": "Ignore market price (Fixed price only)"
+  },
+  {
+    "file": "./drivers/dap15/driver.compose.json",
+    "path": "settings[3].children[1].label",
+    "key": "label",
+    "en": "Export variable markup (%)"
+  },
+  {
+    "file": "./drivers/dap15/driver.compose.json",
+    "path": "settings[3].children[2].label",
+    "key": "label",
+    "en": "Export variable markup (%) @abs. price"
+  },
+  {
+    "file": "./drivers/dap15/driver.compose.json",
+    "path": "settings[3].children[3].label",
+    "key": "label",
+    "en": "Export fixed markup per kWh"
+  },
+  {
+    "file": "./drivers/dap15/driver.compose.json",
+    "path": "settings[3].children[4].label",
+    "key": "label",
+    "en": "Export Extra Time Of Day markup"
+  },
+  {
+    "file": "./drivers/dap15/driver.compose.json",
+    "path": "settings[3].children[5].label",
+    "key": "label",
+    "en": "Export Extra Weekend markup"
+  },
+  {
+    "file": "./drivers/dap15/driver.compose.json",
+    "path": "settings[3].children[6].label",
+    "key": "label",
+    "en": "Show export price in chart"
+  },
+  {
+    "file": "./drivers/dap15/driver.compose.json",
+    "path": "settings[4].label",
+    "key": "label",
+    "en": "Various settings"
+  },
+  {
+    "file": "./drivers/dap15/driver.compose.json",
+    "path": "settings[4].children[0].label",
+    "key": "label",
+    "en": "Price Provider"
+  },
+  {
+    "file": "./drivers/dap15/driver.compose.json",
+    "path": "settings[4].children[0].values[0].label",
+    "key": "label",
+    "en": "Automatic (recommended)"
+  },
+  {
+    "file": "./drivers/dap15/driver.compose.json",
+    "path": "settings[4].children[0].values[1].label",
+    "key": "label",
+    "en": "OMIE (Spain/Portugal)"
+  },
+  {
+    "file": "./drivers/dap15/driver.compose.json",
+    "path": "settings[4].children[0].values[2].label",
+    "key": "label",
+    "en": "ENTSOE Gruijter"
+  },
+  {
+    "file": "./drivers/dap15/driver.compose.json",
+    "path": "settings[4].children[0].values[3].label",
+    "key": "label",
+    "en": "SMARD (Bundesnetzagentur)"
+  },
+  {
+    "file": "./drivers/dap15/driver.compose.json",
+    "path": "settings[4].children[0].values[4].label",
+    "key": "label",
+    "en": "Nordpool"
+  },
+  {
+    "file": "./drivers/dap15/driver.compose.json",
+    "path": "settings[4].children[0].values[5].label",
+    "key": "label",
+    "en": "ENTSOE"
+  },
+  {
+    "file": "./drivers/dap15/driver.compose.json",
+    "path": "settings[4].children[0].values[6].label",
+    "key": "label",
+    "en": "Stekker"
+  },
+  {
+    "file": "./drivers/dap15/driver.compose.json",
+    "path": "settings[4].children[1].label",
+    "key": "label",
+    "en": "ENTSO-E API Key"
+  },
+  {
+    "file": "./drivers/dap15/driver.compose.json",
+    "path": "settings[4].children[2].label",
+    "key": "label",
+    "en": "Enable forecast prices"
+  },
+  {
+    "file": "./drivers/dap15/driver.compose.json",
+    "path": "settings[4].children[3].label",
+    "key": "label",
+    "en": "Send tariff to group"
+  },
+  {
+    "file": "./drivers/evCharger/driver.compose.json",
+    "path": "name",
+    "key": "name",
+    "en": "EV Charger Summarizer"
+  },
+  {
+    "file": "./drivers/evCharger/driver.compose.json",
+    "path": "capabilitiesOptions.button.retrain.title",
+    "key": "title",
+    "en": "Retrain departure learning"
+  },
+  {
+    "file": "./drivers/evCharger/driver.compose.json",
+    "path": "capabilitiesOptions.button.retrain.desc",
+    "key": "desc",
+    "en": "Reset and retrain the departure/return time and SoC model based on Homey Insights of the charger."
+  },
+  {
+    "file": "./drivers/evCharger/driver.compose.json",
+    "path": "settings[0].label",
+    "key": "label",
+    "en": "EV Strategy Settings"
+  },
+  {
+    "file": "./drivers/evCharger/driver.compose.json",
+    "path": "settings[0].children[0].label",
+    "key": "label",
+    "en": "Max. charging power (W)"
+  },
+  {
+    "file": "./drivers/evCharger/driver.compose.json",
+    "path": "settings[0].children[1].label",
+    "key": "label",
+    "en": "Variable charging power"
+  },
+  {
+    "file": "./drivers/evCharger/driver.compose.json",
+    "path": "settings[0].children[2].label",
+    "key": "label",
+    "en": "Battery Capacity (kWh)"
+  },
+  {
+    "file": "./drivers/evCharger/driver.compose.json",
+    "path": "settings[0].children[3].label",
+    "key": "label",
+    "en": "Target SoC (%)"
+  },
+  {
+    "file": "./drivers/evCharger/driver.compose.json",
+    "path": "settings[1].label",
+    "key": "label",
+    "en": "Departure Schedule"
+  },
+  {
+    "file": "./drivers/evCharger/driver.compose.json",
+    "path": "settings[1].children[0].label",
+    "key": "label",
+    "en": "Auto-learn departure times"
+  },
+  {
+    "file": "./drivers/evCharger/driver.compose.json",
+    "path": "settings[1].children[1].label",
+    "key": "label",
+    "en": "Monday departure (HH:MM, empty = auto)"
+  },
+  {
+    "file": "./drivers/evCharger/driver.compose.json",
+    "path": "settings[1].children[2].label",
+    "key": "label",
+    "en": "Tuesday departure (HH:MM, empty = auto)"
+  },
+  {
+    "file": "./drivers/evCharger/driver.compose.json",
+    "path": "settings[1].children[3].label",
+    "key": "label",
+    "en": "Wednesday departure (HH:MM, empty = auto)"
+  },
+  {
+    "file": "./drivers/evCharger/driver.compose.json",
+    "path": "settings[1].children[4].label",
+    "key": "label",
+    "en": "Thursday departure (HH:MM, empty = auto)"
+  },
+  {
+    "file": "./drivers/evCharger/driver.compose.json",
+    "path": "settings[1].children[5].label",
+    "key": "label",
+    "en": "Friday departure (HH:MM, empty = auto)"
+  },
+  {
+    "file": "./drivers/evCharger/driver.compose.json",
+    "path": "settings[1].children[6].label",
+    "key": "label",
+    "en": "Saturday departure (HH:MM, empty = auto)"
+  },
+  {
+    "file": "./drivers/evCharger/driver.compose.json",
+    "path": "settings[1].children[7].label",
+    "key": "label",
+    "en": "Sunday departure (HH:MM, empty = auto)"
+  },
+  {
+    "file": "./drivers/evCharger/driver.compose.json",
+    "path": "settings[2].label",
+    "key": "label",
+    "en": "Linked Devices"
+  },
+  {
+    "file": "./drivers/evCharger/driver.compose.json",
+    "path": "settings[2].children[0].label",
+    "key": "label",
+    "en": "Charger device ID"
+  },
+  {
+    "file": "./drivers/evCharger/driver.compose.json",
+    "path": "settings[2].children[1].label",
+    "key": "label",
+    "en": "Charger device name"
+  },
+  {
+    "file": "./drivers/evCharger/driver.compose.json",
+    "path": "settings[2].children[2].label",
+    "key": "label",
+    "en": "EV car device ID"
+  },
+  {
+    "file": "./drivers/evCharger/driver.compose.json",
+    "path": "settings[2].children[3].label",
+    "key": "label",
+    "en": "EV car device name"
+  },
+  {
+    "file": "./drivers/evCharger/driver.compose.json",
+    "path": "settings[3].label",
+    "key": "label",
+    "en": "Learned Departure Profile (read-only)"
+  },
+  {
+    "file": "./drivers/evCharger/driver.compose.json",
+    "path": "settings[3].children[0].label",
+    "key": "label",
+    "en": "Monday"
+  },
+  {
+    "file": "./drivers/evCharger/driver.compose.json",
+    "path": "settings[3].children[1].label",
+    "key": "label",
+    "en": "Tuesday"
+  },
+  {
+    "file": "./drivers/evCharger/driver.compose.json",
+    "path": "settings[3].children[2].label",
+    "key": "label",
+    "en": "Wednesday"
+  },
+  {
+    "file": "./drivers/evCharger/driver.compose.json",
+    "path": "settings[3].children[3].label",
+    "key": "label",
+    "en": "Thursday"
+  },
+  {
+    "file": "./drivers/evCharger/driver.compose.json",
+    "path": "settings[3].children[4].label",
+    "key": "label",
+    "en": "Friday"
+  },
+  {
+    "file": "./drivers/evCharger/driver.compose.json",
+    "path": "settings[3].children[5].label",
+    "key": "label",
+    "en": "Saturday"
+  },
+  {
+    "file": "./drivers/evCharger/driver.compose.json",
+    "path": "settings[3].children[6].label",
+    "key": "label",
+    "en": "Sunday"
+  },
+  {
+    "file": "./drivers/evCharger/driver.compose.json",
+    "path": "settings[4].label",
+    "key": "label",
+    "en": "Tariffs"
+  },
+  {
+    "file": "./drivers/evCharger/driver.compose.json",
+    "path": "settings[4].children[0].label",
+    "key": "label",
+    "en": "Tariff update group (DAP)"
+  },
+  {
+    "file": "./drivers/evCharger/driver.compose.json",
+    "path": "settings[4].children[1].label",
+    "key": "label",
+    "en": "Tariff selection"
+  },
+  {
+    "file": "./drivers/evCharger/driver.compose.json",
+    "path": "settings[4].children[1].values[0].label",
+    "key": "label",
+    "en": "Automatic"
+  },
+  {
+    "file": "./drivers/evCharger/driver.compose.json",
+    "path": "settings[4].children[1].values[1].label",
+    "key": "label",
+    "en": "Always Import"
+  },
+  {
+    "file": "./drivers/evCharger/driver.compose.json",
+    "path": "settings[4].children[1].values[2].label",
+    "key": "label",
+    "en": "Always Export"
+  },
+  {
+    "file": "./drivers/evCharger/driver.compose.json",
+    "path": "settings[5].label",
+    "key": "label",
+    "en": "Monetary value"
+  },
+  {
+    "file": "./drivers/evCharger/driver.compose.json",
+    "path": "settings[5].children[0].label",
+    "key": "label",
+    "en": "Currency unit display"
+  },
+  {
+    "file": "./drivers/evCharger/driver.compose.json",
+    "path": "settings[5].children[1].label",
+    "key": "label",
+    "en": "Currency decimals"
+  },
+  {
+    "file": "./drivers/evCharger/driver.compose.json",
+    "path": "settings[6].label",
+    "key": "label",
+    "en": "Graph display"
+  },
+  {
+    "file": "./drivers/evCharger/driver.compose.json",
+    "path": "settings[6].children[0].label",
+    "key": "label",
+    "en": "Show power on graph"
+  },
+  {
+    "file": "./drivers/evCharger/driver.compose.json",
+    "path": "settings[6].children[1].label",
+    "key": "label",
+    "en": "Show State of Charge on graph"
+  },
+  {
+    "file": "./drivers/evCharger/driver.compose.json",
+    "path": "settings[6].children[2].label",
+    "key": "label",
+    "en": "Show export price on graph"
+  },
+  {
+    "file": "./drivers/solar/driver.compose.json",
+    "path": "name",
+    "key": "name",
+    "en": "PV Monitor"
+  },
+  {
+    "file": "./drivers/solar/driver.compose.json",
+    "path": "capabilitiesOptions.measure_watt_max.day.title",
+    "key": "title",
+    "en": "Maximum (day)"
+  },
+  {
+    "file": "./drivers/solar/driver.compose.json",
+    "path": "capabilitiesOptions.measure_watt_max.month.title",
+    "key": "title",
+    "en": "Maximum (month)"
+  },
+  {
+    "file": "./drivers/solar/driver.compose.json",
+    "path": "capabilitiesOptions.measure_watt_max.year.title",
+    "key": "title",
+    "en": "Maximum (year)"
+  },
+  {
+    "file": "./drivers/solar/driver.compose.json",
+    "path": "capabilitiesOptions.measure_watt_forecast.h0.title",
+    "key": "title",
+    "en": "Power forecast"
+  },
+  {
+    "file": "./drivers/solar/driver.compose.json",
+    "path": "capabilitiesOptions.measure_watt_forecast.m15.title",
+    "key": "title",
+    "en": "Power +15M"
+  },
+  {
+    "file": "./drivers/solar/driver.compose.json",
+    "path": "capabilitiesOptions.measure_watt_forecast.m30.title",
+    "key": "title",
+    "en": "Power +30M"
+  },
+  {
+    "file": "./drivers/solar/driver.compose.json",
+    "path": "capabilitiesOptions.measure_watt_forecast.m45.title",
+    "key": "title",
+    "en": "Power +45M"
+  },
+  {
+    "file": "./drivers/solar/driver.compose.json",
+    "path": "capabilitiesOptions.measure_watt_forecast.h1.title",
+    "key": "title",
+    "en": "Power +1H"
+  },
+  {
+    "file": "./drivers/solar/driver.compose.json",
+    "path": "capabilitiesOptions.measure_watt_forecast.h2.title",
+    "key": "title",
+    "en": "Power +2H"
+  },
+  {
+    "file": "./drivers/solar/driver.compose.json",
+    "path": "capabilitiesOptions.measure_watt_forecast.h3.title",
+    "key": "title",
+    "en": "Power +3H"
+  },
+  {
+    "file": "./drivers/solar/driver.compose.json",
+    "path": "capabilitiesOptions.meter_kwh_forecast.this_day.title",
+    "key": "title",
+    "en": "Forecast this day"
+  },
+  {
+    "file": "./drivers/solar/driver.compose.json",
+    "path": "capabilitiesOptions.meter_kwh_forecast.tomorrow.title",
+    "key": "title",
+    "en": "Forecast tomorrow"
+  },
+  {
+    "file": "./drivers/solar/driver.compose.json",
+    "path": "capabilitiesOptions.measure_watt_forecast.tomorrow_peak.title",
+    "key": "title",
+    "en": "Peak forecast tomorrow"
+  },
+  {
+    "file": "./drivers/solar/driver.compose.json",
+    "path": "capabilitiesOptions.meter_kwh_forecast.h0.title",
+    "key": "title",
+    "en": "Forecast this hour"
+  },
+  {
+    "file": "./drivers/solar/driver.compose.json",
+    "path": "capabilitiesOptions.alarm_power.title",
+    "key": "title",
+    "en": "Curtailment active"
+  },
+  {
+    "file": "./drivers/solar/driver.compose.json",
+    "path": "capabilitiesOptions.measure_solar_use.this_hour.title",
+    "key": "title",
+    "en": "Own usage this hour"
+  },
+  {
+    "file": "./drivers/solar/driver.compose.json",
+    "path": "capabilitiesOptions.measure_solar_use.this_day.title",
+    "key": "title",
+    "en": "Own usage this day"
+  },
+  {
+    "file": "./drivers/solar/driver.compose.json",
+    "path": "capabilitiesOptions.measure_solar_use.this_month.title",
+    "key": "title",
+    "en": "Own usage this month"
+  },
+  {
+    "file": "./drivers/solar/driver.compose.json",
+    "path": "capabilitiesOptions.measure_solar_use.this_year.title",
+    "key": "title",
+    "en": "Own usage this year"
+  },
+  {
+    "file": "./drivers/solar/driver.compose.json",
+    "path": "capabilitiesOptions.button.retrain.title",
+    "key": "title",
+    "en": "Retrain solar forecast"
+  },
+  {
+    "file": "./drivers/solar/driver.compose.json",
+    "path": "capabilitiesOptions.button.retrain.desc",
+    "key": "desc",
+    "en": "Retrain the forecaster based on 14 days of history. WARNING: This will reset all long term learnings!"
+  },
+  {
+    "file": "./drivers/solar/driver.compose.json",
+    "path": "capabilitiesOptions.button.export_diagnostics.title",
+    "key": "title",
+    "en": "Export diagnostics data"
+  },
+  {
+    "file": "./drivers/solar/driver.compose.json",
+    "path": "capabilitiesOptions.button.export_diagnostics.desc",
+    "key": "desc",
+    "en": "Log this array's settings and Insights power history for troubleshooting."
+  },
+  {
+    "file": "./drivers/solar/driver.compose.json",
+    "path": "settings[0].label",
+    "key": "label",
+    "en": "Solar Settings"
+  },
+  {
+    "file": "./drivers/solar/driver.compose.json",
+    "path": "settings[0].children[0].label",
+    "key": "label",
+    "en": "Training status"
+  },
+  {
+    "file": "./drivers/solar/driver.compose.json",
+    "path": "settings[0].children[1].label",
+    "key": "label",
+    "en": "Peak Power (W)"
+  },
+  {
+    "file": "./drivers/solar/driver.compose.json",
+    "path": "settings[0].children[2].label",
+    "key": "label",
+    "en": "Auto-detected Peak Power (W)"
+  },
+  {
+    "file": "./drivers/solar/driver.compose.json",
+    "path": "settings[0].children[3].label",
+    "key": "label",
+    "en": "Latitude"
+  },
+  {
+    "file": "./drivers/solar/driver.compose.json",
+    "path": "settings[0].children[4].label",
+    "key": "label",
+    "en": "Longitude"
+  },
+  {
+    "file": "./drivers/solar/driver.compose.json",
+    "path": "settings[1].label",
+    "key": "label",
+    "en": "Homey source device information"
+  },
+  {
+    "file": "./drivers/solar/driver.compose.json",
+    "path": "settings[1].children[0].label",
+    "key": "label",
+    "en": "Device ID"
+  },
+  {
+    "file": "./drivers/solar/driver.compose.json",
+    "path": "settings[1].children[1].label",
+    "key": "label",
+    "en": "Device name"
+  },
+  {
+    "file": "./drivers/solar/driver.compose.json",
+    "path": "settings[1].children[2].label",
+    "key": "label",
+    "en": "Source device type"
+  },
+  {
+    "file": "./drivers/solar/driver.compose.json",
+    "path": "settings[1].children[3].label",
+    "key": "label",
+    "en": "Use Watt as source"
+  },
+  {
+    "file": "./drivers/solar/driver.compose.json",
+    "path": "settings[1].children[4].label",
+    "key": "label",
+    "en": "Has daily reset"
+  },
+  {
+    "file": "./drivers/solar/driver.compose.json",
+    "path": "settings[1].children[5].label",
+    "key": "label",
+    "en": "Update interval (minutes)"
+  },
+  {
+    "file": "./drivers/solar/driver.compose.json",
+    "path": "settings[1].children[6].label",
+    "key": "label",
+    "en": "Delay hourly poll (minutes)"
+  },
+  {
+    "file": "./drivers/solar/driver.compose.json",
+    "path": "settings[2].label",
+    "key": "label",
+    "en": "Year start and energy budget"
+  },
+  {
+    "file": "./drivers/solar/driver.compose.json",
+    "path": "settings[2].children[0].label",
+    "key": "label",
+    "en": "New year start date"
+  },
+  {
+    "file": "./drivers/solar/driver.compose.json",
+    "path": "settings[2].children[1].label",
+    "key": "label",
+    "en": "Year target budget (kWh)"
+  },
+  {
+    "file": "./drivers/solar/driver.compose.json",
+    "path": "settings[2].children[2].label",
+    "key": "label",
+    "en": "Distribution scheme"
+  },
+  {
+    "file": "./drivers/solar/driver.compose.json",
+    "path": "settings[2].children[2].values[0].label",
+    "key": "label",
+    "en": "DISABLE TARGET BUDGET"
+  },
+  {
+    "file": "./drivers/solar/driver.compose.json",
+    "path": "settings[2].children[2].values[1].label",
+    "key": "label",
+    "en": "CUSTOM BUDGET"
+  },
+  {
+    "file": "./drivers/solar/driver.compose.json",
+    "path": "settings[2].children[2].values[2].label",
+    "key": "label",
+    "en": "Linear"
+  },
+  {
+    "file": "./drivers/solar/driver.compose.json",
+    "path": "settings[2].children[2].values[3].label",
+    "key": "label",
+    "en": "NL price ceiling 2023"
+  },
+  {
+    "file": "./drivers/solar/driver.compose.json",
+    "path": "settings[2].children[2].values[4].label",
+    "key": "label",
+    "en": "PV N-Europe, tilt 40°S"
+  },
+  {
+    "file": "./drivers/solar/driver.compose.json",
+    "path": "settings[3].label",
+    "key": "label",
+    "en": "Meter readings"
+  },
+  {
+    "file": "./drivers/solar/driver.compose.json",
+    "path": "settings[3].children[0].label",
+    "key": "label",
+    "en": "Number of decimals"
+  },
+  {
+    "file": "./drivers/solar/driver.compose.json",
+    "path": "settings[3].children[1].label",
+    "key": "label",
+    "en": "Present reading"
+  },
+  {
+    "file": "./drivers/solar/driver.compose.json",
+    "path": "settings[3].children[2].label",
+    "key": "label",
+    "en": "This day start"
+  },
+  {
+    "file": "./drivers/solar/driver.compose.json",
+    "path": "settings[3].children[3].label",
+    "key": "label",
+    "en": "This month start"
+  },
+  {
+    "file": "./drivers/solar/driver.compose.json",
+    "path": "settings[3].children[4].label",
+    "key": "label",
+    "en": "This year start"
+  },
+  {
+    "file": "./drivers/solar/driver.compose.json",
+    "path": "settings[4].label",
+    "key": "label",
+    "en": "Monetary value"
+  },
+  {
+    "file": "./drivers/solar/driver.compose.json",
+    "path": "settings[4].children[0].label",
+    "key": "label",
+    "en": "Currency unit"
+  },
+  {
+    "file": "./drivers/solar/driver.compose.json",
+    "path": "settings[4].children[1].label",
+    "key": "label",
+    "en": "Currency decimals"
+  },
+  {
+    "file": "./drivers/solar/driver.compose.json",
+    "path": "settings[4].children[2].label",
+    "key": "label",
+    "en": "Monetary value of this day"
+  },
+  {
+    "file": "./drivers/solar/driver.compose.json",
+    "path": "settings[4].children[3].label",
+    "key": "label",
+    "en": "Monetary value of this month"
+  },
+  {
+    "file": "./drivers/solar/driver.compose.json",
+    "path": "settings[4].children[4].label",
+    "key": "label",
+    "en": "Monetary value of this year"
+  },
+  {
+    "file": "./drivers/solar/driver.compose.json",
+    "path": "settings[4].children[5].label",
+    "key": "label",
+    "en": "Monetary value prev. day"
+  },
+  {
+    "file": "./drivers/solar/driver.compose.json",
+    "path": "settings[4].children[6].label",
+    "key": "label",
+    "en": "Monetary value prev. month"
+  },
+  {
+    "file": "./drivers/solar/driver.compose.json",
+    "path": "settings[4].children[7].label",
+    "key": "label",
+    "en": "Monetary value prev. year"
+  },
+  {
+    "file": "./drivers/solar/driver.compose.json",
+    "path": "settings[5].label",
+    "key": "label",
+    "en": "Tariff"
+  },
+  {
+    "file": "./drivers/solar/driver.compose.json",
+    "path": "settings[5].children[0].label",
+    "key": "label",
+    "en": "Actual tariff per kWh"
+  },
+  {
+    "file": "./drivers/solar/driver.compose.json",
+    "path": "settings[5].children[1].label",
+    "key": "label",
+    "en": "Tariff update group (flow or DAP)"
+  },
+  {
+    "file": "./drivers/solar/driver.compose.json",
+    "path": "settings[5].children[2].label",
+    "key": "label",
+    "en": "Tariff selection"
+  },
+  {
+    "file": "./drivers/solar/driver.compose.json",
+    "path": "settings[5].children[2].values[0].label",
+    "key": "label",
+    "en": "Automatic"
+  },
+  {
+    "file": "./drivers/solar/driver.compose.json",
+    "path": "settings[5].children[2].values[1].label",
+    "key": "label",
+    "en": "Always Import"
+  },
+  {
+    "file": "./drivers/solar/driver.compose.json",
+    "path": "settings[5].children[2].values[2].label",
+    "key": "label",
+    "en": "Always Export"
+  },
+  {
+    "file": "./drivers/gas/driver.compose.json",
+    "path": "name",
+    "key": "name",
+    "en": "Gas Summarizer"
+  },
+  {
+    "file": "./drivers/gas/driver.compose.json",
+    "path": "capabilitiesOptions.measure_lpm_min.day.title",
+    "key": "title",
+    "en": "Minimum (day)"
+  },
+  {
+    "file": "./drivers/gas/driver.compose.json",
+    "path": "capabilitiesOptions.measure_lpm_max.day.title",
+    "key": "title",
+    "en": "Maximum (day)"
+  },
+  {
+    "file": "./drivers/gas/driver.compose.json",
+    "path": "capabilitiesOptions.measure_lpm_min.month.title",
+    "key": "title",
+    "en": "Minimum (month)"
+  },
+  {
+    "file": "./drivers/gas/driver.compose.json",
+    "path": "capabilitiesOptions.measure_lpm_max.month.title",
+    "key": "title",
+    "en": "Maximum (month)"
+  },
+  {
+    "file": "./drivers/gas/driver.compose.json",
+    "path": "capabilitiesOptions.measure_lpm_min.year.title",
+    "key": "title",
+    "en": "Minimum (year)"
+  },
+  {
+    "file": "./drivers/gas/driver.compose.json",
+    "path": "capabilitiesOptions.measure_lpm_max.year.title",
+    "key": "title",
+    "en": "Maximum (year)"
+  },
+  {
+    "file": "./drivers/gas/driver.compose.json",
+    "path": "settings[0].label",
+    "key": "label",
+    "en": "Homey source device information"
+  },
+  {
+    "file": "./drivers/gas/driver.compose.json",
+    "path": "settings[0].children[0].label",
+    "key": "label",
+    "en": "Device ID"
+  },
+  {
+    "file": "./drivers/gas/driver.compose.json",
+    "path": "settings[0].children[1].label",
+    "key": "label",
+    "en": "Device name"
+  },
+  {
+    "file": "./drivers/gas/driver.compose.json",
+    "path": "settings[0].children[2].label",
+    "key": "label",
+    "en": "Source device type"
+  },
+  {
+    "file": "./drivers/gas/driver.compose.json",
+    "path": "settings[0].children[3].label",
+    "key": "label",
+    "en": "Has daily reset"
+  },
+  {
+    "file": "./drivers/gas/driver.compose.json",
+    "path": "settings[0].children[4].label",
+    "key": "label",
+    "en": "Update interval (minutes)"
+  },
+  {
+    "file": "./drivers/gas/driver.compose.json",
+    "path": "settings[0].children[5].label",
+    "key": "label",
+    "en": "Delay hourly poll (minutes)"
+  },
+  {
+    "file": "./drivers/gas/driver.compose.json",
+    "path": "settings[1].label",
+    "key": "label",
+    "en": "Year start and gas budget"
+  },
+  {
+    "file": "./drivers/gas/driver.compose.json",
+    "path": "settings[1].children[0].label",
+    "key": "label",
+    "en": "New year start date"
+  },
+  {
+    "file": "./drivers/gas/driver.compose.json",
+    "path": "settings[1].children[1].label",
+    "key": "label",
+    "en": "Year target budget (m³)"
+  },
+  {
+    "file": "./drivers/gas/driver.compose.json",
+    "path": "settings[1].children[2].label",
+    "key": "label",
+    "en": "Distribution scheme"
+  },
+  {
+    "file": "./drivers/gas/driver.compose.json",
+    "path": "settings[1].children[2].values[0].label",
+    "key": "label",
+    "en": "DISABLE TARGET BUDGET"
+  },
+  {
+    "file": "./drivers/gas/driver.compose.json",
+    "path": "settings[1].children[2].values[1].label",
+    "key": "label",
+    "en": "CUSTOM BUDGET"
+  },
+  {
+    "file": "./drivers/gas/driver.compose.json",
+    "path": "settings[1].children[2].values[2].label",
+    "key": "label",
+    "en": "Linear"
+  },
+  {
+    "file": "./drivers/gas/driver.compose.json",
+    "path": "settings[1].children[2].values[3].label",
+    "key": "label",
+    "en": "NL price ceiling 2023"
+  },
+  {
+    "file": "./drivers/gas/driver.compose.json",
+    "path": "settings[2].label",
+    "key": "label",
+    "en": "Meter readings"
+  },
+  {
+    "file": "./drivers/gas/driver.compose.json",
+    "path": "settings[2].children[0].label",
+    "key": "label",
+    "en": "Number of decimals"
+  },
+  {
+    "file": "./drivers/gas/driver.compose.json",
+    "path": "settings[2].children[1].label",
+    "key": "label",
+    "en": "Present reading"
+  },
+  {
+    "file": "./drivers/gas/driver.compose.json",
+    "path": "settings[2].children[2].label",
+    "key": "label",
+    "en": "This day start"
+  },
+  {
+    "file": "./drivers/gas/driver.compose.json",
+    "path": "settings[2].children[3].label",
+    "key": "label",
+    "en": "This month start"
+  },
+  {
+    "file": "./drivers/gas/driver.compose.json",
+    "path": "settings[2].children[4].label",
+    "key": "label",
+    "en": "This year start"
+  },
+  {
+    "file": "./drivers/gas/driver.compose.json",
+    "path": "settings[3].label",
+    "key": "label",
+    "en": "Monetary value"
+  },
+  {
+    "file": "./drivers/gas/driver.compose.json",
+    "path": "settings[3].children[0].label",
+    "key": "label",
+    "en": "Currency unit"
+  },
+  {
+    "file": "./drivers/gas/driver.compose.json",
+    "path": "settings[3].children[1].label",
+    "key": "label",
+    "en": "Currency decimals"
+  },
+  {
+    "file": "./drivers/gas/driver.compose.json",
+    "path": "settings[3].children[2].label",
+    "key": "label",
+    "en": "Monetary value of this day"
+  },
+  {
+    "file": "./drivers/gas/driver.compose.json",
+    "path": "settings[3].children[3].label",
+    "key": "label",
+    "en": "Monetary value of this month"
+  },
+  {
+    "file": "./drivers/gas/driver.compose.json",
+    "path": "settings[3].children[4].label",
+    "key": "label",
+    "en": "Monetary value of this year"
+  },
+  {
+    "file": "./drivers/gas/driver.compose.json",
+    "path": "settings[3].children[5].label",
+    "key": "label",
+    "en": "Monetary value prev. day"
+  },
+  {
+    "file": "./drivers/gas/driver.compose.json",
+    "path": "settings[3].children[6].label",
+    "key": "label",
+    "en": "Monetary value prev. month"
+  },
+  {
+    "file": "./drivers/gas/driver.compose.json",
+    "path": "settings[3].children[7].label",
+    "key": "label",
+    "en": "Monetary value prev. year"
+  },
+  {
+    "file": "./drivers/gas/driver.compose.json",
+    "path": "settings[4].label",
+    "key": "label",
+    "en": "Tariff"
+  },
+  {
+    "file": "./drivers/gas/driver.compose.json",
+    "path": "settings[4].children[0].label",
+    "key": "label",
+    "en": "Actual tariff per m³"
+  },
+  {
+    "file": "./drivers/gas/driver.compose.json",
+    "path": "settings[4].children[1].label",
+    "key": "label",
+    "en": "Tariff update group (flow or DAP)"
+  },
+  {
+    "file": "./drivers/gas/driver.compose.json",
+    "path": "settings[4].children[2].label",
+    "key": "label",
+    "en": "Fixed monthly costs"
+  },
+  {
+    "file": "./drivers/gas/driver.compose.json",
+    "path": "settings[4].children[3].label",
+    "key": "label",
+    "en": "Fixed daily costs"
+  },
+  {
+    "file": "./drivers/gas/driver.compose.json",
+    "path": "settings[4].children[4].label",
+    "key": "label",
+    "en": "Fixed hourly costs"
+  },
+  {
+    "file": "./drivers/water/driver.compose.json",
+    "path": "name",
+    "key": "name",
+    "en": "Water Summarizer"
+  },
+  {
+    "file": "./drivers/water/driver.compose.json",
+    "path": "capabilitiesOptions.measure_lpm_min.day.title",
+    "key": "title",
+    "en": "Minimum (day)"
+  },
+  {
+    "file": "./drivers/water/driver.compose.json",
+    "path": "capabilitiesOptions.measure_lpm_max.day.title",
+    "key": "title",
+    "en": "Maximum (day)"
+  },
+  {
+    "file": "./drivers/water/driver.compose.json",
+    "path": "capabilitiesOptions.measure_lpm_min.month.title",
+    "key": "title",
+    "en": "Minimum (month)"
+  },
+  {
+    "file": "./drivers/water/driver.compose.json",
+    "path": "capabilitiesOptions.measure_lpm_max.month.title",
+    "key": "title",
+    "en": "Maximum (month)"
+  },
+  {
+    "file": "./drivers/water/driver.compose.json",
+    "path": "capabilitiesOptions.measure_lpm_min.year.title",
+    "key": "title",
+    "en": "Minimum (year)"
+  },
+  {
+    "file": "./drivers/water/driver.compose.json",
+    "path": "capabilitiesOptions.measure_lpm_max.year.title",
+    "key": "title",
+    "en": "Maximum (year)"
+  },
+  {
+    "file": "./drivers/water/driver.compose.json",
+    "path": "settings[0].label",
+    "key": "label",
+    "en": "Homey source device information"
+  },
+  {
+    "file": "./drivers/water/driver.compose.json",
+    "path": "settings[0].children[0].label",
+    "key": "label",
+    "en": "Device ID"
+  },
+  {
+    "file": "./drivers/water/driver.compose.json",
+    "path": "settings[0].children[1].label",
+    "key": "label",
+    "en": "Device name"
+  },
+  {
+    "file": "./drivers/water/driver.compose.json",
+    "path": "settings[0].children[2].label",
+    "key": "label",
+    "en": "Source device type"
+  },
+  {
+    "file": "./drivers/water/driver.compose.json",
+    "path": "settings[0].children[3].label",
+    "key": "label",
+    "en": "Has daily reset"
+  },
+  {
+    "file": "./drivers/water/driver.compose.json",
+    "path": "settings[0].children[4].label",
+    "key": "label",
+    "en": "Update interval (minutes)"
+  },
+  {
+    "file": "./drivers/water/driver.compose.json",
+    "path": "settings[0].children[5].label",
+    "key": "label",
+    "en": "Delay hourly poll (minutes)"
+  },
+  {
+    "file": "./drivers/water/driver.compose.json",
+    "path": "settings[1].label",
+    "key": "label",
+    "en": "Year start and water budget"
+  },
+  {
+    "file": "./drivers/water/driver.compose.json",
+    "path": "settings[1].children[0].label",
+    "key": "label",
+    "en": "New year start date"
+  },
+  {
+    "file": "./drivers/water/driver.compose.json",
+    "path": "settings[1].children[1].label",
+    "key": "label",
+    "en": "Year target budget (m³)"
+  },
+  {
+    "file": "./drivers/water/driver.compose.json",
+    "path": "settings[1].children[2].label",
+    "key": "label",
+    "en": "Distribution scheme"
+  },
+  {
+    "file": "./drivers/water/driver.compose.json",
+    "path": "settings[1].children[2].values[0].label",
+    "key": "label",
+    "en": "DISABLE TARGET BUDGET"
+  },
+  {
+    "file": "./drivers/water/driver.compose.json",
+    "path": "settings[1].children[2].values[1].label",
+    "key": "label",
+    "en": "CUSTOM BUDGET"
+  },
+  {
+    "file": "./drivers/water/driver.compose.json",
+    "path": "settings[1].children[2].values[2].label",
+    "key": "label",
+    "en": "Linear"
+  },
+  {
+    "file": "./drivers/water/driver.compose.json",
+    "path": "settings[2].label",
+    "key": "label",
+    "en": "Meter readings"
+  },
+  {
+    "file": "./drivers/water/driver.compose.json",
+    "path": "settings[2].children[0].label",
+    "key": "label",
+    "en": "Number of decimals"
+  },
+  {
+    "file": "./drivers/water/driver.compose.json",
+    "path": "settings[2].children[1].label",
+    "key": "label",
+    "en": "This hour start"
+  },
+  {
+    "file": "./drivers/water/driver.compose.json",
+    "path": "settings[2].children[2].label",
+    "key": "label",
+    "en": "This day start"
+  },
+  {
+    "file": "./drivers/water/driver.compose.json",
+    "path": "settings[2].children[3].label",
+    "key": "label",
+    "en": "This month start"
+  },
+  {
+    "file": "./drivers/water/driver.compose.json",
+    "path": "settings[2].children[4].label",
+    "key": "label",
+    "en": "This year start"
+  },
+  {
+    "file": "./drivers/water/driver.compose.json",
+    "path": "settings[3].label",
+    "key": "label",
+    "en": "Monetary value"
+  },
+  {
+    "file": "./drivers/water/driver.compose.json",
+    "path": "settings[3].children[0].label",
+    "key": "label",
+    "en": "Currency unit"
+  },
+  {
+    "file": "./drivers/water/driver.compose.json",
+    "path": "settings[3].children[1].label",
+    "key": "label",
+    "en": "Currency decimals"
+  },
+  {
+    "file": "./drivers/water/driver.compose.json",
+    "path": "settings[3].children[2].label",
+    "key": "label",
+    "en": "Monetary value of this day"
+  },
+  {
+    "file": "./drivers/water/driver.compose.json",
+    "path": "settings[3].children[3].label",
+    "key": "label",
+    "en": "Monetary value of this month"
+  },
+  {
+    "file": "./drivers/water/driver.compose.json",
+    "path": "settings[3].children[4].label",
+    "key": "label",
+    "en": "Monetary value of this year"
+  },
+  {
+    "file": "./drivers/water/driver.compose.json",
+    "path": "settings[3].children[5].label",
+    "key": "label",
+    "en": "Monetary value prev. day"
+  },
+  {
+    "file": "./drivers/water/driver.compose.json",
+    "path": "settings[3].children[6].label",
+    "key": "label",
+    "en": "Monetary value prev. month"
+  },
+  {
+    "file": "./drivers/water/driver.compose.json",
+    "path": "settings[3].children[7].label",
+    "key": "label",
+    "en": "Monetary value prev. year"
+  },
+  {
+    "file": "./drivers/water/driver.compose.json",
+    "path": "settings[4].label",
+    "key": "label",
+    "en": "Tariff"
+  },
+  {
+    "file": "./drivers/water/driver.compose.json",
+    "path": "settings[4].children[0].label",
+    "key": "label",
+    "en": "Actual tariff per m³"
+  },
+  {
+    "file": "./drivers/water/driver.compose.json",
+    "path": "settings[4].children[1].label",
+    "key": "label",
+    "en": "Tariff update group (flow)"
+  },
+  {
+    "file": "./drivers/water/driver.compose.json",
+    "path": "settings[4].children[2].label",
+    "key": "label",
+    "en": "Fixed monthly costs"
+  },
+  {
+    "file": "./drivers/water/driver.compose.json",
+    "path": "settings[4].children[3].label",
+    "key": "label",
+    "en": "Fixed daily costs"
+  },
+  {
+    "file": "./drivers/water/driver.compose.json",
+    "path": "settings[4].children[4].label",
+    "key": "label",
+    "en": "Fixed hourly costs"
+  },
+  {
+    "file": "./drivers/dap/driver.compose.json",
+    "path": "name",
+    "key": "name",
+    "en": "Day-Ahead 60m E Prices"
+  },
+  {
+    "file": "./drivers/dap/driver.compose.json",
+    "path": "settings[0].label",
+    "key": "label",
+    "en": "Bidding Zone information"
+  },
+  {
+    "file": "./drivers/dap/driver.compose.json",
+    "path": "settings[0].children[0].label",
+    "key": "label",
+    "en": "Bidding zone"
+  },
+  {
+    "file": "./drivers/dap/driver.compose.json",
+    "path": "settings[0].children[1].label",
+    "key": "label",
+    "en": "Description"
+  },
+  {
+    "file": "./drivers/dap/driver.compose.json",
+    "path": "settings[1].label",
+    "key": "label",
+    "en": "Currency settings"
+  },
+  {
+    "file": "./drivers/dap/driver.compose.json",
+    "path": "settings[1].children[0].label",
+    "key": "label",
+    "en": "Currency unit display"
+  },
+  {
+    "file": "./drivers/dap/driver.compose.json",
+    "path": "settings[1].children[1].label",
+    "key": "label",
+    "en": "Currency decimals"
+  },
+  {
+    "file": "./drivers/dap/driver.compose.json",
+    "path": "settings[1].children[2].label",
+    "key": "label",
+    "en": "Exchange rate with €"
+  },
+  {
+    "file": "./drivers/dap/driver.compose.json",
+    "path": "settings[1].children[3].label",
+    "key": "label",
+    "en": "Daily update the exchange rate"
+  },
+  {
+    "file": "./drivers/dap/driver.compose.json",
+    "path": "settings[1].children[3].values[0].label",
+    "key": "label",
+    "en": "DO NOT FETCH"
+  },
+  {
+    "file": "./drivers/dap/driver.compose.json",
+    "path": "settings[1].children[3].values[1].label",
+    "key": "label",
+    "en": "BGN"
+  },
+  {
+    "file": "./drivers/dap/driver.compose.json",
+    "path": "settings[1].children[3].values[2].label",
+    "key": "label",
+    "en": "CHF"
+  },
+  {
+    "file": "./drivers/dap/driver.compose.json",
+    "path": "settings[1].children[3].values[3].label",
+    "key": "label",
+    "en": "CZK"
+  },
+  {
+    "file": "./drivers/dap/driver.compose.json",
+    "path": "settings[1].children[3].values[4].label",
+    "key": "label",
+    "en": "DKK"
+  },
+  {
+    "file": "./drivers/dap/driver.compose.json",
+    "path": "settings[1].children[3].values[5].label",
+    "key": "label",
+    "en": "GBP"
+  },
+  {
+    "file": "./drivers/dap/driver.compose.json",
+    "path": "settings[1].children[3].values[6].label",
+    "key": "label",
+    "en": "HRK"
+  },
+  {
+    "file": "./drivers/dap/driver.compose.json",
+    "path": "settings[1].children[3].values[7].label",
+    "key": "label",
+    "en": "HUF"
+  },
+  {
+    "file": "./drivers/dap/driver.compose.json",
+    "path": "settings[1].children[3].values[8].label",
+    "key": "label",
+    "en": "ISK"
+  },
+  {
+    "file": "./drivers/dap/driver.compose.json",
+    "path": "settings[1].children[3].values[9].label",
+    "key": "label",
+    "en": "NOK"
+  },
+  {
+    "file": "./drivers/dap/driver.compose.json",
+    "path": "settings[1].children[3].values[10].label",
+    "key": "label",
+    "en": "PLN"
+  },
+  {
+    "file": "./drivers/dap/driver.compose.json",
+    "path": "settings[1].children[3].values[11].label",
+    "key": "label",
+    "en": "RON"
+  },
+  {
+    "file": "./drivers/dap/driver.compose.json",
+    "path": "settings[1].children[3].values[12].label",
+    "key": "label",
+    "en": "RUB"
+  },
+  {
+    "file": "./drivers/dap/driver.compose.json",
+    "path": "settings[1].children[3].values[13].label",
+    "key": "label",
+    "en": "SEK"
+  },
+  {
+    "file": "./drivers/dap/driver.compose.json",
+    "path": "settings[1].children[3].values[14].label",
+    "key": "label",
+    "en": "TRY"
+  },
+  {
+    "file": "./drivers/dap/driver.compose.json",
+    "path": "settings[1].children[3].values[15].label",
+    "key": "label",
+    "en": "AUD"
+  },
+  {
+    "file": "./drivers/dap/driver.compose.json",
+    "path": "settings[1].children[3].values[16].label",
+    "key": "label",
+    "en": "USD"
+  },
+  {
+    "file": "./drivers/dap/driver.compose.json",
+    "path": "settings[2].label",
+    "key": "label",
+    "en": "Import price settings"
+  },
+  {
+    "file": "./drivers/dap/driver.compose.json",
+    "path": "settings[2].children[0].label",
+    "key": "label",
+    "en": "Ignore market price (Fixed price only)"
+  },
+  {
+    "file": "./drivers/dap/driver.compose.json",
+    "path": "settings[2].children[1].label",
+    "key": "label",
+    "en": "Import variable markup (%)"
+  },
+  {
+    "file": "./drivers/dap/driver.compose.json",
+    "path": "settings[2].children[2].label",
+    "key": "label",
+    "en": "Import variable markup (%) @abs. price"
+  },
+  {
+    "file": "./drivers/dap/driver.compose.json",
+    "path": "settings[2].children[3].label",
+    "key": "label",
+    "en": "Import fixed markup per kWh"
+  },
+  {
+    "file": "./drivers/dap/driver.compose.json",
+    "path": "settings[2].children[4].label",
+    "key": "label",
+    "en": "Import Extra Time Of Day markup"
+  },
+  {
+    "file": "./drivers/dap/driver.compose.json",
+    "path": "settings[2].children[5].label",
+    "key": "label",
+    "en": "Import Extra Weekend markup"
+  },
+  {
+    "file": "./drivers/dap/driver.compose.json",
+    "path": "settings[3].label",
+    "key": "label",
+    "en": "Export price settings"
+  },
+  {
+    "file": "./drivers/dap/driver.compose.json",
+    "path": "settings[3].children[0].label",
+    "key": "label",
+    "en": "Ignore market price (Fixed price only)"
+  },
+  {
+    "file": "./drivers/dap/driver.compose.json",
+    "path": "settings[3].children[1].label",
+    "key": "label",
+    "en": "Export variable markup (%)"
+  },
+  {
+    "file": "./drivers/dap/driver.compose.json",
+    "path": "settings[3].children[2].label",
+    "key": "label",
+    "en": "Export variable markup (%) @abs. price"
+  },
+  {
+    "file": "./drivers/dap/driver.compose.json",
+    "path": "settings[3].children[3].label",
+    "key": "label",
+    "en": "Export fixed markup per kWh"
+  },
+  {
+    "file": "./drivers/dap/driver.compose.json",
+    "path": "settings[3].children[4].label",
+    "key": "label",
+    "en": "Export Extra Time Of Day markup"
+  },
+  {
+    "file": "./drivers/dap/driver.compose.json",
+    "path": "settings[3].children[5].label",
+    "key": "label",
+    "en": "Export Extra Weekend markup"
+  },
+  {
+    "file": "./drivers/dap/driver.compose.json",
+    "path": "settings[3].children[6].label",
+    "key": "label",
+    "en": "Show export price in chart"
+  },
+  {
+    "file": "./drivers/dap/driver.compose.json",
+    "path": "settings[4].label",
+    "key": "label",
+    "en": "Various settings"
+  },
+  {
+    "file": "./drivers/dap/driver.compose.json",
+    "path": "settings[4].children[0].label",
+    "key": "label",
+    "en": "Price Provider"
+  },
+  {
+    "file": "./drivers/dap/driver.compose.json",
+    "path": "settings[4].children[0].values[0].label",
+    "key": "label",
+    "en": "Automatic (recommended)"
+  },
+  {
+    "file": "./drivers/dap/driver.compose.json",
+    "path": "settings[4].children[0].values[1].label",
+    "key": "label",
+    "en": "OMIE (Spain/Portugal)"
+  },
+  {
+    "file": "./drivers/dap/driver.compose.json",
+    "path": "settings[4].children[0].values[2].label",
+    "key": "label",
+    "en": "ENTSOE Gruijter"
+  },
+  {
+    "file": "./drivers/dap/driver.compose.json",
+    "path": "settings[4].children[0].values[3].label",
+    "key": "label",
+    "en": "SMARD (Bundesnetzagentur)"
+  },
+  {
+    "file": "./drivers/dap/driver.compose.json",
+    "path": "settings[4].children[0].values[4].label",
+    "key": "label",
+    "en": "Nordpool"
+  },
+  {
+    "file": "./drivers/dap/driver.compose.json",
+    "path": "settings[4].children[0].values[5].label",
+    "key": "label",
+    "en": "ENTSOE"
+  },
+  {
+    "file": "./drivers/dap/driver.compose.json",
+    "path": "settings[4].children[0].values[6].label",
+    "key": "label",
+    "en": "Stekker"
+  },
+  {
+    "file": "./drivers/dap/driver.compose.json",
+    "path": "settings[4].children[1].label",
+    "key": "label",
+    "en": "ENTSO-E API Key"
+  },
+  {
+    "file": "./drivers/dap/driver.compose.json",
+    "path": "settings[4].children[2].label",
+    "key": "label",
+    "en": "Enable forecast prices"
+  },
+  {
+    "file": "./drivers/dap/driver.compose.json",
+    "path": "settings[4].children[3].label",
+    "key": "label",
+    "en": "Send tariff to group"
+  },
+  {
+    "file": "./drivers/dapg/driver.compose.json",
+    "path": "name",
+    "key": "name",
+    "en": "Day-Ahead Gas Prices"
+  },
+  {
+    "file": "./drivers/dapg/driver.compose.json",
+    "path": "settings[0].label",
+    "key": "label",
+    "en": "Bidding Zone information"
+  },
+  {
+    "file": "./drivers/dapg/driver.compose.json",
+    "path": "settings[0].children[0].label",
+    "key": "label",
+    "en": "Bidding zone"
+  },
+  {
+    "file": "./drivers/dapg/driver.compose.json",
+    "path": "settings[0].children[1].label",
+    "key": "label",
+    "en": "Description"
+  },
+  {
+    "file": "./drivers/dapg/driver.compose.json",
+    "path": "settings[1].label",
+    "key": "label",
+    "en": "Currency settings"
+  },
+  {
+    "file": "./drivers/dapg/driver.compose.json",
+    "path": "settings[1].children[0].label",
+    "key": "label",
+    "en": "Currency unit display"
+  },
+  {
+    "file": "./drivers/dapg/driver.compose.json",
+    "path": "settings[1].children[1].label",
+    "key": "label",
+    "en": "Currency decimals"
+  },
+  {
+    "file": "./drivers/dapg/driver.compose.json",
+    "path": "settings[1].children[2].label",
+    "key": "label",
+    "en": "Exchange rate with €"
+  },
+  {
+    "file": "./drivers/dapg/driver.compose.json",
+    "path": "settings[1].children[3].label",
+    "key": "label",
+    "en": "Daily update the exchange rate"
+  },
+  {
+    "file": "./drivers/dapg/driver.compose.json",
+    "path": "settings[1].children[3].values[0].label",
+    "key": "label",
+    "en": "DO NOT FETCH"
+  },
+  {
+    "file": "./drivers/dapg/driver.compose.json",
+    "path": "settings[1].children[3].values[1].label",
+    "key": "label",
+    "en": "BGN"
+  },
+  {
+    "file": "./drivers/dapg/driver.compose.json",
+    "path": "settings[1].children[3].values[2].label",
+    "key": "label",
+    "en": "CHF"
+  },
+  {
+    "file": "./drivers/dapg/driver.compose.json",
+    "path": "settings[1].children[3].values[3].label",
+    "key": "label",
+    "en": "CZK"
+  },
+  {
+    "file": "./drivers/dapg/driver.compose.json",
+    "path": "settings[1].children[3].values[4].label",
+    "key": "label",
+    "en": "DKK"
+  },
+  {
+    "file": "./drivers/dapg/driver.compose.json",
+    "path": "settings[1].children[3].values[5].label",
+    "key": "label",
+    "en": "GBP"
+  },
+  {
+    "file": "./drivers/dapg/driver.compose.json",
+    "path": "settings[1].children[3].values[6].label",
+    "key": "label",
+    "en": "HRK"
+  },
+  {
+    "file": "./drivers/dapg/driver.compose.json",
+    "path": "settings[1].children[3].values[7].label",
+    "key": "label",
+    "en": "HUF"
+  },
+  {
+    "file": "./drivers/dapg/driver.compose.json",
+    "path": "settings[1].children[3].values[8].label",
+    "key": "label",
+    "en": "ISK"
+  },
+  {
+    "file": "./drivers/dapg/driver.compose.json",
+    "path": "settings[1].children[3].values[9].label",
+    "key": "label",
+    "en": "NOK"
+  },
+  {
+    "file": "./drivers/dapg/driver.compose.json",
+    "path": "settings[1].children[3].values[10].label",
+    "key": "label",
+    "en": "PLN"
+  },
+  {
+    "file": "./drivers/dapg/driver.compose.json",
+    "path": "settings[1].children[3].values[11].label",
+    "key": "label",
+    "en": "RON"
+  },
+  {
+    "file": "./drivers/dapg/driver.compose.json",
+    "path": "settings[1].children[3].values[12].label",
+    "key": "label",
+    "en": "RUB"
+  },
+  {
+    "file": "./drivers/dapg/driver.compose.json",
+    "path": "settings[1].children[3].values[13].label",
+    "key": "label",
+    "en": "SEK"
+  },
+  {
+    "file": "./drivers/dapg/driver.compose.json",
+    "path": "settings[1].children[3].values[14].label",
+    "key": "label",
+    "en": "TRY"
+  },
+  {
+    "file": "./drivers/dapg/driver.compose.json",
+    "path": "settings[1].children[3].values[15].label",
+    "key": "label",
+    "en": "AUD"
+  },
+  {
+    "file": "./drivers/dapg/driver.compose.json",
+    "path": "settings[1].children[3].values[16].label",
+    "key": "label",
+    "en": "USD"
+  },
+  {
+    "file": "./drivers/dapg/driver.compose.json",
+    "path": "settings[2].label",
+    "key": "label",
+    "en": "Price settings"
+  },
+  {
+    "file": "./drivers/dapg/driver.compose.json",
+    "path": "settings[2].children[0].label",
+    "key": "label",
+    "en": "Variable markup (%)"
+  },
+  {
+    "file": "./drivers/dapg/driver.compose.json",
+    "path": "settings[2].children[1].label",
+    "key": "label",
+    "en": "Fixed markup per m3"
+  },
+  {
+    "file": "./drivers/dapg/driver.compose.json",
+    "path": "settings[2].children[2].label",
+    "key": "label",
+    "en": "Extra Time Of Day markup"
+  },
+  {
+    "file": "./drivers/dapg/driver.compose.json",
+    "path": "settings[2].children[3].label",
+    "key": "label",
+    "en": "Extra Weekend markup"
+  },
+  {
+    "file": "./drivers/dapg/driver.compose.json",
+    "path": "settings[3].label",
+    "key": "label",
+    "en": "Various settings"
+  },
+  {
+    "file": "./drivers/dapg/driver.compose.json",
+    "path": "settings[3].children[0].label",
+    "key": "label",
+    "en": "Price Provider"
+  },
+  {
+    "file": "./drivers/dapg/driver.compose.json",
+    "path": "settings[3].children[0].values[0].label",
+    "key": "label",
+    "en": "Automatic (recommended)"
+  },
+  {
+    "file": "./drivers/dapg/driver.compose.json",
+    "path": "settings[3].children[0].values[1].label",
+    "key": "label",
+    "en": "EnergyZero"
+  },
+  {
+    "file": "./drivers/dapg/driver.compose.json",
+    "path": "settings[3].children[0].values[2].label",
+    "key": "label",
+    "en": "EEX"
+  },
+  {
+    "file": "./drivers/dapg/driver.compose.json",
+    "path": "settings[3].children[1].label",
+    "key": "label",
+    "en": "Send tariff to group"
+  },
+  {
+    "file": "./drivers/power/driver.compose.json",
+    "path": "name",
+    "key": "name",
+    "en": "Power Summarizer"
+  },
+  {
+    "file": "./drivers/power/driver.compose.json",
+    "path": "capabilitiesOptions.measure_watt_min.day.title",
+    "key": "title",
+    "en": "Minimum (day)"
+  },
+  {
+    "file": "./drivers/power/driver.compose.json",
+    "path": "capabilitiesOptions.measure_watt_max.day.title",
+    "key": "title",
+    "en": "Maximum (day)"
+  },
+  {
+    "file": "./drivers/power/driver.compose.json",
+    "path": "capabilitiesOptions.measure_watt_min.month.title",
+    "key": "title",
+    "en": "Minimum (month)"
+  },
+  {
+    "file": "./drivers/power/driver.compose.json",
+    "path": "capabilitiesOptions.measure_watt_max.month.title",
+    "key": "title",
+    "en": "Maximum (month)"
+  },
+  {
+    "file": "./drivers/power/driver.compose.json",
+    "path": "capabilitiesOptions.measure_watt_min.year.title",
+    "key": "title",
+    "en": "Minimum (year)"
+  },
+  {
+    "file": "./drivers/power/driver.compose.json",
+    "path": "capabilitiesOptions.measure_watt_max.year.title",
+    "key": "title",
+    "en": "Maximum (year)"
+  },
+  {
+    "file": "./drivers/power/driver.compose.json",
+    "path": "settings[0].label",
+    "key": "label",
+    "en": "Homey source device information"
+  },
+  {
+    "file": "./drivers/power/driver.compose.json",
+    "path": "settings[0].children[0].label",
+    "key": "label",
+    "en": "Device ID"
+  },
+  {
+    "file": "./drivers/power/driver.compose.json",
+    "path": "settings[0].children[1].label",
+    "key": "label",
+    "en": "Device name"
+  },
+  {
+    "file": "./drivers/power/driver.compose.json",
+    "path": "settings[0].children[2].label",
+    "key": "label",
+    "en": "Source device type"
+  },
+  {
+    "file": "./drivers/power/driver.compose.json",
+    "path": "settings[0].children[3].label",
+    "key": "label",
+    "en": "Use Watt as source"
+  },
+  {
+    "file": "./drivers/power/driver.compose.json",
+    "path": "settings[0].children[4].label",
+    "key": "label",
+    "en": "Has daily reset"
+  },
+  {
+    "file": "./drivers/power/driver.compose.json",
+    "path": "settings[0].children[5].label",
+    "key": "label",
+    "en": "Update interval (minutes)"
+  },
+  {
+    "file": "./drivers/power/driver.compose.json",
+    "path": "settings[0].children[6].label",
+    "key": "label",
+    "en": "Delay hourly poll (minutes)"
+  },
+  {
+    "file": "./drivers/power/driver.compose.json",
+    "path": "settings[1].label",
+    "key": "label",
+    "en": "Year start and energy budget"
+  },
+  {
+    "file": "./drivers/power/driver.compose.json",
+    "path": "settings[1].children[0].label",
+    "key": "label",
+    "en": "New year start date"
+  },
+  {
+    "file": "./drivers/power/driver.compose.json",
+    "path": "settings[1].children[1].label",
+    "key": "label",
+    "en": "Year target budget (kWh)"
+  },
+  {
+    "file": "./drivers/power/driver.compose.json",
+    "path": "settings[1].children[2].label",
+    "key": "label",
+    "en": "Distribution scheme"
+  },
+  {
+    "file": "./drivers/power/driver.compose.json",
+    "path": "settings[1].children[2].values[0].label",
+    "key": "label",
+    "en": "DISABLE TARGET BUDGET"
+  },
+  {
+    "file": "./drivers/power/driver.compose.json",
+    "path": "settings[1].children[2].values[1].label",
+    "key": "label",
+    "en": "CUSTOM BUDGET"
+  },
+  {
+    "file": "./drivers/power/driver.compose.json",
+    "path": "settings[1].children[2].values[2].label",
+    "key": "label",
+    "en": "Linear"
+  },
+  {
+    "file": "./drivers/power/driver.compose.json",
+    "path": "settings[1].children[2].values[3].label",
+    "key": "label",
+    "en": "NL price ceiling 2023"
+  },
+  {
+    "file": "./drivers/power/driver.compose.json",
+    "path": "settings[1].children[2].values[4].label",
+    "key": "label",
+    "en": "PV N-Europe, tilt 40°S"
+  },
+  {
+    "file": "./drivers/power/driver.compose.json",
+    "path": "settings[2].label",
+    "key": "label",
+    "en": "Meter readings"
+  },
+  {
+    "file": "./drivers/power/driver.compose.json",
+    "path": "settings[2].children[0].label",
+    "key": "label",
+    "en": "Number of decimals"
+  },
+  {
+    "file": "./drivers/power/driver.compose.json",
+    "path": "settings[2].children[1].label",
+    "key": "label",
+    "en": "Present reading"
+  },
+  {
+    "file": "./drivers/power/driver.compose.json",
+    "path": "settings[2].children[2].label",
+    "key": "label",
+    "en": "This day start"
+  },
+  {
+    "file": "./drivers/power/driver.compose.json",
+    "path": "settings[2].children[3].label",
+    "key": "label",
+    "en": "This month start"
+  },
+  {
+    "file": "./drivers/power/driver.compose.json",
+    "path": "settings[2].children[4].label",
+    "key": "label",
+    "en": "This year start"
+  },
+  {
+    "file": "./drivers/power/driver.compose.json",
+    "path": "settings[3].label",
+    "key": "label",
+    "en": "Monetary value"
+  },
+  {
+    "file": "./drivers/power/driver.compose.json",
+    "path": "settings[3].children[0].label",
+    "key": "label",
+    "en": "Currency unit"
+  },
+  {
+    "file": "./drivers/power/driver.compose.json",
+    "path": "settings[3].children[1].label",
+    "key": "label",
+    "en": "Currency decimals"
+  },
+  {
+    "file": "./drivers/power/driver.compose.json",
+    "path": "settings[3].children[2].label",
+    "key": "label",
+    "en": "Monetary value of this day"
+  },
+  {
+    "file": "./drivers/power/driver.compose.json",
+    "path": "settings[3].children[3].label",
+    "key": "label",
+    "en": "Monetary value of this month"
+  },
+  {
+    "file": "./drivers/power/driver.compose.json",
+    "path": "settings[3].children[4].label",
+    "key": "label",
+    "en": "Monetary value of this year"
+  },
+  {
+    "file": "./drivers/power/driver.compose.json",
+    "path": "settings[3].children[5].label",
+    "key": "label",
+    "en": "Monetary value prev. day"
+  },
+  {
+    "file": "./drivers/power/driver.compose.json",
+    "path": "settings[3].children[6].label",
+    "key": "label",
+    "en": "Monetary value prev. month"
+  },
+  {
+    "file": "./drivers/power/driver.compose.json",
+    "path": "settings[3].children[7].label",
+    "key": "label",
+    "en": "Monetary value prev. year"
+  },
+  {
+    "file": "./drivers/power/driver.compose.json",
+    "path": "settings[4].label",
+    "key": "label",
+    "en": "Tariff"
+  },
+  {
+    "file": "./drivers/power/driver.compose.json",
+    "path": "settings[4].children[0].label",
+    "key": "label",
+    "en": "Actual tariff per kWh"
+  },
+  {
+    "file": "./drivers/power/driver.compose.json",
+    "path": "settings[4].children[1].label",
+    "key": "label",
+    "en": "Tariff update group (flow or DAP)"
+  },
+  {
+    "file": "./drivers/power/driver.compose.json",
+    "path": "settings[4].children[2].label",
+    "key": "label",
+    "en": "Tariff selection"
+  },
+  {
+    "file": "./drivers/power/driver.compose.json",
+    "path": "settings[4].children[2].values[0].label",
+    "key": "label",
+    "en": "Automatic"
+  },
+  {
+    "file": "./drivers/power/driver.compose.json",
+    "path": "settings[4].children[2].values[1].label",
+    "key": "label",
+    "en": "Always Import"
+  },
+  {
+    "file": "./drivers/power/driver.compose.json",
+    "path": "settings[4].children[2].values[2].label",
+    "key": "label",
+    "en": "Always Export"
+  },
+  {
+    "file": "./drivers/power/driver.compose.json",
+    "path": "settings[4].children[3].label",
+    "key": "label",
+    "en": "Fixed monthly costs"
+  },
+  {
+    "file": "./drivers/power/driver.compose.json",
+    "path": "settings[4].children[4].label",
+    "key": "label",
+    "en": "Fixed daily costs"
+  },
+  {
+    "file": "./drivers/power/driver.compose.json",
+    "path": "settings[4].children[5].label",
+    "key": "label",
+    "en": "Fixed hourly costs"
+  },
+  {
+    "file": "./drivers/battery/driver.compose.json",
+    "path": "name",
+    "key": "name",
+    "en": "Home Battery Monitor"
+  },
+  {
+    "file": "./drivers/battery/driver.compose.json",
+    "path": "settings[0].label",
+    "key": "label",
+    "en": "Homey source device information"
+  },
+  {
+    "file": "./drivers/battery/driver.compose.json",
+    "path": "settings[0].children[0].label",
+    "key": "label",
+    "en": "Device ID"
+  },
+  {
+    "file": "./drivers/battery/driver.compose.json",
+    "path": "settings[0].children[1].label",
+    "key": "label",
+    "en": "Device name"
+  },
+  {
+    "file": "./drivers/battery/driver.compose.json",
+    "path": "settings[1].label",
+    "key": "label",
+    "en": "Battery properties"
+  },
+  {
+    "file": "./drivers/battery/driver.compose.json",
+    "path": "settings[1].children[0].label",
+    "key": "label",
+    "en": "Capacity (kWh)"
+  },
+  {
+    "file": "./drivers/battery/driver.compose.json",
+    "path": "settings[1].children[1].label",
+    "key": "label",
+    "en": "Own use when idle (W)"
+  },
+  {
+    "file": "./drivers/battery/driver.compose.json",
+    "path": "settings[2].label",
+    "key": "label",
+    "en": "Maximum power values"
+  },
+  {
+    "file": "./drivers/battery/driver.compose.json",
+    "path": "settings[2].children[0].label",
+    "key": "label",
+    "en": "Max. charging power (W)"
+  },
+  {
+    "file": "./drivers/battery/driver.compose.json",
+    "path": "settings[2].children[1].label",
+    "key": "label",
+    "en": "Max. charging loss (%)"
+  },
+  {
+    "file": "./drivers/battery/driver.compose.json",
+    "path": "settings[2].children[2].label",
+    "key": "label",
+    "en": "Max. discharging power (W)"
+  },
+  {
+    "file": "./drivers/battery/driver.compose.json",
+    "path": "settings[2].children[3].label",
+    "key": "label",
+    "en": "Max. discharging loss (%)"
+  },
+  {
+    "file": "./drivers/battery/driver.compose.json",
+    "path": "settings[3].label",
+    "key": "label",
+    "en": "Efficient power values"
+  },
+  {
+    "file": "./drivers/battery/driver.compose.json",
+    "path": "settings[3].children[0].label",
+    "key": "label",
+    "en": "Eff. charging power (W)"
+  },
+  {
+    "file": "./drivers/battery/driver.compose.json",
+    "path": "settings[3].children[1].label",
+    "key": "label",
+    "en": "Eff. charging loss (%)"
+  },
+  {
+    "file": "./drivers/battery/driver.compose.json",
+    "path": "settings[3].children[2].label",
+    "key": "label",
+    "en": "Eff. discharging power (W)"
+  },
+  {
+    "file": "./drivers/battery/driver.compose.json",
+    "path": "settings[3].children[3].label",
+    "key": "label",
+    "en": "Eff. discharging loss (%)"
+  },
+  {
+    "file": "./drivers/battery/driver.compose.json",
+    "path": "settings[4].label",
+    "key": "label",
+    "en": "Additional power values"
+  },
+  {
+    "file": "./drivers/battery/driver.compose.json",
+    "path": "settings[4].children[0].label",
+    "key": "label",
+    "en": "Additional charging power (W)"
+  },
+  {
+    "file": "./drivers/battery/driver.compose.json",
+    "path": "settings[4].children[1].label",
+    "key": "label",
+    "en": "Additional charging loss (%)"
+  },
+  {
+    "file": "./drivers/battery/driver.compose.json",
+    "path": "settings[4].children[2].label",
+    "key": "label",
+    "en": "Additional discharging power (W)"
+  },
+  {
+    "file": "./drivers/battery/driver.compose.json",
+    "path": "settings[4].children[3].label",
+    "key": "label",
+    "en": "Additional discharging loss (%)"
+  },
+  {
+    "file": "./drivers/battery/driver.compose.json",
+    "path": "settings[5].label",
+    "key": "label",
+    "en": "Tariffs"
+  },
+  {
+    "file": "./drivers/battery/driver.compose.json",
+    "path": "settings[5].children[0].label",
+    "key": "label",
+    "en": "Tariff update group (DAP)"
+  },
+  {
+    "file": "./drivers/battery/driver.compose.json",
+    "path": "settings[5].children[1].label",
+    "key": "label",
+    "en": "Tariff selection"
+  },
+  {
+    "file": "./drivers/battery/driver.compose.json",
+    "path": "settings[5].children[1].values[0].label",
+    "key": "label",
+    "en": "Automatic"
+  },
+  {
+    "file": "./drivers/battery/driver.compose.json",
+    "path": "settings[5].children[1].values[1].label",
+    "key": "label",
+    "en": "Always Import"
+  },
+  {
+    "file": "./drivers/battery/driver.compose.json",
+    "path": "settings[5].children[1].values[2].label",
+    "key": "label",
+    "en": "Always Export"
+  },
+  {
+    "file": "./drivers/battery/driver.compose.json",
+    "path": "settings[6].label",
+    "key": "label",
+    "en": "Advanced ROI settings"
+  },
+  {
+    "file": "./drivers/battery/driver.compose.json",
+    "path": "settings[6].children[0].label",
+    "key": "label",
+    "en": "Enable advanced ROI"
+  },
+  {
+    "file": "./drivers/battery/driver.compose.json",
+    "path": "settings[6].children[1].label",
+    "key": "label",
+    "en": "Graph minimum profit per kWh"
+  },
+  {
+    "file": "./drivers/battery/driver.compose.json",
+    "path": "settings[6].children[2].label",
+    "key": "label",
+    "en": "Avg. home power usage (W)"
+  },
+  {
+    "file": "./drivers/battery/driver.compose.json",
+    "path": "settings[7].label",
+    "key": "label",
+    "en": "Monetary value"
+  },
+  {
+    "file": "./drivers/battery/driver.compose.json",
+    "path": "settings[7].children[0].label",
+    "key": "label",
+    "en": "Currency unit display"
+  },
+  {
+    "file": "./drivers/battery/driver.compose.json",
+    "path": "settings[7].children[1].label",
+    "key": "label",
+    "en": "Currency decimals"
+  },
+  {
+    "file": "./drivers/battery/driver.compose.json",
+    "path": "settings[7].children[2].label",
+    "key": "label",
+    "en": "Monetary value of this month"
+  },
+  {
+    "file": "./drivers/battery/driver.compose.json",
+    "path": "settings[7].children[3].label",
+    "key": "label",
+    "en": "Monetary value of this year"
+  },
+  {
+    "file": "./drivers/battery/driver.compose.json",
+    "path": "settings[7].children[4].label",
+    "key": "label",
+    "en": "Monetary value prev. month"
+  },
+  {
+    "file": "./drivers/battery/driver.compose.json",
+    "path": "settings[7].children[5].label",
+    "key": "label",
+    "en": "Monetary value prev. year"
+  },
+  {
+    "file": "./drivers/battery/driver.compose.json",
+    "path": "settings[8].label",
+    "key": "label",
+    "en": "Meter readings"
+  },
+  {
+    "file": "./drivers/battery/driver.compose.json",
+    "path": "settings[8].children[0].label",
+    "key": "label",
+    "en": "Charging Total (kWh)"
+  },
+  {
+    "file": "./drivers/battery/driver.compose.json",
+    "path": "settings[8].children[1].label",
+    "key": "label",
+    "en": "Discharging Total (kWh)"
+  },
+  {
+    "file": "./drivers/battery/driver.compose.json",
+    "path": "settings[9].label",
+    "key": "label",
+    "en": "Graph display"
+  },
+  {
+    "file": "./drivers/battery/driver.compose.json",
+    "path": "settings[9].children[0].label",
+    "key": "label",
+    "en": "Show power on graph"
+  },
+  {
+    "file": "./drivers/battery/driver.compose.json",
+    "path": "settings[9].children[1].label",
+    "key": "label",
+    "en": "Show State of Charge on graph"
+  },
+  {
+    "file": "./drivers/battery/driver.compose.json",
+    "path": "settings[9].children[2].label",
+    "key": "label",
+    "en": "Show export price on graph"
+  }
+]

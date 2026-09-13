@@ -79,19 +79,19 @@
       "name": "targetSoC",
       "type": "number",
       "title": {
-        "en": "Target SOC (%)",
-        "nl": "Doel SOC (%)",
-        "de": "Ziel-SOC (%)",
-        "ko": "목표 SOC (%)",
-        "fr": "SOC cible (%)",
-        "es": "SOC objetivo (%)",
-        "it": "SOC di destinazione (%)",
-        "da": "Mål-SOC (%)",
-        "sv": "Mål-SOC (%)",
-        "no": "Mål-SOC (%)",
-        "pl": "Docelowy SOC (%)",
-        "ru": "Целевой SOC (%)",
-        "ar": "SOC المستهدف (%)"
+        "en": "Target SoC (%)",
+        "nl": "Doel SoC (%)",
+        "de": "Ziel-SoC (%)",
+        "ko": "목표 SoC (%)",
+        "fr": "SoC cible (%)",
+        "es": "SoC objetivo (%)",
+        "it": "SoC di destinazione (%)",
+        "da": "Mål-SoC (%)",
+        "sv": "Mål-SoC (%)",
+        "no": "Mål-SoC (%)",
+        "pl": "Docelowy SoC (%)",
+        "ru": "Целевой SoC (%)",
+        "ar": "SoC المستهدف (%)"
       }
     },
     {
