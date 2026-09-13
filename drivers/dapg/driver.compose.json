@@ -681,19 +681,19 @@
 					},
 					"value": "",
 					"hint": {
-						"en": "Enter the amount with which the price must be additionally increased per m3 on certain hours of the day. Fill in the hour1:markup1;hour2;markup2 etc. E.g. if starting at 6am the markup is 0.3, and starting at 10pm the markup is 0.1 fill in the following: 6:0.3;22:0.1",
-						"de": "Geben Sie den Betrag an, um den der Preis pro m3 an bestimmten Tageszeiten zusätzlich erhöht werden muss. Füllen Sie die Stunde1:Aufschlag1;Stunde2;Aufschlag2 usw. aus. Z.B. wenn um 6 Uhr morgens der Aufschlag 0,3 beträgt und um 22 Uhr der Aufschlag 0,1 beträgt, geben Sie folgendes ein: 6:0,3;22:0,1",
-						"sv": "Ange beloppet med vilket priset måste ökas per m3 vid vissa tidpunkter på dagen. Fyll i timme1:tillägg1;timme2;tillägg2 etc. T.ex. om det börjar kl 6 på morgonen med tillägget 0,3 och kl 22 på kvällen med tillägget 0,1 fyll i följande: 6:0,3;22:0,1",
-						"no": "Angi beløpet som prisen må økes per m3 ved visse tidspunkter på dagen. Fyll ut time1:merke1;time2;merke2 osv. Eksempel: hvis det begynner kl 6 om morgenen med merke 0,3 og kl 22 om kvelden med merke 0,1, fyll inn følgende: 6:0,3;22:0,1",
-						"it": "Inserire l'importo con cui il prezzo deve essere ulteriormente aumentato per m3 in determinati orari del giorno. Compilare ora1:tasso1;ora2;tasso2 etc. Ad esempio, se inizia alle 6 del mattino con un aumento del tasso del 0,3 e alle 22 con un aumento del tasso del 0,1, compilare il seguente: 6:0,3;22:0,1",
-						"fr": "Entrez le montant par lequel le prix doit être augmenté supplémentairement par m3 à certaines heures de la journée. Remplissez l'heure1: majoration1; heure2; majoration2 etc. Par exemple, si à 6 heures du matin la majoration est de 0,3 et à 22 heures du soir la majoration est de 0,1, remplissez ce qui suit: 6:0,3;22:0,1",
-						"da": "Angiv beløbet, som prisen skal øges med per m3 på visse tidspunkter i døgnet. Udfyld time1:markering1;time2;markering2 osv. Fx hvis det begynder kl. 6 om morgenen med markeringen 0,3, og kl. 22 om aftenen med markeringen 0,1, så udfyld følgende: 6:0,3;22:0,1",
-						"nl": "Voer het bedrag in waarmee de prijs per m3 op bepaalde uren van de dag extra moet worden verhoogd. Vul uur1:opslag1;uur2;opslag2 etc. in. Bijvoorbeeld als het om 6 uur 's ochtends om 0,3 verhoogd wordt en om 22 uur om 0,1 verhoogd wordt, vul dan het volgende in: 6:0,3;22:0,1",
-						"ko": "하루 중 특정 시간대에 m3당 가격에 추가로 인상할 금액을 입력하세요. hour1:markup1;hour2:markup2 형식으로 입력합니다. 예: 오전 6시부터 마크업 0.3, 오후 10시부터 마크업 0.1이면 다음과 같이 입력: 6:0.3;22:0.1",
-						"es": "Introduzca el importe adicional en que debe aumentarse el precio por m3 en determinadas horas del día. Rellene hora1:recargo1;hora2:recargo2, etc. Por ejemplo, si a partir de las 6:00 el recargo es 0,3 y a partir de las 22:00 es 0,1, escriba: 6:0.3;22:0.1",
-						"pl": "Wprowadź kwotę, o którą cena za m3 ma być dodatkowo podwyższona w określonych godzinach dnia. Wypełnij w formacie godzina1:narzut1;godzina2:narzut2 itd. Np. jeśli od 6:00 narzut wynosi 0,3, a od 22:00 narzut wynosi 0,1, wpisz: 6:0.3;22:0.1",
-						"ru": "Введите сумму, на которую необходимо дополнительно повысить цену за m3 в определённые часы дня. Заполните в формате час1:наценка1;час2:наценка2 и т.д. Например, если с 6:00 наценка 0,3, а с 22:00 наценка 0,1, введите: 6:0.3;22:0.1",
-						"ar": "أدخل المبلغ الذي يجب زيادة السعر به لكل m3 في ساعات معينة من اليوم. املأ بالصيغة hour1:markup1;hour2:markup2 وهكذا. مثال: إذا كان الهامش بدءًا من الساعة 6 صباحًا هو 0.3 وبدءًا من الساعة 10 مساءً هو 0.1، أدخل: 6:0.3;22:0.1"
+						"en": "Extra markup per m3 at specific hours. Format: hour:markup;hour:markup. E.g. 6:0.3;22:0.1 adds 0.3 from 6am and 0.1 from 10pm.",
+						"de": "Zusätzlicher Aufschlag pro m3 zu bestimmten Stunden. Format: Stunde:Aufschlag;Stunde:Aufschlag. Z. B. 6:0.3;22:0.1 addiert 0,3 ab 6 Uhr und 0,1 ab 22 Uhr.",
+						"sv": "Extra påslag per m3 vid specifika timmar. Format: timme:påslag;timme:påslag. T.ex. 6:0.3;22:0.1 lägger till 0,3 från kl 6 och 0,1 från kl 22.",
+						"no": "Ekstra påslag per m3 på bestemte timer. Format: time:påslag;time:påslag. F.eks. 6:0.3;22:0.1 legger til 0,3 fra kl. 6 og 0,1 fra kl. 22.",
+						"it": "Aumento extra per m3 in ore specifiche. Formato: ora:aumento;ora:aumento. Es. 6:0.3;22:0.1 aggiunge 0,3 dalle 6 e 0,1 dalle 22.",
+						"fr": "Majoration supplémentaire par m3 à des heures précises. Format : heure:majoration;heure:majoration. Ex. 6:0.3;22:0.1 ajoute 0,3 dès 6h et 0,1 dès 22h.",
+						"da": "Ekstra gebyr pr. m3 på bestemte tidspunkter. Format: time:gebyr;time:gebyr. F.eks. 6:0.3;22:0.1 lægger 0,3 til fra kl. 6 og 0,1 fra kl. 22.",
+						"nl": "Extra opslag per m3 op specifieke uren. Formaat: uur:opslag;uur:opslag. Bijv. 6:0.3;22:0.1 voegt 0,3 toe vanaf 6 uur en 0,1 vanaf 22 uur.",
+						"ko": "특정 시간대에 적용되는 추가 마크업(m3당). 형식: 시간:마크업;시간:마크업. 예: 6:0.3;22:0.1은 오전 6시부터 0.3, 오후 10시부터 0.1을 추가합니다.",
+						"es": "Recargo adicional por m3 en horas concretas. Formato: hora:recargo;hora:recargo. Ej. 6:0.3;22:0.1 añade 0,3 desde las 6h y 0,1 desde las 22h.",
+						"pl": "Dodatkowy narzut za m3 w określonych godzinach. Format: godzina:narzut;godzina:narzut. Np. 6:0.3;22:0.1 dodaje 0,3 od 6:00 i 0,1 od 22:00.",
+						"ru": "Дополнительная наценка за m3 в определённые часы. Формат: час:наценка;час:наценка. Например, 6:0.3;22:0.1 добавляет 0,3 с 6 утра и 0,1 с 22:00.",
+						"ar": "هامش إضافي لكل m3 في ساعات محددة. الصيغة: ساعة:هامش;ساعة:هامش. مثال: 6:0.3;22:0.1 يضيف 0.3 من الساعة 6 صباحًا و0.1 من الساعة 10 مساءً."
 					}
 				},
 				{
@@ -716,19 +716,19 @@
 					},
 					"value": 0,
 					"hint": {
-						"en": "Enter the amount with which the price must be additionally increased per m3 during the whole weekend (Saturday - Sunday). Note: this markup replaces the Time Of Day markup!",
-						"de": "Geben Sie den Betrag an, um den der Preis pro m3 während des gesamten Wochenendes (Samstag - Sonntag) erhöht werden muss. Hinweis: Dieser Aufschlag ersetzt den Time-Of-Day-Aufschlag!",
-						"sv": "Ange beloppet med vilket priset måste ökas per m3 under helgen (lördag-söndag). Notera: detta tillägg ersätter Time Of Day-tillägget!",
-						"no": "Angi beløpet som prisen må økes per m3 i hele helgen (lørdag - søndag). Merk: dette merket erstatter Time Of Day-merket!",
-						"it": "Inserire l'importo con cui il prezzo deve essere ulteriormente aumentato per m3 durante tutto il fine settimana (sabato - domenica). Nota: questo aumento del prezzo sostituisce l'aumento del prezzo in base al momento della giornata!",
-						"fr": "Entrez le montant par lequel le prix doit être augmenté supplémentairement par m3 pendant tout le week-end (samedi - dimanche). Note : cette majoration remplace la majoration en fonction de l'heure!",
-						"da": "Angiv beløbet, som prisen skal øges ekstra pr. m3 i løbet af hele weekenden (lørdag-søndag). Bemærk: Dette tillæg erstatter Time Of Day-tillægget!",
-						"nl": "Voer het bedrag in waarmee de prijs per m3 het hele weekend (zaterdag - zondag) moet worden verhoogd. Opmerking: deze opslag vervangt de Time Of Day-opslag!",
-						"ko": "주말 전체(토요일-일요일) 동안 m3당 가격에 추가로 인상할 금액을 입력하세요. 참고: 이 마크업은 시간대별 마크업을 대체합니다!",
-						"es": "Introduzca el importe adicional en que debe aumentarse el precio por m3 durante todo el fin de semana (sábado-domingo). Nota: este recargo sustituye al recargo por franja horaria.",
-						"pl": "Wprowadź kwotę, o którą cena za m3 ma być dodatkowo podwyższona przez cały weekend (sobota-niedziela). Uwaga: ten narzut zastępuje narzut zależny od pory dnia!",
-						"ru": "Введите сумму, на которую необходимо дополнительно повысить цену за m3 в течение всех выходных (суббота-воскресенье). Примечание: эта наценка заменяет наценку по времени суток!",
-						"ar": "أدخل المبلغ الذي يجب زيادة السعر به لكل m3 بشكل إضافي طوال عطلة نهاية الأسبوع (السبت - الأحد). ملاحظة: يحل هذا الهامش محل هامش وقت اليوم!"
+						"en": "Extra markup per m3 for the whole weekend (Sat-Sun). Replaces the Time Of Day markup.",
+						"de": "Zusätzlicher Aufschlag pro m3 für das ganze Wochenende (Sa-So). Ersetzt den Tageszeit-Aufschlag.",
+						"sv": "Extra påslag per m3 under hela helgen (lör-sön). Ersätter tidpunktspåslaget.",
+						"no": "Ekstra påslag per m3 for hele helgen (lør-søn). Erstatter tidspunktpåslaget.",
+						"it": "Aumento extra per m3 per tutto il fine settimana (sab-dom). Sostituisce l'aumento per fascia oraria.",
+						"fr": "Majoration supplémentaire par m3 pour tout le week-end (sam-dim). Remplace la majoration selon l'heure.",
+						"da": "Ekstra gebyr pr. m3 i hele weekenden (lør-søn). Erstatter tidspunktgebyret.",
+						"nl": "Extra opslag per m3 voor het hele weekend (za-zo). Vervangt de tijdstip-opslag.",
+						"ko": "주말 전체(토-일)에 적용되는 추가 마크업(m3당). 시간대별 마크업을 대체합니다.",
+						"es": "Recargo adicional por m3 durante todo el fin de semana (sáb-dom). Sustituye al recargo por franja horaria.",
+						"pl": "Dodatkowy narzut za m3 na cały weekend (sob-niedz). Zastępuje narzut zależny od pory dnia.",
+						"ru": "Дополнительная наценка за m3 на все выходные (сб-вс). Заменяет наценку по времени суток.",
+						"ar": "هامش إضافي لكل m3 طوال عطلة نهاية الأسبوع (السبت-الأحد). يحل محل هامش وقت اليوم."
 					}
 				}
 			]
