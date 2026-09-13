@@ -956,7 +956,16 @@ class GridDevice extends GenericDevice {
       const slotHours = intervalMinutes / 60;
       const importAvgW = Math.round((this.peakLoad.importKwhInSlot / slotHours) * 1000);
       await this.checkPeakMax('measure_watt_peak', this.peakLoad.day, this.peakLoad.month, this.peakLoad.year, importAvgW, reading);
-      if (this.peakLoad.exportKwhInSlot > 0) {
+      // Gated on whether this DEVICE has export data at all (case 1/3), not on whether this
+      // particular slot happened to see any. checkPeakMax() is where the day/month/year rollover
+      // reset lives, so skipping the call on a zero-export slot meant a device that stops
+      // exporting never reached the reset: through winter, or over the turn of the year before
+      // the first sunny slot, measure_watt_peak_export.* kept displaying the PREVIOUS period's
+      // peak. A closed slot with no export has an export peak of 0, and saying so is the honest
+      // answer - this now mirrors the import side above, which was always called unconditionally.
+      // Case 2 (import-only, no export register) still never gets here, so its export peaks stay
+      // untouched rather than being pinned at a meaningless 0.
+      if (hasExport) {
         const exportAvgW = Math.round((this.peakLoad.exportKwhInSlot / slotHours) * 1000);
         await this.checkPeakMax(
           'measure_watt_peak_export',
@@ -1059,10 +1068,18 @@ class GridDevice extends GenericDevice {
     // Idempotent: cancel any previous chain before starting a new one, so if this ever gets
     // called twice (e.g. an onInit() staleness check elsewhere gets bypassed) only one
     // perpetual hourly loop survives rather than two running side by side forever.
+    //
+    // Clearing the pending timer is necessary but NOT sufficient on its own: it only cancels a
+    // chain that is currently parked in setTimeout. An invocation already mid-flight - and this
+    // one awaits retrainLoadModel(), which fetches 14 days of Insights and can run for a long
+    // time - still reaches its own finally and schedules the next tick, resurrecting itself
+    // alongside the new chain. The epoch token makes a superseded invocation stand down instead.
     if (this.forecastTimeout) this.homey.clearTimeout(this.forecastTimeout);
+    this.forecastEpoch = (this.forecastEpoch || 0) + 1;
+    const epoch = this.forecastEpoch;
     let firstRun = true;
     const loop = async () => {
-      if (this.isDestroyed) return;
+      if (this.isDestroyed || epoch !== this.forecastEpoch) return;
       try {
         // Skip the nightly retrain check on the very first invocation (startup)
         // to avoid conflicting with the explicit startup retraining in initLearningTimeout.
@@ -1085,7 +1102,7 @@ class GridDevice extends GenericDevice {
         this.error('Load forecast loop failed:', err);
       } finally {
         firstRun = false;
-        if (!this.isDestroyed) {
+        if (!this.isDestroyed && epoch === this.forecastEpoch) {
           this.forecastTimeout = this.homey.setTimeout(loop, 60 * 60 * 1000); // 1 hour
         }
       }
@@ -1093,9 +1110,16 @@ class GridDevice extends GenericDevice {
     await loop();
   }
 
+  // Same idempotency contract as startForecastLoop() above - see there for why the epoch token
+  // is needed on top of clearing the pending timer. This loop previously had neither guard, so a
+  // second call (a restartDevice() racing the 15s initLearningTimeout that starts it) layered a
+  // second per-minute chain on top of the first, each overwriting the other's timeout handle.
   async startLearningLoop() {
+    if (this.learningTimeout) this.homey.clearTimeout(this.learningTimeout);
+    this.learningEpoch = (this.learningEpoch || 0) + 1;
+    const epoch = this.learningEpoch;
     const loop = async () => {
-      if (this.isDestroyed) return;
+      if (this.isDestroyed || epoch !== this.learningEpoch) return;
       try {
         if (!this.retrainingLoad) {
           const updated = await this.updateLearning();
@@ -1108,7 +1132,7 @@ class GridDevice extends GenericDevice {
       } catch (err) {
         this.error('Load learning update failed:', err);
       } finally {
-        if (!this.isDestroyed) {
+        if (!this.isDestroyed && epoch === this.learningEpoch) {
           const now = new Date();
           const nextSlot = new Date(now);
           nextSlot.setMinutes(now.getMinutes() + 1, 0, 0);
@@ -1668,6 +1692,13 @@ class GridDevice extends GenericDevice {
 
   stopPolling() {
     super.stopPolling();
+    // Retire the current forecast/learning chains before clearing their timers. Clearing alone
+    // only cancels a chain parked in setTimeout - an invocation already mid-flight reaches its
+    // own finally afterwards and would schedule a fresh timeout, quietly undoing the stop unless
+    // the device also happens to be destroyed. Bumping the epochs makes those stand down; see
+    // startForecastLoop().
+    this.forecastEpoch = (this.forecastEpoch || 0) + 1;
+    this.learningEpoch = (this.learningEpoch || 0) + 1;
     if (this.forecastTimeout) {
       this.homey.clearTimeout(this.forecastTimeout);
       this.forecastTimeout = null;
