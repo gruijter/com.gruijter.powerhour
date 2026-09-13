@@ -31,6 +31,7 @@
   "solar_chart_model_fit": "Modelltilpasning (%)",
   "solar_export_diagnostics_popup": "Opprett nå en app-diagnostikkrapport med melding: retning (f.eks. Sør/Øst/Vest).",
   "tariff_group_interval_conflict": "Tariffgruppe __group__ mottar motstridende prisintervaller (__sources__). Bruker __interval__ min. Gi 15- og 60-minutters prisenheter egne tariffgrupper.",
+  "grid_connection_multiple_devices": "Flere Strømnett-enheter funnet (__devices__). __limit__ W brukes som nettilknytningsgrense for plausibilitetskontroller. Behold kun én Strømnett-enhet.",
   "repair": {
     "warningtitle": "ADVARSEL",
     "warningtext": "Du er i ferd med å endre kildeenheten. Dette bevarer all innsikt og flyt. Men hvis den nye kildeenheten har en annen måleravlesning, må du manuelt kompensere måler- og pengestartverdiene i de avanserte innstillingene.",

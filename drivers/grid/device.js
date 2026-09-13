@@ -24,25 +24,13 @@ const LoadForecastStrategy = require('../../lib/strategies/LoadForecastStrategy'
 const GridFlows = require('../../lib/flows/GridFlows');
 const { getGridForecastChart, getGridWeeklyChart } = require('../../lib/charts/GridChart');
 const MeterHelpers = require('../../lib/helpers/MeterHelpers');
+const GridConnection = require('../../lib/helpers/GridConnection');
 const DeviceMigrator = require('../../lib/DeviceMigrator');
 const ChartImages = require('../../lib/helpers/ChartImages');
 const { setTimeoutPromise } = require('../../lib/helpers/Util');
 const { fetchYesterdayAndToday, convertCumulativeToPower } = require('../../lib/helpers/HistoryLookup');
 const { combineComponentsToHomePower } = require('../../lib/helpers/HomePowerReconstruction');
 const TimeHelpers = require('../../lib/helpers/TimeHelpers');
-
-// Fallback grid connection when the settings are missing or nonsensical: 3x25A @ 230V, the
-// standard Dutch domestic connection and this driver's compose-defined default.
-const DEFAULT_CONNECTION_LIMIT_W = 3 * 25 * 230; // 17250 W
-
-// How far above the connection limit a reconstructed HOME load is still considered plausible.
-// The connection limit caps what crosses the meter, not what the house consumes: solar
-// production and battery discharge feed the house on top of whatever is imported, so the house
-// can legitimately draw well past the connection's rating. Neither of those is capped by
-// anything this device knows, and both are rarely larger than the connection itself, so 2x is a
-// deliberately loose sanity bound whose only job is rejecting absurd values - it is not a
-// physical constraint and must never be used as one.
-const HOME_POWER_CEILING_FACTOR = 2;
 
 const deviceSpecifics = {
   cmap: {
@@ -646,25 +634,21 @@ class GridDevice extends GenericDevice {
     return [15, 30, 60].includes(n) ? n : 15;
   }
 
-  // The physical grid connection's rating in Watt: phases x fuse rating x nominal phase voltage.
-  // Falls back to the 3x25A default rather than to 0 on unusable settings - a 0 limit would
-  // collapse every ceiling derived from it and silently discard all data.
+  // This device's own configured connection rating in Watt. Deliberately reads its OWN settings
+  // through the shared helper rather than GridConnection.limitW(): that resolves across every
+  // paired grid device (and warns about duplicates), which is what OTHER drivers need since they
+  // have no such setting - but a grid device is always the authority on its own connection.
   getConnectionLimitW() {
-    const s = this.getSettings();
-    const phases = Number(s.connectionPhases) === 1 ? 1 : 3;
-    const amps = Number(s.connectionAmps);
-    const volts = Number(s.connectionVoltage);
-    if (!(amps > 0) || !(volts > 0)) return DEFAULT_CONNECTION_LIMIT_W;
-    return phases * amps * volts;
+    return GridConnection.limitFromSettings(this.getSettings());
   }
 
-  // Plausibility ceiling for the reconstructed home load - see HOME_POWER_CEILING_FACTOR above
-  // for why this is a multiple of the connection limit and not the limit itself. Replaces a flat
-  // hardcoded 30000 W, which happened to be about right for the 3x25A default but silently
-  // discarded real samples on anything larger, and was far too permissive on a 1x35A connection
-  // (8050 W limit, so a 30 kW "house load" was accepted as plausible).
+  // Plausibility ceiling for the reconstructed home load - see GridConnection's
+  // PLAUSIBILITY_FACTOR for why this is a multiple of the connection rating and not the rating
+  // itself. Replaces a flat hardcoded 30000 W, which happened to be about right for the 3x25A
+  // default but silently discarded real samples on anything larger, and was far too permissive on
+  // a 1x35A connection (8050 W rating, so a 30 kW "house load" was accepted as plausible).
   getHomePowerCeilingW() {
-    return this.getConnectionLimitW() * HOME_POWER_CEILING_FACTOR;
+    return this.getConnectionLimitW() * GridConnection.PLAUSIBILITY_FACTOR;
   }
 
   // Bakes the currently configured averaging window into the peak-demand capability titles
@@ -1331,6 +1315,7 @@ class GridDevice extends GenericDevice {
         currentWeeklyProfile: trainingProfile,
         timezone: this.timeZone,
         logger: (msg) => this.log(msg),
+        maxPowerW: this.getHomePowerCeilingW(),
       });
 
       if (result.updated) {
@@ -1494,7 +1479,7 @@ class GridDevice extends GenericDevice {
           if (logData && logData.values && logData.values.length > 0) {
             let { values } = logData;
             if (isCumulative) {
-              values = convertCumulativeToPower(values);
+              values = convertCumulativeToPower(values, this.getHomePowerCeilingW());
             }
             allEntries.push(...values.map((e) => ({
               t: new Date(e.t).getTime(),
@@ -1666,6 +1651,7 @@ class GridDevice extends GenericDevice {
       batteryEntriesList,
       evEntriesList,
       logger: (msg) => this.log(msg),
+      maxPowerW: this.getHomePowerCeilingW(),
     });
 
     this.log(`Successfully reconstructed ${reconstructed.length} home power entries from component history.`);

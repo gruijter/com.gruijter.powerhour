@@ -31,6 +31,7 @@
   "solar_chart_model_fit": "Model Fit (%)",
   "solar_export_diagnostics_popup": "Now create an app diagnostics report with Message: panel orientation (e.g. South/East/West).",
   "tariff_group_interval_conflict": "Tariff group __group__ receives conflicting price intervals (__sources__). Using __interval__ min. Give 15- and 60-minute price devices their own tariff group.",
+  "grid_connection_multiple_devices": "Multiple Grid devices found (__devices__). Using __limit__ W as the grid connection limit for power plausibility checks. Keep only one Grid device.",
   "repair": {
     "warningtitle": "WARNING",
     "warningtext": "You are about to change the source device. This will keep all insights and flows. But if the new source device has a different meter value, you will need to manually compensate the meter and money start values in the advanced settings.",

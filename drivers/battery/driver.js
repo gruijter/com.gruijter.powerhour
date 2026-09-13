@@ -135,7 +135,16 @@ class BatteryDriver extends GenericDriver {
       let cumulativePower = getGridPowerFallback(this.homey);
       if (cumulativePower === null) cumulativePower = report?.totalCumulative?.W;
 
-      if (Number.isFinite(cumulativePower) && Math.abs(cumulativePower) <= 30000) {
+      // Plausibility bound on the GRID exchange feeding the XOM/NOM logic. Was a flat 30000 W;
+      // now derived from the grid device's configured connection rating, so it scales with the
+      // actual connection instead of silently discarding real readings above 30 kW and accepting
+      // absurd ones on a small connection. Falls back to the 3x25A default when no grid device is
+      // paired, which is exactly the old behaviour's ballpark. See lib/helpers/GridConnection.js.
+      // eslint-disable-next-line global-require
+      const GridConnection = require('../../lib/helpers/GridConnection');
+      const ceilingW = await GridConnection.ceilingW(this.homey);
+
+      if (Number.isFinite(cumulativePower) && Math.abs(cumulativePower) <= ceilingW) {
         const devices = this.getDevices();
         devices.forEach((device) => {
           device.currentGridPower = cumulativePower;

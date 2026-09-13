@@ -31,6 +31,7 @@
   "solar_chart_model_fit": "Dopasowanie modelu (%)",
   "solar_export_diagnostics_popup": "Utwórz teraz raport diagnostyczny aplikacji z wiadomością: orientacja (np. Południe/Wschód/Zachód).",
   "tariff_group_interval_conflict": "Grupa taryfowa __group__ otrzymuje sprzeczne interwały cen (__sources__). Używane __interval__ min. Przypisz urządzeniom cenowym 15- i 60-minutowym osobne grupy taryfowe.",
+  "grid_connection_multiple_devices": "Znaleziono wiele urządzeń Sieć (__devices__). Jako limit przyłącza sieciowego do kontroli wiarygodności używane jest __limit__ W. Zachowaj tylko jedno urządzenie Sieć.",
   "repair": {
     "warningtitle": "OSTRZEŻENIE",
     "warningtext": "Zamierzasz zmienić urządzenie źródłowe. Zachowa to wszystkie statystyki i przepływy. Ale jeśli nowe urządzenie źródłowe ma inny odczyt licznika, musisz ręcznie skompensować wartości początkowe licznika i pieniędzy w ustawieniach zaawansowanych.",
