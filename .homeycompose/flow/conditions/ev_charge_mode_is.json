@@ -3,18 +3,46 @@
     "en": "EV charge mode is !",
     "nl": "EV laadmodus is !",
     "de": "EV Lademodus ist !",
-    "ko": "EV 충전 모드가 !"
+    "ko": "EV 충전 모드가 !",
+    "fr": "Le mode de charge EV est !",
+    "es": "El modo de carga EV es !",
+    "it": "La modalità di ricarica EV è !",
+    "da": "EV-ladetilstand er !",
+    "sv": "EV-laddningsläge är !",
+    "no": "EV-lademodus er !",
+    "pl": "Tryb ładowania EV to !",
+    "ru": "Режим зарядки EV: !",
+    "ar": "وضع شحن السيارة الكهربائية هو !"
   },
   "titleFormatted": {
     "en": "EV charge mode is [[mode]]",
     "nl": "EV laadmodus is [[mode]]",
     "de": "EV Lademodus ist [[mode]]",
-    "ko": "EV 충전 모드가 [[mode]]"
+    "ko": "EV 충전 모드가 [[mode]]",
+    "fr": "Le mode de charge EV est [[mode]]",
+    "es": "El modo de carga EV es [[mode]]",
+    "it": "La modalità di ricarica EV è [[mode]]",
+    "da": "EV-ladetilstand er [[mode]]",
+    "sv": "EV-laddningsläge är [[mode]]",
+    "no": "EV-lademodus er [[mode]]",
+    "pl": "Tryb ładowania EV to [[mode]]",
+    "ru": "Режим зарядки EV: [[mode]]",
+    "ar": "وضع شحن السيارة الكهربائية هو [[mode]]"
   },
   "hint": {
     "en": "Checks if the current EV charge mode matches the selected mode.",
     "nl": "Controleert of de huidige EV laadmodus overeenkomt met de geselecteerde modus.",
-    "ko": "현재 EV 충전 모드가 선택한 모드와 일치하는지 확인합니다."
+    "ko": "현재 EV 충전 모드가 선택한 모드와 일치하는지 확인합니다.",
+    "de": "Prüft, ob der aktuelle EV-Lademodus mit dem ausgewählten Modus übereinstimmt.",
+    "fr": "Vérifie si le mode de charge EV actuel correspond au mode sélectionné.",
+    "es": "Comprueba si el modo de carga EV actual coincide con el modo seleccionado.",
+    "it": "Verifica se la modalità di ricarica EV corrente corrisponde alla modalità selezionata.",
+    "da": "Kontrollerer om den aktuelle EV-ladetilstand matcher den valgte tilstand.",
+    "sv": "Kontrollerar om det aktuella EV-laddningsläget matchar det valda läget.",
+    "no": "Sjekker om gjeldende EV-lademodus samsvarer med den valgte modusen.",
+    "pl": "Sprawdza, czy bieżący tryb ładowania EV odpowiada wybranemu trybowi.",
+    "ru": "Проверяет, соответствует ли текущий режим зарядки EV выбранному режиму.",
+    "ar": "يتحقق مما إذا كان وضع شحن السيارة الكهربائية الحالي يطابق الوضع المحدد."
   },
   "args": [
     {
@@ -29,7 +57,16 @@
         "en": "Mode",
         "nl": "Modus",
         "de": "Modus",
-        "ko": "모드"
+        "ko": "모드",
+        "fr": "Mode",
+        "es": "Modo",
+        "it": "Modalità",
+        "da": "Tilstand",
+        "sv": "Läge",
+        "no": "Modus",
+        "pl": "Tryb",
+        "ru": "Режим",
+        "ar": "الوضع"
       },
       "values": [
         {
@@ -38,7 +75,16 @@
             "en": "Scheduled Price Slots",
             "nl": "Geplande Prijsuren",
             "de": "Geplante Preis-Slots",
-            "ko": "예약된 가격 구간"
+            "ko": "예약된 가격 구간",
+            "fr": "Créneaux de prix programmés",
+            "es": "Franjas de precio programadas",
+            "it": "Fasce orarie di prezzo programmate",
+            "da": "Planlagte prisintervaller",
+            "sv": "Schemalagda prisintervall",
+            "no": "Planlagte prisintervaller",
+            "pl": "Zaplanowane przedziały cenowe",
+            "ru": "Запланированные ценовые интервалы",
+            "ar": "فترات الأسعار المجدولة"
           }
         },
         {
@@ -47,7 +93,16 @@
             "en": "Solar Surplus Only",
             "nl": "Alleen Zonne-overschot",
             "de": "Nur Solarüberschuss",
-            "ko": "태양광 잉여만"
+            "ko": "태양광 잉여만",
+            "fr": "Surplus solaire uniquement",
+            "es": "Solo excedente solar",
+            "it": "Solo surplus solare",
+            "da": "Kun solaroverskud",
+            "sv": "Endast solöverskott",
+            "no": "Kun soloverskudd",
+            "pl": "Tylko nadwyżka słoneczna",
+            "ru": "Только солнечный избыток",
+            "ar": "فائض الطاقة الشمسية فقط"
           }
         },
         {
@@ -56,7 +111,16 @@
             "en": "Solar + Price Slots",
             "nl": "Zonne-overschot + Prijsuren",
             "de": "Solar + Preis-Slots",
-            "ko": "태양광 + 가격 구간"
+            "ko": "태양광 + 가격 구간",
+            "fr": "Solaire + Créneaux de prix",
+            "es": "Solar + Franjas de precio",
+            "it": "Solare + Fasce di prezzo",
+            "da": "Sol + Prisintervaller",
+            "sv": "Sol + Prisintervall",
+            "no": "Sol + Prisintervaller",
+            "pl": "Słońce + Przedziały cenowe",
+            "ru": "Солнце + Ценовые интервалы",
+            "ar": "الطاقة الشمسية + فترات الأسعار"
           }
         },
         {
@@ -65,7 +129,16 @@
             "en": "Fast Charge",
             "nl": "Snelladen",
             "de": "Schnellladen",
-            "ko": "급속 충전"
+            "ko": "급속 충전",
+            "fr": "Charge rapide",
+            "es": "Carga rápida",
+            "it": "Ricarica rapida",
+            "da": "Hurtig opladning",
+            "sv": "Snabbladdning",
+            "no": "Hurtiglading",
+            "pl": "Szybkie ładowanie",
+            "ru": "Быстрая зарядка",
+            "ar": "شحن سريع"
           }
         },
         {
@@ -74,7 +147,16 @@
             "en": "Off",
             "nl": "Uit",
             "de": "Aus",
-            "ko": "끄기"
+            "ko": "끄기",
+            "fr": "Désactivé",
+            "es": "Apagado",
+            "it": "Spento",
+            "da": "Fra",
+            "sv": "Av",
+            "no": "Av",
+            "pl": "Wyłączone",
+            "ru": "Выкл.",
+            "ar": "إيقاف"
           }
         }
       ]

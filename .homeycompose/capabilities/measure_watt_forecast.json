@@ -3,7 +3,17 @@
   "title": {
     "en": "Forecast Power",
     "nl": "Verwacht Vermogen",
-    "ko": "예측 전력"
+    "ko": "예측 전력",
+    "de": "Prognostizierte Leistung",
+    "fr": "Puissance prévue",
+    "es": "Potencia prevista",
+    "it": "Potenza prevista",
+    "da": "Forventet effekt",
+    "sv": "Prognostiserad effekt",
+    "no": "Forventet effekt",
+    "pl": "Prognozowana moc",
+    "ru": "Прогнозируемая мощность",
+    "ar": "الطاقة المتوقعة"
   },
   "uiComponent": "sensor",
   "icon": "/assets/measure_watt_forecast.svg",
@@ -12,7 +22,18 @@
   "insights": false,
   "units": {
     "en": "W",
-    "ko": "W"
+    "ko": "W",
+    "nl": "W",
+    "de": "W",
+    "fr": "W",
+    "es": "W",
+    "it": "W",
+    "da": "W",
+    "sv": "W",
+    "no": "W",
+    "pl": "W",
+    "ru": "W",
+    "ar": "W"
   },
   "decimals": 0
 }

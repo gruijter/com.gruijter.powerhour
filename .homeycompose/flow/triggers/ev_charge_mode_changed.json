@@ -3,18 +3,46 @@
     "en": "EV charge mode changed",
     "nl": "EV laadmodus veranderd",
     "de": "EV Lademodus geändert",
-    "ko": "EV 충전 모드 변경됨"
+    "ko": "EV 충전 모드 변경됨",
+    "fr": "Mode de charge EV modifié",
+    "es": "Modo de carga EV cambiado",
+    "it": "Modalità di ricarica EV cambiata",
+    "da": "EV-ladetilstand ændret",
+    "sv": "EV-laddningsläge ändrat",
+    "no": "EV-lademodus endret",
+    "pl": "Tryb ładowania EV został zmieniony",
+    "ru": "Режим зарядки EV изменён",
+    "ar": "تم تغيير وضع شحن السيارة الكهربائية"
   },
   "titleFormatted": {
     "en": "EV charge mode changed to [[mode]]",
     "nl": "EV laadmodus veranderd naar [[mode]]",
     "de": "EV Lademodus geändert zu [[mode]]",
-    "ko": "EV 충전 모드가 [[mode]](으)로 변경됨"
+    "ko": "EV 충전 모드가 [[mode]](으)로 변경됨",
+    "fr": "Le mode de charge EV est passé à [[mode]]",
+    "es": "El modo de carga EV cambió a [[mode]]",
+    "it": "La modalità di ricarica EV è cambiata in [[mode]]",
+    "da": "EV-ladetilstand ændret til [[mode]]",
+    "sv": "EV-laddningsläge ändrat till [[mode]]",
+    "no": "EV-lademodus endret til [[mode]]",
+    "pl": "Tryb ładowania EV zmieniono na [[mode]]",
+    "ru": "Режим зарядки EV изменён на [[mode]]",
+    "ar": "تم تغيير وضع شحن السيارة الكهربائية إلى [[mode]]"
   },
   "hint": {
     "en": "Triggers when the EV charge mode is updated via device UI or flow action.",
     "nl": "Triggert wanneer de EV laadmodus wordt aangepast via de UI of flow.",
-    "ko": "장치 UI 또는 flow 작업을 통해 EV 충전 모드가 업데이트되면 트리거됩니다."
+    "ko": "장치 UI 또는 flow 작업을 통해 EV 충전 모드가 업데이트되면 트리거됩니다.",
+    "de": "Wird ausgelöst, wenn der EV-Lademodus über die Geräteoberfläche oder eine Flow-Aktion aktualisiert wird.",
+    "fr": "Se déclenche lorsque le mode de charge EV est mis à jour via l'interface de l'appareil ou une action de flow.",
+    "es": "Se activa cuando el modo de carga EV se actualiza a través de la interfaz del dispositivo o una acción de flow.",
+    "it": "Si attiva quando la modalità di ricarica EV viene aggiornata tramite l'interfaccia del dispositivo o un'azione flow.",
+    "da": "Udløses når EV-ladetilstanden opdateres via enhedens UI eller en flow-handling.",
+    "sv": "Utlöses när EV-laddningsläget uppdateras via enhetens UI eller en flow-åtgärd.",
+    "no": "Utløses når EV-lademodus oppdateres via enhetens UI eller en flow-handling.",
+    "pl": "Uruchamia się, gdy tryb ładowania EV zostanie zaktualizowany za pomocą interfejsu urządzenia lub akcji flow.",
+    "ru": "Срабатывает при обновлении режима зарядки EV через интерфейс устройства или действие flow.",
+    "ar": "يتم التشغيل عند تحديث وضع شحن السيارة الكهربائية عبر واجهة الجهاز أو إجراء تدفق."
   },
   "args": [
     {
@@ -31,7 +59,16 @@
         "en": "Charge Mode",
         "nl": "Laadmodus",
         "de": "Lademodus",
-        "ko": "충전 모드"
+        "ko": "충전 모드",
+        "fr": "Mode de charge",
+        "es": "Modo de carga",
+        "it": "Modalità di ricarica",
+        "da": "Opladningstilstand",
+        "sv": "Laddningsläge",
+        "no": "Lademodus",
+        "pl": "Tryb ładowania",
+        "ru": "Режим зарядки",
+        "ar": "وضع الشحن"
       }
     }
   ]

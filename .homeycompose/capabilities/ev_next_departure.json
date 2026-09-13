@@ -5,7 +5,15 @@
     "nl": "Volgend Vertrek",
     "de": "Nächste Abfahrt",
     "fr": "Prochain départ",
-    "ko": "다음 출발"
+    "ko": "다음 출발",
+    "es": "Próxima salida",
+    "it": "Prossima partenza",
+    "da": "Næste afgang",
+    "sv": "Nästa avgång",
+    "no": "Neste avgang",
+    "pl": "Następny wyjazd",
+    "ru": "Следующее отправление",
+    "ar": "المغادرة التالية"
   },
   "uiComponent": "sensor",
   "icon": "/assets/charged.svg",

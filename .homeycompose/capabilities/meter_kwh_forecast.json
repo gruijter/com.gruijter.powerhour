@@ -2,7 +2,18 @@
   "type": "number",
   "title": {
     "en": "Forecast Yield",
-    "ko": "예측 발전량"
+    "ko": "예측 발전량",
+    "nl": "Verwachte Opbrengst",
+    "de": "Prognostizierter Ertrag",
+    "fr": "Rendement prévu",
+    "es": "Producción prevista",
+    "it": "Produzione prevista",
+    "da": "Forventet udbytte",
+    "sv": "Prognostiserad avkastning",
+    "no": "Forventet avkastning",
+    "pl": "Prognozowany uzysk",
+    "ru": "Прогнозируемая выработка",
+    "ar": "الإنتاج المتوقع"
   },
   "uiComponent": "sensor",
   "icon": "/assets/meter_kwh_forecast.svg",
@@ -11,7 +22,18 @@
   "insights": false,
   "units": {
     "en": "kWh",
-    "ko": "kWh"
+    "ko": "kWh",
+    "nl": "kWh",
+    "de": "kWh",
+    "fr": "kWh",
+    "es": "kWh",
+    "it": "kWh",
+    "da": "kWh",
+    "sv": "kWh",
+    "no": "kWh",
+    "pl": "kWh",
+    "ru": "kWh",
+    "ar": "kWh"
   },
   "decimals": 2
 }

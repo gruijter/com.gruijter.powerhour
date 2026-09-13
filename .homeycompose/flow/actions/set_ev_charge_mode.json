@@ -4,20 +4,45 @@
     "nl": "Zet EV laadmodus",
     "de": "EV Lademodus festlegen",
     "fr": "Définir le mode de charge EV",
-    "ko": "EV 충전 모드 설정"
+    "ko": "EV 충전 모드 설정",
+    "es": "Establecer modo de carga EV",
+    "it": "Imposta modalità di ricarica EV",
+    "da": "Indstil EV-ladetilstand",
+    "sv": "Ställ in EV-laddningsläge",
+    "no": "Angi EV-lademodus",
+    "pl": "Ustaw tryb ładowania EV",
+    "ru": "Установить режим зарядки EV",
+    "ar": "تعيين وضع شحن السيارة الكهربائية"
   },
   "titleFormatted": {
     "en": "Set EV charge mode to [[mode]]",
     "nl": "Zet EV laadmodus op [[mode]]",
     "de": "Setze EV Lademodus auf [[mode]]",
     "fr": "Définir le mode de charge EV sur [[mode]]",
-    "ko": "EV 충전 모드를 [[mode]](으)로 설정"
+    "ko": "EV 충전 모드를 [[mode]](으)로 설정",
+    "es": "Establecer el modo de carga EV en [[mode]]",
+    "it": "Imposta la modalità di ricarica EV su [[mode]]",
+    "da": "Indstil EV-ladetilstand til [[mode]]",
+    "sv": "Ställ in EV-laddningsläge till [[mode]]",
+    "no": "Angi EV-lademodus til [[mode]]",
+    "pl": "Ustaw tryb ładowania EV na [[mode]]",
+    "ru": "Установить режим зарядки EV на [[mode]]",
+    "ar": "تعيين وضع شحن السيارة الكهربائية إلى [[mode]]"
   },
   "hint": {
     "en": "Set the active charging mode (Scheduled Price Slots, Solar Surplus, Fast Charge, or Off).",
     "nl": "Stel de actieve laadmodus in (Geplande Prijsuren, Zonne-overschot, Snelladen of Uit).",
     "de": "Legen Sie den aktiven Lademodus fest.",
-    "ko": "활성 충전 모드를 설정합니다 (예약된 가격 구간, 태양광 잉여, 급속 충전 또는 끄기)."
+    "ko": "활성 충전 모드를 설정합니다 (예약된 가격 구간, 태양광 잉여, 급속 충전 또는 끄기).",
+    "fr": "Définit le mode de charge actif (créneaux de prix programmés, surplus solaire, charge rapide, ou désactivé).",
+    "es": "Establece el modo de carga activo (franjas de precio programadas, excedente solar, carga rápida o apagado).",
+    "it": "Imposta la modalità di ricarica attiva (fasce di prezzo programmate, surplus solare, ricarica rapida o spento).",
+    "da": "Indstiller den aktive ladetilstand (planlagte prisintervaller, solaroverskud, hurtig opladning eller fra).",
+    "sv": "Ställer in det aktiva laddningsläget (schemalagda prisintervall, solöverskott, snabbladdning eller av).",
+    "no": "Angir aktiv lademodus (planlagte prisintervaller, soloverskudd, hurtiglading eller av).",
+    "pl": "Ustawia aktywny tryb ładowania (zaplanowane przedziały cenowe, nadwyżka słoneczna, szybkie ładowanie lub wyłączone).",
+    "ru": "Устанавливает активный режим зарядки (запланированные ценовые интервалы, солнечный избыток, быстрая зарядка или выкл.).",
+    "ar": "يحدد وضع الشحن النشط (فترات الأسعار المجدولة، فائض الطاقة الشمسية، الشحن السريع، أو إيقاف التشغيل)."
   },
   "args": [
     {
@@ -32,7 +57,16 @@
         "en": "Mode",
         "nl": "Modus",
         "de": "Modus",
-        "ko": "모드"
+        "ko": "모드",
+        "fr": "Mode",
+        "es": "Modo",
+        "it": "Modalità",
+        "da": "Tilstand",
+        "sv": "Läge",
+        "no": "Modus",
+        "pl": "Tryb",
+        "ru": "Режим",
+        "ar": "الوضع"
       },
       "values": [
         {
@@ -41,7 +75,16 @@
             "en": "Scheduled Price Slots",
             "nl": "Geplande Prijsuren",
             "de": "Geplante Preis-Slots",
-            "ko": "예약된 가격 구간"
+            "ko": "예약된 가격 구간",
+            "fr": "Créneaux de prix programmés",
+            "es": "Franjas de precio programadas",
+            "it": "Fasce orarie di prezzo programmate",
+            "da": "Planlagte prisintervaller",
+            "sv": "Schemalagda prisintervall",
+            "no": "Planlagte prisintervaller",
+            "pl": "Zaplanowane przedziały cenowe",
+            "ru": "Запланированные ценовые интервалы",
+            "ar": "فترات الأسعار المجدولة"
           }
         },
         {
@@ -50,7 +93,16 @@
             "en": "Solar Surplus Only",
             "nl": "Alleen Zonne-overschot",
             "de": "Nur Solarüberschuss",
-            "ko": "태양광 잉여만"
+            "ko": "태양광 잉여만",
+            "fr": "Surplus solaire uniquement",
+            "es": "Solo excedente solar",
+            "it": "Solo surplus solare",
+            "da": "Kun solaroverskud",
+            "sv": "Endast solöverskott",
+            "no": "Kun soloverskudd",
+            "pl": "Tylko nadwyżka słoneczna",
+            "ru": "Только солнечный избыток",
+            "ar": "فائض الطاقة الشمسية فقط"
           }
         },
         {
@@ -59,7 +111,16 @@
             "en": "Solar + Price Slots",
             "nl": "Zonne-overschot + Prijsuren",
             "de": "Solar + Preis-Slots",
-            "ko": "태양광 + 가격 구간"
+            "ko": "태양광 + 가격 구간",
+            "fr": "Solaire + Créneaux de prix",
+            "es": "Solar + Franjas de precio",
+            "it": "Solare + Fasce di prezzo",
+            "da": "Sol + Prisintervaller",
+            "sv": "Sol + Prisintervall",
+            "no": "Sol + Prisintervaller",
+            "pl": "Słońce + Przedziały cenowe",
+            "ru": "Солнце + Ценовые интервалы",
+            "ar": "الطاقة الشمسية + فترات الأسعار"
           }
         },
         {
@@ -68,7 +129,16 @@
             "en": "Fast Charge",
             "nl": "Snelladen",
             "de": "Schnellladen",
-            "ko": "급속 충전"
+            "ko": "급속 충전",
+            "fr": "Charge rapide",
+            "es": "Carga rápida",
+            "it": "Ricarica rapida",
+            "da": "Hurtig opladning",
+            "sv": "Snabbladdning",
+            "no": "Hurtiglading",
+            "pl": "Szybkie ładowanie",
+            "ru": "Быстрая зарядка",
+            "ar": "شحن سريع"
           }
         },
         {
@@ -77,7 +147,16 @@
             "en": "Off",
             "nl": "Uit",
             "de": "Aus",
-            "ko": "끄기"
+            "ko": "끄기",
+            "fr": "Désactivé",
+            "es": "Apagado",
+            "it": "Spento",
+            "da": "Fra",
+            "sv": "Av",
+            "no": "Av",
+            "pl": "Wyłączone",
+            "ru": "Выкл.",
+            "ar": "إيقاف"
           }
         }
       ]

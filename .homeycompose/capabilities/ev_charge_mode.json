@@ -26,7 +26,15 @@
         "nl": "Geplande Prijsuren",
         "de": "Geplante Preis-Slots",
         "fr": "Créneaux de prix programmés",
-        "ko": "예약된 가격 구간"
+        "ko": "예약된 가격 구간",
+        "es": "Franjas de precio programadas",
+        "it": "Fasce orarie di prezzo programmate",
+        "da": "Planlagte prisintervaller",
+        "sv": "Schemalagda prisintervall",
+        "no": "Planlagte prisintervaller",
+        "pl": "Zaplanowane przedziały cenowe",
+        "ru": "Запланированные ценовые интервалы",
+        "ar": "فترات الأسعار المجدولة"
       }
     },
     {
@@ -36,7 +44,15 @@
         "nl": "Alleen Zonne-overschot",
         "de": "Nur Solarüberschuss",
         "fr": "Surplus solaire uniquement",
-        "ko": "태양광 잉여만"
+        "ko": "태양광 잉여만",
+        "es": "Solo excedente solar",
+        "it": "Solo surplus solare",
+        "da": "Kun solaroverskud",
+        "sv": "Endast solöverskott",
+        "no": "Kun soloverskudd",
+        "pl": "Tylko nadwyżka słoneczna",
+        "ru": "Только солнечный избыток",
+        "ar": "فائض الطاقة الشمسية فقط"
       }
     },
     {
@@ -46,7 +62,15 @@
         "nl": "Zonne-overschot + Prijsuren",
         "de": "Solar + Preis-Slots",
         "fr": "Solaire + Créneaux de prix",
-        "ko": "태양광 + 가격 구간"
+        "ko": "태양광 + 가격 구간",
+        "es": "Solar + Franjas de precio",
+        "it": "Solare + Fasce di prezzo",
+        "da": "Sol + Prisintervaller",
+        "sv": "Sol + Prisintervall",
+        "no": "Sol + Prisintervaller",
+        "pl": "Słońce + Przedziały cenowe",
+        "ru": "Солнце + Ценовые интервалы",
+        "ar": "الطاقة الشمسية + فترات الأسعار"
       }
     },
     {
@@ -56,7 +80,15 @@
         "nl": "Snelladen",
         "de": "Schnellladen",
         "fr": "Charge rapide",
-        "ko": "급속 충전"
+        "ko": "급속 충전",
+        "es": "Carga rápida",
+        "it": "Ricarica rapida",
+        "da": "Hurtig opladning",
+        "sv": "Snabbladdning",
+        "no": "Hurtiglading",
+        "pl": "Szybkie ładowanie",
+        "ru": "Быстрая зарядка",
+        "ar": "شحن سريع"
       }
     },
     {
@@ -66,7 +98,15 @@
         "nl": "Uit",
         "de": "Aus",
         "fr": "Désactivé",
-        "ko": "끄기"
+        "ko": "끄기",
+        "es": "Apagado",
+        "it": "Spento",
+        "da": "Fra",
+        "sv": "Av",
+        "no": "Av",
+        "pl": "Wyłączone",
+        "ru": "Выкл.",
+        "ar": "إيقاف"
       }
     }
   ]

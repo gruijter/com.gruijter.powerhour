@@ -9,7 +9,10 @@
 		"da": "Day-Ahead Gas priser",
 		"nl": "Day-Ahead Gas Prijzen",
 		"ar": "أسعار الغاز لليوم التالي",
-		"ko": "전일 가스 가격"
+		"ko": "전일 가스 가격",
+		"es": "Precios de Gas del Día Siguiente",
+		"pl": "Ceny Gazu na Następny Dzień",
+		"ru": "Цены на газ на следующие сутки"
 	},
 	"class": "sensor",
 	"capabilities": [],
@@ -51,7 +54,11 @@
 				"fr": "Information sur les négociations",
 				"da": "Information om elområde",
 				"nl": "Biedzone informatie",
-				"ko": "입찰 구역 정보"
+				"ko": "입찰 구역 정보",
+				"es": "Información de la zona de oferta",
+				"pl": "Informacje o strefie licytacji",
+				"ru": "Информация о торговой зоне",
+				"ar": "معلومات منطقة العطاءات"
 			},
 			"children": [
 				{
@@ -66,7 +73,11 @@
 						"fr": "Zone de négociation",
 						"da": "Elområde",
 						"nl": "Biedzone",
-						"ko": "입찰 구역"
+						"ko": "입찰 구역",
+						"es": "Zona de oferta",
+						"pl": "Strefa licytacji",
+						"ru": "Торговая зона",
+						"ar": "منطقة العطاءات"
 					},
 					"value": "unknown"
 				},
@@ -82,7 +93,11 @@
 						"fr": "Description",
 						"da": "Beskrivelse",
 						"nl": "Omschrijving",
-						"ko": "설명"
+						"ko": "설명",
+						"es": "Descripción",
+						"pl": "Opis",
+						"ru": "Описание",
+						"ar": "وصف"
 					},
 					"value": "unknown"
 				}
@@ -99,7 +114,11 @@
 				"fr": "Paramètre de devise",
 				"da": "Valutaindstillinger",
 				"nl": "Munteenheid instellingen",
-				"ko": "통화 설정"
+				"ko": "통화 설정",
+				"es": "Configuración de moneda",
+				"pl": "Ustawienia waluty",
+				"ru": "Настройки валюты",
+				"ar": "إعدادات العملة"
 			},
 			"children": [
 				{
@@ -114,7 +133,11 @@
 						"fr": "Affichage de l'unité monétaire",
 						"da": "Visning af valutaenhed",
 						"nl": "Weergave geldeenheid",
-						"ko": "표시할 통화 단위"
+						"ko": "표시할 통화 단위",
+						"es": "Visualización de unidad de moneda",
+						"pl": "Wyświetlanie jednostki walutowej",
+						"ru": "Отображение валютной единицы",
+						"ar": "عرض وحدة العملة"
 					},
 					"value": "€",
 					"hint": {
@@ -126,7 +149,11 @@
 						"fr": "Unité affichée comme devise, ex. €, £, EUR, SER, NOK, DKK, CHF. Laisser vide pour utiliser € par défaut",
 						"da": "Valutaenheden vises f.eks. €, £, EUR, SER, NOK, DKK, CHF. Lad denne stå blank for at bruge standard €.",
 						"nl": "De weergegeven eenheid voor geld, bijv. €, £, EUR, SER, NOK, DKK, CHF. Laat leeg om de standaard € te gebruiken.",
-						"ko": "통화로 표시할 단위입니다 (예: €, £, EUR, SER, NOK, DKK, CHF). 비워두면 기본값 €를 사용합니다."
+						"ko": "통화로 표시할 단위입니다 (예: €, £, EUR, SER, NOK, DKK, CHF). 비워두면 기본값 €를 사용합니다.",
+						"es": "La unidad que se muestra como moneda, p. ej. €, £, EUR, SER, NOK, DKK, CHF. Dejar vacío para usar el valor predeterminado €.",
+						"pl": "Jednostka wyświetlana jako waluta, np. €, £, EUR, SER, NOK, DKK, CHF. Pozostaw puste, aby użyć domyślnego €.",
+						"ru": "Единица, отображаемая как валюта, например €, £, EUR, SER, NOK, DKK, CHF. Оставьте пустым, чтобы использовать значение по умолчанию €.",
+						"ar": "الوحدة المعروضة كعملة، مثل €، £، EUR، SER، NOK، DKK، CHF. اتركها فارغة لاستخدام الافتراضي €."
 					}
 				},
 				{
@@ -141,7 +168,11 @@
 						"fr": "Décimales devise",
 						"da": "Valuta decimaler",
 						"nl": "Geld decimalen",
-						"ko": "통화 소수 자릿수"
+						"ko": "통화 소수 자릿수",
+						"es": "Decimales de moneda",
+						"pl": "Miejsca dziesiętne waluty",
+						"ru": "Десятичные знаки валюты",
+						"ar": "الكسور العشرية للعملة"
 					},
 					"value": 4,
 					"min": 0,
@@ -155,7 +186,11 @@
 						"fr": "Nombre de décimales à utiliser pour le tarif",
 						"da": "Antallet af decimaler, der bruges til prisen",
 						"nl": "Het aantal decimalen voor prijs.",
-						"ko": "가격에 사용할 소수 자릿수입니다."
+						"ko": "가격에 사용할 소수 자릿수입니다.",
+						"es": "El número de decimales a utilizar para el precio.",
+						"pl": "Liczba miejsc dziesiętnych do użycia dla ceny.",
+						"ru": "Количество десятичных знаков для цены.",
+						"ar": "عدد الكسور العشرية المراد استخدامها للسعر."
 					}
 				},
 				{
@@ -170,7 +205,11 @@
 						"fr": "Taux de change avec €",
 						"da": "Vekselkurs med €",
 						"nl": "Wisselkoers met €",
-						"ko": "€ 대비 환율"
+						"ko": "€ 대비 환율",
+						"es": "Tipo de cambio con €",
+						"pl": "Kurs wymiany z €",
+						"ru": "Обменный курс с €",
+						"ar": "سعر الصرف مع €"
 					},
 					"value": 1,
 					"hint": {
@@ -182,7 +221,11 @@
 						"fr": "Mettre à 1 si vous souhaitez utiliser EURO, sinon entrer le taux de change de la devise souhaitée",
 						"da": "Sæt som 1 hvis du vil bruge Euro, indsæt ellers vekselkursen for din foretrukne valuta",
 						"nl": "Stel in op 1 als je EURO's wilt gebruiken, of geef de wisselkoers in naar de gewenste munteenheid.",
-						"ko": "유로를 사용하려면 1로 설정하고, 그렇지 않으면 원하는 통화에 대한 환율을 입력하세요."
+						"ko": "유로를 사용하려면 1로 설정하고, 그렇지 않으면 원하는 통화에 대한 환율을 입력하세요.",
+						"es": "Establecer en 1 si desea usar EURO, de lo contrario ingrese el tipo de cambio a su moneda preferida.",
+						"pl": "Ustaw na 1, jeśli chcesz używać EURO, w przeciwnym razie wprowadź kurs wymiany na preferowaną walutę.",
+						"ru": "Установите 1, если хотите использовать ЕВРО, в противном случае введите обменный курс к вашей предпочтительной валюте.",
+						"ar": "قم بالتعيين على 1 إذا كنت تريد استخدام اليورو، وإلا أدخل سعر الصرف لعملتك المفضلة."
 					}
 				},
 				{
@@ -198,7 +241,11 @@
 						"fr": "Mise à jour quotidienne du taux de change",
 						"da": "Opdatér dagligt valutakurs",
 						"nl": "Update wisselkoers dagelijks",
-						"ko": "매일 환율 업데이트"
+						"ko": "매일 환율 업데이트",
+						"es": "Actualizar diariamente el tipo de cambio",
+						"pl": "Codzienna aktualizacja kursu wymiany",
+						"ru": "Ежедневное обновление обменного курса",
+						"ar": "تحديث سعر الصرف يوميا"
 					},
 					"values": [
 						{
@@ -212,119 +259,299 @@
 								"fr": "NE PAS RÉCUPÉRER",
 								"da": "HENT IKKE",
 								"nl": "NIET OPHALEN",
-								"ko": "가져오지 않음"
+								"ko": "가져오지 않음",
+								"es": "NO RECUPERAR",
+								"pl": "NIE POBIERAJ",
+								"ru": "НЕ ПОЛУЧАТЬ",
+								"ar": "لا تجلب"
 							}
 						},
 						{
 							"id": "BGN",
 							"label": {
 								"en": "BGN",
-								"ko": "BGN"
+								"ko": "BGN",
+								"nl": "BGN",
+								"de": "BGN",
+								"fr": "BGN",
+								"es": "BGN",
+								"it": "BGN",
+								"da": "BGN",
+								"sv": "BGN",
+								"no": "BGN",
+								"pl": "BGN",
+								"ru": "BGN",
+								"ar": "BGN"
 							}
 						},
 						{
 							"id": "CHF",
 							"label": {
 								"en": "CHF",
-								"ko": "CHF"
+								"ko": "CHF",
+								"nl": "CHF",
+								"de": "CHF",
+								"fr": "CHF",
+								"es": "CHF",
+								"it": "CHF",
+								"da": "CHF",
+								"sv": "CHF",
+								"no": "CHF",
+								"pl": "CHF",
+								"ru": "CHF",
+								"ar": "CHF"
 							}
 						},
 						{
 							"id": "CZK",
 							"label": {
 								"en": "CZK",
-								"ko": "CZK"
+								"ko": "CZK",
+								"nl": "CZK",
+								"de": "CZK",
+								"fr": "CZK",
+								"es": "CZK",
+								"it": "CZK",
+								"da": "CZK",
+								"sv": "CZK",
+								"no": "CZK",
+								"pl": "CZK",
+								"ru": "CZK",
+								"ar": "CZK"
 							}
 						},
 						{
 							"id": "DKK",
 							"label": {
 								"en": "DKK",
-								"ko": "DKK"
+								"ko": "DKK",
+								"nl": "DKK",
+								"de": "DKK",
+								"fr": "DKK",
+								"es": "DKK",
+								"it": "DKK",
+								"da": "DKK",
+								"sv": "DKK",
+								"no": "DKK",
+								"pl": "DKK",
+								"ru": "DKK",
+								"ar": "DKK"
 							}
 						},
 						{
 							"id": "GBP",
 							"label": {
 								"en": "GBP",
-								"ko": "GBP"
+								"ko": "GBP",
+								"nl": "GBP",
+								"de": "GBP",
+								"fr": "GBP",
+								"es": "GBP",
+								"it": "GBP",
+								"da": "GBP",
+								"sv": "GBP",
+								"no": "GBP",
+								"pl": "GBP",
+								"ru": "GBP",
+								"ar": "GBP"
 							}
 						},
 						{
 							"id": "HRK",
 							"label": {
 								"en": "HRK",
-								"ko": "HRK"
+								"ko": "HRK",
+								"nl": "HRK",
+								"de": "HRK",
+								"fr": "HRK",
+								"es": "HRK",
+								"it": "HRK",
+								"da": "HRK",
+								"sv": "HRK",
+								"no": "HRK",
+								"pl": "HRK",
+								"ru": "HRK",
+								"ar": "HRK"
 							}
 						},
 						{
 							"id": "HUF",
 							"label": {
 								"en": "HUF",
-								"ko": "HUF"
+								"ko": "HUF",
+								"nl": "HUF",
+								"de": "HUF",
+								"fr": "HUF",
+								"es": "HUF",
+								"it": "HUF",
+								"da": "HUF",
+								"sv": "HUF",
+								"no": "HUF",
+								"pl": "HUF",
+								"ru": "HUF",
+								"ar": "HUF"
 							}
 						},
 						{
 							"id": "ISK",
 							"label": {
 								"en": "ISK",
-								"ko": "ISK"
+								"ko": "ISK",
+								"nl": "ISK",
+								"de": "ISK",
+								"fr": "ISK",
+								"es": "ISK",
+								"it": "ISK",
+								"da": "ISK",
+								"sv": "ISK",
+								"no": "ISK",
+								"pl": "ISK",
+								"ru": "ISK",
+								"ar": "ISK"
 							}
 						},
 						{
 							"id": "NOK",
 							"label": {
 								"en": "NOK",
-								"ko": "NOK"
+								"ko": "NOK",
+								"nl": "NOK",
+								"de": "NOK",
+								"fr": "NOK",
+								"es": "NOK",
+								"it": "NOK",
+								"da": "NOK",
+								"sv": "NOK",
+								"no": "NOK",
+								"pl": "NOK",
+								"ru": "NOK",
+								"ar": "NOK"
 							}
 						},
 						{
 							"id": "PLN",
 							"label": {
 								"en": "PLN",
-								"ko": "PLN"
+								"ko": "PLN",
+								"nl": "PLN",
+								"de": "PLN",
+								"fr": "PLN",
+								"es": "PLN",
+								"it": "PLN",
+								"da": "PLN",
+								"sv": "PLN",
+								"no": "PLN",
+								"pl": "PLN",
+								"ru": "PLN",
+								"ar": "PLN"
 							}
 						},
 						{
 							"id": "RON",
 							"label": {
 								"en": "RON",
-								"ko": "RON"
+								"ko": "RON",
+								"nl": "RON",
+								"de": "RON",
+								"fr": "RON",
+								"es": "RON",
+								"it": "RON",
+								"da": "RON",
+								"sv": "RON",
+								"no": "RON",
+								"pl": "RON",
+								"ru": "RON",
+								"ar": "RON"
 							}
 						},
 						{
 							"id": "RUB",
 							"label": {
 								"en": "RUB",
-								"ko": "RUB"
+								"ko": "RUB",
+								"nl": "RUB",
+								"de": "RUB",
+								"fr": "RUB",
+								"es": "RUB",
+								"it": "RUB",
+								"da": "RUB",
+								"sv": "RUB",
+								"no": "RUB",
+								"pl": "RUB",
+								"ru": "RUB",
+								"ar": "RUB"
 							}
 						},
 						{
 							"id": "SEK",
 							"label": {
 								"en": "SEK",
-								"ko": "SEK"
+								"ko": "SEK",
+								"nl": "SEK",
+								"de": "SEK",
+								"fr": "SEK",
+								"es": "SEK",
+								"it": "SEK",
+								"da": "SEK",
+								"sv": "SEK",
+								"no": "SEK",
+								"pl": "SEK",
+								"ru": "SEK",
+								"ar": "SEK"
 							}
 						},
 						{
 							"id": "TRY",
 							"label": {
 								"en": "TRY",
-								"ko": "TRY"
+								"ko": "TRY",
+								"nl": "TRY",
+								"de": "TRY",
+								"fr": "TRY",
+								"es": "TRY",
+								"it": "TRY",
+								"da": "TRY",
+								"sv": "TRY",
+								"no": "TRY",
+								"pl": "TRY",
+								"ru": "TRY",
+								"ar": "TRY"
 							}
 						},
 						{
 							"id": "AUD",
 							"label": {
 								"en": "AUD",
-								"ko": "AUD"
+								"ko": "AUD",
+								"nl": "AUD",
+								"de": "AUD",
+								"fr": "AUD",
+								"es": "AUD",
+								"it": "AUD",
+								"da": "AUD",
+								"sv": "AUD",
+								"no": "AUD",
+								"pl": "AUD",
+								"ru": "AUD",
+								"ar": "AUD"
 							}
 						},
 						{
 							"id": "USD",
 							"label": {
 								"en": "USD",
-								"ko": "USD"
+								"ko": "USD",
+								"nl": "USD",
+								"de": "USD",
+								"fr": "USD",
+								"es": "USD",
+								"it": "USD",
+								"da": "USD",
+								"sv": "USD",
+								"no": "USD",
+								"pl": "USD",
+								"ru": "USD",
+								"ar": "USD"
 							}
 						}
 					],
@@ -337,7 +564,11 @@
 						"fr": "Entrer la devise pour laquelle vous souhaitez que le taux de change soit automatiquement récupérer. Laisser à 'NE PAS RÉCUPÉRER' si vous utiliser l'Euro, ou si vous souhaitez entrer manuellement le taux de change",
 						"da": "Angiv valutaen du automatisk vil hente vekselkursen for. Lad den stå på 'HENT IKKE' hvis du bruger Euro, eller hvis du manuelt vil tilpasse vekselkursen",
 						"nl": "Geef de munteenheid aan waarvan de wisselkoers automatisch moey worden opgehaald. Zet op 'NIET OPHALEN' als je Euro gebruit, of als je de wisselkoers handmatig wilt invoeren.",
-						"ko": "환율을 자동으로 가져올 통화를 입력하세요. 유로를 사용 중이거나 환율을 직접 설정하려면 '가져오지 않음'으로 두세요."
+						"ko": "환율을 자동으로 가져올 통화를 입력하세요. 유로를 사용 중이거나 환율을 직접 설정하려면 '가져오지 않음'으로 두세요.",
+						"es": "Ingrese la moneda para la cual desea que el tipo de cambio se obtenga automáticamente. Deje en 'NO RECUPERAR' si está utilizando Euro, o si desea establecer manualmente el tipo de cambio.",
+						"pl": "Wprowadź walutę, dla której kurs wymiany ma być pobierany automatycznie. Pozostaw 'NIE POBIERAJ', jeśli używasz Euro lub jeśli chcesz ręcznie ustawić kurs wymiany.",
+						"ru": "Введите валюту, для которой вы хотите автоматически получать обменный курс. Оставьте 'НЕ ПОЛУЧАТЬ', если вы используете Евро, или если вы хотите вручную установить обменный курс.",
+						"ar": "أدخل العملة التي تريد جلب سعر الصرف لها تلقائيًا. اتركها عند 'لا تجلب' إذا كنت تستخدم اليورو، أو إذا كنت تريد تعيين سعر الصرف يدويًا."
 					}
 				}
 			]
@@ -353,7 +584,11 @@
 				"fr": "Paramètre de tarification",
 				"da": "Prisindstillinger",
 				"nl": "Prijs instellingen",
-				"ko": "가격 설정"
+				"ko": "가격 설정",
+				"es": "Ajustes de precio",
+				"pl": "Ustawienia cen",
+				"ru": "Настройки цены",
+				"ar": "إعدادات السعر"
 			},
 			"children": [
 				{
@@ -368,7 +603,11 @@
 						"fr": "Augmentation variable (%)",
 						"da": "Variabelt gebyr (%)",
 						"nl": "Variabele opslag (%)",
-						"ko": "변동 마크업 (%)"
+						"ko": "변동 마크업 (%)",
+						"es": "Margen variable (%)",
+						"pl": "Narzut zmienny (%)",
+						"ru": "Переменная наценка (%)",
+						"ar": "هامش ربح متغير (%)"
 					},
 					"value": 0,
 					"hint": {
@@ -380,7 +619,11 @@
 						"fr": "Entrer le pourcentage pour lequel le tarif doit être augmenter. Par exemple la TVA",
 						"da": "Angiv procenten der tillægges nettoprisen. Eksempelvis moms.",
 						"nl": "Voer het percentage in waarmee de netto prijs verhoogd moet worden. Bijvoorbeeld voor BTW.",
-						"ko": "순 가격에 인상할 백분율을 입력하세요. 예: 부가세."
+						"ko": "순 가격에 인상할 백분율을 입력하세요. 예: 부가세.",
+						"es": "Introduzca el porcentaje en que debe aumentarse el precio neto. Por ejemplo, para el IVA.",
+						"pl": "Wprowadź procent, o który należy podwyższyć cenę netto. Np. na VAT.",
+						"ru": "Введите процент, на который необходимо повысить чистую цену. Например, для НДС.",
+						"ar": "أدخل النسبة المئوية التي يجب زيادة السعر الصافي بها. على سبيل المثال لضريبة القيمة المضافة."
 					}
 				},
 				{
@@ -395,7 +638,11 @@
 						"fr": "Fixer l'augmentation par m3",
 						"da": "Fast gebyr per m3",
 						"nl": "Vaste opslag per m3",
-						"ko": "m3당 고정 마크업"
+						"ko": "m3당 고정 마크업",
+						"es": "Recargo fijo por m3",
+						"pl": "Stały narzut na m3",
+						"ru": "Фиксированная наценка за m3",
+						"ar": "هامش ثابت لكل m3"
 					},
 					"value": 0,
 					"hint": {
@@ -407,7 +654,11 @@
 						"fr": "Entrez le montant fixe dont le prix doit être ajouté par m3, incluant la TVA. Par exemple les frais d'achat",
 						"da": "Angiv den faste beløb som prisen skal øges med per m3, inkl. Moms f.eks. for indkøbsafgift.",
 						"nl": "Voer het vaste bedrag in waarmee de prijs per m3 verhoogd moet worden incl. BTW. Bijvoorbeeld voor inkoopvergoeding, Energie belasting, ODE.",
-						"ko": "부가세 포함, m3당 가격에 인상할 고정 금액을 입력하세요. 예: 구매 수수료."
+						"ko": "부가세 포함, m3당 가격에 인상할 고정 금액을 입력하세요. 예: 구매 수수료.",
+						"es": "Introduzca el importe fijo en que debe aumentarse el precio por m3, IVA incluido. Por ejemplo, para una tarifa de compra.",
+						"pl": "Wprowadź stałą kwotę, o którą cena za m3 ma być podwyższona, z VAT. Np. na opłatę zakupu.",
+						"ru": "Введите фиксированную сумму, на которую необходимо повысить цену за m3, с учётом НДС. Например, для комиссии за покупку.",
+						"ar": "أدخل المبلغ الثابت الذي يجب زيادة السعر به لكل m3، شاملاً ضريبة القيمة المضافة. على سبيل المثال لرسوم الشراء."
 					}
 				},
 				{
@@ -415,7 +666,18 @@
 					"type": "text",
 					"label": {
 						"en": "Extra Time Of Day markup",
-						"ko": "시간대별 추가 마크업"
+						"ko": "시간대별 추가 마크업",
+						"nl": "Extra tijdstip-opslag",
+						"de": "Zusätzlicher Tageszeit-Aufschlag",
+						"fr": "Majoration supplémentaire selon l’heure",
+						"es": "Recargo adicional por franja horaria",
+						"it": "Aumento aggiuntivo per fascia oraria",
+						"da": "Ekstra tidspunktgebyr",
+						"sv": "Extra tidpunktspåslag",
+						"no": "Ekstra tidspunktpåslag",
+						"pl": "Dodatkowy narzut zależny od pory dnia",
+						"ru": "Дополнительная наценка по времени суток",
+						"ar": "هامش إضافي حسب وقت اليوم"
 					},
 					"value": "",
 					"hint": {
@@ -427,7 +689,11 @@
 						"fr": "Entrez le montant par lequel le prix doit être augmenté supplémentairement par m3 à certaines heures de la journée. Remplissez l'heure1: majoration1; heure2; majoration2 etc. Par exemple, si à 6 heures du matin la majoration est de 0,3 et à 22 heures du soir la majoration est de 0,1, remplissez ce qui suit: 6:0,3;22:0,1",
 						"da": "Angiv beløbet, som prisen skal øges med per m3 på visse tidspunkter i døgnet. Udfyld time1:markering1;time2;markering2 osv. Fx hvis det begynder kl. 6 om morgenen med markeringen 0,3, og kl. 22 om aftenen med markeringen 0,1, så udfyld følgende: 6:0,3;22:0,1",
 						"nl": "Voer het bedrag in waarmee de prijs per m3 op bepaalde uren van de dag extra moet worden verhoogd. Vul uur1:opslag1;uur2;opslag2 etc. in. Bijvoorbeeld als het om 6 uur 's ochtends om 0,3 verhoogd wordt en om 22 uur om 0,1 verhoogd wordt, vul dan het volgende in: 6:0,3;22:0,1",
-						"ko": "하루 중 특정 시간대에 m3당 가격에 추가로 인상할 금액을 입력하세요. hour1:markup1;hour2:markup2 형식으로 입력합니다. 예: 오전 6시부터 마크업 0.3, 오후 10시부터 마크업 0.1이면 다음과 같이 입력: 6:0.3;22:0.1"
+						"ko": "하루 중 특정 시간대에 m3당 가격에 추가로 인상할 금액을 입력하세요. hour1:markup1;hour2:markup2 형식으로 입력합니다. 예: 오전 6시부터 마크업 0.3, 오후 10시부터 마크업 0.1이면 다음과 같이 입력: 6:0.3;22:0.1",
+						"es": "Introduzca el importe adicional en que debe aumentarse el precio por m3 en determinadas horas del día. Rellene hora1:recargo1;hora2:recargo2, etc. Por ejemplo, si a partir de las 6:00 el recargo es 0,3 y a partir de las 22:00 es 0,1, escriba: 6:0.3;22:0.1",
+						"pl": "Wprowadź kwotę, o którą cena za m3 ma być dodatkowo podwyższona w określonych godzinach dnia. Wypełnij w formacie godzina1:narzut1;godzina2:narzut2 itd. Np. jeśli od 6:00 narzut wynosi 0,3, a od 22:00 narzut wynosi 0,1, wpisz: 6:0.3;22:0.1",
+						"ru": "Введите сумму, на которую необходимо дополнительно повысить цену за m3 в определённые часы дня. Заполните в формате час1:наценка1;час2:наценка2 и т.д. Например, если с 6:00 наценка 0,3, а с 22:00 наценка 0,1, введите: 6:0.3;22:0.1",
+						"ar": "أدخل المبلغ الذي يجب زيادة السعر به لكل m3 في ساعات معينة من اليوم. املأ بالصيغة hour1:markup1;hour2:markup2 وهكذا. مثال: إذا كان الهامش بدءًا من الساعة 6 صباحًا هو 0.3 وبدءًا من الساعة 10 مساءً هو 0.1، أدخل: 6:0.3;22:0.1"
 					}
 				},
 				{
@@ -435,7 +701,18 @@
 					"type": "number",
 					"label": {
 						"en": "Extra Weekend markup",
-						"ko": "주말 추가 마크업"
+						"ko": "주말 추가 마크업",
+						"nl": "Extra weekend-opslag",
+						"de": "Zusätzlicher Wochenend-Aufschlag",
+						"fr": "Majoration supplémentaire le week-end",
+						"es": "Recargo adicional de fin de semana",
+						"it": "Aumento aggiuntivo nel fine settimana",
+						"da": "Ekstra weekendgebyr",
+						"sv": "Extra helgpåslag",
+						"no": "Ekstra helgepåslag",
+						"pl": "Dodatkowy narzut weekendowy",
+						"ru": "Дополнительная наценка по выходным",
+						"ar": "هامش إضافي لعطلة نهاية الأسبوع"
 					},
 					"value": 0,
 					"hint": {
@@ -447,7 +724,11 @@
 						"fr": "Entrez le montant par lequel le prix doit être augmenté supplémentairement par m3 pendant tout le week-end (samedi - dimanche). Note : cette majoration remplace la majoration en fonction de l'heure!",
 						"da": "Angiv beløbet, som prisen skal øges ekstra pr. m3 i løbet af hele weekenden (lørdag-søndag). Bemærk: Dette tillæg erstatter Time Of Day-tillægget!",
 						"nl": "Voer het bedrag in waarmee de prijs per m3 het hele weekend (zaterdag - zondag) moet worden verhoogd. Opmerking: deze opslag vervangt de Time Of Day-opslag!",
-						"ko": "주말 전체(토요일-일요일) 동안 m3당 가격에 추가로 인상할 금액을 입력하세요. 참고: 이 마크업은 시간대별 마크업을 대체합니다!"
+						"ko": "주말 전체(토요일-일요일) 동안 m3당 가격에 추가로 인상할 금액을 입력하세요. 참고: 이 마크업은 시간대별 마크업을 대체합니다!",
+						"es": "Introduzca el importe adicional en que debe aumentarse el precio por m3 durante todo el fin de semana (sábado-domingo). Nota: este recargo sustituye al recargo por franja horaria.",
+						"pl": "Wprowadź kwotę, o którą cena za m3 ma być dodatkowo podwyższona przez cały weekend (sobota-niedziela). Uwaga: ten narzut zastępuje narzut zależny od pory dnia!",
+						"ru": "Введите сумму, на которую необходимо дополнительно повысить цену за m3 в течение всех выходных (суббота-воскресенье). Примечание: эта наценка заменяет наценку по времени суток!",
+						"ar": "أدخل المبلغ الذي يجب زيادة السعر به لكل m3 بشكل إضافي طوال عطلة نهاية الأسبوع (السبت - الأحد). ملاحظة: يحل هذا الهامش محل هامش وقت اليوم!"
 					}
 				}
 			]
@@ -463,7 +744,11 @@
 				"fr": "Réglages divers",
 				"da": "Diverse indstillinger",
 				"nl": "Overige instellingen",
-				"ko": "기타 설정"
+				"ko": "기타 설정",
+				"es": "Varios ajustes",
+				"pl": "Różne ustawienia",
+				"ru": "Различные настройки",
+				"ar": "إعدادات مختلفة"
 			},
 			"children": [
 				{
@@ -521,11 +806,11 @@
 						},
 						{
 							"id": "Energyzero",
-							"label": { "en": "EnergyZero", "ko": "EnergyZero" }
+							"label": { "en": "EnergyZero", "ko": "EnergyZero", "nl": "EnergyZero", "de": "EnergyZero", "fr": "EnergyZero", "es": "EnergyZero", "it": "EnergyZero", "da": "EnergyZero", "sv": "EnergyZero", "no": "EnergyZero", "pl": "EnergyZero", "ru": "EnergyZero", "ar": "EnergyZero" }
 						},
 						{
 							"id": "EEX",
-							"label": { "en": "EEX", "ko": "EEX" }
+							"label": { "en": "EEX", "ko": "EEX", "nl": "EEX", "de": "EEX", "fr": "EEX", "es": "EEX", "it": "EEX", "da": "EEX", "sv": "EEX", "no": "EEX", "pl": "EEX", "ru": "EEX", "ar": "EEX" }
 						}
 					]
 				},
@@ -541,7 +826,11 @@
 						"fr": "Envoyer tarif au groupe",
 						"da": "Send gebyr til gruppe",
 						"nl": "Stuur tarief naar group",
-						"ko": "그룹에 요금 전송"
+						"ko": "그룹에 요금 전송",
+						"es": "Enviar tarifa al grupo",
+						"pl": "Wyślij taryfę do grupy",
+						"ru": "Отправить тариф в группу",
+						"ar": "إرسال التعريفة إلى المجموعة"
 					},
 					"min": 0,
 					"max": 10,
@@ -556,7 +845,11 @@
 						"fr": "Chaque heure, le prix du m3 sera envoyé comme tarif pour les appareils PBTH, sans qu'il soit nécessaire de créer un flow",
 						"da": "Prisen per m3 bliver sendt som tarif til PBTH-enheder, uden brug af flows.",
 						"nl": "Ieder uur wordt de prijs per m3 als tarief naar PBTH devices gestuurd, zonder dat een flow gemaakt hoeft te worden.",
-						"ko": "매시간 m3당 가격이 flow를 만들 필요 없이 PBTH 장치의 요금으로 전송됩니다."
+						"ko": "매시간 m3당 가격이 flow를 만들 필요 없이 PBTH 장치의 요금으로 전송됩니다.",
+						"es": "Cada hora se enviará el precio por m3 como tarifa para dispositivos PBTH, sin necesidad de crear un flujo.",
+						"pl": "Co godzinę cena za m3 będzie wysyłana jako taryfa dla urządzeń PBTH, bez konieczności tworzenia przepływu.",
+						"ru": "Каждый час цена за m3 будет отправляться в качестве тарифа для устройств PBTH, без необходимости создавать поток.",
+						"ar": "كل ساعة سيتم إرسال السعر لكل m3 كتعريفة لأجهزة PBTH، دون الحاجة إلى إنشاء تدفق."
 					}
 				}
 			]

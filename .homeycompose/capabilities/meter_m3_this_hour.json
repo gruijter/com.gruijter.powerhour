@@ -22,7 +22,18 @@
   "insights": true,
   "units": {
     "en": "m³",
-    "ko": "m³"
+    "ko": "m³",
+    "nl": "m³",
+    "de": "m³",
+    "fr": "m³",
+    "es": "m³",
+    "it": "m³",
+    "da": "m³",
+    "sv": "m³",
+    "no": "m³",
+    "pl": "m³",
+    "ru": "m³",
+    "ar": "m³"
   },
   "decimals": 4
 }

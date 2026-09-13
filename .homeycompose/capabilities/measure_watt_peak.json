@@ -22,7 +22,18 @@
   "insights": true,
   "units": {
     "en": "Watt",
-    "ko": "Watt"
+    "ko": "Watt",
+    "nl": "Watt",
+    "de": "Watt",
+    "fr": "Watt",
+    "es": "Watt",
+    "it": "Watt",
+    "da": "Watt",
+    "sv": "Watt",
+    "no": "Watt",
+    "pl": "Watt",
+    "ru": "Watt",
+    "ar": "Watt"
   },
   "decimals": 0
 }

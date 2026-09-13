@@ -18,7 +18,18 @@
     "decimals": 4,
     "units": {
       "en": "kWh",
-      "ko": "kWh"
+      "ko": "kWh",
+      "nl": "kWh",
+      "de": "kWh",
+      "fr": "kWh",
+      "es": "kWh",
+      "it": "kWh",
+      "da": "kWh",
+      "sv": "kWh",
+      "no": "kWh",
+      "pl": "kWh",
+      "ru": "kWh",
+      "ar": "kWh"
     },
     "insights": true,
     "getable": true,

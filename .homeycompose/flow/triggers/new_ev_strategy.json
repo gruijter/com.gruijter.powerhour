@@ -4,14 +4,30 @@
     "nl": "Nieuwe EV strategie actief",
     "de": "Neue EV-Strategie aktiv",
     "fr": "Nouvelle stratégie EV active",
-    "ko": "새 EV 전략 활성"
+    "ko": "새 EV 전략 활성",
+    "es": "Nueva estrategia EV activa",
+    "it": "Nuova strategia EV attiva",
+    "da": "Ny EV-strategi aktiv",
+    "sv": "Ny EV-strategi aktiv",
+    "no": "Ny EV-strategi aktiv",
+    "pl": "Nowa strategia EV aktywna",
+    "ru": "Новая стратегия EV активна",
+    "ar": "استراتيجية سيارة كهربائية جديدة نشطة"
   },
   "hint": {
     "en": "Triggers every price interval (e.g. 15m or 60m) or when settings change. Provides the optimal charging power and duration for the current interval.",
     "nl": "Triggert bij elke prijsinterval (bijv. 15m of 60m) of wanneer instellingen veranderen. Geeft het optimale laadvermogen en duur voor het huidige interval.",
     "de": "Wird in jedem Preisintervall (z. B. 15 Min. oder 60 Min.) oder bei Einstellungsänderungen ausgelöst. Bietet die optimale Ladeleistung und Dauer für das aktuelle Intervall.",
     "fr": "Se déclenche à chaque intervalle de prix (par ex. 15m ou 60m) ou lorsque les paramètres changent. Fournit la puissance de charge optimale pour l'intervalle actuel.",
-    "ko": "매 가격 구간(예: 15분 또는 60분)마다 또는 설정이 변경될 때 트리거됩니다. 현재 구간에 대한 최적의 충전 전력과 시간을 제공합니다."
+    "ko": "매 가격 구간(예: 15분 또는 60분)마다 또는 설정이 변경될 때 트리거됩니다. 현재 구간에 대한 최적의 충전 전력과 시간을 제공합니다.",
+    "es": "Se activa en cada intervalo de precio (por ejemplo, 15 min o 60 min) o cuando cambian los ajustes. Proporciona la potencia de carga óptima y la duración para el intervalo actual.",
+    "it": "Si attiva a ogni intervallo di prezzo (es. 15m o 60m) o quando le impostazioni cambiano. Fornisce la potenza di ricarica ottimale e la durata per l'intervallo corrente.",
+    "da": "Udløses ved hvert prisinterval (f.eks. 15 min eller 60 min) eller når indstillinger ændres. Giver den optimale ladeeffekt og varighed for det aktuelle interval.",
+    "sv": "Utlöses vid varje prisintervall (t.ex. 15 min eller 60 min) eller när inställningar ändras. Ger den optimala laddningseffekten och varaktigheten för det aktuella intervallet.",
+    "no": "Utløses ved hvert prisintervall (f.eks. 15 min eller 60 min) eller når innstillinger endres. Gir optimal ladeeffekt og varighet for gjeldende intervall.",
+    "pl": "Uruchamia się przy każdym przedziale cenowym (np. 15 min lub 60 min) lub przy zmianie ustawień. Zapewnia optymalną moc i czas ładowania dla bieżącego przedziału.",
+    "ru": "Срабатывает при каждом ценовом интервале (например, 15 или 60 минут) или при изменении настроек. Предоставляет оптимальную мощность и продолжительность зарядки для текущего интервала.",
+    "ar": "يتم التشغيل عند كل فترة سعر (مثل 15 أو 60 دقيقة) أو عند تغيير الإعدادات. يوفر طاقة الشحن المثلى والمدة للفترة الحالية."
   },
   "args": [
     {
@@ -28,7 +44,16 @@
         "en": "Power (W)",
         "nl": "Vermogen (W)",
         "de": "Leistung (W)",
-        "ko": "전력 (W)"
+        "ko": "전력 (W)",
+        "fr": "Puissance (W)",
+        "es": "Potencia (W)",
+        "it": "Potenza (W)",
+        "da": "Effekt (W)",
+        "sv": "Effekt (W)",
+        "no": "Effekt (W)",
+        "pl": "Moc (W)",
+        "ru": "Мощность (Вт)",
+        "ar": "الطاقة (وات)"
       }
     },
     {
@@ -38,7 +63,16 @@
         "en": "Duration (minutes)",
         "nl": "Duur (minuten)",
         "de": "Dauer (Minuten)",
-        "ko": "지속 시간 (분)"
+        "ko": "지속 시간 (분)",
+        "fr": "Durée (minutes)",
+        "es": "Duración (minutos)",
+        "it": "Durata (minuti)",
+        "da": "Varighed (minutter)",
+        "sv": "Varaktighet (minuter)",
+        "no": "Varighet (minutter)",
+        "pl": "Czas trwania (minuty)",
+        "ru": "Продолжительность (минуты)",
+        "ar": "المدة (دقائق)"
       }
     },
     {
@@ -48,7 +82,16 @@
         "en": "Target SOC (%)",
         "nl": "Doel SOC (%)",
         "de": "Ziel-SOC (%)",
-        "ko": "목표 SOC (%)"
+        "ko": "목표 SOC (%)",
+        "fr": "SOC cible (%)",
+        "es": "SOC objetivo (%)",
+        "it": "SOC di destinazione (%)",
+        "da": "Mål-SOC (%)",
+        "sv": "Mål-SOC (%)",
+        "no": "Mål-SOC (%)",
+        "pl": "Docelowy SOC (%)",
+        "ru": "Целевой SOC (%)",
+        "ar": "SOC المستهدف (%)"
       }
     },
     {
@@ -57,7 +100,17 @@
       "title": {
         "en": "Scheme JSON",
         "nl": "Schema JSON",
-        "ko": "스킴 JSON"
+        "ko": "스킴 JSON",
+        "de": "Schema JSON",
+        "fr": "Schéma JSON",
+        "es": "Esquema JSON",
+        "it": "Schema JSON",
+        "da": "Skema JSON",
+        "sv": "Schema JSON",
+        "no": "Skjema JSON",
+        "pl": "Schemat JSON",
+        "ru": "Схема JSON",
+        "ar": "مخطط JSON"
       }
     }
   ]

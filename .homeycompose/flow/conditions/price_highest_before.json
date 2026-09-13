@@ -56,7 +56,18 @@
       },
       "placeholder": {
         "en": "2 - 23",
-        "ko": "2 - 23"
+        "ko": "2 - 23",
+        "nl": "2 - 23",
+        "de": "2 - 23",
+        "fr": "2 - 23",
+        "es": "2 - 23",
+        "it": "2 - 23",
+        "da": "2 - 23",
+        "sv": "2 - 23",
+        "no": "2 - 23",
+        "pl": "2 - 23",
+        "ru": "2 - 23",
+        "ar": "2 - 23"
       },
       "hint": {
         "en": "Enter the number of hours.",
@@ -97,7 +108,18 @@
       },
       "placeholder": {
         "en": "1 - 96",
-        "ko": "1 - 96"
+        "ko": "1 - 96",
+        "nl": "1 - 96",
+        "de": "1 - 96",
+        "fr": "1 - 96",
+        "es": "1 - 96",
+        "it": "1 - 96",
+        "da": "1 - 96",
+        "sv": "1 - 96",
+        "no": "1 - 96",
+        "pl": "1 - 96",
+        "ru": "1 - 96",
+        "ar": "1 - 96"
       },
       "hint": {
         "en": "Enter the number of periods (hours for hourly pricing, quarters for 15m pricing).",

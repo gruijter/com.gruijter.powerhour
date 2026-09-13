@@ -3,19 +3,46 @@
     "en": "Set temporary EV trip override",
     "nl": "Stel tijdelijke EV rit in",
     "de": "Vorübergehende EV-Fahrt festlegen",
-    "ko": "임시 EV 여행 재정의 설정"
+    "ko": "임시 EV 여행 재정의 설정",
+    "fr": "Définir une dérogation temporaire de trajet EV",
+    "es": "Establecer anulación temporal de viaje EV",
+    "it": "Imposta override temporaneo del viaggio EV",
+    "da": "Indstil midlertidig EV-turoverstyring",
+    "sv": "Ställ in tillfällig EV-resa-åsidosättning",
+    "no": "Angi midlertidig EV-tur-overstyring",
+    "pl": "Ustaw tymczasowe nadpisanie podróży EV",
+    "ru": "Установить временное переопределение поездки EV",
+    "ar": "تعيين تجاوز الرحلة المؤقت للسيارة الكهربائية"
   },
   "titleFormatted": {
     "en": "Set temporary trip departure to [[departureTime]] with target SoC [[targetSoc]]%",
     "nl": "Stel tijdelijke rit in op vertrek [[departureTime]] met doel SoC [[targetSoc]]%",
     "de": "Vorübergehende Fahrt auf [[departureTime]] mit Ziel-SoC [[targetSoc]]% festlegen",
-    "ko": "임시 여행 출발을 [[departureTime]](으)로, 목표 SoC를 [[targetSoc]]%로 설정"
+    "ko": "임시 여행 출발을 [[departureTime]](으)로, 목표 SoC를 [[targetSoc]]%로 설정",
+    "fr": "Définir le départ temporaire à [[departureTime]] avec un SoC cible de [[targetSoc]]%",
+    "es": "Establecer la salida temporal a las [[departureTime]] con SoC objetivo del [[targetSoc]]%",
+    "it": "Imposta la partenza temporanea alle [[departureTime]] con SoC di destinazione [[targetSoc]]%",
+    "da": "Indstil midlertidig afgang til [[departureTime]] med mål-SoC [[targetSoc]]%",
+    "sv": "Ställ in tillfällig avgång till [[departureTime]] med mål-SoC [[targetSoc]]%",
+    "no": "Angi midlertidig avgang til [[departureTime]] med mål-SoC [[targetSoc]]%",
+    "pl": "Ustaw tymczasowy wyjazd na [[departureTime]] z docelowym SoC [[targetSoc]]%",
+    "ru": "Установить временное отправление на [[departureTime]] с целевым SoC [[targetSoc]]%",
+    "ar": "تعيين مغادرة مؤقتة عند [[departureTime]] مع SoC مستهدف [[targetSoc]]%"
   },
   "hint": {
     "en": "Override default departure strategy for a specific upcoming trip (e.g. tomorrow or specific hour).",
     "nl": "Overrule de standaard vertrekstrategie voor een specifieke komende rit.",
     "de": "Überschreiben Sie die Standard-Abfahrtsstrategie für eine bestimmte bevorstehende Fahrt.",
-    "ko": "특정 예정 여행(예: 내일 또는 특정 시간)에 대해 기본 출발 전략을 재정의합니다."
+    "ko": "특정 예정 여행(예: 내일 또는 특정 시간)에 대해 기본 출발 전략을 재정의합니다.",
+    "fr": "Remplace la stratégie de départ par défaut pour un trajet à venir spécifique (par ex. demain ou une heure précise).",
+    "es": "Anula la estrategia de salida predeterminada para un viaje próximo específico (por ejemplo, mañana o una hora concreta).",
+    "it": "Sostituisce la strategia di partenza predefinita per un viaggio specifico imminente (ad es. domani o un’ora specifica).",
+    "da": "Tilsidesætter standard afgangsstrategi for en specifik kommende tur (f.eks. i morgen eller et bestemt tidspunkt).",
+    "sv": "Åsidosätter standardavgångsstrategin för en specifik kommande resa (t.ex. imorgon eller en viss tid).",
+    "no": "Overstyrer standard avgangsstrategi for en spesifikk kommende tur (f.eks. i morgen eller et bestemt klokkeslett).",
+    "pl": "Zastępuje domyślną strategię wyjazdu dla konkretnej nadchodzącej podróży (np. jutro lub o określonej godzinie).",
+    "ru": "Переопределяет стратегию отправления по умолчанию для конкретной предстоящей поездки (например, завтра или в определённый час).",
+    "ar": "يتجاوز استراتيجية المغادرة الافتراضية لرحلة قادمة محددة (مثل الغد أو ساعة معينة)."
   },
   "args": [
     {
@@ -31,7 +58,16 @@
         "en": "Departure Time (HH:MM)",
         "nl": "Vertrektijd (UU:MM)",
         "de": "Abfahrtszeit (HH:MM)",
-        "ko": "출발 시간 (HH:MM)"
+        "ko": "출발 시간 (HH:MM)",
+        "fr": "Heure de départ (HH:MM)",
+        "es": "Hora de salida (HH:MM)",
+        "it": "Orario di partenza (HH:MM)",
+        "da": "Afgangstid (HH:MM)",
+        "sv": "Avgångstid (HH:MM)",
+        "no": "Avgangstid (HH:MM)",
+        "pl": "Godzina odjazdu (HH:MM)",
+        "ru": "Время отправления (ЧЧ:ММ)",
+        "ar": "وقت المغادرة (HH:MM)"
       }
     },
     {
@@ -43,7 +79,16 @@
         "en": "Target SoC (%)",
         "nl": "Doel SoC (%)",
         "de": "Ziel-SoC (%)",
-        "ko": "목표 SoC (%)"
+        "ko": "목표 SoC (%)",
+        "fr": "SoC cible (%)",
+        "es": "SoC objetivo (%)",
+        "it": "SoC di destinazione (%)",
+        "da": "Mål-SoC (%)",
+        "sv": "Mål-SoC (%)",
+        "no": "Mål-SoC (%)",
+        "pl": "Docelowy SoC (%)",
+        "ru": "Целевой SoC (%)",
+        "ar": "SoC المستهدف (%)"
       }
     }
   ]

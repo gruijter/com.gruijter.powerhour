@@ -143,7 +143,15 @@
             "nl": "Stel in op 0 voor automatische detectie van de laadsnelheid uit historie en metingen.",
             "de": "Auf 0 setzen, um die maximale Ladeleistung automatisch aus Historie und Messungen zu erkennen.",
             "fr": "Réglez sur 0 pour détecter automatiquement la vitesse de charge à partir de l'historique et des mesures.",
-            "ko": "0으로 설정하면 충전기 기록과 실시간 측정값에서 최대 충전 속도를 자동으로 감지합니다."
+            "ko": "0으로 설정하면 충전기 기록과 실시간 측정값에서 최대 충전 속도를 자동으로 감지합니다.",
+            "es": "Establezca en 0 para detectar automáticamente la velocidad máxima de carga a partir del historial del cargador y las mediciones en vivo.",
+            "it": "Imposta su 0 per rilevare automaticamente la velocità massima di ricarica dalla cronologia del caricabatterie e dalle misurazioni in tempo reale.",
+            "da": "Sæt til 0 for automatisk at registrere den maksimale ladehastighed ud fra opladerens historik og live-målinger.",
+            "sv": "Ställ in på 0 för att automatiskt upptäcka maximal laddningshastighet från laddarens historik och live-mätningar.",
+            "no": "Sett til 0 for å automatisk oppdage maksimal ladehastighet fra laderens historikk og live-målinger.",
+            "pl": "Ustaw na 0, aby automatycznie wykryć maksymalną prędkość ładowania na podstawie historii ładowarki i pomiarów na żywo.",
+            "ru": "Установите 0 для автоматического определения максимальной скорости зарядки на основе истории зарядного устройства и данных в реальном времени.",
+            "ar": "اضبط على 0 للكشف التلقائي عن أقصى سرعة شحن من سجل الشاحن والقياسات المباشرة."
           },
           "value": 0,
           "min": 0,
@@ -161,13 +169,26 @@
             "sv": "Variabel laddningseffekt",
             "no": "Variabel ladeeffekt",
             "es": "Potencia de carga variable",
-            "ko": "가변 충전 전력"
+            "ko": "가변 충전 전력",
+            "da": "Variabel ladeeffekt",
+            "pl": "Zmienna moc ładowania",
+            "ru": "Переменная мощность зарядки",
+            "ar": "طاقة شحن متغيرة"
           },
           "hint": {
             "en": "Check this if your EV charger supports dynamic power adjustment. If unchecked, it will charge at maximum power and stop when the target is reached.",
             "nl": "Vink dit aan als je EV lader dynamische vermogensaanpassing ondersteunt. Indien uitgevinkt, wordt er op maximaal vermogen geladen en stopt het wanneer het doel is bereikt.",
             "de": "Aktivieren Sie dies, wenn Ihr EV-Ladegerät eine dynamische Leistungsanpassung unterstützt. Wenn nicht aktiviert, wird mit maximaler Leistung geladen und gestoppt, wenn das Ziel erreicht ist.",
-            "ko": "EV 충전기가 동적 전력 조절을 지원하는 경우 선택하세요. 선택하지 않으면 최대 전력으로 충전하고 목표에 도달하면 멈춥니다."
+            "ko": "EV 충전기가 동적 전력 조절을 지원하는 경우 선택하세요. 선택하지 않으면 최대 전력으로 충전하고 목표에 도달하면 멈춥니다.",
+            "fr": "Cochez cette case si votre chargeur EV prend en charge l'ajustement dynamique de la puissance. Si elle n'est pas cochée, il chargera à puissance maximale et s'arrêtera lorsque l'objectif sera atteint.",
+            "es": "Marque esta opción si su cargador EV admite el ajuste dinámico de potencia. Si no está marcada, cargará a máxima potencia y se detendrá al alcanzar el objetivo.",
+            "it": "Seleziona questa opzione se il tuo caricabatterie EV supporta la regolazione dinamica della potenza. Se non selezionata, caricherà alla potenza massima e si fermerà al raggiungimento dell'obiettivo.",
+            "da": "Markér dette hvis din EV-oplader understøtter dynamisk effektjustering. Hvis ikke markeret, oplader den med maksimal effekt og stopper, når målet er nået.",
+            "sv": "Markera detta om din EV-laddare stöder dynamisk effektjustering. Om den inte är markerad laddar den med maximal effekt och stannar när målet är uppnått.",
+            "no": "Merk av dette hvis EV-laderen din støtter dynamisk effektjustering. Hvis ikke merket av, vil den lade med maksimal effekt og stoppe når målet er nådd.",
+            "pl": "Zaznacz tę opcję, jeśli Twoja ładowarka EV obsługuje dynamiczną regulację mocy. Jeśli nie jest zaznaczona, ładowanie będzie odbywać się z maksymalną mocą i zatrzyma się po osiągnięciu celu.",
+            "ru": "Отметьте, если ваше зарядное устройство EV поддерживает динамическую регулировку мощности. Если не отмечено, зарядка будет выполняться на максимальной мощности и остановится по достижении цели.",
+            "ar": "حدد هذا الخيار إذا كان شاحن السيارة الكهربائية يدعم ضبط الطاقة الديناميكي. إذا لم يتم تحديده، سيتم الشحن بأقصى طاقة والتوقف عند الوصول إلى الهدف."
           },
           "value": false
         },
@@ -240,7 +261,7 @@
           "id": "autoDepartureLearning",
           "type": "checkbox",
           "label": { "en": "Auto-learn departure times", "nl": "Automatisch vertrektijden leren", "de": "Abfahrtszeiten automatisch lernen", "fr": "Apprendre automatiquement les heures de départ", "it": "Impara automaticamente gli orari di partenza", "sv": "Lär automatiskt avgångstider", "no": "Lær avgangstider automatisk", "es": "Aprender horarios de salida automáticamente", "da": "Lær automatisk afgangstider", "pl": "Automatyczne uczenie się czasów odjazdu", "ru": "Автообучение времени отправления", "ar": "التعلم التلقائي لأوقات المغادرة", "ko": "출발 시간 자동 학습" },
-          "hint": { "en": "When enabled, PBTH learns your typical departure times from history. Manual times below override the learned times when filled in.", "nl": "Wanneer ingeschakeld leert PBTH uw typische vertrektijden uit de geschiedenis. Handmatige tijden hieronder overschrijven de geleerde tijden.", "de": "Wenn aktiviert, lernt PBTH Ihre typischen Abfahrtszeiten aus der Geschichte. Manuelle Zeiten unten überschreiben die gelernten Zeiten.", "ko": "활성화하면 PBTH가 기록을 바탕으로 일반적인 출발 시간을 학습합니다. 아래에 수동 시간을 입력하면 학습된 시간을 재정의합니다." },
+          "hint": { "en": "When enabled, PBTH learns your typical departure times from history. Manual times below override the learned times when filled in.", "nl": "Wanneer ingeschakeld leert PBTH uw typische vertrektijden uit de geschiedenis. Handmatige tijden hieronder overschrijven de geleerde tijden.", "de": "Wenn aktiviert, lernt PBTH Ihre typischen Abfahrtszeiten aus der Geschichte. Manuelle Zeiten unten überschreiben die gelernten Zeiten.", "ko": "활성화하면 PBTH가 기록을 바탕으로 일반적인 출발 시간을 학습합니다. 아래에 수동 시간을 입력하면 학습된 시간을 재정의합니다.", "fr": "Lorsqu'activé, PBTH apprend vos heures de départ habituelles à partir de l'historique. Les heures manuelles ci-dessous remplacent les heures apprises si elles sont renseignées.", "es": "Cuando está activado, PBTH aprende sus horarios de salida habituales a partir del historial. Las horas manuales indicadas abajo anulan las horas aprendidas si se completan.", "it": "Se attivato, PBTH apprende i tuoi orari di partenza abituali dalla cronologia. Gli orari manuali sottostanti sostituiscono quelli appresi se compilati.", "da": "Når aktiveret, lærer PBTH dine typiske afgangstider fra historikken. Manuelle tider nedenfor tilsidesætter de indlærte tider, når de udfyldes.", "sv": "När aktiverat lär sig PBTH dina typiska avgångstider från historiken. Manuella tider nedan åsidosätter de inlärda tiderna när de fylls i.", "no": "Når aktivert, lærer PBTH dine typiske avgangstider fra historikken. Manuelle tider nedenfor overstyrer de lærte tidene når de fylles inn.", "pl": "Po włączeniu PBTH uczy się typowych godzin wyjazdu na podstawie historii. Poniższe ręcznie wpisane godziny nadpisują wyuczone godziny, gdy zostaną wypełnione.", "ru": "При включении PBTH изучает ваши типичные времена отправления на основе истории. Указанные ниже времена вручную переопределяют изученные времена, если они заполнены.", "ar": "عند التفعيل، يتعلم PBTH أوقات مغادرتك المعتادة من السجل. تتجاوز الأوقات اليدوية أدناه الأوقات المتعلمة عند تعبئتها." },
           "value": true
         },
         {

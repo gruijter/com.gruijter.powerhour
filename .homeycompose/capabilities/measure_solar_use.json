@@ -2,7 +2,18 @@
   "type": "number",
   "title": {
     "en": "Own usage",
-    "ko": "자체 사용량"
+    "ko": "자체 사용량",
+    "nl": "Eigen gebruik",
+    "de": "Eigenverbrauch",
+    "fr": "Consommation propre",
+    "es": "Consumo propio",
+    "it": "Autoconsumo",
+    "da": "Eget forbrug",
+    "sv": "Egen förbrukning",
+    "no": "Eget forbruk",
+    "pl": "Zużycie własne",
+    "ru": "Собственное потребление",
+    "ar": "الاستخدام الذاتي"
   },
   "uiComponent": "sensor",
   "getable": true,
@@ -10,7 +21,18 @@
   "insights": true,
   "units": {
     "en": "%",
-    "ko": "%"
+    "ko": "%",
+    "nl": "%",
+    "de": "%",
+    "fr": "%",
+    "es": "%",
+    "it": "%",
+    "da": "%",
+    "sv": "%",
+    "no": "%",
+    "pl": "%",
+    "ru": "%",
+    "ar": "%"
   },
   "decimals": 0,
   "icon": "/assets/solar_use.svg"

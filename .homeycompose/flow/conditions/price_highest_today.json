@@ -56,7 +56,18 @@
       },
       "placeholder": {
         "en": "1 - 96",
-        "ko": "1 - 96"
+        "ko": "1 - 96",
+        "nl": "1 - 96",
+        "de": "1 - 96",
+        "fr": "1 - 96",
+        "es": "1 - 96",
+        "it": "1 - 96",
+        "da": "1 - 96",
+        "sv": "1 - 96",
+        "no": "1 - 96",
+        "pl": "1 - 96",
+        "ru": "1 - 96",
+        "ar": "1 - 96"
       },
       "hint": {
         "en": "Enter the number of periods (hours for hourly pricing, quarters for 15m pricing).",

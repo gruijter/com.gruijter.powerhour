@@ -21,49 +21,126 @@
       "decimals": 2,
       "units": {
         "en": "€",
-        "ko": "€"
+        "ko": "€",
+        "nl": "€",
+        "de": "€",
+        "fr": "€",
+        "es": "€",
+        "it": "€",
+        "da": "€",
+        "sv": "€",
+        "no": "€",
+        "pl": "€",
+        "ru": "€",
+        "ar": "€"
       }
     },
     "meter_money_this_day": {
       "decimals": 2,
       "units": {
         "en": "€",
-        "ko": "€"
+        "ko": "€",
+        "nl": "€",
+        "de": "€",
+        "fr": "€",
+        "es": "€",
+        "it": "€",
+        "da": "€",
+        "sv": "€",
+        "no": "€",
+        "pl": "€",
+        "ru": "€",
+        "ar": "€"
       }
     },
     "meter_money_last_day": {
       "decimals": 2,
       "units": {
         "en": "€",
-        "ko": "€"
+        "ko": "€",
+        "nl": "€",
+        "de": "€",
+        "fr": "€",
+        "es": "€",
+        "it": "€",
+        "da": "€",
+        "sv": "€",
+        "no": "€",
+        "pl": "€",
+        "ru": "€",
+        "ar": "€"
       }
     },
     "meter_money_this_month": {
       "decimals": 2,
       "units": {
         "en": "€",
-        "ko": "€"
+        "ko": "€",
+        "nl": "€",
+        "de": "€",
+        "fr": "€",
+        "es": "€",
+        "it": "€",
+        "da": "€",
+        "sv": "€",
+        "no": "€",
+        "pl": "€",
+        "ru": "€",
+        "ar": "€"
       }
     },
     "meter_money_last_month": {
       "decimals": 2,
       "units": {
         "en": "€",
-        "ko": "€"
+        "ko": "€",
+        "nl": "€",
+        "de": "€",
+        "fr": "€",
+        "es": "€",
+        "it": "€",
+        "da": "€",
+        "sv": "€",
+        "no": "€",
+        "pl": "€",
+        "ru": "€",
+        "ar": "€"
       }
     },
     "meter_money_this_year": {
       "decimals": 2,
       "units": {
         "en": "€",
-        "ko": "€"
+        "ko": "€",
+        "nl": "€",
+        "de": "€",
+        "fr": "€",
+        "es": "€",
+        "it": "€",
+        "da": "€",
+        "sv": "€",
+        "no": "€",
+        "pl": "€",
+        "ru": "€",
+        "ar": "€"
       }
     },
     "meter_money_last_year": {
       "decimals": 2,
       "units": {
         "en": "€",
-        "ko": "€"
+        "ko": "€",
+        "nl": "€",
+        "de": "€",
+        "fr": "€",
+        "es": "€",
+        "it": "€",
+        "da": "€",
+        "sv": "€",
+        "no": "€",
+        "pl": "€",
+        "ru": "€",
+        "ar": "€"
       }
     }
   },

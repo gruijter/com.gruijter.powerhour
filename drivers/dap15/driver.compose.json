@@ -20,13 +20,35 @@
     "meter_rank_price_h0_next_8h": {
       "units": {
         "en": "/32",
-        "ko": "/32"
+        "ko": "/32",
+        "nl": "/32",
+        "de": "/32",
+        "fr": "/32",
+        "es": "/32",
+        "it": "/32",
+        "da": "/32",
+        "sv": "/32",
+        "no": "/32",
+        "pl": "/32",
+        "ru": "/32",
+        "ar": "/32"
       }
     },
     "meter_rank_price_h0_this_day": {
       "units": {
         "en": "/96",
-        "ko": "/96"
+        "ko": "/96",
+        "nl": "/96",
+        "de": "/96",
+        "fr": "/96",
+        "es": "/96",
+        "it": "/96",
+        "da": "/96",
+        "sv": "/96",
+        "no": "/96",
+        "pl": "/96",
+        "ru": "/96",
+        "ar": "/96"
       }
     }
   },
@@ -284,112 +306,288 @@
               "id": "BGN",
               "label": {
                 "en": "BGN",
-                "ko": "BGN"
+                "ko": "BGN",
+                "nl": "BGN",
+                "de": "BGN",
+                "fr": "BGN",
+                "es": "BGN",
+                "it": "BGN",
+                "da": "BGN",
+                "sv": "BGN",
+                "no": "BGN",
+                "pl": "BGN",
+                "ru": "BGN",
+                "ar": "BGN"
               }
             },
             {
               "id": "CHF",
               "label": {
                 "en": "CHF",
-                "ko": "CHF"
+                "ko": "CHF",
+                "nl": "CHF",
+                "de": "CHF",
+                "fr": "CHF",
+                "es": "CHF",
+                "it": "CHF",
+                "da": "CHF",
+                "sv": "CHF",
+                "no": "CHF",
+                "pl": "CHF",
+                "ru": "CHF",
+                "ar": "CHF"
               }
             },
             {
               "id": "CZK",
               "label": {
                 "en": "CZK",
-                "ko": "CZK"
+                "ko": "CZK",
+                "nl": "CZK",
+                "de": "CZK",
+                "fr": "CZK",
+                "es": "CZK",
+                "it": "CZK",
+                "da": "CZK",
+                "sv": "CZK",
+                "no": "CZK",
+                "pl": "CZK",
+                "ru": "CZK",
+                "ar": "CZK"
               }
             },
             {
               "id": "DKK",
               "label": {
                 "en": "DKK",
-                "ko": "DKK"
+                "ko": "DKK",
+                "nl": "DKK",
+                "de": "DKK",
+                "fr": "DKK",
+                "es": "DKK",
+                "it": "DKK",
+                "da": "DKK",
+                "sv": "DKK",
+                "no": "DKK",
+                "pl": "DKK",
+                "ru": "DKK",
+                "ar": "DKK"
               }
             },
             {
               "id": "GBP",
               "label": {
                 "en": "GBP",
-                "ko": "GBP"
+                "ko": "GBP",
+                "nl": "GBP",
+                "de": "GBP",
+                "fr": "GBP",
+                "es": "GBP",
+                "it": "GBP",
+                "da": "GBP",
+                "sv": "GBP",
+                "no": "GBP",
+                "pl": "GBP",
+                "ru": "GBP",
+                "ar": "GBP"
               }
             },
             {
               "id": "HRK",
               "label": {
                 "en": "HRK",
-                "ko": "HRK"
+                "ko": "HRK",
+                "nl": "HRK",
+                "de": "HRK",
+                "fr": "HRK",
+                "es": "HRK",
+                "it": "HRK",
+                "da": "HRK",
+                "sv": "HRK",
+                "no": "HRK",
+                "pl": "HRK",
+                "ru": "HRK",
+                "ar": "HRK"
               }
             },
             {
               "id": "HUF",
               "label": {
                 "en": "HUF",
-                "ko": "HUF"
+                "ko": "HUF",
+                "nl": "HUF",
+                "de": "HUF",
+                "fr": "HUF",
+                "es": "HUF",
+                "it": "HUF",
+                "da": "HUF",
+                "sv": "HUF",
+                "no": "HUF",
+                "pl": "HUF",
+                "ru": "HUF",
+                "ar": "HUF"
               }
             },
             {
               "id": "ISK",
               "label": {
                 "en": "ISK",
-                "ko": "ISK"
+                "ko": "ISK",
+                "nl": "ISK",
+                "de": "ISK",
+                "fr": "ISK",
+                "es": "ISK",
+                "it": "ISK",
+                "da": "ISK",
+                "sv": "ISK",
+                "no": "ISK",
+                "pl": "ISK",
+                "ru": "ISK",
+                "ar": "ISK"
               }
             },
             {
               "id": "NOK",
               "label": {
                 "en": "NOK",
-                "ko": "NOK"
+                "ko": "NOK",
+                "nl": "NOK",
+                "de": "NOK",
+                "fr": "NOK",
+                "es": "NOK",
+                "it": "NOK",
+                "da": "NOK",
+                "sv": "NOK",
+                "no": "NOK",
+                "pl": "NOK",
+                "ru": "NOK",
+                "ar": "NOK"
               }
             },
             {
               "id": "PLN",
               "label": {
                 "en": "PLN",
-                "ko": "PLN"
+                "ko": "PLN",
+                "nl": "PLN",
+                "de": "PLN",
+                "fr": "PLN",
+                "es": "PLN",
+                "it": "PLN",
+                "da": "PLN",
+                "sv": "PLN",
+                "no": "PLN",
+                "pl": "PLN",
+                "ru": "PLN",
+                "ar": "PLN"
               }
             },
             {
               "id": "RON",
               "label": {
                 "en": "RON",
-                "ko": "RON"
+                "ko": "RON",
+                "nl": "RON",
+                "de": "RON",
+                "fr": "RON",
+                "es": "RON",
+                "it": "RON",
+                "da": "RON",
+                "sv": "RON",
+                "no": "RON",
+                "pl": "RON",
+                "ru": "RON",
+                "ar": "RON"
               }
             },
             {
               "id": "RUB",
               "label": {
                 "en": "RUB",
-                "ko": "RUB"
+                "ko": "RUB",
+                "nl": "RUB",
+                "de": "RUB",
+                "fr": "RUB",
+                "es": "RUB",
+                "it": "RUB",
+                "da": "RUB",
+                "sv": "RUB",
+                "no": "RUB",
+                "pl": "RUB",
+                "ru": "RUB",
+                "ar": "RUB"
               }
             },
             {
               "id": "SEK",
               "label": {
                 "en": "SEK",
-                "ko": "SEK"
+                "ko": "SEK",
+                "nl": "SEK",
+                "de": "SEK",
+                "fr": "SEK",
+                "es": "SEK",
+                "it": "SEK",
+                "da": "SEK",
+                "sv": "SEK",
+                "no": "SEK",
+                "pl": "SEK",
+                "ru": "SEK",
+                "ar": "SEK"
               }
             },
             {
               "id": "TRY",
               "label": {
                 "en": "TRY",
-                "ko": "TRY"
+                "ko": "TRY",
+                "nl": "TRY",
+                "de": "TRY",
+                "fr": "TRY",
+                "es": "TRY",
+                "it": "TRY",
+                "da": "TRY",
+                "sv": "TRY",
+                "no": "TRY",
+                "pl": "TRY",
+                "ru": "TRY",
+                "ar": "TRY"
               }
             },
             {
               "id": "AUD",
               "label": {
                 "en": "AUD",
-                "ko": "AUD"
+                "ko": "AUD",
+                "nl": "AUD",
+                "de": "AUD",
+                "fr": "AUD",
+                "es": "AUD",
+                "it": "AUD",
+                "da": "AUD",
+                "sv": "AUD",
+                "no": "AUD",
+                "pl": "AUD",
+                "ru": "AUD",
+                "ar": "AUD"
               }
             },
             {
               "id": "USD",
               "label": {
                 "en": "USD",
-                "ko": "USD"
+                "ko": "USD",
+                "nl": "USD",
+                "de": "USD",
+                "fr": "USD",
+                "es": "USD",
+                "it": "USD",
+                "da": "USD",
+                "sv": "USD",
+                "no": "USD",
+                "pl": "USD",
+                "ru": "USD",
+                "ar": "USD"
               }
             }
           ],
@@ -979,27 +1177,27 @@
             },
             {
               "id": "OMIE",
-              "label": { "en": "OMIE (Spain/Portugal)", "ko": "OMIE (Spain/Portugal)" }
+              "label": { "en": "OMIE (Spain/Portugal)", "ko": "OMIE (Spain/Portugal)", "nl": "OMIE (Spain/Portugal)", "de": "OMIE (Spain/Portugal)", "fr": "OMIE (Spain/Portugal)", "es": "OMIE (Spain/Portugal)", "it": "OMIE (Spain/Portugal)", "da": "OMIE (Spain/Portugal)", "sv": "OMIE (Spain/Portugal)", "no": "OMIE (Spain/Portugal)", "pl": "OMIE (Spain/Portugal)", "ru": "OMIE (Spain/Portugal)", "ar": "OMIE (Spain/Portugal)" }
             },
             {
               "id": "ENTSOE_GRUIJTER",
-              "label": { "en": "ENTSOE Gruijter", "ko": "ENTSOE Gruijter" }
+              "label": { "en": "ENTSOE Gruijter", "ko": "ENTSOE Gruijter", "nl": "ENTSOE Gruijter", "de": "ENTSOE Gruijter", "fr": "ENTSOE Gruijter", "es": "ENTSOE Gruijter", "it": "ENTSOE Gruijter", "da": "ENTSOE Gruijter", "sv": "ENTSOE Gruijter", "no": "ENTSOE Gruijter", "pl": "ENTSOE Gruijter", "ru": "ENTSOE Gruijter", "ar": "ENTSOE Gruijter" }
             },
             {
               "id": "SMARD",
-              "label": { "en": "SMARD (Bundesnetzagentur)", "ko": "SMARD (Bundesnetzagentur)" }
+              "label": { "en": "SMARD (Bundesnetzagentur)", "ko": "SMARD (Bundesnetzagentur)", "nl": "SMARD (Bundesnetzagentur)", "de": "SMARD (Bundesnetzagentur)", "fr": "SMARD (Bundesnetzagentur)", "es": "SMARD (Bundesnetzagentur)", "it": "SMARD (Bundesnetzagentur)", "da": "SMARD (Bundesnetzagentur)", "sv": "SMARD (Bundesnetzagentur)", "no": "SMARD (Bundesnetzagentur)", "pl": "SMARD (Bundesnetzagentur)", "ru": "SMARD (Bundesnetzagentur)", "ar": "SMARD (Bundesnetzagentur)" }
             },
             {
               "id": "Nordpool",
-              "label": { "en": "Nordpool", "ko": "Nordpool" }
+              "label": { "en": "Nordpool", "ko": "Nordpool", "nl": "Nordpool", "de": "Nordpool", "fr": "Nordpool", "es": "Nordpool", "it": "Nordpool", "da": "Nordpool", "sv": "Nordpool", "no": "Nordpool", "pl": "Nordpool", "ru": "Nordpool", "ar": "Nordpool" }
             },
             {
               "id": "ENTSOE",
-              "label": { "en": "ENTSOE", "ko": "ENTSOE" }
+              "label": { "en": "ENTSOE", "ko": "ENTSOE", "nl": "ENTSOE", "de": "ENTSOE", "fr": "ENTSOE", "es": "ENTSOE", "it": "ENTSOE", "da": "ENTSOE", "sv": "ENTSOE", "no": "ENTSOE", "pl": "ENTSOE", "ru": "ENTSOE", "ar": "ENTSOE" }
             },
             {
               "id": "Stekker",
-              "label": { "en": "Stekker", "ko": "Stekker" }
+              "label": { "en": "Stekker", "ko": "Stekker", "nl": "Stekker", "de": "Stekker", "fr": "Stekker", "es": "Stekker", "it": "Stekker", "da": "Stekker", "sv": "Stekker", "no": "Stekker", "pl": "Stekker", "ru": "Stekker", "ar": "Stekker" }
             }
           ]
         },

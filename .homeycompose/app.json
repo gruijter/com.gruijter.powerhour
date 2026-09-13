@@ -6,7 +6,18 @@
   "sdk": 3,
   "name": {
     "en": "Power by the Hour",
-    "ko": "Power by the Hour"
+    "ko": "Power by the Hour",
+    "nl": "Power by the Hour",
+    "de": "Power by the Hour",
+    "fr": "Power by the Hour",
+    "es": "Power by the Hour",
+    "it": "Power by the Hour",
+    "da": "Power by the Hour",
+    "sv": "Power by the Hour",
+    "no": "Power by the Hour",
+    "pl": "Power by the Hour",
+    "ru": "Power by the Hour",
+    "ar": "Power by the Hour"
   },
   "description": {
     "en": "Summarize the energy/water usage or (solar) production per hour, day, month and year. Use dynamic tariffs.",

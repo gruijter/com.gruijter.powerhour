@@ -74,7 +74,18 @@
       "name": "value",
       "title": {
         "en": "kWh",
-        "ko": "kWh"
+        "ko": "kWh",
+        "nl": "kWh",
+        "de": "kWh",
+        "fr": "kWh",
+        "es": "kWh",
+        "it": "kWh",
+        "da": "kWh",
+        "sv": "kWh",
+        "no": "kWh",
+        "pl": "kWh",
+        "ru": "kWh",
+        "ar": "kWh"
       },
       "min": 0,
       "step": 0.1
