@@ -1,4 +1,7 @@
 {
+  "8.18.2": {
+    "en": "Fix price triggers due to rounding noise."
+  },
   "8.18.1": {
     "en": "Add SMARD and OMIE as data providers. Set OMIE as preferred supplier for PT and ES. Fix and cleanup bidding zones."
   },
