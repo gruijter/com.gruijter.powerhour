@@ -139,6 +139,27 @@ class GridDevice extends GenericDevice {
     // Left undefined until lazily bootstrapped on first tick, same style as the split state above.
     this.peakLoad = await this.getStoreValue('peakLoad');
     this.lastPeakLoadReading = await this.getStoreValue('lastPeakLoadReading');
+
+    // The repair flow (generic_sum_driver.js#onRepair()) can re-point this device at a
+    // DIFFERENT physical meter: it rewrites homey_device_id and restarts the device. The base
+    // class then re-anchors its own net baselines on the first reading that trips
+    // checkMeterJump(), but the anchors restored just above are invisible to it - they diff
+    // the SOURCE device's raw import/export registers, which the base never sees. Left stale,
+    // the first tick prices the new meter's registers against the old meter's: one enormous
+    // bogus import/export delta into meter_money_*, and - because a peak is a max and is never
+    // revised back down - a bogus measure_watt_peak.* that then sticks for the rest of the year.
+    // Detected here against a stored copy of the bound id rather than in onSettings(), because
+    // setSettings() explicitly does NOT invoke onSettings() (Homey SDK: "the Device#onSettings
+    // method will not be called when the settings are changed programmatically"), so the repair
+    // path would never reach it. onInit() runs on every way the binding can change.
+    const boundSourceId = await this.getStoreValue('directionalSourceId');
+    const sourceId = this.getSettings().homey_device_id;
+    if (boundSourceId && boundSourceId !== sourceId) {
+      this.log(`Source device changed (${boundSourceId} -> ${sourceId}) - re-anchoring import/export and peak-load state`);
+      await this.reanchorExtraBaselines();
+    }
+    if (boundSourceId !== sourceId) await this.setStoreValue('directionalSourceId', sourceId).catch(this.error);
+
     await this.updatePeakLoadCapabilityTitles().catch(this.error);
 
     // Load forecast settings and profiles
@@ -323,8 +344,23 @@ class GridDevice extends GenericDevice {
       // 10–30 s, causing the formula to temporarily double-count the battery contribution.
       const now = Date.now();
       if (!Array.isArray(this.homePowerBuffer)) this.homePowerBuffer = [];
-      if (homePower >= 0 && homePower <= 30000) {
-        this.homePowerBuffer.push({ time: now, value: homePower });
+      // Clamp a negative homePower into the buffer rather than skipping it. The residual house
+      // load can't physically be negative, but the COMPUTED value goes negative whenever the
+      // grid sample has moved and a battery/solar/EV sample hasn't yet (this method only re-runs
+      // on measure_power.grid updates, reading whatever the other three last published) - which
+      // is the very skew this rolling average exists to absorb. Skipping such a sample left the
+      // 2-minute window averaging only the surviving POSITIVE samples, a systematic upward bias
+      // during exactly the high-solar hours that produce the skew, and it fed straight into
+      // updateLearning() -> the weekly profile. Worse, when every sample in the window was
+      // negative the buffer emptied entirely and smoothedHomePower fell back to 0, so
+      // measure_power.home swung between inflated and zero instead of settling near the truth.
+      // 0 is the physically correct value for such a sample, and keeping it in the buffer lets
+      // it pull the average down the way it should. NaN fails `<= 30000`, so it is still
+      // excluded; the upper bound deliberately still SKIPS rather than clamps - a >30 kW result
+      // is an implausible reading, not a sign artifact, and clamping it to 30000 would pin the
+      // average high instead of ignoring a bad sample.
+      if (homePower <= 30000) {
+        this.homePowerBuffer.push({ time: now, value: Math.max(0, homePower) });
       }
       this.homePowerBuffer = this.homePowerBuffer.filter((e) => now - e.time <= 2 * 60 * 1000);
       const smoothedHomePower = this.homePowerBuffer.length > 0
@@ -518,6 +554,49 @@ class GridDevice extends GenericDevice {
     this.directionalPseudoState.lastTm = nowTm;
     await this.setStoreValue('directionalPseudoState', this.directionalPseudoState).catch((err) => this.error(err));
     await this.updateDirectionalRegisters(this.directionalPseudoState.importTotal, this.directionalPseudoState.exportTotal);
+  }
+
+  // See generic_sum_device.js#reanchorExtraBaselines() for the contract. Drops every anchor
+  // this driver diffs the source meter's raw import/export registers against, so each one
+  // re-bootstraps from the NEW registers on the next tick through its own already-existing
+  // lazy-bootstrap branch (resolveDirectionalDelta(), updateSplitMeters(), updatePeakLoad())
+  // instead of measuring new registers against old ones. The one-tick gap that costs is
+  // exactly what those bootstrap branches were written for.
+  //
+  // directionalMeter itself is cleared too, not just the anchors: after a repair onto a
+  // DIFFERENT source device, the old meter's exportValue would otherwise stay latched
+  // forever, keeping splitActive true (and the export split frozen at a dead value) even when
+  // the new device is case 2 - import-only, no export register at all. handleUpdateMeter()
+  // refills it from this.lastGroupMeter on the next tick, and only for the directions the new
+  // device actually reports.
+  //
+  // Deliberately NOT cleared:
+  // - directionalPseudoState: case 3's self-integrated pseudo registers. A running integral
+  //   whose absolute value never matters, only its deltas - and every consumer of those
+  //   deltas is re-anchored right here. Clearing it would also throw away the virtual meter's
+  //   continuity for no gain, which is not what the base class does to meter_source either.
+  // - splitMoney, and peakLoad's day/month/year maxima: period TOTALS and historical facts,
+  //   not anchors. The base class doesn't reset meterMoney.day/month/year on a re-anchor
+  //   either - a re-anchor fixes the measuring stick, it doesn't erase what was measured.
+  // - peakLoad's in-flight slot accumulator: a partially-filled slot closes with a LOW
+  //   average, and a low average can never corrupt a max.
+  async reanchorExtraBaselines() {
+    this.directionalMeter = { importValue: null, exportValue: null };
+    this.lastDirectionalSnapshot = null;
+    this.lastDirectionalReadingDay = null;
+    this.lastDirectionalReadingMonth = null;
+    this.lastDirectionalReadingYear = null;
+    this.lastPeakLoadReading = null;
+    this._directionalTickDelta = null;
+    const writes = [
+      ['directionalMeter', this.directionalMeter],
+      ['lastDirectionalSnapshot', null],
+      ['lastDirectionalReadingDay', null],
+      ['lastDirectionalReadingMonth', null],
+      ['lastDirectionalReadingYear', null],
+      ['lastPeakLoadReading', null],
+    ];
+    await Promise.all(writes.map(([key, value]) => this.setStoreValue(key, value).catch((err) => this.error(err))));
   }
 
   // Records the latest known cumulative import/export values (case 1: real registers,
