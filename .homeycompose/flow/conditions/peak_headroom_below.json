@@ -1,0 +1,73 @@
+{
+  "title": {
+    "en": "Peak headroom !{{is|isn't}} below a value",
+    "nl": "Ruimte tot piek !{{is|is niet}} lager dan een waarde",
+    "de": "Spielraum bis Spitze !{{ist|ist nicht}} unter einem Wert",
+    "fr": "La marge avant pic !{{est|n'est pas}} inférieure à une valeur",
+    "it": "Il margine al picco !{{è|non è}} sotto un valore",
+    "sv": "Marginal till topp !{{är|är inte}} under ett värde",
+    "no": "Margin til topp !{{er|er ikke}} under en verdi",
+    "es": "El margen hasta el pico !{{está|no está}} por debajo de un valor",
+    "da": "Margen til spids !{{er|er ikke}} under en værdi",
+    "pl": "Zapas do szczytu !{{jest|nie jest}} poniżej wartości",
+    "ru": "Запас до пика !{{ниже|не ниже}} значения",
+    "ar": "الهامش حتى الذروة !{{أقل|ليس أقل}} من قيمة",
+    "ko": "피크까지 여유가 값보다 !{{낮음|낮지 않음}}"
+  },
+  "titleFormatted": {
+    "en": "Peak headroom !{{is|isn't}} below [[power]] W",
+    "nl": "Ruimte tot piek !{{is|is niet}} lager dan [[power]] W",
+    "de": "Spielraum bis Spitze !{{ist|ist nicht}} unter [[power]] W",
+    "fr": "La marge avant pic !{{est|n'est pas}} inférieure à [[power]] W",
+    "it": "Il margine al picco !{{è|non è}} sotto [[power]] W",
+    "sv": "Marginal till topp !{{är|är inte}} under [[power]] W",
+    "no": "Margin til topp !{{er|er ikke}} under [[power]] W",
+    "es": "El margen hasta el pico !{{está|no está}} por debajo de [[power]] W",
+    "da": "Margen til spids !{{er|er ikke}} under [[power]] W",
+    "pl": "Zapas do szczytu !{{jest|nie jest}} poniżej [[power]] W",
+    "ru": "Запас до пика !{{ниже|не ниже}} [[power]] Вт",
+    "ar": "الهامش حتى الذروة !{{أقل|ليس أقل}} من [[power]] واط",
+    "ko": "피크까지 여유가 [[power]] W보다 !{{낮음|낮지 않음}}"
+  },
+  "hint": {
+    "en": "False while there is no month peak yet.",
+    "nl": "Onwaar zolang er nog geen maandpiek is.",
+    "de": "Falsch, solange es noch keine Monatsspitze gibt.",
+    "fr": "Faux tant qu'il n'y a pas encore de pic mensuel.",
+    "it": "Falso finché non c'è ancora un picco mensile.",
+    "sv": "Falskt så länge det inte finns någon månadstopp.",
+    "no": "Usann så lenge det ikke finnes en månedstopp.",
+    "es": "Falso mientras no haya pico mensual.",
+    "da": "Falsk så længe der ikke er en månedsspids.",
+    "pl": "Fałsz, dopóki nie ma szczytu miesiąca.",
+    "ru": "Ложь, пока нет пика месяца.",
+    "ar": "خطأ طالما لا توجد ذروة شهرية بعد.",
+    "ko": "아직 월간 피크가 없으면 거짓."
+  },
+  "args": [
+    {
+      "type": "device",
+      "name": "device",
+      "filter": "driver_id=grid"
+    },
+    {
+      "type": "number",
+      "name": "power",
+      "placeholder": {
+        "en": "W",
+        "nl": "W",
+        "de": "W",
+        "fr": "W",
+        "it": "W",
+        "sv": "W",
+        "no": "W",
+        "es": "W",
+        "da": "W",
+        "pl": "W",
+        "ru": "Вт",
+        "ar": "واط",
+        "ko": "W"
+      }
+    }
+  ]
+}

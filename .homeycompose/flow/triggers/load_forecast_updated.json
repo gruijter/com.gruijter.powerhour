@@ -192,6 +192,26 @@
       },
       "type": "string",
       "example": "[300,-1200,-2500,450]"
+    },
+    {
+      "name": "peak",
+      "title": {
+        "en": "Peak forecast JSON",
+        "de": "Spitzenprognose JSON",
+        "nl": "Piekvoorspelling JSON",
+        "ar": "JSON توقع الذروة",
+        "da": "JSON Spidsprognose",
+        "es": "JSON Previsión de pico",
+        "fr": "JSON Prévision de pic",
+        "it": "JSON Previsione picco",
+        "ko": "피크 예측 JSON",
+        "no": "JSON Toppprognose",
+        "pl": "JSON Prognoza szczytu",
+        "ru": "JSON Прогноз пика",
+        "sv": "JSON Toppprognos"
+      },
+      "type": "string",
+      "example": "{\"monthPeakW\":3800,\"expectedPeakW\":4200,\"expectedPeakTime\":\"2026-09-25T17:00:00.000Z\",\"newPeakExpected\":true}"
     }
   ]
 }

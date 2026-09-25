@@ -1,0 +1,81 @@
+{
+  "title": {
+    "en": "Projected peak exceeds month peak",
+    "nl": "Verwachte piek overschrijdt maandpiek",
+    "de": "Erwartete Spitze überschreitet Monatsspitze",
+    "fr": "Le pic prévu dépasse le pic du mois",
+    "it": "Il picco previsto supera il picco del mese",
+    "sv": "Förväntad topp överskrider månadstopp",
+    "no": "Forventet topp overstiger månedstopp",
+    "es": "El pico previsto supera el pico del mes",
+    "da": "Forventet spids overstiger månedsspids",
+    "pl": "Przewidywany szczyt przekracza szczyt miesiąca",
+    "ru": "Ожидаемый пик превышает пик месяца",
+    "ar": "الذروة المتوقعة تتجاوز ذروة الشهر",
+    "ko": "예상 피크가 월간 피크를 초과"
+  },
+  "hint": {
+    "en": "Once per peak interval, as soon as the current interval is on course to set a new month peak.",
+    "nl": "Eén keer per piekinterval, zodra het lopende interval op koers ligt voor een nieuwe maandpiek.",
+    "de": "Einmal pro Spitzenintervall, sobald das laufende Intervall auf eine neue Monatsspitze zusteuert.",
+    "fr": "Une fois par intervalle, dès que l'intervalle en cours va établir un nouveau pic mensuel.",
+    "it": "Una volta per intervallo, appena l'intervallo in corso sta per stabilire un nuovo picco mensile.",
+    "sv": "En gång per intervall, så snart pågående intervall är på väg mot en ny månadstopp.",
+    "no": "Én gang per intervall, så snart pågående intervall ligger an til ny månedstopp.",
+    "es": "Una vez por intervalo, en cuanto el intervalo actual va a marcar un nuevo pico mensual.",
+    "da": "Én gang pr. interval, så snart det aktuelle interval er på vej mod en ny månedsspids.",
+    "pl": "Raz na przedział, gdy bieżący przedział zmierza do nowego szczytu miesiąca.",
+    "ru": "Один раз за интервал, как только текущий интервал идёт к новому пику месяца.",
+    "ar": "مرة واحدة لكل فترة، عندما تتجه الفترة الحالية لتسجيل ذروة شهرية جديدة.",
+    "ko": "현재 구간이 새 월간 피크를 기록할 것으로 예상되면 구간당 한 번."
+  },
+  "args": [
+    {
+      "type": "device",
+      "name": "device",
+      "filter": "driver_id=grid"
+    }
+  ],
+  "tokens": [
+    {
+      "name": "projected",
+      "type": "number",
+      "title": {
+        "en": "Projected peak (W)",
+        "nl": "Verwachte piek (W)",
+        "de": "Erwartete Spitze (W)",
+        "fr": "Pic prévu (W)",
+        "it": "Picco previsto (W)",
+        "sv": "Förväntad topp (W)",
+        "no": "Forventet topp (W)",
+        "es": "Pico previsto (W)",
+        "da": "Forventet spids (W)",
+        "pl": "Przewidywany szczyt (W)",
+        "ru": "Ожидаемый пик (Вт)",
+        "ar": "الذروة المتوقعة (واط)",
+        "ko": "예상 피크 (W)"
+      },
+      "example": 4200
+    },
+    {
+      "name": "month_peak",
+      "type": "number",
+      "title": {
+        "en": "Month peak (W)",
+        "nl": "Maandpiek (W)",
+        "de": "Monatsspitze (W)",
+        "fr": "Pic du mois (W)",
+        "it": "Picco del mese (W)",
+        "sv": "Månadstopp (W)",
+        "no": "Månedstopp (W)",
+        "es": "Pico del mes (W)",
+        "da": "Månedsspids (W)",
+        "pl": "Szczyt miesiąca (W)",
+        "ru": "Пик месяца (Вт)",
+        "ar": "ذروة الشهر (واط)",
+        "ko": "월간 피크 (W)"
+      },
+      "example": 3800
+    }
+  ]
+}

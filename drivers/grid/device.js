@@ -516,6 +516,7 @@ class GridDevice extends GenericDevice {
     // capacity-tariff billing (no solar/export, still billed on import peak).
     if (typeof this.directionalMeter?.importValue === 'number') {
       await this.updatePeakLoad(reading).catch((err) => this.error(err));
+      await this.updatePeakProjection(reading).catch((err) => this.error(err));
     }
 
     // Split imported/exported month/year capabilities - independent of directionalNettingScheme
@@ -1054,6 +1055,90 @@ class GridDevice extends GenericDevice {
     if (hasExport) this.peakLoad.exportKwhInSlot += deltaExportKwh;
 
     this.markStoreDirty('peakLoad');
+  }
+
+  // Month import peak so far, or null when none yet this month. peakLoad.month is only rolled over
+  // when a slot closes, so right after a month boundary it can still hold last month's peak.
+  getMonthPeakW(reading) {
+    const month = this.peakLoad && this.peakLoad.month;
+    if (!month || typeof month.max !== 'number') return null;
+    if (reading && (month.month !== reading.month || month.year !== reading.year)) return null;
+    return month.max;
+  }
+
+  // Live capacity-tariff projection for the running peak slot, assuming the current import power
+  // holds for the rest of the slot:
+  //   projected = (energy so far + current import x remaining time) / slot length
+  //   headroom  = extra power that can still be added now for the rest of the slot without the
+  //               slot average exceeding the month peak (null while there is no month peak yet)
+  // Fires peak_projected_exceeded once per slot when the projection first goes over the peak.
+  async updatePeakProjection(reading) {
+    if (!this.peakLoad || this.peakLoad.slotStart === null) return;
+    const slotMs = this.getPeakLoadIntervalMinutes() * 60 * 1000;
+    const slotH = slotMs / 3600000;
+    const nowMs = new Date(reading.meterTm).getTime();
+    const remainingH = Math.max(0, (this.peakLoad.slotStart + slotMs - nowMs) / 3600000);
+    const energyWh = this.peakLoad.importKwhInSlot * 1000;
+    const importW = Math.max(0, this.getCapabilityValue('measure_power.grid') || 0);
+    const projectedW = Math.round((energyWh + (importW * remainingH)) / slotH);
+    const monthPeakW = this.getMonthPeakW(reading);
+    let headroomW = null;
+    if (monthPeakW !== null) {
+      const remainingForHeadroomH = Math.max(remainingH, 1 / 60); // avoid blow-up in the last seconds
+      headroomW = Math.round(((monthPeakW * slotH) - energyWh) / remainingForHeadroomH - importW);
+    }
+    this.peakProjection = {
+      slotStart: this.peakLoad.slotStart, projectedW, monthPeakW, headroomW,
+    };
+    await this.setCapability('measure_watt_peak.projected', projectedW).catch(this.error);
+    await this.setCapability('measure_watt_peak.headroom', headroomW).catch(this.error);
+
+    if (monthPeakW !== null && projectedW > monthPeakW && this.peakExceededSlot !== this.peakLoad.slotStart) {
+      this.peakExceededSlot = this.peakLoad.slotStart;
+      await this.flows.triggerPeakProjectedExceeded(projectedW, monthPeakW).catch(this.error);
+    }
+  }
+
+  // Highest expected peak-slot average import from the net forecast (battery plan included),
+  // from the next peak slot to the end of tomorrow or of this month, whichever comes first.
+  getExpectedPeak() {
+    const slotMs = this.getPeakLoadIntervalMinutes() * 60 * 1000;
+    const nowMs = Date.now();
+    const startMs = nowMs - (nowMs % slotMs) + slotMs;
+    const nowLocal = new Date(new Date(nowMs).toLocaleString('en-US', { timeZone: this.timeZone }));
+    const startOfNextMonth = TimeHelpers.getLocalMidnightUTC(
+      new Date(Date.UTC(nowLocal.getFullYear(), nowLocal.getMonth() + 1, 1, 12)),
+      this.timeZone,
+    ).getTime();
+    const tomorrowStart = TimeHelpers.getLocalMidnightUTC(new Date(nowMs + 26 * 60 * 60 * 1000), this.timeZone).getTime();
+    const tomorrowEnd = TimeHelpers.getLocalMidnightUTC(new Date(tomorrowStart + 26 * 60 * 60 * 1000), this.timeZone).getTime();
+    const endMs = Math.min(tomorrowEnd, startOfNextMonth);
+    if (endMs <= startMs) return { expectedPeakW: null, expectedPeakTime: null };
+    const net = this.getNetForecast(startMs, endMs).netPlanned;
+    const perSlot = slotMs / (15 * 60 * 1000);
+    let best = null;
+    for (let i = 0; i + perSlot <= net.length; i += perSlot) {
+      const avg = net.slice(i, i + perSlot).reduce((a, v) => a + Math.max(0, v), 0) / perSlot;
+      if (!best || avg > best.w) best = { w: Math.round(avg), t: startMs + (i * 15 * 60 * 1000) };
+    }
+    return best
+      ? { expectedPeakW: best.w, expectedPeakTime: new Date(best.t).toISOString() }
+      : { expectedPeakW: null, expectedPeakTime: null };
+  }
+
+  // Peak summary for the load_json flow tokens.
+  getPeakForecast() {
+    const p = this.peakProjection || {};
+    const monthPeakW = p.monthPeakW !== undefined ? p.monthPeakW : this.getMonthPeakW();
+    const { expectedPeakW, expectedPeakTime } = this.getExpectedPeak();
+    return {
+      monthPeakW,
+      projectedSlotW: p.projectedW !== undefined ? p.projectedW : null,
+      headroomW: p.headroomW !== undefined ? p.headroomW : null,
+      expectedPeakW,
+      expectedPeakTime,
+      newPeakExpected: monthPeakW !== null && expectedPeakW !== null && expectedPeakW > monthPeakW,
+    };
   }
 
   // Rolls over (clears) each period whose boundary was crossed, then updates the running max for

@@ -63,6 +63,8 @@ const driverSpecifics = {
     'measure_watt_peak.day', 'measure_watt_peak_export.day',
     'measure_watt_peak.month', 'measure_watt_peak_export.month',
     'measure_watt_peak.year', 'measure_watt_peak_export.year',
+    // Live projection for the running peak slot (see updatePeakProjection())
+    'measure_watt_peak.projected', 'measure_watt_peak.headroom',
     // Forecast (home load)
     'measure_watt_forecast.h0', 'measure_watt_forecast.m15', 'measure_watt_forecast.m30',
     'measure_watt_forecast.m45', 'measure_watt_forecast.h1', 'measure_watt_forecast.h2',

@@ -985,6 +985,42 @@
         "ko": "전력망 예측 +1시간"
       },
       "preventInsights": true
+    },
+    "measure_watt_peak.projected": {
+      "title": {
+        "en": "Projected peak this slot",
+        "nl": "Verwachte piek dit interval",
+        "de": "Erwartete Spitze dieses Intervall",
+        "fr": "Pic prévu cet intervalle",
+        "it": "Picco previsto intervallo",
+        "sv": "Förväntad topp detta intervall",
+        "no": "Forventet topp dette intervallet",
+        "es": "Pico previsto este intervalo",
+        "da": "Forventet spids dette interval",
+        "pl": "Przewidywany szczyt w tym przedziale",
+        "ru": "Ожидаемый пик в этом интервале",
+        "ar": "الذروة المتوقعة لهذه الفترة",
+        "ko": "이번 구간 예상 피크"
+      },
+      "preventInsights": true
+    },
+    "measure_watt_peak.headroom": {
+      "title": {
+        "en": "Peak headroom",
+        "nl": "Ruimte tot piek",
+        "de": "Spielraum bis Spitze",
+        "fr": "Marge avant pic",
+        "it": "Margine al picco",
+        "sv": "Marginal till topp",
+        "no": "Margin til topp",
+        "es": "Margen hasta el pico",
+        "da": "Margen til spids",
+        "pl": "Zapas do szczytu",
+        "ru": "Запас до пика",
+        "ar": "الهامش حتى الذروة",
+        "ko": "피크까지 여유"
+      },
+      "preventInsights": true
     }
   },
   "images": {
