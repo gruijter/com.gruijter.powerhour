@@ -76,19 +76,25 @@ const driverSpecifics = {
   // Canonical display order for this driver's chart images - see lib/helpers/ChartImages.js.
   chartImages: [
     {
-      id: 'gridToday', prop: 'gridTodayImage', chartProp: 'chartGridToday', titleKey: 'today',
+      id: 'gridToday', prop: 'gridTodayImage', chartProp: 'chartGridToday', titleKey: 'home_today',
     },
     {
-      id: 'gridTomorrow', prop: 'gridTomorrowImage', chartProp: 'chartGridTomorrow', titleKey: 'tomorrow',
+      id: 'gridTomorrow', prop: 'gridTomorrowImage', chartProp: 'chartGridTomorrow', titleKey: 'home_tomorrow',
     },
     {
-      id: 'gridNextHours', prop: 'gridNextHoursImage', chartProp: 'chartGridNextHours', titleKey: 'nextHours',
+      id: 'gridYesterday', prop: 'gridYesterdayImage', chartProp: 'chartGridYesterday', titleKey: 'home_yesterday',
     },
     {
-      id: 'gridYesterday', prop: 'gridYesterdayImage', chartProp: 'chartGridYesterday', titleKey: 'yesterday',
+      id: 'gridWeekly', prop: 'gridWeeklyImage', chartProp: 'chartGridWeekly', titleKey: 'home_weekly',
     },
     {
-      id: 'gridWeekly', prop: 'gridWeeklyImage', chartProp: 'chartGridWeekly', titleKey: 'weekly',
+      id: 'netToday', prop: 'netTodayImage', chartProp: 'chartNetToday', titleKey: 'grid_today',
+    },
+    {
+      id: 'netTomorrow', prop: 'netTomorrowImage', chartProp: 'chartNetTomorrow', titleKey: 'grid_tomorrow',
+    },
+    {
+      id: 'netYesterday', prop: 'netYesterdayImage', chartProp: 'chartNetYesterday', titleKey: 'grid_yesterday',
     },
   ],
 };

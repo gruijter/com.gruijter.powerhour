@@ -22,7 +22,7 @@ along with com.gruijter.powerhour.  If not, see <http://www.gnu.org/licenses/>.
 const GenericDevice = require('../../lib/genericDeviceDrivers/generic_sum_device');
 const LoadForecastStrategy = require('../../lib/strategies/LoadForecastStrategy');
 const GridFlows = require('../../lib/flows/GridFlows');
-const { getGridForecastChart, getGridNetChart, getGridWeeklyChart } = require('../../lib/charts/GridChart');
+const { getGridForecastChart, getGridWeeklyChart } = require('../../lib/charts/GridChart');
 const MeterHelpers = require('../../lib/helpers/MeterHelpers');
 const GridConnection = require('../../lib/helpers/GridConnection');
 const DeviceMigrator = require('../../lib/DeviceMigrator');
@@ -57,6 +57,7 @@ class GridDevice extends GenericDevice {
   async onInit() {
     this.startupTime = Date.now(); // stamp startup so boot-time entries can be excluded from guard
     this.powerHistory = [];
+    this.netForecastHistory = [];
     this.ds = deviceSpecifics;
     this.flows = new GridFlows(this);
 
@@ -185,10 +186,15 @@ class GridDevice extends GenericDevice {
         if (typeof e.power === 'number') power = e.power;
         else if (typeof e.v === 'number') power = e.v;
         else if (typeof e.y === 'number') power = e.y;
-        return { time, power };
+        return { time, power, grid: typeof e.grid === 'number' ? e.grid : null };
       })
       .filter((e) => e.power >= 0 && e.power <= ceilingW)
       .slice(-2880);
+
+    // Grid forecast per 15-min slot as it was when the slot started: battery/EV plans are not
+    // kept, so this is the only way to show a past slot's forecast incl. those plans.
+    const netForecastHistory = await this.getStoreValue('netForecastHistory');
+    this.netForecastHistory = Array.isArray(netForecastHistory) ? netForecastHistory : [];
 
     this.retrainLoadListener = this.registerCapabilityListener('button.retrain_load', async () => {
       await this.retrainLoadModel(true); // From scratch
@@ -375,13 +381,17 @@ class GridDevice extends GenericDevice {
       // the average high instead of ignoring a bad sample.
       const ceilingW = this.getHomePowerCeilingW();
       if (homePower <= ceilingW) {
-        this.homePowerBuffer.push({ time: now, value: Math.max(0, homePower) });
+        this.homePowerBuffer.push({ time: now, value: Math.max(0, homePower), grid: gridPower });
       }
       this.homePowerBuffer = this.homePowerBuffer.filter((e) => now - e.time <= 2 * 60 * 1000);
       const smoothedHomePower = this.homePowerBuffer.length > 0
         ? Math.round(this.homePowerBuffer.reduce((sum, e) => sum + e.value, 0) / this.homePowerBuffer.length)
         : Math.max(0, homePower);
       const safeHomePower = Math.max(0, Math.min(ceilingW, smoothedHomePower));
+      // Grid exchange for the Grid charts, averaged over the same window as home power.
+      const smoothedGridPower = this.homePowerBuffer.length > 0
+        ? Math.round(this.homePowerBuffer.reduce((sum, e) => sum + e.grid, 0) / this.homePowerBuffer.length)
+        : Math.round(gridPower);
       await this.setCapability('measure_power.home', safeHomePower).catch(this.error);
 
       if (!Array.isArray(this.powerHistory)) this.powerHistory = [];
@@ -392,7 +402,7 @@ class GridDevice extends GenericDevice {
         // shorter than 5 minutes fills the array much faster than that, evicting the merged multi-day
         // history within a few hours of any restart/retrain instead of the intended 48h.
         if (!lastEntry || (now - lastEntry.time) > 5 * 60 * 1000) {
-          this.powerHistory.push({ time: now, power: safeHomePower });
+          this.powerHistory.push({ time: now, power: safeHomePower, grid: smoothedGridPower });
           if (this.powerHistory.length > 576) this.powerHistory.shift();
           if (!this.lastPowerHistorySaveTm || (now - this.lastPowerHistorySaveTm > 15 * 60 * 1000)) {
             this.setStoreValue('powerHistory', this.powerHistory).catch(this.error);
@@ -1491,6 +1501,12 @@ class GridDevice extends GenericDevice {
 
     const slotStartMs = now.getTime() - (now.getTime() % (15 * 60 * 1000));
     const netNext = this.getNetForecast(slotStartMs, slotStartMs + 75 * 60 * 1000).netPlanned;
+    const lastNet = this.netForecastHistory[this.netForecastHistory.length - 1];
+    if (!lastNet || lastNet.time !== slotStartMs) {
+      this.netForecastHistory.push({ time: slotStartMs, net: netNext[0] });
+      if (this.netForecastHistory.length > 200) this.netForecastHistory.shift(); // > 2 days incl. a 25h DST day
+      await this.setStoreValue('netForecastHistory', this.netForecastHistory).catch(this.error);
+    }
     await this.setCapabilityValue('measure_watt_forecast.net_h0', netNext[0]).catch(this.error);
     await this.setCapabilityValue('measure_watt_forecast.net_h1', netNext[4]).catch(this.error);
 
@@ -1527,23 +1543,49 @@ class GridDevice extends GenericDevice {
       }
     }
 
-    // Next Hours Chart (net grid exchange forecast, current slot until end of tomorrow).
-    // Rolling window, so refreshed every 15 mins like the Today chart.
-    if (updated || (now.getMinutes() % 15 === 0) || !this.chartGridNextHours) {
-      const net = this.getNetForecast(slotStartMs, endOfTomorrow.getTime());
-      const chartNextHours = await getGridNetChart(net.netPlanned, net.netNoBattery, slotStartMs, 'Grid Next Hours', this.timeZone);
-      if (chartNextHours) {
-        this.chartGridNextHours = chartNextHours;
-        await this.gridNextHoursImage.update().catch(this.error);
-      }
-    }
-
     // 3. Yesterday Chart (Forecast vs Real)
     if (updated || !this.chartGridYesterday) {
       const chartYesterday = await getGridForecastChart(this.weeklyProfile, startOfYesterday, endOfYesterday, 'Home Load Yesterday', this.powerHistory, this.timeZone, false);
       if (chartYesterday) {
         this.chartGridYesterday = chartYesterday;
         await this.gridYesterdayImage.update().catch(this.error);
+      }
+    }
+
+    // Grid exchange charts: same Today/Tomorrow/Yesterday set as home load, forecast from
+    // getNetForecast() vs the recorded grid exchange. Today and Tomorrow refresh every 15 mins
+    // because the battery/EV plans in the forecast change independently of the load model.
+    // Past slots show the forecast recorded when the slot started (null when not recorded).
+    const recordedNet = new Map(this.netForecastHistory.map((e) => [e.time, e.net]));
+    const gridOpts = (startMs, endMs) => ({
+      forecast: this.getNetForecast(startMs, endMs).netPlanned.map((v, i) => {
+        const t = startMs + (i * 15 * 60 * 1000);
+        if (t >= slotStartMs) return v;
+        return recordedNet.has(t) ? recordedNet.get(t) : null;
+      }),
+      realKey: 'grid',
+      signed: true,
+    });
+    if (updated || (now.getMinutes() % 15 === 0) || !this.chartNetToday) {
+      const chart = await getGridForecastChart(null, startOfToday, endOfToday, 'Grid Today', this.powerHistory, this.timeZone, true, gridOpts(startOfToday.getTime(), endOfToday.getTime()));
+      if (chart) {
+        this.chartNetToday = chart;
+        await this.netTodayImage.update().catch(this.error);
+      }
+    }
+    if (updated || (now.getMinutes() % 15 === 0) || !this.chartNetTomorrow) {
+      const chart = await getGridForecastChart(null, startOfTomorrow, endOfTomorrow, 'Grid Tomorrow', [], this.timeZone, false, gridOpts(startOfTomorrow.getTime(), endOfTomorrow.getTime()));
+      if (chart) {
+        this.chartNetTomorrow = chart;
+        await this.netTomorrowImage.update().catch(this.error);
+      }
+    }
+    if (updated || !this.chartNetYesterday) {
+      const opts = gridOpts(startOfYesterday.getTime(), endOfYesterday.getTime());
+      const chart = await getGridForecastChart(null, startOfYesterday, endOfYesterday, 'Grid Yesterday', this.powerHistory, this.timeZone, false, opts);
+      if (chart) {
+        this.chartNetYesterday = chart;
+        await this.netYesterdayImage.update().catch(this.error);
       }
     }
 
@@ -1653,8 +1695,10 @@ class GridDevice extends GenericDevice {
       const preStartupHistory = this.powerHistory.filter((e) => e.time < (this.startupTime || 0));
       const hasData = preStartupHistory.length > 24 && preStartupHistory[0].time < (nowMs - 40 * 60 * 60 * 1000);
       const hasRecent = preStartupHistory.length > 0 && preStartupHistory[preStartupHistory.length - 1].time > (nowMs - 6 * 60 * 60 * 1000);
+      // History stored before grid values were recorded needs one backfill for the Grid charts.
+      const hasGrid = preStartupHistory.some((e) => typeof e.grid === 'number');
 
-      if (hasData && hasRecent) {
+      if (hasData && hasRecent && hasGrid) {
         return;
       }
 
@@ -1693,7 +1737,7 @@ class GridDevice extends GenericDevice {
             let power = 0;
             if (typeof e.v === 'number') power = Math.round(e.v);
             else if (typeof e.y === 'number') power = Math.round(e.y);
-            return { time, power };
+            return { time, power, grid: typeof e.grid === 'number' ? e.grid : null };
           })
           .filter((e) => e.power >= 0 && e.power <= ceilingW);
 
