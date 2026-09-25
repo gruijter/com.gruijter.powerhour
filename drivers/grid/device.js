@@ -198,7 +198,7 @@ class GridDevice extends GenericDevice {
     if (this.initLearningTimeout) this.homey.clearTimeout(this.initLearningTimeout);
     const finishInit = async () => {
       await this.populatePowerHistory();
-      await this.updateForecastDisplay();
+      await this.updateForecastDisplay().catch(this.error);
       if (!storedProfile) {
         await this.attemptInitialBackfill();
       }
@@ -1409,7 +1409,13 @@ class GridDevice extends GenericDevice {
         return total;
       }
       driver.getDevices().forEach((dev) => {
-        const series = getSeries(dev);
+        let series;
+        try {
+          series = getSeries(dev);
+        } catch (err) {
+          this.error(err);
+          return;
+        }
         if (!Array.isArray(series)) return;
         series.forEach((v, i) => {
           if (i < total.length && typeof v === 'number') total[i] += v;
