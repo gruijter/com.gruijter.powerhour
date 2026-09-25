@@ -1478,7 +1478,20 @@ class GridDevice extends GenericDevice {
     await this.setSettings({ forecast_accuracy: text });
   }
 
-  async updateForecastDisplay(updated = false) {
+  // Called by battery/EV charger devices when their charge plan changes: the grid forecast
+  // includes those plans. Debounced, since several devices re-plan together on new prices.
+  onChargePlanUpdated() {
+    if (this.isDestroyed) return;
+    if (this.planUpdateTimeout) this.homey.clearTimeout(this.planUpdateTimeout);
+    this.planUpdateTimeout = this.homey.setTimeout(() => {
+      this.planUpdateTimeout = null;
+      if (this.isDestroyed || !this.weeklyProfile) return;
+      this.updateForecastDisplay(false, true).catch(this.error);
+    }, 10 * 1000);
+  }
+
+  // plansChanged: a battery/EV plan changed, so the grid forecast charts must be rebuilt.
+  async updateForecastDisplay(updated = false, plansChanged = false) {
     const now = new Date();
     const forecast = LoadForecastStrategy.calculateForecast({
       weeklyProfile: this.weeklyProfile,
@@ -1566,14 +1579,14 @@ class GridDevice extends GenericDevice {
       realKey: 'grid',
       signed: true,
     });
-    if (updated || (now.getMinutes() % 15 === 0) || !this.chartNetToday) {
+    if (updated || plansChanged || (now.getMinutes() % 15 === 0) || !this.chartNetToday) {
       const chart = await getGridForecastChart(null, startOfToday, endOfToday, 'Grid Today', this.powerHistory, this.timeZone, true, gridOpts(startOfToday.getTime(), endOfToday.getTime()));
       if (chart) {
         this.chartNetToday = chart;
         await this.netTodayImage.update().catch(this.error);
       }
     }
-    if (updated || (now.getMinutes() % 15 === 0) || !this.chartNetTomorrow) {
+    if (updated || plansChanged || (now.getMinutes() % 15 === 0) || !this.chartNetTomorrow) {
       const chart = await getGridForecastChart(null, startOfTomorrow, endOfTomorrow, 'Grid Tomorrow', [], this.timeZone, false, gridOpts(startOfTomorrow.getTime(), endOfTomorrow.getTime()));
       if (chart) {
         this.chartNetTomorrow = chart;
@@ -2040,6 +2053,10 @@ class GridDevice extends GenericDevice {
     if (this.initialBackfillRetryTimeout) {
       this.homey.clearTimeout(this.initialBackfillRetryTimeout);
       this.initialBackfillRetryTimeout = null;
+    }
+    if (this.planUpdateTimeout) {
+      this.homey.clearTimeout(this.planUpdateTimeout);
+      this.planUpdateTimeout = null;
     }
   }
 }
