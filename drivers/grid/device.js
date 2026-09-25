@@ -140,6 +140,8 @@ class GridDevice extends GenericDevice {
     // Left undefined until lazily bootstrapped on first tick, same style as the split state above.
     this.peakLoad = await this.getStoreValue('peakLoad');
     this.lastPeakLoadReading = await this.getStoreValue('lastPeakLoadReading');
+    // Slot peak_projected_exceeded last fired for: stored, so a restart mid-slot does not fire it again.
+    this.peakExceededSlot = await this.getStoreValue('peakExceededSlot');
 
     // The repair flow (generic_sum_driver.js#onRepair()) can re-point this device at a
     // DIFFERENT physical meter: it rewrites homey_device_id and restarts the device. The base
@@ -1099,14 +1101,20 @@ class GridDevice extends GenericDevice {
       const remainingForHeadroomH = Math.max(remainingH, 1 / 60); // avoid blow-up in the last seconds
       headroomW = Math.round(((monthPeakW * slotH) - energyWh) / remainingForHeadroomH - importW);
     }
+    const newSlot = !this.peakProjection || this.peakProjection.slotStart !== this.peakLoad.slotStart;
     this.peakProjection = {
       slotStart: this.peakLoad.slotStart, projectedW, monthPeakW, headroomW,
     };
-    await this.setCapability('measure_watt_peak.projected', projectedW).catch(this.error);
-    await this.setCapability('measure_watt_peak.headroom', headroomW).catch(this.error);
+    // projectedW changes with every reading: at most one capability write per 10 s (fast P1 meters).
+    if (newSlot || !this.peakProjectionWriteTm || Math.abs(nowMs - this.peakProjectionWriteTm) >= 10000) {
+      this.peakProjectionWriteTm = nowMs;
+      await this.setCapability('measure_watt_peak.projected', projectedW).catch(this.error);
+      await this.setCapability('measure_watt_peak.headroom', headroomW).catch(this.error);
+    }
 
     if (monthPeakW !== null && projectedW > monthPeakW && this.peakExceededSlot !== this.peakLoad.slotStart) {
       this.peakExceededSlot = this.peakLoad.slotStart;
+      await this.setStoreValue('peakExceededSlot', this.peakExceededSlot).catch(this.error);
       await this.flows.triggerPeakProjectedExceeded(projectedW, monthPeakW).catch(this.error);
     }
   }
@@ -1122,8 +1130,7 @@ class GridDevice extends GenericDevice {
       new Date(Date.UTC(nowLocal.getFullYear(), nowLocal.getMonth() + 1, 1, 12)),
       this.timeZone,
     ).getTime();
-    const tomorrowStart = TimeHelpers.getLocalMidnightUTC(new Date(nowMs + 26 * 60 * 60 * 1000), this.timeZone).getTime();
-    const tomorrowEnd = TimeHelpers.getLocalMidnightUTC(new Date(tomorrowStart + 26 * 60 * 60 * 1000), this.timeZone).getTime();
+    const tomorrowEnd = TimeHelpers.getUTCPeriods(this.timeZone).tomorrowEnd.getTime();
     const endMs = Math.min(tomorrowEnd, startOfNextMonth);
     if (endMs <= startMs) return { expectedPeakW: null, expectedPeakTime: null };
     const net = this.getNetForecast(startMs, endMs).netPlanned;

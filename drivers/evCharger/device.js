@@ -67,8 +67,8 @@ class CarChargeDevice extends GenericDevice {
       }
     }
 
-    this.powerHistory = (await this.getStoreValue('powerHistory')) || [];
-    this.socHistory = (await this.getStoreValue('socHistory')) || [];
+    this.powerHistory = await this.loadStoredHistory('powerHistory');
+    this.socHistory = await this.loadStoredHistory('socHistory');
 
     if (this.hasCapability('ev_charge_mode')) {
       if (!this.getCapabilityValue('ev_charge_mode')) {
@@ -461,15 +461,9 @@ class CarChargeDevice extends GenericDevice {
     // Same dedup/cap approach as powerHistory in handleUpdateMeter(): at most one sample
     // per minute, capped to 2880 entries (48h), so getActualSocForTime() has real data for
     // the yesterday/today charts instead of the flat "current SoC everywhere" placeholder.
-    // Persisted at most every 15 minutes (as the battery does): rewriting 2880 entries every
-    // minute is wasted IPC, and history and lastKnownSoc only need to survive a restart roughly.
+    // Persisted at most every 15 minutes, as the battery does (see saveSocHistory()).
     if (this.recordSocSample(value)) {
-      const now = Date.now();
-      if (!this.lastSocHistorySaveTm || (now - this.lastSocHistorySaveTm > 15 * 60 * 1000)) {
-        this.lastSocHistorySaveTm = now;
-        this.setStoreValue('socHistory', this.socHistory).catch(this.error);
-        this.setStoreValue('lastKnownSoc', value).catch(this.error);
-      }
+      this.saveSocHistory({ lastKnownSoc: value }).catch(this.error);
     }
 
     const referenceSoc = this.lastRecalculatedSoc !== undefined ? this.lastRecalculatedSoc : oldSoc;

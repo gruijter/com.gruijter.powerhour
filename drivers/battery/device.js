@@ -22,6 +22,7 @@ along with com.gruijter.powerhour.  If not, see <http://www.gnu.org/licenses/>.
 const GenericDevice = require('../../lib/genericDeviceDrivers/generic_bat_device');
 const ChargeDeviceHelpers = require('../../lib/helpers/ChargeDeviceHelpers');
 const ChartImages = require('../../lib/helpers/ChartImages');
+const TimeHelpers = require('../../lib/helpers/TimeHelpers');
 const { setTimeoutPromise } = require('../../lib/helpers/Util');
 
 class BatDevice extends GenericDevice {
@@ -38,8 +39,8 @@ class BatDevice extends GenericDevice {
     await ChartImages.registerChartImages(this, this.driver.ds.chartImages);
 
     await super.onInit().catch(this.error);
-    this.powerHistory = (await this.getStoreValue('powerHistory')) || [];
-    this.socHistory = (await this.getStoreValue('socHistory')) || [];
+    this.powerHistory = await this.loadStoredHistory('powerHistory');
+    this.socHistory = await this.loadStoredHistory('socHistory');
 
     const currentSessionId = this.sessionId;
     this.populateHistoryFromInsights().catch((err) => this.error('Error populating battery insights:', err));
@@ -403,11 +404,7 @@ class BatDevice extends GenericDevice {
   async updateValue(val, cap) {
     await super.updateValue(val, cap);
     if (cap !== 'soc' || !this.recordSocSample(val)) return;
-    const now = Date.now();
-    if (!this.lastSocHistorySaveTm || (now - this.lastSocHistorySaveTm > 15 * 60 * 1000)) {
-      this.lastSocHistorySaveTm = now;
-      await this.setStoreValue('socHistory', this.socHistory).catch(this.error);
-    }
+    await this.saveSocHistory();
   }
 
   async handleUpdateMeter(reading) {
@@ -449,7 +446,10 @@ class BatDevice extends GenericDevice {
     // long as it was made after the latest price update (new prices can arrive mid-slot) and after
     // the last (re)init (settings changes restart the device; onInit() clears lastStratTm).
     const slotMs = (this.priceInterval || 60) * 60 * 1000;
-    const sameSlot = this.lastStratTm && Math.floor(this.lastStratTm / slotMs) === Math.floor(Date.now() / slotMs);
+    // Price slots follow local time: bucket on local (offset-shifted) timestamps, not UTC epoch.
+    const tz = this.timeZone || this.homey.clock.getTimezone();
+    const localSlot = (ms) => Math.floor(TimeHelpers.toLocalDate(new Date(ms), tz).getTime() / slotMs);
+    const sameSlot = this.lastStratTm && localSlot(this.lastStratTm) === localSlot(Date.now());
     const afterPrices = this.lastStratTm && this.lastStratTm >= (this.pricesUpdatedTm || 0);
     const strategy = (sameSlot && afterPrices && this.lastStratMinPriceDelta === minPriceDelta && this.lastStratTokens)
       ? { ...this.lastStratTokens }
@@ -468,6 +468,7 @@ class BatDevice extends GenericDevice {
       chargePower: this.getSettings().chargePower || 2200,
       dischargePower: this.getSettings().dischargePower || 1700,
       socFallback: typeof this.soc === 'number' ? this.soc : null,
+      planTm: this.lastStratTm || Date.now(),
       showPower: !!this.getSettings().chartShowPower,
       showSoc: this.getSettings().chartShowSoc !== false,
       showExportPrice: this.getSettings().chartShowExportPrice !== false,
