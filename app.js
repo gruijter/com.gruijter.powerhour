@@ -33,6 +33,7 @@ along with com.gruijter.powerhour.  If not, see <http://www.gnu.org/licenses/>.
 const Homey = require('homey');
 const { HomeyAPI } = require('homey-api');
 const Flows = require('./lib/flows/Flows');
+const TimeHelpers = require('./lib/helpers/TimeHelpers');
 
 class MyApp extends Homey.App {
 
@@ -122,9 +123,11 @@ class MyApp extends Homey.App {
 
   scheduleNextHour() {
     if (this.everyHourId) this.homey.clearTimeout(this.everyHourId);
-    const now = new Date();
-    const nextHour = new Date(now.getFullYear(), now.getMonth(), now.getDate(), now.getHours() + 1, 0, 0, 10);
-    const delay = nextHour - now;
+    // The local hour: the process clock runs in UTC, and in a half-hour-offset zone the UTC hour
+    // starts at local :30.
+    const nowMs = Date.now();
+    const nextHour = TimeHelpers.startOfLocalBlock(nowMs, 60, this.homey.clock.getTimezone()) + (60 * 60 * 1000) + 10;
+    const delay = nextHour - nowMs;
 
     this.everyHourId = this.homey.setTimeout(() => {
       try {
@@ -143,17 +146,14 @@ class MyApp extends Homey.App {
 
   scheduleNextXminutes(interval) {
     if (this.everyXMinutesId) this.homey.clearTimeout(this.everyXMinutesId);
-    const now = new Date();
-    const currentMinutes = now.getMinutes();
-    const nextMultipleOfX = currentMinutes % interval === 0 ? currentMinutes + interval : Math.ceil(currentMinutes / interval) * interval;
-    const nextXminutes = new Date(now);
-    nextXminutes.setMinutes(nextMultipleOfX, 0, 10);
-    const delay = nextXminutes - now;
+    const nowMs = Date.now();
+    const tz = this.homey.clock.getTimezone();
+    const nextXminutes = TimeHelpers.startOfLocalBlock(nowMs, interval, tz) + (interval * 60 * 1000) + 10;
+    const delay = nextXminutes - nowMs;
 
     this.everyXMinutesId = this.homey.setTimeout(() => {
-      const currentNow = new Date();
-      // Only emit if not on a full hour (handled by everyHour)
-      if (currentNow.getMinutes() !== 0) {
+      // Only emit if not on a full local hour (handled by everyHour)
+      if (TimeHelpers.toLocalDate(new Date(), tz).getMinutes() !== 0) {
         try {
           this.homey.emit('every15m_PBTH', true);
         } catch (error) {

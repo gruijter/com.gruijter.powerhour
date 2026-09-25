@@ -12,6 +12,7 @@ const EvFlows = require('../../lib/flows/EvFlows');
 const ChargeDeviceHelpers = require('../../lib/helpers/ChargeDeviceHelpers');
 const ChartImages = require('../../lib/helpers/ChartImages');
 const { setTimeoutPromise } = require('../../lib/helpers/Util');
+const MeterHelpers = require('../../lib/helpers/MeterHelpers');
 
 const deviceSpecifics = {
   cmap: {
@@ -603,9 +604,7 @@ class CarChargeDevice extends GenericDevice {
       }
     }
 
-    const now = new Date(reading.meterTm);
-    const currentSlot = (now.getUTCHours() * (60 / (this.priceInterval || 60)))
-      + Math.floor(now.getUTCMinutes() / (this.priceInterval || 60));
+    const currentSlot = MeterHelpers.startOfBlock(reading.meterTm, this.priceInterval || 60, this.timeZone);
     if (this.lastEvTriggerSlot !== currentSlot) {
       this.lastEvTriggerSlot = currentSlot;
       await this.updateChargeChart().catch(this.error);

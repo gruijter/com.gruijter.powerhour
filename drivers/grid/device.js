@@ -818,6 +818,8 @@ class GridDevice extends GenericDevice {
       priceInterval,
       now,
       lastTm,
+      undefined,
+      this.timeZone,
     );
     return (deltaImport * effImportTariff) - (deltaExport * effExportTariff);
   }
@@ -929,6 +931,8 @@ class GridDevice extends GenericDevice {
         priceInterval,
         now,
         lastTm,
+        undefined,
+        this.timeZone,
       );
       deltaImportMoney = deltaImport * effImportTariff;
       deltaExportMoney = deltaExport * effExportTariff;
@@ -1022,7 +1026,7 @@ class GridDevice extends GenericDevice {
     }
 
     const intervalMinutes = this.getPeakLoadIntervalMinutes();
-    const slotStart = MeterHelpers.startOfBlock(reading.meterTm, intervalMinutes);
+    const slotStart = MeterHelpers.startOfBlock(reading.meterTm, intervalMinutes, this.timeZone);
     if (this.peakLoad.slotStart === null) {
       this.peakLoad.slotStart = slotStart; // bootstrap - don't close a slot that never opened
     } else if (slotStart !== this.peakLoad.slotStart) {
@@ -1124,7 +1128,7 @@ class GridDevice extends GenericDevice {
   getExpectedPeak() {
     const slotMs = this.getPeakLoadIntervalMinutes() * 60 * 1000;
     const nowMs = Date.now();
-    const startMs = nowMs - (nowMs % slotMs) + slotMs;
+    const startMs = MeterHelpers.startOfBlock(nowMs, this.getPeakLoadIntervalMinutes(), this.timeZone) + slotMs;
     const nowLocal = TimeHelpers.toLocalDate(new Date(nowMs), this.timeZone);
     const startOfNextMonth = TimeHelpers.getLocalMidnightUTC(
       new Date(Date.UTC(nowLocal.getFullYear(), nowLocal.getMonth() + 1, 1, 12)),
@@ -1206,7 +1210,7 @@ class GridDevice extends GenericDevice {
   // lets the base class's own hour/day/month/year rollover logic run normally.
   async computeFixedBlockDeltaMoney(deltaImport, deltaExport, now) {
     const blockMinutes = this.getDirectionalBlockMinutes();
-    const currentBlockStart = MeterHelpers.startOfBlock(now, blockMinutes);
+    const currentBlockStart = MeterHelpers.startOfBlock(now, blockMinutes, this.timeZone);
     const freshBlock = () => ({
       blockStartTm: currentBlockStart,
       importAccum: 0,

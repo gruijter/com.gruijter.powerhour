@@ -1128,10 +1128,9 @@ class SolarDevice extends GenericDevice {
 
     // Calculate Forecast This Hour (h0)
     let forecastH0 = 0;
-    const startOfHour = new Date(now);
-    startOfHour.setMinutes(0, 0, 0);
+    const startOfHour = TimeHelpers.startOfLocalBlock(now, 60, this.timeZone);
     for (let i = 0; i < 4; i += 1) {
-      const t = startOfHour.getTime() + i * 15 * 60 * 1000;
+      const t = startOfHour + i * 15 * 60 * 1000;
       const rad = SolarLearningStrategy.getInterpolatedRadiation(t, this.forecastData);
       const dateT = new Date(t);
       const slotIndex = (dateT.getUTCHours() * 4) + Math.floor(dateT.getUTCMinutes() / 15);
