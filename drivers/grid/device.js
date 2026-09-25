@@ -1551,7 +1551,7 @@ class GridDevice extends GenericDevice {
       // own (short-lived, potentially gappy) past output instead of the real, independently
       // measured history - see reconstructHomePowerHistory(), which sources exclusively from
       // the physical devices (excludes any 'PH_' PowerHour-own log).
-      let allLogs = await api.insights.getLogs().catch(() => []);
+      let allLogs = await this.homey.app.getInsightsLogs().catch(() => []);
       if (!Array.isArray(allLogs)) allLogs = Object.values(allLogs);
 
       const powerEntries = await this.reconstructHomePowerHistory(api, allLogs).catch((err) => {
@@ -1641,7 +1641,7 @@ class GridDevice extends GenericDevice {
       // reasoning as retrainLoadModel() above. customStart/customEnd are irrelevant for
       // resolution 'yesterday' - see fetchYesterdayAndToday()'s doc comment - so there's
       // nothing meaningful to pass here.
-      let allLogs = await api.insights.getLogs().catch(() => []);
+      let allLogs = await this.homey.app.getInsightsLogs().catch(() => []);
       if (!Array.isArray(allLogs)) allLogs = Object.values(allLogs);
 
       const powerEntries = await this.reconstructHomePowerHistory(api, allLogs, null, null, 'yesterday').catch((err) => {

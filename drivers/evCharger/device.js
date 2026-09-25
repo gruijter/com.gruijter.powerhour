@@ -458,11 +458,15 @@ class CarChargeDevice extends GenericDevice {
     // Same dedup/cap approach as powerHistory in handleUpdateMeter(): at most one sample
     // per minute, capped to 2880 entries (48h), so getActualSocForTime() has real data for
     // the yesterday/today charts instead of the flat "current SoC everywhere" placeholder.
-    // lastKnownSoc only needs to survive a restart, not be durable to the second, so its store
-    // write rides along on this same once-a-minute gate instead of firing on every realtime push.
+    // Persisted at most every 15 minutes (as the battery does): rewriting 2880 entries every
+    // minute is wasted IPC, and history and lastKnownSoc only need to survive a restart roughly.
     if (this.recordSocSample(value)) {
-      this.setStoreValue('socHistory', this.socHistory).catch(this.error);
-      this.setStoreValue('lastKnownSoc', value).catch(this.error);
+      const now = Date.now();
+      if (!this.lastSocHistorySaveTm || (now - this.lastSocHistorySaveTm > 15 * 60 * 1000)) {
+        this.lastSocHistorySaveTm = now;
+        this.setStoreValue('socHistory', this.socHistory).catch(this.error);
+        this.setStoreValue('lastKnownSoc', value).catch(this.error);
+      }
     }
 
     const referenceSoc = this.lastRecalculatedSoc !== undefined ? this.lastRecalculatedSoc : oldSoc;
@@ -743,7 +747,7 @@ class CarChargeDevice extends GenericDevice {
         return;
       }
 
-      const allLogs = await api.insights.getLogs().catch(() => []);
+      const allLogs = await this.homey.app.getInsightsLogs().catch(() => []);
       const logs = Array.isArray(allLogs) ? allLogs : Object.values(allLogs);
 
       const chargerId = this.getSettings().homey_device_id;

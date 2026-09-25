@@ -470,7 +470,7 @@ class SolarDevice extends GenericDevice {
   // conversion) by actually test-fetching each candidate and checking it has real (>10W) data,
   // rather than trusting capability presence alone (a log can exist with no real values yet).
   async findTargetInsightsLog(api, sourceDevice, startDate14, endDate) {
-    let allLogs = await api.insights.getLogs().catch(() => []);
+    let allLogs = await this.homey.app.getInsightsLogs().catch(() => []);
     if (!Array.isArray(allLogs)) allLogs = Object.values(allLogs);
 
     const deviceLogs = allLogs.filter((log) => {
@@ -928,7 +928,7 @@ class SolarDevice extends GenericDevice {
       }
 
       // Locate Insights Log
-      let allLogs = await api.insights.getLogs().catch(() => []);
+      let allLogs = await this.homey.app.getInsightsLogs().catch(() => []);
       if (!Array.isArray(allLogs)) allLogs = Object.values(allLogs);
 
       const deviceLogs = allLogs.filter((log) => {

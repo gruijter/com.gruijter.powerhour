@@ -171,7 +171,7 @@ class BatDevice extends GenericDevice {
       }
       const sourceId = this.sourceDevice.id;
       const { api } = this.homey.app;
-      const rawLogs = await api.insights.getLogs().catch((err) => this.error('getLogs error:', err));
+      const rawLogs = await this.homey.app.getInsightsLogs().catch((err) => this.error('getLogs error:', err));
       if (!rawLogs) return;
 
       const logs = Array.isArray(rawLogs) ? rawLogs : Object.values(rawLogs);
@@ -438,7 +438,14 @@ class BatDevice extends GenericDevice {
     if (!this.pricesNextHours) return;
     await this.refreshDapPrices().catch(() => {});
     const minPriceDelta = this.getSettings().roiMinProfit;
-    const strategy = await this.flows.find_roi_strategy({ minPriceDelta }).catch((err) => this.error(err));
+    // A flow trigger (triggerNewRoiStrategyFlow) usually computed this same plan seconds ago; the
+    // exact-inputs cache in find_roi_strategy() misses on a changed SoC or minute. The chart only
+    // shows the plan, so a result from the same price slot and minPriceDelta is good enough.
+    const slotMs = (this.priceInterval || 60) * 60 * 1000;
+    const sameSlot = this.lastStratTm && Math.floor(this.lastStratTm / slotMs) === Math.floor(Date.now() / slotMs);
+    const strategy = (sameSlot && this.lastStratMinPriceDelta === minPriceDelta && this.lastStratTokens)
+      ? { ...this.lastStratTokens }
+      : await this.flows.find_roi_strategy({ minPriceDelta }).catch((err) => this.error(err));
     if (!strategy) return;
 
     await this.setCapability('roi_duration', strategy.duration).catch((err) => this.error(err));
