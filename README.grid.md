@@ -66,7 +66,7 @@ Fill in your real values — especially on a small (e.g. 1 × 35 A) or large con
 
 ## Home Power Calculation
 
-`measure_power.home` shows what your house actually consumes, calculated live on every grid meter update:
+`measure_watt_home` shows what your house actually consumes, calculated live on every grid meter update:
 
 ```
 Home = Grid (import +) + Solar − Battery (charging +) − EV charger (charging +)
@@ -76,7 +76,7 @@ Home = Grid (import +) + Solar − Battery (charging +) − EV charger (charging
 - **Battery / EV charger:** sum of all Power by the Hour Home Battery and EV Charger devices.
 - The result is smoothed with a 2-minute rolling average, to absorb timing differences between meters that report at different moments.
 
-The components are also shown separately as `measure_power.solar`, `measure_power.battery` and `measure_power.evcharger`.
+The components are also shown separately as `measure_watt_solar`, `measure_watt_battery` and `measure_watt_evcharger`.
 
 ---
 
@@ -122,7 +122,7 @@ Use the **Projected peak exceeds month peak** trigger or the **Peak headroom is 
 
 ## Home Load Forecast
 
-The driver learns a weekly home load profile (7 days × 96 quarter-hours) from `measure_power.home`:
+The driver learns a weekly home load profile (7 days × 96 quarter-hours) from `measure_watt_home`:
 - **Initial training:** on pairing, from the Insights history of the underlying meters.
 - **Continuous learning:** every quarter-hour, the profile is updated with the measured load.
 - **Nightly retrain:** blends recent history into the profile.
@@ -142,7 +142,7 @@ Use **Retrain home load model** (button or flow) to rebuild the profile from scr
 
 ## Capabilities
 
-- **Live power:** `measure_power.grid`, `measure_power.home`, `measure_power.solar`, `measure_power.battery`, `measure_power.evcharger`, `meter_tariff`
+- **Live power:** `measure_watt_grid`, `measure_watt_home`, `measure_watt_solar`, `measure_watt_battery`, `measure_watt_evcharger`, `meter_tariff`
 - **Net energy & money:** `meter_kwh_*` and `meter_money_*` for this/last hour, day, month and year, plus month/year average price and budget targets
 - **Import / export split:** `meter_kwh_*.imported / .exported` and `meter_money_*.imported / .exported` for this/last day, month and year
 - **Min / max power:** `measure_watt_min.*` / `measure_watt_max.*` for day, month and year

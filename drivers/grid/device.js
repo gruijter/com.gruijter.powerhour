@@ -48,7 +48,7 @@ const deviceSpecifics = {
     // use for their own primary cumulative meter (see lib/genericDeviceDrivers/generic_bat_
     // device.js's use of the bare 'meter_power_hidden' capability).
     meter_source: 'meter_power_hidden.grid',
-    measure_source: 'measure_power.grid',
+    measure_source: 'measure_watt_grid',
     minMaxPrefix: 'measure_watt',
   },
 };
@@ -305,14 +305,14 @@ class GridDevice extends GenericDevice {
   async setCapability(capability, value) {
     await super.setCapability(capability, value);
     // Calculate home power real-time in sync with the grid power updates
-    if (capability === 'measure_power.grid') {
+    if (capability === 'measure_watt_grid') {
       this.calculateHomePower().catch(this.error);
     }
   }
 
   async calculateHomePower() {
     try {
-      const gridPower = this.getCapabilityValue('measure_power.grid') || 0;
+      const gridPower = this.getCapabilityValue('measure_watt_grid') || 0;
 
       let solarPower = 0;
       let hasPbthSolar = false;
@@ -351,9 +351,9 @@ class GridDevice extends GenericDevice {
         });
       }
 
-      await this.setCapability('measure_power.solar', Math.round(solarPower)).catch(this.error);
-      await this.setCapability('measure_power.battery', Math.round(batteryPower)).catch(this.error);
-      await this.setCapability('measure_power.evcharger', Math.round(evPower)).catch(this.error);
+      await this.setCapability('measure_watt_solar', Math.round(solarPower)).catch(this.error);
+      await this.setCapability('measure_watt_battery', Math.round(batteryPower)).catch(this.error);
+      await this.setCapability('measure_watt_evcharger', Math.round(evPower)).catch(this.error);
 
       // Self-consumption formula: Grid (import = +) + Solar (production = +) - Battery (charging = +) - EV (charging = +)
       const homePower = Math.round(gridPower + solarPower - batteryPower - evPower);
@@ -367,13 +367,13 @@ class GridDevice extends GenericDevice {
       // Clamp a negative homePower into the buffer rather than skipping it. The residual house
       // load can't physically be negative, but the COMPUTED value goes negative whenever the
       // grid sample has moved and a battery/solar/EV sample hasn't yet (this method only re-runs
-      // on measure_power.grid updates, reading whatever the other three last published) - which
+      // on measure_watt_grid updates, reading whatever the other three last published) - which
       // is the very skew this rolling average exists to absorb. Skipping such a sample left the
       // 2-minute window averaging only the surviving POSITIVE samples, a systematic upward bias
       // during exactly the high-solar hours that produce the skew, and it fed straight into
       // updateLearning() -> the weekly profile. Worse, when every sample in the window was
       // negative the buffer emptied entirely and smoothedHomePower fell back to 0, so
-      // measure_power.home swung between inflated and zero instead of settling near the truth.
+      // measure_watt_home swung between inflated and zero instead of settling near the truth.
       // 0 is the physically correct value for such a sample, and keeping it in the buffer lets
       // it pull the average down the way it should. NaN fails the ceiling test, so it is still
       // excluded; the upper bound deliberately still SKIPS rather than clamps - a result past
@@ -392,7 +392,7 @@ class GridDevice extends GenericDevice {
       const smoothedGridPower = this.homePowerBuffer.length > 0
         ? Math.round(this.homePowerBuffer.reduce((sum, e) => sum + e.grid, 0) / this.homePowerBuffer.length)
         : Math.round(gridPower);
-      await this.setCapability('measure_power.home', safeHomePower).catch(this.error);
+      await this.setCapability('measure_watt_home', safeHomePower).catch(this.error);
 
       if (!Array.isArray(this.powerHistory)) this.powerHistory = [];
       if (typeof safeHomePower === 'number' && safeHomePower >= 0 && safeHomePower <= ceilingW) {
@@ -1107,7 +1107,7 @@ class GridDevice extends GenericDevice {
     const nowMs = new Date(reading.meterTm).getTime();
     const remainingH = Math.max(0, (this.peakLoad.slotStart + slotMs - nowMs) / 3600000);
     const energyWh = this.peakLoad.importKwhInSlot * 1000;
-    const importW = Math.max(0, this.getCapabilityValue('measure_power.grid') || 0);
+    const importW = Math.max(0, this.getCapabilityValue('measure_watt_grid') || 0);
     const projectedW = Math.round((energyWh + (importW * remainingH)) / slotH);
     const monthPeakW = this.getBilledPeakW(reading);
     let headroomW = null;
@@ -1341,7 +1341,7 @@ class GridDevice extends GenericDevice {
     const now = new Date();
     const currentTimestamp = now.getTime();
 
-    const rawPower = this.getCapabilityValue('measure_power.home');
+    const rawPower = this.getCapabilityValue('measure_watt_home');
     const currentEnergy = this.getCapabilityValue('meter_power_hidden.home');
 
     const { smoothedPower, newEnergyState } = LoadForecastStrategy.calculateSmoothedPower({
@@ -1634,7 +1634,7 @@ class GridDevice extends GenericDevice {
 
       // Always train from the underlying source devices' own long-running Insights logs
       // (grid meter, solar, battery, EV charger) - never from this device's own derived
-      // measure_power.home log. That log is itself the *output* of calculateHomePower(),
+      // measure_watt_home log. That log is itself the *output* of calculateHomePower(),
       // only as old as this app-device instance has been alive and actively computing it,
       // so treating it as a primary training input would be training the forecaster on its
       // own (short-lived, potentially gappy) past output instead of the real, independently
@@ -1728,7 +1728,7 @@ class GridDevice extends GenericDevice {
 
       // Locate Insights Log for home power capability
       // Always reconstruct from the underlying source devices' own logs (grid, solar, battery,
-      // EV charger), never from this device's own derived measure_power.home log - same
+      // EV charger), never from this device's own derived measure_watt_home log - same
       // reasoning as retrainLoadModel() above. customStart/customEnd are irrelevant for
       // resolution 'yesterday' - see fetchYesterdayAndToday()'s doc comment - so there's
       // nothing meaningful to pass here.

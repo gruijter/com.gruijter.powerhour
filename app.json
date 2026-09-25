@@ -19309,92 +19309,6 @@
         "meter_power_hidden.grid": {
           "insights": false
         },
-        "measure_power.grid": {
-          "title": {
-            "en": "Grid Power",
-            "nl": "Net Vermogen",
-            "de": "Netz Leistung",
-            "fr": "Puissance Réseau",
-            "it": "Potenza Rete",
-            "sv": "Nät Effekt",
-            "no": "Nett Effekt",
-            "es": "Potencia Red",
-            "da": "Net Effekt",
-            "pl": "Moc Sieci",
-            "ru": "Мощность сети",
-            "ar": "طاقة الشبكة",
-            "ko": "계통 전력"
-          }
-        },
-        "measure_power.solar": {
-          "title": {
-            "en": "Solar Power",
-            "nl": "Zon Vermogen",
-            "de": "Solar Leistung",
-            "fr": "Puissance Solaire",
-            "it": "Potenza Solare",
-            "sv": "Sol Effekt",
-            "no": "Sol Effekt",
-            "es": "Potencia Solar",
-            "da": "Sol Effekt",
-            "pl": "Moc Solarna",
-            "ru": "Солнечная мощность",
-            "ar": "طاقة شمسية",
-            "ko": "태양광 전력"
-          }
-        },
-        "measure_power.battery": {
-          "title": {
-            "en": "Battery Power",
-            "nl": "Accu Vermogen",
-            "de": "Batterie Leistung",
-            "fr": "Puissance Batterie",
-            "it": "Potenza Batteria",
-            "sv": "Batteri Effekt",
-            "no": "Batteri Effekt",
-            "es": "Potencia Batería",
-            "da": "Batteri Effekt",
-            "pl": "Moc Baterii",
-            "ru": "Мощность батареи",
-            "ar": "طاقة البطارية",
-            "ko": "배터리 전력"
-          }
-        },
-        "measure_power.evcharger": {
-          "title": {
-            "en": "EV Charger Power",
-            "nl": "EV Lader Vermogen",
-            "de": "E-Auto Ladeleistung",
-            "fr": "Puissance Chargeur VE",
-            "it": "Potenza Caricatore EV",
-            "sv": "Laddare Effekt",
-            "no": "Lader Effekt",
-            "es": "Potencia Cargador VE",
-            "da": "Oplader Effekt",
-            "pl": "Moc Ładowarki EV",
-            "ru": "Мощность зарядки EV",
-            "ar": "طاقة شاحن السيارة الكهربائية",
-            "ko": "EV 충전기 전력"
-          }
-        },
-        "measure_power.home": {
-          "title": {
-            "en": "Home Power",
-            "nl": "Huis Vermogen",
-            "de": "Haus Leistung",
-            "fr": "Puissance Maison",
-            "it": "Potenza Casa",
-            "sv": "Hem Effekt",
-            "no": "Hjem Effekt",
-            "es": "Potencia Casa",
-            "da": "Hjem Effekt",
-            "pl": "Moc Domu",
-            "ru": "Мощность Дома",
-            "ar": "طاقة المنزل",
-            "ko": "가정 전력"
-          },
-          "insights": true
-        },
         "meter_power_hidden.home": {
           "insights": false
         },
@@ -28425,6 +28339,114 @@
       "insights": true,
       "icon": "/assets/measure_watt_avg.svg"
     },
+    "measure_watt_battery": {
+      "type": "number",
+      "title": {
+        "en": "Battery Power",
+        "nl": "Accu Vermogen",
+        "de": "Batterie Leistung",
+        "fr": "Puissance Batterie",
+        "it": "Potenza Batteria",
+        "sv": "Batteri Effekt",
+        "no": "Batteri Effekt",
+        "es": "Potencia Batería",
+        "da": "Batteri Effekt",
+        "pl": "Moc Baterii",
+        "ru": "Мощность батареи",
+        "ar": "طاقة البطارية",
+        "ko": "배터리 전력"
+      },
+      "desc": {
+        "en": "Power in Watt (W)",
+        "nl": "Vermogen in Watt (W)",
+        "de": "Leistung in Watt (W)",
+        "fr": "Puissance  en Watt (W)",
+        "it": "Potenza in Watt (W)",
+        "sv": "Effekt i watt (W)",
+        "no": "Effekt i watt (W)",
+        "es": "Potencia en vatios (W)",
+        "da": "Effekt i Watt (W)",
+        "pl": "Moc w watach (W)",
+        "ru": "Мощность в Ваттах (Вт)",
+        "ar": "القدرة بالواط (W)",
+        "ko": "전력 (와트)"
+      },
+      "units": {
+        "en": "W",
+        "nl": "W",
+        "de": "W",
+        "fr": "W",
+        "it": "W",
+        "sv": "W",
+        "no": "W",
+        "es": "W",
+        "da": "W",
+        "pl": "W",
+        "ru": "Вт",
+        "ar": "واط",
+        "ko": "W"
+      },
+      "decimals": 0,
+      "getable": true,
+      "setable": false,
+      "insights": true,
+      "uiComponent": "sensor",
+      "icon": "/assets/measure_watt_battery.svg"
+    },
+    "measure_watt_evcharger": {
+      "type": "number",
+      "title": {
+        "en": "EV Charger Power",
+        "nl": "EV Lader Vermogen",
+        "de": "E-Auto Ladeleistung",
+        "fr": "Puissance Chargeur VE",
+        "it": "Potenza Caricatore EV",
+        "sv": "Laddare Effekt",
+        "no": "Lader Effekt",
+        "es": "Potencia Cargador VE",
+        "da": "Oplader Effekt",
+        "pl": "Moc Ładowarki EV",
+        "ru": "Мощность зарядки EV",
+        "ar": "طاقة شاحن السيارة الكهربائية",
+        "ko": "EV 충전기 전력"
+      },
+      "desc": {
+        "en": "Power in Watt (W)",
+        "nl": "Vermogen in Watt (W)",
+        "de": "Leistung in Watt (W)",
+        "fr": "Puissance  en Watt (W)",
+        "it": "Potenza in Watt (W)",
+        "sv": "Effekt i watt (W)",
+        "no": "Effekt i watt (W)",
+        "es": "Potencia en vatios (W)",
+        "da": "Effekt i Watt (W)",
+        "pl": "Moc w watach (W)",
+        "ru": "Мощность в Ваттах (Вт)",
+        "ar": "القدرة بالواط (W)",
+        "ko": "전력 (와트)"
+      },
+      "units": {
+        "en": "W",
+        "nl": "W",
+        "de": "W",
+        "fr": "W",
+        "it": "W",
+        "sv": "W",
+        "no": "W",
+        "es": "W",
+        "da": "W",
+        "pl": "W",
+        "ru": "Вт",
+        "ar": "واط",
+        "ko": "W"
+      },
+      "decimals": 0,
+      "getable": true,
+      "setable": false,
+      "insights": true,
+      "uiComponent": "sensor",
+      "icon": "/assets/measure_watt_evcharger.svg"
+    },
     "measure_watt_forecast": {
       "type": "number",
       "title": {
@@ -28463,6 +28485,114 @@
         "ar": "W"
       },
       "decimals": 0
+    },
+    "measure_watt_grid": {
+      "type": "number",
+      "title": {
+        "en": "Grid Power",
+        "nl": "Net Vermogen",
+        "de": "Netz Leistung",
+        "fr": "Puissance Réseau",
+        "it": "Potenza Rete",
+        "sv": "Nät Effekt",
+        "no": "Nett Effekt",
+        "es": "Potencia Red",
+        "da": "Net Effekt",
+        "pl": "Moc Sieci",
+        "ru": "Мощность сети",
+        "ar": "طاقة الشبكة",
+        "ko": "계통 전력"
+      },
+      "desc": {
+        "en": "Power in Watt (W)",
+        "nl": "Vermogen in Watt (W)",
+        "de": "Leistung in Watt (W)",
+        "fr": "Puissance  en Watt (W)",
+        "it": "Potenza in Watt (W)",
+        "sv": "Effekt i watt (W)",
+        "no": "Effekt i watt (W)",
+        "es": "Potencia en vatios (W)",
+        "da": "Effekt i Watt (W)",
+        "pl": "Moc w watach (W)",
+        "ru": "Мощность в Ваттах (Вт)",
+        "ar": "القدرة بالواط (W)",
+        "ko": "전력 (와트)"
+      },
+      "units": {
+        "en": "W",
+        "nl": "W",
+        "de": "W",
+        "fr": "W",
+        "it": "W",
+        "sv": "W",
+        "no": "W",
+        "es": "W",
+        "da": "W",
+        "pl": "W",
+        "ru": "Вт",
+        "ar": "واط",
+        "ko": "W"
+      },
+      "decimals": 0,
+      "getable": true,
+      "setable": false,
+      "insights": true,
+      "uiComponent": "sensor",
+      "icon": "/assets/measure_watt_grid.svg"
+    },
+    "measure_watt_home": {
+      "type": "number",
+      "title": {
+        "en": "Home Power",
+        "nl": "Huis Vermogen",
+        "de": "Haus Leistung",
+        "fr": "Puissance Maison",
+        "it": "Potenza Casa",
+        "sv": "Hem Effekt",
+        "no": "Hjem Effekt",
+        "es": "Potencia Casa",
+        "da": "Hjem Effekt",
+        "pl": "Moc Domu",
+        "ru": "Мощность Дома",
+        "ar": "طاقة المنزل",
+        "ko": "가정 전력"
+      },
+      "desc": {
+        "en": "Power in Watt (W)",
+        "nl": "Vermogen in Watt (W)",
+        "de": "Leistung in Watt (W)",
+        "fr": "Puissance  en Watt (W)",
+        "it": "Potenza in Watt (W)",
+        "sv": "Effekt i watt (W)",
+        "no": "Effekt i watt (W)",
+        "es": "Potencia en vatios (W)",
+        "da": "Effekt i Watt (W)",
+        "pl": "Moc w watach (W)",
+        "ru": "Мощность в Ваттах (Вт)",
+        "ar": "القدرة بالواط (W)",
+        "ko": "전력 (와트)"
+      },
+      "units": {
+        "en": "W",
+        "nl": "W",
+        "de": "W",
+        "fr": "W",
+        "it": "W",
+        "sv": "W",
+        "no": "W",
+        "es": "W",
+        "da": "W",
+        "pl": "W",
+        "ru": "Вт",
+        "ar": "واط",
+        "ko": "W"
+      },
+      "decimals": 0,
+      "getable": true,
+      "setable": false,
+      "insights": true,
+      "uiComponent": "sensor",
+      "icon": "/assets/measure_watt_home.svg"
     },
     "measure_watt_max": {
       "type": "number",
@@ -28619,6 +28749,60 @@
         "ar": "Watt"
       },
       "decimals": 0
+    },
+    "measure_watt_solar": {
+      "type": "number",
+      "title": {
+        "en": "Solar Power",
+        "nl": "Zon Vermogen",
+        "de": "Solar Leistung",
+        "fr": "Puissance Solaire",
+        "it": "Potenza Solare",
+        "sv": "Sol Effekt",
+        "no": "Sol Effekt",
+        "es": "Potencia Solar",
+        "da": "Sol Effekt",
+        "pl": "Moc Solarna",
+        "ru": "Солнечная мощность",
+        "ar": "طاقة شمسية",
+        "ko": "태양광 전력"
+      },
+      "desc": {
+        "en": "Power in Watt (W)",
+        "nl": "Vermogen in Watt (W)",
+        "de": "Leistung in Watt (W)",
+        "fr": "Puissance  en Watt (W)",
+        "it": "Potenza in Watt (W)",
+        "sv": "Effekt i watt (W)",
+        "no": "Effekt i watt (W)",
+        "es": "Potencia en vatios (W)",
+        "da": "Effekt i Watt (W)",
+        "pl": "Moc w watach (W)",
+        "ru": "Мощность в Ваттах (Вт)",
+        "ar": "القدرة بالواط (W)",
+        "ko": "전력 (와트)"
+      },
+      "units": {
+        "en": "W",
+        "nl": "W",
+        "de": "W",
+        "fr": "W",
+        "it": "W",
+        "sv": "W",
+        "no": "W",
+        "es": "W",
+        "da": "W",
+        "pl": "W",
+        "ru": "Вт",
+        "ar": "واط",
+        "ko": "W"
+      },
+      "decimals": 0,
+      "getable": true,
+      "setable": false,
+      "insights": true,
+      "uiComponent": "sensor",
+      "icon": "/assets/measure_watt_solar.svg"
     },
     "meter_kwh_charging": {
       "type": "number",

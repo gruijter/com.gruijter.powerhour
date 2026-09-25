@@ -28,9 +28,9 @@ const driverSpecifics = {
     // Active tariff + live power (meter_power_hidden.* are internal accounting anchors only -
     // uiComponent: null, no visible tile, no Insights, no flow cards - see drivers/grid/device.js)
     'meter_tariff',
-    'measure_power.grid', 'meter_power_hidden.grid',
-    'measure_power.home', 'meter_power_hidden.home',
-    'measure_power.solar', 'measure_power.battery', 'measure_power.evcharger',
+    'measure_watt_grid', 'meter_power_hidden.grid',
+    'measure_watt_home', 'meter_power_hidden.home',
+    'measure_watt_solar', 'measure_watt_battery', 'measure_watt_evcharger',
     // kWh (net)
     'meter_kwh_last_hour', 'meter_kwh_this_hour', 'meter_kwh_last_day', 'meter_kwh_this_day',
     'meter_kwh_last_month', 'meter_kwh_this_month', 'meter_kwh_last_year', 'meter_kwh_this_year',
