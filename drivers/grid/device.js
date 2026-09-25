@@ -1290,6 +1290,41 @@ class GridDevice extends GenericDevice {
     if (hourClosed) await this.updateForecastAccuracyStatus();
   }
 
+  // Forecast grid exchange (W, + import / - export) per 15-minute slot from startMs to endMs:
+  //   netNoBattery = home load - solar forecast
+  //   netPlanned   = netNoBattery + planned battery power (+ charge / - discharge)
+  // Two series on purpose: a battery planner must plan against netNoBattery, or it would plan
+  // against its own previous plan. Solar comes from PbtH solar devices only (Homey Energy has no
+  // forecast); battery from PbtH batteries with ROI enabled (no plan counts as idle). EV is not
+  // included: home load excludes it and its plan depends on the car being home.
+  getNetForecast(startMs, endMs) {
+    const load = LoadForecastStrategy.getLoadSeries(this.weeklyProfile, startMs, endMs, this.timeZone);
+    const sumSeries = (driverId, getSeries) => {
+      const total = new Array(load.length).fill(0);
+      let driver = null;
+      try {
+        driver = this.homey.drivers.getDriver(driverId);
+      } catch (err) {
+        return total;
+      }
+      driver.getDevices().forEach((dev) => {
+        const series = getSeries(dev);
+        if (!Array.isArray(series)) return;
+        series.forEach((v, i) => {
+          if (i < total.length && typeof v === 'number') total[i] += v;
+        });
+      });
+      return total;
+    };
+    const solar = sumSeries('solar', (dev) => (dev.getForecastSeries ? dev.getForecastSeries(startMs, endMs) : null));
+    const battery = sumSeries('battery', (dev) => (dev.getPlannedPowerSeries ? dev.getPlannedPowerSeries(startMs, endMs) : null));
+    const netNoBattery = load.map((l, i) => Math.round(l - solar[i]));
+    const netPlanned = netNoBattery.map((n, i) => Math.round(n + battery[i]));
+    return {
+      load, solar, battery, netNoBattery, netPlanned,
+    };
+  }
+
   getForecastAccuracy() {
     return LoadForecastStrategy.summarizeForecastErrors(this.forecastErrors, this.timeZone);
   }
@@ -1327,6 +1362,11 @@ class GridDevice extends GenericDevice {
     await this.setCapabilityValue('meter_kwh_forecast.tomorrow', forecast.totalTomorrowKwh).catch(this.error);
     await this.setCapabilityValue('measure_watt_forecast.tomorrow_peak', forecast.tomorrowPeakW).catch(this.error);
 
+    const slotStartMs = now.getTime() - (now.getTime() % (15 * 60 * 1000));
+    const netNext = this.getNetForecast(slotStartMs, slotStartMs + 75 * 60 * 1000).netPlanned;
+    await this.setCapabilityValue('measure_watt_forecast.net_h0', netNext[0]).catch(this.error);
+    await this.setCapabilityValue('measure_watt_forecast.net_h1', netNext[4]).catch(this.error);
+
     const { slotIndex: currentSlot } = LoadForecastStrategy.getLocalTimeDetails(now, this.timeZone);
 
     // --- Update Charts ---
@@ -1344,7 +1384,9 @@ class GridDevice extends GenericDevice {
 
     // 1. Today Chart (Forecast vs Real - updated every 15 mins or on model update)
     if (updated || (now.getMinutes() % 15 === 0) || !this.chartGridToday) {
-      const chartToday = await getGridForecastChart(this.weeklyProfile, startOfToday, endOfToday, 'Home Load Today', this.powerHistory, this.timeZone, true);
+      const netToday = this.getNetForecast(startOfToday.getTime(), endOfToday.getTime()).netPlanned
+        .map((v, i) => (startOfToday.getTime() + ((i + 1) * 15 * 60 * 1000) > now.getTime() ? v : null));
+      const chartToday = await getGridForecastChart(this.weeklyProfile, startOfToday, endOfToday, 'Home Load Today', this.powerHistory, this.timeZone, true, netToday);
       if (chartToday) {
         this.chartGridToday = chartToday;
         await this.gridTodayImage.update().catch(this.error);
@@ -1353,7 +1395,8 @@ class GridDevice extends GenericDevice {
 
     // 2. Tomorrow Chart (Forecast only)
     if (updated || !this.chartGridTomorrow) {
-      const chartTomorrow = await getGridForecastChart(this.weeklyProfile, startOfTomorrow, endOfTomorrow, 'Home Load Tomorrow', [], this.timeZone, false);
+      const netTomorrow = this.getNetForecast(startOfTomorrow.getTime(), endOfTomorrow.getTime()).netPlanned;
+      const chartTomorrow = await getGridForecastChart(this.weeklyProfile, startOfTomorrow, endOfTomorrow, 'Home Load Tomorrow', [], this.timeZone, false, netTomorrow);
       if (chartTomorrow) {
         this.chartGridTomorrow = chartTomorrow;
         await this.gridTomorrowImage.update().catch(this.error);

@@ -376,6 +376,46 @@
             },
             "type": "string",
             "example": "{\"samples\":672,\"maeW\":120,\"biasW\":-15,\"maePct\":24}"
+          },
+          {
+            "name": "net",
+            "title": {
+              "en": "Grid forecast JSON",
+              "de": "Netzprognose JSON",
+              "nl": "Netvoorspelling JSON",
+              "ar": "JSON توقع الشبكة",
+              "da": "JSON Netprognose",
+              "es": "JSON Previsión red",
+              "fr": "JSON Prévision réseau",
+              "it": "JSON Previsione rete",
+              "ko": "전력망 예측 JSON",
+              "no": "JSON Nettprognose",
+              "pl": "JSON Prognoza sieci",
+              "ru": "JSON Прогноз сети",
+              "sv": "JSON Nätprognos"
+            },
+            "type": "string",
+            "example": "[300,-1200,-2500,450]"
+          },
+          {
+            "name": "net_planned",
+            "title": {
+              "en": "Grid forecast incl. battery plan JSON",
+              "de": "Netzprognose inkl. Batterieplan JSON",
+              "nl": "Netvoorspelling incl. batterijplan JSON",
+              "ar": "JSON توقع الشبكة مع خطة البطارية",
+              "da": "JSON Netprognose inkl. batteriplan",
+              "es": "JSON Previsión red con plan batería",
+              "fr": "JSON Prévision réseau avec plan batterie",
+              "it": "JSON Previsione rete con piano batteria",
+              "ko": "배터리 계획 포함 전력망 예측 JSON",
+              "no": "JSON Nettprognose inkl. batteriplan",
+              "pl": "JSON Prognoza sieci z planem baterii",
+              "ru": "JSON Прогноз сети с планом батареи",
+              "sv": "JSON Nätprognos inkl. batteriplan"
+            },
+            "type": "string",
+            "example": "[300,-1200,-2500,450]"
           }
         ],
         "id": "load_forecast_updated"
@@ -8897,6 +8937,46 @@
             },
             "type": "string",
             "example": "{\"samples\":672,\"maeW\":120,\"biasW\":-15,\"maePct\":24}"
+          },
+          {
+            "name": "net",
+            "title": {
+              "en": "Grid forecast JSON",
+              "de": "Netzprognose JSON",
+              "nl": "Netvoorspelling JSON",
+              "ar": "JSON توقع الشبكة",
+              "da": "JSON Netprognose",
+              "es": "JSON Previsión red",
+              "fr": "JSON Prévision réseau",
+              "it": "JSON Previsione rete",
+              "ko": "전력망 예측 JSON",
+              "no": "JSON Nettprognose",
+              "pl": "JSON Prognoza sieci",
+              "ru": "JSON Прогноз сети",
+              "sv": "JSON Nätprognos"
+            },
+            "type": "string",
+            "example": "[300,-1200,-2500,450]"
+          },
+          {
+            "name": "net_planned",
+            "title": {
+              "en": "Grid forecast incl. battery plan JSON",
+              "de": "Netzprognose inkl. Batterieplan JSON",
+              "nl": "Netvoorspelling incl. batterijplan JSON",
+              "ar": "JSON توقع الشبكة مع خطة البطارية",
+              "da": "JSON Netprognose inkl. batteriplan",
+              "es": "JSON Previsión red con plan batería",
+              "fr": "JSON Prévision réseau avec plan batterie",
+              "it": "JSON Previsione rete con piano batteria",
+              "ko": "배터리 계획 포함 전력망 예측 JSON",
+              "no": "JSON Nettprognose inkl. batteriplan",
+              "pl": "JSON Prognoza sieci z planem baterii",
+              "ru": "JSON Прогноз сети с планом батареи",
+              "sv": "JSON Nätprognos inkl. batteriplan"
+            },
+            "type": "string",
+            "example": "[300,-1200,-2500,450]"
           }
         ],
         "id": "load_json"
@@ -19963,6 +20043,41 @@
             "ar": "إعادة تعيين وإعادة تدريب المتنبئ بالحمل بناءً على رؤى Homey لحمل المنزل.",
             "ko": "Homey Insights의 가정 부하 데이터를 기반으로 부하 예측 모델을 초기화하고 재학습합니다."
           }
+        },
+        "measure_watt_forecast.net_h0": {
+          "title": {
+            "en": "Grid forecast",
+            "nl": "Netvoorspelling",
+            "de": "Netzprognose",
+            "fr": "Prévision réseau",
+            "it": "Previsione rete",
+            "sv": "Nätprognos",
+            "no": "Nettprognose",
+            "es": "Previsión red",
+            "da": "Netprognose",
+            "pl": "Prognoza sieci",
+            "ru": "Прогноз сети",
+            "ar": "توقع الشبكة",
+            "ko": "전력망 예측"
+          }
+        },
+        "measure_watt_forecast.net_h1": {
+          "title": {
+            "en": "Grid forecast +1H",
+            "nl": "Netvoorspelling +1U",
+            "de": "Netzprognose +1Std.",
+            "fr": "Prévision réseau +1h",
+            "it": "Previsione rete +1h",
+            "sv": "Nätprognos +1H",
+            "no": "Nettprognose +1T",
+            "es": "Previsión red +1h",
+            "da": "Netprognose +1T",
+            "pl": "Prognoza sieci +1h",
+            "ru": "Прогноз сети +1ч",
+            "ar": "توقع الشبكة +1س",
+            "ko": "전력망 예측 +1시간"
+          },
+          "preventInsights": true
         }
       },
       "images": {

@@ -950,6 +950,41 @@
         "ar": "إعادة تعيين وإعادة تدريب المتنبئ بالحمل بناءً على رؤى Homey لحمل المنزل.",
         "ko": "Homey Insights의 가정 부하 데이터를 기반으로 부하 예측 모델을 초기화하고 재학습합니다."
       }
+    },
+    "measure_watt_forecast.net_h0": {
+      "title": {
+        "en": "Grid forecast",
+        "nl": "Netvoorspelling",
+        "de": "Netzprognose",
+        "fr": "Prévision réseau",
+        "it": "Previsione rete",
+        "sv": "Nätprognos",
+        "no": "Nettprognose",
+        "es": "Previsión red",
+        "da": "Netprognose",
+        "pl": "Prognoza sieci",
+        "ru": "Прогноз сети",
+        "ar": "توقع الشبكة",
+        "ko": "전력망 예측"
+      }
+    },
+    "measure_watt_forecast.net_h1": {
+      "title": {
+        "en": "Grid forecast +1H",
+        "nl": "Netvoorspelling +1U",
+        "de": "Netzprognose +1Std.",
+        "fr": "Prévision réseau +1h",
+        "it": "Previsione rete +1h",
+        "sv": "Nätprognos +1H",
+        "no": "Nettprognose +1T",
+        "es": "Previsión red +1h",
+        "da": "Netprognose +1T",
+        "pl": "Prognoza sieci +1h",
+        "ru": "Прогноз сети +1ч",
+        "ar": "توقع الشبكة +1س",
+        "ko": "전력망 예측 +1시간"
+      },
+      "preventInsights": true
     }
   },
   "images": {

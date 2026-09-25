@@ -152,6 +152,46 @@
       },
       "type": "string",
       "example": "{\"samples\":672,\"maeW\":120,\"biasW\":-15,\"maePct\":24}"
+    },
+    {
+      "name": "net",
+      "title": {
+        "en": "Grid forecast JSON",
+        "de": "Netzprognose JSON",
+        "nl": "Netvoorspelling JSON",
+        "ar": "JSON توقع الشبكة",
+        "da": "JSON Netprognose",
+        "es": "JSON Previsión red",
+        "fr": "JSON Prévision réseau",
+        "it": "JSON Previsione rete",
+        "ko": "전력망 예측 JSON",
+        "no": "JSON Nettprognose",
+        "pl": "JSON Prognoza sieci",
+        "ru": "JSON Прогноз сети",
+        "sv": "JSON Nätprognos"
+      },
+      "type": "string",
+      "example": "[300,-1200,-2500,450]"
+    },
+    {
+      "name": "net_planned",
+      "title": {
+        "en": "Grid forecast incl. battery plan JSON",
+        "de": "Netzprognose inkl. Batterieplan JSON",
+        "nl": "Netvoorspelling incl. batterijplan JSON",
+        "ar": "JSON توقع الشبكة مع خطة البطارية",
+        "da": "JSON Netprognose inkl. batteriplan",
+        "es": "JSON Previsión red con plan batería",
+        "fr": "JSON Prévision réseau avec plan batterie",
+        "it": "JSON Previsione rete con piano batteria",
+        "ko": "배터리 계획 포함 전력망 예측 JSON",
+        "no": "JSON Nettprognose inkl. batteriplan",
+        "pl": "JSON Prognoza sieci z planem baterii",
+        "ru": "JSON Прогноз сети с планом батареи",
+        "sv": "JSON Nätprognos inkl. batteriplan"
+      },
+      "type": "string",
+      "example": "[300,-1200,-2500,450]"
     }
   ]
 }

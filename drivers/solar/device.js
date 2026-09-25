@@ -1287,6 +1287,21 @@ class SolarDevice extends GenericDevice {
     await setPct('measure_solar_use.this_year', valYearSC, valYearTot, periods.newYear);
   }
 
+  // Forecast power (W) per 15-minute slot from startMs (inclusive) to endMs (exclusive), both real
+  // UTC ms. Used by the solar_json flow card and by the grid driver's net-exchange forecast.
+  getForecastSeries(startMs, endMs) {
+    const values = [];
+    for (let t = startMs; t < endMs; t += 15 * 60 * 1000) {
+      const rad = SolarLearningStrategy.getInterpolatedRadiation(t, this.forecastData || {});
+      // yieldFactors[] is trained and indexed by genuine UTC hour (see updateLearning()) - read it
+      // back directly from t's real UTC hour, no local conversion.
+      const slotIndex = (new Date(t).getUTCHours() * 4) + Math.floor(new Date(t).getUTCMinutes() / 15);
+      const yf = this.yieldFactors && this.yieldFactors[slotIndex] !== undefined ? this.yieldFactors[slotIndex] : 0;
+      values.push(Math.round(rad * yf));
+    }
+    return values;
+  }
+
   getForecastRemaining(targetDateLocal) {
     const now = new Date();
     const timezone = this.timeZone || 'UTC';

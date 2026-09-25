@@ -67,7 +67,10 @@ const driverSpecifics = {
     'measure_watt_forecast.h0', 'measure_watt_forecast.m15', 'measure_watt_forecast.m30',
     'measure_watt_forecast.m45', 'measure_watt_forecast.h1', 'measure_watt_forecast.h2',
     'measure_watt_forecast.h3', 'meter_kwh_forecast.h0', 'meter_kwh_forecast.this_day',
-    'meter_kwh_forecast.tomorrow', 'measure_watt_forecast.tomorrow_peak', 'button.retrain_load'],
+    'meter_kwh_forecast.tomorrow', 'measure_watt_forecast.tomorrow_peak',
+    // Forecast (net grid exchange)
+    'measure_watt_forecast.net_h0', 'measure_watt_forecast.net_h1',
+    'button.retrain_load'],
   // Canonical display order for this driver's chart images - see lib/helpers/ChartImages.js.
   chartImages: [
     {
