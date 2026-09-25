@@ -1,4 +1,7 @@
 {
+  "8.20.1": {
+    "en": "Added more grid charts. Fix EV plan in grid forecast. Improved Grid power icons. Fix values lost on migration."
+  },
   "8.20.0": {
     "en": "Release GRID driver. Reduced peak memory use. Add support for non-full UTC hour Timezones. Fix battery charts. Fix fixed export tariff. Average price now excludes fixed costs. Grid: add forecast accuracy, grid forecast and peak headroom."
   },
