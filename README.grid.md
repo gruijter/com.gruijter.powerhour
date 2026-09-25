@@ -129,10 +129,10 @@ The driver learns a weekly home load profile (7 days × 96 quarter-hours) from `
 - **Forecast accuracy:** each finished quarter-hour is compared with its forecast. The result is shown in the device settings (**Load forecast** → **Forecast accuracy**) and needs about a day of data to be meaningful.
 
 Besides the house load, the driver forecasts the **net grid exchange** (+ import / − export):
-- **Net:** home load − solar forecast (from Power by the Hour Solar devices).
+- **Net:** home load − solar forecast (from Power by the Hour Solar devices) + planned EV charging (from Power by the Hour EV Charger devices, only while the car is connected).
 - **Net incl. battery plan:** net + the planned charge/discharge of Power by the Hour Home Batteries (with ROI enabled).
 
-EV charging is not included in the forecast.
+EV charging is not part of the learned home load, so irregular charging sessions don't distort the profile.
 
 **Charts:** *Today*, *Tomorrow* and *Yesterday* show the home load (bars: forecast, line: measured); *Weekly* shows the learned profile. *Next hours* shows the forecast grid exchange from now until the end of tomorrow (orange: import, green: export). If a battery plan is active, the dashed line shows the grid exchange without it.
 

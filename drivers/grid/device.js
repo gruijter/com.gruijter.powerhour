@@ -1403,12 +1403,13 @@ class GridDevice extends GenericDevice {
   }
 
   // Forecast grid exchange (W, + import / - export) per 15-minute slot from startMs to endMs:
-  //   netNoBattery = home load - solar forecast
+  //   netNoBattery = home load - solar forecast + planned EV charging
   //   netPlanned   = netNoBattery + planned battery power (+ charge / - discharge)
   // Two series on purpose: a battery planner must plan against netNoBattery, or it would plan
   // against its own previous plan. Solar comes from PbtH solar devices only (Homey Energy has no
-  // forecast); battery from PbtH batteries with ROI enabled (no plan counts as idle). EV is not
-  // included: home load excludes it and its plan depends on the car being home.
+  // forecast); battery from PbtH batteries with ROI enabled (no plan counts as idle). EV is added
+  // separately because home load excludes it, and only while the car is connected: the EV plan
+  // is also made while the car is away, as a prediction that is not being followed.
   getNetForecast(startMs, endMs) {
     const load = LoadForecastStrategy.getLoadSeries(this.weeklyProfile, startMs, endMs, this.timeZone);
     const sumSeries = (driverId, getSeries) => {
@@ -1436,10 +1437,11 @@ class GridDevice extends GenericDevice {
     };
     const solar = sumSeries('solar', (dev) => (dev.getForecastSeries ? dev.getForecastSeries(startMs, endMs) : null));
     const battery = sumSeries('battery', (dev) => (dev.getPlannedPowerSeries ? dev.getPlannedPowerSeries(startMs, endMs) : null));
-    const netNoBattery = load.map((l, i) => Math.round(l - solar[i]));
+    const ev = sumSeries('evCharger', (dev) => (dev.isCarConnected && dev.getPlannedPowerSeries ? dev.getPlannedPowerSeries(startMs, endMs) : null));
+    const netNoBattery = load.map((l, i) => Math.round(l - solar[i] + ev[i]));
     const netPlanned = netNoBattery.map((n, i) => Math.round(n + battery[i]));
     return {
-      load, solar, battery, netNoBattery, netPlanned,
+      load, solar, battery, ev, netNoBattery, netPlanned,
     };
   }
 
