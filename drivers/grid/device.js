@@ -1114,7 +1114,7 @@ class GridDevice extends GenericDevice {
     const slotMs = this.getPeakLoadIntervalMinutes() * 60 * 1000;
     const nowMs = Date.now();
     const startMs = nowMs - (nowMs % slotMs) + slotMs;
-    const nowLocal = new Date(new Date(nowMs).toLocaleString('en-US', { timeZone: this.timeZone }));
+    const nowLocal = TimeHelpers.toLocalDate(new Date(nowMs), this.timeZone);
     const startOfNextMonth = TimeHelpers.getLocalMidnightUTC(
       new Date(Date.UTC(nowLocal.getFullYear(), nowLocal.getMonth() + 1, 1, 12)),
       this.timeZone,
@@ -1248,7 +1248,7 @@ class GridDevice extends GenericDevice {
         // to avoid conflicting with the explicit startup retraining in initLearningTimeout.
         if (!firstRun) {
           const now = new Date();
-          const localNow = new Date(now.toLocaleString('en-US', { timeZone: this.timeZone }));
+          const localNow = TimeHelpers.toLocalDate(now, this.timeZone);
           if (localNow.getHours() === 2) {
             const lastRun = new Date(this.lastAutoRetrainLoad);
             const isSameDay = lastRun.getDate() === localNow.getDate() && lastRun.getMonth() === localNow.getMonth() && lastRun.getFullYear() === localNow.getFullYear();

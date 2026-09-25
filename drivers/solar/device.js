@@ -255,7 +255,7 @@ class SolarDevice extends GenericDevice {
         // correcting drift and seasonal changes without user intervention.
         const now = new Date();
         // Use local hour — now.getHours() returns UTC hour which is wrong in non-UTC timezones
-        const localNow = new Date(now.toLocaleString('en-US', { timeZone: this.timeZone }));
+        const localNow = TimeHelpers.toLocalDate(now, this.timeZone);
         if (localNow.getHours() === 1) {
           const lastRun = new Date(this.lastAutoRetrain);
           const isSameLocalDay = lastRun.toLocaleDateString('en-CA', { timeZone: this.timeZone })
@@ -1305,7 +1305,7 @@ class SolarDevice extends GenericDevice {
   getForecastRemaining(targetDateLocal) {
     const now = new Date();
     const timezone = this.timeZone || 'UTC';
-    const nowLocal = new Date(now.toLocaleString('en-US', { timeZone: timezone }));
+    const nowLocal = TimeHelpers.toLocalDate(now, timezone);
 
     // If target is in the past relative to now, return 0
     if (targetDateLocal <= nowLocal) return 0;
@@ -1316,7 +1316,7 @@ class SolarDevice extends GenericDevice {
   getForecastStatsBetween(startLocal, endLocal) {
     const now = new Date();
     const timezone = this.timeZone || 'UTC';
-    const nowLocal = new Date(now.toLocaleString('en-US', { timeZone: timezone }));
+    const nowLocal = TimeHelpers.toLocalDate(now, timezone);
 
     // Adjust end date if it is before start (e.g. crossing midnight 22:00 -> 06:00)
     // Note: This logic assumes 'end' is the next occurance of that time relative to start.
