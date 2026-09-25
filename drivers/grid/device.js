@@ -268,6 +268,8 @@ class GridDevice extends GenericDevice {
         month: 0,
         year: 0,
       };
+      this.fixedMoney = { month: 0, year: 0 };
+      await this.setStoreValue('fixedMoney', this.fixedMoney).catch((err) => this.error(err));
       this.directionalBlockState = null;
       this.lastDirectionalSnapshot = null;
       // Same reasoning as reanchorExtraBaselines(): one ordered path, forced, so no dirty mark
