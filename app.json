@@ -21911,6 +21911,44 @@
               ]
             },
             {
+              "id": "peakMinimumW",
+              "type": "number",
+              "label": {
+                "en": "Minimum billed peak (W)",
+                "nl": "Minimaal gefactureerde piek (W)",
+                "de": "Minimale abgerechnete Spitze (W)",
+                "fr": "Pic minimum facturé (W)",
+                "it": "Picco minimo fatturato (W)",
+                "sv": "Lägsta debiterade topp (W)",
+                "no": "Minste fakturerte topp (W)",
+                "es": "Pico mínimo facturado (W)",
+                "da": "Mindste afregnede spids (W)",
+                "pl": "Minimalny rozliczany szczyt (W)",
+                "ru": "Минимальный оплачиваемый пик (Вт)",
+                "ar": "الحد الأدنى للذروة المفوترة (واط)",
+                "ko": "최소 청구 피크 (W)"
+              },
+              "hint": {
+                "en": "E.g. 2500 in Flanders. 0 = none.",
+                "nl": "Bijv. 2500 in Vlaanderen. 0 = geen.",
+                "de": "Z. B. 2500 in Flandern. 0 = keine.",
+                "fr": "Ex. 2500 en Flandre. 0 = aucun.",
+                "it": "Es. 2500 nelle Fiandre. 0 = nessuno.",
+                "sv": "T.ex. 2500 i Flandern. 0 = ingen.",
+                "no": "F.eks. 2500 i Flandern. 0 = ingen.",
+                "es": "P. ej. 2500 en Flandes. 0 = ninguno.",
+                "da": "F.eks. 2500 i Flandern. 0 = ingen.",
+                "pl": "Np. 2500 we Flandrii. 0 = brak.",
+                "ru": "Напр. 2500 во Фландрии. 0 = нет.",
+                "ar": "مثلاً 2500 في فلاندرز. 0 = لا شيء.",
+                "ko": "예: 플랑드르 2500. 0 = 없음."
+              },
+              "value": 0,
+              "min": 0,
+              "max": 100000,
+              "step": 100
+            },
+            {
               "id": "markup_month",
               "type": "number",
               "label": {

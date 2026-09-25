@@ -1066,12 +1066,21 @@ class GridDevice extends GenericDevice {
     return month.max;
   }
 
+  // Peak the tariff will bill at least: the month peak so far, raised to the minimum billed peak
+  // setting (e.g. 2.5 kW in Flanders). null when neither applies.
+  getBilledPeakW(reading) {
+    const monthPeakW = this.getMonthPeakW(reading);
+    const minimumW = Number(this.getSettings().peakMinimumW) || 0;
+    if (monthPeakW === null && minimumW <= 0) return null;
+    return Math.max(monthPeakW || 0, minimumW);
+  }
+
   // Live capacity-tariff projection for the running peak slot, assuming the current import power
   // holds for the rest of the slot:
   //   projected = (energy so far + current import x remaining time) / slot length
   //   headroom  = extra power that can still be added now for the rest of the slot without the
-  //               slot average exceeding the month peak (null while there is no month peak yet)
-  // Fires peak_projected_exceeded once per slot when the projection first goes over the peak.
+  //               slot average exceeding the billed peak (null while there is none yet)
+  // Fires peak_projected_exceeded once per slot when the projection first goes over the billed peak.
   async updatePeakProjection(reading) {
     if (!this.peakLoad || this.peakLoad.slotStart === null) return;
     const slotMs = this.getPeakLoadIntervalMinutes() * 60 * 1000;
@@ -1081,7 +1090,7 @@ class GridDevice extends GenericDevice {
     const energyWh = this.peakLoad.importKwhInSlot * 1000;
     const importW = Math.max(0, this.getCapabilityValue('measure_power.grid') || 0);
     const projectedW = Math.round((energyWh + (importW * remainingH)) / slotH);
-    const monthPeakW = this.getMonthPeakW(reading);
+    const monthPeakW = this.getBilledPeakW(reading);
     let headroomW = null;
     if (monthPeakW !== null) {
       const remainingForHeadroomH = Math.max(remainingH, 1 / 60); // avoid blow-up in the last seconds
@@ -1129,7 +1138,7 @@ class GridDevice extends GenericDevice {
   // Peak summary for the load_json flow tokens.
   getPeakForecast() {
     const p = this.peakProjection || {};
-    const monthPeakW = p.monthPeakW !== undefined ? p.monthPeakW : this.getMonthPeakW();
+    const monthPeakW = p.monthPeakW !== undefined ? p.monthPeakW : this.getBilledPeakW();
     const { expectedPeakW, expectedPeakTime } = this.getExpectedPeak();
     return {
       monthPeakW,
@@ -1410,8 +1419,15 @@ class GridDevice extends GenericDevice {
     };
   }
 
+  // Cached until forecastErrors changes (once per 15 minutes at most).
   getForecastAccuracy() {
-    return LoadForecastStrategy.summarizeForecastErrors(this.forecastErrors, this.timeZone);
+    if (!this.forecastAccuracyCache || this.forecastAccuracyCache.errors !== this.forecastErrors) {
+      this.forecastAccuracyCache = {
+        errors: this.forecastErrors,
+        summary: LoadForecastStrategy.summarizeForecastErrors(this.forecastErrors, this.timeZone),
+      };
+    }
+    return this.forecastAccuracyCache.summary;
   }
 
   // Settings label, refreshed hourly. Needs a day of scored slots before the numbers mean much.

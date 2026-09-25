@@ -54,6 +54,7 @@ class BatDevice extends GenericDevice {
   }
 
   async onPricesUpdated() {
+    if (!this.getSettings().roiEnable) this.latestPlan = null; // no plan is followed: count as idle
     if (this.getSettings().roiEnable) {
       this.pricesUpdated = true;
       await this.flows.triggerNewRoiStrategyFlow();
