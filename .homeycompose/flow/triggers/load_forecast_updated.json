@@ -132,6 +132,26 @@
       },
       "type": "string",
       "example": "[500,550,600,450,300]"
+    },
+    {
+      "name": "accuracy",
+      "title": {
+        "en": "Forecast accuracy JSON",
+        "de": "Prognosegenauigkeit JSON",
+        "nl": "Nauwkeurigheid voorspelling JSON",
+        "ar": "JSON دقة التوقع",
+        "da": "JSON Prognosenøjagtighed",
+        "es": "JSON Precisión de la previsión",
+        "fr": "JSON Précision de la prévision",
+        "it": "JSON Precisione previsione",
+        "ko": "예측 정확도 JSON",
+        "no": "JSON Prognosenøyaktighet",
+        "pl": "JSON Dokładność prognozy",
+        "ru": "JSON Точность прогноза",
+        "sv": "JSON Prognosprecision"
+      },
+      "type": "string",
+      "example": "{\"samples\":672,\"maeW\":120,\"biasW\":-15,\"maePct\":24}"
     }
   ]
 }

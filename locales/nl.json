@@ -36,5 +36,7 @@
     "warningtitle": "WAARSCHUWING",
     "warningtext": "Je staat op het punt het bronapparaat te wijzigen. Dit behoudt alle inzichten en flows. Maar als het nieuwe bronapparaat een andere meterstand heeft, moet je de meter- en geldstartwaarden handmatig compenseren in de geavanceerde instellingen.",
     "evChargerWarningText": "Je staat op het punt de gekoppelde EV-lader en/of EV-auto te wijzigen. Dit behoudt alle inzichten en flows. Maar als de nieuwe lader een andere meterstand heeft, moet je de meter- en geldstartwaarden handmatig compenseren in de geavanceerde instellingen."
-  }
+  },
+  "load_forecast_accuracy": "Gem. afwijking __mae__ W (__pct__%), bias __bias__ W, __days__ dagen",
+  "load_forecast_accuracy_collecting": "Gegevens verzamelen"
 }

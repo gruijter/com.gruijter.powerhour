@@ -19,7 +19,7 @@
   "icon": "/assets/measure_watt_forecast.svg",
   "getable": true,
   "setable": false,
-  "insights": false,
+  "insights": true,
   "units": {
     "en": "W",
     "ko": "W",

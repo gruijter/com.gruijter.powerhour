@@ -36,5 +36,7 @@
     "warningtitle": "VARNING",
     "warningtext": "Du håller på att byta källenhet. Detta bevarar alla insikter och flöden. Men om den nya källenheten har en annan mätarställning måste du manuellt kompensera mätar- och pengastartvärdena i de avancerade inställningarna.",
     "evChargerWarningText": "Du håller på att byta den länkade EV-laddaren och/eller EV-bilen. Detta bevarar alla insikter och flöden. Men om den nya laddaren har en annan mätarställning måste du manuellt kompensera mätar- och pengastartvärdena i de avancerade inställningarna."
-  }
+  },
+  "load_forecast_accuracy": "Medelfel __mae__ W (__pct__%), bias __bias__ W, __days__ dagar",
+  "load_forecast_accuracy_collecting": "Samlar in data"
 }

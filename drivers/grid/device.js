@@ -169,6 +169,8 @@ class GridDevice extends GenericDevice {
     this.weeklyProfile = storedProfile || LoadForecastStrategy.initializeProfile();
     this.lastAutoRetrainLoad = await this.getStoreValue('lastAutoRetrainLoad') || 0;
     this.retrainingLoad = false;
+    this.forecastErrors = await this.getStoreValue('forecastErrors') || [];
+    await this.updateForecastAccuracyStatus().catch(this.error);
 
     // Load power history
     let history = await this.getStoreValue('powerHistory');
@@ -1249,6 +1251,7 @@ class GridDevice extends GenericDevice {
 
     if (bucketResult.finishedBucket) {
       if (bucketResult.finishedBucket.log) this.log(bucketResult.finishedBucket.log);
+      await this.recordForecastError(bucketResult.finishedBucket).catch(this.error);
 
       const result = LoadForecastStrategy.getStrategy({
         currentPower: bucketResult.finishedBucket.avgPower,
@@ -1266,6 +1269,41 @@ class GridDevice extends GenericDevice {
       }
     }
     return updated;
+  }
+
+  // Score the forecast that was in effect for a just-closed slot. Must run before the slot's own
+  // learning update, which would otherwise pull the prediction towards the actual value. Slots
+  // shorter than 10 minutes (the first one after a restart) are too noisy to score.
+  async recordForecastError(finishedBucket) {
+    if (!finishedBucket || finishedBucket.durationMs < 10 * 60 * 1000) return;
+    const { dayOfWeek, slotIndex } = LoadForecastStrategy.getLocalTimeDetails(finishedBucket.startTime, this.timeZone);
+    const predicted = this.weeklyProfile && this.weeklyProfile[dayOfWeek] ? this.weeklyProfile[dayOfWeek][slotIndex] : null;
+    // An untrained (all-zero) profile predicts nothing - scoring it would only measure the load.
+    if (!predicted) return;
+    this.forecastErrors = LoadForecastStrategy.recordForecastError(this.forecastErrors, {
+      time: finishedBucket.startTime,
+      predicted,
+      actual: finishedBucket.avgPower,
+    });
+    await this.setStoreValue('forecastErrors', this.forecastErrors);
+    const hourClosed = new Date(finishedBucket.startTime).getUTCMinutes() >= 45;
+    if (hourClosed) await this.updateForecastAccuracyStatus();
+  }
+
+  getForecastAccuracy() {
+    return LoadForecastStrategy.summarizeForecastErrors(this.forecastErrors, this.timeZone);
+  }
+
+  // Settings label, refreshed hourly. Needs a day of scored slots before the numbers mean much.
+  async updateForecastAccuracyStatus() {
+    const acc = this.getForecastAccuracy();
+    const days = (acc.samples || 0) / 96;
+    const text = (acc.samples && days >= 1)
+      ? this.homey.__('load_forecast_accuracy', {
+        mae: acc.maeW, pct: acc.maePct === null ? '-' : acc.maePct, bias: acc.biasW, days: days.toFixed(1),
+      })
+      : this.homey.__('load_forecast_accuracy_collecting');
+    await this.setSettings({ forecast_accuracy: text });
   }
 
   async updateForecastDisplay(updated = false) {
@@ -1295,15 +1333,14 @@ class GridDevice extends GenericDevice {
     const { timeZone } = this;
     const getLocalMidnightUTC = (d) => TimeHelpers.getLocalMidnightUTC(d, timeZone);
 
+    // Real local midnights: a DST day has 23 or 25 hours. +/-26h and -1h always land in the
+    // neighbouring local day.
     const startOfToday = getLocalMidnightUTC(now);
-    const endOfToday = new Date(startOfToday.getTime() + 24 * 60 * 60 * 1000);
-
-    const startOfYesterday = new Date(startOfToday.getTime() - 24 * 60 * 60 * 1000);
+    const startOfTomorrow = getLocalMidnightUTC(new Date(startOfToday.getTime() + 26 * 60 * 60 * 1000));
+    const endOfToday = startOfTomorrow;
+    const endOfTomorrow = getLocalMidnightUTC(new Date(startOfTomorrow.getTime() + 26 * 60 * 60 * 1000));
+    const startOfYesterday = getLocalMidnightUTC(new Date(startOfToday.getTime() - 60 * 60 * 1000));
     const endOfYesterday = startOfToday;
-
-    const tomorrow = new Date(now.getTime() + 24 * 60 * 60 * 1000);
-    const startOfTomorrow = getLocalMidnightUTC(tomorrow);
-    const endOfTomorrow = new Date(startOfTomorrow.getTime() + 24 * 60 * 60 * 1000);
 
     // 1. Today Chart (Forecast vs Real - updated every 15 mins or on model update)
     if (updated || (now.getMinutes() % 15 === 0) || !this.chartGridToday) {

@@ -356,6 +356,26 @@
             },
             "type": "string",
             "example": "[500,550,600,450,300]"
+          },
+          {
+            "name": "accuracy",
+            "title": {
+              "en": "Forecast accuracy JSON",
+              "de": "Prognosegenauigkeit JSON",
+              "nl": "Nauwkeurigheid voorspelling JSON",
+              "ar": "JSON دقة التوقع",
+              "da": "JSON Prognosenøjagtighed",
+              "es": "JSON Precisión de la previsión",
+              "fr": "JSON Précision de la prévision",
+              "it": "JSON Precisione previsione",
+              "ko": "예측 정확도 JSON",
+              "no": "JSON Prognosenøyaktighet",
+              "pl": "JSON Dokładność prognozy",
+              "ru": "JSON Точность прогноза",
+              "sv": "JSON Prognosprecision"
+            },
+            "type": "string",
+            "example": "{\"samples\":672,\"maeW\":120,\"biasW\":-15,\"maePct\":24}"
           }
         ],
         "id": "load_forecast_updated"
@@ -8857,6 +8877,26 @@
             },
             "type": "string",
             "example": "[500,550,600,450,300]"
+          },
+          {
+            "name": "accuracy",
+            "title": {
+              "en": "Forecast accuracy JSON",
+              "de": "Prognosegenauigkeit JSON",
+              "nl": "Nauwkeurigheid voorspelling JSON",
+              "ar": "JSON دقة التوقع",
+              "da": "JSON Prognosenøjagtighed",
+              "es": "JSON Precisión de la previsión",
+              "fr": "JSON Précision de la prévision",
+              "it": "JSON Precisione previsione",
+              "ko": "예측 정확도 JSON",
+              "no": "JSON Prognosenøyaktighet",
+              "pl": "JSON Dokładność prognozy",
+              "ru": "JSON Точность прогноза",
+              "sv": "JSON Prognosprecision"
+            },
+            "type": "string",
+            "example": "{\"samples\":672,\"maeW\":120,\"biasW\":-15,\"maePct\":24}"
           }
         ],
         "id": "load_json"
@@ -19728,7 +19768,8 @@
             "ru": "Домашняя нагрузка +15М",
             "ar": "حمل المنزل +15د",
             "ko": "가정 부하 +15분"
-          }
+          },
+          "preventInsights": true
         },
         "measure_watt_forecast.m30": {
           "title": {
@@ -19745,7 +19786,8 @@
             "ru": "Домашняя нагрузка +30М",
             "ar": "حمل المنزل +30د",
             "ko": "가정 부하 +30분"
-          }
+          },
+          "preventInsights": true
         },
         "measure_watt_forecast.m45": {
           "title": {
@@ -19762,7 +19804,8 @@
             "ru": "Домашняя нагрузка +45М",
             "ar": "حمل المنزل +45د",
             "ko": "가정 부하 +45분"
-          }
+          },
+          "preventInsights": true
         },
         "measure_watt_forecast.h1": {
           "title": {
@@ -19779,7 +19822,8 @@
             "ru": "Домашняя нагрузка +1ч",
             "ar": "حمل المنزل +1س",
             "ko": "가정 부하 +1시간"
-          }
+          },
+          "preventInsights": true
         },
         "measure_watt_forecast.h2": {
           "title": {
@@ -19796,7 +19840,8 @@
             "ru": "Домашняя нагрузка +2ч",
             "ar": "حمل المنزل +2س",
             "ko": "가정 부하 +2시간"
-          }
+          },
+          "preventInsights": true
         },
         "measure_watt_forecast.h3": {
           "title": {
@@ -19813,7 +19858,8 @@
             "ru": "Домашняя нагрузка +3ч",
             "ar": "حمل المنزل +3س",
             "ko": "가정 부하 +3시간"
-          }
+          },
+          "preventInsights": true
         },
         "meter_kwh_forecast.this_day": {
           "title": {
@@ -19864,7 +19910,8 @@
             "ru": "Пиковый прогноз домашней нагрузки на завтра",
             "ar": "توقعات ذروة حمل المنزل غدا",
             "ko": "내일 가정 부하 피크 예측"
-          }
+          },
+          "preventInsights": true
         },
         "meter_kwh_forecast.h0": {
           "title": {
@@ -21622,6 +21669,46 @@
               "value": 0
             }
           ]
+        },
+        {
+          "type": "group",
+          "label": {
+            "en": "Load forecast",
+            "nl": "Verbruiksvoorspelling",
+            "de": "Lastprognose",
+            "fr": "Prévision de charge",
+            "it": "Previsione carico",
+            "sv": "Lastprognos",
+            "no": "Lastprognose",
+            "es": "Previsión de carga",
+            "da": "Forbrugsprognose",
+            "pl": "Prognoza obciążenia",
+            "ru": "Прогноз нагрузки",
+            "ko": "부하 예측",
+            "ar": "توقعات الحمل"
+          },
+          "children": [
+            {
+              "id": "forecast_accuracy",
+              "type": "label",
+              "label": {
+                "en": "Forecast accuracy",
+                "nl": "Nauwkeurigheid voorspelling",
+                "de": "Prognosegenauigkeit",
+                "fr": "Précision de la prévision",
+                "it": "Precisione previsione",
+                "sv": "Prognosprecision",
+                "no": "Prognosenøyaktighet",
+                "es": "Precisión de la previsión",
+                "da": "Prognosenøjagtighed",
+                "pl": "Dokładność prognozy",
+                "ru": "Точность прогноза",
+                "ko": "예측 정확도",
+                "ar": "دقة التوقع"
+              },
+              "value": "-"
+            }
+          ]
         }
       ],
       "platforms": [
@@ -23172,7 +23259,8 @@
             "ru": "Мощность +15М",
             "ar": "الطاقة +15د",
             "ko": "전력 +15분"
-          }
+          },
+          "preventInsights": true
         },
         "measure_watt_forecast.m30": {
           "title": {
@@ -23189,7 +23277,8 @@
             "ru": "Мощность +30М",
             "ar": "الطاقة +30د",
             "ko": "전력 +30분"
-          }
+          },
+          "preventInsights": true
         },
         "measure_watt_forecast.m45": {
           "title": {
@@ -23206,7 +23295,8 @@
             "ru": "Мощность +45М",
             "ar": "الطاقة +45د",
             "ko": "전력 +45분"
-          }
+          },
+          "preventInsights": true
         },
         "measure_watt_forecast.h1": {
           "title": {
@@ -23223,7 +23313,8 @@
             "ru": "Мощность +1ч",
             "ar": "الطاقة +1س",
             "ko": "전력 +1시간"
-          }
+          },
+          "preventInsights": true
         },
         "measure_watt_forecast.h2": {
           "title": {
@@ -23240,7 +23331,8 @@
             "ru": "Мощность +2ч",
             "ar": "الطاقة +2س",
             "ko": "전력 +2시간"
-          }
+          },
+          "preventInsights": true
         },
         "measure_watt_forecast.h3": {
           "title": {
@@ -23257,7 +23349,8 @@
             "ru": "Мощность +3ч",
             "ar": "الطاقة +3س",
             "ko": "전력 +3시간"
-          }
+          },
+          "preventInsights": true
         },
         "meter_kwh_forecast.this_day": {
           "title": {
@@ -23308,7 +23401,8 @@
             "ru": "Пиковый прогноз на завтра",
             "ar": "توقعات الذروة غدا",
             "ko": "내일 피크 예측"
-          }
+          },
+          "preventInsights": true
         },
         "meter_kwh_forecast.h0": {
           "title": {
@@ -27968,7 +28062,7 @@
       "icon": "/assets/measure_watt_forecast.svg",
       "getable": true,
       "setable": false,
-      "insights": false,
+      "insights": true,
       "units": {
         "en": "W",
         "ko": "W",

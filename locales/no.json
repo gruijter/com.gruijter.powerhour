@@ -36,5 +36,7 @@
     "warningtitle": "ADVARSEL",
     "warningtext": "Du er i ferd med å endre kildeenheten. Dette bevarer all innsikt og flyt. Men hvis den nye kildeenheten har en annen måleravlesning, må du manuelt kompensere måler- og pengestartverdiene i de avanserte innstillingene.",
     "evChargerWarningText": "Du er i ferd med å endre den tilkoblede EV-laderen og/eller EV-bilen. Dette bevarer all innsikt og flyt. Men hvis den nye laderen har en annen måleravlesning, må du manuelt kompensere måler- og pengestartverdiene i de avanserte innstillingene."
-  }
+  },
+  "load_forecast_accuracy": "Gj.sn. avvik __mae__ W (__pct__%), bias __bias__ W, __days__ dager",
+  "load_forecast_accuracy_collecting": "Samler inn data"
 }

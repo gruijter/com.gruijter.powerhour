@@ -36,5 +36,7 @@
     "warningtitle": "ADVERTENCIA",
     "warningtext": "Está a punto de cambiar el dispositivo de origen. Esto conserva todos los conocimientos y flujos. Pero si el nuevo dispositivo de origen tiene una lectura de medidor diferente, debe compensar manualmente los valores de inicio del medidor y del dinero en la configuración avanzada.",
     "evChargerWarningText": "Estás a punto de cambiar el cargador EV y/o el coche EV vinculados. Esto conserva todos los conocimientos y flujos. Pero si el nuevo cargador tiene una lectura de medidor diferente, debe compensar manualmente los valores de inicio del medidor y del dinero en la configuración avanzada."
-  }
+  },
+  "load_forecast_accuracy": "Error medio __mae__ W (__pct__%), sesgo __bias__ W, __days__ días",
+  "load_forecast_accuracy_collecting": "Recopilando datos"
 }

@@ -755,7 +755,8 @@
         "ru": "Домашняя нагрузка +15М",
         "ar": "حمل المنزل +15د",
         "ko": "가정 부하 +15분"
-      }
+      },
+      "preventInsights": true
     },
     "measure_watt_forecast.m30": {
       "title": {
@@ -772,7 +773,8 @@
         "ru": "Домашняя нагрузка +30М",
         "ar": "حمل المنزل +30د",
         "ko": "가정 부하 +30분"
-      }
+      },
+      "preventInsights": true
     },
     "measure_watt_forecast.m45": {
       "title": {
@@ -789,7 +791,8 @@
         "ru": "Домашняя нагрузка +45М",
         "ar": "حمل المنزل +45د",
         "ko": "가정 부하 +45분"
-      }
+      },
+      "preventInsights": true
     },
     "measure_watt_forecast.h1": {
       "title": {
@@ -806,7 +809,8 @@
         "ru": "Домашняя нагрузка +1ч",
         "ar": "حمل المنزل +1س",
         "ko": "가정 부하 +1시간"
-      }
+      },
+      "preventInsights": true
     },
     "measure_watt_forecast.h2": {
       "title": {
@@ -823,7 +827,8 @@
         "ru": "Домашняя нагрузка +2ч",
         "ar": "حمل المنزل +2س",
         "ko": "가정 부하 +2시간"
-      }
+      },
+      "preventInsights": true
     },
     "measure_watt_forecast.h3": {
       "title": {
@@ -840,7 +845,8 @@
         "ru": "Домашняя нагрузка +3ч",
         "ar": "حمل المنزل +3س",
         "ko": "가정 부하 +3시간"
-      }
+      },
+      "preventInsights": true
     },
     "meter_kwh_forecast.this_day": {
       "title": {
@@ -891,7 +897,8 @@
         "ru": "Пиковый прогноз домашней нагрузки на завтра",
         "ar": "توقعات ذروة حمل المنزل غدا",
         "ko": "내일 가정 부하 피크 예측"
-      }
+      },
+      "preventInsights": true
     },
     "meter_kwh_forecast.h0": {
       "title": {
@@ -2647,6 +2654,46 @@
             "ko": "매시간 시작 시 추가되는 고정 비용입니다."
           },
           "value": 0
+        }
+      ]
+    },
+    {
+      "type": "group",
+      "label": {
+        "en": "Load forecast",
+        "nl": "Verbruiksvoorspelling",
+        "de": "Lastprognose",
+        "fr": "Prévision de charge",
+        "it": "Previsione carico",
+        "sv": "Lastprognos",
+        "no": "Lastprognose",
+        "es": "Previsión de carga",
+        "da": "Forbrugsprognose",
+        "pl": "Prognoza obciążenia",
+        "ru": "Прогноз нагрузки",
+        "ko": "부하 예측",
+        "ar": "توقعات الحمل"
+      },
+      "children": [
+        {
+          "id": "forecast_accuracy",
+          "type": "label",
+          "label": {
+            "en": "Forecast accuracy",
+            "nl": "Nauwkeurigheid voorspelling",
+            "de": "Prognosegenauigkeit",
+            "fr": "Précision de la prévision",
+            "it": "Precisione previsione",
+            "sv": "Prognosprecision",
+            "no": "Prognosenøyaktighet",
+            "es": "Precisión de la previsión",
+            "da": "Prognosenøjagtighed",
+            "pl": "Dokładność prognozy",
+            "ru": "Точность прогноза",
+            "ko": "예측 정확도",
+            "ar": "دقة التوقع"
+          },
+          "value": "-"
         }
       ]
     }

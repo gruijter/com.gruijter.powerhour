@@ -104,7 +104,8 @@
         "ru": "Мощность +15М",
         "ar": "الطاقة +15د",
         "ko": "전력 +15분"
-      }
+      },
+      "preventInsights": true
     },
     "measure_watt_forecast.m30": {
       "title": {
@@ -121,7 +122,8 @@
         "ru": "Мощность +30М",
         "ar": "الطاقة +30د",
         "ko": "전력 +30분"
-      }
+      },
+      "preventInsights": true
     },
     "measure_watt_forecast.m45": {
       "title": {
@@ -138,7 +140,8 @@
         "ru": "Мощность +45М",
         "ar": "الطاقة +45د",
         "ko": "전력 +45분"
-      }
+      },
+      "preventInsights": true
     },
     "measure_watt_forecast.h1": {
       "title": {
@@ -155,7 +158,8 @@
         "ru": "Мощность +1ч",
         "ar": "الطاقة +1س",
         "ko": "전력 +1시간"
-      }
+      },
+      "preventInsights": true
     },
     "measure_watt_forecast.h2": {
       "title": {
@@ -172,7 +176,8 @@
         "ru": "Мощность +2ч",
         "ar": "الطاقة +2س",
         "ko": "전력 +2시간"
-      }
+      },
+      "preventInsights": true
     },
     "measure_watt_forecast.h3": {
       "title": {
@@ -189,7 +194,8 @@
         "ru": "Мощность +3ч",
         "ar": "الطاقة +3س",
         "ko": "전력 +3시간"
-      }
+      },
+      "preventInsights": true
     },
     "meter_kwh_forecast.this_day": {
       "title": {
@@ -240,7 +246,8 @@
         "ru": "Пиковый прогноз на завтра",
         "ar": "توقعات الذروة غدا",
         "ko": "내일 피크 예측"
-      }
+      },
+      "preventInsights": true
     },
     "meter_kwh_forecast.h0": {
       "title": {
