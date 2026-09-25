@@ -394,6 +394,16 @@ class BatDevice extends GenericDevice {
     }
   }
 
+  async updateValue(val, cap) {
+    await super.updateValue(val, cap);
+    if (cap !== 'soc' || !this.recordSocSample(val)) return;
+    const now = Date.now();
+    if (!this.lastSocHistorySaveTm || (now - this.lastSocHistorySaveTm > 15 * 60 * 1000)) {
+      this.lastSocHistorySaveTm = now;
+      await this.setStoreValue('socHistory', this.socHistory).catch(this.error);
+    }
+  }
+
   async handleUpdateMeter(reading) {
     // This override previously shadowed GenericDevice#handleUpdateMeter entirely (same method
     // name), silently skipping the base class's meter-period bookkeeping (meter_power_hidden,

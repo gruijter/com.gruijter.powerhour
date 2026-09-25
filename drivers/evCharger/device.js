@@ -460,12 +460,7 @@ class CarChargeDevice extends GenericDevice {
     // the yesterday/today charts instead of the flat "current SoC everywhere" placeholder.
     // lastKnownSoc only needs to survive a restart, not be durable to the second, so its store
     // write rides along on this same once-a-minute gate instead of firing on every realtime push.
-    const currentTimestamp = Date.now();
-    if (!Array.isArray(this.socHistory)) this.socHistory = [];
-    const lastSocEntry = this.socHistory[this.socHistory.length - 1];
-    if (!lastSocEntry || Math.abs(currentTimestamp - lastSocEntry.time) >= 60000) {
-      this.socHistory.push({ time: currentTimestamp, soc: value });
-      if (this.socHistory.length > 2880) this.socHistory.shift();
+    if (this.recordSocSample(value)) {
       this.setStoreValue('socHistory', this.socHistory).catch(this.error);
       this.setStoreValue('lastKnownSoc', value).catch(this.error);
     }
