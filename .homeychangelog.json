@@ -1,6 +1,6 @@
 {
   "8.20.0": {
-    "en": "Reduced peak memory use. Add support for non-full UTC hour Timezones. Fix battery charts. Fix fixed export tariff. Average price now excludes fixed costs. Grid: add forecast accuracy, grid forecast and peak headroom."
+    "en": "Release GRID driver. Reduced peak memory use. Add support for non-full UTC hour Timezones. Fix battery charts. Fix fixed export tariff. Average price now excludes fixed costs. Grid: add forecast accuracy, grid forecast and peak headroom."
   },
   "8.19.0": {
     "en": "Add option to not trigger on new forecast prices. Add many missing translations. Unify used terminology. Fix data source naming in flows. Fix price triggers due to rounding noise. Fix chart rendering. Many grid fixes and improvements."

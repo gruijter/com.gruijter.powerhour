@@ -12,10 +12,11 @@ Select a use case below for detailed setup instructions, settings guides, and co
 
 | Use Case | Core Driver | Detailed Guide |
 |---|---|---|
+| 🔌 **Track Grid Import/Export, Peak Load & Home Load Forecast** | Grid Power Summarizer (`grid`) | [→ README.grid.md](./README.grid.md) |
+| ☀️ **Forecast Solar Production & Self-Consumption** | Solar Forecaster (`solar`) | [→ README.solar.md](./README.solar.md) |
 | ⚡ **Track Electricity Usage & Standby Power** | Power Summarizer (`power`) | [→ README.power.md](./README.power.md) |
 | 🛢️ **Monitor Gas Consumption & Leak Alarms** | Gas Summarizer (`gas`) | [→ README.gas.md](./README.gas.md) |
 | 💧 **Track Water Usage & Dripping Taps** | Water Summarizer (`water`) | [→ README.water.md](./README.water.md) |
-| ☀️ **Forecast Solar Production & Self-Consumption** | Solar Forecaster (`solar`) | [→ README.solar.md](./README.solar.md) |
 | 🔋 **Optimize Home Battery Balancing & ROI** | Home Battery Manager (`battery`) | [→ README.battery.md](./README.battery.md) |
 | 💶 **Dynamic Electricity Spot Prices (1H & 15M)** | Day-Ahead Pricing (`dap` / `dap15`) | [→ README.dap.md](./README.dap.md) |
 | ⚡ **Dynamic Gas Spot Prices** | Gas Day-Ahead Pricing (`dapg`) | [→ README.dapg.md](./README.dapg.md) |
@@ -25,13 +26,14 @@ Select a use case below for detailed setup instructions, settings guides, and co
 
 ## 🚀 Quick Start — The Most Popular Setup
 
-Get dynamic electricity tracking running in 3 simple steps:
+Get dynamic electricity tracking running in a few simple steps:
 
 1. **Add Day-Ahead Pricing:** Add a `Day-ahead Pricing` device, select your Bidding Zone (e.g. `NL`, `BE`, `DE-LU`, `NO1`, `SE3`, `DK1`), and set **Tariff Update Group** to `1` in device settings.
-2. **Add Power Summarizer:** Add a `Power Summarizer` device and select your P1 Smart Meter or main energy meter as the source.
-3. **Connect Tariff Broadcast:** Set **Tariff Update Group** to `1` in the Power Summarizer settings.
+2. **Add Grid Power Summarizer:** Add a `Grid Power Summarizer` device, select your P1 Smart Meter or main grid meter as the source, and set **Tariff Update Group** to `1`.
+3. **Add Solar Forecaster (if you have solar panels):** Add a `Solar Panel` device, select the device that measures your solar production, and fill in **Peak Power (W)**.
+4. **Add Power Summarizers (optional):** Add a `Power Summarizer` device for each appliance or sub-meter you want to track separately, and set **Tariff Update Group** to `1`.
 
-*Your Power Summarizer now updates its electricity tariff automatically every hour based on official market spot prices!*
+*Your Grid and Power Summarizers now update their electricity tariff automatically every hour based on official market spot prices!*
 
 ---
 
