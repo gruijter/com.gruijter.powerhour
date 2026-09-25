@@ -194,16 +194,19 @@ class GridDevice extends GenericDevice {
     });
 
     if (this.sessionId !== sessionIdAfterSuper) return; // superseded by a newer onInit() meanwhile
-    this.startForecastLoop();
+    this.startForecastLoop().catch(this.error);
     if (this.initLearningTimeout) this.homey.clearTimeout(this.initLearningTimeout);
-    this.initLearningTimeout = this.homey.setTimeout(async () => {
+    const finishInit = async () => {
       await this.populatePowerHistory();
       await this.updateForecastDisplay();
       if (!storedProfile) {
         await this.attemptInitialBackfill();
       }
-      this.startLearningLoop();
+      this.startLearningLoop().catch(this.error);
       this.initLearningTimeout = null;
+    };
+    this.initLearningTimeout = this.homey.setTimeout(() => {
+      finishInit().catch(this.error);
     }, 15000);
   }
 
@@ -222,7 +225,7 @@ class GridDevice extends GenericDevice {
     let api;
     try {
       api = this.homey.app.api;
-    } catch (e) { }
+    } catch { }
     if (!api) {
       if (attempt >= maxAttempts) {
         this.error(`[attemptInitialBackfill] Homey API still not ready after ${maxAttempts} attempts, `
@@ -232,9 +235,9 @@ class GridDevice extends GenericDevice {
       this.log(`[attemptInitialBackfill] Homey API not ready yet (attempt ${attempt}/${maxAttempts}), `
         + `retrying in ${retryDelayMs / 1000}s...`);
       if (this.initialBackfillRetryTimeout) this.homey.clearTimeout(this.initialBackfillRetryTimeout);
-      this.initialBackfillRetryTimeout = this.homey.setTimeout(async () => {
+      this.initialBackfillRetryTimeout = this.homey.setTimeout(() => {
         this.initialBackfillRetryTimeout = null;
-        await this.attemptInitialBackfill(attempt + 1);
+        this.attemptInitialBackfill(attempt + 1).catch(this.error);
       }, retryDelayMs);
       return;
     }
@@ -1266,7 +1269,9 @@ class GridDevice extends GenericDevice {
       } finally {
         firstRun = false;
         if (!this.isDestroyed && epoch === this.forecastEpoch) {
-          this.forecastTimeout = this.homey.setTimeout(loop, 60 * 60 * 1000); // 1 hour
+          this.forecastTimeout = this.homey.setTimeout(() => {
+            loop().catch(this.error);
+          }, 60 * 60 * 1000); // 1 hour
         }
       }
     };
@@ -1301,7 +1306,9 @@ class GridDevice extends GenericDevice {
           nextSlot.setMinutes(now.getMinutes() + 1, 0, 0);
           let delay = nextSlot - now;
           if (delay < 1000) delay += 60 * 1000;
-          this.learningTimeout = this.homey.setTimeout(loop, delay);
+          this.learningTimeout = this.homey.setTimeout(() => {
+            loop().catch(this.error);
+          }, delay);
         }
       }
     };
@@ -1398,7 +1405,7 @@ class GridDevice extends GenericDevice {
       let driver = null;
       try {
         driver = this.homey.drivers.getDriver(driverId);
-      } catch (err) {
+      } catch {
         return total;
       }
       driver.getDevices().forEach((dev) => {
@@ -1540,7 +1547,7 @@ class GridDevice extends GenericDevice {
       let api;
       try {
         api = this.homey.app.api;
-      } catch (e) { }
+      } catch { }
       if (!api) throw new Error('Homey API not ready');
 
       // Always train from the underlying source devices' own long-running Insights logs
@@ -1629,7 +1636,7 @@ class GridDevice extends GenericDevice {
       let api;
       try {
         api = this.homey.app.api;
-      } catch (e) { }
+      } catch { }
       if (!api) {
         this.log('Homey API not ready');
         return;

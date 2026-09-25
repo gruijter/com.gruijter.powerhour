@@ -49,7 +49,7 @@ const providers = {
 try {
   const env = JSON.parse(fs.readFileSync('./env.json'));
   Object.assign(process.env, env);
-} catch (err) {
+} catch {
   // ignore
 }
 
@@ -59,9 +59,11 @@ const rl = readline.createInterface({
 });
 
 function askQuestion(query) {
-  return new Promise((resolve) => rl.question(query, (ans) => {
-    resolve(ans);
-  }));
+  return new Promise((resolve) => {
+    rl.question(query, (ans) => {
+      resolve(ans);
+    });
+  });
 }
 
 const zoneTimezones = {
@@ -666,7 +668,9 @@ async function main() {
 
           // eslint-disable-next-line no-await-in-loop
           const delay = providerName === 'EEX' ? 1500 : 250;
-          await new Promise((resolve) => setTimeout(resolve, delay));
+          await new Promise((resolve) => {
+            setTimeout(resolve, delay);
+          });
         }
       }
     }
@@ -679,4 +683,4 @@ async function main() {
   }
 }
 
-main();
+main().catch((error) => console.error(error));

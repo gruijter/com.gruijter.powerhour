@@ -141,20 +141,23 @@ class SolarDevice extends GenericDevice {
 
     // Start loops
     if (this.sessionId !== sessionIdAfterSuper) return; // superseded by a newer onInit() meanwhile
-    this.startForecastLoop();
+    this.startForecastLoop().catch(this.error);
     if (this.forecastData && Object.keys(this.forecastData).length > 0) {
       this.updateForecastDisplay(false).catch(this.error);
     }
     // Delay learning loop to allow source device to settle/update
     if (this.initLearningTimeout) this.homey.clearTimeout(this.initLearningTimeout);
-    this.initLearningTimeout = this.homey.setTimeout(async () => {
+    const finishInit = async () => {
       // Ensure we have history for the graph (e.g. after app update)
       await this.populatePowerHistory();
       if (!storedYieldFactors) {
         await this.attemptInitialBackfill();
       }
-      this.startLearningLoop(); // Start live tracking safely AFTER initialization/retrain is done
+      this.startLearningLoop().catch(this.error); // Start live tracking safely AFTER initialization/retrain is done
       this.initLearningTimeout = null;
+    };
+    this.initLearningTimeout = this.homey.setTimeout(() => {
+      finishInit().catch(this.error);
     }, 15000);
   }
 
@@ -173,7 +176,7 @@ class SolarDevice extends GenericDevice {
     let api;
     try {
       api = this.homey.app.api;
-    } catch (e) { }
+    } catch { }
     if (!api) {
       if (attempt >= maxAttempts) {
         this.error(`[attemptInitialBackfill] Homey API still not ready after ${maxAttempts} attempts, `
@@ -183,9 +186,9 @@ class SolarDevice extends GenericDevice {
       this.log(`[attemptInitialBackfill] Homey API not ready yet (attempt ${attempt}/${maxAttempts}), `
         + `retrying in ${retryDelayMs / 1000}s...`);
       if (this.initialBackfillRetryTimeout) this.homey.clearTimeout(this.initialBackfillRetryTimeout);
-      this.initialBackfillRetryTimeout = this.homey.setTimeout(async () => {
+      this.initialBackfillRetryTimeout = this.homey.setTimeout(() => {
         this.initialBackfillRetryTimeout = null;
-        await this.attemptInitialBackfill(attempt + 1);
+        this.attemptInitialBackfill(attempt + 1).catch(this.error);
       }, retryDelayMs);
       return;
     }
@@ -272,7 +275,9 @@ class SolarDevice extends GenericDevice {
         this.error('Forecast fetch failed:', err);
       } finally {
         if (!this.isDestroyed && epoch === this.forecastEpoch) {
-          this.forecastTimeout = this.homey.setTimeout(loop, 60 * 60 * 1000); // 1 hour
+          this.forecastTimeout = this.homey.setTimeout(() => {
+            loop().catch(this.error);
+          }, 60 * 60 * 1000); // 1 hour
         }
       }
     };
@@ -325,7 +330,9 @@ class SolarDevice extends GenericDevice {
           }
           let delay = nextSlot - now;
           if (delay < 1000) delay += (isNight ? 15 : 1) * 60 * 1000;
-          this.learningTimeout = this.homey.setTimeout(loop, delay);
+          this.learningTimeout = this.homey.setTimeout(() => {
+            loop().catch(this.error);
+          }, delay);
         }
       }
     };
@@ -452,7 +459,7 @@ class SolarDevice extends GenericDevice {
           let app;
           try {
             app = this.homey.app;
-          } catch (e) {
+          } catch {
             // ignore
           }
           if (curtailment.isActive && app && app.trigger_solar_curtailment_active) {
@@ -538,7 +545,7 @@ class SolarDevice extends GenericDevice {
       let api;
       try {
         api = this.homey.app.api;
-      } catch (e) {
+      } catch {
         // ignore
       }
       if (!api) throw new Error('Homey API not ready');
@@ -844,7 +851,7 @@ class SolarDevice extends GenericDevice {
     let api;
     try {
       api = this.homey.app.api;
-    } catch (e) {
+    } catch {
       // ignore
     }
     if (!api) throw new Error('Homey API not ready - please try again in a moment.');
@@ -915,7 +922,7 @@ class SolarDevice extends GenericDevice {
       let api;
       try {
         api = this.homey.app.api;
-      } catch (e) { }
+      } catch { }
       if (!api) {
         this.log('[populatePowerHistory] Homey API not ready');
         return;

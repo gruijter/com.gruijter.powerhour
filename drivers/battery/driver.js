@@ -168,7 +168,7 @@ class BatteryDriver extends GenericDriver {
     let app;
     try {
       app = this.homey.app;
-    } catch (e) {
+    } catch {
       return;
     }
     const xomSettings = app.xomSettings || this.homey.settings.get('xomSettings') || {};

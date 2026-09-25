@@ -76,14 +76,6 @@ class CarChargeDriver extends GenericDriver {
     await super.onUninit();
   }
 
-  async onPair(session) {
-    const defaultMeasurePower = this.manifest.id === 'evCharger' ? 'measure_power' : undefined;
-    const defaultMeasureWatt = this.manifest.id === 'evCharger' ? 'measure_power' : undefined;
-    // eslint-disable-next-line global-require
-    const { getGridPowerFallback } = require('../../lib/helpers/Util');
-    await getGridPowerFallback(this.homey, session, defaultMeasurePower, defaultMeasureWatt);
-  }
-
   async registerEnergyPoller() {
     if (!this.energyPollCallback) return;
     // eslint-disable-next-line global-require
@@ -194,7 +186,7 @@ class CarChargeDriver extends GenericDriver {
     let api;
     try {
       api = this.homey.app.api;
-    } catch (e) { /* ignore */ }
+    } catch { /* ignore */ }
     if (!api) throw new Error(this.homey.__('error_homey_api_not_ready'));
     const allDevices = await api.devices.getDevices({ $timeout: 15000 }).catch((err) => this.error(err));
     return allDevices || {};

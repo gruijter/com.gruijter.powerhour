@@ -109,7 +109,9 @@ class MyApp extends Homey.App {
       this.log('HomeyAPI connected');
     } catch (err) {
       this.error('HomeyAPI init failed, retrying in 1 min:', err);
-      this.apiRetryId = this.homey.setTimeout(() => this.initApi(), 60000);
+      this.apiRetryId = this.homey.setTimeout(() => {
+        this.initApi().catch((error) => this.error(error));
+      }, 60000);
     }
   }
 
@@ -164,7 +166,7 @@ class MyApp extends Homey.App {
 
   retry(interval = 5) {
     if (this.retryId) this.homey.clearInterval(this.retryId);
-    this.retryId = this.homey.setInterval(async () => {
+    this.retryId = this.homey.setInterval(() => {
       try {
         this.homey.emit('retry_PBTH', true);
       } catch (error) {
@@ -195,7 +197,7 @@ class MyApp extends Homey.App {
       let driver;
       try {
         driver = this.homey.drivers.getDriver(driverId);
-      } catch (e) {
+      } catch {
         return; // driver not loaded (e.g. no dapg devices paired)
       }
 

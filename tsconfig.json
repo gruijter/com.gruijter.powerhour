@@ -1,6 +1,16 @@
 {
   "compilerOptions": {
     "allowJs": true,
+    "checkJs": false,
+    "target": "ES2022",
+    "module": "node16",
+    "moduleResolution": "node16",
+    "lib": ["ES2022"],
+    "types": ["node"],
+    "esModuleInterop": true,
+    "skipLibCheck": true,
     "outDir": ".homeybuild/"
-  }
+  },
+  "include": ["**/*.js", "**/*.ts"],
+  "exclude": ["node_modules", ".homeybuild"]
 }

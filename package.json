@@ -7,7 +7,7 @@
     "node": "22.x"
   },
   "scripts": {
-    "lint": "eslint .",
+    "lint": "eslint --ext .js,.ts --ignore-path .gitignore .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
@@ -26,9 +26,8 @@
     "javascript-lp-solver": "^1.0.3"
   },
   "devDependencies": {
-    "@types/homey": "npm:homey-apps-sdk-v3-types@^0.3.12",
-    "eslint": "^7.32.0",
-    "eslint-config-athom": "^3.1.5",
-    "eslint-plugin-homey-app": "^1.0.2"
+    "@types/homey": "npm:homey-apps-sdk-v3-types@beta",
+    "eslint": "^8.57.1",
+    "eslint-config-athom": "^4.0.2"
   }
 }

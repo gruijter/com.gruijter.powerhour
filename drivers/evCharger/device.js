@@ -130,15 +130,16 @@ class CarChargeDevice extends GenericDevice {
     }
 
     const currentSessionId = this.sessionId;
-    this.homey.setTimeout(async () => {
-      await new Promise((resolve) => this.homey.setTimeout(resolve, 2000));
+    const initCharts = async () => {
+      await setTimeoutPromise(2000, this);
       if (this.sessionId !== currentSessionId) return;
       if (this.pricesNextHours) {
         await this.updateChargeChart().catch((err) => this.error(err));
       }
       // Bootstrap departure model from Insights history
       await this.attemptInitialBackfill(currentSessionId);
-    }, 0);
+    };
+    initCharts().catch((err) => this.error(err));
   }
 
   // learnDeparturePattern() needs this.homey.app.api to be connected - but app.js can still be
@@ -157,7 +158,7 @@ class CarChargeDevice extends GenericDevice {
     let api;
     try {
       api = this.homey.app.api;
-    } catch (e) { }
+    } catch { }
     if (!api) {
       if (attempt >= maxAttempts) {
         this.error(`[attemptInitialBackfill] Homey API still not ready after ${maxAttempts} attempts, `
@@ -166,7 +167,9 @@ class CarChargeDevice extends GenericDevice {
       }
       this.log(`[attemptInitialBackfill] Homey API not ready yet (attempt ${attempt}/${maxAttempts}), `
         + `retrying in ${retryDelayMs / 1000}s...`);
-      this.homey.setTimeout(() => this.attemptInitialBackfill(sessionId, attempt + 1), retryDelayMs);
+      this.homey.setTimeout(() => {
+        this.attemptInitialBackfill(sessionId, attempt + 1).catch((err) => this.error(err));
+      }, retryDelayMs);
       return;
     }
     await this.learnDeparturePattern().catch((err) => this.error(err));
@@ -207,7 +210,7 @@ class CarChargeDevice extends GenericDevice {
       let api;
       try {
         api = this.homey.app.api;
-      } catch (e) { }
+      } catch { }
       if (api && evDeviceId && evDeviceId !== 'none') {
         const ev = await api.devices.getDevice({ id: evDeviceId, $cache: false }).catch(() => null);
 
@@ -254,7 +257,7 @@ class CarChargeDevice extends GenericDevice {
     let api;
     try {
       api = this.homey.app.api;
-    } catch (e) { }
+    } catch { }
     if (!api) throw new Error('Homey API not ready');
     await this.getSourceDevice();
     await this.addSourceCapGroup();
@@ -485,7 +488,7 @@ class CarChargeDevice extends GenericDevice {
       let api;
       try {
         api = this.homey.app.api;
-      } catch (e) { }
+      } catch { }
 
       // Prefer car device SoC
       if (this.evDevice && this.carCapGroup.soc && api) {
@@ -500,7 +503,7 @@ class CarChargeDevice extends GenericDevice {
         const val = this.sourceDevice.capabilitiesObj?.measure_battery?.value;
         if (typeof val === 'number') return val;
       }
-    } catch (e) { /* ignore */ }
+    } catch { /* ignore */ }
     return null;
   }
 
@@ -510,7 +513,7 @@ class CarChargeDevice extends GenericDevice {
     let api;
     try {
       api = this.homey.app.api;
-    } catch (e) {
+    } catch {
       return;
     }
     if (!api) return;
@@ -741,7 +744,7 @@ class CarChargeDevice extends GenericDevice {
       let api;
       try {
         api = this.homey.app.api;
-      } catch (e) { }
+      } catch { }
       if (!api) {
         this.log('[EV Slot] Homey API not ready for Insights learning.');
         return;

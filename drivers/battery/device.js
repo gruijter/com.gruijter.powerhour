@@ -22,6 +22,7 @@ along with com.gruijter.powerhour.  If not, see <http://www.gnu.org/licenses/>.
 const GenericDevice = require('../../lib/genericDeviceDrivers/generic_bat_device');
 const ChargeDeviceHelpers = require('../../lib/helpers/ChargeDeviceHelpers');
 const ChartImages = require('../../lib/helpers/ChartImages');
+const { setTimeoutPromise } = require('../../lib/helpers/Util');
 
 class BatDevice extends GenericDevice {
 
@@ -44,14 +45,15 @@ class BatDevice extends GenericDevice {
     this.populateHistoryFromInsights().catch((err) => this.error('Error populating battery insights:', err));
 
     if (this.getSettings().roiEnable) {
-      this.homey.setTimeout(async () => {
-        await new Promise((resolve) => this.homey.setTimeout(resolve, 10000 + (Math.random() * 60000)));
+      const initStrategy = async () => {
+        await setTimeoutPromise(10000 + (Math.random() * 60000), this);
         if (this.sessionId !== currentSessionId) return;
         if (this.pricesNextHours) {
           await this.flows.triggerNewRoiStrategyFlow().catch((err) => this.error(err));
           await this.updateChargeChart().catch((err) => this.error(err));
         }
-      }, 0);
+      };
+      initStrategy().catch((err) => this.error(err));
     }
   }
 
@@ -126,7 +128,7 @@ class BatDevice extends GenericDevice {
     let api;
     try {
       api = this.homey.app.api;
-    } catch (e) {
+    } catch {
       // ignore
     }
     if (!api) throw new Error('Homey API not ready');
@@ -147,7 +149,7 @@ class BatDevice extends GenericDevice {
     let api;
     try {
       api = this.homey.app.api;
-    } catch (e) {
+    } catch {
       return;
     }
     if (!api) return;

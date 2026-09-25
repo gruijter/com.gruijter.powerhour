@@ -1,3 +1,13 @@
 {
-  "extends": "athom"
+  "extends": "athom/homey-app",
+  "overrides": [
+    {
+      "files": [
+        "test_provider.js"
+      ],
+      "rules": {
+        "homey-app/global-timers": "off"
+      }
+    }
+  ]
 }
