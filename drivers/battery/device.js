@@ -26,6 +26,8 @@ const ChartImages = require('../../lib/helpers/ChartImages');
 class BatDevice extends GenericDevice {
 
   async onInit() {
+    // A (re)init can follow a settings change: never let the chart reuse a plan from before it.
+    this.lastStratTm = null;
     // Register chart images in canonical order before any periodic update can render into them.
     // Deliberately before super.onInit(): the base class sets initReady = true partway through
     // its own onInit, and onPricesUpdated() (generic_bat_device.js) fires as soon as initReady is
@@ -54,6 +56,7 @@ class BatDevice extends GenericDevice {
   }
 
   async onPricesUpdated() {
+    this.pricesUpdatedTm = Date.now(); // see updateChargeChart(): only reuse plans made after this
     if (!this.getSettings().roiEnable) this.latestPlan = null; // no plan is followed: count as idle
     if (this.getSettings().roiEnable) {
       this.pricesUpdated = true;
@@ -440,10 +443,13 @@ class BatDevice extends GenericDevice {
     const minPriceDelta = this.getSettings().roiMinProfit;
     // A flow trigger (triggerNewRoiStrategyFlow) usually computed this same plan seconds ago; the
     // exact-inputs cache in find_roi_strategy() misses on a changed SoC or minute. The chart only
-    // shows the plan, so a result from the same price slot and minPriceDelta is good enough.
+    // shows the plan, so a result from the same price slot and minPriceDelta is good enough - as
+    // long as it was made after the latest price update (new prices can arrive mid-slot) and after
+    // the last (re)init (settings changes restart the device; onInit() clears lastStratTm).
     const slotMs = (this.priceInterval || 60) * 60 * 1000;
     const sameSlot = this.lastStratTm && Math.floor(this.lastStratTm / slotMs) === Math.floor(Date.now() / slotMs);
-    const strategy = (sameSlot && this.lastStratMinPriceDelta === minPriceDelta && this.lastStratTokens)
+    const afterPrices = this.lastStratTm && this.lastStratTm >= (this.pricesUpdatedTm || 0);
+    const strategy = (sameSlot && afterPrices && this.lastStratMinPriceDelta === minPriceDelta && this.lastStratTokens)
       ? { ...this.lastStratTokens }
       : await this.flows.find_roi_strategy({ minPriceDelta }).catch((err) => this.error(err));
     if (!strategy) return;
