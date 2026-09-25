@@ -82,6 +82,9 @@ const driverSpecifics = {
       id: 'gridTomorrow', prop: 'gridTomorrowImage', chartProp: 'chartGridTomorrow', titleKey: 'tomorrow',
     },
     {
+      id: 'gridNextHours', prop: 'gridNextHoursImage', chartProp: 'chartGridNextHours', titleKey: 'nextHours',
+    },
+    {
       id: 'gridYesterday', prop: 'gridYesterdayImage', chartProp: 'chartGridYesterday', titleKey: 'yesterday',
     },
     {

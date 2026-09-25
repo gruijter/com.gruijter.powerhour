@@ -27,7 +27,7 @@ The **Grid Power Summarizer** driver tracks the electricity exchanged with the g
 - **Real House Load:** Calculates what your house itself consumes by combining grid, solar, home battery and EV charger power.
 - **Capacity Tariff Peaks:** 15/30/60-minute average peak demand per day, month and year, with a live projection and headroom for the running interval.
 - **Self-Learning Load Forecast:** Learns your weekly consumption pattern in 15-minute slots and predicts house load and net grid exchange for the coming hours, today and tomorrow.
-- **Charts:** Today, Tomorrow, Yesterday and Weekly charts on the device.
+- **Charts:** home load Today, Tomorrow, Yesterday and Weekly, plus a Next hours chart of the forecast grid exchange.
 
 ---
 
@@ -133,6 +133,8 @@ Besides the house load, the driver forecasts the **net grid exchange** (+ import
 - **Net incl. battery plan:** net + the planned charge/discharge of Power by the Hour Home Batteries (with ROI enabled).
 
 EV charging is not included in the forecast.
+
+**Charts:** *Today*, *Tomorrow* and *Yesterday* show the home load (bars: forecast, line: measured); *Weekly* shows the learned profile. *Next hours* shows the forecast grid exchange from now until the end of tomorrow (orange: import, green: export). If a battery plan is active, the dashed line shows the grid exchange without it.
 
 Use **Retrain home load model** (button or flow) to rebuild the profile from scratch, e.g. after a large change in household or appliances.
 

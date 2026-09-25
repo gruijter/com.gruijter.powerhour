@@ -22,7 +22,7 @@ along with com.gruijter.powerhour.  If not, see <http://www.gnu.org/licenses/>.
 const GenericDevice = require('../../lib/genericDeviceDrivers/generic_sum_device');
 const LoadForecastStrategy = require('../../lib/strategies/LoadForecastStrategy');
 const GridFlows = require('../../lib/flows/GridFlows');
-const { getGridForecastChart, getGridWeeklyChart } = require('../../lib/charts/GridChart');
+const { getGridForecastChart, getGridNetChart, getGridWeeklyChart } = require('../../lib/charts/GridChart');
 const MeterHelpers = require('../../lib/helpers/MeterHelpers');
 const GridConnection = require('../../lib/helpers/GridConnection');
 const DeviceMigrator = require('../../lib/DeviceMigrator');
@@ -1509,9 +1509,7 @@ class GridDevice extends GenericDevice {
 
     // 1. Today Chart (Forecast vs Real - updated every 15 mins or on model update)
     if (updated || (now.getMinutes() % 15 === 0) || !this.chartGridToday) {
-      const netToday = this.getNetForecast(startOfToday.getTime(), endOfToday.getTime()).netPlanned
-        .map((v, i) => (startOfToday.getTime() + ((i + 1) * 15 * 60 * 1000) > now.getTime() ? v : null));
-      const chartToday = await getGridForecastChart(this.weeklyProfile, startOfToday, endOfToday, 'Home Load Today', this.powerHistory, this.timeZone, true, netToday);
+      const chartToday = await getGridForecastChart(this.weeklyProfile, startOfToday, endOfToday, 'Home Load Today', this.powerHistory, this.timeZone, true);
       if (chartToday) {
         this.chartGridToday = chartToday;
         await this.gridTodayImage.update().catch(this.error);
@@ -1520,11 +1518,21 @@ class GridDevice extends GenericDevice {
 
     // 2. Tomorrow Chart (Forecast only)
     if (updated || !this.chartGridTomorrow) {
-      const netTomorrow = this.getNetForecast(startOfTomorrow.getTime(), endOfTomorrow.getTime()).netPlanned;
-      const chartTomorrow = await getGridForecastChart(this.weeklyProfile, startOfTomorrow, endOfTomorrow, 'Home Load Tomorrow', [], this.timeZone, false, netTomorrow);
+      const chartTomorrow = await getGridForecastChart(this.weeklyProfile, startOfTomorrow, endOfTomorrow, 'Home Load Tomorrow', [], this.timeZone, false);
       if (chartTomorrow) {
         this.chartGridTomorrow = chartTomorrow;
         await this.gridTomorrowImage.update().catch(this.error);
+      }
+    }
+
+    // Next Hours Chart (net grid exchange forecast, current slot until end of tomorrow).
+    // Rolling window, so refreshed every 15 mins like the Today chart.
+    if (updated || (now.getMinutes() % 15 === 0) || !this.chartGridNextHours) {
+      const net = this.getNetForecast(slotStartMs, endOfTomorrow.getTime());
+      const chartNextHours = await getGridNetChart(net.netPlanned, net.netNoBattery, slotStartMs, 'Grid Next Hours', this.timeZone);
+      if (chartNextHours) {
+        this.chartGridNextHours = chartNextHours;
+        await this.gridNextHoursImage.update().catch(this.error);
       }
     }
 
