@@ -30,6 +30,8 @@ const driverSpecifics = {
     // Lets the user force a re-learn of the departure/return model, same as solar's own
     // button.retrain. Also appended at the end for the same DeviceMigrator reason above.
     'button.retrain',
+    // Car presence and estimated SoC (lib/strategies/EvPresence.js, EvSocEstimator.js).
+    'ev_car_state', 'measure_ev_soc',
   ],
   // Canonical display order for this driver's chart images - see lib/helpers/ChartImages.js.
   chartImages: [

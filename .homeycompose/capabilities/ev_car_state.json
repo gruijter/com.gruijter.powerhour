@@ -1,0 +1,115 @@
+{
+  "type": "enum",
+  "title": {
+    "en": "Car status",
+    "nl": "Autostatus",
+    "de": "Autostatus",
+    "fr": "État voiture",
+    "es": "Estado del coche",
+    "it": "Stato auto",
+    "da": "Bilstatus",
+    "sv": "Bilstatus",
+    "no": "Bilstatus",
+    "pl": "Stan auta",
+    "ru": "Статус авто",
+    "ar": "حالة السيارة",
+    "ko": "차량 상태"
+  },
+  "uiComponent": "sensor",
+  "icon": "/assets/charged.svg",
+  "getable": true,
+  "setable": false,
+  "insights": false,
+  "values": [
+    {
+      "id": "unknown",
+      "title": {
+        "en": "Unknown",
+        "nl": "Onbekend",
+        "de": "Unbekannt",
+        "fr": "Inconnu",
+        "es": "Desconocido",
+        "it": "Sconosciuto",
+        "da": "Ukendt",
+        "sv": "Okänd",
+        "no": "Ukjent",
+        "pl": "Nieznany",
+        "ru": "Неизвестно",
+        "ar": "غير معروف",
+        "ko": "알 수 없음"
+      }
+    },
+    {
+      "id": "away",
+      "title": {
+        "en": "Away",
+        "nl": "Weg",
+        "de": "Unterwegs",
+        "fr": "Absente",
+        "es": "Fuera",
+        "it": "Fuori",
+        "da": "Væk",
+        "sv": "Borta",
+        "no": "Borte",
+        "pl": "Poza domem",
+        "ru": "Нет дома",
+        "ar": "خارج المنزل",
+        "ko": "외출 중"
+      }
+    },
+    {
+      "id": "home",
+      "title": {
+        "en": "At home",
+        "nl": "Thuis",
+        "de": "Zu Hause",
+        "fr": "À la maison",
+        "es": "En casa",
+        "it": "A casa",
+        "da": "Hjemme",
+        "sv": "Hemma",
+        "no": "Hjemme",
+        "pl": "W domu",
+        "ru": "Дома",
+        "ar": "في المنزل",
+        "ko": "집"
+      }
+    },
+    {
+      "id": "plugged_in",
+      "title": {
+        "en": "Plugged in",
+        "nl": "Aangesloten",
+        "de": "Angeschlossen",
+        "fr": "Branchée",
+        "es": "Conectado",
+        "it": "Collegata",
+        "da": "Tilsluttet",
+        "sv": "Ansluten",
+        "no": "Tilkoblet",
+        "pl": "Podłączony",
+        "ru": "Подключен",
+        "ar": "متصلة",
+        "ko": "연결됨"
+      }
+    },
+    {
+      "id": "charging",
+      "title": {
+        "en": "Charging",
+        "nl": "Laden",
+        "de": "Lädt",
+        "fr": "En charge",
+        "es": "Cargando",
+        "it": "In carica",
+        "da": "Lader",
+        "sv": "Laddar",
+        "no": "Lader",
+        "pl": "Ładowanie",
+        "ru": "Заряжается",
+        "ar": "تشحن",
+        "ko": "충전 중"
+      }
+    }
+  ]
+}

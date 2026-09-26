@@ -17173,6 +17173,76 @@
               "min": 10,
               "max": 100,
               "decimals": 0
+            },
+            {
+              "id": "chargerControl",
+              "type": "checkbox",
+              "label": {
+                "en": "Control charger",
+                "nl": "Laadpaal aansturen",
+                "de": "Ladegerät steuern",
+                "fr": "Piloter la borne",
+                "es": "Controlar cargador",
+                "it": "Controlla caricatore",
+                "da": "Styr lader",
+                "sv": "Styr laddare",
+                "no": "Styr lader",
+                "pl": "Steruj ładowarką",
+                "ru": "Управлять зарядкой",
+                "ar": "التحكم في الشاحن",
+                "ko": "충전기 제어"
+              },
+              "hint": {
+                "en": "Switches the charger on and off according to the charge plan.",
+                "nl": "Zet de laadpaal aan en uit volgens het laadplan.",
+                "de": "Schaltet das Ladegerät gemäß dem Ladeplan ein und aus.",
+                "fr": "Allume et éteint la borne selon le plan de charge.",
+                "es": "Enciende y apaga el cargador según el plan de carga.",
+                "it": "Accende e spegne il caricatore secondo il piano di ricarica.",
+                "da": "Tænder og slukker laderen efter ladeplanen.",
+                "sv": "Slår på och av laddaren enligt laddplanen.",
+                "no": "Slår laderen av og på etter ladeplanen.",
+                "pl": "Włącza i wyłącza ładowarkę zgodnie z planem ładowania.",
+                "ru": "Включает и выключает зарядку по плану зарядки.",
+                "ar": "يشغّل الشاحن ويطفئه وفق خطة الشحن.",
+                "ko": "충전 계획에 따라 충전기를 켜고 끕니다."
+              },
+              "value": false
+            },
+            {
+              "id": "carRefreshAfterCharge",
+              "type": "checkbox",
+              "label": {
+                "en": "Refresh car after charging",
+                "nl": "Auto verversen na laden",
+                "de": "Auto nach dem Laden aktualisieren",
+                "fr": "Actualiser la voiture après la charge",
+                "es": "Actualizar coche tras cargar",
+                "it": "Aggiorna auto dopo la ricarica",
+                "da": "Opdater bil efter opladning",
+                "sv": "Uppdatera bil efter laddning",
+                "no": "Oppdater bil etter lading",
+                "pl": "Odśwież auto po ładowaniu",
+                "ru": "Обновлять авто после зарядки",
+                "ar": "تحديث السيارة بعد الشحن",
+                "ko": "충전 후 차량 새로고침"
+              },
+              "hint": {
+                "en": "Requests a fresh SoC from the car app when charging ends. Wakes the car.",
+                "nl": "Vraagt de auto-app om een actuele SoC als het laden stopt. Wekt de auto.",
+                "de": "Fordert nach dem Laden einen aktuellen SoC von der Auto-App an. Weckt das Auto.",
+                "fr": "Demande un SoC à jour à l'app de la voiture en fin de charge. Réveille la voiture.",
+                "es": "Pide un SoC actualizado a la app del coche al terminar la carga. Despierta el coche.",
+                "it": "Richiede un SoC aggiornato all'app dell'auto a fine ricarica. Sveglia l'auto.",
+                "da": "Beder bilappen om en aktuel SoC, når opladningen stopper. Vækker bilen.",
+                "sv": "Begär aktuell SoC från bilappen när laddningen slutar. Väcker bilen.",
+                "no": "Ber bilappen om oppdatert SoC når ladingen stopper. Vekker bilen.",
+                "pl": "Pobiera aktualny SoC z aplikacji auta po zakończeniu ładowania. Budzi auto.",
+                "ru": "Запрашивает актуальный заряд у приложения авто после зарядки. Будит авто.",
+                "ar": "يطلب نسبة شحن محدثة من تطبيق السيارة عند انتهاء الشحن. يوقظ السيارة.",
+                "ko": "충전이 끝나면 차량 앱에 최신 SoC를 요청합니다. 차량을 깨웁니다."
+              },
+              "value": false
             }
           ]
         },
@@ -17628,6 +17698,26 @@
                 "ko": "일요일"
               },
               "value": "not yet learned"
+            },
+            {
+              "id": "learned_efficiency",
+              "type": "label",
+              "label": {
+                "en": "Charge efficiency",
+                "nl": "Laadrendement",
+                "de": "Ladewirkungsgrad",
+                "fr": "Rendement de charge",
+                "es": "Eficiencia de carga",
+                "it": "Efficienza di ricarica",
+                "da": "Ladeeffektivitet",
+                "sv": "Laddverkningsgrad",
+                "no": "Ladeeffektivitet",
+                "pl": "Sprawność ładowania",
+                "ru": "КПД зарядки",
+                "ar": "كفاءة الشحن",
+                "ko": "충전 효율"
+              },
+              "value": "88% (n=0)"
             }
           ]
         },
@@ -26527,6 +26617,121 @@
     }
   ],
   "capabilities": {
+    "ev_car_state": {
+      "type": "enum",
+      "title": {
+        "en": "Car status",
+        "nl": "Autostatus",
+        "de": "Autostatus",
+        "fr": "État voiture",
+        "es": "Estado del coche",
+        "it": "Stato auto",
+        "da": "Bilstatus",
+        "sv": "Bilstatus",
+        "no": "Bilstatus",
+        "pl": "Stan auta",
+        "ru": "Статус авто",
+        "ar": "حالة السيارة",
+        "ko": "차량 상태"
+      },
+      "uiComponent": "sensor",
+      "icon": "/assets/charged.svg",
+      "getable": true,
+      "setable": false,
+      "insights": false,
+      "values": [
+        {
+          "id": "unknown",
+          "title": {
+            "en": "Unknown",
+            "nl": "Onbekend",
+            "de": "Unbekannt",
+            "fr": "Inconnu",
+            "es": "Desconocido",
+            "it": "Sconosciuto",
+            "da": "Ukendt",
+            "sv": "Okänd",
+            "no": "Ukjent",
+            "pl": "Nieznany",
+            "ru": "Неизвестно",
+            "ar": "غير معروف",
+            "ko": "알 수 없음"
+          }
+        },
+        {
+          "id": "away",
+          "title": {
+            "en": "Away",
+            "nl": "Weg",
+            "de": "Unterwegs",
+            "fr": "Absente",
+            "es": "Fuera",
+            "it": "Fuori",
+            "da": "Væk",
+            "sv": "Borta",
+            "no": "Borte",
+            "pl": "Poza domem",
+            "ru": "Нет дома",
+            "ar": "خارج المنزل",
+            "ko": "외출 중"
+          }
+        },
+        {
+          "id": "home",
+          "title": {
+            "en": "At home",
+            "nl": "Thuis",
+            "de": "Zu Hause",
+            "fr": "À la maison",
+            "es": "En casa",
+            "it": "A casa",
+            "da": "Hjemme",
+            "sv": "Hemma",
+            "no": "Hjemme",
+            "pl": "W domu",
+            "ru": "Дома",
+            "ar": "في المنزل",
+            "ko": "집"
+          }
+        },
+        {
+          "id": "plugged_in",
+          "title": {
+            "en": "Plugged in",
+            "nl": "Aangesloten",
+            "de": "Angeschlossen",
+            "fr": "Branchée",
+            "es": "Conectado",
+            "it": "Collegata",
+            "da": "Tilsluttet",
+            "sv": "Ansluten",
+            "no": "Tilkoblet",
+            "pl": "Podłączony",
+            "ru": "Подключен",
+            "ar": "متصلة",
+            "ko": "연결됨"
+          }
+        },
+        {
+          "id": "charging",
+          "title": {
+            "en": "Charging",
+            "nl": "Laden",
+            "de": "Lädt",
+            "fr": "En charge",
+            "es": "Cargando",
+            "it": "In carica",
+            "da": "Lader",
+            "sv": "Laddar",
+            "no": "Lader",
+            "pl": "Ładowanie",
+            "ru": "Заряжается",
+            "ar": "تشحن",
+            "ko": "충전 중"
+          }
+        }
+      ]
+    },
     "ev_charge_mode": {
       "type": "enum",
       "title": {
@@ -28115,6 +28320,47 @@
       "getable": true,
       "setable": false,
       "icon": "./assets/last_minmax_reset.svg"
+    },
+    "measure_ev_soc": {
+      "type": "number",
+      "title": {
+        "en": "Car SoC",
+        "nl": "Auto SoC",
+        "de": "Auto-SoC",
+        "fr": "SoC voiture",
+        "es": "SoC del coche",
+        "it": "SoC auto",
+        "da": "Bil-SoC",
+        "sv": "Bil-SoC",
+        "no": "Bil-SoC",
+        "pl": "SoC auta",
+        "ru": "Заряд авто",
+        "ar": "شحن السيارة",
+        "ko": "차량 충전량"
+      },
+      "units": {
+        "en": "%",
+        "nl": "%",
+        "de": "%",
+        "fr": "%",
+        "es": "%",
+        "it": "%",
+        "da": "%",
+        "sv": "%",
+        "no": "%",
+        "pl": "%",
+        "ru": "%",
+        "ar": "%",
+        "ko": "%"
+      },
+      "decimals": 0,
+      "min": 0,
+      "max": 100,
+      "getable": true,
+      "setable": false,
+      "insights": true,
+      "uiComponent": "sensor",
+      "icon": "/assets/charged.svg"
     },
     "measure_gas": {
       "type": "number",
