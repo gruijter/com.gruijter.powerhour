@@ -1555,18 +1555,9 @@ class CarChargeDevice extends GenericDevice {
       if (!this.priceProfile) this.priceProfile = (await this.getStoreValue('evPriceProfile')) || EvPriceProfile.createProfile();
       if (retrain || this.priceProfile.bootstrapped !== PRICE_BOOTSTRAP_VERSION) {
         // The electricity DAP devices (not gas) that feed this device's tariff group.
-        const group = this.getSettings().tariff_update_group;
-        const dapDrivers = ['dap', 'dap15'];
-        const driverOf = (d) => ((d.driverId || '').includes(this.homey.manifest.id) ? d.driverId.split(':').pop() : null);
-        const dapIds = Object.values((await api.devices.getDevices().catch(() => null)) || {})
-          .filter((d) => dapDrivers.includes(driverOf(d)) && d.settings && d.settings.tariff_update_group === group)
-          .sort((a, b) => dapDrivers.indexOf(driverOf(a)) - dapDrivers.indexOf(driverOf(b)))
-          .map((d) => d.id);
+        const dapIds = await this._groupDapDeviceIds();
         const hourly = async (capName) => {
-          const log = dapIds.map((id) => logs.find((l) => {
-            const logId = l.id || l.uri || '';
-            return logId.includes(id) && logId.endsWith(`:${capName}`);
-          })).find(Boolean);
+          const log = this._findGroupPriceLog(logs, dapIds, capName);
           if (!log) return [];
           const data = await api.insights.getLogEntries({ id: log.id, resolution: 'last14Days' }).catch(() => null);
           return ((data && data.values) || []).filter((e) => typeof e.v === 'number')
