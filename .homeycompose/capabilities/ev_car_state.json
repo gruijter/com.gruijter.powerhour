@@ -16,7 +16,7 @@
     "ko": "차량 상태"
   },
   "uiComponent": "sensor",
-  "icon": "/assets/charged.svg",
+  "icon": "/assets/ev_car_state.svg",
   "getable": true,
   "setable": false,
   "insights": false,

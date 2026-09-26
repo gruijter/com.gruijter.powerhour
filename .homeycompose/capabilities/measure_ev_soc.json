@@ -1,19 +1,19 @@
 {
   "type": "number",
   "title": {
-    "en": "Car SoC",
-    "nl": "Auto SoC",
-    "de": "Auto-SoC",
-    "fr": "SoC voiture",
-    "es": "SoC del coche",
-    "it": "SoC auto",
-    "da": "Bil-SoC",
-    "sv": "Bil-SoC",
-    "no": "Bil-SoC",
-    "pl": "SoC auta",
-    "ru": "Заряд авто",
-    "ar": "شحن السيارة",
-    "ko": "차량 충전량"
+    "en": "SoC",
+    "nl": "SoC",
+    "de": "SoC",
+    "fr": "SoC",
+    "es": "SoC",
+    "it": "SoC",
+    "da": "SoC",
+    "sv": "SoC",
+    "no": "SoC",
+    "pl": "SoC",
+    "ru": "Заряд",
+    "ar": "نسبة الشحن",
+    "ko": "충전량"
   },
   "units": {
     "en": "%",
@@ -37,5 +37,5 @@
   "setable": false,
   "insights": true,
   "uiComponent": "sensor",
-  "icon": "/assets/charged.svg"
+  "icon": "/assets/ev_soc.svg"
 }

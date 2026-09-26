@@ -16,7 +16,7 @@
     "ar": "المغادرة التالية"
   },
   "uiComponent": "sensor",
-  "icon": "/assets/charged.svg",
+  "icon": "/assets/ev_departure.svg",
   "getable": true,
   "setable": false,
   "insights": false
