@@ -45,5 +45,9 @@
     "evChargerWarningText": "Du er ved at ændre den tilknyttede EV-oplader og/eller EV-bil. Dette bevarer al indsigt og flows. Men hvis den nye oplader har en anden måleraflæsning, skal du manuelt kompensere måler- og pengestartværdierne i de avancerede indstillinger."
   },
   "load_forecast_accuracy": "Gns. afvigelse __mae__ W (__pct__%), bias __bias__ W, __days__ dage",
-  "load_forecast_accuracy_collecting": "Indsamler data"
+  "load_forecast_accuracy_collecting": "Indsamler data",
+  "ev_profile_regular": "Køredag",
+  "ev_profile_sometimes": "Nogle gange",
+  "ev_profile_unused": "Ikke brugt",
+  "ev_profile_not_learned": "Endnu ikke lært"
 }

@@ -14,6 +14,7 @@
     "ru": "Установить временное переопределение поездки EV",
     "ar": "تعيين تجاوز الرحلة المؤقت للسيارة الكهربائية"
   },
+  "deprecated": true,
   "titleFormatted": {
     "en": "Set temporary trip departure to [[departureTime]] with target SoC [[targetSoc]]%",
     "nl": "Stel tijdelijke rit in op vertrek [[departureTime]] met doel SoC [[targetSoc]]%",

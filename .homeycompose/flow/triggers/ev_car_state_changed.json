@@ -1,0 +1,46 @@
+{
+  "title": {
+    "en": "Car status changed",
+    "nl": "Autostatus gewijzigd",
+    "de": "Autostatus geändert",
+    "fr": "État voiture modifié",
+    "es": "Estado del coche cambiado",
+    "it": "Stato auto cambiato",
+    "da": "Bilstatus ændret",
+    "sv": "Bilstatus ändrad",
+    "no": "Bilstatus endret",
+    "pl": "Stan auta zmieniony",
+    "ru": "Статус авто изменился",
+    "ar": "تغيرت حالة السيارة",
+    "ko": "차량 상태 변경됨"
+  },
+  "args": [
+    {
+      "type": "device",
+      "name": "device",
+      "filter": "driver_id=evCharger"
+    }
+  ],
+  "tokens": [
+    {
+      "name": "state",
+      "type": "string",
+      "title": {
+        "en": "Car status",
+        "nl": "Autostatus",
+        "de": "Autostatus",
+        "fr": "État voiture",
+        "es": "Estado del coche",
+        "it": "Stato auto",
+        "da": "Bilstatus",
+        "sv": "Bilstatus",
+        "no": "Bilstatus",
+        "pl": "Stan auta",
+        "ru": "Статус авто",
+        "ar": "حالة السيارة",
+        "ko": "차량 상태"
+      },
+      "example": "home"
+    }
+  ]
+}

@@ -14,6 +14,7 @@
     "ko": "EV 출발 및 목표 SoC 설정",
     "ar": "ضبط مغادرة السيارة الكهربائية والـ SoC المستهدف"
   },
+  "deprecated": true,
   "titleFormatted": {
     "en": "Set EV departure to [[departureTime]] and target SoC to [[targetSoc]]%",
     "nl": "Zet EV vertrektijd op [[departureTime]] en doel SoC op [[targetSoc]]%",

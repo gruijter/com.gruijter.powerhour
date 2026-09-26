@@ -148,6 +148,53 @@
     "triggers": [
       {
         "title": {
+          "en": "Car status changed",
+          "nl": "Autostatus gewijzigd",
+          "de": "Autostatus geändert",
+          "fr": "État voiture modifié",
+          "es": "Estado del coche cambiado",
+          "it": "Stato auto cambiato",
+          "da": "Bilstatus ændret",
+          "sv": "Bilstatus ändrad",
+          "no": "Bilstatus endret",
+          "pl": "Stan auta zmieniony",
+          "ru": "Статус авто изменился",
+          "ar": "تغيرت حالة السيارة",
+          "ko": "차량 상태 변경됨"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=evCharger"
+          }
+        ],
+        "tokens": [
+          {
+            "name": "state",
+            "type": "string",
+            "title": {
+              "en": "Car status",
+              "nl": "Autostatus",
+              "de": "Autostatus",
+              "fr": "État voiture",
+              "es": "Estado del coche",
+              "it": "Stato auto",
+              "da": "Bilstatus",
+              "sv": "Bilstatus",
+              "no": "Bilstatus",
+              "pl": "Stan auta",
+              "ru": "Статус авто",
+              "ar": "حالة السيارة",
+              "ko": "차량 상태"
+            },
+            "example": "home"
+          }
+        ],
+        "id": "ev_car_state_changed"
+      },
+      {
+        "title": {
           "en": "EV charge mode changed",
           "nl": "EV laadmodus veranderd",
           "de": "EV Lademodus geändert",
@@ -4965,6 +5012,157 @@
     "conditions": [
       {
         "title": {
+          "en": "Car status is",
+          "nl": "Autostatus is",
+          "de": "Autostatus ist",
+          "fr": "L'état voiture est",
+          "es": "El estado del coche es",
+          "it": "Lo stato auto è",
+          "da": "Bilstatus er",
+          "sv": "Bilstatus är",
+          "no": "Bilstatus er",
+          "pl": "Stan auta to",
+          "ru": "Статус авто",
+          "ar": "حالة السيارة هي",
+          "ko": "차량 상태가"
+        },
+        "titleFormatted": {
+          "en": "Car status is [[state]]",
+          "nl": "Autostatus is [[state]]",
+          "de": "Autostatus ist [[state]]",
+          "fr": "L'état voiture est [[state]]",
+          "es": "El estado del coche es [[state]]",
+          "it": "Lo stato auto è [[state]]",
+          "da": "Bilstatus er [[state]]",
+          "sv": "Bilstatus är [[state]]",
+          "no": "Bilstatus er [[state]]",
+          "pl": "Stan auta to [[state]]",
+          "ru": "Статус авто: [[state]]",
+          "ar": "حالة السيارة هي [[state]]",
+          "ko": "차량 상태가 [[state]]임"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=evCharger"
+          },
+          {
+            "type": "dropdown",
+            "name": "state",
+            "title": {
+              "en": "Status",
+              "nl": "Status",
+              "de": "Status",
+              "fr": "État",
+              "es": "Estado",
+              "it": "Stato",
+              "da": "Status",
+              "sv": "Status",
+              "no": "Status",
+              "pl": "Stan",
+              "ru": "Статус",
+              "ar": "الحالة",
+              "ko": "상태"
+            },
+            "values": [
+              {
+                "id": "unknown",
+                "label": {
+                  "en": "Unknown",
+                  "nl": "Onbekend",
+                  "de": "Unbekannt",
+                  "fr": "Inconnu",
+                  "es": "Desconocido",
+                  "it": "Sconosciuto",
+                  "da": "Ukendt",
+                  "sv": "Okänd",
+                  "no": "Ukjent",
+                  "pl": "Nieznany",
+                  "ru": "Неизвестно",
+                  "ar": "غير معروف",
+                  "ko": "알 수 없음"
+                }
+              },
+              {
+                "id": "away",
+                "label": {
+                  "en": "Away",
+                  "nl": "Weg",
+                  "de": "Unterwegs",
+                  "fr": "Absente",
+                  "es": "Fuera",
+                  "it": "Fuori",
+                  "da": "Væk",
+                  "sv": "Borta",
+                  "no": "Borte",
+                  "pl": "Poza domem",
+                  "ru": "Нет дома",
+                  "ar": "خارج المنزل",
+                  "ko": "외출 중"
+                }
+              },
+              {
+                "id": "home",
+                "label": {
+                  "en": "At home",
+                  "nl": "Thuis",
+                  "de": "Zu Hause",
+                  "fr": "À la maison",
+                  "es": "En casa",
+                  "it": "A casa",
+                  "da": "Hjemme",
+                  "sv": "Hemma",
+                  "no": "Hjemme",
+                  "pl": "W domu",
+                  "ru": "Дома",
+                  "ar": "في المنزل",
+                  "ko": "집"
+                }
+              },
+              {
+                "id": "plugged_in",
+                "label": {
+                  "en": "Plugged in",
+                  "nl": "Aangesloten",
+                  "de": "Angeschlossen",
+                  "fr": "Branchée",
+                  "es": "Conectado",
+                  "it": "Collegata",
+                  "da": "Tilsluttet",
+                  "sv": "Ansluten",
+                  "no": "Tilkoblet",
+                  "pl": "Podłączony",
+                  "ru": "Подключен",
+                  "ar": "متصلة",
+                  "ko": "연결됨"
+                }
+              },
+              {
+                "id": "charging",
+                "label": {
+                  "en": "Charging",
+                  "nl": "Laden",
+                  "de": "Lädt",
+                  "fr": "En charge",
+                  "es": "Cargando",
+                  "it": "In carica",
+                  "da": "Lader",
+                  "sv": "Laddar",
+                  "no": "Lader",
+                  "pl": "Ładowanie",
+                  "ru": "Заряжается",
+                  "ar": "تشحن",
+                  "ko": "충전 중"
+                }
+              }
+            ]
+          }
+        ],
+        "id": "ev_car_state_is"
+      },
+      {
+        "title": {
           "en": "EV charge mode is !",
           "nl": "EV laadmodus is !",
           "de": "EV Lademodus ist !",
@@ -5037,73 +5235,55 @@
               {
                 "id": "scheduled_price",
                 "label": {
-                  "en": "Scheduled Price Slots",
-                  "nl": "Geplande Prijsuren",
-                  "de": "Geplante Preis-Slots",
-                  "ko": "예약된 가격 구간",
-                  "fr": "Créneaux de prix programmés",
-                  "es": "Franjas de precio programadas",
-                  "it": "Fasce orarie di prezzo programmate",
-                  "da": "Planlagte prisintervaller",
-                  "sv": "Schemalagda prisintervall",
-                  "no": "Planlagte prisintervaller",
-                  "pl": "Zaplanowane przedziały cenowe",
-                  "ru": "Запланированные ценовые интервалы",
-                  "ar": "فترات الأسعار المجدولة"
+                  "en": "Smart",
+                  "nl": "Slim",
+                  "de": "Intelligent",
+                  "fr": "Intelligent",
+                  "es": "Inteligente",
+                  "it": "Intelligente",
+                  "da": "Smart",
+                  "sv": "Smart",
+                  "no": "Smart",
+                  "pl": "Inteligentnie",
+                  "ru": "Умный",
+                  "ar": "ذكي",
+                  "ko": "스마트"
                 }
               },
               {
                 "id": "solar_only",
                 "label": {
-                  "en": "Solar Surplus Only",
-                  "nl": "Alleen Zonne-overschot",
-                  "de": "Nur Solarüberschuss",
-                  "ko": "태양광 잉여만",
-                  "fr": "Surplus solaire uniquement",
-                  "es": "Solo excedente solar",
-                  "it": "Solo surplus solare",
-                  "da": "Kun solaroverskud",
-                  "sv": "Endast solöverskott",
-                  "no": "Kun soloverskudd",
-                  "pl": "Tylko nadwyżka słoneczna",
-                  "ru": "Только солнечный избыток",
-                  "ar": "فائض الطاقة الشمسية فقط"
-                }
-              },
-              {
-                "id": "solar_and_grid",
-                "label": {
-                  "en": "Solar + Price Slots",
-                  "nl": "Zonne-overschot + Prijsuren",
-                  "de": "Solar + Preis-Slots",
-                  "ko": "태양광 + 가격 구간",
-                  "fr": "Solaire + Créneaux de prix",
-                  "es": "Solar + Franjas de precio",
-                  "it": "Solare + Fasce di prezzo",
-                  "da": "Sol + Prisintervaller",
-                  "sv": "Sol + Prisintervall",
-                  "no": "Sol + Prisintervaller",
-                  "pl": "Słońce + Przedziały cenowe",
-                  "ru": "Солнце + Ценовые интервалы",
-                  "ar": "الطاقة الشمسية + فترات الأسعار"
+                  "en": "Solar only",
+                  "nl": "Alleen zon",
+                  "de": "Nur Solar",
+                  "fr": "Solaire uniquement",
+                  "es": "Solo solar",
+                  "it": "Solo solare",
+                  "da": "Kun sol",
+                  "sv": "Endast sol",
+                  "no": "Kun sol",
+                  "pl": "Tylko słońce",
+                  "ru": "Только солнце",
+                  "ar": "الطاقة الشمسية فقط",
+                  "ko": "태양광만"
                 }
               },
               {
                 "id": "fast_charge",
                 "label": {
-                  "en": "Fast Charge",
-                  "nl": "Snelladen",
-                  "de": "Schnellladen",
-                  "ko": "급속 충전",
-                  "fr": "Charge rapide",
-                  "es": "Carga rápida",
-                  "it": "Ricarica rapida",
-                  "da": "Hurtig opladning",
-                  "sv": "Snabbladdning",
-                  "no": "Hurtiglading",
-                  "pl": "Szybkie ładowanie",
-                  "ru": "Быстрая зарядка",
-                  "ar": "شحن سريع"
+                  "en": "Charge now",
+                  "nl": "Nu laden",
+                  "de": "Jetzt laden",
+                  "fr": "Charger maintenant",
+                  "es": "Cargar ahora",
+                  "it": "Carica ora",
+                  "da": "Lad nu",
+                  "sv": "Ladda nu",
+                  "no": "Lad nå",
+                  "pl": "Ładuj teraz",
+                  "ru": "Зарядить сейчас",
+                  "ar": "اشحن الآن",
+                  "ko": "지금 충전"
                 }
               },
               {
@@ -5112,7 +5292,6 @@
                   "en": "Off",
                   "nl": "Uit",
                   "de": "Aus",
-                  "ko": "끄기",
                   "fr": "Désactivé",
                   "es": "Apagado",
                   "it": "Spento",
@@ -5121,7 +5300,8 @@
                   "no": "Av",
                   "pl": "Wyłączone",
                   "ru": "Выкл.",
-                  "ar": "إيقاف"
+                  "ar": "إيقاف",
+                  "ko": "끄기"
                 }
               }
             ]
@@ -8587,6 +8767,7 @@
           "ru": "Очистить временное переопределение поездки EV",
           "ar": "مسح تجاوز الرحلة المؤقت للسيارة الكهربائية"
         },
+        "deprecated": true,
         "titleFormatted": {
           "en": "Clear temporary EV trip override",
           "nl": "Wis tijdelijke EV rit",
@@ -9553,6 +9734,87 @@
       },
       {
         "title": {
+          "en": "Long trip tomorrow",
+          "nl": "Lange rit morgen",
+          "de": "Lange Fahrt morgen",
+          "fr": "Long trajet demain",
+          "es": "Viaje largo mañana",
+          "it": "Viaggio lungo domani",
+          "da": "Lang tur i morgen",
+          "sv": "Lång resa i morgon",
+          "no": "Lang tur i morgen",
+          "pl": "Długa trasa jutro",
+          "ru": "Дальняя поездка завтра",
+          "ar": "رحلة طويلة غدًا",
+          "ko": "내일 장거리 주행"
+        },
+        "titleFormatted": {
+          "en": "Long trip tomorrow at [[time]] with [[soc]]%",
+          "nl": "Lange rit morgen om [[time]] met [[soc]]%",
+          "de": "Lange Fahrt morgen um [[time]] mit [[soc]]%",
+          "fr": "Long trajet demain à [[time]] avec [[soc]]%",
+          "es": "Viaje largo mañana a las [[time]] con [[soc]]%",
+          "it": "Viaggio lungo domani alle [[time]] con [[soc]]%",
+          "da": "Lang tur i morgen kl. [[time]] med [[soc]]%",
+          "sv": "Lång resa i morgon kl. [[time]] med [[soc]]%",
+          "no": "Lang tur i morgen kl. [[time]] med [[soc]]%",
+          "pl": "Długa trasa jutro o [[time]] z [[soc]]%",
+          "ru": "Дальняя поездка завтра в [[time]] с [[soc]]%",
+          "ar": "رحلة طويلة غدًا الساعة [[time]] بنسبة [[soc]]%",
+          "ko": "내일 [[time]]에 [[soc]]%로 장거리 주행"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=evCharger"
+          },
+          {
+            "type": "time",
+            "name": "time",
+            "title": {
+              "en": "Departure",
+              "nl": "Vertrek",
+              "de": "Abfahrt",
+              "fr": "Départ",
+              "es": "Salida",
+              "it": "Partenza",
+              "da": "Afgang",
+              "sv": "Avgång",
+              "no": "Avgang",
+              "pl": "Wyjazd",
+              "ru": "Отправление",
+              "ar": "المغادرة",
+              "ko": "출발"
+            }
+          },
+          {
+            "type": "number",
+            "name": "soc",
+            "min": 50,
+            "max": 100,
+            "step": 5,
+            "title": {
+              "en": "SoC (%)",
+              "nl": "SoC (%)",
+              "de": "SoC (%)",
+              "fr": "SoC (%)",
+              "es": "SoC (%)",
+              "it": "SoC (%)",
+              "da": "SoC (%)",
+              "sv": "SoC (%)",
+              "no": "SoC (%)",
+              "pl": "SoC (%)",
+              "ru": "SoC (%)",
+              "ar": "SoC (%)",
+              "ko": "SoC (%)"
+            }
+          }
+        ],
+        "id": "set_ev_boost"
+      },
+      {
+        "title": {
           "en": "Set EV charge mode",
           "nl": "Zet EV laadmodus",
           "de": "EV Lademodus festlegen",
@@ -9583,19 +9845,19 @@
           "ar": "تعيين وضع شحن السيارة الكهربائية إلى [[mode]]"
         },
         "hint": {
-          "en": "Set the active charging mode (Scheduled Price Slots, Solar Surplus, Fast Charge, or Off).",
-          "nl": "Stel de actieve laadmodus in (Geplande Prijsuren, Zonne-overschot, Snelladen of Uit).",
-          "de": "Legen Sie den aktiven Lademodus fest.",
-          "ko": "활성 충전 모드를 설정합니다 (예약된 가격 구간, 태양광 잉여, 급속 충전 또는 끄기).",
-          "fr": "Définit le mode de charge actif (créneaux de prix programmés, surplus solaire, charge rapide, ou désactivé).",
-          "es": "Establece el modo de carga activo (franjas de precio programadas, excedente solar, carga rápida o apagado).",
-          "it": "Imposta la modalità di ricarica attiva (fasce di prezzo programmate, surplus solare, ricarica rapida o spento).",
-          "da": "Indstiller den aktive ladetilstand (planlagte prisintervaller, solaroverskud, hurtig opladning eller fra).",
-          "sv": "Ställer in det aktiva laddningsläget (schemalagda prisintervall, solöverskott, snabbladdning eller av).",
-          "no": "Angir aktiv lademodus (planlagte prisintervaller, soloverskudd, hurtiglading eller av).",
-          "pl": "Ustawia aktywny tryb ładowania (zaplanowane przedziały cenowe, nadwyżka słoneczna, szybkie ładowanie lub wyłączone).",
-          "ru": "Устанавливает активный режим зарядки (запланированные ценовые интервалы, солнечный избыток, быстрая зарядка или выкл.).",
-          "ar": "يحدد وضع الشحن النشط (فترات الأسعار المجدولة، فائض الطاقة الشمسية، الشحن السريع، أو إيقاف التشغيل)."
+          "en": "Smart plans on price and solar; Charge now charges straight to the maximum.",
+          "nl": "Slim plant op prijs en zon; Nu laden laadt direct tot het maximum.",
+          "de": "Intelligent plant nach Preis und Sonne; Jetzt laden lädt sofort bis zum Maximum.",
+          "fr": "Intelligent planifie selon prix et soleil ; Charger maintenant charge aussitôt jusqu'au maximum.",
+          "es": "Inteligente planifica según precio y sol; Cargar ahora carga de inmediato hasta el máximo.",
+          "it": "Intelligente pianifica su prezzo e sole; Carica ora carica subito fino al massimo.",
+          "da": "Smart planlægger efter pris og sol; Lad nu lader straks til maksimum.",
+          "sv": "Smart planerar efter pris och sol; Ladda nu laddar direkt till max.",
+          "no": "Smart planlegger etter pris og sol; Lad nå lader straks til maks.",
+          "pl": "Inteligentnie planuje wg ceny i słońca; Ładuj teraz ładuje od razu do maksimum.",
+          "ru": "Умный планирует по цене и солнцу; «Зарядить сейчас» заряжает сразу до максимума.",
+          "ar": "الذكي يخطط حسب السعر والشمس؛ اشحن الآن يشحن فورًا حتى الحد الأقصى.",
+          "ko": "스마트는 가격과 태양광으로 계획하고, 지금 충전은 바로 최대까지 충전합니다."
         },
         "args": [
           {
@@ -9625,73 +9887,55 @@
               {
                 "id": "scheduled_price",
                 "label": {
-                  "en": "Scheduled Price Slots",
-                  "nl": "Geplande Prijsuren",
-                  "de": "Geplante Preis-Slots",
-                  "ko": "예약된 가격 구간",
-                  "fr": "Créneaux de prix programmés",
-                  "es": "Franjas de precio programadas",
-                  "it": "Fasce orarie di prezzo programmate",
-                  "da": "Planlagte prisintervaller",
-                  "sv": "Schemalagda prisintervall",
-                  "no": "Planlagte prisintervaller",
-                  "pl": "Zaplanowane przedziały cenowe",
-                  "ru": "Запланированные ценовые интервалы",
-                  "ar": "فترات الأسعار المجدولة"
+                  "en": "Smart",
+                  "nl": "Slim",
+                  "de": "Intelligent",
+                  "fr": "Intelligent",
+                  "es": "Inteligente",
+                  "it": "Intelligente",
+                  "da": "Smart",
+                  "sv": "Smart",
+                  "no": "Smart",
+                  "pl": "Inteligentnie",
+                  "ru": "Умный",
+                  "ar": "ذكي",
+                  "ko": "스마트"
                 }
               },
               {
                 "id": "solar_only",
                 "label": {
-                  "en": "Solar Surplus Only",
-                  "nl": "Alleen Zonne-overschot",
-                  "de": "Nur Solarüberschuss",
-                  "ko": "태양광 잉여만",
-                  "fr": "Surplus solaire uniquement",
-                  "es": "Solo excedente solar",
-                  "it": "Solo surplus solare",
-                  "da": "Kun solaroverskud",
-                  "sv": "Endast solöverskott",
-                  "no": "Kun soloverskudd",
-                  "pl": "Tylko nadwyżka słoneczna",
-                  "ru": "Только солнечный избыток",
-                  "ar": "فائض الطاقة الشمسية فقط"
-                }
-              },
-              {
-                "id": "solar_and_grid",
-                "label": {
-                  "en": "Solar + Price Slots",
-                  "nl": "Zonne-overschot + Prijsuren",
-                  "de": "Solar + Preis-Slots",
-                  "ko": "태양광 + 가격 구간",
-                  "fr": "Solaire + Créneaux de prix",
-                  "es": "Solar + Franjas de precio",
-                  "it": "Solare + Fasce di prezzo",
-                  "da": "Sol + Prisintervaller",
-                  "sv": "Sol + Prisintervall",
-                  "no": "Sol + Prisintervaller",
-                  "pl": "Słońce + Przedziały cenowe",
-                  "ru": "Солнце + Ценовые интервалы",
-                  "ar": "الطاقة الشمسية + فترات الأسعار"
+                  "en": "Solar only",
+                  "nl": "Alleen zon",
+                  "de": "Nur Solar",
+                  "fr": "Solaire uniquement",
+                  "es": "Solo solar",
+                  "it": "Solo solare",
+                  "da": "Kun sol",
+                  "sv": "Endast sol",
+                  "no": "Kun sol",
+                  "pl": "Tylko słońce",
+                  "ru": "Только солнце",
+                  "ar": "الطاقة الشمسية فقط",
+                  "ko": "태양광만"
                 }
               },
               {
                 "id": "fast_charge",
                 "label": {
-                  "en": "Fast Charge",
-                  "nl": "Snelladen",
-                  "de": "Schnellladen",
-                  "ko": "급속 충전",
-                  "fr": "Charge rapide",
-                  "es": "Carga rápida",
-                  "it": "Ricarica rapida",
-                  "da": "Hurtig opladning",
-                  "sv": "Snabbladdning",
-                  "no": "Hurtiglading",
-                  "pl": "Szybkie ładowanie",
-                  "ru": "Быстрая зарядка",
-                  "ar": "شحن سريع"
+                  "en": "Charge now",
+                  "nl": "Nu laden",
+                  "de": "Jetzt laden",
+                  "fr": "Charger maintenant",
+                  "es": "Cargar ahora",
+                  "it": "Carica ora",
+                  "da": "Lad nu",
+                  "sv": "Ladda nu",
+                  "no": "Lad nå",
+                  "pl": "Ładuj teraz",
+                  "ru": "Зарядить сейчас",
+                  "ar": "اشحن الآن",
+                  "ko": "지금 충전"
                 }
               },
               {
@@ -9700,7 +9944,6 @@
                   "en": "Off",
                   "nl": "Uit",
                   "de": "Aus",
-                  "ko": "끄기",
                   "fr": "Désactivé",
                   "es": "Apagado",
                   "it": "Spento",
@@ -9709,7 +9952,8 @@
                   "no": "Av",
                   "pl": "Wyłączone",
                   "ru": "Выкл.",
-                  "ar": "إيقاف"
+                  "ar": "إيقاف",
+                  "ko": "끄기"
                 }
               }
             ]
@@ -9733,6 +9977,7 @@
           "ko": "EV 출발 및 목표 SoC 설정",
           "ar": "ضبط مغادرة السيارة الكهربائية والـ SoC المستهدف"
         },
+        "deprecated": true,
         "titleFormatted": {
           "en": "Set EV departure to [[departureTime]] and target SoC to [[targetSoc]]%",
           "nl": "Zet EV vertrektijd op [[departureTime]] en doel SoC op [[targetSoc]]%",
@@ -9891,6 +10136,190 @@
       },
       {
         "title": {
+          "en": "Set plan for tomorrow",
+          "nl": "Plan voor morgen instellen",
+          "de": "Plan für morgen festlegen",
+          "fr": "Définir le plan de demain",
+          "es": "Establecer plan para mañana",
+          "it": "Imposta piano per domani",
+          "da": "Indstil plan for i morgen",
+          "sv": "Ställ in plan för i morgon",
+          "no": "Angi plan for i morgen",
+          "pl": "Ustaw plan na jutro",
+          "ru": "Задать план на завтра",
+          "ar": "تعيين خطة الغد",
+          "ko": "내일 계획 설정"
+        },
+        "titleFormatted": {
+          "en": "Set tomorrow to [[plan]]",
+          "nl": "Zet morgen op [[plan]]",
+          "de": "Morgen auf [[plan]] setzen",
+          "fr": "Régler demain sur [[plan]]",
+          "es": "Poner mañana en [[plan]]",
+          "it": "Imposta domani su [[plan]]",
+          "da": "Sæt i morgen til [[plan]]",
+          "sv": "Sätt i morgon till [[plan]]",
+          "no": "Sett i morgen til [[plan]]",
+          "pl": "Ustaw jutro na [[plan]]",
+          "ru": "Установить завтра: [[plan]]",
+          "ar": "تعيين الغد إلى [[plan]]",
+          "ko": "내일을 [[plan]](으)로 설정"
+        },
+        "hint": {
+          "en": "Resets by itself after that day.",
+          "nl": "Vervalt vanzelf na die dag.",
+          "de": "Gilt nur für diesen Tag.",
+          "fr": "S'annule après ce jour.",
+          "es": "Se anula tras ese día.",
+          "it": "Si annulla dopo quel giorno.",
+          "da": "Nulstilles efter den dag.",
+          "sv": "Återställs efter den dagen.",
+          "no": "Tilbakestilles etter den dagen.",
+          "pl": "Wygasa po tym dniu.",
+          "ru": "Сбрасывается после этого дня.",
+          "ar": "يُلغى تلقائيًا بعد ذلك اليوم.",
+          "ko": "그날이 지나면 자동으로 초기화됩니다."
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=evCharger"
+          },
+          {
+            "type": "dropdown",
+            "name": "plan",
+            "title": {
+              "en": "Plan",
+              "nl": "Plan",
+              "de": "Plan",
+              "fr": "Plan",
+              "es": "Plan",
+              "it": "Piano",
+              "da": "Plan",
+              "sv": "Plan",
+              "no": "Plan",
+              "pl": "Plan",
+              "ru": "План",
+              "ar": "الخطة",
+              "ko": "계획"
+            },
+            "values": [
+              {
+                "id": "normal",
+                "label": {
+                  "en": "Normal",
+                  "nl": "Normaal",
+                  "de": "Normal",
+                  "fr": "Normal",
+                  "es": "Normal",
+                  "it": "Normale",
+                  "da": "Normal",
+                  "sv": "Normal",
+                  "no": "Normal",
+                  "pl": "Normalnie",
+                  "ru": "Обычно",
+                  "ar": "عادي",
+                  "ko": "일반"
+                }
+              },
+              {
+                "id": "unused",
+                "label": {
+                  "en": "Not used",
+                  "nl": "Niet gebruikt",
+                  "de": "Nicht genutzt",
+                  "fr": "Non utilisée",
+                  "es": "Sin uso",
+                  "it": "Non usata",
+                  "da": "Ikke brugt",
+                  "sv": "Används inte",
+                  "no": "Ikke brukt",
+                  "pl": "Nieużywany",
+                  "ru": "Не используется",
+                  "ar": "غير مستخدمة",
+                  "ko": "사용 안 함"
+                }
+              },
+              {
+                "id": "boost_70",
+                "label": {
+                  "en": "Long trip 70%",
+                  "nl": "Lange rit 70%",
+                  "de": "Lange Fahrt 70%",
+                  "fr": "Long trajet 70%",
+                  "es": "Viaje largo 70%",
+                  "it": "Viaggio lungo 70%",
+                  "da": "Lang tur 70%",
+                  "sv": "Lång resa 70%",
+                  "no": "Lang tur 70%",
+                  "pl": "Długa trasa 70%",
+                  "ru": "Дальняя поездка 70%",
+                  "ar": "رحلة طويلة 70%",
+                  "ko": "장거리 70%"
+                }
+              },
+              {
+                "id": "boost_80",
+                "label": {
+                  "en": "Long trip 80%",
+                  "nl": "Lange rit 80%",
+                  "de": "Lange Fahrt 80%",
+                  "fr": "Long trajet 80%",
+                  "es": "Viaje largo 80%",
+                  "it": "Viaggio lungo 80%",
+                  "da": "Lang tur 80%",
+                  "sv": "Lång resa 80%",
+                  "no": "Lang tur 80%",
+                  "pl": "Długa trasa 80%",
+                  "ru": "Дальняя поездка 80%",
+                  "ar": "رحلة طويلة 80%",
+                  "ko": "장거리 80%"
+                }
+              },
+              {
+                "id": "boost_90",
+                "label": {
+                  "en": "Long trip 90%",
+                  "nl": "Lange rit 90%",
+                  "de": "Lange Fahrt 90%",
+                  "fr": "Long trajet 90%",
+                  "es": "Viaje largo 90%",
+                  "it": "Viaggio lungo 90%",
+                  "da": "Lang tur 90%",
+                  "sv": "Lång resa 90%",
+                  "no": "Lang tur 90%",
+                  "pl": "Długa trasa 90%",
+                  "ru": "Дальняя поездка 90%",
+                  "ar": "رحلة طويلة 90%",
+                  "ko": "장거리 90%"
+                }
+              },
+              {
+                "id": "boost_100",
+                "label": {
+                  "en": "Long trip 100%",
+                  "nl": "Lange rit 100%",
+                  "de": "Lange Fahrt 100%",
+                  "fr": "Long trajet 100%",
+                  "es": "Viaje largo 100%",
+                  "it": "Viaggio lungo 100%",
+                  "da": "Lang tur 100%",
+                  "sv": "Lång resa 100%",
+                  "no": "Lang tur 100%",
+                  "pl": "Długa trasa 100%",
+                  "ru": "Дальняя поездка 100%",
+                  "ar": "رحلة طويلة 100%",
+                  "ko": "장거리 100%"
+                }
+              }
+            ]
+          }
+        ],
+        "id": "set_ev_tomorrow"
+      },
+      {
+        "title": {
           "en": "Set temporary EV trip override",
           "nl": "Stel tijdelijke EV rit in",
           "de": "Vorübergehende EV-Fahrt festlegen",
@@ -9905,6 +10334,7 @@
           "ru": "Установить временное переопределение поездки EV",
           "ar": "تعيين تجاوز الرحلة المؤقت للسيارة الكهربائية"
         },
+        "deprecated": true,
         "titleFormatted": {
           "en": "Set temporary trip departure to [[departureTime]] with target SoC [[targetSoc]]%",
           "nl": "Stel tijdelijke rit in op vertrek [[departureTime]] met doel SoC [[targetSoc]]%",
@@ -16951,7 +17381,6 @@
         "ar": "ملخص شاحن المركبات الكهربائية",
         "ko": "EV 충전기 요약기"
       },
-      "deprecated": true,
       "class": "other",
       "capabilities": [],
       "capabilitiesOptions": {
@@ -17155,22 +17584,174 @@
               "id": "targetSoc",
               "type": "number",
               "label": {
-                "en": "Target SoC (%)",
-                "nl": "Doel SoC (%)",
-                "de": "Ziel SoC (%)",
-                "fr": "SoC cible (%)",
-                "it": "SoC target (%)",
-                "sv": "Mål SoC (%)",
-                "no": "Mål SoC (%)",
-                "es": "SoC objetivo (%)",
-                "da": "Mål SoC (%)",
-                "pl": "Docelowy SoC (%)",
-                "ru": "Целевой SoC (%)",
-                "ar": "الهدف SoC (%)",
-                "ko": "목표 SoC (%)"
+                "en": "Target SoC while learning (%)",
+                "nl": "Doel-SoC tijdens leren (%)",
+                "de": "Ziel-SoC beim Lernen (%)",
+                "fr": "SoC cible pendant l'apprentissage (%)",
+                "es": "SoC objetivo durante aprendizaje (%)",
+                "it": "SoC target in apprendimento (%)",
+                "da": "Mål-SoC under indlæring (%)",
+                "sv": "Mål-SoC under inlärning (%)",
+                "no": "Mål-SoC under læring (%)",
+                "pl": "Docelowy SoC podczas nauki (%)",
+                "ru": "Целевой SoC при обучении (%)",
+                "ar": "هدف SoC أثناء التعلم (%)",
+                "ko": "학습 중 목표 SoC (%)"
+              },
+              "hint": {
+                "en": "Charged to this by 08:00 on weekdays not learned yet.",
+                "nl": "Hiertoe wordt om 08:00 geladen op weekdagen die nog niet geleerd zijn.",
+                "de": "Bis 08:00 wird hierauf geladen, an noch nicht gelernten Wochentagen.",
+                "fr": "Chargé à cette valeur pour 08:00 les jours pas encore appris.",
+                "es": "Se carga a este valor para las 08:00 los días aún no aprendidos.",
+                "it": "Caricata a questo valore entro le 08:00 nei giorni non ancora appresi.",
+                "da": "Lades hertil kl. 08:00 på ugedage, der endnu ikke er lært.",
+                "sv": "Laddas hit till kl. 08:00 på veckodagar som ännu inte är inlärda.",
+                "no": "Lades hit til kl. 08:00 på ukedager som ikke er lært ennå.",
+                "pl": "Ładowanie do tej wartości na 08:00 w dni jeszcze nienauczone.",
+                "ru": "Заряжается до этого значения к 08:00 в ещё не изученные дни.",
+                "ar": "يُشحن إلى هذه القيمة بحلول 08:00 في الأيام غير المتعلمة بعد.",
+                "ko": "아직 학습되지 않은 요일에는 08:00까지 이 값으로 충전합니다."
               },
               "value": 100,
               "min": 10,
+              "max": 100,
+              "decimals": 0
+            },
+            {
+              "id": "reserveSoc",
+              "type": "number",
+              "label": {
+                "en": "Reserve SoC (%)",
+                "nl": "Reserve-SoC (%)",
+                "de": "Reserve-SoC (%)",
+                "fr": "SoC de réserve (%)",
+                "es": "SoC de reserva (%)",
+                "it": "SoC di riserva (%)",
+                "da": "Reserve-SoC (%)",
+                "sv": "Reserv-SoC (%)",
+                "no": "Reserve-SoC (%)",
+                "pl": "Rezerwa SoC (%)",
+                "ru": "Резерв SoC (%)",
+                "ar": "احتياطي SoC (%)",
+                "ko": "예비 SoC (%)"
+              },
+              "hint": {
+                "en": "Kept for unplanned trips. Below it, charging back to it may cost more.",
+                "nl": "Buffer voor onverwachte ritten. Eronder wordt teruggeladen, ook tegen hogere prijzen.",
+                "de": "Puffer für ungeplante Fahrten. Darunter wird auch zu höheren Preisen nachgeladen.",
+                "fr": "Réserve pour les trajets imprévus. En dessous, la recharge peut coûter plus cher.",
+                "es": "Reserva para viajes imprevistos. Por debajo, se recarga aunque cueste más.",
+                "it": "Riserva per viaggi imprevisti. Sotto, si ricarica anche a prezzi più alti.",
+                "da": "Buffer til uplanlagte ture. Under den lades der op, også til højere priser.",
+                "sv": "Buffert för oplanerade resor. Under den laddas det upp, även till högre priser.",
+                "no": "Buffer for uplanlagte turer. Under den lades det opp, også til høyere priser.",
+                "pl": "Zapas na nieplanowane podróże. Poniżej ładowanie nawet po wyższej cenie.",
+                "ru": "Запас для незапланированных поездок. Ниже — дозарядка даже по более высокой цене.",
+                "ar": "احتياطي للرحلات غير المخطط لها. تحته يتم الشحن حتى بأسعار أعلى.",
+                "ko": "예정 외 주행을 위한 여유분. 이보다 낮으면 더 비싸더라도 충전합니다."
+              },
+              "value": 30,
+              "min": 0,
+              "max": 100,
+              "decimals": 0
+            },
+            {
+              "id": "reserveHours",
+              "type": "number",
+              "label": {
+                "en": "Back to reserve within (h)",
+                "nl": "Terug naar reserve binnen (u)",
+                "de": "Zurück zur Reserve innerhalb (h)",
+                "fr": "Retour à la réserve sous (h)",
+                "es": "Volver a la reserva en (h)",
+                "it": "Ritorno alla riserva entro (h)",
+                "da": "Tilbage til reserve inden (t)",
+                "sv": "Tillbaka till reserv inom (h)",
+                "no": "Tilbake til reserve innen (t)",
+                "pl": "Powrót do rezerwy w ciągu (h)",
+                "ru": "Вернуть резерв за (ч)",
+                "ar": "العودة إلى الاحتياطي خلال (س)",
+                "ko": "예비 복귀 시간 (시간)"
+              },
+              "value": 8,
+              "min": 1,
+              "max": 48,
+              "decimals": 0
+            },
+            {
+              "id": "floorSoc",
+              "type": "number",
+              "label": {
+                "en": "Minimum SoC (%)",
+                "nl": "Minimum-SoC (%)",
+                "de": "Minimum-SoC (%)",
+                "fr": "SoC minimum (%)",
+                "es": "SoC mínimo (%)",
+                "it": "SoC minimo (%)",
+                "da": "Minimum-SoC (%)",
+                "sv": "Minimum-SoC (%)",
+                "no": "Minimum-SoC (%)",
+                "pl": "Minimalny SoC (%)",
+                "ru": "Минимальный SoC (%)",
+                "ar": "الحد الأدنى SoC (%)",
+                "ko": "최소 SoC (%)"
+              },
+              "hint": {
+                "en": "Below this, charging starts right away, whatever the price.",
+                "nl": "Hieronder wordt direct geladen, ongeacht de prijs.",
+                "de": "Darunter wird sofort geladen, unabhängig vom Preis.",
+                "fr": "En dessous, la charge démarre aussitôt, quel que soit le prix.",
+                "es": "Por debajo, se carga de inmediato, sin importar el precio.",
+                "it": "Sotto, la ricarica parte subito, a qualsiasi prezzo.",
+                "da": "Under dette lades der straks, uanset pris.",
+                "sv": "Under detta laddas det direkt, oavsett pris.",
+                "no": "Under dette lades det straks, uansett pris.",
+                "pl": "Poniżej ładowanie rusza od razu, bez względu na cenę.",
+                "ru": "Ниже — зарядка сразу, независимо от цены.",
+                "ar": "تحت هذا يبدأ الشحن فورًا مهما كان السعر.",
+                "ko": "이보다 낮으면 가격과 관계없이 바로 충전합니다."
+              },
+              "value": 15,
+              "min": 0,
+              "max": 100,
+              "decimals": 0
+            },
+            {
+              "id": "maxSoc",
+              "type": "number",
+              "label": {
+                "en": "Daily maximum SoC (%)",
+                "nl": "Dagelijkse maximum-SoC (%)",
+                "de": "Tägliches Maximum-SoC (%)",
+                "fr": "SoC maximum quotidien (%)",
+                "es": "SoC máximo diario (%)",
+                "it": "SoC massimo giornaliero (%)",
+                "da": "Dagligt maksimum-SoC (%)",
+                "sv": "Dagligt max-SoC (%)",
+                "no": "Daglig maks-SoC (%)",
+                "pl": "Dzienny maksymalny SoC (%)",
+                "ru": "Дневной максимум SoC (%)",
+                "ar": "الحد الأقصى اليومي SoC (%)",
+                "ko": "일일 최대 SoC (%)"
+              },
+              "hint": {
+                "en": "Upper limit except for a long-trip boost.",
+                "nl": "Bovengrens, behalve bij een boost voor een lange rit.",
+                "de": "Obergrenze, außer bei einem Boost für eine lange Fahrt.",
+                "fr": "Limite haute, sauf boost pour un long trajet.",
+                "es": "Límite superior, salvo un impulso para un viaje largo.",
+                "it": "Limite superiore, salvo boost per un viaggio lungo.",
+                "da": "Øvre grænse, undtagen ved boost til en lang tur.",
+                "sv": "Övre gräns, utom vid boost för en lång resa.",
+                "no": "Øvre grense, unntatt ved boost for en lang tur.",
+                "pl": "Górny limit, poza boostem na długą trasę.",
+                "ru": "Верхний предел, кроме буста для дальней поездки.",
+                "ar": "الحد الأعلى إلا عند التعزيز لرحلة طويلة.",
+                "ko": "장거리 부스트를 제외한 상한값입니다."
+              },
+              "value": 80,
+              "min": 20,
               "max": 100,
               "decimals": 0
             },
@@ -17268,34 +17849,34 @@
               "id": "autoDepartureLearning",
               "type": "checkbox",
               "label": {
-                "en": "Auto-learn departure times",
-                "nl": "Automatisch vertrektijden leren",
-                "de": "Abfahrtszeiten automatisch lernen",
-                "fr": "Apprendre automatiquement les heures de départ",
-                "it": "Impara automaticamente gli orari di partenza",
-                "sv": "Lär automatiskt avgångstider",
-                "no": "Lær avgangstider automatisk",
-                "es": "Aprender horarios de salida automáticamente",
-                "da": "Lær automatisk afgangstider",
-                "pl": "Automatyczne uczenie się czasów odjazdu",
-                "ru": "Автообучение времени отправления",
-                "ar": "التعلم التلقائي لأوقات المغادرة",
-                "ko": "출발 시간 자동 학습"
+                "en": "Learn driving pattern",
+                "nl": "Rijpatroon leren",
+                "de": "Fahrmuster lernen",
+                "fr": "Apprendre les trajets",
+                "es": "Aprender patrón de uso",
+                "it": "Apprendi schema di guida",
+                "da": "Lær kørselsmønster",
+                "sv": "Lär körmönster",
+                "no": "Lær kjøremønster",
+                "pl": "Ucz się wzorca jazdy",
+                "ru": "Изучать режим поездок",
+                "ar": "تعلم نمط القيادة",
+                "ko": "주행 패턴 학습"
               },
               "hint": {
-                "en": "When enabled, PBTH learns your typical departure times from history. Manual times below override the learned times when filled in.",
-                "nl": "Wanneer ingeschakeld leert PBTH uw typische vertrektijden uit de geschiedenis. Handmatige tijden hieronder overschrijven de geleerde tijden.",
-                "de": "Wenn aktiviert, lernt PBTH Ihre typischen Abfahrtszeiten aus der Geschichte. Manuelle Zeiten unten überschreiben die gelernten Zeiten.",
-                "ko": "활성화하면 PBTH가 기록을 바탕으로 일반적인 출발 시간을 학습합니다. 아래에 수동 시간을 입력하면 학습된 시간을 재정의합니다.",
-                "fr": "Lorsqu'activé, PBTH apprend vos heures de départ habituelles à partir de l'historique. Les heures manuelles ci-dessous remplacent les heures apprises si elles sont renseignées.",
-                "es": "Cuando está activado, PBTH aprende sus horarios de salida habituales a partir del historial. Las horas manuales indicadas abajo anulan las horas aprendidas si se completan.",
-                "it": "Se attivato, PBTH apprende i tuoi orari di partenza abituali dalla cronologia. Gli orari manuali sottostanti sostituiscono quelli appresi se compilati.",
-                "da": "Når aktiveret, lærer PBTH dine typiske afgangstider fra historikken. Manuelle tider nedenfor tilsidesætter de indlærte tider, når de udfyldes.",
-                "sv": "När aktiverat lär sig PBTH dina typiska avgångstider från historiken. Manuella tider nedan åsidosätter de inlärda tiderna när de fylls i.",
-                "no": "Når aktivert, lærer PBTH dine typiske avgangstider fra historikken. Manuelle tider nedenfor overstyrer de lærte tidene når de fylles inn.",
-                "pl": "Po włączeniu PBTH uczy się typowych godzin wyjazdu na podstawie historii. Poniższe ręcznie wpisane godziny nadpisują wyuczone godziny, gdy zostaną wypełnione.",
-                "ru": "При включении PBTH изучает ваши типичные времена отправления на основе истории. Указанные ниже времена вручную переопределяют изученные времена, если они заполнены.",
-                "ar": "عند التفعيل، يتعلم PBTH أوقات مغادرتك المعتادة من السجل. تتجاوز الأوقات اليدوية أدناه الأوقات المتعلمة عند تعبئتها."
+                "en": "Manual times below override learned departure times.",
+                "nl": "Handmatige tijden hieronder gaan voor geleerde vertrektijden.",
+                "de": "Manuelle Zeiten unten haben Vorrang vor gelernten Abfahrtszeiten.",
+                "fr": "Les heures manuelles ci-dessous priment sur celles apprises.",
+                "es": "Las horas manuales de abajo prevalecen sobre las aprendidas.",
+                "it": "Gli orari manuali sotto prevalgono su quelli appresi.",
+                "da": "Manuelle tider nedenfor går forud for lærte afgangstider.",
+                "sv": "Manuella tider nedan går före inlärda avgångstider.",
+                "no": "Manuelle tider nedenfor går foran lærte avgangstider.",
+                "pl": "Ręczne godziny poniżej mają pierwszeństwo przed wyuczonymi.",
+                "ru": "Ручное время ниже важнее изученного.",
+                "ar": "الأوقات اليدوية أدناه تتقدم على الأوقات المتعلمة.",
+                "ko": "아래 수동 시간이 학습된 출발 시간보다 우선합니다."
               },
               "value": true
             },
@@ -17544,19 +18125,19 @@
         {
           "type": "group",
           "label": {
-            "en": "Learned Departure Profile (read-only)",
-            "nl": "Geleerd Vertrekprofiel (alleen lezen)",
-            "de": "Gelerntes Abfahrtsprofil (nur lesen)",
-            "fr": "Profil de départ appris (lecture seule)",
-            "it": "Profilo di partenza appreso (sola lettura)",
-            "sv": "Inlärt avgångsprofil (skrivskyddad)",
-            "no": "Lært avgangsprofil (skrivebeskyttet)",
-            "es": "Perfil de salida aprendido (solo lectura)",
-            "da": "Lært afgangsprofil (skrivebeskyttet)",
-            "pl": "Nauczony profil odjazdu (tylko do odczytu)",
-            "ru": "Изученный профиль отправления (только чтение)",
-            "ar": "ملف المغادرة المُتعلَّم (للقراءة فقط)",
-            "ko": "학습된 출발 프로필 (읽기 전용)"
+            "en": "Learned driving pattern",
+            "nl": "Geleerd rijpatroon",
+            "de": "Gelerntes Fahrmuster",
+            "fr": "Trajets appris",
+            "es": "Patrón de uso aprendido",
+            "it": "Schema di guida appreso",
+            "da": "Lært kørselsmønster",
+            "sv": "Inlärt körmönster",
+            "no": "Lært kjøremønster",
+            "pl": "Wyuczony wzorzec jazdy",
+            "ru": "Изученный режим поездок",
+            "ar": "نمط القيادة المتعلم",
+            "ko": "학습된 주행 패턴"
           },
           "children": [
             {
@@ -17718,6 +18299,26 @@
                 "ko": "충전 효율"
               },
               "value": "88% (n=0)"
+            },
+            {
+              "id": "learned_consumption",
+              "type": "label",
+              "label": {
+                "en": "Consumption",
+                "nl": "Verbruik",
+                "de": "Verbrauch",
+                "fr": "Consommation",
+                "es": "Consumo",
+                "it": "Consumo",
+                "da": "Forbrug",
+                "sv": "Förbrukning",
+                "no": "Forbruk",
+                "pl": "Zużycie",
+                "ru": "Расход",
+                "ar": "الاستهلاك",
+                "ko": "소비량"
+              },
+              "value": "-"
             }
           ]
         },
@@ -26756,73 +27357,55 @@
         {
           "id": "scheduled_price",
           "title": {
-            "en": "Scheduled Price Slots",
-            "nl": "Geplande Prijsuren",
-            "de": "Geplante Preis-Slots",
-            "fr": "Créneaux de prix programmés",
-            "ko": "예약된 가격 구간",
-            "es": "Franjas de precio programadas",
-            "it": "Fasce orarie di prezzo programmate",
-            "da": "Planlagte prisintervaller",
-            "sv": "Schemalagda prisintervall",
-            "no": "Planlagte prisintervaller",
-            "pl": "Zaplanowane przedziały cenowe",
-            "ru": "Запланированные ценовые интервалы",
-            "ar": "فترات الأسعار المجدولة"
+            "en": "Smart",
+            "nl": "Slim",
+            "de": "Intelligent",
+            "fr": "Intelligent",
+            "es": "Inteligente",
+            "it": "Intelligente",
+            "da": "Smart",
+            "sv": "Smart",
+            "no": "Smart",
+            "pl": "Inteligentnie",
+            "ru": "Умный",
+            "ar": "ذكي",
+            "ko": "스마트"
           }
         },
         {
           "id": "solar_only",
           "title": {
-            "en": "Solar Surplus Only",
-            "nl": "Alleen Zonne-overschot",
-            "de": "Nur Solarüberschuss",
-            "fr": "Surplus solaire uniquement",
-            "ko": "태양광 잉여만",
-            "es": "Solo excedente solar",
-            "it": "Solo surplus solare",
-            "da": "Kun solaroverskud",
-            "sv": "Endast solöverskott",
-            "no": "Kun soloverskudd",
-            "pl": "Tylko nadwyżka słoneczna",
-            "ru": "Только солнечный избыток",
-            "ar": "فائض الطاقة الشمسية فقط"
-          }
-        },
-        {
-          "id": "solar_and_grid",
-          "title": {
-            "en": "Solar + Price Slots",
-            "nl": "Zonne-overschot + Prijsuren",
-            "de": "Solar + Preis-Slots",
-            "fr": "Solaire + Créneaux de prix",
-            "ko": "태양광 + 가격 구간",
-            "es": "Solar + Franjas de precio",
-            "it": "Solare + Fasce di prezzo",
-            "da": "Sol + Prisintervaller",
-            "sv": "Sol + Prisintervall",
-            "no": "Sol + Prisintervaller",
-            "pl": "Słońce + Przedziały cenowe",
-            "ru": "Солнце + Ценовые интервалы",
-            "ar": "الطاقة الشمسية + فترات الأسعار"
+            "en": "Solar only",
+            "nl": "Alleen zon",
+            "de": "Nur Solar",
+            "fr": "Solaire uniquement",
+            "es": "Solo solar",
+            "it": "Solo solare",
+            "da": "Kun sol",
+            "sv": "Endast sol",
+            "no": "Kun sol",
+            "pl": "Tylko słońce",
+            "ru": "Только солнце",
+            "ar": "الطاقة الشمسية فقط",
+            "ko": "태양광만"
           }
         },
         {
           "id": "fast_charge",
           "title": {
-            "en": "Fast Charge",
-            "nl": "Snelladen",
-            "de": "Schnellladen",
-            "fr": "Charge rapide",
-            "ko": "급속 충전",
-            "es": "Carga rápida",
-            "it": "Ricarica rapida",
-            "da": "Hurtig opladning",
-            "sv": "Snabbladdning",
-            "no": "Hurtiglading",
-            "pl": "Szybkie ładowanie",
-            "ru": "Быстрая зарядка",
-            "ar": "شحن سريع"
+            "en": "Charge now",
+            "nl": "Nu laden",
+            "de": "Jetzt laden",
+            "fr": "Charger maintenant",
+            "es": "Cargar ahora",
+            "it": "Carica ora",
+            "da": "Lad nu",
+            "sv": "Ladda nu",
+            "no": "Lad nå",
+            "pl": "Ładuj teraz",
+            "ru": "Зарядить сейчас",
+            "ar": "اشحن الآن",
+            "ko": "지금 충전"
           }
         },
         {
@@ -26832,7 +27415,6 @@
             "nl": "Uit",
             "de": "Aus",
             "fr": "Désactivé",
-            "ko": "끄기",
             "es": "Apagado",
             "it": "Spento",
             "da": "Fra",
@@ -26840,7 +27422,8 @@
             "no": "Av",
             "pl": "Wyłączone",
             "ru": "Выкл.",
-            "ar": "إيقاف"
+            "ar": "إيقاف",
+            "ko": "끄기"
           }
         }
       ]
@@ -28062,6 +28645,138 @@
             "pl": "20%",
             "ru": "20%",
             "ar": "20%"
+          }
+        }
+      ]
+    },
+    "ev_tomorrow": {
+      "type": "enum",
+      "title": {
+        "en": "Tomorrow",
+        "nl": "Morgen",
+        "de": "Morgen",
+        "fr": "Demain",
+        "es": "Mañana",
+        "it": "Domani",
+        "da": "I morgen",
+        "sv": "I morgon",
+        "no": "I morgen",
+        "pl": "Jutro",
+        "ru": "Завтра",
+        "ar": "غدًا",
+        "ko": "내일"
+      },
+      "uiComponent": "picker",
+      "getable": true,
+      "setable": true,
+      "insights": false,
+      "values": [
+        {
+          "id": "normal",
+          "title": {
+            "en": "Normal",
+            "nl": "Normaal",
+            "de": "Normal",
+            "fr": "Normal",
+            "es": "Normal",
+            "it": "Normale",
+            "da": "Normal",
+            "sv": "Normal",
+            "no": "Normal",
+            "pl": "Normalnie",
+            "ru": "Обычно",
+            "ar": "عادي",
+            "ko": "일반"
+          }
+        },
+        {
+          "id": "unused",
+          "title": {
+            "en": "Not used",
+            "nl": "Niet gebruikt",
+            "de": "Nicht genutzt",
+            "fr": "Non utilisée",
+            "es": "Sin uso",
+            "it": "Non usata",
+            "da": "Ikke brugt",
+            "sv": "Används inte",
+            "no": "Ikke brukt",
+            "pl": "Nieużywany",
+            "ru": "Не используется",
+            "ar": "غير مستخدمة",
+            "ko": "사용 안 함"
+          }
+        },
+        {
+          "id": "boost_70",
+          "title": {
+            "en": "Long trip 70%",
+            "nl": "Lange rit 70%",
+            "de": "Lange Fahrt 70%",
+            "fr": "Long trajet 70%",
+            "es": "Viaje largo 70%",
+            "it": "Viaggio lungo 70%",
+            "da": "Lang tur 70%",
+            "sv": "Lång resa 70%",
+            "no": "Lang tur 70%",
+            "pl": "Długa trasa 70%",
+            "ru": "Дальняя поездка 70%",
+            "ar": "رحلة طويلة 70%",
+            "ko": "장거리 70%"
+          }
+        },
+        {
+          "id": "boost_80",
+          "title": {
+            "en": "Long trip 80%",
+            "nl": "Lange rit 80%",
+            "de": "Lange Fahrt 80%",
+            "fr": "Long trajet 80%",
+            "es": "Viaje largo 80%",
+            "it": "Viaggio lungo 80%",
+            "da": "Lang tur 80%",
+            "sv": "Lång resa 80%",
+            "no": "Lang tur 80%",
+            "pl": "Długa trasa 80%",
+            "ru": "Дальняя поездка 80%",
+            "ar": "رحلة طويلة 80%",
+            "ko": "장거리 80%"
+          }
+        },
+        {
+          "id": "boost_90",
+          "title": {
+            "en": "Long trip 90%",
+            "nl": "Lange rit 90%",
+            "de": "Lange Fahrt 90%",
+            "fr": "Long trajet 90%",
+            "es": "Viaje largo 90%",
+            "it": "Viaggio lungo 90%",
+            "da": "Lang tur 90%",
+            "sv": "Lång resa 90%",
+            "no": "Lang tur 90%",
+            "pl": "Długa trasa 90%",
+            "ru": "Дальняя поездка 90%",
+            "ar": "رحلة طويلة 90%",
+            "ko": "장거리 90%"
+          }
+        },
+        {
+          "id": "boost_100",
+          "title": {
+            "en": "Long trip 100%",
+            "nl": "Lange rit 100%",
+            "de": "Lange Fahrt 100%",
+            "fr": "Long trajet 100%",
+            "es": "Viaje largo 100%",
+            "it": "Viaggio lungo 100%",
+            "da": "Lang tur 100%",
+            "sv": "Lång resa 100%",
+            "no": "Lang tur 100%",
+            "pl": "Długa trasa 100%",
+            "ru": "Дальняя поездка 100%",
+            "ar": "رحلة طويلة 100%",
+            "ko": "장거리 100%"
           }
         }
       ]

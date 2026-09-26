@@ -30,19 +30,19 @@
     "ar": "تعيين وضع شحن السيارة الكهربائية إلى [[mode]]"
   },
   "hint": {
-    "en": "Set the active charging mode (Scheduled Price Slots, Solar Surplus, Fast Charge, or Off).",
-    "nl": "Stel de actieve laadmodus in (Geplande Prijsuren, Zonne-overschot, Snelladen of Uit).",
-    "de": "Legen Sie den aktiven Lademodus fest.",
-    "ko": "활성 충전 모드를 설정합니다 (예약된 가격 구간, 태양광 잉여, 급속 충전 또는 끄기).",
-    "fr": "Définit le mode de charge actif (créneaux de prix programmés, surplus solaire, charge rapide, ou désactivé).",
-    "es": "Establece el modo de carga activo (franjas de precio programadas, excedente solar, carga rápida o apagado).",
-    "it": "Imposta la modalità di ricarica attiva (fasce di prezzo programmate, surplus solare, ricarica rapida o spento).",
-    "da": "Indstiller den aktive ladetilstand (planlagte prisintervaller, solaroverskud, hurtig opladning eller fra).",
-    "sv": "Ställer in det aktiva laddningsläget (schemalagda prisintervall, solöverskott, snabbladdning eller av).",
-    "no": "Angir aktiv lademodus (planlagte prisintervaller, soloverskudd, hurtiglading eller av).",
-    "pl": "Ustawia aktywny tryb ładowania (zaplanowane przedziały cenowe, nadwyżka słoneczna, szybkie ładowanie lub wyłączone).",
-    "ru": "Устанавливает активный режим зарядки (запланированные ценовые интервалы, солнечный избыток, быстрая зарядка или выкл.).",
-    "ar": "يحدد وضع الشحن النشط (فترات الأسعار المجدولة، فائض الطاقة الشمسية، الشحن السريع، أو إيقاف التشغيل)."
+    "en": "Smart plans on price and solar; Charge now charges straight to the maximum.",
+    "nl": "Slim plant op prijs en zon; Nu laden laadt direct tot het maximum.",
+    "de": "Intelligent plant nach Preis und Sonne; Jetzt laden lädt sofort bis zum Maximum.",
+    "fr": "Intelligent planifie selon prix et soleil ; Charger maintenant charge aussitôt jusqu'au maximum.",
+    "es": "Inteligente planifica según precio y sol; Cargar ahora carga de inmediato hasta el máximo.",
+    "it": "Intelligente pianifica su prezzo e sole; Carica ora carica subito fino al massimo.",
+    "da": "Smart planlægger efter pris og sol; Lad nu lader straks til maksimum.",
+    "sv": "Smart planerar efter pris och sol; Ladda nu laddar direkt till max.",
+    "no": "Smart planlegger etter pris og sol; Lad nå lader straks til maks.",
+    "pl": "Inteligentnie planuje wg ceny i słońca; Ładuj teraz ładuje od razu do maksimum.",
+    "ru": "Умный планирует по цене и солнцу; «Зарядить сейчас» заряжает сразу до максимума.",
+    "ar": "الذكي يخطط حسب السعر والشمس؛ اشحن الآن يشحن فورًا حتى الحد الأقصى.",
+    "ko": "스마트는 가격과 태양광으로 계획하고, 지금 충전은 바로 최대까지 충전합니다."
   },
   "args": [
     {
@@ -72,73 +72,55 @@
         {
           "id": "scheduled_price",
           "label": {
-            "en": "Scheduled Price Slots",
-            "nl": "Geplande Prijsuren",
-            "de": "Geplante Preis-Slots",
-            "ko": "예약된 가격 구간",
-            "fr": "Créneaux de prix programmés",
-            "es": "Franjas de precio programadas",
-            "it": "Fasce orarie di prezzo programmate",
-            "da": "Planlagte prisintervaller",
-            "sv": "Schemalagda prisintervall",
-            "no": "Planlagte prisintervaller",
-            "pl": "Zaplanowane przedziały cenowe",
-            "ru": "Запланированные ценовые интервалы",
-            "ar": "فترات الأسعار المجدولة"
+            "en": "Smart",
+            "nl": "Slim",
+            "de": "Intelligent",
+            "fr": "Intelligent",
+            "es": "Inteligente",
+            "it": "Intelligente",
+            "da": "Smart",
+            "sv": "Smart",
+            "no": "Smart",
+            "pl": "Inteligentnie",
+            "ru": "Умный",
+            "ar": "ذكي",
+            "ko": "스마트"
           }
         },
         {
           "id": "solar_only",
           "label": {
-            "en": "Solar Surplus Only",
-            "nl": "Alleen Zonne-overschot",
-            "de": "Nur Solarüberschuss",
-            "ko": "태양광 잉여만",
-            "fr": "Surplus solaire uniquement",
-            "es": "Solo excedente solar",
-            "it": "Solo surplus solare",
-            "da": "Kun solaroverskud",
-            "sv": "Endast solöverskott",
-            "no": "Kun soloverskudd",
-            "pl": "Tylko nadwyżka słoneczna",
-            "ru": "Только солнечный избыток",
-            "ar": "فائض الطاقة الشمسية فقط"
-          }
-        },
-        {
-          "id": "solar_and_grid",
-          "label": {
-            "en": "Solar + Price Slots",
-            "nl": "Zonne-overschot + Prijsuren",
-            "de": "Solar + Preis-Slots",
-            "ko": "태양광 + 가격 구간",
-            "fr": "Solaire + Créneaux de prix",
-            "es": "Solar + Franjas de precio",
-            "it": "Solare + Fasce di prezzo",
-            "da": "Sol + Prisintervaller",
-            "sv": "Sol + Prisintervall",
-            "no": "Sol + Prisintervaller",
-            "pl": "Słońce + Przedziały cenowe",
-            "ru": "Солнце + Ценовые интервалы",
-            "ar": "الطاقة الشمسية + فترات الأسعار"
+            "en": "Solar only",
+            "nl": "Alleen zon",
+            "de": "Nur Solar",
+            "fr": "Solaire uniquement",
+            "es": "Solo solar",
+            "it": "Solo solare",
+            "da": "Kun sol",
+            "sv": "Endast sol",
+            "no": "Kun sol",
+            "pl": "Tylko słońce",
+            "ru": "Только солнце",
+            "ar": "الطاقة الشمسية فقط",
+            "ko": "태양광만"
           }
         },
         {
           "id": "fast_charge",
           "label": {
-            "en": "Fast Charge",
-            "nl": "Snelladen",
-            "de": "Schnellladen",
-            "ko": "급속 충전",
-            "fr": "Charge rapide",
-            "es": "Carga rápida",
-            "it": "Ricarica rapida",
-            "da": "Hurtig opladning",
-            "sv": "Snabbladdning",
-            "no": "Hurtiglading",
-            "pl": "Szybkie ładowanie",
-            "ru": "Быстрая зарядка",
-            "ar": "شحن سريع"
+            "en": "Charge now",
+            "nl": "Nu laden",
+            "de": "Jetzt laden",
+            "fr": "Charger maintenant",
+            "es": "Cargar ahora",
+            "it": "Carica ora",
+            "da": "Lad nu",
+            "sv": "Ladda nu",
+            "no": "Lad nå",
+            "pl": "Ładuj teraz",
+            "ru": "Зарядить сейчас",
+            "ar": "اشحن الآن",
+            "ko": "지금 충전"
           }
         },
         {
@@ -147,7 +129,6 @@
             "en": "Off",
             "nl": "Uit",
             "de": "Aus",
-            "ko": "끄기",
             "fr": "Désactivé",
             "es": "Apagado",
             "it": "Spento",
@@ -156,7 +137,8 @@
             "no": "Av",
             "pl": "Wyłączone",
             "ru": "Выкл.",
-            "ar": "إيقاف"
+            "ar": "إيقاف",
+            "ko": "끄기"
           }
         }
       ]

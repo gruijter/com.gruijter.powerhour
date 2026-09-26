@@ -6,8 +6,10 @@ Copyright 2019 - 2026, Robin de Gruijter (gruijter@hotmail.com)
 'use strict';
 
 const GenericDevice = require('../../lib/genericDeviceDrivers/generic_bat_device');
-const EvChargeStrategy = require('../../lib/strategies/EvChargeStrategy');
-const EvDepartureStrategy = require('../../lib/strategies/EvDepartureStrategy');
+const EvPlanner = require('../../lib/strategies/EvPlanner');
+const EvPriceProfile = require('../../lib/strategies/EvPriceProfile');
+const TimeHelpers = require('../../lib/helpers/TimeHelpers');
+const EvUsageModel = require('../../lib/strategies/EvUsageModel');
 const EvPresence = require('../../lib/strategies/EvPresence');
 const EvSocEstimator = require('../../lib/strategies/EvSocEstimator');
 const EvChargerControl = require('../../lib/strategies/EvChargerControl');
@@ -31,6 +33,9 @@ const deviceSpecifics = {
     measure_source: 'measure_watt_avg',
   },
 };
+
+// Cable pulled while charging, then a trip report within this window: the pull was the departure.
+const UNPLUG_AFTER_SWITCH_MS = 2 * 60 * 1000; // a power drop this soon after switching off is ours
 
 // Day labels for learned profile settings keys (0=Monday)
 const LEARNED_PROFILE_KEYS = [
@@ -56,6 +61,8 @@ const CAR_CAPS = {
 const CONTROL_TICK_MS = 60 * 1000;
 // At most one car refresh request per this period.
 const CAR_REFRESH_MIN_MS = 3 * 60 * 60 * 1000;
+// At most one restart per this period when the charger's capabilities changed under us.
+const CAP_RESTART_MIN_MS = 10 * 60 * 1000;
 // Direct car read in the control loop, next to the car's own capability events.
 const CAR_POLL_MS = 5 * 60 * 1000;
 // A charging session below this is not worth waking the car for.
@@ -65,13 +72,17 @@ class CarChargeDevice extends GenericDevice {
 
   async initDeviceValues() {
     this.lastKnownSoc = await this.getStoreValue('lastKnownSoc') || 0;
-    this.socForecastModel = await this.getStoreValue('socForecastModel') || EvDepartureStrategy.createModel();
+    this.usageModel = EvUsageModel.fromStore(await this.getStoreValue('evUsageModel')); // null: bootstrap from Insights first
+    if (this.getStoreValue('socForecastModel')) await this.unsetStoreValue('socForecastModel').catch(this.error); // pre-v9 model
     this.socEstimator = await this.getStoreValue('socEstimator') || EvSocEstimator.createState();
     // The pre-estimator SoC stays the starting point until the car reports.
     if (typeof this.socEstimator.baseSoc !== 'number' && this.lastKnownSoc > 0) {
       this.socEstimator.baseSoc = this.lastKnownSoc;
     }
     if (!this.signals) this.signals = {};
+    // Kept across restarts: a manual switch of the charger holds until the plan wants a change.
+    const lastWanted = await this.getStoreValue('evLastWantedSwitch');
+    if (typeof lastWanted === 'boolean') this.lastWantedSwitch = lastWanted;
     await super.initDeviceValues();
   }
 
@@ -100,14 +111,6 @@ class CarChargeDevice extends GenericDevice {
 
     await super.onInit().catch(this.error);
 
-    for (const cap of ['ev_charge_mode', 'ev_next_departure', 'ev_target_soc', 'ev_departure_time', 'button.retrain']) {
-      if (!this.hasCapability(cap)) {
-        this.log(`Adding missing capability ${cap} to device ${this.getName()}`);
-        await this.addCapability(cap).catch(this.error);
-        await setTimeoutPromise(2 * 1000, this); // wait a bit for Homey to settle
-      }
-    }
-
     this.powerHistory = await this.loadStoredHistory('powerHistory');
     this.socHistory = await this.loadStoredHistory('socHistory');
 
@@ -117,10 +120,15 @@ class CarChargeDevice extends GenericDevice {
       this._controlTick().catch((err) => this.error(err));
     }, CONTROL_TICK_MS);
 
-    if (this.hasCapability('ev_charge_mode')) {
-      if (!this.getCapabilityValue('ev_charge_mode')) {
-        await this.setCapabilityValue('ev_charge_mode', 'scheduled_price').catch(this.error);
-      }
+    // 'solar_and_grid' was merged into 'scheduled_price' (Smart): solar is priced in either way.
+    const mode = this.getCapabilityValue('ev_charge_mode');
+    if (!mode || mode === 'solar_and_grid') {
+      await this.setCapabilityValue('ev_charge_mode', 'scheduled_price').catch(this.error);
+    }
+
+    // Capability listeners survive restartDevice() (same instance): register them once.
+    if (!this.uiListenersRegistered) {
+      this.uiListenersRegistered = true;
       this.registerCapabilityListener('ev_charge_mode', async (value) => {
         this.log(`EV charge mode set to ${value}`);
         if (this.homey.app.trigger_ev_charge_mode_changed) {
@@ -128,50 +136,13 @@ class CarChargeDevice extends GenericDevice {
         }
         await this.updateChargeChart().catch(this.error);
       });
-    }
-
-    if (this.hasCapability('ev_target_soc')) {
-      this.registerCapabilityListener('ev_target_soc', async (value) => {
-        const numVal = Number(value) || 80;
-        this.log(`EV target SoC UI picker changed to ${numVal}%`);
-        const tripOverride = this.getStoreValue('tripOverride');
-        if (tripOverride) {
-          tripOverride.targetSoc = numVal;
-          await this.setStoreValue('tripOverride', tripOverride);
-        } else {
-          await this.setSettings({ targetSoc: numVal }).catch(this.error);
-        }
-        await this.updateChargeChart().catch(this.error);
+      this.registerCapabilityListener('ev_tomorrow', async (value) => {
+        this.log(`EV plan for tomorrow set to ${value}`);
+        await this.setTomorrowPlan(value);
       });
-    }
-
-    if (this.hasCapability('ev_departure_time')) {
-      this.registerCapabilityListener('ev_departure_time', async (value) => {
-        this.log(`EV departure time UI picker changed to ${value}`);
-        if (value === 'until_next_schedule') {
-          await this.setStoreValue('tripOverride', null);
-          this.log('Cleared trip override via UI picker');
-        } else if (value === 'indefinite') {
-          const tripOverride = this.getStoreValue('tripOverride') || {};
-          tripOverride.departureTime = 'indefinite';
-          await this.setStoreValue('tripOverride', tripOverride);
-        } else {
-          const tripOverride = this.getStoreValue('tripOverride');
-          if (tripOverride) {
-            tripOverride.departureTime = value;
-            await this.setStoreValue('tripOverride', tripOverride);
-          } else {
-            await this.setSettings({ departureTime: value }).catch(this.error);
-          }
-        }
-        await this.updateChargeChart().catch(this.error);
-      });
-    }
-
-    if (this.hasCapability('button.retrain')) {
-      this.retrainListener = this.registerCapabilityListener('button.retrain', async () => {
+      this.registerCapabilityListener('button.retrain', async () => {
         this.log('[EV Slot] Manual retrain triggered via button.retrain');
-        await this.learnDeparturePattern(); // Fully overwrites socForecastModel from scratch
+        await this.learnDeparturePattern(); // Re-bootstraps from Insights, keeping what was learned live
         return true;
       });
     }
@@ -396,6 +367,10 @@ class CarChargeDevice extends GenericDevice {
     if (!api || !this.evDevice) return;
     const car = await api.devices.getDevice({ id: this.evDevice.id, $cache: false }).catch(() => null);
     if (!car || !car.capabilitiesObj) return;
+    if (!car.available && this.usageModel) {
+      EvUsageModel.markCurrentUnobserved(this.usageModel);
+      await this._saveUsageModel();
+    }
     if (car.available && !this.evDevice.available) {
       this.log('[EV SoC] Car device became available, re-registering listeners');
       this.evDevice = car;
@@ -424,6 +399,12 @@ class CarChargeDevice extends GenericDevice {
     if (power > EvPresence.CHARGING_POWER_W) this.signals.lastChargingTm = Date.now();
     const wasCharging = this.presence && this.presence.state === 'charging';
     const isCharging = power > EvPresence.CHARGING_POWER_W;
+    // Power gone while the charger stays on and we did not just switch it off: the cable was
+    // pulled, or the car is full. A trip report shortly after tells which (EvUsageModel.recordTrip).
+    if (wasCharging && !isCharging && this.signals.switchOn !== false
+      && !(this.lastWantedSwitch === false && Date.now() - (this.lastSwitchCommandTm || 0) < UNPLUG_AFTER_SWITCH_MS)) {
+      this.lastUnplugTm = new Date();
+    }
     if (wasCharging !== isCharging) this._updatePresence().catch(this.error);
   }
 
@@ -448,6 +429,9 @@ class CarChargeDevice extends GenericDevice {
 
     const dist = typeof this.signals.carDistanceKm === 'number' ? `, car ${this.signals.carDistanceKm.toFixed(2)} km from home` : '';
     this.log(`[EV Slot] Car state ${prev.state} -> ${presence.state}${dist}`);
+    if (this.homey.app.trigger_ev_car_state_changed) {
+      this.homey.app.trigger_ev_car_state_changed(this, { state: presence.state }, {}).catch(this.error);
+    }
     if (prev.atHome && !presence.atHome) {
       await this._onDeparture();
     } else if (!prev.atHome && presence.atHome) {
@@ -458,48 +442,76 @@ class CarChargeDevice extends GenericDevice {
     }
   }
 
-  // Departure/return learning needs the moment itself. A car location only arrives after the
-  // trip, so a location-based change is too late to learn a time from.
-  _presenceIsTimely() {
-    return !this.carCapGroup.latitude;
+  // Live departure/return feeds the usage model only for cars without odometer, and only when the
+  // signal is timely (charger plug state or power gap): a car location arrives after the trip.
+  async _recordPresenceEvent(kind) {
+    if (!this.usageModel || this.carCapGroup.odometer || this.carCapGroup.latitude) return;
+    if (this.getSettings().autoDepartureLearning === false) return;
+    const tz = this.timeZone || this.homey.clock.getTimezone();
+    const now = new Date();
+    EvUsageModel.recordAway(this.usageModel, kind === 'departure' ? { departTm: now } : { returnTm: now }, tz);
+    await this._saveUsageModel();
   }
 
   async _onDeparture() {
-    const now = new Date();
-    const tz = this.timeZone || this.homey.clock.getTimezone();
-    const dow = EvDepartureStrategy.getDowLocal(now, tz);
-    const depFh = EvDepartureStrategy.toLocalFractionalHour(now, tz);
-    const depSoc = typeof this.lastKnownSoc === 'number' ? this.lastKnownSoc : null;
-    const batCap = this.getSettings().batCapacity || 50;
-
-    this.log(`[EV Slot] Departure recorded at ${EvDepartureStrategy.fractionalHourToHHMM(depFh)} with SoC ${depSoc !== null ? `${depSoc}%` : 'unknown'}`);
-
-    if (this.getSettings().autoDepartureLearning !== false && this._presenceIsTimely()) {
-      EvDepartureStrategy.recordDeparture(this.socForecastModel, dow, depFh, depSoc, batCap);
-      await this.setStoreValue('socForecastModel', this.socForecastModel).catch(this.error);
-      await this._updateLearnedProfileSettings();
-    }
-
-    // Suspend: chart preserved but the plan is shown as prediction, and the charger switched off
+    this.log(`[EV Slot] Departure, SoC ${this.lastKnownSoc}%`);
+    await this._recordPresenceEvent('departure');
+    // The plan is now shown as prediction, and the charger switched off
     await this.updateChargeChart().catch(this.error);
   }
 
   async _onReturn() {
-    const now = new Date();
-    const tz = this.timeZone || this.homey.clock.getTimezone();
-    const dow = EvDepartureStrategy.getDowLocal(now, tz);
-    const retFh = EvDepartureStrategy.toLocalFractionalHour(now, tz);
-    const soc = typeof this.lastKnownSoc === 'number' ? this.lastKnownSoc : null;
-
-    this.log(`[EV Slot] Return recorded at ${EvDepartureStrategy.fractionalHourToHHMM(retFh)} with SoC ${soc !== null ? `${soc}%` : 'unknown'}`);
-
-    if (this.getSettings().autoDepartureLearning !== false && this._presenceIsTimely()) {
-      EvDepartureStrategy.recordReturn(this.socForecastModel, dow, retFh, soc);
-      await this.setStoreValue('socForecastModel', this.socForecastModel).catch(this.error);
-      await this._updateLearnedProfileSettings();
-    }
-
+    this.log(`[EV Slot] Return, SoC ${this.lastKnownSoc}%`);
+    await this._recordPresenceEvent('return');
     await this.updateChargeChart().catch(this.error);
+  }
+
+  // ─── Usage model ────────────────────────────────────────────────────────────
+
+  async _saveUsageModel() {
+    await this.setStoreValue('evUsageModel', this.usageModel).catch(this.error);
+  }
+
+  // Trips end with a car report that shows a higher odometer.
+  async _checkTrip(odo, reportSoc, reportTm, prevDistanceKm) {
+    if (!this.usageModel || typeof odo !== 'number') return;
+    const last = this.usageModel.lastOdo;
+    this.usageModel.lastOdo = odo;
+    if (typeof last !== 'number' || odo - last < 0.1 || odo - last > 2000) {
+      if (last !== odo) await this._saveUsageModel();
+      return;
+    }
+    const km = Math.round((odo - last) * 10) / 10;
+    const capacity = this.getSettings().batCapacity || 50;
+    if (km > EvUsageModel.maxTripKm(capacity)) {
+      // More than a full battery: the car app missed reports, the km of several days are merged.
+      this.log(`[EV Usage] Odometer jump of ${km} km: car app missed reports, day not used for learning`);
+      EvUsageModel.markCurrentUnobserved(this.usageModel);
+      await this._saveUsageModel();
+      return;
+    }
+    const socBefore = this.lastKnownSoc;
+    const kwh = (typeof reportSoc === 'number' && typeof socBefore === 'number')
+      ? Math.max(0, ((socBefore - reportSoc) / 100) * capacity) : null;
+    const radius = EvPresence.HOME_RADIUS_KM;
+    const dist = this.signals.carDistanceKm;
+    const trip = {
+      km,
+      kwh,
+      reportTm: new Date(reportTm),
+      fromHome: typeof prevDistanceKm === 'number' ? prevDistanceKm <= radius : null,
+      toHome: typeof dist === 'number' ? dist <= radius : null,
+      unplugTm: this.lastUnplugTm || null,
+    };
+    const tz = this.timeZone || this.homey.clock.getTimezone();
+    if (this.getSettings().autoDepartureLearning !== false) {
+      EvUsageModel.recordTrip(this.usageModel, trip, tz);
+      if (this.usageModel.current && typeof this.usageModel.current.departFh === 'number') this.lastUnplugTm = null;
+    }
+    this.log(`[EV Usage] Trip ${km} km, ${kwh === null ? '?' : kwh.toFixed(1)} kWh by SoC, `
+      + `from home: ${trip.fromHome}, to home: ${trip.toHome}`);
+    await this._saveUsageModel();
+    await this._updateLearnedProfileSettings();
   }
 
   // ─── Car reports and SoC estimate ───────────────────────────────────────────
@@ -543,6 +555,7 @@ class CarChargeDevice extends GenericDevice {
       return Number.isFinite(t) ? t : null;
     };
 
+    const prevDistanceKm = this.signals.carDistanceKm;
     if (carCaps) {
       const lat = Number(read(carCaps, this.carCapGroup.latitude)?.value);
       const lon = Number(read(carCaps, this.carCapGroup.longitude)?.value);
@@ -568,6 +581,10 @@ class CarChargeDevice extends GenericDevice {
 
     const socEntry = read(socCaps, socCap);
     const soc = socEntry && typeof socEntry.value === 'number' ? socEntry.value : null;
+    const odoEntry = read(carCaps, this.carCapGroup.odometer);
+    if (odoEntry && typeof odoEntry.value === 'number') {
+      await this._checkTrip(odoEntry.value, soc, tmOf(odoEntry) || Date.now(), prevDistanceKm);
+    }
     if (soc !== null) {
       // Report time: the newest of the car's status capabilities. An unchanged SoC is not set
       // again by most apps, but a trip still moves the odometer or the location.
@@ -659,6 +676,14 @@ class CarChargeDevice extends GenericDevice {
   // ─── Charger control ────────────────────────────────────────────────────────
 
   async _controlTick() {
+    const tz = this.timeZone || this.homey.clock.getTimezone();
+    if (this.usageModel && EvUsageModel.rollover(this.usageModel, new Date(), tz)) {
+      const ov = (this.getStoreValue('evOverrides') || {})[this.usageModel.current.date];
+      if (ov) EvUsageModel.setOverride(this.usageModel, ov.type);
+      await this._saveUsageModel();
+      await this._updateLearnedProfileSettings();
+      await this.updateChargeChart().catch(this.error); // the picker shows the new "tomorrow"
+    }
     if (!this.sourceCapGroup || !this.presence) return;
     if (this.evDevice && (!this.lastCarPollTm || (Date.now() - this.lastCarPollTm) >= CAR_POLL_MS)) {
       this.lastCarPollTm = Date.now();
@@ -687,9 +712,20 @@ class CarChargeDevice extends GenericDevice {
     try {
       await this.sourceDevice.setCapabilityValue({ capabilityId, value: command });
       this.lastWantedSwitch = command;
+      await this.setStoreValue('evLastWantedSwitch', command).catch(this.error);
       this.log(`[EV Control] Charger ${capabilityId} -> ${command}`);
     } catch (err) {
       this.error(`[EV Control] Switching charger ${capabilityId} to ${command} failed:`, err.message || err);
+      // The charger's capabilities changed (e.g. its app replaced onoff by evcharger_charging):
+      // resolve switch and listeners again.
+      const { api } = this.homey.app;
+      const fresh = api ? await api.devices.getDevice({ id: this.getSettings().homey_device_id, $cache: false }).catch(() => null) : null;
+      const caps = (fresh && fresh.capabilities) || [];
+      if (!caps.includes(capabilityId) && (!this.lastCapRestartTm || now - this.lastCapRestartTm > CAP_RESTART_MIN_MS)) {
+        this.lastCapRestartTm = now;
+        this.log(`[EV Control] Charger no longer has ${capabilityId}, restarting device`);
+        this.restartDevice(2000).catch(this.error);
+      }
     }
   }
 
@@ -840,21 +876,174 @@ class CarChargeDevice extends GenericDevice {
 
   // ─── Resolve departure time for today ──────────────────────────────────────
 
-  _getEffectiveDepartureTime() {
-    const settings = this.getSettings();
+  // SoC expected on return: today's typical need minus what today's trips already used.
+  _predictReturnSoc() {
+    if (!this.usageModel || typeof this.lastKnownSoc !== 'number') return null;
     const tz = this.timeZone || this.homey.clock.getTimezone();
-    const now = new Date();
-    const dow = EvDepartureStrategy.getDowLocal(now, tz);
-    const manualTimes = [0, 1, 2, 3, 4, 5, 6].map((i) => settings[`departureTime_${i}`] || '');
-    return EvDepartureStrategy.getEffectiveDepartureTime(
-      this.socForecastModel,
-      dow,
-      manualTimes,
-      '08:00',
-    );
+    const day = EvUsageModel.getProfile(this.usageModel)[EvUsageModel.getDowLocal(new Date(), tz)];
+    if (!day || typeof day.needKwh !== 'number') return null;
+    const kwhPerKm = EvUsageModel.effectiveKwhPerKm(this.usageModel);
+    const usedToday = this.usageModel.current ? EvUsageModel.dayKwh(this.usageModel.current, kwhPerKm) : 0;
+    const remaining = Math.max(0, day.needKwh - usedToday);
+    const capacity = this.getSettings().batCapacity || 50;
+    return Math.max(0, Math.round(this.lastKnownSoc - (remaining / capacity) * 100));
   }
 
-  // ─── Main charge chart update ───────────────────────────────────────────────
+  // ─── Planner inputs ─────────────────────────────────────────────────────────
+
+  // Day overrides by local date, plus the legacy trip override (flow card / pickers): a target SoC
+  // at the next occurrence of a time, or 'indefinite' (no departures at all).
+  _overrides(tz, now) {
+    const today = EvUsageModel.localDateStr(new Date(now), tz);
+    const stored = this.getStoreValue('evOverrides') || {};
+    const overrides = {};
+    Object.entries(stored).forEach(([date, ov]) => {
+      if (date >= today) overrides[date] = ov;
+    });
+    if (Object.keys(overrides).length !== Object.keys(stored).length) this.setStoreValue('evOverrides', overrides).catch(this.error);
+    let indefinite = false;
+    const trip = this.getStoreValue('tripOverride');
+    if (trip && trip.departureTime === 'indefinite') {
+      indefinite = true;
+    } else if (trip) {
+      const fh = EvPlanner.hhmmToFh(trip.departureTime);
+      const from = trip.timestamp || now;
+      if (fh !== null) {
+        const midnight = TimeHelpers.getLocalMidnightUTC(new Date(from), tz).getTime();
+        let t = EvPlanner.localTimeMs(midnight, fh, tz);
+        if (t <= from) {
+          const next = TimeHelpers.getLocalMidnightUTC(new Date(midnight + 36 * 3600 * 1000), tz).getTime();
+          t = EvPlanner.localTimeMs(next, fh, tz);
+        }
+        if (t < now) {
+          this.setStoreValue('tripOverride', null).catch(this.error); // done
+        } else {
+          overrides[EvUsageModel.localDateStr(new Date(t), tz)] = { type: 'boost', soc: trip.targetSoc || 80, time: trip.departureTime };
+        }
+      }
+    }
+    return { overrides, indefinite };
+  }
+
+  // "Tomorrow" as the user means it: before 04:00 that is still the coming day, i.e. today.
+  _tomorrowDate(tz, now = Date.now()) {
+    const hour = EvUsageModel.toLocalFractionalHour(new Date(now), tz);
+    const tm = hour < 4 ? now : now + 24 * 3600 * 1000;
+    return EvUsageModel.localDateStr(new Date(tm), tz);
+  }
+
+  async _setOverride(date, override) {
+    const overrides = { ...(this.getStoreValue('evOverrides') || {}) };
+    if (override) overrides[date] = override;
+    else delete overrides[date];
+    await this.setStoreValue('evOverrides', overrides);
+    // A day with an override is not a normal day: keep it out of the learned pattern.
+    if (this.usageModel && this.usageModel.current && this.usageModel.current.date === date) {
+      EvUsageModel.setOverride(this.usageModel, override ? override.type : null);
+      await this._saveUsageModel();
+    }
+    this.log(`[EV Plan] Override for ${date}: ${override ? JSON.stringify(override) : 'none'}`);
+    await this.updateChargeChart().catch(this.error);
+  }
+
+  // Picker / flow: 'normal', 'unused' or 'boost_<soc>'.
+  async setTomorrowPlan(value) {
+    const tz = this.timeZone || this.homey.clock.getTimezone();
+    const date = this._tomorrowDate(tz);
+    let override = null;
+    if (value === 'unused') override = { type: 'unused' };
+    const boost = /^boost_(\d+)$/.exec(value || '');
+    if (boost) override = { type: 'boost', soc: Number(boost[1]), time: null };
+    // "Normal" also ends a legacy trip override (old flow cards / pickers).
+    if (!override) await this.setStoreValue('tripOverride', null).catch(this.error);
+    await this._setOverride(date, override);
+  }
+
+  // Flow: long trip tomorrow at HH:MM with a target SoC.
+  async setBoost(soc, time) {
+    const tz = this.timeZone || this.homey.clock.getTimezone();
+    const target = Math.max(50, Math.min(100, Number(soc) || 100));
+    const hhmm = EvPlanner.hhmmToFh(time) !== null ? time : null;
+    await this._setOverride(this._tomorrowDate(tz), { type: 'boost', soc: target, time: hhmm });
+  }
+
+  _tomorrowPickerValue(overrides, tz) {
+    const ov = overrides[this._tomorrowDate(tz)];
+    if (!ov) return 'normal';
+    if (ov.type === 'unused') return 'unused';
+    if (ov.type === 'boost') {
+      const steps = [70, 80, 90, 100];
+      const nearest = steps.reduce((a, b) => (Math.abs(b - ov.soc) < Math.abs(a - ov.soc) ? b : a));
+      return `boost_${nearest}`;
+    }
+    return 'normal';
+  }
+
+  // Expected solar surplus (kWh, grid side) per price slot, from the grid device's forecast of home
+  // load and PbtH solar. null without a grid device.
+  _solarSurplusKwh(startMs, n, intervalMin) {
+    let grid = null;
+    try {
+      grid = this.homey.drivers.getDriver('grid').getDevices().find((d) => typeof d.getNetForecast === 'function');
+    } catch {
+      return null;
+    }
+    if (!grid) return null;
+    let f;
+    try {
+      f = grid.getNetForecast(startMs, startMs + n * intervalMin * 60 * 1000);
+    } catch (err) {
+      this.error(err);
+      return null;
+    }
+    if (!f || !Array.isArray(f.solar)) return null;
+    const perSlot = Math.max(1, Math.round(intervalMin / 15));
+    const out = new Array(n).fill(0);
+    f.solar.forEach((solarW, k) => {
+      const surplusW = Math.max(0, (solarW || 0) - ((f.load && f.load[k]) || 0));
+      const i = Math.floor(k / perSlot);
+      if (i < n) out[i] += (surplusW * 0.25) / 1000;
+    });
+    return out;
+  }
+
+  // Learn the expected-price profile from the published prices (not forecasts).
+  async _learnPrices(slotStartMs, intervalMin, tz) {
+    if (!this.priceProfile) {
+      this.priceProfile = (await this.getStoreValue('evPriceProfile')) || EvPriceProfile.createProfile();
+    }
+    const entries = [];
+    (this.pricesNextHours || []).forEach((price, i) => {
+      if (this.pricesNextHoursIsForecast && this.pricesNextHoursIsForecast[i]) return;
+      entries.push({
+        time: slotStartMs + i * intervalMin * 60 * 1000,
+        price,
+        exportPrice: this.exportPricesNextHours ? this.exportPricesNextHours[i] : undefined,
+      });
+    });
+    const before = this.priceProfile.lastLearnedMs;
+    EvPriceProfile.learn(this.priceProfile, entries, tz);
+    if (this.priceProfile.lastLearnedMs !== before) await this.setStoreValue('evPriceProfile', this.priceProfile).catch(this.error);
+    return entries;
+  }
+
+  _awayUntilMs(profile, tz, now) {
+    const day = profile[EvUsageModel.getDowLocal(new Date(now), tz)];
+    if (day && typeof day.returnFh === 'number') {
+      const t = EvPlanner.localTimeMs(TimeHelpers.getLocalMidnightUTC(new Date(now), tz).getTime(), day.returnFh, tz);
+      if (t > now) return t;
+    }
+    return now + 3600 * 1000;
+  }
+
+  _plannerMode(chargeMode) {
+    if (chargeMode === 'off') return 'off';
+    if (chargeMode === 'fast_charge') return 'fast';
+    if (chargeMode === 'solar_only') return 'solar_only';
+    return 'smart'; // scheduled_price, solar_and_grid
+  }
+
+  // ─── Main plan and chart update ─────────────────────────────────────────────
 
   async updateChargeChart() {
     if (!this.pricesNextHours) return;
@@ -863,63 +1052,76 @@ class CarChargeDevice extends GenericDevice {
     const detectedPower = (await this.getStoreValue('detectedMaxPower')) || null;
     const manualPower = Number(settings.chargePower) || 0;
     const chargePower = (detectedPower && detectedPower > manualPower) ? detectedPower : (manualPower || 3700);
-    this.log(`[EV Slot] Resolved charge power: ${chargePower} W (manual setting=${settings.chargePower}, auto-detected=${detectedPower})`);
     const batCapacity = settings.batCapacity || 50;
     const tz = this.timeZone || this.homey.clock.getTimezone();
+    const now = Date.now();
+    const intervalMin = this.priceInterval || 60;
+    const slotStartMs = TimeHelpers.startOfLocalBlock(now, intervalMin, tz);
+    const num = (v, dflt) => (Number.isFinite(Number(v)) && v !== '' && v !== null ? Number(v) : dflt);
 
-    // Determine current SoC:
-    // - Car at home: the estimate (last car report plus what was charged since)
-    // - Car away: predicted return SoC for today's day-of-week
-    let currentSoc;
-    if (!this.presence || this.presence.atHome) {
-      currentSoc = this.lastKnownSoc || 0;
-    } else {
-      const dow = EvDepartureStrategy.getDowLocal(new Date(), tz);
-      const predicted = EvDepartureStrategy.getPredictedReturnSoc(this.socForecastModel, dow);
-      currentSoc = predicted !== null ? predicted : (this.lastKnownSoc || 0);
-      this.log(`[EV Slot] Car absent — using predicted return SoC: ${currentSoc}%`);
+    const atHome = !this.presence || this.presence.atHome;
+    let currentSoc = this.lastKnownSoc || 0;
+    if (!atHome) {
+      const predicted = this._predictReturnSoc();
+      if (predicted !== null) currentSoc = predicted;
     }
 
-    const tripOverride = this.getStoreValue('tripOverride') || null;
-    const effectiveDepartureTime = tripOverride ? tripOverride.departureTime : this._getEffectiveDepartureTime();
-    const effectiveTargetSoc = tripOverride ? tripOverride.targetSoc : (settings.targetSoc || 100);
+    const known = await this._learnPrices(slotStartMs, intervalMin, tz);
+    const level = EvPriceProfile.levelFactor(this.priceProfile, known, tz);
+    const profile = this.usageModel ? EvUsageModel.getProfile(this.usageModel) : [];
+    const reserveSoc = num(settings.reserveSoc, 30);
+    const { overrides, indefinite } = this._overrides(tz, now);
+    const trips = indefinite ? [] : EvPlanner.buildTrips({
+      now,
+      timezone: tz,
+      profile,
+      capacityKwh: batCapacity,
+      reserveSoc,
+      manualTimes: [0, 1, 2, 3, 4, 5, 6].map((i) => settings[`departureTime_${i}`] || ''),
+      overrides,
+      fallbackTargetSoc: num(settings.targetSoc, 80),
+    });
+    const n = Math.ceil((EvPlanner.HORIZON_DAYS * 24 * 60) / intervalMin);
     const chargeMode = this.getCapabilityValue('ev_charge_mode') || 'scheduled_price';
-    this.log(`[EV Slot] Effective departure time: ${effectiveDepartureTime}, target SoC: ${effectiveTargetSoc}%, mode: ${chargeMode}`);
 
-    if (this.hasCapability('ev_departure_time')) {
-      await this.setCapabilityValue('ev_departure_time', String(effectiveDepartureTime)).catch(this.error);
-    }
-    if (this.hasCapability('ev_target_soc')) {
-      await this.setCapabilityValue('ev_target_soc', String(effectiveTargetSoc)).catch(this.error);
-    }
-    if (this.hasCapability('ev_next_departure')) {
-      let displayStr;
-      if (effectiveDepartureTime === 'indefinite') {
-        displayStr = `Onbepaald (${effectiveTargetSoc}%)`;
-      } else {
-        const tag = tripOverride ? 'Override' : 'Schedule';
-        displayStr = `${tag}: ${effectiveDepartureTime} (${effectiveTargetSoc}%)`;
-      }
-      await this.setCapabilityValue('ev_next_departure', displayStr).catch(this.error);
-    }
-
-    const strategy = EvChargeStrategy.getStrategy({
+    const result = EvPlanner.plan({
+      now,
+      slotStartMs,
+      intervalMin,
       prices: this.pricesNextHours,
       exportPrices: this.exportPricesNextHours,
-      priceInterval: this.priceInterval,
-      chargePower,
-      currentSoc,
-      targetSoc: settings.targetSoc || 100,
-      batCapacity,
-      departureTime: effectiveDepartureTime,
-      timezone: tz,
-      variableChargePower: settings.variableChargePower || false,
-      chargeMode,
-      tripOverrideTime: tripOverride ? tripOverride.departureTime : null,
-      tripOverrideSoc: tripOverride ? tripOverride.targetSoc : null,
+      expectedPrice: EvPriceProfile.isEmpty(this.priceProfile) ? null : (ms) => EvPriceProfile.expected(this.priceProfile, ms, tz, level),
+      solarKwh: this._solarSurplusKwh(slotStartMs, n, intervalMin),
+      soc: currentSoc,
+      capacityKwh: batCapacity,
+      chargePowerW: chargePower,
+      efficiency: (this.socEstimator && this.socEstimator.efficiency) || EvSocEstimator.DEFAULT_EFFICIENCY,
+      atHome,
+      awayUntilMs: atHome ? null : this._awayUntilMs(profile, tz, now),
+      trips,
+      reserveSoc,
+      reserveHours: num(settings.reserveHours, 8),
+      floorSoc: num(settings.floorSoc, 15),
+      maxSoc: num(settings.maxSoc, 80),
+      mode: this._plannerMode(chargeMode),
+      variablePower: !!settings.variableChargePower,
     });
+    const strategy = result.scheme;
 
-    if (strategy) {
+    const { next } = result;
+    const nextText = next
+      ? `${new Date(next.departMs).toLocaleDateString(this.homey.i18n.getLanguage() || 'en', { weekday: 'short', timeZone: tz })} `
+        + `${EvUsageModel.fractionalHourToHHMM(EvUsageModel.toLocalFractionalHour(new Date(next.departMs), tz))} · `
+        + `${next.requiredSoc}% → ${next.plannedSoc}%${next.boost ? ' ⚡' : ''}`
+      : '-';
+    if (this.hasCapability('ev_next_departure')) await this.setCapability('ev_next_departure', nextText);
+    if (this.hasCapability('ev_tomorrow')) await this.setCapability('ev_tomorrow', this._tomorrowPickerValue(overrides, tz));
+    const nowSlot = strategy[0] || {};
+    this.log(`[EV Plan] ${chargeMode}, SoC ${Math.round(currentSoc)}%${atHome ? '' : ' (predicted return)'}, next: ${nextText}, `
+      + `now: ${nowSlot.duration ? `${nowSlot.duration} min${nowSlot.solar ? ' solar' : ''}` : 'no'}, price level x${level.toFixed(2)}`
+      + `${result.shortfalls.length ? `, short: ${result.shortfalls.map((sf) => `${sf.what} ${sf.missing}%`).join(', ')}` : ''}`);
+
+    if (Object.keys(strategy).length) {
       if (typeof this.flows.triggerNewEvStrategyFlow === 'function') {
         await this.flows.triggerNewEvStrategyFlow(strategy).catch(this.error);
       }
@@ -950,6 +1152,7 @@ class CarChargeDevice extends GenericDevice {
         showPower: !!this.getSettings().chartShowPower,
         showSoc,
         showExportPrice: this.getSettings().chartShowExportPrice !== false,
+        planTm: now,
       });
       await this._applyChargerControl().catch(this.error);
     }
@@ -1079,6 +1282,27 @@ class CarChargeDevice extends GenericDevice {
         return null;
       };
 
+      // Odometer history for the usage model. Checked live on a Kia odometer log (2026-09-26):
+      // last14Days gives hourly points, last31Days 6-hour points, longer resolutions nothing useful.
+      // So: hourly for the last 14 days, 6-hourly (marked coarse) before that.
+      const fetchOdometer = async (deviceId, capName) => {
+        const log = logs.find((l) => {
+          const id = l.id || l.uri || '';
+          return id.includes(deviceId) && (id.endsWith(`:${capName}`) || l.name === capName);
+        });
+        if (!log) return null;
+        const get = async (resolution, coarse) => {
+          const data = await api.insights.getLogEntries({ id: log.id, resolution }).catch(() => null);
+          return ((data && data.values) || [])
+            .filter((e) => typeof e.v === 'number')
+            .map((e) => ({ t: new Date(e.t).getTime(), v: e.v, coarse }));
+        };
+        const fine = await get('last14Days', false);
+        const coarse = await get('last31Days', true);
+        const firstFine = fine.length ? fine[0].t : Infinity;
+        return coarse.filter((e) => e.t < firstFine).concat(fine);
+      };
+
       // Fetch charger power entries for session boundary detection. Never search for a log
       // literally named 'measure_power' - Homey always logs that capability's own Insights
       // history under the internal log id 'energy_power' instead (see isCumulative comment
@@ -1089,9 +1313,48 @@ class CarChargeDevice extends GenericDevice {
       const powerEntries = await fetchLog(chargerId, ['energy_power', 'meter_power']);
 
       let socEntries = null;
+      let odoEntries = null;
       if (evId && evId !== 'none') {
         socEntries = await fetchLog(evId, ['measure_battery']);
+        if (this.carCapGroup && this.carCapGroup.odometer) odoEntries = await fetchOdometer(evId, this.carCapGroup.odometer);
       }
+
+      // Expected-price profile from the DAP price history (hourly, 14 days), once. Built fresh:
+      // live learning only takes prices newer than the last learned one, so history must go first.
+      if (!this.priceProfile) this.priceProfile = (await this.getStoreValue('evPriceProfile')) || EvPriceProfile.createProfile();
+      if (!this.priceProfile.bootstrapped) {
+        const hourly = async (capName) => {
+          const log = logs.find((l) => (l.id || l.uri || '').endsWith(`:${capName}`));
+          if (!log) return [];
+          const data = await api.insights.getLogEntries({ id: log.id, resolution: 'last14Days' }).catch(() => null);
+          return ((data && data.values) || []).filter((e) => typeof e.v === 'number')
+            .map((e) => ({ t: new Date(e.t).getTime(), v: e.v }));
+        };
+        const imp = await hourly('meter_price_h0');
+        const exp = new Map((await hourly('meter_price_h0_export')).map((e) => [e.t, e.v]));
+        const fresh = EvPriceProfile.createProfile();
+        EvPriceProfile.learn(fresh, imp.map((e) => ({ time: e.t, price: e.v, exportPrice: exp.get(e.t) })), tz);
+        fresh.bootstrapped = true;
+        this.priceProfile = fresh;
+        await this.setStoreValue('evPriceProfile', this.priceProfile).catch(this.error);
+        this.log(`[EV Plan] Price profile bootstrapped from ${imp.length} hourly prices`);
+      }
+
+      // Usage model from the car's odometer history, merged under what was learned live.
+      if (odoEntries && odoEntries.length > 1) {
+        const boot = EvUsageModel.bootstrapFromHistory(odoEntries, socEntries, batCap, tz, new Date());
+        this.usageModel = EvUsageModel.mergeBootstrap(this.usageModel, boot);
+        if (typeof this.usageModel.lastOdo !== 'number') {
+          const liveOdo = this.evDevice?.capabilitiesObj?.[this.carCapGroup.odometer]?.value;
+          if (typeof liveOdo === 'number') this.usageModel.lastOdo = liveOdo;
+        }
+        this.log(`[EV Usage] Bootstrapped ${boot.days.length} days from Insights, model has ${this.usageModel.days.length}`);
+      } else if (!this.usageModel) {
+        this.usageModel = EvUsageModel.createModel();
+      }
+      EvUsageModel.rollover(this.usageModel, new Date(), tz);
+      await this._saveUsageModel();
+      await this._updateLearnedProfileSettings();
 
       if (!powerEntries || powerEntries.length < 2) {
         this.log('[EV Slot] No power history found in Insights for charger.');
@@ -1159,12 +1422,7 @@ class CarChargeDevice extends GenericDevice {
         }
       }
 
-      this.socForecastModel = EvDepartureStrategy.bootstrapFromHistory(
-        powerEntries, socEntries, tz, batCap,
-      );
-      await this.setStoreValue('socForecastModel', this.socForecastModel).catch(this.error);
-      await this._updateLearnedProfileSettings();
-      this.log('[EV Slot] Departure learning complete. Model updated from history.');
+      this.log('[EV Slot] History learning complete.');
       await this.updateChargeChart().catch((err) => this.error(err));
     } catch (err) {
       this.error('[EV Slot] learnDeparturePattern failed:', err);
@@ -1174,23 +1432,33 @@ class CarChargeDevice extends GenericDevice {
   // ─── Update learned profile display in settings ─────────────────────────────
 
   async _updateLearnedProfileSettings() {
+    if (!this.usageModel) return;
     try {
-      const profileUpdate = {};
-      for (let dow = 0; dow < 7; dow++) {
-        const day = this.socForecastModel[dow];
-        const key = LEARNED_PROFILE_KEYS[dow];
-        if (!day || day.sessionCount === 0) {
-          profileUpdate[key] = 'not yet learned';
-        } else {
-          const dep = day.learnedDepartureTime || '?';
-          const ret = day.learnedReturnTime || '?';
-          const depSoc = day.learnedDepartureSoc !== null ? `${day.learnedDepartureSoc}%` : '?';
-          const retSoc = day.learnedReturnSoc !== null ? `${day.learnedReturnSoc}%` : '?';
-          const trip = day.learnedTripKwh !== null ? `${day.learnedTripKwh}kWh` : '?';
-          profileUpdate[key] = `dep ${dep} SoC${depSoc} / ret ${ret} SoC${retSoc} trip${trip} (n=${day.sessionCount})`;
+      const capacity = this.getSettings().batCapacity || 50;
+      const profile = EvUsageModel.getProfile(this.usageModel);
+      const update = {};
+      profile.forEach((day) => {
+        const key = LEARNED_PROFILE_KEYS[day.dow];
+        if (!day.observed) {
+          update[key] = this.homey.__('ev_profile_not_learned');
+          return;
         }
-      }
-      await this.setSettings(profileUpdate).catch(this.error);
+        const count = `${day.used}/${day.observed}`;
+        if (!day.used) {
+          update[key] = `${this.homey.__('ev_profile_unused')} · ${count}`;
+          return;
+        }
+        const parts = [this.homey.__(day.regular ? 'ev_profile_regular' : 'ev_profile_sometimes')];
+        if (typeof day.departFh === 'number') parts.push(EvUsageModel.fractionalHourToHHMM(day.departFh));
+        if (typeof day.safeKwh === 'number') parts.push(`${day.safeKwh} kWh (${Math.round((day.safeKwh / capacity) * 100)}%)`);
+        parts.push(count);
+        update[key] = parts.join(' · ');
+      });
+      const kwhPerKm = EvUsageModel.effectiveKwhPerKm(this.usageModel);
+      update.learned_consumption = kwhPerKm
+        ? `${(kwhPerKm * 100).toFixed(1)} kWh/100 km (n=${this.usageModel.kwhPerKmSamples})`
+        : `- (n=${this.usageModel.kwhPerKmSamples || 0})`;
+      await this.setSettings(update).catch(this.error);
     } catch (e) {
       this.error('_updateLearnedProfileSettings failed:', e);
     }

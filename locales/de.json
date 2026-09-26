@@ -45,5 +45,9 @@
     "evChargerWarningText": "Sie sind im Begriff, den verknüpften EV-Lader und/oder das EV-Auto zu ändern. Dies bewahrt alle Einblicke und Flows. Wenn der neue Lader jedoch einen anderen Zählerstand hat, müssen Sie die Zähler- und Geldstartwerte in den erweiterten Einstellungen manuell kompensieren."
   },
   "load_forecast_accuracy": "Mittl. Fehler __mae__ W (__pct__%), Bias __bias__ W, __days__ Tage",
-  "load_forecast_accuracy_collecting": "Daten werden gesammelt"
+  "load_forecast_accuracy_collecting": "Daten werden gesammelt",
+  "ev_profile_regular": "Fahrtag",
+  "ev_profile_sometimes": "Manchmal",
+  "ev_profile_unused": "Nicht genutzt",
+  "ev_profile_not_learned": "Noch nicht gelernt"
 }

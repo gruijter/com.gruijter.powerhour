@@ -45,5 +45,9 @@
     "evChargerWarningText": "Zamierzasz zmienić połączoną ładowarkę EV i/lub samochód EV. Zachowa to wszystkie statystyki i przepływy. Ale jeśli nowa ładowarka ma inny odczyt licznika, musisz ręcznie skompensować wartości początkowe licznika i pieniędzy w ustawieniach zaawansowanych."
   },
   "load_forecast_accuracy": "Śr. błąd __mae__ W (__pct__%), odchylenie __bias__ W, __days__ dni",
-  "load_forecast_accuracy_collecting": "Zbieranie danych"
+  "load_forecast_accuracy_collecting": "Zbieranie danych",
+  "ev_profile_regular": "Dzień jazdy",
+  "ev_profile_sometimes": "Czasami",
+  "ev_profile_unused": "Nieużywany",
+  "ev_profile_not_learned": "Jeszcze nie nauczony"
 }
