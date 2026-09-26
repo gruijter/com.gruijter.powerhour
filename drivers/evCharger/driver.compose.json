@@ -17,6 +17,57 @@
   "class": "other",
   "capabilities": [],
   "capabilitiesOptions": {
+    "measure_watt_max.day": {
+      "title": {
+        "en": "Maximum (day)",
+        "nl": "Maximum (dag)",
+        "de": "Maximum (Tag)",
+        "fr": "Maximum (jour)",
+        "it": "Massimo (giorno)",
+        "sv": "Maximum (dag)",
+        "no": "Maksimum (dag)",
+        "es": "Máximo (día)",
+        "da": "Maksimum (dag)",
+        "pl": "Maksimum (dzień)",
+        "ru": "Максимум (день)",
+        "ar": "الحد الأقصى (يوم)",
+        "ko": "최대 (일)"
+      }
+    },
+    "measure_watt_max.month": {
+      "title": {
+        "en": "Maximum (month)",
+        "nl": "Maximum (maand)",
+        "de": "Maximum (Monat)",
+        "fr": "Maximum (mois)",
+        "it": "Massimo (mese)",
+        "sv": "Maximum (månad)",
+        "no": "Maksimum (måned)",
+        "es": "Máximo (mes)",
+        "da": "Maksimum (måned)",
+        "pl": "Maksimum (miesiąc)",
+        "ru": "Максимум (месяц)",
+        "ar": "الحد الأقصى (شهر)",
+        "ko": "최대 (월)"
+      }
+    },
+    "measure_watt_max.year": {
+      "title": {
+        "en": "Maximum (year)",
+        "nl": "Maximum (jaar)",
+        "de": "Maximum (Jahr)",
+        "fr": "Maximum (année)",
+        "it": "Massimo (anno)",
+        "sv": "Maximum (år)",
+        "no": "Maksimum (år)",
+        "es": "Máximo (año)",
+        "da": "Maksimum (år)",
+        "pl": "Maksimum (rok)",
+        "ru": "Максимум (год)",
+        "ar": "الحد الأقصى (عام)",
+        "ko": "최대 (년)"
+      }
+    },
     "meter_power": {
       "decimals": 4
     },
@@ -419,6 +470,76 @@
             "ko": "충전이 끝나면 차량 앱에 최신 SoC를 요청합니다. 차량을 깨웁니다."
           },
           "value": false
+        },
+        {
+          "id": "carStartCharge",
+          "type": "checkbox",
+          "label": {
+            "en": "Start charging in the car",
+            "nl": "Laden starten in de auto",
+            "de": "Laden im Auto starten",
+            "fr": "Démarrer la charge dans la voiture",
+            "es": "Iniciar carga en el coche",
+            "it": "Avvia ricarica nell'auto",
+            "da": "Start opladning i bilen",
+            "sv": "Starta laddning i bilen",
+            "no": "Start lading i bilen",
+            "pl": "Uruchom ładowanie w aucie",
+            "ru": "Запускать зарядку в авто",
+            "ar": "بدء الشحن في السيارة",
+            "ko": "차량에서 충전 시작"
+          },
+          "hint": {
+            "en": "When the charger is on but the car takes no power after 1 minute, tells the car app to start charging. Only below the car's own charge limit. Wakes the car.",
+            "nl": "Als de lader aan staat maar de auto na 1 minuut geen stroom neemt, krijgt de auto-app het commando om te laden. Alleen onder de laadlimiet van de auto. Wekt de auto.",
+            "de": "Wenn das Ladegerät an ist, das Auto aber nach 1 Minute keinen Strom zieht, wird die Auto-App angewiesen, das Laden zu starten. Nur unter dem Ladelimit des Autos. Weckt das Auto.",
+            "fr": "Si la borne est allumée mais que la voiture ne prend pas de courant après 1 minute, demande à l'app de la voiture de lancer la charge. Seulement sous la limite de charge de la voiture. Réveille la voiture.",
+            "es": "Si el cargador está encendido pero el coche no toma energía tras 1 minuto, pide a la app del coche que inicie la carga. Solo por debajo del límite de carga del coche. Despierta el coche.",
+            "it": "Se il caricatore è acceso ma l'auto non assorbe energia dopo 1 minuto, chiede all'app dell'auto di avviare la ricarica. Solo sotto il limite di ricarica dell'auto. Sveglia l'auto.",
+            "da": "Når laderen er tændt, men bilen ikke tager strøm efter 1 minut, beder bilappen om at starte opladning. Kun under bilens egen ladegrænse. Vækker bilen.",
+            "sv": "När laddaren är på men bilen inte tar ström efter 1 minut, ber bilappen att starta laddningen. Endast under bilens egen laddgräns. Väcker bilen.",
+            "no": "Når laderen er på, men bilen ikke tar strøm etter 1 minutt, ber bilappen om å starte lading. Bare under bilens egen ladegrense. Vekker bilen.",
+            "pl": "Gdy ładowarka jest włączona, ale auto po 1 minucie nie pobiera prądu, aplikacja auta dostaje polecenie startu ładowania. Tylko poniżej limitu ładowania auta. Budzi auto.",
+            "ru": "Если зарядка включена, но авто через 1 минуту не берёт ток, приложению авто отправляется команда начать зарядку. Только ниже лимита зарядки авто. Будит авто.",
+            "ar": "عندما يكون الشاحن قيد التشغيل ولا تسحب السيارة طاقة بعد دقيقة واحدة، يُطلب من تطبيق السيارة بدء الشحن. فقط تحت حد الشحن في السيارة. يوقظ السيارة.",
+            "ko": "충전기가 켜져 있는데 1분 후에도 차량이 전력을 받지 않으면 차량 앱에 충전 시작을 요청합니다. 차량 자체 충전 한도 미만일 때만. 차량을 깨웁니다."
+          },
+          "value": false
+        },
+        {
+          "id": "v2x",
+          "type": "checkbox",
+          "label": {
+            "en": "Charger and car support V2X (V2H/V2G)",
+            "nl": "Lader en auto ondersteunen V2X (V2H/V2G)",
+            "de": "Ladegerät und Auto unterstützen V2X (V2H/V2G)",
+            "fr": "Borne et voiture compatibles V2X (V2H/V2G)",
+            "es": "Cargador y coche admiten V2X (V2H/V2G)",
+            "it": "Caricatore e auto supportano V2X (V2H/V2G)",
+            "da": "Lader og bil understøtter V2X (V2H/V2G)",
+            "sv": "Laddare och bil stöder V2X (V2H/V2G)",
+            "no": "Lader og bil støtter V2X (V2H/V2G)",
+            "pl": "Ładowarka i auto obsługują V2X (V2H/V2G)",
+            "ru": "Зарядка и авто поддерживают V2X (V2H/V2G)",
+            "ar": "الشاحن والسيارة يدعمان V2X (V2H/V2G)",
+            "ko": "충전기와 차량이 V2X(V2H/V2G) 지원"
+          },
+          "hint": {
+            "en": "Shows the energy the car returned to the home or grid (Discharging Total). Measuring only: the charge plan does not discharge the car.",
+            "nl": "Toont de energie die de auto terugleverde aan huis of net (Ontladen Totaal). Alleen meten: het laadplan ontlaadt de auto niet.",
+            "de": "Zeigt die Energie, die das Auto an das Haus oder Netz zurückgab (Entladung Gesamt). Nur Messung: der Ladeplan entlädt das Auto nicht.",
+            "fr": "Affiche l'énergie que la voiture a rendue à la maison ou au réseau (Décharge totale). Mesure uniquement : le plan de charge ne décharge pas la voiture.",
+            "es": "Muestra la energía que el coche devolvió a la casa o a la red (Descarga total). Solo medición: el plan de carga no descarga el coche.",
+            "it": "Mostra l'energia che l'auto ha restituito alla casa o alla rete (Scarica totale). Solo misura: il piano di ricarica non scarica l'auto.",
+            "da": "Viser den energi, bilen leverede tilbage til hjemmet eller nettet (Afladning total). Kun måling: ladeplanen aflader ikke bilen.",
+            "sv": "Visar energin som bilen lämnade tillbaka till hemmet eller nätet (Urladdning totalt). Endast mätning: laddplanen laddar inte ur bilen.",
+            "no": "Viser energien bilen leverte tilbake til hjemmet eller nettet (Utlading totalt). Kun måling: ladeplanen lader ikke ut bilen.",
+            "pl": "Pokazuje energię oddaną przez auto do domu lub sieci (Rozładowanie łącznie). Tylko pomiar: plan ładowania nie rozładowuje auta.",
+            "ru": "Показывает энергию, которую авто отдало дому или сети (Всего разряжено). Только измерение: план зарядки не разряжает авто.",
+            "ar": "يعرض الطاقة التي أعادتها السيارة إلى المنزل أو الشبكة (إجمالي التفريغ). قياس فقط: خطة الشحن لا تفرغ السيارة.",
+            "ko": "차량이 집이나 전력망으로 되돌린 에너지를 표시합니다(총 방전량). 측정 전용: 충전 계획은 차량을 방전하지 않습니다."
+          },
+          "value": false
         }
       ]
     },
@@ -740,6 +861,152 @@
             {
               "id": "export",
               "label": { "en": "Always Export", "nl": "Altijd Export", "de": "Immer Export", "fr": "Toujours Exporter", "it": "Sempre Esportazione", "sv": "Alltid Export", "no": "Alltid Eksport", "es": "Siempre Exportar", "da": "Altid Eksport", "pl": "Zawsze Eksport", "ru": "Всегда Экспорт", "ar": "تصدير دائما", "ko": "항상 송전(수출)" }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "group",
+      "label": {
+        "en": "Energy budget",
+        "nl": "Energiebudget",
+        "de": "Energiebudget",
+        "fr": "Budget énergie",
+        "it": "Budget energetico",
+        "sv": "Energibudget",
+        "no": "Energibudsjett",
+        "es": "Presupuesto de energía",
+        "da": "Energibudget",
+        "pl": "Budżet energii",
+        "ru": "Энергобюджет",
+        "ar": "ميزانية الطاقة",
+        "ko": "에너지 예산"
+      },
+      "children": [
+        {
+          "id": "budget",
+          "type": "text",
+          "label": {
+            "en": "Year target budget (kWh)",
+            "nl": "Jaar doelbudget (kWh)",
+            "de": "Jahreszielbudget (kWh)",
+            "fr": "Budget cible annuel (kWh)",
+            "it": "Budget obiettivo annuale (kWh)",
+            "sv": "Årsmålbudget (kWh)",
+            "no": "Årlig målbudsjett (kWh)",
+            "es": "Presupuesto objetivo anual (kWh)",
+            "da": "Årligt målbudget (kWh)",
+            "pl": "Roczny budżet docelowy (kWh)",
+            "ru": "Годовой целевой бюджет (кВтч)",
+            "ar": "الميزانية السنوية المستهدفة (كيلوواط ساعة)",
+            "ko": "연간 목표 예산 (kWh)"
+          },
+          "value": "2500",
+          "hint": {
+            "en": "Target charging energy for a year (1 Jan - 31 Dec). With CUSTOM distribution: 12 values for Jan-Dec separated by ;",
+            "nl": "Doel laadenergie voor een jaar (1 jan - 31 dec). Bij CUSTOM verdeling: 12 waarden voor jan-dec gescheiden door ;",
+            "de": "Ziel-Ladeenergie für ein Jahr (1. Jan - 31. Dez). Bei CUSTOM-Verteilung: 12 Werte für Jan-Dez, getrennt durch ;",
+            "fr": "Énergie de charge cible pour une année (1 janv - 31 déc). Avec la distribution CUSTOM : 12 valeurs de janv à déc séparées par ;",
+            "it": "Energia di ricarica obiettivo per un anno (1 gen - 31 dic). Con distribuzione CUSTOM: 12 valori da gen a dic separati da ;",
+            "sv": "Mål för laddenergi under ett år (1 jan - 31 dec). Med CUSTOM-fördelning: 12 värden för jan-dec åtskilda med ;",
+            "no": "Mål for ladeenergi for et år (1. jan - 31. des). Med CUSTOM-fordeling: 12 verdier for jan-des skilt med ;",
+            "es": "Energía de carga objetivo para un año (1 ene - 31 dic). Con distribución CUSTOM: 12 valores de ene a dic separados por ;",
+            "da": "Mål for ladeenergi for et år (1. jan - 31. dec). Med CUSTOM-fordeling: 12 værdier for jan-dec adskilt af ;",
+            "pl": "Docelowa energia ładowania na rok (1 sty - 31 gru). Przy rozkładzie CUSTOM: 12 wartości sty-gru oddzielonych ;",
+            "ru": "Целевая энергия зарядки за год (1 янв - 31 дек). При распределении CUSTOM: 12 значений янв-дек через ;",
+            "ar": "طاقة الشحن المستهدفة لسنة (1 يناير - 31 ديسمبر). مع توزيع CUSTOM: 12 قيمة من يناير إلى ديسمبر مفصولة بـ ;",
+            "ko": "1년(1월 1일 - 12월 31일) 목표 충전 에너지. CUSTOM 분배 시: 1월-12월 12개 값을 ;로 구분"
+          }
+        },
+        {
+          "id": "distribution",
+          "type": "dropdown",
+          "value": "NONE",
+          "label": {
+            "en": "Distribution scheme",
+            "nl": "Verdeling schema",
+            "de": "Verteilungsschema",
+            "fr": "Schéma de distribution",
+            "it": "Schema di distribuzione",
+            "sv": "Distributionsschema",
+            "no": "Distribusjonsskjema",
+            "es": "Esquema de distribución",
+            "da": "Distributionsskema",
+            "pl": "Schemat dystrybucji",
+            "ru": "Схема распределения",
+            "ar": "مخطط التوزيع",
+            "ko": "분배 방식"
+          },
+          "hint": {
+            "en": "The day by day distribution of usage over the year.",
+            "nl": "De verdeling van het dagelijkse verbruik over het jaar heen.",
+            "de": "Die Verteilung des Tagesverbrauchs über das Jahr.",
+            "fr": "La distribution quotidienne de l'utilisation sur l'année.",
+            "it": "La distribuzione giornaliera dell'utilizzo durante l'anno.",
+            "sv": "Den dagliga fördelningen av användningen under året.",
+            "no": "Den daglige fordelingen av bruk gjennom året.",
+            "es": "La distribución día a día del uso durante el año.",
+            "da": "Den daglige fordeling af forbrug over året.",
+            "pl": "Codzienny rozkład zużycia w ciągu roku.",
+            "ru": "Ежедневное распределение использования в течение года.",
+            "ar": "توزيع الاستخدام يومًا بعد يوم على مدار العام.",
+            "ko": "연중 일별 사용량 분포입니다."
+          },
+          "values": [
+            {
+              "id": "NONE",
+              "label": {
+                "en": "DISABLE TARGET BUDGET",
+                "nl": "DOELBUDGET NIET ACTIEF",
+                "de": "ZIELBUDGET NICHT AKTIV",
+                "fr": "DÉSACTIVER LE BUDGET CIBLE",
+                "it": "DISABILITA BUDGET OBIETTIVO",
+                "sv": "INAKTIVERA MÅLBUDGET",
+                "no": "DEAKTIVER MÅLBUDSJETT",
+                "es": "DESACTIVAR PRESUPUESTO OBJETIVO",
+                "da": "DEAKTIVER MÅLBUDGET",
+                "pl": "WYŁĄCZ BUDŻET DOCELOWY",
+                "ru": "ОТКЛЮЧИТЬ ЦЕЛЕВОЙ БЮДЖЕТ",
+                "ar": "تعطيل الميزانية المستهدفة",
+                "ko": "목표 예산 비활성화"
+              }
+            },
+            {
+              "id": "CUSTOM",
+              "label": {
+                "en": "CUSTOM BUDGET",
+                "nl": "HANDMATIG BUDGET",
+                "de": "BENUTZERDEFINIERT",
+                "fr": "BUDGET PERSONNALISÉ",
+                "it": "BUDGET PERSONALIZZATO",
+                "sv": "ANPASSAD BUDGET",
+                "no": "EGENDEFINERT BUDSJETT",
+                "es": "PRESUPUESTO PERSONALIZADO",
+                "da": "BRUGERDEFINERET BUDGET",
+                "pl": "BUDŻET NIESTANDARDOWY",
+                "ru": "ПОЛЬЗОВАТЕЛЬСКИЙ БЮДЖЕТ",
+                "ar": "ميزانية مخصصة",
+                "ko": "사용자 지정 예산"
+              }
+            },
+            {
+              "id": "linear",
+              "label": {
+                "en": "Linear",
+                "nl": "Lineair",
+                "de": "Linear",
+                "fr": "Linéaire",
+                "it": "Lineare",
+                "sv": "Linjär",
+                "no": "Lineær",
+                "es": "Lineal",
+                "da": "Lineær",
+                "pl": "Liniowy",
+                "ru": "Линейный",
+                "ar": "خطي",
+                "ko": "선형"
+              }
             }
           ]
         }

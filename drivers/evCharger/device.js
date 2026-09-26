@@ -19,6 +19,7 @@ const ChargeDeviceHelpers = require('../../lib/helpers/ChargeDeviceHelpers');
 const ChartImages = require('../../lib/helpers/ChartImages');
 const { setTimeoutPromise } = require('../../lib/helpers/Util');
 const MeterHelpers = require('../../lib/helpers/MeterHelpers');
+const MinMaxTracker = require('../../lib/helpers/MinMaxTracker');
 
 const deviceSpecifics = {
   cmap: {
@@ -56,6 +57,7 @@ const CAR_CAPS = {
   odometer: ['measure_odo'],
   chargeLimit: ['charge_target_slow'], // AC charge limit (%) set in the car
   refresh: ['refresh_status'], // setable: ask the car app for fresh status
+  startCharge: ['charge'], // setable: tell the car to start charging (Kia/Hyundai app)
 };
 
 // Charger control loop: follows the plan within a price slot and times the "no response" check.
@@ -244,6 +246,9 @@ class CarChargeDevice extends GenericDevice {
             const cap = ids.find((id) => evCaps.includes(id));
             if (cap) this.carCapGroup[key] = cap;
           });
+          if (this.carCapGroup.startCharge && ev.capabilitiesObj[this.carCapGroup.startCharge]?.setable !== true) {
+            delete this.carCapGroup.startCharge;
+          }
           // Location needs both halves.
           if (!this.carCapGroup.latitude || !this.carCapGroup.longitude) {
             delete this.carCapGroup.latitude;
@@ -276,6 +281,7 @@ class CarChargeDevice extends GenericDevice {
     await this.addSourceCapGroup();
 
     this.log(`Registering listeners for charger: ${this.sourceDevice.name}`);
+    await this._seedChargingTotal();
 
     // kWh meter
     if (this.sourceCapGroup.p1) {
@@ -398,6 +404,7 @@ class CarChargeDevice extends GenericDevice {
   _onChargerPower(power) {
     if (typeof power !== 'number') return;
     this.livePowerW = power;
+    this._trackPowerMax(power).catch(this.error);
     if (power > EvPresence.CHARGING_POWER_W) this.signals.lastChargingTm = Date.now();
     const wasCharging = this.presence && this.presence.state === 'charging';
     const isCharging = power > EvPresence.CHARGING_POWER_W;
@@ -408,6 +415,22 @@ class CarChargeDevice extends GenericDevice {
       this.lastUnplugTm = new Date();
     }
     if (wasCharging !== isCharging) this._updatePresence().catch(this.error);
+  }
+
+  // Day/month/year maximum charge power. The minimum is left out: a charger idles at 0 W.
+  async _trackPowerMax(power) {
+    if (!this.hasCapability('measure_watt_max.day')) return;
+    const reading = MeterHelpers.getReadingObject(power, new Date(), this.timeZone || this.homey.clock.getTimezone());
+    if (!MinMaxTracker.hasShape(this.lastMinMax)) {
+      const stored = this.getStoreValue('lastMinMax');
+      this.lastMinMax = MinMaxTracker.hasShape(stored) ? stored : MinMaxTracker.createState(reading);
+    }
+    if (!MinMaxTracker.update(this.lastMinMax, power, reading)) return;
+    const values = MinMaxTracker.capabilityValues(this.lastMinMax, 'measure_watt');
+    for (const period of ['day', 'month', 'year']) {
+      await this.setCapability(`measure_watt_max.${period}`, values[`measure_watt_max.${period}`]);
+    }
+    await this.setStoreValue('lastMinMax', this.lastMinMax).catch(this.error);
   }
 
   // Legacy for chargers without any other signal (no plug state, no car location) and not
@@ -694,6 +717,34 @@ class CarChargeDevice extends GenericDevice {
     await this._updatePresence();
     this._trackChargeSession();
     await this._applyChargerControl();
+    await this._startCarIfIdle();
+  }
+
+  // The charger is on but the car does not take power: tell the car itself to start charging.
+  async _startCarIfIdle() {
+    const capabilityId = this.carCapGroup.startCharge;
+    if (!this.getSettings().carStartCharge || !capabilityId || !this.evDevice || !this.presence) return;
+    const now = Date.now();
+    const soc = typeof this.lastKnownSoc === 'number' && this.lastKnownSoc > 0 ? this.lastKnownSoc : null;
+    const carLimit = this._carLimit(this.evDevice.capabilitiesObj);
+    const start = EvChargerControl.shouldStartCar({
+      now,
+      ...this.signals,
+      powerW: this.livePowerW,
+      atHome: this.presence.atHome,
+      soc,
+      carLimit,
+      tries: this.carStartTries,
+    });
+    if (!start) return;
+    const since = this.signals.switchOnSince;
+    const count = this.carStartTries && this.carStartTries.since === since ? this.carStartTries.count + 1 : 1;
+    this.carStartTries = { since, count, lastTm: now };
+    this.log(`[EV Control] Charger on for ${Math.round((now - since) / 1000)} s, car takes `
+      + `${Math.round(this.livePowerW || 0)} W at SoC ${Math.round(soc)}% (car limit ${carLimit || 100}%): `
+      + `starting charge in the car (${count})`);
+    await this.evDevice.setCapabilityValue({ capabilityId, value: true })
+      .catch((err) => this.error('[EV Control] Starting charge in the car failed:', err.message || err));
   }
 
   async _applyChargerControl() {
@@ -831,7 +882,9 @@ class CarChargeDevice extends GenericDevice {
     // name), silently skipping the base class's meter-period bookkeeping (meter_power_hidden,
     // lastReadingHour/Day/Month/Year) and money calculation (meter_money_*) since the "graphs
     // upgrade" commit that introduced this override. Restore the base behaviour.
+    const meterBefore = this.getCapabilityValue('meter_power_hidden');
     await super.handleUpdateMeter(reading);
+    await this._updateChargeTotals(meterBefore);
 
     // Neither this device nor the HomeyAPI sourceDevice wrapper expose a 'measure_power'
     // capability/method, so that lookup always failed. The device's own live charge
@@ -874,6 +927,35 @@ class CarChargeDevice extends GenericDevice {
       this.lastEvTriggerSlot = currentSlot;
       await this.updateChargeChart().catch(this.error);
     }
+  }
+
+  // Charging/discharging totals for chargers with their own kWh meter. Chargers that only report
+  // power get them from generic_bat_device.updateMeterFromMeasure(). Counts accepted readings
+  // only: the base class rejects implausible meter jumps without moving meter_power_hidden.
+  async _updateChargeTotals(meterBefore) {
+    if (!this.sourceCapGroup.p1 || typeof meterBefore !== 'number') return;
+    const delta = this.getCapabilityValue('meter_power_hidden') - meterBefore;
+    if (!Number.isFinite(delta) || delta === 0) return;
+    const cap = delta > 0 ? 'meter_kwh_charging' : 'meter_kwh_discharging';
+    if (!this.hasCapability(cap)) return; // discharging only with V2X
+    const total = (this.getCapabilityValue(cap) || 0) + Math.abs(delta);
+    await this.setCapability(cap, Math.round(total * 10000) / 10000);
+  }
+
+  // Devices paired before the charging total existed for kWh-meter chargers: start from the kWh
+  // counted since pairing (the period meters start at pairing).
+  async _seedChargingTotal() {
+    if (!this.sourceCapGroup.p1 || !this.hasCapability('meter_kwh_charging')) return;
+    if (typeof this.getCapabilityValue('meter_kwh_charging') === 'number') return;
+    const kwh = (this.getCapabilityValue('meter_kwh_this_year') || 0) + (this.getCapabilityValue('meter_kwh_last_year') || 0);
+    this.log(`Charging total started at ${kwh.toFixed(2)} kWh (counted since pairing)`);
+    await this.setCapability('meter_kwh_charging', Math.round(kwh * 10000) / 10000);
+  }
+
+  // Discharging (V2X) only when the charger and car support it.
+  correctCapabilities() {
+    const caps = super.correctCapabilities();
+    return this.getSettings().v2x ? caps : caps.filter((cap) => cap !== 'meter_kwh_discharging');
   }
 
   // ─── Resolve departure time for today ──────────────────────────────────────
