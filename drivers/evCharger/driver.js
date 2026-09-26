@@ -29,6 +29,8 @@ const driverSpecifics = {
     'meter_power_hidden', 'meter_kwh_charging', 'meter_kwh_discharging',
     // Lets the user force a re-learn from Insights history, same as solar's own button.retrain.
     'button.retrain',
+    // Not plugged in while the next departure needs charge (solar's alarm_power: last, own title).
+    'alarm_generic',
   ],
   // Canonical display order for this driver's chart images - see lib/helpers/ChartImages.js.
   chartImages: [

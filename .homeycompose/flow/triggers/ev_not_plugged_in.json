@@ -1,0 +1,67 @@
+{
+  "title": {
+    "en": "Car not plugged in while charging is needed",
+    "nl": "Auto niet ingeplugd terwijl laden nodig is",
+    "de": "Auto nicht eingesteckt, obwohl Laden nötig ist",
+    "fr": "Voiture non branchée alors qu'une charge est nécessaire",
+    "es": "Coche no enchufado mientras necesita cargar",
+    "it": "Auto non collegata mentre serve la ricarica",
+    "da": "Bil ikke tilsluttet, mens opladning er nødvendig",
+    "sv": "Bilen inte ansluten fast laddning behövs",
+    "no": "Bil ikke tilkoblet mens lading trengs",
+    "pl": "Auto niepodłączone, choć ładowanie jest potrzebne",
+    "ru": "Авто не подключено, хотя нужна зарядка",
+    "ar": "السيارة غير موصولة بينما الشحن مطلوب",
+    "ko": "충전이 필요한데 차량 플러그 미연결"
+  },
+  "highlight": true,
+  "args": [
+    {
+      "type": "device",
+      "name": "device",
+      "filter": "driver_id=evCharger"
+    }
+  ],
+  "tokens": [
+    {
+      "name": "departure",
+      "type": "string",
+      "title": {
+        "en": "Next departure",
+        "nl": "Volgend vertrek",
+        "de": "Nächste Abfahrt",
+        "fr": "Prochain départ",
+        "es": "Próxima salida",
+        "it": "Prossima partenza",
+        "da": "Næste afgang",
+        "sv": "Nästa avresa",
+        "no": "Neste avreise",
+        "pl": "Następny wyjazd",
+        "ru": "Следующий выезд",
+        "ar": "المغادرة التالية",
+        "ko": "다음 출발"
+      },
+      "example": "Mon 07:30 · 60%"
+    },
+    {
+      "name": "required_soc",
+      "type": "number",
+      "title": {
+        "en": "Required SoC",
+        "nl": "Benodigde SoC",
+        "de": "Benötigter SoC",
+        "fr": "SoC requis",
+        "es": "SoC necesario",
+        "it": "SoC richiesto",
+        "da": "Nødvendig SoC",
+        "sv": "Nödvändig SoC",
+        "no": "Nødvendig SoC",
+        "pl": "Wymagany SoC",
+        "ru": "Нужный SoC",
+        "ar": "نسبة الشحن المطلوبة",
+        "ko": "필요 SoC"
+      },
+      "example": 60
+    }
+  ]
+}

@@ -443,19 +443,21 @@ class CarChargeDevice extends GenericDevice {
     this.presence = presence;
     this.isCarConnected = presence.chargeable;
     if (this.hasCapability('ev_car_state')) await this.setCapability('ev_car_state', presence.state);
-    if (!prev || prev.state === presence.state) return;
+    if (!prev || (prev.state === presence.state && prev.unplugged === presence.unplugged)) return;
 
-    const dist = typeof this.signals.carDistanceKm === 'number' ? `, car ${this.signals.carDistanceKm.toFixed(2)} km from home` : '';
-    this.log(`[EV Slot] Car state ${prev.state} -> ${presence.state}${dist}`);
-    if (this.homey.app.trigger_ev_car_state_changed) {
-      this.homey.app.trigger_ev_car_state_changed(this, { state: presence.state }, {}).catch(this.error);
+    if (prev.state !== presence.state) {
+      const dist = typeof this.signals.carDistanceKm === 'number' ? `, car ${this.signals.carDistanceKm.toFixed(2)} km from home` : '';
+      this.log(`[EV Slot] Car state ${prev.state} -> ${presence.state}${presence.unplugged ? ' (not plugged in)' : ''}${dist}`);
+      if (this.homey.app.trigger_ev_car_state_changed) {
+        this.homey.app.trigger_ev_car_state_changed(this, { state: presence.state }, {}).catch(this.error);
+      }
     }
     if (prev.atHome && !presence.atHome) {
       await this._onDeparture();
     } else if (!prev.atHome && presence.atHome) {
       await this._onReturn();
-    } else if (prev.chargeable !== presence.chargeable) {
-      // Chart shading and the grid forecast follow whether the plan is being executed.
+    } else if (prev.chargeable !== presence.chargeable || prev.unplugged !== presence.unplugged) {
+      // Not plugged in shifts the plan; chart shading follows whether the plan is being executed.
       await this.updateChargeChart().catch(this.error);
     }
   }
@@ -1126,9 +1128,10 @@ class CarChargeDevice extends GenericDevice {
         exportPrice: this.exportPricesNextHours ? this.exportPricesNextHours[i] : undefined,
       });
     });
-    const before = this.priceProfile.lastLearnedMs;
+    const before = `${this.priceProfile.lastLearnedMs}|${JSON.stringify(this.priceProfile.dailyMin || {})}`;
     EvPriceProfile.learn(this.priceProfile, entries, tz);
-    if (this.priceProfile.lastLearnedMs !== before) await this.setStoreValue('evPriceProfile', this.priceProfile).catch(this.error);
+    const after = `${this.priceProfile.lastLearnedMs}|${JSON.stringify(this.priceProfile.dailyMin || {})}`;
+    if (after !== before) await this.setStoreValue('evPriceProfile', this.priceProfile).catch(this.error);
     return entries;
   }
 
@@ -1165,6 +1168,8 @@ class CarChargeDevice extends GenericDevice {
     const num = (v, dflt) => (Number.isFinite(Number(v)) && v !== '' && v !== null ? Number(v) : dflt);
 
     const atHome = !this.presence || this.presence.atHome;
+    // Home but not plugged in: no charging in the next hour, as when away. Plugging in replans.
+    const unplugged = atHome && !!(this.presence && this.presence.unplugged);
     let currentSoc = this.lastKnownSoc || 0;
     if (!atHome) {
       const predicted = this._predictReturnSoc();
@@ -1174,6 +1179,7 @@ class CarChargeDevice extends GenericDevice {
     const known = await this._learnPrices(slotStartMs, intervalMin, tz);
     const level = EvPriceProfile.levelFactor(this.priceProfile, known, tz);
     const profile = this.usageModel ? EvUsageModel.getProfile(this.usageModel) : [];
+    const awayUntilMs = atHome ? null : this._awayUntilMs(profile, tz, now);
     const reserveSoc = num(settings.reserveSoc, 30);
     const { overrides, indefinite } = this._overrides(tz, now);
     const trips = indefinite ? [] : EvPlanner.buildTrips({
@@ -1208,8 +1214,8 @@ class CarChargeDevice extends GenericDevice {
       capacityKwh: batCapacity,
       chargePowerW: chargePower,
       efficiency: (this.socEstimator && this.socEstimator.efficiency) || EvSocEstimator.DEFAULT_EFFICIENCY,
-      atHome,
-      awayUntilMs: atHome ? null : this._awayUntilMs(profile, tz, now),
+      atHome: atHome && !unplugged,
+      awayUntilMs: unplugged ? now + 3600 * 1000 : awayUntilMs,
       trips,
       reserveSoc,
       reserveHours: num(settings.reserveHours, 8),
@@ -1232,8 +1238,9 @@ class CarChargeDevice extends GenericDevice {
     if (this.hasCapability('ev_next_departure')) await this.setCapability('ev_next_departure', nextText);
     if (this.hasCapability('ev_tomorrow')) await this.setCapability('ev_tomorrow', this._tomorrowPickerValue(overrides, tz));
     if (this.hasCapability('ev_tomorrow_time')) await this.setCapability('ev_tomorrow_time', this._tomorrowTimePickerValue(overrides, tz));
+    await this._updateUnpluggedAlarm(unplugged && chargeMode !== 'off' ? next : null, currentSoc, now, nextText);
     const nowSlot = strategy[0] || {};
-    this.log(`[EV Plan] ${chargeMode}, SoC ${Math.round(currentSoc)}%${atHome ? '' : ' (predicted return)'}, next: ${nextText}, `
+    this.log(`[EV Plan] ${chargeMode}, SoC ${Math.round(currentSoc)}%${atHome ? '' : ' (predicted return)'}${unplugged ? ', not plugged in' : ''}, next: ${nextText}, `
       + `now: ${nowSlot.duration ? `${nowSlot.duration} min${nowSlot.solar ? ' solar' : ''}` : 'no'}, price level x${level.toFixed(2)}`
       + `, cheap ${cheap ? `<= ${cheap.grid.toFixed(3)} (solar ${cheap.solar.toFixed(3)}, ${EvPriceProfile.dailyMinDays(this.priceProfile)} days)` : 'off'}`
       + `${result.shortfalls.length ? `, short: ${result.shortfalls.map((sf) => `${sf.what} ${sf.missing}%`).join(', ')}` : ''}`
@@ -1277,6 +1284,19 @@ class CarChargeDevice extends GenericDevice {
         planTm: now,
       });
       await this._applyChargerControl().catch(this.error);
+    }
+  }
+
+  // Alarm and trigger: not plugged in while the next departure, within a day, needs more charge.
+  async _updateUnpluggedAlarm(next, currentSoc, now, nextText) {
+    if (!this.hasCapability('alarm_generic')) return;
+    const alarm = !!next && next.departMs - now <= 24 * 3600 * 1000 && next.requiredSoc > Math.round(currentSoc);
+    if (this.getCapabilityValue('alarm_generic') === alarm) return;
+    await this.setCapability('alarm_generic', alarm);
+    if (!alarm) return;
+    this.log(`[EV Slot] Not plugged in, next departure ${nextText} needs ${next.requiredSoc}% (now ${Math.round(currentSoc)}%)`);
+    if (this.homey.app.trigger_ev_not_plugged_in) {
+      this.homey.app.trigger_ev_not_plugged_in(this, { departure: nextText, required_soc: next.requiredSoc }, {}).catch(this.error);
     }
   }
 

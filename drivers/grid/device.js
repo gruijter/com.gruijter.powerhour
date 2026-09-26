@@ -1447,7 +1447,10 @@ class GridDevice extends GenericDevice {
     };
     const solar = sumSeries('solar', (dev) => (dev.getForecastSeries ? dev.getForecastSeries(startMs, endMs) : null));
     const battery = sumSeries('battery', (dev) => (dev.getPlannedPowerSeries ? dev.getPlannedPowerSeries(startMs, endMs) : null));
-    const ev = sumSeries('evCharger', (dev) => (dev.isCarConnected && dev.getPlannedPowerSeries ? dev.getPlannedPowerSeries(startMs, endMs) : null));
+    // Away and not plugged in are in the EV plan itself (no charging until the expected return or
+    // the next hour); a car that does not take power from a switched-on charger is not.
+    const ev = sumSeries('evCharger', (dev) => (dev.getPlannedPowerSeries && !(dev.presence && dev.presence.noResponse)
+      ? dev.getPlannedPowerSeries(startMs, endMs) : null));
     const netNoBattery = load.map((l, i) => Math.round(l - solar[i] + ev[i]));
     const netPlanned = netNoBattery.map((n, i) => Math.round(n + battery[i]));
     return {

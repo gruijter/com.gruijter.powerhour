@@ -17,6 +17,23 @@
   "class": "other",
   "capabilities": [],
   "capabilitiesOptions": {
+    "alarm_generic": {
+      "title": {
+        "en": "Not plugged in",
+        "nl": "Niet ingeplugd",
+        "de": "Nicht eingesteckt",
+        "fr": "Non branchée",
+        "es": "No enchufado",
+        "it": "Non collegata",
+        "da": "Ikke tilsluttet",
+        "sv": "Inte ansluten",
+        "no": "Ikke tilkoblet",
+        "pl": "Niepodłączony",
+        "ru": "Не подключён",
+        "ar": "غير موصول",
+        "ko": "플러그 미연결"
+      }
+    },
     "meter_power": {
       "decimals": 4
     },
