@@ -93,6 +93,7 @@ class CarChargeDevice extends GenericDevice {
     // Kept across restarts: a manual switch of the charger holds until the plan wants a change.
     const lastWanted = await this.getStoreValue('evLastWantedSwitch');
     if (typeof lastWanted === 'boolean') this.lastWantedSwitch = lastWanted;
+    this.lastAwayTm = (await this.getStoreValue('evLastAwayTm')) || 0;
     await super.initDeviceValues();
   }
 
@@ -453,6 +454,10 @@ class CarChargeDevice extends GenericDevice {
     const prev = this.presence;
     this.presence = presence;
     this.isCarConnected = presence.chargeable;
+    if (!presence.atHome && (!prev || prev.atHome)) {
+      this.lastAwayTm = Date.now(); // a trip due at a later time is then not still waiting (buildTrips)
+      await this.setStoreValue('evLastAwayTm', this.lastAwayTm).catch(this.error);
+    }
     if (this.hasCapability('ev_car_state')) await this.setCapability('ev_car_state', presence.state);
     if (!prev || (prev.state === presence.state && prev.unplugged === presence.unplugged)) return;
 
@@ -722,6 +727,12 @@ class CarChargeDevice extends GenericDevice {
     }
     await this._meterPowerIdleCheck();
     await this._updatePresence();
+    // A new plan slot: plan again, also without meter readings (handleUpdateMeter does it on those).
+    const planSlot = MeterHelpers.startOfBlock(Date.now(), this.planIntervalMin(), tz);
+    if (this.lastEvTriggerSlot !== planSlot) {
+      this.lastEvTriggerSlot = planSlot;
+      await this.updateChargeChart().catch(this.error);
+    }
     this._trackChargeSession();
     await this._applyChargerControl();
     await this._startCarIfIdle();
@@ -1265,6 +1276,9 @@ class CarChargeDevice extends GenericDevice {
       reserveSoc,
       manualTimes: [0, 1, 2, 3, 4, 5, 6].map((i) => settings[`departureTime_${i}`] || ''),
       overrides,
+      // Still home after the planned departure: keep charging for that trip until the car leaves.
+      stillHome: this.presence && this.presence.atHome && this.presence.chargeable
+        ? { lastAwayMs: this.lastAwayTm || 0, stepMs: intervalMin * 60 * 1000 } : null,
     });
     const n = Math.ceil((EvPlanner.HORIZON_DAYS * 24 * 60) / intervalMin);
     const chargeMode = this.getCapabilityValue('ev_charge_mode') || 'scheduled_price';
