@@ -17384,57 +17384,6 @@
       "class": "other",
       "capabilities": [],
       "capabilitiesOptions": {
-        "measure_watt_max.day": {
-          "title": {
-            "en": "Maximum (day)",
-            "nl": "Maximum (dag)",
-            "de": "Maximum (Tag)",
-            "fr": "Maximum (jour)",
-            "it": "Massimo (giorno)",
-            "sv": "Maximum (dag)",
-            "no": "Maksimum (dag)",
-            "es": "Máximo (día)",
-            "da": "Maksimum (dag)",
-            "pl": "Maksimum (dzień)",
-            "ru": "Максимум (день)",
-            "ar": "الحد الأقصى (يوم)",
-            "ko": "최대 (일)"
-          }
-        },
-        "measure_watt_max.month": {
-          "title": {
-            "en": "Maximum (month)",
-            "nl": "Maximum (maand)",
-            "de": "Maximum (Monat)",
-            "fr": "Maximum (mois)",
-            "it": "Massimo (mese)",
-            "sv": "Maximum (månad)",
-            "no": "Maksimum (måned)",
-            "es": "Máximo (mes)",
-            "da": "Maksimum (måned)",
-            "pl": "Maksimum (miesiąc)",
-            "ru": "Максимум (месяц)",
-            "ar": "الحد الأقصى (شهر)",
-            "ko": "최대 (월)"
-          }
-        },
-        "measure_watt_max.year": {
-          "title": {
-            "en": "Maximum (year)",
-            "nl": "Maximum (jaar)",
-            "de": "Maximum (Jahr)",
-            "fr": "Maximum (année)",
-            "it": "Massimo (anno)",
-            "sv": "Maximum (år)",
-            "no": "Maksimum (år)",
-            "es": "Máximo (año)",
-            "da": "Maksimum (år)",
-            "pl": "Maksimum (rok)",
-            "ru": "Максимум (год)",
-            "ar": "الحد الأقصى (عام)",
-            "ko": "최대 (년)"
-          }
-        },
         "meter_power": {
           "decimals": 4
         },

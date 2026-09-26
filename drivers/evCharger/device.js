@@ -19,7 +19,6 @@ const ChargeDeviceHelpers = require('../../lib/helpers/ChargeDeviceHelpers');
 const ChartImages = require('../../lib/helpers/ChartImages');
 const { setTimeoutPromise } = require('../../lib/helpers/Util');
 const MeterHelpers = require('../../lib/helpers/MeterHelpers');
-const MinMaxTracker = require('../../lib/helpers/MinMaxTracker');
 
 const deviceSpecifics = {
   cmap: {
@@ -404,7 +403,6 @@ class CarChargeDevice extends GenericDevice {
   _onChargerPower(power) {
     if (typeof power !== 'number') return;
     this.livePowerW = power;
-    this._trackPowerMax(power).catch(this.error);
     if (power > EvPresence.CHARGING_POWER_W) this.signals.lastChargingTm = Date.now();
     const wasCharging = this.presence && this.presence.state === 'charging';
     const isCharging = power > EvPresence.CHARGING_POWER_W;
@@ -415,22 +413,6 @@ class CarChargeDevice extends GenericDevice {
       this.lastUnplugTm = new Date();
     }
     if (wasCharging !== isCharging) this._updatePresence().catch(this.error);
-  }
-
-  // Day/month/year maximum charge power. The minimum is left out: a charger idles at 0 W.
-  async _trackPowerMax(power) {
-    if (!this.hasCapability('measure_watt_max.day')) return;
-    const reading = MeterHelpers.getReadingObject(power, new Date(), this.timeZone || this.homey.clock.getTimezone());
-    if (!MinMaxTracker.hasShape(this.lastMinMax)) {
-      const stored = this.getStoreValue('lastMinMax');
-      this.lastMinMax = MinMaxTracker.hasShape(stored) ? stored : MinMaxTracker.createState(reading);
-    }
-    if (!MinMaxTracker.update(this.lastMinMax, power, reading)) return;
-    const values = MinMaxTracker.capabilityValues(this.lastMinMax, 'measure_watt');
-    for (const period of ['day', 'month', 'year']) {
-      await this.setCapability(`measure_watt_max.${period}`, values[`measure_watt_max.${period}`]);
-    }
-    await this.setStoreValue('lastMinMax', this.lastMinMax).catch(this.error);
   }
 
   // Legacy for chargers without any other signal (no plug state, no car location) and not

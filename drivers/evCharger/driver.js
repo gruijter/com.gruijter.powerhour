@@ -11,16 +11,15 @@ const GenericDriver = require('../../lib/genericDeviceDrivers/generic_bat_driver
 const driverSpecifics = {
   driverId: 'evCharger',
   deviceCapabilities: [
-    // Car first: what the device tile and the device page lead with.
-    'measure_ev_soc', 'ev_car_state', 'ev_next_departure', 'ev_tomorrow', 'ev_charge_mode',
+    // Live power and the car first: what the device tile and the device page lead with.
+    'measure_watt_avg', 'ev_car_state', 'measure_ev_soc', 'ev_next_departure', 'ev_tomorrow', 'ev_charge_mode',
     'meter_kwh_last_hour', 'meter_kwh_this_hour', 'meter_kwh_last_day', 'meter_kwh_this_day',
     'meter_kwh_last_month', 'meter_kwh_this_month', 'meter_kwh_last_year', 'meter_kwh_this_year',
     'meter_target_month_to_date', 'meter_target_year_to_date',
     'meter_money_last_hour', 'meter_money_this_hour', 'meter_money_last_day', 'meter_money_this_day',
     'meter_money_last_month', 'meter_money_this_month', 'meter_money_last_year', 'meter_money_this_year',
     'meter_money_this_month_avg', 'meter_money_this_year_avg',
-    'meter_tariff', 'meter_power', 'measure_watt_avg',
-    'measure_watt_max.day', 'measure_watt_max.month', 'measure_watt_max.year',
+    'meter_tariff', 'meter_power',
     // Needed by the shared generic_bat_device.js base class (same as drivers/battery/driver.js):
     // meter_power_hidden anchors updateMeterFromMeasure()'s delta baseline and the large-jump
     // anomaly guard in handleUpdateMeter(); without it, updateMeterFromMeasure() silently no-ops
