@@ -69,6 +69,12 @@ const CAP_RESTART_MIN_MS = 10 * 60 * 1000;
 const CAR_POLL_MS = 5 * 60 * 1000;
 // A charging session below this is not worth waking the car for.
 const CAR_REFRESH_MIN_KWH = 1;
+// Chargers with only a kWh meter: power averaged over at least this long, and no meter change
+// for this long counts as no power.
+const METER_POWER_MIN_MS = 119 * 1000;
+const METER_IDLE_MS = 5 * 60 * 1000;
+// Bump to rebuild stored price profiles from Insights (2: only the electricity prices of the own tariff group).
+const PRICE_BOOTSTRAP_VERSION = 2;
 
 class CarChargeDevice extends GenericDevice {
 
@@ -112,10 +118,12 @@ class CarChargeDevice extends GenericDevice {
     // by the platform before any onInit runs, so this has no dependency on super.onInit().
     await ChartImages.registerChartImages(this, this.driver.ds.chartImages);
 
-    await super.onInit().catch(this.error);
-
+    // Before super.onInit(): its first poll and car report record samples, and the first save of
+    // a fresh instance would otherwise overwrite the stored history with only those.
     this.powerHistory = await this.loadStoredHistory('powerHistory');
     this.socHistory = await this.loadStoredHistory('socHistory');
+
+    await super.onInit().catch(this.error);
 
     await this._updateEfficiencySetting();
     if (this.controlInterval) this.homey.clearInterval(this.controlInterval);
@@ -149,7 +157,7 @@ class CarChargeDevice extends GenericDevice {
       });
       this.registerCapabilityListener('button.retrain', async () => {
         this.log('[EV Slot] Manual retrain triggered via button.retrain');
-        await this.learnDeparturePattern(); // Re-bootstraps from Insights, keeping what was learned live
+        await this.learnDeparturePattern({ retrain: true }); // Re-bootstraps from Insights, keeping what was learned live
         return true;
       });
     }
@@ -284,6 +292,7 @@ class CarChargeDevice extends GenericDevice {
     await this.addSourceCapGroup();
 
     this.log(`Registering listeners for charger: ${this.sourceDevice.name}`);
+    await this._migrateMeterDirection();
     await this._seedChargingTotal();
 
     // kWh meter
@@ -709,10 +718,38 @@ class CarChargeDevice extends GenericDevice {
       this.lastCarPollTm = Date.now();
       await this._pollCar().catch(this.error);
     }
+    await this._meterPowerIdleCheck();
     await this._updatePresence();
     this._trackChargeSession();
     await this._applyChargerControl();
     await this._startCarIfIdle();
+  }
+
+  // Chargers without measure_power: power from the kWh meter over at least 2 minutes, as
+  // generic_sum_device.updateMeasureMinMax() does. Published on measure_watt_avg.
+  async _updatePowerFromMeter(reading) {
+    const tm = new Date(reading.meterTm).getTime();
+    const start = this.meterPowerStart;
+    if (!start || reading.meterValue < start.meterValue) {
+      this.meterPowerStart = { tm, meterValue: reading.meterValue };
+      return;
+    }
+    if (reading.meterValue > start.meterValue) this.lastMeterChangeTm = tm;
+    const deltaTm = tm - start.tm;
+    if (deltaTm < METER_POWER_MIN_MS) return;
+    const power = Math.round((3600000000 / deltaTm) * (reading.meterValue - start.meterValue));
+    this.meterPowerStart = { tm, meterValue: reading.meterValue };
+    await this.setCapability('measure_watt_avg', power).catch(this.error);
+  }
+
+  // The meter only reports a change: no change for a while is no power.
+  async _meterPowerIdleCheck() {
+    if (this.sourceCapGroup.measure || !this.meterPowerStart || !this.livePowerW) return;
+    const now = Date.now();
+    if (now - (this.lastMeterChangeTm || this.meterPowerStart.tm) < METER_IDLE_MS) return;
+    this.meterPowerStart = { tm: now, meterValue: this.meterPowerStart.meterValue };
+    await this.setCapability('measure_watt_avg', 0).catch(this.error);
+    this._onChargerPower(0);
   }
 
   // The charger is on but the car does not take power: tell the car itself to start charging.
@@ -885,6 +922,7 @@ class CarChargeDevice extends GenericDevice {
     // Neither this device nor the HomeyAPI sourceDevice wrapper expose a 'measure_power'
     // capability/method, so that lookup always failed. The device's own live charge
     // power is published on 'measure_watt_avg'.
+    if (!this.sourceCapGroup.measure && reading) await this._updatePowerFromMeter(reading);
     let livePower = (reading && typeof reading.measure_power === 'number') ? reading.measure_power : null;
     if (livePower === null && this.hasCapability('measure_watt_avg')) {
       livePower = this.getCapabilityValue('measure_watt_avg');
@@ -936,6 +974,33 @@ class CarChargeDevice extends GenericDevice {
     if (!this.hasCapability(cap)) return; // discharging only with V2X
     const total = (this.getCapabilityValue(cap) || 0) + Math.abs(delta);
     await this.setCapability(cap, Math.round(total * 10000) / 10000);
+  }
+
+  // Up to v8.20 a charger without its own kWh meter counted charging down on meter_power_hidden
+  // (the battery convention), so its baselines and money went negative. Flip them once.
+  async _migrateMeterDirection() {
+    if (this.getStoreValue('meterAddsToMeter')) return;
+    const meter = this.getCapabilityValue('meter_power_hidden');
+    if (!this.sourceCapGroup.p1 && typeof meter === 'number' && meter < 0) {
+      const neg = (v) => (typeof v === 'number' ? -v : v);
+      for (const key of ['lastReadingHour', 'lastReadingDay', 'lastReadingMonth', 'lastReadingYear']) {
+        if (this[key] && typeof this[key].meterValue === 'number') {
+          this[key] = { ...this[key], meterValue: -this[key].meterValue };
+          await this.setStoreValue(key, this[key]).catch(this.error);
+        }
+      }
+      await this.setCapability('meter_power_hidden', -meter);
+      if (this.meterMoney) {
+        this.meterMoney = Object.fromEntries(Object.entries(this.meterMoney).map(([k, v]) => [k, neg(v)]));
+        for (const period of ['hour', 'day', 'month', 'year']) {
+          const cap = period[0].toUpperCase() + period.slice(1);
+          await this.setCapability(`meter_money_this_${period}`, this.meterMoney[period]);
+          await this.setCapability(`meter_money_last_${period}`, this.meterMoney[`last${cap}`]);
+        }
+      }
+      this.log(`[EV Meter] Charging now counts up: meter ${meter.toFixed(3)} -> ${(-meter).toFixed(3)} kWh, baselines and money flipped`);
+    }
+    await this.setStoreValue('meterAddsToMeter', true).catch(this.error);
   }
 
   // Devices paired before the charging total existed for kWh-meter chargers: start from the kWh
@@ -1072,7 +1137,7 @@ class CarChargeDevice extends GenericDevice {
     const ov = overrides[this._tomorrowDate(tz)];
     const fh = ov ? EvPlanner.hhmmToFh(ov.time) : null;
     if (fh === null) return 'auto';
-    const half = Math.round(fh * 2) % 48;
+    const half = Math.min(47, Math.round(fh * 2)); // after 23:45 stays 23:30, not the next day
     return `${String(Math.floor(half / 2)).padStart(2, '0')}:${half % 2 ? '30' : '00'}`;
   }
 
@@ -1081,7 +1146,7 @@ class CarChargeDevice extends GenericDevice {
     if (!ov) return 'auto';
     if (ov.type === 'unused') return 'unused';
     if (ov.type === 'min' || ov.type === 'boost') {
-      return `min_${Math.max(30, Math.min(100, Math.round(ov.soc / 10) * 10))}`;
+      return `min_${Math.max(10, Math.min(100, Math.round(ov.soc / 10) * 10))}`; // nearest picker step
     }
     return 'auto';
   }
@@ -1170,6 +1235,9 @@ class CarChargeDevice extends GenericDevice {
     const atHome = !this.presence || this.presence.atHome;
     // Home but not plugged in: no charging in the next hour, as when away. Plugging in replans.
     const unplugged = atHome && !!(this.presence && this.presence.unplugged);
+    // Only when the charger itself says so. The car's plug state can be stale, and then only power
+    // shows the cable going in: a charger kept off by the plan (or a flow) would never show it.
+    const blockNow = unplugged && this.signals.chargerPlugged === false;
     let currentSoc = this.lastKnownSoc || 0;
     if (!atHome) {
       const predicted = this._predictReturnSoc();
@@ -1214,8 +1282,8 @@ class CarChargeDevice extends GenericDevice {
       capacityKwh: batCapacity,
       chargePowerW: chargePower,
       efficiency: (this.socEstimator && this.socEstimator.efficiency) || EvSocEstimator.DEFAULT_EFFICIENCY,
-      atHome: atHome && !unplugged,
-      awayUntilMs: unplugged ? now + 3600 * 1000 : awayUntilMs,
+      atHome: atHome && !blockNow,
+      awayUntilMs: blockNow ? now + 3600 * 1000 : awayUntilMs,
       trips,
       reserveSoc,
       reserveHours: num(settings.reserveHours, 8),
@@ -1302,7 +1370,7 @@ class CarChargeDevice extends GenericDevice {
 
   // ─── Batch departure pattern learning from Insights ────────────────────────
 
-  async learnDeparturePattern() {
+  async learnDeparturePattern({ retrain = false } = {}) {
     this.log('[EV Slot] Starting departure pattern learning from Insights...');
     try {
       let api;
@@ -1464,22 +1532,36 @@ class CarChargeDevice extends GenericDevice {
       // Expected-price profile from the DAP price history (hourly, 14 days), once. Built fresh:
       // live learning only takes prices newer than the last learned one, so history must go first.
       if (!this.priceProfile) this.priceProfile = (await this.getStoreValue('evPriceProfile')) || EvPriceProfile.createProfile();
-      if (!this.priceProfile.bootstrapped) {
+      if (retrain || this.priceProfile.bootstrapped !== PRICE_BOOTSTRAP_VERSION) {
+        // The electricity DAP devices (not gas) that feed this device's tariff group.
+        const group = this.getSettings().tariff_update_group;
+        const dapDrivers = ['dap', 'dap15'];
+        const driverOf = (d) => ((d.driverId || '').includes(this.homey.manifest.id) ? d.driverId.split(':').pop() : null);
+        const dapIds = Object.values((await api.devices.getDevices().catch(() => null)) || {})
+          .filter((d) => dapDrivers.includes(driverOf(d)) && d.settings && d.settings.tariff_update_group === group)
+          .sort((a, b) => dapDrivers.indexOf(driverOf(a)) - dapDrivers.indexOf(driverOf(b)))
+          .map((d) => d.id);
         const hourly = async (capName) => {
-          const log = logs.find((l) => (l.id || l.uri || '').endsWith(`:${capName}`));
+          const log = dapIds.map((id) => logs.find((l) => {
+            const logId = l.id || l.uri || '';
+            return logId.includes(id) && logId.endsWith(`:${capName}`);
+          })).find(Boolean);
           if (!log) return [];
           const data = await api.insights.getLogEntries({ id: log.id, resolution: 'last14Days' }).catch(() => null);
           return ((data && data.values) || []).filter((e) => typeof e.v === 'number')
             .map((e) => ({ t: new Date(e.t).getTime(), v: e.v }));
         };
         const imp = await hourly('meter_price_h0');
-        const exp = new Map((await hourly('meter_price_h0_export')).map((e) => [e.t, e.v]));
-        const fresh = EvPriceProfile.createProfile();
-        EvPriceProfile.learn(fresh, imp.map((e) => ({ time: e.t, price: e.v, exportPrice: exp.get(e.t) })), tz);
-        fresh.bootstrapped = true;
-        this.priceProfile = fresh;
-        await this.setStoreValue('evPriceProfile', this.priceProfile).catch(this.error);
-        this.log(`[EV Plan] Price profile bootstrapped from ${imp.length} hourly prices`);
+        // A retrain without price history keeps what was learned live.
+        if (imp.length || !retrain) {
+          const exp = new Map((await hourly('meter_price_h0_export')).map((e) => [e.t, e.v]));
+          const fresh = EvPriceProfile.createProfile();
+          EvPriceProfile.learn(fresh, imp.map((e) => ({ time: e.t, price: e.v, exportPrice: exp.get(e.t) })), tz);
+          fresh.bootstrapped = PRICE_BOOTSTRAP_VERSION;
+          this.priceProfile = fresh;
+          await this.setStoreValue('evPriceProfile', this.priceProfile).catch(this.error);
+          this.log(`[EV Plan] Price profile bootstrapped from ${imp.length} hourly prices`);
+        }
       }
 
       // Usage model from the car's odometer history, merged under what was learned live.

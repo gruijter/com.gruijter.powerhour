@@ -38,9 +38,11 @@ class BatDevice extends GenericDevice {
     // by the platform before any onInit runs, so this has no dependency on super.onInit().
     await ChartImages.registerChartImages(this, this.driver.ds.chartImages);
 
-    await super.onInit().catch(this.error);
+    // Before super.onInit(): its first poll records samples, and the first save of a fresh
+    // instance would otherwise overwrite the stored history with only those.
     this.powerHistory = await this.loadStoredHistory('powerHistory');
     this.socHistory = await this.loadStoredHistory('socHistory');
+    await super.onInit().catch(this.error);
 
     const currentSessionId = this.sessionId;
     this.populateHistoryFromInsights().catch((err) => this.error('Error populating battery insights:', err));
