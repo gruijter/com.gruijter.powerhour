@@ -28,7 +28,7 @@ const GridConnection = require('../../lib/helpers/GridConnection');
 const DeviceMigrator = require('../../lib/DeviceMigrator');
 const ChartImages = require('../../lib/helpers/ChartImages');
 const { setTimeoutPromise } = require('../../lib/helpers/Util');
-const { fetchYesterdayAndToday, convertCumulativeToPower } = require('../../lib/helpers/HistoryLookup');
+const { fetchYesterdayAndToday, convertCumulativeToPower, mergeStoredHistory } = require('../../lib/helpers/HistoryLookup');
 const { combineComponentsToHomePower } = require('../../lib/helpers/HomePowerReconstruction');
 const TimeHelpers = require('../../lib/helpers/TimeHelpers');
 
@@ -56,10 +56,29 @@ const deviceSpecifics = {
 class GridDevice extends GenericDevice {
   async onInit() {
     this.startupTime = Date.now(); // stamp startup so boot-time entries can be excluded from guard
-    this.powerHistory = [];
-    this.netForecastHistory = [];
     this.ds = deviceSpecifics;
     this.flows = new GridFlows(this);
+
+    // Before super.onInit(): its first poll records samples (mergeStoredHistory).
+    let history = await this.getStoreValue('powerHistory');
+    if (!Array.isArray(history)) history = [];
+    const ceilingW = this.getHomePowerCeilingW();
+    const storedHistory = history
+      .map((e) => {
+        const time = e.time || (e.t ? new Date(e.t).getTime() : Date.now());
+        let power = 0;
+        if (typeof e.power === 'number') power = e.power;
+        else if (typeof e.v === 'number') power = e.v;
+        else if (typeof e.y === 'number') power = e.y;
+        return { time, power, grid: typeof e.grid === 'number' ? e.grid : null };
+      })
+      .filter((e) => e.power >= 0 && e.power <= ceilingW);
+    this.powerHistory = mergeStoredHistory(storedHistory, this.powerHistory, 2880);
+
+    // Grid forecast per 15-min slot as it was when the slot started: battery/EV plans are not
+    // kept, so this is the only way to show a past slot's forecast incl. those plans.
+    const netForecastHistory = await this.getStoreValue('netForecastHistory');
+    this.netForecastHistory = mergeStoredHistory(netForecastHistory, this.netForecastHistory, 200);
 
     // Register chart images in canonical order before any periodic update can render into them.
     // Deliberately before super.onInit(): the base class (generic_sum_device.js) sets
@@ -174,27 +193,6 @@ class GridDevice extends GenericDevice {
     this.retrainingLoad = false;
     this.forecastErrors = await this.getStoreValue('forecastErrors') || [];
     await this.updateForecastAccuracyStatus().catch(this.error);
-
-    // Load power history
-    let history = await this.getStoreValue('powerHistory');
-    if (!Array.isArray(history)) history = [];
-    const ceilingW = this.getHomePowerCeilingW();
-    this.powerHistory = history
-      .map((e) => {
-        const time = e.time || (e.t ? new Date(e.t).getTime() : Date.now());
-        let power = 0;
-        if (typeof e.power === 'number') power = e.power;
-        else if (typeof e.v === 'number') power = e.v;
-        else if (typeof e.y === 'number') power = e.y;
-        return { time, power, grid: typeof e.grid === 'number' ? e.grid : null };
-      })
-      .filter((e) => e.power >= 0 && e.power <= ceilingW)
-      .slice(-2880);
-
-    // Grid forecast per 15-min slot as it was when the slot started: battery/EV plans are not
-    // kept, so this is the only way to show a past slot's forecast incl. those plans.
-    const netForecastHistory = await this.getStoreValue('netForecastHistory');
-    this.netForecastHistory = Array.isArray(netForecastHistory) ? netForecastHistory : [];
 
     this.retrainLoadListener = this.registerCapabilityListener('button.retrain_load', async () => {
       await this.retrainLoadModel(true); // From scratch

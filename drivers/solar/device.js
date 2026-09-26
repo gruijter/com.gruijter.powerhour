@@ -28,7 +28,7 @@ const SolarLearningStrategy = require('../../lib/strategies/SolarLearningStrateg
 const SolarFlows = require('../../lib/flows/SolarFlows');
 const TimeHelpers = require('../../lib/helpers/TimeHelpers');
 const ChartImages = require('../../lib/helpers/ChartImages');
-const { fetchYesterdayAndToday, convertCumulativeToPower } = require('../../lib/helpers/HistoryLookup');
+const { fetchYesterdayAndToday, convertCumulativeToPower, mergeStoredHistory } = require('../../lib/helpers/HistoryLookup');
 
 const deviceSpecifics = {
   cmap: {
@@ -58,7 +58,13 @@ class SolarDevice extends GenericDevice {
   async onInit() {
     this.ds = deviceSpecifics;
     this.flows = new SolarFlows(this);
-    this.powerHistory = [];
+
+    // Before super.onInit(): its first poll records samples (mergeStoredHistory).
+    let history = await this.getStoreValue('powerHistory');
+    if (!Array.isArray(history)) history = [];
+    const storedHistory = history.filter((e) => e && typeof e.time === 'number' && typeof e.power === 'number');
+    if (storedHistory.length !== history.length) await this.setStoreValue('powerHistory', storedHistory);
+    this.powerHistory = mergeStoredHistory(storedHistory, this.powerHistory, 576);
 
     // Register chart images in canonical order before any periodic update can render into them.
     // Deliberately before super.onInit(): the base class (generic_sum_device.js) sets
@@ -131,13 +137,6 @@ class SolarDevice extends GenericDevice {
     this.trainingConfidence = await this.getStoreValue('trainingConfidence') || new Array(96).fill(0);
     this.lastRetrainFinishedAt = await this.getStoreValue('lastRetrainFinishedAt') || 0;
     await this.updateTrainingStatus();
-
-    let history = await this.getStoreValue('powerHistory');
-    if (!Array.isArray(history)) history = [];
-    this.powerHistory = history
-      .filter((e) => e && typeof e.time === 'number' && typeof e.power === 'number')
-      .slice(-576);
-    if (this.powerHistory.length !== history.length) await this.setStoreValue('powerHistory', this.powerHistory);
 
     // Start loops
     if (this.sessionId !== sessionIdAfterSuper) return; // superseded by a newer onInit() meanwhile
