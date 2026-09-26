@@ -1,0 +1,88 @@
+{
+  "title": {
+    "en": "Departure tomorrow",
+    "nl": "Vertrek morgen",
+    "de": "Abfahrt morgen",
+    "fr": "Départ demain",
+    "es": "Salida mañana",
+    "it": "Partenza domani",
+    "da": "Afgang i morgen",
+    "sv": "Avgång i morgon",
+    "no": "Avgang i morgen",
+    "pl": "Wyjazd jutro",
+    "ru": "Отправление завтра",
+    "ar": "المغادرة غدًا",
+    "ko": "내일 출발"
+  },
+  "titleFormatted": {
+    "en": "Departure tomorrow at [[time]]",
+    "nl": "Vertrek morgen om [[time]]",
+    "de": "Abfahrt morgen um [[time]]",
+    "fr": "Départ demain à [[time]]",
+    "es": "Salida mañana a las [[time]]",
+    "it": "Partenza domani alle [[time]]",
+    "da": "Afgang i morgen kl. [[time]]",
+    "sv": "Avgång i morgon kl. [[time]]",
+    "no": "Avgang i morgen kl. [[time]]",
+    "pl": "Wyjazd jutro o [[time]]",
+    "ru": "Отправление завтра в [[time]]",
+    "ar": "المغادرة غدًا الساعة [[time]]",
+    "ko": "내일 [[time]]에 출발"
+  },
+  "hint": {
+    "en": "Once; after that the learned or weekly schedule applies again. Time as HH:MM or a whole hour (7), also from a tag. For the SoC: Min. SoC tomorrow.",
+    "nl": "Eenmalig; daarna geldt weer het geleerde of het weekschema. Tijd als UU:MM of een heel uur (7), ook uit een tag. Voor de SoC: Min. SoC morgen.",
+    "de": "Einmalig; danach gilt wieder der gelernte oder der Wochenplan. Zeit als HH:MM oder volle Stunde (7), auch aus einem Tag. Für den SoC: Min. SoC morgen.",
+    "fr": "Une fois ; ensuite l'horaire appris ou hebdomadaire s'applique à nouveau. Heure au format HH:MM ou heure pleine (7), aussi depuis un tag. Pour le SoC : SoC min. demain.",
+    "es": "Una vez; después vuelve a aplicarse lo aprendido o el horario semanal. Hora como HH:MM o una hora entera (7), también desde una etiqueta. Para el SoC: SoC mín. mañana.",
+    "it": "Una volta; poi vale di nuovo quanto appreso o il programma settimanale. Ora come HH:MM o un'ora intera (7), anche da un tag. Per il SoC: SoC min. domani.",
+    "da": "Én gang; derefter gælder det lærte eller ugeplanen igen. Tid som TT:MM eller en hel time (7), også fra et tag. For SoC: Min. SoC i morgen.",
+    "sv": "En gång; därefter gäller det inlärda eller veckoschemat igen. Tid som HH:MM eller en hel timme (7), även från en tagg. För SoC: Min. SoC i morgon.",
+    "no": "Én gang; deretter gjelder det lærte eller ukeplanen igjen. Tid som TT:MM eller en hel time (7), også fra en tagg. For SoC: Min. SoC i morgen.",
+    "pl": "Jednorazowo; potem znowu obowiązuje wyuczony lub tygodniowy plan. Godzina jako GG:MM lub pełna godzina (7), także z tagu. Dla SoC: Min. SoC jutro.",
+    "ru": "Однократно; затем снова действует изученное или недельное расписание. Время в формате ЧЧ:ММ или целый час (7), также из тега. Для заряда: Мин. заряд завтра.",
+    "ar": "لمرة واحدة؛ بعد ذلك يعود الجدول المُتعلَّم أو الأسبوعي. الوقت بصيغة HH:MM أو ساعة كاملة (7)، ويمكن من وسم أيضًا. لنسبة الشحن: الحد الأدنى للشحن غدًا.",
+    "ko": "1회 적용; 이후 다시 학습값 또는 주간 일정이 적용됩니다. 시간은 HH:MM 또는 정시(7) 형식, 태그도 가능. 충전량은 내일 최소 충전량을 사용하세요."
+  },
+  "args": [
+    {
+      "type": "device",
+      "name": "device",
+      "filter": "driver_id=evCharger"
+    },
+    {
+      "type": "text",
+      "name": "time",
+      "placeholder": {
+        "en": "07:30",
+        "nl": "07:30",
+        "de": "07:30",
+        "fr": "07:30",
+        "es": "07:30",
+        "it": "07:30",
+        "da": "07:30",
+        "sv": "07:30",
+        "no": "07:30",
+        "pl": "07:30",
+        "ru": "07:30",
+        "ar": "07:30",
+        "ko": "07:30"
+      },
+      "title": {
+        "en": "Departure",
+        "nl": "Vertrek",
+        "de": "Abfahrt",
+        "fr": "Départ",
+        "es": "Salida",
+        "it": "Partenza",
+        "da": "Afgang",
+        "sv": "Avgång",
+        "no": "Avgang",
+        "pl": "Wyjazd",
+        "ru": "Отправление",
+        "ar": "المغادرة",
+        "ko": "출발"
+      }
+    }
+  ]
+}

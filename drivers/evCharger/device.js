@@ -143,6 +143,10 @@ class CarChargeDevice extends GenericDevice {
         this.log(`EV plan for tomorrow set to ${value}`);
         await this.setTomorrowPlan(value);
       });
+      this.registerCapabilityListener('ev_tomorrow_time', async (value) => {
+        this.log(`EV departure tomorrow set to ${value}`);
+        await this.setTomorrowDeparture(value === 'auto' ? null : value);
+      });
       this.registerCapabilityListener('button.retrain', async () => {
         this.log('[EV Slot] Manual retrain triggered via button.retrain');
         await this.learnDeparturePattern(); // Re-bootstraps from Insights, keeping what was learned live
@@ -295,8 +299,9 @@ class CarChargeDevice extends GenericDevice {
     if (this.sourceCapGroup.measure) {
       this.capabilityInstances.measurePowerRealtime = await this.sourceDevice.makeCapabilityInstance(
         'measure_power',
-        async (value) => {
-          if (typeof value === 'number') {
+        async (raw) => {
+          if (typeof raw === 'number') {
+            const value = this._chargePower(raw);
             // measure_power on an EV charger follows Homey's standard (positive = charging the
             // car); updateMeterFromMeasure() internally re-writes measure_watt_avg with whatever
             // sign it's given (overwriting the setCapability above) and also buckets kWh into
@@ -398,6 +403,12 @@ class CarChargeDevice extends GenericDevice {
       const tm = lastUpdated ? new Date(lastUpdated).getTime() : NaN;
       this.signals.switchOnSince = Number.isFinite(tm) ? tm : Date.now();
     }
+  }
+
+  // Without V2X the car only takes power: a small negative idle reading of the charger (e.g. a
+  // smart plug's -0.1 W) is 0, also for the energy integrated from it.
+  _chargePower(power) {
+    return this.getSettings().v2x ? power : Math.max(0, power);
   }
 
   _onChargerPower(power) {
@@ -821,8 +832,9 @@ class CarChargeDevice extends GenericDevice {
     // Instantaneous power
     const targetMeasureCap = this.ds.cmap.measure_source;
     if (this.sourceCapGroup.measure && this.sourceDevice.capabilitiesObj?.measure_power) {
-      const rtValue = this.sourceDevice.capabilitiesObj.measure_power.value;
-      if (typeof rtValue === 'number') {
+      const rawValue = this.sourceDevice.capabilitiesObj.measure_power.value;
+      if (typeof rawValue === 'number') {
+        const rtValue = this._chargePower(rawValue);
         if (targetMeasureCap) await this.setCapability(targetMeasureCap, rtValue).catch(this.error);
         // See addListeners() for why this must not be negated (Homey standard: charging = positive).
         if (!this.sourceCapGroup.p1) await this.updateMeterFromMeasure(rtValue).catch(this.error);
@@ -984,7 +996,7 @@ class CarChargeDevice extends GenericDevice {
         if (t < now) {
           this.setStoreValue('tripOverride', null).catch(this.error); // done
         } else {
-          overrides[EvUsageModel.localDateStr(new Date(t), tz)] = { type: 'boost', soc: trip.targetSoc || 80, time: trip.departureTime };
+          overrides[EvUsageModel.localDateStr(new Date(t), tz)] = { type: 'min', soc: trip.targetSoc || 80, time: trip.departureTime };
         }
       }
     }
@@ -1012,37 +1024,64 @@ class CarChargeDevice extends GenericDevice {
     await this.updateChargeChart().catch(this.error);
   }
 
-  // Picker / flow: 'normal', 'unused' or 'boost_<soc>'.
+  // Picker / flow: 'auto', 'unused' or 'min_<soc>' ('normal' and 'boost_<soc>' from v9 beta flows).
   async setTomorrowPlan(value) {
+    const min = /^(?:min|boost)_(\d+)$/.exec(value || '');
+    if (min) {
+      await this.setTomorrowMinSoc(Number(min[1]));
+      return;
+    }
     const tz = this.timeZone || this.homey.clock.getTimezone();
     const date = this._tomorrowDate(tz);
-    let override = null;
+    // A departure time set for that day stays, except when the car is not used.
+    const existing = (this.getStoreValue('evOverrides') || {})[date];
+    const time = (existing && existing.time) || null;
+    let override = time ? { type: 'departure', time } : null;
     if (value === 'unused') override = { type: 'unused' };
-    const boost = /^boost_(\d+)$/.exec(value || '');
-    if (boost) override = { type: 'boost', soc: Number(boost[1]), time: null };
-    // "Normal" also ends a legacy trip override (old flow cards / pickers).
-    if (!override) await this.setStoreValue('tripOverride', null).catch(this.error);
+    // "Automatic" also ends a legacy trip override (old flow cards / pickers).
+    else await this.setStoreValue('tripOverride', null).catch(this.error);
     await this._setOverride(date, override);
   }
 
-  // Flow: long trip tomorrow at HH:MM with a target SoC.
-  async setBoost(soc, time) {
+  // Picker / flow: at least soc % at tomorrow's departure, once; keeps a departure time set.
+  async setTomorrowMinSoc(soc) {
     const tz = this.timeZone || this.homey.clock.getTimezone();
-    const target = Math.max(50, Math.min(100, Number(soc) || 100));
-    const hhmm = EvPlanner.hhmmToFh(time) !== null ? time : null;
-    await this._setOverride(this._tomorrowDate(tz), { type: 'boost', soc: target, time: hhmm });
+    const date = this._tomorrowDate(tz);
+    const existing = (this.getStoreValue('evOverrides') || {})[date];
+    const time = (existing && existing.time) || null;
+    await this._setOverride(date, { type: 'min', soc: Math.max(10, Math.min(100, Math.round(soc))), time });
+  }
+
+  // Picker / flow: tomorrow's departure at another time (HH:MM), once; null = as learned. Keeps a
+  // minimum SoC set, and a time means the car is used that day.
+  async setTomorrowDeparture(time) {
+    const tz = this.timeZone || this.homey.clock.getTimezone();
+    const date = this._tomorrowDate(tz);
+    const existing = (this.getStoreValue('evOverrides') || {})[date];
+    let override = null;
+    if (existing && (existing.type === 'min' || existing.type === 'boost')) override = { ...existing, time };
+    else if (time) override = { type: 'departure', time };
+    else if (existing && existing.type === 'unused') override = existing;
+    await this._setOverride(date, override);
+  }
+
+  // Departure time picker: tomorrow's set time (to the half hour), else 'auto'.
+  _tomorrowTimePickerValue(overrides, tz) {
+    const ov = overrides[this._tomorrowDate(tz)];
+    const fh = ov ? EvPlanner.hhmmToFh(ov.time) : null;
+    if (fh === null) return 'auto';
+    const half = Math.round(fh * 2) % 48;
+    return `${String(Math.floor(half / 2)).padStart(2, '0')}:${half % 2 ? '30' : '00'}`;
   }
 
   _tomorrowPickerValue(overrides, tz) {
     const ov = overrides[this._tomorrowDate(tz)];
-    if (!ov) return 'normal';
+    if (!ov) return 'auto';
     if (ov.type === 'unused') return 'unused';
-    if (ov.type === 'boost') {
-      const steps = [70, 80, 90, 100];
-      const nearest = steps.reduce((a, b) => (Math.abs(b - ov.soc) < Math.abs(a - ov.soc) ? b : a));
-      return `boost_${nearest}`;
+    if (ov.type === 'min' || ov.type === 'boost') {
+      return `min_${Math.max(30, Math.min(100, Math.round(ov.soc / 10) * 10))}`;
     }
-    return 'normal';
+    return 'auto';
   }
 
   // Expected solar surplus (kWh, grid side) per price slot, from the grid device's forecast of home
@@ -1149,6 +1188,13 @@ class CarChargeDevice extends GenericDevice {
     const n = Math.ceil((EvPlanner.HORIZON_DAYS * 24 * 60) / intervalMin);
     const chargeMode = this.getCapabilityValue('ev_charge_mode') || 'scheduled_price';
 
+    // Cheap enough to charge beyond the needs: under the usual lowest price of a day, learned from
+    // the published prices over the last 14 days, or the user's fixed price.
+    const cheap = EvPlanner.cheapThreshold({
+      mode: settings.cheapCharge || 'auto', price: settings.cheapPrice, dailyMin: EvPriceProfile.typicalDailyMin(this.priceProfile),
+    });
+    const firstForecast = (this.pricesNextHoursIsForecast || []).findIndex(Boolean);
+
     const planStart = Date.now();
     const result = EvPlanner.plan({
       now,
@@ -1170,6 +1216,8 @@ class CarChargeDevice extends GenericDevice {
       floorSoc: num(settings.floorSoc, 15),
       maxSoc: num(settings.maxSoc, 80),
       mode: this._plannerMode(chargeMode),
+      cheapThreshold: cheap,
+      certainSlots: firstForecast >= 0 ? firstForecast : undefined,
       variablePower: !!settings.variableChargePower,
     });
     const strategy = result.scheme;
@@ -1183,9 +1231,11 @@ class CarChargeDevice extends GenericDevice {
       : '-';
     if (this.hasCapability('ev_next_departure')) await this.setCapability('ev_next_departure', nextText);
     if (this.hasCapability('ev_tomorrow')) await this.setCapability('ev_tomorrow', this._tomorrowPickerValue(overrides, tz));
+    if (this.hasCapability('ev_tomorrow_time')) await this.setCapability('ev_tomorrow_time', this._tomorrowTimePickerValue(overrides, tz));
     const nowSlot = strategy[0] || {};
     this.log(`[EV Plan] ${chargeMode}, SoC ${Math.round(currentSoc)}%${atHome ? '' : ' (predicted return)'}, next: ${nextText}, `
       + `now: ${nowSlot.duration ? `${nowSlot.duration} min${nowSlot.solar ? ' solar' : ''}` : 'no'}, price level x${level.toFixed(2)}`
+      + `, cheap ${cheap ? `<= ${cheap.grid.toFixed(3)} (solar ${cheap.solar.toFixed(3)}, ${EvPriceProfile.dailyMinDays(this.priceProfile)} days)` : 'off'}`
       + `${result.shortfalls.length ? `, short: ${result.shortfalls.map((sf) => `${sf.what} ${sf.missing}%`).join(', ')}` : ''}`
       + `, ${planMs} ms`);
 

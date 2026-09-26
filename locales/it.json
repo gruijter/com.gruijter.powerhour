@@ -52,5 +52,6 @@
   "ev_profile_not_learned": "Non ancora appreso",
   "ev_weekly": "Schema di guida",
   "ev_chart_reserve": "Riserva",
-  "ev_chart_assumed": "Presunto"
+  "ev_chart_assumed": "Presunto",
+  "error_invalid_time": "Ora non valida: __time__. Usa HH:MM"
 }

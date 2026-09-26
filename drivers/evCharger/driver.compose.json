@@ -331,24 +331,153 @@
             "ko": "일일 최대 SoC (%)"
           },
           "hint": {
-            "en": "Upper limit except for a long-trip boost.",
-            "nl": "Bovengrens, behalve bij een boost voor een lange rit.",
-            "de": "Obergrenze, außer bei einem Boost für eine lange Fahrt.",
-            "fr": "Limite haute, sauf boost pour un long trajet.",
-            "es": "Límite superior, salvo un impulso para un viaje largo.",
-            "it": "Limite superiore, salvo boost per un viaggio lungo.",
-            "da": "Øvre grænse, undtagen ved boost til en lang tur.",
-            "sv": "Övre gräns, utom vid boost för en lång resa.",
-            "no": "Øvre grense, unntatt ved boost for en lang tur.",
-            "pl": "Górny limit, poza boostem na długą trasę.",
-            "ru": "Верхний предел, кроме буста для дальней поездки.",
-            "ar": "الحد الأعلى إلا عند التعزيز لرحلة طويلة.",
-            "ko": "장거리 부스트를 제외한 상한값입니다."
+            "en": "Upper limit, unless a higher Min. SoC tomorrow is set.",
+            "nl": "Bovengrens, tenzij een hogere Min. SoC morgen is ingesteld.",
+            "de": "Obergrenze, außer ein höherer Min. SoC morgen ist gesetzt.",
+            "fr": "Limite haute, sauf si un SoC min. demain plus élevé est réglé.",
+            "es": "Límite superior, salvo que se fije un SoC mín. mañana más alto.",
+            "it": "Limite superiore, salvo un SoC min. domani più alto.",
+            "da": "Øvre grænse, medmindre en højere Min. SoC i morgen er sat.",
+            "sv": "Övre gräns, om inte en högre Min. SoC i morgon är inställd.",
+            "no": "Øvre grense, med mindre en høyere Min. SoC i morgen er satt.",
+            "pl": "Górny limit, chyba że ustawiono wyższy Min. SoC jutro.",
+            "ru": "Верхний предел, если не задан более высокий Мин. заряд завтра.",
+            "ar": "الحد الأعلى، ما لم يُضبط حد أدنى أعلى للشحن غدًا.",
+            "ko": "내일 최소 충전량이 더 높게 설정되지 않는 한 상한값입니다."
           },
           "value": 80,
           "min": 20,
           "max": 100,
           "decimals": 0
+        },
+        {
+          "id": "cheapCharge",
+          "type": "dropdown",
+          "value": "auto",
+          "label": {
+            "en": "Charge to max SoC when cheap",
+            "nl": "Doorladen tot max SoC bij goedkope stroom",
+            "de": "Bis max. SoC laden wenn günstig",
+            "fr": "Charger jusqu'au SoC max si bon marché",
+            "es": "Cargar hasta SoC máx. si es barato",
+            "it": "Carica fino al SoC max se economico",
+            "da": "Lad til maks. SoC når det er billigt",
+            "sv": "Ladda till max SoC när det är billigt",
+            "no": "Lad til maks SoC når det er billig",
+            "pl": "Ładuj do maks. SoC, gdy tanio",
+            "ru": "Заряжать до макс. при дешёвом токе",
+            "ar": "الشحن حتى الحد الأقصى عند رخص السعر",
+            "ko": "저렴할 때 최대 SoC까지 충전"
+          },
+          "hint": {
+            "en": "Charges beyond what the trips need, up to the max SoC, when the price is cheap, unless it can be done clearly cheaper later. Automatic: at least 10% under the usual lowest price of a day (last 14 days; learned in about a week). A price of 0 or less always counts as cheap.",
+            "nl": "Laadt meer dan de ritten nodig hebben, tot de max SoC, als de prijs goedkoop is, tenzij het later duidelijk goedkoper kan. Automatisch: minstens 10% onder de gewone laagste prijs van een dag (laatste 14 dagen; na ongeveer een week geleerd). Een prijs van 0 of lager telt altijd als goedkoop.",
+            "de": "Lädt über den Bedarf der Fahrten hinaus bis zum max. SoC, wenn der Preis günstig ist, außer es geht später deutlich günstiger. Automatisch: mindestens 10% unter dem üblichen Tagestiefstpreis (letzte 14 Tage; nach etwa einer Woche gelernt). Ein Preis von 0 oder weniger gilt immer als günstig.",
+            "fr": "Charge au-delà des besoins des trajets, jusqu'au SoC max, quand le prix est bas, sauf si c'est nettement moins cher plus tard. Automatique : au moins 10% sous le prix le plus bas habituel d'une journée (14 derniers jours ; appris en une semaine environ). Un prix de 0 ou moins est toujours bon marché.",
+            "es": "Carga más de lo que necesitan los viajes, hasta el SoC máx., cuando el precio es barato, salvo que después sea claramente más barato. Automático: al menos un 10% por debajo del precio mínimo habitual de un día (últimos 14 días; aprendido en una semana aprox.). Un precio de 0 o menos siempre cuenta como barato.",
+            "it": "Carica oltre il necessario per i viaggi, fino al SoC max, quando il prezzo è basso, a meno che dopo sia nettamente più economico. Automatico: almeno il 10% sotto il prezzo minimo abituale di un giorno (ultimi 14 giorni; appreso in circa una settimana). Un prezzo di 0 o meno è sempre economico.",
+            "da": "Lader mere end turene kræver, op til maks. SoC, når prisen er billig, medmindre det bliver tydeligt billigere senere. Automatisk: mindst 10% under dagens sædvanlige laveste pris (sidste 14 dage; lært efter ca. en uge). En pris på 0 eller mindre er altid billig.",
+            "sv": "Laddar mer än resorna behöver, upp till max SoC, när priset är lågt, om det inte blir tydligt billigare senare. Automatisk: minst 10% under dagens vanliga lägsta pris (senaste 14 dagarna; inlärt efter ungefär en vecka). Ett pris på 0 eller lägre räknas alltid som billigt.",
+            "no": "Lader mer enn turene trenger, opp til maks SoC, når prisen er lav, med mindre det blir tydelig billigere senere. Automatisk: minst 10% under dagens vanlige laveste pris (siste 14 dager; lært etter omtrent en uke). En pris på 0 eller lavere regnes alltid som billig.",
+            "pl": "Ładuje ponad potrzeby tras, do maks. SoC, gdy cena jest niska, chyba że później będzie wyraźnie taniej. Automatycznie: co najmniej 10% poniżej zwykłej najniższej ceny dnia (ostatnie 14 dni; nauczone po ok. tygodniu). Cena 0 lub niższa zawsze jest tania.",
+            "ru": "Заряжает сверх нужного для поездок, до макс. заряда, когда цена низкая, если позже не будет заметно дешевле. Автоматически: минимум на 10% ниже обычной минимальной цены дня (последние 14 дней; изучается примерно за неделю). Цена 0 или ниже всегда считается дешёвой.",
+            "ar": "يشحن أكثر مما تحتاجه الرحلات حتى الحد الأقصى عندما يكون السعر رخيصًا، ما لم يكن أرخص بوضوح لاحقًا. تلقائي: أقل بـ 10% على الأقل من أدنى سعر معتاد لليوم (آخر 14 يومًا؛ يُتعلَّم خلال أسبوع تقريبًا). السعر 0 أو أقل يُعد رخيصًا دائمًا.",
+            "ko": "가격이 저렴하면 주행에 필요한 것 이상으로 최대 SoC까지 충전합니다. 나중에 확실히 더 저렴하면 제외. 자동: 하루 평소 최저가보다 최소 10% 낮을 때 (최근 14일; 약 일주일 후 학습). 0 이하 가격은 항상 저렴한 것으로 봅니다."
+          },
+          "values": [
+            {
+              "id": "auto",
+              "label": {
+                "en": "Automatic",
+                "nl": "Automatisch",
+                "de": "Automatisch",
+                "fr": "Automatique",
+                "es": "Automático",
+                "it": "Automatico",
+                "da": "Automatisk",
+                "sv": "Automatisk",
+                "no": "Automatisk",
+                "pl": "Automatycznie",
+                "ru": "Автоматически",
+                "ar": "تلقائي",
+                "ko": "자동"
+              }
+            },
+            {
+              "id": "fixed",
+              "label": {
+                "en": "Below fixed price",
+                "nl": "Onder vaste prijs",
+                "de": "Unter festem Preis",
+                "fr": "Sous un prix fixe",
+                "es": "Bajo precio fijo",
+                "it": "Sotto prezzo fisso",
+                "da": "Under fast pris",
+                "sv": "Under fast pris",
+                "no": "Under fast pris",
+                "pl": "Poniżej stałej ceny",
+                "ru": "Ниже заданной цены",
+                "ar": "تحت سعر ثابت",
+                "ko": "고정 가격 이하"
+              }
+            },
+            {
+              "id": "off",
+              "label": {
+                "en": "Off",
+                "nl": "Uit",
+                "de": "Aus",
+                "fr": "Désactivé",
+                "es": "Apagado",
+                "it": "Spento",
+                "da": "Fra",
+                "sv": "Av",
+                "no": "Av",
+                "pl": "Wyłączone",
+                "ru": "Выкл.",
+                "ar": "إيقاف",
+                "ko": "끄기"
+              }
+            }
+          ]
+        },
+        {
+          "id": "cheapPrice",
+          "type": "number",
+          "value": 0.16,
+          "min": -1,
+          "max": 10,
+          "step": 0.01,
+          "label": {
+            "en": "Cheap price (per kWh)",
+            "nl": "Goedkope prijs (per kWh)",
+            "de": "Günstiger Preis (pro kWh)",
+            "fr": "Prix bas (par kWh)",
+            "es": "Precio barato (por kWh)",
+            "it": "Prezzo economico (per kWh)",
+            "da": "Billig pris (pr. kWh)",
+            "sv": "Billigt pris (per kWh)",
+            "no": "Billig pris (per kWh)",
+            "pl": "Tania cena (za kWh)",
+            "ru": "Дешёвая цена (за кВт·ч)",
+            "ar": "سعر رخيص (لكل كيلوواط ساعة)",
+            "ko": "저렴한 가격 (kWh당)"
+          },
+          "hint": {
+            "en": "For 'Below fixed price'. Same kind of price as the tariff (with taxes if the tariff has them).",
+            "nl": "Voor 'Onder vaste prijs'. Dezelfde soort prijs als het tarief (met belastingen als het tarief die heeft).",
+            "de": "Für 'Unter festem Preis'. Gleiche Preisart wie der Tarif (mit Steuern, wenn der Tarif sie enthält).",
+            "fr": "Pour 'Sous un prix fixe'. Même type de prix que le tarif (taxes comprises si le tarif les inclut).",
+            "es": "Para 'Bajo precio fijo'. El mismo tipo de precio que la tarifa (con impuestos si la tarifa los incluye).",
+            "it": "Per 'Sotto prezzo fisso'. Stesso tipo di prezzo della tariffa (con tasse se la tariffa le include).",
+            "da": "Til 'Under fast pris'. Samme slags pris som tariffen (med afgifter, hvis tariffen har dem).",
+            "sv": "För 'Under fast pris'. Samma slags pris som tariffen (med skatter om tariffen har dem).",
+            "no": "For 'Under fast pris'. Samme type pris som tariffen (med avgifter hvis tariffen har dem).",
+            "pl": "Dla 'Poniżej stałej ceny'. Ten sam rodzaj ceny co taryfa (z podatkami, jeśli taryfa je zawiera).",
+            "ru": "Для 'Ниже заданной цены'. Тот же вид цены, что и тариф (с налогами, если они в тарифе).",
+            "ar": "لخيار 'تحت سعر ثابت'. نفس نوع السعر كالتعرفة (مع الضرائب إن كانت التعرفة تشملها).",
+            "ko": "'고정 가격 이하'용. 요금과 같은 종류의 가격(요금에 세금이 포함되면 세금 포함)."
+          }
         },
         {
           "id": "chargerControl",

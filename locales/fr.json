@@ -52,5 +52,6 @@
   "ev_profile_not_learned": "Pas encore appris",
   "ev_weekly": "Trajets",
   "ev_chart_reserve": "Réserve",
-  "ev_chart_assumed": "Supposé"
+  "ev_chart_assumed": "Supposé",
+  "error_invalid_time": "Heure invalide : __time__. Utilisez HH:MM"
 }

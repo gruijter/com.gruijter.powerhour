@@ -1,0 +1,91 @@
+{
+  "title": {
+    "en": "Min. SoC tomorrow",
+    "nl": "Min. SoC morgen",
+    "de": "Min. SoC morgen",
+    "fr": "SoC min. demain",
+    "es": "SoC mín. mañana",
+    "it": "SoC min. domani",
+    "da": "Min. SoC i morgen",
+    "sv": "Min. SoC i morgon",
+    "no": "Min. SoC i morgen",
+    "pl": "Min. SoC jutro",
+    "ru": "Мин. заряд завтра",
+    "ar": "الحد الأدنى للشحن غدًا",
+    "ko": "내일 최소 충전량"
+  },
+  "titleFormatted": {
+    "en": "Min. SoC tomorrow [[soc]]%",
+    "nl": "Min. SoC morgen [[soc]]%",
+    "de": "Min. SoC morgen [[soc]]%",
+    "fr": "SoC min. demain [[soc]]%",
+    "es": "SoC mín. mañana [[soc]]%",
+    "it": "SoC min. domani [[soc]]%",
+    "da": "Min. SoC i morgen [[soc]]%",
+    "sv": "Min. SoC i morgon [[soc]]%",
+    "no": "Min. SoC i morgen [[soc]]%",
+    "pl": "Min. SoC jutro [[soc]]%",
+    "ru": "Мин. заряд завтра [[soc]]%",
+    "ar": "الحد الأدنى للشحن غدًا [[soc]]%",
+    "ko": "내일 최소 충전량 [[soc]]%"
+  },
+  "hint": {
+    "en": "At least this SoC at tomorrow's departure, once; also lower than planned. Also from a number tag.",
+    "nl": "Minstens deze SoC bij vertrek morgen, eenmalig; mag ook lager dan gepland. Ook uit een getal-tag.",
+    "de": "Mindestens dieser SoC bei der Abfahrt morgen, einmalig; auch niedriger als geplant. Auch aus einem Zahlen-Tag.",
+    "fr": "Au moins ce SoC au départ demain, une fois ; peut être inférieur au plan. Aussi depuis un tag numérique.",
+    "es": "Al menos este SoC en la salida de mañana, una vez; también menor que lo previsto. También desde una etiqueta numérica.",
+    "it": "Almeno questo SoC alla partenza di domani, una volta; anche inferiore al previsto. Anche da un tag numerico.",
+    "da": "Mindst denne SoC ved afgang i morgen, én gang; også lavere end planlagt. Også fra et tal-tag.",
+    "sv": "Minst denna SoC vid avgång i morgon, en gång; även lägre än planerat. Även från en siffertagg.",
+    "no": "Minst denne SoC ved avgang i morgen, én gang; også lavere enn planlagt. Også fra en talltagg.",
+    "pl": "Co najmniej ten SoC przy jutrzejszym wyjeździe, jednorazowo; także niższy niż planowany. Także z tagu liczbowego.",
+    "ru": "Не меньше этого заряда при отправлении завтра, однократно; можно ниже запланированного. Также из числового тега.",
+    "ar": "على الأقل نسبة الشحن هذه عند مغادرة الغد، لمرة واحدة؛ ويمكن أقل من المخطط. ويمكن من وسم رقمي أيضًا.",
+    "ko": "내일 출발 시 최소 이 충전량, 1회; 계획보다 낮게도 가능. 숫자 태그도 가능."
+  },
+  "args": [
+    {
+      "type": "device",
+      "name": "device",
+      "filter": "driver_id=evCharger"
+    },
+    {
+      "type": "number",
+      "name": "soc",
+      "min": 10,
+      "max": 100,
+      "step": 1,
+      "title": {
+        "en": "SoC (%)",
+        "nl": "SoC (%)",
+        "de": "SoC (%)",
+        "fr": "SoC (%)",
+        "es": "SoC (%)",
+        "it": "SoC (%)",
+        "da": "SoC (%)",
+        "sv": "SoC (%)",
+        "no": "SoC (%)",
+        "pl": "SoC (%)",
+        "ru": "SoC (%)",
+        "ar": "SoC (%)",
+        "ko": "SoC (%)"
+      },
+      "placeholder": {
+        "en": "80",
+        "nl": "80",
+        "de": "80",
+        "fr": "80",
+        "es": "80",
+        "it": "80",
+        "da": "80",
+        "sv": "80",
+        "no": "80",
+        "pl": "80",
+        "ru": "80",
+        "ar": "80",
+        "ko": "80"
+      }
+    }
+  ]
+}

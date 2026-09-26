@@ -52,5 +52,6 @@
   "ev_profile_not_learned": "لم يتم التعلم بعد",
   "ev_weekly": "نمط القيادة",
   "ev_chart_reserve": "الاحتياطي",
-  "ev_chart_assumed": "مفترض"
+  "ev_chart_assumed": "مفترض",
+  "error_invalid_time": "وقت غير صالح: __time__. استخدم HH:MM"
 }

@@ -52,5 +52,6 @@
   "ev_profile_not_learned": "Jeszcze nie nauczony",
   "ev_weekly": "Wzorzec jazdy",
   "ev_chart_reserve": "Rezerwa",
-  "ev_chart_assumed": "Założone"
+  "ev_chart_assumed": "Założone",
+  "error_invalid_time": "Nieprawidłowa godzina: __time__. Użyj GG:MM"
 }

@@ -52,5 +52,6 @@
   "ev_profile_not_learned": "Not learned yet",
   "ev_weekly": "Driving pattern",
   "ev_chart_reserve": "Reserve",
-  "ev_chart_assumed": "Assumed"
+  "ev_chart_assumed": "Assumed",
+  "error_invalid_time": "Invalid time: __time__. Use HH:MM"
 }

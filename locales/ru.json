@@ -52,5 +52,6 @@
   "ev_profile_not_learned": "Ещё не изучено",
   "ev_weekly": "Режим поездок",
   "ev_chart_reserve": "Резерв",
-  "ev_chart_assumed": "Предполагаемо"
+  "ev_chart_assumed": "Предполагаемо",
+  "error_invalid_time": "Неверное время: __time__. Используйте ЧЧ:ММ"
 }

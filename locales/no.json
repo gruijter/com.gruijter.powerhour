@@ -52,5 +52,6 @@
   "ev_profile_not_learned": "Ikke lært ennå",
   "ev_weekly": "Kjøremønster",
   "ev_chart_reserve": "Reserve",
-  "ev_chart_assumed": "Antatt"
+  "ev_chart_assumed": "Antatt",
+  "error_invalid_time": "Ugyldig tid: __time__. Bruk TT:MM"
 }

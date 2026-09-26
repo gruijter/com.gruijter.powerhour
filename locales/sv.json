@@ -52,5 +52,6 @@
   "ev_profile_not_learned": "Ännu inte inlärt",
   "ev_weekly": "Körmönster",
   "ev_chart_reserve": "Reserv",
-  "ev_chart_assumed": "Antaget"
+  "ev_chart_assumed": "Antaget",
+  "error_invalid_time": "Ogiltig tid: __time__. Använd HH:MM"
 }
