@@ -49,5 +49,8 @@
   "ev_profile_regular": "Día de uso",
   "ev_profile_sometimes": "A veces",
   "ev_profile_unused": "Sin uso",
-  "ev_profile_not_learned": "Aún no aprendido"
+  "ev_profile_not_learned": "Aún no aprendido",
+  "ev_weekly": "Patrón de uso",
+  "ev_chart_reserve": "Reserva",
+  "ev_chart_assumed": "Supuesto"
 }

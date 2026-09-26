@@ -49,5 +49,8 @@
   "ev_profile_regular": "운행일",
   "ev_profile_sometimes": "가끔",
   "ev_profile_unused": "미사용",
-  "ev_profile_not_learned": "아직 학습되지 않음"
+  "ev_profile_not_learned": "아직 학습되지 않음",
+  "ev_weekly": "주행 패턴",
+  "ev_chart_reserve": "예비",
+  "ev_chart_assumed": "가정"
 }

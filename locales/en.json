@@ -49,5 +49,8 @@
   "ev_profile_regular": "Driving day",
   "ev_profile_sometimes": "Sometimes",
   "ev_profile_unused": "Not used",
-  "ev_profile_not_learned": "Not learned yet"
+  "ev_profile_not_learned": "Not learned yet",
+  "ev_weekly": "Driving pattern",
+  "ev_chart_reserve": "Reserve",
+  "ev_chart_assumed": "Assumed"
 }

@@ -49,5 +49,8 @@
   "ev_profile_regular": "Køredag",
   "ev_profile_sometimes": "Nogle gange",
   "ev_profile_unused": "Ikke brugt",
-  "ev_profile_not_learned": "Endnu ikke lært"
+  "ev_profile_not_learned": "Endnu ikke lært",
+  "ev_weekly": "Kørselsmønster",
+  "ev_chart_reserve": "Reserve",
+  "ev_chart_assumed": "Antaget"
 }

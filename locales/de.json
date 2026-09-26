@@ -49,5 +49,8 @@
   "ev_profile_regular": "Fahrtag",
   "ev_profile_sometimes": "Manchmal",
   "ev_profile_unused": "Nicht genutzt",
-  "ev_profile_not_learned": "Noch nicht gelernt"
+  "ev_profile_not_learned": "Noch nicht gelernt",
+  "ev_weekly": "Fahrmuster",
+  "ev_chart_reserve": "Reserve",
+  "ev_chart_assumed": "Angenommen"
 }

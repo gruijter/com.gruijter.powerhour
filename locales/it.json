@@ -49,5 +49,8 @@
   "ev_profile_regular": "Giorno di guida",
   "ev_profile_sometimes": "A volte",
   "ev_profile_unused": "Non usata",
-  "ev_profile_not_learned": "Non ancora appreso"
+  "ev_profile_not_learned": "Non ancora appreso",
+  "ev_weekly": "Schema di guida",
+  "ev_chart_reserve": "Riserva",
+  "ev_chart_assumed": "Presunto"
 }

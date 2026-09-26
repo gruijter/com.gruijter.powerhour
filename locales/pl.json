@@ -49,5 +49,8 @@
   "ev_profile_regular": "Dzień jazdy",
   "ev_profile_sometimes": "Czasami",
   "ev_profile_unused": "Nieużywany",
-  "ev_profile_not_learned": "Jeszcze nie nauczony"
+  "ev_profile_not_learned": "Jeszcze nie nauczony",
+  "ev_weekly": "Wzorzec jazdy",
+  "ev_chart_reserve": "Rezerwa",
+  "ev_chart_assumed": "Założone"
 }

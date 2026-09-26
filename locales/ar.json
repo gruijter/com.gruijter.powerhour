@@ -49,5 +49,8 @@
   "ev_profile_regular": "يوم قيادة",
   "ev_profile_sometimes": "أحيانًا",
   "ev_profile_unused": "غير مستخدمة",
-  "ev_profile_not_learned": "لم يتم التعلم بعد"
+  "ev_profile_not_learned": "لم يتم التعلم بعد",
+  "ev_weekly": "نمط القيادة",
+  "ev_chart_reserve": "الاحتياطي",
+  "ev_chart_assumed": "مفترض"
 }

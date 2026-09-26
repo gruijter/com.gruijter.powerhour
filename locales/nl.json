@@ -49,5 +49,8 @@
   "ev_profile_regular": "Rijdag",
   "ev_profile_sometimes": "Soms",
   "ev_profile_unused": "Niet gebruikt",
-  "ev_profile_not_learned": "Nog niet geleerd"
+  "ev_profile_not_learned": "Nog niet geleerd",
+  "ev_weekly": "Rijpatroon",
+  "ev_chart_reserve": "Reserve",
+  "ev_chart_assumed": "Aangenomen"
 }

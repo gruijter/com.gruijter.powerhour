@@ -17581,44 +17581,6 @@
               "decimals": 1
             },
             {
-              "id": "targetSoc",
-              "type": "number",
-              "label": {
-                "en": "Target SoC while learning (%)",
-                "nl": "Doel-SoC tijdens leren (%)",
-                "de": "Ziel-SoC beim Lernen (%)",
-                "fr": "SoC cible pendant l'apprentissage (%)",
-                "es": "SoC objetivo durante aprendizaje (%)",
-                "it": "SoC target in apprendimento (%)",
-                "da": "Mål-SoC under indlæring (%)",
-                "sv": "Mål-SoC under inlärning (%)",
-                "no": "Mål-SoC under læring (%)",
-                "pl": "Docelowy SoC podczas nauki (%)",
-                "ru": "Целевой SoC при обучении (%)",
-                "ar": "هدف SoC أثناء التعلم (%)",
-                "ko": "학습 중 목표 SoC (%)"
-              },
-              "hint": {
-                "en": "Charged to this by 08:00 on weekdays not learned yet.",
-                "nl": "Hiertoe wordt om 08:00 geladen op weekdagen die nog niet geleerd zijn.",
-                "de": "Bis 08:00 wird hierauf geladen, an noch nicht gelernten Wochentagen.",
-                "fr": "Chargé à cette valeur pour 08:00 les jours pas encore appris.",
-                "es": "Se carga a este valor para las 08:00 los días aún no aprendidos.",
-                "it": "Caricata a questo valore entro le 08:00 nei giorni non ancora appresi.",
-                "da": "Lades hertil kl. 08:00 på ugedage, der endnu ikke er lært.",
-                "sv": "Laddas hit till kl. 08:00 på veckodagar som ännu inte är inlärda.",
-                "no": "Lades hit til kl. 08:00 på ukedager som ikke er lært ennå.",
-                "pl": "Ładowanie do tej wartości na 08:00 w dni jeszcze nienauczone.",
-                "ru": "Заряжается до этого значения к 08:00 в ещё не изученные дни.",
-                "ar": "يُشحن إلى هذه القيمة بحلول 08:00 في الأيام غير المتعلمة بعد.",
-                "ko": "아직 학습되지 않은 요일에는 08:00까지 이 값으로 충전합니다."
-              },
-              "value": 100,
-              "min": 10,
-              "max": 100,
-              "decimals": 0
-            },
-            {
               "id": "reserveSoc",
               "type": "number",
               "label": {

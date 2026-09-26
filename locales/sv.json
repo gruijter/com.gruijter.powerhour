@@ -49,5 +49,8 @@
   "ev_profile_regular": "Kördag",
   "ev_profile_sometimes": "Ibland",
   "ev_profile_unused": "Används inte",
-  "ev_profile_not_learned": "Ännu inte inlärt"
+  "ev_profile_not_learned": "Ännu inte inlärt",
+  "ev_weekly": "Körmönster",
+  "ev_chart_reserve": "Reserv",
+  "ev_chart_assumed": "Antaget"
 }

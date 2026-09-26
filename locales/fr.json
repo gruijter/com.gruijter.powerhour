@@ -49,5 +49,8 @@
   "ev_profile_regular": "Jour de route",
   "ev_profile_sometimes": "Parfois",
   "ev_profile_unused": "Non utilisée",
-  "ev_profile_not_learned": "Pas encore appris"
+  "ev_profile_not_learned": "Pas encore appris",
+  "ev_weekly": "Trajets",
+  "ev_chart_reserve": "Réserve",
+  "ev_chart_assumed": "Supposé"
 }

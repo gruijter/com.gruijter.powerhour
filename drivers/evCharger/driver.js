@@ -43,6 +43,10 @@ const driverSpecifics = {
     {
       id: 'yesterdayChargeChart', prop: 'yesterdayChargeImage', chartProp: 'chartYesterdayCharge', titleKey: 'yesterday',
     },
+    // Added later, so last: an image's position is fixed when first registered.
+    {
+      id: 'evWeeklyChart', prop: 'evWeeklyImage', chartProp: 'chartEvWeekly', titleKey: 'ev_weekly',
+    },
   ],
 };
 

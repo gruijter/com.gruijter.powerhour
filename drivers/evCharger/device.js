@@ -9,6 +9,7 @@ const GenericDevice = require('../../lib/genericDeviceDrivers/generic_bat_device
 const EvPlanner = require('../../lib/strategies/EvPlanner');
 const EvPriceProfile = require('../../lib/strategies/EvPriceProfile');
 const TimeHelpers = require('../../lib/helpers/TimeHelpers');
+const { getEvWeeklyChart } = require('../../lib/charts/EvChart');
 const EvUsageModel = require('../../lib/strategies/EvUsageModel');
 const EvPresence = require('../../lib/strategies/EvPresence');
 const EvSocEstimator = require('../../lib/strategies/EvSocEstimator');
@@ -96,6 +97,7 @@ class CarChargeDevice extends GenericDevice {
 
   async onInit() {
     this.ds = deviceSpecifics;
+    this.measureAddsToMeter = true; // consumption only: see generic_bat_device.updateMeterFromMeasure()
     this.flows = new EvFlows(this);
     this.evDevice = null; // optional secondary car device
     this.sourceCapGroup = {};
@@ -809,7 +811,7 @@ class CarChargeDevice extends GenericDevice {
   async onSettings({ newSettings, changedKeys }) {
     await super.onSettings({ newSettings, changedKeys });
     const strategyKeys = [
-      'chargePower', 'batCapacity', 'targetSoc', 'variableChargePower',
+      'chargePower', 'batCapacity', 'variableChargePower',
       'departureTime_0', 'departureTime_1', 'departureTime_2', 'departureTime_3',
       'departureTime_4', 'departureTime_5', 'departureTime_6',
     ];
@@ -1079,11 +1081,11 @@ class CarChargeDevice extends GenericDevice {
       reserveSoc,
       manualTimes: [0, 1, 2, 3, 4, 5, 6].map((i) => settings[`departureTime_${i}`] || ''),
       overrides,
-      fallbackTargetSoc: num(settings.targetSoc, 80),
     });
     const n = Math.ceil((EvPlanner.HORIZON_DAYS * 24 * 60) / intervalMin);
     const chargeMode = this.getCapabilityValue('ev_charge_mode') || 'scheduled_price';
 
+    const planStart = Date.now();
     const result = EvPlanner.plan({
       now,
       slotStartMs,
@@ -1107,6 +1109,7 @@ class CarChargeDevice extends GenericDevice {
       variablePower: !!settings.variableChargePower,
     });
     const strategy = result.scheme;
+    const planMs = Date.now() - planStart;
 
     const { next } = result;
     const nextText = next
@@ -1119,10 +1122,15 @@ class CarChargeDevice extends GenericDevice {
     const nowSlot = strategy[0] || {};
     this.log(`[EV Plan] ${chargeMode}, SoC ${Math.round(currentSoc)}%${atHome ? '' : ' (predicted return)'}, next: ${nextText}, `
       + `now: ${nowSlot.duration ? `${nowSlot.duration} min${nowSlot.solar ? ' solar' : ''}` : 'no'}, price level x${level.toFixed(2)}`
-      + `${result.shortfalls.length ? `, short: ${result.shortfalls.map((sf) => `${sf.what} ${sf.missing}%`).join(', ')}` : ''}`);
+      + `${result.shortfalls.length ? `, short: ${result.shortfalls.map((sf) => `${sf.what} ${sf.missing}%`).join(', ')}` : ''}`
+      + `, ${planMs} ms`);
 
     if (Object.keys(strategy).length) {
-      if (typeof this.flows.triggerNewEvStrategyFlow === 'function') {
+      // Only when the decision for the current slot changed: the plan is recalculated on every SoC
+      // step, presence change, price update and override, which would flood users' flows.
+      const slotKey = `${slotStartMs}|${nowSlot.power || 0}|${Math.round((nowSlot.duration || 0) / 5)}`;
+      if (slotKey !== this.lastStrategyTriggerKey && typeof this.flows.triggerNewEvStrategyFlow === 'function') {
+        this.lastStrategyTriggerKey = slotKey;
         await this.flows.triggerNewEvStrategyFlow(strategy).catch(this.error);
       }
 
@@ -1459,9 +1467,38 @@ class CarChargeDevice extends GenericDevice {
         ? `${(kwhPerKm * 100).toFixed(1)} kWh/100 km (n=${this.usageModel.kwhPerKmSamples})`
         : `- (n=${this.usageModel.kwhPerKmSamples || 0})`;
       await this.setSettings(update).catch(this.error);
+      await this._updateWeeklyChart(profile);
     } catch (e) {
       this.error('_updateLearnedProfileSettings failed:', e);
     }
+  }
+
+  async _updateWeeklyChart(profile) {
+    if (!this.evWeeklyImage) return;
+    const settings = this.getSettings();
+    const lang = this.homey.i18n.getLanguage() || 'en';
+    // 2026-09-28 is a Monday: its week gives the localized day names, Monday first.
+    const dayNames = [0, 1, 2, 3, 4, 5, 6].map((i) => new Date(Date.UTC(2026, 8, 28 + i, 12))
+      .toLocaleDateString(lang, { weekday: 'short', timeZone: 'UTC' }));
+    const chart = getEvWeeklyChart(profile, {
+      capacityKwh: settings.batCapacity || 50,
+      reserveSoc: Number.isFinite(Number(settings.reserveSoc)) ? Number(settings.reserveSoc) : 30,
+      minObserved: EvPlanner.MIN_OBSERVED,
+      defaultNeedPct: EvPlanner.DEFAULT_NEED_PCT,
+      dayNames,
+      labels: {
+        reserve: this.homey.__('ev_chart_reserve'),
+        regular: this.homey.__('ev_profile_regular'),
+        sometimes: this.homey.__('ev_profile_sometimes'),
+        assumed: this.homey.__('ev_chart_assumed'),
+      },
+    });
+    if (!chart) return;
+    const key = JSON.stringify(chart);
+    if (key === this.lastEvWeeklyKey) return; // unchanged: no new render at quickchart.io
+    this.lastEvWeeklyKey = key;
+    this.chartEvWeekly = chart;
+    await this.evWeeklyImage.update().catch(this.error);
   }
 }
 

@@ -49,5 +49,8 @@
   "ev_profile_regular": "День поездок",
   "ev_profile_sometimes": "Иногда",
   "ev_profile_unused": "Не используется",
-  "ev_profile_not_learned": "Ещё не изучено"
+  "ev_profile_not_learned": "Ещё не изучено",
+  "ev_weekly": "Режим поездок",
+  "ev_chart_reserve": "Резерв",
+  "ev_chart_assumed": "Предполагаемо"
 }
