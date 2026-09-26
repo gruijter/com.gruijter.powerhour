@@ -33,6 +33,8 @@ const deviceSpecifics = {
     meter_source: 'meter_power',
     measure_source: 'measure_watt_avg',
   },
+  // Planned in quarters also with hourly prices: departures and returns are rarely on the hour.
+  planIntervalMin: 15,
 };
 
 // Cable pulled while charging, then a trip report within this window: the pull was the departure.
@@ -956,7 +958,7 @@ class CarChargeDevice extends GenericDevice {
       }
     }
 
-    const currentSlot = MeterHelpers.startOfBlock(reading.meterTm, this.priceInterval || 60, this.timeZone);
+    const currentSlot = MeterHelpers.startOfBlock(reading.meterTm, this.planIntervalMin(), this.timeZone);
     if (this.lastEvTriggerSlot !== currentSlot) {
       this.lastEvTriggerSlot = currentSlot;
       await this.updateChargeChart().catch(this.error);
@@ -1228,8 +1230,13 @@ class CarChargeDevice extends GenericDevice {
     const batCapacity = settings.batCapacity || 50;
     const tz = this.timeZone || this.homey.clock.getTimezone();
     const now = Date.now();
-    const intervalMin = this.priceInterval || 60;
+    const priceIntervalMin = this.priceInterval || 60;
+    const priceSlotStartMs = TimeHelpers.startOfLocalBlock(now, priceIntervalMin, tz);
+    const intervalMin = this.planIntervalMin();
     const slotStartMs = TimeHelpers.startOfLocalBlock(now, intervalMin, tz);
+    const toPlan = (list) => TimeHelpers.toFinerSlots(list, priceSlotStartMs, priceIntervalMin, slotStartMs, intervalMin);
+    const prices = toPlan(this.pricesNextHours);
+    const isForecast = toPlan(this.pricesNextHoursIsForecast) || [];
     const num = (v, dflt) => (Number.isFinite(Number(v)) && v !== '' && v !== null ? Number(v) : dflt);
 
     const atHome = !this.presence || this.presence.atHome;
@@ -1244,7 +1251,7 @@ class CarChargeDevice extends GenericDevice {
       if (predicted !== null) currentSoc = predicted;
     }
 
-    const known = await this._learnPrices(slotStartMs, intervalMin, tz);
+    const known = await this._learnPrices(priceSlotStartMs, priceIntervalMin, tz);
     const level = EvPriceProfile.levelFactor(this.priceProfile, known, tz);
     const profile = this.usageModel ? EvUsageModel.getProfile(this.usageModel) : [];
     const awayUntilMs = atHome ? null : this._awayUntilMs(profile, tz, now);
@@ -1267,15 +1274,15 @@ class CarChargeDevice extends GenericDevice {
     const cheap = EvPlanner.cheapThreshold({
       mode: settings.cheapCharge || 'auto', price: settings.cheapPrice, dailyMin: EvPriceProfile.typicalDailyMin(this.priceProfile),
     });
-    const firstForecast = (this.pricesNextHoursIsForecast || []).findIndex(Boolean);
+    const firstForecast = isForecast.findIndex(Boolean);
 
     const planStart = Date.now();
     const result = EvPlanner.plan({
       now,
       slotStartMs,
       intervalMin,
-      prices: this.pricesNextHours,
-      exportPrices: this.exportPricesNextHours,
+      prices,
+      exportPrices: toPlan(this.exportPricesNextHours),
       expectedPrice: EvPriceProfile.isEmpty(this.priceProfile) ? null : (ms) => EvPriceProfile.expected(this.priceProfile, ms, tz, level),
       solarKwh: this._solarSurplusKwh(slotStartMs, n, intervalMin),
       soc: currentSoc,
@@ -1324,7 +1331,7 @@ class CarChargeDevice extends GenericDevice {
       }
 
       Object.keys(strategy).forEach((k) => {
-        if (this.pricesNextHoursIsForecast && this.pricesNextHoursIsForecast[k]) strategy[k].isForecast = true;
+        if (isForecast[k]) strategy[k].isForecast = true;
       });
 
       // If car is not connected, mark all strategy slots as forecast (grey)
