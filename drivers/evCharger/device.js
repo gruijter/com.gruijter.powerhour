@@ -1129,7 +1129,7 @@ class CarChargeDevice extends GenericDevice {
     const date = this._tomorrowDate(tz);
     const existing = (this.getStoreValue('evOverrides') || {})[date];
     const time = (existing && existing.time) || null;
-    await this._setOverride(date, { type: 'min', soc: Math.max(10, Math.min(100, Math.round(soc))), time });
+    await this._setOverride(date, { type: 'min', soc: Math.max(30, Math.min(100, Math.round(soc))), time });
   }
 
   // Picker / flow: tomorrow's departure at another time (HH:MM), once; null = as learned. Keeps a
@@ -1159,7 +1159,7 @@ class CarChargeDevice extends GenericDevice {
     if (!ov) return 'auto';
     if (ov.type === 'unused') return 'unused';
     if (ov.type === 'min' || ov.type === 'boost') {
-      return `min_${Math.max(10, Math.min(100, Math.round(ov.soc / 10) * 10))}`; // nearest picker step
+      return `min_${Math.max(30, Math.min(100, Math.round(ov.soc / 10) * 10))}`; // nearest picker step
     }
     return 'auto';
   }

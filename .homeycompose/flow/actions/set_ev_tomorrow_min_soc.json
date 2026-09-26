@@ -53,7 +53,7 @@
     {
       "type": "number",
       "name": "soc",
-      "min": 10,
+      "min": 30,
       "max": 100,
       "step": 1,
       "title": {
