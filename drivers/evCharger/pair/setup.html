@@ -36,6 +36,7 @@
 			label.appendChild(el('span', { className: 'homey-form-checkbox-checkmark' }));
 			label.appendChild(el('span', { className: 'homey-form-checkbox-text', textContent: s.label }));
 			document.getElementById('checkboxes').appendChild(label);
+			if (s.info) document.getElementById('checkboxes').appendChild(el('p', { className: 'homey-subtitle', textContent: s.info }));
 			return;
 		}
 		const group = el('div', { className: 'homey-form-group' });

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="64px" height="64px" viewBox="0 0 64 64" version="1.1" xmlns="http://www.w3.org/2000/svg">
+    <title>resume</title>
+    <g id="resume" stroke="none" fill="none" fill-rule="evenodd">
+        <circle stroke="#000000" stroke-width="4" cx="32" cy="32" r="26"></circle>
+        <path d="M26,20.5 L44.5,32 L26,43.5 Z" fill="#000000" stroke="#000000" stroke-width="2" stroke-linejoin="round"></path>
+    </g>
+</svg>

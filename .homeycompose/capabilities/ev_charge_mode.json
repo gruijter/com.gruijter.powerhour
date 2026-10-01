@@ -92,21 +92,39 @@
       }
     },
     {
-      "id": "manual",
+      "id": "charge_temp",
       "title": {
-        "en": "Manual",
-        "nl": "Handmatig",
-        "de": "Manuell",
-        "fr": "Manuel",
-        "es": "Manual",
-        "it": "Manuale",
-        "da": "Manuel",
-        "sv": "Manuell",
-        "no": "Manuell",
-        "pl": "Ręcznie",
-        "ru": "Вручную",
-        "ar": "يدوي",
-        "ko": "수동"
+        "en": "Charge now (temporary)",
+        "nl": "Nu laden (tijdelijk)",
+        "de": "Jetzt laden (vorübergehend)",
+        "fr": "Charger maintenant (temporaire)",
+        "es": "Cargar ahora (temporal)",
+        "it": "Carica ora (temporaneo)",
+        "da": "Lad nu (midlertidig)",
+        "sv": "Ladda nu (tillfällig)",
+        "no": "Lad nå (midlertidig)",
+        "pl": "Ładuj teraz (tymczasowo)",
+        "ru": "Зарядить сейчас (временно)",
+        "ar": "اشحن الآن (مؤقت)",
+        "ko": "지금 충전 (임시)"
+      }
+    },
+    {
+      "id": "off_temp",
+      "title": {
+        "en": "Don't charge (temporary)",
+        "nl": "Niet laden (tijdelijk)",
+        "de": "Nicht laden (vorübergehend)",
+        "fr": "Ne pas charger (temporaire)",
+        "es": "No cargar (temporal)",
+        "it": "Non caricare (temporaneo)",
+        "da": "Lad ikke (midlertidig)",
+        "sv": "Ladda inte (tillfällig)",
+        "no": "Ikke lad (midlertidig)",
+        "pl": "Nie ładuj (tymczasowo)",
+        "ru": "Не заряжать (временно)",
+        "ar": "لا تشحن (مؤقت)",
+        "ko": "충전 안 함 (임시)"
       }
     }
   ]

@@ -5373,21 +5373,39 @@
                 }
               },
               {
-                "id": "manual",
+                "id": "charge_temp",
                 "label": {
-                  "en": "Manual",
-                  "nl": "Handmatig",
-                  "de": "Manuell",
-                  "fr": "Manuel",
-                  "es": "Manual",
-                  "it": "Manuale",
-                  "da": "Manuel",
-                  "sv": "Manuell",
-                  "no": "Manuell",
-                  "pl": "Ręcznie",
-                  "ru": "Вручную",
-                  "ar": "يدوي",
-                  "ko": "수동"
+                  "en": "Charge now (temporary)",
+                  "nl": "Nu laden (tijdelijk)",
+                  "de": "Jetzt laden (vorübergehend)",
+                  "fr": "Charger maintenant (temporaire)",
+                  "es": "Cargar ahora (temporal)",
+                  "it": "Carica ora (temporaneo)",
+                  "da": "Lad nu (midlertidig)",
+                  "sv": "Ladda nu (tillfällig)",
+                  "no": "Lad nå (midlertidig)",
+                  "pl": "Ładuj teraz (tymczasowo)",
+                  "ru": "Зарядить сейчас (временно)",
+                  "ar": "اشحن الآن (مؤقت)",
+                  "ko": "지금 충전 (임시)"
+                }
+              },
+              {
+                "id": "off_temp",
+                "label": {
+                  "en": "Don't charge (temporary)",
+                  "nl": "Niet laden (tijdelijk)",
+                  "de": "Nicht laden (vorübergehend)",
+                  "fr": "Ne pas charger (temporaire)",
+                  "es": "No cargar (temporal)",
+                  "it": "Non caricare (temporaneo)",
+                  "da": "Lad ikke (midlertidig)",
+                  "sv": "Ladda inte (tillfällig)",
+                  "no": "Ikke lad (midlertidig)",
+                  "pl": "Nie ładuj (tymczasowo)",
+                  "ru": "Не заряжать (временно)",
+                  "ar": "لا تشحن (مؤقت)",
+                  "ko": "충전 안 함 (임시)"
                 }
               }
             ]
@@ -9906,21 +9924,39 @@
                 }
               },
               {
-                "id": "manual",
+                "id": "charge_temp",
                 "label": {
-                  "en": "Manual",
-                  "nl": "Handmatig",
-                  "de": "Manuell",
-                  "fr": "Manuel",
-                  "es": "Manual",
-                  "it": "Manuale",
-                  "da": "Manuel",
-                  "sv": "Manuell",
-                  "no": "Manuell",
-                  "pl": "Ręcznie",
-                  "ru": "Вручную",
-                  "ar": "يدوي",
-                  "ko": "수동"
+                  "en": "Charge now (temporary)",
+                  "nl": "Nu laden (tijdelijk)",
+                  "de": "Jetzt laden (vorübergehend)",
+                  "fr": "Charger maintenant (temporaire)",
+                  "es": "Cargar ahora (temporal)",
+                  "it": "Carica ora (temporaneo)",
+                  "da": "Lad nu (midlertidig)",
+                  "sv": "Ladda nu (tillfällig)",
+                  "no": "Lad nå (midlertidig)",
+                  "pl": "Ładuj teraz (tymczasowo)",
+                  "ru": "Зарядить сейчас (временно)",
+                  "ar": "اشحن الآن (مؤقت)",
+                  "ko": "지금 충전 (임시)"
+                }
+              },
+              {
+                "id": "off_temp",
+                "label": {
+                  "en": "Don't charge (temporary)",
+                  "nl": "Niet laden (tijdelijk)",
+                  "de": "Nicht laden (vorübergehend)",
+                  "fr": "Ne pas charger (temporaire)",
+                  "es": "No cargar (temporal)",
+                  "it": "Non caricare (temporaneo)",
+                  "da": "Lad ikke (midlertidig)",
+                  "sv": "Ladda inte (tillfällig)",
+                  "no": "Ikke lad (midlertidig)",
+                  "pl": "Nie ładuj (tymczasowo)",
+                  "ru": "Не заряжать (временно)",
+                  "ar": "لا تشحن (مؤقت)",
+                  "ko": "충전 안 함 (임시)"
                 }
               }
             ]
@@ -18894,19 +18930,19 @@
                 "ko": "충전기 제어"
               },
               "hint": {
-                "en": "Switches the charger on and off according to the charge plan.",
-                "nl": "Zet de laadpaal aan en uit volgens het laadplan.",
-                "de": "Schaltet das Ladegerät gemäß dem Ladeplan ein und aus.",
-                "fr": "Allume et éteint la borne selon le plan de charge.",
-                "es": "Enciende y apaga el cargador según el plan de carga.",
-                "it": "Accende e spegne il caricatore secondo il piano di ricarica.",
-                "da": "Tænder og slukker laderen efter ladeplanen.",
-                "sv": "Slår på och av laddaren enligt laddplanen.",
-                "no": "Slår laderen av og på etter ladeplanen.",
-                "pl": "Włącza i wyłącza ładowarkę zgodnie z planem ładowania.",
-                "ru": "Включает и выключает зарядку по плану зарядки.",
-                "ar": "يشغّل الشاحن ويطفئه وفق خطة الشحن.",
-                "ko": "충전 계획에 따라 충전기를 켜고 끕니다."
+                "en": "Switches the charger on and off according to the charge plan. Off: switch it with your own flows, e.g. on 'New EV strategy active'.",
+                "nl": "Zet de laadpaal aan en uit volgens het laadplan. Uit: schakel hem met eigen flows, bijv. op 'Nieuwe EV strategie actief'.",
+                "de": "Schaltet das Ladegerät gemäß dem Ladeplan ein und aus. Aus: mit eigenen Flows schalten, z. B. bei 'Neue EV-Strategie aktiv'.",
+                "fr": "Allume et éteint la borne selon le plan de charge. Désactivé : pilotez-la avec vos propres flows, p. ex. sur 'Nouvelle stratégie EV active'.",
+                "es": "Enciende y apaga el cargador según el plan de carga. Desactivado: contrólelo con sus propios flujos, p. ej. con 'Nueva estrategia EV activa'.",
+                "it": "Accende e spegne il caricatore secondo il piano di ricarica. Disattivato: comandalo con i tuoi flow, ad es. su 'Nuova strategia EV attiva'.",
+                "da": "Tænder og slukker laderen efter ladeplanen. Fra: styr den med egne flows, f.eks. på 'Ny EV-strategi aktiv'.",
+                "sv": "Slår på och av laddaren enligt laddplanen. Av: styr den med egna flöden, t.ex. på 'Ny EV-strategi aktiv'.",
+                "no": "Slår laderen av og på etter ladeplanen. Av: styr den med egne flows, f.eks. på 'Ny EV-strategi aktiv'.",
+                "pl": "Włącza i wyłącza ładowarkę zgodnie z planem ładowania. Wyłączone: steruj własnymi flow, np. na 'Nowa strategia EV aktywna'.",
+                "ru": "Включает и выключает зарядку по плану зарядки. Выкл.: управляйте своими сценариями, напр. по 'Новая стратегия EV активна'.",
+                "ar": "يشغّل الشاحن ويطفئه وفق خطة الشحن. عند الإيقاف: تحكم به بتدفقاتك الخاصة، مثل 'استراتيجية سيارة كهربائية جديدة نشطة'.",
+                "ko": "충전 계획에 따라 충전기를 켜고 끕니다. 꺼짐: '새 EV 전략 활성' 등에서 직접 플로우로 전환하세요."
               },
               "value": true
             },
@@ -18914,34 +18950,34 @@
               "id": "overrideMaxHours",
               "type": "number",
               "label": {
-                "en": "Manual mode max. (h)",
-                "nl": "Handmatig maximaal (u)",
-                "de": "Manuell maximal (h)",
-                "fr": "Manuel max. (h)",
-                "es": "Manual máx. (h)",
-                "it": "Manuale max. (h)",
-                "da": "Manuel maks. (t)",
-                "sv": "Manuell max. (h)",
-                "no": "Manuell maks. (t)",
-                "pl": "Ręcznie maks. (h)",
-                "ru": "Вручную макс. (ч)",
-                "ar": "يدوي بحد أقصى (س)",
-                "ko": "수동 최대 (시간)"
+                "en": "Temporary mode max. (h)",
+                "nl": "Tijdelijk maximaal (u)",
+                "de": "Vorübergehend maximal (h)",
+                "fr": "Temporaire max. (h)",
+                "es": "Temporal máx. (h)",
+                "it": "Temporaneo max. (h)",
+                "da": "Midlertidig maks. (t)",
+                "sv": "Tillfällig max. (h)",
+                "no": "Midlertidig maks. (t)",
+                "pl": "Tymczasowo maks. (h)",
+                "ru": "Временно макс. (ч)",
+                "ar": "مؤقت بحد أقصى (س)",
+                "ko": "임시 최대 (시간)"
               },
               "hint": {
-                "en": "Then the charge mode returns to the one before.",
-                "nl": "Daarna gaat de laadmodus terug naar de vorige.",
-                "de": "Danach kehrt der Lademodus zum vorherigen zurück.",
-                "fr": "Ensuite, le mode de charge revient au précédent.",
-                "es": "Después, el modo de carga vuelve al anterior.",
-                "it": "Poi la modalità di ricarica torna a quella precedente.",
-                "da": "Derefter går opladningstilstanden tilbage til den forrige.",
-                "sv": "Sedan återgår laddningsläget till det föregående.",
-                "no": "Deretter går lademodusen tilbake til den forrige.",
-                "pl": "Potem tryb ładowania wraca do poprzedniego.",
-                "ru": "Затем режим зарядки возвращается к предыдущему.",
-                "ar": "ثم يعود وضع الشحن إلى الوضع السابق.",
-                "ko": "그 후 충전 모드가 이전 모드로 돌아갑니다."
+                "en": "Then a temporary charge mode returns to the one before.",
+                "nl": "Daarna gaat een tijdelijke laadmodus terug naar de vorige.",
+                "de": "Danach kehrt ein vorübergehender Lademodus zum vorherigen zurück.",
+                "fr": "Ensuite, un mode de charge temporaire revient au précédent.",
+                "es": "Después, un modo de carga temporal vuelve al anterior.",
+                "it": "Poi una modalità temporanea torna a quella precedente.",
+                "da": "Derefter går en midlertidig opladningstilstand tilbage til den forrige.",
+                "sv": "Sedan återgår ett tillfälligt laddningsläge till det föregående.",
+                "no": "Deretter går en midlertidig lademodus tilbake til den forrige.",
+                "pl": "Potem tymczasowy tryb ładowania wraca do poprzedniego.",
+                "ru": "Затем временный режим зарядки возвращается к предыдущему.",
+                "ar": "ثم يعود وضع الشحن المؤقت إلى الوضع السابق.",
+                "ko": "그 후 임시 충전 모드가 이전 모드로 돌아갑니다."
               },
               "value": 4,
               "min": 0.5,
@@ -28767,21 +28803,39 @@
           }
         },
         {
-          "id": "manual",
+          "id": "charge_temp",
           "title": {
-            "en": "Manual",
-            "nl": "Handmatig",
-            "de": "Manuell",
-            "fr": "Manuel",
-            "es": "Manual",
-            "it": "Manuale",
-            "da": "Manuel",
-            "sv": "Manuell",
-            "no": "Manuell",
-            "pl": "Ręcznie",
-            "ru": "Вручную",
-            "ar": "يدوي",
-            "ko": "수동"
+            "en": "Charge now (temporary)",
+            "nl": "Nu laden (tijdelijk)",
+            "de": "Jetzt laden (vorübergehend)",
+            "fr": "Charger maintenant (temporaire)",
+            "es": "Cargar ahora (temporal)",
+            "it": "Carica ora (temporaneo)",
+            "da": "Lad nu (midlertidig)",
+            "sv": "Ladda nu (tillfällig)",
+            "no": "Lad nå (midlertidig)",
+            "pl": "Ładuj teraz (tymczasowo)",
+            "ru": "Зарядить сейчас (временно)",
+            "ar": "اشحن الآن (مؤقت)",
+            "ko": "지금 충전 (임시)"
+          }
+        },
+        {
+          "id": "off_temp",
+          "title": {
+            "en": "Don't charge (temporary)",
+            "nl": "Niet laden (tijdelijk)",
+            "de": "Nicht laden (vorübergehend)",
+            "fr": "Ne pas charger (temporaire)",
+            "es": "No cargar (temporal)",
+            "it": "Non caricare (temporaneo)",
+            "da": "Lad ikke (midlertidig)",
+            "sv": "Ladda inte (tillfällig)",
+            "no": "Ikke lad (midlertidig)",
+            "pl": "Nie ładuj (tymczasowo)",
+            "ru": "Не заряжать (временно)",
+            "ar": "لا تشحن (مؤقت)",
+            "ko": "충전 안 함 (임시)"
           }
         }
       ]
@@ -28807,6 +28861,44 @@
       "icon": "/assets/ev_departure.svg",
       "getable": true,
       "setable": false,
+      "insights": false
+    },
+    "ev_resume": {
+      "type": "string",
+      "title": {
+        "en": "Resumes",
+        "nl": "Hervat",
+        "de": "Fortsetzung",
+        "fr": "Reprise",
+        "es": "Se reanuda",
+        "it": "Riprende",
+        "da": "Genoptages",
+        "sv": "Återupptas",
+        "no": "Gjenopptas",
+        "pl": "Wznowienie",
+        "ru": "Возобновление",
+        "ar": "الاستئناف",
+        "ko": "재개"
+      },
+      "desc": {
+        "en": "When a temporary charge mode ends, and the mode that returns.",
+        "nl": "Wanneer een tijdelijke laadmodus stopt, en de modus die terugkomt.",
+        "de": "Wann ein vorübergehender Lademodus endet und welcher Modus zurückkehrt.",
+        "fr": "Quand un mode de charge temporaire se termine, et le mode qui revient.",
+        "es": "Cuándo termina un modo de carga temporal y el modo que vuelve.",
+        "it": "Quando termina una modalità temporanea e la modalità che ritorna.",
+        "da": "Hvornår en midlertidig opladningstilstand slutter, og den tilstand der vender tilbage.",
+        "sv": "När ett tillfälligt laddningsläge slutar, och läget som återkommer.",
+        "no": "Når en midlertidig lademodus slutter, og modusen som kommer tilbake.",
+        "pl": "Kiedy kończy się tymczasowy tryb ładowania i który tryb wraca.",
+        "ru": "Когда заканчивается временный режим зарядки и какой режим возвращается.",
+        "ar": "متى ينتهي وضع الشحن المؤقت، والوضع الذي يعود.",
+        "ko": "임시 충전 모드가 끝나는 시간과 돌아오는 모드."
+      },
+      "getable": true,
+      "setable": false,
+      "uiComponent": "sensor",
+      "icon": "/assets/ev_resume.svg",
       "insights": false
     },
     "ev_tomorrow": {

@@ -68,6 +68,5 @@
   "ev_weekly": "Rijpatroon",
   "ev_chart_reserve": "Reserve",
   "ev_chart_assumed": "Aangenomen",
-  "error_invalid_time": "Ongeldige tijd: __time__. Gebruik UU:MM",
-  "error_charger_control_off": "De laadpaal wordt niet aangestuurd: Laadpaal aansturen staat uit, of de laadpaal heeft geen schakelaar."
+  "error_invalid_time": "Ongeldige tijd: __time__. Gebruik UU:MM"
 }

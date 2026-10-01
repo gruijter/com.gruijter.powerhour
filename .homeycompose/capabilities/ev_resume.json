@@ -1,0 +1,38 @@
+{
+  "type": "string",
+  "title": {
+    "en": "Resumes",
+    "nl": "Hervat",
+    "de": "Fortsetzung",
+    "fr": "Reprise",
+    "es": "Se reanuda",
+    "it": "Riprende",
+    "da": "Genoptages",
+    "sv": "Återupptas",
+    "no": "Gjenopptas",
+    "pl": "Wznowienie",
+    "ru": "Возобновление",
+    "ar": "الاستئناف",
+    "ko": "재개"
+  },
+  "desc": {
+    "en": "When a temporary charge mode ends, and the mode that returns.",
+    "nl": "Wanneer een tijdelijke laadmodus stopt, en de modus die terugkomt.",
+    "de": "Wann ein vorübergehender Lademodus endet und welcher Modus zurückkehrt.",
+    "fr": "Quand un mode de charge temporaire se termine, et le mode qui revient.",
+    "es": "Cuándo termina un modo de carga temporal y el modo que vuelve.",
+    "it": "Quando termina una modalità temporanea e la modalità che ritorna.",
+    "da": "Hvornår en midlertidig opladningstilstand slutter, og den tilstand der vender tilbage.",
+    "sv": "När ett tillfälligt laddningsläge slutar, och läget som återkommer.",
+    "no": "Når en midlertidig lademodus slutter, og modusen som kommer tilbake.",
+    "pl": "Kiedy kończy się tymczasowy tryb ładowania i który tryb wraca.",
+    "ru": "Когда заканчивается временный режим зарядки и какой режим возвращается.",
+    "ar": "متى ينتهي وضع الشحن المؤقت، والوضع الذي يعود.",
+    "ko": "임시 충전 모드가 끝나는 시간과 돌아오는 모드."
+  },
+  "getable": true,
+  "setable": false,
+  "uiComponent": "sensor",
+  "icon": "/assets/ev_resume.svg",
+  "insights": false
+}

@@ -14,8 +14,8 @@ const driverSpecifics = {
   driverId: 'evCharger',
   deviceCapabilities: [
     // Live power and the car first: what the device tile and the device page lead with.
-    'measure_watt_avg', 'ev_car_state', 'measure_ev_soc', 'ev_next_departure',
-    'ev_tomorrow', 'ev_tomorrow_time', 'ev_charge_mode',
+    'measure_watt_avg', 'ev_car_state', 'measure_ev_soc', 'ev_next_departure', 'ev_resume',
+    'ev_charge_mode', 'ev_tomorrow_time', 'ev_tomorrow',
     'meter_kwh_last_hour', 'meter_kwh_this_hour', 'meter_kwh_last_day', 'meter_kwh_this_day',
     'meter_kwh_last_month', 'meter_kwh_this_month', 'meter_kwh_last_year', 'meter_kwh_this_year',
     'meter_target_month_to_date', 'meter_target_year_to_date',
@@ -344,6 +344,7 @@ class CarChargeDriver extends GenericDriver {
         const setting = {
           id, type: def.type, label: text(def.label), value, min: def.min, max: def.max,
         };
+        if (id === 'chargerControl') setting.info = text(def.hint);
         if (id === 'tariff_update_group') {
           setting.type = 'dropdown';
           setting.options = this._tariffGroupOptions(value);

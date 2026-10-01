@@ -68,6 +68,5 @@
   "ev_weekly": "주행 패턴",
   "ev_chart_reserve": "예비",
   "ev_chart_assumed": "가정",
-  "error_invalid_time": "잘못된 시간: __time__. HH:MM 형식을 사용하세요",
-  "error_charger_control_off": "충전기가 제어되지 않습니다: 충전기 제어가 꺼져 있거나 충전기에 스위치가 없습니다."
+  "error_invalid_time": "잘못된 시간: __time__. HH:MM 형식을 사용하세요"
 }

@@ -68,6 +68,5 @@
   "ev_weekly": "Körmönster",
   "ev_chart_reserve": "Reserv",
   "ev_chart_assumed": "Antaget",
-  "error_invalid_time": "Ogiltig tid: __time__. Använd HH:MM",
-  "error_charger_control_off": "Laddaren styrs inte: Styr laddare är avstängt, eller laddaren har ingen brytare."
+  "error_invalid_time": "Ogiltig tid: __time__. Använd HH:MM"
 }
