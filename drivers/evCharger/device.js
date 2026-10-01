@@ -52,6 +52,12 @@ const LEARNED_PROFILE_KEYS = [
 const CONTROL_TICK_MS = 60 * 1000;
 // Plan requests within this window are merged into one run.
 const PLAN_COALESCE_MS = 500;
+// Measured solar surplus: averaged over this window.
+const SURPLUS_WINDOW_MS = 3 * 60 * 1000;
+// A variable charger's power is only changed by at least this much.
+const TARGET_POWER_STEP_W = 200;
+// Charging on solar always needs at least this much measured surplus.
+const MIN_SOLAR_NEED_W = 100;
 // At most one restart per this period when the charger's capabilities changed under us.
 const CAP_RESTART_MIN_MS = 10 * 60 * 1000;
 // Direct car read in the control loop, next to the car's own capability events.
@@ -220,6 +226,9 @@ class CarChargeDevice extends GenericDevice {
       }
       this.sourceCapGroup.switchCap = EvChargerControl.SWITCH_CAPS.find((cap) => caps.includes(cap)
         && this.sourceDevice.capabilitiesObj?.[cap]?.setable !== false) || null;
+      // Homey's setable charging power (W), for a variable charger.
+      this.sourceCapGroup.powerCap = caps.includes('target_power')
+        && this.sourceDevice.capabilitiesObj?.target_power?.setable !== false ? 'target_power' : null;
     }
 
     // --- Optional EV car device ---
@@ -722,6 +731,7 @@ class CarChargeDevice extends GenericDevice {
     }
     await this._endTempModeIfDue(); // also without charger control
     await this._updateNextChargeText(); // 'now' starts and ends with the clock
+    this._sampleSurplus();
     await this._applyChargerControl();
     await this._startCarIfIdle();
   }
@@ -824,7 +834,8 @@ class CarChargeDevice extends GenericDevice {
     return true;
   }
 
-  // "Next charge": the plan's next charging period, e.g. 'Thu 23:00–02:30' or 'now–02:30', else '-'.
+  // "Next charge": the plan's next charging period, e.g. 'Thu 23:00–02:30', 'now–02:30' or
+  // 'Fri 12:45–14:45 · 49 min' with gaps, else '-'.
   async _updateNextChargeText() {
     if (!this.hasCapability('ev_next_charge')) return;
     const now = Date.now();
@@ -837,6 +848,9 @@ class CarChargeDevice extends GenericDevice {
       const day = (ms) => new Date(ms).toLocaleDateString(lang, { weekday: 'short', timeZone: tz });
       const start = window.startMs <= now ? this.homey.__('ev_now') : `${day(window.startMs)} ${hhmm(window.startMs)}`;
       text = `${start}–${hhmm(window.endMs)}`;
+      // With gaps (e.g. on solar surplus): the charging time in it.
+      const spanMin = (window.endMs - Math.max(window.startMs, now)) / 60000;
+      if (window.minutes < spanMin - 1) text += ` · ${window.minutes} min`;
     }
     await this.setCapability('ev_next_charge', text).catch(this.error);
   }
@@ -857,18 +871,108 @@ class CarChargeDevice extends GenericDevice {
     await this.setCapability('ev_resume', text).catch(this.error);
   }
 
+  // Surplus needed to charge on solar: the full charge power (a variable charger, with its own power
+  // control or set by the user's flows: its lowest power), less the grid power allowed for it.
+  _solarNeedW() {
+    const settings = this.getSettings();
+    const need = settings.variableChargePower ? EvPlanner.MIN_VARIABLE_POWER_W : this._chargePowerW();
+    return Math.max(MIN_SOLAR_NEED_W, need - (Number(settings.solarGridPower) || 0));
+  }
+
+  // Charge power (W): the setting as maximum, 0 for the measured one.
+  _chargePowerW() {
+    const manual = Number(this.getSettings().chargePower) || 0;
+    return manual > 0 ? manual : (this.getStoreValue('detectedMaxPower') || EvHistory.DEFAULT_CHARGE_POWER_W);
+  }
+
+  // The charger's setable power (Homey target_power), used with the variableChargePower setting.
+  _variablePowerCap() {
+    return this.getSettings().variableChargePower && this.sourceCapGroup && this.sourceCapGroup.powerCap
+      ? this.sourceCapGroup.powerCap : null;
+  }
+
+  // Solar surplus (W) now: export plus what this charger itself takes, averaged over the last
+  // minutes (one sample per control tick), so a passing cloud does not count. null unmeasured.
+  _sampleSurplus() {
+    const grid = this.currentGridPower; // + import, - export
+    if (typeof grid !== 'number') return;
+    const own = this.signals.switchOn === true && typeof this.livePowerW === 'number' ? Math.max(0, this.livePowerW) : 0;
+    const now = Date.now();
+    this.surplusSamples = (this.surplusSamples || []).filter((e) => now - e.tm < SURPLUS_WINDOW_MS);
+    this.surplusSamples.push({ tm: now, w: Math.max(0, own - grid) });
+  }
+
+  _measuredSurplusW() {
+    const samples = (this.surplusSamples || []).filter((e) => Date.now() - e.tm < SURPLUS_WINDOW_MS);
+    if (samples.length < 2) return null;
+    return samples.reduce((a, e) => a + e.w, 0) / samples.length;
+  }
+
+  // Start on surplus the plan did not expect: Smart (when the export price is under the solar
+  // threshold) or Solar only, the car home and plugged in, under the maximum SoC.
+  _mayChargeOnSurplus() {
+    const mode = this.getCapabilityValue('ev_charge_mode') || 'scheduled_price';
+    if (mode !== 'scheduled_price' && mode !== 'solar_only') return false;
+    if (!this.presence || !this.presence.atHome || !this.presence.chargeable) return false;
+    const maxSoc = Number(this.getSettings().maxSoc) || 80;
+    const limit = typeof this.carLimit === 'number' ? Math.min(maxSoc, this.carLimit) : maxSoc;
+    if (!(this.lastKnownSoc < limit)) return false;
+    if (mode === 'solar_only') return true;
+    const exportPrice = this.exportPricesNextHours && this.exportPricesNextHours[0];
+    return !!this.cheapThreshold && typeof exportPrice === 'number' && exportPrice <= this.cheapThreshold.solar;
+  }
+
+  // Charger power for a variable charger: the surplus when following it, else the plan's power.
+  async _setTargetPower(capabilityId, solar, surplusW, slot) {
+    // On solar: the surplus plus the grid power allowed for it.
+    const allowedW = Number(this.getSettings().solarGridPower) || 0;
+    const power = EvChargerControl.targetPower({
+      solar,
+      surplusW: typeof surplusW === 'number' ? surplusW + allowedW : surplusW,
+      slot,
+      minW: EvPlanner.MIN_VARIABLE_POWER_W,
+      maxW: this._chargePowerW(),
+    });
+    if (typeof this.lastTargetPower === 'number' && Math.abs(power - this.lastTargetPower) < TARGET_POWER_STEP_W) return;
+    try {
+      await this.sourceDevice.setCapabilityValue({ capabilityId, value: power });
+      this.lastTargetPower = power;
+      this.log(`[EV Control] Charger ${capabilityId} -> ${power} W`);
+    } catch (err) {
+      this.error(`[EV Control] Setting charger ${capabilityId} to ${power} W failed:`, err.message || err);
+    }
+  }
+
   async _applyChargerControl() {
     const capabilityId = this.sourceCapGroup && this.sourceCapGroup.switchCap;
     if (!this.getSettings().chargerControl || !capabilityId || !this.sourceDevice || !this.presence) return;
     const now = Date.now();
     // Plans again, and switches from that new plan.
     if (await this._endTempModeIfDue()) return;
-    const wanted = EvChargerControl.wantedState({
+    const planWanted = EvChargerControl.wantedState({
       plan: this.latestPlan,
       now,
       atHome: this.presence.atHome,
       chargeMode: this.getCapabilityValue('ev_charge_mode') || 'scheduled_price',
     });
+    // Charging on solar surplus follows the measured surplus, not only the forecast.
+    const slot = EvChargerControl.slotAt(this.latestPlan, now);
+    const powerCap = this._variablePowerCap();
+    const surplusW = this._measuredSurplusW();
+    const gate = EvChargerControl.solarGate({
+      wanted: planWanted,
+      slot,
+      surplusW,
+      needW: this._solarNeedW(),
+      isOn: !!this.solarCharging && this.signals.switchOn === true,
+      opportunistic: this._mayChargeOnSurplus(),
+    });
+    if (gate.solar !== !!this.solarCharging) {
+      this.log(`[EV Control] Solar surplus ${Math.round(surplusW || 0)} W: ${gate.solar ? 'charging on it' : 'not enough'}`);
+    }
+    this.solarCharging = gate.solar;
+    const { wanted } = gate;
+    if (wanted && powerCap) await this._setTargetPower(powerCap, gate.solar, surplusW, slot);
     const command = EvChargerControl.nextCommand({
       wanted,
       actual: this.signals.switchOn,
@@ -1281,8 +1385,7 @@ class CarChargeDevice extends GenericDevice {
 
     const settings = this.getSettings();
     // A set charge power is the maximum; 0 uses the measured one.
-    const manualPower = Number(settings.chargePower) || 0;
-    const chargePower = manualPower > 0 ? manualPower : ((await this.getStoreValue('detectedMaxPower')) || EvHistory.DEFAULT_CHARGE_POWER_W);
+    const chargePower = this._chargePowerW();
     const batCapacity = settings.batCapacity || 50;
     const tz = this.timeZone || this.homey.clock.getTimezone();
     const now = Date.now();
@@ -1333,6 +1436,7 @@ class CarChargeDevice extends GenericDevice {
     const cheap = EvPlanner.cheapThreshold({
       mode: settings.cheapCharge || 'auto', price: settings.cheapPrice, dailyMin: EvPriceProfile.typicalDailyMin(this.priceProfile),
     });
+    this.cheapThreshold = cheap; // for charging on surplus the plan did not expect
     const firstForecast = isForecast.findIndex(Boolean);
 
     const planStart = Date.now();
@@ -1359,6 +1463,7 @@ class CarChargeDevice extends GenericDevice {
       cheapThreshold: cheap,
       certainSlots: firstForecast >= 0 ? firstForecast : undefined,
       variablePower: !!settings.variableChargePower,
+      solarGridW: Number(settings.solarGridPower) || 0,
     });
     const strategy = result.scheme;
     const planMs = Date.now() - planStart;

@@ -237,6 +237,44 @@
           "value": false
         },
         {
+          "id": "solarGridPower",
+          "type": "number",
+          "label": {
+            "en": "Max. grid power on solar (W)",
+            "nl": "Max. netvermogen bij zon (W)",
+            "de": "Max. Netzleistung bei Solar (W)",
+            "fr": "Puissance réseau max. sur solaire (W)",
+            "es": "Potencia de red máx. con solar (W)",
+            "it": "Potenza di rete max. con solare (W)",
+            "da": "Maks. neteffekt ved sol (W)",
+            "sv": "Max. näteffekt vid sol (W)",
+            "no": "Maks. netteffekt ved sol (W)",
+            "pl": "Maks. moc z sieci przy słońcu (W)",
+            "ru": "Макс. мощность сети при солнце (Вт)",
+            "ar": "الحد الأقصى لطاقة الشبكة مع الشمس (واط)",
+            "ko": "태양광 충전 시 최대 전력망 전력 (W)"
+          },
+          "hint": {
+            "en": "Grid power allowed next to solar surplus, e.g. for Solar only when the surplus never reaches the charge power.",
+            "nl": "Netvermogen dat naast zonne-overschot mag, bijv. voor Alleen zon als het overschot nooit het laadvermogen haalt.",
+            "de": "Erlaubte Netzleistung neben Solarüberschuss, z. B. für Nur Solar, wenn der Überschuss die Ladeleistung nie erreicht.",
+            "fr": "Puissance réseau autorisée en plus du surplus solaire, p. ex. pour Solaire uniquement si le surplus n'atteint jamais la puissance de charge.",
+            "es": "Potencia de red permitida junto al excedente solar, p. ej. para Solo solar si el excedente nunca alcanza la potencia de carga.",
+            "it": "Potenza di rete ammessa oltre all'eccedenza solare, ad es. per Solo solare se l'eccedenza non raggiunge mai la potenza di carica.",
+            "da": "Neteffekt tilladt ud over soloverskud, f.eks. til Kun sol når overskuddet aldrig når ladeeffekten.",
+            "sv": "Näteffekt som tillåts utöver solöverskott, t.ex. för Endast sol när överskottet aldrig når laddeffekten.",
+            "no": "Netteffekt tillatt i tillegg til soloverskudd, f.eks. for Kun sol når overskuddet aldri når ladeeffekten.",
+            "pl": "Moc z sieci dozwolona obok nadwyżki słonecznej, np. dla Tylko słońce, gdy nadwyżka nigdy nie osiąga mocy ładowania.",
+            "ru": "Мощность сети, допустимая к солнечному излишку, напр. для Только солнце, если излишек не достигает мощности зарядки.",
+            "ar": "طاقة الشبكة المسموح بها بجانب فائض الشمس، مثلاً لوضع الطاقة الشمسية فقط عندما لا يصل الفائض إلى طاقة الشحن.",
+            "ko": "태양광 잉여 전력 외에 허용되는 전력망 전력. 예: 잉여 전력이 충전 전력에 도달하지 않을 때 태양광만 모드에 사용."
+          },
+          "value": 0,
+          "min": 0,
+          "max": 22000,
+          "decimals": 0
+        },
+        {
           "id": "batCapacity",
           "type": "number",
           "label": {
