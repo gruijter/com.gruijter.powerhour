@@ -69,6 +69,5 @@
   "ev_chart_reserve": "Reserva",
   "ev_chart_assumed": "Supuesto",
   "error_invalid_time": "Hora no válida: __time__. Usa HH:MM",
-  "error_charger_control_off": "El cargador no se controla: Controlar cargador está desactivado, o el cargador no tiene interruptor.",
-  "ev_next_reachable": "⚠ alcanzable __soc__%"
+  "error_charger_control_off": "El cargador no se controla: Controlar cargador está desactivado, o el cargador no tiene interruptor."
 }

@@ -69,6 +69,5 @@
   "ev_chart_reserve": "الاحتياطي",
   "ev_chart_assumed": "مفترض",
   "error_invalid_time": "وقت غير صالح: __time__. استخدم HH:MM",
-  "error_charger_control_off": "الشاحن غير متحكم به: التحكم في الشاحن متوقف، أو لا يوجد مفتاح للشاحن.",
-  "ev_next_reachable": "⚠ الممكن __soc__%"
+  "error_charger_control_off": "الشاحن غير متحكم به: التحكم في الشاحن متوقف، أو لا يوجد مفتاح للشاحن."
 }

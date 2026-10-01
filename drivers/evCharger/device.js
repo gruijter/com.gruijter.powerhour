@@ -1334,9 +1334,8 @@ class CarChargeDevice extends GenericDevice {
     const nextText = next
       ? `${new Date(next.departMs).toLocaleDateString(this.homey.i18n.getLanguage() || 'en', { weekday: 'short', timeZone: tz })} `
         + `${EvUsageModel.fractionalHourToHHMM(EvUsageModel.toLocalFractionalHour(new Date(next.departMs), tz))} · `
-        // Not enough time to reach the needed SoC: what can be reached.
-        + `${next.requiredSoc}%${next.plannedSoc < next.requiredSoc - 1
-          ? ` (${this.homey.__('ev_next_reachable', { soc: next.plannedSoc })})` : ''}`
+        // Not enough time to reach the needed SoC: '⚠ reachable/needed'.
+        + `${next.plannedSoc < next.requiredSoc - 1 ? `⚠ ${next.plannedSoc}/` : ''}${next.requiredSoc}%`
       : '-';
     if (this.hasCapability('ev_next_departure')) await this.setCapability('ev_next_departure', nextText);
     if (this.hasCapability('ev_tomorrow')) await this.setCapability('ev_tomorrow', this._tomorrowPickerValue(overrides, tz));

@@ -69,6 +69,5 @@
   "ev_chart_reserve": "Reserve",
   "ev_chart_assumed": "Assumed",
   "error_invalid_time": "Invalid time: __time__. Use HH:MM",
-  "error_charger_control_off": "The charger is not controlled: Control charger is off, or the charger has no switch.",
-  "ev_next_reachable": "⚠ reachable __soc__%"
+  "error_charger_control_off": "The charger is not controlled: Control charger is off, or the charger has no switch."
 }
