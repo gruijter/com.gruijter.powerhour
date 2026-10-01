@@ -1,0 +1,38 @@
+{
+  "type": "string",
+  "title": {
+    "en": "Next charge",
+    "nl": "Volgende laadbeurt",
+    "de": "Nächste Ladung",
+    "fr": "Prochaine charge",
+    "es": "Próxima carga",
+    "it": "Prossima ricarica",
+    "da": "Næste opladning",
+    "sv": "Nästa laddning",
+    "no": "Neste lading",
+    "pl": "Następne ładowanie",
+    "ru": "Следующая зарядка",
+    "ar": "الشحن التالي",
+    "ko": "다음 충전"
+  },
+  "desc": {
+    "en": "When the charge plan charges next.",
+    "nl": "Wanneer het laadplan weer laadt.",
+    "de": "Wann der Ladeplan als Nächstes lädt.",
+    "fr": "Quand le plan de charge charge ensuite.",
+    "es": "Cuándo carga de nuevo el plan de carga.",
+    "it": "Quando il piano di ricarica ricarica di nuovo.",
+    "da": "Hvornår ladeplanen lader næste gang.",
+    "sv": "När laddplanen laddar nästa gång.",
+    "no": "Når ladeplanen lader neste gang.",
+    "pl": "Kiedy plan ładowania ładuje następnym razem.",
+    "ru": "Когда план зарядки заряжает в следующий раз.",
+    "ar": "متى تشحن خطة الشحن في المرة القادمة.",
+    "ko": "충전 계획이 다음에 충전하는 시간."
+  },
+  "getable": true,
+  "setable": false,
+  "uiComponent": "sensor",
+  "icon": "/assets/ev_next_charge.svg",
+  "insights": false
+}

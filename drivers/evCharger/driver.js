@@ -14,7 +14,7 @@ const driverSpecifics = {
   driverId: 'evCharger',
   deviceCapabilities: [
     // Live power and the car first: what the device tile and the device page lead with.
-    'measure_watt_avg', 'ev_car_state', 'measure_ev_soc', 'ev_next_departure', 'ev_resume',
+    'measure_watt_avg', 'ev_car_state', 'measure_ev_soc', 'ev_next_departure', 'ev_next_charge', 'ev_resume',
     'ev_charge_mode', 'ev_tomorrow_time', 'ev_tomorrow',
     'meter_kwh_last_hour', 'meter_kwh_this_hour', 'meter_kwh_last_day', 'meter_kwh_this_day',
     'meter_kwh_last_month', 'meter_kwh_this_month', 'meter_kwh_last_year', 'meter_kwh_this_year',

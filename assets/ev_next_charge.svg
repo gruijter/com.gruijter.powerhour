@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="64px" height="64px" viewBox="0 0 64 64" version="1.1" xmlns="http://www.w3.org/2000/svg">
+    <title>next_charge</title>
+    <g id="next_charge" stroke="none" fill="none" fill-rule="evenodd">
+        <circle stroke="#000000" stroke-width="4" cx="32" cy="32" r="26"></circle>
+        <path d="M35,13 L21,35 L30,35 L28,51 L43,28 L34,28 Z" fill="#000000"></path>
+    </g>
+</svg>

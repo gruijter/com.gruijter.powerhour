@@ -68,5 +68,6 @@
   "ev_weekly": "Wzorzec jazdy",
   "ev_chart_reserve": "Rezerwa",
   "ev_chart_assumed": "Założone",
-  "error_invalid_time": "Nieprawidłowa godzina: __time__. Użyj GG:MM"
+  "error_invalid_time": "Nieprawidłowa godzina: __time__. Użyj GG:MM",
+  "ev_now": "teraz"
 }

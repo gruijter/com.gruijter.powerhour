@@ -68,5 +68,6 @@
   "ev_weekly": "Fahrmuster",
   "ev_chart_reserve": "Reserve",
   "ev_chart_assumed": "Angenommen",
-  "error_invalid_time": "Ungültige Zeit: __time__. Verwende HH:MM"
+  "error_invalid_time": "Ungültige Zeit: __time__. Verwende HH:MM",
+  "ev_now": "jetzt"
 }

@@ -68,5 +68,6 @@
   "ev_weekly": "Kørselsmønster",
   "ev_chart_reserve": "Reserve",
   "ev_chart_assumed": "Antaget",
-  "error_invalid_time": "Ugyldigt tidspunkt: __time__. Brug TT:MM"
+  "error_invalid_time": "Ugyldigt tidspunkt: __time__. Brug TT:MM",
+  "ev_now": "nu"
 }

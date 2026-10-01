@@ -721,6 +721,7 @@ class CarChargeDevice extends GenericDevice {
       await this.updateChargeChart().catch(this.error);
     }
     await this._endTempModeIfDue(); // also without charger control
+    await this._updateNextChargeText(); // 'now' starts and ends with the clock
     await this._applyChargerControl();
     await this._startCarIfIdle();
   }
@@ -821,6 +822,23 @@ class CarChargeDevice extends GenericDevice {
     if (!EvChargerControl.overrideExpired({ override: this.tempMode, maxHours, now: Date.now() })) return false;
     await this.setChargeMode(this.tempMode.previousMode, `temporary mode for the maximum of ${maxHours} h`);
     return true;
+  }
+
+  // "Next charge": the plan's next charging period, e.g. 'Thu 23:00–02:30' or 'now–02:30', else '-'.
+  async _updateNextChargeText() {
+    if (!this.hasCapability('ev_next_charge')) return;
+    const now = Date.now();
+    const window = EvChargerControl.nextChargeWindow(this.latestPlan, now);
+    let text = '-';
+    if (window) {
+      const tz = this.timeZone || this.homey.clock.getTimezone();
+      const lang = this.homey.i18n.getLanguage() || 'en';
+      const hhmm = (ms) => EvUsageModel.fractionalHourToHHMM(EvUsageModel.toLocalFractionalHour(new Date(ms), tz));
+      const day = (ms) => new Date(ms).toLocaleDateString(lang, { weekday: 'short', timeZone: tz });
+      const start = window.startMs <= now ? this.homey.__('ev_now') : `${day(window.startMs)} ${hhmm(window.startMs)}`;
+      text = `${start}–${hhmm(window.endMs)}`;
+    }
+    await this.setCapability('ev_next_charge', text).catch(this.error);
   }
 
   // "Resumes": when a temporary mode ends and the mode it returns to, else '-'.
@@ -1400,6 +1418,7 @@ class CarChargeDevice extends GenericDevice {
         showExportPrice: this.getSettings().chartShowExportPrice !== false,
         planTm: now,
       });
+      await this._updateNextChargeText();
       await this._applyChargerControl().catch(this.error);
     }
   }
