@@ -55,6 +55,24 @@
       }
     },
     {
+      "id": "unused",
+      "title": {
+        "en": "Not used",
+        "nl": "Niet gebruikt",
+        "de": "Nicht genutzt",
+        "fr": "Non utilisée",
+        "es": "Sin uso",
+        "it": "Non usata",
+        "da": "Ikke brugt",
+        "sv": "Används inte",
+        "no": "Ikke brukt",
+        "pl": "Nieużywany",
+        "ru": "Не используется",
+        "ar": "غير مستخدمة",
+        "ko": "사용 안 함"
+      }
+    },
+    {
       "id": "00:00",
       "title": {
         "en": "00:00",

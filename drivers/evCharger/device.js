@@ -135,21 +135,17 @@ class CarChargeDevice extends GenericDevice {
       this._controlTick().catch((err) => this.error(err));
     }, CONTROL_TICK_MS);
 
-    // 'solar_and_grid' was merged into 'scheduled_price' (Smart): solar is priced in either way.
+    // Manual without its override (e.g. charger control switched off meanwhile): back to Smart.
     const mode = this.getCapabilityValue('ev_charge_mode');
-    if (!mode || mode === 'solar_and_grid') {
-      await this.setCapabilityValue('ev_charge_mode', 'scheduled_price').catch(this.error);
+    if (!mode || (mode === 'manual' && (!this.manualOverride || !this.getSettings().chargerControl))) {
+      await this.setChargeMode('scheduled_price', 'init').catch(this.error);
     }
 
     // Capability listeners survive restartDevice() (same instance): register them once.
     if (!this.uiListenersRegistered) {
       this.uiListenersRegistered = true;
       this.registerCapabilityListener('ev_charge_mode', async (value) => {
-        this.log(`EV charge mode set to ${value}`);
-        if (this.homey.app.trigger_ev_charge_mode_changed) {
-          await this.homey.app.trigger_ev_charge_mode_changed(this, { mode: value }, {}).catch(this.error);
-        }
-        await this.updateChargeChart().catch(this.error);
+        await this.setChargeMode(value, 'set by user');
       });
       this.registerCapabilityListener('ev_tomorrow', async (value) => {
         this.log(`EV plan for tomorrow set to ${value}`);
@@ -157,21 +153,12 @@ class CarChargeDevice extends GenericDevice {
       });
       this.registerCapabilityListener('ev_tomorrow_time', async (value) => {
         this.log(`EV departure tomorrow set to ${value}`);
-        await this.setTomorrowDeparture(value === 'auto' ? null : value);
+        await this.setTomorrowTime(value);
       });
       this.registerCapabilityListener('button.retrain', async () => {
         this.log('[EV Slot] Manual retrain triggered via button.retrain');
         await this.learnDeparturePattern({ retrain: true }); // Re-bootstraps from Insights, keeping what was learned live
         return true;
-      });
-    }
-    // Added by migration when chargerControl is switched on, so possibly after the listeners above.
-    if (!this.overrideListenerRegistered && this.hasCapability('ev_manual_override')) {
-      this.overrideListenerRegistered = true;
-      this.registerCapabilityListener('ev_manual_override', async (value) => {
-        if (!this.getSettings().chargerControl) throw Error(this.homey.__('error_charger_control_off'));
-        await this._setManualOverride(value ? { since: Date.now() } : null, 'set by user');
-        if (!value) await this._applyChargerControl();
       });
     }
 
@@ -781,6 +768,7 @@ class CarChargeDevice extends GenericDevice {
   async _startCarIfIdle() {
     const capabilityId = this.carCapGroup.startCharge;
     if (!this.getSettings().carStartCharge || !capabilityId || !this.evDevice || !this.presence) return;
+    if (this.manualOverride) return; // manual: this app commands neither charger nor car
     const now = Date.now();
     const soc = typeof this.lastKnownSoc === 'number' && this.lastKnownSoc > 0 ? this.lastKnownSoc : null;
     const carLimit = this._carLimit(this.evDevice.capabilitiesObj);
@@ -804,20 +792,42 @@ class CarChargeDevice extends GenericDevice {
       .catch((err) => this.error('[EV Control] Starting charge in the car failed:', err.message || err));
   }
 
-  // A switch of the charger that was not our command starts (or restarts) a manual override.
+  // A switch of the charger that was not our command starts (or restarts) the manual mode.
   async _onChargerSwitched(value, was) {
     if (!this.getSettings().chargerControl) return;
     if (!EvChargerControl.isManualSwitch({
       value, was, command: this.lastCommand, now: Date.now(),
     })) return;
-    await this._setManualOverride({ since: Date.now() }, `charger switched ${value ? 'on' : 'off'} by hand`);
+    await this.setChargeMode('manual', `charger switched ${value ? 'on' : 'off'} by hand`);
   }
 
-  async _setManualOverride(override, reason) {
-    this.manualOverride = override;
-    await this.setStoreValue('evManualOverride', override).catch(this.error);
-    await this.setCapability('ev_manual_override', !!override).catch(this.error);
-    this.log(`[EV Control] Manual override ${override ? 'on' : 'off'} (${reason})`);
+  // Charge mode from the picker, a flow or a manual switch. 'manual': the charge plan does not
+  // switch the charger, until overrideMaxHours have passed; then the mode before it returns.
+  async setChargeMode(mode, reason) {
+    const current = this.getCapabilityValue('ev_charge_mode');
+    if (mode === 'manual') {
+      if (!this.getSettings().chargerControl) throw Error(this.homey.__('error_charger_control_off'));
+      const previousMode = current === 'manual'
+        ? (this.manualOverride && this.manualOverride.previousMode) || 'scheduled_price'
+        : current || 'scheduled_price';
+      this.manualOverride = { since: Date.now(), previousMode };
+    } else {
+      this.manualOverride = null;
+    }
+    await this.setStoreValue('evManualOverride', this.manualOverride).catch(this.error);
+    await this.setCapabilityValue('ev_charge_mode', mode).catch(this.error);
+    this.log(`EV charge mode ${mode} (${reason})`);
+    if (mode !== current && this.homey.app.trigger_ev_charge_mode_changed) {
+      await this.homey.app.trigger_ev_charge_mode_changed(this, { mode }, {}).catch(this.error);
+    }
+    await this.updateChargeChart().catch(this.error);
+  }
+
+  // The mode the plan is made with: in manual mode the one before it.
+  _planChargeMode() {
+    const mode = this.getCapabilityValue('ev_charge_mode') || 'scheduled_price';
+    if (mode !== 'manual') return mode;
+    return (this.manualOverride && this.manualOverride.previousMode) || 'scheduled_price';
   }
 
   async _applyChargerControl() {
@@ -827,13 +837,15 @@ class CarChargeDevice extends GenericDevice {
     if (this.manualOverride) {
       const maxHours = this.getSettings().overrideMaxHours;
       if (!EvChargerControl.overrideExpired({ override: this.manualOverride, maxHours, now })) return;
-      await this._setManualOverride(null, `maximum of ${maxHours} h reached`);
+      // Plans again, and switches from that new plan.
+      await this.setChargeMode(this.manualOverride.previousMode, `manual for the maximum of ${maxHours} h`);
+      return;
     }
     const wanted = EvChargerControl.wantedState({
       plan: this.latestPlan,
       now,
       atHome: this.presence.atHome,
-      chargeMode: this.getCapabilityValue('ev_charge_mode') || 'scheduled_price',
+      chargeMode: this._planChargeMode(),
     });
     const command = EvChargerControl.nextCommand({
       wanted,
@@ -944,9 +956,8 @@ class CarChargeDevice extends GenericDevice {
   // ─── Settings change handler ────────────────────────────────────────────────
 
   async onSettings({ newSettings, changedKeys }) {
-    if (changedKeys.includes('chargerControl')) {
-      this.migrated = false; // ev_manual_override comes and goes with it
-      if (this.manualOverride) await this._setManualOverride(null, 'charger control changed');
+    if (changedKeys.includes('chargerControl') && this.manualOverride) {
+      await this.setChargeMode(this.manualOverride.previousMode, 'charger control changed');
     }
     await super.onSettings({ newSettings, changedKeys });
     const strategyKeys = [
@@ -1072,7 +1083,6 @@ class CarChargeDevice extends GenericDevice {
   correctCapabilities() {
     let caps = super.correctCapabilities();
     if (!this.getSettings().v2x) caps = caps.filter((cap) => cap !== 'meter_kwh_discharging');
-    if (!this.getSettings().chargerControl) caps = caps.filter((cap) => cap !== 'ev_manual_override');
     return caps;
   }
 
@@ -1093,8 +1103,7 @@ class CarChargeDevice extends GenericDevice {
 
   // ─── Planner inputs ─────────────────────────────────────────────────────────
 
-  // Day overrides by local date, plus the legacy trip override (flow card / pickers): a target SoC
-  // at the next occurrence of a time, or 'indefinite' (no departures at all).
+  // Day overrides by local date (pickers / flows), from today on.
   _overrides(tz, now) {
     const today = EvUsageModel.localDateStr(new Date(now), tz);
     const stored = this.getStoreValue('evOverrides') || {};
@@ -1103,28 +1112,7 @@ class CarChargeDevice extends GenericDevice {
       if (date >= today) overrides[date] = ov;
     });
     if (Object.keys(overrides).length !== Object.keys(stored).length) this.setStoreValue('evOverrides', overrides).catch(this.error);
-    let indefinite = false;
-    const trip = this.getStoreValue('tripOverride');
-    if (trip && trip.departureTime === 'indefinite') {
-      indefinite = true;
-    } else if (trip) {
-      const fh = EvPlanner.hhmmToFh(trip.departureTime);
-      const from = trip.timestamp || now;
-      if (fh !== null) {
-        const midnight = TimeHelpers.getLocalMidnightUTC(new Date(from), tz).getTime();
-        let t = EvPlanner.localTimeMs(midnight, fh, tz);
-        if (t <= from) {
-          const next = TimeHelpers.getLocalMidnightUTC(new Date(midnight + 36 * 3600 * 1000), tz).getTime();
-          t = EvPlanner.localTimeMs(next, fh, tz);
-        }
-        if (t < now) {
-          this.setStoreValue('tripOverride', null).catch(this.error); // done
-        } else {
-          overrides[EvUsageModel.localDateStr(new Date(t), tz)] = { type: 'min', soc: trip.targetSoc || 80, time: trip.departureTime };
-        }
-      }
-    }
-    return { overrides, indefinite };
+    return overrides;
   }
 
   // "Tomorrow" as the user means it: before 04:00 that is still the coming day, i.e. today.
@@ -1148,23 +1136,33 @@ class CarChargeDevice extends GenericDevice {
     await this.updateChargeChart().catch(this.error);
   }
 
-  // Picker / flow: 'auto', 'unused' or 'min_<soc>' ('normal' and 'boost_<soc>' from v9 beta flows).
+  // Picker / flow dropdown: 'auto' or 'min_<soc>'.
   async setTomorrowPlan(value) {
-    const min = /^(?:min|boost)_(\d+)$/.exec(value || '');
+    const min = /^min_(\d+)$/.exec(value || '');
     if (min) {
       await this.setTomorrowMinSoc(Number(min[1]));
       return;
     }
     const tz = this.timeZone || this.homey.clock.getTimezone();
     const date = this._tomorrowDate(tz);
-    // A departure time set for that day stays, except when the car is not used.
+    // "Automatic" ends only the minimum SoC: a departure time or "not used" for that day stays.
     const existing = (this.getStoreValue('evOverrides') || {})[date];
-    const time = (existing && existing.time) || null;
-    let override = time ? { type: 'departure', time } : null;
-    if (value === 'unused') override = { type: 'unused' };
-    // "Automatic" also ends a legacy trip override (old flow cards / pickers).
-    else await this.setStoreValue('tripOverride', null).catch(this.error);
+    let override = null;
+    if (existing && existing.type === 'unused') override = existing;
+    else if (existing && existing.time) override = { type: 'departure', time: existing.time };
     await this._setOverride(date, override);
+  }
+
+  // Departure picker / flow dropdown: 'auto', 'unused' or a time (HH:MM).
+  async setTomorrowTime(value) {
+    if (value === 'unused') await this.setTomorrowUnused();
+    else await this.setTomorrowDeparture(value === 'auto' ? null : value);
+  }
+
+  // The car is not used tomorrow, once.
+  async setTomorrowUnused() {
+    const tz = this.timeZone || this.homey.clock.getTimezone();
+    await this._setOverride(this._tomorrowDate(tz), { type: 'unused' });
   }
 
   // Picker / flow: at least soc % at tomorrow's departure, once; keeps a departure time set.
@@ -1177,21 +1175,21 @@ class CarChargeDevice extends GenericDevice {
   }
 
   // Picker / flow: tomorrow's departure at another time (HH:MM), once; null = as learned. Keeps a
-  // minimum SoC set, and a time means the car is used that day.
+  // minimum SoC set; both a time and null end "not used".
   async setTomorrowDeparture(time) {
     const tz = this.timeZone || this.homey.clock.getTimezone();
     const date = this._tomorrowDate(tz);
     const existing = (this.getStoreValue('evOverrides') || {})[date];
     let override = null;
-    if (existing && (existing.type === 'min' || existing.type === 'boost')) override = { ...existing, time };
+    if (existing && existing.type === 'min') override = { ...existing, time };
     else if (time) override = { type: 'departure', time };
-    else if (existing && existing.type === 'unused') override = existing;
     await this._setOverride(date, override);
   }
 
-  // Departure time picker: tomorrow's set time (to the half hour), else 'auto'.
+  // Departure time picker: 'unused', tomorrow's set time (to the half hour), else 'auto'.
   _tomorrowTimePickerValue(overrides, tz) {
     const ov = overrides[this._tomorrowDate(tz)];
+    if (ov && ov.type === 'unused') return 'unused';
     const fh = ov ? EvPlanner.hhmmToFh(ov.time) : null;
     if (fh === null) return 'auto';
     const half = Math.min(47, Math.round(fh * 2)); // after 23:45 stays 23:30, not the next day
@@ -1201,8 +1199,7 @@ class CarChargeDevice extends GenericDevice {
   _tomorrowPickerValue(overrides, tz) {
     const ov = overrides[this._tomorrowDate(tz)];
     if (!ov) return 'auto';
-    if (ov.type === 'unused') return 'unused';
-    if (ov.type === 'min' || ov.type === 'boost') {
+    if (ov.type === 'min') {
       return `min_${Math.max(30, Math.min(100, Math.round(ov.soc / 10) * 10))}`; // nearest picker step
     }
     return 'auto';
@@ -1270,7 +1267,7 @@ class CarChargeDevice extends GenericDevice {
     if (chargeMode === 'off') return 'off';
     if (chargeMode === 'fast_charge') return 'fast';
     if (chargeMode === 'solar_only') return 'solar_only';
-    return 'smart'; // scheduled_price, solar_and_grid
+    return 'smart'; // scheduled_price
   }
 
   // ─── Main plan and chart update ─────────────────────────────────────────────
@@ -1311,8 +1308,8 @@ class CarChargeDevice extends GenericDevice {
     const profile = this.usageModel ? EvUsageModel.getProfile(this.usageModel) : [];
     const awayUntilMs = atHome ? null : this._awayUntilMs(profile, tz, now);
     const reserveSoc = num(settings.reserveSoc, 30);
-    const { overrides, indefinite } = this._overrides(tz, now);
-    const trips = indefinite ? [] : EvPlanner.buildTrips({
+    const overrides = this._overrides(tz, now);
+    const trips = EvPlanner.buildTrips({
       now,
       timezone: tz,
       profile,
@@ -1325,7 +1322,7 @@ class CarChargeDevice extends GenericDevice {
         ? { lastAwayMs: this.lastAwayTm || 0, stepMs: intervalMin * 60 * 1000 } : null,
     });
     const n = Math.ceil((EvPlanner.HORIZON_DAYS * 24 * 60) / intervalMin);
-    const chargeMode = this.getCapabilityValue('ev_charge_mode') || 'scheduled_price';
+    const chargeMode = this._planChargeMode();
 
     // Cheap enough to charge beyond the needs: under the usual lowest price of a day, learned from
     // the published prices over the last 14 days, or the user's fixed price.

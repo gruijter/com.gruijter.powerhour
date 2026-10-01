@@ -126,19 +126,37 @@
         {
           "id": "off",
           "label": {
-            "en": "Off",
-            "nl": "Uit",
-            "de": "Aus",
-            "fr": "Désactivé",
-            "es": "Apagado",
-            "it": "Spento",
-            "da": "Fra",
-            "sv": "Av",
-            "no": "Av",
-            "pl": "Wyłączone",
-            "ru": "Выкл.",
-            "ar": "إيقاف",
-            "ko": "끄기"
+            "en": "Don't charge",
+            "nl": "Niet laden",
+            "de": "Nicht laden",
+            "fr": "Ne pas charger",
+            "es": "No cargar",
+            "it": "Non caricare",
+            "da": "Lad ikke",
+            "sv": "Ladda inte",
+            "no": "Ikke lad",
+            "pl": "Nie ładuj",
+            "ru": "Не заряжать",
+            "ar": "لا تشحن",
+            "ko": "충전 안 함"
+          }
+        },
+        {
+          "id": "manual",
+          "label": {
+            "en": "Manual",
+            "nl": "Handmatig",
+            "de": "Manuell",
+            "fr": "Manuel",
+            "es": "Manual",
+            "it": "Manuale",
+            "da": "Manuel",
+            "sv": "Manuell",
+            "no": "Manuell",
+            "pl": "Ręcznie",
+            "ru": "Вручную",
+            "ar": "يدوي",
+            "ko": "수동"
           }
         }
       ]

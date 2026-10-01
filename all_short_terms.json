@@ -954,12 +954,6 @@
     "en": "Price now"
   },
   {
-    "file": "./.homeycompose/flow/actions/clear_ev_trip_override.json",
-    "path": "title",
-    "key": "title",
-    "en": "Clear temporary EV trip override"
-  },
-  {
     "file": "./.homeycompose/flow/actions/set_export_fixed_markup_weekend.json",
     "path": "title",
     "key": "title",
@@ -1206,24 +1200,6 @@
     "en": "Off"
   },
   {
-    "file": "./.homeycompose/flow/actions/set_ev_trip_override.json",
-    "path": "title",
-    "key": "title",
-    "en": "Set temporary EV trip override"
-  },
-  {
-    "file": "./.homeycompose/flow/actions/set_ev_trip_override.json",
-    "path": "args[1].title",
-    "key": "title",
-    "en": "Departure Time (HH:MM)"
-  },
-  {
-    "file": "./.homeycompose/flow/actions/set_ev_trip_override.json",
-    "path": "args[2].title",
-    "key": "title",
-    "en": "Target SoC (%)"
-  },
-  {
     "file": "./.homeycompose/flow/actions/solar_json.json",
     "path": "title",
     "key": "title",
@@ -1408,24 +1384,6 @@
     "path": "title",
     "key": "title",
     "en": "Set a new weekend markup"
-  },
-  {
-    "file": "./.homeycompose/flow/actions/set_ev_departure.json",
-    "path": "title",
-    "key": "title",
-    "en": "Set EV departure and target SoC"
-  },
-  {
-    "file": "./.homeycompose/flow/actions/set_ev_departure.json",
-    "path": "args[1].title",
-    "key": "title",
-    "en": "Departure Time (HH:MM)"
-  },
-  {
-    "file": "./.homeycompose/flow/actions/set_ev_departure.json",
-    "path": "args[2].title",
-    "key": "title",
-    "en": "Target SoC (%)"
   },
   {
     "file": "./.homeycompose/flow/actions/set_export_variable_markup.json",
