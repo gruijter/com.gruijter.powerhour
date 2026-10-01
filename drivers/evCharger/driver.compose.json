@@ -532,6 +532,45 @@
           "value": false
         },
         {
+          "id": "overrideMaxHours",
+          "type": "number",
+          "label": {
+            "en": "Max. manual override (h)",
+            "nl": "Max. handmatige override (u)",
+            "de": "Max. manuelle Übersteuerung (h)",
+            "fr": "Forçage manuel max. (h)",
+            "es": "Control manual máx. (h)",
+            "it": "Controllo manuale max. (h)",
+            "da": "Maks. manuel styring (t)",
+            "sv": "Max. manuell styrning (h)",
+            "no": "Maks. manuell styring (t)",
+            "pl": "Maks. sterowanie ręczne (h)",
+            "ru": "Макс. ручное управление (ч)",
+            "ar": "أقصى تجاوز يدوي (س)",
+            "ko": "최대 수동 제어 (시간)"
+          },
+          "hint": {
+            "en": "After this, the charge plan switches the charger again.",
+            "nl": "Daarna schakelt het laadplan de laadpaal weer.",
+            "de": "Danach schaltet der Ladeplan das Ladegerät wieder.",
+            "fr": "Ensuite, le plan de charge pilote à nouveau la borne.",
+            "es": "Después, el plan de carga vuelve a conmutar el cargador.",
+            "it": "Dopo, il piano di ricarica comanda di nuovo il caricatore.",
+            "da": "Derefter styrer ladeplanen laderen igen.",
+            "sv": "Därefter styr laddplanen laddaren igen.",
+            "no": "Deretter styrer ladeplanen laderen igjen.",
+            "pl": "Potem plan ładowania znów przełącza ładowarkę.",
+            "ru": "После этого план зарядки снова переключает зарядку.",
+            "ar": "بعد ذلك تتحكم خطة الشحن في الشاحن مجددًا.",
+            "ko": "그 후 충전 계획이 다시 충전기를 전환합니다."
+          },
+          "value": 4,
+          "min": 0.5,
+          "max": 48,
+          "step": 0.5,
+          "decimals": 1
+        },
+        {
           "id": "carRefreshAfterCharge",
           "type": "checkbox",
           "label": {

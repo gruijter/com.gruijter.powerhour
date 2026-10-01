@@ -53,5 +53,6 @@
   "ev_weekly": "Schema di guida",
   "ev_chart_reserve": "Riserva",
   "ev_chart_assumed": "Presunto",
-  "error_invalid_time": "Ora non valida: __time__. Usa HH:MM"
+  "error_invalid_time": "Ora non valida: __time__. Usa HH:MM",
+  "error_charger_control_off": "Controlla caricatore è disattivato nelle impostazioni del dispositivo."
 }

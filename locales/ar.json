@@ -53,5 +53,6 @@
   "ev_weekly": "نمط القيادة",
   "ev_chart_reserve": "الاحتياطي",
   "ev_chart_assumed": "مفترض",
-  "error_invalid_time": "وقت غير صالح: __time__. استخدم HH:MM"
+  "error_invalid_time": "وقت غير صالح: __time__. استخدم HH:MM",
+  "error_charger_control_off": "التحكم في الشاحن متوقف في إعدادات الجهاز."
 }

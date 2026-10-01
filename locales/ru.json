@@ -53,5 +53,6 @@
   "ev_weekly": "Режим поездок",
   "ev_chart_reserve": "Резерв",
   "ev_chart_assumed": "Предполагаемо",
-  "error_invalid_time": "Неверное время: __time__. Используйте ЧЧ:ММ"
+  "error_invalid_time": "Неверное время: __time__. Используйте ЧЧ:ММ",
+  "error_charger_control_off": "Управлять зарядкой выключено в настройках устройства."
 }

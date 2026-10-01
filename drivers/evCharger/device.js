@@ -90,9 +90,10 @@ class CarChargeDevice extends GenericDevice {
       this.socEstimator.baseSoc = this.lastKnownSoc;
     }
     if (!this.signals) this.signals = {};
-    // Kept across restarts: a manual switch of the charger holds until the plan wants a change.
+    // The state of the charger when its switch state is not reported yet.
     const lastWanted = await this.getStoreValue('evLastWantedSwitch');
     if (typeof lastWanted === 'boolean') this.lastWantedSwitch = lastWanted;
+    this.manualOverride = (await this.getStoreValue('evManualOverride')) || null; // {since}: manual override
     this.lastAwayTm = (await this.getStoreValue('evLastAwayTm')) || 0;
     await super.initDeviceValues();
   }
@@ -162,6 +163,15 @@ class CarChargeDevice extends GenericDevice {
         this.log('[EV Slot] Manual retrain triggered via button.retrain');
         await this.learnDeparturePattern({ retrain: true }); // Re-bootstraps from Insights, keeping what was learned live
         return true;
+      });
+    }
+    // Added by migration when chargerControl is switched on, so possibly after the listeners above.
+    if (!this.overrideListenerRegistered && this.hasCapability('ev_manual_override')) {
+      this.overrideListenerRegistered = true;
+      this.registerCapabilityListener('ev_manual_override', async (value) => {
+        if (!this.getSettings().chargerControl) throw Error(this.homey.__('error_charger_control_off'));
+        await this._setManualOverride(value ? { since: Date.now() } : null, 'set by user');
+        if (!value) await this._applyChargerControl();
       });
     }
 
@@ -345,7 +355,9 @@ class CarChargeDevice extends GenericDevice {
       this.capabilityInstances.chargerSwitch = await this.sourceDevice.makeCapabilityInstance(
         this.sourceCapGroup.switchCap,
         async (value) => {
+          const was = this.signals.switchOn;
           this._setSwitchSignal(value);
+          await this._onChargerSwitched(value, was);
           await this._updatePresence();
         },
       );
@@ -792,10 +804,31 @@ class CarChargeDevice extends GenericDevice {
       .catch((err) => this.error('[EV Control] Starting charge in the car failed:', err.message || err));
   }
 
+  // A switch of the charger that was not our command starts (or restarts) a manual override.
+  async _onChargerSwitched(value, was) {
+    if (!this.getSettings().chargerControl) return;
+    if (!EvChargerControl.isManualSwitch({
+      value, was, command: this.lastCommand, now: Date.now(),
+    })) return;
+    await this._setManualOverride({ since: Date.now() }, `charger switched ${value ? 'on' : 'off'} by hand`);
+  }
+
+  async _setManualOverride(override, reason) {
+    this.manualOverride = override;
+    await this.setStoreValue('evManualOverride', override).catch(this.error);
+    await this.setCapability('ev_manual_override', !!override).catch(this.error);
+    this.log(`[EV Control] Manual override ${override ? 'on' : 'off'} (${reason})`);
+  }
+
   async _applyChargerControl() {
     const capabilityId = this.sourceCapGroup && this.sourceCapGroup.switchCap;
     if (!this.getSettings().chargerControl || !capabilityId || !this.sourceDevice || !this.presence) return;
     const now = Date.now();
+    if (this.manualOverride) {
+      const maxHours = this.getSettings().overrideMaxHours;
+      if (!EvChargerControl.overrideExpired({ override: this.manualOverride, maxHours, now })) return;
+      await this._setManualOverride(null, `maximum of ${maxHours} h reached`);
+    }
     const wanted = EvChargerControl.wantedState({
       plan: this.latestPlan,
       now,
@@ -803,10 +836,15 @@ class CarChargeDevice extends GenericDevice {
       chargeMode: this.getCapabilityValue('ev_charge_mode') || 'scheduled_price',
     });
     const command = EvChargerControl.nextCommand({
-      wanted, lastWanted: this.lastWantedSwitch, lastCommandTm: this.lastSwitchCommandTm, now,
+      wanted,
+      actual: this.signals.switchOn,
+      lastWanted: this.lastWantedSwitch,
+      lastCommandTm: this.lastSwitchCommandTm,
+      now,
     });
     if (command === null) return;
     this.lastSwitchCommandTm = now;
+    this.lastCommand = { value: command, tm: now }; // before sending: the switch report can come first
     try {
       await this.sourceDevice.setCapabilityValue({ capabilityId, value: command });
       this.lastWantedSwitch = command;
@@ -906,6 +944,10 @@ class CarChargeDevice extends GenericDevice {
   // ─── Settings change handler ────────────────────────────────────────────────
 
   async onSettings({ newSettings, changedKeys }) {
+    if (changedKeys.includes('chargerControl')) {
+      this.migrated = false; // ev_manual_override comes and goes with it
+      if (this.manualOverride) await this._setManualOverride(null, 'charger control changed');
+    }
     await super.onSettings({ newSettings, changedKeys });
     const strategyKeys = [
       'chargePower', 'batCapacity', 'variableChargePower',
@@ -1028,8 +1070,10 @@ class CarChargeDevice extends GenericDevice {
 
   // Discharging (V2X) only when the charger and car support it.
   correctCapabilities() {
-    const caps = super.correctCapabilities();
-    return this.getSettings().v2x ? caps : caps.filter((cap) => cap !== 'meter_kwh_discharging');
+    let caps = super.correctCapabilities();
+    if (!this.getSettings().v2x) caps = caps.filter((cap) => cap !== 'meter_kwh_discharging');
+    if (!this.getSettings().chargerControl) caps = caps.filter((cap) => cap !== 'ev_manual_override');
+    return caps;
   }
 
   // ─── Resolve departure time for today ──────────────────────────────────────

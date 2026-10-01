@@ -53,5 +53,6 @@
   "ev_weekly": "Patrón de uso",
   "ev_chart_reserve": "Reserva",
   "ev_chart_assumed": "Supuesto",
-  "error_invalid_time": "Hora no válida: __time__. Usa HH:MM"
+  "error_invalid_time": "Hora no válida: __time__. Usa HH:MM",
+  "error_charger_control_off": "Controlar cargador está desactivado en los ajustes del dispositivo."
 }

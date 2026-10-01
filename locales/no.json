@@ -53,5 +53,6 @@
   "ev_weekly": "Kjøremønster",
   "ev_chart_reserve": "Reserve",
   "ev_chart_assumed": "Antatt",
-  "error_invalid_time": "Ugyldig tid: __time__. Bruk TT:MM"
+  "error_invalid_time": "Ugyldig tid: __time__. Bruk TT:MM",
+  "error_charger_control_off": "Styr lader er slått av i enhetens innstillinger."
 }
