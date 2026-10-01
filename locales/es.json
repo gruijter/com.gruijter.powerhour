@@ -42,7 +42,18 @@
   "repair": {
     "warningtitle": "ADVERTENCIA",
     "warningtext": "Está a punto de cambiar el dispositivo de origen. Esto conserva todos los conocimientos y flujos. Pero si el nuevo dispositivo de origen tiene una lectura de medidor diferente, debe compensar manualmente los valores de inicio del medidor y del dinero en la configuración avanzada.",
-    "evChargerWarningText": "Estás a punto de cambiar el cargador EV y/o el coche EV vinculados. Esto conserva todos los conocimientos y flujos. Pero si el nuevo cargador tiene una lectura de medidor diferente, debe compensar manualmente los valores de inicio del medidor y del dinero en la configuración avanzada."
+    "evChargerWarningText": "Estás a punto de cambiar el cargador EV y/o el coche EV vinculados. Esto conserva todos los conocimientos y flujos. Pero si el nuevo cargador tiene una lectura de medidor diferente, debe compensar manualmente los valores de inicio del medidor y del dinero en la configuración avanzada.",
+    "car_caps_title": "Capacidades del coche",
+    "car_caps_text": "Qué capacidad del coche usar. Automático: reconocida por su id.",
+    "car_no_car": "Ningún coche vinculado.",
+    "car_auto": "Automático",
+    "car_none": "Ninguna",
+    "car_next": "Siguiente",
+    "car_odometer": "Cuentakilómetros",
+    "car_latitude": "Latitud",
+    "car_longitude": "Longitud",
+    "car_chargeLimit": "Límite de carga (%)",
+    "car_startCharge": "Iniciar carga"
   },
   "load_forecast_accuracy": "Error medio __mae__ W (__pct__%), sesgo __bias__ W, __days__ días",
   "load_forecast_accuracy_collecting": "Recopilando datos",

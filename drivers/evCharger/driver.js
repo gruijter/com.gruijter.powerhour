@@ -6,6 +6,7 @@ Copyright 2019 - 2026, Robin de Gruijter (gruijter@hotmail.com)
 
 const crypto = require('crypto');
 const GenericDriver = require('../../lib/genericDeviceDrivers/generic_bat_driver');
+const EvCarCaps = require('../../lib/helpers/EvCarCaps');
 // Dependencies are lazy loaded in methods to save memory
 
 const driverSpecifics = {
@@ -279,13 +280,50 @@ class CarChargeDriver extends GenericDriver {
     return devices;
   }
 
+  // Pairing: charger (+ car) from the list, then the car capabilities view creates the device.
+  onPair(session) {
+    let selected = null;
+    session.setHandler('list_devices', () => this.onPairListDevices());
+    session.setHandler('list_devices_selection', (devices) => {
+      [selected] = devices;
+    });
+    this._setCarCapsGetHandler(session, () => selected, null);
+    session.setHandler('car_caps_set', async (data) => {
+      if (!selected) throw Error(this.homey.__('error_device_corrupt'));
+      const store = { ...(selected.store || {}) };
+      if (data && data.carId) store.evCarCaps = { carId: data.carId, caps: data.caps || {} };
+      return { device: { ...selected, store } }; // the view creates it
+    });
+  }
+
+  // Car capabilities view (pair and repair): per role the fitting capabilities of the chosen car,
+  // and the choice stored earlier for that car.
+  _setCarCapsGetHandler(session, getSelected, stored) {
+    session.setHandler('car_caps_get', async () => {
+      const dev = getSelected();
+      const carId = dev && dev.settings && dev.settings.ev_device_id;
+      const car = carId && carId !== 'none' && this.homey.app.api
+        ? await this.homey.app.api.devices.getDevice({ id: carId, $cache: false }).catch(() => null) : null;
+      if (!car) return { car: null, roles: [] };
+      const chosen = stored && stored.carId === carId ? stored.caps : {};
+      const roles = EvCarCaps.carCapOptions(car).map((role) => ({ ...role, selected: chosen[role.key] || 'auto' }));
+      return { car: car.name, carId, roles };
+    });
+  }
+
   // Same as the generic_bat_driver base version, but also persists the EV car link.
   async onRepair(session, device) {
     this.log('Repairing of device started', device.getName());
     let selectedDevices = [];
+    let carCaps = null; // {carId, caps}: the user's capability choice per role
     session.setHandler('list_devices', () => this.onPairListDevices());
     session.setHandler('list_devices_selection', (devices) => {
       selectedDevices = devices;
+    });
+    this._setCarCapsGetHandler(session, () => selectedDevices[0], device.getStoreValue('evCarCaps'));
+    session.setHandler('car_caps_set', async (data) => {
+      carCaps = data && data.carId ? { carId: data.carId, caps: data.caps || {} } : null;
+      return {}; // the view continues to 'loading'
     });
     session.setHandler('showView', async (viewId) => {
       if (viewId === 'loading') {
@@ -302,6 +340,7 @@ class CarChargeDriver extends GenericDriver {
         };
         this.log('old settings:', device.getSettings());
         await device.setSettings(newSettings).catch((err) => this.error(err));
+        if (carCaps) await device.setStoreValue('evCarCaps', carCaps).catch((err) => this.error(err));
         await session.showView('done');
         this.log('new settings:', device.getSettings());
         device.restartDevice().catch((err) => this.error(err));

@@ -1,0 +1,84 @@
+<form class="homey-form" onsubmit="return false;">
+	<div class="homey-form-group">
+		<h1 class="homey-title" data-i18n="repair.car_caps_title"></h1>
+		<p class="homey-subtitle" id="subtitle"></p>
+	</div>
+	<fieldset class="homey-form-fieldset" id="roles"></fieldset>
+	<button class="homey-button-primary-full" id="next" data-i18n="repair.car_next"></button>
+</form>
+
+<script>
+	let carId = null;
+
+	const option = (value, text, selected) => {
+		const el = document.createElement('option');
+		el.value = value;
+		el.textContent = text;
+		el.selected = value === selected;
+		return el;
+	};
+
+	const describe = (opt) => {
+		const value = opt.value === null || opt.value === undefined ? '' : `: ${opt.value}${opt.units ? ` ${opt.units}` : ''}`;
+		return `${opt.title} (${opt.id})${value}`;
+	};
+
+	async function load() {
+		try {
+			const data = await Homey.emit('car_caps_get');
+			const subtitle = document.getElementById('subtitle');
+			if (!data || !data.car) {
+				subtitle.textContent = Homey.__('repair.car_no_car');
+				return;
+			}
+			carId = data.carId;
+			subtitle.textContent = `${data.car}. ${Homey.__('repair.car_caps_text')}`;
+			const roles = document.getElementById('roles');
+			data.roles.forEach((role) => {
+				const group = document.createElement('div');
+				group.className = 'homey-form-group';
+				const label = document.createElement('label');
+				label.className = 'homey-form-label';
+				label.htmlFor = `role_${role.key}`;
+				label.textContent = Homey.__(`repair.car_${role.key}`);
+				const select = document.createElement('select');
+				select.className = 'homey-form-select';
+				select.id = `role_${role.key}`;
+				select.dataset.role = role.key;
+				select.appendChild(option('auto', `${Homey.__('repair.car_auto')} (${role.auto || Homey.__('repair.car_none')})`, role.selected));
+				select.appendChild(option('none', Homey.__('repair.car_none'), role.selected));
+				role.options.forEach((opt) => select.appendChild(option(opt.id, describe(opt), role.selected)));
+				group.appendChild(label);
+				group.appendChild(select);
+				roles.appendChild(group);
+			});
+		} catch (error) {
+			Homey.alert(error.message || error, 'error');
+		} finally {
+			Homey.hideLoadingOverlay();
+		}
+	}
+
+	document.getElementById('next').addEventListener('click', async () => {
+		try {
+			const caps = {};
+			if (carId) {
+				document.querySelectorAll('select[data-role]').forEach((select) => {
+					caps[select.dataset.role] = select.value;
+				});
+			}
+			// Pairing returns the device to create; repair continues to its 'loading' view.
+			const result = await Homey.emit('car_caps_set', { carId, caps });
+			if (result && result.device) {
+				await Homey.createDevice(result.device);
+				Homey.done();
+				return;
+			}
+			Homey.showView('loading');
+		} catch (error) {
+			Homey.alert(error.message || error, 'error');
+		}
+	});
+
+	load();
+</script>

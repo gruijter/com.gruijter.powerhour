@@ -42,7 +42,18 @@
   "repair": {
     "warningtitle": "ATTENTION",
     "warningtext": "Vous êtes sur le point de changer l'appareil source. Cela préserve toutes les informations et les flux. Mais si le nouvel appareil source a un relevé de compteur différent, vous devez compenser manuellement les valeurs de départ du compteur et de l'argent dans les paramètres avancés.",
-    "evChargerWarningText": "Vous êtes sur le point de changer le chargeur EV et/ou la voiture EV liés. Cela préserve toutes les informations et les flux. Mais si le nouveau chargeur a un relevé de compteur différent, vous devez compenser manuellement les valeurs de départ du compteur et de l'argent dans les paramètres avancés."
+    "evChargerWarningText": "Vous êtes sur le point de changer le chargeur EV et/ou la voiture EV liés. Cela préserve toutes les informations et les flux. Mais si le nouveau chargeur a un relevé de compteur différent, vous devez compenser manuellement les valeurs de départ du compteur et de l'argent dans les paramètres avancés.",
+    "car_caps_title": "Capacités de la voiture",
+    "car_caps_text": "Quelle capacité de la voiture utiliser. Automatique : reconnue par son id.",
+    "car_no_car": "Aucune voiture liée.",
+    "car_auto": "Automatique",
+    "car_none": "Aucune",
+    "car_next": "Suivant",
+    "car_odometer": "Compteur kilométrique",
+    "car_latitude": "Latitude",
+    "car_longitude": "Longitude",
+    "car_chargeLimit": "Limite de charge (%)",
+    "car_startCharge": "Démarrer la charge"
   },
   "load_forecast_accuracy": "Écart moyen __mae__ W (__pct__%), biais __bias__ W, __days__ jours",
   "load_forecast_accuracy_collecting": "Collecte des données",

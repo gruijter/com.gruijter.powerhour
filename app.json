@@ -18431,15 +18431,17 @@
           "id": "list_devices",
           "template": "list_devices",
           "navigation": {
-            "next": "add_devices"
+            "next": "car_caps"
           },
           "options": {
             "singular": true
           }
         },
         {
-          "id": "add_devices",
-          "template": "add_devices"
+          "id": "car_caps",
+          "navigation": {
+            "prev": "list_devices"
+          }
         }
       ],
       "repair": [
@@ -18456,7 +18458,13 @@
             "singular": true
           },
           "navigation": {
-            "next": "loading"
+            "next": "car_caps"
+          }
+        },
+        {
+          "id": "car_caps",
+          "navigation": {
+            "prev": "list_devices"
           }
         },
         {
@@ -18920,41 +18928,6 @@
               "max": 48,
               "step": 0.5,
               "decimals": 1
-            },
-            {
-              "id": "carRefreshAfterCharge",
-              "type": "checkbox",
-              "label": {
-                "en": "Refresh car after charging",
-                "nl": "Auto verversen na laden",
-                "de": "Auto nach dem Laden aktualisieren",
-                "fr": "Actualiser la voiture après la charge",
-                "es": "Actualizar coche tras cargar",
-                "it": "Aggiorna auto dopo la ricarica",
-                "da": "Opdater bil efter opladning",
-                "sv": "Uppdatera bil efter laddning",
-                "no": "Oppdater bil etter lading",
-                "pl": "Odśwież auto po ładowaniu",
-                "ru": "Обновлять авто после зарядки",
-                "ar": "تحديث السيارة بعد الشحن",
-                "ko": "충전 후 차량 새로고침"
-              },
-              "hint": {
-                "en": "Requests a fresh SoC from the car app when charging ends. Wakes the car.",
-                "nl": "Vraagt de auto-app om een actuele SoC als het laden stopt. Wekt de auto.",
-                "de": "Fordert nach dem Laden einen aktuellen SoC von der Auto-App an. Weckt das Auto.",
-                "fr": "Demande un SoC à jour à l'app de la voiture en fin de charge. Réveille la voiture.",
-                "es": "Pide un SoC actualizado a la app del coche al terminar la carga. Despierta el coche.",
-                "it": "Richiede un SoC aggiornato all'app dell'auto a fine ricarica. Sveglia l'auto.",
-                "da": "Beder bilappen om en aktuel SoC, når opladningen stopper. Vækker bilen.",
-                "sv": "Begär aktuell SoC från bilappen när laddningen slutar. Väcker bilen.",
-                "no": "Ber bilappen om oppdatert SoC når ladingen stopper. Vekker bilen.",
-                "pl": "Pobiera aktualny SoC z aplikacji auta po zakończeniu ładowania. Budzi auto.",
-                "ru": "Запрашивает актуальный заряд у приложения авто после зарядки. Будит авто.",
-                "ar": "يطلب نسبة شحن محدثة من تطبيق السيارة عند انتهاء الشحن. يوقظ السيارة.",
-                "ko": "충전이 끝나면 차량 앱에 최신 SoC를 요청합니다. 차량을 깨웁니다."
-              },
-              "value": false
             },
             {
               "id": "carStartCharge",
@@ -28792,43 +28765,6 @@
           }
         }
       ]
-    },
-    "ev_manual_override": {
-      "type": "boolean",
-      "title": {
-        "en": "Manual override",
-        "nl": "Handmatige override",
-        "de": "Manuelle Übersteuerung",
-        "fr": "Forçage manuel",
-        "es": "Control manual",
-        "it": "Controllo manuale",
-        "da": "Manuel styring",
-        "sv": "Manuell styrning",
-        "no": "Manuell styring",
-        "pl": "Sterowanie ręczne",
-        "ru": "Ручное управление",
-        "ar": "تجاوز يدوي",
-        "ko": "수동 제어"
-      },
-      "desc": {
-        "en": "The charge plan does not switch the charger. Ends after the maximum time.",
-        "nl": "Het laadplan schakelt de laadpaal niet. Stopt na de maximale duur.",
-        "de": "Der Ladeplan schaltet das Ladegerät nicht. Endet nach der Höchstdauer.",
-        "fr": "Le plan de charge ne pilote pas la borne. Se termine après la durée maximale.",
-        "es": "El plan de carga no conmuta el cargador. Termina tras el tiempo máximo.",
-        "it": "Il piano di ricarica non comanda il caricatore. Termina dopo la durata massima.",
-        "da": "Ladeplanen styrer ikke laderen. Slutter efter den maksimale tid.",
-        "sv": "Laddplanen styr inte laddaren. Slutar efter den maximala tiden.",
-        "no": "Ladeplanen styrer ikke laderen. Slutter etter maksimal tid.",
-        "pl": "Plan ładowania nie przełącza ładowarki. Kończy się po maksymalnym czasie.",
-        "ru": "План зарядки не переключает зарядку. Завершается через максимальное время.",
-        "ar": "خطة الشحن لا تتحكم في الشاحن. ينتهي بعد المدة القصوى.",
-        "ko": "충전 계획이 충전기를 전환하지 않습니다. 최대 시간 후 종료됩니다."
-      },
-      "uiComponent": "toggle",
-      "getable": true,
-      "setable": true,
-      "insights": false
     },
     "ev_next_departure": {
       "type": "string",

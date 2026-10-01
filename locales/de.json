@@ -42,7 +42,18 @@
   "repair": {
     "warningtitle": "WARNUNG",
     "warningtext": "Sie sind im Begriff, das Quellgerät zu ändern. Dies bewahrt alle Einblicke und Flows. Wenn das neue Quellgerät jedoch einen anderen Zählerstand hat, müssen Sie die Zähler- und Geldstartwerte in den erweiterten Einstellungen manuell kompensieren.",
-    "evChargerWarningText": "Sie sind im Begriff, den verknüpften EV-Lader und/oder das EV-Auto zu ändern. Dies bewahrt alle Einblicke und Flows. Wenn der neue Lader jedoch einen anderen Zählerstand hat, müssen Sie die Zähler- und Geldstartwerte in den erweiterten Einstellungen manuell kompensieren."
+    "evChargerWarningText": "Sie sind im Begriff, den verknüpften EV-Lader und/oder das EV-Auto zu ändern. Dies bewahrt alle Einblicke und Flows. Wenn der neue Lader jedoch einen anderen Zählerstand hat, müssen Sie die Zähler- und Geldstartwerte in den erweiterten Einstellungen manuell kompensieren.",
+    "car_caps_title": "Fahrzeug-Capabilities",
+    "car_caps_text": "Welche Capability des Autos verwendet wird. Automatisch: an der ID erkannt.",
+    "car_no_car": "Kein Auto verknüpft.",
+    "car_auto": "Automatisch",
+    "car_none": "Keine",
+    "car_next": "Weiter",
+    "car_odometer": "Kilometerstand",
+    "car_latitude": "Breitengrad",
+    "car_longitude": "Längengrad",
+    "car_chargeLimit": "Ladelimit (%)",
+    "car_startCharge": "Laden starten"
   },
   "load_forecast_accuracy": "Mittl. Fehler __mae__ W (__pct__%), Bias __bias__ W, __days__ Tage",
   "load_forecast_accuracy_collecting": "Daten werden gesammelt",

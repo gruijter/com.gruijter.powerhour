@@ -19,6 +19,7 @@ const ChargeDeviceHelpers = require('../../lib/helpers/ChargeDeviceHelpers');
 const ChartImages = require('../../lib/helpers/ChartImages');
 const { setTimeoutPromise } = require('../../lib/helpers/Util');
 const MeterHelpers = require('../../lib/helpers/MeterHelpers');
+const EvCarCaps = require('../../lib/helpers/EvCarCaps');
 
 const deviceSpecifics = {
   cmap: {
@@ -46,31 +47,12 @@ const LEARNED_PROFILE_KEYS = [
   'learned_profile_thu', 'learned_profile_fri', 'learned_profile_sat', 'learned_profile_sun',
 ];
 
-// Capabilities read from the linked car device, first match wins. Homey standard ids plus ids
-// confirmed in specific car apps (com.kia_hyundai: latitude/longitude, measure_odo,
-// charge_target_slow, refresh_status). Support for another car app is a matter of adding its ids.
-const CAR_CAPS = {
-  soc: ['measure_battery'],
-  plugState: ['evcharger_charging_state', 'ev_charging_state'],
-  plugBool: ['evcharger_charging'],
-  latitude: ['latitude'],
-  longitude: ['longitude'],
-  odometer: ['measure_odo'],
-  chargeLimit: ['charge_target_slow'], // AC charge limit (%) set in the car
-  refresh: ['refresh_status'], // setable: ask the car app for fresh status
-  startCharge: ['charge'], // setable: tell the car to start charging (Kia/Hyundai app)
-};
-
 // Charger control loop: follows the plan within a price slot and times the "no response" check.
 const CONTROL_TICK_MS = 60 * 1000;
-// At most one car refresh request per this period.
-const CAR_REFRESH_MIN_MS = 3 * 60 * 60 * 1000;
 // At most one restart per this period when the charger's capabilities changed under us.
 const CAP_RESTART_MIN_MS = 10 * 60 * 1000;
 // Direct car read in the control loop, next to the car's own capability events.
 const CAR_POLL_MS = 5 * 60 * 1000;
-// A charging session below this is not worth waking the car for.
-const CAR_REFRESH_MIN_KWH = 1;
 // Chargers with only a kWh meter: power averaged over at least this long, and no meter change
 // for this long counts as no power.
 const METER_POWER_MIN_MS = 119 * 1000;
@@ -252,19 +234,9 @@ class CarChargeDevice extends GenericDevice {
 
         if (ev && ev.capabilitiesObj) {
           this.evDevice = ev;
-          const evCaps = ev.capabilities || [];
-          Object.entries(CAR_CAPS).forEach(([key, ids]) => {
-            const cap = ids.find((id) => evCaps.includes(id));
-            if (cap) this.carCapGroup[key] = cap;
-          });
-          if (this.carCapGroup.startCharge && ev.capabilitiesObj[this.carCapGroup.startCharge]?.setable !== true) {
-            delete this.carCapGroup.startCharge;
-          }
-          // Location needs both halves.
-          if (!this.carCapGroup.latitude || !this.carCapGroup.longitude) {
-            delete this.carCapGroup.latitude;
-            delete this.carCapGroup.longitude;
-          }
+          // The user's choice at repair, when made for this car.
+          const chosen = this.getStoreValue('evCarCaps');
+          this.carCapGroup = EvCarCaps.resolveCarCaps(ev, chosen && chosen.carId === ev.id ? chosen.caps : {});
           this.log(`EV car device linked: ${ev.name}`, this.carCapGroup);
         }
       }
@@ -732,7 +704,6 @@ class CarChargeDevice extends GenericDevice {
       this.lastEvTriggerSlot = planSlot;
       await this.updateChargeChart().catch(this.error);
     }
-    this._trackChargeSession();
     await this._applyChargerControl();
     await this._startCarIfIdle();
   }
@@ -874,40 +845,6 @@ class CarChargeDevice extends GenericDevice {
         this.log(`[EV Control] Charger no longer has ${capabilityId}, restarting device`);
         this.restartDevice(2000).catch(this.error);
       }
-    }
-  }
-
-  // A charging session ends when the car has not taken power for a while. Then optionally ask
-  // the car app for a fresh SoC, which also teaches the charge efficiency.
-  _trackChargeSession() {
-    const now = Date.now();
-    const counter = this._readChargedKwh();
-    const charging = this.presence && this.presence.state === 'charging';
-    if (charging && !this.chargeSession) {
-      this.chargeSession = { startKwh: counter, startTm: now };
-      return;
-    }
-    if (!this.chargeSession || charging) return;
-    const lastCharging = this.signals.lastChargingTm || this.chargeSession.startTm;
-    if (now - lastCharging < EvPresence.NO_RESPONSE_MS) return;
-    const kwh = (typeof counter === 'number' && typeof this.chargeSession.startKwh === 'number')
-      ? counter - this.chargeSession.startKwh : 0;
-    this.chargeSession = null;
-    this.log(`[EV SoC] Charging session ended, ${kwh.toFixed(2)} kWh`);
-    if (kwh >= CAR_REFRESH_MIN_KWH) this._requestCarRefresh().catch(this.error);
-  }
-
-  async _requestCarRefresh() {
-    const capabilityId = this.carCapGroup.refresh;
-    if (!this.getSettings().carRefreshAfterCharge || !capabilityId || !this.evDevice) return;
-    const now = Date.now();
-    if (this.lastCarRefreshTm && (now - this.lastCarRefreshTm) < CAR_REFRESH_MIN_MS) return;
-    this.lastCarRefreshTm = now;
-    try {
-      await this.evDevice.setCapabilityValue({ capabilityId, value: true });
-      this.log('[EV SoC] Requested car status refresh');
-    } catch (err) {
-      this.error('[EV SoC] Car refresh request failed:', err.message || err);
     }
   }
 

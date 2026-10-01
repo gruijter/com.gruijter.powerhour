@@ -42,7 +42,18 @@
   "repair": {
     "warningtitle": "WARNING",
     "warningtext": "You are about to change the source device. This will keep all insights and flows. But if the new source device has a different meter value, you will need to manually compensate the meter and money start values in the advanced settings.",
-    "evChargerWarningText": "You are about to change the linked EV charger and/or EV car. This will keep all insights and flows. But if the new charger has a different meter value, you will need to manually compensate the meter and money start values in the advanced settings."
+    "evChargerWarningText": "You are about to change the linked EV charger and/or EV car. This will keep all insights and flows. But if the new charger has a different meter value, you will need to manually compensate the meter and money start values in the advanced settings.",
+    "car_caps_title": "Car capabilities",
+    "car_caps_text": "Which capability of the car to use. Automatic: recognised by its id.",
+    "car_no_car": "No car linked.",
+    "car_auto": "Automatic",
+    "car_none": "None",
+    "car_next": "Next",
+    "car_odometer": "Odometer",
+    "car_latitude": "Latitude",
+    "car_longitude": "Longitude",
+    "car_chargeLimit": "Charge limit (%)",
+    "car_startCharge": "Start charging"
   },
   "load_forecast_accuracy": "Avg error __mae__ W (__pct__%), bias __bias__ W, __days__ days",
   "load_forecast_accuracy_collecting": "Collecting data",
