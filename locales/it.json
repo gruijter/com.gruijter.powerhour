@@ -69,5 +69,6 @@
   "ev_chart_reserve": "Riserva",
   "ev_chart_assumed": "Presunto",
   "error_invalid_time": "Ora non valida: __time__. Usa HH:MM",
-  "error_charger_control_off": "Il caricatore non è comandato: Controlla caricatore è disattivato, o il caricatore non ha un interruttore."
+  "error_charger_control_off": "Il caricatore non è comandato: Controlla caricatore è disattivato, o il caricatore non ha un interruttore.",
+  "ev_next_reachable": "⚠ raggiungibile __soc__%"
 }

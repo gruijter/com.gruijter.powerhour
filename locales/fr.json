@@ -69,5 +69,6 @@
   "ev_chart_reserve": "Réserve",
   "ev_chart_assumed": "Supposé",
   "error_invalid_time": "Heure invalide : __time__. Utilisez HH:MM",
-  "error_charger_control_off": "La borne n'est pas pilotée : Piloter la borne est désactivé, ou la borne n'a pas d'interrupteur."
+  "error_charger_control_off": "La borne n'est pas pilotée : Piloter la borne est désactivé, ou la borne n'a pas d'interrupteur.",
+  "ev_next_reachable": "⚠ atteignable __soc__%"
 }

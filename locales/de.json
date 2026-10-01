@@ -69,5 +69,6 @@
   "ev_chart_reserve": "Reserve",
   "ev_chart_assumed": "Angenommen",
   "error_invalid_time": "Ungültige Zeit: __time__. Verwende HH:MM",
-  "error_charger_control_off": "Das Ladegerät wird nicht gesteuert: Ladegerät steuern ist aus, oder das Ladegerät hat keinen Schalter."
+  "error_charger_control_off": "Das Ladegerät wird nicht gesteuert: Ladegerät steuern ist aus, oder das Ladegerät hat keinen Schalter.",
+  "ev_next_reachable": "⚠ erreichbar __soc__%"
 }

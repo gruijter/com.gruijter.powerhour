@@ -69,5 +69,6 @@
   "ev_chart_reserve": "Rezerwa",
   "ev_chart_assumed": "Założone",
   "error_invalid_time": "Nieprawidłowa godzina: __time__. Użyj GG:MM",
-  "error_charger_control_off": "Ładowarka nie jest sterowana: Steruj ładowarką jest wyłączone lub ładowarka nie ma przełącznika."
+  "error_charger_control_off": "Ładowarka nie jest sterowana: Steruj ładowarką jest wyłączone lub ładowarka nie ma przełącznika.",
+  "ev_next_reachable": "⚠ osiągalne __soc__%"
 }
