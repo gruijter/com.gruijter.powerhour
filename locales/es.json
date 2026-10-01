@@ -53,7 +53,11 @@
     "car_latitude": "Latitud",
     "car_longitude": "Longitud",
     "car_chargeLimit": "Límite de carga (%)",
-    "car_startCharge": "Iniciar carga"
+    "car_startCharge": "Iniciar carga",
+    "setup_title": "Ajustes",
+    "setup_charger": "Cargador",
+    "setup_power_measured": "0 = automático: medido __power__ W.",
+    "setup_power_unmeasured": "0 = automático: aún sin medir, __power__ W hasta entonces."
   },
   "load_forecast_accuracy": "Error medio __mae__ W (__pct__%), sesgo __bias__ W, __days__ días",
   "load_forecast_accuracy_collecting": "Recopilando datos",
@@ -65,5 +69,5 @@
   "ev_chart_reserve": "Reserva",
   "ev_chart_assumed": "Supuesto",
   "error_invalid_time": "Hora no válida: __time__. Usa HH:MM",
-  "error_charger_control_off": "Controlar cargador está desactivado en los ajustes del dispositivo."
+  "error_charger_control_off": "El cargador no se controla: Controlar cargador está desactivado, o el cargador no tiene interruptor."
 }

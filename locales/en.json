@@ -53,7 +53,11 @@
     "car_latitude": "Latitude",
     "car_longitude": "Longitude",
     "car_chargeLimit": "Charge limit (%)",
-    "car_startCharge": "Start charging"
+    "car_startCharge": "Start charging",
+    "setup_title": "Settings",
+    "setup_charger": "Charger",
+    "setup_power_measured": "0 = automatic: measured __power__ W.",
+    "setup_power_unmeasured": "0 = automatic: not measured yet, __power__ W until then."
   },
   "load_forecast_accuracy": "Avg error __mae__ W (__pct__%), bias __bias__ W, __days__ days",
   "load_forecast_accuracy_collecting": "Collecting data",
@@ -65,5 +69,5 @@
   "ev_chart_reserve": "Reserve",
   "ev_chart_assumed": "Assumed",
   "error_invalid_time": "Invalid time: __time__. Use HH:MM",
-  "error_charger_control_off": "Control charger is off in the device settings."
+  "error_charger_control_off": "The charger is not controlled: Control charger is off, or the charger has no switch."
 }

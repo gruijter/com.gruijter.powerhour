@@ -53,7 +53,11 @@
     "car_latitude": "위도",
     "car_longitude": "경도",
     "car_chargeLimit": "충전 한도 (%)",
-    "car_startCharge": "충전 시작"
+    "car_startCharge": "충전 시작",
+    "setup_title": "설정",
+    "setup_charger": "충전기",
+    "setup_power_measured": "0 = 자동: 측정값 __power__ W.",
+    "setup_power_unmeasured": "0 = 자동: 아직 측정되지 않음, 그때까지 __power__ W."
   },
   "load_forecast_accuracy": "평균 오차 __mae__ W (__pct__%), 편향 __bias__ W, __days__일",
   "load_forecast_accuracy_collecting": "데이터 수집 중",
@@ -65,5 +69,5 @@
   "ev_chart_reserve": "예비",
   "ev_chart_assumed": "가정",
   "error_invalid_time": "잘못된 시간: __time__. HH:MM 형식을 사용하세요",
-  "error_charger_control_off": "기기 설정에서 충전기 제어가 꺼져 있습니다."
+  "error_charger_control_off": "충전기가 제어되지 않습니다: 충전기 제어가 꺼져 있거나 충전기에 스위치가 없습니다."
 }

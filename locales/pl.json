@@ -53,7 +53,11 @@
     "car_latitude": "Szerokość geograficzna",
     "car_longitude": "Długość geograficzna",
     "car_chargeLimit": "Limit ładowania (%)",
-    "car_startCharge": "Rozpocznij ładowanie"
+    "car_startCharge": "Rozpocznij ładowanie",
+    "setup_title": "Ustawienia",
+    "setup_charger": "Ładowarka",
+    "setup_power_measured": "0 = automatycznie: zmierzono __power__ W.",
+    "setup_power_unmeasured": "0 = automatycznie: jeszcze nie zmierzono, do tego czasu __power__ W."
   },
   "load_forecast_accuracy": "Śr. błąd __mae__ W (__pct__%), odchylenie __bias__ W, __days__ dni",
   "load_forecast_accuracy_collecting": "Zbieranie danych",
@@ -65,5 +69,5 @@
   "ev_chart_reserve": "Rezerwa",
   "ev_chart_assumed": "Założone",
   "error_invalid_time": "Nieprawidłowa godzina: __time__. Użyj GG:MM",
-  "error_charger_control_off": "Steruj ładowarką jest wyłączone w ustawieniach urządzenia."
+  "error_charger_control_off": "Ładowarka nie jest sterowana: Steruj ładowarką jest wyłączone lub ładowarka nie ma przełącznika."
 }

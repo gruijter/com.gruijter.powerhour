@@ -53,7 +53,11 @@
     "car_latitude": "Breitengrad",
     "car_longitude": "Längengrad",
     "car_chargeLimit": "Ladelimit (%)",
-    "car_startCharge": "Laden starten"
+    "car_startCharge": "Laden starten",
+    "setup_title": "Einstellungen",
+    "setup_charger": "Ladegerät",
+    "setup_power_measured": "0 = automatisch: gemessen __power__ W.",
+    "setup_power_unmeasured": "0 = automatisch: noch nicht gemessen, bis dahin __power__ W."
   },
   "load_forecast_accuracy": "Mittl. Fehler __mae__ W (__pct__%), Bias __bias__ W, __days__ Tage",
   "load_forecast_accuracy_collecting": "Daten werden gesammelt",
@@ -65,5 +69,5 @@
   "ev_chart_reserve": "Reserve",
   "ev_chart_assumed": "Angenommen",
   "error_invalid_time": "Ungültige Zeit: __time__. Verwende HH:MM",
-  "error_charger_control_off": "Ladegerät steuern ist in den Geräteeinstellungen aus."
+  "error_charger_control_off": "Das Ladegerät wird nicht gesteuert: Ladegerät steuern ist aus, oder das Ladegerät hat keinen Schalter."
 }

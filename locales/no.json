@@ -53,7 +53,11 @@
     "car_latitude": "Breddegrad",
     "car_longitude": "Lengdegrad",
     "car_chargeLimit": "Ladegrense (%)",
-    "car_startCharge": "Start lading"
+    "car_startCharge": "Start lading",
+    "setup_title": "Innstillinger",
+    "setup_charger": "Lader",
+    "setup_power_measured": "0 = automatisk: målt __power__ W.",
+    "setup_power_unmeasured": "0 = automatisk: ikke målt ennå, __power__ W inntil da."
   },
   "load_forecast_accuracy": "Gj.sn. avvik __mae__ W (__pct__%), bias __bias__ W, __days__ dager",
   "load_forecast_accuracy_collecting": "Samler inn data",
@@ -65,5 +69,5 @@
   "ev_chart_reserve": "Reserve",
   "ev_chart_assumed": "Antatt",
   "error_invalid_time": "Ugyldig tid: __time__. Bruk TT:MM",
-  "error_charger_control_off": "Styr lader er slått av i enhetens innstillinger."
+  "error_charger_control_off": "Laderen styres ikke: Styr lader er slått av, eller laderen har ingen bryter."
 }

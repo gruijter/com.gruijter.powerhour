@@ -53,7 +53,11 @@
     "car_latitude": "Latitud",
     "car_longitude": "Longitud",
     "car_chargeLimit": "Laddgräns (%)",
-    "car_startCharge": "Starta laddning"
+    "car_startCharge": "Starta laddning",
+    "setup_title": "Inställningar",
+    "setup_charger": "Laddare",
+    "setup_power_measured": "0 = automatisk: uppmätt __power__ W.",
+    "setup_power_unmeasured": "0 = automatisk: inte uppmätt än, __power__ W tills dess."
   },
   "load_forecast_accuracy": "Medelfel __mae__ W (__pct__%), bias __bias__ W, __days__ dagar",
   "load_forecast_accuracy_collecting": "Samlar in data",
@@ -65,5 +69,5 @@
   "ev_chart_reserve": "Reserv",
   "ev_chart_assumed": "Antaget",
   "error_invalid_time": "Ogiltig tid: __time__. Använd HH:MM",
-  "error_charger_control_off": "Styr laddare är avstängt i enhetens inställningar."
+  "error_charger_control_off": "Laddaren styrs inte: Styr laddare är avstängt, eller laddaren har ingen brytare."
 }

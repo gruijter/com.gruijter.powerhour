@@ -20,6 +20,7 @@ const ChartImages = require('../../lib/helpers/ChartImages');
 const { setTimeoutPromise } = require('../../lib/helpers/Util');
 const MeterHelpers = require('../../lib/helpers/MeterHelpers');
 const EvCarCaps = require('../../lib/helpers/EvCarCaps');
+const EvHistory = require('../../lib/helpers/EvHistory');
 
 const deviceSpecifics = {
   cmap: {
@@ -49,6 +50,8 @@ const LEARNED_PROFILE_KEYS = [
 
 // Charger control loop: follows the plan within a price slot and times the "no response" check.
 const CONTROL_TICK_MS = 60 * 1000;
+// Plan requests within this window are merged into one run.
+const PLAN_COALESCE_MS = 500;
 // At most one restart per this period when the charger's capabilities changed under us.
 const CAP_RESTART_MIN_MS = 10 * 60 * 1000;
 // Direct car read in the control loop, next to the car's own capability events.
@@ -119,7 +122,7 @@ class CarChargeDevice extends GenericDevice {
 
     // Manual without its override (e.g. charger control switched off meanwhile): back to Smart.
     const mode = this.getCapabilityValue('ev_charge_mode');
-    if (!mode || (mode === 'manual' && (!this.manualOverride || !this.getSettings().chargerControl))) {
+    if (!mode || (mode === 'manual' && (!this.manualOverride || !this._controlsCharger()))) {
       await this.setChargeMode('scheduled_price', 'init').catch(this.error);
     }
 
@@ -237,7 +240,7 @@ class CarChargeDevice extends GenericDevice {
           // The user's choice at repair, when made for this car.
           const chosen = this.getStoreValue('evCarCaps');
           this.carCapGroup = EvCarCaps.resolveCarCaps(ev, chosen && chosen.carId === ev.id ? chosen.caps : {});
-          this.log(`EV car device linked: ${ev.name}`, this.carCapGroup);
+          this.log(`EV car device linked: ${ev.name}, chosen:`, (chosen && chosen.caps) || 'none', 'used:', this.carCapGroup);
         }
       }
     } catch (e) {
@@ -412,7 +415,12 @@ class CarChargeDevice extends GenericDevice {
   // Legacy for chargers without any other signal (no plug state, no car location) and not
   // switched by this device: long without power counts as departed.
   _usePowerGap() {
-    return !this.sourceCapGroup.connState && !this.carCapGroup.latitude && !this.getSettings().chargerControl;
+    return !this.sourceCapGroup.connState && !this.carCapGroup.latitude && !this._controlsCharger();
+  }
+
+  // The chargerControl setting is on (default) and the charger has a switch.
+  _controlsCharger() {
+    return !!this.getSettings().chargerControl && !!(this.sourceCapGroup && this.sourceCapGroup.switchCap);
   }
 
   async _updatePresence() {
@@ -534,6 +542,8 @@ class CarChargeDevice extends GenericDevice {
 
   // Charger kWh counter: the source meter when there is one, else the integrated charge meter.
   _readChargedKwh() {
+    // After pairing meter_power_hidden is 0 until the first meter reading: no counter yet.
+    if (this.sourceCapGroup.p1 && !this.lastReadingYear) return null;
     const cap = this.sourceCapGroup.p1 ? 'meter_power_hidden' : 'meter_kwh_charging';
     const val = this.hasCapability(cap) ? this.getCapabilityValue(cap) : null;
     return typeof val === 'number' ? val : null;
@@ -636,6 +646,10 @@ class CarChargeDevice extends GenericDevice {
     const counter = this._readChargedKwh();
     if (typeof counter === 'number') {
       if (typeof this.socEstimator.baseSoc === 'number' && typeof this.socEstimator.baseKwh !== 'number') {
+        this.socEstimator = EvSocEstimator.rebaseCounter(this.socEstimator, counter, this.socEstimator.baseSoc);
+        await this.setStoreValue('socEstimator', this.socEstimator).catch(this.error);
+      } else if (EvSocEstimator.counterJumped(this.socEstimator, counter, capacity)) {
+        this.log('[EV SoC] Charger kWh counter jumped, rebasing estimate');
         this.socEstimator = EvSocEstimator.rebaseCounter(this.socEstimator, counter, this.socEstimator.baseSoc);
         await this.setStoreValue('socEstimator', this.socEstimator).catch(this.error);
       } else if (EvSocEstimator.counterWentBack(this.socEstimator, counter)) {
@@ -765,7 +779,7 @@ class CarChargeDevice extends GenericDevice {
 
   // A switch of the charger that was not our command starts (or restarts) the manual mode.
   async _onChargerSwitched(value, was) {
-    if (!this.getSettings().chargerControl) return;
+    if (!this._controlsCharger()) return;
     if (!EvChargerControl.isManualSwitch({
       value, was, command: this.lastCommand, now: Date.now(),
     })) return;
@@ -777,7 +791,7 @@ class CarChargeDevice extends GenericDevice {
   async setChargeMode(mode, reason) {
     const current = this.getCapabilityValue('ev_charge_mode');
     if (mode === 'manual') {
-      if (!this.getSettings().chargerControl) throw Error(this.homey.__('error_charger_control_off'));
+      if (!this._controlsCharger()) throw Error(this.homey.__('error_charger_control_off'));
       const previousMode = current === 'manual'
         ? (this.manualOverride && this.manualOverride.previousMode) || 'scheduled_price'
         : current || 'scheduled_price';
@@ -791,7 +805,8 @@ class CarChargeDevice extends GenericDevice {
     if (mode !== current && this.homey.app.trigger_ev_charge_mode_changed) {
       await this.homey.app.trigger_ev_charge_mode_changed(this, { mode }, {}).catch(this.error);
     }
-    await this.updateChargeChart().catch(this.error);
+    // Not awaited: this also runs from the charger control inside a plan run, which would wait on itself.
+    this.updateChargeChart().catch(this.error);
   }
 
   // The mode the plan is made with: in manual mode the one before it.
@@ -952,9 +967,8 @@ class CarChargeDevice extends GenericDevice {
       const storedMax = (await this.getStoreValue('detectedMaxPower')) || 0;
       if (livePower > storedMax) {
         const roundedMax = Math.round(livePower / 100) * 100;
-        await this.setStoreValue('detectedMaxPower', roundedMax);
-        this.log(`[EV Power Auto-Detect] New peak power detected! Updated stored peak from ${storedMax} W to ${roundedMax} W`);
-        await this.setSettings({ chargePower: roundedMax }).catch(this.error);
+        this.log(`[EV Power Auto-Detect] New peak power: ${storedMax} W -> ${roundedMax} W`);
+        await this._setDetectedPower(roundedMax);
         this.updateChargeChart().catch(this.error);
       }
     }
@@ -1016,11 +1030,9 @@ class CarChargeDevice extends GenericDevice {
     await this.setCapability('meter_kwh_charging', Math.round(kwh * 10000) / 10000);
   }
 
-  // Discharging (V2X) only when the charger and car support it.
+  // Same list as at pairing: see driver.capabilitiesFor().
   correctCapabilities() {
-    let caps = super.correctCapabilities();
-    if (!this.getSettings().v2x) caps = caps.filter((cap) => cap !== 'meter_kwh_discharging');
-    return caps;
+    return this.driver.capabilitiesFor(this.getSettings());
   }
 
   // ─── Resolve departure time for today ──────────────────────────────────────
@@ -1207,15 +1219,37 @@ class CarChargeDevice extends GenericDevice {
     return 'smart'; // scheduled_price
   }
 
+  // Measured charge power: used when the chargePower setting is 0, shown as a label setting.
+  async _setDetectedPower(power) {
+    await this.setStoreValue('detectedMaxPower', power).catch(this.error);
+    await this.setSettings({ learned_power: `${power} W` }).catch(this.error);
+  }
+
   // ─── Main plan and chart update ─────────────────────────────────────────────
 
-  async updateChargeChart() {
+  // Plans and renders. Calls close together (at start-up prices, car report, history learning and
+  // listeners all ask) become one run; a call during a run gets one run after it.
+  updateChargeChart() {
+    if (!this.planQueued) {
+      this.planQueued = (this.planRunning || Promise.resolve())
+        .catch(() => null)
+        .then(() => setTimeoutPromise(PLAN_COALESCE_MS, this))
+        .then(() => {
+          this.planQueued = null;
+          this.planRunning = this._planAndRender();
+          return this.planRunning;
+        });
+    }
+    return this.planQueued;
+  }
+
+  async _planAndRender() {
     if (!this.pricesNextHours) return;
 
     const settings = this.getSettings();
-    const detectedPower = (await this.getStoreValue('detectedMaxPower')) || null;
+    // A set charge power is the maximum; 0 uses the measured one.
     const manualPower = Number(settings.chargePower) || 0;
-    const chargePower = (detectedPower && detectedPower > manualPower) ? detectedPower : (manualPower || 3700);
+    const chargePower = manualPower > 0 ? manualPower : ((await this.getStoreValue('detectedMaxPower')) || EvHistory.DEFAULT_CHARGE_POWER_W);
     const batCapacity = settings.batCapacity || 50;
     const tz = this.timeZone || this.homey.clock.getTimezone();
     const now = Date.now();
@@ -1392,104 +1426,9 @@ class CarChargeDevice extends GenericDevice {
       const endDate = new Date();
       const startDate = new Date(endDate.getTime() - 42 * 24 * 60 * 60 * 1000); // 6 weeks
 
-      const fetchLog = async (deviceId, capNames) => {
-        if (!deviceId || deviceId === 'none') return null;
-        for (const capName of capNames) {
-          const log = logs.find((l) => {
-            const id = l.id || l.uri || '';
-            return id.includes(deviceId) && (id.endsWith(`:${capName}`) || l.name === capName);
-          });
-          if (!log) continue;
-
-          // On devices with energy-class registration, Homey stores the Insights log for
-          // 'measure_power' itself under the internal log id 'energy_power' - same signal,
-          // different log name, NOT a separate derived value and NOT cumulative despite the
-          // name (confirmed empirically: same scale/sign as live measure_power).
-          const isCumulative = capName.includes('meter') || (capName.includes('energy') && capName !== 'energy_power');
-
-          const convert = (data, resStr) => {
-            if (!data || !data.values || data.values.length === 0) return null;
-            if (isCumulative && data.values.length > 1) {
-              const powerWatts = [];
-              for (let i = 1; i < data.values.length; i++) {
-                const prev = data.values[i - 1];
-                const curr = data.values[i];
-                const getVal = (item) => {
-                  if (typeof item.v === 'number') return item.v;
-                  if (typeof item.y === 'number') return item.y;
-                  return 0;
-                };
-                const prevV = getVal(prev);
-                const currV = getVal(curr);
-                const prevT = new Date(prev.t).getTime();
-                const currT = new Date(curr.t).getTime();
-                const dtHours = (currT - prevT) / (3600 * 1000);
-                const dKwh = currV - prevV;
-                if (dtHours > 0 && dKwh >= 0 && dKwh < 500) {
-                  const watts = (dKwh / dtHours) * 1000;
-                  powerWatts.push({ t: prevT, v: watts });
-                }
-              }
-              return powerWatts;
-            }
-
-            // 'energy_power' AND 'measure_battery' (used here for the car's SoC) hourly entries
-            // are already stamped at the START of the hour they represent (confirmed
-            // empirically against a real device: both logs' raw hourly entry lined up exactly
-            // with the real transition seen in Homey's own Insights graph, at the same raw
-            // timestamp) - unlike other hourly logs, which are END-of-interval stamped and need
-            // the -1h correction below.
-            const startStampedCaps = ['energy_power', 'measure_battery'];
-            const isHourly = (resStr === 'last7Days' || resStr === 'last14Days' || resStr === 'last31Days') && !startStampedCaps.includes(capName);
-            return data.values.map((e) => {
-              let val = 0;
-              if (typeof e.v === 'number') val = e.v;
-              else if (typeof e.y === 'number') val = e.y;
-              const rawT = typeof e.t === 'number' ? e.t : new Date(e.t).getTime();
-              const t = isHourly ? rawT - 3600000 : rawT;
-              return { t, v: val };
-            });
-          };
-
-          // Two-stage fetch, mirroring solar's approach (drivers/solar/device.js): a single
-          // 'last7Days'/'last14Days'/'last31Days' fetch only ever returns HOURLY points, and since
-          // the old code stopped at the first resolution with any data, it locked onto hourly and
-          // never tried a finer one - this is why the evCharger chart stepped hourly even when the
-          // price source (e.g. dap15) is 15-minute resolution. 'last24Hours' gives ~5-minute
-          // resolution for the most recent day; merge it over the coarse hourly data so the last
-          // 24h is fine-grained and older-than-24h stays hourly (that's all Insights offers there).
-          let coarse = null;
-          for (const resStr of ['last7Days', 'last14Days', 'last31Days']) {
-            const data = await api.insights.getLogEntries({
-              id: log.id, start: startDate.toISOString(), end: endDate.toISOString(), resolution: resStr,
-            }).catch(() => null);
-            coarse = convert(data, resStr);
-            if (coarse) break;
-          }
-
-          const fineStart = new Date(endDate.getTime() - 24 * 60 * 60 * 1000);
-          const fineData = await api.insights.getLogEntries({
-            id: log.id, start: fineStart.toISOString(), end: endDate.toISOString(), resolution: 'last24Hours',
-          }).catch(() => null);
-          const fine = convert(fineData, 'last24Hours');
-
-          if (!coarse && !fine) {
-            const todayData = await api.insights.getLogEntries({
-              id: log.id, start: startDate.toISOString(), end: endDate.toISOString(), resolution: 'today',
-            }).catch(() => null);
-            const today = convert(todayData, 'today');
-            if (today) return today;
-            continue;
-          }
-          if (!fine) return coarse;
-          if (!coarse) return fine;
-
-          const fineMinTime = Math.min(...fine.map((e) => (typeof e.t === 'number' ? e.t : new Date(e.t).getTime())));
-          const merged = coarse.filter((e) => (typeof e.t === 'number' ? e.t : new Date(e.t).getTime()) < fineMinTime).concat(fine);
-          return merged;
-        }
-        return null;
-      };
+      const fetchLog = (deviceId, capNames) => EvHistory.fetchPowerLog({
+        api, logs, deviceId, capNames, startDate, endDate,
+      });
 
       // Odometer history for the usage model. Checked live on a Kia odometer log (2026-09-26):
       // last14Days gives hourly points, last31Days 6-hour points, longer resolutions nothing useful.
@@ -1609,31 +1548,10 @@ class CarChargeDevice extends GenericDevice {
         this.log(`[EV Slot] Populated ${this.socHistory.length} spot SoC history entries from Insights.`);
       }
 
-      const chargingPowers = powerEntries
-        .map((e) => e.v)
-        .filter((p) => typeof p === 'number' && p > 500)
-        .sort((a, b) => a - b);
-
-      this.log(`[EV Power Auto-Detect] Found ${chargingPowers.length} active charging entries (>500W) in history.`);
-      if (chargingPowers.length > 0) {
-        const minP = Math.round(chargingPowers[0]);
-        const p50P = Math.round(chargingPowers[Math.floor(chargingPowers.length * 0.50)]);
-        const p90P = Math.round(chargingPowers[Math.floor(chargingPowers.length * 0.90)]);
-        const p95P = Math.round(chargingPowers[Math.floor(chargingPowers.length * 0.95)]);
-        const p99P = Math.round(chargingPowers[Math.floor(chargingPowers.length * 0.99)]);
-        const maxP = Math.round(chargingPowers[chargingPowers.length - 1]);
-        this.log(`[EV Power Auto-Detect] History Percentiles (Watts) -> min: ${minP}W, 50th: ${p50P}W, 90th: ${p90P}W, 95th: ${p95P}W, 99th: ${p99P}W, max: ${maxP}W`);
-
-        const detectedMax = Math.round(p99P / 100) * 100;
-        this.log(`[EV Power Auto-Detect] Selected peak power estimate (99th percentile): ${detectedMax} W`);
-        if (detectedMax >= 1000) {
-          await this.setStoreValue('detectedMaxPower', detectedMax);
-          const currentSetting = this.getSettings().chargePower;
-          if (!currentSetting || currentSetting === 11000) {
-            await this.setSettings({ chargePower: detectedMax }).catch(this.error);
-            this.log(`[EV Power Auto-Detect] Automatically updated chargePower setting from default to detected ${detectedMax} W`);
-          }
-        }
+      const detected = EvHistory.detectChargePower(powerEntries);
+      if (detected) {
+        this.log(`[EV Power Auto-Detect] Charge power from history (99th percentile): ${detected} W`);
+        await this._setDetectedPower(detected);
       }
 
       this.log('[EV Slot] History learning complete.');

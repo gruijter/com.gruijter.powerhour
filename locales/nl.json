@@ -53,7 +53,11 @@
     "car_latitude": "Breedtegraad",
     "car_longitude": "Lengtegraad",
     "car_chargeLimit": "Laadlimiet (%)",
-    "car_startCharge": "Laden starten"
+    "car_startCharge": "Laden starten",
+    "setup_title": "Instellingen",
+    "setup_charger": "Laadpaal",
+    "setup_power_measured": "0 = automatisch: gemeten __power__ W.",
+    "setup_power_unmeasured": "0 = automatisch: nog niet gemeten, tot dan __power__ W."
   },
   "load_forecast_accuracy": "Gem. afwijking __mae__ W (__pct__%), bias __bias__ W, __days__ dagen",
   "load_forecast_accuracy_collecting": "Gegevens verzamelen",
@@ -65,5 +69,5 @@
   "ev_chart_reserve": "Reserve",
   "ev_chart_assumed": "Aangenomen",
   "error_invalid_time": "Ongeldige tijd: __time__. Gebruik UU:MM",
-  "error_charger_control_off": "Laadpaal aansturen staat uit in de apparaatinstellingen."
+  "error_charger_control_off": "De laadpaal wordt niet aangestuurd: Laadpaal aansturen staat uit, of de laadpaal heeft geen schakelaar."
 }

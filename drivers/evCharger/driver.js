@@ -7,6 +7,7 @@ Copyright 2019 - 2026, Robin de Gruijter (gruijter@hotmail.com)
 const crypto = require('crypto');
 const GenericDriver = require('../../lib/genericDeviceDrivers/generic_bat_driver');
 const EvCarCaps = require('../../lib/helpers/EvCarCaps');
+const EvHistory = require('../../lib/helpers/EvHistory');
 // Dependencies are lazy loaded in methods to save memory
 
 const driverSpecifics = {
@@ -201,7 +202,6 @@ class CarChargeDriver extends GenericDriver {
   async _listChargerDevices() {
     try {
       const allDevices = await this._getAllHomeyDevices();
-      const allCaps = [...this.ds.deviceCapabilities];
       const listed = [];
 
       Object.values(allDevices).forEach((homeyDevice) => {
@@ -212,7 +212,6 @@ class CarChargeDriver extends GenericDriver {
           id: homeyDevice.id,
           name: homeyDevice.name,
           useMeasureSource: !!compat.useMeasureSource,
-          capabilities: allCaps,
         });
       });
 
@@ -252,7 +251,6 @@ class CarChargeDriver extends GenericDriver {
    */
   async onPairListDevices() {
     const randomId = crypto.randomBytes(3).toString('hex');
-    const allCaps = [...this.ds.deviceCapabilities];
     const [chargers, cars] = await Promise.all([this._listChargerDevices(), this._listCarDevices()]);
     const devices = [];
 
@@ -264,7 +262,7 @@ class CarChargeDriver extends GenericDriver {
         name: `${charger.name}_Σ`,
         data: { id: `PH_${this.ds.driverId}_${charger.id}_${randomId}` },
         settings: { ...baseSettings },
-        capabilities: allCaps,
+        capabilities: this.capabilitiesFor(baseSettings),
       });
 
       cars.forEach((car) => {
@@ -272,7 +270,7 @@ class CarChargeDriver extends GenericDriver {
           name: `${charger.name}_Σ (${car.name})`,
           data: { id: `PH_${this.ds.driverId}_${charger.id}_${car.id}_${randomId}` },
           settings: { ...baseSettings, ev_device_id: car.id, ev_device_name: car.name },
-          capabilities: allCaps,
+          capabilities: this.capabilitiesFor(baseSettings),
         });
       });
     });
@@ -280,49 +278,174 @@ class CarChargeDriver extends GenericDriver {
     return devices;
   }
 
-  // Pairing: charger (+ car) from the list, then the car capabilities view creates the device.
+  // The capability list for these settings: paired with it, and kept on it by the device's
+  // migration (correctCapabilities), so a new device does not migrate right away.
+  capabilitiesFor(settings = {}) {
+    let caps = [...this.ds.deviceCapabilities];
+    // Budget targets only with a budget, discharging only with V2X.
+    if (!settings.distribution || settings.distribution === 'NONE') caps = caps.filter((cap) => !cap.includes('meter_target'));
+    if (!settings.v2x) caps = caps.filter((cap) => cap !== 'meter_kwh_discharging');
+    return caps;
+  }
+
+  // Settings asked in the setup view at pair and repair, as defined in the driver settings.
+  static SETUP_SETTINGS = ['chargePower', 'batCapacity', 'variableChargePower', 'tariff_update_group', 'chargerControl'];
+
+  // Shown with this value also at repair, whatever the device has now.
+  static SETUP_PRESET = { chargerControl: true };
+
+  _settingDefs() {
+    const driver = this.homey.app.manifest.drivers.find((d) => d.id === this.ds.driverId) || {};
+    const defs = {};
+    const walk = (list) => (list || []).forEach((s) => {
+      if (s.children) walk(s.children);
+      else defs[s.id] = s;
+    });
+    walk(driver.settings);
+    return defs;
+  }
+
+  // Tariff update groups with the names of the electricity DAP devices in them.
+  _tariffGroupOptions(current) {
+    const names = {};
+    ['dap', 'dap15'].forEach((driverId) => {
+      let devices = [];
+      try {
+        devices = this.homey.drivers.getDriver(driverId).getDevices();
+      } catch {
+        return;
+      }
+      devices.forEach((dap) => {
+        const group = Number(dap.getSettings().tariff_update_group);
+        if (!group) return;
+        (names[group] = names[group] || []).push(dap.getName());
+      });
+    });
+    const groups = Object.keys(names).map(Number);
+    if (typeof current === 'number' && !groups.includes(current)) groups.push(current);
+    return groups.sort((a, b) => a - b)
+      .map((group) => ({ id: group, label: `${group}${names[group] ? `: ${names[group].join(', ')}` : ''}` }));
+  }
+
+  // Setup view (pair and repair): the settings above and, with a car, per role the fitting
+  // capabilities of that car with the choice stored earlier for it.
+  _setSetupGetHandler(session, getSelected, getCurrent) {
+    session.setHandler('setup_get', async () => {
+      const dev = getSelected();
+      if (!dev || !dev.settings) throw Error(this.homey.__('error_device_corrupt'));
+      const { settings: current, carCaps: stored } = getCurrent(dev);
+      const lang = this.homey.i18n.getLanguage() || 'en';
+      const text = (t) => (t ? t[lang] || t.en : '');
+      const defs = this._settingDefs();
+      const settings = CarChargeDriver.SETUP_SETTINGS.filter((id) => defs[id]).map((id) => {
+        const def = defs[id];
+        let value = current[id] !== undefined ? current[id] : def.value;
+        if (CarChargeDriver.SETUP_PRESET[id] !== undefined) value = CarChargeDriver.SETUP_PRESET[id];
+        const setting = {
+          id, type: def.type, label: text(def.label), value, min: def.min, max: def.max,
+        };
+        if (id === 'tariff_update_group') {
+          setting.type = 'dropdown';
+          setting.options = this._tariffGroupOptions(value);
+        }
+        return setting;
+      });
+      // Charge power: 0 uses the measured one, from the charger's history.
+      const power = settings.find((setting) => setting.id === 'chargePower');
+      if (power) {
+        const measured = current.measuredPower || await this._measuredChargePower(dev.settings.homey_device_id);
+        power.info = measured
+          ? this.homey.__('repair.setup_power_measured', { power: measured })
+          : this.homey.__('repair.setup_power_unmeasured', { power: EvHistory.DEFAULT_CHARGE_POWER_W });
+      }
+
+      const carId = dev.settings.ev_device_id;
+      const car = carId && carId !== 'none' && this.homey.app.api
+        ? await this.homey.app.api.devices.getDevice({ id: carId, $cache: false }).catch(() => null) : null;
+      if (!car) return { settings, car: null, roles: [] };
+      const chosen = stored && stored.carId === carId ? stored.caps : {};
+      const roles = EvCarCaps.carCapOptions(car).map((role) => ({ ...role, selected: chosen[role.key] || 'auto' }));
+      return {
+        settings, car: car.name, carId, roles,
+      };
+    });
+  }
+
+  // Charge power (W) from the charger's Insights power history, or null.
+  async _measuredChargePower(chargerId) {
+    const { api } = this.homey.app;
+    if (!api || !chargerId) return null;
+    const allLogs = await this.homey.app.getInsightsLogs().catch(() => []);
+    const logs = Array.isArray(allLogs) ? allLogs : Object.values(allLogs);
+    const endDate = new Date();
+    const startDate = new Date(endDate.getTime() - 42 * 24 * 60 * 60 * 1000);
+    const entries = await EvHistory.fetchPowerLog({
+      api, logs, deviceId: chargerId, capNames: ['energy_power', 'meter_power'], startDate, endDate,
+    }).catch(() => null);
+    return EvHistory.detectChargePower(entries);
+  }
+
+  // Values from the setup view, checked against the setting definitions.
+  _setupSettings(values = {}) {
+    const defs = this._settingDefs();
+    const settings = {};
+    CarChargeDriver.SETUP_SETTINGS.forEach((id) => {
+      const def = defs[id];
+      if (!def || values[id] === undefined) return;
+      if (def.type === 'checkbox') {
+        settings[id] = !!values[id];
+        return;
+      }
+      let num = Number(values[id]);
+      if (!Number.isFinite(num)) return;
+      if (typeof def.min === 'number') num = Math.max(def.min, num);
+      if (typeof def.max === 'number') num = Math.min(def.max, num);
+      settings[id] = num;
+    });
+    return settings;
+  }
+
+  // Pairing: charger (+ car) from the list, then the setup view creates the device.
   onPair(session) {
     let selected = null;
     session.setHandler('list_devices', () => this.onPairListDevices());
     session.setHandler('list_devices_selection', (devices) => {
       [selected] = devices;
     });
-    this._setCarCapsGetHandler(session, () => selected, null);
-    session.setHandler('car_caps_set', async (data) => {
+    this._setSetupGetHandler(session, () => selected, (dev) => ({ settings: dev.settings, carCaps: null }));
+    session.setHandler('setup_set', async (data) => {
       if (!selected) throw Error(this.homey.__('error_device_corrupt'));
+      const settings = { ...selected.settings, ...this._setupSettings(data && data.settings) };
+      // The group's currency right away: else the first prices set it, with a restart during init.
+      const currency = this.currencies && this.currencies[settings.tariff_update_group];
+      if (currency) settings.currency = currency;
       const store = { ...(selected.store || {}) };
       if (data && data.carId) store.evCarCaps = { carId: data.carId, caps: data.caps || {} };
-      return { device: { ...selected, store } }; // the view creates it
+      return { device: { ...selected, settings, store } }; // the view creates it
     });
   }
 
-  // Car capabilities view (pair and repair): per role the fitting capabilities of the chosen car,
-  // and the choice stored earlier for that car.
-  _setCarCapsGetHandler(session, getSelected, stored) {
-    session.setHandler('car_caps_get', async () => {
-      const dev = getSelected();
-      const carId = dev && dev.settings && dev.settings.ev_device_id;
-      const car = carId && carId !== 'none' && this.homey.app.api
-        ? await this.homey.app.api.devices.getDevice({ id: carId, $cache: false }).catch(() => null) : null;
-      if (!car) return { car: null, roles: [] };
-      const chosen = stored && stored.carId === carId ? stored.caps : {};
-      const roles = EvCarCaps.carCapOptions(car).map((role) => ({ ...role, selected: chosen[role.key] || 'auto' }));
-      return { car: car.name, carId, roles };
-    });
-  }
-
-  // Same as the generic_bat_driver base version, but also persists the EV car link.
+  // Same as the generic_bat_driver base version, but also persists the EV car link and the setup.
   async onRepair(session, device) {
     this.log('Repairing of device started', device.getName());
     let selectedDevices = [];
-    let carCaps = null; // {carId, caps}: the user's capability choice per role
+    let setup = null; // {settings, carCaps}: from the setup view
     session.setHandler('list_devices', () => this.onPairListDevices());
     session.setHandler('list_devices_selection', (devices) => {
       selectedDevices = devices;
     });
-    this._setCarCapsGetHandler(session, () => selectedDevices[0], device.getStoreValue('evCarCaps'));
-    session.setHandler('car_caps_set', async (data) => {
-      carCaps = data && data.carId ? { carId: data.carId, caps: data.caps || {} } : null;
+    this._setSetupGetHandler(session, () => selectedDevices[0], (dev) => ({
+      settings: device.getSettings(),
+      carCaps: device.getStoreValue('evCarCaps'),
+      // Measured by this device, when the charger stays the same.
+      measuredPower: dev.settings.homey_device_id === device.getSettings().homey_device_id
+        ? device.getStoreValue('detectedMaxPower') : null,
+    }));
+    session.setHandler('setup_set', async (data) => {
+      setup = {
+        settings: this._setupSettings(data && data.settings),
+        carCaps: data && data.carId ? { carId: data.carId, caps: data.caps || {} } : null,
+      };
       return {}; // the view continues to 'loading'
     });
     session.setHandler('showView', async (viewId) => {
@@ -337,10 +460,15 @@ class CarChargeDriver extends GenericDriver {
           homey_device_name: dev.settings.homey_device_name,
           ev_device_id: dev.settings.ev_device_id,
           ev_device_name: dev.settings.ev_device_name,
+          ...(setup ? setup.settings : {}),
         };
         this.log('old settings:', device.getSettings());
+        if (newSettings.tariff_update_group !== undefined
+          && newSettings.tariff_update_group !== device.getSettings().tariff_update_group) {
+          device.tariffGroupChanged = true; // prices of the new group after the restart
+        }
         await device.setSettings(newSettings).catch((err) => this.error(err));
-        if (carCaps) await device.setStoreValue('evCarCaps', carCaps).catch((err) => this.error(err));
+        if (setup && setup.carCaps) await device.setStoreValue('evCarCaps', setup.carCaps).catch((err) => this.error(err));
         await session.showView('done');
         this.log('new settings:', device.getSettings());
         device.restartDevice().catch((err) => this.error(err));

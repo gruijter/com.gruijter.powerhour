@@ -53,7 +53,11 @@
     "car_latitude": "خط العرض",
     "car_longitude": "خط الطول",
     "car_chargeLimit": "حد الشحن (%)",
-    "car_startCharge": "بدء الشحن"
+    "car_startCharge": "بدء الشحن",
+    "setup_title": "الإعدادات",
+    "setup_charger": "الشاحن",
+    "setup_power_measured": "0 = تلقائي: المقاس __power__ واط.",
+    "setup_power_unmeasured": "0 = تلقائي: لم يُقس بعد، __power__ واط حتى ذلك الحين."
   },
   "load_forecast_accuracy": "متوسط الخطأ __mae__ واط (__pct__%)، الانحياز __bias__ واط، __days__ أيام",
   "load_forecast_accuracy_collecting": "جمع البيانات",
@@ -65,5 +69,5 @@
   "ev_chart_reserve": "الاحتياطي",
   "ev_chart_assumed": "مفترض",
   "error_invalid_time": "وقت غير صالح: __time__. استخدم HH:MM",
-  "error_charger_control_off": "التحكم في الشاحن متوقف في إعدادات الجهاز."
+  "error_charger_control_off": "الشاحن غير متحكم به: التحكم في الشاحن متوقف، أو لا يوجد مفتاح للشاحن."
 }

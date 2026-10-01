@@ -53,7 +53,11 @@
     "car_latitude": "Latitude",
     "car_longitude": "Longitude",
     "car_chargeLimit": "Limite de charge (%)",
-    "car_startCharge": "Démarrer la charge"
+    "car_startCharge": "Démarrer la charge",
+    "setup_title": "Paramètres",
+    "setup_charger": "Borne",
+    "setup_power_measured": "0 = automatique : mesuré __power__ W.",
+    "setup_power_unmeasured": "0 = automatique : pas encore mesuré, __power__ W d'ici là."
   },
   "load_forecast_accuracy": "Écart moyen __mae__ W (__pct__%), biais __bias__ W, __days__ jours",
   "load_forecast_accuracy_collecting": "Collecte des données",
@@ -65,5 +69,5 @@
   "ev_chart_reserve": "Réserve",
   "ev_chart_assumed": "Supposé",
   "error_invalid_time": "Heure invalide : __time__. Utilisez HH:MM",
-  "error_charger_control_off": "Piloter la borne est désactivé dans les réglages de l'appareil."
+  "error_charger_control_off": "La borne n'est pas pilotée : Piloter la borne est désactivé, ou la borne n'a pas d'interrupteur."
 }

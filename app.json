@@ -18431,14 +18431,14 @@
           "id": "list_devices",
           "template": "list_devices",
           "navigation": {
-            "next": "car_caps"
+            "next": "setup"
           },
           "options": {
             "singular": true
           }
         },
         {
-          "id": "car_caps",
+          "id": "setup",
           "navigation": {
             "prev": "list_devices"
           }
@@ -18458,11 +18458,11 @@
             "singular": true
           },
           "navigation": {
-            "next": "car_caps"
+            "next": "setup"
           }
         },
         {
-          "id": "car_caps",
+          "id": "setup",
           "navigation": {
             "prev": "list_devices"
           }
@@ -18514,23 +18514,43 @@
                 "ko": "최대 충전 전력 (W)"
               },
               "hint": {
-                "en": "Set to 0 to auto-detect maximum charging speed from charger history and live measurements.",
-                "nl": "Stel in op 0 voor automatische detectie van de laadsnelheid uit historie en metingen.",
-                "de": "Auf 0 setzen, um die maximale Ladeleistung automatisch aus Historie und Messungen zu erkennen.",
-                "fr": "Réglez sur 0 pour détecter automatiquement la vitesse de charge à partir de l'historique et des mesures.",
-                "ko": "0으로 설정하면 충전기 기록과 실시간 측정값에서 최대 충전 속도를 자동으로 감지합니다.",
-                "es": "Establezca en 0 para detectar automáticamente la velocidad máxima de carga a partir del historial del cargador y las mediciones en vivo.",
-                "it": "Imposta su 0 per rilevare automaticamente la velocità massima di ricarica dalla cronologia del caricabatterie e dalle misurazioni in tempo reale.",
-                "da": "Sæt til 0 for automatisk at registrere den maksimale ladehastighed ud fra opladerens historik og live-målinger.",
-                "sv": "Ställ in på 0 för att automatiskt upptäcka maximal laddningshastighet från laddarens historik och live-mätningar.",
-                "no": "Sett til 0 for å automatisk oppdage maksimal ladehastighet fra laderens historikk og live-målinger.",
-                "pl": "Ustaw na 0, aby automatycznie wykryć maksymalną prędkość ładowania na podstawie historii ładowarki i pomiarów na żywo.",
-                "ru": "Установите 0 для автоматического определения максимальной скорости зарядки на основе истории зарядного устройства и данных в реальном времени.",
-                "ar": "اضبط على 0 للكشف التلقائي عن أقصى سرعة شحن من سجل الشاحن والقياسات المباشرة."
+                "en": "0: the measured charge power. A value is the maximum.",
+                "nl": "0: het gemeten laadvermogen. Een waarde is het maximum.",
+                "de": "0: die gemessene Ladeleistung. Ein Wert ist das Maximum.",
+                "fr": "0 : la puissance de charge mesurée. Une valeur est le maximum.",
+                "es": "0: la potencia de carga medida. Un valor es el máximo.",
+                "it": "0: la potenza di carica misurata. Un valore è il massimo.",
+                "da": "0: den målte ladeeffekt. En værdi er maksimum.",
+                "sv": "0: den uppmätta laddeffekten. Ett värde är maximum.",
+                "no": "0: den målte ladeeffekten. En verdi er maksimum.",
+                "pl": "0: zmierzona moc ładowania. Wartość to maksimum.",
+                "ru": "0: измеренная мощность зарядки. Значение — это максимум.",
+                "ar": "0: طاقة الشحن المقاسة. القيمة هي الحد الأقصى.",
+                "ko": "0: 측정된 충전 전력. 값을 입력하면 최대값입니다."
               },
               "value": 0,
               "min": 0,
               "decimals": 0
+            },
+            {
+              "id": "learned_power",
+              "type": "label",
+              "label": {
+                "en": "Measured charge power",
+                "nl": "Gemeten laadvermogen",
+                "de": "Gemessene Ladeleistung",
+                "fr": "Puissance de charge mesurée",
+                "es": "Potencia de carga medida",
+                "it": "Potenza di carica misurata",
+                "da": "Målt ladeeffekt",
+                "sv": "Uppmätt laddeffekt",
+                "no": "Målt ladeeffekt",
+                "pl": "Zmierzona moc ładowania",
+                "ru": "Измеренная мощность зарядки",
+                "ar": "طاقة الشحن المقاسة",
+                "ko": "측정된 충전 전력"
+              },
+              "value": "-"
             },
             {
               "id": "variableChargePower",
@@ -18888,7 +18908,7 @@
                 "ar": "يشغّل الشاحن ويطفئه وفق خطة الشحن.",
                 "ko": "충전 계획에 따라 충전기를 켜고 끕니다."
               },
-              "value": false
+              "value": true
             },
             {
               "id": "overrideMaxHours",
