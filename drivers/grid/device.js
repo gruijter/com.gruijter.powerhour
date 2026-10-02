@@ -457,6 +457,11 @@ class GridDevice extends GenericDevice {
     this.lastGroupMeter = {}; // last values of capability meters
 
     const energyData = this.sourceDevice.energyObj || this.sourceDevice.energy;
+    // Diagnostic (forum #4048, HomeWizard P1): verify which energy field holds the
+    // cumulativeImported/ExportedCapability keys.
+    this.log(`${this.sourceDevice.name} energy data:`, JSON.stringify({
+      energyObj: this.sourceDevice.energyObj, energy: this.sourceDevice.energy,
+    }));
 
     if (energyData && energyData.cumulative === true) {
       const importedCap = energyData.cumulativeImportedCapability || 'meter_power';
@@ -475,6 +480,7 @@ class GridDevice extends GenericDevice {
       }
 
       if (group.p1 || group.n1) {
+        this.log(`${this.sourceDevice.name} source capability group:`, JSON.stringify(group));
         this.sourceCapGroup = group;
         return;
       }
