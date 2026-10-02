@@ -20,6 +20,7 @@ along with com.gruijter.powerhour.  If not, see <http://www.gnu.org/licenses/>.
 'use strict';
 
 const GenericDriver = require('../../lib/genericDeviceDrivers/generic_sum_driver');
+const SourceCaps = require('../../lib/helpers/SourceCaps');
 // Dependencies are lazy loaded in methods to save memory
 
 const driverSpecifics = {
@@ -69,6 +70,13 @@ const driverSpecifics = {
     'measure_watt_min.day', 'measure_watt_max.day',
     'measure_watt_min.month', 'measure_watt_max.month',
     'measure_watt_min.year', 'measure_watt_max.year'],
+  // Asked at pair and repair (lib/helpers/PairSetup.js).
+  setup: {
+    settings: ['use_measure_source', 'homey_device_daily_reset', 'tariff_update_group', 'tariff', 'distribution', 'budget'],
+    roles: [{ key: 'p1', kind: 'kwh' }, { key: 'p2', kind: 'kwh' }, { key: 'n1', kind: 'kwh' }, { key: 'n2', kind: 'kwh' }],
+    fallbackMeter: 'meter_power', // the device's cmap.meter_source
+    match: { energy: (energy) => energy.cumulative === true }, // a smart meter
+  },
 };
 
 class PowerDriver extends GenericDriver {
@@ -122,21 +130,16 @@ class PowerDriver extends GenericDriver {
 
   checkDeviceCompatibility(homeyDevice) {
     const result = super.checkDeviceCompatibility(homeyDevice);
-    if (!result.found) return result;
-
-    let hasSourceCapGroup = false;
-    for (const capGroup of this.ds.sourceCapGroups) {
-      if (hasSourceCapGroup) break;
-      const requiredKeys = Object.values(capGroup).filter((v) => v);
-      const hasAllKeys = requiredKeys.every((k) => homeyDevice.capabilities.includes(k));
-      if (hasAllKeys) hasSourceCapGroup = true;
+    const hasSourceCapGroup = this.ds.sourceCapGroups.some((capGroup) => Object.values(capGroup)
+      .filter((v) => v)
+      .every((k) => homeyDevice.capabilities.includes(k)));
+    if (result.found && (hasSourceCapGroup || homeyDevice.capabilities.includes('measure_power'))) {
+      result.useMeasureSource = !hasSourceCapGroup;
+      return result;
     }
-
-    if (!hasSourceCapGroup && !homeyDevice.capabilities.includes('measure_power')) {
-      result.found = false;
-    }
-    result.useMeasureSource = !hasSourceCapGroup;
-    return result;
+    // Other meters: their capabilities are mapped in the setup view.
+    if (SourceCaps.hasKind(homeyDevice, 'kwh')) return { found: true, useMeasureSource: false, needsMapping: true };
+    return { found: false };
   }
 
   getDeviceSettings(homeyDevice) {

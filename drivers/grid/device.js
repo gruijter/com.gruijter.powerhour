@@ -459,40 +459,12 @@ class GridDevice extends GenericDevice {
   }
 
   async addSourceCapGroup() {
-    this.lastGroupMeterReady = false;
-    this.lastGroupMeter = {}; // last values of capability meters
-
-    const energyData = this.sourceDevice.energyObj || this.sourceDevice.energy;
     // Diagnostic (forum #4048, HomeWizard P1): verify which energy field holds the
     // cumulativeImported/ExportedCapability keys.
     this.log(`${this.sourceDevice.name} energy data:`, JSON.stringify({
       energyObj: this.sourceDevice.energyObj, energy: this.sourceDevice.energy,
     }));
-
-    if (energyData && energyData.cumulative === true) {
-      const importedCap = energyData.cumulativeImportedCapability || 'meter_power';
-      const exportedCap = energyData.cumulativeExportedCapability;
-
-      const group = {
-        p1: null, p2: null, n1: null, n2: null,
-      };
-
-      if (this.sourceDevice.capabilities.includes(importedCap)) {
-        group.p1 = importedCap;
-      }
-
-      if (exportedCap && this.sourceDevice.capabilities.includes(exportedCap)) {
-        group.n1 = exportedCap;
-      }
-
-      if (group.p1 || group.n1) {
-        this.log(`${this.sourceDevice.name} source capability group:`, JSON.stringify(group));
-        this.sourceCapGroup = group;
-        return;
-      }
-    }
-
-    throw Error(`${this.sourceDevice.name} has no compatible grid capabilities defined in the energy object.`);
+    return super.addSourceCapGroup();
   }
 
   // --- Selectable settlement scheme (import/export price netting) -------------------

@@ -49,6 +49,14 @@ const driverSpecifics = {
     // symmetric min+max version used by drivers where min is meaningful).
     'measure_watt_max.day', 'measure_watt_max.month', 'measure_watt_max.year',
     'button.retrain', 'button.export_diagnostics', 'alarm_power'],
+  // Asked at pair and repair (lib/helpers/PairSetup.js).
+  setup: {
+    settings: ['use_measure_source', 'homey_device_daily_reset', 'peakPower', 'tariff_update_group', 'tariff',
+      'tariff_type', 'distribution', 'budget'],
+    roles: [{ key: 'p1', kind: 'kwh', label: 'production' }],
+    fallbackMeter: 'meter_power', // the device's cmap.meter_source
+    match: { classes: ['solarpanel'], energy: (energy) => !!energy.meterPowerExportedCapability },
+  },
   // Canonical display order for this driver's chart images - see lib/helpers/ChartImages.js.
   chartImages: [
     {

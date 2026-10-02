@@ -13301,15 +13301,17 @@
           "id": "list_devices",
           "template": "list_devices",
           "navigation": {
-            "next": "add_devices"
+            "next": "setup"
           },
           "options": {
             "singular": true
           }
         },
         {
-          "id": "add_devices",
-          "template": "add_devices"
+          "id": "setup",
+          "navigation": {
+            "prev": "list_devices"
+          }
         }
       ],
       "repair": [
@@ -13326,7 +13328,13 @@
             "singular": true
           },
           "navigation": {
-            "next": "loading"
+            "next": "setup"
+          }
+        },
+        {
+          "id": "setup",
+          "navigation": {
+            "prev": "list_devices"
           }
         },
         {
@@ -22339,15 +22347,17 @@
           "id": "list_devices",
           "template": "list_devices",
           "navigation": {
-            "next": "add_devices"
+            "next": "setup"
           },
           "options": {
             "singular": true
           }
         },
         {
-          "id": "add_devices",
-          "template": "add_devices"
+          "id": "setup",
+          "navigation": {
+            "prev": "list_devices"
+          }
         }
       ],
       "repair": [
@@ -22364,7 +22374,13 @@
             "singular": true
           },
           "navigation": {
-            "next": "loading"
+            "next": "setup"
+          }
+        },
+        {
+          "id": "setup",
+          "navigation": {
+            "prev": "list_devices"
           }
         },
         {
@@ -24256,15 +24272,17 @@
           "id": "list_devices",
           "template": "list_devices",
           "navigation": {
-            "next": "add_devices"
+            "next": "setup"
           },
           "options": {
             "singular": true
           }
         },
         {
-          "id": "add_devices",
-          "template": "add_devices"
+          "id": "setup",
+          "navigation": {
+            "prev": "list_devices"
+          }
         }
       ],
       "repair": [
@@ -24281,7 +24299,13 @@
             "singular": true
           },
           "navigation": {
-            "next": "loading"
+            "next": "setup"
+          }
+        },
+        {
+          "id": "setup",
+          "navigation": {
+            "prev": "list_devices"
           }
         },
         {
@@ -25986,15 +26010,17 @@
           "id": "list_devices",
           "template": "list_devices",
           "navigation": {
-            "next": "add_devices"
+            "next": "setup"
           },
           "options": {
             "singular": true
           }
         },
         {
-          "id": "add_devices",
-          "template": "add_devices"
+          "id": "setup",
+          "navigation": {
+            "prev": "list_devices"
+          }
         }
       ],
       "repair": [
@@ -26011,7 +26037,13 @@
             "singular": true
           },
           "navigation": {
-            "next": "loading"
+            "next": "setup"
+          }
+        },
+        {
+          "id": "setup",
+          "navigation": {
+            "prev": "list_devices"
           }
         },
         {

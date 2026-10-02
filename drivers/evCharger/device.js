@@ -1167,11 +1167,6 @@ class CarChargeDevice extends GenericDevice {
     await this.setCapability('meter_kwh_charging', Math.round(kwh * 10000) / 10000);
   }
 
-  // Same list as at pairing: see driver.capabilitiesFor().
-  correctCapabilities() {
-    return this.driver.capabilitiesFor(this.getSettings());
-  }
-
   // ─── Resolve departure time for today ──────────────────────────────────────
 
   // SoC expected on return: today's typical need minus what today's trips already used.

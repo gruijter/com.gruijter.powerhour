@@ -73,61 +73,15 @@ class BatDevice extends GenericDevice {
     }
   }
 
+  // Detected by the driver, with the choice from the setup view (store 'sourceCaps').
   async addSourceCapGroup() {
-    // 1. Prefer the official Homey battery-energy-class standard: class 'battery' with
-    // 'measure_battery' + 'measure_power', where measure_power already follows the Homey
-    // convention (positive = charging, negative = discharging) - no sign correction needed.
-    if (this.sourceDevice.class === 'battery' || this.sourceDevice.virtualClass === 'battery') {
-
-      const hasCapability = (capability) => this.sourceDevice.capabilities.includes(capability);
-      let soc = null;
-      let newMeasurePower = null;
-      let chargingState = null;
-      let meterCharging = null;
-      let meterDischarging = null;
-
-      if (hasCapability('measure_battery')) soc = 'measure_battery';
-      if (hasCapability('measure_power')) newMeasurePower = 'measure_power';
-      if (hasCapability('battery_charging_state')) chargingState = 'battery_charging_state';
-
-      const energyData = this.sourceDevice.energyObj || this.sourceDevice.energy;
-      if (energyData?.meterPowerImportedCapability && hasCapability(energyData.meterPowerImportedCapability)) {
-        meterCharging = energyData.meterPowerImportedCapability;
-      }
-      if (energyData?.meterPowerExportedCapability && hasCapability(energyData.meterPowerExportedCapability)) {
-        meterDischarging = energyData.meterPowerExportedCapability;
-      }
-
-      if (soc && newMeasurePower) {
-        this.sourceCapGroup = {
-          soc,
-          newMeasurePower,
-          chargingState,
-          meterCharging,
-          meterDischarging,
-        };
-        this.sourcePowerInvert = false;
-        return;
-      }
-    }
-
-    // 2. Fall back to the documented vendor exceptions list (see driver.js sourceCapGroups) for
-    // source devices that don't (yet) comply with the official Homey battery energy standard.
-    // 'invertPower' is metadata, not a capability name, so it must not be used as a required
-    // capability nor registered as a listener target below.
-    const matchedGroup = this.driver.ds.sourceCapGroups.find((capGroup) => {
-      const requiredKeys = Object.keys(capGroup)
-        .filter((k) => k !== 'invertPower')
-        .map((k) => capGroup[k])
-        .filter((v) => v);
-      return requiredKeys.every((k) => this.sourceDevice.capabilities.includes(k));
-    });
-    if (!matchedGroup) {
+    const resolved = this.driver.sourceCapGroupFor(this.sourceDevice, this.getStoreValue('sourceCaps'));
+    if (!resolved) {
       throw Error(`${this.sourceDevice.name} has no compatible capabilities ${this.sourceDevice.capabilities}`);
     }
-    this.sourcePowerInvert = !!matchedGroup.invertPower;
-    this.sourceCapGroup = { ...matchedGroup };
-    delete this.sourceCapGroup.invertPower;
+    this.sourceCapGroup = resolved.group;
+    this.sourcePowerInvert = resolved.invert;
+    this.log(`${this.sourceDevice.name} source capability group:`, JSON.stringify(resolved));
   }
 
   async addListeners() {

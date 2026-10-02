@@ -20,6 +20,7 @@ along with com.gruijter.powerhour.  If not, see <http://www.gnu.org/licenses/>.
 'use strict';
 
 const GenericDriver = require('../../lib/genericDeviceDrivers/generic_sum_driver');
+const SourceCaps = require('../../lib/helpers/SourceCaps');
 // Dependencies are lazy loaded in methods to save memory
 
 const driverSpecifics = {
@@ -73,6 +74,13 @@ const driverSpecifics = {
     // Forecast (net grid exchange)
     'measure_watt_forecast.net_h0', 'measure_watt_forecast.net_h1',
     'button.retrain_load'],
+  // Asked at pair and repair (lib/helpers/PairSetup.js).
+  setup: {
+    settings: ['use_measure_source', 'tariff_update_group', 'tariff', 'directionalNettingScheme',
+      'connectionPhases', 'connectionAmps', 'peakLoadIntervalMinutes', 'distribution', 'budget'],
+    roles: [{ key: 'p1', kind: 'kwh' }, { key: 'n1', kind: 'kwh' }],
+    match: { energy: (energy) => energy.cumulative === true }, // a smart meter
+  },
   // Canonical display order for this driver's chart images - see lib/helpers/ChartImages.js.
   chartImages: [
     {
@@ -140,30 +148,35 @@ class GridDriver extends GenericDriver {
 
   checkDeviceCompatibility(homeyDevice) {
     const energyData = homeyDevice.energyObj || homeyDevice.energy;
+    const caps = homeyDevice.capabilities || [];
+    const hasMeterPower = caps.some((cap) => cap.startsWith('meter_power'));
+    const hasMeasurePower = caps.includes('measure_power');
 
-    // Require the device to be flagged as a cumulative energy source in Homey's own energy
-    // object first. Without this, the measure_power-only fallback below matched almost any
-    // power-metering device (smart plugs, appliance monitors, EV chargers, ...) since
-    // measure_power is extremely common - not just actual main-meter/CT-clamp candidates.
-    if (!energyData || energyData.cumulative !== true) return { found: false };
-
-    // Filter for devices that act as a cumulative main grid meter
-    const hasMeterPower = homeyDevice.capabilities.some((cap) => cap.startsWith('meter_power'));
-    const hasMeasurePower = homeyDevice.capabilities.includes('measure_power');
-    if (hasMeterPower && hasMeasurePower) {
-      return { found: true, useMeasureSource: false };
+    if (energyData && energyData.cumulative === true) {
+      if (hasMeterPower) return { found: true, useMeasureSource: false };
+      if (hasMeasurePower) return { found: true, useMeasureSource: true };
     }
 
-    // Fallback: clamp/CT-style devices with no cumulative kWh register capability at all,
-    // only a signed measure_power (positive = import, negative = export, Homey standard),
-    // but still flagged cumulative in Homey's own energy object. Paired with the
-    // 'use_measure_source' setting, the shared base class self-integrates this into a
-    // meter total (see generic_sum_device.js#addListeners()/updateMeterFromMeasure).
-    if (hasMeasurePower) {
-      return { found: true, useMeasureSource: true };
-    }
-
+    // Not a smart meter by its energy settings: listed to map its capabilities in the setup view.
+    if (SourceCaps.hasKind(homeyDevice, 'kwh')) return { found: true, useMeasureSource: false, needsMapping: true };
+    if (hasMeasurePower) return { found: true, useMeasureSource: true, needsMapping: true };
     return { found: false };
+  }
+
+  // Import and export meter from the energy object of a smart meter.
+  autoSourceCapGroup(sourceDevice) {
+    const energyData = sourceDevice.energyObj || sourceDevice.energy;
+    if (!energyData || energyData.cumulative !== true) return null;
+    const caps = sourceDevice.capabilities || [];
+    const importedCap = energyData.cumulativeImportedCapability || 'meter_power';
+    const exportedCap = energyData.cumulativeExportedCapability;
+    const group = {
+      p1: caps.includes(importedCap) ? importedCap : null,
+      p2: null,
+      n1: exportedCap && caps.includes(exportedCap) ? exportedCap : null,
+      n2: null,
+    };
+    return group.p1 || group.n1 ? group : null;
   }
 
   getDeviceSettings(homeyDevice) {

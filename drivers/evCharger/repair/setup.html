@@ -1,32 +1,27 @@
 <form class="homey-form" onsubmit="return false;">
 	<fieldset class="homey-form-fieldset">
-		<legend class="homey-form-legend" data-i18n="repair.setup_charger"></legend>
+		<legend class="homey-form-legend" id="title"></legend>
 		<div id="settings"></div>
 		<fieldset class="homey-form-checkbox-set" id="checkboxes"></fieldset>
 	</fieldset>
-	<fieldset class="homey-form-fieldset" id="carSection" style="display: none;">
-		<legend class="homey-form-legend" data-i18n="repair.car_caps_title"></legend>
-		<p class="homey-subtitle" id="carText"></p>
+	<fieldset class="homey-form-fieldset" id="rolesSection" style="display: none;">
+		<legend class="homey-form-legend" id="rolesTitle"></legend>
+		<p class="homey-subtitle" id="rolesText"></p>
 		<div id="roles"></div>
 	</fieldset>
-	<p class="homey-subtitle" id="noCar" style="display: none;" data-i18n="repair.car_no_car"></p>
-	<button class="homey-button-primary-full" id="next" data-i18n="repair.car_next"></button>
+	<button class="homey-button-primary-full" id="next" data-i18n="repair.setup_next"></button>
 </form>
 
 <script>
+	// The same file in pair/ and repair/ of each driver with a setup view (lib/helpers/PairSetup.js).
 	Homey.setTitle(Homey.__('repair.setup_title'));
-	let carId = null;
+	let roleDeviceId = null;
 
 	const el = (tag, props = {}) => Object.assign(document.createElement(tag), props);
 
 	const option = (value, text, selected) => el('option', { value: String(value), textContent: text, selected: String(value) === String(selected) });
 
-	const describe = (opt) => {
-		const value = opt.value === null || opt.value === undefined ? '' : `: ${opt.value}${opt.units ? ` ${opt.units}` : ''}`;
-		return `${opt.title} (${opt.id})${value}`;
-	};
-
-	// One driver setting: a checkbox (in the checkbox set) or a group with a number or dropdown.
+	// One driver setting: a checkbox (in the checkbox set) or a group with a number, text or dropdown.
 	const settingField = (s) => {
 		if (s.type === 'checkbox') {
 			const label = el('label', { className: 'homey-form-checkbox' });
@@ -47,7 +42,7 @@
 			group.appendChild(select);
 		} else {
 			const input = el('input', {
-				className: 'homey-form-input', type: 'number', id: `set_${s.id}`, value: s.value,
+				className: 'homey-form-input', type: s.type === 'number' ? 'number' : 'text', id: `set_${s.id}`, value: s.value,
 			});
 			if (typeof s.min === 'number') input.min = s.min;
 			if (typeof s.max === 'number') input.max = s.max;
@@ -57,34 +52,33 @@
 		document.getElementById('settings').appendChild(group);
 	};
 
+	// Per role a dropdown: automatic, none, or one of the fitting capabilities.
+	const roleField = (role) => {
+		const group = el('div', { className: 'homey-form-group' });
+		group.appendChild(el('label', { className: 'homey-form-label', htmlFor: `role_${role.key}`, textContent: role.label }));
+		const select = el('select', { className: 'homey-form-select', id: `role_${role.key}` });
+		select.dataset.role = role.key;
+		select.appendChild(option('auto', `${Homey.__('repair.setup_auto')} (${role.auto || Homey.__('repair.setup_none')})`, role.selected));
+		if (!role.noNone) select.appendChild(option('none', Homey.__('repair.setup_none'), role.selected));
+		role.options.forEach((opt) => select.appendChild(option(opt.id, opt.label, role.selected)));
+		group.appendChild(select);
+		document.getElementById('roles').appendChild(group);
+	};
+
 	let settingDefs = [];
 
 	async function load() {
 		try {
 			const data = await Homey.emit('setup_get');
+			document.getElementById('title').textContent = data.title || '';
 			settingDefs = data.settings || [];
 			settingDefs.forEach(settingField);
-			if (!data.car) {
-				document.getElementById('noCar').style.display = '';
-				return;
-			}
-			carId = data.carId;
-			document.getElementById('carSection').style.display = '';
-			document.getElementById('carText').textContent = `${data.car}. ${Homey.__('repair.car_caps_text')}`;
-			const roles = document.getElementById('roles');
-			data.roles.forEach((role) => {
-				const group = el('div', { className: 'homey-form-group' });
-				group.appendChild(el('label', {
-					className: 'homey-form-label', htmlFor: `role_${role.key}`, textContent: Homey.__(`repair.car_${role.key}`),
-				}));
-				const select = el('select', { className: 'homey-form-select', id: `role_${role.key}` });
-				select.dataset.role = role.key;
-				select.appendChild(option('auto', `${Homey.__('repair.car_auto')} (${role.auto || Homey.__('repair.car_none')})`, role.selected));
-				select.appendChild(option('none', Homey.__('repair.car_none'), role.selected));
-				role.options.forEach((opt) => select.appendChild(option(opt.id, describe(opt), role.selected)));
-				group.appendChild(select);
-				roles.appendChild(group);
-			});
+			if (!data.roles) return;
+			roleDeviceId = data.roles.deviceId;
+			document.getElementById('rolesSection').style.display = '';
+			document.getElementById('rolesTitle').textContent = data.roles.title || '';
+			document.getElementById('rolesText').textContent = data.roles.text || '';
+			data.roles.items.forEach(roleField);
 		} catch (error) {
 			Homey.alert(error.message || error, 'error');
 		} finally {
@@ -100,14 +94,14 @@
 			const settings = {};
 			settingDefs.forEach((s) => {
 				const input = document.getElementById(`set_${s.id}`);
-				settings[s.id] = s.type === 'checkbox' ? input.checked : Number(input.value);
+				settings[s.id] = s.type === 'checkbox' ? input.checked : input.value;
 			});
 			const caps = {};
 			document.querySelectorAll('select[data-role]').forEach((select) => {
 				caps[select.dataset.role] = select.value;
 			});
 			// Pairing returns the device to create; repair continues to its 'loading' view.
-			const result = await Homey.emit('setup_set', { settings, carId, caps });
+			const result = await Homey.emit('setup_set', { settings, roleDeviceId, caps });
 			if (result && result.device) {
 				await Homey.createDevice(result.device);
 				Homey.done();
