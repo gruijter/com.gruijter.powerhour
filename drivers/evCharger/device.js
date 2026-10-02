@@ -315,7 +315,9 @@ class CarChargeDevice extends GenericDevice {
       this.capabilityInstances.chargerConnState = await this.sourceDevice.makeCapabilityInstance(
         this.sourceCapGroup.connState,
         async (value) => {
-          this.signals.chargerPlugged = EvPresence.isPluggedValue(value);
+          const plugged = EvPresence.isPluggedValue(value);
+          if (plugged !== this.signals.chargerPlugged) this.plugChangeTm = Date.now();
+          this.signals.chargerPlugged = plugged;
           await this._updatePresence();
         },
       );
@@ -599,12 +601,15 @@ class CarChargeDevice extends GenericDevice {
 
       const plugState = read(carCaps, this.carCapGroup.plugState)?.value;
       const plugBool = read(carCaps, this.carCapGroup.plugBool)?.value;
+      const carPluggedWas = this.signals.carPlugged;
       if (this.carCapGroup.plugState) {
         this.signals.carPlugged = EvPresence.isPluggedValue(plugState);
       } else if (this.carCapGroup.plugBool) {
         // "Charging" says plugged in; "not charging" says nothing about the cable.
         this.signals.carPlugged = plugBool === true ? true : null;
       }
+      if (typeof carPluggedWas === 'boolean' && typeof this.signals.carPlugged === 'boolean'
+        && carPluggedWas !== this.signals.carPlugged) this.plugChangeTm = Date.now();
     }
 
     const socEntry = read(socCaps, socCap);
@@ -792,13 +797,30 @@ class CarChargeDevice extends GenericDevice {
   }
 
   // A switch of the charger that was not our command: the temporary mode with that state, so the
-  // plan does not switch it back.
+  // plan does not switch it back. Judged after PLUG_WINDOW_MS: the charger switches itself on a
+  // plug change (evcharger_charging is a command and a status), and that report can come later.
   async _onChargerSwitched(value, was) {
     if (!this._controlsCharger()) return;
+    const sw = { value, was, now: Date.now() };
+    if (!EvChargerControl.isManualSwitch({ ...sw, command: this.lastCommand })) return;
+    this.pendingSwitch = sw;
+    this.homey.setTimeout(() => {
+      this._judgeSwitch(sw).catch(this.error);
+    }, EvChargerControl.PLUG_WINDOW_MS);
+  }
+
+  async _judgeSwitch(sw) {
+    if (this.pendingSwitch !== sw) return; // superseded by a newer switch
+    this.pendingSwitch = null;
+    if (this.isDestroyed || this.signals.switchOn !== sw.value) return; // switched back meanwhile
+    const soc = this.lastKnownSoc;
     if (!EvChargerControl.isManualSwitch({
-      value, was, command: this.lastCommand, now: Date.now(),
+      ...sw,
+      command: this.lastCommand,
+      plugChangeTm: this.plugChangeTm,
+      carFull: typeof this.carLimit === 'number' && typeof soc === 'number' && soc >= this.carLimit - 1,
     })) return;
-    await this.setChargeMode(value ? 'charge_temp' : 'off_temp', `charger switched ${value ? 'on' : 'off'} outside this app`);
+    await this.setChargeMode(sw.value ? 'charge_temp' : 'off_temp', `charger switched ${sw.value ? 'on' : 'off'} outside this app`);
   }
 
   // Charge mode from the picker, a flow or a switch of the charger outside this app. A temporary
@@ -973,6 +995,8 @@ class CarChargeDevice extends GenericDevice {
     this.solarCharging = gate.solar;
     const { wanted } = gate;
     if (wanted && powerCap) await this._setTargetPower(powerCap, gate.solar, surplusW, slot);
+    // A switch outside this app is still being judged (_judgeSwitch): do not switch it back.
+    if (this.pendingSwitch) return;
     const command = EvChargerControl.nextCommand({
       wanted,
       actual: this.signals.switchOn,
@@ -1118,12 +1142,12 @@ class CarChargeDevice extends GenericDevice {
   }
 
   // Charging/discharging totals for chargers with their own kWh meter. Chargers that only report
-  // power get them from generic_bat_device.updateMeterFromMeasure(). Counts accepted readings
-  // only: the base class rejects implausible meter jumps without moving meter_power_hidden.
+  // power get them from generic_bat_device.updateMeterFromMeasure(). A meter jump is skipped: the
+  // base class only re-anchors its baselines on it, meter_power_hidden still takes the new reading.
   async _updateChargeTotals(meterBefore) {
     if (!this.sourceCapGroup.p1 || typeof meterBefore !== 'number') return;
     const delta = this.getCapabilityValue('meter_power_hidden') - meterBefore;
-    if (!Number.isFinite(delta) || delta === 0) return;
+    if (!Number.isFinite(delta) || delta === 0 || Math.abs(delta) > GenericDevice.MAX_METER_JUMP_KWH) return;
     const cap = delta > 0 ? 'meter_kwh_charging' : 'meter_kwh_discharging';
     if (!this.hasCapability(cap)) return; // discharging only with V2X
     const total = (this.getCapabilityValue(cap) || 0) + Math.abs(delta);
@@ -1644,12 +1668,10 @@ class CarChargeDevice extends GenericDevice {
       await this._saveUsageModel();
       await this._updateLearnedProfileSettings();
 
-      if (!powerEntries || powerEntries.length < 2) {
-        this.log('[EV Slot] No power history found in Insights for charger.');
-        return;
-      }
+      const hasPowerHistory = Array.isArray(powerEntries) && powerEntries.length >= 2;
+      if (!hasPowerHistory) this.log('[EV Slot] No power history found in Insights for charger.');
 
-      if (powerEntries && powerEntries.length > 0) {
+      if (hasPowerHistory) {
         const newHistoryMap = new Map();
         if (Array.isArray(this.powerHistory)) {
           this.powerHistory.forEach((e) => newHistoryMap.set(e.time, e.power));
@@ -1683,7 +1705,7 @@ class CarChargeDevice extends GenericDevice {
         this.log(`[EV Slot] Populated ${this.socHistory.length} spot SoC history entries from Insights.`);
       }
 
-      const detected = EvHistory.detectChargePower(powerEntries);
+      const detected = hasPowerHistory && EvHistory.detectChargePower(powerEntries);
       if (detected) {
         this.log(`[EV Power Auto-Detect] Charge power from history (99th percentile): ${detected} W`);
         await this._setDetectedPower(detected);
