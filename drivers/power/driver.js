@@ -25,6 +25,7 @@ const SourceCaps = require('../../lib/helpers/SourceCaps');
 
 const driverSpecifics = {
   driverId: 'power',
+  fallbackMeter: 'meter_power', // a source device's primary meter, when nothing else is detected
   originDeviceCapabilities: ['measure_power', 'meter_power', 'meter_power.peak', 'meter_power.consumed', 'meter_power.delivered',
     'meter_power.import', 'meter_power.total_power', 'meter_power.t1', 'meter_power.consumedL1', 'measure_energy_consumption_today'],
   sourceCapGroups: [
@@ -74,7 +75,6 @@ const driverSpecifics = {
   setup: {
     settings: ['use_measure_source', 'homey_device_daily_reset', 'tariff_update_group', 'tariff', 'distribution', 'budget'],
     roles: [{ key: 'p1', kind: 'kwh' }, { key: 'p2', kind: 'kwh' }, { key: 'n1', kind: 'kwh' }, { key: 'n2', kind: 'kwh' }],
-    fallbackMeter: 'meter_power', // the device's cmap.meter_source
     match: { energy: (energy) => energy.cumulative === true }, // a smart meter
   },
 };
@@ -130,9 +130,7 @@ class PowerDriver extends GenericDriver {
 
   checkDeviceCompatibility(homeyDevice) {
     const result = super.checkDeviceCompatibility(homeyDevice);
-    const hasSourceCapGroup = this.ds.sourceCapGroups.some((capGroup) => Object.values(capGroup)
-      .filter((v) => v)
-      .every((k) => homeyDevice.capabilities.includes(k)));
+    const hasSourceCapGroup = !!SourceCaps.matchGroup(homeyDevice.capabilities || [], this.ds.sourceCapGroups);
     if (result.found && (hasSourceCapGroup || homeyDevice.capabilities.includes('measure_power'))) {
       result.useMeasureSource = !hasSourceCapGroup;
       return result;

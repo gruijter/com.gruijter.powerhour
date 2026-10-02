@@ -34,6 +34,7 @@
   "error_setup_caps_missing": "Välj minst en mätar-capability, eller använd Watt som källa.",
   "error_setup_no_watt": "__name__ har ingen measure_power capability.",
   "error_setup_bat_caps_missing": "Välj en laddningsnivå och en effekt.",
+  "error_setup_bat_power_mixed": "Välj antingen en effekt eller en laddnings- och urladdningseffekt, inte båda.",
   "solar_bootstrap_warning": "Solprognosmodellen byggs upp - det kan ta upp till 2 veckors historik innan den är fullt korrekt.",
   "solar_bootstrap_status": "Bygger upp - __days__ av 14 dagars historik insamlad",
   "solar_trained_status": "Fullt tränad (senaste omträning: __date__)",

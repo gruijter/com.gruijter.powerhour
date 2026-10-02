@@ -34,6 +34,7 @@
   "error_setup_caps_missing": "Kies minstens één meter-capability, of gebruik Watt als bron.",
   "error_setup_no_watt": "__name__ heeft geen measure_power capability.",
   "error_setup_bat_caps_missing": "Kies een laadtoestand en een vermogen.",
+  "error_setup_bat_power_mixed": "Kies een vermogen, of een laad- en ontlaadvermogen, niet allebei.",
   "solar_bootstrap_warning": "Zonne-voorspellingsmodel wordt opgebouwd - houd rekening met tot 2 weken historie voor volledige nauwkeurigheid.",
   "solar_bootstrap_status": "Bezig met opbouwen - __days__ van de 14 dagen historie verzameld",
   "solar_trained_status": "Volledig getraind (laatste training: __date__)",

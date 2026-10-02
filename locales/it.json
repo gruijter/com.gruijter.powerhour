@@ -34,6 +34,7 @@
   "error_setup_caps_missing": "Scegli almeno una capacità contatore, oppure usa Watt come sorgente.",
   "error_setup_no_watt": "__name__ non ha la capacità measure_power.",
   "error_setup_bat_caps_missing": "Scegli uno stato di carica e una potenza.",
+  "error_setup_bat_power_mixed": "Scegli una potenza oppure una potenza di carica e scarica, non entrambe.",
   "solar_bootstrap_warning": "Il modello di previsione solare è in fase di costruzione - possono essere necessarie fino a 2 settimane di storico per la piena precisione.",
   "solar_bootstrap_status": "Inizializzazione in corso - __days__ di 14 giorni di storico raccolti",
   "solar_trained_status": "Completamente addestrato (ultimo riaddestramento: __date__)",

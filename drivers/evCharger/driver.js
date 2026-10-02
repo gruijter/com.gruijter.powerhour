@@ -315,8 +315,7 @@ class CarChargeDriver extends GenericDriver {
   // Setup view: with a car, per role the fitting capabilities of that car.
   async setupRoles(dev, stored) {
     const carId = dev.settings.ev_device_id;
-    const car = carId && carId !== 'none' && this.homey.app.api
-      ? await this.homey.app.api.devices.getDevice({ id: carId, $cache: false }).catch(() => null) : null;
+    const car = carId && carId !== 'none' ? await PairSetup.apiDevice(this, carId) : null;
     const title = this.homey.__('repair.car_caps_title');
     if (!car) {
       return {

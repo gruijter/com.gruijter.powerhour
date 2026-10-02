@@ -34,6 +34,7 @@
   "error_setup_caps_missing": "Wähle mindestens eine Zähler-Capability oder benutze Watt als Quelle.",
   "error_setup_no_watt": "__name__ hat keine measure_power Capability.",
   "error_setup_bat_caps_missing": "Wähle einen Ladezustand und eine Leistung.",
+  "error_setup_bat_power_mixed": "Wähle entweder eine Leistung oder eine Lade- und Entladeleistung, nicht beides.",
   "solar_bootstrap_warning": "Das Solarprognosemodell wird aufgebaut - für volle Genauigkeit sind bis zu 2 Wochen Verlauf nötig.",
   "solar_bootstrap_status": "Wird aufgebaut - __days__ von 14 Tagen Verlauf gesammelt",
   "solar_trained_status": "Vollständig trainiert (letztes Training: __date__)",

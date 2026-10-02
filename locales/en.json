@@ -34,6 +34,7 @@
   "error_setup_caps_missing": "Pick at least one meter capability, or use Watt as source.",
   "error_setup_no_watt": "__name__ has no measure_power capability.",
   "error_setup_bat_caps_missing": "Pick a state of charge and a power.",
+  "error_setup_bat_power_mixed": "Pick either a power, or a charge and discharge power, not both.",
   "solar_bootstrap_warning": "Building the solar forecast model - allow up to 2 weeks of history for full accuracy.",
   "solar_bootstrap_status": "Bootstrapping - __days__ of 14 days of history collected",
   "solar_trained_status": "Fully trained (last retrain: __date__)",

@@ -24,6 +24,7 @@ const GenericDriver = require('../../lib/genericDeviceDrivers/generic_sum_driver
 
 const driverSpecifics = {
   driverId: 'solar',
+  fallbackMeter: 'meter_power', // a source device's primary meter, when nothing else is detected
   requiredClass: 'solarpanel',
   deviceCapabilities: ['measure_power', 'measure_watt_forecast.h0',
     'measure_watt_forecast.m15', 'measure_watt_forecast.m30',
@@ -54,7 +55,6 @@ const driverSpecifics = {
     settings: ['use_measure_source', 'homey_device_daily_reset', 'peakPower', 'tariff_update_group', 'tariff',
       'tariff_type', 'distribution', 'budget'],
     roles: [{ key: 'p1', kind: 'kwh', label: 'production' }],
-    fallbackMeter: 'meter_power', // the device's cmap.meter_source
     match: { classes: ['solarpanel'], energy: (energy) => !!energy.meterPowerExportedCapability },
   },
   // Canonical display order for this driver's chart images - see lib/helpers/ChartImages.js.

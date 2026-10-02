@@ -34,6 +34,7 @@
   "error_setup_caps_missing": "Wybierz co najmniej jedną funkcję licznika lub użyj Wata jako źródła.",
   "error_setup_no_watt": "__name__ nie ma funkcji measure_power.",
   "error_setup_bat_caps_missing": "Wybierz stan naładowania i moc.",
+  "error_setup_bat_power_mixed": "Wybierz moc albo moc ładowania i rozładowania, nie obie.",
   "solar_bootstrap_warning": "Model prognozy słonecznej jest w trakcie budowania - pełna dokładność może wymagać do 2 tygodni historii.",
   "solar_bootstrap_status": "Budowanie modelu - zebrano __days__ z 14 dni historii",
   "solar_trained_status": "W pełni wytrenowany (ostatni trening: __date__)",

@@ -23,6 +23,7 @@ const GenericDriver = require('../../lib/genericDeviceDrivers/generic_sum_driver
 
 const driverSpecifics = {
   driverId: 'water',
+  fallbackMeter: 'meter_water', // a source device's primary meter, when nothing else is detected
   originDeviceCapabilities: ['meter_water'],
   deviceCapabilities: ['meter_m3_last_hour', 'meter_m3_this_hour', 'meter_m3_last_day', 'meter_m3_this_day',
     'meter_m3_last_month', 'meter_m3_this_month', 'meter_m3_last_year', 'meter_m3_this_year',

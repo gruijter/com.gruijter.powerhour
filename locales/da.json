@@ -34,6 +34,7 @@
   "error_setup_caps_missing": "Vælg mindst én måler-capability, eller brug Watt som kilde.",
   "error_setup_no_watt": "__name__ har ingen measure_power capability.",
   "error_setup_bat_caps_missing": "Vælg et opladningsniveau og en effekt.",
+  "error_setup_bat_power_mixed": "Vælg enten en effekt eller en opladnings- og afladningseffekt, ikke begge.",
   "solar_bootstrap_warning": "Solprognosemodellen er ved at blive opbygget - der kan gå op til 2 ugers historik, før den er fuldt nøjagtig.",
   "solar_bootstrap_status": "Under opbygning - __days__ af 14 dages historik indsamlet",
   "solar_trained_status": "Fuldt trænet (seneste gentræning: __date__)",

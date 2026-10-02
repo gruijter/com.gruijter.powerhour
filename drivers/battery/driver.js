@@ -20,12 +20,12 @@ along with com.gruijter.powerhour.  If not, see <http://www.gnu.org/licenses/>.
 'use strict';
 
 const GenericDriver = require('../../lib/genericDeviceDrivers/generic_bat_driver');
+const PairSetup = require('../../lib/helpers/PairSetup');
 const SourceCaps = require('../../lib/helpers/SourceCaps');
 // Dependencies are lazy loaded in methods to save memory
 
 const driverSpecifics = {
   driverId: 'battery',
-  originDeviceCapabilities: ['measure_battery', 'measure_power.battery', 'measure_power.battery1'],
   // Exceptions list, used only when a source device does NOT already qualify for the official
   // Homey battery-energy-class detection in autoSourceCapGroup() (class 'battery' + 'measure_battery'
   // + 'measure_power'). Per https://apps.developer.homey.app/the-basics/devices/energy#home-batteries
@@ -203,25 +203,7 @@ class BatteryDriver extends GenericDriver {
   }
 
   checkDeviceCompatibility(homeyDevice) {
-    const hasCapability = (capability) => homeyDevice.capabilities.includes(capability);
-    let found = false;
-
-    if (homeyDevice.class === 'battery' || homeyDevice.virtualClass === 'battery') {
-      if (hasCapability('measure_battery') && hasCapability('measure_power')) {
-        found = true;
-      }
-    }
-
-    if (!found) {
-      found = this.ds.originDeviceCapabilities.some(hasCapability);
-      if (found) {
-        found = this.ds.sourceCapGroups.some((capGroup) => {
-          const requiredKeys = Object.values(capGroup).filter((v) => v);
-          return requiredKeys.every((k) => homeyDevice.capabilities.includes(k));
-        });
-      }
-    }
-    if (found) return { found, useMeasureSource: false };
+    if (this.autoSourceCapGroup(homeyDevice)) return { found: true, useMeasureSource: false };
 
     // A charge level and a power: their capabilities are mapped in the setup view.
     if (!(homeyDevice.driverId || '').includes('com.gruijter.powerhour')
@@ -258,11 +240,7 @@ class BatteryDriver extends GenericDriver {
     // devices that don't (yet) comply with the official Homey battery energy standard.
     // 'invertPower' is metadata, not a capability name, so it must not be used as a required
     // capability nor registered as a listener target.
-    const matched = this.ds.sourceCapGroups.find((capGroup) => Object.keys(capGroup)
-      .filter((k) => k !== 'invertPower')
-      .map((k) => capGroup[k])
-      .filter((v) => v)
-      .every(hasCapability));
+    const matched = SourceCaps.matchGroup(caps, this.ds.sourceCapGroups, ['invertPower']);
     if (!matched) return null;
     const group = { ...matched };
     delete group.invertPower;
@@ -315,10 +293,13 @@ class BatteryDriver extends GenericDriver {
     return group.soc && hasPower ? { group, invert } : null;
   }
 
+  // A signed power and a charge or discharge power would both count the same energy.
+  static mixedPower(group) {
+    return !!((group.power || group.newMeasurePower) && (group.chargePower || group.dischargePower));
+  }
+
   async _setupSourceDevice(settings) {
-    const { api } = this.homey.app;
-    if (!api) return null;
-    return api.devices.getDevice({ id: settings.homey_device_id, $cache: false }).catch(() => null);
+    return PairSetup.apiDevice(this, settings.homey_device_id);
   }
 
   // Setup view: per role the capabilities of the battery, and the sign of its power.
@@ -350,9 +331,10 @@ class BatteryDriver extends GenericDriver {
 
   async setupValidate(settings, caps) {
     const source = await this._setupSourceDevice(settings);
-    if (source && !this.sourceCapGroupFor(source, { sourceId: source.id, caps })) {
-      throw Error(this.homey.__('error_setup_bat_caps_missing'));
-    }
+    if (!source) return;
+    const resolved = this.sourceCapGroupFor(source, { sourceId: source.id, caps });
+    if (!resolved) throw Error(this.homey.__('error_setup_bat_caps_missing'));
+    if (BatteryDriver.mixedPower(resolved.group)) throw Error(this.homey.__('error_setup_bat_power_mixed'));
   }
 
   // Advanced ROI needs a Homey Pro (Early 2023).

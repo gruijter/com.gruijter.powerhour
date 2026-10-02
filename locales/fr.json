@@ -34,6 +34,7 @@
   "error_setup_caps_missing": "Choisissez au moins une capacité de compteur, ou utilisez Watt comme source.",
   "error_setup_no_watt": "__name__ n'a pas de capacité measure_power.",
   "error_setup_bat_caps_missing": "Choisissez un état de charge et une puissance.",
+  "error_setup_bat_power_mixed": "Choisissez soit une puissance, soit une puissance de charge et de décharge, pas les deux.",
   "solar_bootstrap_warning": "Le modèle de prévision solaire est en cours de construction - prévoyez jusqu'à 2 semaines d'historique pour une précision optimale.",
   "solar_bootstrap_status": "Initialisation en cours - __days__ jours d'historique collectés sur 14",
   "solar_trained_status": "Entièrement entraîné (dernier entraînement : __date__)",
