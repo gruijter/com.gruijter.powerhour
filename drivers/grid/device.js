@@ -88,6 +88,56 @@ class GridDevice extends GenericDevice {
     // this has no dependency on super.onInit().
     await ChartImages.registerChartImages(this, this.driver.ds.chartImages);
 
+    // Restore this driver's own per-reading state BEFORE super.onInit(): that starts the source
+    // listeners and an immediate pollMeter(), so the first reading reaches handleUpdateMeter()
+    // before anything after super.onInit() runs. Restored later, the first tick found no
+    // baselines, re-bootstrapped them at the current registers (zeroing this_* imported/exported
+    // and splitMoney) and flushed that over the stored state on every app/device restart.
+    //
+    // Restore per-direction (import/export) register state - used by the 'perDirection' and
+    // 'fixedBlock' schemes to split the net meter reading into import/export deltas before
+    // pricing (see getMoneyDeltaOverride() below). Harmless bookkeeping when the scheme is
+    // 'continuousNet' - see zzz_export_import_netting_research_and_plan.md.
+    this.directionalMeter = (await this.getStoreValue('directionalMeter')) || { importValue: null, exportValue: null };
+    this.lastDirectionalSnapshot = await this.getStoreValue('lastDirectionalSnapshot');
+    this.directionalPseudoState = await this.getStoreValue('directionalPseudoState');
+    this.directionalBlockState = await this.getStoreValue('directionalBlockState');
+
+    // Split imported/exported day/month/year accumulator state - see updateSplitMeters()/
+    // updateSplitMoney() below. Left undefined until lazily bootstrapped on first tick,
+    // same style as lastDirectionalSnapshot above.
+    this.lastDirectionalReadingDay = await this.getStoreValue('lastDirectionalReadingDay');
+    this.lastDirectionalReadingMonth = await this.getStoreValue('lastDirectionalReadingMonth');
+    this.lastDirectionalReadingYear = await this.getStoreValue('lastDirectionalReadingYear');
+    this.splitMoney = await this.getStoreValue('splitMoney');
+
+    // Peak average load (capacity-tariff style) accumulator state - see updatePeakLoad() below.
+    // Left undefined until lazily bootstrapped on first tick, same style as the split state above.
+    this.peakLoad = await this.getStoreValue('peakLoad');
+    this.lastPeakLoadReading = await this.getStoreValue('lastPeakLoadReading');
+    // Slot peak_projected_exceeded last fired for: stored, so a restart mid-slot does not fire it again.
+    this.peakExceededSlot = await this.getStoreValue('peakExceededSlot');
+
+    // The repair flow (generic_sum_driver.js#onRepair()) can re-point this device at a
+    // DIFFERENT physical meter: it rewrites homey_device_id and restarts the device. The base
+    // class then re-anchors its own net baselines on the first reading that trips
+    // checkMeterJump(), but the anchors restored just above are invisible to it - they diff
+    // the SOURCE device's raw import/export registers, which the base never sees. Left stale,
+    // the first tick prices the new meter's registers against the old meter's: one enormous
+    // bogus import/export delta into meter_money_*, and - because a peak is a max and is never
+    // revised back down - a bogus measure_watt_peak.* that then sticks for the rest of the year.
+    // Detected here against a stored copy of the bound id rather than in onSettings(), because
+    // setSettings() explicitly does NOT invoke onSettings() (Homey SDK: "the Device#onSettings
+    // method will not be called when the settings are changed programmatically"), so the repair
+    // path would never reach it. onInit() runs on every way the binding can change.
+    const boundSourceId = await this.getStoreValue('directionalSourceId');
+    const sourceId = this.getSettings().homey_device_id;
+    if (boundSourceId && boundSourceId !== sourceId) {
+      this.log(`Source device changed (${boundSourceId} -> ${sourceId}) - re-anchoring import/export and peak-load state`);
+      await this.reanchorExtraBaselines();
+    }
+    if (boundSourceId !== sourceId) await this.setStoreValue('directionalSourceId', sourceId).catch(this.error);
+
     await super.onInit().catch(this.error);
 
     // A newer onInit() (via restartDevice(), e.g. on a detected currency mismatch) can start
@@ -138,50 +188,6 @@ class GridDevice extends GenericDevice {
         await setTimeoutPromise(2 * 1000, this); // wait a bit for Homey to settle
       }
     }
-
-    // Restore per-direction (import/export) register state - used by the 'perDirection' and
-    // 'fixedBlock' schemes to split the net meter reading into import/export deltas before
-    // pricing (see getMoneyDeltaOverride() below). Harmless bookkeeping when the scheme is
-    // 'continuousNet' - see zzz_export_import_netting_research_and_plan.md.
-    this.directionalMeter = (await this.getStoreValue('directionalMeter')) || { importValue: null, exportValue: null };
-    this.lastDirectionalSnapshot = await this.getStoreValue('lastDirectionalSnapshot');
-    this.directionalPseudoState = await this.getStoreValue('directionalPseudoState');
-    this.directionalBlockState = await this.getStoreValue('directionalBlockState');
-
-    // Split imported/exported day/month/year accumulator state - see updateSplitMeters()/
-    // updateSplitMoney() below. Left undefined until lazily bootstrapped on first tick,
-    // same style as lastDirectionalSnapshot above.
-    this.lastDirectionalReadingDay = await this.getStoreValue('lastDirectionalReadingDay');
-    this.lastDirectionalReadingMonth = await this.getStoreValue('lastDirectionalReadingMonth');
-    this.lastDirectionalReadingYear = await this.getStoreValue('lastDirectionalReadingYear');
-    this.splitMoney = await this.getStoreValue('splitMoney');
-
-    // Peak average load (capacity-tariff style) accumulator state - see updatePeakLoad() below.
-    // Left undefined until lazily bootstrapped on first tick, same style as the split state above.
-    this.peakLoad = await this.getStoreValue('peakLoad');
-    this.lastPeakLoadReading = await this.getStoreValue('lastPeakLoadReading');
-    // Slot peak_projected_exceeded last fired for: stored, so a restart mid-slot does not fire it again.
-    this.peakExceededSlot = await this.getStoreValue('peakExceededSlot');
-
-    // The repair flow (generic_sum_driver.js#onRepair()) can re-point this device at a
-    // DIFFERENT physical meter: it rewrites homey_device_id and restarts the device. The base
-    // class then re-anchors its own net baselines on the first reading that trips
-    // checkMeterJump(), but the anchors restored just above are invisible to it - they diff
-    // the SOURCE device's raw import/export registers, which the base never sees. Left stale,
-    // the first tick prices the new meter's registers against the old meter's: one enormous
-    // bogus import/export delta into meter_money_*, and - because a peak is a max and is never
-    // revised back down - a bogus measure_watt_peak.* that then sticks for the rest of the year.
-    // Detected here against a stored copy of the bound id rather than in onSettings(), because
-    // setSettings() explicitly does NOT invoke onSettings() (Homey SDK: "the Device#onSettings
-    // method will not be called when the settings are changed programmatically"), so the repair
-    // path would never reach it. onInit() runs on every way the binding can change.
-    const boundSourceId = await this.getStoreValue('directionalSourceId');
-    const sourceId = this.getSettings().homey_device_id;
-    if (boundSourceId && boundSourceId !== sourceId) {
-      this.log(`Source device changed (${boundSourceId} -> ${sourceId}) - re-anchoring import/export and peak-load state`);
-      await this.reanchorExtraBaselines();
-    }
-    if (boundSourceId !== sourceId) await this.setStoreValue('directionalSourceId', sourceId).catch(this.error);
 
     await this.updatePeakLoadCapabilityTitles().catch(this.error);
 
