@@ -1483,6 +1483,7 @@ class CarChargeDevice extends GenericDevice {
       certainSlots: firstForecast >= 0 ? firstForecast : undefined,
       variablePower: !!settings.variableChargePower,
       solarGridW: Number(settings.solarGridPower) || 0,
+      outlookUntilMs: TimeHelpers.getUTCPeriods(tz).tomorrowEnd.getTime(), // shown up to the end of tomorrow
     });
     const strategy = result.scheme;
     const planMs = Date.now() - planStart;
@@ -1532,8 +1533,15 @@ class CarChargeDevice extends GenericDevice {
       // otherwise the chart would show a purely predicted/guessed SoC line with no way to tell.
       const showSoc = this.getSettings().chartShowSoc !== false && !!(this.sourceCapGroup && this.sourceCapGroup.soc);
 
+      // The plan on expected prices after the published ones: shown pale, not executed.
+      const chartScheme = { ...strategy };
+      Object.entries(result.outlook).forEach(([k, slot]) => {
+        chartScheme[k] = { ...slot, isForecast: true };
+      });
+
       await this.renderChargeCharts({
-        scheme: strategy,
+        scheme: chartScheme,
+        planSlots: Object.keys(strategy).length,
         chargePower,
         dischargePower: 0, // EVs don't discharge back
         socFallback: currentSoc,
