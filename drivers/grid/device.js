@@ -464,7 +464,26 @@ class GridDevice extends GenericDevice {
     this.log(`${this.sourceDevice.name} energy data:`, JSON.stringify({
       energyObj: this.sourceDevice.energyObj, energy: this.sourceDevice.energy,
     }));
-    return super.addSourceCapGroup();
+    await super.addSourceCapGroup();
+
+    // The setup view at repair can re-map the meter capabilities of the SAME source device
+    // (e.g. HomeWizard P1: net meter_power -> meter_power.consumed/returned). The id check in
+    // onInit() does not see that, but the stored import/export anchors then diff a different
+    // register: one bogus import delta that sticks in measure_watt_peak.* for the rest of the
+    // year. Checked here because the group is only resolved now, before the first reading.
+    // Devices from before the setup view have no stored group: they were bound to the
+    // auto-detected group, which autoSourceCapGroup() still reproduces.
+    const capKey = (group) => ['p1', 'p2', 'n1', 'n2'].map((k) => (group && group[k]) || '').join('|');
+    const groupKey = capKey(this.sourceCapGroup);
+    let boundKey = await this.getStoreValue('directionalSourceCaps');
+    if (typeof boundKey !== 'string') boundKey = capKey(this.driver.autoSourceCapGroup(this.sourceDevice));
+    if (boundKey !== groupKey) {
+      this.log(`Source capabilities changed (${boundKey} -> ${groupKey}) - re-anchoring import/export and peak-load state`);
+      await this.reanchorExtraBaselines();
+    }
+    if (await this.getStoreValue('directionalSourceCaps') !== groupKey) {
+      await this.setStoreValue('directionalSourceCaps', groupKey).catch(this.error);
+    }
   }
 
   // --- Selectable settlement scheme (import/export price netting) -------------------
