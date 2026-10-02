@@ -1,4 +1,7 @@
 {
+  "8.21.0": {
+  "en": "Prepare EV charger driver with self-learning schedule, 15m planning, solar charging and charge modes. Selectable capabilities when (re)pairing. Fix grid totals reset and peak jump after restart or repair. Fix grid, solar and battery history after restart."
+  },
   "8.20.1": {
     "en": "Added more grid charts. Fix EV plan in grid forecast. Improved Grid power icons. Fix values lost on migration."
   },
