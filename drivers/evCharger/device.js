@@ -1424,11 +1424,20 @@ class CarChargeDevice extends GenericDevice {
     return now + 3600 * 1000;
   }
 
+  // Temporarily off plans the mode it returns to, without charging until it ends
+  // (_offUntilMs): the plan and charts show what comes after. The control keeps it off.
   _plannerMode(chargeMode) {
-    if (chargeMode === 'off' || chargeMode === 'off_temp') return 'off';
+    if (chargeMode === 'off_temp') return this._plannerMode((this.tempMode && this.tempMode.previousMode) || 'scheduled_price');
+    if (chargeMode === 'off') return 'off';
     if (chargeMode === 'fast_charge' || chargeMode === 'charge_temp') return 'fast';
     if (chargeMode === 'solar_only') return 'solar_only';
     return 'smart'; // scheduled_price
+  }
+
+  // End of a temporary "off" (ms), else 0.
+  _offUntilMs(chargeMode) {
+    if (chargeMode !== 'off_temp' || !this.tempMode) return 0;
+    return EvChargerControl.tempModeEnd(this.tempMode, this.getSettings().overrideMaxHours);
   }
 
   // Measured charge power: used when the chargePower setting is 0, shown as a label setting.
@@ -1535,6 +1544,7 @@ class CarChargeDevice extends GenericDevice {
       floorSoc: num(settings.floorSoc, 15),
       maxSoc: num(settings.maxSoc, 80),
       mode: this._plannerMode(chargeMode),
+      blockedUntilMs: this._offUntilMs(chargeMode),
       cheapThreshold: cheap,
       certainSlots: firstForecast >= 0 ? firstForecast : undefined,
       variablePower: !!settings.variableChargePower,
@@ -1554,7 +1564,7 @@ class CarChargeDevice extends GenericDevice {
     if (this.hasCapability('ev_next_departure')) await this.setCapability('ev_next_departure', nextText);
     if (this.hasCapability('ev_tomorrow')) await this.setCapability('ev_tomorrow', this._tomorrowPickerValue(overrides, tz));
     if (this.hasCapability('ev_tomorrow_time')) await this.setCapability('ev_tomorrow_time', this._tomorrowTimePickerValue(overrides, tz));
-    await this._updateUnpluggedAlarm(unplugged && this._plannerMode(chargeMode) !== 'off' ? next : null, currentSoc, now, nextText);
+    await this._updateUnpluggedAlarm(unplugged && this._plannerMode(chargeMode) !== 'off' && chargeMode !== 'off_temp' ? next : null, currentSoc, now, nextText);
     const nowSlot = strategy[0] || {};
     this.log(`[EV Plan] ${chargeMode}, SoC ${Math.round(currentSoc)}%${atHome ? '' : ' (predicted return)'}${unplugged ? ', not plugged in' : ''}, next: ${nextText}, `
       + `now: ${nowSlot.duration ? `${nowSlot.duration} min${nowSlot.solar ? ' solar' : ''}` : 'no'}, price level x${level.toFixed(2)}`
