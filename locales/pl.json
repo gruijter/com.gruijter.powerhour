@@ -91,5 +91,6 @@
   "ev_chart_reserve": "Rezerwa",
   "ev_chart_assumed": "Założone",
   "error_invalid_time": "Nieprawidłowa godzina: __time__. Użyj GG:MM",
+  "error_invalid_periods": "Nieprawidłowy okres: __periods__. Użyj RRRR-MM-DD/RRRR-MM-DD, oddzielone przecinkami",
   "ev_now": "teraz"
 }

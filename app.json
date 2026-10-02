@@ -8857,6 +8857,99 @@
     "actions": [
       {
         "title": {
+          "en": "Car away period",
+          "nl": "Auto afwezig periode",
+          "de": "Auto abwesend Zeitraum",
+          "fr": "Période d'absence de la voiture",
+          "es": "Periodo de ausencia del coche",
+          "it": "Periodo di assenza dell'auto",
+          "da": "Bil væk periode",
+          "sv": "Bil borta period",
+          "no": "Bil borte periode",
+          "pl": "Okres nieobecności auta",
+          "ru": "Период отсутствия авто",
+          "ar": "فترة غياب السيارة",
+          "ko": "차량 부재 기간"
+        },
+        "titleFormatted": {
+          "en": "Car away from [[from]] to [[to]]",
+          "nl": "Auto afwezig van [[from]] t/m [[to]]",
+          "de": "Auto abwesend von [[from]] bis [[to]]",
+          "fr": "Voiture absente du [[from]] au [[to]]",
+          "es": "Coche ausente del [[from]] al [[to]]",
+          "it": "Auto assente dal [[from]] al [[to]]",
+          "da": "Bil væk fra [[from]] til [[to]]",
+          "sv": "Bil borta från [[from]] till [[to]]",
+          "no": "Bil borte fra [[from]] til [[to]]",
+          "pl": "Auto nieobecne od [[from]] do [[to]]",
+          "ru": "Авто отсутствует с [[from]] по [[to]]",
+          "ar": "السيارة غائبة من [[from]] إلى [[to]]",
+          "ko": "[[from]]부터 [[to]]까지 차량 부재"
+        },
+        "hint": {
+          "en": "A holiday or other period that is not normal use: no trips are planned, and these days are not learned. Also for a period that has passed. Adds to Away periods in the settings.",
+          "nl": "Een vakantie of andere periode die geen normaal gebruik is: er worden geen ritten gepland en deze dagen worden niet geleerd. Ook voor een periode die al voorbij is. Wordt toegevoegd aan Afwezig in de instellingen.",
+          "de": "Ein Urlaub oder anderer Zeitraum ohne normale Nutzung: keine Fahrten geplant, diese Tage werden nicht gelernt. Auch für einen vergangenen Zeitraum. Wird zu Abwesend in den Einstellungen hinzugefügt.",
+          "fr": "Des vacances ou une autre période d'usage inhabituel : aucun trajet n'est prévu et ces jours ne sont pas appris. Aussi pour une période passée. Ajouté à Absences dans les paramètres.",
+          "es": "Unas vacaciones u otro periodo de uso no habitual: no se planifican viajes y estos días no se aprenden. También para un periodo pasado. Se añade a Ausencias en los ajustes.",
+          "it": "Una vacanza o altro periodo di uso non abituale: nessun viaggio pianificato e questi giorni non vengono appresi. Anche per un periodo passato. Aggiunto ad Assenze nelle impostazioni.",
+          "da": "En ferie eller anden periode uden normal brug: ingen ture planlægges, og disse dage læres ikke. Også for en periode, der er forbi. Tilføjes til Væk i indstillingerne.",
+          "sv": "En semester eller annan period utan normal användning: inga resor planeras och dessa dagar lärs inte in. Även för en period som har passerat. Läggs till i Borta i inställningarna.",
+          "no": "En ferie eller annen periode uten normal bruk: ingen turer planlegges, og disse dagene læres ikke. Også for en periode som er forbi. Legges til i Borte i innstillingene.",
+          "pl": "Urlop lub inny okres nietypowego użycia: trasy nie są planowane, a te dni nie są uczone. Również dla minionego okresu. Dodawane do Nieobecności w ustawieniach.",
+          "ru": "Отпуск или другой период необычного использования: поездки не планируются, эти дни не изучаются. Также для прошедшего периода. Добавляется в Отсутствие в настройках.",
+          "ar": "عطلة أو فترة أخرى بغير الاستخدام المعتاد: لا تُخطَّط رحلات ولا تُتعلَّم هذه الأيام. أيضًا لفترة مضت. تُضاف إلى الغياب في الإعدادات.",
+          "ko": "휴가 등 평소와 다른 기간: 주행을 계획하지 않고 이 날들은 학습하지 않습니다. 지난 기간도 가능. 설정의 부재 기간에 추가됩니다."
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=evCharger"
+          },
+          {
+            "type": "date",
+            "name": "from",
+            "title": {
+              "en": "From",
+              "nl": "Van",
+              "de": "Von",
+              "fr": "Du",
+              "es": "Desde",
+              "it": "Dal",
+              "da": "Fra",
+              "sv": "Från",
+              "no": "Fra",
+              "pl": "Od",
+              "ru": "С",
+              "ar": "من",
+              "ko": "시작"
+            }
+          },
+          {
+            "type": "date",
+            "name": "to",
+            "title": {
+              "en": "To (inclusive)",
+              "nl": "Tot en met",
+              "de": "Bis einschließlich",
+              "fr": "Au (inclus)",
+              "es": "Hasta (incluido)",
+              "it": "Al (incluso)",
+              "da": "Til og med",
+              "sv": "Till och med",
+              "no": "Til og med",
+              "pl": "Do (włącznie)",
+              "ru": "По (включительно)",
+              "ar": "إلى (شاملًا)",
+              "ko": "종료 (포함)"
+            }
+          }
+        ],
+        "id": "add_ev_away_period"
+      },
+      {
+        "title": {
           "en": "Provide export prices JSON",
           "de": "Exportpreise bereitstellen (JSON)",
           "ar": "توفير أسعار التصدير JSON",
@@ -19155,6 +19248,41 @@
                 "ko": "아래 수동 시간이 학습된 출발 시간보다 우선합니다."
               },
               "value": true
+            },
+            {
+              "id": "awayPeriods",
+              "type": "text",
+              "label": {
+                "en": "Away periods",
+                "nl": "Afwezig (perioden)",
+                "de": "Abwesend (Zeiträume)",
+                "fr": "Absences (périodes)",
+                "es": "Ausencias (periodos)",
+                "it": "Assenze (periodi)",
+                "da": "Væk (perioder)",
+                "sv": "Borta (perioder)",
+                "no": "Borte (perioder)",
+                "pl": "Nieobecności (okresy)",
+                "ru": "Отсутствие (периоды)",
+                "ar": "الغياب (فترات)",
+                "ko": "부재 기간"
+              },
+              "hint": {
+                "en": "Holidays or other periods that are not normal use, e.g. 2026-09-17/2026-10-01, 2026-12-24. No trips are planned in them, and their days are not learned (also afterwards). Nights the car is away from home are recognized by themselves.",
+                "nl": "Vakanties of andere perioden die geen normaal gebruik zijn, bv. 2026-09-17/2026-10-01, 2026-12-24. Daarin worden geen ritten gepland en de dagen worden niet geleerd (ook achteraf). Nachten dat de auto niet thuis is worden vanzelf herkend.",
+                "de": "Urlaube oder andere Zeiträume ohne normale Nutzung, z. B. 2026-09-17/2026-10-01, 2026-12-24. Darin werden keine Fahrten geplant und die Tage nicht gelernt (auch nachträglich). Nächte, in denen das Auto nicht zu Hause ist, werden selbst erkannt.",
+                "fr": "Vacances ou autres périodes d'usage inhabituel, ex. 2026-09-17/2026-10-01, 2026-12-24. Aucun trajet n'y est prévu et ces jours ne sont pas appris (aussi après coup). Les nuits où la voiture n'est pas à la maison sont reconnues automatiquement.",
+                "es": "Vacaciones u otros periodos de uso no habitual, p. ej. 2026-09-17/2026-10-01, 2026-12-24. No se planifican viajes en ellos y sus días no se aprenden (también a posteriori). Las noches que el coche no está en casa se reconocen solas.",
+                "it": "Vacanze o altri periodi di uso non abituale, es. 2026-09-17/2026-10-01, 2026-12-24. Non vi si pianificano viaggi e i giorni non vengono appresi (anche a posteriori). Le notti in cui l'auto non è a casa sono riconosciute da sole.",
+                "da": "Ferier eller andre perioder uden normal brug, fx 2026-09-17/2026-10-01, 2026-12-24. Der planlægges ingen ture i dem, og dagene læres ikke (også bagefter). Nætter hvor bilen ikke er hjemme genkendes af sig selv.",
+                "sv": "Semestrar eller andra perioder utan normal användning, t.ex. 2026-09-17/2026-10-01, 2026-12-24. Inga resor planeras i dem och dagarna lärs inte in (även i efterhand). Nätter då bilen inte är hemma känns igen automatiskt.",
+                "no": "Ferier eller andre perioder uten normal bruk, f.eks. 2026-09-17/2026-10-01, 2026-12-24. Det planlegges ingen turer i dem, og dagene læres ikke (også i ettertid). Netter da bilen ikke er hjemme gjenkjennes av seg selv.",
+                "pl": "Urlopy lub inne okresy nietypowego użycia, np. 2026-09-17/2026-10-01, 2026-12-24. Nie planuje się w nich tras, a te dni nie są uczone (również po fakcie). Noce, gdy auto nie jest w domu, są rozpoznawane automatycznie.",
+                "ru": "Отпуска или другие периоды необычного использования, напр. 2026-09-17/2026-10-01, 2026-12-24. В них поездки не планируются, а дни не изучаются (и задним числом). Ночи, когда авто не дома, распознаются сами.",
+                "ar": "العطلات أو فترات أخرى بغير الاستخدام المعتاد، مثل 2026-09-17/2026-10-01، 2026-12-24. لا تُخطَّط فيها رحلات ولا تُتعلَّم أيامها (حتى لاحقًا). الليالي التي تكون فيها السيارة خارج المنزل تُكتشف تلقائيًا.",
+                "ko": "휴가 등 평소와 다른 기간, 예: 2026-09-17/2026-10-01, 2026-12-24. 이 기간에는 주행을 계획하지 않고 해당 날은 학습하지 않습니다(지난 기간도). 차량이 밤에 집에 없으면 자동으로 인식합니다."
+              },
+              "value": ""
             },
             {
               "id": "departureTime_0",

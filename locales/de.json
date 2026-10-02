@@ -91,5 +91,6 @@
   "ev_chart_reserve": "Reserve",
   "ev_chart_assumed": "Angenommen",
   "error_invalid_time": "Ungültige Zeit: __time__. Verwende HH:MM",
+  "error_invalid_periods": "Ungültiger Zeitraum: __periods__. Verwende JJJJ-MM-TT/JJJJ-MM-TT, durch Kommas getrennt",
   "ev_now": "jetzt"
 }

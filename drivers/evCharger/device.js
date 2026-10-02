@@ -717,6 +717,12 @@ class CarChargeDevice extends GenericDevice {
     if (this.usageModel && EvUsageModel.rollover(this.usageModel, new Date(), tz)) {
       const ov = (this.getStoreValue('evOverrides') || {})[this.usageModel.current.date];
       if (ov) EvUsageModel.setOverride(this.usageModel, ov.type);
+      let km = this.signals.carDistanceKm;
+      if (typeof km !== 'number' && this.carCapGroup.homeDistance) km = Number(this.evDevice?.capabilitiesObj?.[this.carCapGroup.homeDistance]?.value);
+      if (Number.isFinite(km) && km > EvUsageModel.AWAY_NIGHT_KM) {
+        EvUsageModel.markAwayNight(this.usageModel);
+        this.log(`[EV Usage] Car away at the day change (${Math.round(km)} km): ${this.usageModel.current.date} and the day before are not learned`);
+      }
       await this._saveUsageModel();
       await this._updateLearnedProfileSettings();
       await this.updateChargeChart().catch(this.error); // the picker shows the new "tomorrow"
@@ -1078,10 +1084,37 @@ class CarChargeDevice extends GenericDevice {
       'departureTime_0', 'departureTime_1', 'departureTime_2', 'departureTime_3',
       'departureTime_4', 'departureTime_5', 'departureTime_6',
     ];
+    if (changedKeys.includes('awayPeriods')) {
+      if (!EvUsageModel.parsePeriods(newSettings.awayPeriods)) {
+        throw Error(this.homey.__('error_invalid_periods', { periods: newSettings.awayPeriods }));
+      }
+      // After the new settings are stored: the learned profile shows in settings too.
+      this.homey.setTimeout(() => {
+        this._updateLearnedProfileSettings().catch(this.error);
+        this.updateChargeChart().catch(this.error);
+      }, 1000);
+    }
     if (changedKeys.some((k) => strategyKeys.includes(k))) {
       this.updateChargeChart().catch(this.error);
     }
     return true;
+  }
+
+  // Flow: add an away period (dates DD-MM-YYYY or YYYY-MM-DD). Periods that ended before the
+  // learned history (EvUsageModel.MAX_DAYS) are dropped.
+  async addAwayPeriod(from, to) {
+    const [period] = EvUsageModel.parsePeriods(`${from}/${to || from}`) || [];
+    if (!period) throw Error(this.homey.__('error_invalid_periods', { periods: `${from} - ${to}` }));
+    const tz = this.timeZone || this.homey.clock.getTimezone();
+    const oldest = EvUsageModel.localDateStr(new Date(Date.now() - EvUsageModel.MAX_DAYS * 24 * 3600 * 1000), tz);
+    const periods = this._awayPeriods().filter((p) => p.to >= oldest && !(p.from === period.from && p.to === period.to));
+    periods.push(period);
+    periods.sort((a, b) => a.from.localeCompare(b.from));
+    const text = periods.map((p) => (p.from === p.to ? p.from : `${p.from}/${p.to}`)).join(', ');
+    await this.setSettings({ awayPeriods: text });
+    this.log(`[EV Plan] Away period ${period.from} - ${period.to} added via flow`);
+    await this._updateLearnedProfileSettings();
+    await this.updateChargeChart().catch(this.error);
   }
 
   async onPricesUpdated() {
@@ -1197,7 +1230,7 @@ class CarChargeDevice extends GenericDevice {
   _predictReturnSoc() {
     if (!this.usageModel || typeof this.lastKnownSoc !== 'number') return null;
     const tz = this.timeZone || this.homey.clock.getTimezone();
-    const day = EvUsageModel.getProfile(this.usageModel)[EvUsageModel.getDowLocal(new Date(), tz)];
+    const day = this._profile()[EvUsageModel.getDowLocal(new Date(), tz)];
     if (!day || typeof day.needKwh !== 'number') return null;
     const kwhPerKm = EvUsageModel.effectiveKwhPerKm(this.usageModel);
     const usedToday = this.usageModel.current ? EvUsageModel.dayKwh(this.usageModel.current, kwhPerKm) : 0;
@@ -1208,15 +1241,38 @@ class CarChargeDevice extends GenericDevice {
 
   // ─── Planner inputs ─────────────────────────────────────────────────────────
 
-  // Day overrides by local date (pickers / flows), from today on.
+  // The away periods setting: [{from, to}] by local date.
+  _awayPeriods() {
+    return EvUsageModel.parsePeriods(this.getSettings().awayPeriods) || [];
+  }
+
+  // The learned weekly profile, without the days that were not normal.
+  _profile() {
+    return EvUsageModel.getProfile(this.usageModel, this._awayPeriods());
+  }
+
+  // Day overrides by local date (pickers / flows), from today on. A day in an away period is
+  // "not used", unless the user set something else for it.
   _overrides(tz, now) {
     const today = EvUsageModel.localDateStr(new Date(now), tz);
     const stored = this.getStoreValue('evOverrides') || {};
     const overrides = {};
+    const periods = this._awayPeriods();
+    if (periods.length) {
+      for (let d = 0; d <= EvPlanner.HORIZON_DAYS; d += 1) {
+        const date = EvUsageModel.localDateStr(new Date(now + d * 24 * 3600 * 1000), tz);
+        if (EvUsageModel.inPeriods(date, periods)) overrides[date] = { type: 'unused', away: true };
+      }
+    }
+    let kept = 0;
     Object.entries(stored).forEach(([date, ov]) => {
-      if (date >= today) overrides[date] = ov;
+      if (date < today) return;
+      overrides[date] = ov;
+      kept += 1;
     });
-    if (Object.keys(overrides).length !== Object.keys(stored).length) this.setStoreValue('evOverrides', overrides).catch(this.error);
+    if (kept !== Object.keys(stored).length) {
+      this.setStoreValue('evOverrides', Object.fromEntries(Object.entries(stored).filter(([date]) => date >= today))).catch(this.error);
+    }
     return overrides;
   }
 
@@ -1431,7 +1487,7 @@ class CarChargeDevice extends GenericDevice {
 
     const known = await this._learnPrices(priceSlotStartMs, priceIntervalMin, tz);
     const level = EvPriceProfile.levelFactor(this.priceProfile, known, tz);
-    const profile = this.usageModel ? EvUsageModel.getProfile(this.usageModel) : [];
+    const profile = this.usageModel ? this._profile() : [];
     const awayUntilMs = atHome ? null : this._awayUntilMs(profile, tz, now);
     const reserveSoc = num(settings.reserveSoc, 30);
     const overrides = this._overrides(tz, now);
@@ -1633,6 +1689,28 @@ class CarChargeDevice extends GenericDevice {
         socEntries = await fetchLog(evId, ['measure_battery']);
         if (this.carCapGroup && this.carCapGroup.odometer) odoEntries = await fetchOdometer(evId, this.carCapGroup.odometer);
       }
+      // Distance from home from the car's history (its own distance to home, else its location):
+      // nights away are not learned.
+      let distEntries = null;
+      if (odoEntries && this.carCapGroup.homeDistance) {
+        distEntries = ((await fetchOdometer(evId, this.carCapGroup.homeDistance)) || []).map((e) => ({ t: e.t, km: e.v }));
+      }
+      if (odoEntries && !(distEntries && distEntries.length) && this.carCapGroup.latitude && this.carCapGroup.longitude) {
+        let home = null;
+        try {
+          home = { lat: this.homey.geolocation.getLatitude(), lon: this.homey.geolocation.getLongitude() };
+        } catch { /* no location */ }
+        const lats = await fetchOdometer(evId, this.carCapGroup.latitude);
+        const lons = new Map(((await fetchOdometer(evId, this.carCapGroup.longitude)) || []).map((e) => [e.t, e.v]));
+        if (home && typeof home.lat === 'number' && lats && lats.length) {
+          distEntries = lats.filter((e) => lons.has(e.t))
+            .map((e) => ({ t: e.t, km: EvPresence.distanceKm(e.v, lons.get(e.t), home.lat, home.lon) }));
+        }
+      }
+      if (odoEntries && !(distEntries && distEntries.length)) {
+        distEntries = null;
+        this.log('[EV Usage] No distance to home or location history in Insights: nights away are only seen live');
+      }
 
       // Expected-price profile from the DAP price history (hourly, 14 days), once. Built fresh:
       // live learning only takes prices newer than the last learned one, so history must go first.
@@ -1662,13 +1740,15 @@ class CarChargeDevice extends GenericDevice {
 
       // Usage model from the car's odometer history, merged under what was learned live.
       if (odoEntries && odoEntries.length > 1) {
-        const boot = EvUsageModel.bootstrapFromHistory(odoEntries, socEntries, batCap, tz, new Date());
+        const boot = EvUsageModel.bootstrapFromHistory(odoEntries, socEntries, batCap, tz, new Date(), distEntries);
         this.usageModel = EvUsageModel.mergeBootstrap(this.usageModel, boot);
         if (typeof this.usageModel.lastOdo !== 'number') {
           const liveOdo = this.evDevice?.capabilitiesObj?.[this.carCapGroup.odometer]?.value;
           if (typeof liveOdo === 'number') this.usageModel.lastOdo = liveOdo;
         }
-        this.log(`[EV Usage] Bootstrapped ${boot.days.length} days from Insights, model has ${this.usageModel.days.length}`);
+        const awayDays = boot.days.filter((d) => d.awayNight).map((d) => d.date.slice(5));
+        this.log(`[EV Usage] Bootstrapped ${boot.days.length} days from Insights, model has ${this.usageModel.days.length}`
+          + `${distEntries ? `, away overnight: ${awayDays.length ? awayDays.join(' ') : 'none'}` : ''}`);
       } else if (!this.usageModel) {
         this.usageModel = EvUsageModel.createModel();
       }
@@ -1732,7 +1812,7 @@ class CarChargeDevice extends GenericDevice {
     if (!this.usageModel) return;
     try {
       const capacity = this.getSettings().batCapacity || 50;
-      const profile = EvUsageModel.getProfile(this.usageModel);
+      const profile = this._profile();
       const update = {};
       profile.forEach((day) => {
         const key = LEARNED_PROFILE_KEYS[day.dow];
