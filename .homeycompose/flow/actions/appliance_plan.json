@@ -107,6 +107,26 @@
       "example": "02:15"
     },
     {
+      "name": "ready_by",
+      "type": "string",
+      "title": {
+        "en": "Ready by",
+        "nl": "Klaar om",
+        "de": "Fertig um",
+        "fr": "Prêt à",
+        "es": "Listo a las",
+        "it": "Pronto alle",
+        "da": "Færdig kl.",
+        "sv": "Klar kl.",
+        "no": "Ferdig kl.",
+        "pl": "Gotowe o",
+        "ru": "Готово к",
+        "ar": "جاهز بحلول",
+        "ko": "완료 시각"
+      },
+      "example": "07:00"
+    },
+    {
       "name": "wait",
       "type": "number",
       "title": {

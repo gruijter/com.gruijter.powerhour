@@ -110,5 +110,7 @@
   "error_invalid_time": "잘못된 시간: __time__. HH:MM 형식을 사용하세요",
   "error_departure_past": "출발 __time__은(는) 오늘 이미 지났습니다",
   "error_invalid_periods": "잘못된 기간: __periods__. YYYY-MM-DD/YYYY-MM-DD 형식을 쉼표로 구분해 사용하세요",
-  "ev_now": "지금"
+  "ev_now": "지금",
+  "appliance_best_start_value": "__start__ → 완료 __end__",
+  "error_appliance_no_ready_times": "'완료 시각' 설정에 시각이 없습니다"
 }

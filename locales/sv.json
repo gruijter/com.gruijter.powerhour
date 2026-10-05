@@ -110,5 +110,7 @@
   "error_invalid_time": "Ogiltig tid: __time__. Använd HH:MM",
   "error_departure_past": "Avgång __time__ har redan passerat i dag",
   "error_invalid_periods": "Ogiltig period: __periods__. Använd ÅÅÅÅ-MM-DD/ÅÅÅÅ-MM-DD, åtskilda med kommatecken",
-  "ev_now": "nu"
+  "ev_now": "nu",
+  "appliance_best_start_value": "__start__ → klar __end__",
+  "error_appliance_no_ready_times": "Inga tider i inställningen \"Klar kl.\""
 }

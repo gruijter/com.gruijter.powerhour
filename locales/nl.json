@@ -110,5 +110,7 @@
   "error_invalid_time": "Ongeldige tijd: __time__. Gebruik UU:MM",
   "error_departure_past": "Vertrek __time__ is vandaag al voorbij",
   "error_invalid_periods": "Ongeldige periode: __periods__. Gebruik JJJJ-MM-DD/JJJJ-MM-DD, gescheiden door komma's",
-  "ev_now": "nu"
+  "ev_now": "nu",
+  "appliance_best_start_value": "__start__ → klaar __end__",
+  "error_appliance_no_ready_times": "Geen tijden in de instelling \"Klaar om\""
 }

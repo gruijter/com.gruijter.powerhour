@@ -110,5 +110,7 @@
   "error_invalid_time": "Nieprawidłowa godzina: __time__. Użyj GG:MM",
   "error_departure_past": "Wyjazd o __time__ już dziś minął",
   "error_invalid_periods": "Nieprawidłowy okres: __periods__. Użyj RRRR-MM-DD/RRRR-MM-DD, oddzielone przecinkami",
-  "ev_now": "teraz"
+  "ev_now": "teraz",
+  "appliance_best_start_value": "__start__ → gotowe __end__",
+  "error_appliance_no_ready_times": "Brak godzin w ustawieniu „Gotowe o”"
 }

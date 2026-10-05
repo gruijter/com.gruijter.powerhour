@@ -110,5 +110,7 @@
   "error_invalid_time": "Ora non valida: __time__. Usa HH:MM",
   "error_departure_past": "La partenza alle __time__ è già passata oggi",
   "error_invalid_periods": "Periodo non valido: __periods__. Usa AAAA-MM-GG/AAAA-MM-GG, separati da virgole",
-  "ev_now": "ora"
+  "ev_now": "ora",
+  "appliance_best_start_value": "__start__ → pronto __end__",
+  "error_appliance_no_ready_times": "Nessuna ora nell'impostazione \"Pronto alle\""
 }

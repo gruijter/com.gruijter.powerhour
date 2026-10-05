@@ -110,5 +110,7 @@
   "error_invalid_time": "وقت غير صالح: __time__. استخدم HH:MM",
   "error_departure_past": "موعد المغادرة __time__ قد مضى اليوم",
   "error_invalid_periods": "فترة غير صالحة: __periods__. استخدم YYYY-MM-DD/YYYY-MM-DD مفصولة بفواصل",
-  "ev_now": "الآن"
+  "ev_now": "الآن",
+  "appliance_best_start_value": "__start__ → جاهز __end__",
+  "error_appliance_no_ready_times": "لا توجد أوقات في إعداد \"جاهز بحلول\""
 }

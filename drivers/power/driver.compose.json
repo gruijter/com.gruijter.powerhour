@@ -474,6 +474,41 @@
           }
         },
         {
+          "id": "appliance_ready_times",
+          "type": "text",
+          "value": "07:00",
+          "label": {
+            "en": "Ready by",
+            "nl": "Klaar om",
+            "de": "Fertig um",
+            "fr": "Prêt à",
+            "es": "Listo a las",
+            "it": "Pronto alle",
+            "da": "Færdig kl.",
+            "sv": "Klar kl.",
+            "no": "Ferdig kl.",
+            "pl": "Gotowe o",
+            "ru": "Готово к",
+            "ar": "جاهز بحلول",
+            "ko": "완료 시각"
+          },
+          "hint": {
+            "en": "One or more times, e.g. 08:00, 18:00. Best start: the cheapest start so the program is ready by the next of these.",
+            "nl": "Eén of meer tijden, bijv. 08:00, 18:00. Beste start: de goedkoopste start zodat het programma klaar is om de eerstvolgende.",
+            "de": "Eine oder mehrere Zeiten, z. B. 08:00, 18:00. Bester Start: der günstigste Start, damit das Programm zur nächsten fertig ist.",
+            "fr": "Une ou plusieurs heures, p. ex. 08:00, 18:00. Meilleur départ : le moins cher pour que le programme soit prêt à la prochaine.",
+            "es": "Una o más horas, p. ej. 08:00, 18:00. Mejor inicio: el más barato para que el programa termine a la próxima.",
+            "it": "Una o più ore, ad es. 08:00, 18:00. Avvio migliore: il più economico perché il programma sia pronto alla prossima.",
+            "da": "Et eller flere tidspunkter, f.eks. 08:00, 18:00. Bedste start: den billigste, så programmet er færdigt til det næste.",
+            "sv": "En eller flera tider, t.ex. 08:00, 18:00. Bästa start: billigaste start så att programmet är klart till nästa.",
+            "no": "Ett eller flere tidspunkt, f.eks. 08:00, 18:00. Beste start: den billigste, slik at programmet er ferdig til det neste.",
+            "pl": "Jedna lub więcej godzin, np. 08:00, 18:00. Najlepszy start: najtańszy, by program skończył się na najbliższą z nich.",
+            "ru": "Одно или несколько времён, напр. 08:00, 18:00. Лучший запуск: самый дешёвый, чтобы программа завершилась к ближайшему.",
+            "ar": "وقت واحد أو أكثر، مثل 08:00، 18:00. أفضل بدء: الأرخص لينتهي البرنامج بحلول أقربها.",
+            "ko": "하나 이상의 시각, 예: 08:00, 18:00. 최적 시작: 다음 시각까지 완료되는 가장 저렴한 시작."
+          }
+        },
+        {
           "id": "appliance_status",
           "type": "label",
           "value": "-",

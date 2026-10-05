@@ -148,6 +148,148 @@
     "triggers": [
       {
         "title": {
+          "en": "New best start",
+          "nl": "Nieuwe beste start",
+          "de": "Neuer bester Start",
+          "fr": "Nouveau meilleur départ",
+          "es": "Nuevo mejor inicio",
+          "it": "Nuovo avvio migliore",
+          "da": "Ny bedste start",
+          "sv": "Ny bästa start",
+          "no": "Ny beste start",
+          "pl": "Nowy najlepszy start",
+          "ru": "Новый лучший запуск",
+          "ar": "أفضل بدء جديد",
+          "ko": "새 최적 시작"
+        },
+        "hint": {
+          "en": "After new prices: the cheapest start, ready by the next time of the setting \"Ready by\". E.g. for a message.",
+          "nl": "Na nieuwe prijzen: de goedkoopste start, klaar om de eerstvolgende tijd van de instelling \"Klaar om\". Bijv. voor een bericht.",
+          "de": "Nach neuen Preisen: der günstigste Start, fertig zur nächsten Zeit der Einstellung \"Fertig um\". Z. B. für eine Nachricht.",
+          "fr": "Après de nouveaux prix : le départ le moins cher, prêt à la prochaine heure du réglage « Prêt à ». P. ex. pour un message.",
+          "es": "Tras nuevos precios: el inicio más barato, listo a la próxima hora del ajuste \"Listo a las\". P. ej. para un mensaje.",
+          "it": "Dopo nuovi prezzi: l'avvio più economico, pronto alla prossima ora dell'impostazione \"Pronto alle\". Ad es. per un messaggio.",
+          "da": "Efter nye priser: den billigste start, færdig til næste tidspunkt i indstillingen \"Færdig kl.\". F.eks. til en besked.",
+          "sv": "Efter nya priser: billigaste start, klar vid nästa tid i inställningen \"Klar kl.\". T.ex. för ett meddelande.",
+          "no": "Etter nye priser: den billigste starten, ferdig til neste tidspunkt i innstillingen \"Ferdig kl.\". F.eks. for en melding.",
+          "pl": "Po nowych cenach: najtańszy start, gotowe na najbliższą godzinę z ustawienia „Gotowe o”. Np. do wiadomości.",
+          "ru": "После новых цен: самый дешёвый запуск, готово к ближайшему времени из настройки «Готово к». Например, для сообщения.",
+          "ar": "بعد أسعار جديدة: أرخص بدء، جاهز بحلول الوقت التالي في إعداد \"جاهز بحلول\". مثلًا لرسالة.",
+          "ko": "새 가격 후: '완료 시각' 설정의 다음 시각까지 완료되는 가장 저렴한 시작. 예: 메시지용."
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=power&capabilities=appliance_next_run"
+          }
+        ],
+        "tokens": [
+          {
+            "name": "start_time",
+            "type": "string",
+            "title": {
+              "en": "Start time",
+              "nl": "Starttijd",
+              "de": "Startzeit",
+              "fr": "Heure de départ",
+              "es": "Hora de inicio",
+              "it": "Ora di avvio",
+              "da": "Starttid",
+              "sv": "Starttid",
+              "no": "Starttid",
+              "pl": "Godzina startu",
+              "ru": "Время запуска",
+              "ar": "وقت البدء",
+              "ko": "시작 시간"
+            },
+            "example": "02:15"
+          },
+          {
+            "name": "ready_by",
+            "type": "string",
+            "title": {
+              "en": "Ready by",
+              "nl": "Klaar om",
+              "de": "Fertig um",
+              "fr": "Prêt à",
+              "es": "Listo a las",
+              "it": "Pronto alle",
+              "da": "Færdig kl.",
+              "sv": "Klar kl.",
+              "no": "Ferdig kl.",
+              "pl": "Gotowe o",
+              "ru": "Готово к",
+              "ar": "جاهز بحلول",
+              "ko": "완료 시각"
+            },
+            "example": "07:00"
+          },
+          {
+            "name": "wait",
+            "type": "number",
+            "title": {
+              "en": "Wait (min)",
+              "nl": "Wachten (min)",
+              "de": "Warten (Min.)",
+              "fr": "Attente (min)",
+              "es": "Espera (min)",
+              "it": "Attesa (min)",
+              "da": "Vent (min)",
+              "sv": "Vänta (min)",
+              "no": "Vent (min)",
+              "pl": "Czekaj (min)",
+              "ru": "Ожидание (мин)",
+              "ar": "الانتظار (دقيقة)",
+              "ko": "대기 (분)"
+            },
+            "example": 240
+          },
+          {
+            "name": "cost",
+            "type": "number",
+            "title": {
+              "en": "Expected cost",
+              "nl": "Verwachte kosten",
+              "de": "Erwartete Kosten",
+              "fr": "Coût prévu",
+              "es": "Coste previsto",
+              "it": "Costo previsto",
+              "da": "Forventet pris",
+              "sv": "Förväntad kostnad",
+              "no": "Forventet kostnad",
+              "pl": "Przewidywany koszt",
+              "ru": "Ожидаемая стоимость",
+              "ar": "التكلفة المتوقعة",
+              "ko": "예상 비용"
+            },
+            "example": 0.21
+          },
+          {
+            "name": "saving",
+            "type": "number",
+            "title": {
+              "en": "Saving vs now",
+              "nl": "Besparing t.o.v. nu",
+              "de": "Ersparnis ggü. jetzt",
+              "fr": "Économie vs maintenant",
+              "es": "Ahorro frente a ahora",
+              "it": "Risparmio rispetto ad ora",
+              "da": "Besparelse ift. nu",
+              "sv": "Besparing jämfört med nu",
+              "no": "Besparelse mot nå",
+              "pl": "Oszczędność względem teraz",
+              "ru": "Экономия по сравнению с сейчас",
+              "ar": "التوفير مقارنة بالآن",
+              "ko": "지금 대비 절약"
+            },
+            "example": 0.12
+          }
+        ],
+        "id": "appliance_best_start"
+      },
+      {
+        "title": {
           "en": "Program finished",
           "nl": "Programma klaar",
           "de": "Programm beendet",
@@ -9543,6 +9685,26 @@
             "example": "02:15"
           },
           {
+            "name": "ready_by",
+            "type": "string",
+            "title": {
+              "en": "Ready by",
+              "nl": "Klaar om",
+              "de": "Fertig um",
+              "fr": "Prêt à",
+              "es": "Listo a las",
+              "it": "Pronto alle",
+              "da": "Færdig kl.",
+              "sv": "Klar kl.",
+              "no": "Ferdig kl.",
+              "pl": "Gotowe o",
+              "ru": "Готово к",
+              "ar": "جاهز بحلول",
+              "ko": "완료 시각"
+            },
+            "example": "07:00"
+          },
+          {
             "name": "wait",
             "type": "number",
             "title": {
@@ -9604,6 +9766,148 @@
           }
         ],
         "id": "appliance_plan"
+      },
+      {
+        "title": {
+          "en": "Plan at best start",
+          "nl": "Plannen op beste start",
+          "de": "Zum besten Start planen",
+          "fr": "Planifier au meilleur départ",
+          "es": "Planificar en el mejor inicio",
+          "it": "Pianifica all'avvio migliore",
+          "da": "Planlæg til bedste start",
+          "sv": "Planera till bästa start",
+          "no": "Planlegg til beste start",
+          "pl": "Zaplanuj na najlepszy start",
+          "ru": "Запланировать на лучший запуск",
+          "ar": "التخطيط لأفضل بدء",
+          "ko": "최적 시작으로 계획"
+        },
+        "hint": {
+          "en": "Ready by the next time of the setting \"Ready by\". At the start, \"Planned start\" fires.",
+          "nl": "Klaar om de eerstvolgende tijd van de instelling \"Klaar om\". Bij de start gaat \"Geplande start\" af.",
+          "de": "Fertig zur nächsten Zeit der Einstellung \"Fertig um\". Beim Start wird \"Geplanter Start\" ausgelöst.",
+          "fr": "Prêt à la prochaine heure du réglage « Prêt à ». Au départ, « Départ planifié » se déclenche.",
+          "es": "Listo a la próxima hora del ajuste \"Listo a las\". Al inicio se activa \"Inicio planificado\".",
+          "it": "Pronto alla prossima ora dell'impostazione \"Pronto alle\". All'avvio scatta \"Avvio pianificato\".",
+          "da": "Færdig til næste tidspunkt i indstillingen \"Færdig kl.\". Ved start udløses \"Planlagt start\".",
+          "sv": "Klar vid nästa tid i inställningen \"Klar kl.\". Vid start utlöses \"Planerad start\".",
+          "no": "Ferdig til neste tidspunkt i innstillingen \"Ferdig kl.\". Ved start utløses \"Planlagt start\".",
+          "pl": "Gotowe na najbliższą godzinę z ustawienia „Gotowe o”. Przy starcie uruchamia się „Zaplanowany start”.",
+          "ru": "Готово к ближайшему времени из настройки «Готово к». При запуске срабатывает «Запланированный запуск».",
+          "ar": "جاهز بحلول الوقت التالي في إعداد \"جاهز بحلول\". عند البدء يُطلق \"البدء المخطط\".",
+          "ko": "'완료 시각' 설정의 다음 시각까지 완료. 시작 시 '계획된 시작'이 실행됩니다."
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=power&capabilities=appliance_next_run"
+          }
+        ],
+        "tokens": [
+          {
+            "name": "start_time",
+            "type": "string",
+            "title": {
+              "en": "Start time",
+              "nl": "Starttijd",
+              "de": "Startzeit",
+              "fr": "Heure de départ",
+              "es": "Hora de inicio",
+              "it": "Ora di avvio",
+              "da": "Starttid",
+              "sv": "Starttid",
+              "no": "Starttid",
+              "pl": "Godzina startu",
+              "ru": "Время запуска",
+              "ar": "وقت البدء",
+              "ko": "시작 시간"
+            },
+            "example": "02:15"
+          },
+          {
+            "name": "ready_by",
+            "type": "string",
+            "title": {
+              "en": "Ready by",
+              "nl": "Klaar om",
+              "de": "Fertig um",
+              "fr": "Prêt à",
+              "es": "Listo a las",
+              "it": "Pronto alle",
+              "da": "Færdig kl.",
+              "sv": "Klar kl.",
+              "no": "Ferdig kl.",
+              "pl": "Gotowe o",
+              "ru": "Готово к",
+              "ar": "جاهز بحلول",
+              "ko": "완료 시각"
+            },
+            "example": "07:00"
+          },
+          {
+            "name": "wait",
+            "type": "number",
+            "title": {
+              "en": "Wait (min)",
+              "nl": "Wachten (min)",
+              "de": "Warten (Min.)",
+              "fr": "Attente (min)",
+              "es": "Espera (min)",
+              "it": "Attesa (min)",
+              "da": "Vent (min)",
+              "sv": "Vänta (min)",
+              "no": "Vent (min)",
+              "pl": "Czekaj (min)",
+              "ru": "Ожидание (мин)",
+              "ar": "الانتظار (دقيقة)",
+              "ko": "대기 (분)"
+            },
+            "example": 240
+          },
+          {
+            "name": "cost",
+            "type": "number",
+            "title": {
+              "en": "Expected cost",
+              "nl": "Verwachte kosten",
+              "de": "Erwartete Kosten",
+              "fr": "Coût prévu",
+              "es": "Coste previsto",
+              "it": "Costo previsto",
+              "da": "Forventet pris",
+              "sv": "Förväntad kostnad",
+              "no": "Forventet kostnad",
+              "pl": "Przewidywany koszt",
+              "ru": "Ожидаемая стоимость",
+              "ar": "التكلفة المتوقعة",
+              "ko": "예상 비용"
+            },
+            "example": 0.21
+          },
+          {
+            "name": "saving",
+            "type": "number",
+            "title": {
+              "en": "Saving vs now",
+              "nl": "Besparing t.o.v. nu",
+              "de": "Ersparnis ggü. jetzt",
+              "fr": "Économie vs maintenant",
+              "es": "Ahorro frente a ahora",
+              "it": "Risparmio rispetto ad ora",
+              "da": "Besparelse ift. nu",
+              "sv": "Besparing jämfört med nu",
+              "no": "Besparelse mot nå",
+              "pl": "Oszczędność względem teraz",
+              "ru": "Экономия по сравнению с сейчас",
+              "ar": "التوفير مقارنة بالآن",
+              "ko": "지금 대비 절약"
+            },
+            "example": 0.12
+          }
+        ],
+        "id": "appliance_plan_best"
       },
       {
         "title": {
@@ -25616,6 +25920,41 @@
               }
             },
             {
+              "id": "appliance_ready_times",
+              "type": "text",
+              "value": "07:00",
+              "label": {
+                "en": "Ready by",
+                "nl": "Klaar om",
+                "de": "Fertig um",
+                "fr": "Prêt à",
+                "es": "Listo a las",
+                "it": "Pronto alle",
+                "da": "Færdig kl.",
+                "sv": "Klar kl.",
+                "no": "Ferdig kl.",
+                "pl": "Gotowe o",
+                "ru": "Готово к",
+                "ar": "جاهز بحلول",
+                "ko": "완료 시각"
+              },
+              "hint": {
+                "en": "One or more times, e.g. 08:00, 18:00. Best start: the cheapest start so the program is ready by the next of these.",
+                "nl": "Eén of meer tijden, bijv. 08:00, 18:00. Beste start: de goedkoopste start zodat het programma klaar is om de eerstvolgende.",
+                "de": "Eine oder mehrere Zeiten, z. B. 08:00, 18:00. Bester Start: der günstigste Start, damit das Programm zur nächsten fertig ist.",
+                "fr": "Une ou plusieurs heures, p. ex. 08:00, 18:00. Meilleur départ : le moins cher pour que le programme soit prêt à la prochaine.",
+                "es": "Una o más horas, p. ej. 08:00, 18:00. Mejor inicio: el más barato para que el programa termine a la próxima.",
+                "it": "Una o più ore, ad es. 08:00, 18:00. Avvio migliore: il più economico perché il programma sia pronto alla prossima.",
+                "da": "Et eller flere tidspunkter, f.eks. 08:00, 18:00. Bedste start: den billigste, så programmet er færdigt til det næste.",
+                "sv": "En eller flera tider, t.ex. 08:00, 18:00. Bästa start: billigaste start så att programmet är klart till nästa.",
+                "no": "Ett eller flere tidspunkt, f.eks. 08:00, 18:00. Beste start: den billigste, slik at programmet er ferdig til det neste.",
+                "pl": "Jedna lub więcej godzin, np. 08:00, 18:00. Najlepszy start: najtańszy, by program skończył się na najbliższą z nich.",
+                "ru": "Одно или несколько времён, напр. 08:00, 18:00. Лучший запуск: самый дешёвый, чтобы программа завершилась к ближайшему.",
+                "ar": "وقت واحد أو أكثر، مثل 08:00، 18:00. أفضل بدء: الأرخص لينتهي البرنامج بحلول أقربها.",
+                "ko": "하나 이상의 시각, 예: 08:00, 18:00. 최적 시작: 다음 시각까지 완료되는 가장 저렴한 시작."
+              }
+            },
+            {
               "id": "appliance_status",
               "type": "label",
               "value": "-",
@@ -29742,6 +30081,44 @@
     }
   ],
   "capabilities": {
+    "appliance_best_start": {
+      "type": "string",
+      "title": {
+        "en": "Best start",
+        "nl": "Beste start",
+        "de": "Bester Start",
+        "fr": "Meilleur départ",
+        "es": "Mejor inicio",
+        "it": "Avvio migliore",
+        "da": "Bedste start",
+        "sv": "Bästa start",
+        "no": "Beste start",
+        "pl": "Najlepszy start",
+        "ru": "Лучший запуск",
+        "ar": "أفضل بدء",
+        "ko": "최적 시작"
+      },
+      "desc": {
+        "en": "Cheapest start, ready by the next time of the setting \"Ready by\".",
+        "nl": "Goedkoopste start, klaar om de eerstvolgende tijd van de instelling \"Klaar om\".",
+        "de": "Günstigster Start, fertig zur nächsten Zeit der Einstellung \"Fertig um\".",
+        "fr": "Départ le moins cher, prêt à la prochaine heure du réglage « Prêt à ».",
+        "es": "Inicio más barato, listo a la próxima hora del ajuste \"Listo a las\".",
+        "it": "Avvio più economico, pronto alla prossima ora dell'impostazione \"Pronto alle\".",
+        "da": "Billigste start, færdig til næste tidspunkt i indstillingen \"Færdig kl.\".",
+        "sv": "Billigaste start, klar vid nästa tid i inställningen \"Klar kl.\".",
+        "no": "Billigste start, ferdig til neste tidspunkt i innstillingen \"Ferdig kl.\".",
+        "pl": "Najtańszy start, gotowe na najbliższą godzinę z ustawienia „Gotowe o”.",
+        "ru": "Самый дешёвый запуск, готово к ближайшему времени из настройки «Готово к».",
+        "ar": "أرخص بدء، جاهز بحلول الوقت التالي في إعداد \"جاهز بحلول\".",
+        "ko": "가장 저렴한 시작, '완료 시각' 설정의 다음 시각까지 완료."
+      },
+      "uiComponent": "sensor",
+      "icon": "/assets/ev_next_charge.svg",
+      "getable": true,
+      "setable": false,
+      "insights": false
+    },
     "appliance_mode": {
       "type": "enum",
       "title": {

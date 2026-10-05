@@ -110,5 +110,7 @@
   "error_invalid_time": "Invalid time: __time__. Use HH:MM",
   "error_departure_past": "Departure __time__ has already passed today",
   "error_invalid_periods": "Invalid period: __periods__. Use YYYY-MM-DD/YYYY-MM-DD, separated by commas",
-  "ev_now": "now"
+  "ev_now": "now",
+  "appliance_best_start_value": "__start__ → ready __end__",
+  "error_appliance_no_ready_times": "No times in the setting \"Ready by\""
 }

@@ -1,0 +1,141 @@
+{
+  "title": {
+    "en": "Plan at best start",
+    "nl": "Plannen op beste start",
+    "de": "Zum besten Start planen",
+    "fr": "Planifier au meilleur départ",
+    "es": "Planificar en el mejor inicio",
+    "it": "Pianifica all'avvio migliore",
+    "da": "Planlæg til bedste start",
+    "sv": "Planera till bästa start",
+    "no": "Planlegg til beste start",
+    "pl": "Zaplanuj na najlepszy start",
+    "ru": "Запланировать на лучший запуск",
+    "ar": "التخطيط لأفضل بدء",
+    "ko": "최적 시작으로 계획"
+  },
+  "hint": {
+    "en": "Ready by the next time of the setting \"Ready by\". At the start, \"Planned start\" fires.",
+    "nl": "Klaar om de eerstvolgende tijd van de instelling \"Klaar om\". Bij de start gaat \"Geplande start\" af.",
+    "de": "Fertig zur nächsten Zeit der Einstellung \"Fertig um\". Beim Start wird \"Geplanter Start\" ausgelöst.",
+    "fr": "Prêt à la prochaine heure du réglage « Prêt à ». Au départ, « Départ planifié » se déclenche.",
+    "es": "Listo a la próxima hora del ajuste \"Listo a las\". Al inicio se activa \"Inicio planificado\".",
+    "it": "Pronto alla prossima ora dell'impostazione \"Pronto alle\". All'avvio scatta \"Avvio pianificato\".",
+    "da": "Færdig til næste tidspunkt i indstillingen \"Færdig kl.\". Ved start udløses \"Planlagt start\".",
+    "sv": "Klar vid nästa tid i inställningen \"Klar kl.\". Vid start utlöses \"Planerad start\".",
+    "no": "Ferdig til neste tidspunkt i innstillingen \"Ferdig kl.\". Ved start utløses \"Planlagt start\".",
+    "pl": "Gotowe na najbliższą godzinę z ustawienia „Gotowe o”. Przy starcie uruchamia się „Zaplanowany start”.",
+    "ru": "Готово к ближайшему времени из настройки «Готово к». При запуске срабатывает «Запланированный запуск».",
+    "ar": "جاهز بحلول الوقت التالي في إعداد \"جاهز بحلول\". عند البدء يُطلق \"البدء المخطط\".",
+    "ko": "'완료 시각' 설정의 다음 시각까지 완료. 시작 시 '계획된 시작'이 실행됩니다."
+  },
+  "args": [
+    {
+      "type": "device",
+      "name": "device",
+      "filter": "driver_id=power&capabilities=appliance_next_run"
+    }
+  ],
+  "tokens": [
+    {
+      "name": "start_time",
+      "type": "string",
+      "title": {
+        "en": "Start time",
+        "nl": "Starttijd",
+        "de": "Startzeit",
+        "fr": "Heure de départ",
+        "es": "Hora de inicio",
+        "it": "Ora di avvio",
+        "da": "Starttid",
+        "sv": "Starttid",
+        "no": "Starttid",
+        "pl": "Godzina startu",
+        "ru": "Время запуска",
+        "ar": "وقت البدء",
+        "ko": "시작 시간"
+      },
+      "example": "02:15"
+    },
+    {
+      "name": "ready_by",
+      "type": "string",
+      "title": {
+        "en": "Ready by",
+        "nl": "Klaar om",
+        "de": "Fertig um",
+        "fr": "Prêt à",
+        "es": "Listo a las",
+        "it": "Pronto alle",
+        "da": "Færdig kl.",
+        "sv": "Klar kl.",
+        "no": "Ferdig kl.",
+        "pl": "Gotowe o",
+        "ru": "Готово к",
+        "ar": "جاهز بحلول",
+        "ko": "완료 시각"
+      },
+      "example": "07:00"
+    },
+    {
+      "name": "wait",
+      "type": "number",
+      "title": {
+        "en": "Wait (min)",
+        "nl": "Wachten (min)",
+        "de": "Warten (Min.)",
+        "fr": "Attente (min)",
+        "es": "Espera (min)",
+        "it": "Attesa (min)",
+        "da": "Vent (min)",
+        "sv": "Vänta (min)",
+        "no": "Vent (min)",
+        "pl": "Czekaj (min)",
+        "ru": "Ожидание (мин)",
+        "ar": "الانتظار (دقيقة)",
+        "ko": "대기 (분)"
+      },
+      "example": 240
+    },
+    {
+      "name": "cost",
+      "type": "number",
+      "title": {
+        "en": "Expected cost",
+        "nl": "Verwachte kosten",
+        "de": "Erwartete Kosten",
+        "fr": "Coût prévu",
+        "es": "Coste previsto",
+        "it": "Costo previsto",
+        "da": "Forventet pris",
+        "sv": "Förväntad kostnad",
+        "no": "Forventet kostnad",
+        "pl": "Przewidywany koszt",
+        "ru": "Ожидаемая стоимость",
+        "ar": "التكلفة المتوقعة",
+        "ko": "예상 비용"
+      },
+      "example": 0.21
+    },
+    {
+      "name": "saving",
+      "type": "number",
+      "title": {
+        "en": "Saving vs now",
+        "nl": "Besparing t.o.v. nu",
+        "de": "Ersparnis ggü. jetzt",
+        "fr": "Économie vs maintenant",
+        "es": "Ahorro frente a ahora",
+        "it": "Risparmio rispetto ad ora",
+        "da": "Besparelse ift. nu",
+        "sv": "Besparing jämfört med nu",
+        "no": "Besparelse mot nå",
+        "pl": "Oszczędność względem teraz",
+        "ru": "Экономия по сравнению с сейчас",
+        "ar": "التوفير مقارنة بالآن",
+        "ko": "지금 대비 절약"
+      },
+      "example": 0.12
+    }
+  ]
+}

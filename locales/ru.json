@@ -110,5 +110,7 @@
   "error_invalid_time": "Неверное время: __time__. Используйте ЧЧ:ММ",
   "error_departure_past": "Отправление в __time__ сегодня уже прошло",
   "error_invalid_periods": "Неверный период: __periods__. Используйте ГГГГ-ММ-ДД/ГГГГ-ММ-ДД через запятую",
-  "ev_now": "сейчас"
+  "ev_now": "сейчас",
+  "appliance_best_start_value": "__start__ → готово __end__",
+  "error_appliance_no_ready_times": "Нет времени в настройке «Готово к»"
 }
