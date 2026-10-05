@@ -1,0 +1,81 @@
+{
+  "title": {
+    "en": "Planned start",
+    "nl": "Geplande start",
+    "de": "Geplanter Start",
+    "fr": "Départ planifié",
+    "es": "Inicio planificado",
+    "it": "Avvio pianificato",
+    "da": "Planlagt start",
+    "sv": "Planerad start",
+    "no": "Planlagt start",
+    "pl": "Zaplanowany start",
+    "ru": "Запланированный запуск",
+    "ar": "البدء المخطط",
+    "ko": "계획된 시작"
+  },
+  "hint": {
+    "en": "Start the program from this flow, e.g. by switching on the plug or via the appliance's app.",
+    "nl": "Start het programma vanuit deze flow, bijv. door de stekker aan te zetten of via de app van het apparaat.",
+    "de": "Starten Sie das Programm aus diesem Flow, z. B. durch Einschalten der Steckdose oder über die App des Geräts.",
+    "fr": "Lancez le programme depuis ce flow, p. ex. en allumant la prise ou via l'app de l'appareil.",
+    "es": "Inicie el programa desde este flujo, p. ej. encendiendo el enchufe o con la app del aparato.",
+    "it": "Avvia il programma da questo flow, ad es. accendendo la presa o tramite l'app dell'elettrodomestico.",
+    "da": "Start programmet fra dette flow, f.eks. ved at tænde stikket eller via apparatets app.",
+    "sv": "Starta programmet från detta flöde, t.ex. genom att slå på uttaget eller via apparatens app.",
+    "no": "Start programmet fra denne flyten, f.eks. ved å slå på kontakten eller via apparatets app.",
+    "pl": "Uruchom program z tego flow, np. włączając gniazdko lub przez aplikację urządzenia.",
+    "ru": "Запустите программу из этого потока, например включив розетку или через приложение прибора.",
+    "ar": "ابدأ البرنامج من هذا التدفق، مثلًا بتشغيل المقبس أو عبر تطبيق الجهاز.",
+    "ko": "이 플로우에서 프로그램을 시작하세요. 예: 플러그를 켜거나 가전 앱 사용."
+  },
+  "args": [
+    {
+      "type": "device",
+      "name": "device",
+      "filter": "driver_id=power&capabilities=appliance_next_run"
+    }
+  ],
+  "tokens": [
+    {
+      "name": "ready_by",
+      "type": "string",
+      "title": {
+        "en": "Ready by",
+        "nl": "Klaar om",
+        "de": "Fertig um",
+        "fr": "Prêt à",
+        "es": "Listo a las",
+        "it": "Pronto alle",
+        "da": "Færdig kl.",
+        "sv": "Klar kl.",
+        "no": "Ferdig kl.",
+        "pl": "Gotowe o",
+        "ru": "Готово к",
+        "ar": "جاهز بحلول",
+        "ko": "완료 시각"
+      },
+      "example": "07:00"
+    },
+    {
+      "name": "cost",
+      "type": "number",
+      "title": {
+        "en": "Expected cost",
+        "nl": "Verwachte kosten",
+        "de": "Erwartete Kosten",
+        "fr": "Coût prévu",
+        "es": "Coste previsto",
+        "it": "Costo previsto",
+        "da": "Forventet pris",
+        "sv": "Förväntad kostnad",
+        "no": "Forventet kostnad",
+        "pl": "Przewidywany koszt",
+        "ru": "Ожидаемая стоимость",
+        "ar": "التكلفة المتوقعة",
+        "ko": "예상 비용"
+      },
+      "example": 0.21
+    }
+  ]
+}

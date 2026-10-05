@@ -1,0 +1,170 @@
+{
+  "title": {
+    "en": "Plan program",
+    "nl": "Programma plannen",
+    "de": "Programm planen",
+    "fr": "Planifier le programme",
+    "es": "Planificar programa",
+    "it": "Pianifica programma",
+    "da": "Planlæg program",
+    "sv": "Planera program",
+    "no": "Planlegg program",
+    "pl": "Zaplanuj program",
+    "ru": "Запланировать программу",
+    "ar": "تخطيط البرنامج",
+    "ko": "프로그램 계획"
+  },
+  "titleFormatted": {
+    "en": "Plan program ready by [[time]]",
+    "nl": "Programma plannen, klaar om [[time]]",
+    "de": "Programm planen, fertig um [[time]]",
+    "fr": "Planifier le programme, prêt à [[time]]",
+    "es": "Planificar programa, listo a las [[time]]",
+    "it": "Pianifica programma, pronto alle [[time]]",
+    "da": "Planlæg program, færdigt kl. [[time]]",
+    "sv": "Planera program, klart kl. [[time]]",
+    "no": "Planlegg program, ferdig kl. [[time]]",
+    "pl": "Zaplanuj program, gotowe o [[time]]",
+    "ru": "Запланировать программу, готово к [[time]]",
+    "ar": "تخطيط البرنامج، جاهز بحلول [[time]]",
+    "ko": "[[time]]까지 완료되도록 프로그램 계획"
+  },
+  "hint": {
+    "en": "Once, the next time it is that time: the cheapest start for the learned program. Time as HH:MM or a whole hour, also from a tag.",
+    "nl": "Eenmalig, de eerstvolgende keer dat het die tijd is: de goedkoopste start voor het geleerde programma. Tijd als UU:MM of een heel uur, ook uit een tag.",
+    "de": "Einmalig, beim nächsten Mal zu dieser Zeit: der günstigste Start für das gelernte Programm. Zeit als HH:MM oder volle Stunde, auch aus einem Tag.",
+    "fr": "Une fois, la prochaine fois qu'il est cette heure : le départ le moins cher pour le programme appris. Heure HH:MM ou heure pleine, aussi depuis un tag.",
+    "es": "Una vez, la próxima vez que sea esa hora: el inicio más barato para el programa aprendido. Hora HH:MM o una hora entera, también desde una etiqueta.",
+    "it": "Una volta, la prossima volta che è quell'ora: l'avvio più economico per il programma appreso. Ora HH:MM o ora intera, anche da un tag.",
+    "da": "Én gang, næste gang klokken er det: den billigste start for det lærte program. Tid som TT:MM eller en hel time, også fra et tag.",
+    "sv": "En gång, nästa gång klockan är det: billigaste start för det inlärda programmet. Tid som HH:MM eller en hel timme, även från en tagg.",
+    "no": "Én gang, neste gang klokken er det: den billigste starten for det lærte programmet. Tid som TT:MM eller en hel time, også fra en tagg.",
+    "pl": "Jednorazowo, najbliższym razem o tej godzinie: najtańszy start dla wyuczonego programu. Czas GG:MM lub pełna godzina, także z tagu.",
+    "ru": "Однократно, в ближайшее такое время: самый дешёвый запуск для изученной программы. Время ЧЧ:ММ или целый час, также из тега.",
+    "ar": "لمرة واحدة، في المرة التالية لهذا الوقت: أرخص بدء للبرنامج المُتعلَّم. الوقت بصيغة HH:MM أو ساعة كاملة، ويمكن من وسم.",
+    "ko": "1회, 다음에 그 시각이 될 때: 학습된 프로그램의 가장 저렴한 시작. 시간은 HH:MM 또는 정시, 태그도 가능."
+  },
+  "args": [
+    {
+      "type": "device",
+      "name": "device",
+      "filter": "driver_id=power&capabilities=appliance_next_run"
+    },
+    {
+      "type": "text",
+      "name": "time",
+      "placeholder": {
+        "en": "07:00",
+        "nl": "07:00",
+        "de": "07:00",
+        "fr": "07:00",
+        "es": "07:00",
+        "it": "07:00",
+        "da": "07:00",
+        "sv": "07:00",
+        "no": "07:00",
+        "pl": "07:00",
+        "ru": "07:00",
+        "ar": "07:00",
+        "ko": "07:00"
+      },
+      "title": {
+        "en": "Ready by",
+        "nl": "Klaar om",
+        "de": "Fertig um",
+        "fr": "Prêt à",
+        "es": "Listo a las",
+        "it": "Pronto alle",
+        "da": "Færdig kl.",
+        "sv": "Klar kl.",
+        "no": "Ferdig kl.",
+        "pl": "Gotowe o",
+        "ru": "Готово к",
+        "ar": "جاهز بحلول",
+        "ko": "완료 시각"
+      }
+    }
+  ],
+  "tokens": [
+    {
+      "name": "start_time",
+      "type": "string",
+      "title": {
+        "en": "Start time",
+        "nl": "Starttijd",
+        "de": "Startzeit",
+        "fr": "Heure de départ",
+        "es": "Hora de inicio",
+        "it": "Ora di avvio",
+        "da": "Starttid",
+        "sv": "Starttid",
+        "no": "Starttid",
+        "pl": "Godzina startu",
+        "ru": "Время запуска",
+        "ar": "وقت البدء",
+        "ko": "시작 시간"
+      },
+      "example": "02:15"
+    },
+    {
+      "name": "wait",
+      "type": "number",
+      "title": {
+        "en": "Wait (min)",
+        "nl": "Wachten (min)",
+        "de": "Warten (Min.)",
+        "fr": "Attente (min)",
+        "es": "Espera (min)",
+        "it": "Attesa (min)",
+        "da": "Vent (min)",
+        "sv": "Vänta (min)",
+        "no": "Vent (min)",
+        "pl": "Czekaj (min)",
+        "ru": "Ожидание (мин)",
+        "ar": "الانتظار (دقيقة)",
+        "ko": "대기 (분)"
+      },
+      "example": 240
+    },
+    {
+      "name": "cost",
+      "type": "number",
+      "title": {
+        "en": "Expected cost",
+        "nl": "Verwachte kosten",
+        "de": "Erwartete Kosten",
+        "fr": "Coût prévu",
+        "es": "Coste previsto",
+        "it": "Costo previsto",
+        "da": "Forventet pris",
+        "sv": "Förväntad kostnad",
+        "no": "Forventet kostnad",
+        "pl": "Przewidywany koszt",
+        "ru": "Ожидаемая стоимость",
+        "ar": "التكلفة المتوقعة",
+        "ko": "예상 비용"
+      },
+      "example": 0.21
+    },
+    {
+      "name": "saving",
+      "type": "number",
+      "title": {
+        "en": "Saving vs now",
+        "nl": "Besparing t.o.v. nu",
+        "de": "Ersparnis ggü. jetzt",
+        "fr": "Économie vs maintenant",
+        "es": "Ahorro frente a ahora",
+        "it": "Risparmio rispetto ad ora",
+        "da": "Besparelse ift. nu",
+        "sv": "Besparing jämfört med nu",
+        "no": "Besparelse mot nå",
+        "pl": "Oszczędność względem teraz",
+        "ru": "Экономия по сравнению с сейчас",
+        "ar": "التوفير مقارنة بالآن",
+        "ko": "지금 대비 절약"
+      },
+      "example": 0.12
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "type": "string",
+  "title": {
+    "en": "Program",
+    "nl": "Programma",
+    "de": "Programm",
+    "fr": "Programme",
+    "es": "Programa",
+    "it": "Programma",
+    "da": "Program",
+    "sv": "Program",
+    "no": "Program",
+    "pl": "Program",
+    "ru": "Программа",
+    "ar": "البرنامج",
+    "ko": "프로그램"
+  },
+  "uiComponent": "sensor",
+  "icon": "/assets/measure_watt_forecast.svg",
+  "getable": true,
+  "setable": false,
+  "insights": false
+}

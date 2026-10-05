@@ -1,0 +1,101 @@
+{
+  "title": {
+    "en": "Program started",
+    "nl": "Programma gestart",
+    "de": "Programm gestartet",
+    "fr": "Programme démarré",
+    "es": "Programa iniciado",
+    "it": "Programma avviato",
+    "da": "Program startet",
+    "sv": "Program startat",
+    "no": "Program startet",
+    "pl": "Program uruchomiony",
+    "ru": "Программа запущена",
+    "ar": "بدأ البرنامج",
+    "ko": "프로그램 시작됨"
+  },
+  "hint": {
+    "en": "Expected values from the learned program, empty while learning.",
+    "nl": "Verwachte waarden uit het geleerde programma, leeg tijdens het leren.",
+    "de": "Erwartete Werte aus dem gelernten Programm, leer während des Lernens.",
+    "fr": "Valeurs attendues du programme appris, vides pendant l'apprentissage.",
+    "es": "Valores esperados del programa aprendido, vacíos mientras aprende.",
+    "it": "Valori attesi dal programma appreso, vuoti durante l'apprendimento.",
+    "da": "Forventede værdier fra det lærte program, tomme under indlæring.",
+    "sv": "Förväntade värden från det inlärda programmet, tomma under inlärning.",
+    "no": "Forventede verdier fra det lærte programmet, tomme under læring.",
+    "pl": "Wartości oczekiwane z wyuczonego programu, puste podczas uczenia.",
+    "ru": "Ожидаемые значения из изученной программы, пусто во время обучения.",
+    "ar": "القيم المتوقعة من البرنامج المُتعلَّم، فارغة أثناء التعلم.",
+    "ko": "학습된 프로그램의 예상값이며, 학습 중에는 비어 있습니다."
+  },
+  "args": [
+    {
+      "type": "device",
+      "name": "device",
+      "filter": "driver_id=power&capabilities=appliance_next_run"
+    }
+  ],
+  "tokens": [
+    {
+      "name": "expected_end",
+      "type": "string",
+      "title": {
+        "en": "Expected end",
+        "nl": "Verwacht einde",
+        "de": "Erwartetes Ende",
+        "fr": "Fin prévue",
+        "es": "Fin prevista",
+        "it": "Fine prevista",
+        "da": "Forventet slut",
+        "sv": "Förväntat slut",
+        "no": "Forventet slutt",
+        "pl": "Przewidywany koniec",
+        "ru": "Ожидаемое окончание",
+        "ar": "النهاية المتوقعة",
+        "ko": "예상 종료"
+      },
+      "example": "21:35"
+    },
+    {
+      "name": "expected_kwh",
+      "type": "number",
+      "title": {
+        "en": "Expected energy (kWh)",
+        "nl": "Verwachte energie (kWh)",
+        "de": "Erwartete Energie (kWh)",
+        "fr": "Énergie prévue (kWh)",
+        "es": "Energía prevista (kWh)",
+        "it": "Energia prevista (kWh)",
+        "da": "Forventet energi (kWh)",
+        "sv": "Förväntad energi (kWh)",
+        "no": "Forventet energi (kWh)",
+        "pl": "Przewidywana energia (kWh)",
+        "ru": "Ожидаемая энергия (кВт·ч)",
+        "ar": "الطاقة المتوقعة (ك.و.س)",
+        "ko": "예상 에너지 (kWh)"
+      },
+      "example": 1.1
+    },
+    {
+      "name": "duration",
+      "type": "number",
+      "title": {
+        "en": "Expected duration (min)",
+        "nl": "Verwachte duur (min)",
+        "de": "Erwartete Dauer (Min.)",
+        "fr": "Durée prévue (min)",
+        "es": "Duración prevista (min)",
+        "it": "Durata prevista (min)",
+        "da": "Forventet varighed (min)",
+        "sv": "Förväntad varaktighet (min)",
+        "no": "Forventet varighet (min)",
+        "pl": "Przewidywany czas (min)",
+        "ru": "Ожидаемая длительность (мин)",
+        "ar": "المدة المتوقعة (دقيقة)",
+        "ko": "예상 시간 (분)"
+      },
+      "example": 95
+    }
+  ]
+}

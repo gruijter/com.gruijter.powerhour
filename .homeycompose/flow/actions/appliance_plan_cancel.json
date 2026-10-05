@@ -1,0 +1,24 @@
+{
+  "title": {
+    "en": "Cancel planned program",
+    "nl": "Gepland programma annuleren",
+    "de": "Geplantes Programm abbrechen",
+    "fr": "Annuler le programme planifié",
+    "es": "Cancelar programa planificado",
+    "it": "Annulla programma pianificato",
+    "da": "Annullér planlagt program",
+    "sv": "Avbryt planerat program",
+    "no": "Avbryt planlagt program",
+    "pl": "Anuluj zaplanowany program",
+    "ru": "Отменить запланированную программу",
+    "ar": "إلغاء البرنامج المخطط",
+    "ko": "계획된 프로그램 취소"
+  },
+  "args": [
+    {
+      "type": "device",
+      "name": "device",
+      "filter": "driver_id=power&capabilities=appliance_next_run"
+    }
+  ]
+}

@@ -148,6 +148,272 @@
     "triggers": [
       {
         "title": {
+          "en": "Program finished",
+          "nl": "Programma klaar",
+          "de": "Programm beendet",
+          "fr": "Programme terminé",
+          "es": "Programa terminado",
+          "it": "Programma terminato",
+          "da": "Program færdigt",
+          "sv": "Program klart",
+          "no": "Program ferdig",
+          "pl": "Program zakończony",
+          "ru": "Программа завершена",
+          "ar": "انتهى البرنامج",
+          "ko": "프로그램 종료됨"
+        },
+        "hint": {
+          "en": "Fires 30 minutes after the last activity, to pass pauses and drying.",
+          "nl": "Komt 30 minuten na de laatste activiteit, om pauzes en drogen te overbruggen.",
+          "de": "Kommt 30 Minuten nach der letzten Aktivität, um Pausen und Trocknen zu überbrücken.",
+          "fr": "Se déclenche 30 minutes après la dernière activité, pour couvrir pauses et séchage.",
+          "es": "Se activa 30 minutos tras la última actividad, para cubrir pausas y secado.",
+          "it": "Scatta 30 minuti dopo l'ultima attività, per coprire pause e asciugatura.",
+          "da": "Udløses 30 minutter efter sidste aktivitet for at dække pauser og tørring.",
+          "sv": "Utlöses 30 minuter efter senaste aktivitet för att täcka pauser och torkning.",
+          "no": "Utløses 30 minutter etter siste aktivitet for å dekke pauser og tørking.",
+          "pl": "Wyzwala się 30 minut po ostatniej aktywności, by objąć przerwy i suszenie.",
+          "ru": "Срабатывает через 30 минут после последней активности, чтобы учесть паузы и сушку.",
+          "ar": "يعمل بعد 30 دقيقة من آخر نشاط لتجاوز التوقفات والتجفيف.",
+          "ko": "일시정지와 건조를 고려해 마지막 활동 30분 후에 실행됩니다."
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=power&capabilities=appliance_next_run"
+          }
+        ],
+        "tokens": [
+          {
+            "name": "kwh",
+            "type": "number",
+            "title": {
+              "en": "Energy (kWh)",
+              "nl": "Energie (kWh)",
+              "de": "Energie (kWh)",
+              "fr": "Énergie (kWh)",
+              "es": "Energía (kWh)",
+              "it": "Energia (kWh)",
+              "da": "Energi (kWh)",
+              "sv": "Energi (kWh)",
+              "no": "Energi (kWh)",
+              "pl": "Energia (kWh)",
+              "ru": "Энергия (кВт·ч)",
+              "ar": "الطاقة (ك.و.س)",
+              "ko": "에너지 (kWh)"
+            },
+            "example": 1
+          },
+          {
+            "name": "duration",
+            "type": "number",
+            "title": {
+              "en": "Duration (min)",
+              "nl": "Duur (min)",
+              "de": "Dauer (Min.)",
+              "fr": "Durée (min)",
+              "es": "Duración (min)",
+              "it": "Durata (min)",
+              "da": "Varighed (min)",
+              "sv": "Varaktighet (min)",
+              "no": "Varighet (min)",
+              "pl": "Czas (min)",
+              "ru": "Длительность (мин)",
+              "ar": "المدة (دقيقة)",
+              "ko": "지속 시간 (분)"
+            },
+            "example": 95
+          }
+        ],
+        "id": "appliance_finished"
+      },
+      {
+        "title": {
+          "en": "Planned start",
+          "nl": "Geplande start",
+          "de": "Geplanter Start",
+          "fr": "Départ planifié",
+          "es": "Inicio planificado",
+          "it": "Avvio pianificato",
+          "da": "Planlagt start",
+          "sv": "Planerad start",
+          "no": "Planlagt start",
+          "pl": "Zaplanowany start",
+          "ru": "Запланированный запуск",
+          "ar": "البدء المخطط",
+          "ko": "계획된 시작"
+        },
+        "hint": {
+          "en": "Start the program from this flow, e.g. by switching on the plug or via the appliance's app.",
+          "nl": "Start het programma vanuit deze flow, bijv. door de stekker aan te zetten of via de app van het apparaat.",
+          "de": "Starten Sie das Programm aus diesem Flow, z. B. durch Einschalten der Steckdose oder über die App des Geräts.",
+          "fr": "Lancez le programme depuis ce flow, p. ex. en allumant la prise ou via l'app de l'appareil.",
+          "es": "Inicie el programa desde este flujo, p. ej. encendiendo el enchufe o con la app del aparato.",
+          "it": "Avvia il programma da questo flow, ad es. accendendo la presa o tramite l'app dell'elettrodomestico.",
+          "da": "Start programmet fra dette flow, f.eks. ved at tænde stikket eller via apparatets app.",
+          "sv": "Starta programmet från detta flöde, t.ex. genom att slå på uttaget eller via apparatens app.",
+          "no": "Start programmet fra denne flyten, f.eks. ved å slå på kontakten eller via apparatets app.",
+          "pl": "Uruchom program z tego flow, np. włączając gniazdko lub przez aplikację urządzenia.",
+          "ru": "Запустите программу из этого потока, например включив розетку или через приложение прибора.",
+          "ar": "ابدأ البرنامج من هذا التدفق، مثلًا بتشغيل المقبس أو عبر تطبيق الجهاز.",
+          "ko": "이 플로우에서 프로그램을 시작하세요. 예: 플러그를 켜거나 가전 앱 사용."
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=power&capabilities=appliance_next_run"
+          }
+        ],
+        "tokens": [
+          {
+            "name": "ready_by",
+            "type": "string",
+            "title": {
+              "en": "Ready by",
+              "nl": "Klaar om",
+              "de": "Fertig um",
+              "fr": "Prêt à",
+              "es": "Listo a las",
+              "it": "Pronto alle",
+              "da": "Færdig kl.",
+              "sv": "Klar kl.",
+              "no": "Ferdig kl.",
+              "pl": "Gotowe o",
+              "ru": "Готово к",
+              "ar": "جاهز بحلول",
+              "ko": "완료 시각"
+            },
+            "example": "07:00"
+          },
+          {
+            "name": "cost",
+            "type": "number",
+            "title": {
+              "en": "Expected cost",
+              "nl": "Verwachte kosten",
+              "de": "Erwartete Kosten",
+              "fr": "Coût prévu",
+              "es": "Coste previsto",
+              "it": "Costo previsto",
+              "da": "Forventet pris",
+              "sv": "Förväntad kostnad",
+              "no": "Forventet kostnad",
+              "pl": "Przewidywany koszt",
+              "ru": "Ожидаемая стоимость",
+              "ar": "التكلفة المتوقعة",
+              "ko": "예상 비용"
+            },
+            "example": 0.21
+          }
+        ],
+        "id": "appliance_planned_start"
+      },
+      {
+        "title": {
+          "en": "Program started",
+          "nl": "Programma gestart",
+          "de": "Programm gestartet",
+          "fr": "Programme démarré",
+          "es": "Programa iniciado",
+          "it": "Programma avviato",
+          "da": "Program startet",
+          "sv": "Program startat",
+          "no": "Program startet",
+          "pl": "Program uruchomiony",
+          "ru": "Программа запущена",
+          "ar": "بدأ البرنامج",
+          "ko": "프로그램 시작됨"
+        },
+        "hint": {
+          "en": "Expected values from the learned program, empty while learning.",
+          "nl": "Verwachte waarden uit het geleerde programma, leeg tijdens het leren.",
+          "de": "Erwartete Werte aus dem gelernten Programm, leer während des Lernens.",
+          "fr": "Valeurs attendues du programme appris, vides pendant l'apprentissage.",
+          "es": "Valores esperados del programa aprendido, vacíos mientras aprende.",
+          "it": "Valori attesi dal programma appreso, vuoti durante l'apprendimento.",
+          "da": "Forventede værdier fra det lærte program, tomme under indlæring.",
+          "sv": "Förväntade värden från det inlärda programmet, tomma under inlärning.",
+          "no": "Forventede verdier fra det lærte programmet, tomme under læring.",
+          "pl": "Wartości oczekiwane z wyuczonego programu, puste podczas uczenia.",
+          "ru": "Ожидаемые значения из изученной программы, пусто во время обучения.",
+          "ar": "القيم المتوقعة من البرنامج المُتعلَّم، فارغة أثناء التعلم.",
+          "ko": "학습된 프로그램의 예상값이며, 학습 중에는 비어 있습니다."
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=power&capabilities=appliance_next_run"
+          }
+        ],
+        "tokens": [
+          {
+            "name": "expected_end",
+            "type": "string",
+            "title": {
+              "en": "Expected end",
+              "nl": "Verwacht einde",
+              "de": "Erwartetes Ende",
+              "fr": "Fin prévue",
+              "es": "Fin prevista",
+              "it": "Fine prevista",
+              "da": "Forventet slut",
+              "sv": "Förväntat slut",
+              "no": "Forventet slutt",
+              "pl": "Przewidywany koniec",
+              "ru": "Ожидаемое окончание",
+              "ar": "النهاية المتوقعة",
+              "ko": "예상 종료"
+            },
+            "example": "21:35"
+          },
+          {
+            "name": "expected_kwh",
+            "type": "number",
+            "title": {
+              "en": "Expected energy (kWh)",
+              "nl": "Verwachte energie (kWh)",
+              "de": "Erwartete Energie (kWh)",
+              "fr": "Énergie prévue (kWh)",
+              "es": "Energía prevista (kWh)",
+              "it": "Energia prevista (kWh)",
+              "da": "Forventet energi (kWh)",
+              "sv": "Förväntad energi (kWh)",
+              "no": "Forventet energi (kWh)",
+              "pl": "Przewidywana energia (kWh)",
+              "ru": "Ожидаемая энергия (кВт·ч)",
+              "ar": "الطاقة المتوقعة (ك.و.س)",
+              "ko": "예상 에너지 (kWh)"
+            },
+            "example": 1.1
+          },
+          {
+            "name": "duration",
+            "type": "number",
+            "title": {
+              "en": "Expected duration (min)",
+              "nl": "Verwachte duur (min)",
+              "de": "Erwartete Dauer (Min.)",
+              "fr": "Durée prévue (min)",
+              "es": "Duración prevista (min)",
+              "it": "Durata prevista (min)",
+              "da": "Forventet varighed (min)",
+              "sv": "Förväntad varaktighet (min)",
+              "no": "Forventet varighet (min)",
+              "pl": "Przewidywany czas (min)",
+              "ru": "Ожидаемая длительность (мин)",
+              "ar": "المدة المتوقعة (دقيقة)",
+              "ko": "예상 시간 (분)"
+            },
+            "example": 95
+          }
+        ],
+        "id": "appliance_started"
+      },
+      {
+        "title": {
           "en": "Car status changed",
           "nl": "Autostatus gewijzigd",
           "de": "Autostatus geändert",
@@ -9167,6 +9433,202 @@
           }
         ],
         "id": "add_planned_load"
+      },
+      {
+        "title": {
+          "en": "Plan program",
+          "nl": "Programma plannen",
+          "de": "Programm planen",
+          "fr": "Planifier le programme",
+          "es": "Planificar programa",
+          "it": "Pianifica programma",
+          "da": "Planlæg program",
+          "sv": "Planera program",
+          "no": "Planlegg program",
+          "pl": "Zaplanuj program",
+          "ru": "Запланировать программу",
+          "ar": "تخطيط البرنامج",
+          "ko": "프로그램 계획"
+        },
+        "titleFormatted": {
+          "en": "Plan program ready by [[time]]",
+          "nl": "Programma plannen, klaar om [[time]]",
+          "de": "Programm planen, fertig um [[time]]",
+          "fr": "Planifier le programme, prêt à [[time]]",
+          "es": "Planificar programa, listo a las [[time]]",
+          "it": "Pianifica programma, pronto alle [[time]]",
+          "da": "Planlæg program, færdigt kl. [[time]]",
+          "sv": "Planera program, klart kl. [[time]]",
+          "no": "Planlegg program, ferdig kl. [[time]]",
+          "pl": "Zaplanuj program, gotowe o [[time]]",
+          "ru": "Запланировать программу, готово к [[time]]",
+          "ar": "تخطيط البرنامج، جاهز بحلول [[time]]",
+          "ko": "[[time]]까지 완료되도록 프로그램 계획"
+        },
+        "hint": {
+          "en": "Once, the next time it is that time: the cheapest start for the learned program. Time as HH:MM or a whole hour, also from a tag.",
+          "nl": "Eenmalig, de eerstvolgende keer dat het die tijd is: de goedkoopste start voor het geleerde programma. Tijd als UU:MM of een heel uur, ook uit een tag.",
+          "de": "Einmalig, beim nächsten Mal zu dieser Zeit: der günstigste Start für das gelernte Programm. Zeit als HH:MM oder volle Stunde, auch aus einem Tag.",
+          "fr": "Une fois, la prochaine fois qu'il est cette heure : le départ le moins cher pour le programme appris. Heure HH:MM ou heure pleine, aussi depuis un tag.",
+          "es": "Una vez, la próxima vez que sea esa hora: el inicio más barato para el programa aprendido. Hora HH:MM o una hora entera, también desde una etiqueta.",
+          "it": "Una volta, la prossima volta che è quell'ora: l'avvio più economico per il programma appreso. Ora HH:MM o ora intera, anche da un tag.",
+          "da": "Én gang, næste gang klokken er det: den billigste start for det lærte program. Tid som TT:MM eller en hel time, også fra et tag.",
+          "sv": "En gång, nästa gång klockan är det: billigaste start för det inlärda programmet. Tid som HH:MM eller en hel timme, även från en tagg.",
+          "no": "Én gang, neste gang klokken er det: den billigste starten for det lærte programmet. Tid som TT:MM eller en hel time, også fra en tagg.",
+          "pl": "Jednorazowo, najbliższym razem o tej godzinie: najtańszy start dla wyuczonego programu. Czas GG:MM lub pełna godzina, także z tagu.",
+          "ru": "Однократно, в ближайшее такое время: самый дешёвый запуск для изученной программы. Время ЧЧ:ММ или целый час, также из тега.",
+          "ar": "لمرة واحدة، في المرة التالية لهذا الوقت: أرخص بدء للبرنامج المُتعلَّم. الوقت بصيغة HH:MM أو ساعة كاملة، ويمكن من وسم.",
+          "ko": "1회, 다음에 그 시각이 될 때: 학습된 프로그램의 가장 저렴한 시작. 시간은 HH:MM 또는 정시, 태그도 가능."
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=power&capabilities=appliance_next_run"
+          },
+          {
+            "type": "text",
+            "name": "time",
+            "placeholder": {
+              "en": "07:00",
+              "nl": "07:00",
+              "de": "07:00",
+              "fr": "07:00",
+              "es": "07:00",
+              "it": "07:00",
+              "da": "07:00",
+              "sv": "07:00",
+              "no": "07:00",
+              "pl": "07:00",
+              "ru": "07:00",
+              "ar": "07:00",
+              "ko": "07:00"
+            },
+            "title": {
+              "en": "Ready by",
+              "nl": "Klaar om",
+              "de": "Fertig um",
+              "fr": "Prêt à",
+              "es": "Listo a las",
+              "it": "Pronto alle",
+              "da": "Færdig kl.",
+              "sv": "Klar kl.",
+              "no": "Ferdig kl.",
+              "pl": "Gotowe o",
+              "ru": "Готово к",
+              "ar": "جاهز بحلول",
+              "ko": "완료 시각"
+            }
+          }
+        ],
+        "tokens": [
+          {
+            "name": "start_time",
+            "type": "string",
+            "title": {
+              "en": "Start time",
+              "nl": "Starttijd",
+              "de": "Startzeit",
+              "fr": "Heure de départ",
+              "es": "Hora de inicio",
+              "it": "Ora di avvio",
+              "da": "Starttid",
+              "sv": "Starttid",
+              "no": "Starttid",
+              "pl": "Godzina startu",
+              "ru": "Время запуска",
+              "ar": "وقت البدء",
+              "ko": "시작 시간"
+            },
+            "example": "02:15"
+          },
+          {
+            "name": "wait",
+            "type": "number",
+            "title": {
+              "en": "Wait (min)",
+              "nl": "Wachten (min)",
+              "de": "Warten (Min.)",
+              "fr": "Attente (min)",
+              "es": "Espera (min)",
+              "it": "Attesa (min)",
+              "da": "Vent (min)",
+              "sv": "Vänta (min)",
+              "no": "Vent (min)",
+              "pl": "Czekaj (min)",
+              "ru": "Ожидание (мин)",
+              "ar": "الانتظار (دقيقة)",
+              "ko": "대기 (분)"
+            },
+            "example": 240
+          },
+          {
+            "name": "cost",
+            "type": "number",
+            "title": {
+              "en": "Expected cost",
+              "nl": "Verwachte kosten",
+              "de": "Erwartete Kosten",
+              "fr": "Coût prévu",
+              "es": "Coste previsto",
+              "it": "Costo previsto",
+              "da": "Forventet pris",
+              "sv": "Förväntad kostnad",
+              "no": "Forventet kostnad",
+              "pl": "Przewidywany koszt",
+              "ru": "Ожидаемая стоимость",
+              "ar": "التكلفة المتوقعة",
+              "ko": "예상 비용"
+            },
+            "example": 0.21
+          },
+          {
+            "name": "saving",
+            "type": "number",
+            "title": {
+              "en": "Saving vs now",
+              "nl": "Besparing t.o.v. nu",
+              "de": "Ersparnis ggü. jetzt",
+              "fr": "Économie vs maintenant",
+              "es": "Ahorro frente a ahora",
+              "it": "Risparmio rispetto ad ora",
+              "da": "Besparelse ift. nu",
+              "sv": "Besparing jämfört med nu",
+              "no": "Besparelse mot nå",
+              "pl": "Oszczędność względem teraz",
+              "ru": "Экономия по сравнению с сейчас",
+              "ar": "التوفير مقارنة بالآن",
+              "ko": "지금 대비 절약"
+            },
+            "example": 0.12
+          }
+        ],
+        "id": "appliance_plan"
+      },
+      {
+        "title": {
+          "en": "Cancel planned program",
+          "nl": "Gepland programma annuleren",
+          "de": "Geplantes Programm abbrechen",
+          "fr": "Annuler le programme planifié",
+          "es": "Cancelar programa planificado",
+          "it": "Annulla programma pianificato",
+          "da": "Annullér planlagt program",
+          "sv": "Avbryt planerat program",
+          "no": "Avbryt planlagt program",
+          "pl": "Anuluj zaplanowany program",
+          "ru": "Отменить запланированную программу",
+          "ar": "إلغاء البرنامج المخطط",
+          "ko": "계획된 프로그램 취소"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=power&capabilities=appliance_next_run"
+          }
+        ],
+        "id": "appliance_plan_cancel"
       },
       {
         "title": {
@@ -25085,6 +25547,81 @@
         {
           "type": "group",
           "label": {
+            "en": "Forecast",
+            "nl": "Voorspelling",
+            "de": "Prognose",
+            "fr": "Prévision",
+            "es": "Previsión",
+            "it": "Previsione",
+            "da": "Prognose",
+            "sv": "Prognos",
+            "no": "Prognose",
+            "pl": "Prognoza",
+            "ru": "Прогноз",
+            "ar": "التوقع",
+            "ko": "예측"
+          },
+          "children": [
+            {
+              "id": "forecast_appliance",
+              "type": "checkbox",
+              "value": false,
+              "label": {
+                "en": "Enable forecast",
+                "nl": "Voorspelling inschakelen",
+                "de": "Prognose aktivieren",
+                "fr": "Activer la prévision",
+                "es": "Activar previsión",
+                "it": "Attiva previsione",
+                "da": "Aktivér prognose",
+                "sv": "Aktivera prognos",
+                "no": "Aktiver prognose",
+                "pl": "Włącz prognozę",
+                "ru": "Включить прогноз",
+                "ar": "تفعيل التوقع",
+                "ko": "예측 사용"
+              },
+              "hint": {
+                "en": "For a washing machine, dishwasher or dryer: learns its programs and when they start, and adds them to the home load forecast of the grid device.",
+                "nl": "Voor een wasmachine, vaatwasser of droger: leert de programma's en wanneer ze starten, en telt ze op bij de huisverbruik-voorspelling van het grid-apparaat.",
+                "de": "Für Waschmaschine, Geschirrspüler oder Trockner: lernt die Programme und wann sie starten, und addiert sie zur Hausverbrauchsprognose des Grid-Geräts.",
+                "fr": "Pour un lave-linge, lave-vaisselle ou sèche-linge : apprend ses programmes et leurs heures de départ, et les ajoute à la prévision de consommation du grid.",
+                "es": "Para lavadora, lavavajillas o secadora: aprende sus programas y cuándo empiezan, y los suma a la previsión de consumo del grid.",
+                "it": "Per lavatrice, lavastoviglie o asciugatrice: apprende i programmi e quando partono, e li aggiunge alla previsione di consumo del grid.",
+                "da": "Til vaskemaskine, opvaskemaskine eller tørretumbler: lærer programmerne og hvornår de starter, og lægger dem til grid-enhedens husforbrugsprognose.",
+                "sv": "För tvättmaskin, diskmaskin eller torktumlare: lär sig programmen och när de startar, och lägger till dem i grid-enhetens hushållsprognos.",
+                "no": "For vaskemaskin, oppvaskmaskin eller tørketrommel: lærer programmene og når de starter, og legger dem til grid-enhetens husforbruksprognose.",
+                "pl": "Dla pralki, zmywarki lub suszarki: uczy się programów i godzin startu oraz dodaje je do prognozy zużycia domu w urządzeniu grid.",
+                "ru": "Для стиральной, посудомоечной или сушильной машины: изучает программы и время их запуска и добавляет их к прогнозу нагрузки дома в grid.",
+                "ar": "لغسالة أو غسالة صحون أو مجفف: يتعلّم البرامج ومواعيد بدئها ويضيفها إلى توقع حمل المنزل في جهاز grid.",
+                "ko": "세탁기, 식기세척기, 건조기용: 프로그램과 시작 시각을 학습해 grid 장치의 가정 부하 예측에 더합니다."
+              }
+            },
+            {
+              "id": "appliance_status",
+              "type": "label",
+              "value": "-",
+              "label": {
+                "en": "Learned program",
+                "nl": "Geleerd programma",
+                "de": "Gelerntes Programm",
+                "fr": "Programme appris",
+                "es": "Programa aprendido",
+                "it": "Programma appreso",
+                "da": "Lært program",
+                "sv": "Inlärt program",
+                "no": "Lært program",
+                "pl": "Wyuczony program",
+                "ru": "Изученная программа",
+                "ar": "البرنامج المُتعلَّم",
+                "ko": "학습된 프로그램"
+              }
+            }
+          ]
+        },
+        {
+          "type": "group",
+          "label": {
             "en": "Year start and energy budget",
             "nl": "Jaarstart en energie budget",
             "de": "Jahresbeginn und Energiebudget",
@@ -29187,6 +29724,323 @@
     }
   ],
   "capabilities": {
+    "appliance_next_run": {
+      "type": "string",
+      "title": {
+        "en": "Next run",
+        "nl": "Volgende run",
+        "de": "Nächster Lauf",
+        "fr": "Prochain cycle",
+        "es": "Próximo ciclo",
+        "it": "Prossimo ciclo",
+        "da": "Næste kørsel",
+        "sv": "Nästa körning",
+        "no": "Neste kjøring",
+        "pl": "Następny cykl",
+        "ru": "Следующий цикл",
+        "ar": "التشغيل التالي",
+        "ko": "다음 운전"
+      },
+      "desc": {
+        "en": "Planned, running, or expected (~) from the learned starts.",
+        "nl": "Gepland, bezig, of verwacht (~) uit de geleerde starts.",
+        "de": "Geplant, laufend oder erwartet (~) aus den gelernten Starts.",
+        "fr": "Planifié, en cours ou attendu (~) d'après les départs appris.",
+        "es": "Planificado, en marcha o esperado (~) según los inicios aprendidos.",
+        "it": "Pianificato, in corso o atteso (~) dagli avvii appresi.",
+        "da": "Planlagt, i gang eller forventet (~) ud fra lærte starter.",
+        "sv": "Planerad, pågående eller väntad (~) utifrån inlärda starter.",
+        "no": "Planlagt, pågår eller forventet (~) fra lærte starter.",
+        "pl": "Zaplanowany, trwający lub oczekiwany (~) z wyuczonych startów.",
+        "ru": "Запланирован, идёт или ожидается (~) по изученным запускам.",
+        "ar": "مخطط أو قيد التشغيل أو متوقع (~) من البدايات المُتعلَّمة.",
+        "ko": "계획됨, 운전 중, 또는 학습된 시작 기준 예상(~)."
+      },
+      "uiComponent": "sensor",
+      "icon": "/assets/ev_next_charge.svg",
+      "getable": true,
+      "setable": false,
+      "insights": false
+    },
+    "appliance_ready_by": {
+      "type": "enum",
+      "title": {
+        "en": "Ready by",
+        "nl": "Klaar om",
+        "de": "Fertig um",
+        "fr": "Prêt à",
+        "es": "Listo a las",
+        "it": "Pronto alle",
+        "da": "Færdig kl.",
+        "sv": "Klar kl.",
+        "no": "Ferdig kl.",
+        "pl": "Gotowe o",
+        "ru": "Готово к",
+        "ar": "جاهز بحلول",
+        "ko": "완료 시각"
+      },
+      "desc": {
+        "en": "Once: the program ends by this time, started at the cheapest moment. Off: no plan.",
+        "nl": "Eenmalig: het programma is klaar om deze tijd, gestart op het goedkoopste moment. Uit: geen plan.",
+        "de": "Einmalig: das Programm ist um diese Zeit fertig, zum günstigsten Zeitpunkt gestartet. Aus: kein Plan.",
+        "fr": "Une fois : le programme se termine à cette heure, lancé au moment le moins cher. Désactivé : pas de plan.",
+        "es": "Una vez: el programa termina a esta hora, iniciado en el momento más barato. Apagado: sin plan.",
+        "it": "Una volta: il programma termina a quest'ora, avviato nel momento più economico. Spento: nessun piano.",
+        "da": "Én gang: programmet er færdigt til dette tidspunkt, startet på det billigste tidspunkt. Fra: ingen plan.",
+        "sv": "En gång: programmet är klart till denna tid, startat vid billigaste tidpunkt. Av: ingen plan.",
+        "no": "Én gang: programmet er ferdig til dette tidspunktet, startet på det billigste tidspunktet. Av: ingen plan.",
+        "pl": "Jednorazowo: program kończy się o tej godzinie, start w najtańszym momencie. Wył.: brak planu.",
+        "ru": "Однократно: программа завершится к этому времени, запуск в самый дешёвый момент. Выкл.: без плана.",
+        "ar": "لمرة واحدة: ينتهي البرنامج بحلول هذا الوقت ويبدأ في أرخص لحظة. إيقاف: بلا خطة.",
+        "ko": "1회: 가장 저렴한 시점에 시작해 이 시각까지 완료. 끄기: 계획 없음."
+      },
+      "uiComponent": "picker",
+      "icon": "/assets/ev_departure.svg",
+      "getable": true,
+      "setable": true,
+      "insights": false,
+      "values": [
+        {
+          "id": "off",
+          "title": {
+            "en": "Off",
+            "nl": "Uit",
+            "de": "Aus",
+            "fr": "Désactivé",
+            "es": "Apagado",
+            "it": "Spento",
+            "da": "Fra",
+            "sv": "Av",
+            "no": "Av",
+            "pl": "Wył.",
+            "ru": "Выкл.",
+            "ar": "إيقاف",
+            "ko": "끄기"
+          }
+        },
+        {
+          "id": "03:00",
+          "title": {
+            "en": "03:00",
+            "nl": "03:00",
+            "de": "03:00",
+            "fr": "03:00",
+            "es": "03:00",
+            "it": "03:00",
+            "da": "03:00",
+            "sv": "03:00",
+            "no": "03:00",
+            "pl": "03:00",
+            "ru": "03:00",
+            "ar": "03:00",
+            "ko": "03:00"
+          }
+        },
+        {
+          "id": "06:00",
+          "title": {
+            "en": "06:00",
+            "nl": "06:00",
+            "de": "06:00",
+            "fr": "06:00",
+            "es": "06:00",
+            "it": "06:00",
+            "da": "06:00",
+            "sv": "06:00",
+            "no": "06:00",
+            "pl": "06:00",
+            "ru": "06:00",
+            "ar": "06:00",
+            "ko": "06:00"
+          }
+        },
+        {
+          "id": "07:00",
+          "title": {
+            "en": "07:00",
+            "nl": "07:00",
+            "de": "07:00",
+            "fr": "07:00",
+            "es": "07:00",
+            "it": "07:00",
+            "da": "07:00",
+            "sv": "07:00",
+            "no": "07:00",
+            "pl": "07:00",
+            "ru": "07:00",
+            "ar": "07:00",
+            "ko": "07:00"
+          }
+        },
+        {
+          "id": "08:00",
+          "title": {
+            "en": "08:00",
+            "nl": "08:00",
+            "de": "08:00",
+            "fr": "08:00",
+            "es": "08:00",
+            "it": "08:00",
+            "da": "08:00",
+            "sv": "08:00",
+            "no": "08:00",
+            "pl": "08:00",
+            "ru": "08:00",
+            "ar": "08:00",
+            "ko": "08:00"
+          }
+        },
+        {
+          "id": "10:00",
+          "title": {
+            "en": "10:00",
+            "nl": "10:00",
+            "de": "10:00",
+            "fr": "10:00",
+            "es": "10:00",
+            "it": "10:00",
+            "da": "10:00",
+            "sv": "10:00",
+            "no": "10:00",
+            "pl": "10:00",
+            "ru": "10:00",
+            "ar": "10:00",
+            "ko": "10:00"
+          }
+        },
+        {
+          "id": "12:00",
+          "title": {
+            "en": "12:00",
+            "nl": "12:00",
+            "de": "12:00",
+            "fr": "12:00",
+            "es": "12:00",
+            "it": "12:00",
+            "da": "12:00",
+            "sv": "12:00",
+            "no": "12:00",
+            "pl": "12:00",
+            "ru": "12:00",
+            "ar": "12:00",
+            "ko": "12:00"
+          }
+        },
+        {
+          "id": "14:00",
+          "title": {
+            "en": "14:00",
+            "nl": "14:00",
+            "de": "14:00",
+            "fr": "14:00",
+            "es": "14:00",
+            "it": "14:00",
+            "da": "14:00",
+            "sv": "14:00",
+            "no": "14:00",
+            "pl": "14:00",
+            "ru": "14:00",
+            "ar": "14:00",
+            "ko": "14:00"
+          }
+        },
+        {
+          "id": "16:00",
+          "title": {
+            "en": "16:00",
+            "nl": "16:00",
+            "de": "16:00",
+            "fr": "16:00",
+            "es": "16:00",
+            "it": "16:00",
+            "da": "16:00",
+            "sv": "16:00",
+            "no": "16:00",
+            "pl": "16:00",
+            "ru": "16:00",
+            "ar": "16:00",
+            "ko": "16:00"
+          }
+        },
+        {
+          "id": "18:00",
+          "title": {
+            "en": "18:00",
+            "nl": "18:00",
+            "de": "18:00",
+            "fr": "18:00",
+            "es": "18:00",
+            "it": "18:00",
+            "da": "18:00",
+            "sv": "18:00",
+            "no": "18:00",
+            "pl": "18:00",
+            "ru": "18:00",
+            "ar": "18:00",
+            "ko": "18:00"
+          }
+        },
+        {
+          "id": "20:00",
+          "title": {
+            "en": "20:00",
+            "nl": "20:00",
+            "de": "20:00",
+            "fr": "20:00",
+            "es": "20:00",
+            "it": "20:00",
+            "da": "20:00",
+            "sv": "20:00",
+            "no": "20:00",
+            "pl": "20:00",
+            "ru": "20:00",
+            "ar": "20:00",
+            "ko": "20:00"
+          }
+        },
+        {
+          "id": "22:00",
+          "title": {
+            "en": "22:00",
+            "nl": "22:00",
+            "de": "22:00",
+            "fr": "22:00",
+            "es": "22:00",
+            "it": "22:00",
+            "da": "22:00",
+            "sv": "22:00",
+            "no": "22:00",
+            "pl": "22:00",
+            "ru": "22:00",
+            "ar": "22:00",
+            "ko": "22:00"
+          }
+        }
+      ]
+    },
+    "appliance_state": {
+      "type": "string",
+      "title": {
+        "en": "Program",
+        "nl": "Programma",
+        "de": "Programm",
+        "fr": "Programme",
+        "es": "Programa",
+        "it": "Programma",
+        "da": "Program",
+        "sv": "Program",
+        "no": "Program",
+        "pl": "Program",
+        "ru": "Программа",
+        "ar": "البرنامج",
+        "ko": "프로그램"
+      },
+      "uiComponent": "sensor",
+      "icon": "/assets/measure_watt_forecast.svg",
+      "getable": true,
+      "setable": false,
+      "insights": false
+    },
     "ev_car_state": {
       "type": "enum",
       "title": {

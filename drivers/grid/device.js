@@ -1380,8 +1380,16 @@ class GridDevice extends GenericDevice {
       // Learn the regular load only: a slot with a planned extra load is not learned.
       const { startTime, durationMs } = bucketResult.finishedBucket;
       if (LoadForecastStrategy.getPlannedPower(this.plannedLoads, startTime, startTime + durationMs) > 0) return updated;
+      // Without the program appliances: they are forecast apart. Not measured over the whole
+      // slot (after a restart): not learned.
+      let appliancesW = 0;
+      for (const dev of this.getApplianceDevices()) {
+        const w = dev.getAvgPower(startTime, startTime + durationMs);
+        if (w === null) return updated;
+        appliancesW += w;
+      }
       const result = LoadForecastStrategy.getStrategy({
-        currentPower: bucketResult.finishedBucket.avgPower,
+        currentPower: Math.max(0, bucketResult.finishedBucket.avgPower - appliancesW),
         weeklyProfile: this.weeklyProfile,
         timestamp: new Date(bucketResult.finishedBucket.startTime),
         timezone: this.timeZone,
@@ -1408,9 +1416,13 @@ class GridDevice extends GenericDevice {
     // An untrained (all-zero) profile predicts nothing - scoring it would only measure the load.
     if (!learned) return;
     const { startTime, durationMs } = finishedBucket;
+    // The forecast as it was when the slot started (program appliances included), else rebuilt.
+    const slotStart = TimeHelpers.startOfLocalBlock(startTime, 15, this.timeZone);
+    const recorded = this.netForecastHistory.find((e) => e.time === slotStart && typeof e.load === 'number');
     this.forecastErrors = LoadForecastStrategy.recordForecastError(this.forecastErrors, {
       time: startTime,
-      predicted: learned + LoadForecastStrategy.getPlannedPower(this.plannedLoads, startTime, startTime + durationMs),
+      predicted: recorded ? recorded.load
+        : learned + LoadForecastStrategy.getPlannedPower(this.plannedLoads, startTime, startTime + durationMs),
       actual: finishedBucket.avgPower,
     });
     await this.setStoreValue('forecastErrors', this.forecastErrors);
@@ -1427,30 +1439,8 @@ class GridDevice extends GenericDevice {
   // separately because home load excludes it, and only while the car is connected: the EV plan
   // is also made while the car is away, as a prediction that is not being followed.
   getNetForecast(startMs, endMs) {
-    const load = LoadForecastStrategy.getLoadSeries(this.weeklyProfile, startMs, endMs, this.timeZone, this.plannedLoads);
-    const sumSeries = (driverId, getSeries) => {
-      const total = new Array(load.length).fill(0);
-      let driver = null;
-      try {
-        driver = this.homey.drivers.getDriver(driverId);
-      } catch {
-        return total;
-      }
-      driver.getDevices().forEach((dev) => {
-        let series;
-        try {
-          series = getSeries(dev);
-        } catch (err) {
-          this.error(err);
-          return;
-        }
-        if (!Array.isArray(series)) return;
-        series.forEach((v, i) => {
-          if (i < total.length && typeof v === 'number') total[i] += v;
-        });
-      });
-      return total;
-    };
+    const load = this.getHomeLoadSeries(startMs, endMs);
+    const sumSeries = (driverId, getSeries) => this.sumDriverSeries(driverId, load.length, getSeries);
     const solar = sumSeries('solar', (dev) => (dev.getForecastSeries ? dev.getForecastSeries(startMs, endMs) : null));
     const battery = sumSeries('battery', (dev) => (dev.getPlannedPowerSeries ? dev.getPlannedPowerSeries(startMs, endMs) : null));
     // Away and not plugged in are in the EV plan itself (no charging until the expected return or
@@ -1479,6 +1469,56 @@ class GridDevice extends GenericDevice {
     await this.updateForecastDisplay(true);
   }
 
+  // Per 15-minute slot the sum of a series of all devices of a driver (0 without devices).
+  sumDriverSeries(driverId, length, getSeries) {
+    const total = new Array(length).fill(0);
+    let driver = null;
+    try {
+      driver = this.homey.drivers.getDriver(driverId);
+    } catch {
+      return total;
+    }
+    driver.getDevices().forEach((dev) => {
+      let series;
+      try {
+        series = getSeries(dev);
+      } catch (err) {
+        this.error(err);
+        return;
+      }
+      if (!Array.isArray(series)) return;
+      series.forEach((v, i) => {
+        if (i < total.length && typeof v === 'number') total[i] += v;
+      });
+    });
+    return total;
+  }
+
+  // Power summarizers set as program appliance and learned enough to forecast
+  // (lib/strategies/ApplianceModel.js): not part of the learned home load.
+  getApplianceDevices() {
+    try {
+      return this.homey.drivers.getDriver('power').getDevices()
+        .filter((dev) => typeof dev.isApplianceReady === 'function' && dev.isApplianceReady());
+    } catch {
+      return [];
+    }
+  }
+
+  // Expected power of the program appliances (W) per 15-minute slot.
+  getApplianceSeries(startMs, endMs) {
+    const length = Math.max(0, Math.ceil((endMs - startMs) / (15 * 60 * 1000)));
+    return this.sumDriverSeries('power', length, (dev) => (dev.isApplianceReady && dev.isApplianceReady() ? dev.getForecastSeries(startMs, endMs) : null));
+  }
+
+  // Home load forecast (W) per 15-minute slot: the learned load without program appliances, the
+  // planned loads and the program appliances.
+  getHomeLoadSeries(startMs, endMs) {
+    const appliances = this.getApplianceSeries(startMs, endMs);
+    return LoadForecastStrategy.getLoadSeries(this.weeklyProfile, startMs, endMs, this.timeZone, this.plannedLoads)
+      .map((v, i) => v + (appliances[i] || 0));
+  }
+
   // Cached until forecastErrors changes (once per 15 minutes at most).
   getForecastAccuracy() {
     if (!this.forecastAccuracyCache || this.forecastAccuracyCache.errors !== this.forecastErrors) {
@@ -1502,8 +1542,9 @@ class GridDevice extends GenericDevice {
     await this.setSettings({ forecast_accuracy: text });
   }
 
-  // Called by battery/EV charger devices when their charge plan changes: the grid forecast
-  // includes those plans. Debounced, since several devices re-plan together on new prices.
+  // Called by battery/EV charger devices when their charge plan changes, and by program
+  // appliances on a start or end: the grid forecast includes them. Debounced, since several
+  // devices re-plan together on new prices.
   onChargePlanUpdated() {
     if (this.isDestroyed) return;
     if (this.planUpdateTimeout) this.homey.clearTimeout(this.planUpdateTimeout);
@@ -1517,11 +1558,16 @@ class GridDevice extends GenericDevice {
   // plansChanged: a battery/EV plan changed, so the grid forecast charts must be rebuilt.
   async updateForecastDisplay(updated = false, plansChanged = false) {
     const now = new Date();
+    // Program appliances for today and tomorrow (50 h covers a 25 h DST day).
+    const slotMs = 15 * 60 * 1000;
+    const dayStartMs = TimeHelpers.getLocalMidnightUTC(now, this.timeZone).getTime();
+    const appliances = this.getApplianceSeries(dayStartMs, dayStartMs + 50 * 60 * 60 * 1000);
     const forecast = LoadForecastStrategy.calculateForecast({
       weeklyProfile: this.weeklyProfile,
       timestamp: now,
       timezone: this.timeZone,
       plannedLoads: this.plannedLoads,
+      extraAt: (t) => appliances[Math.round((t - dayStartMs) / slotMs)] || 0,
     });
 
     await this.setCapabilityValue('measure_watt_forecast.h0', forecast.expectedPower).catch(this.error);
@@ -1538,10 +1584,11 @@ class GridDevice extends GenericDevice {
     await this.setCapabilityValue('measure_watt_forecast.tomorrow_peak', forecast.tomorrowPeakW).catch(this.error);
 
     const slotStartMs = now.getTime() - (now.getTime() % (15 * 60 * 1000));
-    const netNext = this.getNetForecast(slotStartMs, slotStartMs + 75 * 60 * 1000).netPlanned;
+    const next = this.getNetForecast(slotStartMs, slotStartMs + 75 * 60 * 1000);
+    const netNext = next.netPlanned;
     const lastNet = this.netForecastHistory[this.netForecastHistory.length - 1];
     if (!lastNet || lastNet.time !== slotStartMs) {
-      this.netForecastHistory.push({ time: slotStartMs, net: netNext[0] });
+      this.netForecastHistory.push({ time: slotStartMs, net: netNext[0], load: next.load[0] });
       if (this.netForecastHistory.length > 200) this.netForecastHistory.shift(); // > 2 days incl. a 25h DST day
       await this.setStoreValue('netForecastHistory', this.netForecastHistory).catch(this.error);
     }
@@ -1563,13 +1610,18 @@ class GridDevice extends GenericDevice {
     const startOfYesterday = getLocalMidnightUTC(new Date(startOfToday.getTime() - 60 * 60 * 1000));
     const endOfYesterday = startOfToday;
 
-    // Home load forecast per slot, planned loads included.
+    // Home load forecast per slot, planned loads and program appliances included. Past slots show
+    // the forecast recorded when the slot started, like the grid exchange charts below.
+    const recordedLoad = new Map(this.netForecastHistory.filter((e) => typeof e.load === 'number').map((e) => [e.time, e.load]));
     const loadOpts = (start, end) => ({
-      forecast: LoadForecastStrategy.getLoadSeries(this.weeklyProfile, start.getTime(), end.getTime(), timeZone, this.plannedLoads),
+      forecast: this.getHomeLoadSeries(start.getTime(), end.getTime()).map((v, i) => {
+        const t = start.getTime() + (i * slotMs);
+        return (t < slotStartMs && recordedLoad.has(t)) ? recordedLoad.get(t) : v;
+      }),
     });
 
-    // 1. Today Chart (Forecast vs Real - updated every 15 mins or on model update)
-    if (updated || (now.getMinutes() % 15 === 0) || !this.chartGridToday) {
+    // 1. Today Chart (Forecast vs Real - updated every 15 mins, on model update or a new plan)
+    if (updated || plansChanged || (now.getMinutes() % 15 === 0) || !this.chartGridToday) {
       const chartToday = await getGridForecastChart(this.weeklyProfile, startOfToday, endOfToday, 'Home Load Today', this.powerHistory, this.timeZone, true, loadOpts(startOfToday, endOfToday));
       if (chartToday) {
         this.chartGridToday = chartToday;
@@ -1578,7 +1630,7 @@ class GridDevice extends GenericDevice {
     }
 
     // 2. Tomorrow Chart (Forecast only)
-    if (updated || !this.chartGridTomorrow) {
+    if (updated || plansChanged || !this.chartGridTomorrow) {
       const chartTomorrow = await getGridForecastChart(this.weeklyProfile, startOfTomorrow, endOfTomorrow, 'Home Load Tomorrow', [], this.timeZone, false, loadOpts(startOfTomorrow, endOfTomorrow));
       if (chartTomorrow) {
         this.chartGridTomorrow = chartTomorrow;
@@ -1674,7 +1726,7 @@ class GridDevice extends GenericDevice {
       let allLogs = await this.homey.app.getInsightsLogs().catch(() => []);
       if (!Array.isArray(allLogs)) allLogs = Object.values(allLogs);
 
-      const powerEntries = await this.reconstructHomePowerHistory(api, allLogs).catch((err) => {
+      const powerEntries = await this.reconstructHomePowerHistory(api, allLogs, null, null, null, true).catch((err) => {
         this.error('History reconstruction failed:', err);
         return [];
       });
@@ -1805,7 +1857,8 @@ class GridDevice extends GenericDevice {
     }
   }
 
-  async reconstructHomePowerHistory(api, allLogs, customStart = null, customEnd = null, customResolution = null) {
+  // withoutAppliances: the home load to learn, without the program appliances (power summarizers).
+  async reconstructHomePowerHistory(api, allLogs, customStart = null, customEnd = null, customResolution = null, withoutAppliances = false) {
     const endDate = customEnd || new Date();
     const startDate = customStart || (() => {
       const d = new Date();
@@ -2020,6 +2073,18 @@ class GridDevice extends GenericDevice {
       }
     }
 
+    // Program appliances: from their real source device, like the components above.
+    const applianceEntriesList = [];
+    if (withoutAppliances) {
+      for (const dev of this.getApplianceDevices()) {
+        const devId = dev.getSettings().homey_device_id;
+        if (!devId) continue;
+        let entries = await getLogEntriesForDevice(devId, [':energy_power']);
+        if (!entries || entries.length === 0) entries = await getLogEntriesForDevice(devId, [':meter_power']);
+        if (entries && entries.length > 0) applianceEntriesList.push({ devId, entries });
+      }
+    }
+
     // Resolve which grid entries to use for import/export - this decision (instantaneous vs.
     // cumulative fallback, whether export entries are even meaningful for this meter) depends on
     // what was actually fetched above, so it stays here; the actual per-bucket combination across
@@ -2045,6 +2110,7 @@ class GridDevice extends GenericDevice {
       solarEntriesList,
       batteryEntriesList,
       evEntriesList,
+      applianceEntriesList,
       logger: (msg) => this.log(msg),
       maxPowerW: this.getHomePowerCeilingW(),
     });

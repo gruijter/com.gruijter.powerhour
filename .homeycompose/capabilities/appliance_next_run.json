@@ -1,0 +1,38 @@
+{
+  "type": "string",
+  "title": {
+    "en": "Next run",
+    "nl": "Volgende run",
+    "de": "Nächster Lauf",
+    "fr": "Prochain cycle",
+    "es": "Próximo ciclo",
+    "it": "Prossimo ciclo",
+    "da": "Næste kørsel",
+    "sv": "Nästa körning",
+    "no": "Neste kjøring",
+    "pl": "Następny cykl",
+    "ru": "Следующий цикл",
+    "ar": "التشغيل التالي",
+    "ko": "다음 운전"
+  },
+  "desc": {
+    "en": "Planned, running, or expected (~) from the learned starts.",
+    "nl": "Gepland, bezig, of verwacht (~) uit de geleerde starts.",
+    "de": "Geplant, laufend oder erwartet (~) aus den gelernten Starts.",
+    "fr": "Planifié, en cours ou attendu (~) d'après les départs appris.",
+    "es": "Planificado, en marcha o esperado (~) según los inicios aprendidos.",
+    "it": "Pianificato, in corso o atteso (~) dagli avvii appresi.",
+    "da": "Planlagt, i gang eller forventet (~) ud fra lærte starter.",
+    "sv": "Planerad, pågående eller väntad (~) utifrån inlärda starter.",
+    "no": "Planlagt, pågår eller forventet (~) fra lærte starter.",
+    "pl": "Zaplanowany, trwający lub oczekiwany (~) z wyuczonych startów.",
+    "ru": "Запланирован, идёт или ожидается (~) по изученным запускам.",
+    "ar": "مخطط أو قيد التشغيل أو متوقع (~) من البدايات المُتعلَّمة.",
+    "ko": "계획됨, 운전 중, 또는 학습된 시작 기준 예상(~)."
+  },
+  "uiComponent": "sensor",
+  "icon": "/assets/ev_next_charge.svg",
+  "getable": true,
+  "setable": false,
+  "insights": false
+}

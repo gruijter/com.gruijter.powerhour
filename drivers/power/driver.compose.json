@@ -422,6 +422,81 @@
     {
       "type": "group",
       "label": {
+        "en": "Forecast",
+        "nl": "Voorspelling",
+        "de": "Prognose",
+        "fr": "Prévision",
+        "es": "Previsión",
+        "it": "Previsione",
+        "da": "Prognose",
+        "sv": "Prognos",
+        "no": "Prognose",
+        "pl": "Prognoza",
+        "ru": "Прогноз",
+        "ar": "التوقع",
+        "ko": "예측"
+      },
+      "children": [
+        {
+          "id": "forecast_appliance",
+          "type": "checkbox",
+          "value": false,
+          "label": {
+            "en": "Enable forecast",
+            "nl": "Voorspelling inschakelen",
+            "de": "Prognose aktivieren",
+            "fr": "Activer la prévision",
+            "es": "Activar previsión",
+            "it": "Attiva previsione",
+            "da": "Aktivér prognose",
+            "sv": "Aktivera prognos",
+            "no": "Aktiver prognose",
+            "pl": "Włącz prognozę",
+            "ru": "Включить прогноз",
+            "ar": "تفعيل التوقع",
+            "ko": "예측 사용"
+          },
+          "hint": {
+            "en": "For a washing machine, dishwasher or dryer: learns its programs and when they start, and adds them to the home load forecast of the grid device.",
+            "nl": "Voor een wasmachine, vaatwasser of droger: leert de programma's en wanneer ze starten, en telt ze op bij de huisverbruik-voorspelling van het grid-apparaat.",
+            "de": "Für Waschmaschine, Geschirrspüler oder Trockner: lernt die Programme und wann sie starten, und addiert sie zur Hausverbrauchsprognose des Grid-Geräts.",
+            "fr": "Pour un lave-linge, lave-vaisselle ou sèche-linge : apprend ses programmes et leurs heures de départ, et les ajoute à la prévision de consommation du grid.",
+            "es": "Para lavadora, lavavajillas o secadora: aprende sus programas y cuándo empiezan, y los suma a la previsión de consumo del grid.",
+            "it": "Per lavatrice, lavastoviglie o asciugatrice: apprende i programmi e quando partono, e li aggiunge alla previsione di consumo del grid.",
+            "da": "Til vaskemaskine, opvaskemaskine eller tørretumbler: lærer programmerne og hvornår de starter, og lægger dem til grid-enhedens husforbrugsprognose.",
+            "sv": "För tvättmaskin, diskmaskin eller torktumlare: lär sig programmen och när de startar, och lägger till dem i grid-enhetens hushållsprognos.",
+            "no": "For vaskemaskin, oppvaskmaskin eller tørketrommel: lærer programmene og når de starter, og legger dem til grid-enhetens husforbruksprognose.",
+            "pl": "Dla pralki, zmywarki lub suszarki: uczy się programów i godzin startu oraz dodaje je do prognozy zużycia domu w urządzeniu grid.",
+            "ru": "Для стиральной, посудомоечной или сушильной машины: изучает программы и время их запуска и добавляет их к прогнозу нагрузки дома в grid.",
+            "ar": "لغسالة أو غسالة صحون أو مجفف: يتعلّم البرامج ومواعيد بدئها ويضيفها إلى توقع حمل المنزل في جهاز grid.",
+            "ko": "세탁기, 식기세척기, 건조기용: 프로그램과 시작 시각을 학습해 grid 장치의 가정 부하 예측에 더합니다."
+          }
+        },
+        {
+          "id": "appliance_status",
+          "type": "label",
+          "value": "-",
+          "label": {
+            "en": "Learned program",
+            "nl": "Geleerd programma",
+            "de": "Gelerntes Programm",
+            "fr": "Programme appris",
+            "es": "Programa aprendido",
+            "it": "Programma appreso",
+            "da": "Lært program",
+            "sv": "Inlärt program",
+            "no": "Lært program",
+            "pl": "Wyuczony program",
+            "ru": "Изученная программа",
+            "ar": "البرنامج المُتعلَّم",
+            "ko": "학습된 프로그램"
+          }
+        }
+      ]
+    },
+    {
+      "type": "group",
+      "label": {
         "en": "Year start and energy budget",
         "nl": "Jaarstart en energie budget",
         "de": "Jahresbeginn und Energiebudget",

@@ -21,6 +21,7 @@ along with com.gruijter.powerhour.  If not, see <http://www.gnu.org/licenses/>.
 
 const GenericDriver = require('../../lib/genericDeviceDrivers/generic_sum_driver');
 const SourceCaps = require('../../lib/helpers/SourceCaps');
+const PairSetup = require('../../lib/helpers/PairSetup');
 // Dependencies are lazy loaded in methods to save memory
 
 const driverSpecifics = {
@@ -73,10 +74,25 @@ const driverSpecifics = {
     'measure_watt_min.year', 'measure_watt_max.year'],
   // Asked at pair and repair (lib/helpers/PairSetup.js).
   setup: {
-    settings: ['use_measure_source', 'homey_device_daily_reset', 'tariff_update_group', 'tariff', 'distribution', 'budget'],
+    settings: ['use_measure_source', 'homey_device_daily_reset', 'forecast_appliance', 'tariff_update_group', 'tariff', 'distribution', 'budget'],
     roles: [{ key: 'p1', kind: 'kwh' }, { key: 'p2', kind: 'kwh' }, { key: 'n1', kind: 'kwh' }, { key: 'n2', kind: 'kwh' }],
     match: { energy: (energy) => energy.cumulative === true }, // a smart meter
   },
+  // Only registered with forecast (setting forecast_appliance) - see lib/helpers/ChartImages.js.
+  chartImages: [
+    {
+      id: 'applianceToday', prop: 'applianceTodayImage', chartProp: 'chartApplianceToday', titleKey: 'today',
+    },
+    {
+      id: 'applianceTomorrow', prop: 'applianceTomorrowImage', chartProp: 'chartApplianceTomorrow', titleKey: 'tomorrow',
+    },
+    {
+      id: 'applianceNextHours', prop: 'applianceNextHoursImage', chartProp: 'chartApplianceNextHours', titleKey: 'nextHours',
+    },
+    {
+      id: 'applianceProgram', prop: 'applianceImage', chartProp: 'chartAppliance', titleKey: 'appliance_program',
+    },
+  ],
 };
 
 class PowerDriver extends GenericDriver {
@@ -126,6 +142,44 @@ class PowerDriver extends GenericDriver {
     // eslint-disable-next-line global-require
     const EnergyPollingHelper = require('../../lib/helpers/EnergyPollingHelper');
     await EnergyPollingHelper.register(this.energyPollCallback);
+  }
+
+  // Forecast: the appliance is taken out of the home load. Only for a Homey device as source; the
+  // source of an EV charger device is out of it already: as an appliance it would count twice.
+  checkApplianceSource(settings) {
+    if (!settings.forecast_appliance) return;
+    // Homey Energy and flow sources are totals, no single appliance.
+    if (settings.source_device_type !== 'Homey device') throw Error(this.homey.__('error_appliance_homey_device'));
+    let chargers = [];
+    try {
+      chargers = this.homey.drivers.getDriver('evCharger').getDevices();
+    } catch {
+      return;
+    }
+    if (chargers.some((dev) => dev.getSettings().homey_device_id === settings.homey_device_id)) {
+      throw Error(this.homey.__('error_appliance_ev_charger'));
+    }
+  }
+
+  // With forecast: the program state and plan. appliance_next_run also shows the appliance flow
+  // cards (their filter).
+  capabilitiesFor(settings = {}) {
+    const caps = super.capabilitiesFor(settings);
+    if (settings.forecast_appliance && settings.source_device_type === 'Homey device') {
+      caps.push('appliance_state', 'appliance_next_run', 'appliance_ready_by');
+    }
+    return caps;
+  }
+
+  // Setup view: what the forecast checkbox does.
+  async setupInfo(setting, def) {
+    if (setting.id === 'forecast_appliance') return PairSetup.text(this.homey, def.hint);
+    return undefined;
+  }
+
+  async setupValidate(settings, caps, dev) {
+    await super.setupValidate(settings, caps, dev);
+    this.checkApplianceSource(settings);
   }
 
   checkDeviceCompatibility(homeyDevice) {

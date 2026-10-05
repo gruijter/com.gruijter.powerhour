@@ -1,0 +1,81 @@
+{
+  "title": {
+    "en": "Program finished",
+    "nl": "Programma klaar",
+    "de": "Programm beendet",
+    "fr": "Programme terminé",
+    "es": "Programa terminado",
+    "it": "Programma terminato",
+    "da": "Program færdigt",
+    "sv": "Program klart",
+    "no": "Program ferdig",
+    "pl": "Program zakończony",
+    "ru": "Программа завершена",
+    "ar": "انتهى البرنامج",
+    "ko": "프로그램 종료됨"
+  },
+  "hint": {
+    "en": "Fires 30 minutes after the last activity, to pass pauses and drying.",
+    "nl": "Komt 30 minuten na de laatste activiteit, om pauzes en drogen te overbruggen.",
+    "de": "Kommt 30 Minuten nach der letzten Aktivität, um Pausen und Trocknen zu überbrücken.",
+    "fr": "Se déclenche 30 minutes après la dernière activité, pour couvrir pauses et séchage.",
+    "es": "Se activa 30 minutos tras la última actividad, para cubrir pausas y secado.",
+    "it": "Scatta 30 minuti dopo l'ultima attività, per coprire pause e asciugatura.",
+    "da": "Udløses 30 minutter efter sidste aktivitet for at dække pauser og tørring.",
+    "sv": "Utlöses 30 minuter efter senaste aktivitet för att täcka pauser och torkning.",
+    "no": "Utløses 30 minutter etter siste aktivitet for å dekke pauser og tørking.",
+    "pl": "Wyzwala się 30 minut po ostatniej aktywności, by objąć przerwy i suszenie.",
+    "ru": "Срабатывает через 30 минут после последней активности, чтобы учесть паузы и сушку.",
+    "ar": "يعمل بعد 30 دقيقة من آخر نشاط لتجاوز التوقفات والتجفيف.",
+    "ko": "일시정지와 건조를 고려해 마지막 활동 30분 후에 실행됩니다."
+  },
+  "args": [
+    {
+      "type": "device",
+      "name": "device",
+      "filter": "driver_id=power&capabilities=appliance_next_run"
+    }
+  ],
+  "tokens": [
+    {
+      "name": "kwh",
+      "type": "number",
+      "title": {
+        "en": "Energy (kWh)",
+        "nl": "Energie (kWh)",
+        "de": "Energie (kWh)",
+        "fr": "Énergie (kWh)",
+        "es": "Energía (kWh)",
+        "it": "Energia (kWh)",
+        "da": "Energi (kWh)",
+        "sv": "Energi (kWh)",
+        "no": "Energi (kWh)",
+        "pl": "Energia (kWh)",
+        "ru": "Энергия (кВт·ч)",
+        "ar": "الطاقة (ك.و.س)",
+        "ko": "에너지 (kWh)"
+      },
+      "example": 1.0
+    },
+    {
+      "name": "duration",
+      "type": "number",
+      "title": {
+        "en": "Duration (min)",
+        "nl": "Duur (min)",
+        "de": "Dauer (Min.)",
+        "fr": "Durée (min)",
+        "es": "Duración (min)",
+        "it": "Durata (min)",
+        "da": "Varighed (min)",
+        "sv": "Varaktighet (min)",
+        "no": "Varighet (min)",
+        "pl": "Czas (min)",
+        "ru": "Длительность (мин)",
+        "ar": "المدة (دقيقة)",
+        "ko": "지속 시간 (분)"
+      },
+      "example": 95
+    }
+  ]
+}
