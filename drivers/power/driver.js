@@ -167,12 +167,12 @@ class PowerDriver extends GenericDriver {
     }
   }
 
-  // With forecast: the program state, next run and best start. appliance_next_run also shows the
+  // With forecast: next run and best start. appliance_next_run also shows the
   // appliance flow cards (their filter).
   capabilitiesFor(settings = {}) {
     const caps = super.capabilitiesFor(settings);
     if (settings.forecast_appliance && settings.source_device_type === 'Homey device') {
-      caps.push('appliance_state', 'appliance_next_run', 'appliance_best_start', 'button.retrain');
+      caps.push('appliance_next_run', 'appliance_best_start', 'button.retrain');
     }
     return caps;
   }

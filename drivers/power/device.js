@@ -528,25 +528,14 @@ class PowerDevice extends GenericDevice {
     return ApplianceModel.nextExpectedStart(this.applianceModel, this.getApplianceProfile(), Date.now(), this.timeZone, (ms) => this.priceAt(ms));
   }
 
-  // Tile: state, next run and best start; then the charts.
+  // Tiles: next run and best start; then the charts.
   async updateAppliancePlanDisplay() {
     if (!this.applianceModel) return;
     const profile = this.getApplianceProfile();
-    const { run, runs } = this.applianceModel;
+    const { run } = this.applianceModel;
     const plan = this.appliancePlan;
     const runMs = profile ? profile.durationMin * 60000 : 0;
     const now = Date.now();
-
-    let state;
-    if (run) {
-      state = profile
-        ? this.homey.__('appliance_state_running_end', { end: this.hhmm(run.start + runMs) })
-        : this.homey.__('appliance_state_running');
-    } else if (!this.isApplianceReady() && !profile) {
-      state = this.homey.__('appliance_status_learning', { runs: runs.length, min: ApplianceModel.MIN_RUNS });
-    } else {
-      state = this.homey.__('appliance_state_idle');
-    }
 
     let next = '-';
     if (run) {
@@ -565,7 +554,6 @@ class PowerDevice extends GenericDevice {
       ? this.homey.__('appliance_best_start_value', { start: best.startMs <= now + APPLIANCE_SAMPLE_MS ? this.homey.__('ev_now') : this.dayHhmm(best.startMs), end: this.hhmm(best.readyBy) })
       : '-';
 
-    if (this.hasCapability('appliance_state')) await this.setCapability('appliance_state', state).catch(this.error);
     if (this.hasCapability('appliance_next_run')) await this.setCapability('appliance_next_run', next).catch(this.error);
     if (this.hasCapability('appliance_best_start')) await this.setCapability('appliance_best_start', bestText).catch(this.error);
     await this.renderAppliancePlanCharts().catch(this.error);
