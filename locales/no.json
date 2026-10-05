@@ -89,7 +89,8 @@
     "setup_sign_inverted": "+ = utlading",
     "setup_role_production": "Måler produksjon",
     "setup_no_dap": "Ingen Day-Ahead-prisenhet funnet. For dynamiske priser, legg til en først. Ellers bruk den faste tariffen under, eller sett den via en flow.",
-    "setup_no_dap_plan": "Ingen Day-Ahead-prisenhet funnet. Ladeplanen trenger en: legg den til først. Utenfor markedene, angi prisene via en flow (priser JSON)."
+    "setup_no_dap_plan": "Ingen Day-Ahead-prisenhet funnet. Ladeplanen trenger en: legg den til først. Utenfor markedene, angi prisene via en flow (priser JSON).",
+    "setup_tariff_fixed": "Fast pris: brukes bare hvis ingen DAP eller flyt setter prisen for valgt gruppe."
   },
   "load_forecast_accuracy": "Gj.sn. avvik __mae__ W (__pct__%), bias __bias__ W, __days__ dager",
   "load_forecast_accuracy_collecting": "Samler inn data",

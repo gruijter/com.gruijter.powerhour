@@ -89,7 +89,8 @@
     "setup_sign_inverted": "+ = scarica",
     "setup_role_production": "Contatore produzione",
     "setup_no_dap": "Nessun dispositivo prezzi Day-Ahead trovato. Per prezzi dinamici, aggiungine prima uno. Altrimenti usa la tariffa fissa qui sotto o impostala con un flow.",
-    "setup_no_dap_plan": "Nessun dispositivo prezzi Day-Ahead trovato. Il piano di carica ne ha bisogno: aggiungilo prima. Fuori dai suoi mercati, fornisci i prezzi con un flow (prezzi JSON)."
+    "setup_no_dap_plan": "Nessun dispositivo prezzi Day-Ahead trovato. Il piano di carica ne ha bisogno: aggiungilo prima. Fuori dai suoi mercati, fornisci i prezzi con un flow (prezzi JSON).",
+    "setup_tariff_fixed": "Prezzo fisso: usato solo se nessun DAP o flow imposta il prezzo del gruppo scelto."
   },
   "load_forecast_accuracy": "Errore medio __mae__ W (__pct__%), bias __bias__ W, __days__ giorni",
   "load_forecast_accuracy_collecting": "Raccolta dati",

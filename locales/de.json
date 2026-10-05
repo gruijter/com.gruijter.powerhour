@@ -89,7 +89,8 @@
     "setup_sign_inverted": "+ = Entladen",
     "setup_role_production": "Erzeugungszähler",
     "setup_no_dap": "Kein Day-Ahead-Preisgerät gefunden. Für dynamische Preise zuerst eines hinzufügen. Sonst den festen Tarif unten nutzen oder per Flow setzen.",
-    "setup_no_dap_plan": "Kein Day-Ahead-Preisgerät gefunden. Der Ladeplan braucht eines: zuerst hinzufügen. Außerhalb seiner Märkte die Preise per Flow liefern (Preise JSON)."
+    "setup_no_dap_plan": "Kein Day-Ahead-Preisgerät gefunden. Der Ladeplan braucht eines: zuerst hinzufügen. Außerhalb seiner Märkte die Preise per Flow liefern (Preise JSON).",
+    "setup_tariff_fixed": "Festpreis: nur verwendet, wenn kein DAP oder Flow den Preis der gewählten Gruppe setzt."
   },
   "load_forecast_accuracy": "Mittl. Fehler __mae__ W (__pct__%), Bias __bias__ W, __days__ Tage",
   "load_forecast_accuracy_collecting": "Daten werden gesammelt",

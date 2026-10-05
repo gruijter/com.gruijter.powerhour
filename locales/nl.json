@@ -89,7 +89,8 @@
     "setup_sign_inverted": "+ = ontladen",
     "setup_role_production": "Meter opwek",
     "setup_no_dap": "Geen Day-Ahead prijzen device gevonden. Voor dynamische prijzen voeg je er eerst een toe. Gebruik anders het vaste tarief hieronder, of zet het via een flow.",
-    "setup_no_dap_plan": "Geen Day-Ahead prijzen device gevonden. Het laadplan heeft er een nodig: voeg die eerst toe. Buiten de ondersteunde markten geef je de prijzen op via een flow (prijzen JSON)."
+    "setup_no_dap_plan": "Geen Day-Ahead prijzen device gevonden. Het laadplan heeft er een nodig: voeg die eerst toe. Buiten de ondersteunde markten geef je de prijzen op via een flow (prijzen JSON).",
+    "setup_tariff_fixed": "Vaste prijs: alleen gebruikt als geen DAP of flow de prijs van de gekozen groep zet."
   },
   "load_forecast_accuracy": "Gem. afwijking __mae__ W (__pct__%), bias __bias__ W, __days__ dagen",
   "load_forecast_accuracy_collecting": "Gegevens verzamelen",

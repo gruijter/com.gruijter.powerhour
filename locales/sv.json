@@ -89,7 +89,8 @@
     "setup_sign_inverted": "+ = urladdning",
     "setup_role_production": "Mätare produktion",
     "setup_no_dap": "Ingen Day-Ahead-prisenhet hittades. För dynamiska priser, lägg först till en. Använd annars den fasta tariffen nedan, eller ställ in den via ett flöde.",
-    "setup_no_dap_plan": "Ingen Day-Ahead-prisenhet hittades. Laddplanen behöver en: lägg till den först. Utanför dess marknader, ange priserna via ett flöde (priser JSON)."
+    "setup_no_dap_plan": "Ingen Day-Ahead-prisenhet hittades. Laddplanen behöver en: lägg till den först. Utanför dess marknader, ange priserna via ett flöde (priser JSON).",
+    "setup_tariff_fixed": "Fast pris: används bara om ingen DAP eller flöde sätter priset för vald grupp."
   },
   "load_forecast_accuracy": "Medelfel __mae__ W (__pct__%), bias __bias__ W, __days__ dagar",
   "load_forecast_accuracy_collecting": "Samlar in data",

@@ -89,7 +89,8 @@
     "setup_sign_inverted": "+ = rozładowanie",
     "setup_role_production": "Licznik produkcji",
     "setup_no_dap": "Nie znaleziono urządzenia cen Day-Ahead. Aby mieć ceny dynamiczne, najpierw je dodaj. W przeciwnym razie użyj stałej taryfy poniżej lub ustaw ją przez flow.",
-    "setup_no_dap_plan": "Nie znaleziono urządzenia cen Day-Ahead. Plan ładowania go wymaga: najpierw je dodaj. Poza jego rynkami podaj ceny przez flow (ceny JSON)."
+    "setup_no_dap_plan": "Nie znaleziono urządzenia cen Day-Ahead. Plan ładowania go wymaga: najpierw je dodaj. Poza jego rynkami podaj ceny przez flow (ceny JSON).",
+    "setup_tariff_fixed": "Stała cena: używana tylko, gdy żaden DAP ani flow nie ustala ceny wybranej grupy."
   },
   "load_forecast_accuracy": "Śr. błąd __mae__ W (__pct__%), odchylenie __bias__ W, __days__ dni",
   "load_forecast_accuracy_collecting": "Zbieranie danych",

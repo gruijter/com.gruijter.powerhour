@@ -89,7 +89,8 @@
     "setup_sign_inverted": "+ = discharging",
     "setup_role_production": "Production meter",
     "setup_no_dap": "No Day-Ahead price device found. For dynamic prices, add one first. Otherwise use the fixed tariff below, or set it by flow.",
-    "setup_no_dap_plan": "No Day-Ahead price device found. The charge plan needs one: add it first. Outside its markets, provide its prices by flow (prices JSON)."
+    "setup_no_dap_plan": "No Day-Ahead price device found. The charge plan needs one: add it first. Outside its markets, provide its prices by flow (prices JSON).",
+    "setup_tariff_fixed": "Fixed price: only used when no DAP or flow sets the price of the chosen group."
   },
   "load_forecast_accuracy": "Avg error __mae__ W (__pct__%), bias __bias__ W, __days__ days",
   "load_forecast_accuracy_collecting": "Collecting data",
