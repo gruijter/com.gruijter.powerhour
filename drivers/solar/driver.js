@@ -54,7 +54,10 @@ const driverSpecifics = {
   setup: {
     settings: ['use_measure_source', 'homey_device_daily_reset', 'peakPower', 'tariff_update_group', 'tariff',
       'tariff_type'],
-    roles: [{ key: 'p1', kind: 'kwh', label: 'production' }],
+    roles: [{ key: 'p1', kind: 'kwh', label: 'production' },
+      {
+        key: 'watt', kind: 'w', label: 'power', watt: true, // Use Watt as source
+      }],
     match: { classes: ['solarpanel'], energy: (energy) => !!energy.meterPowerExportedCapability },
   },
   // Canonical display order for this driver's chart images - see lib/helpers/ChartImages.js.

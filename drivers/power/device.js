@@ -22,10 +22,11 @@ along with com.gruijter.powerhour.  If not, see <http://www.gnu.org/licenses/>.
 const GenericDevice = require('../../lib/genericDeviceDrivers/generic_sum_device');
 const PowerFlows = require('../../lib/flows/PowerFlows');
 const ApplianceModel = require('../../lib/strategies/ApplianceModel');
-const { getApplianceChart } = require('../../lib/charts/ApplianceChart');
+const { getApplianceWeeklyChart, getApplianceProgramChart } = require('../../lib/charts/ApplianceChart');
 const { getChargeChart } = require('../../lib/charts/ChargeChart');
 const ChartImages = require('../../lib/helpers/ChartImages');
 const ChargeDeviceHelpers = require('../../lib/helpers/ChargeDeviceHelpers');
+const EvHistory = require('../../lib/helpers/EvHistory');
 const TimeHelpers = require('../../lib/helpers/TimeHelpers');
 const EvPlanner = require('../../lib/strategies/EvPlanner');
 
@@ -86,6 +87,7 @@ class PowerDevice extends GenericDevice {
     this.applianceModel = (await this.getStoreValue('applianceModel')) || ApplianceModel.initModel();
     this.appliancePlan = (await this.getStoreValue('appliancePlan')) || null;
     this.applianceSlots = (await this.getStoreValue('applianceSlots')) || [];
+    if (this.applianceModel.bootstrapped !== ApplianceModel.BOOTSTRAP_VERSION) await this.bootstrapAppliance().catch(this.error);
     this.recentMeter = [];
     this.applianceSaveTm = Date.now();
     if (!this.applianceListeners) {
@@ -102,6 +104,37 @@ class PowerDevice extends GenericDevice {
     await this.updateAppliancePlanDisplay();
   }
 
+  // First time: learn the runs and start times of the last 14 days from the source device's
+  // Insights (hourly, the last 24 hours per 5 minutes), like the EV charger learns its history.
+  async bootstrapAppliance() {
+    let api;
+    try {
+      api = this.homey.app.api;
+    } catch {
+      // not ready
+    }
+    if (!api) return; // tried again at the next start
+    const allLogs = await this.homey.app.getInsightsLogs().catch(() => []);
+    const endDate = new Date();
+    const entries = await EvHistory.fetchPowerLog({
+      api,
+      logs: Array.isArray(allLogs) ? allLogs : Object.values(allLogs),
+      deviceId: this.getSettings().homey_device_id,
+      capNames: ['energy_power', 'meter_power'],
+      startDate: new Date(endDate.getTime() - 14 * 24 * 60 * 60 * 1000),
+      endDate,
+      coarseResolutions: ['last14Days'],
+    }) || [];
+    const model = ApplianceModel.learnHistory(ApplianceModel.initModel(), entries, {
+      timezone: this.timeZone,
+      meterNowKwh: this.getCapabilityValue('meter_power') || 0,
+    });
+    model.bootstrapped = ApplianceModel.BOOTSTRAP_VERSION;
+    this.applianceModel = model;
+    await this.saveAppliance();
+    this.log(`Appliance learned from history: ${entries.length} entries, ${model.runs.length} runs`);
+  }
+
   stopAppliance() {
     if (this.applianceTimer) {
       this.homey.clearInterval(this.applianceTimer);
@@ -113,7 +146,7 @@ class PowerDevice extends GenericDevice {
     if (!this.applianceModel) return;
     this.applianceSaveTm = Date.now();
     await this.setStoreValue('applianceModel', this.applianceModel).catch(this.error);
-    await this.setStoreValue('applianceSlots', this.applianceSlots).catch(this.error);
+    await this.setStoreValue('applianceSlots', this.applianceSlots || []).catch(this.error);
   }
 
   // Measured energy per 15-minute slot, for the charts.
@@ -220,7 +253,7 @@ class PowerDevice extends GenericDevice {
     if (this.homey.app.trigger_appliance_finished) await this.homey.app.trigger_appliance_finished(this, { kwh, duration }, {});
   }
 
-  // Program chart and the status in the settings.
+  // Weekly chart and the status in the settings.
   async updateApplianceDisplay() {
     const profile = this.getApplianceProfile();
     const { runs } = this.applianceModel;
@@ -229,14 +262,33 @@ class PowerDevice extends GenericDevice {
         runs: profile.runs,
         kwh: profile.kwh,
         duration: profile.durationMin,
+        peak: profile.peakW,
         starts: ApplianceModel.startsPerWeek(this.applianceModel).toFixed(1),
       })
       : this.homey.__('appliance_status_learning', { runs: runs.length, min: ApplianceModel.MIN_RUNS });
     if (this.getSettings().appliance_status !== text) await this.setSettings({ appliance_status: text }).catch(this.error);
-    const chart = getApplianceChart(profile, runs[runs.length - 1]);
-    if (chart && this.applianceImage) {
-      this.chartAppliance = chart;
-      await this.applianceImage.update().catch(this.error);
+    const lang = this.homey.i18n.getLanguage() || 'en';
+    const dayNames = [0, 1, 2, 3, 4, 5, 6].map((i) => new Date(Date.UTC(2026, 8, 28 + i, 12))
+      .toLocaleDateString(lang, { weekday: 'short', timeZone: 'UTC' })); // Monday first
+    const chart = getApplianceWeeklyChart(ApplianceModel.getWeekly(this.applianceModel, this.timeZone), {
+      dayNames,
+      labels: {
+        learned: this.homey.__('appliance_chart_learned'),
+        assumed: this.homey.__('ev_chart_assumed'),
+        axis: this.homey.__('appliance_chart_runs'),
+      },
+    });
+    if (chart && this.applianceWeeklyImage) {
+      this.chartApplianceWeekly = chart;
+      await this.applianceWeeklyImage.update().catch(this.error);
+    }
+    const program = getApplianceProgramChart(profile, runs[runs.length - 1], {
+      typical: this.homey.__('appliance_chart_typical'),
+      last: this.homey.__('appliance_chart_last'),
+    });
+    if (program && this.applianceProgramImage) {
+      this.chartApplianceProgram = program;
+      await this.applianceProgramImage.update().catch(this.error);
     }
   }
 
@@ -393,10 +445,13 @@ class PowerDevice extends GenericDevice {
     };
   }
 
-  // The run on the charts: running, or planned. { start } or null.
+  // The run on the charts: running, planned, else the expected next run from the learned starts
+  // (like the EV charger shows its plan from learned departures). Start ms or null.
   plannedRunStart() {
     if (this.applianceModel && this.applianceModel.run) return this.applianceModel.run.start;
-    return this.appliancePlan && this.appliancePlan.startMs ? this.appliancePlan.startMs : null;
+    if (this.appliancePlan && this.appliancePlan.startMs) return this.appliancePlan.startMs;
+    if (!this.isApplianceReady()) return null;
+    return ApplianceModel.nextExpectedStart(this.applianceModel, this.getApplianceProfile(), Date.now(), this.timeZone);
   }
 
   // Tile: state, next run and the "ready by" picker; then the charts.
@@ -454,7 +509,10 @@ class PowerDevice extends GenericDevice {
     const measured = new Map((this.applianceSlots || []).map((e) => [e.t, Math.round(e.kwh * 4000)]));
     const currency = this.getSettings().currency || '€';
     const translations = { price: this.homey.__('price'), power: this.homey.__('power'), soc: this.homey.__('soc') };
-    const maxW = profile ? Math.max(...profile.curveW) : 2000;
+    // A running program: the curve of the earlier runs that started most like it.
+    const curveW = this.applianceModel.run
+      ? ApplianceModel.runningCurveW(this.applianceModel, profile, now) : profile && profile.curveW;
+    const maxW = curveW ? Math.max(...curveW) : 2000;
 
     const render = async (startMs, endMs, isToday, image, chartProp) => {
       if (!image) return;
@@ -464,8 +522,8 @@ class PowerDevice extends GenericDevice {
         const t = startMs + i * SLOT_MS;
         const entry = this.priceEntryAt(t);
         const price = this.priceAt(t);
-        const idx = runStart === null || !profile ? -1 : Math.floor((t - runStart) / SLOT_MS);
-        const power = idx >= 0 && idx < profile.curveW.length ? profile.curveW[idx] : 0;
+        const idx = runStart === null || !curveW ? -1 : Math.floor((t - runStart) / SLOT_MS);
+        const power = idx >= 0 && idx < curveW.length ? curveW[idx] : 0;
         const isFuture = t + SLOT_MS > now;
         scheme[i] = {
           price,

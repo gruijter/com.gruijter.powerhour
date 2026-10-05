@@ -52,9 +52,11 @@
 		document.getElementById('settings').appendChild(group);
 	};
 
-	// Per role a dropdown: automatic, none, or one of the fitting capabilities.
+	// Per role a dropdown: automatic, none, or one of the fitting capabilities. A role with a mode
+	// ('watt' or 'meter') shows only when "Use Watt as source" is on or off.
 	const roleField = (role) => {
 		const group = el('div', { className: 'homey-form-group' });
+		if (role.mode) group.dataset.mode = role.mode;
 		group.appendChild(el('label', { className: 'homey-form-label', htmlFor: `role_${role.key}`, textContent: role.label }));
 		const select = el('select', { className: 'homey-form-select', id: `role_${role.key}` });
 		select.dataset.role = role.key;
@@ -66,6 +68,14 @@
 	};
 
 	let settingDefs = [];
+
+	const showRoleModes = () => {
+		const watt = document.getElementById('set_use_measure_source');
+		const mode = watt && watt.checked ? 'watt' : 'meter';
+		document.querySelectorAll('#roles [data-mode]').forEach((group) => {
+			group.style.display = group.dataset.mode === mode ? '' : 'none';
+		});
+	};
 
 	async function load() {
 		try {
@@ -79,6 +89,9 @@
 			document.getElementById('rolesTitle').textContent = data.roles.title || '';
 			document.getElementById('rolesText').textContent = data.roles.text || '';
 			data.roles.items.forEach(roleField);
+			showRoleModes();
+			const watt = document.getElementById('set_use_measure_source');
+			if (watt) watt.addEventListener('change', showRoleModes);
 		} catch (error) {
 			Homey.alert(error.message || error, 'error');
 		} finally {

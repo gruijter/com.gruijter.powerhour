@@ -75,7 +75,10 @@ const driverSpecifics = {
   // Asked at pair and repair (lib/helpers/PairSetup.js).
   setup: {
     settings: ['use_measure_source', 'homey_device_daily_reset', 'forecast_appliance', 'tariff_update_group', 'tariff'],
-    roles: [{ key: 'p1', kind: 'kwh' }, { key: 'p2', kind: 'kwh' }, { key: 'n1', kind: 'kwh' }, { key: 'n2', kind: 'kwh' }],
+    roles: [{ key: 'p1', kind: 'kwh' }, { key: 'p2', kind: 'kwh' }, { key: 'n1', kind: 'kwh' }, { key: 'n2', kind: 'kwh' },
+      {
+        key: 'watt', kind: 'w', label: 'power', watt: true, // Use Watt as source
+      }],
     match: { energy: (energy) => energy.cumulative === true }, // a smart meter
   },
   // Only registered with forecast (setting forecast_appliance) - see lib/helpers/ChartImages.js.
@@ -90,7 +93,10 @@ const driverSpecifics = {
       id: 'applianceNextHours', prop: 'applianceNextHoursImage', chartProp: 'chartApplianceNextHours', titleKey: 'nextHours',
     },
     {
-      id: 'applianceProgram', prop: 'applianceImage', chartProp: 'chartAppliance', titleKey: 'appliance_program',
+      id: 'applianceWeekly', prop: 'applianceWeeklyImage', chartProp: 'chartApplianceWeekly', titleKey: 'appliance_weekly',
+    },
+    {
+      id: 'applianceProgram', prop: 'applianceProgramImage', chartProp: 'chartApplianceProgram', titleKey: 'appliance_program',
     },
   ],
 };

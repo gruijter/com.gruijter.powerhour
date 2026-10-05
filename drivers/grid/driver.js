@@ -78,7 +78,10 @@ const driverSpecifics = {
   setup: {
     settings: ['use_measure_source', 'tariff_update_group', 'tariff', 'directionalNettingScheme',
       'connectionPhases', 'connectionAmps', 'peakLoadIntervalMinutes'],
-    roles: [{ key: 'p1', kind: 'kwh' }, { key: 'n1', kind: 'kwh' }],
+    roles: [{ key: 'p1', kind: 'kwh' }, { key: 'n1', kind: 'kwh' },
+      {
+        key: 'watt', kind: 'w', label: 'power', watt: true, // Use Watt as source
+      }],
     match: { energy: (energy) => energy.cumulative === true }, // a smart meter
   },
   // Canonical display order for this driver's chart images - see lib/helpers/ChartImages.js.
