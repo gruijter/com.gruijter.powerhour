@@ -21,6 +21,7 @@
   "polling_failed": "El sondeo falló. Reintentará pronto..",
   "source_device_missing_retry_named": "Falta el dispositivo de origen %name%. Reintentar en 10 minutos.",
   "error_device_not_ready": "El dispositivo no está listo. ¡Ignorando nuevas configuraciones!",
+  "error_device_not_found": "Dispositivo no encontrado",
   "error_roi_hp2023": "¡El ROI avanzado solo está disponible en HP2023!",
   "error_value_not_number": "El valor no es un número",
   "error_budget_custom_12": "El presupuesto personalizado no tiene 12 valores numéricos",

@@ -21,6 +21,7 @@
   "polling_failed": "Abfrage fehlgeschlagen. Versuche es bald erneut..",
   "source_device_missing_retry_named": "Quellgerät %name% fehlt. Erneuter Versuch in 10 Minuten.",
   "error_device_not_ready": "Gerät ist nicht bereit. Neue Einstellungen werden ignoriert!",
+  "error_device_not_found": "Gerät nicht gefunden",
   "error_roi_hp2023": "Erweiterter ROI ist nur auf HP2023 verfügbar!",
   "error_value_not_number": "Wert ist keine Zahl",
   "error_budget_custom_12": "Benutzerdefiniertes Budget hat keine 12 Zahlenwerte",

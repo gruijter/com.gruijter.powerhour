@@ -21,6 +21,7 @@
   "polling_failed": "فشل الاستطلاع. سأحاول مرة أخرى قريبا..",
   "source_device_missing_retry_named": "الجهاز المصدر %name% مفقود. إعادة المحاولة خلال 10 دقائق.",
   "error_device_not_ready": "الجهاز غير جاهز. تجاهل الإعدادات الجديدة!",
+  "error_device_not_found": "لم يتم العثور على الجهاز",
   "error_roi_hp2023": "عائد الاستثمار المتقدم متاح فقط في HP2023!",
   "error_value_not_number": "القيمة ليست رقماً",
   "error_budget_custom_12": "الميزانية المخصصة لا تحتوي على 12 قيمة رقمية",

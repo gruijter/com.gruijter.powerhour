@@ -21,6 +21,7 @@
   "polling_failed": "Polling mislyktes. Vil prøve igjen snart..",
   "source_device_missing_retry_named": "Kildeenhet %name% mangler. Prøv igjen om 10 minutter.",
   "error_device_not_ready": "Enheten er ikke klar. Ignorerer nye innstillinger!",
+  "error_device_not_found": "Enheten ble ikke funnet",
   "error_roi_hp2023": "Avansert ROI er kun tilgjengelig på HP2023!",
   "error_value_not_number": "Verdien er ikke et tall",
   "error_budget_custom_12": "Tilpasset budsjett har ikke 12 tallverdier",

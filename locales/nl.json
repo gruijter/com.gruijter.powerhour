@@ -21,6 +21,7 @@
   "polling_failed": "Pollen mislukt. Probeer het zo opnieuw..",
   "source_device_missing_retry_named": "Bronapparaat %name% ontbreekt. Opnieuw proberen over 10 minuten.",
   "error_device_not_ready": "Apparaat is niet gereed. Nieuwe instellingen worden genegeerd!",
+  "error_device_not_found": "Apparaat niet gevonden",
   "error_roi_hp2023": "Geavanceerde ROI is alleen beschikbaar op HP2023!",
   "error_value_not_number": "Waarde is geen getal",
   "error_budget_custom_12": "Aangepast budget heeft geen 12 getalwaarden",

@@ -21,6 +21,7 @@
   "polling_failed": "Odpytywanie nie powiodło się. Wkrótce spróbuję ponownie..",
   "source_device_missing_retry_named": "Brak urządzenia źródłowego %name%. Spróbuj ponownie za 10 minut.",
   "error_device_not_ready": "Urządzenie nie jest gotowe. Ignorowanie nowych ustawień!",
+  "error_device_not_found": "Nie znaleziono urządzenia",
   "error_roi_hp2023": "Zaawansowane ROI jest dostępne tylko na HP2023!",
   "error_value_not_number": "Wartość nie jest liczbą",
   "error_budget_custom_12": "Niestandardowy budżet nie ma 12 wartości liczbowych",

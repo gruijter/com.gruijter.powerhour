@@ -21,6 +21,7 @@
   "polling_failed": "L'interrogation a échoué. Réessayera bientôt..",
   "source_device_missing_retry_named": "L'appareil source %name% est manquant. Réessayez dans 10 minutes.",
   "error_device_not_ready": "L'appareil n'est pas prêt. Les nouveaux paramètres sont ignorés !",
+  "error_device_not_found": "Appareil introuvable",
   "error_roi_hp2023": "Le ROI avancé est uniquement disponible sur HP2023 !",
   "error_value_not_number": "La valeur n'est pas un nombre",
   "error_budget_custom_12": "Le budget personnalisé n'a pas 12 valeurs numériques",
