@@ -91,6 +91,7 @@
   "ev_chart_reserve": "Резерв",
   "ev_chart_assumed": "Предполагаемо",
   "error_invalid_time": "Неверное время: __time__. Используйте ЧЧ:ММ",
+  "error_departure_past": "Отправление в __time__ сегодня уже прошло",
   "error_invalid_periods": "Неверный период: __periods__. Используйте ГГГГ-ММ-ДД/ГГГГ-ММ-ДД через запятую",
   "ev_now": "сейчас"
 }

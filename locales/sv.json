@@ -91,6 +91,7 @@
   "ev_chart_reserve": "Reserv",
   "ev_chart_assumed": "Antaget",
   "error_invalid_time": "Ogiltig tid: __time__. Använd HH:MM",
+  "error_departure_past": "Avgång __time__ har redan passerat i dag",
   "error_invalid_periods": "Ogiltig period: __periods__. Använd ÅÅÅÅ-MM-DD/ÅÅÅÅ-MM-DD, åtskilda med kommatecken",
   "ev_now": "nu"
 }

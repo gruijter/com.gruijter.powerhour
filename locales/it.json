@@ -91,6 +91,7 @@
   "ev_chart_reserve": "Riserva",
   "ev_chart_assumed": "Presunto",
   "error_invalid_time": "Ora non valida: __time__. Usa HH:MM",
+  "error_departure_past": "La partenza alle __time__ è già passata oggi",
   "error_invalid_periods": "Periodo non valido: __periods__. Usa AAAA-MM-GG/AAAA-MM-GG, separati da virgole",
   "ev_now": "ora"
 }

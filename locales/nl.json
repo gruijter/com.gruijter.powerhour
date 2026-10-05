@@ -91,6 +91,7 @@
   "ev_chart_reserve": "Reserve",
   "ev_chart_assumed": "Aangenomen",
   "error_invalid_time": "Ongeldige tijd: __time__. Gebruik UU:MM",
+  "error_departure_past": "Vertrek __time__ is vandaag al voorbij",
   "error_invalid_periods": "Ongeldige periode: __periods__. Gebruik JJJJ-MM-DD/JJJJ-MM-DD, gescheiden door komma's",
   "ev_now": "nu"
 }

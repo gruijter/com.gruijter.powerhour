@@ -91,6 +91,7 @@
   "ev_chart_reserve": "Reserve",
   "ev_chart_assumed": "Assumed",
   "error_invalid_time": "Invalid time: __time__. Use HH:MM",
+  "error_departure_past": "Departure __time__ has already passed today",
   "error_invalid_periods": "Invalid period: __periods__. Use YYYY-MM-DD/YYYY-MM-DD, separated by commas",
   "ev_now": "now"
 }

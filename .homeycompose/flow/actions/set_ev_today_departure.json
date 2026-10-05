@@ -1,0 +1,88 @@
+{
+  "title": {
+    "en": "Departure today",
+    "nl": "Vertrek vandaag",
+    "de": "Abfahrt heute",
+    "fr": "Départ aujourd'hui",
+    "es": "Salida hoy",
+    "it": "Partenza oggi",
+    "da": "Afgang i dag",
+    "sv": "Avgång i dag",
+    "no": "Avgang i dag",
+    "pl": "Wyjazd dziś",
+    "ru": "Отправление сегодня",
+    "ar": "المغادرة اليوم",
+    "ko": "오늘 출발"
+  },
+  "titleFormatted": {
+    "en": "Departure today at [[time]]",
+    "nl": "Vertrek vandaag om [[time]]",
+    "de": "Abfahrt heute um [[time]]",
+    "fr": "Départ aujourd'hui à [[time]]",
+    "es": "Salida hoy a las [[time]]",
+    "it": "Partenza oggi alle [[time]]",
+    "da": "Afgang i dag kl. [[time]]",
+    "sv": "Avgång i dag kl. [[time]]",
+    "no": "Avgang i dag kl. [[time]]",
+    "pl": "Wyjazd dziś o [[time]]",
+    "ru": "Отправление сегодня в [[time]]",
+    "ar": "المغادرة اليوم الساعة [[time]]",
+    "ko": "오늘 [[time]]에 출발"
+  },
+  "hint": {
+    "en": "Once; after that the learned or weekly schedule applies again. Time as HH:MM or a whole hour (7), also from a tag. For the SoC: Min. SoC today. A time already past today gives an error.",
+    "nl": "Eenmalig; daarna geldt weer het geleerde of het weekschema. Tijd als UU:MM of een heel uur (7), ook uit een tag. Voor de SoC: Min. SoC vandaag. Een tijd die vandaag al voorbij is geeft een foutmelding.",
+    "de": "Einmalig; danach gilt wieder der gelernte oder der Wochenplan. Zeit als HH:MM oder volle Stunde (7), auch aus einem Tag. Für den SoC: Min. SoC heute. Eine heute schon vergangene Zeit ergibt einen Fehler.",
+    "fr": "Une fois ; ensuite l'horaire appris ou hebdomadaire s'applique à nouveau. Heure au format HH:MM ou heure pleine (7), aussi depuis un tag. Pour le SoC : SoC min. aujourd'hui. Une heure déjà passée aujourd'hui donne une erreur.",
+    "es": "Una vez; después vuelve a aplicarse lo aprendido o el horario semanal. Hora como HH:MM o una hora entera (7), también desde una etiqueta. Para el SoC: SoC mín. hoy. Una hora ya pasada hoy da un error.",
+    "it": "Una volta; poi vale di nuovo quanto appreso o il programma settimanale. Ora come HH:MM o un'ora intera (7), anche da un tag. Per il SoC: SoC min. oggi. Un orario già passato oggi dà un errore.",
+    "da": "Én gang; derefter gælder det lærte eller ugeplanen igen. Tid som TT:MM eller en hel time (7), også fra et tag. For SoC: Min. SoC i dag. Et tidspunkt, der allerede er passeret i dag, giver en fejl.",
+    "sv": "En gång; därefter gäller det inlärda eller veckoschemat igen. Tid som HH:MM eller en hel timme (7), även från en tagg. För SoC: Min. SoC i dag. En tid som redan har passerat i dag ger ett fel.",
+    "no": "Én gang; deretter gjelder det lærte eller ukeplanen igjen. Tid som TT:MM eller en hel time (7), også fra en tagg. For SoC: Min. SoC i dag. Et tidspunkt som allerede er passert i dag gir en feil.",
+    "pl": "Jednorazowo; potem znowu obowiązuje wyuczony lub tygodniowy plan. Godzina jako GG:MM lub pełna godzina (7), także z tagu. Dla SoC: Min. SoC dziś. Godzina, która już dziś minęła, daje błąd.",
+    "ru": "Однократно; затем снова действует изученное или недельное расписание. Время в формате ЧЧ:ММ или целый час (7), также из тега. Для заряда: Мин. заряд сегодня. Уже прошедшее сегодня время даёт ошибку.",
+    "ar": "لمرة واحدة؛ بعد ذلك يعود الجدول المُتعلَّم أو الأسبوعي. الوقت بصيغة HH:MM أو ساعة كاملة (7)، ويمكن من وسم أيضًا. لنسبة الشحن: الحد الأدنى للشحن اليوم. الوقت الذي مضى اليوم يعطي خطأ.",
+    "ko": "1회 적용; 이후 다시 학습값 또는 주간 일정이 적용됩니다. 시간은 HH:MM 또는 정시(7) 형식, 태그도 가능. 충전량은 오늘 최소 충전량을 사용하세요. 오늘 이미 지난 시간은 오류가 됩니다."
+  },
+  "args": [
+    {
+      "type": "device",
+      "name": "device",
+      "filter": "driver_id=evCharger"
+    },
+    {
+      "type": "text",
+      "name": "time",
+      "placeholder": {
+        "en": "07:30",
+        "nl": "07:30",
+        "de": "07:30",
+        "fr": "07:30",
+        "es": "07:30",
+        "it": "07:30",
+        "da": "07:30",
+        "sv": "07:30",
+        "no": "07:30",
+        "pl": "07:30",
+        "ru": "07:30",
+        "ar": "07:30",
+        "ko": "07:30"
+      },
+      "title": {
+        "en": "Departure",
+        "nl": "Vertrek",
+        "de": "Abfahrt",
+        "fr": "Départ",
+        "es": "Salida",
+        "it": "Partenza",
+        "da": "Afgang",
+        "sv": "Avgång",
+        "no": "Avgang",
+        "pl": "Wyjazd",
+        "ru": "Отправление",
+        "ar": "المغادرة",
+        "ko": "출발"
+      }
+    }
+  ]
+}

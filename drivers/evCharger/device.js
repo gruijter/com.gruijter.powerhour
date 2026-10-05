@@ -62,8 +62,8 @@ const MIN_SOLAR_NEED_W = 100;
 const CAP_RESTART_MIN_MS = 10 * 60 * 1000;
 // Direct car read in the control loop, next to the car's own capability events.
 const CAR_POLL_MS = 5 * 60 * 1000;
-// Departure hours in the "departure tomorrow" picker (ev_tomorrow_time).
-const TOMORROW_PICKER_HOURS = [3, 6, 7, 8, 10, 12, 14, 16, 18, 20, 22];
+// Departure hours in the "departure today/tomorrow" pickers (ev_today_time, ev_tomorrow_time).
+const DAY_PICKER_HOURS = [3, 6, 7, 8, 10, 12, 14, 16, 18, 20, 22];
 // Chargers with only a kWh meter: power averaged over at least this long, and no meter change
 // for this long counts as no power.
 const METER_POWER_MIN_MS = 119 * 1000;
@@ -143,14 +143,20 @@ class CarChargeDevice extends GenericDevice {
       this.registerCapabilityListener('ev_charge_mode', async (value) => {
         await this.setChargeMode(value, 'set by user');
       });
-      this.registerCapabilityListener('ev_tomorrow', async (value) => {
-        this.log(`EV plan for tomorrow set to ${value}`);
-        await this.setTomorrowPlan(value);
-      });
-      this.registerCapabilityListener('ev_tomorrow_time', async (value) => {
-        this.log(`EV departure tomorrow set to ${value}`);
-        await this.setTomorrowTime(value);
-      });
+      for (const day of ['today', 'tomorrow']) {
+        this.registerCapabilityListener(`ev_${day}`, async (value) => {
+          this.log(`EV plan for ${day} set to ${value}`);
+          await this.setDayPlan(day, value);
+        });
+        this.registerCapabilityListener(`ev_${day}_time`, async (value) => {
+          this.log(`EV departure ${day} set to ${value}`);
+          // Refused (a time already past): the picker shows the day's setting again.
+          await this.setDayTime(day, value).catch((err) => {
+            this.updateChargeChart().catch(this.error);
+            throw err;
+          });
+        });
+      }
       this.registerCapabilityListener('button.retrain', async () => {
         this.log('[EV Slot] Manual retrain triggered via button.retrain');
         await this.learnDeparturePattern({ retrain: true }); // Re-bootstraps from Insights, keeping what was learned live
@@ -1308,11 +1314,10 @@ class CarChargeDevice extends GenericDevice {
     return overrides;
   }
 
-  // "Tomorrow" as the user means it: before 04:00 that is still the coming day, i.e. today.
+  // The calendar day after today.
   _tomorrowDate(tz, now = Date.now()) {
-    const hour = EvUsageModel.toLocalFractionalHour(new Date(now), tz);
-    const tm = hour < 4 ? now : now + 24 * 3600 * 1000;
-    return EvUsageModel.localDateStr(new Date(tm), tz);
+    const midnight = TimeHelpers.getLocalMidnightUTC(new Date(now), tz).getTime();
+    return EvUsageModel.localDateStr(new Date(midnight + 36 * 3600 * 1000), tz);
   }
 
   async _setOverride(date, override) {
@@ -1329,15 +1334,20 @@ class CarChargeDevice extends GenericDevice {
     await this.updateChargeChart().catch(this.error);
   }
 
+  // The date a picker or flow for 'today' or 'tomorrow' sets.
+  _dayDate(day, tz) {
+    return day === 'today' ? EvUsageModel.localDateStr(new Date(), tz) : this._tomorrowDate(tz);
+  }
+
   // Picker / flow dropdown: 'auto' or 'min_<soc>'.
-  async setTomorrowPlan(value) {
+  async setDayPlan(day, value) {
     const min = /^min_(\d+)$/.exec(value || '');
     if (min) {
-      await this.setTomorrowMinSoc(Number(min[1]));
+      await this.setDayMinSoc(day, Number(min[1]));
       return;
     }
     const tz = this.timeZone || this.homey.clock.getTimezone();
-    const date = this._tomorrowDate(tz);
+    const date = this._dayDate(day, tz);
     // "Automatic" ends only the minimum SoC: a departure time or "not used" for that day stays.
     const existing = (this.getStoreValue('evOverrides') || {})[date];
     let override = null;
@@ -1347,31 +1357,35 @@ class CarChargeDevice extends GenericDevice {
   }
 
   // Departure picker / flow dropdown: 'auto', 'unused' or a time (HH:MM).
-  async setTomorrowTime(value) {
-    if (value === 'unused') await this.setTomorrowUnused();
-    else await this.setTomorrowDeparture(value === 'auto' ? null : value);
+  async setDayTime(day, value) {
+    if (value === 'unused') await this.setDayUnused(day);
+    else await this.setDayDeparture(day, value === 'auto' ? null : value);
   }
 
-  // The car is not used tomorrow, once.
-  async setTomorrowUnused() {
+  // The car is not used that day, once.
+  async setDayUnused(day) {
     const tz = this.timeZone || this.homey.clock.getTimezone();
-    await this._setOverride(this._tomorrowDate(tz), { type: 'unused' });
+    await this._setOverride(this._dayDate(day, tz), { type: 'unused' });
   }
 
-  // Picker / flow: at least soc % at tomorrow's departure, once; keeps a departure time set.
-  async setTomorrowMinSoc(soc) {
+  // Picker / flow: at least soc % at that day's departure, once; keeps a departure time set.
+  async setDayMinSoc(day, soc) {
     const tz = this.timeZone || this.homey.clock.getTimezone();
-    const date = this._tomorrowDate(tz);
+    const date = this._dayDate(day, tz);
     const existing = (this.getStoreValue('evOverrides') || {})[date];
     const time = (existing && existing.time) || null;
     await this._setOverride(date, { type: 'min', soc: Math.max(30, Math.min(100, Math.round(soc))), time });
   }
 
-  // Picker / flow: tomorrow's departure at another time (HH:MM), once; null = as learned. Keeps a
-  // minimum SoC set; both a time and null end "not used".
-  async setTomorrowDeparture(time) {
+  // Picker / flow: that day's departure at another time (HH:MM), once; null = as learned. Keeps a
+  // minimum SoC set; both a time and null end "not used". Today, a time already past is an error.
+  async setDayDeparture(day, time) {
     const tz = this.timeZone || this.homey.clock.getTimezone();
-    const date = this._tomorrowDate(tz);
+    const date = this._dayDate(day, tz);
+    if (time && date === EvUsageModel.localDateStr(new Date(), tz)
+      && EvPlanner.hhmmToFh(time) <= EvUsageModel.toLocalFractionalHour(new Date(), tz)) {
+      throw Error(this.homey.__('error_departure_past', { time }));
+    }
     const existing = (this.getStoreValue('evOverrides') || {})[date];
     let override = null;
     if (existing && existing.type === 'min') override = { ...existing, time };
@@ -1379,19 +1393,19 @@ class CarChargeDevice extends GenericDevice {
     await this._setOverride(date, override);
   }
 
-  // Departure time picker: 'unused', tomorrow's set time (to the half hour), else 'auto'.
-  _tomorrowTimePickerValue(overrides, tz) {
-    const ov = overrides[this._tomorrowDate(tz)];
+  // Departure time picker: 'unused', the day's set time (nearest picker hour), else 'auto'.
+  _dayTimePickerValue(day, overrides, tz) {
+    const ov = overrides[this._dayDate(day, tz)];
     if (ov && ov.type === 'unused') return 'unused';
     const fh = ov ? EvPlanner.hhmmToFh(ov.time) : null;
     if (fh === null) return 'auto';
     // A time from the flow with free time: the nearest picker hour (the earlier one on a tie).
-    const hour = TOMORROW_PICKER_HOURS.reduce((best, h) => (Math.abs(h - fh) < Math.abs(best - fh) ? h : best));
+    const hour = DAY_PICKER_HOURS.reduce((best, h) => (Math.abs(h - fh) < Math.abs(best - fh) ? h : best));
     return `${String(hour).padStart(2, '0')}:00`;
   }
 
-  _tomorrowPickerValue(overrides, tz) {
-    const ov = overrides[this._tomorrowDate(tz)];
+  _dayPickerValue(day, overrides, tz) {
+    const ov = overrides[this._dayDate(day, tz)];
     if (!ov) return 'auto';
     if (ov.type === 'min') {
       return `min_${Math.max(30, Math.min(100, Math.round(ov.soc / 10) * 10))}`; // nearest picker step
@@ -1595,8 +1609,10 @@ class CarChargeDevice extends GenericDevice {
         + `${next.plannedSoc < next.requiredSoc - 1 ? `⚠ ${next.plannedSoc}/` : ''}${next.requiredSoc}%`
       : '-';
     if (this.hasCapability('ev_next_departure')) await this.setCapability('ev_next_departure', nextText);
-    if (this.hasCapability('ev_tomorrow')) await this.setCapability('ev_tomorrow', this._tomorrowPickerValue(overrides, tz));
-    if (this.hasCapability('ev_tomorrow_time')) await this.setCapability('ev_tomorrow_time', this._tomorrowTimePickerValue(overrides, tz));
+    for (const day of ['today', 'tomorrow']) {
+      if (this.hasCapability(`ev_${day}`)) await this.setCapability(`ev_${day}`, this._dayPickerValue(day, overrides, tz));
+      if (this.hasCapability(`ev_${day}_time`)) await this.setCapability(`ev_${day}_time`, this._dayTimePickerValue(day, overrides, tz));
+    }
     await this._updateUnpluggedAlarm(unplugged && this._plannerMode(chargeMode) !== 'off' && chargeMode !== 'off_temp' ? next : null, currentSoc, now, nextText);
     const nowSlot = strategy[0] || {};
     this.log(`[EV Plan] ${chargeMode}, SoC ${Math.round(currentSoc)}%${atHome ? '' : ' (predicted return)'}${unplugged ? ', not plugged in' : ''}, next: ${nextText}, `
