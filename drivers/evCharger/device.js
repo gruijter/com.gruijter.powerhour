@@ -62,6 +62,8 @@ const MIN_SOLAR_NEED_W = 100;
 const CAP_RESTART_MIN_MS = 10 * 60 * 1000;
 // Direct car read in the control loop, next to the car's own capability events.
 const CAR_POLL_MS = 5 * 60 * 1000;
+// Departure hours in the "departure tomorrow" picker (ev_tomorrow_time).
+const TOMORROW_PICKER_HOURS = [3, 6, 7, 8, 10, 12, 14, 16, 18, 20, 22];
 // Chargers with only a kWh meter: power averaged over at least this long, and no meter change
 // for this long counts as no power.
 const METER_POWER_MIN_MS = 119 * 1000;
@@ -1383,8 +1385,9 @@ class CarChargeDevice extends GenericDevice {
     if (ov && ov.type === 'unused') return 'unused';
     const fh = ov ? EvPlanner.hhmmToFh(ov.time) : null;
     if (fh === null) return 'auto';
-    const half = Math.min(47, Math.round(fh * 2)); // after 23:45 stays 23:30, not the next day
-    return `${String(Math.floor(half / 2)).padStart(2, '0')}:${half % 2 ? '30' : '00'}`;
+    // A time from the flow with free time: the nearest picker hour (the earlier one on a tie).
+    const hour = TOMORROW_PICKER_HOURS.reduce((best, h) => (Math.abs(h - fh) < Math.abs(best - fh) ? h : best));
+    return `${String(hour).padStart(2, '0')}:00`;
   }
 
   _tomorrowPickerValue(overrides, tz) {
