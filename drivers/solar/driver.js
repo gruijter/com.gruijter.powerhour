@@ -53,7 +53,7 @@ const driverSpecifics = {
   // Asked at pair and repair (lib/helpers/PairSetup.js).
   setup: {
     settings: ['use_measure_source', 'homey_device_daily_reset', 'peakPower', 'tariff_update_group', 'tariff',
-      'tariff_type', 'distribution', 'budget'],
+      'tariff_type'],
     roles: [{ key: 'p1', kind: 'kwh', label: 'production' }],
     match: { classes: ['solarpanel'], energy: (energy) => !!energy.meterPowerExportedCapability },
   },

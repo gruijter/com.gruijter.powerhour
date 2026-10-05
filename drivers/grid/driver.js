@@ -77,7 +77,7 @@ const driverSpecifics = {
   // Asked at pair and repair (lib/helpers/PairSetup.js).
   setup: {
     settings: ['use_measure_source', 'tariff_update_group', 'tariff', 'directionalNettingScheme',
-      'connectionPhases', 'connectionAmps', 'peakLoadIntervalMinutes', 'distribution', 'budget'],
+      'connectionPhases', 'connectionAmps', 'peakLoadIntervalMinutes'],
     roles: [{ key: 'p1', kind: 'kwh' }, { key: 'n1', kind: 'kwh' }],
     match: { energy: (energy) => energy.cumulative === true }, // a smart meter
   },

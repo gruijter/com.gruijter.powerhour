@@ -74,7 +74,7 @@ const driverSpecifics = {
     'measure_watt_min.year', 'measure_watt_max.year'],
   // Asked at pair and repair (lib/helpers/PairSetup.js).
   setup: {
-    settings: ['use_measure_source', 'homey_device_daily_reset', 'forecast_appliance', 'tariff_update_group', 'tariff', 'distribution', 'budget'],
+    settings: ['use_measure_source', 'homey_device_daily_reset', 'forecast_appliance', 'tariff_update_group', 'tariff'],
     roles: [{ key: 'p1', kind: 'kwh' }, { key: 'p2', kind: 'kwh' }, { key: 'n1', kind: 'kwh' }, { key: 'n2', kind: 'kwh' }],
     match: { energy: (energy) => energy.cumulative === true }, // a smart meter
   },
