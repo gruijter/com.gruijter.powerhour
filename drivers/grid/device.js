@@ -739,30 +739,26 @@ class GridDevice extends GenericDevice {
 
   // Bakes the currently configured averaging window into the peak-demand capability titles
   // (e.g. "15 min Peak demand (import day)") so the interval is visible without opening device
-  // settings. Merges onto the manifest-declared title (DeviceMigrator's own pattern for this, see
-  // its getManifestCapabilitiesOptions() doc comment) rather than device.getCapabilityOptions(),
-  // so repeated calls (onInit + every onSettings) always start from the clean compose-defined
-  // title instead of compounding a "15 min" prefix onto a previous run's already-prefixed title.
+  // settings. Built from the manifest-declared title, not the device's current one, so repeated
+  // calls (onInit + every onSettings) never compound a "15 min" prefix; only a changed title is
+  // written (DeviceMigrator.syncCapabilityOptions).
   async updatePeakLoadCapabilityTitles() {
     const intervalMinutes = this.getPeakLoadIntervalMinutes();
     const minUnit = { ru: 'мин', ar: 'د' };
-    const manifestOptions = DeviceMigrator.getManifestCapabilitiesOptions(this);
-    const capIds = [
+    const manifestOptions = this.driver.manifest.capabilitiesOptions || {};
+    const wanted = {};
+    [
       'measure_watt_peak.day', 'measure_watt_peak.month', 'measure_watt_peak.year',
       'measure_watt_peak_export.day', 'measure_watt_peak_export.month', 'measure_watt_peak_export.year',
-    ];
-    for (const capId of capIds) {
-      if (this.hasCapability(capId)) {
-        const baseOptions = manifestOptions[capId] || {};
-        const baseTitle = baseOptions.title || {};
-        const title = {};
-        Object.keys(baseTitle).forEach((locale) => {
-          const unit = minUnit[locale] || 'min';
-          title[locale] = `${intervalMinutes} ${unit} ${baseTitle[locale]}`;
-        });
-        await this.setCapabilityOptions(capId, { ...baseOptions, title }).catch((err) => this.error(err));
-      }
-    }
+    ].forEach((capId) => {
+      const baseTitle = (manifestOptions[capId] || {}).title || {};
+      const title = {};
+      Object.keys(baseTitle).forEach((locale) => {
+        title[locale] = `${intervalMinutes} ${minUnit[locale] || 'min'} ${baseTitle[locale]}`;
+      });
+      wanted[capId] = { title };
+    });
+    await DeviceMigrator.syncCapabilityOptions(this, wanted);
   }
 
   // Resolves the raw import/export delta since the last processed tick, bootstrapping and
