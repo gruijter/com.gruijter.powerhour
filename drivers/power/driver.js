@@ -172,7 +172,7 @@ class PowerDriver extends GenericDriver {
   capabilitiesFor(settings = {}) {
     const caps = super.capabilitiesFor(settings);
     if (settings.forecast_appliance && settings.source_device_type === 'Homey device') {
-      caps.push('appliance_state', 'appliance_next_run', 'appliance_ready_by', 'button.retrain');
+      caps.push('appliance_state', 'appliance_next_run', 'appliance_mode', 'appliance_ready_by', 'button.retrain');
     }
     return caps;
   }

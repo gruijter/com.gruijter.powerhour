@@ -1,0 +1,76 @@
+{
+  "type": "enum",
+  "title": {
+    "en": "Planning",
+    "nl": "Planning",
+    "de": "Planung",
+    "fr": "Planification",
+    "es": "Planificación",
+    "it": "Pianificazione",
+    "da": "Planlægning",
+    "sv": "Planering",
+    "no": "Planlegging",
+    "pl": "Planowanie",
+    "ru": "Планирование",
+    "ar": "التخطيط",
+    "ko": "계획"
+  },
+  "desc": {
+    "en": "Auto: you start the appliance yourself, the forecast uses the learned pattern. Smart: once, the cheapest start so the program is ready by the chosen time, then back to Auto.",
+    "nl": "Auto: je start het apparaat zelf, de forecast gebruikt het geleerde patroon. Slim: eenmalig de goedkoopste start zodat het programma klaar is om de gekozen tijd, daarna terug naar Auto.",
+    "de": "Auto: Sie starten das Gerät selbst, die Prognose nutzt das gelernte Muster. Intelligent: einmalig der günstigste Start, damit das Programm zur gewählten Zeit fertig ist, danach zurück zu Auto.",
+    "fr": "Auto : vous démarrez l'appareil vous-même, la prévision utilise le schéma appris. Intelligent : une fois, le départ le moins cher pour que le programme soit prêt à l'heure choisie, puis retour à Auto.",
+    "es": "Auto: usted inicia el aparato, la previsión usa el patrón aprendido. Inteligente: una vez, el inicio más barato para que el programa termine a la hora elegida, luego vuelve a Auto.",
+    "it": "Auto: avvii tu l'elettrodomestico, la previsione usa lo schema appreso. Intelligente: una volta, l'avvio più economico perché il programma sia pronto all'ora scelta, poi torna ad Auto.",
+    "da": "Auto: du starter selv apparatet, prognosen bruger det lærte mønster. Smart: én gang den billigste start, så programmet er færdigt til det valgte tidspunkt, derefter tilbage til Auto.",
+    "sv": "Auto: du startar apparaten själv, prognosen använder det inlärda mönstret. Smart: en gång billigaste start så att programmet är klart vid vald tid, sedan tillbaka till Auto.",
+    "no": "Auto: du starter apparatet selv, prognosen bruker det lærte mønsteret. Smart: én gang den billigste starten slik at programmet er ferdig til valgt tid, deretter tilbake til Auto.",
+    "pl": "Auto: urządzenie uruchamiasz sam, prognoza używa wyuczonego wzorca. Inteligentnie: jednorazowo najtańszy start, aby program skończył się o wybranej godzinie, potem powrót do Auto.",
+    "ru": "Авто: вы запускаете прибор сами, прогноз использует изученный шаблон. Умный: однократно самый дешёвый запуск, чтобы программа завершилась к выбранному времени, затем снова Авто.",
+    "ar": "تلقائي: تشغّل الجهاز بنفسك، ويستخدم التوقع النمط المُتعلَّم. ذكي: لمرة واحدة أرخص بدء لينتهي البرنامج في الوقت المختار، ثم العودة إلى تلقائي.",
+    "ko": "자동: 기기를 직접 시작하며, 예측은 학습된 패턴을 사용합니다. 스마트: 1회, 선택한 시각까지 완료되도록 가장 저렴한 시점에 시작한 뒤 자동으로 돌아갑니다."
+  },
+  "uiComponent": "picker",
+  "icon": "/assets/ev_next_charge.svg",
+  "getable": true,
+  "setable": true,
+  "insights": false,
+  "values": [
+    {
+      "id": "auto",
+      "title": {
+        "en": "Auto: learned pattern",
+        "nl": "Auto: geleerd patroon",
+        "de": "Auto: gelerntes Muster",
+        "fr": "Auto : schéma appris",
+        "es": "Auto: patrón aprendido",
+        "it": "Auto: schema appreso",
+        "da": "Auto: lært mønster",
+        "sv": "Auto: inlärt mönster",
+        "no": "Auto: lært mønster",
+        "pl": "Auto: wyuczony wzorzec",
+        "ru": "Авто: изученный шаблон",
+        "ar": "تلقائي: النمط المُتعلَّم",
+        "ko": "자동: 학습된 패턴"
+      }
+    },
+    {
+      "id": "smart",
+      "title": {
+        "en": "Smart: cheapest start, once",
+        "nl": "Slim: goedkoopste start, eenmalig",
+        "de": "Intelligent: günstigster Start, einmalig",
+        "fr": "Intelligent : départ le moins cher, une fois",
+        "es": "Inteligente: inicio más barato, una vez",
+        "it": "Intelligente: avvio più economico, una volta",
+        "da": "Smart: billigste start, én gang",
+        "sv": "Smart: billigaste start, en gång",
+        "no": "Smart: billigste start, én gang",
+        "pl": "Inteligentnie: najtańszy start, jednorazowo",
+        "ru": "Умный: самый дешёвый запуск, однократно",
+        "ar": "ذكي: أرخص بدء، لمرة واحدة",
+        "ko": "스마트: 가장 저렴한 시작, 1회"
+      }
+    }
+  ]
+}

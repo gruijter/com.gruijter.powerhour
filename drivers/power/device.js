@@ -58,6 +58,7 @@ const SLOT_HISTORY = 200; // measured 15-minute slots kept for the charts (> 2 d
 const { SLOT_MS } = ApplianceModel;
 // "Ready by" picker hours (appliance_ready_by), as the EV departure pickers.
 const READY_BY_HOURS = [3, 6, 7, 8, 10, 12, 14, 16, 18, 20, 22];
+const DEFAULT_READY_BY = '07:00';
 
 class PowerDevice extends GenericDevice {
 
@@ -86,14 +87,18 @@ class PowerDevice extends GenericDevice {
     }
     this.applianceModel = (await this.getStoreValue('applianceModel')) || ApplianceModel.initModel();
     this.appliancePlan = (await this.getStoreValue('appliancePlan')) || null;
+    this.applianceReadyBy = (await this.getStoreValue('applianceReadyBy')) || DEFAULT_READY_BY;
     this.applianceSlots = (await this.getStoreValue('applianceSlots')) || [];
     if (this.applianceModel.bootstrapped !== ApplianceModel.BOOTSTRAP_VERSION) await this.bootstrapAppliance().catch(this.error);
     this.recentMeter = [];
     this.applianceSaveTm = Date.now();
     if (!this.applianceListeners) {
       this.applianceListeners = true;
+      this.registerCapabilityListener('appliance_mode', async (value) => {
+        await this.setReadyBy(value === 'smart' ? this.applianceReadyBy : null);
+      });
       this.registerCapabilityListener('appliance_ready_by', async (value) => {
-        await this.setReadyBy(value === 'off' ? null : value);
+        await this.setApplianceReadyBy(value);
       });
       this.registerCapabilityListener('button.retrain', async () => {
         this.log('Appliance retrain via button.retrain');
@@ -380,7 +385,15 @@ class PowerDevice extends GenericDevice {
     return at;
   }
 
-  // Picker / flow: a run ready by hhmm ('HH:MM'), or null for no plan.
+  // Picker "Ready by": the deadline of Smart; a plan made already moves to it.
+  async setApplianceReadyBy(hhmm) {
+    this.applianceReadyBy = hhmm;
+    await this.setStoreValue('applianceReadyBy', hhmm).catch(this.error);
+    if (this.appliancePlan && !this.appliancePlan.notified) return this.setReadyBy(hhmm);
+    return this.updateAppliancePlanDisplay();
+  }
+
+  // Mode picker / flow: Smart, a run ready by hhmm ('HH:MM'), once; null is Auto (no plan).
   async setReadyBy(hhmm) {
     if (!hhmm) return this.setAppliancePlan(null);
     if (!this.getApplianceProfile()) throw Error(this.homey.__('error_appliance_not_learned', { runs: ApplianceModel.MIN_RUNS }));
@@ -447,6 +460,8 @@ class PowerDevice extends GenericDevice {
   async planAppliance(time) {
     const hhmm = EvPlanner.parseTime(time);
     if (!hhmm) throw Error(this.homey.__('error_invalid_time', { time }));
+    this.applianceReadyBy = hhmm;
+    await this.setStoreValue('applianceReadyBy', hhmm).catch(this.error);
     const plan = await this.setReadyBy(hhmm);
     const round = (v) => (typeof v === 'number' ? Math.round(v * 10000) / 10000 : 0);
     return {
@@ -466,7 +481,7 @@ class PowerDevice extends GenericDevice {
     return ApplianceModel.nextExpectedStart(this.applianceModel, this.getApplianceProfile(), Date.now(), this.timeZone);
   }
 
-  // Tile: state, next run and the "ready by" picker; then the charts.
+  // Tile: state, next run and the mode and "ready by" pickers; then the charts.
   async updateAppliancePlanDisplay() {
     if (!this.applianceModel) return;
     const profile = this.getApplianceProfile();
@@ -497,16 +512,15 @@ class PowerDevice extends GenericDevice {
       if (expected) next = `~${this.dayHhmm(expected)}`;
     }
 
-    let picker = 'off';
-    if (plan) {
-      const local = TimeHelpers.toLocalDate(new Date(plan.readyBy), this.timeZone);
-      const fh = local.getHours() + local.getMinutes() / 60;
-      const hour = READY_BY_HOURS.reduce((best, h) => (Math.abs(h - fh) < Math.abs(best - fh) ? h : best));
-      picker = `${String(hour).padStart(2, '0')}:00`;
-    }
+    // The picker shows the nearest of its hours (a flow can plan any time).
+    const [h, m] = this.applianceReadyBy.split(':').map(Number);
+    const fh = h + m / 60;
+    const hour = READY_BY_HOURS.reduce((best, x) => (Math.abs(x - fh) < Math.abs(best - fh) ? x : best));
+    const picker = `${String(hour).padStart(2, '0')}:00`;
 
     if (this.hasCapability('appliance_state')) await this.setCapability('appliance_state', state).catch(this.error);
     if (this.hasCapability('appliance_next_run')) await this.setCapability('appliance_next_run', next).catch(this.error);
+    if (this.hasCapability('appliance_mode')) await this.setCapability('appliance_mode', plan ? 'smart' : 'auto').catch(this.error);
     if (this.hasCapability('appliance_ready_by')) await this.setCapability('appliance_ready_by', picker).catch(this.error);
     await this.renderAppliancePlanCharts().catch(this.error);
   }
