@@ -14,6 +14,7 @@
   "appliance_chart_runs": "Runs per dag",
   "appliance_program": "Programma",
   "appliance_chart_typical": "Typische run",
+  "appliance_chart_estimate": "Schatting (uurhistorie)",
   "appliance_chart_last": "Laatste run",
   "grid_today": "Net vandaag",
   "grid_tomorrow": "Net morgen",

@@ -14,6 +14,7 @@
   "appliance_chart_runs": "Циклов в день",
   "appliance_program": "Программа",
   "appliance_chart_typical": "Типичный цикл",
+  "appliance_chart_estimate": "Оценка (почасовая история)",
   "appliance_chart_last": "Последний цикл",
   "grid_today": "Сеть сегодня",
   "grid_tomorrow": "Сеть завтра",

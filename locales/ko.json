@@ -14,6 +14,7 @@
   "appliance_chart_runs": "일일 운전 횟수",
   "appliance_program": "프로그램",
   "appliance_chart_typical": "일반 운전",
+  "appliance_chart_estimate": "추정 (시간별 기록)",
   "appliance_chart_last": "최근 운전",
   "grid_today": "계통 오늘",
   "grid_tomorrow": "계통 내일",

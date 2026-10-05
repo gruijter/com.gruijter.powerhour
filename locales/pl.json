@@ -14,6 +14,7 @@
   "appliance_chart_runs": "Cykle na dzień",
   "appliance_program": "Program",
   "appliance_chart_typical": "Typowy cykl",
+  "appliance_chart_estimate": "Szacunek (historia godzinowa)",
   "appliance_chart_last": "Ostatni cykl",
   "grid_today": "Sieć dziś",
   "grid_tomorrow": "Sieć jutro",

@@ -95,6 +95,14 @@ class PowerDevice extends GenericDevice {
       this.registerCapabilityListener('appliance_ready_by', async (value) => {
         await this.setReadyBy(value === 'off' ? null : value);
       });
+      this.registerCapabilityListener('button.retrain', async () => {
+        this.log('Appliance retrain via button.retrain');
+        await this.bootstrapAppliance();
+        await this.checkApplianceReady();
+        await this.updateApplianceDisplay();
+        await this.updateAppliancePlanDisplay();
+        this.notifyGrid();
+      });
     }
     this.applianceTimer = this.homey.setInterval(() => {
       this.sampleAppliance().catch(this.error);
@@ -104,8 +112,9 @@ class PowerDevice extends GenericDevice {
     await this.updateAppliancePlanDisplay();
   }
 
-  // First time: learn the runs and start times of the last 14 days from the source device's
-  // Insights (hourly, the last 24 hours per 5 minutes), like the EV charger learns its history.
+  // First time, and on the retrain button: learn the runs and start times of the last 14 days from
+  // the source device's Insights (hourly, the last 24 hours per 5 minutes), like the EV charger
+  // learns its history. Runs measured live before that history are kept.
   async bootstrapAppliance() {
     let api;
     try {
@@ -130,6 +139,7 @@ class PowerDevice extends GenericDevice {
       meterNowKwh: this.getCapabilityValue('meter_power') || 0,
     });
     model.bootstrapped = ApplianceModel.BOOTSTRAP_VERSION;
+    model.runs = ApplianceModel.mergeRuns(model.runs, this.applianceModel && this.applianceModel.runs);
     this.applianceModel = model;
     await this.saveAppliance();
     this.log(`Appliance learned from history: ${entries.length} entries, ${model.runs.length} runs`);
@@ -282,8 +292,10 @@ class PowerDevice extends GenericDevice {
       this.chartApplianceWeekly = chart;
       await this.applianceWeeklyImage.update().catch(this.error);
     }
-    const program = getApplianceProgramChart(profile, runs[runs.length - 1], {
+    // The typical run and last run only from runs measured per minute (or 5 minutes).
+    const program = getApplianceProgramChart(profile, runs.filter((r) => !r.coarse).pop() || null, {
       typical: this.homey.__('appliance_chart_typical'),
+      estimate: this.homey.__('appliance_chart_estimate'),
       last: this.homey.__('appliance_chart_last'),
     });
     if (program && this.applianceProgramImage) {

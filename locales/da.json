@@ -14,6 +14,7 @@
   "appliance_chart_runs": "Kørsler pr. dag",
   "appliance_program": "Program",
   "appliance_chart_typical": "Typisk kørsel",
+  "appliance_chart_estimate": "Skøn (timehistorik)",
   "appliance_chart_last": "Seneste kørsel",
   "grid_today": "Net i dag",
   "grid_tomorrow": "Net i morgen",

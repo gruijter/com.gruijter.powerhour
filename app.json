@@ -25142,6 +25142,24 @@
       "class": "other",
       "capabilities": [],
       "capabilitiesOptions": {
+        "button.retrain": {
+          "maintenanceAction": true,
+          "title": {
+            "en": "Retrain appliance forecast",
+            "nl": "Hertrain apparaat-voorspelling",
+            "de": "Geräteprognose neu trainieren",
+            "fr": "Réentraîner la prévision de l'appareil",
+            "es": "Reentrenar previsión del aparato",
+            "it": "Riaddestra previsione elettrodomestico",
+            "da": "Genoptræn apparatprognose",
+            "sv": "Träna om apparatprognos",
+            "no": "Tren apparatprognose på nytt",
+            "pl": "Przetrenuj prognozę urządzenia",
+            "ru": "Переобучить прогноз прибора",
+            "ar": "إعادة تدريب توقع الجهاز",
+            "ko": "가전 예측 재학습"
+          }
+        },
         "meter_power": {
           "decimals": 4
         },

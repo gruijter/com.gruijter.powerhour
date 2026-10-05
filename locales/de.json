@@ -14,6 +14,7 @@
   "appliance_chart_runs": "Läufe pro Tag",
   "appliance_program": "Programm",
   "appliance_chart_typical": "Typischer Lauf",
+  "appliance_chart_estimate": "Schätzung (Stundenverlauf)",
   "appliance_chart_last": "Letzter Lauf",
   "grid_today": "Netz heute",
   "grid_tomorrow": "Netz morgen",

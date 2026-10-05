@@ -14,6 +14,7 @@
   "appliance_chart_runs": "Kjøringer per dag",
   "appliance_program": "Program",
   "appliance_chart_typical": "Typisk kjøring",
+  "appliance_chart_estimate": "Anslag (timehistorikk)",
   "appliance_chart_last": "Siste kjøring",
   "grid_today": "Nett i dag",
   "grid_tomorrow": "Nett i morgen",
