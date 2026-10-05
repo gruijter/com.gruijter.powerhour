@@ -198,6 +198,7 @@ class GridDevice extends GenericDevice {
     this.lastAutoRetrainLoad = await this.getStoreValue('lastAutoRetrainLoad') || 0;
     this.retrainingLoad = false;
     this.forecastErrors = await this.getStoreValue('forecastErrors') || [];
+    this.plannedLoads = await this.getStoreValue('plannedLoads') || [];
     await this.updateForecastAccuracyStatus().catch(this.error);
 
     this.retrainLoadListener = this.registerCapabilityListener('button.retrain_load', async () => {
@@ -1376,6 +1377,9 @@ class GridDevice extends GenericDevice {
       if (bucketResult.finishedBucket.log) this.log(bucketResult.finishedBucket.log);
       await this.recordForecastError(bucketResult.finishedBucket).catch(this.error);
 
+      // Learn the regular load only: a slot with a planned extra load is not learned.
+      const { startTime, durationMs } = bucketResult.finishedBucket;
+      if (LoadForecastStrategy.getPlannedPower(this.plannedLoads, startTime, startTime + durationMs) > 0) return updated;
       const result = LoadForecastStrategy.getStrategy({
         currentPower: bucketResult.finishedBucket.avgPower,
         weeklyProfile: this.weeklyProfile,
@@ -1400,12 +1404,13 @@ class GridDevice extends GenericDevice {
   async recordForecastError(finishedBucket) {
     if (!finishedBucket || finishedBucket.durationMs < 10 * 60 * 1000) return;
     const { dayOfWeek, slotIndex } = LoadForecastStrategy.getLocalTimeDetails(finishedBucket.startTime, this.timeZone);
-    const predicted = this.weeklyProfile && this.weeklyProfile[dayOfWeek] ? this.weeklyProfile[dayOfWeek][slotIndex] : null;
+    const learned = this.weeklyProfile && this.weeklyProfile[dayOfWeek] ? this.weeklyProfile[dayOfWeek][slotIndex] : null;
     // An untrained (all-zero) profile predicts nothing - scoring it would only measure the load.
-    if (!predicted) return;
+    if (!learned) return;
+    const { startTime, durationMs } = finishedBucket;
     this.forecastErrors = LoadForecastStrategy.recordForecastError(this.forecastErrors, {
-      time: finishedBucket.startTime,
-      predicted,
+      time: startTime,
+      predicted: learned + LoadForecastStrategy.getPlannedPower(this.plannedLoads, startTime, startTime + durationMs),
       actual: finishedBucket.avgPower,
     });
     await this.setStoreValue('forecastErrors', this.forecastErrors);
@@ -1422,7 +1427,7 @@ class GridDevice extends GenericDevice {
   // separately because home load excludes it, and only while the car is connected: the EV plan
   // is also made while the car is away, as a prediction that is not being followed.
   getNetForecast(startMs, endMs) {
-    const load = LoadForecastStrategy.getLoadSeries(this.weeklyProfile, startMs, endMs, this.timeZone);
+    const load = LoadForecastStrategy.getLoadSeries(this.weeklyProfile, startMs, endMs, this.timeZone, this.plannedLoads);
     const sumSeries = (driverId, getSeries) => {
       const total = new Array(load.length).fill(0);
       let driver = null;
@@ -1457,6 +1462,21 @@ class GridDevice extends GenericDevice {
     return {
       load, solar, battery, ev, netNoBattery, netPlanned,
     };
+  }
+
+  // Flow: an extra load of power W that day (today/tomorrow) from time (HH:MM) for durationMin,
+  // on top of the learned profile and not learned itself. 0 W removes one with that start.
+  async addPlannedLoad(day, time, durationMin, power) {
+    const startOfToday = TimeHelpers.getLocalMidnightUTC(new Date(), this.timeZone);
+    const dayStart = day === 'tomorrow'
+      ? TimeHelpers.getLocalMidnightUTC(new Date(startOfToday.getTime() + 26 * 60 * 60 * 1000), this.timeZone)
+      : startOfToday;
+    const from = TimeHelpers.localTimeToUTC(dayStart, time, this.timeZone).getTime();
+    const to = from + Math.round(durationMin) * 60 * 1000;
+    this.plannedLoads = LoadForecastStrategy.addPlannedLoad(this.plannedLoads, { from, to, power });
+    await this.setStoreValue('plannedLoads', this.plannedLoads);
+    this.log(`Planned load ${Math.round(power)}W ${day} ${time} for ${durationMin} min`);
+    await this.updateForecastDisplay(true);
   }
 
   // Cached until forecastErrors changes (once per 15 minutes at most).
@@ -1501,6 +1521,7 @@ class GridDevice extends GenericDevice {
       weeklyProfile: this.weeklyProfile,
       timestamp: now,
       timezone: this.timeZone,
+      plannedLoads: this.plannedLoads,
     });
 
     await this.setCapabilityValue('measure_watt_forecast.h0', forecast.expectedPower).catch(this.error);
@@ -1542,9 +1563,14 @@ class GridDevice extends GenericDevice {
     const startOfYesterday = getLocalMidnightUTC(new Date(startOfToday.getTime() - 60 * 60 * 1000));
     const endOfYesterday = startOfToday;
 
+    // Home load forecast per slot, planned loads included.
+    const loadOpts = (start, end) => ({
+      forecast: LoadForecastStrategy.getLoadSeries(this.weeklyProfile, start.getTime(), end.getTime(), timeZone, this.plannedLoads),
+    });
+
     // 1. Today Chart (Forecast vs Real - updated every 15 mins or on model update)
     if (updated || (now.getMinutes() % 15 === 0) || !this.chartGridToday) {
-      const chartToday = await getGridForecastChart(this.weeklyProfile, startOfToday, endOfToday, 'Home Load Today', this.powerHistory, this.timeZone, true);
+      const chartToday = await getGridForecastChart(this.weeklyProfile, startOfToday, endOfToday, 'Home Load Today', this.powerHistory, this.timeZone, true, loadOpts(startOfToday, endOfToday));
       if (chartToday) {
         this.chartGridToday = chartToday;
         await this.gridTodayImage.update().catch(this.error);
@@ -1553,7 +1579,7 @@ class GridDevice extends GenericDevice {
 
     // 2. Tomorrow Chart (Forecast only)
     if (updated || !this.chartGridTomorrow) {
-      const chartTomorrow = await getGridForecastChart(this.weeklyProfile, startOfTomorrow, endOfTomorrow, 'Home Load Tomorrow', [], this.timeZone, false);
+      const chartTomorrow = await getGridForecastChart(this.weeklyProfile, startOfTomorrow, endOfTomorrow, 'Home Load Tomorrow', [], this.timeZone, false, loadOpts(startOfTomorrow, endOfTomorrow));
       if (chartTomorrow) {
         this.chartGridTomorrow = chartTomorrow;
         await this.gridTomorrowImage.update().catch(this.error);
@@ -1562,7 +1588,8 @@ class GridDevice extends GenericDevice {
 
     // 3. Yesterday Chart (Forecast vs Real)
     if (updated || !this.chartGridYesterday) {
-      const chartYesterday = await getGridForecastChart(this.weeklyProfile, startOfYesterday, endOfYesterday, 'Home Load Yesterday', this.powerHistory, this.timeZone, false);
+      const opts = loadOpts(startOfYesterday, endOfYesterday);
+      const chartYesterday = await getGridForecastChart(this.weeklyProfile, startOfYesterday, endOfYesterday, 'Home Load Yesterday', this.powerHistory, this.timeZone, false, opts);
       if (chartYesterday) {
         this.chartGridYesterday = chartYesterday;
         await this.gridYesterdayImage.update().catch(this.error);
@@ -1681,6 +1708,7 @@ class GridDevice extends GenericDevice {
         timezone: this.timeZone,
         logger: (msg) => this.log(msg),
         maxPowerW: this.getHomePowerCeilingW(),
+        plannedLoads: this.plannedLoads,
       });
 
       if (result.updated) {

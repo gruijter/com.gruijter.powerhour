@@ -8950,6 +8950,226 @@
       },
       {
         "title": {
+          "en": "Extra home load",
+          "nl": "Extra huisverbruik",
+          "de": "Zusätzlicher Hausverbrauch",
+          "fr": "Consommation domestique supplémentaire",
+          "es": "Consumo doméstico adicional",
+          "it": "Consumo domestico extra",
+          "da": "Ekstra husforbrug",
+          "sv": "Extra hushållsförbrukning",
+          "no": "Ekstra husforbruk",
+          "pl": "Dodatkowe zużycie domowe",
+          "ru": "Дополнительная нагрузка дома",
+          "ar": "حمل منزلي إضافي",
+          "ko": "추가 가정 부하"
+        },
+        "titleFormatted": {
+          "en": "Extra load [[power]] W [[day]] at [[time]] for [[duration]] min",
+          "nl": "Extra verbruik [[power]] W [[day]] om [[time]] gedurende [[duration]] min",
+          "de": "Zusatzverbrauch [[power]] W [[day]] um [[time]] für [[duration]] Min.",
+          "fr": "Consommation supplémentaire [[power]] W [[day]] à [[time]] pendant [[duration]] min",
+          "es": "Consumo adicional [[power]] W [[day]] a las [[time]] durante [[duration]] min",
+          "it": "Consumo extra [[power]] W [[day]] alle [[time]] per [[duration]] min",
+          "da": "Ekstra forbrug [[power]] W [[day]] kl. [[time]] i [[duration]] min",
+          "sv": "Extra förbrukning [[power]] W [[day]] kl. [[time]] i [[duration]] min",
+          "no": "Ekstra forbruk [[power]] W [[day]] kl. [[time]] i [[duration]] min",
+          "pl": "Dodatkowe zużycie [[power]] W [[day]] o [[time]] przez [[duration]] min",
+          "ru": "Доп. нагрузка [[power]] Вт [[day]] в [[time]] на [[duration]] мин",
+          "ar": "حمل إضافي [[power]] واط [[day]] الساعة [[time]] لمدة [[duration]] دقيقة",
+          "ko": "[[day]] [[time]]부터 [[duration]]분 동안 추가 부하 [[power]] W"
+        },
+        "hint": {
+          "en": "A known extra load, e.g. a fortnightly legionella run: added to the forecast and not learned. 0 W removes it.",
+          "nl": "Een bekend extra verbruik, bijv. een tweewekelijkse legionellarun: komt bij de voorspelling en wordt niet geleerd. 0 W verwijdert het.",
+          "de": "Ein bekannter Zusatzverbrauch, z. B. ein zweiwöchentlicher Legionellenlauf: zur Prognose addiert und nicht gelernt. 0 W entfernt ihn.",
+          "fr": "Une consommation supplémentaire connue, p. ex. un cycle anti-légionelle toutes les deux semaines : ajoutée à la prévision et non apprise. 0 W la supprime.",
+          "es": "Un consumo adicional conocido, p. ej. un ciclo antilegionela quincenal: se suma a la previsión y no se aprende. 0 W lo elimina.",
+          "it": "Un consumo extra noto, ad es. un ciclo antilegionella ogni due settimane: aggiunto alla previsione e non appreso. 0 W lo rimuove.",
+          "da": "Et kendt ekstra forbrug, f.eks. en legionellakørsel hver anden uge: lægges til prognosen og læres ikke. 0 W fjerner det.",
+          "sv": "En känd extra förbrukning, t.ex. en legionellakörning varannan vecka: läggs till prognosen och lärs inte in. 0 W tar bort den.",
+          "no": "Et kjent ekstra forbruk, f.eks. en legionellakjøring annenhver uke: legges til prognosen og læres ikke. 0 W fjerner det.",
+          "pl": "Znane dodatkowe zużycie, np. cykl antylegionella co dwa tygodnie: dodawane do prognozy i nieuczone. 0 W je usuwa.",
+          "ru": "Известная доп. нагрузка, напр. цикл против легионеллы раз в две недели: добавляется к прогнозу и не изучается. 0 Вт удаляет её.",
+          "ar": "حمل إضافي معروف، مثل دورة مكافحة الليجيونيلا كل أسبوعين: يُضاف إلى التوقع ولا يُتعلَّم. 0 واط يزيله.",
+          "ko": "격주 레지오넬라 살균 운전 등 알려진 추가 부하: 예측에 더해지고 학습되지 않습니다. 0 W이면 삭제됩니다."
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=grid"
+          },
+          {
+            "type": "number",
+            "name": "power",
+            "min": 0,
+            "max": 100000,
+            "step": 1,
+            "placeholder": {
+              "en": "2000",
+              "nl": "2000",
+              "de": "2000",
+              "fr": "2000",
+              "es": "2000",
+              "it": "2000",
+              "da": "2000",
+              "sv": "2000",
+              "no": "2000",
+              "pl": "2000",
+              "ru": "2000",
+              "ar": "2000",
+              "ko": "2000"
+            },
+            "title": {
+              "en": "Power (W)",
+              "nl": "Vermogen (W)",
+              "de": "Leistung (W)",
+              "fr": "Puissance (W)",
+              "es": "Potencia (W)",
+              "it": "Potenza (W)",
+              "da": "Effekt (W)",
+              "sv": "Effekt (W)",
+              "no": "Effekt (W)",
+              "pl": "Moc (W)",
+              "ru": "Мощность (Вт)",
+              "ar": "القدرة (واط)",
+              "ko": "전력 (W)"
+            }
+          },
+          {
+            "type": "dropdown",
+            "name": "day",
+            "title": {
+              "en": "Day",
+              "nl": "Dag",
+              "de": "Tag",
+              "fr": "Jour",
+              "es": "Día",
+              "it": "Giorno",
+              "da": "Dag",
+              "sv": "Dag",
+              "no": "Dag",
+              "pl": "Dzień",
+              "ru": "День",
+              "ar": "اليوم",
+              "ko": "날짜"
+            },
+            "values": [
+              {
+                "id": "today",
+                "label": {
+                  "en": "today",
+                  "nl": "vandaag",
+                  "de": "heute",
+                  "fr": "aujourd'hui",
+                  "es": "hoy",
+                  "it": "oggi",
+                  "da": "i dag",
+                  "sv": "i dag",
+                  "no": "i dag",
+                  "pl": "dziś",
+                  "ru": "сегодня",
+                  "ar": "اليوم",
+                  "ko": "오늘"
+                }
+              },
+              {
+                "id": "tomorrow",
+                "label": {
+                  "en": "tomorrow",
+                  "nl": "morgen",
+                  "de": "morgen",
+                  "fr": "demain",
+                  "es": "mañana",
+                  "it": "domani",
+                  "da": "i morgen",
+                  "sv": "i morgon",
+                  "no": "i morgen",
+                  "pl": "jutro",
+                  "ru": "завтра",
+                  "ar": "غدًا",
+                  "ko": "내일"
+                }
+              }
+            ]
+          },
+          {
+            "type": "text",
+            "name": "time",
+            "placeholder": {
+              "en": "13:00",
+              "nl": "13:00",
+              "de": "13:00",
+              "fr": "13:00",
+              "es": "13:00",
+              "it": "13:00",
+              "da": "13:00",
+              "sv": "13:00",
+              "no": "13:00",
+              "pl": "13:00",
+              "ru": "13:00",
+              "ar": "13:00",
+              "ko": "13:00"
+            },
+            "title": {
+              "en": "Start",
+              "nl": "Start",
+              "de": "Start",
+              "fr": "Début",
+              "es": "Inicio",
+              "it": "Inizio",
+              "da": "Start",
+              "sv": "Start",
+              "no": "Start",
+              "pl": "Start",
+              "ru": "Начало",
+              "ar": "البداية",
+              "ko": "시작"
+            }
+          },
+          {
+            "type": "number",
+            "name": "duration",
+            "min": 1,
+            "max": 1440,
+            "step": 1,
+            "placeholder": {
+              "en": "120",
+              "nl": "120",
+              "de": "120",
+              "fr": "120",
+              "es": "120",
+              "it": "120",
+              "da": "120",
+              "sv": "120",
+              "no": "120",
+              "pl": "120",
+              "ru": "120",
+              "ar": "120",
+              "ko": "120"
+            },
+            "title": {
+              "en": "Duration (min)",
+              "nl": "Duur (min)",
+              "de": "Dauer (Min.)",
+              "fr": "Durée (min)",
+              "es": "Duración (min)",
+              "it": "Durata (min)",
+              "da": "Varighed (min)",
+              "sv": "Varaktighet (min)",
+              "no": "Varighet (min)",
+              "pl": "Czas (min)",
+              "ru": "Длительность (мин)",
+              "ar": "المدة (دقيقة)",
+              "ko": "지속 시간 (분)"
+            }
+          }
+        ],
+        "id": "add_planned_load"
+      },
+      {
+        "title": {
           "en": "Provide export prices JSON",
           "de": "Exportpreise bereitstellen (JSON)",
           "ar": "توفير أسعار التصدير JSON",
