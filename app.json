@@ -10059,6 +10059,118 @@
       },
       {
         "title": {
+          "en": "Car has left / is home",
+          "nl": "Auto is vertrokken / is thuis",
+          "de": "Auto ist weggefahren / ist zu Hause",
+          "fr": "La voiture est partie / est à la maison",
+          "es": "El coche se ha ido / está en casa",
+          "it": "L'auto è partita / è a casa",
+          "da": "Bilen er kørt / er hjemme",
+          "sv": "Bilen har åkt / är hemma",
+          "no": "Bilen har kjørt / er hjemme",
+          "pl": "Auto odjechało / jest w domu",
+          "ru": "Авто уехало / дома",
+          "ar": "السيارة غادرت / في المنزل",
+          "ko": "차량 출발함 / 집에 있음"
+        },
+        "titleFormatted": {
+          "en": "Car [[presence]]",
+          "nl": "Auto [[presence]]",
+          "de": "Auto [[presence]]",
+          "fr": "Voiture [[presence]]",
+          "es": "Coche [[presence]]",
+          "it": "Auto [[presence]]",
+          "da": "Bil [[presence]]",
+          "sv": "Bil [[presence]]",
+          "no": "Bil [[presence]]",
+          "pl": "Auto [[presence]]",
+          "ru": "Авто [[presence]]",
+          "ar": "السيارة [[presence]]",
+          "ko": "차량 [[presence]]"
+        },
+        "hint": {
+          "en": "Away at once, before the car app reports it. Ends when the car is back: charging, plugged in, a trip ending at home, or 'is home'.",
+          "nl": "Direct afwezig, voordat de auto-app het meldt. Stopt als de auto terug is: laden, ingeplugd, een rit die thuis eindigt, of 'is thuis'.",
+          "de": "Sofort abwesend, bevor die Auto-App es meldet. Endet, wenn das Auto zurück ist: Laden, eingesteckt, eine Fahrt, die zu Hause endet, oder 'ist zu Hause'.",
+          "fr": "Absente aussitôt, avant que l'app de la voiture le signale. Prend fin au retour de la voiture : charge, branchée, trajet terminé à la maison, ou 'est à la maison'.",
+          "es": "Ausente al instante, antes de que la app del coche lo indique. Termina cuando el coche vuelve: cargando, enchufado, un viaje que acaba en casa, o 'está en casa'.",
+          "it": "Assente subito, prima che l'app dell'auto lo segnali. Termina al ritorno dell'auto: in carica, collegata, un viaggio che finisce a casa, o 'è a casa'.",
+          "da": "Væk med det samme, før bil-appen melder det. Slutter når bilen er tilbage: lader, tilsluttet, en tur der slutter hjemme, eller 'er hjemme'.",
+          "sv": "Borta direkt, innan bilappen rapporterar det. Slutar när bilen är tillbaka: laddar, inkopplad, en resa som slutar hemma, eller 'är hemma'.",
+          "no": "Borte med en gang, før bil-appen melder det. Slutter når bilen er tilbake: lader, plugget inn, en tur som ender hjemme, eller 'er hjemme'.",
+          "pl": "Nieobecne od razu, zanim aplikacja auta to zgłosi. Kończy się, gdy auto wróci: ładowanie, podłączenie, trasa kończąca się w domu lub 'jest w domu'.",
+          "ru": "Отсутствует сразу, до сообщения приложения авто. Заканчивается, когда авто вернулось: зарядка, подключение, поездка, завершённая дома, или «дома».",
+          "ar": "غائبة فورًا، قبل أن يبلغ تطبيق السيارة. ينتهي عند عودة السيارة: الشحن، التوصيل، رحلة تنتهي في المنزل، أو 'في المنزل'.",
+          "ko": "차량 앱이 알리기 전에 즉시 부재. 차량이 돌아오면 끝남: 충전, 플러그 연결, 집에서 끝난 주행, 또는 '집에 있음'."
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=evCharger"
+          },
+          {
+            "type": "dropdown",
+            "name": "presence",
+            "title": {
+              "en": "Presence",
+              "nl": "Aanwezigheid",
+              "de": "Anwesenheit",
+              "fr": "Présence",
+              "es": "Presencia",
+              "it": "Presenza",
+              "da": "Tilstedeværelse",
+              "sv": "Närvaro",
+              "no": "Tilstedeværelse",
+              "pl": "Obecność",
+              "ru": "Присутствие",
+              "ar": "الحضور",
+              "ko": "재실 상태"
+            },
+            "values": [
+              {
+                "id": "away",
+                "label": {
+                  "en": "has left",
+                  "nl": "is vertrokken",
+                  "de": "ist weggefahren",
+                  "fr": "est partie",
+                  "es": "se ha ido",
+                  "it": "è partita",
+                  "da": "er kørt",
+                  "sv": "har åkt",
+                  "no": "har kjørt",
+                  "pl": "odjechało",
+                  "ru": "уехало",
+                  "ar": "غادرت",
+                  "ko": "출발함"
+                }
+              },
+              {
+                "id": "home",
+                "label": {
+                  "en": "is home",
+                  "nl": "is thuis",
+                  "de": "ist zu Hause",
+                  "fr": "est à la maison",
+                  "es": "está en casa",
+                  "it": "è a casa",
+                  "da": "er hjemme",
+                  "sv": "är hemma",
+                  "no": "er hjemme",
+                  "pl": "jest w domu",
+                  "ru": "дома",
+                  "ar": "في المنزل",
+                  "ko": "집에 있음"
+                }
+              }
+            ]
+          }
+        ],
+        "id": "set_ev_presence"
+      },
+      {
+        "title": {
           "en": "Set EV State of Charge",
           "nl": "Zet EV batterijniveau (SoC)",
           "de": "EV Ladezustand festlegen",

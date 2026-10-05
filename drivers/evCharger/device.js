@@ -86,6 +86,7 @@ class CarChargeDevice extends GenericDevice {
     if (typeof lastWanted === 'boolean') this.lastWantedSwitch = lastWanted;
     this.tempMode = (await this.getStoreValue('evTempMode')) || null; // {since, previousMode}: a temporary mode
     this.lastAwayTm = (await this.getStoreValue('evLastAwayTm')) || 0;
+    this.signals.flowAwaySince = (await this.getStoreValue('evFlowAwaySince')) || null;
     await super.initDeviceValues();
   }
 
@@ -318,6 +319,7 @@ class CarChargeDevice extends GenericDevice {
           const plugged = EvPresence.isPluggedValue(value);
           if (plugged !== this.signals.chargerPlugged) this.plugChangeTm = Date.now();
           this.signals.chargerPlugged = plugged;
+          if (plugged === true) await this._endFlowAway('plugged in at the charger');
           await this._updatePresence();
         },
       );
@@ -412,7 +414,9 @@ class CarChargeDevice extends GenericDevice {
 
   _onChargerPower(power) {
     if (typeof power !== 'number') return;
+    const wasPowerOn = typeof this.livePowerW === 'number' && this.livePowerW > EvPresence.CHARGING_POWER_W;
     this.livePowerW = power;
+    if (!wasPowerOn && power > EvPresence.CHARGING_POWER_W) this._endFlowAway('charging').catch(this.error);
     if (power > EvPresence.CHARGING_POWER_W) this.signals.lastChargingTm = Date.now();
     const wasCharging = this.presence && this.presence.state === 'charging';
     const isCharging = power > EvPresence.CHARGING_POWER_W;
@@ -538,6 +542,7 @@ class CarChargeDevice extends GenericDevice {
     }
     this.log(`[EV Usage] Trip ${km} km, ${kwh === null ? '?' : kwh.toFixed(1)} kWh by SoC, `
       + `from home: ${trip.fromHome}, to home: ${trip.toHome}`);
+    if (trip.toHome && reportTm > (this.signals.flowAwaySince || Infinity)) await this._endFlowAway('trip ended at home');
     await this._saveUsageModel();
     await this._updateLearnedProfileSettings();
   }
@@ -609,7 +614,10 @@ class CarChargeDevice extends GenericDevice {
         this.signals.carPlugged = plugBool === true ? true : null;
       }
       if (typeof carPluggedWas === 'boolean' && typeof this.signals.carPlugged === 'boolean'
-        && carPluggedWas !== this.signals.carPlugged) this.plugChangeTm = Date.now();
+        && carPluggedWas !== this.signals.carPlugged) {
+        this.plugChangeTm = Date.now();
+        if (this.signals.carPlugged) await this._endFlowAway('car reports plugged in');
+      }
     }
 
     const socEntry = read(socCaps, socCap);
@@ -1115,6 +1123,28 @@ class CarChargeDevice extends GenericDevice {
     this.log(`[EV Plan] Away period ${period.from} - ${period.to} added via flow`);
     await this._updateLearnedProfileSettings();
     await this.updateChargeChart().catch(this.error);
+  }
+
+  // A flow says the car left: away now, as car apps often only report after the trip. Lasts until
+  // the car is back (charging, plugged in, a trip ending at home) or a flow says it is home.
+  async setFlowPresence(presence) {
+    if (presence === 'home') {
+      await this._endFlowAway('flow');
+      return;
+    }
+    this.signals.flowAwaySince = Date.now();
+    await this.setStoreValue('evFlowAwaySince', this.signals.flowAwaySince).catch(this.error);
+    this.log('[EV Slot] Car left (flow)');
+    await this._updatePresence();
+    await this._applyChargerControl();
+  }
+
+  async _endFlowAway(reason) {
+    if (!this.signals.flowAwaySince) return;
+    this.signals.flowAwaySince = null;
+    await this.setStoreValue('evFlowAwaySince', null).catch(this.error);
+    this.log(`[EV Slot] Car back (${reason})`);
+    await this._updatePresence();
   }
 
   async onPricesUpdated() {
