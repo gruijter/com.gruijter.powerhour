@@ -42,11 +42,7 @@ const deviceSpecifics = {
     last_month: 'meter_kwh_last_month',
     this_year: 'meter_kwh_this_year',
     last_year: 'meter_kwh_last_year',
-    // meter_power_hidden.grid is a hidden (uiComponent: null) capability - internal accounting
-    // anchor for the base class's meter tracking (last-known-value sanity checks, kWh delta
-    // math), not user-facing. Same established pattern the battery/evCharger drivers already
-    // use for their own primary cumulative meter (see lib/genericDeviceDrivers/generic_bat_
-    // device.js's use of the bare 'meter_power_hidden' capability).
+    // Hidden internal meter for the base class's accounting, as in the battery/evCharger drivers.
     meter_source: 'meter_power_hidden.grid',
     measure_source: 'measure_watt_grid',
     minMaxPrefix: 'measure_watt',
@@ -55,7 +51,7 @@ const deviceSpecifics = {
 
 class GridDevice extends GenericDevice {
   async onInit() {
-    this.startupTime = Date.now(); // stamp startup so boot-time entries can be excluded from guard
+    this.startupTime = Date.now();
     this.ds = deviceSpecifics;
     this.flows = new GridFlows(this);
 
@@ -75,61 +71,36 @@ class GridDevice extends GenericDevice {
       .filter((e) => e.power >= 0 && e.power <= ceilingW);
     this.powerHistory = mergeStoredHistory(storedHistory, this.powerHistory, 2880);
 
-    // Grid forecast per 15-min slot as it was when the slot started: battery/EV plans are not
-    // kept, so this is the only way to show a past slot's forecast incl. those plans.
+    // Grid forecast per slot as it was when the slot started (battery/EV plans are not kept).
     const netForecastHistory = await this.getStoreValue('netForecastHistory');
     this.netForecastHistory = mergeStoredHistory(netForecastHistory, this.netForecastHistory, 200);
 
-    // Register chart images in canonical order before any periodic update can render into them.
-    // Deliberately before super.onInit(): the base class (generic_sum_device.js) sets
-    // initReady = true partway through its own onInit, and this driver has no guarantee that
-    // nothing gated on initReady could reach a chart-update path before this line otherwise.
-    // Only needs device.homey/device.driver, both set by the platform before any onInit runs, so
-    // this has no dependency on super.onInit().
+    // Before super.onInit(): it sets initReady partway, after which chart updates may run.
     await ChartImages.registerChartImages(this, this.driver.ds.chartImages);
 
-    // Restore this driver's own per-reading state BEFORE super.onInit(): that starts the source
-    // listeners and an immediate pollMeter(), so the first reading reaches handleUpdateMeter()
-    // before anything after super.onInit() runs. Restored later, the first tick found no
-    // baselines, re-bootstrapped them at the current registers (zeroing this_* imported/exported
-    // and splitMoney) and flushed that over the stored state on every app/device restart.
-    //
-    // Restore per-direction (import/export) register state - used by the 'perDirection' and
-    // 'fixedBlock' schemes to split the net meter reading into import/export deltas before
-    // pricing (see getMoneyDeltaOverride() below). Harmless bookkeeping when the scheme is
-    // 'continuousNet' - see zzz_export_import_netting_research_and_plan.md.
+    // Restored before super.onInit(): its first poll already reaches handleUpdateMeter(); without
+    // the anchors it would re-bootstrap and zero this_* imported/exported and splitMoney.
+    // Per-direction register state for the 'perDirection'/'fixedBlock' schemes.
     this.directionalMeter = (await this.getStoreValue('directionalMeter')) || { importValue: null, exportValue: null };
     this.lastDirectionalSnapshot = await this.getStoreValue('lastDirectionalSnapshot');
     this.directionalPseudoState = await this.getStoreValue('directionalPseudoState');
     this.directionalBlockState = await this.getStoreValue('directionalBlockState');
 
-    // Split imported/exported day/month/year accumulator state - see updateSplitMeters()/
-    // updateSplitMoney() below. Left undefined until lazily bootstrapped on first tick,
-    // same style as lastDirectionalSnapshot above.
+    // Lazily bootstrapped on the first tick (updateSplitMeters()/updateSplitMoney()).
     this.lastDirectionalReadingDay = await this.getStoreValue('lastDirectionalReadingDay');
     this.lastDirectionalReadingMonth = await this.getStoreValue('lastDirectionalReadingMonth');
     this.lastDirectionalReadingYear = await this.getStoreValue('lastDirectionalReadingYear');
     this.splitMoney = await this.getStoreValue('splitMoney');
 
-    // Peak average load (capacity-tariff style) accumulator state - see updatePeakLoad() below.
-    // Left undefined until lazily bootstrapped on first tick, same style as the split state above.
+    // Capacity-tariff peak state (updatePeakLoad()), lazily bootstrapped.
     this.peakLoad = await this.getStoreValue('peakLoad');
     this.lastPeakLoadReading = await this.getStoreValue('lastPeakLoadReading');
-    // Slot peak_projected_exceeded last fired for: stored, so a restart mid-slot does not fire it again.
+    // Stored, so a restart mid-slot does not fire peak_projected_exceeded again.
     this.peakExceededSlot = await this.getStoreValue('peakExceededSlot');
 
-    // The repair flow (generic_sum_driver.js#onRepair()) can re-point this device at a
-    // DIFFERENT physical meter: it rewrites homey_device_id and restarts the device. The base
-    // class then re-anchors its own net baselines on the first reading that trips
-    // checkMeterJump(), but the anchors restored just above are invisible to it - they diff
-    // the SOURCE device's raw import/export registers, which the base never sees. Left stale,
-    // the first tick prices the new meter's registers against the old meter's: one enormous
-    // bogus import/export delta into meter_money_*, and - because a peak is a max and is never
-    // revised back down - a bogus measure_watt_peak.* that then sticks for the rest of the year.
-    // Detected here against a stored copy of the bound id rather than in onSettings(), because
-    // setSettings() explicitly does NOT invoke onSettings() (Homey SDK: "the Device#onSettings
-    // method will not be called when the settings are changed programmatically"), so the repair
-    // path would never reach it. onInit() runs on every way the binding can change.
+    // A repair can re-point this device at another meter (new homey_device_id). The anchors above
+    // diff the old meter's registers: drop them, or the first tick books one huge bogus delta (and
+    // a peak that sticks all year). Checked here, as setSettings() does not call onSettings() (SDK).
     const boundSourceId = await this.getStoreValue('directionalSourceId');
     const sourceId = this.getSettings().homey_device_id;
     if (boundSourceId && boundSourceId !== sourceId) {
@@ -140,23 +111,11 @@ class GridDevice extends GenericDevice {
 
     await super.onInit().catch(this.error);
 
-    // A newer onInit() (via restartDevice(), e.g. on a detected currency mismatch) can start
-    // while the super.onInit() call above is still awaiting network/timer calls - the base
-    // class handles that internally via its own this.sessionId staleness guard, but that
-    // guard only protects the base's own state. Capture the winning session here too, so the
-    // loop-starting section below can bail out rather than layer a duplicate forecast/
-    // learning loop on top of the one the newer call already started.
+    // A newer onInit() may have started meanwhile: the loops below must not be started twice.
     const sessionIdAfterSuper = this.sessionId;
 
-    // One-time migration from the old 'enableDirectionalNetting' boolean to the new
-    // 'directionalNettingScheme' dropdown. Gated by a store flag rather than checking
-    // whether directionalNettingScheme is undefined, because Homey backfills the
-    // compose-defined default onto already-paired devices before onInit() runs - by the
-    // time this code executes, the field may already read its new default ('perDirection'),
-    // not undefined, which would make an undefined-check silently discard the user's prior
-    // boolean choice instead of migrating it. 'false' now maps to 'continuousNet' (the
-    // original single-total behavior), not 'off' - see the note below on why 'off' no
-    // longer exists as a scheme value.
+    // Migrate the old 'enableDirectionalNetting' boolean once. A store flag, not an undefined
+    // check: Homey fills in the new setting's default before onInit().
     if (!(await this.getStoreValue('directionalSchemeMigrated'))) {
       const s = this.getSettings();
       if (typeof s.enableDirectionalNetting === 'boolean') {
@@ -167,31 +126,23 @@ class GridDevice extends GenericDevice {
       }
       await this.setStoreValue('directionalSchemeMigrated', true).catch(this.error);
     }
-    // 'off' was removed as a scheme value once the setting became the sole driver of
-    // meter_money_this_* (previously it just disabled a side comparison, so 'off' made
-    // sense as a fourth state; now the setting always drives the single total, and
-    // 'continuousNet' is the equivalent no-directional-netting choice). Normalize any
-    // device still holding the old value - idempotent, safe to run every onInit().
+    // 'off' is no longer a scheme value.
     if (this.getSettings().directionalNettingScheme === 'off') {
       await this.setSettings({ directionalNettingScheme: 'continuousNet' }).catch(this.error);
     }
 
-    // The 4 '..._directional' capabilities (a parallel, comparison-only set of totals from
-    // an earlier iteration of this feature) are gone - the scheme setting now drives
-    // meter_money_this_* directly, so there's a single set of totals, not two. Clean up any
-    // already-paired device that still has them.
+    // Legacy comparison capabilities.
     for (const cap of ['meter_money_this_hour_directional', 'meter_money_this_day_directional',
       'meter_money_this_month_directional', 'meter_money_this_year_directional']) {
       if (this.hasCapability(cap)) {
         this.log(`Removing obsolete capability ${cap} from device ${this.getName()}`);
         await this.removeCapability(cap).catch(this.error);
-        await setTimeoutPromise(2 * 1000, this); // wait a bit for Homey to settle
+        await setTimeoutPromise(2 * 1000, this);
       }
     }
 
     await this.updatePeakLoadCapabilityTitles().catch(this.error);
 
-    // Load forecast settings and profiles
     this.timeZone = this.homey.clock.getTimezone();
     const storedProfile = await this.getStoreValue('weeklyProfile');
     this.weeklyProfile = storedProfile || LoadForecastStrategy.initializeProfile();
@@ -202,11 +153,11 @@ class GridDevice extends GenericDevice {
     await this.updateForecastAccuracyStatus().catch(this.error);
 
     this.retrainLoadListener = this.registerCapabilityListener('button.retrain_load', async () => {
-      await this.retrainLoadModel(true); // From scratch
+      await this.retrainLoadModel(true);
       return true;
     });
 
-    if (this.sessionId !== sessionIdAfterSuper) return; // superseded by a newer onInit() meanwhile
+    if (this.sessionId !== sessionIdAfterSuper) return; // superseded by a newer onInit()
     this.startForecastLoop().catch(this.error);
     if (this.initLearningTimeout) this.homey.clearTimeout(this.initLearningTimeout);
     const finishInit = async () => {
@@ -223,15 +174,8 @@ class GridDevice extends GenericDevice {
     }, 15000);
   }
 
-  // The one-shot post-pairing backfill (retrainLoadModel(true), which reconstructs the full
-  // week from Insights) needs this.homey.app.api to be connected - but app.js can still be
-  // mid-connect (up to a 10s timeout, then only a 60s-later retry) when this fires 15s after
-  // pairing. retrainLoadModel() itself catches "API not ready" as a logged no-op rather than
-  // rethrowing, so retry here by re-checking API readiness directly instead of catching an
-  // error. Without this, a device paired while the API wasn't ready yet gets NO automatic
-  // backfill ever again (the !storedProfile gate is one-time-ever) and its weekly baseline
-  // chart only fills in via live incremental learning - i.e. only from the moment of pairing
-  // onward, leaving prior days of the week empty until a full week has elapsed.
+  // The app API may still be connecting after pairing, and retrainLoadModel() swallows "API not
+  // ready": retry, or a device paired then never gets its one-time Insights backfill.
   async attemptInitialBackfill(attempt = 1) {
     const maxAttempts = 5;
     const retryDelayMs = 30000;
@@ -255,7 +199,7 @@ class GridDevice extends GenericDevice {
       return;
     }
     this.log('First initialization: Auto-starting load model retraining...');
-    await this.retrainLoadModel(true); // First run: Start fresh
+    await this.retrainLoadModel(true);
   }
 
   async initDeviceValues() {
@@ -266,17 +210,8 @@ class GridDevice extends GenericDevice {
     await super.initDeviceValues();
   }
 
-  // Switching 'directionalNettingScheme' changes which methodology produces meter_money_this_*
-  // going forward - carrying old numbers across a switch would silently blend figures computed
-  // by two different rules into one running total. Only the currently-accumulating "this_*"
-  // buckets are reset; "last_*" (the already-closed previous period) is a frozen historical
-  // snapshot computed entirely under the old scheme and receives no further deltas, so there's
-  // no blending risk there - resetting it would just destroy real history for no reason.
-  // meterMoney.meterValue (the running cumulative kWh reading) is deliberately preserved - it's
-  // not a money bucket, and zeroing it would make the next tick compute a bogus giant delta.
-  // The raw register/integrator state (directionalMeter, directionalPseudoState) is
-  // scheme-agnostic and is intentionally left alone. super.onSettings() still runs afterwards,
-  // which is what triggers the existing unconditional restartDevice(5000).
+  // A scheme switch resets the running this_* money buckets so two methods are not blended;
+  // last_* and the raw register state are kept. super.onSettings() restarts the device.
   async onSettings({ newSettings, changedKeys }) {
     if (changedKeys.includes('directionalNettingScheme')) {
       this.meterMoney = {
@@ -290,8 +225,7 @@ class GridDevice extends GenericDevice {
       await this.setStoreValue('fixedMoney', this.fixedMoney).catch((err) => this.error(err));
       this.directionalBlockState = null;
       this.lastDirectionalSnapshot = null;
-      // Same reasoning as reanchorExtraBaselines(): one ordered path, forced, so no dirty mark
-      // from the last tick can write the pre-switch state back afterwards.
+      // Forced flush, so a dirty mark from the last tick cannot write the old state back.
       this.markStoreDirty('directionalBlockState');
       this.markStoreDirty('lastDirectionalSnapshot');
       await this.flushDirtyStore({ force: true });
@@ -309,7 +243,6 @@ class GridDevice extends GenericDevice {
 
   async setCapability(capability, value) {
     await super.setCapability(capability, value);
-    // Calculate home power real-time in sync with the grid power updates
     if (capability === 'measure_watt_grid') {
       this.calculateHomePower().catch(this.error);
     }
@@ -332,7 +265,7 @@ class GridDevice extends GenericDevice {
         }
       }
 
-      // Fallback to central Homey Energy report if no PbtH solar devices are found
+      // Fallback to Homey Energy when there are no PbtH solar devices
       if (!hasPbthSolar) {
         const report = this.driver.lastEnergyReport;
         if (report && report.totalGenerated && typeof report.totalGenerated.W === 'number') {
@@ -360,30 +293,15 @@ class GridDevice extends GenericDevice {
       await this.setCapability('measure_watt_battery', Math.round(batteryPower)).catch(this.error);
       await this.setCapability('measure_watt_evcharger', Math.round(evPower)).catch(this.error);
 
-      // Self-consumption formula: Grid (import = +) + Solar (production = +) - Battery (charging = +) - EV (charging = +)
+      // Home = grid (+ import) + solar - battery (+ charging) - EV
       const homePower = Math.round(gridPower + solarPower - batteryPower - evPower);
 
-      // Apply a 2-minute rolling average to eliminate ghost spikes caused by timing mismatches.
-      // Grid (P1), battery and solar meters all report at different cadences. When the battery
-      // switches charge/discharge state, the grid and battery measures can be out of sync by
-      // 10–30 s, causing the formula to temporarily double-count the battery contribution.
+      // 2-minute rolling average: grid, battery and solar report at different moments, which
+      // gives spikes when the battery switches direction.
       const now = Date.now();
       if (!Array.isArray(this.homePowerBuffer)) this.homePowerBuffer = [];
-      // Clamp a negative homePower into the buffer rather than skipping it. The residual house
-      // load can't physically be negative, but the COMPUTED value goes negative whenever the
-      // grid sample has moved and a battery/solar/EV sample hasn't yet (this method only re-runs
-      // on measure_watt_grid updates, reading whatever the other three last published) - which
-      // is the very skew this rolling average exists to absorb. Skipping such a sample left the
-      // 2-minute window averaging only the surviving POSITIVE samples, a systematic upward bias
-      // during exactly the high-solar hours that produce the skew, and it fed straight into
-      // updateLearning() -> the weekly profile. Worse, when every sample in the window was
-      // negative the buffer emptied entirely and smoothedHomePower fell back to 0, so
-      // measure_watt_home swung between inflated and zero instead of settling near the truth.
-      // 0 is the physically correct value for such a sample, and keeping it in the buffer lets
-      // it pull the average down the way it should. NaN fails the ceiling test, so it is still
-      // excluded; the upper bound deliberately still SKIPS rather than clamps - a result past
-      // the ceiling is an implausible reading, not a sign artifact, and clamping it would pin
-      // the average high instead of ignoring a bad sample.
+      // A negative result is a timing skew, not a reading: count it as 0 (skipping it biases the
+      // average upward). Above the ceiling a sample is implausible and skipped.
       const ceilingW = this.getHomePowerCeilingW();
       if (homePower <= ceilingW) {
         this.homePowerBuffer.push({ time: now, value: Math.max(0, homePower), grid: gridPower });
@@ -393,7 +311,6 @@ class GridDevice extends GenericDevice {
         ? Math.round(this.homePowerBuffer.reduce((sum, e) => sum + e.value, 0) / this.homePowerBuffer.length)
         : Math.max(0, homePower);
       const safeHomePower = Math.max(0, Math.min(ceilingW, smoothedHomePower));
-      // Grid exchange for the Grid charts, averaged over the same window as home power.
       const smoothedGridPower = this.homePowerBuffer.length > 0
         ? Math.round(this.homePowerBuffer.reduce((sum, e) => sum + e.grid, 0) / this.homePowerBuffer.length)
         : Math.round(gridPower);
@@ -402,10 +319,7 @@ class GridDevice extends GenericDevice {
       if (!Array.isArray(this.powerHistory)) this.powerHistory = [];
       if (typeof safeHomePower === 'number' && safeHomePower >= 0 && safeHomePower <= ceilingW) {
         const lastEntry = this.powerHistory[this.powerHistory.length - 1];
-        // The 576-entry cap is sized for 48h of 5-minute-spaced samples (576 * 5min = 48h), matching
-        // the Insights-merge granularity in populatePowerHistory/retrainLoadModel. A push interval
-        // shorter than 5 minutes fills the array much faster than that, evicting the merged multi-day
-        // history within a few hours of any restart/retrain instead of the intended 48h.
+        // One entry per 5 minutes: the 576-entry cap is 48 h at that spacing.
         if (!lastEntry || (now - lastEntry.time) > 5 * 60 * 1000) {
           this.powerHistory.push({ time: now, power: safeHomePower, grid: smoothedGridPower });
           if (this.powerHistory.length > 576) this.powerHistory.shift();
@@ -416,7 +330,7 @@ class GridDevice extends GenericDevice {
         }
       }
       if (this.lastHomePowerCalcTm) {
-        const dt = now - this.lastHomePowerCalcTm; // ms
+        const dt = now - this.lastHomePowerCalcTm;
         if (dt > 0 && dt < 300000) {
           const safePower = Math.max(0, this.lastHomePower || 0);
           const deltaKwh = (safePower * dt) / 3600000000;
@@ -436,12 +350,8 @@ class GridDevice extends GenericDevice {
     }
   }
 
-  // super.getActiveTariff() resolves its 'dynamic' fallback via this.currentGridPower, which
-  // no driver (this one included) ever populates - so that fallback is always dead and it
-  // always ends up returning `tariff` (plain import) whenever deltaMeter is 0 or unusable.
-  // For a fixed tariff_type, or a nonzero deltaMeter, super's result already matches what we'd
-  // compute ourselves, so just delegate. Only the dead-fallback case needs a local override,
-  // using this driver's own live measure_source capability instead of the unpopulated field.
+  // super's 'dynamic' fallback reads this.currentGridPower, which is never set; use the live
+  // measure_source instead when it would be reached.
   getActiveTariff(reading, tariff, exportTariff) {
     const tariffType = this.getSettings()?.tariff_type || 'dynamic';
     if (tariffType !== 'dynamic') return super.getActiveTariff(reading, tariff, exportTariff);
@@ -460,20 +370,15 @@ class GridDevice extends GenericDevice {
   }
 
   async addSourceCapGroup() {
-    // Diagnostic (forum #4048, HomeWizard P1): verify which energy field holds the
-    // cumulativeImported/ExportedCapability keys.
+    // Diagnostic (forum #4048, HomeWizard P1): which energy field holds the imported/exported keys.
     this.log(`${this.sourceDevice.name} energy data:`, JSON.stringify({
       energyObj: this.sourceDevice.energyObj, energy: this.sourceDevice.energy,
     }));
     await super.addSourceCapGroup();
 
-    // The setup view at repair can re-map the meter capabilities of the SAME source device
-    // (e.g. HomeWizard P1: net meter_power -> meter_power.consumed/returned). The id check in
-    // onInit() does not see that, but the stored import/export anchors then diff a different
-    // register: one bogus import delta that sticks in measure_watt_peak.* for the rest of the
-    // year. Checked here because the group is only resolved now, before the first reading.
-    // Devices from before the setup view have no stored group: they were bound to the
-    // auto-detected group, which autoSourceCapGroup() still reproduces.
+    // A repair can re-map the meter capabilities of the same source device (e.g. P1 net ->
+    // consumed/returned): the stored anchors then diff another register. Devices from before the
+    // setup view have no stored group; autoSourceCapGroup() reproduces theirs.
     const capKey = (group) => ['p1', 'p2', 'n1', 'n2'].map((k) => (group && group[k]) || '').join('|');
     const groupKey = capKey(this.sourceCapGroup);
     let boundKey = await this.getStoreValue('directionalSourceCaps');
@@ -487,60 +392,37 @@ class GridDevice extends GenericDevice {
     }
   }
 
-  // --- Selectable settlement scheme (import/export price netting) -------------------
-  // Controlled by the 'directionalNettingScheme' setting ('continuousNet' / 'perDirection' /
-  // 'fixedBlock' - default 'perDirection'). This is the single source of truth for
-  // meter_money_this_hour/day/month/year - there is no separate comparison total. Registers
-  // are updated BEFORE calling super.handleUpdateMeter() so that getMoneyDeltaOverride()
-  // below (invoked from deep inside super's updateMoney()) sees this tick's fresh
-  // this.directionalMeter values. See zzz_export_import_netting_research_and_plan.md.
+  // --- Settlement scheme ('directionalNettingScheme': continuousNet / perDirection / fixedBlock)
+  // It drives meter_money_this_*. Registers are updated before super.handleUpdateMeter(), so
+  // getMoneyDeltaOverride() sees this tick's values. Background: zzz_export_import_netting_research_and_plan.md.
 
-  // Hooking in at handleUpdateMeter() (rather than updateGroupMeter()/updateMeterFromMeasure(),
-  // where an earlier version of this lived, matching battery/evCharger's established
-  // convention for this kind of per-reading extension) matters for correctness:
-  // handleUpdateMeter() only ever runs from inside generic_sum_device.js's single serialized
-  // reading-queue drain loop (updateMeter() -> handleUpdateMeter()), one reading at a time -
-  // unlike updateGroupMeter()/updateMeterFromMeasure(), it can never itself be re-entered
-  // concurrently. A P1 smart meter's import (p1) and export (n1) capabilities typically
-  // update within milliseconds of each other, each independently calling updateGroupMeter() -
-  // THAT is the layer where a second concurrent call can be silently absorbed into the first
-  // call's drain loop (see updateMeter()'s this.processingReadings guard) and return before
-  // its own reading is actually processed, which is what made state captured around
-  // updateGroupMeter() itself stale/wrong in an earlier version of this code.
+  // Here and not in updateGroupMeter(): handleUpdateMeter() runs serialized, one reading at a
+  // time, while p1/n1 updates can reach updateGroupMeter() concurrently.
   async handleUpdateMeter(reading) {
     if (typeof this.directionalLastWatt === 'number') {
-      // case 3: pseudo registers, reconstructed from the most recently observed signed
-      // measure_power/Homey Energy watt value (cached in updateMeterFromMeasure() below).
+      // case 3: pseudo registers from the last signed watt value
       await this.integrateDirectionalFromSignedPower(this.directionalLastWatt).catch((err) => this.error(err));
     } else {
-      // case 1: real p1/n1 cumulative registers
+      // case 1: real p1/n1 registers
       await this.updateDirectionalRegisters(this.lastGroupMeter.p1, this.lastGroupMeter.n1).catch((err) => this.error(err));
     }
 
-    // Resolve this tick's shared import/export delta ONCE (bootstraps/advances
-    // this.lastDirectionalSnapshot). getMoneyDeltaOverride() below (invoked later, from
-    // deep inside super.handleUpdateMeter() -> updateMoney()) consumes this SAME cached
-    // result - resolveDirectionalDelta() must not run a second time this tick, or it would
-    // see an already-advanced snapshot and silently under-count.
+    // Resolved once per tick; getMoneyDeltaOverride() uses this cached result (a second call
+    // would see the advanced snapshot and under-count).
     this._directionalTickDelta = await this.resolveDirectionalDelta().catch((err) => {
       this.error(err);
       return null;
     });
 
-    // Peak average load (capacity-tariff style, see updatePeakLoad() below) - deliberately NOT
-    // gated by splitActive below: it only needs a numeric importValue, so it still works for
-    // case 2 (import-only, no export data) devices, which is exactly the common case for
-    // capacity-tariff billing (no solar/export, still billed on import peak).
+    // Needs import only, so it also works without export data (the common capacity-tariff case).
     if (typeof this.directionalMeter?.importValue === 'number') {
       await this.updatePeakLoad(reading).catch((err) => this.error(err));
       await this.updatePeakProjection(reading).catch((err) => this.error(err));
     }
 
-    // Split imported/exported month/year capabilities - independent of directionalNettingScheme
-    // (see updateSplitMeters()/updateSplitMoney() below). Only meaningful when this device
-    // actually has export data (case 2 - import-only - permanently has no exportValue).
+    // Only with export data (not case 2).
     const splitActive = typeof this.directionalMeter?.exportValue === 'number';
-    const periods = this.getPeriods(reading); // pure read, safe before super - see updateSplitMeters()
+    const periods = this.getPeriods(reading);
     if (splitActive) {
       await this.updateSplitMeters(periods).catch((err) => this.error(err));
       await this.updateSplitMoney(periods).catch((err) => this.error(err));
@@ -549,31 +431,19 @@ class GridDevice extends GenericDevice {
     await super.handleUpdateMeter(reading);
     this._directionalTickDelta = null;
 
-    // Persist this tick's bookkeeping - throttled to one batched flush per STORE_FLUSH_MS, except
-    // on a period boundary, where the just-closed period's totals shouldn't be left at risk in
-    // memory. Deliberately AFTER super, so the anchors written here are the ones matching the
-    // reading the base class has finished accounting for. See flushDirtyStore().
+    // Throttled store flush (see flushDirtyStore()), forced on a period boundary.
     const boundary = periods.newHour || periods.newDay || periods.newMonth || periods.newYear;
     await this.flushDirtyStore({ force: boundary }).catch((err) => this.error(err));
   }
 
-  // Case 1 vs case 3 is mutually exclusive per device for its whole lifetime (generic_sum_
-  // device.js only ever wires up either the group-capability listeners or the measure_power/
-  // Homey-Energy path for a given source_device_type/use_measure_source combination, never
-  // both), so caching the latest watt value unconditionally here is safe: a case-1 device
-  // simply never calls this method, so this.directionalLastWatt stays undefined and
-  // handleUpdateMeter() above always takes the case-1 branch.
+  // Case 1 and case 3 never both apply to one device, so caching the watt value is safe.
   async updateMeterFromMeasure(val) {
     if (typeof val === 'number') this.directionalLastWatt = val;
     return super.updateMeterFromMeasure(val);
   }
 
-  // Case 3 (clamp/CT meter via 'use_measure_source', or a Homey Energy source): measure_power
-  // has no cumulative register at all, but its sign (Homey standard: + import, - export) lets
-  // us reconstruct pseudo import/export registers by integrating each direction separately -
-  // the same integration math the base class already uses for its single net total. This
-  // keeps its own independent Date.now()-based clock, decoupled from reading identity, so it
-  // doesn't need a precise 1:1 pairing with the reading that triggered handleUpdateMeter().
+  // Case 3 (no cumulative register): pseudo import/export registers integrated from the sign of
+  // measure_power (+ import, - export).
   async integrateDirectionalFromSignedPower(value) {
     const nowTm = Date.now();
     if (!this.directionalPseudoState) {
@@ -591,42 +461,22 @@ class GridDevice extends GenericDevice {
     await this.updateDirectionalRegisters(this.directionalPseudoState.importTotal, this.directionalPseudoState.exportTotal);
   }
 
-  // --- Throttled persistence of the per-reading bookkeeping ------------------------------
-  // Every key below used to be written to the device store on EVERY meter reading. On a
-  // listener-driven meter that is several ticks a minute (one per Wh of register movement), and
-  // each write is an awaited IPC round-trip inside the serialized reading-queue drain loop - so
-  // this driver alone accounted for four of the app's five per-tick store writes. They are now
-  // marked dirty in memory and flushed together at most once per STORE_FLUSH_MS, matching what
-  // battery/evCharger/solar already do for their own per-reading state, and what this driver
-  // already did for powerHistory and meterPowerHome.
-  //
-  // ORDER MATTERS, which is why this is an explicit list and not a Set iteration. The
-  // accumulators must reach the store before the anchors they are advanced from:
-  //  - splitMoney accumulates the delta that lastDirectionalSnapshot anchors;
-  //  - peakLoad.importKwhInSlot accumulates the delta that lastPeakLoadReading anchors;
-  //  - directionalBlockState accumulates the same delta as splitMoney;
-  //  - directionalPseudoState (case 3) IS the register the anchors are measured against.
-  // Persist an anchor while its accumulator is still stale and a crash in between silently drops
-  // that energy - the anchor says "already counted", the accumulator never counted it. The
-  // reverse order is harmless: a stale anchor just makes the next delta larger, and the registers
-  // are cumulative, so nothing is lost.
+  // --- Throttled persistence of the per-reading bookkeeping (at most once per STORE_FLUSH_MS).
+  // Order matters: accumulators before the anchors they advance from. An anchor stored before its
+  // accumulator loses energy on a crash in between; the reverse only makes the next delta larger.
   static STORE_FLUSH_ORDER = [
-    // accumulators first
     'directionalPseudoState', 'peakLoad', 'splitMoney', 'directionalBlockState',
-    // then the anchors that point into them
     'directionalMeter', 'lastDirectionalSnapshot', 'lastPeakLoadReading',
     'lastDirectionalReadingDay', 'lastDirectionalReadingMonth', 'lastDirectionalReadingYear',
   ];
 
-  // Every store key handled here is held on an instance property of the same name, so the flush
-  // can read the value back off `this` without the caller passing it in.
+  // Each key is held on an instance property of the same name.
   markStoreDirty(key) {
     if (!this.dirtyStore) this.dirtyStore = new Set();
     this.dirtyStore.add(key);
   }
 
-  // `force` skips the time check - used on a period boundary (where the just-closed period's
-  // totals should not be at risk) and on shutdown via flushStore().
+  // force: skip the throttle (period boundary, shutdown).
   async flushDirtyStore({ force = false } = {}) {
     if (!this.dirtyStore || this.dirtyStore.size === 0) return;
     const nowTm = Date.now();
@@ -634,8 +484,7 @@ class GridDevice extends GenericDevice {
     this.lastStoreFlushTm = nowTm;
     const keys = GridDevice.STORE_FLUSH_ORDER.filter((key) => this.dirtyStore.has(key));
     this.dirtyStore.clear();
-    // Sequential on purpose - see STORE_FLUSH_ORDER above. Promise.all() would let an anchor land
-    // before its accumulator.
+    // Sequential on purpose: see STORE_FLUSH_ORDER.
     for (const key of keys) {
       await this.setStoreValue(key, this[key]).catch((err) => this.error(err));
     }
@@ -646,30 +495,10 @@ class GridDevice extends GenericDevice {
     return super.flushStore();
   }
 
-  // See generic_sum_device.js#reanchorExtraBaselines() for the contract. Drops every anchor
-  // this driver diffs the source meter's raw import/export registers against, so each one
-  // re-bootstraps from the NEW registers on the next tick through its own already-existing
-  // lazy-bootstrap branch (resolveDirectionalDelta(), updateSplitMeters(), updatePeakLoad())
-  // instead of measuring new registers against old ones. The one-tick gap that costs is
-  // exactly what those bootstrap branches were written for.
-  //
-  // directionalMeter itself is cleared too, not just the anchors: after a repair onto a
-  // DIFFERENT source device, the old meter's exportValue would otherwise stay latched
-  // forever, keeping splitActive true (and the export split frozen at a dead value) even when
-  // the new device is case 2 - import-only, no export register at all. handleUpdateMeter()
-  // refills it from this.lastGroupMeter on the next tick, and only for the directions the new
-  // device actually reports.
-  //
-  // Deliberately NOT cleared:
-  // - directionalPseudoState: case 3's self-integrated pseudo registers. A running integral
-  //   whose absolute value never matters, only its deltas - and every consumer of those
-  //   deltas is re-anchored right here. Clearing it would also throw away the virtual meter's
-  //   continuity for no gain, which is not what the base class does to meter_source either.
-  // - splitMoney, and peakLoad's day/month/year maxima: period TOTALS and historical facts,
-  //   not anchors. The base class doesn't reset meterMoney.day/month/year on a re-anchor
-  //   either - a re-anchor fixes the measuring stick, it doesn't erase what was measured.
-  // - peakLoad's in-flight slot accumulator: a partially-filled slot closes with a LOW
-  //   average, and a low average can never corrupt a max.
+  // See generic_sum_device.js#reanchorExtraBaselines(). Drops every anchor on the source's raw
+  // import/export registers so each re-bootstraps on the next tick. directionalMeter is cleared
+  // too, or an old exportValue keeps splitActive on for an import-only new meter.
+  // Kept: directionalPseudoState (only its deltas matter), period totals and peaks.
   async reanchorExtraBaselines() {
     this.directionalMeter = { importValue: null, exportValue: null };
     this.lastDirectionalSnapshot = null;
@@ -678,22 +507,15 @@ class GridDevice extends GenericDevice {
     this.lastDirectionalReadingYear = null;
     this.lastPeakLoadReading = null;
     this._directionalTickDelta = null;
-    // Routed through the same ordered flush rather than writing here: the cleared values are on
-    // `this` already, and going through one path means a dirty mark left over from the last tick
-    // can never resurrect a pre-reanchor value afterwards. force, because a re-anchor is a
-    // correctness reset - it must not wait out the throttle window.
+    // Through the ordered flush, forced, so no earlier dirty mark can restore a pre-reanchor value.
     ['directionalMeter', 'lastDirectionalSnapshot', 'lastPeakLoadReading',
       'lastDirectionalReadingDay', 'lastDirectionalReadingMonth', 'lastDirectionalReadingYear',
     ].forEach((key) => this.markStoreDirty(key));
     await this.flushDirtyStore({ force: true });
   }
 
-  // Records the latest known cumulative import/export values (case 1: real registers,
-  // case 3: pseudo registers from integrateDirectionalFromSignedPower). Case 2 (import-only,
-  // no export data at all) simply never receives a numeric exportValue here, so
-  // getMoneyDeltaOverride() below permanently falls back to the base class's default
-  // sign-based calc for that device, regardless of the chosen scheme - by design, not a bug
-  // (there's nothing for 'perDirection'/'fixedBlock' to do differently without export data).
+  // Case 1: real registers, case 3: pseudo registers. Case 2 (import only) never gets an
+  // exportValue, so getMoneyDeltaOverride() keeps the base calculation.
   async updateDirectionalRegisters(importValue, exportValue) {
     if (!this.directionalMeter) this.directionalMeter = { importValue: null, exportValue: null };
     if (typeof importValue === 'number') this.directionalMeter.importValue = importValue;
@@ -701,8 +523,7 @@ class GridDevice extends GenericDevice {
     this.markStoreDirty('directionalMeter');
   }
 
-  // Only meaningful under the 'fixedBlock' scheme. 'auto' (the setting's default) tracks
-  // this device's own live price-update interval; an explicit choice overrides it.
+  // 'fixedBlock' only. 'auto' follows this device's price interval.
   getDirectionalBlockMinutes() {
     const setting = this.getSettings().directionalBlockMinutes;
     if (!setting || setting === 'auto') return this.priceInterval || 60;
@@ -710,38 +531,25 @@ class GridDevice extends GenericDevice {
     return [15, 30, 45, 60].includes(n) ? n : (this.priceInterval || 60);
   }
 
-  // Averaging window for peak-load tracking (updatePeakLoad() below) - independent of
-  // directionalBlockMinutes above (different concern: capacity-tariff peak-load averaging vs
-  // money-netting block size). No 'auto' here - capacity tariffs are defined by the grid
-  // operator's own standard, not this device's price-update cadence.
+  // Capacity-tariff averaging window; independent of the block size above.
   getPeakLoadIntervalMinutes() {
     const setting = this.getSettings().peakLoadIntervalMinutes;
     const n = Number(setting);
     return [15, 30, 60].includes(n) ? n : 15;
   }
 
-  // This device's own configured connection rating in Watt. Deliberately reads its OWN settings
-  // through the shared helper rather than GridConnection.limitW(): that resolves across every
-  // paired grid device (and warns about duplicates), which is what OTHER drivers need since they
-  // have no such setting - but a grid device is always the authority on its own connection.
+  // Own setting, not GridConnection.limitW() (which resolves across all grid devices).
   getConnectionLimitW() {
     return GridConnection.limitFromSettings(this.getSettings());
   }
 
-  // Plausibility ceiling for the reconstructed home load - see GridConnection's
-  // PLAUSIBILITY_FACTOR for why this is a multiple of the connection rating and not the rating
-  // itself. Replaces a flat hardcoded 30000 W, which happened to be about right for the 3x25A
-  // default but silently discarded real samples on anything larger, and was far too permissive on
-  // a 1x35A connection (8050 W rating, so a 30 kW "house load" was accepted as plausible).
+  // Plausibility ceiling for the home load: see GridConnection's PLAUSIBILITY_FACTOR.
   getHomePowerCeilingW() {
     return this.getConnectionLimitW() * GridConnection.PLAUSIBILITY_FACTOR;
   }
 
-  // Bakes the currently configured averaging window into the peak-demand capability titles
-  // (e.g. "15 min Peak demand (import day)") so the interval is visible without opening device
-  // settings. Built from the manifest-declared title, not the device's current one, so repeated
-  // calls (onInit + every onSettings) never compound a "15 min" prefix; only a changed title is
-  // written (DeviceMigrator.syncCapabilityOptions).
+  // Puts the averaging window in the peak capability titles. Built from the manifest title, so
+  // repeated calls do not stack the prefix.
   async updatePeakLoadCapabilityTitles() {
     const intervalMinutes = this.getPeakLoadIntervalMinutes();
     const minUnit = { ru: 'мин', ar: 'د' };
@@ -761,17 +569,12 @@ class GridDevice extends GenericDevice {
     await DeviceMigrator.syncCapabilityOptions(this, wanted);
   }
 
-  // Resolves the raw import/export delta since the last processed tick, bootstrapping and
-  // advancing this.lastDirectionalSnapshot itself (called exactly once per tick, from
-  // handleUpdateMeter() above - getMoneyDeltaOverride() below and updateSplitMoney() both
-  // consume the cached result rather than calling this a second time, which would see an
-  // already-advanced snapshot and silently under-count). Returns null when there's nothing
-  // to report (prices not ready, first observation, a genuinely zero delta, or case 2 - no
-  // export data at all) - callers should just treat that as "nothing new this tick."
+  // Raw import/export delta since the last tick, advancing lastDirectionalSnapshot. Call once per
+  // tick only (see handleUpdateMeter()). null: nothing to report.
   async resolveDirectionalDelta() {
     const { importValue, exportValue } = this.directionalMeter || {};
-    if (typeof importValue !== 'number' || typeof exportValue !== 'number') return null; // case 2: no export data
-    if (!this.tariffHistory || typeof this.tariffHistory.current !== 'number') return null; // prices not ready yet
+    if (typeof importValue !== 'number' || typeof exportValue !== 'number') return null;
+    if (!this.tariffHistory || typeof this.tariffHistory.current !== 'number') return null;
 
     const now = new Date();
 
@@ -795,19 +598,15 @@ class GridDevice extends GenericDevice {
     };
   }
 
-  // The hook generic_sum_device.js#updateMoney() calls to compute this tick's deltaMoney -
-  // see the base class for the full contract. Returning null defers to the base's own
-  // sign-based net-then-price calc ('continuousNet'); a number here becomes the actual
-  // deltaMoney folded into meter_money_this_hour/day/month/year. Consumes the delta already
-  // resolved once this tick by handleUpdateMeter() - does not call resolveDirectionalDelta()
-  // itself (see that method's own comment for why).
+  // Hook for generic_sum_device.js#updateMoney(): null = base net calculation ('continuousNet'),
+  // a number = this tick's deltaMoney.
   async getMoneyDeltaOverride() {
     const scheme = this.getSettings().directionalNettingScheme || 'perDirection';
     if (scheme === 'continuousNet') return null;
-    if (typeof this.directionalMeter?.exportValue !== 'number') return null; // case 2: nothing these schemes can do differently
+    if (typeof this.directionalMeter?.exportValue !== 'number') return null;
 
     const resolved = this._directionalTickDelta;
-    if (!resolved) return 0; // tracking direction, but nothing new to price on this tick
+    if (!resolved) return 0;
     const {
       deltaImport, deltaExport, now, lastTm,
     } = resolved;
@@ -815,11 +614,7 @@ class GridDevice extends GenericDevice {
     if (scheme === 'fixedBlock') {
       return this.computeFixedBlockDeltaMoney(deltaImport, deltaExport, now);
     }
-    // 'perDirection' (Model B - never net, price each direction separately, continuously -
-    // confirmed dominant EU practice, see zzz_export_import_netting_research_and_plan.md §2b).
-    // Slot-boundary tariff selection mirrors updateMoney()'s own newPricePeriod logic (same
-    // MeterHelpers.getPeriodTariff() helper), just applied to two separate deltas instead of
-    // one netted delta.
+    // 'perDirection': price each direction separately, never net.
     const priceInterval = this.priceInterval || 60;
     const { tariff: effImportTariff, exportTariff: effExportTariff } = MeterHelpers.getPeriodTariff(
       this.tariffHistory,
@@ -832,14 +627,8 @@ class GridDevice extends GenericDevice {
     return (deltaImport * effImportTariff) - (deltaExport * effExportTariff);
   }
 
-  // Physical import/export kWh split for the current + previous day/month/year - independent of
-  // directionalNettingScheme (a physical fact, not a pricing choice). Uses the same
-  // anchor-snapshot-diff-and-reset technique generic_sum_device.js#updateMeters() uses for the
-  // net total: this.directionalMeter.importValue/exportValue are cumulative running totals
-  // (guaranteed fresh before this runs - see handleUpdateMeter() above), diffed against a
-  // stored per-period baseline, reset on the SAME periods.newMonth/newYear flags the base
-  // class's own net accumulators use, so split and net totals always cover an identical span.
-  // Only called when this.directionalMeter.exportValue is a number (never for case 2).
+  // Physical import/export kWh per day/month/year, independent of the scheme. Same anchor-diff
+  // method and period flags as the base net totals, so both cover the same span.
   async updateSplitMeters(periods) {
     const { importValue, exportValue } = this.directionalMeter;
 
@@ -901,16 +690,8 @@ class GridDevice extends GenericDevice {
     if (periods.newYear) this.lastDirectionalReadingYear = lastYear;
   }
 
-  // Split money for the current + previous day/month/year, always priced perDirection-style (each
-  // direction's delta x the tariff in effect over that delta's span) REGARDLESS of the chosen
-  // directionalNettingScheme - this answers "what would each direction cost individually",
-  // which is what a supplier's bill itemizes, not "what's the net total" (which is what the
-  // scheme setting controls for meter_money_this/last_month/year). Consequence: under
-  // 'perDirection' scheme, net ~= imported - exported exactly; under 'continuousNet'/
-  // 'fixedBlock' they won't reconcile - expected, those are alternate ways to compute one net
-  // total, not alternate ways to split a bill. Deliberately NOT reset by onSettings()'s
-  // scheme-change handler (unlike the net meterMoney.month/year) - this formula doesn't depend
-  // on that setting, so it should keep accumulating across a scheme switch, not reset.
+  // Split money, always priced per direction whatever the scheme, as a bill itemizes it. Only
+  // under 'perDirection' does net equal imported - exported. Not reset on a scheme switch.
   async updateSplitMoney(periods) {
     if (!this.splitMoney) {
       this.splitMoney = {
@@ -965,10 +746,7 @@ class GridDevice extends GenericDevice {
       money.year = { imported: 0, exported: 0 };
     }
 
-    // Fixed markups mirror generic_sum_device.js#updateMoney(): one combined amount from
-    // markup_hour/day/month added to EVERY tier (there is no markup_year setting), so the split
-    // totals stay reconcilable with the net meter_money_* meters. Attributed to the imported
-    // side only - a standing charge is a cost, not an export credit.
+    // Fixed markups as in generic_sum_device.js#updateMoney(), on the import side only.
     let markup = 0;
     if (periods.newHour) markup += (this.getSettings().markup_hour || 0);
     if (periods.newDay) markup += (this.getSettings().markup_day || 0);
@@ -995,22 +773,15 @@ class GridDevice extends GenericDevice {
     this.markStoreDirty('splitMoney');
   }
 
-  // Peak average load, capacity-tariff style (e.g. Belgian/Flemish "capaciteitstarief" via
-  // Fluvius: billed on the peak 15-minute AVERAGE import power within the month - a genuinely
-  // different metric from the day/month/year measure_watt_min/max capabilities, which track
-  // extremes of ~instantaneous readings, not the average over a fixed slot). Deliberately does
-  // NOT reuse this._directionalTickDelta/resolveDirectionalDelta() - those require both
-  // importValue AND exportValue to be numbers, which would silently disable this for case 2
-  // (import-only, no export at all) devices - exactly the common case for capacity-tariff
-  // billing (no solar, still billed on import peak). Keeps its own independent anchor instead,
-  // same pattern updateSplitMeters() already uses for the same reason.
+  // Capacity-tariff peak: the highest 15-minute AVERAGE import (e.g. Fluvius), not an
+  // instantaneous max. Own anchor, as it must work without export data.
   async updatePeakLoad(reading) {
     const { importValue, exportValue } = this.directionalMeter;
 
     if (!this.lastPeakLoadReading) {
       this.lastPeakLoadReading = { importValue, exportValue };
       this.markStoreDirty('lastPeakLoadReading');
-      return; // bootstrap - nothing to accumulate yet
+      return;
     }
 
     const deltaImportKwh = Math.max(0, importValue - this.lastPeakLoadReading.importValue);
@@ -1036,22 +807,13 @@ class GridDevice extends GenericDevice {
     const intervalMinutes = this.getPeakLoadIntervalMinutes();
     const slotStart = MeterHelpers.startOfBlock(reading.meterTm, intervalMinutes, this.timeZone);
     if (this.peakLoad.slotStart === null) {
-      this.peakLoad.slotStart = slotStart; // bootstrap - don't close a slot that never opened
+      this.peakLoad.slotStart = slotStart;
     } else if (slotStart !== this.peakLoad.slotStart) {
-      // the previous slot just closed - its average kW is the total kWh accumulated in that
-      // slot divided by the slot length in hours
       const slotHours = intervalMinutes / 60;
       const importAvgW = Math.round((this.peakLoad.importKwhInSlot / slotHours) * 1000);
       await this.checkPeakMax('measure_watt_peak', this.peakLoad.day, this.peakLoad.month, this.peakLoad.year, importAvgW, reading);
-      // Gated on whether this DEVICE has export data at all (case 1/3), not on whether this
-      // particular slot happened to see any. checkPeakMax() is where the day/month/year rollover
-      // reset lives, so skipping the call on a zero-export slot meant a device that stops
-      // exporting never reached the reset: through winter, or over the turn of the year before
-      // the first sunny slot, measure_watt_peak_export.* kept displaying the PREVIOUS period's
-      // peak. A closed slot with no export has an export peak of 0, and saying so is the honest
-      // answer - this now mirrors the import side above, which was always called unconditionally.
-      // Case 2 (import-only, no export register) still never gets here, so its export peaks stay
-      // untouched rather than being pinned at a meaningless 0.
+      // Called for every closed slot of a device with export data, even at 0 W: checkPeakMax() holds
+      // the period rollover. Case 2 never gets here.
       if (hasExport) {
         const exportAvgW = Math.round((this.peakLoad.exportKwhInSlot / slotHours) * 1000);
         await this.checkPeakMax(
@@ -1074,8 +836,7 @@ class GridDevice extends GenericDevice {
     this.markStoreDirty('peakLoad');
   }
 
-  // Month import peak so far, or null when none yet this month. peakLoad.month is only rolled over
-  // when a slot closes, so right after a month boundary it can still hold last month's peak.
+  // Month import peak so far, or null. Right after a month boundary it can still be last month's.
   getMonthPeakW(reading) {
     const month = this.peakLoad && this.peakLoad.month;
     if (!month || typeof month.max !== 'number') return null;
@@ -1083,8 +844,7 @@ class GridDevice extends GenericDevice {
     return month.max;
   }
 
-  // Peak the tariff will bill at least: the month peak so far, raised to the minimum billed peak
-  // setting (e.g. 2.5 kW in Flanders). null when neither applies.
+  // Month peak so far, raised to the minimum billed peak setting. null when neither applies.
   getBilledPeakW(reading) {
     const monthPeakW = this.getMonthPeakW(reading);
     const minimumW = Number(this.getSettings().peakMinimumW) || 0;
@@ -1092,12 +852,10 @@ class GridDevice extends GenericDevice {
     return Math.max(monthPeakW || 0, minimumW);
   }
 
-  // Live capacity-tariff projection for the running peak slot, assuming the current import power
-  // holds for the rest of the slot:
+  // Projection for the running peak slot, assuming the current import holds:
   //   projected = (energy so far + current import x remaining time) / slot length
-  //   headroom  = extra power that can still be added now for the rest of the slot without the
-  //               slot average exceeding the billed peak (null while there is none yet)
-  // Fires peak_projected_exceeded once per slot when the projection first goes over the billed peak.
+  //   headroom  = extra power possible now without the slot average exceeding the billed peak
+  // Fires peak_projected_exceeded once per slot.
   async updatePeakProjection(reading) {
     if (!this.peakLoad || this.peakLoad.slotStart === null) return;
     const slotMs = this.getPeakLoadIntervalMinutes() * 60 * 1000;
@@ -1110,14 +868,14 @@ class GridDevice extends GenericDevice {
     const monthPeakW = this.getBilledPeakW(reading);
     let headroomW = null;
     if (monthPeakW !== null) {
-      const remainingForHeadroomH = Math.max(remainingH, 1 / 60); // avoid blow-up in the last seconds
+      const remainingForHeadroomH = Math.max(remainingH, 1 / 60);
       headroomW = Math.round(((monthPeakW * slotH) - energyWh) / remainingForHeadroomH - importW);
     }
     const newSlot = !this.peakProjection || this.peakProjection.slotStart !== this.peakLoad.slotStart;
     this.peakProjection = {
       slotStart: this.peakLoad.slotStart, projectedW, monthPeakW, headroomW,
     };
-    // projectedW changes with every reading: at most one capability write per 10 s (fast P1 meters).
+    // At most one write per 10 s (fast P1 meters).
     if (newSlot || !this.peakProjectionWriteTm || Math.abs(nowMs - this.peakProjectionWriteTm) >= 10000) {
       this.peakProjectionWriteTm = nowMs;
       await this.setCapability('measure_watt_peak.projected', projectedW).catch(this.error);
@@ -1131,8 +889,8 @@ class GridDevice extends GenericDevice {
     }
   }
 
-  // Highest expected peak-slot average import from the net forecast (battery plan included),
-  // from the next peak slot to the end of tomorrow or of this month, whichever comes first.
+  // Highest expected peak-slot import from the net forecast, up to the end of tomorrow or of
+  // this month, whichever comes first.
   getExpectedPeak() {
     const slotMs = this.getPeakLoadIntervalMinutes() * 60 * 1000;
     const nowMs = Date.now();
@@ -1157,7 +915,6 @@ class GridDevice extends GenericDevice {
       : { expectedPeakW: null, expectedPeakTime: null };
   }
 
-  // Peak summary for the load_json flow tokens.
   getPeakForecast() {
     const p = this.peakProjection || {};
     const monthPeakW = p.monthPeakW !== undefined ? p.monthPeakW : this.getBilledPeakW();
@@ -1172,10 +929,7 @@ class GridDevice extends GenericDevice {
     };
   }
 
-  // Rolls over (clears) each period whose boundary was crossed, then updates the running max for
-  // a just-closed slot's average - self-contained calendar-field comparison, same pattern
-  // checkMinMax() (lib/genericDeviceDrivers/generic_sum_device.js) uses, but max-only and
-  // against a slot average rather than an instantaneous value.
+  // Rolls over each crossed period, then updates its max with a closed slot's average.
   async checkPeakMax(prefix, day, month, year, avgW, reading) {
     let changed = false;
     if (day.day !== null && (day.day !== reading.day || day.month !== reading.month)) {
@@ -1208,14 +962,8 @@ class GridDevice extends GenericDevice {
     }
   }
 
-  // 'fixedBlock' scheme (Model A - net within a closed, fixed time block, then price the
-  // block's net result at a single tariff once the block closes - confirmed for at least
-  // one US utility, not standard EU practice, see zzz_export_import_netting_research_and_
-  // plan.md §2/§2b). Unlike 'perDirection', this doesn't price every tick - it buffers
-  // deltas into the currently-open block and only returns a nonzero deltaMoney on the tick
-  // that observes the block has closed (persisted via directionalBlockState so an app
-  // restart mid-block doesn't lose the partial buffer). Returning 0 on non-close ticks still
-  // lets the base class's own hour/day/month/year rollover logic run normally.
+  // 'fixedBlock': net within a fixed time block, priced at the tariff of the block's start once
+  // it closes. Returns 0 until then. The open block is stored (directionalBlockState).
   async computeFixedBlockDeltaMoney(deltaImport, deltaExport, now) {
     const blockMinutes = this.getDirectionalBlockMinutes();
     const currentBlockStart = MeterHelpers.startOfBlock(now, blockMinutes, this.timeZone);
@@ -1232,8 +980,6 @@ class GridDevice extends GenericDevice {
 
     let deltaMoney = 0;
     if (currentBlockStart > this.directionalBlockState.blockStartTm) {
-      // the previously-open block just closed: price its net result at the tariff that was
-      // effective when THAT block started, not the (possibly different) current tariff.
       const net = this.directionalBlockState.importAccum - this.directionalBlockState.exportAccum;
       const netImport = net > 0 ? net : 0;
       const netExport = net < 0 ? -net : 0;
@@ -1250,15 +996,8 @@ class GridDevice extends GenericDevice {
   // --- Load Forecast Logic ---
 
   async startForecastLoop() {
-    // Idempotent: cancel any previous chain before starting a new one, so if this ever gets
-    // called twice (e.g. an onInit() staleness check elsewhere gets bypassed) only one
-    // perpetual hourly loop survives rather than two running side by side forever.
-    //
-    // Clearing the pending timer is necessary but NOT sufficient on its own: it only cancels a
-    // chain that is currently parked in setTimeout. An invocation already mid-flight - and this
-    // one awaits retrainLoadModel(), which fetches 14 days of Insights and can run for a long
-    // time - still reaches its own finally and schedules the next tick, resurrecting itself
-    // alongside the new chain. The epoch token makes a superseded invocation stand down instead.
+    // Idempotent: clears the pending timer, and the epoch makes an invocation already running
+    // (retrainLoadModel() can take long) stand down instead of rescheduling itself.
     if (this.forecastTimeout) this.homey.clearTimeout(this.forecastTimeout);
     this.forecastEpoch = (this.forecastEpoch || 0) + 1;
     const epoch = this.forecastEpoch;
@@ -1266,8 +1005,7 @@ class GridDevice extends GenericDevice {
     const loop = async () => {
       if (this.isDestroyed || epoch !== this.forecastEpoch) return;
       try {
-        // Skip the nightly retrain check on the very first invocation (startup)
-        // to avoid conflicting with the explicit startup retraining in initLearningTimeout.
+        // Not at startup: the startup retrain is in initLearningTimeout.
         if (!firstRun) {
           const now = new Date();
           const localNow = TimeHelpers.toLocalDate(now, this.timeZone);
@@ -1277,7 +1015,7 @@ class GridDevice extends GenericDevice {
 
             if (!isSameDay) {
               this.log('Running automatic nightly load model retraining...');
-              await this.retrainLoadModel(false); // Nightly: Blend with existing data
+              await this.retrainLoadModel(false);
               this.lastAutoRetrainLoad = now.getTime();
               await this.setStoreValue('lastAutoRetrainLoad', this.lastAutoRetrainLoad);
             }
@@ -1290,17 +1028,14 @@ class GridDevice extends GenericDevice {
         if (!this.isDestroyed && epoch === this.forecastEpoch) {
           this.forecastTimeout = this.homey.setTimeout(() => {
             loop().catch(this.error);
-          }, 60 * 60 * 1000); // 1 hour
+          }, 60 * 60 * 1000);
         }
       }
     };
     await loop();
   }
 
-  // Same idempotency contract as startForecastLoop() above - see there for why the epoch token
-  // is needed on top of clearing the pending timer. This loop previously had neither guard, so a
-  // second call (a restartDevice() racing the 15s initLearningTimeout that starts it) layered a
-  // second per-minute chain on top of the first, each overwriting the other's timeout handle.
+  // Idempotent, as startForecastLoop().
   async startLearningLoop() {
     if (this.learningTimeout) this.homey.clearTimeout(this.learningTimeout);
     this.learningEpoch = (this.learningEpoch || 0) + 1;
@@ -1351,7 +1086,6 @@ class GridDevice extends GenericDevice {
     this.lastEnergyState = newEnergyState;
     const currentPower = smoothedPower;
 
-    // only proceed if we have a valid numeric power reading
     if (typeof currentPower !== 'number' || Number.isNaN(currentPower) || currentPower < 0) {
       return updated;
     }
@@ -1373,11 +1107,10 @@ class GridDevice extends GenericDevice {
       if (bucketResult.finishedBucket.log) this.log(bucketResult.finishedBucket.log);
       await this.recordForecastError(bucketResult.finishedBucket).catch(this.error);
 
-      // Learn the regular load only: a slot with a planned extra load is not learned.
+      // A slot with a planned extra load is not learned.
       const { startTime, durationMs } = bucketResult.finishedBucket;
       if (LoadForecastStrategy.getPlannedPower(this.plannedLoads, startTime, startTime + durationMs) > 0) return updated;
-      // Without the program appliances: they are forecast apart. Not measured over the whole
-      // slot (after a restart): not learned.
+      // Program appliances are forecast separately. A slot not measured in full is not learned.
       let appliancesW = 0;
       for (const dev of this.getApplianceDevices()) {
         const w = dev.getAvgPower(startTime, startTime + durationMs);
@@ -1402,17 +1135,15 @@ class GridDevice extends GenericDevice {
     return updated;
   }
 
-  // Score the forecast that was in effect for a just-closed slot. Must run before the slot's own
-  // learning update, which would otherwise pull the prediction towards the actual value. Slots
-  // shorter than 10 minutes (the first one after a restart) are too noisy to score.
+  // Before the slot's learning update, which would pull the prediction toward the actual.
+  // Slots shorter than 10 minutes (after a restart) are not scored.
   async recordForecastError(finishedBucket) {
     if (!finishedBucket || finishedBucket.durationMs < 10 * 60 * 1000) return;
     const { dayOfWeek, slotIndex } = LoadForecastStrategy.getLocalTimeDetails(finishedBucket.startTime, this.timeZone);
     const learned = this.weeklyProfile && this.weeklyProfile[dayOfWeek] ? this.weeklyProfile[dayOfWeek][slotIndex] : null;
-    // An untrained (all-zero) profile predicts nothing - scoring it would only measure the load.
     if (!learned) return;
     const { startTime, durationMs } = finishedBucket;
-    // The forecast as it was when the slot started (program appliances included), else rebuilt.
+    // The forecast as recorded when the slot started, else rebuilt.
     const slotStart = TimeHelpers.startOfLocalBlock(startTime, 15, this.timeZone);
     const recorded = this.netForecastHistory.find((e) => e.time === slotStart && typeof e.load === 'number');
     this.forecastErrors = LoadForecastStrategy.recordForecastError(this.forecastErrors, {
@@ -1426,21 +1157,17 @@ class GridDevice extends GenericDevice {
     if (hourClosed) await this.updateForecastAccuracyStatus();
   }
 
-  // Forecast grid exchange (W, + import / - export) per 15-minute slot from startMs to endMs:
+  // Forecast grid exchange (W, + import / - export) per 15-minute slot:
   //   netNoBattery = home load - solar forecast + planned EV charging
   //   netPlanned   = netNoBattery + planned battery power (+ charge / - discharge)
-  // Two series on purpose: a battery planner must plan against netNoBattery, or it would plan
-  // against its own previous plan. Solar comes from PbtH solar devices only (Homey Energy has no
-  // forecast); battery from PbtH batteries with ROI enabled (no plan counts as idle). EV is added
-  // separately because home load excludes it, and only while the car is connected: the EV plan
-  // is also made while the car is away, as a prediction that is not being followed.
+  // A battery planner must plan against netNoBattery, not its own plan. Solar from PbtH solar
+  // devices only, battery from PbtH batteries with ROI on. EV only while the car is connected.
   getNetForecast(startMs, endMs) {
     const load = this.getHomeLoadSeries(startMs, endMs);
     const sumSeries = (driverId, getSeries) => this.sumDriverSeries(driverId, load.length, getSeries);
     const solar = sumSeries('solar', (dev) => (dev.getForecastSeries ? dev.getForecastSeries(startMs, endMs) : null));
     const battery = sumSeries('battery', (dev) => (dev.getPlannedPowerSeries ? dev.getPlannedPowerSeries(startMs, endMs) : null));
-    // Away and not plugged in are in the EV plan itself (no charging until the expected return or
-    // the next hour); a car that does not take power from a switched-on charger is not.
+    // Away/not plugged in is in the EV plan itself; a car that takes no power is not.
     const ev = sumSeries('evCharger', (dev) => (dev.getPlannedPowerSeries && !(dev.presence && dev.presence.noResponse)
       ? dev.getPlannedPowerSeries(startMs, endMs) : null));
     const netNoBattery = load.map((l, i) => Math.round(l - solar[i] + ev[i]));
@@ -1450,8 +1177,8 @@ class GridDevice extends GenericDevice {
     };
   }
 
-  // Flow: an extra load of power W that day (today/tomorrow) from time (HH:MM) for durationMin,
-  // on top of the learned profile and not learned itself. 0 W removes one with that start.
+  // Flow: an extra load (W) on a day from time (HH:MM) for durationMin; not learned. 0 W removes
+  // the one with that start.
   async addPlannedLoad(day, time, durationMin, power) {
     const startOfToday = TimeHelpers.getLocalMidnightUTC(new Date(), this.timeZone);
     const dayStart = day === 'tomorrow'
@@ -1465,7 +1192,6 @@ class GridDevice extends GenericDevice {
     await this.updateForecastDisplay(true);
   }
 
-  // Per 15-minute slot the sum of a series of all devices of a driver (0 without devices).
   sumDriverSeries(driverId, length, getSeries) {
     const total = new Array(length).fill(0);
     let driver = null;
@@ -1490,8 +1216,7 @@ class GridDevice extends GenericDevice {
     return total;
   }
 
-  // Power summarizers set as program appliance and learned enough to forecast
-  // (lib/strategies/ApplianceModel.js): not part of the learned home load.
+  // Power summarizers set as program appliance with enough learned to forecast.
   getApplianceDevices() {
     try {
       return this.homey.drivers.getDriver('power').getDevices()
@@ -1501,21 +1226,18 @@ class GridDevice extends GenericDevice {
     }
   }
 
-  // Expected power of the program appliances (W) per 15-minute slot.
   getApplianceSeries(startMs, endMs) {
     const length = Math.max(0, Math.ceil((endMs - startMs) / (15 * 60 * 1000)));
     return this.sumDriverSeries('power', length, (dev) => (dev.isApplianceReady && dev.isApplianceReady() ? dev.getForecastSeries(startMs, endMs) : null));
   }
 
-  // Home load forecast (W) per 15-minute slot: the learned load without program appliances, the
-  // planned loads and the program appliances.
+  // Home load forecast (W) per slot: learned load without appliances + planned loads + appliances.
   getHomeLoadSeries(startMs, endMs) {
     const appliances = this.getApplianceSeries(startMs, endMs);
     return LoadForecastStrategy.getLoadSeries(this.weeklyProfile, startMs, endMs, this.timeZone, this.plannedLoads)
       .map((v, i) => v + (appliances[i] || 0));
   }
 
-  // Cached until forecastErrors changes (once per 15 minutes at most).
   getForecastAccuracy() {
     if (!this.forecastAccuracyCache || this.forecastAccuracyCache.errors !== this.forecastErrors) {
       this.forecastAccuracyCache = {
@@ -1526,7 +1248,7 @@ class GridDevice extends GenericDevice {
     return this.forecastAccuracyCache.summary;
   }
 
-  // Settings label, refreshed hourly. Needs a day of scored slots before the numbers mean much.
+  // Needs a day of scored slots before the numbers mean much.
   async updateForecastAccuracyStatus() {
     const acc = this.getForecastAccuracy();
     const days = (acc.samples || 0) / 96;
@@ -1538,9 +1260,8 @@ class GridDevice extends GenericDevice {
     await this.setSettings({ forecast_accuracy: text });
   }
 
-  // Called by battery/EV charger devices when their charge plan changes, and by program
-  // appliances on a start or end: the grid forecast includes them. Debounced, since several
-  // devices re-plan together on new prices.
+  // Called by batteries/EV chargers on a plan change and by appliances on a start or end.
+  // Debounced: several devices re-plan together on new prices.
   onChargePlanUpdated() {
     if (this.isDestroyed) return;
     if (this.planUpdateTimeout) this.homey.clearTimeout(this.planUpdateTimeout);
@@ -1551,10 +1272,9 @@ class GridDevice extends GenericDevice {
     }, 10 * 1000);
   }
 
-  // plansChanged: a battery/EV plan changed, so the grid forecast charts must be rebuilt.
   async updateForecastDisplay(updated = false, plansChanged = false) {
     const now = new Date();
-    // Program appliances for today and tomorrow (50 h covers a 25 h DST day).
+    // Today and tomorrow (50 h covers a 25 h DST day).
     const slotMs = 15 * 60 * 1000;
     const dayStartMs = TimeHelpers.getLocalMidnightUTC(now, this.timeZone).getTime();
     const appliances = this.getApplianceSeries(dayStartMs, dayStartMs + 50 * 60 * 60 * 1000);
@@ -1585,7 +1305,7 @@ class GridDevice extends GenericDevice {
     const lastNet = this.netForecastHistory[this.netForecastHistory.length - 1];
     if (!lastNet || lastNet.time !== slotStartMs) {
       this.netForecastHistory.push({ time: slotStartMs, net: netNext[0], load: next.load[0] });
-      if (this.netForecastHistory.length > 200) this.netForecastHistory.shift(); // > 2 days incl. a 25h DST day
+      if (this.netForecastHistory.length > 200) this.netForecastHistory.shift(); // > 2 days incl. a 25 h DST day
       await this.setStoreValue('netForecastHistory', this.netForecastHistory).catch(this.error);
     }
     await this.setCapabilityValue('measure_watt_forecast.net_h0', netNext[0]).catch(this.error);
@@ -1593,12 +1313,10 @@ class GridDevice extends GenericDevice {
 
     const { slotIndex: currentSlot } = LoadForecastStrategy.getLocalTimeDetails(now, this.timeZone);
 
-    // --- Update Charts ---
     const { timeZone } = this;
     const getLocalMidnightUTC = (d) => TimeHelpers.getLocalMidnightUTC(d, timeZone);
 
-    // Real local midnights: a DST day has 23 or 25 hours. +/-26h and -1h always land in the
-    // neighbouring local day.
+    // Real local midnights (DST days have 23 or 25 hours).
     const startOfToday = getLocalMidnightUTC(now);
     const startOfTomorrow = getLocalMidnightUTC(new Date(startOfToday.getTime() + 26 * 60 * 60 * 1000));
     const endOfToday = startOfTomorrow;
@@ -1606,8 +1324,7 @@ class GridDevice extends GenericDevice {
     const startOfYesterday = getLocalMidnightUTC(new Date(startOfToday.getTime() - 60 * 60 * 1000));
     const endOfYesterday = startOfToday;
 
-    // Home load forecast per slot, planned loads and program appliances included. Past slots show
-    // the forecast recorded when the slot started, like the grid exchange charts below.
+    // Past slots show the forecast recorded when the slot started.
     const recordedLoad = new Map(this.netForecastHistory.filter((e) => typeof e.load === 'number').map((e) => [e.time, e.load]));
     const loadOpts = (start, end) => ({
       forecast: this.getHomeLoadSeries(start.getTime(), end.getTime()).map((v, i) => {
@@ -1616,7 +1333,6 @@ class GridDevice extends GenericDevice {
       }),
     });
 
-    // 1. Today Chart (Forecast vs Real - updated every 15 mins, on model update or a new plan)
     if (updated || plansChanged || (now.getMinutes() % 15 === 0) || !this.chartGridToday) {
       const chartToday = await getGridForecastChart(this.weeklyProfile, startOfToday, endOfToday, 'Home Load Today', this.powerHistory, this.timeZone, true, loadOpts(startOfToday, endOfToday));
       if (chartToday) {
@@ -1625,7 +1341,6 @@ class GridDevice extends GenericDevice {
       }
     }
 
-    // 2. Tomorrow Chart (Forecast only)
     if (updated || plansChanged || !this.chartGridTomorrow) {
       const chartTomorrow = await getGridForecastChart(this.weeklyProfile, startOfTomorrow, endOfTomorrow, 'Home Load Tomorrow', [], this.timeZone, false, loadOpts(startOfTomorrow, endOfTomorrow));
       if (chartTomorrow) {
@@ -1634,7 +1349,6 @@ class GridDevice extends GenericDevice {
       }
     }
 
-    // 3. Yesterday Chart (Forecast vs Real)
     if (updated || !this.chartGridYesterday) {
       const opts = loadOpts(startOfYesterday, endOfYesterday);
       const chartYesterday = await getGridForecastChart(this.weeklyProfile, startOfYesterday, endOfYesterday, 'Home Load Yesterday', this.powerHistory, this.timeZone, false, opts);
@@ -1644,10 +1358,8 @@ class GridDevice extends GenericDevice {
       }
     }
 
-    // Grid exchange charts: same Today/Tomorrow/Yesterday set as home load, forecast from
-    // getNetForecast() vs the recorded grid exchange. Today and Tomorrow refresh every 15 mins
-    // because the battery/EV plans in the forecast change independently of the load model.
-    // Past slots show the forecast recorded when the slot started (null when not recorded).
+    // Grid exchange charts. Today/Tomorrow refresh every 15 minutes, as the battery/EV plans
+    // change independently of the load model. Past slots show the recorded forecast.
     const recordedNet = new Map(this.netForecastHistory.map((e) => [e.time, e.net]));
     const gridOpts = (startMs, endMs) => ({
       forecast: this.getNetForecast(startMs, endMs).netPlanned.map((v, i) => {
@@ -1681,7 +1393,6 @@ class GridDevice extends GenericDevice {
       }
     }
 
-    // 4. Weekly Chart (Monday to Sunday baseline profile)
     if (updated || !this.chartGridWeekly) {
       const chartWeekly = await getGridWeeklyChart(this.weeklyProfile, 'Weekly Baseline Profile');
       if (chartWeekly) {
@@ -1711,14 +1422,8 @@ class GridDevice extends GenericDevice {
       } catch { }
       if (!api) throw new Error('Homey API not ready');
 
-      // Always train from the underlying source devices' own long-running Insights logs
-      // (grid meter, solar, battery, EV charger) - never from this device's own derived
-      // measure_watt_home log. That log is itself the *output* of calculateHomePower(),
-      // only as old as this app-device instance has been alive and actively computing it,
-      // so treating it as a primary training input would be training the forecaster on its
-      // own (short-lived, potentially gappy) past output instead of the real, independently
-      // measured history - see reconstructHomePowerHistory(), which sources exclusively from
-      // the physical devices (excludes any 'PH_' PowerHour-own log).
+      // Train from the physical source devices' Insights, never from this device's own derived
+      // measure_watt_home log (short-lived output of this forecaster).
       let allLogs = await this.homey.app.getInsightsLogs().catch(() => []);
       if (!Array.isArray(allLogs)) allLogs = Object.values(allLogs);
 
@@ -1738,16 +1443,9 @@ class GridDevice extends GenericDevice {
         return;
       }
 
-      // Deliberately NOT merged into this.powerHistory here - powerEntries at this point is
-      // 'last14Days'-resolution (~hourly), while this.powerHistory backs the Today/Yesterday
-      // spot charts, which match a real sample to each 15-min slot within only a ±10-minute
-      // window (see GridChart.js's getGridForecastChart()). Hourly samples plotted against
-      // that narrow a window leave ~3 of every 4 slots null, rendering as a sawtooth of spikes
-      // instead of a smooth curve. populatePowerHistory() (below) is the correct, already-
-      // existing populator for that buffer - it fetches 'yesterday'-resolution (5-minute)
-      // entries specifically, matching the chart's granularity.
+      // Not merged into this.powerHistory: these are ~hourly, the charts need 5-minute samples
+      // (populatePowerHistory()).
 
-      // 2. Process
       const trainingProfile = fromScratch ? LoadForecastStrategy.initializeProfile() : this.weeklyProfile;
 
       const result = LoadForecastStrategy.processHistoricData({
@@ -1778,17 +1476,15 @@ class GridDevice extends GenericDevice {
 
   async populatePowerHistory() {
     try {
-      // use Date object, not Date.now() number, so .toLocaleString() works correctly
       const now = new Date();
       const nowMs = now.getTime();
 
       if (!Array.isArray(this.powerHistory)) this.powerHistory = [];
-      // Exclude entries written during this startup session (by calculateHomePower firing
-      // before/during onInit) so a single boot-time entry doesn't falsely satisfy hasRecent.
+      // Ignore entries written during this startup, so one boot-time entry does not count as recent.
       const preStartupHistory = this.powerHistory.filter((e) => e.time < (this.startupTime || 0));
       const hasData = preStartupHistory.length > 24 && preStartupHistory[0].time < (nowMs - 40 * 60 * 60 * 1000);
       const hasRecent = preStartupHistory.length > 0 && preStartupHistory[preStartupHistory.length - 1].time > (nowMs - 6 * 60 * 60 * 1000);
-      // History stored before grid values were recorded needs one backfill for the Grid charts.
+      // History from before grid values were recorded needs one backfill for the Grid charts.
       const hasGrid = preStartupHistory.some((e) => typeof e.grid === 'number');
 
       if (hasData && hasRecent && hasGrid) {
@@ -1806,12 +1502,7 @@ class GridDevice extends GenericDevice {
         return;
       }
 
-      // Locate Insights Log for home power capability
-      // Always reconstruct from the underlying source devices' own logs (grid, solar, battery,
-      // EV charger), never from this device's own derived measure_watt_home log - same
-      // reasoning as retrainLoadModel() above. customStart/customEnd are irrelevant for
-      // resolution 'yesterday' - see fetchYesterdayAndToday()'s doc comment - so there's
-      // nothing meaningful to pass here.
+      // From the physical source devices, as in retrainLoadModel().
       let allLogs = await this.homey.app.getInsightsLogs().catch(() => []);
       if (!Array.isArray(allLogs)) allLogs = Object.values(allLogs);
 
@@ -1822,7 +1513,7 @@ class GridDevice extends GenericDevice {
 
       if (powerEntries.length > 0) {
         const ceilingW = this.getHomePowerCeilingW();
-        // round timestamps to nearest 5 minutes to avoid duplicates from mixed resolution sources
+        // Round to 5 minutes against duplicates from mixed resolutions.
         const roundTo5Min = (t) => Math.round(t / (5 * 60 * 1000)) * (5 * 60 * 1000);
         const historyMapped = powerEntries
           .map((e) => {
@@ -1853,7 +1544,7 @@ class GridDevice extends GenericDevice {
     }
   }
 
-  // withoutAppliances: the home load to learn, without the program appliances (power summarizers).
+  // withoutAppliances: the home load to learn, without program appliances.
   async reconstructHomePowerHistory(api, allLogs, customStart = null, customEnd = null, customResolution = null, withoutAppliances = false) {
     const endDate = customEnd || new Date();
     const startDate = customStart || (() => {
@@ -1873,7 +1564,6 @@ class GridDevice extends GenericDevice {
 
       deviceLogs.forEach((log) => {
         const logId = log.id || log.uri || '';
-        // Find the index of the first ending that matches this log
         const matchIndex = endings.findIndex((ending) => logId.endsWith(ending));
         if (matchIndex !== -1) {
           matchingLogsMap.set(logId, { log, priority: matchIndex, isCumulative: logId.includes(':meter_power') });
@@ -1882,18 +1572,12 @@ class GridDevice extends GenericDevice {
 
       if (matchingLogsMap.size === 0) return null;
 
-      // Deduplication:
-      // If we are looking for cumulative totals, and we found the absolute total (e.g., ':meter_power'),
-      // we must discard sub-totals (like '.t1' or '.imported') to prevent double counting.
-      // But if we found phase meters ('.l1', '.l2', '.l3') or tariff meters ('.t1', '.t2'), we want to sum them.
-      // (No equivalent dedup is needed for ':measure_power' vs ':energy_power' - callers never
-      // request the former as an Insights log id in the first place, see endings arrays above;
-      // Homey always logs that capability's history under ':energy_power' instead.)
+      // With a grand total meter (':meter_power'), drop its sub-totals (.t1, .imported) against double
+      // counting; phase (.l1-.l3) and tariff (.t1/.t2) meters alone are summed.
       let finalLogs = Array.from(matchingLogsMap.values());
       const hasBaseMeterPower = finalLogs.some((item) => (item.log.id || item.log.uri || '').endsWith(':meter_power'));
 
       if (hasBaseMeterPower) {
-        // If we have the grand total cumulative meter, filter out sub-tariffs and imported variants
         finalLogs = finalLogs.filter((item) => {
           const id = item.log.id || item.log.uri || '';
           return id.endsWith(':meter_power') || id.endsWith(':meter_power.exported');
@@ -1905,12 +1589,8 @@ class GridDevice extends GenericDevice {
         for (let i = 0; i < finalLogs.length; i++) {
           const { log, isCumulative } = finalLogs[i];
 
-          // 'yesterday' is a named Homey Insights resolution that always returns the fixed
-          // previous calendar day, ignoring start/end entirely (confirmed empirically) - it
-          // never includes today's in-progress data no matter how far into the future `end` is
-          // set. fetchYesterdayAndToday() combines it with a 'today' fetch for real "yesterday
-          // through now" coverage. Any other resolution (e.g. 'last14Days', used by
-          // retrainLoadModel()) already extends to now on its own and doesn't need this.
+          // Insights resolution 'yesterday' always returns the previous calendar day and ignores
+          // start/end (confirmed live): fetchYesterdayAndToday() adds 'today'.
           const logData = resolution === 'yesterday'
             ? await fetchYesterdayAndToday(api, log.id)
             : await api.insights.getLogEntries({
@@ -1933,7 +1613,7 @@ class GridDevice extends GenericDevice {
         }
 
         if (allEntries.length > 0) {
-          // Group by timestamp and sum values (e.g. sum tariff 1 and tariff 2)
+          // Sum per timestamp (e.g. tariff 1 + tariff 2)
           const timeMap = new Map();
           allEntries.forEach((e) => {
             const currentVal = timeMap.get(e.t) || 0;
@@ -1953,14 +1633,8 @@ class GridDevice extends GenericDevice {
       return [];
     }
 
-    // 1. Fetch grid entries. Try real-time power first, otherwise cumulative import & export.
-    // Never search for a log literally named ':measure_power' - Homey always logs that
-    // capability's own Insights history under the internal log id ':energy_power' instead (same
-    // signal, not cumulative despite the name - see homey-app-development skill, Section 3). A
-    // literal ':measure_power' log CAN exist in the log listing but with zero real samples -
-    // confirmed on production's SmartMeter (2026-08-10): 100% null across 14 days, while
-    // ':energy_power' had complete real history, causing reconstruction to silently learn zero
-    // overnight baseload. Only ':energy_power' is a valid target for the base capability.
+    // 1. Grid: real-time power first, else cumulative import/export. Homey logs measure_power under
+    // ':energy_power'; a ':measure_power' log can exist but is empty (skill section 3).
     let gridEntries = [];
     const measurePowerEntries = await getLogEntriesForDevice(sourceDevice.id, [
       ':energy_power',
@@ -2000,33 +1674,10 @@ class GridDevice extends GenericDevice {
       return [];
     }
 
-    // For each component driver, prefer instantaneous power (measure_power / measure_watt_avg)
-    // over cumulative meter (meter_power) to avoid mixing Watts with converted-kWh Watts.
-    // Only fall back to meter_power if no measure_power log exists for that device.
-    //
-    // Component devices are other PowerHour devices - resolve each one to the REAL physical
-    // source device via its own 'homey_device_id' setting (the exact same setting
-    // getSourceDevice()/SourceDeviceHelper.js already use for the grid device's own source).
-    // A previous version of this resolved via a generic 'homeyIdMap' built from
-    // `api.devices.getDevices()`'s data.id -> id for every device - which is WRONG for
-    // PowerHour devices specifically: iterating that same device list necessarily includes the
-    // PowerHour device itself, whose own data.id equals dev.getData().id by definition, so the
-    // lookup always resolved back to the PowerHour device's OWN id, never the physical source.
-    // Confirmed empirically (2026-08-10): reconstruction had been reading each PowerHour
-    // component device's own re-published 'measure_watt_avg'/'energy_power' capability history
-    // (shorter/differently-computed than the real meter's) instead of the physical device's -
-    // e.g. the EV charger's own history read 0W at two real historical charging sessions,
-    // while the actual charger's physical Insights log showed ~2600W at those exact timestamps.
-    // This is very likely the primary explanation for the prod/dev weekly-profile divergence
-    // investigated this session, since each side's PowerHour devices have independently-aged,
-    // independently-computed histories even when reading the identical physical hardware.
-    //
-    // Each entry carries its own devId (not just a bare entries array) so multiple devices of
-    // the same type (e.g. 2 solar arrays, 2 batteries) can be summed rather than averaged
-    // together below - averaging would blend two independent physical devices' readings as if
-    // they were repeated samples of the same thing, silently halving (for 2 devices) the
-    // combined contribution. Matches the live calculateHomePower() semantics (device.js
-    // ~line 254), which already sums `dev.getCapabilityValue(...)` per device correctly.
+    // Per component: instantaneous power before meter_power, so W and kWh-derived W are not mixed.
+    // Resolved to the physical device via its 'homey_device_id' setting: resolving PowerHour devices
+    // via data.id gives back the PowerHour device itself (confirmed 2026-08-10).
+    // Per device, so several devices of one type are summed, not averaged.
     const solarEntriesList = [];
     const solarDriver = this.homey.drivers.getDriver('solar');
     if (solarDriver) {
@@ -2069,7 +1720,6 @@ class GridDevice extends GenericDevice {
       }
     }
 
-    // Program appliances: from their real source device, like the components above.
     const applianceEntriesList = [];
     if (withoutAppliances) {
       for (const dev of this.getApplianceDevices()) {
@@ -2081,16 +1731,12 @@ class GridDevice extends GenericDevice {
       }
     }
 
-    // Resolve which grid entries to use for import/export - this decision (instantaneous vs.
-    // cumulative fallback, whether export entries are even meaningful for this meter) depends on
-    // what was actually fetched above, so it stays here; the actual per-bucket combination across
-    // grid/solar/battery/EV is a pure function in HomePowerReconstruction.js, shared with any
-    // offline analysis so it's never a second, independently-drifting copy of this logic.
+    // Combination per bucket is in HomePowerReconstruction.js (shared with offline analysis).
     let gridImportEntries = [];
     let gridExportEntries = [];
     if (gridEntries.length > 0) {
       gridImportEntries = gridEntries;
-      // If measure_power is always positive (non-negative) and we have export entries, add them to gridExport
+      // Power never negative but export entries exist: add them to the export.
       const hasNegative = gridEntries.some((e) => (e.y !== undefined ? e.y : e.v) < -1);
       if (!hasNegative && measurePowerExportEntries && measurePowerExportEntries.length > 0) {
         gridExportEntries = measurePowerExportEntries;
@@ -2125,11 +1771,7 @@ class GridDevice extends GenericDevice {
 
   stopPolling() {
     super.stopPolling();
-    // Retire the current forecast/learning chains before clearing their timers. Clearing alone
-    // only cancels a chain parked in setTimeout - an invocation already mid-flight reaches its
-    // own finally afterwards and would schedule a fresh timeout, quietly undoing the stop unless
-    // the device also happens to be destroyed. Bumping the epochs makes those stand down; see
-    // startForecastLoop().
+    // Bump the epochs, so invocations already running do not reschedule (see startForecastLoop()).
     this.forecastEpoch = (this.forecastEpoch || 0) + 1;
     this.learningEpoch = (this.learningEpoch || 0) + 1;
     if (this.forecastTimeout) {

@@ -39,7 +39,6 @@ const deviceSpecifics = {
   planIntervalMin: 15,
 };
 
-// Cable pulled while charging, then a trip report within this window: the pull was the departure.
 const UNPLUG_AFTER_SWITCH_MS = 2 * 60 * 1000; // a power drop this soon after switching off is ours
 
 // Day labels for learned profile settings keys (0=Monday)
@@ -108,16 +107,10 @@ class CarChargeDevice extends GenericDevice {
     this.sourceCapGroup = {};
     this.carCapGroup = {};
 
-    // Register chart images in canonical order before any periodic update can render into them.
-    // Deliberately before super.onInit(): the base class sets initReady = true partway through
-    // its own onInit, and onPricesUpdated() (generic_bat_device.js) fires as soon as initReady is
-    // true - if that landed before images existed, updateChargeChart() would throw calling
-    // .update() on an undefined image property. Only needs device.homey/device.driver, both set
-    // by the platform before any onInit runs, so this has no dependency on super.onInit().
+    // Before super.onInit(): it sets initReady partway, and onPricesUpdated() then renders charts.
     await ChartImages.registerChartImages(this, this.driver.ds.chartImages);
 
-    // Before super.onInit(): its first poll and car report record samples, and the first save of
-    // a fresh instance would otherwise overwrite the stored history with only those.
+    // Before super.onInit(): its first samples would otherwise overwrite the stored history.
     this.powerHistory = await this.loadStoredHistory('powerHistory');
     this.socHistory = await this.loadStoredHistory('socHistory');
 
@@ -159,7 +152,7 @@ class CarChargeDevice extends GenericDevice {
       }
       this.registerCapabilityListener('button.retrain', async () => {
         this.log('[EV Slot] Manual retrain triggered via button.retrain');
-        await this.learnDeparturePattern({ retrain: true }); // Re-bootstraps from Insights, keeping what was learned live
+        await this.learnDeparturePattern({ retrain: true }); // keeps what was learned live
         return true;
       });
     }
@@ -171,23 +164,15 @@ class CarChargeDevice extends GenericDevice {
       if (this.pricesNextHours) {
         await this.updateChargeChart().catch((err) => this.error(err));
       }
-      // Bootstrap departure model from Insights history
       await this.attemptInitialBackfill(currentSessionId);
     };
     initCharts().catch((err) => this.error(err));
   }
 
-  // learnDeparturePattern() needs this.homey.app.api to be connected - but app.js can still be
-  // mid-connect (up to a 10s timeout, then only a 60s-later retry) when this fires only ~2s
-  // after onInit. learnDeparturePattern() itself treats "API not ready" as a logged no-op
-  // rather than throwing, so retry here by re-checking API readiness directly instead of
-  // catching an error. Unlike grid/solar (see identical fix in those drivers' device.js),
-  // there's no nightly retrain safety net for the departure model, so a failed bootstrap here
-  // would otherwise stick until the next full app/device restart. Guarded by sessionId (the
-  // same guard already used above) rather than an explicit timeout handle, since this file
-  // doesn't currently track/clear its init timers on delete.
+  // The app API may still be connecting, and learnDeparturePattern() swallows "API not ready":
+  // retry. No nightly retrain here to catch a failed bootstrap.
   async attemptInitialBackfill(sessionId, attempt = 1) {
-    if (this.sessionId !== sessionId) return; // superseded by a newer onInit/delete meanwhile
+    if (this.sessionId !== sessionId) return; // superseded by a newer onInit/delete
     const maxAttempts = 5;
     const retryDelayMs = 30000;
     let api;
@@ -240,9 +225,7 @@ class CarChargeDevice extends GenericDevice {
         && this.sourceDevice.capabilitiesObj?.target_power?.setable !== false ? 'target_power' : null;
     }
 
-    // --- Optional EV car device ---
-    // No auto-discovery: 'none' means the user did not link a car at pair/repair time.
-    // They can attach one later via repair.
+    // Optional car device, linked at pair/repair only ('none': no car).
     this.carCapGroup = {};
     this.evDevice = null;
     const evDeviceId = this.getSettings().ev_device_id;
@@ -267,7 +250,7 @@ class CarChargeDevice extends GenericDevice {
       this.log('Could not load EV car device:', e.message);
     }
 
-    // Resolve effective SoC source: prefer car, fall back to charger
+    // SoC: car first, else charger
     this.sourceCapGroup.soc = this.carCapGroup.soc || this.sourceCapGroup.socOnCharger || null;
 
     if (!this.sourceCapGroup.p1 && !this.sourceCapGroup.measure) {
@@ -298,7 +281,6 @@ class CarChargeDevice extends GenericDevice {
       );
     }
 
-    // Instantaneous power
     const targetMeasureCap = this.ds.cmap.measure_source;
     if (this.sourceCapGroup.measure) {
       this.capabilityInstances.measurePowerRealtime = await this.sourceDevice.makeCapabilityInstance(
@@ -306,10 +288,8 @@ class CarChargeDevice extends GenericDevice {
         async (raw) => {
           if (typeof raw === 'number') {
             const value = this._chargePower(raw);
-            // measure_power on an EV charger follows Homey's standard (positive = charging the
-            // car); updateMeterFromMeasure() internally re-writes measure_watt_avg with whatever
-            // sign it's given (overwriting the setCapability above) and also buckets kWh into
-            // meter_kwh_charging/discharging based on this same sign, so it must not be negated.
+            // Homey standard: positive = charging the car. Not negated: updateMeterFromMeasure() also
+            // splits kWh by this sign.
             if (targetMeasureCap) await this.setCapability(targetMeasureCap, value).catch(this.error);
             if (!this.sourceCapGroup.p1) await this.updateMeterFromMeasure(value).catch(this.error);
             this._onChargerPower(value);
@@ -358,7 +338,6 @@ class CarChargeDevice extends GenericDevice {
 
     await this._registerCarListeners();
 
-    // Initial state from the current snapshot
     await this._processCarReport().catch(this.error);
   }
 
@@ -701,9 +680,7 @@ class CarChargeDevice extends GenericDevice {
     this.lastKnownSoc = value;
     if (this.hasCapability('measure_ev_soc')) await this.setCapability('measure_ev_soc', Math.round(value));
 
-    // Same dedup/cap approach as powerHistory in handleUpdateMeter(): at most one sample
-    // per minute, capped to 2880 entries (48h), so getActualSocForTime() has real data for
-    // the yesterday/today charts. Persisted at most every 15 minutes, as the battery does.
+    // At most one sample per minute, 2880 entries (48 h), for the charts. Stored at most every 15 min.
     if (this.recordSocSample(value)) {
       this.saveSocHistory({ lastKnownSoc: value }).catch(this.error);
     }
@@ -1069,14 +1046,13 @@ class CarChargeDevice extends GenericDevice {
       await this.updateMeter(val).catch(this.error);
     }
 
-    // Instantaneous power
     const targetMeasureCap = this.ds.cmap.measure_source;
     if (this.sourceCapGroup.measure && this.sourceDevice.capabilitiesObj?.measure_power) {
       const rawValue = this.sourceDevice.capabilitiesObj.measure_power.value;
       if (typeof rawValue === 'number') {
         const rtValue = this._chargePower(rawValue);
         if (targetMeasureCap) await this.setCapability(targetMeasureCap, rtValue).catch(this.error);
-        // See addListeners() for why this must not be negated (Homey standard: charging = positive).
+        // Not negated (see addListeners())
         if (!this.sourceCapGroup.p1) await this.updateMeterFromMeasure(rtValue).catch(this.error);
         this._onChargerPower(rtValue);
       }
@@ -1161,17 +1137,12 @@ class CarChargeDevice extends GenericDevice {
   }
 
   async handleUpdateMeter(reading) {
-    // This override previously shadowed GenericDevice#handleUpdateMeter entirely (same method
-    // name), silently skipping the base class's meter-period bookkeeping (meter_power_hidden,
-    // lastReadingHour/Day/Month/Year) and money calculation (meter_money_*) since the "graphs
-    // upgrade" commit that introduced this override. Restore the base behaviour.
+    // Must call the base, or meter periods and money are skipped.
     const meterBefore = this.getCapabilityValue('meter_power_hidden');
     await super.handleUpdateMeter(reading);
     await this._updateChargeTotals(meterBefore);
 
-    // Neither this device nor the HomeyAPI sourceDevice wrapper expose a 'measure_power'
-    // capability/method, so that lookup always failed. The device's own live charge
-    // power is published on 'measure_watt_avg'.
+    // The live charge power is on 'measure_watt_avg'.
     if (!this.sourceCapGroup.measure && reading) await this._updatePowerFromMeter(reading);
     let livePower = (reading && typeof reading.measure_power === 'number') ? reading.measure_power : null;
     if (livePower === null && this.hasCapability('measure_watt_avg')) {
@@ -1634,7 +1605,7 @@ class CarChargeDevice extends GenericDevice {
         if (isForecast[k]) strategy[k].isForecast = true;
       });
 
-      // If car is not connected, mark all strategy slots as forecast (grey)
+      // Car not connected: all strategy slots shown as forecast (grey)
       if (!this.isCarConnected) {
         Object.keys(strategy).forEach((k) => {
           if (strategy[k] && typeof strategy[k] === 'object') strategy[k].isForecast = true;
@@ -1643,9 +1614,7 @@ class CarChargeDevice extends GenericDevice {
 
       await this.refreshDapPrices().catch(() => { });
 
-      // Force-disabled when neither the connected car nor the charger itself reports a real SoC
-      // (this.sourceCapGroup.soc is resolved once per device start in addSourceCapGroup()) -
-      // otherwise the chart would show a purely predicted/guessed SoC line with no way to tell.
+      // Off without a reported SoC (car or charger): the line would only be a guess.
       const showSoc = this.getSettings().chartShowSoc !== false && !!(this.sourceCapGroup && this.sourceCapGroup.soc);
 
       // The plan on expected prices after the published ones: shown pale, not executed.
@@ -1658,7 +1627,7 @@ class CarChargeDevice extends GenericDevice {
         scheme: chartScheme,
         planSlots: Object.keys(strategy).length,
         chargePower,
-        dischargePower: 0, // EVs don't discharge back
+        dischargePower: 0, // no V2X discharge
         socFallback: currentSoc,
         showPower: !!this.getSettings().chartShowPower,
         showSoc,
@@ -1733,13 +1702,8 @@ class CarChargeDevice extends GenericDevice {
         return coarse.filter((e) => e.t < firstFine).concat(fine);
       };
 
-      // Fetch charger power entries for session boundary detection. Never search for a log
-      // literally named 'measure_power' - Homey always logs that capability's own Insights
-      // history under the internal log id 'energy_power' instead (see isCumulative comment
-      // above, and homey-app-development skill Section 3). A literal 'measure_power' log CAN
-      // exist in the log listing but with zero real samples (confirmed on grid's SmartMeter,
-      // 2026-08-10), so it's not even tried here; fall back to cumulative meter_power only if
-      // energy_power itself has no history.
+      // Homey logs measure_power under 'energy_power'; a 'measure_power' log can exist but is empty
+      // (skill section 3). meter_power only without energy_power history.
       const powerEntries = await fetchLog(chargerId, ['energy_power', 'meter_power']);
 
       let socEntries = null;

@@ -30,16 +30,10 @@ class BatDevice extends GenericDevice {
   async onInit() {
     // A (re)init can follow a settings change: never let the chart reuse a plan from before it.
     this.lastStratTm = null;
-    // Register chart images in canonical order before any periodic update can render into them.
-    // Deliberately before super.onInit(): the base class sets initReady = true partway through
-    // its own onInit, and onPricesUpdated() (generic_bat_device.js) fires as soon as initReady is
-    // true - if that landed before images existed, updateChargeChart() would throw calling
-    // .update() on an undefined image property. Only needs device.homey/device.driver, both set
-    // by the platform before any onInit runs, so this has no dependency on super.onInit().
+    // Before super.onInit(): it sets initReady partway, and onPricesUpdated() then renders charts.
     await ChartImages.registerChartImages(this, this.driver.ds.chartImages);
 
-    // Before super.onInit(): its first poll records samples, and the first save of a fresh
-    // instance would otherwise overwrite the stored history with only those.
+    // Before super.onInit(): its first samples would otherwise overwrite the stored history.
     this.powerHistory = await this.loadStoredHistory('powerHistory');
     this.socHistory = await this.loadStoredHistory('socHistory');
     await super.onInit().catch(this.error);
@@ -151,13 +145,7 @@ class BatDevice extends GenericDevice {
         if (!log) return null;
         const id = log.id || log.uri || '';
         const cap = id.split(':').pop() || '';
-        // Homey stores the Insights log for the 'measure_power' capability itself (on devices with
-        // energy-class registration, e.g. batteries) under the internal log id 'energy_power' - it
-        // is the SAME signal as measure_power, just under a different Insights log name/id, not a
-        // separate derived value. It is INSTANTANEOUS power (Watts), NOT cumulative, despite the
-        // name. This log commonly exists (with full history) even when 'measure_power' itself has
-        // no log of its own yet (confirmed empirically: energy_power values matched live
-        // measure_power values almost exactly - same scale, same sign, 5-minute resolution).
+        // Homey logs measure_power under 'energy_power': instantaneous W, not cumulative (confirmed).
         const isCumulative = cap.includes('meter') || (cap.includes('energy') && cap !== 'energy_power');
 
         const convert = (data, resStr) => {
@@ -185,14 +173,8 @@ class BatDevice extends GenericDevice {
             }
             return { entries: powerWatts, isWatts: true };
           }
-          // 'energy_power' AND 'measure_battery' hourly entries are already stamped at the START
-          // of the hour they represent (confirmed empirically against a real device: both logs'
-          // raw 09:00 UTC entry lined up exactly with the real 11:00 local transition seen in
-          // Homey's own Insights graph - the SoC entry started rising at the same raw timestamp
-          // the power entry jumped to charging). Applying the -1h correction below to either one
-          // produces a real, visible 1-hour-too-early shift (SoC/power changing "before" they
-          // should relative to each other). Unlike these two, other hourly logs ARE
-          // END-of-interval stamped and DO need the -1h correction.
+          // These hourly logs are stamped at the START of the hour (confirmed on a device); others at the
+          // end and get the -1h correction.
           const startStampedCaps = ['energy_power', 'measure_battery'];
           const isHourly = (resStr === 'last7Days' || resStr === 'last14Days') && !startStampedCaps.includes(cap);
           const entries = data.values.map((e) => {
@@ -206,14 +188,7 @@ class BatDevice extends GenericDevice {
           return { entries, isWatts: false };
         };
 
-        // Two-stage fetch, mirroring solar's approach (drivers/solar/device.js): a single
-        // 'last7Days'/'last14Days' fetch only ever returns HOURLY points, and since the old code
-        // stopped at the first resolution with any data, it locked onto hourly and never tried a
-        // finer one - this is why battery/SoC charts stepped hourly even when the price source
-        // (e.g. dap15) is 15-minute resolution. 'last24Hours' gives ~5-minute resolution for the
-        // most recent day (confirmed working in solar's fine-tuning fetch); merge it over the
-        // coarse hourly data so the last 24h is fine-grained and 24-48h ago stays hourly (that's
-        // all Insights offers that far back).
+        // Hourly (last7Days/last14Days) plus 'last24Hours' (~5-minute) merged over it.
         let coarse = null;
         for (const resStr of ['last7Days', 'last14Days']) {
           const data = await api.insights.getLogEntries({
@@ -252,27 +227,9 @@ class BatDevice extends GenericDevice {
         return { entries: merged, isWatts: fine.isWatts };
       };
 
-      // 1. Power history. Prefer the exact capability already resolved by addSourceCapGroup()
-      // (matches what the live capability listener reads), including its sign correction - this
-      // avoids independently re-guessing and silently falling back to a legacy/inverted capability
-      // (e.g. Sessy's 'measure_power.battery') purely because Homey Insights hasn't logged the
-      // correct one yet.
-      //
-      // IMPORTANT: never search for a log literally named 'measure_power' - a log entry by that
-      // exact name CAN exist in the log listing but with zero real samples (confirmed on grid's
-      // SmartMeter and on Sessy1, both 2026-08-10: 100% null across 14 days). 'energy_power' IS
-      // the real Insights log for that same bare 'measure_power' capability - same signal,
-      // already Homey-standard-signed, just filed under a different log id. (On Sessy1,
-      // 'energy_power' matched exactly -1x 'measure_power.battery' - but that's just transitive
-      // arithmetic, since 'measure_power.battery' below is itself a capability THIS APP defined
-      // as -1x 'measure_power' to correct for Sessy's inverted-from-Homey-convention hardware.
-      // It doesn't mean 'energy_power' "follows" whatever capability is registered as some
-      // energy-class source - no device has been observed where it diverges from bare
-      // 'measure_power'.) So: if the resolved live capability IS the bare 'measure_power',
-      // redirect to 'energy_power' uninverted; for any other resolved capability (suffixed
-      // variants like 'measure_power.battery', 'measure_power.sessy', etc.), keep searching
-      // under its own real name as before - those are unaffected by this and already correctly
-      // matched a real, populated log.
+      // 1. Power history: the capability addSourceCapGroup() resolved, with its sign. A bare
+      // 'measure_power' is read from 'energy_power' (a 'measure_power' log can exist but is empty,
+      // skill section 3); suffixed variants under their own name.
       const resolvedPowerCap = (this.sourceCapGroup && (this.sourceCapGroup.newMeasurePower || this.sourceCapGroup.power)) || null;
       const resolvedPowerInvert = !!this.sourcePowerInvert;
 
@@ -282,8 +239,7 @@ class BatDevice extends GenericDevice {
       }
       powerCandidates.push({ cap: 'energy_power', invert: false });
       if (!resolvedPowerCap) {
-        // No single signed power capability resolved (e.g. a chargePower/dischargePower magnitude
-        // pair vendor) - fall back to the broad priority guess as a last resort.
+        // No signed power capability resolved: broad guess as a last resort.
         ['measure_power.battery', 'measure_power.sessy', 'meter_power'].forEach((cap) => powerCandidates.push({ cap, invert: false }));
       }
 
@@ -367,15 +323,10 @@ class BatDevice extends GenericDevice {
   }
 
   async handleUpdateMeter(reading) {
-    // This override previously shadowed GenericDevice#handleUpdateMeter entirely (same method
-    // name), silently skipping the base class's meter-period bookkeeping (meter_power_hidden,
-    // lastReadingHour/Day/Month/Year) and money calculation (meter_money_*) since the "graphs
-    // upgrade" commit that introduced this override. Restore the base behaviour.
+    // Must call the base, or meter periods and money are skipped.
     await super.handleUpdateMeter(reading);
 
-    // Neither this device nor the HomeyAPI sourceDevice wrapper expose a 'measure_power'
-    // capability/method, so that lookup always failed. The device's own live signed
-    // charge(+)/discharge(-) power is published on 'measure_watt_avg'.
+    // The live signed power is on 'measure_watt_avg'.
     let livePower = (reading && typeof reading.measure_power === 'number') ? reading.measure_power : null;
     if (livePower === null && this.hasCapability('measure_watt_avg')) {
       livePower = this.getCapabilityValue('measure_watt_avg');
@@ -399,11 +350,8 @@ class BatDevice extends GenericDevice {
     if (!this.pricesNextHours) return;
     await this.refreshDapPrices().catch(() => {});
     const minPriceDelta = this.getSettings().roiMinProfit;
-    // A flow trigger (triggerNewRoiStrategyFlow) usually computed this same plan seconds ago; the
-    // exact-inputs cache in find_roi_strategy() misses on a changed SoC or minute. The chart only
-    // shows the plan, so a result from the same price slot and minPriceDelta is good enough - as
-    // long as it was made after the latest price update (new prices can arrive mid-slot) and after
-    // the last (re)init (settings changes restart the device; onInit() clears lastStratTm).
+    // Reuse a plan from the same price slot and minPriceDelta (a flow trigger usually computed it
+    // seconds ago), if made after the latest price update and the last (re)init.
     const slotMs = (this.priceInterval || 60) * 60 * 1000;
     // Price slots follow local time: bucket on local (offset-shifted) timestamps, not UTC epoch.
     const tz = this.timeZone || this.homey.clock.getTimezone();

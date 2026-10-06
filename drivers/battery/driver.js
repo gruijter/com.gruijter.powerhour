@@ -26,46 +26,36 @@ const SourceCaps = require('../../lib/helpers/SourceCaps');
 
 const driverSpecifics = {
   driverId: 'battery',
-  // Exceptions list, used only when a source device does NOT already qualify for the official
-  // Homey battery-energy-class detection in autoSourceCapGroup() (class 'battery' + 'measure_battery'
-  // + 'measure_power'). Per https://apps.developer.homey.app/the-basics/devices/energy#home-batteries
-  // the Homey standard for measure_power/target_power is: positive = charging, negative = discharging.
-  // Every entry here must resolve to that same convention:
-  //   - `power` + `invertPower`: a single already-signed capability. Set invertPower: true when the
-  //     vendor's own native sign convention is the opposite of the Homey standard.
-  //   - `chargePower` + `dischargePower`: a pair of non-negative MAGNITUDE capabilities (no sign of
-  //     their own, direction is implied by which one is reporting). No invert flag needed since the
-  //     direction is unambiguous from which capability fired.
+  // Vendor exceptions, used only when a source device does not qualify as a Homey battery (class
+  // 'battery' + measure_battery + measure_power). Homey standard: positive = charging
+  // (https://apps.developer.homey.app/the-basics/devices/energy#home-batteries).
+  //   - `power` + `invertPower`: one signed capability; invertPower when the vendor's sign is opposite.
+  //   - `chargePower` + `dischargePower`: two non-negative magnitudes.
   sourceCapGroups: [
     {
-      soc: 'measure_battery_soc', power: 'measure_battery_power', invertPower: true, // Solax (pre-existing behaviour, unverified against Solax's own docs)
+      soc: 'measure_battery_soc', power: 'measure_battery_power', invertPower: true, // Solax (unverified)
     },
     {
-      soc: 'battery_capacity', power: 'measure_power.battery', invertPower: true, // Victron (pre-existing behaviour, unverified against Victron's own docs)
+      soc: 'battery_capacity', power: 'measure_power.battery', invertPower: true, // Victron (unverified)
     },
     {
-      // Sessy fallback: current Sessy versions expose a Homey-standard-compliant 'measure_power'
-      // and are matched via the official Homey battery-class check in autoSourceCapGroup() instead.
-      // This entry only applies as a fallback (e.g. an older Sessy app without class 'battery').
-      // Sessy's legacy 'measure_power.battery' capability still uses the old, inverted convention.
+      // Sessy fallback for older app versions without class 'battery': legacy inverted measure_power.battery.
       soc: 'measure_battery', power: 'measure_power.battery', invertPower: true, // Sessy (legacy fallback)
     },
     {
-      // 'in'/'out' unambiguously indicate direction: batt_in = charging, batt_out = discharging.
       soc: 'measure_battery', chargePower: 'measure_power.batt_in', dischargePower: 'measure_power.batt_out', // Sonnen
     },
     {
-      // 'from'/'to' the battery unambiguously indicate direction: from = discharging, to = charging.
       soc: 'measure_battery', chargePower: 'to_battery_capability', dischargePower: 'from_battery_capability', // Sonnen Batterie
     },
     {
-      soc: 'measure_percentage.bat_soc', power: 'measure_power.battery', invertPower: true, // Blauhoff Afore (pre-existing behaviour, unverified against Blauhoff's own docs)
+      soc: 'measure_percentage.bat_soc', power: 'measure_power.battery', invertPower: true, // Blauhoff Afore (unverified)
     },
     {
-      soc: 'measure_percentage.battery1', power: 'measure_power.battery1', invertPower: true, // Blauhoff Deye (pre-existing behaviour, unverified against Blauhoff's own docs)
+      soc: 'measure_percentage.battery1', power: 'measure_power.battery1', invertPower: true, // Blauhoff Deye (unverified)
     },
     {
-      soc: 'measure_battery', power: 'measure_power', invertPower: true, // SolarEdge Growatt (pre-existing behaviour, unverified against SolarEdge/Growatt's own docs)
+      soc: 'measure_battery', power: 'measure_power', invertPower: true, // SolarEdge Growatt (unverified)
     },
   ],
   deviceCapabilities: [
@@ -86,7 +76,7 @@ const driverSpecifics = {
       energy: (energy) => !!(energy.meterPowerImportedCapability || energy.meterPowerExportedCapability),
     },
   },
-  // Canonical display order for this driver's chart images - see lib/helpers/ChartImages.js.
+  // Chart image order, see lib/helpers/ChartImages.js.
   chartImages: [
     {
       id: 'todayChargeChart', prop: 'todayChargeImage', chartProp: 'chartTodayCharge', titleKey: 'today',
@@ -109,8 +99,7 @@ class BatteryDriver extends GenericDriver {
     this.ds = driverSpecifics;
     await super.onInit().catch(this.error);
 
-    // Only initialize polling if there are devices.
-    // If a device is paired later, checkStartPolling will handle it.
+    // Polling starts with the first device (checkStartPolling).
     if (this.getDevices().length > 0) {
       await this.checkStartPolling();
     }
@@ -144,11 +133,7 @@ class BatteryDriver extends GenericDriver {
       let cumulativePower = getGridPowerFallback(this.homey);
       if (cumulativePower === null) cumulativePower = report?.totalCumulative?.W;
 
-      // Plausibility bound on the GRID exchange feeding the XOM/NOM logic. Was a flat 30000 W;
-      // now derived from the grid device's configured connection rating, so it scales with the
-      // actual connection instead of silently discarding real readings above 30 kW and accepting
-      // absurd ones on a small connection. Falls back to the 3x25A default when no grid device is
-      // paired, which is exactly the old behaviour's ballpark. See lib/helpers/GridConnection.js.
+      // Plausibility bound on the grid exchange for XOM/NOM, see lib/helpers/GridConnection.js.
       // eslint-disable-next-line global-require
       const GridConnection = require('../../lib/helpers/GridConnection');
       const ceilingW = await GridConnection.ceilingW(this.homey);
@@ -217,9 +202,7 @@ class BatteryDriver extends GenericDriver {
   autoSourceCapGroup(sourceDevice) {
     const caps = sourceDevice.capabilities || [];
     const hasCapability = (capability) => caps.includes(capability);
-    // 1. Prefer the official Homey battery-energy-class standard: class 'battery' with
-    // 'measure_battery' + 'measure_power', where measure_power already follows the Homey
-    // convention (positive = charging, negative = discharging) - no sign correction needed.
+    // 1. The Homey battery standard: measure_power already signed (+ = charging).
     if ((sourceDevice.class === 'battery' || sourceDevice.virtualClass === 'battery')
       && hasCapability('measure_battery') && hasCapability('measure_power')) {
       const energyData = sourceDevice.energyObj || sourceDevice.energy;
@@ -236,10 +219,7 @@ class BatteryDriver extends GenericDriver {
         invert: false,
       };
     }
-    // 2. Fall back to the documented vendor exceptions list (see sourceCapGroups) for source
-    // devices that don't (yet) comply with the official Homey battery energy standard.
-    // 'invertPower' is metadata, not a capability name, so it must not be used as a required
-    // capability nor registered as a listener target.
+    // 2. The vendor exceptions (sourceCapGroups). 'invertPower' is metadata, not a capability.
     const matched = SourceCaps.matchGroup(caps, this.ds.sourceCapGroups, ['invertPower']);
     if (!matched) return null;
     const group = { ...matched };

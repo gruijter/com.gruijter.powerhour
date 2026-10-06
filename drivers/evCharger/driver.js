@@ -25,18 +25,14 @@ const driverSpecifics = {
     'meter_money_last_month', 'meter_money_this_month', 'meter_money_last_year', 'meter_money_this_year',
     'meter_money_this_month_avg', 'meter_money_this_year_avg',
     'meter_tariff', 'meter_power',
-    // Needed by the shared generic_bat_device.js base class (same as drivers/battery/driver.js):
-    // meter_power_hidden anchors updateMeterFromMeasure()'s delta baseline and the large-jump
-    // anomaly guard in handleUpdateMeter(); without it, updateMeterFromMeasure() silently no-ops
-    // on every call for any EV charger paired via the "measure_power only" path (no separate
-    // cumulative meter capability on the source device), so kWh/money never accumulate for it.
+    // Needed by generic_bat_device.js: without it updateMeterFromMeasure() has no baseline and kWh
+    // and money never accumulate.
     'meter_power_hidden', 'meter_kwh_charging', 'meter_kwh_discharging',
-    // Lets the user force a re-learn from Insights history, same as solar's own button.retrain.
     'button.retrain',
     // Not plugged in while the next departure needs charge (solar's alarm_power: last, own title).
     'alarm_generic',
   ],
-  // Canonical display order for this driver's chart images - see lib/helpers/ChartImages.js.
+  // Chart image order, see lib/helpers/ChartImages.js.
   chartImages: [
     {
       id: 'todayChargeChart', prop: 'todayChargeImage', chartProp: 'chartTodayCharge', titleKey: 'today',
@@ -68,8 +64,7 @@ class CarChargeDriver extends GenericDriver {
     this.ds = driverSpecifics;
     await super.onInit().catch(this.error);
 
-    // Only initialize polling if there are devices.
-    // If a device is paired later, checkStartPolling will handle it.
+    // Polling starts with the first device (checkStartPolling).
     if (this.getDevices().length > 0) {
       await this.checkStartPolling();
     }
@@ -124,8 +119,7 @@ class CarChargeDriver extends GenericDriver {
    * Returns { found, useMeasureSource } or { found: false }.
    */
   checkDeviceCompatibility(homeyDevice) {
-    // Exclude PBTH's own summary devices, same convention as generic_sum_driver.js
-    // (used by gas/solar/water): driverId, not the device's own editable name.
+    // Exclude PBTH's own devices (by driverId, not the editable name).
     if ((homeyDevice.driverId || '').includes('com.gruijter.powerhour')) {
       return { found: false };
     }
@@ -137,8 +131,7 @@ class CarChargeDriver extends GenericDriver {
     if (homeyDevice.class === 'evcharger' || homeyDevice.virtualClass === 'evcharger') {
       isCharger = true;
     } else if (energyData && energyData.isEVCharger === true) {
-      // Covers smart plugs/sockets too: Homey's own "This device is an EV charger"
-      // energy setting, not a guess based on the device's (user-editable) name.
+      // Homey's "This device is an EV charger" energy setting.
       isCharger = true;
     }
 
@@ -159,25 +152,19 @@ class CarChargeDriver extends GenericDriver {
    * Returns { found: true } or { found: false }.
    */
   checkCarCompatibility(homeyDevice) {
-    // Exclude PBTH's own summary devices, same convention as generic_sum_driver.js
-    // (used by gas/solar/water): driverId, not the device's own editable name.
+    // Exclude PBTH's own devices (by driverId, not the editable name).
     if ((homeyDevice.driverId || '').includes('com.gruijter.powerhour')) {
       return { found: false };
     }
 
     const caps = homeyDevice.capabilities || [];
-    // 'vehicle' is Homey's official class for cars/bikes/scooters when 'car' doesn't apply
-    // (e.g. this developer's own com.kia_hyundai app uses it); virtualClass is the
-    // user's explicit "what type is this" override in Homey's device settings.
+    // virtualClass: the user's device type override in Homey.
     const carClasses = ['car', 'vehicle'];
     if (carClasses.includes(homeyDevice.class) || carClasses.includes(homeyDevice.virtualClass)) {
       return { found: true };
     }
-    // Fallback for apps that use a generic class (e.g. 'sensor') for their car driver.
-    // Require a charge-state capability together with a SoC reading: measure_battery
-    // alone is far too common (any battery-powered sensor has it) to be a reliable signal.
-    // 'ev_charging_state' is the car/vehicle-class equivalent of 'evcharger_charging_state'
-    // (identical enum, see device.js's addSourceCapGroup() for the full explanation).
+    // Generic class (e.g. 'sensor'): a charge state together with a SoC (measure_battery alone is
+    // too common). 'ev_charging_state' is the car-class twin of 'evcharger_charging_state'.
     const hasChargeState = caps.includes('evcharger_charging_state') || caps.includes('ev_charging_state') || caps.includes('evcharger_charging');
     const hasSoc = caps.includes('measure_battery');
     if (hasChargeState && hasSoc) return { found: true };
@@ -251,9 +238,7 @@ class CarChargeDriver extends GenericDriver {
   // ─── Pairing / repairing ─────────────────────────────────────────────────────
 
   /**
-   * Lists one entry per charger (no car linked), plus one entry per
-   * charger+car combination, so the user picks both in a single, familiar
-   * device-selection list instead of a separate car-picking step.
+   * One entry per charger, plus one per charger+car combination: both picked in one list.
    */
   async onPairListDevices() {
     const randomId = crypto.randomBytes(3).toString('hex');
