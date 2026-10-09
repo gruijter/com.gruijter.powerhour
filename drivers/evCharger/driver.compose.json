@@ -563,6 +563,16 @@
           }
         },
         {
+          "id": "maxPrice",
+          "type": "number",
+          "value": 0,
+          "min": 0,
+          "max": 10,
+          "step": 0.01,
+          "label": {"en": "Max. price (per kWh)", "nl": "Max. prijs (per kWh)", "de": "Max. Preis (pro kWh)", "fr": "Prix max. (par kWh)", "es": "Precio máx. (por kWh)", "it": "Prezzo max. (per kWh)", "da": "Maks. pris (pr. kWh)", "sv": "Max. pris (per kWh)", "no": "Maks. pris (per kWh)", "pl": "Maks. cena (za kWh)", "ru": "Макс. цена (за кВт·ч)", "ar": "أقصى سعر (لكل كيلوواط ساعة)", "ko": "최대 가격 (kWh당)"},
+          "hint": {"en": "No charging at home above this price, e.g. when public charging is cheaper. Not below Minimum SoC or with 'Charge now'. 0 = no maximum.", "nl": "Niet thuis laden boven deze prijs, bv. als laden aan de straat goedkoper is. Niet onder Minimum-SoC of bij 'Nu laden'. 0 = geen maximum.", "de": "Zu Hause nicht über diesem Preis laden, z. B. wenn öffentliches Laden günstiger ist. Nicht unter Minimum-SoC oder bei 'Jetzt laden'. 0 = kein Maximum.", "fr": "Pas de charge à la maison au-dessus de ce prix, ex. si la recharge publique est moins chère. Pas sous le SoC minimum ni avec 'Charger maintenant'. 0 = pas de maximum.", "es": "No cargar en casa por encima de este precio, p. ej. si la carga pública es más barata. No bajo el SoC mínimo ni con 'Cargar ahora'. 0 = sin máximo.", "it": "Nessuna ricarica a casa sopra questo prezzo, es. se la ricarica pubblica costa meno. Non sotto il SoC minimo né con 'Carica ora'. 0 = nessun massimo.", "da": "Ingen opladning hjemme over denne pris, fx når offentlig opladning er billigere. Ikke under Minimum-SoC eller med 'Lad nu'. 0 = intet maksimum.", "sv": "Ingen laddning hemma över detta pris, t.ex. när publik laddning är billigare. Inte under Minimum-SoC eller med 'Ladda nu'. 0 = inget maximum.", "no": "Ingen lading hjemme over denne prisen, f.eks. når offentlig lading er billigere. Ikke under Minimum-SoC eller med 'Lad nå'. 0 = intet maksimum.", "pl": "Brak ładowania w domu powyżej tej ceny, np. gdy publiczne ładowanie jest tańsze. Nie poniżej minimalnego SoC ani przy 'Ładuj teraz'. 0 = bez maksimum.", "ru": "Не заряжать дома дороже этой цены, напр. если общественная зарядка дешевле. Не ниже минимального SoC и не при 'Зарядить сейчас'. 0 = без максимума.", "ar": "لا شحن في المنزل فوق هذا السعر، مثلًا عندما يكون الشحن العام أرخص. ليس تحت الحد الأدنى SoC أو مع 'اشحن الآن'. 0 = بلا حد أقصى.", "ko": "이 가격보다 비싸면 집에서 충전하지 않습니다(예: 공용 충전이 더 저렴할 때). 최소 SoC 미만 또는 '지금 충전'에서는 제외. 0 = 최대값 없음."}
+        },
+        {
           "id": "chargerControl",
           "type": "checkbox",
           "label": {
@@ -732,6 +742,16 @@
           "label": { "en": "Learn driving pattern", "nl": "Rijpatroon leren", "de": "Fahrmuster lernen", "fr": "Apprendre les trajets", "es": "Aprender patrón de uso", "it": "Apprendi schema di guida", "da": "Lær kørselsmønster", "sv": "Lär körmönster", "no": "Lær kjøremønster", "pl": "Ucz się wzorca jazdy", "ru": "Изучать режим поездок", "ar": "تعلم نمط القيادة", "ko": "주행 패턴 학습" },
           "hint": { "en": "Manual times below override learned departure times.", "nl": "Handmatige tijden hieronder gaan voor geleerde vertrektijden.", "de": "Manuelle Zeiten unten haben Vorrang vor gelernten Abfahrtszeiten.", "fr": "Les heures manuelles ci-dessous priment sur celles apprises.", "es": "Las horas manuales de abajo prevalecen sobre las aprendidas.", "it": "Gli orari manuali sotto prevalgono su quelli appresi.", "da": "Manuelle tider nedenfor går forud for lærte afgangstider.", "sv": "Manuella tider nedan går före inlärda avgångstider.", "no": "Manuelle tider nedenfor går foran lærte avgangstider.", "pl": "Ręczne godziny poniżej mają pierwszeństwo przed wyuczonymi.", "ru": "Ручное время ниже важнее изученного.", "ar": "الأوقات اليدوية أدناه تتقدم على الأوقات المتعلمة.", "ko": "아래 수동 시간이 학습된 출발 시간보다 우선합니다." },
           "value": true
+        },
+        {
+          "id": "minTripSoc",
+          "type": "number",
+          "label": {"en": "Min. trip SoC (%)", "nl": "Min. SoC per rit (%)", "de": "Min. SoC pro Fahrt (%)", "fr": "SoC min. par trajet (%)", "es": "SoC mín. por viaje (%)", "it": "SoC min. per viaggio (%)", "da": "Min. SoC pr. tur (%)", "sv": "Min. SoC per resa (%)", "no": "Min. SoC per tur (%)", "pl": "Min. SoC na trasę (%)", "ru": "Мин. SoC за поездку (%)", "ar": "أدنى SoC للرحلة (%)", "ko": "주행당 최소 SoC (%)"},
+          "hint": {"en": "A trip from home and back that used less battery than this is not learned as driving.", "nl": "Een rit van huis en terug die minder accu verbruikte dan dit telt niet als rijden.", "de": "Eine Fahrt von zu Hause und zurück, die weniger Akku verbrauchte, zählt nicht als Fahrt.", "fr": "Un aller-retour depuis la maison qui a utilisé moins de batterie n'est pas appris comme trajet.", "es": "Un viaje de ida y vuelta desde casa que usó menos batería no se aprende como uso.", "it": "Un giro da casa e ritorno che ha usato meno batteria non viene appreso come guida.", "da": "En tur hjemmefra og tilbage, der brugte mindre batteri end dette, læres ikke som kørsel.", "sv": "En resa hemifrån och tillbaka som använde mindre batteri än detta lärs inte in som körning.", "no": "En tur hjemmefra og tilbake som brukte mindre batteri enn dette, læres ikke som kjøring.", "pl": "Trasa z domu i z powrotem zużywająca mniej baterii nie jest uczona jako jazda.", "ru": "Поездка из дома и обратно с меньшим расходом батареи не учитывается как поездка.", "ar": "رحلة من المنزل والعودة استهلكت بطارية أقل من هذا لا تُتعلَّم كقيادة.", "ko": "집에서 출발해 돌아온 주행이 이보다 배터리를 적게 쓰면 주행으로 학습하지 않습니다."},
+          "value": 3,
+          "min": 0,
+          "max": 50,
+          "decimals": 0
         },
         {
           "id": "awayPeriods",

@@ -523,12 +523,19 @@ class CarChargeDevice extends GenericDevice {
       unplugTm: this.lastUnplugTm || null,
     };
     const tz = this.timeZone || this.homey.clock.getTimezone();
+    let roundTrip = null;
     if (this.getSettings().autoDepartureLearning !== false) {
-      EvUsageModel.recordTrip(this.usageModel, trip, tz);
+      roundTrip = EvUsageModel.recordTrip(this.usageModel, trip, tz);
       if (this.usageModel.current && typeof this.usageModel.current.departFh === 'number') this.lastUnplugTm = null;
     }
     this.log(`[EV Usage] Trip ${km} km, ${kwh === null ? '?' : kwh.toFixed(1)} kWh by SoC, `
       + `from home: ${trip.fromHome}, to home: ${trip.toHome}`);
+    if (roundTrip) {
+      const kwhPerKm = EvUsageModel.effectiveKwhPerKm(this.usageModel);
+      const used = EvUsageModel.dayKwh(roundTrip, kwhPerKm);
+      const counts = used >= this._minTripKwh();
+      this.log(`[EV Usage] Round trip ${roundTrip.km} km, ${used.toFixed(1)} kWh: ${counts ? 'driving' : 'errand, not learned'}`);
+    }
     if (trip.toHome && reportTm > (this.signals.flowAwaySince || Infinity)) await this._endFlowAway('trip ended at home');
     await this._saveUsageModel();
     await this._updateLearnedProfileSettings();
@@ -1072,14 +1079,14 @@ class CarChargeDevice extends GenericDevice {
   async onSettings({ newSettings, changedKeys }) {
     await super.onSettings({ newSettings, changedKeys });
     const strategyKeys = [
-      'chargePower', 'batCapacity', 'variableChargePower',
+      'chargePower', 'batCapacity', 'variableChargePower', 'maxPrice',
       'departureTime_0', 'departureTime_1', 'departureTime_2', 'departureTime_3',
       'departureTime_4', 'departureTime_5', 'departureTime_6',
     ];
-    if (changedKeys.includes('awayPeriods')) {
-      if (!EvUsageModel.parsePeriods(newSettings.awayPeriods)) {
-        throw Error(this.homey.__('error_invalid_periods', { periods: newSettings.awayPeriods }));
-      }
+    if (changedKeys.includes('awayPeriods') && !EvUsageModel.parsePeriods(newSettings.awayPeriods)) {
+      throw Error(this.homey.__('error_invalid_periods', { periods: newSettings.awayPeriods }));
+    }
+    if (changedKeys.includes('awayPeriods') || changedKeys.includes('minTripSoc')) {
       // After the new settings are stored: the learned profile shows in settings too.
       this.homey.setTimeout(() => {
         this._updateLearnedProfileSettings().catch(this.error);
@@ -1257,7 +1264,13 @@ class CarChargeDevice extends GenericDevice {
 
   // The learned weekly profile, without the days that were not normal.
   _profile() {
-    return EvUsageModel.getProfile(this.usageModel, this._awayPeriods());
+    return EvUsageModel.getProfile(this.usageModel, this._awayPeriods(), this._minTripKwh());
+  }
+
+  // Energy a round trip must use to count as driving (kWh).
+  _minTripKwh() {
+    const settings = this.getSettings();
+    return EvUsageModel.minTripKwh(settings.minTripSoc, settings.batCapacity || 50);
   }
 
   // Day overrides by local date (pickers / flows), from today on. A day in an away period is
@@ -1529,6 +1542,7 @@ class CarChargeDevice extends GenericDevice {
       // Still home after the planned departure: keep charging for that trip until the car leaves.
       stillHome: this.presence && this.presence.atHome && this.presence.chargeable
         ? { lastAwayMs: this.lastAwayTm || 0, stepMs: intervalMin * 60 * 1000 } : null,
+      drivenToday: EvUsageModel.drivenToday(this.usageModel, this._minTripKwh()),
     });
     const n = Math.ceil((EvPlanner.HORIZON_DAYS * 24 * 60) / intervalMin);
     const chargeMode = this.getCapabilityValue('ev_charge_mode') || 'scheduled_price';
@@ -1564,6 +1578,7 @@ class CarChargeDevice extends GenericDevice {
       mode: this._plannerMode(chargeMode),
       blockedUntilMs: this._offUntilMs(chargeMode),
       cheapThreshold: cheap,
+      maxPrice: Number(settings.maxPrice) > 0 ? Number(settings.maxPrice) : null,
       certainSlots: firstForecast >= 0 ? firstForecast : undefined,
       variablePower: !!settings.variableChargePower,
       solarGridW: Number(settings.solarGridPower) || 0,
