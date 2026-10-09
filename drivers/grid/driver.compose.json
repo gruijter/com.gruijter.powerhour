@@ -231,10 +231,10 @@
       "title": {
         "en": "Money this day (imported)",
         "nl": "Geld deze dag (geïmporteerd)",
-        "de": "Kosten dieser Tag (importiert)",
-        "it": "Spesa oggi (importato)",
+        "de": "Geld dieser Tag (importiert)",
+        "it": "Importo oggi (importato)",
         "sv": "Pengar idag (importerad)",
-        "no": "Kostnad idag (importert)",
+        "no": "Penger i dag (importert)",
         "da": "Penge i dag (importeret)",
         "ko": "오늘 금액 (수입)",
         "fr": "Argent ce jour (importé)",
@@ -254,7 +254,7 @@
         "de": "Erlös dieser Tag (exportiert)",
         "fr": "Argent ce jour (exporté)",
         "it": "Ricavo oggi (esportato)",
-        "no": "Inntekt idag (eksportert)",
+        "no": "Inntekt i dag (eksportert)",
         "es": "Dinero este día (exportado)",
         "pl": "Pieniądze ten dzień (eksport)",
         "ru": "Деньги этот день (экспорт)",
@@ -266,10 +266,10 @@
         "en": "Money prev. day (imported)",
         "nl": "Geld vorige dag (geïmporteerd)",
         "fr": "Argent hier (importé)",
-        "no": "Kostnad forrige dag (importert)",
+        "no": "Penger forrige dag (importert)",
         "ko": "전날 금액 (수입)",
-        "de": "Kosten Vortag (importiert)",
-        "it": "Spesa giorno prec. (importato)",
+        "de": "Geld Vortag (importiert)",
+        "it": "Importo giorno prec. (importato)",
         "sv": "Pengar föreg. dag (importerad)",
         "es": "Dinero día anterior (importado)",
         "da": "Penge forrige dag (importeret)",
@@ -299,11 +299,11 @@
       "title": {
         "en": "Money this month (imported)",
         "nl": "Geld deze maand (geïmporteerd)",
-        "de": "Kosten dieser Monat (importiert)",
+        "de": "Geld dieser Monat (importiert)",
         "fr": "Argent ce mois-ci (importé)",
-        "it": "Spesa mese corrente (importato)",
+        "it": "Importo mese corrente (importato)",
         "sv": "Pengar denna månad (importerad)",
-        "no": "Kostnad denne måned (importert)",
+        "no": "Penger denne måned (importert)",
         "es": "Dinero este mes (importado)",
         "da": "Penge denne måned (importeret)",
         "pl": "Pieniądze ten miesiąc (import)",
@@ -333,11 +333,11 @@
       "title": {
         "en": "Money prev. month (imported)",
         "nl": "Geld vorige maand (geïmporteerd)",
-        "de": "Kosten Vormonat (importiert)",
+        "de": "Geld Vormonat (importiert)",
         "fr": "Argent mois dernier (importé)",
-        "it": "Spesa mese prec. (importato)",
+        "it": "Importo mese prec. (importato)",
         "sv": "Pengar föreg. månad (importerad)",
-        "no": "Kostnad forrige måned (importert)",
+        "no": "Penger forrige måned (importert)",
         "es": "Dinero mes anterior (importado)",
         "da": "Penge forrige måned (importeret)",
         "pl": "Pieniądze poprz. miesiąc (import)",
@@ -367,11 +367,11 @@
       "title": {
         "en": "Money this year (imported)",
         "nl": "Geld dit jaar (geïmporteerd)",
-        "de": "Kosten dieses Jahr (importiert)",
+        "de": "Geld dieses Jahr (importiert)",
         "fr": "Argent cette année (importé)",
-        "it": "Spesa anno corrente (importato)",
+        "it": "Importo anno corrente (importato)",
         "sv": "Pengar detta år (importerad)",
-        "no": "Kostnad dette år (importert)",
+        "no": "Penger dette år (importert)",
         "es": "Dinero este año (importado)",
         "da": "Penge dette år (importeret)",
         "pl": "Pieniądze ten rok (import)",
@@ -401,11 +401,11 @@
       "title": {
         "en": "Money prev. year (imported)",
         "nl": "Geld vorig jaar (geïmporteerd)",
-        "de": "Kosten Vorjahr (importiert)",
+        "de": "Geld Vorjahr (importiert)",
         "fr": "Argent année dernière (importé)",
-        "it": "Spesa anno prec. (importato)",
+        "it": "Importo anno prec. (importato)",
         "sv": "Pengar föreg. år (importerad)",
-        "no": "Kostnad forrige år (importert)",
+        "no": "Penger forrige år (importert)",
         "es": "Dinero año anterior (importado)",
         "da": "Penge forrige år (importeret)",
         "pl": "Pieniądze poprz. rok (import)",
@@ -1072,7 +1072,7 @@
             "en": "Either Homey device or Virtual device. The meter of a virtual device can only be updated via a flow.",
             "nl": "Homey apparaat of virtueel apparaat. De meter van een virtueel apparaat kan alleen worden geupdated via een flow.",
             "de": "Homey Gerät oder virtuelles Gerät. Der Zähler eines virtuellen Geräts kann nur über einen Flow aktualisiert werden.",
-            "fr": "Appareil Homey soit appareil virtuel. Le compteur d'un appareil virtuel peut être mis à jour uniquement via un flow",
+            "fr": "Soit un appareil Homey, soit un appareil virtuel. Le compteur d'un appareil virtuel ne peut être mis à jour que via un flow.",
             "it": "Dispositivo Homey o dispositivo virtuale. Il contatore di un dispositivo virtuale può essere aggiornato solo tramite un flow.",
             "sv": "Antingen Homey enhet eller virtuell enhet. Mätaren för en virtuell enhet kan endast uppdateras via ett flöde.",
             "no": "Enten Homey enhet eller virtuell enhet. Meteret til en virtuell enhet kan bare oppdateres via en flow.",
@@ -1081,7 +1081,7 @@
             "pl": "Urządzenie Homey lub urządzenie wirtualne. Licznik urządzenia wirtualnego można zaktualizować tylko za pomocą przepływu.",
             "ru": "Либо устройство Homey, либо виртуальное устройство. Счетчик виртуального устройства можно обновить только через поток.",
             "ar": "إما جهاز Homey أو جهاز افتراضي. لا يمكن تحديث عداد الجهاز الافتراضي إلا عبر التدفق.",
-            "ko": "Homey 장치 또는 가상 장치 중 하나입니다. 가상 장치의 계량기는 플로우를 통해서만 업데이트할 수 있습니다."
+            "ko": "Homey 장치 또는 가상 장치를 선택하세요. 가상 장치의 계량기는 flow를 통해서만 업데이트할 수 있습니다."
           }
         },
         {
@@ -1100,7 +1100,7 @@
             "pl": "Użyj Wata jako źródła",
             "ru": "Использовать Ватт как источник",
             "ar": "استخدم وات كمصدر",
-            "ko": "소스로 와트(W) 사용"
+            "ko": "Watt를 소스로 사용"
           },
           "hint": {
             "en": "Some source devices do not have a kWh meter. Using W is a less accurate fallback method. ONLY USE THIS IF kWh IS NOT POSSIBLE!",
@@ -1115,7 +1115,7 @@
             "pl": "Niektóre urządzenia źródłowe nie mają licznika kWh. Użycie W jest mniej dokładną metodą awaryjną. UŻYWAJ TEGO TYLKO, JEŚLI kWh NIE JEST MOŻLIWE!",
             "ru": "У некоторых исходных устройств нет счетчика кВтч. Использование Вт является менее точным резервным методом. ИСПОЛЬЗУЙТЕ ТОЛЬКО ЕСЛИ кВтч НЕВОЗМОЖНО!",
             "ar": "بعض أجهزة المصدر ليس لديها عداد كيلوواط ساعة. استخدام وات هو طريقة احتياطية أقل دقة. استخدم هذا فقط إذا لم يكن الكيلوواط ساعة ممكنًا!",
-            "ko": "일부 소스 장치에는 kWh 계량기가 없습니다. W를 사용하는 것은 정확도가 낮은 대체 방법입니다. kWh 사용이 불가능한 경우에만 사용하세요!"
+            "ko": "일부 소스 장치에는 kWh 계량기가 없습니다. W를 사용하는 것은 덜 정확한 대체 방법입니다. kWh를 사용할 수 없는 경우에만 사용하세요!"
           },
           "value": false
         },
@@ -1135,7 +1135,7 @@
             "pl": "Opóźnij ankietę godzinową (minuty)",
             "ru": "Задержка ежечасного опроса (минуты)",
             "ar": "تأخير الاستطلاع الساعي (دقائق)",
-            "ko": "매시간 폴링 지연 (분)"
+            "ko": "시간별 폴링 지연 (분)"
           },
           "hint": {
             "en": "Set to 0 to get immediate updates on the hour. This setting is ignored for Watt and virtual source devices.",
@@ -1150,7 +1150,7 @@
             "pl": "Ustaw na 0, aby otrzymywać natychmiastowe aktualizacje co godzinę. To ustawienie jest ignorowane dla Watt i wirtualnych urządzeń źródłowych.",
             "ru": "Установите 0 для получения мгновенных обновлений каждый час. Этот параметр игнорируется для Вт и виртуальных исходных устройств.",
             "ar": "تعيين إلى 0 للحصول على تحديثات فورية على مدار الساعة. يتم تجاهل هذا الإعداد للوات وأجهزة المصدر الافتراضية.",
-            "ko": "정각에 즉시 업데이트하려면 0으로 설정하세요. 이 설정은 와트 및 가상 소스 장치에는 적용되지 않습니다."
+            "ko": "0으로 설정하면 매 정각에 즉시 업데이트됩니다. 이 설정은 Watt 및 가상 소스 장치에는 적용되지 않습니다."
           },
           "value": 1,
           "min": 0,
@@ -1343,7 +1343,7 @@
         "pl": "Początek roku i budżet energetyczny",
         "ru": "Начало года и энергетический бюджет",
         "ar": "بداية العام وميزانية الطاقة",
-        "ko": "연도 시작일 및 에너지 예산"
+        "ko": "연 시작 및 에너지 예산"
       },
       "children": [
         {
@@ -1362,7 +1362,7 @@
             "pl": "Data rozpoczęcia nowego roku",
             "ru": "Дата начала нового года",
             "ar": "تاريخ بدء العام الجديد",
-            "ko": "새 연도 시작일"
+            "ko": "새해 시작일"
           },
           "value": "0101",
           "hint": {
@@ -1378,7 +1378,7 @@
             "pl": "W tym dniu suma miesiąca i roku zresetuje się do 0. Format to ddmm. Domyślnie jest to 0101 (1 stycznia). UWAGA: Jeśli zmienisz tę datę, musisz ręcznie poprawić wartości Początek tego miesiąca i Początek tego roku.",
             "ru": "В эту дату итоги месяца и года будут сброшены до 0. Формат ддмм. По умолчанию 0101 (1 января). ВНИМАНИЕ: Если вы измените эту дату, вам нужно будет вручную исправить значения Начало этого месяца и Начало этого года.",
             "ar": "في هذا التاريخ سيتم إعادة تعيين إجمالي الشهر والسنة إلى 0. التنسيق هو ddmm. الافتراضي هو 0101 (1 يناير). انتبه: إذا قمت بتغيير هذا التاريخ، فأنت بحاجة إلى تصحيح قيم بداية هذا الشهر وبداية هذا العام يدويًا.",
-            "ko": "이 날짜에 월간 및 연간 합계가 0으로 재설정됩니다. 형식은 ddmm입니다. 기본값은 0101(1월 1일)입니다. 주의: 이 날짜를 변경하면 '이번 달 시작' 및 '올해 시작' 값을 직접 수정해야 합니다."
+            "ko": "이 날짜에 월 및 연 합계가 0으로 초기화됩니다. 형식은 ddmm이며 기본값은 0101(1월 1일)입니다. 주의: 이 날짜를 변경하면 \"이번 달 시작\" 및 \"올해 시작\" 값을 직접 수정해야 합니다."
           }
         },
         {
@@ -1413,7 +1413,7 @@
             "pl": "Całkowity budżet docelowy na rok. Uwaga: rok rozpoczyna się w ustawionej dacie rozpoczęcia. Wybierając dystrybucję BUDŻETU NIESTANDARDOWEGO, wpisz 12 wartości od stycznia do grudnia oddzielonych ;",
             "ru": "Общий целевой бюджет на год. Внимание: год начинается с установленной даты начала. При выборе РАСПРЕДЕЛЕНИЯ ПОЛЬЗОВАТЕЛЬСКОГО БЮДЖЕТА заполните 12 значений с января по декабрь, разделенных ;",
             "ar": "إجمالي الميزانية المستهدفة لعام. انتبه: تبدأ السنة في تاريخ البدء المحدد. عند اختيار توزيع الميزانية المخصصة، املأ القيم الـ 12 من يناير إلى ديسمبر مفصولة بـ ;",
-            "ko": "연간 총 목표 예산입니다. 주의: 연도는 설정된 시작일부터 시작됩니다. '사용자 지정 예산' 분배를 선택한 경우, 1월부터 12월까지의 12개 값을 ;로 구분하여 입력하세요."
+            "ko": "연간 총 목표 예산입니다. 주의: 연도는 설정한 시작일부터 시작합니다. \"사용자 지정 예산\" 분배를 선택하면 1월부터 12월까지 12개의 값을 ;로 구분하여 입력하세요."
           }
         },
         {
@@ -1448,7 +1448,7 @@
             "pl": "Codzienny rozkład zużycia w ciągu roku.",
             "ru": "Ежедневное распределение использования в течение года.",
             "ar": "توزيع الاستخدام يومًا بعد يوم على مدار العام.",
-            "ko": "연중 사용량의 일별 분배입니다."
+            "ko": "연중 일별 사용량 분포입니다."
           },
           "values": [
             {
@@ -1538,7 +1538,7 @@
                 "pl": "PV N-Europa, nachylenie 40°S",
                 "ru": "ФЭ С-Европа, наклон 40°Ю",
                 "ar": "الطاقة الكهروضوئية شمال أوروبا، إمالة 40 درجة جنوبًا",
-                "ko": "PV 북유럽, 40°S 기울기"
+                "ko": "PV 북유럽, 경사 40°S"
               }
             }
           ]
@@ -1560,7 +1560,7 @@
         "pl": "Odczyty licznika",
         "ru": "Показания счетчика",
         "ar": "قراءات العداد",
-        "ko": "계량기 측정값"
+        "ko": "계량기 값"
       },
       "children": [
         {
@@ -1571,7 +1571,7 @@
             "nl": "Aantal decimalen",
             "de": "Anzahl Dezimalstellen",
             "fr": "Nombre de décimales",
-            "it": "numero di decimali",
+            "it": "Numero di decimali",
             "sv": "Antalet decimaler",
             "no": "Antall desimaler",
             "es": "Número de decimales",
@@ -1579,7 +1579,7 @@
             "pl": "Liczba miejsc dziesiętnych",
             "ru": "Количество десятичных знаков",
             "ar": "عدد الكسور العشرية",
-            "ko": "소수점 자릿수"
+            "ko": "소수 자릿수"
           },
           "value": 4,
           "min": 0,
@@ -1589,7 +1589,7 @@
             "nl": "Het aantal decimalen.",
             "de": "Die Anzahl der Dezimalstellen.",
             "fr": "Nombre de décimales.",
-            "it": "Iil numero di decimali.",
+            "it": "Il numero di decimali.",
             "sv": "Antalet decimaler som ska användas.",
             "no": "Antall desimaler.",
             "es": "El número de decimales a utilizar.",
@@ -1597,7 +1597,7 @@
             "pl": "Liczba miejsc dziesiętnych do użycia.",
             "ru": "Количество используемых десятичных знаков.",
             "ar": "عدد الكسور العشرية المراد استخدامها.",
-            "ko": "사용할 소수점 자릿수입니다."
+            "ko": "사용할 소수 자릿수입니다."
           }
         },
         {
@@ -1616,14 +1616,14 @@
             "pl": "Obecny odczyt",
             "ru": "Текущее показание",
             "ar": "القراءة الحالية",
-            "ko": "현재 측정값"
+            "ko": "현재 계량기 값"
           },
           "value": "0",
           "hint": {
             "en": "This is the meter reading from the soure device, updated once an hour.",
             "nl": "Dit is de meter stand van het bronapparaat, eenmaal per uur geupdated.",
             "de": "Dies ist der Zählerstand des Homey Geräts, der einmal pro Stunde aktualisiert wird.",
-            "fr": "Ceci est la lecture compteur de l'appareil source; mis à jour chaque heure",
+            "fr": "Ceci est la lecture compteur de l'appareil source, mise à jour chaque heure",
             "it": "Questa è la lettura del contatore dal dispositivo sorgente, aggiornata ogni ora.",
             "sv": "Detta är mätarställningen från käll enheten, uppdaterad en gång i timmen.",
             "no": "Dette er måleravlesningen fra kildeenheten, oppdatert en gang i timen.",
@@ -1632,7 +1632,7 @@
             "pl": "To jest odczyt licznika z urządzenia źródłowego, aktualizowany raz na godzinę.",
             "ru": "Это показание счетчика с исходного устройства, обновляемое раз в час.",
             "ar": "هذه هي قراءة العداد من جهاز المصدر، يتم تحديثها مرة واحدة في الساعة.",
-            "ko": "소스 장치의 계량기 측정값이며, 1시간마다 업데이트됩니다."
+            "ko": "소스 장치의 계량기 값이며, 시간마다 한 번씩 업데이트됩니다."
           }
         },
         {
@@ -1643,7 +1643,7 @@
             "nl": "Deze dag start",
             "de": "Tagesbeginn",
             "fr": "Ce jour commence",
-            "it": "Questo giorno inizia",
+            "it": "Inizio giorno corrente",
             "sv": "Denna dag börjar",
             "no": "Startverdi denne dag",
             "es": "Inicio de este día",
@@ -1667,7 +1667,7 @@
             "pl": "Wprowadź odczyt licznika na początku tego dnia. Jest on automatycznie aktualizowany o północy.",
             "ru": "Введите показание счетчика в начале этого дня. Оно автоматически обновляется в полночь.",
             "ar": "أدخل قراءة العداد في بداية هذا اليوم. يتم تحديثها تلقائيًا في منتصف الليل.",
-            "ko": "오늘 시작 시점의 계량기 측정값을 입력하세요. 자정에 자동으로 업데이트됩니다."
+            "ko": "오늘 시작 시점의 계량기 값을 입력하세요. 자정에 자동으로 업데이트됩니다."
           }
         },
         {
@@ -1678,7 +1678,7 @@
             "nl": "Deze maand start",
             "de": "Monatsbeginn",
             "fr": "Ce mois commence",
-            "it": "Questo mese inizia",
+            "it": "Inizio mese corrente",
             "sv": "Denna månad börjar",
             "no": "Startverdi denne måned",
             "es": "Inicio de este mes",
@@ -1693,16 +1693,16 @@
             "en": "Enter the meter reading at the start of this month. It is automatically updated first day of a new month.",
             "nl": "Geef de meterstand in aan het begin van deze maand. Het wordt de eerste dag van de maand automatisch geupdated.",
             "de": "Geben Sie den Zählerstand zu Beginn des Monats ein. Er wird automatisch am ersten Tag eines neuen Monats aktualisiert.",
-            "fr": "Entrer la lecture compteur au début de ce mois. Ce sera automatisch mis à jour chaque début de mois",
+            "fr": "Entrer la lecture compteur au début de ce mois. Ce sera automatiquement mis à jour chaque début de mois",
             "it": "Inserisci la lettura del contatore all'inizio del mese corrente. Viene aggiornata automaticamente il primo giorno di un nuovo mese.",
-            "sv": "Ange mätarställningen i början av denna måned. Den uppdateras automatiskt första dagen i en ny måned.",
+            "sv": "Ange mätarställningen i början av denna månad. Den uppdateras automatiskt första dagen i en ny månad.",
             "no": "Legg inn målerverdi ved denne måneds start. Den blir automatisk oppdatert første dagen ved ny måned.",
             "es": "Ingrese la lectura del medidor al comienzo de este mes. Se actualiza automáticamente el primer día de un nuevo mes.",
             "da": "Indtast måleraflæsningen ved starten af denne måned. Den opdateres automatisk den første dag i en ny måned.",
             "pl": "Wprowadź odczyt licznika na początku tego miesiąca. Jest on automatycznie aktualizowany pierwszego dnia nowego miesiąca.",
             "ru": "Введите показание счетчика в начале этого месяца. Оно автоматически обновляется в первый день нового месяца.",
             "ar": "أدخل قراءة العداد في بداية هذا الشهر. يتم تحديثها تلقائيًا في اليوم الأول من الشهر الجديد.",
-            "ko": "이번 달 시작 시점의 계량기 측정값을 입력하세요. 매월 첫날에 자동으로 업데이트됩니다."
+            "ko": "이번 달 시작 시점의 계량기 값을 입력하세요. 매월 1일에 자동으로 업데이트됩니다."
           }
         },
         {
@@ -1713,7 +1713,7 @@
             "nl": "Dit jaar start",
             "de": "Jahresbeginn",
             "fr": "Cette année commence",
-            "it": "Questo anno inizia",
+            "it": "Inizio anno corrente",
             "sv": "Årets start",
             "no": "Startverdi dette år",
             "es": "Inicio de este año",
@@ -1737,7 +1737,7 @@
             "pl": "Wprowadź odczyt licznika na początku tego roku. Jest on automatycznie aktualizowany pierwszego dnia nowego roku.",
             "ru": "Введите показание счетчика в начале этого года. Оно автоматически обновляется в первый день нового года.",
             "ar": "أدخل قراءة العداد في بداية هذا العام. يتم تحديثها تلقائيًا في اليوم الأول من العام الجديد.",
-            "ko": "올해 시작 시점의 계량기 측정값을 입력하세요. 매년 첫날에 자동으로 업데이트됩니다."
+            "ko": "올해 시작 시점의 계량기 값을 입력하세요. 매년 1월 1일에 자동으로 업데이트됩니다."
           }
         }
       ]
@@ -1751,13 +1751,13 @@
         "fr": "Valeur monétaire",
         "it": "Valore monetario",
         "sv": "Penningvärde",
-        "no": "Kostnad",
+        "no": "Pengeverdi",
         "es": "Valor monetario",
         "da": "Pengeværdi",
         "pl": "Wartość pieniężna",
         "ru": "Денежная стоимость",
         "ar": "القيمة النقدية",
-        "ko": "금전 가치"
+        "ko": "금전적 가치"
       },
       "children": [
         {
@@ -1792,7 +1792,7 @@
             "pl": "Jednostka wyświetlana jako waluta, np. €, £, EUR, SER, NOK, DKK, CHF. Pozostaw puste, aby automatycznie użyć waluty ze źródła cen Day-ahead.",
             "ru": "Единица, отображаемая как валюта, например €, £, EUR, SER, NOK, DKK, CHF. Оставьте пустым, чтобы автоматически использовать валюту из источника цен Day-ahead.",
             "ar": "الوحدة المعروضة كعملة، مثل €، £، EUR، SER، NOK، DKK، CHF. اتركها فارغة لاستخدام العملة تلقائيًا من مصدر تسعير اليوم التالي.",
-            "ko": "통화로 표시되는 단위입니다. 예: €, £, EUR, SER, NOK, DKK, CHF. 비워두면 Day-ahead 가격 소스의 통화를 자동으로 사용합니다."
+            "ko": "통화로 표시할 단위입니다 (예: €, £, EUR, SER, NOK, DKK, CHF). 비워두면 전일 가격 소스의 통화를 자동으로 사용합니다."
           }
         },
         {
@@ -1802,16 +1802,16 @@
             "en": "Currency decimals",
             "nl": "Geld decimalen",
             "de": "Anzahl Dezimalstellen",
-            "fr": "Décimales monétaire",
+            "fr": "Décimales monétaires",
             "it": "Decimali valuta",
             "sv": "Valuta decimaler",
-            "no": "Valuta desimaler",
+            "no": "Valutadesimaler",
             "es": "Decimales de moneda",
             "da": "Valutadecimaler",
             "pl": "Miejsca dziesiętne waluty",
             "ru": "Десятичные знаки валюты",
             "ar": "الكسور العشرية للعملة",
-            "ko": "통화 소수점 자릿수"
+            "ko": "통화 소수 자릿수"
           },
           "value": 2,
           "min": 0,
@@ -1819,17 +1819,17 @@
           "hint": {
             "en": "The number of decimals to use for monetary value.",
             "nl": "Het aantal decimalen voor geldwaarde.",
-            "de": "Die Anzahl der Dezimalstellen für den Preis.",
+            "de": "Die Anzahl der Dezimalstellen für den Geldbetrag.",
             "fr": "Nombre de décimales à utiliser pour la valeur monétaire",
             "it": "Il numero di decimali da utilizzare per il valore monetario.",
             "sv": "Antalet decimaler som ska användas för monetärt värde.",
-            "no": "Antall desimaler for kostnad.",
+            "no": "Antall desimaler for pengeverdi.",
             "es": "El número de decimales a utilizar para el valor monetario.",
             "da": "Antallet af decimaler, der skal bruges til pengeværdi.",
             "pl": "Liczba miejsc dziesiętnych do użycia dla wartości pieniężnej.",
             "ru": "Количество десятичных знаков для денежной стоимости.",
             "ar": "عدد الكسور العشرية المراد استخدامها للقيمة النقدية.",
-            "ko": "금전 가치에 사용할 소수점 자릿수입니다."
+            "ko": "금전적 가치에 사용할 소수 자릿수입니다."
           }
         },
         {
@@ -1842,30 +1842,30 @@
             "fr": "Valeur monétaire aujourd'hui",
             "it": "Valore monetario di oggi",
             "sv": "Dagens monetära värde",
-            "no": "Kostnad idag",
+            "no": "Pengeverdi denne dag",
             "es": "Valor monetario de este día",
             "da": "Pengeværdi af denne dag",
             "pl": "Wartość pieniężna tego dnia",
             "ru": "Денежная стоимость этого дня",
             "ar": "القيمة النقدية لهذا اليوم",
-            "ko": "오늘의 금전 가치"
+            "ko": "오늘의 금전적 가치"
           },
           "value": 0,
           "decimals": 4,
           "hint": {
             "en": "Actual monetary value. It is automatically updated.",
-            "nl": "Actuele gelwaarde. Wordt automatisch geupdated.",
+            "nl": "Actuele geldwaarde. Wordt automatisch geupdated.",
             "de": "Aktueller Geldbetrag. Er wird automatisch aktualisiert.",
             "fr": "Valeur monétaire actuelle. Elle est mise à jour automatiquement",
             "it": "Valore monetario attuale. Viene aggiornato automaticamente.",
             "sv": "Faktiskt penningvärde. Den uppdateras automatiskt.",
-            "no": "Aktuell kostnad. Blir automatisk oppdatert",
+            "no": "Aktuell pengeverdi. Blir automatisk oppdatert",
             "es": "Valor monetario actual. Se actualiza automáticamente.",
             "da": "Faktisk pengeværdi. Den opdateres automatisk.",
             "pl": "Rzeczywista wartość pieniężna. Jest ona automatycznie aktualizowana.",
             "ru": "Фактическая денежная стоимость. Она автоматически обновляется.",
             "ar": "القيمة النقدية الفعلية. يتم تحديثها تلقائيًا.",
-            "ko": "실제 금전 가치입니다. 자동으로 업데이트됩니다."
+            "ko": "실제 금전적 가치입니다. 자동으로 업데이트됩니다."
           }
         },
         {
@@ -1878,30 +1878,30 @@
             "fr": "Valeur monétaire de ce mois",
             "it": "Valore monetario mese corrente",
             "sv": "Denna månads monetära värde",
-            "no": "Kostnad denne måned",
+            "no": "Pengeverdi denne måned",
             "es": "Valor monetario de este mes",
             "da": "Pengeværdi af denne måned",
             "pl": "Wartość pieniężna tego miesiąca",
             "ru": "Денежная стоимость этого месяца",
             "ar": "القيمة النقدية لهذا الشهر",
-            "ko": "이번 달의 금전 가치"
+            "ko": "이번 달의 금전적 가치"
           },
           "value": 0,
           "decimals": 4,
           "hint": {
             "en": "Actual monetary value. It is automatically updated.",
-            "nl": "Actuele gelwaarde. Wordt automatisch geupdated.",
+            "nl": "Actuele geldwaarde. Wordt automatisch geupdated.",
             "de": "Aktueller Geldbetrag. Er wird automatisch aktualisiert.",
             "fr": "Valeur monétaire actuelle. Elle est mise à jour automatiquement",
             "it": "Valore monetario attuale. Viene aggiornato automaticamente.",
             "sv": "Faktiskt penningvärde. Den uppdateras automatiskt.",
-            "no": "Aktuell kostnad. Blir automatisk oppdatert",
+            "no": "Aktuell pengeverdi. Blir automatisk oppdatert",
             "es": "Valor monetario actual. Se actualiza automáticamente.",
             "da": "Faktisk pengeværdi. Den opdateres automatisk.",
             "pl": "Rzeczywista wartość pieniężna. Jest ona automatycznie aktualizowana.",
             "ru": "Фактическая денежная стоимость. Она автоматически обновляется.",
             "ar": "القيمة النقدية الفعلية. يتم تحديثها تلقائيًا.",
-            "ko": "실제 금전 가치입니다. 자동으로 업데이트됩니다."
+            "ko": "실제 금전적 가치입니다. 자동으로 업데이트됩니다."
           }
         },
         {
@@ -1914,30 +1914,30 @@
             "fr": "Valeur monétaire de cette année",
             "it": "Valore monetario anno corrente",
             "sv": "Årets monetära värde",
-            "no": "Kostnad dette år",
+            "no": "Pengeverdi dette år",
             "es": "Valor monetario de este año",
             "da": "Pengeværdi af dette år",
             "pl": "Wartość pieniężna tego roku",
             "ru": "Денежная стоимость этого года",
             "ar": "القيمة النقدية لهذا العام",
-            "ko": "올해의 금전 가치"
+            "ko": "올해의 금전적 가치"
           },
           "value": 0,
           "decimals": 4,
           "hint": {
             "en": "Actual monetary value. It is automatically updated.",
-            "nl": "Actuele gelwaarde. Wordt automatisch geupdated.",
+            "nl": "Actuele geldwaarde. Wordt automatisch geupdated.",
             "de": "Aktueller Geldbetrag. Er wird automatisch aktualisiert.",
             "fr": "Valeur monétaire actuelle. Elle est mise à jour automatiquement",
             "it": "Valore monetario attuale. Viene aggiornato automaticamente.",
             "sv": "Faktiskt penningvärde. Den uppdateras automatiskt.",
-            "no": "Aktuell kostnad. Blir automatisk oppdatert",
+            "no": "Aktuell pengeverdi. Blir automatisk oppdatert",
             "es": "Valor monetario actual. Se actualiza automáticamente.",
             "da": "Faktisk pengeværdi. Den opdateres automatisk.",
             "pl": "Rzeczywista wartość pieniężna. Jest ona automatycznie aktualizowana.",
             "ru": "Фактическая денежная стоимость. Она автоматически обновляется.",
             "ar": "القيمة النقدية الفعلية. يتم تحديثها تلقائيًا.",
-            "ko": "실제 금전 가치입니다. 자동으로 업데이트됩니다."
+            "ko": "실제 금전적 가치입니다. 자동으로 업데이트됩니다."
           }
         },
         {
@@ -1950,30 +1950,30 @@
             "fr": "Valeur monétaire d'hier",
             "it": "Valore monetario giorno prec.",
             "sv": "Monetärt värde igår",
-            "no": "Kostnad igår",
+            "no": "Pengeverdi forrige dag",
             "es": "Valor monetario día anterior",
             "da": "Pengeværdi forrige dag",
             "pl": "Wartość pieniężna poprz. dnia",
             "ru": "Денежная стоимость пред. дня",
             "ar": "القيمة النقدية لليوم السابق",
-            "ko": "전날의 금전 가치"
+            "ko": "전날 금전적 가치"
           },
           "value": 0,
           "decimals": 4,
           "hint": {
             "en": "Monetary value of the previous day. It is automatically updated.",
-            "nl": "Gelwaarde van de vorige dag. Wordt automatisch geupdated.",
+            "nl": "Geldwaarde van de vorige dag. Wordt automatisch geupdated.",
             "de": "Geldbetrag des Vortages. Er wird automatisch aktualisiert.",
             "fr": "Valeur monétaire d'hier. Elle est mise à jour automatiquement",
-            "it": "Valore monetario giorno precedenre. Viene aggiornato automaticamente.",
+            "it": "Valore monetario del giorno precedente. Viene aggiornato automaticamente.",
             "sv": "Monetärt värde för föregående dag. Den uppdateras automatiskt.",
-            "no": "Kostnad forrige dag. Blir automatisk oppdatert",
+            "no": "Pengeverdi forrige dag. Blir automatisk oppdatert",
             "es": "Valor monetario del día anterior. Se actualiza automáticamente.",
             "da": "Pengeværdien af den foregående dag. Den opdateres automatisk.",
             "pl": "Wartość pieniężna poprzedniego dnia. Jest ona automatycznie aktualizowana.",
             "ru": "Денежная стоимость предыдущего дня. Она автоматически обновляется.",
             "ar": "القيمة النقدية لليوم السابق. يتم تحديثها تلقائيًا.",
-            "ko": "전날의 금전 가치입니다. 자동으로 업데이트됩니다."
+            "ko": "전날의 금전적 가치입니다. 자동으로 업데이트됩니다."
           }
         },
         {
@@ -1986,30 +1986,30 @@
             "fr": "Valeur monétaire du mois dernier",
             "it": "Valore monetario mese prec.",
             "sv": "Monetärt värde föregående månad",
-            "no": "Kostnad forrige måned",
+            "no": "Pengeverdi forrige måned",
             "es": "Valor monetario mes anterior",
             "da": "Pengeværdi forrige måned",
             "pl": "Wartość pieniężna poprz. miesiąca",
             "ru": "Денежная стоимость пред. месяца",
             "ar": "القيمة النقدية للشهر السابق",
-            "ko": "지난달의 금전 가치"
+            "ko": "지난달 금전적 가치"
           },
           "value": 0,
           "decimals": 4,
           "hint": {
             "en": "Monetary value of the previous month. It is automatically updated.",
-            "nl": "Gelwaarde van de vorige maand. Wordt automatisch geupdated.",
+            "nl": "Geldwaarde van de vorige maand. Wordt automatisch geupdated.",
             "de": "Geldbetrag des Vormonats. Er wird automatisch aktualisiert.",
             "fr": "Valeur monétaire du mois dernier. Elle est mise à jour automatiquement",
-            "it": "Valore monetario mese precedenre. Viene aggiornato automaticamente.",
+            "it": "Valore monetario del mese precedente. Viene aggiornato automaticamente.",
             "sv": "Föregående månads monetära värde. Den uppdateras automatiskt.",
-            "no": "Kostnad forrige måned. Blir automatisk oppdatert",
+            "no": "Pengeverdi forrige måned. Blir automatisk oppdatert",
             "es": "Valor monetario del mes anterior. Se actualiza automáticamente.",
             "da": "Pengeværdien af den foregående måned. Den opdateres automatisk.",
             "pl": "Wartość pieniężna poprzedniego miesiąca. Jest ona automatycznie aktualizowana.",
             "ru": "Денежная стоимость предыдущего месяца. Она автоматически обновляется.",
             "ar": "القيمة النقدية للشهر السابق. يتم تحديثها تلقائيًا.",
-            "ko": "지난달의 금전 가치입니다. 자동으로 업데이트됩니다."
+            "ko": "지난달의 금전적 가치입니다. 자동으로 업데이트됩니다."
           }
         },
         {
@@ -2022,30 +2022,30 @@
             "fr": "Valeur monétaire de l'année dernière",
             "it": "Valore monetario anno prec.",
             "sv": "Monetärt värde föregående år",
-            "no": "Kostnad forrige år",
+            "no": "Pengeverdi forrige år",
             "es": "Valor monetario año anterior",
             "da": "Pengeværdi forrige år",
             "pl": "Wartość pieniężna poprz. roku",
             "ru": "Денежная стоимость пред. года",
             "ar": "القيمة النقدية للعام السابق",
-            "ko": "작년의 금전 가치"
+            "ko": "작년 금전적 가치"
           },
           "value": 0,
           "decimals": 4,
           "hint": {
             "en": "Monetary value of the previous year. It is automatically updated.",
-            "nl": "Gelwaarde van het vorige jaar. Wordt automatisch geupdated.",
+            "nl": "Geldwaarde van het vorige jaar. Wordt automatisch geupdated.",
             "de": "Geldbetrag des Vorjahres. Er wird automatisch aktualisiert.",
             "fr": "Valeur monétaire de l'année dernière. Elle est mise à jour automatiquement",
-            "it": "Valore monetario anno precedenre. Viene aggiornato automaticamente.",
+            "it": "Valore monetario dell'anno precedente. Viene aggiornato automaticamente.",
             "sv": "Föregående års monetära värde. Den uppdateras automatiskt.",
-            "no": "Kostnad forrige år. Blir automatisk oppdatert",
+            "no": "Pengeverdi forrige år. Blir automatisk oppdatert",
             "es": "Valor monetario del año anterior. Se actualiza automáticamente.",
             "da": "Pengeværdien af det foregående år. Den opdateres automatisk.",
             "pl": "Wartość pieniężna poprzedniego roku. Jest ona automatycznie aktualizowana.",
             "ru": "Денежная стоимость предыдущего года. Она автоматически обновляется.",
             "ar": "القيمة النقدية للعام السابق. يتم تحديثها تلقائيًا.",
-            "ko": "작년의 금전 가치입니다. 자동으로 업데이트됩니다."
+            "ko": "작년의 금전적 가치입니다. 자동으로 업데이트됩니다."
           }
         }
       ]
@@ -2091,17 +2091,17 @@
           "hint": {
             "en": "The tariff is used to calculate the monetary value. It can be dynamically changed via a flow/DAP.",
             "nl": "Het tarief wordt gebruikt om de geldwaarde te berekenen. Het kan dynamisch worden aangepast via een flow/DAP.",
-            "de": "Der Kurs wird zur Berechnung des Geldbetrags verwendet. Er kann über einen Flow/DAP dynamisch angepasst werden.",
+            "de": "Der Tarif wird zur Berechnung des Geldbetrags verwendet. Er kann über einen Flow/DAP dynamisch angepasst werden.",
             "fr": "Le tarif est utilisé pour calculer la valeur monétaire. Il peut être changé dynamiquement par un flow/DAP",
             "it": "La tariffa è utilizzata per calcolare il valore monetario. Può essere cambiata dinamicamente tramite un flow/DAP.",
             "sv": "Tariffen används för att beräkna penningvärdet. Det kan ändras dynamiskt via ett flöde/DAP.",
             "no": "Tariffen blir brukt til å kalkulere kostnaden. Den kan endres dynamisk via en flow/DAP.",
             "es": "La tarifa se utiliza para calcular el valor monetario. Se puede cambiar dinámicamente a través de un flujo/DAP.",
-            "da": "Taksten bruges til at beregne pengeværdien. Den kan ændres dynamisch via et flow/DAP.",
+            "da": "Taksten bruges til at beregne pengeværdien. Den kan ændres dynamisk via et flow/DAP.",
             "pl": "Taryfa służy do obliczania wartości pieniężnej. Można ją dynamicznie zmieniać za pomocą przepływu/DAP.",
             "ru": "Тариф используется для расчета денежной стоимости. Его можно динамически изменять через поток/DAP.",
             "ar": "يتم استخدام التعريفة لحساب القيمة النقدية. يمكن تغييرها ديناميكيًا عبر التدفق/DAP.",
-            "ko": "이 요금은 금전 가치를 계산하는 데 사용됩니다. 플로우/DAP를 통해 동적으로 변경할 수 있습니다."
+            "ko": "요금은 금전적 가치를 계산하는 데 사용됩니다. flow/DAP를 통해 동적으로 변경할 수 있습니다."
           }
         },
         {
@@ -2120,7 +2120,7 @@
             "pl": "Grupa aktualizacji taryf (przepływ lub DAP)",
             "ru": "Группа обновления тарифов (поток или DAP)",
             "ar": "مجموعة تحديث التعريفة (التدفق أو DAP)",
-            "ko": "요금 업데이트 그룹 (플로우 또는 DAP)"
+            "ko": "요금 업데이트 그룹 (flow 또는 DAP)"
           },
           "hint": {
             "en": "Group number for getting grid tariffs via flow or Day Ahead Pricing (DAP). Set at 0 to disable tariff updates.",
@@ -2135,7 +2135,7 @@
             "pl": "Numer grupy do uzyskiwania taryf sieciowych za pomocą przepływu lub Day Ahead Pricing (DAP). Ustaw na 0, aby wyłączyć aktualizacje taryf.",
             "ru": "Номер группы для получения сетевых тарифов через поток или Day Ahead Pricing (DAP). Установите 0, чтобы отключить обновления тарифов.",
             "ar": "رقم المجموعة للحصول على تعريفات الشبكة عبر التدفق أو تسعير اليوم التالي (DAP). قم بالتعيين على 0 لتعطيل تحديثات التعريفة.",
-            "ko": "플로우 또는 Day Ahead Pricing(DAP)을 통해 전력망 요금을 가져오는 그룹 번호입니다. 요금 업데이트를 비활성화하려면 0으로 설정하세요."
+            "ko": "flow 또는 전일 가격(DAP)을 통해 계통 요금을 가져올 그룹 번호입니다. 요금 업데이트를 비활성화하려면 0으로 설정하세요."
           },
           "value": 1,
           "min": 0,
@@ -2173,7 +2173,7 @@
             "pl": "Wybierz, której taryfy użyć do obliczeń pieniężnych. 'Automatyczny' automatycznie przełącza się na podstawie importu/eksportu sieci.",
             "ru": "Выберите, какой тариф использовать для денежных расчетов. «Автоматический» автоматически переключается в зависимости от импорта/экспорта сети.",
             "ar": "حدد التعريفة التي سيتم استخدامها للحسابات النقدية. 'التلقائي' يتبدل تلقائيًا بناءً على استيراد/تصدير الشبكة.",
-            "ko": "금전 계산에 사용할 요금을 선택하세요. '자동'은 전력망 수입/수출에 따라 자동으로 전환됩니다."
+            "ko": "금전 계산에 사용할 요금을 선택하세요. '자동'을 선택하면 계통 수전/송전에 따라 자동으로 전환됩니다."
           },
           "value": "dynamic",
           "values": [
@@ -2189,8 +2189,8 @@
                 "no": "Automatisk",
                 "es": "Automático",
                 "da": "Automatisk",
-                "pl": "Automatyczny",
-                "ru": "Автоматический",
+                "pl": "Automatycznie",
+                "ru": "Автоматически",
                 "ar": "تلقائي",
                 "ko": "자동"
               }
@@ -2210,7 +2210,7 @@
                 "pl": "Zawsze Import",
                 "ru": "Всегда Импорт",
                 "ar": "استيراد دائما",
-                "ko": "항상 수입"
+                "ko": "항상 수전(수입)"
               }
             },
             {
@@ -2228,7 +2228,7 @@
                 "pl": "Zawsze Eksport",
                 "ru": "Всегда Экспорт",
                 "ar": "تصدير دائما",
-                "ko": "항상 수출"
+                "ko": "항상 송전(수출)"
               }
             }
           ]
@@ -2596,7 +2596,7 @@
             "pl": "Stałe koszty miesięczne",
             "ru": "Фиксированные ежемесячные расходы",
             "ar": "التكاليف الشهرية الثابتة",
-            "ko": "고정 월간 비용"
+            "ko": "고정 월별 비용"
           },
           "hint": {
             "en": "Fixed costs that will be added at the start of every new month.",
@@ -2611,7 +2611,7 @@
             "pl": "Stałe koszty, które będą dodawane na początku każdego nowego miesiąca.",
             "ru": "Фиксированные расходы, которые будут добавляться в начале каждого нового месяца.",
             "ar": "التكاليف الثابتة التي سيتم إضافتها في بداية كل شهر جديد.",
-            "ko": "매월 시작 시 추가되는 고정 비용입니다."
+            "ko": "매월 시작 시 추가될 고정 비용입니다."
           },
           "value": 0
         },
@@ -2631,7 +2631,7 @@
             "pl": "Stałe koszty dzienne",
             "ru": "Фиксированные ежедневные расходы",
             "ar": "التكاليف اليومية الثابتة",
-            "ko": "고정 일간 비용"
+            "ko": "고정 일일 비용"
           },
           "hint": {
             "en": "Fixed costs that will be added at the start of every new day.",
@@ -2646,7 +2646,7 @@
             "pl": "Stałe koszty, które będą dodawane na początku każdego nowego dnia.",
             "ru": "Фиксированные расходы, которые будут добавляться в начале каждого нового дня.",
             "ar": "التكاليف الثابتة التي سيتم إضافتها في بداية كل يوم جديد.",
-            "ko": "매일 시작 시 추가되는 고정 비용입니다."
+            "ko": "매일 시작 시 추가될 고정 비용입니다."
           },
           "value": 0
         },
@@ -2666,7 +2666,7 @@
             "pl": "Stałe koszty godzinowe",
             "ru": "Фиксированные почасовые расходы",
             "ar": "التكاليف الساعية الثابتة",
-            "ko": "고정 시간당 비용"
+            "ko": "고정 시간별 비용"
           },
           "hint": {
             "en": "Fixed costs that will be added at the start of every new hour.",
@@ -2681,7 +2681,7 @@
             "pl": "Stałe koszty, które będą dodawane na początku każdej nowej godziny.",
             "ru": "Фиксированные расходы, которые будут добавляться в начале каждого нового часа.",
             "ar": "التكاليف الثابتة التي سيتم إضافتها في بداية كل ساعة جديدة.",
-            "ko": "매시간 시작 시 추가되는 고정 비용입니다."
+            "ko": "매시간 시작 시 추가될 고정 비용입니다."
           },
           "value": 0
         }

@@ -10,10 +10,10 @@
     "da": "Gn. snt. pris i dag",
     "nl": "Gem. prijs deze dag",
     "ar": "متوسط السعر هذا اليوم",
-    "es": "Avg. price this day",
-    "pl": "Avg. price this day",
-    "ru": "Avg. price this day",
-    "ko": "Avg. price this day"
+    "es": "Precio medio este día",
+    "pl": "Średnia cena ten dzień",
+    "ru": "Средняя цена этот день",
+    "ko": "오늘 평균 가격"
   },
   "uiComponent": "sensor",
   "icon": "/assets/tariff.svg",

@@ -10,10 +10,10 @@
     "da": "Billigste pris i dag",
     "nl": "Goedkoopste prijs deze dag",
     "ar": "أدنى سعر اليوم",
-    "es": "Lowest price this day",
-    "pl": "Lowest price this day",
-    "ru": "Lowest price this day",
-    "ko": "Lowest price this day"
+    "es": "Precio más bajo este día",
+    "pl": "Najniższa cena ten dzień",
+    "ru": "Мин. цена этот день",
+    "ko": "오늘 최저 가격"
   },
   "uiComponent": "sensor",
   "icon": "/assets/tariff.svg",

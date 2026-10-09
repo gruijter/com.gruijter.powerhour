@@ -9,11 +9,11 @@
     "fr": "m³ ce mois ci",
     "da": "m³ denne måned",
     "nl": "m³ deze maand",
-    "es": "m³ this month",
-    "pl": "m³ this month",
-    "ru": "m³ this month",
-    "ko": "m³ this month",
-    "ar": "m³ this month"
+    "es": "m³ este mes",
+    "pl": "m³ ten miesiąc",
+    "ru": "м³ этот месяц",
+    "ko": "이번 달 m³",
+    "ar": "م³ هذا الشهر"
   },
   "uiComponent": "sensor",
   "icon": "/assets/m3_m.svg",

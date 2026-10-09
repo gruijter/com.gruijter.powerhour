@@ -9,11 +9,11 @@
     "fr": "Tarif moyen ce mois-ci",
     "da": "Gn. snt. pris denne måned",
     "nl": "Gem. prijs deze maand",
-    "es": "Avg. price this month",
-    "pl": "Avg. price this month",
-    "ru": "Avg. price this month",
-    "ko": "Avg. price this month",
-    "ar": "Avg. price this month"
+    "es": "Precio medio este mes",
+    "pl": "Średnia cena ten miesiąc",
+    "ru": "Средняя цена этот месяц",
+    "ko": "이번 달 평균 가격",
+    "ar": "متوسط السعر هذا الشهر"
   },
   "uiComponent": "sensor",
   "icon": "/assets/tariff.svg",

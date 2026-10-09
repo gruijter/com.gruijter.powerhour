@@ -10,10 +10,10 @@
     "da": "Dyreste pris i morgen",
     "nl": "Duurste prijs morgen",
     "ar": "أعلى سعر غداً",
-    "es": "Highest price tomorrow",
-    "pl": "Highest price tomorrow",
-    "ru": "Highest price tomorrow",
-    "ko": "Highest price tomorrow"
+    "es": "Precio más alto mañana",
+    "pl": "Najwyższa cena jutro",
+    "ru": "Макс. цена завтра",
+    "ko": "내일 최고 가격"
   },
   "uiComponent": "sensor",
   "icon": "/assets/tariff.svg",

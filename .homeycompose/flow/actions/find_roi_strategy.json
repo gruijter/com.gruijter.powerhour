@@ -110,7 +110,7 @@
         "pl": "Moc",
         "ru": "Мощность",
         "ko": "전력",
-        "ar": "طاقة"
+        "ar": "القدرة"
       }
     },
     {
@@ -128,7 +128,7 @@
         "es": "Duración (minutos)",
         "pl": "Czas trwania (minuty)",
         "ru": "Продолжительность (минуты)",
-        "ko": "기간 (분)",
+        "ko": "지속 시간 (분)",
         "ar": "المدة (دقائق)"
       }
     },
@@ -138,7 +138,7 @@
       "title": {
         "en": "SoC afterwards (%)",
         "de": "SoC danach (%)",
-        "nl": "SoC erna (%)",
+        "nl": "SoC daarna (%)",
         "fr": "SoC après (%)",
         "it": "SoC dopo (%)",
         "sv": "SoC efteråt (%)",

@@ -10,10 +10,10 @@
     "da": "Billigste pris i morgen",
     "nl": "Goedkoopste prijs morgen",
     "ar": "أدنى سعر غداً",
-    "es": "Lowest price tomorrow",
-    "pl": "Lowest price tomorrow",
-    "ru": "Lowest price tomorrow",
-    "ko": "Lowest price tomorrow"
+    "es": "Precio más bajo mañana",
+    "pl": "Najniższa cena jutro",
+    "ru": "Мин. цена завтра",
+    "ko": "내일 최저 가격"
   },
   "uiComponent": "sensor",
   "icon": "/assets/tariff.svg",

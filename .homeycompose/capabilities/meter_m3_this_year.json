@@ -10,10 +10,10 @@
     "da": "m³ i år",
     "nl": "m³ dit jaar",
     "ar": "م³ هذا العام",
-    "es": "m³ this year",
-    "pl": "m³ this year",
-    "ru": "m³ this year",
-    "ko": "m³ this year"
+    "es": "m³ este año",
+    "pl": "m³ ten rok",
+    "ru": "м³ этот год",
+    "ko": "올해 m³"
   },
   "uiComponent": "sensor",
   "icon": "/assets/m3_y.svg",

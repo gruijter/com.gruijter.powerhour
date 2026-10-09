@@ -10,10 +10,10 @@
     "da": "Billigste pris næste 8T",
     "nl": "Goedkoopste prijs komende 8U",
     "ar": "أدنى سعر في الـ 8 ساعات القادمة",
-    "es": "Lowest price next 8H",
-    "pl": "Lowest price next 8H",
-    "ru": "Lowest price next 8H",
-    "ko": "Lowest price next 8H"
+    "es": "Precio más bajo próximas 8h",
+    "pl": "Najniższa cena następne 8h",
+    "ru": "Мин. цена следующие 8ч",
+    "ko": "다음 8시간 최저 가격"
   },
   "uiComponent": "sensor",
   "icon": "/assets/tariff.svg",

@@ -57,7 +57,7 @@
       "values": [
         {
           "id": "this_day",
-          "label": { "en": "Today", "nl": "Vandaag", "de": "Heute", "fr": "Aujourd'hui", "sv": "Idag", "no": "I dag", "da": "I dag", "it": "Oggi", "es": "Hoy", "pl": "Dzisiaj", "ru": "Сегодня", "ko": "오늘", "ar": "هذا اليوم" }
+          "label": { "en": "Today", "nl": "Vandaag", "de": "Heute", "fr": "Aujourd'hui", "sv": "Idag", "no": "I dag", "da": "I dag", "it": "Oggi", "es": "Hoy", "pl": "Dzisiaj", "ru": "Сегодня", "ko": "오늘", "ar": "اليوم" }
         },
         {
           "id": "tomorrow",

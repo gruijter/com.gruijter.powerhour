@@ -10,10 +10,10 @@
     "da": "Gn. snt. pris sidste måned",
     "nl": "Gem. prijs vorige maand",
     "ar": "متوسط السعر الشهر الماضي",
-    "es": "Avg. price last month",
-    "pl": "Avg. price last month",
-    "ru": "Avg. price last month",
-    "ko": "Avg. price last month"
+    "es": "Precio medio mes anterior",
+    "pl": "Średnia cena poprzedni miesiąc",
+    "ru": "Средняя цена пред. месяц",
+    "ko": "지난 달 평균 가격"
   },
   "uiComponent": "sensor",
   "icon": "/assets/tariff.svg",

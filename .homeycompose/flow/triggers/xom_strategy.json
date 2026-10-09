@@ -89,7 +89,7 @@
         "pl": "Moc",
         "ru": "Мощность",
         "ko": "전력",
-        "ar": "طاقة"
+        "ar": "القدرة"
       }
     },
     {
@@ -116,7 +116,7 @@
       "name": "smoothing",
       "title": {
         "en": "smoothing (%)",
-        "nl": "smoothing (%)",
+        "nl": "afvlakking (%)",
         "de": "Glättung (%)",
         "fr": "lissage (%)",
         "it": "smussamento (%)",

@@ -10,10 +10,10 @@
     "da": "Dyreste pris i dag",
     "nl": "Duurste prijs deze dag",
     "ar": "أعلى سعر اليوم",
-    "es": "Highest price this day",
-    "pl": "Highest price this day",
-    "ru": "Highest price this day",
-    "ko": "Highest price this day"
+    "es": "Precio más alto este día",
+    "pl": "Najwyższa cena ten dzień",
+    "ru": "Макс. цена этот день",
+    "ko": "오늘 최고 가격"
   },
   "uiComponent": "sensor",
   "icon": "/assets/tariff.svg",

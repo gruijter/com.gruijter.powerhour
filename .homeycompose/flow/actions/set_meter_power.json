@@ -62,10 +62,10 @@
         "fr": "Énergie (kWh)",
         "da": "Energi (kWh)",
         "nl": "Energie (kWh)",
-        "ar": "طاقة (كيلوواط ساعة)",
+        "ar": "الطاقة (كيلوواط ساعة)",
         "es": "Energía (kWh)",
         "pl": "Energia (kWh)",
-        "ru": "Энергия (кВтч)",
+        "ru": "Энергия (кВт·ч)",
         "ko": "에너지 (kWh)"
       }
     }

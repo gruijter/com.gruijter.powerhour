@@ -10,10 +10,10 @@
     "da": "m³ i dag",
     "nl": "m³ deze dag",
     "ar": "م³ هذا اليوم",
-    "es": "m³ this day",
-    "pl": "m³ this day",
-    "ru": "m³ this day",
-    "ko": "m³ this day"
+    "es": "m³ este día",
+    "pl": "m³ ten dzień",
+    "ru": "м³ этот день",
+    "ko": "오늘 m³"
   },
   "uiComponent": "sensor",
   "icon": "/assets/m3_d.svg",

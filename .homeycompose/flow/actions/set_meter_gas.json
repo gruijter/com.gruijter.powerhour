@@ -21,7 +21,7 @@
     "it": "Invia lettura [[value]] a [[virtual_device]]",
     "no": "Send [[value]] avlesing til [[virtual_device]]",
     "fr": "Envoyer le relevé [[value]] vers [[virtual_device]]",
-    "da": "Send [[value]] læsning til [[virtual_device]]",
+    "da": "Send [[value]] aflæsning til [[virtual_device]]",
     "nl": "Stuur [[value]] stand naar [[virtual_device]]",
     "ar": "إرسال قراءة [[value]] إلى [[virtual_device]]",
     "es": "Enviar lectura de [[value]] a [[virtual_device]]",

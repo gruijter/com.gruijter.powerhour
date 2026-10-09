@@ -77,7 +77,7 @@
             "de": "diesen Tag",
             "sv": "idag",
             "it": "giornata odierna",
-            "no": "idag",
+            "no": "i dag",
             "nl": "deze dag",
             "fr": "ce jour",
             "da": "i dag",
@@ -92,7 +92,7 @@
           "id": "tomorrow",
           "label": {
             "en": "tomorrow",
-            "de": "Morgen",
+            "de": "morgen",
             "sv": "i morgon",
             "it": "domani",
             "no": "i morgen",
@@ -103,7 +103,7 @@
             "pl": "jutro",
             "ru": "завтра",
             "ko": "내일",
-            "ar": "غداً"
+            "ar": "غدًا"
           }
         },
         {
@@ -111,10 +111,10 @@
           "label": {
             "en": "Next hours",
             "nl": "Komende uren",
-            "de": "Kommende Std.",
+            "de": "Kommende Stunden",
             "sv": "Kommande timmar",
             "it": "Prossime ore",
-            "no": "Kommende timer",
+            "no": "Neste timer",
             "fr": "Prochaines heures",
             "da": "Næste timer",
             "es": "Próximas horas",

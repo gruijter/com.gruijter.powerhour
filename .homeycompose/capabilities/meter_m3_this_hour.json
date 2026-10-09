@@ -9,11 +9,11 @@
     "fr": "m³ cette heure ci",
     "da": "m³ denne time",
     "nl": "m³ dit uur",
-    "es": "m³ this hour",
-    "pl": "m³ this hour",
-    "ru": "m³ this hour",
-    "ko": "m³ this hour",
-    "ar": "m³ this hour"
+    "es": "m³ esta hora",
+    "pl": "m³ ta godzina",
+    "ru": "м³ этот час",
+    "ko": "이번 시간 m³",
+    "ar": "م³ هذه الساعة"
   },
   "uiComponent": "sensor",
   "icon": "/assets/m3_h.svg",
