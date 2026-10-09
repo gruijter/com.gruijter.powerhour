@@ -14,20 +14,21 @@
     "ar": "البدء المخطط",
     "ko": "계획된 시작"
   },
+  "highlight": true,
   "hint": {
-    "en": "Start the program from this flow, e.g. by switching on the plug or via the appliance's app.",
-    "nl": "Start het programma vanuit deze flow, bijv. door de stekker aan te zetten of via de app van het apparaat.",
-    "de": "Starten Sie das Programm aus diesem Flow, z. B. durch Einschalten der Steckdose oder über die App des Geräts.",
-    "fr": "Lancez le programme depuis ce flow, p. ex. en allumant la prise ou via l'app de l'appareil.",
-    "es": "Inicie el programa desde este flujo, p. ej. encendiendo el enchufe o con la app del aparato.",
-    "it": "Avvia il programma da questo flow, ad es. accendendo la presa o tramite l'app dell'elettrodomestico.",
-    "da": "Start programmet fra dette flow, f.eks. ved at tænde stikket eller via apparatets app.",
-    "sv": "Starta programmet från detta flöde, t.ex. genom att slå på uttaget eller via apparatens app.",
-    "no": "Start programmet fra denne flyten, f.eks. ved å slå på kontakten eller via apparatets app.",
-    "pl": "Uruchom program z tego flow, np. włączając gniazdko lub przez aplikację urządzenia.",
-    "ru": "Запустите программу из этого потока, например включив розетку или через приложение прибора.",
-    "ar": "ابدأ البرنامج من هذا التدفق، مثلًا بتشغيل المقبس أو عبر تطبيق الجهاز.",
-    "ko": "이 플로우에서 프로그램을 시작하세요. 예: 플러그를 켜거나 가전 앱 사용."
+    "en": "At the start of \"Next run\". Start the program from this flow, e.g. by switching on the plug or via the appliance's app.",
+    "nl": "Op de start van \"Volgende run\". Start het programma vanuit deze flow, bijv. door de stekker aan te zetten of via de app van het apparaat.",
+    "de": "Beim Start von \"Nächster Lauf\". Starten Sie das Programm aus diesem Flow, z. B. durch Einschalten der Steckdose oder über die App des Geräts.",
+    "fr": "Au démarrage de « Prochain cycle ». Lancez le programme depuis ce flow, p. ex. en allumant la prise ou via l'app de l'appareil.",
+    "es": "Al inicio de \"Próximo ciclo\". Inicie el programa desde este flujo, p. ej. encendiendo el enchufe o con la app del aparato.",
+    "it": "All'avvio di \"Prossimo ciclo\". Avvia il programma da questo flow, ad es. accendendo la presa o tramite l'app dell'elettrodomestico.",
+    "da": "Ved starten af \"Næste kørsel\". Start programmet fra dette flow, f.eks. ved at tænde stikket eller via apparatets app.",
+    "sv": "Vid starten av \"Nästa körning\". Starta programmet från detta flöde, t.ex. genom att slå på uttaget eller via apparatens app.",
+    "no": "Ved starten av \"Neste kjøring\". Start programmet fra denne flyten, f.eks. ved å slå på kontakten eller via apparatets app.",
+    "pl": "Przy starcie „Następny cykl”. Uruchom program z tego flow, np. włączając gniazdko lub przez aplikację urządzenia.",
+    "ru": "При запуске «Следующий цикл». Запустите программу из этого потока, например включив розетку или через приложение прибора.",
+    "ar": "عند بدء \"التشغيل التالي\". ابدأ البرنامج من هذا التدفق، مثلًا بتشغيل المقبس أو عبر تطبيق الجهاز.",
+    "ko": "'다음 운전' 시작 시. 이 플로우에서 프로그램을 시작하세요. 예: 플러그를 켜거나 가전 앱 사용."
   },
   "args": [
     {
@@ -38,24 +39,24 @@
   ],
   "tokens": [
     {
-      "name": "ready_by",
+      "name": "expected_end",
       "type": "string",
       "title": {
-        "en": "Ready by",
-        "nl": "Klaar om",
-        "de": "Fertig um",
-        "fr": "Prêt à",
-        "es": "Listo a las",
-        "it": "Pronto alle",
-        "da": "Færdig kl.",
-        "sv": "Klar kl.",
-        "no": "Ferdig kl.",
-        "pl": "Gotowe o",
-        "ru": "Готово к",
-        "ar": "جاهز بحلول",
-        "ko": "완료 시각"
+        "en": "Expected end",
+        "nl": "Verwacht einde",
+        "de": "Erwartetes Ende",
+        "fr": "Fin prévue",
+        "es": "Fin prevista",
+        "it": "Fine prevista",
+        "da": "Forventet slut",
+        "sv": "Förväntat slut",
+        "no": "Forventet slutt",
+        "pl": "Przewidywany koniec",
+        "ru": "Ожидаемое окончание",
+        "ar": "النهاية المتوقعة",
+        "ko": "예상 종료"
       },
-      "example": "07:00"
+      "example": "21:35"
     },
     {
       "name": "cost",

@@ -81,13 +81,19 @@ class PowerDevice extends GenericDevice {
       this.applianceModel = null;
       this.appliancePlan = null;
       await this.checkApplianceReady();
+      if (!this.isDestroyed && this.getSettings().appliance_status !== '-') await this.setSettings({ appliance_status: '-' }).catch(this.error);
       return;
     }
     this.applianceModel = (await this.getStoreValue('applianceModel')) || ApplianceModel.initModel();
     this.appliancePlan = (await this.getStoreValue('appliancePlan')) || null;
-    this.applianceAdvice = (await this.getStoreValue('applianceAdvice')) || null;
-    if (this.getStoreKeys().includes('applianceReadyBy')) await this.unsetStoreValue('applianceReadyBy').catch(this.error);
+    for (const key of ['applianceReadyBy', 'applianceAdvice']) {
+      if (this.getStoreKeys().includes(key)) await this.unsetStoreValue(key).catch(this.error);
+    }
     this.applianceSlots = (await this.getStoreValue('applianceSlots')) || [];
+    if (this.migrateApplianceDeadlines()) {
+      await this.saveAppliance();
+      await this.setStoreValue('appliancePlan', this.appliancePlan).catch(this.error);
+    }
     if (this.applianceModel.bootstrapped !== ApplianceModel.BOOTSTRAP_VERSION) await this.bootstrapAppliance().catch(this.error);
     this.recentMeter = [];
     this.applianceSaveTm = Date.now();
@@ -101,6 +107,15 @@ class PowerDevice extends GenericDevice {
         await this.updateAppliancePlanDisplay();
         this.notifyGrid();
       });
+      for (const day of ['today', 'tomorrow']) {
+        this.registerCapabilityListener(`appliance_${day}`, async (value) => {
+          // Refused (a time already past): the picker shows the day's setting again.
+          await this.setApplianceDay(day, value).catch((err) => {
+            this.updateAppliancePlanDisplay().catch(this.error);
+            throw err;
+          });
+        });
+      }
     }
     this.applianceTimer = this.homey.setInterval(() => {
       this.sampleAppliance().catch(this.error);
@@ -135,13 +150,23 @@ class PowerDevice extends GenericDevice {
     const model = ApplianceModel.learnHistory(ApplianceModel.initModel(), entries, {
       timezone: this.timeZone,
       meterNowKwh: this.getCapabilityValue('meter_power') || 0,
-      planned: ((this.applianceModel && this.applianceModel.runs) || []).filter((r) => r.readyBy),
+      planned: ((this.applianceModel && this.applianceModel.runs) || []).filter((r) => r.deadline),
     });
     model.bootstrapped = ApplianceModel.BOOTSTRAP_VERSION;
     model.runs = ApplianceModel.mergeRuns(model.runs, this.applianceModel && this.applianceModel.runs);
     this.applianceModel = model;
     await this.saveAppliance();
     this.log(`Appliance learned from history: ${entries.length} entries, ${model.runs.length} runs`);
+  }
+
+  // Planned runs and the plan had a ready-by time; now the latest start (deadline).
+  migrateApplianceDeadlines() {
+    const items = [...this.applianceModel.runs, this.applianceModel.run, this.appliancePlan].filter((x) => x && x.readyBy);
+    items.forEach((x) => {
+      x.deadline = x.readyBy;
+      delete x.readyBy;
+    });
+    return items.length > 0;
   }
 
   stopAppliance() {
@@ -183,14 +208,19 @@ class PowerDevice extends GenericDevice {
 
     // A start at the planned start (by the flow of "Planned start") is a planned run.
     const plan = this.appliancePlan;
-    const readyByFor = (start) => (plan && plan.startMs && Math.abs(start - plan.startMs) <= PLANNED_START_MS ? plan.readyBy : null);
+    const profile = this.getApplianceProfile();
+    const deadlineFor = (start) => (plan && plan.startMs && Math.abs(start - plan.startMs) <= PLANNED_START_MS ? plan.deadline : null);
+    const skipToday = !!this.applianceDays()[ApplianceModel.localDay(t, this.timeZone).date];
     const { model, event, run } = ApplianceModel.processSample(this.applianceModel, {
-      t, powerW, meterKwh, timezone: this.timeZone, readyByFor,
+      t, powerW, meterKwh, timezone: this.timeZone, deadlineFor, fullMin: profile ? profile.fullMin : null, skipToday,
     });
     this.applianceModel = model;
     if (event === 'started') await this.onApplianceStarted(t);
     if (event === 'finished') await this.onApplianceFinished(run);
     await this.checkPlannedStart(t);
+    await this.checkDayPlans(t);
+    await this.checkExpectedStart(t);
+    await this.checkStartTriggers(t);
     if (event || t - this.applianceSaveTm >= APPLIANCE_SAVE_MS) await this.saveAppliance();
     if (event) this.notifyGrid();
     if (event === 'finished' || this.applianceModel.day !== this.applianceReadyDay) {
@@ -248,10 +278,13 @@ class PowerDevice extends GenericDevice {
   async onApplianceStarted(t) {
     const profile = this.getApplianceProfile();
     const runStart = this.applianceModel.run ? this.applianceModel.run.start : t;
-    const planned = this.applianceModel.run && this.applianceModel.run.readyBy;
-    this.log(`Appliance program started at ${this.hhmm(runStart)}${planned ? `, planned, ready by ${this.hhmm(planned)}` : ''}`);
+    const planned = this.applianceModel.run && this.applianceModel.run.deadline;
+    this.log(`Appliance program started at ${this.hhmm(runStart)}${planned ? `, planned, start by ${this.hhmm(planned)}` : ''}`);
     // The planned run has started (also when started earlier by hand).
     if (this.appliancePlan) await this.setAppliancePlan(null);
+    const { date } = ApplianceModel.localDay(runStart, this.timeZone);
+    const day = this.applianceDays()[date];
+    if (day && !day.done && day.value !== 'unused') await this.saveApplianceDay(date, { ...day, done: true });
     const tokens = profile
       ? { expected_end: this.hhmm(runStart + profile.durationMin * 60000), expected_kwh: profile.kwh, duration: profile.durationMin }
       : { expected_end: '', expected_kwh: 0, duration: 0 };
@@ -332,6 +365,7 @@ class PowerDevice extends GenericDevice {
       this.timeZone,
       this.appliancePlan && this.appliancePlan.startMs ? this.appliancePlan : null,
       (ms) => this.priceAt(ms),
+      this.forecastDays(),
     );
   }
 
@@ -372,37 +406,7 @@ class PowerDevice extends GenericDevice {
     return typeof entry.price === 'number' ? entry.price : null;
   }
 
-  // Setting "Ready by": 'HH:MM' times, sorted; null when one is invalid.
-  static parseReadyTimes(text) {
-    const parts = String(text || '').split(/[\s,;]+/).filter((x) => x);
-    const times = parts.map((x) => EvPlanner.parseTime(x));
-    if (times.some((x) => !x)) return null;
-    return [...new Set(times)].sort();
-  }
-
-  // The best start: the cheapest start so that the program ends by the next time of the setting
-  // "Ready by" it can still make (after a running program). { startMs, readyBy, cost, costNow }
-  // or null (no program learned, no times).
-  bestStartAdvice() {
-    const profile = this.getApplianceProfile();
-    const times = PowerDevice.parseReadyTimes(this.getSettings().appliance_ready_times) || [];
-    if (!profile || !times.length) return null;
-    const length = ApplianceModel.runMs(profile);
-    const { run } = this.applianceModel;
-    const fromMs = Math.max(Date.now(), run ? run.start + length : 0);
-    const next = ApplianceModel.readyByTimes(times, fromMs, fromMs + 49 * 3600000, this.timeZone)
-      .find(({ at }) => at - length >= fromMs);
-    if (!next) return null;
-    const best = ApplianceModel.bestStart(profile, { priceAt: (ms) => this.priceAt(ms), nowMs: fromMs, latestStartMs: next.at - length });
-    return {
-      startMs: best ? best.startMs : next.at - length,
-      readyBy: next.at,
-      cost: best ? best.cost : null,
-      costNow: best ? best.costNow : null,
-    };
-  }
-
-  // Ready by 'HH:MM': the next time it is that time.
+  // 'HH:MM': the next time it is that time.
   nextLocalTime(hhmm) {
     const now = Date.now();
     const today = TimeHelpers.getLocalMidnightUTC(new Date(now), this.timeZone);
@@ -414,40 +418,39 @@ class PowerDevice extends GenericDevice {
     return at;
   }
 
-  // Flow: a run ready by readyBy (ms), once.
-  async planReadyBy(readyBy) {
+  // Flow: a run that starts by deadline (ms), once.
+  async planStartBy(deadline) {
     if (!this.getApplianceProfile()) throw Error(this.homey.__('error_appliance_not_learned', { runs: ApplianceModel.MIN_RUNS }));
-    return this.setAppliancePlan({ readyBy, notified: false });
+    return this.setAppliancePlan({ deadline, notified: false });
   }
 
   async setAppliancePlan(plan) {
     this.appliancePlan = plan;
     this.replanAppliance();
-    if (plan) this.log(`Appliance planned: start ${this.dayHhmm(plan.startMs)}, ready by ${this.dayHhmm(plan.readyBy)}`);
+    if (plan) this.log(`Appliance planned: start ${this.dayHhmm(plan.startMs)}, start by ${this.dayHhmm(plan.deadline)}`);
     await this.setStoreValue('appliancePlan', this.appliancePlan).catch(this.error);
     await this.updateAppliancePlanDisplay();
     this.notifyGrid();
     return this.appliancePlan;
   }
 
-  // The cheapest start so the learned program ends by readyBy; without prices the latest start.
+  // The cheapest start from now to the deadline; without prices at the deadline.
   replanAppliance() {
     const plan = this.appliancePlan;
     const profile = this.getApplianceProfile();
     if (!plan || plan.notified || !profile) return;
     const nowMs = Date.now();
-    const latestStartMs = plan.readyBy - ApplianceModel.runMs(profile);
-    const best = ApplianceModel.bestStart(profile, { priceAt: (ms) => this.priceAt(ms), nowMs, latestStartMs });
-    plan.startMs = best ? best.startMs : Math.max(nowMs, latestStartMs);
+    const best = ApplianceModel.bestStart(profile, { priceAt: (ms) => this.priceAt(ms), nowMs, latestStartMs: plan.deadline });
+    plan.startMs = best ? best.startMs : Math.max(nowMs, plan.deadline);
     plan.cost = best ? best.cost : null;
     plan.costNow = best ? best.costNow : null;
   }
 
-  // The planned start: trigger the flow once; a plan whose ready time passed without a run ends.
+  // The planned start: trigger the flow once; a plan without a run soon after its deadline ends.
   async checkPlannedStart(t) {
     const plan = this.appliancePlan;
     if (!plan) return;
-    if (t > plan.readyBy) {
+    if (t > plan.deadline + PLANNED_START_MS) {
       await this.setAppliancePlan(null);
       return;
     }
@@ -455,13 +458,12 @@ class PowerDevice extends GenericDevice {
     plan.notified = true;
     await this.setStoreValue('appliancePlan', plan).catch(this.error);
     this.log('Appliance planned start reached');
-    const tokens = { ready_by: this.hhmm(plan.readyBy), cost: plan.cost === null ? 0 : Math.round(plan.cost * 10000) / 10000 };
-    if (this.homey.app.trigger_appliance_planned_start) await this.homey.app.trigger_appliance_planned_start(this, tokens, {});
+    const { expected_end: expectedEnd, cost } = this.planTokens(plan);
+    if (this.homey.app.trigger_appliance_planned_start) await this.homey.app.trigger_appliance_planned_start(this, { expected_end: expectedEnd, cost }, {});
     await this.updateAppliancePlanDisplay();
   }
 
-  // New prices: a plan not started yet moves to the cheapest start again, and a new best start
-  // (another time, or the next ready-by time) is advised once.
+  // New prices: a plan not started yet moves to the cheapest start again.
   async updateTariffHistory(...args) {
     await super.updateTariffHistory(...args);
     if (!this.applianceModel) return;
@@ -474,88 +476,216 @@ class PowerDevice extends GenericDevice {
         this.notifyGrid();
       }
     }
-    await this.checkBestStartAdvice();
     await this.updateAppliancePlanDisplay();
   }
 
-  async checkBestStartAdvice() {
-    const advice = this.bestStartAdvice();
-    if (!advice || this.appliancePlan || this.applianceModel.run) return;
-    const last = this.applianceAdvice;
+  // Cheapest start cards (like the DAP price cards): checked once per 15-minute slot, at its
+  // first sample; not while a program runs. A restart later in the slot does not trigger again.
+  async checkStartTriggers(t) {
+    const slot = Math.floor(t / SLOT_MS) * SLOT_MS;
+    if (slot === this.startTriggerSlot || t - slot > 3 * APPLIANCE_SAMPLE_MS) return;
+    this.startTriggerSlot = slot;
+    const profile = this.getApplianceProfile();
+    if (!profile || this.applianceModel.run) return;
+    const cost = ApplianceModel.runCost(profile, (ms) => this.priceAt(ms), slot);
+    const tokens = {
+      expected_end: this.hhmm(t + ApplianceModel.runMs(profile)),
+      cost: cost === null ? 0 : Math.round(cost * 10000) / 10000,
+    };
+    const { app } = this.homey;
+    if (app.trigger_appliance_cheapest_start_before) await app.trigger_appliance_cheapest_start_before(this, tokens, {});
+    if (app.trigger_appliance_cheapest_start_next_hours) await app.trigger_appliance_cheapest_start_next_hours(this, tokens, {});
+  }
+
+  // Flow: this 15-minute slot is the cheapest start from fromMs to toMs (excl.).
+  isCheapestStart(fromMs, toMs) {
+    const profile = this.getApplianceProfile();
+    if (!profile) throw Error(this.homey.__('error_appliance_not_learned', { runs: ApplianceModel.MIN_RUNS }));
+    const slot = Math.floor(Date.now() / SLOT_MS) * SLOT_MS;
+    if (!(slot >= fromMs && slot < toMs)) return false;
+    const best = ApplianceModel.cheapestSlotStart(profile, { priceAt: (ms) => this.priceAt(ms), fromMs, toMs });
+    return !!best && best.startMs === slot;
+  }
+
+  // Flow: starts in the period hours before time o'clock (1-24); like the DAP card, today's
+  // window, or tomorrow's when that time has passed.
+  isCheapestStartBefore(period, time) {
+    const hour = Math.round(Number(time));
+    if (!(hour >= 1 && hour <= 24)) throw Error(this.homey.__('error_invalid_time', { time }));
+    const slot = Math.floor(Date.now() / SLOT_MS) * SLOT_MS;
+    const nextDay = (day) => TimeHelpers.getLocalMidnightUTC(new Date(day.getTime() + 26 * 3600000), this.timeZone);
+    const endOf = (day) => (hour === 24 ? nextDay(day).getTime()
+      : TimeHelpers.localTimeToUTC(day, `${String(hour).padStart(2, '0')}:00`, this.timeZone).getTime());
+    const today = TimeHelpers.getLocalMidnightUTC(new Date(slot), this.timeZone);
+    let end = endOf(today);
+    if (end <= slot) end = endOf(nextDay(today));
+    return this.isCheapestStart(end - Number(period) * 3600000, end);
+  }
+
+  // Flow: starts from now to period hours ahead.
+  isCheapestStartNextHours(period) {
+    const slot = Math.floor(Date.now() / SLOT_MS) * SLOT_MS;
+    return this.isCheapestStart(slot, slot + Number(period) * 3600000);
+  }
+
+  // --- Day pickers "Start today/tomorrow": per local date 'unused', 'cheapest' or 'HH:MM', once ---
+
+  // { [date]: { value, done } } from today on; done: started, or its start passed.
+  applianceDays() {
+    const today = ApplianceModel.localDay(Date.now(), this.timeZone).date;
+    const stored = this.getStoreValue('applianceDays') || {};
+    const days = Object.fromEntries(Object.entries(stored).filter(([date]) => date >= today));
+    if (Object.keys(days).length !== Object.keys(stored).length) this.setStoreValue('applianceDays', days).catch(this.error);
+    return days;
+  }
+
+  async saveApplianceDay(date, entry) {
+    const days = { ...this.applianceDays() };
+    if (entry) days[date] = entry;
+    else delete days[date];
+    await this.setStoreValue('applianceDays', days).catch(this.error);
+  }
+
+  // Local midnight (ms) of a date 'YYYY-MM-DD' and of the day after.
+  dayBounds(date) {
+    const [y, m, d] = date.split('-').map(Number);
+    const start = TimeHelpers.getLocalMidnightUTC(new Date(Date.UTC(y, m - 1, d, 12)), this.timeZone);
+    const end = TimeHelpers.getLocalMidnightUTC(new Date(start.getTime() + 36 * 3600000), this.timeZone);
+    return { start, end };
+  }
+
+  pickerDate(day) {
     const now = Date.now();
-    if (last && last.readyBy === advice.readyBy
-      && (last.startMs <= now || Math.abs(last.startMs - advice.startMs) < SLOT_MS)) return;
-    this.applianceAdvice = { startMs: advice.startMs, readyBy: advice.readyBy };
-    await this.setStoreValue('applianceAdvice', this.applianceAdvice).catch(this.error);
-    this.log(`Appliance best start: ${this.dayHhmm(advice.startMs)}, ready by ${this.dayHhmm(advice.readyBy)}`);
-    if (this.homey.app.trigger_appliance_best_start) await this.homey.app.trigger_appliance_best_start(this, this.planTokens(advice), {});
+    if (day === 'today') return ApplianceModel.localDay(now, this.timeZone).date;
+    const { end } = this.dayBounds(ApplianceModel.localDay(now, this.timeZone).date);
+    return ApplianceModel.localDay(end.getTime(), this.timeZone).date;
+  }
+
+  async setApplianceDay(day, value) {
+    const date = this.pickerDate(day);
+    if (/^\d\d:\d\d$/.test(value)
+      && TimeHelpers.localTimeToUTC(this.dayBounds(date).start, value, this.timeZone).getTime() <= Date.now()) {
+      throw Error(this.homey.__('error_appliance_start_past', { time: value }));
+    }
+    this.log(`Appliance ${day} (${date}) set to ${value}`);
+    await this.saveApplianceDay(date, value === 'auto' ? null : { value, done: false });
+    await this.updateAppliancePlanDisplay();
+    this.notifyGrid();
+  }
+
+  // Days with a start not done yet: [{ date, startMs, cost }] by start. 'cheapest': the cheapest
+  // start left that day; none yet without prices.
+  dayPlans(now = Date.now()) {
+    const profile = this.getApplianceProfile();
+    const priceAt = (ms) => this.priceAt(ms);
+    const out = [];
+    Object.entries(this.applianceDays()).forEach(([date, { value, done }]) => {
+      if (done || value === 'unused') return;
+      const { start, end } = this.dayBounds(date);
+      if (value === 'cheapest') {
+        const fromMs = Math.max(start.getTime(), Math.floor(now / SLOT_MS) * SLOT_MS);
+        const best = ApplianceModel.cheapestSlotStart(profile, { priceAt, fromMs, toMs: end.getTime() });
+        if (best) out.push({ date, startMs: best.startMs, cost: best.cost });
+        return;
+      }
+      const startMs = TimeHelpers.localTimeToUTC(start, value, this.timeZone).getTime();
+      out.push({ date, startMs, cost: profile ? ApplianceModel.runCost(profile, priceAt, startMs) : null });
+    });
+    return out.sort((a, b) => a.startMs - b.startMs);
+  }
+
+  // For the forecast: the days set by hand and their starts not done yet.
+  forecastDays() {
+    return { dates: Object.keys(this.applianceDays()), starts: this.dayPlans().map((p) => p.startMs) };
+  }
+
+  // A day's start reached: "Planned start" once (not when it passed long ago, e.g. Homey was off).
+  async checkDayPlans(t) {
+    const due = this.dayPlans(t).filter((p) => p.startMs <= t);
+    if (!due.length) return;
+    const days = this.applianceDays();
+    for (const p of due) {
+      await this.saveApplianceDay(p.date, { ...days[p.date], done: true });
+      if (t - p.startMs <= PLANNED_START_MS) {
+        this.log(`Appliance start of ${p.date} reached`);
+        const { expected_end: expectedEnd, cost } = this.planTokens({ ...p, costNow: null });
+        if (this.homey.app.trigger_appliance_planned_start) await this.homey.app.trigger_appliance_planned_start(this, { expected_end: expectedEnd, cost }, {});
+      }
+    }
+    await this.updateAppliancePlanDisplay();
   }
 
   planTokens(plan) {
     const round = (v) => (typeof v === 'number' ? Math.round(v * 10000) / 10000 : 0);
+    const profile = this.getApplianceProfile();
+    const now = Date.now();
     return {
       start_time: this.hhmm(plan.startMs),
-      ready_by: this.hhmm(plan.readyBy),
-      wait: Math.max(0, Math.round((plan.startMs - Date.now()) / 60000)),
+      expected_end: this.hhmm(Math.max(plan.startMs, now) + (profile ? profile.durationMin * 60000 : 0)),
+      wait: Math.max(0, Math.round((plan.startMs - now) / 60000)),
       cost: round(plan.cost),
       saving: plan.cost !== null && plan.costNow !== null ? round(plan.costNow - plan.cost) : 0,
     };
   }
 
-  // Flow: plan a run ready by a time; tokens of the plan.
+  // Flow: plan the cheapest start from now to a time; tokens of the plan.
   async planAppliance(time) {
     const hhmm = EvPlanner.parseTime(time);
     if (!hhmm) throw Error(this.homey.__('error_invalid_time', { time }));
-    return this.planTokens(await this.planReadyBy(this.nextLocalTime(hhmm)));
+    return this.planTokens(await this.planStartBy(this.nextLocalTime(hhmm)));
   }
 
-  // Flow: plan a run at the best start, ready by the next time of the setting "Ready by".
-  async planBestStart() {
-    const advice = this.bestStartAdvice();
-    if (!advice) {
-      if (!this.getApplianceProfile()) throw Error(this.homey.__('error_appliance_not_learned', { runs: ApplianceModel.MIN_RUNS }));
-      throw Error(this.homey.__('error_appliance_no_ready_times'));
-    }
-    return this.planTokens(await this.planReadyBy(advice.readyBy));
+  // The next run: running, the flow's plan, else the earlier of a day picker's start and the
+  // expected start from the learned starts. { startMs, source: 'run'|'plan'|'day'|'expected' } or
+  // null. The tile "Next run", the charts and "Planned start" follow it.
+  nextRun(now = Date.now()) {
+    if (this.applianceModel && this.applianceModel.run) return { startMs: this.applianceModel.run.start, source: 'run' };
+    if (this.appliancePlan && this.appliancePlan.startMs) return { startMs: this.appliancePlan.startMs, source: 'plan' };
+    const dayPlan = this.dayPlans(now)[0];
+    const expected = this.isApplianceReady()
+      ? ApplianceModel.nextExpectedStart(this.applianceModel, this.getApplianceProfile(), now, this.timeZone, (ms) => this.priceAt(ms), this.forecastDays())
+      : null;
+    if (dayPlan && (expected === null || dayPlan.startMs <= expected)) return { startMs: dayPlan.startMs, source: 'day' };
+    return expected === null ? null : { startMs: expected, source: 'expected' };
   }
 
-  // The run on the charts: running, planned, else the expected next run from the learned starts
-  // (like the EV charger shows its plan from learned departures). Start ms or null.
-  plannedRunStart() {
-    if (this.applianceModel && this.applianceModel.run) return this.applianceModel.run.start;
-    if (this.appliancePlan && this.appliancePlan.startMs) return this.appliancePlan.startMs;
-    if (!this.isApplianceReady()) return null;
-    return ApplianceModel.nextExpectedStart(this.applianceModel, this.getApplianceProfile(), Date.now(), this.timeZone, (ms) => this.priceAt(ms));
+  // The expected start reached: "Planned start" once, also when it is expected again later (the
+  // flow's plan and the day pickers trigger their own). Not after a restart later in that quarter.
+  async checkExpectedStart(t) {
+    const next = this.nextRun(t);
+    if (!next || next.source !== 'expected' || next.startMs > t || next.startMs === this.expectedStartFired) return;
+    this.expectedStartFired = next.startMs;
+    if (t - next.startMs > 3 * APPLIANCE_SAMPLE_MS) return;
+    this.log(`Appliance expected start ${this.hhmm(next.startMs)} reached`);
+    const profile = this.getApplianceProfile();
+    const cost = ApplianceModel.runCost(profile, (ms) => this.priceAt(ms), next.startMs);
+    const { expected_end: expectedEnd } = this.planTokens({ startMs: next.startMs, cost, costNow: null });
+    const tokens = { expected_end: expectedEnd, cost: cost === null ? 0 : Math.round(cost * 10000) / 10000 };
+    if (this.homey.app.trigger_appliance_planned_start) await this.homey.app.trigger_appliance_planned_start(this, tokens, {});
   }
 
-  // Tiles: next run and best start; then the charts.
+  // Tiles: next run and the day pickers; then the charts.
   async updateAppliancePlanDisplay() {
     if (!this.applianceModel) return;
     const profile = this.getApplianceProfile();
     const { run } = this.applianceModel;
-    const plan = this.appliancePlan;
     const runMs = profile ? profile.durationMin * 60000 : 0;
     const now = Date.now();
 
+    const nextRun = this.nextRun(now);
     let next = '-';
-    if (run) {
-      next = profile ? `${this.homey.__('ev_now')}–${this.hhmm(run.start + runMs)}` : this.homey.__('ev_now');
-    } else if (plan && plan.startMs && profile) {
-      const start = plan.startMs <= now ? this.homey.__('ev_now') : this.dayHhmm(plan.startMs);
-      next = `${start}–${this.hhmm(Math.max(plan.startMs, now) + runMs)}`;
-    } else if (this.isApplianceReady()) {
-      const expected = ApplianceModel.nextExpectedStart(this.applianceModel, profile, now, this.timeZone, (ms) => this.priceAt(ms));
-      if (expected) next = `~${this.dayHhmm(expected)}`;
+    if (nextRun) {
+      const start = nextRun.startMs <= now ? this.homey.__('ev_now') : this.dayHhmm(nextRun.startMs);
+      const end = (run ? run.start : Math.max(nextRun.startMs, now)) + runMs;
+      next = profile ? `${start}–${this.hhmm(end)}` : start;
     }
 
-    // Best start: of the plan, else the advice for the next ready-by time.
-    const best = plan && plan.startMs ? plan : this.bestStartAdvice();
-    const bestText = best
-      ? this.homey.__('appliance_best_start_value', { start: best.startMs <= now + APPLIANCE_SAMPLE_MS ? this.homey.__('ev_now') : this.dayHhmm(best.startMs), end: this.hhmm(best.readyBy) })
-      : '-';
-
     if (this.hasCapability('appliance_next_run')) await this.setCapability('appliance_next_run', next).catch(this.error);
-    if (this.hasCapability('appliance_best_start')) await this.setCapability('appliance_best_start', bestText).catch(this.error);
+    const days = this.applianceDays();
+    for (const day of ['today', 'tomorrow']) {
+      const entry = days[this.pickerDate(day)];
+      if (this.hasCapability(`appliance_${day}`)) await this.setCapability(`appliance_${day}`, entry ? entry.value : 'auto').catch(this.error);
+    }
     await this.renderAppliancePlanCharts().catch(this.error);
   }
 
@@ -565,7 +695,8 @@ class PowerDevice extends GenericDevice {
     const profile = this.getApplianceProfile();
     const periods = TimeHelpers.getUTCPeriods(this.timeZone);
     const now = Date.now();
-    const runStart = this.plannedRunStart();
+    const nextRun = this.nextRun(now);
+    const runStart = nextRun ? nextRun.startMs : null;
     const measured = new Map((this.applianceSlots || []).map((e) => [e.t, Math.round(e.kwh * 4000)]));
     const currency = this.getSettings().currency || '€';
     const translations = { price: this.homey.__('price'), power: this.homey.__('power'), soc: this.homey.__('soc') };
@@ -613,13 +744,6 @@ class PowerDevice extends GenericDevice {
   }
 
   async onSettings({ oldSettings, newSettings, changedKeys }) {
-    if (changedKeys.includes('appliance_ready_times')) {
-      const times = PowerDevice.parseReadyTimes(newSettings.appliance_ready_times);
-      if (!times) throw Error(this.homey.__('error_invalid_time', { time: newSettings.appliance_ready_times }));
-      this.homey.setTimeout(() => {
-        this.updateAppliancePlanDisplay().catch(this.error);
-      }, 1000);
-    }
     if (changedKeys.includes('forecast_appliance')) {
       if (newSettings.forecast_appliance) this.driver.checkApplianceSource(newSettings);
       this.migrated = false; // adds or removes the appliance capabilities after the restart

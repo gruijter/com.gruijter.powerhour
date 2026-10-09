@@ -14,20 +14,21 @@
     "ar": "انتهى البرنامج",
     "ko": "프로그램 종료됨"
   },
+  "highlight": true,
   "hint": {
-    "en": "Fires 30 minutes after the last activity, to pass pauses and drying.",
-    "nl": "Komt 30 minuten na de laatste activiteit, om pauzes en drogen te overbruggen.",
-    "de": "Kommt 30 Minuten nach der letzten Aktivität, um Pausen und Trocknen zu überbrücken.",
-    "fr": "Se déclenche 30 minutes après la dernière activité, pour couvrir pauses et séchage.",
-    "es": "Se activa 30 minutos tras la última actividad, para cubrir pausas y secado.",
-    "it": "Scatta 30 minuti dopo l'ultima attività, per coprire pause e asciugatura.",
-    "da": "Udløses 30 minutter efter sidste aktivitet for at dække pauser og tørring.",
-    "sv": "Utlöses 30 minuter efter senaste aktivitet för att täcka pauser och torkning.",
-    "no": "Utløses 30 minutter etter siste aktivitet for å dekke pauser og tørking.",
-    "pl": "Wyzwala się 30 minut po ostatniej aktywności, by objąć przerwy i suszenie.",
-    "ru": "Срабатывает через 30 минут после последней активности, чтобы учесть паузы и сушку.",
-    "ar": "يعمل بعد 30 دقيقة من آخر نشاط لتجاوز التوقفات والتجفيف.",
-    "ko": "일시정지와 건조를 고려해 마지막 활동 30분 후에 실행됩니다."
+    "en": "5 minutes after the last activity once the program reached its learned length, else after 30 minutes (pauses).",
+    "nl": "5 minuten na de laatste activiteit als het programma zijn geleerde lengte heeft bereikt, anders na 30 minuten (pauzes).",
+    "de": "5 Minuten nach der letzten Aktivität, wenn das Programm seine gelernte Länge erreicht hat, sonst nach 30 Minuten (Pausen).",
+    "fr": "5 minutes après la dernière activité si le programme a atteint sa durée apprise, sinon après 30 minutes (pauses).",
+    "es": "5 minutos tras la última actividad si el programa alcanzó su duración aprendida, si no tras 30 minutos (pausas).",
+    "it": "5 minuti dopo l'ultima attività se il programma ha raggiunto la durata appresa, altrimenti dopo 30 minuti (pause).",
+    "da": "5 minutter efter sidste aktivitet, når programmet har nået sin lærte længde, ellers efter 30 minutter (pauser).",
+    "sv": "5 minuter efter senaste aktivitet när programmet nått sin inlärda längd, annars efter 30 minuter (pauser).",
+    "no": "5 minutter etter siste aktivitet når programmet har nådd sin lærte lengde, ellers etter 30 minutter (pauser).",
+    "pl": "5 minut po ostatniej aktywności, gdy program osiągnął wyuczoną długość, w przeciwnym razie po 30 minutach (przerwy).",
+    "ru": "Через 5 минут после последней активности, если программа достигла изученной длительности, иначе через 30 минут (паузы).",
+    "ar": "بعد 5 دقائق من آخر نشاط إذا بلغ البرنامج مدته المتعلمة، وإلا بعد 30 دقيقة (فترات التوقف).",
+    "ko": "프로그램이 학습된 길이에 도달하면 마지막 활동 5분 후, 아니면 30분 후(일시정지)에 실행됩니다."
   },
   "args": [
     {

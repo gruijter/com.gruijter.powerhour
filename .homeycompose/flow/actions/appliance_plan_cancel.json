@@ -14,6 +14,7 @@
     "ar": "إلغاء البرنامج المخطط",
     "ko": "계획된 프로그램 취소"
   },
+  "highlight": true,
   "args": [
     {
       "type": "device",

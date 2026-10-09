@@ -106,8 +106,7 @@
   "ev_chart_assumed": "Supposé",
   "error_invalid_time": "Heure invalide : __time__. Utilisez HH:MM",
   "error_departure_past": "Le départ à __time__ est déjà passé aujourd'hui",
+  "error_appliance_start_past": "Le démarrage à __time__ est déjà passé aujourd'hui",
   "error_invalid_periods": "Période invalide : __periods__. Utilisez AAAA-MM-JJ/AAAA-MM-JJ, séparées par des virgules",
-  "ev_now": "maintenant",
-  "appliance_best_start_value": "__start__ → prêt __end__",
-  "error_appliance_no_ready_times": "Aucune heure dans le réglage « Prêt à »"
+  "ev_now": "maintenant"
 }

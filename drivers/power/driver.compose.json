@@ -423,19 +423,19 @@
     {
       "type": "group",
       "label": {
-        "en": "Forecast",
-        "nl": "Voorspelling",
-        "de": "Prognose",
-        "fr": "Prévision",
-        "es": "Previsión",
-        "it": "Previsione",
-        "da": "Prognose",
-        "sv": "Prognos",
-        "no": "Prognose",
-        "pl": "Prognoza",
-        "ru": "Прогноз",
-        "ar": "التوقع",
-        "ko": "예측"
+        "en": "Forecast and planner",
+        "nl": "Voorspelling en planner",
+        "de": "Prognose und Planer",
+        "fr": "Prévision et planificateur",
+        "es": "Previsión y planificador",
+        "it": "Previsione e pianificatore",
+        "da": "Prognose og planlægger",
+        "sv": "Prognos och planerare",
+        "no": "Prognose og planlegger",
+        "pl": "Prognoza i planer",
+        "ru": "Прогноз и планировщик",
+        "ar": "التوقع والمخطط",
+        "ko": "예측 및 플래너"
       },
       "children": [
         {
@@ -443,19 +443,19 @@
           "type": "checkbox",
           "value": false,
           "label": {
-            "en": "Enable forecast",
-            "nl": "Voorspelling inschakelen",
-            "de": "Prognose aktivieren",
-            "fr": "Activer la prévision",
-            "es": "Activar previsión",
-            "it": "Attiva previsione",
-            "da": "Aktivér prognose",
-            "sv": "Aktivera prognos",
-            "no": "Aktiver prognose",
-            "pl": "Włącz prognozę",
-            "ru": "Включить прогноз",
-            "ar": "تفعيل التوقع",
-            "ko": "예측 사용"
+            "en": "Enable forecast and planner",
+            "nl": "Voorspelling en planner inschakelen",
+            "de": "Prognose und Planer aktivieren",
+            "fr": "Activer la prévision et le planificateur",
+            "es": "Activar previsión y planificador",
+            "it": "Attiva previsione e pianificatore",
+            "da": "Aktivér prognose og planlægger",
+            "sv": "Aktivera prognos och planerare",
+            "no": "Aktiver prognose og planlegger",
+            "pl": "Włącz prognozę i planer",
+            "ru": "Включить прогноз и планировщик",
+            "ar": "تفعيل التوقع والمخطط",
+            "ko": "예측 및 플래너 사용"
           },
           "hint": {
             "en": "For a washing machine, dishwasher or dryer: learns its programs and when they start, and adds them to the home load forecast of the grid device.",
@@ -471,41 +471,6 @@
             "ru": "Для стиральной, посудомоечной или сушильной машины: изучает программы и время их запуска и добавляет их к прогнозу нагрузки дома в grid.",
             "ar": "لغسالة أو غسالة صحون أو مجفف: يتعلّم البرامج ومواعيد بدئها ويضيفها إلى توقع حمل المنزل في جهاز grid.",
             "ko": "세탁기, 식기세척기, 건조기용: 프로그램과 시작 시각을 학습해 grid 장치의 가정 부하 예측에 더합니다."
-          }
-        },
-        {
-          "id": "appliance_ready_times",
-          "type": "text",
-          "value": "07:00",
-          "label": {
-            "en": "Ready by",
-            "nl": "Klaar om",
-            "de": "Fertig um",
-            "fr": "Prêt à",
-            "es": "Listo a las",
-            "it": "Pronto alle",
-            "da": "Færdig kl.",
-            "sv": "Klar kl.",
-            "no": "Ferdig kl.",
-            "pl": "Gotowe o",
-            "ru": "Готово к",
-            "ar": "جاهز بحلول",
-            "ko": "완료 시각"
-          },
-          "hint": {
-            "en": "One or more times, e.g. 08:00, 18:00. Best start: the cheapest start so the program is ready by the next of these.",
-            "nl": "Eén of meer tijden, bijv. 08:00, 18:00. Beste start: de goedkoopste start zodat het programma klaar is om de eerstvolgende.",
-            "de": "Eine oder mehrere Zeiten, z. B. 08:00, 18:00. Bester Start: der günstigste Start, damit das Programm zur nächsten fertig ist.",
-            "fr": "Une ou plusieurs heures, p. ex. 08:00, 18:00. Meilleur départ : le moins cher pour que le programme soit prêt à la prochaine.",
-            "es": "Una o más horas, p. ej. 08:00, 18:00. Mejor inicio: el más barato para que el programa termine a la próxima.",
-            "it": "Una o più ore, ad es. 08:00, 18:00. Avvio migliore: il più economico perché il programma sia pronto alla prossima.",
-            "da": "Et eller flere tidspunkter, f.eks. 08:00, 18:00. Bedste start: den billigste, så programmet er færdigt til det næste.",
-            "sv": "En eller flera tider, t.ex. 08:00, 18:00. Bästa start: billigaste start så att programmet är klart till nästa.",
-            "no": "Ett eller flere tidspunkt, f.eks. 08:00, 18:00. Beste start: den billigste, slik at programmet er ferdig til det neste.",
-            "pl": "Jedna lub więcej godzin, np. 08:00, 18:00. Najlepszy start: najtańszy, by program skończył się na najbliższą z nich.",
-            "ru": "Одно или несколько времён, напр. 08:00, 18:00. Лучший запуск: самый дешёвый, чтобы программа завершилась к ближайшему.",
-            "ar": "وقت واحد أو أكثر، مثل 08:00، 18:00. أفضل بدء: الأرخص لينتهي البرنامج بحلول أقربها.",
-            "ko": "하나 이상의 시각, 예: 08:00, 18:00. 최적 시작: 다음 시각까지 완료되는 가장 저렴한 시작."
           }
         },
         {

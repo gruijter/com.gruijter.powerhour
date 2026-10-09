@@ -106,8 +106,7 @@
   "ev_chart_assumed": "Supuesto",
   "error_invalid_time": "Hora no válida: __time__. Usa HH:MM",
   "error_departure_past": "La salida a las __time__ ya ha pasado hoy",
+  "error_appliance_start_past": "El inicio a las __time__ ya pasó hoy",
   "error_invalid_periods": "Periodo no válido: __periods__. Usa AAAA-MM-DD/AAAA-MM-DD, separados por comas",
-  "ev_now": "ahora",
-  "appliance_best_start_value": "__start__ → listo __end__",
-  "error_appliance_no_ready_times": "No hay horas en el ajuste \"Listo a las\""
+  "ev_now": "ahora"
 }

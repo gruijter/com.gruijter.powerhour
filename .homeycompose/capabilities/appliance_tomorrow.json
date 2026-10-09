@@ -1,0 +1,292 @@
+{
+  "type": "enum",
+  "title": {
+    "en": "Start tomorrow",
+    "nl": "Start morgen",
+    "de": "Start morgen",
+    "fr": "Démarrage demain",
+    "es": "Inicio mañana",
+    "it": "Avvio domani",
+    "da": "Start i morgen",
+    "sv": "Start i morgon",
+    "no": "Start i morgen",
+    "pl": "Start jutro",
+    "ru": "Запуск завтра",
+    "ar": "البدء غدًا",
+    "ko": "내일 시작"
+  },
+  "desc": {
+    "en": "Start tomorrow, once. Automatic: as learned.",
+    "nl": "Start morgen, eenmalig. Automatisch: zoals geleerd.",
+    "de": "Start morgen, einmalig. Automatisch: wie gelernt.",
+    "fr": "Démarrage demain, une fois. Automatique : comme appris.",
+    "es": "Inicio mañana, una vez. Automático: como aprendido.",
+    "it": "Avvio domani, una volta. Automatico: come appreso.",
+    "da": "Start i morgen, én gang. Automatisk: som lært.",
+    "sv": "Start i morgon, en gång. Automatisk: som inlärt.",
+    "no": "Start i morgen, én gang. Automatisk: som lært.",
+    "pl": "Start jutro, jednorazowo. Automatycznie: jak wyuczono.",
+    "ru": "Запуск завтра, однократно. Автоматически: как изучено.",
+    "ar": "البدء غدًا، لمرة واحدة. تلقائي: كما تم تعلمه.",
+    "ko": "내일 시작, 1회. 자동: 학습한 대로."
+  },
+  "uiComponent": "picker",
+  "icon": "/assets/appliance_start.svg",
+  "getable": true,
+  "setable": true,
+  "insights": false,
+  "values": [
+    {
+      "id": "auto",
+      "title": {
+        "en": "Automatic",
+        "nl": "Automatisch",
+        "de": "Automatisch",
+        "fr": "Automatique",
+        "es": "Automático",
+        "it": "Automatico",
+        "da": "Automatisk",
+        "sv": "Automatisk",
+        "no": "Automatisk",
+        "pl": "Automatycznie",
+        "ru": "Автоматически",
+        "ar": "تلقائي",
+        "ko": "자동"
+      }
+    },
+    {
+      "id": "unused",
+      "title": {
+        "en": "Not used",
+        "nl": "Niet gebruikt",
+        "de": "Nicht genutzt",
+        "fr": "Non utilisé",
+        "es": "Sin uso",
+        "it": "Non usato",
+        "da": "Ikke brugt",
+        "sv": "Används inte",
+        "no": "Ikke brukt",
+        "pl": "Nieużywane",
+        "ru": "Не используется",
+        "ar": "غير مستخدم",
+        "ko": "사용 안 함"
+      }
+    },
+    {
+      "id": "cheapest",
+      "title": {
+        "en": "Cheapest",
+        "nl": "Goedkoopst",
+        "de": "Am günstigsten",
+        "fr": "Le moins cher",
+        "es": "Más barato",
+        "it": "Più economico",
+        "da": "Billigst",
+        "sv": "Billigast",
+        "no": "Billigst",
+        "pl": "Najtaniej",
+        "ru": "Дешевле всего",
+        "ar": "الأرخص",
+        "ko": "가장 저렴"
+      }
+    },
+    {
+      "id": "03:00",
+      "title": {
+        "en": "03:00",
+        "nl": "03:00",
+        "de": "03:00",
+        "fr": "03:00",
+        "es": "03:00",
+        "it": "03:00",
+        "da": "03:00",
+        "sv": "03:00",
+        "no": "03:00",
+        "pl": "03:00",
+        "ru": "03:00",
+        "ar": "03:00",
+        "ko": "03:00"
+      }
+    },
+    {
+      "id": "06:00",
+      "title": {
+        "en": "06:00",
+        "nl": "06:00",
+        "de": "06:00",
+        "fr": "06:00",
+        "es": "06:00",
+        "it": "06:00",
+        "da": "06:00",
+        "sv": "06:00",
+        "no": "06:00",
+        "pl": "06:00",
+        "ru": "06:00",
+        "ar": "06:00",
+        "ko": "06:00"
+      }
+    },
+    {
+      "id": "07:00",
+      "title": {
+        "en": "07:00",
+        "nl": "07:00",
+        "de": "07:00",
+        "fr": "07:00",
+        "es": "07:00",
+        "it": "07:00",
+        "da": "07:00",
+        "sv": "07:00",
+        "no": "07:00",
+        "pl": "07:00",
+        "ru": "07:00",
+        "ar": "07:00",
+        "ko": "07:00"
+      }
+    },
+    {
+      "id": "08:00",
+      "title": {
+        "en": "08:00",
+        "nl": "08:00",
+        "de": "08:00",
+        "fr": "08:00",
+        "es": "08:00",
+        "it": "08:00",
+        "da": "08:00",
+        "sv": "08:00",
+        "no": "08:00",
+        "pl": "08:00",
+        "ru": "08:00",
+        "ar": "08:00",
+        "ko": "08:00"
+      }
+    },
+    {
+      "id": "10:00",
+      "title": {
+        "en": "10:00",
+        "nl": "10:00",
+        "de": "10:00",
+        "fr": "10:00",
+        "es": "10:00",
+        "it": "10:00",
+        "da": "10:00",
+        "sv": "10:00",
+        "no": "10:00",
+        "pl": "10:00",
+        "ru": "10:00",
+        "ar": "10:00",
+        "ko": "10:00"
+      }
+    },
+    {
+      "id": "12:00",
+      "title": {
+        "en": "12:00",
+        "nl": "12:00",
+        "de": "12:00",
+        "fr": "12:00",
+        "es": "12:00",
+        "it": "12:00",
+        "da": "12:00",
+        "sv": "12:00",
+        "no": "12:00",
+        "pl": "12:00",
+        "ru": "12:00",
+        "ar": "12:00",
+        "ko": "12:00"
+      }
+    },
+    {
+      "id": "14:00",
+      "title": {
+        "en": "14:00",
+        "nl": "14:00",
+        "de": "14:00",
+        "fr": "14:00",
+        "es": "14:00",
+        "it": "14:00",
+        "da": "14:00",
+        "sv": "14:00",
+        "no": "14:00",
+        "pl": "14:00",
+        "ru": "14:00",
+        "ar": "14:00",
+        "ko": "14:00"
+      }
+    },
+    {
+      "id": "16:00",
+      "title": {
+        "en": "16:00",
+        "nl": "16:00",
+        "de": "16:00",
+        "fr": "16:00",
+        "es": "16:00",
+        "it": "16:00",
+        "da": "16:00",
+        "sv": "16:00",
+        "no": "16:00",
+        "pl": "16:00",
+        "ru": "16:00",
+        "ar": "16:00",
+        "ko": "16:00"
+      }
+    },
+    {
+      "id": "18:00",
+      "title": {
+        "en": "18:00",
+        "nl": "18:00",
+        "de": "18:00",
+        "fr": "18:00",
+        "es": "18:00",
+        "it": "18:00",
+        "da": "18:00",
+        "sv": "18:00",
+        "no": "18:00",
+        "pl": "18:00",
+        "ru": "18:00",
+        "ar": "18:00",
+        "ko": "18:00"
+      }
+    },
+    {
+      "id": "20:00",
+      "title": {
+        "en": "20:00",
+        "nl": "20:00",
+        "de": "20:00",
+        "fr": "20:00",
+        "es": "20:00",
+        "it": "20:00",
+        "da": "20:00",
+        "sv": "20:00",
+        "no": "20:00",
+        "pl": "20:00",
+        "ru": "20:00",
+        "ar": "20:00",
+        "ko": "20:00"
+      }
+    },
+    {
+      "id": "22:00",
+      "title": {
+        "en": "22:00",
+        "nl": "22:00",
+        "de": "22:00",
+        "fr": "22:00",
+        "es": "22:00",
+        "it": "22:00",
+        "da": "22:00",
+        "sv": "22:00",
+        "no": "22:00",
+        "pl": "22:00",
+        "ru": "22:00",
+        "ar": "22:00",
+        "ko": "22:00"
+      }
+    }
+  ]
+}

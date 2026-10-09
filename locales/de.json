@@ -106,8 +106,7 @@
   "ev_chart_assumed": "Angenommen",
   "error_invalid_time": "Ungültige Zeit: __time__. Verwende HH:MM",
   "error_departure_past": "Abfahrt __time__ ist heute schon vorbei",
+  "error_appliance_start_past": "Start __time__ ist heute schon vorbei",
   "error_invalid_periods": "Ungültiger Zeitraum: __periods__. Verwende JJJJ-MM-TT/JJJJ-MM-TT, durch Kommas getrennt",
-  "ev_now": "jetzt",
-  "appliance_best_start_value": "__start__ → fertig __end__",
-  "error_appliance_no_ready_times": "Keine Zeiten in der Einstellung \"Fertig um\""
+  "ev_now": "jetzt"
 }

@@ -1,0 +1,107 @@
+{
+  "title": {
+    "en": "Now !{{is|isn't}} the cheapest program start in the next hours",
+    "nl": "Nu !{{is|is niet}} de goedkoopste programmastart in de komende uren",
+    "de": "Jetzt !{{ist|ist nicht}} der günstigste Programmstart in den nächsten Stunden",
+    "fr": "Maintenant !{{est|n'est pas}} le démarrage du programme le moins cher dans les prochaines heures",
+    "es": "Ahora !{{es|no es}} el inicio del programa más barato en las próximas horas",
+    "it": "Adesso !{{è|non è}} l'avvio del programma più economico nelle prossime ore",
+    "da": "Nu !{{er|er ikke}} den billigste programstart i de næste timer",
+    "sv": "Nu !{{är|är inte}} den billigaste programstarten under de kommande timmarna",
+    "no": "Nå !{{er|er ikke}} den billigste programstarten i de neste timene",
+    "pl": "Teraz !{{jest|nie jest}} najtańszy start programu w ciągu następnych godzin",
+    "ru": "Сейчас !{{самый|не самый}} дешёвый запуск программы в следующие часы",
+    "ar": "الآن !{{هو|ليس}} أرخص بدء للبرنامج في الساعات القادمة",
+    "ko": "지금이 다음 시간 동안 가장 저렴한 프로그램 시작!{{입니다|이 아닙니다}}"
+  },
+  "titleFormatted": {
+    "en": "Now !{{is|isn't}} the cheapest program start in the next [[period]] hours",
+    "nl": "Nu !{{is|is niet}} de goedkoopste programmastart in de komende [[period]] uren",
+    "de": "Jetzt !{{ist|ist nicht}} der günstigste Programmstart in den nächsten [[period]] Stunden",
+    "fr": "Maintenant !{{est|n'est pas}} le démarrage du programme le moins cher dans les [[period]] prochaines heures",
+    "es": "Ahora !{{es|no es}} el inicio del programa más barato en las próximas [[period]] horas",
+    "it": "Adesso !{{è|non è}} l'avvio del programma più economico nelle prossime [[period]] ore",
+    "da": "Nu !{{er|er ikke}} den billigste programstart i de næste [[period]] timer",
+    "sv": "Nu !{{är|är inte}} den billigaste programstarten under de kommande [[period]] timmarna",
+    "no": "Nå !{{er|er ikke}} den billigste programstarten i de neste [[period]] timene",
+    "pl": "Teraz !{{jest|nie jest}} najtańszy start programu w ciągu następnych [[period]] godzin",
+    "ru": "Сейчас !{{самый|не самый}} дешёвый запуск программы за следующие [[period]] часов",
+    "ar": "الآن !{{هو|ليس}} أرخص بدء للبرنامج في [[period]] ساعة القادمة",
+    "ko": "지금이 다음 [[period]]시간 동안 가장 저렴한 프로그램 시작!{{입니다|이 아닙니다}}"
+  },
+  "highlight": true,
+  "hint": {
+    "en": "With the learned duration and power of the program.",
+    "nl": "Met de geleerde duur en het geleerde vermogen van het programma.",
+    "de": "Mit der gelernten Dauer und Leistung des Programms.",
+    "fr": "Avec la durée et la puissance apprises du programme.",
+    "es": "Con la duración y la potencia aprendidas del programa.",
+    "it": "Con la durata e la potenza apprese del programma.",
+    "da": "Med programmets lærte varighed og effekt.",
+    "sv": "Med programmets inlärda längd och effekt.",
+    "no": "Med programmets lærte varighet og effekt.",
+    "pl": "Z wyuczonym czasem trwania i mocą programu.",
+    "ru": "С изученными длительностью и мощностью программы.",
+    "ar": "بالمدة والقدرة المتعلمتين للبرنامج.",
+    "ko": "학습된 프로그램 시간과 전력으로 계산합니다."
+  },
+  "args": [
+    {
+      "type": "device",
+      "name": "device",
+      "filter": "driver_id=power&capabilities=appliance_next_run"
+    },
+    {
+      "type": "number",
+      "name": "period",
+      "title": {
+        "en": "period",
+        "de": "Zeitraum",
+        "sv": "period",
+        "it": "periodo",
+        "no": "periode",
+        "da": "periode",
+        "nl": "periode",
+        "fr": "période",
+        "es": "período",
+        "pl": "okres",
+        "ru": "период",
+        "ko": "기간",
+        "ar": "فترة"
+      },
+      "placeholder": {
+        "en": "1 - 48",
+        "nl": "1 - 48",
+        "de": "1 - 48",
+        "fr": "1 - 48",
+        "es": "1 - 48",
+        "it": "1 - 48",
+        "da": "1 - 48",
+        "sv": "1 - 48",
+        "no": "1 - 48",
+        "pl": "1 - 48",
+        "ru": "1 - 48",
+        "ar": "1 - 48",
+        "ko": "1 - 48"
+      },
+      "hint": {
+        "en": "Enter the number of hours.",
+        "nl": "Voer het aantal uren in.",
+        "de": "Geben Sie die Anzahl der Stunden ein.",
+        "fr": "Entrez le nombre d'heures.",
+        "it": "Inserisci il numero di ore.",
+        "sv": "Ange antal timmar.",
+        "no": "Angi antall timer.",
+        "es": "Introduzca el número de horas.",
+        "da": "Indtast antallet af timer.",
+        "pl": "Wprowadź liczbę godzin.",
+        "ru": "Введите количество часов.",
+        "ar": "أدخل عدد الساعات.",
+        "ko": "시간을 입력하세요."
+      },
+      "min": 1,
+      "max": 48,
+      "step": 1
+    }
+  ]
+}

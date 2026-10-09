@@ -106,8 +106,7 @@
   "ev_chart_assumed": "Antaget",
   "error_invalid_time": "Ugyldigt tidspunkt: __time__. Brug TT:MM",
   "error_departure_past": "Afgang __time__ er allerede passeret i dag",
+  "error_appliance_start_past": "Start __time__ er allerede passeret i dag",
   "error_invalid_periods": "Ugyldig periode: __periods__. Brug ÅÅÅÅ-MM-DD/ÅÅÅÅ-MM-DD, adskilt af kommaer",
-  "ev_now": "nu",
-  "appliance_best_start_value": "__start__ → færdig __end__",
-  "error_appliance_no_ready_times": "Ingen tidspunkter i indstillingen \"Færdig kl.\""
+  "ev_now": "nu"
 }
