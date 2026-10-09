@@ -1448,8 +1448,12 @@ class CarChargeDevice extends GenericDevice {
 
   _awayUntilMs(profile, tz, now) {
     const day = profile[EvUsageModel.getDowLocal(new Date(now), tz)];
-    if (day && typeof day.returnFh === 'number') {
-      const t = EvPlanner.localTimeMs(TimeHelpers.getLocalMidnightUTC(new Date(now), tz).getTime(), day.returnFh, tz);
+    // With several trips a day: the first return still to come.
+    const nowFh = EvUsageModel.toLocalFractionalHour(new Date(now), tz);
+    const next = ((day && day.trips) || []).find((t) => typeof t.returnFh === 'number' && t.returnFh > nowFh);
+    const returnFh = next ? next.returnFh : day && day.returnFh;
+    if (typeof returnFh === 'number') {
+      const t = EvPlanner.localTimeMs(TimeHelpers.getLocalMidnightUTC(new Date(now), tz).getTime(), returnFh, tz);
       if (t > now) return t;
     }
     return now + 3600 * 1000;
@@ -1542,7 +1546,7 @@ class CarChargeDevice extends GenericDevice {
       // Still home after the planned departure: keep charging for that trip until the car leaves.
       stillHome: this.presence && this.presence.atHome && this.presence.chargeable
         ? { lastAwayMs: this.lastAwayTm || 0, stepMs: intervalMin * 60 * 1000 } : null,
-      drivenToday: EvUsageModel.drivenToday(this.usageModel, this._minTripKwh()),
+      tripsToday: EvUsageModel.tripsToday(this.usageModel, this._minTripKwh()),
     });
     const n = Math.ceil((EvPlanner.HORIZON_DAYS * 24 * 60) / intervalMin);
     const chargeMode = this.getCapabilityValue('ev_charge_mode') || 'scheduled_price';
@@ -1864,7 +1868,8 @@ class CarChargeDevice extends GenericDevice {
           return;
         }
         const parts = [this.homey.__(day.regular ? 'ev_profile_regular' : 'ev_profile_sometimes')];
-        if (typeof day.departFh === 'number') parts.push(EvUsageModel.fractionalHourToHHMM(day.departFh));
+        if (day.trips.length) parts.push(day.trips.map((t) => EvUsageModel.fractionalHourToHHMM(t.departFh)).join(' + '));
+        else if (typeof day.departFh === 'number') parts.push(EvUsageModel.fractionalHourToHHMM(day.departFh));
         if (typeof day.safeKwh === 'number') parts.push(`${day.safeKwh} kWh (${Math.round((day.safeKwh / capacity) * 100)}%)`);
         parts.push(count);
         update[key] = parts.join(' · ');
