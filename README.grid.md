@@ -58,7 +58,7 @@ After pairing, the load forecast is trained automatically from the Insights hist
 
 **Phases**, **Main fuse (A)** and **Voltage (V)** describe your grid connection (default 3 × 25 A × 230 V ≈ 17.25 kW). They are used to:
 - Reject implausible readings when calculating house load (anything above twice the connection rating is ignored).
-- Provide the connection limit to the Power by the Hour Home Battery devices.
+- Provide the connection limit to the Power by the Hour Smart Battery Charger devices.
 
 Fill in your real values — especially on a small (e.g. 1 × 35 A) or large connection.
 
@@ -73,7 +73,7 @@ Home = Grid (import +) + Solar − Battery (charging +) − EV charger (charging
 ```
 
 - **Solar:** sum of all Power by the Hour Solar devices. Without those, the total generation from Homey Energy is used.
-- **Battery / EV charger:** sum of all Power by the Hour Home Battery and EV Charger devices.
+- **Battery / EV charger:** sum of all Power by the Hour Smart Battery Charger and Smart EV Charger devices.
 - The result is smoothed with a 2-minute rolling average, to absorb timing differences between meters that report at different moments.
 
 The components are also shown separately as `measure_watt_solar`, `measure_watt_battery` and `measure_watt_evcharger`.

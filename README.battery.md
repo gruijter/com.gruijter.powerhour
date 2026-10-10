@@ -1,6 +1,6 @@
-# Home Battery Manager (Battery Driver)
+# Smart Battery Charger (Battery Driver)
 
-The **Home Battery Manager** driver monitors home battery systems (kWh stored, charging, discharging, costs) and provides dynamic load balancing using the **xom / Nom-Xom** optimization strategy.
+The **Smart Battery Charger** driver monitors home battery systems (kWh stored, charging, discharging, costs) and provides dynamic load balancing using the **xom / Nom-Xom** optimization strategy.
 
 ---
 
@@ -37,7 +37,7 @@ Compatible with any battery inverter exposing state-of-charge (SoC) and battery 
 ## Setup & Pairing
 
 1. Go to **Devices** → **Add Device** → **Power by the Hour**.
-2. Select **Home Battery**.
+2. Select **Smart Battery Charger**.
 3. Choose your battery inverter device.
 4. Complete pairing.
 

@@ -17,7 +17,7 @@ Select a use case below for detailed setup instructions, settings guides, and co
 | ⚡ **Track Electricity Usage & Standby Power** | Power Monitor (`power`) | [→ README.power.md](./README.power.md) |
 | 🛢️ **Monitor Gas Consumption & Leak Alarms** | Gas Monitor (`gas`) | [→ README.gas.md](./README.gas.md) |
 | 💧 **Track Water Usage & Dripping Taps** | Water Monitor (`water`) | [→ README.water.md](./README.water.md) |
-| 🔋 **Optimize Home Battery Balancing & ROI** | Home Battery Manager (`battery`) | [→ README.battery.md](./README.battery.md) |
+| 🔋 **Optimize Home Battery Balancing & ROI** | Smart Battery Charger (`battery`) | [→ README.battery.md](./README.battery.md) |
 | 💶 **Dynamic Electricity Spot Prices (1H & 15M)** | Day-Ahead Pricing (`dap` / `dap15`) | [→ README.dap.md](./README.dap.md) |
 | ⚡ **Dynamic Gas Spot Prices** | Gas Day-Ahead Pricing (`dapg`) | [→ README.dapg.md](./README.dapg.md) |
 | 💻 **App-to-App & HomeyScript Developer API** | Inter-App API | [→ README.dap-api.md](./README.dap-api.md) |
