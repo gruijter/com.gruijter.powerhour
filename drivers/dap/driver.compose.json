@@ -14,7 +14,7 @@
     "ar": "أسعار الكهرباء لليوم التالي (60 دقيقة)",
     "ko": "60분 단위 전일 전력 가격"
   },
-  "class": "sensor",
+  "class": "service",
   "capabilities": [],
   "capabilitiesOptions": {},
   "platforms": [

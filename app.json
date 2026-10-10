@@ -16352,7 +16352,7 @@
         "ar": "أسعار الكهرباء لليوم التالي (60 دقيقة)",
         "ko": "60분 단위 전일 전력 가격"
       },
-      "class": "sensor",
+      "class": "service",
       "capabilities": [],
       "capabilitiesOptions": {},
       "platforms": [
@@ -17717,7 +17717,7 @@
         "ar": "أسعار الكهرباء لليوم التالي (15 دقيقة)",
         "ko": "15분 단위 전일 전력 가격"
       },
-      "class": "sensor",
+      "class": "service",
       "capabilities": [],
       "capabilitiesOptions": {
         "meter_rank_price_h0_next_8h": {
@@ -19117,7 +19117,7 @@
         "pl": "Ceny Gazu na Następny Dzień",
         "ru": "Цены на газ на следующие сутки"
       },
-      "class": "sensor",
+      "class": "service",
       "capabilities": [],
       "platforms": [
         "local"

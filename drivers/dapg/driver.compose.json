@@ -14,7 +14,7 @@
 		"pl": "Ceny Gazu na Następny Dzień",
 		"ru": "Цены на газ на следующие сутки"
 	},
-	"class": "sensor",
+	"class": "service",
 	"capabilities": [],
 	"platforms": [
 		"local"
