@@ -1,18 +1,18 @@
 {
   "name": {
-    "en": "Gas Summarizer",
-    "nl": "Gas Samenvatter",
-    "de": "Gaszähler",
-    "fr": "Résumé Gaz",
-    "it": "Riepilogo Gas",
-    "sv": "Gas Summerare",
-    "no": "Gass Oppsummering",
-    "es": "Resumen de Gas",
-    "da": "Gas Opsummering",
-    "pl": "Podsumowanie Gazu",
-    "ru": "Сводка Газа",
-    "ar": "ملخص الغاز",
-    "ko": "가스 요약기"
+    "en": "Gas Monitor",
+    "nl": "Gasmonitor",
+    "de": "Gasmonitor",
+    "fr": "Moniteur de gaz",
+    "it": "Monitor gas",
+    "sv": "Gasmonitor",
+    "no": "Gassmonitor",
+    "es": "Monitor de gas",
+    "da": "Gasmonitor",
+    "pl": "Monitor gazu",
+    "ru": "Монитор газа",
+    "ar": "مراقب الغاز",
+    "ko": "가스 모니터"
   },
   "images": {
     "large": "./drivers/gas/assets/images/large.jpg",

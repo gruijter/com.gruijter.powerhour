@@ -1,6 +1,6 @@
-# Gas Summarizer (Gas Driver)
+# Gas Monitor (Gas Driver)
 
-The **Gas Summarizer** device tracks your gas consumption in cubic meters ($\text{m}^3$) and calculates costs per hour, day, month, and year. It also features automatic gas leak detection and seasonal budget tracking.
+The **Gas Monitor** device tracks your gas consumption in cubic meters ($\text{m}^3$) and calculates costs per hour, day, month, and year. It also features automatic gas leak detection and seasonal budget tracking.
 
 ---
 
@@ -26,7 +26,7 @@ The **Gas Summarizer** device tracks your gas consumption in cubic meters ($\tex
 ## Setup & Pairing
 
 1. Go to **Devices** → **Add Device** → **Power by the Hour**.
-2. Select **Gas Summarizer**.
+2. Select **Gas Monitor**.
 3. Choose your gas meter source (e.g. P1 Smart Meter Gas Channel, Homewizard Gas, Youless, etc.).
 4. Complete pairing.
 

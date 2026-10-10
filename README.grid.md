@@ -1,6 +1,6 @@
-# Grid Power Summarizer (Grid Driver)
+# Grid Monitor (Grid Driver)
 
-The **Grid Power Summarizer** driver tracks the electricity exchanged with the grid at your main meter (P1 smart meter or CT clamp) — imported and exported separately — and derives your real house load, capacity-tariff peaks, and a self-learning home load forecast from it.
+The **Grid Monitor** driver tracks the electricity exchanged with the grid at your main meter (P1 smart meter or CT clamp) — imported and exported separately — and derives your real house load, capacity-tariff peaks, and a self-learning home load forecast from it.
 
 ---
 
@@ -44,7 +44,7 @@ The driver reads the import and export registers that the source device declares
 ## Setup & Pairing
 
 1. Go to **Devices** → **Add Device** → **Power by the Hour**.
-2. Select **Grid Power Summarizer**.
+2. Select **Grid Monitor**.
 3. Choose your main grid meter.
 4. Complete pairing.
 5. In the device settings, check the **Grid connection** values (phases, main fuse, voltage) — see below.

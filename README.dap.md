@@ -24,7 +24,7 @@ The **Day-Ahead Pricing** drivers fetch European spot market prices (ENTSO-E, No
 - **Comprehensive Markup Formula:** Supports variable %, fixed markup per kWh, Time-of-Day (TOD) hourly markups, weekend markups, and currency exchange rates.
 - **Separate Export Tariffs:** Configure feed-in / export markups separately from import tariffs.
 - **Price Graphs:** Real-time camera image graphs for *Today*, *Tomorrow*, and *Next Hours*.
-- **Tariff Groups:** Broadcasts rates automatically to all Power Summarizer devices.
+- **Tariff Groups:** Broadcasts rates automatically to all Power Monitor devices.
 
 ---
 
@@ -69,7 +69,7 @@ Enable **Forecast Enable** in settings to append up to 24 hours of AI-predicted 
 ## Broadcasting Rates via Tariff Groups
 
 Set **Tariff Update Group** (e.g. `1`) in the DAP device settings.
-Any Power Summarizer device with the same group number will automatically update its active tariff every hour/quarter.
+Any Power Monitor device with the same group number will automatically update its active tariff every hour/quarter.
 
 ---
 

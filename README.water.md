@@ -1,6 +1,6 @@
-# Water Summarizer (Water Driver)
+# Water Monitor (Water Driver)
 
-The **Water Summarizer** device tracks water consumption in cubic meters ($\text{m}^3$) and Liters, providing cost breakdowns and continuous water leak monitoring.
+The **Water Monitor** device tracks water consumption in cubic meters ($\text{m}^3$) and Liters, providing cost breakdowns and continuous water leak monitoring.
 
 ---
 
@@ -24,7 +24,7 @@ The **Water Summarizer** device tracks water consumption in cubic meters ($\text
 ## Setup & Pairing
 
 1. Go to **Devices** → **Add Device** → **Power by the Hour**.
-2. Select **Water Summarizer**.
+2. Select **Water Monitor**.
 3. Choose your water meter source (e.g. Homewizard Watermeter, Grohe Sense, line pulse meter).
 4. Complete pairing.
 

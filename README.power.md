@@ -1,8 +1,8 @@
-# Electricity Summarizer (Power Driver)
+# Power Monitor (Power Driver)
 
-The **Power Summarizer** device aggregates electricity consumption and production data from your smart meter, energy meters, or power meters. It calculates real-time kWh usage and monetary costs across hourly, daily, monthly, and annual periods.
+The **Power Monitor** device aggregates electricity consumption and production data from your smart meter, energy meters, or power meters. It calculates real-time kWh usage and monetary costs across hourly, daily, monthly, and annual periods.
 
-<img src="https://us1.discourse-cdn.com/flex025/uploads/athom/original/3X/5/5/55d1f95545e8389c18729221bf901a71321811fb.jpeg" alt="Power Summarizer Device Tile" width="350"/>
+<img src="https://us1.discourse-cdn.com/flex025/uploads/athom/original/3X/5/5/55d1f95545e8389c18729221bf901a71321811fb.jpeg" alt="Power Monitor Device Tile" width="350"/>
 
 ---
 
@@ -35,7 +35,7 @@ The **Power Summarizer** device aggregates electricity consumption and productio
 <img src="https://us1.discourse-cdn.com/flex025/uploads/athom/optimized/3X/1/2/12a1275dde87ca9c92c8d79ce12db4f586e2866b_2_250x220.jpeg" alt="Driver Selection" width="220"/> <img src="https://us1.discourse-cdn.com/flex025/uploads/athom/original/3X/d/7/d7a40d7917baf5456c07562b42c6b4d37b7ed7cd.jpeg" alt="Device Selection" width="180"/>
 
 1. Go to **Devices** → **Add Device** → **Power by the Hour**.
-2. Select **Power Summarizer**.
+2. Select **Power Monitor**.
 3. Select your source device from the detected list (e.g. P1 Smart Meter, Plugwise Smile, Youless, Homewizard, Shelly, or Smart Plugs).
    - *Note:* PBTH automatically picks the best energy capability. If your device isn't listed, select **Virtual Meter** at the bottom of the list.
 4. Click **Next** to complete pairing.
@@ -86,7 +86,7 @@ The `measure_watt_min` capability measures the lowest power draw over a period.
 
 ## Heat Pump & Dedicated Appliance Monitoring
 
-You can add a dedicated Power Summarizer device for heavy consumers like heat pumps, air conditioners, hot tubs, or washing machines.
+You can add a dedicated Power Monitor device for heavy consumers like heat pumps, air conditioners, hot tubs, or washing machines.
 - Select the smart plug or power meter measuring the appliance as the source device.
 - Set the tariff or link it to your DAP device via a Tariff Group.
 - Gain full visibility into hourly, daily, monthly, and yearly running costs without resetting the original device meter.

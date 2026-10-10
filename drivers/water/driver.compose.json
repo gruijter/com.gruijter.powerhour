@@ -1,18 +1,18 @@
 {
   "name": {
-    "en": "Water Summarizer",
-    "nl": "Water Samenvatter",
-    "de": "Wasserzähler",
-    "fr": "Résumé Eau",
-    "it": "Riepilogo Acqua",
-    "sv": "Vatten Summerare",
-    "no": "Vann Oppsummering",
-    "es": "Resumen de Agua",
-    "da": "Vand Opsummering",
-    "pl": "Podsumowanie Wody",
-    "ru": "Сводка Воды",
-    "ar": "ملخص المياه",
-    "ko": "수도 요약기"
+    "en": "Water Monitor",
+    "nl": "Watermonitor",
+    "de": "Wassermonitor",
+    "fr": "Moniteur d'eau",
+    "it": "Monitor acqua",
+    "sv": "Vattenmonitor",
+    "no": "Vannmonitor",
+    "es": "Monitor de agua",
+    "da": "Vandmonitor",
+    "pl": "Monitor wody",
+    "ru": "Монитор воды",
+    "ar": "مراقب المياه",
+    "ko": "수도 모니터"
   },
   "images": {
     "large": "./drivers/water/assets/images/large.jpg",
