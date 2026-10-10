@@ -366,8 +366,9 @@ class BatDevice extends GenericDevice {
     await this.setCapability('roi_duration', strategy.duration).catch((err) => this.error(err));
 
     const scheme = JSON.parse(strategy.scheme);
+    const { isForecast } = this.pricesFromNow();
     Object.keys(scheme).forEach((k) => {
-      if (this.pricesNextHoursIsForecast && this.pricesNextHoursIsForecast[k]) scheme[k].isForecast = true;
+      if (isForecast && isForecast[k]) scheme[k].isForecast = true;
     });
 
     await this.renderChargeCharts({

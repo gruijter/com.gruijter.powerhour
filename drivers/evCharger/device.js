@@ -946,7 +946,8 @@ class CarChargeDevice extends GenericDevice {
     const limit = typeof this.carLimit === 'number' ? Math.min(maxSoc, this.carLimit) : maxSoc;
     if (!(this.lastKnownSoc < limit)) return false;
     if (mode === 'solar_only') return true;
-    const exportPrice = this.exportPricesNextHours && this.exportPricesNextHours[0];
+    const { exportPrices } = this.pricesFromNow();
+    const exportPrice = exportPrices && exportPrices[0];
     return !!this.cheapThreshold && typeof exportPrice === 'number' && exportPrice <= this.cheapThreshold.solar;
   }
 
@@ -1426,17 +1427,17 @@ class CarChargeDevice extends GenericDevice {
   }
 
   // Learn the expected-price profile from the published prices (not forecasts).
-  async _learnPrices(slotStartMs, intervalMin, tz) {
+  async _learnPrices(fromNow, slotStartMs, intervalMin, tz) {
     if (!this.priceProfile) {
       this.priceProfile = (await this.getStoreValue('evPriceProfile')) || EvPriceProfile.createProfile();
     }
     const entries = [];
-    (this.pricesNextHours || []).forEach((price, i) => {
-      if (this.pricesNextHoursIsForecast && this.pricesNextHoursIsForecast[i]) return;
+    (fromNow.prices || []).forEach((price, i) => {
+      if (fromNow.isForecast && fromNow.isForecast[i]) return;
       entries.push({
         time: slotStartMs + i * intervalMin * 60 * 1000,
         price,
-        exportPrice: this.exportPricesNextHours ? this.exportPricesNextHours[i] : undefined,
+        exportPrice: fromNow.exportPrices ? fromNow.exportPrices[i] : undefined,
       });
     });
     const before = `${this.priceProfile.lastLearnedMs}|${JSON.stringify(this.priceProfile.dailyMin || {})}`;
@@ -1513,8 +1514,9 @@ class CarChargeDevice extends GenericDevice {
     const intervalMin = this.planIntervalMin();
     const slotStartMs = TimeHelpers.startOfLocalBlock(now, intervalMin, tz);
     const toPlan = (list) => TimeHelpers.toFinerSlots(list, priceSlotStartMs, priceIntervalMin, slotStartMs, intervalMin);
-    const prices = toPlan(this.pricesNextHours);
-    const isForecast = toPlan(this.pricesNextHoursIsForecast) || [];
+    const fromNow = this.pricesFromNow(now);
+    const prices = toPlan(fromNow.prices);
+    const isForecast = toPlan(fromNow.isForecast) || [];
     const num = (v, dflt) => (Number.isFinite(Number(v)) && v !== '' && v !== null ? Number(v) : dflt);
 
     const atHome = !this.presence || this.presence.atHome;
@@ -1529,7 +1531,7 @@ class CarChargeDevice extends GenericDevice {
       if (predicted !== null) currentSoc = predicted;
     }
 
-    const known = await this._learnPrices(priceSlotStartMs, priceIntervalMin, tz);
+    const known = await this._learnPrices(fromNow, priceSlotStartMs, priceIntervalMin, tz);
     const level = EvPriceProfile.levelFactor(this.priceProfile, known, tz);
     const profile = this.usageModel ? this._profile() : [];
     const awayUntilMs = atHome ? null : this._awayUntilMs(profile, tz, now);
@@ -1565,7 +1567,7 @@ class CarChargeDevice extends GenericDevice {
       slotStartMs,
       intervalMin,
       prices,
-      exportPrices: toPlan(this.exportPricesNextHours),
+      exportPrices: toPlan(fromNow.exportPrices),
       expectedPrice: EvPriceProfile.isEmpty(this.priceProfile) ? null : (ms) => EvPriceProfile.expected(this.priceProfile, ms, tz, level),
       solarKwh: this._solarSurplusKwh(slotStartMs, n, intervalMin),
       soc: currentSoc,
