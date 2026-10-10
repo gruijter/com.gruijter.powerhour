@@ -249,7 +249,7 @@
             },
             "min": 1,
             "max": 24,
-            "step": 1
+            "step": 0.25
           },
           {
             "type": "number",
@@ -284,9 +284,9 @@
               "ar": "01 - 24",
               "ko": "01 - 24"
             },
-            "min": 1,
+            "min": 0,
             "max": 24,
-            "step": 1
+            "step": 0.25
           }
         ],
         "tokens": [
@@ -2727,7 +2727,7 @@
             },
             "min": 2,
             "max": 23,
-            "step": 1
+            "step": 0.25
           },
           {
             "type": "number",
@@ -2762,9 +2762,9 @@
               "ru": "01 - 24",
               "ar": "01 - 24"
             },
-            "min": 1,
+            "min": 0,
             "max": 24,
-            "step": 1
+            "step": 0.25
           }
         ],
         "tokens": [
@@ -3017,7 +3017,7 @@
             },
             "min": 2,
             "max": 23,
-            "step": 1
+            "step": 0.25
           },
           {
             "type": "number",
@@ -3104,9 +3104,9 @@
               "ru": "01 - 24",
               "ar": "01 - 24"
             },
-            "min": 1,
+            "min": 0,
             "max": 24,
-            "step": 1
+            "step": 0.25
           }
         ],
         "tokens": [
@@ -4208,7 +4208,7 @@
             },
             "min": 2,
             "max": 23,
-            "step": 1
+            "step": 0.25
           },
           {
             "type": "number",
@@ -4243,9 +4243,9 @@
               "ru": "01 - 24",
               "ar": "01 - 24"
             },
-            "min": 1,
+            "min": 0,
             "max": 24,
-            "step": 1
+            "step": 0.25
           }
         ],
         "tokens": [
@@ -4498,7 +4498,7 @@
             },
             "min": 2,
             "max": 23,
-            "step": 1
+            "step": 0.25
           },
           {
             "type": "number",
@@ -4585,9 +4585,9 @@
               "ru": "01 - 24",
               "ar": "01 - 24"
             },
-            "min": 1,
+            "min": 0,
             "max": 24,
-            "step": 1
+            "step": 0.25
           }
         ],
         "tokens": [
@@ -5787,7 +5787,7 @@
             },
             "min": 1,
             "max": 24,
-            "step": 1
+            "step": 0.25
           },
           {
             "type": "number",
@@ -5822,9 +5822,9 @@
               "ar": "01 - 24",
               "ko": "01 - 24"
             },
-            "min": 1,
+            "min": 0,
             "max": 24,
-            "step": 1
+            "step": 0.25
           }
         ],
         "id": "appliance_cheapest_start_before"
@@ -7264,7 +7264,7 @@
             },
             "min": 2,
             "max": 23,
-            "step": 1
+            "step": 0.25
           },
           {
             "type": "number",
@@ -7299,9 +7299,9 @@
               "ru": "01 - 24",
               "ar": "01 - 24"
             },
-            "min": 1,
+            "min": 0,
             "max": 24,
-            "step": 1
+            "step": 0.25
           }
         ],
         "id": "price_highest_avg_before"
@@ -7510,7 +7510,7 @@
             },
             "min": 2,
             "max": 23,
-            "step": 1
+            "step": 0.25
           },
           {
             "type": "number",
@@ -7597,9 +7597,9 @@
               "ko": "01 - 24",
               "ar": "01 - 24"
             },
-            "min": 1,
+            "min": 0,
             "max": 24,
-            "step": 1
+            "step": 0.25
           }
         ],
         "id": "price_highest_before"
@@ -8547,7 +8547,7 @@
             },
             "min": 2,
             "max": 23,
-            "step": 1
+            "step": 0.25
           },
           {
             "type": "number",
@@ -8582,9 +8582,9 @@
               "ru": "01 - 24",
               "ar": "01 - 24"
             },
-            "min": 1,
+            "min": 0,
             "max": 24,
-            "step": 1
+            "step": 0.25
           }
         ],
         "id": "price_lowest_avg_before"
@@ -8793,7 +8793,7 @@
             },
             "min": 2,
             "max": 23,
-            "step": 1
+            "step": 0.25
           },
           {
             "type": "number",
@@ -8880,9 +8880,9 @@
               "ru": "01 - 24",
               "ar": "01 - 24"
             },
-            "min": 1,
+            "min": 0,
             "max": 24,
-            "step": 1
+            "step": 0.25
           }
         ],
         "id": "price_lowest_before"

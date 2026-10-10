@@ -507,19 +507,19 @@ class PowerDevice extends GenericDevice {
     return !!best && best.startMs === slot;
   }
 
-  // Flow: starts in the period hours before time o'clock (1-24); like the DAP card, today's
+  // Flow: starts in the period hours before time o'clock (0-24, 7.75 = 07:45); like the DAP card, today's
   // window, or tomorrow's when that time has passed.
   isCheapestStartBefore(period, time) {
-    const hour = Math.round(Number(time));
-    if (!(hour >= 1 && hour <= 24)) throw Error(this.homey.__('error_invalid_time', { time }));
+    const minutes = Math.round(TimeHelpers.parseHours(time) * 4) * 15;
+    if (!(minutes >= 0 && minutes <= 1440)) throw Error(this.homey.__('error_invalid_time', { time }));
     const slot = Math.floor(Date.now() / SLOT_MS) * SLOT_MS;
     const nextDay = (day) => TimeHelpers.getLocalMidnightUTC(new Date(day.getTime() + 26 * 3600000), this.timeZone);
-    const endOf = (day) => (hour === 24 ? nextDay(day).getTime()
-      : TimeHelpers.localTimeToUTC(day, `${String(hour).padStart(2, '0')}:00`, this.timeZone).getTime());
+    const hhmm = `${String(Math.floor(minutes / 60)).padStart(2, '0')}:${String(minutes % 60).padStart(2, '0')}`;
+    const endOf = (day) => (minutes === 1440 ? nextDay(day).getTime() : TimeHelpers.localTimeToUTC(day, hhmm, this.timeZone).getTime());
     const today = TimeHelpers.getLocalMidnightUTC(new Date(slot), this.timeZone);
     let end = endOf(today);
     if (end <= slot) end = endOf(nextDay(today));
-    return this.isCheapestStart(end - Number(period) * 3600000, end);
+    return this.isCheapestStart(end - TimeHelpers.parseHours(period) * 3600000, end);
   }
 
   // Flow: starts from now to period hours ahead.
