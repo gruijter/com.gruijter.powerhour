@@ -108,5 +108,8 @@
   "error_departure_past": "Departure __time__ has already passed today",
   "error_appliance_start_past": "Start __time__ has already passed today",
   "error_invalid_periods": "Invalid period: __periods__. Use YYYY-MM-DD/YYYY-MM-DD, separated by commas",
-  "ev_now": "now"
+  "ev_now": "now",
+  "error_peak_hours": "Counting hours: use e.g. 06-22.",
+  "error_peak_months": "Counting months: use e.g. 11-3 or 1,2,12.",
+  "error_peak_steps": "Price steps: use e.g. 2:190; 5:300."
 }

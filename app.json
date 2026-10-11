@@ -1827,34 +1827,34 @@
       },
       {
         "title": {
-          "en": "Projected peak exceeds month peak",
-          "nl": "Verwachte piek overschrijdt maandpiek",
-          "de": "Erwartete Spitze überschreitet Monatsspitze",
-          "fr": "Le pic prévu dépasse le pic du mois",
-          "it": "Il picco previsto supera il picco del mese",
-          "sv": "Förväntad topp överskrider månadstopp",
-          "no": "Forventet topp overstiger månedstopp",
-          "es": "El pico previsto supera el pico del mes",
-          "da": "Forventet spids overstiger månedsspids",
-          "pl": "Przewidywany szczyt przekracza szczyt miesiąca",
-          "ru": "Ожидаемый пик превышает пик месяца",
-          "ar": "الذروة المتوقعة تتجاوز ذروة الشهر",
-          "ko": "예상 피크가 월간 피크를 초과"
+          "en": "Projected peak exceeds billing level",
+          "nl": "Verwachte piek overschrijdt factuurgrens",
+          "de": "Erwartete Spitze überschreitet Abrechnungsgrenze",
+          "fr": "Le pic prévu dépasse le seuil facturé",
+          "it": "Il picco previsto supera la soglia fatturata",
+          "sv": "Förväntad topp överskrider debiteringsgräns",
+          "no": "Forventet topp overstiger faktureringsgrense",
+          "es": "El pico previsto supera el umbral facturado",
+          "da": "Forventet spids overstiger afregningsgrænse",
+          "pl": "Przewidywany szczyt przekracza próg rozliczeniowy",
+          "ru": "Ожидаемый пик превышает порог оплаты",
+          "ar": "الذروة المتوقعة تتجاوز حد الفوترة",
+          "ko": "예상 피크가 청구 기준 초과"
         },
         "hint": {
-          "en": "Once per peak interval, as soon as the current interval is on course to set a new month peak.",
-          "nl": "Eén keer per piekinterval, zodra het lopende interval op koers ligt voor een nieuwe maandpiek.",
-          "de": "Einmal pro Spitzenintervall, sobald das laufende Intervall auf eine neue Monatsspitze zusteuert.",
-          "fr": "Une fois par intervalle, dès que l'intervalle en cours va établir un nouveau pic mensuel.",
-          "it": "Una volta per intervallo, appena l'intervallo in corso sta per stabilire un nuovo picco mensile.",
-          "sv": "En gång per intervall, så snart pågående intervall är på väg mot en ny månadstopp.",
-          "no": "Én gang per intervall, så snart pågående intervall ligger an til ny månedstopp.",
-          "es": "Una vez por intervalo, en cuanto el intervalo actual va a marcar un nuevo pico mensual.",
-          "da": "Én gang pr. interval, så snart det aktuelle interval er på vej mod en ny månedsspids.",
-          "pl": "Raz na przedział, gdy bieżący przedział zmierza do nowego szczytu miesiąca.",
-          "ru": "Один раз за интервал, как только текущий интервал идёт к новому пику месяца.",
-          "ar": "مرة واحدة لكل فترة، عندما تتجه الفترة الحالية لتسجيل ذروة شهرية جديدة.",
-          "ko": "현재 구간이 새 월간 피크를 기록할 것으로 예상되면 구간당 한 번."
+          "en": "Once per peak interval, as soon as the current interval is on course to raise this month's capacity cost.",
+          "nl": "Eén keer per piekinterval, zodra het lopende interval op koers ligt om de capaciteitskosten van deze maand te verhogen.",
+          "de": "Einmal pro Spitzenintervall, sobald das laufende Intervall die Leistungskosten dieses Monats zu erhöhen droht.",
+          "fr": "Une fois par intervalle, dès que l'intervalle en cours va augmenter le coût capacitaire du mois.",
+          "it": "Una volta per intervallo, appena l'intervallo in corso sta per aumentare il costo di potenza del mese.",
+          "sv": "En gång per intervall, så snart pågående intervall är på väg att höja månadens effektavgift.",
+          "no": "Én gang per intervall, så snart pågående intervall ligger an til å øke månedens effektkostnad.",
+          "es": "Una vez por intervalo, en cuanto el intervalo actual va a subir el coste de potencia del mes.",
+          "da": "Én gang pr. interval, så snart det aktuelle interval er på vej til at hæve månedens effektbetaling.",
+          "pl": "Raz na przedział, gdy bieżący przedział zmierza do podniesienia kosztu mocy w tym miesiącu.",
+          "ru": "Один раз за интервал, как только текущий интервал ведёт к росту платы за мощность в этом месяце.",
+          "ar": "مرة واحدة لكل فترة، عندما تتجه الفترة الحالية لرفع تكلفة القدرة لهذا الشهر.",
+          "ko": "현재 구간이 이번 달 용량 요금을 올릴 것으로 예상되면 구간당 한 번."
         },
         "args": [
           {
@@ -1888,19 +1888,19 @@
             "name": "month_peak",
             "type": "number",
             "title": {
-              "en": "Month peak (W)",
-              "nl": "Maandpiek (W)",
-              "de": "Monatsspitze (W)",
-              "fr": "Pic du mois (W)",
-              "it": "Picco del mese (W)",
-              "sv": "Månadstopp (W)",
-              "no": "Månedstopp (W)",
-              "es": "Pico del mes (W)",
-              "da": "Månedsspids (W)",
-              "pl": "Szczyt miesiąca (W)",
-              "ru": "Пик месяца (Вт)",
-              "ar": "ذروة الشهر (واط)",
-              "ko": "월간 피크 (W)"
+              "en": "Billing level (W)",
+              "nl": "Factuurgrens (W)",
+              "de": "Abrechnungsgrenze (W)",
+              "fr": "Seuil facturé (W)",
+              "it": "Soglia fatturata (W)",
+              "sv": "Debiteringsgräns (W)",
+              "no": "Faktureringsgrense (W)",
+              "es": "Umbral facturado (W)",
+              "da": "Afregningsgrænse (W)",
+              "pl": "Próg rozliczeniowy (W)",
+              "ru": "Порог оплаты (Вт)",
+              "ar": "حد الفوترة (واط)",
+              "ko": "청구 기준 (W)"
             },
             "example": 3800
           }
@@ -15862,21 +15862,132 @@
                 "ko": "평균 가정 전력 사용량 (W)"
               },
               "hint": {
-                "en": "Fixed average power usage of your home. Used by the ROI strategy to estimate net grid import/export.",
-                "nl": "Vast gemiddeld stroomverbruik van uw huis. Gebruikt door de ROI strategie om de netto net import/export te schatten.",
-                "de": "Fester durchschnittlicher Stromverbrauch Ihres Hauses. Wird von der ROI-Strategie verwendet, um den Netto-Stromimport/-export zu schätzen.",
-                "fr": "Consommation électrique moyenne fixe de votre domicile. Utilisé par la stratégie de ROI pour estimer l'importation/exportation nette du réseau.",
-                "it": "Consumo medio di energia fisso della tua casa. Utilizzato dalla strategia ROI per stimare l'importazione/esportazione netta della rete.",
-                "sv": "Fast genomsnittlig strömförbrukning för ditt hem. Används av ROI-strategin för att uppskatta nätimport/export netto.",
-                "no": "Fast gjennomsnittlig strømforbruk i hjemmet ditt. Brukes av ROI-strategien for å estimere netto nettimport/eksport.",
-                "es": "Consumo medio de energía fijo de su hogar. Utilizado por la estrategia de ROI para estimar la importación/exportación neta de la red.",
-                "da": "Fast gennemsnitligt strømforbrug i dit hjem. Bruges af ROI-strategien til at estimere netto netimport/-eksport.",
-                "pl": "Stałe średnie zużycie energii w Twoim domu. Wykorzystywane przez strategię ROI do oszacowania netto importu/eksportu sieci.",
-                "ru": "Фиксированное среднее энергопотребление вашего дома. Используется стратегией ROI для оценки чистого импорта/экспорта в сеть.",
-                "ar": "متوسط استهلاك الطاقة الثابت لمنزلك. تُستخدم بواسطة إستراتيجية عائد الاستثمار لتقدير استيراد/تصدير الشبكة الصافي.",
-                "ko": "가정의 고정 평균 전력 사용량입니다. ROI 전략이 순 계통 수전/송전을 추정하는 데 사용됩니다."
+                "en": "Only used without a Grid Monitor.",
+                "nl": "Alleen gebruikt zonder Netmonitor.",
+                "de": "Nur ohne Netzmonitor verwendet.",
+                "fr": "Utilisé uniquement sans Moniteur réseau.",
+                "it": "Usato solo senza Monitor rete.",
+                "sv": "Används bara utan Elnätsmonitor.",
+                "no": "Brukes bare uten Strømnettmonitor.",
+                "es": "Solo se usa sin Monitor de red.",
+                "da": "Bruges kun uden Elnetmonitor.",
+                "pl": "Używane tylko bez Monitora sieci.",
+                "ru": "Используется только без Монитора электросети.",
+                "ar": "يُستخدم فقط بدون مراقب الشبكة.",
+                "ko": "그리드 모니터가 없을 때만 사용됩니다."
               },
               "value": 300
+            },
+            {
+              "id": "minChargeW",
+              "type": "number",
+              "label": {
+                "en": "Min. zero-grid charge (W)",
+                "nl": "Min. laden nul-op-de-meter (W)",
+                "de": "Min. Laden Null am Zähler (W)",
+                "fr": "Charge min. zéro au compteur (W)",
+                "it": "Carica min. zero al contatore (W)",
+                "sv": "Min. laddning noll mot nätet (W)",
+                "no": "Min. lading null mot nettet (W)",
+                "es": "Carga mín. cero en contador (W)",
+                "da": "Min. opladning nul mod nettet (W)",
+                "pl": "Min. ładowanie zero na liczniku (W)",
+                "ru": "Мин. заряд «ноль на счётчике» (Вт)",
+                "ar": "الحد الأدنى للشحن عند صفر العداد (واط)",
+                "ko": "최소 충전, 계량기 0 유지 (W)"
+              },
+              "hint": {
+                "en": "Less solar surplus goes to the grid. 0 = always.",
+                "nl": "Minder zonne-overschot gaat naar het net. 0 = altijd.",
+                "de": "Weniger Solarüberschuss geht ins Netz. 0 = immer.",
+                "fr": "Un surplus solaire inférieur va au réseau. 0 = toujours.",
+                "it": "Un surplus solare inferiore va in rete. 0 = sempre.",
+                "sv": "Mindre solöverskott går till nätet. 0 = alltid.",
+                "no": "Mindre soloverskudd går til nettet. 0 = alltid.",
+                "es": "Un excedente solar menor va a la red. 0 = siempre.",
+                "da": "Mindre soloverskud går til nettet. 0 = altid.",
+                "pl": "Mniejsza nadwyżka słoneczna idzie do sieci. 0 = zawsze.",
+                "ru": "Меньший солнечный избыток уходит в сеть. 0 = всегда.",
+                "ar": "الفائض الشمسي الأقل يذهب إلى الشبكة. 0 = دائمًا.",
+                "ko": "이보다 적은 태양광 잉여는 전력망으로 갑니다. 0 = 항상."
+              },
+              "value": 0,
+              "min": 0,
+              "max": 10000,
+              "step": 10
+            },
+            {
+              "id": "minDischargeW",
+              "type": "number",
+              "label": {
+                "en": "Min. zero-grid discharge (W)",
+                "nl": "Min. ontladen nul-op-de-meter (W)",
+                "de": "Min. Entladen Null am Zähler (W)",
+                "fr": "Décharge min. zéro au compteur (W)",
+                "it": "Scarica min. zero al contatore (W)",
+                "sv": "Min. urladdning noll mot nätet (W)",
+                "no": "Min. utlading null mot nettet (W)",
+                "es": "Descarga mín. cero en contador (W)",
+                "da": "Min. afladning nul mod nettet (W)",
+                "pl": "Min. rozładowanie zero na liczniku (W)",
+                "ru": "Мин. разряд «ноль на счётчике» (Вт)",
+                "ar": "الحد الأدنى للتفريغ عند صفر العداد (واط)",
+                "ko": "최소 방전, 계량기 0 유지 (W)"
+              },
+              "hint": {
+                "en": "Less home use comes from the grid. 0 = always.",
+                "nl": "Minder verbruik komt van het net. 0 = altijd.",
+                "de": "Weniger Verbrauch kommt aus dem Netz. 0 = immer.",
+                "fr": "Une consommation inférieure vient du réseau. 0 = toujours.",
+                "it": "Un consumo inferiore viene dalla rete. 0 = sempre.",
+                "sv": "Mindre förbrukning tas från nätet. 0 = alltid.",
+                "no": "Mindre forbruk tas fra nettet. 0 = alltid.",
+                "es": "Un consumo menor viene de la red. 0 = siempre.",
+                "da": "Mindre forbrug tages fra nettet. 0 = altid.",
+                "pl": "Mniejsze zużycie pochodzi z sieci. 0 = zawsze.",
+                "ru": "Меньшее потребление берётся из сети. 0 = всегда.",
+                "ar": "الاستهلاك الأقل يأتي من الشبكة. 0 = دائمًا.",
+                "ko": "이보다 적은 사용량은 전력망에서 받습니다. 0 = 항상."
+              },
+              "value": 0,
+              "min": 0,
+              "max": 10000,
+              "step": 10
+            },
+            {
+              "id": "dischargeToEv",
+              "type": "checkbox",
+              "label": {
+                "en": "Discharge into EV",
+                "nl": "Ontladen naar EV",
+                "de": "In E-Auto entladen",
+                "fr": "Décharger vers le VE",
+                "it": "Scaricare nel VE",
+                "sv": "Ladda ur till elbil",
+                "no": "Lad ut til elbil",
+                "es": "Descargar al VE",
+                "da": "Aflad til elbil",
+                "pl": "Rozładowuj do EV",
+                "ru": "Разряжать в электромобиль",
+                "ar": "التفريغ إلى السيارة الكهربائية",
+                "ko": "전기차로 방전"
+              },
+              "hint": {
+                "en": "Off: the battery does not cover EV charging.",
+                "nl": "Uit: de batterij dekt het laden van de EV niet.",
+                "de": "Aus: der Akku deckt das Laden des E-Autos nicht.",
+                "fr": "Désactivé : la batterie ne couvre pas la recharge du VE.",
+                "it": "Disattivato: la batteria non copre la ricarica del VE.",
+                "sv": "Av: batteriet täcker inte elbilsladdningen.",
+                "no": "Av: batteriet dekker ikke elbillading.",
+                "es": "Desactivado: la batería no cubre la carga del VE.",
+                "da": "Fra: batteriet dækker ikke opladning af elbil.",
+                "pl": "Wyłączone: bateria nie pokrywa ładowania EV.",
+                "ru": "Выкл.: батарея не покрывает зарядку электромобиля.",
+                "ar": "إيقاف: لا تغطي البطارية شحن السيارة الكهربائية.",
+                "ko": "끔: 배터리가 전기차 충전을 감당하지 않습니다."
+              },
+              "value": true
             }
           ]
         },
@@ -24042,6 +24153,23 @@
             "ko": "피크까지 여유"
           },
           "preventInsights": true
+        },
+        "measure_watt_peak.billed": {
+          "title": {
+            "en": "Billed peak (month)",
+            "nl": "Gefactureerde piek (maand)",
+            "de": "Abgerechnete Spitze (Monat)",
+            "fr": "Pic facturé (mois)",
+            "it": "Picco fatturato (mese)",
+            "sv": "Debiterad topp (månad)",
+            "no": "Fakturert topp (måned)",
+            "es": "Pico facturado (mes)",
+            "da": "Afregnet spids (måned)",
+            "pl": "Rozliczany szczyt (miesiąc)",
+            "ru": "Оплачиваемый пик (месяц)",
+            "ar": "الذروة المفوترة (شهر)",
+            "ko": "청구 피크 (월)"
+          }
         }
       },
       "images": {
@@ -25560,135 +25688,6 @@
               ]
             },
             {
-              "id": "peakLoadIntervalMinutes",
-              "type": "dropdown",
-              "label": {
-                "en": "Peak load interval",
-                "nl": "Piekbelasting interval",
-                "de": "Spitzenlast-Intervall",
-                "fr": "Intervalle de charge de pointe",
-                "it": "Intervallo picco di carico",
-                "sv": "Topplast-intervall",
-                "no": "Toppbelastning-intervall",
-                "es": "Intervalo de carga máxima",
-                "da": "Spidsbelastning interval",
-                "pl": "Interwał obciążenia szczytowego",
-                "ru": "Интервал пиковой нагрузки",
-                "ar": "فاصل الحمل الأقصى",
-                "ko": "피크 부하 간격"
-              },
-              "hint": {
-                "en": "Averaging window for peak load. Match your grid operator's capacity tariff: 15 min (most of the EU), 30 min (UK), or 60 min (Norway, some Swedish DSOs).",
-                "nl": "Middelingsvenster voor piekbelasting. Sluit aan bij het capaciteitstarief van uw netbeheerder: 15 min (grootste deel van de EU), 30 min (VK), of 60 min (Noorwegen, sommige Zweedse netbeheerders).",
-                "de": "Mittelungsfenster für die Spitzenlast. Passend zum Kapazitätstarif Ihres Netzbetreibers: 15 Min. (Großteil der EU), 30 Min. (UK) oder 60 Min. (Norwegen, einige schwedische Netzbetreiber).",
-                "fr": "Fenêtre de moyennage pour la charge de pointe. À adapter au tarif de capacité de votre gestionnaire de réseau : 15 min (majeure partie de l'UE), 30 min (Royaume-Uni), ou 60 min (Norvège, certains gestionnaires suédois).",
-                "it": "Finestra di media per il picco di carico. Da adattare alla tariffa di capacità del gestore di rete: 15 min (gran parte dell'UE), 30 min (Regno Unito), o 60 min (Norvegia, alcuni gestori svedesi).",
-                "sv": "Medelvärdesfönster för topplast. Matcha din nätägares effekttariff: 15 min (större delen av EU), 30 min (Storbritannien), eller 60 min (Norge, vissa svenska nätägare).",
-                "no": "Gjennomsnittsvindu for toppbelastning. Match nettselskapets effekttariff: 15 min (det meste av EU), 30 min (Storbritannia), eller 60 min (Norge, enkelte svenske nettselskaper).",
-                "es": "Ventana de promediado para la carga máxima. Debe coincidir con la tarifa de capacidad de su operador de red: 15 min (gran parte de la UE), 30 min (Reino Unido), o 60 min (Noruega, algunos operadores suecos).",
-                "da": "Gennemsnitsvindue for spidsbelastning. Match din netoperatørs kapacitetstarif: 15 min (det meste af EU), 30 min (UK), eller 60 min (Norge, nogle svenske netoperatører).",
-                "pl": "Okno uśredniania dla obciążenia szczytowego. Dopasuj do taryfy mocowej operatora sieci: 15 min (większość UE), 30 min (Wielka Brytania) lub 60 min (Norwegia, niektórzy szwedzcy operatorzy).",
-                "ru": "Окно усреднения пиковой нагрузки. Согласуйте с тарифом за мощность вашего сетевого оператора: 15 мин (большая часть ЕС), 30 мин (Великобритания) или 60 мин (Норвегия, некоторые шведские операторы).",
-                "ar": "نافذة المتوسط للحمل الأقصى. طابق تعرفة السعة الخاصة بمشغل الشبكة: 15 دقيقة (معظم الاتحاد الأوروبي)، أو 30 دقيقة (المملكة المتحدة)، أو 60 دقيقة (النرويج، بعض مشغلي الشبكات السويديين).",
-                "ko": "피크 부하 평균화 기간입니다. 전력망 운영사의 용량 요금제에 맞추세요: 15분(대부분의 EU), 30분(영국), 또는 60분(노르웨이, 일부 스웨덴 배전사업자)."
-              },
-              "value": "15",
-              "values": [
-                {
-                  "id": "15",
-                  "label": {
-                    "en": "15 minutes",
-                    "nl": "15 minuten",
-                    "de": "15 Minuten",
-                    "fr": "15 minutes",
-                    "it": "15 minuti",
-                    "sv": "15 minuter",
-                    "no": "15 minutter",
-                    "es": "15 minutos",
-                    "da": "15 minutter",
-                    "pl": "15 minut",
-                    "ru": "15 минут",
-                    "ar": "15 دقيقة",
-                    "ko": "15분"
-                  }
-                },
-                {
-                  "id": "30",
-                  "label": {
-                    "en": "30 minutes",
-                    "nl": "30 minuten",
-                    "de": "30 Minuten",
-                    "fr": "30 minutes",
-                    "it": "30 minuti",
-                    "sv": "30 minuter",
-                    "no": "30 minutter",
-                    "es": "30 minutos",
-                    "da": "30 minutter",
-                    "pl": "30 minut",
-                    "ru": "30 минут",
-                    "ar": "30 دقيقة",
-                    "ko": "30분"
-                  }
-                },
-                {
-                  "id": "60",
-                  "label": {
-                    "en": "60 minutes",
-                    "nl": "60 minuten",
-                    "de": "60 Minuten",
-                    "fr": "60 minutes",
-                    "it": "60 minuti",
-                    "sv": "60 minuter",
-                    "no": "60 minutter",
-                    "es": "60 minutos",
-                    "da": "60 minutter",
-                    "pl": "60 minut",
-                    "ru": "60 минут",
-                    "ar": "60 دقيقة",
-                    "ko": "60분"
-                  }
-                }
-              ]
-            },
-            {
-              "id": "peakMinimumW",
-              "type": "number",
-              "label": {
-                "en": "Minimum billed peak (W)",
-                "nl": "Minimaal gefactureerde piek (W)",
-                "de": "Minimale abgerechnete Spitze (W)",
-                "fr": "Pic minimum facturé (W)",
-                "it": "Picco minimo fatturato (W)",
-                "sv": "Lägsta debiterade topp (W)",
-                "no": "Minste fakturerte topp (W)",
-                "es": "Pico mínimo facturado (W)",
-                "da": "Mindste afregnede spids (W)",
-                "pl": "Minimalny rozliczany szczyt (W)",
-                "ru": "Минимальный оплачиваемый пик (Вт)",
-                "ar": "الحد الأدنى للذروة المفوترة (واط)",
-                "ko": "최소 청구 피크 (W)"
-              },
-              "hint": {
-                "en": "E.g. 2500 in Flanders. 0 = none.",
-                "nl": "Bijv. 2500 in Vlaanderen. 0 = geen.",
-                "de": "Z. B. 2500 in Flandern. 0 = keine.",
-                "fr": "Ex. 2500 en Flandre. 0 = aucun.",
-                "it": "Es. 2500 nelle Fiandre. 0 = nessuno.",
-                "sv": "T.ex. 2500 i Flandern. 0 = ingen.",
-                "no": "F.eks. 2500 i Flandern. 0 = ingen.",
-                "es": "P. ej. 2500 en Flandes. 0 = ninguno.",
-                "da": "F.eks. 2500 i Flandern. 0 = ingen.",
-                "pl": "Np. 2500 we Flandrii. 0 = brak.",
-                "ru": "Напр. 2500 во Фландрии. 0 = нет.",
-                "ar": "مثلاً 2500 في فلاندرز. 0 = لا شيء.",
-                "ko": "예: 플랑드르 2500. 0 = 없음."
-              },
-              "value": 0,
-              "min": 0,
-              "max": 100000,
-              "step": 100
-            },
-            {
               "id": "markup_month",
               "type": "number",
               "label": {
@@ -25792,6 +25791,667 @@
                 "ko": "매시간 시작 시 추가될 고정 비용입니다."
               },
               "value": 0
+            }
+          ]
+        },
+        {
+          "type": "group",
+          "label": {
+            "en": "Capacity tariff",
+            "nl": "Capaciteitstarief",
+            "de": "Leistungstarif",
+            "fr": "Tarif capacitaire",
+            "it": "Tariffa di potenza",
+            "sv": "Effekttariff",
+            "no": "Effekttariff",
+            "es": "Tarifa de potencia",
+            "da": "Effekttarif",
+            "pl": "Taryfa mocowa",
+            "ru": "Тариф за мощность",
+            "ar": "تعرفة القدرة",
+            "ko": "용량 요금제"
+          },
+          "children": [
+            {
+              "id": "peakPreset",
+              "type": "dropdown",
+              "label": {
+                "en": "Preset",
+                "nl": "Voorinstelling",
+                "de": "Voreinstellung",
+                "fr": "Préréglage",
+                "it": "Preimpostazione",
+                "sv": "Förinställning",
+                "no": "Forhåndsinnstilling",
+                "es": "Ajuste predefinido",
+                "da": "Forudindstilling",
+                "pl": "Ustawienie wstępne",
+                "ru": "Предустановка",
+                "ar": "إعداد مسبق",
+                "ko": "사전 설정"
+              },
+              "hint": {
+                "en": "Fills in the settings below. Changing one of them makes it Custom.",
+                "nl": "Vult de instellingen hieronder in. Wijzigt u er één, dan wordt het Aangepast.",
+                "de": "Füllt die Einstellungen unten aus. Ändern Sie eine davon, wird es Benutzerdefiniert.",
+                "fr": "Remplit les paramètres ci-dessous. En modifier un le passe en Personnalisé.",
+                "it": "Compila le impostazioni sotto. Modificarne una la rende Personalizzata.",
+                "sv": "Fyller i inställningarna nedan. Ändrar du en blir det Anpassad.",
+                "no": "Fyller ut innstillingene nedenfor. Endrer du én, blir det Egendefinert.",
+                "es": "Rellena los ajustes de abajo. Cambiar uno lo pasa a Personalizado.",
+                "da": "Udfylder indstillingerne nedenfor. Ændrer du én, bliver det Tilpasset.",
+                "pl": "Wypełnia ustawienia poniżej. Zmiana jednego z nich ustawia Własne.",
+                "ru": "Заполняет настройки ниже. Изменение любой из них переключает на «Своё».",
+                "ar": "يملأ الإعدادات أدناه. تغيير أحدها يجعله مخصصًا.",
+                "ko": "아래 설정을 채웁니다. 하나를 바꾸면 사용자 지정이 됩니다."
+              },
+              "value": "custom",
+              "values": [
+                {
+                  "id": "custom",
+                  "label": {
+                    "en": "Custom or none",
+                    "nl": "Aangepast of geen",
+                    "de": "Benutzerdefiniert oder keiner",
+                    "fr": "Personnalisé ou aucun",
+                    "it": "Personalizzata o nessuna",
+                    "sv": "Anpassad eller ingen",
+                    "no": "Egendefinert eller ingen",
+                    "es": "Personalizado o ninguno",
+                    "da": "Tilpasset eller ingen",
+                    "pl": "Własne lub brak",
+                    "ru": "Своё или нет",
+                    "ar": "مخصص أو لا شيء",
+                    "ko": "사용자 지정 또는 없음"
+                  }
+                },
+                {
+                  "id": "flanders",
+                  "label": {
+                    "en": "Flanders (Fluvius)",
+                    "nl": "Vlaanderen (Fluvius)",
+                    "de": "Flandern (Fluvius)",
+                    "fr": "Flandre (Fluvius)",
+                    "it": "Fiandre (Fluvius)",
+                    "sv": "Flandern (Fluvius)",
+                    "no": "Flandern (Fluvius)",
+                    "es": "Flandes (Fluvius)",
+                    "da": "Flandern (Fluvius)",
+                    "pl": "Flandria (Fluvius)",
+                    "ru": "Фландрия (Fluvius)",
+                    "ar": "فلاندرز (Fluvius)",
+                    "ko": "플랑드르 (Fluvius)"
+                  }
+                },
+                {
+                  "id": "norway",
+                  "label": {
+                    "en": "Norway",
+                    "nl": "Noorwegen",
+                    "de": "Norwegen",
+                    "fr": "Norvège",
+                    "it": "Norvegia",
+                    "sv": "Norge",
+                    "no": "Norge",
+                    "es": "Noruega",
+                    "da": "Norge",
+                    "pl": "Norwegia",
+                    "ru": "Норвегия",
+                    "ar": "النرويج",
+                    "ko": "노르웨이"
+                  }
+                },
+                {
+                  "id": "sweden",
+                  "label": {
+                    "en": "Sweden",
+                    "nl": "Zweden",
+                    "de": "Schweden",
+                    "fr": "Suède",
+                    "it": "Svezia",
+                    "sv": "Sverige",
+                    "no": "Sverige",
+                    "es": "Suecia",
+                    "da": "Sverige",
+                    "pl": "Szwecja",
+                    "ru": "Швеция",
+                    "ar": "السويد",
+                    "ko": "스웨덴"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "peakLoadIntervalMinutes",
+              "type": "dropdown",
+              "label": {
+                "en": "Peak load interval",
+                "nl": "Piekbelasting interval",
+                "de": "Spitzenlast-Intervall",
+                "fr": "Intervalle de charge de pointe",
+                "it": "Intervallo picco di carico",
+                "sv": "Topplast-intervall",
+                "no": "Toppbelastning-intervall",
+                "es": "Intervalo de carga máxima",
+                "da": "Spidsbelastning interval",
+                "pl": "Interwał obciążenia szczytowego",
+                "ru": "Интервал пиковой нагрузки",
+                "ar": "فاصل الحمل الأقصى",
+                "ko": "피크 부하 간격"
+              },
+              "hint": {
+                "en": "Averaging window for peak load. Match your grid operator's capacity tariff: 15 min (most of the EU), 30 min (UK), or 60 min (Norway, some Swedish DSOs).",
+                "nl": "Middelingsvenster voor piekbelasting. Sluit aan bij het capaciteitstarief van uw netbeheerder: 15 min (grootste deel van de EU), 30 min (VK), of 60 min (Noorwegen, sommige Zweedse netbeheerders).",
+                "de": "Mittelungsfenster für die Spitzenlast. Passend zum Kapazitätstarif Ihres Netzbetreibers: 15 Min. (Großteil der EU), 30 Min. (UK) oder 60 Min. (Norwegen, einige schwedische Netzbetreiber).",
+                "fr": "Fenêtre de moyennage pour la charge de pointe. À adapter au tarif de capacité de votre gestionnaire de réseau : 15 min (majeure partie de l'UE), 30 min (Royaume-Uni), ou 60 min (Norvège, certains gestionnaires suédois).",
+                "it": "Finestra di media per il picco di carico. Da adattare alla tariffa di capacità del gestore di rete: 15 min (gran parte dell'UE), 30 min (Regno Unito), o 60 min (Norvegia, alcuni gestori svedesi).",
+                "sv": "Medelvärdesfönster för topplast. Matcha din nätägares effekttariff: 15 min (större delen av EU), 30 min (Storbritannien), eller 60 min (Norge, vissa svenska nätägare).",
+                "no": "Gjennomsnittsvindu for toppbelastning. Match nettselskapets effekttariff: 15 min (det meste av EU), 30 min (Storbritannia), eller 60 min (Norge, enkelte svenske nettselskaper).",
+                "es": "Ventana de promediado para la carga máxima. Debe coincidir con la tarifa de capacidad de su operador de red: 15 min (gran parte de la UE), 30 min (Reino Unido), o 60 min (Noruega, algunos operadores suecos).",
+                "da": "Gennemsnitsvindue for spidsbelastning. Match din netoperatørs kapacitetstarif: 15 min (det meste af EU), 30 min (UK), eller 60 min (Norge, nogle svenske netoperatører).",
+                "pl": "Okno uśredniania dla obciążenia szczytowego. Dopasuj do taryfy mocowej operatora sieci: 15 min (większość UE), 30 min (Wielka Brytania) lub 60 min (Norwegia, niektórzy szwedzcy operatorzy).",
+                "ru": "Окно усреднения пиковой нагрузки. Согласуйте с тарифом за мощность вашего сетевого оператора: 15 мин (большая часть ЕС), 30 мин (Великобритания) или 60 мин (Норвегия, некоторые шведские операторы).",
+                "ar": "نافذة المتوسط للحمل الأقصى. طابق تعرفة السعة الخاصة بمشغل الشبكة: 15 دقيقة (معظم الاتحاد الأوروبي)، أو 30 دقيقة (المملكة المتحدة)، أو 60 دقيقة (النرويج، بعض مشغلي الشبكات السويديين).",
+                "ko": "피크 부하 평균화 기간입니다. 전력망 운영사의 용량 요금제에 맞추세요: 15분(대부분의 EU), 30분(영국), 또는 60분(노르웨이, 일부 스웨덴 배전사업자)."
+              },
+              "value": "15",
+              "values": [
+                {
+                  "id": "15",
+                  "label": {
+                    "en": "15 minutes",
+                    "nl": "15 minuten",
+                    "de": "15 Minuten",
+                    "fr": "15 minutes",
+                    "it": "15 minuti",
+                    "sv": "15 minuter",
+                    "no": "15 minutter",
+                    "es": "15 minutos",
+                    "da": "15 minutter",
+                    "pl": "15 minut",
+                    "ru": "15 минут",
+                    "ar": "15 دقيقة",
+                    "ko": "15분"
+                  }
+                },
+                {
+                  "id": "30",
+                  "label": {
+                    "en": "30 minutes",
+                    "nl": "30 minuten",
+                    "de": "30 Minuten",
+                    "fr": "30 minutes",
+                    "it": "30 minuti",
+                    "sv": "30 minuter",
+                    "no": "30 minutter",
+                    "es": "30 minutos",
+                    "da": "30 minutter",
+                    "pl": "30 minut",
+                    "ru": "30 минут",
+                    "ar": "30 دقيقة",
+                    "ko": "30분"
+                  }
+                },
+                {
+                  "id": "60",
+                  "label": {
+                    "en": "60 minutes",
+                    "nl": "60 minuten",
+                    "de": "60 Minuten",
+                    "fr": "60 minutes",
+                    "it": "60 minuti",
+                    "sv": "60 minuter",
+                    "no": "60 minutter",
+                    "es": "60 minutos",
+                    "da": "60 minutter",
+                    "pl": "60 minut",
+                    "ru": "60 минут",
+                    "ar": "60 دقيقة",
+                    "ko": "60분"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "peakSelection",
+              "type": "dropdown",
+              "label": {
+                "en": "Billed peak",
+                "nl": "Gefactureerde piek",
+                "de": "Abgerechnete Spitze",
+                "fr": "Pic facturé",
+                "it": "Picco fatturato",
+                "sv": "Debiterad topp",
+                "no": "Fakturert topp",
+                "es": "Pico facturado",
+                "da": "Afregnet spids",
+                "pl": "Rozliczany szczyt",
+                "ru": "Оплачиваемый пик",
+                "ar": "الذروة المفوترة",
+                "ko": "청구 피크"
+              },
+              "hint": {
+                "en": "Per month.",
+                "nl": "Per maand.",
+                "de": "Pro Monat.",
+                "fr": "Par mois.",
+                "it": "Al mese.",
+                "sv": "Per månad.",
+                "no": "Per måned.",
+                "es": "Por mes.",
+                "da": "Pr. måned.",
+                "pl": "Na miesiąc.",
+                "ru": "За месяц.",
+                "ar": "شهريًا.",
+                "ko": "월별."
+              },
+              "value": "max",
+              "values": [
+                {
+                  "id": "max",
+                  "label": {
+                    "en": "Highest",
+                    "nl": "Hoogste",
+                    "de": "Höchste",
+                    "fr": "La plus haute",
+                    "it": "La più alta",
+                    "sv": "Högsta",
+                    "no": "Høyeste",
+                    "es": "La más alta",
+                    "da": "Højeste",
+                    "pl": "Najwyższy",
+                    "ru": "Наибольший",
+                    "ar": "الأعلى",
+                    "ko": "최고값"
+                  }
+                },
+                {
+                  "id": "mean",
+                  "label": {
+                    "en": "Average of the N highest",
+                    "nl": "Gemiddelde van de N hoogste",
+                    "de": "Mittel der N höchsten",
+                    "fr": "Moyenne des N plus hautes",
+                    "it": "Media delle N più alte",
+                    "sv": "Medel av de N högsta",
+                    "no": "Snitt av de N høyeste",
+                    "es": "Media de las N más altas",
+                    "da": "Gennemsnit af de N højeste",
+                    "pl": "Średnia z N najwyższych",
+                    "ru": "Среднее N наибольших",
+                    "ar": "متوسط أعلى N",
+                    "ko": "상위 N개 평균"
+                  }
+                },
+                {
+                  "id": "nth",
+                  "label": {
+                    "en": "N-th highest",
+                    "nl": "N-de hoogste",
+                    "de": "N-höchste",
+                    "fr": "N-ième plus haute",
+                    "it": "N-esima più alta",
+                    "sv": "N:te högsta",
+                    "no": "N-te høyeste",
+                    "es": "N-ésima más alta",
+                    "da": "N-te højeste",
+                    "pl": "N-ty najwyższy",
+                    "ru": "N-й по величине",
+                    "ar": "الأعلى رقم N",
+                    "ko": "N번째 최고값"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "peakCount",
+              "type": "number",
+              "label": {
+                "en": "Number of peaks (N)",
+                "nl": "Aantal pieken (N)",
+                "de": "Anzahl Spitzen (N)",
+                "fr": "Nombre de pics (N)",
+                "it": "Numero di picchi (N)",
+                "sv": "Antal toppar (N)",
+                "no": "Antall topper (N)",
+                "es": "Número de picos (N)",
+                "da": "Antal spidser (N)",
+                "pl": "Liczba szczytów (N)",
+                "ru": "Число пиков (N)",
+                "ar": "عدد الذروات (N)",
+                "ko": "피크 수 (N)"
+              },
+              "value": 1,
+              "min": 1,
+              "max": 15,
+              "step": 1
+            },
+            {
+              "id": "peakDistinctDays",
+              "type": "checkbox",
+              "label": {
+                "en": "One peak per day",
+                "nl": "Eén piek per dag",
+                "de": "Eine Spitze pro Tag",
+                "fr": "Un pic par jour",
+                "it": "Un picco al giorno",
+                "sv": "En topp per dag",
+                "no": "Én topp per døgn",
+                "es": "Un pico por día",
+                "da": "Én spids pr. dag",
+                "pl": "Jeden szczyt na dzień",
+                "ru": "Один пик в день",
+                "ar": "ذروة واحدة يوميًا",
+                "ko": "하루 한 피크"
+              },
+              "hint": {
+                "en": "Only the highest of each day counts.",
+                "nl": "Alleen de hoogste van elke dag telt.",
+                "de": "Nur die höchste jedes Tages zählt.",
+                "fr": "Seul le plus haut de chaque jour compte.",
+                "it": "Conta solo il più alto di ogni giorno.",
+                "sv": "Bara dagens högsta räknas.",
+                "no": "Bare døgnets høyeste teller.",
+                "es": "Solo cuenta el más alto de cada día.",
+                "da": "Kun dagens højeste tæller.",
+                "pl": "Liczy się tylko najwyższy z każdego dnia.",
+                "ru": "Учитывается только наибольший за день.",
+                "ar": "تُحتسب أعلى قيمة في كل يوم فقط.",
+                "ko": "하루 중 최고값만 계산됩니다."
+              },
+              "value": false
+            },
+            {
+              "id": "peakHours",
+              "type": "text",
+              "label": {
+                "en": "Counting hours",
+                "nl": "Teluren",
+                "de": "Zählstunden",
+                "fr": "Heures comptées",
+                "it": "Ore conteggiate",
+                "sv": "Räknade timmar",
+                "no": "Tellende timer",
+                "es": "Horas contadas",
+                "da": "Tællende timer",
+                "pl": "Liczone godziny",
+                "ru": "Учитываемые часы",
+                "ar": "الساعات المحتسبة",
+                "ko": "계산 시간대"
+              },
+              "hint": {
+                "en": "E.g. 06-22. Empty = all day.",
+                "nl": "Bijv. 06-22. Leeg = hele dag.",
+                "de": "Z. B. 06-22. Leer = ganzer Tag.",
+                "fr": "Ex. 06-22. Vide = toute la journée.",
+                "it": "Es. 06-22. Vuoto = tutto il giorno.",
+                "sv": "T.ex. 06-22. Tomt = hela dygnet.",
+                "no": "F.eks. 06-22. Tomt = hele døgnet.",
+                "es": "P. ej. 06-22. Vacío = todo el día.",
+                "da": "F.eks. 06-22. Tom = hele dagen.",
+                "pl": "Np. 06-22. Puste = cały dzień.",
+                "ru": "Напр. 06-22. Пусто = весь день.",
+                "ar": "مثلاً 06-22. فارغ = اليوم كله.",
+                "ko": "예: 06-22. 비우면 하루 종일."
+              },
+              "value": ""
+            },
+            {
+              "id": "peakWeekdaysOnly",
+              "type": "checkbox",
+              "label": {
+                "en": "Weekdays only",
+                "nl": "Alleen werkdagen",
+                "de": "Nur Werktage",
+                "fr": "Jours ouvrés uniquement",
+                "it": "Solo giorni feriali",
+                "sv": "Endast vardagar",
+                "no": "Bare hverdager",
+                "es": "Solo días laborables",
+                "da": "Kun hverdage",
+                "pl": "Tylko dni robocze",
+                "ru": "Только будни",
+                "ar": "أيام العمل فقط",
+                "ko": "평일만"
+              },
+              "hint": {
+                "en": "Public holidays count as weekdays.",
+                "nl": "Feestdagen tellen als werkdag.",
+                "de": "Feiertage zählen als Werktage.",
+                "fr": "Les jours fériés comptent comme jours ouvrés.",
+                "it": "I festivi contano come feriali.",
+                "sv": "Helgdagar räknas som vardagar.",
+                "no": "Helligdager teller som hverdager.",
+                "es": "Los festivos cuentan como laborables.",
+                "da": "Helligdage tæller som hverdage.",
+                "pl": "Święta liczą się jako dni robocze.",
+                "ru": "Праздники считаются буднями.",
+                "ar": "تُحتسب العطل الرسمية أيام عمل.",
+                "ko": "공휴일은 평일로 계산됩니다."
+              },
+              "value": false
+            },
+            {
+              "id": "peakMonths",
+              "type": "text",
+              "label": {
+                "en": "Counting months",
+                "nl": "Telmaanden",
+                "de": "Zählmonate",
+                "fr": "Mois comptés",
+                "it": "Mesi conteggiati",
+                "sv": "Räknade månader",
+                "no": "Tellende måneder",
+                "es": "Meses contados",
+                "da": "Tællende måneder",
+                "pl": "Liczone miesiące",
+                "ru": "Учитываемые месяцы",
+                "ar": "الأشهر المحتسبة",
+                "ko": "계산 월"
+              },
+              "hint": {
+                "en": "E.g. 11-3 (Nov to Mar). Empty = all.",
+                "nl": "Bijv. 11-3 (nov t/m mrt). Leeg = alle.",
+                "de": "Z. B. 11-3 (Nov. bis März). Leer = alle.",
+                "fr": "Ex. 11-3 (nov. à mars). Vide = tous.",
+                "it": "Es. 11-3 (nov-mar). Vuoto = tutti.",
+                "sv": "T.ex. 11-3 (nov–mars). Tomt = alla.",
+                "no": "F.eks. 11-3 (nov–mars). Tomt = alle.",
+                "es": "P. ej. 11-3 (nov a mar). Vacío = todos.",
+                "da": "F.eks. 11-3 (nov.–marts). Tom = alle.",
+                "pl": "Np. 11-3 (lis–mar). Puste = wszystkie.",
+                "ru": "Напр. 11-3 (ноя–мар). Пусто = все.",
+                "ar": "مثلاً 11-3 (نوفمبر إلى مارس). فارغ = الكل.",
+                "ko": "예: 11-3 (11월~3월). 비우면 전체."
+              },
+              "value": ""
+            },
+            {
+              "id": "peakWeightOutside",
+              "type": "number",
+              "label": {
+                "en": "Weight outside",
+                "nl": "Weging daarbuiten",
+                "de": "Gewichtung außerhalb",
+                "fr": "Poids en dehors",
+                "it": "Peso al di fuori",
+                "sv": "Vikt utanför",
+                "no": "Vekt utenfor",
+                "es": "Peso fuera",
+                "da": "Vægt udenfor",
+                "pl": "Waga poza nimi",
+                "ru": "Вес вне их",
+                "ar": "الوزن خارجها",
+                "ko": "그 외 가중치"
+              },
+              "hint": {
+                "en": "0 = does not count, 0.5 = counts half.",
+                "nl": "0 = telt niet, 0,5 = telt half.",
+                "de": "0 = zählt nicht, 0,5 = zählt halb.",
+                "fr": "0 = ne compte pas, 0,5 = compte à moitié.",
+                "it": "0 = non conta, 0,5 = conta metà.",
+                "sv": "0 = räknas inte, 0,5 = räknas till hälften.",
+                "no": "0 = teller ikke, 0,5 = teller halvt.",
+                "es": "0 = no cuenta, 0,5 = cuenta la mitad.",
+                "da": "0 = tæller ikke, 0,5 = tæller halvt.",
+                "pl": "0 = nie liczy się, 0,5 = liczy się w połowie.",
+                "ru": "0 = не учитывается, 0,5 = наполовину.",
+                "ar": "0 = لا يُحتسب، 0.5 = يُحتسب نصفه.",
+                "ko": "0 = 계산 안 함, 0.5 = 절반 계산."
+              },
+              "value": 0,
+              "min": 0,
+              "max": 1,
+              "step": 0.1
+            },
+            {
+              "id": "peakMinimumW",
+              "type": "number",
+              "label": {
+                "en": "Minimum billed peak (W)",
+                "nl": "Minimaal gefactureerde piek (W)",
+                "de": "Minimale abgerechnete Spitze (W)",
+                "fr": "Pic minimum facturé (W)",
+                "it": "Picco minimo fatturato (W)",
+                "sv": "Lägsta debiterade topp (W)",
+                "no": "Minste fakturerte topp (W)",
+                "es": "Pico mínimo facturado (W)",
+                "da": "Mindste afregnede spids (W)",
+                "pl": "Minimalny rozliczany szczyt (W)",
+                "ru": "Минимальный оплачиваемый пик (Вт)",
+                "ar": "الحد الأدنى للذروة المفوترة (واط)",
+                "ko": "최소 청구 피크 (W)"
+              },
+              "hint": {
+                "en": "E.g. 2500 in Flanders. 0 = none.",
+                "nl": "Bijv. 2500 in Vlaanderen. 0 = geen.",
+                "de": "Z. B. 2500 in Flandern. 0 = keine.",
+                "fr": "Ex. 2500 en Flandre. 0 = aucun.",
+                "it": "Es. 2500 nelle Fiandre. 0 = nessuno.",
+                "sv": "T.ex. 2500 i Flandern. 0 = ingen.",
+                "no": "F.eks. 2500 i Flandern. 0 = ingen.",
+                "es": "P. ej. 2500 en Flandes. 0 = ninguno.",
+                "da": "F.eks. 2500 i Flandern. 0 = ingen.",
+                "pl": "Np. 2500 we Flandrii. 0 = brak.",
+                "ru": "Напр. 2500 во Фландрии. 0 = нет.",
+                "ar": "مثلاً 2500 في فلاندرز. 0 = لا شيء.",
+                "ko": "예: 플랑드르 2500. 0 = 없음."
+              },
+              "value": 0,
+              "min": 0,
+              "max": 100000,
+              "step": 100
+            },
+            {
+              "id": "peakPrice",
+              "type": "number",
+              "label": {
+                "en": "Price per kW per month",
+                "nl": "Prijs per kW per maand",
+                "de": "Preis pro kW und Monat",
+                "fr": "Prix par kW par mois",
+                "it": "Prezzo per kW al mese",
+                "sv": "Pris per kW och månad",
+                "no": "Pris per kW per måned",
+                "es": "Precio por kW al mes",
+                "da": "Pris pr. kW pr. måned",
+                "pl": "Cena za kW miesięcznie",
+                "ru": "Цена за кВт в месяц",
+                "ar": "السعر لكل كيلوواط شهريًا",
+                "ko": "kW당 월 요금"
+              },
+              "hint": {
+                "en": "Flanders: yearly rate / 12. 0 = none.",
+                "nl": "Vlaanderen: jaartarief / 12. 0 = geen.",
+                "de": "Flandern: Jahrestarif / 12. 0 = keiner.",
+                "fr": "Flandre : tarif annuel / 12. 0 = aucun.",
+                "it": "Fiandre: tariffa annua / 12. 0 = nessuno.",
+                "sv": "Flandern: årspris / 12. 0 = inget.",
+                "no": "Flandern: årspris / 12. 0 = ingen.",
+                "es": "Flandes: tarifa anual / 12. 0 = ninguno.",
+                "da": "Flandern: årspris / 12. 0 = ingen.",
+                "pl": "Flandria: stawka roczna / 12. 0 = brak.",
+                "ru": "Фландрия: годовой тариф / 12. 0 = нет.",
+                "ar": "فلاندرز: السعر السنوي / 12. 0 = لا شيء.",
+                "ko": "플랑드르: 연간 요금 / 12. 0 = 없음."
+              },
+              "value": 0,
+              "min": 0,
+              "max": 10000,
+              "step": 0.01
+            },
+            {
+              "id": "peakSteps",
+              "type": "text",
+              "label": {
+                "en": "Price steps",
+                "nl": "Prijstrappen",
+                "de": "Preisstufen",
+                "fr": "Paliers de prix",
+                "it": "Fasce di prezzo",
+                "sv": "Prissteg",
+                "no": "Pristrinn",
+                "es": "Tramos de precio",
+                "da": "Pristrin",
+                "pl": "Progi cenowe",
+                "ru": "Ценовые ступени",
+                "ar": "شرائح الأسعار",
+                "ko": "요금 단계"
+              },
+              "hint": {
+                "en": "Up to kW: price per month, e.g. 2:190; 5:300; 10:410",
+                "nl": "Tot kW: prijs per maand, bijv. 2:190; 5:300; 10:410",
+                "de": "Bis kW: Preis pro Monat, z. B. 2:190; 5:300; 10:410",
+                "fr": "Jusqu'à kW : prix par mois, ex. 2:190; 5:300; 10:410",
+                "it": "Fino a kW: prezzo al mese, es. 2:190; 5:300; 10:410",
+                "sv": "Upp till kW: pris per månad, t.ex. 2:190; 5:300; 10:410",
+                "no": "Opp til kW: pris per måned, f.eks. 2:190; 5:300; 10:410",
+                "es": "Hasta kW: precio al mes, p. ej. 2:190; 5:300; 10:410",
+                "da": "Op til kW: pris pr. måned, f.eks. 2:190; 5:300; 10:410",
+                "pl": "Do kW: cena miesięczna, np. 2:190; 5:300; 10:410",
+                "ru": "До кВт: цена в месяц, напр. 2:190; 5:300; 10:410",
+                "ar": "حتى كيلوواط: السعر شهريًا، مثلاً 2:190; 5:300; 10:410",
+                "ko": "kW까지: 월 요금, 예: 2:190; 5:300; 10:410"
+              },
+              "value": ""
+            },
+            {
+              "id": "peakHardLimitW",
+              "type": "number",
+              "label": {
+                "en": "Max. import (W)",
+                "nl": "Max. afname (W)",
+                "de": "Max. Bezug (W)",
+                "fr": "Prélèvement max. (W)",
+                "it": "Prelievo max. (W)",
+                "sv": "Max. uttag (W)",
+                "no": "Maks. uttak (W)",
+                "es": "Consumo máx. (W)",
+                "da": "Maks. forbrug (W)",
+                "pl": "Maks. pobór (W)",
+                "ru": "Макс. потребление (Вт)",
+                "ar": "الحد الأقصى للسحب (واط)",
+                "ko": "최대 수전 (W)"
+              },
+              "hint": {
+                "en": "Contracted power, never exceeded. 0 = main fuse.",
+                "nl": "Gecontracteerd vermogen, nooit overschreden. 0 = hoofdzekering.",
+                "de": "Vertragsleistung, nie überschritten. 0 = Hauptsicherung.",
+                "fr": "Puissance souscrite, jamais dépassée. 0 = fusible principal.",
+                "it": "Potenza impegnata, mai superata. 0 = fusibile principale.",
+                "sv": "Avtalad effekt, överskrids aldrig. 0 = huvudsäkring.",
+                "no": "Avtalt effekt, overskrides aldri. 0 = hovedsikring.",
+                "es": "Potencia contratada, nunca se supera. 0 = fusible principal.",
+                "da": "Aftalt effekt, overskrides aldrig. 0 = hovedsikring.",
+                "pl": "Moc umowna, nigdy nieprzekraczana. 0 = bezpiecznik główny.",
+                "ru": "Договорная мощность, никогда не превышается. 0 = главный предохранитель.",
+                "ar": "القدرة المتعاقد عليها، لا تُتجاوز أبدًا. 0 = المصهر الرئيسي.",
+                "ko": "계약 전력, 초과하지 않음. 0 = 메인 퓨즈."
+              },
+              "value": 0,
+              "min": 0,
+              "max": 100000,
+              "step": 100
             }
           ]
         },

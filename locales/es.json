@@ -108,5 +108,8 @@
   "error_departure_past": "La salida a las __time__ ya ha pasado hoy",
   "error_appliance_start_past": "El inicio a las __time__ ya pasó hoy",
   "error_invalid_periods": "Periodo no válido: __periods__. Usa AAAA-MM-DD/AAAA-MM-DD, separados por comas",
-  "ev_now": "ahora"
+  "ev_now": "ahora",
+  "error_peak_hours": "Horas contadas: use p. ej. 06-22.",
+  "error_peak_months": "Meses contados: use p. ej. 11-3 o 1,2,12.",
+  "error_peak_steps": "Tramos de precio: use p. ej. 2:190; 5:300."
 }

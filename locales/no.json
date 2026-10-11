@@ -108,5 +108,8 @@
   "error_departure_past": "Avgang __time__ er allerede passert i dag",
   "error_appliance_start_past": "Start __time__ har allerede passert i dag",
   "error_invalid_periods": "Ugyldig periode: __periods__. Bruk ÅÅÅÅ-MM-DD/ÅÅÅÅ-MM-DD, skilt med komma",
-  "ev_now": "nå"
+  "ev_now": "nå",
+  "error_peak_hours": "Tellende timer: bruk f.eks. 06-22.",
+  "error_peak_months": "Tellende måneder: bruk f.eks. 11-3 eller 1,2,12.",
+  "error_peak_steps": "Pristrinn: bruk f.eks. 2:190; 5:300."
 }

@@ -108,5 +108,8 @@
   "error_departure_past": "Le départ à __time__ est déjà passé aujourd'hui",
   "error_appliance_start_past": "Le démarrage à __time__ est déjà passé aujourd'hui",
   "error_invalid_periods": "Période invalide : __periods__. Utilisez AAAA-MM-JJ/AAAA-MM-JJ, séparées par des virgules",
-  "ev_now": "maintenant"
+  "ev_now": "maintenant",
+  "error_peak_hours": "Heures comptées : utilisez p. ex. 06-22.",
+  "error_peak_months": "Mois comptés : utilisez p. ex. 11-3 ou 1,2,12.",
+  "error_peak_steps": "Paliers de prix : utilisez p. ex. 2:190; 5:300."
 }

@@ -25,9 +25,13 @@ const ChartImages = require('../../lib/helpers/ChartImages');
 const TimeHelpers = require('../../lib/helpers/TimeHelpers');
 const { setTimeoutPromise } = require('../../lib/helpers/Util');
 
+// Plans in 15-minute slots, as the grid forecast and capacity tariffs; prices per price slot.
+const deviceSpecifics = { planIntervalMin: 15 };
+
 class BatDevice extends GenericDevice {
 
   async onInit() {
+    this.ds = deviceSpecifics;
     // A (re)init can follow a settings change: never let the chart reuse a plan from before it.
     this.lastStratTm = null;
     // Before super.onInit(): it sets initReady partway, and onPricesUpdated() then renders charts.
@@ -316,6 +320,121 @@ class BatDevice extends GenericDevice {
     }
   }
 
+  // A price-slot list (from the current price slot) per plan slot (from the current plan slot).
+  toPlanSlots(list, now = Date.now()) {
+    const tz = this.timeZone || this.homey.clock.getTimezone();
+    const priceMin = this.priceInterval || 60;
+    const planMin = this.planIntervalMin();
+    return TimeHelpers.toFinerSlots(list, TimeHelpers.startOfLocalBlock(now, priceMin, tz), priceMin,
+      TimeHelpers.startOfLocalBlock(now, planMin, tz), planMin);
+  }
+
+  // Input for RoiStrategy.getStrategy().
+  buildRoiOptions(minPriceDelta) {
+    const settings = this.getSettings();
+    const speeds = (list) => list
+      .map(([power, loss]) => ({ power: settings[power], eff: 1 - (settings[loss] / 100) }))
+      .filter((speed) => speed.power);
+    const now = Date.now();
+    const tz = this.timeZone || this.homey.clock.getTimezone();
+    const planMin = this.planIntervalMin();
+    const { prices, exportPrices } = this.pricesFromNow(now);
+    const planPrices = this.toPlanSlots(prices, now);
+    const forecast = this.roiNetForecast(TimeHelpers.startOfLocalBlock(now, planMin, tz), planPrices.length, planMin);
+    return {
+      prices: [...planPrices],
+      exportPrices: exportPrices ? [...this.toPlanSlots(exportPrices, now)] : null,
+      minPriceDelta,
+      soc: this.soc,
+      // Local minute: slots follow local time (half-hour-offset zones differ from UTC).
+      startMinute: TimeHelpers.toLocalDate(new Date(now), tz).getMinutes(),
+      batCapacity: settings.batCapacity,
+      chargeSpeeds: speeds([['chargePower', 'chargeLoss'], ['chargePowerEff', 'chargeLossEff'], ['chargePower3', 'chargeLoss3']]),
+      dischargeSpeeds: speeds([['dischargePower', 'dischargeLoss'], ['dischargePowerEff', 'dischargeLossEff'], ['dischargePower3', 'dischargeLoss3']]),
+      priceInterval: planMin,
+      homePowerUsage: settings.roiHomePowerUsage ?? 300,
+      net: forecast ? forecast.net : null,
+      peakWindowMin: forecast ? forecast.peakWindowMin : 15,
+    };
+  }
+
+  // The home's net per plan slot from the grid forecast, for the planner: without batteries, plus
+  // the plans of the batteries before this one (device id), so they do not plan on the same
+  // surplus. Never the grid's netPlanned (it holds this battery's own plan). null without a grid.
+  roiNetForecast(startMs, n, planMin) {
+    let grid = null;
+    try {
+      grid = this.homey.drivers.getDriver('grid').getDevices().find((d) => typeof d.getNetForecast === 'function');
+    } catch {
+      return null;
+    }
+    if (!grid || !(n > 0)) return null;
+    const endMs = startMs + (n * planMin * 60 * 1000);
+    let f;
+    let peak = null;
+    try {
+      f = grid.getNetForecast(startMs, endMs);
+      if (typeof grid.getPeakLimitSeries === 'function') peak = grid.getPeakLimitSeries(startMs, endMs);
+    } catch (err) {
+      this.error(err);
+      return null;
+    }
+    if (!f || !Array.isArray(f.netNoBattery) || !f.netNoBattery.length) return null;
+
+    const myId = this.getData().id;
+    const earlier = this.driver.getDevices().filter((d) => d !== this && d.getData().id < myId
+      && d.getSettings().roiEnable && typeof d.getPlannedPowerSeries === 'function');
+    const others = earlier.map((d) => {
+      try {
+        return d.getPlannedPowerSeries(startMs, endMs);
+      } catch {
+        return null;
+      }
+    });
+    const settings = this.getSettings();
+    // Surplus kept low by the measured forecast error: relying on solar that does not come costs
+    // more than leaving some unused.
+    const accuracy = typeof grid.getForecastAccuracy === 'function' ? grid.getForecastAccuracy() : null;
+    const marginW = (accuracy && accuracy.maeW) || 0;
+    const minChargeW = Number(settings.minChargeW) || 0;
+    const minDischargeW = Number(settings.minDischargeW) || 0;
+    const toEv = settings.dischargeToEv !== false;
+    const perSlot = Math.max(1, Math.round(planMin / 15));
+    const mean = (vals) => vals.reduce((a, v) => a + v, 0) / vals.length;
+    const net = [];
+    for (let i = 0; i < n; i += 1) {
+      const qs = [];
+      for (let k = i * perSlot; k < (i + 1) * perSlot && k < f.netNoBattery.length; k += 1) qs.push(k);
+      if (!qs.length) break;
+      const netW = qs.map((q) => f.netNoBattery[q] + others.reduce((a, o) => a + ((o && o[q]) || 0), 0));
+      const surplusW = Math.max(0, mean(netW.map((v) => Math.max(0, -v))) - marginW);
+      const deficitW = mean(netW.map((v) => Math.max(0, v)));
+      const homeW = toEv ? deficitW : mean(qs.map((q, j) => Math.max(0, netW[j] - ((f.ev && f.ev[q]) || 0))));
+      const slot = {
+        surplusW: Math.round(surplusW),
+        deficitW: Math.round(deficitW),
+        usableSurplusW: surplusW >= minChargeW ? Math.round(surplusW) : 0,
+        usableDeficitW: homeW >= minDischargeW ? Math.round(homeW) : 0,
+        limitW: null,
+        penaltyPerKw: null,
+      };
+      // Capacity tariff limit (only when one is set) and the hard limit (contract or main fuse).
+      const peakSlots = peak && Array.isArray(peak.slots) ? qs.map((q) => peak.slots[q]).filter(Boolean) : [];
+      const tariffLimits = peak && peak.active
+        ? peakSlots.map((p) => p.limitW).filter((v) => typeof v === 'number' && Number.isFinite(v)) : [];
+      const tariffW = tariffLimits.length ? Math.min(...tariffLimits) : Infinity;
+      const hardW = peak && peak.hardLimitW > 0 ? peak.hardLimitW : Infinity;
+      if (Math.min(tariffW, hardW) < Infinity) {
+        slot.limitW = Math.round(Math.min(tariffW, hardW));
+        const first = peakSlots[0] || {};
+        // null: no price known (as low as possible), or the hard limit: the planner uses a large penalty.
+        slot.penaltyPerKw = hardW < tariffW ? null : (first.penaltyPerKw ?? first.stepJump ?? null);
+      }
+      net.push(slot);
+    }
+    return { net, peakWindowMin: (peak && peak.windowMin) || 15 };
+  }
+
   async updateValue(val, cap) {
     await super.updateValue(val, cap);
     if (cap !== 'soc' || !this.recordSocSample(val)) return;
@@ -334,6 +453,9 @@ class BatDevice extends GenericDevice {
     if (typeof livePower !== 'number') livePower = 0;
 
     const currentTimestamp = (reading && reading.meterTm) ? new Date(reading.meterTm).getTime() : Date.now();
+    const planSlotStart = TimeHelpers.startOfLocalBlock(currentTimestamp, this.planIntervalMin(), this.timeZone || this.homey.clock.getTimezone());
+    if (this.lastPlanSlotStart && planSlotStart !== this.lastPlanSlotStart) this.onPlanSlot(planSlotStart).catch((err) => this.error(err));
+    this.lastPlanSlotStart = planSlotStart;
     if (!Array.isArray(this.powerHistory)) this.powerHistory = [];
     const lastEntry = this.powerHistory[this.powerHistory.length - 1];
     if (!lastEntry || Math.abs(currentTimestamp - lastEntry.time) >= 60000) {
@@ -346,13 +468,23 @@ class BatDevice extends GenericDevice {
     }
   }
 
+  // A new plan slot inside a price slot: plan again (a price-slot start gets new prices anyway,
+  // and onPricesUpdated() plans then).
+  async onPlanSlot(slotStartMs) {
+    if (!this.getSettings().roiEnable || !this.pricesNextHours) return;
+    const tz = this.timeZone || this.homey.clock.getTimezone();
+    if (TimeHelpers.startOfLocalBlock(slotStartMs, this.priceInterval || 60, tz) === slotStartMs) return;
+    await this.flows.triggerNewRoiStrategyFlow();
+    await this.updateChargeChart();
+  }
+
   async updateChargeChart() {
     if (!this.pricesNextHours) return;
     await this.refreshDapPrices().catch(() => {});
     const minPriceDelta = this.getSettings().roiMinProfit;
     // Reuse a plan from the same price slot and minPriceDelta (a flow trigger usually computed it
     // seconds ago), if made after the latest price update and the last (re)init.
-    const slotMs = (this.priceInterval || 60) * 60 * 1000;
+    const slotMs = this.planIntervalMin() * 60 * 1000;
     // Price slots follow local time: bucket on local (offset-shifted) timestamps, not UTC epoch.
     const tz = this.timeZone || this.homey.clock.getTimezone();
     const localSlot = (ms) => Math.floor(TimeHelpers.toLocalDate(new Date(ms), tz).getTime() / slotMs);
@@ -366,7 +498,7 @@ class BatDevice extends GenericDevice {
     await this.setCapability('roi_duration', strategy.duration).catch((err) => this.error(err));
 
     const scheme = JSON.parse(strategy.scheme);
-    const { isForecast } = this.pricesFromNow();
+    const isForecast = this.toPlanSlots(this.pricesFromNow().isForecast);
     Object.keys(scheme).forEach((k) => {
       if (isForecast && isForecast[k]) scheme[k].isForecast = true;
     });

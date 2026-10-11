@@ -108,5 +108,8 @@
   "error_departure_past": "La partenza alle __time__ è già passata oggi",
   "error_appliance_start_past": "L'avvio alle __time__ è già passato oggi",
   "error_invalid_periods": "Periodo non valido: __periods__. Usa AAAA-MM-GG/AAAA-MM-GG, separati da virgole",
-  "ev_now": "ora"
+  "ev_now": "ora",
+  "error_peak_hours": "Ore conteggiate: usa ad es. 06-22.",
+  "error_peak_months": "Mesi conteggiati: usa ad es. 11-3 o 1,2,12.",
+  "error_peak_steps": "Fasce di prezzo: usa ad es. 2:190; 5:300."
 }

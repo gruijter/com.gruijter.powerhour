@@ -108,5 +108,8 @@
   "error_departure_past": "Abfahrt __time__ ist heute schon vorbei",
   "error_appliance_start_past": "Start __time__ ist heute schon vorbei",
   "error_invalid_periods": "Ungültiger Zeitraum: __periods__. Verwende JJJJ-MM-TT/JJJJ-MM-TT, durch Kommas getrennt",
-  "ev_now": "jetzt"
+  "ev_now": "jetzt",
+  "error_peak_hours": "Zählstunden: z. B. 06-22 verwenden.",
+  "error_peak_months": "Zählmonate: z. B. 11-3 oder 1,2,12 verwenden.",
+  "error_peak_steps": "Preisstufen: z. B. 2:190; 5:300 verwenden."
 }
