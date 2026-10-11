@@ -1207,6 +1207,41 @@
             "ko": "끔: 배터리가 전기차 충전을 감당하지 않습니다."
           },
           "value": true
+        },
+        {
+          "id": "batteryControl",
+          "type": "checkbox",
+          "label": {
+            "en": "Control the battery",
+            "nl": "Batterij aansturen",
+            "de": "Batterie steuern",
+            "fr": "Piloter la batterie",
+            "it": "Controllare la batteria",
+            "sv": "Styr batteriet",
+            "no": "Styr batteriet",
+            "es": "Controlar la batería",
+            "da": "Styr batteriet",
+            "pl": "Steruj baterią",
+            "ru": "Управлять батареей",
+            "ar": "التحكم في البطارية",
+            "ko": "배터리 제어"
+          },
+          "hint": {
+            "en": "Sets the battery power by the battery mode, without flows. Needs a power setpoint, see repair.",
+            "nl": "Stelt het batterijvermogen in volgens de batterijmodus, zonder flows. Vraagt een instelbaar vermogen, zie repareren.",
+            "de": "Stellt die Batterieleistung nach dem Batteriemodus ein, ohne Flows. Braucht einen Leistungs-Sollwert, siehe Reparieren.",
+            "fr": "Règle la puissance de la batterie selon le mode, sans flows. Nécessite une consigne de puissance, voir réparer.",
+            "it": "Imposta la potenza della batteria secondo la modalità, senza flow. Serve un setpoint di potenza, vedi ripara.",
+            "sv": "Ställer in batteriets effekt efter batteriläget, utan flöden. Kräver ett effektbörvärde, se reparera.",
+            "no": "Setter batteriets effekt etter batterimodus, uten flyter. Krever et effekt-settpunkt, se reparer.",
+            "es": "Ajusta la potencia de la batería según el modo, sin flujos. Requiere una consigna de potencia, ver reparar.",
+            "da": "Indstiller batteriets effekt efter batteritilstanden, uden flows. Kræver et effekt-setpunkt, se reparer.",
+            "pl": "Ustawia moc baterii według trybu, bez flow. Wymaga zadawanej mocy, zobacz naprawę.",
+            "ru": "Задаёт мощность батареи по режиму, без потоков. Нужна уставка мощности, см. восстановление.",
+            "ar": "يضبط قدرة البطارية حسب الوضع، دون تدفقات. يحتاج إلى نقطة ضبط للقدرة، راجع الإصلاح.",
+            "ko": "배터리 모드에 따라 플로우 없이 배터리 출력을 설정합니다. 출력 설정값이 필요합니다(복구 참조)."
+          },
+          "value": false
         }
       ]
     },

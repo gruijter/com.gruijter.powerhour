@@ -1,0 +1,133 @@
+{
+  "type": "enum",
+  "title": {
+    "en": "Battery mode",
+    "nl": "Batterijmodus",
+    "de": "Batteriemodus",
+    "fr": "Mode batterie",
+    "it": "Modalità batteria",
+    "sv": "Batteriläge",
+    "no": "Batterimodus",
+    "es": "Modo de batería",
+    "da": "Batteritilstand",
+    "pl": "Tryb baterii",
+    "ru": "Режим батареи",
+    "ar": "وضع البطارية",
+    "ko": "배터리 모드"
+  },
+  "uiComponent": "picker",
+  "getable": true,
+  "setable": true,
+  "insights": false,
+  "icon": "/assets/battery_mode.svg",
+  "values": [
+    {
+      "id": "smart",
+      "title": {
+        "en": "Smart",
+        "nl": "Slim",
+        "de": "Intelligent",
+        "fr": "Intelligent",
+        "es": "Inteligente",
+        "it": "Intelligente",
+        "da": "Smart",
+        "sv": "Smart",
+        "no": "Smart",
+        "pl": "Inteligentnie",
+        "ru": "Умный",
+        "ar": "ذكي",
+        "ko": "스마트"
+      }
+    },
+    {
+      "id": "self_consumption",
+      "title": {
+        "en": "Self-consumption",
+        "nl": "Zelfverbruik",
+        "de": "Eigenverbrauch",
+        "fr": "Autoconsommation",
+        "it": "Autoconsumo",
+        "sv": "Egenanvändning",
+        "no": "Egenforbruk",
+        "es": "Autoconsumo",
+        "da": "Eget forbrug",
+        "pl": "Autokonsumpcja",
+        "ru": "Собственное потребление",
+        "ar": "الاستهلاك الذاتي",
+        "ko": "자가 소비"
+      }
+    },
+    {
+      "id": "hold",
+      "title": {
+        "en": "Hold charge",
+        "nl": "Vasthouden",
+        "de": "Ladung halten",
+        "fr": "Conserver la charge",
+        "it": "Mantieni carica",
+        "sv": "Behåll laddning",
+        "no": "Hold ladning",
+        "es": "Mantener carga",
+        "da": "Hold ladning",
+        "pl": "Utrzymaj ładunek",
+        "ru": "Сохранять заряд",
+        "ar": "الاحتفاظ بالشحن",
+        "ko": "충전 유지"
+      }
+    },
+    {
+      "id": "charge",
+      "title": {
+        "en": "Charge now",
+        "nl": "Nu laden",
+        "de": "Jetzt laden",
+        "fr": "Charger maintenant",
+        "es": "Cargar ahora",
+        "it": "Carica ora",
+        "da": "Lad nu",
+        "sv": "Ladda nu",
+        "no": "Lad nå",
+        "pl": "Ładuj teraz",
+        "ru": "Зарядить сейчас",
+        "ar": "اشحن الآن",
+        "ko": "지금 충전"
+      }
+    },
+    {
+      "id": "discharge",
+      "title": {
+        "en": "Discharge now",
+        "nl": "Nu ontladen",
+        "de": "Jetzt entladen",
+        "fr": "Décharger maintenant",
+        "it": "Scarica ora",
+        "sv": "Ladda ur nu",
+        "no": "Lad ut nå",
+        "es": "Descargar ahora",
+        "da": "Aflad nu",
+        "pl": "Rozładuj teraz",
+        "ru": "Разрядить сейчас",
+        "ar": "فرّغ الآن",
+        "ko": "지금 방전"
+      }
+    },
+    {
+      "id": "device",
+      "title": {
+        "en": "Battery decides",
+        "nl": "Batterij beslist",
+        "de": "Batterie entscheidet",
+        "fr": "La batterie décide",
+        "it": "Decide la batteria",
+        "sv": "Batteriet bestämmer",
+        "no": "Batteriet bestemmer",
+        "es": "La batería decide",
+        "da": "Batteriet bestemmer",
+        "pl": "Bateria decyduje",
+        "ru": "Решает батарея",
+        "ar": "البطارية تقرر",
+        "ko": "배터리가 결정"
+      }
+    }
+  ]
+}

@@ -942,6 +942,19 @@ class GridDevice extends GenericDevice {
     return fuse;
   }
 
+  // Extra import (W) possible now for a battery controller: the capacity-tariff headroom of the
+  // running window (only with a tariff to shave for) and the hard limit (contract or main fuse).
+  // null: no limit.
+  getImportHeadroomW() {
+    const importW = Math.max(0, this.getCapabilityValue('measure_watt_grid') || 0);
+    const limits = [];
+    const p = this.peakProjection;
+    if (PeakTariff.isActive(this.peakConfig) && p && typeof p.headroomW === 'number') limits.push(p.headroomW);
+    const hardW = this.getHardLimitW();
+    if (hardW > 0) limits.push(hardW - importW);
+    return limits.length ? Math.round(Math.min(...limits)) : null;
+  }
+
   // Median over the rest of this month of the expected daily maximum (weighted window average,
   // grid forecast without battery). Fills the top N early in the month. Cached for an hour.
   getExpectedDailyPeakW() {

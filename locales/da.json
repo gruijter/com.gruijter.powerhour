@@ -93,7 +93,10 @@
     "setup_role_production": "Måler produktion",
     "setup_no_dap": "Ingen Day-Ahead-prisenhed fundet. For dynamiske priser, tilføj først en. Ellers brug den faste tarif nedenfor, eller indstil den via et flow.",
     "setup_no_dap_plan": "Ingen Day-Ahead-prisenhed fundet. Ladeplanen kræver en: tilføj den først. Uden for dens markeder, angiv priserne via et flow (priser JSON).",
-    "setup_tariff_fixed": "Fast pris: bruges kun, hvis ingen DAP eller flow sætter prisen for den valgte gruppe."
+    "setup_tariff_fixed": "Fast pris: bruges kun, hvis ingen DAP eller flow sætter prisen for den valgte gruppe.",
+    "setup_role_setpoint": "Effekt-setpunkt",
+    "setup_role_setpointSign": "Fortegn setpunkt",
+    "setup_bat_external": "For at styre det: sæt batteriets egen app til ekstern styring."
   },
   "load_forecast_accuracy": "Gns. afvigelse __mae__ W (__pct__%), bias __bias__ W, __days__ dage",
   "load_forecast_accuracy_collecting": "Indsamler data",
@@ -111,5 +114,6 @@
   "ev_now": "nu",
   "error_peak_hours": "Tællende timer: brug f.eks. 06-22.",
   "error_peak_months": "Tællende måneder: brug f.eks. 11-3 eller 1,2,12.",
-  "error_peak_steps": "Pristrin: brug f.eks. 2:190; 5:300."
+  "error_peak_steps": "Pristrin: brug f.eks. 2:190; 5:300.",
+  "bat_control_failed": "Batteristyring mislykkedes: __error__"
 }

@@ -70,7 +70,7 @@ const driverSpecifics = {
   ],
   // Asked at pair and repair (lib/helpers/PairSetup.js).
   setup: {
-    settings: ['tariff_update_group', 'batCapacity', 'chargePower', 'dischargePower', 'roiEnable'],
+    settings: ['tariff_update_group', 'batCapacity', 'chargePower', 'dischargePower', 'roiEnable', 'batteryControl'],
     match: {
       classes: ['battery'],
       energy: (energy) => !!(energy.meterPowerImportedCapability || energy.meterPowerExportedCapability),
@@ -170,21 +170,93 @@ class BatteryDriver extends GenericDriver {
     const samples = Math.max(1, Math.round((smoothing / 100) * (120 / Math.max(1, interval))));
 
     const devices = this.getDevices();
+    // Batteries this app controls itself are left out of the XOM flows.
+    const flowDevices = devices.filter((d) => !(typeof d.isZeroControlled === 'function' && d.isZeroControlled()));
 
     // eslint-disable-next-line global-require
     const nomXomStrategy = require('../../lib/strategies/NomXomStrategy');
     const strategy = nomXomStrategy.getStrategy({
-      devices,
+      devices: flowDevices,
       cumulativePower,
       x,
       minLoad,
     });
 
-    const promises = devices.map((device) => {
+    const promises = flowDevices.map((device) => {
       const strat = strategy.find((info) => info.id === device.getData().id);
       return device.triggerXOMFlow(strat, samples, x, smoothing, minLoad, cumulativePower);
     });
     await Promise.all(promises);
+    await this.controlTick(devices, cumulativePower, { x, minLoad, samples });
+  }
+
+  // The batteries this app controls, in one mode (not 'device').
+  groupDevices() {
+    return this.getDevices().filter((d) => typeof d.isZeroControlled === 'function' && d.isZeroControlled());
+  }
+
+  // A mode for the whole group (picker, flow), with the same end time of a temporary mode. origin
+  // joins too (it can come from 'device').
+  async setGroupMode(mode, reason, until, origin) {
+    const group = this.groupDevices();
+    if (origin && !group.includes(origin)) group.push(origin);
+    this.log(`[Bat Control] Group mode ${mode} for ${group.map((d) => d.getName()).join(', ')} (${reason})`);
+    for (const d of group) {
+      await d.setBatteryMode(mode, reason, 0, { sync: false, until }).catch((err) => d.error(err));
+    }
+  }
+
+  // Built-in control. Zero on the meter (zero/hold blocks) is split over the batteries by
+  // NomXomStrategy, as for the XOM flows, against the grid without the batteries this app forces
+  // (charge/discharge/idle), so the batteries do not trade energy with each other.
+  async controlTick(devices, gridW, { x = 0, minLoad = 50, samples = 1 } = {}) {
+    const now = Date.now();
+    const preps = new Map();
+    for (const d of devices) {
+      if (typeof d.controlPrepare === 'function') {
+        const prep = await d.controlPrepare(now).catch((err) => d.error(err));
+        if (prep) preps.set(d, prep);
+      }
+    }
+    const active = [...preps.keys()];
+    if (!active.length) return;
+    const isNom = (d) => ['zero', 'hold'].includes(preps.get(d).block);
+    const forcedW = active.filter((d) => !isNom(d)).reduce((a, d) => a + d.controlPowerW(), 0);
+    const nomGridW = gridW - forcedW;
+    const candidates = active.filter(isNom);
+    // Hold batteries only take part when charging.
+    const charging = candidates.reduce((a, d) => a + d.controlPowerW(), 0) - (nomGridW - x) > 0;
+    const nomDevices = candidates.filter((d) => preps.get(d).block === 'zero' || charging);
+    // NomXomStrategy reads xomTargetPower: here the last setpoint of this app.
+    const views = nomDevices.map((d) => ({
+      getData: () => d.getData(),
+      getName: () => d.getName(),
+      getSettings: () => d.getSettings(),
+      getCapabilityValue: (cap) => d.getCapabilityValue(cap),
+      soc: d.soc,
+      xomTargetPower: d.controlPowerW(),
+    }));
+    // eslint-disable-next-line global-require
+    const nomXomStrategy = require('../../lib/strategies/NomXomStrategy');
+    const strategy = views.length ? nomXomStrategy.getStrategy({
+      devices: views, cumulativePower: nomGridW, x, minLoad,
+    }) : [];
+    const weight = (d) => Math.max(1, Number(d.getSettings().chargePower) || 0);
+    const total = active.reduce((a, d) => a + weight(d), 0);
+    await Promise.all(active.map((d) => {
+      // Not in zero on the meter now (forced block, or hold while discharging): no NOM part.
+      let nom = { targetW: 0, needW: 0 };
+      const strat = nomDevices.includes(d) && strategy.find((info) => info.id === d.getData().id);
+      if (strat) {
+        // Smoothed as the XOM flow does (setting smoothing).
+        const prev = typeof d.nomTargetW === 'number' ? d.nomTargetW : d.controlPowerW();
+        d.nomTargetW = (strat.target / samples) + (prev * ((samples - 1) / samples));
+        nom = { targetW: d.nomTargetW, needW: strat.target };
+      } else {
+        d.nomTargetW = null;
+      }
+      return d.controlApply(preps.get(d), now, gridW, nom, weight(d) / total).catch((err) => d.error(err));
+    }));
   }
 
   checkDeviceCompatibility(homeyDevice) {
@@ -215,6 +287,7 @@ class BatteryDriver extends GenericDriver {
           chargingState: hasCapability('battery_charging_state') ? 'battery_charging_state' : null,
           meterCharging: imported && hasCapability(imported) ? imported : null,
           meterDischarging: exported && hasCapability(exported) ? exported : null,
+          setpoint: BatteryDriver.autoSetpoint(sourceDevice),
         },
         invert: false,
       };
@@ -222,16 +295,23 @@ class BatteryDriver extends GenericDriver {
     // 2. The vendor exceptions (sourceCapGroups). 'invertPower' is metadata, not a capability.
     const matched = SourceCaps.matchGroup(caps, this.ds.sourceCapGroups, ['invertPower']);
     if (!matched) return null;
-    const group = { ...matched };
+    const group = { ...matched, setpoint: BatteryDriver.autoSetpoint(sourceDevice) };
     delete group.invertPower;
     return { group, invert: !!matched.invertPower };
   }
 
+  // Homey's standard battery setpoint (+ = charging), when the app lets it be set.
+  static autoSetpoint(sourceDevice) {
+    const obj = sourceDevice.capabilitiesObj && sourceDevice.capabilitiesObj.target_power;
+    if (obj) return obj.setable === true ? 'target_power' : null;
+    return (sourceDevice.capabilities || []).includes('target_power') ? 'target_power' : null;
+  }
+
   // Roles chosen in the setup view, and the kind of capability that fits.
-  static CAP_ROLES = ['soc', 'power', 'chargePower', 'dischargePower', 'meterCharging', 'meterDischarging'];
+  static CAP_ROLES = ['soc', 'power', 'chargePower', 'dischargePower', 'meterCharging', 'meterDischarging', 'setpoint'];
 
   static ROLE_KINDS = {
-    soc: 'pct', power: 'w', chargePower: 'w', dischargePower: 'w', meterCharging: 'kwh', meterDischarging: 'kwh',
+    soc: 'pct', power: 'w', chargePower: 'w', dischargePower: 'w', meterCharging: 'kwh', meterDischarging: 'kwh', setpoint: 'setW',
   };
 
   // A detected group by role: the Homey standard power is the 'power' role too.
@@ -244,8 +324,8 @@ class BatteryDriver extends GenericDriver {
     return view;
   }
 
-  // The detected capabilities with the choice from the setup view: { group, invert }, or null
-  // without a charge level and a power.
+  // The detected capabilities with the choice from the setup view: { group, invert,
+  // setpointInvert }, or null without a charge level and a power.
   sourceCapGroupFor(sourceDevice, stored) {
     const auto = this.autoSourceCapGroup(sourceDevice) || { group: {}, invert: false };
     const chosen = SourceCaps.chosenFor(stored, sourceDevice.id);
@@ -270,7 +350,9 @@ class BatteryDriver extends GenericDriver {
       if (!group[key]) delete group[key];
     });
     const hasPower = group.power || group.newMeasurePower || group.chargePower || group.dischargePower;
-    return group.soc && hasPower ? { group, invert } : null;
+    // target_power follows Homey (+ = charging); another setpoint as chosen.
+    const setpointInvert = chosen.setpointSign === 'inverted';
+    return group.soc && hasPower ? { group, invert, setpointInvert } : null;
   }
 
   // A signed power and a charge or discharge power would both count the same energy.
@@ -301,10 +383,20 @@ class BatteryDriver extends GenericDriver {
       selected: chosen.sign || 'auto',
       noNone: true,
     });
+    items.push({
+      key: 'setpointSign',
+      label: this.homey.__('repair.setup_role_setpointSign'),
+      auto: signLabel(false),
+      options: [{ id: 'normal', label: signLabel(false) }, { id: 'inverted', label: signLabel(true) }],
+      selected: chosen.setpointSign || 'auto',
+      noNone: true,
+    });
+    // Without Homey's mode capability the battery app must be set to external control by hand.
+    const external = (source.capabilities || []).includes('target_power_mode') ? '' : ` ${this.homey.__('repair.setup_bat_external')}`;
     return {
       deviceId: source.id,
       title: this.homey.__('repair.setup_caps_title'),
-      text: `${source.name}. ${this.homey.__('repair.setup_caps_text')}`,
+      text: `${source.name}. ${this.homey.__('repair.setup_caps_text')}${external}`,
       items,
     };
   }
@@ -317,10 +409,17 @@ class BatteryDriver extends GenericDriver {
     if (BatteryDriver.mixedPower(resolved.group)) throw Error(this.homey.__('error_setup_bat_power_mixed'));
   }
 
-  // Advanced ROI needs a Homey Pro (Early 2023).
+  // Advanced ROI (and the control that follows its plan) needs a Homey Pro (Early 2023).
   setupSettings() {
     const HP2023 = this.homey.platformVersion === 2;
-    return this.ds.setup.settings.filter((id) => HP2023 || id !== 'roiEnable');
+    return this.ds.setup.settings.filter((id) => HP2023 || !['roiEnable', 'batteryControl'].includes(id));
+  }
+
+  // The mode picker comes with the plan.
+  capabilitiesFor(settings = {}) {
+    const caps = super.capabilitiesFor(settings);
+    if (settings.roiEnable) caps.push('battery_mode');
+    return caps;
   }
 
   getDeviceSettings(homeyDevice) {

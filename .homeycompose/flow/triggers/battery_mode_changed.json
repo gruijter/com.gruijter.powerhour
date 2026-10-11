@@ -1,0 +1,46 @@
+{
+  "title": {
+    "en": "Battery mode changed",
+    "nl": "Batterijmodus gewijzigd",
+    "de": "Batteriemodus geändert",
+    "fr": "Mode batterie modifié",
+    "it": "Modalità batteria cambiata",
+    "sv": "Batteriläget ändrat",
+    "no": "Batterimodus endret",
+    "es": "Modo de batería cambiado",
+    "da": "Batteritilstand ændret",
+    "pl": "Tryb baterii zmieniony",
+    "ru": "Режим батареи изменён",
+    "ar": "تغيّر وضع البطارية",
+    "ko": "배터리 모드 변경됨"
+  },
+  "args": [
+    {
+      "type": "device",
+      "name": "device",
+      "filter": "driver_id=battery&capabilities=battery_mode"
+    }
+  ],
+  "tokens": [
+    {
+      "name": "battery_mode",
+      "type": "string",
+      "title": {
+        "en": "Battery mode",
+        "nl": "Batterijmodus",
+        "de": "Batteriemodus",
+        "fr": "Mode batterie",
+        "it": "Modalità batteria",
+        "sv": "Batteriläge",
+        "no": "Batterimodus",
+        "es": "Modo de batería",
+        "da": "Batteritilstand",
+        "pl": "Tryb baterii",
+        "ru": "Режим батареи",
+        "ar": "وضع البطارية",
+        "ko": "배터리 모드"
+      },
+      "example": "smart"
+    }
+  ]
+}

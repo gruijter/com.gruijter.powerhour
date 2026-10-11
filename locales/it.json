@@ -93,7 +93,10 @@
     "setup_role_production": "Contatore produzione",
     "setup_no_dap": "Nessun dispositivo prezzi Day-Ahead trovato. Per prezzi dinamici, aggiungine prima uno. Altrimenti usa la tariffa fissa qui sotto o impostala con un flow.",
     "setup_no_dap_plan": "Nessun dispositivo prezzi Day-Ahead trovato. Il piano di carica ne ha bisogno: aggiungilo prima. Fuori dai suoi mercati, fornisci i prezzi con un flow (prezzi JSON).",
-    "setup_tariff_fixed": "Prezzo fisso: usato solo se nessun DAP o flow imposta il prezzo del gruppo scelto."
+    "setup_tariff_fixed": "Prezzo fisso: usato solo se nessun DAP o flow imposta il prezzo del gruppo scelto.",
+    "setup_role_setpoint": "Setpoint di potenza",
+    "setup_role_setpointSign": "Segno del setpoint",
+    "setup_bat_external": "Per controllarla, imposta l'app della batteria su controllo esterno."
   },
   "load_forecast_accuracy": "Errore medio __mae__ W (__pct__%), bias __bias__ W, __days__ giorni",
   "load_forecast_accuracy_collecting": "Raccolta dati",
@@ -111,5 +114,6 @@
   "ev_now": "ora",
   "error_peak_hours": "Ore conteggiate: usa ad es. 06-22.",
   "error_peak_months": "Mesi conteggiati: usa ad es. 11-3 o 1,2,12.",
-  "error_peak_steps": "Fasce di prezzo: usa ad es. 2:190; 5:300."
+  "error_peak_steps": "Fasce di prezzo: usa ad es. 2:190; 5:300.",
+  "bat_control_failed": "Controllo della batteria non riuscito: __error__"
 }

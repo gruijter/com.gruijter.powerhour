@@ -23,7 +23,14 @@ const GenericDevice = require('../../lib/genericDeviceDrivers/generic_bat_device
 const ChargeDeviceHelpers = require('../../lib/helpers/ChargeDeviceHelpers');
 const ChartImages = require('../../lib/helpers/ChartImages');
 const TimeHelpers = require('../../lib/helpers/TimeHelpers');
+const BatteryControl = require('../../lib/strategies/BatteryControl');
 const { setTimeoutPromise } = require('../../lib/helpers/Util');
+
+// A mode write of our own reported back within this time is no change by the battery app.
+const OWN_WRITE_ECHO_MS = 60 * 1000;
+// Plan again when the SoC is this far (%) from the plan, at most every SOC_REPLAN_MS.
+const SOC_REPLAN_PCT = 10;
+const SOC_REPLAN_MS = 10 * 60 * 1000;
 
 // Plans in 15-minute slots, as the grid forecast and capacity tariffs; prices per price slot.
 const deviceSpecifics = { planIntervalMin: 15 };
@@ -40,7 +47,18 @@ class BatDevice extends GenericDevice {
     // Before super.onInit(): its first samples would otherwise overwrite the stored history.
     this.powerHistory = await this.loadStoredHistory('powerHistory');
     this.socHistory = await this.loadStoredHistory('socHistory');
+    this.tempMode = this.getStoreValue('batTempMode') || null;
+    this.controlState = {};
     await super.onInit().catch(this.error);
+
+    if (this.hasCapability('battery_mode')) {
+      if (!this.getCapabilityValue('battery_mode')) await this.setCapabilityValue('battery_mode', 'smart').catch(this.error);
+      // Once: onInit() runs again on every restart of the device.
+      if (!this.batteryModeListener) {
+        this.batteryModeListener = true;
+        this.registerCapabilityListener('battery_mode', (mode) => this.setBatteryMode(mode, 'set by user'));
+      }
+    }
 
     const currentSessionId = this.sessionId;
     this.populateHistoryFromInsights().catch((err) => this.error('Error populating battery insights:', err));
@@ -79,6 +97,7 @@ class BatDevice extends GenericDevice {
     }
     this.sourceCapGroup = resolved.group;
     this.sourcePowerInvert = resolved.invert;
+    this.setpointInvert = !!resolved.setpointInvert;
     this.log(`${this.sourceDevice.name} source capability group:`, JSON.stringify(resolved));
   }
 
@@ -101,6 +120,251 @@ class BatDevice extends GenericDevice {
         });
       }
     });
+    if ((this.sourceDevice.capabilities || []).includes('target_power_mode')) {
+      this.capabilityInstances.sourceMode = this.sourceDevice.makeCapabilityInstance('target_power_mode', (value) => {
+        this.onSourceModeChanged(value).catch((err) => this.error(err));
+      });
+    }
+  }
+
+  async onUninit() {
+    // Never leave the battery on a last setpoint while this app is not running.
+    await this.releaseControl('app stopped').catch((err) => this.error(err));
+    return super.onUninit();
+  }
+
+  onDeleted() {
+    this.releaseControl('device deleted').catch((err) => this.error(err));
+    super.onDeleted();
+  }
+
+  // --- Built-in control (setting batteryControl, capability battery_mode) ---
+
+  getBatteryMode() {
+    return (this.hasCapability('battery_mode') && this.getCapabilityValue('battery_mode')) || 'smart';
+  }
+
+  // The single entry for the picker, the flow and the battery app taking over. durationMin > 0:
+  // back to the mode before after that time. Batteries this app controls share one mode: the
+  // driver passes a change to all of them (sync), except 'device', which is per battery.
+  async setBatteryMode(mode, reason, durationMin = 0, { sync = true, until = null } = {}) {
+    if (!BatteryControl.MODES.includes(mode)) throw Error(`Unknown battery mode ${mode}`);
+    const end = until || (durationMin > 0 ? Date.now() + (durationMin * 60 * 1000) : null);
+    if (sync && mode !== 'device' && this.isControlConfigured()) {
+      await this.driver.setGroupMode(mode, reason, end, this);
+      return;
+    }
+    const current = this.getBatteryMode();
+    this.tempMode = end ? { previousMode: this.tempMode ? this.tempMode.previousMode : current, until: end } : null;
+    await this.setStoreValue('batTempMode', this.tempMode).catch(this.error);
+    if (mode === current) return;
+    await this.setCapabilityValue('battery_mode', mode).catch(this.error);
+    const left = end ? `, until ${new Date(end).toISOString()}` : '';
+    this.log(`[Bat Control] Mode ${current} -> ${mode} (${reason}${left})`);
+    if (mode === 'device' && this.driver.groupDevices().some((d) => d !== this)) {
+      this.log('[Bat Control] Out of the group: if this battery does zero on the meter itself, two controls act on one meter');
+    }
+    // Self-consumption plans differently.
+    if ((mode === 'self_consumption') !== (current === 'self_consumption')) this.replan('mode').catch((err) => this.error(err));
+  }
+
+  // Each battery of the group has the same temporary mode: each ends it by itself.
+  async endTempModeIfDue(now) {
+    if (!this.tempMode || now < this.tempMode.until) return;
+    await this.setBatteryMode(this.tempMode.previousMode, 'temporary mode ended', 0, { sync: false });
+  }
+
+  // Once per start of control: take the group's mode (of the battery with the lowest id).
+  async joinGroup() {
+    if (this.groupJoined) return;
+    this.groupJoined = true;
+    const group = this.driver.groupDevices();
+    const ref = group.sort((a, b) => (a.getData().id < b.getData().id ? -1 : 1))[0];
+    if (!ref || ref === this) return;
+    const mode = ref.getBatteryMode();
+    const until = ref.tempMode ? ref.tempMode.until : null;
+    if (mode === this.getBatteryMode() && until === (this.tempMode ? this.tempMode.until : null)) return;
+    if (until) this.tempMode = { previousMode: ref.tempMode.previousMode, until };
+    await this.setBatteryMode(mode, `group of ${ref.getName()}`, 0, { sync: false, until });
+  }
+
+  // Control is set up: the setting, a setpoint capability and the mode picker.
+  isControlConfigured() {
+    return !!(this.getSettings().batteryControl && this.sourceCapGroup && this.sourceCapGroup.setpoint
+      && this.sourceDevice && this.hasCapability('battery_mode'));
+  }
+
+  // Controlled by this app now (the driver splits zero on the meter among those).
+  isZeroControlled() {
+    return this.isControlConfigured() && this.getBatteryMode() !== 'device';
+  }
+
+  // The power this battery adds to the grid: the last setpoint while controlling (the measured
+  // power lags it), else the measured power (set on every measurement).
+  controlPowerW() {
+    return typeof this.lastSetpointW === 'number' && this.getStoreValue('controlTakeover')
+      ? this.lastSetpointW : (Number(this.getCapabilityValue('measure_watt_avg')) || 0);
+  }
+
+  // Driver tick, step 1: housekeeping, and what this battery does now. null: not controlled.
+  async controlPrepare(now) {
+    if (!this.initReady || this.isDestroyed) return null;
+    this.checkPlanSlot(now);
+    await this.endTempModeIfDue(now);
+    if (!this.isControlConfigured() || this.getBatteryMode() === 'device') {
+      this.groupJoined = false;
+      if (this.getStoreValue('controlTakeover')) {
+        await this.releaseControl(this.isControlConfigured() ? 'mode device' : 'control off');
+      }
+      return null;
+    }
+    await this.joinGroup();
+    const mode = this.getBatteryMode();
+    const slot = BatteryControl.slotAt(this.latestPlan, now);
+    return { mode, slot, block: BatteryControl.blockFor(mode, slot).block };
+  }
+
+  // Driver tick, step 2. nom: { targetW, needW } from NomXomStrategy in a zero/hold block.
+  // share: this battery's part of the import headroom.
+  async controlApply(prep, now, gridW, nom, share = 1) {
+    if (this.controlBusy) return;
+    this.controlBusy = true;
+    try {
+      const settings = this.getSettings();
+      const batteryW = this.controlPowerW();
+      if (nom) {
+        this.zeroAvgW = BatteryControl.average(this.zeroAvgW, nom.needW, now - (this.zeroAvgTm || now));
+        this.zeroAvgTm = now;
+      }
+      const headroomW = this.gridImportHeadroomW();
+      const r = BatteryControl.decide({
+        mode: prep.mode,
+        slot: prep.slot,
+        now,
+        gridW,
+        batteryW,
+        nomW: nom ? nom.targetW : null,
+        nomNeedW: nom ? nom.needW : null,
+        avgZeroW: nom ? this.zeroAvgW : undefined,
+        socPct: this.soc,
+        capacityKwh: settings.batCapacity,
+        maxChargeW: settings.chargePower,
+        maxDischargeW: settings.dischargePower,
+        minChargeW: Number(settings.minChargeW) || 0,
+        minDischargeW: Number(settings.minDischargeW) || 0,
+        maxW: headroomW === null ? null : batteryW + (headroomW * share),
+        state: this.controlState,
+      });
+      this.controlState = r.state;
+      if (!this.getStoreValue('controlTakeover')) await this.takeControl();
+      if (r.block !== this.lastControlBlock) {
+        this.log(`[Bat Control] ${prep.mode}: block ${r.block}, ${r.powerW} W`);
+        this.lastControlBlock = r.block;
+      }
+      if (BatteryControl.shouldWrite({
+        powerW: r.powerW, lastW: this.lastSetpointW, lastTm: this.lastSetpointTm, now,
+      })) await this.writeSetpoint(r.powerW, now);
+      this.checkSocDeviation(prep.slot, now);
+    } finally {
+      this.controlBusy = false;
+    }
+  }
+
+  gridImportHeadroomW() {
+    try {
+      const grid = this.homey.drivers.getDriver('grid').getDevices().find((d) => typeof d.getImportHeadroomW === 'function');
+      return grid ? grid.getImportHeadroomW() : null;
+    } catch {
+      return null;
+    }
+  }
+
+  async takeControl() {
+    const caps = this.sourceDevice.capabilities || [];
+    let prevMode = null;
+    if (caps.includes('target_power_mode')) {
+      const obj = this.sourceDevice.capabilitiesObj && this.sourceDevice.capabilitiesObj.target_power_mode;
+      if (obj && obj.value && obj.value !== 'homey') prevMode = obj.value;
+      this.ownModeWriteTm = Date.now();
+      await this.writeSourceCap('target_power_mode', 'homey').catch((err) => this.error(err));
+    }
+    await this.setStoreValue('controlTakeover', { prevMode, tm: Date.now() });
+    this.log(`[Bat Control] Taking control of ${this.sourceDevice.name}${prevMode ? ` (its mode was ${prevMode})` : ''}`);
+  }
+
+  // Back to the battery: its mode from before, or (without a mode capability) setpoint 0.
+  async releaseControl(reason) {
+    const takeover = this.getStoreValue('controlTakeover');
+    if (!takeover) return;
+    await this.setStoreValue('controlTakeover', null);
+    this.lastSetpointW = null;
+    this.lastControlBlock = null;
+    this.controlState = {};
+    if (!this.sourceDevice || !this.sourceCapGroup) return;
+    try {
+      const caps = this.sourceDevice.capabilities || [];
+      if (caps.includes('target_power_mode') && takeover.prevMode) {
+        this.ownModeWriteTm = Date.now();
+        await this.writeSourceCap('target_power_mode', takeover.prevMode);
+      } else if (this.sourceCapGroup.setpoint) {
+        await this.writeSourceCap(this.sourceCapGroup.setpoint, 0);
+      }
+      this.log(`[Bat Control] Control back to ${this.sourceDevice.name} (${reason})`);
+    } catch (err) {
+      this.error(`[Bat Control] Giving control back failed (${reason}):`, err.message || err);
+    }
+  }
+
+  // The battery app switched its own mode: it takes over, this app stops controlling.
+  async onSourceModeChanged(value) {
+    if (!this.getStoreValue('controlTakeover') || value === 'homey') return;
+    if (this.ownModeWriteTm && Date.now() - this.ownModeWriteTm < OWN_WRITE_ECHO_MS) return;
+    await this.setStoreValue('controlTakeover', null); // keep the battery app's choice
+    await this.setBatteryMode('device', `battery app switched to ${value}`, 0, { sync: false });
+  }
+
+  async writeSourceCap(capabilityId, value) {
+    await this.sourceDevice.setCapabilityValue({ capabilityId, value });
+  }
+
+  async writeSetpoint(powerW, now) {
+    const cap = this.sourceCapGroup.setpoint;
+    let value = this.setpointInvert ? -powerW : powerW;
+    const obj = (this.sourceDevice.capabilitiesObj || {})[cap] || {};
+    if (typeof obj.min === 'number') value = Math.max(obj.min, value);
+    if (typeof obj.max === 'number') value = Math.min(obj.max, value);
+    // Also on failure: the next try comes with the keepalive, not every tick.
+    this.lastSetpointW = powerW;
+    this.lastSetpointTm = now;
+    try {
+      await this.writeSourceCap(cap, value);
+      if (this.controlWarning) {
+        this.controlWarning = false;
+        await this.unsetWarning().catch(this.error);
+      }
+    } catch (err) {
+      this.error(`[Bat Control] Setting ${cap} to ${value} W failed:`, err.message || err);
+      this.controlWarning = true;
+      await this.setWarning(this.homey.__('bat_control_failed', { error: err.message || String(err) })).catch(this.error);
+    }
+  }
+
+  // The SoC is far from the plan (forecast off, a large load): plan again.
+  checkSocDeviation(slot, now) {
+    if (!slot || !(slot.index > 0) || typeof this.soc !== 'number') return;
+    const planned = this.latestPlan.slots[slot.index - 1].soc;
+    if (typeof planned !== 'number' || Math.abs(this.soc - planned) <= SOC_REPLAN_PCT) return;
+    if (this.lastSocReplanTm && now - this.lastSocReplanTm < SOC_REPLAN_MS) return;
+    this.lastSocReplanTm = now;
+    this.log(`[Bat Control] SoC ${this.soc}% vs planned ${planned}%: plan again`);
+    this.replan('SoC').catch((err) => this.error(err));
+  }
+
+  async replan(reason) {
+    if (!this.getSettings().roiEnable || !this.pricesNextHours) return;
+    this.log(`[ROI Plan] Plan again (${reason})`);
+    await this.flows.triggerNewRoiStrategyFlow();
+    await this.updateChargeChart();
   }
 
   async poll() {
@@ -355,6 +619,7 @@ class BatDevice extends GenericDevice {
       homePowerUsage: settings.roiHomePowerUsage ?? 300,
       net: forecast ? forecast.net : null,
       peakWindowMin: forecast ? forecast.peakWindowMin : 15,
+      ...BatteryControl.planOptionsFor(this.getBatteryMode()),
     };
   }
 
@@ -453,9 +718,7 @@ class BatDevice extends GenericDevice {
     if (typeof livePower !== 'number') livePower = 0;
 
     const currentTimestamp = (reading && reading.meterTm) ? new Date(reading.meterTm).getTime() : Date.now();
-    const planSlotStart = TimeHelpers.startOfLocalBlock(currentTimestamp, this.planIntervalMin(), this.timeZone || this.homey.clock.getTimezone());
-    if (this.lastPlanSlotStart && planSlotStart !== this.lastPlanSlotStart) this.onPlanSlot(planSlotStart).catch((err) => this.error(err));
-    this.lastPlanSlotStart = planSlotStart;
+    this.checkPlanSlot(currentTimestamp);
     if (!Array.isArray(this.powerHistory)) this.powerHistory = [];
     const lastEntry = this.powerHistory[this.powerHistory.length - 1];
     if (!lastEntry || Math.abs(currentTimestamp - lastEntry.time) >= 60000) {
@@ -466,6 +729,14 @@ class BatDevice extends GenericDevice {
         this.lastPowerHistorySaveTm = currentTimestamp;
       }
     }
+  }
+
+  // From the driver's energy tick and each meter reading: a source that reports rarely must not
+  // delay the plan.
+  checkPlanSlot(now) {
+    const slotStart = TimeHelpers.startOfLocalBlock(now, this.planIntervalMin(), this.timeZone || this.homey.clock.getTimezone());
+    if (this.lastPlanSlotStart && slotStart !== this.lastPlanSlotStart) this.onPlanSlot(slotStart).catch((err) => this.error(err));
+    this.lastPlanSlotStart = slotStart;
   }
 
   // A new plan slot inside a price slot: plan again (a price-slot start gets new prices anyway,

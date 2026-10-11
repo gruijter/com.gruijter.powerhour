@@ -1,0 +1,205 @@
+{
+  "title": {
+    "en": "Set battery mode",
+    "nl": "Batterijmodus instellen",
+    "de": "Batteriemodus einstellen",
+    "fr": "Définir le mode batterie",
+    "it": "Imposta modalità batteria",
+    "sv": "Ställ in batteriläge",
+    "no": "Angi batterimodus",
+    "es": "Establecer modo de batería",
+    "da": "Indstil batteritilstand",
+    "pl": "Ustaw tryb baterii",
+    "ru": "Задать режим батареи",
+    "ar": "تعيين وضع البطارية",
+    "ko": "배터리 모드 설정"
+  },
+  "titleFormatted": {
+    "en": "Set battery mode to [[mode]] for [[duration]] minutes",
+    "nl": "Zet batterijmodus op [[mode]] voor [[duration]] minuten",
+    "de": "Batteriemodus auf [[mode]] für [[duration]] Minuten setzen",
+    "fr": "Mettre le mode batterie sur [[mode]] pendant [[duration]] minutes",
+    "it": "Imposta la modalità batteria su [[mode]] per [[duration]] minuti",
+    "sv": "Sätt batteriläget till [[mode]] i [[duration]] minuter",
+    "no": "Sett batterimodus til [[mode]] i [[duration]] minutter",
+    "es": "Poner el modo de batería en [[mode]] durante [[duration]] minutos",
+    "da": "Sæt batteritilstand til [[mode]] i [[duration]] minutter",
+    "pl": "Ustaw tryb baterii na [[mode]] na [[duration]] minut",
+    "ru": "Установить режим батареи [[mode]] на [[duration]] минут",
+    "ar": "اضبط وضع البطارية على [[mode]] لمدة [[duration]] دقيقة",
+    "ko": "배터리 모드를 [[duration]]분 동안 [[mode]](으)로 설정"
+  },
+  "hint": {
+    "en": "0 minutes: until changed. After the time, the previous mode returns.",
+    "nl": "0 minuten: tot het wordt gewijzigd. Daarna keert de vorige modus terug.",
+    "de": "0 Minuten: bis zur Änderung. Danach kehrt der vorige Modus zurück.",
+    "fr": "0 minute : jusqu'à modification. Ensuite, le mode précédent revient.",
+    "it": "0 minuti: fino a modifica. Poi torna la modalità precedente.",
+    "sv": "0 minuter: tills det ändras. Därefter återgår föregående läge.",
+    "no": "0 minutter: til det endres. Deretter kommer forrige modus tilbake.",
+    "es": "0 minutos: hasta que se cambie. Después vuelve el modo anterior.",
+    "da": "0 minutter: indtil det ændres. Derefter vender den forrige tilstand tilbage.",
+    "pl": "0 minut: do zmiany. Potem wraca poprzedni tryb.",
+    "ru": "0 минут: до изменения. Затем возвращается прежний режим.",
+    "ar": "0 دقيقة: حتى يتم التغيير. بعد ذلك يعود الوضع السابق.",
+    "ko": "0분: 변경될 때까지. 그 후 이전 모드로 돌아갑니다."
+  },
+  "args": [
+    {
+      "type": "device",
+      "name": "device",
+      "filter": "driver_id=battery&capabilities=battery_mode"
+    },
+    {
+      "type": "dropdown",
+      "name": "mode",
+      "title": {
+        "en": "Mode",
+        "nl": "Modus",
+        "de": "Modus",
+        "ko": "모드",
+        "fr": "Mode",
+        "es": "Modo",
+        "it": "Modalità",
+        "da": "Tilstand",
+        "sv": "Läge",
+        "no": "Modus",
+        "pl": "Tryb",
+        "ru": "Режим",
+        "ar": "الوضع"
+      },
+      "values": [
+        {
+          "id": "smart",
+          "label": {
+            "en": "Smart",
+            "nl": "Slim",
+            "de": "Intelligent",
+            "fr": "Intelligent",
+            "es": "Inteligente",
+            "it": "Intelligente",
+            "da": "Smart",
+            "sv": "Smart",
+            "no": "Smart",
+            "pl": "Inteligentnie",
+            "ru": "Умный",
+            "ar": "ذكي",
+            "ko": "스마트"
+          }
+        },
+        {
+          "id": "self_consumption",
+          "label": {
+            "en": "Self-consumption",
+            "nl": "Zelfverbruik",
+            "de": "Eigenverbrauch",
+            "fr": "Autoconsommation",
+            "it": "Autoconsumo",
+            "sv": "Egenanvändning",
+            "no": "Egenforbruk",
+            "es": "Autoconsumo",
+            "da": "Eget forbrug",
+            "pl": "Autokonsumpcja",
+            "ru": "Собственное потребление",
+            "ar": "الاستهلاك الذاتي",
+            "ko": "자가 소비"
+          }
+        },
+        {
+          "id": "hold",
+          "label": {
+            "en": "Hold charge",
+            "nl": "Vasthouden",
+            "de": "Ladung halten",
+            "fr": "Conserver la charge",
+            "it": "Mantieni carica",
+            "sv": "Behåll laddning",
+            "no": "Hold ladning",
+            "es": "Mantener carga",
+            "da": "Hold ladning",
+            "pl": "Utrzymaj ładunek",
+            "ru": "Сохранять заряд",
+            "ar": "الاحتفاظ بالشحن",
+            "ko": "충전 유지"
+          }
+        },
+        {
+          "id": "charge",
+          "label": {
+            "en": "Charge now",
+            "nl": "Nu laden",
+            "de": "Jetzt laden",
+            "fr": "Charger maintenant",
+            "es": "Cargar ahora",
+            "it": "Carica ora",
+            "da": "Lad nu",
+            "sv": "Ladda nu",
+            "no": "Lad nå",
+            "pl": "Ładuj teraz",
+            "ru": "Зарядить сейчас",
+            "ar": "اشحن الآن",
+            "ko": "지금 충전"
+          }
+        },
+        {
+          "id": "discharge",
+          "label": {
+            "en": "Discharge now",
+            "nl": "Nu ontladen",
+            "de": "Jetzt entladen",
+            "fr": "Décharger maintenant",
+            "it": "Scarica ora",
+            "sv": "Ladda ur nu",
+            "no": "Lad ut nå",
+            "es": "Descargar ahora",
+            "da": "Aflad nu",
+            "pl": "Rozładuj teraz",
+            "ru": "Разрядить сейчас",
+            "ar": "فرّغ الآن",
+            "ko": "지금 방전"
+          }
+        },
+        {
+          "id": "device",
+          "label": {
+            "en": "Battery decides",
+            "nl": "Batterij beslist",
+            "de": "Batterie entscheidet",
+            "fr": "La batterie décide",
+            "it": "Decide la batteria",
+            "sv": "Batteriet bestämmer",
+            "no": "Batteriet bestemmer",
+            "es": "La batería decide",
+            "da": "Batteriet bestemmer",
+            "pl": "Bateria decyduje",
+            "ru": "Решает батарея",
+            "ar": "البطارية تقرر",
+            "ko": "배터리가 결정"
+          }
+        }
+      ]
+    },
+    {
+      "type": "number",
+      "name": "duration",
+      "min": 0,
+      "max": 1440,
+      "step": 1,
+      "title": {
+        "en": "Minutes",
+        "nl": "Minuten",
+        "de": "Minuten",
+        "fr": "Minutes",
+        "it": "Minuti",
+        "sv": "Minuter",
+        "no": "Minutter",
+        "es": "Minutos",
+        "da": "Minutter",
+        "pl": "Minuty",
+        "ru": "Минуты",
+        "ar": "دقائق",
+        "ko": "분"
+      }
+    }
+  ]
+}

@@ -93,7 +93,10 @@
     "setup_role_production": "Meter opwek",
     "setup_no_dap": "Geen Day-Ahead prijzen device gevonden. Voor dynamische prijzen voeg je er eerst een toe. Gebruik anders het vaste tarief hieronder, of zet het via een flow.",
     "setup_no_dap_plan": "Geen Day-Ahead prijzen device gevonden. Het laadplan heeft er een nodig: voeg die eerst toe. Buiten de ondersteunde markten geef je de prijzen op via een flow (prijzen JSON).",
-    "setup_tariff_fixed": "Vaste prijs: alleen gebruikt als geen DAP of flow de prijs van de gekozen groep zet."
+    "setup_tariff_fixed": "Vaste prijs: alleen gebruikt als geen DAP of flow de prijs van de gekozen groep zet.",
+    "setup_role_setpoint": "Instelbaar vermogen",
+    "setup_role_setpointSign": "Teken instelbaar vermogen",
+    "setup_bat_external": "Om hem aan te sturen: zet de eigen app van de batterij op externe sturing."
   },
   "load_forecast_accuracy": "Gem. afwijking __mae__ W (__pct__%), bias __bias__ W, __days__ dagen",
   "load_forecast_accuracy_collecting": "Gegevens verzamelen",
@@ -111,5 +114,6 @@
   "ev_now": "nu",
   "error_peak_hours": "Teluren: gebruik bijv. 06-22.",
   "error_peak_months": "Telmaanden: gebruik bijv. 11-3 of 1,2,12.",
-  "error_peak_steps": "Prijstrappen: gebruik bijv. 2:190; 5:300."
+  "error_peak_steps": "Prijstrappen: gebruik bijv. 2:190; 5:300.",
+  "bat_control_failed": "Batterij aansturen mislukt: __error__"
 }

@@ -93,7 +93,10 @@
     "setup_role_production": "Erzeugungszähler",
     "setup_no_dap": "Kein Day-Ahead-Preisgerät gefunden. Für dynamische Preise zuerst eines hinzufügen. Sonst den festen Tarif unten nutzen oder per Flow setzen.",
     "setup_no_dap_plan": "Kein Day-Ahead-Preisgerät gefunden. Der Ladeplan braucht eines: zuerst hinzufügen. Außerhalb seiner Märkte die Preise per Flow liefern (Preise JSON).",
-    "setup_tariff_fixed": "Festpreis: nur verwendet, wenn kein DAP oder Flow den Preis der gewählten Gruppe setzt."
+    "setup_tariff_fixed": "Festpreis: nur verwendet, wenn kein DAP oder Flow den Preis der gewählten Gruppe setzt.",
+    "setup_role_setpoint": "Leistungs-Sollwert",
+    "setup_role_setpointSign": "Vorzeichen Sollwert",
+    "setup_bat_external": "Zum Steuern die eigene App der Batterie auf externe Steuerung stellen."
   },
   "load_forecast_accuracy": "Mittl. Fehler __mae__ W (__pct__%), Bias __bias__ W, __days__ Tage",
   "load_forecast_accuracy_collecting": "Daten werden gesammelt",
@@ -111,5 +114,6 @@
   "ev_now": "jetzt",
   "error_peak_hours": "Zählstunden: z. B. 06-22 verwenden.",
   "error_peak_months": "Zählmonate: z. B. 11-3 oder 1,2,12 verwenden.",
-  "error_peak_steps": "Preisstufen: z. B. 2:190; 5:300 verwenden."
+  "error_peak_steps": "Preisstufen: z. B. 2:190; 5:300 verwenden.",
+  "bat_control_failed": "Batteriesteuerung fehlgeschlagen: __error__"
 }
