@@ -593,30 +593,48 @@ class BatDevice extends GenericDevice {
       TimeHelpers.startOfLocalBlock(now, planMin, tz), planMin);
   }
 
-  // Input for RoiStrategy.getStrategy().
-  buildRoiOptions(minPriceDelta) {
+  // The batteries planned as one with this one (sorted by id, the first plans), or null: this app
+  // controls them in one mode.
+  planGroup() {
+    if (!this.getSettings().roiEnable || !this.isZeroControlled()) return null;
+    const group = this.driver.groupDevices().filter((d) => d.getSettings().roiEnable)
+      .sort((a, b) => (a.getData().id < b.getData().id ? -1 : 1));
+    return group.length > 1 && group.includes(this) ? group : null;
+  }
+
+  // A battery for RoiStrategy: its SoC, capacity, and charge/discharge speeds with efficiency.
+  roiBattery() {
     const settings = this.getSettings();
     const speeds = (list) => list
-      .map(([power, loss]) => ({ power: settings[power], eff: 1 - (settings[loss] / 100) }))
+      .map(([power, loss]) => ({ power: Number(settings[power]) || 0, eff: 1 - (settings[loss] / 100) }))
       .filter((speed) => speed.power);
+    return {
+      soc: this.soc,
+      batCapacity: settings.batCapacity,
+      chargeSpeeds: speeds([['chargePower', 'chargeLoss'], ['chargePowerEff', 'chargeLossEff'], ['chargePower3', 'chargeLoss3']]),
+      dischargeSpeeds: speeds([['dischargePower', 'dischargeLoss'], ['dischargePowerEff', 'dischargeLossEff'], ['dischargePower3', 'dischargeLoss3']]),
+    };
+  }
+
+  // Input for RoiStrategy: getStrategy() for this battery, or with a group getGroupStrategy() with
+  // each battery of the group as it is.
+  buildRoiOptions(minPriceDelta, group = null) {
+    const members = group || [this];
     const now = Date.now();
     const tz = this.timeZone || this.homey.clock.getTimezone();
     const planMin = this.planIntervalMin();
     const { prices, exportPrices } = this.pricesFromNow(now);
     const planPrices = this.toPlanSlots(prices, now);
-    const forecast = this.roiNetForecast(TimeHelpers.startOfLocalBlock(now, planMin, tz), planPrices.length, planMin);
+    const forecast = this.roiNetForecast(TimeHelpers.startOfLocalBlock(now, planMin, tz), planPrices.length, planMin, members);
     return {
       prices: [...planPrices],
       exportPrices: exportPrices ? [...this.toPlanSlots(exportPrices, now)] : null,
       minPriceDelta,
-      soc: this.soc,
+      ...(group ? { batteries: members.map((d) => d.roiBattery()) } : this.roiBattery()),
       // Local minute: slots follow local time (half-hour-offset zones differ from UTC).
       startMinute: TimeHelpers.toLocalDate(new Date(now), tz).getMinutes(),
-      batCapacity: settings.batCapacity,
-      chargeSpeeds: speeds([['chargePower', 'chargeLoss'], ['chargePowerEff', 'chargeLossEff'], ['chargePower3', 'chargeLoss3']]),
-      dischargeSpeeds: speeds([['dischargePower', 'dischargeLoss'], ['dischargePowerEff', 'dischargeLossEff'], ['dischargePower3', 'dischargeLoss3']]),
       priceInterval: planMin,
-      homePowerUsage: settings.roiHomePowerUsage ?? 300,
+      homePowerUsage: this.getSettings().roiHomePowerUsage ?? 300,
       net: forecast ? forecast.net : null,
       peakWindowMin: forecast ? forecast.peakWindowMin : 15,
       ...BatteryControl.planOptionsFor(this.getBatteryMode()),
@@ -625,8 +643,9 @@ class BatDevice extends GenericDevice {
 
   // The home's net per plan slot from the grid forecast, for the planner: without batteries, plus
   // the plans of the batteries before this one (device id), so they do not plan on the same
-  // surplus. Never the grid's netPlanned (it holds this battery's own plan). null without a grid.
-  roiNetForecast(startMs, n, planMin) {
+  // surplus. Never the grid's netPlanned (it holds this battery's own plan). members: the batteries
+  // planned as one (a group). null without a grid.
+  roiNetForecast(startMs, n, planMin, members = [this]) {
     let grid = null;
     try {
       grid = this.homey.drivers.getDriver('grid').getDevices().find((d) => typeof d.getNetForecast === 'function');
@@ -647,7 +666,7 @@ class BatDevice extends GenericDevice {
     if (!f || !Array.isArray(f.netNoBattery) || !f.netNoBattery.length) return null;
 
     const myId = this.getData().id;
-    const earlier = this.driver.getDevices().filter((d) => d !== this && d.getData().id < myId
+    const earlier = this.driver.getDevices().filter((d) => !members.includes(d) && d.getData().id < myId
       && d.getSettings().roiEnable && typeof d.getPlannedPowerSeries === 'function');
     const others = earlier.map((d) => {
       try {
@@ -656,14 +675,14 @@ class BatDevice extends GenericDevice {
         return null;
       }
     });
-    const settings = this.getSettings();
     // Surplus kept low by the measured forecast error: relying on solar that does not come costs
     // more than leaving some unused.
     const accuracy = typeof grid.getForecastAccuracy === 'function' ? grid.getForecastAccuracy() : null;
     const marginW = (accuracy && accuracy.maeW) || 0;
-    const minChargeW = Number(settings.minChargeW) || 0;
-    const minDischargeW = Number(settings.minDischargeW) || 0;
-    const toEv = settings.dischargeToEv !== false;
+    // A group: one battery can run alone (NomXomStrategy), so the lowest threshold counts.
+    const minChargeW = Math.min(...members.map((d) => Number(d.getSettings().minChargeW) || 0));
+    const minDischargeW = Math.min(...members.map((d) => Number(d.getSettings().minDischargeW) || 0));
+    const toEv = members.every((d) => d.getSettings().dischargeToEv !== false);
     const perSlot = Math.max(1, Math.round(planMin / 15));
     const mean = (vals) => vals.reduce((a, v) => a + v, 0) / vals.length;
     const net = [];
