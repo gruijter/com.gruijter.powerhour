@@ -121,6 +121,9 @@ class BatDevice extends GenericDevice {
       }
     });
     if ((this.sourceDevice.capabilities || []).includes('target_power_mode')) {
+      // Followed from the events: the source device object keeps the value of when it was fetched.
+      const obj = this.sourceDevice.capabilitiesObj && this.sourceDevice.capabilitiesObj.target_power_mode;
+      this.sourceModeValue = obj ? obj.value : null;
       this.capabilityInstances.sourceMode = this.sourceDevice.makeCapabilityInstance('target_power_mode', (value) => {
         this.onSourceModeChanged(value).catch((err) => this.error(err));
       });
@@ -283,8 +286,7 @@ class BatDevice extends GenericDevice {
     const caps = this.sourceDevice.capabilities || [];
     let prevMode = null;
     if (caps.includes('target_power_mode')) {
-      const obj = this.sourceDevice.capabilitiesObj && this.sourceDevice.capabilitiesObj.target_power_mode;
-      if (obj && obj.value && obj.value !== 'homey') prevMode = obj.value;
+      if (this.sourceModeValue && this.sourceModeValue !== 'homey') prevMode = this.sourceModeValue;
       this.ownModeWriteTm = Date.now();
       await this.writeSourceCap('target_power_mode', 'homey').catch((err) => this.error(err));
     }
@@ -317,6 +319,7 @@ class BatDevice extends GenericDevice {
 
   // The battery app switched its own mode: it takes over, this app stops controlling.
   async onSourceModeChanged(value) {
+    this.sourceModeValue = value;
     if (!this.getStoreValue('controlTakeover') || value === 'homey') return;
     if (this.ownModeWriteTm && Date.now() - this.ownModeWriteTm < OWN_WRITE_ECHO_MS) return;
     await this.setStoreValue('controlTakeover', null); // keep the battery app's choice
