@@ -16452,6 +16452,41 @@
               "value": true
             },
             {
+              "id": "fuseProtection",
+              "type": "checkbox",
+              "label": {
+                "en": "Protect the grid connection",
+                "nl": "Netaansluiting beschermen",
+                "de": "Netzanschluss schützen",
+                "fr": "Protéger le raccordement",
+                "it": "Proteggere l'allacciamento",
+                "sv": "Skydda nätanslutningen",
+                "no": "Beskytt nettilknytningen",
+                "es": "Proteger la conexión a la red",
+                "da": "Beskyt nettilslutningen",
+                "pl": "Chroń przyłącze sieciowe",
+                "ru": "Защищать подключение к сети",
+                "ar": "حماية توصيل الشبكة",
+                "ko": "계통 연결 보호"
+              },
+              "hint": {
+                "en": "Keeps the import below the main fuse (grid device, Grid connection) and the Max. import (W) (grid device, Capacity tariff), in every block. May use the reserve for it.",
+                "nl": "Houdt de afname onder de hoofdzekering (grid device, Netaansluiting) en de Max. afname (W) (grid device, Capaciteitstarief), in elk blok. Mag daarvoor de reserve gebruiken.",
+                "de": "Hält den Bezug in jedem Block unter der Hauptsicherung (Netz-Gerät, Netzanschluss) und dem Max. Bezug (W) (Netz-Gerät, Leistungstarif). Darf dafür die Reserve nutzen.",
+                "fr": "Maintient le prélèvement sous le fusible principal (appareil réseau, Raccordement au réseau) et le Prélèvement max. (W) (appareil réseau, Tarif capacitaire), dans chaque bloc. Peut utiliser la réserve pour cela.",
+                "it": "Mantiene il prelievo sotto il fusibile principale (dispositivo rete, Allacciamento alla rete) e il Prelievo max. (W) (dispositivo rete, Tariffa di potenza), in ogni blocco. Può usare la riserva per questo.",
+                "sv": "Håller uttaget under huvudsäkringen (nätenhet, Nätanslutning) och Max. uttag (W) (nätenhet, Effekttariff), i varje block. Får använda reserven för det.",
+                "no": "Holder uttaket under hovedsikringen (nett-enhet, Nettilknytning) og Maks. uttak (W) (nett-enhet, Effekttariff), i hver blokk. Kan bruke reserven til det.",
+                "es": "Mantiene el consumo por debajo del fusible principal (dispositivo de red, Conexión a la red) y del Consumo máx. (W) (dispositivo de red, Tarifa de potencia), en cada bloque. Puede usar la reserva para ello.",
+                "da": "Holder forbruget under hovedsikringen (net-enhed, Nettilslutning) og Maks. forbrug (W) (net-enhed, Effekttarif), i hver blok. Må bruge reserven til det.",
+                "pl": "Utrzymuje pobór poniżej bezpiecznika głównego (urządzenie sieci, Przyłącze sieciowe) i Maks. poboru (W) (urządzenie sieci, Taryfa mocowa) w każdym bloku. Może do tego użyć rezerwy.",
+                "ru": "Держит потребление ниже главного предохранителя (устройство сети, Подключение к сети) и Макс. потребления (Вт) (устройство сети, Тариф за мощность) в каждом блоке. Может использовать для этого резерв.",
+                "ar": "يُبقي السحب دون المصهر الرئيسي (جهاز الشبكة، توصيل الشبكة) والحد الأقصى للسحب (واط) (جهاز الشبكة، تعرفة القدرة) في كل كتلة. يمكنه استخدام الاحتياطي لذلك.",
+                "ko": "모든 블록에서 수전을 메인 퓨즈(전력망 기기, 계통 연결)와 최대 수전 (W)(전력망 기기, 용량 요금제) 아래로 유지합니다. 이를 위해 예비량을 사용할 수 있습니다."
+              },
+              "value": true
+            },
+            {
               "id": "peakShaving",
               "type": "checkbox",
               "label": {
@@ -16470,19 +16505,19 @@
                 "ko": "피크 저감"
               },
               "hint": {
-                "en": "Keeps the import below the capacity tariff level, in every block. Set the capacity tariff and maximum import on the grid device. The maximum import always applies. It may use the reserve (advice: 10 %).",
-                "nl": "Houdt de import onder het niveau van het capaciteitstarief, in elk blok. Stel het capaciteitstarief en de maximale import in op het grid device. De maximale import geldt altijd. Mag de reserve gebruiken (advies: 10 %).",
-                "de": "Hält den Bezug in jedem Block unter der Stufe des Leistungstarifs. Leistungstarif und maximalen Bezug am Netz-Gerät einstellen. Der maximale Bezug gilt immer. Darf die Reserve nutzen (Empfehlung: 10 %).",
-                "fr": "Maintient le prélèvement sous le niveau du tarif capacitaire, dans chaque bloc. Réglez le tarif capacitaire et le prélèvement maximal sur l'appareil réseau. Le prélèvement maximal s'applique toujours. Peut utiliser la réserve (conseil : 10 %).",
-                "it": "Mantiene il prelievo sotto il livello della tariffa di potenza, in ogni blocco. Imposta la tariffa di potenza e il prelievo massimo sul dispositivo rete. Il prelievo massimo vale sempre. Può usare la riserva (consiglio: 10 %).",
-                "sv": "Håller importen under effekttariffens nivå, i varje block. Ställ in effekttariff och maximal import på nätenheten. Maximal import gäller alltid. Får använda reserven (råd: 10 %).",
-                "no": "Holder importen under nivået for effekttariffen, i hver blokk. Still inn effekttariff og maksimal import på nett-enheten. Maksimal import gjelder alltid. Kan bruke reserven (råd: 10 %).",
-                "es": "Mantiene la importación por debajo del nivel de la tarifa de potencia, en cada bloque. Configura la tarifa de potencia y la importación máxima en el dispositivo de red. La importación máxima se aplica siempre. Puede usar la reserva (consejo: 10 %).",
-                "da": "Holder importen under effekttariffens niveau, i hver blok. Indstil effekttarif og maksimal import på net-enheden. Maksimal import gælder altid. Må bruge reserven (råd: 10 %).",
-                "pl": "Utrzymuje pobór poniżej poziomu taryfy mocowej w każdym bloku. Ustaw taryfę mocową i maksymalny pobór w urządzeniu sieci. Maksymalny pobór obowiązuje zawsze. Może używać rezerwy (zalecane: 10 %).",
-                "ru": "Держит импорт ниже уровня тарифа на мощность в каждом блоке. Тариф на мощность и максимальный импорт задаются в устройстве сети. Максимальный импорт действует всегда. Может использовать резерв (совет: 10 %).",
-                "ar": "يُبقي الاستيراد دون مستوى تعرفة القدرة في كل كتلة. اضبط تعرفة القدرة والحد الأقصى للاستيراد في جهاز الشبكة. الحد الأقصى للاستيراد ساري دائمًا. يمكنه استخدام الاحتياطي (نصيحة: 10 %).",
-                "ko": "모든 블록에서 수전을 용량 요금 수준 아래로 유지합니다. 용량 요금과 최대 수전은 전력망 기기에서 설정하세요. 최대 수전은 항상 적용됩니다. 예비량을 사용할 수 있습니다 (권장: 10 %)."
+                "en": "Keeps the import below the capacity tariff level, in every block. Set the capacity tariff on the grid device. May use the reserve (advice: 10 %).",
+                "nl": "Houdt de afname onder het niveau van het capaciteitstarief, in elk blok. Stel het capaciteitstarief in op het grid device. Mag de reserve gebruiken (advies: 10 %).",
+                "de": "Hält den Bezug in jedem Block unter der Stufe des Leistungstarifs. Leistungstarif am Netz-Gerät einstellen. Darf die Reserve nutzen (Empfehlung: 10 %).",
+                "fr": "Maintient le prélèvement sous le niveau du tarif capacitaire, dans chaque bloc. Réglez le tarif capacitaire sur l'appareil réseau. Peut utiliser la réserve (conseil : 10 %).",
+                "it": "Mantiene il prelievo sotto il livello della tariffa di potenza, in ogni blocco. Imposta la tariffa di potenza sul dispositivo rete. Può usare la riserva (consiglio: 10 %).",
+                "sv": "Håller uttaget under effekttariffens nivå, i varje block. Ställ in effekttariffen på nätenheten. Får använda reserven (råd: 10 %).",
+                "no": "Holder uttaket under nivået for effekttariffen, i hver blokk. Still inn effekttariffen på nett-enheten. Kan bruke reserven (råd: 10 %).",
+                "es": "Mantiene el consumo por debajo del nivel de la tarifa de potencia, en cada bloque. Configura la tarifa de potencia en el dispositivo de red. Puede usar la reserva (consejo: 10 %).",
+                "da": "Holder forbruget under effekttariffens niveau, i hver blok. Indstil effekttariffen på net-enheden. Må bruge reserven (råd: 10 %).",
+                "pl": "Utrzymuje pobór poniżej poziomu taryfy mocowej w każdym bloku. Ustaw taryfę mocową w urządzeniu sieci. Może używać rezerwy (zalecane: 10 %).",
+                "ru": "Держит потребление ниже уровня тарифа за мощность в каждом блоке. Тариф за мощность задаётся в устройстве сети. Может использовать резерв (совет: 10 %).",
+                "ar": "يُبقي السحب دون مستوى تعرفة القدرة في كل كتلة. اضبط تعرفة القدرة في جهاز الشبكة. يمكنه استخدام الاحتياطي (نصيحة: 10 %).",
+                "ko": "모든 블록에서 수전을 용량 요금 수준 아래로 유지합니다. 용량 요금은 전력망 기기에서 설정하세요. 예비량을 사용할 수 있습니다 (권장: 10 %)."
               },
               "value": false
             },
@@ -16505,19 +16540,19 @@
                 "ko": "예비량 (%)"
               },
               "hint": {
-                "en": "Charge the battery always keeps; below it, it recharges as soon as possible. Only peak shaving may use it. Advice with peak shaving: 10 %.",
-                "nl": "Lading die de batterij altijd bewaart; daaronder laadt hij zo snel mogelijk bij. Alleen peak shaving mag hem gebruiken. Advies met peak shaving: 10 %.",
-                "de": "Ladung, die die Batterie immer behält; darunter lädt sie so schnell wie möglich nach. Nur die Lastspitzenkappung darf sie nutzen. Empfehlung mit Lastspitzenkappung: 10 %.",
-                "fr": "Charge que la batterie garde toujours ; en dessous, elle se recharge au plus vite. Seul l'écrêtage peut l'utiliser. Conseil avec écrêtage : 10 %.",
-                "it": "Carica che la batteria mantiene sempre; sotto di essa si ricarica il prima possibile. Solo la riduzione dei picchi può usarla. Consiglio con riduzione dei picchi: 10 %.",
-                "sv": "Laddning som batteriet alltid behåller; under den laddas det så snart som möjligt. Bara effekttoppskapning får använda den. Råd med effekttoppskapning: 10 %.",
-                "no": "Lading batteriet alltid beholder; under den lades det så snart som mulig. Bare effekttoppkutt kan bruke den. Råd med effekttoppkutt: 10 %.",
-                "es": "Carga que la batería siempre conserva; por debajo, se recarga lo antes posible. Solo el recorte de picos puede usarla. Consejo con recorte de picos: 10 %.",
-                "da": "Ladning batteriet altid beholder; under den genoplades det hurtigst muligt. Kun spidsudjævning må bruge den. Råd med spidsudjævning: 10 %.",
-                "pl": "Ładunek, który bateria zawsze zachowuje; poniżej doładowuje się jak najszybciej. Tylko ścinanie szczytów może go użyć. Zalecane przy ścinaniu szczytów: 10 %.",
-                "ru": "Заряд, который батарея всегда сохраняет; ниже него она подзаряжается как можно скорее. Использовать его может только срезание пиков. Совет при срезании пиков: 10 %.",
-                "ar": "شحن تحتفظ به البطارية دائمًا؛ دونه تُعاد شحنها في أسرع وقت. لا يستخدمه إلا خفض الذروة. النصيحة مع خفض الذروة: 10 %.",
-                "ko": "배터리가 항상 유지하는 충전량이며, 그 이하에서는 가능한 한 빨리 재충전합니다. 피크 저감만 이를 사용할 수 있습니다. 피크 저감 시 권장: 10 %."
+                "en": "Charge the battery always keeps; below it, it recharges as soon as possible. Only peak shaving and protecting the grid connection may use it. Advice with peak shaving: 10 %.",
+                "nl": "Lading die de batterij altijd bewaart; daaronder laadt hij zo snel mogelijk bij. Alleen peak shaving en het beschermen van de netaansluiting mogen hem gebruiken. Advies met peak shaving: 10 %.",
+                "de": "Ladung, die die Batterie immer behält; darunter lädt sie so schnell wie möglich nach. Nur die Lastspitzenkappung und der Schutz des Netzanschlusses dürfen sie nutzen. Empfehlung mit Lastspitzenkappung: 10 %.",
+                "fr": "Charge que la batterie garde toujours ; en dessous, elle se recharge au plus vite. Seuls l'écrêtage et la protection du raccordement peuvent l'utiliser. Conseil avec écrêtage : 10 %.",
+                "it": "Carica che la batteria mantiene sempre; sotto di essa si ricarica il prima possibile. Solo la riduzione dei picchi e la protezione dell'allacciamento possono usarla. Consiglio con riduzione dei picchi: 10 %.",
+                "sv": "Laddning som batteriet alltid behåller; under den laddas det så snart som möjligt. Bara effekttoppskapning och skydd av nätanslutningen får använda den. Råd med effekttoppskapning: 10 %.",
+                "no": "Lading batteriet alltid beholder; under den lades det så snart som mulig. Bare effekttoppkutt og beskyttelse av nettilknytningen kan bruke den. Råd med effekttoppkutt: 10 %.",
+                "es": "Carga que la batería siempre conserva; por debajo, se recarga lo antes posible. Solo el recorte de picos y la protección de la conexión pueden usarla. Consejo con recorte de picos: 10 %.",
+                "da": "Ladning batteriet altid beholder; under den genoplades det hurtigst muligt. Kun spidsudjævning og beskyttelse af nettilslutningen må bruge den. Råd med spidsudjævning: 10 %.",
+                "pl": "Ładunek, który bateria zawsze zachowuje; poniżej doładowuje się jak najszybciej. Tylko ścinanie szczytów i ochrona przyłącza mogą go użyć. Zalecane przy ścinaniu szczytów: 10 %.",
+                "ru": "Заряд, который батарея всегда сохраняет; ниже него она подзаряжается как можно скорее. Использовать его могут только срезание пиков и защита подключения к сети. Совет при срезании пиков: 10 %.",
+                "ar": "شحن تحتفظ به البطارية دائمًا؛ دونه تُعاد شحنها في أسرع وقت. لا يستخدمه إلا خفض الذروة وحماية توصيل الشبكة. النصيحة مع خفض الذروة: 10 %.",
+                "ko": "배터리가 항상 유지하는 충전량이며, 그 이하에서는 가능한 한 빨리 재충전합니다. 피크 저감과 계통 연결 보호만 이를 사용할 수 있습니다. 피크 저감 시 권장: 10 %."
               },
               "min": 0,
               "max": 90,

@@ -254,7 +254,10 @@ class BatDevice extends GenericDevice {
         this.zeroAvgW = BatteryControl.average(this.zeroAvgW, nom.needW, now - (this.zeroAvgTm || now));
         this.zeroAvgTm = now;
       }
-      const headroomW = this.gridImportHeadroomW(settings.peakShaving === true);
+      const shave = settings.peakShaving === true;
+      const protect = settings.fuseProtection !== false;
+      const headroomW = this.gridImportHeadroomW({ tariff: shave, hard: protect });
+      const hardHeadroomW = protect ? this.gridImportHeadroomW({ tariff: false, hard: true }) : null;
       const r = BatteryControl.decide({
         mode: prep.mode,
         slot: prep.slot,
@@ -272,7 +275,8 @@ class BatDevice extends GenericDevice {
         minDischargeW: Number(settings.minDischargeW) || 0,
         maxW: headroomW === null ? null : batteryW + (headroomW * share),
         minSocPct: this.reservePct(),
-        reserveForPeak: settings.peakShaving === true,
+        reserveForPeak: shave,
+        hardMaxW: hardHeadroomW === null ? null : batteryW + (hardHeadroomW * share),
         state: this.controlState,
       });
       this.controlState = r.state;
@@ -294,11 +298,12 @@ class BatDevice extends GenericDevice {
     }
   }
 
-  // tariff: also the capacity tariff (setting peakShaving); the maximum import always.
-  gridImportHeadroomW(tariff = true) {
+  // tariff: the capacity tariff (setting peakShaving); hard: the main fuse and contracted power
+  // (setting fuseProtection).
+  gridImportHeadroomW({ tariff = true, hard = true } = {}) {
     try {
       const grid = this.homey.drivers.getDriver('grid').getDevices().find((d) => typeof d.getImportHeadroomW === 'function');
-      return grid ? grid.getImportHeadroomW({ tariff }) : null;
+      return grid ? grid.getImportHeadroomW({ tariff, hard }) : null;
     } catch {
       return null;
     }
@@ -730,6 +735,8 @@ class BatDevice extends GenericDevice {
     const minDischargeW = Math.min(...members.map((d) => Number(d.getSettings().minDischargeW) || 0));
     const toEv = members.every((d) => d.getSettings().dischargeToEv !== false);
     const shave = members.every((d) => d.getSettings().peakShaving === true);
+    // Protection when one battery of the group protects: the limit is shared.
+    const protect = members.some((d) => d.getSettings().fuseProtection !== false);
     const perSlot = Math.max(1, Math.round(planMin / 15));
     const mean = (vals) => vals.reduce((a, v) => a + v, 0) / vals.length;
     const net = [];
@@ -750,12 +757,12 @@ class BatDevice extends GenericDevice {
         penaltyPerKw: null,
       };
       // Capacity tariff limit (when one is set and the batteries shave peaks) and the hard limit
-      // (contract or main fuse).
+      // (contract or main fuse, when the connection is protected).
       const peakSlots = peak && Array.isArray(peak.slots) ? qs.map((q) => peak.slots[q]).filter(Boolean) : [];
       const tariffLimits = peak && peak.active && shave
         ? peakSlots.map((p) => p.limitW).filter((v) => typeof v === 'number' && Number.isFinite(v)) : [];
       const tariffW = tariffLimits.length ? Math.min(...tariffLimits) : Infinity;
-      const hardW = peak && peak.hardLimitW > 0 ? peak.hardLimitW : Infinity;
+      const hardW = protect && peak && peak.hardLimitW > 0 ? peak.hardLimitW : Infinity;
       if (Math.min(tariffW, hardW) < Infinity) {
         slot.limitW = Math.round(Math.min(tariffW, hardW));
         const first = peakSlots[0] || {};

@@ -943,14 +943,14 @@ class GridDevice extends GenericDevice {
   }
 
   // Extra import (W) possible now for a battery controller: the capacity-tariff headroom of the
-  // running window (only with a tariff to shave for, and tariff true) and the hard limit (contract
-  // or main fuse). null: no limit.
-  getImportHeadroomW({ tariff = true } = {}) {
+  // running window (tariff, only with a tariff to shave for) and the hard limit (hard: contract or
+  // main fuse). null: no limit.
+  getImportHeadroomW({ tariff = true, hard = true } = {}) {
     const importW = Math.max(0, this.getCapabilityValue('measure_watt_grid') || 0);
     const limits = [];
     const p = this.peakProjection;
-    if (tariff && PeakTariff.isActive(this.peakConfig) && p && typeof p.headroomW === 'number') limits.push(p.headroomW);
-    const hardW = this.getHardLimitW();
+    if (tariff && PeakTariff.isActive(this.peakConfig) && p && typeof p.tariffHeadroomW === 'number') limits.push(p.tariffHeadroomW);
+    const hardW = hard ? this.getHardLimitW() : 0;
     if (hardW > 0) limits.push(hardW - importW);
     return limits.length ? Math.round(Math.min(...limits)) : null;
   }
@@ -1038,13 +1038,14 @@ class GridDevice extends GenericDevice {
       const remainingForHeadroomH = Math.max(remainingH, 1 / 60);
       headroomW = Math.round(((monthPeakW * slotH) - energyWh) / remainingForHeadroomH - importW);
     }
+    const tariffHeadroomW = headroomW;
     if (this.peakConfig.hardLimitW > 0) {
       const hardHeadroomW = Math.round(this.getHardLimitW() - importW);
       headroomW = headroomW === null ? hardHeadroomW : Math.min(headroomW, hardHeadroomW);
     }
     const newSlot = !this.peakProjection || this.peakProjection.slotStart !== this.peakLoad.slotStart;
     this.peakProjection = {
-      slotStart: this.peakLoad.slotStart, projectedW, monthPeakW, headroomW,
+      slotStart: this.peakLoad.slotStart, projectedW, monthPeakW, headroomW, tariffHeadroomW,
     };
     // At most one write per 10 s (fast P1 meters).
     if (newSlot || !this.peakProjectionWriteTm || Math.abs(nowMs - this.peakProjectionWriteTm) >= 10000) {
