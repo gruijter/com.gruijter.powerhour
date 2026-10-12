@@ -224,7 +224,7 @@ class BatteryDriver extends GenericDriver {
     }
     const active = [...preps.keys()];
     if (!active.length) return;
-    const isNom = (d) => ['zero', 'hold'].includes(preps.get(d).block);
+    const isNom = (d) => ['zero', 'hold'].includes(preps.get(d).block) && !preps.get(d).refill;
     const forcedW = active.filter((d) => !isNom(d)).reduce((a, d) => a + d.controlPowerW(), 0);
     const nomGridW = gridW - forcedW;
     const candidates = active.filter(isNom);
@@ -238,6 +238,7 @@ class BatteryDriver extends GenericDriver {
       getSettings: () => d.getSettings(),
       getCapabilityValue: (cap) => d.getCapabilityValue(cap),
       soc: d.soc,
+      reservePct: () => d.reservePct(),
       xomTargetPower: d.controlPowerW(),
     }));
     // eslint-disable-next-line global-require

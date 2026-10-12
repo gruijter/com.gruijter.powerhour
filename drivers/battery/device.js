@@ -235,7 +235,11 @@ class BatDevice extends GenericDevice {
     }
     const mode = this.getBatteryMode();
     const slot = BatteryControl.slotAt(this.latestPlan, now);
-    return { mode, slot, block: BatteryControl.blockFor(mode, slot).block };
+    // Below the reserve it recharges (BatteryControl): no zero on the meter then.
+    const refill = typeof this.soc === 'number' && this.soc < this.reservePct();
+    return {
+      mode, slot, block: BatteryControl.blockFor(mode, slot).block, refill,
+    };
   }
 
   // Driver tick, step 2. nom: { targetW, needW } from NomXomStrategy in a zero/hold block.
@@ -250,7 +254,7 @@ class BatDevice extends GenericDevice {
         this.zeroAvgW = BatteryControl.average(this.zeroAvgW, nom.needW, now - (this.zeroAvgTm || now));
         this.zeroAvgTm = now;
       }
-      const headroomW = this.gridImportHeadroomW();
+      const headroomW = this.gridImportHeadroomW(settings.peakShaving === true);
       const r = BatteryControl.decide({
         mode: prep.mode,
         slot: prep.slot,
@@ -267,10 +271,16 @@ class BatDevice extends GenericDevice {
         minChargeW: Number(settings.minChargeW) || 0,
         minDischargeW: Number(settings.minDischargeW) || 0,
         maxW: headroomW === null ? null : batteryW + (headroomW * share),
+        minSocPct: this.reservePct(),
+        reserveForPeak: settings.peakShaving === true,
         state: this.controlState,
       });
       this.controlState = r.state;
       if (!this.getStoreValue('controlTakeover')) await this.takeControl();
+      if (!!prep.refill !== !!this.lastRefill) {
+        this.lastRefill = !!prep.refill;
+        this.log(`[Bat Control] ${prep.refill ? `SoC ${this.soc}% below the reserve: recharging` : 'reserve filled'}`);
+      }
       if (r.block !== this.lastControlBlock) {
         this.log(`[Bat Control] ${prep.mode}: block ${r.block}, ${r.powerW} W`);
         this.lastControlBlock = r.block;
@@ -284,10 +294,11 @@ class BatDevice extends GenericDevice {
     }
   }
 
-  gridImportHeadroomW() {
+  // tariff: also the capacity tariff (setting peakShaving); the maximum import always.
+  gridImportHeadroomW(tariff = true) {
     try {
       const grid = this.homey.drivers.getDriver('grid').getDevices().find((d) => typeof d.getImportHeadroomW === 'function');
-      return grid ? grid.getImportHeadroomW() : null;
+      return grid ? grid.getImportHeadroomW({ tariff }) : null;
     } catch {
       return null;
     }
@@ -375,7 +386,8 @@ class BatDevice extends GenericDevice {
     const { intervalMs } = this.latestPlan;
     const part = Math.min(1, Math.max(0, (now - (slot.endMs - intervalMs)) / intervalMs));
     const planned = Math.round(from + ((slot.soc - from) * part));
-    if (Math.abs(this.soc - planned) <= SOC_REPLAN_PCT) return;
+    // Below the reserve the plan starts at the reserve (roiBattery()).
+    if (Math.abs(Math.max(this.soc, this.reservePct()) - planned) <= SOC_REPLAN_PCT) return;
     if (this.lastSocReplanTm && now - this.lastSocReplanTm < SOC_REPLAN_MS) return;
     this.lastSocReplanTm = now;
     this.log(`[Bat Control] SoC ${this.soc}% vs planned ${planned}%: plan again`);
@@ -622,15 +634,29 @@ class BatDevice extends GenericDevice {
     return group.length > 1 && group.includes(this) ? group : null;
   }
 
+  // The reserve (%): kept always, recharged as soon as possible; only peak shaving may use it.
+  reservePct() {
+    return Math.min(90, Math.max(0, Number(this.getSettings().peakReservePct) || 0));
+  }
+
+  // A plan SoC (%) back to the battery's: the planner only sees the part above the reserve.
+  planSocToReal(socPct) {
+    const r = this.reservePct();
+    return r ? Math.round(r + ((socPct * (100 - r)) / 100)) : socPct;
+  }
+
   // A battery for RoiStrategy: its SoC, capacity, and charge/discharge speeds with efficiency.
   roiBattery() {
     const settings = this.getSettings();
     const speeds = (list) => list
       .map(([power, loss]) => ({ power: Number(settings[power]) || 0, eff: 1 - (settings[loss] / 100) }))
       .filter((speed) => speed.power);
+    // The planner works above the reserve: that part of the capacity, the SoC within it.
+    const r = this.reservePct();
+    const soc = Number(this.soc) || 0;
     return {
-      soc: this.soc,
-      batCapacity: settings.batCapacity,
+      soc: r ? (Math.max(0, soc - r) * 100) / (100 - r) : this.soc,
+      batCapacity: settings.batCapacity * (1 - (r / 100)),
       chargeSpeeds: speeds([['chargePower', 'chargeLoss'], ['chargePowerEff', 'chargeLossEff'], ['chargePower3', 'chargeLoss3']]),
       dischargeSpeeds: speeds([['dischargePower', 'dischargeLoss'], ['dischargePowerEff', 'dischargeLossEff'], ['dischargePower3', 'dischargeLoss3']]),
     };
@@ -703,6 +729,7 @@ class BatDevice extends GenericDevice {
     const minChargeW = Math.min(...members.map((d) => Number(d.getSettings().minChargeW) || 0));
     const minDischargeW = Math.min(...members.map((d) => Number(d.getSettings().minDischargeW) || 0));
     const toEv = members.every((d) => d.getSettings().dischargeToEv !== false);
+    const shave = members.every((d) => d.getSettings().peakShaving === true);
     const perSlot = Math.max(1, Math.round(planMin / 15));
     const mean = (vals) => vals.reduce((a, v) => a + v, 0) / vals.length;
     const net = [];
@@ -722,9 +749,10 @@ class BatDevice extends GenericDevice {
         limitW: null,
         penaltyPerKw: null,
       };
-      // Capacity tariff limit (only when one is set) and the hard limit (contract or main fuse).
+      // Capacity tariff limit (when one is set and the batteries shave peaks) and the hard limit
+      // (contract or main fuse).
       const peakSlots = peak && Array.isArray(peak.slots) ? qs.map((q) => peak.slots[q]).filter(Boolean) : [];
-      const tariffLimits = peak && peak.active
+      const tariffLimits = peak && peak.active && shave
         ? peakSlots.map((p) => p.limitW).filter((v) => typeof v === 'number' && Number.isFinite(v)) : [];
       const tariffW = tariffLimits.length ? Math.min(...tariffLimits) : Infinity;
       const hardW = peak && peak.hardLimitW > 0 ? peak.hardLimitW : Infinity;
