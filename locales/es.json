@@ -122,11 +122,8 @@
     "home": "Descarga a casa",
     "export": "Descarga a red",
     "hold": "Mantener",
-    "idle": "Nada",
     "charge": "Carga",
-    "discharge": "Descarga",
-    "power": "kW",
-    "soc": "SoC"
+    "discharge": "Descarga"
   },
   "chart_eff": {
     "title": "Rendimiento",

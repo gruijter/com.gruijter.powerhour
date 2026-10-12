@@ -122,11 +122,8 @@
     "home": "Rozładowanie do domu",
     "export": "Rozładowanie do sieci",
     "hold": "Trzymaj",
-    "idle": "Nic",
     "charge": "Ładowanie",
-    "discharge": "Rozładowanie",
-    "power": "kW",
-    "soc": "SoC"
+    "discharge": "Rozładowanie"
   },
   "chart_eff": {
     "title": "Sprawność",

@@ -122,11 +122,8 @@
     "home": "Entladen ins Haus",
     "export": "Entladen ins Netz",
     "hold": "Halten",
-    "idle": "Nichts",
     "charge": "Laden",
-    "discharge": "Entladen",
-    "power": "kW",
-    "soc": "SoC"
+    "discharge": "Entladen"
   },
   "chart_eff": {
     "title": "Wirkungsgrad",

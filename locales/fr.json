@@ -122,11 +122,8 @@
     "home": "Décharge maison",
     "export": "Décharge réseau",
     "hold": "Maintien",
-    "idle": "Rien",
     "charge": "Charge",
-    "discharge": "Décharge",
-    "power": "kW",
-    "soc": "SoC"
+    "discharge": "Décharge"
   },
   "chart_eff": {
     "title": "Rendement",

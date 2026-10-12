@@ -52,7 +52,7 @@ class BatDevice extends GenericDevice {
     this.powerHistory = await this.loadStoredHistory('powerHistory');
     this.socHistory = await this.loadStoredHistory('socHistory');
     this.tempMode = this.getStoreValue('batTempMode') || null;
-    this.efficiency = this.getStoreValue('batEfficiency') || null;
+    this.efficiency = this.getStoreValue('batteryEfficiency') || null;
     // A sample over a restart misses energy when the meters are integrated from power: start anew.
     if (this.efficiency) this.efficiency.win = null;
     // Homey keeps a warning over a restart: clear one from before at the next chance.
@@ -75,6 +75,7 @@ class BatDevice extends GenericDevice {
     const initStrategy = async () => {
       await setTimeoutPromise(10000 + (Math.random() * 60000), this);
       if (this.sessionId !== currentSessionId) return;
+      await this.bootstrapEfficiency().catch((err) => this.error(err));
       if (this.pricesNextHours) {
         await this.flows.triggerNewRoiStrategyFlow().catch((err) => this.error(err));
         await this.updateChargeChart().catch((err) => this.error(err));
@@ -746,11 +747,15 @@ class BatDevice extends GenericDevice {
     await this.saveSocHistory();
   }
 
+  maxPowerW() {
+    const settings = this.getSettings();
+    return Math.max(Number(settings.chargePower) || 0, Number(settings.dischargePower) || 0) || null;
+  }
+
   // The learned efficiency chart, built only when the image is opened (ChartImages reads it then).
   get chartEfficiency() {
-    const settings = this.getSettings();
     return getEfficiencyChart(BatteryEfficiency.summary(this.efficiency), {
-      maxW: Math.max(Number(settings.chargePower) || 0, Number(settings.dischargePower) || 0) || 2500,
+      maxW: this.maxPowerW() || 2500,
       labels: {
         charge: this.homey.__('chart_legend.charge'),
         discharge: this.homey.__('chart_legend.discharge'),
@@ -761,15 +766,64 @@ class BatDevice extends GenericDevice {
     });
   }
 
+  // With nothing learned yet (at most once a day): the last 24 h of this device's own Insights
+  // (5-minute values, any battery), so the efficiency chart does not start empty. Live samples
+  // take over as old ones fade.
+  async bootstrapEfficiency() {
+    const learned = (state) => {
+      const sm = BatteryEfficiency.summary(state);
+      return sm.charge.length > 0 || sm.discharge.length > 0;
+    };
+    if (learned(this.efficiency)) return;
+    const lastTm = this.getStoreValue('batteryEfficiencyBootstrapTm');
+    if (lastTm && Date.now() - lastTm < 24 * 60 * 60 * 1000) return;
+    await this.setStoreValue('batteryEfficiencyBootstrapTm', Date.now()).catch(this.error);
+    const { api } = this.homey.app;
+    const logs = api ? await this.homey.app.getInsightsLogs().catch(() => null) : null;
+    if (!logs) return;
+    const list = Array.isArray(logs) ? logs : Object.values(logs);
+    const myId = this.getId();
+    const entries = async (cap) => {
+      const log = list.find((l) => (l.ownerUri || '').endsWith(myId) && (l.id || '').endsWith(`:${cap}`));
+      const data = log ? await api.insights.getLogEntries({ id: log.id, resolution: 'last24Hours' }).catch(() => null) : null;
+      return new Map(((data && data.values) || []).filter((e) => typeof e.v === 'number').map((e) => [e.t, e.v]));
+    };
+    const stored = await entries('meter_kwh_stored');
+    const charged = await entries('meter_kwh_charging');
+    const discharged = await entries('meter_kwh_discharging');
+    const capacityKwh = this.getSettings().batCapacity;
+    const maxW = this.maxPowerW();
+    let state = BatteryEfficiency.createState();
+    let samples = 0;
+    for (const [t, kwh] of stored) {
+      if (charged.has(t) && discharged.has(t)) {
+        const res = BatteryEfficiency.onSoc(state, {
+          // 5-minute means blur the SoC: samples of at least 3 %, and a quarter of a live sample's weight.
+          now: Date.parse(t), soc: (kwh / capacityKwh) * 100, inKwh: charged.get(t), outKwh: discharged.get(t), capacityKwh, maxW, minSocStep: 3, weight: 0.25,
+        });
+        ({ state } = res);
+        if (res.sample) samples += 1;
+      }
+    }
+    if (!samples || learned(this.efficiency)) return;
+    state.win = null;
+    state.lastSoc = null;
+    this.efficiency = state;
+    this.log(`[Bat Eff] from Insights (24 h), ${samples} samples: ${BatteryEfficiency.describe(state)}`);
+    await this.setStoreValue('batteryEfficiency', state).catch(this.error);
+  }
+
   // The efficiency per power level, learned from each SoC change and the AC meters.
   async learnEfficiency(soc) {
     const now = Date.now();
     const { state, sample, reason } = BatteryEfficiency.onSoc(this.efficiency, {
       now,
       soc: Number(soc),
-      inKwh: this.getCapabilityValue('meter_kwh_charging'),
-      outKwh: this.getCapabilityValue('meter_kwh_discharging'),
+      // The source's own meters when it has them: Homey keeps capability meters in 10 Wh steps.
+      inKwh: typeof this.lastMeterCharging === 'number' ? this.lastMeterCharging : this.getCapabilityValue('meter_kwh_charging'),
+      outKwh: typeof this.lastMeterDischarging === 'number' ? this.lastMeterDischarging : this.getCapabilityValue('meter_kwh_discharging'),
       capacityKwh: this.getSettings().batCapacity,
+      maxW: this.maxPowerW(),
     });
     this.efficiency = state;
     if (reason && reason !== 'input') this.log(`[Bat Eff] sample skipped: ${reason}`);
@@ -780,7 +834,7 @@ class BatDevice extends GenericDevice {
       this.lastEfficiencyLogTm = now;
       this.log(`[Bat Eff] ${BatteryEfficiency.describe(this.efficiency)}`);
     }
-    await this.setStoreValue('batEfficiency', this.efficiency).catch(this.error);
+    await this.setStoreValue('batteryEfficiency', this.efficiency).catch(this.error);
   }
 
   async handleUpdateMeter(reading) {

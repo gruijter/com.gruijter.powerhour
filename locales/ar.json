@@ -122,11 +122,8 @@
     "home": "تفريغ للمنزل",
     "export": "تفريغ للشبكة",
     "hold": "احتفاظ",
-    "idle": "لا شيء",
     "charge": "شحن",
-    "discharge": "تفريغ",
-    "power": "kW",
-    "soc": "نسبة الشحن"
+    "discharge": "تفريغ"
   },
   "chart_eff": {
     "title": "الكفاءة",

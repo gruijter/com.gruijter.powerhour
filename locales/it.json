@@ -122,11 +122,8 @@
     "home": "Scarica in casa",
     "export": "Scarica in rete",
     "hold": "Mantieni",
-    "idle": "Niente",
     "charge": "Carica",
-    "discharge": "Scarica",
-    "power": "kW",
-    "soc": "SoC"
+    "discharge": "Scarica"
   },
   "chart_eff": {
     "title": "Rendimento",

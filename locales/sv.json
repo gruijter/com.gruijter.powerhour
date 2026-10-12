@@ -122,11 +122,8 @@
     "home": "Ladda ur till hem",
     "export": "Ladda ur till nät",
     "hold": "Behåll",
-    "idle": "Inget",
     "charge": "Ladda",
-    "discharge": "Ladda ur",
-    "power": "kW",
-    "soc": "SoC"
+    "discharge": "Ladda ur"
   },
   "chart_eff": {
     "title": "Verkningsgrad",

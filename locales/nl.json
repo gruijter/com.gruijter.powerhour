@@ -122,11 +122,8 @@
     "home": "Ontladen naar huis",
     "export": "Ontladen naar net",
     "hold": "Vasthouden",
-    "idle": "Niets",
     "charge": "Laden",
-    "discharge": "Ontladen",
-    "power": "kW",
-    "soc": "SoC"
+    "discharge": "Ontladen"
   },
   "chart_eff": {
     "title": "Rendement",

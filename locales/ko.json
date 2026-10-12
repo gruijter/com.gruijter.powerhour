@@ -122,11 +122,8 @@
     "home": "가정으로 방전",
     "export": "전력망으로 방전",
     "hold": "유지",
-    "idle": "없음",
     "charge": "충전",
-    "discharge": "방전",
-    "power": "kW",
-    "soc": "충전량"
+    "discharge": "방전"
   },
   "chart_eff": {
     "title": "효율",

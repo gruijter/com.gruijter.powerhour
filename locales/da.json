@@ -122,11 +122,8 @@
     "home": "Aflad til hjem",
     "export": "Aflad til net",
     "hold": "Hold",
-    "idle": "Intet",
     "charge": "Oplad",
-    "discharge": "Aflad",
-    "power": "kW",
-    "soc": "SoC"
+    "discharge": "Aflad"
   },
   "chart_eff": {
     "title": "Virkningsgrad",

@@ -122,11 +122,8 @@
     "home": "Utlad til hjem",
     "export": "Utlad til nett",
     "hold": "Hold",
-    "idle": "Ingenting",
     "charge": "Lad",
-    "discharge": "Utlad",
-    "power": "kW",
-    "soc": "SoC"
+    "discharge": "Utlad"
   },
   "chart_eff": {
     "title": "Virkningsgrad",

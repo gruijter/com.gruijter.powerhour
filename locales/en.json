@@ -122,11 +122,8 @@
     "home": "Discharge to home",
     "export": "Discharge to grid",
     "hold": "Hold",
-    "idle": "Nothing",
     "charge": "Charge",
-    "discharge": "Discharge",
-    "power": "kW",
-    "soc": "SoC"
+    "discharge": "Discharge"
   },
   "chart_eff": {
     "title": "Efficiency",
