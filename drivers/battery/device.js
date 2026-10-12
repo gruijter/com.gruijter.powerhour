@@ -34,6 +34,7 @@ const OWN_WRITE_ECHO_MS = 60 * 1000;
 // 1 % steps most batteries report.
 const SOC_REPLAN_PCT = 3;
 const SOC_REPLAN_MS = 10 * 60 * 1000;
+const RELEASE_RETRY_MS = 60 * 1000;
 const EFFICIENCY_LOG_MS = 60 * 60 * 1000;
 
 // Plans in 15-minute slots, as the grid forecast and capacity tariffs; prices per price slot.
@@ -133,12 +134,15 @@ class BatDevice extends GenericDevice {
   }
 
   async onUninit() {
-    // Never leave the battery on a last setpoint while this app is not running.
+    // Never leave the battery on a last setpoint while this app is not running. isDestroyed first:
+    // a driver tick during the release must not take control again.
+    this.isDestroyed = true;
     await this.releaseControl('app stopped').catch((err) => this.error(err));
     return super.onUninit();
   }
 
   onDeleted() {
+    this.isDestroyed = true;
     this.releaseControl('device deleted').catch((err) => this.error(err));
     super.onDeleted();
   }
@@ -228,7 +232,7 @@ class BatDevice extends GenericDevice {
     else this.groupJoined = false;
     if (!this.isControlConfigured() || this.getBatteryMode() === 'device') {
       await this.clearControlWarning();
-      if (this.getStoreValue('controlTakeover')) {
+      if (this.getStoreValue('controlTakeover') && now - (this.releaseFailTm || 0) >= RELEASE_RETRY_MS) {
         await this.releaseControl(this.isControlConfigured() ? 'mode device' : 'control off');
       }
       return null;
@@ -236,7 +240,7 @@ class BatDevice extends GenericDevice {
     const mode = this.getBatteryMode();
     const slot = BatteryControl.slotAt(this.latestPlan, now);
     // Below the reserve it recharges (BatteryControl): no zero on the meter then.
-    const refill = typeof this.soc === 'number' && this.soc < this.reservePct();
+    const refill = typeof this.soc === 'number' && this.soc < this.reservePct() && BatteryControl.refillsReserve(mode);
     return {
       mode, slot, block: BatteryControl.blockFor(mode, slot).block, refill,
     };
@@ -245,57 +249,62 @@ class BatDevice extends GenericDevice {
   // Driver tick, step 2. nom: { targetW, needW } from NomXomStrategy in a zero/hold block.
   // share: this battery's part of the import headroom.
   async controlApply(prep, now, gridW, nom, share = 1) {
-    if (this.controlBusy) return;
-    this.controlBusy = true;
-    try {
-      const settings = this.getSettings();
-      const batteryW = this.controlPowerW();
-      if (nom) {
-        this.zeroAvgW = BatteryControl.average(this.zeroAvgW, nom.needW, now - (this.zeroAvgTm || now));
-        this.zeroAvgTm = now;
-      }
-      const shave = settings.peakShaving === true;
-      const protect = settings.fuseProtection !== false;
-      const headroomW = this.gridImportHeadroomW({ tariff: shave, hard: protect });
-      const hardHeadroomW = protect ? this.gridImportHeadroomW({ tariff: false, hard: true }) : null;
-      const r = BatteryControl.decide({
-        mode: prep.mode,
-        slot: prep.slot,
-        now,
-        gridW,
-        batteryW,
-        nomW: nom ? nom.targetW : null,
-        nomNeedW: nom ? nom.needW : null,
-        avgZeroW: nom ? this.zeroAvgW : undefined,
-        socPct: this.soc,
-        capacityKwh: settings.batCapacity,
-        maxChargeW: settings.chargePower,
-        maxDischargeW: settings.dischargePower,
-        minChargeW: Number(settings.minChargeW) || 0,
-        minDischargeW: Number(settings.minDischargeW) || 0,
-        maxW: headroomW === null ? null : batteryW + (headroomW * share),
-        minSocPct: this.reservePct(),
-        reserveForPeak: shave,
-        hardMaxW: hardHeadroomW === null ? null : batteryW + (hardHeadroomW * share),
-        state: this.controlState,
-      });
-      this.controlState = r.state;
-      if (!this.getStoreValue('controlTakeover')) await this.takeControl();
-      if (!!prep.refill !== !!this.lastRefill) {
-        this.lastRefill = !!prep.refill;
-        this.log(`[Bat Control] ${prep.refill ? `SoC ${this.soc}% below the reserve: recharging` : 'reserve filled'}`);
-      }
-      if (r.block !== this.lastControlBlock) {
-        this.log(`[Bat Control] ${prep.mode}: block ${r.block}, ${r.powerW} W`);
-        this.lastControlBlock = r.block;
-      }
-      if (BatteryControl.shouldWrite({
-        powerW: r.powerW, lastW: this.lastSetpointW, lastTm: this.lastSetpointTm, now,
-      })) await this.writeSetpoint(r.powerW, now);
-      this.checkSocDeviation(prep.slot, now);
-    } finally {
-      this.controlBusy = false;
+    if (this.controlRun) return;
+    // Kept so that releaseControl() can wait for a write in progress.
+    this.controlRun = this.applyControl(prep, now, gridW, nom, share).finally(() => {
+      this.controlRun = null;
+    });
+    await this.controlRun;
+  }
+
+  async applyControl(prep, now, gridW, nom, share) {
+    const settings = this.getSettings();
+    const batteryW = this.controlPowerW();
+    if (nom) {
+      this.zeroAvgW = BatteryControl.average(this.zeroAvgW, nom.needW, now - (this.zeroAvgTm || now));
+      this.zeroAvgTm = now;
     }
+    const shave = settings.peakShaving === true;
+    const protect = settings.fuseProtection !== false;
+    const headroomW = this.gridImportHeadroomW({ tariff: shave, hard: protect });
+    const hardHeadroomW = protect ? this.gridImportHeadroomW({ tariff: false, hard: true }) : null;
+    const r = BatteryControl.decide({
+      mode: prep.mode,
+      slot: prep.slot,
+      now,
+      gridW,
+      batteryW,
+      nomW: nom ? nom.targetW : null,
+      nomNeedW: nom ? nom.needW : null,
+      avgZeroW: nom ? this.zeroAvgW : undefined,
+      socPct: this.soc,
+      capacityKwh: settings.batCapacity,
+      maxChargeW: settings.chargePower,
+      maxDischargeW: settings.dischargePower,
+      minChargeW: Number(settings.minChargeW) || 0,
+      minDischargeW: Number(settings.minDischargeW) || 0,
+      maxW: headroomW === null ? null : batteryW + (headroomW * share),
+      minSocPct: this.reservePct(),
+      reserveForPeak: shave,
+      hardMaxW: hardHeadroomW === null ? null : batteryW + (hardHeadroomW * share),
+      state: this.controlState,
+    });
+    this.controlState = r.state;
+    if (this.isDestroyed) return;
+    if (!this.getStoreValue('controlTakeover')) await this.takeControl();
+    if (!!prep.refill !== !!this.lastRefill) {
+      this.lastRefill = !!prep.refill;
+      this.log(`[Bat Control] ${prep.refill ? `SoC ${this.soc}% below the reserve: recharging` : 'reserve filled'}`);
+    }
+    if (r.block !== this.lastControlBlock) {
+      this.log(`[Bat Control] ${prep.mode}: block ${r.block}, ${r.powerW} W`);
+      this.lastControlBlock = r.block;
+    }
+    if (this.isDestroyed) return;
+    if (BatteryControl.shouldWrite({
+      powerW: r.powerW, lastW: this.lastSetpointW, lastTm: this.lastSetpointTm, now,
+    })) await this.writeSetpoint(r.powerW, now);
+    this.checkSocDeviation(prep.slot, now);
   }
 
   // tariff: the capacity tariff (setting peakShaving); hard: the main fuse and contracted power
@@ -322,26 +331,33 @@ class BatDevice extends GenericDevice {
   }
 
   // Back to the battery: its mode from before, or (without a mode capability) setpoint 0.
+  // The takeover is cleared only once the battery has it back: a failed write is tried again
+  // (controlPrepare(), every RELEASE_RETRY_MS).
   async releaseControl(reason) {
+    if (this.controlRun) await this.controlRun.catch(() => {});
     const takeover = this.getStoreValue('controlTakeover');
     if (!takeover) return;
-    await this.setStoreValue('controlTakeover', null);
     this.lastSetpointW = null;
     this.lastControlBlock = null;
     this.controlState = {};
-    if (!this.sourceDevice || !this.sourceCapGroup) return;
-    try {
-      const caps = this.sourceDevice.capabilities || [];
-      if (caps.includes('target_power_mode') && takeover.prevMode) {
-        this.ownModeWriteTm = Date.now();
-        await this.writeSourceCap('target_power_mode', takeover.prevMode);
-      } else if (this.sourceCapGroup.setpoint) {
-        await this.writeSourceCap(this.sourceCapGroup.setpoint, 0);
+    if (this.sourceDevice && this.sourceCapGroup) {
+      try {
+        const caps = this.sourceDevice.capabilities || [];
+        if (caps.includes('target_power_mode') && takeover.prevMode) {
+          this.ownModeWriteTm = Date.now();
+          await this.writeSourceCap('target_power_mode', takeover.prevMode);
+        } else if (this.sourceCapGroup.setpoint) {
+          await this.writeSourceCap(this.sourceCapGroup.setpoint, 0);
+        }
+        this.log(`[Bat Control] Control back to ${this.sourceDevice.name} (${reason})`);
+      } catch (err) {
+        this.releaseFailTm = Date.now();
+        this.error(`[Bat Control] Giving control back failed (${reason}):`, err.message || err);
+        return;
       }
-      this.log(`[Bat Control] Control back to ${this.sourceDevice.name} (${reason})`);
-    } catch (err) {
-      this.error(`[Bat Control] Giving control back failed (${reason}):`, err.message || err);
     }
+    this.releaseFailTm = null;
+    await this.setStoreValue('controlTakeover', null);
   }
 
   // The battery app switched its own mode: it takes over, this app stops controlling.
@@ -384,15 +400,20 @@ class BatDevice extends GenericDevice {
 
   // The SoC is far from the plan (forecast off, a large load): plan again.
   checkSocDeviation(slot, now) {
-    if (!slot || !(slot.index > 0) || typeof this.soc !== 'number') return;
-    // The plan's SoC now: from the end of the previous slot toward the end of this one.
-    const from = this.latestPlan.slots[slot.index - 1].soc;
-    if (typeof from !== 'number' || typeof slot.soc !== 'number') return;
-    const { intervalMs } = this.latestPlan;
-    const part = Math.min(1, Math.max(0, (now - (slot.endMs - intervalMs)) / intervalMs));
+    if (!slot || !(slot.index >= 0) || typeof this.soc !== 'number') return;
+    // The plan's SoC now: from the end of the previous slot (the first slot: the SoC when planned)
+    // toward the end of this one. Below the reserve the plan starts at the reserve (roiBattery()).
+    const plan = this.latestPlan;
+    const reserve = this.reservePct();
+    const slotStartMs = slot.endMs - plan.intervalMs;
+    const first = slot.index === 0;
+    const fromMs = first ? Math.max(slotStartMs, plan.planTm || slotStartMs) : slotStartMs;
+    let from = plan.slots[slot.index - 1] ? plan.slots[slot.index - 1].soc : null;
+    if (first) from = typeof plan.startSoc === 'number' ? Math.max(plan.startSoc, reserve) : null;
+    if (typeof from !== 'number' || typeof slot.soc !== 'number' || !(slot.endMs > fromMs)) return;
+    const part = Math.min(1, Math.max(0, (now - fromMs) / (slot.endMs - fromMs)));
     const planned = Math.round(from + ((slot.soc - from) * part));
-    // Below the reserve the plan starts at the reserve (roiBattery()).
-    if (Math.abs(Math.max(this.soc, this.reservePct()) - planned) <= SOC_REPLAN_PCT) return;
+    if (Math.abs(Math.max(this.soc, reserve) - planned) <= SOC_REPLAN_PCT) return;
     if (this.lastSocReplanTm && now - this.lastSocReplanTm < SOC_REPLAN_MS) return;
     this.lastSocReplanTm = now;
     this.log(`[Bat Control] SoC ${this.soc}% vs planned ${planned}%: plan again`);

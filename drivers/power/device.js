@@ -393,10 +393,23 @@ class PowerDevice extends GenericDevice {
   // --- Plan: a run ready by a time, at the cheapest start (like the EV departure) ---
 
   // Price entry of the tariff group's DAP devices for ms (today, coming days, yesterday) or null.
+  // Memoized per minute and price list: the plan searches call it for the same times many times.
   priceEntryAt(ms) {
     const intervalMs = (this.priceInterval || 60) * 60 * 1000;
-    return this._findPriceEntryForSlot(this.dapPrices, ms, intervalMs)
+    const minute = Math.floor(Date.now() / 60000);
+    let memo = this.priceEntryMemo;
+    if (!memo || memo.minute !== minute || memo.prices !== this.dapPrices
+      || memo.history !== this.dapPriceHistory || memo.intervalMs !== intervalMs) {
+      memo = {
+        minute, prices: this.dapPrices, history: this.dapPriceHistory, intervalMs, entries: new Map(),
+      };
+      this.priceEntryMemo = memo;
+    }
+    if (memo.entries.has(ms)) return memo.entries.get(ms);
+    const entry = this._findPriceEntryForSlot(this.dapPrices, ms, intervalMs)
       || this._findPriceEntryForSlot(this.dapPriceHistory, ms, intervalMs);
+    memo.entries.set(ms, entry);
+    return entry;
   }
 
   priceAt(ms) {

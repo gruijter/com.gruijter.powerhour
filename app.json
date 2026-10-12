@@ -32704,6 +32704,7 @@
     },
     "ev_charge_mode": {
       "type": "enum",
+      "icon": "/assets/ev_charge_mode.svg",
       "title": {
         "en": "Charge Mode",
         "nl": "Laadmodus",
@@ -32934,6 +32935,7 @@
     },
     "ev_today": {
       "type": "enum",
+      "icon": "/assets/ev_min_soc.svg",
       "title": {
         "en": "Min. SoC today",
         "nl": "Min. SoC vandaag",
@@ -33394,6 +33396,7 @@
     },
     "ev_tomorrow": {
       "type": "enum",
+      "icon": "/assets/ev_min_soc.svg",
       "title": {
         "en": "Min. SoC tomorrow",
         "nl": "Min. SoC morgen",

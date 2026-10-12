@@ -223,7 +223,7 @@ class GridDevice extends GenericDevice {
     if (peakReason) throw Error(this.homey.__(peakReason));
     // Applied after the restart (applyPeakSettingsChange()): Homey refuses setSettings now.
     if (changedKeys.includes('peakPreset')) this.peakSettingsPending = { preset: newSettings.peakPreset };
-    else if (newSettings.peakPreset !== 'custom' && changedKeys.some((key) => PeakTariff.TARIFF_KEYS.includes(key))) {
+    else if (PeakTariff.leavesPreset(newSettings.peakPreset, changedKeys)) {
       this.peakSettingsPending = { custom: true };
     }
     if (changedKeys.includes('directionalNettingScheme')) {
@@ -1289,9 +1289,11 @@ class GridDevice extends GenericDevice {
       // A slot with a planned extra load is not learned.
       const { startTime, durationMs } = bucketResult.finishedBucket;
       if (LoadForecastStrategy.getPlannedPower(this.plannedLoads, startTime, startTime + durationMs) > 0) return updated;
-      // Program appliances are forecast separately. A slot not measured in full is not learned.
+      // Program appliances are forecast separately. A slot not measured in full is not learned;
+      // an appliance that is not running (initReady false) is not measured: learned as home load,
+      // else one broken source stops all learning.
       let appliancesW = 0;
-      for (const dev of this.getApplianceDevices()) {
+      for (const dev of this.getApplianceDevices().filter((d) => d.initReady)) {
         const w = dev.getAvgPower(startTime, startTime + durationMs);
         if (w === null) return updated;
         appliancesW += w;

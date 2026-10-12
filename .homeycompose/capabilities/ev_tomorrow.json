@@ -1,5 +1,6 @@
 {
   "type": "enum",
+  "icon": "/assets/ev_min_soc.svg",
   "title": {
     "en": "Min. SoC tomorrow",
     "nl": "Min. SoC morgen",
