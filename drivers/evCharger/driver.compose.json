@@ -1418,6 +1418,41 @@
             "ko": "충전 차트에 송전(수출) 가격 선(노란색)을 표시합니다."
           },
           "value": true
+        },
+        {
+          "id": "chartShowLegend",
+          "type": "checkbox",
+          "label": {
+            "en": "Show legend on graph",
+            "nl": "Legenda tonen in grafiek",
+            "de": "Legende im Diagramm anzeigen",
+            "fr": "Afficher la légende sur le graphique",
+            "it": "Mostra legenda nel grafico",
+            "sv": "Visa förklaring i diagrammet",
+            "no": "Vis forklaring i diagrammet",
+            "es": "Mostrar leyenda en el gráfico",
+            "da": "Vis signaturforklaring i diagrammet",
+            "pl": "Pokaż legendę na wykresie",
+            "ru": "Показывать легенду на графике",
+            "ar": "إظهار وسيلة الإيضاح في الرسم البياني",
+            "ko": "그래프에 범례 표시"
+          },
+          "hint": {
+            "en": "Explain the colors and lines below the charge charts.",
+            "nl": "Leg de kleuren en lijnen uit onder de laadgrafieken.",
+            "de": "Erklärt die Farben und Linien unter den Ladediagrammen.",
+            "fr": "Explique les couleurs et les lignes sous les graphiques de charge.",
+            "it": "Spiega i colori e le linee sotto i grafici di ricarica.",
+            "sv": "Förklarar färgerna och linjerna under laddningsdiagrammen.",
+            "no": "Forklarer fargene og linjene under ladediagrammene.",
+            "es": "Explica los colores y las líneas debajo de los gráficos de carga.",
+            "da": "Forklarer farverne og linjerne under opladningsdiagrammerne.",
+            "pl": "Objaśnia kolory i linie pod wykresami ładowania.",
+            "ru": "Поясняет цвета и линии под графиками зарядки.",
+            "ar": "يشرح الألوان والخطوط أسفل رسوم الشحن البيانية.",
+            "ko": "충전 차트 아래에 색상과 선을 설명합니다."
+          },
+          "value": true
         }
       ]
     }

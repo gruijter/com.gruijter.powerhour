@@ -115,5 +115,23 @@
   "error_peak_hours": "계산 시간대: 예: 06-22 형식을 사용하세요.",
   "error_peak_months": "계산 월: 예: 11-3 또는 1,2,12 형식을 사용하세요.",
   "error_peak_steps": "요금 단계: 예: 2:190; 5:300 형식을 사용하세요.",
-  "bat_control_failed": "배터리 제어 실패: __error__"
+  "bat_control_failed": "배터리 제어 실패: __error__",
+  "chart_legend": {
+    "solar": "태양광 충전",
+    "grid_charge": "전력망 충전",
+    "home": "가정으로 방전",
+    "export": "전력망으로 방전",
+    "hold": "유지",
+    "idle": "없음",
+    "charge": "충전",
+    "discharge": "방전",
+    "power": "kW",
+    "soc": "충전량"
+  },
+  "chart_eff": {
+    "title": "효율",
+    "capacity": "용량",
+    "idle": "대기",
+    "learning": "학습 중…"
+  }
 }

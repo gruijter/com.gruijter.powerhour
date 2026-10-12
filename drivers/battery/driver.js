@@ -90,6 +90,9 @@ const driverSpecifics = {
     {
       id: 'yesterdayChargeChart', prop: 'yesterdayChargeImage', chartProp: 'chartYesterdayCharge', titleKey: 'yesterday',
     },
+    {
+      id: 'efficiencyChart', prop: 'efficiencyImage', chartProp: 'chartEfficiency', titleKey: 'chart_eff.title',
+    },
   ],
 };
 
@@ -190,9 +193,10 @@ class BatteryDriver extends GenericDriver {
     await this.controlTick(devices, cumulativePower, { x, minLoad, samples });
   }
 
-  // The batteries this app controls, in one mode (not 'device').
+  // The batteries planned as one, in one mode (setting groupPlan, not 'device'), controlled here
+  // or by flows.
   groupDevices() {
-    return this.getDevices().filter((d) => typeof d.isZeroControlled === 'function' && d.isZeroControlled());
+    return this.getDevices().filter((d) => typeof d.inGroup === 'function' && d.inGroup());
   }
 
   // A mode for the whole group (picker, flow), with the same end time of a temporary mode. origin
@@ -409,16 +413,19 @@ class BatteryDriver extends GenericDriver {
     if (BatteryDriver.mixedPower(resolved.group)) throw Error(this.homey.__('error_setup_bat_power_mixed'));
   }
 
-  // Advanced ROI (and the control that follows its plan) needs a Homey Pro (Early 2023).
+  // The LP planner (roiEnable) and the control that follows the plan need a Homey Pro (Early 2023);
+  // other Homeys plan with the light planner.
   setupSettings() {
     const HP2023 = this.homey.platformVersion === 2;
     return this.ds.setup.settings.filter((id) => HP2023 || !['roiEnable', 'batteryControl'].includes(id));
   }
 
-  // The mode picker comes with the plan.
+  // Every battery plans (LP or light planner); the mode picker comes with control, on a Homey Pro
+  // (Early 2023).
   capabilitiesFor(settings = {}) {
     const caps = super.capabilitiesFor(settings);
-    if (settings.roiEnable) caps.push('battery_mode');
+    if (!caps.includes('roi_duration')) caps.push('roi_duration');
+    if (this.homey.platformVersion === 2) caps.push('battery_mode');
     return caps;
   }
 

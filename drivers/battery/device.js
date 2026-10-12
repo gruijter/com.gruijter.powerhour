@@ -24,13 +24,17 @@ const ChargeDeviceHelpers = require('../../lib/helpers/ChargeDeviceHelpers');
 const ChartImages = require('../../lib/helpers/ChartImages');
 const TimeHelpers = require('../../lib/helpers/TimeHelpers');
 const BatteryControl = require('../../lib/strategies/BatteryControl');
+const BatteryEfficiency = require('../../lib/strategies/BatteryEfficiency');
+const { getEfficiencyChart } = require('../../lib/charts/EfficiencyChart');
 const { setTimeoutPromise } = require('../../lib/helpers/Util');
 
 // A mode write of our own reported back within this time is no change by the battery app.
 const OWN_WRITE_ECHO_MS = 60 * 1000;
-// Plan again when the SoC is this far (%) from the plan, at most every SOC_REPLAN_MS.
-const SOC_REPLAN_PCT = 10;
+// Plan again when the SoC is this far (%) from the plan, at most every SOC_REPLAN_MS. 3: above the
+// 1 % steps most batteries report.
+const SOC_REPLAN_PCT = 3;
 const SOC_REPLAN_MS = 10 * 60 * 1000;
+const EFFICIENCY_LOG_MS = 60 * 60 * 1000;
 
 // Plans in 15-minute slots, as the grid forecast and capacity tariffs; prices per price slot.
 const deviceSpecifics = { planIntervalMin: 15 };
@@ -48,6 +52,11 @@ class BatDevice extends GenericDevice {
     this.powerHistory = await this.loadStoredHistory('powerHistory');
     this.socHistory = await this.loadStoredHistory('socHistory');
     this.tempMode = this.getStoreValue('batTempMode') || null;
+    this.efficiency = this.getStoreValue('batEfficiency') || null;
+    // A sample over a restart misses energy when the meters are integrated from power: start anew.
+    if (this.efficiency) this.efficiency.win = null;
+    // Homey keeps a warning over a restart: clear one from before at the next chance.
+    this.controlWarning = true;
     this.controlState = {};
     await super.onInit().catch(this.error);
 
@@ -63,30 +72,22 @@ class BatDevice extends GenericDevice {
     const currentSessionId = this.sessionId;
     this.populateHistoryFromInsights().catch((err) => this.error('Error populating battery insights:', err));
 
-    if (this.getSettings().roiEnable) {
-      const initStrategy = async () => {
-        await setTimeoutPromise(10000 + (Math.random() * 60000), this);
-        if (this.sessionId !== currentSessionId) return;
-        if (this.pricesNextHours) {
-          await this.flows.triggerNewRoiStrategyFlow().catch((err) => this.error(err));
-          await this.updateChargeChart().catch((err) => this.error(err));
-        }
-      };
-      initStrategy().catch((err) => this.error(err));
-    }
+    const initStrategy = async () => {
+      await setTimeoutPromise(10000 + (Math.random() * 60000), this);
+      if (this.sessionId !== currentSessionId) return;
+      if (this.pricesNextHours) {
+        await this.flows.triggerNewRoiStrategyFlow().catch((err) => this.error(err));
+        await this.updateChargeChart().catch((err) => this.error(err));
+      }
+    };
+    initStrategy().catch((err) => this.error(err));
   }
 
   async onPricesUpdated() {
     this.pricesUpdatedTm = Date.now(); // see updateChargeChart(): only reuse plans made after this
-    if (!this.getSettings().roiEnable && this.latestPlan) { // no plan is followed: count as idle
-      this.latestPlan = null;
-      this.notifyChargePlanUpdated();
-    }
-    if (this.getSettings().roiEnable) {
-      this.pricesUpdated = true;
-      await this.flows.triggerNewRoiStrategyFlow();
-      await this.updateChargeChart();
-    }
+    this.pricesUpdated = true;
+    await this.flows.triggerNewRoiStrategyFlow();
+    await this.updateChargeChart();
   }
 
   // Detected by the driver, with the choice from the setup view (store 'sourceCaps').
@@ -148,12 +149,13 @@ class BatDevice extends GenericDevice {
   }
 
   // The single entry for the picker, the flow and the battery app taking over. durationMin > 0:
-  // back to the mode before after that time. Batteries this app controls share one mode: the
-  // driver passes a change to all of them (sync), except 'device', which is per battery.
+  // back to the mode before after that time. Batteries in the group share one mode: the driver
+  // passes a change to all of them (sync), except 'device', which is per battery.
   async setBatteryMode(mode, reason, durationMin = 0, { sync = true, until = null } = {}) {
     if (!BatteryControl.MODES.includes(mode)) throw Error(`Unknown battery mode ${mode}`);
     const end = until || (durationMin > 0 ? Date.now() + (durationMin * 60 * 1000) : null);
-    if (sync && mode !== 'device' && this.isControlConfigured()) {
+    const settings = this.getSettings();
+    if (sync && mode !== 'device' && settings.groupPlan !== false) {
       await this.driver.setGroupMode(mode, reason, end, this);
       return;
     }
@@ -177,7 +179,14 @@ class BatDevice extends GenericDevice {
     await this.setBatteryMode(this.tempMode.previousMode, 'temporary mode ended', 0, { sync: false });
   }
 
-  // Once per start of control: take the group's mode (of the battery with the lowest id).
+  // Planned as one with the other batteries of the group (setting groupPlan), whether this app or
+  // flows control it. 'device' leaves the group.
+  inGroup() {
+    const settings = this.getSettings();
+    return settings.groupPlan !== false && this.getBatteryMode() !== 'device';
+  }
+
+  // Once on entering the group: take the group's mode (of the battery with the lowest id).
   async joinGroup() {
     if (this.groupJoined) return;
     this.groupJoined = true;
@@ -214,14 +223,15 @@ class BatDevice extends GenericDevice {
     if (!this.initReady || this.isDestroyed) return null;
     this.checkPlanSlot(now);
     await this.endTempModeIfDue(now);
+    if (this.inGroup()) await this.joinGroup();
+    else this.groupJoined = false;
     if (!this.isControlConfigured() || this.getBatteryMode() === 'device') {
-      this.groupJoined = false;
+      await this.clearControlWarning();
       if (this.getStoreValue('controlTakeover')) {
         await this.releaseControl(this.isControlConfigured() ? 'mode device' : 'control off');
       }
       return null;
     }
-    await this.joinGroup();
     const mode = this.getBatteryMode();
     const slot = BatteryControl.slotAt(this.latestPlan, now);
     return { mode, slot, block: BatteryControl.blockFor(mode, slot).block };
@@ -341,10 +351,7 @@ class BatDevice extends GenericDevice {
     this.lastSetpointTm = now;
     try {
       await this.writeSourceCap(cap, value);
-      if (this.controlWarning) {
-        this.controlWarning = false;
-        await this.unsetWarning().catch(this.error);
-      }
+      await this.clearControlWarning();
     } catch (err) {
       this.error(`[Bat Control] Setting ${cap} to ${value} W failed:`, err.message || err);
       this.controlWarning = true;
@@ -352,11 +359,22 @@ class BatDevice extends GenericDevice {
     }
   }
 
+  async clearControlWarning() {
+    if (!this.controlWarning) return;
+    this.controlWarning = false;
+    await this.unsetWarning().catch(this.error);
+  }
+
   // The SoC is far from the plan (forecast off, a large load): plan again.
   checkSocDeviation(slot, now) {
     if (!slot || !(slot.index > 0) || typeof this.soc !== 'number') return;
-    const planned = this.latestPlan.slots[slot.index - 1].soc;
-    if (typeof planned !== 'number' || Math.abs(this.soc - planned) <= SOC_REPLAN_PCT) return;
+    // The plan's SoC now: from the end of the previous slot toward the end of this one.
+    const from = this.latestPlan.slots[slot.index - 1].soc;
+    if (typeof from !== 'number' || typeof slot.soc !== 'number') return;
+    const { intervalMs } = this.latestPlan;
+    const part = Math.min(1, Math.max(0, (now - (slot.endMs - intervalMs)) / intervalMs));
+    const planned = Math.round(from + ((slot.soc - from) * part));
+    if (Math.abs(this.soc - planned) <= SOC_REPLAN_PCT) return;
     if (this.lastSocReplanTm && now - this.lastSocReplanTm < SOC_REPLAN_MS) return;
     this.lastSocReplanTm = now;
     this.log(`[Bat Control] SoC ${this.soc}% vs planned ${planned}%: plan again`);
@@ -364,7 +382,7 @@ class BatDevice extends GenericDevice {
   }
 
   async replan(reason) {
-    if (!this.getSettings().roiEnable || !this.pricesNextHours) return;
+    if (!this.pricesNextHours) return;
     this.log(`[ROI Plan] Plan again (${reason})`);
     await this.flows.triggerNewRoiStrategyFlow();
     await this.updateChargeChart();
@@ -596,12 +614,10 @@ class BatDevice extends GenericDevice {
       TimeHelpers.startOfLocalBlock(now, planMin, tz), planMin);
   }
 
-  // The batteries planned as one with this one (sorted by id, the first plans), or null: this app
-  // controls them in one mode.
+  // The batteries planned as one with this one (sorted by id, the first plans), or null.
   planGroup() {
-    if (!this.getSettings().roiEnable || !this.isZeroControlled()) return null;
-    const group = this.driver.groupDevices().filter((d) => d.getSettings().roiEnable)
-      .sort((a, b) => (a.getData().id < b.getData().id ? -1 : 1));
+    if (!this.inGroup()) return null;
+    const group = this.driver.groupDevices().sort((a, b) => (a.getData().id < b.getData().id ? -1 : 1));
     return group.length > 1 && group.includes(this) ? group : null;
   }
 
@@ -670,7 +686,7 @@ class BatDevice extends GenericDevice {
 
     const myId = this.getData().id;
     const earlier = this.driver.getDevices().filter((d) => !members.includes(d) && d.getData().id < myId
-      && d.getSettings().roiEnable && typeof d.getPlannedPowerSeries === 'function');
+      && typeof d.getPlannedPowerSeries === 'function');
     const others = earlier.map((d) => {
       try {
         return d.getPlannedPowerSeries(startMs, endMs);
@@ -724,8 +740,47 @@ class BatDevice extends GenericDevice {
 
   async updateValue(val, cap) {
     await super.updateValue(val, cap);
-    if (cap !== 'soc' || !this.recordSocSample(val)) return;
+    if (cap !== 'soc') return;
+    await this.learnEfficiency(val);
+    if (!this.recordSocSample(val)) return;
     await this.saveSocHistory();
+  }
+
+  // The learned efficiency chart, built only when the image is opened (ChartImages reads it then).
+  get chartEfficiency() {
+    const settings = this.getSettings();
+    return getEfficiencyChart(BatteryEfficiency.summary(this.efficiency), {
+      maxW: Math.max(Number(settings.chargePower) || 0, Number(settings.dischargePower) || 0) || 2500,
+      labels: {
+        charge: this.homey.__('chart_legend.charge'),
+        discharge: this.homey.__('chart_legend.discharge'),
+        capacity: this.homey.__('chart_eff.capacity'),
+        idle: this.homey.__('chart_eff.idle'),
+        learning: this.homey.__('chart_eff.learning'),
+      },
+    });
+  }
+
+  // The efficiency per power level, learned from each SoC change and the AC meters.
+  async learnEfficiency(soc) {
+    const now = Date.now();
+    const { state, sample, reason } = BatteryEfficiency.onSoc(this.efficiency, {
+      now,
+      soc: Number(soc),
+      inKwh: this.getCapabilityValue('meter_kwh_charging'),
+      outKwh: this.getCapabilityValue('meter_kwh_discharging'),
+      capacityKwh: this.getSettings().batCapacity,
+    });
+    this.efficiency = state;
+    if (reason && reason !== 'input') this.log(`[Bat Eff] sample skipped: ${reason}`);
+    if (!sample) return;
+    const eff = sample.eff ? `, raw ${Math.round(sample.eff * 100)}%` : '';
+    this.log(`[Bat Eff] ${sample.dir} ${sample.powerW ? `${Math.round(sample.powerW)} W, ` : ''}${(sample.h * 60).toFixed(0)} min${eff}`);
+    if (!this.lastEfficiencyLogTm || now - this.lastEfficiencyLogTm >= EFFICIENCY_LOG_MS) {
+      this.lastEfficiencyLogTm = now;
+      this.log(`[Bat Eff] ${BatteryEfficiency.describe(this.efficiency)}`);
+    }
+    await this.setStoreValue('batEfficiency', this.efficiency).catch(this.error);
   }
 
   async handleUpdateMeter(reading) {
@@ -764,7 +819,7 @@ class BatDevice extends GenericDevice {
   // A new plan slot inside a price slot: plan again (a price-slot start gets new prices anyway,
   // and onPricesUpdated() plans then).
   async onPlanSlot(slotStartMs) {
-    if (!this.getSettings().roiEnable || !this.pricesNextHours) return;
+    if (!this.pricesNextHours) return;
     const tz = this.timeZone || this.homey.clock.getTimezone();
     if (TimeHelpers.startOfLocalBlock(slotStartMs, this.priceInterval || 60, tz) === slotStartMs) return;
     await this.flows.triggerNewRoiStrategyFlow();
@@ -805,6 +860,7 @@ class BatDevice extends GenericDevice {
       showPower: !!this.getSettings().chartShowPower,
       showSoc: this.getSettings().chartShowSoc !== false,
       showExportPrice: this.getSettings().chartShowExportPrice !== false,
+      showLegend: this.getSettings().chartShowLegend !== false,
     });
   }
 

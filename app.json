@@ -1868,6 +1868,26 @@
               "ko": "스킴 JSON",
               "ar": "مخطط JSON"
             }
+          },
+          {
+            "name": "block",
+            "type": "string",
+            "title": {
+              "en": "Plan block (zero, hold, idle, charge, discharge)",
+              "nl": "Planblok (zero, hold, idle, charge, discharge)",
+              "de": "Planblock (zero, hold, idle, charge, discharge)",
+              "fr": "Bloc du plan (zero, hold, idle, charge, discharge)",
+              "it": "Blocco del piano (zero, hold, idle, charge, discharge)",
+              "sv": "Planblock (zero, hold, idle, charge, discharge)",
+              "no": "Planblokk (zero, hold, idle, charge, discharge)",
+              "es": "Bloque del plan (zero, hold, idle, charge, discharge)",
+              "da": "Planblok (zero, hold, idle, charge, discharge)",
+              "pl": "Blok planu (zero, hold, idle, charge, discharge)",
+              "ru": "Блок плана (zero, hold, idle, charge, discharge)",
+              "ko": "계획 블록 (zero, hold, idle, charge, discharge)",
+              "ar": "كتلة الخطة (zero, hold, idle, charge, discharge)"
+            },
+            "example": "zero"
           }
         ],
         "id": "new_roi_strategy"
@@ -10820,6 +10840,26 @@
               "ko": "스킴 JSON",
               "ar": "مخطط JSON"
             }
+          },
+          {
+            "name": "block",
+            "type": "string",
+            "title": {
+              "en": "Plan block (zero, hold, idle, charge, discharge)",
+              "nl": "Planblok (zero, hold, idle, charge, discharge)",
+              "de": "Planblock (zero, hold, idle, charge, discharge)",
+              "fr": "Bloc du plan (zero, hold, idle, charge, discharge)",
+              "it": "Blocco del piano (zero, hold, idle, charge, discharge)",
+              "sv": "Planblock (zero, hold, idle, charge, discharge)",
+              "no": "Planblokk (zero, hold, idle, charge, discharge)",
+              "es": "Bloque del plan (zero, hold, idle, charge, discharge)",
+              "da": "Planblok (zero, hold, idle, charge, discharge)",
+              "pl": "Blok planu (zero, hold, idle, charge, discharge)",
+              "ru": "Блок плана (zero, hold, idle, charge, discharge)",
+              "ko": "계획 블록 (zero, hold, idle, charge, discharge)",
+              "ar": "كتلة الخطة (zero, hold, idle, charge, discharge)"
+            },
+            "example": "zero"
           }
         ],
         "id": "find_roi_strategy"
@@ -16198,34 +16238,34 @@
               "id": "roiEnable",
               "type": "checkbox",
               "label": {
-                "en": "Enable advanced ROI",
-                "nl": "ROI functie aanzetten",
-                "de": "ROI Funktion aktivieren",
-                "fr": "Activer le ROI avancé",
-                "it": "Abilita ROI avanzato",
-                "sv": "Aktivera avancerad ROI",
-                "no": "Aktiver avansert ROI",
-                "es": "Habilitar ROI avanzado",
-                "da": "Aktiver avanceret ROI",
-                "pl": "Włącz zaawansowane ROI",
-                "ru": "Включить расширенный ROI",
-                "ar": "تمكين عائد الاستثمار المتقدم",
-                "ko": "고급 ROI 활성화"
+                "en": "Advanced planner (LP)",
+                "nl": "Geavanceerde planner (LP)",
+                "de": "Erweiterter Planer (LP)",
+                "fr": "Planificateur avancé (LP)",
+                "it": "Pianificatore avanzato (LP)",
+                "sv": "Avancerad planerare (LP)",
+                "no": "Avansert planlegger (LP)",
+                "es": "Planificador avanzado (LP)",
+                "da": "Avanceret planlægger (LP)",
+                "pl": "Zaawansowany planer (LP)",
+                "ru": "Расширенный планировщик (LP)",
+                "ar": "المخطط المتقدم (LP)",
+                "ko": "고급 플래너 (LP)"
               },
               "hint": {
-                "en": "Advanced ROI flows use a lot of memory and CPU on Homey!",
-                "nl": "Geavanceerde ROI flows gebruiken veel geheugen en CPU op Homey!",
-                "de": "Erweiterte ROI-Flows verbrauchen viel Speicher und CPU auf Homey!",
-                "fr": "Les flux ROI avancés utilisent beaucoup de mémoire et de CPU sur Homey !",
-                "it": "I flussi ROI avanzati utilizzano molta memoria e CPU su Homey!",
-                "sv": "Avancerade ROI-flöden använder mycket minne och CPU på Homey!",
-                "no": "Avanserte ROI-flyter bruker mye minne og CPU på Homey!",
-                "es": "¡Los flujos de ROI avanzados utilizan mucha memoria y CPU en Homey!",
-                "da": "Avancerede ROI-flows bruger meget hukommelse og CPU på Homey!",
-                "pl": "Zaawansowane przepływy ROI zużywają dużo pamięci i procesora w Homey!",
-                "ru": "Расширенные потоки ROI используют много памяти и ресурсов процессора на Homey!",
-                "ar": "تستخدم تدفقات عائد الاستثمار المتقدمة الكثير من الذاكرة ووحدة المعالجة المركزية في Homey!",
-                "ko": "고급 ROI 플로우는 Homey의 메모리와 CPU를 많이 사용합니다!"
+                "en": "On: the LP, best for groups of different batteries; uses more memory and CPU. Off: a light planner, nearly as good.",
+                "nl": "Aan: de LP, het best voor groepen van verschillende batterijen; gebruikt meer geheugen en CPU. Uit: een lichte planner, bijna even goed.",
+                "de": "An: das LP, am besten für Gruppen verschiedener Batterien; braucht mehr Speicher und CPU. Aus: ein leichter Planer, fast genauso gut.",
+                "fr": "Activé : le LP, idéal pour des groupes de batteries différentes ; utilise plus de mémoire et de CPU. Désactivé : un planificateur léger, presque aussi bon.",
+                "it": "Attivo: l'LP, il migliore per gruppi di batterie diverse; usa più memoria e CPU. Disattivo: un pianificatore leggero, quasi altrettanto buono.",
+                "sv": "På: LP, bäst för grupper av olika batterier; använder mer minne och CPU. Av: en lätt planerare, nästan lika bra.",
+                "no": "På: LP, best for grupper av ulike batterier; bruker mer minne og CPU. Av: en lett planlegger, nesten like god.",
+                "es": "Activado: el LP, mejor para grupos de baterías distintas; usa más memoria y CPU. Desactivado: un planificador ligero, casi igual de bueno.",
+                "da": "Til: LP, bedst til grupper af forskellige batterier; bruger mere hukommelse og CPU. Fra: en let planlægger, næsten lige så god.",
+                "pl": "Włączone: LP, najlepszy dla grup różnych baterii; zużywa więcej pamięci i CPU. Wyłączone: lekki planer, prawie tak samo dobry.",
+                "ru": "Вкл.: LP, лучше всего для групп разных батарей; использует больше памяти и CPU. Выкл.: лёгкий планировщик, почти так же хорош.",
+                "ar": "تشغيل: LP، الأفضل لمجموعات البطاريات المختلفة؛ يستخدم ذاكرة ومعالجًا أكثر. إيقاف: مخطط خفيف، جيد تقريبًا بالقدر نفسه.",
+                "ko": "켜짐: LP, 서로 다른 배터리 그룹에 가장 적합하며 메모리와 CPU를 더 사용합니다. 꺼짐: 가벼운 플래너로 거의 동일하게 좋습니다."
               },
               "value": false
             },
@@ -16445,6 +16485,41 @@
                 "ko": "배터리 모드에 따라 플로우 없이 배터리 출력을 설정합니다. 출력 설정값이 필요합니다(복구 참조)."
               },
               "value": false
+            },
+            {
+              "id": "groupPlan",
+              "type": "checkbox",
+              "label": {
+                "en": "Plan together with other batteries",
+                "nl": "Samen plannen met andere batterijen",
+                "de": "Gemeinsam mit anderen Batterien planen",
+                "fr": "Planifier avec les autres batteries",
+                "it": "Pianificare insieme alle altre batterie",
+                "sv": "Planera tillsammans med andra batterier",
+                "no": "Planlegg sammen med andre batterier",
+                "es": "Planificar junto con otras baterías",
+                "da": "Planlæg sammen med andre batterier",
+                "pl": "Planuj razem z innymi bateriami",
+                "ru": "Планировать вместе с другими батареями",
+                "ar": "التخطيط مع البطاريات الأخرى",
+                "ko": "다른 배터리와 함께 계획"
+              },
+              "hint": {
+                "en": "One plan and one battery mode for all batteries with this on, whether controlled here or by flows. Off: this battery plans on its own and plans around the others.",
+                "nl": "Eén plan en één batterijmodus voor alle batterijen waarbij dit aan staat, of ze nu hier of via flows worden aangestuurd. Uit: deze batterij plant alleen en plant om de andere heen.",
+                "de": "Ein Plan und ein Batteriemodus für alle Batterien, bei denen dies an ist, ob hier oder per Flows gesteuert. Aus: diese Batterie plant allein und plant um die anderen herum.",
+                "fr": "Un seul plan et un seul mode pour toutes les batteries où ceci est activé, pilotées ici ou par des flows. Désactivé : cette batterie planifie seule, en tenant compte des autres.",
+                "it": "Un solo piano e una sola modalità per tutte le batterie con questa opzione attiva, controllate qui o tramite flow. Disattivato: questa batteria pianifica da sola, tenendo conto delle altre.",
+                "sv": "En plan och ett batteriläge för alla batterier där detta är på, styrda här eller via flöden. Av: detta batteri planerar själv och planerar runt de andra.",
+                "no": "Én plan og én batterimodus for alle batterier der dette er på, styrt her eller via flyter. Av: dette batteriet planlegger alene og planlegger rundt de andre.",
+                "es": "Un solo plan y un solo modo para todas las baterías con esto activado, controladas aquí o mediante flujos. Desactivado: esta batería planifica sola, teniendo en cuenta las demás.",
+                "da": "Én plan og én batteritilstand for alle batterier hvor dette er slået til, styret her eller via flows. Fra: dette batteri planlægger alene og planlægger uden om de andre.",
+                "pl": "Jeden plan i jeden tryb dla wszystkich baterii z tym włączonym, sterowanych tutaj lub przez flow. Wyłączone: ta bateria planuje sama, uwzględniając pozostałe.",
+                "ru": "Один план и один режим для всех батарей с этой опцией, управляемых здесь или потоками. Выкл.: батарея планирует сама, учитывая остальные.",
+                "ar": "خطة واحدة ووضع واحد لكل البطاريات التي فُعّل فيها هذا الخيار، سواء تم التحكم بها هنا أو عبر التدفقات. إيقاف: تخطط هذه البطارية وحدها مع مراعاة البطاريات الأخرى.",
+                "ko": "이 옵션이 켜진 모든 배터리에 하나의 계획과 하나의 배터리 모드를 사용합니다(여기서 제어하든 플로우로 제어하든). 끔: 이 배터리는 다른 배터리를 고려하여 단독으로 계획합니다."
+              },
+              "value": true
             }
           ]
         },
@@ -16896,6 +16971,41 @@
                 "ru": "Показывать линию экспортной цены (жёлтая) на графиках зарядки.",
                 "ar": "إظهار خط سعر التصدير (الأصفر) في رسوم الشحن البيانية.",
                 "ko": "충전 차트에 송전(수출) 가격 선(노란색)을 표시합니다."
+              },
+              "value": true
+            },
+            {
+              "id": "chartShowLegend",
+              "type": "checkbox",
+              "label": {
+                "en": "Show legend on graph",
+                "nl": "Legenda tonen in grafiek",
+                "de": "Legende im Diagramm anzeigen",
+                "fr": "Afficher la légende sur le graphique",
+                "it": "Mostra legenda nel grafico",
+                "sv": "Visa förklaring i diagrammet",
+                "no": "Vis forklaring i diagrammet",
+                "es": "Mostrar leyenda en el gráfico",
+                "da": "Vis signaturforklaring i diagrammet",
+                "pl": "Pokaż legendę na wykresie",
+                "ru": "Показывать легенду на графике",
+                "ar": "إظهار وسيلة الإيضاح في الرسم البياني",
+                "ko": "그래프에 범례 표시"
+              },
+              "hint": {
+                "en": "Explain the colors and lines below the charge charts.",
+                "nl": "Leg de kleuren en lijnen uit onder de laadgrafieken.",
+                "de": "Erklärt die Farben und Linien unter den Ladediagrammen.",
+                "fr": "Explique les couleurs et les lignes sous les graphiques de charge.",
+                "it": "Spiega i colori e le linee sotto i grafici di ricarica.",
+                "sv": "Förklarar färgerna och linjerna under laddningsdiagrammen.",
+                "no": "Forklarer fargene og linjene under ladediagrammene.",
+                "es": "Explica los colores y las líneas debajo de los gráficos de carga.",
+                "da": "Forklarer farverne og linjerne under opladningsdiagrammerne.",
+                "pl": "Objaśnia kolory i linie pod wykresami ładowania.",
+                "ru": "Поясняет цвета и линии под графиками зарядки.",
+                "ar": "يشرح الألوان والخطوط أسفل رسوم الشحن البيانية.",
+                "ko": "충전 차트 아래에 색상과 선을 설명합니다."
               },
               "value": true
             }
@@ -22379,6 +22489,41 @@
                 "ru": "Показывать линию экспортной цены (жёлтая) на графиках зарядки.",
                 "ar": "إظهار خط سعر التصدير (الأصفر) في رسوم الشحن البيانية.",
                 "ko": "충전 차트에 송전(수출) 가격 선(노란색)을 표시합니다."
+              },
+              "value": true
+            },
+            {
+              "id": "chartShowLegend",
+              "type": "checkbox",
+              "label": {
+                "en": "Show legend on graph",
+                "nl": "Legenda tonen in grafiek",
+                "de": "Legende im Diagramm anzeigen",
+                "fr": "Afficher la légende sur le graphique",
+                "it": "Mostra legenda nel grafico",
+                "sv": "Visa förklaring i diagrammet",
+                "no": "Vis forklaring i diagrammet",
+                "es": "Mostrar leyenda en el gráfico",
+                "da": "Vis signaturforklaring i diagrammet",
+                "pl": "Pokaż legendę na wykresie",
+                "ru": "Показывать легенду на графике",
+                "ar": "إظهار وسيلة الإيضاح في الرسم البياني",
+                "ko": "그래프에 범례 표시"
+              },
+              "hint": {
+                "en": "Explain the colors and lines below the charge charts.",
+                "nl": "Leg de kleuren en lijnen uit onder de laadgrafieken.",
+                "de": "Erklärt die Farben und Linien unter den Ladediagrammen.",
+                "fr": "Explique les couleurs et les lignes sous les graphiques de charge.",
+                "it": "Spiega i colori e le linee sotto i grafici di ricarica.",
+                "sv": "Förklarar färgerna och linjerna under laddningsdiagrammen.",
+                "no": "Forklarer fargene og linjene under ladediagrammene.",
+                "es": "Explica los colores y las líneas debajo de los gráficos de carga.",
+                "da": "Forklarer farverne og linjerne under opladningsdiagrammerne.",
+                "pl": "Objaśnia kolory i linie pod wykresami ładowania.",
+                "ru": "Поясняет цвета и линии под графиками зарядки.",
+                "ar": "يشرح الألوان والخطوط أسفل رسوم الشحن البيانية.",
+                "ko": "충전 차트 아래에 색상과 선을 설명합니다."
               },
               "value": true
             }

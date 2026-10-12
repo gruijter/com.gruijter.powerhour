@@ -169,6 +169,26 @@
         "ko": "스킴 JSON",
         "ar": "مخطط JSON"
       }
+    },
+    {
+      "name": "block",
+      "type": "string",
+      "title": {
+        "en": "Plan block (zero, hold, idle, charge, discharge)",
+        "nl": "Planblok (zero, hold, idle, charge, discharge)",
+        "de": "Planblock (zero, hold, idle, charge, discharge)",
+        "fr": "Bloc du plan (zero, hold, idle, charge, discharge)",
+        "it": "Blocco del piano (zero, hold, idle, charge, discharge)",
+        "sv": "Planblock (zero, hold, idle, charge, discharge)",
+        "no": "Planblokk (zero, hold, idle, charge, discharge)",
+        "es": "Bloque del plan (zero, hold, idle, charge, discharge)",
+        "da": "Planblok (zero, hold, idle, charge, discharge)",
+        "pl": "Blok planu (zero, hold, idle, charge, discharge)",
+        "ru": "Блок плана (zero, hold, idle, charge, discharge)",
+        "ko": "계획 블록 (zero, hold, idle, charge, discharge)",
+        "ar": "كتلة الخطة (zero, hold, idle, charge, discharge)"
+      },
+      "example": "zero"
     }
   ]
 }

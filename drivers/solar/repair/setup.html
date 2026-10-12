@@ -44,6 +44,7 @@
 			const input = el('input', {
 				className: 'homey-form-input', type: s.type === 'number' ? 'number' : 'text', id: `set_${s.id}`, value: s.value,
 			});
+			if (s.type === 'number') input.step = 'any'; // decimals (e.g. 5.05 kWh): step 1 would reject them
 			if (typeof s.min === 'number') input.min = s.min;
 			if (typeof s.max === 'number') input.max = s.max;
 			group.appendChild(input);

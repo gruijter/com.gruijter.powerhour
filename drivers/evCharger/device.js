@@ -1653,6 +1653,7 @@ class CarChargeDevice extends GenericDevice {
         showPower: !!this.getSettings().chartShowPower,
         showSoc,
         showExportPrice: this.getSettings().chartShowExportPrice !== false,
+        showLegend: this.getSettings().chartShowLegend !== false,
         planTm: now,
       });
       await this._updateNextChargeText();
