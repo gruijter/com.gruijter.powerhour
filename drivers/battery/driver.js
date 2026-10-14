@@ -228,9 +228,10 @@ class BatteryDriver extends GenericDriver {
     const forcedW = active.filter((d) => !isNom(d)).reduce((a, d) => a + d.controlPowerW(), 0);
     const nomGridW = gridW - forcedW;
     const candidates = active.filter(isNom);
-    // Hold batteries only take part when charging.
+    // Hold batteries only take part when charging, noCharge batteries (surplus not worth the wear)
+    // only when discharging: else NomXomStrategy gives them a share they do not take.
     const charging = candidates.reduce((a, d) => a + d.controlPowerW(), 0) - (nomGridW - x) > 0;
-    const nomDevices = candidates.filter((d) => preps.get(d).block === 'zero' || charging);
+    const nomDevices = candidates.filter((d) => (charging ? !preps.get(d).noCharge : preps.get(d).block === 'zero'));
     // NomXomStrategy reads xomTargetPower: here the last setpoint of this app.
     const views = nomDevices.map((d) => ({
       getData: () => d.getData(),

@@ -241,8 +241,9 @@ class BatDevice extends GenericDevice {
     const slot = BatteryControl.slotAt(this.latestPlan, now);
     // Below the reserve it recharges (BatteryControl): no zero on the meter then.
     const refill = typeof this.soc === 'number' && this.soc < this.reservePct() && BatteryControl.refillsReserve(mode);
+    const plan = BatteryControl.blockFor(mode, slot);
     return {
-      mode, slot, block: BatteryControl.blockFor(mode, slot).block, refill,
+      mode, slot, block: plan.block, noCharge: !!plan.noCharge, refill,
     };
   }
 

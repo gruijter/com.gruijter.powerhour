@@ -1046,11 +1046,11 @@
           },
           "hint": {
             "en": "Margin per kWh a charge and discharge cycle must earn on top of losses and wear. Not used in self-consumption.",
-            "nl": "Marge per kWh die een laad- en ontlaadcyclus moet opleveren bovenop verliezen en slijtage. Niet gebruikt bij zelfconsumptie.",
+            "nl": "Marge per kWh die een laad- en ontlaadcyclus moet opleveren bovenop verliezen en slijtage. Niet gebruikt bij zelfverbruik.",
             "de": "Marge pro kWh, die ein Lade- und Entladezyklus zusätzlich zu Verlusten und Verschleiß erzielen muss. Nicht im Eigenverbrauch verwendet.",
             "fr": "Marge par kWh qu’un cycle de charge et de décharge doit rapporter en plus des pertes et de l’usure. Non utilisée en autoconsommation.",
             "it": "Margine per kWh che un ciclo di carica e scarica deve rendere oltre a perdite e usura. Non usato in autoconsumo.",
-            "sv": "Marginal per kWh som en laddnings- och urladdningscykel måste ge utöver förluster och slitage. Används inte vid egenförbrukning.",
+            "sv": "Marginal per kWh som en laddnings- och urladdningscykel måste ge utöver förluster och slitage. Används inte vid egenanvändning.",
             "no": "Margin per kWh en lade- og utladingssyklus må gi i tillegg til tap og slitasje. Brukes ikke ved egenforbruk.",
             "es": "Margen por kWh que un ciclo de carga y descarga debe generar además de pérdidas y desgaste. No se usa en autoconsumo.",
             "da": "Margin pr. kWh, som en op- og afladningscyklus skal give ud over tab og slid. Bruges ikke ved eget forbrug.",
