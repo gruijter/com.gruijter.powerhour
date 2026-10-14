@@ -702,6 +702,7 @@ class BatDevice extends GenericDevice {
       prices: [...planPrices],
       exportPrices: exportPrices ? [...this.toPlanSlots(exportPrices, now)] : null,
       minPriceDelta,
+      wearCost: this.wearCostFor(members),
       ...(group ? { batteries: members.map((d) => d.roiBattery()) } : this.roiBattery()),
       // Local minute: slots follow local time (half-hour-offset zones differ from UTC).
       startMinute: TimeHelpers.toLocalDate(new Date(now), tz).getMinutes(),
@@ -711,6 +712,14 @@ class BatDevice extends GenericDevice {
       peakWindowMin: forecast ? forecast.peakWindowMin : 15,
       ...BatteryControl.planOptionsFor(this.getBatteryMode()),
     };
+  }
+
+  // Wear per kWh cycled; a group: weighted by capacity.
+  wearCostFor(members) {
+    const cap = (d) => Number(d.getSettings().batCapacity) || 0;
+    const total = members.reduce((a, d) => a + cap(d), 0);
+    if (!(total > 0)) return 0;
+    return members.reduce((a, d) => a + (cap(d) * (Number(d.getSettings().roiWearCost) || 0)), 0) / total;
   }
 
   // The home's net per plan slot from the grid forecast, for the planner: without batteries, plus
