@@ -13,6 +13,7 @@ const { getEvWeeklyChart } = require('../../lib/charts/EvChart');
 const EvUsageModel = require('../../lib/strategies/EvUsageModel');
 const EvPresence = require('../../lib/strategies/EvPresence');
 const EvSocEstimator = require('../../lib/strategies/EvSocEstimator');
+const EvEnergyMode = require('../../lib/strategies/EvEnergyMode');
 const EvChargerControl = require('../../lib/strategies/EvChargerControl');
 const EvFlows = require('../../lib/flows/EvFlows');
 const ChargeDeviceHelpers = require('../../lib/helpers/ChargeDeviceHelpers');
@@ -88,6 +89,8 @@ class CarChargeDevice extends GenericDevice {
     this.tempMode = (await this.getStoreValue('evTempMode')) || null; // {since, previousMode}: a temporary mode
     this.lastAwayTm = (await this.getStoreValue('evLastAwayTm')) || 0;
     this.signals.flowAwaySince = (await this.getStoreValue('evFlowAwaySince')) || null;
+    this.energyState = (await this.getStoreValue('evEnergyState')) || EvEnergyMode.createState();
+    this.departTm = (await this.getStoreValue('evDepartTm')) || null;
     await super.initDeviceValues();
   }
 
@@ -240,6 +243,7 @@ class CarChargeDevice extends GenericDevice {
 
         if (ev && ev.capabilitiesObj) {
           this.evDevice = ev;
+          this.carAvailable = ev.available;
           // The user's choice at repair, when made for this car.
           const chosen = this.getStoreValue('evCarCaps');
           this.carCapGroup = EvCarCaps.resolveCarCaps(ev, chosen && chosen.carId === ev.id ? chosen.caps : {});
@@ -313,6 +317,8 @@ class CarChargeDevice extends GenericDevice {
       );
     }
 
+    await this._syncStandby();
+
     // Charger switch: its actual state, also when switched by hand or by another flow
     if (this.sourceCapGroup.switchCap) {
       const capObj = this.sourceDevice.capabilitiesObj?.[this.sourceCapGroup.switchCap];
@@ -371,6 +377,10 @@ class CarChargeDevice extends GenericDevice {
       EvUsageModel.markCurrentUnobserved(this.usageModel);
       await this._saveUsageModel();
     }
+    if (car.available !== this.carAvailable) {
+      this.log(`[EV SoC] Car device ${car.available ? 'available' : 'unavailable: its location and plug state are not used'}`);
+      this.carAvailable = car.available;
+    }
     if (car.available && !this.evDevice.available) {
       this.log('[EV SoC] Car device became available, re-registering listeners');
       this.evDevice = car;
@@ -385,11 +395,14 @@ class CarChargeDevice extends GenericDevice {
     if (typeof value !== 'boolean') return;
     const was = this.signals.switchOn;
     this.signals.switchOn = value;
+    const tm = lastUpdated ? new Date(lastUpdated).getTime() : NaN;
+    const since = Number.isFinite(tm) ? tm : Date.now();
     if (!value) {
       this.signals.switchOnSince = null;
+      if (was !== false) this.signals.switchOffSince = since;
     } else if (was !== true) {
-      const tm = lastUpdated ? new Date(lastUpdated).getTime() : NaN;
-      this.signals.switchOnSince = Number.isFinite(tm) ? tm : Date.now();
+      this.signals.switchOffSince = null;
+      this.signals.switchOnSince = since;
     }
   }
 
@@ -414,6 +427,35 @@ class CarChargeDevice extends GenericDevice {
       this.lastUnplugTm = new Date();
     }
     if (wasCharging !== isCharging) this._updatePresence().catch(this.error);
+    if (isCharging) this._detectPlug().catch(this.error);
+  }
+
+  // Standby (setting standbyOn): a charger with a switch but without plug state stays on while no
+  // car is detected. The detected plug state then serves as the charger's own.
+  _standby() {
+    return !!this.getSettings().standbyOn && this._controlsCharger() && !this.sourceCapGroup.connState;
+  }
+
+  async _syncStandby() {
+    if (this.sourceCapGroup.connState) return;
+    const plugged = this._standby() ? await this.getStoreValue('evPlugDetected') : null;
+    this.signals.chargerPlugged = typeof plugged === 'boolean' ? plugged : null;
+    if (!this._standby()) this.probeSince = null;
+  }
+
+  async _detectPlug() {
+    if (!this._standby()) return;
+    const was = this.signals.chargerPlugged;
+    const plugged = EvChargerControl.detectPlugged({
+      now: Date.now(), plugged: was, powerW: this.livePowerW, ...this.signals,
+    });
+    if (plugged === was) return;
+    this.signals.chargerPlugged = plugged;
+    this.plugChangeTm = Date.now();
+    await this.setStoreValue('evPlugDetected', plugged).catch(this.error);
+    this.log(`[EV Control] Car ${plugged ? 'connected (power at the charger)' : 'not connected (no power at the charger)'}`);
+    if (plugged) await this._endFlowAway('power at the charger');
+    await this._updatePresence();
   }
 
   // Legacy for chargers without any other signal (no plug state, no car location) and not
@@ -433,10 +475,12 @@ class CarChargeDevice extends GenericDevice {
       powerW: this.livePowerW,
       ...this.signals,
       usePowerGap: this._usePowerGap(),
+      ownCharger: !this.getSettings().sharedCharger,
     });
     const prev = this.presence;
     this.presence = presence;
     this.isCarConnected = presence.chargeable;
+    await this._trackSession();
     if (!presence.atHome && (!prev || prev.atHome)) {
       this.lastAwayTm = Date.now(); // a trip due at a later time is then not still waiting (buildTrips)
       await this.setStoreValue('evLastAwayTm', this.lastAwayTm).catch(this.error);
@@ -474,6 +518,8 @@ class CarChargeDevice extends GenericDevice {
 
   async _onDeparture() {
     this.log(`[EV Slot] Departure, SoC ${this.lastKnownSoc}%`);
+    this.departTm = Date.now();
+    await this.setStoreValue('evDepartTm', this.departTm).catch(this.error);
     await this._recordPresenceEvent('departure');
     // The plan is now shown as prediction, and the charger switched off
     await this.updateChargeChart().catch(this.error);
@@ -481,8 +527,67 @@ class CarChargeDevice extends GenericDevice {
 
   async _onReturn() {
     this.log(`[EV Slot] Return, SoC ${this.lastKnownSoc}%`);
+    await this._socAfterTrip();
     await this._recordPresenceEvent('return');
     await this.updateChargeChart().catch(this.error);
+  }
+
+  // Back home without a SoC report since leaving: the SoC less the trip's learned need.
+  async _socAfterTrip() {
+    const { departTm } = this;
+    this.departTm = null;
+    await this.setStoreValue('evDepartTm', null).catch(this.error);
+    if (!departTm || !this.usageModel || this._energyMode() || typeof this.socEstimator.baseSoc !== 'number') return;
+    if ((this.socEstimator.baseTm || 0) >= departTm) return;
+    const capacity = this.getSettings().batCapacity || 50;
+    const kwh = this._tripNeedKwh(departTm, capacity);
+    const soc = Math.max(0, Math.round((this.lastKnownSoc - (kwh / capacity) * 100) * 10) / 10);
+    this.socEstimator = EvSocEstimator.rebaseCounter(this.socEstimator, this._readChargedKwh(), soc);
+    await this.setStoreValue('socEstimator', this.socEstimator).catch(this.error);
+    this.log(`[EV SoC] No car report since departure: SoC ${this.lastKnownSoc}% less ${kwh} kWh for the trip -> ${soc}%`);
+    await this._refreshSocEstimate(true);
+  }
+
+  // Battery kWh of the learned trip nearest to this departure, else of its weekday, else a default.
+  _tripNeedKwh(departTm, capacity) {
+    const tz = this.timeZone || this.homey.clock.getTimezone();
+    const day = this._profile()[EvUsageModel.getDowLocal(new Date(departTm), tz)] || {};
+    const fh = EvUsageModel.toLocalFractionalHour(new Date(departTm), tz);
+    const trips = (day.trips || []).filter((t) => typeof t.needKwh === 'number');
+    if (trips.length) {
+      return trips.reduce((a, b) => (Math.abs(b.departFh - fh) < Math.abs(a.departFh - fh) ? b : a)).needKwh;
+    }
+    if (day.regular && typeof day.needKwh === 'number') return day.needKwh;
+    return Math.round(capacity * EvPlanner.DEFAULT_NEED_PCT) / 100;
+  }
+
+  // ─── Energy mode ────────────────────────────────────────────────────────────
+
+  // No SoC from car or charger, or no report for EvEnergyMode.STALE_MS: plan on energy.
+  _energyMode() {
+    return EvEnergyMode.isActive({
+      hasSocSource: !!(this.sourceCapGroup && this.sourceCapGroup.soc),
+      reportTm: this.socEstimator && this.socEstimator.baseTm,
+      now: Date.now(),
+    });
+  }
+
+  // Charging sessions: plugged in to unplugged, by the charger's (detected) plug state, else by presence.
+  async _trackSession() {
+    const connected = typeof this.signals.chargerPlugged === 'boolean'
+      ? this.signals.chargerPlugged : !!(this.presence && this.presence.atHome);
+    if (!this.energyState || connected === !!this.energyState.session) return;
+    const counter = this._readChargedKwh();
+    if (typeof counter !== 'number') return;
+    const now = Date.now();
+    if (connected) {
+      this.energyState = EvEnergyMode.startSession(this.energyState, now, counter);
+    } else {
+      const kwh = counter - this.energyState.session.startKwh;
+      this.energyState = EvEnergyMode.endSession(this.energyState, now, counter);
+      this.log(`[EV Usage] Charging session ended: ${kwh.toFixed(2)} kWh`);
+    }
+    await this.setStoreValue('evEnergyState', this.energyState).catch(this.error);
   }
 
   // ─── Usage model ────────────────────────────────────────────────────────────
@@ -585,7 +690,10 @@ class CarChargeDevice extends GenericDevice {
     };
 
     const prevDistanceKm = this.signals.carDistanceKm;
-    if (carCaps) {
+    if (carCaps && this.carAvailable === false) {
+      this.signals.carDistanceKm = null;
+      this.signals.carPlugged = null;
+    } else if (carCaps) {
       const lat = Number(read(carCaps, this.carCapGroup.latitude)?.value);
       const lon = Number(read(carCaps, this.carCapGroup.longitude)?.value);
       let homeLat = null;
@@ -733,6 +841,7 @@ class CarChargeDevice extends GenericDevice {
       await this._pollCar().catch(this.error);
     }
     await this._meterPowerIdleCheck();
+    await this._detectPlug();
     await this._updatePresence();
     // A new plan slot: plan again, also without meter readings (handleUpdateMeter does it on those).
     const planSlot = MeterHelpers.startOfBlock(Date.now(), this.planIntervalMin(), tz);
@@ -779,6 +888,7 @@ class CarChargeDevice extends GenericDevice {
     const capabilityId = this.carCapGroup.startCharge;
     if (!this.getSettings().carStartCharge || !capabilityId || !this.evDevice || !this.presence) return;
     if (this.getCapabilityValue('ev_charge_mode') === 'off_temp') return;
+    if (this._standby() && this.signals.chargerPlugged !== true) return;
     const now = Date.now();
     const soc = typeof this.lastKnownSoc === 'number' && this.lastKnownSoc > 0 ? this.lastKnownSoc : null;
     const carLimit = this._carLimit(this.evDevice.capabilitiesObj);
@@ -1000,7 +1110,16 @@ class CarChargeDevice extends GenericDevice {
       this.log(`[EV Control] Solar surplus ${Math.round(surplusW || 0)} W: ${gate.solar ? 'charging on it' : 'not enough'}`);
     }
     this.solarCharging = gate.solar;
-    const { wanted } = gate;
+    let { wanted } = gate;
+    const mode = this.getCapabilityValue('ev_charge_mode') || 'scheduled_price';
+    if (this._standby() && mode !== 'off' && mode !== 'off_temp') {
+      const sb = EvChargerControl.standbyState({
+        wanted, plugged: this.signals.chargerPlugged, now, probeSince: this.probeSince, ...this.signals,
+      });
+      if (sb.probeSince && sb.probeSince !== this.probeSince) this.log('[EV Control] Probe: is the car still connected?');
+      this.probeSince = sb.probeSince;
+      ({ wanted } = sb);
+    }
     if (wanted && powerCap) await this._setTargetPower(powerCap, gate.solar, surplusW, slot);
     // A switch outside this app is still being judged (_judgeSwitch): do not switch it back.
     if (this.pendingSwitch) return;
@@ -1096,6 +1215,15 @@ class CarChargeDevice extends GenericDevice {
     }
     if (changedKeys.some((k) => strategyKeys.includes(k))) {
       this.updateChargeChart().catch(this.error);
+    }
+    if (changedKeys.includes('standbyOn') || changedKeys.includes('sharedCharger') || changedKeys.includes('chargerControl')) {
+      // After the new settings are stored.
+      this.homey.setTimeout(() => {
+        this._syncStandby()
+          .then(() => this._updatePresence())
+          .then(() => this._applyChargerControl())
+          .catch(this.error);
+      }, 1000);
     }
     return true;
   }
@@ -1525,8 +1653,24 @@ class CarChargeDevice extends GenericDevice {
     // Only when the charger itself says so. The car's plug state can be stale, and then only power
     // shows the cable going in: a charger kept off by the plan (or a flow) would never show it.
     const blockNow = unplugged && this.signals.chargerPlugged === false;
+    const reserveSoc = num(settings.reserveSoc, 30);
+    const maxSoc = num(settings.maxSoc, 80);
+    const efficiency = (this.socEstimator && this.socEstimator.efficiency) || EvSocEstimator.DEFAULT_EFFICIENCY;
+    const energyMode = this._energyMode();
+    let energyKwh = null;
     let currentSoc = this.lastKnownSoc || 0;
-    if (!atHome) {
+    if (energyMode) {
+      // From the reserve to the maximum until sessions are learned; at most an empty battery.
+      const need = EvEnergyMode.sessionNeedKwh(
+        this.energyState,
+        (batCapacity * Math.max(0, maxSoc - reserveSoc)) / 100 / efficiency,
+        (batCapacity * maxSoc) / 100 / efficiency,
+      );
+      energyKwh = atHome ? EvEnergyMode.remainingKwh(this.energyState, this._readChargedKwh(), need) : need;
+      currentSoc = EvEnergyMode.plannerSoc({
+        maxSoc, remainingKwh: energyKwh, efficiency, capacityKwh: batCapacity,
+      });
+    } else if (!atHome) {
       const predicted = this._predictReturnSoc();
       if (predicted !== null) currentSoc = predicted;
     }
@@ -1535,7 +1679,6 @@ class CarChargeDevice extends GenericDevice {
     const level = EvPriceProfile.levelFactor(this.priceProfile, known, tz);
     const profile = this.usageModel ? this._profile() : [];
     const awayUntilMs = atHome ? null : this._awayUntilMs(profile, tz, now);
-    const reserveSoc = num(settings.reserveSoc, 30);
     const overrides = this._overrides(tz, now);
     const trips = EvPlanner.buildTrips({
       now,
@@ -1550,6 +1693,12 @@ class CarChargeDevice extends GenericDevice {
         ? { lastAwayMs: this.lastAwayTm || 0, stepMs: intervalMin * 60 * 1000 } : null,
       tripsToday: EvUsageModel.tripsToday(this.usageModel, this._minTripKwh()),
     });
+    // Energy mode: full (the maximum SoC) at every departure; floor and reserve need a real SoC.
+    if (energyMode) {
+      for (const t of trips) {
+        if (!t.explicit) t.minSoc = Math.max(t.minSoc, maxSoc);
+      }
+    }
     const n = Math.ceil((EvPlanner.HORIZON_DAYS * 24 * 60) / intervalMin);
     const chargeMode = this.getCapabilityValue('ev_charge_mode') || 'scheduled_price';
 
@@ -1573,14 +1722,14 @@ class CarChargeDevice extends GenericDevice {
       soc: currentSoc,
       capacityKwh: batCapacity,
       chargePowerW: chargePower,
-      efficiency: (this.socEstimator && this.socEstimator.efficiency) || EvSocEstimator.DEFAULT_EFFICIENCY,
+      efficiency,
       atHome: atHome && !blockNow,
       awayUntilMs: blockNow ? now + 3600 * 1000 : awayUntilMs,
       trips,
-      reserveSoc,
+      reserveSoc: energyMode ? 0 : reserveSoc,
       reserveHours: num(settings.reserveHours, 8),
-      floorSoc: num(settings.floorSoc, 15),
-      maxSoc: num(settings.maxSoc, 80),
+      floorSoc: energyMode ? 0 : num(settings.floorSoc, 15),
+      maxSoc,
       mode: this._plannerMode(chargeMode),
       blockedUntilMs: this._offUntilMs(chargeMode),
       cheapThreshold: cheap,
@@ -1607,7 +1756,8 @@ class CarChargeDevice extends GenericDevice {
     }
     await this._updateUnpluggedAlarm(unplugged && this._plannerMode(chargeMode) !== 'off' && chargeMode !== 'off_temp' ? next : null, currentSoc, now, nextText);
     const nowSlot = strategy[0] || {};
-    this.log(`[EV Plan] ${chargeMode}, SoC ${Math.round(currentSoc)}%${atHome ? '' : ' (predicted return)'}${unplugged ? ', not plugged in' : ''}, next: ${nextText}, `
+    const socText = energyMode ? `no SoC, ${energyKwh.toFixed(1)} kWh to charge` : `SoC ${Math.round(currentSoc)}%`;
+    this.log(`[EV Plan] ${chargeMode}, ${socText}${atHome ? '' : ' (predicted return)'}${unplugged ? ', not plugged in' : ''}, next: ${nextText}, `
       + `now: ${nowSlot.duration ? `${nowSlot.duration} min${nowSlot.solar ? ' solar' : ''}` : 'no'}, price level x${level.toFixed(2)}`
       + `, cheap ${cheap ? `<= ${cheap.grid.toFixed(3)} (solar ${cheap.solar.toFixed(3)}, ${EvPriceProfile.dailyMinDays(this.priceProfile)} days)` : 'off'}`
       + `${result.shortfalls.length ? `, short: ${result.shortfalls.map((sf) => `${sf.what} ${sf.missing}%`).join(', ')}` : ''}`
@@ -1635,8 +1785,8 @@ class CarChargeDevice extends GenericDevice {
 
       await this.refreshDapPrices().catch(() => { });
 
-      // Off without a reported SoC (car or charger): the line would only be a guess.
-      const showSoc = this.getSettings().chartShowSoc !== false && !!(this.sourceCapGroup && this.sourceCapGroup.soc);
+      // Off without a reported SoC (car or charger) and in energy mode: the line would only be a guess.
+      const showSoc = this.getSettings().chartShowSoc !== false && !!(this.sourceCapGroup && this.sourceCapGroup.soc) && !energyMode;
 
       // The plan on expected prices after the published ones: shown pale, not executed.
       const chartScheme = { ...strategy };

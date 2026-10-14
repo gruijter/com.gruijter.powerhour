@@ -608,6 +608,76 @@
           "value": true
         },
         {
+          "id": "standbyOn",
+          "type": "checkbox",
+          "label": {
+            "en": "Plug on without car",
+            "nl": "Stekker aan zonder auto",
+            "de": "Stecker an ohne Auto",
+            "fr": "Prise allumée sans voiture",
+            "es": "Enchufe encendido sin coche",
+            "it": "Presa accesa senza auto",
+            "da": "Stik tændt uden bil",
+            "sv": "Uttag på utan bil",
+            "no": "Stikk på uten bil",
+            "pl": "Gniazdo włączone bez auta",
+            "ru": "Розетка вкл. без авто",
+            "ar": "المقبس مُشغّل بدون سيارة",
+            "ko": "차량 없을 때 플러그 켜기"
+          },
+          "hint": {
+            "en": "For a charger without plug state, e.g. a smart plug: stays on while no car is detected, so plugging in is seen right away. Checks every 3 hours if the car is still connected.",
+            "nl": "Voor een lader zonder plugstatus, bv. een slimme stekker: blijft aan zolang er geen auto is gezien, zodat inpluggen direct wordt gezien. Test elke 3 uur of de auto nog is aangesloten.",
+            "de": "Für ein Ladegerät ohne Steckerstatus, z. B. einen smarten Stecker: bleibt an, solange kein Auto erkannt ist, damit das Einstecken sofort erkannt wird. Prüft alle 3 Stunden, ob das Auto noch angeschlossen ist.",
+            "fr": "Pour un chargeur sans état de branchement, p. ex. une prise connectée : reste allumé tant qu'aucune voiture n'est détectée, pour voir aussitôt le branchement. Vérifie toutes les 3 heures si la voiture est toujours branchée.",
+            "es": "Para un cargador sin estado de conexión, p. ej. un enchufe inteligente: permanece encendido mientras no se detecta coche, para ver la conexión al instante. Comprueba cada 3 horas si el coche sigue conectado.",
+            "it": "Per un caricatore senza stato della spina, ad es. una presa smart: resta acceso finché non viene rilevata un'auto, così il collegamento si vede subito. Controlla ogni 3 ore se l'auto è ancora collegata.",
+            "da": "Til en lader uden stikstatus, fx et smart stik: forbliver tændt, så længe der ikke er registreret en bil, så tilslutning ses med det samme. Tjekker hver 3. time, om bilen stadig er tilsluttet.",
+            "sv": "För en laddare utan kontaktstatus, t.ex. ett smart uttag: förblir på så länge ingen bil upptäckts, så att inkoppling syns direkt. Kontrollerar var 3:e timme om bilen fortfarande är ansluten.",
+            "no": "For en lader uten pluggstatus, f.eks. et smart stikk: forblir på så lenge ingen bil er oppdaget, så tilkobling sees med en gang. Sjekker hver 3. time om bilen fortsatt er tilkoblet.",
+            "pl": "Dla ładowarki bez stanu wtyczki, np. inteligentnego gniazda: pozostaje włączona, dopóki nie wykryto auta, aby podłączenie było widać od razu. Co 3 godziny sprawdza, czy auto jest nadal podłączone.",
+            "ru": "Для зарядки без статуса подключения, напр. умной розетки: остаётся включённой, пока авто не обнаружено, чтобы подключение было видно сразу. Каждые 3 часа проверяет, подключено ли авто.",
+            "ar": "لشاحن بدون حالة التوصيل، مثل مقبس ذكي: يبقى مُشغّلًا ما دامت لم تُكتشف سيارة، فيُرى التوصيل فورًا. يتحقق كل 3 ساعات مما إذا كانت السيارة لا تزال موصولة.",
+            "ko": "플러그 상태가 없는 충전기(예: 스마트 플러그)용: 차량이 감지되지 않는 동안 켜져 있어 연결을 바로 감지합니다. 3시간마다 차량이 아직 연결되어 있는지 확인합니다."
+          },
+          "value": false
+        },
+        {
+          "id": "sharedCharger",
+          "type": "checkbox",
+          "label": {
+            "en": "Shared charger",
+            "nl": "Gedeelde lader",
+            "de": "Geteiltes Ladegerät",
+            "fr": "Chargeur partagé",
+            "es": "Cargador compartido",
+            "it": "Caricatore condiviso",
+            "da": "Delt lader",
+            "sv": "Delad laddare",
+            "no": "Delt lader",
+            "pl": "Wspólna ładowarka",
+            "ru": "Общая зарядка",
+            "ar": "شاحن مشترك",
+            "ko": "공유 충전기"
+          },
+          "hint": {
+            "en": "Check if several cars use this charger. Then power or a plug-in at the charger only counts as this car when the car app does not say it is away.",
+            "nl": "Aanvinken als meerdere auto's deze lader gebruiken. Dan telt stroom of inpluggen bij de lader alleen als deze auto als de auto-app niet zegt dat hij weg is.",
+            "de": "Aktivieren, wenn mehrere Autos dieses Ladegerät nutzen. Dann zählt Strom oder Einstecken am Ladegerät nur als dieses Auto, wenn die Auto-App nicht sagt, dass es weg ist.",
+            "fr": "À cocher si plusieurs voitures utilisent ce chargeur. Le courant ou un branchement au chargeur ne compte alors comme cette voiture que si l'app de la voiture ne la dit pas absente.",
+            "es": "Marcar si varios coches usan este cargador. Entonces la energía o una conexión en el cargador solo cuenta como este coche si la app del coche no dice que está fuera.",
+            "it": "Selezionare se più auto usano questo caricatore. Allora corrente o un collegamento al caricatore conta come questa auto solo se l'app dell'auto non dice che è via.",
+            "da": "Markér, hvis flere biler bruger denne lader. Så tæller strøm eller tilslutning ved laderen kun som denne bil, når bilappen ikke siger, at den er væk.",
+            "sv": "Markera om flera bilar använder denna laddare. Då räknas ström eller inkoppling vid laddaren bara som denna bil när bilappen inte säger att den är borta.",
+            "no": "Kryss av hvis flere biler bruker denne laderen. Da teller strøm eller tilkobling ved laderen bare som denne bilen når bilappen ikke sier at den er borte.",
+            "pl": "Zaznacz, jeśli z tej ładowarki korzysta kilka aut. Wtedy prąd lub podłączenie przy ładowarce oznacza to auto tylko, gdy aplikacja auta nie mówi, że go nie ma.",
+            "ru": "Отметьте, если этой зарядкой пользуются несколько авто. Тогда ток или подключение у зарядки считается этим авто, только если приложение авто не говорит, что его нет.",
+            "ar": "حدّد هذا إذا كانت عدة سيارات تستخدم هذا الشاحن. عندها تُحسب الطاقة أو التوصيل عند الشاحن على أنها هذه السيارة فقط إذا لم يقل تطبيق السيارة إنها بعيدة.",
+            "ko": "여러 차량이 이 충전기를 사용하면 선택하세요. 그러면 차량 앱이 외출 중이라고 하지 않을 때만 충전기의 전력 또는 연결이 이 차량으로 간주됩니다."
+          },
+          "value": false
+        },
+        {
           "id": "overrideMaxHours",
           "type": "number",
           "label": {
