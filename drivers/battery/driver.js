@@ -247,6 +247,11 @@ class BatteryDriver extends GenericDriver {
     const strategy = views.length ? nomXomStrategy.getStrategy({
       devices: views, cumulativePower: nomGridW, x, minLoad,
     }) : [];
+    // TMP split test: remove after the live test
+    this.log(`[TMP split] grid ${Math.round(gridW)} nomGrid ${Math.round(nomGridW)} | ${active.map((d) => {
+      const s = strategy.find((info) => info.id === d.getData().id);
+      return `${d.getName()} ${preps.get(d).block} soc ${d.soc} last ${Math.round(d.controlPowerW())} nom ${s ? Math.round(s.target) : '-'}`;
+    }).join(' | ')}`);
     const weight = (d) => Math.max(1, Number(d.getSettings().chargePower) || 0);
     const total = active.reduce((a, d) => a + weight(d), 0);
     await Promise.all(active.map((d) => {

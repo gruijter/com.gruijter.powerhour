@@ -25,6 +25,7 @@ const ChartImages = require('../../lib/helpers/ChartImages');
 const TimeHelpers = require('../../lib/helpers/TimeHelpers');
 const BatteryControl = require('../../lib/strategies/BatteryControl');
 const BatteryEfficiency = require('../../lib/strategies/BatteryEfficiency');
+const BatterySplit = require('../../lib/strategies/BatterySplit');
 const { getEfficiencyChart } = require('../../lib/charts/EfficiencyChart');
 const { setTimeoutPromise } = require('../../lib/helpers/Util');
 
@@ -174,8 +175,8 @@ class BatDevice extends GenericDevice {
     if (mode === 'device' && this.driver.groupDevices().some((d) => d !== this)) {
       this.log('[Bat Control] Out of the group: if this battery does zero on the meter itself, two controls act on one meter');
     }
-    // Self-consumption plans differently.
-    if ((mode === 'self_consumption') !== (current === 'self_consumption')) this.replan('mode').catch((err) => this.error(err));
+    const planned = (m) => JSON.stringify(BatteryControl.planOptionsFor(m));
+    if (planned(mode) !== planned(current)) this.replan('mode').catch((err) => this.error(err));
   }
 
   // Each battery of the group has the same temporary mode: each ends it by itself.
@@ -675,17 +676,13 @@ class BatDevice extends GenericDevice {
   // A battery for RoiStrategy: its SoC, capacity, and charge/discharge speeds with efficiency.
   roiBattery() {
     const settings = this.getSettings();
-    const speeds = (list) => list
-      .map(([power, loss]) => ({ power: Number(settings[power]) || 0, eff: 1 - (settings[loss] / 100) }))
-      .filter((speed) => speed.power);
     // The planner works above the reserve: that part of the capacity, the SoC within it.
     const r = this.reservePct();
     const soc = Number(this.soc) || 0;
     return {
       soc: r ? (Math.max(0, soc - r) * 100) / (100 - r) : this.soc,
       batCapacity: settings.batCapacity * (1 - (r / 100)),
-      chargeSpeeds: speeds([['chargePower', 'chargeLoss'], ['chargePowerEff', 'chargeLossEff'], ['chargePower3', 'chargeLoss3']]),
-      dischargeSpeeds: speeds([['dischargePower', 'dischargeLoss'], ['dischargePowerEff', 'dischargeLossEff'], ['dischargePower3', 'dischargeLoss3']]),
+      ...BatterySplit.speedsFromSettings(settings),
     };
   }
 

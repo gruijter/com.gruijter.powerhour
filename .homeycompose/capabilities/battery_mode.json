@@ -58,6 +58,24 @@
       }
     },
     {
+      "id": "xom",
+      "title": {
+        "en": "Force NOM/XOM",
+        "nl": "Forceer NOM/XOM",
+        "de": "NOM/XOM erzwingen",
+        "fr": "Forcer NOM/XOM",
+        "it": "Forza NOM/XOM",
+        "sv": "Tvinga NOM/XOM",
+        "no": "Tving NOM/XOM",
+        "es": "Forzar NOM/XOM",
+        "da": "Gennemtving NOM/XOM",
+        "pl": "Wymuś NOM/XOM",
+        "ru": "Принудительно NOM/XOM",
+        "ar": "فرض NOM/XOM",
+        "ko": "NOM/XOM 강제"
+      }
+    },
+    {
       "id": "hold",
       "title": {
         "en": "Hold charge",

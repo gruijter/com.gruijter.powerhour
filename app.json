@@ -6097,6 +6097,24 @@
                 }
               },
               {
+                "id": "xom",
+                "label": {
+                  "en": "Force NOM/XOM",
+                  "nl": "Forceer NOM/XOM",
+                  "de": "NOM/XOM erzwingen",
+                  "fr": "Forcer NOM/XOM",
+                  "it": "Forza NOM/XOM",
+                  "sv": "Tvinga NOM/XOM",
+                  "no": "Tving NOM/XOM",
+                  "es": "Forzar NOM/XOM",
+                  "da": "Gennemtving NOM/XOM",
+                  "pl": "Wymuś NOM/XOM",
+                  "ru": "Принудительно NOM/XOM",
+                  "ar": "فرض NOM/XOM",
+                  "ko": "NOM/XOM 강제"
+                }
+              },
+              {
                 "id": "hold",
                 "label": {
                   "en": "Hold charge",
@@ -11425,6 +11443,24 @@
                   "ru": "Собственное потребление",
                   "ar": "الاستهلاك الذاتي",
                   "ko": "자가 소비"
+                }
+              },
+              {
+                "id": "xom",
+                "label": {
+                  "en": "Force NOM/XOM",
+                  "nl": "Forceer NOM/XOM",
+                  "de": "NOM/XOM erzwingen",
+                  "fr": "Forcer NOM/XOM",
+                  "it": "Forza NOM/XOM",
+                  "sv": "Tvinga NOM/XOM",
+                  "no": "Tving NOM/XOM",
+                  "es": "Forzar NOM/XOM",
+                  "da": "Gennemtving NOM/XOM",
+                  "pl": "Wymuś NOM/XOM",
+                  "ru": "Принудительно NOM/XOM",
+                  "ar": "فرض NOM/XOM",
+                  "ko": "NOM/XOM 강제"
                 }
               },
               {
@@ -32617,6 +32653,24 @@
             "ru": "Собственное потребление",
             "ar": "الاستهلاك الذاتي",
             "ko": "자가 소비"
+          }
+        },
+        {
+          "id": "xom",
+          "title": {
+            "en": "Force NOM/XOM",
+            "nl": "Forceer NOM/XOM",
+            "de": "NOM/XOM erzwingen",
+            "fr": "Forcer NOM/XOM",
+            "it": "Forza NOM/XOM",
+            "sv": "Tvinga NOM/XOM",
+            "no": "Tving NOM/XOM",
+            "es": "Forzar NOM/XOM",
+            "da": "Gennemtving NOM/XOM",
+            "pl": "Wymuś NOM/XOM",
+            "ru": "Принудительно NOM/XOM",
+            "ar": "فرض NOM/XOM",
+            "ko": "NOM/XOM 강제"
           }
         },
         {
