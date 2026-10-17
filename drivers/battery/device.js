@@ -224,6 +224,37 @@ class BatDevice extends GenericDevice {
       ? this.lastSetpointW : (Number(this.getCapabilityValue('measure_watt_avg')) || 0);
   }
 
+  // What control decided last (not rounded to the write steps): zero on the meter integrates on
+  // it, as the XOM flow on its smoothed power.
+  controlCommandW() {
+    return typeof this.decidedW === 'number' && this.getStoreValue('controlTakeover') ? this.decidedW : this.controlPowerW();
+  }
+
+  // controlCommandW() within the lead of the measured power (BatteryControl.leadLimitW()).
+  integratorW() {
+    const settings = this.getSettings();
+    return BatteryControl.leadLimitW({
+      cmdW: this.controlCommandW(),
+      actW: Number(this.getCapabilityValue('measure_watt_avg')),
+      maxChargeW: Number(settings.chargePower),
+      maxDischargeW: Number(settings.dischargePower),
+      reportMs: this.reportIntervalMs,
+    });
+  }
+
+  // How often the source reports its power while running (average ms); idle sources often report
+  // only on change.
+  async updateMeterFromMeasure(val) {
+    const now = Date.now();
+    if (this.lastReportTm && typeof val === 'number' && Math.abs(val) > 50 && Math.abs(this.lastReportW || 0) > 50) {
+      const ms = Math.min(5 * 60 * 1000, now - this.lastReportTm);
+      this.reportIntervalMs = this.reportIntervalMs ? (0.8 * this.reportIntervalMs) + (0.2 * ms) : ms;
+    }
+    this.lastReportTm = now;
+    this.lastReportW = val;
+    return super.updateMeterFromMeasure(val);
+  }
+
   // Driver tick, step 1: housekeeping, and what this battery does now. null: not controlled.
   async controlPrepare(now) {
     if (!this.initReady || this.isDestroyed) return null;
@@ -292,6 +323,8 @@ class BatDevice extends GenericDevice {
       state: this.controlState,
     });
     this.controlState = r.state;
+    this.decidedW = r.powerW;
+    this.updateFollowCap(r.block, now, settings);
     if (this.isDestroyed) return;
     if (!this.getStoreValue('controlTakeover')) await this.takeControl();
     if (!!prep.refill !== !!this.lastRefill) {
@@ -304,9 +337,34 @@ class BatDevice extends GenericDevice {
     }
     if (this.isDestroyed) return;
     if (BatteryControl.shouldWrite({
-      powerW: r.powerW, lastW: this.lastSetpointW, lastTm: this.lastSetpointTm, now,
+      powerW: r.powerW, lastW: this.lastSetpointW, lastTm: this.lastSetpointTm, now, block: r.block,
     })) await this.writeSetpoint(r.powerW, now);
     this.checkSocDeviation(prep.slot, now);
+  }
+
+  // In zero on the meter: the most this battery does while it does not do its setpoint
+  // (BatteryControl.followCap()); the driver gives the rest to the other batteries.
+  updateFollowCap(block, now, settings) {
+    const prev = this.followCapW || null;
+    if (block !== 'zero') {
+      this.followCapW = null;
+      this.followLagSince = null;
+    } else {
+      const f = BatteryControl.followCap({
+        cap: prev,
+        lagSince: this.followLagSince,
+        setW: this.lastSetpointW,
+        setTm: this.lastSetpointTm,
+        actW: Number(this.getCapabilityValue('measure_watt_avg')),
+        maxW: (this.lastSetpointW > 0 ? Number(settings.chargePower) : Number(settings.dischargePower)) || 0,
+        now,
+      });
+      this.followCapW = f.cap;
+      this.followLagSince = f.lagSince;
+    }
+    if (!prev !== !this.followCapW) {
+      this.log(`[Bat Control] ${this.followCapW ? `does not follow its setpoint: at most ${this.followCapW.w} W` : 'follows its setpoint again'}`);
+    }
   }
 
   // tariff: the capacity tariff (setting peakShaving); hard: the main fuse and contracted power
@@ -340,6 +398,9 @@ class BatDevice extends GenericDevice {
     const takeover = this.getStoreValue('controlTakeover');
     if (!takeover) return;
     this.lastSetpointW = null;
+    this.decidedW = null;
+    this.followCapW = null;
+    this.followLagSince = null;
     this.lastControlBlock = null;
     this.controlState = {};
     if (this.sourceDevice && this.sourceCapGroup) {

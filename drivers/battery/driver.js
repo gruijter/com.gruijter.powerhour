@@ -22,6 +22,7 @@ along with com.gruijter.powerhour.  If not, see <http://www.gnu.org/licenses/>.
 const GenericDriver = require('../../lib/genericDeviceDrivers/generic_bat_driver');
 const PairSetup = require('../../lib/helpers/PairSetup');
 const SourceCaps = require('../../lib/helpers/SourceCaps');
+const BatteryControl = require('../../lib/strategies/BatteryControl');
 // Dependencies are lazy loaded in methods to save memory
 
 const driverSpecifics = {
@@ -190,7 +191,7 @@ class BatteryDriver extends GenericDriver {
       return device.triggerXOMFlow(strat, samples, x, smoothing, minLoad, cumulativePower);
     });
     await Promise.all(promises);
-    await this.controlTick(devices, cumulativePower, { x, minLoad, samples });
+    await this.controlTick(devices, cumulativePower, { x, minLoad });
   }
 
   // The batteries planned as one, in one mode (setting groupPlan, not 'device'), controlled here
@@ -213,7 +214,7 @@ class BatteryDriver extends GenericDriver {
   // Built-in control. Zero on the meter (zero/hold blocks) is split over the batteries by
   // NomXomStrategy, as for the XOM flows, against the grid without the batteries this app forces
   // (charge/discharge/idle), so the batteries do not trade energy with each other.
-  async controlTick(devices, gridW, { x = 0, minLoad = 50, samples = 1 } = {}) {
+  async controlTick(devices, gridW, { x = 0, minLoad = 50 } = {}) {
     const now = Date.now();
     const preps = new Map();
     for (const d of devices) {
@@ -225,14 +226,15 @@ class BatteryDriver extends GenericDriver {
     const active = [...preps.keys()];
     if (!active.length) return;
     const isNom = (d) => ['zero', 'hold'].includes(preps.get(d).block) && !preps.get(d).refill;
-    const forcedW = active.filter((d) => !isNom(d)).reduce((a, d) => a + d.controlPowerW(), 0);
+    const forcedW = active.filter((d) => !isNom(d)).reduce((a, d) => a + d.controlCommandW(), 0);
     const nomGridW = gridW - forcedW;
     const candidates = active.filter(isNom);
     // Hold batteries only take part when charging, noCharge batteries (surplus not worth the wear)
     // only when discharging: else NomXomStrategy gives them a share they do not take.
-    const charging = candidates.reduce((a, d) => a + d.controlPowerW(), 0) - (nomGridW - x) > 0;
+    const charging = candidates.reduce((a, d) => a + d.controlCommandW(), 0) - (nomGridW - x) > 0;
     const nomDevices = candidates.filter((d) => (charging ? !preps.get(d).noCharge : preps.get(d).block === 'zero'));
-    // NomXomStrategy reads xomTargetPower: here the last setpoint of this app.
+    // NomXomStrategy reads xomTargetPower: here what control decided last, within the lead of the
+    // measured power; capW: a battery not doing its setpoint.
     const views = nomDevices.map((d) => ({
       getData: () => d.getData(),
       getName: () => d.getName(),
@@ -240,18 +242,14 @@ class BatteryDriver extends GenericDriver {
       getCapabilityValue: (cap) => d.getCapabilityValue(cap),
       soc: d.soc,
       reservePct: () => d.reservePct(),
-      xomTargetPower: d.controlPowerW(),
+      xomTargetPower: d.integratorW(),
+      capW: d.followCapW || null,
     }));
     // eslint-disable-next-line global-require
     const nomXomStrategy = require('../../lib/strategies/NomXomStrategy');
     const strategy = views.length ? nomXomStrategy.getStrategy({
       devices: views, cumulativePower: nomGridW, x, minLoad,
     }) : [];
-    // TMP split test: remove after the live test
-    this.log(`[TMP split] grid ${Math.round(gridW)} nomGrid ${Math.round(nomGridW)} | ${active.map((d) => {
-      const s = strategy.find((info) => info.id === d.getData().id);
-      return `${d.getName()} ${preps.get(d).block} soc ${d.soc} last ${Math.round(d.controlPowerW())} nom ${s ? Math.round(s.target) : '-'}`;
-    }).join(' | ')}`);
     const weight = (d) => Math.max(1, Number(d.getSettings().chargePower) || 0);
     const total = active.reduce((a, d) => a + weight(d), 0);
     await Promise.all(active.map((d) => {
@@ -259,12 +257,17 @@ class BatteryDriver extends GenericDriver {
       let nom = { targetW: 0, needW: 0 };
       const strat = nomDevices.includes(d) && strategy.find((info) => info.id === d.getData().id);
       if (strat) {
-        // Smoothed as the XOM flow does (setting smoothing).
-        const prev = typeof d.nomTargetW === 'number' ? d.nomTargetW : d.controlPowerW();
-        d.nomTargetW = (strat.target / samples) + (prev * ((samples - 1) / samples));
+        // BatteryControl.nomStep(): short spikes left to the grid, less at once. The battery's max
+        // (or its cap) at once.
+        const step = BatteryControl.nomStep({
+          prevW: d.nomTargetW, targetW: strat.target, riseSince: d.nomRiseSince, now,
+        });
+        d.nomRiseSince = step.riseSince;
+        d.nomTargetW = Math.max(-strat.maxDischarge, Math.min(strat.maxCharge, step.w));
         nom = { targetW: d.nomTargetW, needW: strat.target };
       } else {
         d.nomTargetW = null;
+        d.nomRiseSince = null;
       }
       return d.controlApply(preps.get(d), now, gridW, nom, weight(d) / total).catch((err) => d.error(err));
     }));
