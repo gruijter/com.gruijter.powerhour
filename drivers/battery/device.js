@@ -40,6 +40,7 @@ const RELEASE_RETRY_MS = 60 * 1000;
 // Home use the planner assumes without a grid forecast (no grid device).
 const HOME_USE_W = 300;
 const EFFICIENCY_LOG_MS = 60 * 60 * 1000;
+const LEARN_APPLY_MS = 24 * 60 * 60 * 1000;
 
 // Plans in 15-minute slots, as the grid forecast and capacity tariffs; prices per price slot.
 const deviceSpecifics = { planIntervalMin: 15 };
@@ -82,6 +83,7 @@ class BatDevice extends GenericDevice {
       await setTimeoutPromise(10000 + (Math.random() * 60000), this);
       if (this.sessionId !== currentSessionId) return;
       await this.bootstrapEfficiency().catch((err) => this.error(err));
+      await this.applyLearnedSettings().catch((err) => this.error(err));
       if (this.pricesNextHours) {
         await this.flows.triggerNewRoiStrategyFlow().catch((err) => this.error(err));
         await this.updateChargeChart().catch((err) => this.error(err));
@@ -361,8 +363,9 @@ class BatDevice extends GenericDevice {
   }
 
   // xomTarget is the XOM target of all batteries, used every control tick: no restart for it.
-  async onSettings({ newSettings, changedKeys }) {
+  async onSettings({ oldSettings, newSettings, changedKeys }) {
     if (changedKeys.includes('xomTarget')) this.driver.setXomTargetFromSetting(newSettings.xomTarget, this);
+    if (changedKeys.includes('batCapacity')) await this.rescaleEfficiency(oldSettings.batCapacity, newSettings.batCapacity);
     if (changedKeys.every((key) => key === 'xomTarget')) return true;
     return super.onSettings({ newSettings, changedKeys });
   }
@@ -996,6 +999,27 @@ class BatDevice extends GenericDevice {
       this.lastEfficiencyLogTm = now;
       this.log(`[Bat Eff] ${BatteryEfficiency.describe(this.efficiency)}`);
     }
+    await this.setStoreValue('batteryEfficiency', this.efficiency).catch(this.error);
+    await this.applyLearnedSettings(now).catch((err) => this.error(err));
+  }
+
+  // Setting autoLearn (default on): the learned capacity, power and loss values and min. power into
+  // the settings, at most once a day.
+  async applyLearnedSettings(now = Date.now()) {
+    const settings = this.getSettings();
+    if (settings.autoLearn === false || (this.learnAppliedTm && now - this.learnAppliedTm < LEARN_APPLY_MS)) return;
+    this.learnAppliedTm = now;
+    const changes = BatteryEfficiency.toSettings(this.efficiency, settings);
+    if (!changes) return;
+    await this.setSettings(changes);
+    if (changes.batCapacity) await this.rescaleEfficiency(settings.batCapacity, changes.batCapacity);
+    this.log(`[Bat Eff] settings learned: ${Object.entries(changes).map(([key, value]) => `${key} ${settings[key]} -> ${value}`).join(', ')}`);
+  }
+
+  // The learned SoC energy belongs to the capacity it was measured with.
+  async rescaleEfficiency(oldKwh, newKwh) {
+    if (!this.efficiency || !(oldKwh > 0) || !(newKwh > 0) || oldKwh === newKwh) return;
+    this.efficiency = BatteryEfficiency.rescale(this.efficiency, newKwh / oldKwh);
     await this.setStoreValue('batteryEfficiency', this.efficiency).catch(this.error);
   }
 

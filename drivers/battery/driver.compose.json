@@ -282,6 +282,41 @@
       },
       "children": [
         {
+          "id": "autoLearn",
+          "type": "checkbox",
+          "label": {
+            "en": "Learn automatically",
+            "nl": "Automatisch leren",
+            "de": "Automatisch lernen",
+            "fr": "Apprentissage automatique",
+            "it": "Apprendimento automatico",
+            "sv": "Lär automatiskt",
+            "no": "Lær automatisk",
+            "es": "Aprendizaje automático",
+            "da": "Lær automatisk",
+            "pl": "Ucz się automatycznie",
+            "ru": "Автоматическое обучение",
+            "ar": "التعلم التلقائي",
+            "ko": "자동 학습"
+          },
+          "value": true,
+          "hint": {
+            "en": "On: capacity, power and loss values and min. charge/discharge power are filled in from what the battery does, once enough is learned (checked daily). Your own changes to them are then overwritten.",
+            "nl": "Aan: capaciteit, vermogens- en verlieswaarden en min. laad-/ontlaadvermogen worden ingevuld uit wat de batterij doet, zodra er genoeg geleerd is (dagelijks bekeken). Eigen wijzigingen daarin worden dan overschreven.",
+            "de": "Ein: Kapazität, Leistungs- und Verlustwerte sowie min. Lade-/Entladeleistung werden aus dem Verhalten der Batterie ausgefüllt, sobald genug gelernt ist (täglich geprüft). Eigene Änderungen daran werden dann überschrieben.",
+            "fr": "Activé : la capacité, les valeurs de puissance et de perte et la puissance de charge/décharge min. sont remplies d'après le comportement de la batterie, dès que l'apprentissage suffit (vérifié chaque jour). Vos propres modifications sont alors écrasées.",
+            "it": "Attivo: capacità, valori di potenza e di perdita e potenza min. di carica/scarica vengono compilati in base al comportamento della batteria, appena appreso abbastanza (verificato ogni giorno). Le tue modifiche vengono poi sovrascritte.",
+            "sv": "På: kapacitet, effekt- och förlustvärden samt min. ladd-/urladdningseffekt fylls i utifrån hur batteriet beter sig, när tillräckligt har lärts (kontrolleras dagligen). Egna ändringar skrivs då över.",
+            "no": "På: kapasitet, effekt- og tapsverdier og min. lade-/utladingseffekt fylles ut fra hvordan batteriet oppfører seg, når nok er lært (sjekkes daglig). Egne endringer overskrives da.",
+            "es": "Activado: la capacidad, los valores de potencia y pérdida y la potencia mín. de carga/descarga se rellenan según el comportamiento de la batería, cuando se ha aprendido suficiente (se revisa a diario). Tus propios cambios se sobrescriben.",
+            "da": "Til: kapacitet, effekt- og tabsværdier samt min. lade-/afladeeffekt udfyldes ud fra batteriets adfærd, når der er lært nok (tjekkes dagligt). Egne ændringer overskrives så.",
+            "pl": "Wł.: pojemność, wartości mocy i strat oraz min. moc ładowania/rozładowania są uzupełniane na podstawie działania baterii, gdy nauczy się wystarczająco (sprawdzane codziennie). Własne zmiany są wtedy nadpisywane.",
+            "ru": "Вкл.: ёмкость, значения мощности и потерь и мин. мощность заряда/разряда заполняются по поведению батареи, когда данных достаточно (проверяется ежедневно). Ваши изменения при этом перезаписываются.",
+            "ar": "تشغيل: تُملأ السعة وقيم القدرة والفقد والحد الأدنى لقدرة الشحن/التفريغ من سلوك البطارية، بعد تعلم ما يكفي (يُفحص يوميًا). تُستبدل تغييراتك الخاصة عندها.",
+            "ko": "켜짐: 충분히 학습되면 배터리 동작으로부터 용량, 전력 및 손실 값, 최소 충전/방전 전력이 채워집니다(매일 확인). 직접 변경한 값은 덮어쓰여집니다."
+          }
+        },
+        {
           "id": "batCapacity",
           "type": "number",
           "label": {
@@ -315,43 +350,6 @@
             "ru": "Общая емкость хранения в кВтч.",
             "ar": "إجمالي سعة التخزين بالكيلوواط ساعة.",
             "ko": "총 저장 용량(kWh)입니다."
-          }
-        },
-        {
-          "id": "ownPowerStandby",
-          "type": "number",
-          "label": {
-            "en": "Own use when idle (W)",
-            "nl": "Eigen verbruik in rust (W)",
-            "de": "Standby Eigenverbrauch (W)",
-            "fr": "Consommation propre au repos (W)",
-            "it": "Consumo proprio a riposo (W)",
-            "sv": "Egen förbrukning vid tomgång (W)",
-            "no": "Eget forbruk ved tomgang (W)",
-            "es": "Consumo propio en reposo (W)",
-            "da": "Eget forbrug ved tomgang (W)",
-            "pl": "Własne zużycie w stanie spoczynku (W)",
-            "ru": "Собственное потребление в режиме ожидания (Вт)",
-            "ar": "الاستهلاك الذاتي عند الخمول (واط)",
-            "ko": "대기 시 자체 사용량 (W)"
-          },
-          "value": 2.5,
-          "min": 0,
-          "decimals": 1,
-          "hint": {
-            "en": "Own power usage not reported by the battery.",
-            "nl": "Eigen verbruik niet gerapporteerd door de batterij.",
-            "de": "Eigenverbrauch, der von der Batterie nicht gemeldet wird.",
-            "fr": "Propre consommation d'énergie non signalée par la batterie.",
-            "it": "Consumo energetico proprio non riportato dalla batteria.",
-            "sv": "Egen energianvändning som inte rapporteras av batteriet.",
-            "no": "Eget strømforbruk som ikke rapporteres av batteriet.",
-            "es": "Consumo de energía propio no reportado por la batería.",
-            "da": "Eget strømforbrug ikke rapporteret af batteriet.",
-            "pl": "Własne zużycie energii nie zgłaszane przez baterię.",
-            "ru": "Собственное энергопотребление, не сообщаемое батареей.",
-            "ar": "استهلاك الطاقة الخاص لا يتم الإبلاغ عنه بواسطة البطارية.",
-            "ko": "배터리가 보고하지 않는 자체 전력 사용량입니다."
           }
         }
       ]
