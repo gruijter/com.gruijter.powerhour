@@ -118,7 +118,7 @@
   "bat_control_failed": "Batterij aansturen mislukt: __error__",
   "chart_legend": {
     "nom": "XOM",
-    "save": "Zon sparen",
+    "save": "Sparen",
     "charge": "Laden",
     "discharge": "Ontladen"
   },

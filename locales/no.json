@@ -118,7 +118,7 @@
   "bat_control_failed": "Batteristyring mislyktes: __error__",
   "chart_legend": {
     "nom": "XOM",
-    "save": "Solspar",
+    "save": "Spar",
     "charge": "Lad",
     "discharge": "Utlad"
   },

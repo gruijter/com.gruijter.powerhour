@@ -60,19 +60,19 @@
     {
       "id": "hold",
       "title": {
-        "en": "Force solar save",
-        "nl": "Forceer zon sparen",
-        "de": "Solar sparen erzwingen",
-        "fr": "Forcer épargne solaire",
-        "it": "Forza risparmio solare",
-        "sv": "Tvinga solspara",
-        "no": "Tving solspar",
-        "es": "Forzar ahorro solar",
-        "da": "Tving solspar",
-        "pl": "Wymuś oszczędzanie PV",
-        "ru": "Принуд. солнечная экономия",
-        "ar": "فرض ادخار شمسي",
-        "ko": "태양광 절약 강제"
+        "en": "Force save up",
+        "nl": "Forceer sparen",
+        "de": "Ansparen erzwingen",
+        "fr": "Forcer accumulation",
+        "it": "Forza accumulo",
+        "sv": "Tvinga spara",
+        "no": "Tving spar",
+        "es": "Forzar acumulación",
+        "da": "Tving spar",
+        "pl": "Wymuś gromadzenie",
+        "ru": "Принуд. накопление",
+        "ar": "فرض ادخار",
+        "ko": "비축 강제"
       }
     },
     {

@@ -118,7 +118,7 @@
   "bat_control_failed": "Batteriesteuerung fehlgeschlagen: __error__",
   "chart_legend": {
     "nom": "XOM",
-    "save": "Solar sparen",
+    "save": "Ansparen",
     "charge": "Laden",
     "discharge": "Entladen"
   },

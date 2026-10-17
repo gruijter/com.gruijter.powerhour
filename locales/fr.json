@@ -118,7 +118,7 @@
   "bat_control_failed": "Échec du pilotage de la batterie : __error__",
   "chart_legend": {
     "nom": "XOM",
-    "save": "Épargne solaire",
+    "save": "Accumulation",
     "charge": "Charge",
     "discharge": "Décharge"
   },

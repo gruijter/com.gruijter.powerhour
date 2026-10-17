@@ -37,19 +37,19 @@
     {
       "id": "save",
       "title": {
-        "en": "Solar save",
-        "nl": "Zon sparen",
-        "de": "Solar sparen",
-        "fr": "Épargne solaire",
-        "es": "Ahorro solar",
-        "it": "Risparmio solare",
-        "da": "Solspar",
-        "sv": "Solspara",
-        "no": "Solspar",
-        "pl": "Oszczędzanie PV",
-        "ru": "Солнечная экономия",
-        "ar": "ادخار شمسي",
-        "ko": "태양광 절약"
+        "en": "Save up",
+        "nl": "Sparen",
+        "de": "Ansparen",
+        "fr": "Accumulation",
+        "es": "Acumulación",
+        "it": "Accumulo",
+        "da": "Spar",
+        "sv": "Spara",
+        "no": "Spar",
+        "pl": "Gromadzenie",
+        "ru": "Накопление",
+        "ar": "ادخار",
+        "ko": "비축"
       }
     },
     {

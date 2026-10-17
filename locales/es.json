@@ -118,7 +118,7 @@
   "bat_control_failed": "Error al controlar la batería: __error__",
   "chart_legend": {
     "nom": "XOM",
-    "save": "Ahorro solar",
+    "save": "Acumulación",
     "charge": "Carga",
     "discharge": "Descarga"
   },

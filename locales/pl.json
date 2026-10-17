@@ -118,7 +118,7 @@
   "bat_control_failed": "Sterowanie baterią nie powiodło się: __error__",
   "chart_legend": {
     "nom": "XOM",
-    "save": "Oszczędzanie PV",
+    "save": "Gromadzenie",
     "charge": "Ładowanie",
     "discharge": "Rozładowanie"
   },

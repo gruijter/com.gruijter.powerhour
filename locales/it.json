@@ -118,7 +118,7 @@
   "bat_control_failed": "Controllo della batteria non riuscito: __error__",
   "chart_legend": {
     "nom": "XOM",
-    "save": "Risparmio solare",
+    "save": "Accumulo",
     "charge": "Carica",
     "discharge": "Scarica"
   },

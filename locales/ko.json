@@ -118,7 +118,7 @@
   "bat_control_failed": "배터리 제어 실패: __error__",
   "chart_legend": {
     "nom": "XOM",
-    "save": "태양광 절약",
+    "save": "비축",
     "charge": "충전",
     "discharge": "방전"
   },

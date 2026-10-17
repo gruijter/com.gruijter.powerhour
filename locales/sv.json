@@ -118,7 +118,7 @@
   "bat_control_failed": "Batteristyrning misslyckades: __error__",
   "chart_legend": {
     "nom": "XOM",
-    "save": "Solspara",
+    "save": "Spara",
     "charge": "Ladda",
     "discharge": "Ladda ur"
   },
