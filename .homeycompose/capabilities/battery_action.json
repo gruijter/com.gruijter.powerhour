@@ -1,0 +1,151 @@
+{
+  "type": "enum",
+  "title": {
+    "en": "Action",
+    "nl": "Actie",
+    "de": "Aktion",
+    "fr": "Action",
+    "es": "Acción",
+    "it": "Azione",
+    "da": "Handling",
+    "sv": "Åtgärd",
+    "no": "Handling",
+    "pl": "Akcja",
+    "ru": "Действие",
+    "ar": "الإجراء",
+    "ko": "동작"
+  },
+  "values": [
+    {
+      "id": "nom",
+      "title": {
+        "en": "XOM",
+        "nl": "XOM",
+        "de": "XOM",
+        "fr": "XOM",
+        "es": "XOM",
+        "it": "XOM",
+        "da": "XOM",
+        "sv": "XOM",
+        "no": "XOM",
+        "pl": "XOM",
+        "ru": "XOM",
+        "ar": "XOM",
+        "ko": "XOM"
+      }
+    },
+    {
+      "id": "save",
+      "title": {
+        "en": "Solar save",
+        "nl": "Zon sparen",
+        "de": "Solar sparen",
+        "fr": "Épargne solaire",
+        "es": "Ahorro solar",
+        "it": "Risparmio solare",
+        "da": "Solspar",
+        "sv": "Solspara",
+        "no": "Solspar",
+        "pl": "Oszczędzanie PV",
+        "ru": "Солнечная экономия",
+        "ar": "ادخار شمسي",
+        "ko": "태양광 절약"
+      }
+    },
+    {
+      "id": "rest",
+      "title": {
+        "en": "Rest",
+        "nl": "Rust",
+        "de": "Ruhe",
+        "fr": "Repos",
+        "es": "Reposo",
+        "it": "Riposo",
+        "da": "Hvile",
+        "sv": "Vila",
+        "no": "Hvile",
+        "pl": "Spoczynek",
+        "ru": "Покой",
+        "ar": "سكون",
+        "ko": "휴식"
+      }
+    },
+    {
+      "id": "charge",
+      "title": {
+        "en": "Charge",
+        "nl": "Laden",
+        "de": "Laden",
+        "fr": "Charge",
+        "es": "Carga",
+        "it": "Carica",
+        "da": "Oplad",
+        "sv": "Ladda",
+        "no": "Lad",
+        "pl": "Ładowanie",
+        "ru": "Заряд",
+        "ar": "شحن",
+        "ko": "충전"
+      }
+    },
+    {
+      "id": "discharge",
+      "title": {
+        "en": "Discharge",
+        "nl": "Ontladen",
+        "de": "Entladen",
+        "fr": "Décharge",
+        "es": "Descarga",
+        "it": "Scarica",
+        "da": "Aflad",
+        "sv": "Ladda ur",
+        "no": "Utlad",
+        "pl": "Rozładowanie",
+        "ru": "Разряд",
+        "ar": "تفريغ",
+        "ko": "방전"
+      }
+    },
+    {
+      "id": "refill",
+      "title": {
+        "en": "Refill reserve",
+        "nl": "Reserve laden",
+        "de": "Reserve laden",
+        "fr": "Recharge réserve",
+        "es": "Recargar reserva",
+        "it": "Ricarica riserva",
+        "da": "Genopfyld reserve",
+        "sv": "Fyll på reserv",
+        "no": "Fyll reserve",
+        "pl": "Uzupełnij rezerwę",
+        "ru": "Пополнение резерва",
+        "ar": "شحن الاحتياطي",
+        "ko": "예비 충전"
+      }
+    },
+    {
+      "id": "none",
+      "title": {
+        "en": "No control",
+        "nl": "Geen sturing",
+        "de": "Keine Steuerung",
+        "fr": "Pas de pilotage",
+        "es": "Sin control",
+        "it": "Nessun controllo",
+        "da": "Ingen styring",
+        "sv": "Ingen styrning",
+        "no": "Ingen styring",
+        "pl": "Brak sterowania",
+        "ru": "Без управления",
+        "ar": "بلا تحكم",
+        "ko": "제어 없음"
+      }
+    }
+  ],
+  "uiComponent": "sensor",
+  "getable": true,
+  "setable": false,
+  "insights": false,
+  "icon": "/assets/battery_action.svg"
+}

@@ -117,11 +117,8 @@
   "error_peak_steps": "شرائح الأسعار: استخدم مثلاً 2:190; 5:300.",
   "bat_control_failed": "فشل التحكم في البطارية: __error__",
   "chart_legend": {
-    "solar": "شحن من الشمس",
-    "grid_charge": "شحن من الشبكة",
-    "home": "تفريغ للمنزل",
-    "export": "تفريغ للشبكة",
-    "hold": "احتفاظ",
+    "nom": "XOM",
+    "save": "ادخار شمسي",
     "charge": "شحن",
     "discharge": "تفريغ"
   },

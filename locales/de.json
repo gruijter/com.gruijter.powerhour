@@ -117,11 +117,8 @@
   "error_peak_steps": "Preisstufen: z. B. 2:190; 5:300 verwenden.",
   "bat_control_failed": "Batteriesteuerung fehlgeschlagen: __error__",
   "chart_legend": {
-    "solar": "Laden mit Solar",
-    "grid_charge": "Laden aus Netz",
-    "home": "Entladen ins Haus",
-    "export": "Entladen ins Netz",
-    "hold": "Halten",
+    "nom": "XOM",
+    "save": "Solar sparen",
     "charge": "Laden",
     "discharge": "Entladen"
   },

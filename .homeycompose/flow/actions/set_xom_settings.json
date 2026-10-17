@@ -31,19 +31,19 @@
     "ko": "배터리 XOM 흐름 설정. XOM 목표: [[x]]W, 스무딩: [[smoothing]]%, 최소 배터리 부하: [[minLoad]]W."
   },
   "hint": {
-    "en": "Battery power is adjusted to keep usage near the XOM target. Lower smoothing reacts faster to peaks; use 50%+ for steadier control.",
-    "nl": "Het accuvermogen wordt aangepast om het verbruik dicht bij het XOM-doel te houden. Lagere smoothing reageert sneller op piekvermogen; gebruik 50%+ voor stabielere sturing.",
-    "de": "Die Batterieleistung wird angepasst, um den Verbrauch nahe am XOM-Ziel zu halten. Niedrigere Glättung reagiert schneller auf Spitzen; verwenden Sie 50 %+ für eine stabilere Regelung.",
-    "sv": "Batterieffekten justeras för att hålla användningen nära XOM-målet. Lägre utjämning reagerar snabbare på toppar; använd 50 %+ för stabilare kontroll.",
-    "it": "La potenza della batteria viene regolata per mantenere l'uso vicino al target XOM. Uno smussamento più basso reagisce più rapidamente ai picchi; usa 50%+ per un controllo più stabile.",
-    "no": "Batteristrømmen justeres for å holde bruken nær XOM-målet. Lavere utjevning reagerer raskere på topper; bruk 50 %+ for mer stabil kontroll.",
-    "fr": "La puissance de la batterie est ajustée pour maintenir l'usage proche de la cible XOM. Un lissage plus faible réagit plus vite aux pics ; utilisez 50 %+ pour un contrôle plus stable.",
-    "da": "Batteristrømmen justeres for at holde forbruget tæt på XOM-målet. Lavere udjævning reagerer hurtigere på spidser; brug 50 %+ for mere stabil kontrol.",
-    "es": "La potencia de la batería se ajusta para mantener el uso cerca del objetivo XOM. Un suavizado más bajo reacciona más rápido a los picos; use 50 %+ para un control más estable.",
-    "pl": "Moc baterii jest dostosowywana, aby zużycie pozostawało bliskie celowi XOM. Niższe wygładzanie reaguje szybciej na skoki; użyj 50%+ dla stabilniejszej kontroli.",
-    "ru": "Мощность батареи регулируется, чтобы использование оставалось близким к цели XOM. Меньшее сглаживание быстрее реагирует на пики; используйте 50 %+ для более стабильного контроля.",
-    "ko": "배터리 전력은 사용량이 XOM 목표에 가깝게 유지되도록 조정됩니다. 스무딩 값이 낮을수록 피크에 더 빠르게 반응합니다. 더 안정적인 제어를 위해 50% 이상을 사용하세요.",
-    "ar": "يتم ضبط طاقة البطارية للحفاظ على الاستخدام قريبًا من هدف XOM. يستجيب التنعيم المنخفض بشكل أسرع للقمم؛ استخدم 50%+ للحصول على تحكم أكثر استقرارًا."
+    "en": "The XOM target applies to all batteries (also built-in control and the battery setting). Smoothing and min. battery load apply to the XOM flows only.",
+    "nl": "Het XOM-doel geldt voor alle batterijen (ook de ingebouwde sturing en de batterij-instelling). Smoothing en min. accuvermogen gelden alleen voor de XOM-flows.",
+    "de": "Das XOM-Ziel gilt für alle Batterien (auch die eingebaute Steuerung und die Batterieeinstellung). Glättung und min. Batterieleistung gelten nur für die XOM-Flows.",
+    "sv": "XOM-målet gäller alla batterier (även den inbyggda styrningen och batteriinställningen). Utjämning och min. batterieffekt gäller bara XOM-flödena.",
+    "it": "L'obiettivo XOM vale per tutte le batterie (anche il controllo integrato e l'impostazione della batteria). Smoothing e potenza min. valgono solo per i flow XOM.",
+    "no": "XOM-målet gjelder alle batterier (også den innebygde styringen og batteriinnstillingen). Utjevning og min. batterieffekt gjelder bare XOM-flytene.",
+    "fr": "La cible XOM s'applique à toutes les batteries (aussi le pilotage intégré et le réglage de la batterie). Le lissage et la puissance min. ne s'appliquent qu'aux flows XOM.",
+    "da": "XOM-målet gælder alle batterier (også den indbyggede styring og batteriindstillingen). Udjævning og min. batterieffekt gælder kun XOM-flows.",
+    "es": "El objetivo XOM se aplica a todas las baterías (también el control integrado y el ajuste de la batería). El suavizado y la potencia mín. solo se aplican a los flujos XOM.",
+    "pl": "Cel XOM dotyczy wszystkich baterii (także wbudowanego sterowania i ustawienia baterii). Wygładzanie i min. moc baterii dotyczą tylko flow XOM.",
+    "ru": "Цель XOM действует для всех батарей (также для встроенного управления и настройки батареи). Сглаживание и мин. мощность действуют только для потоков XOM.",
+    "ko": "XOM 목표는 모든 배터리에 적용됩니다(내장 제어 및 배터리 설정 포함). 스무딩과 최소 배터리 출력은 XOM 플로우에만 적용됩니다.",
+    "ar": "ينطبق هدف XOM على كل البطاريات (وأيضًا التحكم المدمج وإعداد البطارية). التنعيم والحد الأدنى لقدرة البطارية ينطبقان على تدفقات XOM فقط."
   },
   "args": [
     {

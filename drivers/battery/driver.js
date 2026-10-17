@@ -23,6 +23,12 @@ const GenericDriver = require('../../lib/genericDeviceDrivers/generic_bat_driver
 const PairSetup = require('../../lib/helpers/PairSetup');
 const SourceCaps = require('../../lib/helpers/SourceCaps');
 const BatteryControl = require('../../lib/strategies/BatteryControl');
+
+// A flow's XOM target is written to the battery setting once it did not change for this long.
+const XOM_MIRROR_MS = 15 * 60 * 1000;
+// Built-in control: below this a small total stays on the grid (the per-battery thresholds apply on
+// top); the XOM flows use their own minLoad (flow card 'Set XOM').
+const BUILTIN_MIN_LOAD_W = 50;
 // Dependencies are lazy loaded in methods to save memory
 
 const driverSpecifics = {
@@ -170,12 +176,14 @@ class BatteryDriver extends GenericDriver {
       return;
     }
     const xomSettings = app.xomSettings || this.homey.settings.get('xomSettings') || {};
-    const { smoothing = 50, x = 0, minLoad = 50 } = xomSettings;
+    const { smoothing = 50, minLoad = 50 } = xomSettings;
     const samples = Math.max(1, Math.round((smoothing / 100) * (120 / Math.max(1, interval))));
+    this.mirrorXomTarget(Date.now());
 
     const devices = this.getDevices();
     // Batteries this app controls itself are left out of the XOM flows.
     const flowDevices = devices.filter((d) => !(typeof d.isZeroControlled === 'function' && d.isZeroControlled()));
+    const x = this.xomAimW(flowDevices, cumulativePower, (d) => d.xomTargetPower || 0);
 
     // eslint-disable-next-line global-require
     const nomXomStrategy = require('../../lib/strategies/NomXomStrategy');
@@ -191,7 +199,7 @@ class BatteryDriver extends GenericDriver {
       return device.triggerXOMFlow(strat, samples, x, smoothing, minLoad, cumulativePower);
     });
     await Promise.all(promises);
-    await this.controlTick(devices, cumulativePower, { x, minLoad });
+    await this.controlTick(devices, cumulativePower);
   }
 
   // The batteries planned as one, in one mode (setting groupPlan, not 'device'), controlled here
@@ -214,7 +222,60 @@ class BatteryDriver extends GenericDriver {
   // Built-in control. Zero on the meter (zero/hold blocks) is split over the batteries by
   // NomXomStrategy, as for the XOM flows, against the grid without the batteries this app forces
   // (charge/discharge/idle), so the batteries do not trade energy with each other.
-  async controlTick(devices, gridW, { x = 0, minLoad = 50 } = {}) {
+  // The XOM target (W): the app setting xomSettings.x, set by the flow card 'Set XOM' and by the
+  // battery setting xomTarget. That setting shows it: a flow's value is written there only once
+  // stable for XOM_MIRROR_MS (a device setting is not for frequent writes).
+  xomW() {
+    const xs = this.homey.app.xomSettings || this.homey.settings.get('xomSettings') || {};
+    if (xs.x !== undefined && xs.x !== null && Number.isFinite(Number(xs.x))) return Number(xs.x);
+    const first = this.getDevices()[0];
+    return first ? Number(first.getSettings().xomTarget) || 0 : 0;
+  }
+
+  // The aim for these batteries: with 'Discharge into EV' off on any of them (as the plan) the aim
+  // moves up by the EV chargers' power, on the discharge side only: the batteries never discharge
+  // into the EV, charging from surplus stays as it is. powerOf: what XOM integrates on per battery.
+  xomAimW(devices, gridW, powerOf) {
+    const baseW = this.xomW();
+    if (!devices.length || devices.every((d) => d.getSettings().dischargeToEv !== false)) return baseW;
+    let evW = 0;
+    try {
+      evW = this.homey.drivers.getDriver('evCharger').getDevices()
+        .reduce((a, d) => a + Math.max(0, Number(d.getCapabilityValue('measure_watt_avg')) || 0), 0);
+    } catch {
+      return baseW;
+    }
+    const needW = devices.reduce((a, d) => a + powerOf(d), 0) - (gridW - baseW);
+    return needW >= 0 ? baseW : baseW + Math.min(evW, -needW);
+  }
+
+  // The battery setting xomTarget changed by the user: the XOM target now, on all batteries.
+  setXomTargetFromSetting(value, origin) {
+    const x = Number(value) || 0;
+    const xs = { ...(this.homey.app.xomSettings || this.homey.settings.get('xomSettings') || {}), x };
+    this.homey.settings.set('xomSettings', xs);
+    this.homey.app.xomSettings = xs;
+    this.xomFlowTm = null;
+    this.getDevices().filter((d) => d !== origin && Number(d.getSettings().xomTarget) !== x).forEach((d) => {
+      d.setSettings({ xomTarget: x }).catch((err) => d.error(err));
+    });
+  }
+
+  // The flow card 'Set XOM' set the target: shown in the battery setting once stable.
+  onXomFlow() {
+    this.xomFlowTm = Date.now();
+  }
+
+  mirrorXomTarget(now) {
+    if (!this.xomFlowTm || now - this.xomFlowTm < XOM_MIRROR_MS) return;
+    this.xomFlowTm = null;
+    const x = this.xomW();
+    this.getDevices().filter((d) => Number(d.getSettings().xomTarget) !== x).forEach((d) => {
+      d.setSettings({ xomTarget: x }).catch((err) => d.error(err));
+    });
+  }
+
+  async controlTick(devices, gridW) {
     const now = Date.now();
     const preps = new Map();
     for (const d of devices) {
@@ -231,7 +292,8 @@ class BatteryDriver extends GenericDriver {
     const candidates = active.filter(isNom);
     // Hold batteries only take part when charging, noCharge batteries (surplus not worth the wear)
     // only when discharging: else NomXomStrategy gives them a share they do not take.
-    const charging = candidates.reduce((a, d) => a + d.controlCommandW(), 0) - (nomGridW - x) > 0;
+    const xomW = this.xomAimW(candidates, nomGridW, (d) => d.integratorW());
+    const charging = candidates.reduce((a, d) => a + d.controlCommandW(), 0) - (nomGridW - xomW) > 0;
     const nomDevices = candidates.filter((d) => (charging ? !preps.get(d).noCharge : preps.get(d).block === 'zero'));
     // NomXomStrategy reads xomTargetPower: here what control decided last, within the lead of the
     // measured power; capW: a battery not doing its setpoint.
@@ -248,7 +310,7 @@ class BatteryDriver extends GenericDriver {
     // eslint-disable-next-line global-require
     const nomXomStrategy = require('../../lib/strategies/NomXomStrategy');
     const strategy = views.length ? nomXomStrategy.getStrategy({
-      devices: views, cumulativePower: nomGridW, x, minLoad,
+      devices: views, cumulativePower: nomGridW, x: xomW, minLoad: BUILTIN_MIN_LOAD_W,
     }) : [];
     const weight = (d) => Math.max(1, Number(d.getSettings().chargePower) || 0);
     const total = active.reduce((a, d) => a + weight(d), 0);
@@ -467,12 +529,12 @@ class BatteryDriver extends GenericDriver {
     return this.ds.setup.settings.filter((id) => HP2023 || !['roiEnable', 'batteryControl'].includes(id));
   }
 
-  // Every battery plans (LP or light planner); the mode picker comes with control, on a Homey Pro
-  // (Early 2023).
+  // Every battery plans (LP or light planner); the mode picker and the action now come with
+  // control, on a Homey Pro (Early 2023).
   capabilitiesFor(settings = {}) {
     const caps = super.capabilitiesFor(settings);
     if (!caps.includes('roi_duration')) caps.push('roi_duration');
-    if (this.homey.platformVersion === 2) caps.push('battery_mode');
+    if (this.homey.platformVersion === 2) caps.push('battery_mode', 'battery_action');
     return caps;
   }
 

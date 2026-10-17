@@ -117,11 +117,8 @@
   "error_peak_steps": "Paliers de prix : utilisez p. ex. 2:190; 5:300.",
   "bat_control_failed": "Échec du pilotage de la batterie : __error__",
   "chart_legend": {
-    "solar": "Charge solaire",
-    "grid_charge": "Charge réseau",
-    "home": "Décharge maison",
-    "export": "Décharge réseau",
-    "hold": "Maintien",
+    "nom": "XOM",
+    "save": "Épargne solaire",
     "charge": "Charge",
     "discharge": "Décharge"
   },

@@ -37,6 +37,8 @@ const OWN_WRITE_ECHO_MS = 60 * 1000;
 const SOC_REPLAN_PCT = 3;
 const SOC_REPLAN_MS = 10 * 60 * 1000;
 const RELEASE_RETRY_MS = 60 * 1000;
+// Home use the planner assumes without a grid forecast (no grid device).
+const HOME_USE_W = 300;
 const EFFICIENCY_LOG_MS = 60 * 60 * 1000;
 
 // Plans in 15-minute slots, as the grid forecast and capacity tariffs; prices per price slot.
@@ -276,6 +278,7 @@ class BatDevice extends GenericDevice {
     if (this.inGroup()) await this.joinGroup();
     else this.groupJoined = false;
     if (!this.isControlConfigured() || this.getBatteryMode() === 'device') {
+      await this.setAction(BatteryControl.actionFor());
       await this.clearControlWarning();
       if (this.getStoreValue('controlTakeover') && now - (this.releaseFailTm || 0) >= RELEASE_RETRY_MS) {
         await this.releaseControl(this.isControlConfigured() ? 'mode device' : 'control off');
@@ -349,11 +352,25 @@ class BatDevice extends GenericDevice {
       this.log(`[Bat Control] ${prep.mode}: block ${r.block}, ${r.powerW} W`);
       this.lastControlBlock = r.block;
     }
+    await this.setAction(BatteryControl.actionFor({ block: r.block, refill: prep.refill }));
     if (this.isDestroyed) return;
     if (BatteryControl.shouldWrite({
       powerW: r.powerW, lastW: this.lastSetpointW, lastTm: this.lastSetpointTm, now, block: r.block,
     })) await this.writeSetpoint(r.powerW, now);
     this.checkSocDeviation(prep.slot, now);
+  }
+
+  // xomTarget is the XOM target of all batteries, used every control tick: no restart for it.
+  async onSettings({ newSettings, changedKeys }) {
+    if (changedKeys.includes('xomTarget')) this.driver.setXomTargetFromSetting(newSettings.xomTarget, this);
+    if (changedKeys.every((key) => key === 'xomTarget')) return true;
+    return super.onSettings({ newSettings, changedKeys });
+  }
+
+  // The battery_action capability, on a change only.
+  async setAction(action) {
+    if (!this.hasCapability('battery_action') || this.getCapabilityValue('battery_action') === action) return;
+    await this.setCapabilityValue('battery_action', action).catch(this.error);
   }
 
   // In zero on the meter: the most this battery does while it does not do its setpoint
@@ -786,7 +803,7 @@ class BatDevice extends GenericDevice {
       // Local minute: slots follow local time (half-hour-offset zones differ from UTC).
       startMinute: TimeHelpers.toLocalDate(new Date(now), tz).getMinutes(),
       priceInterval: planMin,
-      homePowerUsage: this.getSettings().roiHomePowerUsage ?? 300,
+      homePowerUsage: HOME_USE_W,
       net: forecast ? forecast.net : null,
       peakWindowMin: forecast ? forecast.peakWindowMin : 15,
       ...BatteryControl.planOptionsFor(this.getBatteryMode()),

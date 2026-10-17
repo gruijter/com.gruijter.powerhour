@@ -117,11 +117,8 @@
   "error_peak_steps": "Prijstrappen: gebruik bijv. 2:190; 5:300.",
   "bat_control_failed": "Batterij aansturen mislukt: __error__",
   "chart_legend": {
-    "solar": "Laden met zon",
-    "grid_charge": "Laden van net",
-    "home": "Ontladen naar huis",
-    "export": "Ontladen naar net",
-    "hold": "Vasthouden",
+    "nom": "XOM",
+    "save": "Zon sparen",
     "charge": "Laden",
     "discharge": "Ontladen"
   },
