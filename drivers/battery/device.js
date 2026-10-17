@@ -25,6 +25,7 @@ const ChartImages = require('../../lib/helpers/ChartImages');
 const TimeHelpers = require('../../lib/helpers/TimeHelpers');
 const BatteryControl = require('../../lib/strategies/BatteryControl');
 const BatteryEfficiency = require('../../lib/strategies/BatteryEfficiency');
+const BatteryResponse = require('../../lib/strategies/BatteryResponse');
 const BatterySplit = require('../../lib/strategies/BatterySplit');
 const { getEfficiencyChart } = require('../../lib/charts/EfficiencyChart');
 const { setTimeoutPromise } = require('../../lib/helpers/Util');
@@ -55,6 +56,7 @@ class BatDevice extends GenericDevice {
     this.socHistory = await this.loadStoredHistory('socHistory');
     this.tempMode = this.getStoreValue('batTempMode') || null;
     this.efficiency = this.getStoreValue('batteryEfficiency') || null;
+    this.response = { ...(this.getStoreValue('batteryResponse') || BatteryResponse.createState()), step: null };
     // A sample over a restart misses energy when the meters are integrated from power: start anew.
     if (this.efficiency) this.efficiency.win = null;
     // Homey keeps a warning over a restart: clear one from before at the next chance.
@@ -252,6 +254,17 @@ class BatDevice extends GenericDevice {
     }
     this.lastReportTm = now;
     this.lastReportW = val;
+    if (typeof val === 'number' && Math.abs(val) >= 50) this.lastActiveTm = now;
+    if (this.response && typeof val === 'number') {
+      const { state, sample } = BatteryResponse.onReport(this.response, { now, actW: val });
+      this.response = state;
+      if (sample) {
+        const idle = typeof sample.idleMs === 'number' ? ` (idle ${Math.round(sample.idleMs / 60000)} min)` : '';
+        this.log(`[Bat Resp] ${sample.kind}${idle} ${Math.round(sample.fromW)} -> ${Math.round(sample.toW)} W in ${(sample.ms / 1000).toFixed(1)} s; `
+          + `${BatteryResponse.describe(state)}`);
+        await this.setStoreValue('batteryResponse', { ...state, step: null }).catch(this.error);
+      }
+    }
     return super.updateMeterFromMeasure(val);
   }
 
@@ -297,7 +310,8 @@ class BatDevice extends GenericDevice {
       this.zeroAvgW = BatteryControl.average(this.zeroAvgW, nom.needW, now - (this.zeroAvgTm || now));
       this.zeroAvgTm = now;
     }
-    const shave = settings.peakShaving === true;
+    // Idle: nothing, only the main fuse (hard limit) still protected.
+    const shave = settings.peakShaving === true && prep.mode !== 'idle';
     const protect = settings.fuseProtection !== false;
     const headroomW = this.gridImportHeadroomW({ tariff: shave, hard: protect });
     const hardHeadroomW = protect ? this.gridImportHeadroomW({ tariff: false, hard: true }) : null;
@@ -398,6 +412,7 @@ class BatDevice extends GenericDevice {
     const takeover = this.getStoreValue('controlTakeover');
     if (!takeover) return;
     this.lastSetpointW = null;
+    if (this.response) this.response.step = null;
     this.decidedW = null;
     this.followCapW = null;
     this.followLagSince = null;
@@ -443,6 +458,11 @@ class BatDevice extends GenericDevice {
     if (typeof obj.min === 'number') value = Math.max(obj.min, value);
     if (typeof obj.max === 'number') value = Math.min(obj.max, value);
     // Also on failure: the next try comes with the keepalive, not every tick.
+    if (this.response) {
+      this.response = BatteryResponse.onWrite(this.response, {
+        now, setW: powerW, actW: Number(this.getCapabilityValue('measure_watt_avg')), idleMs: this.lastActiveTm ? now - this.lastActiveTm : null,
+      });
+    }
     this.lastSetpointW = powerW;
     this.lastSetpointTm = now;
     try {

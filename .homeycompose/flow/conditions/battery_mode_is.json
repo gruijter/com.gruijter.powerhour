@@ -111,19 +111,37 @@
         {
           "id": "hold",
           "label": {
-            "en": "Hold charge",
-            "nl": "Vasthouden",
-            "de": "Ladung halten",
-            "fr": "Conserver la charge",
-            "it": "Mantieni carica",
-            "sv": "Behåll laddning",
-            "no": "Hold ladning",
-            "es": "Mantener carga",
-            "da": "Hold ladning",
-            "pl": "Utrzymaj ładunek",
-            "ru": "Сохранять заряд",
-            "ar": "الاحتفاظ بالشحن",
-            "ko": "충전 유지"
+            "en": "Hold charge (store surplus)",
+            "nl": "Vasthouden (overschot opslaan)",
+            "de": "Ladung halten (Überschuss speichern)",
+            "fr": "Conserver la charge (stocker le surplus)",
+            "it": "Mantieni carica (accumula eccedenza)",
+            "sv": "Behåll laddning (lagra överskott)",
+            "no": "Hold ladning (lagre overskudd)",
+            "es": "Mantener carga (almacenar excedente)",
+            "da": "Hold ladning (gem overskud)",
+            "pl": "Utrzymaj ładunek (magazynuj nadwyżkę)",
+            "ru": "Сохранять заряд (запасать излишки)",
+            "ar": "الاحتفاظ بالشحن (تخزين الفائض)",
+            "ko": "충전 유지 (잉여 저장)"
+          }
+        },
+        {
+          "id": "idle",
+          "label": {
+            "en": "Idle",
+            "nl": "Niets doen",
+            "de": "Nichts tun",
+            "fr": "Ne rien faire",
+            "it": "Non fare nulla",
+            "sv": "Gör ingenting",
+            "no": "Gjør ingenting",
+            "es": "No hacer nada",
+            "da": "Gør ingenting",
+            "pl": "Nic nie rób",
+            "ru": "Ничего не делать",
+            "ar": "لا تفعل شيئًا",
+            "ko": "아무것도 안 함"
           }
         },
         {

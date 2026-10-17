@@ -252,6 +252,9 @@ class BatteryDriver extends GenericDriver {
     }) : [];
     const weight = (d) => Math.max(1, Number(d.getSettings().chargePower) || 0);
     const total = active.reduce((a, d) => a + weight(d), 0);
+    const before = new Map(active.map((d) => [d, {
+      actW: Number(d.getCapabilityValue('measure_watt_avg')), idleMs: d.lastActiveTm ? now - d.lastActiveTm : null,
+    }]));
     await Promise.all(active.map((d) => {
       // Not in zero on the meter now (forced block, or hold while discharging): no NOM part.
       let nom = { targetW: 0, needW: 0 };
@@ -271,6 +274,40 @@ class BatteryDriver extends GenericDriver {
       }
       return d.controlApply(preps.get(d), now, gridW, nom, weight(d) / total).catch((err) => d.error(err));
     }));
+    this.trackGridResponse(active, before, gridW, now);
+  }
+
+  // The batteries' response as the grid meter sees it (their own report may be an estimate): from
+  // the setpoint steps written this tick to 90 % of their sum on the meter. Noisy when the home's
+  // use changes meanwhile. Logged only.
+  trackGridResponse(active, before, gridW, now) {
+    if (!Number.isFinite(gridW)) return;
+    // eslint-disable-next-line global-require
+    const BatteryResponse = require('../../lib/strategies/BatteryResponse');
+    if (!this.gridResponse) this.gridResponse = BatteryResponse.createState();
+    const stepping = active.filter((d) => d.lastSetpointTm === now && typeof d.lastSetpointW === 'number');
+    // The expected change on the meter: the new setpoint against what the battery did.
+    const stepW = stepping.reduce((a, d) => a + (d.lastSetpointW - (Number(before.get(d).actW) || 0)), 0);
+    if (Math.abs(stepW) >= 200) {
+      const { step } = this.gridResponse;
+      const sameWay = step && Math.sign(stepW) === Math.sign(step.toW - step.fromW);
+      const idle = stepping.map((d) => before.get(d)).filter((b) => Math.abs(b.actW || 0) < 50);
+      this.gridResponse = BatteryResponse.onWrite(this.gridResponse, {
+        now,
+        setW: (sameWay ? step.toW : gridW) + stepW,
+        actW: gridW,
+        standstill: idle.length === stepping.length,
+        idleMs: idle.length === stepping.length ? Math.min(...idle.map((b) => b.idleMs ?? 0)) : null,
+      });
+      return;
+    }
+    const { state, sample } = BatteryResponse.onReport(this.gridResponse, { now, actW: gridW });
+    this.gridResponse = state;
+    if (sample) {
+      const idle = typeof sample.idleMs === 'number' ? ` (idle ${Math.round(sample.idleMs / 60000)} min)` : '';
+      this.log(`[Bat Resp] grid meter: ${sample.kind}${idle} step ${Math.round(sample.toW - sample.fromW)} W in ${(sample.ms / 1000).toFixed(1)} s; `
+        + `${BatteryResponse.describe(state)}`);
+    }
   }
 
   checkDeviceCompatibility(homeyDevice) {
