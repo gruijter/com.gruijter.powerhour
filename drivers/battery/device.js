@@ -893,6 +893,7 @@ class BatDevice extends GenericDevice {
         slot.limitW = Math.round(Math.min(tariffW, hardW));
         const first = peakSlots[0] || {};
         // null: no price known (as low as possible), or the hard limit: the planner uses a large penalty.
+        // stepJump is a one-off monthly increase, used as a price per kW: a linear approximation.
         slot.penaltyPerKw = hardW < tariffW ? null : (first.penaltyPerKw ?? first.stepJump ?? null);
       }
       net.push(slot);

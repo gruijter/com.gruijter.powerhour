@@ -890,14 +890,19 @@ class GridDevice extends GenericDevice {
   // History that no longer fits the settings starts empty (the month peak may be another window).
   async seedPeakHistory() {
     const cfg = this.peakConfig;
-    const monthKey = PeakTariff.monthKeyOf(TimeHelpers.toLocalDate(new Date(), this.timeZone));
+    const local = TimeHelpers.toLocalDate(new Date(), this.timeZone);
+    const monthKey = PeakTariff.monthKeyOf(local);
     const h = this.peakHistory;
     if (!h || h.month !== monthKey || h.sig !== PeakTariff.signature(cfg)) {
-      const month = this.peakLoad && this.peakLoad.month;
-      const seedable = !h && month && typeof month.max === 'number' && !PeakTariff.hasWeighting(cfg)
+      const { month, day } = this.peakLoad || {};
+      // The month peak is of the current window length (the first part of the signature).
+      const sameWindow = !h || String(h.sig).split('|')[0] === String(cfg.windowMin);
+      const seedable = sameWindow && month && typeof month.max === 'number' && !PeakTariff.hasWeighting(cfg)
         && `${month.year}-${String(month.month + 1).padStart(2, '0')}` === monthKey;
+      // Today's own key when the month peak is today's, so the day is not counted twice.
+      const today = seedable && day && day.max === month.max && day.day === local.getDate() && day.month === local.getMonth();
       this.peakHistory = seedable
-        ? PeakTariff.recordWindow(null, cfg, { monthKey, dayKey: 'seed', weightedW: month.max })
+        ? PeakTariff.recordWindow(null, cfg, { monthKey, dayKey: today ? PeakTariff.dayKeyOf(local) : 'seed', weightedW: month.max })
         : null;
       this.markStoreDirty('peakHistory');
     }
@@ -922,8 +927,11 @@ class GridDevice extends GenericDevice {
   // yet. See PeakTariff.threshold().
   getPeakState(atMs = Date.now()) {
     const cfg = this.peakConfig;
-    const local = TimeHelpers.toLocalDate(new Date(atMs), this.timeZone || this.homey.clock.getTimezone());
     const fillW = cfg.selection === 'max' ? 0 : this.getExpectedDailyPeakW();
+    // Called per meter reading for the same window: reused while nothing it depends on changed.
+    const m = this.peakStateMemo;
+    if (m && m.atMs === atMs && m.history === this.peakHistory && m.cfg === cfg && m.fillW === fillW) return m.state;
+    const local = TimeHelpers.toLocalDate(new Date(atMs), this.timeZone || this.homey.clock.getTimezone());
     const t = PeakTariff.threshold(this.peakHistory, cfg, {
       monthKey: PeakTariff.monthKeyOf(local), dayKey: PeakTariff.dayKeyOf(local), fillW,
     });
@@ -931,7 +939,11 @@ class GridDevice extends GenericDevice {
     let limitW = null;
     if (t.thresholdW === Infinity || (t.thresholdW !== null && weight <= 0)) limitW = Infinity;
     else if (t.thresholdW !== null) limitW = Math.round(t.thresholdW / weight);
-    return { ...t, weight, limitW };
+    const state = { ...t, weight, limitW };
+    this.peakStateMemo = {
+      atMs, history: this.peakHistory, cfg, fillW, state,
+    };
+    return state;
   }
 
   // Instant import limit (W): the contracted power when set, else the main fuse. null: unknown.
@@ -962,27 +974,15 @@ class GridDevice extends GenericDevice {
     if (this.expectedDailyPeak && nowMs - this.expectedDailyPeak.tm < 60 * 60 * 1000) return this.expectedDailyPeak.w;
     let w = 0;
     try {
-      const cfg = this.peakConfig;
       const tz = this.timeZone || this.homey.clock.getTimezone();
-      const windowMs = cfg.windowMin * 60 * 1000;
-      const startMs = MeterHelpers.startOfBlock(nowMs, cfg.windowMin, tz);
-      const nowLocal = TimeHelpers.toLocalDate(new Date(nowMs), tz);
-      const endMs = TimeHelpers.getLocalMidnightUTC(
-        new Date(Date.UTC(nowLocal.getFullYear(), nowLocal.getMonth() + 1, 1, 12)),
-        tz,
-      ).getTime();
-      const net = this.getNetForecast(startMs, endMs).netNoBattery;
-      const perWindow = cfg.windowMin / 15;
+      const startMs = MeterHelpers.startOfBlock(nowMs, this.peakConfig.windowMin, tz);
+      const net = this.getNetForecast(startMs, this.startOfNextMonthMs(nowMs, tz)).netNoBattery;
       const dayMax = {};
-      for (let i = 0; i + perWindow <= net.length; i += perWindow) {
-        const local = TimeHelpers.toLocalDate(new Date(startMs + ((i / perWindow) * windowMs)), tz);
-        const weight = PeakTariff.weightAt(cfg, local);
-        if (weight > 0) {
-          const avg = net.slice(i, i + perWindow).reduce((a, v) => a + Math.max(0, v), 0) / perWindow;
-          const day = PeakTariff.dayKeyOf(local);
-          dayMax[day] = Math.max(dayMax[day] || 0, avg * weight);
-        }
-      }
+      this.eachForecastWindow(net, startMs, tz, ({ avgW, weight, local }) => {
+        if (weight <= 0) return;
+        const day = PeakTariff.dayKeyOf(local);
+        dayMax[day] = Math.max(dayMax[day] || 0, avgW * weight);
+      });
       const days = Object.values(dayMax).sort((a, b) => a - b);
       if (days.length) w = Math.round(days[Math.floor(days.length / 2)]);
     } catch (err) {
@@ -990,6 +990,34 @@ class GridDevice extends GenericDevice {
     }
     this.expectedDailyPeak = { tm: nowMs, w };
     return w;
+  }
+
+  // Local midnight at the start of next month (ms).
+  startOfNextMonthMs(nowMs, tz) {
+    const nowLocal = TimeHelpers.toLocalDate(new Date(nowMs), tz);
+    return TimeHelpers.getLocalMidnightUTC(new Date(Date.UTC(nowLocal.getFullYear(), nowLocal.getMonth() + 1, 1, 12)), tz).getTime();
+  }
+
+  // Per capacity-tariff window of a 15-min net forecast from startMs (a window start):
+  // fn({ t, avgW (import), weight, local }).
+  eachForecastWindow(net, startMs, tz, fn) {
+    const cfg = this.peakConfig;
+    const perWindow = cfg.windowMin / 15;
+    for (let i = 0; i + perWindow <= net.length; i += perWindow) {
+      const t = startMs + (i * 15 * 60 * 1000);
+      const local = TimeHelpers.toLocalDate(new Date(t), tz);
+      const avgW = net.slice(i, i + perWindow).reduce((a, v) => a + Math.max(0, v), 0) / perWindow;
+      fn({
+        t, avgW, weight: PeakTariff.weightAt(cfg, local), local,
+      });
+    }
+  }
+
+  // Average import (W) still allowed over the rest of the running window to keep it at limitW.
+  windowAllowanceW(limitW, nowMs) {
+    const slotMs = this.getPeakLoadIntervalMinutes() * 60 * 1000;
+    const remainingH = Math.max(1 / 60, (this.peakLoad.slotStart + slotMs - nowMs) / 3600000);
+    return (((limitW * slotMs) / 3600000) - (this.peakLoad.importKwhInSlot * 1000)) / remainingH;
   }
 
   /**
@@ -1002,16 +1030,22 @@ class GridDevice extends GenericDevice {
   getPeakLimitSeries(startMs, endMs) {
     const cfg = this.peakConfig;
     const tz = this.timeZone || this.homey.clock.getTimezone();
+    const nowMs = Date.now();
+    const running = this.peakLoad ? this.peakLoad.slotStart : null;
     const slots = [];
     let windowStart = null;
     let state = null;
+    let limitW = null;
     for (let t = startMs; t < endMs; t += 15 * 60 * 1000) {
       const ws = MeterHelpers.startOfBlock(t, cfg.windowMin, tz);
       if (ws !== windowStart) {
         windowStart = ws;
         state = this.getPeakState(ws);
+        // The running window: what its import so far leaves for the rest of it.
+        limitW = ws === running && Number.isFinite(state.limitW)
+          ? Math.max(0, Math.round(this.windowAllowanceW(state.limitW, nowMs))) : state.limitW;
       }
-      slots.push({ limitW: state.limitW, penaltyPerKw: state.penaltyPerKw, stepJump: state.stepJump });
+      slots.push({ limitW, penaltyPerKw: state.penaltyPerKw, stepJump: state.stepJump });
     }
     return {
       active: PeakTariff.isActive(cfg), windowMin: cfg.windowMin, hardLimitW: this.getHardLimitW(), slots,
@@ -1034,10 +1068,7 @@ class GridDevice extends GenericDevice {
     const { limitW } = this.getPeakState(this.peakLoad.slotStart);
     const monthPeakW = limitW === Infinity ? null : limitW;
     let headroomW = null;
-    if (monthPeakW !== null) {
-      const remainingForHeadroomH = Math.max(remainingH, 1 / 60);
-      headroomW = Math.round(((monthPeakW * slotH) - energyWh) / remainingForHeadroomH - importW);
-    }
+    if (monthPeakW !== null) headroomW = Math.round(this.windowAllowanceW(monthPeakW, nowMs) - importW);
     const tariffHeadroomW = headroomW;
     if (this.peakConfig.hardLimitW > 0) {
       const hardHeadroomW = Math.round(this.getHardLimitW() - importW);
@@ -1064,25 +1095,18 @@ class GridDevice extends GenericDevice {
   // Expected peak-slot import from the net forecast that counts most for the capacity tariff
   // (highest weighted average), up to the end of tomorrow or of this month, whichever comes first.
   getExpectedPeak() {
-    const slotMs = this.getPeakLoadIntervalMinutes() * 60 * 1000;
+    const tz = this.timeZone || this.homey.clock.getTimezone();
+    const { windowMin } = this.peakConfig;
     const nowMs = Date.now();
-    const startMs = MeterHelpers.startOfBlock(nowMs, this.getPeakLoadIntervalMinutes(), this.timeZone) + slotMs;
-    const nowLocal = TimeHelpers.toLocalDate(new Date(nowMs), this.timeZone);
-    const startOfNextMonth = TimeHelpers.getLocalMidnightUTC(
-      new Date(Date.UTC(nowLocal.getFullYear(), nowLocal.getMonth() + 1, 1, 12)),
-      this.timeZone,
-    ).getTime();
-    const tomorrowEnd = TimeHelpers.getUTCPeriods(this.timeZone).tomorrowEnd.getTime();
-    const endMs = Math.min(tomorrowEnd, startOfNextMonth);
-    if (endMs <= startMs) return { expectedPeakW: null, expectedPeakTime: null };
-    const net = this.getNetForecast(startMs, endMs).netPlanned;
-    const perSlot = slotMs / (15 * 60 * 1000);
+    const startMs = MeterHelpers.startOfBlock(nowMs, windowMin, tz) + (windowMin * 60 * 1000);
+    const tomorrowEnd = TimeHelpers.getUTCPeriods(tz).tomorrowEnd.getTime();
+    const endMs = Math.min(tomorrowEnd, this.startOfNextMonthMs(nowMs, tz));
     let best = null;
-    for (let i = 0; i + perSlot <= net.length; i += perSlot) {
-      const t = startMs + (i * 15 * 60 * 1000);
-      const avg = net.slice(i, i + perSlot).reduce((a, v) => a + Math.max(0, v), 0) / perSlot;
-      const weighted = avg * PeakTariff.weightAt(this.peakConfig, TimeHelpers.toLocalDate(new Date(t), this.timeZone));
-      if (!best || weighted > best.weighted) best = { w: Math.round(avg), weighted, t };
+    if (endMs > startMs) {
+      this.eachForecastWindow(this.getNetForecast(startMs, endMs).netPlanned, startMs, tz, ({ t, avgW, weight }) => {
+        const weighted = avgW * weight;
+        if (!best || weighted > best.weighted) best = { w: Math.round(avgW), weighted, t };
+      });
     }
     return best
       ? { expectedPeakW: best.w, expectedPeakTime: new Date(best.t).toISOString(), expectedPeakTm: best.t }
@@ -1099,7 +1123,9 @@ class GridDevice extends GenericDevice {
     const atPeak = expectedPeakTm !== null ? this.getPeakState(expectedPeakTm) : null;
     return {
       monthPeakW,
-      billedW: now.billedW,
+      // As measure_watt_peak.billed: measured values only (now.billedW includes the fill).
+      billedW: PeakTariff.billedW(this.peakHistory, this.peakConfig,
+        PeakTariff.monthKeyOf(TimeHelpers.toLocalDate(new Date(), this.timeZone || this.homey.clock.getTimezone()))),
       projectedSlotW: p.projectedW !== undefined ? p.projectedW : null,
       headroomW: p.headroomW !== undefined ? p.headroomW : null,
       expectedPeakW,
