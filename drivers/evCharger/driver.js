@@ -237,6 +237,11 @@ class CarChargeDriver extends GenericDriver {
 
   // ─── Pairing / repairing ─────────────────────────────────────────────────────
 
+  // The paired device is named after the charger; the list also shows the car.
+  sourceName(dev) {
+    return dev.settings.homey_device_name;
+  }
+
   /**
    * One entry per charger, plus one per charger+car combination: both picked in one list.
    */
@@ -250,7 +255,7 @@ class CarChargeDriver extends GenericDriver {
       if (charger.useMeasureSource) baseSettings.use_measure_source = true;
 
       devices.push({
-        name: `${charger.name}_Σ`,
+        name: charger.name,
         data: { id: `PH_${this.ds.driverId}_${charger.id}_${randomId}` },
         settings: { ...baseSettings },
         capabilities: this.capabilitiesFor(baseSettings),
@@ -258,7 +263,7 @@ class CarChargeDriver extends GenericDriver {
 
       cars.forEach((car) => {
         devices.push({
-          name: `${charger.name}_Σ (${car.name})`,
+          name: `${charger.name} (${car.name})`,
           data: { id: `PH_${this.ds.driverId}_${charger.id}_${car.id}_${randomId}` },
           settings: { ...baseSettings, ev_device_id: car.id, ev_device_name: car.name },
           capabilities: this.capabilitiesFor(baseSettings),

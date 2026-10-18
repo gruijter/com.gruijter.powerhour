@@ -209,7 +209,7 @@ class PowerDriver extends GenericDriver {
   getVirtualDevices(randomId, allCaps, reducedCaps) {
     return [
       {
-        name: `HOMEY_ENERGY_SMARTMETERS_Σ${this.ds.driverId}`,
+        name: 'HOMEY_ENERGY_SMARTMETERS',
         data: {
           id: `PH_${this.ds.driverId}_HE_CUMULATIVE_${randomId}`,
         },
@@ -226,7 +226,7 @@ class PowerDriver extends GenericDriver {
         capabilities: allCaps,
       },
       {
-        name: `HOMEY_ENERGY_SOLARPANELS_Σ${this.ds.driverId}`,
+        name: 'HOMEY_ENERGY_SOLARPANELS',
         data: {
           id: `PH_${this.ds.driverId}_HE_GENERATED_${randomId}`,
         },
@@ -243,7 +243,7 @@ class PowerDriver extends GenericDriver {
         capabilities: reducedCaps,
       },
       {
-        name: `HOMEY_ENERGY_DEVICES_Σ${this.ds.driverId}`,
+        name: 'HOMEY_ENERGY_DEVICES',
         data: {
           id: `PH_${this.ds.driverId}_HE_CONSUMED_${randomId}`,
         },
