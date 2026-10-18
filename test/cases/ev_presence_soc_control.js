@@ -192,7 +192,10 @@ assert.strictEqual(C.tempModeEnd({ since: now }, 2), now + 2 * 60 * min);
 {
   const H = 60 * min;
   const p2 = {
-    startMs: now, planTm: now, intervalMs: H, slots: [{ power: 0, duration: 0 }, { power: 2600, duration: 60 }, { power: 2600, duration: 30 }, { power: 0, duration: 0 }, { power: 2600, duration: 60 }],
+    startMs: now,
+    planTm: now,
+    intervalMs: H,
+    slots: [{ power: 0, duration: 0 }, { power: 2600, duration: 60 }, { power: 2600, duration: 30 }, { power: 0, duration: 0 }, { power: 2600, duration: 60 }],
   };
   assert.deepStrictEqual(C.nextChargeWindow(p2, now), { startMs: now + H, endMs: now + 2.5 * H, minutes: 90 }, 'joined slots, partial last; gap of 1.5 slot ends it');
   assert.deepStrictEqual(C.nextChargeWindow(p2, now + 1.5 * H), { startMs: now + H, endMs: now + 2.5 * H, minutes: 60 }, 'running now: minutes from now');

@@ -343,7 +343,12 @@ test('group of 2 alike Sessys: both share the plan, saving unchanged', () => {
   }
   const one = lp.getGroupStrategy(o);
   const single = [lp.getStrategy({
-    ...o, batteries: null, soc: 5, batCapacity: 10, chargeSpeeds: speeds.chargeSpeeds.map((s) => ({ ...s, power: 2 * s.power })), dischargeSpeeds: speeds.dischargeSpeeds.map((s) => ({ ...s, power: 2 * s.power })),
+    ...o,
+    batteries: null,
+    soc: 5,
+    batCapacity: 10,
+    chargeSpeeds: speeds.chargeSpeeds.map((s) => ({ ...s, power: 2 * s.power })),
+    dischargeSpeeds: speeds.dischargeSpeeds.map((s) => ({ ...s, power: 2 * s.power })),
   })];
   const caps = { ...o, batteries: null, batCapacity: 10 };
   console.log(`     group ${evaluate(one, o).toFixed(3)}, as one battery ${evaluate(single, caps).toFixed(3)}`);

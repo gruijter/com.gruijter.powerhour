@@ -1,4 +1,5 @@
 'use strict';
+
 // Combined Step1(hourly, 13 days) + Step2(5-min, last 24h) winter benchmark - the gap flagged
 // in test/solar/README.md section 3/5/6 as never having been tested. Mirrors drivers/solar/device.js
 // updateLearning() exactly: same weatherHistory (hourly-resolution Open-Meteo, hour-END
@@ -11,7 +12,10 @@
 const SolarLearningStrategy = require('../../../lib/strategies/SolarLearningStrategy');
 const { estimateClearSkyGHI } = require('../../../lib/helpers/ClearSkyGHI');
 
-const LAT = 52.09, LON = 5.00, PEAK_POWER = 1000, TRUE_YIELD = 1.0;
+const LAT = 52.09;
+const LON = 5.00;
+const PEAK_POWER = 1000;
+const TRUE_YIELD = 1.0;
 
 function pseudoRandom(seed) {
   const x = Math.sin(seed * 12.9898) * 43758.5453;
@@ -25,7 +29,9 @@ function buildTrue5Min(dayStart, seedBase, isClear) {
   for (let i = 0; i < 288; i += 1) {
     const t = dayStart + i * 5 * 60000;
     const clearSky = estimateClearSkyGHI(t, LAT, LON);
-    if (clearSky <= 0) { points.push({ t, trueRadiation: 0 }); continue; }
+    if (clearSky <= 0) {
+      points.push({ t, trueRadiation: 0 }); continue;
+    }
     const cloudAttenuation = isClear ? 1.0 : (0.10 + 0.15 * pseudoRandom(seedBase + i * 0.7));
     const cellNoise = isClear ? 1.0 : (1 + (pseudoRandom(seedBase + i * 3.1) - 0.5) * 0.4);
     points.push({ t, trueRadiation: clearSky * cloudAttenuation * cellNoise });
@@ -73,8 +79,10 @@ function build5MinDay(dayStart, seedBase, isClear) {
 }
 
 function runScenario(label, cfgDays, lastDayIsHighRes) {
-  let hourlyPower = [], hourlyWeather = [];
-  let highPower = [], highWeather = [];
+  let hourlyPower = [];
+  let hourlyWeather = [];
+  let highPower = [];
+  let highWeather = [];
   cfgDays.forEach((isClear, d) => {
     const dayStart = new Date(`2026-12-${String(10 + d).padStart(2, '0')}T00:00:00Z`).getTime();
     const seedBase = d * 1000 + 1;
@@ -114,7 +122,10 @@ runScenario('14 Cloudy Days (hourly only)', Array(14).fill(false), false);
 // --- Diagnostic: find which slot produces the 0.550 minimum ---
 console.log('\n--- DIAGNOSTIC: 13 Cloudy + last day Clear (5-min res) ---');
 (function diag() {
-  let hourlyPower = [], hourlyWeather = [], highPower = [], highWeather = [];
+  let hourlyPower = [];
+  let hourlyWeather = [];
+  let highPower = [];
+  let highWeather = [];
   const cfgDays = [...Array(13).fill(false), true];
   cfgDays.forEach((isClear, d) => {
     const dayStart = new Date(`2026-12-${String(10 + d).padStart(2, '0')}T00:00:00Z`).getTime();
@@ -130,15 +141,25 @@ console.log('\n--- DIAGNOSTIC: 13 Cloudy + last day Clear (5-min res) ---');
       hourlyWeather = hourlyWeather.concat(day.weatherEntries);
     }
   });
-  const r1 = SolarLearningStrategy.extractSlotSamples({ powerEntries: hourlyPower, weatherEntries: hourlyWeather, resolution: 'hourly', peakPower: PEAK_POWER, lat: LAT, lon: LON, logger: () => {} });
-  const r2 = SolarLearningStrategy.extractSlotSamples({ powerEntries: highPower, weatherEntries: highWeather, resolution: 'high', peakPower: PEAK_POWER, lat: LAT, lon: LON, logger: () => {} });
+  const r1 = SolarLearningStrategy.extractSlotSamples({
+    powerEntries: hourlyPower, weatherEntries: hourlyWeather, resolution: 'hourly', peakPower: PEAK_POWER, lat: LAT, lon: LON, logger: () => {},
+  });
+  const r2 = SolarLearningStrategy.extractSlotSamples({
+    powerEntries: highPower, weatherEntries: highWeather, resolution: 'high', peakPower: PEAK_POWER, lat: LAT, lon: LON, logger: () => {},
+  });
   const combined = r1.slotSamples.map((s, idx) => [...s, ...r2.slotSamples[idx]]);
   const res = SolarLearningStrategy.aggregateYieldFactors({ combinedSlotSamples: combined, peakPower: PEAK_POWER, logger: () => {} });
-  let minIdx = -1, minVal = Infinity;
-  res.yieldFactors.forEach((y, i) => { if (y !== null && y > 0 && y < minVal) { minVal = y; minIdx = i; } });
-  console.log(`Min YF at slot ${minIdx} (UTC ${Math.floor(minIdx/4)}:${(minIdx%4)*15}) = ${minVal.toFixed(3)}`);
+  let minIdx = -1;
+  let minVal = Infinity;
+  res.yieldFactors.forEach((y, i) => {
+    if (y !== null && y > 0 && y < minVal) {
+      minVal = y; minIdx = i;
+    }
+  });
+  console.log(`Min YF at slot ${minIdx} (UTC ${Math.floor(minIdx / 4)}:${(minIdx % 4) * 15}) = ${minVal.toFixed(3)}`);
   console.log(`Samples in that slot (${combined[minIdx].length}):`);
   combined[minIdx].forEach((s) => {
-    console.log(`  power=${s.power.toFixed(1)}W rad=${s.radiation.toFixed(2)} yf=${s.yieldFactor.toFixed(3)} weight=${s.weight.toFixed(2)} fallback=${s.isFallback} t=${new Date(s.timestamp).toISOString()}`);
+    console.log(`  power=${s.power.toFixed(1)}W rad=${s.radiation.toFixed(2)} yf=${s.yieldFactor.toFixed(3)} weight=${s.weight.toFixed(2)}`
+      + ` fallback=${s.isFallback} t=${new Date(s.timestamp).toISOString()}`);
   });
-})();
+}());

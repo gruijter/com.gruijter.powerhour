@@ -1,10 +1,12 @@
 'use strict';
-const fs = require('fs');
-const path = require('path');
+
 const SolarLearningStrategy = require('../../../lib/strategies/SolarLearningStrategy');
 const { estimateClearSkyGHI } = require('../../../lib/helpers/ClearSkyGHI');
 
-const LAT = 52.09, LON = 5.00, PEAK_POWER = 1000, TRUE_YIELD = 1.0;
+const LAT = 52.09;
+const LON = 5.00;
+const PEAK_POWER = 1000;
+const TRUE_YIELD = 1.0;
 
 function pseudoRandom(seed) {
   const x = Math.sin(seed * 12.9898) * 43758.5453;
@@ -15,38 +17,36 @@ function buildWinterDay(dayOffset, seedBase, isClear = false) {
   const powerEntries = [];
   const weatherEntries = [];
   const dayStart = new Date(`2026-12-${String(10 + dayOffset).padStart(2, '0')}T00:00:00Z`).getTime();
-  
+
   for (let h = 0; h < 24; h += 1) {
     const hourStart = dayStart + h * 3600000;
-    let sumTrueRad = 0;
     let sumForecastRad = 0;
     let sumPower = 0;
-    
+
     for (let m = 0; m < 12; m += 1) {
       const t = hourStart + m * 5 * 60000;
       const clearSky = estimateClearSkyGHI(t, LAT, LON);
       if (clearSky <= 0) continue;
-      
+
       const cloudAttenuation = isClear ? 1.0 : (0.10 + 0.15 * pseudoRandom(seedBase + h * 12 + m * 0.7));
       const cellNoise = isClear ? 1.0 : (1 + (pseudoRandom(seedBase + h * 12 + m * 3.1) - 0.5) * 0.4);
       const trueRadiation = clearSky * cloudAttenuation * cellNoise;
       const forecastNoise = isClear ? 1.0 : (1 + (pseudoRandom(seedBase + h * 12 + m * 5.3 + 100) - 0.5) * 0.3);
       const forecastRadiation = Math.max(0, trueRadiation * forecastNoise);
       const power = TRUE_YIELD * trueRadiation;
-      
-      sumTrueRad += trueRadiation;
+
       sumForecastRad += forecastRadiation;
       sumPower += power;
     }
-    
+
     const avgPower = sumPower / 12;
     const avgForecastRad = sumForecastRad / 12;
-    
+
     powerEntries.push({ t: new Date(hourStart).toISOString(), y: avgPower });
     // hour-END timestamp, matching real Open-Meteo behavior (see test_winter_fix.js note)
     weatherEntries.push({ time: hourStart + 3600000, radiation: Math.round(avgForecastRad) });
   }
-  
+
   return { powerEntries, weatherEntries };
 }
 
@@ -121,7 +121,8 @@ function testEstimatorProposed(slotSamples, peakPower) {
     const totalWeight = sorted.reduce((sum, s) => sum + s.weight, 0);
 
     // Ratio Estimator (sum(w*power) / sum(w*radiation))
-    let sumWPower = 0, sumWRad = 0;
+    let sumWPower = 0;
+    let sumWRad = 0;
     capped.forEach((s) => {
       sumWPower += s.weight * s.power;
       sumWRad += s.weight * s.radiation;
@@ -184,7 +185,8 @@ function testEstimatorProposed(slotSamples, peakPower) {
 }
 
 function runComparison(daysConfig, label) {
-  let allPower = [], allWeather = [];
+  let allPower = [];
+  let allWeather = [];
   daysConfig.forEach((cfg, d) => {
     const day = buildWinterDay(d, d * 1000 + 1, cfg.isClear);
     allPower = allPower.concat(day.powerEntries);

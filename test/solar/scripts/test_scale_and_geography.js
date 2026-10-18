@@ -1,4 +1,5 @@
 'use strict';
+
 // Re-run the combined Step1(hourly,13d)+Step2(5-min,last day) winter benchmark across much
 // larger systems (10kW, 20kW) and geographically diverse locations, assuming peakPower is
 // correctly set by the user (so all physicalCeiling protections are actually active - see
@@ -19,7 +20,9 @@ function buildTrue5Min(dayStart, seedBase, isClear, lat, lon) {
   for (let i = 0; i < 288; i += 1) {
     const t = dayStart + i * 5 * 60000;
     const clearSky = estimateClearSkyGHI(t, lat, lon);
-    if (clearSky <= 0) { points.push({ t, trueRadiation: 0 }); continue; }
+    if (clearSky <= 0) {
+      points.push({ t, trueRadiation: 0 }); continue;
+    }
     const cloudAttenuation = isClear ? 1.0 : (0.10 + 0.15 * pseudoRandom(seedBase + i * 0.7));
     const cellNoise = isClear ? 1.0 : (1 + (pseudoRandom(seedBase + i * 3.1) - 0.5) * 0.4);
     points.push({ t, trueRadiation: clearSky * cloudAttenuation * cellNoise });
@@ -62,7 +65,10 @@ function build5MinDay(dayStart, seedBase, isClear, lat, lon, trueYield) {
 
 function runScenario(label, loc, peakPower, cfgDays) {
   const trueYield = peakPower / 1000;
-  let hourlyPower = [], hourlyWeather = [], highPower = [], highWeather = [];
+  let hourlyPower = [];
+  let hourlyWeather = [];
+  let highPower = [];
+  let highWeather = [];
   cfgDays.forEach((isClear, d) => {
     const dayStart = new Date(Date.UTC(2026, loc.month - 1, loc.startDay + d, 0, 0, 0)).getTime();
     const seedBase = d * 1000 + 1;
@@ -89,15 +95,26 @@ function runScenario(label, loc, peakPower, cfgDays) {
   const yf = res.yieldFactors.filter((y) => y !== null && y > 0);
   const trueYF = 1.0; // yieldFactor is dimensionless (power/radiation), independent of trueYield scale
   const status = yf.length === 0 ? 'GEEN SLOTS GELEERD' : '';
-  console.log(`  [${peakPower / 1000}kW] ${label}: range ${yf.length ? Math.min(...yf).toFixed(3) : '-'} - ${yf.length ? Math.max(...yf).toFixed(3) : '-'} (true=${trueYF.toFixed(3)}), slots=${yf.length}, limit=${res.limit.toFixed(3)} ${status}`);
+  const range = yf.length ? `${Math.min(...yf).toFixed(3)} - ${Math.max(...yf).toFixed(3)}` : '- - -';
+  console.log(`  [${peakPower / 1000}kW] ${label}: range ${range} (true=${trueYF.toFixed(3)}), slots=${yf.length}, limit=${res.limit.toFixed(3)} ${status}`);
 }
 
 const LOCATIONS = [
-  { name: 'Nederland (52.09N, 5.00E) - referentie', lat: 52.09, lon: 5.00, month: 12, startDay: 10 },
-  { name: 'Tromso, Noorwegen (69.65N, 18.96E) - poolnacht', lat: 69.65, lon: 18.96, month: 12, startDay: 10 },
-  { name: 'Singapore (1.35N, 103.82E) - evenaar', lat: 1.35, lon: 103.82, month: 6, startDay: 10 },
-  { name: 'Sydney, Australie (33.87S, 151.21E) - ZH winter', lat: -33.87, lon: 151.21, month: 6, startDay: 10 },
-  { name: 'Phoenix, VS (33.45N, 112.07W) - woestijn, hoge instraling', lat: 33.45, lon: -112.07, month: 12, startDay: 10 },
+  {
+    name: 'Nederland (52.09N, 5.00E) - referentie', lat: 52.09, lon: 5.00, month: 12, startDay: 10,
+  },
+  {
+    name: 'Tromso, Noorwegen (69.65N, 18.96E) - poolnacht', lat: 69.65, lon: 18.96, month: 12, startDay: 10,
+  },
+  {
+    name: 'Singapore (1.35N, 103.82E) - evenaar', lat: 1.35, lon: 103.82, month: 6, startDay: 10,
+  },
+  {
+    name: 'Sydney, Australie (33.87S, 151.21E) - ZH winter', lat: -33.87, lon: 151.21, month: 6, startDay: 10,
+  },
+  {
+    name: 'Phoenix, VS (33.45N, 112.07W) - woestijn, hoge instraling', lat: 33.45, lon: -112.07, month: 12, startDay: 10,
+  },
 ];
 
 const PEAK_POWERS = [10000, 20000];

@@ -1,10 +1,12 @@
 'use strict';
-const fs = require('fs');
-const path = require('path');
+
 const SolarLearningStrategy = require('../../../lib/strategies/SolarLearningStrategy');
 const { estimateClearSkyGHI } = require('../../../lib/helpers/ClearSkyGHI');
 
-const LAT = 52.09, LON = 5.00, PEAK_POWER = 1000, TRUE_YIELD = 1.0;
+const LAT = 52.09;
+const LON = 5.00;
+const PEAK_POWER = 1000;
+const TRUE_YIELD = 1.0;
 
 function pseudoRandom(seed) {
   const x = Math.sin(seed * 12.9898) * 43758.5453;
@@ -13,35 +15,34 @@ function pseudoRandom(seed) {
 
 // Realistic 14-day winter generator (with correct Open-Meteo hour-end timestamps)
 function buildRealisticWinter(daysConfig) {
-  let allPower = [], allWeather = [];
+  const allPower = [];
+  const allWeather = [];
   daysConfig.forEach((cfg, d) => {
     const dayStart = new Date(`2026-12-${String(10 + d).padStart(2, '0')}T00:00:00Z`).getTime();
     for (let h = 0; h < 24; h += 1) {
       const hourStart = dayStart + h * 3600000;
-      let sumTrueRad = 0;
       let sumForecastRad = 0;
       let sumPower = 0;
-      
+
       for (let m = 0; m < 12; m += 1) {
         const t = hourStart + m * 5 * 60000;
         const clearSky = estimateClearSkyGHI(t, LAT, LON);
         if (clearSky <= 0) continue;
-        
+
         const cloudAttenuation = cfg.isClear ? 1.0 : (0.10 + 0.15 * pseudoRandom(d * 1000 + h * 12 + m * 0.7));
         const cellNoise = cfg.isClear ? 1.0 : (1 + (pseudoRandom(d * 1000 + h * 12 + m * 3.1) - 0.5) * 0.4);
         const trueRadiation = clearSky * cloudAttenuation * cellNoise;
         const forecastNoise = cfg.isClear ? 1.0 : (1 + (pseudoRandom(d * 1000 + h * 12 + m * 5.3 + 100) - 0.5) * 0.3);
         const forecastRadiation = Math.max(0, trueRadiation * forecastNoise);
         const power = TRUE_YIELD * trueRadiation;
-        
-        sumTrueRad += trueRadiation;
+
         sumForecastRad += forecastRadiation;
         sumPower += power;
       }
-      
+
       const avgPower = sumPower / 12;
       const avgForecastRad = sumForecastRad / 12;
-      
+
       allPower.push({ t: new Date(hourStart).toISOString(), y: avgPower });
       allWeather.push({ time: hourStart + 3600000, radiation: Math.round(avgForecastRad) });
     }
@@ -54,10 +55,10 @@ function revisedExtractSlotSamples(args) {
   // Same as SolarLearningStrategy.extractSlotSamples, but scale fallback weight by radiation
   const result = SolarLearningStrategy.extractSlotSamples(args);
   // Scale fallback weights
-  result.slotSamples.forEach(samples => {
-    samples.forEach(s => {
+  result.slotSamples.forEach((samples) => {
+    samples.forEach((s) => {
       if (s.isFallback && s.radiation < 50) {
-        s.weight = s.weight * Math.max(0.05, s.radiation / 50);
+        s.weight *= Math.max(0.05, s.radiation / 50);
       }
     });
   });
@@ -122,7 +123,8 @@ function revisedAggregateYieldFactors({ combinedSlotSamples, peakPower = 0, logg
     const totalWeight = sorted.reduce((sum, s) => sum + s.weight, 0);
 
     // Ratio Estimator (sum(w*P) / sum(w*R))
-    let sumWPower = 0, sumWRad = 0;
+    let sumWPower = 0;
+    let sumWRad = 0;
     capped.forEach((s) => {
       sumWPower += s.weight * s.power;
       sumWRad += s.weight * s.radiation;
@@ -243,16 +245,20 @@ const scenarios = [
   { name: '14 Clear Days', cfg: Array(14).fill({ isClear: true }) },
 ];
 
-scenarios.forEach(sc => {
+scenarios.forEach((sc) => {
   const { allPower, allWeather } = buildRealisticWinter(sc.cfg);
-  const rOld = SolarLearningStrategy.extractSlotSamples({ powerEntries: allPower, weatherEntries: allWeather, resolution: 'hourly', peakPower: PEAK_POWER, lat: LAT, lon: LON, logger: () => {} });
-  const rNew = revisedExtractSlotSamples({ powerEntries: allPower, weatherEntries: allWeather, resolution: 'hourly', peakPower: PEAK_POWER, lat: LAT, lon: LON, logger: () => {} });
+  const rOld = SolarLearningStrategy.extractSlotSamples({
+    powerEntries: allPower, weatherEntries: allWeather, resolution: 'hourly', peakPower: PEAK_POWER, lat: LAT, lon: LON, logger: () => {},
+  });
+  const rNew = revisedExtractSlotSamples({
+    powerEntries: allPower, weatherEntries: allWeather, resolution: 'hourly', peakPower: PEAK_POWER, lat: LAT, lon: LON, logger: () => {},
+  });
 
   const cOld = SolarLearningStrategy.aggregateYieldFactors({ combinedSlotSamples: rOld.slotSamples, peakPower: PEAK_POWER });
   const cNew = revisedAggregateYieldFactors({ combinedSlotSamples: rNew.slotSamples, peakPower: PEAK_POWER });
 
-  const yOld = cOld.yieldFactors.filter(y => y !== null && y > 0);
-  const yNew = cNew.yieldFactors.filter(y => y !== null && y > 0);
+  const yOld = cOld.yieldFactors.filter((y) => y !== null && y > 0);
+  const yNew = cNew.yieldFactors.filter((y) => y !== null && y > 0);
   console.log(`\nScenario: ${sc.name} (True = ${TRUE_YIELD.toFixed(3)})`);
   console.log(`  CURRENT:  min=${Math.min(...yOld).toFixed(3)}, max=${Math.max(...yOld).toFixed(3)}, limit=${cOld.limit.toFixed(3)}`);
   console.log(`  REVISED:  min=${Math.min(...yNew).toFixed(3)}, max=${Math.max(...yNew).toFixed(3)}, limit=${cNew.limit.toFixed(3)}`);

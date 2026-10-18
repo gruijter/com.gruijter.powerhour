@@ -1,4 +1,5 @@
 'use strict';
+
 // Auto-discovers every scenario folder under ../data/ (anything with a meta.json,
 // hourly_14d.csv, high_res_24h.csv and weather_cache.json) and runs it through the REAL
 // production pipeline (extractSlotSamples x2 + aggregateYieldFactors, exactly as
@@ -51,12 +52,22 @@ function runScenario(name) {
   const highPower = parseCSV(path.join(dir, 'high_res_24h.csv'));
 
   const r1 = SolarLearningStrategy.extractSlotSamples({
-    powerEntries: hourlyPower, weatherEntries, resolution: 'hourly',
-    peakPower: meta.peakPower, lat: meta.lat, lon: meta.lon, logger: () => {},
+    powerEntries: hourlyPower,
+    weatherEntries,
+    resolution: 'hourly',
+    peakPower: meta.peakPower,
+    lat: meta.lat,
+    lon: meta.lon,
+    logger: () => {},
   });
   const r2 = SolarLearningStrategy.extractSlotSamples({
-    powerEntries: highPower, weatherEntries, resolution: 'high',
-    peakPower: meta.peakPower, lat: meta.lat, lon: meta.lon, logger: () => {},
+    powerEntries: highPower,
+    weatherEntries,
+    resolution: 'high',
+    peakPower: meta.peakPower,
+    lat: meta.lat,
+    lon: meta.lon,
+    logger: () => {},
   });
   const combined = r1.slotSamples.map((s, idx) => [...s, ...r2.slotSamples[idx]]);
   const res = SolarLearningStrategy.aggregateYieldFactors({

@@ -47,7 +47,9 @@ for (let day = 0; day < 42; day += 1) {
 M.rollover(model, at(2026, 9, 14, 0, 1), tz);
 assert.strictEqual(model.days.length, 42);
 const prof = M.getProfile(model);
-const fmt = (p) => `${M.DAY_NAMES[p.dow].slice(0, 3)} n=${p.observed} used=${p.used} regular=${p.regular} need=${p.needKwh} safe=${p.safeKwh} dep=${p.departFh === null ? '-' : M.fractionalHourToHHMM(p.departFh)} ret=${p.returnFh === null ? '-' : M.fractionalHourToHHMM(p.returnFh)}`;
+const hhmm = (fh) => (fh === null ? '-' : M.fractionalHourToHHMM(fh));
+const fmt = (p) => `${M.DAY_NAMES[p.dow].slice(0, 3)} n=${p.observed} used=${p.used} regular=${p.regular} need=${p.needKwh} safe=${p.safeKwh}`
+  + ` dep=${hhmm(p.departFh)} ret=${hhmm(p.returnFh)}`;
 prof.forEach((p) => console.log(fmt(p)));
 assert.deepStrictEqual(prof.map((p) => p.regular), [true, true, false, true, false, false, false]);
 assert.ok(Math.abs(prof[0].needKwh - 3.4) < 0.05, 'Mon need ~3.4 kWh (20 km x 0.17)');

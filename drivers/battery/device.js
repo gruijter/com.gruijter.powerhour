@@ -395,9 +395,11 @@ class BatDevice extends GenericDevice {
   // xomTarget is the XOM target of all batteries, used every control tick: no restart for it.
   async onSettings({ oldSettings, newSettings, changedKeys }) {
     if (changedKeys.includes('xomTarget')) this.driver.setXomTargetFromSetting(newSettings.xomTarget, this);
-    if (changedKeys.includes('batCapacity')) await this.rescaleEfficiency(oldSettings.batCapacity, newSettings.batCapacity);
     if (changedKeys.every((key) => key === 'xomTarget')) return true;
-    return super.onSettings({ newSettings, changedKeys });
+    // After the base: it can still reject the change.
+    const result = await super.onSettings({ newSettings, changedKeys });
+    if (changedKeys.includes('batCapacity')) await this.rescaleEfficiency(oldSettings.batCapacity, newSettings.batCapacity);
+    return result;
   }
 
   // The battery_action capability, on a change only.
