@@ -74,6 +74,8 @@ The plan is made every 15 minutes, when new prices arrive, and when the battery'
 - **Solar and home load forecasts** from the Solar Monitor and Grid Monitor devices, when present. Without a Grid Monitor a fixed home usage is assumed.
 - **Minimum profit per kWh:** what a charge and discharge cycle must earn on top of losses and wear (not used in Solar self-use).
 - **Wear cost per kWh:** battery wear per kWh stored and used again, e.g. price / (capacity × cycles).
+
+Both can be changed from a flow with **Set battery cost**, e.g. a higher minimum profit in winter.
 - **Discharge into EV:** off: the battery does not cover the charging of a Power by the Hour EV charger.
 
 **Advanced planner (LP)** uses linear programming: best for a group of different batteries, but it uses more memory and CPU. Off: the light planner, nearly as good.
@@ -86,10 +88,11 @@ The plan is made every 15 minutes, when new prices arrive, and when the battery'
 
 **Built-in control** — tick **Control the battery**. The app takes over the battery's power setpoint and keeps it set by the mode and the plan. When the battery has a `target_power_mode`, the app switches it to Homey control and gives the previous mode back when its control ends, e.g. when the app stops.
 
-**By flows** — leave **Control the battery** off and use the plan in your own flows:
-- **Battery mode changed** / **Battery mode is**, together with **Set battery mode**.
-- **New smart ROI power available:** the planned power for the current block (tokens power, duration, end SoC, plan JSON). Positive is charging, negative discharging (or inverted).
-- **New XOM power available:** the power that keeps the grid near the XOM target, for batteries you drive by flows.
+**Your own logic, built-in control** — keep **Control the battery** on and let your flows choose the mode, e.g. *Force charge* for 30 minutes when something happens, or *Battery decides* while you need the battery for something else. The app does the rest. This covers most custom behaviour without any power calculations.
+
+**By flows** — leave **Control the battery** off and drive the battery yourself with the plan:
+- **New planned battery power:** the planned power for the current block (tokens power, duration, SoC afterwards, plan block, plan JSON). Positive is charging, negative discharging (or inverted). The same plan as the chart, with the costs of the device settings.
+- **New XOM power available:** the power that keeps the grid near the XOM target.
 
 ---
 
@@ -129,7 +132,7 @@ Fill in the nominal capacity and the max. power. The rest is learned from what t
 
 ### Triggers
 - **Battery mode changed**
-- **New smart ROI power available** (inverted, minimum profit)
+- **New planned battery power** (inverted)
 - **New XOM power available** (inverted)
 
 ### Conditions
@@ -137,6 +140,7 @@ Fill in the nominal capacity and the max. power. The rest is learned from what t
 
 ### Actions
 - **Set battery mode** … for … minutes (0: until changed)
-- **Calculate the best smart ROI power** — the same tokens as the trigger, on demand
+- **Get planned battery power** — the same tokens as the trigger, on demand
+- **Set battery cost** — minimum profit or wear cost per kWh
 - **Set XOM** (app-wide)
 - **Set tariff group**

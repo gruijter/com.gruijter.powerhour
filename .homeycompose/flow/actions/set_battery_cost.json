@@ -1,0 +1,132 @@
+{
+  "title": {
+    "en": "Set battery cost",
+    "nl": "Stel batterijkosten in",
+    "de": "Batteriekosten einstellen",
+    "fr": "Définir le coût de la batterie",
+    "it": "Imposta il costo della batteria",
+    "sv": "Ställ in batterikostnad",
+    "no": "Angi batterikostnad",
+    "es": "Establecer el coste de la batería",
+    "da": "Indstil batteriomkostning",
+    "pl": "Ustaw koszt baterii",
+    "ru": "Установить стоимость батареи",
+    "ko": "배터리 비용 설정",
+    "ar": "تعيين تكلفة البطارية"
+  },
+  "titleFormatted": {
+    "en": "Set [[cost]] to [[value]]¤ per kWh",
+    "nl": "Stel [[cost]] in op [[value]]¤ per kWh",
+    "de": "[[cost]] auf [[value]]¤ pro kWh einstellen",
+    "fr": "Définir [[cost]] à [[value]]¤ par kWh",
+    "it": "Imposta [[cost]] a [[value]]¤ per kWh",
+    "sv": "Ställ in [[cost]] på [[value]]¤ per kWh",
+    "no": "Angi [[cost]] til [[value]]¤ per kWh",
+    "es": "Establecer [[cost]] en [[value]]¤ por kWh",
+    "da": "Indstil [[cost]] til [[value]]¤ pr. kWh",
+    "pl": "Ustaw [[cost]] na [[value]]¤ za kWh",
+    "ru": "Установить [[cost]] на [[value]]¤ за кВтч",
+    "ko": "[[cost]]을(를) kWh당 [[value]]¤로 설정",
+    "ar": "تعيين [[cost]] إلى [[value]]¤ لكل كيلوواط ساعة"
+  },
+  "hint": {
+    "en": "Changes the device setting, and the battery plans again.",
+    "nl": "Wijzigt de device-instelling, en de batterij plant opnieuw.",
+    "de": "Ändert die Geräteeinstellung, und die Batterie plant neu.",
+    "fr": "Modifie le paramètre de l’appareil, et la batterie replanifie.",
+    "it": "Modifica l’impostazione del dispositivo, e la batteria ripianifica.",
+    "sv": "Ändrar enhetsinställningen, och batteriet planerar om.",
+    "no": "Endrer enhetsinnstillingen, og batteriet planlegger på nytt.",
+    "es": "Cambia el ajuste del dispositivo, y la batería vuelve a planificar.",
+    "da": "Ændrer enhedsindstillingen, og batteriet planlægger igen.",
+    "pl": "Zmienia ustawienie urządzenia, a bateria planuje ponownie.",
+    "ru": "Изменяет настройку устройства, и батарея планирует заново.",
+    "ko": "기기 설정을 변경하고 배터리가 다시 계획합니다.",
+    "ar": "يغيّر إعداد الجهاز، وتعيد البطارية التخطيط."
+  },
+  "args": [
+    {
+      "type": "device",
+      "name": "device",
+      "filter": "driver_id=battery"
+    },
+    {
+      "type": "dropdown",
+      "name": "cost",
+      "title": {
+        "en": "cost",
+        "nl": "kosten",
+        "de": "Kosten",
+        "fr": "coût",
+        "it": "costo",
+        "sv": "kostnad",
+        "no": "kostnad",
+        "es": "coste",
+        "da": "omkostning",
+        "pl": "koszt",
+        "ru": "стоимость",
+        "ko": "비용",
+        "ar": "التكلفة"
+      },
+      "values": [
+        {
+          "id": "minProfit",
+          "title": {
+            "en": "minimum profit",
+            "nl": "minimale winst",
+            "de": "Mindestgewinn",
+            "fr": "profit minimum",
+            "it": "profitto minimo",
+            "sv": "minsta vinst",
+            "no": "minimum fortjeneste",
+            "es": "beneficio mínimo",
+            "da": "minimum fortjeneste",
+            "pl": "minimalny zysk",
+            "ru": "минимальную прибыль",
+            "ko": "최소 이익",
+            "ar": "الحد الأدنى للربح"
+          }
+        },
+        {
+          "id": "wear",
+          "title": {
+            "en": "wear cost",
+            "nl": "slijtagekosten",
+            "de": "Verschleißkosten",
+            "fr": "coût d’usure",
+            "it": "costo di usura",
+            "sv": "slitagekostnad",
+            "no": "slitasjekostnad",
+            "es": "coste de desgaste",
+            "da": "slidomkostning",
+            "pl": "koszt zużycia",
+            "ru": "стоимость износа",
+            "ko": "마모 비용",
+            "ar": "تكلفة التآكل"
+          }
+        }
+      ]
+    },
+    {
+      "type": "number",
+      "name": "value",
+      "title": {
+        "en": "value",
+        "nl": "waarde",
+        "de": "Wert",
+        "fr": "valeur",
+        "it": "valore",
+        "sv": "värde",
+        "no": "verdi",
+        "es": "valor",
+        "da": "værdi",
+        "pl": "wartość",
+        "ru": "значение",
+        "ko": "값",
+        "ar": "القيمة"
+      },
+      "min": 0,
+      "step": 0.01
+    }
+  ]
+}

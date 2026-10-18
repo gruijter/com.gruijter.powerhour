@@ -998,6 +998,180 @@
         "id": "battery_mode_changed"
       },
       {
+        "highlight": true,
+        "title": {
+          "en": "New planned battery power",
+          "nl": "Nieuw gepland batterijvermogen",
+          "de": "Neue geplante Batterieleistung",
+          "fr": "Nouvelle puissance de batterie planifiée",
+          "it": "Nuova potenza della batteria pianificata",
+          "sv": "Ny planerad batterieffekt",
+          "no": "Ny planlagt batterieffekt",
+          "es": "Nueva potencia de batería planificada",
+          "da": "Ny planlagt batterieffekt",
+          "pl": "Nowa planowana moc baterii",
+          "ru": "Новая плановая мощность батареи",
+          "ko": "새 배터리 계획 전력",
+          "ar": "قدرة بطارية مخططة جديدة"
+        },
+        "titleFormatted": {
+          "en": "New planned battery power (inverted: [[invert_power]])",
+          "nl": "Nieuw gepland batterijvermogen (geïnverteerd: [[invert_power]])",
+          "de": "Neue geplante Batterieleistung (invertiert: [[invert_power]])",
+          "fr": "Nouvelle puissance de batterie planifiée (inversée : [[invert_power]])",
+          "it": "Nuova potenza della batteria pianificata (invertita: [[invert_power]])",
+          "sv": "Ny planerad batterieffekt (inverterad: [[invert_power]])",
+          "no": "Ny planlagt batterieffekt (invertert: [[invert_power]])",
+          "es": "Nueva potencia de batería planificada (invertida: [[invert_power]])",
+          "da": "Ny planlagt batterieffekt (inverteret: [[invert_power]])",
+          "pl": "Nowa planowana moc baterii (odwrócona: [[invert_power]])",
+          "ru": "Новая плановая мощность батареи (инвертировано: [[invert_power]])",
+          "ko": "새 배터리 계획 전력 (반전: [[invert_power]])",
+          "ar": "قدرة بطارية مخططة جديدة (معكوسة: [[invert_power]])"
+        },
+        "hint": {
+          "en": "The power of the battery plan for now, every plan block. The plan uses the minimum profit and wear cost of the device settings: the same plan as the chart and the built-in control. Fires again with 0 W when the action ends within the block. Not inverted: charging is positive (+), discharging negative (-).",
+          "nl": "Het vermogen van het batterijplan voor nu, elk planblok. Het plan gebruikt de minimale winst en slijtagekosten uit de device-instellingen: hetzelfde plan als de grafiek en de ingebouwde sturing. Vuurt opnieuw met 0 W als de actie binnen het blok eindigt. Niet geïnverteerd: laden is positief (+), ontladen negatief (-).",
+          "de": "Die Leistung des Batterieplans für jetzt, in jedem Planblock. Der Plan nutzt den Mindestgewinn und die Verschleißkosten aus den Geräteeinstellungen: derselbe Plan wie im Diagramm und in der integrierten Steuerung. Löst erneut mit 0 W aus, wenn die Aktion innerhalb des Blocks endet. Nicht invertiert: Laden ist positiv (+), Entladen negativ (-).",
+          "fr": "La puissance du plan de batterie pour maintenant, à chaque bloc du plan. Le plan utilise le profit minimum et le coût d’usure des paramètres de l’appareil : le même plan que le graphique et le contrôle intégré. Se déclenche à nouveau avec 0 W lorsque l’action se termine dans le bloc. Non inversé : la charge est positive (+), la décharge négative (-).",
+          "it": "La potenza del piano della batteria per adesso, a ogni blocco del piano. Il piano usa il profitto minimo e il costo di usura delle impostazioni del dispositivo: lo stesso piano del grafico e del controllo integrato. Si attiva di nuovo con 0 W quando l’azione termina all’interno del blocco. Non invertita: la carica è positiva (+), la scarica negativa (-).",
+          "sv": "Batteriplanens effekt för nu, varje planblock. Planen använder minsta vinst och slitagekostnad från enhetsinställningarna: samma plan som diagrammet och den inbyggda styrningen. Utlöses igen med 0 W när åtgärden slutar inom blocket. Ej inverterad: laddning är positiv (+), urladdning negativ (-).",
+          "no": "Batteriplanens effekt for nå, hver planblokk. Planen bruker minimum fortjeneste og slitasjekostnad fra enhetsinnstillingene: samme plan som grafen og den innebygde styringen. Utløses igjen med 0 W når handlingen slutter innenfor blokken. Ikke invertert: lading er positiv (+), utlading negativ (-).",
+          "es": "La potencia del plan de batería para ahora, en cada bloque del plan. El plan usa el beneficio mínimo y el coste de desgaste de los ajustes del dispositivo: el mismo plan que el gráfico y el control integrado. Se activa de nuevo con 0 W cuando la acción termina dentro del bloque. Sin invertir: la carga es positiva (+), la descarga negativa (-).",
+          "da": "Batteriplanens effekt for nu, hver planblok. Planen bruger minimum fortjeneste og slidomkostning fra enhedsindstillingerne: samme plan som grafen og den indbyggede styring. Udløses igen med 0 W, når handlingen slutter inden for blokken. Ikke inverteret: opladning er positiv (+), afladning negativ (-).",
+          "pl": "Moc planu baterii na teraz, w każdym bloku planu. Plan używa minimalnego zysku i kosztu zużycia z ustawień urządzenia: ten sam plan co wykres i wbudowane sterowanie. Uruchamia się ponownie z 0 W, gdy akcja kończy się w obrębie bloku. Bez odwrócenia: ładowanie jest dodatnie (+), rozładowywanie ujemne (-).",
+          "ru": "Мощность плана батареи на текущий момент, в каждом блоке плана. План использует минимальную прибыль и стоимость износа из настроек устройства: тот же план, что на графике и во встроенном управлении. Срабатывает снова с 0 Вт, когда действие заканчивается внутри блока. Без инверсии: зарядка положительная (+), разрядка отрицательная (-).",
+          "ko": "매 계획 블록마다 현재 배터리 계획의 전력입니다. 계획은 기기 설정의 최소 이익과 마모 비용을 사용합니다: 차트 및 내장 제어와 같은 계획입니다. 블록 안에서 동작이 끝나면 0 W로 다시 트리거됩니다. 반전되지 않음: 충전은 양수(+), 방전은 음수(-)입니다.",
+          "ar": "قدرة خطة البطارية للوقت الحالي، في كل كتلة من الخطة. تستخدم الخطة الحد الأدنى للربح وتكلفة التآكل من إعدادات الجهاز: نفس الخطة في الرسم البياني والتحكم المدمج. يُطلق مرة أخرى بقيمة 0 واط عندما ينتهي الإجراء داخل الكتلة. غير معكوسة: الشحن موجب (+)، والتفريغ سالب (-)."
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=battery&capabilities=roi_duration"
+          },
+          {
+            "type": "checkbox",
+            "name": "invert_power",
+            "title": {
+              "en": "Invert power sign",
+              "nl": "Inverteer vermogen teken",
+              "de": "Leistungsvorzeichen umkehren",
+              "fr": "Inverser le signe de puissance",
+              "it": "Inverti il segno della potenza",
+              "sv": "Invertera effekttecken",
+              "no": "Inverter effekttegn",
+              "es": "Invertir signo de potencia",
+              "da": "Inverter effekttegn",
+              "pl": "Odwróć znak mocy",
+              "ru": "Инвертировать знак мощности",
+              "ko": "전력 부호 반전",
+              "ar": "عكس إشارة الطاقة"
+            },
+            "default": false
+          }
+        ],
+        "tokens": [
+          {
+            "name": "power",
+            "type": "number",
+            "title": {
+              "en": "Power",
+              "de": "Leistung",
+              "nl": "Vermogen",
+              "fr": "Puissance",
+              "it": "Potenza",
+              "sv": "Effekt",
+              "no": "Effekt",
+              "es": "Potencia",
+              "da": "Effekt",
+              "pl": "Moc",
+              "ru": "Мощность",
+              "ko": "전력",
+              "ar": "القدرة"
+            }
+          },
+          {
+            "name": "duration",
+            "type": "number",
+            "title": {
+              "en": "Duration (minutes)",
+              "de": "Dauer (Minuten)",
+              "nl": "Duur (minuten)",
+              "fr": "Durée (minutes)",
+              "it": "Durata (minuti)",
+              "sv": "Varaktighet (minuter)",
+              "no": "Varighet (minutter)",
+              "es": "Duración (minutos)",
+              "da": "Varighed (minutter)",
+              "pl": "Czas trwania (minuty)",
+              "ru": "Продолжительность (минуты)",
+              "ko": "지속 시간 (분)",
+              "ar": "المدة (دقائق)"
+            }
+          },
+          {
+            "name": "endSoC",
+            "type": "number",
+            "title": {
+              "en": "SoC afterwards (%)",
+              "de": "SoC danach (%)",
+              "nl": "SoC daarna (%)",
+              "fr": "SoC après (%)",
+              "it": "SoC dopo (%)",
+              "sv": "SoC efteråt (%)",
+              "no": "SoC etterpå (%)",
+              "es": "SoC después (%)",
+              "da": "SoC bagefter (%)",
+              "pl": "SoC po (%)",
+              "ru": "SoC после (%)",
+              "ko": "이후 SoC (%)",
+              "ar": "حالة الشحن بعد ذلك (%)"
+            }
+          },
+          {
+            "name": "scheme",
+            "type": "string",
+            "title": {
+              "en": "Scheme JSON",
+              "de": "Schema JSON",
+              "nl": "Schema JSON",
+              "fr": "Schéma JSON",
+              "it": "Schema JSON",
+              "sv": "Schema JSON",
+              "no": "Skjema JSON",
+              "es": "Esquema JSON",
+              "da": "Skema JSON",
+              "pl": "Schemat JSON",
+              "ru": "Схема JSON",
+              "ko": "스킴 JSON",
+              "ar": "مخطط JSON"
+            }
+          },
+          {
+            "name": "block",
+            "type": "string",
+            "title": {
+              "en": "Plan block (zero, hold, idle, charge, discharge)",
+              "nl": "Planblok (zero, hold, idle, charge, discharge)",
+              "de": "Planblock (zero, hold, idle, charge, discharge)",
+              "fr": "Bloc du plan (zero, hold, idle, charge, discharge)",
+              "it": "Blocco del piano (zero, hold, idle, charge, discharge)",
+              "sv": "Planblock (zero, hold, idle, charge, discharge)",
+              "no": "Planblokk (zero, hold, idle, charge, discharge)",
+              "es": "Bloque del plan (zero, hold, idle, charge, discharge)",
+              "da": "Planblok (zero, hold, idle, charge, discharge)",
+              "pl": "Blok planu (zero, hold, idle, charge, discharge)",
+              "ru": "Блок плана (zero, hold, idle, charge, discharge)",
+              "ko": "계획 블록 (zero, hold, idle, charge, discharge)",
+              "ar": "كتلة الخطة (zero, hold, idle, charge, discharge)"
+            },
+            "example": "zero"
+          }
+        ],
+        "id": "battery_plan_power"
+      },
+      {
         "title": {
           "en": "Car status changed",
           "nl": "Autostatus gewijzigd",
@@ -1868,7 +2042,7 @@
         "id": "new_prices"
       },
       {
-        "highlight": true,
+        "deprecated": true,
         "title": {
           "en": "New smart ROI power available",
           "nl": "Nieuw smart ROI vermogen beschikbaar",
@@ -14542,6 +14716,7 @@
         "id": "export_prices_json"
       },
       {
+        "deprecated": true,
         "title": {
           "en": "Calculate the best smart ROI power",
           "nl": "Bereken het beste smart ROI vermogen",
@@ -14734,6 +14909,179 @@
           }
         ],
         "id": "find_roi_strategy"
+      },
+      {
+        "title": {
+          "en": "Get planned battery power",
+          "nl": "Haal gepland batterijvermogen op",
+          "de": "Geplante Batterieleistung abrufen",
+          "fr": "Obtenir la puissance de batterie planifiée",
+          "it": "Ottieni la potenza della batteria pianificata",
+          "sv": "Hämta planerad batterieffekt",
+          "no": "Hent planlagt batterieffekt",
+          "es": "Obtener la potencia de batería planificada",
+          "da": "Hent planlagt batterieffekt",
+          "pl": "Pobierz planowaną moc baterii",
+          "ru": "Получить плановую мощность батареи",
+          "ko": "배터리 계획 전력 가져오기",
+          "ar": "الحصول على قدرة البطارية المخططة"
+        },
+        "titleFormatted": {
+          "en": "Get planned battery power (inverted: [[invert_power]])",
+          "nl": "Haal gepland batterijvermogen op (geïnverteerd: [[invert_power]])",
+          "de": "Geplante Batterieleistung abrufen (invertiert: [[invert_power]])",
+          "fr": "Obtenir la puissance de batterie planifiée (inversée : [[invert_power]])",
+          "it": "Ottieni la potenza della batteria pianificata (invertita: [[invert_power]])",
+          "sv": "Hämta planerad batterieffekt (inverterad: [[invert_power]])",
+          "no": "Hent planlagt batterieffekt (invertert: [[invert_power]])",
+          "es": "Obtener la potencia de batería planificada (invertida: [[invert_power]])",
+          "da": "Hent planlagt batterieffekt (inverteret: [[invert_power]])",
+          "pl": "Pobierz planowaną moc baterii (odwrócona: [[invert_power]])",
+          "ru": "Получить плановую мощность батареи (инвертировано: [[invert_power]])",
+          "ko": "배터리 계획 전력 가져오기 (반전: [[invert_power]])",
+          "ar": "الحصول على قدرة البطارية المخططة (معكوسة: [[invert_power]])"
+        },
+        "hint": {
+          "en": "The same tokens as the trigger New planned battery power, on demand.",
+          "nl": "Dezelfde tags als de trigger Nieuw gepland batterijvermogen, op verzoek.",
+          "de": "Dieselben Tags wie der Auslöser Neue geplante Batterieleistung, auf Abruf.",
+          "fr": "Les mêmes tags que le déclencheur Nouvelle puissance de batterie planifiée, à la demande.",
+          "it": "Gli stessi tag del trigger Nuova potenza della batteria pianificata, su richiesta.",
+          "sv": "Samma taggar som utlösaren Ny planerad batterieffekt, på begäran.",
+          "no": "De samme taggene som utløseren Ny planlagt batterieffekt, på forespørsel.",
+          "es": "Las mismas etiquetas que el disparador Nueva potencia de batería planificada, bajo demanda.",
+          "da": "De samme tags som udløseren Ny planlagt batterieffekt, efter behov.",
+          "pl": "Te same tagi co wyzwalacz Nowa planowana moc baterii, na żądanie.",
+          "ru": "Те же теги, что и у триггера «Новая плановая мощность батареи», по запросу.",
+          "ko": "트리거 새 배터리 계획 전력과 같은 태그를 요청 시 제공합니다.",
+          "ar": "نفس الوسوم مثل المشغل قدرة بطارية مخططة جديدة، عند الطلب."
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=battery&capabilities=roi_duration"
+          },
+          {
+            "type": "checkbox",
+            "name": "invert_power",
+            "title": {
+              "en": "Invert power sign",
+              "nl": "Inverteer vermogen teken",
+              "de": "Leistungsvorzeichen umkehren",
+              "fr": "Inverser le signe de puissance",
+              "it": "Inverti il segno della potenza",
+              "sv": "Invertera effekttecken",
+              "no": "Inverter effekttegn",
+              "es": "Invertir signo de potencia",
+              "da": "Inverter effekttegn",
+              "pl": "Odwróć znak mocy",
+              "ru": "Инвертировать знак мощности",
+              "ko": "전력 부호 반전",
+              "ar": "عكس إشارة الطاقة"
+            },
+            "default": false
+          }
+        ],
+        "tokens": [
+          {
+            "name": "power",
+            "type": "number",
+            "title": {
+              "en": "Power",
+              "de": "Leistung",
+              "nl": "Vermogen",
+              "fr": "Puissance",
+              "it": "Potenza",
+              "sv": "Effekt",
+              "no": "Effekt",
+              "es": "Potencia",
+              "da": "Effekt",
+              "pl": "Moc",
+              "ru": "Мощность",
+              "ko": "전력",
+              "ar": "القدرة"
+            }
+          },
+          {
+            "name": "duration",
+            "type": "number",
+            "title": {
+              "en": "Duration (minutes)",
+              "de": "Dauer (Minuten)",
+              "nl": "Duur (minuten)",
+              "fr": "Durée (minutes)",
+              "it": "Durata (minuti)",
+              "sv": "Varaktighet (minuter)",
+              "no": "Varighet (minutter)",
+              "es": "Duración (minutos)",
+              "da": "Varighed (minutter)",
+              "pl": "Czas trwania (minuty)",
+              "ru": "Продолжительность (минуты)",
+              "ko": "지속 시간 (분)",
+              "ar": "المدة (دقائق)"
+            }
+          },
+          {
+            "name": "endSoC",
+            "type": "number",
+            "title": {
+              "en": "SoC afterwards (%)",
+              "de": "SoC danach (%)",
+              "nl": "SoC daarna (%)",
+              "fr": "SoC après (%)",
+              "it": "SoC dopo (%)",
+              "sv": "SoC efteråt (%)",
+              "no": "SoC etterpå (%)",
+              "es": "SoC después (%)",
+              "da": "SoC bagefter (%)",
+              "pl": "SoC po (%)",
+              "ru": "SoC после (%)",
+              "ko": "이후 SoC (%)",
+              "ar": "حالة الشحن بعد ذلك (%)"
+            }
+          },
+          {
+            "name": "scheme",
+            "type": "string",
+            "title": {
+              "en": "Scheme JSON",
+              "de": "Schema JSON",
+              "nl": "Schema JSON",
+              "fr": "Schéma JSON",
+              "it": "Schema JSON",
+              "sv": "Schema JSON",
+              "no": "Skjema JSON",
+              "es": "Esquema JSON",
+              "da": "Skema JSON",
+              "pl": "Schemat JSON",
+              "ru": "Схема JSON",
+              "ko": "스킴 JSON",
+              "ar": "مخطط JSON"
+            }
+          },
+          {
+            "name": "block",
+            "type": "string",
+            "title": {
+              "en": "Plan block (zero, hold, idle, charge, discharge)",
+              "nl": "Planblok (zero, hold, idle, charge, discharge)",
+              "de": "Planblock (zero, hold, idle, charge, discharge)",
+              "fr": "Bloc du plan (zero, hold, idle, charge, discharge)",
+              "it": "Blocco del piano (zero, hold, idle, charge, discharge)",
+              "sv": "Planblock (zero, hold, idle, charge, discharge)",
+              "no": "Planblokk (zero, hold, idle, charge, discharge)",
+              "es": "Bloque del plan (zero, hold, idle, charge, discharge)",
+              "da": "Planblok (zero, hold, idle, charge, discharge)",
+              "pl": "Blok planu (zero, hold, idle, charge, discharge)",
+              "ru": "Блок плана (zero, hold, idle, charge, discharge)",
+              "ko": "계획 블록 (zero, hold, idle, charge, discharge)",
+              "ar": "كتلة الخطة (zero, hold, idle, charge, discharge)"
+            },
+            "example": "zero"
+          }
+        ],
+        "id": "get_battery_plan_power"
       },
       {
         "title": {
@@ -16240,6 +16588,139 @@
           }
         ],
         "id": "retrain_solar_model"
+      },
+      {
+        "title": {
+          "en": "Set battery cost",
+          "nl": "Stel batterijkosten in",
+          "de": "Batteriekosten einstellen",
+          "fr": "Définir le coût de la batterie",
+          "it": "Imposta il costo della batteria",
+          "sv": "Ställ in batterikostnad",
+          "no": "Angi batterikostnad",
+          "es": "Establecer el coste de la batería",
+          "da": "Indstil batteriomkostning",
+          "pl": "Ustaw koszt baterii",
+          "ru": "Установить стоимость батареи",
+          "ko": "배터리 비용 설정",
+          "ar": "تعيين تكلفة البطارية"
+        },
+        "titleFormatted": {
+          "en": "Set [[cost]] to [[value]]¤ per kWh",
+          "nl": "Stel [[cost]] in op [[value]]¤ per kWh",
+          "de": "[[cost]] auf [[value]]¤ pro kWh einstellen",
+          "fr": "Définir [[cost]] à [[value]]¤ par kWh",
+          "it": "Imposta [[cost]] a [[value]]¤ per kWh",
+          "sv": "Ställ in [[cost]] på [[value]]¤ per kWh",
+          "no": "Angi [[cost]] til [[value]]¤ per kWh",
+          "es": "Establecer [[cost]] en [[value]]¤ por kWh",
+          "da": "Indstil [[cost]] til [[value]]¤ pr. kWh",
+          "pl": "Ustaw [[cost]] na [[value]]¤ za kWh",
+          "ru": "Установить [[cost]] на [[value]]¤ за кВтч",
+          "ko": "[[cost]]을(를) kWh당 [[value]]¤로 설정",
+          "ar": "تعيين [[cost]] إلى [[value]]¤ لكل كيلوواط ساعة"
+        },
+        "hint": {
+          "en": "Changes the device setting, and the battery plans again.",
+          "nl": "Wijzigt de device-instelling, en de batterij plant opnieuw.",
+          "de": "Ändert die Geräteeinstellung, und die Batterie plant neu.",
+          "fr": "Modifie le paramètre de l’appareil, et la batterie replanifie.",
+          "it": "Modifica l’impostazione del dispositivo, e la batteria ripianifica.",
+          "sv": "Ändrar enhetsinställningen, och batteriet planerar om.",
+          "no": "Endrer enhetsinnstillingen, og batteriet planlegger på nytt.",
+          "es": "Cambia el ajuste del dispositivo, y la batería vuelve a planificar.",
+          "da": "Ændrer enhedsindstillingen, og batteriet planlægger igen.",
+          "pl": "Zmienia ustawienie urządzenia, a bateria planuje ponownie.",
+          "ru": "Изменяет настройку устройства, и батарея планирует заново.",
+          "ko": "기기 설정을 변경하고 배터리가 다시 계획합니다.",
+          "ar": "يغيّر إعداد الجهاز، وتعيد البطارية التخطيط."
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=battery"
+          },
+          {
+            "type": "dropdown",
+            "name": "cost",
+            "title": {
+              "en": "cost",
+              "nl": "kosten",
+              "de": "Kosten",
+              "fr": "coût",
+              "it": "costo",
+              "sv": "kostnad",
+              "no": "kostnad",
+              "es": "coste",
+              "da": "omkostning",
+              "pl": "koszt",
+              "ru": "стоимость",
+              "ko": "비용",
+              "ar": "التكلفة"
+            },
+            "values": [
+              {
+                "id": "minProfit",
+                "title": {
+                  "en": "minimum profit",
+                  "nl": "minimale winst",
+                  "de": "Mindestgewinn",
+                  "fr": "profit minimum",
+                  "it": "profitto minimo",
+                  "sv": "minsta vinst",
+                  "no": "minimum fortjeneste",
+                  "es": "beneficio mínimo",
+                  "da": "minimum fortjeneste",
+                  "pl": "minimalny zysk",
+                  "ru": "минимальную прибыль",
+                  "ko": "최소 이익",
+                  "ar": "الحد الأدنى للربح"
+                }
+              },
+              {
+                "id": "wear",
+                "title": {
+                  "en": "wear cost",
+                  "nl": "slijtagekosten",
+                  "de": "Verschleißkosten",
+                  "fr": "coût d’usure",
+                  "it": "costo di usura",
+                  "sv": "slitagekostnad",
+                  "no": "slitasjekostnad",
+                  "es": "coste de desgaste",
+                  "da": "slidomkostning",
+                  "pl": "koszt zużycia",
+                  "ru": "стоимость износа",
+                  "ko": "마모 비용",
+                  "ar": "تكلفة التآكل"
+                }
+              }
+            ]
+          },
+          {
+            "type": "number",
+            "name": "value",
+            "title": {
+              "en": "value",
+              "nl": "waarde",
+              "de": "Wert",
+              "fr": "valeur",
+              "it": "valore",
+              "sv": "värde",
+              "no": "verdi",
+              "es": "valor",
+              "da": "værdi",
+              "pl": "wartość",
+              "ru": "значение",
+              "ko": "값",
+              "ar": "القيمة"
+            },
+            "min": 0,
+            "step": 0.01
+          }
+        ],
+        "id": "set_battery_cost"
       },
       {
         "title": {

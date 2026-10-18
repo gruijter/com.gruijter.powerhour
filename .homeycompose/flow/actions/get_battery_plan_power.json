@@ -1,0 +1,172 @@
+{
+  "title": {
+    "en": "Get planned battery power",
+    "nl": "Haal gepland batterijvermogen op",
+    "de": "Geplante Batterieleistung abrufen",
+    "fr": "Obtenir la puissance de batterie planifiée",
+    "it": "Ottieni la potenza della batteria pianificata",
+    "sv": "Hämta planerad batterieffekt",
+    "no": "Hent planlagt batterieffekt",
+    "es": "Obtener la potencia de batería planificada",
+    "da": "Hent planlagt batterieffekt",
+    "pl": "Pobierz planowaną moc baterii",
+    "ru": "Получить плановую мощность батареи",
+    "ko": "배터리 계획 전력 가져오기",
+    "ar": "الحصول على قدرة البطارية المخططة"
+  },
+  "titleFormatted": {
+    "en": "Get planned battery power (inverted: [[invert_power]])",
+    "nl": "Haal gepland batterijvermogen op (geïnverteerd: [[invert_power]])",
+    "de": "Geplante Batterieleistung abrufen (invertiert: [[invert_power]])",
+    "fr": "Obtenir la puissance de batterie planifiée (inversée : [[invert_power]])",
+    "it": "Ottieni la potenza della batteria pianificata (invertita: [[invert_power]])",
+    "sv": "Hämta planerad batterieffekt (inverterad: [[invert_power]])",
+    "no": "Hent planlagt batterieffekt (invertert: [[invert_power]])",
+    "es": "Obtener la potencia de batería planificada (invertida: [[invert_power]])",
+    "da": "Hent planlagt batterieffekt (inverteret: [[invert_power]])",
+    "pl": "Pobierz planowaną moc baterii (odwrócona: [[invert_power]])",
+    "ru": "Получить плановую мощность батареи (инвертировано: [[invert_power]])",
+    "ko": "배터리 계획 전력 가져오기 (반전: [[invert_power]])",
+    "ar": "الحصول على قدرة البطارية المخططة (معكوسة: [[invert_power]])"
+  },
+  "hint": {
+    "en": "The same tokens as the trigger New planned battery power, on demand.",
+    "nl": "Dezelfde tags als de trigger Nieuw gepland batterijvermogen, op verzoek.",
+    "de": "Dieselben Tags wie der Auslöser Neue geplante Batterieleistung, auf Abruf.",
+    "fr": "Les mêmes tags que le déclencheur Nouvelle puissance de batterie planifiée, à la demande.",
+    "it": "Gli stessi tag del trigger Nuova potenza della batteria pianificata, su richiesta.",
+    "sv": "Samma taggar som utlösaren Ny planerad batterieffekt, på begäran.",
+    "no": "De samme taggene som utløseren Ny planlagt batterieffekt, på forespørsel.",
+    "es": "Las mismas etiquetas que el disparador Nueva potencia de batería planificada, bajo demanda.",
+    "da": "De samme tags som udløseren Ny planlagt batterieffekt, efter behov.",
+    "pl": "Te same tagi co wyzwalacz Nowa planowana moc baterii, na żądanie.",
+    "ru": "Те же теги, что и у триггера «Новая плановая мощность батареи», по запросу.",
+    "ko": "트리거 새 배터리 계획 전력과 같은 태그를 요청 시 제공합니다.",
+    "ar": "نفس الوسوم مثل المشغل قدرة بطارية مخططة جديدة، عند الطلب."
+  },
+  "args": [
+    {
+      "type": "device",
+      "name": "device",
+      "filter": "driver_id=battery&capabilities=roi_duration"
+    },
+    {
+      "type": "checkbox",
+      "name": "invert_power",
+      "title": {
+        "en": "Invert power sign",
+        "nl": "Inverteer vermogen teken",
+        "de": "Leistungsvorzeichen umkehren",
+        "fr": "Inverser le signe de puissance",
+        "it": "Inverti il segno della potenza",
+        "sv": "Invertera effekttecken",
+        "no": "Inverter effekttegn",
+        "es": "Invertir signo de potencia",
+        "da": "Inverter effekttegn",
+        "pl": "Odwróć znak mocy",
+        "ru": "Инвертировать знак мощности",
+        "ko": "전력 부호 반전",
+        "ar": "عكس إشارة الطاقة"
+      },
+      "default": false
+    }
+  ],
+  "tokens": [
+    {
+      "name": "power",
+      "type": "number",
+      "title": {
+        "en": "Power",
+        "de": "Leistung",
+        "nl": "Vermogen",
+        "fr": "Puissance",
+        "it": "Potenza",
+        "sv": "Effekt",
+        "no": "Effekt",
+        "es": "Potencia",
+        "da": "Effekt",
+        "pl": "Moc",
+        "ru": "Мощность",
+        "ko": "전력",
+        "ar": "القدرة"
+      }
+    },
+    {
+      "name": "duration",
+      "type": "number",
+      "title": {
+        "en": "Duration (minutes)",
+        "de": "Dauer (Minuten)",
+        "nl": "Duur (minuten)",
+        "fr": "Durée (minutes)",
+        "it": "Durata (minuti)",
+        "sv": "Varaktighet (minuter)",
+        "no": "Varighet (minutter)",
+        "es": "Duración (minutos)",
+        "da": "Varighed (minutter)",
+        "pl": "Czas trwania (minuty)",
+        "ru": "Продолжительность (минуты)",
+        "ko": "지속 시간 (분)",
+        "ar": "المدة (دقائق)"
+      }
+    },
+    {
+      "name": "endSoC",
+      "type": "number",
+      "title": {
+        "en": "SoC afterwards (%)",
+        "de": "SoC danach (%)",
+        "nl": "SoC daarna (%)",
+        "fr": "SoC après (%)",
+        "it": "SoC dopo (%)",
+        "sv": "SoC efteråt (%)",
+        "no": "SoC etterpå (%)",
+        "es": "SoC después (%)",
+        "da": "SoC bagefter (%)",
+        "pl": "SoC po (%)",
+        "ru": "SoC после (%)",
+        "ko": "이후 SoC (%)",
+        "ar": "حالة الشحن بعد ذلك (%)"
+      }
+    },
+    {
+      "name": "scheme",
+      "type": "string",
+      "title": {
+        "en": "Scheme JSON",
+        "de": "Schema JSON",
+        "nl": "Schema JSON",
+        "fr": "Schéma JSON",
+        "it": "Schema JSON",
+        "sv": "Schema JSON",
+        "no": "Skjema JSON",
+        "es": "Esquema JSON",
+        "da": "Skema JSON",
+        "pl": "Schemat JSON",
+        "ru": "Схема JSON",
+        "ko": "스킴 JSON",
+        "ar": "مخطط JSON"
+      }
+    },
+    {
+      "name": "block",
+      "type": "string",
+      "title": {
+        "en": "Plan block (zero, hold, idle, charge, discharge)",
+        "nl": "Planblok (zero, hold, idle, charge, discharge)",
+        "de": "Planblock (zero, hold, idle, charge, discharge)",
+        "fr": "Bloc du plan (zero, hold, idle, charge, discharge)",
+        "it": "Blocco del piano (zero, hold, idle, charge, discharge)",
+        "sv": "Planblock (zero, hold, idle, charge, discharge)",
+        "no": "Planblokk (zero, hold, idle, charge, discharge)",
+        "es": "Bloque del plan (zero, hold, idle, charge, discharge)",
+        "da": "Planblok (zero, hold, idle, charge, discharge)",
+        "pl": "Blok planu (zero, hold, idle, charge, discharge)",
+        "ru": "Блок плана (zero, hold, idle, charge, discharge)",
+        "ko": "계획 블록 (zero, hold, idle, charge, discharge)",
+        "ar": "كتلة الخطة (zero, hold, idle, charge, discharge)"
+      },
+      "example": "zero"
+    }
+  ]
+}
