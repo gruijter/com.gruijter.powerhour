@@ -48,7 +48,7 @@ The driver reads the import and export registers that the source device declares
 3. Choose your main grid meter.
 4. Complete pairing.
 5. In the device settings, check the **Grid connection** values (phases, main fuse, voltage) — see below.
-6. Set the tariff (fixed, via flow, or via a Day-Ahead Pricing device in the same **Tariff update group**).
+6. Set the tariff (fixed, via flow, or via an Energy price device in the same **Tariff update group**).
 
 After pairing, the load forecast is trained automatically from the Insights history of your grid meter (and solar / battery / EV devices, if present). This may take a few minutes.
 

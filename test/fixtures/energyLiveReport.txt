@@ -1,0 +1,161 @@
+{
+  zoneId: '00000000-0000-4000-8000-000000000001',
+  currency: 'EUR',
+  zoneName: '_Home',
+  zoneIcon: 'home',
+  totalConsumed: { W: 73.24, cost: 0.017577600000000002 },
+  totalCumulative: { W: 298, cost: 0.07152 },
+  totalGenerated: { W: 70, cost: null },
+  items: [
+    {
+      type: 'zone',
+      id: '00000000-0000-4000-8000-000000000002',
+      name: '00_Begane grond',
+      icon: 'default',
+      values: { W: 5.24, cost: 0.0012576 }
+    },
+    {
+      type: 'device',
+      id: '00000000-0000-4000-8000-000000000003',
+      name: 'Watermeter',
+      iconObj: {
+        id: 'b1e296d7bf151288d7ba4b6aa8c5bcda',
+        url: '/icon/b1e296d7bf151288d7ba4b6aa8c5bcda/icon.svg'
+      },
+      color: '#469f00',
+      values: { W: 0, cost: 0 },
+      isHomeBattery: false,
+      isEVCharger: false,
+      approximated: true,
+      canApproximate: true
+    },
+    {
+      type: 'device',
+      id: '00000000-0000-4000-8000-000000000004',
+      name: 'SESSY_SERIAL01',
+      iconObj: {
+        id: 'e848a94056f2a7d13c36a2ed78725476',
+        url: '/icon/e848a94056f2a7d13c36a2ed78725476/icon.svg'
+      },
+      color: '#662abd',
+      values: { W: 0, cost: 0 },
+      isHomeBattery: true,
+      isEVCharger: false,
+      approximated: false,
+      canApproximate: false
+    },
+    {
+      type: 'device',
+      id: '00000000-0000-4000-8000-000000000005',
+      name: 'NL_Netherlands',
+      iconObj: {
+        id: 'e94f0d52e7e0bd7e2fb58e6df9d2805c',
+        url: '/icon/e94f0d52e7e0bd7e2fb58e6df9d2805c/icon.svg'
+      },
+      color: '#df5020',
+      values: { W: 0, cost: 0 },
+      isHomeBattery: false,
+      isEVCharger: false,
+      approximated: true,
+      canApproximate: true
+    },
+    {
+      type: 'device',
+      id: '00000000-0000-4000-8000-000000000006',
+      name: 'SESSY_SERIAL01_Σ',
+      iconObj: {
+        id: 'a7e05609a9a8e06746f900209b800ec8',
+        url: '/icon/a7e05609a9a8e06746f900209b800ec8/icon.svg'
+      },
+      color: '#df5020',
+      values: { W: 0, cost: 0 },
+      isHomeBattery: false,
+      isEVCharger: false,
+      approximated: true,
+      canApproximate: true
+    },
+    {
+      type: 'device',
+      id: '00000000-0000-4000-8000-000000000007',
+      name: 'SmartMeter_Σpower',
+      iconObj: {
+        id: '173e00333a0c140c586a44f0acfbe429',
+        url: '/icon/173e00333a0c140c586a44f0acfbe429/icon.svg'
+      },
+      color: '#df5020',
+      values: { W: null, cost: null },
+      isHomeBattery: false,
+      isEVCharger: false,
+      approximated: false,
+      canApproximate: true
+    },
+    {
+      type: 'device',
+      id: '00000000-0000-4000-8000-000000000008',
+      name: 'SmartMeter_Σgrid',
+      iconObj: {
+        id: '173e00333a0c140c586a44f0acfbe429',
+        url: '/icon/173e00333a0c140c586a44f0acfbe429/icon.svg'
+      },
+      color: '#df5020',
+      values: { W: null, cost: null },
+      isHomeBattery: false,
+      isEVCharger: false,
+      approximated: false,
+      canApproximate: true
+    },
+    {
+      type: 'device',
+      id: '00000000-0000-4000-8000-000000000009',
+      name: 'SESSY_SERIAL02',
+      iconObj: {
+        id: 'e848a94056f2a7d13c36a2ed78725476',
+        url: '/icon/e848a94056f2a7d13c36a2ed78725476/icon.svg'
+      },
+      color: '#662abd',
+      values: { W: 0, cost: 0 },
+      isHomeBattery: true,
+      isEVCharger: false,
+      approximated: false,
+      canApproximate: false
+    },
+    {
+      type: 'device',
+      id: '00000000-0000-4000-8000-000000000010',
+      name: 'PV_SESSY_SERIAL02_Σsolar',
+      iconObj: {
+        id: '87aa364606f4426118733927b16d0d4a',
+        url: '/icon/87aa364606f4426118733927b16d0d4a/icon.svg'
+      },
+      color: '#df5020',
+      values: { W: 68, cost: 0.01632 },
+      isHomeBattery: false,
+      isEVCharger: false,
+      approximated: false,
+      canApproximate: false
+    },
+    {
+      values: { W: 70 },
+      type: 'generator',
+      id: '00000000-0000-4000-8000-000000000011',
+      name: 'PV_SESSY_SERIAL02',
+      iconObj: {
+        id: '198f8c07f92bbb90d8a6d8f32d27d175',
+        url: '/icon/198f8c07f92bbb90d8a6d8f32d27d175/icon.svg'
+      },
+      color: '#662abd'
+    },
+    {
+      values: { W: 298, cost: 0.07152 },
+      includedInTotal: true,
+      type: 'cumulative',
+      id: '00000000-0000-4000-8000-000000000012',
+      name: 'SmartMeter',
+      iconObj: {
+        id: 'b1e296d7bf151288d7ba4b6aa8c5bcda',
+        url: '/icon/b1e296d7bf151288d7ba4b6aa8c5bcda/icon.svg'
+      },
+      color: '#469f00'
+    }
+  ]
+}

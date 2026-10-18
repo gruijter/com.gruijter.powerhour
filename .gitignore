@@ -26,3 +26,7 @@ Thumbs.db
 .claude/
 .github/
 AGENTS.md
+
+# Tests: real user data and generated reports stay local
+test/solar/data/
+test/all_terms.json

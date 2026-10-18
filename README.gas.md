@@ -19,7 +19,7 @@ The **Gas Monitor** device tracks your gas consumption in cubic meters ($\text{m
 - **Volume & Cost Tracking:** Real-time tracking of $\text{m}^3$ and monetary cost for *this/last hour, day, month, year*.
 - **Gas Leak Detection:** Continuous monitoring of minimum gas flow rate ($\text{L/min}$) over a 24-hour window.
 - **Seasonal Budget Models:** Aligns monthly target consumption with heavy winter gas heating profiles (`gas_nl_2023`).
-- **Dynamic Tariff Groups:** Automatically receives real-time gas rates when linked to a Gas Day-Ahead Pricing (`dapg`) device.
+- **Dynamic Tariff Groups:** Automatically receives real-time gas rates when linked to an Energy price (`price`) device set to gas.
 
 ---
 
@@ -36,7 +36,7 @@ The **Gas Monitor** device tracks your gas consumption in cubic meters ($\text{m
 
 - **Tariff & Fixed Costs:** Set your gas price per $\text{m}^3$ and fixed daily/monthly delivery charges in **Device Settings**.
 - **Distribution Model:** Set to `gas_nl_2023` to align monthly budget targets with typical Dutch price ceiling gas heating curves.
-- **Tariff Update Group:** Assign a group number (e.g. `1`) to receive dynamic gas tariffs automatically from a `DAPg` device.
+- **Tariff Update Group:** Assign a group number (e.g. `1`) to receive dynamic gas tariffs automatically from an Energy price device set to gas ([README.price.md](./README.price.md)).
 
 ---
 

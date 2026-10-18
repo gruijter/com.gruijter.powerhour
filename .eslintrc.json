@@ -1,13 +1,17 @@
 {
-  "extends": "athom/homey-app",
-  "overrides": [
-    {
-      "files": [
-        "test_provider.js"
-      ],
-      "rules": {
-        "homey-app/global-timers": "off"
-      }
-    }
-  ]
+    "extends": "athom/homey-app",
+    "overrides": [
+        {
+            "files": [
+                "test/**/*.js"
+            ],
+            "rules": {
+                "homey-app/global-timers": "off",
+                "no-console": "off",
+                "global-require": "off",
+                "import/no-dynamic-require": "off",
+                "no-process-exit": "off"
+            }
+        }
+    ]
 }

@@ -8,7 +8,7 @@
   },
   "scripts": {
     "lint": "eslint --ext .js,.ts --ignore-path .gitignore .",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node test/run.js"
   },
   "keywords": [
     "homey"

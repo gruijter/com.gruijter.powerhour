@@ -26,7 +26,7 @@ The **Power Monitor** device aggregates electricity consumption and production d
 - **Homey Energy Integration:** Summarize all smart meters, solar panels, or individual devices connected to Homey Energy in a single device.
 - **Budget Tracking:** Track consumption against a reference annual budget with linear, Dutch 2023 price ceiling (`el_nl_2023`), or solar PV distribution models.
 - **Always-On Power Detection:** Measures minimum Wattage per period to highlight standby power consumption. Save ~90 kWh/year (€20–€40) per 10W saved!
-- **Dynamic Tariff Groups:** Automatically receive real-time hourly rates when paired with a Day-Ahead Pricing (DAP) device via Tariff Groups.
+- **Dynamic Tariff Groups:** Automatically receive real-time hourly rates when linked to an Energy price (`price`) device via Tariff Groups.
 
 ---
 
@@ -60,7 +60,7 @@ During pairing, PBTH also offers special virtual aggregators that summarize Home
 - **Initial Readings:** Navigate to **Device Settings** to set starting values for *This Month* or *This Year* if you are setting up mid-period.
 - **Fixed Tariff:** Enter your fixed electricity contract price per kWh directly in the device settings.
 - **Dynamic Tariff:** If your contract uses peak/off-peak or dynamic hourly rates:
-  - Assign a **Tariff Update Group** (e.g. `1`) in Device Settings to automatically receive rates from a DAP device.
+  - Assign a **Tariff Update Group** (e.g. `1`) in Device Settings to automatically receive rates from an Energy price device ([README.price.md](./README.price.md)).
   - Or update the tariff dynamically via Flows using the **Set Tariff** card.
 
 <img src="https://us1.discourse-cdn.com/flex025/uploads/athom/optimized/3X/4/d/4d66a18295c0e18112eed0150d22ca9864a2773c_2_200x290.jpeg" alt="Tariff Change Flow" width="200"/>
@@ -88,7 +88,7 @@ The `measure_watt_min` capability measures the lowest power draw over a period.
 
 You can add a dedicated Power Monitor device for heavy consumers like heat pumps, air conditioners, hot tubs, or washing machines.
 - Select the smart plug or power meter measuring the appliance as the source device.
-- Set the tariff or link it to your DAP device via a Tariff Group.
+- Set the tariff or link it to your Energy price device via a Tariff Group.
 - Gain full visibility into hourly, daily, monthly, and yearly running costs without resetting the original device meter.
 
 ---

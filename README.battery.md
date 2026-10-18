@@ -60,5 +60,5 @@ When xom conditions update, the battery driver triggers flow actions to adjust y
 
 On **Homey Pro (2023+)**, the battery driver includes the `roi_duration` capability:
 - Enter your total battery system purchase cost in Device Settings.
-- PBTH calculates cumulative money saved by avoiding expensive grid tariffs vs. storing cheap solar/DAP power.
+- PBTH calculates cumulative money saved by avoiding expensive grid tariffs vs. storing cheap solar or grid power.
 - Displays estimated remaining time until full investment payback.
