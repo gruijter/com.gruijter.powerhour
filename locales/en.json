@@ -78,6 +78,7 @@
     "setup_caps_title": "Source capabilities",
     "setup_caps_text": "Which capability to use. Automatic: as detected.",
     "setup_map_manually": "map manually",
+    "setup_role_meter": "Meter",
     "setup_role_p1": "Import meter",
     "setup_role_p2": "Import meter 2",
     "setup_role_n1": "Export meter",

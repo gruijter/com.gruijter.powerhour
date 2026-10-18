@@ -78,6 +78,7 @@
     "setup_caps_title": "Capacités de la source",
     "setup_caps_text": "Quelle capacité utiliser. Automatique : telle que détectée.",
     "setup_map_manually": "associer manuellement",
+    "setup_role_meter": "Compteur",
     "setup_role_p1": "Compteur import",
     "setup_role_p2": "Compteur import 2",
     "setup_role_n1": "Compteur export",

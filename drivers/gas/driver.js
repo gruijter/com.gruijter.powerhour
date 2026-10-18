@@ -37,6 +37,11 @@ const driverSpecifics = {
     'measure_lpm_min.day', 'measure_lpm_max.day',
     'measure_lpm_min.month', 'measure_lpm_max.month',
     'measure_lpm_min.year', 'measure_lpm_max.year'],
+  setup: {
+    settings: ['homey_device_daily_reset', 'tariff_update_group', 'tariff'],
+    roles: [{ key: 'p1', kind: 'm3', label: 'meter' }],
+    prices: 'gas',
+  },
 };
 
 class GasDriver extends GenericDriver {

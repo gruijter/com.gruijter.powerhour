@@ -78,6 +78,7 @@
     "setup_caps_title": "Bron-capabilities",
     "setup_caps_text": "Welke capability te gebruiken. Automatisch: zoals herkend.",
     "setup_map_manually": "handmatig koppelen",
+    "setup_role_meter": "Meter",
     "setup_role_p1": "Meter afname",
     "setup_role_p2": "Meter afname 2",
     "setup_role_n1": "Meter teruglevering",

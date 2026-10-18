@@ -78,6 +78,7 @@
     "setup_caps_title": "Källans capabilities",
     "setup_caps_text": "Vilken capability som används. Automatisk: som identifierad.",
     "setup_map_manually": "koppla manuellt",
+    "setup_role_meter": "Mätare",
     "setup_role_p1": "Mätare import",
     "setup_role_p2": "Mätare import 2",
     "setup_role_n1": "Mätare export",

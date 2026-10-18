@@ -78,6 +78,7 @@
     "setup_caps_title": "Quellen-Capabilities",
     "setup_caps_text": "Welche Capability verwendet wird. Automatisch: wie erkannt.",
     "setup_map_manually": "manuell zuordnen",
+    "setup_role_meter": "Zähler",
     "setup_role_p1": "Bezugszähler",
     "setup_role_p2": "Bezugszähler 2",
     "setup_role_n1": "Einspeisezähler",

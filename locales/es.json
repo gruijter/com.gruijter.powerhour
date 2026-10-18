@@ -78,6 +78,7 @@
     "setup_caps_title": "Capacidades de la fuente",
     "setup_caps_text": "Qué capacidad usar. Automático: según se detecta.",
     "setup_map_manually": "asignar manualmente",
+    "setup_role_meter": "Contador",
     "setup_role_p1": "Contador importación",
     "setup_role_p2": "Contador importación 2",
     "setup_role_n1": "Contador exportación",

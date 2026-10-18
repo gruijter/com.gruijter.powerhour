@@ -78,6 +78,7 @@
     "setup_caps_title": "قدرات المصدر",
     "setup_caps_text": "أي قدرة تُستخدم. تلقائي: كما تم اكتشافها.",
     "setup_map_manually": "ربط يدوي",
+    "setup_role_meter": "العداد",
     "setup_role_p1": "عداد الاستيراد",
     "setup_role_p2": "عداد الاستيراد 2",
     "setup_role_n1": "عداد التصدير",

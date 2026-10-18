@@ -1,0 +1,132 @@
+<form class="homey-form" onsubmit="return false;">
+	<fieldset class="homey-form-fieldset">
+		<legend class="homey-form-legend" id="title"></legend>
+		<div id="settings"></div>
+		<fieldset class="homey-form-checkbox-set" id="checkboxes"></fieldset>
+	</fieldset>
+	<fieldset class="homey-form-fieldset" id="rolesSection" style="display: none;">
+		<legend class="homey-form-legend" id="rolesTitle"></legend>
+		<p class="homey-subtitle" id="rolesText"></p>
+		<div id="roles"></div>
+	</fieldset>
+	<button class="homey-button-primary-full" id="next" data-i18n="repair.setup_next"></button>
+</form>
+
+<script>
+	// The same file in pair/ and repair/ of each driver with a setup view (lib/helpers/PairSetup.js).
+	Homey.setTitle(Homey.__('repair.setup_title'));
+	let roleDeviceId = null;
+
+	const el = (tag, props = {}) => Object.assign(document.createElement(tag), props);
+
+	const option = (value, text, selected) => el('option', { value: String(value), textContent: text, selected: String(value) === String(selected) });
+
+	// One driver setting: a checkbox (in the checkbox set) or a group with a number, text or dropdown.
+	const settingField = (s) => {
+		if (s.type === 'checkbox') {
+			const label = el('label', { className: 'homey-form-checkbox' });
+			label.appendChild(el('input', {
+				className: 'homey-form-checkbox-input', type: 'checkbox', id: `set_${s.id}`, checked: !!s.value,
+			}));
+			label.appendChild(el('span', { className: 'homey-form-checkbox-checkmark' }));
+			label.appendChild(el('span', { className: 'homey-form-checkbox-text', textContent: s.label }));
+			document.getElementById('checkboxes').appendChild(label);
+			if (s.info) document.getElementById('checkboxes').appendChild(el('p', { className: 'homey-subtitle', textContent: s.info }));
+			return;
+		}
+		const group = el('div', { className: 'homey-form-group' });
+		group.appendChild(el('label', { className: 'homey-form-label', htmlFor: `set_${s.id}`, textContent: s.label }));
+		if (s.type === 'dropdown') {
+			const select = el('select', { className: 'homey-form-select', id: `set_${s.id}` });
+			s.options.forEach((opt) => select.appendChild(option(opt.id, opt.label, s.value)));
+			group.appendChild(select);
+		} else {
+			const input = el('input', {
+				className: 'homey-form-input', type: s.type === 'number' ? 'number' : 'text', id: `set_${s.id}`, value: s.value,
+			});
+			if (s.type === 'number') input.step = 'any'; // decimals (e.g. 5.05 kWh): step 1 would reject them
+			if (typeof s.min === 'number') input.min = s.min;
+			if (typeof s.max === 'number') input.max = s.max;
+			group.appendChild(input);
+		}
+		if (s.info) group.appendChild(el('p', { className: 'homey-subtitle', textContent: s.info }));
+		document.getElementById('settings').appendChild(group);
+	};
+
+	// Per role a dropdown: automatic, none, or one of the fitting capabilities. A role with a mode
+	// ('watt' or 'meter') shows only when "Use Watt as source" is on or off.
+	const roleField = (role) => {
+		const group = el('div', { className: 'homey-form-group' });
+		if (role.mode) group.dataset.mode = role.mode;
+		group.appendChild(el('label', { className: 'homey-form-label', htmlFor: `role_${role.key}`, textContent: role.label }));
+		const select = el('select', { className: 'homey-form-select', id: `role_${role.key}` });
+		select.dataset.role = role.key;
+		select.appendChild(option('auto', `${Homey.__('repair.setup_auto')} (${role.auto || Homey.__('repair.setup_none')})`, role.selected));
+		if (!role.noNone) select.appendChild(option('none', Homey.__('repair.setup_none'), role.selected));
+		role.options.forEach((opt) => select.appendChild(option(opt.id, opt.label, role.selected)));
+		group.appendChild(select);
+		document.getElementById('roles').appendChild(group);
+	};
+
+	let settingDefs = [];
+
+	const showRoleModes = () => {
+		const watt = document.getElementById('set_use_measure_source');
+		const mode = watt && watt.checked ? 'watt' : 'meter';
+		document.querySelectorAll('#roles [data-mode]').forEach((group) => {
+			group.style.display = group.dataset.mode === mode ? '' : 'none';
+		});
+	};
+
+	async function load() {
+		try {
+			const data = await Homey.emit('setup_get');
+			document.getElementById('title').textContent = data.title || '';
+			settingDefs = data.settings || [];
+			settingDefs.forEach(settingField);
+			if (!data.roles) return;
+			roleDeviceId = data.roles.deviceId;
+			document.getElementById('rolesSection').style.display = '';
+			document.getElementById('rolesTitle').textContent = data.roles.title || '';
+			document.getElementById('rolesText').textContent = data.roles.text || '';
+			data.roles.items.forEach(roleField);
+			showRoleModes();
+			const watt = document.getElementById('set_use_measure_source');
+			if (watt) watt.addEventListener('change', showRoleModes);
+		} catch (error) {
+			Homey.alert(error.message || error, 'error');
+		} finally {
+			Homey.hideLoadingOverlay();
+		}
+	}
+
+	document.getElementById('next').addEventListener('click', async () => {
+		const button = document.getElementById('next');
+		if (button.classList.contains('is-loading')) return;
+		button.classList.add('is-loading');
+		try {
+			const settings = {};
+			settingDefs.forEach((s) => {
+				const input = document.getElementById(`set_${s.id}`);
+				settings[s.id] = s.type === 'checkbox' ? input.checked : input.value;
+			});
+			const caps = {};
+			document.querySelectorAll('select[data-role]').forEach((select) => {
+				caps[select.dataset.role] = select.value;
+			});
+			// Pairing returns the device to create; repair continues to its 'loading' view.
+			const result = await Homey.emit('setup_set', { settings, roleDeviceId, caps });
+			if (result && result.device) {
+				await Homey.createDevice(result.device);
+				Homey.done();
+				return;
+			}
+			Homey.showView('loading');
+		} catch (error) {
+			button.classList.remove('is-loading');
+			Homey.alert(error.message || error, 'error');
+		}
+	});
+
+	load();
+</script>
