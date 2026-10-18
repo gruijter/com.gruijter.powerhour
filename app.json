@@ -848,34 +848,19 @@
       },
       {
         "title": {
-          "en": "EV charge mode changed",
-          "nl": "EV laadmodus veranderd",
-          "de": "EV Lademodus geändert",
-          "ko": "EV 충전 모드 변경됨",
-          "fr": "Mode de charge EV modifié",
-          "es": "Modo de carga EV cambiado",
-          "it": "Modalità di ricarica EV cambiata",
-          "da": "EV-ladetilstand ændret",
-          "sv": "EV-laddningsläge ändrat",
-          "no": "EV-lademodus endret",
-          "pl": "Tryb ładowania EV został zmieniony",
-          "ru": "Режим зарядки EV изменён",
-          "ar": "تم تغيير وضع شحن السيارة الكهربائية"
-        },
-        "hint": {
-          "en": "Triggers when the EV charge mode is updated via device UI or flow action.",
-          "nl": "Triggert wanneer de EV laadmodus wordt aangepast via de UI of flow.",
-          "ko": "장치 UI 또는 flow 작업을 통해 EV 충전 모드가 업데이트되면 트리거됩니다.",
-          "de": "Wird ausgelöst, wenn der EV-Lademodus über die Geräteoberfläche oder eine Flow-Aktion aktualisiert wird.",
-          "fr": "Se déclenche lorsque le mode de charge EV est mis à jour via l'interface de l'appareil ou une action de flow.",
-          "es": "Se activa cuando el modo de carga EV se actualiza a través de la interfaz del dispositivo o una acción de flow.",
-          "it": "Si attiva quando la modalità di ricarica EV viene aggiornata tramite l'interfaccia del dispositivo o un'azione flow.",
-          "da": "Udløses når EV-ladetilstanden opdateres via enhedens UI eller en flow-handling.",
-          "sv": "Utlöses när EV-laddningsläget uppdateras via enhetens UI eller en flow-åtgärd.",
-          "no": "Utløses når EV-lademodus oppdateres via enhetens UI eller en flow-handling.",
-          "pl": "Uruchamia się, gdy tryb ładowania EV zostanie zaktualizowany za pomocą interfejsu urządzenia lub akcji flow.",
-          "ru": "Срабатывает при обновлении режима зарядки EV через интерфейс устройства или действие flow.",
-          "ar": "يتم التشغيل عند تحديث وضع شحن السيارة الكهربائية عبر واجهة الجهاز أو إجراء تدفق."
+          "en": "Charge mode changed",
+          "nl": "Laadmodus veranderd",
+          "de": "Lademodus geändert",
+          "ko": "충전 모드 변경됨",
+          "fr": "Mode de charge modifié",
+          "es": "Modo de carga cambiado",
+          "it": "Modalità di ricarica cambiata",
+          "da": "Ladetilstand ændret",
+          "sv": "Laddningsläge ändrat",
+          "no": "Lademodus endret",
+          "pl": "Tryb ładowania zmieniony",
+          "ru": "Режим зарядки изменён",
+          "ar": "تم تغيير وضع الشحن"
         },
         "args": [
           {
@@ -1291,19 +1276,19 @@
       },
       {
         "title": {
-          "en": "New EV strategy active",
-          "nl": "Nieuwe EV strategie actief",
-          "de": "Neue EV-Strategie aktiv",
-          "fr": "Nouvelle stratégie EV active",
-          "ko": "새 EV 전략 활성",
-          "es": "Nueva estrategia EV activa",
-          "it": "Nuova strategia EV attiva",
-          "da": "Ny EV-strategi aktiv",
-          "sv": "Ny EV-strategi aktiv",
-          "no": "Ny EV-strategi aktiv",
-          "pl": "Nowa strategia EV aktywna",
-          "ru": "Новая стратегия EV активна",
-          "ar": "استراتيجية سيارة كهربائية جديدة نشطة"
+          "en": "New charging strategy active",
+          "nl": "Nieuwe laadstrategie actief",
+          "de": "Neue Ladestrategie aktiv",
+          "fr": "Nouvelle stratégie de charge active",
+          "ko": "새 충전 전략 활성",
+          "es": "Nueva estrategia de carga activa",
+          "it": "Nuova strategia di ricarica attiva",
+          "da": "Ny ladestrategi aktiv",
+          "sv": "Ny laddningsstrategi aktiv",
+          "no": "Ny ladestrategi aktiv",
+          "pl": "Nowa strategia ładowania aktywna",
+          "ru": "Новая стратегия зарядки активна",
+          "ar": "استراتيجية شحن جديدة نشطة"
         },
         "hint": {
           "en": "Triggers every price interval (e.g. 15m or 60m) or when settings change. Provides the optimal charging power and duration for the current interval.",
@@ -1688,34 +1673,34 @@
       {
         "highlight": true,
         "title": {
-          "en": "New smart ROI power available.",
-          "nl": "Nieuw smart ROI vermogen beschikbaar.",
-          "de": "Neue Smart ROI-Leistung verfügbar.",
-          "fr": "Nouvelle puissance ROI intelligente disponible.",
-          "it": "Nuova potenza ROI intelligente disponibile.",
-          "sv": "Ny smart ROI-effekt tillgänglig.",
-          "no": "Ny smart ROI-effekt tilgjengelig.",
-          "es": "Nueva potencia ROI inteligente disponible.",
-          "da": "Ny smart ROI-effekt tilgængelig.",
-          "pl": "Dostępna nowa moc inteligentnego ROI.",
-          "ru": "Доступна новая мощность умного ROI.",
-          "ko": "새로운 스마트 ROI 전력 사용 가능.",
-          "ar": "طاقة عائد استثمار ذكي جديدة متاحة."
+          "en": "New smart ROI power available",
+          "nl": "Nieuw smart ROI vermogen beschikbaar",
+          "de": "Neue Smart ROI-Leistung verfügbar",
+          "fr": "Nouvelle puissance ROI intelligente disponible",
+          "it": "Nuova potenza ROI intelligente disponibile",
+          "sv": "Ny smart ROI-effekt tillgänglig",
+          "no": "Ny smart ROI-effekt tilgjengelig",
+          "es": "Nueva potencia ROI inteligente disponible",
+          "da": "Ny smart ROI-effekt tilgængelig",
+          "pl": "Dostępna nowa moc inteligentnego ROI",
+          "ru": "Доступна новая мощность умного ROI",
+          "ko": "새로운 스마트 ROI 전력 사용 가능",
+          "ar": "طاقة عائد استثمار ذكي جديدة متاحة"
         },
         "titleFormatted": {
-          "en": "New smart ROI power available (inverted: [[invert_power]]), with minimum [[minPriceDelta]]¤ profit per kWh.",
-          "nl": "Nieuwe smart ROI vermogen beschikbaar (geïnverteerd: [[invert_power]]), met minimaal [[minPriceDelta]]¤ winst per kWh.",
-          "de": "Neue Smart ROI-Leistung verfügbar (invertiert: [[invert_power]]), mit minimalem [[minPriceDelta]]¤ Gewinn pro kWh.",
-          "fr": "Nouvelle puissance ROI intelligente disponible (inversée : [[invert_power]]), avec un profit minimum de [[minPriceDelta]]¤ par kWh.",
-          "it": "Nuova potenza ROI intelligente disponibile (invertita: [[invert_power]]), con un profitto minimo di [[minPriceDelta]]¤ per kWh.",
-          "sv": "Ny smart ROI-effekt tillgänglig (inverterad: [[invert_power]]), med minst [[minPriceDelta]]¤ vinst per kWh.",
-          "no": "Ny smart ROI-effekt tilgjengelig (invertert: [[invert_power]]), med minimum [[minPriceDelta]]¤ fortjeneste per kWh.",
-          "es": "Nueva potencia ROI inteligente disponible (invertida: [[invert_power]]), con un beneficio mínimo de [[minPriceDelta]]¤ por kWh.",
-          "da": "Ny smart ROI-effekt tilgængelig (inverteret: [[invert_power]]), med minimum [[minPriceDelta]]¤ fortjeneste pr. kWh.",
-          "pl": "Dostępna nowa moc inteligentnego ROI (odwrócona: [[invert_power]]), z minimalnym zyskiem [[minPriceDelta]]¤ na kWh.",
-          "ru": "Доступна новая мощность умного ROI (инвертировано: [[invert_power]]) с минимальной прибылью [[minPriceDelta]]¤ за кВтч.",
-          "ko": "kWh당 최소 [[minPriceDelta]]¤ 이익으로 새로운 스마트 ROI 전력 사용 가능 (반전: [[invert_power]]).",
-          "ar": "طاقة عائد استثمار ذكي جديدة متاحة (معكوسة: [[invert_power]])، بحد أدنى للربح [[minPriceDelta]]¤ لكل كيلوواط ساعة."
+          "en": "New smart ROI power available (inverted: [[invert_power]]), with minimum [[minPriceDelta]]¤ profit per kWh",
+          "nl": "Nieuwe smart ROI vermogen beschikbaar (geïnverteerd: [[invert_power]]), met minimaal [[minPriceDelta]]¤ winst per kWh",
+          "de": "Neue Smart ROI-Leistung verfügbar (invertiert: [[invert_power]]), mit minimalem [[minPriceDelta]]¤ Gewinn pro kWh",
+          "fr": "Nouvelle puissance ROI intelligente disponible (inversée : [[invert_power]]), avec un profit minimum de [[minPriceDelta]]¤ par kWh",
+          "it": "Nuova potenza ROI intelligente disponibile (invertita: [[invert_power]]), con un profitto minimo di [[minPriceDelta]]¤ per kWh",
+          "sv": "Ny smart ROI-effekt tillgänglig (inverterad: [[invert_power]]), med minst [[minPriceDelta]]¤ vinst per kWh",
+          "no": "Ny smart ROI-effekt tilgjengelig (invertert: [[invert_power]]), med minimum [[minPriceDelta]]¤ fortjeneste per kWh",
+          "es": "Nueva potencia ROI inteligente disponible (invertida: [[invert_power]]), con un beneficio mínimo de [[minPriceDelta]]¤ por kWh",
+          "da": "Ny smart ROI-effekt tilgængelig (inverteret: [[invert_power]]), med minimum [[minPriceDelta]]¤ fortjeneste pr. kWh",
+          "pl": "Dostępna nowa moc inteligentnego ROI (odwrócona: [[invert_power]]), z minimalnym zyskiem [[minPriceDelta]]¤ na kWh",
+          "ru": "Доступна новая мощность умного ROI (инвертировано: [[invert_power]]) с минимальной прибылью [[minPriceDelta]]¤ за кВтч",
+          "ko": "kWh당 최소 [[minPriceDelta]]¤ 이익으로 새로운 스마트 ROI 전력 사용 가능 (반전: [[invert_power]])",
+          "ar": "طاقة عائد استثمار ذكي جديدة متاحة (معكوسة: [[invert_power]])، بحد أدنى للربح [[minPriceDelta]]¤ لكل كيلوواط ساعة"
         },
         "hint": {
           "en": "The strategy is calculated using future hourly prices, the battery settings, and the set minimum profit per kWh. Non-inverted charging power is positive (+), discharging is negative (-).",
@@ -7306,34 +7291,34 @@
       {
         "highlight": true,
         "title": {
-          "en": "New XOM power available.",
-          "nl": "Nieuw XOM vermogen beschikbaar.",
-          "de": "Neuer XOM Strom verfügbar.",
-          "fr": "Nouvelle puissance XOM disponible.",
-          "it": "Nuova potenza XOM disponibile.",
-          "sv": "Ny XOM-effekt tillgänglig.",
-          "no": "Ny XOM-effekt tilgjengelig.",
-          "es": "Nueva potencia XOM disponible.",
-          "da": "Ny XOM-effekt tilgængelig.",
-          "pl": "Dostępna nowa moc XOM.",
-          "ru": "Доступна новая мощность XOM.",
-          "ko": "새로운 XOM 전력 사용 가능.",
-          "ar": "طاقة XOM جديدة متاحة."
+          "en": "New XOM power available",
+          "nl": "Nieuw XOM vermogen beschikbaar",
+          "de": "Neuer XOM Strom verfügbar",
+          "fr": "Nouvelle puissance XOM disponible",
+          "it": "Nuova potenza XOM disponibile",
+          "sv": "Ny XOM-effekt tillgänglig",
+          "no": "Ny XOM-effekt tilgjengelig",
+          "es": "Nueva potencia XOM disponible",
+          "da": "Ny XOM-effekt tilgængelig",
+          "pl": "Dostępna nowa moc XOM",
+          "ru": "Доступна новая мощность XOM",
+          "ko": "새로운 XOM 전력 사용 가능",
+          "ar": "طاقة XOM جديدة متاحة"
         },
         "titleFormatted": {
-          "en": "New XOM power available (inverted: [[invert_power]]).",
-          "nl": "Nieuw XOM vermogen beschikbaar (geïnverteerd: [[invert_power]]).",
-          "de": "Neuer XOM Strom verfügbar (invertiert: [[invert_power]]).",
-          "fr": "Nouvelle puissance XOM disponible (inversée : [[invert_power]]).",
-          "it": "Nuova potenza XOM disponibile (invertita: [[invert_power]]).",
-          "sv": "Ny XOM-effekt tillgänglig (inverterad: [[invert_power]]).",
-          "no": "Ny XOM-effekt tilgjengelig (invertert: [[invert_power]]).",
-          "es": "Nueva potencia XOM disponible (invertida: [[invert_power]]).",
-          "da": "Ny XOM-effekt tilgængelig (inverteret: [[invert_power]]).",
-          "pl": "Dostępna nowa moc XOM (odwrócona: [[invert_power]]).",
-          "ru": "Доступна новая мощность XOM (инвертировано: [[invert_power]]).",
-          "ko": "새로운 XOM 전력 사용 가능 (반전: [[invert_power]]).",
-          "ar": "طاقة XOM جديدة متاحة (معكوسة: [[invert_power]])."
+          "en": "New XOM power available (inverted: [[invert_power]])",
+          "nl": "Nieuw XOM vermogen beschikbaar (geïnverteerd: [[invert_power]])",
+          "de": "Neuer XOM Strom verfügbar (invertiert: [[invert_power]])",
+          "fr": "Nouvelle puissance XOM disponible (inversée : [[invert_power]])",
+          "it": "Nuova potenza XOM disponibile (invertita: [[invert_power]])",
+          "sv": "Ny XOM-effekt tillgänglig (inverterad: [[invert_power]])",
+          "no": "Ny XOM-effekt tilgjengelig (invertert: [[invert_power]])",
+          "es": "Nueva potencia XOM disponible (invertida: [[invert_power]])",
+          "da": "Ny XOM-effekt tilgængelig (inverteret: [[invert_power]])",
+          "pl": "Dostępna nowa moc XOM (odwrócona: [[invert_power]])",
+          "ru": "Доступна новая мощность XOM (инвертировано: [[invert_power]])",
+          "ko": "새로운 XOM 전력 사용 가능 (반전: [[invert_power]])",
+          "ar": "طاقة XOM جديدة متاحة (معكوسة: [[invert_power]])"
         },
         "hint": {
           "en": "Battery power is set to keep cumulative usage near the target X Watt (default 0, via 'Set XOM'). Batteries share the load pro rata. Positive = charging, negative = discharging.",
@@ -7919,34 +7904,34 @@
       },
       {
         "title": {
-          "en": "Car status is",
-          "nl": "Autostatus is",
-          "de": "Autostatus ist",
-          "fr": "L'état voiture est",
-          "es": "El estado del coche es",
-          "it": "Lo stato auto è",
-          "da": "Bilstatus er",
-          "sv": "Bilstatus är",
-          "no": "Bilstatus er",
-          "pl": "Stan auta to",
-          "ru": "Статус авто",
-          "ar": "حالة السيارة هي",
-          "ko": "차량 상태가"
+          "en": "Car status !{{is|is not}}",
+          "nl": "Autostatus !{{is|is niet}}",
+          "de": "Autostatus !{{ist|ist nicht}}",
+          "fr": "L'état voiture !{{est|n'est pas}}",
+          "es": "El estado del coche !{{es|no es}}",
+          "it": "Lo stato auto !{{è|non è}}",
+          "da": "Bilstatus !{{er|er ikke}}",
+          "sv": "Bilstatus !{{är|är inte}}",
+          "no": "Bilstatus !{{er|er ikke}}",
+          "pl": "Stan auta !{{jest|nie jest}}",
+          "ru": "Статус авто !{{—|не}}",
+          "ar": "حالة السيارة !{{هي|ليست}}",
+          "ko": "차량 상태 !{{일치|불일치}}"
         },
         "titleFormatted": {
-          "en": "Car status is [[state]]",
-          "nl": "Autostatus is [[state]]",
-          "de": "Autostatus ist [[state]]",
-          "fr": "L'état voiture est [[state]]",
-          "es": "El estado del coche es [[state]]",
-          "it": "Lo stato auto è [[state]]",
-          "da": "Bilstatus er [[state]]",
-          "sv": "Bilstatus är [[state]]",
-          "no": "Bilstatus er [[state]]",
-          "pl": "Stan auta to [[state]]",
-          "ru": "Статус авто: [[state]]",
-          "ar": "حالة السيارة هي [[state]]",
-          "ko": "차량 상태가 [[state]]임"
+          "en": "Car status !{{is|is not}} [[state]]",
+          "nl": "Autostatus !{{is|is niet}} [[state]]",
+          "de": "Autostatus !{{ist|ist nicht}} [[state]]",
+          "fr": "L'état voiture !{{est|n'est pas}} [[state]]",
+          "es": "El estado del coche !{{es|no es}} [[state]]",
+          "it": "Lo stato auto !{{è|non è}} [[state]]",
+          "da": "Bilstatus !{{er|er ikke}} [[state]]",
+          "sv": "Bilstatus !{{är|är inte}} [[state]]",
+          "no": "Bilstatus !{{er|er ikke}} [[state]]",
+          "pl": "Stan auta !{{jest|nie jest}} [[state]]",
+          "ru": "Статус авто !{{—|не}} [[state]]",
+          "ar": "حالة السيارة !{{هي|ليست}} [[state]]",
+          "ko": "차량 상태 !{{일치|불일치}}: [[state]]"
         },
         "args": [
           {
@@ -8070,49 +8055,34 @@
       },
       {
         "title": {
-          "en": "EV charge mode is !",
-          "nl": "EV laadmodus is !",
-          "de": "EV Lademodus ist !",
-          "ko": "EV 충전 모드가 !",
-          "fr": "Le mode de charge EV est !",
-          "es": "El modo de carga EV es !",
-          "it": "La modalità di ricarica EV è !",
-          "da": "EV-ladetilstand er !",
-          "sv": "EV-laddningsläge är !",
-          "no": "EV-lademodus er !",
-          "pl": "Tryb ładowania EV to !",
-          "ru": "Режим зарядки EV: !",
-          "ar": "وضع شحن السيارة الكهربائية هو !"
+          "en": "Charge mode !{{is|is not}}",
+          "nl": "Laadmodus !{{is|is niet}}",
+          "de": "Lademodus !{{ist|ist nicht}}",
+          "ko": "충전 모드 !{{일치|불일치}}",
+          "fr": "Le mode de charge !{{est|n'est pas}}",
+          "es": "El modo de carga !{{es|no es}}",
+          "it": "La modalità di ricarica !{{è|non è}}",
+          "da": "Ladetilstanden !{{er|er ikke}}",
+          "sv": "Laddningsläget !{{är|är inte}}",
+          "no": "Lademodus !{{er|er ikke}}",
+          "pl": "Tryb ładowania !{{jest|nie jest}}",
+          "ru": "Режим зарядки !{{—|не}}",
+          "ar": "وضع الشحن !{{هو|ليس}}"
         },
         "titleFormatted": {
-          "en": "EV charge mode is [[mode]]",
-          "nl": "EV laadmodus is [[mode]]",
-          "de": "EV Lademodus ist [[mode]]",
-          "ko": "EV 충전 모드가 [[mode]]",
-          "fr": "Le mode de charge EV est [[mode]]",
-          "es": "El modo de carga EV es [[mode]]",
-          "it": "La modalità di ricarica EV è [[mode]]",
-          "da": "EV-ladetilstand er [[mode]]",
-          "sv": "EV-laddningsläge är [[mode]]",
-          "no": "EV-lademodus er [[mode]]",
-          "pl": "Tryb ładowania EV to [[mode]]",
-          "ru": "Режим зарядки EV: [[mode]]",
-          "ar": "وضع شحن السيارة الكهربائية هو [[mode]]"
-        },
-        "hint": {
-          "en": "Checks if the current EV charge mode matches the selected mode.",
-          "nl": "Controleert of de huidige EV laadmodus overeenkomt met de geselecteerde modus.",
-          "ko": "현재 EV 충전 모드가 선택한 모드와 일치하는지 확인합니다.",
-          "de": "Prüft, ob der aktuelle EV-Lademodus mit dem ausgewählten Modus übereinstimmt.",
-          "fr": "Vérifie si le mode de charge EV actuel correspond au mode sélectionné.",
-          "es": "Comprueba si el modo de carga EV actual coincide con el modo seleccionado.",
-          "it": "Verifica se la modalità di ricarica EV corrente corrisponde alla modalità selezionata.",
-          "da": "Kontrollerer om den aktuelle EV-ladetilstand matcher den valgte tilstand.",
-          "sv": "Kontrollerar om det aktuella EV-laddningsläget matchar det valda läget.",
-          "no": "Sjekker om gjeldende EV-lademodus samsvarer med den valgte modusen.",
-          "pl": "Sprawdza, czy bieżący tryb ładowania EV odpowiada wybranemu trybowi.",
-          "ru": "Проверяет, соответствует ли текущий режим зарядки EV выбранному режиму.",
-          "ar": "يتحقق مما إذا كان وضع شحن السيارة الكهربائية الحالي يطابق الوضع المحدد."
+          "en": "Charge mode !{{is|is not}} [[mode]]",
+          "nl": "Laadmodus !{{is|is niet}} [[mode]]",
+          "de": "Lademodus !{{ist|ist nicht}} [[mode]]",
+          "ko": "충전 모드 !{{일치|불일치}}: [[mode]]",
+          "fr": "Le mode de charge !{{est|n'est pas}} [[mode]]",
+          "es": "El modo de carga !{{es|no es}} [[mode]]",
+          "it": "La modalità di ricarica !{{è|non è}} [[mode]]",
+          "da": "Ladetilstanden !{{er|er ikke}} [[mode]]",
+          "sv": "Laddningsläget !{{är|är inte}} [[mode]]",
+          "no": "Lademodus !{{er|er ikke}} [[mode]]",
+          "pl": "Tryb ładowania !{{jest|nie jest}} [[mode]]",
+          "ru": "Режим зарядки !{{—|не}} [[mode]]",
+          "ar": "وضع الشحن !{{هو|ليس}} [[mode]]"
         },
         "args": [
           {
@@ -8464,6 +8434,7 @@
         "id": "price_above_avg"
       },
       {
+        "deprecated": true,
         "title": {
           "en": "The price !{{is|isn't}} best for (dis)charging home battery.",
           "nl": "De prijs !{{is|is niet}} het beste om thuisbatterij te (ont)laden.",
@@ -8509,7 +8480,6 @@
           "ar": "يتم حساب استراتيجية العائد على الاستثمار الأساسية باستخدام أسعار الساعة المستقبلية المعروفة والحد الأدنى لفرق السعر بين أعلى وأدنى الأسعار.",
           "ko": "기본 ROI 전략은 알려진 미래 시간당 가격과 최고 가격과 최저 가격 간의 최소 가격 차이를 사용하여 계산됩니다."
         },
-        "highlight": true,
         "args": [
           {
             "type": "device",
@@ -13746,34 +13716,34 @@
       {
         "highlight": true,
         "title": {
-          "en": "Calculate the best smart ROI power.",
-          "nl": "Bereken het beste smart ROI vermogen.",
-          "de": "Berechne die beste Smart ROI-Leistung.",
-          "fr": "Calculer la meilleure puissance ROI intelligente.",
-          "it": "Calcola la migliore potenza ROI intelligente.",
-          "sv": "Beräkna bästa smarta ROI-effekt.",
-          "no": "Beregn beste smarte ROI-effekt.",
-          "da": "Beregn den bedste smarte ROI-effekt.",
-          "es": "Calcular la mejor potencia ROI inteligente.",
-          "pl": "Oblicz najlepszą moc inteligentnego ROI.",
-          "ru": "Рассчитать лучшую мощность умного ROI.",
-          "ko": "최고의 스마트 ROI 전력 계산.",
-          "ar": "حساب أفضل طاقة عائد استثمار ذكي."
+          "en": "Calculate the best smart ROI power",
+          "nl": "Bereken het beste smart ROI vermogen",
+          "de": "Berechne die beste Smart ROI-Leistung",
+          "fr": "Calculer la meilleure puissance ROI intelligente",
+          "it": "Calcola la migliore potenza ROI intelligente",
+          "sv": "Beräkna bästa smarta ROI-effekt",
+          "no": "Beregn beste smarte ROI-effekt",
+          "da": "Beregn den bedste smarte ROI-effekt",
+          "es": "Calcular la mejor potencia ROI inteligente",
+          "pl": "Oblicz najlepszą moc inteligentnego ROI",
+          "ru": "Рассчитать лучшую мощность умного ROI",
+          "ko": "최고의 스마트 ROI 전력 계산",
+          "ar": "حساب أفضل طاقة عائد استثمار ذكي"
         },
         "titleFormatted": {
-          "en": "Calculate the best smart ROI power (inverted: [[invert_power]]), with minimum [[minPriceDelta]]¤ profit per kWh.",
-          "nl": "Bereken het beste smart ROI vermogen (geïnverteerd: [[invert_power]]), met minimaal [[minPriceDelta]]¤ winst per kWh.",
-          "de": "Berechne die beste Smart ROI-Leistung (invertiert: [[invert_power]]), mit minimalem [[minPriceDelta]]¤ Gewinn pro kWh.",
-          "fr": "Calculer la meilleure puissance ROI intelligente (inversée : [[invert_power]]), avec un profit minimum de [[minPriceDelta]]¤ par kWh.",
-          "it": "Calcola la migliore potenza ROI intelligente (invertita: [[invert_power]]), con un profitto minimo di [[minPriceDelta]]¤ per kWh.",
-          "sv": "Beräkna bästa smarta ROI-effekt (inverterad: [[invert_power]]), med minst [[minPriceDelta]]¤ vinst per kWh.",
-          "no": "Beregn beste smarte ROI-effekt (invertert: [[invert_power]]), med minimum [[minPriceDelta]]¤ fortjeneste per kWh.",
-          "da": "Beregn den bedste smarte ROI-effekt (inverteret: [[invert_power]]), med minimum [[minPriceDelta]]¤ fortjeneste pr. kWh.",
-          "es": "Calcular la mejor potencia ROI inteligente (invertida: [[invert_power]]), con un beneficio mínimo de [[minPriceDelta]]¤ por kWh.",
-          "pl": "Oblicz najlepszą moc inteligentnego ROI (odwrócona: [[invert_power]]), z minimalnym zyskiem [[minPriceDelta]]¤ na kWh.",
-          "ru": "Рассчитать лучшую мощность умного ROI (инвертировано: [[invert_power]]) с минимальной прибылью [[minPriceDelta]]¤ за кВтч.",
-          "ko": "kWh당 최소 [[minPriceDelta]]¤ 이익으로 최고의 스마트 ROI 전력 계산 (반전: [[invert_power]]).",
-          "ar": "حساب أفضل طاقة عائد استثمار ذكي (معكوسة: [[invert_power]])، بحد أدنى للربح [[minPriceDelta]]¤ لكل كيلوواط ساعة."
+          "en": "Calculate the best smart ROI power (inverted: [[invert_power]]), with minimum [[minPriceDelta]]¤ profit per kWh",
+          "nl": "Bereken het beste smart ROI vermogen (geïnverteerd: [[invert_power]]), met minimaal [[minPriceDelta]]¤ winst per kWh",
+          "de": "Berechne die beste Smart ROI-Leistung (invertiert: [[invert_power]]), mit minimalem [[minPriceDelta]]¤ Gewinn pro kWh",
+          "fr": "Calculer la meilleure puissance ROI intelligente (inversée : [[invert_power]]), avec un profit minimum de [[minPriceDelta]]¤ par kWh",
+          "it": "Calcola la migliore potenza ROI intelligente (invertita: [[invert_power]]), con un profitto minimo di [[minPriceDelta]]¤ per kWh",
+          "sv": "Beräkna bästa smarta ROI-effekt (inverterad: [[invert_power]]), med minst [[minPriceDelta]]¤ vinst per kWh",
+          "no": "Beregn beste smarte ROI-effekt (invertert: [[invert_power]]), med minimum [[minPriceDelta]]¤ fortjeneste per kWh",
+          "da": "Beregn den bedste smarte ROI-effekt (inverteret: [[invert_power]]), med minimum [[minPriceDelta]]¤ fortjeneste pr. kWh",
+          "es": "Calcular la mejor potencia ROI inteligente (invertida: [[invert_power]]), con un beneficio mínimo de [[minPriceDelta]]¤ por kWh",
+          "pl": "Oblicz najlepszą moc inteligentnego ROI (odwrócona: [[invert_power]]), z minimalnym zyskiem [[minPriceDelta]]¤ na kWh",
+          "ru": "Рассчитать лучшую мощность умного ROI (инвертировано: [[invert_power]]) с минимальной прибылью [[minPriceDelta]]¤ за кВтч",
+          "ko": "kWh당 최소 [[minPriceDelta]]¤ 이익으로 최고의 스마트 ROI 전력 계산 (반전: [[invert_power]])",
+          "ar": "حساب أفضل طاقة عائد استثمار ذكي (معكوسة: [[invert_power]])، بحد أدنى للربح [[minPriceDelta]]¤ لكل كيلوواط ساعة"
         },
         "hint": {
           "en": "The strategy is calculated using future hourly prices, the battery settings, and the set minimum profit per kWh. Non-inverted charging power is positive (+), discharging is negative (-).",
@@ -15762,6 +15732,7 @@
         "id": "set_curtailment"
       },
       {
+        "deprecated": true,
         "title": {
           "en": "Set daily fixed cost",
           "de": "Tägliche Fixkosten festlegen",
@@ -15824,34 +15795,34 @@
       },
       {
         "title": {
-          "en": "Set EV charge mode",
-          "nl": "Zet EV laadmodus",
-          "de": "EV Lademodus festlegen",
-          "fr": "Définir le mode de charge EV",
-          "ko": "EV 충전 모드 설정",
-          "es": "Establecer modo de carga EV",
-          "it": "Imposta modalità di ricarica EV",
-          "da": "Indstil EV-ladetilstand",
-          "sv": "Ställ in EV-laddningsläge",
-          "no": "Angi EV-lademodus",
-          "pl": "Ustaw tryb ładowania EV",
-          "ru": "Установить режим зарядки EV",
-          "ar": "تعيين وضع شحن السيارة الكهربائية"
+          "en": "Set charge mode",
+          "nl": "Zet laadmodus",
+          "de": "Lademodus festlegen",
+          "fr": "Définir le mode de charge",
+          "ko": "충전 모드 설정",
+          "es": "Establecer modo de carga",
+          "it": "Imposta modalità di ricarica",
+          "da": "Indstil ladetilstand",
+          "sv": "Ställ in laddningsläge",
+          "no": "Angi lademodus",
+          "pl": "Ustaw tryb ładowania",
+          "ru": "Установить режим зарядки",
+          "ar": "تعيين وضع الشحن"
         },
         "titleFormatted": {
-          "en": "Set EV charge mode to [[mode]]",
-          "nl": "Zet EV laadmodus op [[mode]]",
-          "de": "Setze EV Lademodus auf [[mode]]",
-          "fr": "Définir le mode de charge EV sur [[mode]]",
-          "ko": "EV 충전 모드를 [[mode]](으)로 설정",
-          "es": "Establecer el modo de carga EV en [[mode]]",
-          "it": "Imposta la modalità di ricarica EV su [[mode]]",
-          "da": "Indstil EV-ladetilstand til [[mode]]",
-          "sv": "Ställ in EV-laddningsläge till [[mode]]",
-          "no": "Angi EV-lademodus til [[mode]]",
-          "pl": "Ustaw tryb ładowania EV na [[mode]]",
-          "ru": "Установить режим зарядки EV на [[mode]]",
-          "ar": "تعيين وضع شحن السيارة الكهربائية إلى [[mode]]"
+          "en": "Set charge mode to [[mode]]",
+          "nl": "Zet laadmodus op [[mode]]",
+          "de": "Lademodus auf [[mode]] setzen",
+          "fr": "Définir le mode de charge sur [[mode]]",
+          "ko": "충전 모드를 [[mode]](으)로 설정",
+          "es": "Establecer el modo de carga en [[mode]]",
+          "it": "Imposta la modalità di ricarica su [[mode]]",
+          "da": "Indstil ladetilstand til [[mode]]",
+          "sv": "Ställ in laddningsläge till [[mode]]",
+          "no": "Angi lademodus til [[mode]]",
+          "pl": "Ustaw tryb ładowania na [[mode]]",
+          "ru": "Установить режим зарядки на [[mode]]",
+          "ar": "تعيين وضع الشحن إلى [[mode]]"
         },
         "hint": {
           "en": "Smart plans on price and solar; Charge now charges straight to the maximum.",
@@ -16120,34 +16091,34 @@
       },
       {
         "title": {
-          "en": "Set EV State of Charge",
-          "nl": "Zet EV batterijniveau (SoC)",
-          "de": "EV Ladezustand festlegen",
-          "fr": "Définir l'état de charge de l'EV",
-          "it": "Imposta Stato di Carica EV",
-          "sv": "Ställ in EV-laddningsstatus",
-          "no": "Angi EV-ladestatus",
-          "es": "Establecer estado de carga del VE",
-          "da": "Indstil EV-ladestatus",
-          "pl": "Ustaw stan naładowania EV",
-          "ru": "Установить состояние заряда EV",
-          "ko": "EV 충전 상태 설정",
-          "ar": "ضبط حالة شحن السيارة الكهربائية"
+          "en": "Set car SoC",
+          "nl": "Zet SoC auto",
+          "de": "SoC Auto festlegen",
+          "fr": "Définir le SoC de la voiture",
+          "it": "Imposta SoC auto",
+          "sv": "Ställ in bilens SoC",
+          "no": "Angi bilens SoC",
+          "es": "Establecer SoC del coche",
+          "da": "Indstil bilens SoC",
+          "pl": "Ustaw SoC auta",
+          "ru": "Установить SoC авто",
+          "ko": "차량 SoC 설정",
+          "ar": "ضبط SoC السيارة"
         },
         "titleFormatted": {
-          "en": "Set EV State of Charge to [[soc]]%",
-          "nl": "Zet EV batterijniveau (SoC) op [[soc]]%",
-          "de": "EV Ladezustand auf [[soc]]% festlegen",
-          "fr": "Définir l'état de charge de l'EV à [[soc]]%",
-          "it": "Imposta Stato di Carica EV al [[soc]]%",
-          "sv": "Ställ in EV-laddningsstatus till [[soc]]%",
-          "no": "Angi EV-ladestatus til [[soc]]%",
-          "es": "Establecer estado de carga del VE al [[soc]]%",
-          "da": "Indstil EV-ladestatus til [[soc]]%",
-          "pl": "Ustaw stan naładowania EV na [[soc]]%",
-          "ru": "Установить состояние заряда EV на [[soc]]%",
-          "ko": "EV 충전 상태를 [[soc]]%로 설정",
-          "ar": "ضبط حالة شحن السيارة الكهربائية إلى [[soc]]%"
+          "en": "Set car SoC to [[soc]]%",
+          "nl": "Zet SoC auto op [[soc]]%",
+          "de": "SoC Auto auf [[soc]]% festlegen",
+          "fr": "Définir le SoC de la voiture à [[soc]]%",
+          "it": "Imposta SoC auto al [[soc]]%",
+          "sv": "Ställ in bilens SoC till [[soc]]%",
+          "no": "Angi bilens SoC til [[soc]]%",
+          "es": "Establecer SoC del coche al [[soc]]%",
+          "da": "Indstil bilens SoC til [[soc]]%",
+          "pl": "Ustaw SoC auta na [[soc]]%",
+          "ru": "Установить SoC авто на [[soc]]%",
+          "ko": "차량 SoC를 [[soc]]%로 설정",
+          "ar": "ضبط SoC السيارة إلى [[soc]]%"
         },
         "hint": {
           "en": "Manually set the current battery percentage of the EV. Useful if your charger does not report the battery level.",
@@ -16860,6 +16831,142 @@
         "id": "set_export_variable_markup"
       },
       {
+        "title": {
+          "en": "Set fixed cost",
+          "nl": "Stel vaste kosten in",
+          "de": "Fixkosten festlegen",
+          "fr": "Définir le coût fixe",
+          "es": "Establecer costo fijo",
+          "it": "Imposta costo fisso",
+          "da": "Sæt fast omkostning",
+          "sv": "Ställ in fast kostnad",
+          "no": "Sett fast kostnad",
+          "pl": "Ustaw koszt stały",
+          "ru": "Установить фиксированную стоимость",
+          "ar": "تعيين التكلفة الثابتة",
+          "ko": "고정 비용 설정"
+        },
+        "titleFormatted": {
+          "en": "Set fixed cost per [[period]] to [[value]]",
+          "nl": "Stel vaste kosten per [[period]] in op [[value]]",
+          "de": "Fixkosten pro [[period]] auf [[value]] setzen",
+          "fr": "Définir le coût fixe par [[period]] à [[value]]",
+          "es": "Establecer costo fijo por [[period]] a [[value]]",
+          "it": "Imposta costo fisso per [[period]] a [[value]]",
+          "da": "Sæt fast omkostning pr. [[period]] til [[value]]",
+          "sv": "Ställ in fast kostnad per [[period]] till [[value]]",
+          "no": "Sett fast kostnad per [[period]] til [[value]]",
+          "pl": "Ustaw koszt stały za [[period]] na [[value]]",
+          "ru": "Установить фиксированную стоимость за [[period]] на [[value]]",
+          "ar": "تعيين التكلفة الثابتة لكل [[period]] إلى [[value]]",
+          "ko": "[[period]]당 고정 비용을 [[value]]로 설정"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=power|gas|water|grid"
+          },
+          {
+            "type": "dropdown",
+            "name": "period",
+            "title": {
+              "en": "Period",
+              "nl": "Periode",
+              "de": "Zeitraum",
+              "fr": "Période",
+              "es": "Periodo",
+              "it": "Periodo",
+              "da": "Periode",
+              "sv": "Period",
+              "no": "Periode",
+              "pl": "Okres",
+              "ru": "Период",
+              "ar": "الفترة",
+              "ko": "기간"
+            },
+            "values": [
+              {
+                "id": "hour",
+                "label": {
+                  "en": "hour",
+                  "nl": "uur",
+                  "de": "Stunde",
+                  "fr": "heure",
+                  "es": "hora",
+                  "it": "ora",
+                  "da": "time",
+                  "sv": "timme",
+                  "no": "time",
+                  "pl": "godzinę",
+                  "ru": "час",
+                  "ar": "ساعة",
+                  "ko": "시간"
+                }
+              },
+              {
+                "id": "day",
+                "label": {
+                  "en": "day",
+                  "nl": "dag",
+                  "de": "Tag",
+                  "fr": "jour",
+                  "es": "día",
+                  "it": "giorno",
+                  "da": "dag",
+                  "sv": "dag",
+                  "no": "dag",
+                  "pl": "dzień",
+                  "ru": "день",
+                  "ar": "يوم",
+                  "ko": "일"
+                }
+              },
+              {
+                "id": "month",
+                "label": {
+                  "en": "month",
+                  "nl": "maand",
+                  "de": "Monat",
+                  "fr": "mois",
+                  "es": "mes",
+                  "it": "mese",
+                  "da": "måned",
+                  "sv": "månad",
+                  "no": "måned",
+                  "pl": "miesiąc",
+                  "ru": "месяц",
+                  "ar": "شهر",
+                  "ko": "월"
+                }
+              }
+            ]
+          },
+          {
+            "type": "number",
+            "name": "value",
+            "placeholder": {
+              "en": "Fixed cost",
+              "nl": "Vaste kosten",
+              "de": "Fixkosten",
+              "fr": "Coût fixe",
+              "es": "Costo fijo",
+              "it": "Costo fisso",
+              "da": "Fast omkostning",
+              "sv": "Fast kostnad",
+              "no": "Fast kostnad",
+              "pl": "Koszt stały",
+              "ru": "Фиксированная стоимость",
+              "ar": "التكلفة الثابتة",
+              "ko": "고정 비용"
+            },
+            "min": 0,
+            "decimals": 4
+          }
+        ],
+        "id": "set_fixed_cost"
+      },
+      {
         "deprecated": true,
         "title": {
           "en": "Set a new fixed markup",
@@ -17041,6 +17148,7 @@
         "id": "set_fixed_markup_weekend"
       },
       {
+        "deprecated": true,
         "title": {
           "en": "Set hourly fixed cost",
           "de": "Stündliche Fixkosten festlegen",
@@ -17103,6 +17211,80 @@
       },
       {
         "title": {
+          "en": "Send reading to virtual meter",
+          "nl": "Stuur meterstand naar virtueel apparaat",
+          "de": "Zählerstand an virtuellen Zähler senden",
+          "fr": "Envoyer le relevé au compteur virtuel",
+          "es": "Enviar lectura al medidor virtual",
+          "it": "Invia lettura al contatore virtuale",
+          "da": "Send aflæsning til virtuel måler",
+          "sv": "Skicka mätarställning till virtuell mätare",
+          "no": "Send måleravlesning til virtuell måler",
+          "pl": "Wyślij odczyt do wirtualnego licznika",
+          "ru": "Отправить показания на виртуальный счётчик",
+          "ar": "إرسال القراءة إلى العداد الافتراضي",
+          "ko": "가상 계량기로 검침값 보내기"
+        },
+        "titleFormatted": {
+          "en": "Send [[value]] reading to [[virtual_device]]",
+          "de": "Sende [[value]] Messwert an [[virtual_device]]",
+          "sv": "Skicka [[value]] avläsning till [[virtual_device]]",
+          "it": "Invia lettura [[value]] a [[virtual_device]]",
+          "no": "Send [[value]] avlesing til [[virtual_device]]",
+          "fr": "Envoyer le relevé [[value]] vers [[virtual_device]]",
+          "da": "Send [[value]] aflæsning til [[virtual_device]]",
+          "nl": "Stuur [[value]] stand naar [[virtual_device]]",
+          "ar": "إرسال قراءة [[value]] إلى [[virtual_device]]",
+          "es": "Enviar lectura de [[value]] a [[virtual_device]]",
+          "pl": "Wyślij odczyt [[value]] do [[virtual_device]]",
+          "ru": "Отправить показания [[value]] на [[virtual_device]]",
+          "ko": "[[value]] 판독값을 [[virtual_device]]로 보내기"
+        },
+        "args": [
+          {
+            "name": "virtual_device",
+            "type": "autocomplete",
+            "title": {
+              "en": "Virtual device",
+              "de": "Virtuelles Gerät",
+              "sv": "Virtuell enhet",
+              "it": "Dispositivo virtuale",
+              "no": "virtuell enhet",
+              "fr": "Appareil virtuel",
+              "da": "Virtuel enhed",
+              "nl": "Virtueel apparaat",
+              "ar": "جهاز افتراضي",
+              "es": "Dispositivo virtual",
+              "pl": "Urządzenie wirtualne",
+              "ru": "Виртуальное устройство",
+              "ko": "가상 장치"
+            }
+          },
+          {
+            "name": "value",
+            "type": "number",
+            "placeholder": {
+              "en": "Reading (kWh or m³)",
+              "nl": "Meterstand (kWh of m³)",
+              "de": "Zählerstand (kWh oder m³)",
+              "fr": "Relevé (kWh ou m³)",
+              "es": "Lectura (kWh o m³)",
+              "it": "Lettura (kWh o m³)",
+              "da": "Aflæsning (kWh eller m³)",
+              "sv": "Mätarställning (kWh eller m³)",
+              "no": "Avlesning (kWh eller m³)",
+              "pl": "Odczyt (kWh lub m³)",
+              "ru": "Показания (кВт·ч или м³)",
+              "ar": "القراءة (كيلوواط ساعة أو م³)",
+              "ko": "검침값 (kWh 또는 m³)"
+            }
+          }
+        ],
+        "id": "set_meter"
+      },
+      {
+        "deprecated": true,
+        "title": {
           "en": "Send gas reading to virtual meter",
           "de": "Gasmesswert an virtuelles Gerät senden",
           "sv": "Skicka gasavläsning till virtuell mätare",
@@ -17132,7 +17314,6 @@
           "ru": "Отправить показания [[value]] на [[virtual_device]]",
           "ko": "[[value]] 판독값을 [[virtual_device]]로 보내기"
         },
-        "highlight": true,
         "args": [
           {
             "name": "virtual_device",
@@ -17176,6 +17357,7 @@
         "id": "set_meter_gas"
       },
       {
+        "deprecated": true,
         "title": {
           "en": "Send energy reading to virtual meter",
           "de": "Energiemesswert an virtuelles Gerät senden",
@@ -17206,7 +17388,6 @@
           "ru": "Отправить показания [[value]] на [[virtual_device]]",
           "ko": "[[value]] 판독값을 [[virtual_device]]로 보내기"
         },
-        "highlight": true,
         "args": [
           {
             "name": "virtual_device",
@@ -17250,6 +17431,7 @@
         "id": "set_meter_power"
       },
       {
+        "deprecated": true,
         "title": {
           "en": "Send water reading to virtual meter",
           "de": "Wassermesswert an virtuelles Gerät senden",
@@ -17280,7 +17462,6 @@
           "ru": "Отправить показания [[value]] на [[virtual_device]]",
           "ko": "[[value]] 판독값을 [[virtual_device]]로 보내기"
         },
-        "highlight": true,
         "args": [
           {
             "name": "virtual_device",
@@ -17324,6 +17505,7 @@
         "id": "set_meter_water"
       },
       {
+        "deprecated": true,
         "title": {
           "en": "Set monthly fixed cost",
           "de": "Monatliche Fixkosten festlegen",
@@ -17386,6 +17568,160 @@
       },
       {
         "title": {
+          "en": "Set a new tariff",
+          "nl": "Stel een nieuw tarief in",
+          "de": "Neuen Tarif festlegen",
+          "fr": "Définir un nouveau tarif",
+          "es": "Establecer una nueva tarifa",
+          "it": "Imposta una nuova tariffa",
+          "da": "Sæt en ny tarif",
+          "sv": "Ställ in en ny tariff",
+          "no": "Sett en ny tariff",
+          "pl": "Ustaw nową taryfę",
+          "ru": "Установить новый тариф",
+          "ar": "تعيين تعريفة جديدة",
+          "ko": "새 요금 설정"
+        },
+        "titleFormatted": {
+          "en": "Set [[commodity]] tariff for group [[group]] to [[tariff]]",
+          "nl": "Stel tarief [[commodity]] voor groep [[group]] in op [[tariff]]",
+          "de": "Tarif [[commodity]] für Gruppe [[group]] auf [[tariff]] setzen",
+          "fr": "Définir le tarif ([[commodity]]) du groupe [[group]] à [[tariff]]",
+          "es": "Establecer la tarifa de [[commodity]] del grupo [[group]] a [[tariff]]",
+          "it": "Imposta la tariffa [[commodity]] del gruppo [[group]] a [[tariff]]",
+          "da": "Sæt tarif for [[commodity]] i gruppe [[group]] til [[tariff]]",
+          "sv": "Ställ in tariff för [[commodity]] i grupp [[group]] till [[tariff]]",
+          "no": "Sett tariff for [[commodity]] i gruppe [[group]] til [[tariff]]",
+          "pl": "Ustaw taryfę ([[commodity]]) dla grupy [[group]] na [[tariff]]",
+          "ru": "Установить тариф ([[commodity]]) для группы [[group]] на [[tariff]]",
+          "ar": "تعيين تعريفة [[commodity]] للمجموعة [[group]] إلى [[tariff]]",
+          "ko": "그룹 [[group]]의 [[commodity]] 요금을 [[tariff]]로 설정"
+        },
+        "highlight": true,
+        "args": [
+          {
+            "type": "dropdown",
+            "name": "commodity",
+            "title": {
+              "en": "Type",
+              "nl": "Soort",
+              "de": "Art",
+              "fr": "Type",
+              "es": "Tipo",
+              "it": "Tipo",
+              "da": "Type",
+              "sv": "Typ",
+              "no": "Type",
+              "pl": "Rodzaj",
+              "ru": "Тип",
+              "ar": "النوع",
+              "ko": "종류"
+            },
+            "values": [
+              {
+                "id": "power",
+                "label": {
+                  "en": "energy",
+                  "nl": "energie",
+                  "de": "Strom",
+                  "fr": "électricité",
+                  "es": "energía",
+                  "it": "energia",
+                  "da": "el",
+                  "sv": "el",
+                  "no": "strøm",
+                  "pl": "energia",
+                  "ru": "энергия",
+                  "ar": "الطاقة",
+                  "ko": "전력"
+                }
+              },
+              {
+                "id": "gas",
+                "label": {
+                  "en": "gas",
+                  "nl": "gas",
+                  "de": "Gas",
+                  "fr": "gaz",
+                  "es": "gas",
+                  "it": "gas",
+                  "da": "gas",
+                  "sv": "gas",
+                  "no": "gass",
+                  "pl": "gaz",
+                  "ru": "газ",
+                  "ar": "الغاز",
+                  "ko": "가스"
+                }
+              },
+              {
+                "id": "water",
+                "label": {
+                  "en": "water",
+                  "nl": "water",
+                  "de": "Wasser",
+                  "fr": "eau",
+                  "es": "agua",
+                  "it": "acqua",
+                  "da": "vand",
+                  "sv": "vatten",
+                  "no": "vann",
+                  "pl": "woda",
+                  "ru": "вода",
+                  "ar": "المياه",
+                  "ko": "수도"
+                }
+              }
+            ]
+          },
+          {
+            "name": "tariff",
+            "type": "number",
+            "placeholder": {
+              "en": "Tariff per kWh or m³",
+              "nl": "Tarief per kWh of m³",
+              "de": "Tarif pro kWh oder m³",
+              "fr": "Tarif par kWh ou m³",
+              "es": "Tarifa por kWh o m³",
+              "it": "Tariffa per kWh o m³",
+              "da": "Tarif pr. kWh eller m³",
+              "sv": "Tariff per kWh eller m³",
+              "no": "Tariff per kWh eller m³",
+              "pl": "Taryfa za kWh lub m³",
+              "ru": "Тариф за кВт·ч или м³",
+              "ar": "التعريفة لكل كيلوواط ساعة أو م³",
+              "ko": "kWh 또는 m³당 요금"
+            }
+          },
+          {
+            "name": "group",
+            "type": "number",
+            "placeholder": {
+              "en": "Update group",
+              "de": "Update-Gruppe",
+              "sv": "Uppdateringsgrupp",
+              "it": "Gruppo di aggiornamento",
+              "no": "Oppdateringsgruppe",
+              "fr": "Groupe de mise à jour",
+              "da": "Opdateringsgruppe",
+              "nl": "Update groep",
+              "es": "Grupo de actualización",
+              "pl": "Grupa aktualizacji",
+              "ru": "Группа обновления",
+              "ko": "업데이트 그룹",
+              "ar": "تحديث المجموعة"
+            },
+            "required": false,
+            "min": 1,
+            "max": 10,
+            "step": 1
+          }
+        ],
+        "id": "set_tariff"
+      },
+      {
+        "deprecated": true,
+        "title": {
           "en": "Set a new gas tariff",
           "de": "Neuen Gastarif festlegen",
           "sv": "Sätt en ny gastariff",
@@ -17415,7 +17751,6 @@
           "ru": "Установить тариф на газ [[group]] на [[tariff]]",
           "ko": "가스 요금 [[group]]을(를) [[tariff]]로 설정"
         },
-        "highlight": true,
         "args": [
           {
             "name": "tariff",
@@ -17527,6 +17862,7 @@
         "id": "set_tariff_group"
       },
       {
+        "deprecated": true,
         "title": {
           "en": "Set a new energy tariff",
           "de": "Neuen Stromtarif festlegen",
@@ -17557,7 +17893,6 @@
           "ru": "Установить тариф на энергию для группы [[group]] на [[tariff]]",
           "ko": "그룹 [[group]]의 전력 요금을 [[tariff]]로 설정"
         },
-        "highlight": true,
         "args": [
           {
             "name": "tariff",
@@ -17605,6 +17940,7 @@
         "id": "set_tariff_power"
       },
       {
+        "deprecated": true,
         "title": {
           "en": "Set a new water tariff",
           "de": "Neuen Wassertarif festlegen",
@@ -17635,7 +17971,6 @@
           "ru": "Установить тариф на воду [[group]] на [[tariff]]",
           "ko": "수도 요금 [[group]]을(를) [[tariff]]로 설정"
         },
-        "highlight": true,
         "args": [
           {
             "name": "tariff",
@@ -17746,34 +18081,34 @@
       {
         "highlight": true,
         "title": {
-          "en": "Set values for Battery XOM flow.",
-          "nl": "Zet waarden voor Batterij XOM flow.",
-          "de": "Werte für Batterie XOM Flow festlegen.",
-          "ar": "تعيين قيم لتدفق بطارية XOM.",
-          "sv": "Ställ in värden för batteri XOM-flöde.",
-          "it": "Imposta valori per il flusso XOM della batteria.",
-          "no": "Angi verdier for batteri XOM-flyt.",
-          "fr": "Définir les valeurs pour le flux XOM de la batterie.",
-          "da": "Indstil værdier for batteri XOM-flow.",
-          "es": "Establecer valores para el flujo XOM de la batería.",
-          "pl": "Ustaw wartości dla przepływu baterii XOM.",
-          "ru": "Установить значения для потока батареи XOM.",
-          "ko": "배터리 XOM 흐름 값 설정."
+          "en": "Set XOM",
+          "nl": "Zet XOM",
+          "de": "XOM einstellen",
+          "ar": "ضبط XOM",
+          "sv": "Ställ in XOM",
+          "it": "Imposta XOM",
+          "no": "Still inn XOM",
+          "fr": "Régler XOM",
+          "da": "Indstil XOM",
+          "es": "Ajustar XOM",
+          "pl": "Ustaw XOM",
+          "ru": "Задать XOM",
+          "ko": "XOM 설정"
         },
         "titleFormatted": {
-          "en": "Set Battery XOM flows. XOM-target: [[x]]W, smoothing: [[smoothing]]%, min. battery load: [[minLoad]]W.",
-          "nl": "Zet Batterij XOM flows. XOM-doel: [[x]]W, smoothing: [[smoothing]]%, min. accu vermogen: [[minLoad]]W.",
-          "de": "Batterie XOM Flow festlegen. XOM-Ziel: [[x]]W, Glättung: [[smoothing]]%, min. Ladeleistung: [[minLoad]]W.",
-          "ar": "تعيين تدفقات بطارية XOM. هدف XOM: [[x]] واط، التنعيم: [[smoothing]]%، الحد الأدنى لحمل البطارية: [[minLoad]] واط.",
-          "sv": "Ställ in batteri XOM-flöden. XOM-mål: [[x]]W, utjämning: [[smoothing]]%, min. batterilast: [[minLoad]]W.",
-          "it": "Imposta flussi XOM batteria. Target XOM: [[x]]W, smussamento: [[smoothing]]%, carico min. batteria: [[minLoad]]W.",
-          "no": "Angi batteri XOM-flyt. XOM-mål: [[x]]W, utjevning: [[smoothing]]%, min. batterilast: [[minLoad]]W.",
-          "fr": "Définir les flux XOM batterie. Cible XOM : [[x]]W, lissage : [[smoothing]]%, charge min. batterie : [[minLoad]]W.",
-          "da": "Indstil batteri XOM-flow. XOM-mål: [[x]]W, udjævning: [[smoothing]]%, min. batteribelastning: [[minLoad]]W.",
-          "es": "Establecer flujos XOM de batería. Objetivo XOM: [[x]]W, suavizado: [[smoothing]]%, carga mín. batería: [[minLoad]]W.",
-          "pl": "Ustaw przepływy baterii XOM. Cel XOM: [[x]]W, wygładzanie: [[smoothing]]%, min. obciążenie baterii: [[minLoad]]W.",
-          "ru": "Установить потоки батареи XOM. Цель XOM: [[x]]Вт, сглаживание: [[smoothing]]%, мин. нагрузка батареи: [[minLoad]]Вт.",
-          "ko": "배터리 XOM 흐름 설정. XOM 목표: [[x]]W, 스무딩: [[smoothing]]%, 최소 배터리 부하: [[minLoad]]W."
+          "en": "Set XOM (XOM-target: [[x]]W, smoothing: [[smoothing]]%, min. battery load: [[minLoad]]W)",
+          "nl": "Zet XOM (XOM-doel: [[x]]W, smoothing: [[smoothing]]%, min. accu vermogen: [[minLoad]]W)",
+          "de": "XOM einstellen (XOM-Ziel: [[x]]W, Glättung: [[smoothing]]%, min. Ladeleistung: [[minLoad]]W)",
+          "ar": "ضبط XOM (هدف XOM: [[x]] واط، التنعيم: [[smoothing]]%، الحد الأدنى لحمل البطارية: [[minLoad]] واط)",
+          "sv": "Ställ in XOM (XOM-mål: [[x]]W, utjämning: [[smoothing]]%, min. batterilast: [[minLoad]]W)",
+          "it": "Imposta XOM (Target XOM: [[x]]W, smussamento: [[smoothing]]%, carico min. batteria: [[minLoad]]W)",
+          "no": "Still inn XOM (XOM-mål: [[x]]W, utjevning: [[smoothing]]%, min. batterilast: [[minLoad]]W)",
+          "fr": "Régler XOM (Cible XOM : [[x]]W, lissage : [[smoothing]]%, charge min. batterie : [[minLoad]]W)",
+          "da": "Indstil XOM (XOM-mål: [[x]]W, udjævning: [[smoothing]]%, min. batteribelastning: [[minLoad]]W)",
+          "es": "Ajustar XOM (Objetivo XOM: [[x]]W, suavizado: [[smoothing]]%, carga mín. batería: [[minLoad]]W)",
+          "pl": "Ustaw XOM (Cel XOM: [[x]]W, wygładzanie: [[smoothing]]%, min. obciążenie baterii: [[minLoad]]W)",
+          "ru": "Задать XOM (Цель XOM: [[x]]Вт, сглаживание: [[smoothing]]%, мин. нагрузка батареи: [[minLoad]]Вт)",
+          "ko": "XOM 설정 (XOM 목표: [[x]]W, 스무딩: [[smoothing]]%, 최소 배터리 부하: [[minLoad]]W)"
         },
         "hint": {
           "en": "The XOM target applies to all batteries (also built-in control and the battery setting). Smoothing and min. battery load apply to the XOM flows only.",

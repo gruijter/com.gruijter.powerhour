@@ -1,18 +1,18 @@
 {
   "title": {
-    "en": "New EV strategy active",
-    "nl": "Nieuwe EV strategie actief",
-    "de": "Neue EV-Strategie aktiv",
-    "fr": "Nouvelle stratégie EV active",
-    "ko": "새 EV 전략 활성",
-    "es": "Nueva estrategia EV activa",
-    "it": "Nuova strategia EV attiva",
-    "da": "Ny EV-strategi aktiv",
-    "sv": "Ny EV-strategi aktiv",
-    "no": "Ny EV-strategi aktiv",
-    "pl": "Nowa strategia EV aktywna",
-    "ru": "Новая стратегия EV активна",
-    "ar": "استراتيجية سيارة كهربائية جديدة نشطة"
+    "en": "New charging strategy active",
+    "nl": "Nieuwe laadstrategie actief",
+    "de": "Neue Ladestrategie aktiv",
+    "fr": "Nouvelle stratégie de charge active",
+    "ko": "새 충전 전략 활성",
+    "es": "Nueva estrategia de carga activa",
+    "it": "Nuova strategia di ricarica attiva",
+    "da": "Ny ladestrategi aktiv",
+    "sv": "Ny laddningsstrategi aktiv",
+    "no": "Ny ladestrategi aktiv",
+    "pl": "Nowa strategia ładowania aktywna",
+    "ru": "Новая стратегия зарядки активна",
+    "ar": "استراتيجية شحن جديدة نشطة"
   },
   "hint": {
     "en": "Triggers every price interval (e.g. 15m or 60m) or when settings change. Provides the optimal charging power and duration for the current interval.",

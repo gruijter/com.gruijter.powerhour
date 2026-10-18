@@ -166,7 +166,7 @@ Use **Retrain home load model** (button or flow) to rebuild the profile from scr
 - **Provide load forecast JSON:** returns the same JSON tokens as the trigger, for this day, tomorrow or the next hours.
 - **Retrain home load model.**
 - **Set a new tariff update group.**
-- **Set hourly / daily / monthly fixed cost.**
+- **Set fixed cost** (per hour, day or month).
 
 The **peak forecast** JSON contains the month peak, the projected value and headroom of the running interval, and the highest expected interval average (with time) until the end of tomorrow or the month, including whether a new month peak is expected.
 

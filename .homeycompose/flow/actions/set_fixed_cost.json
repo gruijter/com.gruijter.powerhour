@@ -1,0 +1,135 @@
+{
+  "title": {
+    "en": "Set fixed cost",
+    "nl": "Stel vaste kosten in",
+    "de": "Fixkosten festlegen",
+    "fr": "Définir le coût fixe",
+    "es": "Establecer costo fijo",
+    "it": "Imposta costo fisso",
+    "da": "Sæt fast omkostning",
+    "sv": "Ställ in fast kostnad",
+    "no": "Sett fast kostnad",
+    "pl": "Ustaw koszt stały",
+    "ru": "Установить фиксированную стоимость",
+    "ar": "تعيين التكلفة الثابتة",
+    "ko": "고정 비용 설정"
+  },
+  "titleFormatted": {
+    "en": "Set fixed cost per [[period]] to [[value]]",
+    "nl": "Stel vaste kosten per [[period]] in op [[value]]",
+    "de": "Fixkosten pro [[period]] auf [[value]] setzen",
+    "fr": "Définir le coût fixe par [[period]] à [[value]]",
+    "es": "Establecer costo fijo por [[period]] a [[value]]",
+    "it": "Imposta costo fisso per [[period]] a [[value]]",
+    "da": "Sæt fast omkostning pr. [[period]] til [[value]]",
+    "sv": "Ställ in fast kostnad per [[period]] till [[value]]",
+    "no": "Sett fast kostnad per [[period]] til [[value]]",
+    "pl": "Ustaw koszt stały za [[period]] na [[value]]",
+    "ru": "Установить фиксированную стоимость за [[period]] на [[value]]",
+    "ar": "تعيين التكلفة الثابتة لكل [[period]] إلى [[value]]",
+    "ko": "[[period]]당 고정 비용을 [[value]]로 설정"
+  },
+  "args": [
+    {
+      "type": "device",
+      "name": "device",
+      "filter": "driver_id=power|gas|water|grid"
+    },
+    {
+      "type": "dropdown",
+      "name": "period",
+      "title": {
+        "en": "Period",
+        "nl": "Periode",
+        "de": "Zeitraum",
+        "fr": "Période",
+        "es": "Periodo",
+        "it": "Periodo",
+        "da": "Periode",
+        "sv": "Period",
+        "no": "Periode",
+        "pl": "Okres",
+        "ru": "Период",
+        "ar": "الفترة",
+        "ko": "기간"
+      },
+      "values": [
+        {
+          "id": "hour",
+          "label": {
+            "en": "hour",
+            "nl": "uur",
+            "de": "Stunde",
+            "fr": "heure",
+            "es": "hora",
+            "it": "ora",
+            "da": "time",
+            "sv": "timme",
+            "no": "time",
+            "pl": "godzinę",
+            "ru": "час",
+            "ar": "ساعة",
+            "ko": "시간"
+          }
+        },
+        {
+          "id": "day",
+          "label": {
+            "en": "day",
+            "nl": "dag",
+            "de": "Tag",
+            "fr": "jour",
+            "es": "día",
+            "it": "giorno",
+            "da": "dag",
+            "sv": "dag",
+            "no": "dag",
+            "pl": "dzień",
+            "ru": "день",
+            "ar": "يوم",
+            "ko": "일"
+          }
+        },
+        {
+          "id": "month",
+          "label": {
+            "en": "month",
+            "nl": "maand",
+            "de": "Monat",
+            "fr": "mois",
+            "es": "mes",
+            "it": "mese",
+            "da": "måned",
+            "sv": "månad",
+            "no": "måned",
+            "pl": "miesiąc",
+            "ru": "месяц",
+            "ar": "شهر",
+            "ko": "월"
+          }
+        }
+      ]
+    },
+    {
+      "type": "number",
+      "name": "value",
+      "placeholder": {
+        "en": "Fixed cost",
+        "nl": "Vaste kosten",
+        "de": "Fixkosten",
+        "fr": "Coût fixe",
+        "es": "Costo fijo",
+        "it": "Costo fisso",
+        "da": "Fast omkostning",
+        "sv": "Fast kostnad",
+        "no": "Fast kostnad",
+        "pl": "Koszt stały",
+        "ru": "Фиксированная стоимость",
+        "ar": "التكلفة الثابتة",
+        "ko": "고정 비용"
+      },
+      "min": 0,
+      "decimals": 4
+    }
+  ]
+}

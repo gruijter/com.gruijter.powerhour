@@ -1,4 +1,5 @@
 {
+  "deprecated": true,
   "title": {
     "en": "Set a new energy tariff",
     "de": "Neuen Stromtarif festlegen",
@@ -29,7 +30,6 @@
     "ru": "Установить тариф на энергию для группы [[group]] на [[tariff]]",
     "ko": "그룹 [[group]]의 전력 요금을 [[tariff]]로 설정"
   },
-  "highlight": true,
   "args": [
     {
       "name": "tariff",

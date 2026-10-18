@@ -1,0 +1,72 @@
+{
+  "title": {
+    "en": "Send reading to virtual meter",
+    "nl": "Stuur meterstand naar virtueel apparaat",
+    "de": "Zählerstand an virtuellen Zähler senden",
+    "fr": "Envoyer le relevé au compteur virtuel",
+    "es": "Enviar lectura al medidor virtual",
+    "it": "Invia lettura al contatore virtuale",
+    "da": "Send aflæsning til virtuel måler",
+    "sv": "Skicka mätarställning till virtuell mätare",
+    "no": "Send måleravlesning til virtuell måler",
+    "pl": "Wyślij odczyt do wirtualnego licznika",
+    "ru": "Отправить показания на виртуальный счётчик",
+    "ar": "إرسال القراءة إلى العداد الافتراضي",
+    "ko": "가상 계량기로 검침값 보내기"
+  },
+  "titleFormatted": {
+    "en": "Send [[value]] reading to [[virtual_device]]",
+    "de": "Sende [[value]] Messwert an [[virtual_device]]",
+    "sv": "Skicka [[value]] avläsning till [[virtual_device]]",
+    "it": "Invia lettura [[value]] a [[virtual_device]]",
+    "no": "Send [[value]] avlesing til [[virtual_device]]",
+    "fr": "Envoyer le relevé [[value]] vers [[virtual_device]]",
+    "da": "Send [[value]] aflæsning til [[virtual_device]]",
+    "nl": "Stuur [[value]] stand naar [[virtual_device]]",
+    "ar": "إرسال قراءة [[value]] إلى [[virtual_device]]",
+    "es": "Enviar lectura de [[value]] a [[virtual_device]]",
+    "pl": "Wyślij odczyt [[value]] do [[virtual_device]]",
+    "ru": "Отправить показания [[value]] на [[virtual_device]]",
+    "ko": "[[value]] 판독값을 [[virtual_device]]로 보내기"
+  },
+  "args": [
+    {
+      "name": "virtual_device",
+      "type": "autocomplete",
+      "title": {
+        "en": "Virtual device",
+        "de": "Virtuelles Gerät",
+        "sv": "Virtuell enhet",
+        "it": "Dispositivo virtuale",
+        "no": "virtuell enhet",
+        "fr": "Appareil virtuel",
+        "da": "Virtuel enhed",
+        "nl": "Virtueel apparaat",
+        "ar": "جهاز افتراضي",
+        "es": "Dispositivo virtual",
+        "pl": "Urządzenie wirtualne",
+        "ru": "Виртуальное устройство",
+        "ko": "가상 장치"
+      }
+    },
+    {
+      "name": "value",
+      "type": "number",
+      "placeholder": {
+        "en": "Reading (kWh or m³)",
+        "nl": "Meterstand (kWh of m³)",
+        "de": "Zählerstand (kWh oder m³)",
+        "fr": "Relevé (kWh ou m³)",
+        "es": "Lectura (kWh o m³)",
+        "it": "Lettura (kWh o m³)",
+        "da": "Aflæsning (kWh eller m³)",
+        "sv": "Mätarställning (kWh eller m³)",
+        "no": "Avlesning (kWh eller m³)",
+        "pl": "Odczyt (kWh lub m³)",
+        "ru": "Показания (кВт·ч или м³)",
+        "ar": "القراءة (كيلوواط ساعة أو م³)",
+        "ko": "검침값 (kWh 또는 m³)"
+      }
+    }
+  ]
+}
