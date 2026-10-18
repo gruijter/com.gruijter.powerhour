@@ -24,6 +24,7 @@ const PriceFlows = require('../../lib/flows/PriceFlows');
 const PriceFormula = require('../../lib/PriceFormula');
 const PriceCalculator = require('../../lib/PriceCalculator');
 const PriceSetup = require('../../lib/helpers/PriceSetup');
+const DapTakeover = require('../../lib/helpers/DapTakeover');
 
 const FORMULA_KEYS = ['formula', 'export_formula'];
 // Changing these needs new market prices (repair).
@@ -41,20 +42,8 @@ class PriceDevice extends GenericDevice {
 
   async onInit() {
     await this.syncFormulaLabels().catch((err) => this.error(err));
-    await this.applyTakeoverMonthAvg().catch((err) => this.error(err));
+    await DapTakeover.applyMonthAvg(this).catch((err) => this.error(err));
     await super.onInit();
-  }
-
-  // Month averages of the old dap device this one took over (PriceSetup importStore()), once.
-  async applyTakeoverMonthAvg() {
-    const avg = this.getStoreValue('takeoverMonthAvg');
-    if (!avg) return;
-    const caps = this.monthAvgCaps();
-    for (const key of ['thisMonth', 'lastMonth']) {
-      if (Number.isFinite(avg[key]) && this.hasCapability(caps[key])) await this.setCapabilityValue(caps[key], avg[key]);
-    }
-    await this.unsetStoreValue('takeoverMonthAvg');
-    this.log('Month averages taken over', avg);
   }
 
   createFlows() {
