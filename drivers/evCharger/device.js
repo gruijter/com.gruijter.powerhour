@@ -510,9 +510,6 @@ class CarChargeDevice extends GenericDevice {
     if (prev.state !== presence.state) {
       const dist = typeof this.signals.carDistanceKm === 'number' ? `, car ${this.signals.carDistanceKm.toFixed(2)} km from home` : '';
       this.log(`[EV Slot] Car state ${prev.state} -> ${presence.state}${presence.unplugged ? ' (not plugged in)' : ''}${dist}`);
-      if (this.homey.app.trigger_ev_car_state_changed) {
-        this.homey.app.trigger_ev_car_state_changed(this, { state: presence.state }, {}).catch(this.error);
-      }
     }
     if (!quiet && prev.atHome && !presence.atHome) {
       await this._onDeparture();
@@ -991,9 +988,6 @@ class CarChargeDevice extends GenericDevice {
     await this.setCapabilityValue('ev_charge_mode', mode).catch(this.error);
     await this._updateResumeText();
     this.log(`EV charge mode ${mode} (${reason})`);
-    if (mode !== current && this.homey.app.trigger_ev_charge_mode_changed) {
-      await this.homey.app.trigger_ev_charge_mode_changed(this, { mode }, {}).catch(this.error);
-    }
     // Not awaited: this also runs from the charger control inside a plan run, which would wait on itself.
     this.updateChargeChart().catch(this.error);
   }

@@ -34,7 +34,7 @@
     {
       "type": "device",
       "name": "device",
-      "filter": "driver_id=power|gas|water|solar|battery|grid"
+      "filter": "driver_id=power|gas|water|solar|battery|grid|evCharger"
     },
     {
       "name": "group",

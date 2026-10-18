@@ -824,7 +824,7 @@
         ],
         "tokens": [
           {
-            "name": "state",
+            "name": "ev_car_state",
             "type": "string",
             "title": {
               "en": "Car status",
@@ -862,21 +862,6 @@
           "ru": "Режим зарядки EV изменён",
           "ar": "تم تغيير وضع شحن السيارة الكهربائية"
         },
-        "titleFormatted": {
-          "en": "EV charge mode changed to [[mode]]",
-          "nl": "EV laadmodus veranderd naar [[mode]]",
-          "de": "EV Lademodus geändert zu [[mode]]",
-          "ko": "EV 충전 모드가 [[mode]](으)로 변경됨",
-          "fr": "Le mode de charge EV est passé à [[mode]]",
-          "es": "El modo de carga EV cambió a [[mode]]",
-          "it": "La modalità di ricarica EV è cambiata in [[mode]]",
-          "da": "EV-ladetilstand ændret til [[mode]]",
-          "sv": "EV-laddningsläge ändrat till [[mode]]",
-          "no": "EV-lademodus endret til [[mode]]",
-          "pl": "Tryb ładowania EV zmieniono na [[mode]]",
-          "ru": "Режим зарядки EV изменён на [[mode]]",
-          "ar": "تم تغيير وضع شحن السيارة الكهربائية إلى [[mode]]"
-        },
         "hint": {
           "en": "Triggers when the EV charge mode is updated via device UI or flow action.",
           "nl": "Triggert wanneer de EV laadmodus wordt aangepast via de UI of flow.",
@@ -901,7 +886,7 @@
         ],
         "tokens": [
           {
-            "name": "mode",
+            "name": "ev_charge_mode",
             "type": "string",
             "title": {
               "en": "Charge Mode",
@@ -18609,7 +18594,7 @@
           {
             "type": "device",
             "name": "device",
-            "filter": "driver_id=power|gas|water|solar|battery|grid"
+            "filter": "driver_id=power|gas|water|solar|battery|grid|evCharger"
           },
           {
             "name": "group",

@@ -23,7 +23,7 @@
   ],
   "tokens": [
     {
-      "name": "state",
+      "name": "ev_car_state",
       "type": "string",
       "title": {
         "en": "Car status",
