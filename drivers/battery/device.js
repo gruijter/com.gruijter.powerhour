@@ -339,8 +339,10 @@ class BatDevice extends GenericDevice {
       minSocPct: this.reservePct(),
       reserveForPeak: shave,
       hardMaxW: hardHeadroomW === null ? null : batteryW + (hardHeadroomW * share),
+      pulse: this.pulseParams(settings),
       state: this.controlState,
     });
+    if ((r.state.pulseOn || false) !== ((this.controlState && this.controlState.pulseOn) || false)) this.logPulse(r, prep, now);
     this.controlState = r.state;
     this.decidedW = r.powerW;
     this.updateFollowCap(r.block, now, settings);
@@ -360,6 +362,34 @@ class BatDevice extends GenericDevice {
       powerW: r.powerW, lastW: this.lastSetpointW, lastTm: this.lastSetpointTm, now, block: r.block,
     })) await this.writeSetpoint(r.powerW, now);
     this.checkSocDeviation(prep.slot, now);
+  }
+
+  // BatteryControl.pulseParams(), rebuilt when the speeds or the learned start change.
+  pulseParams(settings) {
+    const res = this.response && this.response.standstill;
+    const key = JSON.stringify([BatterySplit.speedsFromSettings(settings), res && res.n >= 3 ? Math.round(res.ms / 1000) : null]);
+    if (this.pulseKey !== key) {
+      this.pulseKey = key;
+      this.pulse = BatteryControl.pulseParams(settings, this.response);
+    }
+    return this.pulse;
+  }
+
+  // Pulse start and end, for tuning the assumed fans, start and run-out (BatteryControl).
+  logPulse(r, prep, now) {
+    const p = this.pulse;
+    if (r.state.pulseOn) {
+      const charging = r.state.pulseOn === 'charge';
+      const effAt = charging ? p.chargeEffAt : p.dischargeEffAt;
+      const w = charging ? p.chargeW : p.dischargeW;
+      this.pulseStart = { tm: now, soc: this.soc };
+      this.log(`[Bat Pulse] ${r.state.pulseOn} at ${r.powerW} W (efficient ${w} W, eff ${effAt(w).toFixed(3)}), SoC ${this.soc}% -> `
+        + `${prep.slot && prep.slot.soc}%, start ${Math.round(p.startS)} s, overhead ${p.overheadWh.toFixed(1)} Wh`);
+      return;
+    }
+    const start = this.pulseStart || {};
+    this.log(`[Bat Pulse] end after ${start.tm ? Math.round((now - start.tm) / 1000) : '?'} s, SoC ${start.soc}% -> ${this.soc}%`);
+    this.pulseStart = null;
   }
 
   // xomTarget is the XOM target of all batteries, used every control tick: no restart for it.
