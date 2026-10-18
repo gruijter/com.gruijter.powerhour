@@ -1252,7 +1252,7 @@ class GridDevice extends GenericDevice {
           const updated = await this.updateLearning();
           const now = new Date();
           const is15mBoundary = (now.getMinutes() % 15 === 0);
-          if (updated || is15mBoundary || !this.chartGridToday) {
+          if (updated || is15mBoundary || !this.chartNetToday) {
             await this.updateForecastDisplay(updated);
           }
         }
@@ -1530,40 +1530,6 @@ class GridDevice extends GenericDevice {
     const endOfTomorrow = getLocalMidnightUTC(new Date(startOfTomorrow.getTime() + 26 * 60 * 60 * 1000));
     const startOfYesterday = getLocalMidnightUTC(new Date(startOfToday.getTime() - 60 * 60 * 1000));
     const endOfYesterday = startOfToday;
-
-    // Past slots show the forecast recorded when the slot started.
-    const recordedLoad = new Map(this.netForecastHistory.filter((e) => typeof e.load === 'number').map((e) => [e.time, e.load]));
-    const loadOpts = (start, end) => ({
-      forecast: this.getHomeLoadSeries(start.getTime(), end.getTime()).map((v, i) => {
-        const t = start.getTime() + (i * slotMs);
-        return (t < slotStartMs && recordedLoad.has(t)) ? recordedLoad.get(t) : v;
-      }),
-    });
-
-    if (updated || plansChanged || (now.getMinutes() % 15 === 0) || !this.chartGridToday) {
-      const chartToday = await getGridForecastChart(this.weeklyProfile, startOfToday, endOfToday, 'Home Load Today', this.powerHistory, this.timeZone, true, loadOpts(startOfToday, endOfToday));
-      if (chartToday) {
-        this.chartGridToday = chartToday;
-        await this.gridTodayImage.update().catch(this.error);
-      }
-    }
-
-    if (updated || plansChanged || !this.chartGridTomorrow) {
-      const chartTomorrow = await getGridForecastChart(this.weeklyProfile, startOfTomorrow, endOfTomorrow, 'Home Load Tomorrow', [], this.timeZone, false, loadOpts(startOfTomorrow, endOfTomorrow));
-      if (chartTomorrow) {
-        this.chartGridTomorrow = chartTomorrow;
-        await this.gridTomorrowImage.update().catch(this.error);
-      }
-    }
-
-    if (updated || !this.chartGridYesterday) {
-      const opts = loadOpts(startOfYesterday, endOfYesterday);
-      const chartYesterday = await getGridForecastChart(this.weeklyProfile, startOfYesterday, endOfYesterday, 'Home Load Yesterday', this.powerHistory, this.timeZone, false, opts);
-      if (chartYesterday) {
-        this.chartGridYesterday = chartYesterday;
-        await this.gridYesterdayImage.update().catch(this.error);
-      }
-    }
 
     // Grid exchange charts. Today/Tomorrow refresh every 15 minutes, as the battery/EV plans
     // change independently of the load model. Past slots show the recorded forecast.

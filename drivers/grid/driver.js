@@ -87,18 +87,6 @@ const driverSpecifics = {
   // Canonical display order for this driver's chart images - see lib/helpers/ChartImages.js.
   chartImages: [
     {
-      id: 'gridToday', prop: 'gridTodayImage', chartProp: 'chartGridToday', titleKey: 'home_today',
-    },
-    {
-      id: 'gridTomorrow', prop: 'gridTomorrowImage', chartProp: 'chartGridTomorrow', titleKey: 'home_tomorrow',
-    },
-    {
-      id: 'gridYesterday', prop: 'gridYesterdayImage', chartProp: 'chartGridYesterday', titleKey: 'home_yesterday',
-    },
-    {
-      id: 'gridWeekly', prop: 'gridWeeklyImage', chartProp: 'chartGridWeekly', titleKey: 'home_weekly',
-    },
-    {
       id: 'netToday', prop: 'netTodayImage', chartProp: 'chartNetToday', titleKey: 'grid_today',
     },
     {
@@ -106,6 +94,9 @@ const driverSpecifics = {
     },
     {
       id: 'netYesterday', prop: 'netYesterdayImage', chartProp: 'chartNetYesterday', titleKey: 'grid_yesterday',
+    },
+    {
+      id: 'gridWeekly', prop: 'gridWeeklyImage', chartProp: 'chartGridWeekly', titleKey: 'home_weekly',
     },
   ],
 };
