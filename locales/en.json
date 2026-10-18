@@ -136,6 +136,8 @@
   "error_formula_not_a_number": "The formula does not give a number.",
   "error_price_time": "Invalid time: __time__. Use 07:30 or 7.5",
   "error_price_amount": "Invalid number: __value__",
+  "error_ev_min_soc": "Minimum SoC: 0 (automatic) or 30-100 %",
+  "error_unknown_period": "Unknown period: __period__",
   "price_setup": {
     "currency_other": "Other…",
     "tod_hint": "Each markup applies from its time until the next time.",

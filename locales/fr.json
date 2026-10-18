@@ -136,6 +136,8 @@
   "error_formula_not_a_number": "La formule ne donne pas de nombre.",
   "error_price_time": "Heure invalide : __time__. Utilisez 07:30 ou 7,5",
   "error_price_amount": "Nombre invalide : __value__",
+  "error_ev_min_soc": "SoC minimum : 0 (automatique) ou 30-100 %",
+  "error_unknown_period": "Période inconnue : __period__",
   "price_setup": {
     "currency_other": "Autre…",
     "tod_hint": "Chaque majoration s'applique de son heure jusqu'à l'heure suivante.",

@@ -529,7 +529,7 @@ class PowerDevice extends GenericDevice {
     const minutes = Math.round(hours * 4) * 15;
     const slot = Math.floor(Date.now() / SLOT_MS) * SLOT_MS;
     const nextDay = (day) => TimeHelpers.getLocalMidnightUTC(new Date(day.getTime() + 26 * 3600000), this.timeZone);
-    const hhmm = `${String(Math.floor(minutes / 60)).padStart(2, '0')}:${String(minutes % 60).padStart(2, '0')}`;
+    const hhmm = TimeHelpers.formatClock(minutes / 60);
     const endOf = (day) => (minutes === 1440 ? nextDay(day).getTime() : TimeHelpers.localTimeToUTC(day, hhmm, this.timeZone).getTime());
     const today = TimeHelpers.getLocalMidnightUTC(new Date(slot), this.timeZone);
     let end = endOf(today);

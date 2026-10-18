@@ -136,6 +136,8 @@
   "error_formula_not_a_number": "Формула не даёт число.",
   "error_price_time": "Неверное время: __time__. Используйте 07:30 или 7,5",
   "error_price_amount": "Неверное число: __value__",
+  "error_ev_min_soc": "Минимальный SoC: 0 (автоматически) или 30-100 %",
+  "error_unknown_period": "Неизвестный период: __period__",
   "price_setup": {
     "currency_other": "Другая…",
     "tod_hint": "Каждая надбавка действует с её времени до следующего.",

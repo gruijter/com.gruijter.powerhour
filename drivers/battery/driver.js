@@ -301,6 +301,7 @@ class BatteryDriver extends GenericDriver {
       getData: () => d.getData(),
       getName: () => d.getName(),
       getSettings: () => d.getSettings(),
+      batterySettings: () => d.batterySettings(),
       getCapabilityValue: (cap) => d.getCapabilityValue(cap),
       soc: d.soc,
       reservePct: () => d.reservePct(),

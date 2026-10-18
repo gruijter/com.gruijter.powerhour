@@ -136,6 +136,8 @@
   "error_formula_not_a_number": "수식 결과가 숫자가 아닙니다.",
   "error_price_time": "잘못된 시각: __time__. 07:30 또는 7.5 형식을 사용하세요",
   "error_price_amount": "잘못된 숫자: __value__",
+  "error_ev_min_soc": "최소 SoC: 0 (자동) 또는 30-100 %",
+  "error_unknown_period": "알 수 없는 기간: __period__",
   "price_setup": {
     "currency_other": "기타…",
     "tod_hint": "각 마크업은 해당 시각부터 다음 시각까지 적용됩니다.",

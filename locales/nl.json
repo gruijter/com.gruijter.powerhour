@@ -136,6 +136,8 @@
   "error_formula_not_a_number": "De formule geeft geen getal.",
   "error_price_time": "Ongeldige tijd: __time__. Gebruik 07:30 of 7,5",
   "error_price_amount": "Ongeldig getal: __value__",
+  "error_ev_min_soc": "Minimale SoC: 0 (automatisch) of 30-100 %",
+  "error_unknown_period": "Onbekende periode: __period__",
   "price_setup": {
     "currency_other": "Anders…",
     "tod_hint": "Elke opslag geldt vanaf zijn tijd tot de volgende tijd.",

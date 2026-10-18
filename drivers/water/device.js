@@ -51,22 +51,8 @@ class WaterDevice extends GenericDevice {
     return Math.round((deltaMeter / deltaTm) * 600000000) / 10;
   }
 
-  async addListeners() {
-    if (!this.homey.app.api) throw new Error('Homey API not ready');
-    await this.getSourceDevice();
-    if (this.sourceDevice.capabilities.includes('meter_water')) {
-      this.log(`registering meter_water capability listener for ${this.sourceDevice.name}`);
-      this.capabilityInstances.meterWater = this.sourceDevice.makeCapabilityInstance('meter_water', async (value) => {
-        await this.updateMeter(value).catch(this.error);
-      });
-    }
-  }
-
-  async pollMeter() {
-    if (!this.homey.app.api) return;
-    await this.getSourceDevice();
-    const pollValue = this.sourceDevice.capabilitiesObj.meter_water.value;
-    await this.updateMeter(pollValue).catch(this.error);
+  usesRealtimePower() {
+    return false;
   }
 
 }

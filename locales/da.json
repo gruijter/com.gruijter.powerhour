@@ -136,6 +136,8 @@
   "error_formula_not_a_number": "Formlen giver ikke et tal.",
   "error_price_time": "Ugyldig tid: __time__. Brug 07:30 eller 7,5",
   "error_price_amount": "Ugyldigt tal: __value__",
+  "error_ev_min_soc": "Minimum SoC: 0 (automatisk) eller 30-100 %",
+  "error_unknown_period": "Ukendt periode: __period__",
   "price_setup": {
     "currency_other": "Anden…",
     "tod_hint": "Hvert tillæg gælder fra sit tidspunkt til det næste.",

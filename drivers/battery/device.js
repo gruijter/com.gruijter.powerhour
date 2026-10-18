@@ -564,6 +564,17 @@ class BatDevice extends GenericDevice {
     await this.updateChargeChart();
   }
 
+  // A plan input that the plan caches do not see (the costs): no cached plan, the whole group again.
+  async replanGroup(reason) {
+    const members = this.planGroup() || [this];
+    members.forEach((d) => {
+      d.lastStratTm = null;
+      d.lastStratOptsString = null;
+      d.groupPlans = null;
+    });
+    for (const d of members) await d.replan(reason).catch((err) => d.error(err));
+  }
+
   async poll() {
     let api;
     try {
@@ -1064,6 +1075,7 @@ class BatDevice extends GenericDevice {
 
   // The learned capacity, loss values and min. power into the properties, at most once a day.
   async applyLearnedProps(now = Date.now()) {
+    if (!BatteryEfficiency.progress(this.efficiency).learned) return;
     if (this.learnAppliedTm && now - this.learnAppliedTm < LEARN_APPLY_MS) return;
     this.learnAppliedTm = now;
     const settings = this.getSettings();
@@ -1080,7 +1092,8 @@ class BatDevice extends GenericDevice {
     const p = BatteryEfficiency.progress(this.efficiency);
     const b = this.batterySettings();
     const pct = (loss) => 1 - ((Number(loss) || 0) / 100);
-    const text = p.learned && this.batteryProps
+    // Learned: applied by applyLearnedProps() just before (no changes: the values match).
+    const text = p.learned
       ? this.homey.__('battery_learned.learned', {
         kwh: (Number(b.batCapacity) || 0).toFixed(2),
         roundtrip: Math.round(100 * pct(b.chargeLossEff) * pct(b.dischargeLossEff)),
@@ -1170,7 +1183,7 @@ class BatDevice extends GenericDevice {
     const afterPrices = this.lastStratTm && this.lastStratTm >= (this.pricesUpdatedTm || 0);
     const strategy = (sameSlot && afterPrices && this.lastStratMinPriceDelta === minPriceDelta && this.lastStratTokens)
       ? { ...this.lastStratTokens }
-      : await this.flows.find_roi_strategy({ minPriceDelta }).catch((err) => this.error(err));
+      : await this.flows.planTokens({ minPriceDelta }).catch((err) => this.error(err));
     if (!strategy) return;
 
     await this.setCapability('roi_duration', strategy.duration).catch((err) => this.error(err));

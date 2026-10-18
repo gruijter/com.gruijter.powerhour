@@ -65,56 +65,8 @@ class GasDevice extends GenericDevice {
     return Math.round((deltaMeter / deltaTm) * 600000000) / 10;
   }
 
-  async addListeners() {
-    if (!this.homey.app.api) throw new Error('Homey API not ready');
-    await this.getSourceDevice();
-    if (this.sourceDevice.capabilities.includes('meter_gas')) {
-      this.log(`registering meter_gas capability listener for ${this.sourceDevice.name}`);
-      this.capabilityInstances.meterGas = this.sourceDevice.makeCapabilityInstance('meter_gas', async (value) => {
-        await this.updateMeter(value).catch(this.error);
-      });
-    }
-    if (this.sourceDevice.capabilities.includes('meter_gas.reading')) {
-      this.log(`registering meter_gas.reading capability listener for ${this.sourceDevice.name}`);
-      this.capabilityInstances.meterGasReading = this.sourceDevice.makeCapabilityInstance('meter_gas.reading', async (value) => {
-        await this.updateMeter(value).catch(this.error);
-      });
-    }
-    if (this.sourceDevice.capabilities.includes('meter_gas.consumed')) {
-      this.log(`registering meter_gas.consumed capability listener for ${this.sourceDevice.name}`);
-      this.capabilityInstances.meterGasConsumed = this.sourceDevice.makeCapabilityInstance('meter_gas.consumed', async (value) => {
-        await this.updateMeter(value).catch(this.error);
-      });
-    }
-    // meter_gas.current is used by ZTAZ P1 meters
-    if (this.sourceDevice.capabilities.includes('meter_gas.current')) {
-      this.log(`registering meter_gas.current capability listener for ${this.sourceDevice.name}`);
-      this.capabilityInstances.meterGasCurrent = this.sourceDevice.makeCapabilityInstance('meter_gas.current', async (value) => {
-        await this.updateMeter(value).catch(this.error);
-      });
-    }
-  }
-
-  async pollMeter() {
-    if (!this.homey.app.api) return;
-    await this.getSourceDevice();
-
-    let pollValue;
-    if (this.sourceDevice.capabilitiesObj && this.sourceDevice.capabilitiesObj.meter_gas) {
-      pollValue = this.sourceDevice.capabilitiesObj.meter_gas.value;
-    }
-    if (this.sourceDevice.capabilitiesObj && this.sourceDevice.capabilitiesObj.meter_gas && this.sourceDevice.capabilitiesObj.meter_gas.reading) {
-      pollValue = this.sourceDevice.capabilitiesObj.meter_gas.reading.value;
-    }
-    if (this.sourceDevice.capabilitiesObj && this.sourceDevice.capabilitiesObj.meter_gas
-      && this.sourceDevice.capabilitiesObj.meter_gas.consumed) {
-      pollValue = this.sourceDevice.capabilitiesObj.meter_gas.consumed.value;
-    }
-    if (this.sourceDevice.capabilitiesObj && this.sourceDevice.capabilitiesObj.meter_gas
-    && this.sourceDevice.capabilitiesObj.meter_gas.current) {
-      pollValue = this.sourceDevice.capabilitiesObj.meter_gas.current.value;
-    }
-    await this.updateMeter(pollValue);
+  usesRealtimePower() {
+    return false;
   }
 
 }
