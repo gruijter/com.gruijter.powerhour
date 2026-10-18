@@ -1,4 +1,4 @@
-Start and stop charging your car or smart battery based on the best 15 minute rate and your solar panel production! Get data from a Homey power/gas/water meter device, and show the usage/production per hour, per day, per month and per year. Know the monetary value and use dynamic tariffs. Know how much your Always-on appliances are using and safe hundreds of Euros per year!
-This app can be used with any app or device that has a Energy or Power Meter capability, a Gas Meter capability, or a Water Meter capability.
-PBTH includes a smart Battery Monitor and a Solar Forecaster that learns the unique characteristics of your solar panels over time.
-It also supports Spot Pricing (Day-Ahead 15 minute prices) for energy providers from all EU countries.
+Power by the Hour turns Homey into a home energy manager. See the use and costs of electricity, gas and water per hour, day, month and year, with dynamic (15-minute or hourly) or fixed prices for electricity and gas, for all EU countries.
+Forecast your solar production and home load, and let the app plan and control your home battery and the charging of your car: at the cheapest moments and on solar surplus. Plan your washing machine or dishwasher at the cheapest start.
+Works with any device that has an energy, power, gas or water meter, and with home batteries and EV chargers of any brand.
+Find out how much your always-on appliances use, and save hundreds of euros per year!

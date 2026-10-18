@@ -171,7 +171,7 @@
     "tod_from": "Från",
     "tod_add": "+ Lägg till tid",
     "tod_daynight": "Dag/natt",
-    "group_label": "Använd detta pris för",
+    "group_label": "Tariffgrupp",
     "group_option": "Grupp __n__",
     "group_none": "Inget (endast flöden)",
     "group_auto": "Nya enheter använder detta pris automatiskt.",

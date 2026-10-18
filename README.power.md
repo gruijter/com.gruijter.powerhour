@@ -1,6 +1,6 @@
 # Power Monitor (Power Driver)
 
-The **Power Monitor** device aggregates electricity consumption and production data from your smart meter, energy meters, or power meters. It calculates real-time kWh usage and monetary costs across hourly, daily, monthly, and annual periods.
+The **Power Monitor** summarizes the electricity use (or production) of any metered device: kWh and money per hour, day, month and year, with minimum and maximum power. For a washing machine, dishwasher or dryer it can also learn the programs and plan the cheapest start.
 
 <img src="https://us1.discourse-cdn.com/flex025/uploads/athom/original/3X/5/5/55d1f95545e8389c18729221bf901a71321811fb.jpeg" alt="Power Monitor Device Tile" width="350"/>
 
@@ -10,108 +10,122 @@ The **Power Monitor** device aggregates electricity consumption and production d
 
 - [Key Features](#key-features)
 - [Setup & Pairing](#setup--pairing)
-- [Homey Energy Virtual Devices](#homey-energy-virtual-devices)
-- [Configuration & Settings](#configuration--settings)
-- [Standby / Always-On Power Detection](#standby--always-on-power-detection)
-- [Heat Pump & Dedicated Appliance Monitoring](#heat-pump--dedicated-appliance-monitoring)
-- [Virtual Meter Setup](#virtual-meter-setup)
-- [Useful Flow Cards & Automations](#useful-flow-cards--automations)
+- [Homey Energy Totals](#homey-energy-totals)
+- [Virtual Meter (via Flow)](#virtual-meter-via-flow)
+- [Tariff, Fixed Costs & Budget](#tariff-fixed-costs--budget)
+- [Always-On Power](#always-on-power)
+- [Appliance Forecast & Planner](#appliance-forecast--planner)
+- [Flow Cards](#flow-cards)
 
 ---
 
 ## Key Features
 
-- **Multi-Period Summaries:** Real-time calculation of kWh and money spent/earned for *this/last hour, day, month, year*.
-- **Flexible Source Selection:** Automatically selects the best available energy capability (`meter_power`, `meter_power.consumed`, `meter_power.t1/t2`, etc.) or falls back to power polling (`measure_power` in Watts).
-- **Homey Energy Integration:** Summarize all smart meters, solar panels, or individual devices connected to Homey Energy in a single device.
-- **Budget Tracking:** Track consumption against a reference annual budget with linear, Dutch 2023 price ceiling (`el_nl_2023`), or solar PV distribution models.
-- **Always-On Power Detection:** Measures minimum Wattage per period to highlight standby power consumption. Save ~90 kWh/year (€20–€40) per 10W saved!
-- **Dynamic Tariff Groups:** Automatically receive real-time hourly rates when linked to an Energy price (`price`) device via Tariff Groups.
+- **Period totals:** kWh and money for this and last hour, day, month and year, plus the month and year average price.
+- **Any meter:** smart meters, energy monitors, smart plugs, heat pumps. The best energy capability is picked automatically; you can choose another in the setup view.
+- **Homey Energy totals:** one device for all smart meters, all solar panels or all measured devices in Homey Energy.
+- **Always-on power:** minimum and maximum power per day, month and year.
+- **Dynamic tariffs:** the price of an Energy Price device in the same tariff group, or a tariff set by flow.
+- **Budget:** compare the use with a year budget.
+- **Appliance forecast & planner:** learns washing machine, dishwasher or dryer programs and plans the cheapest start.
 
 ---
 
 ## Setup & Pairing
 
-<img src="https://us1.discourse-cdn.com/flex025/uploads/athom/optimized/3X/1/2/12a1275dde87ca9c92c8d79ce12db4f586e2866b_2_250x220.jpeg" alt="Driver Selection" width="220"/> <img src="https://us1.discourse-cdn.com/flex025/uploads/athom/original/3X/d/7/d7a40d7917baf5456c07562b42c6b4d37b7ed7cd.jpeg" alt="Device Selection" width="180"/>
+<img src="https://us1.discourse-cdn.com/flex025/uploads/athom/optimized/3X/1/2/12a1275dde87ca9c92c8d79ce12db4f586e2866b_2_250x220.jpeg" alt="Driver Selection" width="220"/>
 
-1. Go to **Devices** → **Add Device** → **Power by the Hour**.
-2. Select **Power Monitor**.
-3. Select your source device from the detected list (e.g. P1 Smart Meter, Plugwise Smile, Youless, Homewizard, Shelly, or Smart Plugs).
-   - *Note:* PBTH automatically picks the best energy capability. If your device isn't listed, select **Virtual Meter** at the bottom of the list.
-4. Click **Next** to complete pairing.
+1. Go to **Devices** → **Add Device** → **Power by the Hour** → **Power Monitor**.
+2. Choose the source device. Likely sources are listed first. The new device gets the name of the source device.
+3. The setup view asks for:
+   - **Use Watt as source** — only when the device has no kWh meter. The app then integrates the power, which is less accurate.
+   - **Has daily reset** — when the source meter resets to 0 every midnight.
+   - **Enable forecast and planner** — for a washing machine, dishwasher or dryer, see below.
+   - **Tariff group** and, without an Energy Price device in that group, a fixed **tariff**.
+   - Which meter capabilities to use (import, import 2, export, export 2, power), when the automatic choice is not right.
 
----
-
-## Homey Energy Virtual Devices
-
-During pairing, PBTH also offers special virtual aggregators that summarize Homey Energy groups:
-
-| Virtual Device Name | Source Data | Description |
-|---|---|---|
-| `HOMEY_ENERGY_SMARTMETERS_Σpower` | Homey Energy Cumulative | Aggregates total net house grid import/export |
-| `HOMEY_ENERGY_SOLARPANELS_Σpower` | Homey Energy Solar | Aggregates all solar panels connected to Homey Energy |
-| `HOMEY_ENERGY_DEVICES_Σpower` | Homey Energy Devices | Aggregates total power from all smart plugs and measured devices |
+Use **Repair** to switch to another source device, e.g. after replacing a meter. The device keeps its name.
 
 ---
 
-## Configuration & Settings
+## Homey Energy Totals
 
-### Initial Meter Readings & Tariffs
-- **Initial Readings:** Navigate to **Device Settings** to set starting values for *This Month* or *This Year* if you are setting up mid-period.
-- **Fixed Tariff:** Enter your fixed electricity contract price per kWh directly in the device settings.
-- **Dynamic Tariff:** If your contract uses peak/off-peak or dynamic hourly rates:
-  - Assign a **Tariff Update Group** (e.g. `1`) in Device Settings to automatically receive rates from an Energy price device ([README.price.md](./README.price.md)).
-  - Or update the tariff dynamically via Flows using the **Set Tariff** card.
+The pairing list also offers devices that summarize Homey Energy:
 
-<img src="https://us1.discourse-cdn.com/flex025/uploads/athom/optimized/3X/4/d/4d66a18295c0e18112eed0150d22ca9864a2773c_2_200x290.jpeg" alt="Tariff Change Flow" width="200"/>
-
-### Budget Distribution Models
-Choose how your annual kWh budget is distributed across months:
-- **Linear:** Equal allocation each month (30.4 days/month).
-- **Dutch 2023 Price Ceiling (`el_nl_2023`):** Weighted for seasonal heating and household usage patterns.
-- **Solar PV:** Weighted according to typical European solar irradiance curves.
+| Device | Summarizes |
+|---|---|
+| `HOMEY_ENERGY_SMARTMETERS` | The cumulative (main) meters in Homey Energy |
+| `HOMEY_ENERGY_SOLARPANELS` | All solar panels in Homey Energy |
+| `HOMEY_ENERGY_DEVICES` | All measured devices in Homey Energy |
 
 ---
 
-## Standby / Always-On Power Detection
+## Virtual Meter (via Flow)
 
-The `measure_watt_min` capability measures the lowest power draw over a period.
-
-<img src="https://us1.discourse-cdn.com/flex025/uploads/athom/optimized/3X/2/3/238b5a7c7a3495dd4e375d5b8f3621ccc97b8bf6_2_200x411.jpeg" alt="Always On Power Detection" width="200"/>
-
-> [!TIP]
-> **Energy Saving Tip:** Check the minimum Wattage reported during early morning hours (e.g. 03:00–05:00). **Every 10 Watt saved on this value saves ~90 kWh/year (approx. €20–€40 per year)!**
-
----
-
-## Heat Pump & Dedicated Appliance Monitoring
-
-You can add a dedicated Power Monitor device for heavy consumers like heat pumps, air conditioners, hot tubs, or washing machines.
-- Select the smart plug or power meter measuring the appliance as the source device.
-- Set the tariff or link it to your Energy price device via a Tariff Group.
-- Gain full visibility into hourly, daily, monthly, and yearly running costs without resetting the original device meter.
-
----
-
-## Virtual Meter Setup
-
-If your source device uses non-standard capability names or split tariffs:
-1. Select **VIRTUAL_METER** during driver pairing.
-2. Create a Flow to push cumulative values into PBTH:
+For a meter that is not a Homey device, or that needs a calculation first:
+1. Pair `VIRTUAL_VIA_FLOW`.
+2. Send the cumulative meter reading with the flow card **Send reading to virtual meter**.
 
 <img src="https://us1.discourse-cdn.com/flex025/uploads/athom/original/3X/5/5/55e82da0ff03a2e8357db5e83bf71d458e72040b.png" alt="Virtual Meter Upload Flow" width="220"/>
 
 > [!IMPORTANT]
-> The meter value for energy must be the total cumulative net kWh: `(consumed_high + consumed_low) - (returned_high + returned_low)`.
+> Send the total cumulative net kWh, e.g. `(consumed_high + consumed_low) - (returned_high + returned_low)`.
 
 ---
 
-## Useful Flow Cards & Automations
+## Tariff, Fixed Costs & Budget
+
+- **Tariff group:** the device uses the price of the Energy Price device with the same group number ([README.price.md](./README.price.md)), or the tariff from the flow card **Set a new tariff**. 0: no updates.
+- **Tariff selection:** *Automatic* uses the import price while the home imports from the grid, and the export price while it exports. Or always import, or always export.
+- **Fixed costs** per hour, day and month: in the settings, or with **Set fixed cost**.
+- **Budget:** a year budget with a distribution over the year (linear, NL price ceiling 2023, PV north Europe, or 12 own values). The device shows how the use compares to the budget so far this month and year.
+- **Meter readings:** the readings at the start of this day, month and year. Set them when you start in the middle of a period.
+
+---
+
+## Always-On Power
+
+The minimum power per day, month and year shows what is always on.
+
+<img src="https://us1.discourse-cdn.com/flex025/uploads/athom/optimized/3X/2/3/238b5a7c7a3495dd4e375d5b8f3621ccc97b8bf6_2_200x411.jpeg" alt="Always On Power Detection" width="200"/>
+
+> [!TIP]
+> Every 10 W of always-on power is about 90 kWh per year.
+
+---
+
+## Appliance Forecast & Planner
+
+Tick **Enable forecast and planner** for a washing machine, dishwasher or dryer on its own smart plug or meter. The device then:
+- learns its programs (duration and power) and when they usually start; **Learned program** in the settings shows what is known,
+- adds the expected runs to the home load forecast of the Grid Monitor,
+- finds the cheapest start for the learned program, with the prices of the tariff group.
+
+**Start today / Start tomorrow** (device tiles): *Automatic* (as learned), *Not used*, *Cheapest*, or a fixed time. At that start **Planned start** fires: start the program from that flow, e.g. by switching on the plug or through the appliance's app. **Next run** shows the coming start.
+
+Charts: the plan for today, tomorrow and the next hours, the weekly start pattern and the learned program. **Retrain appliance forecast** (maintenance action) relearns it.
+
+---
+
+## Flow Cards
+
+The program and cheapest-start cards are available when **Enable forecast and planner** is on.
 
 ### Triggers
-- **Energy target exceeded / below:** Trigger when monthly/yearly consumption strays from budget.
-- **New hour / day / month / year:** Trigger automations on period boundaries.
+- **The power changed**
+- **Program started** / **Program finished** / **Planned start**
+- **Cheapest program start in the next … hours**
+- **Cheapest program start in the … hours before** a time
+
+### Conditions
+- **Now is the cheapest program start in the next … hours**
+- **Now is the cheapest program start in the … hours before** a time
 
 ### Actions
-- **Set Tariff:** Dynamically update the active tariff rate per kWh.
-- **Set Meter Value:** Force-set meter readings from external inputs.
+- **Plan cheapest start, at the latest at** a time — once; *Planned start* fires at the cheapest start
+- **Cancel planned program**
+- **Set fixed cost** per hour, day or month
+- **Set tariff group**
+- **Set a new tariff** and **Send reading to virtual meter** (app cards)
+
+Times are text: `07:30`, decimal hours (`7.5`), or a tag.

@@ -1,6 +1,6 @@
 # Power by the Hour
 
-**Power by the Hour (PBTH)** turns Homey into a complete Home Energy Management System. Track power, gas, and water usage, forecast solar yield, optimize home battery storage, and automate appliances using dynamic European Day-Ahead energy spot prices.
+**Power by the Hour (PBTH)** turns Homey into a complete Home Energy Management System. Track electricity, gas and water use and costs, forecast solar production and home load, plan and control home batteries and EV charging, and plan appliances at the cheapest moment, with dynamic (15 min or hourly) or fixed energy prices.
 
 <img src="./assets/images/large.jpg" alt="Power by the Hour" width="500"/>
 
@@ -8,54 +8,56 @@
 
 ## 🎯 Use Case Directory
 
-Select a use case below for detailed setup instructions, settings guides, and community-proven flow recipes:
+Select a use case below for setup instructions, settings and flow cards:
 
-| Use Case | Core Driver | Detailed Guide |
+| Use Case | Device | Guide |
 |---|---|---|
-| 🔌 **Track Grid Import/Export, Peak Load & Home Load Forecast** | Grid Monitor (`grid`) | [→ README.grid.md](./README.grid.md) |
-| ☀️ **Forecast Solar Production & Self-Consumption** | Solar Forecaster (`solar`) | [→ README.solar.md](./README.solar.md) |
-| ⚡ **Track Electricity Usage & Standby Power** | Power Monitor (`power`) | [→ README.power.md](./README.power.md) |
-| 🛢️ **Monitor Gas Consumption & Leak Alarms** | Gas Monitor (`gas`) | [→ README.gas.md](./README.gas.md) |
-| 💧 **Track Water Usage & Dripping Taps** | Water Monitor (`water`) | [→ README.water.md](./README.water.md) |
-| 🔋 **Optimize Home Battery Balancing & ROI** | Smart Battery Charger (`battery`) | [→ README.battery.md](./README.battery.md) |
-| 💶 **Electricity & Gas Prices (dynamic or fixed, 15M & 1H)** | Energy price (`price`) | [→ README.price.md](./README.price.md) |
+| 💶 **Electricity & Gas Prices (dynamic or fixed, 15 min or 1 hour)** | Energy Price (`price`) | [→ README.price.md](./README.price.md) |
+| 🔌 **Grid Import/Export, Home Load, Capacity Tariff & Load Forecast** | Grid Monitor (`grid`) | [→ README.grid.md](./README.grid.md) |
+| ☀️ **Solar Production, Forecast & Self-Consumption** | Solar Monitor (`solar`) | [→ README.solar.md](./README.solar.md) |
+| 🔋 **Plan & Control Home Batteries** | Smart Battery Charger (`battery`) | [→ README.battery.md](./README.battery.md) |
+| 🚗 **Smart EV Charging** | Smart EV Charger (`evCharger`) | [→ README.evCharger.md](./README.evCharger.md) |
+| ⚡ **Electricity Use, Standby Power & Appliance Planner** | Power Monitor (`power`) | [→ README.power.md](./README.power.md) |
+| 🛢️ **Gas Use & Constant Flow Check** | Gas Monitor (`gas`) | [→ README.gas.md](./README.gas.md) |
+| 💧 **Water Use & Leak Check** | Water Monitor (`water`) | [→ README.water.md](./README.water.md) |
 | 💻 **App-to-App & HomeyScript Developer API** | Inter-App API | [→ README.dap-api.md](./README.dap-api.md) |
 
 ---
 
-## 🚀 Quick Start — The Most Popular Setup
+## 🚀 Quick Start
 
-Get dynamic electricity tracking running in a few simple steps:
+1. **Energy Price:** add an *Energy Price* device. The wizard asks for your bidding zone (pre-filled from your Homey's location), the amounts from your contract, and a **Tariff group** (e.g. `1`).
+2. **Grid Monitor:** add a *Grid Monitor* for your P1 smart meter or main meter, with the same tariff group.
+3. **Solar Monitor** (if you have solar panels): add one for the device that measures your solar production, and fill in **Peak Power (W)**.
+4. **More devices** (optional): a *Smart Battery Charger* for your home battery, a *Smart EV Charger* for your car, a *Power Monitor* per appliance or sub-meter, a *Gas Monitor* and a *Water Monitor*.
 
-1. **Add Energy price:** Add an `Energy price` device. The wizard asks for your bidding zone (pre-filled from your Homey's location) and the amounts from your contract, and which tariff group should use the price (e.g. group `1`).
-2. **Add Grid Monitor:** Add a `Grid Monitor` device, select your P1 Smart Meter or main grid meter as the source, and set **Tariff Update Group** to `1`.
-3. **Add Solar Forecaster (if you have solar panels):** Add a `Solar Panel` device, select the device that measures your solar production, and fill in **Peak Power (W)**.
-4. **Add Power Monitors (optional):** Add a `Power Monitor` device for each appliance or sub-meter you want to track separately, and set **Tariff Update Group** to `1`.
-
-*Your Grid and Power Monitors now update their electricity tariff automatically every price period (15 minutes or hour) based on your real price!*
+Every device in the tariff group now follows your real price, each price period (15 minutes or 1 hour). The battery and EV planners use the prices together with the solar and home load forecasts.
 
 ---
 
-## 💡 Shared Core Concepts
+## 💡 Shared Concepts
 
-To avoid repeating configuration steps across guides, key shared mechanisms are explained here:
+### 1. Pairing
+Pick the source device from the list: the likely ones are listed first. A setup view then asks for the key settings and shows which capabilities of the source device are used, with the option to choose others. The new device gets the name of the source device. **Repair** lets you switch to another source device later; the device keeps its name.
 
-### 1. Tariff Update Groups
-Tariff Update Groups link price devices (`price`, and the deprecated `dap`, `dap15`, `dapg`) to consumer devices (`power`, `gas`, `grid`).
-- Assign a group number (e.g. `1`) to both the pricing device and the consumer device.
-- Whenever prices update or time slots change, the pricing device automatically broadcasts updated tariffs to all consumer devices in that group.
+### 2. Tariff Groups
+A tariff group links an *Energy Price* device to the other devices: Grid, Power, Solar, Gas, Battery and EV charger.
+- Give the price device and the other devices the same **Tariff group** number (e.g. `1`).
+- Every price period the price device sends the current price to all devices in its group.
+- Without a price device, the flow card **Set a new tariff** sets the tariff of a group (energy, gas or water). Group `0`: no updates.
 
-### 2. Annual Budget Distribution Models
-PBTH compares real-time usage against annual reference targets using seasonal distribution models:
-- **Linear:** Equal allocation for each month ($30.4\text{ days/month}$).
-- **Dutch 2023 Price Ceiling (`el_nl_2023` / `gas_nl_2023`):** Weighted according to seasonal heating and household consumption profiles.
-- **Solar PV:** Weighted according to typical European solar irradiance curves.
+### 3. Year Budget
+Power, Grid, Solar, Gas and Water Monitors can compare the use with a year budget, distributed over the year:
+- **Linear:** the same every day.
+- **NL price ceiling 2023:** more in winter, for electricity and gas.
+- **PV N-Europe, tilt 40°S:** a typical solar production curve.
+- **Custom:** 12 monthly values.
 
-### 3. Virtual Meter Setup
-For source devices with non-standard capability names or split tariffs:
-1. Select **VIRTUAL_METER** during driver pairing.
-2. Push cumulative meter readings via a Flow using the action **Update Virtual Meter Value**.
-3. Pass total net cumulative energy: $\text{kWh}_{\text{total}} = (\text{consumed}_{\text{high}} + \text{consumed}_{\text{low}}) - (\text{returned}_{\text{high}} + \text{returned}_{\text{low}})$.
+### 4. Virtual Meter
+For a meter that is not a Homey device, or that needs a calculation first:
+1. Pair `VIRTUAL_VIA_FLOW` (Power, Grid, Solar, Gas or Water Monitor).
+2. Send the cumulative reading with the flow card **Send reading to virtual meter**.
+3. For electricity, send the total net kWh: `(consumed_high + consumed_low) - (returned_high + returned_low)`.
 
 ---
 

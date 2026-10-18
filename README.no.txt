@@ -1,4 +1,4 @@
-Start og stopp lading av bilen eller hjemmebatteriet basert på den beste 15-minutters prisen og solcelleproduksjonen din! Hent data fra en Homey strøm-/gass-/vannmålerenhet, og vis forbruk/produksjon per time, per dag, per måned og per år. Hold oversikt over kostnader og bruk dynamiske tariffer. Vit hvor mye dine alltid på enheter bruker, og spar tusenvis av kroner hvert år!
-Denne appen kan brukes med hvilken som helst app eller enhet som har en energi- eller effektmåleregenskap, en gassmåleregenskap eller en vannmåleregenskap.
-PBTH inkluderer en smart batterimonitor og en solvarsler som lærer de unike egenskapene til solcellepanelene dine over tid.
-Den støtter også Spotpris (Day-Ahead 15 minutters priser) for energileverandører fra alle EU-land.
+Power by the Hour gjør Homey til en energistyring for hjemmet. Se forbruk og kostnad for strøm, gass og vann per time, dag, måned og år, med dynamiske (kvarters- eller timepriser) eller faste priser for strøm og gass, for alle EU-land.
+Forutsi solproduksjonen og husets forbruk, og la appen planlegge og styre hjemmebatteriet og ladingen av bilen: på de billigste tidspunktene og med soloverskudd. Planlegg vaskemaskinen eller oppvaskmaskinen til den billigste starten.
+Fungerer med alle enheter med energi-, effekt-, gass- eller vannmåler, og med hjemmebatterier og ladere av alle merker.
+Finn ut hvor mye apparatene som alltid står på bruker, og spar hundrevis av euro i året!

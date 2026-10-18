@@ -12,7 +12,7 @@ Two access patterns are supported:
 
 ## 1. GET — Poll current future prices
 
-Fetches all future price slots (from the current period onwards) for **every configured price device**: the Energy price driver (`price`) and the deprecated DAP / DAP15 / Gas drivers.
+Fetches all future price slots (from the current period onwards) for **every configured price device**: the Energy Price driver (`price`) and the deprecated DAP / DAP15 / Gas drivers.
 
 ```js
 // In your app's onInit()
@@ -79,7 +79,7 @@ const data = await phApi.get('/dap-prices');
 | `generatedAt` | ISO 8601 UTC string | Timestamp at which the response was generated |
 | `prices[].deviceId` | string | Device data ID (unique per device) |
 | `prices[].deviceName` | string | Name as set by the user in Homey |
-| `prices[].driverType` | `"price"` \| `"dap"` \| `"dap15"` \| `"dapg"` | Energy price driver \| deprecated: hourly electricity \| 15-min electricity \| gas |
+| `prices[].driverType` | `"price"` \| `"dap"` \| `"dap15"` \| `"dapg"` | Energy Price driver \| deprecated: hourly electricity \| 15-min electricity \| gas |
 | `prices[].commodity` | `"power"` \| `"gas"` | What the price is for. Use this instead of `driverType` to tell electricity from gas |
 | `prices[].tariffType` | `"dynamic"` \| `"fixed"` | Market based price, or a fixed tariff (with its time of day and weekend changes) |
 | `prices[].biddingZone` | string | ENTSO-E bidding zone code or gas hub; `"fixed"` for a fixed tariff |

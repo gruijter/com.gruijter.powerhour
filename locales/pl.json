@@ -171,7 +171,7 @@
     "tod_from": "Od",
     "tod_add": "+ Dodaj godzinę",
     "tod_daynight": "Dzień/noc",
-    "group_label": "Użyj tej ceny dla",
+    "group_label": "Grupa taryfowa",
     "group_option": "Grupa __n__",
     "group_none": "Nic (tylko flow)",
     "group_auto": "Nowe urządzenia automatycznie używają tej ceny.",

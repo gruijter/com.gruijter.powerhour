@@ -1,47 +1,50 @@
-# Solar Forecaster (Solar Driver)
+# Solar Monitor (Solar Driver)
 
-The **Solar Forecaster** driver combines historical solar panel production data with weather forecasts to predict solar yield for Today and Tomorrow, while tracking house self-consumption.
+The **Solar Monitor** tracks the production of your solar panels and forecasts the yield for the coming hours, today and tomorrow. The forecast combines a weather forecast with what it learns from your own panels. It also shows how much of the production your home uses itself.
 
 ---
 
 ## Table of Contents
 
 - [Key Features](#key-features)
-- [How it Works](#how-it-works)
+- [How the Forecast Works](#how-the-forecast-works)
 - [Setup & Pairing](#setup--pairing)
 - [Peak Power Setting](#peak-power-setting)
-- [Yield Distribution & Capabilities](#yield-distribution--capabilities)
-- [Proportional Self-Consumption Tracking](#proportional-self-consumption-tracking)
-- [Flow Cards & Automations](#flow-cards--automations)
+- [Self-Consumption](#self-consumption)
+- [Curtailment](#curtailment)
+- [Capabilities & Charts](#capabilities--charts)
+- [Flow Cards](#flow-cards)
 - [Reporting a Forecaster Problem](#reporting-a-forecaster-problem)
 
 ---
 
 ## Key Features
 
-- **Self-Learning AI Forecast:** Learns the unique characteristics of your solar array (tilt, orientation, shading, inverter efficiency) over a 14-day rolling window.
-- **Hourly & Daily Predictions:** Provides Watt predictions for the next hours ($H_0, H_1, H_2, H_3$) and total kWh forecasts for Today and Tomorrow.
-- **Yield Distribution Curve:** Visualizes your array's hourly efficiency profile throughout the day on the device UI.
-- **Proportional Self-Consumption:** Calculates how much generated solar power is directly consumed by your house vs. exported to the grid.
+- **Production totals:** kWh and money per hour, day, month and year, and the maximum power per day, month and year.
+- **Self-learning forecast:** learns how your panels respond to the sun (orientation, tilt, shading, inverter limit) from the measured production.
+- **Forecast in 15-minute steps:** power now and +15 min to +3 h, energy this hour, today and tomorrow, and tomorrow's peak.
+- **Self-consumption:** the share of the production used in the home, per hour, day, month and year.
+- **Curtailment detection:** recognises when the inverter is limited, and pauses learning meanwhile.
+- **Feeds the other devices:** the battery and EV planners and the grid forecast use the solar forecast.
 
 ---
 
-## How it Works
+## How the Forecast Works
 
-The Solar Forecaster continuously analyzes your inverter's production against local solar irradiance and weather data:
-1. **Initial Calibration:** Upon installation, it uses 14 days of power history to train an efficiency model.
-2. **Dynamic Forecast:** Every hour, weather forecasts are transformed into expected Watt and kWh values.
-3. **Continuous Learning:** The model updates daily to adapt to seasonal sun angles and cloud cover patterns.
+1. **Weather:** the solar radiation forecast for your location comes from Open-Meteo.
+2. **Learning:** the measured production is compared with the radiation, per time of day. The result is the *yield distribution* of your panels.
+3. **Training:** at pairing, and with **Retrain solar forecast**, the history of the source device in Homey Insights is used. After that it keeps learning from new data.
+
+**Training status** in the settings shows how far the learning is.
 
 ---
 
 ## Setup & Pairing
 
-1. Go to **Devices** → **Add Device** → **Power by the Hour**.
-2. Select **Solar Panel**.
-3. Choose the device that measures your solar production (e.g. Enphase, SolarEdge, SMA, Fronius, Shelly, or Smart Plug).
-4. Complete pairing.
-5. In the device settings, fill in **Peak Power (W)** — see [Peak Power Setting](#peak-power-setting) below, this matters more than it might seem.
+1. Go to **Devices** → **Add Device** → **Power by the Hour** → **Solar Monitor**.
+2. Choose the device that measures your solar production (inverter, energy meter or smart plug). Solar panels in Homey are listed first. The new device gets the name of the source device.
+3. The setup view asks for **Use Watt as source**, **Has daily reset**, **Peak Power (W)**, the **Tariff group**, the tariff and the **Tariff selection**, and which meter capability to use.
+4. **Latitude / Longitude:** leave empty to use your Homey's location.
 
 ---
 
@@ -53,58 +56,72 @@ For most systems, the real ceiling is whichever of these two is **lower**:
 - Your **inverter's** rated AC output, or
 - The combined **Wp** of your solar panels.
 
-If your system is intentionally "over-paneled" (panel Wp higher than the inverter's AC rating — a common design choice to boost output on hazy/low-sun days), the **inverter's AC rating is almost always the true ceiling**, since that's the maximum your Homey device will ever actually measure, regardless of how much DC power the panels could theoretically produce.
+If your system is intentionally "over-paneled" (panel Wp higher than the inverter's AC rating), the **inverter's AC rating is almost always the true ceiling**, since that's the maximum your Homey device will ever measure.
 
-Leaving this at **0** makes the app auto-estimate a value from observed history, which works but gives the learning algorithm a weaker safety net: several internal checks use Peak Power to reject or cap implausible readings (most importantly around sunrise/sunset, where a tiny amount of noise in the measurement can otherwise get misread as an extreme value). Filling in the real, correct value from the start gives the model the strongest protection against learning bad data as normal — this is the single most impactful setting for forecast quality and robustness.
+Leaving this at **0** makes the app estimate a value from observed history. That works, but gives the learning a weaker safety net: several checks use Peak Power to reject or cap implausible readings, most of all around sunrise and sunset. Filling in the real value from the start is the single most effective setting for forecast quality.
 
-The device settings also show **Auto-detected Peak Power (W)** — a read-only field with the highest power ever measured for this array. It's a useful reference point when deciding what to fill in above. When Peak Power is left at 0, this auto-detected value is used automatically as a fallback for *some* of the internal safety checks — but never for filtering out raw readings, since this value starts low and only grows over time, so relying on it there could wrongly discard your own array's genuine higher output before it's had a chance to catch up (e.g. a system paired outside its peak season). It resets when you run **Retrain solar forecast** from scratch.
-
----
-
-## Yield Distribution & Capabilities
-
-### Capabilities
-- `meter_kwh_forecast.this_day` — Total predicted kWh for today.
-- `meter_kwh_forecast.tomorrow` — Total predicted kWh for tomorrow.
-- `measure_watt_forecast.h0..h3` — Expected production in Watts for current and upcoming hours.
-- `measure_watt_forecast.tomorrow_peak` — Peak production expected tomorrow (Watts).
-- `button.retrain` — Force retrain the machine learning model.
-- `button.export_diagnostics` — Log this array's settings and raw power history for troubleshooting, without changing the forecast model (see [Reporting a Forecaster Problem](#reporting-a-forecaster-problem)).
+**Auto-detected Peak Power (W)** in the settings shows the highest power ever measured. It is used as a fallback for some checks when Peak Power is 0, but never to filter raw readings, since it starts low and only grows. It resets on a full retrain.
 
 ---
 
-## Proportional Self-Consumption Tracking
+## Self-Consumption
 
-When connected alongside a P1 Smart Meter, PBTH automatically computes house self-consumption:
-- `measure_solar_use.this_hour`
-- `measure_solar_use.this_day`
-- `measure_solar_use.this_month`
-- `measure_solar_use.this_year`
-
-If solar production exceeds total house load, export is subtracted so only the power consumed *in the house* is credited as self-consumed solar energy.
+**Own usage** shows which share of the production the home used itself, per hour, day, month and year. It needs the grid power: from the Grid Monitor, or else from the main meter in Homey Energy. While the home exports, the export is subtracted from the production; with several Solar Monitors it is shared in proportion to their production.
 
 ---
 
-## Flow Cards & Automations
+## Curtailment
+
+When the inverter is limited, e.g. at negative prices, the production is lower than the sun allows. The device recognises this (**Curtailment active**) and does not learn from that time. Set it yourself with **Set curtailment** when you limit the inverter from a flow.
+
+---
+
+## Capabilities & Charts
+
+- **Production:** power, kWh and money per hour, day, month and year, maximum power per day, month and year.
+- **Forecast:** power now, +15 min, +30 min, +45 min, +1 h, +2 h, +3 h; energy this hour, today and tomorrow; peak power tomorrow.
+- **Own usage** per hour, day, month and year.
+- **Curtailment active** (alarm).
+- **Charts:** production and forecast today, tomorrow and yesterday, and the learned yield distribution.
+- **Maintenance actions:** *Retrain solar forecast*, *Export diagnostics data*.
+
+---
+
+## Flow Cards
 
 ### Triggers
-- **Forecast updated:** Trigger when tomorrow's solar forecast is updated.
-- **Yield target reached:** Trigger when today's production meets expectations.
+- **Solar forecast for** today / tomorrow / next hours **updated** — token: forecast (JSON)
+- **Solar production becomes one of the top** N **hours of today**
+- **Remaining yield before** a time **is less than** … kWh
+- **Yield between** two times **is less than** … kWh
+- **Solar curtailment detected** / **ended**
+
+### Conditions
+- **Expected yield for** today / tomorrow / next hours **is more / less than** … kWh
+- **Tomorrow's yield is better / worse than today's**
+- **Solar production is / isn't one of the top** N **hours of today**
+- **Remaining yield before** a time **is less / more than** … kWh
+- **Yield between** two times **is less / more than** … kWh
+- **Solar curtailment is / isn't active**
 
 ### Actions
-- **Retrain model:** Trigger retraining via flow button.
+- **Provide solar forecast JSON for** today / tomorrow / next hours
+- **Retrain solar model**
+- **Set curtailment**
+- **Set tariff group**
+
+Times are text: `07:30`, decimal hours (`7.5`), or a tag.
 
 ---
 
 ## Reporting a Forecaster Problem
 
-If the solar forecast looks clearly wrong (e.g. way too high or too low at certain times of day), the most useful thing you can send is your array's actual settings and raw production history — that's what lets the forecast model be checked against what really happened, rather than guessed at.
+If the solar forecast looks clearly wrong (e.g. way too high or too low at certain times of day), the most useful thing you can send is your array's settings and raw production history.
 
-**How to send it:**
-1. Open the solar device's settings page and run the **Export diagnostics data** maintenance action (`button.export_diagnostics`).
-   - This only *logs* your array's settings (Peak Power, latitude/longitude) and its raw 14-day/24-hour Homey Insights power history — it does **not** change your forecast model or retrain anything.
-   - It does **not** include weather data — that can be looked up separately from your location and doesn't need to come from you.
-2. After pressing the button, you'll see a message asking you to send a **Homey App Diagnostics Report** for Power by the Hour. Start that report from the Homey app.
-3. In the diagnostics report (or wherever you're describing the problem), please mention:
-   - This array's **panel orientation** (e.g. South, East, West) — the app doesn't have a setting for this, so it can't be read from the report automatically.
-   - Any extra context that might help — what looked wrong, roughly when, and what you'd expect instead.
+1. Open the solar device's settings and run the **Export diagnostics data** maintenance action.
+   - This only *logs* your array's settings (Peak Power, latitude/longitude) and its raw 14-day/24-hour Homey Insights power history — it does **not** change the forecast model.
+   - It does **not** include weather data — that can be looked up from your location.
+2. Then send a **Homey App Diagnostics Report** for Power by the Hour from the Homey app.
+3. In the report, please mention:
+   - The **panel orientation** (e.g. South, East, West) — there is no setting for it.
+   - What looked wrong, roughly when, and what you expected instead.

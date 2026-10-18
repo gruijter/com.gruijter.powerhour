@@ -1,4 +1,4 @@
-Avvia e interrompi la ricarica della tua auto o batteria domestica in base alla migliore tariffa di 15 minuti e alla produzione dei tuoi pannelli solari! Ottieni dati da un dispositivo contatore di energia/gas/acqua in Homey e mostra l'utilizzo/la produzione oraria, giornaliera, mensile e annua. Conosci il valore monetario e utilizza tariffe dinamiche. Scopri quanto stanno utilizzando i tuoi elettrodomestici che sono sempre accesi e risparmia centinaia di euro all'anno!
-Questa app può essere utilizzata con qualsiasi app o dispositivo che abbia una funzionalità Energy o Power Meter, una funzionalità Gas Meter o una funzionalità Water Meter.
-PBTH include un monitor intelligente della batteria e un previsore solare che apprende le caratteristiche uniche dei tuoi pannelli solari nel tempo.
-Supporta anche il prezzo Spot (prezzi Day-Ahead 15 minuti) per i fornitori di energia di tutti i paesi dell'UE.
+Power by the Hour trasforma Homey in un gestore dell'energia per la casa. Vedi consumi e costi di elettricità, gas e acqua per ora, giorno, mese e anno, con prezzi dinamici (al quarto d'ora o orari) o fissi per elettricità e gas, per tutti i paesi dell'UE.
+Prevedi la produzione solare e i consumi della casa, e lascia che l'app pianifichi e controlli la batteria domestica e la ricarica dell'auto: nei momenti più economici e con il surplus solare. Pianifica la lavatrice o la lavastoviglie all'avvio più economico.
+Funziona con qualsiasi dispositivo con contatore di energia, potenza, gas o acqua, e con batterie domestiche e wallbox di qualsiasi marca.
+Scopri quanto consumano i tuoi apparecchi sempre accesi, e risparmia centinaia di euro all'anno!

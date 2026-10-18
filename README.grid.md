@@ -43,12 +43,10 @@ The driver reads the import and export registers that the source device declares
 
 ## Setup & Pairing
 
-1. Go to **Devices** → **Add Device** → **Power by the Hour**.
-2. Select **Grid Monitor**.
-3. Choose your main grid meter.
-4. Complete pairing.
-5. In the device settings, check the **Grid connection** values (phases, main fuse, voltage) — see below.
-6. Set the tariff (fixed, via flow, or via an Energy price device in the same **Tariff update group**).
+1. Go to **Devices** → **Add Device** → **Power by the Hour** → **Grid Monitor**.
+2. Choose your main grid meter. Smart meters are listed first. The new device gets the name of the source device.
+3. The setup view asks for **Use Watt as source**, the **Tariff group** and tariff, the **Price settlement scheme**, the grid connection (phases, main fuse) and the **Peak load interval**. It also shows which meter capabilities are used for import and export, and lets you choose others.
+4. Afterwards, check the other **Grid connection** and **Capacity tariff** settings — see below.
 
 After pairing, the load forecast is trained automatically from the Insights history of your grid meter (and solar / battery / EV devices, if present). This may take a few minutes.
 
@@ -116,7 +114,7 @@ Many grid operators bill a capacity tariff based on your highest **average** imp
 | `measure_watt_peak.projected` | Expected average of the **running** interval, assuming the current import holds until the interval ends. |
 | `measure_watt_peak.headroom` | Extra power you can still switch on now, for the rest of the interval, without setting a new month peak (the minimum billed peak counts too). Empty while there is no month peak yet. |
 
-Use the **Projected peak exceeds month peak** trigger or the **Peak headroom is below** condition to switch off loads before a new peak is set.
+Use the **Projected peak exceeds billing level** trigger or the **Peak headroom is below** condition to switch off loads before a new peak is set.
 
 ---
 
@@ -130,9 +128,11 @@ The driver learns a weekly home load profile (7 days × 96 quarter-hours) from `
 
 Besides the house load, the driver forecasts the **net grid exchange** (+ import / − export):
 - **Net:** home load − solar forecast (from Power by the Hour Solar devices) + planned EV charging (from Power by the Hour EV Charger devices, only while the car is connected).
-- **Net incl. battery plan:** net + the planned charge/discharge of Power by the Hour Home Batteries (with ROI enabled).
+- **Net incl. battery plan:** net + the planned charge/discharge of the Power by the Hour Smart Battery Chargers.
 
-EV charging is not part of the learned home load, so irregular charging sessions don't distort the profile.
+EV charging is not part of the learned home load, so irregular charging sessions don't distort the profile. Power Monitors with **Enable forecast and planner** add the expected runs of their appliance.
+
+**Extra home load** (flow card) adds a known extra load to the forecast, e.g. a fortnightly legionella run of the boiler, without it being learned.
 
 **Charts:** *Grid today / tomorrow / yesterday* show the grid exchange (orange: import, green: export). Bars are the forecast, the line is measured. *Home weekly profile* shows the learned profile. For past quarter-hours, the grid forecast is shown as it was when that quarter-hour started.
 
@@ -157,15 +157,16 @@ Use **Retrain home load model** (button or flow) to rebuild the profile from scr
 
 ### Triggers
 - **Load forecast updated:** fires when the forecast is updated. Tokens: load forecast, forecast accuracy, net grid forecast, net grid forecast incl. battery plan, and peak forecast (all JSON).
-- **Projected peak exceeds month peak:** fires once per peak interval, as soon as the running interval is on course to set a new month peak. Tokens: projected, month peak.
+- **Projected peak exceeds billing level:** fires once per peak interval, as soon as the running interval is on course to raise this month's capacity cost. Tokens: projected, month peak.
 
 ### Conditions
 - **Peak headroom is / isn't below a value:** false while there is no month peak yet.
 
 ### Actions
 - **Provide load forecast JSON:** returns the same JSON tokens as the trigger, for this day, tomorrow or the next hours.
+- **Extra load** … W today/tomorrow at a time for … minutes (0 W removes it).
 - **Retrain home load model.**
-- **Set a new tariff update group.**
+- **Set tariff group.**
 - **Set fixed cost** (per hour, day or month).
 
 The **peak forecast** JSON contains the month peak, the projected value and headroom of the running interval, and the highest expected interval average (with time) until the end of tomorrow or the month, including whether a new month peak is expected.

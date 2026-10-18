@@ -171,7 +171,7 @@
     "tod_from": "부터",
     "tod_add": "+ 시간 추가",
     "tod_daynight": "주간/야간",
-    "group_label": "이 가격을 사용할 대상",
+    "group_label": "요금 그룹",
     "group_option": "그룹 __n__",
     "group_none": "없음 (플로우만)",
     "group_auto": "새 기기는 이 가격을 자동으로 사용합니다.",

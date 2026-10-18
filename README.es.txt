@@ -1,4 +1,4 @@
-¡Inicie y detenga la carga de su automóvil o batería inteligente basándose en la mejor tarifa de 15 minutos y su producción solar! Obtenga datos de un medidor de energía/gas/agua de Homey y muestre el uso/producción por hora, día, mes y año. Conozca el valor monetario y use tarifas dinámicas. ¡Sepa cuánto consumen sus electrodomésticos siempre encendidos y ahorre cientos de euros al año!
-Esta aplicación se puede usar con cualquier aplicación o dispositivo que tenga una capacidad de medidor de energía o potencia, una capacidad de medidor de gas o una capacidad de medidor de agua.
-PBTH incluye un monitor de batería inteligente y un pronosticador solar que aprende las características únicas de sus paneles solares con el tiempo.
-También admite precios Spot (precios de 15 minutos para el día siguiente) para proveedores de energía de todos los países de la UE.
+Power by the Hour convierte Homey en un gestor de energía para el hogar. Consulta el consumo y el coste de electricidad, gas y agua por hora, día, mes y año, con precios dinámicos (cuartohorarios u horarios) o fijos para electricidad y gas, para todos los países de la UE.
+Prevé tu producción solar y el consumo de la casa, y deja que la app planifique y controle tu batería doméstica y la carga de tu coche: en los momentos más baratos y con el excedente solar. Programa la lavadora o el lavavajillas en el inicio más barato.
+Funciona con cualquier dispositivo con contador de energía, potencia, gas o agua, y con baterías domésticas y cargadores de cualquier marca.
+Descubre cuánto consumen tus aparatos siempre encendidos, ¡y ahorra cientos de euros al año!

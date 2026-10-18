@@ -1,4 +1,4 @@
-Rozpocznij i zatrzymaj ładowanie samochodu lub inteligentnego akumulatora w oparciu o najlepszą stawkę 15-minutową i produkcję paneli słonecznych! Pobieraj dane z licznika energii/gazu/wody Homey i wyświetlaj zużycie/produkcję na godzinę, dzień, miesiąc i rok. Poznaj wartość pieniężną i korzystaj z dynamicznych taryf. Dowiedz się, ile zużywają Twoje urządzenia typu 'Always-on' i zaoszczędź setki euro rocznie!
-Tej aplikacji można używać z dowolną aplikacją lub urządzeniem posiadającym funkcję licznika energii lub mocy, funkcję licznika gazu lub funkcję licznika wody.
-PBTH zawiera inteligentny monitor baterii i prognozę solarną, która z czasem uczy się unikalnych cech Twoich paneli słonecznych.
-Obsługuje również ceny Spot (ceny 15-minutowe dnia następnego) dla dostawców energii ze wszystkich krajów UE.
+Power by the Hour zmienia Homey w menedżera energii w domu. Sprawdzaj zużycie i koszty prądu, gazu i wody na godzinę, dzień, miesiąc i rok, z dynamicznymi (kwadransowymi lub godzinowymi) lub stałymi cenami prądu i gazu, dla wszystkich krajów UE.
+Prognozuj produkcję z paneli słonecznych i zużycie domu, a aplikacja zaplanuje pracę domowego magazynu energii i ładowanie samochodu oraz będzie nimi sterować: w najtańszych momentach i z nadwyżki słonecznej. Zaplanuj pralkę lub zmywarkę na najtańszy start.
+Działa z każdym urządzeniem z licznikiem energii, mocy, gazu lub wody, oraz z domowymi magazynami energii i ładowarkami każdej marki.
+Sprawdź, ile zużywają urządzenia zawsze włączone, i oszczędzaj setki euro rocznie!

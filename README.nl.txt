@@ -1,4 +1,4 @@
-Start en stop het laden van je auto of thuisbatterij op basis van het beste kwartiertarief en de productie van je zonnepanelen! Leest data van een Homey energie/gas/water apparaat, en toont het gebruik/levering per uur, per dag, per maand en per jaar. Zie de geldwaarde en gebruik dynamische tarieven. Weet hoeveel je Altijd-Aan apparaten gebruiken en bespaar honderden Euro's per jaar!
-Deze app kan worden gebruikt met iedere app of apparaat met een energie/vermogen, gas of water capability.
-PBTH bevat een slimme Batterij Monitor en een Zonne-voorspeller die de unieke eigenschappen van je zonnepanelen leert in de loop van de tijd.
-Het ondersteunt ook Spot Prijzen (Day-Ahead kwartierprijzen) van energie providers uit ieder EU land.
+Power by the Hour maakt van Homey een energiemanager voor je huis. Zie het verbruik en de kosten van stroom, gas en water per uur, dag, maand en jaar, met dynamische (kwartier- of uur-) of vaste prijzen voor stroom en gas, voor alle EU-landen.
+Voorspel je zonne-opbrengst en het verbruik van je huis, en laat de app je thuisbatterij en het laden van je auto plannen en sturen: op de goedkoopste momenten en op zonne-overschot. Plan je wasmachine of vaatwasser op de goedkoopste start.
+Werkt met ieder apparaat met een energie-, vermogens-, gas- of watermeter, en met thuisbatterijen en laadpalen van ieder merk.
+Ontdek hoeveel je altijd-aan apparaten verbruiken, en bespaar honderden euro's per jaar!

@@ -1,6 +1,6 @@
 # Energy Prices (Price Driver)
 
-The **Energy price** driver (`price`) gives Homey your real electricity or gas price, per 15 minutes or per hour. It fetches market prices from the day-ahead exchanges (ENTSO-E, Nord Pool, EPEX via SMARD, OMIE, EEX), adds your supplier's markups, taxes and VAT, and sends the result to your Power, Gas and Grid devices. Fixed contracts work too, with time-of-day and weekend tariffs.
+The **Energy Price** driver (`price`) gives Homey your real electricity or gas price, per 15 minutes or per hour. It fetches market prices from the day-ahead exchanges (ENTSO-E, Nord Pool, EPEX via SMARD, OMIE, EEX), adds your supplier's markups, taxes and VAT, and sends the result to your other Power by the Hour devices. Fixed contracts work too, with time-of-day and weekend tariffs.
 
 One driver for everything: it replaces the old **Day-ahead Pricing** (`dap`), **Day-ahead 15m Pricing** (`dap15`) and **Gas Day-ahead Pricing** (`dapg`) drivers. See [Moving from the old DAP drivers](#moving-from-the-old-dap-drivers).
 
@@ -38,13 +38,13 @@ One driver for everything: it replaces the old **Day-ahead Pricing** (`dap`), **
 - **Own formula (advanced):** override the generated formula with your own, with `min()`, `max()` and `abs()`.
 - **Price charts:** today, tomorrow and the next hours.
 - **Flow cards built around periods:** cheapest or most expensive periods and blocks, in the next hours or between two times.
-- **Tariff groups:** sends the current price to all Power, Gas and Grid devices in the same group.
+- **Tariff groups:** sends the current price to all devices in the same group: Grid, Power, Solar, Gas, Battery and EV charger.
 
 ---
 
 ## Setup: the Price Wizard
 
-1. Go to **Devices** → **Add Device** → **Power by the Hour** → **Energy price**.
+1. Go to **Devices** → **Add Device** → **Power by the Hour** → **Energy Price**.
 2. Follow the wizard:
    - **Take over settings** *(only shown if you still have an old DAP device):* choose the old device to copy its settings, or fill in everything yourself.
    - **Which price?** Electricity or gas, and a dynamic (market) or fixed tariff.
@@ -133,9 +133,9 @@ Electricity only. Enable **Enable forecast prices** to add AI-predicted prices (
 
 ## Sending the Price to Other Devices (Tariff Groups)
 
-Under **Use this price for** (wizard) or **Use this price for group** (settings), choose a group number. Every Power, Gas or Grid device with the same **Tariff update group** then uses this price, updated every period. The import price goes to consumption, the export price to feed-in. Choose **Nothing (flows only)** to use the device in flows only.
+In the wizard or under **Tariff group** (settings), choose a group number. Every device with the same **Tariff group** then uses this price, updated every period: Grid, Power, Solar and Gas Monitors, Smart Battery Chargers and Smart EV Chargers. The import price goes to consumption, the export price to feed-in. Choose **0** (wizard: *Nothing (flows only)*) to use the device in flows only.
 
-New Power, Gas and Grid devices use this price automatically.
+When you add another device, its setup view offers the groups that have a price device.
 
 ---
 
@@ -215,7 +215,7 @@ The device shows three price charts: **Today**, **Tomorrow** and **Next hours**.
 The old **Day-ahead Pricing**, **Day-ahead 15m Pricing** and **Gas Day-ahead Pricing** devices keep working, but can no longer be added. Their flow cards are hidden for new flows. Existing flows keep running. Homey's timeline shows a message while you still have an old device.
 
 To move:
-1. Add an **Energy price** device. In the first wizard step, choose your old device under **Take over settings**. Bidding zone, interval, markups, time-of-day and weekend markups, currency, provider, forecast and tariff group are copied over. The old markups already included VAT, so they are taken over as *incl. VAT* with VAT 0%. Splitting them into supplier markup, taxes and VAT is optional, the price stays the same.
+1. Add an **Energy Price** device. In the first wizard step, choose your old device under **Take over settings**. Bidding zone, interval, markups, time-of-day and weekend markups, currency, provider, forecast and tariff group are copied over. The old markups already included VAT, so they are taken over as *incl. VAT* with VAT 0%. Splitting them into supplier markup, taxes and VAT is optional, the price stays the same.
 2. From then on, the old device no longer sends its price to the tariff group. The new device does.
 3. Rebuild the flows that use the old device's cards with the new cards. The timeline message lists those flows.
 4. Delete the old device.

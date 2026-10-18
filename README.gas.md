@@ -1,6 +1,6 @@
 # Gas Monitor (Gas Driver)
 
-The **Gas Monitor** device tracks your gas consumption in cubic meters ($\text{m}^3$) and calculates costs per hour, day, month, and year. It also features automatic gas leak detection and seasonal budget tracking.
+The **Gas Monitor** summarizes your gas use: m³ and money per hour, day, month and year, the gas flow, and the minimum and maximum flow to spot a constant flow.
 
 ---
 
@@ -8,58 +8,55 @@ The **Gas Monitor** device tracks your gas consumption in cubic meters ($\text{m
 
 - [Key Features](#key-features)
 - [Setup & Pairing](#setup--pairing)
-- [Configuration & Settings](#configuration--settings)
-- [Gas Leak & Continuous Flow Monitoring](#gas-leak--continuous-flow-monitoring)
-- [Useful Flow Cards](#useful-flow-cards)
+- [Tariff, Fixed Costs & Budget](#tariff-fixed-costs--budget)
+- [Constant Flow (Leak) Check](#constant-flow-leak-check)
+- [Flow Cards](#flow-cards)
 
 ---
 
 ## Key Features
 
-- **Volume & Cost Tracking:** Real-time tracking of $\text{m}^3$ and monetary cost for *this/last hour, day, month, year*.
-- **Gas Leak Detection:** Continuous monitoring of minimum gas flow rate ($\text{L/min}$) over a 24-hour window.
-- **Seasonal Budget Models:** Aligns monthly target consumption with heavy winter gas heating profiles (`gas_nl_2023`).
-- **Dynamic Tariff Groups:** Automatically receives real-time gas rates when linked to an Energy price (`price`) device set to gas.
+- **Period totals:** m³ and money for this and last hour, day, month and year, plus the month and year average price.
+- **Gas flow:** the current flow, and the minimum and maximum flow (L/min) per day, month and year.
+- **Dynamic gas prices:** the daily gas price of an Energy Price device set to gas, in the same tariff group.
+- **Budget:** compare the use with a year budget, e.g. with the NL 2023 price ceiling distribution (more gas in winter).
 
 ---
 
 ## Setup & Pairing
 
-1. Go to **Devices** → **Add Device** → **Power by the Hour**.
-2. Select **Gas Monitor**.
-3. Choose your gas meter source (e.g. P1 Smart Meter Gas Channel, Homewizard Gas, Youless, etc.).
-4. Complete pairing.
+1. Go to **Devices** → **Add Device** → **Power by the Hour** → **Gas Monitor**.
+2. Choose the device with your gas meter, e.g. a P1 meter with gas. The new device gets the name of the source device.
+3. The setup view asks for **Has daily reset**, the **Tariff group** (with the Energy Price devices for gas), the tariff when no price device is in that group, and which meter capability to use.
+
+For a meter that is not a Homey device, pair `VIRTUAL_VIA_FLOW` and send the cumulative reading (m³) with the flow card **Send reading to virtual meter**.
+
+Use **Repair** to switch to another source device. The device keeps its name.
 
 ---
 
-## Configuration & Settings
+## Tariff, Fixed Costs & Budget
 
-- **Tariff & Fixed Costs:** Set your gas price per $\text{m}^3$ and fixed daily/monthly delivery charges in **Device Settings**.
-- **Distribution Model:** Set to `gas_nl_2023` to align monthly budget targets with typical Dutch price ceiling gas heating curves.
-- **Tariff Update Group:** Assign a group number (e.g. `1`) to receive dynamic gas tariffs automatically from an Energy price device set to gas ([README.price.md](./README.price.md)).
-
----
-
-## Gas Leak & Continuous Flow Monitoring
-
-The `measure_lpm_min` capability measures the lowest gas flow rate in Liters per minute ($\text{L/min}$) over a 24-hour period.
-
-> [!WARNING]
-> **Gas Leak Alarm:** In a normal household, gas flow should drop to `0.0 L/min` at least several times a day (when heating/cooking is off). If the 24-hour minimum gas flow rate is greater than `0.0 L/min` (resolution $\ge 0.5\text{ L/min}$), there is continuous gas flow. This indicates a gas leak, a central heating bypass valve fault, or a stuck valve.
-
-### Recommended Flow for Gas Leak Warning
-- **WHEN:** 24-hour Minimum Gas Flow changed
-- **AND:** 24-hour Minimum Gas Flow > 0
-- **THEN:** Send push notification: *"Warning: Continuous gas flow detected on your gas meter!"*
+- **Tariff group:** the device uses the gas price of the Energy Price device with the same group number ([README.price.md](./README.price.md)), or the tariff from the flow card **Set a new tariff** (gas). 0: no updates.
+- **Fixed costs** per hour, day and month: in the settings, or with **Set fixed cost**.
+- **Budget:** a year budget (m³) with a distribution over the year: linear, NL price ceiling 2023, or 12 own values.
+- **Meter readings:** the readings at the start of this day, month and year. Set them when you start in the middle of a period.
 
 ---
 
-## Useful Flow Cards
+## Constant Flow (Leak) Check
 
-### Triggers
-- **Gas target exceeded / below:** Trigger when monthly/yearly gas consumption strays from budget.
-- **New hour / day / month / year:** Trigger period updates.
+In a normal home the gas flow drops to 0 several times a day. When **Minimum (day)** stays above 0 for a whole day, gas was flowing all the time: a leak, or an appliance that keeps burning.
 
-### Actions
-- **Set Tariff:** Update gas price per $\text{m}^3$.
-- **Set Meter Value:** Sync meter readings manually if needed.
+Example flow:
+- **WHEN:** the time is 23:55
+- **AND:** Logic — the Gas Monitor's *Minimum (day)* tag is greater than 0
+- **THEN:** send a notification: *Gas flow did not stop today*
+
+---
+
+## Flow Cards
+
+- **Set fixed cost** per hour, day or month
+- **Set tariff group**
+- **Set a new tariff** and **Send reading to virtual meter** (app cards)

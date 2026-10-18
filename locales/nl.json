@@ -171,7 +171,7 @@
     "tod_from": "Vanaf",
     "tod_add": "+ Tijd toevoegen",
     "tod_daynight": "Dag/nacht",
-    "group_label": "Gebruik deze prijs voor",
+    "group_label": "Tariefgroep",
     "group_option": "Groep __n__",
     "group_none": "Niets (alleen flows)",
     "group_auto": "Nieuwe apparaten gebruiken deze prijs automatisch.",

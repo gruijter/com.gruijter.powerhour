@@ -964,19 +964,19 @@
           },
           "value": "",
           "hint": {
-            "en": "The unit displayed as currency, e.g. €, £, EUR, SER, NOK, DKK, CHF. Leave empty to automatically use the currency from the Day-ahead pricing source.",
-            "nl": "De weergegeven eenheid voor geld, bijv. €, £, EUR, SER, NOK, DKK, CHF. Laat leeg om automatisch de valuta van de Day-ahead pricing bron te gebruiken.",
-            "de": "Die als Währung angezeigte Einheit, z.B. €, £, EUR, SER, NOK, DKK, CHF. Leer lassen, um automatisch die Währung von der Day-ahead-Pricing-Quelle zu verwenden.",
-            "fr": "L'unité de devise affichée, ex. €, £, EUR, SER, NOK, DKK, CHF. Laisser vide pour utiliser automatiquement la devise de la source de tarification Day-ahead.",
-            "it": "L'unità mostrata come valuta, es. €, £, EUR, SER, NOK, DKK, CHF. Lasciare vuoto per utilizzare automaticamente la valuta dalla fonte di prezzo Day-ahead.",
-            "sv": "Enheten som visas som valuta, t.ex. €, £, EUR, SER, NOK, DKK, CHF. Lämna tomt för att automatiskt använda valutan från Day-ahead-priskällan.",
-            "no": "Valutaenheten vises som f.eks. €, £, EUR, SER, NOK, DKK, CHF. La stå blank for å automatisk bruke valutaen fra Day-ahead-priskilden.",
-            "es": "La unidad que se muestra como moneda, p. ej. €, £, EUR, SER, NOK, DKK, CHF. Dejar vacío para usar automáticamente la moneda de la fuente de precios Day-ahead.",
-            "da": "Valutaenheden vises f.eks. €, £, EUR, SER, NOK, DKK, CHF. Lad denne stå blank for automatisk at bruge valutaen fra Day-ahead-priskilden.",
-            "pl": "Jednostka wyświetlana jako waluta, np. €, £, EUR, SER, NOK, DKK, CHF. Pozostaw puste, aby automatycznie użyć waluty ze źródła cen Day-ahead.",
-            "ru": "Единица, отображаемая как валюта, например €, £, EUR, SER, NOK, DKK, CHF. Оставьте пустым, чтобы автоматически использовать валюту из источника цен Day-ahead.",
-            "ar": "الوحدة المعروضة كعملة، مثل €، £، EUR، SER، NOK، DKK، CHF. اتركها فارغة لاستخدام العملة تلقائيًا من مصدر تسعير اليوم التالي.",
-            "ko": "통화로 표시할 단위입니다 (예: €, £, EUR, SER, NOK, DKK, CHF). 비워두면 전일 가격 소스의 통화를 자동으로 사용합니다."
+            "en": "The unit displayed as currency, e.g. €, £, EUR, SER, NOK, DKK, CHF. Leave empty to automatically use the currency from the Energy Price device.",
+            "nl": "De weergegeven eenheid voor geld, bijv. €, £, EUR, SER, NOK, DKK, CHF. Laat leeg om automatisch de valuta van het Energieprijs-apparaat te gebruiken.",
+            "de": "Die als Währung angezeigte Einheit, z.B. €, £, EUR, SER, NOK, DKK, CHF. Leer lassen, um automatisch die Währung vom Energiepreis-Gerät zu verwenden.",
+            "fr": "L'unité de devise affichée, ex. €, £, EUR, SER, NOK, DKK, CHF. Laisser vide pour utiliser automatiquement la devise de l'appareil Prix de l'énergie.",
+            "it": "L'unità mostrata come valuta, es. €, £, EUR, SER, NOK, DKK, CHF. Lasciare vuoto per utilizzare automaticamente la valuta dal dispositivo Prezzo dell'energia.",
+            "sv": "Enheten som visas som valuta, t.ex. €, £, EUR, SER, NOK, DKK, CHF. Lämna tomt för att automatiskt använda valutan från Energipris-enheten.",
+            "no": "Valutaenheten vises som f.eks. €, £, EUR, SER, NOK, DKK, CHF. La stå blank for å automatisk bruke valutaen fra Energipris-enheten.",
+            "es": "La unidad que se muestra como moneda, p. ej. €, £, EUR, SER, NOK, DKK, CHF. Dejar vacío para usar automáticamente la moneda del dispositivo Precio de la energía.",
+            "da": "Valutaenheden vises f.eks. €, £, EUR, SER, NOK, DKK, CHF. Lad denne stå blank for automatisk at bruge valutaen fra Energipris-enheden.",
+            "pl": "Jednostka wyświetlana jako waluta, np. €, £, EUR, SER, NOK, DKK, CHF. Pozostaw puste, aby automatycznie użyć waluty z urządzenia Cena energii.",
+            "ru": "Единица, отображаемая как валюта, например €, £, EUR, SER, NOK, DKK, CHF. Оставьте пустым, чтобы автоматически использовать валюту из устройства «Цена энергии».",
+            "ar": "الوحدة المعروضة كعملة، مثل €، £، EUR، SER، NOK، DKK، CHF. اتركها فارغة لاستخدام العملة تلقائيًا من جهاز سعر الطاقة.",
+            "ko": "통화로 표시할 단위입니다 (예: €, £, EUR, SER, NOK, DKK, CHF). 비워두면 에너지 가격 장치의 통화를 자동으로 사용합니다."
           }
         },
         {

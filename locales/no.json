@@ -171,7 +171,7 @@
     "tod_from": "Fra",
     "tod_add": "+ Legg til tid",
     "tod_daynight": "Dag/natt",
-    "group_label": "Bruk denne prisen for",
+    "group_label": "Tariffgruppe",
     "group_option": "Gruppe __n__",
     "group_none": "Ingenting (kun flyter)",
     "group_auto": "Nye enheter bruker denne prisen automatisk.",
