@@ -179,5 +179,11 @@
     "import_label": "Da dispositivo prezzo esistente",
     "import_none": "No, compilo io",
     "import_hint": "Il vecchio dispositivo non invia più il suo prezzo al gruppo."
+  },
+  "battery_learned": {
+    "learning": "Apprendimento: carica __charge__/__needed__, scarica __discharge__/__needed__",
+    "learned": "__kwh__ kWh, ciclo completo __roundtrip__ %, min. __minCharge__ / __minDischarge__ W",
+    "reset": "Dimentica i valori appresi",
+    "reset_hint": "Per un'altra batteria, o se i valori appresi sono chiaramente errati. L'apprendimento ricomincia."
   }
 }

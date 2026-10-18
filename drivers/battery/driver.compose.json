@@ -170,7 +170,7 @@
       }
     }
   ],
-    "repair": [
+  "repair": [
     {
       "id": "repair_warning",
       "navigation": {
@@ -282,41 +282,6 @@
       },
       "children": [
         {
-          "id": "autoLearn",
-          "type": "checkbox",
-          "label": {
-            "en": "Learn automatically",
-            "nl": "Automatisch leren",
-            "de": "Automatisch lernen",
-            "fr": "Apprentissage automatique",
-            "it": "Apprendimento automatico",
-            "sv": "Lär automatiskt",
-            "no": "Lær automatisk",
-            "es": "Aprendizaje automático",
-            "da": "Lær automatisk",
-            "pl": "Ucz się automatycznie",
-            "ru": "Автоматическое обучение",
-            "ar": "التعلم التلقائي",
-            "ko": "자동 학습"
-          },
-          "value": true,
-          "hint": {
-            "en": "On: capacity, power and loss values and min. charge/discharge power are filled in from what the battery does, once enough is learned (checked daily). Your own changes to them are then overwritten.",
-            "nl": "Aan: capaciteit, vermogens- en verlieswaarden en min. laad-/ontlaadvermogen worden ingevuld uit wat de batterij doet, zodra er genoeg geleerd is (dagelijks bekeken). Eigen wijzigingen daarin worden dan overschreven.",
-            "de": "Ein: Kapazität, Leistungs- und Verlustwerte sowie min. Lade-/Entladeleistung werden aus dem Verhalten der Batterie ausgefüllt, sobald genug gelernt ist (täglich geprüft). Eigene Änderungen daran werden dann überschrieben.",
-            "fr": "Activé : la capacité, les valeurs de puissance et de perte et la puissance de charge/décharge min. sont remplies d'après le comportement de la batterie, dès que l'apprentissage suffit (vérifié chaque jour). Vos propres modifications sont alors écrasées.",
-            "it": "Attivo: capacità, valori di potenza e di perdita e potenza min. di carica/scarica vengono compilati in base al comportamento della batteria, appena appreso abbastanza (verificato ogni giorno). Le tue modifiche vengono poi sovrascritte.",
-            "sv": "På: kapacitet, effekt- och förlustvärden samt min. ladd-/urladdningseffekt fylls i utifrån hur batteriet beter sig, när tillräckligt har lärts (kontrolleras dagligen). Egna ändringar skrivs då över.",
-            "no": "På: kapasitet, effekt- og tapsverdier og min. lade-/utladingseffekt fylles ut fra hvordan batteriet oppfører seg, når nok er lært (sjekkes daglig). Egne endringer overskrives da.",
-            "es": "Activado: la capacidad, los valores de potencia y pérdida y la potencia mín. de carga/descarga se rellenan según el comportamiento de la batería, cuando se ha aprendido suficiente (se revisa a diario). Tus propios cambios se sobrescriben.",
-            "da": "Til: kapacitet, effekt- og tabsværdier samt min. lade-/afladeeffekt udfyldes ud fra batteriets adfærd, når der er lært nok (tjekkes dagligt). Egne ændringer overskrives så.",
-            "pl": "Wł.: pojemność, wartości mocy i strat oraz min. moc ładowania/rozładowania są uzupełniane na podstawie działania baterii, gdy nauczy się wystarczająco (sprawdzane codziennie). Własne zmiany są wtedy nadpisywane.",
-            "ru": "Вкл.: ёмкость, значения мощности и потерь и мин. мощность заряда/разряда заполняются по поведению батареи, когда данных достаточно (проверяется ежедневно). Ваши изменения при этом перезаписываются.",
-            "ar": "تشغيل: تُملأ السعة وقيم القدرة والفقد والحد الأدنى لقدرة الشحن/التفريغ من سلوك البطارية، بعد تعلم ما يكفي (يُفحص يوميًا). تُستبدل تغييراتك الخاصة عندها.",
-            "ko": "켜짐: 충분히 학습되면 배터리 동작으로부터 용량, 전력 및 손실 값, 최소 충전/방전 전력이 채워집니다(매일 확인). 직접 변경한 값은 덮어쓰여집니다."
-          }
-        },
-        {
           "id": "batCapacity",
           "type": "number",
           "label": {
@@ -337,19 +302,54 @@
           "value": 5.05,
           "decimals": 2,
           "hint": {
-            "en": "Total storage capacity in kWh.",
-            "nl": "Totale opslag capaciteit in kWh.",
-            "de": "Gesamte Speicherkapazität in kWh.",
-            "fr": "Capacité de stockage totale en kWh.",
-            "it": "Capacità totale di accumulo in kWh.",
-            "sv": "Total lagringskapacitet i kWh.",
-            "no": "Total lagringskapasitet i kWh.",
-            "es": "Capacidad total de almacenamiento en kWh.",
-            "da": "Samlet lagerkapacitet i kWh.",
-            "pl": "Całkowita pojemność magazynowa w kWh.",
-            "ru": "Общая емкость хранения в кВтч.",
-            "ar": "إجمالي سعة التخزين بالكيلوواط ساعة.",
-            "ko": "총 저장 용량(kWh)입니다."
+            "en": "Nominal capacity. The usable capacity is learned.",
+            "nl": "Nominale capaciteit. De bruikbare capaciteit wordt geleerd.",
+            "de": "Nennkapazität. Die nutzbare Kapazität wird gelernt.",
+            "fr": "Capacité nominale. La capacité utile est apprise.",
+            "it": "Capacità nominale. La capacità utile viene appresa.",
+            "sv": "Nominell kapacitet. Den användbara kapaciteten lärs in.",
+            "no": "Nominell kapasitet. Den brukbare kapasiteten læres.",
+            "es": "Capacidad nominal. La capacidad útil se aprende.",
+            "da": "Nominel kapacitet. Den brugbare kapacitet læres.",
+            "pl": "Pojemność nominalna. Pojemność użytkowa jest uczona.",
+            "ru": "Номинальная ёмкость. Полезная ёмкость определяется обучением.",
+            "ar": "السعة الاسمية. يتم تعلم السعة القابلة للاستخدام.",
+            "ko": "정격 용량입니다. 사용 가능한 용량은 학습됩니다."
+          }
+        },
+        {
+          "id": "learnedInfo",
+          "type": "label",
+          "value": "",
+          "label": {
+            "en": "Learned",
+            "nl": "Geleerd",
+            "de": "Gelernt",
+            "fr": "Appris",
+            "it": "Appreso",
+            "sv": "Inlärt",
+            "no": "Lært",
+            "es": "Aprendido",
+            "da": "Lært",
+            "pl": "Wyuczone",
+            "ru": "Изучено",
+            "ar": "مُتعلَّم",
+            "ko": "학습됨"
+          },
+          "hint": {
+            "en": "Capacity, losses and min. power, learned from what the battery does. Reset via repair.",
+            "nl": "Capaciteit, verliezen en min. vermogen, geleerd uit wat de batterij doet. Wissen via repareren.",
+            "de": "Kapazität, Verluste und min. Leistung, gelernt aus dem Verhalten der Batterie. Zurücksetzen über Reparieren.",
+            "fr": "Capacité, pertes et puissance min., apprises du comportement de la batterie. Réinitialiser via réparer.",
+            "it": "Capacità, perdite e potenza min., apprese dal comportamento della batteria. Azzera tramite ripara.",
+            "sv": "Kapacitet, förluster och min. effekt, inlärt från hur batteriet beter sig. Återställ via reparera.",
+            "no": "Kapasitet, tap og min. effekt, lært fra hvordan batteriet oppfører seg. Tilbakestill via reparer.",
+            "es": "Capacidad, pérdidas y potencia mín., aprendidas del comportamiento de la batería. Restablecer vía reparar.",
+            "da": "Kapacitet, tab og min. effekt, lært ud fra batteriets adfærd. Nulstil via reparer.",
+            "pl": "Pojemność, straty i min. moc, nauczone z działania baterii. Reset przez naprawę.",
+            "ru": "Ёмкость, потери и мин. мощность, изученные по поведению батареи. Сброс через восстановление.",
+            "ar": "السعة والفقد والحد الأدنى للقدرة، تم تعلمها من سلوك البطارية. إعادة الضبط عبر الإصلاح.",
+            "ko": "배터리 동작으로 학습한 용량, 손실, 최소 전력입니다. 복구에서 초기화합니다."
           }
         }
       ]
@@ -410,44 +410,6 @@
           }
         },
         {
-          "id": "chargeLoss",
-          "type": "number",
-          "label": {
-            "en": "Max. charging loss (%)",
-            "nl": "Max. laden verlies (%)",
-            "de": "Max. Ladeverlust (%)",
-            "fr": "Perte de charge max. (%)",
-            "it": "Perdita di carica max. (%)",
-            "sv": "Max. laddningsförlust (%)",
-            "no": "Maks. lade tap (%)",
-            "es": "Pérdida de carga máx. (%)",
-            "da": "Maks. ladetab (%)",
-            "pl": "Maks. strata ładowania (%)",
-            "ru": "Макс. потеря зарядки (%)",
-            "ar": "الحد الأقصى لفقد الشحن (%)",
-            "ko": "최대 충전 손실 (%)"
-          },
-          "min": 0,
-          "max": 30,
-          "value": 10,
-          "decimals": 2,
-          "hint": {
-            "en": "Conversion loss.",
-            "nl": "Conversie verlies.",
-            "de": "Konvertierungsverlust.",
-            "fr": "Perte de conversion.",
-            "it": "Perdita di conversione.",
-            "sv": "Omvandlingsförlust.",
-            "no": "Konverteringstap.",
-            "es": "Pérdida de conversión.",
-            "da": "Konverteringstab.",
-            "pl": "Strata konwersji.",
-            "ru": "Потеря преобразования.",
-            "ar": "خسارة التحويل.",
-            "ko": "변환 손실."
-          }
-        },
-        {
           "id": "dischargePower",
           "type": "number",
           "label": {
@@ -482,384 +444,6 @@
             "ru": "Максимальная мощность, при которой батарея может разряжаться.",
             "ar": "الحد الأقصى للطاقة التي يمكن تفريغ البطارية بها.",
             "ko": "배터리를 방전할 수 있는 최대 전력입니다."
-          }
-        },
-        {
-          "id": "dischargeLoss",
-          "type": "number",
-          "label": {
-            "en": "Max. discharging loss (%)",
-            "nl": "Max. ontladen verlies (%)",
-            "de": "Max. Entladeverlust (%)",
-            "fr": "Perte de décharge max. (%)",
-            "it": "Perdita di scarica max. (%)",
-            "sv": "Max. urladdningsförlust (%)",
-            "no": "Maks. utladnings tap (%)",
-            "es": "Pérdida de descarga máx. (%)",
-            "da": "Maks. afladningstab (%)",
-            "pl": "Maks. strata rozładowania (%)",
-            "ru": "Макс. потеря разрядки (%)",
-            "ar": "الحد الأقصى لفقد التفريغ (%)",
-            "ko": "최대 방전 손실 (%)"
-          },
-          "min": 0,
-          "max": 30,
-          "value": 8,
-          "decimals": 2,
-          "hint": {
-            "en": "Conversion loss.",
-            "nl": "Conversie verlies.",
-            "de": "Konvertierungsverlust.",
-            "fr": "Perte de conversion.",
-            "it": "Perdita di conversione.",
-            "sv": "Omvandlingsförlust.",
-            "no": "Konverteringstap.",
-            "es": "Pérdida de conversión.",
-            "da": "Konverteringstab.",
-            "pl": "Strata konwersji.",
-            "ru": "Потеря преобразования.",
-            "ar": "خسارة التحويل.",
-            "ko": "변환 손실."
-          }
-        }
-      ]
-    },
-    {
-      "type": "group",
-      "label": {
-        "en": "Efficient power values",
-        "nl": "Efficiente vermogens waarden",
-        "de": "Effiziente Leistungswerte",
-        "fr": "Valeurs de puissance efficaces",
-        "it": "Valori di potenza efficienti",
-        "sv": "Effektiva effektvärden",
-        "no": "Effektive effektverdier",
-        "es": "Valores de potencia eficientes",
-        "da": "Effektive effektværdier",
-        "pl": "Efektywne wartości mocy",
-        "ru": "Эффективные значения мощности",
-        "ar": "قيم الطاقة الفعالة",
-        "ko": "효율적 전력 값"
-      },
-      "children": [
-        {
-          "id": "chargePowerEff",
-          "type": "number",
-          "label": {
-            "en": "Eff. charging power (W)",
-            "nl": "Eff. laadvermogen (W)",
-            "de": "Eff. Ladeleistung (W)",
-            "fr": "Puissance de charge eff. (W)",
-            "it": "Potenza di carica eff. (W)",
-            "sv": "Eff. laddeffekt (W)",
-            "no": "Eff. ladeeffekt (W)",
-            "es": "Potencia de carga ef. (W)",
-            "da": "Eff. ladeeffekt (W)",
-            "pl": "Ef. moc ładowania (W)",
-            "ru": "Эфф. мощность зарядки (Вт)",
-            "ar": "طاقة الشحن الفعالة (واط)",
-            "ko": "효율적 충전 전력 (W)"
-          },
-          "value": 1050,
-          "min": 0,
-          "decimals": 0,
-          "hint": {
-            "en": "The most efficient power at which the battery can be charged. Set to 0 to ignore this setting.",
-            "nl": "Het meest efficiente vermogen waarmee de batterij kan worden geladen. Stel op 0 in om deze instelling te negeren.",
-            "de": "Die effizienteste Leistung, mit der die Batterie geladen werden kann. Auf 0 setzen, um diese Einstellung zu ignorieren",
-            "fr": "La puissance la plus efficace à laquelle la batterie peut être chargée. Réglez sur 0 pour ignorer ce paramètre.",
-            "it": "La potenza più efficiente alla quale la batteria può essere caricata. Impostare su 0 per ignorare questa impostazione.",
-            "sv": "Den mest effektiva effekten med vilken batteriet kan laddas. Ställ in på 0 för att ignorera denna inställning.",
-            "no": "Den mest effektive effekten batteriet kan lades med. Sett til 0 for å ignorere denne innstillingen.",
-            "es": "La potencia más eficiente a la que se puede cargar la batería. Establezca en 0 para ignorar esta configuración.",
-            "da": "Den mest effektive effekt, hvormed batteriet kan oplades. Indstil til 0 for at ignorere denne indstilling.",
-            "pl": "Najbardziej efektywna moc, z jaką można ładować baterię. Ustaw na 0, aby zignorować to ustawienie.",
-            "ru": "Наиболее эффективная мощность, при которой батарея может заряжаться. Установите 0, чтобы игнорировать этот параметр.",
-            "ar": "الطاقة الأكثر كفاءة التي يمكن شحن البطارية بها. قم بالتعيين على 0 لتجاهل هذا الإعداد.",
-            "ko": "배터리를 가장 효율적으로 충전할 수 있는 전력입니다. 이 설정을 무시하려면 0으로 설정하세요."
-          }
-        },
-        {
-          "id": "chargeLossEff",
-          "type": "number",
-          "label": {
-            "en": "Eff. charging loss (%)",
-            "nl": "Eff. laden verlies (%)",
-            "de": "Eff. Ladeverlust (%)",
-            "fr": "Perte de charge eff. (%)",
-            "it": "Perdita di carica eff. (%)",
-            "sv": "Eff. laddningsförlust (%)",
-            "no": "Eff. lade tap (%)",
-            "es": "Pérdida de carga ef. (%)",
-            "da": "Eff. ladetab (%)",
-            "pl": "Ef. strata ładowania (%)",
-            "ru": "Эфф. потеря зарядки (%)",
-            "ar": "فقد الشحن الفعال (%)",
-            "ko": "효율적 충전 손실 (%)"
-          },
-          "min": 0,
-          "max": 30,
-          "value": 5,
-          "decimals": 2,
-          "hint": {
-            "en": "Conversion loss.",
-            "nl": "Conversie verlies.",
-            "de": "Konvertierungsverlust.",
-            "fr": "Perte de conversion.",
-            "it": "Perdita di conversione.",
-            "sv": "Omvandlingsförlust.",
-            "no": "Konverteringstap.",
-            "es": "Pérdida de conversión.",
-            "da": "Konverteringstab.",
-            "pl": "Strata konwersji.",
-            "ru": "Потеря преобразования.",
-            "ar": "خسارة التحويل.",
-            "ko": "변환 손실."
-          }
-        },
-        {
-          "id": "dischargePowerEff",
-          "type": "number",
-          "label": {
-            "en": "Eff. discharging power (W)",
-            "nl": "Eff. ontlaadvermogen (W)",
-            "de": "Eff. Entladungsleistung (W)",
-            "fr": "Puissance de décharge eff. (W)",
-            "it": "Potenza di scarica eff. (W)",
-            "sv": "Eff. urladdningseffekt (W)",
-            "no": "Eff. utladningseffekt (W)",
-            "es": "Potencia de descarga ef. (W)",
-            "da": "Eff. afladningseffekt (W)",
-            "pl": "Ef. moc rozładowania (W)",
-            "ru": "Эфф. мощность разрядки (Вт)",
-            "ar": "طاقة التفريغ الفعالة (واط)",
-            "ko": "효율적 방전 전력 (W)"
-          },
-          "value": 765,
-          "min": 0,
-          "decimals": 0,
-          "hint": {
-            "en": "The most efficient power at which the battery can be discharged.",
-            "nl": "Het meest efficiente vermogen waarmee de batterij kan worden ontladen.",
-            "de": "Die effizienteste Leistung in Watt, mit der die Batterie entladen werden kann.",
-            "fr": "La puissance la plus efficace à laquelle la batterie peut être déchargée.",
-            "it": "La potenza più efficiente alla quale la batteria può essere scaricata.",
-            "sv": "Den mest effektiva effekten med vilken batteriet kan laddas ur.",
-            "no": "Den mest effektive effekten batteriet kan lades ut med.",
-            "es": "La potencia más eficiente a la que se puede descargar la batería.",
-            "da": "Den mest effektive effekt, hvormed batteriet kan aflades.",
-            "pl": "Najbardziej efektywna moc, z jaką można rozładować baterię.",
-            "ru": "Наиболее эффективная мощность, при которой батарея может разряжаться.",
-            "ar": "الطاقة الأكثر كفاءة التي يمكن تفريغ البطارية بها.",
-            "ko": "배터리를 가장 효율적으로 방전할 수 있는 전력입니다."
-          }
-        },
-        {
-          "id": "dischargeLossEff",
-          "type": "number",
-          "label": {
-            "en": "Eff. discharging loss (%)",
-            "nl": "Eff. ontladen verlies (%)",
-            "de": "Eff. Entladeverlust (%)",
-            "fr": "Perte de décharge eff. (%)",
-            "it": "Perdita di scarica eff. (%)",
-            "sv": "Eff. urladdningsförlust (%)",
-            "no": "Eff. utladnings tap (%)",
-            "es": "Pérdida de descarga ef. (%)",
-            "da": "Eff. afladningstab (%)",
-            "pl": "Ef. strata rozładowania (%)",
-            "ru": "Эфф. потеря разрядки (%)",
-            "ar": "فقد التفريغ الفعال (%)",
-            "ko": "효율적 방전 손실 (%)"
-          },
-          "min": 0,
-          "max": 30,
-          "value": 4,
-          "decimals": 2,
-          "hint": {
-            "en": "Conversion loss.",
-            "nl": "Conversie verlies.",
-            "de": "Konvertierungsverlust.",
-            "fr": "Perte de conversion.",
-            "it": "Perdita di conversione.",
-            "sv": "Omvandlingsförlust.",
-            "no": "Konverteringstap.",
-            "es": "Pérdida de conversión.",
-            "da": "Konverteringstab.",
-            "pl": "Strata konwersji.",
-            "ru": "Потеря преобразования.",
-            "ar": "خسارة التحويل.",
-            "ko": "변환 손실."
-          }
-        }
-      ]
-    },
-    {
-      "type": "group",
-      "label": {
-        "en": "Additional power values",
-        "nl": "Aanvullende vermogens waarden",
-        "de": "Zusätzliche Leistungswerte",
-        "fr": "Valeurs de puissance supplémentaires",
-        "it": "Valori di potenza aggiuntivi",
-        "sv": "Ytterligare effektvärden",
-        "no": "Ytterligere effektverdier",
-        "es": "Valores de potencia adicionales",
-        "da": "Yderligere effektværdier",
-        "pl": "Dodatkowe wartości mocy",
-        "ru": "Дополнительные значения мощности",
-        "ar": "قيم الطاقة الإضافية",
-        "ko": "추가 전력 값"
-      },
-      "children": [
-        {
-          "id": "chargePower3",
-          "type": "number",
-          "label": {
-            "en": "Additional charging power (W)",
-            "nl": "Aanvullend laadvermogen (W)",
-            "de": "Zusätzliche Ladeleistung (W)",
-            "fr": "Puissance de charge supplémentaire (W)",
-            "it": "Potenza di carica aggiuntiva (W)",
-            "sv": "Ytterligare laddningseffekt (W)",
-            "no": "Ytterligere ladeeffekt (W)",
-            "es": "Potencia de carga adicional (W)",
-            "da": "Yderligere ladeeffekt (W)",
-            "pl": "Dodatkowa moc ładowania (W)",
-            "ru": "Дополнительная мощность зарядки (Вт)",
-            "ar": "طاقة الشحن الإضافية (واط)",
-            "ko": "추가 충전 전력 (W)"
-          },
-          "value": 1791,
-          "min": 0,
-          "decimals": 0,
-          "hint": {
-            "en": "Additional power at which the battery can be charged in Watts.",
-            "nl": "Aanvullend vermogen waarmee de batterij kan worden geladen in Watt.",
-            "de": "Zusätzliche Leistung, mit der die Batterie geladen werden kann.",
-            "fr": "Puissance supplémentaire à laquelle la batterie peut être chargée en watts.",
-            "it": "Potenza aggiuntiva alla quale la batteria può essere caricata in Watt.",
-            "sv": "Ytterligare effekt vid vilken batteriet kan laddas i Watt.",
-            "no": "Ytterligere effekt som batteriet kan lades med i Watt.",
-            "es": "Potencia adicional a la que se puede cargar la batería en vatios.",
-            "da": "Yderligere effekt, hvormed batteriet kan oplades i watt.",
-            "pl": "Dodatkowa moc, z jaką można ładować baterię w watach.",
-            "ru": "Дополнительная мощность, при которой батарея может заряжаться в ваттах.",
-            "ar": "طاقة إضافية يمكن شحن البطارية بها بالواط.",
-            "ko": "배터리를 추가로 충전할 수 있는 전력(와트)입니다."
-          }
-        },
-        {
-          "id": "chargeLoss3",
-          "type": "number",
-          "label": {
-            "en": "Additional charging loss (%)",
-            "nl": "Aanvullend laden verlies (%)",
-            "de": "Zusätzlicher Ladeverlust (%)",
-            "fr": "Perte de charge supplémentaire (%)",
-            "it": "Perdita di carica aggiuntiva (%)",
-            "sv": "Ytterligare laddningsförlust (%)",
-            "no": "Ytterligere lade tap (%)",
-            "es": "Pérdida de carga adicional (%)",
-            "da": "Yderligere ladetab (%)",
-            "pl": "Dodatkowa strata ładowania (%)",
-            "ru": "Дополнительная потеря зарядки (%)",
-            "ar": "فقد الشحن الإضافي (%)",
-            "ko": "추가 충전 손실 (%)"
-          },
-          "min": 0,
-          "max": 30,
-          "value": 7,
-          "decimals": 2,
-          "hint": {
-            "en": "Conversion loss.",
-            "nl": "Conversie verlies.",
-            "de": "Konvertierungsverlust.",
-            "fr": "Perte de conversion.",
-            "it": "Perdita di conversione.",
-            "sv": "Omvandlingsförlust.",
-            "no": "Konverteringstap.",
-            "es": "Pérdida de conversión.",
-            "da": "Konverteringstab.",
-            "pl": "Strata konwersji.",
-            "ru": "Потеря преобразования.",
-            "ar": "خسارة التحويل.",
-            "ko": "변환 손실."
-          }
-        },
-        {
-          "id": "dischargePower3",
-          "type": "number",
-          "label": {
-            "en": "Additional discharging power (W)",
-            "nl": "Aanvullend ontlaadvermogen (W)",
-            "de": "Zusätzliche Entladungsleistung (W)",
-            "fr": "Puissance de décharge supplémentaire (W)",
-            "it": "Potenza di scarica aggiuntiva (W)",
-            "sv": "Ytterligare urladdningseffekt (W)",
-            "no": "Ytterligere utladningseffekt (W)",
-            "es": "Potencia de descarga adicional (W)",
-            "da": "Yderligere afladningseffekt (W)",
-            "pl": "Dodatkowa moc rozładowania (W)",
-            "ru": "Дополнительная мощность разрядки (Вт)",
-            "ar": "طاقة التفريغ الإضافية (واط)",
-            "ko": "추가 방전 전력 (W)"
-          },
-          "value": 1179,
-          "min": 0,
-          "decimals": 0,
-          "hint": {
-            "en": "Additional power at which the battery can be discharged.",
-            "nl": "Aanvullend vermogen waarmee de batterij kan worden ontladen.",
-            "de": "Zusätzliche Leistung, mit der die Batterie entladen werden kann.",
-            "fr": "Puissance supplémentaire à laquelle la batterie peut être déchargée.",
-            "it": "Potenza aggiuntiva alla quale la batteria può essere scaricata.",
-            "sv": "Ytterligare effekt vid vilken batteriet kan laddas ur.",
-            "no": "Ytterligere effekt som batteriet kan lades ut med.",
-            "es": "Potencia adicional a la que se puede descargar la batería.",
-            "da": "Yderligere effekt, hvormed batteriet kan aflades.",
-            "pl": "Dodatkowa moc, z jaką można rozładować baterię.",
-            "ru": "Дополнительная мощность, при которой батарея может разряжаться.",
-            "ar": "طاقة إضافية يمكن تفريغ البطارية بها.",
-            "ko": "배터리를 추가로 방전할 수 있는 전력입니다."
-          }
-        },
-        {
-          "id": "dischargeLoss3",
-          "type": "number",
-          "label": {
-            "en": "Additional discharging loss (%)",
-            "nl": "Aanvullend ontladen verlies (%)",
-            "de": "Zusätzlicher Entladeverlust (%)",
-            "fr": "Perte de décharge supplémentaire (%)",
-            "it": "Perdita di scarica aggiuntiva (%)",
-            "sv": "Ytterligare urladdningsförlust (%)",
-            "no": "Ytterligere utladnings tap (%)",
-            "es": "Pérdida de descarga adicional (%)",
-            "da": "Yderligere afladningstab (%)",
-            "pl": "Dodatkowa strata rozładowania (%)",
-            "ru": "Дополнительная потеря разрядки (%)",
-            "ar": "فقد التفريغ الإضافي (%)",
-            "ko": "추가 방전 손실 (%)"
-          },
-          "min": 0,
-          "max": 30,
-          "value": 6,
-          "decimals": 2,
-          "hint": {
-            "en": "Conversion loss.",
-            "nl": "Conversie verlies.",
-            "de": "Konvertierungsverlust.",
-            "fr": "Perte de conversion.",
-            "it": "Perdita di conversione.",
-            "sv": "Omvandlingsförlust.",
-            "no": "Konverteringstap.",
-            "es": "Pérdida de conversión.",
-            "da": "Konverteringstab.",
-            "pl": "Strata konwersji.",
-            "ru": "Потеря преобразования.",
-            "ar": "خسارة التحويل.",
-            "ko": "변환 손실."
           }
         }
       ]
@@ -957,15 +541,57 @@
           "values": [
             {
               "id": "dynamic",
-              "label": { "en": "Automatic", "nl": "Automatisch", "de": "Automatisch", "fr": "Automatique", "it": "Automatico", "sv": "Automatisk", "no": "Automatisk", "es": "Automático", "da": "Automatisk", "pl": "Automatycznie", "ru": "Автоматически", "ar": "تلقائي", "ko": "자동" }
+              "label": {
+                "en": "Automatic",
+                "nl": "Automatisch",
+                "de": "Automatisch",
+                "fr": "Automatique",
+                "it": "Automatico",
+                "sv": "Automatisk",
+                "no": "Automatisk",
+                "es": "Automático",
+                "da": "Automatisk",
+                "pl": "Automatycznie",
+                "ru": "Автоматически",
+                "ar": "تلقائي",
+                "ko": "자동"
+              }
             },
             {
               "id": "import",
-              "label": { "en": "Always Import", "nl": "Altijd Import", "de": "Immer Import", "fr": "Toujours Importer", "it": "Sempre Importazione", "sv": "Alltid Import", "no": "Alltid Import", "es": "Siempre Importar", "da": "Altid Import", "pl": "Zawsze Import", "ru": "Всегда Импорт", "ar": "استيراد دائما", "ko": "항상 수전(수입)" }
+              "label": {
+                "en": "Always Import",
+                "nl": "Altijd Import",
+                "de": "Immer Import",
+                "fr": "Toujours Importer",
+                "it": "Sempre Importazione",
+                "sv": "Alltid Import",
+                "no": "Alltid Import",
+                "es": "Siempre Importar",
+                "da": "Altid Import",
+                "pl": "Zawsze Import",
+                "ru": "Всегда Импорт",
+                "ar": "استيراد دائما",
+                "ko": "항상 수전(수입)"
+              }
             },
             {
               "id": "export",
-              "label": { "en": "Always Export", "nl": "Altijd Export", "de": "Immer Export", "fr": "Toujours Exporter", "it": "Sempre Esportazione", "sv": "Alltid Export", "no": "Alltid Eksport", "es": "Siempre Exportar", "da": "Altid Eksport", "pl": "Zawsze Eksport", "ru": "Всегда Экспорт", "ar": "تصدير دائما", "ko": "항상 송전(수출)" }
+              "label": {
+                "en": "Always Export",
+                "nl": "Altijd Export",
+                "de": "Immer Export",
+                "fr": "Toujours Exporter",
+                "it": "Sempre Esportazione",
+                "sv": "Alltid Export",
+                "no": "Alltid Eksport",
+                "es": "Siempre Exportar",
+                "da": "Altid Eksport",
+                "pl": "Zawsze Eksport",
+                "ru": "Всегда Экспорт",
+                "ar": "تصدير دائما",
+                "ko": "항상 송전(수출)"
+              }
             }
           ]
         }
@@ -1095,82 +721,6 @@
           },
           "value": 0,
           "min": 0
-        },
-        {
-          "id": "minChargeW",
-          "type": "number",
-          "label": {
-            "en": "Min. charge power (W)",
-            "nl": "Min. laadvermogen (W)",
-            "de": "Min. Ladeleistung (W)",
-            "fr": "Puissance de charge min. (W)",
-            "it": "Potenza di carica min. (W)",
-            "sv": "Min. laddeffekt (W)",
-            "no": "Min. ladeeffekt (W)",
-            "es": "Potencia de carga mín. (W)",
-            "da": "Min. ladeeffekt (W)",
-            "pl": "Min. moc ładowania (W)",
-            "ru": "Мин. мощность заряда (Вт)",
-            "ar": "الحد الأدنى لقدرة الشحن (واط)",
-            "ko": "최소 충전 전력 (W)"
-          },
-          "hint": {
-            "en": "Less solar surplus goes to the grid: low power gives much loss. 0 = always.",
-            "nl": "Minder zonne-overschot gaat naar het net: laag vermogen geeft veel verlies. 0 = altijd.",
-            "de": "Weniger Solarüberschuss geht ins Netz: niedrige Leistung bringt viel Verlust. 0 = immer.",
-            "fr": "Un surplus solaire inférieur va au réseau : une faible puissance donne beaucoup de pertes. 0 = toujours.",
-            "it": "Un surplus solare inferiore va in rete: una bassa potenza dà molte perdite. 0 = sempre.",
-            "sv": "Mindre solöverskott går till nätet: låg effekt ger stora förluster. 0 = alltid.",
-            "no": "Mindre soloverskudd går til nettet: lav effekt gir store tap. 0 = alltid.",
-            "es": "Un excedente solar menor va a la red: baja potencia da muchas pérdidas. 0 = siempre.",
-            "da": "Mindre soloverskud går til nettet: lav effekt giver store tab. 0 = altid.",
-            "pl": "Mniejsza nadwyżka słoneczna idzie do sieci: niska moc daje duże straty. 0 = zawsze.",
-            "ru": "Меньший солнечный избыток уходит в сеть: малая мощность даёт большие потери. 0 = всегда.",
-            "ar": "الفائض الشمسي الأقل يذهب إلى الشبكة: القدرة المنخفضة تسبب فقدًا كبيرًا. 0 = دائمًا.",
-            "ko": "이보다 적은 태양광 잉여는 전력망으로 갑니다: 낮은 전력은 손실이 큽니다. 0 = 항상."
-          },
-          "value": 0,
-          "min": 0,
-          "max": 10000,
-          "step": 10
-        },
-        {
-          "id": "minDischargeW",
-          "type": "number",
-          "label": {
-            "en": "Min. discharge power (W)",
-            "nl": "Min. ontlaadvermogen (W)",
-            "de": "Min. Entladeleistung (W)",
-            "fr": "Puissance de décharge min. (W)",
-            "it": "Potenza di scarica min. (W)",
-            "sv": "Min. urladdningseffekt (W)",
-            "no": "Min. utladingseffekt (W)",
-            "es": "Potencia de descarga mín. (W)",
-            "da": "Min. afladningseffekt (W)",
-            "pl": "Min. moc rozładowania (W)",
-            "ru": "Мин. мощность разряда (Вт)",
-            "ar": "الحد الأدنى لقدرة التفريغ (واط)",
-            "ko": "최소 방전 전력 (W)"
-          },
-          "hint": {
-            "en": "Less home use comes from the grid: low power gives much loss. 0 = always.",
-            "nl": "Minder verbruik komt van het net: laag vermogen geeft veel verlies. 0 = altijd.",
-            "de": "Weniger Verbrauch kommt aus dem Netz: niedrige Leistung bringt viel Verlust. 0 = immer.",
-            "fr": "Une consommation inférieure vient du réseau : une faible puissance donne beaucoup de pertes. 0 = toujours.",
-            "it": "Un consumo inferiore viene dalla rete: una bassa potenza dà molte perdite. 0 = sempre.",
-            "sv": "Mindre förbrukning tas från nätet: låg effekt ger stora förluster. 0 = alltid.",
-            "no": "Mindre forbruk tas fra nettet: lav effekt gir store tap. 0 = alltid.",
-            "es": "Un consumo menor viene de la red: baja potencia da muchas pérdidas. 0 = siempre.",
-            "da": "Mindre forbrug tages fra nettet: lav effekt giver store tab. 0 = altid.",
-            "pl": "Mniejsze zużycie pochodzi z sieci: niska moc daje duże straty. 0 = zawsze.",
-            "ru": "Меньшее потребление берётся из сети: малая мощность даёт большие потери. 0 = всегда.",
-            "ar": "الاستهلاك الأقل يأتي من الشبكة: القدرة المنخفضة تسبب فقدًا كبيرًا. 0 = دائمًا.",
-            "ko": "이보다 적은 사용량은 전력망에서 받습니다: 낮은 전력은 손실이 큽니다. 0 = 항상."
-          },
-          "value": 0,
-          "min": 0,
-          "max": 10000,
-          "step": 10
         },
         {
           "id": "dischargeToEv",

@@ -179,5 +179,11 @@
     "import_label": "기존 가격 기기에서",
     "import_none": "아니요, 직접 입력",
     "import_hint": "이후 기존 기기는 그룹에 가격을 보내지 않습니다."
+  },
+  "battery_learned": {
+    "learning": "학습 중: 충전 __charge__/__needed__, 방전 __discharge__/__needed__",
+    "learned": "__kwh__ kWh, 왕복 효율 __roundtrip__ %, 최소 __minCharge__ / __minDischarge__ W",
+    "reset": "학습 값 삭제",
+    "reset_hint": "다른 배터리이거나 학습 값이 명백히 틀린 경우. 학습이 처음부터 다시 시작됩니다."
   }
 }

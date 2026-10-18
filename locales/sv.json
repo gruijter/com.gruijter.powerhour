@@ -179,5 +179,11 @@
     "import_label": "Från befintlig prisenhet",
     "import_none": "Nej, fyll i själv",
     "import_hint": "Den gamla enheten skickar sedan inte längre sitt pris till gruppen."
+  },
+  "battery_learned": {
+    "learning": "Lär in: laddning __charge__/__needed__, urladdning __discharge__/__needed__",
+    "learned": "__kwh__ kWh, tur och retur __roundtrip__ %, min. __minCharge__ / __minDischarge__ W",
+    "reset": "Glöm inlärda värden",
+    "reset_hint": "Vid ett annat batteri, eller när de inlärda värdena är tydligt fel. Inlärningen börjar om."
   }
 }

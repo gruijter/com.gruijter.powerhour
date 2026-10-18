@@ -179,5 +179,11 @@
     "import_label": "Van bestaand prijsdevice",
     "import_none": "Nee, zelf invullen",
     "import_hint": "Het oude device stuurt daarna geen prijs meer naar de groep."
+  },
+  "battery_learned": {
+    "learning": "Leren: laden __charge__/__needed__, ontladen __discharge__/__needed__",
+    "learned": "__kwh__ kWh, rondgang __roundtrip__ %, min. __minCharge__ / __minDischarge__ W",
+    "reset": "Geleerde waarden wissen",
+    "reset_hint": "Bij een andere batterij, of als de geleerde waarden duidelijk fout zijn. Het leren begint opnieuw."
   }
 }

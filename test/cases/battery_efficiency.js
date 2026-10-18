@@ -140,6 +140,33 @@ test('settings from what was learned: capacity, loss values, efficient and min. 
   assert.strictEqual(eff.toSettings(state, { ...settings, ...ch }), null);
 });
 
+test('properties: start values from the max. power, learned ones win, within the max. power', () => {
+  const settings = { batCapacity: 5, chargePower: 2000, dischargePower: 1600 };
+  const start = eff.withProps(settings, null);
+  assert.strictEqual(start.chargePowerEff, 1000);
+  assert.strictEqual(start.chargePower3, 1500);
+  assert.strictEqual(start.dischargePowerEff, 800);
+  assert.strictEqual(start.chargeLoss, 10);
+  assert.strictEqual(start.minChargeW, 0);
+  assert.strictEqual(start.batCapacity, 5);
+  const learned = eff.withProps({ ...settings, chargePower: 1200 }, { chargePowerEff: 1300, minChargeW: 150, batCapacity: 4.6 });
+  assert.strictEqual(learned.chargePowerEff, 1200, 'within a lowered max. power');
+  assert.strictEqual(learned.minChargeW, 150);
+  assert.strictEqual(learned.batCapacity, 4.6);
+  assert.strictEqual(learned.chargePower, 1200);
+});
+
+test('learned capacity on the nominal capacity, no rescale needed', () => {
+  const { state } = simulate({ fixedW: 35, k: 4e-5, profile: cycle([150, 300, 700, 1100, 1500, 2200], 90) });
+  const settings = { batCapacity: 5.05, chargePower: 2200, dischargePower: 1650 };
+  const current = eff.withProps(settings, null);
+  const ch = eff.toSettings(state, current, settings.batCapacity);
+  assert.ok(Math.abs(ch.batCapacity - 5.4) < 0.15, `capacity ${ch.batCapacity}`);
+  assert.strictEqual(eff.toSettings(state, eff.withProps(settings, ch), settings.batCapacity), null);
+  assert.ok(eff.progress(state).learned);
+  assert.ok(!eff.progress(null).learned);
+});
+
 test('no settings before both directions are learned', () => {
   const { state } = simulate({ profile: [[700, 600], [1500, 300]] });
   assert.strictEqual(eff.toSettings(state, { batCapacity: 5.05, chargePower: 2200, dischargePower: 1650 }), null);

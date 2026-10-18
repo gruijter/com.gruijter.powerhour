@@ -39,7 +39,9 @@ Compatible with any battery inverter exposing state-of-charge (SoC) and battery 
 1. Go to **Devices** → **Add Device** → **Power by the Hour**.
 2. Select **Smart Battery Charger**.
 3. Choose your battery inverter device.
-4. Complete pairing.
+4. Enter the nominal capacity and the max. charge and discharge power, and complete pairing.
+
+The battery learns the rest from what it does: the usable capacity, the losses per power level and the minimum charge and discharge power worth running. Until enough is learned (both directions), start values based on the max. power are used. **Learned** in the device settings shows the progress or the learned values. After replacing the battery, or when the learned values are clearly wrong, use **Repair** and tick **Forget learned values**.
 
 ---
 

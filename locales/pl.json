@@ -179,5 +179,11 @@
     "import_label": "Z istniejącego urządzenia cen",
     "import_none": "Nie, wypełnię sam",
     "import_hint": "Stare urządzenie przestaje wtedy wysyłać cenę do grupy."
+  },
+  "battery_learned": {
+    "learning": "Uczenie: ładowanie __charge__/__needed__, rozładowanie __discharge__/__needed__",
+    "learned": "__kwh__ kWh, cykl pełny __roundtrip__ %, min. __minCharge__ / __minDischarge__ W",
+    "reset": "Zapomnij nauczone wartości",
+    "reset_hint": "Przy innej baterii lub gdy nauczone wartości są wyraźnie błędne. Uczenie zaczyna się od nowa."
   }
 }

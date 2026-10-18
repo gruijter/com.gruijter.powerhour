@@ -179,5 +179,11 @@
     "import_label": "From existing price device",
     "import_none": "No, fill in myself",
     "import_hint": "The old device then stops sending its price to the group."
+  },
+  "battery_learned": {
+    "learning": "Learning: charging __charge__/__needed__, discharging __discharge__/__needed__",
+    "learned": "__kwh__ kWh, round trip __roundtrip__ %, min. __minCharge__ / __minDischarge__ W",
+    "reset": "Forget learned values",
+    "reset_hint": "For another battery, or when the learned values are clearly wrong. Learning starts over."
   }
 }

@@ -179,5 +179,11 @@
     "import_label": "Von vorhandenem Preisgerät",
     "import_none": "Nein, selbst ausfüllen",
     "import_hint": "Das alte Gerät sendet seinen Preis danach nicht mehr an die Gruppe."
+  },
+  "battery_learned": {
+    "learning": "Lernen: Laden __charge__/__needed__, Entladen __discharge__/__needed__",
+    "learned": "__kwh__ kWh, Gesamtwirkungsgrad __roundtrip__ %, min. __minCharge__ / __minDischarge__ W",
+    "reset": "Gelernte Werte löschen",
+    "reset_hint": "Bei einer anderen Batterie oder wenn die gelernten Werte eindeutig falsch sind. Das Lernen beginnt neu."
   }
 }

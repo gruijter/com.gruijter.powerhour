@@ -477,6 +477,11 @@ class BatteryDriver extends GenericDriver {
     return PairSetup.apiDevice(this, settings.homey_device_id);
   }
 
+  // Repair: forget the learned battery properties (BatDevice.onRepairAction()).
+  repairActions() {
+    return [{ id: 'learnReset', label: this.homey.__('battery_learned.reset'), info: this.homey.__('battery_learned.reset_hint') }];
+  }
+
   // Setup view: per role the capabilities of the battery, and the sign of its power.
   async setupRoles(dev, stored) {
     const source = await this._setupSourceDevice(dev.settings);

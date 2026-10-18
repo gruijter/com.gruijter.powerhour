@@ -59,6 +59,7 @@ class BatDevice extends GenericDevice {
     this.socHistory = await this.loadStoredHistory('socHistory');
     this.tempMode = this.getStoreValue('batTempMode') || null;
     this.efficiency = this.getStoreValue('batteryEfficiency') || null;
+    this.batteryProps = this.getStoreValue('batteryProps') || this.takeOverProps();
     this.response = { ...(this.getStoreValue('batteryResponse') || BatteryResponse.createState()), step: null };
     // A sample over a restart misses energy when the meters are integrated from power: start anew.
     if (this.efficiency) this.efficiency.win = null;
@@ -83,7 +84,8 @@ class BatDevice extends GenericDevice {
       await setTimeoutPromise(10000 + (Math.random() * 60000), this);
       if (this.sessionId !== currentSessionId) return;
       await this.bootstrapEfficiency().catch((err) => this.error(err));
-      await this.applyLearnedSettings().catch((err) => this.error(err));
+      await this.applyLearnedProps().catch((err) => this.error(err));
+      await this.updateLearnedInfo().catch((err) => this.error(err));
       if (this.pricesNextHours) {
         await this.flows.triggerNewRoiStrategyFlow().catch((err) => this.error(err));
         await this.updateChargeChart().catch((err) => this.error(err));
@@ -309,7 +311,7 @@ class BatDevice extends GenericDevice {
   }
 
   async applyControl(prep, now, gridW, nom, share) {
-    const settings = this.getSettings();
+    const settings = this.batterySettings();
     const batteryW = this.controlPowerW();
     if (nom) {
       this.zeroAvgW = BatteryControl.average(this.zeroAvgW, nom.needW, now - (this.zeroAvgTm || now));
@@ -808,7 +810,7 @@ class BatDevice extends GenericDevice {
 
   // A battery for RoiStrategy: its SoC, capacity, and charge/discharge speeds with efficiency.
   roiBattery() {
-    const settings = this.getSettings();
+    const settings = this.batterySettings();
     // The planner works above the reserve: that part of the capacity, the SoC within it.
     const r = this.reservePct();
     const soc = Number(this.soc) || 0;
@@ -847,7 +849,7 @@ class BatDevice extends GenericDevice {
 
   // Wear per kWh cycled; a group: weighted by capacity.
   wearCostFor(members) {
-    const cap = (d) => Number(d.getSettings().batCapacity) || 0;
+    const cap = (d) => d.capacityKwh();
     const total = members.reduce((a, d) => a + cap(d), 0);
     if (!(total > 0)) return 0;
     return members.reduce((a, d) => a + (cap(d) * (Number(d.getSettings().roiWearCost) || 0)), 0) / total;
@@ -892,8 +894,8 @@ class BatDevice extends GenericDevice {
     const accuracy = typeof grid.getForecastAccuracy === 'function' ? grid.getForecastAccuracy() : null;
     const marginW = (accuracy && accuracy.maeW) || 0;
     // A group: one battery can run alone (NomXomStrategy), so the lowest threshold counts.
-    const minChargeW = Math.min(...members.map((d) => Number(d.getSettings().minChargeW) || 0));
-    const minDischargeW = Math.min(...members.map((d) => Number(d.getSettings().minDischargeW) || 0));
+    const minChargeW = Math.min(...members.map((d) => Number(d.batterySettings().minChargeW) || 0));
+    const minDischargeW = Math.min(...members.map((d) => Number(d.batterySettings().minDischargeW) || 0));
     const toEv = members.every((d) => d.getSettings().dischargeToEv !== false);
     const shave = members.every((d) => d.getSettings().peakShaving === true);
     // Protection when one battery of the group protects: the limit is shared.
@@ -988,7 +990,9 @@ class BatDevice extends GenericDevice {
     const stored = await entries('meter_kwh_stored');
     const charged = await entries('meter_kwh_charging');
     const discharged = await entries('meter_kwh_discharging');
+    // meter_kwh_stored is on the usable capacity; the samples are on the capacity setting.
     const capacityKwh = this.getSettings().batCapacity;
+    const usableKwh = this.capacityKwh();
     const maxW = this.maxPowerW();
     let state = BatteryEfficiency.createState();
     let samples = 0;
@@ -996,7 +1000,7 @@ class BatDevice extends GenericDevice {
       if (charged.has(t) && discharged.has(t)) {
         const res = BatteryEfficiency.onSoc(state, {
           // 5-minute means blur the SoC: samples of at least 3 %, and a quarter of a live sample's weight.
-          now: Date.parse(t), soc: (kwh / capacityKwh) * 100, inKwh: charged.get(t), outKwh: discharged.get(t), capacityKwh, maxW, minSocStep: 3, weight: 0.25,
+          now: Date.parse(t), soc: (kwh / usableKwh) * 100, inKwh: charged.get(t), outKwh: discharged.get(t), capacityKwh, maxW, minSocStep: 3, weight: 0.25,
         });
         ({ state } = res);
         if (res.sample) samples += 1;
@@ -1032,20 +1036,74 @@ class BatDevice extends GenericDevice {
       this.log(`[Bat Eff] ${BatteryEfficiency.describe(this.efficiency)}`);
     }
     await this.setStoreValue('batteryEfficiency', this.efficiency).catch(this.error);
-    await this.applyLearnedSettings(now).catch((err) => this.error(err));
+    await this.applyLearnedProps(now).catch((err) => this.error(err));
+    await this.updateLearnedInfo().catch((err) => this.error(err));
   }
 
-  // Setting autoLearn (default on): the learned capacity, power and loss values and min. power into
-  // the settings, at most once a day.
-  async applyLearnedSettings(now = Date.now()) {
+  // The settings with the battery properties: learned (store batteryProps), else start values.
+  batterySettings(settings = this.getSettings()) {
+    return BatteryEfficiency.withProps(settings, this.batteryProps);
+  }
+
+  capacityKwh() {
+    return Number(this.batterySettings().batCapacity) || 0;
+  }
+
+  // Once, from before the properties were learned only: the values in the old settings are the start
+  // (whether Homey keeps a setting removed from the manifest is not verified: else start values).
+  takeOverProps() {
     const settings = this.getSettings();
-    if (settings.autoLearn === false || (this.learnAppliedTm && now - this.learnAppliedTm < LEARN_APPLY_MS)) return;
+    const props = {};
+    BatteryEfficiency.LEARNED_KEYS.forEach((key) => {
+      if (typeof settings[key] === 'number') props[key] = settings[key];
+    });
+    if (!Object.keys(props).length) return null;
+    this.setStoreValue('batteryProps', props).catch(this.error);
+    return props;
+  }
+
+  // The learned capacity, loss values and min. power into the properties, at most once a day.
+  async applyLearnedProps(now = Date.now()) {
+    if (this.learnAppliedTm && now - this.learnAppliedTm < LEARN_APPLY_MS) return;
     this.learnAppliedTm = now;
-    const changes = BatteryEfficiency.toSettings(this.efficiency, settings);
+    const settings = this.getSettings();
+    const current = this.batterySettings(settings);
+    const changes = BatteryEfficiency.toSettings(this.efficiency, current, settings.batCapacity);
     if (!changes) return;
-    await this.setSettings(changes);
-    if (changes.batCapacity) await this.rescaleEfficiency(settings.batCapacity, changes.batCapacity);
-    this.log(`[Bat Eff] settings learned: ${Object.entries(changes).map(([key, value]) => `${key} ${settings[key]} -> ${value}`).join(', ')}`);
+    this.batteryProps = { ...(this.batteryProps || {}), ...changes };
+    await this.setStoreValue('batteryProps', this.batteryProps).catch(this.error);
+    this.log(`[Bat Eff] learned: ${Object.entries(changes).map(([key, value]) => `${key} ${current[key]} -> ${value}`).join(', ')}`);
+  }
+
+  // The label 'Learned' in the settings: progress, or the learned values.
+  async updateLearnedInfo() {
+    const p = BatteryEfficiency.progress(this.efficiency);
+    const b = this.batterySettings();
+    const pct = (loss) => 1 - ((Number(loss) || 0) / 100);
+    const text = p.learned && this.batteryProps
+      ? this.homey.__('battery_learned.learned', {
+        kwh: (Number(b.batCapacity) || 0).toFixed(2),
+        roundtrip: Math.round(100 * pct(b.chargeLossEff) * pct(b.dischargeLossEff)),
+        minCharge: b.minChargeW,
+        minDischarge: b.minDischargeW,
+      })
+      : this.homey.__('battery_learned.learning', {
+        charge: Math.floor(p.charge), discharge: Math.floor(p.discharge), needed: p.needed,
+      });
+    if (this.getSettings().learnedInfo !== text) await this.setSettings({ learnedInfo: text });
+  }
+
+  // Repair option: forget what was learned (another battery, or learned wrong). No Insights
+  // bootstrap for a day: those still hold the old battery.
+  async onRepairAction(id) {
+    if (id !== 'learnReset') return;
+    this.efficiency = BatteryEfficiency.createState();
+    this.batteryProps = {}; // not null: takeOverProps() would take the old settings again
+    this.learnAppliedTm = null;
+    await this.setStoreValue('batteryEfficiency', this.efficiency).catch(this.error);
+    await this.setStoreValue('batteryProps', this.batteryProps).catch(this.error);
+    await this.setStoreValue('batteryEfficiencyBootstrapTm', Date.now()).catch(this.error);
+    this.log('[Bat Eff] learned values reset (repair)');
   }
 
   // The learned SoC energy belongs to the capacity it was measured with.
