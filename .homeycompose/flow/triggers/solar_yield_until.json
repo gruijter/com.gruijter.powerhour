@@ -29,7 +29,6 @@
     "ko": "[[time]] 전 남은 수익이 [[value]] kWh보다 적음",
     "ar": "العائد المتبقي قبل [[time]] أقل من [[value]] كيلوواط ساعة"
   },
-  "highlight": true,
   "args": [
     {
       "type": "device",

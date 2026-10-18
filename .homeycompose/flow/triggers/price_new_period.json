@@ -14,7 +14,6 @@
     "ar": "بدأت فترة سعر جديدة",
     "ko": "새 가격 구간이 시작됨"
   },
-  "highlight": true,
   "args": [
     {
       "type": "device",

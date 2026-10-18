@@ -29,7 +29,6 @@
     "ru": "Предоставить JSON прогноза нагрузки для [[period]]",
     "sv": "Tillhandahåll JSON för lastprognos för [[period]]"
   },
-  "highlight": true,
   "args": [
     {
       "type": "device",

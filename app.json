@@ -365,7 +365,6 @@
           "ar": "أرخص بدء للبرنامج في [[period]] ساعة القادمة",
           "ko": "다음 [[period]]시간 동안 가장 저렴한 프로그램 시작"
         },
-        "highlight": true,
         "hint": {
           "en": "With the learned duration and power of the program.",
           "nl": "Met de geleerde duur en het geleerde vermogen van het programma.",
@@ -782,7 +781,6 @@
           "ar": "البدء المخطط",
           "ko": "계획된 시작"
         },
-        "highlight": true,
         "hint": {
           "en": "At the start of \"Next run\". Start the program from this flow, e.g. by switching on the plug or via the appliance's app.",
           "nl": "Op de start van \"Volgende run\". Start het programma vanuit deze flow, bijv. door de stekker aan te zetten of via de app van het apparaat.",
@@ -865,7 +863,6 @@
           "ar": "بدأ البرنامج",
           "ko": "프로그램 시작됨"
         },
-        "highlight": true,
         "hint": {
           "en": "Expected values from the learned program, empty while learning.",
           "nl": "Verwachte waarden uit het geleerde programma, leeg tijdens het leren.",
@@ -968,6 +965,7 @@
           "ar": "تغيّر وضع البطارية",
           "ko": "배터리 모드 변경됨"
         },
+        "highlight": true,
         "args": [
           {
             "type": "device",
@@ -1191,7 +1189,6 @@
           "ru": "Прогноз нагрузки для [[period]] обновлен",
           "sv": "Lastprognos för [[period]] uppdaterad"
         },
-        "highlight": true,
         "args": [
           {
             "type": "device",
@@ -2096,6 +2093,7 @@
           "ar": "مرة واحدة لكل فترة، عندما تتجه الفترة الحالية لرفع تكلفة القدرة لهذا الشهر.",
           "ko": "현재 구간이 이번 달 용량 요금을 올릴 것으로 예상되면 구간당 한 번."
         },
+        "highlight": true,
         "args": [
           {
             "type": "device",
@@ -3036,7 +3034,6 @@
           "ar": "يصبح السعر ضمن [[number]] [[unit]] [[type]] بين [[time1]] و[[time2]]",
           "ko": "[[time1]]~[[time2]] 사이 [[type]] [[number]]개 [[unit]]에 가격이 포함됨"
         },
-        "highlight": true,
         "args": [
           {
             "type": "device",
@@ -6613,7 +6610,6 @@
           "ar": "بدأت فترة سعر جديدة",
           "ko": "새 가격 구간이 시작됨"
         },
-        "highlight": true,
         "args": [
           {
             "type": "device",
@@ -6711,7 +6707,6 @@
           "ko": "선택 해제 시, 확정된 시장 가격에서만 트리거가 작동하며 예측 가격 업데이트에는 작동하지 않습니다.",
           "ar": "عند إلغاء التحديد، يتم تشغيل المشغّل فقط للأسعار السوقية المؤكدة، وليس لتحديثات أسعار التوقعات."
         },
-        "highlight": true,
         "args": [
           {
             "type": "device",
@@ -6909,7 +6904,6 @@
           "ar": "يصبح السعر [[direction]] متوسط [[period]] بنسبة [[percent]]%",
           "ko": "가격이 [[period]] 평균보다 [[percent]]% [[direction]] 상태가 됨"
         },
-        "highlight": true,
         "args": [
           {
             "type": "device",
@@ -7125,7 +7119,6 @@
           "ru": "Обнаружено ограничение солнечной энергии",
           "sv": "Solnedskärning upptäckt"
         },
-        "highlight": true,
         "args": [
           {
             "type": "device",
@@ -7151,7 +7144,6 @@
           "ru": "Ограничение солнечной энергии завершено",
           "sv": "Solnedskärning avslutad"
         },
-        "highlight": true,
         "args": [
           {
             "type": "device",
@@ -7192,7 +7184,6 @@
           "ru": "Прогноз солнечной энергии для [[period]] обновлен",
           "sv": "Solprognos för [[period]] uppdaterad"
         },
-        "highlight": true,
         "args": [
           {
             "type": "device",
@@ -7521,7 +7512,6 @@
           "ko": "[[time]] 전 남은 수익이 [[value]] kWh보다 적음",
           "ar": "العائد المتبقي قبل [[time]] أقل من [[value]] كيلوواط ساعة"
         },
-        "highlight": true,
         "args": [
           {
             "type": "device",
@@ -7618,7 +7608,6 @@
           "ko": "[[start_time]]와 [[end_time]] 사이 수익이 [[value]] kWh보다 적음",
           "ar": "العائد بين [[start_time]] و [[end_time]] أقل من [[value]] كيلوواط ساعة"
         },
-        "highlight": true,
         "args": [
           {
             "type": "device",
@@ -7734,7 +7723,6 @@
         "id": "solar_yield_window"
       },
       {
-        "highlight": true,
         "title": {
           "en": "New XOM power available",
           "nl": "Nieuw XOM vermogen beschikbaar",
@@ -8066,7 +8054,6 @@
           "ar": "الآن !{{هو|ليس}} أرخص بدء للبرنامج في [[period]] ساعة القادمة",
           "ko": "지금이 다음 [[period]]시간 동안 가장 저렴한 프로그램 시작!{{입니다|이 아닙니다}}"
         },
-        "highlight": true,
         "hint": {
           "en": "With the learned duration and power of the program.",
           "nl": "Met de geleerde duur en het geleerde vermogen van het programma.",
@@ -8871,6 +8858,7 @@
           "ar": "خطأ طالما لا توجد ذروة شهرية بعد.",
           "ko": "아직 월간 피크가 없으면 거짓."
         },
+        "highlight": true,
         "args": [
           {
             "type": "device",
@@ -9354,7 +9342,6 @@
           "ar": "الفترة [[type]] لمدة [[duration]] [[duration_unit]] بين [[time1]] و[[time2]] !{{جارية|ليست جارية}} الآن",
           "ko": "[[time1]]~[[time2]] 사이 [[type]] [[duration]][[duration_unit]] 구간이 지금 !{{진행 중|진행 중 아님}}"
         },
-        "highlight": true,
         "args": [
           {
             "type": "device",
@@ -9886,7 +9873,6 @@
           "ar": "السعر !{{ضمن|ليس ضمن}} [[number]] [[unit]] [[type]] بين [[time1]] و[[time2]]",
           "ko": "[[time1]]~[[time2]] 사이 [[type]] [[number]]개 [[unit]]에 가격이 !{{포함됨|포함되지 않음}}"
         },
-        "highlight": true,
         "args": [
           {
             "type": "device",
@@ -13038,7 +13024,6 @@
           "ar": "السعر !{{يكون|لا يكون}} [[direction]] متوسط [[period]] بنسبة [[percent]]%",
           "ko": "가격이 [[period]] 평균보다 [[percent]]% [[direction]] !{{상태임|상태가 아님}}"
         },
-        "highlight": true,
         "args": [
           {
             "type": "device",
@@ -13232,7 +13217,6 @@
           "ru": "Ограничение солнечной энергии !{{активно|не активно}}",
           "sv": "Solnedskärning !{{är|är inte}} aktiv"
         },
-        "highlight": true,
         "args": [
           {
             "type": "device",
@@ -13395,7 +13379,6 @@
           "ko": "내일의 수익이 오늘보다 !{{좋음|나쁨}}",
           "ar": "عائد الغد !{{أفضل|أسوأ}} من اليوم"
         },
-        "highlight": true,
         "args": [
           {
             "type": "device",
@@ -13627,7 +13610,6 @@
           "ko": "[[time]] 전 남은 수익이 [[value]] kWh보다 !{{적음|많음}}",
           "ar": "العائد المتبقي قبل [[time]] !{{أقل|أكثر}} من [[value]] كيلوواط ساعة"
         },
-        "highlight": true,
         "args": [
           {
             "type": "device",
@@ -13724,7 +13706,6 @@
           "ko": "[[start_time]]와 [[end_time]] 사이 수익이 [[value]] kWh보다 !{{적음|많음}}",
           "ar": "العائد بين [[start_time]] و [[end_time]] !{{أقل|أكثر}} من [[value]] كيلوواط ساعة"
         },
-        "highlight": true,
         "args": [
           {
             "type": "device",
@@ -14392,7 +14373,6 @@
           "ar": "إلغاء البرنامج المخطط",
           "ko": "계획된 프로그램 취소"
         },
-        "highlight": true,
         "args": [
           {
             "type": "device",
@@ -14562,7 +14542,6 @@
         "id": "export_prices_json"
       },
       {
-        "highlight": true,
         "title": {
           "en": "Calculate the best smart ROI power",
           "nl": "Bereken het beste smart ROI vermogen",
@@ -14787,7 +14766,6 @@
           "ru": "Предоставить JSON прогноза нагрузки для [[period]]",
           "sv": "Tillhandahåll JSON för lastprognos för [[period]]"
         },
-        "highlight": true,
         "args": [
           {
             "type": "device",
@@ -15005,6 +14983,7 @@
           "ar": "ابحث عن الفترة [[type]] لمدة [[duration]] [[duration_unit]] في الساعات [[hours]] القادمة، قبل [[time]]",
           "ko": "다음 [[hours]]시간 중 [[time]] 이전의 [[type]] [[duration]][[duration_unit]] 구간 찾기"
         },
+        "highlight": true,
         "args": [
           {
             "type": "device",
@@ -16308,6 +16287,7 @@
           "ar": "0 دقيقة: حتى يتم التغيير. بعد ذلك يعود الوضع السابق.",
           "ko": "0분: 변경될 때까지. 그 후 이전 모드로 돌아갑니다."
         },
+        "highlight": true,
         "args": [
           {
             "type": "device",
@@ -16687,6 +16667,7 @@
           "ar": "الذكي يخطط حسب السعر والشمس؛ اشحن الآن يشحن فورًا حتى الحد الأقصى.",
           "ko": "스마트는 가격과 태양광으로 계획하고, 지금 충전은 바로 최대까지 충전합니다."
         },
+        "highlight": true,
         "args": [
           {
             "type": "device",
@@ -18088,6 +18069,7 @@
           "ru": "Отправить показания [[value]] на [[virtual_device]]",
           "ko": "[[value]] 판독값을 [[virtual_device]]로 보내기"
         },
+        "highlight": true,
         "args": [
           {
             "name": "virtual_device",
@@ -18676,7 +18658,6 @@
           "ru": "Установить группу обновления тарифов на [[group]]",
           "ko": "요금 업데이트 그룹을 [[group]]으로 설정"
         },
-        "highlight": true,
         "args": [
           {
             "type": "device",
@@ -18927,7 +18908,6 @@
         "id": "set_variable_markup"
       },
       {
-        "highlight": true,
         "title": {
           "en": "Set XOM",
           "nl": "Zet XOM",
@@ -19116,7 +19096,6 @@
           "ru": "Предоставить JSON прогноза солнечной энергии для [[period]]",
           "sv": "Tillhandahåll JSON för solprognos för [[period]]"
         },
-        "highlight": true,
         "args": [
           {
             "type": "device",

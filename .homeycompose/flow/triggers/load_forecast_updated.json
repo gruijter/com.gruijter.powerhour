@@ -29,7 +29,6 @@
     "ru": "Прогноз нагрузки для [[period]] обновлен",
     "sv": "Lastprognos för [[period]] uppdaterad"
   },
-  "highlight": true,
   "args": [
     {
       "type": "device",

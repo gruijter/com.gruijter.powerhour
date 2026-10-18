@@ -29,7 +29,6 @@
     "ru": "Предоставить JSON прогноза солнечной энергии для [[period]]",
     "sv": "Tillhandahåll JSON för solprognos för [[period]]"
   },
-  "highlight": true,
   "args": [
     {
       "type": "device",

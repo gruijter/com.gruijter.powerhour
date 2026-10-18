@@ -29,7 +29,6 @@
     "ar": "السعر !{{ضمن|ليس ضمن}} [[number]] [[unit]] [[type]] بين [[time1]] و[[time2]]",
     "ko": "[[time1]]~[[time2]] 사이 [[type]] [[number]]개 [[unit]]에 가격이 !{{포함됨|포함되지 않음}}"
   },
-  "highlight": true,
   "args": [
     {
       "type": "device",

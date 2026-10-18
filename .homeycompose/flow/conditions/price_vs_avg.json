@@ -29,7 +29,6 @@
     "ar": "السعر !{{يكون|لا يكون}} [[direction]] متوسط [[period]] بنسبة [[percent]]%",
     "ko": "가격이 [[period]] 평균보다 [[percent]]% [[direction]] !{{상태임|상태가 아님}}"
   },
-  "highlight": true,
   "args": [
     {
       "type": "device",

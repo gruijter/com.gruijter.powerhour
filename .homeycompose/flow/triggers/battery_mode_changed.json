@@ -14,6 +14,7 @@
     "ar": "تغيّر وضع البطارية",
     "ko": "배터리 모드 변경됨"
   },
+  "highlight": true,
   "args": [
     {
       "type": "device",

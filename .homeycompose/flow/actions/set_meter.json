@@ -29,6 +29,7 @@
     "ru": "Отправить показания [[value]] на [[virtual_device]]",
     "ko": "[[value]] 판독값을 [[virtual_device]]로 보내기"
   },
+  "highlight": true,
   "args": [
     {
       "name": "virtual_device",

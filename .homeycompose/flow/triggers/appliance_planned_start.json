@@ -14,7 +14,6 @@
     "ar": "البدء المخطط",
     "ko": "계획된 시작"
   },
-  "highlight": true,
   "hint": {
     "en": "At the start of \"Next run\". Start the program from this flow, e.g. by switching on the plug or via the appliance's app.",
     "nl": "Op de start van \"Volgende run\". Start het programma vanuit deze flow, bijv. door de stekker aan te zetten of via de app van het apparaat.",

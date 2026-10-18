@@ -29,7 +29,6 @@
     "ar": "يصبح السعر [[direction]] متوسط [[period]] بنسبة [[percent]]%",
     "ko": "가격이 [[period]] 평균보다 [[percent]]% [[direction]] 상태가 됨"
   },
-  "highlight": true,
   "args": [
     {
       "type": "device",

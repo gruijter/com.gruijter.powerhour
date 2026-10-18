@@ -29,7 +29,6 @@
     "ru": "Прогноз солнечной энергии для [[period]] обновлен",
     "sv": "Solprognos för [[period]] uppdaterad"
   },
-  "highlight": true,
   "args": [
     {
       "type": "device",

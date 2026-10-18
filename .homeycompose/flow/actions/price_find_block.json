@@ -29,6 +29,7 @@
     "ar": "ابحث عن الفترة [[type]] لمدة [[duration]] [[duration_unit]] في الساعات [[hours]] القادمة، قبل [[time]]",
     "ko": "다음 [[hours]]시간 중 [[time]] 이전의 [[type]] [[duration]][[duration_unit]] 구간 찾기"
   },
+  "highlight": true,
   "args": [
     {
       "type": "device",

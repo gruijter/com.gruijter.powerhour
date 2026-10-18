@@ -29,7 +29,6 @@
     "ko": "[[start_time]]와 [[end_time]] 사이 수익이 [[value]] kWh보다 적음",
     "ar": "العائد بين [[start_time]] و [[end_time]] أقل من [[value]] كيلوواط ساعة"
   },
-  "highlight": true,
   "args": [
     {
       "type": "device",
