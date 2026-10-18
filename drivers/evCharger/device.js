@@ -1485,7 +1485,7 @@ class CarChargeDevice extends GenericDevice {
     return day === 'today' ? EvUsageModel.localDateStr(new Date(), tz) : this._tomorrowDate(tz);
   }
 
-  // Picker / flow dropdown: 'auto' or 'min_<soc>'.
+  // Picker ('auto' or 'min_<soc>'); flow: 'auto'.
   async setDayPlan(day, value) {
     const min = /^min_(\d+)$/.exec(value || '');
     if (min) {
@@ -1502,7 +1502,7 @@ class CarChargeDevice extends GenericDevice {
     await this._setOverride(date, override);
   }
 
-  // Departure picker / flow dropdown: 'auto', 'unused' or a time (HH:MM).
+  // Departure picker / flow: 'auto', 'unused' or a time (HH:MM).
   async setDayTime(day, value) {
     if (value === 'unused') await this.setDayUnused(day);
     else await this.setDayDeparture(day, value === 'auto' ? null : value);
