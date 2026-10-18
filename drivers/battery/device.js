@@ -1050,7 +1050,7 @@ class BatDevice extends GenericDevice {
   }
 
   // Once, from before the properties were learned only: the values in the old settings are the start
-  // (whether Homey keeps a setting removed from the manifest is not verified: else start values).
+  // (Homey keeps the values of settings removed from the manifest, skill section 22).
   takeOverProps() {
     const settings = this.getSettings();
     const props = {};
