@@ -31,7 +31,6 @@
   "error_appliance_homey_device": "Homey 장치를 소스로 할 때만 가능하며, Homey Energy나 플로우는 불가",
   "appliance_status": "__runs__회, __kwh__ kWh, __duration__분, 피크 __peak__ W, 주 __starts__회 시작",
   "appliance_status_learning": "학습 중: __min__회 중 __runs__회",
-  "error_roi_hp2023": "고급 ROI는 HP2023에서만 사용할 수 있습니다!",
   "error_value_not_number": "값이 숫자가 아닙니다",
   "error_budget_custom_12": "사용자 지정 예산에 12개의 숫자 값이 없습니다",
   "error_budget_invalid": "예산이 유효한 숫자가 아닙니다",

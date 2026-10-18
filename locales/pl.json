@@ -31,7 +31,6 @@
   "error_appliance_homey_device": "Tylko z urządzeniem Homey jako źródłem, nie z Homey Energy ani flow",
   "appliance_status": "__runs__ cykli, __kwh__ kWh, __duration__ min, szczyt __peak__ W, __starts__ startów/tydz.",
   "appliance_status_learning": "Uczenie: __runs__ z __min__ cykli",
-  "error_roi_hp2023": "Zaawansowane ROI jest dostępne tylko na HP2023!",
   "error_value_not_number": "Wartość nie jest liczbą",
   "error_budget_custom_12": "Niestandardowy budżet nie ma 12 wartości liczbowych",
   "error_budget_invalid": "Budżet nie jest prawidłową liczbą",

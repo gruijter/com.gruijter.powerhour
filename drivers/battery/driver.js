@@ -527,26 +527,17 @@ class BatteryDriver extends GenericDriver {
     if (BatteryDriver.mixedPower(resolved.group)) throw Error(this.homey.__('error_setup_bat_power_mixed'));
   }
 
-  // The LP planner (roiEnable) and the control that follows the plan need a Homey Pro (Early 2023);
-  // other Homeys plan with the light planner.
-  setupSettings() {
-    const HP2023 = this.homey.platformVersion === 2;
-    return this.ds.setup.settings.filter((id) => HP2023 || !['roiEnable', 'batteryControl'].includes(id));
-  }
-
-  // Every battery plans (LP or light planner); the mode picker and the action now come with
-  // control, on a Homey Pro (Early 2023).
+  // Every battery plans (LP or light planner) and has the mode picker and the action.
   capabilitiesFor(settings = {}) {
     const caps = super.capabilitiesFor(settings);
     if (!caps.includes('roi_duration')) caps.push('roi_duration');
-    if (this.homey.platformVersion === 2) caps.push('battery_mode', 'battery_action');
+    caps.push('battery_mode', 'battery_action');
     return caps;
   }
 
   getDeviceSettings(homeyDevice) {
     const settings = super.getDeviceSettings(homeyDevice);
-    const HP2023 = this.homey.platformVersion === 2;
-    settings.roiEnable = HP2023;
+    settings.roiEnable = true;
     return settings;
   }
 }
