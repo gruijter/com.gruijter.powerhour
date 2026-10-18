@@ -1,5 +1,14 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
 <defs><mask id="pbth-badge-cut"><rect width="100" height="100" fill="#fff"/><circle cx="79" cy="79" r="24" fill="#000"/></mask></defs>
-<g mask="url(#pbth-badge-cut)"><g fill="none" stroke="#000" stroke-width="5.73" stroke-linecap="round" stroke-linejoin="round"><g transform="translate(50 50) scale(1.048) translate(-50 -50)"><path d="M8 46 L50 10 L92 46"/><path d="M18 37 V90 H80 V37"/><rect x="31" y="47" width="24" height="34" rx="4"/><path d="M39 42 H47"/><path d="M45 53 L38 65 H48 L41 76" stroke-width="4.30"/></g></g></g>
+<g mask="url(#pbth-badge-cut)"><g transform="translate(5.208 4.000) scale(0.95833) translate(-21 -3)">
+  <g fill="none" stroke="#000" stroke-width="5.5" stroke-linejoin="round" stroke-linecap="round">
+    <rect x="24" y="6" width="52" height="84" rx="9"/>
+    <path d="M32 96h8M60 96h8"/>
+  </g>
+  <rect x="34" y="52" width="32" height="8" rx="2"/>
+  <rect x="34" y="64" width="32" height="8" rx="2"/>
+  <rect x="34" y="76" width="32" height="8" rx="2"/>
+  <path d="M53 14l-12 18h9l-4 14 13-19h-9z"/>
+</g></g>
 <circle cx="79" cy="79" r="16" fill="none" stroke="#000" stroke-width="5"/><g fill="#000"><rect x="71" y="80" width="4.5" height="6.5" rx="1"/><rect x="76.75" y="75.5" width="4.5" height="11" rx="1"/><rect x="82.5" y="71" width="4.5" height="15.5" rx="1"/></g>
 </svg>
