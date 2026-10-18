@@ -1,8 +1,8 @@
 {
   "type": "number",
   "title": {
-    "en": "Forecast Power",
-    "nl": "Verwacht Vermogen",
+    "en": "Forecast power",
+    "nl": "Verwacht vermogen",
     "ko": "예측 전력",
     "de": "Prognostizierte Leistung",
     "fr": "Puissance prévue",

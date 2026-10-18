@@ -92,9 +92,9 @@
     "setup_sign_normal": "+ = carga",
     "setup_sign_inverted": "+ = descarga",
     "setup_role_production": "Contador de producción",
-    "setup_no_dap": "No se encontró ningún dispositivo de precios Day-Ahead. Para precios dinámicos, añade uno primero. Si no, usa la tarifa fija de abajo o fíjala con un flujo.",
-    "setup_no_dap_plan": "No se encontró ningún dispositivo de precios Day-Ahead. El plan de carga necesita uno: añádelo primero. Fuera de sus mercados, proporciona los precios con un flujo (precios JSON).",
-    "setup_tariff_fixed": "Precio fijo: solo se usa si ningún DAP ni flujo fija el precio del grupo elegido.",
+    "setup_no_dap": "No se encontró ningún dispositivo Precio de la energía. Para precios dinámicos, añade uno primero. Si no, usa la tarifa fija de abajo o fíjala con un flujo.",
+    "setup_no_dap_plan": "No se encontró ningún dispositivo Precio de la energía. El plan de carga necesita uno: añádelo primero. Fuera de sus mercados, proporciona los precios con un flujo (precios JSON).",
+    "setup_tariff_fixed": "Precio fijo: solo se usa si ningún dispositivo Precio de la energía ni flujo fija el precio del grupo elegido.",
     "setup_role_setpoint": "Consigna de potencia",
     "setup_role_setpointSign": "Signo de la consigna",
     "setup_bat_external": "Para controlarla, pon la app de la batería en control externo."

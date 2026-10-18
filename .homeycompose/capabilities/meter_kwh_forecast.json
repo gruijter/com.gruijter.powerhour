@@ -1,9 +1,9 @@
 {
   "type": "number",
   "title": {
-    "en": "Forecast Yield",
+    "en": "Forecast yield",
     "ko": "예측 발전량",
-    "nl": "Verwachte Opbrengst",
+    "nl": "Verwachte opbrengst",
     "de": "Prognostizierter Ertrag",
     "fr": "Rendement prévu",
     "es": "Producción prevista",

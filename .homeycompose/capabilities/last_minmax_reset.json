@@ -1,21 +1,21 @@
 {
-	"type": "string",
-	"title": {
-		"en": "Min/Max Since",
-		"de": "Min/Max seit",
-		"sv": "Min/Max Sedan",
-		"it": "Min/Max Da",
-		"no": "Min/Max Siden",
-		"fr": "Min/Max Depuis",
-		"da": "Min/Max siden",
-		"nl": "Min/Max Sinds",
-		"es": "Mín/Máx desde",
-		"pl": "Min/Maks od",
-		"ru": "Мин/Макс с",
-		"ko": "최소/최대 시작",
-		"ar": "الحد الأدنى/الأقصى منذ"
-	},
-	"getable": true,
-	"setable": false,
-	"icon": "./assets/last_minmax_reset.svg"
+  "type": "string",
+  "title": {
+    "en": "Min/max since",
+    "de": "Min/Max seit",
+    "sv": "Min/max sedan",
+    "it": "Min/max da",
+    "no": "Min/max siden",
+    "fr": "Min/max depuis",
+    "da": "Min/max siden",
+    "nl": "Min/max sinds",
+    "es": "Mín/Máx desde",
+    "pl": "Min/Maks od",
+    "ru": "Мин/Макс с",
+    "ko": "최소/최대 시작",
+    "ar": "الحد الأدنى/الأقصى منذ"
+  },
+  "getable": true,
+  "setable": false,
+  "icon": "./assets/last_minmax_reset.svg"
 }

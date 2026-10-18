@@ -92,9 +92,9 @@
     "setup_sign_normal": "+ = ładowanie",
     "setup_sign_inverted": "+ = rozładowanie",
     "setup_role_production": "Licznik produkcji",
-    "setup_no_dap": "Nie znaleziono urządzenia cen Day-Ahead. Aby mieć ceny dynamiczne, najpierw je dodaj. W przeciwnym razie użyj stałej taryfy poniżej lub ustaw ją przez flow.",
-    "setup_no_dap_plan": "Nie znaleziono urządzenia cen Day-Ahead. Plan ładowania go wymaga: najpierw je dodaj. Poza jego rynkami podaj ceny przez flow (ceny JSON).",
-    "setup_tariff_fixed": "Stała cena: używana tylko, gdy żaden DAP ani flow nie ustala ceny wybranej grupy.",
+    "setup_no_dap": "Nie znaleziono urządzenia Cena energii. Aby mieć ceny dynamiczne, najpierw je dodaj. W przeciwnym razie użyj stałej taryfy poniżej lub ustaw ją przez flow.",
+    "setup_no_dap_plan": "Nie znaleziono urządzenia Cena energii. Plan ładowania go wymaga: najpierw je dodaj. Poza jego rynkami podaj ceny przez flow (ceny JSON).",
+    "setup_tariff_fixed": "Stała cena: używana tylko, gdy żadne urządzenie Cena energii ani flow nie ustala ceny wybranej grupy.",
     "setup_role_setpoint": "Zadawana moc",
     "setup_role_setpointSign": "Znak zadawanej mocy",
     "setup_bat_external": "Aby nią sterować, ustaw aplikację baterii na sterowanie zewnętrzne."

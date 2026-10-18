@@ -1,9 +1,9 @@
 {
   "type": "number",
   "title": {
-    "en": "Discharging Total",
-    "nl": "Ontladen Totaal",
-    "de": "Entladung Gesamt",
+    "en": "Discharging total",
+    "nl": "Ontladen totaal",
+    "de": "Entladung gesamt",
     "sv": "Urladdning totalt",
     "it": "Scarica totale",
     "no": "Utlading totalt",

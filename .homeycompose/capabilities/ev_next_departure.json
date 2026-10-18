@@ -1,8 +1,8 @@
 {
   "type": "string",
   "title": {
-    "en": "Next Departure",
-    "nl": "Volgend Vertrek",
+    "en": "Next departure",
+    "nl": "Volgend vertrek",
     "de": "Nächste Abfahrt",
     "fr": "Prochain départ",
     "ko": "다음 출발",

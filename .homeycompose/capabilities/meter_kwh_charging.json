@@ -1,9 +1,9 @@
 {
   "type": "number",
   "title": {
-    "en": "Charging Total",
-    "nl": "Laden Totaal",
-    "de": "Aufladung Gesamt",
+    "en": "Charging total",
+    "nl": "Laden totaal",
+    "de": "Aufladung gesamt",
     "sv": "Laddning totalt",
     "it": "Ricarica totale",
     "no": "Lading totalt",

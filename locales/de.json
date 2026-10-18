@@ -92,9 +92,9 @@
     "setup_sign_normal": "+ = Laden",
     "setup_sign_inverted": "+ = Entladen",
     "setup_role_production": "Erzeugungszähler",
-    "setup_no_dap": "Kein Day-Ahead-Preisgerät gefunden. Für dynamische Preise zuerst eines hinzufügen. Sonst den festen Tarif unten nutzen oder per Flow setzen.",
-    "setup_no_dap_plan": "Kein Day-Ahead-Preisgerät gefunden. Der Ladeplan braucht eines: zuerst hinzufügen. Außerhalb seiner Märkte die Preise per Flow liefern (Preise JSON).",
-    "setup_tariff_fixed": "Festpreis: nur verwendet, wenn kein DAP oder Flow den Preis der gewählten Gruppe setzt.",
+    "setup_no_dap": "Kein Energiepreis-Gerät gefunden. Für dynamische Preise zuerst eines hinzufügen. Sonst den festen Tarif unten nutzen oder per Flow setzen.",
+    "setup_no_dap_plan": "Kein Energiepreis-Gerät gefunden. Der Ladeplan braucht eines: zuerst hinzufügen. Außerhalb seiner Märkte die Preise per Flow liefern (Preise JSON).",
+    "setup_tariff_fixed": "Festpreis: nur verwendet, wenn kein Energiepreis-Gerät oder Flow den Preis der gewählten Gruppe setzt.",
     "setup_role_setpoint": "Leistungs-Sollwert",
     "setup_role_setpointSign": "Vorzeichen Sollwert",
     "setup_bat_external": "Zum Steuern die eigene App der Batterie auf externe Steuerung stellen."

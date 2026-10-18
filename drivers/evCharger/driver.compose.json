@@ -129,19 +129,19 @@
     {
       "type": "group",
       "label": {
-        "en": "EV Strategy Settings",
-        "nl": "EV Strategie Instellingen",
-        "de": "EV Strategie-Einstellungen",
-        "fr": "Paramètres de stratégie EV",
-        "it": "Impostazioni Strategia EV",
-        "sv": "EV-strategiinställningar",
-        "no": "EV-strategiinnstillinger",
-        "es": "Configuración de estrategia EV",
-        "da": "EV-strategiindstillinger",
-        "pl": "Ustawienia strategii EV",
-        "ru": "Настройки стратегии EV",
-        "ar": "إعدادات استراتيجية المركبات الكهربائية",
-        "ko": "EV 전략 설정"
+        "en": "Charging",
+        "nl": "Laden",
+        "de": "Laden",
+        "fr": "Recharge",
+        "it": "Ricarica",
+        "sv": "Laddning",
+        "no": "Lading",
+        "es": "Carga",
+        "da": "Opladning",
+        "pl": "Ładowanie",
+        "ru": "Зарядка",
+        "ar": "الشحن",
+        "ko": "충전"
       },
       "children": [
         {
@@ -569,8 +569,36 @@
           "min": 0,
           "max": 10,
           "step": 0.01,
-          "label": {"en": "Max. price (per kWh)", "nl": "Max. prijs (per kWh)", "de": "Max. Preis (pro kWh)", "fr": "Prix max. (par kWh)", "es": "Precio máx. (por kWh)", "it": "Prezzo max. (per kWh)", "da": "Maks. pris (pr. kWh)", "sv": "Max. pris (per kWh)", "no": "Maks. pris (per kWh)", "pl": "Maks. cena (za kWh)", "ru": "Макс. цена (за кВт·ч)", "ar": "أقصى سعر (لكل كيلوواط ساعة)", "ko": "최대 가격 (kWh당)"},
-          "hint": {"en": "No charging at home above this price, e.g. when public charging is cheaper. Not below Minimum SoC or with 'Charge now'. 0 = no maximum.", "nl": "Niet thuis laden boven deze prijs, bv. als laden aan de straat goedkoper is. Niet onder Minimum-SoC of bij 'Nu laden'. 0 = geen maximum.", "de": "Zu Hause nicht über diesem Preis laden, z. B. wenn öffentliches Laden günstiger ist. Nicht unter Minimum-SoC oder bei 'Jetzt laden'. 0 = kein Maximum.", "fr": "Pas de charge à la maison au-dessus de ce prix, ex. si la recharge publique est moins chère. Pas sous le SoC minimum ni avec 'Charger maintenant'. 0 = pas de maximum.", "es": "No cargar en casa por encima de este precio, p. ej. si la carga pública es más barata. No bajo el SoC mínimo ni con 'Cargar ahora'. 0 = sin máximo.", "it": "Nessuna ricarica a casa sopra questo prezzo, es. se la ricarica pubblica costa meno. Non sotto il SoC minimo né con 'Carica ora'. 0 = nessun massimo.", "da": "Ingen opladning hjemme over denne pris, fx når offentlig opladning er billigere. Ikke under Minimum-SoC eller med 'Lad nu'. 0 = intet maksimum.", "sv": "Ingen laddning hemma över detta pris, t.ex. när publik laddning är billigare. Inte under Minimum-SoC eller med 'Ladda nu'. 0 = inget maximum.", "no": "Ingen lading hjemme over denne prisen, f.eks. når offentlig lading er billigere. Ikke under Minimum-SoC eller med 'Lad nå'. 0 = intet maksimum.", "pl": "Brak ładowania w domu powyżej tej ceny, np. gdy publiczne ładowanie jest tańsze. Nie poniżej minimalnego SoC ani przy 'Ładuj teraz'. 0 = bez maksimum.", "ru": "Не заряжать дома дороже этой цены, напр. если общественная зарядка дешевле. Не ниже минимального SoC и не при 'Зарядить сейчас'. 0 = без максимума.", "ar": "لا شحن في المنزل فوق هذا السعر، مثلًا عندما يكون الشحن العام أرخص. ليس تحت الحد الأدنى SoC أو مع 'اشحن الآن'. 0 = بلا حد أقصى.", "ko": "이 가격보다 비싸면 집에서 충전하지 않습니다(예: 공용 충전이 더 저렴할 때). 최소 SoC 미만 또는 '지금 충전'에서는 제외. 0 = 최대값 없음."}
+          "label": {
+            "en": "Max. price (per kWh)",
+            "nl": "Max. prijs (per kWh)",
+            "de": "Max. Preis (pro kWh)",
+            "fr": "Prix max. (par kWh)",
+            "es": "Precio máx. (por kWh)",
+            "it": "Prezzo max. (per kWh)",
+            "da": "Maks. pris (pr. kWh)",
+            "sv": "Max. pris (per kWh)",
+            "no": "Maks. pris (per kWh)",
+            "pl": "Maks. cena (za kWh)",
+            "ru": "Макс. цена (за кВт·ч)",
+            "ar": "أقصى سعر (لكل كيلوواط ساعة)",
+            "ko": "최대 가격 (kWh당)"
+          },
+          "hint": {
+            "en": "No charging at home above this price, e.g. when public charging is cheaper. Not below Minimum SoC or with 'Charge now'. 0 = no maximum.",
+            "nl": "Niet thuis laden boven deze prijs, bv. als laden aan de straat goedkoper is. Niet onder Minimum-SoC of bij 'Nu laden'. 0 = geen maximum.",
+            "de": "Zu Hause nicht über diesem Preis laden, z. B. wenn öffentliches Laden günstiger ist. Nicht unter Minimum-SoC oder bei 'Jetzt laden'. 0 = kein Maximum.",
+            "fr": "Pas de charge à la maison au-dessus de ce prix, ex. si la recharge publique est moins chère. Pas sous le SoC minimum ni avec 'Charger maintenant'. 0 = pas de maximum.",
+            "es": "No cargar en casa por encima de este precio, p. ej. si la carga pública es más barata. No bajo el SoC mínimo ni con 'Cargar ahora'. 0 = sin máximo.",
+            "it": "Nessuna ricarica a casa sopra questo prezzo, es. se la ricarica pubblica costa meno. Non sotto il SoC minimo né con 'Carica ora'. 0 = nessun massimo.",
+            "da": "Ingen opladning hjemme over denne pris, fx når offentlig opladning er billigere. Ikke under Minimum-SoC eller med 'Lad nu'. 0 = intet maksimum.",
+            "sv": "Ingen laddning hemma över detta pris, t.ex. när publik laddning är billigare. Inte under Minimum-SoC eller med 'Ladda nu'. 0 = inget maximum.",
+            "no": "Ingen lading hjemme over denne prisen, f.eks. når offentlig lading er billigere. Ikke under Minimum-SoC eller med 'Lad nå'. 0 = intet maksimum.",
+            "pl": "Brak ładowania w domu powyżej tej ceny, np. gdy publiczne ładowanie jest tańsze. Nie poniżej minimalnego SoC ani przy 'Ładuj teraz'. 0 = bez maksimum.",
+            "ru": "Не заряжать дома дороже этой цены, напр. если общественная зарядка дешевле. Не ниже минимального SoC и не при 'Зарядить сейчас'. 0 = без максимума.",
+            "ar": "لا شحن في المنزل فوق هذا السعر، مثلًا عندما يكون الشحن العام أرخص. ليس تحت الحد الأدنى SoC أو مع 'اشحن الآن'. 0 = بلا حد أقصى.",
+            "ko": "이 가격보다 비싸면 집에서 충전하지 않습니다(예: 공용 충전이 더 저렴할 때). 최소 SoC 미만 또는 '지금 충전'에서는 제외. 0 = 최대값 없음."
+          }
         },
         {
           "id": "chargerControl",
@@ -791,12 +819,12 @@
     {
       "type": "group",
       "label": {
-        "en": "Departure Schedule",
+        "en": "Departure schedule",
         "nl": "Vertrekschema",
         "de": "Abfahrtsplan",
         "fr": "Horaire de départ",
         "it": "Programma di partenza",
-        "sv": "Avgångssschema",
+        "sv": "Avgångsschema",
         "no": "Avgangsskjema",
         "es": "Horario de salida",
         "da": "Afgangsplan",
@@ -809,15 +837,71 @@
         {
           "id": "autoDepartureLearning",
           "type": "checkbox",
-          "label": { "en": "Learn driving pattern", "nl": "Rijpatroon leren", "de": "Fahrmuster lernen", "fr": "Apprendre les trajets", "es": "Aprender patrón de uso", "it": "Apprendi schema di guida", "da": "Lær kørselsmønster", "sv": "Lär körmönster", "no": "Lær kjøremønster", "pl": "Ucz się wzorca jazdy", "ru": "Изучать режим поездок", "ar": "تعلم نمط القيادة", "ko": "주행 패턴 학습" },
-          "hint": { "en": "Manual times below override learned departure times.", "nl": "Handmatige tijden hieronder gaan voor geleerde vertrektijden.", "de": "Manuelle Zeiten unten haben Vorrang vor gelernten Abfahrtszeiten.", "fr": "Les heures manuelles ci-dessous priment sur celles apprises.", "es": "Las horas manuales de abajo prevalecen sobre las aprendidas.", "it": "Gli orari manuali sotto prevalgono su quelli appresi.", "da": "Manuelle tider nedenfor går forud for lærte afgangstider.", "sv": "Manuella tider nedan går före inlärda avgångstider.", "no": "Manuelle tider nedenfor går foran lærte avgangstider.", "pl": "Ręczne godziny poniżej mają pierwszeństwo przed wyuczonymi.", "ru": "Ручное время ниже важнее изученного.", "ar": "الأوقات اليدوية أدناه تتقدم على الأوقات المتعلمة.", "ko": "아래 수동 시간이 학습된 출발 시간보다 우선합니다." },
+          "label": {
+            "en": "Learn driving pattern",
+            "nl": "Rijpatroon leren",
+            "de": "Fahrmuster lernen",
+            "fr": "Apprendre les trajets",
+            "es": "Aprender patrón de uso",
+            "it": "Apprendi schema di guida",
+            "da": "Lær kørselsmønster",
+            "sv": "Lär körmönster",
+            "no": "Lær kjøremønster",
+            "pl": "Ucz się wzorca jazdy",
+            "ru": "Изучать режим поездок",
+            "ar": "تعلم نمط القيادة",
+            "ko": "주행 패턴 학습"
+          },
+          "hint": {
+            "en": "Manual times below override learned departure times.",
+            "nl": "Handmatige tijden hieronder gaan voor geleerde vertrektijden.",
+            "de": "Manuelle Zeiten unten haben Vorrang vor gelernten Abfahrtszeiten.",
+            "fr": "Les heures manuelles ci-dessous priment sur celles apprises.",
+            "es": "Las horas manuales de abajo prevalecen sobre las aprendidas.",
+            "it": "Gli orari manuali sotto prevalgono su quelli appresi.",
+            "da": "Manuelle tider nedenfor går forud for lærte afgangstider.",
+            "sv": "Manuella tider nedan går före inlärda avgångstider.",
+            "no": "Manuelle tider nedenfor går foran lærte avgangstider.",
+            "pl": "Ręczne godziny poniżej mają pierwszeństwo przed wyuczonymi.",
+            "ru": "Ручное время ниже важнее изученного.",
+            "ar": "الأوقات اليدوية أدناه تتقدم على الأوقات المتعلمة.",
+            "ko": "아래 수동 시간이 학습된 출발 시간보다 우선합니다."
+          },
           "value": true
         },
         {
           "id": "minTripSoc",
           "type": "number",
-          "label": {"en": "Min. trip SoC (%)", "nl": "Min. SoC per rit (%)", "de": "Min. SoC pro Fahrt (%)", "fr": "SoC min. par trajet (%)", "es": "SoC mín. por viaje (%)", "it": "SoC min. per viaggio (%)", "da": "Min. SoC pr. tur (%)", "sv": "Min. SoC per resa (%)", "no": "Min. SoC per tur (%)", "pl": "Min. SoC na trasę (%)", "ru": "Мин. SoC за поездку (%)", "ar": "أدنى SoC للرحلة (%)", "ko": "주행당 최소 SoC (%)"},
-          "hint": {"en": "A trip from home and back that used less battery than this is not learned as driving.", "nl": "Een rit van huis en terug die minder accu verbruikte dan dit telt niet als rijden.", "de": "Eine Fahrt von zu Hause und zurück, die weniger Akku verbrauchte, zählt nicht als Fahrt.", "fr": "Un aller-retour depuis la maison qui a utilisé moins de batterie n'est pas appris comme trajet.", "es": "Un viaje de ida y vuelta desde casa que usó menos batería no se aprende como uso.", "it": "Un giro da casa e ritorno che ha usato meno batteria non viene appreso come guida.", "da": "En tur hjemmefra og tilbage, der brugte mindre batteri end dette, læres ikke som kørsel.", "sv": "En resa hemifrån och tillbaka som använde mindre batteri än detta lärs inte in som körning.", "no": "En tur hjemmefra og tilbake som brukte mindre batteri enn dette, læres ikke som kjøring.", "pl": "Trasa z domu i z powrotem zużywająca mniej baterii nie jest uczona jako jazda.", "ru": "Поездка из дома и обратно с меньшим расходом батареи не учитывается как поездка.", "ar": "رحلة من المنزل والعودة استهلكت بطارية أقل من هذا لا تُتعلَّم كقيادة.", "ko": "집에서 출발해 돌아온 주행이 이보다 배터리를 적게 쓰면 주행으로 학습하지 않습니다."},
+          "label": {
+            "en": "Min. trip SoC (%)",
+            "nl": "Min. SoC per rit (%)",
+            "de": "Min. SoC pro Fahrt (%)",
+            "fr": "SoC min. par trajet (%)",
+            "es": "SoC mín. por viaje (%)",
+            "it": "SoC min. per viaggio (%)",
+            "da": "Min. SoC pr. tur (%)",
+            "sv": "Min. SoC per resa (%)",
+            "no": "Min. SoC per tur (%)",
+            "pl": "Min. SoC na trasę (%)",
+            "ru": "Мин. SoC за поездку (%)",
+            "ar": "أدنى SoC للرحلة (%)",
+            "ko": "주행당 최소 SoC (%)"
+          },
+          "hint": {
+            "en": "A trip from home and back that used less battery than this is not learned as driving.",
+            "nl": "Een rit van huis en terug die minder accu verbruikte dan dit telt niet als rijden.",
+            "de": "Eine Fahrt von zu Hause und zurück, die weniger Akku verbrauchte, zählt nicht als Fahrt.",
+            "fr": "Un aller-retour depuis la maison qui a utilisé moins de batterie n'est pas appris comme trajet.",
+            "es": "Un viaje de ida y vuelta desde casa que usó menos batería no se aprende como uso.",
+            "it": "Un giro da casa e ritorno che ha usato meno batteria non viene appreso come guida.",
+            "da": "En tur hjemmefra og tilbage, der brugte mindre batteri end dette, læres ikke som kørsel.",
+            "sv": "En resa hemifrån och tillbaka som använde mindre batteri än detta lärs inte in som körning.",
+            "no": "En tur hjemmefra og tilbake som brukte mindre batteri enn dette, læres ikke som kjøring.",
+            "pl": "Trasa z domu i z powrotem zużywająca mniej baterii nie jest uczona jako jazda.",
+            "ru": "Поездка из дома и обратно с меньшим расходом батареи не учитывается как поездка.",
+            "ar": "رحلة من المنزل والعودة استهلكت بطارية أقل من هذا لا تُتعلَّم كقيادة.",
+            "ko": "집에서 출발해 돌아온 주행이 이보다 배터리를 적게 쓰면 주행으로 학습하지 않습니다."
+          },
           "value": 3,
           "min": 0,
           "max": 50,
@@ -826,50 +910,176 @@
         {
           "id": "awayPeriods",
           "type": "text",
-          "label": { "en": "Away periods", "nl": "Afwezig (perioden)", "de": "Abwesend (Zeiträume)", "fr": "Absences (périodes)", "es": "Ausencias (periodos)", "it": "Assenze (periodi)", "da": "Væk (perioder)", "sv": "Borta (perioder)", "no": "Borte (perioder)", "pl": "Nieobecności (okresy)", "ru": "Отсутствие (периоды)", "ar": "الغياب (فترات)", "ko": "부재 기간" },
-          "hint": { "en": "Holidays or other periods that are not normal use, e.g. 2026-09-17/2026-10-01, 2026-12-24. No trips are planned in them, and their days are not learned (also afterwards). Nights the car is away from home are recognized by themselves.", "nl": "Vakanties of andere perioden die geen normaal gebruik zijn, bv. 2026-09-17/2026-10-01, 2026-12-24. Daarin worden geen ritten gepland en de dagen worden niet geleerd (ook achteraf). Nachten dat de auto niet thuis is worden vanzelf herkend.", "de": "Urlaube oder andere Zeiträume ohne normale Nutzung, z. B. 2026-09-17/2026-10-01, 2026-12-24. Darin werden keine Fahrten geplant und die Tage nicht gelernt (auch nachträglich). Nächte, in denen das Auto nicht zu Hause ist, werden selbst erkannt.", "fr": "Vacances ou autres périodes d'usage inhabituel, ex. 2026-09-17/2026-10-01, 2026-12-24. Aucun trajet n'y est prévu et ces jours ne sont pas appris (aussi après coup). Les nuits où la voiture n'est pas à la maison sont reconnues automatiquement.", "es": "Vacaciones u otros periodos de uso no habitual, p. ej. 2026-09-17/2026-10-01, 2026-12-24. No se planifican viajes en ellos y sus días no se aprenden (también a posteriori). Las noches que el coche no está en casa se reconocen solas.", "it": "Vacanze o altri periodi di uso non abituale, es. 2026-09-17/2026-10-01, 2026-12-24. Non vi si pianificano viaggi e i giorni non vengono appresi (anche a posteriori). Le notti in cui l'auto non è a casa sono riconosciute da sole.", "da": "Ferier eller andre perioder uden normal brug, fx 2026-09-17/2026-10-01, 2026-12-24. Der planlægges ingen ture i dem, og dagene læres ikke (også bagefter). Nætter hvor bilen ikke er hjemme genkendes af sig selv.", "sv": "Semestrar eller andra perioder utan normal användning, t.ex. 2026-09-17/2026-10-01, 2026-12-24. Inga resor planeras i dem och dagarna lärs inte in (även i efterhand). Nätter då bilen inte är hemma känns igen automatiskt.", "no": "Ferier eller andre perioder uten normal bruk, f.eks. 2026-09-17/2026-10-01, 2026-12-24. Det planlegges ingen turer i dem, og dagene læres ikke (også i ettertid). Netter da bilen ikke er hjemme gjenkjennes av seg selv.", "pl": "Urlopy lub inne okresy nietypowego użycia, np. 2026-09-17/2026-10-01, 2026-12-24. Nie planuje się w nich tras, a te dni nie są uczone (również po fakcie). Noce, gdy auto nie jest w domu, są rozpoznawane automatycznie.", "ru": "Отпуска или другие периоды необычного использования, напр. 2026-09-17/2026-10-01, 2026-12-24. В них поездки не планируются, а дни не изучаются (и задним числом). Ночи, когда авто не дома, распознаются сами.", "ar": "العطلات أو فترات أخرى بغير الاستخدام المعتاد، مثل 2026-09-17/2026-10-01، 2026-12-24. لا تُخطَّط فيها رحلات ولا تُتعلَّم أيامها (حتى لاحقًا). الليالي التي تكون فيها السيارة خارج المنزل تُكتشف تلقائيًا.", "ko": "휴가 등 평소와 다른 기간, 예: 2026-09-17/2026-10-01, 2026-12-24. 이 기간에는 주행을 계획하지 않고 해당 날은 학습하지 않습니다(지난 기간도). 차량이 밤에 집에 없으면 자동으로 인식합니다." },
+          "label": {
+            "en": "Away periods",
+            "nl": "Afwezig (perioden)",
+            "de": "Abwesend (Zeiträume)",
+            "fr": "Absences (périodes)",
+            "es": "Ausencias (periodos)",
+            "it": "Assenze (periodi)",
+            "da": "Væk (perioder)",
+            "sv": "Borta (perioder)",
+            "no": "Borte (perioder)",
+            "pl": "Nieobecności (okresy)",
+            "ru": "Отсутствие (периоды)",
+            "ar": "الغياب (فترات)",
+            "ko": "부재 기간"
+          },
+          "hint": {
+            "en": "Holidays or other periods that are not normal use, e.g. 2026-09-17/2026-10-01, 2026-12-24. No trips are planned in them, and their days are not learned (also afterwards). Nights the car is away from home are recognized by themselves.",
+            "nl": "Vakanties of andere perioden die geen normaal gebruik zijn, bv. 2026-09-17/2026-10-01, 2026-12-24. Daarin worden geen ritten gepland en de dagen worden niet geleerd (ook achteraf). Nachten dat de auto niet thuis is worden vanzelf herkend.",
+            "de": "Urlaube oder andere Zeiträume ohne normale Nutzung, z. B. 2026-09-17/2026-10-01, 2026-12-24. Darin werden keine Fahrten geplant und die Tage nicht gelernt (auch nachträglich). Nächte, in denen das Auto nicht zu Hause ist, werden selbst erkannt.",
+            "fr": "Vacances ou autres périodes d'usage inhabituel, ex. 2026-09-17/2026-10-01, 2026-12-24. Aucun trajet n'y est prévu et ces jours ne sont pas appris (aussi après coup). Les nuits où la voiture n'est pas à la maison sont reconnues automatiquement.",
+            "es": "Vacaciones u otros periodos de uso no habitual, p. ej. 2026-09-17/2026-10-01, 2026-12-24. No se planifican viajes en ellos y sus días no se aprenden (también a posteriori). Las noches que el coche no está en casa se reconocen solas.",
+            "it": "Vacanze o altri periodi di uso non abituale, es. 2026-09-17/2026-10-01, 2026-12-24. Non vi si pianificano viaggi e i giorni non vengono appresi (anche a posteriori). Le notti in cui l'auto non è a casa sono riconosciute da sole.",
+            "da": "Ferier eller andre perioder uden normal brug, fx 2026-09-17/2026-10-01, 2026-12-24. Der planlægges ingen ture i dem, og dagene læres ikke (også bagefter). Nætter hvor bilen ikke er hjemme genkendes af sig selv.",
+            "sv": "Semestrar eller andra perioder utan normal användning, t.ex. 2026-09-17/2026-10-01, 2026-12-24. Inga resor planeras i dem och dagarna lärs inte in (även i efterhand). Nätter då bilen inte är hemma känns igen automatiskt.",
+            "no": "Ferier eller andre perioder uten normal bruk, f.eks. 2026-09-17/2026-10-01, 2026-12-24. Det planlegges ingen turer i dem, og dagene læres ikke (også i ettertid). Netter da bilen ikke er hjemme gjenkjennes av seg selv.",
+            "pl": "Urlopy lub inne okresy nietypowego użycia, np. 2026-09-17/2026-10-01, 2026-12-24. Nie planuje się w nich tras, a te dni nie są uczone (również po fakcie). Noce, gdy auto nie jest w domu, są rozpoznawane automatycznie.",
+            "ru": "Отпуска или другие периоды необычного использования, напр. 2026-09-17/2026-10-01, 2026-12-24. В них поездки не планируются, а дни не изучаются (и задним числом). Ночи, когда авто не дома, распознаются сами.",
+            "ar": "العطلات أو فترات أخرى بغير الاستخدام المعتاد، مثل 2026-09-17/2026-10-01، 2026-12-24. لا تُخطَّط فيها رحلات ولا تُتعلَّم أيامها (حتى لاحقًا). الليالي التي تكون فيها السيارة خارج المنزل تُكتشف تلقائيًا.",
+            "ko": "휴가 등 평소와 다른 기간, 예: 2026-09-17/2026-10-01, 2026-12-24. 이 기간에는 주행을 계획하지 않고 해당 날은 학습하지 않습니다(지난 기간도). 차량이 밤에 집에 없으면 자동으로 인식합니다."
+          },
           "value": ""
         },
         {
           "id": "departureTime_0",
           "type": "text",
-          "label": { "en": "Monday departure (HH:MM, empty = auto)", "nl": "Maandag vertrek (UU:MM, leeg = auto)", "de": "Montag Abfahrt (HH:MM, leer = auto)", "fr": "Départ lundi (HH:MM, vide = auto)", "it": "Partenza lunedì (HH:MM, vuoto = auto)", "sv": "Måndag avgång (HH:MM, tom = auto)", "no": "Mandag avgang (HH:MM, tom = auto)", "es": "Salida lunes (HH:MM, vacío = auto)", "da": "Mandag afgang (HH:MM, tom = auto)", "pl": "Poniedziałek odjazd (HH:MM, puste = auto)", "ru": "Пн отправление (ЧЧ:ММ, пусто = авто)", "ar": "مغادرة الاثنين (ساعة:دقيقة, فارغ = تلقائي)", "ko": "월요일 출발 (HH:MM, 비워두면 자동)" },
+          "label": {
+            "en": "Monday departure (HH:MM, empty = auto)",
+            "nl": "Maandag vertrek (UU:MM, leeg = auto)",
+            "de": "Montag Abfahrt (HH:MM, leer = auto)",
+            "fr": "Départ lundi (HH:MM, vide = auto)",
+            "it": "Partenza lunedì (HH:MM, vuoto = auto)",
+            "sv": "Måndag avgång (HH:MM, tom = auto)",
+            "no": "Mandag avgang (HH:MM, tom = auto)",
+            "es": "Salida lunes (HH:MM, vacío = auto)",
+            "da": "Mandag afgang (HH:MM, tom = auto)",
+            "pl": "Poniedziałek odjazd (HH:MM, puste = auto)",
+            "ru": "Пн отправление (ЧЧ:ММ, пусто = авто)",
+            "ar": "مغادرة الاثنين (ساعة:دقيقة, فارغ = تلقائي)",
+            "ko": "월요일 출발 (HH:MM, 비워두면 자동)"
+          },
           "value": ""
         },
         {
           "id": "departureTime_1",
           "type": "text",
-          "label": { "en": "Tuesday departure (HH:MM, empty = auto)", "nl": "Dinsdag vertrek (UU:MM, leeg = auto)", "de": "Dienstag Abfahrt (HH:MM, leer = auto)", "fr": "Départ mardi (HH:MM, vide = auto)", "it": "Partenza martedì (HH:MM, vuoto = auto)", "sv": "Tisdag avgång (HH:MM, tom = auto)", "no": "Tirsdag avgang (HH:MM, tom = auto)", "es": "Salida martes (HH:MM, vacío = auto)", "da": "Tirsdag afgang (HH:MM, tom = auto)", "pl": "Wtorek odjazd (HH:MM, puste = auto)", "ru": "Вт отправление (ЧЧ:ММ, пусто = авто)", "ar": "مغادرة الثلاثاء (ساعة:دقيقة, فارغ = تلقائي)", "ko": "화요일 출발 (HH:MM, 비워두면 자동)" },
+          "label": {
+            "en": "Tuesday departure (HH:MM, empty = auto)",
+            "nl": "Dinsdag vertrek (UU:MM, leeg = auto)",
+            "de": "Dienstag Abfahrt (HH:MM, leer = auto)",
+            "fr": "Départ mardi (HH:MM, vide = auto)",
+            "it": "Partenza martedì (HH:MM, vuoto = auto)",
+            "sv": "Tisdag avgång (HH:MM, tom = auto)",
+            "no": "Tirsdag avgang (HH:MM, tom = auto)",
+            "es": "Salida martes (HH:MM, vacío = auto)",
+            "da": "Tirsdag afgang (HH:MM, tom = auto)",
+            "pl": "Wtorek odjazd (HH:MM, puste = auto)",
+            "ru": "Вт отправление (ЧЧ:ММ, пусто = авто)",
+            "ar": "مغادرة الثلاثاء (ساعة:دقيقة, فارغ = تلقائي)",
+            "ko": "화요일 출발 (HH:MM, 비워두면 자동)"
+          },
           "value": ""
         },
         {
           "id": "departureTime_2",
           "type": "text",
-          "label": { "en": "Wednesday departure (HH:MM, empty = auto)", "nl": "Woensdag vertrek (UU:MM, leeg = auto)", "de": "Mittwoch Abfahrt (HH:MM, leer = auto)", "fr": "Départ mercredi (HH:MM, vide = auto)", "it": "Partenza mercoledì (HH:MM, vuoto = auto)", "sv": "Onsdag avgång (HH:MM, tom = auto)", "no": "Onsdag avgang (HH:MM, tom = auto)", "es": "Salida miércoles (HH:MM, vacío = auto)", "da": "Onsdag afgang (HH:MM, tom = auto)", "pl": "Środa odjazd (HH:MM, puste = auto)", "ru": "Ср отправление (ЧЧ:ММ, пусто = авто)", "ar": "مغادرة الأربعاء (ساعة:دقيقة, فارغ = تلقائي)", "ko": "수요일 출발 (HH:MM, 비워두면 자동)" },
+          "label": {
+            "en": "Wednesday departure (HH:MM, empty = auto)",
+            "nl": "Woensdag vertrek (UU:MM, leeg = auto)",
+            "de": "Mittwoch Abfahrt (HH:MM, leer = auto)",
+            "fr": "Départ mercredi (HH:MM, vide = auto)",
+            "it": "Partenza mercoledì (HH:MM, vuoto = auto)",
+            "sv": "Onsdag avgång (HH:MM, tom = auto)",
+            "no": "Onsdag avgang (HH:MM, tom = auto)",
+            "es": "Salida miércoles (HH:MM, vacío = auto)",
+            "da": "Onsdag afgang (HH:MM, tom = auto)",
+            "pl": "Środa odjazd (HH:MM, puste = auto)",
+            "ru": "Ср отправление (ЧЧ:ММ, пусто = авто)",
+            "ar": "مغادرة الأربعاء (ساعة:دقيقة, فارغ = تلقائي)",
+            "ko": "수요일 출발 (HH:MM, 비워두면 자동)"
+          },
           "value": ""
         },
         {
           "id": "departureTime_3",
           "type": "text",
-          "label": { "en": "Thursday departure (HH:MM, empty = auto)", "nl": "Donderdag vertrek (UU:MM, leeg = auto)", "de": "Donnerstag Abfahrt (HH:MM, leer = auto)", "fr": "Départ jeudi (HH:MM, vide = auto)", "it": "Partenza giovedì (HH:MM, vuoto = auto)", "sv": "Torsdag avgång (HH:MM, tom = auto)", "no": "Torsdag avgang (HH:MM, tom = auto)", "es": "Salida jueves (HH:MM, vacío = auto)", "da": "Torsdag afgang (HH:MM, tom = auto)", "pl": "Czwartek odjazd (HH:MM, puste = auto)", "ru": "Чт отправление (ЧЧ:ММ, пусто = авто)", "ar": "مغادرة الخميس (ساعة:دقيقة, فارغ = تلقائي)", "ko": "목요일 출발 (HH:MM, 비워두면 자동)" },
+          "label": {
+            "en": "Thursday departure (HH:MM, empty = auto)",
+            "nl": "Donderdag vertrek (UU:MM, leeg = auto)",
+            "de": "Donnerstag Abfahrt (HH:MM, leer = auto)",
+            "fr": "Départ jeudi (HH:MM, vide = auto)",
+            "it": "Partenza giovedì (HH:MM, vuoto = auto)",
+            "sv": "Torsdag avgång (HH:MM, tom = auto)",
+            "no": "Torsdag avgang (HH:MM, tom = auto)",
+            "es": "Salida jueves (HH:MM, vacío = auto)",
+            "da": "Torsdag afgang (HH:MM, tom = auto)",
+            "pl": "Czwartek odjazd (HH:MM, puste = auto)",
+            "ru": "Чт отправление (ЧЧ:ММ, пусто = авто)",
+            "ar": "مغادرة الخميس (ساعة:دقيقة, فارغ = تلقائي)",
+            "ko": "목요일 출발 (HH:MM, 비워두면 자동)"
+          },
           "value": ""
         },
         {
           "id": "departureTime_4",
           "type": "text",
-          "label": { "en": "Friday departure (HH:MM, empty = auto)", "nl": "Vrijdag vertrek (UU:MM, leeg = auto)", "de": "Freitag Abfahrt (HH:MM, leer = auto)", "fr": "Départ vendredi (HH:MM, vide = auto)", "it": "Partenza venerdì (HH:MM, vuoto = auto)", "sv": "Fredag avgång (HH:MM, tom = auto)", "no": "Fredag avgang (HH:MM, tom = auto)", "es": "Salida viernes (HH:MM, vacío = auto)", "da": "Fredag afgang (HH:MM, tom = auto)", "pl": "Piątek odjazd (HH:MM, puste = auto)", "ru": "Пт отправление (ЧЧ:ММ, пусто = авто)", "ar": "مغادرة الجمعة (ساعة:دقيقة, فارغ = تلقائي)", "ko": "금요일 출발 (HH:MM, 비워두면 자동)" },
+          "label": {
+            "en": "Friday departure (HH:MM, empty = auto)",
+            "nl": "Vrijdag vertrek (UU:MM, leeg = auto)",
+            "de": "Freitag Abfahrt (HH:MM, leer = auto)",
+            "fr": "Départ vendredi (HH:MM, vide = auto)",
+            "it": "Partenza venerdì (HH:MM, vuoto = auto)",
+            "sv": "Fredag avgång (HH:MM, tom = auto)",
+            "no": "Fredag avgang (HH:MM, tom = auto)",
+            "es": "Salida viernes (HH:MM, vacío = auto)",
+            "da": "Fredag afgang (HH:MM, tom = auto)",
+            "pl": "Piątek odjazd (HH:MM, puste = auto)",
+            "ru": "Пт отправление (ЧЧ:ММ, пусто = авто)",
+            "ar": "مغادرة الجمعة (ساعة:دقيقة, فارغ = تلقائي)",
+            "ko": "금요일 출발 (HH:MM, 비워두면 자동)"
+          },
           "value": ""
         },
         {
           "id": "departureTime_5",
           "type": "text",
-          "label": { "en": "Saturday departure (HH:MM, empty = auto)", "nl": "Zaterdag vertrek (UU:MM, leeg = auto)", "de": "Samstag Abfahrt (HH:MM, leer = auto)", "fr": "Départ samedi (HH:MM, vide = auto)", "it": "Partenza sabato (HH:MM, vuoto = auto)", "sv": "Lördag avgång (HH:MM, tom = auto)", "no": "Lørdag avgang (HH:MM, tom = auto)", "es": "Salida sábado (HH:MM, vacío = auto)", "da": "Lørdag afgang (HH:MM, tom = auto)", "pl": "Sobota odjazd (HH:MM, puste = auto)", "ru": "Сб отправление (ЧЧ:ММ, пусто = авто)", "ar": "مغادرة السبت (ساعة:دقيقة, فارغ = تلقائي)", "ko": "토요일 출발 (HH:MM, 비워두면 자동)" },
+          "label": {
+            "en": "Saturday departure (HH:MM, empty = auto)",
+            "nl": "Zaterdag vertrek (UU:MM, leeg = auto)",
+            "de": "Samstag Abfahrt (HH:MM, leer = auto)",
+            "fr": "Départ samedi (HH:MM, vide = auto)",
+            "it": "Partenza sabato (HH:MM, vuoto = auto)",
+            "sv": "Lördag avgång (HH:MM, tom = auto)",
+            "no": "Lørdag avgang (HH:MM, tom = auto)",
+            "es": "Salida sábado (HH:MM, vacío = auto)",
+            "da": "Lørdag afgang (HH:MM, tom = auto)",
+            "pl": "Sobota odjazd (HH:MM, puste = auto)",
+            "ru": "Сб отправление (ЧЧ:ММ, пусто = авто)",
+            "ar": "مغادرة السبت (ساعة:دقيقة, فارغ = تلقائي)",
+            "ko": "토요일 출발 (HH:MM, 비워두면 자동)"
+          },
           "value": ""
         },
         {
           "id": "departureTime_6",
           "type": "text",
-          "label": { "en": "Sunday departure (HH:MM, empty = auto)", "nl": "Zondag vertrek (UU:MM, leeg = auto)", "de": "Sonntag Abfahrt (HH:MM, leer = auto)", "fr": "Départ dimanche (HH:MM, vide = auto)", "it": "Partenza domenica (HH:MM, vuoto = auto)", "sv": "Söndag avgång (HH:MM, tom = auto)", "no": "Søndag avgang (HH:MM, tom = auto)", "es": "Salida domingo (HH:MM, vacío = auto)", "da": "Søndag afgang (HH:MM, tom = auto)", "pl": "Niedziela odjazd (HH:MM, puste = auto)", "ru": "Вс отправление (ЧЧ:ММ, пусто = авто)", "ar": "مغادرة الأحد (ساعة:دقيقة, فارغ = تلقائي)", "ko": "일요일 출발 (HH:MM, 비워두면 자동)" },
+          "label": {
+            "en": "Sunday departure (HH:MM, empty = auto)",
+            "nl": "Zondag vertrek (UU:MM, leeg = auto)",
+            "de": "Sonntag Abfahrt (HH:MM, leer = auto)",
+            "fr": "Départ dimanche (HH:MM, vide = auto)",
+            "it": "Partenza domenica (HH:MM, vuoto = auto)",
+            "sv": "Söndag avgång (HH:MM, tom = auto)",
+            "no": "Søndag avgang (HH:MM, tom = auto)",
+            "es": "Salida domingo (HH:MM, vacío = auto)",
+            "da": "Søndag afgang (HH:MM, tom = auto)",
+            "pl": "Niedziela odjazd (HH:MM, puste = auto)",
+            "ru": "Вс отправление (ЧЧ:ММ, пусто = авто)",
+            "ar": "مغادرة الأحد (ساعة:دقيقة, فارغ = تلقائي)",
+            "ko": "일요일 출발 (HH:MM, 비워두면 자동)"
+          },
           "value": ""
         }
       ]
@@ -877,43 +1087,99 @@
     {
       "type": "group",
       "label": {
-        "en": "Linked Devices",
-        "nl": "Gekoppelde Apparaten",
-        "de": "Verknüpfte Geräte",
-        "fr": "Appareils liés",
-        "it": "Dispositivi collegati",
-        "sv": "Länkade enheter",
-        "no": "Tilkoblede enheter",
-        "es": "Dispositivos vinculados",
-        "da": "Tilknyttede enheder",
-        "pl": "Połączone urządzenia",
-        "ru": "Связанные устройства",
-        "ar": "الأجهزة المرتبطة",
-        "ko": "연결된 장치"
+        "en": "Homey source devices",
+        "nl": "Homey bronapparaten",
+        "de": "Homey Quellgeräte",
+        "fr": "Appareils source Homey",
+        "it": "Dispositivi sorgente Homey",
+        "sv": "Homey källenheter",
+        "no": "Homey kildeenheter",
+        "es": "Dispositivos de origen Homey",
+        "da": "Homey kildeenheder",
+        "pl": "Urządzenia źródłowe Homey",
+        "ru": "Исходные устройства Homey",
+        "ar": "أجهزة مصدر Homey",
+        "ko": "Homey 소스 장치"
       },
       "children": [
         {
           "id": "homey_device_id",
           "type": "label",
-          "label": { "en": "Charger device ID", "nl": "Lader apparaat ID", "de": "Ladegerät Geräte-ID", "fr": "ID appareil chargeur", "it": "ID dispositivo caricatore", "sv": "Laddare enhets-ID", "no": "Lader enhets-ID", "es": "ID del dispositivo cargador", "da": "Oplader enheds-ID", "pl": "ID urządzenia ładowarki", "ru": "ID устройства зарядки", "ar": "معرف جهاز الشاحن", "ko": "충전기 장치 ID" },
+          "label": {
+            "en": "Charger device ID",
+            "nl": "Lader apparaat ID",
+            "de": "Ladegerät Geräte-ID",
+            "fr": "ID appareil chargeur",
+            "it": "ID dispositivo caricatore",
+            "sv": "Laddare enhets-ID",
+            "no": "Lader enhets-ID",
+            "es": "ID del dispositivo cargador",
+            "da": "Oplader enheds-ID",
+            "pl": "ID urządzenia ładowarki",
+            "ru": "ID устройства зарядки",
+            "ar": "معرف جهاز الشاحن",
+            "ko": "충전기 장치 ID"
+          },
           "value": "unknown"
         },
         {
           "id": "homey_device_name",
           "type": "label",
-          "label": { "en": "Charger device name", "nl": "Lader apparaatnaam", "de": "Ladegerät Gerätename", "fr": "Nom de l'appareil chargeur", "it": "Nome dispositivo caricatore", "sv": "Laddare enhetsnamn", "no": "Lader enhetsnamn", "es": "Nombre del dispositivo cargador", "da": "Oplader enhedsnavn", "pl": "Nazwa urządzenia ładowarki", "ru": "Имя устройства зарядки", "ar": "اسم جهاز الشاحن", "ko": "충전기 장치 이름" },
+          "label": {
+            "en": "Charger device name",
+            "nl": "Lader apparaatnaam",
+            "de": "Ladegerät Gerätename",
+            "fr": "Nom de l'appareil chargeur",
+            "it": "Nome dispositivo caricatore",
+            "sv": "Laddare enhetsnamn",
+            "no": "Lader enhetsnamn",
+            "es": "Nombre del dispositivo cargador",
+            "da": "Oplader enhedsnavn",
+            "pl": "Nazwa urządzenia ładowarki",
+            "ru": "Имя устройства зарядки",
+            "ar": "اسم جهاز الشاحن",
+            "ko": "충전기 장치 이름"
+          },
           "value": "unknown"
         },
         {
           "id": "ev_device_id",
           "type": "label",
-          "label": { "en": "EV car device ID", "nl": "EV auto apparaat ID", "de": "E-Auto Geräte-ID", "fr": "ID appareil voiture EV", "it": "ID dispositivo auto EV", "sv": "EV bil enhets-ID", "no": "EV bil enhets-ID", "es": "ID del dispositivo coche EV", "da": "EV bil enheds-ID", "pl": "ID urządzenia samochodu EV", "ru": "ID устройства EV автомобиля", "ar": "معرف جهاز سيارة EV", "ko": "EV 차량 장치 ID" },
+          "label": {
+            "en": "EV car device ID",
+            "nl": "EV auto apparaat ID",
+            "de": "E-Auto Geräte-ID",
+            "fr": "ID appareil voiture EV",
+            "it": "ID dispositivo auto EV",
+            "sv": "EV bil enhets-ID",
+            "no": "EV bil enhets-ID",
+            "es": "ID del dispositivo coche EV",
+            "da": "EV bil enheds-ID",
+            "pl": "ID urządzenia samochodu EV",
+            "ru": "ID устройства EV автомобиля",
+            "ar": "معرف جهاز سيارة EV",
+            "ko": "EV 차량 장치 ID"
+          },
           "value": "none"
         },
         {
           "id": "ev_device_name",
           "type": "label",
-          "label": { "en": "EV car device name", "nl": "EV auto apparaatnaam", "de": "E-Auto Gerätename", "fr": "Nom de l'appareil voiture EV", "it": "Nome dispositivo auto EV", "sv": "EV bil enhetsnamn", "no": "EV bil enhetsnamn", "es": "Nombre del dispositivo coche EV", "da": "EV bil enhedsnavn", "pl": "Nazwa urządzenia samochodu EV", "ru": "Имя устройства EV автомобиля", "ar": "اسم جهاز سيارة EV", "ko": "EV 차량 장치 이름" },
+          "label": {
+            "en": "EV car device name",
+            "nl": "EV auto apparaatnaam",
+            "de": "E-Auto Gerätename",
+            "fr": "Nom de l'appareil voiture EV",
+            "it": "Nome dispositivo auto EV",
+            "sv": "EV bil enhetsnamn",
+            "no": "EV bil enhetsnamn",
+            "es": "Nombre del dispositivo coche EV",
+            "da": "EV bil enhedsnavn",
+            "pl": "Nazwa urządzenia samochodu EV",
+            "ru": "Имя устройства EV автомобиля",
+            "ar": "اسم جهاز سيارة EV",
+            "ko": "EV 차량 장치 이름"
+          },
           "value": "none"
         }
       ]
@@ -939,43 +1205,141 @@
         {
           "id": "learned_profile_mon",
           "type": "label",
-          "label": { "en": "Monday", "nl": "Maandag", "de": "Montag", "fr": "Lundi", "it": "Lunedì", "sv": "Måndag", "no": "Mandag", "es": "Lunes", "da": "Mandag", "pl": "Poniedziałek", "ru": "Пн", "ar": "الاثنين", "ko": "월요일" },
+          "label": {
+            "en": "Monday",
+            "nl": "Maandag",
+            "de": "Montag",
+            "fr": "Lundi",
+            "it": "Lunedì",
+            "sv": "Måndag",
+            "no": "Mandag",
+            "es": "Lunes",
+            "da": "Mandag",
+            "pl": "Poniedziałek",
+            "ru": "Пн",
+            "ar": "الاثنين",
+            "ko": "월요일"
+          },
           "value": "not yet learned"
         },
         {
           "id": "learned_profile_tue",
           "type": "label",
-          "label": { "en": "Tuesday", "nl": "Dinsdag", "de": "Dienstag", "fr": "Mardi", "it": "Martedì", "sv": "Tisdag", "no": "Tirsdag", "es": "Martes", "da": "Tirsdag", "pl": "Wtorek", "ru": "Вт", "ar": "الثلاثاء", "ko": "화요일" },
+          "label": {
+            "en": "Tuesday",
+            "nl": "Dinsdag",
+            "de": "Dienstag",
+            "fr": "Mardi",
+            "it": "Martedì",
+            "sv": "Tisdag",
+            "no": "Tirsdag",
+            "es": "Martes",
+            "da": "Tirsdag",
+            "pl": "Wtorek",
+            "ru": "Вт",
+            "ar": "الثلاثاء",
+            "ko": "화요일"
+          },
           "value": "not yet learned"
         },
         {
           "id": "learned_profile_wed",
           "type": "label",
-          "label": { "en": "Wednesday", "nl": "Woensdag", "de": "Mittwoch", "fr": "Mercredi", "it": "Mercoledì", "sv": "Onsdag", "no": "Onsdag", "es": "Miércoles", "da": "Onsdag", "pl": "Środa", "ru": "Ср", "ar": "الأربعاء", "ko": "수요일" },
+          "label": {
+            "en": "Wednesday",
+            "nl": "Woensdag",
+            "de": "Mittwoch",
+            "fr": "Mercredi",
+            "it": "Mercoledì",
+            "sv": "Onsdag",
+            "no": "Onsdag",
+            "es": "Miércoles",
+            "da": "Onsdag",
+            "pl": "Środa",
+            "ru": "Ср",
+            "ar": "الأربعاء",
+            "ko": "수요일"
+          },
           "value": "not yet learned"
         },
         {
           "id": "learned_profile_thu",
           "type": "label",
-          "label": { "en": "Thursday", "nl": "Donderdag", "de": "Donnerstag", "fr": "Jeudi", "it": "Giovedì", "sv": "Torsdag", "no": "Torsdag", "es": "Jueves", "da": "Torsdag", "pl": "Czwartek", "ru": "Чт", "ar": "الخميس", "ko": "목요일" },
+          "label": {
+            "en": "Thursday",
+            "nl": "Donderdag",
+            "de": "Donnerstag",
+            "fr": "Jeudi",
+            "it": "Giovedì",
+            "sv": "Torsdag",
+            "no": "Torsdag",
+            "es": "Jueves",
+            "da": "Torsdag",
+            "pl": "Czwartek",
+            "ru": "Чт",
+            "ar": "الخميس",
+            "ko": "목요일"
+          },
           "value": "not yet learned"
         },
         {
           "id": "learned_profile_fri",
           "type": "label",
-          "label": { "en": "Friday", "nl": "Vrijdag", "de": "Freitag", "fr": "Vendredi", "it": "Venerdì", "sv": "Fredag", "no": "Fredag", "es": "Viernes", "da": "Fredag", "pl": "Piątek", "ru": "Пт", "ar": "الجمعة", "ko": "금요일" },
+          "label": {
+            "en": "Friday",
+            "nl": "Vrijdag",
+            "de": "Freitag",
+            "fr": "Vendredi",
+            "it": "Venerdì",
+            "sv": "Fredag",
+            "no": "Fredag",
+            "es": "Viernes",
+            "da": "Fredag",
+            "pl": "Piątek",
+            "ru": "Пт",
+            "ar": "الجمعة",
+            "ko": "금요일"
+          },
           "value": "not yet learned"
         },
         {
           "id": "learned_profile_sat",
           "type": "label",
-          "label": { "en": "Saturday", "nl": "Zaterdag", "de": "Samstag", "fr": "Samedi", "it": "Sabato", "sv": "Lördag", "no": "Lørdag", "es": "Sábado", "da": "Lørdag", "pl": "Sobota", "ru": "Сб", "ar": "السبت", "ko": "토요일" },
+          "label": {
+            "en": "Saturday",
+            "nl": "Zaterdag",
+            "de": "Samstag",
+            "fr": "Samedi",
+            "it": "Sabato",
+            "sv": "Lördag",
+            "no": "Lørdag",
+            "es": "Sábado",
+            "da": "Lørdag",
+            "pl": "Sobota",
+            "ru": "Сб",
+            "ar": "السبت",
+            "ko": "토요일"
+          },
           "value": "not yet learned"
         },
         {
           "id": "learned_profile_sun",
           "type": "label",
-          "label": { "en": "Sunday", "nl": "Zondag", "de": "Sonntag", "fr": "Dimanche", "it": "Domenica", "sv": "Söndag", "no": "Søndag", "es": "Domingo", "da": "Søndag", "pl": "Niedziela", "ru": "Вс", "ar": "الأحد", "ko": "일요일" },
+          "label": {
+            "en": "Sunday",
+            "nl": "Zondag",
+            "de": "Sonntag",
+            "fr": "Dimanche",
+            "it": "Domenica",
+            "sv": "Söndag",
+            "no": "Søndag",
+            "es": "Domingo",
+            "da": "Søndag",
+            "pl": "Niedziela",
+            "ru": "Вс",
+            "ar": "الأحد",
+            "ko": "일요일"
+          },
           "value": "not yet learned"
         },
         {
@@ -1020,22 +1384,21 @@
         }
       ]
     },
-
     {
       "type": "group",
       "label": {
-        "en": "Tariffs",
-        "nl": "Tarieven",
-        "de": "Tarife",
-        "fr": "Tarifs",
-        "it": "Tariffe",
-        "sv": "Tariffer",
-        "no": "Tariffer",
-        "es": "Tarifas",
-        "da": "Takster",
-        "pl": "Taryfy",
-        "ru": "Тарифы",
-        "ar": "التعريفات",
+        "en": "Tariff",
+        "nl": "Tarief",
+        "de": "Tarif",
+        "fr": "Tarif",
+        "it": "Tariffa",
+        "sv": "Tariff",
+        "no": "Tariff",
+        "es": "Tarifa",
+        "da": "Takst",
+        "pl": "Taryfa",
+        "ru": "Тариф",
+        "ar": "تعريفة",
         "ko": "요금"
       },
       "children": [
@@ -1043,34 +1406,34 @@
           "id": "tariff_update_group",
           "type": "number",
           "label": {
-            "en": "Tariff update group (DAP)",
-            "nl": "Tarief update groep (DAP)",
-            "de": "Tarif Aktualisierungsgruppe (DAP)",
-            "fr": "Groupe de mise à jour tarifaire (DAP)",
-            "it": "Gruppo aggiornamento tariffa (DAP)",
-            "sv": "Tariffuppdateringsgrupp (DAP)",
-            "no": "Tariff oppdateringsgruppe (DAP)",
-            "es": "Grupo de actualización de tarifas (DAP)",
-            "da": "Takstopdateringsgruppe (DAP)",
-            "pl": "Grupa aktualizacji taryf (DAP)",
-            "ru": "Группа обновления тарифов (DAP)",
-            "ar": "مجموعة تحديث التعريفة (DAP)",
-            "ko": "요금 업데이트 그룹 (DAP)"
+            "en": "Tariff group",
+            "nl": "Tariefgroep",
+            "de": "Tarifgruppe",
+            "fr": "Groupe tarifaire",
+            "it": "Gruppo tariffario",
+            "sv": "Tariffgrupp",
+            "no": "Tariffgruppe",
+            "es": "Grupo de tarifa",
+            "da": "Takstgruppe",
+            "pl": "Grupa taryfowa",
+            "ru": "Тарифная группа",
+            "ar": "مجموعة التعريفة",
+            "ko": "요금 그룹"
           },
           "hint": {
-            "en": "Group number for getting grid tariffs via Day Ahead Pricing (DAP).",
-            "nl": "Groepnummer voor het krijgen van net tarieven via Day Ahead Pricing (DAP).",
-            "de": "Gruppennummer für den Bezug von Netztarifen über Day Ahead Pricing (DAP).",
-            "fr": "Numéro de groupe pour obtenir les tarifs du réseau via Day Ahead Pricing (DAP).",
-            "it": "Numero del gruppo per ottenere le tariffe di rete tramite Day Ahead Pricing (DAP).",
-            "sv": "Gruppnummer för att få nättariffer via Day Ahead Pricing (DAP).",
-            "no": "Gruppenummer for å få nettariffer via Day Ahead Pricing (DAP).",
-            "es": "Número de grupo para obtener tarifas de red a través de Day Ahead Pricing (DAP).",
-            "da": "Gruppenummer til at få nettakster via Day Ahead Pricing (DAP).",
-            "pl": "Numer grupy do uzyskiwania taryf sieciowych przez Day Ahead Pricing (DAP).",
-            "ru": "Номер группы для получения сетевых тарифов через Day Ahead Pricing (DAP).",
-            "ar": "رقم المجموعة للحصول على تعريفات الشبكة عبر Day Ahead Pricing (DAP).",
-            "ko": "전일 가격(DAP)을 통해 계통 요금을 가져올 그룹 번호입니다."
+            "en": "Gets the price from the Energy Price device with this group number, or from the flow card 'Set a new tariff'. 0: no updates.",
+            "nl": "Krijgt de prijs van het Energieprijs-apparaat met dit groepsnummer, of van de flowkaart 'Stel een nieuw tarief in'. 0: geen updates.",
+            "de": "Erhält den Preis vom Energiepreis-Gerät mit dieser Gruppennummer oder von der Flowkarte 'Neuen Tarif festlegen'. 0: keine Aktualisierung.",
+            "fr": "Reçoit le prix de l'appareil Prix de l'énergie avec ce numéro de groupe, ou de la carte flow 'Définir un nouveau tarif'. 0 : aucune mise à jour.",
+            "it": "Riceve il prezzo dal dispositivo Prezzo dell'energia con questo numero di gruppo, o dalla scheda flow 'Imposta una nuova tariffa'. 0: nessun aggiornamento.",
+            "sv": "Får priset från Energipris-enheten med detta gruppnummer, eller från flödeskortet 'Ställ in en ny tariff'. 0: inga uppdateringar.",
+            "no": "Får prisen fra Energipris-enheten med dette gruppenummeret, eller fra flytkortet 'Sett en ny tariff'. 0: ingen oppdateringer.",
+            "es": "Recibe el precio del dispositivo Precio de la energía con este número de grupo, o de la tarjeta de flujo 'Establecer una nueva tarifa'. 0: sin actualizaciones.",
+            "da": "Får prisen fra Energipris-enheden med dette gruppenummer, eller fra flowkortet 'Sæt en ny tarif'. 0: ingen opdateringer.",
+            "pl": "Pobiera cenę z urządzenia Cena energii o tym numerze grupy lub z karty flow 'Ustaw nową taryfę'. 0: bez aktualizacji.",
+            "ru": "Получает цену от устройства «Цена энергии» с этим номером группы или от карточки потока «Установить новый тариф». 0: без обновлений.",
+            "ar": "يحصل على السعر من جهاز سعر الطاقة بهذا الرقم للمجموعة، أو من بطاقة التدفق 'تعيين تعريفة جديدة'. 0: بدون تحديثات.",
+            "ko": "이 그룹 번호의 에너지 가격 장치 또는 플로우 카드 '새 요금 설정'에서 가격을 받습니다. 0: 업데이트 없음."
           },
           "value": 1,
           "min": 0,
@@ -1114,15 +1477,57 @@
           "values": [
             {
               "id": "dynamic",
-              "label": { "en": "Automatic", "nl": "Automatisch", "de": "Automatisch", "fr": "Automatique", "it": "Automatico", "sv": "Automatisk", "no": "Automatisk", "es": "Automático", "da": "Automatisk", "pl": "Automatycznie", "ru": "Автоматически", "ar": "تلقائي", "ko": "자동" }
+              "label": {
+                "en": "Automatic",
+                "nl": "Automatisch",
+                "de": "Automatisch",
+                "fr": "Automatique",
+                "it": "Automatico",
+                "sv": "Automatisk",
+                "no": "Automatisk",
+                "es": "Automático",
+                "da": "Automatisk",
+                "pl": "Automatycznie",
+                "ru": "Автоматически",
+                "ar": "تلقائي",
+                "ko": "자동"
+              }
             },
             {
               "id": "import",
-              "label": { "en": "Always Import", "nl": "Altijd Import", "de": "Immer Import", "fr": "Toujours Importer", "it": "Sempre Importazione", "sv": "Alltid Import", "no": "Alltid Import", "es": "Siempre Importar", "da": "Altid Import", "pl": "Zawsze Import", "ru": "Всегда Импорт", "ar": "استيراد دائما", "ko": "항상 수전(수입)" }
+              "label": {
+                "en": "Always Import",
+                "nl": "Altijd Import",
+                "de": "Immer Import",
+                "fr": "Toujours Importer",
+                "it": "Sempre Importazione",
+                "sv": "Alltid Import",
+                "no": "Alltid Import",
+                "es": "Siempre Importar",
+                "da": "Altid Import",
+                "pl": "Zawsze Import",
+                "ru": "Всегда Импорт",
+                "ar": "استيراد دائما",
+                "ko": "항상 수전(수입)"
+              }
             },
             {
               "id": "export",
-              "label": { "en": "Always Export", "nl": "Altijd Export", "de": "Immer Export", "fr": "Toujours Exporter", "it": "Sempre Esportazione", "sv": "Alltid Export", "no": "Alltid Eksport", "es": "Siempre Exportar", "da": "Altid Eksport", "pl": "Zawsze Eksport", "ru": "Всегда Экспорт", "ar": "تصدير دائما", "ko": "항상 송전(수출)" }
+              "label": {
+                "en": "Always Export",
+                "nl": "Altijd Export",
+                "de": "Immer Export",
+                "fr": "Toujours Exporter",
+                "it": "Sempre Esportazione",
+                "sv": "Alltid Export",
+                "no": "Alltid Eksport",
+                "es": "Siempre Exportar",
+                "da": "Altid Eksport",
+                "pl": "Zawsze Eksport",
+                "ru": "Всегда Экспорт",
+                "ar": "تصدير دائما",
+                "ko": "항상 송전(수출)"
+              }
             }
           ]
         }
@@ -1370,7 +1775,7 @@
       "type": "group",
       "label": {
         "en": "Graph display",
-        "nl": "Grafiek weergave",
+        "nl": "Grafiekweergave",
         "de": "Grafikanzeige",
         "fr": "Affichage du graphique",
         "it": "Visualizzazione grafico",
