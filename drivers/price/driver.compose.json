@@ -352,11 +352,11 @@
             "sv": "Tariff",
             "no": "Tariff",
             "es": "Tarifa",
-            "da": "Tarif",
+            "da": "Takst",
             "pl": "Taryfa",
             "ru": "Тариф",
-            "ar": "التعرفة",
-            "ko": "요금제"
+            "ar": "تعريفة",
+            "ko": "요금"
           },
           "hint": {
             "en": "Change via Repair.",

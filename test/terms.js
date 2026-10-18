@@ -27,6 +27,13 @@ const ACCEPTED = new Set([
   'Hour|de', 'Hour|ko', // clock time (units) vs a duration (token)
   'Start time|fr', 'Start time|it', 'Start time|pl', 'Start time|ru', // program start vs period start
   'this day|de', 'next 8H|de', // genitive vs accusative
+  // 'Charging': a car status ('is charging') vs a settings group ('charging').
+  ...['de', 'fr', 'es', 'it', 'da', 'sv', 'no', 'ru', 'ar', 'ko'].map((l) => `Charging|${l}`),
+  // A time ('from 07:00') vs a date or a range.
+  'From|nl', 'From|de', 'From|fr', 'From|it', 'From|ko',
+  // A block (singular) vs among the cheapest slots (plural); after a number vs a title.
+  ...['de', 'fr', 'es', 'it', 'pl', 'ru'].flatMap((l) => [`cheapest|${l}`, `most expensive|${l}`]),
+  'hours|pl', 'hours|ru',
 ]);
 // The same word as in English on purpose (loanword, abbreviation). 'English|lang'.
 const SAME_AS_EN = new Set([
@@ -34,6 +41,9 @@ const SAME_AS_EN = new Set([
   'Water (m³)|nl', 'period|sv', 'Mode|fr', 'Description|fr', 'Linear|de', 'Tariff|sv', 'Tariff|no', 'Phases|fr',
   '1 phase|fr', '3 phases|fr', '15 minutes|fr', '30 minutes|fr', '45 minutes|fr', '60 minutes|fr', 'Latitude|fr',
   'Longitude|fr', 'Distribution|fr', 'Minutes|fr',
+  'Plan JSON', 'Min. SoC [[day]] [[soc]]%', 'Reserve (%)', 'Peak shaving|nl', 'Meter|nl', 'Action|fr', 'Charge|fr',
+  'Period|sv', 'Type|fr', 'Type|da', 'Type|no', 'minutes|fr', 'import', 'export', 'gas', 'water|nl', 'Name|de',
+  'Formula|it', 'VAT (%)|pl', 'Import: VAT (%)|pl', 'Per kWh (gas: per m³).', 'Minimum per kWh', 'per __unit__',
 ]);
 
 const maxArg = process.argv.indexOf('--max');
@@ -67,7 +77,12 @@ const composeFiles = [
   ...walk(path.join(ROOT, '.homeycompose'), (p) => p.endsWith('.json')),
   ...walk(path.join(ROOT, 'drivers'), (p) => /driver[^/]*\.json$/.test(p)),
 ];
-composeFiles.forEach((file) => collect(JSON.parse(fs.readFileSync(file, 'utf8')), path.relative(ROOT, file), ''));
+// Deprecated flow cards are hidden: their texts do not count.
+composeFiles.forEach((file) => {
+  const json = JSON.parse(fs.readFileSync(file, 'utf8'));
+  if (json.deprecated && file.includes(`${path.sep}flow${path.sep}`)) return;
+  collect(json, path.relative(ROOT, file), '');
+});
 
 // Locale files: one file per language, merged into translation objects per key.
 const locales = {};

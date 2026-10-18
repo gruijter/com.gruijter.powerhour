@@ -30,19 +30,19 @@
     "ar": "طاقة XOM جديدة متاحة (معكوسة: [[invert_power]])"
   },
   "hint": {
-    "en": "Battery power is set to keep cumulative usage near the target X Watt (default 0, via 'Set XOM'). Batteries share the load pro rata. Positive = charging, negative = discharging.",
-    "nl": "Het accuvermogen wordt zo ingesteld dat het cumulatieve verbruik dicht bij de ingestelde X Watt blijft (standaard 0, via 'Zet XOM'). Accu's delen de belasting naar rato. Positief = laden, negatief = ontladen.",
-    "de": "Die Batterieleistung wird so eingestellt, dass der kumulierte Verbrauch nahe am Ziel X Watt bleibt (Standard 0, über 'XOM einstellen'). Batterien teilen sich die Last anteilig. Positiv = Laden, negativ = Entladen.",
-    "fr": "La puissance de la batterie est ajustée pour que l'usage cumulé reste proche de la cible X Watt (par défaut 0, via 'Définir XOM'). Les batteries partagent la charge au prorata. Positif = charge, négatif = décharge.",
-    "it": "La potenza della batteria viene impostata per mantenere l'uso cumulativo vicino al target X Watt (predefinito 0, tramite 'Imposta XOM'). Le batterie condividono il carico pro quota. Positivo = carica, negativo = scarica.",
-    "sv": "Batterieffekten ställs in för att hålla den kumulativa användningen nära målet X Watt (standard 0, via 'Ställ in XOM'). Batterierna delar lasten proportionellt. Positivt = laddning, negativt = urladdning.",
-    "no": "Batteristrømmen settes for å holde kumulativ bruk nær målet X Watt (standard 0, via 'Sett XOM'). Batteriene deler lasten forholdsmessig. Positivt = lading, negativt = utlading.",
-    "es": "La potencia de la batería se ajusta para mantener el uso acumulado cerca del objetivo X Watt (por defecto 0, mediante 'Establecer XOM'). Las baterías comparten la carga a prorrata. Positivo = carga, negativo = descarga.",
-    "da": "Batteristrømmen indstilles, så det kumulative forbrug holder sig tæt på målet X Watt (standard 0, via 'Sæt XOM'). Batterierne deler belastningen forholdsmæssigt. Positiv = opladning, negativ = afladning.",
-    "pl": "Moc baterii jest ustawiana tak, aby łączne zużycie pozostawało bliskie celowi X Wat (domyślnie 0, przez 'Ustaw XOM'). Baterie dzielą obciążenie proporcjonalnie. Dodatnia = ładowanie, ujemna = rozładowywanie.",
-    "ru": "Мощность батареи устанавливается так, чтобы совокупное использование оставалось близким к цели X Ватт (по умолчанию 0, через поток 'Установить XOM'). Батареи делят нагрузку пропорционально. Положительное = зарядка, отрицательное = разрядка.",
-    "ko": "배터리 전력은 누적 사용량이 목표 X 와트에 가깝게 유지되도록 설정됩니다(기본값 0, 'XOM 설정'을 통해 변경). 배터리는 부하를 비례하여 나눕니다. 양수 = 충전, 음수 = 방전.",
-    "ar": "يتم ضبط طاقة البطارية للحفاظ على الاستخدام التراكمي قريبًا من الهدف X واط (افتراضيًا 0، عبر 'تعيين XOM'). تتقاسم البطاريات الحمل بالتناسب. موجب = شحن، سالب = تفريغ."
+    "en": "Continuously: the power that keeps the grid near the XOM target. Only for batteries the app does not control. Charging is positive (+), unless inverted.",
+    "nl": "Doorlopend: het vermogen dat het net dicht bij het XOM-doel houdt. Alleen voor batterijen die de app niet stuurt. Laden is positief (+), tenzij geïnverteerd.",
+    "de": "Laufend: die Leistung, die das Netz nahe am XOM-Ziel hält. Nur für Batterien, die die App nicht steuert. Laden ist positiv (+), außer invertiert.",
+    "fr": "En continu : la puissance qui maintient le réseau près de la cible XOM. Uniquement pour les batteries que l’app ne contrôle pas. La charge est positive (+), sauf si inversée.",
+    "it": "Di continuo: la potenza che mantiene la rete vicino al target XOM. Solo per le batterie che l’app non controlla. La carica è positiva (+), salvo se invertita.",
+    "sv": "Löpande: effekten som håller nätet nära XOM-målet. Endast för batterier som appen inte styr. Laddning är positiv (+), om inte inverterad.",
+    "no": "Fortløpende: effekten som holder nettet nær XOM-målet. Bare for batterier appen ikke styrer. Lading er positiv (+), med mindre invertert.",
+    "es": "De forma continua: la potencia que mantiene la red cerca del objetivo XOM. Solo para baterías que la app no controla. La carga es positiva (+), salvo si se invierte.",
+    "da": "Løbende: effekten, der holder nettet tæt på XOM-målet. Kun for batterier, som appen ikke styrer. Opladning er positiv (+), medmindre inverteret.",
+    "pl": "Na bieżąco: moc, która utrzymuje sieć blisko celu XOM. Tylko dla baterii, których aplikacja nie steruje. Ładowanie jest dodatnie (+), chyba że odwrócone.",
+    "ru": "Непрерывно: мощность, удерживающая сеть около цели XOM. Только для батарей, которыми приложение не управляет. Зарядка положительная (+), если не инвертировано.",
+    "ko": "지속적으로: 그리드를 XOM 목표 근처로 유지하는 전력. 앱이 제어하지 않는 배터리에만 해당. 반전하지 않으면 충전은 양수(+)입니다.",
+    "ar": "باستمرار: القدرة التي تُبقي الشبكة قريبة من هدف XOM. فقط للبطاريات التي لا يتحكم بها التطبيق. الشحن موجب (+)، ما لم يكن معكوسًا."
   },
   "args": [
     {
@@ -95,11 +95,11 @@
       "type": "number",
       "name": "x",
       "title": {
-        "en": "XOM-target (W)",
+        "en": "XOM target (W)",
         "nl": "XOM-doel (W)",
         "de": "XOM-Ziel (W)",
         "fr": "Cible XOM (W)",
-        "it": "Target XOM (W)",
+        "it": "Obiettivo XOM (W)",
         "sv": "XOM-mål (W)",
         "no": "XOM-mål (W)",
         "es": "Objetivo XOM (W)",
@@ -107,14 +107,14 @@
         "pl": "Cel XOM (W)",
         "ru": "Цель XOM (Вт)",
         "ko": "XOM 목표 (W)",
-        "ar": "هدف XOM (واط)"
+        "ar": "هدف XOM (W)"
       }
     },
     {
       "type": "number",
       "name": "smoothing",
       "title": {
-        "en": "smoothing (%)",
+        "en": "Smoothing (%)",
         "nl": "afvlakking (%)",
         "de": "Glättung (%)",
         "fr": "lissage (%)",

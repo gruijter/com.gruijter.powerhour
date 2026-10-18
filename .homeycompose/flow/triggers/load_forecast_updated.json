@@ -1,6 +1,6 @@
 {
   "title": {
-    "en": "Load forecast updated",
+    "en": "Home load forecast updated",
     "de": "Lastprognose aktualisiert",
     "nl": "Verbruiksvoorspelling bijgewerkt",
     "ar": "تم تحديث توقعات الحمل",
@@ -15,7 +15,7 @@
     "sv": "Lastprognos uppdaterad"
   },
   "titleFormatted": {
-    "en": "Load forecast for [[period]] updated",
+    "en": "Home load forecast for [[period]] updated",
     "de": "Lastprognose für [[period]] aktualisiert",
     "nl": "Verbruiksvoorspelling voor [[period]] bijgewerkt",
     "ar": "تحديث توقعات الحمل لـ [[period]]",
@@ -39,73 +39,73 @@
       "type": "dropdown",
       "name": "period",
       "title": {
-        "en": "period",
+        "en": "Period",
+        "nl": "Periode",
         "de": "Zeitraum",
-        "nl": "periode",
-        "ar": "فترة",
-        "da": "periode",
-        "es": "período",
-        "fr": "période",
-        "it": "periodo",
+        "fr": "Période",
+        "it": "Periodo",
+        "sv": "Period",
+        "no": "Periode",
+        "es": "Periodo",
+        "da": "Periode",
+        "pl": "Okres",
+        "ru": "Период",
         "ko": "기간",
-        "no": "periode",
-        "pl": "okres",
-        "ru": "период",
-        "sv": "period"
+        "ar": "الفترة"
       },
       "values": [
         {
           "id": "this_day",
           "label": {
-            "en": "This day",
-            "de": "diesen Tag",
-            "nl": "Deze dag",
-            "ar": "هذا اليوم",
-            "da": "I dag",
-            "es": "Este día",
-            "fr": "Ce jour",
-            "it": "giornata odierna",
+            "en": "today",
+            "nl": "vandaag",
+            "de": "heute",
+            "fr": "aujourd'hui",
+            "it": "oggi",
+            "sv": "i dag",
+            "no": "i dag",
+            "es": "hoy",
+            "da": "i dag",
+            "pl": "dziś",
+            "ru": "сегодня",
             "ko": "오늘",
-            "no": "idag",
-            "pl": "Ten dzień",
-            "ru": "Этот день",
-            "sv": "idag"
+            "ar": "اليوم"
           }
         },
         {
           "id": "tomorrow",
           "label": {
-            "en": "Tomorrow",
-            "de": "Morgen",
-            "nl": "Morgen",
-            "ar": "غداً",
-            "da": "I morgen",
-            "es": "Mañana",
-            "fr": "Demain",
-            "it": "Domani",
+            "en": "tomorrow",
+            "nl": "morgen",
+            "de": "morgen",
+            "fr": "demain",
+            "it": "domani",
+            "sv": "i morgon",
+            "no": "i morgen",
+            "es": "mañana",
+            "da": "i morgen",
+            "pl": "jutro",
+            "ru": "завтра",
             "ko": "내일",
-            "no": "I morgen",
-            "pl": "Jutro",
-            "ru": "Завтра",
-            "sv": "I morgon"
+            "ar": "غدًا"
           }
         },
         {
           "id": "next_hours",
           "label": {
-            "en": "Next hours",
-            "nl": "Komende uren",
-            "de": "Kommende Stunden",
-            "ar": "الساعات القادمة",
-            "da": "Næste timer",
-            "es": "Próximas horas",
-            "fr": "Prochaines heures",
-            "it": "Prossime ore",
+            "en": "the next hours",
+            "nl": "de komende uren",
+            "de": "die nächsten Stunden",
+            "fr": "les prochaines heures",
+            "it": "le prossime ore",
+            "sv": "de kommande timmarna",
+            "no": "de neste timene",
+            "es": "las próximas horas",
+            "da": "de næste timer",
+            "pl": "najbliższe godziny",
+            "ru": "ближайшие часы",
             "ko": "다음 시간",
-            "no": "Neste timer",
-            "pl": "Następne godziny",
-            "ru": "Следующие часы",
-            "sv": "Kommande timmar"
+            "ar": "الساعات القادمة"
           }
         }
       ]
@@ -115,19 +115,19 @@
     {
       "name": "load",
       "title": {
-        "en": "Load Forecast JSON",
+        "en": "Home load forecast JSON",
         "de": "Lastprognose JSON",
         "nl": "Verbruiksvoorspelling JSON",
         "ar": "JSON توقعات الحمل",
-        "da": "JSON Forbrugsprognose",
-        "es": "JSON Pronóstico de Carga",
-        "fr": "JSON Prévision de Charge",
-        "it": "JSON Previsione Carico",
+        "da": "JSON forbrugsprognose",
+        "es": "JSON de pronóstico de carga",
+        "fr": "JSON de prévision de charge",
+        "it": "JSON previsione carico",
         "ko": "부하 예측 JSON",
-        "no": "JSON Lastvarsel",
-        "pl": "JSON Prognoza Obciążenia",
-        "ru": "JSON Прогноз Нагрузки",
-        "sv": "JSON Lastprognos"
+        "no": "JSON lastvarsel",
+        "pl": "JSON prognozy obciążenia",
+        "ru": "JSON прогноза нагрузки",
+        "sv": "JSON lastprognos"
       },
       "type": "string",
       "example": "[500,550,600,450,300]"

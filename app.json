@@ -390,19 +390,19 @@
             "type": "number",
             "name": "period",
             "title": {
-              "en": "period",
-              "de": "Zeitraum",
-              "sv": "period",
-              "it": "periodo",
-              "no": "periode",
-              "da": "periode",
-              "nl": "periode",
-              "fr": "période",
-              "es": "período",
-              "pl": "okres",
-              "ru": "период",
-              "ko": "기간",
-              "ar": "فترة"
+              "en": "Hours",
+              "nl": "Uren",
+              "de": "Stunden",
+              "fr": "Heures",
+              "it": "Ore",
+              "sv": "Timmar",
+              "no": "Timer",
+              "es": "Horas",
+              "da": "Timer",
+              "pl": "Godziny",
+              "ru": "Часы",
+              "ar": "الساعات",
+              "ko": "시간"
             },
             "placeholder": {
               "en": "1 - 48",
@@ -540,19 +540,19 @@
             "type": "number",
             "name": "period",
             "title": {
-              "en": "period",
-              "de": "Zeitraum",
-              "sv": "period",
-              "it": "periodo",
-              "no": "periode",
-              "da": "periode",
-              "nl": "periode",
-              "fr": "période",
-              "es": "período",
-              "pl": "okres",
-              "ru": "период",
-              "ko": "기간",
-              "ar": "فترة"
+              "en": "Hours",
+              "nl": "Uren",
+              "de": "Stunden",
+              "fr": "Heures",
+              "it": "Ore",
+              "sv": "Timmar",
+              "no": "Timer",
+              "es": "Horas",
+              "da": "Timer",
+              "pl": "Godziny",
+              "ru": "Часы",
+              "ar": "الساعات",
+              "ko": "시간"
             },
             "placeholder": {
               "en": "1 - 24",
@@ -1030,19 +1030,19 @@
           "ar": "قدرة بطارية مخططة جديدة (معكوسة: [[invert_power]])"
         },
         "hint": {
-          "en": "The power of the battery plan for now, every plan block. The plan uses the minimum profit and wear cost of the device settings: the same plan as the chart and the built-in control. Fires again with 0 W when the action ends within the block. Not inverted: charging is positive (+), discharging negative (-).",
-          "nl": "Het vermogen van het batterijplan voor nu, elk planblok. Het plan gebruikt de minimale winst en slijtagekosten uit de device-instellingen: hetzelfde plan als de grafiek en de ingebouwde sturing. Vuurt opnieuw met 0 W als de actie binnen het blok eindigt. Niet geïnverteerd: laden is positief (+), ontladen negatief (-).",
-          "de": "Die Leistung des Batterieplans für jetzt, in jedem Planblock. Der Plan nutzt den Mindestgewinn und die Verschleißkosten aus den Geräteeinstellungen: derselbe Plan wie im Diagramm und in der integrierten Steuerung. Löst erneut mit 0 W aus, wenn die Aktion innerhalb des Blocks endet. Nicht invertiert: Laden ist positiv (+), Entladen negativ (-).",
-          "fr": "La puissance du plan de batterie pour maintenant, à chaque bloc du plan. Le plan utilise le profit minimum et le coût d’usure des paramètres de l’appareil : le même plan que le graphique et le contrôle intégré. Se déclenche à nouveau avec 0 W lorsque l’action se termine dans le bloc. Non inversé : la charge est positive (+), la décharge négative (-).",
-          "it": "La potenza del piano della batteria per adesso, a ogni blocco del piano. Il piano usa il profitto minimo e il costo di usura delle impostazioni del dispositivo: lo stesso piano del grafico e del controllo integrato. Si attiva di nuovo con 0 W quando l’azione termina all’interno del blocco. Non invertita: la carica è positiva (+), la scarica negativa (-).",
-          "sv": "Batteriplanens effekt för nu, varje planblock. Planen använder minsta vinst och slitagekostnad från enhetsinställningarna: samma plan som diagrammet och den inbyggda styrningen. Utlöses igen med 0 W när åtgärden slutar inom blocket. Ej inverterad: laddning är positiv (+), urladdning negativ (-).",
-          "no": "Batteriplanens effekt for nå, hver planblokk. Planen bruker minimum fortjeneste og slitasjekostnad fra enhetsinnstillingene: samme plan som grafen og den innebygde styringen. Utløses igjen med 0 W når handlingen slutter innenfor blokken. Ikke invertert: lading er positiv (+), utlading negativ (-).",
-          "es": "La potencia del plan de batería para ahora, en cada bloque del plan. El plan usa el beneficio mínimo y el coste de desgaste de los ajustes del dispositivo: el mismo plan que el gráfico y el control integrado. Se activa de nuevo con 0 W cuando la acción termina dentro del bloque. Sin invertir: la carga es positiva (+), la descarga negativa (-).",
-          "da": "Batteriplanens effekt for nu, hver planblok. Planen bruger minimum fortjeneste og slidomkostning fra enhedsindstillingerne: samme plan som grafen og den indbyggede styring. Udløses igen med 0 W, når handlingen slutter inden for blokken. Ikke inverteret: opladning er positiv (+), afladning negativ (-).",
-          "pl": "Moc planu baterii na teraz, w każdym bloku planu. Plan używa minimalnego zysku i kosztu zużycia z ustawień urządzenia: ten sam plan co wykres i wbudowane sterowanie. Uruchamia się ponownie z 0 W, gdy akcja kończy się w obrębie bloku. Bez odwrócenia: ładowanie jest dodatnie (+), rozładowywanie ujemne (-).",
-          "ru": "Мощность плана батареи на текущий момент, в каждом блоке плана. План использует минимальную прибыль и стоимость износа из настроек устройства: тот же план, что на графике и во встроенном управлении. Срабатывает снова с 0 Вт, когда действие заканчивается внутри блока. Без инверсии: зарядка положительная (+), разрядка отрицательная (-).",
-          "ko": "매 계획 블록마다 현재 배터리 계획의 전력입니다. 계획은 기기 설정의 최소 이익과 마모 비용을 사용합니다: 차트 및 내장 제어와 같은 계획입니다. 블록 안에서 동작이 끝나면 0 W로 다시 트리거됩니다. 반전되지 않음: 충전은 양수(+), 방전은 음수(-)입니다.",
-          "ar": "قدرة خطة البطارية للوقت الحالي، في كل كتلة من الخطة. تستخدم الخطة الحد الأدنى للربح وتكلفة التآكل من إعدادات الجهاز: نفس الخطة في الرسم البياني والتحكم المدمج. يُطلق مرة أخرى بقيمة 0 واط عندما ينتهي الإجراء داخل الكتلة. غير معكوسة: الشحن موجب (+)، والتفريغ سالب (-)."
+          "en": "Every plan block: the planned power for now, and 0 W when the action ends. Same plan as the chart. Charging is positive (+), unless inverted.",
+          "nl": "Elk planblok: het geplande vermogen voor nu, en 0 W als de actie eindigt. Hetzelfde plan als de grafiek. Laden is positief (+), tenzij geïnverteerd.",
+          "de": "Jeder Planblock: die geplante Leistung für jetzt, und 0 W, wenn die Aktion endet. Derselbe Plan wie im Diagramm. Laden ist positiv (+), außer invertiert.",
+          "fr": "À chaque bloc du plan : la puissance planifiée pour maintenant, et 0 W quand l’action se termine. Le même plan que le graphique. La charge est positive (+), sauf si inversée.",
+          "it": "A ogni blocco del piano: la potenza pianificata per adesso, e 0 W quando l’azione termina. Lo stesso piano del grafico. La carica è positiva (+), salvo se invertita.",
+          "sv": "Varje planblock: den planerade effekten för nu, och 0 W när åtgärden slutar. Samma plan som diagrammet. Laddning är positiv (+), om inte inverterad.",
+          "no": "Hver planblokk: den planlagte effekten for nå, og 0 W når handlingen slutter. Samme plan som grafen. Lading er positiv (+), med mindre invertert.",
+          "es": "En cada bloque del plan: la potencia planificada para ahora, y 0 W cuando termina la acción. El mismo plan que el gráfico. La carga es positiva (+), salvo si se invierte.",
+          "da": "Hver planblok: den planlagte effekt for nu, og 0 W når handlingen slutter. Samme plan som grafen. Opladning er positiv (+), medmindre inverteret.",
+          "pl": "W każdym bloku planu: planowana moc na teraz, oraz 0 W, gdy akcja się kończy. Ten sam plan co wykres. Ładowanie jest dodatnie (+), chyba że odwrócone.",
+          "ru": "В каждом блоке плана: плановая мощность на сейчас и 0 Вт, когда действие заканчивается. Тот же план, что на графике. Зарядка положительная (+), если не инвертировано.",
+          "ko": "매 계획 블록마다: 현재 계획 전력, 동작이 끝나면 0 W. 차트와 같은 계획입니다. 반전하지 않으면 충전은 양수(+)입니다.",
+          "ar": "في كل كتلة من الخطة: القدرة المخططة للوقت الحالي، و0 واط عند انتهاء الإجراء. نفس خطة الرسم البياني. الشحن موجب (+)، ما لم يكن معكوسًا."
         },
         "args": [
           {
@@ -1133,19 +1133,19 @@
             "name": "scheme",
             "type": "string",
             "title": {
-              "en": "Scheme JSON",
-              "de": "Schema JSON",
-              "nl": "Schema JSON",
-              "fr": "Schéma JSON",
-              "it": "Schema JSON",
-              "sv": "Schema JSON",
-              "no": "Skjema JSON",
-              "es": "Esquema JSON",
-              "da": "Skema JSON",
-              "pl": "Schemat JSON",
-              "ru": "Схема JSON",
-              "ko": "스킴 JSON",
-              "ar": "مخطط JSON"
+              "en": "Plan JSON",
+              "nl": "Plan JSON",
+              "de": "Plan JSON",
+              "fr": "Plan JSON",
+              "it": "Piano JSON",
+              "sv": "Plan JSON",
+              "no": "Plan JSON",
+              "es": "Plan JSON",
+              "da": "Plan JSON",
+              "pl": "Plan JSON",
+              "ru": "План JSON",
+              "ko": "계획 JSON",
+              "ar": "خطة JSON"
             }
           },
           {
@@ -1246,7 +1246,7 @@
             "name": "ev_charge_mode",
             "type": "string",
             "title": {
-              "en": "Charge Mode",
+              "en": "Charge mode",
               "nl": "Laadmodus",
               "de": "Lademodus",
               "ko": "충전 모드",
@@ -1300,10 +1300,10 @@
               "es": "Próxima salida",
               "it": "Prossima partenza",
               "da": "Næste afgang",
-              "sv": "Nästa avresa",
-              "no": "Neste avreise",
+              "sv": "Nästa avgång",
+              "no": "Neste avgang",
               "pl": "Następny wyjazd",
-              "ru": "Следующий выезд",
+              "ru": "Следующее отправление",
               "ar": "المغادرة التالية",
               "ko": "다음 출발"
             },
@@ -1334,7 +1334,7 @@
       },
       {
         "title": {
-          "en": "Load forecast updated",
+          "en": "Home load forecast updated",
           "de": "Lastprognose aktualisiert",
           "nl": "Verbruiksvoorspelling bijgewerkt",
           "ar": "تم تحديث توقعات الحمل",
@@ -1349,7 +1349,7 @@
           "sv": "Lastprognos uppdaterad"
         },
         "titleFormatted": {
-          "en": "Load forecast for [[period]] updated",
+          "en": "Home load forecast for [[period]] updated",
           "de": "Lastprognose für [[period]] aktualisiert",
           "nl": "Verbruiksvoorspelling voor [[period]] bijgewerkt",
           "ar": "تحديث توقعات الحمل لـ [[period]]",
@@ -1373,73 +1373,73 @@
             "type": "dropdown",
             "name": "period",
             "title": {
-              "en": "period",
+              "en": "Period",
+              "nl": "Periode",
               "de": "Zeitraum",
-              "nl": "periode",
-              "ar": "فترة",
-              "da": "periode",
-              "es": "período",
-              "fr": "période",
-              "it": "periodo",
+              "fr": "Période",
+              "it": "Periodo",
+              "sv": "Period",
+              "no": "Periode",
+              "es": "Periodo",
+              "da": "Periode",
+              "pl": "Okres",
+              "ru": "Период",
               "ko": "기간",
-              "no": "periode",
-              "pl": "okres",
-              "ru": "период",
-              "sv": "period"
+              "ar": "الفترة"
             },
             "values": [
               {
                 "id": "this_day",
                 "label": {
-                  "en": "This day",
-                  "de": "diesen Tag",
-                  "nl": "Deze dag",
-                  "ar": "هذا اليوم",
-                  "da": "I dag",
-                  "es": "Este día",
-                  "fr": "Ce jour",
-                  "it": "giornata odierna",
+                  "en": "today",
+                  "nl": "vandaag",
+                  "de": "heute",
+                  "fr": "aujourd'hui",
+                  "it": "oggi",
+                  "sv": "i dag",
+                  "no": "i dag",
+                  "es": "hoy",
+                  "da": "i dag",
+                  "pl": "dziś",
+                  "ru": "сегодня",
                   "ko": "오늘",
-                  "no": "idag",
-                  "pl": "Ten dzień",
-                  "ru": "Этот день",
-                  "sv": "idag"
+                  "ar": "اليوم"
                 }
               },
               {
                 "id": "tomorrow",
                 "label": {
-                  "en": "Tomorrow",
-                  "de": "Morgen",
-                  "nl": "Morgen",
-                  "ar": "غداً",
-                  "da": "I morgen",
-                  "es": "Mañana",
-                  "fr": "Demain",
-                  "it": "Domani",
+                  "en": "tomorrow",
+                  "nl": "morgen",
+                  "de": "morgen",
+                  "fr": "demain",
+                  "it": "domani",
+                  "sv": "i morgon",
+                  "no": "i morgen",
+                  "es": "mañana",
+                  "da": "i morgen",
+                  "pl": "jutro",
+                  "ru": "завтра",
                   "ko": "내일",
-                  "no": "I morgen",
-                  "pl": "Jutro",
-                  "ru": "Завтра",
-                  "sv": "I morgon"
+                  "ar": "غدًا"
                 }
               },
               {
                 "id": "next_hours",
                 "label": {
-                  "en": "Next hours",
-                  "nl": "Komende uren",
-                  "de": "Kommende Stunden",
-                  "ar": "الساعات القادمة",
-                  "da": "Næste timer",
-                  "es": "Próximas horas",
-                  "fr": "Prochaines heures",
-                  "it": "Prossime ore",
+                  "en": "the next hours",
+                  "nl": "de komende uren",
+                  "de": "die nächsten Stunden",
+                  "fr": "les prochaines heures",
+                  "it": "le prossime ore",
+                  "sv": "de kommande timmarna",
+                  "no": "de neste timene",
+                  "es": "las próximas horas",
+                  "da": "de næste timer",
+                  "pl": "najbliższe godziny",
+                  "ru": "ближайшие часы",
                   "ko": "다음 시간",
-                  "no": "Neste timer",
-                  "pl": "Następne godziny",
-                  "ru": "Следующие часы",
-                  "sv": "Kommande timmar"
+                  "ar": "الساعات القادمة"
                 }
               }
             ]
@@ -1449,19 +1449,19 @@
           {
             "name": "load",
             "title": {
-              "en": "Load Forecast JSON",
+              "en": "Home load forecast JSON",
               "de": "Lastprognose JSON",
               "nl": "Verbruiksvoorspelling JSON",
               "ar": "JSON توقعات الحمل",
-              "da": "JSON Forbrugsprognose",
-              "es": "JSON Pronóstico de Carga",
-              "fr": "JSON Prévision de Charge",
-              "it": "JSON Previsione Carico",
+              "da": "JSON forbrugsprognose",
+              "es": "JSON de pronóstico de carga",
+              "fr": "JSON de prévision de charge",
+              "it": "JSON previsione carico",
               "ko": "부하 예측 JSON",
-              "no": "JSON Lastvarsel",
-              "pl": "JSON Prognoza Obciążenia",
-              "ru": "JSON Прогноз Нагрузки",
-              "sv": "JSON Lastprognos"
+              "no": "JSON lastvarsel",
+              "pl": "JSON prognozy obciążenia",
+              "ru": "JSON прогноза нагрузки",
+              "sv": "JSON lastprognos"
             },
             "type": "string",
             "example": "[500,550,600,450,300]"
@@ -1647,34 +1647,34 @@
       },
       {
         "title": {
-          "en": "New charging strategy active",
-          "nl": "Nieuwe laadstrategie actief",
-          "de": "Neue Ladestrategie aktiv",
-          "fr": "Nouvelle stratégie de charge active",
-          "ko": "새 충전 전략 활성",
-          "es": "Nueva estrategia de carga activa",
-          "it": "Nuova strategia di ricarica attiva",
-          "da": "Ny ladestrategi aktiv",
-          "sv": "Ny laddningsstrategi aktiv",
-          "no": "Ny ladestrategi aktiv",
-          "pl": "Nowa strategia ładowania aktywna",
-          "ru": "Новая стратегия зарядки активна",
-          "ar": "استراتيجية شحن جديدة نشطة"
+          "en": "New planned charging power",
+          "nl": "Nieuw gepland laadvermogen",
+          "de": "Neue geplante Ladeleistung",
+          "fr": "Nouvelle puissance de charge planifiée",
+          "it": "Nuova potenza di ricarica pianificata",
+          "sv": "Ny planerad laddeffekt",
+          "no": "Ny planlagt ladeeffekt",
+          "es": "Nueva potencia de carga planificada",
+          "da": "Ny planlagt ladeeffekt",
+          "pl": "Nowa planowana moc ładowania",
+          "ru": "Новая плановая мощность зарядки",
+          "ko": "새 충전 계획 전력",
+          "ar": "قدرة شحن مخططة جديدة"
         },
         "hint": {
-          "en": "Triggers every price interval (e.g. 15m or 60m) or when settings change. Provides the optimal charging power and duration for the current interval.",
-          "nl": "Triggert bij elke prijsinterval (bijv. 15m of 60m) of wanneer instellingen veranderen. Geeft het optimale laadvermogen en duur voor het huidige interval.",
-          "de": "Wird in jedem Preisintervall (z. B. 15 Min. oder 60 Min.) oder bei Einstellungsänderungen ausgelöst. Bietet die optimale Ladeleistung und Dauer für das aktuelle Intervall.",
-          "fr": "Se déclenche à chaque intervalle de prix (par ex. 15m ou 60m) ou lorsque les paramètres changent. Fournit la puissance de charge optimale pour l'intervalle actuel.",
-          "ko": "매 가격 구간(예: 15분 또는 60분)마다 또는 설정이 변경될 때 트리거됩니다. 현재 구간에 대한 최적의 충전 전력과 시간을 제공합니다.",
-          "es": "Se activa en cada intervalo de precio (por ejemplo, 15 min o 60 min) o cuando cambian los ajustes. Proporciona la potencia de carga óptima y la duración para el intervalo actual.",
-          "it": "Si attiva a ogni intervallo di prezzo (es. 15m o 60m) o quando le impostazioni cambiano. Fornisce la potenza di ricarica ottimale e la durata per l'intervallo corrente.",
-          "da": "Udløses ved hvert prisinterval (f.eks. 15 min eller 60 min) eller når indstillinger ændres. Giver den optimale ladeeffekt og varighed for det aktuelle interval.",
-          "sv": "Utlöses vid varje prisintervall (t.ex. 15 min eller 60 min) eller när inställningar ändras. Ger den optimala laddningseffekten och varaktigheten för det aktuella intervallet.",
-          "no": "Utløses ved hvert prisintervall (f.eks. 15 min eller 60 min) eller når innstillinger endres. Gir optimal ladeeffekt og varighet for gjeldende intervall.",
-          "pl": "Uruchamia się przy każdym przedziale cenowym (np. 15 min lub 60 min) lub przy zmianie ustawień. Zapewnia optymalną moc i czas ładowania dla bieżącego przedziału.",
-          "ru": "Срабатывает при каждом ценовом интервале (например, 15 или 60 минут) или при изменении настроек. Предоставляет оптимальную мощность и продолжительность зарядки для текущего интервала.",
-          "ar": "يتم التشغيل عند كل فترة سعر (مثل 15 أو 60 دقيقة) أو عند تغيير الإعدادات. يوفر طاقة الشحن المثلى والمدة للفترة الحالية."
+          "en": "Every price period and when settings change: the planned charging power and duration for now.",
+          "nl": "Elke prijsperiode en bij gewijzigde instellingen: het geplande laadvermogen en de duur voor nu.",
+          "de": "In jeder Preisperiode und bei geänderten Einstellungen: die geplante Ladeleistung und Dauer für jetzt.",
+          "fr": "À chaque période de prix et lors d’un changement de paramètres : la puissance de charge planifiée et la durée pour maintenant.",
+          "it": "A ogni periodo di prezzo e quando cambiano le impostazioni: la potenza di ricarica pianificata e la durata per adesso.",
+          "sv": "Varje prisperiod och när inställningar ändras: den planerade laddeffekten och varaktigheten för nu.",
+          "no": "Hver prisperiode og når innstillinger endres: planlagt ladeeffekt og varighet for nå.",
+          "es": "En cada periodo de precio y al cambiar los ajustes: la potencia de carga planificada y la duración para ahora.",
+          "da": "Hver prisperiode og når indstillinger ændres: den planlagte ladeeffekt og varighed for nu.",
+          "pl": "W każdym okresie cenowym i przy zmianie ustawień: planowana moc i czas ładowania na teraz.",
+          "ru": "В каждый ценовой период и при изменении настроек: плановая мощность и продолжительность зарядки на сейчас.",
+          "ko": "매 가격 구간 및 설정 변경 시: 현재 계획된 충전 전력과 시간.",
+          "ar": "في كل فترة سعر وعند تغيير الإعدادات: قدرة الشحن المخططة والمدة للوقت الحالي."
         },
         "args": [
           {
@@ -1745,19 +1745,19 @@
             "name": "scheme",
             "type": "string",
             "title": {
-              "en": "Scheme JSON",
-              "nl": "Schema JSON",
-              "ko": "스킴 JSON",
-              "de": "Schema JSON",
-              "fr": "Schéma JSON",
-              "es": "Esquema JSON",
-              "it": "Schema JSON",
-              "da": "Skema JSON",
-              "sv": "Schema JSON",
-              "no": "Skjema JSON",
-              "pl": "Schemat JSON",
-              "ru": "Схема JSON",
-              "ar": "مخطط JSON"
+              "en": "Plan JSON",
+              "nl": "Plan JSON",
+              "de": "Plan JSON",
+              "fr": "Plan JSON",
+              "it": "Piano JSON",
+              "sv": "Plan JSON",
+              "no": "Plan JSON",
+              "es": "Plan JSON",
+              "da": "Plan JSON",
+              "pl": "Plan JSON",
+              "ru": "План JSON",
+              "ko": "계획 JSON",
+              "ar": "خطة JSON"
             }
           }
         ],
@@ -2729,7 +2729,7 @@
               "ar": "1",
               "ko": "1"
             },
-            "min": 0,
+            "min": 0.25,
             "step": 0.25
           },
           {
@@ -3040,7 +3040,7 @@
               "ar": "1",
               "ko": "1"
             },
-            "min": 0,
+            "min": 0.25,
             "step": 0.25
           },
           {
@@ -3304,7 +3304,7 @@
               "ar": "3",
               "ko": "3"
             },
-            "min": 0,
+            "min": 0.25,
             "step": 0.25
           },
           {
@@ -3633,7 +3633,7 @@
               "ar": "3",
               "ko": "3"
             },
-            "min": 0,
+            "min": 0.25,
             "step": 0.25
           },
           {
@@ -6891,51 +6891,51 @@
             "type": "dropdown",
             "name": "period",
             "title": {
-              "en": "period",
+              "en": "Period",
+              "nl": "Periode",
               "de": "Zeitraum",
-              "sv": "period",
-              "it": "periodo",
-              "no": "periode",
-              "nl": "periode",
-              "fr": "période",
-              "da": "periode",
-              "es": "período",
-              "pl": "okres",
-              "ru": "период",
+              "fr": "Période",
+              "it": "Periodo",
+              "sv": "Period",
+              "no": "Periode",
+              "es": "Periodo",
+              "da": "Periode",
+              "pl": "Okres",
+              "ru": "Период",
               "ko": "기간",
-              "ar": "فترة"
+              "ar": "الفترة"
             },
             "values": [
               {
                 "id": "this_day",
                 "label": {
-                  "en": "this day",
-                  "de": "diesen Tag",
-                  "sv": "idag",
-                  "it": "giornata odierna",
+                  "en": "today",
+                  "nl": "vandaag",
+                  "de": "heute",
+                  "fr": "aujourd'hui",
+                  "it": "oggi",
+                  "sv": "i dag",
                   "no": "i dag",
-                  "nl": "deze dag",
-                  "fr": "ce jour",
+                  "es": "hoy",
                   "da": "i dag",
-                  "es": "este día",
-                  "pl": "ten dzień",
-                  "ru": "этот день",
+                  "pl": "dziś",
+                  "ru": "сегодня",
                   "ko": "오늘",
-                  "ar": "هذا اليوم"
+                  "ar": "اليوم"
                 }
               },
               {
                 "id": "tomorrow",
                 "label": {
                   "en": "tomorrow",
-                  "de": "morgen",
-                  "sv": "i morgon",
-                  "it": "domani",
-                  "no": "i morgen",
                   "nl": "morgen",
+                  "de": "morgen",
                   "fr": "demain",
-                  "da": "i morgen",
+                  "it": "domani",
+                  "sv": "i morgon",
+                  "no": "i morgen",
                   "es": "mañana",
+                  "da": "i morgen",
                   "pl": "jutro",
                   "ru": "завтра",
                   "ko": "내일",
@@ -6945,17 +6945,17 @@
               {
                 "id": "next_hours",
                 "label": {
-                  "en": "Next hours",
-                  "nl": "Komende uren",
-                  "de": "Kommende Stunden",
-                  "sv": "Kommande timmar",
-                  "it": "Prossime ore",
-                  "no": "Neste timer",
-                  "fr": "Prochaines heures",
-                  "da": "Næste timer",
-                  "es": "Próximas horas",
-                  "pl": "Następne godziny",
-                  "ru": "Следующие часы",
+                  "en": "the next hours",
+                  "nl": "de komende uren",
+                  "de": "die nächsten Stunden",
+                  "fr": "les prochaines heures",
+                  "it": "le prossime ore",
+                  "sv": "de kommande timmarna",
+                  "no": "de neste timene",
+                  "es": "las próximas horas",
+                  "da": "de næste timer",
+                  "pl": "najbliższe godziny",
+                  "ru": "ближайшие часы",
                   "ko": "다음 시간",
                   "ar": "الساعات القادمة"
                 }
@@ -7368,73 +7368,73 @@
             "type": "dropdown",
             "name": "period",
             "title": {
-              "en": "period",
+              "en": "Period",
+              "nl": "Periode",
               "de": "Zeitraum",
-              "nl": "periode",
-              "ar": "فترة",
-              "da": "periode",
-              "es": "período",
-              "fr": "période",
-              "it": "periodo",
+              "fr": "Période",
+              "it": "Periodo",
+              "sv": "Period",
+              "no": "Periode",
+              "es": "Periodo",
+              "da": "Periode",
+              "pl": "Okres",
+              "ru": "Период",
               "ko": "기간",
-              "no": "periode",
-              "pl": "okres",
-              "ru": "период",
-              "sv": "period"
+              "ar": "الفترة"
             },
             "values": [
               {
                 "id": "this_day",
                 "label": {
-                  "en": "This day",
-                  "de": "diesen Tag",
-                  "nl": "Deze dag",
-                  "ar": "هذا اليوم",
-                  "da": "I dag",
-                  "es": "Este día",
-                  "fr": "Ce jour",
-                  "it": "giornata odierna",
+                  "en": "today",
+                  "nl": "vandaag",
+                  "de": "heute",
+                  "fr": "aujourd'hui",
+                  "it": "oggi",
+                  "sv": "i dag",
+                  "no": "i dag",
+                  "es": "hoy",
+                  "da": "i dag",
+                  "pl": "dziś",
+                  "ru": "сегодня",
                   "ko": "오늘",
-                  "no": "idag",
-                  "pl": "Ten dzień",
-                  "ru": "Этот день",
-                  "sv": "idag"
+                  "ar": "اليوم"
                 }
               },
               {
                 "id": "tomorrow",
                 "label": {
-                  "en": "Tomorrow",
-                  "de": "Morgen",
-                  "nl": "Morgen",
-                  "ar": "غداً",
-                  "da": "I morgen",
-                  "es": "Mañana",
-                  "fr": "Demain",
-                  "it": "Domani",
+                  "en": "tomorrow",
+                  "nl": "morgen",
+                  "de": "morgen",
+                  "fr": "demain",
+                  "it": "domani",
+                  "sv": "i morgon",
+                  "no": "i morgen",
+                  "es": "mañana",
+                  "da": "i morgen",
+                  "pl": "jutro",
+                  "ru": "завтра",
                   "ko": "내일",
-                  "no": "I morgen",
-                  "pl": "Jutro",
-                  "ru": "Завтра",
-                  "sv": "I morgon"
+                  "ar": "غدًا"
                 }
               },
               {
                 "id": "next_hours",
                 "label": {
-                  "en": "Next hours",
-                  "nl": "Komende uren",
-                  "de": "Kommende Stunden",
-                  "ar": "الساعات القادمة",
-                  "da": "Næste timer",
-                  "es": "Próximas horas",
-                  "fr": "Prochaines heures",
-                  "it": "Prossime ore",
+                  "en": "the next hours",
+                  "nl": "de komende uren",
+                  "de": "die nächsten Stunden",
+                  "fr": "les prochaines heures",
+                  "it": "le prossime ore",
+                  "sv": "de kommande timmarna",
+                  "no": "de neste timene",
+                  "es": "las próximas horas",
+                  "da": "de næste timer",
+                  "pl": "najbliższe godziny",
+                  "ru": "ближайшие часы",
                   "ko": "다음 시간",
-                  "no": "Neste timer",
-                  "pl": "Następne godziny",
-                  "ru": "Следующие часы",
-                  "sv": "Kommande timmar"
+                  "ar": "الساعات القادمة"
                 }
               }
             ]
@@ -7444,7 +7444,7 @@
           {
             "name": "solar",
             "title": {
-              "en": "Solar Forecast JSON",
+              "en": "Solar forecast JSON",
               "de": "Solarprognose JSON",
               "nl": "Zonnevoorspelling JSON",
               "ar": "JSON توقعات الطاقة الشمسية",
@@ -7746,7 +7746,22 @@
             "name": "value",
             "required": true,
             "min": 0,
-            "step": 0.1
+            "step": 0.1,
+            "title": {
+              "en": "kWh",
+              "ko": "kWh",
+              "nl": "kWh",
+              "de": "kWh",
+              "fr": "kWh",
+              "es": "kWh",
+              "it": "kWh",
+              "da": "kWh",
+              "sv": "kWh",
+              "no": "kWh",
+              "pl": "kWh",
+              "ru": "kWh",
+              "ar": "kWh"
+            }
           }
         ],
         "id": "solar_yield_until"
@@ -7891,7 +7906,22 @@
             "name": "value",
             "required": true,
             "min": 0,
-            "step": 0.1
+            "step": 0.1,
+            "title": {
+              "en": "kWh",
+              "ko": "kWh",
+              "nl": "kWh",
+              "de": "kWh",
+              "fr": "kWh",
+              "es": "kWh",
+              "it": "kWh",
+              "da": "kWh",
+              "sv": "kWh",
+              "no": "kWh",
+              "pl": "kWh",
+              "ru": "kWh",
+              "ar": "kWh"
+            }
           }
         ],
         "id": "solar_yield_window"
@@ -7928,19 +7958,19 @@
           "ar": "طاقة XOM جديدة متاحة (معكوسة: [[invert_power]])"
         },
         "hint": {
-          "en": "Battery power is set to keep cumulative usage near the target X Watt (default 0, via 'Set XOM'). Batteries share the load pro rata. Positive = charging, negative = discharging.",
-          "nl": "Het accuvermogen wordt zo ingesteld dat het cumulatieve verbruik dicht bij de ingestelde X Watt blijft (standaard 0, via 'Zet XOM'). Accu's delen de belasting naar rato. Positief = laden, negatief = ontladen.",
-          "de": "Die Batterieleistung wird so eingestellt, dass der kumulierte Verbrauch nahe am Ziel X Watt bleibt (Standard 0, über 'XOM einstellen'). Batterien teilen sich die Last anteilig. Positiv = Laden, negativ = Entladen.",
-          "fr": "La puissance de la batterie est ajustée pour que l'usage cumulé reste proche de la cible X Watt (par défaut 0, via 'Définir XOM'). Les batteries partagent la charge au prorata. Positif = charge, négatif = décharge.",
-          "it": "La potenza della batteria viene impostata per mantenere l'uso cumulativo vicino al target X Watt (predefinito 0, tramite 'Imposta XOM'). Le batterie condividono il carico pro quota. Positivo = carica, negativo = scarica.",
-          "sv": "Batterieffekten ställs in för att hålla den kumulativa användningen nära målet X Watt (standard 0, via 'Ställ in XOM'). Batterierna delar lasten proportionellt. Positivt = laddning, negativt = urladdning.",
-          "no": "Batteristrømmen settes for å holde kumulativ bruk nær målet X Watt (standard 0, via 'Sett XOM'). Batteriene deler lasten forholdsmessig. Positivt = lading, negativt = utlading.",
-          "es": "La potencia de la batería se ajusta para mantener el uso acumulado cerca del objetivo X Watt (por defecto 0, mediante 'Establecer XOM'). Las baterías comparten la carga a prorrata. Positivo = carga, negativo = descarga.",
-          "da": "Batteristrømmen indstilles, så det kumulative forbrug holder sig tæt på målet X Watt (standard 0, via 'Sæt XOM'). Batterierne deler belastningen forholdsmæssigt. Positiv = opladning, negativ = afladning.",
-          "pl": "Moc baterii jest ustawiana tak, aby łączne zużycie pozostawało bliskie celowi X Wat (domyślnie 0, przez 'Ustaw XOM'). Baterie dzielą obciążenie proporcjonalnie. Dodatnia = ładowanie, ujemna = rozładowywanie.",
-          "ru": "Мощность батареи устанавливается так, чтобы совокупное использование оставалось близким к цели X Ватт (по умолчанию 0, через поток 'Установить XOM'). Батареи делят нагрузку пропорционально. Положительное = зарядка, отрицательное = разрядка.",
-          "ko": "배터리 전력은 누적 사용량이 목표 X 와트에 가깝게 유지되도록 설정됩니다(기본값 0, 'XOM 설정'을 통해 변경). 배터리는 부하를 비례하여 나눕니다. 양수 = 충전, 음수 = 방전.",
-          "ar": "يتم ضبط طاقة البطارية للحفاظ على الاستخدام التراكمي قريبًا من الهدف X واط (افتراضيًا 0، عبر 'تعيين XOM'). تتقاسم البطاريات الحمل بالتناسب. موجب = شحن، سالب = تفريغ."
+          "en": "Continuously: the power that keeps the grid near the XOM target. Only for batteries the app does not control. Charging is positive (+), unless inverted.",
+          "nl": "Doorlopend: het vermogen dat het net dicht bij het XOM-doel houdt. Alleen voor batterijen die de app niet stuurt. Laden is positief (+), tenzij geïnverteerd.",
+          "de": "Laufend: die Leistung, die das Netz nahe am XOM-Ziel hält. Nur für Batterien, die die App nicht steuert. Laden ist positiv (+), außer invertiert.",
+          "fr": "En continu : la puissance qui maintient le réseau près de la cible XOM. Uniquement pour les batteries que l’app ne contrôle pas. La charge est positive (+), sauf si inversée.",
+          "it": "Di continuo: la potenza che mantiene la rete vicino al target XOM. Solo per le batterie che l’app non controlla. La carica è positiva (+), salvo se invertita.",
+          "sv": "Löpande: effekten som håller nätet nära XOM-målet. Endast för batterier som appen inte styr. Laddning är positiv (+), om inte inverterad.",
+          "no": "Fortløpende: effekten som holder nettet nær XOM-målet. Bare for batterier appen ikke styrer. Lading er positiv (+), med mindre invertert.",
+          "es": "De forma continua: la potencia que mantiene la red cerca del objetivo XOM. Solo para baterías que la app no controla. La carga es positiva (+), salvo si se invierte.",
+          "da": "Løbende: effekten, der holder nettet tæt på XOM-målet. Kun for batterier, som appen ikke styrer. Opladning er positiv (+), medmindre inverteret.",
+          "pl": "Na bieżąco: moc, która utrzymuje sieć blisko celu XOM. Tylko dla baterii, których aplikacja nie steruje. Ładowanie jest dodatnie (+), chyba że odwrócone.",
+          "ru": "Непрерывно: мощность, удерживающая сеть около цели XOM. Только для батарей, которыми приложение не управляет. Зарядка положительная (+), если не инвертировано.",
+          "ko": "지속적으로: 그리드를 XOM 목표 근처로 유지하는 전력. 앱이 제어하지 않는 배터리에만 해당. 반전하지 않으면 충전은 양수(+)입니다.",
+          "ar": "باستمرار: القدرة التي تُبقي الشبكة قريبة من هدف XOM. فقط للبطاريات التي لا يتحكم بها التطبيق. الشحن موجب (+)، ما لم يكن معكوسًا."
         },
         "args": [
           {
@@ -7993,11 +8023,11 @@
             "type": "number",
             "name": "x",
             "title": {
-              "en": "XOM-target (W)",
+              "en": "XOM target (W)",
               "nl": "XOM-doel (W)",
               "de": "XOM-Ziel (W)",
               "fr": "Cible XOM (W)",
-              "it": "Target XOM (W)",
+              "it": "Obiettivo XOM (W)",
               "sv": "XOM-mål (W)",
               "no": "XOM-mål (W)",
               "es": "Objetivo XOM (W)",
@@ -8005,14 +8035,14 @@
               "pl": "Cel XOM (W)",
               "ru": "Цель XOM (Вт)",
               "ko": "XOM 목표 (W)",
-              "ar": "هدف XOM (واط)"
+              "ar": "هدف XOM (W)"
             }
           },
           {
             "type": "number",
             "name": "smoothing",
             "title": {
-              "en": "smoothing (%)",
+              "en": "Smoothing (%)",
               "nl": "afvlakking (%)",
               "de": "Glättung (%)",
               "fr": "lissage (%)",
@@ -8253,19 +8283,19 @@
             "type": "number",
             "name": "period",
             "title": {
-              "en": "period",
-              "de": "Zeitraum",
-              "sv": "period",
-              "it": "periodo",
-              "no": "periode",
-              "da": "periode",
-              "nl": "periode",
-              "fr": "période",
-              "es": "período",
-              "pl": "okres",
-              "ru": "период",
-              "ko": "기간",
-              "ar": "فترة"
+              "en": "Hours",
+              "nl": "Uren",
+              "de": "Stunden",
+              "fr": "Heures",
+              "it": "Ore",
+              "sv": "Timmar",
+              "no": "Timer",
+              "es": "Horas",
+              "da": "Timer",
+              "pl": "Godziny",
+              "ru": "Часы",
+              "ar": "الساعات",
+              "ko": "시간"
             },
             "placeholder": {
               "en": "1 - 48",
@@ -8361,19 +8391,19 @@
             "type": "number",
             "name": "period",
             "title": {
-              "en": "period",
-              "de": "Zeitraum",
-              "sv": "period",
-              "it": "periodo",
-              "no": "periode",
-              "da": "periode",
-              "nl": "periode",
-              "fr": "période",
-              "es": "período",
-              "pl": "okres",
-              "ru": "период",
-              "ko": "기간",
-              "ar": "فترة"
+              "en": "Hours",
+              "nl": "Uren",
+              "de": "Stunden",
+              "fr": "Heures",
+              "it": "Ore",
+              "sv": "Timmar",
+              "no": "Timer",
+              "es": "Horas",
+              "da": "Timer",
+              "pl": "Godziny",
+              "ru": "Часы",
+              "ar": "الساعات",
+              "ko": "시간"
             },
             "placeholder": {
               "en": "1 - 24",
@@ -9053,8 +9083,8 @@
               "es": "W",
               "da": "W",
               "pl": "W",
-              "ru": "Вт",
-              "ar": "واط",
+              "ru": "W",
+              "ar": "W",
               "ko": "W"
             }
           }
@@ -9612,7 +9642,7 @@
               "ar": "1",
               "ko": "1"
             },
-            "min": 0,
+            "min": 0.25,
             "step": 0.25
           },
           {
@@ -9901,7 +9931,7 @@
               "ar": "1",
               "ko": "1"
             },
-            "min": 0,
+            "min": 0.25,
             "step": 0.25
           },
           {
@@ -10143,7 +10173,7 @@
               "ar": "3",
               "ko": "3"
             },
-            "min": 0,
+            "min": 0.25,
             "step": 0.25
           },
           {
@@ -10450,7 +10480,7 @@
               "ar": "3",
               "ko": "3"
             },
-            "min": 0,
+            "min": 0.25,
             "step": 0.25
           },
           {
@@ -13564,6 +13594,144 @@
       },
       {
         "title": {
+          "en": "Yield for period is !{{less|more}} than",
+          "nl": "Opbrengst voor periode is !{{minder|meer}} dan",
+          "de": "Ertrag für Zeitraum ist !{{weniger|mehr}} als",
+          "fr": "Le rendement pour la période est !{{inférieur|supérieur}} à",
+          "sv": "Avkastning för perioden är !{{mindre|mer}} än",
+          "no": "Avkastning for perioden er !{{mindre|mer}} enn",
+          "da": "Udbytte for perioden er !{{mindre|mere}} end",
+          "it": "Il rendimento per il periodo è !{{minore|maggiore}} di",
+          "es": "El rendimiento para el período es !{{menor|mayor}} que",
+          "pl": "Uzysk dla okresu jest !{{mniejszy|większy}} niż",
+          "ru": "Доход за период !{{меньше|больше}} чем",
+          "ko": "기간 수익이 다음보다 !{{적음|많음}}",
+          "ar": "العائد للفترة !{{أقل|أكثر}} من"
+        },
+        "titleFormatted": {
+          "en": "Expected yield for [[period]] is !{{less|more}} than [[value]] kWh",
+          "nl": "Verwachte opbrengst voor [[period]] is !{{minder|meer}} dan [[value]] kWh",
+          "de": "Erwarteter Ertrag für [[period]] ist !{{weniger|mehr}} als [[value]] kWh",
+          "fr": "Le rendement attendu pour [[period]] est !{{inférieur|supérieur}} à [[value]] kWh",
+          "sv": "Förväntad avkastning för [[period]] är !{{mindre|mer}} än [[value]] kWh",
+          "no": "Forventet avkastning for [[period]] er !{{mindre|mer}} enn [[value]] kWh",
+          "da": "Forventet udbytte for [[period]] er !{{mindre|mere}} end [[value]] kWh",
+          "it": "Il rendimento previsto per [[period]] è !{{minore|maggiore}} di [[value]] kWh",
+          "es": "El rendimiento esperado para [[period]] es !{{menor|mayor}} que [[value]] kWh",
+          "pl": "Oczekiwany uzysk dla [[period]] jest !{{mniejszy|większy}} niż [[value]] kWh",
+          "ru": "Ожидаемый доход за [[period]] !{{меньше|больше}} чем [[value]] кВтч",
+          "ko": "[[period]] 예상 수익이 [[value]] kWh보다 !{{적음|많음}}",
+          "ar": "العائد المتوقع لـ [[period]] !{{أقل|أكثر}} من [[value]] كيلوواط ساعة"
+        },
+        "highlight": true,
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=solar"
+          },
+          {
+            "type": "dropdown",
+            "name": "period",
+            "title": {
+              "en": "Period",
+              "nl": "Periode",
+              "de": "Zeitraum",
+              "fr": "Période",
+              "it": "Periodo",
+              "sv": "Period",
+              "no": "Periode",
+              "es": "Periodo",
+              "da": "Periode",
+              "pl": "Okres",
+              "ru": "Период",
+              "ko": "기간",
+              "ar": "الفترة"
+            },
+            "values": [
+              {
+                "id": "this_day",
+                "label": {
+                  "en": "today",
+                  "nl": "vandaag",
+                  "de": "heute",
+                  "fr": "aujourd'hui",
+                  "it": "oggi",
+                  "sv": "i dag",
+                  "no": "i dag",
+                  "es": "hoy",
+                  "da": "i dag",
+                  "pl": "dziś",
+                  "ru": "сегодня",
+                  "ko": "오늘",
+                  "ar": "اليوم"
+                }
+              },
+              {
+                "id": "tomorrow",
+                "label": {
+                  "en": "tomorrow",
+                  "nl": "morgen",
+                  "de": "morgen",
+                  "fr": "demain",
+                  "it": "domani",
+                  "sv": "i morgon",
+                  "no": "i morgen",
+                  "es": "mañana",
+                  "da": "i morgen",
+                  "pl": "jutro",
+                  "ru": "завтра",
+                  "ko": "내일",
+                  "ar": "غدًا"
+                }
+              },
+              {
+                "id": "next_hours",
+                "label": {
+                  "en": "the next hours",
+                  "nl": "de komende uren",
+                  "de": "die nächsten Stunden",
+                  "fr": "les prochaines heures",
+                  "it": "le prossime ore",
+                  "sv": "de kommande timmarna",
+                  "no": "de neste timene",
+                  "es": "las próximas horas",
+                  "da": "de næste timer",
+                  "pl": "najbliższe godziny",
+                  "ru": "ближайшие часы",
+                  "ko": "다음 시간",
+                  "ar": "الساعات القادمة"
+                }
+              }
+            ]
+          },
+          {
+            "type": "number",
+            "name": "value",
+            "title": {
+              "en": "kWh",
+              "ko": "kWh",
+              "nl": "kWh",
+              "de": "kWh",
+              "fr": "kWh",
+              "es": "kWh",
+              "it": "kWh",
+              "da": "kWh",
+              "sv": "kWh",
+              "no": "kWh",
+              "pl": "kWh",
+              "ru": "kWh",
+              "ar": "kWh"
+            },
+            "min": 0,
+            "step": 0.1
+          }
+        ],
+        "id": "solar_yield_expected"
+      },
+      {
+        "deprecated": true,
+        "title": {
           "en": "Yield for period is !{{more|less}} than",
           "nl": "Opbrengst voor periode is !{{meer|minder}} dan",
           "de": "Ertrag für Zeitraum ist !{{mehr|weniger}} als",
@@ -13593,7 +13761,6 @@
           "ko": "[[period]] 예상 수익이 [[value]] kWh보다 !{{많음|적음}}",
           "ar": "العائد المتوقع لـ [[period]] !{{أكثر|أقل}} من [[value]] كيلوواط ساعة"
         },
-        "highlight": true,
         "args": [
           {
             "type": "device",
@@ -13604,35 +13771,35 @@
             "type": "dropdown",
             "name": "period",
             "title": {
-              "en": "period",
-              "nl": "periode",
+              "en": "Period",
+              "nl": "Periode",
               "de": "Zeitraum",
-              "fr": "période",
-              "sv": "period",
-              "no": "periode",
-              "da": "periode",
-              "it": "periodo",
-              "es": "período",
-              "pl": "okres",
-              "ru": "период",
+              "fr": "Période",
+              "it": "Periodo",
+              "sv": "Period",
+              "no": "Periode",
+              "es": "Periodo",
+              "da": "Periode",
+              "pl": "Okres",
+              "ru": "Период",
               "ko": "기간",
-              "ar": "فترة"
+              "ar": "الفترة"
             },
             "values": [
               {
                 "id": "this_day",
                 "label": {
-                  "en": "Today",
-                  "nl": "Vandaag",
-                  "de": "Heute",
-                  "fr": "Aujourd'hui",
-                  "sv": "Idag",
-                  "no": "I dag",
-                  "da": "I dag",
-                  "it": "Oggi",
-                  "es": "Hoy",
-                  "pl": "Dzisiaj",
-                  "ru": "Сегодня",
+                  "en": "today",
+                  "nl": "vandaag",
+                  "de": "heute",
+                  "fr": "aujourd'hui",
+                  "it": "oggi",
+                  "sv": "i dag",
+                  "no": "i dag",
+                  "es": "hoy",
+                  "da": "i dag",
+                  "pl": "dziś",
+                  "ru": "сегодня",
                   "ko": "오늘",
                   "ar": "اليوم"
                 }
@@ -13640,35 +13807,35 @@
               {
                 "id": "tomorrow",
                 "label": {
-                  "en": "Tomorrow",
-                  "nl": "Morgen",
-                  "de": "Morgen",
-                  "fr": "Demain",
-                  "sv": "I morgon",
-                  "no": "I morgen",
-                  "da": "I morgen",
-                  "it": "Domani",
-                  "es": "Mañana",
-                  "pl": "Jutro",
-                  "ru": "Завтра",
+                  "en": "tomorrow",
+                  "nl": "morgen",
+                  "de": "morgen",
+                  "fr": "demain",
+                  "it": "domani",
+                  "sv": "i morgon",
+                  "no": "i morgen",
+                  "es": "mañana",
+                  "da": "i morgen",
+                  "pl": "jutro",
+                  "ru": "завтра",
                   "ko": "내일",
-                  "ar": "غداً"
+                  "ar": "غدًا"
                 }
               },
               {
                 "id": "next_hours",
                 "label": {
-                  "en": "Next hours",
-                  "nl": "Komende uren",
-                  "de": "Kommende Stunden",
-                  "fr": "Prochaines heures",
-                  "sv": "Kommande timmar",
-                  "no": "Neste timer",
-                  "da": "Næste timer",
-                  "it": "Prossime ore",
-                  "es": "Próximas horas",
-                  "pl": "Następne godziny",
-                  "ru": "Следующие часы",
+                  "en": "the next hours",
+                  "nl": "de komende uren",
+                  "de": "die nächsten Stunden",
+                  "fr": "les prochaines heures",
+                  "it": "le prossime ore",
+                  "sv": "de kommande timmarna",
+                  "no": "de neste timene",
+                  "es": "las próximas horas",
+                  "da": "de næste timer",
+                  "pl": "najbliższe godziny",
+                  "ru": "ближайшие часы",
                   "ko": "다음 시간",
                   "ar": "الساعات القادمة"
                 }
@@ -13844,7 +14011,22 @@
             "name": "value",
             "required": true,
             "min": 0,
-            "step": 0.1
+            "step": 0.1,
+            "title": {
+              "en": "kWh",
+              "ko": "kWh",
+              "nl": "kWh",
+              "de": "kWh",
+              "fr": "kWh",
+              "es": "kWh",
+              "it": "kWh",
+              "da": "kWh",
+              "sv": "kWh",
+              "no": "kWh",
+              "pl": "kWh",
+              "ru": "kWh",
+              "ar": "kWh"
+            }
           }
         ],
         "id": "solar_yield_until"
@@ -13989,7 +14171,22 @@
             "name": "value",
             "required": true,
             "min": 0,
-            "step": 0.1
+            "step": 0.1,
+            "title": {
+              "en": "kWh",
+              "ko": "kWh",
+              "nl": "kWh",
+              "de": "kWh",
+              "fr": "kWh",
+              "es": "kWh",
+              "it": "kWh",
+              "da": "kWh",
+              "sv": "kWh",
+              "no": "kWh",
+              "pl": "kWh",
+              "ru": "kWh",
+              "ar": "kWh"
+            }
           }
         ],
         "id": "solar_yield_window"
@@ -14028,19 +14225,19 @@
           "ko": "[[from]]부터 [[to]]까지 차량 부재"
         },
         "hint": {
-          "en": "A holiday or other period that is not normal use: no trips are planned, and these days are not learned. Also for a period that has passed. Adds to Away periods in the settings.",
-          "nl": "Een vakantie of andere periode die geen normaal gebruik is: er worden geen ritten gepland en deze dagen worden niet geleerd. Ook voor een periode die al voorbij is. Wordt toegevoegd aan Afwezig in de instellingen.",
-          "de": "Ein Urlaub oder anderer Zeitraum ohne normale Nutzung: keine Fahrten geplant, diese Tage werden nicht gelernt. Auch für einen vergangenen Zeitraum. Wird zu Abwesend in den Einstellungen hinzugefügt.",
-          "fr": "Des vacances ou une autre période d'usage inhabituel : aucun trajet n'est prévu et ces jours ne sont pas appris. Aussi pour une période passée. Ajouté à Absences dans les paramètres.",
-          "es": "Unas vacaciones u otro periodo de uso no habitual: no se planifican viajes y estos días no se aprenden. También para un periodo pasado. Se añade a Ausencias en los ajustes.",
-          "it": "Una vacanza o altro periodo di uso non abituale: nessun viaggio pianificato e questi giorni non vengono appresi. Anche per un periodo passato. Aggiunto ad Assenze nelle impostazioni.",
-          "da": "En ferie eller anden periode uden normal brug: ingen ture planlægges, og disse dage læres ikke. Også for en periode, der er forbi. Tilføjes til Væk i indstillingerne.",
-          "sv": "En semester eller annan period utan normal användning: inga resor planeras och dessa dagar lärs inte in. Även för en period som har passerat. Läggs till i Borta i inställningarna.",
-          "no": "En ferie eller annen periode uten normal bruk: ingen turer planlegges, og disse dagene læres ikke. Også for en periode som er forbi. Legges til i Borte i innstillingene.",
-          "pl": "Urlop lub inny okres nietypowego użycia: trasy nie są planowane, a te dni nie są uczone. Również dla minionego okresu. Dodawane do Nieobecności w ustawieniach.",
-          "ru": "Отпуск или другой период необычного использования: поездки не планируются, эти дни не изучаются. Также для прошедшего периода. Добавляется в Отсутствие в настройках.",
-          "ar": "عطلة أو فترة أخرى بغير الاستخدام المعتاد: لا تُخطَّط رحلات ولا تُتعلَّم هذه الأيام. أيضًا لفترة مضت. تُضاف إلى الغياب في الإعدادات.",
-          "ko": "휴가 등 평소와 다른 기간: 주행을 계획하지 않고 이 날들은 학습하지 않습니다. 지난 기간도 가능. 설정의 부재 기간에 추가됩니다."
+          "en": "E.g. a holiday: no trips are planned and these days are not learned. Also for past days. Adds to Away periods in the settings.",
+          "nl": "Bijv. een vakantie: geen ritten gepland en deze dagen worden niet geleerd. Ook voor voorbije dagen. Komt bij Afwezig (perioden) in de instellingen.",
+          "de": "Z. B. Urlaub: keine Fahrten geplant, diese Tage werden nicht gelernt. Auch für vergangene Tage. Kommt zu Abwesend (Zeiträume) in den Einstellungen.",
+          "fr": "P. ex. des vacances : aucun trajet prévu et ces jours ne sont pas appris. Aussi pour des jours passés. Ajouté à Absences (périodes) dans les paramètres.",
+          "it": "Ad es. una vacanza: nessun viaggio pianificato e questi giorni non vengono appresi. Anche per giorni passati. Aggiunto ad Assenze (periodi) nelle impostazioni.",
+          "sv": "T.ex. en semester: inga resor planeras och dessa dagar lärs inte in. Även för passerade dagar. Läggs till i Borta (perioder) i inställningarna.",
+          "no": "F.eks. en ferie: ingen turer planlegges, og disse dagene læres ikke. Også for dager som er forbi. Legges til i Borte (perioder) i innstillingene.",
+          "es": "P. ej. unas vacaciones: no se planifican viajes y estos días no se aprenden. También para días pasados. Se añade a Ausencias (periodos) en los ajustes.",
+          "da": "F.eks. en ferie: ingen ture planlægges, og disse dage læres ikke. Også for dage, der er gået. Tilføjes til Væk (perioder) i indstillingerne.",
+          "pl": "Np. urlop: trasy nie są planowane, a te dni nie są uczone. Również dla minionych dni. Dodawane do Nieobecności (okresy) w ustawieniach.",
+          "ru": "Например, отпуск: поездки не планируются, эти дни не изучаются. Также для прошедших дней. Добавляется в Отсутствие (периоды) в настройках.",
+          "ko": "예: 휴가. 주행을 계획하지 않고 이 날들은 학습하지 않습니다. 지난 날도 가능. 설정의 부재 기간에 추가됩니다.",
+          "ar": "مثل عطلة: لا تُخطَّط رحلات ولا تُتعلَّم هذه الأيام. أيضًا لأيام مضت. تُضاف إلى الغياب (فترات) في الإعدادات."
         },
         "args": [
           {
@@ -14297,6 +14494,21 @@
               "ru": "Начало",
               "ar": "البداية",
               "ko": "시작"
+            },
+            "hint": {
+              "en": "Time (07:30) or decimal hours (7.5).",
+              "nl": "Tijd (07:30) of decimale uren (7,5).",
+              "de": "Uhrzeit (07:30) oder Dezimalstunden (7,5).",
+              "fr": "Heure (07:30) ou heures décimales (7,5).",
+              "it": "Ora (07:30) o ore decimali (7,5).",
+              "sv": "Tid (07:30) eller decimaltimmar (7,5).",
+              "no": "Tid (07:30) eller desimaltimer (7,5).",
+              "es": "Hora (07:30) u horas decimales (7,5).",
+              "da": "Tid (07:30) eller decimaltimer (7,5).",
+              "pl": "Godzina (07:30) lub godziny dziesiętne (7,5).",
+              "ru": "Время (07:30) или десятичные часы (7,5).",
+              "ar": "الوقت (07:30) أو ساعات عشرية (7.5).",
+              "ko": "시각(07:30) 또는 소수 시간(7.5)."
             }
           },
           {
@@ -14424,6 +14636,21 @@
               "ru": "Последний запуск",
               "ar": "آخر موعد للبدء",
               "ko": "최종 시작"
+            },
+            "hint": {
+              "en": "Time (07:30) or decimal hours (7.5).",
+              "nl": "Tijd (07:30) of decimale uren (7,5).",
+              "de": "Uhrzeit (07:30) oder Dezimalstunden (7,5).",
+              "fr": "Heure (07:30) ou heures décimales (7,5).",
+              "it": "Ora (07:30) o ore decimali (7,5).",
+              "sv": "Tid (07:30) eller decimaltimmar (7,5).",
+              "no": "Tid (07:30) eller desimaltimer (7,5).",
+              "es": "Hora (07:30) u horas decimales (7,5).",
+              "da": "Tid (07:30) eller decimaltimer (7,5).",
+              "pl": "Godzina (07:30) lub godziny dziesiętne (7,5).",
+              "ru": "Время (07:30) или десятичные часы (7,5).",
+              "ar": "الوقت (07:30) أو ساعات عشرية (7.5).",
+              "ko": "시각(07:30) 또는 소수 시간(7.5)."
             }
           }
         ],
@@ -14641,7 +14868,7 @@
                   "it": "Domani",
                   "no": "I morgen",
                   "nl": "Morgen",
-                  "ar": "غداً",
+                  "ar": "غدًا",
                   "fr": "Demain",
                   "da": "I morgen",
                   "es": "Mañana",
@@ -14912,34 +15139,34 @@
       },
       {
         "title": {
-          "en": "Get planned battery power",
-          "nl": "Haal gepland batterijvermogen op",
-          "de": "Geplante Batterieleistung abrufen",
-          "fr": "Obtenir la puissance de batterie planifiée",
-          "it": "Ottieni la potenza della batteria pianificata",
-          "sv": "Hämta planerad batterieffekt",
-          "no": "Hent planlagt batterieffekt",
-          "es": "Obtener la potencia de batería planificada",
-          "da": "Hent planlagt batterieffekt",
-          "pl": "Pobierz planowaną moc baterii",
-          "ru": "Получить плановую мощность батареи",
-          "ko": "배터리 계획 전력 가져오기",
-          "ar": "الحصول على قدرة البطارية المخططة"
+          "en": "Provide planned battery power",
+          "nl": "Geef gepland batterijvermogen op",
+          "de": "Geplante Batterieleistung bereitstellen",
+          "fr": "Fournir la puissance de batterie planifiée",
+          "it": "Fornire la potenza della batteria pianificata",
+          "sv": "Tillhandahåll planerad batterieffekt",
+          "no": "Gi planlagt batterieffekt",
+          "es": "Proporcionar la potencia de batería planificada",
+          "da": "Angiv planlagt batterieffekt",
+          "pl": "Dostarcz planowaną moc baterii",
+          "ru": "Предоставить плановую мощность батареи",
+          "ko": "배터리 계획 전력 제공",
+          "ar": "توفير قدرة البطارية المخططة"
         },
         "titleFormatted": {
-          "en": "Get planned battery power (inverted: [[invert_power]])",
-          "nl": "Haal gepland batterijvermogen op (geïnverteerd: [[invert_power]])",
-          "de": "Geplante Batterieleistung abrufen (invertiert: [[invert_power]])",
-          "fr": "Obtenir la puissance de batterie planifiée (inversée : [[invert_power]])",
-          "it": "Ottieni la potenza della batteria pianificata (invertita: [[invert_power]])",
-          "sv": "Hämta planerad batterieffekt (inverterad: [[invert_power]])",
-          "no": "Hent planlagt batterieffekt (invertert: [[invert_power]])",
-          "es": "Obtener la potencia de batería planificada (invertida: [[invert_power]])",
-          "da": "Hent planlagt batterieffekt (inverteret: [[invert_power]])",
-          "pl": "Pobierz planowaną moc baterii (odwrócona: [[invert_power]])",
-          "ru": "Получить плановую мощность батареи (инвертировано: [[invert_power]])",
-          "ko": "배터리 계획 전력 가져오기 (반전: [[invert_power]])",
-          "ar": "الحصول على قدرة البطارية المخططة (معكوسة: [[invert_power]])"
+          "en": "Provide planned battery power (inverted: [[invert_power]])",
+          "nl": "Geef gepland batterijvermogen op (geïnverteerd: [[invert_power]])",
+          "de": "Geplante Batterieleistung bereitstellen (invertiert: [[invert_power]])",
+          "fr": "Fournir la puissance de batterie planifiée (inversée : [[invert_power]])",
+          "it": "Fornire la potenza della batteria pianificata (invertita: [[invert_power]])",
+          "sv": "Tillhandahåll planerad batterieffekt (inverterad: [[invert_power]])",
+          "no": "Gi planlagt batterieffekt (invertert: [[invert_power]])",
+          "es": "Proporcionar la potencia de batería planificada (invertida: [[invert_power]])",
+          "da": "Angiv planlagt batterieffekt (inverteret: [[invert_power]])",
+          "pl": "Dostarcz planowaną moc baterii (odwrócona: [[invert_power]])",
+          "ru": "Предоставить плановую мощность батареи (инвертировано: [[invert_power]])",
+          "ko": "배터리 계획 전력 제공 (반전: [[invert_power]])",
+          "ar": "توفير قدرة البطارية المخططة (معكوسة: [[invert_power]])"
         },
         "hint": {
           "en": "The same tokens as the trigger New planned battery power, on demand.",
@@ -15045,19 +15272,19 @@
             "name": "scheme",
             "type": "string",
             "title": {
-              "en": "Scheme JSON",
-              "de": "Schema JSON",
-              "nl": "Schema JSON",
-              "fr": "Schéma JSON",
-              "it": "Schema JSON",
-              "sv": "Schema JSON",
-              "no": "Skjema JSON",
-              "es": "Esquema JSON",
-              "da": "Skema JSON",
-              "pl": "Schemat JSON",
-              "ru": "Схема JSON",
-              "ko": "스킴 JSON",
-              "ar": "مخطط JSON"
+              "en": "Plan JSON",
+              "nl": "Plan JSON",
+              "de": "Plan JSON",
+              "fr": "Plan JSON",
+              "it": "Piano JSON",
+              "sv": "Plan JSON",
+              "no": "Plan JSON",
+              "es": "Plan JSON",
+              "da": "Plan JSON",
+              "pl": "Plan JSON",
+              "ru": "План JSON",
+              "ko": "계획 JSON",
+              "ar": "خطة JSON"
             }
           },
           {
@@ -15085,7 +15312,7 @@
       },
       {
         "title": {
-          "en": "Provide load forecast JSON",
+          "en": "Provide home load forecast JSON",
           "de": "Lastprognose JSON bereitstellen",
           "nl": "Geef verbruiksvoorspelling JSON op",
           "ar": "توفير JSON توقعات الحمل",
@@ -15100,7 +15327,7 @@
           "sv": "Tillhandahåll JSON för lastprognos"
         },
         "titleFormatted": {
-          "en": "Provide load forecast JSON for [[period]]",
+          "en": "Provide home load forecast JSON for [[period]]",
           "de": "Lastprognose JSON für [[period]] bereitstellen",
           "nl": "Geef verbruiksvoorspelling JSON op voor [[period]]",
           "ar": "توفير JSON توقعات الحمل لـ [[period]]",
@@ -15124,73 +15351,73 @@
             "type": "dropdown",
             "name": "period",
             "title": {
-              "en": "period",
+              "en": "Period",
+              "nl": "Periode",
               "de": "Zeitraum",
-              "nl": "periode",
-              "ar": "فترة",
-              "da": "periode",
-              "es": "período",
-              "fr": "période",
-              "it": "periodo",
+              "fr": "Période",
+              "it": "Periodo",
+              "sv": "Period",
+              "no": "Periode",
+              "es": "Periodo",
+              "da": "Periode",
+              "pl": "Okres",
+              "ru": "Период",
               "ko": "기간",
-              "no": "periode",
-              "pl": "okres",
-              "ru": "период",
-              "sv": "period"
+              "ar": "الفترة"
             },
             "values": [
               {
                 "id": "this_day",
                 "label": {
-                  "en": "This day",
-                  "de": "diesen Tag",
-                  "nl": "Deze dag",
-                  "ar": "هذا اليوم",
-                  "da": "I dag",
-                  "es": "Este día",
-                  "fr": "Ce jour",
-                  "it": "giornata odierna",
+                  "en": "today",
+                  "nl": "vandaag",
+                  "de": "heute",
+                  "fr": "aujourd'hui",
+                  "it": "oggi",
+                  "sv": "i dag",
+                  "no": "i dag",
+                  "es": "hoy",
+                  "da": "i dag",
+                  "pl": "dziś",
+                  "ru": "сегодня",
                   "ko": "오늘",
-                  "no": "idag",
-                  "pl": "Ten dzień",
-                  "ru": "Этот день",
-                  "sv": "idag"
+                  "ar": "اليوم"
                 }
               },
               {
                 "id": "tomorrow",
                 "label": {
-                  "en": "Tomorrow",
-                  "de": "Morgen",
-                  "nl": "Morgen",
-                  "ar": "غداً",
-                  "da": "I morgen",
-                  "es": "Mañana",
-                  "fr": "Demain",
-                  "it": "Domani",
+                  "en": "tomorrow",
+                  "nl": "morgen",
+                  "de": "morgen",
+                  "fr": "demain",
+                  "it": "domani",
+                  "sv": "i morgon",
+                  "no": "i morgen",
+                  "es": "mañana",
+                  "da": "i morgen",
+                  "pl": "jutro",
+                  "ru": "завтра",
                   "ko": "내일",
-                  "no": "I morgen",
-                  "pl": "Jutro",
-                  "ru": "Завтра",
-                  "sv": "I morgon"
+                  "ar": "غدًا"
                 }
               },
               {
                 "id": "next_hours",
                 "label": {
-                  "en": "Next hours",
-                  "nl": "Komende uren",
-                  "de": "Kommende Stunden",
-                  "ar": "الساعات القادمة",
-                  "da": "Næste timer",
-                  "es": "Próximas horas",
-                  "fr": "Prochaines heures",
-                  "it": "Prossime ore",
+                  "en": "the next hours",
+                  "nl": "de komende uren",
+                  "de": "die nächsten Stunden",
+                  "fr": "les prochaines heures",
+                  "it": "le prossime ore",
+                  "sv": "de kommande timmarna",
+                  "no": "de neste timene",
+                  "es": "las próximas horas",
+                  "da": "de næste timer",
+                  "pl": "najbliższe godziny",
+                  "ru": "ближайшие часы",
                   "ko": "다음 시간",
-                  "no": "Neste timer",
-                  "pl": "Następne godziny",
-                  "ru": "Следующие часы",
-                  "sv": "Kommande timmar"
+                  "ar": "الساعات القادمة"
                 }
               }
             ]
@@ -15200,19 +15427,19 @@
           {
             "name": "load",
             "title": {
-              "en": "Load Forecast JSON",
+              "en": "Home load forecast JSON",
               "de": "Lastprognose JSON",
               "nl": "Verbruiksvoorspelling JSON",
               "ar": "JSON توقعات الحمل",
-              "da": "JSON Forbrugsprognose",
-              "es": "JSON Pronóstico de Carga",
-              "fr": "JSON Prévision de Charge",
-              "it": "JSON Previsione Carico",
+              "da": "JSON forbrugsprognose",
+              "es": "JSON de pronóstico de carga",
+              "fr": "JSON de prévision de charge",
+              "it": "JSON previsione carico",
               "ko": "부하 예측 JSON",
-              "no": "JSON Lastvarsel",
-              "pl": "JSON Prognoza Obciążenia",
-              "ru": "JSON Прогноз Нагрузки",
-              "sv": "JSON Lastprognos"
+              "no": "JSON lastvarsel",
+              "pl": "JSON prognozy obciążenia",
+              "ru": "JSON прогноза нагрузки",
+              "sv": "JSON lastprognos"
             },
             "type": "string",
             "example": "[500,550,600,450,300]"
@@ -15428,7 +15655,7 @@
               "ar": "1",
               "ko": "1"
             },
-            "min": 0,
+            "min": 0.25,
             "step": 0.25
           },
           {
@@ -15773,73 +16000,73 @@
             "type": "dropdown",
             "name": "period",
             "title": {
-              "en": "period",
+              "en": "Period",
+              "nl": "Periode",
               "de": "Zeitraum",
-              "sv": "period",
-              "it": "periodo",
-              "no": "periode",
-              "nl": "periode",
-              "ar": "فترة",
-              "fr": "période",
-              "da": "periode",
-              "es": "período",
-              "pl": "okres",
-              "ru": "период",
-              "ko": "기간"
+              "fr": "Période",
+              "it": "Periodo",
+              "sv": "Period",
+              "no": "Periode",
+              "es": "Periodo",
+              "da": "Periode",
+              "pl": "Okres",
+              "ru": "Период",
+              "ko": "기간",
+              "ar": "الفترة"
             },
             "values": [
               {
                 "id": "this_day",
                 "label": {
-                  "en": "This day",
-                  "de": "diesen Tag",
-                  "sv": "idag",
-                  "it": "giornata odierna",
-                  "no": "idag",
-                  "nl": "Deze dag",
-                  "ar": "هذا اليوم",
-                  "fr": "Ce jour",
-                  "da": "I dag",
-                  "es": "Este día",
-                  "pl": "Ten dzień",
-                  "ru": "Этот день",
-                  "ko": "오늘"
+                  "en": "today",
+                  "nl": "vandaag",
+                  "de": "heute",
+                  "fr": "aujourd'hui",
+                  "it": "oggi",
+                  "sv": "i dag",
+                  "no": "i dag",
+                  "es": "hoy",
+                  "da": "i dag",
+                  "pl": "dziś",
+                  "ru": "сегодня",
+                  "ko": "오늘",
+                  "ar": "اليوم"
                 }
               },
               {
                 "id": "tomorrow",
                 "label": {
-                  "en": "Tomorrow",
-                  "de": "Morgen",
-                  "sv": "I morgon",
-                  "it": "Domani",
-                  "no": "I morgen",
-                  "nl": "Morgen",
-                  "ar": "غداً",
-                  "fr": "Demain",
-                  "da": "I morgen",
-                  "es": "Mañana",
-                  "pl": "Jutro",
-                  "ru": "Завтра",
-                  "ko": "내일"
+                  "en": "tomorrow",
+                  "nl": "morgen",
+                  "de": "morgen",
+                  "fr": "demain",
+                  "it": "domani",
+                  "sv": "i morgon",
+                  "no": "i morgen",
+                  "es": "mañana",
+                  "da": "i morgen",
+                  "pl": "jutro",
+                  "ru": "завтра",
+                  "ko": "내일",
+                  "ar": "غدًا"
                 }
               },
               {
                 "id": "next_hours",
                 "label": {
-                  "en": "Next hours",
-                  "nl": "Komende uren",
-                  "de": "Kommende Stunden",
-                  "ar": "الساعات القادمة",
-                  "sv": "Kommande timmar",
-                  "it": "Prossime ore",
-                  "no": "Neste timer",
-                  "fr": "Prochaines heures",
-                  "da": "Næste timer",
-                  "es": "Próximas horas",
-                  "pl": "Następne godziny",
-                  "ru": "Следующие часы",
-                  "ko": "다음 시간"
+                  "en": "the next hours",
+                  "nl": "de komende uren",
+                  "de": "die nächsten Stunden",
+                  "fr": "les prochaines heures",
+                  "it": "le prossime ore",
+                  "sv": "de kommande timmarna",
+                  "no": "de neste timene",
+                  "es": "las próximas horas",
+                  "da": "de næste timer",
+                  "pl": "najbliższe godziny",
+                  "ru": "ближайшие часы",
+                  "ko": "다음 시간",
+                  "ar": "الساعات القادمة"
                 }
               }
             ]
@@ -16020,19 +16247,19 @@
               {
                 "id": "fixedMarkupWeekend",
                 "label": {
-                  "en": "Weekend markup",
-                  "nl": "Weekendopslag",
-                  "de": "Wochenendaufschlag",
-                  "fr": "Majoration week-end",
-                  "it": "Ricarico weekend",
-                  "sv": "Helgpåslag",
-                  "no": "Helgepåslag",
-                  "es": "Recargo de fin de semana",
-                  "da": "Weekendtillæg",
-                  "pl": "Narzut weekendowy",
-                  "ru": "Надбавка выходного дня",
-                  "ar": "إضافة نهاية الأسبوع",
-                  "ko": "주말 마크업"
+                  "en": "Import: Weekend markup",
+                  "nl": "Import: Weekendopslag",
+                  "de": "Import: Wochenendaufschlag",
+                  "fr": "Import: Majoration week-end",
+                  "it": "Importazione: Ricarico weekend",
+                  "sv": "Import: Helgpåslag",
+                  "no": "Import: Helgepåslag",
+                  "es": "Importación: Recargo de fin de semana",
+                  "da": "Import: Weekendtillæg",
+                  "pl": "Import: Narzut weekendowy",
+                  "ru": "Импорт: Надбавка выходного дня",
+                  "ar": "الاستيراد: إضافة نهاية الأسبوع",
+                  "ko": "수입: 주말 마크업"
                 }
               },
               {
@@ -16110,19 +16337,19 @@
               {
                 "id": "export_fixedMarkupWeekend",
                 "label": {
-                  "en": "Weekend markup",
-                  "nl": "Weekendopslag",
-                  "de": "Wochenendaufschlag",
-                  "fr": "Majoration week-end",
-                  "it": "Ricarico weekend",
-                  "sv": "Helgpåslag",
-                  "no": "Helgepåslag",
-                  "es": "Recargo de fin de semana",
-                  "da": "Weekendtillæg",
-                  "pl": "Narzut weekendowy",
-                  "ru": "Надбавка выходного дня",
-                  "ar": "إضافة نهاية الأسبوع",
-                  "ko": "주말 마크업"
+                  "en": "Export: Weekend markup",
+                  "nl": "Export: Weekendopslag",
+                  "de": "Export: Wochenendaufschlag",
+                  "fr": "Export: Majoration week-end",
+                  "it": "Esportazione: Ricarico weekend",
+                  "sv": "Export: Helgpåslag",
+                  "no": "Eksport: Helgepåslag",
+                  "es": "Exportación: Recargo de fin de semana",
+                  "da": "Eksport: Weekendtillæg",
+                  "pl": "Eksport: Narzut weekendowy",
+                  "ru": "Экспорт: Надбавка выходного дня",
+                  "ar": "التصدير: إضافة نهاية الأسبوع",
+                  "ko": "수출: 주말 마크업"
                 }
               },
               {
@@ -16241,37 +16468,37 @@
               {
                 "id": "fixedMarkupTOD",
                 "label": {
-                  "en": "Time of day markup",
-                  "nl": "Tijdopslag",
-                  "de": "Tageszeitaufschlag",
-                  "fr": "Majoration horaire",
-                  "it": "Ricarico orario",
-                  "sv": "Tidspåslag",
-                  "no": "Tidspåslag",
-                  "es": "Recargo horario",
-                  "da": "Tidstillæg",
-                  "pl": "Narzut czasowy",
-                  "ru": "Надбавка по времени",
-                  "ar": "إضافة حسب الوقت",
-                  "ko": "시간대 마크업"
+                  "en": "Import: Time of day markup",
+                  "nl": "Import: Tijdopslag",
+                  "de": "Import: Tageszeitaufschlag",
+                  "fr": "Import: Majoration horaire",
+                  "it": "Importazione: Ricarico orario",
+                  "sv": "Import: Tidspåslag",
+                  "no": "Import: Tidspåslag",
+                  "es": "Importación: Recargo horario",
+                  "da": "Import: Tidstillæg",
+                  "pl": "Import: Narzut czasowy",
+                  "ru": "Импорт: Надбавка по времени",
+                  "ar": "الاستيراد: إضافة حسب الوقت",
+                  "ko": "수입: 시간대 마크업"
                 }
               },
               {
                 "id": "export_fixedMarkupTOD",
                 "label": {
-                  "en": "Time of day markup",
-                  "nl": "Tijdopslag",
-                  "de": "Tageszeitaufschlag",
-                  "fr": "Majoration horaire",
-                  "it": "Ricarico orario",
-                  "sv": "Tidspåslag",
-                  "no": "Tidspåslag",
-                  "es": "Recargo horario",
-                  "da": "Tidstillæg",
-                  "pl": "Narzut czasowy",
-                  "ru": "Надбавка по времени",
-                  "ar": "إضافة حسب الوقت",
-                  "ko": "시간대 마크업"
+                  "en": "Export: Time of day markup",
+                  "nl": "Export: Tijdopslag",
+                  "de": "Export: Tageszeitaufschlag",
+                  "fr": "Export: Majoration horaire",
+                  "it": "Esportazione: Ricarico orario",
+                  "sv": "Export: Tidspåslag",
+                  "no": "Eksport: Tidspåslag",
+                  "es": "Exportación: Recargo horario",
+                  "da": "Eksport: Tidstillæg",
+                  "pl": "Eksport: Narzut czasowy",
+                  "ru": "Экспорт: Надбавка по времени",
+                  "ar": "التصدير: إضافة حسب الوقت",
+                  "ko": "수출: 시간대 마크업"
                 }
               },
               {
@@ -16435,7 +16662,7 @@
                   "it": "Domani",
                   "no": "I morgen",
                   "nl": "Morgen",
-                  "ar": "غداً",
+                  "ar": "غدًا",
                   "fr": "Demain",
                   "da": "I morgen",
                   "es": "Mañana",
@@ -16511,19 +16738,19 @@
       },
       {
         "title": {
-          "en": "Retrain home load model",
-          "nl": "Hertrain huisverbruikmodel",
-          "de": "Hausverbrauchsmodell neu trainieren",
-          "fr": "Réentraîner le modèle de consommation domestique",
-          "it": "Riaddestra modello di consumo domestico",
-          "sv": "Träna om hushållslastmodell",
-          "no": "Tren husforbruksmodell på nytt",
-          "es": "Reentrenar modelo de consumo doméstico",
-          "da": "Genoptræn husstandsforbrugsmodel",
-          "pl": "Przekwalifikuj model zużycia domowego",
-          "ru": "Переобучить модель домашней нагрузки",
-          "ar": "إعادة تدريب نموذج حمل المنزل",
-          "ko": "가정 부하 모델 재학습"
+          "en": "Retrain home load forecast",
+          "nl": "Hertrain huisverbruik-voorspelling",
+          "de": "Hausverbrauchsprognose neu trainieren",
+          "fr": "Réentraîner les prévisions de consommation domestique",
+          "it": "Riaddestra previsione consumo domestico",
+          "sv": "Träna om hushållslastprognos",
+          "no": "Tren husforbruksprognose på nytt",
+          "es": "Reentrenar pronóstico de consumo doméstico",
+          "da": "Gentræn husstandsforbrugsprognose",
+          "pl": "Przetrenuj prognozę zużycia domowego",
+          "ru": "Переобучить прогноз домашней нагрузки",
+          "ko": "가정 부하 예측 재학습",
+          "ar": "إعادة تدريب توقعات حمل المنزل"
         },
         "hint": {
           "en": "Start the retraining process for the home load prediction model. This can take a few minutes.",
@@ -16645,17 +16872,17 @@
             "type": "dropdown",
             "name": "cost",
             "title": {
-              "en": "cost",
-              "nl": "kosten",
+              "en": "Cost",
+              "nl": "Kosten",
               "de": "Kosten",
-              "fr": "coût",
-              "it": "costo",
-              "sv": "kostnad",
-              "no": "kostnad",
-              "es": "coste",
-              "da": "omkostning",
-              "pl": "koszt",
-              "ru": "стоимость",
+              "fr": "Coût",
+              "it": "Costo",
+              "sv": "Kostnad",
+              "no": "Kostnad",
+              "es": "Coste",
+              "da": "Omkostning",
+              "pl": "Koszt",
+              "ru": "Стоимость",
               "ko": "비용",
               "ar": "التكلفة"
             },
@@ -16702,17 +16929,17 @@
             "type": "number",
             "name": "value",
             "title": {
-              "en": "value",
-              "nl": "waarde",
+              "en": "Value",
+              "nl": "Waarde",
               "de": "Wert",
-              "fr": "valeur",
-              "it": "valore",
-              "sv": "värde",
-              "no": "verdi",
-              "es": "valor",
-              "da": "værdi",
-              "pl": "wartość",
-              "ru": "значение",
+              "fr": "Valeur",
+              "it": "Valore",
+              "sv": "Värde",
+              "no": "Verdi",
+              "es": "Valor",
+              "da": "Værdi",
+              "pl": "Wartość",
+              "ru": "Значение",
               "ko": "값",
               "ar": "القيمة"
             },
@@ -17289,6 +17516,301 @@
       },
       {
         "title": {
+          "en": "Set departure",
+          "nl": "Vertrek instellen",
+          "de": "Abfahrt einstellen",
+          "fr": "Définir le départ",
+          "it": "Imposta la partenza",
+          "sv": "Ställ in avgång",
+          "no": "Angi avgang",
+          "es": "Establecer la salida",
+          "da": "Indstil afgang",
+          "pl": "Ustaw wyjazd",
+          "ru": "Задать отправление",
+          "ko": "출발 설정",
+          "ar": "تعيين المغادرة"
+        },
+        "titleFormatted": {
+          "en": "Departure [[day]] at [[time]]",
+          "nl": "Vertrek [[day]] om [[time]]",
+          "de": "Abfahrt [[day]] um [[time]]",
+          "fr": "Départ [[day]] à [[time]]",
+          "it": "Partenza [[day]] alle [[time]]",
+          "sv": "Avgång [[day]] kl. [[time]]",
+          "no": "Avgang [[day]] kl. [[time]]",
+          "es": "Salida [[day]] a las [[time]]",
+          "da": "Afgang [[day]] kl. [[time]]",
+          "pl": "Wyjazd [[day]] o [[time]]",
+          "ru": "Отправление [[day]] в [[time]]",
+          "ko": "[[day]] [[time]]에 출발",
+          "ar": "المغادرة [[day]] الساعة [[time]]"
+        },
+        "hint": {
+          "en": "Once; then the learned or weekly time applies again. HH:MM or decimal hours (7.5). 'auto': automatic again, '-': car not used that day.",
+          "nl": "Eenmalig; daarna geldt weer de geleerde of weektijd. UU:MM of decimale uren (7,5). 'auto': weer automatisch, '-': auto die dag niet gebruikt.",
+          "de": "Einmalig; danach gilt wieder die gelernte oder Wochenzeit. HH:MM oder Dezimalstunden (7,5). 'auto': wieder automatisch, '-': Auto an dem Tag nicht genutzt.",
+          "fr": "Une fois ; ensuite l'heure apprise ou hebdomadaire s'applique. HH:MM ou heures décimales (7,5). « auto » : de nouveau automatique, « - » : voiture non utilisée ce jour-là.",
+          "it": "Una volta; poi vale di nuovo l'orario appreso o settimanale. HH:MM o ore decimali (7,5). 'auto': di nuovo automatico, '-': auto non usata quel giorno.",
+          "sv": "En gång; därefter gäller den inlärda eller veckotiden igen. HH:MM eller decimaltimmar (7,5). 'auto': automatiskt igen, '-': bilen används inte den dagen.",
+          "no": "Én gang; deretter gjelder det lærte eller ukentlige tidspunktet igjen. TT:MM eller desimaltimer (7,5). 'auto': automatisk igjen, '-': bilen brukes ikke den dagen.",
+          "es": "Una vez; después vuelve la hora aprendida o semanal. HH:MM u horas decimales (7,5). 'auto': de nuevo automático, '-': coche no usado ese día.",
+          "da": "Én gang; derefter gælder det lærte eller ugentlige tidspunkt igen. TT:MM eller decimaltimer (7,5). 'auto': automatisk igen, '-': bilen bruges ikke den dag.",
+          "pl": "Jednorazowo; potem znowu obowiązuje wyuczona lub tygodniowa godzina. GG:MM lub godziny dziesiętne (7,5). 'auto': znowu automatycznie, '-': samochód nieużywany tego dnia.",
+          "ru": "Однократно; затем снова действует изученное или недельное время. ЧЧ:ММ или десятичные часы (7,5). 'auto': снова автоматически, '-': машина в этот день не используется.",
+          "ko": "1회 적용; 이후 학습값 또는 주간 시간이 다시 적용됩니다. HH:MM 또는 소수 시간(7.5). 'auto': 다시 자동, '-': 그날은 차를 사용하지 않음.",
+          "ar": "لمرة واحدة؛ ثم يعود الوقت المُتعلَّم أو الأسبوعي. HH:MM أو ساعات عشرية (7.5). 'auto': تلقائي مرة أخرى، '-': لا تُستخدم السيارة ذلك اليوم."
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=evCharger"
+          },
+          {
+            "type": "dropdown",
+            "name": "day",
+            "title": {
+              "en": "Day",
+              "nl": "Dag",
+              "de": "Tag",
+              "fr": "Jour",
+              "es": "Día",
+              "it": "Giorno",
+              "da": "Dag",
+              "sv": "Dag",
+              "no": "Dag",
+              "pl": "Dzień",
+              "ru": "День",
+              "ar": "اليوم",
+              "ko": "날짜"
+            },
+            "values": [
+              {
+                "id": "today",
+                "label": {
+                  "en": "today",
+                  "nl": "vandaag",
+                  "de": "heute",
+                  "fr": "aujourd'hui",
+                  "es": "hoy",
+                  "it": "oggi",
+                  "da": "i dag",
+                  "sv": "i dag",
+                  "no": "i dag",
+                  "pl": "dziś",
+                  "ru": "сегодня",
+                  "ar": "اليوم",
+                  "ko": "오늘"
+                }
+              },
+              {
+                "id": "tomorrow",
+                "label": {
+                  "en": "tomorrow",
+                  "nl": "morgen",
+                  "de": "morgen",
+                  "fr": "demain",
+                  "es": "mañana",
+                  "it": "domani",
+                  "da": "i morgen",
+                  "sv": "i morgon",
+                  "no": "i morgen",
+                  "pl": "jutro",
+                  "ru": "завтра",
+                  "ar": "غدًا",
+                  "ko": "내일"
+                }
+              }
+            ]
+          },
+          {
+            "type": "text",
+            "name": "time",
+            "placeholder": {
+              "en": "07:30",
+              "nl": "07:30",
+              "de": "07:30",
+              "fr": "07:30",
+              "es": "07:30",
+              "it": "07:30",
+              "da": "07:30",
+              "sv": "07:30",
+              "no": "07:30",
+              "pl": "07:30",
+              "ru": "07:30",
+              "ar": "07:30",
+              "ko": "07:30"
+            },
+            "title": {
+              "en": "Departure",
+              "nl": "Vertrek",
+              "de": "Abfahrt",
+              "fr": "Départ",
+              "es": "Salida",
+              "it": "Partenza",
+              "da": "Afgang",
+              "sv": "Avgång",
+              "no": "Avgang",
+              "pl": "Wyjazd",
+              "ru": "Отправление",
+              "ar": "المغادرة",
+              "ko": "출발"
+            }
+          }
+        ],
+        "id": "set_ev_departure"
+      },
+      {
+        "title": {
+          "en": "Set min. SoC",
+          "nl": "Min. SoC instellen",
+          "de": "Min. SoC einstellen",
+          "fr": "Définir le SoC min.",
+          "it": "Imposta SoC min.",
+          "sv": "Ställ in min. SoC",
+          "no": "Angi min. SoC",
+          "es": "Establecer SoC mín.",
+          "da": "Indstil min. SoC",
+          "pl": "Ustaw min. SoC",
+          "ru": "Задать мин. заряд",
+          "ko": "최소 충전량 설정",
+          "ar": "تعيين الحد الأدنى للشحن"
+        },
+        "titleFormatted": {
+          "en": "Min. SoC [[day]] [[soc]]%",
+          "nl": "Min. SoC [[day]] [[soc]]%",
+          "de": "Min. SoC [[day]] [[soc]]%",
+          "fr": "SoC min. [[day]] [[soc]]%",
+          "it": "SoC min. [[day]] [[soc]]%",
+          "sv": "Min. SoC [[day]] [[soc]]%",
+          "no": "Min. SoC [[day]] [[soc]]%",
+          "es": "SoC mín. [[day]] [[soc]]%",
+          "da": "Min. SoC [[day]] [[soc]]%",
+          "pl": "Min. SoC [[day]] [[soc]]%",
+          "ru": "Мин. заряд [[day]] [[soc]]%",
+          "ko": "[[day]] 최소 충전량 [[soc]]%",
+          "ar": "الحد الأدنى للشحن [[day]] [[soc]]%"
+        },
+        "hint": {
+          "en": "At least this SoC at that day's departure, once; may be lower than planned. 0: automatic again.",
+          "nl": "Minstens deze SoC bij vertrek die dag, eenmalig; mag lager dan gepland. 0: weer automatisch.",
+          "de": "Mindestens dieser SoC bei der Abfahrt an dem Tag, einmalig; auch niedriger als geplant. 0: wieder automatisch.",
+          "fr": "Au moins ce SoC au départ de ce jour, une fois ; peut être inférieur au plan. 0 : de nouveau automatique.",
+          "it": "Almeno questo SoC alla partenza di quel giorno, una volta; anche inferiore al previsto. 0: di nuovo automatico.",
+          "sv": "Minst denna SoC vid avgång den dagen, en gång; även lägre än planerat. 0: automatiskt igen.",
+          "no": "Minst denne SoC ved avgang den dagen, én gang; også lavere enn planlagt. 0: automatisk igjen.",
+          "es": "Al menos este SoC en la salida de ese día, una vez; también menor que lo previsto. 0: de nuevo automático.",
+          "da": "Mindst denne SoC ved afgang den dag, én gang; også lavere end planlagt. 0: automatisk igen.",
+          "pl": "Co najmniej ten SoC przy wyjeździe tego dnia, jednorazowo; także niższy niż planowany. 0: znowu automatycznie.",
+          "ru": "Не меньше этого заряда при отправлении в этот день, однократно; можно ниже запланированного. 0: снова автоматически.",
+          "ko": "그날 출발 시 최소 이 충전량, 1회; 계획보다 낮게도 가능. 0: 다시 자동.",
+          "ar": "على الأقل نسبة الشحن هذه عند المغادرة ذلك اليوم، لمرة واحدة؛ ويمكن أقل من المخطط. 0: تلقائي مرة أخرى."
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=evCharger"
+          },
+          {
+            "type": "dropdown",
+            "name": "day",
+            "title": {
+              "en": "Day",
+              "nl": "Dag",
+              "de": "Tag",
+              "fr": "Jour",
+              "es": "Día",
+              "it": "Giorno",
+              "da": "Dag",
+              "sv": "Dag",
+              "no": "Dag",
+              "pl": "Dzień",
+              "ru": "День",
+              "ar": "اليوم",
+              "ko": "날짜"
+            },
+            "values": [
+              {
+                "id": "today",
+                "label": {
+                  "en": "today",
+                  "nl": "vandaag",
+                  "de": "heute",
+                  "fr": "aujourd'hui",
+                  "es": "hoy",
+                  "it": "oggi",
+                  "da": "i dag",
+                  "sv": "i dag",
+                  "no": "i dag",
+                  "pl": "dziś",
+                  "ru": "сегодня",
+                  "ar": "اليوم",
+                  "ko": "오늘"
+                }
+              },
+              {
+                "id": "tomorrow",
+                "label": {
+                  "en": "tomorrow",
+                  "nl": "morgen",
+                  "de": "morgen",
+                  "fr": "demain",
+                  "es": "mañana",
+                  "it": "domani",
+                  "da": "i morgen",
+                  "sv": "i morgon",
+                  "no": "i morgen",
+                  "pl": "jutro",
+                  "ru": "завтра",
+                  "ar": "غدًا",
+                  "ko": "내일"
+                }
+              }
+            ]
+          },
+          {
+            "type": "number",
+            "name": "soc",
+            "min": 0,
+            "max": 100,
+            "step": 1,
+            "title": {
+              "en": "SoC (%)",
+              "nl": "SoC (%)",
+              "de": "SoC (%)",
+              "fr": "SoC (%)",
+              "es": "SoC (%)",
+              "it": "SoC (%)",
+              "da": "SoC (%)",
+              "sv": "SoC (%)",
+              "no": "SoC (%)",
+              "pl": "SoC (%)",
+              "ru": "SoC (%)",
+              "ar": "SoC (%)",
+              "ko": "SoC (%)"
+            },
+            "placeholder": {
+              "en": "80",
+              "nl": "80",
+              "de": "80",
+              "fr": "80",
+              "es": "80",
+              "it": "80",
+              "da": "80",
+              "sv": "80",
+              "no": "80",
+              "pl": "80",
+              "ru": "80",
+              "ar": "80",
+              "ko": "80"
+            }
+          }
+        ],
+        "id": "set_ev_min_soc"
+      },
+      {
+        "title": {
           "en": "Car has left / is home",
           "nl": "Auto is vertrokken / is thuis",
           "de": "Auto ist weggefahren / ist zu Hause",
@@ -17474,368 +17996,6 @@
           }
         ],
         "id": "set_ev_soc"
-      },
-      {
-        "title": {
-          "en": "Departure today",
-          "nl": "Vertrek vandaag",
-          "de": "Abfahrt heute",
-          "fr": "Départ aujourd'hui",
-          "es": "Salida hoy",
-          "it": "Partenza oggi",
-          "da": "Afgang i dag",
-          "sv": "Avgång i dag",
-          "no": "Avgang i dag",
-          "pl": "Wyjazd dziś",
-          "ru": "Отправление сегодня",
-          "ar": "المغادرة اليوم",
-          "ko": "오늘 출발"
-        },
-        "titleFormatted": {
-          "en": "Departure today at [[time]]",
-          "nl": "Vertrek vandaag om [[time]]",
-          "de": "Abfahrt heute um [[time]]",
-          "fr": "Départ aujourd'hui à [[time]]",
-          "es": "Salida hoy a las [[time]]",
-          "it": "Partenza oggi alle [[time]]",
-          "da": "Afgang i dag kl. [[time]]",
-          "sv": "Avgång i dag kl. [[time]]",
-          "no": "Avgang i dag kl. [[time]]",
-          "pl": "Wyjazd dziś o [[time]]",
-          "ru": "Отправление сегодня в [[time]]",
-          "ar": "المغادرة اليوم الساعة [[time]]",
-          "ko": "오늘 [[time]]에 출발"
-        },
-        "hint": {
-          "en": "Once; after that the learned or weekly schedule applies again. Time as HH:MM or a whole hour (7), also from a tag. 'auto': automatic again, '-': the car is not used that day. For the SoC: Min. SoC today. A time already past today gives an error.",
-          "nl": "Eenmalig; daarna geldt weer het geleerde of het weekschema. Tijd als UU:MM of een heel uur (7), ook uit een tag. 'auto': weer automatisch, '-': de auto wordt die dag niet gebruikt. Voor de SoC: Min. SoC vandaag. Een tijd die vandaag al voorbij is geeft een foutmelding.",
-          "de": "Einmalig; danach gilt wieder der gelernte oder der Wochenplan. Zeit als HH:MM oder volle Stunde (7), auch aus einem Tag. 'auto': wieder automatisch, '-': das Auto wird an dem Tag nicht genutzt. Für den SoC: Min. SoC heute. Eine heute schon vergangene Zeit ergibt einen Fehler.",
-          "fr": "Une fois ; ensuite l'horaire appris ou hebdomadaire s'applique à nouveau. Heure au format HH:MM ou heure pleine (7), aussi depuis un tag. « auto » : de nouveau automatique, « - » : la voiture n'est pas utilisée ce jour-là. Pour le SoC : SoC min. aujourd'hui. Une heure déjà passée aujourd'hui donne une erreur.",
-          "es": "Una vez; después vuelve a aplicarse lo aprendido o el horario semanal. Hora como HH:MM o una hora entera (7), también desde una etiqueta. 'auto': de nuevo automático, '-': el coche no se usa ese día. Para el SoC: SoC mín. hoy. Una hora ya pasada hoy da un error.",
-          "it": "Una volta; poi vale di nuovo quanto appreso o il programma settimanale. Ora come HH:MM o un'ora intera (7), anche da un tag. 'auto': di nuovo automatico, '-': l'auto non viene usata quel giorno. Per il SoC: SoC min. oggi. Un orario già passato oggi dà un errore.",
-          "da": "Én gang; derefter gælder det lærte eller ugeplanen igen. Tid som TT:MM eller en hel time (7), også fra et tag. 'auto': automatisk igen, '-': bilen bruges ikke den dag. For SoC: Min. SoC i dag. Et tidspunkt, der allerede er passeret i dag, giver en fejl.",
-          "sv": "En gång; därefter gäller det inlärda eller veckoschemat igen. Tid som HH:MM eller en hel timme (7), även från en tagg. 'auto': automatiskt igen, '-': bilen används inte den dagen. För SoC: Min. SoC i dag. En tid som redan har passerat i dag ger ett fel.",
-          "no": "Én gang; deretter gjelder det lærte eller ukeplanen igjen. Tid som TT:MM eller en hel time (7), også fra en tagg. 'auto': automatisk igjen, '-': bilen brukes ikke den dagen. For SoC: Min. SoC i dag. Et tidspunkt som allerede er passert i dag gir en feil.",
-          "pl": "Jednorazowo; potem znowu obowiązuje wyuczony lub tygodniowy plan. Godzina jako GG:MM lub pełna godzina (7), także z tagu. 'auto': znowu automatycznie, '-': samochód nie jest używany tego dnia. Dla SoC: Min. SoC dziś. Godzina, która już dziś minęła, daje błąd.",
-          "ru": "Однократно; затем снова действует изученное или недельное расписание. Время в формате ЧЧ:ММ или целый час (7), также из тега. 'auto': снова автоматически, '-': в этот день машина не используется. Для заряда: Мин. заряд сегодня. Уже прошедшее сегодня время даёт ошибку.",
-          "ar": "لمرة واحدة؛ بعد ذلك يعود الجدول المُتعلَّم أو الأسبوعي. الوقت بصيغة HH:MM أو ساعة كاملة (7)، ويمكن من وسم أيضًا. 'auto': تلقائي مرة أخرى، '-': لا تُستخدم السيارة في ذلك اليوم. لنسبة الشحن: الحد الأدنى للشحن اليوم. الوقت الذي مضى اليوم يعطي خطأ.",
-          "ko": "1회 적용; 이후 다시 학습값 또는 주간 일정이 적용됩니다. 시간은 HH:MM 또는 정시(7) 형식, 태그도 가능. 'auto': 다시 자동, '-': 그날은 차를 사용하지 않음. 충전량은 오늘 최소 충전량을 사용하세요. 오늘 이미 지난 시간은 오류가 됩니다."
-        },
-        "args": [
-          {
-            "type": "device",
-            "name": "device",
-            "filter": "driver_id=evCharger"
-          },
-          {
-            "type": "text",
-            "name": "time",
-            "placeholder": {
-              "en": "07:30",
-              "nl": "07:30",
-              "de": "07:30",
-              "fr": "07:30",
-              "es": "07:30",
-              "it": "07:30",
-              "da": "07:30",
-              "sv": "07:30",
-              "no": "07:30",
-              "pl": "07:30",
-              "ru": "07:30",
-              "ar": "07:30",
-              "ko": "07:30"
-            },
-            "title": {
-              "en": "Departure",
-              "nl": "Vertrek",
-              "de": "Abfahrt",
-              "fr": "Départ",
-              "es": "Salida",
-              "it": "Partenza",
-              "da": "Afgang",
-              "sv": "Avgång",
-              "no": "Avgang",
-              "pl": "Wyjazd",
-              "ru": "Отправление",
-              "ar": "المغادرة",
-              "ko": "출발"
-            }
-          }
-        ],
-        "id": "set_ev_today_departure"
-      },
-      {
-        "title": {
-          "en": "Min. SoC today",
-          "nl": "Min. SoC vandaag",
-          "de": "Min. SoC heute",
-          "fr": "SoC min. aujourd'hui",
-          "es": "SoC mín. hoy",
-          "it": "SoC min. oggi",
-          "da": "Min. SoC i dag",
-          "sv": "Min. SoC i dag",
-          "no": "Min. SoC i dag",
-          "pl": "Min. SoC dziś",
-          "ru": "Мин. заряд сегодня",
-          "ar": "الحد الأدنى للشحن اليوم",
-          "ko": "오늘 최소 충전량"
-        },
-        "titleFormatted": {
-          "en": "Min. SoC today [[soc]]%",
-          "nl": "Min. SoC vandaag [[soc]]%",
-          "de": "Min. SoC heute [[soc]]%",
-          "fr": "SoC min. aujourd'hui [[soc]]%",
-          "es": "SoC mín. hoy [[soc]]%",
-          "it": "SoC min. oggi [[soc]]%",
-          "da": "Min. SoC i dag [[soc]]%",
-          "sv": "Min. SoC i dag [[soc]]%",
-          "no": "Min. SoC i dag [[soc]]%",
-          "pl": "Min. SoC dziś [[soc]]%",
-          "ru": "Мин. заряд сегодня [[soc]]%",
-          "ar": "الحد الأدنى للشحن اليوم [[soc]]%",
-          "ko": "오늘 최소 충전량 [[soc]]%"
-        },
-        "hint": {
-          "en": "At least this SoC at today's departure, once; also lower than planned. Also from a number tag. 0: automatic again.",
-          "nl": "Minstens deze SoC bij vertrek vandaag, eenmalig; mag ook lager dan gepland. Ook uit een getal-tag. 0: weer automatisch.",
-          "de": "Mindestens dieser SoC bei der Abfahrt heute, einmalig; auch niedriger als geplant. Auch aus einem Zahlen-Tag. 0: wieder automatisch.",
-          "fr": "Au moins ce SoC au départ aujourd'hui, une fois ; peut être inférieur au plan. Aussi depuis un tag numérique. 0 : de nouveau automatique.",
-          "es": "Al menos este SoC en la salida de hoy, una vez; también menor que lo previsto. También desde una etiqueta numérica. 0: de nuevo automático.",
-          "it": "Almeno questo SoC alla partenza di oggi, una volta; anche inferiore al previsto. Anche da un tag numerico. 0: di nuovo automatico.",
-          "da": "Mindst denne SoC ved afgang i dag, én gang; også lavere end planlagt. Også fra et tal-tag. 0: automatisk igen.",
-          "sv": "Minst denna SoC vid avgång i dag, en gång; även lägre än planerat. Även från en siffertagg. 0: automatiskt igen.",
-          "no": "Minst denne SoC ved avgang i dag, én gang; også lavere enn planlagt. Også fra en talltagg. 0: automatisk igjen.",
-          "pl": "Co najmniej ten SoC przy dzisiejszym wyjeździe, jednorazowo; także niższy niż planowany. Także z tagu liczbowego. 0: znowu automatycznie.",
-          "ru": "Не меньше этого заряда при отправлении сегодня, однократно; можно ниже запланированного. Также из числового тега. 0: снова автоматически.",
-          "ar": "على الأقل نسبة الشحن هذه عند مغادرة اليوم، لمرة واحدة؛ ويمكن أقل من المخطط. ويمكن من وسم رقمي أيضًا. 0: تلقائي مرة أخرى.",
-          "ko": "오늘 출발 시 최소 이 충전량, 1회; 계획보다 낮게도 가능. 숫자 태그도 가능. 0: 다시 자동."
-        },
-        "args": [
-          {
-            "type": "device",
-            "name": "device",
-            "filter": "driver_id=evCharger"
-          },
-          {
-            "type": "number",
-            "name": "soc",
-            "min": 0,
-            "max": 100,
-            "step": 1,
-            "title": {
-              "en": "SoC (%)",
-              "nl": "SoC (%)",
-              "de": "SoC (%)",
-              "fr": "SoC (%)",
-              "es": "SoC (%)",
-              "it": "SoC (%)",
-              "da": "SoC (%)",
-              "sv": "SoC (%)",
-              "no": "SoC (%)",
-              "pl": "SoC (%)",
-              "ru": "SoC (%)",
-              "ar": "SoC (%)",
-              "ko": "SoC (%)"
-            },
-            "placeholder": {
-              "en": "80",
-              "nl": "80",
-              "de": "80",
-              "fr": "80",
-              "es": "80",
-              "it": "80",
-              "da": "80",
-              "sv": "80",
-              "no": "80",
-              "pl": "80",
-              "ru": "80",
-              "ar": "80",
-              "ko": "80"
-            }
-          }
-        ],
-        "id": "set_ev_today_min_soc"
-      },
-      {
-        "title": {
-          "en": "Departure tomorrow",
-          "nl": "Vertrek morgen",
-          "de": "Abfahrt morgen",
-          "fr": "Départ demain",
-          "es": "Salida mañana",
-          "it": "Partenza domani",
-          "da": "Afgang i morgen",
-          "sv": "Avgång i morgon",
-          "no": "Avgang i morgen",
-          "pl": "Wyjazd jutro",
-          "ru": "Отправление завтра",
-          "ar": "المغادرة غدًا",
-          "ko": "내일 출발"
-        },
-        "titleFormatted": {
-          "en": "Departure tomorrow at [[time]]",
-          "nl": "Vertrek morgen om [[time]]",
-          "de": "Abfahrt morgen um [[time]]",
-          "fr": "Départ demain à [[time]]",
-          "es": "Salida mañana a las [[time]]",
-          "it": "Partenza domani alle [[time]]",
-          "da": "Afgang i morgen kl. [[time]]",
-          "sv": "Avgång i morgon kl. [[time]]",
-          "no": "Avgang i morgen kl. [[time]]",
-          "pl": "Wyjazd jutro o [[time]]",
-          "ru": "Отправление завтра в [[time]]",
-          "ar": "المغادرة غدًا الساعة [[time]]",
-          "ko": "내일 [[time]]에 출발"
-        },
-        "hint": {
-          "en": "Once; after that the learned or weekly schedule applies again. Time as HH:MM or a whole hour (7), also from a tag. 'auto': automatic again, '-': the car is not used that day. For the SoC: Min. SoC tomorrow.",
-          "nl": "Eenmalig; daarna geldt weer het geleerde of het weekschema. Tijd als UU:MM of een heel uur (7), ook uit een tag. 'auto': weer automatisch, '-': de auto wordt die dag niet gebruikt. Voor de SoC: Min. SoC morgen.",
-          "de": "Einmalig; danach gilt wieder der gelernte oder der Wochenplan. Zeit als HH:MM oder volle Stunde (7), auch aus einem Tag. 'auto': wieder automatisch, '-': das Auto wird an dem Tag nicht genutzt. Für den SoC: Min. SoC morgen.",
-          "fr": "Une fois ; ensuite l'horaire appris ou hebdomadaire s'applique à nouveau. Heure au format HH:MM ou heure pleine (7), aussi depuis un tag. « auto » : de nouveau automatique, « - » : la voiture n'est pas utilisée ce jour-là. Pour le SoC : SoC min. demain.",
-          "es": "Una vez; después vuelve a aplicarse lo aprendido o el horario semanal. Hora como HH:MM o una hora entera (7), también desde una etiqueta. 'auto': de nuevo automático, '-': el coche no se usa ese día. Para el SoC: SoC mín. mañana.",
-          "it": "Una volta; poi vale di nuovo quanto appreso o il programma settimanale. Ora come HH:MM o un'ora intera (7), anche da un tag. 'auto': di nuovo automatico, '-': l'auto non viene usata quel giorno. Per il SoC: SoC min. domani.",
-          "da": "Én gang; derefter gælder det lærte eller ugeplanen igen. Tid som TT:MM eller en hel time (7), også fra et tag. 'auto': automatisk igen, '-': bilen bruges ikke den dag. For SoC: Min. SoC i morgen.",
-          "sv": "En gång; därefter gäller det inlärda eller veckoschemat igen. Tid som HH:MM eller en hel timme (7), även från en tagg. 'auto': automatiskt igen, '-': bilen används inte den dagen. För SoC: Min. SoC i morgon.",
-          "no": "Én gang; deretter gjelder det lærte eller ukeplanen igjen. Tid som TT:MM eller en hel time (7), også fra en tagg. 'auto': automatisk igjen, '-': bilen brukes ikke den dagen. For SoC: Min. SoC i morgen.",
-          "pl": "Jednorazowo; potem znowu obowiązuje wyuczony lub tygodniowy plan. Godzina jako GG:MM lub pełna godzina (7), także z tagu. 'auto': znowu automatycznie, '-': samochód nie jest używany tego dnia. Dla SoC: Min. SoC jutro.",
-          "ru": "Однократно; затем снова действует изученное или недельное расписание. Время в формате ЧЧ:ММ или целый час (7), также из тега. 'auto': снова автоматически, '-': в этот день машина не используется. Для заряда: Мин. заряд завтра.",
-          "ar": "لمرة واحدة؛ بعد ذلك يعود الجدول المُتعلَّم أو الأسبوعي. الوقت بصيغة HH:MM أو ساعة كاملة (7)، ويمكن من وسم أيضًا. 'auto': تلقائي مرة أخرى، '-': لا تُستخدم السيارة في ذلك اليوم. لنسبة الشحن: الحد الأدنى للشحن غدًا.",
-          "ko": "1회 적용; 이후 다시 학습값 또는 주간 일정이 적용됩니다. 시간은 HH:MM 또는 정시(7) 형식, 태그도 가능. 'auto': 다시 자동, '-': 그날은 차를 사용하지 않음. 충전량은 내일 최소 충전량을 사용하세요."
-        },
-        "args": [
-          {
-            "type": "device",
-            "name": "device",
-            "filter": "driver_id=evCharger"
-          },
-          {
-            "type": "text",
-            "name": "time",
-            "placeholder": {
-              "en": "07:30",
-              "nl": "07:30",
-              "de": "07:30",
-              "fr": "07:30",
-              "es": "07:30",
-              "it": "07:30",
-              "da": "07:30",
-              "sv": "07:30",
-              "no": "07:30",
-              "pl": "07:30",
-              "ru": "07:30",
-              "ar": "07:30",
-              "ko": "07:30"
-            },
-            "title": {
-              "en": "Departure",
-              "nl": "Vertrek",
-              "de": "Abfahrt",
-              "fr": "Départ",
-              "es": "Salida",
-              "it": "Partenza",
-              "da": "Afgang",
-              "sv": "Avgång",
-              "no": "Avgang",
-              "pl": "Wyjazd",
-              "ru": "Отправление",
-              "ar": "المغادرة",
-              "ko": "출발"
-            }
-          }
-        ],
-        "id": "set_ev_tomorrow_departure"
-      },
-      {
-        "title": {
-          "en": "Min. SoC tomorrow",
-          "nl": "Min. SoC morgen",
-          "de": "Min. SoC morgen",
-          "fr": "SoC min. demain",
-          "es": "SoC mín. mañana",
-          "it": "SoC min. domani",
-          "da": "Min. SoC i morgen",
-          "sv": "Min. SoC i morgon",
-          "no": "Min. SoC i morgen",
-          "pl": "Min. SoC jutro",
-          "ru": "Мин. заряд завтра",
-          "ar": "الحد الأدنى للشحن غدًا",
-          "ko": "내일 최소 충전량"
-        },
-        "titleFormatted": {
-          "en": "Min. SoC tomorrow [[soc]]%",
-          "nl": "Min. SoC morgen [[soc]]%",
-          "de": "Min. SoC morgen [[soc]]%",
-          "fr": "SoC min. demain [[soc]]%",
-          "es": "SoC mín. mañana [[soc]]%",
-          "it": "SoC min. domani [[soc]]%",
-          "da": "Min. SoC i morgen [[soc]]%",
-          "sv": "Min. SoC i morgon [[soc]]%",
-          "no": "Min. SoC i morgen [[soc]]%",
-          "pl": "Min. SoC jutro [[soc]]%",
-          "ru": "Мин. заряд завтра [[soc]]%",
-          "ar": "الحد الأدنى للشحن غدًا [[soc]]%",
-          "ko": "내일 최소 충전량 [[soc]]%"
-        },
-        "hint": {
-          "en": "At least this SoC at tomorrow's departure, once; also lower than planned. Also from a number tag. 0: automatic again.",
-          "nl": "Minstens deze SoC bij vertrek morgen, eenmalig; mag ook lager dan gepland. Ook uit een getal-tag. 0: weer automatisch.",
-          "de": "Mindestens dieser SoC bei der Abfahrt morgen, einmalig; auch niedriger als geplant. Auch aus einem Zahlen-Tag. 0: wieder automatisch.",
-          "fr": "Au moins ce SoC au départ demain, une fois ; peut être inférieur au plan. Aussi depuis un tag numérique. 0 : de nouveau automatique.",
-          "es": "Al menos este SoC en la salida de mañana, una vez; también menor que lo previsto. También desde una etiqueta numérica. 0: de nuevo automático.",
-          "it": "Almeno questo SoC alla partenza di domani, una volta; anche inferiore al previsto. Anche da un tag numerico. 0: di nuovo automatico.",
-          "da": "Mindst denne SoC ved afgang i morgen, én gang; også lavere end planlagt. Også fra et tal-tag. 0: automatisk igen.",
-          "sv": "Minst denna SoC vid avgång i morgon, en gång; även lägre än planerat. Även från en siffertagg. 0: automatiskt igen.",
-          "no": "Minst denne SoC ved avgang i morgen, én gang; også lavere enn planlagt. Også fra en talltagg. 0: automatisk igjen.",
-          "pl": "Co najmniej ten SoC przy jutrzejszym wyjeździe, jednorazowo; także niższy niż planowany. Także z tagu liczbowego. 0: znowu automatycznie.",
-          "ru": "Не меньше этого заряда при отправлении завтра, однократно; можно ниже запланированного. Также из числового тега. 0: снова автоматически.",
-          "ar": "على الأقل نسبة الشحن هذه عند مغادرة الغد، لمرة واحدة؛ ويمكن أقل من المخطط. ويمكن من وسم رقمي أيضًا. 0: تلقائي مرة أخرى.",
-          "ko": "내일 출발 시 최소 이 충전량, 1회; 계획보다 낮게도 가능. 숫자 태그도 가능. 0: 다시 자동."
-        },
-        "args": [
-          {
-            "type": "device",
-            "name": "device",
-            "filter": "driver_id=evCharger"
-          },
-          {
-            "type": "number",
-            "name": "soc",
-            "min": 0,
-            "max": 100,
-            "step": 1,
-            "title": {
-              "en": "SoC (%)",
-              "nl": "SoC (%)",
-              "de": "SoC (%)",
-              "fr": "SoC (%)",
-              "es": "SoC (%)",
-              "it": "SoC (%)",
-              "da": "SoC (%)",
-              "sv": "SoC (%)",
-              "no": "SoC (%)",
-              "pl": "SoC (%)",
-              "ru": "SoC (%)",
-              "ar": "SoC (%)",
-              "ko": "SoC (%)"
-            },
-            "placeholder": {
-              "en": "80",
-              "nl": "80",
-              "de": "80",
-              "fr": "80",
-              "es": "80",
-              "it": "80",
-              "da": "80",
-              "sv": "80",
-              "no": "80",
-              "pl": "80",
-              "ru": "80",
-              "ar": "80",
-              "ko": "80"
-            }
-          }
-        ],
-        "id": "set_ev_tomorrow_min_soc"
       },
       {
         "deprecated": true,
@@ -18550,6 +18710,21 @@
           "ru": "Отправить показания [[value]] на [[virtual_device]]",
           "ko": "[[value]] 판독값을 [[virtual_device]]로 보내기"
         },
+        "hint": {
+          "en": "The cumulative meter reading (the meter total), not the use since the last reading.",
+          "nl": "De cumulatieve meterstand (het totaal van de meter), niet het verbruik sinds de vorige stand.",
+          "de": "Der kumulierte Zählerstand (die Zählersumme), nicht der Verbrauch seit dem letzten Stand.",
+          "fr": "Le relevé cumulé du compteur (le total), pas la consommation depuis le dernier relevé.",
+          "it": "La lettura cumulativa del contatore (il totale), non il consumo dall’ultima lettura.",
+          "sv": "Den kumulativa mätarställningen (mätarens totalsumma), inte förbrukningen sedan förra avläsningen.",
+          "no": "Den kumulative målerstanden (målerens totalsum), ikke forbruket siden forrige avlesning.",
+          "es": "La lectura acumulada del contador (el total), no el consumo desde la última lectura.",
+          "da": "Den kumulative måleraflæsning (målerens total), ikke forbruget siden sidste aflæsning.",
+          "pl": "Skumulowany odczyt licznika (suma licznika), a nie zużycie od ostatniego odczytu.",
+          "ru": "Накопленные показания счётчика (итог), а не расход с последнего показания.",
+          "ko": "누적 계량기 값(계량기 합계)이며, 마지막 검침 이후 사용량이 아닙니다.",
+          "ar": "قراءة العداد التراكمية (إجمالي العداد)، وليس الاستهلاك منذ آخر قراءة."
+        },
         "highlight": true,
         "args": [
           {
@@ -18926,7 +19101,7 @@
               "pl": "Rodzaj",
               "ru": "Тип",
               "ar": "النوع",
-              "ko": "종류"
+              "ko": "유형"
             },
             "values": [
               {
@@ -19149,19 +19324,19 @@
             "name": "group",
             "type": "number",
             "placeholder": {
-              "en": "Update group",
-              "nl": "Update groep",
-              "de": "Update-Gruppe",
-              "sv": "Uppdateringsgrupp",
-              "it": "Gruppo di aggiornamento",
-              "no": "Oppdateringsgruppe",
-              "fr": "Groupe de mise à jour",
-              "da": "Opdateringsgruppe",
-              "es": "Grupo de actualización",
-              "pl": "Grupa aktualizacji",
-              "ru": "Группа обновления",
-              "ko": "업데이트 그룹",
-              "ar": "تحديث المجموعة"
+              "en": "Tariff group",
+              "nl": "Tariefgroep",
+              "de": "Tarifgruppe",
+              "fr": "Groupe tarifaire",
+              "it": "Gruppo tariffario",
+              "sv": "Tariffgrupp",
+              "no": "Tariffgruppe",
+              "es": "Grupo de tarifa",
+              "da": "Takstgruppe",
+              "pl": "Grupa taryfowa",
+              "ru": "Тарифная группа",
+              "ko": "요금 그룹",
+              "ar": "مجموعة التعريفة"
             },
             "required": true,
             "min": 1,
@@ -19420,30 +19595,30 @@
           "ko": "XOM 설정 (XOM 목표: [[x]]W, 스무딩: [[smoothing]]%, 최소 배터리 부하: [[minLoad]]W)"
         },
         "hint": {
-          "en": "The XOM target applies to all batteries (also built-in control and the battery setting). Smoothing and min. battery load apply to the XOM flows only.",
-          "nl": "Het XOM-doel geldt voor alle batterijen (ook de ingebouwde sturing en de batterij-instelling). Smoothing en min. accuvermogen gelden alleen voor de XOM-flows.",
-          "de": "Das XOM-Ziel gilt für alle Batterien (auch die eingebaute Steuerung und die Batterieeinstellung). Glättung und min. Batterieleistung gelten nur für die XOM-Flows.",
-          "sv": "XOM-målet gäller alla batterier (även den inbyggda styrningen och batteriinställningen). Utjämning och min. batterieffekt gäller bara XOM-flödena.",
-          "it": "L'obiettivo XOM vale per tutte le batterie (anche il controllo integrato e l'impostazione della batteria). Smoothing e potenza min. valgono solo per i flow XOM.",
-          "no": "XOM-målet gjelder alle batterier (også den innebygde styringen og batteriinnstillingen). Utjevning og min. batterieffekt gjelder bare XOM-flytene.",
-          "fr": "La cible XOM s'applique à toutes les batteries (aussi le pilotage intégré et le réglage de la batterie). Le lissage et la puissance min. ne s'appliquent qu'aux flows XOM.",
-          "da": "XOM-målet gælder alle batterier (også den indbyggede styring og batteriindstillingen). Udjævning og min. batterieffekt gælder kun XOM-flows.",
-          "es": "El objetivo XOM se aplica a todas las baterías (también el control integrado y el ajuste de la batería). El suavizado y la potencia mín. solo se aplican a los flujos XOM.",
-          "pl": "Cel XOM dotyczy wszystkich baterii (także wbudowanego sterowania i ustawienia baterii). Wygładzanie i min. moc baterii dotyczą tylko flow XOM.",
-          "ru": "Цель XOM действует для всех батарей (также для встроенного управления и настройки батареи). Сглаживание и мин. мощность действуют только для потоков XOM.",
-          "ko": "XOM 목표는 모든 배터리에 적용됩니다(내장 제어 및 배터리 설정 포함). 스무딩과 최소 배터리 출력은 XOM 플로우에만 적용됩니다.",
-          "ar": "ينطبق هدف XOM على كل البطاريات (وأيضًا التحكم المدمج وإعداد البطارية). التنعيم والحد الأدنى لقدرة البطارية ينطبقان على تدفقات XOM فقط."
+          "en": "Empty fields stay unchanged. The XOM target applies to all batteries (also built-in control and the battery setting). Smoothing and min. battery load apply to the XOM flows only.",
+          "nl": "Lege velden blijven ongewijzigd. Het XOM-doel geldt voor alle batterijen (ook de ingebouwde sturing en de batterij-instelling). Smoothing en min. accuvermogen gelden alleen voor de XOM-flows.",
+          "de": "Leere Felder bleiben unverändert. Das XOM-Ziel gilt für alle Batterien (auch die eingebaute Steuerung und die Batterieeinstellung). Glättung und min. Batterieleistung gelten nur für die XOM-Flows.",
+          "fr": "Les champs vides restent inchangés. La cible XOM s'applique à toutes les batteries (aussi le pilotage intégré et le réglage de la batterie). Le lissage et la puissance min. ne s'appliquent qu'aux flows XOM.",
+          "it": "I campi vuoti restano invariati. L'obiettivo XOM vale per tutte le batterie (anche il controllo integrato e l'impostazione della batteria). Smoothing e potenza min. valgono solo per i flow XOM.",
+          "sv": "Tomma fält ändras inte. XOM-målet gäller alla batterier (även den inbyggda styrningen och batteriinställningen). Utjämning och min. batterieffekt gäller bara XOM-flödena.",
+          "no": "Tomme felt endres ikke. XOM-målet gjelder alle batterier (også den innebygde styringen og batteriinnstillingen). Utjevning og min. batterieffekt gjelder bare XOM-flytene.",
+          "es": "Los campos vacíos no cambian. El objetivo XOM se aplica a todas las baterías (también el control integrado y el ajuste de la batería). El suavizado y la potencia mín. solo se aplican a los flujos XOM.",
+          "da": "Tomme felter ændres ikke. XOM-målet gælder alle batterier (også den indbyggede styring og batteriindstillingen). Udjævning og min. batterieffekt gælder kun XOM-flows.",
+          "pl": "Puste pola pozostają bez zmian. Cel XOM dotyczy wszystkich baterii (także wbudowanego sterowania i ustawienia baterii). Wygładzanie i min. moc baterii dotyczą tylko flow XOM.",
+          "ru": "Пустые поля не меняются. Цель XOM действует для всех батарей (также для встроенного управления и настройки батареи). Сглаживание и мин. мощность действуют только для потоков XOM.",
+          "ko": "빈 필드는 변경되지 않습니다. XOM 목표는 모든 배터리에 적용됩니다(내장 제어 및 배터리 설정 포함). 스무딩과 최소 배터리 출력은 XOM 플로우에만 적용됩니다.",
+          "ar": "الحقول الفارغة تبقى دون تغيير. ينطبق هدف XOM على كل البطاريات (وأيضًا التحكم المدمج وإعداد البطارية). التنعيم والحد الأدنى لقدرة البطارية ينطبقان على تدفقات XOM فقط."
         },
         "args": [
           {
             "type": "number",
             "name": "x",
             "title": {
-              "en": "XOM-target (W)",
+              "en": "XOM target (W)",
               "nl": "XOM-doel (W)",
               "de": "XOM-Ziel (W)",
               "sv": "XOM-mål (W)",
-              "it": "Target XOM (W)",
+              "it": "Obiettivo XOM (W)",
               "no": "XOM-mål (W)",
               "fr": "Cible XOM (W)",
               "da": "XOM-mål (W)",
@@ -19451,30 +19626,31 @@
               "pl": "Cel XOM (W)",
               "ru": "Цель XOM (Вт)",
               "ko": "XOM 목표 (W)",
-              "ar": "هدف XOM (واط)"
+              "ar": "هدف XOM (W)"
             },
             "placeholder": {
-              "en": "default 0W",
-              "nl": "standaard 0W",
-              "de": "Standardwert 0 W",
-              "sv": "standard 0W",
-              "it": "predefinito 0W",
-              "no": "standard 0W",
-              "fr": "par défaut 0W",
-              "da": "standard 0W",
-              "es": "por defecto 0W",
-              "pl": "domyślnie 0W",
-              "ru": "по умолчанию 0W",
-              "ko": "기본값 0W",
-              "ar": "الافتراضي 0 واط"
+              "en": "unchanged",
+              "nl": "ongewijzigd",
+              "de": "unverändert",
+              "fr": "inchangé",
+              "it": "invariato",
+              "sv": "oförändrad",
+              "no": "uendret",
+              "es": "sin cambios",
+              "da": "uændret",
+              "pl": "bez zmian",
+              "ru": "без изменений",
+              "ko": "변경 없음",
+              "ar": "دون تغيير"
             },
-            "value": 0
+            "value": 0,
+            "required": false
           },
           {
             "type": "number",
             "name": "smoothing",
             "title": {
-              "en": "smoothing (%)",
+              "en": "Smoothing (%)",
               "nl": "afvlakking (%)",
               "de": "Glättung (%)",
               "sv": "utjämning (%)",
@@ -19489,23 +19665,24 @@
               "ar": "التنعيم (%)"
             },
             "placeholder": {
-              "en": "30 - 100 %",
-              "nl": "30 - 100 %",
-              "de": "30 - 100 %",
-              "sv": "30 - 100 %",
-              "it": "30 - 100 %",
-              "no": "30 - 100 %",
-              "fr": "30 - 100 %",
-              "da": "30 - 100 %",
-              "es": "30 - 100 %",
-              "pl": "30 - 100 %",
-              "ru": "30 - 100 %",
-              "ko": "30 - 100 %",
-              "ar": "30 - 100 %"
+              "en": "unchanged",
+              "nl": "ongewijzigd",
+              "de": "unverändert",
+              "fr": "inchangé",
+              "it": "invariato",
+              "sv": "oförändrad",
+              "no": "uendret",
+              "es": "sin cambios",
+              "da": "uændret",
+              "pl": "bez zmian",
+              "ru": "без изменений",
+              "ko": "변경 없음",
+              "ar": "دون تغيير"
             },
             "min": 25,
             "max": 100,
-            "value": 50
+            "value": 50,
+            "required": false
           },
           {
             "type": "number",
@@ -19526,22 +19703,23 @@
               "ar": "الحد الأدنى لطاقة البطارية (واط)"
             },
             "placeholder": {
-              "en": "default 50W",
-              "nl": "standaard 50W",
-              "de": "Standardwert 50 W",
-              "sv": "standard 50W",
-              "it": "predefinito 50W",
-              "no": "standard 50W",
-              "fr": "par défaut 50W",
-              "da": "standard 50W",
-              "es": "por defecto 50W",
-              "pl": "domyślnie 50W",
-              "ru": "по умолчанию 50W",
-              "ko": "기본값 50W",
-              "ar": "الافتراضي 50 واط"
+              "en": "unchanged",
+              "nl": "ongewijzigd",
+              "de": "unverändert",
+              "fr": "inchangé",
+              "it": "invariato",
+              "sv": "oförändrad",
+              "no": "uendret",
+              "es": "sin cambios",
+              "da": "uændret",
+              "pl": "bez zmian",
+              "ru": "без изменений",
+              "ko": "변경 없음",
+              "ar": "دون تغيير"
             },
             "min": 0,
-            "value": 50
+            "value": 50,
+            "required": false
           }
         ],
         "id": "set_xom_settings"
@@ -19587,73 +19765,73 @@
             "type": "dropdown",
             "name": "period",
             "title": {
-              "en": "period",
+              "en": "Period",
+              "nl": "Periode",
               "de": "Zeitraum",
-              "nl": "periode",
-              "ar": "فترة",
-              "da": "periode",
-              "es": "período",
-              "fr": "période",
-              "it": "periodo",
+              "fr": "Période",
+              "it": "Periodo",
+              "sv": "Period",
+              "no": "Periode",
+              "es": "Periodo",
+              "da": "Periode",
+              "pl": "Okres",
+              "ru": "Период",
               "ko": "기간",
-              "no": "periode",
-              "pl": "okres",
-              "ru": "период",
-              "sv": "period"
+              "ar": "الفترة"
             },
             "values": [
               {
                 "id": "this_day",
                 "label": {
-                  "en": "This day",
-                  "de": "diesen Tag",
-                  "nl": "Deze dag",
-                  "ar": "هذا اليوم",
-                  "da": "I dag",
-                  "es": "Este día",
-                  "fr": "Ce jour",
-                  "it": "giornata odierna",
+                  "en": "today",
+                  "nl": "vandaag",
+                  "de": "heute",
+                  "fr": "aujourd'hui",
+                  "it": "oggi",
+                  "sv": "i dag",
+                  "no": "i dag",
+                  "es": "hoy",
+                  "da": "i dag",
+                  "pl": "dziś",
+                  "ru": "сегодня",
                   "ko": "오늘",
-                  "no": "idag",
-                  "pl": "Ten dzień",
-                  "ru": "Этот день",
-                  "sv": "idag"
+                  "ar": "اليوم"
                 }
               },
               {
                 "id": "tomorrow",
                 "label": {
-                  "en": "Tomorrow",
-                  "de": "Morgen",
-                  "nl": "Morgen",
-                  "ar": "غداً",
-                  "da": "I morgen",
-                  "es": "Mañana",
-                  "fr": "Demain",
-                  "it": "Domani",
+                  "en": "tomorrow",
+                  "nl": "morgen",
+                  "de": "morgen",
+                  "fr": "demain",
+                  "it": "domani",
+                  "sv": "i morgon",
+                  "no": "i morgen",
+                  "es": "mañana",
+                  "da": "i morgen",
+                  "pl": "jutro",
+                  "ru": "завтра",
                   "ko": "내일",
-                  "no": "I morgen",
-                  "pl": "Jutro",
-                  "ru": "Завтра",
-                  "sv": "I morgon"
+                  "ar": "غدًا"
                 }
               },
               {
                 "id": "next_hours",
                 "label": {
-                  "en": "Next hours",
-                  "nl": "Komende uren",
-                  "de": "Kommende Stunden",
-                  "ar": "الساعات القادمة",
-                  "da": "Næste timer",
-                  "es": "Próximas horas",
-                  "fr": "Prochaines heures",
-                  "it": "Prossime ore",
+                  "en": "the next hours",
+                  "nl": "de komende uren",
+                  "de": "die nächsten Stunden",
+                  "fr": "les prochaines heures",
+                  "it": "le prossime ore",
+                  "sv": "de kommande timmarna",
+                  "no": "de neste timene",
+                  "es": "las próximas horas",
+                  "da": "de næste timer",
+                  "pl": "najbliższe godziny",
+                  "ru": "ближайшие часы",
                   "ko": "다음 시간",
-                  "no": "Neste timer",
-                  "pl": "Następne godziny",
-                  "ru": "Следующие часы",
-                  "sv": "Kommande timmar"
+                  "ar": "الساعات القادمة"
                 }
               }
             ]
@@ -19663,7 +19841,7 @@
           {
             "name": "solar",
             "title": {
-              "en": "Solar Forecast JSON",
+              "en": "Solar forecast JSON",
               "de": "Solarprognose JSON",
               "nl": "Zonnevoorspelling JSON",
               "ar": "JSON توقعات الطاقة الشمسية",
@@ -21493,7 +21671,7 @@
           "type": "group",
           "label": {
             "en": "Currency settings",
-            "nl": "Munteenheid instellingen",
+            "nl": "Instellingen munteenheid",
             "de": "Währungseinstellungen",
             "fr": "Paramètre de devise",
             "it": "Impostazioni valuta",
@@ -21963,7 +22141,7 @@
           "type": "group",
           "label": {
             "en": "Import price settings",
-            "nl": "Import prijs instellingen",
+            "nl": "Instellingen importprijs",
             "de": "Importpreiseinstellungen",
             "fr": "Paramètres de prix d'importation",
             "it": "Impostazioni prezzo di importazione",
@@ -22193,7 +22371,7 @@
           "type": "group",
           "label": {
             "en": "Export price settings",
-            "nl": "Export prijs instellingen",
+            "nl": "Instellingen exportprijs",
             "de": "Exportpreiseinstellungen",
             "fr": "Paramètres de prix d'exportation",
             "it": "Impostazioni prezzo di esportazione",
@@ -22894,7 +23072,7 @@
           "type": "group",
           "label": {
             "en": "Currency settings",
-            "nl": "Munteenheid instellingen",
+            "nl": "Instellingen munteenheid",
             "de": "Währungseinstellungen",
             "fr": "Paramètre de devise",
             "it": "Impostazioni valuta",
@@ -23364,7 +23542,7 @@
           "type": "group",
           "label": {
             "en": "Import price settings",
-            "nl": "Import prijs instellingen",
+            "nl": "Instellingen importprijs",
             "de": "Importpreiseinstellungen",
             "fr": "Paramètres de prix d'importation",
             "it": "Impostazioni prezzo di importazione",
@@ -23594,7 +23772,7 @@
           "type": "group",
           "label": {
             "en": "Export price settings",
-            "nl": "Export prijs instellingen",
+            "nl": "Instellingen exportprijs",
             "de": "Exportpreiseinstellungen",
             "fr": "Paramètres de prix d'exportation",
             "it": "Impostazioni prezzo di esportazione",
@@ -24265,7 +24443,7 @@
             "no": "Valutainnstillinger",
             "fr": "Paramètre de devise",
             "da": "Valutaindstillinger",
-            "nl": "Munteenheid instellingen",
+            "nl": "Instellingen munteenheid",
             "ko": "통화 설정",
             "es": "Configuración de moneda",
             "pl": "Ustawienia waluty",
@@ -25658,19 +25836,19 @@
                 "ko": "충전기 제어"
               },
               "hint": {
-                "en": "Switches the charger on and off according to the charge plan. Off: switch it with your own flows, e.g. on 'New charging strategy active'.",
-                "nl": "Zet de laadpaal aan en uit volgens het laadplan. Uit: schakel hem met eigen flows, bijv. op 'Nieuwe laadstrategie actief'.",
-                "de": "Schaltet das Ladegerät gemäß dem Ladeplan ein und aus. Aus: mit eigenen Flows schalten, z. B. bei 'Neue Ladestrategie aktiv'.",
-                "fr": "Allume et éteint la borne selon le plan de charge. Désactivé : pilotez-la avec vos propres flows, p. ex. sur 'Nouvelle stratégie de charge active'.",
-                "es": "Enciende y apaga el cargador según el plan de carga. Desactivado: contrólelo con sus propios flujos, p. ej. con 'Nueva estrategia de carga activa'.",
-                "it": "Accende e spegne il caricatore secondo il piano di ricarica. Disattivato: comandalo con i tuoi flow, ad es. su 'Nuova strategia di ricarica attiva'.",
-                "da": "Tænder og slukker laderen efter ladeplanen. Fra: styr den med egne flows, f.eks. på 'Ny ladestrategi aktiv'.",
-                "sv": "Slår på och av laddaren enligt laddplanen. Av: styr den med egna flöden, t.ex. på 'Ny laddningsstrategi aktiv'.",
-                "no": "Slår laderen av og på etter ladeplanen. Av: styr den med egne flows, f.eks. på 'Ny ladestrategi aktiv'.",
-                "pl": "Włącza i wyłącza ładowarkę zgodnie z planem ładowania. Wyłączone: steruj własnymi flow, np. na 'Nowa strategia ładowania aktywna'.",
-                "ru": "Включает и выключает зарядку по плану зарядки. Выкл.: управляйте своими сценариями, напр. по 'Новая стратегия зарядки активна'.",
-                "ar": "يشغّل الشاحن ويطفئه وفق خطة الشحن. عند الإيقاف: تحكم به بتدفقاتك الخاصة، مثل 'استراتيجية شحن جديدة نشطة'.",
-                "ko": "충전 계획에 따라 충전기를 켜고 끕니다. 꺼짐: '새 충전 전략 활성' 등에서 직접 플로우로 전환하세요."
+                "en": "Switches the charger on and off according to the charge plan. Off: switch it with your own flows, e.g. on 'New planned charging power'.",
+                "nl": "Zet de laadpaal aan en uit volgens het laadplan. Uit: schakel hem met eigen flows, bijv. op 'Nieuw gepland laadvermogen'.",
+                "de": "Schaltet das Ladegerät gemäß dem Ladeplan ein und aus. Aus: mit eigenen Flows schalten, z. B. bei 'Neue geplante Ladeleistung'.",
+                "fr": "Allume et éteint la borne selon le plan de charge. Désactivé : pilotez-la avec vos propres flows, p. ex. sur 'Nouvelle puissance de charge planifiée'.",
+                "es": "Enciende y apaga el cargador según el plan de carga. Desactivado: contrólelo con sus propios flujos, p. ej. con 'Nueva potencia de carga planificada'.",
+                "it": "Accende e spegne il caricatore secondo il piano di ricarica. Disattivato: comandalo con i tuoi flow, ad es. su 'Nuova potenza di ricarica pianificata'.",
+                "da": "Tænder og slukker laderen efter ladeplanen. Fra: styr den med egne flows, f.eks. på 'Ny planlagt ladeeffekt'.",
+                "sv": "Slår på och av laddaren enligt laddplanen. Av: styr den med egna flöden, t.ex. på 'Ny planerad laddeffekt'.",
+                "no": "Slår laderen av og på etter ladeplanen. Av: styr den med egne flows, f.eks. på 'Ny planlagt ladeeffekt'.",
+                "pl": "Włącza i wyłącza ładowarkę zgodnie z planem ładowania. Wyłączone: steruj własnymi flow, np. na 'Nowa planowana moc ładowania'.",
+                "ru": "Включает и выключает зарядку по плану зарядки. Выкл.: управляйте своими сценариями, напр. по 'Новая плановая мощность зарядки'.",
+                "ar": "يشغّل الشاحن ويطفئه وفق خطة الشحن. عند الإيقاف: تحكم به بتدفقاتك الخاصة، مثل 'قدرة شحن مخططة جديدة'.",
+                "ko": "충전 계획에 따라 충전기를 켜고 끕니다. 꺼짐: '새 충전 계획 전력' 등에서 직접 플로우로 전환하세요."
               },
               "value": true
             },
@@ -31509,19 +31687,19 @@
         {
           "type": "group",
           "label": {
-            "en": "Load forecast",
-            "nl": "Verbruiksvoorspelling",
-            "de": "Lastprognose",
-            "fr": "Prévision de charge",
-            "it": "Previsione carico",
-            "sv": "Lastprognos",
-            "no": "Lastprognose",
-            "es": "Previsión de carga",
-            "da": "Forbrugsprognose",
-            "pl": "Prognoza obciążenia",
-            "ru": "Прогноз нагрузки",
-            "ko": "부하 예측",
-            "ar": "توقعات الحمل"
+            "en": "Home load forecast",
+            "nl": "Verwacht huisverbruik",
+            "de": "Hausverbrauchsprognose",
+            "fr": "Prévision de charge domestique",
+            "it": "Previsione consumo domestico",
+            "sv": "Hushållslastprognos",
+            "no": "Husforbruksprognose",
+            "es": "Previsión de consumo doméstico",
+            "da": "Husstandsforbrugsprognose",
+            "pl": "Prognoza zużycia domowego",
+            "ru": "Прогноз домашней нагрузки",
+            "ko": "가정 부하 예측",
+            "ar": "توقعات حمل المنزل"
           },
           "children": [
             {
@@ -33444,11 +33622,11 @@
                 "sv": "Tariff",
                 "no": "Tariff",
                 "es": "Tarifa",
-                "da": "Tarif",
+                "da": "Takst",
                 "pl": "Taryfa",
                 "ru": "Тариф",
-                "ar": "التعرفة",
-                "ko": "요금제"
+                "ar": "تعريفة",
+                "ko": "요금"
               },
               "hint": {
                 "en": "Change via Repair.",
@@ -41286,8 +41464,8 @@
         "es": "W",
         "da": "W",
         "pl": "W",
-        "ru": "Вт",
-        "ar": "واط",
+        "ru": "W",
+        "ar": "W",
         "ko": "W"
       },
       "decimals": 0,
@@ -41340,8 +41518,8 @@
         "es": "W",
         "da": "W",
         "pl": "W",
-        "ru": "Вт",
-        "ar": "واط",
+        "ru": "W",
+        "ar": "W",
         "ko": "W"
       },
       "decimals": 0,
@@ -41385,8 +41563,8 @@
         "sv": "W",
         "no": "W",
         "pl": "W",
-        "ru": "Вт",
-        "ar": "واط"
+        "ru": "W",
+        "ar": "W"
       },
       "decimals": 0
     },
@@ -41433,8 +41611,8 @@
         "es": "W",
         "da": "W",
         "pl": "W",
-        "ru": "Вт",
-        "ar": "واط",
+        "ru": "W",
+        "ar": "W",
         "ko": "W"
       },
       "decimals": 0,
@@ -41487,8 +41665,8 @@
         "es": "W",
         "da": "W",
         "pl": "W",
-        "ru": "Вт",
-        "ar": "واط",
+        "ru": "W",
+        "ar": "W",
         "ko": "W"
       },
       "decimals": 0,
@@ -41697,8 +41875,8 @@
         "es": "W",
         "da": "W",
         "pl": "W",
-        "ru": "Вт",
-        "ar": "واط",
+        "ru": "W",
+        "ar": "W",
         "ko": "W"
       },
       "decimals": 0,
@@ -44011,19 +44189,19 @@
     "roi_duration": {
       "type": "number",
       "title": {
-        "en": "ROI duration",
-        "nl": "ROI duur",
-        "de": "ROI Dauer",
-        "sv": "ROI varaktighet",
-        "it": "Durata ROI",
-        "no": "ROI varighet",
-        "fr": "Durée ROI",
-        "da": "ROI varighed",
-        "es": "Duración ROI",
-        "pl": "Czas zwrotu ROI",
-        "ru": "Срок окупаемости",
-        "ko": "ROI 기간",
-        "ar": "مدة العائد على الاستثمار"
+        "en": "Action duration",
+        "nl": "Duur actie",
+        "de": "Aktionsdauer",
+        "fr": "Durée de l'action",
+        "it": "Durata azione",
+        "sv": "Åtgärdens varaktighet",
+        "no": "Handlingens varighet",
+        "es": "Duración de la acción",
+        "da": "Handlingens varighed",
+        "pl": "Czas trwania akcji",
+        "ru": "Длительность действия",
+        "ko": "동작 지속 시간",
+        "ar": "مدة الإجراء"
       },
       "uiComponent": null,
       "icon": "/assets/tariff.svg",

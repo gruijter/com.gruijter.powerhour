@@ -1,0 +1,145 @@
+{
+  "title": {
+    "en": "Set departure",
+    "nl": "Vertrek instellen",
+    "de": "Abfahrt einstellen",
+    "fr": "Définir le départ",
+    "it": "Imposta la partenza",
+    "sv": "Ställ in avgång",
+    "no": "Angi avgang",
+    "es": "Establecer la salida",
+    "da": "Indstil afgang",
+    "pl": "Ustaw wyjazd",
+    "ru": "Задать отправление",
+    "ko": "출발 설정",
+    "ar": "تعيين المغادرة"
+  },
+  "titleFormatted": {
+    "en": "Departure [[day]] at [[time]]",
+    "nl": "Vertrek [[day]] om [[time]]",
+    "de": "Abfahrt [[day]] um [[time]]",
+    "fr": "Départ [[day]] à [[time]]",
+    "it": "Partenza [[day]] alle [[time]]",
+    "sv": "Avgång [[day]] kl. [[time]]",
+    "no": "Avgang [[day]] kl. [[time]]",
+    "es": "Salida [[day]] a las [[time]]",
+    "da": "Afgang [[day]] kl. [[time]]",
+    "pl": "Wyjazd [[day]] o [[time]]",
+    "ru": "Отправление [[day]] в [[time]]",
+    "ko": "[[day]] [[time]]에 출발",
+    "ar": "المغادرة [[day]] الساعة [[time]]"
+  },
+  "hint": {
+    "en": "Once; then the learned or weekly time applies again. HH:MM or decimal hours (7.5). 'auto': automatic again, '-': car not used that day.",
+    "nl": "Eenmalig; daarna geldt weer de geleerde of weektijd. UU:MM of decimale uren (7,5). 'auto': weer automatisch, '-': auto die dag niet gebruikt.",
+    "de": "Einmalig; danach gilt wieder die gelernte oder Wochenzeit. HH:MM oder Dezimalstunden (7,5). 'auto': wieder automatisch, '-': Auto an dem Tag nicht genutzt.",
+    "fr": "Une fois ; ensuite l'heure apprise ou hebdomadaire s'applique. HH:MM ou heures décimales (7,5). « auto » : de nouveau automatique, « - » : voiture non utilisée ce jour-là.",
+    "it": "Una volta; poi vale di nuovo l'orario appreso o settimanale. HH:MM o ore decimali (7,5). 'auto': di nuovo automatico, '-': auto non usata quel giorno.",
+    "sv": "En gång; därefter gäller den inlärda eller veckotiden igen. HH:MM eller decimaltimmar (7,5). 'auto': automatiskt igen, '-': bilen används inte den dagen.",
+    "no": "Én gang; deretter gjelder det lærte eller ukentlige tidspunktet igjen. TT:MM eller desimaltimer (7,5). 'auto': automatisk igjen, '-': bilen brukes ikke den dagen.",
+    "es": "Una vez; después vuelve la hora aprendida o semanal. HH:MM u horas decimales (7,5). 'auto': de nuevo automático, '-': coche no usado ese día.",
+    "da": "Én gang; derefter gælder det lærte eller ugentlige tidspunkt igen. TT:MM eller decimaltimer (7,5). 'auto': automatisk igen, '-': bilen bruges ikke den dag.",
+    "pl": "Jednorazowo; potem znowu obowiązuje wyuczona lub tygodniowa godzina. GG:MM lub godziny dziesiętne (7,5). 'auto': znowu automatycznie, '-': samochód nieużywany tego dnia.",
+    "ru": "Однократно; затем снова действует изученное или недельное время. ЧЧ:ММ или десятичные часы (7,5). 'auto': снова автоматически, '-': машина в этот день не используется.",
+    "ko": "1회 적용; 이후 학습값 또는 주간 시간이 다시 적용됩니다. HH:MM 또는 소수 시간(7.5). 'auto': 다시 자동, '-': 그날은 차를 사용하지 않음.",
+    "ar": "لمرة واحدة؛ ثم يعود الوقت المُتعلَّم أو الأسبوعي. HH:MM أو ساعات عشرية (7.5). 'auto': تلقائي مرة أخرى، '-': لا تُستخدم السيارة ذلك اليوم."
+  },
+  "args": [
+    {
+      "type": "device",
+      "name": "device",
+      "filter": "driver_id=evCharger"
+    },
+    {
+      "type": "dropdown",
+      "name": "day",
+      "title": {
+        "en": "Day",
+        "nl": "Dag",
+        "de": "Tag",
+        "fr": "Jour",
+        "es": "Día",
+        "it": "Giorno",
+        "da": "Dag",
+        "sv": "Dag",
+        "no": "Dag",
+        "pl": "Dzień",
+        "ru": "День",
+        "ar": "اليوم",
+        "ko": "날짜"
+      },
+      "values": [
+        {
+          "id": "today",
+          "label": {
+            "en": "today",
+            "nl": "vandaag",
+            "de": "heute",
+            "fr": "aujourd'hui",
+            "es": "hoy",
+            "it": "oggi",
+            "da": "i dag",
+            "sv": "i dag",
+            "no": "i dag",
+            "pl": "dziś",
+            "ru": "сегодня",
+            "ar": "اليوم",
+            "ko": "오늘"
+          }
+        },
+        {
+          "id": "tomorrow",
+          "label": {
+            "en": "tomorrow",
+            "nl": "morgen",
+            "de": "morgen",
+            "fr": "demain",
+            "es": "mañana",
+            "it": "domani",
+            "da": "i morgen",
+            "sv": "i morgon",
+            "no": "i morgen",
+            "pl": "jutro",
+            "ru": "завтра",
+            "ar": "غدًا",
+            "ko": "내일"
+          }
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "name": "time",
+      "placeholder": {
+        "en": "07:30",
+        "nl": "07:30",
+        "de": "07:30",
+        "fr": "07:30",
+        "es": "07:30",
+        "it": "07:30",
+        "da": "07:30",
+        "sv": "07:30",
+        "no": "07:30",
+        "pl": "07:30",
+        "ru": "07:30",
+        "ar": "07:30",
+        "ko": "07:30"
+      },
+      "title": {
+        "en": "Departure",
+        "nl": "Vertrek",
+        "de": "Abfahrt",
+        "fr": "Départ",
+        "es": "Salida",
+        "it": "Partenza",
+        "da": "Afgang",
+        "sv": "Avgång",
+        "no": "Avgang",
+        "pl": "Wyjazd",
+        "ru": "Отправление",
+        "ar": "المغادرة",
+        "ko": "출발"
+      }
+    }
+  ]
+}

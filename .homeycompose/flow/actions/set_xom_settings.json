@@ -30,30 +30,30 @@
     "ko": "XOM 설정 (XOM 목표: [[x]]W, 스무딩: [[smoothing]]%, 최소 배터리 부하: [[minLoad]]W)"
   },
   "hint": {
-    "en": "The XOM target applies to all batteries (also built-in control and the battery setting). Smoothing and min. battery load apply to the XOM flows only.",
-    "nl": "Het XOM-doel geldt voor alle batterijen (ook de ingebouwde sturing en de batterij-instelling). Smoothing en min. accuvermogen gelden alleen voor de XOM-flows.",
-    "de": "Das XOM-Ziel gilt für alle Batterien (auch die eingebaute Steuerung und die Batterieeinstellung). Glättung und min. Batterieleistung gelten nur für die XOM-Flows.",
-    "sv": "XOM-målet gäller alla batterier (även den inbyggda styrningen och batteriinställningen). Utjämning och min. batterieffekt gäller bara XOM-flödena.",
-    "it": "L'obiettivo XOM vale per tutte le batterie (anche il controllo integrato e l'impostazione della batteria). Smoothing e potenza min. valgono solo per i flow XOM.",
-    "no": "XOM-målet gjelder alle batterier (også den innebygde styringen og batteriinnstillingen). Utjevning og min. batterieffekt gjelder bare XOM-flytene.",
-    "fr": "La cible XOM s'applique à toutes les batteries (aussi le pilotage intégré et le réglage de la batterie). Le lissage et la puissance min. ne s'appliquent qu'aux flows XOM.",
-    "da": "XOM-målet gælder alle batterier (også den indbyggede styring og batteriindstillingen). Udjævning og min. batterieffekt gælder kun XOM-flows.",
-    "es": "El objetivo XOM se aplica a todas las baterías (también el control integrado y el ajuste de la batería). El suavizado y la potencia mín. solo se aplican a los flujos XOM.",
-    "pl": "Cel XOM dotyczy wszystkich baterii (także wbudowanego sterowania i ustawienia baterii). Wygładzanie i min. moc baterii dotyczą tylko flow XOM.",
-    "ru": "Цель XOM действует для всех батарей (также для встроенного управления и настройки батареи). Сглаживание и мин. мощность действуют только для потоков XOM.",
-    "ko": "XOM 목표는 모든 배터리에 적용됩니다(내장 제어 및 배터리 설정 포함). 스무딩과 최소 배터리 출력은 XOM 플로우에만 적용됩니다.",
-    "ar": "ينطبق هدف XOM على كل البطاريات (وأيضًا التحكم المدمج وإعداد البطارية). التنعيم والحد الأدنى لقدرة البطارية ينطبقان على تدفقات XOM فقط."
+    "en": "Empty fields stay unchanged. The XOM target applies to all batteries (also built-in control and the battery setting). Smoothing and min. battery load apply to the XOM flows only.",
+    "nl": "Lege velden blijven ongewijzigd. Het XOM-doel geldt voor alle batterijen (ook de ingebouwde sturing en de batterij-instelling). Smoothing en min. accuvermogen gelden alleen voor de XOM-flows.",
+    "de": "Leere Felder bleiben unverändert. Das XOM-Ziel gilt für alle Batterien (auch die eingebaute Steuerung und die Batterieeinstellung). Glättung und min. Batterieleistung gelten nur für die XOM-Flows.",
+    "fr": "Les champs vides restent inchangés. La cible XOM s'applique à toutes les batteries (aussi le pilotage intégré et le réglage de la batterie). Le lissage et la puissance min. ne s'appliquent qu'aux flows XOM.",
+    "it": "I campi vuoti restano invariati. L'obiettivo XOM vale per tutte le batterie (anche il controllo integrato e l'impostazione della batteria). Smoothing e potenza min. valgono solo per i flow XOM.",
+    "sv": "Tomma fält ändras inte. XOM-målet gäller alla batterier (även den inbyggda styrningen och batteriinställningen). Utjämning och min. batterieffekt gäller bara XOM-flödena.",
+    "no": "Tomme felt endres ikke. XOM-målet gjelder alle batterier (også den innebygde styringen og batteriinnstillingen). Utjevning og min. batterieffekt gjelder bare XOM-flytene.",
+    "es": "Los campos vacíos no cambian. El objetivo XOM se aplica a todas las baterías (también el control integrado y el ajuste de la batería). El suavizado y la potencia mín. solo se aplican a los flujos XOM.",
+    "da": "Tomme felter ændres ikke. XOM-målet gælder alle batterier (også den indbyggede styring og batteriindstillingen). Udjævning og min. batterieffekt gælder kun XOM-flows.",
+    "pl": "Puste pola pozostają bez zmian. Cel XOM dotyczy wszystkich baterii (także wbudowanego sterowania i ustawienia baterii). Wygładzanie i min. moc baterii dotyczą tylko flow XOM.",
+    "ru": "Пустые поля не меняются. Цель XOM действует для всех батарей (также для встроенного управления и настройки батареи). Сглаживание и мин. мощность действуют только для потоков XOM.",
+    "ko": "빈 필드는 변경되지 않습니다. XOM 목표는 모든 배터리에 적용됩니다(내장 제어 및 배터리 설정 포함). 스무딩과 최소 배터리 출력은 XOM 플로우에만 적용됩니다.",
+    "ar": "الحقول الفارغة تبقى دون تغيير. ينطبق هدف XOM على كل البطاريات (وأيضًا التحكم المدمج وإعداد البطارية). التنعيم والحد الأدنى لقدرة البطارية ينطبقان على تدفقات XOM فقط."
   },
   "args": [
     {
       "type": "number",
       "name": "x",
       "title": {
-        "en": "XOM-target (W)",
+        "en": "XOM target (W)",
         "nl": "XOM-doel (W)",
         "de": "XOM-Ziel (W)",
         "sv": "XOM-mål (W)",
-        "it": "Target XOM (W)",
+        "it": "Obiettivo XOM (W)",
         "no": "XOM-mål (W)",
         "fr": "Cible XOM (W)",
         "da": "XOM-mål (W)",
@@ -61,30 +61,31 @@
         "pl": "Cel XOM (W)",
         "ru": "Цель XOM (Вт)",
         "ko": "XOM 목표 (W)",
-        "ar": "هدف XOM (واط)"
+        "ar": "هدف XOM (W)"
       },
       "placeholder": {
-        "en": "default 0W",
-        "nl": "standaard 0W",
-        "de": "Standardwert 0 W",
-        "sv": "standard 0W",
-        "it": "predefinito 0W",
-        "no": "standard 0W",
-        "fr": "par défaut 0W",
-        "da": "standard 0W",
-        "es": "por defecto 0W",
-        "pl": "domyślnie 0W",
-        "ru": "по умолчанию 0W",
-        "ko": "기본값 0W",
-        "ar": "الافتراضي 0 واط"
+        "en": "unchanged",
+        "nl": "ongewijzigd",
+        "de": "unverändert",
+        "fr": "inchangé",
+        "it": "invariato",
+        "sv": "oförändrad",
+        "no": "uendret",
+        "es": "sin cambios",
+        "da": "uændret",
+        "pl": "bez zmian",
+        "ru": "без изменений",
+        "ko": "변경 없음",
+        "ar": "دون تغيير"
       },
-      "value": 0
+      "value": 0,
+      "required": false
     },
     {
       "type": "number",
       "name": "smoothing",
       "title": {
-        "en": "smoothing (%)",
+        "en": "Smoothing (%)",
         "nl": "afvlakking (%)",
         "de": "Glättung (%)",
         "sv": "utjämning (%)",
@@ -99,23 +100,24 @@
         "ar": "التنعيم (%)"
       },
       "placeholder": {
-        "en": "30 - 100 %",
-        "nl": "30 - 100 %",
-        "de": "30 - 100 %",
-        "sv": "30 - 100 %",
-        "it": "30 - 100 %",
-        "no": "30 - 100 %",
-        "fr": "30 - 100 %",
-        "da": "30 - 100 %",
-        "es": "30 - 100 %",
-        "pl": "30 - 100 %",
-        "ru": "30 - 100 %",
-        "ko": "30 - 100 %",
-        "ar": "30 - 100 %"
+        "en": "unchanged",
+        "nl": "ongewijzigd",
+        "de": "unverändert",
+        "fr": "inchangé",
+        "it": "invariato",
+        "sv": "oförändrad",
+        "no": "uendret",
+        "es": "sin cambios",
+        "da": "uændret",
+        "pl": "bez zmian",
+        "ru": "без изменений",
+        "ko": "변경 없음",
+        "ar": "دون تغيير"
       },
       "min": 25,
       "max": 100,
-      "value": 50
+      "value": 50,
+      "required": false
     },
     {
       "type": "number",
@@ -136,22 +138,23 @@
         "ar": "الحد الأدنى لطاقة البطارية (واط)"
       },
       "placeholder": {
-        "en": "default 50W",
-        "nl": "standaard 50W",
-        "de": "Standardwert 50 W",
-        "sv": "standard 50W",
-        "it": "predefinito 50W",
-        "no": "standard 50W",
-        "fr": "par défaut 50W",
-        "da": "standard 50W",
-        "es": "por defecto 50W",
-        "pl": "domyślnie 50W",
-        "ru": "по умолчанию 50W",
-        "ko": "기본값 50W",
-        "ar": "الافتراضي 50 واط"
+        "en": "unchanged",
+        "nl": "ongewijzigd",
+        "de": "unverändert",
+        "fr": "inchangé",
+        "it": "invariato",
+        "sv": "oförändrad",
+        "no": "uendret",
+        "es": "sin cambios",
+        "da": "uændret",
+        "pl": "bez zmian",
+        "ru": "без изменений",
+        "ko": "변경 없음",
+        "ar": "دون تغيير"
       },
       "min": 0,
-      "value": 50
+      "value": 50,
+      "required": false
     }
   ]
 }

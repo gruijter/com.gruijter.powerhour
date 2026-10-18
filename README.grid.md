@@ -124,7 +124,7 @@ The driver learns a weekly home load profile (7 days × 96 quarter-hours) from `
 - **Initial training:** on pairing, from the Insights history of the underlying meters.
 - **Continuous learning:** every quarter-hour, the profile is updated with the measured load.
 - **Nightly retrain:** blends recent history into the profile.
-- **Forecast accuracy:** each finished quarter-hour is compared with its forecast. The result is shown in the device settings (**Load forecast** → **Forecast accuracy**) and needs about a day of data to be meaningful.
+- **Forecast accuracy:** each finished quarter-hour is compared with its forecast. The result is shown in the device settings (**Home load forecast** → **Forecast accuracy**) and needs about a day of data to be meaningful.
 
 Besides the house load, the driver forecasts the **net grid exchange** (+ import / − export):
 - **Net:** home load − solar forecast (from Power by the Hour Solar devices) + planned EV charging (from Power by the Hour EV Charger devices, only while the car is connected).
@@ -136,7 +136,7 @@ EV charging is not part of the learned home load, so irregular charging sessions
 
 **Charts:** *Grid today / tomorrow / yesterday* show the grid exchange (orange: import, green: export). Bars are the forecast, the line is measured. *Home weekly profile* shows the learned profile. For past quarter-hours, the grid forecast is shown as it was when that quarter-hour started.
 
-Use **Retrain home load model** (button or flow) to rebuild the profile from scratch, e.g. after a large change in household or appliances.
+Use **Retrain home load forecast** (button or flow) to rebuild the profile from scratch, e.g. after a large change in household or appliances.
 
 ---
 
@@ -156,16 +156,16 @@ Use **Retrain home load model** (button or flow) to rebuild the profile from scr
 ## Flow Cards & Automations
 
 ### Triggers
-- **Load forecast updated:** fires when the forecast is updated. Tokens: load forecast, forecast accuracy, net grid forecast, net grid forecast incl. battery plan, and peak forecast (all JSON).
+- **Home load forecast updated:** fires when the forecast is updated. Tokens: load forecast, forecast accuracy, net grid forecast, net grid forecast incl. battery plan, and peak forecast (all JSON).
 - **Projected peak exceeds billing level:** fires once per peak interval, as soon as the running interval is on course to raise this month's capacity cost. Tokens: projected, month peak.
 
 ### Conditions
 - **Peak headroom is / isn't below a value:** false while there is no month peak yet.
 
 ### Actions
-- **Provide load forecast JSON:** returns the same JSON tokens as the trigger, for this day, tomorrow or the next hours.
+- **Provide home load forecast JSON:** returns the same JSON tokens as the trigger, for today, tomorrow or the next hours.
 - **Extra load** … W today/tomorrow at a time for … minutes (0 W removes it).
-- **Retrain home load model.**
+- **Retrain home load forecast.**
 - **Set tariff group.**
 - **Set fixed cost** (per hour, day or month).
 

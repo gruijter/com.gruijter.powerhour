@@ -123,7 +123,7 @@ Fill in the nominal capacity and the max. power. The rest is learned from what t
 - **Power and energy:** battery power, stored energy, charged and discharged totals.
 - **Money:** per day, month and year, and the active tariff.
 - **Battery mode** and **Action**.
-- **ROI duration:** minutes the current planned action lasts.
+- **Action duration:** minutes the current planned action lasts.
 - **Charts:** charge plan today, tomorrow, next hours and yesterday, and the learned efficiency. Graph options in the settings: power line, SoC line, export price, legend.
 
 ---
@@ -140,7 +140,7 @@ Fill in the nominal capacity and the max. power. The rest is learned from what t
 
 ### Actions
 - **Set battery mode** … for … minutes (0: until changed)
-- **Get planned battery power** — the same tokens as the trigger, on demand
+- **Provide planned battery power** — the same tokens as the trigger, on demand
 - **Set battery cost** — minimum profit or wear cost per kWh
 - **Set XOM** (app-wide)
 - **Set tariff group**

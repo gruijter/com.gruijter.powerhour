@@ -619,19 +619,19 @@
             "ko": "충전기 제어"
           },
           "hint": {
-            "en": "Switches the charger on and off according to the charge plan. Off: switch it with your own flows, e.g. on 'New charging strategy active'.",
-            "nl": "Zet de laadpaal aan en uit volgens het laadplan. Uit: schakel hem met eigen flows, bijv. op 'Nieuwe laadstrategie actief'.",
-            "de": "Schaltet das Ladegerät gemäß dem Ladeplan ein und aus. Aus: mit eigenen Flows schalten, z. B. bei 'Neue Ladestrategie aktiv'.",
-            "fr": "Allume et éteint la borne selon le plan de charge. Désactivé : pilotez-la avec vos propres flows, p. ex. sur 'Nouvelle stratégie de charge active'.",
-            "es": "Enciende y apaga el cargador según el plan de carga. Desactivado: contrólelo con sus propios flujos, p. ej. con 'Nueva estrategia de carga activa'.",
-            "it": "Accende e spegne il caricatore secondo il piano di ricarica. Disattivato: comandalo con i tuoi flow, ad es. su 'Nuova strategia di ricarica attiva'.",
-            "da": "Tænder og slukker laderen efter ladeplanen. Fra: styr den med egne flows, f.eks. på 'Ny ladestrategi aktiv'.",
-            "sv": "Slår på och av laddaren enligt laddplanen. Av: styr den med egna flöden, t.ex. på 'Ny laddningsstrategi aktiv'.",
-            "no": "Slår laderen av og på etter ladeplanen. Av: styr den med egne flows, f.eks. på 'Ny ladestrategi aktiv'.",
-            "pl": "Włącza i wyłącza ładowarkę zgodnie z planem ładowania. Wyłączone: steruj własnymi flow, np. na 'Nowa strategia ładowania aktywna'.",
-            "ru": "Включает и выключает зарядку по плану зарядки. Выкл.: управляйте своими сценариями, напр. по 'Новая стратегия зарядки активна'.",
-            "ar": "يشغّل الشاحن ويطفئه وفق خطة الشحن. عند الإيقاف: تحكم به بتدفقاتك الخاصة، مثل 'استراتيجية شحن جديدة نشطة'.",
-            "ko": "충전 계획에 따라 충전기를 켜고 끕니다. 꺼짐: '새 충전 전략 활성' 등에서 직접 플로우로 전환하세요."
+            "en": "Switches the charger on and off according to the charge plan. Off: switch it with your own flows, e.g. on 'New planned charging power'.",
+            "nl": "Zet de laadpaal aan en uit volgens het laadplan. Uit: schakel hem met eigen flows, bijv. op 'Nieuw gepland laadvermogen'.",
+            "de": "Schaltet das Ladegerät gemäß dem Ladeplan ein und aus. Aus: mit eigenen Flows schalten, z. B. bei 'Neue geplante Ladeleistung'.",
+            "fr": "Allume et éteint la borne selon le plan de charge. Désactivé : pilotez-la avec vos propres flows, p. ex. sur 'Nouvelle puissance de charge planifiée'.",
+            "es": "Enciende y apaga el cargador según el plan de carga. Desactivado: contrólelo con sus propios flujos, p. ej. con 'Nueva potencia de carga planificada'.",
+            "it": "Accende e spegne il caricatore secondo il piano di ricarica. Disattivato: comandalo con i tuoi flow, ad es. su 'Nuova potenza di ricarica pianificata'.",
+            "da": "Tænder og slukker laderen efter ladeplanen. Fra: styr den med egne flows, f.eks. på 'Ny planlagt ladeeffekt'.",
+            "sv": "Slår på och av laddaren enligt laddplanen. Av: styr den med egna flöden, t.ex. på 'Ny planerad laddeffekt'.",
+            "no": "Slår laderen av og på etter ladeplanen. Av: styr den med egne flows, f.eks. på 'Ny planlagt ladeeffekt'.",
+            "pl": "Włącza i wyłącza ładowarkę zgodnie z planem ładowania. Wyłączone: steruj własnymi flow, np. na 'Nowa planowana moc ładowania'.",
+            "ru": "Включает и выключает зарядку по плану зарядки. Выкл.: управляйте своими сценариями, напр. по 'Новая плановая мощность зарядки'.",
+            "ar": "يشغّل الشاحن ويطفئه وفق خطة الشحن. عند الإيقاف: تحكم به بتدفقاتك الخاصة، مثل 'قدرة شحن مخططة جديدة'.",
+            "ko": "충전 계획에 따라 충전기를 켜고 끕니다. 꺼짐: '새 충전 계획 전력' 등에서 직접 플로우로 전환하세요."
           },
           "value": true
         },

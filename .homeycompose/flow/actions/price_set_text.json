@@ -57,37 +57,37 @@
         {
           "id": "fixedMarkupTOD",
           "label": {
-            "en": "Time of day markup",
-            "nl": "Tijdopslag",
-            "de": "Tageszeitaufschlag",
-            "fr": "Majoration horaire",
-            "it": "Ricarico orario",
-            "sv": "Tidspåslag",
-            "no": "Tidspåslag",
-            "es": "Recargo horario",
-            "da": "Tidstillæg",
-            "pl": "Narzut czasowy",
-            "ru": "Надбавка по времени",
-            "ar": "إضافة حسب الوقت",
-            "ko": "시간대 마크업"
+            "en": "Import: Time of day markup",
+            "nl": "Import: Tijdopslag",
+            "de": "Import: Tageszeitaufschlag",
+            "fr": "Import: Majoration horaire",
+            "it": "Importazione: Ricarico orario",
+            "sv": "Import: Tidspåslag",
+            "no": "Import: Tidspåslag",
+            "es": "Importación: Recargo horario",
+            "da": "Import: Tidstillæg",
+            "pl": "Import: Narzut czasowy",
+            "ru": "Импорт: Надбавка по времени",
+            "ar": "الاستيراد: إضافة حسب الوقت",
+            "ko": "수입: 시간대 마크업"
           }
         },
         {
           "id": "export_fixedMarkupTOD",
           "label": {
-            "en": "Time of day markup",
-            "nl": "Tijdopslag",
-            "de": "Tageszeitaufschlag",
-            "fr": "Majoration horaire",
-            "it": "Ricarico orario",
-            "sv": "Tidspåslag",
-            "no": "Tidspåslag",
-            "es": "Recargo horario",
-            "da": "Tidstillæg",
-            "pl": "Narzut czasowy",
-            "ru": "Надбавка по времени",
-            "ar": "إضافة حسب الوقت",
-            "ko": "시간대 마크업"
+            "en": "Export: Time of day markup",
+            "nl": "Export: Tijdopslag",
+            "de": "Export: Tageszeitaufschlag",
+            "fr": "Export: Majoration horaire",
+            "it": "Esportazione: Ricarico orario",
+            "sv": "Export: Tidspåslag",
+            "no": "Eksport: Tidspåslag",
+            "es": "Exportación: Recargo horario",
+            "da": "Eksport: Tidstillæg",
+            "pl": "Eksport: Narzut czasowy",
+            "ru": "Экспорт: Надбавка по времени",
+            "ar": "التصدير: إضافة حسب الوقت",
+            "ko": "수출: 시간대 마크업"
           }
         },
         {

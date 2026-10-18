@@ -109,7 +109,7 @@
       "type": "group",
       "label": {
         "en": "Currency settings",
-        "nl": "Munteenheid instellingen",
+        "nl": "Instellingen munteenheid",
         "de": "Währungseinstellungen",
         "fr": "Paramètre de devise",
         "it": "Impostazioni valuta",
@@ -579,7 +579,7 @@
       "type": "group",
       "label": {
         "en": "Import price settings",
-        "nl": "Import prijs instellingen",
+        "nl": "Instellingen importprijs",
         "de": "Importpreiseinstellungen",
         "fr": "Paramètres de prix d'importation",
         "it": "Impostazioni prezzo di importazione",
@@ -809,7 +809,7 @@
       "type": "group",
       "label": {
         "en": "Export price settings",
-        "nl": "Export prijs instellingen",
+        "nl": "Instellingen exportprijs",
         "de": "Exportpreiseinstellungen",
         "fr": "Paramètres de prix d'exportation",
         "it": "Impostazioni prezzo di esportazione",

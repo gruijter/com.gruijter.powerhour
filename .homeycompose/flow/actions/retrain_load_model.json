@@ -1,18 +1,18 @@
 {
   "title": {
-    "en": "Retrain home load model",
-    "nl": "Hertrain huisverbruikmodel",
-    "de": "Hausverbrauchsmodell neu trainieren",
-    "fr": "Réentraîner le modèle de consommation domestique",
-    "it": "Riaddestra modello di consumo domestico",
-    "sv": "Träna om hushållslastmodell",
-    "no": "Tren husforbruksmodell på nytt",
-    "es": "Reentrenar modelo de consumo doméstico",
-    "da": "Genoptræn husstandsforbrugsmodel",
-    "pl": "Przekwalifikuj model zużycia domowego",
-    "ru": "Переобучить модель домашней нагрузки",
-    "ar": "إعادة تدريب نموذج حمل المنزل",
-    "ko": "가정 부하 모델 재학습"
+    "en": "Retrain home load forecast",
+    "nl": "Hertrain huisverbruik-voorspelling",
+    "de": "Hausverbrauchsprognose neu trainieren",
+    "fr": "Réentraîner les prévisions de consommation domestique",
+    "it": "Riaddestra previsione consumo domestico",
+    "sv": "Träna om hushållslastprognos",
+    "no": "Tren husforbruksprognose på nytt",
+    "es": "Reentrenar pronóstico de consumo doméstico",
+    "da": "Gentræn husstandsforbrugsprognose",
+    "pl": "Przetrenuj prognozę zużycia domowego",
+    "ru": "Переобучить прогноз домашней нагрузки",
+    "ko": "가정 부하 예측 재학습",
+    "ar": "إعادة تدريب توقعات حمل المنزل"
   },
   "hint": {
     "en": "Start the retraining process for the home load prediction model. This can take a few minutes.",

@@ -29,6 +29,21 @@
     "ru": "Отправить показания [[value]] на [[virtual_device]]",
     "ko": "[[value]] 판독값을 [[virtual_device]]로 보내기"
   },
+  "hint": {
+    "en": "The cumulative meter reading (the meter total), not the use since the last reading.",
+    "nl": "De cumulatieve meterstand (het totaal van de meter), niet het verbruik sinds de vorige stand.",
+    "de": "Der kumulierte Zählerstand (die Zählersumme), nicht der Verbrauch seit dem letzten Stand.",
+    "fr": "Le relevé cumulé du compteur (le total), pas la consommation depuis le dernier relevé.",
+    "it": "La lettura cumulativa del contatore (il totale), non il consumo dall’ultima lettura.",
+    "sv": "Den kumulativa mätarställningen (mätarens totalsumma), inte förbrukningen sedan förra avläsningen.",
+    "no": "Den kumulative målerstanden (målerens totalsum), ikke forbruket siden forrige avlesning.",
+    "es": "La lectura acumulada del contador (el total), no el consumo desde la última lectura.",
+    "da": "Den kumulative måleraflæsning (målerens total), ikke forbruget siden sidste aflæsning.",
+    "pl": "Skumulowany odczyt licznika (suma licznika), a nie zużycie od ostatniego odczytu.",
+    "ru": "Накопленные показания счётчика (итог), а не расход с последнего показания.",
+    "ko": "누적 계량기 값(계량기 합계)이며, 마지막 검침 이후 사용량이 아닙니다.",
+    "ar": "قراءة العداد التراكمية (إجمالي العداد)، وليس الاستهلاك منذ آخر قراءة."
+  },
   "highlight": true,
   "args": [
     {

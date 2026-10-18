@@ -1,4 +1,5 @@
 {
+  "deprecated": true,
   "title": {
     "en": "Yield for period is !{{more|less}} than",
     "nl": "Opbrengst voor periode is !{{meer|minder}} dan",
@@ -29,7 +30,6 @@
     "ko": "[[period]] 예상 수익이 [[value]] kWh보다 !{{많음|적음}}",
     "ar": "العائد المتوقع لـ [[period]] !{{أكثر|أقل}} من [[value]] كيلوواط ساعة"
   },
-  "highlight": true,
   "args": [
     {
       "type": "device",
@@ -40,32 +40,74 @@
       "type": "dropdown",
       "name": "period",
       "title": {
-        "en": "period",
-        "nl": "periode",
+        "en": "Period",
+        "nl": "Periode",
         "de": "Zeitraum",
-        "fr": "période",
-        "sv": "period",
-        "no": "periode",
-        "da": "periode",
-        "it": "periodo",
-        "es": "período",
-        "pl": "okres",
-        "ru": "период",
+        "fr": "Période",
+        "it": "Periodo",
+        "sv": "Period",
+        "no": "Periode",
+        "es": "Periodo",
+        "da": "Periode",
+        "pl": "Okres",
+        "ru": "Период",
         "ko": "기간",
-        "ar": "فترة"
+        "ar": "الفترة"
       },
       "values": [
         {
           "id": "this_day",
-          "label": { "en": "Today", "nl": "Vandaag", "de": "Heute", "fr": "Aujourd'hui", "sv": "Idag", "no": "I dag", "da": "I dag", "it": "Oggi", "es": "Hoy", "pl": "Dzisiaj", "ru": "Сегодня", "ko": "오늘", "ar": "اليوم" }
+          "label": {
+            "en": "today",
+            "nl": "vandaag",
+            "de": "heute",
+            "fr": "aujourd'hui",
+            "it": "oggi",
+            "sv": "i dag",
+            "no": "i dag",
+            "es": "hoy",
+            "da": "i dag",
+            "pl": "dziś",
+            "ru": "сегодня",
+            "ko": "오늘",
+            "ar": "اليوم"
+          }
         },
         {
           "id": "tomorrow",
-          "label": { "en": "Tomorrow", "nl": "Morgen", "de": "Morgen", "fr": "Demain", "sv": "I morgon", "no": "I morgen", "da": "I morgen", "it": "Domani", "es": "Mañana", "pl": "Jutro", "ru": "Завтра", "ko": "내일", "ar": "غداً" }
+          "label": {
+            "en": "tomorrow",
+            "nl": "morgen",
+            "de": "morgen",
+            "fr": "demain",
+            "it": "domani",
+            "sv": "i morgon",
+            "no": "i morgen",
+            "es": "mañana",
+            "da": "i morgen",
+            "pl": "jutro",
+            "ru": "завтра",
+            "ko": "내일",
+            "ar": "غدًا"
+          }
         },
         {
           "id": "next_hours",
-          "label": { "en": "Next hours", "nl": "Komende uren", "de": "Kommende Stunden", "fr": "Prochaines heures", "sv": "Kommande timmar", "no": "Neste timer", "da": "Næste timer", "it": "Prossime ore", "es": "Próximas horas", "pl": "Następne godziny", "ru": "Следующие часы", "ko": "다음 시간", "ar": "الساعات القادمة" }
+          "label": {
+            "en": "the next hours",
+            "nl": "de komende uren",
+            "de": "die nächsten Stunden",
+            "fr": "les prochaines heures",
+            "it": "le prossime ore",
+            "sv": "de kommande timmarna",
+            "no": "de neste timene",
+            "es": "las próximas horas",
+            "da": "de næste timer",
+            "pl": "najbliższe godziny",
+            "ru": "ближайшие часы",
+            "ko": "다음 시간",
+            "ar": "الساعات القادمة"
+          }
         }
       ]
     },

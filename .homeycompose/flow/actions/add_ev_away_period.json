@@ -30,19 +30,19 @@
     "ko": "[[from]]부터 [[to]]까지 차량 부재"
   },
   "hint": {
-    "en": "A holiday or other period that is not normal use: no trips are planned, and these days are not learned. Also for a period that has passed. Adds to Away periods in the settings.",
-    "nl": "Een vakantie of andere periode die geen normaal gebruik is: er worden geen ritten gepland en deze dagen worden niet geleerd. Ook voor een periode die al voorbij is. Wordt toegevoegd aan Afwezig in de instellingen.",
-    "de": "Ein Urlaub oder anderer Zeitraum ohne normale Nutzung: keine Fahrten geplant, diese Tage werden nicht gelernt. Auch für einen vergangenen Zeitraum. Wird zu Abwesend in den Einstellungen hinzugefügt.",
-    "fr": "Des vacances ou une autre période d'usage inhabituel : aucun trajet n'est prévu et ces jours ne sont pas appris. Aussi pour une période passée. Ajouté à Absences dans les paramètres.",
-    "es": "Unas vacaciones u otro periodo de uso no habitual: no se planifican viajes y estos días no se aprenden. También para un periodo pasado. Se añade a Ausencias en los ajustes.",
-    "it": "Una vacanza o altro periodo di uso non abituale: nessun viaggio pianificato e questi giorni non vengono appresi. Anche per un periodo passato. Aggiunto ad Assenze nelle impostazioni.",
-    "da": "En ferie eller anden periode uden normal brug: ingen ture planlægges, og disse dage læres ikke. Også for en periode, der er forbi. Tilføjes til Væk i indstillingerne.",
-    "sv": "En semester eller annan period utan normal användning: inga resor planeras och dessa dagar lärs inte in. Även för en period som har passerat. Läggs till i Borta i inställningarna.",
-    "no": "En ferie eller annen periode uten normal bruk: ingen turer planlegges, og disse dagene læres ikke. Også for en periode som er forbi. Legges til i Borte i innstillingene.",
-    "pl": "Urlop lub inny okres nietypowego użycia: trasy nie są planowane, a te dni nie są uczone. Również dla minionego okresu. Dodawane do Nieobecności w ustawieniach.",
-    "ru": "Отпуск или другой период необычного использования: поездки не планируются, эти дни не изучаются. Также для прошедшего периода. Добавляется в Отсутствие в настройках.",
-    "ar": "عطلة أو فترة أخرى بغير الاستخدام المعتاد: لا تُخطَّط رحلات ولا تُتعلَّم هذه الأيام. أيضًا لفترة مضت. تُضاف إلى الغياب في الإعدادات.",
-    "ko": "휴가 등 평소와 다른 기간: 주행을 계획하지 않고 이 날들은 학습하지 않습니다. 지난 기간도 가능. 설정의 부재 기간에 추가됩니다."
+    "en": "E.g. a holiday: no trips are planned and these days are not learned. Also for past days. Adds to Away periods in the settings.",
+    "nl": "Bijv. een vakantie: geen ritten gepland en deze dagen worden niet geleerd. Ook voor voorbije dagen. Komt bij Afwezig (perioden) in de instellingen.",
+    "de": "Z. B. Urlaub: keine Fahrten geplant, diese Tage werden nicht gelernt. Auch für vergangene Tage. Kommt zu Abwesend (Zeiträume) in den Einstellungen.",
+    "fr": "P. ex. des vacances : aucun trajet prévu et ces jours ne sont pas appris. Aussi pour des jours passés. Ajouté à Absences (périodes) dans les paramètres.",
+    "it": "Ad es. una vacanza: nessun viaggio pianificato e questi giorni non vengono appresi. Anche per giorni passati. Aggiunto ad Assenze (periodi) nelle impostazioni.",
+    "sv": "T.ex. en semester: inga resor planeras och dessa dagar lärs inte in. Även för passerade dagar. Läggs till i Borta (perioder) i inställningarna.",
+    "no": "F.eks. en ferie: ingen turer planlegges, og disse dagene læres ikke. Også for dager som er forbi. Legges til i Borte (perioder) i innstillingene.",
+    "es": "P. ej. unas vacaciones: no se planifican viajes y estos días no se aprenden. También para días pasados. Se añade a Ausencias (periodos) en los ajustes.",
+    "da": "F.eks. en ferie: ingen ture planlægges, og disse dage læres ikke. Også for dage, der er gået. Tilføjes til Væk (perioder) i indstillingerne.",
+    "pl": "Np. urlop: trasy nie są planowane, a te dni nie są uczone. Również dla minionych dni. Dodawane do Nieobecności (okresy) w ustawieniach.",
+    "ru": "Например, отпуск: поездки не планируются, эти дни не изучаются. Также для прошедших дней. Добавляется в Отсутствие (периоды) в настройках.",
+    "ko": "예: 휴가. 주행을 계획하지 않고 이 날들은 학습하지 않습니다. 지난 날도 가능. 설정의 부재 기간에 추가됩니다.",
+    "ar": "مثل عطلة: لا تُخطَّط رحلات ولا تُتعلَّم هذه الأيام. أيضًا لأيام مضت. تُضاف إلى الغياب (فترات) في الإعدادات."
   },
   "args": [
     {

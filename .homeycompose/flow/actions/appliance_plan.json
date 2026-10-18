@@ -83,6 +83,21 @@
         "ru": "Последний запуск",
         "ar": "آخر موعد للبدء",
         "ko": "최종 시작"
+      },
+      "hint": {
+        "en": "Time (07:30) or decimal hours (7.5).",
+        "nl": "Tijd (07:30) of decimale uren (7,5).",
+        "de": "Uhrzeit (07:30) oder Dezimalstunden (7,5).",
+        "fr": "Heure (07:30) ou heures décimales (7,5).",
+        "it": "Ora (07:30) o ore decimali (7,5).",
+        "sv": "Tid (07:30) eller decimaltimmar (7,5).",
+        "no": "Tid (07:30) eller desimaltimer (7,5).",
+        "es": "Hora (07:30) u horas decimales (7,5).",
+        "da": "Tid (07:30) eller decimaltimer (7,5).",
+        "pl": "Godzina (07:30) lub godziny dziesiętne (7,5).",
+        "ru": "Время (07:30) или десятичные часы (7,5).",
+        "ar": "الوقت (07:30) أو ساعات عشرية (7.5).",
+        "ko": "시각(07:30) 또는 소수 시간(7.5)."
       }
     }
   ],

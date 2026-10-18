@@ -88,7 +88,7 @@ Charge efficiency and consumption are learned and shown under **Learned driving 
 
 ## Controlling the Charger
 
-- **Control charger** *(default on):* the device switches the charger on and off by the plan. Off: use your own flows, e.g. on **New charging strategy active**, which provides the power and duration for the current period.
+- **Control charger** *(default on):* the device switches the charger on and off by the plan. Off: use your own flows, e.g. on **New planned charging power**, which provides the power and duration for the current period.
 - **Plug on without car:** for a charger that cannot report a plug state, e.g. a smart plug. The plug stays on while no car is detected, so plugging in is seen right away.
 - **Shared charger:** several cars use the charger. Power at the charger only counts for this car when its car app does not say it is away.
 - **Start charging in the car:** when the charger is on but the car takes no power after a minute, the car app is asked to start charging. This wakes the car.
@@ -112,7 +112,7 @@ Charge efficiency and consumption are learned and shown under **Learned driving 
 - **Car status changed** — token: car status.
 - **Charge mode changed** — token: charge mode.
 - **Car not plugged in while charging is needed** — tokens: departure, required SoC.
-- **New charging strategy active** — every price period: power, duration, target SoC and the plan (JSON).
+- **New planned charging power** — every price period: power, duration, target SoC and the plan (JSON).
 
 ### Conditions
 - **Car status is / is not** …
@@ -120,8 +120,8 @@ Charge efficiency and consumption are learned and shown under **Learned driving 
 
 ### Actions
 - **Set charge mode**
-- **Departure today / tomorrow at** a time — `HH:MM`, decimal hours, `auto` (automatic again) or `-` (car not used that day).
-- **Min. SoC today / tomorrow** — `0` is automatic again.
+- **Departure** today or tomorrow **at** a time — `HH:MM`, decimal hours, `auto` (automatic again) or `-` (car not used that day).
+- **Min. SoC** today or tomorrow — `0` is automatic again.
 - **Car away from … to …** — adds an away period.
 - **Car has left / is home**
 - **Set car SoC** — for chargers and cars that do not report the SoC.

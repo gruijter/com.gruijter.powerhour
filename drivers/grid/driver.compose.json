@@ -3239,19 +3239,19 @@
     {
       "type": "group",
       "label": {
-        "en": "Load forecast",
-        "nl": "Verbruiksvoorspelling",
-        "de": "Lastprognose",
-        "fr": "Prévision de charge",
-        "it": "Previsione carico",
-        "sv": "Lastprognos",
-        "no": "Lastprognose",
-        "es": "Previsión de carga",
-        "da": "Forbrugsprognose",
-        "pl": "Prognoza obciążenia",
-        "ru": "Прогноз нагрузки",
-        "ko": "부하 예측",
-        "ar": "توقعات الحمل"
+        "en": "Home load forecast",
+        "nl": "Verwacht huisverbruik",
+        "de": "Hausverbrauchsprognose",
+        "fr": "Prévision de charge domestique",
+        "it": "Previsione consumo domestico",
+        "sv": "Hushållslastprognos",
+        "no": "Husforbruksprognose",
+        "es": "Previsión de consumo doméstico",
+        "da": "Husstandsforbrugsprognose",
+        "pl": "Prognoza zużycia domowego",
+        "ru": "Прогноз домашней нагрузки",
+        "ko": "가정 부하 예측",
+        "ar": "توقعات حمل المنزل"
       },
       "children": [
         {

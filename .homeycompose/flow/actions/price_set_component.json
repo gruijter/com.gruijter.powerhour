@@ -129,19 +129,19 @@
         {
           "id": "fixedMarkupWeekend",
           "label": {
-            "en": "Weekend markup",
-            "nl": "Weekendopslag",
-            "de": "Wochenendaufschlag",
-            "fr": "Majoration week-end",
-            "it": "Ricarico weekend",
-            "sv": "Helgpåslag",
-            "no": "Helgepåslag",
-            "es": "Recargo de fin de semana",
-            "da": "Weekendtillæg",
-            "pl": "Narzut weekendowy",
-            "ru": "Надбавка выходного дня",
-            "ar": "إضافة نهاية الأسبوع",
-            "ko": "주말 마크업"
+            "en": "Import: Weekend markup",
+            "nl": "Import: Weekendopslag",
+            "de": "Import: Wochenendaufschlag",
+            "fr": "Import: Majoration week-end",
+            "it": "Importazione: Ricarico weekend",
+            "sv": "Import: Helgpåslag",
+            "no": "Import: Helgepåslag",
+            "es": "Importación: Recargo de fin de semana",
+            "da": "Import: Weekendtillæg",
+            "pl": "Import: Narzut weekendowy",
+            "ru": "Импорт: Надбавка выходного дня",
+            "ar": "الاستيراد: إضافة نهاية الأسبوع",
+            "ko": "수입: 주말 마크업"
           }
         },
         {
@@ -219,19 +219,19 @@
         {
           "id": "export_fixedMarkupWeekend",
           "label": {
-            "en": "Weekend markup",
-            "nl": "Weekendopslag",
-            "de": "Wochenendaufschlag",
-            "fr": "Majoration week-end",
-            "it": "Ricarico weekend",
-            "sv": "Helgpåslag",
-            "no": "Helgepåslag",
-            "es": "Recargo de fin de semana",
-            "da": "Weekendtillæg",
-            "pl": "Narzut weekendowy",
-            "ru": "Надбавка выходного дня",
-            "ar": "إضافة نهاية الأسبوع",
-            "ko": "주말 마크업"
+            "en": "Export: Weekend markup",
+            "nl": "Export: Weekendopslag",
+            "de": "Export: Wochenendaufschlag",
+            "fr": "Export: Majoration week-end",
+            "it": "Esportazione: Ricarico weekend",
+            "sv": "Export: Helgpåslag",
+            "no": "Eksport: Helgepåslag",
+            "es": "Exportación: Recargo de fin de semana",
+            "da": "Eksport: Weekendtillæg",
+            "pl": "Eksport: Narzut weekendowy",
+            "ru": "Экспорт: Надбавка выходного дня",
+            "ar": "التصدير: إضافة نهاية الأسبوع",
+            "ko": "수출: 주말 마크업"
           }
         },
         {

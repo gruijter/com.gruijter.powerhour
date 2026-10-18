@@ -31,19 +31,19 @@
     "ar": "قدرة بطارية مخططة جديدة (معكوسة: [[invert_power]])"
   },
   "hint": {
-    "en": "The power of the battery plan for now, every plan block. The plan uses the minimum profit and wear cost of the device settings: the same plan as the chart and the built-in control. Fires again with 0 W when the action ends within the block. Not inverted: charging is positive (+), discharging negative (-).",
-    "nl": "Het vermogen van het batterijplan voor nu, elk planblok. Het plan gebruikt de minimale winst en slijtagekosten uit de device-instellingen: hetzelfde plan als de grafiek en de ingebouwde sturing. Vuurt opnieuw met 0 W als de actie binnen het blok eindigt. Niet geïnverteerd: laden is positief (+), ontladen negatief (-).",
-    "de": "Die Leistung des Batterieplans für jetzt, in jedem Planblock. Der Plan nutzt den Mindestgewinn und die Verschleißkosten aus den Geräteeinstellungen: derselbe Plan wie im Diagramm und in der integrierten Steuerung. Löst erneut mit 0 W aus, wenn die Aktion innerhalb des Blocks endet. Nicht invertiert: Laden ist positiv (+), Entladen negativ (-).",
-    "fr": "La puissance du plan de batterie pour maintenant, à chaque bloc du plan. Le plan utilise le profit minimum et le coût d’usure des paramètres de l’appareil : le même plan que le graphique et le contrôle intégré. Se déclenche à nouveau avec 0 W lorsque l’action se termine dans le bloc. Non inversé : la charge est positive (+), la décharge négative (-).",
-    "it": "La potenza del piano della batteria per adesso, a ogni blocco del piano. Il piano usa il profitto minimo e il costo di usura delle impostazioni del dispositivo: lo stesso piano del grafico e del controllo integrato. Si attiva di nuovo con 0 W quando l’azione termina all’interno del blocco. Non invertita: la carica è positiva (+), la scarica negativa (-).",
-    "sv": "Batteriplanens effekt för nu, varje planblock. Planen använder minsta vinst och slitagekostnad från enhetsinställningarna: samma plan som diagrammet och den inbyggda styrningen. Utlöses igen med 0 W när åtgärden slutar inom blocket. Ej inverterad: laddning är positiv (+), urladdning negativ (-).",
-    "no": "Batteriplanens effekt for nå, hver planblokk. Planen bruker minimum fortjeneste og slitasjekostnad fra enhetsinnstillingene: samme plan som grafen og den innebygde styringen. Utløses igjen med 0 W når handlingen slutter innenfor blokken. Ikke invertert: lading er positiv (+), utlading negativ (-).",
-    "es": "La potencia del plan de batería para ahora, en cada bloque del plan. El plan usa el beneficio mínimo y el coste de desgaste de los ajustes del dispositivo: el mismo plan que el gráfico y el control integrado. Se activa de nuevo con 0 W cuando la acción termina dentro del bloque. Sin invertir: la carga es positiva (+), la descarga negativa (-).",
-    "da": "Batteriplanens effekt for nu, hver planblok. Planen bruger minimum fortjeneste og slidomkostning fra enhedsindstillingerne: samme plan som grafen og den indbyggede styring. Udløses igen med 0 W, når handlingen slutter inden for blokken. Ikke inverteret: opladning er positiv (+), afladning negativ (-).",
-    "pl": "Moc planu baterii na teraz, w każdym bloku planu. Plan używa minimalnego zysku i kosztu zużycia z ustawień urządzenia: ten sam plan co wykres i wbudowane sterowanie. Uruchamia się ponownie z 0 W, gdy akcja kończy się w obrębie bloku. Bez odwrócenia: ładowanie jest dodatnie (+), rozładowywanie ujemne (-).",
-    "ru": "Мощность плана батареи на текущий момент, в каждом блоке плана. План использует минимальную прибыль и стоимость износа из настроек устройства: тот же план, что на графике и во встроенном управлении. Срабатывает снова с 0 Вт, когда действие заканчивается внутри блока. Без инверсии: зарядка положительная (+), разрядка отрицательная (-).",
-    "ko": "매 계획 블록마다 현재 배터리 계획의 전력입니다. 계획은 기기 설정의 최소 이익과 마모 비용을 사용합니다: 차트 및 내장 제어와 같은 계획입니다. 블록 안에서 동작이 끝나면 0 W로 다시 트리거됩니다. 반전되지 않음: 충전은 양수(+), 방전은 음수(-)입니다.",
-    "ar": "قدرة خطة البطارية للوقت الحالي، في كل كتلة من الخطة. تستخدم الخطة الحد الأدنى للربح وتكلفة التآكل من إعدادات الجهاز: نفس الخطة في الرسم البياني والتحكم المدمج. يُطلق مرة أخرى بقيمة 0 واط عندما ينتهي الإجراء داخل الكتلة. غير معكوسة: الشحن موجب (+)، والتفريغ سالب (-)."
+    "en": "Every plan block: the planned power for now, and 0 W when the action ends. Same plan as the chart. Charging is positive (+), unless inverted.",
+    "nl": "Elk planblok: het geplande vermogen voor nu, en 0 W als de actie eindigt. Hetzelfde plan als de grafiek. Laden is positief (+), tenzij geïnverteerd.",
+    "de": "Jeder Planblock: die geplante Leistung für jetzt, und 0 W, wenn die Aktion endet. Derselbe Plan wie im Diagramm. Laden ist positiv (+), außer invertiert.",
+    "fr": "À chaque bloc du plan : la puissance planifiée pour maintenant, et 0 W quand l’action se termine. Le même plan que le graphique. La charge est positive (+), sauf si inversée.",
+    "it": "A ogni blocco del piano: la potenza pianificata per adesso, e 0 W quando l’azione termina. Lo stesso piano del grafico. La carica è positiva (+), salvo se invertita.",
+    "sv": "Varje planblock: den planerade effekten för nu, och 0 W när åtgärden slutar. Samma plan som diagrammet. Laddning är positiv (+), om inte inverterad.",
+    "no": "Hver planblokk: den planlagte effekten for nå, og 0 W når handlingen slutter. Samme plan som grafen. Lading er positiv (+), med mindre invertert.",
+    "es": "En cada bloque del plan: la potencia planificada para ahora, y 0 W cuando termina la acción. El mismo plan que el gráfico. La carga es positiva (+), salvo si se invierte.",
+    "da": "Hver planblok: den planlagte effekt for nu, og 0 W når handlingen slutter. Samme plan som grafen. Opladning er positiv (+), medmindre inverteret.",
+    "pl": "W każdym bloku planu: planowana moc na teraz, oraz 0 W, gdy akcja się kończy. Ten sam plan co wykres. Ładowanie jest dodatnie (+), chyba że odwrócone.",
+    "ru": "В каждом блоке плана: плановая мощность на сейчас и 0 Вт, когда действие заканчивается. Тот же план, что на графике. Зарядка положительная (+), если не инвертировано.",
+    "ko": "매 계획 블록마다: 현재 계획 전력, 동작이 끝나면 0 W. 차트와 같은 계획입니다. 반전하지 않으면 충전은 양수(+)입니다.",
+    "ar": "في كل كتلة من الخطة: القدرة المخططة للوقت الحالي، و0 واط عند انتهاء الإجراء. نفس خطة الرسم البياني. الشحن موجب (+)، ما لم يكن معكوسًا."
   },
   "args": [
     {
@@ -134,19 +134,19 @@
       "name": "scheme",
       "type": "string",
       "title": {
-        "en": "Scheme JSON",
-        "de": "Schema JSON",
-        "nl": "Schema JSON",
-        "fr": "Schéma JSON",
-        "it": "Schema JSON",
-        "sv": "Schema JSON",
-        "no": "Skjema JSON",
-        "es": "Esquema JSON",
-        "da": "Skema JSON",
-        "pl": "Schemat JSON",
-        "ru": "Схема JSON",
-        "ko": "스킴 JSON",
-        "ar": "مخطط JSON"
+        "en": "Plan JSON",
+        "nl": "Plan JSON",
+        "de": "Plan JSON",
+        "fr": "Plan JSON",
+        "it": "Piano JSON",
+        "sv": "Plan JSON",
+        "no": "Plan JSON",
+        "es": "Plan JSON",
+        "da": "Plan JSON",
+        "pl": "Plan JSON",
+        "ru": "План JSON",
+        "ko": "계획 JSON",
+        "ar": "خطة JSON"
       }
     },
     {

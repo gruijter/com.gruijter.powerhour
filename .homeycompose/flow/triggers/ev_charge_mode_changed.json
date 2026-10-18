@@ -26,7 +26,7 @@
       "name": "ev_charge_mode",
       "type": "string",
       "title": {
-        "en": "Charge Mode",
+        "en": "Charge mode",
         "nl": "Laadmodus",
         "de": "Lademodus",
         "ko": "충전 모드",

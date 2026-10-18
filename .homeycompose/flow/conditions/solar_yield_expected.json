@@ -1,0 +1,136 @@
+{
+  "title": {
+    "en": "Yield for period is !{{less|more}} than",
+    "nl": "Opbrengst voor periode is !{{minder|meer}} dan",
+    "de": "Ertrag für Zeitraum ist !{{weniger|mehr}} als",
+    "fr": "Le rendement pour la période est !{{inférieur|supérieur}} à",
+    "sv": "Avkastning för perioden är !{{mindre|mer}} än",
+    "no": "Avkastning for perioden er !{{mindre|mer}} enn",
+    "da": "Udbytte for perioden er !{{mindre|mere}} end",
+    "it": "Il rendimento per il periodo è !{{minore|maggiore}} di",
+    "es": "El rendimiento para el período es !{{menor|mayor}} que",
+    "pl": "Uzysk dla okresu jest !{{mniejszy|większy}} niż",
+    "ru": "Доход за период !{{меньше|больше}} чем",
+    "ko": "기간 수익이 다음보다 !{{적음|많음}}",
+    "ar": "العائد للفترة !{{أقل|أكثر}} من"
+  },
+  "titleFormatted": {
+    "en": "Expected yield for [[period]] is !{{less|more}} than [[value]] kWh",
+    "nl": "Verwachte opbrengst voor [[period]] is !{{minder|meer}} dan [[value]] kWh",
+    "de": "Erwarteter Ertrag für [[period]] ist !{{weniger|mehr}} als [[value]] kWh",
+    "fr": "Le rendement attendu pour [[period]] est !{{inférieur|supérieur}} à [[value]] kWh",
+    "sv": "Förväntad avkastning för [[period]] är !{{mindre|mer}} än [[value]] kWh",
+    "no": "Forventet avkastning for [[period]] er !{{mindre|mer}} enn [[value]] kWh",
+    "da": "Forventet udbytte for [[period]] er !{{mindre|mere}} end [[value]] kWh",
+    "it": "Il rendimento previsto per [[period]] è !{{minore|maggiore}} di [[value]] kWh",
+    "es": "El rendimiento esperado para [[period]] es !{{menor|mayor}} que [[value]] kWh",
+    "pl": "Oczekiwany uzysk dla [[period]] jest !{{mniejszy|większy}} niż [[value]] kWh",
+    "ru": "Ожидаемый доход за [[period]] !{{меньше|больше}} чем [[value]] кВтч",
+    "ko": "[[period]] 예상 수익이 [[value]] kWh보다 !{{적음|많음}}",
+    "ar": "العائد المتوقع لـ [[period]] !{{أقل|أكثر}} من [[value]] كيلوواط ساعة"
+  },
+  "highlight": true,
+  "args": [
+    {
+      "type": "device",
+      "name": "device",
+      "filter": "driver_id=solar"
+    },
+    {
+      "type": "dropdown",
+      "name": "period",
+      "title": {
+        "en": "Period",
+        "nl": "Periode",
+        "de": "Zeitraum",
+        "fr": "Période",
+        "it": "Periodo",
+        "sv": "Period",
+        "no": "Periode",
+        "es": "Periodo",
+        "da": "Periode",
+        "pl": "Okres",
+        "ru": "Период",
+        "ko": "기간",
+        "ar": "الفترة"
+      },
+      "values": [
+        {
+          "id": "this_day",
+          "label": {
+            "en": "today",
+            "nl": "vandaag",
+            "de": "heute",
+            "fr": "aujourd'hui",
+            "it": "oggi",
+            "sv": "i dag",
+            "no": "i dag",
+            "es": "hoy",
+            "da": "i dag",
+            "pl": "dziś",
+            "ru": "сегодня",
+            "ko": "오늘",
+            "ar": "اليوم"
+          }
+        },
+        {
+          "id": "tomorrow",
+          "label": {
+            "en": "tomorrow",
+            "nl": "morgen",
+            "de": "morgen",
+            "fr": "demain",
+            "it": "domani",
+            "sv": "i morgon",
+            "no": "i morgen",
+            "es": "mañana",
+            "da": "i morgen",
+            "pl": "jutro",
+            "ru": "завтра",
+            "ko": "내일",
+            "ar": "غدًا"
+          }
+        },
+        {
+          "id": "next_hours",
+          "label": {
+            "en": "the next hours",
+            "nl": "de komende uren",
+            "de": "die nächsten Stunden",
+            "fr": "les prochaines heures",
+            "it": "le prossime ore",
+            "sv": "de kommande timmarna",
+            "no": "de neste timene",
+            "es": "las próximas horas",
+            "da": "de næste timer",
+            "pl": "najbliższe godziny",
+            "ru": "ближайшие часы",
+            "ko": "다음 시간",
+            "ar": "الساعات القادمة"
+          }
+        }
+      ]
+    },
+    {
+      "type": "number",
+      "name": "value",
+      "title": {
+        "en": "kWh",
+        "ko": "kWh",
+        "nl": "kWh",
+        "de": "kWh",
+        "fr": "kWh",
+        "es": "kWh",
+        "it": "kWh",
+        "da": "kWh",
+        "sv": "kWh",
+        "no": "kWh",
+        "pl": "kWh",
+        "ru": "kWh",
+        "ar": "kWh"
+      },
+      "min": 0,
+      "step": 0.1
+    }
+  ]
+}
