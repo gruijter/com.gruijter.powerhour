@@ -787,14 +787,14 @@ class PowerDevice extends GenericDevice {
 
 // Prices of the tariff group's DAP devices, shared with the battery and EV charger.
 const {
-  _dapOrderKey, _groupDapDevices, _groupDapDeviceIds, _findGroupPriceLog, refreshDapPrices,
+  _dapOrderKey, _groupDapDevices, _groupDapDeviceIds, _findGroupPriceLogs, refreshDapPrices,
   _fetchInsightsPriceHistory, _fetchDapPriceHistoryFromInsights, _findPriceEntryForSlot,
 } = ChargeDeviceHelpers;
 Object.assign(PowerDevice.prototype, {
   _dapOrderKey,
   _groupDapDevices,
   _groupDapDeviceIds,
-  _findGroupPriceLog,
+  _findGroupPriceLogs,
   refreshDapPrices,
   _fetchInsightsPriceHistory,
   _fetchDapPriceHistoryFromInsights,

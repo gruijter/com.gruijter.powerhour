@@ -1951,12 +1951,16 @@ class CarChargeDevice extends GenericDevice {
       if (retrain || this.priceProfile.bootstrapped !== PRICE_BOOTSTRAP_VERSION) {
         // The electricity DAP devices (not gas) that feed this device's tariff group.
         const dapIds = await this._groupDapDeviceIds();
+        // The longest history of those devices (a new price device next to an old one has little).
         const hourly = async (capName) => {
-          const log = this._findGroupPriceLog(logs, dapIds, capName);
-          if (!log) return [];
-          const data = await api.insights.getLogEntries({ id: log.id, resolution: 'last14Days' }).catch(() => null);
-          return ((data && data.values) || []).filter((e) => typeof e.v === 'number')
-            .map((e) => ({ t: new Date(e.t).getTime(), v: e.v }));
+          let best = [];
+          for (const log of this._findGroupPriceLogs(logs, dapIds, capName)) {
+            const data = await api.insights.getLogEntries({ id: log.id, resolution: 'last14Days' }).catch(() => null);
+            const values = ((data && data.values) || []).filter((e) => typeof e.v === 'number')
+              .map((e) => ({ t: new Date(e.t).getTime(), v: e.v }));
+            if (values.length > best.length) best = values;
+          }
+          return best;
         };
         const imp = await hourly(PriceDrivers.PRICE_LOG_CAPS.import);
         // A retrain without price history keeps what was learned live.
