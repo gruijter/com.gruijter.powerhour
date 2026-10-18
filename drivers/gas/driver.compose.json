@@ -15,8 +15,8 @@
     "ko": "가스 모니터"
   },
   "images": {
-    "large": "./drivers/gas/assets/images/large.jpg",
-    "small": "./drivers/gas/assets/images/small.jpg"
+    "large": "{{driverAssetsPath}}/images/large.png",
+    "small": "{{driverAssetsPath}}/images/small.png"
   },
   "class": "other",
   "capabilities": [],

@@ -72,8 +72,8 @@
     }
   },
   "images": {
-    "large": "./drivers/evCharger/assets/images/large.jpg",
-    "small": "./drivers/evCharger/assets/images/small.jpg"
+    "large": "{{driverAssetsPath}}/images/large.png",
+    "small": "{{driverAssetsPath}}/images/small.png"
   },
   "pair": [
     {

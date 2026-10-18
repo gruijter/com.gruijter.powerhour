@@ -420,8 +420,8 @@
     }
   },
   "images": {
-    "large": "./drivers/solar/assets/images/large.jpg",
-    "small": "./drivers/solar/assets/images/small.jpg"
+    "large": "{{driverAssetsPath}}/images/large.png",
+    "small": "{{driverAssetsPath}}/images/small.png"
   },
   "pair": [
     {

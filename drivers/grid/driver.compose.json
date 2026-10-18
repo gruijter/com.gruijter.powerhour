@@ -954,8 +954,8 @@
     }
   },
   "images": {
-    "large": "./drivers/power/assets/images/large.jpg",
-    "small": "./drivers/power/assets/images/small.jpg"
+    "large": "{{driverAssetsPath}}/images/large.png",
+    "small": "{{driverAssetsPath}}/images/small.png"
   },
   "pair": [
     {

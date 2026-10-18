@@ -20955,8 +20955,8 @@
         }
       },
       "images": {
-        "large": "./drivers/evCharger/assets/images/large.jpg",
-        "small": "./drivers/evCharger/assets/images/small.jpg"
+        "large": "/drivers/evCharger/assets/images/large.png",
+        "small": "/drivers/evCharger/assets/images/small.png"
       },
       "pair": [
         {
@@ -22834,8 +22834,8 @@
         "ko": "가스 모니터"
       },
       "images": {
-        "large": "./drivers/gas/assets/images/large.jpg",
-        "small": "./drivers/gas/assets/images/small.jpg"
+        "large": "/drivers/gas/assets/images/large.png",
+        "small": "/drivers/gas/assets/images/small.png"
       },
       "class": "other",
       "capabilities": [],
@@ -25060,8 +25060,8 @@
         }
       },
       "images": {
-        "large": "./drivers/power/assets/images/large.jpg",
-        "small": "./drivers/power/assets/images/small.jpg"
+        "large": "/drivers/grid/assets/images/large.png",
+        "small": "/drivers/grid/assets/images/small.png"
       },
       "pair": [
         {
@@ -27535,8 +27535,8 @@
         }
       },
       "images": {
-        "large": "./drivers/power/assets/images/large.jpg",
-        "small": "./drivers/power/assets/images/small.jpg"
+        "large": "/drivers/power/assets/images/large.png",
+        "small": "/drivers/power/assets/images/small.png"
       },
       "pair": [
         {
@@ -29348,8 +29348,8 @@
         }
       },
       "images": {
-        "large": "./drivers/solar/assets/images/large.jpg",
-        "small": "./drivers/solar/assets/images/small.jpg"
+        "large": "/drivers/solar/assets/images/large.png",
+        "small": "/drivers/solar/assets/images/small.png"
       },
       "pair": [
         {
@@ -30756,8 +30756,8 @@
         "ko": "수도 모니터"
       },
       "images": {
-        "large": "./drivers/water/assets/images/large.jpg",
-        "small": "./drivers/water/assets/images/small.jpg"
+        "large": "/drivers/water/assets/images/large.png",
+        "small": "/drivers/water/assets/images/small.png"
       },
       "class": "other",
       "capabilities": [],

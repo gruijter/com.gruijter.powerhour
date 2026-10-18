@@ -15,8 +15,8 @@
     "ko": "수도 모니터"
   },
   "images": {
-    "large": "./drivers/water/assets/images/large.jpg",
-    "small": "./drivers/water/assets/images/small.jpg"
+    "large": "{{driverAssetsPath}}/images/large.png",
+    "small": "{{driverAssetsPath}}/images/small.png"
   },
   "class": "other",
   "capabilities": [],
