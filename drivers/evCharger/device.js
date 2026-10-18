@@ -22,6 +22,7 @@ const { setTimeoutPromise } = require('../../lib/helpers/Util');
 const MeterHelpers = require('../../lib/helpers/MeterHelpers');
 const EvCarCaps = require('../../lib/helpers/EvCarCaps');
 const EvHistory = require('../../lib/helpers/EvHistory');
+const PriceDrivers = require('../../lib/helpers/PriceDrivers');
 
 const deviceSpecifics = {
   cmap: {
@@ -1957,10 +1958,10 @@ class CarChargeDevice extends GenericDevice {
           return ((data && data.values) || []).filter((e) => typeof e.v === 'number')
             .map((e) => ({ t: new Date(e.t).getTime(), v: e.v }));
         };
-        const imp = await hourly('meter_price_h0');
+        const imp = await hourly(PriceDrivers.PRICE_LOG_CAPS.import);
         // A retrain without price history keeps what was learned live.
         if (imp.length || !retrain) {
-          const exp = new Map((await hourly('meter_price_h0_export')).map((e) => [e.t, e.v]));
+          const exp = new Map((await hourly(PriceDrivers.PRICE_LOG_CAPS.export)).map((e) => [e.t, e.v]));
           const fresh = EvPriceProfile.createProfile();
           EvPriceProfile.learn(fresh, imp.map((e) => ({ time: e.t, price: e.v, exportPrice: exp.get(e.t) })), tz);
           fresh.bootstrapped = PRICE_BOOTSTRAP_VERSION;

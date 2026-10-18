@@ -1,4 +1,5 @@
 {
+  "deprecated": true,
 	"name": {
 		"en": "Day-Ahead Gas Prices",
 		"de": "Day-Ahead Gas Preis",

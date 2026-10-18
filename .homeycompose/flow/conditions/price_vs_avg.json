@@ -1,0 +1,208 @@
+{
+  "title": {
+    "en": "Price above or below average",
+    "nl": "Prijs boven of onder gemiddelde",
+    "de": "Preis über oder unter dem Durchschnitt",
+    "fr": "Prix au-dessus ou en dessous de la moyenne",
+    "it": "Prezzo sopra o sotto la media",
+    "sv": "Pris över eller under genomsnittet",
+    "no": "Pris over eller under gjennomsnittet",
+    "es": "Precio por encima o por debajo de la media",
+    "da": "Pris over eller under gennemsnittet",
+    "pl": "Cena powyżej lub poniżej średniej",
+    "ru": "Цена выше или ниже средней",
+    "ar": "السعر أعلى أو أقل من المتوسط",
+    "ko": "평균보다 높거나 낮은 가격"
+  },
+  "titleFormatted": {
+    "en": "The price !{{is|isn't}} [[percent]]% [[direction]] the average of [[period]]",
+    "nl": "De prijs !{{is|is niet}} [[percent]]% [[direction]] het gemiddelde van [[period]]",
+    "de": "Der Preis !{{liegt|liegt nicht}} [[percent]]% [[direction]] dem Durchschnitt von [[period]]",
+    "fr": "Le prix !{{est|n'est pas}} à [[percent]] % [[direction]] la moyenne de [[period]]",
+    "it": "Il prezzo !{{è|non è}} [[percent]]% [[direction]] la media di [[period]]",
+    "sv": "Priset !{{är|är inte}} [[percent]] % [[direction]] genomsnittet för [[period]]",
+    "no": "Prisen !{{er|er ikke}} [[percent]] % [[direction]] gjennomsnittet for [[period]]",
+    "es": "El precio !{{está|no está}} [[percent]] % [[direction]] la media de [[period]]",
+    "da": "Prisen !{{er|er ikke}} [[percent]] % [[direction]] gennemsnittet for [[period]]",
+    "pl": "Cena !{{jest|nie jest}} o [[percent]]% [[direction]] średniej z [[period]]",
+    "ru": "Цена !{{находится|не находится}} на [[percent]]% [[direction]] среднего за [[period]]",
+    "ar": "السعر !{{يكون|لا يكون}} [[direction]] متوسط [[period]] بنسبة [[percent]]%",
+    "ko": "가격이 [[period]] 평균보다 [[percent]]% [[direction]] !{{상태임|상태가 아님}}"
+  },
+  "highlight": true,
+  "args": [
+    {
+      "type": "device",
+      "name": "device",
+      "filter": "driver_id=price"
+    },
+    {
+      "type": "number",
+      "name": "percent",
+      "title": {
+        "en": "Percent",
+        "nl": "Procent",
+        "de": "Prozent",
+        "fr": "Pourcentage",
+        "it": "Percentuale",
+        "sv": "Procent",
+        "no": "Prosent",
+        "es": "Porcentaje",
+        "da": "Procent",
+        "pl": "Procent",
+        "ru": "Процент",
+        "ar": "النسبة",
+        "ko": "퍼센트"
+      },
+      "placeholder": {
+        "en": "10",
+        "nl": "10",
+        "de": "10",
+        "fr": "10",
+        "it": "10",
+        "sv": "10",
+        "no": "10",
+        "es": "10",
+        "da": "10",
+        "pl": "10",
+        "ru": "10",
+        "ar": "10",
+        "ko": "10"
+      },
+      "min": 0,
+      "step": 1
+    },
+    {
+      "type": "dropdown",
+      "name": "direction",
+      "title": {
+        "en": "Above or below",
+        "nl": "Boven of onder",
+        "de": "Über oder unter",
+        "fr": "Au-dessus ou en dessous",
+        "it": "Sopra o sotto",
+        "sv": "Över eller under",
+        "no": "Over eller under",
+        "es": "Por encima o por debajo",
+        "da": "Over eller under",
+        "pl": "Wyżej lub niżej",
+        "ru": "Выше или ниже",
+        "ar": "أعلى أو أقل",
+        "ko": "높음 또는 낮음"
+      },
+      "values": [
+        {
+          "id": "above",
+          "label": {
+            "en": "above",
+            "nl": "boven",
+            "de": "über",
+            "fr": "au-dessus de",
+            "it": "sopra",
+            "sv": "över",
+            "no": "over",
+            "es": "por encima de",
+            "da": "over",
+            "pl": "wyższa od",
+            "ru": "выше",
+            "ar": "أعلى من",
+            "ko": "높은"
+          }
+        },
+        {
+          "id": "below",
+          "label": {
+            "en": "below",
+            "nl": "onder",
+            "de": "unter",
+            "fr": "en dessous de",
+            "it": "sotto",
+            "sv": "under",
+            "no": "under",
+            "es": "por debajo de",
+            "da": "under",
+            "pl": "niższa od",
+            "ru": "ниже",
+            "ar": "أقل من",
+            "ko": "낮은"
+          }
+        }
+      ]
+    },
+    {
+      "type": "dropdown",
+      "name": "period",
+      "title": {
+        "en": "Period",
+        "nl": "Periode",
+        "de": "Zeitraum",
+        "fr": "Période",
+        "it": "Periodo",
+        "sv": "Period",
+        "no": "Periode",
+        "es": "Periodo",
+        "da": "Periode",
+        "pl": "Okres",
+        "ru": "Период",
+        "ar": "الفترة",
+        "ko": "기간"
+      },
+      "values": [
+        {
+          "id": "this_day_avg",
+          "label": {
+            "en": "today",
+            "nl": "vandaag",
+            "de": "heute",
+            "fr": "aujourd'hui",
+            "it": "oggi",
+            "sv": "i dag",
+            "no": "i dag",
+            "es": "hoy",
+            "da": "i dag",
+            "pl": "dziś",
+            "ru": "сегодня",
+            "ar": "اليوم",
+            "ko": "오늘"
+          }
+        },
+        {
+          "id": "next_8h_avg",
+          "label": {
+            "en": "the next 8 hours",
+            "nl": "de komende 8 uur",
+            "de": "den nächsten 8 Stunden",
+            "fr": "les 8 prochaines heures",
+            "it": "le prossime 8 ore",
+            "sv": "de kommande 8 timmarna",
+            "no": "de neste 8 timene",
+            "es": "las próximas 8 horas",
+            "da": "de næste 8 timer",
+            "pl": "najbliższych 8 godzin",
+            "ru": "ближайшие 8 часов",
+            "ar": "الساعات الثماني القادمة",
+            "ko": "다음 8시간"
+          }
+        },
+        {
+          "id": "this_month_avg",
+          "label": {
+            "en": "this month",
+            "nl": "deze maand",
+            "de": "diesem Monat",
+            "fr": "ce mois-ci",
+            "it": "questo mese",
+            "sv": "denna månad",
+            "no": "denne måneden",
+            "es": "este mes",
+            "da": "denne måned",
+            "pl": "tego miesiąca",
+            "ru": "этот месяц",
+            "ar": "هذا الشهر",
+            "ko": "이번 달"
+          }
+        }
+      ]
+    }
+  ]
+}

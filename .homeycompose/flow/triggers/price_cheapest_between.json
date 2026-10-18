@@ -1,0 +1,328 @@
+{
+  "title": {
+    "en": "Price among the cheapest or most expensive, between times",
+    "nl": "Prijs bij de goedkoopste of duurste, tussen tijden",
+    "de": "Preis unter den günstigsten oder teuersten, zwischen Zeiten",
+    "fr": "Prix parmi les moins chers ou les plus chers, entre deux heures",
+    "it": "Prezzo tra i più economici o più cari, tra due orari",
+    "sv": "Pris bland de billigaste eller dyraste, mellan tider",
+    "no": "Pris blant de billigste eller dyreste, mellom tidspunkter",
+    "es": "Precio entre los más baratos o más caros, entre horas",
+    "da": "Pris blandt de billigste eller dyreste, mellem tidspunkter",
+    "pl": "Cena wśród najtańszych lub najdroższych, między godzinami",
+    "ru": "Цена среди самых дешёвых или дорогих, между временами",
+    "ar": "السعر ضمن الأرخص أو الأغلى، بين وقتين",
+    "ko": "가장 저렴하거나 비싼 가격, 시간 사이"
+  },
+  "titleFormatted": {
+    "en": "The price becomes one of the [[type]] [[number]] [[unit]] between [[time1]] and [[time2]]",
+    "nl": "De prijs wordt een van de [[type]] [[number]] [[unit]] tussen [[time1]] en [[time2]]",
+    "de": "Der Preis wird einer der [[type]] [[number]] [[unit]] zwischen [[time1]] und [[time2]]",
+    "fr": "Le prix devient l'un des [[number]] [[unit]] les [[type]] entre [[time1]] et [[time2]]",
+    "it": "Il prezzo diventa uno dei [[number]] [[unit]] [[type]] tra le [[time1]] e le [[time2]]",
+    "sv": "Priset blir ett av de [[type]] [[number]] [[unit]] mellan [[time1]] och [[time2]]",
+    "no": "Prisen blir en av de [[type]] [[number]] [[unit]] mellom [[time1]] og [[time2]]",
+    "es": "El precio pasa a ser uno de los [[number]] [[unit]] [[type]] entre las [[time1]] y las [[time2]]",
+    "da": "Prisen bliver en af de [[type]] [[number]] [[unit]] mellem [[time1]] og [[time2]]",
+    "pl": "Cena staje się jedną z [[number]] [[type]] [[unit]] między [[time1]] a [[time2]]",
+    "ru": "Цена становится одной из [[number]] [[type]] [[unit]] между [[time1]] и [[time2]]",
+    "ar": "يصبح السعر ضمن [[number]] [[unit]] [[type]] بين [[time1]] و[[time2]]",
+    "ko": "[[time1]]~[[time2]] 사이 [[type]] [[number]]개 [[unit]]에 가격이 포함됨"
+  },
+  "highlight": true,
+  "args": [
+    {
+      "type": "device",
+      "name": "device",
+      "filter": "driver_id=price&capabilities=meter_rank_price_h0_this_day"
+    },
+    {
+      "type": "dropdown",
+      "name": "type",
+      "title": {
+        "en": "Type",
+        "nl": "Soort",
+        "de": "Art",
+        "fr": "Type",
+        "it": "Tipo",
+        "sv": "Typ",
+        "no": "Type",
+        "es": "Tipo",
+        "da": "Type",
+        "pl": "Rodzaj",
+        "ru": "Тип",
+        "ar": "النوع",
+        "ko": "유형"
+      },
+      "values": [
+        {
+          "id": "lowest",
+          "label": {
+            "en": "cheapest",
+            "nl": "goedkoopste",
+            "de": "günstigsten",
+            "fr": "moins chers",
+            "it": "più economici",
+            "sv": "billigaste",
+            "no": "billigste",
+            "es": "más baratos",
+            "da": "billigste",
+            "pl": "najtańszych",
+            "ru": "самых дешёвых",
+            "ar": "الأرخص",
+            "ko": "가장 저렴한"
+          }
+        },
+        {
+          "id": "highest",
+          "label": {
+            "en": "most expensive",
+            "nl": "duurste",
+            "de": "teuersten",
+            "fr": "plus chers",
+            "it": "più cari",
+            "sv": "dyraste",
+            "no": "dyreste",
+            "es": "más caros",
+            "da": "dyreste",
+            "pl": "najdroższych",
+            "ru": "самых дорогих",
+            "ar": "الأغلى",
+            "ko": "가장 비싼"
+          }
+        }
+      ]
+    },
+    {
+      "type": "number",
+      "name": "number",
+      "title": {
+        "en": "Number",
+        "nl": "Aantal",
+        "de": "Anzahl",
+        "fr": "Nombre",
+        "it": "Numero",
+        "sv": "Antal",
+        "no": "Antall",
+        "es": "Número",
+        "da": "Antal",
+        "pl": "Liczba",
+        "ru": "Количество",
+        "ar": "العدد",
+        "ko": "개수"
+      },
+      "placeholder": {
+        "en": "3",
+        "nl": "3",
+        "de": "3",
+        "fr": "3",
+        "it": "3",
+        "sv": "3",
+        "no": "3",
+        "es": "3",
+        "da": "3",
+        "pl": "3",
+        "ru": "3",
+        "ar": "3",
+        "ko": "3"
+      },
+      "min": 0,
+      "step": 0.25
+    },
+    {
+      "type": "dropdown",
+      "name": "unit",
+      "title": {
+        "en": "Unit",
+        "nl": "Eenheid",
+        "de": "Einheit",
+        "fr": "Unité",
+        "it": "Unità",
+        "sv": "Enhet",
+        "no": "Enhet",
+        "es": "Unidad",
+        "da": "Enhed",
+        "pl": "Jednostka",
+        "ru": "Единица",
+        "ar": "الوحدة",
+        "ko": "단위"
+      },
+      "values": [
+        {
+          "id": "quarters",
+          "label": {
+            "en": "quarters",
+            "nl": "kwartieren",
+            "de": "Viertelstunden",
+            "fr": "quarts d'heure",
+            "it": "quarti d'ora",
+            "sv": "kvartar",
+            "no": "kvarter",
+            "es": "cuartos de hora",
+            "da": "kvarterer",
+            "pl": "kwadransów",
+            "ru": "четвертей часа",
+            "ar": "أرباع ساعة",
+            "ko": "15분 구간"
+          }
+        },
+        {
+          "id": "half_hours",
+          "label": {
+            "en": "half hours",
+            "nl": "halve uren",
+            "de": "halben Stunden",
+            "fr": "demi-heures",
+            "it": "mezz'ore",
+            "sv": "halvtimmar",
+            "no": "halvtimer",
+            "es": "medias horas",
+            "da": "halve timer",
+            "pl": "półgodzin",
+            "ru": "получасов",
+            "ar": "أنصاف ساعات",
+            "ko": "30분 구간"
+          }
+        },
+        {
+          "id": "hours",
+          "label": {
+            "en": "hours",
+            "nl": "uren",
+            "de": "Stunden",
+            "fr": "heures",
+            "it": "ore",
+            "sv": "timmar",
+            "no": "timer",
+            "es": "horas",
+            "da": "timer",
+            "pl": "godzin",
+            "ru": "часов",
+            "ar": "ساعات",
+            "ko": "시간"
+          }
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "name": "time1",
+      "title": {
+        "en": "From",
+        "nl": "Van",
+        "de": "Von",
+        "fr": "De",
+        "it": "Da",
+        "sv": "Från",
+        "no": "Fra",
+        "es": "Desde",
+        "da": "Fra",
+        "pl": "Od",
+        "ru": "С",
+        "ar": "من",
+        "ko": "시작"
+      },
+      "placeholder": {
+        "en": "00:00",
+        "nl": "00:00",
+        "de": "00:00",
+        "fr": "00:00",
+        "it": "00:00",
+        "sv": "00:00",
+        "no": "00:00",
+        "es": "00:00",
+        "da": "00:00",
+        "pl": "00:00",
+        "ru": "00:00",
+        "ar": "00:00",
+        "ko": "00:00"
+      },
+      "hint": {
+        "en": "Time (07:30) or decimal hours (7.5). Same times: 24 hours.",
+        "nl": "Tijd (07:30) of decimale uren (7,5). Gelijke tijden: 24 uur.",
+        "de": "Uhrzeit (07:30) oder Dezimalstunden (7,5). Gleiche Zeiten: 24 Stunden.",
+        "fr": "Heure (07:30) ou heures décimales (7,5). Heures identiques : 24 heures.",
+        "it": "Ora (07:30) o ore decimali (7,5). Orari uguali: 24 ore.",
+        "sv": "Tid (07:30) eller decimaltimmar (7,5). Samma tider: 24 timmar.",
+        "no": "Tid (07:30) eller desimaltimer (7,5). Like tider: 24 timer.",
+        "es": "Hora (07:30) u horas decimales (7,5). Horas iguales: 24 horas.",
+        "da": "Tid (07:30) eller decimaltimer (7,5). Ens tider: 24 timer.",
+        "pl": "Godzina (07:30) lub godziny dziesiętne (7,5). Te same godziny: 24 godziny.",
+        "ru": "Время (07:30) или десятичные часы (7,5). Одинаковое время: 24 часа.",
+        "ar": "الوقت (07:30) أو ساعات عشرية (7.5). وقتان متساويان: 24 ساعة.",
+        "ko": "시각(07:30) 또는 소수 시간(7.5). 같은 시각: 24시간."
+      }
+    },
+    {
+      "type": "text",
+      "name": "time2",
+      "title": {
+        "en": "Until",
+        "nl": "Tot",
+        "de": "Bis",
+        "fr": "À",
+        "it": "A",
+        "sv": "Till",
+        "no": "Til",
+        "es": "Hasta",
+        "da": "Til",
+        "pl": "Do",
+        "ru": "До",
+        "ar": "إلى",
+        "ko": "종료"
+      },
+      "placeholder": {
+        "en": "07:00",
+        "nl": "07:00",
+        "de": "07:00",
+        "fr": "07:00",
+        "it": "07:00",
+        "sv": "07:00",
+        "no": "07:00",
+        "es": "07:00",
+        "da": "07:00",
+        "pl": "07:00",
+        "ru": "07:00",
+        "ar": "07:00",
+        "ko": "07:00"
+      },
+      "hint": {
+        "en": "Time (07:30) or decimal hours (7.5). Same times: 24 hours.",
+        "nl": "Tijd (07:30) of decimale uren (7,5). Gelijke tijden: 24 uur.",
+        "de": "Uhrzeit (07:30) oder Dezimalstunden (7,5). Gleiche Zeiten: 24 Stunden.",
+        "fr": "Heure (07:30) ou heures décimales (7,5). Heures identiques : 24 heures.",
+        "it": "Ora (07:30) o ore decimali (7,5). Orari uguali: 24 ore.",
+        "sv": "Tid (07:30) eller decimaltimmar (7,5). Samma tider: 24 timmar.",
+        "no": "Tid (07:30) eller desimaltimer (7,5). Like tider: 24 timer.",
+        "es": "Hora (07:30) u horas decimales (7,5). Horas iguales: 24 horas.",
+        "da": "Tid (07:30) eller decimaltimer (7,5). Ens tider: 24 timer.",
+        "pl": "Godzina (07:30) lub godziny dziesiętne (7,5). Te same godziny: 24 godziny.",
+        "ru": "Время (07:30) или десятичные часы (7,5). Одинаковое время: 24 часа.",
+        "ar": "الوقت (07:30) أو ساعات عشرية (7.5). وقتان متساويان: 24 ساعة.",
+        "ko": "시각(07:30) 또는 소수 시간(7.5). 같은 시각: 24시간."
+      }
+    }
+  ],
+  "tokens": [
+    {
+      "name": "price",
+      "type": "number",
+      "example": 0.25,
+      "title": {
+        "en": "Price",
+        "nl": "Prijs",
+        "de": "Preis",
+        "fr": "Prix",
+        "it": "Prezzo",
+        "sv": "Pris",
+        "no": "Pris",
+        "es": "Precio",
+        "da": "Pris",
+        "pl": "Cena",
+        "ru": "Цена",
+        "ar": "السعر",
+        "ko": "가격"
+      }
+    }
+  ]
+}

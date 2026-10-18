@@ -34,6 +34,7 @@ const Homey = require('homey');
 const { HomeyAPI } = require('homey-api');
 const Flows = require('./lib/flows/Flows');
 const TimeHelpers = require('./lib/helpers/TimeHelpers');
+const PriceDrivers = require('./lib/helpers/PriceDrivers');
 
 class MyApp extends Homey.App {
 
@@ -184,16 +185,15 @@ class MyApp extends Homey.App {
   /**
    * Build the normalized DAP prices payload for the inter-app API.
    * Includes all future slots (from the current period onwards) for every
-   * configured dap, dap15 and dapg device that has valid prices.
+   * configured price device (PriceDrivers.DRIVER_IDS) that has valid prices.
    *
    * @returns {object} payload  { generatedAt, prices: [...] }
    */
   getDapPricesPayload() {
-    const DAP_DRIVER_IDS = ['dap', 'dap15', 'dapg'];
     const priceEntries = [];
     const now = new Date();
 
-    DAP_DRIVER_IDS.forEach((driverId) => {
+    PriceDrivers.DRIVER_IDS.forEach((driverId) => {
       let driver;
       try {
         driver = this.homey.drivers.getDriver(driverId);
@@ -228,6 +228,8 @@ class MyApp extends Homey.App {
           deviceId: device.getData().id,
           deviceName: device.getName(),
           driverType: driverId,
+          commodity: PriceDrivers.isGas(driverId, settings) ? 'gas' : 'power',
+          tariffType: settings.tariffType === 'fixed' ? 'fixed' : 'dynamic',
           biddingZone: settings.biddingZone || '',
           currency: settings.currency || '€',
           priceInterval,

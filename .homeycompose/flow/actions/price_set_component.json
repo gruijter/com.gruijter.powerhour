@@ -1,0 +1,292 @@
+{
+  "title": {
+    "en": "Set a price component",
+    "nl": "Zet een prijsonderdeel",
+    "de": "Preisbestandteil setzen",
+    "fr": "Régler un élément du prix",
+    "it": "Imposta un componente del prezzo",
+    "sv": "Sätt en priskomponent",
+    "no": "Sett en priskomponent",
+    "es": "Establecer un componente del precio",
+    "da": "Sæt en priskomponent",
+    "pl": "Ustaw składnik ceny",
+    "ru": "Установить компонент цены",
+    "ar": "اضبط مكوّن السعر",
+    "ko": "가격 구성 요소 설정"
+  },
+  "titleFormatted": {
+    "en": "Set [[component]] to [[value]]",
+    "nl": "Zet [[component]] op [[value]]",
+    "de": "Setze [[component]] auf [[value]]",
+    "fr": "Régler [[component]] sur [[value]]",
+    "it": "Imposta [[component]] a [[value]]",
+    "sv": "Sätt [[component]] till [[value]]",
+    "no": "Sett [[component]] til [[value]]",
+    "es": "Establecer [[component]] en [[value]]",
+    "da": "Sæt [[component]] til [[value]]",
+    "pl": "Ustaw [[component]] na [[value]]",
+    "ru": "Установить [[component]] на [[value]]",
+    "ar": "اضبط [[component]] على [[value]]",
+    "ko": "[[component]]을(를) [[value]](으)로 설정"
+  },
+  "args": [
+    {
+      "type": "device",
+      "name": "device",
+      "filter": "driver_id=price"
+    },
+    {
+      "type": "dropdown",
+      "name": "component",
+      "title": {
+        "en": "Component",
+        "nl": "Onderdeel",
+        "de": "Bestandteil",
+        "fr": "Élément",
+        "it": "Componente",
+        "sv": "Komponent",
+        "no": "Komponent",
+        "es": "Componente",
+        "da": "Komponent",
+        "pl": "Składnik",
+        "ru": "Компонент",
+        "ar": "المكوّن",
+        "ko": "구성 요소"
+      },
+      "values": [
+        {
+          "id": "fixedMarkup",
+          "label": {
+            "en": "Import: Supplier markup",
+            "nl": "Import: Opslag leverancier",
+            "de": "Import: Lieferantenaufschlag",
+            "fr": "Import: Marge du fournisseur",
+            "it": "Importazione: Ricarico fornitore",
+            "sv": "Import: Leverantörspåslag",
+            "no": "Import: Leverandørpåslag",
+            "es": "Importación: Margen del proveedor",
+            "da": "Import: Leverandørtillæg",
+            "pl": "Import: Marża dostawcy",
+            "ru": "Импорт: Наценка поставщика",
+            "ar": "الاستيراد: هامش المورّد",
+            "ko": "수입: 공급사 마크업"
+          }
+        },
+        {
+          "id": "tax",
+          "label": {
+            "en": "Import: Fixed taxes and levies",
+            "nl": "Import: Vaste belastingen en heffingen",
+            "de": "Import: Feste Steuern und Abgaben",
+            "fr": "Import: Taxes et prélèvements fixes",
+            "it": "Importazione: Tasse e oneri fissi",
+            "sv": "Import: Fasta skatter och avgifter",
+            "no": "Import: Faste skatter og avgifter",
+            "es": "Importación: Impuestos y cargos fijos",
+            "da": "Import: Faste skatter og afgifter",
+            "pl": "Import: Stałe podatki i opłaty",
+            "ru": "Импорт: Фиксированные налоги и сборы",
+            "ar": "الاستيراد: الضرائب والرسوم الثابتة",
+            "ko": "수입: 고정 세금 및 부담금"
+          }
+        },
+        {
+          "id": "variableMarkup",
+          "label": {
+            "en": "Import: Variable markup (%)",
+            "nl": "Import: Variabele opslag (%)",
+            "de": "Import: Variabler Aufschlag (%)",
+            "fr": "Import: Majoration variable (%)",
+            "it": "Importazione: Sovrapprezzo variabile (%)",
+            "sv": "Import: Variabelt påslag (%)",
+            "no": "Import: Variabelt påslag (%)",
+            "es": "Importación: Margen variable (%)",
+            "da": "Import: Variabelt tillæg (%)",
+            "pl": "Import: Narzut zmienny (%)",
+            "ru": "Импорт: Переменная наценка (%)",
+            "ar": "الاستيراد: هامش ربح متغير (%)",
+            "ko": "수입: 변동 마크업 (%)"
+          }
+        },
+        {
+          "id": "vat",
+          "label": {
+            "en": "Import: VAT (%)",
+            "nl": "Import: BTW (%)",
+            "de": "Import: MwSt. (%)",
+            "fr": "Import: TVA (%)",
+            "it": "Importazione: IVA (%)",
+            "sv": "Import: Moms (%)",
+            "no": "Import: MVA (%)",
+            "es": "Importación: IVA (%)",
+            "da": "Import: Moms (%)",
+            "pl": "Import: VAT (%)",
+            "ru": "Импорт: НДС (%)",
+            "ar": "الاستيراد: ضريبة القيمة المضافة (%)",
+            "ko": "수입: 부가세 (%)"
+          }
+        },
+        {
+          "id": "fixedMarkupWeekend",
+          "label": {
+            "en": "Weekend markup",
+            "nl": "Weekendopslag",
+            "de": "Wochenendaufschlag",
+            "fr": "Majoration week-end",
+            "it": "Ricarico weekend",
+            "sv": "Helgpåslag",
+            "no": "Helgepåslag",
+            "es": "Recargo de fin de semana",
+            "da": "Weekendtillæg",
+            "pl": "Narzut weekendowy",
+            "ru": "Надбавка выходного дня",
+            "ar": "إضافة نهاية الأسبوع",
+            "ko": "주말 마크업"
+          }
+        },
+        {
+          "id": "export_fixedMarkup",
+          "label": {
+            "en": "Export: Supplier markup",
+            "nl": "Export: Opslag leverancier",
+            "de": "Export: Lieferantenaufschlag",
+            "fr": "Export: Marge du fournisseur",
+            "it": "Esportazione: Ricarico fornitore",
+            "sv": "Export: Leverantörspåslag",
+            "no": "Eksport: Leverandørpåslag",
+            "es": "Exportación: Margen del proveedor",
+            "da": "Eksport: Leverandørtillæg",
+            "pl": "Eksport: Marża dostawcy",
+            "ru": "Экспорт: Наценка поставщика",
+            "ar": "التصدير: هامش المورّد",
+            "ko": "수출: 공급사 마크업"
+          }
+        },
+        {
+          "id": "export_tax",
+          "label": {
+            "en": "Export: Fixed taxes and levies",
+            "nl": "Export: Vaste belastingen en heffingen",
+            "de": "Export: Feste Steuern und Abgaben",
+            "fr": "Export: Taxes et prélèvements fixes",
+            "it": "Esportazione: Tasse e oneri fissi",
+            "sv": "Export: Fasta skatter och avgifter",
+            "no": "Eksport: Faste skatter og avgifter",
+            "es": "Exportación: Impuestos y cargos fijos",
+            "da": "Eksport: Faste skatter og afgifter",
+            "pl": "Eksport: Stałe podatki i opłaty",
+            "ru": "Экспорт: Фиксированные налоги и сборы",
+            "ar": "التصدير: الضرائب والرسوم الثابتة",
+            "ko": "수출: 고정 세금 및 부담금"
+          }
+        },
+        {
+          "id": "export_variableMarkup",
+          "label": {
+            "en": "Export: Variable markup (%)",
+            "nl": "Export: Variabele opslag (%)",
+            "de": "Export: Variabler Aufschlag (%)",
+            "fr": "Export: Majoration variable (%)",
+            "it": "Esportazione: Sovrapprezzo variabile (%)",
+            "sv": "Export: Variabelt påslag (%)",
+            "no": "Eksport: Variabelt påslag (%)",
+            "es": "Exportación: Margen variable (%)",
+            "da": "Eksport: Variabelt tillæg (%)",
+            "pl": "Eksport: Narzut zmienny (%)",
+            "ru": "Экспорт: Переменная наценка (%)",
+            "ar": "التصدير: هامش ربح متغير (%)",
+            "ko": "수출: 변동 마크업 (%)"
+          }
+        },
+        {
+          "id": "export_vat",
+          "label": {
+            "en": "Export: VAT (%)",
+            "nl": "Export: BTW (%)",
+            "de": "Export: MwSt. (%)",
+            "fr": "Export: TVA (%)",
+            "it": "Esportazione: IVA (%)",
+            "sv": "Export: Moms (%)",
+            "no": "Eksport: MVA (%)",
+            "es": "Exportación: IVA (%)",
+            "da": "Eksport: Moms (%)",
+            "pl": "Eksport: VAT (%)",
+            "ru": "Экспорт: НДС (%)",
+            "ar": "التصدير: ضريبة القيمة المضافة (%)",
+            "ko": "수출: 부가세 (%)"
+          }
+        },
+        {
+          "id": "export_fixedMarkupWeekend",
+          "label": {
+            "en": "Weekend markup",
+            "nl": "Weekendopslag",
+            "de": "Wochenendaufschlag",
+            "fr": "Majoration week-end",
+            "it": "Ricarico weekend",
+            "sv": "Helgpåslag",
+            "no": "Helgepåslag",
+            "es": "Recargo de fin de semana",
+            "da": "Weekendtillæg",
+            "pl": "Narzut weekendowy",
+            "ru": "Надбавка выходного дня",
+            "ar": "إضافة نهاية الأسبوع",
+            "ko": "주말 마크업"
+          }
+        },
+        {
+          "id": "exchangeRate",
+          "label": {
+            "en": "Exchange rate with €",
+            "nl": "Wisselkoers met €",
+            "de": "Wechselkurs mit €",
+            "fr": "Taux de change avec €",
+            "it": "Tasso di cambio con €",
+            "sv": "Växelkurs med €",
+            "no": "Vekslingskurs mot €",
+            "es": "Tipo de cambio con €",
+            "da": "Vekselkurs med €",
+            "pl": "Kurs wymiany z €",
+            "ru": "Обменный курс с €",
+            "ar": "سعر الصرف مع €",
+            "ko": "€ 대비 환율"
+          }
+        }
+      ]
+    },
+    {
+      "type": "number",
+      "name": "value",
+      "title": {
+        "en": "Value",
+        "nl": "Waarde",
+        "de": "Wert",
+        "fr": "Valeur",
+        "it": "Valore",
+        "sv": "Värde",
+        "no": "Verdi",
+        "es": "Valor",
+        "da": "Værdi",
+        "pl": "Wartość",
+        "ru": "Значение",
+        "ar": "القيمة",
+        "ko": "값"
+      },
+      "placeholder": {
+        "en": "0.02",
+        "nl": "0.02",
+        "de": "0.02",
+        "fr": "0.02",
+        "it": "0.02",
+        "sv": "0.02",
+        "no": "0.02",
+        "es": "0.02",
+        "da": "0.02",
+        "pl": "0.02",
+        "ru": "0.02",
+        "ar": "0.02",
+        "ko": "0.02"
+      }
+    }
+  ]
+}

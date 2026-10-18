@@ -1,0 +1,373 @@
+{
+  "title": {
+    "en": "Find the cheapest or most expensive block",
+    "nl": "Zoek het goedkoopste of duurste blok",
+    "de": "Günstigsten oder teuersten Block finden",
+    "fr": "Trouver le bloc le moins cher ou le plus cher",
+    "it": "Trova il blocco più economico o più caro",
+    "sv": "Hitta billigaste eller dyraste blocket",
+    "no": "Finn billigste eller dyreste blokk",
+    "es": "Buscar el bloque más barato o más caro",
+    "da": "Find billigste eller dyreste blok",
+    "pl": "Znajdź najtańszy lub najdroższy blok",
+    "ru": "Найти самый дешёвый или дорогой блок",
+    "ar": "ابحث عن الفترة الأرخص أو الأغلى",
+    "ko": "가장 저렴하거나 비싼 구간 찾기"
+  },
+  "titleFormatted": {
+    "en": "Find the [[type]] block of [[duration]] [[duration_unit]] in the next [[hours]] hours, before [[time]]",
+    "nl": "Zoek het [[type]] blok van [[duration]] [[duration_unit]] in de komende [[hours]] uur, vóór [[time]]",
+    "de": "Finde den [[type]] Block von [[duration]] [[duration_unit]] in den nächsten [[hours]] Stunden, vor [[time]]",
+    "fr": "Trouver le bloc le [[type]] de [[duration]] [[duration_unit]] des [[hours]] prochaines heures, avant [[time]]",
+    "it": "Trova il blocco [[type]] di [[duration]] [[duration_unit]] nelle prossime [[hours]] ore, prima delle [[time]]",
+    "sv": "Hitta det [[type]] blocket på [[duration]] [[duration_unit]] de kommande [[hours]] timmarna, före [[time]]",
+    "no": "Finn den [[type]] blokken på [[duration]] [[duration_unit]] de neste [[hours]] timene, før [[time]]",
+    "es": "Buscar el bloque [[type]] de [[duration]] [[duration_unit]] en las próximas [[hours]] horas, antes de las [[time]]",
+    "da": "Find den [[type]] blok på [[duration]] [[duration_unit]] i de næste [[hours]] timer, før [[time]]",
+    "pl": "Znajdź [[type]] blok [[duration]] [[duration_unit]] w ciągu najbliższych [[hours]] godzin, przed [[time]]",
+    "ru": "Найти [[type]] блок из [[duration]] [[duration_unit]] в ближайшие [[hours]] ч, до [[time]]",
+    "ar": "ابحث عن الفترة [[type]] لمدة [[duration]] [[duration_unit]] في الساعات [[hours]] القادمة، قبل [[time]]",
+    "ko": "다음 [[hours]]시간 중 [[time]] 이전의 [[type]] [[duration]][[duration_unit]] 구간 찾기"
+  },
+  "args": [
+    {
+      "type": "device",
+      "name": "device",
+      "filter": "driver_id=price"
+    },
+    {
+      "type": "dropdown",
+      "name": "type",
+      "title": {
+        "en": "Type",
+        "nl": "Soort",
+        "de": "Art",
+        "fr": "Type",
+        "it": "Tipo",
+        "sv": "Typ",
+        "no": "Type",
+        "es": "Tipo",
+        "da": "Type",
+        "pl": "Rodzaj",
+        "ru": "Тип",
+        "ar": "النوع",
+        "ko": "유형"
+      },
+      "values": [
+        {
+          "id": "lowest",
+          "label": {
+            "en": "cheapest",
+            "nl": "goedkoopste",
+            "de": "günstigsten",
+            "fr": "moins cher",
+            "it": "più economico",
+            "sv": "billigaste",
+            "no": "billigste",
+            "es": "más barato",
+            "da": "billigste",
+            "pl": "najtańszy",
+            "ru": "самый дешёвый",
+            "ar": "الأرخص",
+            "ko": "가장 저렴한"
+          }
+        },
+        {
+          "id": "highest",
+          "label": {
+            "en": "most expensive",
+            "nl": "duurste",
+            "de": "teuersten",
+            "fr": "plus cher",
+            "it": "più caro",
+            "sv": "dyraste",
+            "no": "dyreste",
+            "es": "más caro",
+            "da": "dyreste",
+            "pl": "najdroższy",
+            "ru": "самый дорогой",
+            "ar": "الأغلى",
+            "ko": "가장 비싼"
+          }
+        }
+      ]
+    },
+    {
+      "type": "number",
+      "name": "duration",
+      "title": {
+        "en": "Duration",
+        "nl": "Duur",
+        "de": "Dauer",
+        "fr": "Durée",
+        "it": "Durata",
+        "sv": "Längd",
+        "no": "Varighet",
+        "es": "Duración",
+        "da": "Varighed",
+        "pl": "Czas trwania",
+        "ru": "Длительность",
+        "ar": "المدة",
+        "ko": "길이"
+      },
+      "placeholder": {
+        "en": "1",
+        "nl": "1",
+        "de": "1",
+        "fr": "1",
+        "it": "1",
+        "sv": "1",
+        "no": "1",
+        "es": "1",
+        "da": "1",
+        "pl": "1",
+        "ru": "1",
+        "ar": "1",
+        "ko": "1"
+      },
+      "min": 0,
+      "step": 0.25
+    },
+    {
+      "type": "dropdown",
+      "name": "duration_unit",
+      "title": {
+        "en": "Unit",
+        "nl": "Eenheid",
+        "de": "Einheit",
+        "fr": "Unité",
+        "it": "Unità",
+        "sv": "Enhet",
+        "no": "Enhet",
+        "es": "Unidad",
+        "da": "Enhed",
+        "pl": "Jednostka",
+        "ru": "Единица",
+        "ar": "الوحدة",
+        "ko": "단위"
+      },
+      "values": [
+        {
+          "id": "hours",
+          "label": {
+            "en": "hours",
+            "nl": "uren",
+            "de": "Stunden",
+            "fr": "heures",
+            "it": "ore",
+            "sv": "timmar",
+            "no": "timer",
+            "es": "horas",
+            "da": "timer",
+            "pl": "godzin",
+            "ru": "часов",
+            "ar": "ساعات",
+            "ko": "시간"
+          }
+        },
+        {
+          "id": "minutes",
+          "label": {
+            "en": "minutes",
+            "nl": "minuten",
+            "de": "Minuten",
+            "fr": "minutes",
+            "it": "minuti",
+            "sv": "minuter",
+            "no": "minutter",
+            "es": "minutos",
+            "da": "minutter",
+            "pl": "minut",
+            "ru": "минут",
+            "ar": "دقائق",
+            "ko": "분"
+          }
+        }
+      ]
+    },
+    {
+      "type": "number",
+      "name": "hours",
+      "title": {
+        "en": "Hours",
+        "nl": "Uren",
+        "de": "Stunden",
+        "fr": "Heures",
+        "it": "Ore",
+        "sv": "Timmar",
+        "no": "Timer",
+        "es": "Horas",
+        "da": "Timer",
+        "pl": "Godziny",
+        "ru": "Часы",
+        "ar": "الساعات",
+        "ko": "시간"
+      },
+      "placeholder": {
+        "en": "24",
+        "nl": "24",
+        "de": "24",
+        "fr": "24",
+        "it": "24",
+        "sv": "24",
+        "no": "24",
+        "es": "24",
+        "da": "24",
+        "pl": "24",
+        "ru": "24",
+        "ar": "24",
+        "ko": "24"
+      },
+      "min": 0,
+      "max": 48,
+      "step": 0.25,
+      "hint": {
+        "en": "0 = all known prices.",
+        "nl": "0 = alle bekende prijzen.",
+        "de": "0 = alle bekannten Preise.",
+        "fr": "0 = tous les prix connus.",
+        "it": "0 = tutti i prezzi noti.",
+        "sv": "0 = alla kända priser.",
+        "no": "0 = alle kjente priser.",
+        "es": "0 = todos los precios conocidos.",
+        "da": "0 = alle kendte priser.",
+        "pl": "0 = wszystkie znane ceny.",
+        "ru": "0 = все известные цены.",
+        "ar": "0 = كل الأسعار المعروفة.",
+        "ko": "0 = 알려진 모든 가격."
+      }
+    },
+    {
+      "type": "text",
+      "name": "time",
+      "title": {
+        "en": "Before",
+        "nl": "Vóór",
+        "de": "Vor",
+        "fr": "Avant",
+        "it": "Prima di",
+        "sv": "Före",
+        "no": "Før",
+        "es": "Antes de",
+        "da": "Før",
+        "pl": "Przed",
+        "ru": "До",
+        "ar": "قبل",
+        "ko": "이전"
+      },
+      "placeholder": {
+        "en": "07:00",
+        "nl": "07:00",
+        "de": "07:00",
+        "fr": "07:00",
+        "it": "07:00",
+        "sv": "07:00",
+        "no": "07:00",
+        "es": "07:00",
+        "da": "07:00",
+        "pl": "07:00",
+        "ru": "07:00",
+        "ar": "07:00",
+        "ko": "07:00"
+      },
+      "hint": {
+        "en": "Optional. Time (07:30) or decimal hours (7.5).",
+        "nl": "Optioneel. Tijd (07:30) of decimale uren (7,5).",
+        "de": "Optional. Uhrzeit (07:30) oder Dezimalstunden (7,5).",
+        "fr": "Facultatif. Heure (07:30) ou heures décimales (7,5).",
+        "it": "Facoltativo. Ora (07:30) o ore decimali (7,5).",
+        "sv": "Valfritt. Tid (07:30) eller decimaltimmar (7,5).",
+        "no": "Valgfritt. Tid (07:30) eller desimaltimer (7,5).",
+        "es": "Opcional. Hora (07:30) u horas decimales (7,5).",
+        "da": "Valgfrit. Tid (07:30) eller decimaltimer (7,5).",
+        "pl": "Opcjonalne. Godzina (07:30) lub godziny dziesiętne (7,5).",
+        "ru": "Необязательно. Время (07:30) или десятичные часы (7,5).",
+        "ar": "اختياري. الوقت (07:30) أو ساعات عشرية (7.5).",
+        "ko": "선택 사항. 시각(07:30) 또는 소수 시간(7.5)."
+      },
+      "required": false
+    }
+  ],
+  "tokens": [
+    {
+      "name": "startTime",
+      "title": {
+        "en": "Start time",
+        "de": "Startzeit",
+        "sv": "Starttid",
+        "it": "Ora di inizio",
+        "no": "Starttid",
+        "nl": "Starttijd",
+        "fr": "Heure de début",
+        "da": "Starttid",
+        "es": "Hora de inicio",
+        "pl": "Czas rozpoczęcia",
+        "ru": "Время начала",
+        "ko": "시작 시간",
+        "ar": "وقت البدء"
+      },
+      "type": "string",
+      "example": "14:00"
+    },
+    {
+      "name": "endTime",
+      "type": "string",
+      "example": "16:00",
+      "title": {
+        "en": "End time",
+        "nl": "Eindtijd",
+        "de": "Endzeit",
+        "fr": "Heure de fin",
+        "it": "Ora di fine",
+        "sv": "Sluttid",
+        "no": "Sluttid",
+        "es": "Hora de fin",
+        "da": "Sluttidspunkt",
+        "pl": "Godzina zakończenia",
+        "ru": "Время окончания",
+        "ar": "وقت الانتهاء",
+        "ko": "종료 시간"
+      }
+    },
+    {
+      "name": "minutesUntil",
+      "title": {
+        "en": "Minutes until start",
+        "de": "Minuten bis Beginn",
+        "sv": "Minuter till start",
+        "it": "Minuti all'inizio",
+        "no": "Minutter til start",
+        "nl": "Minuten tot start",
+        "fr": "Minutes avant le début",
+        "da": "Minutter til start",
+        "es": "Minutos hasta el inicio",
+        "pl": "Minuty do rozpoczęcia",
+        "ru": "Минут до начала",
+        "ko": "시작까지 남은 분",
+        "ar": "الدقائق حتى البدء"
+      },
+      "type": "number",
+      "example": 180
+    },
+    {
+      "name": "avgPrice",
+      "title": {
+        "en": "Average price",
+        "nl": "Gemiddelde prijs",
+        "de": "Durchschnittspreis",
+        "fr": "Prix moyen",
+        "it": "Prezzo medio",
+        "sv": "Medelpris",
+        "no": "Gjennomsnittspris",
+        "es": "Precio medio",
+        "da": "Gennemsnitspris",
+        "pl": "Średnia cena",
+        "ru": "Средняя цена",
+        "ar": "متوسط السعر",
+        "ko": "평균 가격"
+      },
+      "type": "number",
+      "example": 0.21
+    }
+  ]
+}

@@ -1,4 +1,5 @@
 {
+  "deprecated": true,
   "title": {
     "en": "The price !{{is|isn't}} below avg.",
     "de": "Preis !{{ist|ist nicht}} niedriger als der Durchschn.",

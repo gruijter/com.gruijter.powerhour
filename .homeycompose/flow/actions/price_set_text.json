@@ -1,0 +1,167 @@
+{
+  "title": {
+    "en": "Set a price schedule or formula",
+    "nl": "Zet een prijsschema of formule",
+    "de": "Preisplan oder Formel setzen",
+    "fr": "Régler un horaire de prix ou une formule",
+    "it": "Imposta una fascia oraria o formula di prezzo",
+    "sv": "Sätt ett prisschema eller en formel",
+    "no": "Sett en prisplan eller formel",
+    "es": "Establecer un horario o fórmula de precio",
+    "da": "Sæt en prisplan eller formel",
+    "pl": "Ustaw harmonogram lub formułę ceny",
+    "ru": "Установить расписание или формулу цены",
+    "ar": "اضبط جدول السعر أو المعادلة",
+    "ko": "가격 일정 또는 수식 설정"
+  },
+  "titleFormatted": {
+    "en": "Set [[field]] to [[value]]",
+    "nl": "Zet [[field]] op [[value]]",
+    "de": "Setze [[field]] auf [[value]]",
+    "fr": "Régler [[field]] sur [[value]]",
+    "it": "Imposta [[field]] a [[value]]",
+    "sv": "Sätt [[field]] till [[value]]",
+    "no": "Sett [[field]] til [[value]]",
+    "es": "Establecer [[field]] en [[value]]",
+    "da": "Sæt [[field]] til [[value]]",
+    "pl": "Ustaw [[field]] na [[value]]",
+    "ru": "Установить [[field]] на [[value]]",
+    "ar": "اضبط [[field]] على [[value]]",
+    "ko": "[[field]]을(를) [[value]](으)로 설정"
+  },
+  "args": [
+    {
+      "type": "device",
+      "name": "device",
+      "filter": "driver_id=price"
+    },
+    {
+      "type": "dropdown",
+      "name": "field",
+      "title": {
+        "en": "Setting",
+        "nl": "Instelling",
+        "de": "Einstellung",
+        "fr": "Réglage",
+        "it": "Impostazione",
+        "sv": "Inställning",
+        "no": "Innstilling",
+        "es": "Ajuste",
+        "da": "Indstilling",
+        "pl": "Ustawienie",
+        "ru": "Параметр",
+        "ar": "الإعداد",
+        "ko": "설정"
+      },
+      "values": [
+        {
+          "id": "fixedMarkupTOD",
+          "label": {
+            "en": "Time of day markup",
+            "nl": "Tijdopslag",
+            "de": "Tageszeitaufschlag",
+            "fr": "Majoration horaire",
+            "it": "Ricarico orario",
+            "sv": "Tidspåslag",
+            "no": "Tidspåslag",
+            "es": "Recargo horario",
+            "da": "Tidstillæg",
+            "pl": "Narzut czasowy",
+            "ru": "Надбавка по времени",
+            "ar": "إضافة حسب الوقت",
+            "ko": "시간대 마크업"
+          }
+        },
+        {
+          "id": "export_fixedMarkupTOD",
+          "label": {
+            "en": "Time of day markup",
+            "nl": "Tijdopslag",
+            "de": "Tageszeitaufschlag",
+            "fr": "Majoration horaire",
+            "it": "Ricarico orario",
+            "sv": "Tidspåslag",
+            "no": "Tidspåslag",
+            "es": "Recargo horario",
+            "da": "Tidstillæg",
+            "pl": "Narzut czasowy",
+            "ru": "Надбавка по времени",
+            "ar": "إضافة حسب الوقت",
+            "ko": "시간대 마크업"
+          }
+        },
+        {
+          "id": "formula",
+          "label": {
+            "en": "Import: Own formula",
+            "nl": "Import: Eigen formule",
+            "de": "Import: Eigene Formel",
+            "fr": "Import: Formule personnalisée",
+            "it": "Importazione: Formula personalizzata",
+            "sv": "Import: Egen formel",
+            "no": "Import: Egen formel",
+            "es": "Importación: Fórmula propia",
+            "da": "Import: Egen formel",
+            "pl": "Import: Własna formuła",
+            "ru": "Импорт: Своя формула",
+            "ar": "الاستيراد: معادلة مخصّصة",
+            "ko": "수입: 사용자 수식"
+          }
+        },
+        {
+          "id": "export_formula",
+          "label": {
+            "en": "Export: Own formula",
+            "nl": "Export: Eigen formule",
+            "de": "Export: Eigene Formel",
+            "fr": "Export: Formule personnalisée",
+            "it": "Esportazione: Formula personalizzata",
+            "sv": "Export: Egen formel",
+            "no": "Eksport: Egen formel",
+            "es": "Exportación: Fórmula propia",
+            "da": "Eksport: Egen formel",
+            "pl": "Eksport: Własna formuła",
+            "ru": "Экспорт: Своя формула",
+            "ar": "التصدير: معادلة مخصّصة",
+            "ko": "수출: 사용자 수식"
+          }
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "name": "value",
+      "title": {
+        "en": "Value",
+        "nl": "Waarde",
+        "de": "Wert",
+        "fr": "Valeur",
+        "it": "Valore",
+        "sv": "Värde",
+        "no": "Verdi",
+        "es": "Valor",
+        "da": "Værdi",
+        "pl": "Wartość",
+        "ru": "Значение",
+        "ar": "القيمة",
+        "ko": "값"
+      },
+      "placeholder": {
+        "en": "7:0.05;23:0",
+        "nl": "7:0.05;23:0",
+        "de": "7:0.05;23:0",
+        "fr": "7:0.05;23:0",
+        "it": "7:0.05;23:0",
+        "sv": "7:0.05;23:0",
+        "no": "7:0.05;23:0",
+        "es": "7:0.05;23:0",
+        "da": "7:0.05;23:0",
+        "pl": "7:0.05;23:0",
+        "ru": "7:0.05;23:0",
+        "ar": "7:0.05;23:0",
+        "ko": "7:0.05;23:0"
+      },
+      "required": false
+    }
+  ]
+}

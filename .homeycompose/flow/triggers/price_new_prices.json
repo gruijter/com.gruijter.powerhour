@@ -1,0 +1,212 @@
+{
+  "title": {
+    "en": "New prices received",
+    "de": "Neue Preise erhalten",
+    "sv": "Nya priser inkomna",
+    "it": "Nuovi prezzi ricevuti",
+    "no": "Nye priser mottatt",
+    "nl": "Nieuwe prijzen ontvangen",
+    "fr": "Nouveaux prix reçus",
+    "da": "Nye priser modtaget",
+    "es": "Nuevos precios recibidos",
+    "pl": "Otrzymano nowe ceny",
+    "ru": "Получены новые цены",
+    "ko": "새 가격 수신됨",
+    "ar": "تم استلام أسعار جديدة"
+  },
+  "titleFormatted": {
+    "en": "New prices received for [[period]] (include forecast: [[includeForecast]])",
+    "de": "Neue Preise für [[period]] erhalten (Prognose einbeziehen: [[includeForecast]])",
+    "sv": "Nya priser inkomna för [[period]] (inkludera prognos: [[includeForecast]])",
+    "it": "Nuovi prezzi ricevuti per [[period]] (includi previsione: [[includeForecast]])",
+    "no": "Nye priser mottatt for [[period]] (inkluder prognose: [[includeForecast]])",
+    "nl": "Nieuwe prijzen ontvangen voor [[period]] (incl. forecast: [[includeForecast]])",
+    "fr": "Nouveaux prix reçus pour [[period]] (inclure prévision : [[includeForecast]])",
+    "da": "Nye priser modtaget for [[period]] (inkluder prognose: [[includeForecast]])",
+    "es": "Nuevos precios recibidos para [[period]] (incluir previsión: [[includeForecast]])",
+    "pl": "Otrzymano nowe ceny dla [[period]] (uwzględnij prognozę: [[includeForecast]])",
+    "ru": "Получены новые цены для [[period]] (включая прогноз: [[includeForecast]])",
+    "ko": "[[period]]에 대한 새 가격 수신됨 (예측 포함: [[includeForecast]])",
+    "ar": "تم استلام أسعار جديدة لـ [[period]] (تضمين التوقعات: [[includeForecast]])"
+  },
+  "hint": {
+    "en": "When unchecked, the trigger only fires for confirmed market prices, not for forecast price updates.",
+    "de": "Wenn nicht aktiviert, löst der Auslöser nur bei bestätigten Marktpreisen aus, nicht bei Prognosepreis-Updates.",
+    "sv": "Om avmarkerad utlöses triggern endast för bekräftade marknadspriser, inte för prognosprisuppdateringar.",
+    "it": "Se deselezionato, il trigger si attiva solo per prezzi di mercato confermati, non per aggiornamenti dei prezzi di previsione.",
+    "no": "Når avmerkingen fjernes, utløses triggeren kun for bekreftede markedspriser, ikke for prognoseprisoppdateringer.",
+    "nl": "Indien uitgevinkt, wordt de trigger alleen geactiveerd bij bevestigde marktprijzen, niet bij forecast prijs-updates.",
+    "fr": "Si décochée, le déclencheur ne se déclenche que pour les prix de marché confirmés, pas pour les mises à jour des prix prévisionnels.",
+    "da": "Hvis fravalgt, udløses triggeren kun for bekræftede markedspriser, ikke for opdateringer af prognosepriser.",
+    "es": "Si está desmarcada, el disparador solo se activa para precios de mercado confirmados, no para actualizaciones de precios de previsión.",
+    "pl": "Jeśli odznaczone, wyzwalacz uruchamia się tylko dla potwierdzonych cen rynkowych, a nie dla aktualizacji cen prognozy.",
+    "ru": "Если флажок снят, триггер срабатывает только для подтверждённых рыночных цен, а не для обновлений прогнозных цен.",
+    "ko": "선택 해제 시, 확정된 시장 가격에서만 트리거가 작동하며 예측 가격 업데이트에는 작동하지 않습니다.",
+    "ar": "عند إلغاء التحديد، يتم تشغيل المشغّل فقط للأسعار السوقية المؤكدة، وليس لتحديثات أسعار التوقعات."
+  },
+  "highlight": true,
+  "args": [
+    {
+      "type": "device",
+      "name": "device",
+      "filter": "driver_id=price"
+    },
+    {
+      "type": "dropdown",
+      "name": "period",
+      "title": {
+        "en": "period",
+        "de": "Zeitraum",
+        "sv": "period",
+        "it": "periodo",
+        "no": "periode",
+        "nl": "periode",
+        "fr": "période",
+        "da": "periode",
+        "es": "período",
+        "pl": "okres",
+        "ru": "период",
+        "ko": "기간",
+        "ar": "فترة"
+      },
+      "values": [
+        {
+          "id": "this_day",
+          "label": {
+            "en": "this day",
+            "de": "diesen Tag",
+            "sv": "idag",
+            "it": "giornata odierna",
+            "no": "i dag",
+            "nl": "deze dag",
+            "fr": "ce jour",
+            "da": "i dag",
+            "es": "este día",
+            "pl": "ten dzień",
+            "ru": "этот день",
+            "ko": "오늘",
+            "ar": "هذا اليوم"
+          }
+        },
+        {
+          "id": "tomorrow",
+          "label": {
+            "en": "tomorrow",
+            "de": "morgen",
+            "sv": "i morgon",
+            "it": "domani",
+            "no": "i morgen",
+            "nl": "morgen",
+            "fr": "demain",
+            "da": "i morgen",
+            "es": "mañana",
+            "pl": "jutro",
+            "ru": "завтра",
+            "ko": "내일",
+            "ar": "غدًا"
+          }
+        },
+        {
+          "id": "next_hours",
+          "label": {
+            "en": "Next hours",
+            "nl": "Komende uren",
+            "de": "Kommende Stunden",
+            "sv": "Kommande timmar",
+            "it": "Prossime ore",
+            "no": "Neste timer",
+            "fr": "Prochaines heures",
+            "da": "Næste timer",
+            "es": "Próximas horas",
+            "pl": "Następne godziny",
+            "ru": "Следующие часы",
+            "ko": "다음 시간",
+            "ar": "الساعات القادمة"
+          }
+        }
+      ]
+    },
+    {
+      "type": "checkbox",
+      "name": "includeForecast",
+      "title": {
+        "en": "Include forecast prices",
+        "de": "Prognosepreise einbeziehen",
+        "sv": "Inkludera prognospriser",
+        "it": "Includi prezzi di previsione",
+        "no": "Inkluder prognosepriser",
+        "nl": "Inclusief forecast prijzen",
+        "fr": "Inclure les prix prévisionnels",
+        "da": "Inkluder prognosepriser",
+        "es": "Incluir precios de previsión",
+        "pl": "Uwzględnij ceny prognozy",
+        "ru": "Включать прогнозные цены",
+        "ko": "예측 가격 포함",
+        "ar": "تضمين أسعار التوقعات"
+      },
+      "default": true
+    }
+  ],
+  "tokens": [
+    {
+      "name": "prices",
+      "title": {
+        "en": "Prices",
+        "de": "Preise",
+        "sv": "Priser",
+        "it": "Prezzi",
+        "no": "Priser",
+        "nl": "Prijzen",
+        "ar": "الأسعار",
+        "fr": "Prix",
+        "da": "Priser",
+        "es": "Precios",
+        "pl": "Ceny",
+        "ru": "Цены",
+        "ko": "가격"
+      },
+      "type": "string",
+      "example": "[0.27,0.27,0.26,0.26,0.27,0.27,0.27,0.27,0.26,0.25,0.24,0.23,0.20,0.15,0.12,0.11,0.12,0.20,0.28,0.29,0.31,0.29,0.29,0.27]"
+    },
+    {
+      "name": "export_prices",
+      "type": "string",
+      "example": "[0.08,0.07,0.07]",
+      "title": {
+        "en": "Export prices",
+        "nl": "Exportprijzen",
+        "de": "Exportpreise",
+        "fr": "Prix d'export",
+        "it": "Prezzi di esportazione",
+        "sv": "Exportpriser",
+        "no": "Eksportpriser",
+        "es": "Precios de exportación",
+        "da": "Eksportpriser",
+        "pl": "Ceny eksportu",
+        "ru": "Цены экспорта",
+        "ar": "أسعار التصدير",
+        "ko": "수출 가격"
+      }
+    },
+    {
+      "name": "provider",
+      "title": {
+        "en": "Provider",
+        "de": "Anbieter",
+        "sv": "Leverantör",
+        "it": "Fornitore",
+        "no": "Leverandør",
+        "nl": "Aanbieder",
+        "fr": "Fournisseur",
+        "da": "Udbyder",
+        "es": "Proveedor",
+        "pl": "Dostawca",
+        "ru": "Провайдер",
+        "ko": "공급자",
+        "ar": "مزود"
+      },
+      "type": "string",
+      "example": "ENTSOE"
+    }
+  ]
+}

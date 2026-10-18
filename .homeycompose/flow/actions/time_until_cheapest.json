@@ -1,4 +1,5 @@
 {
+  "deprecated": true,
   "title": {
     "en": "Calculate time until cheapest window",
     "de": "Zeit bis zum günstigsten Zeitraum berechnen",

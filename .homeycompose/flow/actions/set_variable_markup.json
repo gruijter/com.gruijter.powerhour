@@ -1,4 +1,5 @@
 {
+  "deprecated": true,
   "title": {
     "en": "Set a new variable markup",
     "de": "Neuen variablen Aufschlag festlegen",

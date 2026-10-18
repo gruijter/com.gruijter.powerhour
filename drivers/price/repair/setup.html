@@ -1,0 +1,491 @@
+<form class="homey-form" onsubmit="return false;">
+	<fieldset class="homey-form-fieldset" data-step="energy">
+		<legend class="homey-form-legend" data-i18n="price_setup.step_energy"></legend>
+		<div class="homey-form-group">
+			<label class="homey-form-label" id="commodityTitle"></label>
+			<fieldset class="homey-form-radio-set" id="commodity"></fieldset>
+		</div>
+		<div class="homey-form-group">
+			<label class="homey-form-label" id="tariffTypeTitle"></label>
+			<fieldset class="homey-form-radio-set" id="tariffType"></fieldset>
+		</div>
+	</fieldset>
+
+	<fieldset class="homey-form-fieldset" data-step="takeover">
+		<legend class="homey-form-legend" data-i18n="price_setup.import_title"></legend>
+		<div id="takeover"></div>
+	</fieldset>
+
+	<fieldset class="homey-form-fieldset" data-step="market">
+		<legend class="homey-form-legend" id="marketTitle"></legend>
+		<div id="market"></div>
+	</fieldset>
+
+	<fieldset class="homey-form-fieldset" data-step="import">
+		<legend class="homey-form-legend" data-i18n="price_setup.step_import"></legend>
+		<p class="homey-subtitle" data-i18n="price_setup.contract_hint"></p>
+		<div id="import"></div>
+	</fieldset>
+
+	<fieldset class="homey-form-fieldset" data-step="export">
+		<legend class="homey-form-legend" data-i18n="price_setup.step_export"></legend>
+		<button class="homey-button-transparent" id="copyImport" data-i18n="price_setup.copy_import"></button>
+		<div id="export"></div>
+	</fieldset>
+
+	<fieldset class="homey-form-fieldset" data-step="finish">
+		<legend class="homey-form-legend" data-i18n="price_setup.step_finish"></legend>
+		<div id="finish"></div>
+		<p class="homey-subtitle" id="groupAuto" data-i18n="price_setup.group_auto"></p>
+		<fieldset class="homey-form-fieldset">
+			<legend class="homey-form-legend" data-i18n="price_setup.preview_title"></legend>
+			<div id="preview"></div>
+		</fieldset>
+	</fieldset>
+
+	<button class="homey-button-primary-full" id="next" data-i18n="repair.setup_next"></button>
+	<button class="homey-button-transparent" id="back" data-i18n="price_setup.back"></button>
+</form>
+
+<script>
+	// The same file in pair/ and repair/ of the price driver (lib/helpers/PriceSetup.js).
+	Homey.setTitle(Homey.__('price_setup.title'));
+	const PRICE_FIELDS = [
+		'vat', 'fixedMarkup', 'fixedMarkupInclVat', 'variableMarkup', 'tax', 'taxInclVat', 'fixedMarkupTOD', 'fixedMarkupTODInclVat',
+		'fixedMarkupWeekend', 'fixedMarkupWeekendInclVat',
+	];
+	// Amounts per kWh or m³, each with its own incl. VAT checkbox.
+	const AMOUNTS = ['fixedMarkup', 'tax', 'fixedMarkupTOD', 'fixedMarkupWeekend'];
+	let data = null;
+	let step = 0;
+
+	const el = (tag, props = {}) => Object.assign(document.createElement(tag), props);
+	const input = (id) => document.getElementById(`set_${id}`);
+	const radio = (name) => {
+		const checked = document.querySelector(`input[name="${name}"]:checked`);
+		return checked ? checked.value : null;
+	};
+	const isGas = () => radio('commodity') === 'gas';
+	const isFixed = () => radio('tariffType') === 'fixed';
+	const groupOf = (id) => input(id) && input(id).closest('.homey-form-group');
+	const showField = (id, visible) => {
+		const group = groupOf(id);
+		if (group) group.style.display = visible ? '' : 'none';
+	};
+	// Old dap devices of the chosen energy and tariff type, to take over.
+	const matchingDaps = () => (data.daps || []).filter((d) => d.commodity === (isGas() ? 'gas' : 'power')
+		&& d.tariffType === (isFixed() ? 'fixed' : 'dynamic'));
+	const steps = () => ['energy', ...(matchingDaps().length ? ['takeover'] : []), 'market', 'import', ...(isGas() ? [] : ['export']), 'finish'];
+
+	const fillTakeover = () => {
+		const select = input('importFrom');
+		const current = select.value;
+		select.innerHTML = '';
+		select.appendChild(el('option', { value: '', textContent: Homey.__('price_setup.import_none') }));
+		matchingDaps().forEach((d) => select.appendChild(el('option', { value: d.key, textContent: d.name, selected: d.key === current })));
+	};
+
+	// The values of a taken over device into the fields.
+	const applyValues = (v) => {
+		data.values.powerZone = isGas() ? data.values.powerZone : v.biddingZone;
+		data.values.gasZone = isGas() ? v.biddingZone : data.values.gasZone;
+		data.values.tariff_update_group = v.tariff_update_group;
+		groupsFilled = true;
+		// Zone and group are in data.values: their lists are filled when their step shows.
+		Object.keys(v).filter((id) => !['biddingZone', 'tariff_update_group'].includes(id)).forEach((id) => {
+			const inp = input(id);
+			if (!inp || !data.defs[id]) return;
+			if (data.defs[id].type === 'checkbox') {
+				if (inp.tagName === 'SELECT') inp.value = String(!!v[id]);
+				else inp.checked = !!v[id];
+			} else {
+				inp.value = v[id];
+				inp.dispatchEvent(new Event('change'));
+			}
+		});
+		if (input('name')) input('name').value = v.name || '';
+		selectCurrency();
+	};
+
+	// One setting: a checkbox, or a group with a number, text or dropdown.
+	const field = (parent, id, opts = {}) => {
+		const def = data.defs[id] || { type: 'text', label: '' };
+		const value = data.values[id];
+		const box = document.getElementById(parent);
+		if (def.type === 'checkbox') {
+			const set = el('fieldset', { className: 'homey-form-checkbox-set' });
+			const label = el('label', { className: 'homey-form-checkbox' });
+			label.appendChild(el('input', { className: 'homey-form-checkbox-input', type: 'checkbox', id: `set_${id}`, checked: !!value }));
+			label.appendChild(el('span', { className: 'homey-form-checkbox-checkmark' }));
+			label.appendChild(el('span', { className: 'homey-form-checkbox-text', textContent: opts.label || def.label }));
+			set.appendChild(label);
+			if (def.hint && !opts.noHint) set.appendChild(el('p', { className: 'homey-subtitle', textContent: def.hint }));
+			box.appendChild(set);
+			return;
+		}
+		const group = el('div', { className: 'homey-form-group' });
+		group.appendChild(el('label', { className: 'homey-form-label', htmlFor: `set_${id}`, textContent: opts.label || def.label }));
+		if (def.type === 'dropdown' || opts.options) {
+			const select = el('select', { className: 'homey-form-select', id: `set_${id}` });
+			(opts.options || def.options).forEach((o) => select.appendChild(el('option', {
+				value: String(o.id), textContent: o.label, selected: String(o.id) === String(opts.value ?? value),
+			})));
+			group.appendChild(select);
+		} else {
+			const inp = el('input', {
+				className: 'homey-form-input', type: def.type === 'number' ? 'number' : 'text', id: `set_${id}`, value: opts.value ?? value ?? '',
+			});
+			if (def.type === 'number') inp.step = 'any';
+			if (opts.placeholder) inp.placeholder = opts.placeholder;
+			if (opts.vat) {
+				// The amount and whether it includes VAT on one row (no Homey class for a row).
+				const row = el('div', { style: 'display:flex;gap:8px;align-items:center' });
+				inp.style.cssText = 'flex:1 1 auto;min-width:0;box-sizing:border-box';
+				const vat = el('select', { className: 'homey-form-select', id: `set_${opts.vat}`, style: 'flex:0 0 auto;width:auto;box-sizing:border-box' });
+				[['false', 'price_setup.vat_excl'], ['true', 'price_setup.vat_incl']].forEach(([v, key]) => vat.appendChild(el('option', {
+					value: v, textContent: Homey.__(key), selected: String(!!data.values[opts.vat]) === v,
+				})));
+				row.appendChild(inp);
+				row.appendChild(vat);
+				group.appendChild(row);
+			} else {
+				group.appendChild(inp);
+			}
+		}
+		if (def.hint && !opts.noHint) group.appendChild(el('p', { className: 'homey-subtitle', id: `hint_${id}`, textContent: def.hint }));
+		box.appendChild(group);
+	};
+
+	// The zone list and currency follow the energy type.
+	const fillZones = () => {
+		const select = input('biddingZone');
+		const gas = isGas();
+		const current = gas ? data.values.gasZone : data.values.powerZone;
+		select.innerHTML = '';
+		data.zones[gas ? 'gas' : 'power'].forEach((z) => select.appendChild(el('option', { value: z.id, textContent: z.label, selected: z.id === current })));
+	};
+
+	// A fixed tariff has no market: only the currency, no % markups, and named prices.
+	const applyTariffType = () => {
+		const fixed = isFixed();
+		document.getElementById('marketTitle').textContent = fixed ? data.defs.currency.label : Homey.__('price_setup.step_market');
+		showField('biddingZone', !fixed);
+		showField('priceInterval', !fixed && !isGas());
+		showCurrencyFields();
+		// Labels with the unit of the energy (kWh or m³); a fixed tariff names its prices.
+		const perUnit = Homey.__('price_setup.unit_label').replace('__unit__', isGas() ? 'm³' : 'kWh');
+		const setText = (id, text) => {
+			const node = document.getElementById(id);
+			if (!node) return;
+			node.textContent = text;
+			node.style.display = text ? '' : 'none';
+		};
+		['', 'export_'].forEach((prefix) => {
+			AMOUNTS.forEach((id) => {
+				let base = data.defs[`${prefix}${id}`].label;
+				if (fixed && id === 'fixedMarkup') base = Homey.__(prefix ? 'price_setup.feed_in_price' : 'price_setup.fixed_price');
+				groupOf(`${prefix}${id}`).querySelector('.homey-form-label').textContent = `${base} ${perUnit}`;
+			});
+			setText(`hint_${prefix}fixedMarkup`, '');
+			setText(`hint_${prefix}tax`, '');
+			setText(`hint_${prefix}variableMarkup`, Homey.__(fixed ? 'price_setup.pct_supply' : 'price_setup.pct_market'));
+			setText(`hint_${prefix}fixedMarkupTOD`, Homey.__('price_setup.tod_hint'));
+			setText(`hint_${prefix}fixedMarkupWeekend`, Homey.__('price_setup.weekend_hint'));
+		});
+	};
+
+	const zoneChanged = () => {
+		const zone = input('biddingZone').value;
+		if (isGas()) data.values.gasZone = zone;
+		else data.values.powerZone = zone;
+		const cur = data.currencies[zone];
+		if (!cur || isGas()) return;
+		input('currency').value = cur.symbol;
+		input('fetchExchangeRate').value = cur.code;
+		selectCurrency();
+	};
+
+	// One dropdown for currency and exchange rate; 'other' shows both fields to fill in.
+	const currencyKey = (c) => `${c.symbol}|${c.code}`;
+	const selectCurrency = () => {
+		const key = currencyKey({ symbol: input('currency').value, code: input('fetchExchangeRate').value });
+		const select = input('currencyChoice');
+		select.value = data.currencyList.some((c) => currencyKey(c) === key) ? key : 'other';
+		showCurrencyFields();
+	};
+	const showCurrencyFields = () => {
+		const other = input('currencyChoice').value === 'other';
+		showField('currency', other);
+		showField('fetchExchangeRate', other && !isFixed());
+	};
+	const currencyChosen = () => {
+		const value = input('currencyChoice').value;
+		if (value !== 'other') {
+			const [symbol, code] = value.split('|');
+			input('currency').value = symbol;
+			input('fetchExchangeRate').value = code;
+		}
+		showCurrencyFields();
+	};
+
+	const collect = () => {
+		const values = {
+			commodity: isGas() ? 'gas' : 'power',
+			tariffType: isFixed() ? 'fixed' : 'dynamic',
+			name: input('name') ? input('name').value : '',
+			importFrom: matchingDaps().length && input('importFrom') ? input('importFrom').value : '',
+		};
+		Object.keys(data.defs).forEach((id) => {
+			const inp = input(id);
+			if (!inp) return;
+			if (data.defs[id].type !== 'checkbox') values[id] = inp.value;
+			else values[id] = inp.tagName === 'SELECT' ? inp.value === 'true' : inp.checked;
+		});
+		return values;
+	};
+
+	// Time of day markup as rows 'from hour: markup'; the text setting ('7:0.05;23:0') stays the
+	// stored value, in the hidden input.
+	const todEditor = (id) => {
+		const text = input(id);
+		const row = text.parentNode;
+		text.style.display = 'none';
+		const list = el('div');
+		row.parentNode.insertBefore(list, row.nextSibling);
+		// The incl./excl. VAT choice stays on the label row, right aligned like the other amounts.
+		row.insertBefore(el('div', { style: 'flex:1 1 auto;min-width:0' }), text);
+		const parse = () => String(text.value || '').replace(/\s/g, '').split(';').filter(Boolean)
+			.map((part) => part.split(':'))
+			.filter(([h, m]) => Number.isInteger(Number(h)) && Number(h) >= 0 && Number(h) < 24 && m !== undefined)
+			.map(([h, m]) => ({ hour: Number(h), markup: m }));
+		const write = (rows) => {
+			text.value = rows.filter((r) => r.markup !== '' && Number.isFinite(Number(r.markup)))
+				.sort((a, b) => a.hour - b.hour).map((r) => `${r.hour}:${Number(r.markup)}`).join(';');
+		};
+		const pad = (n) => String(n).padStart(2, '0');
+		const render = (rows) => {
+			list.innerHTML = '';
+			rows.forEach((r, i) => {
+				const line = el('div', { style: 'display:flex;gap:8px;align-items:center;margin-bottom:8px' });
+				line.appendChild(el('span', { className: 'homey-form-label', textContent: Homey.__('price_setup.tod_from') }));
+				const hour = el('select', { className: 'homey-form-select', style: 'flex:0 0 auto;width:auto;box-sizing:border-box' });
+				for (let h = 0; h < 24; h += 1) hour.appendChild(el('option', { value: String(h), textContent: `${pad(h)}:00`, selected: h === r.hour }));
+				const amount = el('input', {
+					className: 'homey-form-input', type: 'number', step: 'any', value: r.markup, style: 'flex:1 1 auto;min-width:0;box-sizing:border-box',
+				});
+				const remove = el('button', {
+					className: 'homey-button-transparent', textContent: '✕', type: 'button', style: 'flex:0 0 auto;width:auto;min-width:0;padding:0 8px',
+				});
+				hour.addEventListener('change', () => { rows[i].hour = Number(hour.value); write(rows); });
+				amount.addEventListener('input', () => { rows[i].markup = amount.value; write(rows); });
+				remove.addEventListener('click', () => { rows.splice(i, 1); write(rows); render(rows); });
+				[hour, amount, remove].forEach((node) => line.appendChild(node));
+				list.appendChild(line);
+			});
+		};
+		const buttons = el('div', { style: 'display:flex;flex-wrap:wrap;gap:8px' });
+		const small = 'width:auto;min-width:0;flex:0 0 auto';
+		const add = el('button', {
+			className: 'homey-button-transparent', textContent: Homey.__('price_setup.tod_add'), type: 'button', style: small,
+		});
+		const dayNight = el('button', {
+			className: 'homey-button-transparent', textContent: Homey.__('price_setup.tod_daynight'), type: 'button', style: small,
+		});
+		let rows = parse();
+		add.addEventListener('click', () => {
+			const last = rows.length ? rows[rows.length - 1].hour : 6;
+			rows.push({ hour: (last + 1) % 24, markup: '0' });
+			write(rows);
+			render(rows);
+		});
+		dayNight.addEventListener('click', () => {
+			rows = [{ hour: 7, markup: '0' }, { hour: 23, markup: '0' }];
+			write(rows);
+			render(rows);
+		});
+		buttons.appendChild(add);
+		buttons.appendChild(dayNight);
+		list.parentNode.insertBefore(buttons, list.nextSibling);
+		render(rows);
+		// 'Same as import' copies the text: show it as rows again.
+		text.addEventListener('change', () => { rows = parse(); render(rows); });
+	};
+
+	const money = (value, currency) => (value === null || value === undefined ? '-' : `${currency} ${Number(value).toFixed(4)}`);
+
+	const showPreview = async () => {
+		const box = document.getElementById('preview');
+		box.textContent = '…';
+		try {
+			const p = await Homey.emit('setup_preview', collect());
+			const unit = isGas() ? '/m³' : '/kWh';
+			box.textContent = '';
+			if (p.import === null) {
+				box.appendChild(el('p', { className: 'homey-subtitle', textContent: Homey.__('price_setup.preview_none') }));
+				return;
+			}
+			const line = (label, value, strong) => {
+				const row = el('div', { style: 'display:flex;justify-content:space-between;gap:8px' });
+				row.appendChild(el('span', { textContent: label }));
+				row.appendChild(el(strong ? 'strong' : 'span', { textContent: `${money(value, p.currency)}${unit}` }));
+				box.appendChild(row);
+			};
+			line(Homey.__('price_setup.step_import'), p.import, true);
+			if (p.export !== null) line(Homey.__('price_setup.step_export'), p.export, true);
+			if (p.market !== null) {
+				box.appendChild(el('p', {
+					className: 'homey-subtitle', textContent: `${Homey.__('price_setup.preview_market')}: ${money(p.market, '€')}${unit}`,
+				}));
+			}
+		} catch (error) {
+			box.textContent = error.message || String(error);
+		}
+	};
+
+	// Tariff groups with the devices in them, for the chosen energy; 0 = no group.
+	let groupsFilled = false;
+	const fillGroups = () => {
+		const select = input('tariff_update_group');
+		const current = Number(select.value || data.values.tariff_update_group);
+		const groups = [...data.groups[isGas() ? 'gas' : 'power']];
+		// No devices with a tariff group yet: group 1 (the default of every driver), no choice shown.
+		const none = !groups.length && !(data.repairing && current !== 1);
+		showField('tariff_update_group', !none);
+		document.getElementById('groupAuto').style.display = none ? '' : 'none';
+		if (!groups.length) groups.push({ group: 1, names: [] });
+		if (current && !groups.some((g) => g.group === current)) groups.push({ group: current, names: [] });
+		groups.sort((a, b) => a.group - b.group);
+		select.innerHTML = '';
+		groups.forEach((g) => select.appendChild(el('option', {
+			value: String(g.group),
+			textContent: `${Homey.__('price_setup.group_option').replace('__n__', g.group)}${g.names.length ? `: ${g.names.join(', ')}` : ''}`,
+		})));
+		select.appendChild(el('option', { value: '0', textContent: Homey.__('price_setup.group_none') }));
+		// Pairing proposes the first group in use; after that the user's choice stays.
+		const preferred = (data.repairing || groupsFilled) ? current : groups[0].group;
+		select.value = String(preferred);
+		if (select.value === '') select.value = String(groups[0].group);
+		groupsFilled = true;
+	};
+
+	const show = () => {
+		const list = steps();
+		step = Math.max(0, Math.min(step, list.length - 1));
+		document.querySelectorAll('[data-step]').forEach((s) => { s.style.display = s.dataset.step === list[step] ? '' : 'none'; });
+		document.getElementById('back').style.display = step === 0 ? 'none' : '';
+		const last = step === list.length - 1;
+		document.getElementById('next').textContent = Homey.__(last ? (data.repairing ? 'price_setup.save' : 'price_setup.add') : 'repair.setup_next');
+		if (list[step] === 'takeover') fillTakeover();
+		if (list[step] === 'market') fillZones();
+		applyTariffType();
+		if (last) {
+			fillGroups();
+			showPreview();
+		}
+	};
+
+	const radioSet = (id, fallback) => {
+		const set = document.getElementById(id);
+		document.getElementById(`${id}Title`).textContent = data.defs[id].label;
+		data.defs[id].options.forEach((o) => {
+			const label = el('label', { className: 'homey-form-radio' });
+			label.appendChild(el('input', {
+				className: 'homey-form-radio-input', type: 'radio', name: id, value: o.id, checked: o.id === (data.values[id] || fallback),
+			}));
+			label.appendChild(el('span', { className: 'homey-form-radio-checkmark' }));
+			label.appendChild(el('span', { className: 'homey-form-radio-text', textContent: o.label }));
+			set.appendChild(label);
+		});
+	};
+
+	const build = () => {
+		field('takeover', 'importFrom', { label: Homey.__('price_setup.import_label'), options: [], value: '' });
+		document.getElementById('takeover').appendChild(el('p', { className: 'homey-subtitle', textContent: Homey.__('price_setup.import_hint') }));
+		radioSet('commodity', 'power');
+		radioSet('tariffType', 'dynamic');
+		field('market', 'biddingZone', { options: [] });
+		field('market', 'priceInterval');
+		field('market', 'currencyChoice', {
+			label: data.defs.currency.label,
+			options: [
+				...data.currencyList.map((c) => ({ id: currencyKey(c), label: `${c.symbol} (${c.code === 'NONE' ? 'EUR' : c.code})` })),
+				{ id: 'other', label: Homey.__('price_setup.currency_other') },
+			],
+			value: '',
+		});
+		field('market', 'currency', { noHint: true });
+		field('market', 'fetchExchangeRate', { noHint: true });
+		['', 'export_'].forEach((prefix) => PRICE_FIELDS.filter((id) => !id.endsWith('InclVat')).forEach((id) => {
+			field(prefix ? 'export' : 'import', `${prefix}${id}`, AMOUNTS.includes(id) ? { vat: `${prefix}${id}InclVat` } : {});
+		}));
+		todEditor('fixedMarkupTOD');
+		todEditor('export_fixedMarkupTOD');
+		if (!data.repairing) field('finish', 'name', { label: Homey.__('price_setup.name'), placeholder: '' });
+		field('finish', 'tariff_update_group', { label: Homey.__('price_setup.group_label'), options: [], noHint: true });
+		input('biddingZone').addEventListener('change', zoneChanged);
+		input('currencyChoice').addEventListener('change', currencyChosen);
+		selectCurrency();
+		document.getElementById('copyImport').addEventListener('click', () => {
+			PRICE_FIELDS.forEach((id) => {
+				const from = input(id);
+				const to = input(`export_${id}`);
+				if (from && to) {
+					to.value = from.value;
+					to.dispatchEvent(new Event('change'));
+				}
+			});
+		});
+	};
+
+	document.getElementById('back').addEventListener('click', () => {
+		step -= 1;
+		show();
+	});
+
+	document.getElementById('next').addEventListener('click', async () => {
+		if (step < steps().length - 1) {
+			if (steps()[step] === 'takeover' && input('importFrom').value) {
+				const button = document.getElementById('next');
+				button.classList.add('is-loading');
+				try {
+					applyValues(await Homey.emit('setup_import', input('importFrom').value));
+				} catch (error) {
+					Homey.alert(error.message || error, 'error');
+				} finally {
+					button.classList.remove('is-loading');
+				}
+			}
+			step += 1;
+			show();
+			return;
+		}
+		const button = document.getElementById('next');
+		if (button.classList.contains('is-loading')) return;
+		button.classList.add('is-loading');
+		try {
+			const result = await Homey.emit('setup_set', collect());
+			if (result && result.device) {
+				await Homey.createDevice(result.device);
+				if (input('importFrom') && input('importFrom').value) await Homey.emit('setup_imported');
+				Homey.done();
+				return;
+			}
+			Homey.showView('loading');
+		} catch (error) {
+			button.classList.remove('is-loading');
+			Homey.alert(error.message || error, 'error');
+		}
+	});
+
+	(async () => {
+		try {
+			data = await Homey.emit('setup_get');
+			build();
+			show();
+		} catch (error) {
+			Homey.alert(error.message || error, 'error');
+		} finally {
+			Homey.hideLoadingOverlay();
+		}
+	})();
+</script>

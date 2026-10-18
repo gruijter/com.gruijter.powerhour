@@ -1,0 +1,2152 @@
+{
+  "name": {
+    "en": "Energy price",
+    "nl": "Energieprijs",
+    "de": "Energiepreis",
+    "fr": "Prix de l'énergie",
+    "it": "Prezzo dell'energia",
+    "sv": "Energipris",
+    "no": "Energipris",
+    "es": "Precio de la energía",
+    "da": "Energipris",
+    "pl": "Cena energii",
+    "ru": "Цена энергии",
+    "ar": "سعر الطاقة",
+    "ko": "에너지 가격"
+  },
+  "class": "service",
+  "capabilities": [],
+  "capabilitiesOptions": {
+    "measure_monetary.import": {
+      "title": {
+        "en": "Price now",
+        "de": "Preis aktuell",
+        "sv": "Pris just nu",
+        "it": "Prezzo attuale",
+        "no": "Pris nå",
+        "fr": "Tarif actuel",
+        "da": "Pris nu",
+        "nl": "Prijs nu",
+        "es": "Precio ahora",
+        "pl": "Cena teraz",
+        "ru": "Цена сейчас",
+        "ko": "현재 가격",
+        "ar": "السعر الآن"
+      },
+      "decimals": 4
+    },
+    "measure_monetary.export": {
+      "title": {
+        "en": "Price now (export)",
+        "nl": "Prijs nu (export)",
+        "de": "Preis aktuell (export)",
+        "sv": "Pris just nu (export)",
+        "it": "Prezzo attuale (export)",
+        "no": "Pris nå (export)",
+        "fr": "Tarif actuel (export)",
+        "da": "Pris nu (export)",
+        "es": "Precio ahora (exportación)",
+        "pl": "Cena teraz (eksport)",
+        "ru": "Цена сейчас (экспорт)",
+        "ko": "현재 가격 (수출)",
+        "ar": "السعر الآن (تصدير)"
+      },
+      "decimals": 4
+    },
+    "measure_monetary.next": {
+      "title": {
+        "en": "Price next period",
+        "nl": "Prijs volgende periode",
+        "de": "Preis nächste Periode",
+        "fr": "Prix période suivante",
+        "it": "Prezzo periodo successivo",
+        "sv": "Pris nästa period",
+        "no": "Pris neste periode",
+        "es": "Precio siguiente periodo",
+        "da": "Pris næste periode",
+        "pl": "Cena w następnym okresie",
+        "ru": "Цена в следующем периоде",
+        "ar": "سعر الفترة التالية",
+        "ko": "다음 구간 가격"
+      },
+      "decimals": 4
+    },
+    "measure_monetary.today_avg": {
+      "title": {
+        "en": "Avg. price this day",
+        "de": "Durchschn. Preis dieser Tag",
+        "sv": "Genomsnittligt pris idag",
+        "it": "Prezzo medio giornata odierna",
+        "no": "Gj.snitt pris denne dag",
+        "fr": "Tarif moyen aujourd'hui",
+        "da": "Gn. snt. pris i dag",
+        "nl": "Gem. prijs deze dag",
+        "ar": "متوسط السعر هذا اليوم",
+        "es": "Precio medio este día",
+        "pl": "Średnia cena ten dzień",
+        "ru": "Средняя цена этот день",
+        "ko": "오늘 평균 가격"
+      },
+      "decimals": 4
+    },
+    "measure_monetary.today_low": {
+      "title": {
+        "en": "Lowest price this day",
+        "de": "Niedrigster Preis dieser Tag",
+        "sv": "Billigaste pris idag",
+        "it": "Prezzo più economico giornata odierna",
+        "no": "Billigste pris i dag",
+        "fr": "Tarif le moins cher aujourd'hui",
+        "da": "Billigste pris i dag",
+        "nl": "Goedkoopste prijs deze dag",
+        "ar": "أدنى سعر اليوم",
+        "es": "Precio más bajo este día",
+        "pl": "Najniższa cena ten dzień",
+        "ru": "Мин. цена этот день",
+        "ko": "오늘 최저 가격"
+      },
+      "decimals": 4
+    },
+    "measure_monetary.today_high": {
+      "title": {
+        "en": "Highest price this day",
+        "de": "Höchstpreis dieser Tag",
+        "sv": "Dyraste pris idag",
+        "it": "Prezzo più caro giornata odierna",
+        "no": "Dyreste pris i dag",
+        "fr": "Tarif le plus cher aujourd'hui",
+        "da": "Dyreste pris i dag",
+        "nl": "Duurste prijs deze dag",
+        "ar": "أعلى سعر اليوم",
+        "es": "Precio más alto este día",
+        "pl": "Najwyższa cena ten dzień",
+        "ru": "Макс. цена этот день",
+        "ko": "오늘 최고 가격"
+      },
+      "decimals": 4
+    },
+    "measure_monetary.tomorrow_avg": {
+      "title": {
+        "en": "Avg. price tomorrow",
+        "de": "Durchschn. Preis morgen",
+        "sv": "Genomsnittligt pris imorgon",
+        "it": "prezzo medio domani",
+        "no": "Snittpris i morgen",
+        "fr": "Tarif moyen demain",
+        "da": "Gn. snt. pris i morgen",
+        "nl": "Gem. prijs morgen",
+        "ar": "متوسط السعر غداً",
+        "es": "Precio medio mañana",
+        "pl": "Średnia cena jutro",
+        "ru": "Средняя цена завтра",
+        "ko": "내일 평균 가격"
+      },
+      "decimals": 4
+    },
+    "measure_monetary.tomorrow_low": {
+      "title": {
+        "en": "Lowest price tomorrow",
+        "de": "Niedrigster Preis morgen",
+        "sv": "Billigaste pris imorgon",
+        "it": "Prezzo più economico domani",
+        "no": "Billigste pris i morgen",
+        "fr": "Tarif le moins cher demain",
+        "da": "Billigste pris i morgen",
+        "nl": "Goedkoopste prijs morgen",
+        "ar": "أدنى سعر غداً",
+        "es": "Precio más bajo mañana",
+        "pl": "Najniższa cena jutro",
+        "ru": "Мин. цена завтра",
+        "ko": "내일 최저 가격"
+      },
+      "decimals": 4
+    },
+    "measure_monetary.tomorrow_high": {
+      "title": {
+        "en": "Highest price tomorrow",
+        "de": "Höchstpreis morgen",
+        "sv": "Dyraste pris imorgon",
+        "it": "Prezzo più caro di domani",
+        "no": "Dyreste pris i morgen",
+        "fr": "Tarif le plus cher demain",
+        "da": "Dyreste pris i morgen",
+        "nl": "Duurste prijs morgen",
+        "ar": "أعلى سعر غداً",
+        "es": "Precio más alto mañana",
+        "pl": "Najwyższa cena jutro",
+        "ru": "Макс. цена завтра",
+        "ko": "내일 최고 가격"
+      },
+      "decimals": 4
+    },
+    "measure_monetary.month_avg": {
+      "title": {
+        "en": "Avg. price this month",
+        "de": "Durchschn. Preis diesen Monat",
+        "sv": "Genomsnittligt pris denna månad",
+        "it": "Prezzo medio mese odierno",
+        "no": "Gj.snitt pris denne måned",
+        "fr": "Tarif moyen ce mois-ci",
+        "da": "Gn. snt. pris denne måned",
+        "nl": "Gem. prijs deze maand",
+        "es": "Precio medio este mes",
+        "pl": "Średnia cena ten miesiąc",
+        "ru": "Средняя цена этот месяц",
+        "ko": "이번 달 평균 가격",
+        "ar": "متوسط السعر هذا الشهر"
+      },
+      "decimals": 4
+    },
+    "measure_monetary.last_month_avg": {
+      "title": {
+        "en": "Avg. price last month",
+        "de": "Durchschn. Preis letzten Monat",
+        "sv": "Genomsnittligt pris förra månaden",
+        "it": "Prezzo medio mese scorso",
+        "no": "Gj.snitt pris forrige måned",
+        "fr": "Tarif moyen le mois dernier",
+        "da": "Gn. snt. pris sidste måned",
+        "nl": "Gem. prijs vorige maand",
+        "ar": "متوسط السعر الشهر الماضي",
+        "es": "Precio medio mes anterior",
+        "pl": "Średnia cena poprzedni miesiąc",
+        "ru": "Средняя цена пред. месяц",
+        "ko": "지난 달 평균 가격"
+      },
+      "decimals": 4
+    }
+  },
+  "platforms": [
+    "local"
+  ],
+  "connectivity": [
+    "cloud"
+  ],
+  "images": {
+    "small": "{{driverAssetsPath}}/images/small.png",
+    "large": "{{driverAssetsPath}}/images/large.png"
+  },
+  "pair": [
+    {
+      "id": "setup"
+    }
+  ],
+  "repair": [
+    {
+      "id": "setup",
+      "navigation": {
+        "next": "loading"
+      }
+    },
+    {
+      "id": "loading",
+      "template": "loading"
+    },
+    {
+      "id": "done",
+      "template": "done"
+    }
+  ],
+  "settings": [
+    {
+      "type": "group",
+      "label": {
+        "en": "Price type",
+        "nl": "Prijstype",
+        "de": "Preistyp",
+        "fr": "Type de prix",
+        "it": "Tipo di prezzo",
+        "sv": "Pristyp",
+        "no": "Pristype",
+        "es": "Tipo de precio",
+        "da": "Pristype",
+        "pl": "Rodzaj ceny",
+        "ru": "Тип цены",
+        "ar": "نوع السعر",
+        "ko": "가격 유형"
+      },
+      "children": [
+        {
+          "id": "commodity",
+          "type": "dropdown",
+          "value": "power",
+          "label": {
+            "en": "Energy",
+            "nl": "Energie",
+            "de": "Energie",
+            "fr": "Énergie",
+            "it": "Energia",
+            "sv": "Energi",
+            "no": "Energi",
+            "es": "Energía",
+            "da": "Energi",
+            "pl": "Energia",
+            "ru": "Энергия",
+            "ar": "الطاقة",
+            "ko": "에너지"
+          },
+          "hint": {
+            "en": "Change via Repair.",
+            "nl": "Wijzigen via Repareren.",
+            "de": "Ändern über Reparieren.",
+            "fr": "Modifier via Réparer.",
+            "it": "Modifica tramite Ripara.",
+            "sv": "Ändra via Reparera.",
+            "no": "Endre via Reparer.",
+            "es": "Cambiar mediante Reparar.",
+            "da": "Skift via Reparer.",
+            "pl": "Zmień przez Napraw.",
+            "ru": "Изменить через Восстановить.",
+            "ar": "غيّر عبر الإصلاح.",
+            "ko": "복구에서 변경하세요."
+          },
+          "values": [
+            {
+              "id": "power",
+              "label": {
+                "en": "Electricity",
+                "nl": "Stroom",
+                "de": "Strom",
+                "fr": "Électricité",
+                "it": "Elettricità",
+                "sv": "El",
+                "no": "Strøm",
+                "es": "Electricidad",
+                "da": "El",
+                "pl": "Prąd",
+                "ru": "Электричество",
+                "ar": "الكهرباء",
+                "ko": "전기"
+              }
+            },
+            {
+              "id": "gas",
+              "label": {
+                "en": "Gas",
+                "nl": "Gas",
+                "de": "Gas",
+                "fr": "Gaz",
+                "it": "Gas",
+                "sv": "Gas",
+                "no": "Gass",
+                "es": "Gas",
+                "da": "Gas",
+                "pl": "Gaz",
+                "ru": "Газ",
+                "ar": "غاز",
+                "ko": "가스"
+              }
+            }
+          ]
+        },
+        {
+          "id": "tariffType",
+          "type": "dropdown",
+          "value": "dynamic",
+          "label": {
+            "en": "Tariff",
+            "nl": "Tarief",
+            "de": "Tarif",
+            "fr": "Tarif",
+            "it": "Tariffa",
+            "sv": "Tariff",
+            "no": "Tariff",
+            "es": "Tarifa",
+            "da": "Tarif",
+            "pl": "Taryfa",
+            "ru": "Тариф",
+            "ar": "التعرفة",
+            "ko": "요금제"
+          },
+          "hint": {
+            "en": "Change via Repair.",
+            "nl": "Wijzigen via Repareren.",
+            "de": "Ändern über Reparieren.",
+            "fr": "Modifier via Réparer.",
+            "it": "Modifica tramite Ripara.",
+            "sv": "Ändra via Reparera.",
+            "no": "Endre via Reparer.",
+            "es": "Cambiar mediante Reparar.",
+            "da": "Skift via Reparer.",
+            "pl": "Zmień przez Napraw.",
+            "ru": "Изменить через Восстановить.",
+            "ar": "غيّر عبر الإصلاح.",
+            "ko": "복구에서 변경하세요."
+          },
+          "values": [
+            {
+              "id": "dynamic",
+              "label": {
+                "en": "Dynamic (market price)",
+                "nl": "Dynamisch (marktprijs)",
+                "de": "Dynamisch (Marktpreis)",
+                "fr": "Dynamique (prix du marché)",
+                "it": "Dinamica (prezzo di mercato)",
+                "sv": "Dynamiskt (marknadspris)",
+                "no": "Dynamisk (markedspris)",
+                "es": "Dinámica (precio de mercado)",
+                "da": "Dynamisk (markedspris)",
+                "pl": "Dynamiczna (cena rynkowa)",
+                "ru": "Динамический (рыночная цена)",
+                "ar": "ديناميكية (سعر السوق)",
+                "ko": "동적 (시장 가격)"
+              }
+            },
+            {
+              "id": "fixed",
+              "label": {
+                "en": "Fixed",
+                "nl": "Vast",
+                "de": "Fest",
+                "fr": "Fixe",
+                "it": "Fissa",
+                "sv": "Fast",
+                "no": "Fast",
+                "es": "Fija",
+                "da": "Fast",
+                "pl": "Stała",
+                "ru": "Фиксированный",
+                "ar": "ثابتة",
+                "ko": "고정"
+              }
+            }
+          ]
+        },
+        {
+          "id": "priceInterval",
+          "type": "dropdown",
+          "value": "15",
+          "label": {
+            "en": "Price interval",
+            "nl": "Prijsinterval",
+            "de": "Preisintervall",
+            "fr": "Intervalle de prix",
+            "it": "Intervallo di prezzo",
+            "sv": "Prisintervall",
+            "no": "Prisintervall",
+            "es": "Intervalo de precio",
+            "da": "Prisinterval",
+            "pl": "Interwał cen",
+            "ru": "Интервал цен",
+            "ar": "فترة السعر",
+            "ko": "가격 간격"
+          },
+          "hint": {
+            "en": "As your supplier bills.",
+            "nl": "Zoals je leverancier afrekent.",
+            "de": "Wie Ihr Lieferant abrechnet.",
+            "fr": "Comme votre fournisseur facture.",
+            "it": "Come fattura il tuo fornitore.",
+            "sv": "Som din leverantör debiterar.",
+            "no": "Slik leverandøren din fakturerer.",
+            "es": "Como factura su proveedor.",
+            "da": "Som din leverandør afregner.",
+            "pl": "Tak jak rozlicza dostawca.",
+            "ru": "Как выставляет счёт ваш поставщик.",
+            "ar": "كما يحاسبك مورّدك.",
+            "ko": "공급사가 청구하는 방식대로."
+          },
+          "values": [
+            {
+              "id": "15",
+              "label": {
+                "en": "15 minutes",
+                "nl": "15 minuten",
+                "de": "15 Minuten",
+                "fr": "15 minutes",
+                "it": "15 minuti",
+                "sv": "15 minuter",
+                "no": "15 minutter",
+                "es": "15 minutos",
+                "da": "15 minutter",
+                "pl": "15 minut",
+                "ru": "15 минут",
+                "ar": "15 دقيقة",
+                "ko": "15분"
+              }
+            },
+            {
+              "id": "60",
+              "label": {
+                "en": "60 minutes",
+                "nl": "60 minuten",
+                "de": "60 Minuten",
+                "fr": "60 minutes",
+                "it": "60 minuti",
+                "sv": "60 minuter",
+                "no": "60 minutter",
+                "es": "60 minutos",
+                "da": "60 minutter",
+                "pl": "60 minut",
+                "ru": "60 минут",
+                "ar": "60 دقيقة",
+                "ko": "60분"
+              }
+            }
+          ]
+        },
+        {
+          "id": "biddingZone",
+          "type": "label",
+          "label": {
+            "en": "Bidding zone",
+            "nl": "Biedzone",
+            "de": "Gebotsbereich",
+            "fr": "Zone de négociation",
+            "it": "Zona di trattativa",
+            "sv": "Elområde",
+            "no": "Prisområde",
+            "es": "Zona de oferta",
+            "da": "Elområde",
+            "pl": "Strefa licytacji",
+            "ru": "Торговая зона",
+            "ar": "منطقة العطاءات",
+            "ko": "입찰 구역"
+          },
+          "value": "unknown",
+          "hint": {
+            "en": "Change via Repair.",
+            "nl": "Wijzigen via Repareren.",
+            "de": "Ändern über Reparieren.",
+            "fr": "Modifier via Réparer.",
+            "it": "Modifica tramite Ripara.",
+            "sv": "Ändra via Reparera.",
+            "no": "Endre via Reparer.",
+            "es": "Cambiar mediante Reparar.",
+            "da": "Skift via Reparer.",
+            "pl": "Zmień przez Napraw.",
+            "ru": "Изменить через Восстановить.",
+            "ar": "غيّر عبر الإصلاح.",
+            "ko": "복구에서 변경하세요."
+          }
+        },
+        {
+          "id": "description",
+          "type": "label",
+          "label": {
+            "en": "Description",
+            "nl": "Omschrijving",
+            "de": "Beschreibung",
+            "fr": "Description",
+            "it": "Descrizione",
+            "sv": "Beskrivning",
+            "no": "Beskrivelse",
+            "es": "Descripción",
+            "da": "Beskrivelse",
+            "pl": "Opis",
+            "ru": "Описание",
+            "ar": "وصف",
+            "ko": "설명"
+          },
+          "value": "unknown"
+        }
+      ]
+    },
+    {
+      "type": "group",
+      "label": {
+        "en": "Import price settings",
+        "nl": "Import prijs instellingen",
+        "de": "Importpreiseinstellungen",
+        "fr": "Paramètres de prix d'importation",
+        "it": "Impostazioni prezzo di importazione",
+        "sv": "Importprisinställningar",
+        "no": "Importprisinnstillinger",
+        "es": "Configuración de precios de importación",
+        "da": "Importprisindstillinger",
+        "pl": "Ustawienia cen importu",
+        "ru": "Настройки цен импорта",
+        "ar": "إعدادات سعر الاستيراد",
+        "ko": "수전(수입) 가격 설정"
+      },
+      "children": [
+        {
+          "id": "vat",
+          "type": "number",
+          "value": 0,
+          "min": 0,
+          "max": 100,
+          "label": {
+            "en": "VAT (%)",
+            "nl": "BTW (%)",
+            "de": "MwSt. (%)",
+            "fr": "TVA (%)",
+            "it": "IVA (%)",
+            "sv": "Moms (%)",
+            "no": "MVA (%)",
+            "es": "IVA (%)",
+            "da": "Moms (%)",
+            "pl": "VAT (%)",
+            "ru": "НДС (%)",
+            "ar": "ضريبة القيمة المضافة (%)",
+            "ko": "부가세 (%)"
+          }
+        },
+        {
+          "id": "fixedMarkup",
+          "type": "number",
+          "value": 0,
+          "label": {
+            "en": "Supplier markup",
+            "nl": "Opslag leverancier",
+            "de": "Lieferantenaufschlag",
+            "fr": "Marge du fournisseur",
+            "it": "Ricarico fornitore",
+            "sv": "Leverantörspåslag",
+            "no": "Leverandørpåslag",
+            "es": "Margen del proveedor",
+            "da": "Leverandørtillæg",
+            "pl": "Marża dostawcy",
+            "ru": "Наценка поставщика",
+            "ar": "هامش المورّد",
+            "ko": "공급사 마크업"
+          },
+          "hint": {
+            "en": "Per kWh (gas: per m³). Fixed tariff: your supply price.",
+            "nl": "Per kWh (gas: per m³). Vast tarief: je leveringstarief.",
+            "de": "Pro kWh (Gas: pro m³). Fester Tarif: Ihr Arbeitspreis.",
+            "fr": "Par kWh (gaz : par m³). Tarif fixe : votre prix de fourniture.",
+            "it": "Per kWh (gas: per m³). Tariffa fissa: il tuo prezzo di fornitura.",
+            "sv": "Per kWh (gas: per m³). Fast pris: ditt leveranspris.",
+            "no": "Per kWh (gass: per m³). Fast pris: din leveransepris.",
+            "es": "Por kWh (gas: por m³). Tarifa fija: tu precio de suministro.",
+            "da": "Pr. kWh (gas: pr. m³). Fast pris: din leveringspris.",
+            "pl": "Za kWh (gaz: za m³). Taryfa stała: twoja cena dostawy.",
+            "ru": "За кВт·ч (газ: за м³). Фиксированный тариф: ваша цена поставки.",
+            "ar": "لكل كيلوواط ساعة (الغاز: لكل م³). التعرفة الثابتة: سعر التوريد.",
+            "ko": "kWh당 (가스: m³당). 고정 요금제: 공급 가격."
+          }
+        },
+        {
+          "id": "fixedMarkupInclVat",
+          "type": "checkbox",
+          "value": false,
+          "label": {
+            "en": "Supplier markup includes VAT",
+            "nl": "Opslag leverancier is incl. BTW",
+            "de": "Lieferantenaufschlag enthält MwSt.",
+            "fr": "Marge du fournisseur inclut la TVA",
+            "it": "Ricarico fornitore include l'IVA",
+            "sv": "Leverantörspåslag inkluderar moms",
+            "no": "Leverandørpåslag inkluderer MVA",
+            "es": "Margen del proveedor incluye IVA",
+            "da": "Leverandørtillæg inkluderer moms",
+            "pl": "Marża dostawcy zawiera VAT",
+            "ru": "Наценка поставщика включает НДС",
+            "ar": "هامش المورّد يشمل الضريبة",
+            "ko": "공급사 마크업에 부가세 포함"
+          }
+        },
+        {
+          "id": "variableMarkup",
+          "type": "number",
+          "value": 0,
+          "label": {
+            "en": "Variable markup (%)",
+            "nl": "Variabele opslag (%)",
+            "de": "Variabler Aufschlag (%)",
+            "fr": "Majoration variable (%)",
+            "it": "Sovrapprezzo variabile (%)",
+            "sv": "Variabelt påslag (%)",
+            "no": "Variabelt påslag (%)",
+            "es": "Margen variable (%)",
+            "da": "Variabelt tillæg (%)",
+            "pl": "Narzut zmienny (%)",
+            "ru": "Переменная наценка (%)",
+            "ar": "هامش ربح متغير (%)",
+            "ko": "변동 마크업 (%)"
+          },
+          "hint": {
+            "en": "On the market price. Fixed tariff: on the supplier markup (supply price).",
+            "nl": "Op de marktprijs. Vast tarief: op de opslag leverancier (leveringstarief).",
+            "de": "Auf den Marktpreis. Fester Tarif: auf den Lieferantenaufschlag (Arbeitspreis).",
+            "fr": "Sur le prix de marché. Tarif fixe : sur la marge du fournisseur (prix de fourniture).",
+            "it": "Sul prezzo di mercato. Tariffa fissa: sul ricarico fornitore (prezzo di fornitura).",
+            "sv": "På marknadspriset. Fast pris: på leverantörspåslaget (leveranspris).",
+            "no": "På markedsprisen. Fast pris: på leverandørpåslaget (leveransepris).",
+            "es": "Sobre el precio de mercado. Tarifa fija: sobre el margen del proveedor (precio de suministro).",
+            "da": "På markedsprisen. Fast pris: på leverandørtillægget (leveringspris).",
+            "pl": "Od ceny rynkowej. Taryfa stała: od marży dostawcy (cena dostawy).",
+            "ru": "На рыночную цену. Фиксированный тариф: на наценку поставщика (цена поставки).",
+            "ar": "على سعر السوق. التعرفة الثابتة: على هامش المورّد (سعر التوريد).",
+            "ko": "시장 가격에 적용. 고정 요금제: 공급사 마크업(공급 가격)에 적용."
+          }
+        },
+        {
+          "id": "tax",
+          "type": "number",
+          "value": 0,
+          "label": {
+            "en": "Fixed taxes and levies",
+            "nl": "Vaste belastingen en heffingen",
+            "de": "Feste Steuern und Abgaben",
+            "fr": "Taxes et prélèvements fixes",
+            "it": "Tasse e oneri fissi",
+            "sv": "Fasta skatter och avgifter",
+            "no": "Faste skatter og avgifter",
+            "es": "Impuestos y cargos fijos",
+            "da": "Faste skatter og afgifter",
+            "pl": "Stałe podatki i opłaty",
+            "ru": "Фиксированные налоги и сборы",
+            "ar": "الضرائب والرسوم الثابتة",
+            "ko": "고정 세금 및 부담금"
+          },
+          "hint": {
+            "en": "Per kWh (gas: per m³).",
+            "nl": "Per kWh (gas: per m³).",
+            "de": "Pro kWh (Gas: pro m³).",
+            "fr": "Par kWh (gaz : par m³).",
+            "it": "Per kWh (gas: per m³).",
+            "sv": "Per kWh (gas: per m³).",
+            "no": "Per kWh (gass: per m³).",
+            "es": "Por kWh (gas: por m³).",
+            "da": "Pr. kWh (gas: pr. m³).",
+            "pl": "Za kWh (gaz: za m³).",
+            "ru": "За кВт·ч (газ: за м³).",
+            "ar": "لكل كيلوواط ساعة (الغاز: لكل م³).",
+            "ko": "kWh당 (가스: m³당)."
+          }
+        },
+        {
+          "id": "taxInclVat",
+          "type": "checkbox",
+          "value": false,
+          "label": {
+            "en": "Fixed taxes and levies includes VAT",
+            "nl": "Vaste belastingen en heffingen is incl. BTW",
+            "de": "Feste Steuern und Abgaben enthält MwSt.",
+            "fr": "Taxes et prélèvements fixes inclut la TVA",
+            "it": "Tasse e oneri fissi include l'IVA",
+            "sv": "Fasta skatter och avgifter inkluderar moms",
+            "no": "Faste skatter og avgifter inkluderer MVA",
+            "es": "Impuestos y cargos fijos incluye IVA",
+            "da": "Faste skatter og afgifter inkluderer moms",
+            "pl": "Stałe podatki i opłaty zawiera VAT",
+            "ru": "Фиксированные налоги и сборы включает НДС",
+            "ar": "الضرائب والرسوم الثابتة يشمل الضريبة",
+            "ko": "고정 세금 및 부담금에 부가세 포함"
+          }
+        },
+        {
+          "id": "variableMarkupAbsPrice",
+          "type": "number",
+          "value": 0,
+          "label": {
+            "en": "Markup also at negative prices (%)",
+            "nl": "Opslag ook bij negatieve prijzen (%)",
+            "de": "Aufschlag auch bei negativen Preisen (%)",
+            "fr": "Majoration même à prix négatifs (%)",
+            "it": "Ricarico anche con prezzi negativi (%)",
+            "sv": "Påslag även vid negativa priser (%)",
+            "no": "Påslag også ved negative priser (%)",
+            "es": "Recargo también con precios negativos (%)",
+            "da": "Tillæg også ved negative priser (%)",
+            "pl": "Narzut także przy ujemnych cenach (%)",
+            "ru": "Наценка и при отрицательных ценах (%)",
+            "ar": "هامش حتى مع الأسعار السالبة (%)",
+            "ko": "음수 가격에도 적용되는 마크업 (%)"
+          },
+          "hint": {
+            "en": "Rarely needed. A % of the market price that is always a cost. E.g. 10% at -0.20 adds 0.02; Variable markup would subtract 0.02.",
+            "nl": "Zelden nodig. Een % van de marktprijs dat altijd een kostenpost is. Bijv. 10% bij -0,20 telt 0,02 op; Variabele opslag zou 0,02 aftrekken.",
+            "de": "Selten nötig. Ein % des Marktpreises, das immer Kosten sind. Z. B. 10 % bei -0,20 addiert 0,02; Variabler Aufschlag würde 0,02 abziehen.",
+            "fr": "Rarement utile. Un % du prix de marché toujours compté comme coût. Ex. 10 % à -0,20 ajoute 0,02 ; la majoration variable retrancherait 0,02.",
+            "it": "Raramente necessario. Una % del prezzo di mercato che è sempre un costo. Es. 10% a -0,20 aggiunge 0,02; il sovrapprezzo variabile sottrarrebbe 0,02.",
+            "sv": "Behövs sällan. En % av marknadspriset som alltid är en kostnad. T.ex. 10 % vid -0,20 lägger till 0,02; Variabelt påslag skulle dra av 0,02.",
+            "no": "Sjelden nødvendig. En % av markedsprisen som alltid er en kostnad. F.eks. 10 % ved -0,20 legger til 0,02; Variabelt påslag ville trukket fra 0,02.",
+            "es": "Rara vez necesario. Un % del precio de mercado que siempre es un coste. P. ej. 10 % a -0,20 suma 0,02; el margen variable restaría 0,02.",
+            "da": "Sjældent nødvendigt. En % af markedsprisen, der altid er en omkostning. F.eks. 10 % ved -0,20 lægger 0,02 til; Variabelt tillæg ville trække 0,02 fra.",
+            "pl": "Rzadko potrzebne. % ceny rynkowej, który zawsze jest kosztem. Np. 10% przy -0,20 dodaje 0,02; Narzut zmienny odjąłby 0,02.",
+            "ru": "Нужно редко. % от рыночной цены, который всегда является затратой. Напр. 10% при -0,20 добавляет 0,02; переменная наценка вычла бы 0,02.",
+            "ar": "نادرًا ما يلزم. نسبة من سعر السوق تُحتسب دائمًا كتكلفة. مثال: 10% عند -0.20 تضيف 0.02؛ الهامش المتغير كان سيطرح 0.02.",
+            "ko": "거의 필요 없음. 항상 비용으로 더해지는 시장 가격의 %. 예: -0.20에서 10%는 0.02를 더함; 변동 마크업은 0.02를 뺌."
+          }
+        },
+        {
+          "id": "fixedMarkupTOD",
+          "type": "text",
+          "label": {
+            "en": "Time of day markup",
+            "nl": "Tijdopslag",
+            "de": "Tageszeitaufschlag",
+            "fr": "Majoration horaire",
+            "it": "Ricarico orario",
+            "sv": "Tidspåslag",
+            "no": "Tidspåslag",
+            "es": "Recargo horario",
+            "da": "Tidstillæg",
+            "pl": "Narzut czasowy",
+            "ru": "Надбавка по времени",
+            "ar": "إضافة حسب الوقت",
+            "ko": "시간대 마크업"
+          },
+          "value": "",
+          "hint": {
+            "en": "Extra import markup per kWh at specific hours. Format: hour:markup;hour:markup. E.g. 6:0.3;22:0.1 adds 0.3 from 6am and 0.1 from 10pm.",
+            "nl": "Extra invoeropslag per kWh op specifieke uren. Formaat: uur:opslag;uur:opslag. Bijv. 6:0.3;22:0.1 voegt 0,3 toe vanaf 6 uur en 0,1 vanaf 22 uur.",
+            "de": "Zusätzlicher Import-Aufschlag pro kWh zu bestimmten Stunden. Format: Stunde:Aufschlag;Stunde:Aufschlag. Z. B. 6:0.3;22:0.1 addiert 0,3 ab 6 Uhr und 0,1 ab 22 Uhr.",
+            "fr": "Majoration d'import supplémentaire par kWh à des heures précises. Format : heure:majoration;heure:majoration. Ex. 6:0.3;22:0.1 ajoute 0,3 dès 6h et 0,1 dès 22h.",
+            "it": "Aumento extra all'importazione per kWh in ore specifiche. Formato: ora:aumento;ora:aumento. Es. 6:0.3;22:0.1 aggiunge 0,3 dalle 6 e 0,1 dalle 22.",
+            "sv": "Extra importpåslag per kWh vid specifika timmar. Format: timme:påslag;timme:påslag. T.ex. 6:0.3;22:0.1 lägger till 0,3 från kl 6 och 0,1 från kl 22.",
+            "no": "Ekstra importpåslag per kWh på bestemte timer. Format: time:påslag;time:påslag. F.eks. 6:0.3;22:0.1 legger til 0,3 fra kl. 6 og 0,1 fra kl. 22.",
+            "es": "Recargo adicional de importación por kWh en horas concretas. Formato: hora:recargo;hora:recargo. Ej. 6:0.3;22:0.1 añade 0,3 desde las 6h y 0,1 desde las 22h.",
+            "da": "Ekstra importgebyr pr. kWh på bestemte tidspunkter. Format: time:gebyr;time:gebyr. F.eks. 6:0.3;22:0.1 lægger 0,3 til fra kl. 6 og 0,1 fra kl. 22.",
+            "pl": "Dodatkowy narzut importowy za kWh w określonych godzinach. Format: godzina:narzut;godzina:narzut. Np. 6:0.3;22:0.1 dodaje 0,3 od 6:00 i 0,1 od 22:00.",
+            "ru": "Дополнительная наценка на импорт за кВтч в определённые часы. Формат: час:наценка;час:наценка. Например, 6:0.3;22:0.1 добавляет 0,3 с 6 утра и 0,1 с 22:00.",
+            "ar": "هامش إضافي على الاستيراد لكل كيلوواط ساعة في ساعات محددة. الصيغة: ساعة:هامش;ساعة:هامش. مثال: 6:0.3;22:0.1 يضيف 0.3 من الساعة 6 صباحًا و0.1 من الساعة 10 مساءً.",
+            "ko": "특정 시간대에 적용되는 추가 수입 마크업(kWh당). 형식: 시간:마크업;시간:마크업. 예: 6:0.3;22:0.1은 오전 6시부터 0.3, 오후 10시부터 0.1을 추가합니다."
+          }
+        },
+        {
+          "id": "fixedMarkupTODInclVat",
+          "type": "checkbox",
+          "value": false,
+          "label": {
+            "en": "Time of day markup includes VAT",
+            "nl": "Tijdopslag is incl. BTW",
+            "de": "Tageszeitaufschlag enthält MwSt.",
+            "fr": "Majoration horaire inclut la TVA",
+            "it": "Ricarico orario include l'IVA",
+            "sv": "Tidspåslag inkluderar moms",
+            "no": "Tidspåslag inkluderer MVA",
+            "es": "Recargo horario incluye IVA",
+            "da": "Tidstillæg inkluderer moms",
+            "pl": "Narzut czasowy zawiera VAT",
+            "ru": "Надбавка по времени включает НДС",
+            "ar": "إضافة حسب الوقت يشمل الضريبة",
+            "ko": "시간대 마크업에 부가세 포함"
+          }
+        },
+        {
+          "id": "fixedMarkupWeekend",
+          "type": "number",
+          "label": {
+            "en": "Weekend markup",
+            "nl": "Weekendopslag",
+            "de": "Wochenendaufschlag",
+            "fr": "Majoration week-end",
+            "it": "Ricarico weekend",
+            "sv": "Helgpåslag",
+            "no": "Helgepåslag",
+            "es": "Recargo de fin de semana",
+            "da": "Weekendtillæg",
+            "pl": "Narzut weekendowy",
+            "ru": "Надбавка выходного дня",
+            "ar": "إضافة نهاية الأسبوع",
+            "ko": "주말 마크업"
+          },
+          "value": 0,
+          "hint": {
+            "en": "Extra import markup per kWh for the whole weekend (Sat-Sun). Replaces the Time Of Day markup.",
+            "nl": "Extra invoeropslag per kWh voor het hele weekend (za-zo). Vervangt de tijdstip-opslag.",
+            "de": "Zusätzlicher Import-Aufschlag pro kWh für das ganze Wochenende (Sa-So). Ersetzt den Tageszeit-Aufschlag.",
+            "fr": "Majoration d'import supplémentaire par kWh pour tout le week-end (sam-dim). Remplace la majoration selon l'heure.",
+            "it": "Aumento extra all'importazione per kWh per tutto il fine settimana (sab-dom). Sostituisce l'aumento per fascia oraria.",
+            "sv": "Extra importpåslag per kWh under hela helgen (lör-sön). Ersätter tidpunktspåslaget.",
+            "no": "Ekstra importpåslag per kWh for hele helgen (lør-søn). Erstatter tidspunktpåslaget.",
+            "es": "Recargo adicional de importación por kWh durante todo el fin de semana (sáb-dom). Sustituye al recargo por franja horaria.",
+            "da": "Ekstra importgebyr pr. kWh i hele weekenden (lør-søn). Erstatter tidspunktgebyret.",
+            "pl": "Dodatkowy narzut importowy za kWh na cały weekend (sob-niedz). Zastępuje narzut zależny od pory dnia.",
+            "ru": "Дополнительная наценка на импорт за кВтч на все выходные (сб-вс). Заменяет наценку по времени суток.",
+            "ar": "هامش إضافي على الاستيراد لكل كيلوواط ساعة طوال عطلة نهاية الأسبوع (السبت-الأحد). يحل محل هامش وقت اليوم.",
+            "ko": "주말 전체(토-일)에 적용되는 추가 수입 마크업(kWh당). 시간대별 마크업을 대체합니다."
+          }
+        },
+        {
+          "id": "fixedMarkupWeekendInclVat",
+          "type": "checkbox",
+          "value": false,
+          "label": {
+            "en": "Weekend markup includes VAT",
+            "nl": "Weekendopslag is incl. BTW",
+            "de": "Wochenendaufschlag enthält MwSt.",
+            "fr": "Majoration week-end inclut la TVA",
+            "it": "Ricarico weekend include l'IVA",
+            "sv": "Helgpåslag inkluderar moms",
+            "no": "Helgepåslag inkluderer MVA",
+            "es": "Recargo de fin de semana incluye IVA",
+            "da": "Weekendtillæg inkluderer moms",
+            "pl": "Narzut weekendowy zawiera VAT",
+            "ru": "Надбавка выходного дня включает НДС",
+            "ar": "إضافة نهاية الأسبوع يشمل الضريبة",
+            "ko": "주말 마크업에 부가세 포함"
+          }
+        },
+        {
+          "id": "formula",
+          "type": "text",
+          "value": "",
+          "label": {
+            "en": "Own formula",
+            "nl": "Eigen formule",
+            "de": "Eigene Formel",
+            "fr": "Formule personnalisée",
+            "it": "Formula personalizzata",
+            "sv": "Egen formel",
+            "no": "Egen formel",
+            "es": "Fórmula propia",
+            "da": "Egen formel",
+            "pl": "Własna formuła",
+            "ru": "Своя формула",
+            "ar": "معادلة مخصّصة",
+            "ko": "사용자 수식"
+          },
+          "hint": {
+            "en": "Optional. Empty: made from the fields above. Names: market, tod, weekend, markup, tax, vat, percent, abspercent; min(), max(), abs().",
+            "nl": "Optioneel. Leeg: gemaakt uit de velden hierboven. Namen: market, tod, weekend, markup, tax, vat, percent, abspercent; min(), max(), abs().",
+            "de": "Optional. Leer: aus den Feldern oben gebildet. Namen: market, tod, weekend, markup, tax, vat, percent, abspercent; min(), max(), abs().",
+            "fr": "Facultatif. Vide : construite à partir des champs ci-dessus. Noms : market, tod, weekend, markup, tax, vat, percent, abspercent ; min(), max(), abs().",
+            "it": "Facoltativo. Vuoto: creata dai campi sopra. Nomi: market, tod, weekend, markup, tax, vat, percent, abspercent; min(), max(), abs().",
+            "sv": "Valfritt. Tomt: skapas från fälten ovan. Namn: market, tod, weekend, markup, tax, vat, percent, abspercent; min(), max(), abs().",
+            "no": "Valgfritt. Tomt: lages fra feltene over. Navn: market, tod, weekend, markup, tax, vat, percent, abspercent; min(), max(), abs().",
+            "es": "Opcional. Vacío: se crea con los campos de arriba. Nombres: market, tod, weekend, markup, tax, vat, percent, abspercent; min(), max(), abs().",
+            "da": "Valgfrit. Tomt: dannes ud fra felterne ovenfor. Navne: market, tod, weekend, markup, tax, vat, percent, abspercent; min(), max(), abs().",
+            "pl": "Opcjonalne. Puste: tworzona z pól powyżej. Nazwy: market, tod, weekend, markup, tax, vat, percent, abspercent; min(), max(), abs().",
+            "ru": "Необязательно. Пусто: строится из полей выше. Имена: market, tod, weekend, markup, tax, vat, percent, abspercent; min(), max(), abs().",
+            "ar": "اختياري. فارغ: تُبنى من الحقول أعلاه. الأسماء: market, tod, weekend, markup, tax, vat, percent, abspercent؛ min()، max()، abs().",
+            "ko": "선택 사항. 비우면 위 필드로 만들어집니다. 이름: market, tod, weekend, markup, tax, vat, percent, abspercent; min(), max(), abs()."
+          }
+        },
+        {
+          "id": "formulaInUse",
+          "type": "label",
+          "value": "",
+          "label": {
+            "en": "Formula in use",
+            "nl": "Gebruikte formule",
+            "de": "Verwendete Formel",
+            "fr": "Formule utilisée",
+            "it": "Formula in uso",
+            "sv": "Formel som används",
+            "no": "Formel i bruk",
+            "es": "Fórmula en uso",
+            "da": "Formel i brug",
+            "pl": "Używana formuła",
+            "ru": "Используемая формула",
+            "ar": "المعادلة المستخدمة",
+            "ko": "사용 중인 수식"
+          }
+        }
+      ]
+    },
+    {
+      "type": "group",
+      "label": {
+        "en": "Export price settings",
+        "nl": "Export prijs instellingen",
+        "de": "Exportpreiseinstellungen",
+        "fr": "Paramètres de prix d'exportation",
+        "it": "Impostazioni prezzo di esportazione",
+        "sv": "Exportprisinställningar",
+        "no": "Eksportprisinnstillinger",
+        "es": "Configuración de precios de exportación",
+        "da": "Eksportprisindstillinger",
+        "pl": "Ustawienia cen eksportu",
+        "ru": "Настройки цен экспорта",
+        "ar": "إعدادات سعر التصدير",
+        "ko": "송전(수출) 가격 설정"
+      },
+      "children": [
+        {
+          "id": "export_vat",
+          "type": "number",
+          "value": 0,
+          "min": 0,
+          "max": 100,
+          "label": {
+            "en": "VAT (%)",
+            "nl": "BTW (%)",
+            "de": "MwSt. (%)",
+            "fr": "TVA (%)",
+            "it": "IVA (%)",
+            "sv": "Moms (%)",
+            "no": "MVA (%)",
+            "es": "IVA (%)",
+            "da": "Moms (%)",
+            "pl": "VAT (%)",
+            "ru": "НДС (%)",
+            "ar": "ضريبة القيمة المضافة (%)",
+            "ko": "부가세 (%)"
+          }
+        },
+        {
+          "id": "export_fixedMarkup",
+          "type": "number",
+          "value": 0,
+          "label": {
+            "en": "Supplier markup",
+            "nl": "Opslag leverancier",
+            "de": "Lieferantenaufschlag",
+            "fr": "Marge du fournisseur",
+            "it": "Ricarico fornitore",
+            "sv": "Leverantörspåslag",
+            "no": "Leverandørpåslag",
+            "es": "Margen del proveedor",
+            "da": "Leverandørtillæg",
+            "pl": "Marża dostawcy",
+            "ru": "Наценка поставщика",
+            "ar": "هامش المورّد",
+            "ko": "공급사 마크업"
+          },
+          "hint": {
+            "en": "Per kWh (gas: per m³). Fixed tariff: your supply price.",
+            "nl": "Per kWh (gas: per m³). Vast tarief: je leveringstarief.",
+            "de": "Pro kWh (Gas: pro m³). Fester Tarif: Ihr Arbeitspreis.",
+            "fr": "Par kWh (gaz : par m³). Tarif fixe : votre prix de fourniture.",
+            "it": "Per kWh (gas: per m³). Tariffa fissa: il tuo prezzo di fornitura.",
+            "sv": "Per kWh (gas: per m³). Fast pris: ditt leveranspris.",
+            "no": "Per kWh (gass: per m³). Fast pris: din leveransepris.",
+            "es": "Por kWh (gas: por m³). Tarifa fija: tu precio de suministro.",
+            "da": "Pr. kWh (gas: pr. m³). Fast pris: din leveringspris.",
+            "pl": "Za kWh (gaz: za m³). Taryfa stała: twoja cena dostawy.",
+            "ru": "За кВт·ч (газ: за м³). Фиксированный тариф: ваша цена поставки.",
+            "ar": "لكل كيلوواط ساعة (الغاز: لكل م³). التعرفة الثابتة: سعر التوريد.",
+            "ko": "kWh당 (가스: m³당). 고정 요금제: 공급 가격."
+          }
+        },
+        {
+          "id": "export_fixedMarkupInclVat",
+          "type": "checkbox",
+          "value": false,
+          "label": {
+            "en": "Supplier markup includes VAT",
+            "nl": "Opslag leverancier is incl. BTW",
+            "de": "Lieferantenaufschlag enthält MwSt.",
+            "fr": "Marge du fournisseur inclut la TVA",
+            "it": "Ricarico fornitore include l'IVA",
+            "sv": "Leverantörspåslag inkluderar moms",
+            "no": "Leverandørpåslag inkluderer MVA",
+            "es": "Margen del proveedor incluye IVA",
+            "da": "Leverandørtillæg inkluderer moms",
+            "pl": "Marża dostawcy zawiera VAT",
+            "ru": "Наценка поставщика включает НДС",
+            "ar": "هامش المورّد يشمل الضريبة",
+            "ko": "공급사 마크업에 부가세 포함"
+          }
+        },
+        {
+          "id": "export_variableMarkup",
+          "type": "number",
+          "value": 0,
+          "label": {
+            "en": "Variable markup (%)",
+            "nl": "Variabele opslag (%)",
+            "de": "Variabler Aufschlag (%)",
+            "fr": "Majoration variable (%)",
+            "it": "Sovrapprezzo variabile (%)",
+            "sv": "Variabelt påslag (%)",
+            "no": "Variabelt påslag (%)",
+            "es": "Margen variable (%)",
+            "da": "Variabelt tillæg (%)",
+            "pl": "Narzut zmienny (%)",
+            "ru": "Переменная наценка (%)",
+            "ar": "هامش ربح متغير (%)",
+            "ko": "변동 마크업 (%)"
+          },
+          "hint": {
+            "en": "On the market price. Fixed tariff: on the supplier markup (supply price).",
+            "nl": "Op de marktprijs. Vast tarief: op de opslag leverancier (leveringstarief).",
+            "de": "Auf den Marktpreis. Fester Tarif: auf den Lieferantenaufschlag (Arbeitspreis).",
+            "fr": "Sur le prix de marché. Tarif fixe : sur la marge du fournisseur (prix de fourniture).",
+            "it": "Sul prezzo di mercato. Tariffa fissa: sul ricarico fornitore (prezzo di fornitura).",
+            "sv": "På marknadspriset. Fast pris: på leverantörspåslaget (leveranspris).",
+            "no": "På markedsprisen. Fast pris: på leverandørpåslaget (leveransepris).",
+            "es": "Sobre el precio de mercado. Tarifa fija: sobre el margen del proveedor (precio de suministro).",
+            "da": "På markedsprisen. Fast pris: på leverandørtillægget (leveringspris).",
+            "pl": "Od ceny rynkowej. Taryfa stała: od marży dostawcy (cena dostawy).",
+            "ru": "На рыночную цену. Фиксированный тариф: на наценку поставщика (цена поставки).",
+            "ar": "على سعر السوق. التعرفة الثابتة: على هامش المورّد (سعر التوريد).",
+            "ko": "시장 가격에 적용. 고정 요금제: 공급사 마크업(공급 가격)에 적용."
+          }
+        },
+        {
+          "id": "export_tax",
+          "type": "number",
+          "value": 0,
+          "label": {
+            "en": "Fixed taxes and levies",
+            "nl": "Vaste belastingen en heffingen",
+            "de": "Feste Steuern und Abgaben",
+            "fr": "Taxes et prélèvements fixes",
+            "it": "Tasse e oneri fissi",
+            "sv": "Fasta skatter och avgifter",
+            "no": "Faste skatter og avgifter",
+            "es": "Impuestos y cargos fijos",
+            "da": "Faste skatter og afgifter",
+            "pl": "Stałe podatki i opłaty",
+            "ru": "Фиксированные налоги и сборы",
+            "ar": "الضرائب والرسوم الثابتة",
+            "ko": "고정 세금 및 부담금"
+          },
+          "hint": {
+            "en": "Per kWh (gas: per m³).",
+            "nl": "Per kWh (gas: per m³).",
+            "de": "Pro kWh (Gas: pro m³).",
+            "fr": "Par kWh (gaz : par m³).",
+            "it": "Per kWh (gas: per m³).",
+            "sv": "Per kWh (gas: per m³).",
+            "no": "Per kWh (gass: per m³).",
+            "es": "Por kWh (gas: por m³).",
+            "da": "Pr. kWh (gas: pr. m³).",
+            "pl": "Za kWh (gaz: za m³).",
+            "ru": "За кВт·ч (газ: за м³).",
+            "ar": "لكل كيلوواط ساعة (الغاز: لكل م³).",
+            "ko": "kWh당 (가스: m³당)."
+          }
+        },
+        {
+          "id": "export_taxInclVat",
+          "type": "checkbox",
+          "value": false,
+          "label": {
+            "en": "Fixed taxes and levies includes VAT",
+            "nl": "Vaste belastingen en heffingen is incl. BTW",
+            "de": "Feste Steuern und Abgaben enthält MwSt.",
+            "fr": "Taxes et prélèvements fixes inclut la TVA",
+            "it": "Tasse e oneri fissi include l'IVA",
+            "sv": "Fasta skatter och avgifter inkluderar moms",
+            "no": "Faste skatter og avgifter inkluderer MVA",
+            "es": "Impuestos y cargos fijos incluye IVA",
+            "da": "Faste skatter og afgifter inkluderer moms",
+            "pl": "Stałe podatki i opłaty zawiera VAT",
+            "ru": "Фиксированные налоги и сборы включает НДС",
+            "ar": "الضرائب والرسوم الثابتة يشمل الضريبة",
+            "ko": "고정 세금 및 부담금에 부가세 포함"
+          }
+        },
+        {
+          "id": "export_variableMarkupAbsPrice",
+          "type": "number",
+          "value": 0,
+          "label": {
+            "en": "Markup also at negative prices (%)",
+            "nl": "Opslag ook bij negatieve prijzen (%)",
+            "de": "Aufschlag auch bei negativen Preisen (%)",
+            "fr": "Majoration même à prix négatifs (%)",
+            "it": "Ricarico anche con prezzi negativi (%)",
+            "sv": "Påslag även vid negativa priser (%)",
+            "no": "Påslag også ved negative priser (%)",
+            "es": "Recargo también con precios negativos (%)",
+            "da": "Tillæg også ved negative priser (%)",
+            "pl": "Narzut także przy ujemnych cenach (%)",
+            "ru": "Наценка и при отрицательных ценах (%)",
+            "ar": "هامش حتى مع الأسعار السالبة (%)",
+            "ko": "음수 가격에도 적용되는 마크업 (%)"
+          },
+          "hint": {
+            "en": "Rarely needed. A % of the market price that is always a cost. E.g. 10% at -0.20 adds 0.02; Variable markup would subtract 0.02.",
+            "nl": "Zelden nodig. Een % van de marktprijs dat altijd een kostenpost is. Bijv. 10% bij -0,20 telt 0,02 op; Variabele opslag zou 0,02 aftrekken.",
+            "de": "Selten nötig. Ein % des Marktpreises, das immer Kosten sind. Z. B. 10 % bei -0,20 addiert 0,02; Variabler Aufschlag würde 0,02 abziehen.",
+            "fr": "Rarement utile. Un % du prix de marché toujours compté comme coût. Ex. 10 % à -0,20 ajoute 0,02 ; la majoration variable retrancherait 0,02.",
+            "it": "Raramente necessario. Una % del prezzo di mercato che è sempre un costo. Es. 10% a -0,20 aggiunge 0,02; il sovrapprezzo variabile sottrarrebbe 0,02.",
+            "sv": "Behövs sällan. En % av marknadspriset som alltid är en kostnad. T.ex. 10 % vid -0,20 lägger till 0,02; Variabelt påslag skulle dra av 0,02.",
+            "no": "Sjelden nødvendig. En % av markedsprisen som alltid er en kostnad. F.eks. 10 % ved -0,20 legger til 0,02; Variabelt påslag ville trukket fra 0,02.",
+            "es": "Rara vez necesario. Un % del precio de mercado que siempre es un coste. P. ej. 10 % a -0,20 suma 0,02; el margen variable restaría 0,02.",
+            "da": "Sjældent nødvendigt. En % af markedsprisen, der altid er en omkostning. F.eks. 10 % ved -0,20 lægger 0,02 til; Variabelt tillæg ville trække 0,02 fra.",
+            "pl": "Rzadko potrzebne. % ceny rynkowej, który zawsze jest kosztem. Np. 10% przy -0,20 dodaje 0,02; Narzut zmienny odjąłby 0,02.",
+            "ru": "Нужно редко. % от рыночной цены, который всегда является затратой. Напр. 10% при -0,20 добавляет 0,02; переменная наценка вычла бы 0,02.",
+            "ar": "نادرًا ما يلزم. نسبة من سعر السوق تُحتسب دائمًا كتكلفة. مثال: 10% عند -0.20 تضيف 0.02؛ الهامش المتغير كان سيطرح 0.02.",
+            "ko": "거의 필요 없음. 항상 비용으로 더해지는 시장 가격의 %. 예: -0.20에서 10%는 0.02를 더함; 변동 마크업은 0.02를 뺌."
+          }
+        },
+        {
+          "id": "export_fixedMarkupTOD",
+          "type": "text",
+          "label": {
+            "en": "Time of day markup",
+            "nl": "Tijdopslag",
+            "de": "Tageszeitaufschlag",
+            "fr": "Majoration horaire",
+            "it": "Ricarico orario",
+            "sv": "Tidspåslag",
+            "no": "Tidspåslag",
+            "es": "Recargo horario",
+            "da": "Tidstillæg",
+            "pl": "Narzut czasowy",
+            "ru": "Надбавка по времени",
+            "ar": "إضافة حسب الوقت",
+            "ko": "시간대 마크업"
+          },
+          "value": "",
+          "hint": {
+            "en": "Extra export markup per kWh at specific hours. Format: hour:markup;hour:markup. E.g. 6:0.3;22:0.1 adds 0.3 from 6am and 0.1 from 10pm.",
+            "nl": "Extra uitvoeropslag per kWh op specifieke uren. Formaat: uur:opslag;uur:opslag. Bijv. 6:0.3;22:0.1 voegt 0,3 toe vanaf 6 uur en 0,1 vanaf 22 uur.",
+            "de": "Zusätzlicher Export-Aufschlag pro kWh zu bestimmten Stunden. Format: Stunde:Aufschlag;Stunde:Aufschlag. Z. B. 6:0.3;22:0.1 addiert 0,3 ab 6 Uhr und 0,1 ab 22 Uhr.",
+            "fr": "Majoration d'export supplémentaire par kWh à des heures précises. Format : heure:majoration;heure:majoration. Ex. 6:0.3;22:0.1 ajoute 0,3 dès 6h et 0,1 dès 22h.",
+            "it": "Aumento extra all'esportazione per kWh in ore specifiche. Formato: ora:aumento;ora:aumento. Es. 6:0.3;22:0.1 aggiunge 0,3 dalle 6 e 0,1 dalle 22.",
+            "sv": "Extra exportpåslag per kWh vid specifika timmar. Format: timme:påslag;timme:påslag. T.ex. 6:0.3;22:0.1 lägger till 0,3 från kl 6 och 0,1 från kl 22.",
+            "no": "Ekstra eksportpåslag per kWh på bestemte timer. Format: time:påslag;time:påslag. F.eks. 6:0.3;22:0.1 legger til 0,3 fra kl. 6 og 0,1 fra kl. 22.",
+            "es": "Recargo adicional de exportación por kWh en horas concretas. Formato: hora:recargo;hora:recargo. Ej. 6:0.3;22:0.1 añade 0,3 desde las 6h y 0,1 desde las 22h.",
+            "da": "Ekstra eksportgebyr pr. kWh på bestemte tidspunkter. Format: time:gebyr;time:gebyr. F.eks. 6:0.3;22:0.1 lægger 0,3 til fra kl. 6 og 0,1 fra kl. 22.",
+            "pl": "Dodatkowy narzut eksportowy za kWh w określonych godzinach. Format: godzina:narzut;godzina:narzut. Np. 6:0.3;22:0.1 dodaje 0,3 od 6:00 i 0,1 od 22:00.",
+            "ru": "Дополнительная наценка на экспорт за кВтч в определённые часы. Формат: час:наценка;час:наценка. Например, 6:0.3;22:0.1 добавляет 0,3 с 6 утра и 0,1 с 22:00.",
+            "ar": "هامش إضافي على التصدير لكل كيلوواط ساعة في ساعات محددة. الصيغة: ساعة:هامش;ساعة:هامش. مثال: 6:0.3;22:0.1 يضيف 0.3 من الساعة 6 صباحًا و0.1 من الساعة 10 مساءً.",
+            "ko": "특정 시간대에 적용되는 추가 수출 마크업(kWh당). 형식: 시간:마크업;시간:마크업. 예: 6:0.3;22:0.1은 오전 6시부터 0.3, 오후 10시부터 0.1을 추가합니다."
+          }
+        },
+        {
+          "id": "export_fixedMarkupTODInclVat",
+          "type": "checkbox",
+          "value": false,
+          "label": {
+            "en": "Time of day markup includes VAT",
+            "nl": "Tijdopslag is incl. BTW",
+            "de": "Tageszeitaufschlag enthält MwSt.",
+            "fr": "Majoration horaire inclut la TVA",
+            "it": "Ricarico orario include l'IVA",
+            "sv": "Tidspåslag inkluderar moms",
+            "no": "Tidspåslag inkluderer MVA",
+            "es": "Recargo horario incluye IVA",
+            "da": "Tidstillæg inkluderer moms",
+            "pl": "Narzut czasowy zawiera VAT",
+            "ru": "Надбавка по времени включает НДС",
+            "ar": "إضافة حسب الوقت يشمل الضريبة",
+            "ko": "시간대 마크업에 부가세 포함"
+          }
+        },
+        {
+          "id": "export_fixedMarkupWeekend",
+          "type": "number",
+          "label": {
+            "en": "Weekend markup",
+            "nl": "Weekendopslag",
+            "de": "Wochenendaufschlag",
+            "fr": "Majoration week-end",
+            "it": "Ricarico weekend",
+            "sv": "Helgpåslag",
+            "no": "Helgepåslag",
+            "es": "Recargo de fin de semana",
+            "da": "Weekendtillæg",
+            "pl": "Narzut weekendowy",
+            "ru": "Надбавка выходного дня",
+            "ar": "إضافة نهاية الأسبوع",
+            "ko": "주말 마크업"
+          },
+          "value": 0,
+          "hint": {
+            "en": "Extra export markup per kWh for the whole weekend (Sat-Sun). Replaces the Time Of Day markup.",
+            "nl": "Extra uitvoeropslag per kWh voor het hele weekend (za-zo). Vervangt de tijdstip-opslag.",
+            "de": "Zusätzlicher Export-Aufschlag pro kWh für das ganze Wochenende (Sa-So). Ersetzt den Tageszeit-Aufschlag.",
+            "fr": "Majoration d'export supplémentaire par kWh pour tout le week-end (sam-dim). Remplace la majoration selon l'heure.",
+            "it": "Aumento extra all'esportazione per kWh per tutto il fine settimana (sab-dom). Sostituisce l'aumento per fascia oraria.",
+            "sv": "Extra exportpåslag per kWh under hela helgen (lör-sön). Ersätter tidpunktspåslaget.",
+            "no": "Ekstra eksportpåslag per kWh for hele helgen (lør-søn). Erstatter tidspunktpåslaget.",
+            "es": "Recargo adicional de exportación por kWh durante todo el fin de semana (sáb-dom). Sustituye al recargo por franja horaria.",
+            "da": "Ekstra eksportgebyr pr. kWh i hele weekenden (lør-søn). Erstatter tidspunktgebyret.",
+            "pl": "Dodatkowy narzut eksportowy za kWh na cały weekend (sob-niedz). Zastępuje narzut zależny od pory dnia.",
+            "ru": "Дополнительная наценка на экспорт за кВтч на все выходные (сб-вс). Заменяет наценку по времени суток.",
+            "ar": "هامش إضافي على التصدير لكل كيلوواط ساعة طوال عطلة نهاية الأسبوع (السبت-الأحد). يحل محل هامش وقت اليوم.",
+            "ko": "주말 전체(토-일)에 적용되는 추가 수출 마크업(kWh당). 시간대별 마크업을 대체합니다."
+          }
+        },
+        {
+          "id": "export_fixedMarkupWeekendInclVat",
+          "type": "checkbox",
+          "value": false,
+          "label": {
+            "en": "Weekend markup includes VAT",
+            "nl": "Weekendopslag is incl. BTW",
+            "de": "Wochenendaufschlag enthält MwSt.",
+            "fr": "Majoration week-end inclut la TVA",
+            "it": "Ricarico weekend include l'IVA",
+            "sv": "Helgpåslag inkluderar moms",
+            "no": "Helgepåslag inkluderer MVA",
+            "es": "Recargo de fin de semana incluye IVA",
+            "da": "Weekendtillæg inkluderer moms",
+            "pl": "Narzut weekendowy zawiera VAT",
+            "ru": "Надбавка выходного дня включает НДС",
+            "ar": "إضافة نهاية الأسبوع يشمل الضريبة",
+            "ko": "주말 마크업에 부가세 포함"
+          }
+        },
+        {
+          "id": "export_formula",
+          "type": "text",
+          "value": "",
+          "label": {
+            "en": "Own formula",
+            "nl": "Eigen formule",
+            "de": "Eigene Formel",
+            "fr": "Formule personnalisée",
+            "it": "Formula personalizzata",
+            "sv": "Egen formel",
+            "no": "Egen formel",
+            "es": "Fórmula propia",
+            "da": "Egen formel",
+            "pl": "Własna formuła",
+            "ru": "Своя формула",
+            "ar": "معادلة مخصّصة",
+            "ko": "사용자 수식"
+          },
+          "hint": {
+            "en": "Optional. Empty: made from the fields above. Names: market, tod, weekend, markup, tax, vat, percent, abspercent, import; min(), max(), abs().",
+            "nl": "Optioneel. Leeg: gemaakt uit de velden hierboven. Namen: market, tod, weekend, markup, tax, vat, percent, abspercent, import; min(), max(), abs().",
+            "de": "Optional. Leer: aus den Feldern oben gebildet. Namen: market, tod, weekend, markup, tax, vat, percent, abspercent, import; min(), max(), abs().",
+            "fr": "Facultatif. Vide : construite à partir des champs ci-dessus. Noms : market, tod, weekend, markup, tax, vat, percent, abspercent, import ; min(), max(), abs().",
+            "it": "Facoltativo. Vuoto: creata dai campi sopra. Nomi: market, tod, weekend, markup, tax, vat, percent, abspercent, import; min(), max(), abs().",
+            "sv": "Valfritt. Tomt: skapas från fälten ovan. Namn: market, tod, weekend, markup, tax, vat, percent, abspercent, import; min(), max(), abs().",
+            "no": "Valgfritt. Tomt: lages fra feltene over. Navn: market, tod, weekend, markup, tax, vat, percent, abspercent, import; min(), max(), abs().",
+            "es": "Opcional. Vacío: se crea con los campos de arriba. Nombres: market, tod, weekend, markup, tax, vat, percent, abspercent, import; min(), max(), abs().",
+            "da": "Valgfrit. Tomt: dannes ud fra felterne ovenfor. Navne: market, tod, weekend, markup, tax, vat, percent, abspercent, import; min(), max(), abs().",
+            "pl": "Opcjonalne. Puste: tworzona z pól powyżej. Nazwy: market, tod, weekend, markup, tax, vat, percent, abspercent, import; min(), max(), abs().",
+            "ru": "Необязательно. Пусто: строится из полей выше. Имена: market, tod, weekend, markup, tax, vat, percent, abspercent, import; min(), max(), abs().",
+            "ar": "اختياري. فارغ: تُبنى من الحقول أعلاه. الأسماء: market, tod, weekend, markup, tax, vat, percent, abspercent, import؛ min()، max()، abs().",
+            "ko": "선택 사항. 비우면 위 필드로 만들어집니다. 이름: market, tod, weekend, markup, tax, vat, percent, abspercent, import; min(), max(), abs()."
+          }
+        },
+        {
+          "id": "export_formulaInUse",
+          "type": "label",
+          "value": "",
+          "label": {
+            "en": "Formula in use",
+            "nl": "Gebruikte formule",
+            "de": "Verwendete Formel",
+            "fr": "Formule utilisée",
+            "it": "Formula in uso",
+            "sv": "Formel som används",
+            "no": "Formel i bruk",
+            "es": "Fórmula en uso",
+            "da": "Formel i brug",
+            "pl": "Używana formuła",
+            "ru": "Используемая формула",
+            "ar": "المعادلة المستخدمة",
+            "ko": "사용 중인 수식"
+          }
+        },
+        {
+          "id": "export_show_chart_line",
+          "type": "checkbox",
+          "label": {
+            "en": "Show export price in chart",
+            "nl": "Toon exportprijs in grafiek",
+            "de": "Exportpreis im Diagramm anzeigen",
+            "fr": "Afficher le prix d'exportation dans le graphique",
+            "it": "Mostra il prezzo di esportazione nel grafico",
+            "sv": "Visa exportpris i diagram",
+            "no": "Vis eksportpris i graf",
+            "es": "Mostrar precio de exportación en el gráfico",
+            "da": "Vis eksportpris i diagram",
+            "pl": "Pokaż cenę eksportu na wykresie",
+            "ru": "Показать экспортную цену на графике",
+            "ar": "إظهار سعر التصدير في الرسم البياني",
+            "ko": "차트에 송전(수출) 가격 표시"
+          },
+          "value": false,
+          "hint": {
+            "en": "Check this to display the export price as a line in the price charts.",
+            "nl": "Vink dit aan om de exportprijs als een lijn in de prijsgrafieken weer te geven.",
+            "de": "Aktivieren Sie dies, um den Exportpreis als Linie in den Preisdiagrammen anzuzeigen.",
+            "fr": "Cochez cette case pour afficher le prix d'exportation sous forme de ligne dans les graphiques de prix.",
+            "it": "Seleziona per visualizzare il prezzo di esportazione come linea nei grafici dei prezzi.",
+            "sv": "Kryssa i detta för att visa exportpriset som en linje i prisdiagrammen.",
+            "no": "Kryss av for å vise eksportprisen som en linje i prisgrafene.",
+            "es": "Marque esto para mostrar el precio de exportación como una línea en los gráficos de precios.",
+            "da": "Sæt kryds for at vise eksportprisen som en linje i prisdiagrammerne.",
+            "pl": "Zaznacz, aby wyświetlić cenę eksportu jako linię na wykresach cen.",
+            "ru": "Отметьте, чтобы отображать экспортную цену в виде линии на графиках цен.",
+            "ar": "حدد هذا لعرض سعر التصدير كخط في الرسوم البيانية للأسعار.",
+            "ko": "송전(수출) 가격을 가격 차트에 선으로 표시하려면 선택하세요."
+          }
+        }
+      ]
+    },
+    {
+      "type": "group",
+      "label": {
+        "en": "Currency settings",
+        "nl": "Munteenheid instellingen",
+        "de": "Währungseinstellungen",
+        "fr": "Paramètre de devise",
+        "it": "Impostazioni valuta",
+        "sv": "Valutainställningar",
+        "no": "Valutainnstillinger",
+        "es": "Configuración de moneda",
+        "da": "Valutaindstillinger",
+        "pl": "Ustawienia waluty",
+        "ru": "Настройки валюты",
+        "ar": "إعدادات العملة",
+        "ko": "통화 설정"
+      },
+      "children": [
+        {
+          "id": "currency",
+          "type": "text",
+          "label": {
+            "en": "Currency unit",
+            "nl": "Geldeenheid",
+            "de": "Währung",
+            "fr": "Unité monétaire",
+            "it": "Unità valuta",
+            "sv": "Valutaenhet",
+            "no": "Valutaenhet",
+            "es": "Unidad de moneda",
+            "da": "Valutaenhed",
+            "pl": "Jednostka walutowa",
+            "ru": "Валютная единица",
+            "ar": "وحدة العملة",
+            "ko": "통화 단위"
+          },
+          "value": "€",
+          "hint": {
+            "en": "The unit displayed as currency, e.g. €, £, EUR, SER, NOK, DKK, CHF. Leave empty to use the default €.",
+            "nl": "De weergegeven eenheid voor geld, bijv. €, £, EUR, SER, NOK, DKK, CHF. Laat leeg om de standaard € te gebruiken.",
+            "de": "Die als Währung angezeigte Einheit, z.B. €, £, EUR, SER, NOK, DKK, CHF. Leer lassen, um die Standardeinheit € zu verwenden.",
+            "fr": "Unité affichée comme devise, ex. €, £, EUR, SER, NOK, DKK, CHF. Laisser vide pour utiliser € par défaut",
+            "it": "L'unità mostrata come valuta, es. €, £, EUR, SER, NOK, DKK, CHF. Lasciare vuoto per utilizzare € di default.",
+            "sv": "Enheten som visas som valuta, t.ex. €, £, EUR, SER, NOK, DKK, CHF. Lämna tomt för att använda standardvärdet €.",
+            "no": "Valutaenheten vises som f.eks. €, £, EUR, SER, NOK, DKK, CHF. La stå blank for å bruke default €.",
+            "es": "La unidad que se muestra como moneda, p. ej. €, £, EUR, SER, NOK, DKK, CHF. Dejar vacío para usar el valor predeterminado €.",
+            "da": "Enheden vises som valuta, f.eks. €, £, EUR, SER, NOK, DKK, CHF. Lad denne stå blank for at bruge standard €.",
+            "pl": "Jednostka wyświetlana jako waluta, np. €, £, EUR, SER, NOK, DKK, CHF. Pozostaw puste, aby użyć domyślnego €.",
+            "ru": "Единица, отображаемая как валюта, например €, £, EUR, SER, NOK, DKK, CHF. Оставьте пустым, чтобы использовать значение по умолчанию €.",
+            "ar": "الوحدة المعروضة كعملة، مثل €، £، EUR، SER، NOK، DKK، CHF. اتركها فارغة لاستخدام الافتراضي €.",
+            "ko": "통화로 표시할 단위입니다 (예: €, £, EUR, SER, NOK, DKK, CHF). 비워두면 기본값 €를 사용합니다."
+          }
+        },
+        {
+          "id": "decimals",
+          "type": "number",
+          "label": {
+            "en": "Currency decimals",
+            "nl": "Geld decimalen",
+            "de": "Anzahl Dezimalstellen",
+            "fr": "Décimales monétaires",
+            "it": "Decimali valuta",
+            "sv": "Valuta decimaler",
+            "no": "Valutadesimaler",
+            "es": "Decimales de moneda",
+            "da": "Valutadecimaler",
+            "pl": "Miejsca dziesiętne waluty",
+            "ru": "Десятичные знаки валюты",
+            "ar": "الكسور العشرية للعملة",
+            "ko": "통화 소수 자릿수"
+          },
+          "value": 4,
+          "min": 0,
+          "max": 8,
+          "hint": {
+            "en": "The number of decimals to use for price.",
+            "nl": "Het aantal decimalen voor prijs.",
+            "de": "Die Anzahl der Dezimalstellen für den Preis.",
+            "fr": "Nombre de décimales à utiliser pour le tarif",
+            "it": "Il numero di decimali da utilizzare per il prezzo.",
+            "sv": "Antalet decimaler som ska användas för pris.",
+            "no": "Antall prisdesimaler",
+            "es": "El número de decimales a utilizar para el precio.",
+            "da": "Antallet af decimaler, der bruges til prisen",
+            "pl": "Liczba miejsc dziesiętnych do użycia dla ceny.",
+            "ru": "Количество десятичных знаков для цены.",
+            "ar": "عدد الكسور العشرية المراد استخدامها للسعر.",
+            "ko": "가격에 사용할 소수 자릿수입니다."
+          }
+        },
+        {
+          "id": "exchangeRate",
+          "type": "number",
+          "label": {
+            "en": "Exchange rate with €",
+            "nl": "Wisselkoers met €",
+            "de": "Wechselkurs mit €",
+            "fr": "Taux de change avec €",
+            "it": "Tasso di cambio con €",
+            "sv": "Växelkurs med €",
+            "no": "Vekslingskurs mot €",
+            "es": "Tipo de cambio con €",
+            "da": "Vekselkurs med €",
+            "pl": "Kurs wymiany z €",
+            "ru": "Обменный курс с €",
+            "ar": "سعر الصرف مع €",
+            "ko": "€ 대비 환율"
+          },
+          "value": 1,
+          "hint": {
+            "en": "Set at 1 if you want to use EURO, otherwise enter the exchange rate to your preferred currency.",
+            "nl": "Stel in op 1 als je EURO's wilt gebruiken, of geef de wisselkoers in naar de gewenste munteenheid.",
+            "de": "Setzen Sie den Wert auf 1, wenn Sie den Euro verwenden möchten, andernfalls geben Sie den Wechselkurs in Ihrer bevorzugten Währung ein.",
+            "fr": "Mettre à 1 si vous souhaitez utiliser EURO, sinon entrer le taux de change de la devise souhaitée",
+            "it": "Imposta 1 se vuoi utilizzare EURO, altrimenti inserisci il tasso di cambio della valuta che preferisci.",
+            "sv": "Ställ in på 1 om du vill använda EURO, annars anger du växelkursen till din önskade valuta.",
+            "no": "Sett som 1 hvis du vil bruke EURO, ellers legg inn vekslingskursen for din foretrukne valuta.",
+            "es": "Establecer en 1 si desea usar EURO, de lo contrario ingrese el tipo de cambio a su moneda preferida.",
+            "da": "Sæt som 1 hvis du vil bruge Euro, indsæt ellers vekselkursen for din foretrukne valuta",
+            "pl": "Ustaw na 1, jeśli chcesz używać EURO, w przeciwnym razie wprowadź kurs wymiany na preferowaną walutę.",
+            "ru": "Установите 1, если хотите использовать ЕВРО, в противном случае введите обменный курс к вашей предпочтительной валюте.",
+            "ar": "قم بالتعيين على 1 إذا كنت تريد استخدام اليورو، وإلا أدخل سعر الصرف لعملتك المفضلة.",
+            "ko": "유로를 사용하려면 1로 설정하고, 그렇지 않으면 원하는 통화에 대한 환율을 입력하세요."
+          }
+        },
+        {
+          "id": "fetchExchangeRate",
+          "type": "dropdown",
+          "value": "NONE",
+          "label": {
+            "en": "Daily update the exchange rate",
+            "nl": "Update wisselkoers dagelijks",
+            "de": "Wechselkurs täglich aktualisieren",
+            "fr": "Mise à jour quotidienne du taux de change",
+            "it": "Aggiorna quotidianamente il tasso di cambio",
+            "sv": "Uppdatera växelkursen dagligen",
+            "no": "Daglig oppdatering av vekslingskurs",
+            "es": "Actualizar diariamente el tipo de cambio",
+            "da": "Opdatér dagligt valutakurs",
+            "pl": "Codzienna aktualizacja kursu wymiany",
+            "ru": "Ежедневное обновление обменного курса",
+            "ar": "تحديث سعر الصرف يوميا",
+            "ko": "매일 환율 업데이트"
+          },
+          "values": [
+            {
+              "id": "NONE",
+              "label": {
+                "en": "DO NOT FETCH",
+                "nl": "NIET OPHALEN",
+                "de": "NICHT ABFRAGEN",
+                "fr": "NE PAS RÉCUPÉRER",
+                "it": "NON RECUPERARE",
+                "sv": "HÄMTA INTE",
+                "no": "IKKE HENT",
+                "es": "NO RECUPERAR",
+                "da": "HENT IKKE",
+                "pl": "NIE POBIERAJ",
+                "ru": "НЕ ПОЛУЧАТЬ",
+                "ar": "لا تجلب",
+                "ko": "가져오지 않음"
+              }
+            },
+            {
+              "id": "BGN",
+              "label": {
+                "en": "BGN",
+                "ko": "BGN",
+                "nl": "BGN",
+                "de": "BGN",
+                "fr": "BGN",
+                "es": "BGN",
+                "it": "BGN",
+                "da": "BGN",
+                "sv": "BGN",
+                "no": "BGN",
+                "pl": "BGN",
+                "ru": "BGN",
+                "ar": "BGN"
+              }
+            },
+            {
+              "id": "CHF",
+              "label": {
+                "en": "CHF",
+                "ko": "CHF",
+                "nl": "CHF",
+                "de": "CHF",
+                "fr": "CHF",
+                "es": "CHF",
+                "it": "CHF",
+                "da": "CHF",
+                "sv": "CHF",
+                "no": "CHF",
+                "pl": "CHF",
+                "ru": "CHF",
+                "ar": "CHF"
+              }
+            },
+            {
+              "id": "CZK",
+              "label": {
+                "en": "CZK",
+                "ko": "CZK",
+                "nl": "CZK",
+                "de": "CZK",
+                "fr": "CZK",
+                "es": "CZK",
+                "it": "CZK",
+                "da": "CZK",
+                "sv": "CZK",
+                "no": "CZK",
+                "pl": "CZK",
+                "ru": "CZK",
+                "ar": "CZK"
+              }
+            },
+            {
+              "id": "DKK",
+              "label": {
+                "en": "DKK",
+                "ko": "DKK",
+                "nl": "DKK",
+                "de": "DKK",
+                "fr": "DKK",
+                "es": "DKK",
+                "it": "DKK",
+                "da": "DKK",
+                "sv": "DKK",
+                "no": "DKK",
+                "pl": "DKK",
+                "ru": "DKK",
+                "ar": "DKK"
+              }
+            },
+            {
+              "id": "GBP",
+              "label": {
+                "en": "GBP",
+                "ko": "GBP",
+                "nl": "GBP",
+                "de": "GBP",
+                "fr": "GBP",
+                "es": "GBP",
+                "it": "GBP",
+                "da": "GBP",
+                "sv": "GBP",
+                "no": "GBP",
+                "pl": "GBP",
+                "ru": "GBP",
+                "ar": "GBP"
+              }
+            },
+            {
+              "id": "HRK",
+              "label": {
+                "en": "HRK",
+                "ko": "HRK",
+                "nl": "HRK",
+                "de": "HRK",
+                "fr": "HRK",
+                "es": "HRK",
+                "it": "HRK",
+                "da": "HRK",
+                "sv": "HRK",
+                "no": "HRK",
+                "pl": "HRK",
+                "ru": "HRK",
+                "ar": "HRK"
+              }
+            },
+            {
+              "id": "HUF",
+              "label": {
+                "en": "HUF",
+                "ko": "HUF",
+                "nl": "HUF",
+                "de": "HUF",
+                "fr": "HUF",
+                "es": "HUF",
+                "it": "HUF",
+                "da": "HUF",
+                "sv": "HUF",
+                "no": "HUF",
+                "pl": "HUF",
+                "ru": "HUF",
+                "ar": "HUF"
+              }
+            },
+            {
+              "id": "ISK",
+              "label": {
+                "en": "ISK",
+                "ko": "ISK",
+                "nl": "ISK",
+                "de": "ISK",
+                "fr": "ISK",
+                "es": "ISK",
+                "it": "ISK",
+                "da": "ISK",
+                "sv": "ISK",
+                "no": "ISK",
+                "pl": "ISK",
+                "ru": "ISK",
+                "ar": "ISK"
+              }
+            },
+            {
+              "id": "NOK",
+              "label": {
+                "en": "NOK",
+                "ko": "NOK",
+                "nl": "NOK",
+                "de": "NOK",
+                "fr": "NOK",
+                "es": "NOK",
+                "it": "NOK",
+                "da": "NOK",
+                "sv": "NOK",
+                "no": "NOK",
+                "pl": "NOK",
+                "ru": "NOK",
+                "ar": "NOK"
+              }
+            },
+            {
+              "id": "PLN",
+              "label": {
+                "en": "PLN",
+                "ko": "PLN",
+                "nl": "PLN",
+                "de": "PLN",
+                "fr": "PLN",
+                "es": "PLN",
+                "it": "PLN",
+                "da": "PLN",
+                "sv": "PLN",
+                "no": "PLN",
+                "pl": "PLN",
+                "ru": "PLN",
+                "ar": "PLN"
+              }
+            },
+            {
+              "id": "RON",
+              "label": {
+                "en": "RON",
+                "ko": "RON",
+                "nl": "RON",
+                "de": "RON",
+                "fr": "RON",
+                "es": "RON",
+                "it": "RON",
+                "da": "RON",
+                "sv": "RON",
+                "no": "RON",
+                "pl": "RON",
+                "ru": "RON",
+                "ar": "RON"
+              }
+            },
+            {
+              "id": "RUB",
+              "label": {
+                "en": "RUB",
+                "ko": "RUB",
+                "nl": "RUB",
+                "de": "RUB",
+                "fr": "RUB",
+                "es": "RUB",
+                "it": "RUB",
+                "da": "RUB",
+                "sv": "RUB",
+                "no": "RUB",
+                "pl": "RUB",
+                "ru": "RUB",
+                "ar": "RUB"
+              }
+            },
+            {
+              "id": "SEK",
+              "label": {
+                "en": "SEK",
+                "ko": "SEK",
+                "nl": "SEK",
+                "de": "SEK",
+                "fr": "SEK",
+                "es": "SEK",
+                "it": "SEK",
+                "da": "SEK",
+                "sv": "SEK",
+                "no": "SEK",
+                "pl": "SEK",
+                "ru": "SEK",
+                "ar": "SEK"
+              }
+            },
+            {
+              "id": "TRY",
+              "label": {
+                "en": "TRY",
+                "ko": "TRY",
+                "nl": "TRY",
+                "de": "TRY",
+                "fr": "TRY",
+                "es": "TRY",
+                "it": "TRY",
+                "da": "TRY",
+                "sv": "TRY",
+                "no": "TRY",
+                "pl": "TRY",
+                "ru": "TRY",
+                "ar": "TRY"
+              }
+            },
+            {
+              "id": "AUD",
+              "label": {
+                "en": "AUD",
+                "ko": "AUD",
+                "nl": "AUD",
+                "de": "AUD",
+                "fr": "AUD",
+                "es": "AUD",
+                "it": "AUD",
+                "da": "AUD",
+                "sv": "AUD",
+                "no": "AUD",
+                "pl": "AUD",
+                "ru": "AUD",
+                "ar": "AUD"
+              }
+            },
+            {
+              "id": "USD",
+              "label": {
+                "en": "USD",
+                "ko": "USD",
+                "nl": "USD",
+                "de": "USD",
+                "fr": "USD",
+                "es": "USD",
+                "it": "USD",
+                "da": "USD",
+                "sv": "USD",
+                "no": "USD",
+                "pl": "USD",
+                "ru": "USD",
+                "ar": "USD"
+              }
+            }
+          ],
+          "hint": {
+            "en": "Enter the currency for which you want the exchange rate to be fetched automatically. Leave at 'DO NOT FETCH' if you are using Euro, or if you want to manually set the exchange rate.",
+            "nl": "Geef de munteenheid aan waarvan de wisselkoers automatisch moey worden opgehaald. Zet op 'NIET OPHALEN' als je Euro gebruit, of als je de wisselkoers handmatig wilt invoeren.",
+            "de": "Geben Sie die Währung ein, für die Sie den Wechselkurs automatisch abrufen möchten. Belassen Sie es bei 'NICHT ABFRAGEN', wenn Sie den Euro verwenden oder den Wechselkurs manuell festlegen möchten.",
+            "fr": "Entrer la devise pour laquelle vous souhaitez que le taux de change soit automatiquement récupérer. Laisser à 'NE PAS RÉCUPÉRER' si vous utiliser l'Euro, ou si vous souhaitez entrer manuellement le taux de change",
+            "it": "Inserisci la valuta per la quale desideri che il tasso di cambio venga recuperato automaticamente. Lascia su 'NON RECUPERARE' se stai usando Euro, o se vuoi impostare manualmente il tasso di cambio.",
+            "sv": "Ange den valuta för vilken du vill att växelkursen ska hämtas automatiskt. Lämna vid 'HÄMTA INTE' om du använder euro, eller om du vill ställa in växelkursen manuellt.",
+            "no": "Legg inn valutaen for den vekslingskursen du ønsker å hente automatisk. La den stå på 'IKKE HENT' hvis du bruker Euro, eller hvis du vil sette vekslingkursen manuelt.",
+            "es": "Ingrese la moneda para la cual desea que el tipo de cambio se obtenga automáticamente. Deje en 'NO RECUPERAR' si está utilizando Euro, o si desea establecer manualmente el tipo de cambio.",
+            "da": "Angiv valutaen du automatisk vil hente vekselkursen for. Lad den stå på 'HENT IKKE' hvis du bruger Euro, eller hvis du manuelt vil tilpasse vekselkursen",
+            "pl": "Wprowadź walutę, dla której kurs wymiany ma być pobierany automatycznie. Pozostaw 'NIE POBIERAJ', jeśli używasz Euro lub jeśli chcesz ręcznie ustawić kurs wymiany.",
+            "ru": "Введите валюту, для которой вы хотите автоматически получать обменный курс. Оставьте 'НЕ ПОЛУЧАТЬ', если вы используете Евро, или если вы хотите вручную установить обменный курс.",
+            "ar": "أدخل العملة التي تريد جلب سعر الصرف لها تلقائيًا. اتركها عند 'لا تجلب' إذا كنت تستخدم اليورو، أو إذا كنت تريد تعيين سعر الصرف يدويًا.",
+            "ko": "환율을 자동으로 가져올 통화를 입력하세요. 유로를 사용 중이거나 환율을 직접 설정하려면 '가져오지 않음'으로 두세요."
+          }
+        }
+      ]
+    },
+    {
+      "type": "group",
+      "label": {
+        "en": "Various settings",
+        "nl": "Overige instellingen",
+        "de": "Diverse Einstellungen",
+        "fr": "Réglages divers",
+        "it": "Impostazioni varie",
+        "sv": "Olika inställningar",
+        "no": "Øvrige innstillinger",
+        "es": "Varios ajustes",
+        "da": "Diverse indstillinger",
+        "pl": "Różne ustawienia",
+        "ru": "Различные настройки",
+        "ar": "إعدادات مختلفة",
+        "ko": "기타 설정"
+      },
+      "children": [
+        {
+          "id": "priceProvider",
+          "type": "dropdown",
+          "value": "AUTO",
+          "label": {
+            "en": "Price Provider",
+            "nl": "Prijs Aanbieder",
+            "de": "Preisanbieter",
+            "fr": "Fournisseur de prix",
+            "it": "Fornitore di prezzi",
+            "sv": "Prisleverantör",
+            "no": "Prisleverandør",
+            "es": "Proveedor de precios",
+            "da": "Prisudbyder",
+            "pl": "Dostawca cen",
+            "ru": "Поставщик цен",
+            "ko": "가격 제공자",
+            "ar": "مزود السعر"
+          },
+          "hint": {
+            "en": "Select the provider to fetch prices from. 'AUTO' uses the most optimal provider automatically with fallback options.",
+            "nl": "Selecteer de aanbieder om prijzen van op te halen. 'AUTO' gebruikt automatisch de meest optimale aanbieder met fallback opties.",
+            "de": "Wählen Sie den Anbieter aus, von dem die Preise abgerufen werden sollen. 'AUTO' verwendet automatisch den optimalsten Anbieter mit Fallback-Optionen.",
+            "fr": "Sélectionnez le fournisseur auprès duquel récupérer les prix. 'AUTO' utilise automatiquement le fournisseur le plus optimal avec des options de secours.",
+            "it": "Seleziona il fornitore da cui recuperare i prezzi. 'AUTO' utilizza automaticamente il fornitore più ottimale con opzioni di fallback.",
+            "sv": "Välj leverantören att hämta priser från. 'AUTO' använder den mest optimala leverantören automatiskt med reservalternativ.",
+            "no": "Velg leverandøren du vil hente priser fra. 'AUTO' bruker den mest optimale leverandøren automatisk med reservealternativer.",
+            "es": "Seleccione el proveedor para obtener precios. 'AUTO' utiliza automáticamente el proveedor más óptimo con opciones de respaldo.",
+            "da": "Vælg udbyderen, der skal hentes priser fra. 'AUTO' bruger automatisk den mest optimale udbyder med fallback-muligheder.",
+            "pl": "Wybierz dostawcę, od którego chcesz pobierać ceny. 'AUTO' automatycznie wykorzystuje najbardziej optymalnego dostawcę z opcjami awaryjnymi.",
+            "ru": "Выберите поставщика для получения цен. «AUTO» автоматически использует наиболее оптимального поставщика с резервными вариантами.",
+            "ko": "가격을 가져올 제공자를 선택하십시오. 'AUTO'는 대체 옵션과 함께 가장 최적의 제공자를 자동으로 사용합니다.",
+            "ar": "حدد المزود لجلب الأسعار منه. يستخدم 'AUTO' المزود الأكثر مثالية تلقائيًا مع خيارات احتياطية."
+          },
+          "values": [
+            {
+              "id": "AUTO",
+              "label": {
+                "en": "Automatic (recommended)",
+                "nl": "Automatisch (aanbevolen)",
+                "de": "Automatisch (empfohlen)",
+                "fr": "Automatique (recommandé)",
+                "it": "Automatico (consigliato)",
+                "sv": "Automatisk (rekommenderas)",
+                "no": "Automatisk (anbefalt)",
+                "es": "Automático (recomendado)",
+                "da": "Automatisk (anbefales)",
+                "pl": "Automatyczny (zalecane)",
+                "ru": "Автоматически (рекомендуется)",
+                "ko": "자동 (권장)",
+                "ar": "تلقائي (مستحسن)"
+              }
+            },
+            {
+              "id": "OMIE",
+              "label": {
+                "en": "OMIE (Spain/Portugal)",
+                "ko": "OMIE (Spain/Portugal)",
+                "nl": "OMIE (Spain/Portugal)",
+                "de": "OMIE (Spain/Portugal)",
+                "fr": "OMIE (Spain/Portugal)",
+                "es": "OMIE (Spain/Portugal)",
+                "it": "OMIE (Spain/Portugal)",
+                "da": "OMIE (Spain/Portugal)",
+                "sv": "OMIE (Spain/Portugal)",
+                "no": "OMIE (Spain/Portugal)",
+                "pl": "OMIE (Spain/Portugal)",
+                "ru": "OMIE (Spain/Portugal)",
+                "ar": "OMIE (Spain/Portugal)"
+              }
+            },
+            {
+              "id": "ENTSOE_GRUIJTER",
+              "label": {
+                "en": "ENTSOE Gruijter",
+                "ko": "ENTSOE Gruijter",
+                "nl": "ENTSOE Gruijter",
+                "de": "ENTSOE Gruijter",
+                "fr": "ENTSOE Gruijter",
+                "es": "ENTSOE Gruijter",
+                "it": "ENTSOE Gruijter",
+                "da": "ENTSOE Gruijter",
+                "sv": "ENTSOE Gruijter",
+                "no": "ENTSOE Gruijter",
+                "pl": "ENTSOE Gruijter",
+                "ru": "ENTSOE Gruijter",
+                "ar": "ENTSOE Gruijter"
+              }
+            },
+            {
+              "id": "SMARD",
+              "label": {
+                "en": "SMARD (Bundesnetzagentur)",
+                "ko": "SMARD (Bundesnetzagentur)",
+                "nl": "SMARD (Bundesnetzagentur)",
+                "de": "SMARD (Bundesnetzagentur)",
+                "fr": "SMARD (Bundesnetzagentur)",
+                "es": "SMARD (Bundesnetzagentur)",
+                "it": "SMARD (Bundesnetzagentur)",
+                "da": "SMARD (Bundesnetzagentur)",
+                "sv": "SMARD (Bundesnetzagentur)",
+                "no": "SMARD (Bundesnetzagentur)",
+                "pl": "SMARD (Bundesnetzagentur)",
+                "ru": "SMARD (Bundesnetzagentur)",
+                "ar": "SMARD (Bundesnetzagentur)"
+              }
+            },
+            {
+              "id": "Nordpool",
+              "label": {
+                "en": "Nordpool",
+                "ko": "Nordpool",
+                "nl": "Nordpool",
+                "de": "Nordpool",
+                "fr": "Nordpool",
+                "es": "Nordpool",
+                "it": "Nordpool",
+                "da": "Nordpool",
+                "sv": "Nordpool",
+                "no": "Nordpool",
+                "pl": "Nordpool",
+                "ru": "Nordpool",
+                "ar": "Nordpool"
+              }
+            },
+            {
+              "id": "ENTSOE",
+              "label": {
+                "en": "ENTSOE",
+                "ko": "ENTSOE",
+                "nl": "ENTSOE",
+                "de": "ENTSOE",
+                "fr": "ENTSOE",
+                "es": "ENTSOE",
+                "it": "ENTSOE",
+                "da": "ENTSOE",
+                "sv": "ENTSOE",
+                "no": "ENTSOE",
+                "pl": "ENTSOE",
+                "ru": "ENTSOE",
+                "ar": "ENTSOE"
+              }
+            },
+            {
+              "id": "Stekker",
+              "label": {
+                "en": "Stekker",
+                "ko": "Stekker",
+                "nl": "Stekker",
+                "de": "Stekker",
+                "fr": "Stekker",
+                "es": "Stekker",
+                "it": "Stekker",
+                "da": "Stekker",
+                "sv": "Stekker",
+                "no": "Stekker",
+                "pl": "Stekker",
+                "ru": "Stekker",
+                "ar": "Stekker"
+              }
+            },
+            {
+              "id": "Easyenergy",
+              "label": {
+                "en": "EasyEnergy (gas)",
+                "nl": "EasyEnergy (gas)",
+                "de": "EasyEnergy (gas)",
+                "fr": "EasyEnergy (gas)",
+                "it": "EasyEnergy (gas)",
+                "sv": "EasyEnergy (gas)",
+                "no": "EasyEnergy (gas)",
+                "es": "EasyEnergy (gas)",
+                "da": "EasyEnergy (gas)",
+                "pl": "EasyEnergy (gas)",
+                "ru": "EasyEnergy (gas)",
+                "ar": "EasyEnergy (gas)",
+                "ko": "EasyEnergy (gas)"
+              }
+            },
+            {
+              "id": "EEX",
+              "label": {
+                "en": "EEX (gas)",
+                "nl": "EEX (gas)",
+                "de": "EEX (gas)",
+                "fr": "EEX (gas)",
+                "it": "EEX (gas)",
+                "sv": "EEX (gas)",
+                "no": "EEX (gas)",
+                "es": "EEX (gas)",
+                "da": "EEX (gas)",
+                "pl": "EEX (gas)",
+                "ru": "EEX (gas)",
+                "ar": "EEX (gas)",
+                "ko": "EEX (gas)"
+              }
+            }
+          ]
+        },
+        {
+          "id": "entsoeApiKey",
+          "type": "text",
+          "value": "",
+          "label": {
+            "en": "ENTSO-E API Key",
+            "nl": "ENTSO-E API Sleutel",
+            "de": "ENTSO-E API-Schlüssel",
+            "fr": "Clé API ENTSO-E",
+            "it": "Chiave API ENTSO-E",
+            "sv": "ENTSO-E API-nyckel",
+            "no": "ENTSO-E API-nøkkel",
+            "es": "Clave API ENTSO-E",
+            "da": "ENTSO-E API-nøgle",
+            "pl": "Klucz API ENTSO-E",
+            "ru": "API-ключ ENTSO-E",
+            "ko": "ENTSO-E API 키",
+            "ar": "مفتاح API ENTSO-E"
+          },
+          "hint": {
+            "en": "Leave empty to use the default key. You can apply for your own API key at https://transparency.entsoe.eu/",
+            "nl": "Laat leeg om de standaard sleutel te gebruiken. Je kunt een eigen API sleutel aanvragen op https://transparency.entsoe.eu/",
+            "de": "Leer lassen, um den Standardschlüssel zu verwenden. Sie können einen eigenen API-Schlüssel unter https://transparency.entsoe.eu/ beantragen.",
+            "fr": "Laissez vide pour utiliser la clé par défaut. Vous pouvez demander votre propre clé API sur https://transparency.entsoe.eu/",
+            "it": "Lascia vuoto per utilizzare la chiave predefinita. Puoi richiedere la tua chiave API su https://transparency.entsoe.eu/",
+            "sv": "Lämna tomt för att använda standardnyckeln. Du kan ansöka om din egen API-nyckel på https://transparency.entsoe.eu/",
+            "no": "La stå tomt for å bruke standardnøkkelen. Du kan søke om din egen API-nøkkel på https://transparency.entsoe.eu/",
+            "es": "Deje vacío para usar la clave predeterminada. Puede solicitar su propia clave API en https://transparency.entsoe.eu/",
+            "da": "Lad stå tomt for at bruge standardnøglen. Du kan ansøge om din egen API-nøgle på https://transparency.entsoe.eu/",
+            "pl": "Pozostaw puste, aby użyć klucza domyślnego. O własny klucz API możesz wnioskować na stronie https://transparency.entsoe.eu/",
+            "ru": "Оставьте пустым, чтобы использовать ключ по умолчанию. Вы можете запросить собственный ключ API на https://transparency.entsoe.eu/",
+            "ko": "기본 키를 사용하려면 비워 두십시오. https://transparency.entsoe.eu/에서 자체 API 키를 신청할 수 있습니다.",
+            "ar": "اتركه فارغًا لاستخدام المفتاح الافتراضي. يمكنك التقدم بطلب للحصول على مفتاح API الخاص بك على https://transparency.entsoe.eu/"
+          }
+        },
+        {
+          "id": "forecastEnable",
+          "type": "checkbox",
+          "label": {
+            "en": "Enable forecast prices",
+            "nl": "Prijsvoorspelling aanzetten",
+            "de": "Preisvorhersage aktivieren",
+            "fr": "Activer les prévisions de prix",
+            "it": "Abilita previsioni prezzi",
+            "sv": "Aktivera prisprognoser",
+            "no": "Aktiver prisprognoser",
+            "es": "Habilitar precios de pronóstico",
+            "da": "Aktiver prisprognoser",
+            "pl": "Włącz prognozy cen",
+            "ru": "Включить прогноз цен",
+            "ar": "تمكين أسعار التوقعات",
+            "ko": "가격 예측 활성화"
+          },
+          "hint": {
+            "en": "Add AI pricing forecast (when available).",
+            "nl": "Voeg AI prijsvoorspellingen toe (indien beschikbaar)",
+            "de": "AI-Preisvorhersage hinzufügen (falls verfügbar).",
+            "fr": "Ajouter une prévision de tarification AI (lorsque disponible).",
+            "it": "Aggiungi previsione prezzi AI (se disponibile).",
+            "sv": "Lägg till AI-prisprognos (när tillgänglig).",
+            "no": "Legg til AI prisprognose (når tilgjengelig).",
+            "es": "Agregar pronóstico de precios de IA (cuando esté disponible).",
+            "da": "Tilføj AI-prisprognose (hvis tilgængelig).",
+            "pl": "Dodaj prognozę cen AI (jeśli dostępna).",
+            "ru": "Добавить прогноз цен ИИ (при наличии).",
+            "ar": "أضف توقعات أسعار الذكاء الاصطناعي (عند توفرها).",
+            "ko": "AI 가격 예측을 추가합니다 (사용 가능한 경우)."
+          },
+          "value": false
+        },
+        {
+          "id": "tariff_update_group",
+          "type": "number",
+          "label": {
+            "en": "Use this price for group",
+            "nl": "Gebruik deze prijs voor groep",
+            "de": "Diesen Preis für Gruppe verwenden",
+            "fr": "Utiliser ce prix pour le groupe",
+            "it": "Usa questo prezzo per il gruppo",
+            "sv": "Använd detta pris för grupp",
+            "no": "Bruk denne prisen for gruppe",
+            "es": "Usar este precio para el grupo",
+            "da": "Brug denne pris til gruppe",
+            "pl": "Użyj tej ceny dla grupy",
+            "ru": "Использовать эту цену для группы",
+            "ar": "استخدم هذا السعر للمجموعة",
+            "ko": "이 가격을 사용할 그룹"
+          },
+          "min": 0,
+          "max": 10,
+          "step": 1,
+          "value": 0,
+          "hint": {
+            "en": "Devices with this number as 'Tariff update group' use this price. 0: none (flows only).",
+            "nl": "Apparaten met dit nummer als 'Tarief update groep' gebruiken deze prijs. 0: geen (alleen flows).",
+            "de": "Geräte mit dieser Nummer als 'Tarifaktualisierungsgruppe' verwenden diesen Preis. 0: keine (nur Flows).",
+            "fr": "Les appareils avec ce numéro comme 'Groupe de mise à jour tarifaire' utilisent ce prix. 0 : aucun (flows uniquement).",
+            "it": "I dispositivi con questo numero come 'Gruppo aggiornamento tariffa' usano questo prezzo. 0: nessuno (solo flow).",
+            "sv": "Enheter med detta nummer som 'Tariffuppdateringsgrupp' använder detta pris. 0: ingen (endast flöden).",
+            "no": "Enheter med dette nummeret som 'Tariff oppdateringsgruppe' bruker denne prisen. 0: ingen (kun flows).",
+            "es": "Los dispositivos con este número como 'Grupo de actualización de tarifas' usan este precio. 0: ninguno (solo flujos).",
+            "da": "Enheder med dette nummer som 'Takstopdateringsgruppe' bruger denne pris. 0: ingen (kun flows).",
+            "pl": "Urządzenia z tym numerem jako 'Grupa aktualizacji taryf' używają tej ceny. 0: brak (tylko przepływy).",
+            "ru": "Устройства с этим номером в 'Группа обновления тарифов' используют эту цену. 0: нет (только потоки).",
+            "ar": "الأجهزة التي لديها هذا الرقم كـ 'مجموعة تحديث التعريفة' تستخدم هذا السعر. 0: لا شيء (التدفقات فقط).",
+            "ko": "'요금 업데이트 그룹'이 이 번호인 장치가 이 가격을 사용합니다. 0: 없음(flow만)."
+          }
+        }
+      ]
+    }
+  ]
+}

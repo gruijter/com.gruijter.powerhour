@@ -1,4 +1,5 @@
 {
+  "deprecated": true,
   "title": {
     "en": "The price !{{is|isn't}} lowest between certain times",
     "de": "Der Preis !{{ist|ist nicht}} zwischen bestimmten Zeiten am niedrigsten",

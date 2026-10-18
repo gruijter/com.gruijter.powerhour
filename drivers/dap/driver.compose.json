@@ -1,4 +1,5 @@
 {
+  "deprecated": true,
   "name": {
     "en": "Day-Ahead 60m E Prices",
     "nl": "Day-Ahead 60m E Prijzen",

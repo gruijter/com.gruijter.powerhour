@@ -1,6 +1,6 @@
 # DAP Prices API — Developer Documentation
 
-This document describes how other Homey apps and HomeyScript can access the electricity and gas spot prices published by **Power by the Hour** (`com.gruijter.powerhour`).
+This document describes how other Homey apps and HomeyScript can access the electricity and gas prices published by **Power by the Hour** (`com.gruijter.powerhour`): dynamic (market) prices as well as fixed tariffs, including their time of day and weekend changes.
 
 Two access patterns are supported:
 | Pattern | When to use |
@@ -12,7 +12,7 @@ Two access patterns are supported:
 
 ## 1. GET — Poll current future prices
 
-Fetches all future price slots (from the current period onwards) for **every configured DAP / DAP15 / Gas device**.
+Fetches all future price slots (from the current period onwards) for **every configured price device**: the Energy price driver (`price`) and the deprecated DAP / DAP15 / Gas drivers.
 
 ```js
 // In your app's onInit()
@@ -27,33 +27,13 @@ const data = await phApi.get('/dap-prices');
   "generatedAt": "2025-08-01T10:00:00.000Z",
   "prices": [
     {
-      "deviceId":     "10YNL----------L_a1b2c3",
-      "deviceName":   "Stroomprijs NL",
-      "driverType":   "dap",
-      "biddingZone":  "10YNL----------L",
-      "currency":     "€",
-      "priceInterval": 60,
-      "slots": [
-        {
-          "time":        "2025-08-01T10:00:00.000Z",
-          "importPrice":  0.112,
-          "exportPrice":  0.095,
-          "isForecast":   false
-        },
-        {
-          "time":        "2025-08-01T11:00:00.000Z",
-          "importPrice":  0.134,
-          "exportPrice":  0.117,
-          "isForecast":   false
-        }
-      ]
-    },
-    {
-      "deviceId":     "10YNL----------L_d4e5f6",
-      "deviceName":   "Kwartiertarieven NL",
-      "driverType":   "dap15",
-      "biddingZone":  "10YNL----------L",
-      "currency":     "€",
+      "deviceId":      "10YNL----------L_a1b2c3",
+      "deviceName":    "Stroomprijs NL",
+      "driverType":    "price",
+      "commodity":     "power",
+      "tariffType":    "dynamic",
+      "biddingZone":   "10YNL----------L",
+      "currency":      "€",
       "priceInterval": 15,
       "slots": [
         {
@@ -69,6 +49,24 @@ const data = await phApi.get('/dap-prices');
           "isForecast":   false
         }
       ]
+    },
+    {
+      "deviceId":      "fixed_d4e5f6",
+      "deviceName":    "Gasprijs vast",
+      "driverType":    "price",
+      "commodity":     "gas",
+      "tariffType":    "fixed",
+      "biddingZone":   "fixed",
+      "currency":      "€",
+      "priceInterval": 60,
+      "slots": [
+        {
+          "time":        "2025-08-01T10:00:00.000Z",
+          "importPrice":  1.25,
+          "exportPrice":  0,
+          "isForecast":   false
+        }
+      ]
     }
   ]
 }
@@ -79,18 +77,20 @@ const data = await phApi.get('/dap-prices');
 | Field | Type | Description |
 |---|---|---|
 | `generatedAt` | ISO 8601 UTC string | Timestamp at which the response was generated |
-| `prices[].deviceId` | string | Homey device ID (unique per device) |
+| `prices[].deviceId` | string | Device data ID (unique per device) |
 | `prices[].deviceName` | string | Name as set by the user in Homey |
-| `prices[].driverType` | `"dap"` \| `"dap15"` \| `"dapg"` | Hourly electricity \| 15-min electricity \| gas |
-| `prices[].biddingZone` | string | ENTSO-E bidding zone code |
+| `prices[].driverType` | `"price"` \| `"dap"` \| `"dap15"` \| `"dapg"` | Energy price driver \| deprecated: hourly electricity \| 15-min electricity \| gas |
+| `prices[].commodity` | `"power"` \| `"gas"` | What the price is for. Use this instead of `driverType` to tell electricity from gas |
+| `prices[].tariffType` | `"dynamic"` \| `"fixed"` | Market based price, or a fixed tariff (with its time of day and weekend changes) |
+| `prices[].biddingZone` | string | ENTSO-E bidding zone code or gas hub; `"fixed"` for a fixed tariff |
 | `prices[].currency` | string | Currency of the price values (e.g. `"€"`) |
-| `prices[].priceInterval` | number | Slot duration in minutes (`60` or `15`) |
+| `prices[].priceInterval` | number | Slot duration in minutes (`15`, `30` or `60`) |
 | `slots[].time` | ISO 8601 UTC string | Start time of the slot |
-| `slots[].importPrice` | number | Consumer import price after markup, in currency/kWh |
-| `slots[].exportPrice` | number | Consumer export (feed-in) price after markup, in currency/kWh |
-| `slots[].isForecast` | boolean | `true` = Stekker AI forecast, `false` = confirmed market price |
+| `slots[].importPrice` | number | Consumer import price incl. all markups, taxes and VAT, in currency per kWh (gas: per m³) |
+| `slots[].exportPrice` | number | Consumer export (feed-in) price, in currency per kWh. Not meaningful for gas |
+| `slots[].isForecast` | boolean | `true` = Stekker AI forecast, `false` = confirmed market price or fixed tariff |
 
-> **Note:** All prices include the user-configured markups and exchange rate. Raw market prices are intentionally omitted.
+> **Note:** All prices are the user's final prices: markups, taxes, VAT and exchange rate included. Raw market prices are intentionally omitted.
 
 ---
 
@@ -100,8 +100,8 @@ Subscribe once in `onInit()`. Power by the Hour will emit `dap-prices-updated` i
 
 | `reason` value | When |
 |---|---|
-| `"period-changed"` | At the start of every new slot (every hour for DAP, every 15 min for DAP15) |
-| `"new-prices-fetched"` | When new market prices are fetched from the provider (typically once per day around 13:00–15:00 CET when tomorrow's prices become available) |
+| `"period-changed"` | At the start of every new slot (every `priceInterval` minutes) |
+| `"new-prices-fetched"` | When new prices are available: for dynamic prices typically once per day around 13:00–15:00 CET when tomorrow's prices are published; for a fixed tariff once per hour, when its slots are rebuilt |
 
 ```js
 // In your app's onInit()
@@ -115,7 +115,7 @@ phApi.on('realtime', ({ name, data }) => {
   this.log(`Prices updated [${reason}] at ${generatedAt}`);
 
   prices.forEach((device) => {
-    this.log(`${device.deviceName} (${device.driverType}): ${device.slots.length} future slots`);
+    this.log(`${device.deviceName} (${device.commodity}, ${device.tariffType}): ${device.slots.length} future slots`);
     const now = device.slots[0]; // current slot is always first
     this.log(`  Current import: ${now.importPrice} ${device.currency}/kWh`);
   });
@@ -191,7 +191,9 @@ class MyApp extends Homey.App {
 ## 5. Notes & caveats
 
 - The API is only available when Power by the Hour is installed and running on the **same Homey**.
-- If no dap/dap15/dapg devices are configured, `prices` will be an empty array.
+- If no price devices are configured, `prices` will be an empty array.
 - Prices are in the **user's configured currency** (field `currency`). This may differ from € if the user has set a custom exchange rate.
 - `slots` always starts at the **current period** and includes all known future slots (up to tomorrow if market prices are available, plus up to 24 h of AI forecast if enabled).
-- For DAP15 devices, `priceInterval` is `15` and slots advance every 15 minutes.
+- A fixed tariff always has slots up to the end of tomorrow. Its prices change only where the user set a time of day or weekend markup.
+- Slots advance every `priceInterval` minutes.
+- `driverType` is kept for existing integrations. New integrations should use `commodity` and `tariffType`.

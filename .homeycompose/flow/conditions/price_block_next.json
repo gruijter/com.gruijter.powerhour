@@ -1,0 +1,242 @@
+{
+  "title": {
+    "en": "Cheapest or most expensive block, coming hours",
+    "nl": "Goedkoopste of duurste blok, komende uren",
+    "de": "Günstigster oder teuerster Block, kommende Stunden",
+    "fr": "Bloc le moins cher ou le plus cher, prochaines heures",
+    "it": "Blocco più economico o più caro, prossime ore",
+    "sv": "Billigaste eller dyraste blocket, kommande timmar",
+    "no": "Billigste eller dyreste blokk, kommende timer",
+    "es": "Bloque más barato o más caro, próximas horas",
+    "da": "Billigste eller dyreste blok, kommende timer",
+    "pl": "Najtańszy lub najdroższy blok, najbliższe godziny",
+    "ru": "Самый дешёвый или дорогой блок, ближайшие часы",
+    "ar": "الفترة الأرخص أو الأغلى، الساعات القادمة",
+    "ko": "가장 저렴하거나 비싼 구간, 다음 몇 시간"
+  },
+  "titleFormatted": {
+    "en": "The [[type]] block of [[duration]] [[duration_unit]] in the next [[hours]] hours !{{is|isn't}} now",
+    "nl": "Het [[type]] blok van [[duration]] [[duration_unit]] in de komende [[hours]] uur !{{is|is niet}} nu",
+    "de": "Der [[type]] Block von [[duration]] [[duration_unit]] in den nächsten [[hours]] Stunden !{{läuft|läuft nicht}} jetzt",
+    "fr": "Le bloc le [[type]] de [[duration]] [[duration_unit]] des [[hours]] prochaines heures !{{est|n'est pas}} en cours",
+    "it": "Il blocco [[type]] di [[duration]] [[duration_unit]] nelle prossime [[hours]] ore !{{è|non è}} in corso",
+    "sv": "Det [[type]] blocket på [[duration]] [[duration_unit]] de kommande [[hours]] timmarna !{{pågår|pågår inte}} nu",
+    "no": "Den [[type]] blokken på [[duration]] [[duration_unit]] de neste [[hours]] timene !{{pågår|pågår ikke}} nå",
+    "es": "El bloque [[type]] de [[duration]] [[duration_unit]] de las próximas [[hours]] horas !{{está|no está}} en curso",
+    "da": "Den [[type]] blok på [[duration]] [[duration_unit]] i de næste [[hours]] timer !{{er|er ikke}} i gang",
+    "pl": "[[type]] blok [[duration]] [[duration_unit]] w ciągu najbliższych [[hours]] godzin !{{trwa|nie trwa}} teraz",
+    "ru": "[[type]] блок из [[duration]] [[duration_unit]] в ближайшие [[hours]] ч !{{идёт|не идёт}} сейчас",
+    "ar": "الفترة [[type]] لمدة [[duration]] [[duration_unit]] في الساعات [[hours]] القادمة !{{جارية|ليست جارية}} الآن",
+    "ko": "다음 [[hours]]시간 중 [[type]] [[duration]][[duration_unit]] 구간이 지금 !{{진행 중|진행 중 아님}}"
+  },
+  "highlight": true,
+  "args": [
+    {
+      "type": "device",
+      "name": "device",
+      "filter": "driver_id=price&capabilities=meter_rank_price_h0_this_day"
+    },
+    {
+      "type": "dropdown",
+      "name": "type",
+      "title": {
+        "en": "Type",
+        "nl": "Soort",
+        "de": "Art",
+        "fr": "Type",
+        "it": "Tipo",
+        "sv": "Typ",
+        "no": "Type",
+        "es": "Tipo",
+        "da": "Type",
+        "pl": "Rodzaj",
+        "ru": "Тип",
+        "ar": "النوع",
+        "ko": "유형"
+      },
+      "values": [
+        {
+          "id": "lowest",
+          "label": {
+            "en": "cheapest",
+            "nl": "goedkoopste",
+            "de": "günstigste",
+            "fr": "moins cher",
+            "it": "più economico",
+            "sv": "billigaste",
+            "no": "billigste",
+            "es": "más barato",
+            "da": "billigste",
+            "pl": "najtańszy",
+            "ru": "самый дешёвый",
+            "ar": "الأرخص",
+            "ko": "가장 저렴한"
+          }
+        },
+        {
+          "id": "highest",
+          "label": {
+            "en": "most expensive",
+            "nl": "duurste",
+            "de": "teuerste",
+            "fr": "plus cher",
+            "it": "più caro",
+            "sv": "dyraste",
+            "no": "dyreste",
+            "es": "más caro",
+            "da": "dyreste",
+            "pl": "najdroższy",
+            "ru": "самый дорогой",
+            "ar": "الأغلى",
+            "ko": "가장 비싼"
+          }
+        }
+      ]
+    },
+    {
+      "type": "number",
+      "name": "duration",
+      "title": {
+        "en": "Duration",
+        "nl": "Duur",
+        "de": "Dauer",
+        "fr": "Durée",
+        "it": "Durata",
+        "sv": "Längd",
+        "no": "Varighet",
+        "es": "Duración",
+        "da": "Varighed",
+        "pl": "Czas trwania",
+        "ru": "Длительность",
+        "ar": "المدة",
+        "ko": "길이"
+      },
+      "placeholder": {
+        "en": "1",
+        "nl": "1",
+        "de": "1",
+        "fr": "1",
+        "it": "1",
+        "sv": "1",
+        "no": "1",
+        "es": "1",
+        "da": "1",
+        "pl": "1",
+        "ru": "1",
+        "ar": "1",
+        "ko": "1"
+      },
+      "min": 0,
+      "step": 0.25
+    },
+    {
+      "type": "dropdown",
+      "name": "duration_unit",
+      "title": {
+        "en": "Unit",
+        "nl": "Eenheid",
+        "de": "Einheit",
+        "fr": "Unité",
+        "it": "Unità",
+        "sv": "Enhet",
+        "no": "Enhet",
+        "es": "Unidad",
+        "da": "Enhed",
+        "pl": "Jednostka",
+        "ru": "Единица",
+        "ar": "الوحدة",
+        "ko": "단위"
+      },
+      "values": [
+        {
+          "id": "hours",
+          "label": {
+            "en": "hours",
+            "nl": "uren",
+            "de": "Stunden",
+            "fr": "heures",
+            "it": "ore",
+            "sv": "timmar",
+            "no": "timer",
+            "es": "horas",
+            "da": "timer",
+            "pl": "godzin",
+            "ru": "часов",
+            "ar": "ساعات",
+            "ko": "시간"
+          }
+        },
+        {
+          "id": "minutes",
+          "label": {
+            "en": "minutes",
+            "nl": "minuten",
+            "de": "Minuten",
+            "fr": "minutes",
+            "it": "minuti",
+            "sv": "minuter",
+            "no": "minutter",
+            "es": "minutos",
+            "da": "minutter",
+            "pl": "minut",
+            "ru": "минут",
+            "ar": "دقائق",
+            "ko": "분"
+          }
+        }
+      ]
+    },
+    {
+      "type": "number",
+      "name": "hours",
+      "title": {
+        "en": "Hours",
+        "nl": "Uren",
+        "de": "Stunden",
+        "fr": "Heures",
+        "it": "Ore",
+        "sv": "Timmar",
+        "no": "Timer",
+        "es": "Horas",
+        "da": "Timer",
+        "pl": "Godziny",
+        "ru": "Часы",
+        "ar": "الساعات",
+        "ko": "시간"
+      },
+      "placeholder": {
+        "en": "8",
+        "nl": "8",
+        "de": "8",
+        "fr": "8",
+        "it": "8",
+        "sv": "8",
+        "no": "8",
+        "es": "8",
+        "da": "8",
+        "pl": "8",
+        "ru": "8",
+        "ar": "8",
+        "ko": "8"
+      },
+      "min": 0,
+      "max": 48,
+      "step": 0.25,
+      "hint": {
+        "en": "0 = all known prices.",
+        "nl": "0 = alle bekende prijzen.",
+        "de": "0 = alle bekannten Preise.",
+        "fr": "0 = tous les prix connus.",
+        "it": "0 = tutti i prezzi noti.",
+        "sv": "0 = alla kända priser.",
+        "no": "0 = alle kjente priser.",
+        "es": "0 = todos los precios conocidos.",
+        "da": "0 = alle kendte priser.",
+        "pl": "0 = wszystkie znane ceny.",
+        "ru": "0 = все известные цены.",
+        "ar": "0 = كل الأسعار المعروفة.",
+        "ko": "0 = 알려진 모든 가격."
+      }
+    }
+  ]
+}

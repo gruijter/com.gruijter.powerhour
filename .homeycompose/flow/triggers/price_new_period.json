@@ -1,0 +1,67 @@
+{
+  "title": {
+    "en": "A new price period started",
+    "nl": "Een nieuwe prijsperiode is gestart",
+    "de": "Eine neue Preisperiode hat begonnen",
+    "fr": "Une nouvelle période de prix a commencé",
+    "it": "È iniziato un nuovo periodo di prezzo",
+    "sv": "En ny prisperiod har börjat",
+    "no": "En ny prisperiode har startet",
+    "es": "Ha comenzado un nuevo periodo de precio",
+    "da": "En ny prisperiode er startet",
+    "pl": "Rozpoczął się nowy okres cenowy",
+    "ru": "Начался новый ценовой период",
+    "ar": "بدأت فترة سعر جديدة",
+    "ko": "새 가격 구간이 시작됨"
+  },
+  "highlight": true,
+  "args": [
+    {
+      "type": "device",
+      "name": "device",
+      "filter": "driver_id=price"
+    }
+  ],
+  "tokens": [
+    {
+      "name": "import",
+      "type": "number",
+      "example": 0.25,
+      "title": {
+        "en": "Import price",
+        "nl": "Importprijs",
+        "de": "Importpreis",
+        "fr": "Prix d'import",
+        "it": "Prezzo di importazione",
+        "sv": "Importpris",
+        "no": "Importpris",
+        "es": "Precio de importación",
+        "da": "Importpris",
+        "pl": "Cena importu",
+        "ru": "Цена импорта",
+        "ar": "سعر الاستيراد",
+        "ko": "수입 가격"
+      }
+    },
+    {
+      "name": "export",
+      "type": "number",
+      "example": 0.08,
+      "title": {
+        "en": "Export price",
+        "nl": "Exportprijs",
+        "de": "Exportpreis",
+        "fr": "Prix d'export",
+        "it": "Prezzo di esportazione",
+        "sv": "Exportpris",
+        "no": "Eksportpris",
+        "es": "Precio de exportación",
+        "da": "Eksportpris",
+        "pl": "Cena eksportu",
+        "ru": "Цена экспорта",
+        "ar": "سعر التصدير",
+        "ko": "수출 가격"
+      }
+    }
+  ]
+}

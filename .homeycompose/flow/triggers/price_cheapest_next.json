@@ -1,0 +1,282 @@
+{
+  "title": {
+    "en": "Price among the cheapest or most expensive, coming hours",
+    "nl": "Prijs bij de goedkoopste of duurste, komende uren",
+    "de": "Preis unter den günstigsten oder teuersten, kommende Stunden",
+    "fr": "Prix parmi les moins chers ou les plus chers, prochaines heures",
+    "it": "Prezzo tra i più economici o più cari, prossime ore",
+    "sv": "Pris bland de billigaste eller dyraste, kommande timmar",
+    "no": "Pris blant de billigste eller dyreste, kommende timer",
+    "es": "Precio entre los más baratos o más caros, próximas horas",
+    "da": "Pris blandt de billigste eller dyreste, kommende timer",
+    "pl": "Cena wśród najtańszych lub najdroższych, najbliższe godziny",
+    "ru": "Цена среди самых дешёвых или дорогих, ближайшие часы",
+    "ar": "السعر ضمن الأرخص أو الأغلى، الساعات القادمة",
+    "ko": "가장 저렴하거나 비싼 가격, 다음 몇 시간"
+  },
+  "titleFormatted": {
+    "en": "The price becomes one of the [[type]] [[number]] [[unit]] in the next [[hours]] hours",
+    "nl": "De prijs wordt een van de [[type]] [[number]] [[unit]] in de komende [[hours]] uur",
+    "de": "Der Preis wird einer der [[type]] [[number]] [[unit]] in den nächsten [[hours]] Stunden",
+    "fr": "Le prix devient l'un des [[number]] [[unit]] les [[type]] des [[hours]] prochaines heures",
+    "it": "Il prezzo diventa uno dei [[number]] [[unit]] [[type]] nelle prossime [[hours]] ore",
+    "sv": "Priset blir ett av de [[type]] [[number]] [[unit]] de kommande [[hours]] timmarna",
+    "no": "Prisen blir en av de [[type]] [[number]] [[unit]] de neste [[hours]] timene",
+    "es": "El precio pasa a ser uno de los [[number]] [[unit]] [[type]] de las próximas [[hours]] horas",
+    "da": "Prisen bliver en af de [[type]] [[number]] [[unit]] i de næste [[hours]] timer",
+    "pl": "Cena staje się jedną z [[number]] [[type]] [[unit]] w ciągu najbliższych [[hours]] godzin",
+    "ru": "Цена становится одной из [[number]] [[type]] [[unit]] в ближайшие [[hours]] ч",
+    "ar": "يصبح السعر ضمن [[number]] [[unit]] [[type]] في الساعات [[hours]] القادمة",
+    "ko": "다음 [[hours]]시간 중 [[type]] [[number]]개 [[unit]]에 가격이 포함됨"
+  },
+  "highlight": true,
+  "args": [
+    {
+      "type": "device",
+      "name": "device",
+      "filter": "driver_id=price&capabilities=meter_rank_price_h0_this_day"
+    },
+    {
+      "type": "dropdown",
+      "name": "type",
+      "title": {
+        "en": "Type",
+        "nl": "Soort",
+        "de": "Art",
+        "fr": "Type",
+        "it": "Tipo",
+        "sv": "Typ",
+        "no": "Type",
+        "es": "Tipo",
+        "da": "Type",
+        "pl": "Rodzaj",
+        "ru": "Тип",
+        "ar": "النوع",
+        "ko": "유형"
+      },
+      "values": [
+        {
+          "id": "lowest",
+          "label": {
+            "en": "cheapest",
+            "nl": "goedkoopste",
+            "de": "günstigsten",
+            "fr": "moins chers",
+            "it": "più economici",
+            "sv": "billigaste",
+            "no": "billigste",
+            "es": "más baratos",
+            "da": "billigste",
+            "pl": "najtańszych",
+            "ru": "самых дешёвых",
+            "ar": "الأرخص",
+            "ko": "가장 저렴한"
+          }
+        },
+        {
+          "id": "highest",
+          "label": {
+            "en": "most expensive",
+            "nl": "duurste",
+            "de": "teuersten",
+            "fr": "plus chers",
+            "it": "più cari",
+            "sv": "dyraste",
+            "no": "dyreste",
+            "es": "más caros",
+            "da": "dyreste",
+            "pl": "najdroższych",
+            "ru": "самых дорогих",
+            "ar": "الأغلى",
+            "ko": "가장 비싼"
+          }
+        }
+      ]
+    },
+    {
+      "type": "number",
+      "name": "number",
+      "title": {
+        "en": "Number",
+        "nl": "Aantal",
+        "de": "Anzahl",
+        "fr": "Nombre",
+        "it": "Numero",
+        "sv": "Antal",
+        "no": "Antall",
+        "es": "Número",
+        "da": "Antal",
+        "pl": "Liczba",
+        "ru": "Количество",
+        "ar": "العدد",
+        "ko": "개수"
+      },
+      "placeholder": {
+        "en": "3",
+        "nl": "3",
+        "de": "3",
+        "fr": "3",
+        "it": "3",
+        "sv": "3",
+        "no": "3",
+        "es": "3",
+        "da": "3",
+        "pl": "3",
+        "ru": "3",
+        "ar": "3",
+        "ko": "3"
+      },
+      "min": 0,
+      "step": 0.25
+    },
+    {
+      "type": "dropdown",
+      "name": "unit",
+      "title": {
+        "en": "Unit",
+        "nl": "Eenheid",
+        "de": "Einheit",
+        "fr": "Unité",
+        "it": "Unità",
+        "sv": "Enhet",
+        "no": "Enhet",
+        "es": "Unidad",
+        "da": "Enhed",
+        "pl": "Jednostka",
+        "ru": "Единица",
+        "ar": "الوحدة",
+        "ko": "단위"
+      },
+      "values": [
+        {
+          "id": "quarters",
+          "label": {
+            "en": "quarters",
+            "nl": "kwartieren",
+            "de": "Viertelstunden",
+            "fr": "quarts d'heure",
+            "it": "quarti d'ora",
+            "sv": "kvartar",
+            "no": "kvarter",
+            "es": "cuartos de hora",
+            "da": "kvarterer",
+            "pl": "kwadransów",
+            "ru": "четвертей часа",
+            "ar": "أرباع ساعة",
+            "ko": "15분 구간"
+          }
+        },
+        {
+          "id": "half_hours",
+          "label": {
+            "en": "half hours",
+            "nl": "halve uren",
+            "de": "halben Stunden",
+            "fr": "demi-heures",
+            "it": "mezz'ore",
+            "sv": "halvtimmar",
+            "no": "halvtimer",
+            "es": "medias horas",
+            "da": "halve timer",
+            "pl": "półgodzin",
+            "ru": "получасов",
+            "ar": "أنصاف ساعات",
+            "ko": "30분 구간"
+          }
+        },
+        {
+          "id": "hours",
+          "label": {
+            "en": "hours",
+            "nl": "uren",
+            "de": "Stunden",
+            "fr": "heures",
+            "it": "ore",
+            "sv": "timmar",
+            "no": "timer",
+            "es": "horas",
+            "da": "timer",
+            "pl": "godzin",
+            "ru": "часов",
+            "ar": "ساعات",
+            "ko": "시간"
+          }
+        }
+      ]
+    },
+    {
+      "type": "number",
+      "name": "hours",
+      "title": {
+        "en": "Hours",
+        "nl": "Uren",
+        "de": "Stunden",
+        "fr": "Heures",
+        "it": "Ore",
+        "sv": "Timmar",
+        "no": "Timer",
+        "es": "Horas",
+        "da": "Timer",
+        "pl": "Godziny",
+        "ru": "Часы",
+        "ar": "الساعات",
+        "ko": "시간"
+      },
+      "placeholder": {
+        "en": "8",
+        "nl": "8",
+        "de": "8",
+        "fr": "8",
+        "it": "8",
+        "sv": "8",
+        "no": "8",
+        "es": "8",
+        "da": "8",
+        "pl": "8",
+        "ru": "8",
+        "ar": "8",
+        "ko": "8"
+      },
+      "min": 0,
+      "max": 48,
+      "step": 0.25,
+      "hint": {
+        "en": "0 = all known prices.",
+        "nl": "0 = alle bekende prijzen.",
+        "de": "0 = alle bekannten Preise.",
+        "fr": "0 = tous les prix connus.",
+        "it": "0 = tutti i prezzi noti.",
+        "sv": "0 = alla kända priser.",
+        "no": "0 = alle kjente priser.",
+        "es": "0 = todos los precios conocidos.",
+        "da": "0 = alle kendte priser.",
+        "pl": "0 = wszystkie znane ceny.",
+        "ru": "0 = все известные цены.",
+        "ar": "0 = كل الأسعار المعروفة.",
+        "ko": "0 = 알려진 모든 가격."
+      }
+    }
+  ],
+  "tokens": [
+    {
+      "name": "price",
+      "type": "number",
+      "example": 0.25,
+      "title": {
+        "en": "Price",
+        "nl": "Prijs",
+        "de": "Preis",
+        "fr": "Prix",
+        "it": "Prezzo",
+        "sv": "Pris",
+        "no": "Pris",
+        "es": "Precio",
+        "da": "Pris",
+        "pl": "Cena",
+        "ru": "Цена",
+        "ar": "السعر",
+        "ko": "가격"
+      }
+    }
+  ]
+}

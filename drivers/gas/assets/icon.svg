@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
 <defs><mask id="pbth-badge-cut"><rect width="100" height="100" fill="#fff"/><circle cx="79" cy="79" r="24" fill="#000"/></mask></defs>
-<g mask="url(#pbth-badge-cut)"><g fill="none" stroke="#000" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"><path d="M50 10 C60 28 78 40 78 62 A28 28 0 0 1 22 62 C22 48 30 40 35 30 C38 40 42 44 47 46 C45 34 45 22 50 10 Z"/><path d="M50 82 A10 10 0 0 1 40 72 C40 64 46 60 50 54 C54 60 60 64 60 72 A10 10 0 0 1 50 82 Z"/></g></g>
+<g mask="url(#pbth-badge-cut)"><g fill="none" stroke="#000" stroke-width="5.45" stroke-linecap="round" stroke-linejoin="round"><g transform="translate(50 50) scale(1.100) translate(-50 -50)"><path d="M50 10 C60 28 78 40 78 62 A28 28 0 0 1 22 62 C22 48 30 40 35 30 C38 40 42 44 47 46 C45 34 45 22 50 10 Z"/><path d="M50 82 A10 10 0 0 1 40 72 C40 64 46 60 50 54 C54 60 60 64 60 72 A10 10 0 0 1 50 82 Z"/></g></g></g>
 <circle cx="79" cy="79" r="16" fill="none" stroke="#000" stroke-width="5"/><g fill="#000"><rect x="71" y="80" width="4.5" height="6.5" rx="1"/><rect x="76.75" y="75.5" width="4.5" height="11" rx="1"/><rect x="82.5" y="71" width="4.5" height="15.5" rx="1"/></g>
 </svg>
