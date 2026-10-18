@@ -53,6 +53,11 @@
   "solar_export_diagnostics_popup": "Maak nu een app diagnostics report aan met als bericht: paneeloriëntatie (bijv. Zuid/Oost/West).",
   "tariff_group_interval_conflict": "Tariefgroep __group__ ontvangt tegenstrijdige prijsintervallen (__sources__). Nu __interval__ min. Geef 15- en 60-minuten prijsdevices een eigen tariefgroep.",
   "grid_connection_multiple_devices": "Meerdere Netstroom-devices gevonden (__devices__). __limit__ W wordt gebruikt als netaansluitingslimiet voor plausibiliteitscontroles. Houd slechts één Netstroom-device.",
+  "migration_dap_replace": "DAP-apparaten worden vervangen door het nieuwe apparaat Energieprijs (__devices__). Voeg een Energieprijs toe: die neemt de instellingen over.",
+  "migration_dap_flows": "__old__ is overgenomen door __new__. Pas deze flows aan en verwijder daarna __old__: __flows__",
+  "migration_dap_delete": "__old__ is overgenomen door __new__. Controleer je flows en verwijder daarna __old__.",
+  "migration_warning_replace": "Vervangen door Energieprijs. Voeg een Energieprijs-apparaat toe.",
+  "migration_warning_taken": "Overgenomen door __new__. Pas flows aan en verwijder daarna dit apparaat.",
   "repair": {
     "warningtitle": "WAARSCHUWING",
     "warningtext": "Je staat op het punt het bronapparaat te wijzigen. Dit behoudt alle inzichten en flows. Maar als het nieuwe bronapparaat een andere meterstand heeft, moet je de meter- en geldstartwaarden handmatig compenseren in de geavanceerde instellingen.",

@@ -53,6 +53,11 @@
   "solar_export_diagnostics_popup": "Erstellen Sie jetzt einen App-Diagnosebericht mit Nachricht: Ausrichtung (z. B. Süd/Ost/West).",
   "tariff_group_interval_conflict": "Tarifgruppe __group__ erhält widersprüchliche Preisintervalle (__sources__). Aktuell __interval__ Min. Geben Sie 15- und 60-Minuten-Preisgeräten eigene Tarifgruppen.",
   "grid_connection_multiple_devices": "Mehrere Netzstrom-Geräte gefunden (__devices__). __limit__ W wird als Netzanschlussgrenze für Plausibilitätsprüfungen verwendet. Behalten Sie nur ein Netzstrom-Gerät.",
+  "migration_dap_replace": "DAP-Geräte werden durch das neue Gerät Energiepreis ersetzt (__devices__). Füge ein Energiepreis-Gerät hinzu: Es übernimmt die Einstellungen.",
+  "migration_dap_flows": "__old__ wurde von __new__ übernommen. Passe diese Flows an und lösche dann __old__: __flows__",
+  "migration_dap_delete": "__old__ wurde von __new__ übernommen. Prüfe deine Flows und lösche dann __old__.",
+  "migration_warning_replace": "Ersetzt durch Energiepreis. Füge ein Energiepreis-Gerät hinzu.",
+  "migration_warning_taken": "Von __new__ übernommen. Flows anpassen, dann dieses Gerät löschen.",
   "repair": {
     "warningtitle": "WARNUNG",
     "warningtext": "Sie sind im Begriff, das Quellgerät zu ändern. Dies bewahrt alle Einblicke und Flows. Wenn das neue Quellgerät jedoch einen anderen Zählerstand hat, müssen Sie die Zähler- und Geldstartwerte in den erweiterten Einstellungen manuell kompensieren.",

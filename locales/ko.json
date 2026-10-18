@@ -53,6 +53,11 @@
   "solar_export_diagnostics_popup": "이제 앱 진단 보고서를 메시지와 함께 작성하세요: 방향 (예: 남/동/서).",
   "tariff_group_interval_conflict": "요금 그룹 __group__에 상충하는 가격 간격이 수신되었습니다 (__sources__). __interval__분을 사용합니다. 15분 및 60분 가격 기기에 별도의 요금 그룹을 지정하세요.",
   "grid_connection_multiple_devices": "여러 개의 계통 기기가 발견되었습니다 (__devices__). 전력 타당성 검사에 __limit__ W를 계통 연결 한계로 사용합니다. 계통 기기는 하나만 유지하세요.",
+  "migration_dap_replace": "DAP 장치는 새 에너지 가격 장치로 대체됩니다(__devices__). 에너지 가격 장치를 추가하면 설정을 가져옵니다.",
+  "migration_dap_flows": "__old__은(는) __new__(으)로 대체되었습니다. 이 flow를 수정한 후 __old__을(를) 삭제하세요: __flows__",
+  "migration_dap_delete": "__old__은(는) __new__(으)로 대체되었습니다. flow를 확인한 후 __old__을(를) 삭제하세요.",
+  "migration_warning_replace": "에너지 가격으로 대체되었습니다. 에너지 가격 장치를 추가하세요.",
+  "migration_warning_taken": "__new__(으)로 대체되었습니다. flow를 수정한 후 이 장치를 삭제하세요.",
   "repair": {
     "warningtitle": "경고",
     "warningtext": "소스 장치를 변경하려고 합니다. 이렇게 하면 모든 인사이트와 흐름이 유지됩니다. 하지만 새 소스 장치의 미터 값이 다른 경우 고급 설정에서 미터 및 금액 시작 값을 수동으로 보정해야 합니다.",

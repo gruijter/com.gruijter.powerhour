@@ -53,6 +53,11 @@
   "solar_export_diagnostics_popup": "Now create an app diagnostics report with Message: panel orientation (e.g. South/East/West).",
   "tariff_group_interval_conflict": "Tariff group __group__ receives conflicting price intervals (__sources__). Using __interval__ min. Give 15- and 60-minute price devices their own tariff group.",
   "grid_connection_multiple_devices": "Multiple Grid devices found (__devices__). Using __limit__ W as the grid connection limit for power plausibility checks. Keep only one Grid device.",
+  "migration_dap_replace": "DAP devices are replaced by the new Energy price device (__devices__). Add an Energy price device: it takes over the settings.",
+  "migration_dap_flows": "__old__ is taken over by __new__. Adjust these flows, then delete __old__: __flows__",
+  "migration_dap_delete": "__old__ is taken over by __new__. Check your flows, then delete __old__.",
+  "migration_warning_replace": "Replaced by Energy price. Add an Energy price device.",
+  "migration_warning_taken": "Taken over by __new__. Adjust flows, then delete this device.",
   "repair": {
     "warningtitle": "WARNING",
     "warningtext": "You are about to change the source device. This will keep all insights and flows. But if the new source device has a different meter value, you will need to manually compensate the meter and money start values in the advanced settings.",

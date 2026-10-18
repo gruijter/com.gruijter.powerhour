@@ -35,6 +35,7 @@ const { HomeyAPI } = require('homey-api');
 const Flows = require('./lib/flows/Flows');
 const TimeHelpers = require('./lib/helpers/TimeHelpers');
 const PriceDrivers = require('./lib/helpers/PriceDrivers');
+const MigrationNotice = require('./lib/helpers/MigrationNotice');
 
 class MyApp extends Homey.App {
 
@@ -48,6 +49,8 @@ class MyApp extends Homey.App {
       this.everyHour();
       this.everyXminutes(15);
       this.retry(5);
+      this.migrationNotice = new MigrationNotice(this.homey);
+      this.migrationNotice.start();
 
       this.log(`Power by the Hour app is running... Timezone: ${this.homey.clock.getTimezone()}`);
     } catch (error) {
@@ -57,6 +60,7 @@ class MyApp extends Homey.App {
 
   async onUninit() {
     this.log('app onUninit called');
+    if (this.migrationNotice) this.migrationNotice.stop();
     if (this.everyHourId) this.homey.clearTimeout(this.everyHourId);
     if (this.everyXMinutesId) this.homey.clearTimeout(this.everyXMinutesId);
     if (this.retryId) this.homey.clearInterval(this.retryId);

@@ -403,8 +403,8 @@
 		document.getElementById('takeover').appendChild(el('p', { className: 'homey-subtitle', textContent: Homey.__('price_setup.import_hint') }));
 		radioSet('commodity', 'power');
 		radioSet('tariffType', 'dynamic');
-		field('market', 'biddingZone', { options: [] });
-		field('market', 'priceInterval');
+		field('market', 'biddingZone', { options: [], noHint: true });
+		field('market', 'priceInterval', { noHint: true });
 		field('market', 'currencyChoice', {
 			label: data.defs.currency.label,
 			options: [
@@ -412,6 +412,7 @@
 				{ id: 'other', label: Homey.__('price_setup.currency_other') },
 			],
 			value: '',
+			noHint: true,
 		});
 		field('market', 'currency', { noHint: true });
 		field('market', 'fetchExchangeRate', { noHint: true });

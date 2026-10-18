@@ -53,6 +53,11 @@
   "solar_export_diagnostics_popup": "Crea ora un rapporto di diagnostica dell'app con messaggio: orientamento (es. Sud/Est/Ovest).",
   "tariff_group_interval_conflict": "Il gruppo tariffario __group__ riceve intervalli di prezzo contrastanti (__sources__). In uso __interval__ min. Assegna ai dispositivi prezzo da 15 e 60 minuti gruppi tariffari separati.",
   "grid_connection_multiple_devices": "Trovati più dispositivi Rete (__devices__). Viene usato __limit__ W come limite di allacciamento per i controlli di plausibilità. Mantieni un solo dispositivo Rete.",
+  "migration_dap_replace": "I dispositivi DAP vengono sostituiti dal nuovo dispositivo Prezzo dell'energia (__devices__). Aggiungi un Prezzo dell'energia: riprende le impostazioni.",
+  "migration_dap_flows": "__old__ è stato sostituito da __new__. Adatta questi flow, poi elimina __old__: __flows__",
+  "migration_dap_delete": "__old__ è stato sostituito da __new__. Controlla i tuoi flow, poi elimina __old__.",
+  "migration_warning_replace": "Sostituito da Prezzo dell'energia. Aggiungi un dispositivo Prezzo dell'energia.",
+  "migration_warning_taken": "Sostituito da __new__. Adatta i flow, poi elimina questo dispositivo.",
   "repair": {
     "warningtitle": "ATTENZIONE",
     "warningtext": "Stai per cambiare il dispositivo sorgente. Questo preserva tutte le intuizioni e i flussi. Ma se il nuovo dispositivo sorgente ha una lettura del contatore diversa, devi compensare manualmente i valori iniziali del contatore e del denaro nelle impostazioni avanzate.",

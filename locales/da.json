@@ -53,6 +53,11 @@
   "solar_export_diagnostics_popup": "Opret nu en app-diagnosticeringsrapport med besked: orientering (f.eks. Syd/Øst/Vest).",
   "tariff_group_interval_conflict": "Tarifgruppe __group__ modtager modstridende prisintervaller (__sources__). Bruger __interval__ min. Giv 15- og 60-minutters prisenheder deres egne tarifgrupper.",
   "grid_connection_multiple_devices": "Flere Elnet-enheder fundet (__devices__). __limit__ W bruges som nettilslutningsgrænse til plausibilitetstjek. Behold kun én Elnet-enhed.",
+  "migration_dap_replace": "DAP-enheder erstattes af den nye enhed Energipris (__devices__). Tilføj en Energipris: den overtager indstillingerne.",
+  "migration_dap_flows": "__old__ er overtaget af __new__. Tilpas disse flows, og slet derefter __old__: __flows__",
+  "migration_dap_delete": "__old__ er overtaget af __new__. Tjek dine flows, og slet derefter __old__.",
+  "migration_warning_replace": "Erstattet af Energipris. Tilføj en Energipris-enhed.",
+  "migration_warning_taken": "Overtaget af __new__. Tilpas flows, og slet derefter denne enhed.",
   "repair": {
     "warningtitle": "ADVARSEL",
     "warningtext": "Du er ved at ændre kildeenheden. Dette bevarer al indsigt og flows. Men hvis den nye kildeenhed har en anden måleraflæsning, skal du manuelt kompensere måler- og pengestartværdierne i de avancerede indstillinger.",
