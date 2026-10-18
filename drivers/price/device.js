@@ -97,6 +97,10 @@ class PriceDevice extends GenericDevice {
     return this.isGas ? GAS_TRIGGERS : POWER_TRIGGERS;
   }
 
+  priceTriggerTokens(price) {
+    return { price };
+  }
+
   async triggerNewPeriod() {
     const { app } = this.homey;
     if (!app || !app.trigger_price_new_period) return;
