@@ -137,6 +137,43 @@ test('own formula overrides, with import in export', () => {
   near(p.exportPrice, Math.max(0.01 - 0.02, 0.5 * p.muPrice), 'export');
 });
 
+test('export floor: minimum and % of the bare supply price', () => {
+  const s = {
+    ...base, fixedMarkup: 0.0242, fixedMarkupInclVat: true, variableMarkup: 10, tax: 0.1, vat: 21, export_fixedMarkup: 0.01,
+  };
+  assert.strictEqual(PriceFormula.build(s, 'export'), 'market + 0.01');
+  const floored = {
+    ...s, export_floor: true, export_floorMin: 0, export_floorPercent: 50, export_floorBase: 'supply',
+  };
+  assert.strictEqual(PriceFormula.build(floored, 'export'), 'max(market + 0.01, 0, supply * 0.5)');
+  const prices = PriceFormula.applyPrices(market.slice(0, 5), floored, 'UTC');
+  prices.forEach((p) => {
+    const m = p.price / 1000;
+    const supply = m * 1.1 + 0.0242 / 1.21;
+    near(p.exportPrice, Math.max(m + 0.01, 0, supply * 0.5), `export at ${p.price}`);
+  });
+});
+
+test('export floor: import base, negative minimum, export vat, own formula wins', () => {
+  const s = {
+    ...base, fixedMarkup: 0.1, export_vat: 10, export_floor: true, export_floorMin: -0.05, export_floorPercent: 20, export_floorBase: 'import',
+  };
+  assert.strictEqual(PriceFormula.build(s, 'export'), 'max(market * 1.1, -0.055, import * 0.22)');
+  const [p] = PriceFormula.applyPrices([{ time: new Date(start), price: -500 }], s, 'UTC');
+  near(p.exportPrice, Math.max(-0.5 * 1.1, -0.055, (-0.5 + 0.1) * 0.22), 'export');
+  const [own] = PriceFormula.applyPrices([{ time: new Date(start), price: -500 }], { ...s, export_formula: 'market' }, 'UTC');
+  near(own.exportPrice, -0.5, 'own formula without floor');
+  assert.strictEqual(PriceFormula.build({ ...s, export_floor: false }, 'export'), 'market * 1.1');
+});
+
+test('export floor: fixed tariff supply = supply price', () => {
+  const s = {
+    ...base, tariffType: 'fixed', fixedMarkup: 0.25, variableMarkup: 10, export_fixedMarkup: 0.01, export_floor: true, export_floorPercent: 50,
+  };
+  const [p] = PriceFormula.applyPrices([{ time: new Date(start), price: 0 }], s, 'UTC');
+  near(p.exportPrice, 0.275 * 0.5, 'export');
+});
+
 test('parser: precedence, unary minus, functions', () => {
   const f = PriceFormula.compile('-2 + 3 * 4 / (1 + 1) - abs(-1) + min(5, 2, 9)', []);
   assert.strictEqual(f({}), -2 + 6 - 1 + 2);
@@ -155,6 +192,8 @@ test('parser: errors', () => {
   assert.strictEqual(code(() => PriceFormula.validate('price * 2')), 'formula_unknown_name');
   assert.strictEqual(code(() => PriceFormula.validate('import * 2')), 'formula_unknown_name');
   assert.strictEqual(code(() => PriceFormula.validate('import * 2', 'export')), null);
+  assert.strictEqual(code(() => PriceFormula.validate('supply * 2')), 'formula_unknown_name');
+  assert.strictEqual(code(() => PriceFormula.validate('max(market, supply * 0.5)', 'export')), null);
   assert.strictEqual(code(() => PriceFormula.validate('market / 0')), 'formula_not_a_number');
   assert.strictEqual(code(() => PriceFormula.validate('')), 'formula_empty');
   assert.strictEqual(code(() => PriceFormula.validate('foo(1)')), 'formula_unknown_name');

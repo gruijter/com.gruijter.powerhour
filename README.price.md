@@ -50,7 +50,7 @@ One driver for everything: it replaces the old **Day-ahead Pricing** (`dap`), **
    - **Which price?** Electricity or gas, and a dynamic (market) or fixed tariff.
    - **Market:** your bidding zone, pre-filled from your Homey's location, and the price interval (15 or 60 minutes, as your supplier bills).
    - **Import price:** supplier markup, fixed taxes and levies, variable markup (%), time-of-day and weekend markups, and VAT. Each amount has its own *incl. VAT / excl. VAT* choice.
-   - **Export price** *(electricity):* the feed-in tariff, set up the same way, or **Same as import**.
+   - **Export price** *(electricity):* the feed-in tariff, set up the same way, or **Same as import**. Tick **Minimum export price** if your contract guarantees one; the next step asks for it.
    - **Finish:** a name, and which tariff group should use this price.
 3. A **Price now** preview shows the market price and your resulting price while you fill in the fields.
 
@@ -72,6 +72,7 @@ From your answers the wizard builds a price formula. You can see it in the devic
 - **Markup also at negative prices (%)** is rarely needed. It is a percentage of the market price that is always a cost. E.g. 10% at −0.20 adds 0.02, where a normal variable markup would subtract 0.02.
 - **Time-of-day markup:** each markup applies from its hour until the next one. Format `hour:markup;hour:markup`, e.g. `7:0.05;23:0` adds 0.05 from 07:00 and nothing from 23:00. The wizard has a helper with a **Day/night** shortcut.
 - **Weekend markup:** applies on Saturday and Sunday and replaces the time-of-day markup on those days.
+- **Minimum export price:** the export price never goes below the highest of **Minimum per kWh** (0 = never negative) and **Minimum as % of base**. The base is the *bare supply price* (market price after the variable markups, plus the supplier markup; without taxes, time markups and VAT) or the full import price. Example, NL from 2027: 50% of the bare supply price gives `max(market - 0.02, 0, supply * 0.5)`. The export VAT also applies to the minimum. An own export formula replaces it.
 
 ### Own formula (advanced)
 
@@ -83,10 +84,11 @@ Leave **Own formula** empty to use the generated one. If your contract does not 
 | `tod`, `weekend` | Time-of-day markup of the period (0 on weekend days if a weekend markup is set), weekend markup (0 on weekdays) |
 | `markup`, `tax`, `vat`, `percent`, `abspercent` | The values from the settings (`vat` and percentages in %) |
 | `import` | The import price of the same period (export formula only) |
+| `supply` | The bare supply price of the same period (export formula only) |
 
 Operators `+ - * /` and parentheses, functions `min(a, b, …)`, `max(a, b, …)` and `abs(a)`. Use a dot as the decimal separator. An invalid formula is rejected when you save it.
 
-Example: an export price of at least 50% of the bare supply price:
+Example: an export price of at least 50% of the import price:
 `max(market - 0.02, import * 0.5)`
 
 ---

@@ -33,6 +33,11 @@
 		<div id="export"></div>
 	</fieldset>
 
+	<fieldset class="homey-form-fieldset" data-step="floor">
+		<legend class="homey-form-legend" id="floorTitle"></legend>
+		<div id="floor"></div>
+	</fieldset>
+
 	<fieldset class="homey-form-fieldset" data-step="finish">
 		<legend class="homey-form-legend" data-i18n="price_setup.step_finish"></legend>
 		<div id="finish"></div>
@@ -67,6 +72,7 @@
 	};
 	const isGas = () => radio('commodity') === 'gas';
 	const isFixed = () => radio('tariffType') === 'fixed';
+	const hasFloor = () => !!(input('export_floor') && input('export_floor').checked);
 	const groupOf = (id) => input(id) && input(id).closest('.homey-form-group');
 	const showField = (id, visible) => {
 		const group = groupOf(id);
@@ -75,7 +81,7 @@
 	// Old dap devices of the chosen energy and tariff type, to take over.
 	const matchingDaps = () => (data.daps || []).filter((d) => d.commodity === (isGas() ? 'gas' : 'power')
 		&& d.tariffType === (isFixed() ? 'fixed' : 'dynamic'));
-	const steps = () => ['energy', ...(matchingDaps().length ? ['takeover'] : []), 'market', 'import', ...(isGas() ? [] : ['export']), 'finish'];
+	const steps = () => ['energy', ...(matchingDaps().length ? ['takeover'] : []), 'market', 'import', ...(isGas() ? [] : ['export', ...(hasFloor() ? ['floor'] : [])]), 'finish'];
 
 	const fillTakeover = () => {
 		const select = input('importFrom');
@@ -419,6 +425,9 @@
 		['', 'export_'].forEach((prefix) => PRICE_FIELDS.filter((id) => !id.endsWith('InclVat')).forEach((id) => {
 			field(prefix ? 'export' : 'import', `${prefix}${id}`, AMOUNTS.includes(id) ? { vat: `${prefix}${id}InclVat` } : {});
 		}));
+		field('export', 'export_floor');
+		document.getElementById('floorTitle').textContent = data.defs.export_floor.label;
+		['export_floorMin', 'export_floorPercent', 'export_floorBase'].forEach((id) => field('floor', id));
 		todEditor('fixedMarkupTOD');
 		todEditor('export_fixedMarkupTOD');
 		if (!data.repairing) field('finish', 'name', { label: Homey.__('price_setup.name'), placeholder: '' });

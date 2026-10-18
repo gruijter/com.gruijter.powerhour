@@ -1260,6 +1260,185 @@
           }
         },
         {
+          "id": "export_floor",
+          "type": "checkbox",
+          "value": false,
+          "label": {
+            "en": "Minimum export price",
+            "nl": "Minimum exportprijs",
+            "de": "Mindest-Exportpreis",
+            "fr": "Prix d'export minimum",
+            "it": "Prezzo minimo di esportazione",
+            "sv": "Lägsta exportpris",
+            "no": "Minste eksportpris",
+            "es": "Precio mínimo de exportación",
+            "da": "Minimum eksportpris",
+            "pl": "Minimalna cena eksportu",
+            "ru": "Минимальная экспортная цена",
+            "ar": "الحد الأدنى لسعر التصدير",
+            "ko": "최소 송전(수출) 가격"
+          },
+          "hint": {
+            "en": "The export price never goes below the set minimum.",
+            "nl": "De exportprijs komt nooit onder het ingestelde minimum.",
+            "de": "Der Exportpreis fällt nie unter das eingestellte Minimum.",
+            "fr": "Le prix d'export ne descend jamais sous le minimum défini.",
+            "it": "Il prezzo di esportazione non scende mai sotto il minimo impostato.",
+            "sv": "Exportpriset blir aldrig lägre än det inställda minimumet.",
+            "no": "Eksportprisen blir aldri lavere enn det innstilte minimumet.",
+            "es": "El precio de exportación nunca baja del mínimo configurado.",
+            "da": "Eksportprisen bliver aldrig lavere end det indstillede minimum.",
+            "pl": "Cena eksportu nigdy nie spada poniżej ustawionego minimum.",
+            "ru": "Экспортная цена никогда не опускается ниже заданного минимума.",
+            "ar": "لا ينخفض سعر التصدير أبدًا عن الحد الأدنى المحدد.",
+            "ko": "송전(수출) 가격이 설정한 최소값 아래로 내려가지 않습니다."
+          }
+        },
+        {
+          "id": "export_floorMin",
+          "type": "number",
+          "value": 0,
+          "label": {
+            "en": "Minimum per kWh",
+            "nl": "Minimum per kWh",
+            "de": "Minimum pro kWh",
+            "fr": "Minimum par kWh",
+            "it": "Minimo per kWh",
+            "sv": "Minimum per kWh",
+            "no": "Minimum per kWh",
+            "es": "Mínimo por kWh",
+            "da": "Minimum pr. kWh",
+            "pl": "Minimum za kWh",
+            "ru": "Минимум за кВт·ч",
+            "ar": "الحد الأدنى لكل كيلوواط ساعة",
+            "ko": "kWh당 최소값"
+          },
+          "hint": {
+            "en": "0 = never negative.",
+            "nl": "0 = nooit negatief.",
+            "de": "0 = nie negativ.",
+            "fr": "0 = jamais négatif.",
+            "it": "0 = mai negativo.",
+            "sv": "0 = aldrig negativt.",
+            "no": "0 = aldri negativ.",
+            "es": "0 = nunca negativo.",
+            "da": "0 = aldrig negativ.",
+            "pl": "0 = nigdy ujemna.",
+            "ru": "0 = никогда не отрицательная.",
+            "ar": "0 = لا يكون سالبًا أبدًا.",
+            "ko": "0 = 음수가 되지 않음."
+          }
+        },
+        {
+          "id": "export_floorPercent",
+          "type": "number",
+          "value": 0,
+          "min": 0,
+          "label": {
+            "en": "Minimum as % of base",
+            "nl": "Minimum als % van basis",
+            "de": "Minimum als % der Basis",
+            "fr": "Minimum en % de la base",
+            "it": "Minimo come % della base",
+            "sv": "Minimum som % av bas",
+            "no": "Minimum som % av grunnlag",
+            "es": "Mínimo como % de la base",
+            "da": "Minimum som % af grundlag",
+            "pl": "Minimum jako % podstawy",
+            "ru": "Минимум в % от базы",
+            "ar": "الحد الأدنى كنسبة % من الأساس",
+            "ko": "기준 대비 최소 %"
+          },
+          "hint": {
+            "en": "E.g. NL from 2027: 50 % of the bare supply price. 0 = not used.",
+            "nl": "Bijv. NL vanaf 2027: 50 % van de kale leveringsprijs. 0 = niet gebruikt.",
+            "de": "Z. B. NL ab 2027: 50 % des reinen Lieferpreises. 0 = nicht verwendet.",
+            "fr": "Ex. NL dès 2027 : 50 % du prix de fourniture nu. 0 = non utilisé.",
+            "it": "Es. NL dal 2027: 50 % del prezzo di fornitura netto. 0 = non usato.",
+            "sv": "T.ex. NL från 2027: 50 % av det rena leveranspriset. 0 = används inte.",
+            "no": "F.eks. NL fra 2027: 50 % av den rene leveringsprisen. 0 = brukes ikke.",
+            "es": "P. ej. NL desde 2027: 50 % del precio de suministro neto. 0 = no se usa.",
+            "da": "F.eks. NL fra 2027: 50 % af den rene leveringspris. 0 = bruges ikke.",
+            "pl": "Np. NL od 2027: 50 % czystej ceny dostawy. 0 = nieużywane.",
+            "ru": "Напр. NL с 2027: 50 % чистой цены поставки. 0 = не используется.",
+            "ar": "مثال: هولندا من 2027: 50 % من سعر التوريد الصافي. 0 = غير مستخدم.",
+            "ko": "예: 2027년부터 NL: 순수 공급 가격의 50 %. 0 = 사용 안 함."
+          }
+        },
+        {
+          "id": "export_floorBase",
+          "type": "dropdown",
+          "value": "supply",
+          "label": {
+            "en": "Base for the %",
+            "nl": "Basis voor het %",
+            "de": "Basis für den %-Wert",
+            "fr": "Base du %",
+            "it": "Base per la %",
+            "sv": "Bas för %",
+            "no": "Grunnlag for %",
+            "es": "Base del %",
+            "da": "Grundlag for %",
+            "pl": "Podstawa dla %",
+            "ru": "База для %",
+            "ar": "الأساس للنسبة %",
+            "ko": "% 기준"
+          },
+          "hint": {
+            "en": "Bare supply price: without taxes, time markups and VAT.",
+            "nl": "Kale leveringsprijs: zonder belastingen, tijdopslagen en btw.",
+            "de": "Reiner Lieferpreis: ohne Steuern, Zeitaufschläge und MwSt.",
+            "fr": "Prix nu : sans taxes, majorations horaires ni TVA.",
+            "it": "Prezzo netto: senza tasse, sovrapprezzi orari e IVA.",
+            "sv": "Rent leveranspris: utan skatter, tidspåslag och moms.",
+            "no": "Ren leveringspris: uten avgifter, tidspåslag og mva.",
+            "es": "Precio neto: sin impuestos, recargos horarios ni IVA.",
+            "da": "Ren leveringspris: uden afgifter, tidstillæg og moms.",
+            "pl": "Czysta cena: bez podatków, narzutów czasowych i VAT.",
+            "ru": "Чистая цена: без налогов, временных наценок и НДС.",
+            "ar": "السعر الصافي: بدون ضرائب أو إضافات زمنية أو ضريبة القيمة المضافة.",
+            "ko": "순수 공급 가격: 세금, 시간대 추가요금, 부가세 제외."
+          },
+          "values": [
+            {
+              "id": "supply",
+              "label": {
+                "en": "Bare supply price (market + supplier markup)",
+                "nl": "Kale leveringsprijs (markt + opslag leverancier)",
+                "de": "Reiner Lieferpreis (Markt + Lieferantenaufschlag)",
+                "fr": "Prix de fourniture nu (marché + marge fournisseur)",
+                "it": "Prezzo di fornitura netto (mercato + ricarico fornitore)",
+                "sv": "Rent leveranspris (marknad + leverantörspåslag)",
+                "no": "Ren leveringspris (marked + leverandørpåslag)",
+                "es": "Precio de suministro neto (mercado + margen proveedor)",
+                "da": "Ren leveringspris (marked + leverandørtillæg)",
+                "pl": "Czysta cena dostawy (rynek + marża dostawcy)",
+                "ru": "Чистая цена поставки (рынок + наценка поставщика)",
+                "ar": "سعر التوريد الصافي (السوق + هامش المورّد)",
+                "ko": "순수 공급 가격(시장 + 공급사 마크업)"
+              }
+            },
+            {
+              "id": "import",
+              "label": {
+                "en": "Import price",
+                "nl": "Importprijs",
+                "de": "Importpreis",
+                "fr": "Prix d'import",
+                "it": "Prezzo di importazione",
+                "sv": "Importpris",
+                "no": "Importpris",
+                "es": "Precio de importación",
+                "da": "Importpris",
+                "pl": "Cena importu",
+                "ru": "Цена импорта",
+                "ar": "سعر الاستيراد",
+                "ko": "수입 가격"
+              }
+            }
+          ]
+        },
+        {
           "id": "export_formula",
           "type": "text",
           "value": "",
@@ -1279,19 +1458,19 @@
             "ko": "사용자 수식"
           },
           "hint": {
-            "en": "Optional. Empty: made from the fields above. Names: market, tod, weekend, markup, tax, vat, percent, abspercent, import; min(), max(), abs().",
-            "nl": "Optioneel. Leeg: gemaakt uit de velden hierboven. Namen: market, tod, weekend, markup, tax, vat, percent, abspercent, import; min(), max(), abs().",
-            "de": "Optional. Leer: aus den Feldern oben gebildet. Namen: market, tod, weekend, markup, tax, vat, percent, abspercent, import; min(), max(), abs().",
-            "fr": "Facultatif. Vide : construite à partir des champs ci-dessus. Noms : market, tod, weekend, markup, tax, vat, percent, abspercent, import ; min(), max(), abs().",
-            "it": "Facoltativo. Vuoto: creata dai campi sopra. Nomi: market, tod, weekend, markup, tax, vat, percent, abspercent, import; min(), max(), abs().",
-            "sv": "Valfritt. Tomt: skapas från fälten ovan. Namn: market, tod, weekend, markup, tax, vat, percent, abspercent, import; min(), max(), abs().",
-            "no": "Valgfritt. Tomt: lages fra feltene over. Navn: market, tod, weekend, markup, tax, vat, percent, abspercent, import; min(), max(), abs().",
-            "es": "Opcional. Vacío: se crea con los campos de arriba. Nombres: market, tod, weekend, markup, tax, vat, percent, abspercent, import; min(), max(), abs().",
-            "da": "Valgfrit. Tomt: dannes ud fra felterne ovenfor. Navne: market, tod, weekend, markup, tax, vat, percent, abspercent, import; min(), max(), abs().",
-            "pl": "Opcjonalne. Puste: tworzona z pól powyżej. Nazwy: market, tod, weekend, markup, tax, vat, percent, abspercent, import; min(), max(), abs().",
-            "ru": "Необязательно. Пусто: строится из полей выше. Имена: market, tod, weekend, markup, tax, vat, percent, abspercent, import; min(), max(), abs().",
-            "ar": "اختياري. فارغ: تُبنى من الحقول أعلاه. الأسماء: market, tod, weekend, markup, tax, vat, percent, abspercent, import؛ min()، max()، abs().",
-            "ko": "선택 사항. 비우면 위 필드로 만들어집니다. 이름: market, tod, weekend, markup, tax, vat, percent, abspercent, import; min(), max(), abs()."
+            "en": "Optional. Empty: made from the fields above. Names: market, tod, weekend, markup, tax, vat, percent, abspercent, import, supply; min(), max(), abs().",
+            "nl": "Optioneel. Leeg: gemaakt uit de velden hierboven. Namen: market, tod, weekend, markup, tax, vat, percent, abspercent, import, supply; min(), max(), abs().",
+            "de": "Optional. Leer: aus den Feldern oben gebildet. Namen: market, tod, weekend, markup, tax, vat, percent, abspercent, import, supply; min(), max(), abs().",
+            "fr": "Facultatif. Vide : construite à partir des champs ci-dessus. Noms : market, tod, weekend, markup, tax, vat, percent, abspercent, import, supply ; min(), max(), abs().",
+            "it": "Facoltativo. Vuoto: creata dai campi sopra. Nomi: market, tod, weekend, markup, tax, vat, percent, abspercent, import, supply; min(), max(), abs().",
+            "sv": "Valfritt. Tomt: skapas från fälten ovan. Namn: market, tod, weekend, markup, tax, vat, percent, abspercent, import, supply; min(), max(), abs().",
+            "no": "Valgfritt. Tomt: lages fra feltene over. Navn: market, tod, weekend, markup, tax, vat, percent, abspercent, import, supply; min(), max(), abs().",
+            "es": "Opcional. Vacío: se crea con los campos de arriba. Nombres: market, tod, weekend, markup, tax, vat, percent, abspercent, import, supply; min(), max(), abs().",
+            "da": "Valgfrit. Tomt: dannes ud fra felterne ovenfor. Navne: market, tod, weekend, markup, tax, vat, percent, abspercent, import, supply; min(), max(), abs().",
+            "pl": "Opcjonalne. Puste: tworzona z pól powyżej. Nazwy: market, tod, weekend, markup, tax, vat, percent, abspercent, import, supply; min(), max(), abs().",
+            "ru": "Необязательно. Пусто: строится из полей выше. Имена: market, tod, weekend, markup, tax, vat, percent, abspercent, import, supply; min(), max(), abs().",
+            "ar": "اختياري. فارغ: تُبنى من الحقول أعلاه. الأسماء: market, tod, weekend, markup, tax, vat, percent, abspercent, import, supply؛ min()، max()، abs().",
+            "ko": "선택 사항. 비우면 위 필드로 만들어집니다. 이름: market, tod, weekend, markup, tax, vat, percent, abspercent, import, supply; min(), max(), abs()."
           }
         },
         {
