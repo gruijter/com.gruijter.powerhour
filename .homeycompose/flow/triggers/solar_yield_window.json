@@ -1,0 +1,145 @@
+{
+  "title": {
+    "en": "Yield between times is less than",
+    "de": "Ertrag zwischen Zeiten ist weniger als",
+    "nl": "Opbrengst tussen tijden is minder dan",
+    "fr": "Le rendement entre les heures est inférieur à",
+    "it": "Il rendimento tra gli orari è inferiore a",
+    "sv": "Avkastning mellan tider är mindre än",
+    "no": "Avkastning mellom tider er mindre enn",
+    "da": "Udbytte mellem tider er mindre end",
+    "es": "El rendimiento entre horas es menor que",
+    "pl": "Uzysk między czasami jest mniejszy niż",
+    "ru": "Доход между временем меньше чем",
+    "ko": "시간 사이 수익이 다음보다 적음",
+    "ar": "العائد بين الأوقات أقل من"
+  },
+  "titleFormatted": {
+    "en": "Yield between [[start_time]] and [[end_time]] is less than [[value]] kWh",
+    "de": "Ertrag zwischen [[start_time]] und [[end_time]] ist weniger als [[value]] kWh",
+    "nl": "Opbrengst tussen [[start_time]] en [[end_time]] is minder dan [[value]] kWh",
+    "fr": "Le rendement entre [[start_time]] et [[end_time]] est inférieur à [[value]] kWh",
+    "it": "Il rendimento tra [[start_time]] e [[end_time]] è inferiore a [[value]] kWh",
+    "sv": "Avkastning mellan [[start_time]] och [[end_time]] är mindre än [[value]] kWh",
+    "no": "Avkastning mellom [[start_time]] og [[end_time]] er mindre enn [[value]] kWh",
+    "da": "Udbytte mellem [[start_time]] og [[end_time]] er mindre end [[value]] kWh",
+    "es": "El rendimiento entre [[start_time]] y [[end_time]] es menor que [[value]] kWh",
+    "pl": "Uzysk między [[start_time]] a [[end_time]] jest mniejszy niż [[value]] kWh",
+    "ru": "Доход между [[start_time]] и [[end_time]] меньше чем [[value]] кВтч",
+    "ko": "[[start_time]]와 [[end_time]] 사이 수익이 [[value]] kWh보다 적음",
+    "ar": "العائد بين [[start_time]] و [[end_time]] أقل من [[value]] كيلوواط ساعة"
+  },
+  "highlight": true,
+  "args": [
+    {
+      "type": "device",
+      "name": "device",
+      "filter": "driver_id=solar"
+    },
+    {
+      "type": "text",
+      "name": "start_time",
+      "title": {
+        "en": "From",
+        "nl": "Van",
+        "de": "Von",
+        "fr": "De",
+        "it": "Da",
+        "sv": "Från",
+        "no": "Fra",
+        "es": "Desde",
+        "da": "Fra",
+        "pl": "Od",
+        "ru": "С",
+        "ar": "من",
+        "ko": "시작"
+      },
+      "placeholder": {
+        "en": "10:00",
+        "nl": "10:00",
+        "de": "10:00",
+        "fr": "10:00",
+        "es": "10:00",
+        "it": "10:00",
+        "da": "10:00",
+        "sv": "10:00",
+        "no": "10:00",
+        "pl": "10:00",
+        "ru": "10:00",
+        "ar": "10:00",
+        "ko": "10:00"
+      },
+      "hint": {
+        "en": "Time (07:30) or decimal hours (7.5). Same times: 24 hours.",
+        "nl": "Tijd (07:30) of decimale uren (7,5). Gelijke tijden: 24 uur.",
+        "de": "Uhrzeit (07:30) oder Dezimalstunden (7,5). Gleiche Zeiten: 24 Stunden.",
+        "fr": "Heure (07:30) ou heures décimales (7,5). Heures identiques : 24 heures.",
+        "it": "Ora (07:30) o ore decimali (7,5). Orari uguali: 24 ore.",
+        "sv": "Tid (07:30) eller decimaltimmar (7,5). Samma tider: 24 timmar.",
+        "no": "Tid (07:30) eller desimaltimer (7,5). Like tider: 24 timer.",
+        "es": "Hora (07:30) u horas decimales (7,5). Horas iguales: 24 horas.",
+        "da": "Tid (07:30) eller decimaltimer (7,5). Ens tider: 24 timer.",
+        "pl": "Godzina (07:30) lub godziny dziesiętne (7,5). Te same godziny: 24 godziny.",
+        "ru": "Время (07:30) или десятичные часы (7,5). Одинаковое время: 24 часа.",
+        "ar": "الوقت (07:30) أو ساعات عشرية (7.5). وقتان متساويان: 24 ساعة.",
+        "ko": "시각(07:30) 또는 소수 시간(7.5). 같은 시각: 24시간."
+      }
+    },
+    {
+      "type": "text",
+      "name": "end_time",
+      "title": {
+        "en": "Until",
+        "nl": "Tot",
+        "de": "Bis",
+        "fr": "À",
+        "it": "A",
+        "sv": "Till",
+        "no": "Til",
+        "es": "Hasta",
+        "da": "Til",
+        "pl": "Do",
+        "ru": "До",
+        "ar": "إلى",
+        "ko": "종료"
+      },
+      "placeholder": {
+        "en": "16:00",
+        "nl": "16:00",
+        "de": "16:00",
+        "fr": "16:00",
+        "es": "16:00",
+        "it": "16:00",
+        "da": "16:00",
+        "sv": "16:00",
+        "no": "16:00",
+        "pl": "16:00",
+        "ru": "16:00",
+        "ar": "16:00",
+        "ko": "16:00"
+      },
+      "hint": {
+        "en": "Time (07:30) or decimal hours (7.5). Same times: 24 hours.",
+        "nl": "Tijd (07:30) of decimale uren (7,5). Gelijke tijden: 24 uur.",
+        "de": "Uhrzeit (07:30) oder Dezimalstunden (7,5). Gleiche Zeiten: 24 Stunden.",
+        "fr": "Heure (07:30) ou heures décimales (7,5). Heures identiques : 24 heures.",
+        "it": "Ora (07:30) o ore decimali (7,5). Orari uguali: 24 ore.",
+        "sv": "Tid (07:30) eller decimaltimmar (7,5). Samma tider: 24 timmar.",
+        "no": "Tid (07:30) eller desimaltimer (7,5). Like tider: 24 timer.",
+        "es": "Hora (07:30) u horas decimales (7,5). Horas iguales: 24 horas.",
+        "da": "Tid (07:30) eller decimaltimer (7,5). Ens tider: 24 timer.",
+        "pl": "Godzina (07:30) lub godziny dziesiętne (7,5). Te same godziny: 24 godziny.",
+        "ru": "Время (07:30) или десятичные часы (7,5). Одинаковое время: 24 часа.",
+        "ar": "الوقت (07:30) أو ساعات عشرية (7.5). وقتان متساويان: 24 ساعة.",
+        "ko": "시각(07:30) 또는 소수 시간(7.5). 같은 시각: 24시간."
+      }
+    },
+    {
+      "type": "number",
+      "name": "value",
+      "required": true,
+      "min": 0,
+      "step": 0.1
+    }
+  ]
+}

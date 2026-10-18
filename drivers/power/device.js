@@ -507,6 +507,7 @@ class PowerDevice extends GenericDevice {
     };
     const { app } = this.homey;
     if (app.trigger_appliance_cheapest_start_before) await app.trigger_appliance_cheapest_start_before(this, tokens, {});
+    if (app.trigger_appliance_cheapest_start_until) await app.trigger_appliance_cheapest_start_until(this, tokens, {});
     if (app.trigger_appliance_cheapest_start_next_hours) await app.trigger_appliance_cheapest_start_next_hours(this, tokens, {});
   }
 
@@ -520,11 +521,12 @@ class PowerDevice extends GenericDevice {
     return !!best && best.startMs === slot;
   }
 
-  // Flow: starts in the period hours before time o'clock (0-24, 7.75 = 07:45); like the DAP card, today's
+  // Flow: starts in the period hours before time (07:45, or decimal hours 7.75); like the DAP card, today's
   // window, or tomorrow's when that time has passed.
   isCheapestStartBefore(period, time) {
-    const minutes = Math.round(TimeHelpers.parseHours(time) * 4) * 15;
-    if (!(minutes >= 0 && minutes <= 1440)) throw Error(this.homey.__('error_invalid_time', { time }));
+    const hours = TimeHelpers.parseClock(time);
+    if (hours === null) throw Error(this.homey.__('error_invalid_time', { time }));
+    const minutes = Math.round(hours * 4) * 15;
     const slot = Math.floor(Date.now() / SLOT_MS) * SLOT_MS;
     const nextDay = (day) => TimeHelpers.getLocalMidnightUTC(new Date(day.getTime() + 26 * 3600000), this.timeZone);
     const hhmm = `${String(Math.floor(minutes / 60)).padStart(2, '0')}:${String(minutes % 60).padStart(2, '0')}`;
