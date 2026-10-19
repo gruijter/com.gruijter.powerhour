@@ -60,6 +60,12 @@ const PLAN_COALESCE_MS = 500;
 const SURPLUS_WINDOW_MS = 3 * 60 * 1000;
 // A variable charger's power is only changed by at least this much.
 const TARGET_POWER_STEP_W = 200;
+
+// An unchanged power or current is sent again after this long (a charger that reset it).
+const SETPOINT_RESEND_MS = 15 * 60 * 1000;
+
+// Above this SoC a car may taper: no W/A sample.
+const AMP_SAMPLE_MAX_SOC = 80;
 // Charging on solar always needs at least this much measured surplus.
 const MIN_SOLAR_NEED_W = 100;
 // At most one restart per this period when the charger's capabilities changed under us.
@@ -210,11 +216,15 @@ class CarChargeDevice extends GenericDevice {
     // --- Charger device (primary source = this.sourceDevice) ---
     if (this.sourceDevice) {
       const caps = this.sourceDevice.capabilities || [];
+      // A meter without a value yet (after a reboot): used when there is no power to integrate,
+      // else taken over once it reports (pollMeter).
       const meter = EvChargerControl.meterCap(this.sourceDevice);
-      if (meter) this.sourceCapGroup.p1 = meter;
+      const declared = EvChargerControl.meterCap(this.sourceDevice, true);
       if (caps.includes('measure_power')) {
         this.sourceCapGroup.measure = 'measure_power';
       }
+      this.sourceCapGroup.p1 = meter || (this.sourceCapGroup.measure ? null : declared);
+      this.pendingMeterCap = this.sourceCapGroup.p1 ? null : declared;
       if (caps.includes('measure_battery')) {
         this.sourceCapGroup.socOnCharger = 'measure_battery';
       }
@@ -318,6 +328,15 @@ class CarChargeDevice extends GenericDevice {
     }
 
     await this._syncStandby();
+
+    // The charger's power or current setpoint: also changed by the charger app or the user.
+    const setpointCap = this.sourceCapGroup.powerCap || this.sourceCapGroup.currentCap;
+    if (setpointCap) {
+      this.chargerSetpoint = this.sourceDevice.capabilitiesObj?.[setpointCap]?.value;
+      this.capabilityInstances.chargerSetpoint = await this.sourceDevice.makeCapabilityInstance(setpointCap, (value) => {
+        this.chargerSetpoint = value;
+      });
+    }
 
     // Charger switch: its actual state, also when switched by hand or by another flow
     if (this.sourceCapGroup.switchCap) {
@@ -699,6 +718,15 @@ class CarChargeDevice extends GenericDevice {
     return Number.isFinite(val) && val > 0 ? val : null;
   }
 
+  // Homey's location { lat, lon }, empty without location permission or when not set.
+  _homeLocation() {
+    try {
+      return { lat: this.homey.geolocation.getLatitude(), lon: this.homey.geolocation.getLongitude() };
+    } catch {
+      return {};
+    }
+  }
+
   /**
    * Read the car's (or the charger's) status and apply it: presence signals, and a SoC rebase
    * when the car reported since the current base.
@@ -721,12 +749,7 @@ class CarChargeDevice extends GenericDevice {
       this.signals.carDistanceKm = null;
       this.signals.carPlugged = null;
     } else if (carCaps) {
-      const home = {};
-      try {
-        home.lat = this.homey.geolocation.getLatitude();
-        home.lon = this.homey.geolocation.getLongitude();
-      } catch { /* no location permission or not set */ }
-      const where = EvCarCaps.carDistance(carCaps, this.carCapGroup, home);
+      const where = EvCarCaps.carDistance(carCaps, this.carCapGroup, this._homeLocation());
       this.signals.carDistanceKm = where.km;
       this.carDistanceSource = where.source;
       // A location away reported after the car was detected at the charger: it left.
@@ -854,7 +877,13 @@ class CarChargeDevice extends GenericDevice {
     if (this.usageModel && EvUsageModel.rollover(this.usageModel, new Date(), tz)) {
       const ov = (this.getStoreValue('evOverrides') || {})[this.usageModel.current.date];
       if (ov) EvUsageModel.setOverride(this.usageModel, ov.type);
-      const km = this.signals.carDistanceKm;
+      // A car out of reach (unavailable) still has its last report.
+      let km = this.signals.carDistanceKm;
+      if (typeof km !== 'number' && this.evDevice) {
+        const where = EvCarCaps.carDistance(this.evDevice.capabilitiesObj, this.carCapGroup, this._homeLocation());
+        km = where.km;
+        this.carDistanceSource = where.source;
+      }
       if (Number.isFinite(km) && km > EvUsageModel.AWAY_NIGHT_KM) {
         EvUsageModel.markAwayNight(this.usageModel);
         const where = this.carDistanceSource === 'home' ? 'car says not at home' : `${Math.round(km)} km`;
@@ -1058,36 +1087,53 @@ class CarChargeDevice extends GenericDevice {
     return currentCap ? { cap: currentCap, unit: 'A' } : null;
   }
 
-  _wattsPerAmp() {
-    return EvChargerControl.wattsPerAmp(this.getStoreValue('evWattsPerAmp'));
+  // low: the unlearned phases as 1 (the lowest power), else as 3 (the fewest amps for a power).
+  _wattsPerAmp(low = false) {
+    return EvChargerControl.wattsPerAmp(this.getStoreValue('evWattsPerAmp'), low);
   }
 
   _ampLimits() {
     return EvChargerControl.ampLimits(this.sourceDevice?.capabilitiesObj?.[this.sourceCapGroup.currentCap]);
   }
 
-  // The lowest power a variable charger charges at: a current charger's minimum at the phases.
-  _variableMinW() {
+  /**
+   * The lowest power a variable charger charges at: a current charger's minimum at the phases.
+   * Unlearned phases: 1 phase, so a 1-phase car can start on solar (its power teaches the phases),
+   * but 3 phases for a fuse cut (safe: below it the charger switches off).
+   */
+  _variableMinW(safe = false) {
     const variable = this._variablePowerCap();
     if (!variable || variable.unit !== 'A') return EvPlanner.MIN_VARIABLE_POWER_W;
-    return Math.max(EvPlanner.MIN_VARIABLE_POWER_W, this._ampLimits().minA * this._wattsPerAmp());
+    return Math.max(EvPlanner.MIN_VARIABLE_POWER_W, this._ampLimits().minA * this._wattsPerAmp(!safe));
+  }
+
+  // The value (W, or whole A rounded down) for a power, and the power it sets (W).
+  _variableSetpoint(variable, power) {
+    if (variable.unit !== 'A') return { value: power, setW: power };
+    const wpa = this._wattsPerAmp();
+    const value = EvChargerControl.toCurrent({ powerW: power, wpa, ...this._ampLimits() });
+    return { value, setW: value * wpa };
   }
 
   /**
-   * Set the charger's power, or the current for it (whole A, rounded down).
+   * Set the charger's power, or the current for it. Unchanged values are not sent again, unless
+   * the charger reports another setpoint or the last command is old.
+   * @param {boolean} [force] - always send (a fuse cut)
    * @returns {Promise<number|null>} the power set (W), null unchanged
    */
-  async _sendVariablePower(variable, power, logTag) {
-    let value = power;
-    let setW = power;
-    if (variable.unit === 'A') {
-      const wpa = this._wattsPerAmp();
-      value = EvChargerControl.toCurrent({ powerW: power, wpa, ...this._ampLimits() });
-      setW = value * wpa;
-      if (value === this.lastTargetCurrent) return null;
-    } else if (typeof this.lastTargetPower === 'number' && Math.abs(power - this.lastTargetPower) < TARGET_POWER_STEP_W) return null;
+  async _sendVariablePower(variable, power, logTag, force = false) {
+    const { value, setW } = this._variableSetpoint(variable, power);
+    const actual = this.chargerSetpoint;
+    const recent = Date.now() - (this.lastSetpointTm || 0) < SETPOINT_RESEND_MS;
+    const same = variable.unit === 'A' ? value === this.lastTargetCurrent
+      : typeof this.lastTargetPower === 'number' && Math.abs(power - this.lastTargetPower) < TARGET_POWER_STEP_W;
+    const confirmed = typeof actual === 'number' && typeof this.lastSentSetpoint === 'number'
+      ? Math.abs(actual - this.lastSentSetpoint) < (variable.unit === 'A' ? 0.5 : TARGET_POWER_STEP_W) : recent;
+    if (!force && same && confirmed) return null;
     await this.sourceDevice.setCapabilityValue({ capabilityId: variable.cap, value });
     this.lastTargetPower = setW;
+    this.lastSentSetpoint = value;
+    this.lastSetpointTm = Date.now();
     if (variable.unit === 'A') {
       this.lastTargetCurrent = value;
       this.lastCurrentCommandTm = Date.now();
@@ -1096,15 +1142,18 @@ class CarChargeDevice extends GenericDevice {
     return setW;
   }
 
-  // A W/A sample of a current charger: the measured power some time after the last command.
+  // A W/A sample of a current charger: the measured power some time after the last command, not
+  // near full (a tapering car takes less than the current allows).
   _sampleWattsPerAmp(power) {
     const variable = this._variablePowerCap();
-    if (!variable || variable.unit !== 'A' || !(this.lastTargetCurrent > 0) || !(power > EvPresence.CHARGING_POWER_W)) return;
+    const currentA = typeof this.chargerSetpoint === 'number' ? this.chargerSetpoint : this.lastTargetCurrent;
+    if (!variable || variable.unit !== 'A' || !(currentA > 0) || !(power > EvPresence.CHARGING_POWER_W)) return;
+    if (this.lastKnownSoc >= AMP_SAMPLE_MAX_SOC) return;
     const now = Date.now();
     if (now - (this.lastCurrentCommandTm || 0) < EvChargerControl.AMP_SETTLE_MS || now - (this.lastAmpSampleTm || 0) < 10 * 60 * 1000) return;
     this.lastAmpSampleTm = now;
     const before = this._wattsPerAmp();
-    const samples = EvChargerControl.addAmpSample(this.getStoreValue('evWattsPerAmp'), { powerW: power, currentA: this.lastTargetCurrent });
+    const samples = EvChargerControl.addAmpSample(this.getStoreValue('evWattsPerAmp'), { powerW: power, currentA });
     this.setStoreValue('evWattsPerAmp', samples).catch(this.error);
     const after = EvChargerControl.wattsPerAmp(samples);
     if (after !== before) this.log(`[EV Control] Car charges on ${after / 230} phase(s): ${after} W per A`);
@@ -1181,13 +1230,14 @@ class CarChargeDevice extends GenericDevice {
       const known = [measured ? this.livePowerW : null, this.fuseCapW, this.lastTargetPower]
         .filter((w) => typeof w === 'number' && w > 0);
       const currentW = known.length ? Math.min(...known) : this._chargePowerW();
-      const capW = FuseGuard.reduceTo({ currentW, overW: importW - limitW, minW: this._variableMinW() });
-      if (capW !== null) {
+      const reduceW = FuseGuard.reduceTo({ currentW, overW: importW - limitW, minW: this._variableMinW(true) });
+      if (reduceW !== null) {
+        const capW = this._variableSetpoint(variable, reduceW).setW;
         this.fuseCapW = capW;
         this.fuseCapTm = now;
         this.log(`[Fuse] import ${Math.round(importW)} W above ${limitW} W: charger limit ${capW} W`);
-        this._sendVariablePower(variable, capW, '[Fuse]')
-          .catch((err) => this.error(`[Fuse] Setting charger ${variable.cap} for ${capW} W failed:`, err.message || err));
+        this._sendVariablePower(variable, reduceW, '[Fuse]', true)
+          .catch((err) => this.error(`[Fuse] Setting charger ${variable.cap} for ${reduceW} W failed:`, err.message || err));
         return { name: this.getName(), capW };
       }
     }
@@ -1346,6 +1396,15 @@ class CarChargeDevice extends GenericDevice {
     await this.getSourceDevice();
 
     // kWh meter
+    if (this.pendingMeterCap && typeof this.sourceDevice.capabilitiesObj?.[this.pendingMeterCap]?.value === 'number') {
+      this.sourceCapGroup.p1 = this.pendingMeterCap;
+      this.pendingMeterCap = null;
+      this.log(`[EV Meter] ${this.sourceCapGroup.p1} reports now: used instead of the power`);
+      this.capabilityInstances.p1 = this.sourceDevice.makeCapabilityInstance(
+        this.sourceCapGroup.p1,
+        async (value) => this.updateMeter(value).catch(this.error),
+      );
+    }
     if (this.sourceCapGroup.p1 && this.sourceDevice.capabilitiesObj?.[this.sourceCapGroup.p1]) {
       const val = this.sourceDevice.capabilitiesObj[this.sourceCapGroup.p1].value;
       await this.updateMeter(val).catch(this.error);
@@ -1459,16 +1518,22 @@ class CarChargeDevice extends GenericDevice {
       return;
     }
     if (typeof val !== 'number') return;
-    const stored = this.getStoreValue('evSourceMeter');
     const hidden = this.getCapabilityValue('meter_power_hidden');
-    const anchor = EvChargerControl.meterTotal({
-      anchor: stored, cap: this.sourceCapGroup.p1, value: val, startTotal: typeof hidden === 'number' ? hidden : 0, v2x: !!this.getSettings().v2x,
+    const stored = this.sourceMeterAnchor || this.getStoreValue('evSourceMeter');
+    const res = EvChargerControl.meterTotal({
+      anchor: stored,
+      id: this.sourceDevice && this.sourceDevice.id,
+      cap: this.sourceCapGroup.p1,
+      value: val,
+      last: this.sourceMeterAnchor ? this.sourceMeterLast : null,
+      hidden: typeof hidden === 'number' ? hidden : 0,
+      v2x: !!this.getSettings().v2x,
     });
-    if (stored && anchor.cap === stored.cap && val < stored.source && !this.getSettings().v2x) {
-      this.log(`[EV Meter] ${anchor.cap} restarted (${stored.source} -> ${val} kWh): counted from 0`);
-    }
-    if (!stored || anchor.source !== stored.source || anchor.cap !== stored.cap) await this.setStoreValue('evSourceMeter', anchor).catch(this.error);
-    await super.updateMeter(anchor.total);
+    this.sourceMeterAnchor = res.anchor;
+    this.sourceMeterLast = res.last;
+    if (res.restarted) this.log(`[EV Meter] ${res.anchor.cap} restarted (-> ${val} kWh): counted from 0`);
+    if (res.changed) await this.setStoreValue('evSourceMeter', res.anchor).catch(this.error);
+    await super.updateMeter(res.total);
   }
 
   async handleUpdateMeter(reading) {
@@ -2081,7 +2146,8 @@ class CarChargeDevice extends GenericDevice {
       // nights away are not learned.
       let distEntries = null;
       if (odoEntries && this.carCapGroup.homeDistance) {
-        distEntries = ((await fetchOdometer(evId, this.carCapGroup.homeDistance)) || []).map((e) => ({ t: e.t, km: e.v }));
+        const units = this.evDevice?.capabilitiesObj?.[this.carCapGroup.homeDistance]?.units;
+        distEntries = ((await fetchOdometer(evId, this.carCapGroup.homeDistance)) || []).map((e) => ({ t: e.t, km: EvCarCaps.toKm(e.v, units) }));
       }
       if (odoEntries && !(distEntries && distEntries.length) && this.carCapGroup.latitude && this.carCapGroup.longitude) {
         let home = null;

@@ -11,7 +11,6 @@ const EvChargerCaps = require('../../lib/helpers/EvChargerCaps');
 const EvChargerControl = require('../../lib/strategies/EvChargerControl');
 const EvHistory = require('../../lib/helpers/EvHistory');
 const PairSetup = require('../../lib/helpers/PairSetup');
-const SourceCaps = require('../../lib/helpers/SourceCaps');
 // Dependencies are lazy loaded in methods to save memory
 
 const driverSpecifics = {
@@ -138,7 +137,7 @@ class CarChargeDriver extends GenericDriver {
     }
 
     if (isCharger) {
-      const hasMeter = !!EvChargerControl.meterCap(homeyDevice);
+      const hasMeter = !!EvChargerControl.meterCap(homeyDevice, true);
       const hasMeasure = caps.includes('measure_power');
       const useMeasureSource = !hasMeter && hasMeasure;
       if (hasMeter || hasMeasure) {
@@ -318,18 +317,12 @@ class CarChargeDriver extends GenericDriver {
     const charger = await PairSetup.apiDevice(this, chargerId);
     const car = carId && carId !== 'none' ? await PairSetup.apiDevice(this, carId) : null;
     if (!charger) return null;
-    const rows = (device, options, chosen, prefix) => options.map((role) => ({
-      key: `${prefix}${role.key}`,
-      label: this.homey.__(`repair.${prefix}${role.key}`),
-      auto: role.auto,
-      options: role.options.map((opt) => ({ id: opt.id, label: SourceCaps.describe(device, opt.id) })),
-      selected: chosen[role.key] || 'auto',
-    }));
+    const label = (key) => this.homey.__(`repair.${key}`);
     const chargerChosen = stored.charger && stored.charger.chargerId === chargerId ? stored.charger.caps : {};
     const carChosen = car && stored.car && stored.car.carId === carId ? stored.car.caps : {};
     const items = [
-      ...rows(charger, EvChargerCaps.chargerCapOptions(charger), chargerChosen, 'charger_'),
-      ...(car ? rows(car, EvCarCaps.carCapOptions(car), carChosen, 'car_') : []),
+      ...EvChargerCaps.chargerCapRows(charger, chargerChosen, label),
+      ...(car ? EvCarCaps.carCapRows(car, carChosen, label) : []),
     ];
     const names = car ? `${charger.name}, ${car.name}` : `${charger.name}. ${this.homey.__('repair.car_no_car')}`;
     return {
@@ -346,7 +339,9 @@ class CarChargeDriver extends GenericDriver {
       .filter(([key]) => key.startsWith(prefix)).map(([key, id]) => [key.slice(prefix.length), id]));
     const carId = dev && dev.settings.ev_device_id;
     const stores = [{ key: 'evChargerCaps', value: { chargerId, caps: part('charger_') } }];
-    if (carId && carId !== 'none') stores.push({ key: 'evCarCaps', value: { carId, caps: part('car_') } });
+    // No car rows (the car could not be read): the choice made before is kept.
+    const carCaps = part('car_');
+    if (carId && carId !== 'none' && Object.keys(carCaps).length) stores.push({ key: 'evCarCaps', value: { carId, caps: carCaps } });
     return stores;
   }
 

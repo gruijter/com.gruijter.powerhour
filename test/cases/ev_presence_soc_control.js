@@ -331,24 +331,41 @@ console.log('all phase 1 tests passed');
   assert.strictEqual(C.meterCap(wallbox), 'meter_power.charged');
   assert.strictEqual(C.meterCap(dev(['meter_power', 'measure_power'], {}, {})), null, 'declared but never set: none');
   assert.strictEqual(C.meterCap(dev(['meter_power'], { meter_power: 12 }, null)), 'meter_power', 'plain plug');
-  let a = C.meterTotal({
-    anchor: null, cap: 'm', value: 4, startTotal: 100,
+  assert.strictEqual(C.meterCap(dev(['meter_power', 'measure_power'], {}, {}), true), 'meter_power', 'declared: not reported yet');
+  const step = (r, value, extra = {}) => C.meterTotal({
+    anchor: r.anchor, id: 'c', cap: 'm', value, last: r.last, hidden: r.total, ...extra,
   });
-  assert.deepStrictEqual(a, { cap: 'm', source: 4, total: 100 }, 'first reading anchors');
-  a = C.meterTotal({
-    anchor: a, cap: 'm', value: 9, startTotal: 0,
+  let r = C.meterTotal({
+    anchor: null, id: 'c', cap: 'm', value: 4, last: null, hidden: 100,
   });
-  assert.strictEqual(a.total, 105);
-  a = C.meterTotal({
-    anchor: a, cap: 'm', value: 2, startTotal: 0,
-  });
-  assert.strictEqual(a.total, 107, 'session restart counts from 0');
+  assert.deepStrictEqual([r.total, r.changed], [100, true], 'first reading anchors');
+  r = step(r, 9);
+  assert.strictEqual(r.total, 105);
+  assert.ok(!r.changed, 'no store write while counting');
+  r = step(r, 8.99);
+  assert.deepStrictEqual([r.total, r.last, r.dip], [105, 9, true], 'small drop: not a restart');
+  r = step(r, 0);
+  assert.strictEqual(r.total, 105, '0 (app restart): ignored');
+  r = step(r, 10);
+  assert.strictEqual(r.total, 106, 'back after a 0: only the real increase');
+  r = step(r, 2);
+  assert.deepStrictEqual([r.total, r.restarted], [108, true], 'session restart counts from 0');
+  r = step(r, 3);
+  assert.strictEqual(r.total, 109);
+  assert.strictEqual(step(r, 1, { v2x: true }).total, 107, 'V2X: drop is discharging');
+  // A new run: what was charged while the app was down counts, a counter going back re-anchors.
   assert.strictEqual(C.meterTotal({
-    anchor: a, cap: 'm', value: 1, startTotal: 0, v2x: true,
-  }).total, 106, 'V2X: drop is discharging');
+    anchor: r.anchor, id: 'c', cap: 'm', value: 5, last: null, hidden: 109,
+  }).total, 111, 'charged while down');
   assert.strictEqual(C.meterTotal({
-    anchor: a, cap: 'n', value: 50, startTotal: 107,
-  }).total, 107, 'new source cap: new anchor');
+    anchor: r.anchor, id: 'c', cap: 'm', value: 1, last: null, hidden: 120,
+  }).total, 120, 'counter would go back: new anchor');
+  assert.strictEqual(C.meterTotal({
+    anchor: r.anchor, id: 'other', cap: 'm', value: 500, last: null, hidden: 109,
+  }).total, 109, 'other charger: new anchor');
+  assert.strictEqual(C.meterTotal({
+    anchor: { cap: 'm', source: 4, total: 100 }, id: 'c', cap: 'm', value: 50, last: null, hidden: 107,
+  }).total, 107, 'old anchor format: new anchor');
   console.log('charger meter tests passed');
 }
 
@@ -375,6 +392,15 @@ console.log('all phase 1 tests passed');
   assert.strictEqual(EvChargerCaps.resolveChargerCaps(dev({ current_limit: { type: 'number', setable: false, units: 'A' } })).currentCap,
     undefined, 'a read-only guessed current is not used');
   assert.strictEqual(EvChargerCaps.resolveChargerCaps(easee, { currentCap: 'none' }).currentCap, undefined, 'none');
+  assert.strictEqual(EvChargerCaps.resolveChargerCaps(dev({
+    evcharger_charging: { type: 'boolean', setable: false }, onoff: { type: 'boolean', setable: true },
+  })).switchCap, 'onoff', 'a read-only switch: the next one');
+  const rows = EvChargerCaps.chargerCapRows(dev({ evcharger_charging: { type: 'boolean', setable: false } }), { switchCap: 'gone' }, (k) => k);
+  assert.strictEqual(rows.find((x) => x.key === 'charger_switchCap').auto, null, 'auto shows what is used');
+  const P = require('../../lib/strategies/EvPresence');
+  assert.strictEqual(P.isPluggedValue('idle'), null, 'unknown enum value: unknown, not unplugged');
+  assert.strictEqual(P.isPluggedValue('plugged_out'), false);
+  assert.strictEqual(P.isPluggedValue('connected'), true);
   const nissan = dev({
     measure_battery: { type: 'number', units: '%' }, car_plugged: { type: 'boolean' }, car_at_home: { type: 'boolean', value: false },
   });
@@ -382,15 +408,23 @@ console.log('all phase 1 tests passed');
   assert.strictEqual(EvCarCaps.resolveCarCaps(dev({ is_home: { type: 'string' } })).atHome, undefined, 'guessed id of another type');
   const g = EvCarCaps.resolveCarCaps(nissan);
   assert.deepStrictEqual(EvCarCaps.carDistance(nissan.capabilitiesObj, g).km, EvCarCaps.AWAY_FLAG_KM, 'not at home: away');
+  const noFix = dev({ latitude: { type: 'number', value: null }, longitude: { type: 'number', value: null } });
+  assert.strictEqual(EvCarCaps.carDistance(noFix.capabilitiesObj, EvCarCaps.resolveCarCaps(noFix), { lat: 52, lon: 5 }).km, null, 'no location yet');
   const tesla = dev({ 'measure_distance.home': { type: 'number', units: 'm', value: 150 } });
   assert.strictEqual(EvCarCaps.carDistance(tesla.capabilitiesObj, EvCarCaps.resolveCarCaps(tesla)).km, 0.15, 'm to km');
-  // Watts per amp: 3 phases until learned, then the highest sample in whole phases.
+  // Watts per amp: 3 phases until learned (1 for the lowest power), fewer phases after 3 samples.
   assert.strictEqual(C.wattsPerAmp([]), 690);
+  assert.strictEqual(C.wattsPerAmp([], true), 230, 'unlearned, lowest power: 1 phase');
   let s = C.addAmpSample([], { powerW: 2250, currentA: 10 });
+  assert.strictEqual(C.wattsPerAmp(s), 690, 'one 1-phase sample: not yet');
+  s = C.addAmpSample(C.addAmpSample(s, { powerW: 2300, currentA: 10 }), { powerW: 3600, currentA: 16 });
   assert.strictEqual(C.wattsPerAmp(s), 230, 'one phase');
+  assert.strictEqual(C.wattsPerAmp(s, true), 230);
   s = C.addAmpSample(s, { powerW: 6800, currentA: 10 });
   assert.strictEqual(C.wattsPerAmp(s), 690, 'three phases');
-  assert.strictEqual(C.wattsPerAmp(C.addAmpSample([], { powerW: 3000, currentA: 10 })), 460, 'tapering: rather more phases');
+  assert.strictEqual(C.wattsPerAmp(C.addAmpSample([], { powerW: 6800, currentA: 10 })), 690, 'one 3-phase sample is enough');
+  assert.deepStrictEqual(C.addAmpSample([], { powerW: 2000, currentA: 15 }), [], 'tapering (no whole phases): ignored');
+  assert.deepStrictEqual(C.addAmpSample([], { powerW: 3000, currentA: 10 }), [], 'tapering: ignored');
   assert.strictEqual(C.wattsPerAmp(C.addAmpSample([], { powerW: 9000, currentA: 6 })).toString(), '690', 'ignored: did not follow');
   const lim = C.ampLimits({ min: 0, max: 16 });
   assert.deepStrictEqual(lim, { minA: 6, maxA: 16 });
