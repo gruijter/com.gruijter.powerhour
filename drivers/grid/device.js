@@ -31,6 +31,7 @@ const { setTimeoutPromise } = require('../../lib/helpers/Util');
 const { fetchYesterdayAndToday, convertCumulativeToPower, mergeStoredHistory } = require('../../lib/helpers/HistoryLookup');
 const { combineComponentsToHomePower } = require('../../lib/helpers/HomePowerReconstruction');
 const TimeHelpers = require('../../lib/helpers/TimeHelpers');
+const LoadSpread = require('../../lib/helpers/LoadSpread');
 const PeakTariff = require('../../lib/strategies/PeakTariff');
 
 const deviceSpecifics = {
@@ -1531,48 +1532,60 @@ class GridDevice extends GenericDevice {
     const startOfYesterday = getLocalMidnightUTC(new Date(startOfToday.getTime() - 60 * 60 * 1000));
     const endOfYesterday = startOfToday;
 
-    // Grid exchange charts. Today/Tomorrow refresh every 15 minutes, as the battery/EV plans
-    // change independently of the load model. Past slots show the recorded forecast.
-    const recordedNet = new Map(this.netForecastHistory.map((e) => [e.time, e.net]));
-    const gridOpts = (startMs, endMs) => ({
-      forecast: this.getNetForecast(startMs, endMs).netPlanned.map((v, i) => {
-        const t = startMs + (i * 15 * 60 * 1000);
-        if (t >= slotStartMs) return v;
-        return recordedNet.has(t) ? recordedNet.get(t) : null;
-      }),
-      realKey: 'grid',
-      signed: true,
-    });
-    if (updated || plansChanged || (now.getMinutes() % 15 === 0) || !this.chartNetToday) {
-      const chart = await getGridForecastChart(null, startOfToday, endOfToday, 'Grid Today', this.powerHistory, this.timeZone, true, gridOpts(startOfToday.getTime(), endOfToday.getTime()));
-      if (chart) {
-        this.chartNetToday = chart;
-        await this.netTodayImage.update().catch(this.error);
+    // The charts are not time-critical: after a slot boundary's burst (LoadSpread).
+    // Calls merged into one deferred run: what any of them changed is drawn.
+    const flags = this.chartFlags || {};
+    this.chartFlags = {
+      updated: !!(flags.updated || updated),
+      plansChanged: !!(flags.plansChanged || plansChanged),
+      quarter: !!(flags.quarter || now.getMinutes() % 15 === 0),
+    };
+    await LoadSpread.run(this, 'forecastCharts', async () => {
+      const { updated: modelUpdated, plansChanged: plansMoved, quarter } = this.chartFlags || {};
+      this.chartFlags = null;
+      // Grid exchange charts. Today/Tomorrow refresh every 15 minutes, as the battery/EV plans
+      // change independently of the load model. Past slots show the recorded forecast.
+      const recordedNet = new Map(this.netForecastHistory.map((e) => [e.time, e.net]));
+      const gridOpts = (startMs, endMs) => ({
+        forecast: this.getNetForecast(startMs, endMs).netPlanned.map((v, i) => {
+          const t = startMs + (i * 15 * 60 * 1000);
+          if (t >= slotStartMs) return v;
+          return recordedNet.has(t) ? recordedNet.get(t) : null;
+        }),
+        realKey: 'grid',
+        signed: true,
+      });
+      if (modelUpdated || plansMoved || quarter || !this.chartNetToday) {
+        const chart = await getGridForecastChart(null, startOfToday, endOfToday, 'Grid Today', this.powerHistory, this.timeZone, true, gridOpts(startOfToday.getTime(), endOfToday.getTime()));
+        if (chart) {
+          this.chartNetToday = chart;
+          await this.netTodayImage.update().catch(this.error);
+        }
       }
-    }
-    if (updated || plansChanged || (now.getMinutes() % 15 === 0) || !this.chartNetTomorrow) {
-      const chart = await getGridForecastChart(null, startOfTomorrow, endOfTomorrow, 'Grid Tomorrow', [], this.timeZone, false, gridOpts(startOfTomorrow.getTime(), endOfTomorrow.getTime()));
-      if (chart) {
-        this.chartNetTomorrow = chart;
-        await this.netTomorrowImage.update().catch(this.error);
+      if (modelUpdated || plansMoved || quarter || !this.chartNetTomorrow) {
+        const chart = await getGridForecastChart(null, startOfTomorrow, endOfTomorrow, 'Grid Tomorrow', [], this.timeZone, false, gridOpts(startOfTomorrow.getTime(), endOfTomorrow.getTime()));
+        if (chart) {
+          this.chartNetTomorrow = chart;
+          await this.netTomorrowImage.update().catch(this.error);
+        }
       }
-    }
-    if (updated || !this.chartNetYesterday) {
-      const opts = gridOpts(startOfYesterday.getTime(), endOfYesterday.getTime());
-      const chart = await getGridForecastChart(null, startOfYesterday, endOfYesterday, 'Grid Yesterday', this.powerHistory, this.timeZone, false, opts);
-      if (chart) {
-        this.chartNetYesterday = chart;
-        await this.netYesterdayImage.update().catch(this.error);
+      if (modelUpdated || !this.chartNetYesterday) {
+        const opts = gridOpts(startOfYesterday.getTime(), endOfYesterday.getTime());
+        const chart = await getGridForecastChart(null, startOfYesterday, endOfYesterday, 'Grid Yesterday', this.powerHistory, this.timeZone, false, opts);
+        if (chart) {
+          this.chartNetYesterday = chart;
+          await this.netYesterdayImage.update().catch(this.error);
+        }
       }
-    }
 
-    if (updated || !this.chartGridWeekly) {
-      const chartWeekly = await getGridWeeklyChart(this.weeklyProfile, 'Weekly Baseline Profile');
-      if (chartWeekly) {
-        this.chartGridWeekly = chartWeekly;
-        await this.gridWeeklyImage.update().catch(this.error);
+      if (modelUpdated || !this.chartGridWeekly) {
+        const chartWeekly = await getGridWeeklyChart(this.weeklyProfile, 'Weekly Baseline Profile');
+        if (chartWeekly) {
+          this.chartGridWeekly = chartWeekly;
+          await this.gridWeeklyImage.update().catch(this.error);
+        }
       }
-    }
+    });
 
     if (updated || this.lastTriggerSlot !== currentSlot) {
       this.lastTriggerSlot = currentSlot;

@@ -1159,12 +1159,9 @@ class BatDevice extends GenericDevice {
     this.lastPlanSlotStart = slotStart;
   }
 
-  // A new plan slot inside a price slot: plan again (a price-slot start gets new prices anyway,
-  // and onPricesUpdated() plans then).
-  async onPlanSlot(slotStartMs) {
+  // A new plan slot: plan again. A price slot needs no broadcast: the list has its prices.
+  async onPlanSlot() {
     if (!this.pricesNextHours) return;
-    const tz = this.timeZone || this.homey.clock.getTimezone();
-    if (TimeHelpers.startOfLocalBlock(slotStartMs, this.priceInterval || 60, tz) === slotStartMs) return;
     await this.flows.triggerNewRoiStrategyFlow();
     await this.updateChargeChart();
   }

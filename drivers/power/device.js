@@ -29,6 +29,7 @@ const ChargeDeviceHelpers = require('../../lib/helpers/ChargeDeviceHelpers');
 const EvHistory = require('../../lib/helpers/EvHistory');
 const TimeHelpers = require('../../lib/helpers/TimeHelpers');
 const EvPlanner = require('../../lib/strategies/EvPlanner');
+const LoadSpread = require('../../lib/helpers/LoadSpread');
 
 const deviceSpecifics = {
   cmap: {
@@ -706,7 +707,12 @@ class PowerDevice extends GenericDevice {
 
   // Today, tomorrow and next hours, like the EV charger: prices, the planned run (bars) and the
   // measured power (line), per 15 minutes.
-  async renderAppliancePlanCharts() {
+  // Not time-critical: after a slot boundary's burst (LoadSpread).
+  renderAppliancePlanCharts() {
+    return LoadSpread.run(this, 'applianceCharts', () => this.drawAppliancePlanCharts());
+  }
+
+  async drawAppliancePlanCharts() {
     const profile = this.getApplianceProfile();
     const periods = TimeHelpers.getUTCPeriods(this.timeZone);
     const now = Date.now();

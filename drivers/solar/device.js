@@ -27,6 +27,7 @@ const SolarEclipse = require('../../lib/helpers/SolarEclipse');
 const SolarLearningStrategy = require('../../lib/strategies/SolarLearningStrategy');
 const SolarFlows = require('../../lib/flows/SolarFlows');
 const TimeHelpers = require('../../lib/helpers/TimeHelpers');
+const LoadSpread = require('../../lib/helpers/LoadSpread');
 const ChartImages = require('../../lib/helpers/ChartImages');
 const { fetchYesterdayAndToday, convertCumulativeToPower, mergeStoredHistory } = require('../../lib/helpers/HistoryLookup');
 
@@ -1031,65 +1032,78 @@ class SolarDevice extends GenericDevice {
     await this.setCapabilityValue('meter_kwh_forecast.tomorrow', Number(tomorrowYield.toFixed(2))).catch(this.error);
     await this.setCapabilityValue('measure_watt_forecast.tomorrow_peak', tomorrowPeak).catch(this.error);
 
-    // --- Update Charts ---
+    // --- Update Charts --- (not time-critical: after a slot boundary's burst, LoadSpread)
+    // Calls merged into one deferred run: what any of them changed is drawn.
+    const flags = this.chartFlags || {};
+    this.chartFlags = {
+      yieldFactorsUpdated: !!(flags.yieldFactorsUpdated || yieldFactorsUpdated),
+      forecastChanged: !!(flags.forecastChanged || this.forecastChanged), // reset below
+      dayChanged: !!(flags.dayChanged || dayChanged),
+      quarter: !!(flags.quarter || now.getMinutes() % 15 === 0),
+    };
+    await LoadSpread.run(this, 'forecastCharts', async () => {
+      const {
+        yieldFactorsUpdated: yfUpdated, forecastChanged, dayChanged: dayRolled, quarter,
+      } = this.chartFlags || {};
+      this.chartFlags = null;
+      // Peak Power setting, else the higher of the all-time peak and an estimated Wpeak. 850 instead
+      // of 1000: GHI is roughly 85% of a tilted roof's irradiance at summer peak (estimate).
+      const estimatedWpeak = this.globalMaxYF > 0 ? Math.round(this.globalMaxYF * 850) : 0;
+      const autoPeak = Math.max(this.peakPowerAllTime, estimatedWpeak);
+      const currentSettings = this.getSettings();
+      let chartPeak = currentSettings.peakPower;
 
-    // Peak Power setting, else the higher of the all-time peak and an estimated Wpeak. 850 instead
-    // of 1000: GHI is roughly 85% of a tilted roof's irradiance at summer peak (estimate).
-    const estimatedWpeak = this.globalMaxYF > 0 ? Math.round(this.globalMaxYF * 850) : 0;
-    const autoPeak = Math.max(this.peakPowerAllTime, estimatedWpeak);
-    const currentSettings = this.getSettings();
-    let chartPeak = currentSettings.peakPower;
-
-    if (!chartPeak) {
-      chartPeak = autoPeak;
-    }
-
-    if (yieldFactorsUpdated || this.forecastChanged || (now.getMinutes() % 15 === 0) || !this.chartSolarToday) {
-      const { start: todayStart, end: todayEnd } = SolarLearningStrategy.getSunBounds(now, this.forecastData, this.timeZone);
-
-      const chartToday = await getSolarChart(this.forecastData, this.yieldFactors, todayStart, todayEnd, 'Forecast This Day', this.powerHistory, this.timeZone, chartPeak, true);
-      if (chartToday) {
-        this.chartSolarToday = chartToday;
-        await this.solarTodayImage.update();
+      if (!chartPeak) {
+        chartPeak = autoPeak;
       }
-    }
 
-    if (yieldFactorsUpdated || this.forecastChanged || !this.chartSolarTomorrow) {
-      const tomorrow = new Date(now);
-      tomorrow.setDate(tomorrow.getDate() + 1);
-      const { start: tomorrowStart, end: tomorrowEnd } = SolarLearningStrategy.getSunBounds(tomorrow, this.forecastData, this.timeZone);
+      if (yfUpdated || forecastChanged || quarter || !this.chartSolarToday) {
+        const { start: todayStart, end: todayEnd } = SolarLearningStrategy.getSunBounds(now, this.forecastData, this.timeZone);
 
-      const chartTomorrow = await getSolarChart(this.forecastData, this.yieldFactors, tomorrowStart, tomorrowEnd, 'Forecast Tomorrow', this.powerHistory, this.timeZone, chartPeak, false);
-      if (chartTomorrow) {
-        this.chartSolarTomorrow = chartTomorrow;
-        await this.solarTomorrowImage.update();
+        const chartToday = await getSolarChart(this.forecastData, this.yieldFactors, todayStart, todayEnd, 'Forecast This Day', this.powerHistory, this.timeZone, chartPeak, true);
+        if (chartToday) {
+          this.chartSolarToday = chartToday;
+          await this.solarTodayImage.update();
+        }
       }
-    }
 
-    if (this.forecastHistory.yesterday && (!this.chartSolarYesterday || yieldFactorsUpdated || dayChanged)) {
-      const frozenData = this.forecastHistory.yesterday.data;
-      const { start: yStart, end: yEnd } = SolarLearningStrategy.getSunBounds(yesterday, frozenData, this.timeZone);
+      if (yfUpdated || forecastChanged || !this.chartSolarTomorrow) {
+        const tomorrow = new Date(now);
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        const { start: tomorrowStart, end: tomorrowEnd } = SolarLearningStrategy.getSunBounds(tomorrow, this.forecastData, this.timeZone);
 
-      // Yields of 1.0: frozenData is already power (W), not radiation
-      const dummyYields = new Array(96).fill(1.0);
-      const chartYesterday = await getSolarChart(frozenData, dummyYields, yStart, yEnd, 'Solar Yesterday', this.powerHistory, this.timeZone, chartPeak, false);
-
-      if (chartYesterday) {
-        this.chartSolarYesterday = chartYesterday;
-        await this.solarYesterdayImage.update();
+        const chartTomorrow = await getSolarChart(this.forecastData, this.yieldFactors, tomorrowStart, tomorrowEnd, 'Forecast Tomorrow', this.powerHistory, this.timeZone, chartPeak, false);
+        if (chartTomorrow) {
+          this.chartSolarTomorrow = chartTomorrow;
+          await this.solarTomorrowImage.update();
+        }
       }
-    }
 
-    if (yieldFactorsUpdated || !this.chartSolarDistribution) {
-      const chartDist = await getDistributionChart(this.yieldFactors, 'Yield Distribution', this.timeZone, this.trainingConfidence, {
-        yieldFactor: this.homey.__('solar_chart_yield_factor'),
-        modelFit: this.homey.__('solar_chart_model_fit'),
-      });
-      if (chartDist) {
-        this.chartSolarDistribution = chartDist;
-        await this.solarDistributionImage.update();
+      if (this.forecastHistory.yesterday && (!this.chartSolarYesterday || yfUpdated || dayRolled)) {
+        const frozenData = this.forecastHistory.yesterday.data;
+        const { start: yStart, end: yEnd } = SolarLearningStrategy.getSunBounds(yesterday, frozenData, this.timeZone);
+
+        // Yields of 1.0: frozenData is already power (W), not radiation
+        const dummyYields = new Array(96).fill(1.0);
+        const chartYesterday = await getSolarChart(frozenData, dummyYields, yStart, yEnd, 'Solar Yesterday', this.powerHistory, this.timeZone, chartPeak, false);
+
+        if (chartYesterday) {
+          this.chartSolarYesterday = chartYesterday;
+          await this.solarYesterdayImage.update();
+        }
       }
-    }
+
+      if (yfUpdated || !this.chartSolarDistribution) {
+        const chartDist = await getDistributionChart(this.yieldFactors, 'Yield Distribution', this.timeZone, this.trainingConfidence, {
+          yieldFactor: this.homey.__('solar_chart_yield_factor'),
+          modelFit: this.homey.__('solar_chart_model_fit'),
+        });
+        if (chartDist) {
+          this.chartSolarDistribution = chartDist;
+          await this.solarDistributionImage.update();
+        }
+      }
+    });
 
     // Solar yield flows at the start of each 15-minute slot
     const currentSlot = (now.getUTCHours() * 4) + Math.floor(now.getUTCMinutes() / 15);

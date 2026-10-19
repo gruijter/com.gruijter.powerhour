@@ -53,9 +53,6 @@ const LEARNED_PROFILE_KEYS = [
 const CONTROL_TICK_MS = 60 * 1000;
 // Plan requests within this window are merged into one run.
 const PLAN_COALESCE_MS = 500;
-// At a new price slot the driver sends the prices, which plans (onPricesUpdated()); without them
-// within this time the slot is planned anyway.
-const SLOT_PRICES_WAIT_MS = 60 * 1000;
 // Measured solar surplus: averaged over this window.
 const SURPLUS_WINDOW_MS = 3 * 60 * 1000;
 // A variable charger's power is only changed by at least this much.
@@ -1306,7 +1303,6 @@ class CarChargeDevice extends GenericDevice {
 
   async onPricesUpdated() {
     this.pricesUpdated = true;
-    this.pricesUpdatedTm = Date.now();
     await this.updateChargeChart().catch(this.error);
   }
 
@@ -1353,15 +1349,7 @@ class CarChargeDevice extends GenericDevice {
     const currentSlot = MeterHelpers.startOfBlock(reading.meterTm, this.planIntervalMin(), this.timeZone);
     if (this.lastEvTriggerSlot !== currentSlot) {
       this.lastEvTriggerSlot = currentSlot;
-      const tz = this.timeZone || this.homey.clock.getTimezone();
-      if (TimeHelpers.startOfLocalBlock(currentSlot, this.priceInterval || 60, tz) !== currentSlot) {
-        await this.updateChargeChart().catch(this.error);
-      } else {
-        if (this.slotPricesTimeout) this.homey.clearTimeout(this.slotPricesTimeout);
-        this.slotPricesTimeout = this.homey.setTimeout(() => {
-          if (!(this.pricesUpdatedTm >= currentSlot)) this.updateChargeChart().catch(this.error);
-        }, SLOT_PRICES_WAIT_MS);
-      }
+      await this.updateChargeChart().catch(this.error);
     }
   }
 
