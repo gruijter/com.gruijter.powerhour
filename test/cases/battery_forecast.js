@@ -44,7 +44,7 @@ test('fixed prices, low export: store midday solar, use it in the evening', () =
   });
   const charged = sumKwh(s, (x, i) => x.power > 0 && hour(i) >= 10 && hour(i) < 16);
   assert.ok(charged > 4, `charged ${charged.toFixed(2)} kWh from solar`);
-  assert.ok(Object.values(s).filter((x, i) => hour(i) >= 10 && hour(i) < 16 && x.power > 0).every((x) => x.block === 'zero'));
+  assert.ok(Object.values(s).filter((x, i) => hour(i) >= 10 && hour(i) < 16 && x.power > 0).every((x) => x.block === 'hold'));
   assert.ok(Object.values(s).every((x) => x.block !== 'charge'), 'no grid charging');
   assert.ok(sumKwh(s, (x, i) => x.power < 0 && hour(i) >= 16) < -1, 'discharges after 16 h');
 });
