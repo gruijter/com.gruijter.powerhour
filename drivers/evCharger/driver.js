@@ -7,6 +7,8 @@ Copyright 2019 - 2026, Robin de Gruijter (gruijter@hotmail.com)
 const crypto = require('crypto');
 const GenericDriver = require('../../lib/genericDeviceDrivers/generic_bat_driver');
 const EvCarCaps = require('../../lib/helpers/EvCarCaps');
+const EvChargerCaps = require('../../lib/helpers/EvChargerCaps');
+const EvChargerControl = require('../../lib/strategies/EvChargerControl');
 const EvHistory = require('../../lib/helpers/EvHistory');
 const PairSetup = require('../../lib/helpers/PairSetup');
 const SourceCaps = require('../../lib/helpers/SourceCaps');
@@ -136,7 +138,7 @@ class CarChargeDriver extends GenericDriver {
     }
 
     if (isCharger) {
-      const hasMeter = caps.includes('meter_power');
+      const hasMeter = !!EvChargerControl.meterCap(homeyDevice);
       const hasMeasure = caps.includes('measure_power');
       const useMeasureSource = !hasMeter && hasMeasure;
       if (hasMeter || hasMeasure) {
@@ -163,6 +165,9 @@ class CarChargeDriver extends GenericDriver {
     if (carClasses.includes(homeyDevice.class) || carClasses.includes(homeyDevice.virtualClass)) {
       return { found: true };
     }
+    // Homey's "electric car" energy setting, also on a generic class (eu.nissanconnect: sensor).
+    const energyData = homeyDevice.energyObj || homeyDevice.energy;
+    if (energyData && energyData.electricCar === true) return { found: true };
     // Generic class (e.g. 'sensor'): a charge state together with a SoC (measure_battery alone is
     // too common). 'ev_charging_state' is the car-class twin of 'evcharger_charging_state'.
     const hasChargeState = caps.includes('evcharger_charging_state') || caps.includes('ev_charging_state') || caps.includes('evcharger_charging');
@@ -225,7 +230,9 @@ class CarChargeDriver extends GenericDriver {
         if (!compat.found) return;
 
         // A car or vehicle by its class first, then those found by their capabilities.
-        const isCar = ['car', 'vehicle'].some((c) => c === homeyDevice.class || c === homeyDevice.virtualClass);
+        const energyData = homeyDevice.energyObj || homeyDevice.energy;
+        const isCar = ['car', 'vehicle'].some((c) => c === homeyDevice.class || c === homeyDevice.virtualClass)
+          || !!(energyData && energyData.electricCar === true);
         listed.push({ device: { id: homeyDevice.id, name: homeyDevice.name }, score: isCar ? 1 : 0 });
       });
 
@@ -302,35 +309,45 @@ class CarChargeDriver extends GenericDriver {
       : this.homey.__('repair.setup_power_unmeasured', { power: EvHistory.DEFAULT_CHARGE_POWER_W });
   }
 
-  // Setup view: with a car, per role the fitting capabilities of that car.
-  async setupRoles(dev, stored) {
+  // Setup view: per role the fitting capabilities of the charger and, with a car, of the car.
+  // Charger roles are keyed charger_<role>.
+  async setupRoles(dev, storedRoles) {
+    const stored = storedRoles || {};
+    const chargerId = dev.settings.homey_device_id;
     const carId = dev.settings.ev_device_id;
+    const charger = await PairSetup.apiDevice(this, chargerId);
     const car = carId && carId !== 'none' ? await PairSetup.apiDevice(this, carId) : null;
-    const title = this.homey.__('repair.car_caps_title');
-    if (!car) {
-      return {
-        deviceId: null, title, text: this.homey.__('repair.car_no_car'), items: [],
-      };
-    }
-    const chosen = stored && stored.carId === carId ? stored.caps : {};
-    const items = EvCarCaps.carCapOptions(car).map((role) => ({
-      key: role.key,
-      label: this.homey.__(`repair.car_${role.key}`),
+    if (!charger) return null;
+    const rows = (device, options, chosen, prefix) => options.map((role) => ({
+      key: `${prefix}${role.key}`,
+      label: this.homey.__(`repair.${prefix}${role.key}`),
       auto: role.auto,
-      options: role.options.map((opt) => ({ id: opt.id, label: SourceCaps.describe(car, opt.id) })),
+      options: role.options.map((opt) => ({ id: opt.id, label: SourceCaps.describe(device, opt.id) })),
       selected: chosen[role.key] || 'auto',
     }));
+    const chargerChosen = stored.charger && stored.charger.chargerId === chargerId ? stored.charger.caps : {};
+    const carChosen = car && stored.car && stored.car.carId === carId ? stored.car.caps : {};
+    const items = [
+      ...rows(charger, EvChargerCaps.chargerCapOptions(charger), chargerChosen, 'charger_'),
+      ...(car ? rows(car, EvCarCaps.carCapOptions(car), carChosen, 'car_') : []),
+    ];
+    const names = car ? `${charger.name}, ${car.name}` : `${charger.name}. ${this.homey.__('repair.car_no_car')}`;
     return {
-      deviceId: car.id, title, text: `${car.name}. ${this.homey.__('repair.car_caps_text')}`, items,
+      deviceId: chargerId, title: this.homey.__('repair.ev_caps_title'), text: `${names}. ${this.homey.__('repair.ev_caps_text')}`, items,
     };
   }
 
   setupStored(device) {
-    return device.getStoreValue('evCarCaps');
+    return { charger: device.getStoreValue('evChargerCaps'), car: device.getStoreValue('evCarCaps') };
   }
 
-  setupStore(carId, caps) {
-    return { key: 'evCarCaps', value: { carId, caps } };
+  setupStore(chargerId, caps, dev) {
+    const part = (prefix) => Object.fromEntries(Object.entries(caps)
+      .filter(([key]) => key.startsWith(prefix)).map(([key, id]) => [key.slice(prefix.length), id]));
+    const carId = dev && dev.settings.ev_device_id;
+    const stores = [{ key: 'evChargerCaps', value: { chargerId, caps: part('charger_') } }];
+    if (carId && carId !== 'none') stores.push({ key: 'evCarCaps', value: { carId, caps: part('car_') } });
+    return stores;
   }
 
   // Charge power (W) from the charger's Insights power history, or null.

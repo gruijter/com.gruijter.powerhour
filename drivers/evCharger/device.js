@@ -23,6 +23,7 @@ const ChartImages = require('../../lib/helpers/ChartImages');
 const { setTimeoutPromise } = require('../../lib/helpers/Util');
 const MeterHelpers = require('../../lib/helpers/MeterHelpers');
 const EvCarCaps = require('../../lib/helpers/EvCarCaps');
+const EvChargerCaps = require('../../lib/helpers/EvChargerCaps');
 const EvHistory = require('../../lib/helpers/EvHistory');
 const PriceDrivers = require('../../lib/helpers/PriceDrivers');
 
@@ -209,26 +210,22 @@ class CarChargeDevice extends GenericDevice {
     // --- Charger device (primary source = this.sourceDevice) ---
     if (this.sourceDevice) {
       const caps = this.sourceDevice.capabilities || [];
-      const fallbackMeter = this.ds.cmap.meter_source;
-      if (caps.includes(fallbackMeter)) {
-        this.sourceCapGroup.p1 = fallbackMeter;
-      }
+      const meter = EvChargerControl.meterCap(this.sourceDevice);
+      if (meter) this.sourceCapGroup.p1 = meter;
       if (caps.includes('measure_power')) {
         this.sourceCapGroup.measure = 'measure_power';
       }
       if (caps.includes('measure_battery')) {
         this.sourceCapGroup.socOnCharger = 'measure_battery';
       }
-      // The charger's own plug state (wallbox). evcharger_charging is NOT a plug state: it is
-      // Homey's setable start/stop, used below as the switch.
-      if (caps.includes('evcharger_charging_state')) {
-        this.sourceCapGroup.connState = 'evcharger_charging_state';
-      }
-      this.sourceCapGroup.switchCap = EvChargerControl.SWITCH_CAPS.find((cap) => caps.includes(cap)
-        && this.sourceDevice.capabilitiesObj?.[cap]?.setable !== false) || null;
-      // Homey's setable charging power (W), for a variable charger.
-      this.sourceCapGroup.powerCap = caps.includes('target_power')
-        && this.sourceDevice.capabilitiesObj?.target_power?.setable !== false ? 'target_power' : null;
+      // Switch, plug state, setable power or current: automatic, or the user's choice at repair.
+      // evcharger_charging is NOT a plug state: it is Homey's setable start/stop (the switch).
+      const chosen = this.getStoreValue('evChargerCaps');
+      const roles = EvChargerCaps.resolveChargerCaps(this.sourceDevice,
+        chosen && chosen.chargerId === this.sourceDevice.id ? chosen.caps : {});
+      Object.assign(this.sourceCapGroup, {
+        connState: null, switchCap: null, powerCap: null, currentCap: null, ...roles,
+      });
     }
 
     // Optional car device, linked at pair/repair only ('none': no car).
@@ -354,7 +351,7 @@ class CarChargeDevice extends GenericDevice {
   async _registerCarListeners() {
     if (!this.evDevice) return;
     this.log(`Registering listeners for EV car: ${this.evDevice.name}`);
-    const watched = ['soc', 'plugState', 'plugBool', 'latitude', 'longitude', 'odometer', 'chargeLimit'];
+    const watched = ['soc', 'plugState', 'plugBool', 'latitude', 'longitude', 'homeDistance', 'atHome', 'odometer', 'chargeLimit'];
     for (const key of watched) {
       const cap = this.carCapGroup[key];
       const name = `car_${key}`;
@@ -425,6 +422,7 @@ class CarChargeDevice extends GenericDevice {
     this.livePowerW = power;
     if (!wasPowerOn && power > EvPresence.CHARGING_POWER_W) this._endFlowAway('charging').catch(this.error);
     if (power > EvPresence.CHARGING_POWER_W) this.signals.lastChargingTm = Date.now();
+    this._sampleWattsPerAmp(power);
     const wasCharging = this.presence && this.presence.state === 'charging';
     const isCharging = power > EvPresence.CHARGING_POWER_W;
     // Power gone while the charger stays on and we did not just switch it off: the cable was
@@ -510,7 +508,8 @@ class CarChargeDevice extends GenericDevice {
     if (!prev || (prev.state === presence.state && prev.unplugged === presence.unplugged)) return;
 
     if (prev.state !== presence.state) {
-      const dist = typeof this.signals.carDistanceKm === 'number' ? `, car ${this.signals.carDistanceKm.toFixed(2)} km from home` : '';
+      let dist = typeof this.signals.carDistanceKm === 'number' ? `, car ${this.signals.carDistanceKm.toFixed(2)} km from home` : '';
+      if (this.carDistanceSource === 'home') dist = `, car says ${this.signals.carDistanceKm ? 'not ' : ''}at home`;
       this.log(`[EV Slot] Car state ${prev.state} -> ${presence.state}${presence.unplugged ? ' (not plugged in)' : ''}${dist}`);
     }
     if (!quiet && prev.atHome && !presence.atHome) {
@@ -722,21 +721,17 @@ class CarChargeDevice extends GenericDevice {
       this.signals.carDistanceKm = null;
       this.signals.carPlugged = null;
     } else if (carCaps) {
-      const lat = Number(read(carCaps, this.carCapGroup.latitude)?.value);
-      const lon = Number(read(carCaps, this.carCapGroup.longitude)?.value);
-      let homeLat = null;
-      let homeLon = null;
+      const home = {};
       try {
-        homeLat = this.homey.geolocation.getLatitude();
-        homeLon = this.homey.geolocation.getLongitude();
+        home.lat = this.homey.geolocation.getLatitude();
+        home.lon = this.homey.geolocation.getLongitude();
       } catch { /* no location permission or not set */ }
-      this.signals.carDistanceKm = (this.carCapGroup.latitude && Number.isFinite(lat) && Number.isFinite(lon)
-        && typeof homeLat === 'number' && typeof homeLon === 'number')
-        ? EvPresence.distanceKm(lat, lon, homeLat, homeLon) : null;
+      const where = EvCarCaps.carDistance(carCaps, this.carCapGroup, home);
+      this.signals.carDistanceKm = where.km;
+      this.carDistanceSource = where.source;
       // A location away reported after the car was detected at the charger: it left.
-      const locationTm = Math.max(tmOf(read(carCaps, this.carCapGroup.latitude)) || 0, tmOf(read(carCaps, this.carCapGroup.longitude)) || 0);
       if (this.signals.detectedPlugged === true && this.signals.carDistanceKm > EvPresence.HOME_RADIUS_KM
-        && locationTm > (this.detectedTm || 0)) {
+        && (where.tm || 0) > (this.detectedTm || 0)) {
         await this._setDetectedPlugged(null, 'car reports a location away');
       }
 
@@ -765,7 +760,7 @@ class CarChargeDevice extends GenericDevice {
     if (soc !== null) {
       // Report time: the newest of the car's status capabilities. An unchanged SoC is not set
       // again by most apps, but a trip still moves the odometer or the location.
-      const statusKeys = ['soc', 'odometer', 'latitude', 'longitude'];
+      const statusKeys = ['soc', 'odometer', 'latitude', 'longitude', 'homeDistance', 'atHome'];
       const tms = [tmOf(socEntry)];
       if (carCaps) statusKeys.forEach((key) => tms.push(tmOf(read(carCaps, this.carCapGroup[key]))));
       const valid = tms.filter((t) => t !== null);
@@ -859,11 +854,11 @@ class CarChargeDevice extends GenericDevice {
     if (this.usageModel && EvUsageModel.rollover(this.usageModel, new Date(), tz)) {
       const ov = (this.getStoreValue('evOverrides') || {})[this.usageModel.current.date];
       if (ov) EvUsageModel.setOverride(this.usageModel, ov.type);
-      let km = this.signals.carDistanceKm;
-      if (typeof km !== 'number' && this.carCapGroup.homeDistance) km = Number(this.evDevice?.capabilitiesObj?.[this.carCapGroup.homeDistance]?.value);
+      const km = this.signals.carDistanceKm;
       if (Number.isFinite(km) && km > EvUsageModel.AWAY_NIGHT_KM) {
         EvUsageModel.markAwayNight(this.usageModel);
-        this.log(`[EV Usage] Car away at the day change (${Math.round(km)} km): ${this.usageModel.current.date} and the day before are not learned`);
+        const where = this.carDistanceSource === 'home' ? 'car says not at home' : `${Math.round(km)} km`;
+        this.log(`[EV Usage] Car away at the day change (${where}): ${this.usageModel.current.date} and the day before are not learned`);
       }
       await this._saveUsageModel();
       await this._updateLearnedProfileSettings();
@@ -1044,7 +1039,7 @@ class CarChargeDevice extends GenericDevice {
   // control or set by the user's flows: its lowest power), less the grid power allowed for it.
   _solarNeedW() {
     const settings = this.getSettings();
-    const need = settings.variableChargePower ? EvPlanner.MIN_VARIABLE_POWER_W : this._chargePowerW();
+    const need = settings.variableChargePower ? this._variableMinW() : this._chargePowerW();
     return Math.max(MIN_SOLAR_NEED_W, need - (Number(settings.solarGridPower) || 0));
   }
 
@@ -1054,10 +1049,65 @@ class CarChargeDevice extends GenericDevice {
     return manual > 0 ? manual : (this.getStoreValue('detectedMaxPower') || EvHistory.DEFAULT_CHARGE_POWER_W);
   }
 
-  // The charger's setable power (Homey target_power), used with the variableChargePower setting.
+  // The charger's setable power (Homey target_power, W) or else current (A), used with the
+  // variableChargePower setting. null: not variable.
   _variablePowerCap() {
-    return this.getSettings().variableChargePower && this.sourceCapGroup && this.sourceCapGroup.powerCap
-      ? this.sourceCapGroup.powerCap : null;
+    if (!this.getSettings().variableChargePower || !this.sourceCapGroup) return null;
+    const { powerCap, currentCap } = this.sourceCapGroup;
+    if (powerCap) return { cap: powerCap, unit: 'W' };
+    return currentCap ? { cap: currentCap, unit: 'A' } : null;
+  }
+
+  _wattsPerAmp() {
+    return EvChargerControl.wattsPerAmp(this.getStoreValue('evWattsPerAmp'));
+  }
+
+  _ampLimits() {
+    return EvChargerControl.ampLimits(this.sourceDevice?.capabilitiesObj?.[this.sourceCapGroup.currentCap]);
+  }
+
+  // The lowest power a variable charger charges at: a current charger's minimum at the phases.
+  _variableMinW() {
+    const variable = this._variablePowerCap();
+    if (!variable || variable.unit !== 'A') return EvPlanner.MIN_VARIABLE_POWER_W;
+    return Math.max(EvPlanner.MIN_VARIABLE_POWER_W, this._ampLimits().minA * this._wattsPerAmp());
+  }
+
+  /**
+   * Set the charger's power, or the current for it (whole A, rounded down).
+   * @returns {Promise<number|null>} the power set (W), null unchanged
+   */
+  async _sendVariablePower(variable, power, logTag) {
+    let value = power;
+    let setW = power;
+    if (variable.unit === 'A') {
+      const wpa = this._wattsPerAmp();
+      value = EvChargerControl.toCurrent({ powerW: power, wpa, ...this._ampLimits() });
+      setW = value * wpa;
+      if (value === this.lastTargetCurrent) return null;
+    } else if (typeof this.lastTargetPower === 'number' && Math.abs(power - this.lastTargetPower) < TARGET_POWER_STEP_W) return null;
+    await this.sourceDevice.setCapabilityValue({ capabilityId: variable.cap, value });
+    this.lastTargetPower = setW;
+    if (variable.unit === 'A') {
+      this.lastTargetCurrent = value;
+      this.lastCurrentCommandTm = Date.now();
+    }
+    this.log(`${logTag} Charger ${variable.cap} -> ${value} ${variable.unit}${variable.unit === 'A' ? ` (${setW} W)` : ''}`);
+    return setW;
+  }
+
+  // A W/A sample of a current charger: the measured power some time after the last command.
+  _sampleWattsPerAmp(power) {
+    const variable = this._variablePowerCap();
+    if (!variable || variable.unit !== 'A' || !(this.lastTargetCurrent > 0) || !(power > EvPresence.CHARGING_POWER_W)) return;
+    const now = Date.now();
+    if (now - (this.lastCurrentCommandTm || 0) < EvChargerControl.AMP_SETTLE_MS || now - (this.lastAmpSampleTm || 0) < 10 * 60 * 1000) return;
+    this.lastAmpSampleTm = now;
+    const before = this._wattsPerAmp();
+    const samples = EvChargerControl.addAmpSample(this.getStoreValue('evWattsPerAmp'), { powerW: power, currentA: this.lastTargetCurrent });
+    this.setStoreValue('evWattsPerAmp', samples).catch(this.error);
+    const after = EvChargerControl.wattsPerAmp(samples);
+    if (after !== before) this.log(`[EV Control] Car charges on ${after / 230} phase(s): ${after} W per A`);
   }
 
   // Solar surplus (W) now: export plus what this charger itself takes, averaged over the last
@@ -1093,23 +1143,20 @@ class CarChargeDevice extends GenericDevice {
   }
 
   // Charger power for a variable charger: the surplus when following it, else the plan's power.
-  async _setTargetPower(capabilityId, solar, surplusW, slot) {
+  async _setTargetPower(variable, solar, surplusW, slot) {
     // On solar: the surplus plus the grid power allowed for it.
     const allowedW = Number(this.getSettings().solarGridPower) || 0;
     const power = EvChargerControl.targetPower({
       solar,
       surplusW: typeof surplusW === 'number' ? surplusW + allowedW : surplusW,
       slot,
-      minW: EvPlanner.MIN_VARIABLE_POWER_W,
+      minW: this._variableMinW(),
       maxW: this.fuseCapW ? Math.min(this.fuseCapW, this._chargePowerW()) : this._chargePowerW(),
     });
-    if (typeof this.lastTargetPower === 'number' && Math.abs(power - this.lastTargetPower) < TARGET_POWER_STEP_W) return;
     try {
-      await this.sourceDevice.setCapabilityValue({ capabilityId, value: power });
-      this.lastTargetPower = power;
-      this.log(`[EV Control] Charger ${capabilityId} -> ${power} W`);
+      await this._sendVariablePower(variable, power, '[EV Control]');
     } catch (err) {
-      this.error(`[EV Control] Setting charger ${capabilityId} to ${power} W failed:`, err.message || err);
+      this.error(`[EV Control] Setting charger ${variable.cap} for ${power} W failed:`, err.message || err);
     }
   }
 
@@ -1128,22 +1175,19 @@ class CarChargeDevice extends GenericDevice {
     if (this.signals.switchOn === false) return null;
     const charging = measured ? this.livePowerW > EvPresence.CHARGING_POWER_W : this.signals.switchOn === true;
     if (!charging && !(uncertain && this.signals.switchOn === true)) return null;
-    const powerCap = this._variablePowerCap();
-    if (powerCap) {
+    const variable = this._variablePowerCap();
+    if (variable) {
       // The lowest known: a charger's power report can lag its last cut, which must never go up.
       const known = [measured ? this.livePowerW : null, this.fuseCapW, this.lastTargetPower]
         .filter((w) => typeof w === 'number' && w > 0);
       const currentW = known.length ? Math.min(...known) : this._chargePowerW();
-      const capW = FuseGuard.reduceTo({ currentW, overW: importW - limitW, minW: EvPlanner.MIN_VARIABLE_POWER_W });
+      const capW = FuseGuard.reduceTo({ currentW, overW: importW - limitW, minW: this._variableMinW() });
       if (capW !== null) {
         this.fuseCapW = capW;
         this.fuseCapTm = now;
-        this.log(`[Fuse] import ${Math.round(importW)} W above ${limitW} W: charger ${powerCap} -> ${capW} W`);
-        this.sourceDevice.setCapabilityValue({ capabilityId: powerCap, value: capW })
-          .then(() => {
-            this.lastTargetPower = capW;
-          })
-          .catch((err) => this.error(`[Fuse] Setting charger ${powerCap} to ${capW} W failed:`, err.message || err));
+        this.log(`[Fuse] import ${Math.round(importW)} W above ${limitW} W: charger limit ${capW} W`);
+        this._sendVariablePower(variable, capW, '[Fuse]')
+          .catch((err) => this.error(`[Fuse] Setting charger ${variable.cap} for ${capW} W failed:`, err.message || err));
         return { name: this.getName(), capW };
       }
     }
@@ -1200,7 +1244,7 @@ class CarChargeDevice extends GenericDevice {
     });
     // Charging on solar surplus follows the measured surplus, not only the forecast.
     const slot = EvChargerControl.slotAt(this.latestPlan, now);
-    const powerCap = this._variablePowerCap();
+    const variable = this._variablePowerCap();
     const surplusW = this._measuredSurplusW();
     const gate = EvChargerControl.solarGate({
       wanted: planWanted,
@@ -1254,7 +1298,7 @@ class CarChargeDevice extends GenericDevice {
     }
     if (this.fuseReleaseTm && now < this.fuseReleaseTm) wanted = false;
     this._fuseCapStep(now, wanted);
-    if (wanted && powerCap) await this._setTargetPower(powerCap, gate.solar, surplusW, slot);
+    if (wanted && variable) await this._setTargetPower(variable, gate.solar, surplusW, slot);
     // A switch outside this app is still being judged (_judgeSwitch): do not switch it back.
     if (this.pendingSwitch) return;
     const command = EvChargerControl.nextCommand({
@@ -1405,6 +1449,26 @@ class CarChargeDevice extends GenericDevice {
   async onPricesUpdated() {
     this.pricesUpdated = true;
     await this.updateChargeChart().catch(this.error);
+  }
+
+  // The source meter as an own counter that only restarts with this device (see meterTotal).
+  // Without a source meter, val is the counter integrated from power (updateMeterFromMeasure).
+  async updateMeter(val) {
+    if (!this.sourceCapGroup || !this.sourceCapGroup.p1) {
+      await super.updateMeter(val);
+      return;
+    }
+    if (typeof val !== 'number') return;
+    const stored = this.getStoreValue('evSourceMeter');
+    const hidden = this.getCapabilityValue('meter_power_hidden');
+    const anchor = EvChargerControl.meterTotal({
+      anchor: stored, cap: this.sourceCapGroup.p1, value: val, startTotal: typeof hidden === 'number' ? hidden : 0, v2x: !!this.getSettings().v2x,
+    });
+    if (stored && anchor.cap === stored.cap && val < stored.source && !this.getSettings().v2x) {
+      this.log(`[EV Meter] ${anchor.cap} restarted (${stored.source} -> ${val} kWh): counted from 0`);
+    }
+    if (!stored || anchor.source !== stored.source || anchor.cap !== stored.cap) await this.setStoreValue('evSourceMeter', anchor).catch(this.error);
+    await super.updateMeter(anchor.total);
   }
 
   async handleUpdateMeter(reading) {
@@ -1859,6 +1923,7 @@ class CarChargeDevice extends GenericDevice {
       maxPrice: Number(settings.maxPrice) > 0 ? Number(settings.maxPrice) : null,
       certainSlots: firstForecast >= 0 ? firstForecast : undefined,
       variablePower: !!settings.variableChargePower,
+      minVariablePowerW: this._variableMinW(),
       solarGridW: Number(settings.solarGridPower) || 0,
       outlookUntilMs: TimeHelpers.getUTCPeriods(tz).tomorrowEnd.getTime(), // shown up to the end of tomorrow
     });

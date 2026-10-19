@@ -316,3 +316,86 @@ console.log('all phase 1 tests passed');
   assert.strictEqual(U.nearestTrip(tr, 12.3), -1, 'none within SAME_TRIP_HOURS');
   console.log('energy mode tests passed');
 }
+
+// --- Charger kWh meter: choice and restarting source meters ---
+{
+  const dev = (caps, values, energy) => ({
+    capabilities: caps,
+    capabilitiesObj: Object.fromEntries(caps.map((c) => [c, { value: values[c] ?? null }])),
+    energyObj: energy,
+  });
+  const zaptec = dev(['meter_power', 'meter_power.signed_meter_value'], { meter_power: 300, 'meter_power.signed_meter_value': 5000 },
+    { meterPowerImportedCapability: 'meter_power.signed_meter_value' });
+  assert.strictEqual(C.meterCap(zaptec), 'meter_power.signed_meter_value', 'energy import meter first');
+  const wallbox = dev(['meter_power', 'meter_power.charged'], { 'meter_power.charged': 4 }, { meterPowerImportedCapability: 'meter_power.charged' });
+  assert.strictEqual(C.meterCap(wallbox), 'meter_power.charged');
+  assert.strictEqual(C.meterCap(dev(['meter_power', 'measure_power'], {}, {})), null, 'declared but never set: none');
+  assert.strictEqual(C.meterCap(dev(['meter_power'], { meter_power: 12 }, null)), 'meter_power', 'plain plug');
+  let a = C.meterTotal({
+    anchor: null, cap: 'm', value: 4, startTotal: 100,
+  });
+  assert.deepStrictEqual(a, { cap: 'm', source: 4, total: 100 }, 'first reading anchors');
+  a = C.meterTotal({
+    anchor: a, cap: 'm', value: 9, startTotal: 0,
+  });
+  assert.strictEqual(a.total, 105);
+  a = C.meterTotal({
+    anchor: a, cap: 'm', value: 2, startTotal: 0,
+  });
+  assert.strictEqual(a.total, 107, 'session restart counts from 0');
+  assert.strictEqual(C.meterTotal({
+    anchor: a, cap: 'm', value: 1, startTotal: 0, v2x: true,
+  }).total, 106, 'V2X: drop is discharging');
+  assert.strictEqual(C.meterTotal({
+    anchor: a, cap: 'n', value: 50, startTotal: 107,
+  }).total, 107, 'new source cap: new anchor');
+  console.log('charger meter tests passed');
+}
+
+// --- Charger and car roles, current control ---
+{
+  const EvCarCaps = require('../../lib/helpers/EvCarCaps');
+  const EvChargerCaps = require('../../lib/helpers/EvChargerCaps');
+  const dev = (obj) => ({ capabilities: Object.keys(obj), capabilitiesObj: obj });
+  const zaptec = dev({
+    charging_button: { type: 'boolean', setable: true },
+    'alarm_generic.car_connected': { type: 'boolean', setable: false },
+    available_installation_current: { type: 'number', setable: true, units: 'A' },
+  });
+  assert.deepStrictEqual(EvChargerCaps.resolveChargerCaps(zaptec),
+    { switchCap: 'charging_button', connState: 'alarm_generic.car_connected' }, 'Zaptec: no installation current');
+  const easee = dev({
+    evcharger_charging: { type: 'boolean', setable: true },
+    evcharger_charging_state: { type: 'enum' },
+    target_charger_current: {
+      type: 'number', setable: true, units: 'A', min: 0, max: 32,
+    },
+  });
+  assert.strictEqual(EvChargerCaps.resolveChargerCaps(easee).currentCap, 'target_charger_current');
+  assert.strictEqual(EvChargerCaps.resolveChargerCaps(dev({ current_limit: { type: 'number', setable: false, units: 'A' } })).currentCap,
+    undefined, 'a read-only guessed current is not used');
+  assert.strictEqual(EvChargerCaps.resolveChargerCaps(easee, { currentCap: 'none' }).currentCap, undefined, 'none');
+  const nissan = dev({
+    measure_battery: { type: 'number', units: '%' }, car_plugged: { type: 'boolean' }, car_at_home: { type: 'boolean', value: false },
+  });
+  assert.deepStrictEqual(EvCarCaps.resolveCarCaps(nissan), { soc: 'measure_battery', plugState: 'car_plugged', atHome: 'car_at_home' });
+  assert.strictEqual(EvCarCaps.resolveCarCaps(dev({ is_home: { type: 'string' } })).atHome, undefined, 'guessed id of another type');
+  const g = EvCarCaps.resolveCarCaps(nissan);
+  assert.deepStrictEqual(EvCarCaps.carDistance(nissan.capabilitiesObj, g).km, EvCarCaps.AWAY_FLAG_KM, 'not at home: away');
+  const tesla = dev({ 'measure_distance.home': { type: 'number', units: 'm', value: 150 } });
+  assert.strictEqual(EvCarCaps.carDistance(tesla.capabilitiesObj, EvCarCaps.resolveCarCaps(tesla)).km, 0.15, 'm to km');
+  // Watts per amp: 3 phases until learned, then the highest sample in whole phases.
+  assert.strictEqual(C.wattsPerAmp([]), 690);
+  let s = C.addAmpSample([], { powerW: 2250, currentA: 10 });
+  assert.strictEqual(C.wattsPerAmp(s), 230, 'one phase');
+  s = C.addAmpSample(s, { powerW: 6800, currentA: 10 });
+  assert.strictEqual(C.wattsPerAmp(s), 690, 'three phases');
+  assert.strictEqual(C.wattsPerAmp(C.addAmpSample([], { powerW: 3000, currentA: 10 })), 460, 'tapering: rather more phases');
+  assert.strictEqual(C.wattsPerAmp(C.addAmpSample([], { powerW: 9000, currentA: 6 })).toString(), '690', 'ignored: did not follow');
+  const lim = C.ampLimits({ min: 0, max: 16 });
+  assert.deepStrictEqual(lim, { minA: 6, maxA: 16 });
+  assert.strictEqual(C.toCurrent({ powerW: 5000, wpa: 690, ...lim }), 7, 'rounded down');
+  assert.strictEqual(C.toCurrent({ powerW: 2000, wpa: 690, ...lim }), 6, 'minimum');
+  assert.strictEqual(C.toCurrent({ powerW: 22000, wpa: 690, ...lim }), 16, 'maximum');
+  console.log('role and current tests passed');
+}
