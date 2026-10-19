@@ -33,6 +33,11 @@ test('stale after 30 s', () => {
   assert.strictEqual(G.isStale({ tm: now - 29000, now }), false);
   assert.strictEqual(G.isStale({ tm: now - 31000, now }), true);
   assert.strictEqual(G.isStale({ tm: undefined, now }), false);
+  // A 60 s source: 3 of its intervals, at most 5 min.
+  assert.strictEqual(G.isStale({ tm: now - 120000, now, intervalMs: 60000 }), false);
+  assert.strictEqual(G.isStale({ tm: now - 190000, now, intervalMs: 60000 }), true);
+  assert.strictEqual(G.isStale({ tm: now - 310000, now, intervalMs: 600000 }), true);
+  assert.strictEqual(Math.round(G.readingInterval(1000, 60000)), 6900);
 });
 
 test('overload: shed only after 30 s above the limit, reset below it', () => {

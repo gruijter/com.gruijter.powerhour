@@ -1117,14 +1117,17 @@ class CarChargeDevice extends GenericDevice {
   // the overload (fuseCapW, raised again by _fuseCapStep()), else and below its minimum it is
   // switched off now, without the minimum switch interval, until FuseGuard.mayRelease().
   // Returns { name, capW } (cut) or { name, off: true }; null: not charging or not controlled.
-  fuseShed(now, importW, limitW) {
+  // uncertain: also a charger switched on that does not measure charging (its power report can
+  // lag or come only on change); the grid tries those after the measured ones.
+  fuseShed(now, importW, limitW, uncertain = false) {
     const capabilityId = this.sourceCapGroup && this.sourceCapGroup.switchCap;
     if (!this.getSettings().chargerControl || !capabilityId || !this.sourceDevice || this.fuseShedTm) return null;
     // Charging: measured, or switched on without a power reading. A switch state not (yet) reported
     // does not stop it.
     const measured = typeof this.livePowerW === 'number';
     if (this.signals.switchOn === false) return null;
-    if (measured ? this.livePowerW <= EvPresence.CHARGING_POWER_W : this.signals.switchOn !== true) return null;
+    const charging = measured ? this.livePowerW > EvPresence.CHARGING_POWER_W : this.signals.switchOn === true;
+    if (!charging && !(uncertain && this.signals.switchOn === true)) return null;
     const powerCap = this._variablePowerCap();
     if (powerCap) {
       // The lowest known: a charger's power report can lag its last cut, which must never go up.
@@ -1170,14 +1173,14 @@ class CarChargeDevice extends GenericDevice {
 
   // A cut variable charger: its limit raised with the room under the fuse, no sooner than
   // FuseGuard.RAISE_AFTER_MS after the last cut or raise.
-  _fuseCapStep(now) {
+  _fuseCapStep(now, wanted) {
     if (!this.fuseCapW || now - this.fuseCapTm < FuseGuard.RAISE_AFTER_MS) return;
     const grid = GridConnection.gridDevice(this.homey);
     if (grid && grid.isGridPowerStale(now)) return;
     const headroomW = grid ? this._fuseRoomW(grid) : null;
     const capW = headroomW === null ? null : FuseGuard.raiseCap({ capW: this.fuseCapW, headroomW, maxW: this._chargePowerW() });
     if (capW === this.fuseCapW) return;
-    if (grid) grid.reserveImport((capW === null ? this._chargePowerW() : capW) - this.fuseCapW, now);
+    if (grid && wanted && this.signals.switchOn !== false) grid.reserveImport(this, (capW === null ? this._chargePowerW() : capW) - this.fuseCapW, now);
     this.fuseCapTm = now;
     this.fuseCapW = capW;
     this.log(`[Fuse] room under the main fuse: charger limit ${capW === null ? 'released' : `${capW} W`}`);
@@ -1236,13 +1239,21 @@ class CarChargeDevice extends GenericDevice {
         stale: grid.isGridPowerStale(now),
       });
       if (release) {
-        if (grid) grid.reserveImport(this._chargePowerW(), now);
         this.fuseShedTm = null;
         this.fuseCapW = null;
         this.log('[Fuse] room under the main fuse again: charger released');
+        // The batteries make room first (only when it is to charge now): on after RELEASE_LEAD_MS.
+        if (grid && wanted) {
+          grid.reserveImport(this, this._chargePowerW(), now);
+          this.fuseReleaseTm = now + FuseGuard.RELEASE_LEAD_MS;
+          this.homey.setTimeout(() => {
+            if (!this.isDestroyed) this._applyChargerControl().catch((err) => this.error(err));
+          }, FuseGuard.RELEASE_LEAD_MS);
+        }
       } else wanted = false;
     }
-    this._fuseCapStep(now);
+    if (this.fuseReleaseTm && now < this.fuseReleaseTm) wanted = false;
+    this._fuseCapStep(now, wanted);
     if (wanted && powerCap) await this._setTargetPower(powerCap, gate.solar, surplusW, slot);
     // A switch outside this app is still being judged (_judgeSwitch): do not switch it back.
     if (this.pendingSwitch) return;
@@ -1652,12 +1663,7 @@ class CarChargeDevice extends GenericDevice {
   // Expected solar surplus (kWh, grid side) per price slot, from the grid device's forecast of home
   // load and PbtH solar. null without a grid device.
   _solarSurplusKwh(startMs, n, intervalMin) {
-    let grid = null;
-    try {
-      grid = this.homey.drivers.getDriver('grid').getDevices().find((d) => typeof d.getNetForecast === 'function');
-    } catch {
-      return null;
-    }
+    const grid = GridConnection.gridDevice(this.homey);
     if (!grid) return null;
     let f;
     try {

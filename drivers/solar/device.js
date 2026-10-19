@@ -1034,18 +1034,12 @@ class SolarDevice extends GenericDevice {
 
     // --- Update Charts --- (not time-critical: after a slot boundary's burst, LoadSpread)
     // Calls merged into one deferred run: what any of them changed is drawn.
-    const flags = this.chartFlags || {};
-    this.chartFlags = {
-      yieldFactorsUpdated: !!(flags.yieldFactorsUpdated || yieldFactorsUpdated),
-      forecastChanged: !!(flags.forecastChanged || this.forecastChanged), // reset below
-      dayChanged: !!(flags.dayChanged || dayChanged),
-      quarter: !!(flags.quarter || now.getMinutes() % 15 === 0),
+    const flags = {
+      yieldFactorsUpdated, forecastChanged: this.forecastChanged, dayChanged, quarter: now.getMinutes() % 15 === 0, // forecastChanged: reset below
     };
-    await LoadSpread.run(this, 'forecastCharts', async () => {
-      const {
-        yieldFactorsUpdated: yfUpdated, forecastChanged, dayChanged: dayRolled, quarter,
-      } = this.chartFlags || {};
-      this.chartFlags = null;
+    await LoadSpread.run(this, 'forecastCharts', async ({
+      yieldFactorsUpdated: yfUpdated, forecastChanged, dayChanged: dayRolled, quarter,
+    }) => {
       // Peak Power setting, else the higher of the all-time peak and an estimated Wpeak. 850 instead
       // of 1000: GHI is roughly 85% of a tilted roof's irradiance at summer peak (estimate).
       const estimatedWpeak = this.globalMaxYF > 0 ? Math.round(this.globalMaxYF * 850) : 0;
@@ -1103,7 +1097,7 @@ class SolarDevice extends GenericDevice {
           await this.solarDistributionImage.update();
         }
       }
-    });
+    }, flags);
 
     // Solar yield flows at the start of each 15-minute slot
     const currentSlot = (now.getUTCHours() * 4) + Math.floor(now.getUTCMinutes() / 15);

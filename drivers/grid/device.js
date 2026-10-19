@@ -261,7 +261,9 @@ class GridDevice extends GenericDevice {
   async setCapability(capability, value) {
     await super.setCapability(capability, value);
     if (capability === 'measure_watt_grid') {
-      this.gridPowerTm = Date.now();
+      const nowMs = Date.now();
+      if (this.gridPowerTm) this.gridIntervalMs = FuseGuard.readingInterval(this.gridIntervalMs, nowMs - this.gridPowerTm);
+      this.gridPowerTm = nowMs;
       // Contained: must never stop the power update itself.
       try {
         this.checkFuseOverload(this.gridPowerTm);
@@ -976,15 +978,32 @@ class GridDevice extends GenericDevice {
     return Math.round(fuse - FuseGuard.CONTROL_RESERVE_W - Math.max(0, -(this.getCapabilityValue('measure_watt_grid') || 0)));
   }
 
-  // Extra import (W) an EV charger is about to take (reserveImport()), 0 when expired.
+  // Extra import (W) the EV chargers are about to take (reserveImport()): less what each already
+  // takes more than when reserved, 0 when expired.
   reservedImportW(now = Date.now()) {
-    const r = this.importReserve;
-    return r && now < r.untilMs ? r.w : 0;
+    if (!this.importReserves) return 0;
+    let w = 0;
+    this.importReserves.forEach((r, charger) => {
+      if (now >= r.untilMs) {
+        this.importReserves.delete(charger);
+        return;
+      }
+      w += Math.max(0, r.w - Math.max(0, FuseGuard.chargerPowerW(charger) - r.baseW));
+    });
+    return w;
   }
 
   // An EV charger released or raised: the batteries make room for w before the car takes it.
-  reserveImport(w, now = Date.now()) {
-    this.importReserve = { w: this.reservedImportW(now) + Math.max(0, w), untilMs: now + FuseGuard.RESERVE_MS };
+  reserveImport(charger, w, now = Date.now()) {
+    if (!(w > 0)) return;
+    if (!this.importReserves) this.importReserves = new Map();
+    const prev = this.importReserves.get(charger);
+    const keep = prev && now < prev.untilMs;
+    this.importReserves.set(charger, {
+      w: (keep ? prev.w : 0) + w,
+      baseW: keep ? prev.baseW : FuseGuard.chargerPowerW(charger),
+      untilMs: now + FuseGuard.RESERVE_MS,
+    });
   }
 
   // Grid charging of the protected batteries (W): they give way to an EV charger under the limit.
@@ -995,23 +1014,23 @@ class GridDevice extends GenericDevice {
     } catch {
       return 0;
     }
+    const now = Date.now();
     return bats.reduce((a, d) => {
       try {
-        if (typeof d.isZeroControlled !== 'function' || !d.isZeroControlled() || d.getSettings().fuseProtection === false) return a;
-        return a + Math.max(0, Number(d.controlPowerW()) || 0);
+        return a + (typeof d.fuseYieldW === 'function' ? d.fuseYieldW(now) : 0);
       } catch {
         return a;
       }
     }, 0);
   }
 
-  // No recent reading from a realtime power source (FuseGuard.STALE_MS). A trend-only source
+  // No recent reading from a realtime power source (FuseGuard.isStale()). A trend-only source
   // (2-minute average) is never stale here: it cannot protect the fuse in time anyway.
   isGridPowerStale(now = Date.now()) {
     const ci = this.capabilityInstances || {};
     if (!ci.measurePowerRealtime && !ci.measurePower) return false;
-    if (!this.gridPowerTm) this.gridPowerTm = now; // no reading since start: counts from the first check
-    return FuseGuard.isStale({ tm: this.gridPowerTm, now });
+    if (!this.gridPowerTm && !this.gridStaleRefTm) this.gridStaleRefTm = now; // no reading since start: from the first check
+    return FuseGuard.isStale({ tm: this.gridPowerTm || this.gridStaleRefTm, now, intervalMs: this.gridIntervalMs });
   }
 
   // Import above the hard limit for FuseGuard.SHED_AFTER_MS: cut or switch off one charging EV
@@ -1046,15 +1065,16 @@ class GridDevice extends GenericDevice {
       // no EV chargers
     }
     let done = null;
-    chargers.some((d) => {
+    // Measured charging first, then switched on without a charging reading.
+    [false, true].some((uncertain) => chargers.some((d) => {
       try {
-        done = d.fuseShed(now, importW, limitW);
+        done = d.fuseShed(now, importW, limitW, uncertain);
       } catch (err) {
         this.error('[Fuse]', err);
         done = null;
       }
       return !!done;
-    });
+    }));
     const tokens = { import: Math.round(importW), limit: limitW };
     if (done) {
       this.fuseOverSince = now;
@@ -1067,10 +1087,11 @@ class GridDevice extends GenericDevice {
     }
   }
 
-  // Timeline notification of a fuse protection, at most once per FuseGuard.NOTIFY_MS.
+  // Timeline notification of a fuse protection, per kind at most once per FuseGuard.NOTIFY_MS.
   notifyFuse(key, tokens, now) {
-    if (this.fuseNotifyTm && now - this.fuseNotifyTm < FuseGuard.NOTIFY_MS) return;
-    this.fuseNotifyTm = now;
+    if (!this.fuseNotifyTm) this.fuseNotifyTm = {};
+    if (this.fuseNotifyTm[key] && now - this.fuseNotifyTm[key] < FuseGuard.NOTIFY_MS) return;
+    this.fuseNotifyTm[key] = now;
     const t = Object.fromEntries(Object.entries(tokens).map(([k, v]) => [k, String(v)]));
     this.homey.notifications.createNotification({ excerpt: this.homey.__(key, t) }).catch(this.error);
   }
@@ -1654,15 +1675,8 @@ class GridDevice extends GenericDevice {
 
     // The charts are not time-critical: after a slot boundary's burst (LoadSpread).
     // Calls merged into one deferred run: what any of them changed is drawn.
-    const flags = this.chartFlags || {};
-    this.chartFlags = {
-      updated: !!(flags.updated || updated),
-      plansChanged: !!(flags.plansChanged || plansChanged),
-      quarter: !!(flags.quarter || now.getMinutes() % 15 === 0),
-    };
-    await LoadSpread.run(this, 'forecastCharts', async () => {
-      const { updated: modelUpdated, plansChanged: plansMoved, quarter } = this.chartFlags || {};
-      this.chartFlags = null;
+    const flags = { updated, plansChanged, quarter: now.getMinutes() % 15 === 0 };
+    await LoadSpread.run(this, 'forecastCharts', async ({ updated: modelUpdated, plansChanged: plansMoved, quarter }) => {
       // Grid exchange charts. Today/Tomorrow refresh every 15 minutes, as the battery/EV plans
       // change independently of the load model. Past slots show the recorded forecast.
       const recordedNet = new Map(this.netForecastHistory.map((e) => [e.time, e.net]));
@@ -1705,7 +1719,7 @@ class GridDevice extends GenericDevice {
           await this.gridWeeklyImage.update().catch(this.error);
         }
       }
-    });
+    }, flags);
 
     if (updated || this.lastTriggerSlot !== currentSlot) {
       this.lastTriggerSlot = currentSlot;

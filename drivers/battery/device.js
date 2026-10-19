@@ -40,6 +40,8 @@ const SOC_REPLAN_MS = 10 * 60 * 1000;
 const RELEASE_RETRY_MS = 60 * 1000;
 // After a start, smart leaves the batteries as they are until the first plan, at most this long.
 const PLAN_WAIT_MS = 10 * 60 * 1000;
+// A setpoint at least this recent: the battery is under control (keepalive every 60 s).
+const FUSE_YIELD_MS = 2 * 60 * 1000;
 // Home use the planner assumes without a grid forecast (no grid device).
 const HOME_USE_W = 300;
 const EFFICIENCY_LOG_MS = 60 * 60 * 1000;
@@ -295,7 +297,13 @@ class BatDevice extends GenericDevice {
     }
     const mode = this.getBatteryMode();
     const slot = BatteryControl.slotAt(this.latestPlan, now);
-    if (mode === 'smart' && !this.latestPlan && now - this.initTm < PLAN_WAIT_MS) return null;
+    if (mode === 'smart' && !this.latestPlan && now - this.initTm < PLAN_WAIT_MS) {
+      // Waiting for the first plan the battery is left alone, unless the connection is overloaded.
+      if (!this.fuseAtRisk()) return null;
+      return {
+        mode: 'idle', slot: null, block: 'idle', noCharge: false, refill: false,
+      };
+    }
     // Below the reserve it recharges (BatteryControl): no zero on the meter then.
     const refill = typeof this.soc === 'number' && this.soc < this.reservePct() && BatteryControl.refillsReserve(mode);
     const plan = BatteryControl.blockFor(mode, slot);
@@ -320,9 +328,11 @@ class BatDevice extends GenericDevice {
     const batteryW = this.controlPowerW();
     // Limits from the base the grid reading holds: while ramping the measured power lags the
     // setpoint, so the side with less room (import: the lower, export: the higher) counts.
-    const actW = Number(this.getCapabilityValue('measure_watt_avg'));
-    const importBaseW = Number.isFinite(actW) ? Math.min(batteryW, actW) : batteryW;
-    const exportBaseW = Number.isFinite(actW) ? Math.max(batteryW, actW) : batteryW;
+    // Only a recent report counts (an idle source reports seldom).
+    const rawW = this.getCapabilityValue('measure_watt_avg');
+    const fresh = typeof rawW === 'number' && this.lastReportTm && now - this.lastReportTm <= BatteryControl.FAST_REPORT_MS;
+    const importBaseW = fresh ? Math.min(batteryW, rawW) : batteryW;
+    const exportBaseW = fresh ? Math.max(batteryW, rawW) : batteryW;
     if (nom) {
       this.zeroAvgW = BatteryControl.average(this.zeroAvgW, nom.needW, now - (this.zeroAvgTm || now));
       this.zeroAvgTm = now;
@@ -452,6 +462,24 @@ class BatDevice extends GenericDevice {
     if (!prev !== !this.followCapW) {
       this.log(`[Bat Control] ${this.followCapW ? `does not follow its setpoint: at most ${this.followCapW.w} W` : 'follows its setpoint again'}`);
     }
+  }
+
+  // The grid is over the hard import limit or the export limit now (setting fuseProtection).
+  fuseAtRisk() {
+    if (this.getSettings().fuseProtection === false) return false;
+    const grid = GridConnection.gridDevice(this.homey);
+    if (!grid) return false;
+    const importW = grid.getImportHeadroomW({ tariff: false, hard: true });
+    const exportW = grid.getExportHeadroomW();
+    return (typeof importW === 'number' && importW < 0) || (typeof exportW === 'number' && exportW < 0);
+  }
+
+  // Grid charging (W) this battery gives way with under the hard limit: only while this app
+  // controls it (a setpoint written within FUSE_YIELD_MS).
+  fuseYieldW(now = Date.now()) {
+    if (this.getSettings().fuseProtection === false || !this.getStoreValue('controlTakeover')) return 0;
+    if (typeof this.lastSetpointW !== 'number' || !this.lastSetpointTm || now - this.lastSetpointTm > FUSE_YIELD_MS) return 0;
+    return Math.max(0, this.lastSetpointW);
   }
 
   async takeControl() {
@@ -879,12 +907,7 @@ class BatDevice extends GenericDevice {
   // surplus. Never the grid's netPlanned (it holds this battery's own plan). members: the batteries
   // planned as one (a group). null without a grid.
   roiNetForecast(startMs, n, planMin, members = [this]) {
-    let grid = null;
-    try {
-      grid = this.homey.drivers.getDriver('grid').getDevices().find((d) => typeof d.getNetForecast === 'function');
-    } catch {
-      return null;
-    }
+    const grid = GridConnection.gridDevice(this.homey);
     if (!grid || !(n > 0)) return null;
     const endMs = startMs + (n * planMin * 60 * 1000);
     let f;

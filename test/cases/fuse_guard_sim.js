@@ -93,12 +93,16 @@ const makeEvPlant = ({ maxW, variable }) => ({
 
 // ─── Devices ────────────────────────────────────────────────────────────────
 
+// realPrepare: the device's own controlPrepare() (smart, no plan yet) instead of a fixed block.
 const build = ({
-  batteries = 2, block = 'charge', mode = 'charge', ev = null, solarW = 0, plant = {}, stuck = [],
+  batteries = 2, block = 'charge', mode = 'charge', ev = null, solarW = 0, plant = {}, stuck = [], realPrepare = false,
 } = {}) => {
   const notifications = [];
   const logs = [];
+  const timers = [];
   const homey = {
+    setTimeout: (fn, ms) => timers.push({ at: T + ms, fn }),
+    timers,
     drivers: { getDriver: (id) => drivers[id] }, // eslint-disable-line no-use-before-define
     notifications: {
       createNotification: async ({ excerpt }) => {
@@ -182,8 +186,19 @@ const build = ({
       setAction: async () => {},
       clearControlWarning: async () => {},
       checkSocDeviation: () => {},
-      controlPrepare: async () => ({
-        mode, slot: null, block, noCharge: false, refill: false,
+      ...(realPrepare ? {
+        initReady: true,
+        initTm: T,
+        latestPlan: null,
+        checkPlanSlot: () => {},
+        endTempModeIfDue: async () => {},
+        inGroup: () => false,
+        isControlConfigured: () => true,
+        getBatteryMode: () => 'smart',
+      } : {
+        controlPrepare: async () => ({
+          mode, slot: null, block, noCharge: false, refill: false,
+        }),
       }),
     });
     bats.push(b);
@@ -250,8 +265,15 @@ const run = async (sim, {
   };
   let lastEvReport = -Infinity;
   for (let s = 0; s < seconds; s += 1) {
-    T = t0 + (s * 1000);
-    sim.batPlants.forEach((p) => p.step());
+    const tNow = t0 + (s * 1000);
+    T = tNow;
+    const due = sim.grid.homey.timers.filter((x) => x.at <= tNow);
+    due.forEach((x) => sim.grid.homey.timers.splice(sim.grid.homey.timers.indexOf(x), 1));
+    for (const x of due) await x.fn();
+    sim.batPlants.forEach((p, i) => {
+      p.step();
+      if (p.lastReport === tNow) sim.bats[i].lastReportTm = tNow;
+    });
     if (sim.evPlant) {
       sim.evPlant.step();
       const [e] = sim.evs;
@@ -423,6 +445,47 @@ const show = (name, st, sim) => {
     show('EV switch unknown', st, sim);
     test('8: EV off without a reported switch state', () => {
       assert.ok(st.trace.slice(50, 80).some((x) => x.evW === 0), 'EV not switched off');
+    });
+  }
+
+  // 9. Release: the batteries make room before the car starts, and do not keep discharging after.
+  {
+    const sim = build({ ev: { maxW: 3680 } });
+    const loadW = (s) => 1500 + (s >= 100 && s < 300 ? 6700 : 0);
+    const st = await run(sim, { seconds: 1200, loadW });
+    show('release with grid-charging batteries', st, sim);
+    test('9: release without a fuse spike or a long forced discharge', () => {
+      const on = st.trace.findIndex((x, i) => i > 300 && x.evW > 0);
+      assert.ok(on > 0, 'EV not released');
+      const after = st.trace.slice(on, on + 120);
+      assert.ok(after.every((x) => x.gridW <= FUSE_W), `above the fuse after release: ${Math.max(...after.map((x) => x.gridW))}`);
+      const discharging = after.filter((x) => x.batW < -500).length;
+      assert.ok(discharging <= 15, `${discharging} s forced discharge after the release`);
+    });
+  }
+
+  // 10. Smart without a plan yet (first minutes after a start): left alone, unless overloaded.
+  {
+    const sim = build({ realPrepare: true, batteries: 1 });
+    sim.batPlants[0].setW = 2200;
+    sim.batPlants[0].actW = 2200;
+    const st = await run(sim, { seconds: 300, loadW: (s) => (s >= 100 ? 7000 : 2000) });
+    show('no plan yet', st, sim);
+    test('10: no plan: untouched below the limit, protected above it', () => {
+      assert.ok(st.trace[90].batW > 2100, `touched without overload: ${st.trace[90].batW}`);
+      assert.ok(st.trace[200].gridW <= LIMIT_W, `not protected: ${st.trace[200].gridW}`);
+    });
+  }
+
+  // 11. A realtime grid source reporting every 60 s: not stale between its readings.
+  {
+    const sim = build({ batteries: 1, block: 'zero', mode: 'smart' });
+    await run(sim, {
+      seconds: 900, loadW: () => 1000, solarW: () => 2000, p1EveryS: 60,
+    });
+    test('11: a 60 s meter is not stale once its interval is learned', () => {
+      const stale = sim.logs.filter((l) => /no recent grid reading/.test(l)).length;
+      assert.ok(stale <= 1, `${stale} stale episodes`);
     });
   }
 
