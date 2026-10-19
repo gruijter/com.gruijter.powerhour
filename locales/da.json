@@ -187,5 +187,9 @@
     "learned": "__kwh__ kWh, tur-retur __roundtrip__ %, min. __minCharge__ / __minDischarge__ W",
     "reset": "Glem lærte værdier",
     "reset_hint": "Ved et andet batteri, eller når de lærte værdier er tydeligt forkerte. Læringen starter forfra."
-  }
+  },
+  "fuse_import": "Hovedsikringsbeskyttelse: forbrug __import__ W over __limit__ W i 30 s. Batterierne kunne ikke forhindre det, ingen lader at begrænse.",
+  "fuse_import_ev_limited": "Hovedsikringsbeskyttelse: forbrug __import__ W over __limit__ W i 30 s. __charger__ begrænset til __power__ W.",
+  "fuse_import_ev_off": "Hovedsikringsbeskyttelse: forbrug __import__ W over __limit__ W i 30 s. __charger__ slukket.",
+  "fuse_export": "Hovedsikringsbeskyttelse: levering __export__ W over __limit__ W i 30 s. Batterierne kunne ikke forhindre det."
 }

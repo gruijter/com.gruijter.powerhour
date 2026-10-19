@@ -22,6 +22,7 @@ along with com.gruijter.powerhour.  If not, see <http://www.gnu.org/licenses/>.
 const GenericDevice = require('../../lib/genericDeviceDrivers/generic_bat_device');
 const ChargeDeviceHelpers = require('../../lib/helpers/ChargeDeviceHelpers');
 const ChartImages = require('../../lib/helpers/ChartImages');
+const GridConnection = require('../../lib/helpers/GridConnection');
 const TimeHelpers = require('../../lib/helpers/TimeHelpers');
 const BatteryControl = require('../../lib/strategies/BatteryControl');
 const BatteryEfficiency = require('../../lib/strategies/BatteryEfficiency');
@@ -317,6 +318,11 @@ class BatDevice extends GenericDevice {
   async applyControl(prep, now, gridW, nom, share) {
     const settings = this.batterySettings();
     const batteryW = this.controlPowerW();
+    // Limits from the base the grid reading holds: while ramping the measured power lags the
+    // setpoint, so the side with less room (import: the lower, export: the higher) counts.
+    const actW = Number(this.getCapabilityValue('measure_watt_avg'));
+    const importBaseW = Number.isFinite(actW) ? Math.min(batteryW, actW) : batteryW;
+    const exportBaseW = Number.isFinite(actW) ? Math.max(batteryW, actW) : batteryW;
     if (nom) {
       this.zeroAvgW = BatteryControl.average(this.zeroAvgW, nom.needW, now - (this.zeroAvgTm || now));
       this.zeroAvgTm = now;
@@ -324,8 +330,15 @@ class BatDevice extends GenericDevice {
     // Idle: nothing, only the main fuse (hard limit) still protected.
     const shave = settings.peakShaving === true && prep.mode !== 'idle';
     const protect = settings.fuseProtection !== false;
-    const headroomW = this.gridImportHeadroomW({ tariff: shave, hard: protect });
-    const hardHeadroomW = protect ? this.gridImportHeadroomW({ tariff: false, hard: true }) : null;
+    const grid = GridConnection.gridDevice(this.homey);
+    const headroomW = grid ? grid.getImportHeadroomW({ tariff: shave, hard: protect }) : null;
+    const hardHeadroomW = grid && protect ? grid.getImportHeadroomW({ tariff: false, hard: true }) : null;
+    const exportHeadroomW = grid && protect ? grid.getExportHeadroomW() : null;
+    const stale = !!grid && protect && grid.isGridPowerStale(now);
+    if (stale !== !!this.gridStale) {
+      this.gridStale = stale;
+      this.log(`[Bat Control] ${stale ? 'no recent grid reading: power kept, not raised' : 'grid reading back'}`);
+    }
     const r = BatteryControl.decide({
       mode: prep.mode,
       slot: prep.slot,
@@ -341,10 +354,12 @@ class BatDevice extends GenericDevice {
       maxDischargeW: settings.dischargePower,
       minChargeW: Number(settings.minChargeW) || 0,
       minDischargeW: Number(settings.minDischargeW) || 0,
-      maxW: headroomW === null ? null : batteryW + (headroomW * share),
+      maxW: headroomW === null ? null : importBaseW + (headroomW * share),
       minSocPct: this.reservePct(),
       reserveForPeak: shave,
-      hardMaxW: hardHeadroomW === null ? null : batteryW + (hardHeadroomW * share),
+      hardMaxW: hardHeadroomW === null ? null : importBaseW + (hardHeadroomW * share),
+      minW: exportHeadroomW === null ? null : exportBaseW - (exportHeadroomW * share),
+      stale,
       pulse: this.pulseParams(settings),
       state: this.controlState,
     });
@@ -436,17 +451,6 @@ class BatDevice extends GenericDevice {
     }
     if (!prev !== !this.followCapW) {
       this.log(`[Bat Control] ${this.followCapW ? `does not follow its setpoint: at most ${this.followCapW.w} W` : 'follows its setpoint again'}`);
-    }
-  }
-
-  // tariff: the capacity tariff (setting peakShaving); hard: the main fuse and contracted power
-  // (setting fuseProtection).
-  gridImportHeadroomW({ tariff = true, hard = true } = {}) {
-    try {
-      const grid = this.homey.drivers.getDriver('grid').getDevices().find((d) => typeof d.getImportHeadroomW === 'function');
-      return grid ? grid.getImportHeadroomW({ tariff, hard }) : null;
-    } catch {
-      return null;
     }
   }
 
@@ -933,6 +937,7 @@ class BatDevice extends GenericDevice {
         usableDeficitW: homeW >= minDischargeW ? Math.round(homeW) : 0,
         limitW: null,
         penaltyPerKw: null,
+        exportLimitW: protect && peak && peak.exportLimitW > 0 ? peak.exportLimitW : null,
       };
       // Capacity tariff limit (when one is set and the batteries shave peaks) and the hard limit
       // (contract or main fuse, when the connection is protected).

@@ -20872,19 +20872,19 @@
                 "ko": "계통 연결 보호"
               },
               "hint": {
-                "en": "Keeps the import below the main fuse (grid device, Grid connection) and the Max. import (W) (grid device, Capacity tariff), in every block. May use the reserve for it.",
-                "nl": "Houdt de afname onder de hoofdzekering (grid device, Netaansluiting) en de Max. afname (W) (grid device, Capaciteitstarief), in elk blok. Mag daarvoor de reserve gebruiken.",
-                "de": "Hält den Bezug in jedem Block unter der Hauptsicherung (Netz-Gerät, Netzanschluss) und dem Max. Bezug (W) (Netz-Gerät, Leistungstarif). Darf dafür die Reserve nutzen.",
-                "fr": "Maintient le prélèvement sous le fusible principal (appareil réseau, Raccordement au réseau) et le Prélèvement max. (W) (appareil réseau, Tarif capacitaire), dans chaque bloc. Peut utiliser la réserve pour cela.",
-                "it": "Mantiene il prelievo sotto il fusibile principale (dispositivo rete, Allacciamento alla rete) e il Prelievo max. (W) (dispositivo rete, Tariffa di potenza), in ogni blocco. Può usare la riserva per questo.",
-                "sv": "Håller uttaget under huvudsäkringen (nätenhet, Nätanslutning) och Max. uttag (W) (nätenhet, Effekttariff), i varje block. Får använda reserven för det.",
-                "no": "Holder uttaket under hovedsikringen (nett-enhet, Nettilknytning) og Maks. uttak (W) (nett-enhet, Effekttariff), i hver blokk. Kan bruke reserven til det.",
-                "es": "Mantiene el consumo por debajo del fusible principal (dispositivo de red, Conexión a la red) y del Consumo máx. (W) (dispositivo de red, Tarifa de potencia), en cada bloque. Puede usar la reserva para ello.",
-                "da": "Holder forbruget under hovedsikringen (net-enhed, Nettilslutning) og Maks. forbrug (W) (net-enhed, Effekttarif), i hver blok. Må bruge reserven til det.",
-                "pl": "Utrzymuje pobór poniżej bezpiecznika głównego (urządzenie sieci, Przyłącze sieciowe) i Maks. poboru (W) (urządzenie sieci, Taryfa mocowa) w każdym bloku. Może do tego użyć rezerwy.",
-                "ru": "Держит потребление ниже главного предохранителя (устройство сети, Подключение к сети) и Макс. потребления (Вт) (устройство сети, Тариф за мощность) в каждом блоке. Может использовать для этого резерв.",
-                "ar": "يُبقي السحب دون المصهر الرئيسي (جهاز الشبكة، توصيل الشبكة) والحد الأقصى للسحب (واط) (جهاز الشبكة، تعرفة القدرة) في كل كتلة. يمكنه استخدام الاحتياطي لذلك.",
-                "ko": "모든 블록에서 수전을 메인 퓨즈(전력망 기기, 계통 연결)와 최대 수전 (W)(전력망 기기, 용량 요금제) 아래로 유지합니다. 이를 위해 예비량을 사용할 수 있습니다."
+                "en": "Keeps the import and export below the main fuse (grid device, Grid connection) and the Max. import (W) (grid device, Capacity tariff), in every block. May use the reserve for it.",
+                "nl": "Houdt de afname en teruglevering onder de hoofdzekering (grid device, Netaansluiting) en de Max. afname (W) (grid device, Capaciteitstarief), in elk blok. Mag daarvoor de reserve gebruiken.",
+                "de": "Hält Bezug und Einspeisung in jedem Block unter der Hauptsicherung (Netz-Gerät, Netzanschluss) und dem Max. Bezug (W) (Netz-Gerät, Leistungstarif). Darf dafür die Reserve nutzen.",
+                "fr": "Maintient le prélèvement et l'injection sous le fusible principal (appareil réseau, Raccordement au réseau) et le Prélèvement max. (W) (appareil réseau, Tarif capacitaire), dans chaque bloc. Peut utiliser la réserve pour cela.",
+                "it": "Mantiene il prelievo e l'immissione sotto il fusibile principale (dispositivo rete, Allacciamento alla rete) e il Prelievo max. (W) (dispositivo rete, Tariffa di potenza), in ogni blocco. Può usare la riserva per questo.",
+                "sv": "Håller uttag och export under huvudsäkringen (nätenhet, Nätanslutning) och Max. uttag (W) (nätenhet, Effekttariff), i varje block. Får använda reserven för det.",
+                "no": "Holder uttak og innmating under hovedsikringen (nett-enhet, Nettilknytning) og Maks. uttak (W) (nett-enhet, Effekttariff), i hver blokk. Kan bruke reserven til det.",
+                "es": "Mantiene el consumo y el vertido por debajo del fusible principal (dispositivo de red, Conexión a la red) y del Consumo máx. (W) (dispositivo de red, Tarifa de potencia), en cada bloque. Puede usar la reserva para ello.",
+                "da": "Holder forbrug og levering under hovedsikringen (net-enhed, Nettilslutning) og Maks. forbrug (W) (net-enhed, Effekttarif), i hver blok. Må bruge reserven til det.",
+                "pl": "Utrzymuje pobór i oddawanie poniżej bezpiecznika głównego (urządzenie sieci, Przyłącze sieciowe) i Maks. poboru (W) (urządzenie sieci, Taryfa mocowa) w każdym bloku. Może do tego użyć rezerwy.",
+                "ru": "Держит потребление и отдачу ниже главного предохранителя (устройство сети, Подключение к сети) и Макс. потребления (Вт) (устройство сети, Тариф за мощность) в каждом блоке. Может использовать для этого резерв.",
+                "ar": "يُبقي السحب والتصدير دون المصهر الرئيسي (جهاز الشبكة، توصيل الشبكة) والحد الأقصى للسحب (واط) (جهاز الشبكة، تعرفة القدرة) في كل كتلة. يمكنه استخدام الاحتياطي لذلك.",
+                "ko": "모든 블록에서 수전과 송전을 메인 퓨즈(전력망 기기, 계통 연결)와 최대 수전 (W)(전력망 기기, 용량 요금제) 아래로 유지합니다. 이를 위해 예비량을 사용할 수 있습니다."
               },
               "value": true
             },
@@ -29789,6 +29789,45 @@
               "value": 230,
               "min": 100,
               "max": 500,
+              "step": 1
+            },
+            {
+              "id": "fuseMarginPct",
+              "type": "number",
+              "label": {
+                "en": "Fuse margin",
+                "nl": "Zekeringmarge",
+                "de": "Sicherungsreserve",
+                "fr": "Marge fusible",
+                "it": "Margine fusibile",
+                "sv": "Säkringsmarginal",
+                "no": "Sikringsmargin",
+                "es": "Margen del fusible",
+                "da": "Sikringsmargin",
+                "pl": "Margines bezpiecznika",
+                "ru": "Запас предохранителя",
+                "ar": "هامش المصهر",
+                "ko": "퓨즈 여유"
+              },
+              "hint": {
+                "en": "Control stays this percentage below the main fuse, for import and export.",
+                "nl": "De regeling blijft dit percentage onder de hoofdzekering, bij afname en teruglevering.",
+                "de": "Die Regelung bleibt diesen Prozentsatz unter der Hauptsicherung, bei Bezug und Einspeisung.",
+                "fr": "Le pilotage reste ce pourcentage sous le fusible principal, en prélèvement et en injection.",
+                "it": "Il controllo resta questa percentuale sotto il fusibile principale, in prelievo e immissione.",
+                "sv": "Styrningen håller sig denna procent under huvudsäkringen, vid uttag och export.",
+                "no": "Styringen holder seg denne prosenten under hovedsikringen, ved uttak og innmating.",
+                "es": "El control se mantiene este porcentaje por debajo del fusible principal, en consumo y vertido.",
+                "da": "Styringen holder sig denne procent under hovedsikringen, ved forbrug og levering.",
+                "pl": "Sterowanie utrzymuje się o ten procent poniżej bezpiecznika głównego, przy poborze i oddawaniu.",
+                "ru": "Управление держится на этот процент ниже главного предохранителя, при потреблении и отдаче.",
+                "ar": "يبقى التحكم بهذه النسبة دون المصهر الرئيسي، عند السحب والتصدير.",
+                "ko": "제어가 수전과 송전 모두 메인 퓨즈보다 이 비율만큼 아래에 머뭅니다."
+              },
+              "units": "%",
+              "value": 5,
+              "min": 0,
+              "max": 30,
               "step": 1
             }
           ]

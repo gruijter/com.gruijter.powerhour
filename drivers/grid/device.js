@@ -25,6 +25,7 @@ const GridFlows = require('../../lib/flows/GridFlows');
 const { getGridForecastChart, getGridWeeklyChart } = require('../../lib/charts/GridChart');
 const MeterHelpers = require('../../lib/helpers/MeterHelpers');
 const GridConnection = require('../../lib/helpers/GridConnection');
+const FuseGuard = require('../../lib/strategies/FuseGuard');
 const DeviceMigrator = require('../../lib/DeviceMigrator');
 const ChartImages = require('../../lib/helpers/ChartImages');
 const { setTimeoutPromise } = require('../../lib/helpers/Util');
@@ -260,6 +261,13 @@ class GridDevice extends GenericDevice {
   async setCapability(capability, value) {
     await super.setCapability(capability, value);
     if (capability === 'measure_watt_grid') {
+      this.gridPowerTm = Date.now();
+      // Contained: must never stop the power update itself.
+      try {
+        this.checkFuseOverload(this.gridPowerTm);
+      } catch (err) {
+        this.error('[Fuse]', err);
+      }
       this.calculateHomePower().catch(this.error);
     }
   }
@@ -947,12 +955,124 @@ class GridDevice extends GenericDevice {
     return state;
   }
 
+  // The main fuse less the margin (W), for import and export. null: unknown.
+  getFuseLimitW() {
+    const limitW = this.getConnectionLimitW();
+    return limitW > 0 ? FuseGuard.withMargin(limitW, this.getSettings().fuseMarginPct) : null;
+  }
+
   // Instant import limit (W): the contracted power when set, else the main fuse. null: unknown.
   getHardLimitW() {
     const contracted = this.peakConfig.hardLimitW;
-    const fuse = this.getConnectionLimitW() > 0 ? this.getConnectionLimitW() : null;
+    const fuse = this.getFuseLimitW();
     if (contracted > 0) return fuse ? Math.min(contracted, fuse) : contracted;
     return fuse;
+  }
+
+  // Extra export (W) possible now under the main fuse. null: no limit.
+  getExportHeadroomW() {
+    const fuse = this.getFuseLimitW();
+    if (!fuse) return null;
+    return Math.round(fuse - FuseGuard.CONTROL_RESERVE_W - Math.max(0, -(this.getCapabilityValue('measure_watt_grid') || 0)));
+  }
+
+  // Extra import (W) an EV charger is about to take (reserveImport()), 0 when expired.
+  reservedImportW(now = Date.now()) {
+    const r = this.importReserve;
+    return r && now < r.untilMs ? r.w : 0;
+  }
+
+  // An EV charger released or raised: the batteries make room for w before the car takes it.
+  reserveImport(w, now = Date.now()) {
+    this.importReserve = { w: this.reservedImportW(now) + Math.max(0, w), untilMs: now + FuseGuard.RESERVE_MS };
+  }
+
+  // Grid charging of the protected batteries (W): they give way to an EV charger under the limit.
+  getYieldingBatteryW() {
+    let bats = [];
+    try {
+      bats = this.homey.drivers.getDriver('battery').getDevices();
+    } catch {
+      return 0;
+    }
+    return bats.reduce((a, d) => {
+      try {
+        if (typeof d.isZeroControlled !== 'function' || !d.isZeroControlled() || d.getSettings().fuseProtection === false) return a;
+        return a + Math.max(0, Number(d.controlPowerW()) || 0);
+      } catch {
+        return a;
+      }
+    }, 0);
+  }
+
+  // No recent reading from a realtime power source (FuseGuard.STALE_MS). A trend-only source
+  // (2-minute average) is never stale here: it cannot protect the fuse in time anyway.
+  isGridPowerStale(now = Date.now()) {
+    const ci = this.capabilityInstances || {};
+    if (!ci.measurePowerRealtime && !ci.measurePower) return false;
+    if (!this.gridPowerTm) this.gridPowerTm = now; // no reading since start: counts from the first check
+    return FuseGuard.isStale({ tm: this.gridPowerTm, now });
+  }
+
+  // Import above the hard limit for FuseGuard.SHED_AFTER_MS: cut or switch off one charging EV
+  // charger. Export above the fuse that long: notified only (the batteries are all there is).
+  checkFuseOverload(now) {
+    const gridW = this.getCapabilityValue('measure_watt_grid') || 0;
+    const importW = Math.max(0, gridW);
+    const limitW = this.getHardLimitW();
+    const step = FuseGuard.overloadStep({
+      importW, limitW, now, overSince: this.fuseOverSince,
+    });
+    if (step.overSince && !this.fuseOverSince) this.log(`[Fuse] import ${Math.round(importW)} W above ${limitW} W`);
+    this.fuseOverSince = step.overSince;
+
+    const exportW = Math.max(0, -gridW);
+    const exportLimitW = this.getFuseLimitW();
+    const exp = FuseGuard.overloadStep({
+      importW: exportW, limitW: exportLimitW, now, overSince: this.fuseExportSince,
+    });
+    if (exp.shed && this.fuseExportNotified !== exp.overSince) {
+      this.fuseExportNotified = exp.overSince;
+      this.log(`[Fuse] export ${Math.round(exportW)} W above ${exportLimitW} W for 30 s`);
+      this.notifyFuse('fuse_export', { export: Math.round(exportW), limit: exportLimitW }, now);
+    }
+    this.fuseExportSince = exp.overSince;
+
+    if (!step.shed) return;
+    let chargers = [];
+    try {
+      chargers = this.homey.drivers.getDriver('evCharger').getDevices().filter((d) => typeof d.fuseShed === 'function');
+    } catch {
+      // no EV chargers
+    }
+    let done = null;
+    chargers.some((d) => {
+      try {
+        done = d.fuseShed(now, importW, limitW);
+      } catch (err) {
+        this.error('[Fuse]', err);
+        done = null;
+      }
+      return !!done;
+    });
+    const tokens = { import: Math.round(importW), limit: limitW };
+    if (done) {
+      this.fuseOverSince = now;
+      if (done.off) this.notifyFuse('fuse_import_ev_off', { ...tokens, charger: done.name }, now);
+      else this.notifyFuse('fuse_import_ev_limited', { ...tokens, charger: done.name, power: done.capW }, now);
+    } else if (this.fuseNothingToShed !== this.fuseOverSince) {
+      this.fuseNothingToShed = this.fuseOverSince;
+      this.log(`[Fuse] import ${Math.round(importW)} W above ${limitW} W for ${Math.round((now - this.fuseOverSince) / 1000)} s: no EV charger to cut`);
+      this.notifyFuse('fuse_import', tokens, now);
+    }
+  }
+
+  // Timeline notification of a fuse protection, at most once per FuseGuard.NOTIFY_MS.
+  notifyFuse(key, tokens, now) {
+    if (this.fuseNotifyTm && now - this.fuseNotifyTm < FuseGuard.NOTIFY_MS) return;
+    this.fuseNotifyTm = now;
+    const t = Object.fromEntries(Object.entries(tokens).map(([k, v]) => [k, String(v)]));
+    this.homey.notifications.createNotification({ excerpt: this.homey.__(key, t) }).catch(this.error);
   }
 
   // Extra import (W) possible now for a battery controller: the capacity-tariff headroom of the
@@ -964,7 +1084,7 @@ class GridDevice extends GenericDevice {
     const p = this.peakProjection;
     if (tariff && PeakTariff.isActive(this.peakConfig) && p && typeof p.tariffHeadroomW === 'number') limits.push(p.tariffHeadroomW);
     const hardW = hard ? this.getHardLimitW() : 0;
-    if (hardW > 0) limits.push(hardW - importW);
+    if (hardW > 0) limits.push(hardW - FuseGuard.CONTROL_RESERVE_W - this.reservedImportW() - importW);
     return limits.length ? Math.round(Math.min(...limits)) : null;
   }
 
@@ -1024,7 +1144,7 @@ class GridDevice extends GenericDevice {
   /**
    * Import limits per 15-minute slot, for a battery or EV planner.
    *
-   * @returns {{active: boolean, windowMin: number, hardLimitW: number, slots: Array<{limitW: number|null,
+   * @returns {{active: boolean, windowMin: number, hardLimitW: number, exportLimitW: number|null, slots: Array<{limitW: number|null,
    *   penaltyPerKw: number|null, stepJump: number|null}>}} active: a capacity tariff to shave for;
    *   limitW applies to the average over the slot's window (see getPeakState()).
    */
@@ -1049,7 +1169,7 @@ class GridDevice extends GenericDevice {
       slots.push({ limitW, penaltyPerKw: state.penaltyPerKw, stepJump: state.stepJump });
     }
     return {
-      active: PeakTariff.isActive(cfg), windowMin: cfg.windowMin, hardLimitW: this.getHardLimitW(), slots,
+      active: PeakTariff.isActive(cfg), windowMin: cfg.windowMin, hardLimitW: this.getHardLimitW(), exportLimitW: this.getFuseLimitW(), slots,
     };
   }
 

@@ -187,5 +187,9 @@
     "learned": "__kwh__ kWh, cykl pełny __roundtrip__ %, min. __minCharge__ / __minDischarge__ W",
     "reset": "Zapomnij nauczone wartości",
     "reset_hint": "Przy innej baterii lub gdy nauczone wartości są wyraźnie błędne. Uczenie zaczyna się od nowa."
-  }
+  },
+  "fuse_import": "Ochrona bezpiecznika głównego: pobór __import__ W powyżej __limit__ W przez 30 s. Baterie nie mogły temu zapobiec, brak ładowarki do ograniczenia.",
+  "fuse_import_ev_limited": "Ochrona bezpiecznika głównego: pobór __import__ W powyżej __limit__ W przez 30 s. __charger__ ograniczona do __power__ W.",
+  "fuse_import_ev_off": "Ochrona bezpiecznika głównego: pobór __import__ W powyżej __limit__ W przez 30 s. __charger__ wyłączona.",
+  "fuse_export": "Ochrona bezpiecznika głównego: oddawanie __export__ W powyżej __limit__ W przez 30 s. Baterie nie mogły temu zapobiec."
 }

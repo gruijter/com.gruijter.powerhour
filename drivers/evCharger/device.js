@@ -15,6 +15,8 @@ const EvPresence = require('../../lib/strategies/EvPresence');
 const EvSocEstimator = require('../../lib/strategies/EvSocEstimator');
 const EvEnergyMode = require('../../lib/strategies/EvEnergyMode');
 const EvChargerControl = require('../../lib/strategies/EvChargerControl');
+const FuseGuard = require('../../lib/strategies/FuseGuard');
+const GridConnection = require('../../lib/helpers/GridConnection');
 const EvFlows = require('../../lib/flows/EvFlows');
 const ChargeDeviceHelpers = require('../../lib/helpers/ChargeDeviceHelpers');
 const ChartImages = require('../../lib/helpers/ChartImages');
@@ -1099,7 +1101,7 @@ class CarChargeDevice extends GenericDevice {
       surplusW: typeof surplusW === 'number' ? surplusW + allowedW : surplusW,
       slot,
       minW: EvPlanner.MIN_VARIABLE_POWER_W,
-      maxW: this._chargePowerW(),
+      maxW: this.fuseCapW ? Math.min(this.fuseCapW, this._chargePowerW()) : this._chargePowerW(),
     });
     if (typeof this.lastTargetPower === 'number' && Math.abs(power - this.lastTargetPower) < TARGET_POWER_STEP_W) return;
     try {
@@ -1109,6 +1111,76 @@ class CarChargeDevice extends GenericDevice {
     } catch (err) {
       this.error(`[EV Control] Setting charger ${capabilityId} to ${power} W failed:`, err.message || err);
     }
+  }
+
+  // Main fuse overload the batteries did not solve (grid FuseGuard): a variable charger is cut by
+  // the overload (fuseCapW, raised again by _fuseCapStep()), else and below its minimum it is
+  // switched off now, without the minimum switch interval, until FuseGuard.mayRelease().
+  // Returns { name, capW } (cut) or { name, off: true }; null: not charging or not controlled.
+  fuseShed(now, importW, limitW) {
+    const capabilityId = this.sourceCapGroup && this.sourceCapGroup.switchCap;
+    if (!this.getSettings().chargerControl || !capabilityId || !this.sourceDevice || this.fuseShedTm) return null;
+    // Charging: measured, or switched on without a power reading. A switch state not (yet) reported
+    // does not stop it.
+    const measured = typeof this.livePowerW === 'number';
+    if (this.signals.switchOn === false) return null;
+    if (measured ? this.livePowerW <= EvPresence.CHARGING_POWER_W : this.signals.switchOn !== true) return null;
+    const powerCap = this._variablePowerCap();
+    if (powerCap) {
+      // The lowest known: a charger's power report can lag its last cut, which must never go up.
+      const known = [measured ? this.livePowerW : null, this.fuseCapW, this.lastTargetPower]
+        .filter((w) => typeof w === 'number' && w > 0);
+      const currentW = known.length ? Math.min(...known) : this._chargePowerW();
+      const capW = FuseGuard.reduceTo({ currentW, overW: importW - limitW, minW: EvPlanner.MIN_VARIABLE_POWER_W });
+      if (capW !== null) {
+        this.fuseCapW = capW;
+        this.fuseCapTm = now;
+        this.log(`[Fuse] import ${Math.round(importW)} W above ${limitW} W: charger ${powerCap} -> ${capW} W`);
+        this.sourceDevice.setCapabilityValue({ capabilityId: powerCap, value: capW })
+          .then(() => {
+            this.lastTargetPower = capW;
+          })
+          .catch((err) => this.error(`[Fuse] Setting charger ${powerCap} to ${capW} W failed:`, err.message || err));
+        return { name: this.getName(), capW };
+      }
+    }
+    this.fuseShedTm = now;
+    this.fuseCapW = null;
+    this.lastSwitchCommandTm = now;
+    this.lastCommand = { value: false, tm: now }; // before sending: the switch report can come first
+    this.log(`[Fuse] import ${Math.round(importW)} W above ${limitW} W: charger ${capabilityId} -> false`);
+    this.sourceDevice.setCapabilityValue({ capabilityId, value: false })
+      .then(() => {
+        this.lastWantedSwitch = false;
+        return this.setStoreValue('evLastWantedSwitch', false);
+      })
+      .catch((err) => {
+        this.lastSwitchCommandTm = null; // the control tick tries again
+        this.error(`[Fuse] Switching charger ${capabilityId} off failed:`, err.message || err);
+      });
+    return { name: this.getName(), off: true };
+  }
+
+  // Room under the hard limit for this charger: the grid charging of the protected batteries counts
+  // (they give way). null: no limit.
+  _fuseRoomW(grid) {
+    const headroomW = grid.getImportHeadroomW({ tariff: false, hard: true });
+    return headroomW === null ? null : headroomW + grid.getYieldingBatteryW();
+  }
+
+  // A cut variable charger: its limit raised with the room under the fuse, no sooner than
+  // FuseGuard.RAISE_AFTER_MS after the last cut or raise.
+  _fuseCapStep(now) {
+    if (!this.fuseCapW || now - this.fuseCapTm < FuseGuard.RAISE_AFTER_MS) return;
+    const grid = GridConnection.gridDevice(this.homey);
+    if (grid && grid.isGridPowerStale(now)) return;
+    const headroomW = grid ? this._fuseRoomW(grid) : null;
+    const capW = headroomW === null ? null : FuseGuard.raiseCap({ capW: this.fuseCapW, headroomW, maxW: this._chargePowerW() });
+    if (capW === this.fuseCapW) return;
+    if (grid) grid.reserveImport((capW === null ? this._chargePowerW() : capW) - this.fuseCapW, now);
+    this.fuseCapTm = now;
+    this.fuseCapW = capW;
+    this.log(`[Fuse] room under the main fuse: charger limit ${capW === null ? 'released' : `${capW} W`}`);
   }
 
   async _applyChargerControl() {
@@ -1153,6 +1225,24 @@ class CarChargeDevice extends GenericDevice {
       this.standbyOnly = sb.wanted && !wanted;
       ({ wanted } = sb);
     }
+    if (this.fuseShedTm) {
+      const grid = GridConnection.gridDevice(this.homey);
+      const headroomW = grid ? this._fuseRoomW(grid) : null;
+      const release = !grid || FuseGuard.mayRelease({
+        shedTm: this.fuseShedTm,
+        now,
+        headroomW: headroomW === null ? Infinity : headroomW,
+        needW: this._chargePowerW(),
+        stale: grid.isGridPowerStale(now),
+      });
+      if (release) {
+        if (grid) grid.reserveImport(this._chargePowerW(), now);
+        this.fuseShedTm = null;
+        this.fuseCapW = null;
+        this.log('[Fuse] room under the main fuse again: charger released');
+      } else wanted = false;
+    }
+    this._fuseCapStep(now);
     if (wanted && powerCap) await this._setTargetPower(powerCap, gate.solar, surplusW, slot);
     // A switch outside this app is still being judged (_judgeSwitch): do not switch it back.
     if (this.pendingSwitch) return;

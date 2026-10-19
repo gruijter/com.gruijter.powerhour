@@ -1342,6 +1342,45 @@
           "min": 100,
           "max": 500,
           "step": 1
+        },
+        {
+          "id": "fuseMarginPct",
+          "type": "number",
+          "label": {
+            "en": "Fuse margin",
+            "nl": "Zekeringmarge",
+            "de": "Sicherungsreserve",
+            "fr": "Marge fusible",
+            "it": "Margine fusibile",
+            "sv": "Säkringsmarginal",
+            "no": "Sikringsmargin",
+            "es": "Margen del fusible",
+            "da": "Sikringsmargin",
+            "pl": "Margines bezpiecznika",
+            "ru": "Запас предохранителя",
+            "ar": "هامش المصهر",
+            "ko": "퓨즈 여유"
+          },
+          "hint": {
+            "en": "Control stays this percentage below the main fuse, for import and export.",
+            "nl": "De regeling blijft dit percentage onder de hoofdzekering, bij afname en teruglevering.",
+            "de": "Die Regelung bleibt diesen Prozentsatz unter der Hauptsicherung, bei Bezug und Einspeisung.",
+            "fr": "Le pilotage reste ce pourcentage sous le fusible principal, en prélèvement et en injection.",
+            "it": "Il controllo resta questa percentuale sotto il fusibile principale, in prelievo e immissione.",
+            "sv": "Styrningen håller sig denna procent under huvudsäkringen, vid uttag och export.",
+            "no": "Styringen holder seg denne prosenten under hovedsikringen, ved uttak og innmating.",
+            "es": "El control se mantiene este porcentaje por debajo del fusible principal, en consumo y vertido.",
+            "da": "Styringen holder sig denne procent under hovedsikringen, ved forbrug og levering.",
+            "pl": "Sterowanie utrzymuje się o ten procent poniżej bezpiecznika głównego, przy poborze i oddawaniu.",
+            "ru": "Управление держится на этот процент ниже главного предохранителя, при потреблении и отдаче.",
+            "ar": "يبقى التحكم بهذه النسبة دون المصهر الرئيسي، عند السحب والتصدير.",
+            "ko": "제어가 수전과 송전 모두 메인 퓨즈보다 이 비율만큼 아래에 머뭅니다."
+          },
+          "units": "%",
+          "value": 5,
+          "min": 0,
+          "max": 30,
+          "step": 1
         }
       ]
     },

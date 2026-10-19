@@ -187,5 +187,9 @@
     "learned": "__kwh__ kWh, ciclo completo __roundtrip__ %, min. __minCharge__ / __minDischarge__ W",
     "reset": "Dimentica i valori appresi",
     "reset_hint": "Per un'altra batteria, o se i valori appresi sono chiaramente errati. L'apprendimento ricomincia."
-  }
+  },
+  "fuse_import": "Protezione fusibile principale: prelievo di __import__ W sopra __limit__ W per 30 s. Le batterie non hanno potuto evitarlo, nessun caricatore da limitare.",
+  "fuse_import_ev_limited": "Protezione fusibile principale: prelievo di __import__ W sopra __limit__ W per 30 s. __charger__ limitato a __power__ W.",
+  "fuse_import_ev_off": "Protezione fusibile principale: prelievo di __import__ W sopra __limit__ W per 30 s. __charger__ spento.",
+  "fuse_export": "Protezione fusibile principale: immissione di __export__ W sopra __limit__ W per 30 s. Le batterie non hanno potuto evitarlo."
 }

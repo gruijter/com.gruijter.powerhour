@@ -187,5 +187,9 @@
     "learned": "__kwh__ kWh, ida y vuelta __roundtrip__ %, mín. __minCharge__ / __minDischarge__ W",
     "reset": "Olvidar valores aprendidos",
     "reset_hint": "Para otra batería, o si los valores aprendidos son claramente erróneos. El aprendizaje empieza de nuevo."
-  }
+  },
+  "fuse_import": "Protección del fusible principal: consumo de __import__ W por encima de __limit__ W durante 30 s. Las baterías no pudieron evitarlo, ningún cargador que limitar.",
+  "fuse_import_ev_limited": "Protección del fusible principal: consumo de __import__ W por encima de __limit__ W durante 30 s. __charger__ limitado a __power__ W.",
+  "fuse_import_ev_off": "Protección del fusible principal: consumo de __import__ W por encima de __limit__ W durante 30 s. __charger__ apagado.",
+  "fuse_export": "Protección del fusible principal: vertido de __export__ W por encima de __limit__ W durante 30 s. Las baterías no pudieron evitarlo."
 }

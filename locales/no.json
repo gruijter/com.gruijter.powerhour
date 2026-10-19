@@ -187,5 +187,9 @@
     "learned": "__kwh__ kWh, tur-retur __roundtrip__ %, min. __minCharge__ / __minDischarge__ W",
     "reset": "Glem lærte verdier",
     "reset_hint": "Ved et annet batteri, eller når de lærte verdiene er tydelig feil. Læringen starter på nytt."
-  }
+  },
+  "fuse_import": "Hovedsikringsvern: uttak __import__ W over __limit__ W i 30 s. Batteriene kunne ikke hindre det, ingen lader å begrense.",
+  "fuse_import_ev_limited": "Hovedsikringsvern: uttak __import__ W over __limit__ W i 30 s. __charger__ begrenset til __power__ W.",
+  "fuse_import_ev_off": "Hovedsikringsvern: uttak __import__ W over __limit__ W i 30 s. __charger__ slått av.",
+  "fuse_export": "Hovedsikringsvern: innmating __export__ W over __limit__ W i 30 s. Batteriene kunne ikke hindre det."
 }

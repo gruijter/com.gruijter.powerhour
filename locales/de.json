@@ -187,5 +187,9 @@
     "learned": "__kwh__ kWh, Gesamtwirkungsgrad __roundtrip__ %, min. __minCharge__ / __minDischarge__ W",
     "reset": "Gelernte Werte löschen",
     "reset_hint": "Bei einer anderen Batterie oder wenn die gelernten Werte eindeutig falsch sind. Das Lernen beginnt neu."
-  }
+  },
+  "fuse_import": "Hauptsicherungsschutz: Bezug __import__ W über __limit__ W für 30 s. Die Batterien konnten es nicht verhindern, kein Ladegerät zum Begrenzen.",
+  "fuse_import_ev_limited": "Hauptsicherungsschutz: Bezug __import__ W über __limit__ W für 30 s. __charger__ auf __power__ W begrenzt.",
+  "fuse_import_ev_off": "Hauptsicherungsschutz: Bezug __import__ W über __limit__ W für 30 s. __charger__ ausgeschaltet.",
+  "fuse_export": "Hauptsicherungsschutz: Einspeisung __export__ W über __limit__ W für 30 s. Die Batterien konnten es nicht verhindern."
 }

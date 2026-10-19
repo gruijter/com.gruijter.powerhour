@@ -187,5 +187,9 @@
     "learned": "__kwh__ kWh, 왕복 효율 __roundtrip__ %, 최소 __minCharge__ / __minDischarge__ W",
     "reset": "학습 값 삭제",
     "reset_hint": "다른 배터리이거나 학습 값이 명백히 틀린 경우. 학습이 처음부터 다시 시작됩니다."
-  }
+  },
+  "fuse_import": "메인 퓨즈 보호: 수전 __import__ W가 30초 동안 __limit__ W를 초과했습니다. 배터리로 막지 못했고 제한할 충전기가 없습니다.",
+  "fuse_import_ev_limited": "메인 퓨즈 보호: 수전 __import__ W가 30초 동안 __limit__ W를 초과했습니다. __charger__을(를) __power__ W로 제한했습니다.",
+  "fuse_import_ev_off": "메인 퓨즈 보호: 수전 __import__ W가 30초 동안 __limit__ W를 초과했습니다. __charger__을(를) 껐습니다.",
+  "fuse_export": "메인 퓨즈 보호: 송전 __export__ W가 30초 동안 __limit__ W를 초과했습니다. 배터리로 막지 못했습니다."
 }
