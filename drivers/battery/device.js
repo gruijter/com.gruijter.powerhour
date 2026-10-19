@@ -37,6 +37,8 @@ const OWN_WRITE_ECHO_MS = 60 * 1000;
 const SOC_REPLAN_PCT = 3;
 const SOC_REPLAN_MS = 10 * 60 * 1000;
 const RELEASE_RETRY_MS = 60 * 1000;
+// After a start, smart leaves the batteries as they are until the first plan, at most this long.
+const PLAN_WAIT_MS = 10 * 60 * 1000;
 // Home use the planner assumes without a grid forecast (no grid device).
 const HOME_USE_W = 300;
 const EFFICIENCY_LOG_MS = 60 * 60 * 1000;
@@ -49,6 +51,7 @@ class BatDevice extends GenericDevice {
 
   async onInit() {
     this.ds = deviceSpecifics;
+    this.initTm = Date.now();
     // A (re)init can follow a settings change: never let the chart reuse a plan from before it.
     this.lastStratTm = null;
     // Before super.onInit(): it sets initReady partway, and onPricesUpdated() then renders charts.
@@ -291,6 +294,7 @@ class BatDevice extends GenericDevice {
     }
     const mode = this.getBatteryMode();
     const slot = BatteryControl.slotAt(this.latestPlan, now);
+    if (mode === 'smart' && !this.latestPlan && now - this.initTm < PLAN_WAIT_MS) return null;
     // Below the reserve it recharges (BatteryControl): no zero on the meter then.
     const refill = typeof this.soc === 'number' && this.soc < this.reservePct() && BatteryControl.refillsReserve(mode);
     const plan = BatteryControl.blockFor(mode, slot);
