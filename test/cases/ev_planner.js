@@ -400,6 +400,20 @@ console.log('optimal on 200 random nested-deadline instances');
   // Negative price: always cheap, even with a flat tariff
   r = run({ prices: Array.from({ length: 24 }, (_, i) => (i === 5 ? -0.02 : 0.25)), cheapThreshold: flat });
   assert.deepStrictEqual(chargedSlots(r), [5], 'negative price hour');
+
+  // Coming days: the current slot is judged against the same days as the rest (Prod 2026-10-22:
+  // a dear 6th day made only the current slot cheap enough, so it charged slot after slot)
+  const sixth = (ms) => ({ price: ms - now >= 6 * 24 * H ? 0.60 : 0.21, exportPrice: 0.21 });
+  r = run({
+    prices: Array(24).fill(0.20), expectedPrice: sixth, cheapThreshold: nl, horizonDays: 7,
+  });
+  assert.deepStrictEqual(chargedSlots(r), [], 'current slot not cheap through one more day');
+
+  // Cheap extra not for a few percent under the maximum (a car report lower than estimated)
+  r = run({ prices: Array(24).fill(0.10), cheapThreshold: nl, soc: 78 });
+  assert.strictEqual(pct(r), 0, '2% under the maximum: no top-up');
+  r = run({ prices: Array(24).fill(0.10), cheapThreshold: nl, soc: 76 });
+  assert.ok(pct(r) >= 3.9, `4% under the maximum: to the max (${pct(r)}%)`);
 }
 console.log('all phase 3 tests passed');
 
