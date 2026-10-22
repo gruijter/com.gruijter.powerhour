@@ -273,8 +273,13 @@ console.log('optimal on 200 random nested-deadline instances');
   assert.ok(Math.abs(sat.price - 0.10) < 1e-9 && Math.abs(mon.price - 0.30) < 1e-9, `${sat.price} ${mon.price}`);
   PP.learn(prof, entries, tz); // same entries again: ignored
   assert.ok(Math.abs(PP.expected(prof, at(2026, 10, 5, 12), tz).price - 0.30) < 1e-9);
-  const lvl = PP.levelFactor(prof, [{ time: at(2026, 10, 5, 12), price: 0.36 }], tz);
-  assert.ok(Math.abs(lvl - 1.2) < 1e-9);
+  // Level: known Monday noon 6 ct above the profile, fading out over 3 days
+  const nowMs = at(2026, 10, 5, 12);
+  const lvl = PP.level(prof, [{ time: nowMs, price: 0.36, exportPrice: 0.05 }], tz, nowMs);
+  assert.ok(Math.abs(lvl.import - 0.06) < 1e-9 && Math.abs(lvl.export) < 1e-9, JSON.stringify(lvl));
+  const shiftAt = (d) => PP.expected(prof, nowMs + d * 24 * H, tz, lvl).price - PP.expected(prof, nowMs + d * 24 * H, tz).price;
+  assert.ok(Math.abs(shiftAt(0) - 0.06) < 1e-9 && Math.abs(shiftAt(1.5) - 0.03) < 1e-9 && Math.abs(shiftAt(3)) < 1e-9 && Math.abs(shiftAt(5)) < 1e-9, 'fades out');
+  assert.ok(Math.abs(PP.expected(prof, at(2026, 10, 3, 12), tz, { import: 0.06, export: 0, nowMs: at(2026, 10, 3, 12) }).price - 0.16) < 1e-9, 'additive: weekend spread kept');
 }
 
 {
@@ -414,6 +419,50 @@ console.log('optimal on 200 random nested-deadline instances');
   assert.strictEqual(pct(r), 0, '2% under the maximum: no top-up');
   r = run({ prices: Array(24).fill(0.10), cheapThreshold: nl, soc: 76 });
   assert.ok(pct(r) >= 3.9, `4% under the maximum: to the max (${pct(r)}%)`);
+
+  // Coming days cheap only while the car is away (trips 08-18): not what charging later costs
+  const awayDays = [1, 2, 3, 4, 5, 6].map((d) => ({
+    departMs: now + (d * 24 + 8) * H, returnMs: now + (d * 24 + 18) * H, needPct: 2, minSoc: 32,
+  }));
+  const dayCheap = (ms) => {
+    const h = Math.round((ms - now) / H) % 24;
+    return { price: h >= 9 && h < 17 ? 0.10 : 0.30, exportPrice: 0.05 };
+  };
+  r = run({
+    prices: Array(24).fill(0.20), expectedPrice: dayCheap, cheapThreshold: nl, horizonDays: 7, trips: awayDays,
+  });
+  assert.ok(chargedSlots(r).some((i) => i < 24), `cheap hours away do not count: charges today ${chargedSlots(r)}`);
+
+  // Coming days with one sunny hour (5 ct export price), enough for a day's small trip: charging
+  // later costs 5 ct, not 30 ct, so no grid extra now at 20 ct
+  const sunHour = Array.from({ length: 7 * 24 }, (_, i) => (i >= 24 && i % 24 === 12 ? 3 : 0));
+  const afternoon = [1, 2, 3, 4, 5, 6].map((d) => ({
+    departMs: now + (d * 24 + 16) * H, returnMs: now + (d * 24 + 16) * H, needPct: 3, minSoc: 33,
+  }));
+  r = run({
+    prices: Array(24).fill(0.20), expectedPrice: () => ({ price: 0.30, exportPrice: 0.05 }), solarKwh: sunHour, cheapThreshold: nl, horizonDays: 7, trips: afternoon,
+  });
+  assert.ok(chargedSlots(r).every((i) => i >= 24), `solar counts in what charging later costs: ${chargedSlots(r)}`);
+}
+// Days driven only sometimes: their expected energy leaves, no requirement, no absence
+{
+  const now = at(2026, 10, 5, 0); // Monday
+  const some = [0, 1, 2, 3, 4, 5, 6].map((dow) => ({
+    dow, observed: 3, used: dow === 3 ? 2 : 0, share: dow === 3 ? 2 / 3 : 0, regular: false, needKwh: 19.2, safeKwh: 25.6,
+  }));
+  const t = P.buildTrips({
+    now, timezone: tz, profile: some, capacityKwh: 64, reserveSoc: 30,
+  });
+  assert.strictEqual(t.length, 1, `one soft trip (Thursday): ${JSON.stringify(t)}`);
+  assert.ok(t[0].soft && t[0].returnMs === t[0].departMs && Math.abs(t[0].needPct - 20) < 1e-9, 'share x typical need');
+  const r = P.plan({
+    ...base, horizonDays: 7, now, slotStartMs: now, prices: Array(24).fill(0.3), soc: 60, trips: t,
+  });
+  assert.strictEqual(r.next, null, 'not a departure');
+  assert.deepStrictEqual(r.trips, [], 'not returned as a trip');
+  assert.deepStrictEqual(chargedSlots(r), [], 'no requirement');
+  const after = r.socTrajectory.find((x) => x.t > t[0].departMs);
+  assert.ok(Math.abs(after.soc - 40) < 1e-9, `expected energy leaves: ${after.soc}`);
 }
 console.log('all phase 3 tests passed');
 

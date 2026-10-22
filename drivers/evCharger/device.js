@@ -1933,7 +1933,7 @@ class CarChargeDevice extends GenericDevice {
     }
 
     const known = await this._learnPrices(fromNow, priceSlotStartMs, priceIntervalMin, tz);
-    const level = EvPriceProfile.levelFactor(this.priceProfile, known, tz);
+    const level = EvPriceProfile.level(this.priceProfile, known, tz, now);
     const profile = this.usageModel ? this._profile() : [];
     const awayUntilMs = atHome ? null : this._awayUntilMs(profile, tz, now);
     const overrides = this._overrides(tz, now);
@@ -2016,7 +2016,7 @@ class CarChargeDevice extends GenericDevice {
     const nowSlot = strategy[0] || {};
     const socText = energyMode ? `no SoC, ${energyKwh.toFixed(1)} kWh to charge` : `SoC ${Math.round(currentSoc)}%`;
     this.log(`[EV Plan] ${chargeMode}, ${socText}${atHome ? '' : ' (predicted return)'}${unplugged ? ', not plugged in' : ''}, next: ${nextText}, `
-      + `now: ${nowSlot.duration ? `${nowSlot.duration} min${nowSlot.solar ? ' solar' : ''}` : 'no'}, price level x${level.toFixed(2)}`
+      + `now: ${nowSlot.duration ? `${nowSlot.duration} min${nowSlot.solar ? ' solar' : ''}` : 'no'}, price level ${level.import >= 0 ? '+' : ''}${level.import.toFixed(3)}`
       + `, cheap ${cheap ? `<= ${cheap.grid.toFixed(3)} (solar ${cheap.solar.toFixed(3)}, ${EvPriceProfile.dailyMinDays(this.priceProfile)} days)` : 'off'}`
       + `${result.shortfalls.length ? `, short: ${result.shortfalls.map((sf) => `${sf.what} ${sf.missing}%`).join(', ')}` : ''}`
       + `, ${planMs} ms`);
