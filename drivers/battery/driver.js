@@ -296,7 +296,14 @@ class BatteryDriver extends GenericDriver {
     const charging = candidates.reduce((a, d) => a + d.controlCommandW(), 0) - (nomGridW - xomW) > 0;
     const nomDevices = candidates.filter((d) => (charging ? !preps.get(d).noCharge : preps.get(d).block === 'zero'));
     // NomXomStrategy reads xomTargetPower: here what control decided last, within the lead of the
-    // measured power; capW: a battery not doing its setpoint.
+    // measured power; capW: a battery not doing its setpoint, or (discharging) the plan's power
+    // where it covers the deficit in part, so the others do not take that part over.
+    const capOf = (d) => {
+      const follow = d.followCapW || null;
+      const planW = !charging && preps.get(d).homeCapW;
+      if (!planW || (follow && follow.dir === -1 && follow.w <= planW)) return follow;
+      return { dir: -1, w: planW };
+    };
     const views = nomDevices.map((d) => ({
       getData: () => d.getData(),
       getName: () => d.getName(),
@@ -306,7 +313,7 @@ class BatteryDriver extends GenericDriver {
       soc: d.soc,
       reservePct: () => d.reservePct(),
       xomTargetPower: d.integratorW(),
-      capW: d.followCapW || null,
+      capW: capOf(d),
     }));
     // eslint-disable-next-line global-require
     const nomXomStrategy = require('../../lib/strategies/NomXomStrategy');

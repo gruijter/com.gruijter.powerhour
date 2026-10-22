@@ -308,7 +308,7 @@ class BatDevice extends GenericDevice {
     const refill = typeof this.soc === 'number' && this.soc < this.reservePct() && BatteryControl.refillsReserve(mode);
     const plan = BatteryControl.blockFor(mode, slot);
     return {
-      mode, slot, block: plan.block, noCharge: !!plan.noCharge, refill,
+      mode, slot, block: plan.block, noCharge: !!plan.noCharge, homeCapW: plan.homeCapW || null, refill,
     };
   }
 

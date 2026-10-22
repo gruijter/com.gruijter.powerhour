@@ -116,6 +116,20 @@ test('low-power threshold with hysteresis', () => {
   assert.strictEqual(r.powerW, 0, 'off after 2 min');
 });
 
+test('zero covering the deficit in part: at most the planned power (smart only)', () => {
+  const part = { ...slot('zero', 40), homeCapW: 250 };
+  assert.strictEqual(C.decide({
+    ...base, mode: 'smart', slot: part, gridW: 300, batteryW: -200,
+  }).powerW, -250, 'capped');
+  assert.strictEqual(C.decide({
+    ...base, mode: 'smart', slot: part, gridW: -800, batteryW: 0,
+  }).powerW, 400, 'surplus not capped');
+  assert.strictEqual(C.decide({
+    ...base, mode: 'self_consumption', slot: part, gridW: 300, batteryW: -200,
+  }).powerW, -350, 'self-consumption: whole deficit');
+  assert.strictEqual(C.blockFor('smart', { ...slot('hold', 40), homeCapW: 250 }).homeCapW, undefined, 'only on zero');
+});
+
 test('hold: no discharge, surplus charges', () => {
   assert.strictEqual(C.decide({
     ...base, mode: 'smart', slot: slot('hold', 50), gridW: 700, batteryW: 0,

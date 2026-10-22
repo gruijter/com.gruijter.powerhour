@@ -355,5 +355,44 @@ test('group of 2 alike Sessys: both share the plan, saving unchanged', () => {
   assert.ok(Math.abs(evaluate(one, o) - evaluate(single, caps)) < 0.02, 'same cost as one double battery');
 });
 
+test('zero covering the deficit in part gets the planned power as cap; rounding is no grid part', () => {
+  // Too little stored for all dear hours: 30 ct hours in part, 45 ct hours in full (export 5 ct)
+  const prices = [...Array(4).fill(0.30), ...Array(3).fill(0.45), ...Array(17).fill(0.25)];
+  const o = {
+    prices,
+    exportPrices: prices.map(() => 0.05),
+    priceInterval: 60,
+    minPriceDelta: 0.05,
+    wearCost: 0.07,
+    startMinute: 0,
+    soc: 30,
+    batCapacity: 11,
+    chargeSpeeds: [{ power: 4400, eff: 0.9 }, { power: 2560, eff: 0.92 }],
+    dischargeSpeeds: [{ power: 3300, eff: 0.91 }, { power: 2560, eff: 0.93 }],
+    net: prices.map(() => ({
+      surplusW: 0, deficitW: 600, usableSurplusW: 0, usableDeficitW: 600,
+    })),
+  };
+  for (const [name, planner] of [['LP', lp], ['light', light]]) {
+    const p = planner.getStrategy(o);
+    const dear = [4, 5, 6].map((t) => p[t]);
+    assert.ok(dear.every((x) => x.block === 'zero' && !x.homeCapW), `${name}: dear hours in full ${JSON.stringify(dear)}`);
+    const part = [1, 2, 3].map((t) => p[t]).filter((x) => x.block === 'zero');
+    assert.ok(part.length && part.every((x) => x.homeCapW === -x.power && x.homeCapW < 600), `${name}: 30 ct in part ${JSON.stringify(part)}`);
+    assert.ok(Object.values(p).every((x) => x.block !== 'discharge'), `${name}: no export at 5 ct`);
+  }
+  // One energy step to charge without a surplus to follow: still a grid charge
+  const one = light.getStrategy({
+    ...base,
+    priceInterval: 60,
+    prices: [0.10, ...Array(5).fill(0.45)],
+    soc: 99,
+    net: Array.from({ length: 6 }, () => ({
+      surplusW: 0, deficitW: 600, usableSurplusW: 0, usableDeficitW: 600,
+    })),
+  });
+  assert.strictEqual(one[0].block, 'charge', JSON.stringify(one[0]));
+});
+
 console.log(failed ? `\n${failed} failed` : '\nall passed');
 process.exitCode = failed ? 1 : 0;
