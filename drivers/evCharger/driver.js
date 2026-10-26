@@ -11,6 +11,7 @@ const EvChargerCaps = require('../../lib/helpers/EvChargerCaps');
 const EvChargerControl = require('../../lib/strategies/EvChargerControl');
 const EvHistory = require('../../lib/helpers/EvHistory');
 const PairSetup = require('../../lib/helpers/PairSetup');
+const Budget = require('../../lib/Budget');
 // Dependencies are lazy loaded in methods to save memory
 
 const driverSpecifics = {
@@ -285,7 +286,7 @@ class CarChargeDriver extends GenericDriver {
   capabilitiesFor(settings = {}) {
     let caps = [...this.ds.deviceCapabilities];
     // Budget targets only with a budget, discharging only with V2X.
-    if (!settings.distribution || settings.distribution === 'NONE') caps = caps.filter((cap) => !cap.includes('meter_target'));
+    if (!Budget.isActive(settings.distribution, settings.budget)) caps = caps.filter((cap) => !cap.includes('meter_target'));
     if (!settings.v2x) caps = caps.filter((cap) => cap !== 'meter_kwh_discharging');
     return caps;
   }

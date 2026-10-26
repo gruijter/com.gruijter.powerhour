@@ -35,7 +35,6 @@ const driverSpecifics = {
       p1: 'meter_gas.reading', p2: null, n1: null, n2: null,
     },
   ],
-  defaultDistribution: 'gas_nl_2023',
   originDeviceCapabilities: ['meter_gas', 'meter_gas.reading', 'meter_gas.consumed', 'meter_gas.current'],
   deviceCapabilities: ['meter_m3_last_hour', 'meter_m3_this_hour', 'meter_m3_last_day', 'meter_m3_this_day',
     'meter_m3_last_month', 'meter_m3_this_month', 'meter_m3_last_year', 'meter_m3_this_year',

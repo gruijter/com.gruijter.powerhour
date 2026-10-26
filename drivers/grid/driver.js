@@ -173,12 +173,6 @@ class GridDriver extends GenericDriver {
     };
     return group.p1 || group.n1 ? group : null;
   }
-
-  getDeviceSettings(homeyDevice) {
-    const settings = super.getDeviceSettings(homeyDevice);
-    settings.distribution = 'el_nl_2023'; // Default to a standard grid budget distribution
-    return settings;
-  }
 }
 
 module.exports = GridDriver;

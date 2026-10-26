@@ -78,7 +78,7 @@ For a meter that is not a Homey device, or that needs a calculation first:
 - **Tariff group:** the device uses the price of the Energy Price device with the same group number ([README.price.md](./README.price.md)), also for a fixed tariff. 0: no price.
 - **Tariff selection:** *Automatic* uses the import price while the home imports from the grid, and the export price while it exports. Or always import, or always export.
 - **Fixed costs** per hour, day and month: in the settings, or with **Set fixed cost**.
-- **Budget:** a year budget with a distribution over the year (linear, NL price ceiling 2023, PV north Europe, or 12 own values). The device shows how the use compares to the budget so far this month and year.
+- **Budget:** a year budget with a distribution over the year (0 = no budget; linear, household electricity NW Europe, PV 52°N, or 12 own values). The device shows how the use compares to the budget so far this month and year.
 - **Fix totals or costs:** with **Repair** > *Fix totals or costs* you correct the totals and money values: after a wrong meter jump, after changing the source device or the start date, or to enter the totals so far after pairing.
 
 ---

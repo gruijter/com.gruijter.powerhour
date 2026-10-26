@@ -47,10 +47,11 @@ A tariff group links an *Energy Price* device to the other devices: Grid, Power,
 - Every device gets its price from a price device, also for a fixed tariff: an *Energy Price* device with **Fixed** (electricity or gas) or **Water**. Group `0`: no price.
 
 ### 3. Year Budget
-Power, Grid, Solar, Gas and Water Monitors can compare the use with a year budget, distributed over the year:
+Power, Grid, Solar, Gas, Water and EV charger devices can compare the use with a year budget (0 = no budget), distributed over the year:
 - **Linear:** the same every day.
-- **NL price ceiling 2023:** more in winter, for electricity and gas.
-- **PV N-Europe, tilt 40°S:** a typical solar production curve.
+- **Household electricity, NW Europe:** more in winter (Grid, Power).
+- **Gas heating, NW Europe:** much more in winter (Gas).
+- **PV 52°N, tilt 40°S:** a typical solar production curve (Solar, Power).
 - **Custom:** 12 monthly values.
 
 ### 4. Virtual Meter

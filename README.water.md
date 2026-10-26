@@ -38,7 +38,7 @@ Use **Repair** to switch to another source device. The device keeps its name.
 
 - **Tariff group:** the device uses the water price of the Energy Price device with the same group number: an Energy Price device with **Water** and your price per m³, including sewage and taxes if you like ([README.price.md](./README.price.md)). 0: no price.
 - **Fixed costs** per hour, day and month: in the settings, or with **Set fixed cost**.
-- **Budget:** a year budget (m³), linear or with 12 own values.
+- **Budget:** a year budget (m³, 0 = no budget), linear or with 12 own values.
 - **Fix totals or costs:** with **Repair** > *Fix totals or costs* you correct the totals and money values: after a wrong meter jump, after changing the source device or the start date, or to enter the totals so far after pairing.
 
 ---

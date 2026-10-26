@@ -836,27 +836,27 @@
             "ar": "الميزانية السنوية المستهدفة (كيلوواط ساعة)",
             "ko": "연간 목표 예산 (kWh)"
           },
-          "value": "2900",
+          "value": "0",
           "hint": {
-            "en": "The total target budget for a year. Attention: the year starts at the set start date. When selecting CUSTOM BUDGET distribution, fill in the 12 values from Jan-Dec seperated by ;",
-            "nl": "Het totale doelbudget voor een jaar. LET OP: het jaar begint bij de ingestelde start datum. Als HANDMATIGE BUDGET verdeling is gekozen, vul dan de 12 waarden in van jan-dec, gescheiden door ;",
-            "de": "Das gesamte Zielbudget für ein Jahr. Achtung: Das Jahr beginnt mit dem festgelegten Startdatum. Geben Sie bei Auswahl der BENUTZERDEFINIERTEN Verteilung die 12 Werte von Jan-Dez getrennt durch ;",
-            "fr": "Le budget cible total pour une année. Attention : l'année commence à la date de début définie. Lors de la sélection de la distribution BUDGET PERSONNALISÉ, remplissez les 12 valeurs de janv. à déc. séparées par ;",
-            "it": "Il budget totale obiettivo per un anno. Attenzione: l'anno inizia alla data di inizio impostata. Quando si seleziona la distribuzione BUDGET PERSONALIZZATO, inserire i 12 valori da Gen-Dic separati da ;",
-            "sv": "Den totala målbudgeten för ett år. Observera: året börjar vid det inställda startdatumet. När du väljer ANPASSAD BUDGET-distribution, fyll i de 12 värdena från Jan-Dec separerade med ;",
-            "no": "Det totale målbudsjettet for et år. OBS: året starter på den innstilte startdatoen. Når du velger EGENDEFINERT BUDSJETT fordeling, fyll inn de 12 verdiene fra Jan-Des separert med ;",
-            "es": "El presupuesto objetivo total para un año. Atención: el año comienza en la fecha de inicio establecida. Al seleccionar la distribución de PRESUPUESTO PERSONALIZADO, complete los 12 valores de Ene-Dic separados por ;",
-            "da": "Det samlede målbudget for et år. Bemærk: året starter på den indstillede startdato. Når du vælger BRUGERDEFINERET BUDGET fordeling, skal du udfylde de 12 værdier fra Jan-Dec adskilt af ;",
-            "pl": "Całkowity budżet docelowy na rok. Uwaga: rok rozpoczyna się w ustawionej dacie rozpoczęcia. Wybierając dystrybucję BUDŻETU NIESTANDARDOWEGO, wpisz 12 wartości od stycznia do grudnia oddzielonych ;",
-            "ru": "Общий целевой бюджет на год. Внимание: год начинается с установленной даты начала. При выборе РАСПРЕДЕЛЕНИЯ ПОЛЬЗОВАТЕЛЬСКОГО БЮДЖЕТА заполните 12 значений с января по декабрь, разделенных ;",
-            "ar": "إجمالي الميزانية المستهدفة لعام. انتبه: تبدأ السنة في تاريخ البدء المحدد. عند اختيار توزيع الميزانية المخصصة، املأ القيم الـ 12 من يناير إلى ديسمبر مفصولة بـ ;",
-            "ko": "연간 총 목표 예산입니다. 주의: 연도는 설정한 시작일부터 시작합니다. \"사용자 지정 예산\" 분배를 선택하면 1월부터 12월까지 12개의 값을 ;로 구분하여 입력하세요."
+            "en": "0 = no budget. The total target budget for a year. Attention: the year starts at the set start date. When selecting CUSTOM BUDGET distribution, fill in the 12 values from Jan-Dec seperated by ;",
+            "nl": "0 = geen budget. Het totale doelbudget voor een jaar. LET OP: het jaar begint bij de ingestelde start datum. Als HANDMATIGE BUDGET verdeling is gekozen, vul dan de 12 waarden in van jan-dec, gescheiden door ;",
+            "de": "0 = kein Budget. Das gesamte Zielbudget für ein Jahr. Achtung: Das Jahr beginnt mit dem festgelegten Startdatum. Geben Sie bei Auswahl der BENUTZERDEFINIERTEN Verteilung die 12 Werte von Jan-Dez getrennt durch ;",
+            "fr": "0 = pas de budget. Le budget cible total pour une année. Attention : l'année commence à la date de début définie. Lors de la sélection de la distribution BUDGET PERSONNALISÉ, remplissez les 12 valeurs de janv. à déc. séparées par ;",
+            "it": "0 = nessun budget. Il budget totale obiettivo per un anno. Attenzione: l'anno inizia alla data di inizio impostata. Quando si seleziona la distribuzione BUDGET PERSONALIZZATO, inserire i 12 valori da Gen-Dic separati da ;",
+            "sv": "0 = ingen budget. Den totala målbudgeten för ett år. Observera: året börjar vid det inställda startdatumet. När du väljer ANPASSAD BUDGET-distribution, fyll i de 12 värdena från Jan-Dec separerade med ;",
+            "no": "0 = intet budsjett. Det totale målbudsjettet for et år. OBS: året starter på den innstilte startdatoen. Når du velger EGENDEFINERT BUDSJETT fordeling, fyll inn de 12 verdiene fra Jan-Des separert med ;",
+            "es": "0 = sin presupuesto. El presupuesto objetivo total para un año. Atención: el año comienza en la fecha de inicio establecida. Al seleccionar la distribución de PRESUPUESTO PERSONALIZADO, complete los 12 valores de Ene-Dic separados por ;",
+            "da": "0 = intet budget. Det samlede målbudget for et år. Bemærk: året starter på den indstillede startdato. Når du vælger BRUGERDEFINERET BUDGET fordeling, skal du udfylde de 12 værdier fra Jan-Dec adskilt af ;",
+            "pl": "0 = brak budżetu. Całkowity budżet docelowy na rok. Uwaga: rok rozpoczyna się w ustawionej dacie rozpoczęcia. Wybierając dystrybucję BUDŻETU NIESTANDARDOWEGO, wpisz 12 wartości od stycznia do grudnia oddzielonych ;",
+            "ru": "0 = без бюджета. Общий целевой бюджет на год. Внимание: год начинается с установленной даты начала. При выборе РАСПРЕДЕЛЕНИЯ ПОЛЬЗОВАТЕЛЬСКОГО БЮДЖЕТА заполните 12 значений с января по декабрь, разделенных ;",
+            "ar": "0 = بدون ميزانية. إجمالي الميزانية المستهدفة لعام. انتبه: تبدأ السنة في تاريخ البدء المحدد. عند اختيار توزيع الميزانية المخصصة، املأ القيم الـ 12 من يناير إلى ديسمبر مفصولة بـ ;",
+            "ko": "0 = 예산 없음. 연간 총 목표 예산입니다. 주의: 연도는 설정한 시작일부터 시작합니다. \"사용자 지정 예산\" 분배를 선택하면 1월부터 12월까지 12개의 값을 ;로 구분하여 입력하세요."
           }
         },
         {
           "id": "distribution",
           "type": "dropdown",
-          "value": "NONE",
+          "value": "pv_52n_t40s",
           "label": {
             "en": "Distribution scheme",
             "nl": "Verdeling schema",
@@ -888,24 +888,6 @@
             "ko": "연중 일별 사용량 분포입니다."
           },
           "values": [
-            {
-              "id": "NONE",
-              "label": {
-                "en": "DISABLE TARGET BUDGET",
-                "nl": "DOELBUDGET NIET ACTIEF",
-                "de": "ZIELBUDGET NICHT AKTIV",
-                "fr": "DÉSACTIVER LE BUDGET CIBLE",
-                "it": "DISABILITA BUDGET OBIETTIVO",
-                "sv": "INAKTIVERA MÅLBUDGET",
-                "no": "DEAKTIVER MÅLBUDSJETT",
-                "es": "DESACTIVAR PRESUPUESTO OBJETIVO",
-                "da": "DEAKTIVER MÅLBUDGET",
-                "pl": "WYŁĄCZ BUDŻET DOCELOWY",
-                "ru": "ОТКЛЮЧИТЬ ЦЕЛЕВОЙ БЮДЖЕТ",
-                "ar": "تعطيل الميزانية المستهدفة",
-                "ko": "목표 예산 비활성화"
-              }
-            },
             {
               "id": "CUSTOM",
               "label": {
@@ -943,39 +925,21 @@
               }
             },
             {
-              "id": "el_nl_2023",
-              "label": {
-                "en": "NL price ceiling 2023",
-                "nl": "NL plafondprijs 2023",
-                "de": "NL Höchstpreis 2023",
-                "fr": "Plafond de prix NL 2023",
-                "it": "Plafond prezzi NL 2023",
-                "sv": "NL pristak 2023",
-                "no": "NL pristak 2023",
-                "es": "Techo de precios NL 2023",
-                "da": "NL prisloft 2023",
-                "pl": "Pułap cenowy NL 2023",
-                "ru": "Потолок цен NL 2023",
-                "ar": "سقف أسعار هولندا 2023",
-                "ko": "NL 가격 상한 2023"
-              }
-            },
-            {
               "id": "pv_52n_t40s",
               "label": {
-                "en": "PV N-Europe, tilt 40°S",
-                "nl": "PV N-Europa, helling 40°Z",
-                "de": "PV N-Europa, Neigung 40°S",
-                "fr": "PV N-Europe, inclinaison 40°S",
-                "it": "FV N-Europa, inclinazione 40°S",
-                "sv": "PV N-Europa, lutning 40°S",
-                "no": "PV N-Europa, vinkel 40°S",
-                "es": "FV N-Europa, inclinación 40°S",
-                "da": "PV N-Europa, hældning 40°S",
-                "pl": "PV N-Europa, nachylenie 40°S",
-                "ru": "ФЭ С-Европа, наклон 40°Ю",
-                "ar": "الطاقة الكهروضوئية شمال أوروبا، إمالة 40 درجة جنوبًا",
-                "ko": "PV 북유럽, 경사 40°S"
+                "en": "PV 52°N, tilt 40°S",
+                "nl": "PV 52°N, helling 40°Z",
+                "de": "PV 52°N, Neigung 40°S",
+                "fr": "PV 52°N, inclinaison 40°S",
+                "it": "FV 52°N, inclinazione 40°S",
+                "sv": "PV 52°N, lutning 40°S",
+                "no": "PV 52°N, vinkel 40°S",
+                "es": "FV 52°N, inclinación 40°S",
+                "da": "PV 52°N, hældning 40°S",
+                "pl": "PV 52°N, nachylenie 40°S",
+                "ru": "ФЭ 52° с.ш., наклон 40°Ю",
+                "ar": "الطاقة الكهروضوئية 52° شمالًا، إمالة 40 درجة جنوبًا",
+                "ko": "PV 북위 52°, 경사 40°S"
               }
             }
           ]

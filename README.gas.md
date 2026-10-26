@@ -19,7 +19,7 @@ The **Gas Monitor** summarizes your gas use: m³ and money per hour, day, month 
 - **Period totals:** m³ and money for this and last hour, day, month and year, plus the month and year average price.
 - **Gas flow:** the current flow, and the minimum and maximum flow (L/min) per day, month and year.
 - **Dynamic gas prices:** the daily gas price of an Energy Price device set to gas, in the same tariff group.
-- **Budget:** compare the use with a year budget, e.g. with the NL 2023 price ceiling distribution (more gas in winter).
+- **Budget:** compare the use with a year budget, e.g. with the gas heating distribution (more gas in winter).
 
 ---
 
@@ -39,7 +39,7 @@ Use **Repair** to switch to another source device. The device keeps its name.
 
 - **Tariff group:** the device uses the gas price of the Energy Price device with the same group number ([README.price.md](./README.price.md)), also for a fixed tariff. 0: no price.
 - **Fixed costs** per hour, day and month: in the settings, or with **Set fixed cost**.
-- **Budget:** a year budget (m³) with a distribution over the year: linear, NL price ceiling 2023, or 12 own values.
+- **Budget:** a year budget (m³, 0 = no budget) with a distribution over the year: linear, gas heating NW Europe, or 12 own values.
 - **Fix totals or costs:** with **Repair** > *Fix totals or costs* you correct the totals and money values: after a wrong meter jump, after changing the source device or the start date, or to enter the totals so far after pairing.
 
 ---
