@@ -48,6 +48,7 @@ A tariff group links an *Energy Price* device to the other devices: Grid, Power,
 
 ### 3. Year Budget
 Power, Grid, Solar, Gas, Water and EV charger devices can compare the use with a year budget (0 = no budget), distributed over the year:
+- **Local climate (auto):** computed for your location from 10 years of weather (Open-Meteo, ERA5) or solar data (PVGIS). Set the heating (gas boiler, heat pump, hybrid, direct electric) and air conditioning in the device settings (Grid, Power, Gas, Solar).
 - **Linear:** the same every day.
 - **Household electricity, NW Europe:** more in winter (Grid, Power).
 - **Gas heating, NW Europe:** much more in winter (Gas).

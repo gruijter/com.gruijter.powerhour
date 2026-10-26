@@ -1418,7 +1418,7 @@
         {
           "id": "distribution",
           "type": "dropdown",
-          "value": "el_nl_2023",
+          "value": "local",
           "label": {
             "en": "Distribution scheme",
             "nl": "Verdeling schema",
@@ -1435,19 +1435,19 @@
             "ko": "분배 방식"
           },
           "hint": {
-            "en": "The day by day distribution of usage over the year.",
-            "nl": "De verdeling van het dagelijkse verbruik over het jaar heen.",
-            "de": "Die Verteilung des Tagesverbrauchs über das Jahr.",
-            "fr": "La distribution quotidienne de l'utilisation sur l'année.",
-            "it": "La distribuzione giornaliera dell'utilizzo durante l'anno.",
-            "sv": "Den dagliga fördelningen av användningen under året.",
-            "no": "Den daglige fordelingen av bruk gjennom året.",
-            "es": "La distribución día a día del uso durante el año.",
-            "da": "Den daglige fordeling af forbrug over året.",
-            "pl": "Codzienny rozkład zużycia w ciągu roku.",
-            "ru": "Ежедневное распределение использования в течение года.",
-            "ar": "توزيع الاستخدام يومًا بعد يوم على مدار العام.",
-            "ko": "연중 일별 사용량 분포입니다."
+            "en": "The day by day distribution of usage over the year. Local climate: computed from the climate data of your location.",
+            "nl": "De verdeling van het dagelijkse verbruik over het jaar heen. Lokaal klimaat: berekend uit de klimaatgegevens van je locatie.",
+            "de": "Die Verteilung des Tagesverbrauchs über das Jahr. Lokales Klima: berechnet aus den Klimadaten deines Standorts.",
+            "fr": "La distribution quotidienne de l'utilisation sur l'année. Climat local : calculé à partir des données climatiques de votre emplacement.",
+            "it": "La distribuzione giornaliera dell'utilizzo durante l'anno. Clima locale: calcolato dai dati climatici della tua posizione.",
+            "sv": "Den dagliga fördelningen av användningen under året. Lokalt klimat: beräknat från klimatdata för din plats.",
+            "no": "Den daglige fordelingen av bruk gjennom året. Lokalt klima: beregnet fra klimadata for din plassering.",
+            "es": "La distribución día a día del uso durante el año. Clima local: calculado con los datos climáticos de tu ubicación.",
+            "da": "Den daglige fordeling af forbrug over året. Lokalt klima: beregnet ud fra klimadata for din placering.",
+            "pl": "Codzienny rozkład zużycia w ciągu roku. Klimat lokalny: obliczony na podstawie danych klimatycznych Twojej lokalizacji.",
+            "ru": "Ежедневное распределение использования в течение года. Местный климат: рассчитывается по климатическим данным вашего места.",
+            "ar": "توزيع الاستخدام يومًا بعد يوم على مدار العام. المناخ المحلي: محسوب من البيانات المناخية لموقعك.",
+            "ko": "연중 일별 사용량 분포입니다. 지역 기후: 해당 위치의 기후 데이터로 계산됩니다."
           },
           "values": [
             {
@@ -1487,6 +1487,24 @@
               }
             },
             {
+              "id": "local",
+              "label": {
+                "en": "Local climate (auto)",
+                "nl": "Lokaal klimaat (auto)",
+                "de": "Lokales Klima (auto)",
+                "fr": "Climat local (auto)",
+                "it": "Clima locale (auto)",
+                "sv": "Lokalt klimat (auto)",
+                "no": "Lokalt klima (auto)",
+                "es": "Clima local (auto)",
+                "da": "Lokalt klima (auto)",
+                "pl": "Klimat lokalny (auto)",
+                "ru": "Местный климат (авто)",
+                "ar": "المناخ المحلي (تلقائي)",
+                "ko": "지역 기후 (자동)"
+              }
+            },
+            {
               "id": "el_nl_2023",
               "label": {
                 "en": "Household electricity, NW Europe",
@@ -1505,6 +1523,120 @@
               }
             }
           ]
+        },
+        {
+          "id": "budget_heating",
+          "type": "dropdown",
+          "value": "none",
+          "label": {
+            "en": "Heating (local climate)",
+            "nl": "Verwarming (lokaal klimaat)",
+            "de": "Heizung (lokales Klima)",
+            "fr": "Chauffage (climat local)",
+            "it": "Riscaldamento (clima locale)",
+            "sv": "Uppvärmning (lokalt klimat)",
+            "no": "Oppvarming (lokalt klima)",
+            "es": "Calefacción (clima local)",
+            "da": "Opvarmning (lokalt klima)",
+            "pl": "Ogrzewanie (klimat lokalny)",
+            "ru": "Отопление (местный климат)",
+            "ar": "التدفئة (المناخ المحلي)",
+            "ko": "난방 (지역 기후)"
+          },
+          "values": [
+            {
+              "id": "none",
+              "label": {
+                "en": "Not electric (gas, oil, district heat)",
+                "nl": "Niet elektrisch (gas, olie, stadswarmte)",
+                "de": "Nicht elektrisch (Gas, Öl, Fernwärme)",
+                "fr": "Non électrique (gaz, fioul, réseau de chaleur)",
+                "it": "Non elettrico (gas, gasolio, teleriscaldamento)",
+                "sv": "Inte elektrisk (gas, olja, fjärrvärme)",
+                "no": "Ikke elektrisk (gass, olje, fjernvarme)",
+                "es": "No eléctrica (gas, gasóleo, calefacción urbana)",
+                "da": "Ikke elektrisk (gas, olie, fjernvarme)",
+                "pl": "Nieelektryczne (gaz, olej, ciepło sieciowe)",
+                "ru": "Не электрическое (газ, мазут, центральное)",
+                "ar": "غير كهربائية (غاز، نفط، تدفئة مركزية)",
+                "ko": "전기 아님 (가스, 석유, 지역난방)"
+              }
+            },
+            {
+              "id": "heat_pump",
+              "label": {
+                "en": "Heat pump",
+                "nl": "Warmtepomp",
+                "de": "Wärmepumpe",
+                "fr": "Pompe à chaleur",
+                "it": "Pompa di calore",
+                "sv": "Värmepump",
+                "no": "Varmepumpe",
+                "es": "Bomba de calor",
+                "da": "Varmepumpe",
+                "pl": "Pompa ciepła",
+                "ru": "Тепловой насос",
+                "ar": "مضخة حرارية",
+                "ko": "히트펌프"
+              }
+            },
+            {
+              "id": "hybrid",
+              "label": {
+                "en": "Hybrid heat pump",
+                "nl": "Hybride warmtepomp",
+                "de": "Hybrid-Wärmepumpe",
+                "fr": "Pompe à chaleur hybride",
+                "it": "Pompa di calore ibrida",
+                "sv": "Hybridvärmepump",
+                "no": "Hybrid varmepumpe",
+                "es": "Bomba de calor híbrida",
+                "da": "Hybrid varmepumpe",
+                "pl": "Hybrydowa pompa ciepła",
+                "ru": "Гибридный тепловой насос",
+                "ar": "مضخة حرارية هجينة",
+                "ko": "하이브리드 히트펌프"
+              }
+            },
+            {
+              "id": "electric",
+              "label": {
+                "en": "Direct electric",
+                "nl": "Direct elektrisch",
+                "de": "Direkt elektrisch",
+                "fr": "Électrique direct",
+                "it": "Elettrico diretto",
+                "sv": "Direktverkande el",
+                "no": "Direkte elektrisk",
+                "es": "Eléctrica directa",
+                "da": "Direkte el",
+                "pl": "Bezpośrednio elektryczne",
+                "ru": "Прямое электрическое",
+                "ar": "كهربائية مباشرة",
+                "ko": "직접 전기"
+              }
+            }
+          ]
+        },
+        {
+          "id": "budget_cooling",
+          "type": "checkbox",
+          "value": false,
+          "label": {
+            "en": "Air conditioning (local climate)",
+            "nl": "Airconditioning (lokaal klimaat)",
+            "de": "Klimaanlage (lokales Klima)",
+            "fr": "Climatisation (climat local)",
+            "it": "Aria condizionata (clima locale)",
+            "sv": "Luftkonditionering (lokalt klimat)",
+            "no": "Klimaanlegg (lokalt klima)",
+            "es": "Aire acondicionado (clima local)",
+            "da": "Aircondition (lokalt klima)",
+            "pl": "Klimatyzacja (klimat lokalny)",
+            "ru": "Кондиционер (местный климат)",
+            "ar": "تكييف الهواء (المناخ المحلي)",
+            "ko": "에어컨 (지역 기후)"
+          }
         }
       ]
     },

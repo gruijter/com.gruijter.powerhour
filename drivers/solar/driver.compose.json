@@ -856,7 +856,7 @@
         {
           "id": "distribution",
           "type": "dropdown",
-          "value": "pv_52n_t40s",
+          "value": "local",
           "label": {
             "en": "Distribution scheme",
             "nl": "Verdeling schema",
@@ -873,19 +873,19 @@
             "ko": "분배 방식"
           },
           "hint": {
-            "en": "The day by day distribution of usage over the year.",
-            "nl": "De verdeling van het dagelijkse verbruik over het jaar heen.",
-            "de": "Die Verteilung des Tagesverbrauchs über das Jahr.",
-            "fr": "La distribution quotidienne de l'utilisation sur l'année.",
-            "it": "La distribuzione giornaliera dell'utilizzo durante l'anno.",
-            "sv": "Den dagliga fördelningen av användningen under året.",
-            "no": "Den daglige fordelingen av bruk gjennom året.",
-            "es": "La distribución día a día del uso durante el año.",
-            "da": "Den daglige fordeling af forbrug over året.",
-            "pl": "Codzienny rozkład zużycia w ciągu roku.",
-            "ru": "Ежедневное распределение использования в течение года.",
-            "ar": "توزيع الاستخدام يومًا بعد يوم على مدار العام.",
-            "ko": "연중 일별 사용량 분포입니다."
+            "en": "The day by day distribution of usage over the year. Local climate: computed from the climate data of your location.",
+            "nl": "De verdeling van het dagelijkse verbruik over het jaar heen. Lokaal klimaat: berekend uit de klimaatgegevens van je locatie.",
+            "de": "Die Verteilung des Tagesverbrauchs über das Jahr. Lokales Klima: berechnet aus den Klimadaten deines Standorts.",
+            "fr": "La distribution quotidienne de l'utilisation sur l'année. Climat local : calculé à partir des données climatiques de votre emplacement.",
+            "it": "La distribuzione giornaliera dell'utilizzo durante l'anno. Clima locale: calcolato dai dati climatici della tua posizione.",
+            "sv": "Den dagliga fördelningen av användningen under året. Lokalt klimat: beräknat från klimatdata för din plats.",
+            "no": "Den daglige fordelingen av bruk gjennom året. Lokalt klima: beregnet fra klimadata for din plassering.",
+            "es": "La distribución día a día del uso durante el año. Clima local: calculado con los datos climáticos de tu ubicación.",
+            "da": "Den daglige fordeling af forbrug over året. Lokalt klima: beregnet ud fra klimadata for din placering.",
+            "pl": "Codzienny rozkład zużycia w ciągu roku. Klimat lokalny: obliczony na podstawie danych klimatycznych Twojej lokalizacji.",
+            "ru": "Ежедневное распределение использования в течение года. Местный климат: рассчитывается по климатическим данным вашего места.",
+            "ar": "توزيع الاستخدام يومًا بعد يوم على مدار العام. المناخ المحلي: محسوب من البيانات المناخية لموقعك.",
+            "ko": "연중 일별 사용량 분포입니다. 지역 기후: 해당 위치의 기후 데이터로 계산됩니다."
           },
           "values": [
             {
@@ -922,6 +922,24 @@
                 "ru": "Линейный",
                 "ar": "خطي",
                 "ko": "선형"
+              }
+            },
+            {
+              "id": "local",
+              "label": {
+                "en": "Local climate (auto)",
+                "nl": "Lokaal klimaat (auto)",
+                "de": "Lokales Klima (auto)",
+                "fr": "Climat local (auto)",
+                "it": "Clima locale (auto)",
+                "sv": "Lokalt klimat (auto)",
+                "no": "Lokalt klima (auto)",
+                "es": "Clima local (auto)",
+                "da": "Lokalt klima (auto)",
+                "pl": "Klimat lokalny (auto)",
+                "ru": "Местный климат (авто)",
+                "ar": "المناخ المحلي (تلقائي)",
+                "ko": "지역 기후 (자동)"
               }
             },
             {
