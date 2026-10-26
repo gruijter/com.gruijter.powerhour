@@ -45,6 +45,7 @@ const deviceSpecifics = {
 };
 
 const UNPLUG_AFTER_SWITCH_MS = 2 * 60 * 1000; // a power drop this soon after switching off is ours
+const PLAN_LOG_ENTRIES = 12; // plan_log label: last plan changes
 
 // Day labels for learned profile settings keys (0=Monday)
 const LEARNED_PROFILE_KEYS = [
@@ -1952,6 +1953,7 @@ class CarChargeDevice extends GenericDevice {
     });
     const n = Math.ceil((EvPlanner.HORIZON_DAYS * 24 * 60) / intervalMin);
     const chargeMode = this.getCapabilityValue('ev_charge_mode') || 'scheduled_price';
+    const offUntilMs = this._offUntilMs(chargeMode);
 
     // Cheap enough to charge beyond the needs: under the usual lowest price of a day, learned from
     // the published prices over the last 14 days, or the user's fixed price.
@@ -1983,7 +1985,7 @@ class CarChargeDevice extends GenericDevice {
       floorSoc: num(settings.floorSoc, 15),
       maxSoc,
       mode: this._plannerMode(chargeMode),
-      blockedUntilMs: this._offUntilMs(chargeMode),
+      blockedUntilMs: offUntilMs,
       cheapThreshold: cheap,
       maxPrice: Number(settings.maxPrice) > 0 ? Number(settings.maxPrice) : null,
       certainSlots: firstForecast >= 0 ? firstForecast : undefined,
@@ -2020,6 +2022,9 @@ class CarChargeDevice extends GenericDevice {
       + `, cheap ${cheap ? `<= ${cheap.grid.toFixed(3)} (solar ${cheap.solar.toFixed(3)}, ${EvPriceProfile.dailyMinDays(this.priceProfile)} days)` : 'off'}`
       + `${result.shortfalls.length ? `, short: ${result.shortfalls.map((sf) => `${sf.what} ${sf.missing}%`).join(', ')}` : ''}`
       + `, ${planMs} ms`);
+    await this._logPlanDiag({
+      now, tz, slotStartMs, intervalMin, strategy, next, currentSoc, energyMode, energyKwh, blockNow, awayUntilMs, offUntilMs,
+    }).catch(this.error);
 
     if (Object.keys(strategy).length) {
       // Only when the decision for the current slot changed: the plan is recalculated on every SoC
@@ -2067,6 +2072,52 @@ class CarChargeDevice extends GenericDevice {
       await this._updateNextChargeText();
       await this._applyChargerControl().catch(this.error);
     }
+  }
+
+  // Diagnostics without app logs (Prod): the plan_log label keeps the last plan changes, written
+  // only when the presence, a block or the future charge slots change, not on every replan.
+  async _logPlanDiag({
+    now, tz, slotStartMs, intervalMin, strategy, next, currentSoc, energyMode, energyKwh, blockNow, awayUntilMs, offUntilMs,
+  }) {
+    const intervalMs = intervalMin * 60 * 1000;
+    const hhmm = (ms) => EvUsageModel.fractionalHourToHHMM(EvUsageModel.toLocalFractionalHour(new Date(ms), tz));
+    const starts = Object.keys(strategy)
+      .filter((k) => strategy[k] && strategy[k].power > 0 && strategy[k].duration > 0)
+      .map((k) => slotStartMs + Number(k) * intervalMs);
+    const p = this.presence || {};
+    const status = [
+      p.state || '?',
+      p.unplugged ? 'unplugged' : '',
+      p.noResponse ? 'noResponse' : '',
+      p.chargeable === false ? 'notChargeable' : '',
+      this._standby() ? `det ${this.signals.detectedPlugged}` : '',
+      blockNow ? 'blockNow' : '',
+      awayUntilMs ? `away→${hhmm(awayUntilMs)}` : '',
+      offUntilMs > now ? `off→${hhmm(offUntilMs)}` : '',
+      next ? `trip ${hhmm(next.departMs)} ${next.requiredSoc}%` : '',
+    ].filter(Boolean).join(' ');
+    // Slots added or dropped after the current one: slots that only passed are no change.
+    const prev = this.planDiagPrev;
+    const future = (list) => list.filter((ms) => ms > slotStartMs).join(',');
+    const changed = !prev || prev.status !== status || future(prev.starts) !== future(starts);
+    this.planDiagPrev = { status, starts };
+    if (!changed) return;
+
+    const ranges = [];
+    starts.forEach((ms) => {
+      const last = ranges[ranges.length - 1];
+      if (last && last.end === ms) last.end = ms + intervalMs;
+      else ranges.push({ start: ms, end: ms + intervalMs });
+    });
+    const plan = ranges.length
+      ? ranges.slice(0, 3).map((r) => `${hhmm(r.start)}-${hhmm(r.end)}`).join(',') + (ranges.length > 3 ? ` +${ranges.length - 3}` : '')
+      : 'none';
+    const soc = energyMode ? `${energyKwh.toFixed(1)}kWh` : `${Math.round(currentSoc)}%`;
+    const day = new Date(now).toLocaleDateString('en', { weekday: 'short', timeZone: tz });
+    const entry = `${day} ${hhmm(now)} ${soc} ${status} | ${plan}`;
+    const log = [entry, ...(this.getStoreValue('evPlanLog') || [])].slice(0, PLAN_LOG_ENTRIES);
+    await this.setStoreValue('evPlanLog', log).catch(this.error);
+    await this.setSettings({ plan_log: log.join(' ‖ ') }).catch(this.error);
   }
 
   // Alarm and trigger: not plugged in while the next departure, within a day, needs more charge.

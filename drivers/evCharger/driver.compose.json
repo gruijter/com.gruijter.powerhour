@@ -1381,6 +1381,26 @@
             "ko": "소비량"
           },
           "value": "-"
+        },
+        {
+          "id": "plan_log",
+          "type": "label",
+          "label": {
+            "en": "Plan log (newest first)",
+            "nl": "Planlog (nieuwste eerst)",
+            "de": "Planprotokoll (neueste zuerst)",
+            "fr": "Journal du plan (plus récent d'abord)",
+            "es": "Registro del plan (más reciente primero)",
+            "it": "Registro del piano (più recente prima)",
+            "da": "Planlog (nyeste først)",
+            "sv": "Planlogg (nyaste först)",
+            "no": "Planlogg (nyeste først)",
+            "pl": "Dziennik planu (najnowsze najpierw)",
+            "ru": "Журнал плана (сначала новые)",
+            "ar": "سجل الخطة (الأحدث أولاً)",
+            "ko": "계획 로그 (최신순)"
+          },
+          "value": "-"
         }
       ]
     },
