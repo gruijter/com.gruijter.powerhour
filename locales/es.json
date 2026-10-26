@@ -128,7 +128,9 @@
     "setup_role_p2_normal": "Contador consumo (tarifa normal)",
     "setup_role_n1_low": "Contador vertido (tarifa baja o única)",
     "setup_role_n2_normal": "Contador vertido (tarifa normal)",
-    "setup_no_price": "No se encontró ningún dispositivo Precio de la energía: añade uno primero, también para una tarifa fija."
+    "setup_no_price": "No se encontró ningún dispositivo Precio de la energía: añade uno primero, también para una tarifa fija.",
+    "setup_use_watt": "Usar Watt como fuente",
+    "setup_daily_reset": "Tiene reinicio diario"
   },
   "load_forecast_accuracy": "Error medio __mae__ W (__pct__%), sesgo __bias__ W, __days__ días",
   "load_forecast_accuracy_collecting": "Recopilando datos",
@@ -224,5 +226,6 @@
   "fuse_import_ev_off": "Protección del fusible principal: consumo de __import__ W por encima de __limit__ W durante 30 s. __charger__ apagado.",
   "fuse_export": "Protección del fusible principal: vertido de __export__ W por encima de __limit__ W durante 30 s. Las baterías no pudieron evitarlo.",
   "warning_no_price_device": "Ningún dispositivo Precio de la energía en el grupo de tarifa: el precio se queda en el último. Añade un dispositivo Precio de la energía y elige su grupo en los ajustes.",
-  "error_setup_no_price": "Elige un grupo de tarifa con un dispositivo Precio de la energía. Añade primero un dispositivo Precio de la energía si no hay ninguno."
+  "error_setup_no_price": "Elige un grupo de tarifa con un dispositivo Precio de la energía. Añade primero un dispositivo Precio de la energía si no hay ninguno.",
+  "source_polled": "consultado"
 }

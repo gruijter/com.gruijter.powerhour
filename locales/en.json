@@ -128,7 +128,9 @@
     "setup_role_p2_normal": "Import meter (normal tariff)",
     "setup_role_n1_low": "Export meter (low or single tariff)",
     "setup_role_n2_normal": "Export meter (normal tariff)",
-    "setup_no_price": "No Energy Price device found: add one first, also for a fixed tariff."
+    "setup_no_price": "No Energy Price device found: add one first, also for a fixed tariff.",
+    "setup_use_watt": "Use Watt as source",
+    "setup_daily_reset": "Has daily reset"
   },
   "load_forecast_accuracy": "Avg error __mae__ W (__pct__%), bias __bias__ W, __days__ days",
   "load_forecast_accuracy_collecting": "Collecting data",
@@ -224,5 +226,6 @@
   "fuse_import_ev_off": "Main fuse protection: import __import__ W above __limit__ W for 30 s. __charger__ switched off.",
   "fuse_export": "Main fuse protection: export __export__ W above __limit__ W for 30 s. The batteries could not prevent it.",
   "warning_no_price_device": "No Energy Price device in the tariff group: the price stays at the last one. Add a Energy Price device and choose its group in the settings.",
-  "error_setup_no_price": "Choose a tariff group with a Energy Price device. Add a Energy Price device first if there is none."
+  "error_setup_no_price": "Choose a tariff group with a Energy Price device. Add a Energy Price device first if there is none.",
+  "source_polled": "polled"
 }

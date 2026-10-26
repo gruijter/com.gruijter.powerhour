@@ -128,7 +128,9 @@
     "setup_role_p2_normal": "수전 계량기 (일반 요금)",
     "setup_role_n1_low": "송전 계량기 (저율 또는 단일 요금)",
     "setup_role_n2_normal": "송전 계량기 (일반 요금)",
-    "setup_no_price": "에너지 가격 기기를 찾을 수 없습니다: 고정 요금이라도 먼저 하나 추가하세요."
+    "setup_no_price": "에너지 가격 기기를 찾을 수 없습니다: 고정 요금이라도 먼저 하나 추가하세요.",
+    "setup_use_watt": "Watt를 소스로 사용",
+    "setup_daily_reset": "매일 초기화됨"
   },
   "load_forecast_accuracy": "평균 오차 __mae__ W (__pct__%), 편향 __bias__ W, __days__일",
   "load_forecast_accuracy_collecting": "데이터 수집 중",
@@ -224,5 +226,6 @@
   "fuse_import_ev_off": "메인 퓨즈 보호: 수전 __import__ W가 30초 동안 __limit__ W를 초과했습니다. __charger__을(를) 껐습니다.",
   "fuse_export": "메인 퓨즈 보호: 송전 __export__ W가 30초 동안 __limit__ W를 초과했습니다. 배터리로 막지 못했습니다.",
   "warning_no_price_device": "요금 그룹에 에너지 가격 기기가 없습니다: 가격이 마지막 값으로 유지됩니다. 에너지 가격 기기를 추가하고 설정에서 그룹을 선택하세요.",
-  "error_setup_no_price": "에너지 가격 기기가 있는 요금 그룹을 선택하세요. 없으면 먼저 에너지 가격 기기를 추가하세요."
+  "error_setup_no_price": "에너지 가격 기기가 있는 요금 그룹을 선택하세요. 없으면 먼저 에너지 가격 기기를 추가하세요.",
+  "source_polled": "폴링"
 }

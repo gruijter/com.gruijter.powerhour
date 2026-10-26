@@ -128,7 +128,9 @@
     "setup_role_p2_normal": "Måler import (normaltarif)",
     "setup_role_n1_low": "Måler eksport (lav- eller enkelttarif)",
     "setup_role_n2_normal": "Måler eksport (normaltarif)",
-    "setup_no_price": "Ingen Energipris-enhed fundet: tilføj først en, også for en fast tarif."
+    "setup_no_price": "Ingen Energipris-enhed fundet: tilføj først en, også for en fast tarif.",
+    "setup_use_watt": "Brug Watt som kilde",
+    "setup_daily_reset": "Har daglig nulstilling"
   },
   "load_forecast_accuracy": "Gns. afvigelse __mae__ W (__pct__%), bias __bias__ W, __days__ dage",
   "load_forecast_accuracy_collecting": "Indsamler data",
@@ -224,5 +226,6 @@
   "fuse_import_ev_off": "Hovedsikringsbeskyttelse: forbrug __import__ W over __limit__ W i 30 s. __charger__ slukket.",
   "fuse_export": "Hovedsikringsbeskyttelse: levering __export__ W over __limit__ W i 30 s. Batterierne kunne ikke forhindre det.",
   "warning_no_price_device": "Ingen Energipris-enhed i tarifgruppen: prisen bliver stående på den sidste. Tilføj en Energipris-enhed og vælg dens gruppe i indstillingerne.",
-  "error_setup_no_price": "Vælg en tarifgruppe med en Energipris-enhed. Tilføj først en Energipris-enhed, hvis der ikke er nogen."
+  "error_setup_no_price": "Vælg en tarifgruppe med en Energipris-enhed. Tilføj først en Energipris-enhed, hvis der ikke er nogen.",
+  "source_polled": "pollet"
 }

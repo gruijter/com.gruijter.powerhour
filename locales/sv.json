@@ -128,7 +128,9 @@
     "setup_role_p2_normal": "Mätare import (normaltariff)",
     "setup_role_n1_low": "Mätare export (låg- eller enkeltariff)",
     "setup_role_n2_normal": "Mätare export (normaltariff)",
-    "setup_no_price": "Ingen Energipris-enhet hittades: lägg först till en, även för en fast tariff."
+    "setup_no_price": "Ingen Energipris-enhet hittades: lägg först till en, även för en fast tariff.",
+    "setup_use_watt": "Använd Watt som källa",
+    "setup_daily_reset": "Har daglig återställning"
   },
   "load_forecast_accuracy": "Medelfel __mae__ W (__pct__%), bias __bias__ W, __days__ dagar",
   "load_forecast_accuracy_collecting": "Samlar in data",
@@ -224,5 +226,6 @@
   "fuse_import_ev_off": "Huvudsäkringsskydd: uttag __import__ W över __limit__ W i 30 s. __charger__ avstängd.",
   "fuse_export": "Huvudsäkringsskydd: export __export__ W över __limit__ W i 30 s. Batterierna kunde inte förhindra det.",
   "warning_no_price_device": "Ingen Energipris-enhet i tariffgruppen: priset blir kvar på det senaste. Lägg till en Energipris-enhet och välj dess grupp i inställningarna.",
-  "error_setup_no_price": "Välj en tariffgrupp med en Energipris-enhet. Lägg först till en Energipris-enhet om det inte finns någon."
+  "error_setup_no_price": "Välj en tariffgrupp med en Energipris-enhet. Lägg först till en Energipris-enhet om det inte finns någon.",
+  "source_polled": "pollad"
 }

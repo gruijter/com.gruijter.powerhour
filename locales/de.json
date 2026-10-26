@@ -128,7 +128,9 @@
     "setup_role_p2_normal": "Zähler Bezug (Normaltarif)",
     "setup_role_n1_low": "Zähler Einspeisung (Nieder- oder Einheitstarif)",
     "setup_role_n2_normal": "Zähler Einspeisung (Normaltarif)",
-    "setup_no_price": "Kein Energiepreis-Gerät gefunden: fügen Sie zuerst eines hinzu, auch für einen Festtarif."
+    "setup_no_price": "Kein Energiepreis-Gerät gefunden: fügen Sie zuerst eines hinzu, auch für einen Festtarif.",
+    "setup_use_watt": "Watt als Quelle benutzen",
+    "setup_daily_reset": "Tägliches Zurücksetzen"
   },
   "load_forecast_accuracy": "Mittl. Fehler __mae__ W (__pct__%), Bias __bias__ W, __days__ Tage",
   "load_forecast_accuracy_collecting": "Daten werden gesammelt",
@@ -224,5 +226,6 @@
   "fuse_import_ev_off": "Hauptsicherungsschutz: Bezug __import__ W über __limit__ W für 30 s. __charger__ ausgeschaltet.",
   "fuse_export": "Hauptsicherungsschutz: Einspeisung __export__ W über __limit__ W für 30 s. Die Batterien konnten es nicht verhindern.",
   "warning_no_price_device": "Kein Energiepreis-Gerät in der Tarifgruppe: der Preis bleibt beim letzten. Fügen Sie ein Energiepreis-Gerät hinzu und wählen Sie seine Gruppe in den Einstellungen.",
-  "error_setup_no_price": "Wählen Sie eine Tarifgruppe mit einem Energiepreis-Gerät. Fügen Sie zuerst ein Energiepreis-Gerät hinzu, falls es keines gibt."
+  "error_setup_no_price": "Wählen Sie eine Tarifgruppe mit einem Energiepreis-Gerät. Fügen Sie zuerst ein Energiepreis-Gerät hinzu, falls es keines gibt.",
+  "source_polled": "abgefragt"
 }
