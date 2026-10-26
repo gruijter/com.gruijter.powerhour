@@ -967,6 +967,7 @@ class CarChargeDevice extends GenericDevice {
     this.log(`[EV Control] Charger on for ${Math.round((now - since) / 1000)} s, car takes `
       + `${Math.round(this.livePowerW || 0)} W at SoC ${Math.round(soc)}% (car limit ${carLimit || 100}%): `
       + `starting charge in the car (${count})`);
+    await this._appendPlanLog(`startCar ${count} (on ${Math.round((now - since) / 60000)} min)`).catch(this.error);
     await this.evDevice.setCapabilityValue({ capabilityId, value: true })
       .catch((err) => this.error('[EV Control] Starting charge in the car failed:', err.message || err));
   }
@@ -2023,7 +2024,7 @@ class CarChargeDevice extends GenericDevice {
       + `${result.shortfalls.length ? `, short: ${result.shortfalls.map((sf) => `${sf.what} ${sf.missing}%`).join(', ')}` : ''}`
       + `, ${planMs} ms`);
     await this._logPlanDiag({
-      now, tz, slotStartMs, intervalMin, strategy, next, currentSoc, energyMode, energyKwh, blockNow, awayUntilMs, offUntilMs,
+      now, tz, slotStartMs, intervalMin, strategy, next, currentSoc, energyMode, energyKwh, blockNow, awayUntilMs, offUntilMs, unavailable: result.unavailable,
     }).catch(this.error);
 
     if (Object.keys(strategy).length) {
@@ -2074,20 +2075,46 @@ class CarChargeDevice extends GenericDevice {
     }
   }
 
-  // Diagnostics without app logs (Prod): the plan_log label keeps the last plan changes, written
-  // only when the presence, a block or the future charge slots change, not on every replan.
+  // Diagnostics without app logs (Prod): the plan_log label keeps the last plan changes and
+  // commands to the car. A plan is written only when the presence, a block or the future charge
+  // slots change, not on every replan.
+  async _appendPlanLog(text) {
+    const tz = this.timeZone || this.homey.clock.getTimezone();
+    const now = new Date();
+    const stamp = `${now.toLocaleDateString('en', { weekday: 'short', timeZone: tz })} `
+      + `${EvUsageModel.fractionalHourToHHMM(EvUsageModel.toLocalFractionalHour(now, tz))}`;
+    const log = [`${stamp} ${text}`, ...(this.getStoreValue('evPlanLog') || [])].slice(0, PLAN_LOG_ENTRIES);
+    await this.setStoreValue('evPlanLog', log).catch(this.error);
+    await this.setSettings({ plan_log: log.join(' ‖ ') }).catch(this.error);
+  }
+
   async _logPlanDiag({
     now, tz, slotStartMs, intervalMin, strategy, next, currentSoc, energyMode, energyKwh, blockNow, awayUntilMs, offUntilMs,
+    unavailable = [],
   }) {
     const intervalMs = intervalMin * 60 * 1000;
     const hhmm = (ms) => EvUsageModel.fractionalHourToHHMM(EvUsageModel.toLocalFractionalHour(new Date(ms), tz));
     const starts = Object.keys(strategy)
       .filter((k) => strategy[k] && strategy[k].power > 0 && strategy[k].duration > 0)
       .map((k) => slotStartMs + Number(k) * intervalMs);
+    // Consecutive slots as ranges; with a key, a range per key.
+    const toRanges = (list, keyOf = () => '') => {
+      const out = [];
+      list.forEach((item) => {
+        const ms = typeof item === 'number' ? item : item.startMs;
+        const key = keyOf(item);
+        const last = out[out.length - 1];
+        if (last && last.end === ms && last.key === key) last.end = ms + intervalMs;
+        else out.push({ start: ms, end: ms + intervalMs, key });
+      });
+      return out.slice(0, 3).map((r) => `${r.key ? `${r.key} ` : ''}${hhmm(r.start)}-${hhmm(r.end)}`).join(',')
+        + (out.length > 3 ? ` +${out.length - 3}` : '');
+    };
     const p = this.presence || {};
     const status = [
       p.state || '?',
       p.unplugged ? 'unplugged' : '',
+      typeof this.signals.carPlugged === 'boolean' ? `carPlug ${this.signals.carPlugged}` : '',
       p.noResponse ? 'noResponse' : '',
       p.chargeable === false ? 'notChargeable' : '',
       this._standby() ? `det ${this.signals.detectedPlugged}` : '',
@@ -2095,6 +2122,7 @@ class CarChargeDevice extends GenericDevice {
       awayUntilMs ? `away→${hhmm(awayUntilMs)}` : '',
       offUntilMs > now ? `off→${hhmm(offUntilMs)}` : '',
       next ? `trip ${hhmm(next.departMs)} ${next.requiredSoc}%` : '',
+      unavailable.length ? `no ${toRanges(unavailable, (u) => u.why)}` : '',
     ].filter(Boolean).join(' ');
     // Slots added or dropped after the current one: slots that only passed are no change.
     const prev = this.planDiagPrev;
@@ -2102,22 +2130,8 @@ class CarChargeDevice extends GenericDevice {
     const changed = !prev || prev.status !== status || future(prev.starts) !== future(starts);
     this.planDiagPrev = { status, starts };
     if (!changed) return;
-
-    const ranges = [];
-    starts.forEach((ms) => {
-      const last = ranges[ranges.length - 1];
-      if (last && last.end === ms) last.end = ms + intervalMs;
-      else ranges.push({ start: ms, end: ms + intervalMs });
-    });
-    const plan = ranges.length
-      ? ranges.slice(0, 3).map((r) => `${hhmm(r.start)}-${hhmm(r.end)}`).join(',') + (ranges.length > 3 ? ` +${ranges.length - 3}` : '')
-      : 'none';
     const soc = energyMode ? `${energyKwh.toFixed(1)}kWh` : `${Math.round(currentSoc)}%`;
-    const day = new Date(now).toLocaleDateString('en', { weekday: 'short', timeZone: tz });
-    const entry = `${day} ${hhmm(now)} ${soc} ${status} | ${plan}`;
-    const log = [entry, ...(this.getStoreValue('evPlanLog') || [])].slice(0, PLAN_LOG_ENTRIES);
-    await this.setStoreValue('evPlanLog', log).catch(this.error);
-    await this.setSettings({ plan_log: log.join(' ‖ ') }).catch(this.error);
+    await this._appendPlanLog(`${soc} ${status} | ${starts.length ? toRanges(starts) : 'none'}`);
   }
 
   // Alarm and trigger: not plugged in while the next departure, within a day, needs more charge.
