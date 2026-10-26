@@ -34,6 +34,8 @@
   "appliance_status_learning": "Aprendiendo: __runs__ de __min__ ciclos",
   "error_value_not_number": "El valor no es un número",
   "error_budget_custom_12": "El presupuesto personalizado no tiene 12 valores numéricos",
+  "error_budget_needed": "Introduce un presupuesto anual mayor que 0",
+  "error_start_date": "La fecha de inicio debe ser ddmm, p. ej. 0101",
   "error_budget_invalid": "El presupuesto no es un número válido",
   "error_total_invalid": "Un total no puede ir en contra del sentido de conteo del contador.",
   "error_device_corrupt": "¡El dispositivo está dañado!",
@@ -131,7 +133,11 @@
     "setup_role_n2_normal": "Contador vertido (tarifa normal)",
     "setup_no_price": "No se encontró ningún dispositivo Precio de la energía: añade uno primero, también para una tarifa fija.",
     "setup_use_watt": "Usar Watt como fuente",
-    "setup_daily_reset": "Tiene reinicio diario"
+    "setup_daily_reset": "Tiene reinicio diario",
+    "setup_use_budget": "Usar un presupuesto anual",
+    "setup_budget_title": "Presupuesto anual",
+    "start_budget": "Presupuesto anual",
+    "start_budget_info": "Cambia el presupuesto anual, su distribución y la fecha de inicio del año."
   },
   "load_forecast_accuracy": "Error medio __mae__ W (__pct__%), sesgo __bias__ W, __days__ días",
   "load_forecast_accuracy_collecting": "Recopilando datos",
@@ -228,5 +234,26 @@
   "fuse_export": "Protección del fusible principal: vertido de __export__ W por encima de __limit__ W durante 30 s. Las baterías no pudieron evitarlo.",
   "warning_no_price_device": "Ningún dispositivo Precio de la energía en el grupo de tarifa: el precio se queda en el último. Añade un dispositivo Precio de la energía y elige su grupo en los ajustes.",
   "error_setup_no_price": "Elige un grupo de tarifa con un dispositivo Precio de la energía. Añade primero un dispositivo Precio de la energía si no hay ninguno.",
-  "source_polled": "consultado"
+  "source_polled": "consultado",
+  "budget": {
+    "start_date": "Fecha de inicio del año nuevo",
+    "start_date_info": "En esta fecha los totales del mes y del año vuelven a 0. Formato ddmm, por defecto 0101 (1 de enero). Tras un cambio, corrige los totales del mes y del año mediante Reparar.",
+    "target": "Presupuesto objetivo anual",
+    "distribution": "Esquema de distribución",
+    "linear": "Lineal",
+    "local": "Clima local (auto)",
+    "custom": "Personalizado (definir en presupuesto objetivo anual)",
+    "heating": "Calefacción",
+    "heating_none": "No eléctrica (gas, gasóleo, calefacción urbana)",
+    "heating_heat_pump": "Bomba de calor",
+    "heating_hybrid": "Bomba de calor híbrida",
+    "heating_electric": "Eléctrica directa",
+    "heating_gas_boiler": "Caldera de gas (calefacción y agua caliente)",
+    "heating_gas_hybrid": "Bomba de calor híbrida",
+    "heating_gas_none": "Sin calefacción de gas (cocina, agua caliente)",
+    "cooling": "Aire acondicionado",
+    "target_info": "Con Personalizado: los 12 valores de ene a dic, separados por ;",
+    "off": "Sin presupuesto",
+    "start": "inicio"
+  }
 }

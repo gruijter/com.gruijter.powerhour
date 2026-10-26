@@ -34,6 +34,8 @@
   "appliance_status_learning": "Lernen: __runs__ von __min__ Läufen",
   "error_value_not_number": "Wert ist keine Zahl",
   "error_budget_custom_12": "Benutzerdefiniertes Budget hat keine 12 Zahlenwerte",
+  "error_budget_needed": "Gib ein Jahresbudget über 0 ein",
+  "error_start_date": "Startdatum muss ttmm sein, z. B. 0101",
   "error_budget_invalid": "Budget ist keine gültige Zahl",
   "error_total_invalid": "Eine Summe kann nicht gegen die Zählrichtung des Zählers laufen.",
   "error_device_corrupt": "Gerät ist beschädigt!",
@@ -131,7 +133,11 @@
     "setup_role_n2_normal": "Zähler Einspeisung (Normaltarif)",
     "setup_no_price": "Kein Energiepreis-Gerät gefunden: fügen Sie zuerst eines hinzu, auch für einen Festtarif.",
     "setup_use_watt": "Watt als Quelle benutzen",
-    "setup_daily_reset": "Tägliches Zurücksetzen"
+    "setup_daily_reset": "Tägliches Zurücksetzen",
+    "setup_use_budget": "Jahresbudget verwenden",
+    "setup_budget_title": "Jahresbudget",
+    "start_budget": "Jahresbudget",
+    "start_budget_info": "Ändere das Jahresbudget, seine Verteilung und das Startdatum des Jahres."
   },
   "load_forecast_accuracy": "Mittl. Fehler __mae__ W (__pct__%), Bias __bias__ W, __days__ Tage",
   "load_forecast_accuracy_collecting": "Daten werden gesammelt",
@@ -228,5 +234,26 @@
   "fuse_export": "Hauptsicherungsschutz: Einspeisung __export__ W über __limit__ W für 30 s. Die Batterien konnten es nicht verhindern.",
   "warning_no_price_device": "Kein Energiepreis-Gerät in der Tarifgruppe: der Preis bleibt beim letzten. Fügen Sie ein Energiepreis-Gerät hinzu und wählen Sie seine Gruppe in den Einstellungen.",
   "error_setup_no_price": "Wählen Sie eine Tarifgruppe mit einem Energiepreis-Gerät. Fügen Sie zuerst ein Energiepreis-Gerät hinzu, falls es keines gibt.",
-  "source_polled": "abgefragt"
+  "source_polled": "abgefragt",
+  "budget": {
+    "start_date": "Startdatum neues Jahr",
+    "start_date_info": "An diesem Datum werden Monats- und Jahressumme auf 0 gesetzt. Format ttmm, Standard 0101 (1. Januar). Korrigieren Sie nach einer Änderung die Monats- und Jahressumme über Reparieren.",
+    "target": "Jahreszielbudget",
+    "distribution": "Verteilungsschema",
+    "linear": "Linear",
+    "local": "Lokales Klima (auto)",
+    "custom": "Benutzerdefiniert (beim Jahreszielbudget angeben)",
+    "heating": "Heizung",
+    "heating_none": "Nicht elektrisch (Gas, Öl, Fernwärme)",
+    "heating_heat_pump": "Wärmepumpe",
+    "heating_hybrid": "Hybrid-Wärmepumpe",
+    "heating_electric": "Direkt elektrisch",
+    "heating_gas_boiler": "Gaskessel (Heizung und Warmwasser)",
+    "heating_gas_hybrid": "Hybrid-Wärmepumpe",
+    "heating_gas_none": "Keine Gasheizung (Kochen, Warmwasser)",
+    "cooling": "Klimaanlage",
+    "target_info": "Bei Benutzerdefiniert: die 12 Werte für Jan-Dez, getrennt durch ;",
+    "off": "Kein Budget",
+    "start": "Start"
+  }
 }

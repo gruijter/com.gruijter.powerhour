@@ -167,6 +167,12 @@
       "id": "fix_values"
     },
     {
+      "id": "budget",
+      "navigation": {
+        "prev": "repair_start"
+      }
+    },
+    {
       "id": "loading",
       "template": "loading"
     },
@@ -305,259 +311,39 @@
       },
       "children": [
         {
-          "id": "start_date",
-          "type": "text",
+          "id": "budget_info",
+          "type": "label",
           "label": {
-            "en": "New year start date",
-            "nl": "Start datum nieuw jaar",
-            "de": "Startdatum neues Jahr",
-            "fr": "Date de début de nouvelle année",
-            "it": "Data inizio nuovo anno",
-            "sv": "Nytt år startdatum",
-            "no": "Startdato for nyttår",
-            "es": "Fecha de inicio del año nuevo",
-            "da": "Startdato for nytår",
-            "pl": "Data rozpoczęcia nowego roku",
-            "ru": "Дата начала нового года",
-            "ar": "تاريخ بدء العام الجديد",
-            "ko": "새해 시작일"
+            "en": "Year budget",
+            "nl": "Jaarbudget",
+            "de": "Jahresbudget",
+            "fr": "Budget annuel",
+            "it": "Budget annuale",
+            "sv": "Årsbudget",
+            "no": "Årsbudsjett",
+            "es": "Presupuesto anual",
+            "da": "Årsbudget",
+            "pl": "Budżet roczny",
+            "ru": "Годовой бюджет",
+            "ar": "الميزانية السنوية",
+            "ko": "연간 예산"
           },
-          "value": "0101",
+          "value": "",
           "hint": {
-            "en": "On this date the month and year totals reset to 0. Format ddmm, default 0101 (1 January). After a change, fix the month and year totals via Repair.",
-            "nl": "Op deze datum gaan het maand- en jaartotaal naar 0. Formaat ddmm, standaard 0101 (1 januari). Herstel na een wijziging het maand- en jaartotaal via Repareren.",
-            "de": "An diesem Datum werden Monats- und Jahressumme auf 0 gesetzt. Format ttmm, Standard 0101 (1. Januar). Korrigieren Sie nach einer Änderung die Monats- und Jahressumme über Reparieren.",
-            "fr": "À cette date, les totaux du mois et de l'année reviennent à 0. Format jjmm, par défaut 0101 (1er janvier). Après un changement, corrigez les totaux du mois et de l'année via Réparer.",
-            "it": "In questa data i totali del mese e dell'anno tornano a 0. Formato ggmm, predefinito 0101 (1 gennaio). Dopo una modifica, correggi i totali del mese e dell'anno tramite Ripara.",
-            "sv": "På detta datum nollställs månads- och årstotalen. Format ddmm, standard 0101 (1 januari). Rätta efter en ändring månads- och årstotalen via Reparera.",
-            "no": "På denne datoen nullstilles måneds- og årstotalen. Format ddmm, standard 0101 (1. januar). Rett etter en endring måneds- og årstotalen via Reparer.",
-            "es": "En esta fecha los totales del mes y del año vuelven a 0. Formato ddmm, por defecto 0101 (1 de enero). Tras un cambio, corrige los totales del mes y del año mediante Reparar.",
-            "da": "På denne dato nulstilles måneds- og årstotalen. Format ddmm, standard 0101 (1. januar). Ret efter en ændring måneds- og årstotalen via Reparer.",
-            "pl": "W tym dniu sumy miesiąca i roku wracają do 0. Format ddmm, domyślnie 0101 (1 stycznia). Po zmianie popraw sumy miesiąca i roku przez Napraw.",
-            "ru": "В эту дату итоги месяца и года сбрасываются до 0. Формат ддмм, по умолчанию 0101 (1 января). После изменения исправьте итоги месяца и года через Восстановить.",
-            "ar": "في هذا التاريخ يُعاد إجمالي الشهر والسنة إلى 0. التنسيق ddmm، الافتراضي 0101 (1 يناير). بعد التغيير، صحح إجمالي الشهر والسنة عبر إصلاح.",
-            "ko": "이 날짜에 월 및 연 합계가 0으로 초기화됩니다. 형식 ddmm, 기본값 0101(1월 1일). 변경 후에는 복구에서 월 및 연 합계를 수정하세요."
+            "en": "Change via Repair (device menu) > Year budget.",
+            "nl": "Wijzigen via Repareren (apparaatmenu) > Jaarbudget.",
+            "de": "Ändern über Reparieren (Gerätemenü) > Jahresbudget.",
+            "fr": "Modifier via Réparer (menu de l'appareil) > Budget annuel.",
+            "it": "Modifica tramite Ripara (menu dispositivo) > Budget annuale.",
+            "sv": "Ändra via Reparera (enhetsmeny) > Årsbudget.",
+            "no": "Endre via Reparer (enhetsmeny) > Årsbudsjett.",
+            "es": "Cambiar en Reparar (menú del dispositivo) > Presupuesto anual.",
+            "da": "Ændr via Reparer (enhedsmenu) > Årsbudget.",
+            "pl": "Zmień przez Napraw (menu urządzenia) > Budżet roczny.",
+            "ru": "Изменить через Восстановить (меню устройства) > Годовой бюджет.",
+            "ar": "غيّر عبر إصلاح (قائمة الجهاز) > الميزانية السنوية.",
+            "ko": "복구(기기 메뉴) > 연간 예산에서 변경하세요."
           }
-        },
-        {
-          "id": "budget",
-          "type": "text",
-          "label": {
-            "en": "Year target budget (m³)",
-            "nl": "Jaar doelbudget (m³)",
-            "de": "Jahreszielbudget (m³)",
-            "fr": "Budget cible annuel (m³)",
-            "it": "Budget obiettivo annuale (m³)",
-            "sv": "Årsmålbudget (m³)",
-            "no": "Årlig målbudsjett (m³)",
-            "es": "Presupuesto objetivo anual (m³)",
-            "da": "Årligt målbudget (m³)",
-            "pl": "Roczny budżet docelowy (m³)",
-            "ru": "Годовой целевой бюджет (м³)",
-            "ar": "الميزانية السنوية المستهدفة (م³)",
-            "ko": "연간 목표 예산 (m³)"
-          },
-          "value": "0",
-          "hint": {
-            "en": "0 = no budget. The total target budget for a year. Attention: the year starts at the set start date. When selecting CUSTOM BUDGET distribution, fill in the 12 values from Jan-Dec seperated by ;",
-            "nl": "0 = geen budget. Het totale doelbudget voor een jaar. LET OP: het jaar begint bij de ingestelde start datum. Als HANDMATIGE BUDGET verdeling is gekozen, vul dan de 12 waarden in van jan-dec, gescheiden door ;",
-            "de": "0 = kein Budget. Das gesamte Zielbudget für ein Jahr. Achtung: Das Jahr beginnt mit dem festgelegten Startdatum. Geben Sie bei Auswahl der BENUTZERDEFINIERTEN Verteilung die 12 Werte von Jan-Dez getrennt durch ;",
-            "fr": "0 = pas de budget. Le budget cible total pour une année. Attention : l'année commence à la date de début définie. Lors de la sélection de la distribution BUDGET PERSONNALISÉ, remplissez les 12 valeurs de janv. à déc. séparées par ;",
-            "it": "0 = nessun budget. Il budget totale obiettivo per un anno. Attenzione: l'anno inizia alla data di inizio impostata. Quando si seleziona la distribuzione BUDGET PERSONALIZZATO, inserire i 12 valori da Gen-Dic separati da ;",
-            "sv": "0 = ingen budget. Den totala målbudgeten för ett år. Observera: året börjar vid det inställda startdatumet. När du väljer ANPASSAD BUDGET-distribution, fyll i de 12 värdena från Jan-Dec separerade med ;",
-            "no": "0 = intet budsjett. Det totale målbudsjettet for et år. OBS: året starter på den innstilte startdatoen. Når du velger EGENDEFINERT BUDSJETT fordeling, fyll inn de 12 verdiene fra Jan-Des separert med ;",
-            "es": "0 = sin presupuesto. El presupuesto objetivo total para un año. Atención: el año comienza en la fecha de inicio establecida. Al seleccionar la distribución de PRESUPUESTO PERSONALIZADO, complete los 12 valores de Ene-Dic separados por ;",
-            "da": "0 = intet budget. Det samlede målbudget for et år. Bemærk: året starter på den indstillede startdato. Når du vælger BRUGERDEFINERET BUDGET fordeling, skal du udfylde de 12 værdier fra Jan-Dec adskilt af ;",
-            "pl": "0 = brak budżetu. Całkowity budżet docelowy na rok. Uwaga: rok rozpoczyna się w ustawionej dacie rozpoczęcia. Wybierając dystrybucję BUDŻETU NIESTANDARDOWEGO, wpisz 12 wartości od stycznia do grudnia oddzielonych ;",
-            "ru": "0 = без бюджета. Общий целевой бюджет на год. Внимание: год начинается с установленной даты начала. При выборе РАСПРЕДЕЛЕНИЯ ПОЛЬЗОВАТЕЛЬСКОГО БЮДЖЕТА заполните 12 значений с января по декабрь, разделенных ;",
-            "ar": "0 = بدون ميزانية. إجمالي الميزانية المستهدفة لعام. انتبه: تبدأ السنة في تاريخ البدء المحدد. عند اختيار توزيع الميزانية المخصصة، املأ القيم الـ 12 من يناير إلى ديسمبر مفصولة بـ ;",
-            "ko": "0 = 예산 없음. 연간 총 목표 예산입니다. 주의: 연도는 설정한 시작일부터 시작합니다. \"사용자 지정 예산\" 분배를 선택하면 1월부터 12월까지 12개의 값을 ;로 구분하여 입력하세요."
-          }
-        },
-        {
-          "id": "distribution",
-          "type": "dropdown",
-          "value": "local",
-          "label": {
-            "en": "Distribution scheme",
-            "nl": "Verdeling schema",
-            "de": "Verteilungsschema",
-            "fr": "Schéma de distribution",
-            "it": "Schema di distribuzione",
-            "sv": "Distributionsschema",
-            "no": "Distribusjonsskjema",
-            "es": "Esquema de distribución",
-            "da": "Distributionsskema",
-            "pl": "Schemat dystrybucji",
-            "ru": "Схема распределения",
-            "ar": "مخطط التوزيع",
-            "ko": "분배 방식"
-          },
-          "hint": {
-            "en": "The day by day distribution of usage over the year. Local climate: computed from the climate data of your location.",
-            "nl": "De verdeling van het dagelijkse verbruik over het jaar heen. Lokaal klimaat: berekend uit de klimaatgegevens van je locatie.",
-            "de": "Die Verteilung des Tagesverbrauchs über das Jahr. Lokales Klima: berechnet aus den Klimadaten deines Standorts.",
-            "fr": "La distribution quotidienne de l'utilisation sur l'année. Climat local : calculé à partir des données climatiques de votre emplacement.",
-            "it": "La distribuzione giornaliera dell'utilizzo durante l'anno. Clima locale: calcolato dai dati climatici della tua posizione.",
-            "sv": "Den dagliga fördelningen av användningen under året. Lokalt klimat: beräknat från klimatdata för din plats.",
-            "no": "Den daglige fordelingen av bruk gjennom året. Lokalt klima: beregnet fra klimadata for din plassering.",
-            "es": "La distribución día a día del uso durante el año. Clima local: calculado con los datos climáticos de tu ubicación.",
-            "da": "Den daglige fordeling af forbrug over året. Lokalt klima: beregnet ud fra klimadata for din placering.",
-            "pl": "Codzienny rozkład zużycia w ciągu roku. Klimat lokalny: obliczony na podstawie danych klimatycznych Twojej lokalizacji.",
-            "ru": "Ежедневное распределение использования в течение года. Местный климат: рассчитывается по климатическим данным вашего места.",
-            "ar": "توزيع الاستخدام يومًا بعد يوم على مدار العام. المناخ المحلي: محسوب من البيانات المناخية لموقعك.",
-            "ko": "연중 일별 사용량 분포입니다. 지역 기후: 해당 위치의 기후 데이터로 계산됩니다."
-          },
-          "values": [
-            {
-              "id": "CUSTOM",
-              "label": {
-                "en": "CUSTOM BUDGET",
-                "nl": "HANDMATIG BUDGET",
-                "de": "BENUTZERDEFINIERT",
-                "fr": "BUDGET PERSONNALISÉ",
-                "it": "BUDGET PERSONALIZZATO",
-                "sv": "ANPASSAD BUDGET",
-                "no": "EGENDEFINERT BUDSJETT",
-                "es": "PRESUPUESTO PERSONALIZADO",
-                "da": "BRUGERDEFINERET BUDGET",
-                "pl": "BUDŻET NIESTANDARDOWY",
-                "ru": "ПОЛЬЗОВАТЕЛЬСКИЙ БЮДЖЕТ",
-                "ar": "ميزانية مخصصة",
-                "ko": "사용자 지정 예산"
-              }
-            },
-            {
-              "id": "linear",
-              "label": {
-                "en": "Linear",
-                "nl": "Lineair",
-                "de": "Linear",
-                "fr": "Linéaire",
-                "it": "Lineare",
-                "sv": "Linjär",
-                "no": "Lineær",
-                "es": "Lineal",
-                "da": "Lineær",
-                "pl": "Liniowy",
-                "ru": "Линейный",
-                "ar": "خطي",
-                "ko": "선형"
-              }
-            },
-            {
-              "id": "local",
-              "label": {
-                "en": "Local climate (auto)",
-                "nl": "Lokaal klimaat (auto)",
-                "de": "Lokales Klima (auto)",
-                "fr": "Climat local (auto)",
-                "it": "Clima locale (auto)",
-                "sv": "Lokalt klimat (auto)",
-                "no": "Lokalt klima (auto)",
-                "es": "Clima local (auto)",
-                "da": "Lokalt klima (auto)",
-                "pl": "Klimat lokalny (auto)",
-                "ru": "Местный климат (авто)",
-                "ar": "المناخ المحلي (تلقائي)",
-                "ko": "지역 기후 (자동)"
-              }
-            },
-            {
-              "id": "gas_nl_2023",
-              "label": {
-                "en": "Gas heating, NW Europe",
-                "nl": "Gasverwarming, NW-Europa",
-                "de": "Gasheizung, NW-Europa",
-                "fr": "Chauffage au gaz, Europe du NO",
-                "it": "Riscaldamento a gas, Europa NO",
-                "sv": "Gasuppvärmning, NV-Europa",
-                "no": "Gassoppvarming, NV-Europa",
-                "es": "Calefacción de gas, Europa NO",
-                "da": "Gasopvarmning, NV-Europa",
-                "pl": "Ogrzewanie gazowe, Europa PnZ",
-                "ru": "Газовое отопление, СЗ Европа",
-                "ar": "تدفئة بالغاز، شمال غرب أوروبا",
-                "ko": "가스 난방, 북서유럽"
-              }
-            }
-          ]
-        },
-        {
-          "id": "budget_heating",
-          "type": "dropdown",
-          "value": "boiler",
-          "label": {
-            "en": "Heating (local climate)",
-            "nl": "Verwarming (lokaal klimaat)",
-            "de": "Heizung (lokales Klima)",
-            "fr": "Chauffage (climat local)",
-            "it": "Riscaldamento (clima locale)",
-            "sv": "Uppvärmning (lokalt klimat)",
-            "no": "Oppvarming (lokalt klima)",
-            "es": "Calefacción (clima local)",
-            "da": "Opvarmning (lokalt klima)",
-            "pl": "Ogrzewanie (klimat lokalny)",
-            "ru": "Отопление (местный климат)",
-            "ar": "التدفئة (المناخ المحلي)",
-            "ko": "난방 (지역 기후)"
-          },
-          "values": [
-            {
-              "id": "boiler",
-              "label": {
-                "en": "Gas boiler (heating and hot water)",
-                "nl": "Cv-ketel (verwarming en warm water)",
-                "de": "Gaskessel (Heizung und Warmwasser)",
-                "fr": "Chaudière gaz (chauffage et eau chaude)",
-                "it": "Caldaia a gas (riscaldamento e acqua calda)",
-                "sv": "Gaspanna (värme och varmvatten)",
-                "no": "Gasskjele (varme og varmtvann)",
-                "es": "Caldera de gas (calefacción y agua caliente)",
-                "da": "Gasfyr (varme og varmt vand)",
-                "pl": "Kocioł gazowy (ogrzewanie i ciepła woda)",
-                "ru": "Газовый котёл (отопление и горячая вода)",
-                "ar": "غلاية غاز (تدفئة وماء ساخن)",
-                "ko": "가스 보일러 (난방 및 온수)"
-              }
-            },
-            {
-              "id": "hybrid",
-              "label": {
-                "en": "Hybrid heat pump",
-                "nl": "Hybride warmtepomp",
-                "de": "Hybrid-Wärmepumpe",
-                "fr": "Pompe à chaleur hybride",
-                "it": "Pompa di calore ibrida",
-                "sv": "Hybridvärmepump",
-                "no": "Hybrid varmepumpe",
-                "es": "Bomba de calor híbrida",
-                "da": "Hybrid varmepumpe",
-                "pl": "Hybrydowa pompa ciepła",
-                "ru": "Гибридный тепловой насос",
-                "ar": "مضخة حرارية هجينة",
-                "ko": "하이브리드 히트펌프"
-              }
-            },
-            {
-              "id": "none",
-              "label": {
-                "en": "No gas heating (cooking, hot water)",
-                "nl": "Geen gasverwarming (koken, warm water)",
-                "de": "Keine Gasheizung (Kochen, Warmwasser)",
-                "fr": "Pas de chauffage gaz (cuisson, eau chaude)",
-                "it": "Nessun riscaldamento a gas (cottura, acqua calda)",
-                "sv": "Ingen gasvärme (matlagning, varmvatten)",
-                "no": "Ingen gassoppvarming (matlaging, varmtvann)",
-                "es": "Sin calefacción de gas (cocina, agua caliente)",
-                "da": "Ingen gasopvarmning (madlavning, varmt vand)",
-                "pl": "Bez ogrzewania gazowego (gotowanie, ciepła woda)",
-                "ru": "Без газового отопления (готовка, горячая вода)",
-                "ar": "بدون تدفئة بالغاز (طهي، ماء ساخن)",
-                "ko": "가스 난방 없음 (조리, 온수)"
-              }
-            }
-          ]
         }
       ]
     },

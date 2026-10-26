@@ -118,6 +118,12 @@
       "id": "fix_values"
     },
     {
+      "id": "budget",
+      "navigation": {
+        "prev": "repair_start"
+      }
+    },
+    {
       "id": "loading",
       "template": "loading"
     },
@@ -1573,112 +1579,39 @@
       },
       "children": [
         {
-          "id": "budget",
-          "type": "text",
+          "id": "budget_info",
+          "type": "label",
           "label": {
-            "en": "Year target budget (kWh)",
-            "nl": "Jaar doelbudget (kWh)",
-            "de": "Jahreszielbudget (kWh)",
-            "fr": "Budget cible annuel (kWh)",
-            "it": "Budget obiettivo annuale (kWh)",
-            "sv": "Årsmålbudget (kWh)",
-            "no": "Årlig målbudsjett (kWh)",
-            "es": "Presupuesto objetivo anual (kWh)",
-            "da": "Årligt målbudget (kWh)",
-            "pl": "Roczny budżet docelowy (kWh)",
-            "ru": "Годовой целевой бюджет (кВтч)",
-            "ar": "الميزانية السنوية المستهدفة (كيلوواط ساعة)",
-            "ko": "연간 목표 예산 (kWh)"
+            "en": "Year budget",
+            "nl": "Jaarbudget",
+            "de": "Jahresbudget",
+            "fr": "Budget annuel",
+            "it": "Budget annuale",
+            "sv": "Årsbudget",
+            "no": "Årsbudsjett",
+            "es": "Presupuesto anual",
+            "da": "Årsbudget",
+            "pl": "Budżet roczny",
+            "ru": "Годовой бюджет",
+            "ar": "الميزانية السنوية",
+            "ko": "연간 예산"
           },
-          "value": "0",
+          "value": "",
           "hint": {
-            "en": "0 = no budget. Target charging energy for a year (1 Jan - 31 Dec). With CUSTOM distribution: 12 values for Jan-Dec separated by ;",
-            "nl": "0 = geen budget. Doel laadenergie voor een jaar (1 jan - 31 dec). Bij CUSTOM verdeling: 12 waarden voor jan-dec gescheiden door ;",
-            "de": "0 = kein Budget. Ziel-Ladeenergie für ein Jahr (1. Jan - 31. Dez). Bei CUSTOM-Verteilung: 12 Werte für Jan-Dez, getrennt durch ;",
-            "fr": "0 = pas de budget. Énergie de charge cible pour une année (1 janv - 31 déc). Avec la distribution CUSTOM : 12 valeurs de janv à déc séparées par ;",
-            "it": "0 = nessun budget. Energia di ricarica obiettivo per un anno (1 gen - 31 dic). Con distribuzione CUSTOM: 12 valori da gen a dic separati da ;",
-            "sv": "0 = ingen budget. Mål för laddenergi under ett år (1 jan - 31 dec). Med CUSTOM-fördelning: 12 värden för jan-dec åtskilda med ;",
-            "no": "0 = intet budsjett. Mål for ladeenergi for et år (1. jan - 31. des). Med CUSTOM-fordeling: 12 verdier for jan-des skilt med ;",
-            "es": "0 = sin presupuesto. Energía de carga objetivo para un año (1 ene - 31 dic). Con distribución CUSTOM: 12 valores de ene a dic separados por ;",
-            "da": "0 = intet budget. Mål for ladeenergi for et år (1. jan - 31. dec). Med CUSTOM-fordeling: 12 værdier for jan-dec adskilt af ;",
-            "pl": "0 = brak budżetu. Docelowa energia ładowania na rok (1 sty - 31 gru). Przy rozkładzie CUSTOM: 12 wartości sty-gru oddzielonych ;",
-            "ru": "0 = без бюджета. Целевая энергия зарядки за год (1 янв - 31 дек). При распределении CUSTOM: 12 значений янв-дек через ;",
-            "ar": "0 = بدون ميزانية. طاقة الشحن المستهدفة لسنة (1 يناير - 31 ديسمبر). مع توزيع CUSTOM: 12 قيمة من يناير إلى ديسمبر مفصولة بـ ;",
-            "ko": "0 = 예산 없음. 1년(1월 1일 - 12월 31일) 목표 충전 에너지. CUSTOM 분배 시: 1월-12월 12개 값을 ;로 구분"
+            "en": "Change via Repair (device menu) > Year budget.",
+            "nl": "Wijzigen via Repareren (apparaatmenu) > Jaarbudget.",
+            "de": "Ändern über Reparieren (Gerätemenü) > Jahresbudget.",
+            "fr": "Modifier via Réparer (menu de l'appareil) > Budget annuel.",
+            "it": "Modifica tramite Ripara (menu dispositivo) > Budget annuale.",
+            "sv": "Ändra via Reparera (enhetsmeny) > Årsbudget.",
+            "no": "Endre via Reparer (enhetsmeny) > Årsbudsjett.",
+            "es": "Cambiar en Reparar (menú del dispositivo) > Presupuesto anual.",
+            "da": "Ændr via Reparer (enhedsmenu) > Årsbudget.",
+            "pl": "Zmień przez Napraw (menu urządzenia) > Budżet roczny.",
+            "ru": "Изменить через Восстановить (меню устройства) > Годовой бюджет.",
+            "ar": "غيّر عبر إصلاح (قائمة الجهاز) > الميزانية السنوية.",
+            "ko": "복구(기기 메뉴) > 연간 예산에서 변경하세요."
           }
-        },
-        {
-          "id": "distribution",
-          "type": "dropdown",
-          "value": "linear",
-          "label": {
-            "en": "Distribution scheme",
-            "nl": "Verdeling schema",
-            "de": "Verteilungsschema",
-            "fr": "Schéma de distribution",
-            "it": "Schema di distribuzione",
-            "sv": "Distributionsschema",
-            "no": "Distribusjonsskjema",
-            "es": "Esquema de distribución",
-            "da": "Distributionsskema",
-            "pl": "Schemat dystrybucji",
-            "ru": "Схема распределения",
-            "ar": "مخطط التوزيع",
-            "ko": "분배 방식"
-          },
-          "hint": {
-            "en": "The day by day distribution of usage over the year.",
-            "nl": "De verdeling van het dagelijkse verbruik over het jaar heen.",
-            "de": "Die Verteilung des Tagesverbrauchs über das Jahr.",
-            "fr": "La distribution quotidienne de l'utilisation sur l'année.",
-            "it": "La distribuzione giornaliera dell'utilizzo durante l'anno.",
-            "sv": "Den dagliga fördelningen av användningen under året.",
-            "no": "Den daglige fordelingen av bruk gjennom året.",
-            "es": "La distribución día a día del uso durante el año.",
-            "da": "Den daglige fordeling af forbrug over året.",
-            "pl": "Codzienny rozkład zużycia w ciągu roku.",
-            "ru": "Ежедневное распределение использования в течение года.",
-            "ar": "توزيع الاستخدام يومًا بعد يوم على مدار العام.",
-            "ko": "연중 일별 사용량 분포입니다."
-          },
-          "values": [
-            {
-              "id": "CUSTOM",
-              "label": {
-                "en": "CUSTOM BUDGET",
-                "nl": "HANDMATIG BUDGET",
-                "de": "BENUTZERDEFINIERT",
-                "fr": "BUDGET PERSONNALISÉ",
-                "it": "BUDGET PERSONALIZZATO",
-                "sv": "ANPASSAD BUDGET",
-                "no": "EGENDEFINERT BUDSJETT",
-                "es": "PRESUPUESTO PERSONALIZADO",
-                "da": "BRUGERDEFINERET BUDGET",
-                "pl": "BUDŻET NIESTANDARDOWY",
-                "ru": "ПОЛЬЗОВАТЕЛЬСКИЙ БЮДЖЕТ",
-                "ar": "ميزانية مخصصة",
-                "ko": "사용자 지정 예산"
-              }
-            },
-            {
-              "id": "linear",
-              "label": {
-                "en": "Linear",
-                "nl": "Lineair",
-                "de": "Linear",
-                "fr": "Linéaire",
-                "it": "Lineare",
-                "sv": "Linjär",
-                "no": "Lineær",
-                "es": "Lineal",
-                "da": "Lineær",
-                "pl": "Liniowy",
-                "ru": "Линейный",
-                "ar": "خطي",
-                "ko": "선형"
-              }
-            }
-          ]
         }
       ]
     },

@@ -34,6 +34,8 @@
   "appliance_status_learning": "Lærer: __runs__ af __min__ kørsler",
   "error_value_not_number": "Værdien er ikke et tal",
   "error_budget_custom_12": "Brugerdefineret budget har ikke 12 talværdier",
+  "error_budget_needed": "Angiv et årsbudget over 0",
+  "error_start_date": "Startdato skal være ddmm, f.eks. 0101",
   "error_budget_invalid": "Budgettet er ikke et gyldigt tal",
   "error_total_invalid": "En total kan ikke gå imod målerens tælleretning.",
   "error_device_corrupt": "Enheden er korrupt!",
@@ -131,7 +133,11 @@
     "setup_role_n2_normal": "Måler eksport (normaltarif)",
     "setup_no_price": "Ingen Energipris-enhed fundet: tilføj først en, også for en fast tarif.",
     "setup_use_watt": "Brug Watt som kilde",
-    "setup_daily_reset": "Har daglig nulstilling"
+    "setup_daily_reset": "Har daglig nulstilling",
+    "setup_use_budget": "Brug et årsbudget",
+    "setup_budget_title": "Årsbudget",
+    "start_budget": "Årsbudget",
+    "start_budget_info": "Ændr årsbudgettet, dets fordeling og årets startdato."
   },
   "load_forecast_accuracy": "Gns. afvigelse __mae__ W (__pct__%), bias __bias__ W, __days__ dage",
   "load_forecast_accuracy_collecting": "Indsamler data",
@@ -228,5 +234,26 @@
   "fuse_export": "Hovedsikringsbeskyttelse: levering __export__ W over __limit__ W i 30 s. Batterierne kunne ikke forhindre det.",
   "warning_no_price_device": "Ingen Energipris-enhed i tarifgruppen: prisen bliver stående på den sidste. Tilføj en Energipris-enhed og vælg dens gruppe i indstillingerne.",
   "error_setup_no_price": "Vælg en tarifgruppe med en Energipris-enhed. Tilføj først en Energipris-enhed, hvis der ikke er nogen.",
-  "source_polled": "pollet"
+  "source_polled": "pollet",
+  "budget": {
+    "start_date": "Startdato for nytår",
+    "start_date_info": "På denne dato nulstilles måneds- og årstotalen. Format ddmm, standard 0101 (1. januar). Ret efter en ændring måneds- og årstotalen via Reparer.",
+    "target": "Årligt målbudget",
+    "distribution": "Distributionsskema",
+    "linear": "Lineær",
+    "local": "Lokalt klima (auto)",
+    "custom": "Brugerdefineret (angiv ved årligt målbudget)",
+    "heating": "Opvarmning",
+    "heating_none": "Ikke elektrisk (gas, olie, fjernvarme)",
+    "heating_heat_pump": "Varmepumpe",
+    "heating_hybrid": "Hybrid varmepumpe",
+    "heating_electric": "Direkte el",
+    "heating_gas_boiler": "Gasfyr (varme og varmt vand)",
+    "heating_gas_hybrid": "Hybrid varmepumpe",
+    "heating_gas_none": "Ingen gasopvarmning (madlavning, varmt vand)",
+    "cooling": "Aircondition",
+    "target_info": "Med Brugerdefineret: de 12 værdier for jan-dec, adskilt af ;",
+    "off": "Intet budget",
+    "start": "start"
+  }
 }

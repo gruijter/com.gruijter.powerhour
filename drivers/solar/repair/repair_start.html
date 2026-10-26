@@ -7,30 +7,29 @@
 </form>
 
 <script>
-	// The same file in repair/ of each driver with the fix_values view (lib/helpers/FixValues.js).
-	// Own scope: the views of a repair session share one document (setup.html also declares el).
+	// The same file in repair/ of each driver with a setup view (lib/helpers/PairSetup.js).
+	// Own scope: the views of a repair session share one document.
 	(() => {
 		Homey.setTitle(Homey.__('repair.start_title'));
-		const CHOICES = [
-			{ view: 'list_devices', label: 'repair.start_source', info: 'repair.start_source_info' },
-			{ view: 'fix_values', label: 'repair.start_fix', info: 'repair.start_fix_info' },
-		];
-
 		const el = (tag, props = {}) => Object.assign(document.createElement(tag), props);
 		const set = document.getElementById('choice');
-		CHOICES.forEach((c, i) => {
-			const label = el('label', { className: 'homey-form-radio' });
-			label.appendChild(el('input', {
-				className: 'homey-form-radio-input', type: 'radio', name: 'choice', value: c.view, checked: i === 0,
-			}));
-			label.appendChild(el('span', { className: 'homey-form-radio-checkmark' }));
-			label.appendChild(el('span', { className: 'homey-form-radio-text', textContent: Homey.__(c.label) }));
-			set.appendChild(label);
-			set.appendChild(el('p', { className: 'homey-subtitle', textContent: Homey.__(c.info) }));
-		});
+		// The choices from the driver: source, and per device fix values and the year budget.
+		Homey.emit('start_get').then((choices) => {
+			choices.forEach((c, i) => {
+				const label = el('label', { className: 'homey-form-radio' });
+				label.appendChild(el('input', {
+					className: 'homey-form-radio-input', type: 'radio', name: 'choice', value: c.view, checked: i === 0,
+				}));
+				label.appendChild(el('span', { className: 'homey-form-radio-checkmark' }));
+				label.appendChild(el('span', { className: 'homey-form-radio-text', textContent: c.label }));
+				set.appendChild(label);
+				set.appendChild(el('p', { className: 'homey-subtitle', textContent: c.info }));
+			});
+		}).catch((error) => Homey.alert(error.message || error, 'error'));
 
 		document.getElementById('startNext').addEventListener('click', () => {
-			Homey.showView(document.querySelector('input[name="choice"]:checked').value);
+			const checked = document.querySelector('input[name="choice"]:checked');
+			if (checked) Homey.showView(checked.value);
 		});
 		Homey.hideLoadingOverlay();
 	})();

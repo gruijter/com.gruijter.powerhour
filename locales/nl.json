@@ -34,6 +34,8 @@
   "appliance_status_learning": "Leren: __runs__ van __min__ runs",
   "error_value_not_number": "Waarde is geen getal",
   "error_budget_custom_12": "Aangepast budget heeft geen 12 getalwaarden",
+  "error_budget_needed": "Vul een jaarbudget boven 0 in",
+  "error_start_date": "Startdatum moet ddmm zijn, bijv. 0101",
   "error_budget_invalid": "Budget is geen geldig getal",
   "error_total_invalid": "Een totaal kan niet tegen de telrichting van de meter ingaan.",
   "error_device_corrupt": "Apparaat is corrupt!",
@@ -131,7 +133,11 @@
     "setup_role_n2_normal": "Meter teruglevering (normaaltarief)",
     "setup_no_price": "Geen Energieprijs-apparaat gevonden: voeg er eerst een toe, ook voor een vast tarief.",
     "setup_use_watt": "Gebruik Watt als bron",
-    "setup_daily_reset": "Heeft dagelijkse reset"
+    "setup_daily_reset": "Heeft dagelijkse reset",
+    "setup_use_budget": "Jaarbudget gebruiken",
+    "setup_budget_title": "Jaarbudget",
+    "start_budget": "Jaarbudget",
+    "start_budget_info": "Wijzig het jaarbudget, de verdeling en de startdatum van het jaar."
   },
   "load_forecast_accuracy": "Gem. afwijking __mae__ W (__pct__%), bias __bias__ W, __days__ dagen",
   "load_forecast_accuracy_collecting": "Gegevens verzamelen",
@@ -228,5 +234,26 @@
   "fuse_export": "Hoofdzekeringbeveiliging: teruglevering __export__ W boven __limit__ W gedurende 30 s. De accu's konden het niet voorkomen.",
   "warning_no_price_device": "Geen Energieprijs-apparaat in de tariefgroep: de prijs blijft op de laatste staan. Voeg een Energieprijs-apparaat toe en kies zijn groep in de instellingen.",
   "error_setup_no_price": "Kies een tariefgroep met een Energieprijs-apparaat. Voeg eerst een Energieprijs-apparaat toe als er nog geen is.",
-  "source_polled": "gepolld"
+  "source_polled": "gepolld",
+  "budget": {
+    "start_date": "Start datum nieuw jaar",
+    "start_date_info": "Op deze datum gaan het maand- en jaartotaal naar 0. Formaat ddmm, standaard 0101 (1 januari). Herstel na een wijziging het maand- en jaartotaal via Repareren.",
+    "target": "Jaar doelbudget",
+    "distribution": "Verdeling schema",
+    "linear": "Lineair",
+    "local": "Lokaal klimaat (auto)",
+    "custom": "Handmatig (invullen bij jaar doelbudget)",
+    "heating": "Verwarming",
+    "heating_none": "Niet elektrisch (gas, olie, stadswarmte)",
+    "heating_heat_pump": "Warmtepomp",
+    "heating_hybrid": "Hybride warmtepomp",
+    "heating_electric": "Direct elektrisch",
+    "heating_gas_boiler": "Cv-ketel (verwarming en warm water)",
+    "heating_gas_hybrid": "Hybride warmtepomp",
+    "heating_gas_none": "Geen gasverwarming (koken, warm water)",
+    "cooling": "Airconditioning",
+    "target_info": "Bij Handmatig: de 12 waarden voor jan-dec, gescheiden door ;",
+    "off": "Geen budget",
+    "start": "start"
+  }
 }

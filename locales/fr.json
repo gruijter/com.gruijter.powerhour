@@ -34,6 +34,8 @@
   "appliance_status_learning": "Apprentissage : __runs__ sur __min__ cycles",
   "error_value_not_number": "La valeur n'est pas un nombre",
   "error_budget_custom_12": "Le budget personnalisé n'a pas 12 valeurs numériques",
+  "error_budget_needed": "Saisissez un budget annuel supérieur à 0",
+  "error_start_date": "La date de début doit être jjmm, p. ex. 0101",
   "error_budget_invalid": "Le budget n'est pas un nombre valide",
   "error_total_invalid": "Un total ne peut pas aller contre le sens de comptage du compteur.",
   "error_device_corrupt": "L'appareil est corrompu !",
@@ -131,7 +133,11 @@
     "setup_role_n2_normal": "Compteur injection (heures pleines)",
     "setup_no_price": "Aucun appareil Prix de l'énergie trouvé : ajoutez-en d'abord un, aussi pour un tarif fixe.",
     "setup_use_watt": "Utiliser Watt comme source",
-    "setup_daily_reset": "A une remise à zéro quotidienne"
+    "setup_daily_reset": "A une remise à zéro quotidienne",
+    "setup_use_budget": "Utiliser un budget annuel",
+    "setup_budget_title": "Budget annuel",
+    "start_budget": "Budget annuel",
+    "start_budget_info": "Modifiez le budget annuel, sa distribution et la date de début de l'année."
   },
   "load_forecast_accuracy": "Écart moyen __mae__ W (__pct__%), biais __bias__ W, __days__ jours",
   "load_forecast_accuracy_collecting": "Collecte des données",
@@ -228,5 +234,26 @@
   "fuse_export": "Protection du fusible principal : injection de __export__ W au-dessus de __limit__ W pendant 30 s. Les batteries n'ont pas pu l'empêcher.",
   "warning_no_price_device": "Aucun appareil Prix de l'énergie dans le groupe tarifaire : le prix reste le dernier. Ajoutez un appareil Prix de l'énergie et choisissez son groupe dans les réglages.",
   "error_setup_no_price": "Choisissez un groupe tarifaire avec un appareil Prix de l'énergie. Ajoutez d'abord un appareil Prix de l'énergie s'il n'y en a pas.",
-  "source_polled": "interrogé"
+  "source_polled": "interrogé",
+  "budget": {
+    "start_date": "Date de début de nouvelle année",
+    "start_date_info": "À cette date, les totaux du mois et de l'année reviennent à 0. Format jjmm, par défaut 0101 (1er janvier). Après un changement, corrigez les totaux du mois et de l'année via Réparer.",
+    "target": "Budget cible annuel",
+    "distribution": "Schéma de distribution",
+    "linear": "Linéaire",
+    "local": "Climat local (auto)",
+    "custom": "Personnalisé (à définir dans le budget cible annuel)",
+    "heating": "Chauffage",
+    "heating_none": "Non électrique (gaz, fioul, réseau de chaleur)",
+    "heating_heat_pump": "Pompe à chaleur",
+    "heating_hybrid": "Pompe à chaleur hybride",
+    "heating_electric": "Électrique direct",
+    "heating_gas_boiler": "Chaudière gaz (chauffage et eau chaude)",
+    "heating_gas_hybrid": "Pompe à chaleur hybride",
+    "heating_gas_none": "Pas de chauffage gaz (cuisson, eau chaude)",
+    "cooling": "Climatisation",
+    "target_info": "Avec Personnalisé : les 12 valeurs de janv. à déc., séparées par ;",
+    "off": "Pas de budget",
+    "start": "début"
+  }
 }

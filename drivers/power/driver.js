@@ -209,12 +209,6 @@ class PowerDriver extends GenericDriver {
     return { found: false };
   }
 
-  getDeviceSettings(homeyDevice) {
-    const settings = super.getDeviceSettings(homeyDevice);
-    if (homeyDevice.energyObj && homeyDevice.energyObj.cumulative) settings.distribution = 'el_nl_2023';
-    return settings;
-  }
-
   getVirtualDevices(randomId, allCaps, reducedCaps) {
     return [
       {
@@ -230,7 +224,6 @@ class PowerDriver extends GenericDriver {
           interval: 1,
           source_device_type: 'Homey Energy Smart Meters',
           tariff_update_group: 1,
-          distribution: 'el_nl_2023',
         },
         capabilities: allCaps,
       },
@@ -247,7 +240,6 @@ class PowerDriver extends GenericDriver {
           interval: 1,
           source_device_type: 'Homey Energy Solar Panels',
           tariff_update_group: 1,
-          distribution: 'pv_52n_t40s',
         },
         capabilities: reducedCaps,
       },

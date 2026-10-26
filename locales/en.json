@@ -34,6 +34,8 @@
   "appliance_status_learning": "Learning: __runs__ of __min__ runs",
   "error_value_not_number": "Value is not a number",
   "error_budget_custom_12": "Custom budget does not have 12 number values",
+  "error_budget_needed": "Enter a year budget above 0",
+  "error_start_date": "Start date must be ddmm, e.g. 0101",
   "error_budget_invalid": "Budget is not a valid number",
   "error_total_invalid": "A total cannot go against the counting direction of the meter.",
   "error_device_corrupt": "Device is corrupt!",
@@ -131,7 +133,11 @@
     "setup_role_n2_normal": "Export meter (normal tariff)",
     "setup_no_price": "No Energy Price device found: add one first, also for a fixed tariff.",
     "setup_use_watt": "Use Watt as source",
-    "setup_daily_reset": "Has daily reset"
+    "setup_daily_reset": "Has daily reset",
+    "setup_use_budget": "Use a year budget",
+    "setup_budget_title": "Year budget",
+    "start_budget": "Year budget",
+    "start_budget_info": "Change the year budget, its distribution and the start date of the year."
   },
   "load_forecast_accuracy": "Avg error __mae__ W (__pct__%), bias __bias__ W, __days__ days",
   "load_forecast_accuracy_collecting": "Collecting data",
@@ -228,5 +234,26 @@
   "fuse_export": "Main fuse protection: export __export__ W above __limit__ W for 30 s. The batteries could not prevent it.",
   "warning_no_price_device": "No Energy Price device in the tariff group: the price stays at the last one. Add a Energy Price device and choose its group in the settings.",
   "error_setup_no_price": "Choose a tariff group with a Energy Price device. Add a Energy Price device first if there is none.",
-  "source_polled": "polled"
+  "source_polled": "polled",
+  "budget": {
+    "start_date": "New year start date",
+    "start_date_info": "On this date the month and year totals reset to 0. Format ddmm, default 0101 (1 January). After a change, fix the month and year totals via Repair.",
+    "target": "Year target budget",
+    "distribution": "Distribution scheme",
+    "linear": "Linear",
+    "local": "Local climate (auto)",
+    "custom": "Custom (define at year target budget)",
+    "heating": "Heating",
+    "heating_none": "Not electric (gas, oil, district heat)",
+    "heating_heat_pump": "Heat pump",
+    "heating_hybrid": "Hybrid heat pump",
+    "heating_electric": "Direct electric",
+    "heating_gas_boiler": "Gas boiler (heating and hot water)",
+    "heating_gas_hybrid": "Hybrid heat pump",
+    "heating_gas_none": "No gas heating (cooking, hot water)",
+    "cooling": "Air conditioning",
+    "target_info": "With Custom: the 12 values for Jan-Dec, separated by ;",
+    "off": "No budget",
+    "start": "start"
+  }
 }

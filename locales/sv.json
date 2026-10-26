@@ -34,6 +34,8 @@
   "appliance_status_learning": "Lär: __runs__ av __min__ körningar",
   "error_value_not_number": "Värdet är inte ett nummer",
   "error_budget_custom_12": "Anpassad budget har inte 12 nummervärden",
+  "error_budget_needed": "Ange en årsbudget över 0",
+  "error_start_date": "Startdatum måste vara ddmm, t.ex. 0101",
   "error_budget_invalid": "Budgeten är inte ett giltigt nummer",
   "error_total_invalid": "En total kan inte gå mot mätarens räkneriktning.",
   "error_device_corrupt": "Enheten är korrupt!",
@@ -131,7 +133,11 @@
     "setup_role_n2_normal": "Mätare export (normaltariff)",
     "setup_no_price": "Ingen Energipris-enhet hittades: lägg först till en, även för en fast tariff.",
     "setup_use_watt": "Använd Watt som källa",
-    "setup_daily_reset": "Har daglig återställning"
+    "setup_daily_reset": "Har daglig återställning",
+    "setup_use_budget": "Använd en årsbudget",
+    "setup_budget_title": "Årsbudget",
+    "start_budget": "Årsbudget",
+    "start_budget_info": "Ändra årsbudgeten, dess fördelning och årets startdatum."
   },
   "load_forecast_accuracy": "Medelfel __mae__ W (__pct__%), bias __bias__ W, __days__ dagar",
   "load_forecast_accuracy_collecting": "Samlar in data",
@@ -228,5 +234,26 @@
   "fuse_export": "Huvudsäkringsskydd: export __export__ W över __limit__ W i 30 s. Batterierna kunde inte förhindra det.",
   "warning_no_price_device": "Ingen Energipris-enhet i tariffgruppen: priset blir kvar på det senaste. Lägg till en Energipris-enhet och välj dess grupp i inställningarna.",
   "error_setup_no_price": "Välj en tariffgrupp med en Energipris-enhet. Lägg först till en Energipris-enhet om det inte finns någon.",
-  "source_polled": "pollad"
+  "source_polled": "pollad",
+  "budget": {
+    "start_date": "Nytt år startdatum",
+    "start_date_info": "På detta datum nollställs månads- och årstotalen. Format ddmm, standard 0101 (1 januari). Rätta efter en ändring månads- och årstotalen via Reparera.",
+    "target": "Årsmålbudget",
+    "distribution": "Distributionsschema",
+    "linear": "Linjär",
+    "local": "Lokalt klimat (auto)",
+    "custom": "Anpassad (ange vid årsmålbudget)",
+    "heating": "Uppvärmning",
+    "heating_none": "Inte elektrisk (gas, olja, fjärrvärme)",
+    "heating_heat_pump": "Värmepump",
+    "heating_hybrid": "Hybridvärmepump",
+    "heating_electric": "Direktverkande el",
+    "heating_gas_boiler": "Gaspanna (värme och varmvatten)",
+    "heating_gas_hybrid": "Hybridvärmepump",
+    "heating_gas_none": "Ingen gasvärme (matlagning, varmvatten)",
+    "cooling": "Luftkonditionering",
+    "target_info": "Med Anpassad: de 12 värdena för jan-dec, separerade med ;",
+    "off": "Ingen budget",
+    "start": "start"
+  }
 }
