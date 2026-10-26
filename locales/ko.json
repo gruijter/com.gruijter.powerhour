@@ -95,9 +95,7 @@
     "setup_sign_normal": "+ = 충전",
     "setup_sign_inverted": "+ = 방전",
     "setup_role_production": "발전 계량기",
-    "setup_no_dap": "에너지 가격 장치를 찾을 수 없습니다. 동적 가격을 사용하려면 먼저 추가하세요. 그렇지 않으면 아래 고정 요금을 사용하거나 플로우로 설정하세요.",
     "setup_no_dap_plan": "에너지 가격 장치를 찾을 수 없습니다. 충전 계획에 필요합니다: 먼저 추가하세요. 지원 시장 밖에서는 플로우(가격 JSON)로 가격을 제공하세요.",
-    "setup_tariff_fixed": "고정 가격: 선택한 그룹의 가격을 에너지 가격 장치나 플로우가 설정하지 않을 때만 사용됩니다.",
     "setup_role_setpoint": "출력 설정값",
     "setup_role_setpointSign": "설정값 부호",
     "setup_bat_external": "제어하려면 배터리 자체 앱을 외부 제어로 설정하세요.",
@@ -129,7 +127,8 @@
     "setup_role_p1_low": "수전 계량기 (저율 또는 단일 요금)",
     "setup_role_p2_normal": "수전 계량기 (일반 요금)",
     "setup_role_n1_low": "송전 계량기 (저율 또는 단일 요금)",
-    "setup_role_n2_normal": "송전 계량기 (일반 요금)"
+    "setup_role_n2_normal": "송전 계량기 (일반 요금)",
+    "setup_no_price": "에너지 가격 기기를 찾을 수 없습니다: 고정 요금이라도 먼저 하나 추가하세요."
   },
   "load_forecast_accuracy": "평균 오차 __mae__ W (__pct__%), 편향 __bias__ W, __days__일",
   "load_forecast_accuracy_collecting": "데이터 수집 중",
@@ -211,7 +210,8 @@
     "import_title": "설정 가져오기",
     "import_label": "기존 가격 기기에서",
     "import_none": "아니요, 직접 입력",
-    "import_hint": "이후 기존 기기는 그룹에 가격을 보내지 않습니다."
+    "import_hint": "이후 기존 기기는 그룹에 가격을 보내지 않습니다.",
+    "name_water": "수도 요금"
   },
   "battery_learned": {
     "learning": "학습 중: 충전 __charge__/__needed__, 방전 __discharge__/__needed__",
@@ -222,5 +222,7 @@
   "fuse_import": "메인 퓨즈 보호: 수전 __import__ W가 30초 동안 __limit__ W를 초과했습니다. 배터리로 막지 못했고 제한할 충전기가 없습니다.",
   "fuse_import_ev_limited": "메인 퓨즈 보호: 수전 __import__ W가 30초 동안 __limit__ W를 초과했습니다. __charger__을(를) __power__ W로 제한했습니다.",
   "fuse_import_ev_off": "메인 퓨즈 보호: 수전 __import__ W가 30초 동안 __limit__ W를 초과했습니다. __charger__을(를) 껐습니다.",
-  "fuse_export": "메인 퓨즈 보호: 송전 __export__ W가 30초 동안 __limit__ W를 초과했습니다. 배터리로 막지 못했습니다."
+  "fuse_export": "메인 퓨즈 보호: 송전 __export__ W가 30초 동안 __limit__ W를 초과했습니다. 배터리로 막지 못했습니다.",
+  "warning_no_price_device": "요금 그룹에 에너지 가격 기기가 없습니다: 가격이 마지막 값으로 유지됩니다. 에너지 가격 기기를 추가하고 설정에서 그룹을 선택하세요.",
+  "error_setup_no_price": "에너지 가격 기기가 있는 요금 그룹을 선택하세요. 없으면 먼저 에너지 가격 기기를 추가하세요."
 }

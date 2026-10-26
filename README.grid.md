@@ -175,4 +175,4 @@ The **peak forecast** JSON contains the month peak, the projected value and head
 
 ## Repairing / Changing the Source Meter
 
-If you replace your smart meter or P1 reader, use **Repair** on the device to select the new source device. The import/export and peak-load bookkeeping is re-anchored to the new meter, so the switch does not create a false jump in money totals or peaks. Check the **Meter readings** settings (day/month/year start) afterwards.
+If you replace your smart meter or P1 reader, use **Repair** on the device to select the new source device. The import/export and peak-load bookkeeping is re-anchored to the new meter, so the switch does not create a false jump in money totals or peaks. Check the totals afterwards; fix them with **Repair** > *Fix totals or costs* if needed.

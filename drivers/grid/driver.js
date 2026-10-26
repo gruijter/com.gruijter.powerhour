@@ -76,13 +76,14 @@ const driverSpecifics = {
     'button.retrain_load'],
   // Asked at pair and repair (lib/helpers/PairSetup.js).
   setup: {
-    settings: ['use_measure_source', 'tariff_update_group', 'tariff', 'directionalNettingScheme',
+    settings: ['use_measure_source', 'tariff_update_group', 'directionalNettingScheme',
       'connectionPhases', 'connectionAmps', 'peakLoadIntervalMinutes'],
     roles: [{ key: 'p1', kind: 'kwh' }, { key: 'n1', kind: 'kwh' },
       {
         key: 'watt', kind: 'w', label: 'power', watt: true, // Use Watt as source
       }],
     match: { energy: (energy) => energy.cumulative === true }, // a smart meter
+    requirePrice: true,
   },
   // Canonical display order for this driver's chart images - see lib/helpers/ChartImages.js.
   chartImages: [

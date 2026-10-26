@@ -75,11 +75,11 @@ For a meter that is not a Homey device, or that needs a calculation first:
 
 ## Tariff, Fixed Costs & Budget
 
-- **Tariff group:** the device uses the price of the Energy Price device with the same group number ([README.price.md](./README.price.md)), or the tariff from the flow card **Set a new tariff**. 0: no updates.
+- **Tariff group:** the device uses the price of the Energy Price device with the same group number ([README.price.md](./README.price.md)), also for a fixed tariff. 0: no price.
 - **Tariff selection:** *Automatic* uses the import price while the home imports from the grid, and the export price while it exports. Or always import, or always export.
 - **Fixed costs** per hour, day and month: in the settings, or with **Set fixed cost**.
 - **Budget:** a year budget with a distribution over the year (linear, NL price ceiling 2023, PV north Europe, or 12 own values). The device shows how the use compares to the budget so far this month and year.
-- **Meter readings:** the readings at the start of this day, month and year. Set them when you start in the middle of a period.
+- **Fix totals or costs:** with **Repair** > *Fix totals or costs* you correct the totals and money values: after a wrong meter jump, after changing the source device or the start date, or to enter the totals so far after pairing.
 
 ---
 
@@ -126,6 +126,6 @@ The program and cheapest-start cards are available when **Enable forecast and pl
 - **Cancel planned program**
 - **Set fixed cost** per hour, day or month
 - **Set tariff group**
-- **Set a new tariff** and **Send reading to virtual meter** (app cards)
+- **Send reading to virtual meter** (app card)
 
 Times are text: `07:30`, decimal hours (`7.5`), or a tag.

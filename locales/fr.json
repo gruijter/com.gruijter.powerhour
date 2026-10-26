@@ -95,9 +95,7 @@
     "setup_sign_normal": "+ = charge",
     "setup_sign_inverted": "+ = décharge",
     "setup_role_production": "Compteur de production",
-    "setup_no_dap": "Aucun appareil Prix de l'énergie trouvé. Pour des prix dynamiques, ajoutez-en un d'abord. Sinon, utilisez le tarif fixe ci-dessous ou réglez-le par flow.",
     "setup_no_dap_plan": "Aucun appareil Prix de l'énergie trouvé. Le plan de charge en a besoin : ajoutez-le d'abord. Hors de ses marchés, fournissez ses prix par flow (prix JSON).",
-    "setup_tariff_fixed": "Prix fixe : utilisé seulement si aucun appareil Prix de l'énergie ni flow ne fixe le prix du groupe choisi.",
     "setup_role_setpoint": "Consigne de puissance",
     "setup_role_setpointSign": "Signe de la consigne",
     "setup_bat_external": "Pour la piloter, réglez l'app de la batterie sur pilotage externe.",
@@ -129,7 +127,8 @@
     "setup_role_p1_low": "Compteur consommation (heures creuses ou tarif unique)",
     "setup_role_p2_normal": "Compteur consommation (heures pleines)",
     "setup_role_n1_low": "Compteur injection (heures creuses ou tarif unique)",
-    "setup_role_n2_normal": "Compteur injection (heures pleines)"
+    "setup_role_n2_normal": "Compteur injection (heures pleines)",
+    "setup_no_price": "Aucun appareil Prix de l'énergie trouvé : ajoutez-en d'abord un, aussi pour un tarif fixe."
   },
   "load_forecast_accuracy": "Écart moyen __mae__ W (__pct__%), biais __bias__ W, __days__ jours",
   "load_forecast_accuracy_collecting": "Collecte des données",
@@ -211,7 +210,8 @@
     "import_title": "Reprendre les réglages",
     "import_label": "D'un appareil de prix existant",
     "import_none": "Non, je remplis moi-même",
-    "import_hint": "L'ancien appareil n'envoie ensuite plus son prix au groupe."
+    "import_hint": "L'ancien appareil n'envoie ensuite plus son prix au groupe.",
+    "name_water": "Prix de l'eau"
   },
   "battery_learned": {
     "learning": "Apprentissage : charge __charge__/__needed__, décharge __discharge__/__needed__",
@@ -222,5 +222,7 @@
   "fuse_import": "Protection du fusible principal : prélèvement de __import__ W au-dessus de __limit__ W pendant 30 s. Les batteries n'ont pas pu l'empêcher, aucune borne à limiter.",
   "fuse_import_ev_limited": "Protection du fusible principal : prélèvement de __import__ W au-dessus de __limit__ W pendant 30 s. __charger__ limité à __power__ W.",
   "fuse_import_ev_off": "Protection du fusible principal : prélèvement de __import__ W au-dessus de __limit__ W pendant 30 s. __charger__ éteint.",
-  "fuse_export": "Protection du fusible principal : injection de __export__ W au-dessus de __limit__ W pendant 30 s. Les batteries n'ont pas pu l'empêcher."
+  "fuse_export": "Protection du fusible principal : injection de __export__ W au-dessus de __limit__ W pendant 30 s. Les batteries n'ont pas pu l'empêcher.",
+  "warning_no_price_device": "Aucun appareil Prix de l'énergie dans le groupe tarifaire : le prix reste le dernier. Ajoutez un appareil Prix de l'énergie et choisissez son groupe dans les réglages.",
+  "error_setup_no_price": "Choisissez un groupe tarifaire avec un appareil Prix de l'énergie. Ajoutez d'abord un appareil Prix de l'énergie s'il n'y en a pas."
 }

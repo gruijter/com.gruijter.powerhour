@@ -74,7 +74,7 @@ const driverSpecifics = {
     'measure_watt_min.year', 'measure_watt_max.year'],
   // Asked at pair and repair (lib/helpers/PairSetup.js).
   setup: {
-    settings: ['use_measure_source', 'homey_device_daily_reset', 'forecast_appliance', 'tariff_update_group', 'tariff'],
+    settings: ['use_measure_source', 'homey_device_daily_reset', 'forecast_appliance', 'tariff_update_group'],
     // Low (or single) and normal tariff registers of a smart meter; the extra ones only show when
     // the source has them (optional: see generic_sum_driver.setupRoles()).
     roles: [{ key: 'p1', kind: 'kwh', label: 'p1_low' }, {
@@ -88,6 +88,7 @@ const driverSpecifics = {
       key: 'watt', kind: 'w', label: 'power', watt: true, // Use Watt as source
     }],
     match: { energy: (energy) => energy.cumulative === true }, // a smart meter
+    requirePrice: true,
   },
   // Only registered with forecast (setting forecast_appliance) - see lib/helpers/ChartImages.js.
   chartImages: [

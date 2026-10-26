@@ -52,13 +52,14 @@ const driverSpecifics = {
     'button.retrain', 'button.export_diagnostics', 'alarm_power'],
   // Asked at pair and repair (lib/helpers/PairSetup.js).
   setup: {
-    settings: ['use_measure_source', 'homey_device_daily_reset', 'peakPower', 'tariff_update_group', 'tariff',
+    settings: ['use_measure_source', 'homey_device_daily_reset', 'peakPower', 'tariff_update_group',
       'tariff_type'],
     roles: [{ key: 'p1', kind: 'kwh', label: 'production' },
       {
         key: 'watt', kind: 'w', label: 'power', watt: true, // Use Watt as source
       }],
     match: { classes: ['solarpanel'], energy: (energy) => !!energy.meterPowerExportedCapability },
+    requirePrice: true,
   },
   // Canonical display order for this driver's chart images - see lib/helpers/ChartImages.js.
   chartImages: [

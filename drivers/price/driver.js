@@ -60,7 +60,7 @@ const POWER_CAPABILITIES = [
   'meter_rank_price_h0_next_8h',
 ];
 
-// Gas has one price per day: no export, no cheapest or most expensive times.
+// Gas has one price per day, water a fixed tariff: no export, no cheapest or most expensive times.
 const GAS_CAPABILITIES = [
   'measure_monetary.import',
   'measure_monetary.next',
@@ -88,7 +88,7 @@ class PriceDriver extends GenericDriver {
   }
 
   capabilitiesFor(settings) {
-    return PriceDrivers.isGas('price', settings) ? GAS_CAPABILITIES : POWER_CAPABILITIES;
+    return PriceDrivers.commodityOf('price', settings) === 'power' ? POWER_CAPABILITIES : GAS_CAPABILITIES;
   }
 
   onPair(session) {

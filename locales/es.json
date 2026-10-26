@@ -95,9 +95,7 @@
     "setup_sign_normal": "+ = carga",
     "setup_sign_inverted": "+ = descarga",
     "setup_role_production": "Contador de producción",
-    "setup_no_dap": "No se encontró ningún dispositivo Precio de la energía. Para precios dinámicos, añade uno primero. Si no, usa la tarifa fija de abajo o fíjala con un flujo.",
     "setup_no_dap_plan": "No se encontró ningún dispositivo Precio de la energía. El plan de carga necesita uno: añádelo primero. Fuera de sus mercados, proporciona los precios con un flujo (precios JSON).",
-    "setup_tariff_fixed": "Precio fijo: solo se usa si ningún dispositivo Precio de la energía ni flujo fija el precio del grupo elegido.",
     "setup_role_setpoint": "Consigna de potencia",
     "setup_role_setpointSign": "Signo de la consigna",
     "setup_bat_external": "Para controlarla, pon la app de la batería en control externo.",
@@ -129,7 +127,8 @@
     "setup_role_p1_low": "Contador consumo (tarifa baja o única)",
     "setup_role_p2_normal": "Contador consumo (tarifa normal)",
     "setup_role_n1_low": "Contador vertido (tarifa baja o única)",
-    "setup_role_n2_normal": "Contador vertido (tarifa normal)"
+    "setup_role_n2_normal": "Contador vertido (tarifa normal)",
+    "setup_no_price": "No se encontró ningún dispositivo Precio de la energía: añade uno primero, también para una tarifa fija."
   },
   "load_forecast_accuracy": "Error medio __mae__ W (__pct__%), sesgo __bias__ W, __days__ días",
   "load_forecast_accuracy_collecting": "Recopilando datos",
@@ -211,7 +210,8 @@
     "import_title": "Copiar ajustes",
     "import_label": "De un dispositivo de precio existente",
     "import_none": "No, rellenar yo mismo",
-    "import_hint": "El dispositivo antiguo deja de enviar su precio al grupo."
+    "import_hint": "El dispositivo antiguo deja de enviar su precio al grupo.",
+    "name_water": "Precio del agua"
   },
   "battery_learned": {
     "learning": "Aprendiendo: carga __charge__/__needed__, descarga __discharge__/__needed__",
@@ -222,5 +222,7 @@
   "fuse_import": "Protección del fusible principal: consumo de __import__ W por encima de __limit__ W durante 30 s. Las baterías no pudieron evitarlo, ningún cargador que limitar.",
   "fuse_import_ev_limited": "Protección del fusible principal: consumo de __import__ W por encima de __limit__ W durante 30 s. __charger__ limitado a __power__ W.",
   "fuse_import_ev_off": "Protección del fusible principal: consumo de __import__ W por encima de __limit__ W durante 30 s. __charger__ apagado.",
-  "fuse_export": "Protección del fusible principal: vertido de __export__ W por encima de __limit__ W durante 30 s. Las baterías no pudieron evitarlo."
+  "fuse_export": "Protección del fusible principal: vertido de __export__ W por encima de __limit__ W durante 30 s. Las baterías no pudieron evitarlo.",
+  "warning_no_price_device": "Ningún dispositivo Precio de la energía en el grupo de tarifa: el precio se queda en el último. Añade un dispositivo Precio de la energía y elige su grupo en los ajustes.",
+  "error_setup_no_price": "Elige un grupo de tarifa con un dispositivo Precio de la energía. Añade primero un dispositivo Precio de la energía si no hay ninguno."
 }

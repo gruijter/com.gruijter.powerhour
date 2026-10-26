@@ -15,6 +15,7 @@ One driver for everything: it replaces the old **Day-ahead Pricing** (`dap`), **
 - [How the Price Is Calculated](#how-the-price-is-calculated)
 - [Fixed Tariffs](#fixed-tariffs)
 - [Gas Prices](#gas-prices)
+- [Water Prices](#water-prices)
 - [Price Providers & ENTSO-E API Key](#price-providers--entso-e-api-key)
 - [AI Price Forecast](#ai-price-forecast)
 - [Currency](#currency)
@@ -47,7 +48,7 @@ One driver for everything: it replaces the old **Day-ahead Pricing** (`dap`), **
 1. Go to **Devices** → **Add Device** → **Power by the Hour** → **Energy Price**.
 2. Follow the wizard:
    - **Take over settings** *(only shown if you still have an old DAP device):* choose the old device to copy its settings, or fill in everything yourself.
-   - **Which price?** Electricity or gas, and a dynamic (market) or fixed tariff.
+   - **Which price?** Electricity, gas or water, and a dynamic (market) or fixed tariff. Water is always fixed.
    - **Market:** your bidding zone, pre-filled from your Homey's location, and the price interval (15 or 60 minutes, as your supplier bills).
    - **Import price:** supplier markup, fixed taxes and levies, variable markup (%), time-of-day and weekend markups, and VAT. Each amount has its own *incl. VAT / excl. VAT* choice.
    - **Export price** *(electricity):* the feed-in tariff, set up the same way, or **Same as import**. Tick **Minimum export price** if your contract guarantees one; the next step asks for it.
@@ -102,6 +103,12 @@ Choose **Fixed** in the wizard. No market prices are fetched. You enter your **S
 ## Gas Prices
 
 Choose **Gas** in the wizard. Gas has one price per day (TTF day-ahead via EEX or EasyEnergy), per m³. Markups, taxes and VAT work as for electricity, without an export price.
+
+---
+
+## Water Prices
+
+Choose **Water** in the wizard. Water has no market: you enter your price per m³ as a fixed tariff, with taxes, VAT and any time-of-day or weekend markups. Water Monitors in the same tariff group use it.
 
 Because there is only one price per day, the cards for cheapest or most expensive periods and blocks are not available for gas. The card *The price is …% above/below the average* is.
 

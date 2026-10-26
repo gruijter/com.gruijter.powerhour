@@ -70,8 +70,12 @@
 		const checked = document.querySelector(`input[name="${name}"]:checked`);
 		return checked ? checked.value : null;
 	};
-	const isGas = () => radio('commodity') === 'gas';
-	const isFixed = () => radio('tariffType') === 'fixed';
+	const commodity = () => radio('commodity') || 'power';
+	const isGas = () => commodity() === 'gas';
+	// Water has no market: always a fixed tariff.
+	const isWater = () => commodity() === 'water';
+	const perM3 = () => commodity() !== 'power';
+	const isFixed = () => isWater() || radio('tariffType') === 'fixed';
 	const hasFloor = () => !!(input('export_floor') && input('export_floor').checked);
 	const groupOf = (id) => input(id) && input(id).closest('.homey-form-group');
 	const showField = (id, visible) => {
@@ -79,9 +83,9 @@
 		if (group) group.style.display = visible ? '' : 'none';
 	};
 	// Old dap devices of the chosen energy and tariff type, to take over.
-	const matchingDaps = () => (data.daps || []).filter((d) => d.commodity === (isGas() ? 'gas' : 'power')
+	const matchingDaps = () => (data.daps || []).filter((d) => d.commodity === commodity()
 		&& d.tariffType === (isFixed() ? 'fixed' : 'dynamic'));
-	const steps = () => ['energy', ...(matchingDaps().length ? ['takeover'] : []), 'market', 'import', ...(isGas() ? [] : ['export', ...(hasFloor() ? ['floor'] : [])]), 'finish'];
+	const steps = () => ['energy', ...(matchingDaps().length ? ['takeover'] : []), 'market', 'import', ...(perM3() ? [] : ['export', ...(hasFloor() ? ['floor'] : [])]), 'finish'];
 
 	const fillTakeover = () => {
 		const select = input('importFrom');
@@ -179,7 +183,7 @@
 		showField('priceInterval', !fixed && !isGas());
 		showCurrencyFields();
 		// Labels with the unit of the energy (kWh or m³); a fixed tariff names its prices.
-		const perUnit = Homey.__('price_setup.unit_label').replace('__unit__', isGas() ? 'm³' : 'kWh');
+		const perUnit = Homey.__('price_setup.unit_label').replace('__unit__', perM3() ? 'm³' : 'kWh');
 		const setText = (id, text) => {
 			const node = document.getElementById(id);
 			if (!node) return;
@@ -236,7 +240,7 @@
 
 	const collect = () => {
 		const values = {
-			commodity: isGas() ? 'gas' : 'power',
+			commodity: commodity(),
 			tariffType: isFixed() ? 'fixed' : 'dynamic',
 			name: input('name') ? input('name').value : '',
 			importFrom: matchingDaps().length && input('importFrom') ? input('importFrom').value : '',
@@ -324,7 +328,7 @@
 		box.textContent = '…';
 		try {
 			const p = await Homey.emit('setup_preview', collect());
-			const unit = isGas() ? '/m³' : '/kWh';
+			const unit = perM3() ? '/m³' : '/kWh';
 			box.textContent = '';
 			if (p.import === null) {
 				box.appendChild(el('p', { className: 'homey-subtitle', textContent: Homey.__('price_setup.preview_none') }));
@@ -353,7 +357,7 @@
 	const fillGroups = () => {
 		const select = input('tariff_update_group');
 		const current = Number(select.value || data.values.tariff_update_group);
-		const groups = [...data.groups[isGas() ? 'gas' : 'power']];
+		const groups = [...data.groups[commodity()]];
 		// No devices with a tariff group yet: group 1 (the default of every driver), no choice shown.
 		const none = !groups.length && !(data.repairing && current !== 1);
 		showField('tariff_update_group', !none);
@@ -409,6 +413,11 @@
 		document.getElementById('takeover').appendChild(el('p', { className: 'homey-subtitle', textContent: Homey.__('price_setup.import_hint') }));
 		radioSet('commodity', 'power');
 		radioSet('tariffType', 'dynamic');
+		const showTariffType = () => {
+			document.getElementById('tariffType').closest('.homey-form-group').style.display = isWater() ? 'none' : '';
+		};
+		document.querySelectorAll('input[name="commodity"]').forEach((r) => r.addEventListener('change', showTariffType));
+		showTariffType();
 		field('market', 'biddingZone', { options: [], noHint: true });
 		field('market', 'priceInterval', { noHint: true });
 		field('market', 'currencyChoice', {

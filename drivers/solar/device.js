@@ -31,6 +31,8 @@ const LoadSpread = require('../../lib/helpers/LoadSpread');
 const ChartImages = require('../../lib/helpers/ChartImages');
 const { fetchYesterdayAndToday, convertCumulativeToPower, mergeStoredHistory } = require('../../lib/helpers/HistoryLookup');
 
+const BOOTSTRAP_THRESHOLD_DAYS = 14; // days of training data for the solar model
+
 const deviceSpecifics = {
   cmap: {
     this_hour: 'meter_kwh_this_hour',
@@ -177,19 +179,23 @@ class SolarDevice extends GenericDevice {
     await this.retrainSolarModel(true);
   }
 
+  // While undertrained the bootstrap warning, before the price warning of the base class.
+  deviceWarning() {
+    if ((this.trainingCoverageDays || 0) < BOOTSTRAP_THRESHOLD_DAYS) return this.homey.__('solar_bootstrap_warning');
+    return super.deviceWarning();
+  }
+
   // trainingCoverageDays (set per retrain) against the 14-day window: a device warning while
   // undertrained, and the settings label "training_status".
   async updateTrainingStatus() {
-    const BOOTSTRAP_THRESHOLD_DAYS = 14;
     const days = this.trainingCoverageDays || 0;
 
+    await this.updateWarning().catch(this.error);
     if (days < BOOTSTRAP_THRESHOLD_DAYS) {
-      await this.setWarning(this.homey.__('solar_bootstrap_warning')).catch(this.error);
       await this.setSettings({
         training_status: this.homey.__('solar_bootstrap_status', { days: days.toFixed(1) }),
       }).catch(this.error);
     } else {
-      await this.unsetWarning().catch(this.error);
       const lastRetrainDate = this.lastRetrainFinishedAt ? new Date(this.lastRetrainFinishedAt) : new Date();
       await this.setSettings({
         training_status: this.homey.__('solar_trained_status', { date: lastRetrainDate.toLocaleDateString('en-CA') }),

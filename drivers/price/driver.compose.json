@@ -336,6 +336,24 @@
                 "ar": "غاز",
                 "ko": "가스"
               }
+            },
+            {
+              "id": "water",
+              "label": {
+                "en": "Water",
+                "nl": "Water",
+                "de": "Wasser",
+                "fr": "Eau",
+                "it": "Acqua",
+                "sv": "Vatten",
+                "no": "Vann",
+                "es": "Agua",
+                "da": "Vand",
+                "pl": "Woda",
+                "ru": "Вода",
+                "ar": "الماء",
+                "ko": "수도"
+              }
             }
           ]
         },

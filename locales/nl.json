@@ -95,9 +95,7 @@
     "setup_sign_normal": "+ = laden",
     "setup_sign_inverted": "+ = ontladen",
     "setup_role_production": "Meter opwek",
-    "setup_no_dap": "Geen Energieprijs-apparaat gevonden. Voor dynamische prijzen voeg je er eerst een toe. Gebruik anders het vaste tarief hieronder, of zet het via een flow.",
     "setup_no_dap_plan": "Geen Energieprijs-apparaat gevonden. Het laadplan heeft er een nodig: voeg die eerst toe. Buiten de ondersteunde markten geef je de prijzen op via een flow (prijzen JSON).",
-    "setup_tariff_fixed": "Vaste prijs: alleen gebruikt als geen Energieprijs-apparaat of flow de prijs van de gekozen groep zet.",
     "setup_role_setpoint": "Instelbaar vermogen",
     "setup_role_setpointSign": "Teken instelbaar vermogen",
     "setup_bat_external": "Om hem aan te sturen: zet de eigen app van de batterij op externe sturing.",
@@ -129,7 +127,8 @@
     "setup_role_p1_low": "Meter afname (dal- of enkeltarief)",
     "setup_role_p2_normal": "Meter afname (normaaltarief)",
     "setup_role_n1_low": "Meter teruglevering (dal- of enkeltarief)",
-    "setup_role_n2_normal": "Meter teruglevering (normaaltarief)"
+    "setup_role_n2_normal": "Meter teruglevering (normaaltarief)",
+    "setup_no_price": "Geen Energieprijs-apparaat gevonden: voeg er eerst een toe, ook voor een vast tarief."
   },
   "load_forecast_accuracy": "Gem. afwijking __mae__ W (__pct__%), bias __bias__ W, __days__ dagen",
   "load_forecast_accuracy_collecting": "Gegevens verzamelen",
@@ -211,7 +210,8 @@
     "import_title": "Instellingen overnemen",
     "import_label": "Van bestaand prijsdevice",
     "import_none": "Nee, zelf invullen",
-    "import_hint": "Het oude device stuurt daarna geen prijs meer naar de groep."
+    "import_hint": "Het oude device stuurt daarna geen prijs meer naar de groep.",
+    "name_water": "Waterprijs"
   },
   "battery_learned": {
     "learning": "Leren: laden __charge__/__needed__, ontladen __discharge__/__needed__",
@@ -222,5 +222,7 @@
   "fuse_import": "Hoofdzekeringbeveiliging: afname __import__ W boven __limit__ W gedurende 30 s. De accu's konden het niet voorkomen, geen laadpaal om te begrenzen.",
   "fuse_import_ev_limited": "Hoofdzekeringbeveiliging: afname __import__ W boven __limit__ W gedurende 30 s. __charger__ begrensd op __power__ W.",
   "fuse_import_ev_off": "Hoofdzekeringbeveiliging: afname __import__ W boven __limit__ W gedurende 30 s. __charger__ uitgeschakeld.",
-  "fuse_export": "Hoofdzekeringbeveiliging: teruglevering __export__ W boven __limit__ W gedurende 30 s. De accu's konden het niet voorkomen."
+  "fuse_export": "Hoofdzekeringbeveiliging: teruglevering __export__ W boven __limit__ W gedurende 30 s. De accu's konden het niet voorkomen.",
+  "warning_no_price_device": "Geen Energieprijs-apparaat in de tariefgroep: de prijs blijft op de laatste staan. Voeg een Energieprijs-apparaat toe en kies zijn groep in de instellingen.",
+  "error_setup_no_price": "Kies een tariefgroep met een Energieprijs-apparaat. Voeg eerst een Energieprijs-apparaat toe als er nog geen is."
 }

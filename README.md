@@ -38,13 +38,13 @@ Every device in the tariff group now follows your real price, each price period 
 ## 💡 Shared Concepts
 
 ### 1. Pairing
-Pick the source device from the list: the likely ones are listed first. A setup view then asks for the key settings and shows which capabilities of the source device are used, with the option to choose others. The new device gets the name of the source device. **Repair** lets you switch to another source device later; the device keeps its name.
+Pick the source device from the list: the likely ones are listed first. A setup view then asks for the key settings and shows which capabilities of the source device are used, with the option to choose others. The new device gets the name of the source device. **Repair** lets you switch to another source device later (the device keeps its name), or fix the totals and costs, e.g. after a wrong meter jump.
 
 ### 2. Tariff Groups
-A tariff group links an *Energy Price* device to the other devices: Grid, Power, Solar, Gas, Battery and EV charger.
+A tariff group links an *Energy Price* device to the other devices: Grid, Power, Solar, Gas, Water, Battery and EV charger.
 - Give the price device and the other devices the same **Tariff group** number (e.g. `1`).
 - Every price period the price device sends the current price to all devices in its group.
-- Without a price device, the flow card **Set a new tariff** sets the tariff of a group (energy, gas or water). Group `0`: no updates.
+- Every device gets its price from a price device, also for a fixed tariff: an *Energy Price* device with **Fixed** (electricity or gas) or **Water**. Group `0`: no price.
 
 ### 3. Year Budget
 Power, Grid, Solar, Gas and Water Monitors can compare the use with a year budget, distributed over the year:

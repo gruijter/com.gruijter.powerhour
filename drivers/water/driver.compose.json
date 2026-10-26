@@ -674,42 +674,6 @@
       },
       "children": [
         {
-          "id": "tariff",
-          "type": "number",
-          "label": {
-            "en": "Actual tariff per m³",
-            "nl": "Actueel tarief per m³",
-            "de": "Aktueller Tarif pro m³",
-            "fr": "Tarif actuel par m³",
-            "it": "Tariffa attuale per m³",
-            "sv": "Faktisk tariff per m³",
-            "no": "Aktuell tariff per m³",
-            "es": "Tarifa actual por m³",
-            "da": "Faktisk takst pr. m³",
-            "pl": "Aktualna taryfa za m³",
-            "ru": "Текущий тариф за м³",
-            "ar": "التعريفة الحالية لكل م³",
-            "ko": "m³당 실제 요금"
-          },
-          "value": 0.85,
-          "decimals": 8,
-          "hint": {
-            "en": "The tariff is used to calculate the monetary value. It can be dynamically changed via a flow.",
-            "nl": "Het tarief wordt gebruikt om de geldwaarde te berekenen. Het kan dynamisch worden aangepast via een flow.",
-            "de": "Der Tarif wird zur Berechnung des Geldbetrags verwendet. Er kann über einen Flow dynamisch angepasst werden.",
-            "fr": "Le tarif est utilisé pour calculer la valeur monétaire. Il peut être changé dynamiquement par un flow.",
-            "it": "La tariffa viene utilizzata per calcolare il valore monetario. Può essere cambiata dinamicamente tramite un flow.",
-            "sv": "Tariffen används för att beräkna penningvärdet. Det kan ändras dynamiskt via ett flöde.",
-            "no": "Tariffen blir brukt til å kalkulere pengeverdien. Den kan endres dynamisk via en flow.",
-            "es": "La tarifa se utiliza para calcular el valor monetario. Se puede cambiar dinámicamente a través de un flujo.",
-            "da": "Taksten bruges til at beregne pengeværdien. Den kan ændres dynamisk via et flow.",
-            "pl": "Taryfa służy do obliczania wartości pieniężnej. Można ją dynamicznie zmieniać za pomocą przepływu.",
-            "ru": "Тариф используется для расчета денежной стоимости. Его можно динамически изменять через поток.",
-            "ar": "يتم استخدام التعريفة لحساب القيمة النقدية. يمكن تغييرها ديناميكيًا عبر التدفق.",
-            "ko": "요금은 금전적 가치를 계산하는 데 사용됩니다. flow를 통해 동적으로 변경할 수 있습니다."
-          }
-        },
-        {
           "id": "tariff_update_group",
           "type": "number",
           "label": {
@@ -728,19 +692,19 @@
             "ko": "요금 그룹"
           },
           "hint": {
-            "en": "Gets the tariff from the flow card 'Set a new tariff'. 0: no updates.",
-            "nl": "Krijgt het tarief van de flowkaart 'Stel een nieuw tarief in'. 0: geen updates.",
-            "de": "Erhält den Tarif von der Flowkarte 'Neuen Tarif festlegen'. 0: keine Aktualisierung.",
-            "fr": "Reçoit le tarif de la carte flow 'Définir un nouveau tarif'. 0 : aucune mise à jour.",
-            "it": "Riceve la tariffa dalla scheda flow 'Imposta una nuova tariffa'. 0: nessun aggiornamento.",
-            "sv": "Får tariffen från flödeskortet 'Ställ in en ny tariff'. 0: inga uppdateringar.",
-            "no": "Får tariffen fra flytkortet 'Sett en ny tariff'. 0: ingen oppdateringer.",
-            "es": "Recibe la tarifa de la tarjeta de flujo 'Establecer una nueva tarifa'. 0: sin actualizaciones.",
-            "da": "Får taksten fra flowkortet 'Sæt en ny tarif'. 0: ingen opdateringer.",
-            "pl": "Pobiera taryfę z karty flow 'Ustaw nową taryfę'. 0: bez aktualizacji.",
-            "ru": "Получает тариф от карточки потока «Установить новый тариф». 0: без обновлений.",
-            "ar": "يحصل على التعريفة من بطاقة التدفق 'تعيين تعريفة جديدة'. 0: بدون تحديثات.",
-            "ko": "플로우 카드 '새 요금 설정'에서 요금을 받습니다. 0: 업데이트 없음."
+            "en": "Gets the price from the Energy Price device with this group number. 0: no price.",
+            "nl": "Krijgt de prijs van het Energieprijs-apparaat met dit groepsnummer. 0: geen prijs.",
+            "de": "Erhält den Preis vom Energiepreis-Gerät mit dieser Gruppennummer. 0: kein Preis.",
+            "fr": "Reçoit le prix de l'appareil Prix de l'énergie avec ce numéro de groupe. 0 : pas de prix.",
+            "it": "Riceve il prezzo dal dispositivo Prezzo dell'energia con questo numero di gruppo. 0: nessun prezzo.",
+            "sv": "Får priset från Energipris-enheten med detta gruppnummer. 0: inget pris.",
+            "no": "Får prisen fra Energipris-enheten med dette gruppenummeret. 0: ingen pris.",
+            "es": "Recibe el precio del dispositivo Precio de la energía con este número de grupo. 0: sin precio.",
+            "da": "Får prisen fra Energipris-enheden med dette gruppenummer. 0: ingen pris.",
+            "pl": "Pobiera cenę z urządzenia Cena energii o tym numerze grupy. 0: brak ceny.",
+            "ru": "Получает цену от устройства «Цена энергии» с этим номером группы. 0: без цены.",
+            "ar": "يحصل على السعر من جهاز سعر الطاقة الذي يحمل رقم المجموعة هذا. 0: بلا سعر.",
+            "ko": "이 그룹 번호의 에너지 가격 기기에서 가격을 가져옵니다. 0: 가격 없음."
           },
           "value": 1,
           "min": 0,

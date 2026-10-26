@@ -95,9 +95,7 @@
     "setup_sign_normal": "+ = charging",
     "setup_sign_inverted": "+ = discharging",
     "setup_role_production": "Production meter",
-    "setup_no_dap": "No Energy Price device found. For dynamic prices, add one first. Otherwise use the fixed tariff below, or set it by flow.",
     "setup_no_dap_plan": "No Energy Price device found. The charge plan needs one: add it first. Outside its markets, provide its prices by flow (prices JSON).",
-    "setup_tariff_fixed": "Fixed price: only used when no Energy Price device or flow sets the price of the chosen group.",
     "setup_role_setpoint": "Power setpoint",
     "setup_role_setpointSign": "Setpoint sign",
     "setup_bat_external": "To control it, set the battery's own app to external control.",
@@ -129,7 +127,8 @@
     "setup_role_p1_low": "Import meter (low or single tariff)",
     "setup_role_p2_normal": "Import meter (normal tariff)",
     "setup_role_n1_low": "Export meter (low or single tariff)",
-    "setup_role_n2_normal": "Export meter (normal tariff)"
+    "setup_role_n2_normal": "Export meter (normal tariff)",
+    "setup_no_price": "No Energy Price device found: add one first, also for a fixed tariff."
   },
   "load_forecast_accuracy": "Avg error __mae__ W (__pct__%), bias __bias__ W, __days__ days",
   "load_forecast_accuracy_collecting": "Collecting data",
@@ -211,7 +210,8 @@
     "import_title": "Take over settings",
     "import_label": "From existing price device",
     "import_none": "No, fill in myself",
-    "import_hint": "The old device then stops sending its price to the group."
+    "import_hint": "The old device then stops sending its price to the group.",
+    "name_water": "Water price"
   },
   "battery_learned": {
     "learning": "Learning: charging __charge__/__needed__, discharging __discharge__/__needed__",
@@ -222,5 +222,7 @@
   "fuse_import": "Main fuse protection: import __import__ W above __limit__ W for 30 s. The batteries could not prevent it, no EV charger to cut.",
   "fuse_import_ev_limited": "Main fuse protection: import __import__ W above __limit__ W for 30 s. __charger__ limited to __power__ W.",
   "fuse_import_ev_off": "Main fuse protection: import __import__ W above __limit__ W for 30 s. __charger__ switched off.",
-  "fuse_export": "Main fuse protection: export __export__ W above __limit__ W for 30 s. The batteries could not prevent it."
+  "fuse_export": "Main fuse protection: export __export__ W above __limit__ W for 30 s. The batteries could not prevent it.",
+  "warning_no_price_device": "No Energy Price device in the tariff group: the price stays at the last one. Add a Energy Price device and choose its group in the settings.",
+  "error_setup_no_price": "Choose a tariff group with a Energy Price device. Add a Energy Price device first if there is none."
 }

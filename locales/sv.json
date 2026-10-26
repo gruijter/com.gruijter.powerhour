@@ -95,9 +95,7 @@
     "setup_sign_normal": "+ = laddning",
     "setup_sign_inverted": "+ = urladdning",
     "setup_role_production": "Mätare produktion",
-    "setup_no_dap": "Ingen Energipris-enhet hittades. För dynamiska priser, lägg först till en. Använd annars den fasta tariffen nedan, eller ställ in den via ett flöde.",
     "setup_no_dap_plan": "Ingen Energipris-enhet hittades. Laddplanen behöver en: lägg till den först. Utanför dess marknader, ange priserna via ett flöde (priser JSON).",
-    "setup_tariff_fixed": "Fast pris: används bara om ingen Energipris-enhet eller flöde sätter priset för vald grupp.",
     "setup_role_setpoint": "Effektbörvärde",
     "setup_role_setpointSign": "Börvärdets tecken",
     "setup_bat_external": "För att styra det: ställ batteriets egen app på extern styrning.",
@@ -129,7 +127,8 @@
     "setup_role_p1_low": "Mätare import (låg- eller enkeltariff)",
     "setup_role_p2_normal": "Mätare import (normaltariff)",
     "setup_role_n1_low": "Mätare export (låg- eller enkeltariff)",
-    "setup_role_n2_normal": "Mätare export (normaltariff)"
+    "setup_role_n2_normal": "Mätare export (normaltariff)",
+    "setup_no_price": "Ingen Energipris-enhet hittades: lägg först till en, även för en fast tariff."
   },
   "load_forecast_accuracy": "Medelfel __mae__ W (__pct__%), bias __bias__ W, __days__ dagar",
   "load_forecast_accuracy_collecting": "Samlar in data",
@@ -211,7 +210,8 @@
     "import_title": "Ta över inställningar",
     "import_label": "Från befintlig prisenhet",
     "import_none": "Nej, fyll i själv",
-    "import_hint": "Den gamla enheten skickar sedan inte längre sitt pris till gruppen."
+    "import_hint": "Den gamla enheten skickar sedan inte längre sitt pris till gruppen.",
+    "name_water": "Vattenpris"
   },
   "battery_learned": {
     "learning": "Lär in: laddning __charge__/__needed__, urladdning __discharge__/__needed__",
@@ -222,5 +222,7 @@
   "fuse_import": "Huvudsäkringsskydd: uttag __import__ W över __limit__ W i 30 s. Batterierna kunde inte förhindra det, ingen laddare att begränsa.",
   "fuse_import_ev_limited": "Huvudsäkringsskydd: uttag __import__ W över __limit__ W i 30 s. __charger__ begränsad till __power__ W.",
   "fuse_import_ev_off": "Huvudsäkringsskydd: uttag __import__ W över __limit__ W i 30 s. __charger__ avstängd.",
-  "fuse_export": "Huvudsäkringsskydd: export __export__ W över __limit__ W i 30 s. Batterierna kunde inte förhindra det."
+  "fuse_export": "Huvudsäkringsskydd: export __export__ W över __limit__ W i 30 s. Batterierna kunde inte förhindra det.",
+  "warning_no_price_device": "Ingen Energipris-enhet i tariffgruppen: priset blir kvar på det senaste. Lägg till en Energipris-enhet och välj dess grupp i inställningarna.",
+  "error_setup_no_price": "Välj en tariffgrupp med en Energipris-enhet. Lägg först till en Energipris-enhet om det inte finns någon."
 }

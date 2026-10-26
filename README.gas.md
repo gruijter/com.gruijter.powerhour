@@ -37,10 +37,10 @@ Use **Repair** to switch to another source device. The device keeps its name.
 
 ## Tariff, Fixed Costs & Budget
 
-- **Tariff group:** the device uses the gas price of the Energy Price device with the same group number ([README.price.md](./README.price.md)), or the tariff from the flow card **Set a new tariff** (gas). 0: no updates.
+- **Tariff group:** the device uses the gas price of the Energy Price device with the same group number ([README.price.md](./README.price.md)), also for a fixed tariff. 0: no price.
 - **Fixed costs** per hour, day and month: in the settings, or with **Set fixed cost**.
 - **Budget:** a year budget (m³) with a distribution over the year: linear, NL price ceiling 2023, or 12 own values.
-- **Meter readings:** the readings at the start of this day, month and year. Set them when you start in the middle of a period.
+- **Fix totals or costs:** with **Repair** > *Fix totals or costs* you correct the totals and money values: after a wrong meter jump, after changing the source device or the start date, or to enter the totals so far after pairing.
 
 ---
 
@@ -59,4 +59,4 @@ Example flow:
 
 - **Set fixed cost** per hour, day or month
 - **Set tariff group**
-- **Set a new tariff** and **Send reading to virtual meter** (app cards)
+- **Send reading to virtual meter** (app card)

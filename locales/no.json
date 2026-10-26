@@ -95,9 +95,7 @@
     "setup_sign_normal": "+ = lading",
     "setup_sign_inverted": "+ = utlading",
     "setup_role_production": "Måler produksjon",
-    "setup_no_dap": "Ingen Energipris-enhet funnet. For dynamiske priser, legg til en først. Ellers bruk den faste tariffen under, eller sett den via en flow.",
     "setup_no_dap_plan": "Ingen Energipris-enhet funnet. Ladeplanen trenger en: legg den til først. Utenfor markedene, angi prisene via en flow (priser JSON).",
-    "setup_tariff_fixed": "Fast pris: brukes bare hvis ingen Energipris-enhet eller flyt setter prisen for valgt gruppe.",
     "setup_role_setpoint": "Effekt-settpunkt",
     "setup_role_setpointSign": "Fortegn settpunkt",
     "setup_bat_external": "For å styre det: sett batteriets egen app til ekstern styring.",
@@ -129,7 +127,8 @@
     "setup_role_p1_low": "Måler import (lav- eller enkeltariff)",
     "setup_role_p2_normal": "Måler import (normaltariff)",
     "setup_role_n1_low": "Måler eksport (lav- eller enkeltariff)",
-    "setup_role_n2_normal": "Måler eksport (normaltariff)"
+    "setup_role_n2_normal": "Måler eksport (normaltariff)",
+    "setup_no_price": "Ingen Energipris-enhet funnet: legg til en først, også for en fast tariff."
   },
   "load_forecast_accuracy": "Gj.sn. avvik __mae__ W (__pct__%), bias __bias__ W, __days__ dager",
   "load_forecast_accuracy_collecting": "Samler inn data",
@@ -211,7 +210,8 @@
     "import_title": "Overta innstillinger",
     "import_label": "Fra eksisterende prisenhet",
     "import_none": "Nei, fyll inn selv",
-    "import_hint": "Den gamle enheten sender deretter ikke lenger prisen til gruppen."
+    "import_hint": "Den gamle enheten sender deretter ikke lenger prisen til gruppen.",
+    "name_water": "Vannpris"
   },
   "battery_learned": {
     "learning": "Lærer: lading __charge__/__needed__, utlading __discharge__/__needed__",
@@ -222,5 +222,7 @@
   "fuse_import": "Hovedsikringsvern: uttak __import__ W over __limit__ W i 30 s. Batteriene kunne ikke hindre det, ingen lader å begrense.",
   "fuse_import_ev_limited": "Hovedsikringsvern: uttak __import__ W over __limit__ W i 30 s. __charger__ begrenset til __power__ W.",
   "fuse_import_ev_off": "Hovedsikringsvern: uttak __import__ W over __limit__ W i 30 s. __charger__ slått av.",
-  "fuse_export": "Hovedsikringsvern: innmating __export__ W over __limit__ W i 30 s. Batteriene kunne ikke hindre det."
+  "fuse_export": "Hovedsikringsvern: innmating __export__ W over __limit__ W i 30 s. Batteriene kunne ikke hindre det.",
+  "warning_no_price_device": "Ingen Energipris-enhet i tariffgruppen: prisen blir stående på den siste. Legg til en Energipris-enhet og velg gruppen i innstillingene.",
+  "error_setup_no_price": "Velg en tariffgruppe med en Energipris-enhet. Legg først til en Energipris-enhet hvis det ikke finnes noen."
 }

@@ -95,9 +95,7 @@
     "setup_sign_normal": "+ = ładowanie",
     "setup_sign_inverted": "+ = rozładowanie",
     "setup_role_production": "Licznik produkcji",
-    "setup_no_dap": "Nie znaleziono urządzenia Cena energii. Aby mieć ceny dynamiczne, najpierw je dodaj. W przeciwnym razie użyj stałej taryfy poniżej lub ustaw ją przez flow.",
     "setup_no_dap_plan": "Nie znaleziono urządzenia Cena energii. Plan ładowania go wymaga: najpierw je dodaj. Poza jego rynkami podaj ceny przez flow (ceny JSON).",
-    "setup_tariff_fixed": "Stała cena: używana tylko, gdy żadne urządzenie Cena energii ani flow nie ustala ceny wybranej grupy.",
     "setup_role_setpoint": "Zadawana moc",
     "setup_role_setpointSign": "Znak zadawanej mocy",
     "setup_bat_external": "Aby nią sterować, ustaw aplikację baterii na sterowanie zewnętrzne.",
@@ -129,7 +127,8 @@
     "setup_role_p1_low": "Licznik poboru (taryfa niska lub jedna)",
     "setup_role_p2_normal": "Licznik poboru (taryfa normalna)",
     "setup_role_n1_low": "Licznik oddawania (taryfa niska lub jedna)",
-    "setup_role_n2_normal": "Licznik oddawania (taryfa normalna)"
+    "setup_role_n2_normal": "Licznik oddawania (taryfa normalna)",
+    "setup_no_price": "Nie znaleziono urządzenia Cena energii: najpierw dodaj jedno, także dla stałej taryfy."
   },
   "load_forecast_accuracy": "Śr. błąd __mae__ W (__pct__%), odchylenie __bias__ W, __days__ dni",
   "load_forecast_accuracy_collecting": "Zbieranie danych",
@@ -211,7 +210,8 @@
     "import_title": "Przejmij ustawienia",
     "import_label": "Z istniejącego urządzenia cen",
     "import_none": "Nie, wypełnię sam",
-    "import_hint": "Stare urządzenie przestaje wtedy wysyłać cenę do grupy."
+    "import_hint": "Stare urządzenie przestaje wtedy wysyłać cenę do grupy.",
+    "name_water": "Cena wody"
   },
   "battery_learned": {
     "learning": "Uczenie: ładowanie __charge__/__needed__, rozładowanie __discharge__/__needed__",
@@ -222,5 +222,7 @@
   "fuse_import": "Ochrona bezpiecznika głównego: pobór __import__ W powyżej __limit__ W przez 30 s. Baterie nie mogły temu zapobiec, brak ładowarki do ograniczenia.",
   "fuse_import_ev_limited": "Ochrona bezpiecznika głównego: pobór __import__ W powyżej __limit__ W przez 30 s. __charger__ ograniczona do __power__ W.",
   "fuse_import_ev_off": "Ochrona bezpiecznika głównego: pobór __import__ W powyżej __limit__ W przez 30 s. __charger__ wyłączona.",
-  "fuse_export": "Ochrona bezpiecznika głównego: oddawanie __export__ W powyżej __limit__ W przez 30 s. Baterie nie mogły temu zapobiec."
+  "fuse_export": "Ochrona bezpiecznika głównego: oddawanie __export__ W powyżej __limit__ W przez 30 s. Baterie nie mogły temu zapobiec.",
+  "warning_no_price_device": "Brak urządzenia Cena energii w grupie taryfowej: cena pozostaje ostatnia. Dodaj urządzenie Cena energii i wybierz jego grupę w ustawieniach.",
+  "error_setup_no_price": "Wybierz grupę taryfową z urządzeniem Cena energii. Najpierw dodaj urządzenie Cena energii, jeśli go nie ma."
 }

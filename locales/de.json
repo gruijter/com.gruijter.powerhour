@@ -95,9 +95,7 @@
     "setup_sign_normal": "+ = Laden",
     "setup_sign_inverted": "+ = Entladen",
     "setup_role_production": "Erzeugungszähler",
-    "setup_no_dap": "Kein Energiepreis-Gerät gefunden. Für dynamische Preise zuerst eines hinzufügen. Sonst den festen Tarif unten nutzen oder per Flow setzen.",
     "setup_no_dap_plan": "Kein Energiepreis-Gerät gefunden. Der Ladeplan braucht eines: zuerst hinzufügen. Außerhalb seiner Märkte die Preise per Flow liefern (Preise JSON).",
-    "setup_tariff_fixed": "Festpreis: nur verwendet, wenn kein Energiepreis-Gerät oder Flow den Preis der gewählten Gruppe setzt.",
     "setup_role_setpoint": "Leistungs-Sollwert",
     "setup_role_setpointSign": "Vorzeichen Sollwert",
     "setup_bat_external": "Zum Steuern die eigene App der Batterie auf externe Steuerung stellen.",
@@ -129,7 +127,8 @@
     "setup_role_p1_low": "Zähler Bezug (Nieder- oder Einheitstarif)",
     "setup_role_p2_normal": "Zähler Bezug (Normaltarif)",
     "setup_role_n1_low": "Zähler Einspeisung (Nieder- oder Einheitstarif)",
-    "setup_role_n2_normal": "Zähler Einspeisung (Normaltarif)"
+    "setup_role_n2_normal": "Zähler Einspeisung (Normaltarif)",
+    "setup_no_price": "Kein Energiepreis-Gerät gefunden: fügen Sie zuerst eines hinzu, auch für einen Festtarif."
   },
   "load_forecast_accuracy": "Mittl. Fehler __mae__ W (__pct__%), Bias __bias__ W, __days__ Tage",
   "load_forecast_accuracy_collecting": "Daten werden gesammelt",
@@ -211,7 +210,8 @@
     "import_title": "Einstellungen übernehmen",
     "import_label": "Von vorhandenem Preisgerät",
     "import_none": "Nein, selbst ausfüllen",
-    "import_hint": "Das alte Gerät sendet seinen Preis danach nicht mehr an die Gruppe."
+    "import_hint": "Das alte Gerät sendet seinen Preis danach nicht mehr an die Gruppe.",
+    "name_water": "Wasserpreis"
   },
   "battery_learned": {
     "learning": "Lernen: Laden __charge__/__needed__, Entladen __discharge__/__needed__",
@@ -222,5 +222,7 @@
   "fuse_import": "Hauptsicherungsschutz: Bezug __import__ W über __limit__ W für 30 s. Die Batterien konnten es nicht verhindern, kein Ladegerät zum Begrenzen.",
   "fuse_import_ev_limited": "Hauptsicherungsschutz: Bezug __import__ W über __limit__ W für 30 s. __charger__ auf __power__ W begrenzt.",
   "fuse_import_ev_off": "Hauptsicherungsschutz: Bezug __import__ W über __limit__ W für 30 s. __charger__ ausgeschaltet.",
-  "fuse_export": "Hauptsicherungsschutz: Einspeisung __export__ W über __limit__ W für 30 s. Die Batterien konnten es nicht verhindern."
+  "fuse_export": "Hauptsicherungsschutz: Einspeisung __export__ W über __limit__ W für 30 s. Die Batterien konnten es nicht verhindern.",
+  "warning_no_price_device": "Kein Energiepreis-Gerät in der Tarifgruppe: der Preis bleibt beim letzten. Fügen Sie ein Energiepreis-Gerät hinzu und wählen Sie seine Gruppe in den Einstellungen.",
+  "error_setup_no_price": "Wählen Sie eine Tarifgruppe mit einem Energiepreis-Gerät. Fügen Sie zuerst ein Energiepreis-Gerät hinzu, falls es keines gibt."
 }

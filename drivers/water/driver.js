@@ -36,9 +36,10 @@ const driverSpecifics = {
     'measure_lpm_min.month', 'measure_lpm_max.month',
     'measure_lpm_min.year', 'measure_lpm_max.year'],
   setup: {
-    settings: ['homey_device_daily_reset', 'tariff_update_group', 'tariff'],
+    settings: ['homey_device_daily_reset', 'tariff_update_group'],
     roles: [{ key: 'p1', kind: 'm3', label: 'meter' }],
-    prices: null,
+    prices: 'water',
+    requirePrice: true,
   },
 };
 

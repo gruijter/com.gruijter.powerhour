@@ -1224,42 +1224,6 @@
       },
       "children": [
         {
-          "id": "tariff",
-          "type": "number",
-          "label": {
-            "en": "Actual tariff per kWh",
-            "nl": "Actueel tarief per kWh",
-            "de": "Aktueller Tarif pro kW/h",
-            "fr": "Tarif actuel par KWh",
-            "it": "Tariffa attuale per kWh",
-            "sv": "Faktisk tariff per kWh",
-            "no": "Aktuell tariff per kWh",
-            "es": "Tarifa actual por kWh",
-            "da": "Faktisk takst pr. kWh",
-            "pl": "Aktualna taryfa za kWh",
-            "ru": "Текущий тариф за кВтч",
-            "ar": "التعريفة الحالية لكل كيلوواط ساعة",
-            "ko": "kWh당 실제 요금"
-          },
-          "value": 0.25,
-          "decimals": 8,
-          "hint": {
-            "en": "The tariff is used to calculate the monetary value. It can be dynamically changed via a flow or an Energy Price device.",
-            "nl": "Het tarief wordt gebruikt om de geldwaarde te berekenen. Het kan dynamisch worden aangepast via een flow of een Energieprijs-apparaat.",
-            "de": "Der Tarif wird zur Berechnung des Geldbetrags verwendet. Er kann über einen Flow oder ein Energiepreis-Gerät dynamisch angepasst werden.",
-            "fr": "Le tarif est utilisé pour calculer la valeur monétaire. Il peut être changé dynamiquement par un flow ou un appareil Prix de l'énergie",
-            "it": "La tariffa è utilizzata per calcolare il valore monetario. Può essere cambiata dinamicamente tramite un flow o un dispositivo Prezzo dell'energia.",
-            "sv": "Tariffen används för att beräkna penningvärdet. Det kan ändras dynamiskt via ett flöde eller en Energipris-enhet.",
-            "no": "Tariffen blir brukt til å kalkulere kostnaden. Den kan endres dynamisk via en flow eller en Energipris-enhet.",
-            "es": "La tarifa se utiliza para calcular el valor monetario. Se puede cambiar dinámicamente a través de un flujo o un dispositivo Precio de la energía.",
-            "da": "Taksten bruges til at beregne pengeværdien. Den kan ændres dynamisk via et flow eller en Energipris-enhed.",
-            "pl": "Taryfa służy do obliczania wartości pieniężnej. Można ją dynamicznie zmieniać za pomocą przepływu lub urządzenia Cena energii.",
-            "ru": "Тариф используется для расчета денежной стоимости. Его можно динамически изменять через поток или устройство «Цена энергии».",
-            "ar": "يتم استخدام التعريفة لحساب القيمة النقدية. يمكن تغييرها ديناميكيًا عبر التدفق أو جهاز سعر الطاقة.",
-            "ko": "요금은 금전적 가치를 계산하는 데 사용됩니다. 플로우 또는 에너지 가격 장치를 통해 동적으로 변경할 수 있습니다."
-          }
-        },
-        {
           "id": "tariff_update_group",
           "type": "number",
           "label": {
@@ -1278,19 +1242,19 @@
             "ko": "요금 그룹"
           },
           "hint": {
-            "en": "Gets the price from the Energy Price device with this group number, or from the flow card 'Set a new tariff'. 0: no updates.",
-            "nl": "Krijgt de prijs van het Energieprijs-apparaat met dit groepsnummer, of van de flowkaart 'Stel een nieuw tarief in'. 0: geen updates.",
-            "de": "Erhält den Preis vom Energiepreis-Gerät mit dieser Gruppennummer oder von der Flowkarte 'Neuen Tarif festlegen'. 0: keine Aktualisierung.",
-            "fr": "Reçoit le prix de l'appareil Prix de l'énergie avec ce numéro de groupe, ou de la carte flow 'Définir un nouveau tarif'. 0 : aucune mise à jour.",
-            "it": "Riceve il prezzo dal dispositivo Prezzo dell'energia con questo numero di gruppo, o dalla scheda flow 'Imposta una nuova tariffa'. 0: nessun aggiornamento.",
-            "sv": "Får priset från Energipris-enheten med detta gruppnummer, eller från flödeskortet 'Ställ in en ny tariff'. 0: inga uppdateringar.",
-            "no": "Får prisen fra Energipris-enheten med dette gruppenummeret, eller fra flytkortet 'Sett en ny tariff'. 0: ingen oppdateringer.",
-            "es": "Recibe el precio del dispositivo Precio de la energía con este número de grupo, o de la tarjeta de flujo 'Establecer una nueva tarifa'. 0: sin actualizaciones.",
-            "da": "Får prisen fra Energipris-enheden med dette gruppenummer, eller fra flowkortet 'Sæt en ny tarif'. 0: ingen opdateringer.",
-            "pl": "Pobiera cenę z urządzenia Cena energii o tym numerze grupy lub z karty flow 'Ustaw nową taryfę'. 0: bez aktualizacji.",
-            "ru": "Получает цену от устройства «Цена энергии» с этим номером группы или от карточки потока «Установить новый тариф». 0: без обновлений.",
-            "ar": "يحصل على السعر من جهاز سعر الطاقة بهذا الرقم للمجموعة، أو من بطاقة التدفق 'تعيين تعريفة جديدة'. 0: بدون تحديثات.",
-            "ko": "이 그룹 번호의 에너지 가격 장치 또는 플로우 카드 '새 요금 설정'에서 가격을 받습니다. 0: 업데이트 없음."
+            "en": "Gets the price from the Energy Price device with this group number. 0: no price.",
+            "nl": "Krijgt de prijs van het Energieprijs-apparaat met dit groepsnummer. 0: geen prijs.",
+            "de": "Erhält den Preis vom Energiepreis-Gerät mit dieser Gruppennummer. 0: kein Preis.",
+            "fr": "Reçoit le prix de l'appareil Prix de l'énergie avec ce numéro de groupe. 0 : pas de prix.",
+            "it": "Riceve il prezzo dal dispositivo Prezzo dell'energia con questo numero di gruppo. 0: nessun prezzo.",
+            "sv": "Får priset från Energipris-enheten med detta gruppnummer. 0: inget pris.",
+            "no": "Får prisen fra Energipris-enheten med dette gruppenummeret. 0: ingen pris.",
+            "es": "Recibe el precio del dispositivo Precio de la energía con este número de grupo. 0: sin precio.",
+            "da": "Får prisen fra Energipris-enheden med dette gruppenummer. 0: ingen pris.",
+            "pl": "Pobiera cenę z urządzenia Cena energii o tym numerze grupy. 0: brak ceny.",
+            "ru": "Получает цену от устройства «Цена энергии» с этим номером группы. 0: без цены.",
+            "ar": "يحصل على السعر من جهاز سعر الطاقة الذي يحمل رقم المجموعة هذا. 0: بلا سعر.",
+            "ko": "이 그룹 번호의 에너지 가격 기기에서 가격을 가져옵니다. 0: 가격 없음."
           },
           "value": 1,
           "min": 0,

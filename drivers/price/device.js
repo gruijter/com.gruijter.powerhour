@@ -34,7 +34,8 @@ const PRICE_KEYS = [
 ].flatMap((id) => [id, `export_${id}`]);
 const STORED_PRICES = ['prices', 'marketPrices', 'rawCombinedPrices', 'rawMarketPrices', 'rawForecastPrices', 'priceHistory'];
 
-// Price cards per price period; gas has one price per day: no cheapest or most expensive cards.
+// Price cards per price period; gas has one price per day, water a fixed tariff: no cheapest or most
+// expensive cards.
 const POWER_TRIGGERS = ['price_cheapest_next', 'price_cheapest_between', 'price_block_next', 'price_block_between', 'price_vs_avg'];
 const GAS_TRIGGERS = ['price_vs_avg'];
 
@@ -96,7 +97,7 @@ class PriceDevice extends GenericDevice {
   }
 
   priceTriggerIds() {
-    return this.isGas ? GAS_TRIGGERS : POWER_TRIGGERS;
+    return this.hasExport ? POWER_TRIGGERS : GAS_TRIGGERS;
   }
 
   priceTriggerTokens(price) {
@@ -107,7 +108,7 @@ class PriceDevice extends GenericDevice {
     const { app } = this.homey;
     if (!app || !app.trigger_price_new_period) return;
     const exportPrice = Number.isFinite(this.state.exportPriceNow) ? this.state.exportPriceNow : 0;
-    await app.trigger_price_new_period(this, { import: this.state.priceNow, export: this.isGas ? 0 : exportPrice });
+    await app.trigger_price_new_period(this, { import: this.state.priceNow, export: this.hasExport ? exportPrice : 0 });
   }
 
   async triggerNewPrices(tokens, state) {
@@ -116,9 +117,9 @@ class PriceDevice extends GenericDevice {
     await app.trigger_price_new_prices(this, { ...tokens, export_prices: this.exportPricesJson(state.period) }, state);
   }
 
-  // Export prices of a period as JSON ('[]' for gas).
+  // Export prices of a period as JSON ('[]' for gas and water).
   exportPricesJson(period) {
-    if (this.isGas) return '[]';
+    if (!this.hasExport) return '[]';
     let prices;
     if (period === 'next_hours') {
       prices = this.state && this.state.exportPricesNextHours;
