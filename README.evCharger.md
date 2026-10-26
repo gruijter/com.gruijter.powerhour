@@ -41,9 +41,9 @@ The **Smart EV Charger** plans when your car charges: at the cheapest prices and
 
 1. Go to **Devices** → **Add Device** → **Power by the Hour** → **Smart EV Charger**.
 2. Pick the charger, or a charger with its car. Combinations are shown as *Charger (Car)*. The new device gets the name of the charger.
-3. The setup view asks for the key settings: max. charging power, battery capacity, variable charging power, tariff group and *Control charger*.
+3. The setup view asks for the key settings: max. charging power, battery capacity, variable charging power, tariff group, *Control charger* and the **Year budget** (off by default).
 
-Use **Repair** to pick another charger or car later. The device keeps its name.
+Use **Repair** to pick another charger or car later (the device keeps its name), or to change the **Year budget**.
 
 ---
 

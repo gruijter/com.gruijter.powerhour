@@ -26,11 +26,11 @@ The **Water Monitor** summarizes your water use: m³ and money per hour, day, mo
 
 1. Go to **Devices** → **Add Device** → **Power by the Hour** → **Water Monitor**.
 2. Choose the device with your water meter. The new device gets the name of the source device.
-3. The setup view asks for **Has daily reset**, the **Tariff group**, the tariff, and which meter capability to use.
+3. The setup view asks for **Has daily reset**, the **Tariff group**, the tariff, which meter capability to use, and the **Year budget** (on by default: 100 m³, Evenly).
 
 For a meter that is not a Homey device, pair `VIRTUAL_VIA_FLOW` and send the cumulative reading (m³) with the flow card **Send reading to virtual meter**.
 
-Use **Repair** to switch to another source device. The device keeps its name.
+Use **Repair** to switch to another source device (the device keeps its name) or to change the **Year budget**.
 
 ---
 
@@ -38,8 +38,8 @@ Use **Repair** to switch to another source device. The device keeps its name.
 
 - **Tariff group:** the device uses the water price of the Energy Price device with the same group number: an Energy Price device with **Water** and your price per m³, including sewage and taxes if you like ([README.price.md](./README.price.md)). 0: no price.
 - **Fixed costs** per hour, day and month: in the settings, or with **Set fixed cost**.
-- **Budget:** a year budget (m³, 0 = no budget), linear or with 12 own values.
-- **Fix totals or costs:** with **Repair** > *Fix totals or costs* you correct the totals and money values: after a wrong meter jump, after changing the source device or the start date, or to enter the totals so far after pairing.
+- **Year budget:** a year budget (m³) spread **Evenly** or **Custom (per month)**. Change it with **Repair** > *Year budget*.
+- **Fix totals or costs:** with **Repair** > *Fix totals or costs* you correct the totals and money values: after a wrong meter jump, after changing the source device or the start date (Repair then opens it by itself), or to enter the totals so far after pairing.
 
 ---
 

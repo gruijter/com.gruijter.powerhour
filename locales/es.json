@@ -241,7 +241,7 @@
     "start_date_info": "Los totales del mes y del año empiezan de nuevo este día y mes. Cada mes empieza este día, o su último día si es más corto.",
     "target": "Presupuesto objetivo anual",
     "distribution": "Esquema de distribución",
-    "linear": "Lineal",
+    "linear": "Por igual",
     "local": "Clima local (auto)",
     "custom": "Personalizado (por mes)",
     "heating": "Calefacción",
@@ -263,7 +263,6 @@
     "custom_months": "Meses",
     "custom_sum": "Total",
     "custom_spread": "Reparto",
-    "custom_spread_even": "Por igual",
     "custom_spread_local": "Según el clima local",
     "custom_spread_own": "Valores propios"
   }

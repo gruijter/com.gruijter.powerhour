@@ -241,7 +241,7 @@
     "start_date_info": "Het maand- en jaartotaal beginnen op deze dag en maand opnieuw. Elke maand begint op deze dag, of op de laatste dag als de maand korter is.",
     "target": "Jaar doelbudget",
     "distribution": "Verdeling schema",
-    "linear": "Lineair",
+    "linear": "Gelijk verdeeld",
     "local": "Lokaal klimaat (auto)",
     "custom": "Handmatig (per maand)",
     "heating": "Verwarming",
@@ -263,7 +263,6 @@
     "custom_months": "Maanden",
     "custom_sum": "Totaal",
     "custom_spread": "Verdeling",
-    "custom_spread_even": "Gelijk",
     "custom_spread_local": "Volgens lokaal klimaat",
     "custom_spread_own": "Eigen waarden"
   }

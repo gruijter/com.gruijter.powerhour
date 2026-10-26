@@ -241,7 +241,7 @@
     "start_date_info": "Sumy miesiąca i roku zaczynają się od nowa tego dnia i miesiąca. Każdy miesiąc zaczyna się tego dnia lub w swoim ostatnim dniu, jeśli jest krótszy.",
     "target": "Roczny budżet docelowy",
     "distribution": "Schemat dystrybucji",
-    "linear": "Liniowy",
+    "linear": "Równo",
     "local": "Klimat lokalny (auto)",
     "custom": "Niestandardowy (na miesiąc)",
     "heating": "Ogrzewanie",
@@ -263,7 +263,6 @@
     "custom_months": "Miesiące",
     "custom_sum": "Suma",
     "custom_spread": "Rozkład",
-    "custom_spread_even": "Równo",
     "custom_spread_local": "Według klimatu lokalnego",
     "custom_spread_own": "Własne wartości"
   }

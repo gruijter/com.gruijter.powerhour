@@ -43,8 +43,9 @@ The **Power Monitor** summarizes the electricity use (or production) of any mete
    - **Enable forecast and planner** — for a washing machine, dishwasher or dryer, see below.
    - **Tariff group** and, without an Energy Price device in that group, a fixed **tariff**.
    - Which meter capabilities to use (import, import 2, export, export 2, power), when the automatic choice is not right.
+   - **Year budget** — off by default.
 
-Use **Repair** to switch to another source device, e.g. after replacing a meter. The device keeps its name.
+Use **Repair** to switch to another source device, e.g. after replacing a meter (the device keeps its name), or to change the **Year budget**.
 
 ---
 
@@ -78,8 +79,8 @@ For a meter that is not a Homey device, or that needs a calculation first:
 - **Tariff group:** the device uses the price of the Energy Price device with the same group number ([README.price.md](./README.price.md)), also for a fixed tariff. 0: no price.
 - **Tariff selection:** *Automatic* uses the import price while the home imports from the grid, and the export price while it exports. Or always import, or always export.
 - **Fixed costs** per hour, day and month: in the settings, or with **Set fixed cost**.
-- **Budget:** a year budget with a distribution over the year (0 = no budget; linear, household electricity NW Europe, PV 52°N, or 12 own values). The device shows how the use compares to the budget so far this month and year.
-- **Fix totals or costs:** with **Repair** > *Fix totals or costs* you correct the totals and money values: after a wrong meter jump, after changing the source device or the start date, or to enter the totals so far after pairing.
+- **Year budget:** a year budget spread **Evenly**, like the **Local climate (auto)** with the heating and air conditioning you choose, or **Custom (per month)**. The device shows how the use compares to the budget so far this month and year. Change it with **Repair** > *Year budget*.
+- **Fix totals or costs:** with **Repair** > *Fix totals or costs* you correct the totals and money values: after a wrong meter jump, after changing the source device or the start date (Repair then opens it by itself), or to enter the totals so far after pairing.
 
 ---
 

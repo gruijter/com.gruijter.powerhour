@@ -59,7 +59,8 @@
 				shares = data.shares || {};
 				const select = part('spread');
 				['even', 'local', 'own'].filter((id) => id === 'own' || shares[id]).forEach((id) => {
-					select.appendChild(el('option', { value: id, textContent: Homey.__(`budget.custom_spread_${id}`) }));
+					// 'even' is the distribution "Evenly" (id linear): the same term.
+					select.appendChild(el('option', { value: id, textContent: Homey.__(id === 'even' ? 'budget.linear' : `budget.custom_spread_${id}`) }));
 				});
 				inputs = (data.months || []).map((name, m) => {
 					// Compact rows: two months each, the name next to its field.
@@ -79,14 +80,14 @@
 				});
 				select.addEventListener('change', spread);
 				part('total').addEventListener('input', spread);
-				// Present months, else the year total spread like the local climate or evenly.
+				// Present months, else the year total spread evenly.
 				if (Array.isArray(data.values)) {
 					select.value = 'own';
 					inputs.forEach((input, m) => {
 						input.value = data.values[m];
 					});
 				} else {
-					select.value = shares.local ? 'local' : 'even';
+					select.value = 'even';
 					spread();
 				}
 				showSum();

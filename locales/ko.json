@@ -241,7 +241,7 @@
     "start_date_info": "월 및 연 합계는 이 날짜와 월에 다시 시작됩니다. 매월 이 날에 시작되며, 그보다 짧은 달은 마지막 날에 시작됩니다.",
     "target": "연간 목표 예산",
     "distribution": "분배 방식",
-    "linear": "선형",
+    "linear": "균등",
     "local": "지역 기후 (자동)",
     "custom": "사용자 지정 (월별)",
     "heating": "난방",
@@ -263,7 +263,6 @@
     "custom_months": "월",
     "custom_sum": "합계",
     "custom_spread": "분배",
-    "custom_spread_even": "균등",
     "custom_spread_local": "지역 기후에 따라",
     "custom_spread_own": "직접 입력"
   }

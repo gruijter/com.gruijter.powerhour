@@ -241,7 +241,7 @@
     "start_date_info": "Les totaux du mois et de l'année repartent à ce jour et ce mois. Chaque mois commence ce jour-là, ou son dernier jour s'il est plus court.",
     "target": "Budget cible annuel",
     "distribution": "Schéma de distribution",
-    "linear": "Linéaire",
+    "linear": "Uniforme",
     "local": "Climat local (auto)",
     "custom": "Personnalisé (par mois)",
     "heating": "Chauffage",
@@ -263,7 +263,6 @@
     "custom_months": "Mois",
     "custom_sum": "Total",
     "custom_spread": "Répartition",
-    "custom_spread_even": "Uniforme",
     "custom_spread_local": "Selon le climat local",
     "custom_spread_own": "Valeurs personnelles"
   }

@@ -241,7 +241,7 @@
     "start_date_info": "Månads- och årstotalen börjar om denna dag och månad. Varje månad börjar denna dag, eller på sin sista dag om den är kortare.",
     "target": "Årsmålbudget",
     "distribution": "Distributionsschema",
-    "linear": "Linjär",
+    "linear": "Jämnt",
     "local": "Lokalt klimat (auto)",
     "custom": "Anpassad (per månad)",
     "heating": "Uppvärmning",
@@ -263,7 +263,6 @@
     "custom_months": "Månader",
     "custom_sum": "Totalt",
     "custom_spread": "Fördelning",
-    "custom_spread_even": "Jämnt",
     "custom_spread_local": "Som det lokala klimatet",
     "custom_spread_own": "Egna värden"
   }

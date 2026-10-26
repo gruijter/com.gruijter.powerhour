@@ -38,7 +38,7 @@ Every device in the tariff group now follows your real price, each price period 
 ## 💡 Shared Concepts
 
 ### 1. Pairing
-Pick the source device from the list: the likely ones are listed first. A setup view then asks for the key settings and shows which capabilities of the source device are used, with the option to choose others. The new device gets the name of the source device. **Repair** lets you switch to another source device later (the device keeps its name), or fix the totals and costs, e.g. after a wrong meter jump.
+Pick the source device from the list: the likely ones are listed first. A setup view then asks for the key settings and the **Year budget**, and shows which capabilities of the source device are used, with the option to choose others. The new device gets the name of the source device. **Repair** lets you switch to another source device later (the device keeps its name), change the **Year budget**, or fix the totals and costs, e.g. after a wrong meter jump.
 
 ### 2. Tariff Groups
 A tariff group links an *Energy Price* device to the other devices: Grid, Power, Solar, Gas, Water, Battery and EV charger.
@@ -47,13 +47,12 @@ A tariff group links an *Energy Price* device to the other devices: Grid, Power,
 - Every device gets its price from a price device, also for a fixed tariff: an *Energy Price* device with **Fixed** (electricity or gas) or **Water**. Group `0`: no price.
 
 ### 3. Year Budget
-Power, Grid, Solar, Gas, Water and EV charger devices can compare the use with a year budget (0 = no budget), distributed over the year:
-- **Local climate (auto):** computed for your location from 10 years of weather (Open-Meteo, ERA5) or solar data (PVGIS). Set the heating (gas boiler, heat pump, hybrid, direct electric) and air conditioning in the device settings (Grid, Power, Gas, Solar).
-- **Linear:** the same every day.
-- **Household electricity, NW Europe:** more in winter (Grid, Power).
-- **Gas heating, NW Europe:** much more in winter (Gas).
-- **PV 52°N, tilt 40°S:** a typical solar production curve (Solar, Power).
-- **Custom:** 12 monthly values.
+Power, Grid, Solar, Gas, Water and EV charger devices can compare the use with a year budget. The **Year starts on** date (day and month) also starts the month and year totals; every month starts on that day, or on its last day when the month is shorter. The budget is spread over the year:
+- **Local climate (auto):** computed for your location from 10 years of weather (Open-Meteo, ERA5) or solar data (PVGIS). For Grid, Power and Gas you also choose the heating (gas boiler, heat pump, hybrid, direct electric) and, for Grid and Power, air conditioning.
+- **Evenly:** the same every day.
+- **Custom (per month):** your own value per month, or a year total spread evenly or like the local climate.
+
+The year budget is set when pairing (Grid, Gas, Water and Solar start with **Use a year budget** on and a typical value to adjust) and changed via **Repair** > *Year budget*. After a new start date, Repair continues to *Fix totals or costs*.
 
 ### 4. Virtual Meter
 For a meter that is not a Homey device, or that needs a calculation first:

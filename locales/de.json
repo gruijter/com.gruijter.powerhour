@@ -241,7 +241,7 @@
     "start_date_info": "Monats- und Jahressumme beginnen an diesem Tag und Monat neu. Jeder Monat beginnt an diesem Tag, oder an seinem letzten Tag, wenn er kürzer ist.",
     "target": "Jahreszielbudget",
     "distribution": "Verteilungsschema",
-    "linear": "Linear",
+    "linear": "Gleichmäßig",
     "local": "Lokales Klima (auto)",
     "custom": "Benutzerdefiniert (pro Monat)",
     "heating": "Heizung",
@@ -263,7 +263,6 @@
     "custom_months": "Monate",
     "custom_sum": "Summe",
     "custom_spread": "Verteilung",
-    "custom_spread_even": "Gleichmäßig",
     "custom_spread_local": "Wie das lokale Klima",
     "custom_spread_own": "Eigene Werte"
   }

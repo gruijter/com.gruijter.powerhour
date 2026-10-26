@@ -43,7 +43,7 @@ The **Solar Monitor** tracks the production of your solar panels and forecasts t
 
 1. Go to **Devices** → **Add Device** → **Power by the Hour** → **Solar Monitor**.
 2. Choose the device that measures your solar production (inverter, energy meter or smart plug). Solar panels in Homey are listed first. The new device gets the name of the source device.
-3. The setup view asks for **Use Watt as source**, **Has daily reset**, **Peak Power (W)**, the **Tariff group**, the tariff and the **Tariff selection**, and which meter capability to use.
+3. The setup view asks for **Use Watt as source**, **Has daily reset**, **Peak Power (W)**, the **Tariff group**, the tariff and the **Tariff selection**, which meter capability to use, and the **Year budget** (on by default, Local climate; left empty it is estimated from the peak power and the location). Change it later with **Repair** > *Year budget*.
 4. **Latitude / Longitude:** leave empty to use your Homey's location.
 
 ---
