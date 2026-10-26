@@ -68,6 +68,27 @@ const p = (cur, last, startDay, startMonth = 0) => MH.getPeriods(cur, last, last
 assert.strictEqual(p(rd(2026, 1, 28), rd(2026, 1, 27, 23), 31).newMonth, true, '28 Feb starts the month for day 31');
 assert.strictEqual(p(rd(2026, 2, 1), rd(2026, 1, 28, 23), 31).newMonth, false, 'not again on 1 March');
 assert.strictEqual(p(rd(2026, 2, 31), rd(2026, 2, 30, 23), 31).newMonth, true, '31 March');
+{
+  const g = (cur, lastDay, lastMonth, lastYear, startDay, startMonth = 0) => MH.getPeriods(cur, lastDay, lastDay, lastMonth, lastYear, startDay, startMonth);
+  const offline = g(rd(2026, 2, 2), rd(2026, 1, 26, 23), rd(2026, 0, 31), rd(2026, 0, 31), 31);
+  assert.deepStrictEqual([offline.newMonth, offline.newYear], [true, false], 'offline over 28 Feb: caught up');
+  const offline15 = g(rd(2026, 3, 2), rd(2026, 2, 13, 23), rd(2026, 1, 15), rd(2026, 0, 15), 15);
+  assert.strictEqual(offline15.newMonth, true, 'offline over 15 March: caught up');
+  assert.strictEqual(g(rd(2026, 3, 16), rd(2026, 3, 15, 23), rd(2026, 3, 15), rd(2026, 0, 15), 15).newMonth, false, 'not again the day after');
+  assert.strictEqual(g(rd(2026, 3, 3), rd(2026, 3, 2, 23), rd(2026, 3, 2), rd(2026, 0, 15), 15).newMonth, false, 'not again after a catch-up');
+  const jan1 = g(rd(2027, 0, 1), rd(2026, 11, 31, 23), rd(2026, 11, 15), rd(2026, 0, 15), 15, 0);
+  assert.deepStrictEqual([jan1.newMonth, jan1.newYear], [false, false], 'year start 15 Jan: not on 1 Jan');
+  const jan15 = g(rd(2027, 0, 15), rd(2027, 0, 14, 23), rd(2026, 11, 15), rd(2026, 0, 15), 15, 0);
+  assert.deepStrictEqual([jan15.newMonth, jan15.newYear], [true, true], 'year start 15 Jan');
+  const offlineYear = g(rd(2027, 1, 2), rd(2027, 0, 10, 23), rd(2026, 11, 15), rd(2026, 0, 15), 15, 0);
+  assert.deepStrictEqual([offlineYear.newMonth, offlineYear.newYear], [true, true], 'offline over the year start: caught up');
+  // A new start date (1 Oct) on 20 Oct: no reset now, on the next start.
+  const kept = MH.keepPeriods(rd(2026, 9, 1), rd(2026, 0, 1), new Date(2026, 9, 20));
+  const after = g(rd(2026, 9, 21), rd(2026, 9, 20, 23), kept.month, kept.year, 1, 9);
+  assert.deepStrictEqual([after.newMonth, after.newYear], [false, false], 'new start date: no reset now');
+  const kept25 = MH.keepPeriods(rd(2026, 9, 1), rd(2026, 0, 1), new Date(2026, 9, 20));
+  assert.strictEqual(g(rd(2026, 9, 25), rd(2026, 9, 24, 23), kept25.month, kept25.year, 25, 0).newMonth, true, 'new start day 25: on 25 Oct');
+}
 const ps = MH.periodStarts(new Date(2026, 2, 5), 31, 0);
 assert.deepStrictEqual([ps.month.getMonth(), ps.month.getDate(), ps.year.getFullYear(), ps.year.getMonth(), ps.year.getDate()], [1, 28, 2026, 0, 31]);
 const ps2 = MH.periodStarts(new Date(2026, 0, 5), 15, 0);

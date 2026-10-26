@@ -804,13 +804,16 @@ class CarChargeDevice extends GenericDevice {
 
   async _applySocReport(soc, tm, odo = null) {
     const capacity = this.getSettings().batCapacity || 50;
-    const { state, sample, ignored } = EvSocEstimator.onReport(this.socEstimator, {
+    const {
+      state, sample, ignored, repeat,
+    } = EvSocEstimator.onReport(this.socEstimator, {
       soc, tm, kwhCounter: this._readChargedKwh(), odo, v2x: !!this.getSettings().v2x,
     }, capacity);
     this.socEstimator = state;
     if (ignored) {
-      this.log(`[EV SoC] Car reported ${soc}%, under ${state.baseSoc}% while parked and charging: stale, ignored`);
       await this.setStoreValue('socEstimator', this.socEstimator).catch(this.error);
+      if (repeat) return;
+      this.log(`[EV SoC] Car reported ${soc}%, under ${state.baseSoc}% while parked and charging: stale, ignored`);
       await this._appendPlanLog(`stale car SoC ${soc}% ignored (base ${state.baseSoc}%)`).catch(this.error);
       return;
     }

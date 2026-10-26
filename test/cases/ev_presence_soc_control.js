@@ -116,7 +116,11 @@ r = S.onReport(k, {
 }, cap);
 assert.strictEqual(r.ignored, true, 'lower while parked and charging: stale');
 assert.deepStrictEqual([r.state.baseSoc, r.state.baseTm, r.state.ignoredTm], [80, now, now + 1], 'base kept');
+assert.strictEqual(r.repeat, false);
 k = r.state;
+assert.strictEqual(S.onReport(k, {
+  soc: 66, tm: now + 2, kwhCounter: 1005, odo: 119023,
+}, cap).repeat, true, 'same stale SoC again: repeat');
 assert.strictEqual(S.onReport(k, {
   soc: 79, tm: now + 2, kwhCounter: 1005, odo: 119023,
 }, cap).ignored, undefined, 'within rounding: accepted');
