@@ -260,9 +260,11 @@
     "custom_title": "Бюджет по месяцам",
     "custom_text": "Укажите бюджет по месяцам или введите годовую сумму и распределите её.",
     "custom_total": "Годовая сумма",
-    "custom_even": "Распределить равномерно",
-    "custom_local": "Распределить по местному климату",
     "custom_months": "Месяцы",
-    "custom_sum": "Итого"
+    "custom_sum": "Итого",
+    "custom_spread": "Распределение",
+    "custom_spread_even": "Равномерно",
+    "custom_spread_local": "По местному климату",
+    "custom_spread_own": "Свои значения"
   }
 }

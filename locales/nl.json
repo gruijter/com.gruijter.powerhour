@@ -260,9 +260,11 @@
     "custom_title": "Budget per maand",
     "custom_text": "Vul het budget per maand in, of vul een jaartotaal in en verdeel het.",
     "custom_total": "Jaartotaal",
-    "custom_even": "Gelijk verdelen",
-    "custom_local": "Verdelen volgens lokaal klimaat",
     "custom_months": "Maanden",
-    "custom_sum": "Totaal"
+    "custom_sum": "Totaal",
+    "custom_spread": "Verdeling",
+    "custom_spread_even": "Gelijk",
+    "custom_spread_local": "Volgens lokaal klimaat",
+    "custom_spread_own": "Eigen waarden"
   }
 }

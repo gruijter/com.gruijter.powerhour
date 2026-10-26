@@ -260,9 +260,11 @@
     "custom_title": "Budget per month",
     "custom_text": "Fill in the budget per month, or enter a year total and spread it.",
     "custom_total": "Year total",
-    "custom_even": "Spread evenly",
-    "custom_local": "Spread like the local climate",
     "custom_months": "Months",
-    "custom_sum": "Total"
+    "custom_sum": "Total",
+    "custom_spread": "Spread",
+    "custom_spread_even": "Evenly",
+    "custom_spread_local": "Like the local climate",
+    "custom_spread_own": "Own values"
   }
 }

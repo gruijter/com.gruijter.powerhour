@@ -260,9 +260,11 @@
     "custom_title": "Presupuesto por mes",
     "custom_text": "Introduce el presupuesto por mes, o introduce un total anual y repártelo.",
     "custom_total": "Total anual",
-    "custom_even": "Repartir por igual",
-    "custom_local": "Repartir según el clima local",
     "custom_months": "Meses",
-    "custom_sum": "Total"
+    "custom_sum": "Total",
+    "custom_spread": "Reparto",
+    "custom_spread_even": "Por igual",
+    "custom_spread_local": "Según el clima local",
+    "custom_spread_own": "Valores propios"
   }
 }

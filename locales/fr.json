@@ -260,9 +260,11 @@
     "custom_title": "Budget par mois",
     "custom_text": "Saisissez le budget par mois, ou saisissez un total annuel et répartissez-le.",
     "custom_total": "Total annuel",
-    "custom_even": "Répartir uniformément",
-    "custom_local": "Répartir selon le climat local",
     "custom_months": "Mois",
-    "custom_sum": "Total"
+    "custom_sum": "Total",
+    "custom_spread": "Répartition",
+    "custom_spread_even": "Uniforme",
+    "custom_spread_local": "Selon le climat local",
+    "custom_spread_own": "Valeurs personnelles"
   }
 }

@@ -6,12 +6,14 @@
 			<label class="homey-form-label" for="customTotal" data-part="totalLabel"></label>
 			<input class="homey-form-input" type="number" step="any" min="0" id="customTotal" data-part="total" style="box-sizing: border-box; width: 100%;">
 		</div>
-		<button class="homey-button-transparent" data-part="even" data-i18n="budget.custom_even"></button>
-		<button class="homey-button-transparent" data-part="local" data-i18n="budget.custom_local" style="display: none;"></button>
+		<div class="homey-form-group">
+			<label class="homey-form-label" for="customSpread" data-i18n="budget.custom_spread"></label>
+			<select class="homey-form-select" id="customSpread" data-part="spread"></select>
+		</div>
 	</fieldset>
 	<fieldset class="homey-form-fieldset">
 		<legend class="homey-form-legend" data-i18n="budget.custom_months"></legend>
-		<div data-part="months" style="display: grid; grid-template-columns: 1fr 1fr; column-gap: 12px;"></div>
+		<div data-part="months" style="display: grid; grid-template-columns: auto 1fr auto 1fr; gap: 8px 12px; align-items: center;"></div>
 		<p class="homey-subtitle" data-part="sum"></p>
 	</fieldset>
 	<button class="homey-button-primary-full" data-part="next" data-i18n="repair.setup_next"></button>
@@ -35,11 +37,14 @@
 			const sum = inputs.reduce((a, input) => a + (Number(String(input.value).replace(',', '.')) || 0), 0);
 			part('sum').textContent = `${Homey.__('budget.custom_sum')}: ${round(sum)} ${unit}`;
 		};
-		const spread = (shares) => {
+		let shares = {};
+		// The year total over the months as chosen; 'own' keeps the months as they are.
+		const spread = () => {
 			const total = Number(String(part('total').value).replace(',', '.'));
-			if (!(total > 0) || !shares) return;
+			const chosen = shares[part('spread').value];
+			if (!(total > 0) || !chosen) return;
 			inputs.forEach((input, m) => {
-				input.value = round(total * shares[m]);
+				input.value = round(total * chosen[m]);
 			});
 			showSum();
 		};
@@ -51,33 +56,40 @@
 				part('title').textContent = data.title || '';
 				part('totalLabel').textContent = `${Homey.__('budget.custom_total')} (${unit})`;
 				part('total').value = data.total || '';
+				shares = data.shares || {};
+				const select = part('spread');
+				['even', 'local', 'own'].filter((id) => id === 'own' || shares[id]).forEach((id) => {
+					select.appendChild(el('option', { value: id, textContent: Homey.__(`budget.custom_spread_${id}`) }));
+				});
 				inputs = (data.months || []).map((name, m) => {
-					const group = el('div', { className: 'homey-form-group' });
-					group.appendChild(el('label', { className: 'homey-form-label', htmlFor: `customMonth${m}`, textContent: name }));
-					const input = el('input', {
-						className: 'homey-form-input', type: 'number', step: 'any', min: '0', id: `customMonth${m}`, style: 'box-sizing: border-box; width: 100%;',
+					// Compact rows: two months each, the name next to its field.
+					const label = el('label', {
+						className: 'homey-form-label', htmlFor: `customMonth${m}`, textContent: name, style: 'margin: 0;',
 					});
-					input.addEventListener('input', showSum);
-					group.appendChild(input);
-					part('months').appendChild(group);
+					const input = el('input', {
+						className: 'homey-form-input', type: 'number', step: 'any', min: '0', id: `customMonth${m}`, style: 'box-sizing: border-box; width: 100%; min-width: 0; margin: 0;',
+					});
+					input.addEventListener('input', () => {
+						select.value = 'own';
+						showSum();
+					});
+					part('months').appendChild(label);
+					part('months').appendChild(input);
 					return input;
 				});
-				const shares = data.shares || {};
-				part('even').addEventListener('click', () => spread(shares.even));
-				if (shares.local) {
-					part('local').style.display = '';
-					part('local').addEventListener('click', () => spread(shares.local));
-				}
+				select.addEventListener('change', spread);
+				part('total').addEventListener('input', spread);
 				// Present months, else the year total spread like the local climate or evenly.
 				if (Array.isArray(data.values)) {
+					select.value = 'own';
 					inputs.forEach((input, m) => {
 						input.value = data.values[m];
 					});
-					showSum();
 				} else {
-					spread(shares.local || shares.even);
-					showSum();
+					select.value = shares.local ? 'local' : 'even';
+					spread();
 				}
+				showSum();
 			} catch (error) {
 				Homey.alert(error.message || error, 'error');
 			} finally {

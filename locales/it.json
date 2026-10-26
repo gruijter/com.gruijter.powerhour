@@ -260,9 +260,11 @@
     "custom_title": "Budget per mese",
     "custom_text": "Inserisci il budget per mese, oppure inserisci un totale annuale e distribuiscilo.",
     "custom_total": "Totale annuale",
-    "custom_even": "Distribuisci in modo uniforme",
-    "custom_local": "Distribuisci come il clima locale",
     "custom_months": "Mesi",
-    "custom_sum": "Totale"
+    "custom_sum": "Totale",
+    "custom_spread": "Distribuzione",
+    "custom_spread_even": "Uniforme",
+    "custom_spread_local": "Come il clima locale",
+    "custom_spread_own": "Valori propri"
   }
 }

@@ -260,9 +260,11 @@
     "custom_title": "الميزانية لكل شهر",
     "custom_text": "أدخل الميزانية لكل شهر، أو أدخل إجماليًا سنويًا ووزّعه.",
     "custom_total": "الإجمالي السنوي",
-    "custom_even": "وزّع بالتساوي",
-    "custom_local": "وزّع حسب المناخ المحلي",
     "custom_months": "الأشهر",
-    "custom_sum": "المجموع"
+    "custom_sum": "المجموع",
+    "custom_spread": "التوزيع",
+    "custom_spread_even": "بالتساوي",
+    "custom_spread_local": "حسب المناخ المحلي",
+    "custom_spread_own": "قيم خاصة"
   }
 }

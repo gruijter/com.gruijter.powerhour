@@ -260,9 +260,11 @@
     "custom_title": "월별 예산",
     "custom_text": "월별 예산을 입력하거나, 연간 합계를 입력해 분배하세요.",
     "custom_total": "연간 합계",
-    "custom_even": "균등 분배",
-    "custom_local": "지역 기후에 따라 분배",
     "custom_months": "월",
-    "custom_sum": "합계"
+    "custom_sum": "합계",
+    "custom_spread": "분배",
+    "custom_spread_even": "균등",
+    "custom_spread_local": "지역 기후에 따라",
+    "custom_spread_own": "직접 입력"
   }
 }

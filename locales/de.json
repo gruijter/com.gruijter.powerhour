@@ -260,9 +260,11 @@
     "custom_title": "Budget pro Monat",
     "custom_text": "Gib das Budget pro Monat ein, oder gib eine Jahressumme ein und verteile sie.",
     "custom_total": "Jahressumme",
-    "custom_even": "Gleichmäßig verteilen",
-    "custom_local": "Wie das lokale Klima verteilen",
     "custom_months": "Monate",
-    "custom_sum": "Summe"
+    "custom_sum": "Summe",
+    "custom_spread": "Verteilung",
+    "custom_spread_even": "Gleichmäßig",
+    "custom_spread_local": "Wie das lokale Klima",
+    "custom_spread_own": "Eigene Werte"
   }
 }

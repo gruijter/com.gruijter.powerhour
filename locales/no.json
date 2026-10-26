@@ -260,9 +260,11 @@
     "custom_title": "Budsjett per måned",
     "custom_text": "Fyll inn budsjettet per måned, eller angi en årstotal og fordel den.",
     "custom_total": "Årstotal",
-    "custom_even": "Fordel jevnt",
-    "custom_local": "Fordel som det lokale klimaet",
     "custom_months": "Måneder",
-    "custom_sum": "Totalt"
+    "custom_sum": "Totalt",
+    "custom_spread": "Fordeling",
+    "custom_spread_even": "Jevnt",
+    "custom_spread_local": "Som det lokale klimaet",
+    "custom_spread_own": "Egne verdier"
   }
 }
