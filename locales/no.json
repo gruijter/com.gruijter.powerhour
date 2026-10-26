@@ -238,7 +238,7 @@
   "source_polled": "pollet",
   "budget": {
     "start_date": "Året starter",
-    "start_date_info": "Måneds- og årstotalen starter på nytt denne dagen og måneden, og hver måned starter denne dagen. Rett etter en endring måneds- og årstotalen via Reparer > Rett totaler eller kostnader.",
+    "start_date_info": "Måneds- og årstotalen starter på nytt denne dagen og måneden. Hver måned starter denne dagen, eller på sin siste dag hvis den er kortere.",
     "target": "Årlig målbudsjett",
     "distribution": "Distribusjonsskjema",
     "linear": "Lineær",

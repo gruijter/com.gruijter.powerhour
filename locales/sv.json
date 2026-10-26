@@ -238,7 +238,7 @@
   "source_polled": "pollad",
   "budget": {
     "start_date": "Året börjar",
-    "start_date_info": "Månads- och årstotalen börjar om denna dag och månad, och varje månad börjar denna dag. Rätta efter en ändring månads- och årstotalen via Reparera > Rätta totaler eller kostnader.",
+    "start_date_info": "Månads- och årstotalen börjar om denna dag och månad. Varje månad börjar denna dag, eller på sin sista dag om den är kortare.",
     "target": "Årsmålbudget",
     "distribution": "Distributionsschema",
     "linear": "Linjär",

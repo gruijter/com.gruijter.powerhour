@@ -238,7 +238,7 @@
   "source_polled": "interrogé",
   "budget": {
     "start_date": "L'année commence le",
-    "start_date_info": "Les totaux du mois et de l'année repartent à ce jour et ce mois, et chaque mois commence ce jour-là. Après un changement, corrigez les totaux du mois et de l'année via Réparer > Corriger les totaux ou les coûts.",
+    "start_date_info": "Les totaux du mois et de l'année repartent à ce jour et ce mois. Chaque mois commence ce jour-là, ou son dernier jour s'il est plus court.",
     "target": "Budget cible annuel",
     "distribution": "Schéma de distribution",
     "linear": "Linéaire",

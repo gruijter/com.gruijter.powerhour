@@ -43,3 +43,29 @@ assert.strictEqual(BS.customBudget([1, 2]), null);
 assert.deepStrictEqual(BS.pairPreset('grid'), { budget: '2500', distribution: 'local' });
 assert.strictEqual(BS.pairPreset('power'), null);
 assert.strictEqual(BS.defs(homey, 'grid').start_date.months.length, 12);
+
+// Start day 29-31: a shorter month starts on its last day.
+const MH = require('../../lib/helpers/MeterHelpers');
+
+assert.strictEqual(MH.monthStartDay(31, 2026, 1), 28);
+assert.strictEqual(MH.monthStartDay(31, 2028, 1), 29, 'leap year');
+assert.strictEqual(MH.monthStartDay(31, 2026, 3), 30);
+assert.strictEqual(MH.monthStartDay(15, 2026, 1), 15);
+const rd = (year, month, day, hour = 0) => ({
+  year, month, day, hour,
+});
+const p = (cur, last, startDay, startMonth = 0) => MH.getPeriods(cur, last, last, last, last, startDay, startMonth);
+assert.strictEqual(p(rd(2026, 1, 28), rd(2026, 1, 27, 23), 31).newMonth, true, '28 Feb starts the month for day 31');
+assert.strictEqual(p(rd(2026, 2, 1), rd(2026, 1, 28, 23), 31).newMonth, false, 'not again on 1 March');
+assert.strictEqual(p(rd(2026, 2, 31), rd(2026, 2, 30, 23), 31).newMonth, true, '31 March');
+const ps = MH.periodStarts(new Date(2026, 2, 5), 31, 0);
+assert.deepStrictEqual([ps.month.getMonth(), ps.month.getDate(), ps.year.getFullYear(), ps.year.getMonth(), ps.year.getDate()], [1, 28, 2026, 0, 31]);
+const ps2 = MH.periodStarts(new Date(2026, 0, 5), 15, 0);
+assert.deepStrictEqual([ps2.month.getFullYear(), ps2.month.getMonth(), ps2.year.getFullYear()], [2025, 11, 2025], 'before the start day: previous month and year');
+
+// Budget before the start day of this month: from the start of the previous month, not a year wrap.
+const mid = B.getBudgetsToDate({
+  distribution: 'linear', budget: '3650', timeZone: 'UTC', startDay: 15, startMonth: 0, date: new Date(Date.UTC(2026, 5, 5, 12)),
+});
+assert.ok(Math.abs(mid.monthToDate - 220) < 0.5, `15 May-5 Jun ${mid.monthToDate}`);
+assert.ok(Math.abs(mid.yearToDate - 1420) < 0.5, `15 Jan-5 Jun ${mid.yearToDate}`);

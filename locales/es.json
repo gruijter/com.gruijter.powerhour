@@ -238,7 +238,7 @@
   "source_polled": "consultado",
   "budget": {
     "start_date": "El año empieza el",
-    "start_date_info": "Los totales del mes y del año empiezan de nuevo este día y mes, y cada mes empieza este día. Tras un cambio, corrige los totales del mes y del año en Reparar > Corregir totales o costes.",
+    "start_date_info": "Los totales del mes y del año empiezan de nuevo este día y mes. Cada mes empieza este día, o su último día si es más corto.",
     "target": "Presupuesto objetivo anual",
     "distribution": "Esquema de distribución",
     "linear": "Lineal",

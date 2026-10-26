@@ -238,7 +238,7 @@
   "source_polled": "polled",
   "budget": {
     "start_date": "Year starts on",
-    "start_date_info": "The month and year totals start again on this day and month, and every month starts on this day. After a change, fix the month and year totals via Repair > Fix totals or costs.",
+    "start_date_info": "The month and year totals start again on this day and month. Every month starts on this day, or on its last day when it is shorter.",
     "target": "Year target budget",
     "distribution": "Distribution scheme",
     "linear": "Linear",

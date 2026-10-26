@@ -238,7 +238,7 @@
   "source_polled": "abgefragt",
   "budget": {
     "start_date": "Jahr beginnt am",
-    "start_date_info": "Monats- und Jahressumme beginnen an diesem Tag und Monat neu, und jeder Monat beginnt an diesem Tag. Korrigiere nach einer Änderung die Monats- und Jahressumme über Reparieren > Summen oder Kosten korrigieren.",
+    "start_date_info": "Monats- und Jahressumme beginnen an diesem Tag und Monat neu. Jeder Monat beginnt an diesem Tag, oder an seinem letzten Tag, wenn er kürzer ist.",
     "target": "Jahreszielbudget",
     "distribution": "Verteilungsschema",
     "linear": "Linear",

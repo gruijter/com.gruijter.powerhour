@@ -238,7 +238,7 @@
   "source_polled": "odpytywane",
   "budget": {
     "start_date": "Rok zaczyna się",
-    "start_date_info": "Sumy miesiąca i roku zaczynają się od nowa tego dnia i miesiąca, a każdy miesiąc zaczyna się tego dnia. Po zmianie popraw sumy miesiąca i roku przez Napraw > Popraw sumy lub koszty.",
+    "start_date_info": "Sumy miesiąca i roku zaczynają się od nowa tego dnia i miesiąca. Każdy miesiąc zaczyna się tego dnia lub w swoim ostatnim dniu, jeśli jest krótszy.",
     "target": "Roczny budżet docelowy",
     "distribution": "Schemat dystrybucji",
     "linear": "Liniowy",

@@ -238,7 +238,7 @@
   "source_polled": "gepolld",
   "budget": {
     "start_date": "Jaar begint op",
-    "start_date_info": "Het maand- en jaartotaal beginnen op deze dag en maand opnieuw, en elke maand begint op deze dag. Herstel na een wijziging het maand- en jaartotaal via Repareren > Totalen of kosten herstellen.",
+    "start_date_info": "Het maand- en jaartotaal beginnen op deze dag en maand opnieuw. Elke maand begint op deze dag, of op de laatste dag als de maand korter is.",
     "target": "Jaar doelbudget",
     "distribution": "Verdeling schema",
     "linear": "Lineair",
