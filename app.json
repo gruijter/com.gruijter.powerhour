@@ -20493,10 +20493,7 @@
       ],
       "repair": [
         {
-          "id": "repair_warning",
-          "navigation": {
-            "next": "list_devices"
-          }
+          "id": "repair_start"
         },
         {
           "id": "list_devices",
@@ -20505,6 +20502,7 @@
             "singular": true
           },
           "navigation": {
+            "prev": "repair_start",
             "next": "setup"
           }
         },
@@ -20513,6 +20511,9 @@
           "navigation": {
             "prev": "list_devices"
           }
+        },
+        {
+          "id": "fix_values"
         },
         {
           "id": "loading",
@@ -21382,242 +21383,6 @@
                 "ru": "Количество десятичных знаков для цены.",
                 "ar": "عدد الكسور العشرية المراد استخدامها للسعر.",
                 "ko": "가격에 사용할 소수 자릿수입니다."
-              }
-            },
-            {
-              "id": "meter_money_this_month",
-              "type": "number",
-              "label": {
-                "en": "Monetary value of this month",
-                "de": "Geldbetrag des Monats",
-                "sv": "Denna månads monetära värde",
-                "it": "Valore monetario mese corrente",
-                "no": "Pengeverdi denne måned",
-                "fr": "Valeur monétaire de ce mois",
-                "nl": "Geldwaarde van deze maand",
-                "es": "Valor monetario de este mes",
-                "da": "Pengeværdi af denne måned",
-                "pl": "Wartość pieniężna tego miesiąca",
-                "ru": "Денежная стоимость этого месяца",
-                "ar": "القيمة النقدية لهذا الشهر",
-                "ko": "이번 달의 금전적 가치"
-              },
-              "value": 0,
-              "decimals": 4,
-              "hint": {
-                "en": "Actual monetary value. It is automatically updated.",
-                "de": "Aktueller Geldbetrag. Er wird automatisch aktualisiert.",
-                "sv": "Faktiskt penningvärde. Den uppdateras automatiskt.",
-                "it": "Valore monetario attuale. Viene aggiornato automaticamente.",
-                "no": "Aktuell pengeverdi. Blir automatisk oppdatert",
-                "fr": "Valeur monétaire actuelle. Elle est mise à jour automatiquement",
-                "nl": "Actuele geldwaarde. Wordt automatisch geupdated.",
-                "es": "Valor monetario actual. Se actualiza automáticamente.",
-                "da": "Faktisk pengeværdi. Den opdateres automatisk.",
-                "pl": "Rzeczywista wartość pieniężna. Jest ona automatycznie aktualizowana.",
-                "ru": "Фактическая денежная стоимость. Она автоматически обновляется.",
-                "ar": "القيمة النقدية الفعلية. يتم تحديثها تلقائيًا.",
-                "ko": "실제 금전적 가치입니다. 자동으로 업데이트됩니다."
-              }
-            },
-            {
-              "id": "meter_money_this_year",
-              "type": "number",
-              "label": {
-                "en": "Monetary value of this year",
-                "de": "Geldbetrag des Jahres",
-                "sv": "Årets monetära värde",
-                "it": "Valore monetario anno corrente",
-                "no": "Pengeverdi dette år",
-                "fr": "Valeur monétaire de cette année",
-                "nl": "Geldwaarde van dit jaar",
-                "es": "Valor monetario de este año",
-                "da": "Pengeværdi af dette år",
-                "pl": "Wartość pieniężna tego roku",
-                "ru": "Денежная стоимость этого года",
-                "ar": "القيمة النقدية لهذا العام",
-                "ko": "올해의 금전적 가치"
-              },
-              "value": 0,
-              "decimals": 4,
-              "hint": {
-                "en": "Actual monetary value. It is automatically updated.",
-                "de": "Aktueller Geldbetrag. Er wird automatisch aktualisiert.",
-                "sv": "Faktiskt penningvärde. Den uppdateras automatiskt.",
-                "it": "Valore monetario attuale. Viene aggiornato automaticamente.",
-                "no": "Aktuell pengeverdi. Blir automatisk oppdatert",
-                "fr": "Valeur monétaire actuelle. Elle est mise à jour automatiquement",
-                "nl": "Actuele geldwaarde. Wordt automatisch geupdated.",
-                "es": "Valor monetario actual. Se actualiza automáticamente.",
-                "da": "Faktisk pengeværdi. Den opdateres automatisk.",
-                "pl": "Rzeczywista wartość pieniężna. Jest ona automatycznie aktualizowana.",
-                "ru": "Фактическая денежная стоимость. Она автоматически обновляется.",
-                "ar": "القيمة النقدية الفعلية. يتم تحديثها تلقائيًا.",
-                "ko": "실제 금전적 가치입니다. 자동으로 업데이트됩니다."
-              }
-            },
-            {
-              "id": "meter_money_last_month",
-              "type": "number",
-              "label": {
-                "en": "Monetary value prev. month",
-                "de": "Geldbetrag des Vormonats",
-                "sv": "Monetärt värde föregående månad",
-                "it": "Valore monetario mese prec.",
-                "no": "Pengeverdi forrige måned",
-                "fr": "Valeur monétaire du mois dernier",
-                "nl": "Geldwaarde van vorige maand",
-                "es": "Valor monetario mes anterior",
-                "da": "Pengeværdi forrige måned",
-                "pl": "Wartość pieniężna poprz. miesiąca",
-                "ru": "Денежная стоимость пред. месяца",
-                "ar": "القيمة النقدية للشهر السابق",
-                "ko": "지난달 금전적 가치"
-              },
-              "value": 0,
-              "decimals": 4,
-              "hint": {
-                "en": "Monetary value of the previous month. It is automatically updated.",
-                "de": "Geldbetrag des Vormonats. Er wird automatisch aktualisiert.",
-                "sv": "Föregående månads monetära värde. Den uppdateras automatiskt.",
-                "it": "Valore monetario del mese precedente. Viene aggiornato automaticamente.",
-                "no": "Pengeverdi forrige måned. Blir automatisk oppdatert",
-                "fr": "Valeur monétaire du mois dernier. Elle est mise à jour automatiquement",
-                "nl": "Geldwaarde van de vorige maand. Wordt automatisch geupdated.",
-                "es": "Valor monetario del mes anterior. Se actualiza automáticamente.",
-                "da": "Pengeværdien af den foregående måned. Den opdateres automatisk.",
-                "pl": "Wartość pieniężna poprzedniego miesiąca. Jest ona automatycznie aktualizowana.",
-                "ru": "Денежная стоимость предыдущего месяца. Она автоматически обновляется.",
-                "ar": "القيمة النقدية للشهر السابق. يتم تحديثها تلقائيًا.",
-                "ko": "지난달의 금전적 가치입니다. 자동으로 업데이트됩니다."
-              }
-            },
-            {
-              "id": "meter_money_last_year",
-              "type": "number",
-              "label": {
-                "en": "Monetary value prev. year",
-                "de": "Geldbetrag des Vorjahres",
-                "sv": "Monetärt värde föregående år",
-                "it": "Valore monetario anno prec.",
-                "no": "Pengeverdi forrige år",
-                "fr": "Valeur monétaire de l'année dernière",
-                "nl": "Geldwaarde van vorig jaar",
-                "es": "Valor monetario año anterior",
-                "da": "Pengeværdi forrige år",
-                "pl": "Wartość pieniężna poprz. roku",
-                "ru": "Денежная стоимость пред. года",
-                "ar": "القيمة النقدية للعام السابق",
-                "ko": "작년 금전적 가치"
-              },
-              "value": 0,
-              "decimals": 4,
-              "hint": {
-                "en": "Monetary value of the previous year. It is automatically updated.",
-                "de": "Geldbetrag des Vorjahres. Er wird automatisch aktualisiert.",
-                "sv": "Föregående års monetära värde. Den uppdateras automatiskt.",
-                "it": "Valore monetario dell'anno precedente. Viene aggiornato automaticamente.",
-                "no": "Pengeverdi forrige år. Blir automatisk oppdatert",
-                "fr": "Valeur monétaire de l'année dernière. Elle est mise à jour automatiquement",
-                "nl": "Geldwaarde van het vorige jaar. Wordt automatisch geupdated.",
-                "es": "Valor monetario del año anterior. Se actualiza automáticamente.",
-                "da": "Pengeværdien af det foregående år. Den opdateres automatisk.",
-                "pl": "Wartość pieniężna poprzedniego roku. Jest ona automatycznie aktualizowana.",
-                "ru": "Денежная стоимость предыдущего года. Она автоматически обновляется.",
-                "ar": "القيمة النقدية للعام السابق. يتم تحديثها تلقائيًا.",
-                "ko": "작년의 금전적 가치입니다. 자동으로 업데이트됩니다."
-              }
-            }
-          ]
-        },
-        {
-          "type": "group",
-          "label": {
-            "en": "Meter readings",
-            "de": "Zählerstände",
-            "sv": "Mätaravläsningar",
-            "it": "Letture contatore",
-            "no": "Meterverdier",
-            "fr": "Lecture compteur",
-            "nl": "Meterstanden",
-            "es": "Lecturas del medidor",
-            "da": "Måleraflæsninger",
-            "pl": "Odczyty licznika",
-            "ru": "Показания счетчика",
-            "ar": "قراءات العداد",
-            "ko": "계량기 값"
-          },
-          "children": [
-            {
-              "id": "meter_kwh_charging",
-              "type": "number",
-              "label": {
-                "en": "Charging Total (kWh)",
-                "nl": "Laden Totaal (kWh)",
-                "de": "Aufladung Gesamt (kWh)",
-                "fr": "Total de charge (kWh)",
-                "it": "Totale ricarica (kWh)",
-                "sv": "Laddning totalt (kWh)",
-                "no": "Lading totalt (kWh)",
-                "es": "Carga total (kWh)",
-                "da": "Opladning i alt (kWh)",
-                "pl": "Ładowanie ogółem (kWh)",
-                "ru": "Всего зарядки (кВтч)",
-                "ar": "إجمالي الشحن (كيلوواط ساعة)",
-                "ko": "총 충전량 (kWh)"
-              },
-              "min": 0,
-              "value": 0,
-              "hint": {
-                "en": "This value is automatically generated and updated once an hour. It is advised not to change this value, unless you need to.",
-                "nl": "Deze waarde wordt automatisch gegenereerd en één keer per uur bijgewerkt. Het wordt aanbevolen deze waarde niet te wijzigen, tenzij dit noodzakelijk is.",
-                "de": "Dieser Wert wird automatisch generiert und einmal pro Stunde aktualisiert. Es wird empfohlen, diesen Wert nicht zu ändern, es sei denn, dies ist erforderlich.",
-                "fr": "Cette valeur est générée automatiquement et mise à jour une fois par heure. Il est conseillé de ne pas modifier cette valeur, sauf si vous le devez.",
-                "it": "Questo valore viene generato automaticamente e aggiornato una volta all'ora. Si consiglia di non modificare questo valore, a meno che non sia necessario.",
-                "sv": "Detta värde genereras automatiskt och uppdateras en gång i timmen. Det rekommenderas att inte ändra detta värde, om du inte måste.",
-                "no": "Denne verdien genereres automatisk og oppdateres en gang i timen. Det anbefales ikke å endre denne verdien, med mindre du må.",
-                "es": "Este valor se genera y actualiza automáticamente una vez por hora. Se aconseja no cambiar este valor, a menos que sea necesario.",
-                "da": "Denne værdi genereres automatisk og opdateres en gang i timen. Det anbefales ikke at ændre denne værdi, medmindre du er nødt til det.",
-                "pl": "Wartość ta jest generowana automatycznie i aktualizowana raz na godzinę. Zaleca się nie zmieniać tej wartości, chyba że jest to konieczne.",
-                "ru": "Это значение генерируется и обновляется автоматически раз в час. Рекомендуется не изменять это значение, если в этом нет необходимости.",
-                "ar": "يتم إنشاء هذه القيمة وتحديثها تلقائيًا مرة واحدة في الساعة. ينصح بعدم تغيير هذه القيمة، إلا إذا كنت بحاجة إلى ذلك.",
-                "ko": "이 값은 자동으로 생성되며 시간마다 한 번씩 업데이트됩니다. 필요한 경우가 아니면 이 값을 변경하지 않는 것이 좋습니다."
-              }
-            },
-            {
-              "id": "meter_kwh_discharging",
-              "type": "number",
-              "label": {
-                "en": "Discharging Total (kWh)",
-                "nl": "Ontladen Totaal (kWh)",
-                "de": "Entladung Gesamt (kWh)",
-                "fr": "Total de décharge (kWh)",
-                "it": "Totale scarica (kWh)",
-                "sv": "Urladdning totalt (kWh)",
-                "no": "Utladning totalt (kWh)",
-                "es": "Descarga total (kWh)",
-                "da": "Afladning i alt (kWh)",
-                "pl": "Rozładowanie ogółem (kWh)",
-                "ru": "Всего разрядки (кВтч)",
-                "ar": "إجمالي التفريغ (كيلوواط ساعة)",
-                "ko": "총 방전량 (kWh)"
-              },
-              "min": 0,
-              "value": 0,
-              "hint": {
-                "en": "This value is automatically generated and updated once an hour. It is advised not to change this value, unless you need to.",
-                "nl": "Deze waarde wordt automatisch gegenereerd en één keer per uur bijgewerkt. Het wordt aanbevolen deze waarde niet te wijzigen, tenzij dit noodzakelijk is.",
-                "de": "Dieser Wert wird automatisch generiert und einmal pro Stunde aktualisiert. Es wird empfohlen, diesen Wert nicht zu ändern, es sei denn, dies ist erforderlich.",
-                "fr": "Cette valeur est générée automatiquement et mise à jour une fois par heure. Il est conseillé de ne pas modifier cette valeur, sauf si vous le devez.",
-                "it": "Questo valore viene generato automaticamente e aggiornato una volta all'ora. Si consiglia di non modificare questo valore, a meno che non sia necessario.",
-                "sv": "Detta värde genereras automatiskt och uppdateras en gång i timmen. Det rekommenderas att inte ändra detta värde, om du inte måste.",
-                "no": "Denne verdien genereres automatisk og oppdateres en gang i timen. Det anbefales ikke å endre denne verdien, med mindre du må.",
-                "es": "Este valor se genera y actualiza automáticamente una vez por hora. Se aconseja no cambiar este valor, a menos que sea necesario.",
-                "da": "Denne værdi genereres automatisk og opdateres en gang i timen. Det anbefales ikke at ændre denne værdi, medmindre du er nødt til det.",
-                "pl": "Wartość ta jest generowana automatycznie i aktualizowana raz na godzinę. Zaleca się nie zmieniać tej wartości, chyba że jest to konieczne.",
-                "ru": "Это значение генерируется и обновляется автоматически раз в час. Рекомендуется не изменять это значение, если в этом нет необходимости.",
-                "ar": "يتم إنشاء هذه القيمة وتحديثها تلقائيًا مرة واحدة في الساعة. ينصح بعدم تغيير هذه القيمة، إلا إذا كنت بحاجة إلى ذلك.",
-                "ko": "이 값은 자동으로 생성되며 시간마다 한 번씩 업데이트됩니다. 필요한 경우가 아니면 이 값을 변경하지 않는 것이 좋습니다."
               }
             }
           ]
@@ -27542,10 +27307,7 @@
       ],
       "repair": [
         {
-          "id": "repair_warning",
-          "navigation": {
-            "next": "list_devices"
-          }
+          "id": "repair_start"
         },
         {
           "id": "list_devices",
@@ -27554,6 +27316,7 @@
             "singular": true
           },
           "navigation": {
+            "prev": "repair_start",
             "next": "setup"
           }
         },
@@ -27562,6 +27325,9 @@
           "navigation": {
             "prev": "list_devices"
           }
+        },
+        {
+          "id": "fix_values"
         },
         {
           "id": "loading",
@@ -27817,19 +27583,19 @@
               },
               "value": "0101",
               "hint": {
-                "en": "On this date the month and year total will reset to 0. Format is ddmm. Default is 0101 (1 January). ATTENTION: If you change this date you need to manually correct the This Month Start and This Year Start values.",
-                "nl": "Op deze datum wordt het jaar en maand totaal op 0 gezet. Het formaat is ddmm. Standaard is 0101 (1 january). LET OP: Als deze datum wordt gewijzigd zal Deze Maand Start en Dit Jaar Start handmatig aangepast moeten worden.",
-                "de": "An diesem Datum wird die Monats- und Jahressumme auf 0 zurückgesetzt. Das Format ist ddmm. Standardwert ist 0101 (1. Januar). ACHTUNG: Wenn Sie dieses Datum ändern, müssen Sie die Werte 'Monatsbeginn' und 'Jahresbeginn' manuell korrigieren.",
-                "fr": "À cette date, le total du mois et de l'année sera remit à 0. Le format est jjmm. La valeur par défaut est 0101 (1er janvier). ATTENTION: Si vous modifiez cette date, vous devez corriger manuellement les valeurs Début de ce mois et Début de cette année.",
-                "it": "In questa data il mese e l'anno saranno resettati a 0. Il formato è ggmm. Default è 0101 (1 Gennaio). ATTENZIONE: Se modifichi questa data dovrai correggere manualmente i valori Inizio Mese Corrente e Inzio Anno Corrente.",
-                "sv": "På det här datumet återställs totalsumman för månad och år till 0. Formatet är ddmm. Standard är 0101 (1 januari). OBSERVERA: Om du ändrar detta datum måste du manuellt korrigera värdena för start för denna månad och start för detta år.",
-                "no": "På denne dato vil total for måned og år resettes til 0. Format er ddmm. Default er 0101 (1 Januar). NB: Hvis du endrer denne datoen må du manuelt korrigere Denne måned start og  dette år start verdier.",
-                "es": "En esta fecha, el total del mes y del año se reiniciará a 0. El formato es ddmm. El valor predeterminado es 0101 (1 de enero). ATENCIÓN: Si cambia esta fecha, debe corregir manualmente los valores de Inicio de este mes e Inicio de este año.",
-                "da": "På denne dato nulstilles måneds- og årstotalen til 0. Formatet er ddmm. Standard er 0101 (1. januar). BEMÆRK: Hvis du ændrer denne dato, skal du manuelt rette værdierne for Denne måned start og Dette år start.",
-                "pl": "W tym dniu suma miesiąca i roku zresetuje się do 0. Format to ddmm. Domyślnie jest to 0101 (1 stycznia). UWAGA: Jeśli zmienisz tę datę, musisz ręcznie poprawić wartości Początek tego miesiąca i Początek tego roku.",
-                "ru": "В эту дату итоги месяца и года будут сброшены до 0. Формат ддмм. По умолчанию 0101 (1 января). ВНИМАНИЕ: Если вы измените эту дату, вам нужно будет вручную исправить значения Начало этого месяца и Начало этого года.",
-                "ar": "في هذا التاريخ سيتم إعادة تعيين إجمالي الشهر والسنة إلى 0. التنسيق هو ddmm. الافتراضي هو 0101 (1 يناير). انتبه: إذا قمت بتغيير هذا التاريخ، فأنت بحاجة إلى تصحيح قيم بداية هذا الشهر وبداية هذا العام يدويًا.",
-                "ko": "이 날짜에 월 및 연 합계가 0으로 초기화됩니다. 형식은 ddmm이며 기본값은 0101(1월 1일)입니다. 주의: 이 날짜를 변경하면 \"이번 달 시작\" 및 \"올해 시작\" 값을 직접 수정해야 합니다."
+                "en": "On this date the month and year totals reset to 0. Format ddmm, default 0101 (1 January). After a change, fix the month and year totals via Repair.",
+                "nl": "Op deze datum gaan het maand- en jaartotaal naar 0. Formaat ddmm, standaard 0101 (1 januari). Herstel na een wijziging het maand- en jaartotaal via Repareren.",
+                "de": "An diesem Datum werden Monats- und Jahressumme auf 0 gesetzt. Format ttmm, Standard 0101 (1. Januar). Korrigieren Sie nach einer Änderung die Monats- und Jahressumme über Reparieren.",
+                "fr": "À cette date, les totaux du mois et de l'année reviennent à 0. Format jjmm, par défaut 0101 (1er janvier). Après un changement, corrigez les totaux du mois et de l'année via Réparer.",
+                "it": "In questa data i totali del mese e dell'anno tornano a 0. Formato ggmm, predefinito 0101 (1 gennaio). Dopo una modifica, correggi i totali del mese e dell'anno tramite Ripara.",
+                "sv": "På detta datum nollställs månads- och årstotalen. Format ddmm, standard 0101 (1 januari). Rätta efter en ändring månads- och årstotalen via Reparera.",
+                "no": "På denne datoen nullstilles måneds- og årstotalen. Format ddmm, standard 0101 (1. januar). Rett etter en endring måneds- og årstotalen via Reparer.",
+                "es": "En esta fecha los totales del mes y del año vuelven a 0. Formato ddmm, por defecto 0101 (1 de enero). Tras un cambio, corrige los totales del mes y del año mediante Reparar.",
+                "da": "På denne dato nulstilles måneds- og årstotalen. Format ddmm, standard 0101 (1. januar). Ret efter en ændring måneds- og årstotalen via Reparer.",
+                "pl": "W tym dniu sumy miesiąca i roku wracają do 0. Format ddmm, domyślnie 0101 (1 stycznia). Po zmianie popraw sumy miesiąca i roku przez Napraw.",
+                "ru": "В эту дату итоги месяца и года сбрасываются до 0. Формат ддмм, по умолчанию 0101 (1 января). После изменения исправьте итоги месяца и года через Восстановить.",
+                "ar": "في هذا التاريخ يُعاد إجمالي الشهر والسنة إلى 0. التنسيق ddmm، الافتراضي 0101 (1 يناير). بعد التغيير، صحح إجمالي الشهر والسنة عبر إصلاح.",
+                "ko": "이 날짜에 월 및 연 합계가 0으로 초기화됩니다. 형식 ddmm, 기본값 0101(1월 1일). 변경 후에는 복구에서 월 및 연 합계를 수정하세요."
               }
             },
             {
@@ -28032,146 +27798,6 @@
                 "ar": "عدد الكسور العشرية المراد استخدامها.",
                 "ko": "사용할 소수 자릿수입니다."
               }
-            },
-            {
-              "id": "meter_latest",
-              "type": "label",
-              "label": {
-                "en": "Present reading",
-                "nl": "Huidige waarde",
-                "de": "Aktueller Zählerstand",
-                "fr": "Lecture actuelle",
-                "it": "Lettura attuale",
-                "sv": "Nuvarande avläsning",
-                "no": "Nåværende verdi",
-                "es": "Lectura actual",
-                "da": "Nuværende aflæsning",
-                "pl": "Obecny odczyt",
-                "ru": "Текущее показание",
-                "ar": "القراءة الحالية",
-                "ko": "현재 계량기 값"
-              },
-              "value": "0",
-              "hint": {
-                "en": "This is the meter reading from the soure device, updated once an hour.",
-                "nl": "Dit is de meter stand van het bronapparaat, eenmaal per uur geupdated.",
-                "de": "Dies ist der Zählerstand des Homey Geräts, der einmal pro Stunde aktualisiert wird.",
-                "fr": "Ceci est la lecture compteur de l'appareil source, mise à jour chaque heure",
-                "it": "Questa è la lettura del contatore dal dispositivo sorgente, aggiornata ogni ora.",
-                "sv": "Detta är mätarställningen från käll enheten, uppdaterad en gång i timmen.",
-                "no": "Dette er måleravlesningen fra kildeenheten, oppdatert en gang i timen.",
-                "es": "Esta es la lectura del medidor del dispositivo de origen, actualizada una vez por hora.",
-                "da": "Dette er måleraflæsningen fra kildeenheden, opdateret en gang i timen.",
-                "pl": "To jest odczyt licznika z urządzenia źródłowego, aktualizowany raz na godzinę.",
-                "ru": "Это показание счетчика с исходного устройства, обновляемое раз в час.",
-                "ar": "هذه هي قراءة العداد من جهاز المصدر، يتم تحديثها مرة واحدة في الساعة.",
-                "ko": "소스 장치의 계량기 값이며, 시간마다 한 번씩 업데이트됩니다."
-              }
-            },
-            {
-              "id": "meter_day_start",
-              "type": "number",
-              "label": {
-                "en": "This day start",
-                "nl": "Deze dag start",
-                "de": "Tagesbeginn",
-                "fr": "Ce jour commence",
-                "it": "Inizio giorno corrente",
-                "sv": "Denna dag börjar",
-                "no": "Startverdi denne dag",
-                "es": "Inicio de este día",
-                "da": "Denne dag starter",
-                "pl": "Początek tego dnia",
-                "ru": "Начало этого дня",
-                "ar": "بداية هذا اليوم",
-                "ko": "오늘 시작값"
-              },
-              "value": 0,
-              "hint": {
-                "en": "Enter the meter reading at the start of this day. It is automatically updated at midnight.",
-                "nl": "Geef de meterstand in aan het begin van deze dag. Het wordt middernacht automatisch geupdated.",
-                "de": "Geben Sie den Zählerstand zu Beginn des Tages ein. Er wird um Mitternacht automatisch aktualisiert.",
-                "fr": "Entrer la lecture compteur au début de ce jour. Ce sera automatiquement mis à jour à minuit",
-                "it": "Inserisci la lettura del contatore all'inizio della giornata odierna. Viene aggiornata automaticamente a mezzanotte.",
-                "sv": "Ange mätarställningen i början av denna dag. Den uppdateras automatiskt vid midnatt.",
-                "no": "Legg inn målerverdi ved denne dagens start. Den blir automatisk oppdatert ved midnatt.",
-                "es": "Ingrese la lectura del medidor al comienzo de este día. Se actualiza automáticamente a medianoche.",
-                "da": "Indtast måleraflæsningen ved starten af denne dag. Den opdateres automatisk ved midnat.",
-                "pl": "Wprowadź odczyt licznika na początku tego dnia. Jest on automatycznie aktualizowany o północy.",
-                "ru": "Введите показание счетчика в начале этого дня. Оно автоматически обновляется в полночь.",
-                "ar": "أدخل قراءة العداد في بداية هذا اليوم. يتم تحديثها تلقائيًا في منتصف الليل.",
-                "ko": "오늘 시작 시점의 계량기 값을 입력하세요. 자정에 자동으로 업데이트됩니다."
-              }
-            },
-            {
-              "id": "meter_month_start",
-              "type": "number",
-              "label": {
-                "en": "This month start",
-                "nl": "Deze maand start",
-                "de": "Monatsbeginn",
-                "fr": "Ce mois commence",
-                "it": "Inizio mese corrente",
-                "sv": "Denna månad börjar",
-                "no": "Startverdi denne måned",
-                "es": "Inicio de este mes",
-                "da": "Denne måned starter",
-                "pl": "Początek tego miesiąca",
-                "ru": "Начало этого месяца",
-                "ar": "بداية هذا الشهر",
-                "ko": "이번 달 시작값"
-              },
-              "value": 0,
-              "hint": {
-                "en": "Enter the meter reading at the start of this month. It is automatically updated first day of a new month.",
-                "nl": "Geef de meterstand in aan het begin van deze maand. Het wordt de eerste dag van de maand automatisch geupdated.",
-                "de": "Geben Sie den Zählerstand zu Beginn des Monats ein. Er wird automatisch am ersten Tag eines neuen Monats aktualisiert.",
-                "fr": "Entrer la lecture compteur au début de ce mois. Ce sera automatiquement mis à jour chaque début de mois",
-                "it": "Inserisci la lettura del contatore all'inizio del mese corrente. Viene aggiornata automaticamente il primo giorno di un nuovo mese.",
-                "sv": "Ange mätarställningen i början av denna månad. Den uppdateras automatiskt första dagen i en ny månad.",
-                "no": "Legg inn målerverdi ved denne måneds start. Den blir automatisk oppdatert første dagen ved ny måned.",
-                "es": "Ingrese la lectura del medidor al comienzo de este mes. Se actualiza automáticamente el primer día de un nuevo mes.",
-                "da": "Indtast måleraflæsningen ved starten af denne måned. Den opdateres automatisk den første dag i en ny måned.",
-                "pl": "Wprowadź odczyt licznika na początku tego miesiąca. Jest on automatycznie aktualizowany pierwszego dnia nowego miesiąca.",
-                "ru": "Введите показание счетчика в начале этого месяца. Оно автоматически обновляется в первый день нового месяца.",
-                "ar": "أدخل قراءة العداد في بداية هذا الشهر. يتم تحديثها تلقائيًا في اليوم الأول من الشهر الجديد.",
-                "ko": "이번 달 시작 시점의 계량기 값을 입력하세요. 매월 1일에 자동으로 업데이트됩니다."
-              }
-            },
-            {
-              "id": "meter_year_start",
-              "type": "number",
-              "label": {
-                "en": "This year start",
-                "nl": "Dit jaar start",
-                "de": "Jahresbeginn",
-                "fr": "Cette année commence",
-                "it": "Inizio anno corrente",
-                "sv": "Årets start",
-                "no": "Startverdi dette år",
-                "es": "Inicio de este año",
-                "da": "Dette år starter",
-                "pl": "Początek tego roku",
-                "ru": "Начало этого года",
-                "ar": "بداية هذا العام",
-                "ko": "올해 시작값"
-              },
-              "value": 0,
-              "hint": {
-                "en": "Enter the meter reading at the start of this year. It is automatically updated first day of a new year.",
-                "nl": "Geef de meterstand in aan het begin van dit jaar. Het wordt de eerste dag van het jaar automatisch geupdated.",
-                "de": "Geben Sie den Zählerstand zu Beginn des Jahres ein. Er wird am ersten Tag eines neuen Jahres automatisch aktualisiert.",
-                "fr": "Entrer la lecture compteur au début de cette année. Ce sera automatiquement mis à jour chaque début de nouvelle année",
-                "it": "Inserisci la lettura del contatore all'inizio dell'anno corrente. Viene aggiornata automaticamente il primo giorno di un nuovo anno.",
-                "sv": "Ange mätarställningen i början av detta år. Den uppdateras automatiskt första dagen på ett nytt år.",
-                "no": "Legg inn målerverdi ved dette årets start. Den blir automatisk oppdatert første dagen ved nytt år.",
-                "es": "Ingrese la lectura del medidor al comienzo de este año. Se actualiza automáticamente el primer día de un nuevo año.",
-                "da": "Indtast måleraflæsningen ved starten af dette år. Den opdateres automatisk den første dag i et nyt år.",
-                "pl": "Wprowadź odczyt licznika na początku tego roku. Jest on automatycznie aktualizowany pierwszego dnia nowego roku.",
-                "ru": "Введите показание счетчика в начале этого года. Оно автоматически обновляется в первый день нового года.",
-                "ar": "أدخل قراءة العداد في بداية هذا العام. يتم تحديثها تلقائيًا في اليوم الأول من العام الجديد.",
-                "ko": "올해 시작 시점의 계량기 값을 입력하세요. 매년 1월 1일에 자동으로 업데이트됩니다."
-              }
             }
           ]
         },
@@ -28263,222 +27889,6 @@
                 "ru": "Количество десятичных знаков для денежной стоимости.",
                 "ar": "عدد الكسور العشرية المراد استخدامها للقيمة النقدية.",
                 "ko": "금전적 가치에 사용할 소수 자릿수입니다."
-              }
-            },
-            {
-              "id": "meter_money_this_day",
-              "type": "number",
-              "label": {
-                "en": "Monetary value of this day",
-                "nl": "Geldwaarde van deze dag",
-                "de": "Geldbetrag des Tages",
-                "fr": "Valeur monétaire aujourd'hui",
-                "it": "Valore monetario di oggi",
-                "sv": "Dagens monetära värde",
-                "no": "Pengeverdi denne dag",
-                "es": "Valor monetario de este día",
-                "da": "Pengeværdi af denne dag",
-                "pl": "Wartość pieniężna tego dnia",
-                "ru": "Денежная стоимость этого дня",
-                "ar": "القيمة النقدية لهذا اليوم",
-                "ko": "오늘의 금전적 가치"
-              },
-              "value": 0,
-              "decimals": 4,
-              "hint": {
-                "en": "Actual monetary value. It is automatically updated.",
-                "nl": "Actuele geldwaarde. Wordt automatisch geupdated.",
-                "de": "Aktueller Geldbetrag. Er wird automatisch aktualisiert.",
-                "fr": "Valeur monétaire actuelle. Elle est mise à jour automatiquement",
-                "it": "Valore monetario attuale. Viene aggiornato automaticamente.",
-                "sv": "Faktiskt penningvärde. Den uppdateras automatiskt.",
-                "no": "Aktuell pengeverdi. Blir automatisk oppdatert",
-                "es": "Valor monetario actual. Se actualiza automáticamente.",
-                "da": "Faktisk pengeværdi. Den opdateres automatisk.",
-                "pl": "Rzeczywista wartość pieniężna. Jest ona automatycznie aktualizowana.",
-                "ru": "Фактическая денежная стоимость. Она автоматически обновляется.",
-                "ar": "القيمة النقدية الفعلية. يتم تحديثها تلقائيًا.",
-                "ko": "실제 금전적 가치입니다. 자동으로 업데이트됩니다."
-              }
-            },
-            {
-              "id": "meter_money_this_month",
-              "type": "number",
-              "label": {
-                "en": "Monetary value of this month",
-                "nl": "Geldwaarde van deze maand",
-                "de": "Geldbetrag des Monats",
-                "fr": "Valeur monétaire de ce mois",
-                "it": "Valore monetario mese corrente",
-                "sv": "Denna månads monetära värde",
-                "no": "Pengeverdi denne måned",
-                "es": "Valor monetario de este mes",
-                "da": "Pengeværdi af denne måned",
-                "pl": "Wartość pieniężna tego miesiąca",
-                "ru": "Денежная стоимость этого месяца",
-                "ar": "القيمة النقدية لهذا الشهر",
-                "ko": "이번 달의 금전적 가치"
-              },
-              "value": 0,
-              "decimals": 4,
-              "hint": {
-                "en": "Actual monetary value. It is automatically updated.",
-                "nl": "Actuele geldwaarde. Wordt automatisch geupdated.",
-                "de": "Aktueller Geldbetrag. Er wird automatisch aktualisiert.",
-                "fr": "Valeur monétaire actuelle. Elle est mise à jour automatiquement",
-                "it": "Valore monetario attuale. Viene aggiornato automaticamente.",
-                "sv": "Faktiskt penningvärde. Den uppdateras automatiskt.",
-                "no": "Aktuell pengeverdi. Blir automatisk oppdatert",
-                "es": "Valor monetario actual. Se actualiza automáticamente.",
-                "da": "Faktisk pengeværdi. Den opdateres automatisk.",
-                "pl": "Rzeczywista wartość pieniężna. Jest ona automatycznie aktualizowana.",
-                "ru": "Фактическая денежная стоимость. Она автоматически обновляется.",
-                "ar": "القيمة النقدية الفعلية. يتم تحديثها تلقائيًا.",
-                "ko": "실제 금전적 가치입니다. 자동으로 업데이트됩니다."
-              }
-            },
-            {
-              "id": "meter_money_this_year",
-              "type": "number",
-              "label": {
-                "en": "Monetary value of this year",
-                "nl": "Geldwaarde van dit jaar",
-                "de": "Geldbetrag des Jahres",
-                "fr": "Valeur monétaire de cette année",
-                "it": "Valore monetario anno corrente",
-                "sv": "Årets monetära värde",
-                "no": "Pengeverdi dette år",
-                "es": "Valor monetario de este año",
-                "da": "Pengeværdi af dette år",
-                "pl": "Wartość pieniężna tego roku",
-                "ru": "Денежная стоимость этого года",
-                "ar": "القيمة النقدية لهذا العام",
-                "ko": "올해의 금전적 가치"
-              },
-              "value": 0,
-              "decimals": 4,
-              "hint": {
-                "en": "Actual monetary value. It is automatically updated.",
-                "nl": "Actuele geldwaarde. Wordt automatisch geupdated.",
-                "de": "Aktueller Geldbetrag. Er wird automatisch aktualisiert.",
-                "fr": "Valeur monétaire actuelle. Elle est mise à jour automatiquement",
-                "it": "Valore monetario attuale. Viene aggiornato automaticamente.",
-                "sv": "Faktiskt penningvärde. Den uppdateras automatiskt.",
-                "no": "Aktuell pengeverdi. Blir automatisk oppdatert",
-                "es": "Valor monetario actual. Se actualiza automáticamente.",
-                "da": "Faktisk pengeværdi. Den opdateres automatisk.",
-                "pl": "Rzeczywista wartość pieniężna. Jest ona automatycznie aktualizowana.",
-                "ru": "Фактическая денежная стоимость. Она автоматически обновляется.",
-                "ar": "القيمة النقدية الفعلية. يتم تحديثها تلقائيًا.",
-                "ko": "실제 금전적 가치입니다. 자동으로 업데이트됩니다."
-              }
-            },
-            {
-              "id": "meter_money_last_day",
-              "type": "number",
-              "label": {
-                "en": "Monetary value prev. day",
-                "nl": "Geldwaarde van vorige dag",
-                "de": "Geldbetrag des Vortages",
-                "fr": "Valeur monétaire d'hier",
-                "it": "Valore monetario giorno prec.",
-                "sv": "Monetärt värde igår",
-                "no": "Pengeverdi forrige dag",
-                "es": "Valor monetario día anterior",
-                "da": "Pengeværdi forrige dag",
-                "pl": "Wartość pieniężna poprz. dnia",
-                "ru": "Денежная стоимость пред. дня",
-                "ar": "القيمة النقدية لليوم السابق",
-                "ko": "전날 금전적 가치"
-              },
-              "value": 0,
-              "decimals": 4,
-              "hint": {
-                "en": "Monetary value of the previous day. It is automatically updated.",
-                "nl": "Geldwaarde van de vorige dag. Wordt automatisch geupdated.",
-                "de": "Geldbetrag des Vortages. Er wird automatisch aktualisiert.",
-                "fr": "Valeur monétaire d'hier. Elle est mise à jour automatiquement",
-                "it": "Valore monetario del giorno precedente. Viene aggiornato automaticamente.",
-                "sv": "Monetärt värde för föregående dag. Den uppdateras automatiskt.",
-                "no": "Pengeverdi forrige dag. Blir automatisk oppdatert",
-                "es": "Valor monetario del día anterior. Se actualiza automáticamente.",
-                "da": "Pengeværdien af den foregående dag. Den opdateres automatisk.",
-                "pl": "Wartość pieniężna poprzedniego dnia. Jest ona automatycznie aktualizowana.",
-                "ru": "Денежная стоимость предыдущего дня. Она автоматически обновляется.",
-                "ar": "القيمة النقدية لليوم السابق. يتم تحديثها تلقائيًا.",
-                "ko": "전날의 금전적 가치입니다. 자동으로 업데이트됩니다."
-              }
-            },
-            {
-              "id": "meter_money_last_month",
-              "type": "number",
-              "label": {
-                "en": "Monetary value prev. month",
-                "nl": "Geldwaarde van vorige maand",
-                "de": "Geldbetrag des Vormonats",
-                "fr": "Valeur monétaire du mois dernier",
-                "it": "Valore monetario mese prec.",
-                "sv": "Monetärt värde föregående månad",
-                "no": "Pengeverdi forrige måned",
-                "es": "Valor monetario mes anterior",
-                "da": "Pengeværdi forrige måned",
-                "pl": "Wartość pieniężna poprz. miesiąca",
-                "ru": "Денежная стоимость пред. месяца",
-                "ar": "القيمة النقدية للشهر السابق",
-                "ko": "지난달 금전적 가치"
-              },
-              "value": 0,
-              "decimals": 4,
-              "hint": {
-                "en": "Monetary value of the previous month. It is automatically updated.",
-                "nl": "Geldwaarde van de vorige maand. Wordt automatisch geupdated.",
-                "de": "Geldbetrag des Vormonats. Er wird automatisch aktualisiert.",
-                "fr": "Valeur monétaire du mois dernier. Elle est mise à jour automatiquement",
-                "it": "Valore monetario del mese precedente. Viene aggiornato automaticamente.",
-                "sv": "Föregående månads monetära värde. Den uppdateras automatiskt.",
-                "no": "Pengeverdi forrige måned. Blir automatisk oppdatert",
-                "es": "Valor monetario del mes anterior. Se actualiza automáticamente.",
-                "da": "Pengeværdien af den foregående måned. Den opdateres automatisk.",
-                "pl": "Wartość pieniężna poprzedniego miesiąca. Jest ona automatycznie aktualizowana.",
-                "ru": "Денежная стоимость предыдущего месяца. Она автоматически обновляется.",
-                "ar": "القيمة النقدية للشهر السابق. يتم تحديثها تلقائيًا.",
-                "ko": "지난달의 금전적 가치입니다. 자동으로 업데이트됩니다."
-              }
-            },
-            {
-              "id": "meter_money_last_year",
-              "type": "number",
-              "label": {
-                "en": "Monetary value prev. year",
-                "nl": "Geldwaarde van vorig jaar",
-                "de": "Geldbetrag des Vorjahres",
-                "fr": "Valeur monétaire de l'année dernière",
-                "it": "Valore monetario anno prec.",
-                "sv": "Monetärt värde föregående år",
-                "no": "Pengeverdi forrige år",
-                "es": "Valor monetario año anterior",
-                "da": "Pengeværdi forrige år",
-                "pl": "Wartość pieniężna poprz. roku",
-                "ru": "Денежная стоимость пред. года",
-                "ar": "القيمة النقدية للعام السابق",
-                "ko": "작년 금전적 가치"
-              },
-              "value": 0,
-              "decimals": 4,
-              "hint": {
-                "en": "Monetary value of the previous year. It is automatically updated.",
-                "nl": "Geldwaarde van het vorige jaar. Wordt automatisch geupdated.",
-                "de": "Geldbetrag des Vorjahres. Er wird automatisch aktualisiert.",
-                "fr": "Valeur monétaire de l'année dernière. Elle est mise à jour automatiquement",
-                "it": "Valore monetario dell'anno precedente. Viene aggiornato automaticamente.",
-                "sv": "Föregående års monetära värde. Den uppdateras automatiskt.",
-                "no": "Pengeverdi forrige år. Blir automatisk oppdatert",
-                "es": "Valor monetario del año anterior. Se actualiza automáticamente.",
-                "da": "Pengeværdien af det foregående år. Den opdateres automatisk.",
-                "pl": "Wartość pieniężna poprzedniego roku. Jest ona automatycznie aktualizowana.",
-                "ru": "Денежная стоимость предыдущего года. Она автоматически обновляется.",
-                "ar": "القيمة النقدية للعام السابق. يتم تحديثها تلقائيًا.",
-                "ko": "작년의 금전적 가치입니다. 자동으로 업데이트됩니다."
               }
             }
           ]
@@ -29670,10 +29080,7 @@
       ],
       "repair": [
         {
-          "id": "repair_warning",
-          "navigation": {
-            "next": "list_devices"
-          }
+          "id": "repair_start"
         },
         {
           "id": "list_devices",
@@ -29682,6 +29089,7 @@
             "singular": true
           },
           "navigation": {
+            "prev": "repair_start",
             "next": "setup"
           }
         },
@@ -29690,6 +29098,9 @@
           "navigation": {
             "prev": "list_devices"
           }
+        },
+        {
+          "id": "fix_values"
         },
         {
           "id": "loading",
@@ -30115,19 +29526,19 @@
               },
               "value": "0101",
               "hint": {
-                "en": "On this date the month and year total will reset to 0. Format is ddmm. Default is 0101 (1 January). ATTENTION: If you change this date you need to manually correct the This Month Start and This Year Start values.",
-                "nl": "Op deze datum wordt het jaar en maand totaal op 0 gezet. Het formaat is ddmm. Standaard is 0101 (1 january). LET OP: Als deze datum wordt gewijzigd zal Deze Maand Start en Dit Jaar Start handmatig aangepast moeten worden.",
-                "de": "An diesem Datum wird die Monats- und Jahressumme auf 0 zurückgesetzt. Das Format ist ddmm. Standardwert ist 0101 (1. Januar). ACHTUNG: Wenn Sie dieses Datum ändern, müssen Sie die Werte 'Monatsbeginn' und 'Jahresbeginn' manuell korrigieren.",
-                "fr": "À cette date, le total du mois et de l'année sera remit à 0. Le format est jjmm. La valeur par défaut est 0101 (1er janvier). ATTENTION: Si vous modifiez cette date, vous devez corriger manuellement les valeurs Début de ce mois et Début de cette année.",
-                "it": "In questa data il mese e l'anno saranno resettati a 0. Il formato è ggmm. Default è 0101 (1 Gennaio). ATTENZIONE: Se modifichi questa data dovrai correggere manualmente i valori Inizio Mese Corrente e Inzio Anno Corrente.",
-                "sv": "På det här datumet återställs totalsumman för månad och år till 0. Formatet är ddmm. Standard är 0101 (1 januari). OBSERVERA: Om du ändrar detta datum måste du manuellt korrigera värdena för start för denna månad och start för detta år.",
-                "no": "På denne dato vil total for måned og år resettes til 0. Format er ddmm. Default er 0101 (1 Januar). NB: Hvis du endrer denne datoen må du manuelt korrigere Denne måned start og  dette år start verdier.",
-                "es": "En esta fecha, el total del mes y del año se reiniciará a 0. El formato es ddmm. El valor predeterminado es 0101 (1 de enero). ATENCIÓN: Si cambia esta fecha, debe corregir manualmente los valores de Inicio de este mes e Inicio de este año.",
-                "da": "På denne dato nulstilles måneds- og årstotalen til 0. Formatet er ddmm. Standard er 0101 (1. januar). BEMÆRK: Hvis du ændrer denne dato, skal du manuelt rette værdierne for Denne måned start og Dette år start.",
-                "pl": "W tym dniu suma miesiąca i roku zresetuje się do 0. Format to ddmm. Domyślnie jest to 0101 (1 stycznia). UWAGA: Jeśli zmienisz tę datę, musisz ręcznie poprawić wartości Początek tego miesiąca i Początek tego roku.",
-                "ru": "В эту дату итоги месяца и года будут сброшены до 0. Формат ддмм. По умолчанию 0101 (1 января). ВНИМАНИЕ: Если вы измените эту дату, вам нужно будет вручную исправить значения Начало этого месяца и Начало этого года.",
-                "ar": "في هذا التاريخ سيتم إعادة تعيين إجمالي الشهر والسنة إلى 0. التنسيق هو ddmm. الافتراضي هو 0101 (1 يناير). انتبه: إذا قمت بتغيير هذا التاريخ، فأنت بحاجة إلى تصحيح قيم بداية هذا الشهر وبداية هذا العام يدويًا.",
-                "ko": "이 날짜에 월 및 연 합계가 0으로 초기화됩니다. 형식은 ddmm이며 기본값은 0101(1월 1일)입니다. 주의: 이 날짜를 변경하면 \"이번 달 시작\" 및 \"올해 시작\" 값을 직접 수정해야 합니다."
+                "en": "On this date the month and year totals reset to 0. Format ddmm, default 0101 (1 January). After a change, fix the month and year totals via Repair.",
+                "nl": "Op deze datum gaan het maand- en jaartotaal naar 0. Formaat ddmm, standaard 0101 (1 januari). Herstel na een wijziging het maand- en jaartotaal via Repareren.",
+                "de": "An diesem Datum werden Monats- und Jahressumme auf 0 gesetzt. Format ttmm, Standard 0101 (1. Januar). Korrigieren Sie nach einer Änderung die Monats- und Jahressumme über Reparieren.",
+                "fr": "À cette date, les totaux du mois et de l'année reviennent à 0. Format jjmm, par défaut 0101 (1er janvier). Après un changement, corrigez les totaux du mois et de l'année via Réparer.",
+                "it": "In questa data i totali del mese e dell'anno tornano a 0. Formato ggmm, predefinito 0101 (1 gennaio). Dopo una modifica, correggi i totali del mese e dell'anno tramite Ripara.",
+                "sv": "På detta datum nollställs månads- och årstotalen. Format ddmm, standard 0101 (1 januari). Rätta efter en ändring månads- och årstotalen via Reparera.",
+                "no": "På denne datoen nullstilles måneds- og årstotalen. Format ddmm, standard 0101 (1. januar). Rett etter en endring måneds- og årstotalen via Reparer.",
+                "es": "En esta fecha los totales del mes y del año vuelven a 0. Formato ddmm, por defecto 0101 (1 de enero). Tras un cambio, corrige los totales del mes y del año mediante Reparar.",
+                "da": "På denne dato nulstilles måneds- og årstotalen. Format ddmm, standard 0101 (1. januar). Ret efter en ændring måneds- og årstotalen via Reparer.",
+                "pl": "W tym dniu sumy miesiąca i roku wracają do 0. Format ddmm, domyślnie 0101 (1 stycznia). Po zmianie popraw sumy miesiąca i roku przez Napraw.",
+                "ru": "В эту дату итоги месяца и года сбрасываются до 0. Формат ддмм, по умолчанию 0101 (1 января). После изменения исправьте итоги месяца и года через Восстановить.",
+                "ar": "في هذا التاريخ يُعاد إجمالي الشهر والسنة إلى 0. التنسيق ddmm، الافتراضي 0101 (1 يناير). بعد التغيير، صحح إجمالي الشهر والسنة عبر إصلاح.",
+                "ko": "이 날짜에 월 및 연 합계가 0으로 초기화됩니다. 형식 ddmm, 기본값 0101(1월 1일). 변경 후에는 복구에서 월 및 연 합계를 수정하세요."
               }
             },
             {
@@ -30348,146 +29759,6 @@
                 "ar": "عدد الكسور العشرية المراد استخدامها.",
                 "ko": "사용할 소수 자릿수입니다."
               }
-            },
-            {
-              "id": "meter_latest",
-              "type": "label",
-              "label": {
-                "en": "Present reading",
-                "nl": "Huidige waarde",
-                "de": "Aktueller Zählerstand",
-                "fr": "Lecture actuelle",
-                "it": "Lettura attuale",
-                "sv": "Nuvarande avläsning",
-                "no": "Nåværende verdi",
-                "es": "Lectura actual",
-                "da": "Nuværende aflæsning",
-                "pl": "Obecny odczyt",
-                "ru": "Текущее показание",
-                "ar": "القراءة الحالية",
-                "ko": "현재 계량기 값"
-              },
-              "value": "0",
-              "hint": {
-                "en": "This is the meter reading from the soure device, updated once an hour.",
-                "nl": "Dit is de meter stand van het bronapparaat, eenmaal per uur geupdated.",
-                "de": "Dies ist der Zählerstand des Homey Geräts, der einmal pro Stunde aktualisiert wird.",
-                "fr": "Ceci est la lecture compteur de l'appareil source, mise à jour chaque heure",
-                "it": "Questa è la lettura del contatore dal dispositivo sorgente, aggiornata ogni ora.",
-                "sv": "Detta är mätarställningen från käll enheten, uppdaterad en gång i timmen.",
-                "no": "Dette er måleravlesningen fra kildeenheten, oppdatert en gang i timen.",
-                "es": "Esta es la lectura del medidor del dispositivo de origen, actualizada una vez por hora.",
-                "da": "Dette er måleraflæsningen fra kildeenheden, opdateret en gang i timen.",
-                "pl": "To jest odczyt licznika z urządzenia źródłowego, aktualizowany raz na godzinę.",
-                "ru": "Это показание счетчика с исходного устройства, обновляемое раз в час.",
-                "ar": "هذه هي قراءة العداد من جهاز المصدر، يتم تحديثها مرة واحدة في الساعة.",
-                "ko": "소스 장치의 계량기 값이며, 시간마다 한 번씩 업데이트됩니다."
-              }
-            },
-            {
-              "id": "meter_day_start",
-              "type": "number",
-              "label": {
-                "en": "This day start",
-                "nl": "Deze dag start",
-                "de": "Tagesbeginn",
-                "fr": "Ce jour commence",
-                "it": "Inizio giorno corrente",
-                "sv": "Denna dag börjar",
-                "no": "Startverdi denne dag",
-                "es": "Inicio de este día",
-                "da": "Denne dag starter",
-                "pl": "Początek tego dnia",
-                "ru": "Начало этого дня",
-                "ar": "بداية هذا اليوم",
-                "ko": "오늘 시작값"
-              },
-              "value": 0,
-              "hint": {
-                "en": "Enter the meter reading at the start of this day. It is automatically updated at midnight.",
-                "nl": "Geef de meterstand in aan het begin van deze dag. Het wordt middernacht automatisch geupdated.",
-                "de": "Geben Sie den Zählerstand zu Beginn des Tages ein. Er wird um Mitternacht automatisch aktualisiert.",
-                "fr": "Entrer la lecture compteur au début de ce jour. Ce sera automatiquement mis à jour à minuit",
-                "it": "Inserisci la lettura del contatore all'inizio della giornata odierna. Viene aggiornata automaticamente a mezzanotte.",
-                "sv": "Ange mätarställningen i början av denna dag. Den uppdateras automatiskt vid midnatt.",
-                "no": "Legg inn målerverdi ved denne dagens start. Den blir automatisk oppdatert ved midnatt.",
-                "es": "Ingrese la lectura del medidor al comienzo de este día. Se actualiza automáticamente a medianoche.",
-                "da": "Indtast måleraflæsningen ved starten af denne dag. Den opdateres automatisk ved midnat.",
-                "pl": "Wprowadź odczyt licznika na początku tego dnia. Jest on automatycznie aktualizowany o północy.",
-                "ru": "Введите показание счетчика в начале этого дня. Оно автоматически обновляется в полночь.",
-                "ar": "أدخل قراءة العداد في بداية هذا اليوم. يتم تحديثها تلقائيًا في منتصف الليل.",
-                "ko": "오늘 시작 시점의 계량기 값을 입력하세요. 자정에 자동으로 업데이트됩니다."
-              }
-            },
-            {
-              "id": "meter_month_start",
-              "type": "number",
-              "label": {
-                "en": "This month start",
-                "nl": "Deze maand start",
-                "de": "Monatsbeginn",
-                "fr": "Ce mois commence",
-                "it": "Inizio mese corrente",
-                "sv": "Denna månad börjar",
-                "no": "Startverdi denne måned",
-                "es": "Inicio de este mes",
-                "da": "Denne måned starter",
-                "pl": "Początek tego miesiąca",
-                "ru": "Начало этого месяца",
-                "ar": "بداية هذا الشهر",
-                "ko": "이번 달 시작값"
-              },
-              "value": 0,
-              "hint": {
-                "en": "Enter the meter reading at the start of this month. It is automatically updated first day of a new month.",
-                "nl": "Geef de meterstand in aan het begin van deze maand. Het wordt de eerste dag van de maand automatisch geupdated.",
-                "de": "Geben Sie den Zählerstand zu Beginn des Monats ein. Er wird automatisch am ersten Tag eines neuen Monats aktualisiert.",
-                "fr": "Entrer la lecture compteur au début de ce mois. Ce sera automatiquement mis à jour chaque début de mois",
-                "it": "Inserisci la lettura del contatore all'inizio del mese corrente. Viene aggiornata automaticamente il primo giorno di un nuovo mese.",
-                "sv": "Ange mätarställningen i början av denna månad. Den uppdateras automatiskt första dagen i en ny månad.",
-                "no": "Legg inn målerverdi ved denne måneds start. Den blir automatisk oppdatert første dagen ved ny måned.",
-                "es": "Ingrese la lectura del medidor al comienzo de este mes. Se actualiza automáticamente el primer día de un nuevo mes.",
-                "da": "Indtast måleraflæsningen ved starten af denne måned. Den opdateres automatisk den første dag i en ny måned.",
-                "pl": "Wprowadź odczyt licznika na początku tego miesiąca. Jest on automatycznie aktualizowany pierwszego dnia nowego miesiąca.",
-                "ru": "Введите показание счетчика в начале этого месяца. Оно автоматически обновляется в первый день нового месяца.",
-                "ar": "أدخل قراءة العداد في بداية هذا الشهر. يتم تحديثها تلقائيًا في اليوم الأول من الشهر الجديد.",
-                "ko": "이번 달 시작 시점의 계량기 값을 입력하세요. 매월 1일에 자동으로 업데이트됩니다."
-              }
-            },
-            {
-              "id": "meter_year_start",
-              "type": "number",
-              "label": {
-                "en": "This year start",
-                "nl": "Dit jaar start",
-                "de": "Jahresbeginn",
-                "fr": "Cette année commence",
-                "it": "Inizio anno corrente",
-                "sv": "Årets start",
-                "no": "Startverdi dette år",
-                "es": "Inicio de este año",
-                "da": "Dette år starter",
-                "pl": "Początek tego roku",
-                "ru": "Начало этого года",
-                "ar": "بداية هذا العام",
-                "ko": "올해 시작값"
-              },
-              "value": 0,
-              "hint": {
-                "en": "Enter the meter reading at the start of this year. It is automatically updated first day of a new year.",
-                "nl": "Geef de meterstand in aan het begin van dit jaar. Het wordt de eerste dag van het jaar automatisch geupdated.",
-                "de": "Geben Sie den Zählerstand zu Beginn des Jahres ein. Er wird am ersten Tag eines neuen Jahres automatisch aktualisiert.",
-                "fr": "Entrer la lecture compteur au début de cette année. Ce sera automatiquement mis à jour chaque début de nouvelle année",
-                "it": "Inserisci la lettura del contatore all'inizio dell'anno corrente. Viene aggiornata automaticamente il primo giorno di un nuovo anno.",
-                "sv": "Ange mätarställningen i början av detta år. Den uppdateras automatiskt första dagen på ett nytt år.",
-                "no": "Legg inn målerverdi ved dette årets start. Den blir automatisk oppdatert første dagen ved nytt år.",
-                "es": "Ingrese la lectura del medidor al comienzo de este año. Se actualiza automáticamente el primer día de un nuevo año.",
-                "da": "Indtast måleraflæsningen ved starten af dette år. Den opdateres automatisk den første dag i et nyt år.",
-                "pl": "Wprowadź odczyt licznika na początku tego roku. Jest on automatycznie aktualizowany pierwszego dnia nowego roku.",
-                "ru": "Введите показание счетчика в начале этого года. Оно автоматически обновляется в первый день нового года.",
-                "ar": "أدخل قراءة العداد في بداية هذا العام. يتم تحديثها تلقائيًا في اليوم الأول من العام الجديد.",
-                "ko": "올해 시작 시점의 계량기 값을 입력하세요. 매년 1월 1일에 자동으로 업데이트됩니다."
-              }
             }
           ]
         },
@@ -30579,222 +29850,6 @@
                 "ru": "Количество десятичных знаков для денежной стоимости.",
                 "ar": "عدد الكسور العشرية المراد استخدامها للقيمة النقدية.",
                 "ko": "금전적 가치에 사용할 소수 자릿수입니다."
-              }
-            },
-            {
-              "id": "meter_money_this_day",
-              "type": "number",
-              "label": {
-                "en": "Monetary value of this day",
-                "nl": "Geldwaarde van deze dag",
-                "de": "Geldbetrag des Tages",
-                "fr": "Valeur monétaire aujourd'hui",
-                "it": "Valore monetario di oggi",
-                "sv": "Dagens monetära värde",
-                "no": "Pengeverdi denne dag",
-                "es": "Valor monetario de este día",
-                "da": "Pengeværdi af denne dag",
-                "pl": "Wartość pieniężna tego dnia",
-                "ru": "Денежная стоимость этого дня",
-                "ar": "القيمة النقدية لهذا اليوم",
-                "ko": "오늘의 금전적 가치"
-              },
-              "value": 0,
-              "decimals": 4,
-              "hint": {
-                "en": "Actual monetary value. It is automatically updated.",
-                "nl": "Actuele geldwaarde. Wordt automatisch geupdated.",
-                "de": "Aktueller Geldbetrag. Er wird automatisch aktualisiert.",
-                "fr": "Valeur monétaire actuelle. Elle est mise à jour automatiquement",
-                "it": "Valore monetario attuale. Viene aggiornato automaticamente.",
-                "sv": "Faktiskt penningvärde. Den uppdateras automatiskt.",
-                "no": "Aktuell pengeverdi. Blir automatisk oppdatert",
-                "es": "Valor monetario actual. Se actualiza automáticamente.",
-                "da": "Faktisk pengeværdi. Den opdateres automatisk.",
-                "pl": "Rzeczywista wartość pieniężna. Jest ona automatycznie aktualizowana.",
-                "ru": "Фактическая денежная стоимость. Она автоматически обновляется.",
-                "ar": "القيمة النقدية الفعلية. يتم تحديثها تلقائيًا.",
-                "ko": "실제 금전적 가치입니다. 자동으로 업데이트됩니다."
-              }
-            },
-            {
-              "id": "meter_money_this_month",
-              "type": "number",
-              "label": {
-                "en": "Monetary value of this month",
-                "nl": "Geldwaarde van deze maand",
-                "de": "Geldbetrag des Monats",
-                "fr": "Valeur monétaire de ce mois",
-                "it": "Valore monetario mese corrente",
-                "sv": "Denna månads monetära värde",
-                "no": "Pengeverdi denne måned",
-                "es": "Valor monetario de este mes",
-                "da": "Pengeværdi af denne måned",
-                "pl": "Wartość pieniężna tego miesiąca",
-                "ru": "Денежная стоимость этого месяца",
-                "ar": "القيمة النقدية لهذا الشهر",
-                "ko": "이번 달의 금전적 가치"
-              },
-              "value": 0,
-              "decimals": 4,
-              "hint": {
-                "en": "Actual monetary value. It is automatically updated.",
-                "nl": "Actuele geldwaarde. Wordt automatisch geupdated.",
-                "de": "Aktueller Geldbetrag. Er wird automatisch aktualisiert.",
-                "fr": "Valeur monétaire actuelle. Elle est mise à jour automatiquement",
-                "it": "Valore monetario attuale. Viene aggiornato automaticamente.",
-                "sv": "Faktiskt penningvärde. Den uppdateras automatiskt.",
-                "no": "Aktuell pengeverdi. Blir automatisk oppdatert",
-                "es": "Valor monetario actual. Se actualiza automáticamente.",
-                "da": "Faktisk pengeværdi. Den opdateres automatisk.",
-                "pl": "Rzeczywista wartość pieniężna. Jest ona automatycznie aktualizowana.",
-                "ru": "Фактическая денежная стоимость. Она автоматически обновляется.",
-                "ar": "القيمة النقدية الفعلية. يتم تحديثها تلقائيًا.",
-                "ko": "실제 금전적 가치입니다. 자동으로 업데이트됩니다."
-              }
-            },
-            {
-              "id": "meter_money_this_year",
-              "type": "number",
-              "label": {
-                "en": "Monetary value of this year",
-                "nl": "Geldwaarde van dit jaar",
-                "de": "Geldbetrag des Jahres",
-                "fr": "Valeur monétaire de cette année",
-                "it": "Valore monetario anno corrente",
-                "sv": "Årets monetära värde",
-                "no": "Pengeverdi dette år",
-                "es": "Valor monetario de este año",
-                "da": "Pengeværdi af dette år",
-                "pl": "Wartość pieniężna tego roku",
-                "ru": "Денежная стоимость этого года",
-                "ar": "القيمة النقدية لهذا العام",
-                "ko": "올해의 금전적 가치"
-              },
-              "value": 0,
-              "decimals": 4,
-              "hint": {
-                "en": "Actual monetary value. It is automatically updated.",
-                "nl": "Actuele geldwaarde. Wordt automatisch geupdated.",
-                "de": "Aktueller Geldbetrag. Er wird automatisch aktualisiert.",
-                "fr": "Valeur monétaire actuelle. Elle est mise à jour automatiquement",
-                "it": "Valore monetario attuale. Viene aggiornato automaticamente.",
-                "sv": "Faktiskt penningvärde. Den uppdateras automatiskt.",
-                "no": "Aktuell pengeverdi. Blir automatisk oppdatert",
-                "es": "Valor monetario actual. Se actualiza automáticamente.",
-                "da": "Faktisk pengeværdi. Den opdateres automatisk.",
-                "pl": "Rzeczywista wartość pieniężna. Jest ona automatycznie aktualizowana.",
-                "ru": "Фактическая денежная стоимость. Она автоматически обновляется.",
-                "ar": "القيمة النقدية الفعلية. يتم تحديثها تلقائيًا.",
-                "ko": "실제 금전적 가치입니다. 자동으로 업데이트됩니다."
-              }
-            },
-            {
-              "id": "meter_money_last_day",
-              "type": "number",
-              "label": {
-                "en": "Monetary value prev. day",
-                "nl": "Geldwaarde van vorige dag",
-                "de": "Geldbetrag des Vortages",
-                "fr": "Valeur monétaire d'hier",
-                "it": "Valore monetario giorno prec.",
-                "sv": "Monetärt värde igår",
-                "no": "Pengeverdi forrige dag",
-                "es": "Valor monetario día anterior",
-                "da": "Pengeværdi forrige dag",
-                "pl": "Wartość pieniężna poprz. dnia",
-                "ru": "Денежная стоимость пред. дня",
-                "ar": "القيمة النقدية لليوم السابق",
-                "ko": "전날 금전적 가치"
-              },
-              "value": 0,
-              "decimals": 4,
-              "hint": {
-                "en": "Monetary value of the previous day. It is automatically updated.",
-                "nl": "Geldwaarde van de vorige dag. Wordt automatisch geupdated.",
-                "de": "Geldbetrag des Vortages. Er wird automatisch aktualisiert.",
-                "fr": "Valeur monétaire d'hier. Elle est mise à jour automatiquement",
-                "it": "Valore monetario del giorno precedente. Viene aggiornato automaticamente.",
-                "sv": "Monetärt värde för föregående dag. Den uppdateras automatiskt.",
-                "no": "Pengeverdi forrige dag. Blir automatisk oppdatert",
-                "es": "Valor monetario del día anterior. Se actualiza automáticamente.",
-                "da": "Pengeværdien af den foregående dag. Den opdateres automatisk.",
-                "pl": "Wartość pieniężna poprzedniego dnia. Jest ona automatycznie aktualizowana.",
-                "ru": "Денежная стоимость предыдущего дня. Она автоматически обновляется.",
-                "ar": "القيمة النقدية لليوم السابق. يتم تحديثها تلقائيًا.",
-                "ko": "전날의 금전적 가치입니다. 자동으로 업데이트됩니다."
-              }
-            },
-            {
-              "id": "meter_money_last_month",
-              "type": "number",
-              "label": {
-                "en": "Monetary value prev. month",
-                "nl": "Geldwaarde van vorige maand",
-                "de": "Geldbetrag des Vormonats",
-                "fr": "Valeur monétaire du mois dernier",
-                "it": "Valore monetario mese prec.",
-                "sv": "Monetärt värde föregående månad",
-                "no": "Pengeverdi forrige måned",
-                "es": "Valor monetario mes anterior",
-                "da": "Pengeværdi forrige måned",
-                "pl": "Wartość pieniężna poprz. miesiąca",
-                "ru": "Денежная стоимость пред. месяца",
-                "ar": "القيمة النقدية للشهر السابق",
-                "ko": "지난달 금전적 가치"
-              },
-              "value": 0,
-              "decimals": 4,
-              "hint": {
-                "en": "Monetary value of the previous month. It is automatically updated.",
-                "nl": "Geldwaarde van de vorige maand. Wordt automatisch geupdated.",
-                "de": "Geldbetrag des Vormonats. Er wird automatisch aktualisiert.",
-                "fr": "Valeur monétaire du mois dernier. Elle est mise à jour automatiquement",
-                "it": "Valore monetario del mese precedente. Viene aggiornato automaticamente.",
-                "sv": "Föregående månads monetära värde. Den uppdateras automatiskt.",
-                "no": "Pengeverdi forrige måned. Blir automatisk oppdatert",
-                "es": "Valor monetario del mes anterior. Se actualiza automáticamente.",
-                "da": "Pengeværdien af den foregående måned. Den opdateres automatisk.",
-                "pl": "Wartość pieniężna poprzedniego miesiąca. Jest ona automatycznie aktualizowana.",
-                "ru": "Денежная стоимость предыдущего месяца. Она автоматически обновляется.",
-                "ar": "القيمة النقدية للشهر السابق. يتم تحديثها تلقائيًا.",
-                "ko": "지난달의 금전적 가치입니다. 자동으로 업데이트됩니다."
-              }
-            },
-            {
-              "id": "meter_money_last_year",
-              "type": "number",
-              "label": {
-                "en": "Monetary value prev. year",
-                "nl": "Geldwaarde van vorig jaar",
-                "de": "Geldbetrag des Vorjahres",
-                "fr": "Valeur monétaire de l'année dernière",
-                "it": "Valore monetario anno prec.",
-                "sv": "Monetärt värde föregående år",
-                "no": "Pengeverdi forrige år",
-                "es": "Valor monetario año anterior",
-                "da": "Pengeværdi forrige år",
-                "pl": "Wartość pieniężna poprz. roku",
-                "ru": "Денежная стоимость пред. года",
-                "ar": "القيمة النقدية للعام السابق",
-                "ko": "작년 금전적 가치"
-              },
-              "value": 0,
-              "decimals": 4,
-              "hint": {
-                "en": "Monetary value of the previous year. It is automatically updated.",
-                "nl": "Geldwaarde van het vorige jaar. Wordt automatisch geupdated.",
-                "de": "Geldbetrag des Vorjahres. Er wird automatisch aktualisiert.",
-                "fr": "Valeur monétaire de l'année dernière. Elle est mise à jour automatiquement",
-                "it": "Valore monetario dell'anno precedente. Viene aggiornato automaticamente.",
-                "sv": "Föregående års monetära värde. Den uppdateras automatiskt.",
-                "no": "Pengeverdi forrige år. Blir automatisk oppdatert",
-                "es": "Valor monetario del año anterior. Se actualiza automáticamente.",
-                "da": "Pengeværdien af det foregående år. Den opdateres automatisk.",
-                "pl": "Wartość pieniężna poprzedniego roku. Jest ona automatycznie aktualizowana.",
-                "ru": "Денежная стоимость предыдущего года. Она автоматически обновляется.",
-                "ar": "القيمة النقدية للعام السابق. يتم تحديثها تلقائيًا.",
-                "ko": "작년의 금전적 가치입니다. 자동으로 업데이트됩니다."
               }
             }
           ]
@@ -32184,10 +31239,7 @@
       ],
       "repair": [
         {
-          "id": "repair_warning",
-          "navigation": {
-            "next": "list_devices"
-          }
+          "id": "repair_start"
         },
         {
           "id": "list_devices",
@@ -32196,6 +31248,7 @@
             "singular": true
           },
           "navigation": {
+            "prev": "repair_start",
             "next": "setup"
           }
         },
@@ -32204,6 +31257,9 @@
           "navigation": {
             "prev": "list_devices"
           }
+        },
+        {
+          "id": "fix_values"
         },
         {
           "id": "loading",
@@ -32569,19 +31625,19 @@
               },
               "value": "0101",
               "hint": {
-                "en": "On this date the month and year total will reset to 0. Format is ddmm. Default is 0101 (1 January). ATTENTION: If you change this date you need to manually correct the This Month Start and This Year Start values.",
-                "nl": "Op deze datum wordt het jaar en maand totaal op 0 gezet. Het formaat is ddmm. Standaard is 0101 (1 january). LET OP: Als deze datum wordt gewijzigd zal Deze Maand Start en Dit Jaar Start handmatig aangepast moeten worden.",
-                "de": "An diesem Datum wird die Monats- und Jahressumme auf 0 zurückgesetzt. Das Format ist ddmm. Standardwert ist 0101 (1. Januar). ACHTUNG: Wenn Sie dieses Datum ändern, müssen Sie die Werte 'Monatsbeginn' und 'Jahresbeginn' manuell korrigieren.",
-                "fr": "À cette date, le total du mois et de l'année sera remit à 0. Le format est jjmm. La valeur par défaut est 0101 (1er janvier). ATTENTION: Si vous modifiez cette date, vous devez corriger manuellement les valeurs Début de ce mois et Début de cette année.",
-                "it": "In questa data il mese e l'anno saranno resettati a 0. Il formato è ggmm. Default è 0101 (1 Gennaio). ATTENZIONE: Se modifichi questa data dovrai correggere manualmente i valori Inizio Mese Corrente e Inzio Anno Corrente.",
-                "sv": "På det här datumet återställs totalsumman för månad och år till 0. Formatet är ddmm. Standard är 0101 (1 januari). OBSERVERA: Om du ändrar detta datum måste du manuellt korrigera värdena för start för denna månad och start för detta år.",
-                "no": "På denne dato vil total for måned og år resettes til 0. Format er ddmm. Default er 0101 (1 Januar). NB: Hvis du endrer denne datoen må du manuelt korrigere Denne måned start og  dette år start verdier.",
-                "es": "En esta fecha, el total del mes y del año se reiniciará a 0. El formato es ddmm. El valor predeterminado es 0101 (1 de enero). ATENCIÓN: Si cambia esta fecha, debe corregir manualmente los valores de Inicio de este mes e Inicio de este año.",
-                "da": "På denne dato nulstilles måneds- og årstotalen til 0. Formatet er ddmm. Standard er 0101 (1. januar). BEMÆRK: Hvis du ændrer denne dato, skal du manuelt rette værdierne for Denne måned start og Dette år start.",
-                "pl": "W tym dniu suma miesiąca i roku zresetuje się do 0. Format to ddmm. Domyślnie jest to 0101 (1 stycznia). UWAGA: Jeśli zmienisz tę datę, musisz ręcznie poprawić wartości Początek tego miesiąca i Początek tego roku.",
-                "ru": "В эту дату итоги месяца и года будут сброшены до 0. Формат ддмм. По умолчанию 0101 (1 января). ВНИМАНИЕ: Если вы измените эту дату, вам нужно будет вручную исправить значения Начало этого месяца и Начало этого года.",
-                "ar": "في هذا التاريخ سيتم إعادة تعيين إجمالي الشهر والسنة إلى 0. التنسيق هو ddmm. الافتراضي هو 0101 (1 يناير). انتبه: إذا قمت بتغيير هذا التاريخ، فأنت بحاجة إلى تصحيح قيم بداية هذا الشهر وبداية هذا العام يدويًا.",
-                "ko": "이 날짜에 월 및 연 합계가 0으로 초기화됩니다. 형식은 ddmm이며 기본값은 0101(1월 1일)입니다. 주의: 이 날짜를 변경하면 \"이번 달 시작\" 및 \"올해 시작\" 값을 직접 수정해야 합니다."
+                "en": "On this date the month and year totals reset to 0. Format ddmm, default 0101 (1 January). After a change, fix the month and year totals via Repair.",
+                "nl": "Op deze datum gaan het maand- en jaartotaal naar 0. Formaat ddmm, standaard 0101 (1 januari). Herstel na een wijziging het maand- en jaartotaal via Repareren.",
+                "de": "An diesem Datum werden Monats- und Jahressumme auf 0 gesetzt. Format ttmm, Standard 0101 (1. Januar). Korrigieren Sie nach einer Änderung die Monats- und Jahressumme über Reparieren.",
+                "fr": "À cette date, les totaux du mois et de l'année reviennent à 0. Format jjmm, par défaut 0101 (1er janvier). Après un changement, corrigez les totaux du mois et de l'année via Réparer.",
+                "it": "In questa data i totali del mese e dell'anno tornano a 0. Formato ggmm, predefinito 0101 (1 gennaio). Dopo una modifica, correggi i totali del mese e dell'anno tramite Ripara.",
+                "sv": "På detta datum nollställs månads- och årstotalen. Format ddmm, standard 0101 (1 januari). Rätta efter en ändring månads- och årstotalen via Reparera.",
+                "no": "På denne datoen nullstilles måneds- og årstotalen. Format ddmm, standard 0101 (1. januar). Rett etter en endring måneds- og årstotalen via Reparer.",
+                "es": "En esta fecha los totales del mes y del año vuelven a 0. Formato ddmm, por defecto 0101 (1 de enero). Tras un cambio, corrige los totales del mes y del año mediante Reparar.",
+                "da": "På denne dato nulstilles måneds- og årstotalen. Format ddmm, standard 0101 (1. januar). Ret efter en ændring måneds- og årstotalen via Reparer.",
+                "pl": "W tym dniu sumy miesiąca i roku wracają do 0. Format ddmm, domyślnie 0101 (1 stycznia). Po zmianie popraw sumy miesiąca i roku przez Napraw.",
+                "ru": "В эту дату итоги месяца и года сбрасываются до 0. Формат ддмм, по умолчанию 0101 (1 января). После изменения исправьте итоги месяца и года через Восстановить.",
+                "ar": "في هذا التاريخ يُعاد إجمالي الشهر والسنة إلى 0. التنسيق ddmm، الافتراضي 0101 (1 يناير). بعد التغيير، صحح إجمالي الشهر والسنة عبر إصلاح.",
+                "ko": "이 날짜에 월 및 연 합계가 0으로 초기화됩니다. 형식 ddmm, 기본값 0101(1월 1일). 변경 후에는 복구에서 월 및 연 합계를 수정하세요."
               }
             },
             {
@@ -32802,146 +31858,6 @@
                 "ar": "عدد الكسور العشرية المراد استخدامها.",
                 "ko": "사용할 소수 자릿수입니다."
               }
-            },
-            {
-              "id": "meter_latest",
-              "type": "label",
-              "label": {
-                "en": "Present reading",
-                "nl": "Huidige waarde",
-                "de": "Aktueller Zählerstand",
-                "fr": "Lecture actuelle",
-                "it": "Lettura attuale",
-                "sv": "Nuvarande avläsning",
-                "no": "Nåværende verdi",
-                "es": "Lectura actual",
-                "da": "Nuværende aflæsning",
-                "pl": "Obecny odczyt",
-                "ru": "Текущее показание",
-                "ar": "القراءة الحالية",
-                "ko": "현재 계량기 값"
-              },
-              "value": "0",
-              "hint": {
-                "en": "This is the meter reading from the soure device, updated once an hour.",
-                "nl": "Dit is de meter stand van het bronapparaat, eenmaal per uur geupdated.",
-                "de": "Dies ist der Zählerstand des Homey Geräts, der einmal pro Stunde aktualisiert wird.",
-                "fr": "Ceci est la lecture compteur de l'appareil source, mise à jour chaque heure",
-                "it": "Questa è la lettura del contatore dal dispositivo sorgente, aggiornata ogni ora.",
-                "sv": "Detta är mätarställningen från käll enheten, uppdaterad en gång i timmen.",
-                "no": "Dette er måleravlesningen fra kildeenheten, oppdatert en gang i timen.",
-                "es": "Esta es la lectura del medidor del dispositivo de origen, actualizada una vez por hora.",
-                "da": "Dette er måleraflæsningen fra kildeenheden, opdateret en gang i timen.",
-                "pl": "To jest odczyt licznika z urządzenia źródłowego, aktualizowany raz na godzinę.",
-                "ru": "Это показание счетчика с исходного устройства, обновляемое раз в час.",
-                "ar": "هذه هي قراءة العداد من جهاز المصدر، يتم تحديثها مرة واحدة في الساعة.",
-                "ko": "소스 장치의 계량기 값이며, 시간마다 한 번씩 업데이트됩니다."
-              }
-            },
-            {
-              "id": "meter_day_start",
-              "type": "number",
-              "label": {
-                "en": "This day start",
-                "nl": "Deze dag start",
-                "de": "Tagesbeginn",
-                "fr": "Ce jour commence",
-                "it": "Inizio giorno corrente",
-                "sv": "Denna dag börjar",
-                "no": "Startverdi denne dag",
-                "es": "Inicio de este día",
-                "da": "Denne dag starter",
-                "pl": "Początek tego dnia",
-                "ru": "Начало этого дня",
-                "ar": "بداية هذا اليوم",
-                "ko": "오늘 시작값"
-              },
-              "value": 0,
-              "hint": {
-                "en": "Enter the meter reading at the start of this day. It is automatically updated at midnight.",
-                "nl": "Geef de meterstand in aan het begin van deze dag. Het wordt middernacht automatisch geupdated.",
-                "de": "Geben Sie den Zählerstand zu Beginn des Tages ein. Er wird um Mitternacht automatisch aktualisiert.",
-                "fr": "Entrer la lecture compteur au début de ce jour. Ce sera automatiquement mis à jour à minuit",
-                "it": "Inserisci la lettura del contatore all'inizio della giornata odierna. Viene aggiornata automaticamente a mezzanotte.",
-                "sv": "Ange mätarställningen i början av denna dag. Den uppdateras automatiskt vid midnatt.",
-                "no": "Legg inn målerverdi ved denne dagens start. Den blir automatisk oppdatert ved midnatt.",
-                "es": "Ingrese la lectura del medidor al comienzo de este día. Se actualiza automáticamente a medianoche.",
-                "da": "Indtast måleraflæsningen ved starten af denne dag. Den opdateres automatisk ved midnat.",
-                "pl": "Wprowadź odczyt licznika na początku tego dnia. Jest on automatycznie aktualizowany o północy.",
-                "ru": "Введите показание счетчика в начале этого дня. Оно автоматически обновляется в полночь.",
-                "ar": "أدخل قراءة العداد في بداية هذا اليوم. يتم تحديثها تلقائيًا في منتصف الليل.",
-                "ko": "오늘 시작 시점의 계량기 값을 입력하세요. 자정에 자동으로 업데이트됩니다."
-              }
-            },
-            {
-              "id": "meter_month_start",
-              "type": "number",
-              "label": {
-                "en": "This month start",
-                "nl": "Deze maand start",
-                "de": "Monatsbeginn",
-                "fr": "Ce mois commence",
-                "it": "Inizio mese corrente",
-                "sv": "Denna månad börjar",
-                "no": "Startverdi denne måned",
-                "es": "Inicio de este mes",
-                "da": "Denne måned starter",
-                "pl": "Początek tego miesiąca",
-                "ru": "Начало этого месяца",
-                "ar": "بداية هذا الشهر",
-                "ko": "이번 달 시작값"
-              },
-              "value": 0,
-              "hint": {
-                "en": "Enter the meter reading at the start of this month. It is automatically updated first day of a new month.",
-                "nl": "Geef de meterstand in aan het begin van deze maand. Het wordt de eerste dag van de maand automatisch geupdated.",
-                "de": "Geben Sie den Zählerstand zu Beginn des Monats ein. Er wird automatisch am ersten Tag eines neuen Monats aktualisiert.",
-                "fr": "Entrer la lecture compteur au début de ce mois. Ce sera automatiquement mis à jour chaque début de mois",
-                "it": "Inserisci la lettura del contatore all'inizio del mese corrente. Viene aggiornata automaticamente il primo giorno di un nuovo mese.",
-                "sv": "Ange mätarställningen i början av denna månad. Den uppdateras automatiskt första dagen i en ny månad.",
-                "no": "Legg inn målerverdi ved denne måneds start. Den blir automatisk oppdatert første dagen ved ny måned.",
-                "es": "Ingrese la lectura del medidor al comienzo de este mes. Se actualiza automáticamente el primer día de un nuevo mes.",
-                "da": "Indtast måleraflæsningen ved starten af denne måned. Den opdateres automatisk den første dag i en ny måned.",
-                "pl": "Wprowadź odczyt licznika na początku tego miesiąca. Jest on automatycznie aktualizowany pierwszego dnia nowego miesiąca.",
-                "ru": "Введите показание счетчика в начале этого месяца. Оно автоматически обновляется в первый день нового месяца.",
-                "ar": "أدخل قراءة العداد في بداية هذا الشهر. يتم تحديثها تلقائيًا في اليوم الأول من الشهر الجديد.",
-                "ko": "이번 달 시작 시점의 계량기 값을 입력하세요. 매월 1일에 자동으로 업데이트됩니다."
-              }
-            },
-            {
-              "id": "meter_year_start",
-              "type": "number",
-              "label": {
-                "en": "This year start",
-                "nl": "Dit jaar start",
-                "de": "Jahresbeginn",
-                "fr": "Cette année commence",
-                "it": "Inizio anno corrente",
-                "sv": "Årets start",
-                "no": "Startverdi dette år",
-                "es": "Inicio de este año",
-                "da": "Dette år starter",
-                "pl": "Początek tego roku",
-                "ru": "Начало этого года",
-                "ar": "بداية هذا العام",
-                "ko": "올해 시작값"
-              },
-              "value": 0,
-              "hint": {
-                "en": "Enter the meter reading at the start of this year. It is automatically updated first day of a new year.",
-                "nl": "Geef de meterstand in aan het begin van dit jaar. Het wordt de eerste dag van het jaar automatisch geupdated.",
-                "de": "Geben Sie den Zählerstand zu Beginn des Jahres ein. Er wird am ersten Tag eines neuen Jahres automatisch aktualisiert.",
-                "fr": "Entrer la lecture compteur au début de cette année. Ce sera automatiquement mis à jour chaque début de nouvelle année",
-                "it": "Inserisci la lettura del contatore all'inizio dell'anno corrente. Viene aggiornata automaticamente il primo giorno di un nuovo anno.",
-                "sv": "Ange mätarställningen i början av detta år. Den uppdateras automatiskt första dagen på ett nytt år.",
-                "no": "Legg inn målerverdi ved dette årets start. Den blir automatisk oppdatert første dagen ved nytt år.",
-                "es": "Ingrese la lectura del medidor al comienzo de este año. Se actualiza automáticamente el primer día de un nuevo año.",
-                "da": "Indtast måleraflæsningen ved starten af dette år. Den opdateres automatisk den første dag i et nyt år.",
-                "pl": "Wprowadź odczyt licznika na początku tego roku. Jest on automatycznie aktualizowany pierwszego dnia nowego roku.",
-                "ru": "Введите показание счетчика в начале этого года. Оно автоматически обновляется в первый день нового года.",
-                "ar": "أدخل قراءة العداد في بداية هذا العام. يتم تحديثها تلقائيًا في اليوم الأول من العام الجديد.",
-                "ko": "올해 시작 시점의 계량기 값을 입력하세요. 매년 1월 1일에 자동으로 업데이트됩니다."
-              }
             }
           ]
         },
@@ -33033,222 +31949,6 @@
                 "ru": "Количество десятичных знаков для денежной стоимости.",
                 "ar": "عدد الكسور العشرية المراد استخدامها للقيمة النقدية.",
                 "ko": "금전적 가치에 사용할 소수 자릿수입니다."
-              }
-            },
-            {
-              "id": "meter_money_this_day",
-              "type": "number",
-              "label": {
-                "en": "Monetary value of this day",
-                "nl": "Geldwaarde van deze dag",
-                "de": "Geldbetrag des Tages",
-                "fr": "Valeur monétaire aujourd'hui",
-                "it": "Valore monetario di oggi",
-                "sv": "Dagens monetära värde",
-                "no": "Pengeverdi denne dag",
-                "es": "Valor monetario de este día",
-                "da": "Pengeværdi af denne dag",
-                "pl": "Wartość pieniężna tego dnia",
-                "ru": "Денежная стоимость этого дня",
-                "ar": "القيمة النقدية لهذا اليوم",
-                "ko": "오늘의 금전적 가치"
-              },
-              "value": 0,
-              "decimals": 4,
-              "hint": {
-                "en": "Actual monetary value. It is automatically updated.",
-                "nl": "Actuele geldwaarde. Wordt automatisch geupdated.",
-                "de": "Aktueller Geldbetrag. Er wird automatisch aktualisiert.",
-                "fr": "Valeur monétaire actuelle. Elle est mise à jour automatiquement",
-                "it": "Valore monetario attuale. Viene aggiornato automaticamente.",
-                "sv": "Faktiskt penningvärde. Den uppdateras automatiskt.",
-                "no": "Aktuell pengeverdi. Blir automatisk oppdatert",
-                "es": "Valor monetario actual. Se actualiza automáticamente.",
-                "da": "Faktisk pengeværdi. Den opdateres automatisk.",
-                "pl": "Rzeczywista wartość pieniężna. Jest ona automatycznie aktualizowana.",
-                "ru": "Фактическая денежная стоимость. Она автоматически обновляется.",
-                "ar": "القيمة النقدية الفعلية. يتم تحديثها تلقائيًا.",
-                "ko": "실제 금전적 가치입니다. 자동으로 업데이트됩니다."
-              }
-            },
-            {
-              "id": "meter_money_this_month",
-              "type": "number",
-              "label": {
-                "en": "Monetary value of this month",
-                "nl": "Geldwaarde van deze maand",
-                "de": "Geldbetrag des Monats",
-                "fr": "Valeur monétaire de ce mois",
-                "it": "Valore monetario mese corrente",
-                "sv": "Denna månads monetära värde",
-                "no": "Pengeverdi denne måned",
-                "es": "Valor monetario de este mes",
-                "da": "Pengeværdi af denne måned",
-                "pl": "Wartość pieniężna tego miesiąca",
-                "ru": "Денежная стоимость этого месяца",
-                "ar": "القيمة النقدية لهذا الشهر",
-                "ko": "이번 달의 금전적 가치"
-              },
-              "value": 0,
-              "decimals": 4,
-              "hint": {
-                "en": "Actual monetary value. It is automatically updated.",
-                "nl": "Actuele geldwaarde. Wordt automatisch geupdated.",
-                "de": "Aktueller Geldbetrag. Er wird automatisch aktualisiert.",
-                "fr": "Valeur monétaire actuelle. Elle est mise à jour automatiquement",
-                "it": "Valore monetario attuale. Viene aggiornato automaticamente.",
-                "sv": "Faktiskt penningvärde. Den uppdateras automatiskt.",
-                "no": "Aktuell pengeverdi. Blir automatisk oppdatert",
-                "es": "Valor monetario actual. Se actualiza automáticamente.",
-                "da": "Faktisk pengeværdi. Den opdateres automatisk.",
-                "pl": "Rzeczywista wartość pieniężna. Jest ona automatycznie aktualizowana.",
-                "ru": "Фактическая денежная стоимость. Она автоматически обновляется.",
-                "ar": "القيمة النقدية الفعلية. يتم تحديثها تلقائيًا.",
-                "ko": "실제 금전적 가치입니다. 자동으로 업데이트됩니다."
-              }
-            },
-            {
-              "id": "meter_money_this_year",
-              "type": "number",
-              "label": {
-                "en": "Monetary value of this year",
-                "nl": "Geldwaarde van dit jaar",
-                "de": "Geldbetrag des Jahres",
-                "fr": "Valeur monétaire de cette année",
-                "it": "Valore monetario anno corrente",
-                "sv": "Årets monetära värde",
-                "no": "Pengeverdi dette år",
-                "es": "Valor monetario de este año",
-                "da": "Pengeværdi af dette år",
-                "pl": "Wartość pieniężna tego roku",
-                "ru": "Денежная стоимость этого года",
-                "ar": "القيمة النقدية لهذا العام",
-                "ko": "올해의 금전적 가치"
-              },
-              "value": 0,
-              "decimals": 4,
-              "hint": {
-                "en": "Actual monetary value. It is automatically updated.",
-                "nl": "Actuele geldwaarde. Wordt automatisch geupdated.",
-                "de": "Aktueller Geldbetrag. Er wird automatisch aktualisiert.",
-                "fr": "Valeur monétaire actuelle. Elle est mise à jour automatiquement",
-                "it": "Valore monetario attuale. Viene aggiornato automaticamente.",
-                "sv": "Faktiskt penningvärde. Den uppdateras automatiskt.",
-                "no": "Aktuell pengeverdi. Blir automatisk oppdatert",
-                "es": "Valor monetario actual. Se actualiza automáticamente.",
-                "da": "Faktisk pengeværdi. Den opdateres automatisk.",
-                "pl": "Rzeczywista wartość pieniężna. Jest ona automatycznie aktualizowana.",
-                "ru": "Фактическая денежная стоимость. Она автоматически обновляется.",
-                "ar": "القيمة النقدية الفعلية. يتم تحديثها تلقائيًا.",
-                "ko": "실제 금전적 가치입니다. 자동으로 업데이트됩니다."
-              }
-            },
-            {
-              "id": "meter_money_last_day",
-              "type": "number",
-              "label": {
-                "en": "Monetary value prev. day",
-                "nl": "Geldwaarde van vorige dag",
-                "de": "Geldbetrag des Vortages",
-                "fr": "Valeur monétaire d'hier",
-                "it": "Valore monetario giorno prec.",
-                "sv": "Monetärt värde igår",
-                "no": "Pengeverdi forrige dag",
-                "es": "Valor monetario día anterior",
-                "da": "Pengeværdi forrige dag",
-                "pl": "Wartość pieniężna poprz. dnia",
-                "ru": "Денежная стоимость пред. дня",
-                "ar": "القيمة النقدية لليوم السابق",
-                "ko": "전날 금전적 가치"
-              },
-              "value": 0,
-              "decimals": 4,
-              "hint": {
-                "en": "Monetary value of the previous day. It is automatically updated.",
-                "nl": "Geldwaarde van de vorige dag. Wordt automatisch geupdated.",
-                "de": "Geldbetrag des Vortages. Er wird automatisch aktualisiert.",
-                "fr": "Valeur monétaire d'hier. Elle est mise à jour automatiquement",
-                "it": "Valore monetario del giorno precedente. Viene aggiornato automaticamente.",
-                "sv": "Monetärt värde för föregående dag. Den uppdateras automatiskt.",
-                "no": "Pengeverdi forrige dag. Blir automatisk oppdatert",
-                "es": "Valor monetario del día anterior. Se actualiza automáticamente.",
-                "da": "Pengeværdien af den foregående dag. Den opdateres automatisk.",
-                "pl": "Wartość pieniężna poprzedniego dnia. Jest ona automatycznie aktualizowana.",
-                "ru": "Денежная стоимость предыдущего дня. Она автоматически обновляется.",
-                "ar": "القيمة النقدية لليوم السابق. يتم تحديثها تلقائيًا.",
-                "ko": "전날의 금전적 가치입니다. 자동으로 업데이트됩니다."
-              }
-            },
-            {
-              "id": "meter_money_last_month",
-              "type": "number",
-              "label": {
-                "en": "Monetary value prev. month",
-                "nl": "Geldwaarde van vorige maand",
-                "de": "Geldbetrag des Vormonats",
-                "fr": "Valeur monétaire du mois dernier",
-                "it": "Valore monetario mese prec.",
-                "sv": "Monetärt värde föregående månad",
-                "no": "Pengeverdi forrige måned",
-                "es": "Valor monetario mes anterior",
-                "da": "Pengeværdi forrige måned",
-                "pl": "Wartość pieniężna poprz. miesiąca",
-                "ru": "Денежная стоимость пред. месяца",
-                "ar": "القيمة النقدية للشهر السابق",
-                "ko": "지난달 금전적 가치"
-              },
-              "value": 0,
-              "decimals": 4,
-              "hint": {
-                "en": "Monetary value of the previous month. It is automatically updated.",
-                "nl": "Geldwaarde van de vorige maand. Wordt automatisch geupdated.",
-                "de": "Geldbetrag des Vormonats. Er wird automatisch aktualisiert.",
-                "fr": "Valeur monétaire du mois dernier. Elle est mise à jour automatiquement",
-                "it": "Valore monetario del mese precedente. Viene aggiornato automaticamente.",
-                "sv": "Föregående månads monetära värde. Den uppdateras automatiskt.",
-                "no": "Pengeverdi forrige måned. Blir automatisk oppdatert",
-                "es": "Valor monetario del mes anterior. Se actualiza automáticamente.",
-                "da": "Pengeværdien af den foregående måned. Den opdateres automatisk.",
-                "pl": "Wartość pieniężna poprzedniego miesiąca. Jest ona automatycznie aktualizowana.",
-                "ru": "Денежная стоимость предыдущего месяца. Она автоматически обновляется.",
-                "ar": "القيمة النقدية للشهر السابق. يتم تحديثها تلقائيًا.",
-                "ko": "지난달의 금전적 가치입니다. 자동으로 업데이트됩니다."
-              }
-            },
-            {
-              "id": "meter_money_last_year",
-              "type": "number",
-              "label": {
-                "en": "Monetary value prev. year",
-                "nl": "Geldwaarde van vorig jaar",
-                "de": "Geldbetrag des Vorjahres",
-                "fr": "Valeur monétaire de l'année dernière",
-                "it": "Valore monetario anno prec.",
-                "sv": "Monetärt värde föregående år",
-                "no": "Pengeverdi forrige år",
-                "es": "Valor monetario año anterior",
-                "da": "Pengeværdi forrige år",
-                "pl": "Wartość pieniężna poprz. roku",
-                "ru": "Денежная стоимость пред. года",
-                "ar": "القيمة النقدية للعام السابق",
-                "ko": "작년 금전적 가치"
-              },
-              "value": 0,
-              "decimals": 4,
-              "hint": {
-                "en": "Monetary value of the previous year. It is automatically updated.",
-                "nl": "Geldwaarde van het vorige jaar. Wordt automatisch geupdated.",
-                "de": "Geldbetrag des Vorjahres. Er wird automatisch aktualisiert.",
-                "fr": "Valeur monétaire de l'année dernière. Elle est mise à jour automatiquement",
-                "it": "Valore monetario dell'anno precedente. Viene aggiornato automaticamente.",
-                "sv": "Föregående års monetära värde. Den uppdateras automatiskt.",
-                "no": "Pengeverdi forrige år. Blir automatisk oppdatert",
-                "es": "Valor monetario del año anterior. Se actualiza automáticamente.",
-                "da": "Pengeværdien af det foregående år. Den opdateres automatisk.",
-                "pl": "Wartość pieniężna poprzedniego roku. Jest ona automatycznie aktualizowana.",
-                "ru": "Денежная стоимость предыдущего года. Она автоматически обновляется.",
-                "ar": "القيمة النقدية للعام السابق. يتم تحديثها تلقائيًا.",
-                "ko": "작년의 금전적 가치입니다. 자동으로 업데이트됩니다."
               }
             }
           ]
@@ -36329,10 +35029,7 @@
       ],
       "repair": [
         {
-          "id": "repair_warning",
-          "navigation": {
-            "next": "list_devices"
-          }
+          "id": "repair_start"
         },
         {
           "id": "list_devices",
@@ -36341,6 +35038,7 @@
             "singular": true
           },
           "navigation": {
+            "prev": "repair_start",
             "next": "setup"
           }
         },
@@ -36349,6 +35047,9 @@
           "navigation": {
             "prev": "list_devices"
           }
+        },
+        {
+          "id": "fix_values"
         },
         {
           "id": "loading",
@@ -36819,19 +35520,19 @@
               },
               "value": "0101",
               "hint": {
-                "en": "On this date the month and year total will reset to 0. Format is ddmm. Default is 0101 (1 January). ATTENTION: If you change this date you need to manually correct the This Month Start and This Year Start values.",
-                "nl": "Op deze datum wordt het jaar en maand totaal op 0 gezet. Het formaat is ddmm. Standaard is 0101 (1 january). LET OP: Als deze datum wordt gewijzigd zal Deze Maand Start en Dit Jaar Start handmatig aangepast moeten worden.",
-                "de": "An diesem Datum wird die Monats- und Jahressumme auf 0 zurückgesetzt. Das Format ist ddmm. Standardwert ist 0101 (1. Januar). ACHTUNG: Wenn Sie dieses Datum ändern, müssen Sie die Werte 'Monatsbeginn' und 'Jahresbeginn' manuell korrigieren.",
-                "fr": "À cette date, le total du mois et de l'année sera remit à 0. Le format est jjmm. La valeur par défaut est 0101 (1er janvier). ATTENTION: Si vous modifiez cette date, vous devez corriger manuellement les valeurs Début de ce mois et Début de cette année.",
-                "it": "In questa data il mese e l'anno saranno resettati a 0. Il formato è ggmm. Default è 0101 (1 Gennaio). ATTENZIONE: Se modifichi questa data dovrai correggere manualmente i valori Inizio Mese Corrente e Inzio Anno Corrente.",
-                "sv": "På det här datumet återställs totalsumman för månad och år till 0. Formatet är ddmm. Standard är 0101 (1 januari). OBSERVERA: Om du ändrar detta datum måste du manuellt korrigera värdena för start för denna månad och start för detta år.",
-                "no": "På denne dato vil total for måned og år resettes til 0. Format er ddmm. Default er 0101 (1 Januar). NB: Hvis du endrer denne datoen må du manuelt korrigere Denne måned start og  dette år start verdier.",
-                "es": "En esta fecha, el total del mes y del año se reiniciará a 0. El formato es ddmm. El valor predeterminado es 0101 (1 de enero). ATENCIÓN: Si cambia esta fecha, debe corregir manualmente los valores de Inicio de este mes e Inicio de este año.",
-                "da": "På denne dato nulstilles måneds- og årstotalen til 0. Formatet er ddmm. Standard er 0101 (1. januar). BEMÆRK: Hvis du ændrer denne dato, skal du manuelt rette værdierne for Denne måned start og Dette år start.",
-                "pl": "W tym dniu suma miesiąca i roku zresetuje się do 0. Format to ddmm. Domyślnie jest to 0101 (1 stycznia). UWAGA: Jeśli zmienisz tę datę, musisz ręcznie poprawić wartości Początek tego miesiąca i Początek tego roku.",
-                "ru": "В эту дату итоги месяца и года будут сброшены до 0. Формат ддмм. По умолчанию 0101 (1 января). ВНИМАНИЕ: Если вы измените эту дату, вам нужно будет вручную исправить значения Начало этого месяца и Начало этого года.",
-                "ar": "في هذا التاريخ سيتم إعادة تعيين إجمالي الشهر والسنة إلى 0. التنسيق هو ddmm. الافتراضي هو 0101 (1 يناير). انتبه: إذا قمت بتغيير هذا التاريخ، فأنت بحاجة إلى تصحيح قيم بداية هذا الشهر وبداية هذا العام يدويًا.",
-                "ko": "이 날짜에 월 및 연 합계가 0으로 초기화됩니다. 형식은 ddmm이며 기본값은 0101(1월 1일)입니다. 주의: 이 날짜를 변경하면 \"이번 달 시작\" 및 \"올해 시작\" 값을 직접 수정해야 합니다."
+                "en": "On this date the month and year totals reset to 0. Format ddmm, default 0101 (1 January). After a change, fix the month and year totals via Repair.",
+                "nl": "Op deze datum gaan het maand- en jaartotaal naar 0. Formaat ddmm, standaard 0101 (1 januari). Herstel na een wijziging het maand- en jaartotaal via Repareren.",
+                "de": "An diesem Datum werden Monats- und Jahressumme auf 0 gesetzt. Format ttmm, Standard 0101 (1. Januar). Korrigieren Sie nach einer Änderung die Monats- und Jahressumme über Reparieren.",
+                "fr": "À cette date, les totaux du mois et de l'année reviennent à 0. Format jjmm, par défaut 0101 (1er janvier). Après un changement, corrigez les totaux du mois et de l'année via Réparer.",
+                "it": "In questa data i totali del mese e dell'anno tornano a 0. Formato ggmm, predefinito 0101 (1 gennaio). Dopo una modifica, correggi i totali del mese e dell'anno tramite Ripara.",
+                "sv": "På detta datum nollställs månads- och årstotalen. Format ddmm, standard 0101 (1 januari). Rätta efter en ändring månads- och årstotalen via Reparera.",
+                "no": "På denne datoen nullstilles måneds- og årstotalen. Format ddmm, standard 0101 (1. januar). Rett etter en endring måneds- og årstotalen via Reparer.",
+                "es": "En esta fecha los totales del mes y del año vuelven a 0. Formato ddmm, por defecto 0101 (1 de enero). Tras un cambio, corrige los totales del mes y del año mediante Reparar.",
+                "da": "På denne dato nulstilles måneds- og årstotalen. Format ddmm, standard 0101 (1. januar). Ret efter en ændring måneds- og årstotalen via Reparer.",
+                "pl": "W tym dniu sumy miesiąca i roku wracają do 0. Format ddmm, domyślnie 0101 (1 stycznia). Po zmianie popraw sumy miesiąca i roku przez Napraw.",
+                "ru": "В эту дату итоги месяца и года сбрасываются до 0. Формат ддмм, по умолчанию 0101 (1 января). После изменения исправьте итоги месяца и года через Восстановить.",
+                "ar": "في هذا التاريخ يُعاد إجمالي الشهر والسنة إلى 0. التنسيق ddmm، الافتراضي 0101 (1 يناير). بعد التغيير، صحح إجمالي الشهر والسنة عبر إصلاح.",
+                "ko": "이 날짜에 월 및 연 합계가 0으로 초기화됩니다. 형식 ddmm, 기본값 0101(1월 1일). 변경 후에는 복구에서 월 및 연 합계를 수정하세요."
               }
             },
             {
@@ -37052,146 +35753,6 @@
                 "ar": "عدد الكسور العشرية المراد استخدامها.",
                 "ko": "사용할 소수 자릿수입니다."
               }
-            },
-            {
-              "id": "meter_latest",
-              "type": "label",
-              "label": {
-                "en": "Present reading",
-                "nl": "Huidige waarde",
-                "de": "Aktueller Zählerstand",
-                "fr": "Lecture actuelle",
-                "it": "Lettura attuale",
-                "sv": "Nuvarande avläsning",
-                "no": "Nåværende verdi",
-                "es": "Lectura actual",
-                "da": "Nuværende aflæsning",
-                "pl": "Obecny odczyt",
-                "ru": "Текущее показание",
-                "ar": "القراءة الحالية",
-                "ko": "현재 계량기 값"
-              },
-              "value": "0",
-              "hint": {
-                "en": "This is the meter reading from the soure device, updated once an hour.",
-                "nl": "Dit is de meter stand van het bronapparaat, eenmaal per uur geupdated.",
-                "de": "Dies ist der Zählerstand des Homey Geräts, der einmal pro Stunde aktualisiert wird.",
-                "fr": "Ceci est la lecture compteur de l'appareil source, mise à jour chaque heure",
-                "it": "Questa è la lettura del contatore dal dispositivo sorgente, aggiornata ogni ora.",
-                "sv": "Detta är mätarställningen från käll enheten, uppdaterad en gång i timmen.",
-                "no": "Dette er måleravlesningen fra kildeenheten, oppdatert en gang i timen.",
-                "es": "Esta es la lectura del medidor del dispositivo de origen, actualizada una vez por hora.",
-                "da": "Dette er måleraflæsningen fra kildeenheden, opdateret en gang i timen.",
-                "pl": "To jest odczyt licznika z urządzenia źródłowego, aktualizowany raz na godzinę.",
-                "ru": "Это показание счетчика с исходного устройства, обновляемое раз в час.",
-                "ar": "هذه هي قراءة العداد من جهاز المصدر، يتم تحديثها مرة واحدة في الساعة.",
-                "ko": "소스 장치의 계량기 값이며, 시간마다 한 번씩 업데이트됩니다."
-              }
-            },
-            {
-              "id": "meter_day_start",
-              "type": "number",
-              "label": {
-                "en": "This day start",
-                "nl": "Deze dag start",
-                "de": "Tagesbeginn",
-                "fr": "Ce jour commence",
-                "it": "Inizio giorno corrente",
-                "sv": "Denna dag börjar",
-                "no": "Startverdi denne dag",
-                "es": "Inicio de este día",
-                "da": "Denne dag starter",
-                "pl": "Początek tego dnia",
-                "ru": "Начало этого дня",
-                "ar": "بداية هذا اليوم",
-                "ko": "오늘 시작값"
-              },
-              "value": 0,
-              "hint": {
-                "en": "Enter the meter reading at the start of this day. It is automatically updated at midnight.",
-                "nl": "Geef de meterstand in aan het begin van deze dag. Het wordt middernacht automatisch geupdated.",
-                "de": "Geben Sie den Zählerstand zu Beginn des Tages ein. Er wird um Mitternacht automatisch aktualisiert.",
-                "fr": "Entrer la lecture compteur au début de ce jour. Ce sera automatiquement mis à jour à minuit",
-                "it": "Inserisci la lettura del contatore all'inizio della giornata odierna. Viene aggiornata automaticamente a mezzanotte.",
-                "sv": "Ange mätarställningen i början av denna dag. Den uppdateras automatiskt vid midnatt.",
-                "no": "Legg inn målerverdi ved denne dagens start. Den blir automatisk oppdatert ved midnatt.",
-                "es": "Ingrese la lectura del medidor al comienzo de este día. Se actualiza automáticamente a medianoche.",
-                "da": "Indtast måleraflæsningen ved starten af denne dag. Den opdateres automatisk ved midnat.",
-                "pl": "Wprowadź odczyt licznika na początku tego dnia. Jest on automatycznie aktualizowany o północy.",
-                "ru": "Введите показание счетчика в начале этого дня. Оно автоматически обновляется в полночь.",
-                "ar": "أدخل قراءة العداد في بداية هذا اليوم. يتم تحديثها تلقائيًا في منتصف الليل.",
-                "ko": "오늘 시작 시점의 계량기 값을 입력하세요. 자정에 자동으로 업데이트됩니다."
-              }
-            },
-            {
-              "id": "meter_month_start",
-              "type": "number",
-              "label": {
-                "en": "This month start",
-                "nl": "Deze maand start",
-                "de": "Monatsbeginn",
-                "fr": "Ce mois commence",
-                "it": "Inizio mese corrente",
-                "sv": "Denna månad börjar",
-                "no": "Startverdi denne måned",
-                "es": "Inicio de este mes",
-                "da": "Denne måned starter",
-                "pl": "Początek tego miesiąca",
-                "ru": "Начало этого месяца",
-                "ar": "بداية هذا الشهر",
-                "ko": "이번 달 시작값"
-              },
-              "value": 0,
-              "hint": {
-                "en": "Enter the meter reading at the start of this month. It is automatically updated first day of a new month.",
-                "nl": "Geef de meterstand in aan het begin van deze maand. Het wordt de eerste dag van de maand automatisch geupdated.",
-                "de": "Geben Sie den Zählerstand zu Beginn des Monats ein. Er wird automatisch am ersten Tag eines neuen Monats aktualisiert.",
-                "fr": "Entrer la lecture compteur au début de ce mois. Ce sera automatiquement mis à jour chaque début de mois",
-                "it": "Inserisci la lettura del contatore all'inizio del mese corrente. Viene aggiornata automaticamente il primo giorno di un nuovo mese.",
-                "sv": "Ange mätarställningen i början av denna månad. Den uppdateras automatiskt första dagen i en ny månad.",
-                "no": "Legg inn målerverdi ved denne måneds start. Den blir automatisk oppdatert første dagen ved ny måned.",
-                "es": "Ingrese la lectura del medidor al comienzo de este mes. Se actualiza automáticamente el primer día de un nuevo mes.",
-                "da": "Indtast måleraflæsningen ved starten af denne måned. Den opdateres automatisk den første dag i en ny måned.",
-                "pl": "Wprowadź odczyt licznika na początku tego miesiąca. Jest on automatycznie aktualizowany pierwszego dnia nowego miesiąca.",
-                "ru": "Введите показание счетчика в начале этого месяца. Оно автоматически обновляется в первый день нового месяца.",
-                "ar": "أدخل قراءة العداد في بداية هذا الشهر. يتم تحديثها تلقائيًا في اليوم الأول من الشهر الجديد.",
-                "ko": "이번 달 시작 시점의 계량기 값을 입력하세요. 매월 1일에 자동으로 업데이트됩니다."
-              }
-            },
-            {
-              "id": "meter_year_start",
-              "type": "number",
-              "label": {
-                "en": "This year start",
-                "nl": "Dit jaar start",
-                "de": "Jahresbeginn",
-                "fr": "Cette année commence",
-                "it": "Inizio anno corrente",
-                "sv": "Årets start",
-                "no": "Startverdi dette år",
-                "es": "Inicio de este año",
-                "da": "Dette år starter",
-                "pl": "Początek tego roku",
-                "ru": "Начало этого года",
-                "ar": "بداية هذا العام",
-                "ko": "올해 시작값"
-              },
-              "value": 0,
-              "hint": {
-                "en": "Enter the meter reading at the start of this year. It is automatically updated first day of a new year.",
-                "nl": "Geef de meterstand in aan het begin van dit jaar. Het wordt de eerste dag van het jaar automatisch geupdated.",
-                "de": "Geben Sie den Zählerstand zu Beginn des Jahres ein. Er wird am ersten Tag eines neuen Jahres automatisch aktualisiert.",
-                "fr": "Entrer la lecture compteur au début de cette année. Ce sera automatiquement mis à jour chaque début de nouvelle année",
-                "it": "Inserisci la lettura del contatore all'inizio dell'anno corrente. Viene aggiornata automaticamente il primo giorno di un nuovo anno.",
-                "sv": "Ange mätarställningen i början av detta år. Den uppdateras automatiskt första dagen på ett nytt år.",
-                "no": "Legg inn målerverdi ved dette årets start. Den blir automatisk oppdatert første dagen ved nytt år.",
-                "es": "Ingrese la lectura del medidor al comienzo de este año. Se actualiza automáticamente el primer día de un nuevo año.",
-                "da": "Indtast måleraflæsningen ved starten af dette år. Den opdateres automatisk den første dag i et nyt år.",
-                "pl": "Wprowadź odczyt licznika na początku tego roku. Jest on automatycznie aktualizowany pierwszego dnia nowego roku.",
-                "ru": "Введите показание счетчика в начале этого года. Оно автоматически обновляется в первый день нового года.",
-                "ar": "أدخل قراءة العداد في بداية هذا العام. يتم تحديثها تلقائيًا في اليوم الأول من العام الجديد.",
-                "ko": "올해 시작 시점의 계량기 값을 입력하세요. 매년 1월 1일에 자동으로 업데이트됩니다."
-              }
             }
           ]
         },
@@ -37283,222 +35844,6 @@
                 "ru": "Количество десятичных знаков для денежной стоимости.",
                 "ar": "عدد الكسور العشرية المراد استخدامها للقيمة النقدية.",
                 "ko": "금전적 가치에 사용할 소수 자릿수입니다."
-              }
-            },
-            {
-              "id": "meter_money_this_day",
-              "type": "number",
-              "label": {
-                "en": "Monetary value of this day",
-                "nl": "Geldwaarde van deze dag",
-                "de": "Geldbetrag des Tages",
-                "fr": "Valeur monétaire aujourd'hui",
-                "it": "Valore monetario di oggi",
-                "sv": "Dagens monetära värde",
-                "no": "Pengeverdi denne dag",
-                "es": "Valor monetario de este día",
-                "da": "Pengeværdi af denne dag",
-                "pl": "Wartość pieniężna tego dnia",
-                "ru": "Денежная стоимость этого дня",
-                "ar": "القيمة النقدية لهذا اليوم",
-                "ko": "오늘의 금전적 가치"
-              },
-              "value": 0,
-              "decimals": 4,
-              "hint": {
-                "en": "Actual monetary value. It is automatically updated.",
-                "nl": "Actuele geldwaarde. Wordt automatisch geupdated.",
-                "de": "Aktueller Geldbetrag. Er wird automatisch aktualisiert.",
-                "fr": "Valeur monétaire actuelle. Elle est mise à jour automatiquement",
-                "it": "Valore monetario attuale. Viene aggiornato automaticamente.",
-                "sv": "Faktiskt penningvärde. Den uppdateras automatiskt.",
-                "no": "Aktuell pengeverdi. Blir automatisk oppdatert",
-                "es": "Valor monetario actual. Se actualiza automáticamente.",
-                "da": "Faktisk pengeværdi. Den opdateres automatisk.",
-                "pl": "Rzeczywista wartość pieniężna. Jest ona automatycznie aktualizowana.",
-                "ru": "Фактическая денежная стоимость. Она автоматически обновляется.",
-                "ar": "القيمة النقدية الفعلية. يتم تحديثها تلقائيًا.",
-                "ko": "실제 금전적 가치입니다. 자동으로 업데이트됩니다."
-              }
-            },
-            {
-              "id": "meter_money_this_month",
-              "type": "number",
-              "label": {
-                "en": "Monetary value of this month",
-                "nl": "Geldwaarde van deze maand",
-                "de": "Geldbetrag des Monats",
-                "fr": "Valeur monétaire de ce mois",
-                "it": "Valore monetario mese corrente",
-                "sv": "Denna månads monetära värde",
-                "no": "Pengeverdi denne måned",
-                "es": "Valor monetario de este mes",
-                "da": "Pengeværdi af denne måned",
-                "pl": "Wartość pieniężna tego miesiąca",
-                "ru": "Денежная стоимость этого месяца",
-                "ar": "القيمة النقدية لهذا الشهر",
-                "ko": "이번 달의 금전적 가치"
-              },
-              "value": 0,
-              "decimals": 4,
-              "hint": {
-                "en": "Actual monetary value. It is automatically updated.",
-                "nl": "Actuele geldwaarde. Wordt automatisch geupdated.",
-                "de": "Aktueller Geldbetrag. Er wird automatisch aktualisiert.",
-                "fr": "Valeur monétaire actuelle. Elle est mise à jour automatiquement",
-                "it": "Valore monetario attuale. Viene aggiornato automaticamente.",
-                "sv": "Faktiskt penningvärde. Den uppdateras automatiskt.",
-                "no": "Aktuell pengeverdi. Blir automatisk oppdatert",
-                "es": "Valor monetario actual. Se actualiza automáticamente.",
-                "da": "Faktisk pengeværdi. Den opdateres automatisk.",
-                "pl": "Rzeczywista wartość pieniężna. Jest ona automatycznie aktualizowana.",
-                "ru": "Фактическая денежная стоимость. Она автоматически обновляется.",
-                "ar": "القيمة النقدية الفعلية. يتم تحديثها تلقائيًا.",
-                "ko": "실제 금전적 가치입니다. 자동으로 업데이트됩니다."
-              }
-            },
-            {
-              "id": "meter_money_this_year",
-              "type": "number",
-              "label": {
-                "en": "Monetary value of this year",
-                "nl": "Geldwaarde van dit jaar",
-                "de": "Geldbetrag des Jahres",
-                "fr": "Valeur monétaire de cette année",
-                "it": "Valore monetario anno corrente",
-                "sv": "Årets monetära värde",
-                "no": "Pengeverdi dette år",
-                "es": "Valor monetario de este año",
-                "da": "Pengeværdi af dette år",
-                "pl": "Wartość pieniężna tego roku",
-                "ru": "Денежная стоимость этого года",
-                "ar": "القيمة النقدية لهذا العام",
-                "ko": "올해의 금전적 가치"
-              },
-              "value": 0,
-              "decimals": 4,
-              "hint": {
-                "en": "Actual monetary value. It is automatically updated.",
-                "nl": "Actuele geldwaarde. Wordt automatisch geupdated.",
-                "de": "Aktueller Geldbetrag. Er wird automatisch aktualisiert.",
-                "fr": "Valeur monétaire actuelle. Elle est mise à jour automatiquement",
-                "it": "Valore monetario attuale. Viene aggiornato automaticamente.",
-                "sv": "Faktiskt penningvärde. Den uppdateras automatiskt.",
-                "no": "Aktuell pengeverdi. Blir automatisk oppdatert",
-                "es": "Valor monetario actual. Se actualiza automáticamente.",
-                "da": "Faktisk pengeværdi. Den opdateres automatisk.",
-                "pl": "Rzeczywista wartość pieniężna. Jest ona automatycznie aktualizowana.",
-                "ru": "Фактическая денежная стоимость. Она автоматически обновляется.",
-                "ar": "القيمة النقدية الفعلية. يتم تحديثها تلقائيًا.",
-                "ko": "실제 금전적 가치입니다. 자동으로 업데이트됩니다."
-              }
-            },
-            {
-              "id": "meter_money_last_day",
-              "type": "number",
-              "label": {
-                "en": "Monetary value prev. day",
-                "nl": "Geldwaarde van vorige dag",
-                "de": "Geldbetrag des Vortages",
-                "fr": "Valeur monétaire d'hier",
-                "it": "Valore monetario giorno prec.",
-                "sv": "Monetärt värde igår",
-                "no": "Pengeverdi forrige dag",
-                "es": "Valor monetario día anterior",
-                "da": "Pengeværdi forrige dag",
-                "pl": "Wartość pieniężna poprz. dnia",
-                "ru": "Денежная стоимость пред. дня",
-                "ar": "القيمة النقدية لليوم السابق",
-                "ko": "전날 금전적 가치"
-              },
-              "value": 0,
-              "decimals": 4,
-              "hint": {
-                "en": "Monetary value of the previous day. It is automatically updated.",
-                "nl": "Geldwaarde van de vorige dag. Wordt automatisch geupdated.",
-                "de": "Geldbetrag des Vortages. Er wird automatisch aktualisiert.",
-                "fr": "Valeur monétaire d'hier. Elle est mise à jour automatiquement",
-                "it": "Valore monetario del giorno precedente. Viene aggiornato automaticamente.",
-                "sv": "Monetärt värde för föregående dag. Den uppdateras automatiskt.",
-                "no": "Pengeverdi forrige dag. Blir automatisk oppdatert",
-                "es": "Valor monetario del día anterior. Se actualiza automáticamente.",
-                "da": "Pengeværdien af den foregående dag. Den opdateres automatisk.",
-                "pl": "Wartość pieniężna poprzedniego dnia. Jest ona automatycznie aktualizowana.",
-                "ru": "Денежная стоимость предыдущего дня. Она автоматически обновляется.",
-                "ar": "القيمة النقدية لليوم السابق. يتم تحديثها تلقائيًا.",
-                "ko": "전날의 금전적 가치입니다. 자동으로 업데이트됩니다."
-              }
-            },
-            {
-              "id": "meter_money_last_month",
-              "type": "number",
-              "label": {
-                "en": "Monetary value prev. month",
-                "nl": "Geldwaarde van vorige maand",
-                "de": "Geldbetrag des Vormonats",
-                "fr": "Valeur monétaire du mois dernier",
-                "it": "Valore monetario mese prec.",
-                "sv": "Monetärt värde föregående månad",
-                "no": "Pengeverdi forrige måned",
-                "es": "Valor monetario mes anterior",
-                "da": "Pengeværdi forrige måned",
-                "pl": "Wartość pieniężna poprz. miesiąca",
-                "ru": "Денежная стоимость пред. месяца",
-                "ar": "القيمة النقدية للشهر السابق",
-                "ko": "지난달 금전적 가치"
-              },
-              "value": 0,
-              "decimals": 4,
-              "hint": {
-                "en": "Monetary value of the previous month. It is automatically updated.",
-                "nl": "Geldwaarde van de vorige maand. Wordt automatisch geupdated.",
-                "de": "Geldbetrag des Vormonats. Er wird automatisch aktualisiert.",
-                "fr": "Valeur monétaire du mois dernier. Elle est mise à jour automatiquement",
-                "it": "Valore monetario del mese precedente. Viene aggiornato automaticamente.",
-                "sv": "Föregående månads monetära värde. Den uppdateras automatiskt.",
-                "no": "Pengeverdi forrige måned. Blir automatisk oppdatert",
-                "es": "Valor monetario del mes anterior. Se actualiza automáticamente.",
-                "da": "Pengeværdien af den foregående måned. Den opdateres automatisk.",
-                "pl": "Wartość pieniężna poprzedniego miesiąca. Jest ona automatycznie aktualizowana.",
-                "ru": "Денежная стоимость предыдущего месяца. Она автоматически обновляется.",
-                "ar": "القيمة النقدية للشهر السابق. يتم تحديثها تلقائيًا.",
-                "ko": "지난달의 금전적 가치입니다. 자동으로 업데이트됩니다."
-              }
-            },
-            {
-              "id": "meter_money_last_year",
-              "type": "number",
-              "label": {
-                "en": "Monetary value prev. year",
-                "nl": "Geldwaarde van vorig jaar",
-                "de": "Geldbetrag des Vorjahres",
-                "fr": "Valeur monétaire de l'année dernière",
-                "it": "Valore monetario anno prec.",
-                "sv": "Monetärt värde föregående år",
-                "no": "Pengeverdi forrige år",
-                "es": "Valor monetario año anterior",
-                "da": "Pengeværdi forrige år",
-                "pl": "Wartość pieniężna poprz. roku",
-                "ru": "Денежная стоимость пред. года",
-                "ar": "القيمة النقدية للعام السابق",
-                "ko": "작년 금전적 가치"
-              },
-              "value": 0,
-              "decimals": 4,
-              "hint": {
-                "en": "Monetary value of the previous year. It is automatically updated.",
-                "nl": "Geldwaarde van het vorige jaar. Wordt automatisch geupdated.",
-                "de": "Geldbetrag des Vorjahres. Er wird automatisch aktualisiert.",
-                "fr": "Valeur monétaire de l'année dernière. Elle est mise à jour automatiquement",
-                "it": "Valore monetario dell'anno precedente. Viene aggiornato automaticamente.",
-                "sv": "Föregående års monetära värde. Den uppdateras automatiskt.",
-                "no": "Pengeverdi forrige år. Blir automatisk oppdatert",
-                "es": "Valor monetario del año anterior. Se actualiza automáticamente.",
-                "da": "Pengeværdien af det foregående år. Den opdateres automatisk.",
-                "pl": "Wartość pieniężna poprzedniego roku. Jest ona automatycznie aktualizowana.",
-                "ru": "Денежная стоимость предыдущего года. Она автоматически обновляется.",
-                "ar": "القيمة النقدية للعام السابق. يتم تحديثها تلقائيًا.",
-                "ko": "작년의 금전적 가치입니다. 자동으로 업데이트됩니다."
               }
             }
           ]
@@ -37843,10 +36188,7 @@
       ],
       "repair": [
         {
-          "id": "repair_warning",
-          "navigation": {
-            "next": "list_devices"
-          }
+          "id": "repair_start"
         },
         {
           "id": "list_devices",
@@ -37855,6 +36197,7 @@
             "singular": true
           },
           "navigation": {
+            "prev": "repair_start",
             "next": "setup"
           }
         },
@@ -37863,6 +36206,9 @@
           "navigation": {
             "prev": "list_devices"
           }
+        },
+        {
+          "id": "fix_values"
         },
         {
           "id": "loading",
@@ -38118,19 +36464,19 @@
               },
               "value": "0101",
               "hint": {
-                "en": "On this date the month and year total will reset to 0. Format is ddmm. Default is 0101 (1 January). ATTENTION: If you change this date you need to manually correct the This Month Start and This Year Start values.",
-                "nl": "Op deze datum wordt het jaar en maand totaal op 0 gezet. Het formaat is ddmm. Standaard is 0101 (1 january). LET OP: Als deze datum wordt gewijzigd zal Deze Maand Start en Dit Jaar Start handmatig aangepast moeten worden.",
-                "de": "An diesem Datum wird die Monats- und Jahressumme auf 0 zurückgesetzt. Das Format ist ddmm. Standardwert ist 0101 (1. Januar). ACHTUNG: Wenn Sie dieses Datum ändern, müssen Sie die Werte 'Monatsbeginn' und 'Jahresbeginn' manuell korrigieren.",
-                "fr": "À cette date, le total du mois et de l'année sera remit à 0. Le format est jjmm. La valeur par défaut est 0101 (1er janvier). ATTENTION: Si vous modifiez cette date, vous devez corriger manuellement les valeurs Début de ce mois et Début de cette année.",
-                "it": "In questa data il mese e l'anno saranno resettati a 0. Il formato è ggmm. Default è 0101 (1 Gennaio). ATTENZIONE: Se modifichi questa data dovrai correggere manualmente i valori Inizio Mese Corrente e Inzio Anno Corrente.",
-                "sv": "På det här datumet återställs totalsumman för månad och år till 0. Formatet är ddmm. Standard är 0101 (1 januari). OBSERVERA: Om du ändrar detta datum måste du manuellt korrigera värdena för start för denna månad och start för detta år.",
-                "no": "På denne dato vil total for måned og år resettes til 0. Format er ddmm. Default er 0101 (1 Januar). NB: Hvis du endrer denne datoen må du manuelt korrigere Denne måned start og  dette år start verdier.",
-                "es": "En esta fecha, el total del mes y del año se reiniciará a 0. El formato es ddmm. El valor predeterminado es 0101 (1 de enero). ATENCIÓN: Si cambia esta fecha, debe corregir manualmente los valores de Inicio de este mes e Inicio de este año.",
-                "da": "På denne dato nulstilles måneds- og årstotalen til 0. Formatet er ddmm. Standard er 0101 (1. januar). BEMÆRK: Hvis du ændrer denne dato, skal du manuelt rette værdierne for Denne måned start og Dette år start.",
-                "pl": "W tym dniu suma miesiąca i roku zresetuje się do 0. Format to ddmm. Domyślnie jest to 0101 (1 stycznia). UWAGA: Jeśli zmienisz tę datę, musisz ręcznie poprawić wartości Początek tego miesiąca i Początek tego roku.",
-                "ru": "В эту дату итоги месяца и года будут сброшены до 0. Формат ддмм. По умолчанию 0101 (1 января). ВНИМАНИЕ: Если вы измените эту дату, вам нужно будет вручную исправить значения Начало этого месяца и Начало этого года.",
-                "ar": "في هذا التاريخ سيتم إعادة تعيين إجمالي الشهر والسنة إلى 0. التنسيق هو ddmm. الافتراضي هو 0101 (1 يناير). انتبه: إذا قمت بتغيير هذا التاريخ، فأنت بحاجة إلى تصحيح قيم بداية هذا الشهر وبداية هذا العام يدويًا.",
-                "ko": "이 날짜에 월 및 연 합계가 0으로 초기화됩니다. 형식은 ddmm이며 기본값은 0101(1월 1일)입니다. 주의: 이 날짜를 변경하면 \"이번 달 시작\" 및 \"올해 시작\" 값을 직접 수정해야 합니다."
+                "en": "On this date the month and year totals reset to 0. Format ddmm, default 0101 (1 January). After a change, fix the month and year totals via Repair.",
+                "nl": "Op deze datum gaan het maand- en jaartotaal naar 0. Formaat ddmm, standaard 0101 (1 januari). Herstel na een wijziging het maand- en jaartotaal via Repareren.",
+                "de": "An diesem Datum werden Monats- und Jahressumme auf 0 gesetzt. Format ttmm, Standard 0101 (1. Januar). Korrigieren Sie nach einer Änderung die Monats- und Jahressumme über Reparieren.",
+                "fr": "À cette date, les totaux du mois et de l'année reviennent à 0. Format jjmm, par défaut 0101 (1er janvier). Après un changement, corrigez les totaux du mois et de l'année via Réparer.",
+                "it": "In questa data i totali del mese e dell'anno tornano a 0. Formato ggmm, predefinito 0101 (1 gennaio). Dopo una modifica, correggi i totali del mese e dell'anno tramite Ripara.",
+                "sv": "På detta datum nollställs månads- och årstotalen. Format ddmm, standard 0101 (1 januari). Rätta efter en ändring månads- och årstotalen via Reparera.",
+                "no": "På denne datoen nullstilles måneds- og årstotalen. Format ddmm, standard 0101 (1. januar). Rett etter en endring måneds- og årstotalen via Reparer.",
+                "es": "En esta fecha los totales del mes y del año vuelven a 0. Formato ddmm, por defecto 0101 (1 de enero). Tras un cambio, corrige los totales del mes y del año mediante Reparar.",
+                "da": "På denne dato nulstilles måneds- og årstotalen. Format ddmm, standard 0101 (1. januar). Ret efter en ændring måneds- og årstotalen via Reparer.",
+                "pl": "W tym dniu sumy miesiąca i roku wracają do 0. Format ddmm, domyślnie 0101 (1 stycznia). Po zmianie popraw sumy miesiąca i roku przez Napraw.",
+                "ru": "В эту дату итоги месяца и года сбрасываются до 0. Формат ддмм, по умолчанию 0101 (1 января). После изменения исправьте итоги месяца и года через Восстановить.",
+                "ar": "في هذا التاريخ يُعاد إجمالي الشهر والسنة إلى 0. التنسيق ddmm، الافتراضي 0101 (1 يناير). بعد التغيير، صحح إجمالي الشهر والسنة عبر إصلاح.",
+                "ko": "이 날짜에 월 및 연 합계가 0으로 초기화됩니다. 형식 ddmm, 기본값 0101(1월 1일). 변경 후에는 복구에서 월 및 연 합계를 수정하세요."
               }
             },
             {
@@ -38315,146 +36661,6 @@
                 "ar": "عدد الكسور العشرية المراد استخدامها.",
                 "ko": "사용할 소수 자릿수입니다."
               }
-            },
-            {
-              "id": "meter_latest",
-              "type": "label",
-              "label": {
-                "en": "Present reading",
-                "nl": "Huidige waarde",
-                "de": "Aktueller Zählerstand",
-                "fr": "Lecture actuelle",
-                "it": "Lettura attuale",
-                "sv": "Nuvarande avläsning",
-                "no": "Nåværende verdi",
-                "es": "Lectura actual",
-                "da": "Nuværende aflæsning",
-                "pl": "Obecny odczyt",
-                "ru": "Текущее показание",
-                "ar": "القراءة الحالية",
-                "ko": "현재 계량기 값"
-              },
-              "value": "0",
-              "hint": {
-                "en": "This is the meter reading from the soure device, updated once an hour.",
-                "nl": "Dit is de meter stand van het bronapparaat, eenmaal per uur geupdated.",
-                "de": "Dies ist der Zählerstand des Homey Geräts, der einmal pro Stunde aktualisiert wird.",
-                "fr": "Ceci est la lecture compteur de l'appareil source, mise à jour chaque heure",
-                "it": "Questa è la lettura del contatore dal dispositivo sorgente, aggiornata ogni ora.",
-                "sv": "Detta är mätarställningen från käll enheten, uppdaterad en gång i timmen.",
-                "no": "Dette er måleravlesningen fra kildeenheten, oppdatert en gang i timen.",
-                "es": "Esta es la lectura del medidor del dispositivo de origen, actualizada una vez por hora.",
-                "da": "Dette er måleraflæsningen fra kildeenheden, opdateret en gang i timen.",
-                "pl": "To jest odczyt licznika z urządzenia źródłowego, aktualizowany raz na godzinę.",
-                "ru": "Это показание счетчика с исходного устройства, обновляемое раз в час.",
-                "ar": "هذه هي قراءة العداد من جهاز المصدر، يتم تحديثها مرة واحدة في الساعة.",
-                "ko": "소스 장치의 계량기 값이며, 시간마다 한 번씩 업데이트됩니다."
-              }
-            },
-            {
-              "id": "meter_day_start",
-              "type": "number",
-              "label": {
-                "en": "This day start",
-                "nl": "Deze dag start",
-                "de": "Tagesbeginn",
-                "fr": "Ce jour commence",
-                "it": "Inizio giorno corrente",
-                "sv": "Denna dag börjar",
-                "no": "Startverdi denne dag",
-                "es": "Inicio de este día",
-                "da": "Denne dag starter",
-                "pl": "Początek tego dnia",
-                "ru": "Начало этого дня",
-                "ar": "بداية هذا اليوم",
-                "ko": "오늘 시작값"
-              },
-              "value": 0,
-              "hint": {
-                "en": "Enter the meter reading at the start of this day. It is automatically updated at midnight.",
-                "nl": "Geef de meterstand in aan het begin van deze dag. Het wordt middernacht automatisch geupdated.",
-                "de": "Geben Sie den Zählerstand zu Beginn des Tages ein. Er wird um Mitternacht automatisch aktualisiert.",
-                "fr": "Entrer la lecture compteur au début de ce jour. Ce sera automatiquement mis à jour à minuit",
-                "it": "Inserisci la lettura del contatore all'inizio della giornata odierna. Viene aggiornata automaticamente a mezzanotte.",
-                "sv": "Ange mätarställningen i början av denna dag. Den uppdateras automatiskt vid midnatt.",
-                "no": "Legg inn målerverdi ved denne dagens start. Den blir automatisk oppdatert ved midnatt.",
-                "es": "Ingrese la lectura del medidor al comienzo de este día. Se actualiza automáticamente a medianoche.",
-                "da": "Indtast måleraflæsningen ved starten af denne dag. Den opdateres automatisk ved midnat.",
-                "pl": "Wprowadź odczyt licznika na początku tego dnia. Jest on automatycznie aktualizowany o północy.",
-                "ru": "Введите показание счетчика в начале этого дня. Оно автоматически обновляется в полночь.",
-                "ar": "أدخل قراءة العداد في بداية هذا اليوم. يتم تحديثها تلقائيًا في منتصف الليل.",
-                "ko": "오늘 시작 시점의 계량기 값을 입력하세요. 자정에 자동으로 업데이트됩니다."
-              }
-            },
-            {
-              "id": "meter_month_start",
-              "type": "number",
-              "label": {
-                "en": "This month start",
-                "nl": "Deze maand start",
-                "de": "Monatsbeginn",
-                "fr": "Ce mois commence",
-                "it": "Inizio mese corrente",
-                "sv": "Denna månad börjar",
-                "no": "Startverdi denne måned",
-                "es": "Inicio de este mes",
-                "da": "Denne måned starter",
-                "pl": "Początek tego miesiąca",
-                "ru": "Начало этого месяца",
-                "ar": "بداية هذا الشهر",
-                "ko": "이번 달 시작값"
-              },
-              "value": 0,
-              "hint": {
-                "en": "Enter the meter reading at the start of this month. It is automatically updated first day of a new month.",
-                "nl": "Geef de meterstand in aan het begin van deze maand. Het wordt de eerste dag van de maand automatisch geupdated.",
-                "de": "Geben Sie den Zählerstand zu Beginn des Monats ein. Er wird automatisch am ersten Tag eines neuen Monats aktualisiert.",
-                "fr": "Entrer la lecture compteur au début de ce mois. Ce sera automatiquement mis à jour chaque début de mois",
-                "it": "Inserisci la lettura del contatore all'inizio del mese corrente. Viene aggiornata automaticamente il primo giorno di un nuovo mese.",
-                "sv": "Ange mätarställningen i början av denna månad. Den uppdateras automatiskt första dagen i en ny månad.",
-                "no": "Legg inn målerverdi ved denne måneds start. Den blir automatisk oppdatert første dagen ved ny måned.",
-                "es": "Ingrese la lectura del medidor al comienzo de este mes. Se actualiza automáticamente el primer día de un nuevo mes.",
-                "da": "Indtast måleraflæsningen ved starten af denne måned. Den opdateres automatisk den første dag i en ny måned.",
-                "pl": "Wprowadź odczyt licznika na początku tego miesiąca. Jest on automatycznie aktualizowany pierwszego dnia nowego miesiąca.",
-                "ru": "Введите показание счетчика в начале этого месяца. Оно автоматически обновляется в первый день нового месяца.",
-                "ar": "أدخل قراءة العداد في بداية هذا الشهر. يتم تحديثها تلقائيًا في اليوم الأول من الشهر الجديد.",
-                "ko": "이번 달 시작 시점의 계량기 값을 입력하세요. 매월 1일에 자동으로 업데이트됩니다."
-              }
-            },
-            {
-              "id": "meter_year_start",
-              "type": "number",
-              "label": {
-                "en": "This year start",
-                "nl": "Dit jaar start",
-                "de": "Jahresbeginn",
-                "fr": "Cette année commence",
-                "it": "Inizio anno corrente",
-                "sv": "Årets start",
-                "no": "Startverdi dette år",
-                "es": "Inicio de este año",
-                "da": "Dette år starter",
-                "pl": "Początek tego roku",
-                "ru": "Начало этого года",
-                "ar": "بداية هذا العام",
-                "ko": "올해 시작값"
-              },
-              "value": 0,
-              "hint": {
-                "en": "Enter the meter reading at the start of this year. It is automatically updated first day of a new year.",
-                "nl": "Geef de meterstand in aan het begin van dit jaar. Het wordt de eerste dag van het jaar automatisch geupdated.",
-                "de": "Geben Sie den Zählerstand zu Beginn des Jahres ein. Er wird am ersten Tag eines neuen Jahres automatisch aktualisiert.",
-                "fr": "Entrer la lecture compteur au début de cette année. Ce sera automatiquement mis à jour chaque début de nouvelle année",
-                "it": "Inserisci la lettura del contatore all'inizio dell'anno corrente. Viene aggiornata automaticamente il primo giorno di un nuovo anno.",
-                "sv": "Ange mätarställningen i början av detta år. Den uppdateras automatiskt första dagen på ett nytt år.",
-                "no": "Legg inn målerverdi ved dette årets start. Den blir automatisk oppdatert første dagen ved nytt år.",
-                "es": "Ingrese la lectura del medidor al comienzo de este año. Se actualiza automáticamente el primer día de un nuevo año.",
-                "da": "Indtast måleraflæsningen ved starten af dette år. Den opdateres automatisk den første dag i et nyt år.",
-                "pl": "Wprowadź odczyt licznika na początku tego roku. Jest on automatycznie aktualizowany pierwszego dnia nowego roku.",
-                "ru": "Введите показание счетчика в начале этого года. Оно автоматически обновляется в первый день нового года.",
-                "ar": "أدخل قراءة العداد في بداية هذا العام. يتم تحديثها تلقائيًا في اليوم الأول من العام الجديد.",
-                "ko": "올해 시작 시점의 계량기 값을 입력하세요. 매년 1월 1일에 자동으로 업데이트됩니다."
-              }
             }
           ]
         },
@@ -38546,222 +36752,6 @@
                 "ru": "Количество десятичных знаков для денежной стоимости.",
                 "ar": "عدد الكسور العشرية المراد استخدامها للقيمة النقدية.",
                 "ko": "금전적 가치에 사용할 소수 자릿수입니다."
-              }
-            },
-            {
-              "id": "meter_money_this_day",
-              "type": "number",
-              "label": {
-                "en": "Monetary value of this day",
-                "nl": "Geldwaarde van deze dag",
-                "de": "Geldbetrag des Tages",
-                "fr": "Valeur monétaire aujourd'hui",
-                "it": "Valore monetario di oggi",
-                "sv": "Dagens monetära värde",
-                "no": "Pengeverdi denne dag",
-                "es": "Valor monetario de este día",
-                "da": "Pengeværdi af denne dag",
-                "pl": "Wartość pieniężna tego dnia",
-                "ru": "Денежная стоимость этого дня",
-                "ar": "القيمة النقدية لهذا اليوم",
-                "ko": "오늘의 금전적 가치"
-              },
-              "value": 0,
-              "decimals": 4,
-              "hint": {
-                "en": "Actual monetary value. It is automatically updated.",
-                "nl": "Actuele geldwaarde. Wordt automatisch geupdated.",
-                "de": "Aktueller Geldbetrag. Er wird automatisch aktualisiert.",
-                "fr": "Valeur monétaire actuelle. Elle est mise à jour automatiquement",
-                "it": "Valore monetario attuale. Viene aggiornato automaticamente.",
-                "sv": "Faktiskt penningvärde. Den uppdateras automatiskt.",
-                "no": "Aktuell pengeverdi. Blir automatisk oppdatert",
-                "es": "Valor monetario actual. Se actualiza automáticamente.",
-                "da": "Faktisk pengeværdi. Den opdateres automatisk.",
-                "pl": "Rzeczywista wartość pieniężna. Jest ona automatycznie aktualizowana.",
-                "ru": "Фактическая денежная стоимость. Она автоматически обновляется.",
-                "ar": "القيمة النقدية الفعلية. يتم تحديثها تلقائيًا.",
-                "ko": "실제 금전적 가치입니다. 자동으로 업데이트됩니다."
-              }
-            },
-            {
-              "id": "meter_money_this_month",
-              "type": "number",
-              "label": {
-                "en": "Monetary value of this month",
-                "nl": "Geldwaarde van deze maand",
-                "de": "Geldbetrag des Monats",
-                "fr": "Valeur monétaire de ce mois",
-                "it": "Valore monetario mese corrente",
-                "sv": "Denna månads monetära värde",
-                "no": "Pengeverdi denne måned",
-                "es": "Valor monetario de este mes",
-                "da": "Pengeværdi af denne måned",
-                "pl": "Wartość pieniężna tego miesiąca",
-                "ru": "Денежная стоимость этого месяца",
-                "ar": "القيمة النقدية لهذا الشهر",
-                "ko": "이번 달의 금전적 가치"
-              },
-              "value": 0,
-              "decimals": 4,
-              "hint": {
-                "en": "Actual monetary value. It is automatically updated.",
-                "nl": "Actuele geldwaarde. Wordt automatisch geupdated.",
-                "de": "Aktueller Geldbetrag. Er wird automatisch aktualisiert.",
-                "fr": "Valeur monétaire actuelle. Elle est mise à jour automatiquement",
-                "it": "Valore monetario attuale. Viene aggiornato automaticamente.",
-                "sv": "Faktiskt penningvärde. Den uppdateras automatiskt.",
-                "no": "Aktuell pengeverdi. Blir automatisk oppdatert",
-                "es": "Valor monetario actual. Se actualiza automáticamente.",
-                "da": "Faktisk pengeværdi. Den opdateres automatisk.",
-                "pl": "Rzeczywista wartość pieniężna. Jest ona automatycznie aktualizowana.",
-                "ru": "Фактическая денежная стоимость. Она автоматически обновляется.",
-                "ar": "القيمة النقدية الفعلية. يتم تحديثها تلقائيًا.",
-                "ko": "실제 금전적 가치입니다. 자동으로 업데이트됩니다."
-              }
-            },
-            {
-              "id": "meter_money_this_year",
-              "type": "number",
-              "label": {
-                "en": "Monetary value of this year",
-                "nl": "Geldwaarde van dit jaar",
-                "de": "Geldbetrag des Jahres",
-                "fr": "Valeur monétaire de cette année",
-                "it": "Valore monetario anno corrente",
-                "sv": "Årets monetära värde",
-                "no": "Pengeverdi dette år",
-                "es": "Valor monetario de este año",
-                "da": "Pengeværdi af dette år",
-                "pl": "Wartość pieniężna tego roku",
-                "ru": "Денежная стоимость этого года",
-                "ar": "القيمة النقدية لهذا العام",
-                "ko": "올해의 금전적 가치"
-              },
-              "value": 0,
-              "decimals": 4,
-              "hint": {
-                "en": "Actual monetary value. It is automatically updated.",
-                "nl": "Actuele geldwaarde. Wordt automatisch geupdated.",
-                "de": "Aktueller Geldbetrag. Er wird automatisch aktualisiert.",
-                "fr": "Valeur monétaire actuelle. Elle est mise à jour automatiquement",
-                "it": "Valore monetario attuale. Viene aggiornato automaticamente.",
-                "sv": "Faktiskt penningvärde. Den uppdateras automatiskt.",
-                "no": "Aktuell pengeverdi. Blir automatisk oppdatert",
-                "es": "Valor monetario actual. Se actualiza automáticamente.",
-                "da": "Faktisk pengeværdi. Den opdateres automatisk.",
-                "pl": "Rzeczywista wartość pieniężna. Jest ona automatycznie aktualizowana.",
-                "ru": "Фактическая денежная стоимость. Она автоматически обновляется.",
-                "ar": "القيمة النقدية الفعلية. يتم تحديثها تلقائيًا.",
-                "ko": "실제 금전적 가치입니다. 자동으로 업데이트됩니다."
-              }
-            },
-            {
-              "id": "meter_money_last_day",
-              "type": "number",
-              "label": {
-                "en": "Monetary value prev. day",
-                "nl": "Geldwaarde van vorige dag",
-                "de": "Geldbetrag des Vortages",
-                "fr": "Valeur monétaire d'hier",
-                "it": "Valore monetario giorno prec.",
-                "sv": "Monetärt värde igår",
-                "no": "Pengeverdi forrige dag",
-                "es": "Valor monetario día anterior",
-                "da": "Pengeværdi forrige dag",
-                "pl": "Wartość pieniężna poprz. dnia",
-                "ru": "Денежная стоимость пред. дня",
-                "ar": "القيمة النقدية لليوم السابق",
-                "ko": "전날 금전적 가치"
-              },
-              "value": 0,
-              "decimals": 4,
-              "hint": {
-                "en": "Monetary value of the previous day. It is automatically updated.",
-                "nl": "Geldwaarde van de vorige dag. Wordt automatisch geupdated.",
-                "de": "Geldbetrag des Vortages. Er wird automatisch aktualisiert.",
-                "fr": "Valeur monétaire d'hier. Elle est mise à jour automatiquement",
-                "it": "Valore monetario del giorno precedente. Viene aggiornato automaticamente.",
-                "sv": "Monetärt värde för föregående dag. Den uppdateras automatiskt.",
-                "no": "Pengeverdi forrige dag. Blir automatisk oppdatert",
-                "es": "Valor monetario del día anterior. Se actualiza automáticamente.",
-                "da": "Pengeværdien af den foregående dag. Den opdateres automatisk.",
-                "pl": "Wartość pieniężna poprzedniego dnia. Jest ona automatycznie aktualizowana.",
-                "ru": "Денежная стоимость предыдущего дня. Она автоматически обновляется.",
-                "ar": "القيمة النقدية لليوم السابق. يتم تحديثها تلقائيًا.",
-                "ko": "전날의 금전적 가치입니다. 자동으로 업데이트됩니다."
-              }
-            },
-            {
-              "id": "meter_money_last_month",
-              "type": "number",
-              "label": {
-                "en": "Monetary value prev. month",
-                "nl": "Geldwaarde van vorige maand",
-                "de": "Geldbetrag des Vormonats",
-                "fr": "Valeur monétaire du mois dernier",
-                "it": "Valore monetario mese prec.",
-                "sv": "Monetärt värde föregående månad",
-                "no": "Pengeverdi forrige måned",
-                "es": "Valor monetario mes anterior",
-                "da": "Pengeværdi forrige måned",
-                "pl": "Wartość pieniężna poprz. miesiąca",
-                "ru": "Денежная стоимость пред. месяца",
-                "ar": "القيمة النقدية للشهر السابق",
-                "ko": "지난달 금전적 가치"
-              },
-              "value": 0,
-              "decimals": 4,
-              "hint": {
-                "en": "Monetary value of the previous month. It is automatically updated.",
-                "nl": "Geldwaarde van de vorige maand. Wordt automatisch geupdated.",
-                "de": "Geldbetrag des Vormonats. Er wird automatisch aktualisiert.",
-                "fr": "Valeur monétaire du mois dernier. Elle est mise à jour automatiquement",
-                "it": "Valore monetario del mese precedente. Viene aggiornato automaticamente.",
-                "sv": "Föregående månads monetära värde. Den uppdateras automatiskt.",
-                "no": "Pengeverdi forrige måned. Blir automatisk oppdatert",
-                "es": "Valor monetario del mes anterior. Se actualiza automáticamente.",
-                "da": "Pengeværdien af den foregående måned. Den opdateres automatisk.",
-                "pl": "Wartość pieniężna poprzedniego miesiąca. Jest ona automatycznie aktualizowana.",
-                "ru": "Денежная стоимость предыдущего месяца. Она автоматически обновляется.",
-                "ar": "القيمة النقدية للشهر السابق. يتم تحديثها تلقائيًا.",
-                "ko": "지난달의 금전적 가치입니다. 자동으로 업데이트됩니다."
-              }
-            },
-            {
-              "id": "meter_money_last_year",
-              "type": "number",
-              "label": {
-                "en": "Monetary value prev. year",
-                "nl": "Geldwaarde van vorig jaar",
-                "de": "Geldbetrag des Vorjahres",
-                "fr": "Valeur monétaire de l'année dernière",
-                "it": "Valore monetario anno prec.",
-                "sv": "Monetärt värde föregående år",
-                "no": "Pengeverdi forrige år",
-                "es": "Valor monetario año anterior",
-                "da": "Pengeværdi forrige år",
-                "pl": "Wartość pieniężna poprz. roku",
-                "ru": "Денежная стоимость пред. года",
-                "ar": "القيمة النقدية للعام السابق",
-                "ko": "작년 금전적 가치"
-              },
-              "value": 0,
-              "decimals": 4,
-              "hint": {
-                "en": "Monetary value of the previous year. It is automatically updated.",
-                "nl": "Geldwaarde van het vorige jaar. Wordt automatisch geupdated.",
-                "de": "Geldbetrag des Vorjahres. Er wird automatisch aktualisiert.",
-                "fr": "Valeur monétaire de l'année dernière. Elle est mise à jour automatiquement",
-                "it": "Valore monetario dell'anno precedente. Viene aggiornato automaticamente.",
-                "sv": "Föregående års monetära värde. Den uppdateras automatiskt.",
-                "no": "Pengeverdi forrige år. Blir automatisk oppdatert",
-                "es": "Valor monetario del año anterior. Se actualiza automáticamente.",
-                "da": "Pengeværdien af det foregående år. Den opdateres automatisk.",
-                "pl": "Wartość pieniężna poprzedniego roku. Jest ona automatycznie aktualizowana.",
-                "ru": "Денежная стоимость предыдущего года. Она автоматически обновляется.",
-                "ar": "القيمة النقدية للعام السابق. يتم تحديثها تلقائيًا.",
-                "ko": "작년의 금전적 가치입니다. 자동으로 업데이트됩니다."
               }
             }
           ]

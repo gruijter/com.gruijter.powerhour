@@ -172,10 +172,7 @@
   ],
   "repair": [
     {
-      "id": "repair_warning",
-      "navigation": {
-        "next": "list_devices"
-      }
+      "id": "repair_start"
     },
     {
       "id": "list_devices",
@@ -184,6 +181,7 @@
         "singular": true
       },
       "navigation": {
+        "prev": "repair_start",
         "next": "setup"
       }
     },
@@ -192,6 +190,9 @@
       "navigation": {
         "prev": "list_devices"
       }
+    },
+    {
+      "id": "fix_values"
     },
     {
       "id": "loading",
@@ -1061,242 +1062,6 @@
             "ru": "Количество десятичных знаков для цены.",
             "ar": "عدد الكسور العشرية المراد استخدامها للسعر.",
             "ko": "가격에 사용할 소수 자릿수입니다."
-          }
-        },
-        {
-          "id": "meter_money_this_month",
-          "type": "number",
-          "label": {
-            "en": "Monetary value of this month",
-            "de": "Geldbetrag des Monats",
-            "sv": "Denna månads monetära värde",
-            "it": "Valore monetario mese corrente",
-            "no": "Pengeverdi denne måned",
-            "fr": "Valeur monétaire de ce mois",
-            "nl": "Geldwaarde van deze maand",
-            "es": "Valor monetario de este mes",
-            "da": "Pengeværdi af denne måned",
-            "pl": "Wartość pieniężna tego miesiąca",
-            "ru": "Денежная стоимость этого месяца",
-            "ar": "القيمة النقدية لهذا الشهر",
-            "ko": "이번 달의 금전적 가치"
-          },
-          "value": 0,
-          "decimals": 4,
-          "hint": {
-            "en": "Actual monetary value. It is automatically updated.",
-            "de": "Aktueller Geldbetrag. Er wird automatisch aktualisiert.",
-            "sv": "Faktiskt penningvärde. Den uppdateras automatiskt.",
-            "it": "Valore monetario attuale. Viene aggiornato automaticamente.",
-            "no": "Aktuell pengeverdi. Blir automatisk oppdatert",
-            "fr": "Valeur monétaire actuelle. Elle est mise à jour automatiquement",
-            "nl": "Actuele geldwaarde. Wordt automatisch geupdated.",
-            "es": "Valor monetario actual. Se actualiza automáticamente.",
-            "da": "Faktisk pengeværdi. Den opdateres automatisk.",
-            "pl": "Rzeczywista wartość pieniężna. Jest ona automatycznie aktualizowana.",
-            "ru": "Фактическая денежная стоимость. Она автоматически обновляется.",
-            "ar": "القيمة النقدية الفعلية. يتم تحديثها تلقائيًا.",
-            "ko": "실제 금전적 가치입니다. 자동으로 업데이트됩니다."
-          }
-        },
-        {
-          "id": "meter_money_this_year",
-          "type": "number",
-          "label": {
-            "en": "Monetary value of this year",
-            "de": "Geldbetrag des Jahres",
-            "sv": "Årets monetära värde",
-            "it": "Valore monetario anno corrente",
-            "no": "Pengeverdi dette år",
-            "fr": "Valeur monétaire de cette année",
-            "nl": "Geldwaarde van dit jaar",
-            "es": "Valor monetario de este año",
-            "da": "Pengeværdi af dette år",
-            "pl": "Wartość pieniężna tego roku",
-            "ru": "Денежная стоимость этого года",
-            "ar": "القيمة النقدية لهذا العام",
-            "ko": "올해의 금전적 가치"
-          },
-          "value": 0,
-          "decimals": 4,
-          "hint": {
-            "en": "Actual monetary value. It is automatically updated.",
-            "de": "Aktueller Geldbetrag. Er wird automatisch aktualisiert.",
-            "sv": "Faktiskt penningvärde. Den uppdateras automatiskt.",
-            "it": "Valore monetario attuale. Viene aggiornato automaticamente.",
-            "no": "Aktuell pengeverdi. Blir automatisk oppdatert",
-            "fr": "Valeur monétaire actuelle. Elle est mise à jour automatiquement",
-            "nl": "Actuele geldwaarde. Wordt automatisch geupdated.",
-            "es": "Valor monetario actual. Se actualiza automáticamente.",
-            "da": "Faktisk pengeværdi. Den opdateres automatisk.",
-            "pl": "Rzeczywista wartość pieniężna. Jest ona automatycznie aktualizowana.",
-            "ru": "Фактическая денежная стоимость. Она автоматически обновляется.",
-            "ar": "القيمة النقدية الفعلية. يتم تحديثها تلقائيًا.",
-            "ko": "실제 금전적 가치입니다. 자동으로 업데이트됩니다."
-          }
-        },
-        {
-          "id": "meter_money_last_month",
-          "type": "number",
-          "label": {
-            "en": "Monetary value prev. month",
-            "de": "Geldbetrag des Vormonats",
-            "sv": "Monetärt värde föregående månad",
-            "it": "Valore monetario mese prec.",
-            "no": "Pengeverdi forrige måned",
-            "fr": "Valeur monétaire du mois dernier",
-            "nl": "Geldwaarde van vorige maand",
-            "es": "Valor monetario mes anterior",
-            "da": "Pengeværdi forrige måned",
-            "pl": "Wartość pieniężna poprz. miesiąca",
-            "ru": "Денежная стоимость пред. месяца",
-            "ar": "القيمة النقدية للشهر السابق",
-            "ko": "지난달 금전적 가치"
-          },
-          "value": 0,
-          "decimals": 4,
-          "hint": {
-            "en": "Monetary value of the previous month. It is automatically updated.",
-            "de": "Geldbetrag des Vormonats. Er wird automatisch aktualisiert.",
-            "sv": "Föregående månads monetära värde. Den uppdateras automatiskt.",
-            "it": "Valore monetario del mese precedente. Viene aggiornato automaticamente.",
-            "no": "Pengeverdi forrige måned. Blir automatisk oppdatert",
-            "fr": "Valeur monétaire du mois dernier. Elle est mise à jour automatiquement",
-            "nl": "Geldwaarde van de vorige maand. Wordt automatisch geupdated.",
-            "es": "Valor monetario del mes anterior. Se actualiza automáticamente.",
-            "da": "Pengeværdien af den foregående måned. Den opdateres automatisk.",
-            "pl": "Wartość pieniężna poprzedniego miesiąca. Jest ona automatycznie aktualizowana.",
-            "ru": "Денежная стоимость предыдущего месяца. Она автоматически обновляется.",
-            "ar": "القيمة النقدية للشهر السابق. يتم تحديثها تلقائيًا.",
-            "ko": "지난달의 금전적 가치입니다. 자동으로 업데이트됩니다."
-          }
-        },
-        {
-          "id": "meter_money_last_year",
-          "type": "number",
-          "label": {
-            "en": "Monetary value prev. year",
-            "de": "Geldbetrag des Vorjahres",
-            "sv": "Monetärt värde föregående år",
-            "it": "Valore monetario anno prec.",
-            "no": "Pengeverdi forrige år",
-            "fr": "Valeur monétaire de l'année dernière",
-            "nl": "Geldwaarde van vorig jaar",
-            "es": "Valor monetario año anterior",
-            "da": "Pengeværdi forrige år",
-            "pl": "Wartość pieniężna poprz. roku",
-            "ru": "Денежная стоимость пред. года",
-            "ar": "القيمة النقدية للعام السابق",
-            "ko": "작년 금전적 가치"
-          },
-          "value": 0,
-          "decimals": 4,
-          "hint": {
-            "en": "Monetary value of the previous year. It is automatically updated.",
-            "de": "Geldbetrag des Vorjahres. Er wird automatisch aktualisiert.",
-            "sv": "Föregående års monetära värde. Den uppdateras automatiskt.",
-            "it": "Valore monetario dell'anno precedente. Viene aggiornato automaticamente.",
-            "no": "Pengeverdi forrige år. Blir automatisk oppdatert",
-            "fr": "Valeur monétaire de l'année dernière. Elle est mise à jour automatiquement",
-            "nl": "Geldwaarde van het vorige jaar. Wordt automatisch geupdated.",
-            "es": "Valor monetario del año anterior. Se actualiza automáticamente.",
-            "da": "Pengeværdien af det foregående år. Den opdateres automatisk.",
-            "pl": "Wartość pieniężna poprzedniego roku. Jest ona automatycznie aktualizowana.",
-            "ru": "Денежная стоимость предыдущего года. Она автоматически обновляется.",
-            "ar": "القيمة النقدية للعام السابق. يتم تحديثها تلقائيًا.",
-            "ko": "작년의 금전적 가치입니다. 자동으로 업데이트됩니다."
-          }
-        }
-      ]
-    },
-    {
-      "type": "group",
-      "label": {
-        "en": "Meter readings",
-        "de": "Zählerstände",
-        "sv": "Mätaravläsningar",
-        "it": "Letture contatore",
-        "no": "Meterverdier",
-        "fr": "Lecture compteur",
-        "nl": "Meterstanden",
-        "es": "Lecturas del medidor",
-        "da": "Måleraflæsninger",
-        "pl": "Odczyty licznika",
-        "ru": "Показания счетчика",
-        "ar": "قراءات العداد",
-        "ko": "계량기 값"
-      },
-      "children": [
-        {
-          "id": "meter_kwh_charging",
-          "type": "number",
-          "label": {
-            "en": "Charging Total (kWh)",
-            "nl": "Laden Totaal (kWh)",
-            "de": "Aufladung Gesamt (kWh)",
-            "fr": "Total de charge (kWh)",
-            "it": "Totale ricarica (kWh)",
-            "sv": "Laddning totalt (kWh)",
-            "no": "Lading totalt (kWh)",
-            "es": "Carga total (kWh)",
-            "da": "Opladning i alt (kWh)",
-            "pl": "Ładowanie ogółem (kWh)",
-            "ru": "Всего зарядки (кВтч)",
-            "ar": "إجمالي الشحن (كيلوواط ساعة)",
-            "ko": "총 충전량 (kWh)"
-          },
-          "min": 0,
-          "value": 0,
-          "hint": {
-            "en": "This value is automatically generated and updated once an hour. It is advised not to change this value, unless you need to.",
-            "nl": "Deze waarde wordt automatisch gegenereerd en één keer per uur bijgewerkt. Het wordt aanbevolen deze waarde niet te wijzigen, tenzij dit noodzakelijk is.",
-            "de": "Dieser Wert wird automatisch generiert und einmal pro Stunde aktualisiert. Es wird empfohlen, diesen Wert nicht zu ändern, es sei denn, dies ist erforderlich.",
-            "fr": "Cette valeur est générée automatiquement et mise à jour une fois par heure. Il est conseillé de ne pas modifier cette valeur, sauf si vous le devez.",
-            "it": "Questo valore viene generato automaticamente e aggiornato una volta all'ora. Si consiglia di non modificare questo valore, a meno che non sia necessario.",
-            "sv": "Detta värde genereras automatiskt och uppdateras en gång i timmen. Det rekommenderas att inte ändra detta värde, om du inte måste.",
-            "no": "Denne verdien genereres automatisk og oppdateres en gang i timen. Det anbefales ikke å endre denne verdien, med mindre du må.",
-            "es": "Este valor se genera y actualiza automáticamente una vez por hora. Se aconseja no cambiar este valor, a menos que sea necesario.",
-            "da": "Denne værdi genereres automatisk og opdateres en gang i timen. Det anbefales ikke at ændre denne værdi, medmindre du er nødt til det.",
-            "pl": "Wartość ta jest generowana automatycznie i aktualizowana raz na godzinę. Zaleca się nie zmieniać tej wartości, chyba że jest to konieczne.",
-            "ru": "Это значение генерируется и обновляется автоматически раз в час. Рекомендуется не изменять это значение, если в этом нет необходимости.",
-            "ar": "يتم إنشاء هذه القيمة وتحديثها تلقائيًا مرة واحدة في الساعة. ينصح بعدم تغيير هذه القيمة، إلا إذا كنت بحاجة إلى ذلك.",
-            "ko": "이 값은 자동으로 생성되며 시간마다 한 번씩 업데이트됩니다. 필요한 경우가 아니면 이 값을 변경하지 않는 것이 좋습니다."
-          }
-        },
-        {
-          "id": "meter_kwh_discharging",
-          "type": "number",
-          "label": {
-            "en": "Discharging Total (kWh)",
-            "nl": "Ontladen Totaal (kWh)",
-            "de": "Entladung Gesamt (kWh)",
-            "fr": "Total de décharge (kWh)",
-            "it": "Totale scarica (kWh)",
-            "sv": "Urladdning totalt (kWh)",
-            "no": "Utladning totalt (kWh)",
-            "es": "Descarga total (kWh)",
-            "da": "Afladning i alt (kWh)",
-            "pl": "Rozładowanie ogółem (kWh)",
-            "ru": "Всего разрядки (кВтч)",
-            "ar": "إجمالي التفريغ (كيلوواط ساعة)",
-            "ko": "총 방전량 (kWh)"
-          },
-          "min": 0,
-          "value": 0,
-          "hint": {
-            "en": "This value is automatically generated and updated once an hour. It is advised not to change this value, unless you need to.",
-            "nl": "Deze waarde wordt automatisch gegenereerd en één keer per uur bijgewerkt. Het wordt aanbevolen deze waarde niet te wijzigen, tenzij dit noodzakelijk is.",
-            "de": "Dieser Wert wird automatisch generiert und einmal pro Stunde aktualisiert. Es wird empfohlen, diesen Wert nicht zu ändern, es sei denn, dies ist erforderlich.",
-            "fr": "Cette valeur est générée automatiquement et mise à jour une fois par heure. Il est conseillé de ne pas modifier cette valeur, sauf si vous le devez.",
-            "it": "Questo valore viene generato automaticamente e aggiornato una volta all'ora. Si consiglia di non modificare questo valore, a meno che non sia necessario.",
-            "sv": "Detta värde genereras automatiskt och uppdateras en gång i timmen. Det rekommenderas att inte ändra detta värde, om du inte måste.",
-            "no": "Denne verdien genereres automatisk og oppdateres en gang i timen. Det anbefales ikke å endre denne verdien, med mindre du må.",
-            "es": "Este valor se genera y actualiza automáticamente una vez por hora. Se aconseja no cambiar este valor, a menos que sea necesario.",
-            "da": "Denne værdi genereres automatisk og opdateres en gang i timen. Det anbefales ikke at ændre denne værdi, medmindre du er nødt til det.",
-            "pl": "Wartość ta jest generowana automatycznie i aktualizowana raz na godzinę. Zaleca się nie zmieniać tej wartości, chyba że jest to konieczne.",
-            "ru": "Это значение генерируется и обновляется автоматически раз в час. Рекомендуется не изменять это значение, если в этом нет необходимости.",
-            "ar": "يتم إنشاء هذه القيمة وتحديثها تلقائيًا مرة واحدة في الساعة. ينصح بعدم تغيير هذه القيمة، إلا إذا كنت بحاجة إلى ذلك.",
-            "ko": "이 값은 자동으로 생성되며 시간마다 한 번씩 업데이트됩니다. 필요한 경우가 아니면 이 값을 변경하지 않는 것이 좋습니다."
           }
         }
       ]

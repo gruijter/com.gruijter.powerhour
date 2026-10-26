@@ -1,0 +1,130 @@
+<form class="homey-form" onsubmit="return false;">
+	<fieldset class="homey-form-fieldset" data-step="what">
+		<legend class="homey-form-legend" data-i18n="repair.fix_what"></legend>
+		<fieldset class="homey-form-radio-set" id="kinds"></fieldset>
+	</fieldset>
+
+	<fieldset class="homey-form-fieldset" data-step="values">
+		<legend class="homey-form-legend" id="valuesTitle"></legend>
+		<p class="homey-subtitle" id="valuesInfo"></p>
+		<div id="values"></div>
+	</fieldset>
+
+	<fieldset class="homey-form-fieldset" data-step="confirm">
+		<legend class="homey-form-legend" data-i18n="repair.fix_confirm"></legend>
+		<div id="changes"></div>
+	</fieldset>
+
+	<button class="homey-button-primary-full" id="next" data-i18n="repair.setup_next"></button>
+	<button class="homey-button-transparent" id="back" data-i18n="repair.back"></button>
+</form>
+
+<script>
+	// The same file in repair/ of each driver with this view (lib/helpers/FixValues.js).
+	Homey.setTitle(Homey.__('repair.start_fix'));
+	const STEPS = ['what', 'values', 'confirm'];
+	let data = { kinds: [] };
+	let step = 0;
+
+	const el = (tag, props = {}) => Object.assign(document.createElement(tag), props);
+	const kind = () => {
+		const checked = document.querySelector('input[name="kind"]:checked');
+		return data.kinds.find((k) => checked && k.id === checked.value);
+	};
+	const withUnit = (f) => (f.unit ? `${f.label} (${f.unit})` : f.label);
+	// Only the fields the user changed, as typed.
+	const changed = () => kind().fields
+		.map((f) => ({ f, value: document.getElementById(`fix_${kind().id}_${f.id}`).value.trim() }))
+		.filter(({ f, value }) => value !== String(f.value));
+
+	const build = () => {
+		const set = document.getElementById('kinds');
+		data.kinds.forEach((k, i) => {
+			const label = el('label', { className: 'homey-form-radio' });
+			label.appendChild(el('input', {
+				className: 'homey-form-radio-input', type: 'radio', name: 'kind', value: k.id, checked: i === 0,
+			}));
+			label.appendChild(el('span', { className: 'homey-form-radio-checkmark' }));
+			label.appendChild(el('span', { className: 'homey-form-radio-text', textContent: k.label }));
+			set.appendChild(label);
+		});
+		// All fields per kind; only the chosen kind shows.
+		data.kinds.forEach((k) => {
+			const box = el('div', { id: `kind_${k.id}` });
+			k.fields.forEach((f) => {
+				const group = el('div', { className: 'homey-form-group' });
+				const id = `fix_${k.id}_${f.id}`;
+				group.appendChild(el('label', { className: 'homey-form-label', htmlFor: id, textContent: withUnit(f) }));
+				group.appendChild(el('input', {
+					className: 'homey-form-input', type: 'number', step: 'any', id, value: f.value,
+				}));
+				box.appendChild(group);
+			});
+			document.getElementById('values').appendChild(box);
+		});
+	};
+
+	const show = () => {
+		document.querySelectorAll('[data-step]').forEach((s) => { s.style.display = s.dataset.step === STEPS[step] ? '' : 'none'; });
+		document.getElementById('back').style.display = step === 0 ? 'none' : '';
+		document.getElementById('next').textContent = Homey.__(step === STEPS.length - 1 ? 'repair.fix_apply' : 'repair.setup_next');
+		const k = kind();
+		if (!k) return;
+		document.getElementById('valuesTitle').textContent = k.label;
+		document.getElementById('valuesInfo').textContent = k.info || Homey.__('repair.fix_values_info');
+		data.kinds.forEach((other) => { document.getElementById(`kind_${other.id}`).style.display = other.id === k.id ? '' : 'none'; });
+		if (STEPS[step] === 'confirm') {
+			const box = document.getElementById('changes');
+			box.innerHTML = '';
+			changed().forEach(({ f, value }) => {
+				box.appendChild(el('p', { className: 'homey-subtitle', textContent: `${withUnit(f)}: ${f.value === '' ? '-' : f.value} → ${value}` }));
+			});
+		}
+	};
+
+	document.getElementById('back').addEventListener('click', () => {
+		step -= 1;
+		show();
+	});
+
+	document.getElementById('next').addEventListener('click', async () => {
+		if (STEPS[step] === 'values' && !changed().length) {
+			Homey.alert(Homey.__('repair.fix_nothing'));
+			return;
+		}
+		if (step < STEPS.length - 1) {
+			step += 1;
+			show();
+			return;
+		}
+		const button = document.getElementById('next');
+		if (button.classList.contains('is-loading')) return;
+		button.classList.add('is-loading');
+		try {
+			const values = {};
+			changed().forEach(({ f, value }) => { values[f.id] = value; });
+			await Homey.emit('fix_set', { kind: kind().id, values });
+			Homey.showView('done');
+		} catch (error) {
+			button.classList.remove('is-loading');
+			Homey.alert(error.message || error, 'error');
+		}
+	});
+
+	(async () => {
+		try {
+			data = await Homey.emit('fix_get');
+			if (!data.kinds.length) {
+				Homey.alert(Homey.__('repair.fix_none'));
+				Homey.showView('repair_start');
+				return;
+			}
+			build();
+			show();
+		} catch (error) {
+			Homey.alert(error.message || error, 'error');
+		} finally {
+			Homey.hideLoadingOverlay();
+		}
+	})();
+</script>

@@ -1,0 +1,34 @@
+<form class="homey-form" onsubmit="return false;">
+	<fieldset class="homey-form-fieldset">
+		<legend class="homey-form-legend" data-i18n="repair.start_question"></legend>
+		<fieldset class="homey-form-radio-set" id="choice"></fieldset>
+	</fieldset>
+	<button class="homey-button-primary-full" id="next" data-i18n="repair.setup_next"></button>
+</form>
+
+<script>
+	// The same file in repair/ of each driver with the fix_values view (lib/helpers/FixValues.js).
+	Homey.setTitle(Homey.__('repair.start_title'));
+	const CHOICES = [
+		{ view: 'list_devices', label: 'repair.start_source', info: 'repair.start_source_info' },
+		{ view: 'fix_values', label: 'repair.start_fix', info: 'repair.start_fix_info' },
+	];
+
+	const el = (tag, props = {}) => Object.assign(document.createElement(tag), props);
+	const set = document.getElementById('choice');
+	CHOICES.forEach((c, i) => {
+		const label = el('label', { className: 'homey-form-radio' });
+		label.appendChild(el('input', {
+			className: 'homey-form-radio-input', type: 'radio', name: 'choice', value: c.view, checked: i === 0,
+		}));
+		label.appendChild(el('span', { className: 'homey-form-radio-checkmark' }));
+		label.appendChild(el('span', { className: 'homey-form-radio-text', textContent: Homey.__(c.label) }));
+		set.appendChild(label);
+		set.appendChild(el('p', { className: 'homey-subtitle', textContent: Homey.__(c.info) }));
+	});
+
+	document.getElementById('next').addEventListener('click', () => {
+		Homey.showView(document.querySelector('input[name="choice"]:checked').value);
+	});
+	Homey.hideLoadingOverlay();
+</script>
