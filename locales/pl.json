@@ -35,6 +35,7 @@
   "error_value_not_number": "Wartość nie jest liczbą",
   "error_budget_custom_12": "Niestandardowy budżet nie ma 12 wartości liczbowych",
   "error_budget_needed": "Wpisz budżet roczny większy niż 0",
+  "error_budget_months": "Wpisz 12 miesięcy, z sumą większą niż 0",
   "error_start_date": "Data rozpoczęcia musi mieć format ddmm, np. 0101",
   "error_budget_invalid": "Budżet nie jest prawidłową liczbą",
   "error_total_invalid": "Suma nie może być przeciwna do kierunku liczenia licznika.",
@@ -236,13 +237,13 @@
   "error_setup_no_price": "Wybierz grupę taryfową z urządzeniem Cena energii. Najpierw dodaj urządzenie Cena energii, jeśli go nie ma.",
   "source_polled": "odpytywane",
   "budget": {
-    "start_date": "Data rozpoczęcia nowego roku",
-    "start_date_info": "W tym dniu sumy miesiąca i roku wracają do 0. Format ddmm, domyślnie 0101 (1 stycznia). Po zmianie popraw sumy miesiąca i roku przez Napraw.",
+    "start_date": "Rok zaczyna się",
+    "start_date_info": "Sumy miesiąca i roku zaczynają się od nowa tego dnia i miesiąca, a każdy miesiąc zaczyna się tego dnia. Po zmianie popraw sumy miesiąca i roku przez Napraw > Popraw sumy lub koszty.",
     "target": "Roczny budżet docelowy",
     "distribution": "Schemat dystrybucji",
     "linear": "Liniowy",
     "local": "Klimat lokalny (auto)",
-    "custom": "Niestandardowy (określ w rocznym budżecie docelowym)",
+    "custom": "Niestandardowy (na miesiąc)",
     "heating": "Ogrzewanie",
     "heating_none": "Nieelektryczne (gaz, olej, ciepło sieciowe)",
     "heating_heat_pump": "Pompa ciepła",
@@ -252,8 +253,16 @@
     "heating_gas_hybrid": "Hybrydowa pompa ciepła",
     "heating_gas_none": "Bez ogrzewania gazowego (gotowanie, ciepła woda)",
     "cooling": "Klimatyzacja",
-    "target_info": "Przy Niestandardowy: 12 wartości od stycznia do grudnia, oddzielonych ;",
     "off": "Brak budżetu",
-    "start": "start"
+    "start": "start",
+    "months": "styczeń,luty,marzec,kwiecień,maj,czerwiec,lipiec,sierpień,wrzesień,październik,listopad,grudzień",
+    "target_info_solar": "Pozostaw puste, aby oszacować na podstawie mocy szczytowej i lokalizacji.",
+    "custom_title": "Budżet na miesiąc",
+    "custom_text": "Wpisz budżet na każdy miesiąc albo wpisz sumę roczną i ją rozłóż.",
+    "custom_total": "Suma roczna",
+    "custom_even": "Rozłóż równo",
+    "custom_local": "Rozłóż według klimatu lokalnego",
+    "custom_months": "Miesiące",
+    "custom_sum": "Suma"
   }
 }

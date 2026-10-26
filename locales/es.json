@@ -35,6 +35,7 @@
   "error_value_not_number": "El valor no es un número",
   "error_budget_custom_12": "El presupuesto personalizado no tiene 12 valores numéricos",
   "error_budget_needed": "Introduce un presupuesto anual mayor que 0",
+  "error_budget_months": "Introduce 12 meses, con un total mayor que 0",
   "error_start_date": "La fecha de inicio debe ser ddmm, p. ej. 0101",
   "error_budget_invalid": "El presupuesto no es un número válido",
   "error_total_invalid": "Un total no puede ir en contra del sentido de conteo del contador.",
@@ -236,13 +237,13 @@
   "error_setup_no_price": "Elige un grupo de tarifa con un dispositivo Precio de la energía. Añade primero un dispositivo Precio de la energía si no hay ninguno.",
   "source_polled": "consultado",
   "budget": {
-    "start_date": "Fecha de inicio del año nuevo",
-    "start_date_info": "En esta fecha los totales del mes y del año vuelven a 0. Formato ddmm, por defecto 0101 (1 de enero). Tras un cambio, corrige los totales del mes y del año mediante Reparar.",
+    "start_date": "El año empieza el",
+    "start_date_info": "Los totales del mes y del año empiezan de nuevo este día y mes, y cada mes empieza este día. Tras un cambio, corrige los totales del mes y del año en Reparar > Corregir totales o costes.",
     "target": "Presupuesto objetivo anual",
     "distribution": "Esquema de distribución",
     "linear": "Lineal",
     "local": "Clima local (auto)",
-    "custom": "Personalizado (definir en presupuesto objetivo anual)",
+    "custom": "Personalizado (por mes)",
     "heating": "Calefacción",
     "heating_none": "No eléctrica (gas, gasóleo, calefacción urbana)",
     "heating_heat_pump": "Bomba de calor",
@@ -252,8 +253,16 @@
     "heating_gas_hybrid": "Bomba de calor híbrida",
     "heating_gas_none": "Sin calefacción de gas (cocina, agua caliente)",
     "cooling": "Aire acondicionado",
-    "target_info": "Con Personalizado: los 12 valores de ene a dic, separados por ;",
     "off": "Sin presupuesto",
-    "start": "inicio"
+    "start": "inicio",
+    "months": "enero,febrero,marzo,abril,mayo,junio,julio,agosto,septiembre,octubre,noviembre,diciembre",
+    "target_info_solar": "Déjalo vacío para estimarlo a partir de la potencia pico y tu ubicación.",
+    "custom_title": "Presupuesto por mes",
+    "custom_text": "Introduce el presupuesto por mes, o introduce un total anual y repártelo.",
+    "custom_total": "Total anual",
+    "custom_even": "Repartir por igual",
+    "custom_local": "Repartir según el clima local",
+    "custom_months": "Meses",
+    "custom_sum": "Total"
   }
 }

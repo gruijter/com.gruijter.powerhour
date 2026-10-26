@@ -35,6 +35,7 @@
   "error_value_not_number": "Wert ist keine Zahl",
   "error_budget_custom_12": "Benutzerdefiniertes Budget hat keine 12 Zahlenwerte",
   "error_budget_needed": "Gib ein Jahresbudget über 0 ein",
+  "error_budget_months": "Gib 12 Monate ein, mit einer Summe über 0",
   "error_start_date": "Startdatum muss ttmm sein, z. B. 0101",
   "error_budget_invalid": "Budget ist keine gültige Zahl",
   "error_total_invalid": "Eine Summe kann nicht gegen die Zählrichtung des Zählers laufen.",
@@ -236,13 +237,13 @@
   "error_setup_no_price": "Wählen Sie eine Tarifgruppe mit einem Energiepreis-Gerät. Fügen Sie zuerst ein Energiepreis-Gerät hinzu, falls es keines gibt.",
   "source_polled": "abgefragt",
   "budget": {
-    "start_date": "Startdatum neues Jahr",
-    "start_date_info": "An diesem Datum werden Monats- und Jahressumme auf 0 gesetzt. Format ttmm, Standard 0101 (1. Januar). Korrigieren Sie nach einer Änderung die Monats- und Jahressumme über Reparieren.",
+    "start_date": "Jahr beginnt am",
+    "start_date_info": "Monats- und Jahressumme beginnen an diesem Tag und Monat neu, und jeder Monat beginnt an diesem Tag. Korrigiere nach einer Änderung die Monats- und Jahressumme über Reparieren > Summen oder Kosten korrigieren.",
     "target": "Jahreszielbudget",
     "distribution": "Verteilungsschema",
     "linear": "Linear",
     "local": "Lokales Klima (auto)",
-    "custom": "Benutzerdefiniert (beim Jahreszielbudget angeben)",
+    "custom": "Benutzerdefiniert (pro Monat)",
     "heating": "Heizung",
     "heating_none": "Nicht elektrisch (Gas, Öl, Fernwärme)",
     "heating_heat_pump": "Wärmepumpe",
@@ -252,8 +253,16 @@
     "heating_gas_hybrid": "Hybrid-Wärmepumpe",
     "heating_gas_none": "Keine Gasheizung (Kochen, Warmwasser)",
     "cooling": "Klimaanlage",
-    "target_info": "Bei Benutzerdefiniert: die 12 Werte für Jan-Dez, getrennt durch ;",
     "off": "Kein Budget",
-    "start": "Start"
+    "start": "Start",
+    "months": "Januar,Februar,März,April,Mai,Juni,Juli,August,September,Oktober,November,Dezember",
+    "target_info_solar": "Leer lassen, um es aus der Spitzenleistung und deinem Standort zu schätzen.",
+    "custom_title": "Budget pro Monat",
+    "custom_text": "Gib das Budget pro Monat ein, oder gib eine Jahressumme ein und verteile sie.",
+    "custom_total": "Jahressumme",
+    "custom_even": "Gleichmäßig verteilen",
+    "custom_local": "Wie das lokale Klima verteilen",
+    "custom_months": "Monate",
+    "custom_sum": "Summe"
   }
 }

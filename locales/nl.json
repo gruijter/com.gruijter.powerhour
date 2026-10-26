@@ -35,6 +35,7 @@
   "error_value_not_number": "Waarde is geen getal",
   "error_budget_custom_12": "Aangepast budget heeft geen 12 getalwaarden",
   "error_budget_needed": "Vul een jaarbudget boven 0 in",
+  "error_budget_months": "Vul 12 maanden in, met een totaal boven 0",
   "error_start_date": "Startdatum moet ddmm zijn, bijv. 0101",
   "error_budget_invalid": "Budget is geen geldig getal",
   "error_total_invalid": "Een totaal kan niet tegen de telrichting van de meter ingaan.",
@@ -236,13 +237,13 @@
   "error_setup_no_price": "Kies een tariefgroep met een Energieprijs-apparaat. Voeg eerst een Energieprijs-apparaat toe als er nog geen is.",
   "source_polled": "gepolld",
   "budget": {
-    "start_date": "Start datum nieuw jaar",
-    "start_date_info": "Op deze datum gaan het maand- en jaartotaal naar 0. Formaat ddmm, standaard 0101 (1 januari). Herstel na een wijziging het maand- en jaartotaal via Repareren.",
+    "start_date": "Jaar begint op",
+    "start_date_info": "Het maand- en jaartotaal beginnen op deze dag en maand opnieuw, en elke maand begint op deze dag. Herstel na een wijziging het maand- en jaartotaal via Repareren > Totalen of kosten herstellen.",
     "target": "Jaar doelbudget",
     "distribution": "Verdeling schema",
     "linear": "Lineair",
     "local": "Lokaal klimaat (auto)",
-    "custom": "Handmatig (invullen bij jaar doelbudget)",
+    "custom": "Handmatig (per maand)",
     "heating": "Verwarming",
     "heating_none": "Niet elektrisch (gas, olie, stadswarmte)",
     "heating_heat_pump": "Warmtepomp",
@@ -252,8 +253,16 @@
     "heating_gas_hybrid": "Hybride warmtepomp",
     "heating_gas_none": "Geen gasverwarming (koken, warm water)",
     "cooling": "Airconditioning",
-    "target_info": "Bij Handmatig: de 12 waarden voor jan-dec, gescheiden door ;",
     "off": "Geen budget",
-    "start": "start"
+    "start": "start",
+    "months": "januari,februari,maart,april,mei,juni,juli,augustus,september,oktober,november,december",
+    "target_info_solar": "Laat leeg om het te schatten uit het piekvermogen en je locatie.",
+    "custom_title": "Budget per maand",
+    "custom_text": "Vul het budget per maand in, of vul een jaartotaal in en verdeel het.",
+    "custom_total": "Jaartotaal",
+    "custom_even": "Gelijk verdelen",
+    "custom_local": "Verdelen volgens lokaal klimaat",
+    "custom_months": "Maanden",
+    "custom_sum": "Totaal"
   }
 }

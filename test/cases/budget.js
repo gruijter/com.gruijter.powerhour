@@ -28,11 +28,18 @@ assert.deepStrictEqual(BS.defs(homey, 'gas').budget_heating.values.map((v) => v.
 assert.strictEqual(BS.defs(homey, 'gas').budget_cooling, undefined);
 assert.strictEqual(BS.defs(homey, 'solar').budget_heating, undefined);
 assert.deepStrictEqual(BS.defs(homey, 'battery'), {});
-assert.strictEqual(BS.summary(homey, { budget: '0', distribution: 'linear' }, 'grid'), 'No budget · start 0101');
+assert.strictEqual(BS.summary(homey, { budget: '0', distribution: 'linear' }, 'grid'), 'No budget · start 1 January');
 assert.strictEqual(BS.summary(homey, {
   budget: '4500', distribution: 'local', budget_heating: 'heat_pump', budget_cooling: true, start_date: '0107',
-}, 'grid'), '4500 kWh · Local climate (auto) · Heat pump · Air conditioning · start 0107');
-assert.strictEqual(BS.summary(homey, { budget: '1;1;1;1;1;1;1;1;1;1;1;1', distribution: 'CUSTOM' }, 'gas'), 'Custom · start 0101');
+}, 'grid'), '4500 kWh · Local climate · Heat pump · Air conditioning · start 1 July');
+assert.strictEqual(BS.summary(homey, { budget: '1;1;1;1;1;1;1;1;1;1;1;1', distribution: 'CUSTOM' }, 'gas'), '12 m³ · Custom · start 1 January');
 assert.strictEqual(BS.validStartDate(' 0101 '), '0101');
 assert.strictEqual(BS.validStartDate('3213'), null);
 assert.strictEqual(BS.validStartDate('101'), null);
+assert.strictEqual(BS.customBudget(['1', '2,5', 3, 0, 0, 0, 0, 0, 0, 0, 0, 0]), '1;2.5;3;0;0;0;0;0;0;0;0;0');
+assert.strictEqual(BS.customBudget(new Array(12).fill(0)), null, 'total 0');
+assert.strictEqual(BS.customBudget(['1', '-1', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]), null, 'negative');
+assert.strictEqual(BS.customBudget([1, 2]), null);
+assert.deepStrictEqual(BS.pairPreset('grid'), { budget: '2500', distribution: 'local' });
+assert.strictEqual(BS.pairPreset('power'), null);
+assert.strictEqual(BS.defs(homey, 'grid').start_date.months.length, 12);

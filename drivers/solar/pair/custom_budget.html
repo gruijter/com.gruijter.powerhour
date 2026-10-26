@@ -1,0 +1,108 @@
+<form class="homey-form" onsubmit="return false;" data-view="custom_budget">
+	<fieldset class="homey-form-fieldset">
+		<legend class="homey-form-legend" data-part="title"></legend>
+		<p class="homey-subtitle" data-i18n="budget.custom_text"></p>
+		<div class="homey-form-group">
+			<label class="homey-form-label" for="customTotal" data-part="totalLabel"></label>
+			<input class="homey-form-input" type="number" step="any" min="0" id="customTotal" data-part="total" style="box-sizing: border-box; width: 100%;">
+		</div>
+		<button class="homey-button-transparent" data-part="even" data-i18n="budget.custom_even"></button>
+		<button class="homey-button-transparent" data-part="local" data-i18n="budget.custom_local" style="display: none;"></button>
+	</fieldset>
+	<fieldset class="homey-form-fieldset">
+		<legend class="homey-form-legend" data-i18n="budget.custom_months"></legend>
+		<div data-part="months" style="display: grid; grid-template-columns: 1fr 1fr; column-gap: 12px;"></div>
+		<p class="homey-subtitle" data-part="sum"></p>
+	</fieldset>
+	<button class="homey-button-primary-full" data-part="next" data-i18n="repair.setup_next"></button>
+</form>
+
+<script>
+	// The same file in pair/ and repair/ of each driver with a year budget: the 12 months of a Custom
+	// budget (lib/helpers/PairSetup.js). Own scope and parts in its own form: the views of a session
+	// share one document.
+	(() => {
+		const forms = document.querySelectorAll('form[data-view="custom_budget"]');
+		const root = forms[forms.length - 1];
+		const part = (name) => root.querySelector(`[data-part="${name}"]`);
+		Homey.setTitle(Homey.__('budget.custom_title'));
+		const el = (tag, props = {}) => Object.assign(document.createElement(tag), props);
+		let unit = '';
+		let inputs = [];
+
+		const round = (v) => Math.round(v * 10) / 10;
+		const showSum = () => {
+			const sum = inputs.reduce((a, input) => a + (Number(String(input.value).replace(',', '.')) || 0), 0);
+			part('sum').textContent = `${Homey.__('budget.custom_sum')}: ${round(sum)} ${unit}`;
+		};
+		const spread = (shares) => {
+			const total = Number(String(part('total').value).replace(',', '.'));
+			if (!(total > 0) || !shares) return;
+			inputs.forEach((input, m) => {
+				input.value = round(total * shares[m]);
+			});
+			showSum();
+		};
+
+		async function load() {
+			try {
+				const data = await Homey.emit('custom_get');
+				unit = data.unit || '';
+				part('title').textContent = data.title || '';
+				part('totalLabel').textContent = `${Homey.__('budget.custom_total')} (${unit})`;
+				part('total').value = data.total || '';
+				inputs = (data.months || []).map((name, m) => {
+					const group = el('div', { className: 'homey-form-group' });
+					group.appendChild(el('label', { className: 'homey-form-label', htmlFor: `customMonth${m}`, textContent: name }));
+					const input = el('input', {
+						className: 'homey-form-input', type: 'number', step: 'any', min: '0', id: `customMonth${m}`, style: 'box-sizing: border-box; width: 100%;',
+					});
+					input.addEventListener('input', showSum);
+					group.appendChild(input);
+					part('months').appendChild(group);
+					return input;
+				});
+				const shares = data.shares || {};
+				part('even').addEventListener('click', () => spread(shares.even));
+				if (shares.local) {
+					part('local').style.display = '';
+					part('local').addEventListener('click', () => spread(shares.local));
+				}
+				// Present months, else the year total spread like the local climate or evenly.
+				if (Array.isArray(data.values)) {
+					inputs.forEach((input, m) => {
+						input.value = data.values[m];
+					});
+					showSum();
+				} else {
+					spread(shares.local || shares.even);
+					showSum();
+				}
+			} catch (error) {
+				Homey.alert(error.message || error, 'error');
+			} finally {
+				Homey.hideLoadingOverlay();
+			}
+		}
+
+		part('next').addEventListener('click', async () => {
+			const button = part('next');
+			if (button.classList.contains('is-loading')) return;
+			button.classList.add('is-loading');
+			try {
+				const result = await Homey.emit('custom_set', { values: inputs.map((input) => input.value) });
+				if (result && result.device) {
+					await Homey.createDevice(result.device);
+					Homey.done();
+					return;
+				}
+				Homey.showView('loading');
+			} catch (error) {
+				button.classList.remove('is-loading');
+				Homey.alert(error.message || error, 'error');
+			}
+		});
+
+		load();
+	})();
+</script>

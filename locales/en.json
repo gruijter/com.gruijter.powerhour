@@ -35,6 +35,7 @@
   "error_value_not_number": "Value is not a number",
   "error_budget_custom_12": "Custom budget does not have 12 number values",
   "error_budget_needed": "Enter a year budget above 0",
+  "error_budget_months": "Enter 12 months, with a total above 0",
   "error_start_date": "Start date must be ddmm, e.g. 0101",
   "error_budget_invalid": "Budget is not a valid number",
   "error_total_invalid": "A total cannot go against the counting direction of the meter.",
@@ -236,13 +237,13 @@
   "error_setup_no_price": "Choose a tariff group with a Energy Price device. Add a Energy Price device first if there is none.",
   "source_polled": "polled",
   "budget": {
-    "start_date": "New year start date",
-    "start_date_info": "On this date the month and year totals reset to 0. Format ddmm, default 0101 (1 January). After a change, fix the month and year totals via Repair.",
+    "start_date": "Year starts on",
+    "start_date_info": "The month and year totals start again on this day and month, and every month starts on this day. After a change, fix the month and year totals via Repair > Fix totals or costs.",
     "target": "Year target budget",
     "distribution": "Distribution scheme",
     "linear": "Linear",
     "local": "Local climate (auto)",
-    "custom": "Custom (define at year target budget)",
+    "custom": "Custom (per month)",
     "heating": "Heating",
     "heating_none": "Not electric (gas, oil, district heat)",
     "heating_heat_pump": "Heat pump",
@@ -252,8 +253,16 @@
     "heating_gas_hybrid": "Hybrid heat pump",
     "heating_gas_none": "No gas heating (cooking, hot water)",
     "cooling": "Air conditioning",
-    "target_info": "With Custom: the 12 values for Jan-Dec, separated by ;",
     "off": "No budget",
-    "start": "start"
+    "start": "start",
+    "months": "January,February,March,April,May,June,July,August,September,October,November,December",
+    "target_info_solar": "Leave empty to estimate it from the peak power and your location.",
+    "custom_title": "Budget per month",
+    "custom_text": "Fill in the budget per month, or enter a year total and spread it.",
+    "custom_total": "Year total",
+    "custom_even": "Spread evenly",
+    "custom_local": "Spread like the local climate",
+    "custom_months": "Months",
+    "custom_sum": "Total"
   }
 }

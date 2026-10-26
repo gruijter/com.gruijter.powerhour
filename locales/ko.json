@@ -35,6 +35,7 @@
   "error_value_not_number": "값이 숫자가 아닙니다",
   "error_budget_custom_12": "사용자 지정 예산에 12개의 숫자 값이 없습니다",
   "error_budget_needed": "0보다 큰 연간 예산을 입력하세요",
+  "error_budget_months": "합계가 0보다 큰 12개월을 입력하세요",
   "error_start_date": "시작일은 ddmm 형식이어야 합니다 (예: 0101)",
   "error_budget_invalid": "예산이 유효한 숫자가 아닙니다",
   "error_total_invalid": "합계는 계량기의 계수 방향과 반대일 수 없습니다.",
@@ -236,13 +237,13 @@
   "error_setup_no_price": "에너지 가격 기기가 있는 요금 그룹을 선택하세요. 없으면 먼저 에너지 가격 기기를 추가하세요.",
   "source_polled": "폴링",
   "budget": {
-    "start_date": "새해 시작일",
-    "start_date_info": "이 날짜에 월 및 연 합계가 0으로 초기화됩니다. 형식 ddmm, 기본값 0101(1월 1일). 변경 후에는 복구에서 월 및 연 합계를 수정하세요.",
+    "start_date": "연도 시작일",
+    "start_date_info": "월 및 연 합계는 이 날짜와 월에 다시 시작되며, 매월 이 날에 시작됩니다. 변경 후에는 복구 > 합계 또는 비용 수정에서 월 및 연 합계를 수정하세요.",
     "target": "연간 목표 예산",
     "distribution": "분배 방식",
     "linear": "선형",
     "local": "지역 기후 (자동)",
-    "custom": "사용자 지정 (연간 목표 예산에서 입력)",
+    "custom": "사용자 지정 (월별)",
     "heating": "난방",
     "heating_none": "전기 아님 (가스, 석유, 지역난방)",
     "heating_heat_pump": "히트펌프",
@@ -252,8 +253,16 @@
     "heating_gas_hybrid": "하이브리드 히트펌프",
     "heating_gas_none": "가스 난방 없음 (조리, 온수)",
     "cooling": "에어컨",
-    "target_info": "사용자 지정: 1월부터 12월까지 12개 값을 ;로 구분",
     "off": "예산 없음",
-    "start": "시작"
+    "start": "시작",
+    "months": "1월,2월,3월,4월,5월,6월,7월,8월,9월,10월,11월,12월",
+    "target_info_solar": "비워 두면 피크 출력과 위치로 추정합니다.",
+    "custom_title": "월별 예산",
+    "custom_text": "월별 예산을 입력하거나, 연간 합계를 입력해 분배하세요.",
+    "custom_total": "연간 합계",
+    "custom_even": "균등 분배",
+    "custom_local": "지역 기후에 따라 분배",
+    "custom_months": "월",
+    "custom_sum": "합계"
   }
 }

@@ -91,6 +91,12 @@
       "navigation": {
         "prev": "list_devices"
       }
+    },
+    {
+      "id": "custom_budget",
+      "navigation": {
+        "prev": "setup"
+      }
     }
   ],
   "repair": [
@@ -122,6 +128,9 @@
       "navigation": {
         "prev": "repair_start"
       }
+    },
+    {
+      "id": "custom_budget"
     },
     {
       "id": "loading",

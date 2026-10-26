@@ -35,6 +35,7 @@
   "error_value_not_number": "Värdet är inte ett nummer",
   "error_budget_custom_12": "Anpassad budget har inte 12 nummervärden",
   "error_budget_needed": "Ange en årsbudget över 0",
+  "error_budget_months": "Ange 12 månader, med en total över 0",
   "error_start_date": "Startdatum måste vara ddmm, t.ex. 0101",
   "error_budget_invalid": "Budgeten är inte ett giltigt nummer",
   "error_total_invalid": "En total kan inte gå mot mätarens räkneriktning.",
@@ -236,13 +237,13 @@
   "error_setup_no_price": "Välj en tariffgrupp med en Energipris-enhet. Lägg först till en Energipris-enhet om det inte finns någon.",
   "source_polled": "pollad",
   "budget": {
-    "start_date": "Nytt år startdatum",
-    "start_date_info": "På detta datum nollställs månads- och årstotalen. Format ddmm, standard 0101 (1 januari). Rätta efter en ändring månads- och årstotalen via Reparera.",
+    "start_date": "Året börjar",
+    "start_date_info": "Månads- och årstotalen börjar om denna dag och månad, och varje månad börjar denna dag. Rätta efter en ändring månads- och årstotalen via Reparera > Rätta totaler eller kostnader.",
     "target": "Årsmålbudget",
     "distribution": "Distributionsschema",
     "linear": "Linjär",
     "local": "Lokalt klimat (auto)",
-    "custom": "Anpassad (ange vid årsmålbudget)",
+    "custom": "Anpassad (per månad)",
     "heating": "Uppvärmning",
     "heating_none": "Inte elektrisk (gas, olja, fjärrvärme)",
     "heating_heat_pump": "Värmepump",
@@ -252,8 +253,16 @@
     "heating_gas_hybrid": "Hybridvärmepump",
     "heating_gas_none": "Ingen gasvärme (matlagning, varmvatten)",
     "cooling": "Luftkonditionering",
-    "target_info": "Med Anpassad: de 12 värdena för jan-dec, separerade med ;",
     "off": "Ingen budget",
-    "start": "start"
+    "start": "start",
+    "months": "januari,februari,mars,april,maj,juni,juli,augusti,september,oktober,november,december",
+    "target_info_solar": "Lämna tomt för att uppskatta det från toppeffekten och din plats.",
+    "custom_title": "Budget per månad",
+    "custom_text": "Fyll i budgeten per månad, eller ange en årstotal och fördela den.",
+    "custom_total": "Årstotal",
+    "custom_even": "Fördela jämnt",
+    "custom_local": "Fördela som det lokala klimatet",
+    "custom_months": "Månader",
+    "custom_sum": "Totalt"
   }
 }

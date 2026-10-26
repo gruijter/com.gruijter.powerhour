@@ -35,6 +35,7 @@
   "error_value_not_number": "La valeur n'est pas un nombre",
   "error_budget_custom_12": "Le budget personnalisé n'a pas 12 valeurs numériques",
   "error_budget_needed": "Saisissez un budget annuel supérieur à 0",
+  "error_budget_months": "Saisissez 12 mois, avec un total supérieur à 0",
   "error_start_date": "La date de début doit être jjmm, p. ex. 0101",
   "error_budget_invalid": "Le budget n'est pas un nombre valide",
   "error_total_invalid": "Un total ne peut pas aller contre le sens de comptage du compteur.",
@@ -236,13 +237,13 @@
   "error_setup_no_price": "Choisissez un groupe tarifaire avec un appareil Prix de l'énergie. Ajoutez d'abord un appareil Prix de l'énergie s'il n'y en a pas.",
   "source_polled": "interrogé",
   "budget": {
-    "start_date": "Date de début de nouvelle année",
-    "start_date_info": "À cette date, les totaux du mois et de l'année reviennent à 0. Format jjmm, par défaut 0101 (1er janvier). Après un changement, corrigez les totaux du mois et de l'année via Réparer.",
+    "start_date": "L'année commence le",
+    "start_date_info": "Les totaux du mois et de l'année repartent à ce jour et ce mois, et chaque mois commence ce jour-là. Après un changement, corrigez les totaux du mois et de l'année via Réparer > Corriger les totaux ou les coûts.",
     "target": "Budget cible annuel",
     "distribution": "Schéma de distribution",
     "linear": "Linéaire",
     "local": "Climat local (auto)",
-    "custom": "Personnalisé (à définir dans le budget cible annuel)",
+    "custom": "Personnalisé (par mois)",
     "heating": "Chauffage",
     "heating_none": "Non électrique (gaz, fioul, réseau de chaleur)",
     "heating_heat_pump": "Pompe à chaleur",
@@ -252,8 +253,16 @@
     "heating_gas_hybrid": "Pompe à chaleur hybride",
     "heating_gas_none": "Pas de chauffage gaz (cuisson, eau chaude)",
     "cooling": "Climatisation",
-    "target_info": "Avec Personnalisé : les 12 valeurs de janv. à déc., séparées par ;",
     "off": "Pas de budget",
-    "start": "début"
+    "start": "début",
+    "months": "janvier,février,mars,avril,mai,juin,juillet,août,septembre,octobre,novembre,décembre",
+    "target_info_solar": "Laissez vide pour l'estimer à partir de la puissance crête et de votre emplacement.",
+    "custom_title": "Budget par mois",
+    "custom_text": "Saisissez le budget par mois, ou saisissez un total annuel et répartissez-le.",
+    "custom_total": "Total annuel",
+    "custom_even": "Répartir uniformément",
+    "custom_local": "Répartir selon le climat local",
+    "custom_months": "Mois",
+    "custom_sum": "Total"
   }
 }

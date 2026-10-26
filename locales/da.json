@@ -35,6 +35,7 @@
   "error_value_not_number": "Værdien er ikke et tal",
   "error_budget_custom_12": "Brugerdefineret budget har ikke 12 talværdier",
   "error_budget_needed": "Angiv et årsbudget over 0",
+  "error_budget_months": "Angiv 12 måneder, med en total over 0",
   "error_start_date": "Startdato skal være ddmm, f.eks. 0101",
   "error_budget_invalid": "Budgettet er ikke et gyldigt tal",
   "error_total_invalid": "En total kan ikke gå imod målerens tælleretning.",
@@ -236,13 +237,13 @@
   "error_setup_no_price": "Vælg en tarifgruppe med en Energipris-enhed. Tilføj først en Energipris-enhed, hvis der ikke er nogen.",
   "source_polled": "pollet",
   "budget": {
-    "start_date": "Startdato for nytår",
-    "start_date_info": "På denne dato nulstilles måneds- og årstotalen. Format ddmm, standard 0101 (1. januar). Ret efter en ændring måneds- og årstotalen via Reparer.",
+    "start_date": "Året starter",
+    "start_date_info": "Måneds- og årstotalen starter forfra denne dag og måned, og hver måned starter denne dag. Ret efter en ændring måneds- og årstotalen via Reparer > Ret totaler eller omkostninger.",
     "target": "Årligt målbudget",
     "distribution": "Distributionsskema",
     "linear": "Lineær",
     "local": "Lokalt klima (auto)",
-    "custom": "Brugerdefineret (angiv ved årligt målbudget)",
+    "custom": "Brugerdefineret (pr. måned)",
     "heating": "Opvarmning",
     "heating_none": "Ikke elektrisk (gas, olie, fjernvarme)",
     "heating_heat_pump": "Varmepumpe",
@@ -252,8 +253,16 @@
     "heating_gas_hybrid": "Hybrid varmepumpe",
     "heating_gas_none": "Ingen gasopvarmning (madlavning, varmt vand)",
     "cooling": "Aircondition",
-    "target_info": "Med Brugerdefineret: de 12 værdier for jan-dec, adskilt af ;",
     "off": "Intet budget",
-    "start": "start"
+    "start": "start",
+    "months": "januar,februar,marts,april,maj,juni,juli,august,september,oktober,november,december",
+    "target_info_solar": "Lad stå tomt for at anslå det ud fra spidseffekten og din placering.",
+    "custom_title": "Budget pr. måned",
+    "custom_text": "Udfyld budgettet pr. måned, eller angiv en årstotal og fordel den.",
+    "custom_total": "Årstotal",
+    "custom_even": "Fordel jævnt",
+    "custom_local": "Fordel som det lokale klima",
+    "custom_months": "Måneder",
+    "custom_sum": "I alt"
   }
 }

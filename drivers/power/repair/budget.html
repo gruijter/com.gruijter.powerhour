@@ -58,6 +58,25 @@
 				const select = el('select', { className: 'homey-form-select', id: `set_${s.id}` });
 				s.options.forEach((opt) => select.appendChild(option(opt.id, opt.label, s.value)));
 				group.appendChild(select);
+			} else if (s.type === 'daymonth') {
+				// A day and a month ('ddmm' in a hidden field): days 1-28, so every month has it.
+				const value = /^\d{4}$/.test(String(s.value)) ? String(s.value) : '0101';
+				const hidden = el('input', { type: 'hidden', id: `set_${s.id}`, value });
+				const day = el('select', { className: 'homey-form-select', style: 'flex: 1;' });
+				const month = el('select', { className: 'homey-form-select', style: 'flex: 2;' });
+				const days = Math.max(28, Number(value.slice(0, 2)));
+				for (let d = 1; d <= days; d += 1) day.appendChild(option(d, String(d), Number(value.slice(0, 2))));
+				(s.months || []).forEach((name, m) => month.appendChild(option(m + 1, name, Number(value.slice(2, 4)))));
+				const update = () => {
+					hidden.value = `${String(day.value).padStart(2, '0')}${String(month.value).padStart(2, '0')}`;
+				};
+				day.addEventListener('change', update);
+				month.addEventListener('change', update);
+				const row = el('div', { style: 'display: flex; gap: 8px;' });
+				row.appendChild(day);
+				row.appendChild(month);
+				group.appendChild(row);
+				group.appendChild(hidden);
 			} else {
 				const field = el('input', {
 					className: 'homey-form-input', type: s.type === 'number' ? 'number' : 'text', id: `set_${s.id}`, value: s.value,
@@ -91,7 +110,8 @@
 			const parent = settingDefs.find((p) => p.id === s.showIf.id);
 			const field = input(s.showIf.id);
 			if (!parent || !field || !shown(parent)) return false;
-			return (parent.type === 'checkbox' ? field.checked : field.value) === s.showIf.value;
+			const value = parent.type === 'checkbox' ? field.checked : field.value;
+			return s.showIf.not !== undefined ? value !== s.showIf.not : value === s.showIf.value;
 		};
 		const showDependent = () => {
 			settingDefs.filter((s) => s.showIf).forEach((s) => {
@@ -161,7 +181,7 @@
 					Homey.done();
 					return;
 				}
-				Homey.showView('loading');
+				Homey.showView((result && result.next) || 'loading');
 			} catch (error) {
 				button.classList.remove('is-loading');
 				Homey.alert(error.message || error, 'error');
