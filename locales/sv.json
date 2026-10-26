@@ -22,6 +22,7 @@
   "device_migrating": "Enheten migrerar. Vänta!",
   "source_device_missing_retry": "Källenhet saknas. Försök igen om 10 minuter.",
   "source_device_missing_retrying": "Källenhet saknas. Försöker igen ..",
+  "virtual_via_flow": "Virtuell (via flöde)",
   "polling_failed": "Polling misslyckades. Försöker snart igen..",
   "source_device_missing_retry_named": "Källenhet %name% saknas. Försök igen om 10 minutter.",
   "error_device_not_ready": "Enheten är inte redo. Ignorerar nya inställningar!",

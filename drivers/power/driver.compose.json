@@ -233,7 +233,22 @@
             "ar": "معرف الجهاز",
             "ko": "장치 ID"
           },
-          "value": "unknown"
+          "value": "unknown",
+          "hint": {
+            "en": "Either Homey device or Virtual device. The meter of a virtual device can only be updated via a flow.",
+            "nl": "Homey apparaat of virtueel apparaat. De meter van een virtueel apparaat kan alleen worden geupdated via een flow.",
+            "de": "Homey Gerät oder virtuelles Gerät. Der Zähler eines virtuellen Geräts kann nur über einen Flow aktualisiert werden.",
+            "fr": "Soit un appareil Homey, soit un appareil virtuel. Le compteur d'un appareil virtuel ne peut être mis à jour que via un flow.",
+            "it": "Dispositivo Homey o dispositivo virtuale. Il contatore di un dispositivo virtuale può essere aggiornato solo tramite un flow.",
+            "sv": "Antingen Homey enhet eller virtuell enhet. Mätaren för en virtuell enhet kan endast uppdateras via ett flöde.",
+            "no": "Enten Homey enhet eller virtuell enhet. Meteret til en virtuell enhet kan bare oppdateres via en flow.",
+            "es": "Dispositivo Homey o dispositivo virtual. El medidor de un dispositivo virtual solo se puede actualizar a través de un flujo.",
+            "da": "Enten Homey-enhed eller virtuel enhed. Måleren på en virtuel enhed kan kun opdateres via et flow.",
+            "pl": "Urządzenie Homey lub urządzenie wirtualne. Licznik urządzenia wirtualnego można zaktualizować tylko za pomocą przepływu.",
+            "ru": "Либо устройство Homey, либо виртуальное устройство. Счетчик виртуального устройства можно обновить только через поток.",
+            "ar": "إما جهاز Homey أو جهاز افتراضي. لا يمكن تحديث عداد الجهاز الافتراضي إلا عبر التدفق.",
+            "ko": "Homey 장치 또는 가상 장치를 선택하세요. 가상 장치의 계량기는 flow를 통해서만 업데이트할 수 있습니다."
+          }
         },
         {
           "id": "homey_device_name",
@@ -254,41 +269,6 @@
             "ko": "장치 이름"
           },
           "value": "unknown"
-        },
-        {
-          "id": "source_device_type",
-          "type": "label",
-          "label": {
-            "en": "Source device type",
-            "nl": "Type bron apparaat",
-            "de": "Gerätetyp",
-            "fr": "Type d'appareil source",
-            "it": "Tipo dispositivo sorgente",
-            "sv": "Källenhetstyp",
-            "no": "Kildeenhetstype",
-            "es": "Tipo de dispositivo de origen",
-            "da": "Kildeenhedstype",
-            "pl": "Typ urządzenia źródłowego",
-            "ru": "Тип исходного устройства",
-            "ar": "نوع جهاز المصدر",
-            "ko": "소스 장치 유형"
-          },
-          "value": "Homey device",
-          "hint": {
-            "en": "Either Homey device or Virtual device. The meter of a virtual device can only be updated via a flow.",
-            "nl": "Homey apparaat of virtueel apparaat. De meter van een virtueel apparaat kan alleen worden geupdated via een flow.",
-            "de": "Homey Gerät oder virtuelles Gerät. Der Zähler eines virtuellen Geräts kann nur über einen Flow aktualisiert werden.",
-            "fr": "Soit un appareil Homey, soit un appareil virtuel. Le compteur d'un appareil virtuel ne peut être mis à jour que via un flow.",
-            "it": "Dispositivo Homey o dispositivo virtuale. Il contatore di un dispositivo virtuale può essere aggiornato solo tramite un flow.",
-            "sv": "Antingen Homey enhet eller virtuell enhet. Mätaren för en virtuell enhet kan endast uppdateras via ett flöde.",
-            "no": "Enten Homey enhet eller virtuell enhet. Meteret til en virtuell enhet kan bare oppdateres via en flow.",
-            "es": "Dispositivo Homey o dispositivo virtual. El medidor de un dispositivo virtual solo se puede actualizar a través de un flujo.",
-            "da": "Enten Homey-enhed eller virtuel enhed. Måleren på en virtuel enhed kan kun opdateres via et flow.",
-            "pl": "Urządzenie Homey lub urządzenie wirtualne. Licznik urządzenia wirtualnego można zaktualizować tylko za pomocą przepływu.",
-            "ru": "Либо устройство Homey, либо виртуальное устройство. Счетчик виртуального устройства можно обновить только через поток.",
-            "ar": "إما جهاز Homey أو جهاز افتراضي. لا يمكن تحديث عداد الجهاز الافتراضي إلا عبر التدفق.",
-            "ko": "Homey 장치 또는 가상 장치를 선택하세요. 가상 장치의 계량기는 flow를 통해서만 업데이트할 수 있습니다."
-          }
         },
         {
           "id": "source_capability",

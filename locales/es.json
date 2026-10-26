@@ -22,6 +22,7 @@
   "device_migrating": "El dispositivo está migrando. ¡Por favor espere!",
   "source_device_missing_retry": "Falta el dispositivo de origen. Reintentar en 10 minutos.",
   "source_device_missing_retrying": "Falta el dispositivo de origen. Reintentando ..",
+  "virtual_via_flow": "Virtual (vía flujo)",
   "polling_failed": "El sondeo falló. Reintentará pronto..",
   "source_device_missing_retry_named": "Falta el dispositivo de origen %name%. Reintentar en 10 minutos.",
   "error_device_not_ready": "El dispositivo no está listo. ¡Ignorando nuevas configuraciones!",

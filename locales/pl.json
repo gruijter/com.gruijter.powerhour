@@ -22,6 +22,7 @@
   "device_migrating": "Urządzenie jest migrowane. Proszę czekać!",
   "source_device_missing_retry": "Brak urządzenia źródłowego. Spróbuj ponownie za 10 minut.",
   "source_device_missing_retrying": "Brak urządzenia źródłowego. Ponawianie ..",
+  "virtual_via_flow": "Wirtualne (przez flow)",
   "polling_failed": "Odpytywanie nie powiodło się. Wkrótce spróbuję ponownie..",
   "source_device_missing_retry_named": "Brak urządzenia źródłowego %name%. Spróbuj ponownie za 10 minut.",
   "error_device_not_ready": "Urządzenie nie jest gotowe. Ignorowanie nowych ustawień!",

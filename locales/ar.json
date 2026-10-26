@@ -22,6 +22,7 @@
   "device_migrating": "الجهاز قيد الترحيل. يرجى الانتظار!",
   "source_device_missing_retry": "الجهاز المصدر مفقود. إعادة المحاولة خلال 10 دقائق.",
   "source_device_missing_retrying": "الجهاز المصدر مفقود. جاري إعادة المحاولة ..",
+  "virtual_via_flow": "افتراضي (عبر التدفق)",
   "polling_failed": "فشل الاستطلاع. سأحاول مرة أخرى قريبا..",
   "source_device_missing_retry_named": "الجهاز المصدر %name% مفقود. إعادة المحاولة خلال 10 دقائق.",
   "error_device_not_ready": "الجهاز غير جاهز. تجاهل الإعدادات الجديدة!",

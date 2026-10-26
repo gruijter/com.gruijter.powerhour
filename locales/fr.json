@@ -22,6 +22,7 @@
   "device_migrating": "L'appareil est en cours de migration. Veuillez patienter !",
   "source_device_missing_retry": "L'appareil source est manquant. Réessayez dans 10 minutes.",
   "source_device_missing_retrying": "L'appareil source est manquant. Nouvelle tentative ..",
+  "virtual_via_flow": "Virtuel (via flow)",
   "polling_failed": "L'interrogation a échoué. Réessayera bientôt..",
   "source_device_missing_retry_named": "L'appareil source %name% est manquant. Réessayez dans 10 minutes.",
   "error_device_not_ready": "L'appareil n'est pas prêt. Les nouveaux paramètres sont ignorés !",

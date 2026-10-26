@@ -22,6 +22,7 @@
   "device_migrating": "Enheten migrerer. Vennligst vent!",
   "source_device_missing_retry": "Kildeenhet mangler. Prøv igjen om 10 minutter.",
   "source_device_missing_retrying": "Kildeenhet mangler. Prøver på nytt ..",
+  "virtual_via_flow": "Virtuell (via flow)",
   "polling_failed": "Polling mislyktes. Vil prøve igjen snart..",
   "source_device_missing_retry_named": "Kildeenhet %name% mangler. Prøv igjen om 10 minutter.",
   "error_device_not_ready": "Enheten er ikke klar. Ignorerer nye innstillinger!",

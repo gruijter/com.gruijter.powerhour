@@ -22,6 +22,7 @@
   "device_migrating": "Device is migrating. Please wait!",
   "source_device_missing_retry": "Source device is missing. Retry in 10 minutes.",
   "source_device_missing_retrying": "Source device is missing. Retrying ..",
+  "virtual_via_flow": "Virtual (via flow)",
   "polling_failed": "Polling failed. Will retry soon..",
   "source_device_missing_retry_named": "Source device %name% is missing. Retry in 10 minutes.",
   "error_device_not_ready": "Device is not ready. Ignoring new settings!",
