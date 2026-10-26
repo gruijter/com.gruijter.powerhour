@@ -58,8 +58,6 @@
   "migration_warning_replace": "Replaced by Energy Price. Add an Energy Price device.",
   "migration_warning_taken": "Taken over by __new__. Adjust flows, then delete this device.",
   "repair": {
-    "warningtitle": "WARNING",
-    "evChargerWarningText": "You are about to change the linked EV charger and/or EV car. This will keep all insights and flows. But if the new charger has a different meter value, you will need to manually compensate the meter and money start values in the advanced settings.",
     "ev_caps_title": "Charger and car capabilities",
     "ev_caps_text": "Which capability of the charger and the car to use. Automatic: recognised by its id.",
     "car_no_car": "No car linked.",

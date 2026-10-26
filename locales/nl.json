@@ -58,8 +58,6 @@
   "migration_warning_replace": "Vervangen door Energieprijs. Voeg een Energieprijs-apparaat toe.",
   "migration_warning_taken": "Overgenomen door __new__. Pas flows aan en verwijder daarna dit apparaat.",
   "repair": {
-    "warningtitle": "WAARSCHUWING",
-    "evChargerWarningText": "Je staat op het punt de gekoppelde EV-lader en/of EV-auto te wijzigen. Dit behoudt alle inzichten en flows. Maar als de nieuwe lader een andere meterstand heeft, moet je de meter- en geldstartwaarden handmatig compenseren in de geavanceerde instellingen.",
     "ev_caps_title": "Lader- en auto-capabilities",
     "ev_caps_text": "Welke capability van de lader en de auto te gebruiken. Automatisch: herkend aan de id.",
     "car_no_car": "Geen auto gekoppeld.",

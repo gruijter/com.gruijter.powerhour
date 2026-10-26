@@ -58,8 +58,6 @@
   "migration_warning_replace": "Ersetzt durch Energiepreis. Füge ein Energiepreis-Gerät hinzu.",
   "migration_warning_taken": "Von __new__ übernommen. Flows anpassen, dann dieses Gerät löschen.",
   "repair": {
-    "warningtitle": "WARNUNG",
-    "evChargerWarningText": "Sie sind im Begriff, den verknüpften EV-Lader und/oder das EV-Auto zu ändern. Dies bewahrt alle Einblicke und Flows. Wenn der neue Lader jedoch einen anderen Zählerstand hat, müssen Sie die Zähler- und Geldstartwerte in den erweiterten Einstellungen manuell kompensieren.",
     "ev_caps_title": "Lader- und Fahrzeug-Capabilities",
     "ev_caps_text": "Welche Capability des Laders und des Autos verwendet wird. Automatisch: an der ID erkannt.",
     "car_no_car": "Kein Auto verknüpft.",

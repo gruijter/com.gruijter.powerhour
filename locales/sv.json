@@ -58,8 +58,6 @@
   "migration_warning_replace": "Ersatt av Energipris. Lägg till en Energipris-enhet.",
   "migration_warning_taken": "Övertagen av __new__. Anpassa flöden och ta sedan bort denna enhet.",
   "repair": {
-    "warningtitle": "VARNING",
-    "evChargerWarningText": "Du håller på att byta den länkade EV-laddaren och/eller EV-bilen. Detta bevarar alla insikter och flöden. Men om den nya laddaren har en annan mätarställning måste du manuellt kompensera mätar- och pengastartvärdena i de avancerade inställningarna.",
     "ev_caps_title": "Laddarens och bilens capabilities",
     "ev_caps_text": "Vilken capability i laddaren och bilen som används. Automatisk: känns igen på id.",
     "car_no_car": "Ingen bil kopplad.",

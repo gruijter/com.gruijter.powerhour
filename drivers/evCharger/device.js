@@ -1625,6 +1625,12 @@ class CarChargeDevice extends GenericDevice {
     await this.setStoreValue('meterAddsToMeter', true).catch(this.error);
   }
 
+  // Repair fix_values: money only. The charged counter feeds the SoC estimate and session energy
+  // (_readChargedKwh()): a correction there would show up as charged kWh.
+  fixMeterCaps() {
+    return [];
+  }
+
   // Devices paired before the charging total existed for kWh-meter chargers: start from the kWh
   // counted since pairing (the period meters start at pairing).
   async _seedChargingTotal() {

@@ -95,10 +95,7 @@
   ],
   "repair": [
     {
-      "id": "repair_warning",
-      "navigation": {
-        "next": "list_devices"
-      }
+      "id": "repair_start"
     },
     {
       "id": "list_devices",
@@ -107,6 +104,7 @@
         "singular": true
       },
       "navigation": {
+        "prev": "repair_start",
         "next": "setup"
       }
     },
@@ -115,6 +113,9 @@
       "navigation": {
         "prev": "list_devices"
       }
+    },
+    {
+      "id": "fix_values"
     },
     {
       "id": "loading",

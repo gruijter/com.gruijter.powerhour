@@ -58,8 +58,6 @@
   "migration_warning_replace": "Sustituido por Precio de la energía. Añade un dispositivo Precio de la energía.",
   "migration_warning_taken": "Sustituido por __new__. Ajusta los flujos y después elimina este dispositivo.",
   "repair": {
-    "warningtitle": "ADVERTENCIA",
-    "evChargerWarningText": "Estás a punto de cambiar el cargador EV y/o el coche EV vinculados. Esto conserva todos los conocimientos y flujos. Pero si el nuevo cargador tiene una lectura de medidor diferente, debe compensar manualmente los valores de inicio del medidor y del dinero en la configuración avanzada.",
     "ev_caps_title": "Capacidades del cargador y del coche",
     "ev_caps_text": "Qué capacidad del cargador y del coche usar. Automático: reconocida por su id.",
     "car_no_car": "Ningún coche vinculado.",

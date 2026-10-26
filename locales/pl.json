@@ -58,8 +58,6 @@
   "migration_warning_replace": "Zastąpione przez Cenę energii. Dodaj urządzenie Cena energii.",
   "migration_warning_taken": "Przejęte przez __new__. Dostosuj przepływy, a potem usuń to urządzenie.",
   "repair": {
-    "warningtitle": "OSTRZEŻENIE",
-    "evChargerWarningText": "Zamierzasz zmienić połączoną ładowarkę EV i/lub samochód EV. Zachowa to wszystkie statystyki i przepływy. Ale jeśli nowa ładowarka ma inny odczyt licznika, musisz ręcznie skompensować wartości początkowe licznika i pieniędzy w ustawieniach zaawansowanych.",
     "ev_caps_title": "Funkcje ładowarki i samochodu",
     "ev_caps_text": "Której funkcji ładowarki i samochodu użyć. Automatycznie: rozpoznana po id.",
     "car_no_car": "Brak połączonego samochodu.",
