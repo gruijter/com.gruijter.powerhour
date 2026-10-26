@@ -84,9 +84,7 @@
     "setup_map_manually": "przypisz ręcznie",
     "setup_role_meter": "Licznik",
     "setup_role_p1": "Licznik poboru",
-    "setup_role_p2": "Licznik poboru 2",
     "setup_role_n1": "Licznik oddania",
-    "setup_role_n2": "Licznik oddania 2",
     "setup_role_soc": "Stan naładowania",
     "setup_role_power": "Moc",
     "setup_role_chargePower": "Moc ładowania",
@@ -127,7 +125,11 @@
     "fix_apply": "Popraw",
     "fix_nothing": "Nic nie zostało zmienione.",
     "fix_none": "Na razie nie ma czego poprawiać: poczekaj na pierwszy odczyt.",
-    "back": "Wstecz"
+    "back": "Wstecz",
+    "setup_role_p1_low": "Licznik poboru (taryfa niska lub jedna)",
+    "setup_role_p2_normal": "Licznik poboru (taryfa normalna)",
+    "setup_role_n1_low": "Licznik oddawania (taryfa niska lub jedna)",
+    "setup_role_n2_normal": "Licznik oddawania (taryfa normalna)"
   },
   "load_forecast_accuracy": "Śr. błąd __mae__ W (__pct__%), odchylenie __bias__ W, __days__ dni",
   "load_forecast_accuracy_collecting": "Zbieranie danych",

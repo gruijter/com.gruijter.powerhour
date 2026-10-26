@@ -84,9 +84,7 @@
     "setup_map_manually": "수동 지정",
     "setup_role_meter": "계량기",
     "setup_role_p1": "수입 계량기",
-    "setup_role_p2": "수입 계량기 2",
     "setup_role_n1": "수출 계량기",
-    "setup_role_n2": "수출 계량기 2",
     "setup_role_soc": "충전 상태",
     "setup_role_power": "전력",
     "setup_role_chargePower": "충전 전력",
@@ -127,7 +125,11 @@
     "fix_apply": "수정",
     "fix_nothing": "변경된 내용이 없습니다.",
     "fix_none": "아직 수정할 것이 없습니다: 첫 계량기 값을 기다리세요.",
-    "back": "뒤로"
+    "back": "뒤로",
+    "setup_role_p1_low": "수전 계량기 (저율 또는 단일 요금)",
+    "setup_role_p2_normal": "수전 계량기 (일반 요금)",
+    "setup_role_n1_low": "송전 계량기 (저율 또는 단일 요금)",
+    "setup_role_n2_normal": "송전 계량기 (일반 요금)"
   },
   "load_forecast_accuracy": "평균 오차 __mae__ W (__pct__%), 편향 __bias__ W, __days__일",
   "load_forecast_accuracy_collecting": "데이터 수집 중",

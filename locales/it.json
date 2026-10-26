@@ -84,9 +84,7 @@
     "setup_map_manually": "associa manualmente",
     "setup_role_meter": "Contatore",
     "setup_role_p1": "Contatore prelievo",
-    "setup_role_p2": "Contatore prelievo 2",
     "setup_role_n1": "Contatore immissione",
-    "setup_role_n2": "Contatore immissione 2",
     "setup_role_soc": "Stato di carica",
     "setup_role_power": "Potenza",
     "setup_role_chargePower": "Potenza di carica",
@@ -127,7 +125,11 @@
     "fix_apply": "Correggi",
     "fix_nothing": "Non è stato modificato nulla.",
     "fix_none": "Ancora niente da correggere: attendi la prima lettura.",
-    "back": "Indietro"
+    "back": "Indietro",
+    "setup_role_p1_low": "Contatore prelievo (fascia bassa o unica)",
+    "setup_role_p2_normal": "Contatore prelievo (fascia normale)",
+    "setup_role_n1_low": "Contatore immissione (fascia bassa o unica)",
+    "setup_role_n2_normal": "Contatore immissione (fascia normale)"
   },
   "load_forecast_accuracy": "Errore medio __mae__ W (__pct__%), bias __bias__ W, __days__ giorni",
   "load_forecast_accuracy_collecting": "Raccolta dati",

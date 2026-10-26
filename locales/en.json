@@ -84,9 +84,7 @@
     "setup_map_manually": "map manually",
     "setup_role_meter": "Meter",
     "setup_role_p1": "Import meter",
-    "setup_role_p2": "Import meter 2",
     "setup_role_n1": "Export meter",
-    "setup_role_n2": "Export meter 2",
     "setup_role_soc": "State of charge",
     "setup_role_power": "Power",
     "setup_role_chargePower": "Charging power",
@@ -127,7 +125,11 @@
     "fix_apply": "Fix",
     "fix_nothing": "Nothing has been changed.",
     "fix_none": "Nothing to fix yet: wait for the first meter reading.",
-    "back": "Back"
+    "back": "Back",
+    "setup_role_p1_low": "Import meter (low or single tariff)",
+    "setup_role_p2_normal": "Import meter (normal tariff)",
+    "setup_role_n1_low": "Export meter (low or single tariff)",
+    "setup_role_n2_normal": "Export meter (normal tariff)"
   },
   "load_forecast_accuracy": "Avg error __mae__ W (__pct__%), bias __bias__ W, __days__ days",
   "load_forecast_accuracy_collecting": "Collecting data",

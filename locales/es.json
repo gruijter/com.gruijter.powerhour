@@ -84,9 +84,7 @@
     "setup_map_manually": "asignar manualmente",
     "setup_role_meter": "Contador",
     "setup_role_p1": "Contador importación",
-    "setup_role_p2": "Contador importación 2",
     "setup_role_n1": "Contador exportación",
-    "setup_role_n2": "Contador exportación 2",
     "setup_role_soc": "Estado de carga",
     "setup_role_power": "Potencia",
     "setup_role_chargePower": "Potencia de carga",
@@ -127,7 +125,11 @@
     "fix_apply": "Corregir",
     "fix_nothing": "No se ha cambiado nada.",
     "fix_none": "Aún no hay nada que corregir: espera la primera lectura.",
-    "back": "Atrás"
+    "back": "Atrás",
+    "setup_role_p1_low": "Contador consumo (tarifa baja o única)",
+    "setup_role_p2_normal": "Contador consumo (tarifa normal)",
+    "setup_role_n1_low": "Contador vertido (tarifa baja o única)",
+    "setup_role_n2_normal": "Contador vertido (tarifa normal)"
   },
   "load_forecast_accuracy": "Error medio __mae__ W (__pct__%), sesgo __bias__ W, __days__ días",
   "load_forecast_accuracy_collecting": "Recopilando datos",

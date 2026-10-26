@@ -84,9 +84,7 @@
     "setup_map_manually": "назначить вручную",
     "setup_role_meter": "Счётчик",
     "setup_role_p1": "Счётчик импорта",
-    "setup_role_p2": "Счётчик импорта 2",
     "setup_role_n1": "Счётчик экспорта",
-    "setup_role_n2": "Счётчик экспорта 2",
     "setup_role_soc": "Уровень заряда",
     "setup_role_power": "Мощность",
     "setup_role_chargePower": "Мощность заряда",
@@ -127,7 +125,11 @@
     "fix_apply": "Исправить",
     "fix_nothing": "Ничего не изменено.",
     "fix_none": "Пока нечего исправлять: дождитесь первых показаний.",
-    "back": "Назад"
+    "back": "Назад",
+    "setup_role_p1_low": "Счётчик потребления (ночной или единый тариф)",
+    "setup_role_p2_normal": "Счётчик потребления (дневной тариф)",
+    "setup_role_n1_low": "Счётчик отдачи (ночной или единый тариф)",
+    "setup_role_n2_normal": "Счётчик отдачи (дневной тариф)"
   },
   "load_forecast_accuracy": "Ср. ошибка __mae__ Вт (__pct__%), смещение __bias__ Вт, __days__ дн.",
   "load_forecast_accuracy_collecting": "Сбор данных",

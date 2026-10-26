@@ -84,9 +84,7 @@
     "setup_map_manually": "koppla manuellt",
     "setup_role_meter": "Mätare",
     "setup_role_p1": "Mätare import",
-    "setup_role_p2": "Mätare import 2",
     "setup_role_n1": "Mätare export",
-    "setup_role_n2": "Mätare export 2",
     "setup_role_soc": "Laddningsnivå",
     "setup_role_power": "Effekt",
     "setup_role_chargePower": "Laddeffekt",
@@ -127,7 +125,11 @@
     "fix_apply": "Rätta",
     "fix_nothing": "Inget har ändrats.",
     "fix_none": "Inget att rätta ännu: vänta på den första mätarställningen.",
-    "back": "Tillbaka"
+    "back": "Tillbaka",
+    "setup_role_p1_low": "Mätare import (låg- eller enkeltariff)",
+    "setup_role_p2_normal": "Mätare import (normaltariff)",
+    "setup_role_n1_low": "Mätare export (låg- eller enkeltariff)",
+    "setup_role_n2_normal": "Mätare export (normaltariff)"
   },
   "load_forecast_accuracy": "Medelfel __mae__ W (__pct__%), bias __bias__ W, __days__ dagar",
   "load_forecast_accuracy_collecting": "Samlar in data",

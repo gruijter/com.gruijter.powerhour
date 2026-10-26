@@ -84,9 +84,7 @@
     "setup_map_manually": "tilknyt manuelt",
     "setup_role_meter": "Måler",
     "setup_role_p1": "Måler import",
-    "setup_role_p2": "Måler import 2",
     "setup_role_n1": "Måler eksport",
-    "setup_role_n2": "Måler eksport 2",
     "setup_role_soc": "Opladningsniveau",
     "setup_role_power": "Effekt",
     "setup_role_chargePower": "Ladeeffekt",
@@ -127,7 +125,11 @@
     "fix_apply": "Ret",
     "fix_nothing": "Intet er ændret.",
     "fix_none": "Intet at rette endnu: vent på den første målerstand.",
-    "back": "Tilbage"
+    "back": "Tilbage",
+    "setup_role_p1_low": "Måler import (lav- eller enkelttarif)",
+    "setup_role_p2_normal": "Måler import (normaltarif)",
+    "setup_role_n1_low": "Måler eksport (lav- eller enkelttarif)",
+    "setup_role_n2_normal": "Måler eksport (normaltarif)"
   },
   "load_forecast_accuracy": "Gns. afvigelse __mae__ W (__pct__%), bias __bias__ W, __days__ dage",
   "load_forecast_accuracy_collecting": "Indsamler data",

@@ -84,9 +84,7 @@
     "setup_map_manually": "manuell zuordnen",
     "setup_role_meter": "Zähler",
     "setup_role_p1": "Bezugszähler",
-    "setup_role_p2": "Bezugszähler 2",
     "setup_role_n1": "Einspeisezähler",
-    "setup_role_n2": "Einspeisezähler 2",
     "setup_role_soc": "Ladezustand",
     "setup_role_power": "Leistung",
     "setup_role_chargePower": "Ladeleistung",
@@ -127,7 +125,11 @@
     "fix_apply": "Korrigieren",
     "fix_nothing": "Es wurde nichts geändert.",
     "fix_none": "Noch nichts zu korrigieren: warten Sie auf den ersten Zählerstand.",
-    "back": "Zurück"
+    "back": "Zurück",
+    "setup_role_p1_low": "Zähler Bezug (Nieder- oder Einheitstarif)",
+    "setup_role_p2_normal": "Zähler Bezug (Normaltarif)",
+    "setup_role_n1_low": "Zähler Einspeisung (Nieder- oder Einheitstarif)",
+    "setup_role_n2_normal": "Zähler Einspeisung (Normaltarif)"
   },
   "load_forecast_accuracy": "Mittl. Fehler __mae__ W (__pct__%), Bias __bias__ W, __days__ Tage",
   "load_forecast_accuracy_collecting": "Daten werden gesammelt",

@@ -84,9 +84,7 @@
     "setup_map_manually": "associer manuellement",
     "setup_role_meter": "Compteur",
     "setup_role_p1": "Compteur import",
-    "setup_role_p2": "Compteur import 2",
     "setup_role_n1": "Compteur export",
-    "setup_role_n2": "Compteur export 2",
     "setup_role_soc": "État de charge",
     "setup_role_power": "Puissance",
     "setup_role_chargePower": "Puissance de charge",
@@ -127,7 +125,11 @@
     "fix_apply": "Corriger",
     "fix_nothing": "Rien n'a été modifié.",
     "fix_none": "Rien à corriger pour l'instant : attendez le premier relevé.",
-    "back": "Retour"
+    "back": "Retour",
+    "setup_role_p1_low": "Compteur consommation (heures creuses ou tarif unique)",
+    "setup_role_p2_normal": "Compteur consommation (heures pleines)",
+    "setup_role_n1_low": "Compteur injection (heures creuses ou tarif unique)",
+    "setup_role_n2_normal": "Compteur injection (heures pleines)"
   },
   "load_forecast_accuracy": "Écart moyen __mae__ W (__pct__%), biais __bias__ W, __days__ jours",
   "load_forecast_accuracy_collecting": "Collecte des données",

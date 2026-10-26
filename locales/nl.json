@@ -84,9 +84,7 @@
     "setup_map_manually": "handmatig koppelen",
     "setup_role_meter": "Meter",
     "setup_role_p1": "Meter afname",
-    "setup_role_p2": "Meter afname 2",
     "setup_role_n1": "Meter teruglevering",
-    "setup_role_n2": "Meter teruglevering 2",
     "setup_role_soc": "Laadtoestand",
     "setup_role_power": "Vermogen",
     "setup_role_chargePower": "Laadvermogen",
@@ -127,7 +125,11 @@
     "fix_apply": "Herstellen",
     "fix_nothing": "Er is niets gewijzigd.",
     "fix_none": "Nog niets te herstellen: wacht op de eerste meterstand.",
-    "back": "Terug"
+    "back": "Terug",
+    "setup_role_p1_low": "Meter afname (dal- of enkeltarief)",
+    "setup_role_p2_normal": "Meter afname (normaaltarief)",
+    "setup_role_n1_low": "Meter teruglevering (dal- of enkeltarief)",
+    "setup_role_n2_normal": "Meter teruglevering (normaaltarief)"
   },
   "load_forecast_accuracy": "Gem. afwijking __mae__ W (__pct__%), bias __bias__ W, __days__ dagen",
   "load_forecast_accuracy_collecting": "Gegevens verzamelen",
