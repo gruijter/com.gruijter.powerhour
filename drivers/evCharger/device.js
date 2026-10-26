@@ -789,7 +789,7 @@ class CarChargeDevice extends GenericDevice {
       if (carCaps) statusKeys.forEach((key) => tms.push(tmOf(read(carCaps, this.carCapGroup[key]))));
       const valid = tms.filter((t) => t !== null);
       const reportTm = valid.length ? Math.max(...valid) : null;
-      const baseTm = this.socEstimator.baseTm || 0;
+      const baseTm = Math.max(this.socEstimator.baseTm || 0, this.socEstimator.ignoredTm || 0);
       const socChanged = soc !== this.socEstimator.baseSoc;
       if ((reportTm !== null && reportTm > baseTm) || (reportTm === null && socChanged)) {
         const odo = Number(read(carCaps, this.carCapGroup.odometer)?.value);
@@ -804,10 +804,16 @@ class CarChargeDevice extends GenericDevice {
 
   async _applySocReport(soc, tm, odo = null) {
     const capacity = this.getSettings().batCapacity || 50;
-    const { state, sample } = EvSocEstimator.onReport(this.socEstimator, {
+    const { state, sample, ignored } = EvSocEstimator.onReport(this.socEstimator, {
       soc, tm, kwhCounter: this._readChargedKwh(), odo,
     }, capacity);
     this.socEstimator = state;
+    if (ignored) {
+      this.log(`[EV SoC] Car reported ${soc}%, under ${state.baseSoc}% while parked and charging: stale, ignored`);
+      await this.setStoreValue('socEstimator', this.socEstimator).catch(this.error);
+      await this._appendPlanLog(`stale car SoC ${soc}% ignored (base ${state.baseSoc}%)`).catch(this.error);
+      return;
+    }
     this.log(`[EV SoC] Car reported ${soc}%${odo !== null ? ` @ ${odo} km` : ''}`
       + `${sample !== null ? `, efficiency sample ${Math.round(sample * 100)}% -> ${Math.round(state.efficiency * 100)}%` : ''}`);
     await this.setStoreValue('socEstimator', this.socEstimator).catch(this.error);

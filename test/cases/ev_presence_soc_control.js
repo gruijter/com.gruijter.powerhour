@@ -107,6 +107,31 @@ assert.strictEqual(S.rebaseCounter(r.state, 5, 99).effAnchor, null);
 assert.strictEqual(S.counterWentBack(r.state, 5), true);
 const rb = S.rebaseCounter(r.state, 5, 99);
 assert.strictEqual(S.estimate(rb, 5, cap), 99);
+// Prod 2026-10-25: parked and charging, the Kia cloud sent 66% after 80%: stale, ignored
+let k = S.onReport(S.createState(), {
+  soc: 80, tm: now, kwhCounter: 1000, odo: 119023,
+}, cap).state;
+r = S.onReport(k, {
+  soc: 66, tm: now + 1, kwhCounter: 1004, odo: 119023,
+}, cap);
+assert.strictEqual(r.ignored, true, 'lower while parked and charging: stale');
+assert.deepStrictEqual([r.state.baseSoc, r.state.baseTm, r.state.ignoredTm], [80, now, now + 1], 'base kept');
+k = r.state;
+assert.strictEqual(S.onReport(k, {
+  soc: 79, tm: now + 2, kwhCounter: 1005, odo: 119023,
+}, cap).ignored, undefined, 'within rounding: accepted');
+assert.strictEqual(S.onReport(k, {
+  soc: 60, tm: now + 2, kwhCounter: 1005, odo: 119050,
+}, cap).ignored, undefined, 'after a trip: accepted');
+assert.strictEqual(S.onReport(k, {
+  soc: 70, tm: now + 2, kwhCounter: 1000, odo: 119023,
+}, cap).ignored, undefined, 'not charged since: accepted');
+assert.strictEqual(S.onReport(k, {
+  soc: 70, tm: now + 2, kwhCounter: 1005, odo: null,
+}, cap).ignored, undefined, 'no odometer (manual): accepted');
+assert.strictEqual(S.onReport(k, {
+  soc: 100, tm: now + 3, kwhCounter: 1015, odo: 119023,
+}, cap).state.baseSoc, 100, 'higher: accepted');
 
 // --- Control ---
 const interval = 15 * min;
