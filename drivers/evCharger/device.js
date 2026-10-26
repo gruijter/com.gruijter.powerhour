@@ -805,7 +805,7 @@ class CarChargeDevice extends GenericDevice {
   async _applySocReport(soc, tm, odo = null) {
     const capacity = this.getSettings().batCapacity || 50;
     const { state, sample, ignored } = EvSocEstimator.onReport(this.socEstimator, {
-      soc, tm, kwhCounter: this._readChargedKwh(), odo,
+      soc, tm, kwhCounter: this._readChargedKwh(), odo, v2x: !!this.getSettings().v2x,
     }, capacity);
     this.socEstimator = state;
     if (ignored) {

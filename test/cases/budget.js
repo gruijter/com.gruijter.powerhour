@@ -14,8 +14,18 @@ assert.strictEqual(B.isActive('CUSTOM', '0;0;0;0;0;0;0;0;0;0;0;0'), false);
 assert.strictEqual(B.isActive('CUSTOM', '1;0;0;0;0;0;0;0;0;0;0;0'), true);
 assert.strictEqual(B.isActive('CUSTOM', '2900'), false);
 assert.deepStrictEqual(BS.migrate({ distribution: 'NONE', budget: '2900' }, 'grid'), { budget: '0', distribution: 'linear' });
-assert.deepStrictEqual(BS.migrate({ distribution: 'pv_52n_t40s', budget: '2900' }, 'grid'), { distribution: 'local' });
-assert.deepStrictEqual(BS.migrate({ distribution: 'el_nl_2023', budget: '2900' }, 'solar'), { distribution: 'local' });
+assert.deepStrictEqual(BS.migrate({ distribution: 'el_nl_2023', budget: '2900' }, 'grid'), { distribution: 'local' });
+assert.deepStrictEqual(BS.migrate({ distribution: 'pv_52n_t40s', budget: '2900' }, 'solar'), { distribution: 'local' });
+{
+  const pvOnPower = BS.migrate({ distribution: 'pv_52n_t40s', budget: '1000' }, 'power');
+  assert.strictEqual(pvOnPower.distribution, 'CUSTOM', 'another kind keeps its shape');
+  const months = pvOnPower.budget.split(';').map(Number);
+  assert.strictEqual(months.length, 12);
+  assert.ok(months[5] > months[11] * 3, 'summer peak kept');
+  assert.ok(Math.abs(months.reduce((a, v) => a + v, 0) - 1000) < 1);
+  assert.strictEqual(B.invalidReason('CUSTOM', pvOnPower.budget), null);
+}
+assert.deepStrictEqual(BS.migrate({ distribution: 'el_nl_2023', budget: '0' }, 'solar'), { distribution: 'linear' }, 'no budget: default');
 assert.deepStrictEqual(BS.migrate({ distribution: 'gas_nl_2023', budget: '1200' }, 'gas'), { distribution: 'local' });
 assert.deepStrictEqual(BS.migrate({ distribution: 'el_nl_2023', budget: '1200' }, 'water'), { distribution: 'linear' }, 'no local: default');
 assert.strictEqual(BS.migrate({ distribution: 'CUSTOM', budget: '1;1;1;1;1;1;1;1;1;1;1;1' }, 'power'), null);

@@ -1,4 +1,4 @@
-<form class="homey-form" onsubmit="return false;">
+<form class="homey-form" onsubmit="return false;" data-view="repair_start">
 	<fieldset class="homey-form-fieldset">
 		<legend class="homey-form-legend" data-i18n="repair.start_question"></legend>
 		<fieldset class="homey-form-radio-set" id="choice"></fieldset>
@@ -8,11 +8,14 @@
 
 <script>
 	// The same file in repair/ of each driver with a setup view (lib/helpers/PairSetup.js).
-	// Own scope: the views of a repair session share one document.
+	// Own scope and its own form: the views of a repair session share one document (repair_start can
+	// show twice).
 	(() => {
+		const forms = document.querySelectorAll('form[data-view="repair_start"]');
+		const root = forms[forms.length - 1];
 		Homey.setTitle(Homey.__('repair.start_title'));
 		const el = (tag, props = {}) => Object.assign(document.createElement(tag), props);
-		const set = document.getElementById('choice');
+		const set = root.querySelector('#choice');
 		// The choices from the driver: source, and per device fix values and the year budget.
 		Homey.emit('start_get').then((choices) => {
 			choices.forEach((c, i) => {
@@ -27,8 +30,8 @@
 			});
 		}).catch((error) => Homey.alert(error.message || error, 'error'));
 
-		document.getElementById('startNext').addEventListener('click', () => {
-			const checked = document.querySelector('input[name="choice"]:checked');
+		root.querySelector('#startNext').addEventListener('click', () => {
+			const checked = root.querySelector('input[name="choice"]:checked');
 			if (checked) Homey.showView(checked.value);
 		});
 		Homey.hideLoadingOverlay();

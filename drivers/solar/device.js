@@ -798,7 +798,9 @@ class SolarDevice extends GenericDevice {
 
     this.log(`[SOLAR DIAGNOSTICS EXPORT] ${JSON.stringify(diagnostics)}`);
 
-    await this.setWarning(this.homey.__('solar_export_diagnostics_popup')).catch(this.error);
+    // Cleared again by the next updateWarning().
+    this.warningShown = this.homey.__('solar_export_diagnostics_popup');
+    await this.setWarning(this.warningShown).catch(this.error);
   }
 
   async populatePowerHistory() {

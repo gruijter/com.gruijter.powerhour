@@ -1,4 +1,4 @@
-<form class="homey-form" onsubmit="return false;">
+<form class="homey-form" onsubmit="return false;" data-view="fix_values">
 	<fieldset class="homey-form-fieldset" data-step="what">
 		<legend class="homey-form-legend" data-i18n="repair.fix_what"></legend>
 		<fieldset class="homey-form-radio-set" id="kinds"></fieldset>
@@ -21,8 +21,11 @@
 
 <script>
 	// The same file in repair/ of each driver with this view (lib/helpers/FixValues.js).
-	// Own scope: the views of a repair session share one document (setup.html also declares el).
+	// Own scope and its own form: the views of a repair session share one document (setup.html also
+	// declares el).
 	(() => {
+		const forms = document.querySelectorAll('form[data-view="fix_values"]');
+		const root = forms[forms.length - 1];
 		Homey.setTitle(Homey.__('repair.start_fix'));
 		const STEPS = ['what', 'values', 'confirm'];
 		let data = { kinds: [] };
@@ -30,17 +33,17 @@
 
 		const el = (tag, props = {}) => Object.assign(document.createElement(tag), props);
 		const kind = () => {
-			const checked = document.querySelector('input[name="kind"]:checked');
+			const checked = root.querySelector('input[name="kind"]:checked');
 			return data.kinds.find((k) => checked && k.id === checked.value);
 		};
 		const withUnit = (f) => (f.unit ? `${f.label} (${f.unit})` : f.label);
 		// Only the fields the user changed, as typed.
 		const changed = () => kind().fields
-			.map((f) => ({ f, value: document.getElementById(`fix_${kind().id}_${f.id}`).value.trim() }))
+			.map((f) => ({ f, value: root.querySelector(`#fix_${kind().id}_${f.id}`).value.trim() }))
 			.filter(({ f, value }) => value !== String(f.value));
 
 		const build = () => {
-			const set = document.getElementById('kinds');
+			const set = root.querySelector('#kinds');
 			data.kinds.forEach((k, i) => {
 				const label = el('label', { className: 'homey-form-radio' });
 				label.appendChild(el('input', {
@@ -62,21 +65,21 @@
 					}));
 					box.appendChild(group);
 				});
-				document.getElementById('values').appendChild(box);
+				root.querySelector('#values').appendChild(box);
 			});
 		};
 
 		const show = () => {
-			document.querySelectorAll('[data-step]').forEach((s) => { s.style.display = s.dataset.step === STEPS[step] ? '' : 'none'; });
-			document.getElementById('fixBack').style.display = step === 0 ? 'none' : '';
-			document.getElementById('fixNext').textContent = Homey.__(step === STEPS.length - 1 ? 'repair.fix_apply' : 'repair.setup_next');
+			root.querySelectorAll('[data-step]').forEach((s) => { s.style.display = s.dataset.step === STEPS[step] ? '' : 'none'; });
+			root.querySelector('#fixBack').style.display = step === 0 ? 'none' : '';
+			root.querySelector('#fixNext').textContent = Homey.__(step === STEPS.length - 1 ? 'repair.fix_apply' : 'repair.setup_next');
 			const k = kind();
 			if (!k) return;
-			document.getElementById('valuesTitle').textContent = k.label;
-			document.getElementById('valuesInfo').textContent = k.info || Homey.__('repair.fix_values_info');
-			data.kinds.forEach((other) => { document.getElementById(`kind_${other.id}`).style.display = other.id === k.id ? '' : 'none'; });
+			root.querySelector('#valuesTitle').textContent = k.label;
+			root.querySelector('#valuesInfo').textContent = k.info || Homey.__('repair.fix_values_info');
+			data.kinds.forEach((other) => { root.querySelector(`#kind_${other.id}`).style.display = other.id === k.id ? '' : 'none'; });
 			if (STEPS[step] === 'confirm') {
-				const box = document.getElementById('changes');
+				const box = root.querySelector('#changes');
 				box.innerHTML = '';
 				changed().forEach(({ f, value }) => {
 					box.appendChild(el('p', { className: 'homey-subtitle', textContent: `${withUnit(f)}: ${f.value === '' ? '-' : f.value} → ${value}` }));
@@ -84,12 +87,12 @@
 			}
 		};
 
-		document.getElementById('fixBack').addEventListener('click', () => {
+		root.querySelector('#fixBack').addEventListener('click', () => {
 			step -= 1;
 			show();
 		});
 
-		document.getElementById('fixNext').addEventListener('click', async () => {
+		root.querySelector('#fixNext').addEventListener('click', async () => {
 			if (STEPS[step] === 'values' && !changed().length) {
 				Homey.alert(Homey.__('repair.fix_nothing'));
 				return;
@@ -99,7 +102,7 @@
 				show();
 				return;
 			}
-			const button = document.getElementById('fixNext');
+			const button = root.querySelector('#fixNext');
 			if (button.classList.contains('is-loading')) return;
 			button.classList.add('is-loading');
 			try {

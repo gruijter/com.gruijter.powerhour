@@ -130,6 +130,17 @@ assert.strictEqual(S.onReport(k, {
   soc: 70, tm: now + 2, kwhCounter: 1005, odo: null,
 }, cap).ignored, undefined, 'no odometer (manual): accepted');
 assert.strictEqual(S.onReport(k, {
+  soc: 60, tm: now + 2, kwhCounter: 1005, odo: 119023, v2x: true,
+}, cap).ignored, undefined, 'V2X can discharge: accepted');
+{
+  const manual = S.onReport(k, {
+    soc: 90, tm: now + 2, kwhCounter: 1005, odo: null,
+  }, cap).state;
+  assert.strictEqual(S.onReport(manual, {
+    soc: 70, tm: now + 3, kwhCounter: 1006, odo: 119023,
+  }, cap).ignored, undefined, 'car after a manual SoC: accepted');
+}
+assert.strictEqual(S.onReport(k, {
   soc: 100, tm: now + 3, kwhCounter: 1015, odo: 119023,
 }, cap).state.baseSoc, 100, 'higher: accepted');
 
