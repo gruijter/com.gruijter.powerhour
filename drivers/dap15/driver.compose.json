@@ -199,7 +199,7 @@
           "label": {
             "en": "Currency decimals",
             "nl": "Geld decimalen",
-            "de": "Anzahl Dezimalstellen",
+            "de": "Währungsdezimalstellen",
             "fr": "Décimales monétaires",
             "it": "Decimali valuta",
             "sv": "Valuta decimaler",
@@ -1178,65 +1178,149 @@
             },
             {
               "id": "OMIE",
-              "label": { "en": "OMIE (Spain/Portugal)", "ko": "OMIE (Spain/Portugal)", "nl": "OMIE (Spain/Portugal)", "de": "OMIE (Spain/Portugal)", "fr": "OMIE (Spain/Portugal)", "es": "OMIE (Spain/Portugal)", "it": "OMIE (Spain/Portugal)", "da": "OMIE (Spain/Portugal)", "sv": "OMIE (Spain/Portugal)", "no": "OMIE (Spain/Portugal)", "pl": "OMIE (Spain/Portugal)", "ru": "OMIE (Spain/Portugal)", "ar": "OMIE (Spain/Portugal)" }
+              "label": {
+                "en": "OMIE (Spain/Portugal)",
+                "ko": "OMIE (Spain/Portugal)",
+                "nl": "OMIE (Spain/Portugal)",
+                "de": "OMIE (Spain/Portugal)",
+                "fr": "OMIE (Spain/Portugal)",
+                "es": "OMIE (Spain/Portugal)",
+                "it": "OMIE (Spain/Portugal)",
+                "da": "OMIE (Spain/Portugal)",
+                "sv": "OMIE (Spain/Portugal)",
+                "no": "OMIE (Spain/Portugal)",
+                "pl": "OMIE (Spain/Portugal)",
+                "ru": "OMIE (Spain/Portugal)",
+                "ar": "OMIE (Spain/Portugal)"
+              }
             },
             {
               "id": "ENTSOE_GRUIJTER",
-              "label": { "en": "ENTSOE Gruijter", "ko": "ENTSOE Gruijter", "nl": "ENTSOE Gruijter", "de": "ENTSOE Gruijter", "fr": "ENTSOE Gruijter", "es": "ENTSOE Gruijter", "it": "ENTSOE Gruijter", "da": "ENTSOE Gruijter", "sv": "ENTSOE Gruijter", "no": "ENTSOE Gruijter", "pl": "ENTSOE Gruijter", "ru": "ENTSOE Gruijter", "ar": "ENTSOE Gruijter" }
+              "label": {
+                "en": "ENTSOE Gruijter",
+                "ko": "ENTSOE Gruijter",
+                "nl": "ENTSOE Gruijter",
+                "de": "ENTSOE Gruijter",
+                "fr": "ENTSOE Gruijter",
+                "es": "ENTSOE Gruijter",
+                "it": "ENTSOE Gruijter",
+                "da": "ENTSOE Gruijter",
+                "sv": "ENTSOE Gruijter",
+                "no": "ENTSOE Gruijter",
+                "pl": "ENTSOE Gruijter",
+                "ru": "ENTSOE Gruijter",
+                "ar": "ENTSOE Gruijter"
+              }
             },
             {
               "id": "SMARD",
-              "label": { "en": "SMARD (Bundesnetzagentur)", "ko": "SMARD (Bundesnetzagentur)", "nl": "SMARD (Bundesnetzagentur)", "de": "SMARD (Bundesnetzagentur)", "fr": "SMARD (Bundesnetzagentur)", "es": "SMARD (Bundesnetzagentur)", "it": "SMARD (Bundesnetzagentur)", "da": "SMARD (Bundesnetzagentur)", "sv": "SMARD (Bundesnetzagentur)", "no": "SMARD (Bundesnetzagentur)", "pl": "SMARD (Bundesnetzagentur)", "ru": "SMARD (Bundesnetzagentur)", "ar": "SMARD (Bundesnetzagentur)" }
+              "label": {
+                "en": "SMARD (Bundesnetzagentur)",
+                "ko": "SMARD (Bundesnetzagentur)",
+                "nl": "SMARD (Bundesnetzagentur)",
+                "de": "SMARD (Bundesnetzagentur)",
+                "fr": "SMARD (Bundesnetzagentur)",
+                "es": "SMARD (Bundesnetzagentur)",
+                "it": "SMARD (Bundesnetzagentur)",
+                "da": "SMARD (Bundesnetzagentur)",
+                "sv": "SMARD (Bundesnetzagentur)",
+                "no": "SMARD (Bundesnetzagentur)",
+                "pl": "SMARD (Bundesnetzagentur)",
+                "ru": "SMARD (Bundesnetzagentur)",
+                "ar": "SMARD (Bundesnetzagentur)"
+              }
             },
             {
               "id": "Nordpool",
-              "label": { "en": "Nordpool", "ko": "Nordpool", "nl": "Nordpool", "de": "Nordpool", "fr": "Nordpool", "es": "Nordpool", "it": "Nordpool", "da": "Nordpool", "sv": "Nordpool", "no": "Nordpool", "pl": "Nordpool", "ru": "Nordpool", "ar": "Nordpool" }
+              "label": {
+                "en": "Nordpool",
+                "ko": "Nordpool",
+                "nl": "Nordpool",
+                "de": "Nordpool",
+                "fr": "Nordpool",
+                "es": "Nordpool",
+                "it": "Nordpool",
+                "da": "Nordpool",
+                "sv": "Nordpool",
+                "no": "Nordpool",
+                "pl": "Nordpool",
+                "ru": "Nordpool",
+                "ar": "Nordpool"
+              }
             },
             {
               "id": "ENTSOE",
-              "label": { "en": "ENTSOE", "ko": "ENTSOE", "nl": "ENTSOE", "de": "ENTSOE", "fr": "ENTSOE", "es": "ENTSOE", "it": "ENTSOE", "da": "ENTSOE", "sv": "ENTSOE", "no": "ENTSOE", "pl": "ENTSOE", "ru": "ENTSOE", "ar": "ENTSOE" }
+              "label": {
+                "en": "ENTSOE",
+                "ko": "ENTSOE",
+                "nl": "ENTSOE",
+                "de": "ENTSOE",
+                "fr": "ENTSOE",
+                "es": "ENTSOE",
+                "it": "ENTSOE",
+                "da": "ENTSOE",
+                "sv": "ENTSOE",
+                "no": "ENTSOE",
+                "pl": "ENTSOE",
+                "ru": "ENTSOE",
+                "ar": "ENTSOE"
+              }
             },
             {
               "id": "Stekker",
-              "label": { "en": "Stekker", "ko": "Stekker", "nl": "Stekker", "de": "Stekker", "fr": "Stekker", "es": "Stekker", "it": "Stekker", "da": "Stekker", "sv": "Stekker", "no": "Stekker", "pl": "Stekker", "ru": "Stekker", "ar": "Stekker" }
+              "label": {
+                "en": "Stekker",
+                "ko": "Stekker",
+                "nl": "Stekker",
+                "de": "Stekker",
+                "fr": "Stekker",
+                "es": "Stekker",
+                "it": "Stekker",
+                "da": "Stekker",
+                "sv": "Stekker",
+                "no": "Stekker",
+                "pl": "Stekker",
+                "ru": "Stekker",
+                "ar": "Stekker"
+              }
             }
           ]
         },
-            {
-              "id": "entsoeApiKey",
-              "type": "text",
-              "value": "",
-              "label": {
-                "en": "ENTSO-E API Key",
-                "nl": "ENTSO-E API Sleutel",
-                "de": "ENTSO-E API-Schlüssel",
-                "fr": "Clé API ENTSO-E",
-                "it": "Chiave API ENTSO-E",
-                "sv": "ENTSO-E API-nyckel",
-                "no": "ENTSO-E API-nøkkel",
-                "es": "Clave API ENTSO-E",
-                "da": "ENTSO-E API-nøgle",
-                "pl": "Klucz API ENTSO-E",
-                "ru": "API-ключ ENTSO-E",
-                "ko": "ENTSO-E API 키",
-                "ar": "مفتاح API ENTSO-E"
-              },
-              "hint": {
-                "en": "Leave empty to use the default key. You can apply for your own API key at https://transparency.entsoe.eu/",
-                "nl": "Laat leeg om de standaard sleutel te gebruiken. Je kunt een eigen API sleutel aanvragen op https://transparency.entsoe.eu/",
-                "de": "Leer lassen, um den Standardschlüssel zu verwenden. Sie können einen eigenen API-Schlüssel unter https://transparency.entsoe.eu/ beantragen.",
-                "fr": "Laissez vide pour utiliser la clé par défaut. Vous pouvez demander votre propre clé API sur https://transparency.entsoe.eu/",
-                "it": "Lascia vuoto per utilizzare la chiave predefinita. Puoi richiedere la tua chiave API su https://transparency.entsoe.eu/",
-                "sv": "Lämna tomt för att använda standardnyckeln. Du kan ansöka om din egen API-nyckel på https://transparency.entsoe.eu/",
-                "no": "La stå tomt for å bruke standardnøkkelen. Du kan søke om din egen API-nøkkel på https://transparency.entsoe.eu/",
-                "es": "Deje vacío para usar la clave predeterminada. Puede solicitar su propia clave API en https://transparency.entsoe.eu/",
-                "da": "Lad stå tomt for at bruge standardnøglen. Du kan ansøge om din egen API-nøgle på https://transparency.entsoe.eu/",
-                "pl": "Pozostaw puste, aby użyć klucza domyślnego. O własny klucz API możesz wnioskować na stronie https://transparency.entsoe.eu/",
-                "ru": "Оставьте пустым, чтобы использовать ключ по умолчанию. Вы можете запросить собственный ключ API на https://transparency.entsoe.eu/",
-                "ko": "기본 키를 사용하려면 비워 두십시오. https://transparency.entsoe.eu/에서 자체 API 키를 신청할 수 있습니다.",
-                "ar": "اتركه فارغًا لاستخدام المفتاح الافتراضي. يمكنك التقدم بطلب للحصول على مفتاح API الخاص بك على https://transparency.entsoe.eu/"
-              }
-            },
+        {
+          "id": "entsoeApiKey",
+          "type": "text",
+          "value": "",
+          "label": {
+            "en": "ENTSO-E API Key",
+            "nl": "ENTSO-E API Sleutel",
+            "de": "ENTSO-E API-Schlüssel",
+            "fr": "Clé API ENTSO-E",
+            "it": "Chiave API ENTSO-E",
+            "sv": "ENTSO-E API-nyckel",
+            "no": "ENTSO-E API-nøkkel",
+            "es": "Clave API ENTSO-E",
+            "da": "ENTSO-E API-nøgle",
+            "pl": "Klucz API ENTSO-E",
+            "ru": "API-ключ ENTSO-E",
+            "ko": "ENTSO-E API 키",
+            "ar": "مفتاح API ENTSO-E"
+          },
+          "hint": {
+            "en": "Leave empty to use the default key. You can apply for your own API key at https://transparency.entsoe.eu/",
+            "nl": "Laat leeg om de standaard sleutel te gebruiken. Je kunt een eigen API sleutel aanvragen op https://transparency.entsoe.eu/",
+            "de": "Leer lassen, um den Standardschlüssel zu verwenden. Sie können einen eigenen API-Schlüssel unter https://transparency.entsoe.eu/ beantragen.",
+            "fr": "Laissez vide pour utiliser la clé par défaut. Vous pouvez demander votre propre clé API sur https://transparency.entsoe.eu/",
+            "it": "Lascia vuoto per utilizzare la chiave predefinita. Puoi richiedere la tua chiave API su https://transparency.entsoe.eu/",
+            "sv": "Lämna tomt för att använda standardnyckeln. Du kan ansöka om din egen API-nyckel på https://transparency.entsoe.eu/",
+            "no": "La stå tomt for å bruke standardnøkkelen. Du kan søke om din egen API-nøkkel på https://transparency.entsoe.eu/",
+            "es": "Deje vacío para usar la clave predeterminada. Puede solicitar su propia clave API en https://transparency.entsoe.eu/",
+            "da": "Lad stå tomt for at bruge standardnøglen. Du kan ansøge om din egen API-nøgle på https://transparency.entsoe.eu/",
+            "pl": "Pozostaw puste, aby użyć klucza domyślnego. O własny klucz API możesz wnioskować na stronie https://transparency.entsoe.eu/",
+            "ru": "Оставьте пустым, чтобы использовать ключ по умолчанию. Вы можете запросить собственный ключ API на https://transparency.entsoe.eu/",
+            "ko": "기본 키를 사용하려면 비워 두십시오. https://transparency.entsoe.eu/에서 자체 API 키를 신청할 수 있습니다.",
+            "ar": "اتركه فارغًا لاستخدام المفتاح الافتراضي. يمكنك التقدم بطلب للحصول على مفتاح API الخاص بك على https://transparency.entsoe.eu/"
+          }
+        },
         {
           "id": "forecastEnable",
           "type": "checkbox",
