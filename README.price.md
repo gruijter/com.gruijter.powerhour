@@ -133,7 +133,7 @@ Electricity only. Enable **Enable forecast prices** to add AI-predicted prices (
 
 ## Currency
 
-- **Currency unit** and **Currency decimals** set how prices are shown.
+- **Currency unit** and **Price decimals** set how prices are shown. **Money decimals** (from the currency: 2, or 0 for HUF and ISK) and the currency are passed on to the devices in the tariff group, for their money totals.
 - **Exchange rate with €:** market prices are in euro. Set a fixed rate, or choose a currency under **Daily update the exchange rate** to fetch the ECB rate every day (NOK, SEK, DKK, GBP, CHF, PLN and others).
 
 ---

@@ -212,6 +212,7 @@
 		if (!cur || isGas()) return;
 		input('currency').value = cur.symbol;
 		input('fetchExchangeRate').value = cur.code;
+		input('moneyDecimals').value = cur.decimals;
 		selectCurrency();
 	};
 
@@ -227,6 +228,7 @@
 		const other = input('currencyChoice').value === 'other';
 		showField('currency', other);
 		showField('fetchExchangeRate', other && !isFixed());
+		showField('moneyDecimals', other);
 	};
 	const currencyChosen = () => {
 		const value = input('currencyChoice').value;
@@ -234,6 +236,8 @@
 			const [symbol, code] = value.split('|');
 			input('currency').value = symbol;
 			input('fetchExchangeRate').value = code;
+			const chosen = data.currencyList.find((c) => currencyKey(c) === value);
+			if (chosen) input('moneyDecimals').value = chosen.decimals;
 		}
 		showCurrencyFields();
 	};
@@ -431,6 +435,7 @@
 		});
 		field('market', 'currency', { noHint: true });
 		field('market', 'fetchExchangeRate', { noHint: true });
+		field('market', 'moneyDecimals');
 		['', 'export_'].forEach((prefix) => PRICE_FIELDS.filter((id) => !id.endsWith('InclVat')).forEach((id) => {
 			field(prefix ? 'export' : 'import', `${prefix}${id}`, AMOUNTS.includes(id) ? { vat: `${prefix}${id}InclVat` } : {});
 		}));

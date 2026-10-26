@@ -30,6 +30,7 @@ const EvHistory = require('../../lib/helpers/EvHistory');
 const TimeHelpers = require('../../lib/helpers/TimeHelpers');
 const EvPlanner = require('../../lib/strategies/EvPlanner');
 const LoadSpread = require('../../lib/helpers/LoadSpread');
+const MoneyUnit = require('../../lib/helpers/MoneyUnit');
 
 const deviceSpecifics = {
   cmap: {
@@ -719,7 +720,7 @@ class PowerDevice extends GenericDevice {
     const nextRun = this.nextRun(now);
     const runStart = nextRun ? nextRun.startMs : null;
     const measured = new Map((this.applianceSlots || []).map((e) => [e.t, Math.round(e.kwh * 4000)]));
-    const currency = this.getSettings().currency || '€';
+    const { currency } = MoneyUnit.get(this);
     const translations = { price: this.homey.__('price'), power: this.homey.__('power'), soc: this.homey.__('soc') };
     // A running program: the curve of the earlier runs that started most like it.
     const curveW = this.applianceModel.run
