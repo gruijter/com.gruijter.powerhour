@@ -2632,6 +2632,21 @@
           "ar": "تبدأ الفترة [[type]] لمدة [[duration]] [[duration_unit]] بين [[time1]] و[[time2]]",
           "ko": "[[time1]]~[[time2]] 사이 [[type]] [[duration]][[duration_unit]] 구간이 시작됨"
         },
+        "hint": {
+          "en": "Finds the consecutive block with the lowest (or highest) average price between two clock times (e.g. 7:30 or 7.5, overnight allowed) and checks if now is inside it. Outside these times: false. Fires once, when this starts.",
+          "nl": "Zoekt het aaneengesloten blok met de laagste (of hoogste) gemiddelde prijs tussen twee kloktijden (bijv. 7:30 of 7,5, over middernacht mag) en kijkt of nu in dat blok valt. Buiten deze tijden: onwaar. Triggert één keer, bij het begin.",
+          "de": "Sucht den zusammenhängenden Block mit dem niedrigsten (oder höchsten) Durchschnittspreis zwischen zwei Uhrzeiten (z. B. 7:30 oder 7,5, über Mitternacht erlaubt) und prüft, ob jetzt darin liegt. Außerhalb dieser Zeiten: falsch. Löst einmal aus, zu Beginn.",
+          "fr": "Cherche le bloc continu au prix moyen le plus bas (ou le plus haut) entre deux heures (ex. 7:30 ou 7,5, passage de minuit permis) et vérifie si maintenant en fait partie. En dehors de ces heures : faux. Se déclenche une fois, au début.",
+          "it": "Cerca il blocco continuo con il prezzo medio più basso (o più alto) tra due orari (es. 7:30 o 7,5, anche oltre la mezzanotte) e verifica se ora vi rientra. Fuori da questi orari: falso. Si attiva una volta, all'inizio.",
+          "sv": "Söker det sammanhängande blocket med lägst (eller högst) medelpris mellan två klockslag (t.ex. 7:30 eller 7,5, över midnatt tillåtet) och kontrollerar om nu ligger i det. Utanför dessa tider: falskt. Utlöses en gång, vid början.",
+          "no": "Finner den sammenhengende blokken med lavest (eller høyest) gjennomsnittspris mellom to klokkeslett (f.eks. 7:30 eller 7,5, over midnatt er lov) og sjekker om nå er innenfor den. Utenfor disse tidene: usann. Utløses én gang, ved starten.",
+          "es": "Busca el bloque continuo con el precio medio más bajo (o más alto) entre dos horas (p. ej. 7:30 o 7,5, se permite pasar la medianoche) y comprueba si ahora está dentro. Fuera de esas horas: falso. Se activa una vez, al inicio.",
+          "da": "Finder den sammenhængende blok med laveste (eller højeste) gennemsnitspris mellem to klokkeslæt (f.eks. 7:30 eller 7,5, over midnat er tilladt) og tjekker, om nu ligger i den. Uden for disse tider: falsk. Udløses én gang, ved starten.",
+          "pl": "Szuka ciągłego bloku o najniższej (lub najwyższej) średniej cenie między dwiema godzinami (np. 7:30 lub 7,5, przez północ dozwolone) i sprawdza, czy teraz się w nim mieści. Poza tymi godzinami: fałsz. Uruchamia się raz, na początku.",
+          "ru": "Ищет непрерывный блок с самой низкой (или высокой) средней ценой между двумя временами (напр. 7:30 или 7,5, через полночь можно) и проверяет, попадает ли в него текущий момент. Вне этого времени: ложь. Срабатывает один раз, в начале.",
+          "ar": "يبحث عن الكتلة المتصلة ذات أدنى (أو أعلى) متوسط سعر بين وقتين (مثل 7:30 أو 7.5، ويُسمح بتجاوز منتصف الليل) ويتحقق مما إذا كان الوقت الحالي ضمنها. خارج هذه الأوقات: خطأ. يُطلق مرة واحدة، عند البداية.",
+          "ko": "두 시각 사이(예: 7:30 또는 7.5, 자정 넘김 가능)에서 평균 가격이 가장 낮은(또는 높은) 연속 블록을 찾아 지금이 그 안에 있는지 확인합니다. 이 시간 밖에서는 거짓입니다. 시작될 때 한 번 실행됩니다."
+        },
         "highlight": true,
         "args": [
           {
@@ -2943,6 +2958,21 @@
           "ar": "تبدأ الفترة [[type]] لمدة [[duration]] [[duration_unit]] في الساعات [[hours]] القادمة",
           "ko": "다음 [[hours]]시간 중 [[type]] [[duration]][[duration_unit]] 구간이 시작됨"
         },
+        "hint": {
+          "en": "Finds the consecutive block with the lowest (or highest) average price in the coming hours (0 = all known) and checks if now is inside it. For devices that must run without a break. Fires once, when this starts.",
+          "nl": "Zoekt het aaneengesloten blok met de laagste (of hoogste) gemiddelde prijs in de komende uren (0 = alle bekende) en kijkt of nu in dat blok valt. Voor apparaten die zonder onderbreking moeten draaien. Triggert één keer, bij het begin.",
+          "de": "Sucht den zusammenhängenden Block mit dem niedrigsten (oder höchsten) Durchschnittspreis in den kommenden Stunden (0 = alle bekannten) und prüft, ob jetzt darin liegt. Für Geräte, die ohne Unterbrechung laufen müssen. Löst einmal aus, zu Beginn.",
+          "fr": "Cherche le bloc continu au prix moyen le plus bas (ou le plus haut) dans les prochaines heures (0 = tous les prix connus) et vérifie si maintenant en fait partie. Pour les appareils qui doivent fonctionner sans interruption. Se déclenche une fois, au début.",
+          "it": "Cerca il blocco continuo con il prezzo medio più basso (o più alto) nelle prossime ore (0 = tutti quelli noti) e verifica se ora vi rientra. Per dispositivi che devono funzionare senza interruzioni. Si attiva una volta, all'inizio.",
+          "sv": "Söker det sammanhängande blocket med lägst (eller högst) medelpris under kommande timmar (0 = alla kända) och kontrollerar om nu ligger i det. För apparater som måste gå utan avbrott. Utlöses en gång, vid början.",
+          "no": "Finner den sammenhengende blokken med lavest (eller høyest) gjennomsnittspris de kommende timene (0 = alle kjente) og sjekker om nå er innenfor den. For apparater som må gå uten avbrudd. Utløses én gang, ved starten.",
+          "es": "Busca el bloque continuo con el precio medio más bajo (o más alto) en las próximas horas (0 = todos los conocidos) y comprueba si ahora está dentro. Para aparatos que deben funcionar sin interrupción. Se activa una vez, al inicio.",
+          "da": "Finder den sammenhængende blok med laveste (eller højeste) gennemsnitspris i de kommende timer (0 = alle kendte) og tjekker, om nu ligger i den. Til apparater, der skal køre uden afbrydelse. Udløses én gang, ved starten.",
+          "pl": "Szuka ciągłego bloku o najniższej (lub najwyższej) średniej cenie w najbliższych godzinach (0 = wszystkie znane) i sprawdza, czy teraz się w nim mieści. Dla urządzeń, które muszą pracować bez przerwy. Uruchamia się raz, na początku.",
+          "ru": "Ищет непрерывный блок с самой низкой (или высокой) средней ценой в ближайшие часы (0 = все известные) и проверяет, попадает ли в него текущий момент. Для устройств, которые должны работать без перерыва. Срабатывает один раз, в начале.",
+          "ar": "يبحث عن الكتلة المتصلة ذات أدنى (أو أعلى) متوسط سعر في الساعات القادمة (0 = كل الأسعار المعروفة) ويتحقق مما إذا كان الوقت الحالي ضمنها. للأجهزة التي يجب أن تعمل دون انقطاع. يُطلق مرة واحدة، عند البداية.",
+          "ko": "다음 몇 시간(0 = 알려진 전체) 중 평균 가격이 가장 낮은(또는 높은) 연속 블록을 찾아 지금이 그 안에 있는지 확인합니다. 중단 없이 작동해야 하는 기기용입니다. 시작될 때 한 번 실행됩니다."
+        },
         "highlight": true,
         "args": [
           {
@@ -3207,6 +3237,21 @@
           "ru": "Цена становится одной из [[number]] [[type]] [[unit]] между [[time1]] и [[time2]]",
           "ar": "يصبح السعر ضمن [[number]] [[unit]] [[type]] بين [[time1]] و[[time2]]",
           "ko": "[[time1]]~[[time2]] 사이 [[type]] [[number]]개 [[unit]]에 가격이 포함됨"
+        },
+        "hint": {
+          "en": "Ranks the prices between two clock times (e.g. 7:30 or 7.5, overnight allowed) and checks if the current price is among the N cheapest or most expensive. Outside these times: false. Fires once, when this starts.",
+          "nl": "Rangschikt de prijzen tussen twee kloktijden (bijv. 7:30 of 7,5, over middernacht mag) en kijkt of de huidige prijs bij de N goedkoopste of duurste hoort. Buiten deze tijden: onwaar. Triggert één keer, bij het begin.",
+          "de": "Sortiert die Preise zwischen zwei Uhrzeiten (z. B. 7:30 oder 7,5, über Mitternacht erlaubt) und prüft, ob der aktuelle Preis zu den N günstigsten oder teuersten gehört. Außerhalb dieser Zeiten: falsch. Löst einmal aus, zu Beginn.",
+          "fr": "Classe les prix entre deux heures (ex. 7:30 ou 7,5, passage de minuit permis) et vérifie si le prix actuel fait partie des N moins chers ou plus chers. En dehors de ces heures : faux. Se déclenche une fois, au début.",
+          "it": "Ordina i prezzi tra due orari (es. 7:30 o 7,5, anche oltre la mezzanotte) e verifica se il prezzo attuale è tra gli N più economici o più cari. Fuori da questi orari: falso. Si attiva una volta, all'inizio.",
+          "sv": "Rangordnar priserna mellan två klockslag (t.ex. 7:30 eller 7,5, över midnatt tillåtet) och kontrollerar om aktuellt pris hör till de N billigaste eller dyraste. Utanför dessa tider: falskt. Utlöses en gång, vid början.",
+          "no": "Rangerer prisene mellom to klokkeslett (f.eks. 7:30 eller 7,5, over midnatt er lov) og sjekker om nåværende pris er blant de N billigste eller dyreste. Utenfor disse tidene: usann. Utløses én gang, ved starten.",
+          "es": "Ordena los precios entre dos horas (p. ej. 7:30 o 7,5, se permite pasar la medianoche) y comprueba si el precio actual está entre los N más baratos o más caros. Fuera de esas horas: falso. Se activa una vez, al inicio.",
+          "da": "Rangerer priserne mellem to klokkeslæt (f.eks. 7:30 eller 7,5, over midnat er tilladt) og tjekker, om den aktuelle pris er blandt de N billigste eller dyreste. Uden for disse tider: falsk. Udløses én gang, ved starten.",
+          "pl": "Porządkuje ceny między dwiema godzinami (np. 7:30 lub 7,5, przez północ dozwolone) i sprawdza, czy obecna cena należy do N najtańszych lub najdroższych. Poza tymi godzinami: fałsz. Uruchamia się raz, na początku.",
+          "ru": "Ранжирует цены между двумя временами (напр. 7:30 или 7,5, через полночь можно) и проверяет, входит ли текущая цена в N самых дешёвых или дорогих. Вне этого времени: ложь. Срабатывает один раз, в начале.",
+          "ar": "يرتّب الأسعار بين وقتين (مثل 7:30 أو 7.5، ويُسمح بتجاوز منتصف الليل) ويتحقق مما إذا كان السعر الحالي ضمن أرخص أو أغلى N. خارج هذه الأوقات: خطأ. يُطلق مرة واحدة، عند البداية.",
+          "ko": "두 시각 사이(예: 7:30 또는 7.5, 자정 넘김 가능)의 가격을 순위로 매겨 현재 가격이 가장 저렴하거나 비싼 N개에 속하는지 확인합니다. 이 시간 밖에서는 거짓입니다. 시작될 때 한 번 실행됩니다."
         },
         "args": [
           {
@@ -3535,6 +3580,21 @@
           "ru": "Цена становится одной из [[number]] [[type]] [[unit]] в ближайшие [[hours]] ч",
           "ar": "يصبح السعر ضمن [[number]] [[unit]] [[type]] في الساعات [[hours]] القادمة",
           "ko": "다음 [[hours]]시간 중 [[type]] [[number]]개 [[unit]]에 가격이 포함됨"
+        },
+        "hint": {
+          "en": "Ranks the prices of the coming hours (0 = all known) and checks if the current price is among the N cheapest or most expensive. Separate moments, not one block. Fires once, when this starts.",
+          "nl": "Rangschikt de prijzen van de komende uren (0 = alle bekende) en kijkt of de huidige prijs bij de N goedkoopste of duurste hoort. Losse momenten, geen aaneengesloten blok. Triggert één keer, bij het begin.",
+          "de": "Sortiert die Preise der kommenden Stunden (0 = alle bekannten) und prüft, ob der aktuelle Preis zu den N günstigsten oder teuersten gehört. Einzelne Zeitpunkte, kein zusammenhängender Block. Löst einmal aus, zu Beginn.",
+          "fr": "Classe les prix des prochaines heures (0 = tous les prix connus) et vérifie si le prix actuel fait partie des N moins chers ou plus chers. Moments séparés, pas un bloc continu. Se déclenche une fois, au début.",
+          "it": "Ordina i prezzi delle prossime ore (0 = tutti quelli noti) e verifica se il prezzo attuale è tra gli N più economici o più cari. Momenti separati, non un blocco continuo. Si attiva una volta, all'inizio.",
+          "sv": "Rangordnar priserna för kommande timmar (0 = alla kända) och kontrollerar om aktuellt pris hör till de N billigaste eller dyraste. Enskilda tidpunkter, inget sammanhängande block. Utlöses en gång, vid början.",
+          "no": "Rangerer prisene for de kommende timene (0 = alle kjente) og sjekker om nåværende pris er blant de N billigste eller dyreste. Enkeltstående tidspunkter, ikke en sammenhengende blokk. Utløses én gang, ved starten.",
+          "es": "Ordena los precios de las próximas horas (0 = todos los conocidos) y comprueba si el precio actual está entre los N más baratos o más caros. Momentos sueltos, no un bloque continuo. Se activa una vez, al inicio.",
+          "da": "Rangerer priserne for de kommende timer (0 = alle kendte) og tjekker, om den aktuelle pris er blandt de N billigste eller dyreste. Enkelte tidspunkter, ikke en sammenhængende blok. Udløses én gang, ved starten.",
+          "pl": "Porządkuje ceny z najbliższych godzin (0 = wszystkie znane) i sprawdza, czy obecna cena należy do N najtańszych lub najdroższych. Pojedyncze momenty, nie ciągły blok. Uruchamia się raz, na początku.",
+          "ru": "Ранжирует цены ближайших часов (0 = все известные) и проверяет, входит ли текущая цена в N самых дешёвых или дорогих. Отдельные моменты, а не непрерывный блок. Срабатывает один раз, в начале.",
+          "ar": "يرتّب أسعار الساعات القادمة (0 = كل الأسعار المعروفة) ويتحقق مما إذا كان السعر الحالي ضمن أرخص أو أغلى N. لحظات منفصلة، وليست كتلة متصلة. يُطلق مرة واحدة، عند البداية.",
+          "ko": "다음 몇 시간의 가격(0 = 알려진 전체)을 순위로 매겨 현재 가격이 가장 저렴하거나 비싼 N개에 속하는지 확인합니다. 연속 블록이 아닌 개별 시점입니다. 시작될 때 한 번 실행됩니다."
         },
         "highlight": true,
         "args": [
@@ -6784,6 +6844,21 @@
           "ar": "بدأت فترة سعر جديدة",
           "ko": "새 가격 구간이 시작됨"
         },
+        "hint": {
+          "en": "Fires at the start of every price period (every 15 minutes or every hour, depending on the price source), with the import and export price.",
+          "nl": "Triggert bij het begin van elke prijsperiode (elk kwartier of elk uur, afhankelijk van de prijsbron), met de invoer- en terugleverprijs.",
+          "de": "Löst zu Beginn jeder Preisperiode aus (alle 15 Minuten oder jede Stunde, je nach Preisquelle), mit Bezugs- und Einspeisepreis.",
+          "fr": "Se déclenche au début de chaque période de prix (toutes les 15 minutes ou toutes les heures, selon la source), avec le prix d'achat et de revente.",
+          "it": "Si attiva all'inizio di ogni periodo di prezzo (ogni 15 minuti o ogni ora, secondo la fonte), con il prezzo di prelievo e di immissione.",
+          "sv": "Utlöses vid början av varje prisperiod (var 15:e minut eller varje timme, beroende på priskällan), med import- och exportpris.",
+          "no": "Utløses ved starten av hver prisperiode (hvert 15. minutt eller hver time, avhengig av priskilden), med import- og eksportpris.",
+          "es": "Se activa al inicio de cada periodo de precio (cada 15 minutos o cada hora, según la fuente), con el precio de importación y exportación.",
+          "da": "Udløses ved starten af hver prisperiode (hvert 15. minut eller hver time, afhængigt af priskilden), med import- og eksportpris.",
+          "pl": "Uruchamia się na początku każdego okresu cenowego (co 15 minut lub co godzinę, zależnie od źródła cen), z ceną poboru i oddania.",
+          "ru": "Срабатывает в начале каждого ценового периода (каждые 15 минут или каждый час, в зависимости от источника), с ценой импорта и экспорта.",
+          "ar": "يُطلق عند بداية كل فترة سعر (كل 15 دقيقة أو كل ساعة حسب مصدر الأسعار)، مع سعر الاستيراد والتصدير.",
+          "ko": "가격 소스에 따라 15분 또는 1시간마다 각 가격 구간이 시작될 때 수입 및 수출 가격과 함께 실행됩니다."
+        },
         "args": [
           {
             "type": "device",
@@ -7077,6 +7152,21 @@
           "ru": "Цена становится на [[percent]]% [[direction]] среднего за [[period]]",
           "ar": "يصبح السعر [[direction]] متوسط [[period]] بنسبة [[percent]]%",
           "ko": "가격이 [[period]] 평균보다 [[percent]]% [[direction]] 상태가 됨"
+        },
+        "hint": {
+          "en": "Compares the current price with the average of the chosen period. E.g. 10% below: the price is at most 90% of the average. Fires once, when this starts.",
+          "nl": "Vergelijkt de huidige prijs met het gemiddelde van de gekozen periode. Bijv. 10% onder: de prijs is hooguit 90% van het gemiddelde. Triggert één keer, bij het begin.",
+          "de": "Vergleicht den aktuellen Preis mit dem Durchschnitt des gewählten Zeitraums. Z. B. 10% unter: der Preis beträgt höchstens 90% des Durchschnitts. Löst einmal aus, zu Beginn.",
+          "fr": "Compare le prix actuel à la moyenne de la période choisie. Ex. 10% en dessous : le prix vaut au plus 90% de la moyenne. Se déclenche une fois, au début.",
+          "it": "Confronta il prezzo attuale con la media del periodo scelto. Es. 10% sotto: il prezzo è al massimo il 90% della media. Si attiva una volta, all'inizio.",
+          "sv": "Jämför aktuellt pris med medelvärdet för vald period. T.ex. 10% under: priset är högst 90% av medelvärdet. Utlöses en gång, vid början.",
+          "no": "Sammenligner nåværende pris med gjennomsnittet for valgt periode. F.eks. 10% under: prisen er høyst 90% av gjennomsnittet. Utløses én gang, ved starten.",
+          "es": "Compara el precio actual con la media del periodo elegido. P. ej. 10% por debajo: el precio es como máximo el 90% de la media. Se activa una vez, al inicio.",
+          "da": "Sammenligner den aktuelle pris med gennemsnittet for den valgte periode. F.eks. 10% under: prisen er højst 90% af gennemsnittet. Udløses én gang, ved starten.",
+          "pl": "Porównuje obecną cenę ze średnią wybranego okresu. Np. 10% poniżej: cena wynosi najwyżej 90% średniej. Uruchamia się raz, na początku.",
+          "ru": "Сравнивает текущую цену со средней за выбранный период. Напр. на 10% ниже: цена составляет не более 90% от средней. Срабатывает один раз, в начале.",
+          "ar": "يقارن السعر الحالي بمتوسط الفترة المختارة. مثلاً 10% أقل: السعر لا يتجاوز 90% من المتوسط. يُطلق مرة واحدة، عند البداية.",
+          "ko": "현재 가격을 선택한 기간의 평균과 비교합니다. 예: 10% 미만이면 가격이 평균의 최대 90%입니다. 시작될 때 한 번 실행됩니다."
         },
         "args": [
           {
@@ -9546,6 +9636,21 @@
           "ar": "الفترة [[type]] لمدة [[duration]] [[duration_unit]] بين [[time1]] و[[time2]] !{{جارية|ليست جارية}} الآن",
           "ko": "[[time1]]~[[time2]] 사이 [[type]] [[duration]][[duration_unit]] 구간이 지금 !{{진행 중|진행 중 아님}}"
         },
+        "hint": {
+          "en": "Finds the consecutive block with the lowest (or highest) average price between two clock times (e.g. 7:30 or 7.5, overnight allowed) and checks if now is inside it. Outside these times: false.",
+          "nl": "Zoekt het aaneengesloten blok met de laagste (of hoogste) gemiddelde prijs tussen twee kloktijden (bijv. 7:30 of 7,5, over middernacht mag) en kijkt of nu in dat blok valt. Buiten deze tijden: onwaar.",
+          "de": "Sucht den zusammenhängenden Block mit dem niedrigsten (oder höchsten) Durchschnittspreis zwischen zwei Uhrzeiten (z. B. 7:30 oder 7,5, über Mitternacht erlaubt) und prüft, ob jetzt darin liegt. Außerhalb dieser Zeiten: falsch.",
+          "fr": "Cherche le bloc continu au prix moyen le plus bas (ou le plus haut) entre deux heures (ex. 7:30 ou 7,5, passage de minuit permis) et vérifie si maintenant en fait partie. En dehors de ces heures : faux.",
+          "it": "Cerca il blocco continuo con il prezzo medio più basso (o più alto) tra due orari (es. 7:30 o 7,5, anche oltre la mezzanotte) e verifica se ora vi rientra. Fuori da questi orari: falso.",
+          "sv": "Söker det sammanhängande blocket med lägst (eller högst) medelpris mellan två klockslag (t.ex. 7:30 eller 7,5, över midnatt tillåtet) och kontrollerar om nu ligger i det. Utanför dessa tider: falskt.",
+          "no": "Finner den sammenhengende blokken med lavest (eller høyest) gjennomsnittspris mellom to klokkeslett (f.eks. 7:30 eller 7,5, over midnatt er lov) og sjekker om nå er innenfor den. Utenfor disse tidene: usann.",
+          "es": "Busca el bloque continuo con el precio medio más bajo (o más alto) entre dos horas (p. ej. 7:30 o 7,5, se permite pasar la medianoche) y comprueba si ahora está dentro. Fuera de esas horas: falso.",
+          "da": "Finder den sammenhængende blok med laveste (eller højeste) gennemsnitspris mellem to klokkeslæt (f.eks. 7:30 eller 7,5, over midnat er tilladt) og tjekker, om nu ligger i den. Uden for disse tider: falsk.",
+          "pl": "Szuka ciągłego bloku o najniższej (lub najwyższej) średniej cenie między dwiema godzinami (np. 7:30 lub 7,5, przez północ dozwolone) i sprawdza, czy teraz się w nim mieści. Poza tymi godzinami: fałsz.",
+          "ru": "Ищет непрерывный блок с самой низкой (или высокой) средней ценой между двумя временами (напр. 7:30 или 7,5, через полночь можно) и проверяет, попадает ли в него текущий момент. Вне этого времени: ложь.",
+          "ar": "يبحث عن الكتلة المتصلة ذات أدنى (أو أعلى) متوسط سعر بين وقتين (مثل 7:30 أو 7.5، ويُسمح بتجاوز منتصف الليل) ويتحقق مما إذا كان الوقت الحالي ضمنها. خارج هذه الأوقات: خطأ.",
+          "ko": "두 시각 사이(예: 7:30 또는 7.5, 자정 넘김 가능)에서 평균 가격이 가장 낮은(또는 높은) 연속 블록을 찾아 지금이 그 안에 있는지 확인합니다. 이 시간 밖에서는 거짓입니다."
+        },
         "args": [
           {
             "type": "device",
@@ -9834,6 +9939,21 @@
           "ar": "الفترة [[type]] لمدة [[duration]] [[duration_unit]] في الساعات [[hours]] القادمة !{{جارية|ليست جارية}} الآن",
           "ko": "다음 [[hours]]시간 중 [[type]] [[duration]][[duration_unit]] 구간이 지금 !{{진행 중|진행 중 아님}}"
         },
+        "hint": {
+          "en": "Finds the consecutive block with the lowest (or highest) average price in the coming hours (0 = all known) and checks if now is inside it. For devices that must run without a break.",
+          "nl": "Zoekt het aaneengesloten blok met de laagste (of hoogste) gemiddelde prijs in de komende uren (0 = alle bekende) en kijkt of nu in dat blok valt. Voor apparaten die zonder onderbreking moeten draaien.",
+          "de": "Sucht den zusammenhängenden Block mit dem niedrigsten (oder höchsten) Durchschnittspreis in den kommenden Stunden (0 = alle bekannten) und prüft, ob jetzt darin liegt. Für Geräte, die ohne Unterbrechung laufen müssen.",
+          "fr": "Cherche le bloc continu au prix moyen le plus bas (ou le plus haut) dans les prochaines heures (0 = tous les prix connus) et vérifie si maintenant en fait partie. Pour les appareils qui doivent fonctionner sans interruption.",
+          "it": "Cerca il blocco continuo con il prezzo medio più basso (o più alto) nelle prossime ore (0 = tutti quelli noti) e verifica se ora vi rientra. Per dispositivi che devono funzionare senza interruzioni.",
+          "sv": "Söker det sammanhängande blocket med lägst (eller högst) medelpris under kommande timmar (0 = alla kända) och kontrollerar om nu ligger i det. För apparater som måste gå utan avbrott.",
+          "no": "Finner den sammenhengende blokken med lavest (eller høyest) gjennomsnittspris de kommende timene (0 = alle kjente) og sjekker om nå er innenfor den. For apparater som må gå uten avbrudd.",
+          "es": "Busca el bloque continuo con el precio medio más bajo (o más alto) en las próximas horas (0 = todos los conocidos) y comprueba si ahora está dentro. Para aparatos que deben funcionar sin interrupción.",
+          "da": "Finder den sammenhængende blok med laveste (eller højeste) gennemsnitspris i de kommende timer (0 = alle kendte) og tjekker, om nu ligger i den. Til apparater, der skal køre uden afbrydelse.",
+          "pl": "Szuka ciągłego bloku o najniższej (lub najwyższej) średniej cenie w najbliższych godzinach (0 = wszystkie znane) i sprawdza, czy teraz się w nim mieści. Dla urządzeń, które muszą pracować bez przerwy.",
+          "ru": "Ищет непрерывный блок с самой низкой (или высокой) средней ценой в ближайшие часы (0 = все известные) и проверяет, попадает ли в него текущий момент. Для устройств, которые должны работать без перерыва.",
+          "ar": "يبحث عن الكتلة المتصلة ذات أدنى (أو أعلى) متوسط سعر في الساعات القادمة (0 = كل الأسعار المعروفة) ويتحقق مما إذا كان الوقت الحالي ضمنها. للأجهزة التي يجب أن تعمل دون انقطاع.",
+          "ko": "다음 몇 시간(0 = 알려진 전체) 중 평균 가격이 가장 낮은(또는 높은) 연속 블록을 찾아 지금이 그 안에 있는지 확인합니다. 중단 없이 작동해야 하는 기기용입니다."
+        },
         "highlight": true,
         "args": [
           {
@@ -10076,6 +10196,21 @@
           "ru": "Цена !{{является|не является}} одной из [[number]] [[type]] [[unit]] между [[time1]] и [[time2]]",
           "ar": "السعر !{{ضمن|ليس ضمن}} [[number]] [[unit]] [[type]] بين [[time1]] و[[time2]]",
           "ko": "[[time1]]~[[time2]] 사이 [[type]] [[number]]개 [[unit]]에 가격이 !{{포함됨|포함되지 않음}}"
+        },
+        "hint": {
+          "en": "Ranks the prices between two clock times (e.g. 7:30 or 7.5, overnight allowed) and checks if the current price is among the N cheapest or most expensive. Outside these times: false.",
+          "nl": "Rangschikt de prijzen tussen twee kloktijden (bijv. 7:30 of 7,5, over middernacht mag) en kijkt of de huidige prijs bij de N goedkoopste of duurste hoort. Buiten deze tijden: onwaar.",
+          "de": "Sortiert die Preise zwischen zwei Uhrzeiten (z. B. 7:30 oder 7,5, über Mitternacht erlaubt) und prüft, ob der aktuelle Preis zu den N günstigsten oder teuersten gehört. Außerhalb dieser Zeiten: falsch.",
+          "fr": "Classe les prix entre deux heures (ex. 7:30 ou 7,5, passage de minuit permis) et vérifie si le prix actuel fait partie des N moins chers ou plus chers. En dehors de ces heures : faux.",
+          "it": "Ordina i prezzi tra due orari (es. 7:30 o 7,5, anche oltre la mezzanotte) e verifica se il prezzo attuale è tra gli N più economici o più cari. Fuori da questi orari: falso.",
+          "sv": "Rangordnar priserna mellan två klockslag (t.ex. 7:30 eller 7,5, över midnatt tillåtet) och kontrollerar om aktuellt pris hör till de N billigaste eller dyraste. Utanför dessa tider: falskt.",
+          "no": "Rangerer prisene mellom to klokkeslett (f.eks. 7:30 eller 7,5, over midnatt er lov) og sjekker om nåværende pris er blant de N billigste eller dyreste. Utenfor disse tidene: usann.",
+          "es": "Ordena los precios entre dos horas (p. ej. 7:30 o 7,5, se permite pasar la medianoche) y comprueba si el precio actual está entre los N más baratos o más caros. Fuera de esas horas: falso.",
+          "da": "Rangerer priserne mellem to klokkeslæt (f.eks. 7:30 eller 7,5, over midnat er tilladt) og tjekker, om den aktuelle pris er blandt de N billigste eller dyreste. Uden for disse tider: falsk.",
+          "pl": "Porządkuje ceny między dwiema godzinami (np. 7:30 lub 7,5, przez północ dozwolone) i sprawdza, czy obecna cena należy do N najtańszych lub najdroższych. Poza tymi godzinami: fałsz.",
+          "ru": "Ранжирует цены между двумя временами (напр. 7:30 или 7,5, через полночь можно) и проверяет, входит ли текущая цена в N самых дешёвых или дорогих. Вне этого времени: ложь.",
+          "ar": "يرتّب الأسعار بين وقتين (مثل 7:30 أو 7.5، ويُسمح بتجاوز منتصف الليل) ويتحقق مما إذا كان السعر الحالي ضمن أرخص أو أغلى N. خارج هذه الأوقات: خطأ.",
+          "ko": "두 시각 사이(예: 7:30 또는 7.5, 자정 넘김 가능)의 가격을 순위로 매겨 현재 가격이 가장 저렴하거나 비싼 N개에 속하는지 확인합니다. 이 시간 밖에서는 거짓입니다."
         },
         "args": [
           {
@@ -10382,6 +10517,21 @@
           "ru": "Цена !{{является|не является}} одной из [[number]] [[type]] [[unit]] в ближайшие [[hours]] ч",
           "ar": "السعر !{{ضمن|ليس ضمن}} [[number]] [[unit]] [[type]] في الساعات [[hours]] القادمة",
           "ko": "다음 [[hours]]시간 중 [[type]] [[number]]개 [[unit]]에 가격이 !{{포함됨|포함되지 않음}}"
+        },
+        "hint": {
+          "en": "Ranks the prices of the coming hours (0 = all known) and checks if the current price is among the N cheapest or most expensive. Separate moments, not one block.",
+          "nl": "Rangschikt de prijzen van de komende uren (0 = alle bekende) en kijkt of de huidige prijs bij de N goedkoopste of duurste hoort. Losse momenten, geen aaneengesloten blok.",
+          "de": "Sortiert die Preise der kommenden Stunden (0 = alle bekannten) und prüft, ob der aktuelle Preis zu den N günstigsten oder teuersten gehört. Einzelne Zeitpunkte, kein zusammenhängender Block.",
+          "fr": "Classe les prix des prochaines heures (0 = tous les prix connus) et vérifie si le prix actuel fait partie des N moins chers ou plus chers. Moments séparés, pas un bloc continu.",
+          "it": "Ordina i prezzi delle prossime ore (0 = tutti quelli noti) e verifica se il prezzo attuale è tra gli N più economici o più cari. Momenti separati, non un blocco continuo.",
+          "sv": "Rangordnar priserna för kommande timmar (0 = alla kända) och kontrollerar om aktuellt pris hör till de N billigaste eller dyraste. Enskilda tidpunkter, inget sammanhängande block.",
+          "no": "Rangerer prisene for de kommende timene (0 = alle kjente) og sjekker om nåværende pris er blant de N billigste eller dyreste. Enkeltstående tidspunkter, ikke en sammenhengende blokk.",
+          "es": "Ordena los precios de las próximas horas (0 = todos los conocidos) y comprueba si el precio actual está entre los N más baratos o más caros. Momentos sueltos, no un bloque continuo.",
+          "da": "Rangerer priserne for de kommende timer (0 = alle kendte) og tjekker, om den aktuelle pris er blandt de N billigste eller dyreste. Enkelte tidspunkter, ikke en sammenhængende blok.",
+          "pl": "Porządkuje ceny z najbliższych godzin (0 = wszystkie znane) i sprawdza, czy obecna cena należy do N najtańszych lub najdroższych. Pojedyncze momenty, nie ciągły blok.",
+          "ru": "Ранжирует цены ближайших часов (0 = все известные) и проверяет, входит ли текущая цена в N самых дешёвых или дорогих. Отдельные моменты, а не непрерывный блок.",
+          "ar": "يرتّب أسعار الساعات القادمة (0 = كل الأسعار المعروفة) ويتحقق مما إذا كان السعر الحالي ضمن أرخص أو أغلى N. لحظات منفصلة، وليست كتلة متصلة.",
+          "ko": "다음 몇 시간의 가격(0 = 알려진 전체)을 순위로 매겨 현재 가격이 가장 저렴하거나 비싼 N개에 속하는지 확인합니다. 연속 블록이 아닌 개별 시점입니다."
         },
         "highlight": true,
         "args": [
@@ -13228,6 +13378,21 @@
           "ar": "السعر !{{يكون|لا يكون}} [[direction]] متوسط [[period]] بنسبة [[percent]]%",
           "ko": "가격이 [[period]] 평균보다 [[percent]]% [[direction]] !{{상태임|상태가 아님}}"
         },
+        "hint": {
+          "en": "Compares the current price with the average of the chosen period. E.g. 10% below: the price is at most 90% of the average.",
+          "nl": "Vergelijkt de huidige prijs met het gemiddelde van de gekozen periode. Bijv. 10% onder: de prijs is hooguit 90% van het gemiddelde.",
+          "de": "Vergleicht den aktuellen Preis mit dem Durchschnitt des gewählten Zeitraums. Z. B. 10% unter: der Preis beträgt höchstens 90% des Durchschnitts.",
+          "fr": "Compare le prix actuel à la moyenne de la période choisie. Ex. 10% en dessous : le prix vaut au plus 90% de la moyenne.",
+          "it": "Confronta il prezzo attuale con la media del periodo scelto. Es. 10% sotto: il prezzo è al massimo il 90% della media.",
+          "sv": "Jämför aktuellt pris med medelvärdet för vald period. T.ex. 10% under: priset är högst 90% av medelvärdet.",
+          "no": "Sammenligner nåværende pris med gjennomsnittet for valgt periode. F.eks. 10% under: prisen er høyst 90% av gjennomsnittet.",
+          "es": "Compara el precio actual con la media del periodo elegido. P. ej. 10% por debajo: el precio es como máximo el 90% de la media.",
+          "da": "Sammenligner den aktuelle pris med gennemsnittet for den valgte periode. F.eks. 10% under: prisen er højst 90% af gennemsnittet.",
+          "pl": "Porównuje obecną cenę ze średnią wybranego okresu. Np. 10% poniżej: cena wynosi najwyżej 90% średniej.",
+          "ru": "Сравнивает текущую цену со средней за выбранный период. Напр. на 10% ниже: цена составляет не более 90% от средней.",
+          "ar": "يقارن السعر الحالي بمتوسط الفترة المختارة. مثلاً 10% أقل: السعر لا يتجاوز 90% من المتوسط.",
+          "ko": "현재 가격을 선택한 기간의 평균과 비교합니다. 예: 10% 미만이면 가격이 평균의 최대 90%입니다."
+        },
         "args": [
           {
             "type": "device",
@@ -15558,6 +15723,21 @@
           "ar": "ابحث عن الفترة [[type]] لمدة [[duration]] [[duration_unit]] في الساعات [[hours]] القادمة، قبل [[time]]",
           "ko": "다음 [[hours]]시간 중 [[time]] 이전의 [[type]] [[duration]][[duration_unit]] 구간 찾기"
         },
+        "hint": {
+          "en": "Finds when the cheapest (or most expensive) consecutive block in the coming hours starts. 'Before' is optional: leave it empty for no end time. Gives start, end, minutes until start and average price.",
+          "nl": "Zoekt wanneer het goedkoopste (of duurste) aaneengesloten blok in de komende uren begint. 'Vóór' is optioneel: laat leeg voor geen eindtijd. Geeft begin, einde, minuten tot begin en gemiddelde prijs.",
+          "de": "Ermittelt, wann der günstigste (oder teuerste) zusammenhängende Block in den kommenden Stunden beginnt. 'Vor' ist optional: leer lassen für keine Endzeit. Liefert Beginn, Ende, Minuten bis Beginn und Durchschnittspreis.",
+          "fr": "Trouve quand commence le bloc continu le moins cher (ou le plus cher) des prochaines heures. 'Avant' est optionnel : laisser vide pour aucune heure de fin. Donne début, fin, minutes avant le début et prix moyen.",
+          "it": "Trova quando inizia il blocco continuo più economico (o più caro) nelle prossime ore. 'Prima' è opzionale: lasciare vuoto per nessun orario di fine. Fornisce inizio, fine, minuti all'inizio e prezzo medio.",
+          "sv": "Hittar när det billigaste (eller dyraste) sammanhängande blocket under kommande timmar börjar. 'Före' är valfritt: lämna tomt för ingen sluttid. Ger start, slut, minuter till start och medelpris.",
+          "no": "Finner når den billigste (eller dyreste) sammenhengende blokken de kommende timene starter. 'Før' er valgfritt: la stå tomt for ingen sluttid. Gir start, slutt, minutter til start og gjennomsnittspris.",
+          "es": "Busca cuándo empieza el bloque continuo más barato (o más caro) de las próximas horas. 'Antes de' es opcional: déjelo vacío para no tener hora final. Da inicio, fin, minutos hasta el inicio y precio medio.",
+          "da": "Finder, hvornår den billigste (eller dyreste) sammenhængende blok i de kommende timer starter. 'Før' er valgfrit: lad det stå tomt for intet sluttidspunkt. Giver start, slut, minutter til start og gennemsnitspris.",
+          "pl": "Ustala, kiedy zaczyna się najtańszy (lub najdroższy) ciągły blok w najbliższych godzinach. 'Przed' jest opcjonalne: zostaw puste, by nie mieć godziny końcowej. Podaje początek, koniec, minuty do początku i średnią cenę.",
+          "ru": "Находит, когда начинается самый дешёвый (или дорогой) непрерывный блок в ближайшие часы. «До» необязательно: оставьте пустым, чтобы не было времени окончания. Даёт начало, конец, минуты до начала и среднюю цену.",
+          "ar": "يحدد متى تبدأ أرخص (أو أغلى) كتلة متصلة في الساعات القادمة. 'قبل' اختياري: اتركه فارغاً لعدم تحديد وقت نهاية. يعطي البداية والنهاية والدقائق حتى البداية ومتوسط السعر.",
+          "ko": "다음 몇 시간 중 가장 저렴한(또는 비싼) 연속 블록이 언제 시작하는지 찾습니다. '이전'은 선택 사항이며 비워 두면 종료 시각이 없습니다. 시작, 종료, 시작까지 남은 분, 평균 가격을 제공합니다."
+        },
         "highlight": true,
         "args": [
           {
@@ -15933,6 +16113,21 @@
           "ar": "قدّم أسعار [[kind]] بصيغة JSON لـ [[period]]",
           "ko": "[[period]]의 [[kind]] 가격 JSON 제공"
         },
+        "hint": {
+          "en": "Gives the import or export prices of the period as a JSON list, one price per price period, e.g. for a script or a chart.",
+          "nl": "Geeft de invoer- of terugleverprijzen van de periode als JSON-lijst, één prijs per prijsperiode, bijv. voor een script of grafiek.",
+          "de": "Liefert die Bezugs- oder Einspeisepreise des Zeitraums als JSON-Liste, ein Preis pro Preisperiode, z. B. für ein Skript oder Diagramm.",
+          "fr": "Donne les prix d'achat ou de revente de la période sous forme de liste JSON, un prix par période de prix, ex. pour un script ou un graphique.",
+          "it": "Fornisce i prezzi di prelievo o di immissione del periodo come elenco JSON, un prezzo per periodo, es. per uno script o un grafico.",
+          "sv": "Ger import- eller exportpriserna för perioden som en JSON-lista, ett pris per prisperiod, t.ex. för ett skript eller diagram.",
+          "no": "Gir import- eller eksportprisene for perioden som en JSON-liste, én pris per prisperiode, f.eks. for et skript eller diagram.",
+          "es": "Da los precios de importación o exportación del periodo como lista JSON, un precio por periodo, p. ej. para un script o un gráfico.",
+          "da": "Giver import- eller eksportpriserne for perioden som en JSON-liste, én pris pr. prisperiode, f.eks. til et script eller diagram.",
+          "pl": "Podaje ceny poboru lub oddania z okresu jako listę JSON, jedna cena na okres cenowy, np. dla skryptu lub wykresu.",
+          "ru": "Выдаёт цены импорта или экспорта за период списком JSON, одна цена на ценовой период, напр. для скрипта или графика.",
+          "ar": "يعطي أسعار الاستيراد أو التصدير للفترة كقائمة JSON، سعر واحد لكل فترة سعر، مثلاً لسكربت أو رسم بياني.",
+          "ko": "기간의 수입 또는 수출 가격을 가격 구간당 하나씩 JSON 목록으로 제공합니다. 예: 스크립트나 차트용."
+        },
         "args": [
           {
             "type": "device",
@@ -16146,6 +16341,21 @@
           "ru": "Установить [[component]] на [[value]]",
           "ar": "اضبط [[component]] على [[value]]",
           "ko": "[[component]]을(를) [[value]](으)로 설정"
+        },
+        "hint": {
+          "en": "Changes a price setting of this device, e.g. a new energy tax from 1 January. Same as changing it in the device settings.",
+          "nl": "Wijzigt een prijsinstelling van dit apparaat, bijv. een nieuwe energiebelasting per 1 januari. Hetzelfde als wijzigen in de apparaatinstellingen.",
+          "de": "Ändert eine Preiseinstellung dieses Geräts, z. B. eine neue Energiesteuer ab 1. Januar. Wie eine Änderung in den Geräteeinstellungen.",
+          "fr": "Modifie un réglage de prix de cet appareil, ex. une nouvelle taxe énergie au 1er janvier. Identique à une modification dans les réglages de l'appareil.",
+          "it": "Modifica un'impostazione di prezzo di questo dispositivo, es. una nuova tassa sull'energia dal 1° gennaio. Come modificarla nelle impostazioni del dispositivo.",
+          "sv": "Ändrar en prisinställning för denna enhet, t.ex. en ny energiskatt från 1 januari. Samma som att ändra den i enhetsinställningarna.",
+          "no": "Endrer en prisinnstilling for denne enheten, f.eks. en ny energiavgift fra 1. januar. Samme som å endre den i enhetsinnstillingene.",
+          "es": "Cambia un ajuste de precio de este dispositivo, p. ej. un nuevo impuesto energético desde el 1 de enero. Igual que cambiarlo en los ajustes del dispositivo.",
+          "da": "Ændrer en prisindstilling for denne enhed, f.eks. en ny energiafgift fra 1. januar. Det samme som at ændre den i enhedsindstillingerne.",
+          "pl": "Zmienia ustawienie ceny tego urządzenia, np. nowy podatek energetyczny od 1 stycznia. Tak samo jak zmiana w ustawieniach urządzenia.",
+          "ru": "Изменяет ценовую настройку этого устройства, напр. новый энергоналог с 1 января. То же, что изменить её в настройках устройства.",
+          "ar": "يغيّر إعداد سعر لهذا الجهاز، مثلاً ضريبة طاقة جديدة من 1 يناير. مثل تغييره في إعدادات الجهاز.",
+          "ko": "이 기기의 가격 설정을 변경합니다. 예: 1월 1일부터 새 에너지세. 기기 설정에서 변경하는 것과 같습니다."
         },
         "args": [
           {
@@ -16439,6 +16649,21 @@
           "ru": "Установить [[field]] на [[value]]",
           "ar": "اضبط [[field]] على [[value]]",
           "ko": "[[field]]을(를) [[value]](으)로 설정"
+        },
+        "hint": {
+          "en": "Changes the time-of-day markup (hour:markup;hour:markup, e.g. 7:0.05;23:0) or the price formula. Empty clears it.",
+          "nl": "Wijzigt de tijdstip-opslag (uur:opslag;uur:opslag, bijv. 7:0.05;23:0) of de prijsformule. Leeg wist de instelling.",
+          "de": "Ändert den Tageszeit-Aufschlag (Stunde:Aufschlag;Stunde:Aufschlag, z. B. 7:0.05;23:0) oder die Preisformel. Leer löscht die Einstellung.",
+          "fr": "Modifie la majoration horaire (heure:majoration;heure:majoration, ex. 7:0.05;23:0) ou la formule de prix. Vide l'efface.",
+          "it": "Modifica la maggiorazione oraria (ora:maggiorazione;ora:maggiorazione, es. 7:0.05;23:0) o la formula di prezzo. Vuoto la cancella.",
+          "sv": "Ändrar tidspåslaget (timme:påslag;timme:påslag, t.ex. 7:0.05;23:0) eller prisformeln. Tomt rensar den.",
+          "no": "Endrer tidspåslaget (time:påslag;time:påslag, f.eks. 7:0.05;23:0) eller prisformelen. Tomt sletter den.",
+          "es": "Cambia el recargo por hora del día (hora:recargo;hora:recargo, p. ej. 7:0.05;23:0) o la fórmula de precio. Vacío lo borra.",
+          "da": "Ændrer tidstillægget (time:tillæg;time:tillæg, f.eks. 7:0.05;23:0) eller prisformlen. Tomt rydder den.",
+          "pl": "Zmienia narzut zależny od pory dnia (godzina:narzut;godzina:narzut, np. 7:0.05;23:0) lub formułę ceny. Puste czyści ustawienie.",
+          "ru": "Изменяет надбавку по времени суток (час:надбавка;час:надбавка, напр. 7:0.05;23:0) или формулу цены. Пусто — очистить.",
+          "ar": "يغيّر علاوة وقت اليوم (ساعة:علاوة;ساعة:علاوة، مثلاً 7:0.05;23:0) أو معادلة السعر. القيمة الفارغة تمسحها.",
+          "ko": "시간대별 할증(시:할증;시:할증, 예: 7:0.05;23:0) 또는 가격 공식을 변경합니다. 비워 두면 지워집니다."
         },
         "args": [
           {
@@ -26596,6 +26821,26 @@
                 "ru": "Расход",
                 "ar": "الاستهلاك",
                 "ko": "소비량"
+              },
+              "value": "-"
+            },
+            {
+              "id": "plan_log",
+              "type": "label",
+              "label": {
+                "en": "Plan log (newest first)",
+                "nl": "Planlog (nieuwste eerst)",
+                "de": "Planprotokoll (neueste zuerst)",
+                "fr": "Journal du plan (plus récent d'abord)",
+                "es": "Registro del plan (más reciente primero)",
+                "it": "Registro del piano (più recente prima)",
+                "da": "Planlog (nyeste først)",
+                "sv": "Planlogg (nyaste först)",
+                "no": "Planlogg (nyeste først)",
+                "pl": "Dziennik planu (najnowsze najpierw)",
+                "ru": "Журнал плана (сначала новые)",
+                "ar": "سجل الخطة (الأحدث أولاً)",
+                "ko": "계획 로그 (최신순)"
               },
               "value": "-"
             }

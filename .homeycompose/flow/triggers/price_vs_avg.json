@@ -29,6 +29,21 @@
     "ar": "يصبح السعر [[direction]] متوسط [[period]] بنسبة [[percent]]%",
     "ko": "가격이 [[period]] 평균보다 [[percent]]% [[direction]] 상태가 됨"
   },
+  "hint": {
+    "en": "Compares the current price with the average of the chosen period. E.g. 10% below: the price is at most 90% of the average. Fires once, when this starts.",
+    "nl": "Vergelijkt de huidige prijs met het gemiddelde van de gekozen periode. Bijv. 10% onder: de prijs is hooguit 90% van het gemiddelde. Triggert één keer, bij het begin.",
+    "de": "Vergleicht den aktuellen Preis mit dem Durchschnitt des gewählten Zeitraums. Z. B. 10% unter: der Preis beträgt höchstens 90% des Durchschnitts. Löst einmal aus, zu Beginn.",
+    "fr": "Compare le prix actuel à la moyenne de la période choisie. Ex. 10% en dessous : le prix vaut au plus 90% de la moyenne. Se déclenche une fois, au début.",
+    "it": "Confronta il prezzo attuale con la media del periodo scelto. Es. 10% sotto: il prezzo è al massimo il 90% della media. Si attiva una volta, all'inizio.",
+    "sv": "Jämför aktuellt pris med medelvärdet för vald period. T.ex. 10% under: priset är högst 90% av medelvärdet. Utlöses en gång, vid början.",
+    "no": "Sammenligner nåværende pris med gjennomsnittet for valgt periode. F.eks. 10% under: prisen er høyst 90% av gjennomsnittet. Utløses én gang, ved starten.",
+    "es": "Compara el precio actual con la media del periodo elegido. P. ej. 10% por debajo: el precio es como máximo el 90% de la media. Se activa una vez, al inicio.",
+    "da": "Sammenligner den aktuelle pris med gennemsnittet for den valgte periode. F.eks. 10% under: prisen er højst 90% af gennemsnittet. Udløses én gang, ved starten.",
+    "pl": "Porównuje obecną cenę ze średnią wybranego okresu. Np. 10% poniżej: cena wynosi najwyżej 90% średniej. Uruchamia się raz, na początku.",
+    "ru": "Сравнивает текущую цену со средней за выбранный период. Напр. на 10% ниже: цена составляет не более 90% от средней. Срабатывает один раз, в начале.",
+    "ar": "يقارن السعر الحالي بمتوسط الفترة المختارة. مثلاً 10% أقل: السعر لا يتجاوز 90% من المتوسط. يُطلق مرة واحدة، عند البداية.",
+    "ko": "현재 가격을 선택한 기간의 평균과 비교합니다. 예: 10% 미만이면 가격이 평균의 최대 90%입니다. 시작될 때 한 번 실행됩니다."
+  },
   "args": [
     {
       "type": "device",

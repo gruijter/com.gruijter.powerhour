@@ -29,6 +29,21 @@
     "ar": "الفترة [[type]] لمدة [[duration]] [[duration_unit]] بين [[time1]] و[[time2]] !{{جارية|ليست جارية}} الآن",
     "ko": "[[time1]]~[[time2]] 사이 [[type]] [[duration]][[duration_unit]] 구간이 지금 !{{진행 중|진행 중 아님}}"
   },
+  "hint": {
+    "en": "Finds the consecutive block with the lowest (or highest) average price between two clock times (e.g. 7:30 or 7.5, overnight allowed) and checks if now is inside it. Outside these times: false.",
+    "nl": "Zoekt het aaneengesloten blok met de laagste (of hoogste) gemiddelde prijs tussen twee kloktijden (bijv. 7:30 of 7,5, over middernacht mag) en kijkt of nu in dat blok valt. Buiten deze tijden: onwaar.",
+    "de": "Sucht den zusammenhängenden Block mit dem niedrigsten (oder höchsten) Durchschnittspreis zwischen zwei Uhrzeiten (z. B. 7:30 oder 7,5, über Mitternacht erlaubt) und prüft, ob jetzt darin liegt. Außerhalb dieser Zeiten: falsch.",
+    "fr": "Cherche le bloc continu au prix moyen le plus bas (ou le plus haut) entre deux heures (ex. 7:30 ou 7,5, passage de minuit permis) et vérifie si maintenant en fait partie. En dehors de ces heures : faux.",
+    "it": "Cerca il blocco continuo con il prezzo medio più basso (o più alto) tra due orari (es. 7:30 o 7,5, anche oltre la mezzanotte) e verifica se ora vi rientra. Fuori da questi orari: falso.",
+    "sv": "Söker det sammanhängande blocket med lägst (eller högst) medelpris mellan två klockslag (t.ex. 7:30 eller 7,5, över midnatt tillåtet) och kontrollerar om nu ligger i det. Utanför dessa tider: falskt.",
+    "no": "Finner den sammenhengende blokken med lavest (eller høyest) gjennomsnittspris mellom to klokkeslett (f.eks. 7:30 eller 7,5, over midnatt er lov) og sjekker om nå er innenfor den. Utenfor disse tidene: usann.",
+    "es": "Busca el bloque continuo con el precio medio más bajo (o más alto) entre dos horas (p. ej. 7:30 o 7,5, se permite pasar la medianoche) y comprueba si ahora está dentro. Fuera de esas horas: falso.",
+    "da": "Finder den sammenhængende blok med laveste (eller højeste) gennemsnitspris mellem to klokkeslæt (f.eks. 7:30 eller 7,5, over midnat er tilladt) og tjekker, om nu ligger i den. Uden for disse tider: falsk.",
+    "pl": "Szuka ciągłego bloku o najniższej (lub najwyższej) średniej cenie między dwiema godzinami (np. 7:30 lub 7,5, przez północ dozwolone) i sprawdza, czy teraz się w nim mieści. Poza tymi godzinami: fałsz.",
+    "ru": "Ищет непрерывный блок с самой низкой (или высокой) средней ценой между двумя временами (напр. 7:30 или 7,5, через полночь можно) и проверяет, попадает ли в него текущий момент. Вне этого времени: ложь.",
+    "ar": "يبحث عن الكتلة المتصلة ذات أدنى (أو أعلى) متوسط سعر بين وقتين (مثل 7:30 أو 7.5، ويُسمح بتجاوز منتصف الليل) ويتحقق مما إذا كان الوقت الحالي ضمنها. خارج هذه الأوقات: خطأ.",
+    "ko": "두 시각 사이(예: 7:30 또는 7.5, 자정 넘김 가능)에서 평균 가격이 가장 낮은(또는 높은) 연속 블록을 찾아 지금이 그 안에 있는지 확인합니다. 이 시간 밖에서는 거짓입니다."
+  },
   "args": [
     {
       "type": "device",

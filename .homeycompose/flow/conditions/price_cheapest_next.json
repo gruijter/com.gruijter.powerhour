@@ -29,6 +29,21 @@
     "ar": "السعر !{{ضمن|ليس ضمن}} [[number]] [[unit]] [[type]] في الساعات [[hours]] القادمة",
     "ko": "다음 [[hours]]시간 중 [[type]] [[number]]개 [[unit]]에 가격이 !{{포함됨|포함되지 않음}}"
   },
+  "hint": {
+    "en": "Ranks the prices of the coming hours (0 = all known) and checks if the current price is among the N cheapest or most expensive. Separate moments, not one block.",
+    "nl": "Rangschikt de prijzen van de komende uren (0 = alle bekende) en kijkt of de huidige prijs bij de N goedkoopste of duurste hoort. Losse momenten, geen aaneengesloten blok.",
+    "de": "Sortiert die Preise der kommenden Stunden (0 = alle bekannten) und prüft, ob der aktuelle Preis zu den N günstigsten oder teuersten gehört. Einzelne Zeitpunkte, kein zusammenhängender Block.",
+    "fr": "Classe les prix des prochaines heures (0 = tous les prix connus) et vérifie si le prix actuel fait partie des N moins chers ou plus chers. Moments séparés, pas un bloc continu.",
+    "it": "Ordina i prezzi delle prossime ore (0 = tutti quelli noti) e verifica se il prezzo attuale è tra gli N più economici o più cari. Momenti separati, non un blocco continuo.",
+    "sv": "Rangordnar priserna för kommande timmar (0 = alla kända) och kontrollerar om aktuellt pris hör till de N billigaste eller dyraste. Enskilda tidpunkter, inget sammanhängande block.",
+    "no": "Rangerer prisene for de kommende timene (0 = alle kjente) og sjekker om nåværende pris er blant de N billigste eller dyreste. Enkeltstående tidspunkter, ikke en sammenhengende blokk.",
+    "es": "Ordena los precios de las próximas horas (0 = todos los conocidos) y comprueba si el precio actual está entre los N más baratos o más caros. Momentos sueltos, no un bloque continuo.",
+    "da": "Rangerer priserne for de kommende timer (0 = alle kendte) og tjekker, om den aktuelle pris er blandt de N billigste eller dyreste. Enkelte tidspunkter, ikke en sammenhængende blok.",
+    "pl": "Porządkuje ceny z najbliższych godzin (0 = wszystkie znane) i sprawdza, czy obecna cena należy do N najtańszych lub najdroższych. Pojedyncze momenty, nie ciągły blok.",
+    "ru": "Ранжирует цены ближайших часов (0 = все известные) и проверяет, входит ли текущая цена в N самых дешёвых или дорогих. Отдельные моменты, а не непрерывный блок.",
+    "ar": "يرتّب أسعار الساعات القادمة (0 = كل الأسعار المعروفة) ويتحقق مما إذا كان السعر الحالي ضمن أرخص أو أغلى N. لحظات منفصلة، وليست كتلة متصلة.",
+    "ko": "다음 몇 시간의 가격(0 = 알려진 전체)을 순위로 매겨 현재 가격이 가장 저렴하거나 비싼 N개에 속하는지 확인합니다. 연속 블록이 아닌 개별 시점입니다."
+  },
   "highlight": true,
   "args": [
     {

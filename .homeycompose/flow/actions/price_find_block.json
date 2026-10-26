@@ -29,6 +29,21 @@
     "ar": "ابحث عن الفترة [[type]] لمدة [[duration]] [[duration_unit]] في الساعات [[hours]] القادمة، قبل [[time]]",
     "ko": "다음 [[hours]]시간 중 [[time]] 이전의 [[type]] [[duration]][[duration_unit]] 구간 찾기"
   },
+  "hint": {
+    "en": "Finds when the cheapest (or most expensive) consecutive block in the coming hours starts. 'Before' is optional: leave it empty for no end time. Gives start, end, minutes until start and average price.",
+    "nl": "Zoekt wanneer het goedkoopste (of duurste) aaneengesloten blok in de komende uren begint. 'Vóór' is optioneel: laat leeg voor geen eindtijd. Geeft begin, einde, minuten tot begin en gemiddelde prijs.",
+    "de": "Ermittelt, wann der günstigste (oder teuerste) zusammenhängende Block in den kommenden Stunden beginnt. 'Vor' ist optional: leer lassen für keine Endzeit. Liefert Beginn, Ende, Minuten bis Beginn und Durchschnittspreis.",
+    "fr": "Trouve quand commence le bloc continu le moins cher (ou le plus cher) des prochaines heures. 'Avant' est optionnel : laisser vide pour aucune heure de fin. Donne début, fin, minutes avant le début et prix moyen.",
+    "it": "Trova quando inizia il blocco continuo più economico (o più caro) nelle prossime ore. 'Prima' è opzionale: lasciare vuoto per nessun orario di fine. Fornisce inizio, fine, minuti all'inizio e prezzo medio.",
+    "sv": "Hittar när det billigaste (eller dyraste) sammanhängande blocket under kommande timmar börjar. 'Före' är valfritt: lämna tomt för ingen sluttid. Ger start, slut, minuter till start och medelpris.",
+    "no": "Finner når den billigste (eller dyreste) sammenhengende blokken de kommende timene starter. 'Før' er valgfritt: la stå tomt for ingen sluttid. Gir start, slutt, minutter til start og gjennomsnittspris.",
+    "es": "Busca cuándo empieza el bloque continuo más barato (o más caro) de las próximas horas. 'Antes de' es opcional: déjelo vacío para no tener hora final. Da inicio, fin, minutos hasta el inicio y precio medio.",
+    "da": "Finder, hvornår den billigste (eller dyreste) sammenhængende blok i de kommende timer starter. 'Før' er valgfrit: lad det stå tomt for intet sluttidspunkt. Giver start, slut, minutter til start og gennemsnitspris.",
+    "pl": "Ustala, kiedy zaczyna się najtańszy (lub najdroższy) ciągły blok w najbliższych godzinach. 'Przed' jest opcjonalne: zostaw puste, by nie mieć godziny końcowej. Podaje początek, koniec, minuty do początku i średnią cenę.",
+    "ru": "Находит, когда начинается самый дешёвый (или дорогой) непрерывный блок в ближайшие часы. «До» необязательно: оставьте пустым, чтобы не было времени окончания. Даёт начало, конец, минуты до начала и среднюю цену.",
+    "ar": "يحدد متى تبدأ أرخص (أو أغلى) كتلة متصلة في الساعات القادمة. 'قبل' اختياري: اتركه فارغاً لعدم تحديد وقت نهاية. يعطي البداية والنهاية والدقائق حتى البداية ومتوسط السعر.",
+    "ko": "다음 몇 시간 중 가장 저렴한(또는 비싼) 연속 블록이 언제 시작하는지 찾습니다. '이전'은 선택 사항이며 비워 두면 종료 시각이 없습니다. 시작, 종료, 시작까지 남은 분, 평균 가격을 제공합니다."
+  },
   "highlight": true,
   "args": [
     {

@@ -29,6 +29,21 @@
     "ar": "تبدأ الفترة [[type]] لمدة [[duration]] [[duration_unit]] في الساعات [[hours]] القادمة",
     "ko": "다음 [[hours]]시간 중 [[type]] [[duration]][[duration_unit]] 구간이 시작됨"
   },
+  "hint": {
+    "en": "Finds the consecutive block with the lowest (or highest) average price in the coming hours (0 = all known) and checks if now is inside it. For devices that must run without a break. Fires once, when this starts.",
+    "nl": "Zoekt het aaneengesloten blok met de laagste (of hoogste) gemiddelde prijs in de komende uren (0 = alle bekende) en kijkt of nu in dat blok valt. Voor apparaten die zonder onderbreking moeten draaien. Triggert één keer, bij het begin.",
+    "de": "Sucht den zusammenhängenden Block mit dem niedrigsten (oder höchsten) Durchschnittspreis in den kommenden Stunden (0 = alle bekannten) und prüft, ob jetzt darin liegt. Für Geräte, die ohne Unterbrechung laufen müssen. Löst einmal aus, zu Beginn.",
+    "fr": "Cherche le bloc continu au prix moyen le plus bas (ou le plus haut) dans les prochaines heures (0 = tous les prix connus) et vérifie si maintenant en fait partie. Pour les appareils qui doivent fonctionner sans interruption. Se déclenche une fois, au début.",
+    "it": "Cerca il blocco continuo con il prezzo medio più basso (o più alto) nelle prossime ore (0 = tutti quelli noti) e verifica se ora vi rientra. Per dispositivi che devono funzionare senza interruzioni. Si attiva una volta, all'inizio.",
+    "sv": "Söker det sammanhängande blocket med lägst (eller högst) medelpris under kommande timmar (0 = alla kända) och kontrollerar om nu ligger i det. För apparater som måste gå utan avbrott. Utlöses en gång, vid början.",
+    "no": "Finner den sammenhengende blokken med lavest (eller høyest) gjennomsnittspris de kommende timene (0 = alle kjente) og sjekker om nå er innenfor den. For apparater som må gå uten avbrudd. Utløses én gang, ved starten.",
+    "es": "Busca el bloque continuo con el precio medio más bajo (o más alto) en las próximas horas (0 = todos los conocidos) y comprueba si ahora está dentro. Para aparatos que deben funcionar sin interrupción. Se activa una vez, al inicio.",
+    "da": "Finder den sammenhængende blok med laveste (eller højeste) gennemsnitspris i de kommende timer (0 = alle kendte) og tjekker, om nu ligger i den. Til apparater, der skal køre uden afbrydelse. Udløses én gang, ved starten.",
+    "pl": "Szuka ciągłego bloku o najniższej (lub najwyższej) średniej cenie w najbliższych godzinach (0 = wszystkie znane) i sprawdza, czy teraz się w nim mieści. Dla urządzeń, które muszą pracować bez przerwy. Uruchamia się raz, na początku.",
+    "ru": "Ищет непрерывный блок с самой низкой (или высокой) средней ценой в ближайшие часы (0 = все известные) и проверяет, попадает ли в него текущий момент. Для устройств, которые должны работать без перерыва. Срабатывает один раз, в начале.",
+    "ar": "يبحث عن الكتلة المتصلة ذات أدنى (أو أعلى) متوسط سعر في الساعات القادمة (0 = كل الأسعار المعروفة) ويتحقق مما إذا كان الوقت الحالي ضمنها. للأجهزة التي يجب أن تعمل دون انقطاع. يُطلق مرة واحدة، عند البداية.",
+    "ko": "다음 몇 시간(0 = 알려진 전체) 중 평균 가격이 가장 낮은(또는 높은) 연속 블록을 찾아 지금이 그 안에 있는지 확인합니다. 중단 없이 작동해야 하는 기기용입니다. 시작될 때 한 번 실행됩니다."
+  },
   "highlight": true,
   "args": [
     {

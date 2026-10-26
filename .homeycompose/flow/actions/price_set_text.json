@@ -29,6 +29,21 @@
     "ar": "اضبط [[field]] على [[value]]",
     "ko": "[[field]]을(를) [[value]](으)로 설정"
   },
+  "hint": {
+    "en": "Changes the time-of-day markup (hour:markup;hour:markup, e.g. 7:0.05;23:0) or the price formula. Empty clears it.",
+    "nl": "Wijzigt de tijdstip-opslag (uur:opslag;uur:opslag, bijv. 7:0.05;23:0) of de prijsformule. Leeg wist de instelling.",
+    "de": "Ändert den Tageszeit-Aufschlag (Stunde:Aufschlag;Stunde:Aufschlag, z. B. 7:0.05;23:0) oder die Preisformel. Leer löscht die Einstellung.",
+    "fr": "Modifie la majoration horaire (heure:majoration;heure:majoration, ex. 7:0.05;23:0) ou la formule de prix. Vide l'efface.",
+    "it": "Modifica la maggiorazione oraria (ora:maggiorazione;ora:maggiorazione, es. 7:0.05;23:0) o la formula di prezzo. Vuoto la cancella.",
+    "sv": "Ändrar tidspåslaget (timme:påslag;timme:påslag, t.ex. 7:0.05;23:0) eller prisformeln. Tomt rensar den.",
+    "no": "Endrer tidspåslaget (time:påslag;time:påslag, f.eks. 7:0.05;23:0) eller prisformelen. Tomt sletter den.",
+    "es": "Cambia el recargo por hora del día (hora:recargo;hora:recargo, p. ej. 7:0.05;23:0) o la fórmula de precio. Vacío lo borra.",
+    "da": "Ændrer tidstillægget (time:tillæg;time:tillæg, f.eks. 7:0.05;23:0) eller prisformlen. Tomt rydder den.",
+    "pl": "Zmienia narzut zależny od pory dnia (godzina:narzut;godzina:narzut, np. 7:0.05;23:0) lub formułę ceny. Puste czyści ustawienie.",
+    "ru": "Изменяет надбавку по времени суток (час:надбавка;час:надбавка, напр. 7:0.05;23:0) или формулу цены. Пусто — очистить.",
+    "ar": "يغيّر علاوة وقت اليوم (ساعة:علاوة;ساعة:علاوة، مثلاً 7:0.05;23:0) أو معادلة السعر. القيمة الفارغة تمسحها.",
+    "ko": "시간대별 할증(시:할증;시:할증, 예: 7:0.05;23:0) 또는 가격 공식을 변경합니다. 비워 두면 지워집니다."
+  },
   "args": [
     {
       "type": "device",

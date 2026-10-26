@@ -29,6 +29,21 @@
     "ar": "اضبط [[component]] على [[value]]",
     "ko": "[[component]]을(를) [[value]](으)로 설정"
   },
+  "hint": {
+    "en": "Changes a price setting of this device, e.g. a new energy tax from 1 January. Same as changing it in the device settings.",
+    "nl": "Wijzigt een prijsinstelling van dit apparaat, bijv. een nieuwe energiebelasting per 1 januari. Hetzelfde als wijzigen in de apparaatinstellingen.",
+    "de": "Ändert eine Preiseinstellung dieses Geräts, z. B. eine neue Energiesteuer ab 1. Januar. Wie eine Änderung in den Geräteeinstellungen.",
+    "fr": "Modifie un réglage de prix de cet appareil, ex. une nouvelle taxe énergie au 1er janvier. Identique à une modification dans les réglages de l'appareil.",
+    "it": "Modifica un'impostazione di prezzo di questo dispositivo, es. una nuova tassa sull'energia dal 1° gennaio. Come modificarla nelle impostazioni del dispositivo.",
+    "sv": "Ändrar en prisinställning för denna enhet, t.ex. en ny energiskatt från 1 januari. Samma som att ändra den i enhetsinställningarna.",
+    "no": "Endrer en prisinnstilling for denne enheten, f.eks. en ny energiavgift fra 1. januar. Samme som å endre den i enhetsinnstillingene.",
+    "es": "Cambia un ajuste de precio de este dispositivo, p. ej. un nuevo impuesto energético desde el 1 de enero. Igual que cambiarlo en los ajustes del dispositivo.",
+    "da": "Ændrer en prisindstilling for denne enhed, f.eks. en ny energiafgift fra 1. januar. Det samme som at ændre den i enhedsindstillingerne.",
+    "pl": "Zmienia ustawienie ceny tego urządzenia, np. nowy podatek energetyczny od 1 stycznia. Tak samo jak zmiana w ustawieniach urządzenia.",
+    "ru": "Изменяет ценовую настройку этого устройства, напр. новый энергоналог с 1 января. То же, что изменить её в настройках устройства.",
+    "ar": "يغيّر إعداد سعر لهذا الجهاز، مثلاً ضريبة طاقة جديدة من 1 يناير. مثل تغييره في إعدادات الجهاز.",
+    "ko": "이 기기의 가격 설정을 변경합니다. 예: 1월 1일부터 새 에너지세. 기기 설정에서 변경하는 것과 같습니다."
+  },
   "args": [
     {
       "type": "device",

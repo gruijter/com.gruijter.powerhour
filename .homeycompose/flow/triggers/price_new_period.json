@@ -14,6 +14,21 @@
     "ar": "بدأت فترة سعر جديدة",
     "ko": "새 가격 구간이 시작됨"
   },
+  "hint": {
+    "en": "Fires at the start of every price period (every 15 minutes or every hour, depending on the price source), with the import and export price.",
+    "nl": "Triggert bij het begin van elke prijsperiode (elk kwartier of elk uur, afhankelijk van de prijsbron), met de invoer- en terugleverprijs.",
+    "de": "Löst zu Beginn jeder Preisperiode aus (alle 15 Minuten oder jede Stunde, je nach Preisquelle), mit Bezugs- und Einspeisepreis.",
+    "fr": "Se déclenche au début de chaque période de prix (toutes les 15 minutes ou toutes les heures, selon la source), avec le prix d'achat et de revente.",
+    "it": "Si attiva all'inizio di ogni periodo di prezzo (ogni 15 minuti o ogni ora, secondo la fonte), con il prezzo di prelievo e di immissione.",
+    "sv": "Utlöses vid början av varje prisperiod (var 15:e minut eller varje timme, beroende på priskällan), med import- och exportpris.",
+    "no": "Utløses ved starten av hver prisperiode (hvert 15. minutt eller hver time, avhengig av priskilden), med import- og eksportpris.",
+    "es": "Se activa al inicio de cada periodo de precio (cada 15 minutos o cada hora, según la fuente), con el precio de importación y exportación.",
+    "da": "Udløses ved starten af hver prisperiode (hvert 15. minut eller hver time, afhængigt af priskilden), med import- og eksportpris.",
+    "pl": "Uruchamia się na początku każdego okresu cenowego (co 15 minut lub co godzinę, zależnie od źródła cen), z ceną poboru i oddania.",
+    "ru": "Срабатывает в начале каждого ценового периода (каждые 15 минут или каждый час, в зависимости от источника), с ценой импорта и экспорта.",
+    "ar": "يُطلق عند بداية كل فترة سعر (كل 15 دقيقة أو كل ساعة حسب مصدر الأسعار)، مع سعر الاستيراد والتصدير.",
+    "ko": "가격 소스에 따라 15분 또는 1시간마다 각 가격 구간이 시작될 때 수입 및 수출 가격과 함께 실행됩니다."
+  },
   "args": [
     {
       "type": "device",
