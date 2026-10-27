@@ -485,3 +485,116 @@ console.log('all phase 3 tests passed');
   assert.strictEqual(trip.minSoc, 35, 'input trips not changed');
   console.log('energy mode planner tests passed');
 }
+
+// --- Ceiling after a trip, covered days, typical day cost, bridged gaps
+{
+  const now = at(2026, 10, 27, 0);
+  // Above maxSoc now: may stay, not be topped up again after a trip.
+  const prices = Array.from({ length: 24 }, (_, h) => (h >= 4 && h < 9 ? 0.1 : 0.3));
+  let r = P.plan({
+    ...base,
+    now,
+    slotStartMs: now,
+    prices,
+    soc: 96,
+    maxSoc: 90,
+    trips: [{
+      departMs: now + 2 * H, returnMs: now + 2 * H, needPct: 13, minSoc: 0, soft: true,
+    }],
+    cheapThreshold: { grid: 0.2, solar: 0.2, coming: false },
+  });
+  const after = r.socTrajectory.slice(3).map((s) => s.soc);
+  assert.ok(Math.max(...after) <= 90 + 1e-6, `topped up to ${Math.max(...after)} after the trip`);
+  assert.ok(Math.max(...after) > 89, 'cheap extra up to maxSoc');
+
+  // Enough for the coming days: nothing charged ahead on the coming prices.
+  const day = Array.from({ length: 24 }, (_, h) => (h >= 11 && h < 14 ? 0.19 : 0.3));
+  const ahead = (extra) => P.plan({
+    ...base,
+    now,
+    slotStartMs: now,
+    prices: day,
+    soc: 83,
+    maxSoc: 90,
+    horizonDays: 5,
+    expectedPrice: () => ({ price: 0.3, exportPrice: 0.1 }),
+    trips: [{
+      departMs: now + 34 * H, returnMs: now + 34 * H, needPct: 6, minSoc: 36,
+    }],
+    cheapThreshold: { grid: 0.1, solar: 0.1, coming: true },
+    ...extra,
+  });
+  assert.ok(chargedSlots(ahead({})).length > 0, 'charged ahead without cover');
+  assert.deepStrictEqual(chargedSlots(ahead({ coverUntilMs: now + 72 * H })), [], 'covered: not charged ahead');
+  r = ahead({
+    coverUntilMs: now + 72 * H,
+    soc: 40,
+    trips: [{
+      departMs: now + 34 * H, returnMs: now + 34 * H, needPct: 20, minSoc: 50,
+    }],
+  });
+  assert.ok(chargedSlots(r).length > 0, 'not covered: charged ahead');
+  assert.deepStrictEqual(chargedSlots(ahead({ typicalDayCost: () => 0.2 })), [], 'coming days usually cost 0.20: 0.19 not cheap enough');
+
+  // Hourly prices on quarters: no gap at the start of a partly used hour.
+  const q = Array.from({ length: 96 }, (_, i) => {
+    if (i >= 8 && i < 12) return 0.18;
+    return i >= 12 && i < 16 ? 0.2 : 0.3;
+  });
+  const quarters = (gapPrice) => P.plan({
+    ...base,
+    intervalMin: 15,
+    now,
+    slotStartMs: now,
+    prices: q.map((p, i) => (i === 12 ? gapPrice : p)),
+    soc: 40,
+    trips: [{
+      departMs: now + 10 * H, returnMs: now + 10 * H, needPct: 0, minSoc: 47,
+    }],
+    cheapThreshold: null,
+  });
+  assert.deepStrictEqual(chargedSlots(quarters(0.2)), [8, 9, 10, 11, 12, 13, 14], 'session bridged');
+  assert.deepStrictEqual(chargedSlots(quarters(0.6)), [8, 9, 10, 11, 13, 14, 15], 'dear gap: not bridged');
+  console.log('ceiling, cover, typical day cost and gap tests passed');
+}
+
+// --- Typical day cost from the daily lows
+{
+  const prof = PP.createProfile();
+  const entries = [];
+  for (let d = 0; d < 6; d += 1) {
+    const mid = at(2026, 10, 10 + d, 0);
+    for (let h = 0; h < 24; h += 1) entries.push({ time: mid + h * H, price: h < 2 ? 0.1 + d * 0.01 : 0.3 });
+  }
+  PP.learn(prof, entries, tz);
+  assert.strictEqual(Object.keys(prof.dailyLows).length, 6);
+  assert.ok(Math.abs(PP.typicalDayCost(prof, 2) - 0.125) < 1e-9, `2 h: ${PP.typicalDayCost(prof, 2)}`);
+  assert.ok(Math.abs(PP.typicalDayCost(prof, 4) - 0.2125) < 1e-9, `4 h: ${PP.typicalDayCost(prof, 4)}`);
+  assert.strictEqual(PP.typicalDayCost(PP.createProfile(), 2), null, 'too few days');
+  console.log('typical day cost tests passed');
+}
+
+// --- Trips: a day on expected prices has its usual dips
+{
+  const now = at(2026, 10, 27, 0);
+  const day = Array.from({ length: 24 }, (_, h) => (h >= 11 && h < 14 ? 0.19 : 0.3));
+  const trip = (extra) => P.plan({
+    ...base,
+    now,
+    slotStartMs: now,
+    prices: day,
+    soc: 40,
+    maxSoc: 90,
+    horizonDays: 3,
+    expectedPrice: () => ({ price: 0.3, exportPrice: 0.1 }),
+    trips: [{
+      departMs: now + 34 * H, returnMs: now + 34 * H, needPct: 10, minSoc: 48,
+    }],
+    cheapThreshold: null,
+    ...extra,
+  });
+  assert.ok(chargedSlots(trip({})).length > 0, 'flat expected prices: charged today at 0.19');
+  assert.deepStrictEqual(chargedSlots(trip({ typicalDayCost: () => 0.15 })), [], 'tomorrow usually has 0.15: not today');
+  assert.ok(chargedSlots(trip({ typicalDayCost: () => 0.25 })).length > 0, 'tomorrow usually 0.25: today');
+  console.log('trip typical day cost tests passed');
+}

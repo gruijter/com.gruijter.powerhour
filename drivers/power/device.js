@@ -147,7 +147,7 @@ class PowerDevice extends GenericDevice {
       capNames: ['energy_power', 'meter_power'],
       startDate: new Date(endDate.getTime() - 14 * 24 * 60 * 60 * 1000),
       endDate,
-      coarseResolutions: ['last14Days'],
+      coarseResolutions: ['last14Days', 'last7Days'], // the first that is hourly
     }) || [];
     const model = ApplianceModel.learnHistory(ApplianceModel.initModel(), entries, {
       timezone: this.timeZone,

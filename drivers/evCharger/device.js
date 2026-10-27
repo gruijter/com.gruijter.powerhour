@@ -25,6 +25,7 @@ const MeterHelpers = require('../../lib/helpers/MeterHelpers');
 const EvCarCaps = require('../../lib/helpers/EvCarCaps');
 const EvChargerCaps = require('../../lib/helpers/EvChargerCaps');
 const EvHistory = require('../../lib/helpers/EvHistory');
+const InsightsHistory = require('../../lib/helpers/InsightsHistory');
 const PriceDrivers = require('../../lib/helpers/PriceDrivers');
 
 const deviceSpecifics = {
@@ -73,6 +74,8 @@ const MIN_SOLAR_NEED_W = 100;
 const CAP_RESTART_MIN_MS = 10 * 60 * 1000;
 // Direct car read in the control loop, next to the car's own capability events.
 const CAR_POLL_MS = 5 * 60 * 1000;
+// Car device unavailable this long, or its odometer moved meanwhile: trips of the day may be missed.
+const CAR_UNOBSERVED_MS = 3 * 60 * 60 * 1000;
 // Departure hours in the "departure today/tomorrow" pickers (ev_today_time, ev_tomorrow_time).
 const DAY_PICKER_HOURS = [3, 6, 7, 8, 10, 12, 14, 16, 18, 20, 22];
 // Chargers with only a kWh meter: power averaged over at least this long, and no meter change
@@ -393,9 +396,23 @@ class CarChargeDevice extends GenericDevice {
     if (!api || !this.evDevice) return;
     const car = await api.devices.getDevice({ id: this.evDevice.id, $cache: false }).catch(() => null);
     if (!car || !car.capabilitiesObj) return;
-    if (!car.available && this.usageModel) {
-      EvUsageModel.markCurrentUnobserved(this.usageModel);
-      await this._saveUsageModel();
+    if (this.usageModel) {
+      const odoCap = this.carCapGroup && this.carCapGroup.odometer;
+      const odo = odoCap && car.capabilitiesObj[odoCap] ? car.capabilitiesObj[odoCap].value : null;
+      let unobserved = false;
+      if (!car.available) {
+        if (!this.carUnavailableSince) this.carUnavailableSince = { tm: Date.now(), odo: this.usageModel.lastOdo };
+        unobserved = Date.now() - this.carUnavailableSince.tm >= CAR_UNOBSERVED_MS;
+      } else if (this.carUnavailableSince) {
+        const before = this.carUnavailableSince.odo;
+        unobserved = typeof odo === 'number' && typeof before === 'number' && odo - before >= 0.1;
+        this.carUnavailableSince = null;
+      }
+      if (unobserved && !this.usageModel.current?.partial) {
+        this.log('[EV Usage] Car device was unavailable during driving or for long: today is not used for learning');
+        EvUsageModel.markCurrentUnobserved(this.usageModel);
+        await this._saveUsageModel();
+      }
     }
     if (car.available !== this.carAvailable) {
       this.log(`[EV SoC] Car device ${car.available ? 'available' : 'unavailable: its location and plug state are not used'}`);
@@ -1979,6 +1996,7 @@ class CarChargeDevice extends GenericDevice {
     this.cheapThreshold = cheap; // for charging on surplus the plan did not expect
     const firstForecast = isForecast.findIndex(Boolean);
 
+    const tomorrowEndMs = TimeHelpers.getUTCPeriods(tz).tomorrowEnd.getTime();
     const planStart = Date.now();
     const result = EvPlanner.plan({
       now,
@@ -2008,7 +2026,10 @@ class CarChargeDevice extends GenericDevice {
       variablePower: !!settings.variableChargePower,
       minVariablePowerW: this._variableMinW(),
       solarGridW: Number(settings.solarGridPower) || 0,
-      outlookUntilMs: TimeHelpers.getUTCPeriods(tz).tomorrowEnd.getTime(), // shown up to the end of tomorrow
+      outlookUntilMs: tomorrowEndMs, // shown up to the end of tomorrow
+      // Enough for the trips of today, tomorrow and the day after: nothing charged ahead for later.
+      coverUntilMs: TimeHelpers.getLocalMidnightUTC(new Date(tomorrowEndMs + 36 * 3600 * 1000), tz).getTime(),
+      typicalDayCost: (hours) => EvPriceProfile.typicalDayCost(this.priceProfile, hours),
     });
     const strategy = result.scheme;
     const planMs = Date.now() - planStart;
@@ -2191,25 +2212,15 @@ class CarChargeDevice extends GenericDevice {
         api, logs, deviceId, capNames, startDate, endDate,
       });
 
-      // Odometer history for the usage model. Checked live on a Kia odometer log (2026-09-26):
-      // last14Days gives hourly points, last31Days 6-hour points, longer resolutions nothing useful.
-      // So: hourly for the last 14 days, 6-hourly (marked coarse) before that.
+      // Odometer history for the usage model: hourly where Insights has it, coarser points (6-hour,
+      // marked coarse) before that, up to a month back.
       const fetchOdometer = async (deviceId, capName) => {
         const log = logs.find((l) => {
           const id = l.id || l.uri || '';
           return id.includes(deviceId) && (id.endsWith(`:${capName}`) || l.name === capName);
         });
         if (!log) return null;
-        const get = async (resolution, coarse) => {
-          const data = await api.insights.getLogEntries({ id: log.id, resolution }).catch(() => null);
-          return ((data && data.values) || [])
-            .filter((e) => typeof e.v === 'number')
-            .map((e) => ({ t: new Date(e.t).getTime(), v: e.v, coarse }));
-        };
-        const fine = await get('last14Days', false);
-        const coarse = await get('last31Days', true);
-        const firstFine = fine.length ? fine[0].t : Infinity;
-        return coarse.filter((e) => e.t < firstFine).concat(fine);
+        return InsightsHistory.fetchHistory(api, log.id);
       };
 
       // Homey logs measure_power under 'energy_power'; a 'measure_power' log can exist but is empty
@@ -2249,16 +2260,16 @@ class CarChargeDevice extends GenericDevice {
       // Expected-price profile from the DAP price history (hourly, 14 days), once. Built fresh:
       // live learning only takes prices newer than the last learned one, so history must go first.
       if (!this.priceProfile) this.priceProfile = (await this.getStoreValue('evPriceProfile')) || EvPriceProfile.createProfile();
-      if (retrain || this.priceProfile.bootstrapped !== PRICE_BOOTSTRAP_VERSION) {
+      // A profile from before the daily lows: only those are taken from the history.
+      const lowsOnly = !retrain && this.priceProfile.bootstrapped === PRICE_BOOTSTRAP_VERSION && !this.priceProfile.dailyLows;
+      if (retrain || this.priceProfile.bootstrapped !== PRICE_BOOTSTRAP_VERSION || lowsOnly) {
         // The electricity DAP devices (not gas) that feed this device's tariff group.
         const dapIds = await this._groupDapDeviceIds();
-        // The longest history of those devices (a new price device next to an old one has little).
+        // The longest hourly history of those devices (a new price device next to an old one has little).
         const hourly = async (capName) => {
           let best = [];
           for (const log of this._findGroupPriceLogs(logs, dapIds, capName)) {
-            const data = await api.insights.getLogEntries({ id: log.id, resolution: 'last14Days' }).catch(() => null);
-            const values = ((data && data.values) || []).filter((e) => typeof e.v === 'number')
-              .map((e) => ({ t: new Date(e.t).getTime(), v: e.v }));
+            const values = (await InsightsHistory.fetchHistory(api, log.id, ['last7Days', 'last14Days'])).filter((e) => !e.coarse);
             if (values.length > best.length) best = values;
           }
           return best;
@@ -2267,12 +2278,18 @@ class CarChargeDevice extends GenericDevice {
         // A retrain without price history keeps what was learned live.
         if (imp.length || !retrain) {
           const exp = new Map((await hourly(PriceDrivers.PRICE_LOG_CAPS.export)).map((e) => [e.t, e.v]));
-          const fresh = EvPriceProfile.createProfile();
-          EvPriceProfile.learn(fresh, imp.map((e) => ({ time: e.t, price: e.v, exportPrice: exp.get(e.t) })), tz);
-          fresh.bootstrapped = PRICE_BOOTSTRAP_VERSION;
-          this.priceProfile = fresh;
+          const entries = imp.map((e) => ({ time: e.t, price: e.v, exportPrice: exp.get(e.t) }));
+          if (lowsOnly) {
+            // Prices older than the last learned one only add to the daily lows.
+            EvPriceProfile.learn(this.priceProfile, entries, tz);
+          } else {
+            const fresh = EvPriceProfile.createProfile();
+            EvPriceProfile.learn(fresh, entries, tz);
+            fresh.bootstrapped = PRICE_BOOTSTRAP_VERSION;
+            this.priceProfile = fresh;
+          }
           await this.setStoreValue('evPriceProfile', this.priceProfile).catch(this.error);
-          this.log(`[EV Plan] Price profile bootstrapped from ${imp.length} hourly prices`);
+          this.log(`[EV Plan] Price profile ${lowsOnly ? 'daily lows' : 'bootstrapped'} from ${imp.length} hourly prices`);
         }
       }
 
@@ -2352,15 +2369,21 @@ class CarChargeDevice extends GenericDevice {
       const capacity = this.getSettings().batCapacity || 50;
       const profile = this._profile();
       const update = {};
+      // Days not learned, by reason: 'skipped: 2 incomplete, 1 night away'
+      const skippedText = (skipped) => {
+        const parts = ['period', 'awayNight', 'partial', 'override'].filter((why) => skipped && skipped[why])
+          .map((why) => `${skipped[why]} ${this.homey.__(`ev_skip_${why}`)}`);
+        return parts.length ? ` · ${this.homey.__('ev_profile_skipped')}: ${parts.join(', ')}` : '';
+      };
       profile.forEach((day) => {
         const key = LEARNED_PROFILE_KEYS[day.dow];
         if (!day.observed) {
-          update[key] = this.homey.__('ev_profile_not_learned');
+          update[key] = `${this.homey.__('ev_profile_not_learned')}${skippedText(day.skipped)}`;
           return;
         }
         const count = `${day.used}/${day.observed}`;
         if (!day.used) {
-          update[key] = `${this.homey.__('ev_profile_unused')} · ${count}`;
+          update[key] = `${this.homey.__('ev_profile_unused')} · ${count}${skippedText(day.skipped)}`;
           return;
         }
         const parts = [this.homey.__(day.regular ? 'ev_profile_regular' : 'ev_profile_sometimes')];
@@ -2368,7 +2391,7 @@ class CarChargeDevice extends GenericDevice {
         else if (typeof day.departFh === 'number') parts.push(EvUsageModel.fractionalHourToHHMM(day.departFh));
         if (typeof day.safeKwh === 'number') parts.push(`${day.safeKwh} kWh (${Math.round((day.safeKwh / capacity) * 100)}%)`);
         parts.push(count);
-        update[key] = parts.join(' · ');
+        update[key] = `${parts.join(' · ')}${skippedText(day.skipped)}`;
       });
       const kwhPerKm = EvUsageModel.effectiveKwhPerKm(this.usageModel);
       update.learned_consumption = kwhPerKm

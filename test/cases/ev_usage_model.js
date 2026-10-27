@@ -113,3 +113,42 @@ assert.strictEqual(b.days.find((x) => x.date === '2026-08-10').km, 10, 'split st
 assert.strictEqual(b.lastOdo, null, 'no start odometer from hour averages');
 assert.ok(M.maxTripKm(64) > 370 && M.maxTripKm(64) < 380);
 console.log('all phase 2 tests passed');
+
+// --- Days not learned, by reason
+{
+  const m = M.createModel();
+  const mon = (d, extra = {}) => ({
+    date: d, dow: 0, km: 20, socKwh: 0, departFh: 8, returnFh: 17, away: true, override: null, awayNight: false, partial: false, outings: [], ...extra,
+  });
+  m.days = [mon('2026-10-05'), mon('2026-10-12', { partial: true }), mon('2026-10-19', { awayNight: true, partial: true }),
+    mon('2026-09-28'), mon('2026-10-26', { override: 'unused' })];
+  const p = M.getProfile(m, M.parsePeriods('2026-09-26/2026-10-02'))[0];
+  assert.strictEqual(p.observed, 1);
+  assert.deepStrictEqual(p.skipped, {
+    partial: 1, awayNight: 1, period: 1, override: 1,
+  }, 'first reason that applies');
+}
+
+// --- Insights history by step: hourly where there is, coarse before
+(async () => {
+  const IH = require('../../lib/helpers/InsightsHistory');
+  const h = 3600 * 1000;
+  const t0 = Date.UTC(2026, 9, 1);
+  const pts = (from, n, step) => Array.from({ length: n }, (_, i) => ({ t: new Date(from + i * step).toISOString(), v: i }));
+  const data = {
+    last7Days: { step: h, values: pts(t0 + 20 * 24 * h, 48, h) },
+    last14Days: { step: 6 * h, values: pts(t0 + 10 * 24 * h, 60, 6 * h) },
+    last31Days: { values: pts(t0, 100, 6 * h) },
+  };
+  const api = { insights: { getLogEntries: async ({ resolution }) => data[resolution] } };
+  const out = await IH.fetchHistory(api, 'x');
+  assert.ok(out.every((e, i) => !i || e.t > out[i - 1].t), 'ascending, no overlap');
+  assert.strictEqual(out.filter((e) => !e.coarse).length, 48, 'hourly part');
+  assert.strictEqual(out[0].t, t0, 'coarse back to the oldest');
+  assert.ok(out.filter((e) => e.coarse).every((e) => e.t < t0 + 20 * 24 * h));
+  assert.strictEqual(IH.stepOf(data.last31Days), 6 * h, 'step from the gaps');
+  console.log('skipped days and insights history tests passed');
+})().catch((e) => {
+  console.error(e);
+  process.exit(1);
+});
