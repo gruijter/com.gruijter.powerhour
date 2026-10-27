@@ -234,6 +234,14 @@
     "reset": "Olvidar valores aprendidos",
     "reset_hint": "Para otra batería, o si los valores aprendidos son claramente erróneos. El aprendizaje empieza de nuevo."
   },
+  "battery_calibration": {
+    "empty": "En curso: vacía hacia __empty__, luego llena hacia __full__",
+    "full": "En curso: llena hacia __full__",
+    "requested": "Solicitada: empieza lo antes posible",
+    "off": "Apagado",
+    "next": "Siguiente desde __next__",
+    "no_control": "La calibración requiere el control integrado (ajuste Controlar la batería)."
+  },
   "fuse_import": "Protección del fusible principal: consumo de __import__ W por encima de __limit__ W durante 30 s. Las baterías no pudieron evitarlo, ningún cargador que limitar.",
   "fuse_import_ev_limited": "Protección del fusible principal: consumo de __import__ W por encima de __limit__ W durante 30 s. __charger__ limitado a __power__ W.",
   "fuse_import_ev_off": "Protección del fusible principal: consumo de __import__ W por encima de __limit__ W durante 30 s. __charger__ apagado.",

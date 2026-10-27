@@ -24,6 +24,7 @@ const ChargeDeviceHelpers = require('../../lib/helpers/ChargeDeviceHelpers');
 const ChartImages = require('../../lib/helpers/ChartImages');
 const GridConnection = require('../../lib/helpers/GridConnection');
 const TimeHelpers = require('../../lib/helpers/TimeHelpers');
+const BatteryCalibration = require('../../lib/strategies/BatteryCalibration');
 const BatteryControl = require('../../lib/strategies/BatteryControl');
 const BatteryEfficiency = require('../../lib/strategies/BatteryEfficiency');
 const BatteryResponse = require('../../lib/strategies/BatteryResponse');
@@ -46,6 +47,11 @@ const FUSE_YIELD_MS = 2 * 60 * 1000;
 const HOME_USE_W = 300;
 const EFFICIENCY_LOG_MS = 60 * 60 * 1000;
 const LEARN_APPLY_MS = 24 * 60 * 60 * 1000;
+// Calibration (setting calibrateDays): new targets tried at most this often; only in the modes that
+// follow the plan.
+const CAL_RETRY_MS = 15 * 60 * 1000;
+const CAL_MODES = ['smart', 'self_consumption'];
+const CAL_DAYS = 7;
 
 // Plans in 15-minute slots, as the grid forecast and capacity tariffs; prices per price slot.
 const deviceSpecifics = { planIntervalMin: 15 };
@@ -67,6 +73,11 @@ class BatDevice extends GenericDevice {
     this.efficiency = this.getStoreValue('batteryEfficiency') || null;
     this.batteryProps = this.getStoreValue('batteryProps') || this.takeOverProps();
     this.response = { ...(this.getStoreValue('batteryResponse') || BatteryResponse.createState()), step: null };
+    this.calibration = this.getStoreValue('batteryCalibration');
+    if (!this.calibration) {
+      this.calibration = BatteryCalibration.createState(Date.now());
+      await this.setStoreValue('batteryCalibration', this.calibration).catch(this.error);
+    }
     // A sample over a restart misses energy when the meters are integrated from power: start anew.
     if (this.efficiency) this.efficiency.win = null;
     // Homey keeps a warning over a restart: clear one from before at the next chance.
@@ -92,6 +103,7 @@ class BatDevice extends GenericDevice {
       await this.bootstrapEfficiency().catch((err) => this.error(err));
       await this.applyLearnedProps().catch((err) => this.error(err));
       await this.updateLearnedInfo().catch((err) => this.error(err));
+      await this.updateCalibrationInfo().catch((err) => this.error(err));
       if (this.pricesNextHours) {
         await this.flows.triggerNewRoiStrategyFlow().catch((err) => this.error(err));
         await this.updateChargeChart().catch((err) => this.error(err));
@@ -304,11 +316,13 @@ class BatDevice extends GenericDevice {
         mode: 'idle', slot: null, block: 'idle', noCharge: false, refill: false,
       };
     }
+    await this.updateCalibration(now);
+    const calibrate = this.calibrationActive() ? BatteryCalibration.tail(this.calibration, this.soc) : null;
     // Below the reserve it recharges (BatteryControl): no zero on the meter then.
     const refill = typeof this.soc === 'number' && this.soc < this.reservePct() && BatteryControl.refillsReserve(mode);
-    const plan = BatteryControl.blockFor(mode, slot);
+    const plan = BatteryControl.blockFor(mode, slot, calibrate);
     return {
-      mode, slot, block: plan.block, noCharge: !!plan.noCharge, homeCapW: plan.homeCapW || null, refill,
+      mode, slot, calibrate, block: plan.block, noCharge: !!plan.noCharge, homeCapW: plan.homeCapW || null, refill,
     };
   }
 
@@ -352,6 +366,7 @@ class BatDevice extends GenericDevice {
     const r = BatteryControl.decide({
       mode: prep.mode,
       slot: prep.slot,
+      calibrate: prep.calibrate,
       now,
       gridW,
       batteryW,
@@ -387,7 +402,7 @@ class BatDevice extends GenericDevice {
       this.log(`[Bat Control] ${prep.mode}: block ${r.block}, ${r.powerW} W`);
       this.lastControlBlock = r.block;
     }
-    await this.setAction(BatteryControl.actionFor({ block: r.block, refill: prep.refill }));
+    await this.setAction(BatteryControl.actionFor({ block: r.block, refill: prep.refill, calibrate: prep.calibrate }));
     if (this.isDestroyed) return;
     if (BatteryControl.shouldWrite({
       powerW: r.powerW, lastW: this.lastSetpointW, lastTm: this.lastSetpointTm, now, block: r.block,
@@ -837,15 +852,19 @@ class BatDevice extends GenericDevice {
       TimeHelpers.startOfLocalBlock(now, planMin, tz), planMin);
   }
 
-  // The batteries planned as one with this one (sorted by id, the first plans), or null.
+  // The batteries planned as one with this one (sorted by id, the first plans), or null. A battery
+  // that calibrates plans alone: its targets are its own.
   planGroup() {
-    if (!this.inGroup()) return null;
-    const group = this.driver.groupDevices().sort((a, b) => (a.getData().id < b.getData().id ? -1 : 1));
+    if (!this.inGroup() || this.calibrationActive()) return null;
+    const group = this.driver.groupDevices().filter((d) => !d.calibrationActive())
+      .sort((a, b) => (a.getData().id < b.getData().id ? -1 : 1));
     return group.length > 1 && group.includes(this) ? group : null;
   }
 
-  // The reserve (%): kept always, recharged as soon as possible; only peak shaving may use it.
+  // The reserve (%): kept always, recharged as soon as possible; only peak shaving may use it. Not
+  // while calibrating: the other batteries keep theirs (driver.calibrationTick()).
   reservePct() {
+    if (this.calibrationActive()) return 0;
     return Math.min(90, Math.max(0, Number(this.getSettings().peakReservePct) || 0));
   }
 
@@ -877,7 +896,10 @@ class BatDevice extends GenericDevice {
     const planMin = this.planIntervalMin();
     const { prices, exportPrices } = this.pricesFromNow(now);
     const planPrices = this.toPlanSlots(prices, now);
-    const forecast = this.roiNetForecast(TimeHelpers.startOfLocalBlock(now, planMin, tz), planPrices.length, planMin, members);
+    const startMs = TimeHelpers.startOfLocalBlock(now, planMin, tz);
+    const forecast = this.roiNetForecast(startMs, planPrices.length, planMin, members);
+    const socBounds = !group && this.calibrationActive()
+      ? BatteryCalibration.socBounds(this.calibration, { startMs, slotMin: planMin, slots: planPrices.length }) : null;
     return {
       prices: [...planPrices],
       exportPrices: exportPrices ? [...this.toPlanSlots(exportPrices, now)] : null,
@@ -891,7 +913,131 @@ class BatDevice extends GenericDevice {
       net: forecast ? forecast.net : null,
       peakWindowMin: forecast ? forecast.peakWindowMin : 15,
       ...BatteryControl.planOptionsFor(this.getBatteryMode()),
+      // Calibrating: full from the grid too, whatever the mode.
+      ...(socBounds ? { socBounds, allowGridCharge: true } : {}),
     };
+  }
+
+  // --- Calibration of the battery's own SoC (setting calibrateDays, BatteryCalibration) ---
+
+  calibrationDays() {
+    const days = this.getSettings().calibrateDays;
+    return typeof days === 'number' ? Math.max(0, days) : CAL_DAYS;
+  }
+
+  // Follows its targets: under this app's control, in a mode that follows the plan.
+  calibrationActive() {
+    return !!(this.calibration && this.calibration.phase) && this.isControlConfigured() && CAL_MODES.includes(this.getBatteryMode());
+  }
+
+  // May start one now (driver.calibrationTick()).
+  calibrationReady() {
+    return this.isControlConfigured() && CAL_MODES.includes(this.getBatteryMode()) && !!this.pricesNextHours;
+  }
+
+  calibrationDue(now) {
+    return BatteryCalibration.isDue(this.calibration, this.calibrationDays(), now);
+  }
+
+  // When to be empty, then full, from the prices and the forecast; null: not far enough ahead.
+  calibrationTargets(phase, now) {
+    const tz = this.timeZone || this.homey.clock.getTimezone();
+    const planMin = this.planIntervalMin();
+    const startMs = TimeHelpers.startOfLocalBlock(now, planMin, tz);
+    const { prices, exportPrices } = this.pricesFromNow(now);
+    const planPrices = this.toPlanSlots(prices, now);
+    const forecast = this.roiNetForecast(startMs, planPrices.length, planMin);
+    const settings = this.batterySettings();
+    return BatteryCalibration.chooseTargets({
+      phase,
+      startMs,
+      slotMin: planMin,
+      prices: planPrices,
+      exportPrices: exportPrices ? this.toPlanSlots(exportPrices, now) : null,
+      net: forecast ? forecast.net : null,
+      socPct: Number(this.soc) || 0,
+      capKwh: Number(settings.batCapacity) || 0,
+      maxChargeW: Number(settings.chargePower) || 0,
+      maxDischargeW: Number(settings.dischargePower) || 0,
+    });
+  }
+
+  async startCalibration(now) {
+    if (now - (this.calTryTm || 0) < CAL_RETRY_MS) return false;
+    this.calTryTm = now;
+    const targets = this.calibrationTargets('empty', now);
+    if (!targets) return false;
+    this.calibration = BatteryCalibration.start(this.calibration, now, targets);
+    this.log(`[Bat Cal] start: empty by ${new Date(targets.emptyByMs).toISOString()}, full by ${new Date(targets.fullByMs).toISOString()}`);
+    await this.saveCalibration(true);
+    return true;
+  }
+
+  // Flow: start as soon as the other batteries allow (driver.calibrationTick()), or stop.
+  async requestCalibration() {
+    if (!this.isControlConfigured()) throw Error(this.homey.__('battery_calibration.no_control'));
+    if (this.calibration.phase || this.calibration.requested) return;
+    this.calibration = { ...this.calibration, requested: true };
+    this.calTryTm = null;
+    this.log('[Bat Cal] requested');
+    await this.saveCalibration(false);
+  }
+
+  async stopCalibration(reason) {
+    if (!this.calibration.phase && !this.calibration.requested) return;
+    const running = !!this.calibration.phase;
+    this.calibration = BatteryCalibration.end(this.calibration, Date.now());
+    this.log(`[Bat Cal] stopped (${reason})`);
+    await this.saveCalibration(running);
+  }
+
+  // Every control tick: a stop at empty or full, and new targets when the current one passed.
+  async updateCalibration(now) {
+    const r = BatteryCalibration.onTick(this.calibration, {
+      now,
+      socPct: this.soc,
+      setW: this.getStoreValue('controlTakeover') ? this.lastSetpointW : null,
+      actW: Number(this.getCapabilityValue('measure_watt_avg')),
+    });
+    const { phase } = this.calibration;
+    this.calibration = r.state;
+    if (r.changed) {
+      this.log(`[Bat Cal] ${r.event}${r.timeout ? ' (time limit)' : ''} at SoC ${this.soc}%${r.done ? ': calibration done' : ''}`);
+      await this.saveCalibration(this.calibration.phase !== phase);
+    }
+    if (!this.calibrationActive() || !BatteryCalibration.isLate(this.calibration, now)) return;
+    if (now - (this.calTryTm || 0) < CAL_RETRY_MS) return;
+    this.calTryTm = now;
+    const targets = this.calibrationTargets(this.calibration.phase, now);
+    if (!targets) return;
+    this.calibration = { ...this.calibration, ...targets };
+    this.log(`[Bat Cal] ${this.calibration.phase}: new targets, full by ${new Date(targets.fullByMs).toISOString()}`);
+    await this.saveCalibration(true);
+  }
+
+  // replan: the targets or the group changed, all batteries plan again.
+  async saveCalibration(replan) {
+    await this.setStoreValue('batteryCalibration', this.calibration).catch(this.error);
+    await this.updateCalibrationInfo().catch((err) => this.error(err));
+    if (replan) this.driver.replanAll('calibration').catch((err) => this.error(err));
+  }
+
+  // The label 'Calibration' in the settings.
+  async updateCalibrationInfo() {
+    const c = this.calibration;
+    const tz = this.timeZone || this.homey.clock.getTimezone();
+    const lang = this.homey.i18n.getLanguage() || 'en';
+    const at = (ms) => new Date(ms).toLocaleString(lang, {
+      weekday: 'short', day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit', timeZone: tz,
+    });
+    const days = this.calibrationDays();
+    let text;
+    if (c.phase === 'empty') text = this.homey.__('battery_calibration.empty', { empty: at(c.emptyByMs), full: at(c.fullByMs) });
+    else if (c.phase === 'full') text = this.homey.__('battery_calibration.full', { full: at(c.fullByMs) });
+    else if (c.requested) text = this.homey.__('battery_calibration.requested');
+    else if (!days) text = this.homey.__('battery_calibration.off');
+    else text = this.homey.__('battery_calibration.next', { next: at(c.lastTm + (days * 24 * 60 * 60 * 1000)) });
+    if (this.getSettings().calibrationInfo !== text) await this.setSettings({ calibrationInfo: text });
   }
 
   // Wear per kWh cycled; a group: weighted by capacity.

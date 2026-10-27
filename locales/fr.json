@@ -234,6 +234,14 @@
     "reset": "Oublier les valeurs apprises",
     "reset_hint": "Pour une autre batterie, ou si les valeurs apprises sont clairement fausses. L'apprentissage recommence."
   },
+  "battery_calibration": {
+    "empty": "En cours : vide vers __empty__, puis pleine vers __full__",
+    "full": "En cours : pleine vers __full__",
+    "requested": "Demandée : démarre dès que possible",
+    "off": "Désactivé",
+    "next": "Prochaine à partir de __next__",
+    "no_control": "La calibration nécessite le pilotage intégré (paramètre Piloter la batterie)."
+  },
   "fuse_import": "Protection du fusible principal : prélèvement de __import__ W au-dessus de __limit__ W pendant 30 s. Les batteries n'ont pas pu l'empêcher, aucune borne à limiter.",
   "fuse_import_ev_limited": "Protection du fusible principal : prélèvement de __import__ W au-dessus de __limit__ W pendant 30 s. __charger__ limité à __power__ W.",
   "fuse_import_ev_off": "Protection du fusible principal : prélèvement de __import__ W au-dessus de __limit__ W pendant 30 s. __charger__ éteint.",

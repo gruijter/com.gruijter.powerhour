@@ -234,6 +234,14 @@
     "reset": "Zapomnij nauczone wartości",
     "reset_hint": "Przy innej baterii lub gdy nauczone wartości są wyraźnie błędne. Uczenie zaczyna się od nowa."
   },
+  "battery_calibration": {
+    "empty": "W toku: pusta około __empty__, potem pełna około __full__",
+    "full": "W toku: pełna około __full__",
+    "requested": "Zlecona: startuje jak najszybciej",
+    "off": "Wyłączone",
+    "next": "Następna od __next__",
+    "no_control": "Kalibracja wymaga wbudowanego sterowania (ustawienie Steruj baterią)."
+  },
   "fuse_import": "Ochrona bezpiecznika głównego: pobór __import__ W powyżej __limit__ W przez 30 s. Baterie nie mogły temu zapobiec, brak ładowarki do ograniczenia.",
   "fuse_import_ev_limited": "Ochrona bezpiecznika głównego: pobór __import__ W powyżej __limit__ W przez 30 s. __charger__ ograniczona do __power__ W.",
   "fuse_import_ev_off": "Ochrona bezpiecznika głównego: pobór __import__ W powyżej __limit__ W przez 30 s. __charger__ wyłączona.",

@@ -234,6 +234,14 @@
     "reset": "Forget learned values",
     "reset_hint": "For another battery, or when the learned values are clearly wrong. Learning starts over."
   },
+  "battery_calibration": {
+    "empty": "Running: empty by __empty__, then full by __full__",
+    "full": "Running: full by __full__",
+    "requested": "Requested: starts as soon as possible",
+    "off": "Off",
+    "next": "Next from __next__",
+    "no_control": "Calibration needs built-in control (setting Control the battery)."
+  },
   "fuse_import": "Main fuse protection: import __import__ W above __limit__ W for 30 s. The batteries could not prevent it, no EV charger to cut.",
   "fuse_import_ev_limited": "Main fuse protection: import __import__ W above __limit__ W for 30 s. __charger__ limited to __power__ W.",
   "fuse_import_ev_off": "Main fuse protection: import __import__ W above __limit__ W for 30 s. __charger__ switched off.",

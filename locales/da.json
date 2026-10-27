@@ -234,6 +234,14 @@
     "reset": "Glem lærte værdier",
     "reset_hint": "Ved et andet batteri, eller når de lærte værdier er tydeligt forkerte. Læringen starter forfra."
   },
+  "battery_calibration": {
+    "empty": "I gang: tomt omkring __empty__, derefter fuldt omkring __full__",
+    "full": "I gang: fuldt omkring __full__",
+    "requested": "Anmodet: starter hurtigst muligt",
+    "off": "Fra",
+    "next": "Næste fra __next__",
+    "no_control": "Kalibrering kræver indbygget styring (indstillingen Styr batteriet)."
+  },
   "fuse_import": "Hovedsikringsbeskyttelse: forbrug __import__ W over __limit__ W i 30 s. Batterierne kunne ikke forhindre det, ingen lader at begrænse.",
   "fuse_import_ev_limited": "Hovedsikringsbeskyttelse: forbrug __import__ W over __limit__ W i 30 s. __charger__ begrænset til __power__ W.",
   "fuse_import_ev_off": "Hovedsikringsbeskyttelse: forbrug __import__ W over __limit__ W i 30 s. __charger__ slukket.",

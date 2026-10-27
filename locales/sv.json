@@ -234,6 +234,14 @@
     "reset": "Glöm inlärda värden",
     "reset_hint": "Vid ett annat batteri, eller när de inlärda värdena är tydligt fel. Inlärningen börjar om."
   },
+  "battery_calibration": {
+    "empty": "Pågår: tomt runt __empty__, sedan fullt runt __full__",
+    "full": "Pågår: fullt runt __full__",
+    "requested": "Begärd: startar så snart som möjligt",
+    "off": "Av",
+    "next": "Nästa från __next__",
+    "no_control": "Kalibrering kräver inbyggd styrning (inställningen Styr batteriet)."
+  },
   "fuse_import": "Huvudsäkringsskydd: uttag __import__ W över __limit__ W i 30 s. Batterierna kunde inte förhindra det, ingen laddare att begränsa.",
   "fuse_import_ev_limited": "Huvudsäkringsskydd: uttag __import__ W över __limit__ W i 30 s. __charger__ begränsad till __power__ W.",
   "fuse_import_ev_off": "Huvudsäkringsskydd: uttag __import__ W över __limit__ W i 30 s. __charger__ avstängd.",

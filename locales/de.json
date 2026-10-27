@@ -234,6 +234,14 @@
     "reset": "Gelernte Werte löschen",
     "reset_hint": "Bei einer anderen Batterie oder wenn die gelernten Werte eindeutig falsch sind. Das Lernen beginnt neu."
   },
+  "battery_calibration": {
+    "empty": "Läuft: leer gegen __empty__, dann voll gegen __full__",
+    "full": "Läuft: voll gegen __full__",
+    "requested": "Angefordert: startet so bald wie möglich",
+    "off": "Aus",
+    "next": "Nächste ab __next__",
+    "no_control": "Kalibrieren erfordert die eingebaute Steuerung (Einstellung Batterie steuern)."
+  },
   "fuse_import": "Hauptsicherungsschutz: Bezug __import__ W über __limit__ W für 30 s. Die Batterien konnten es nicht verhindern, kein Ladegerät zum Begrenzen.",
   "fuse_import_ev_limited": "Hauptsicherungsschutz: Bezug __import__ W über __limit__ W für 30 s. __charger__ auf __power__ W begrenzt.",
   "fuse_import_ev_off": "Hauptsicherungsschutz: Bezug __import__ W über __limit__ W für 30 s. __charger__ ausgeschaltet.",

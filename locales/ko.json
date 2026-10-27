@@ -234,6 +234,14 @@
     "reset": "학습 값 삭제",
     "reset_hint": "다른 배터리이거나 학습 값이 명백히 틀린 경우. 학습이 처음부터 다시 시작됩니다."
   },
+  "battery_calibration": {
+    "empty": "진행 중: __empty__ 무렵 방전 완료, 이후 __full__ 무렵 충전 완료",
+    "full": "진행 중: __full__ 무렵 충전 완료",
+    "requested": "요청됨: 가능한 한 빨리 시작",
+    "off": "끔",
+    "next": "다음: __next__ 이후",
+    "no_control": "보정에는 내장 제어가 필요합니다 (배터리 제어 설정)."
+  },
   "fuse_import": "메인 퓨즈 보호: 수전 __import__ W가 30초 동안 __limit__ W를 초과했습니다. 배터리로 막지 못했고 제한할 충전기가 없습니다.",
   "fuse_import_ev_limited": "메인 퓨즈 보호: 수전 __import__ W가 30초 동안 __limit__ W를 초과했습니다. __charger__을(를) __power__ W로 제한했습니다.",
   "fuse_import_ev_off": "메인 퓨즈 보호: 수전 __import__ W가 30초 동안 __limit__ W를 초과했습니다. __charger__을(를) 껐습니다.",

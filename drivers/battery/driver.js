@@ -275,8 +275,35 @@ class BatteryDriver extends GenericDriver {
     });
   }
 
+  // Calibration (BatteryCalibration): at most half of the batteries that may calibrate at once (at
+  // least one), so the others keep their reserve; the longest waiting first.
+  async calibrationTick(devices, now) {
+    const ready = devices.filter((d) => typeof d.calibrationReady === 'function' && d.initReady && d.calibrationReady());
+    if (!ready.length) return;
+    const limit = Math.max(1, Math.floor(ready.length / 2));
+    let running = ready.filter((d) => d.calibration && d.calibration.phase).length;
+    const due = ready.filter((d) => d.calibrationDue(now))
+      .sort((a, b) => Number(b.calibration.requested) - Number(a.calibration.requested) || a.calibration.lastTm - b.calibration.lastTm);
+    for (const d of due) {
+      if (running >= limit) return;
+      if (await d.startCalibration(now).catch((err) => d.error(err))) running += 1;
+    }
+  }
+
+  // Something all plans depend on changed (a calibration): every battery plans again, no cache.
+  async replanAll(reason) {
+    const devices = this.getDevices().filter((d) => typeof d.replan === 'function');
+    devices.forEach((d) => {
+      d.lastStratTm = null;
+      d.lastStratOptsString = null;
+      d.groupPlans = null;
+    });
+    for (const d of devices) await d.replan(reason).catch((err) => d.error(err));
+  }
+
   async controlTick(devices, gridW) {
     const now = Date.now();
+    await this.calibrationTick(devices, now);
     const preps = new Map();
     for (const d of devices) {
       if (typeof d.controlPrepare === 'function') {

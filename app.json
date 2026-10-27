@@ -14949,6 +14949,118 @@
         "id": "appliance_plan_cancel"
       },
       {
+        "title": {
+          "en": "Calibrate battery",
+          "nl": "Batterij kalibreren",
+          "de": "Batterie kalibrieren",
+          "fr": "Calibrer la batterie",
+          "it": "Calibra la batteria",
+          "sv": "Kalibrera batteriet",
+          "no": "Kalibrer batteriet",
+          "es": "Calibrar la batería",
+          "da": "Kalibrer batteriet",
+          "pl": "Kalibruj baterię",
+          "ru": "Калибровать батарею",
+          "ar": "معايرة البطارية",
+          "ko": "배터리 보정"
+        },
+        "titleFormatted": {
+          "en": "[[action]] calibration",
+          "nl": "[[action]] kalibratie",
+          "de": "Kalibrierung [[action]]",
+          "fr": "[[action]] la calibration",
+          "it": "[[action]] la calibrazione",
+          "sv": "[[action]] kalibrering",
+          "no": "[[action]] kalibrering",
+          "es": "[[action]] la calibración",
+          "da": "[[action]] kalibrering",
+          "pl": "[[action]] kalibrację",
+          "ru": "[[action]] калибровку",
+          "ar": "[[action]] المعايرة",
+          "ko": "보정 [[action]]"
+        },
+        "hint": {
+          "en": "Fully empty, then fully full, until the battery itself stops, so it corrects its own SoC. Starts as soon as at most half of the batteries calibrate. Needs built-in control.",
+          "nl": "Helemaal leeg, daarna helemaal vol, tot de batterij zelf stopt, zodat hij zijn eigen SoC corrigeert. Start zodra hooguit de helft van de batterijen kalibreert. Vereist ingebouwde aansturing.",
+          "de": "Ganz leer, dann ganz voll, bis die Batterie selbst stoppt, damit sie ihren eigenen SoC korrigiert. Startet, sobald höchstens die Hälfte der Batterien kalibriert. Erfordert die eingebaute Steuerung.",
+          "fr": "Entièrement vide, puis entièrement pleine, jusqu’à ce que la batterie s’arrête d’elle-même, pour qu’elle corrige son propre SoC. Démarre dès qu’au plus la moitié des batteries calibre. Nécessite le pilotage intégré.",
+          "it": "Completamente vuota, poi completamente piena, finché la batteria si ferma da sola, così corregge il proprio SoC. Parte appena al massimo metà delle batterie sta calibrando. Richiede il controllo integrato.",
+          "sv": "Helt tom, sedan helt full, tills batteriet själv stannar, så att det korrigerar sin egen SoC. Startar så snart högst hälften av batterierna kalibrerar. Kräver inbyggd styrning.",
+          "no": "Helt tomt, deretter helt fullt, til batteriet selv stopper, slik at det korrigerer sin egen SoC. Starter så snart høyst halvparten av batteriene kalibrerer. Krever innebygd styring.",
+          "es": "Totalmente vacía, luego totalmente llena, hasta que la batería se detenga sola, para que corrija su propio SoC. Empieza en cuanto como mucho la mitad de las baterías calibra. Requiere el control integrado.",
+          "da": "Helt tomt, derefter helt fuldt, indtil batteriet selv stopper, så det retter sin egen SoC. Starter, så snart højst halvdelen af batterierne kalibrerer. Kræver indbygget styring.",
+          "pl": "Całkowicie rozładowana, potem całkowicie naładowana, aż bateria sama się zatrzyma, aby skorygowała własny SoC. Startuje, gdy kalibruje najwyżej połowa baterii. Wymaga wbudowanego sterowania.",
+          "ru": "Полностью разрядить, затем полностью зарядить, пока батарея сама не остановится, чтобы она исправила свой SoC. Начинается, как только калибруется не более половины батарей. Нужно встроенное управление.",
+          "ar": "تفريغ كامل ثم شحن كامل حتى تتوقف البطارية من تلقاء نفسها، لتصحح نسبة شحنها. تبدأ حالما تكون نصف البطاريات على الأكثر في المعايرة. تتطلب التحكم المدمج.",
+          "ko": "배터리가 스스로 멈출 때까지 완전히 방전한 뒤 완전히 충전하여 자체 SoC를 보정합니다. 보정 중인 배터리가 절반 이하가 되면 시작합니다. 내장 제어가 필요합니다."
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=battery"
+          },
+          {
+            "type": "dropdown",
+            "name": "action",
+            "title": {
+              "en": "Action",
+              "nl": "Actie",
+              "de": "Aktion",
+              "fr": "Action",
+              "it": "Azione",
+              "sv": "Åtgärd",
+              "no": "Handling",
+              "es": "Acción",
+              "da": "Handling",
+              "pl": "Akcja",
+              "ru": "Действие",
+              "ar": "الإجراء",
+              "ko": "동작"
+            },
+            "values": [
+              {
+                "id": "start",
+                "title": {
+                  "en": "Start",
+                  "nl": "Start",
+                  "de": "starten",
+                  "fr": "Démarrer",
+                  "it": "Avvia",
+                  "sv": "Starta",
+                  "no": "Start",
+                  "es": "Iniciar",
+                  "da": "Start",
+                  "pl": "Rozpocznij",
+                  "ru": "Начать",
+                  "ar": "بدء",
+                  "ko": "시작"
+                }
+              },
+              {
+                "id": "stop",
+                "title": {
+                  "en": "Stop",
+                  "nl": "Stop",
+                  "de": "stoppen",
+                  "fr": "Arrêter",
+                  "it": "Ferma",
+                  "sv": "Stoppa",
+                  "no": "Stopp",
+                  "es": "Detener",
+                  "da": "Stop",
+                  "pl": "Zatrzymaj",
+                  "ru": "Остановить",
+                  "ar": "إيقاف",
+                  "ko": "중지"
+                }
+              }
+            ]
+          }
+        ],
+        "id": "calibrate_battery"
+      },
+      {
         "deprecated": true,
         "title": {
           "en": "Provide export prices JSON",
@@ -21186,6 +21298,79 @@
               "min": 0,
               "max": 90,
               "value": 0
+            },
+            {
+              "id": "calibrateDays",
+              "type": "number",
+              "label": {
+                "en": "Calibrate every (days)",
+                "nl": "Kalibreren elke (dagen)",
+                "de": "Kalibrieren alle (Tage)",
+                "fr": "Calibrer tous les (jours)",
+                "it": "Calibra ogni (giorni)",
+                "sv": "Kalibrera var (dagar)",
+                "no": "Kalibrer hver (dager)",
+                "es": "Calibrar cada (días)",
+                "da": "Kalibrer hver (dage)",
+                "pl": "Kalibruj co (dni)",
+                "ru": "Калибровать каждые (дни)",
+                "ar": "المعايرة كل (أيام)",
+                "ko": "보정 주기 (일)"
+              },
+              "hint": {
+                "en": "Now and then fully empty, then fully full, until the battery itself stops, so it corrects its own SoC. Planned at good prices; the reserve is not kept meanwhile. At most half of the batteries at once. Needs built-in control. 0 = off.",
+                "nl": "Af en toe helemaal leeg, daarna helemaal vol, tot de batterij zelf stopt, zodat hij zijn eigen SoC corrigeert. Gepland bij gunstige prijzen; de reserve geldt dan niet. Hooguit de helft van de batterijen tegelijk. Vereist ingebouwde aansturing. 0 = uit.",
+                "de": "Ab und zu ganz leer, dann ganz voll, bis die Batterie selbst stoppt, damit sie ihren eigenen SoC korrigiert. Zu günstigen Preisen geplant; die Reserve gilt währenddessen nicht. Höchstens die Hälfte der Batterien gleichzeitig. Erfordert die eingebaute Steuerung. 0 = aus.",
+                "fr": "De temps en temps entièrement vide, puis entièrement pleine, jusqu’à ce que la batterie s’arrête d’elle-même, pour qu’elle corrige son propre SoC. Planifié à des prix avantageux ; la réserve ne s’applique pas pendant ce temps. Au plus la moitié des batteries à la fois. Nécessite le pilotage intégré. 0 = désactivé.",
+                "it": "Ogni tanto completamente vuota, poi completamente piena, finché la batteria si ferma da sola, così corregge il proprio SoC. Pianificato a prezzi favorevoli; nel frattempo la riserva non vale. Al massimo metà delle batterie alla volta. Richiede il controllo integrato. 0 = spento.",
+                "sv": "Då och då helt tomt, sedan helt fullt, tills batteriet själv stannar, så att det korrigerar sin egen SoC. Planeras vid förmånliga priser; reserven gäller inte under tiden. Högst hälften av batterierna samtidigt. Kräver inbyggd styrning. 0 = av.",
+                "no": "Av og til helt tomt, deretter helt fullt, til batteriet selv stopper, slik at det korrigerer sin egen SoC. Planlegges ved gunstige priser; reserven gjelder ikke imens. Høyst halvparten av batteriene samtidig. Krever innebygd styring. 0 = av.",
+                "es": "De vez en cuando totalmente vacía, luego totalmente llena, hasta que la batería se detenga sola, para que corrija su propio SoC. Se planifica a precios favorables; mientras tanto no se mantiene la reserva. Como mucho la mitad de las baterías a la vez. Requiere el control integrado. 0 = desactivado.",
+                "da": "En gang imellem helt tomt, derefter helt fuldt, indtil batteriet selv stopper, så det retter sin egen SoC. Planlægges ved gunstige priser; reserven gælder ikke imens. Højst halvdelen af batterierne ad gangen. Kræver indbygget styring. 0 = fra.",
+                "pl": "Od czasu do czasu całkowicie rozładowana, potem całkowicie naładowana, aż bateria sama się zatrzyma, aby skorygowała własny SoC. Planowane przy korzystnych cenach; rezerwa w tym czasie nie obowiązuje. Najwyżej połowa baterii naraz. Wymaga wbudowanego sterowania. 0 = wył.",
+                "ru": "Время от времени полностью разрядить, затем полностью зарядить, пока батарея сама не остановится, чтобы она исправила свой SoC. Планируется при выгодных ценах; резерв в это время не соблюдается. Не более половины батарей одновременно. Нужно встроенное управление. 0 = выкл.",
+                "ar": "من حين لآخر تفريغ كامل ثم شحن كامل حتى تتوقف البطارية من تلقاء نفسها، لتصحح نسبة شحنها. تُخطَّط عند أسعار مناسبة؛ ولا يُحفظ الاحتياطي خلالها. نصف البطاريات على الأكثر في الوقت نفسه. تتطلب التحكم المدمج. 0 = إيقاف.",
+                "ko": "가끔 배터리가 스스로 멈출 때까지 완전히 방전한 뒤 완전히 충전하여 자체 SoC를 보정합니다. 유리한 가격에 계획되며, 그동안 예비량은 유지되지 않습니다. 한 번에 배터리의 절반 이하만 보정합니다. 내장 제어가 필요합니다. 0 = 끔."
+              },
+              "value": 7,
+              "min": 0,
+              "max": 90,
+              "step": 1
+            },
+            {
+              "id": "calibrationInfo",
+              "type": "label",
+              "value": "",
+              "label": {
+                "en": "Calibration",
+                "nl": "Kalibratie",
+                "de": "Kalibrierung",
+                "fr": "Calibration",
+                "it": "Calibrazione",
+                "sv": "Kalibrering",
+                "no": "Kalibrering",
+                "es": "Calibración",
+                "da": "Kalibrering",
+                "pl": "Kalibracja",
+                "ru": "Калибровка",
+                "ar": "المعايرة",
+                "ko": "보정"
+              },
+              "hint": {
+                "en": "Running, or when the next one is due. Start or stop one with a flow.",
+                "nl": "Bezig, of wanneer de volgende aan de beurt is. Starten of stoppen met een flow.",
+                "de": "Läuft, oder wann die nächste fällig ist. Starten oder stoppen per Flow.",
+                "fr": "En cours, ou quand la prochaine est prévue. Démarrer ou arrêter via un flow.",
+                "it": "In corso, o quando è prevista la prossima. Avvia o ferma con un flow.",
+                "sv": "Pågår, eller när nästa är aktuell. Starta eller stoppa med ett flöde.",
+                "no": "Pågår, eller når den neste er aktuell. Start eller stopp med en flow.",
+                "es": "En curso, o cuándo toca la siguiente. Iniciar o detener con un flow.",
+                "da": "I gang, eller hvornår den næste er aktuel. Start eller stop med et flow.",
+                "pl": "W toku lub kiedy wypada następna. Start lub stop przez flow.",
+                "ru": "Идёт, или когда следующая. Запуск или остановка через поток.",
+                "ar": "جارية، أو موعد المعايرة التالية. ابدأ أو أوقف عبر تدفق.",
+                "ko": "진행 중이거나 다음 보정 예정 시점입니다. 플로우로 시작하거나 중지합니다."
+              }
             },
             {
               "id": "batteryControl",
@@ -35961,6 +36146,24 @@
             "ru": "Пополнение резерва",
             "ar": "شحن الاحتياطي",
             "ko": "예비 충전"
+          }
+        },
+        {
+          "id": "calibrate",
+          "title": {
+            "en": "Calibrate",
+            "nl": "Kalibreren",
+            "de": "Kalibrieren",
+            "fr": "Calibrage",
+            "it": "Calibrazione",
+            "sv": "Kalibrera",
+            "no": "Kalibrer",
+            "es": "Calibrar",
+            "da": "Kalibrer",
+            "pl": "Kalibracja",
+            "ru": "Калибровка",
+            "ar": "معايرة",
+            "ko": "보정"
           }
         },
         {

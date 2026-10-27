@@ -125,6 +125,24 @@
       }
     },
     {
+      "id": "calibrate",
+      "title": {
+        "en": "Calibrate",
+        "nl": "Kalibreren",
+        "de": "Kalibrieren",
+        "fr": "Calibrage",
+        "it": "Calibrazione",
+        "sv": "Kalibrera",
+        "no": "Kalibrer",
+        "es": "Calibrar",
+        "da": "Kalibrer",
+        "pl": "Kalibracja",
+        "ru": "Калибровка",
+        "ar": "معايرة",
+        "ko": "보정"
+      }
+    },
+    {
       "id": "none",
       "title": {
         "en": "No control",
