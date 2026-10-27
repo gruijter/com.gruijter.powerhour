@@ -29,6 +29,7 @@ const BatteryControl = require('../../lib/strategies/BatteryControl');
 const BatteryEfficiency = require('../../lib/strategies/BatteryEfficiency');
 const BatteryResponse = require('../../lib/strategies/BatteryResponse');
 const BatterySplit = require('../../lib/strategies/BatterySplit');
+const BatteryTaper = require('../../lib/strategies/BatteryTaper');
 const { getEfficiencyChart } = require('../../lib/charts/EfficiencyChart');
 const { setTimeoutPromise } = require('../../lib/helpers/Util');
 
@@ -52,6 +53,8 @@ const LEARN_APPLY_MS = 24 * 60 * 60 * 1000;
 const CAL_RETRY_MS = 15 * 60 * 1000;
 const CAL_MODES = ['smart', 'self_consumption'];
 const CAL_DAYS = 7;
+// The learned taper (BatteryTaper) is stored at most this often.
+const TAPER_SAVE_MS = 15 * 60 * 1000;
 
 // Plans in 15-minute slots, as the grid forecast and capacity tariffs; prices per price slot.
 const deviceSpecifics = { planIntervalMin: 15 };
@@ -73,6 +76,7 @@ class BatDevice extends GenericDevice {
     this.efficiency = this.getStoreValue('batteryEfficiency') || null;
     this.batteryProps = this.getStoreValue('batteryProps') || this.takeOverProps();
     this.response = { ...(this.getStoreValue('batteryResponse') || BatteryResponse.createState()), step: null };
+    this.taper = this.getStoreValue('batteryTaper') || BatteryTaper.createState();
     this.calibration = this.getStoreValue('batteryCalibration');
     if (!this.calibration) {
       this.calibration = BatteryCalibration.createState(Date.now());
@@ -317,6 +321,7 @@ class BatDevice extends GenericDevice {
       };
     }
     await this.updateCalibration(now);
+    await this.learnTaper(now);
     const calibrate = this.calibrationActive() ? BatteryCalibration.tail(this.calibration, this.soc) : null;
     // Below the reserve it recharges (BatteryControl): no zero on the meter then.
     const refill = typeof this.soc === 'number' && this.soc < this.reservePct() && BatteryControl.refillsReserve(mode);
@@ -562,6 +567,10 @@ class BatDevice extends GenericDevice {
     const obj = (this.sourceDevice.capabilitiesObj || {})[cap] || {};
     if (typeof obj.min === 'number') value = Math.max(obj.min, value);
     if (typeof obj.max === 'number') value = Math.min(obj.max, value);
+    // For BatteryTaper: what the battery was asked, and since when.
+    const writtenW = this.setpointInvert ? -value : value;
+    if (typeof this.writtenW !== 'number' || Math.abs(writtenW - this.writtenW) >= 100) this.setChangeTm = now;
+    this.writtenW = writtenW;
     // Also on failure: the next try comes with the keepalive, not every tick.
     if (this.response) {
       this.response = BatteryResponse.onWrite(this.response, {
@@ -874,7 +883,8 @@ class BatDevice extends GenericDevice {
     return r ? Math.round(r + ((socPct * (100 - r)) / 100)) : socPct;
   }
 
-  // A battery for RoiStrategy: its SoC, capacity, and charge/discharge speeds with efficiency.
+  // A battery for RoiStrategy: its SoC, capacity, charge/discharge speeds with efficiency, and the
+  // learned taper near full and empty.
   roiBattery() {
     const settings = this.batterySettings();
     // The planner works above the reserve: that part of the capacity, the SoC within it.
@@ -884,7 +894,30 @@ class BatDevice extends GenericDevice {
       soc: r ? (Math.max(0, soc - r) * 100) / (100 - r) : this.soc,
       batCapacity: settings.batCapacity * (1 - (r / 100)),
       ...BatterySplit.speedsFromSettings(settings),
+      ...BatteryTaper.planLimits(this.taper, { capKwh: Number(settings.batCapacity) || 0, reservePct: r }),
     };
+  }
+
+  // Every control tick: the power the battery still does near full and empty while asked more.
+  async learnTaper(now) {
+    const controlled = !!this.getStoreValue('controlTakeover') && now - (this.lastSetpointTm || 0) <= FUSE_YIELD_MS;
+    const before = this.taper;
+    const { state, sample } = BatteryTaper.onTick(this.taper, {
+      now,
+      socPct: this.soc,
+      setW: controlled ? this.writtenW : null,
+      actW: Number(this.getCapabilityValue('measure_watt_avg')),
+      setChangeTm: this.setChangeTm,
+      capped: !!(this.followCapW && Math.sign(this.writtenW) === this.followCapW.dir),
+    });
+    this.taper = state;
+    if (!sample) return;
+    // Stored (and logged) when it gets learned, else at most every TAPER_SAVE_MS.
+    const nowLearned = !BatteryTaper.learned(before, sample.dir) && BatteryTaper.learned(this.taper, sample.dir);
+    if (!nowLearned && this.taperSaveTm && now - this.taperSaveTm < TAPER_SAVE_MS) return;
+    this.taperSaveTm = now;
+    this.log(`[Bat Taper] ${sample.dir} ${Math.round(sample.w)} W at SoC ${sample.socPct}%: ${BatteryTaper.describe(this.taper)}`);
+    await this.setStoreValue('batteryTaper', this.taper).catch(this.error);
   }
 
   // Input for RoiStrategy: getStrategy() for this battery, or with a group getGroupStrategy() with
@@ -959,6 +992,7 @@ class BatDevice extends GenericDevice {
       capKwh: Number(settings.batCapacity) || 0,
       maxChargeW: Number(settings.chargePower) || 0,
       maxDischargeW: Number(settings.dischargePower) || 0,
+      limitW: (dir, pct) => BatteryTaper.limitW(this.taper, dir, pct),
     });
   }
 
@@ -1291,6 +1325,8 @@ class BatDevice extends GenericDevice {
     this.efficiency = BatteryEfficiency.createState();
     this.batteryProps = {}; // not null: takeOverProps() would take the old settings again
     this.learnAppliedTm = null;
+    this.taper = BatteryTaper.createState();
+    await this.setStoreValue('batteryTaper', this.taper).catch(this.error);
     await this.setStoreValue('batteryEfficiency', this.efficiency).catch(this.error);
     await this.setStoreValue('batteryProps', this.batteryProps).catch(this.error);
     await this.setStoreValue('batteryEfficiencyBootstrapTm', Date.now()).catch(this.error);
