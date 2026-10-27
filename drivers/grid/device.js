@@ -31,6 +31,7 @@ const ChartImages = require('../../lib/helpers/ChartImages');
 const { setTimeoutPromise } = require('../../lib/helpers/Util');
 const { fetchYesterdayAndToday, convertCumulativeToPower, mergeStoredHistory } = require('../../lib/helpers/HistoryLookup');
 const { combineComponentsToHomePower } = require('../../lib/helpers/HomePowerReconstruction');
+const InsightsHistory = require('../../lib/helpers/InsightsHistory');
 const TimeHelpers = require('../../lib/helpers/TimeHelpers');
 const LoadSpread = require('../../lib/helpers/LoadSpread');
 const PeakTariff = require('../../lib/strategies/PeakTariff');
@@ -1775,6 +1776,7 @@ class GridDevice extends GenericDevice {
         logger: (msg) => this.log(msg),
         maxPowerW: this.getHomePowerCeilingW(),
         plannedLoads: this.plannedLoads,
+        minSamples: fromScratch ? 1 : 2,
       });
 
       if (result.updated) {
@@ -1872,7 +1874,28 @@ class GridDevice extends GenericDevice {
       d.setDate(d.getDate() - 14);
       return d;
     })();
-    const resolution = customResolution || 'last14Days';
+    // Hourly history: 'last14Days' when it is hourly, else 'last7Days' (InsightsHistory). Chosen on
+    // the first log read, then the same for all, so every component covers the same days.
+    let resolution = customResolution;
+    const fetchEntries = async (logId) => {
+      if (resolution) {
+        return api.insights.getLogEntries({
+          id: logId, start: startDate.toISOString(), end: endDate.toISOString(), resolution,
+        }).catch(() => null);
+      }
+      let data = null;
+      for (const res of ['last14Days', 'last7Days']) {
+        data = await api.insights.getLogEntries({
+          id: logId, start: startDate.toISOString(), end: endDate.toISOString(), resolution: res,
+        }).catch(() => null);
+        if (data && data.values && data.values.length && InsightsHistory.stepOf(data) <= InsightsHistory.HOUR_MS) {
+          resolution = res;
+          this.log(`[Grid] Home power history from Insights '${res}' (hourly)`);
+          return data;
+        }
+      }
+      return null;
+    };
 
     const getLogEntriesForDevice = async (deviceId, endings) => {
       const deviceLogs = allLogs.filter((log) => {
@@ -1913,12 +1936,7 @@ class GridDevice extends GenericDevice {
           // start/end (confirmed live): fetchYesterdayAndToday() adds 'today'.
           const logData = resolution === 'yesterday'
             ? await fetchYesterdayAndToday(api, log.id)
-            : await api.insights.getLogEntries({
-              id: log.id,
-              start: startDate.toISOString(),
-              end: endDate.toISOString(),
-              resolution,
-            }).catch(() => null);
+            : await fetchEntries(log.id);
 
           if (logData && logData.values && logData.values.length > 0) {
             let { values } = logData;
