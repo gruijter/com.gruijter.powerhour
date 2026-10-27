@@ -1004,21 +1004,16 @@ class SolarDevice extends GenericDevice {
       await this.setStoreValue('forecastHistory', this.forecastHistory);
     }
 
+    this.updateIntraday(now, localDayEnd.getTime());
     const { expectedPower, totalYield } = SolarLearningStrategy.calculateForecast({
       forecastData: this.forecastData,
       yieldFactors: this.yieldFactors,
       timestamp: now,
       timezone: this.timeZone,
+      adjust: (t) => this.intradayFactorAt(t),
     });
 
-    const getForecast = (offsetMinutes) => {
-      const t = now.getTime() + offsetMinutes * 60 * 1000;
-      const rad = SolarLearningStrategy.getInterpolatedRadiation(t, this.forecastData);
-      const dateT = new Date(t);
-      const slotIndex = (dateT.getUTCHours() * 4) + Math.floor(dateT.getUTCMinutes() / 15);
-      const yf = this.yieldFactors[slotIndex] !== undefined ? this.yieldFactors[slotIndex] : 0;
-      return Math.round(rad * yf);
-    };
+    const getForecast = (offsetMinutes) => Math.round(this.forecastPowerAt(now.getTime() + offsetMinutes * 60 * 1000));
 
     await this.setCapabilityValue('measure_watt_forecast.h0', expectedPower).catch(this.error);
     await this.setCapabilityValue('measure_watt_forecast.m15', getForecast(15)).catch(this.error);
@@ -1032,12 +1027,7 @@ class SolarDevice extends GenericDevice {
     let forecastH0 = 0;
     const startOfHour = TimeHelpers.startOfLocalBlock(now, 60, this.timeZone);
     for (let i = 0; i < 4; i += 1) {
-      const t = startOfHour + i * 15 * 60 * 1000;
-      const rad = SolarLearningStrategy.getInterpolatedRadiation(t, this.forecastData);
-      const dateT = new Date(t);
-      const slotIndex = (dateT.getUTCHours() * 4) + Math.floor(dateT.getUTCMinutes() / 15);
-      const yf = this.yieldFactors[slotIndex] !== undefined ? this.yieldFactors[slotIndex] : 0;
-      const power = rad * yf; // W
+      const power = this.forecastPowerAt(startOfHour + i * 15 * 60 * 1000); // W
       forecastH0 += (power * 0.25) / 1000; // kWh
     }
     await this.setCapabilityValue('meter_kwh_forecast.h0', Number(forecastH0.toFixed(2))).catch(this.error);
@@ -1083,7 +1073,8 @@ class SolarDevice extends GenericDevice {
       if (yfUpdated || forecastChanged || quarter || !this.chartSolarToday) {
         const { start: todayStart, end: todayEnd } = SolarLearningStrategy.getSunBounds(now, this.forecastData, this.timeZone);
 
-        const chartToday = await getSolarChart(this.forecastData, this.yieldFactors, todayStart, todayEnd, 'Forecast This Day', this.powerHistory, this.timeZone, chartPeak, true);
+        const chartToday = await getSolarChart(this.forecastData, this.yieldFactors, todayStart, todayEnd, 'Forecast This Day',
+          this.powerHistory, this.timeZone, chartPeak, true, (t) => this.intradayFactorAt(t));
         if (chartToday) {
           this.chartSolarToday = chartToday;
           await this.solarTodayImage.update();
@@ -1189,16 +1180,46 @@ class SolarDevice extends GenericDevice {
     await setPct('measure_solar_use.this_year', valYearSC, valYearTot, periods.newYear);
   }
 
+  // The model's forecast (W) at t, without the intraday correction. yieldFactors[] is indexed by
+  // real UTC hour.
+  basePowerAt(t) {
+    const rad = SolarLearningStrategy.getInterpolatedRadiation(t, this.forecastData || {});
+    const d = new Date(t);
+    const slotIndex = (d.getUTCHours() * 4) + Math.floor(d.getUTCMinutes() / 15);
+    const yf = this.yieldFactors && this.yieldFactors[slotIndex] !== undefined ? this.yieldFactors[slotIndex] : 0;
+    return rad * yf;
+  }
+
+  intradayFactorAt(t) {
+    const i = this.intraday;
+    return i ? SolarLearningStrategy.intradayFactor(i.ratio, t, i.nowMs, i.untilMs) : 1;
+  }
+
+  // Forecast (W) at t with the intraday correction: what the planners and flows use.
+  forecastPowerAt(t) {
+    return this.basePowerAt(t) * this.intradayFactorAt(t);
+  }
+
+  // Measured against forecast power so far today (SolarLearningStrategy.intradayRatio()). Not while
+  // curtailed: then the panels could give more than measured.
+  updateIntraday(now, untilMs) {
+    const curtailed = this.manualCurtailment || this.getCapabilityValue('alarm_power') === true;
+    const peak = Math.max(this.peakPowerAllTime || 0, this.getSettings().peakPower || 0);
+    const ratio = curtailed ? 1 : SolarLearningStrategy.intradayRatio({
+      history: this.powerHistory,
+      forecastAt: (t) => this.basePowerAt(t),
+      nowMs: now.getTime(),
+      minPowerW: Math.max(50, peak * 0.05),
+    });
+    const prev = this.intraday ? this.intraday.ratio : 1;
+    if (Math.abs(ratio - prev) >= 0.1) this.log(`[Intraday] Measured/forecast ${ratio.toFixed(2)}: rest of today corrected`);
+    this.intraday = { ratio, nowMs: now.getTime(), untilMs };
+  }
+
   // Forecast power (W) per 15-minute slot from startMs (incl.) to endMs (excl.), real UTC ms.
   getForecastSeries(startMs, endMs) {
     const values = [];
-    for (let t = startMs; t < endMs; t += 15 * 60 * 1000) {
-      const rad = SolarLearningStrategy.getInterpolatedRadiation(t, this.forecastData || {});
-      // yieldFactors[] is indexed by real UTC hour.
-      const slotIndex = (new Date(t).getUTCHours() * 4) + Math.floor(new Date(t).getUTCMinutes() / 15);
-      const yf = this.yieldFactors && this.yieldFactors[slotIndex] !== undefined ? this.yieldFactors[slotIndex] : 0;
-      values.push(Math.round(rad * yf));
-    }
+    for (let t = startMs; t < endMs; t += 15 * 60 * 1000) values.push(Math.round(this.forecastPowerAt(t)));
     return values;
   }
 
@@ -1233,11 +1254,7 @@ class SolarDevice extends GenericDevice {
     const startSlot = Math.ceil(startTimeUTC / (15 * 60 * 1000)) * 15 * 60 * 1000;
 
     for (let t = startSlot; t < endTimeUTC; t += 15 * 60 * 1000) {
-      const rad = SolarLearningStrategy.getInterpolatedRadiation(t, this.forecastData);
-      // yieldFactors[] is indexed by real UTC hour.
-      const slotIndex = (new Date(t).getUTCHours() * 4) + Math.floor(new Date(t).getUTCMinutes() / 15);
-      const yf = this.yieldFactors[slotIndex] !== undefined ? this.yieldFactors[slotIndex] : 0;
-      const power = rad * yf; // W
+      const power = this.forecastPowerAt(t); // W
       const roundedPower = Math.round(power);
       if (roundedPower > peakPower) peakPower = roundedPower;
       totalYield += (power * 0.25) / 1000; // kWh
