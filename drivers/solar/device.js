@@ -30,6 +30,7 @@ const TimeHelpers = require('../../lib/helpers/TimeHelpers');
 const LoadSpread = require('../../lib/helpers/LoadSpread');
 const ChartImages = require('../../lib/helpers/ChartImages');
 const { fetchYesterdayAndToday, convertCumulativeToPower, mergeStoredHistory } = require('../../lib/helpers/HistoryLookup');
+const InsightsHistory = require('../../lib/helpers/InsightsHistory');
 
 const BOOTSTRAP_THRESHOLD_DAYS = 14; // days of training data for the solar model
 
@@ -565,7 +566,7 @@ class SolarDevice extends GenericDevice {
       const effectivePeakPower = peakPowerSetting > 0 ? peakPowerSetting : this.peakPowerAllTime;
 
       // 3. Step 1: hourly, 14 days
-      this.log('Step 1: Coarse learning (14 days, hourly)');
+      this.log('Step 1: Coarse learning (up to 14 days, hourly)');
       try {
         const logs14 = await api.insights.getLogEntries({
           id: targetLog.id,
@@ -583,11 +584,25 @@ class SolarDevice extends GenericDevice {
           await this.updateTrainingStatus();
         }
 
-        if (logs14 && logs14.values && logs14.values.length > 50) {
+        // Training needs hourly points: 'last14Days' is not always hourly (InsightsHistory). The
+        // coverage above still counts how far the history reaches.
+        let hourly = logs14;
+        if (!(InsightsHistory.stepOf(logs14) <= InsightsHistory.HOUR_MS)) {
+          hourly = await api.insights.getLogEntries({
+            id: targetLog.id,
+            start: startDate14.toISOString(),
+            end: endDate.toISOString(),
+            resolution: 'last7Days',
+          }).catch(() => null);
+          if (!(InsightsHistory.stepOf(hourly) <= InsightsHistory.HOUR_MS)) hourly = null;
+          this.log(`Step 1: 'last14Days' is not hourly: ${hourly ? "'last7Days' used" : 'no hourly history'}`);
+        }
+
+        if (hourly && hourly.values && hourly.values.length > 50) {
           // Without the last 24 h: step 2 covers those at higher resolution
           const cutoffTime = new Date();
           cutoffTime.setDate(cutoffTime.getDate() - 1);
-          let powerEntries = logs14.values.filter((e) => new Date(e.t) < cutoffTime);
+          let powerEntries = hourly.values.filter((e) => new Date(e.t) < cutoffTime);
 
           if (isCumulative) {
             powerEntries = convertCumulativeToPower(powerEntries);
@@ -767,9 +782,15 @@ class SolarDevice extends GenericDevice {
 
     const { targetLog, isCumulative } = await this.findTargetInsightsLog(api, sourceDevice, startDate14, endDate);
 
-    const logs14 = await api.insights.getLogEntries({
+    // Hourly, as the retrain uses it: 'last7Days' when 'last14Days' is not hourly (InsightsHistory).
+    let logs14 = await api.insights.getLogEntries({
       id: targetLog.id, start: startDate14.toISOString(), end: endDate.toISOString(), resolution: 'last14Days',
     });
+    if (!(InsightsHistory.stepOf(logs14) <= InsightsHistory.HOUR_MS)) {
+      logs14 = await api.insights.getLogEntries({
+        id: targetLog.id, start: startDate14.toISOString(), end: endDate.toISOString(), resolution: 'last7Days',
+      });
+    }
     const logs24h = await api.insights.getLogEntries({
       id: targetLog.id, start: startDate24h.toISOString(), end: endDate.toISOString(), resolution: 'last24Hours',
     });
