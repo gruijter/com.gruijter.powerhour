@@ -396,3 +396,31 @@ test('zero covering the deficit in part gets the planned power as cap; rounding 
 
 console.log(failed ? `\n${failed} failed` : '\nall passed');
 process.exitCode = failed ? 1 : 0;
+
+// --- Short gaps in grid charging are bridged (15-minute prices)
+{
+  const { bridgeGaps } = require('../../lib/strategies/RoiLightStrategy');
+  const slot = (power, block, price, soc) => ({
+    power, duration: power ? 15 : 0, soc, price, exportPrice: price, block,
+  });
+  const make = (gapPrice) => [{
+    0: slot(1000, 'charge', 0.1, 10),
+    1: slot(1000, 'charge', 0.1, 15),
+    2: { ...slot(0, 'hold', gapPrice, 15), quiet: true },
+    3: slot(1000, 'charge', 0.1, 20),
+    4: slot(0, 'idle', 0.3, 20),
+  }];
+  let [st] = bridgeGaps(make(0.101), { priceInterval: 15 });
+  assert.deepStrictEqual([0, 1, 2, 3].map((i) => st[i].block), ['charge', 'charge', 'charge', 'charge'], 'gap bridged');
+  assert.strictEqual(st[2].power, 750, 'same energy over the run');
+  assert.strictEqual(st[2].quiet, undefined);
+  assert.strictEqual(st[3].soc, 20, 'SoC at the end kept');
+  assert.strictEqual(st[4].block, 'idle');
+  [st] = bridgeGaps(make(0.2), { priceInterval: 15 });
+  assert.strictEqual(st[2].block, 'hold', 'dear gap kept');
+  [st] = bridgeGaps(make(0.101), { priceInterval: 15, limited: (t) => t === 2 });
+  assert.strictEqual(st[2].block, 'hold', 'import limit in the gap: kept');
+  [st] = bridgeGaps(make(0.101), { priceInterval: 60 });
+  assert.strictEqual(st[2].block, 'hold', 'hourly slots: no short gaps');
+  console.log('battery gap bridging tests passed');
+}
