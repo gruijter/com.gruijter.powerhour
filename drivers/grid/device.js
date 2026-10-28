@@ -32,6 +32,7 @@ const { setTimeoutPromise } = require('../../lib/helpers/Util');
 const { fetchYesterdayAndToday, convertCumulativeToPower, mergeStoredHistory } = require('../../lib/helpers/HistoryLookup');
 const { combineComponentsToHomePower } = require('../../lib/helpers/HomePowerReconstruction');
 const InsightsHistory = require('../../lib/helpers/InsightsHistory');
+const FileStore = require('../../lib/helpers/FileStore');
 const TimeHelpers = require('../../lib/helpers/TimeHelpers');
 const LoadSpread = require('../../lib/helpers/LoadSpread');
 const PeakTariff = require('../../lib/strategies/PeakTariff');
@@ -59,8 +60,9 @@ class GridDevice extends GenericDevice {
     this.ds = deviceSpecifics;
     this.flows = new GridFlows(this);
 
+    const files = await FileStore.open(this, ['powerHistory', 'netForecastHistory', 'forecastErrors']);
     // Before super.onInit(): its first poll records samples (mergeStoredHistory).
-    let history = await this.getStoreValue('powerHistory');
+    let history = files.get('powerHistory');
     if (!Array.isArray(history)) history = [];
     const ceilingW = this.getHomePowerCeilingW();
     const storedHistory = history
@@ -76,7 +78,7 @@ class GridDevice extends GenericDevice {
     this.powerHistory = mergeStoredHistory(storedHistory, this.powerHistory, 2880);
 
     // Grid forecast per slot as it was when the slot started (battery/EV plans are not kept).
-    const netForecastHistory = await this.getStoreValue('netForecastHistory');
+    const netForecastHistory = files.get('netForecastHistory');
     this.netForecastHistory = mergeStoredHistory(netForecastHistory, this.netForecastHistory, 200);
 
     // Before super.onInit(): it sets initReady partway, after which chart updates may run.
@@ -84,25 +86,27 @@ class GridDevice extends GenericDevice {
 
     // Restored before super.onInit(): its first poll already reaches handleUpdateMeter(); without
     // the anchors it would re-bootstrap and zero this_* imported/exported and splitMoney.
+    const book = await this.restoreBookkeeping();
     // Per-direction register state for the 'perDirection'/'fixedBlock' schemes.
-    this.directionalMeter = (await this.getStoreValue('directionalMeter')) || { importValue: null, exportValue: null };
-    this.lastDirectionalSnapshot = await this.getStoreValue('lastDirectionalSnapshot');
-    this.directionalPseudoState = await this.getStoreValue('directionalPseudoState');
-    this.directionalBlockState = await this.getStoreValue('directionalBlockState');
+    this.directionalMeter = book.directionalMeter || { importValue: null, exportValue: null };
+    this.lastDirectionalSnapshot = book.lastDirectionalSnapshot;
+    this.directionalPseudoState = book.directionalPseudoState;
+    this.directionalBlockState = book.directionalBlockState;
 
     // Lazily bootstrapped on the first tick (updateSplitMeters()/updateSplitMoney()).
-    this.lastDirectionalReadingDay = await this.getStoreValue('lastDirectionalReadingDay');
-    this.lastDirectionalReadingMonth = await this.getStoreValue('lastDirectionalReadingMonth');
-    this.lastDirectionalReadingYear = await this.getStoreValue('lastDirectionalReadingYear');
-    this.splitMoney = await this.getStoreValue('splitMoney');
+    this.lastDirectionalReadingDay = book.lastDirectionalReadingDay;
+    this.lastDirectionalReadingMonth = book.lastDirectionalReadingMonth;
+    this.lastDirectionalReadingYear = book.lastDirectionalReadingYear;
+    this.splitMoney = book.splitMoney;
 
     // Capacity-tariff peak state (updatePeakLoad()), lazily bootstrapped.
-    this.peakLoad = await this.getStoreValue('peakLoad');
-    this.lastPeakLoadReading = await this.getStoreValue('lastPeakLoadReading');
+    this.peakLoad = book.peakLoad;
+    this.lastPeakLoadReading = book.lastPeakLoadReading;
     // Stored, so a restart mid-slot does not fire peak_projected_exceeded again.
     this.peakExceededSlot = await this.getStoreValue('peakExceededSlot');
     // Capacity tariff: this month's closed windows (PeakTariff.recordWindow()).
-    this.peakHistory = await this.getStoreValue('peakHistory');
+    this.peakHistory = book.peakHistory;
+    this.meterPowerHome = book.meterPowerHome || 0;
     this.peakConfig = PeakTariff.configFromSettings(this.getSettings());
 
     // A repair can re-point this device at another meter (new homey_device_id). The anchors above
@@ -157,7 +161,7 @@ class GridDevice extends GenericDevice {
     this.weeklyProfile = storedProfile || LoadForecastStrategy.initializeProfile();
     this.lastAutoRetrainLoad = await this.getStoreValue('lastAutoRetrainLoad') || 0;
     this.retrainingLoad = false;
-    this.forecastErrors = await this.getStoreValue('forecastErrors') || [];
+    this.forecastErrors = (await FileStore.open(this)).get('forecastErrors') || [];
     this.plannedLoads = await this.getStoreValue('plannedLoads') || [];
     await this.updateForecastAccuracyStatus().catch(this.error);
 
@@ -212,7 +216,7 @@ class GridDevice extends GenericDevice {
   }
 
   async initDeviceValues() {
-    this.meterPowerHome = await this.getStoreValue('meterPowerHome') || 0;
+    if (typeof this.meterPowerHome !== 'number') this.meterPowerHome = 0; // restoreBookkeeping()
     if (this.hasCapability('meter_power_hidden.home')) {
       await this.setCapabilityValue('meter_power_hidden.home', this.meterPowerHome).catch(this.error);
     }
@@ -351,7 +355,7 @@ class GridDevice extends GenericDevice {
           this.powerHistory.push({ time: now, power: safeHomePower, grid: smoothedGridPower });
           if (this.powerHistory.length > 576) this.powerHistory.shift();
           if (!this.lastPowerHistorySaveTm || (now - this.lastPowerHistorySaveTm > 15 * 60 * 1000)) {
-            this.setStoreValue('powerHistory', this.powerHistory).catch(this.error);
+            this.fileStore.set('powerHistory', this.powerHistory);
             this.lastPowerHistorySaveTm = now;
           }
         }
@@ -363,11 +367,7 @@ class GridDevice extends GenericDevice {
           const deltaKwh = (safePower * dt) / 3600000000;
           this.meterPowerHome = (this.meterPowerHome || 0) + deltaKwh;
           await this.setCapability('meter_power_hidden.home', Number(this.meterPowerHome.toFixed(4))).catch(this.error);
-
-          if (!this.lastHomePowerSaveTm || (now - this.lastHomePowerSaveTm > 60000)) {
-            this.setStoreValue('meterPowerHome', this.meterPowerHome).catch(this.error);
-            this.lastHomePowerSaveTm = now;
-          }
+          this.markStoreDirty('meterPowerHome'); // stored with the bookkeeping (flushDirtyStore())
         }
       }
       this.lastHomePower = safeHomePower;
@@ -488,14 +488,44 @@ class GridDevice extends GenericDevice {
     await this.updateDirectionalRegisters(this.directionalPseudoState.importTotal, this.directionalPseudoState.exportTotal);
   }
 
-  // --- Throttled persistence of the per-reading bookkeeping (at most once per STORE_FLUSH_MS).
-  // Order matters: accumulators before the anchors they advance from. An anchor stored before its
-  // accumulator loses energy on a crash in between; the reverse only makes the next delta larger.
-  static STORE_FLUSH_ORDER = [
+  // --- Throttled persistence of the per-reading bookkeeping (at most once per STORE_FLUSH_MS), all
+  // in one store value: every setStoreValue() sends the whole store (SDK), so one write per flush.
+  // One write also keeps accumulators and the anchors they advance from consistent over a crash.
+  static BOOKKEEPING_KEY = 'bookkeeping';
+
+  static BOOKKEEPING_KEYS = [
     'directionalPseudoState', 'peakLoad', 'peakHistory', 'splitMoney', 'directionalBlockState',
     'directionalMeter', 'lastDirectionalSnapshot', 'lastPeakLoadReading',
-    'lastDirectionalReadingDay', 'lastDirectionalReadingMonth', 'lastDirectionalReadingYear',
+    'lastDirectionalReadingDay', 'lastDirectionalReadingMonth', 'lastDirectionalReadingYear', 'meterPowerHome',
   ];
+
+  // The bookkeeping as stored: { key: value } for BOOKKEEPING_KEYS. Earlier versions stored a value
+  // per key: those move into the one value here (stored first, then the old keys removed).
+  async restoreBookkeeping() {
+    // A device restart: what is in memory is newer than the store.
+    if (this.bookkeepingRestored) await this.flushDirtyStore({ force: true });
+    const keys = GridDevice.BOOKKEEPING_KEYS;
+    const stored = this.getStoreValue(GridDevice.BOOKKEEPING_KEY);
+    const book = {};
+    keys.forEach((key) => {
+      const value = stored ? stored[key] : this.getStoreValue(key);
+      book[key] = value === undefined ? null : value;
+    });
+    const legacy = keys.filter((key) => this.getStoreKeys().includes(key));
+    if (legacy.length > 0) {
+      // The old keys only go once the one value is stored.
+      const saved = stored || await this.setStoreValue(GridDevice.BOOKKEEPING_KEY, book).then(() => true, (err) => {
+        this.error(err);
+        return false;
+      });
+      if (saved) {
+        for (const key of legacy) await this.unsetStoreValue(key).catch(this.error);
+        this.log(`Bookkeeping moved into one store value: ${legacy.join(', ')}`);
+      }
+    }
+    this.bookkeepingRestored = true;
+    return book;
+  }
 
   // Each key is held on an instance property of the same name.
   markStoreDirty(key) {
@@ -505,16 +535,17 @@ class GridDevice extends GenericDevice {
 
   // force: skip the throttle (period boundary, shutdown).
   async flushDirtyStore({ force = false } = {}) {
-    if (!this.dirtyStore || this.dirtyStore.size === 0) return;
+    // A flush writes every key: never before they are restored.
+    if (!this.bookkeepingRestored || !this.dirtyStore || this.dirtyStore.size === 0) return;
     const nowTm = Date.now();
     if (!force && this.lastStoreFlushTm && (nowTm - this.lastStoreFlushTm) <= GenericDevice.STORE_FLUSH_MS) return;
     this.lastStoreFlushTm = nowTm;
-    const keys = GridDevice.STORE_FLUSH_ORDER.filter((key) => this.dirtyStore.has(key));
     this.dirtyStore.clear();
-    // Sequential on purpose: see STORE_FLUSH_ORDER.
-    for (const key of keys) {
-      await this.setStoreValue(key, this[key]).catch((err) => this.error(err));
-    }
+    const book = {};
+    GridDevice.BOOKKEEPING_KEYS.forEach((key) => {
+      book[key] = this[key] === undefined ? null : this[key];
+    });
+    await this.setStoreValue(GridDevice.BOOKKEEPING_KEY, book).catch((err) => this.error(err));
   }
 
   async flushStore() {
@@ -534,7 +565,7 @@ class GridDevice extends GenericDevice {
     this.lastDirectionalReadingYear = null;
     this.lastPeakLoadReading = null;
     this._directionalTickDelta = null;
-    // Through the ordered flush, forced, so no earlier dirty mark can restore a pre-reanchor value.
+    // Through the flush, forced, so no earlier dirty mark can restore a pre-reanchor value.
     ['directionalMeter', 'lastDirectionalSnapshot', 'lastPeakLoadReading',
       'lastDirectionalReadingDay', 'lastDirectionalReadingMonth', 'lastDirectionalReadingYear',
     ].forEach((key) => this.markStoreDirty(key));
@@ -1502,7 +1533,7 @@ class GridDevice extends GenericDevice {
         : learned + LoadForecastStrategy.getPlannedPower(this.plannedLoads, startTime, startTime + durationMs),
       actual: finishedBucket.avgPower,
     });
-    await this.setStoreValue('forecastErrors', this.forecastErrors);
+    this.fileStore.set('forecastErrors', this.forecastErrors);
     const hourClosed = new Date(finishedBucket.startTime).getUTCMinutes() >= 45;
     if (hourClosed) await this.updateForecastAccuracyStatus();
   }
@@ -1656,7 +1687,7 @@ class GridDevice extends GenericDevice {
     if (!lastNet || lastNet.time !== slotStartMs) {
       this.netForecastHistory.push({ time: slotStartMs, net: netNext[0], load: next.load[0] });
       if (this.netForecastHistory.length > 200) this.netForecastHistory.shift(); // > 2 days incl. a 25 h DST day
-      await this.setStoreValue('netForecastHistory', this.netForecastHistory).catch(this.error);
+      this.fileStore.set('netForecastHistory', this.netForecastHistory);
     }
     await this.setCapabilityValue('measure_watt_forecast.net_h0', netNext[0]).catch(this.error);
     await this.setCapabilityValue('measure_watt_forecast.net_h1', netNext[4]).catch(this.error);
@@ -1856,7 +1887,7 @@ class GridDevice extends GenericDevice {
         this.powerHistory = Array.from(existingMap.values());
         this.powerHistory.sort((a, b) => a.time - b.time);
         if (this.powerHistory.length > 576) this.powerHistory = this.powerHistory.slice(-576);
-        await this.setStoreValue('powerHistory', this.powerHistory).catch(this.error);
+        this.fileStore.set('powerHistory', this.powerHistory);
         this.lastPowerHistorySaveTm = Date.now();
         this.log(`Merged ${historyMapped.length} historical entries into powerHistory. Total length: ${this.powerHistory.length}`);
         await this.updateForecastDisplay(true);

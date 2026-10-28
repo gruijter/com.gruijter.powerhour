@@ -31,6 +31,7 @@ const LoadSpread = require('../../lib/helpers/LoadSpread');
 const ChartImages = require('../../lib/helpers/ChartImages');
 const { fetchYesterdayAndToday, convertCumulativeToPower, mergeStoredHistory } = require('../../lib/helpers/HistoryLookup');
 const InsightsHistory = require('../../lib/helpers/InsightsHistory');
+const FileStore = require('../../lib/helpers/FileStore');
 
 const BOOTSTRAP_THRESHOLD_DAYS = 14; // days of training data for the solar model
 
@@ -63,11 +64,12 @@ class SolarDevice extends GenericDevice {
     this.ds = deviceSpecifics;
     this.flows = new SolarFlows(this);
 
+    const files = await FileStore.open(this, ['powerHistory', 'forecastData', 'forecastHistory']);
     // Before super.onInit(): its first poll records samples (mergeStoredHistory).
-    let history = await this.getStoreValue('powerHistory');
+    let history = files.get('powerHistory');
     if (!Array.isArray(history)) history = [];
     const storedHistory = history.filter((e) => e && typeof e.time === 'number' && typeof e.power === 'number');
-    if (storedHistory.length !== history.length) await this.setStoreValue('powerHistory', storedHistory);
+    if (storedHistory.length !== history.length) files.set('powerHistory', storedHistory);
     this.powerHistory = mergeStoredHistory(storedHistory, this.powerHistory, 576);
 
     // Before super.onInit(): it sets initReady partway, after which chart updates may run.
@@ -119,8 +121,8 @@ class SolarDevice extends GenericDevice {
 
     const storedYieldFactors = await this.getStoreValue('yieldFactors');
     this.yieldFactors = storedYieldFactors || new Array(96).fill(0);
-    this.forecastData = await this.getStoreValue('forecastData') || {}; // { time: radiation }
-    this.forecastHistory = await this.getStoreValue('forecastHistory') || { today: null, yesterday: null };
+    this.forecastData = files.get('forecastData') || {}; // { time: radiation }
+    this.forecastHistory = files.get('forecastHistory') || { today: null, yesterday: null };
     this.globalMaxYF = await this.getStoreValue('globalMaxYF') || 0;
     this.peakPowerAllTime = await this.getStoreValue('peakPowerAllTime') || 0;
     this.lastAutoRetrain = await this.getStoreValue('lastAutoRetrain') || 0;
@@ -330,7 +332,7 @@ class SolarDevice extends GenericDevice {
         this.forecastData = eclipseAdjusted;
       }
 
-      await this.setStoreValue('forecastData', this.forecastData);
+      this.fileStore.set('forecastData', this.forecastData);
       this.log('Forecast updated');
       this.forecastChanged = true;
     }
@@ -384,7 +386,7 @@ class SolarDevice extends GenericDevice {
         this.powerHistory.push({ time: currentTimestamp, power: currentPower });
         if (this.powerHistory.length > 576) this.powerHistory.shift();
         if (!this.lastPowerHistorySaveTm || (currentTimestamp - this.lastPowerHistorySaveTm > 15 * 60 * 1000)) {
-          await this.setStoreValue('powerHistory', this.powerHistory).catch(this.error);
+          this.fileStore.set('powerHistory', this.powerHistory);
           this.lastPowerHistorySaveTm = currentTimestamp;
         }
 
@@ -551,7 +553,7 @@ class SolarDevice extends GenericDevice {
         freshForecast[e.time] = e.radiation;
       });
       this.forecastData = { ...this.forecastData, ...freshForecast };
-      await this.setStoreValue('forecastData', this.forecastData);
+      this.fileStore.set('forecastData', this.forecastData);
       this.forecastChanged = true;
 
       const { targetLog, isCumulative } = await this.findTargetInsightsLog(api, sourceDevice, startDate14, endDate);
@@ -685,7 +687,7 @@ class SolarDevice extends GenericDevice {
           }
           this.powerHistory.sort((a, b) => a.time - b.time);
           if (this.powerHistory.length > 576) this.powerHistory = this.powerHistory.slice(-576);
-          await this.setStoreValue('powerHistory', this.powerHistory);
+          this.fileStore.set('powerHistory', this.powerHistory);
           this.lastPowerHistorySaveTm = Date.now();
 
           const result2 = SolarLearningStrategy.extractSlotSamples({
@@ -919,7 +921,7 @@ class SolarDevice extends GenericDevice {
           .sort((a, b) => a.time - b.time)
           .slice(-2880);
 
-        await this.setStoreValue('powerHistory', this.powerHistory);
+        this.fileStore.set('powerHistory', this.powerHistory);
         this.lastPowerHistorySaveTm = Date.now();
         this.log(`[populatePowerHistory] Populated power history. New length: ${this.powerHistory.length}`);
         await this.updateForecastDisplay(true);
@@ -1001,7 +1003,7 @@ class SolarDevice extends GenericDevice {
       }
 
       this.forecastHistory.today = { date: nowLocalStr, data: todaySeries };
-      await this.setStoreValue('forecastHistory', this.forecastHistory);
+      this.fileStore.set('forecastHistory', this.forecastHistory);
     }
 
     this.updateIntraday(now, localDayEnd.getTime());

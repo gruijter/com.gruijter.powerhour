@@ -25,6 +25,7 @@ const PriceFormula = require('../../lib/PriceFormula');
 const PriceCalculator = require('../../lib/PriceCalculator');
 const PriceSetup = require('../../lib/helpers/PriceSetup');
 const DapTakeover = require('../../lib/helpers/DapTakeover');
+const FileStore = require('../../lib/helpers/FileStore');
 
 const FORMULA_KEYS = ['formula', 'export_formula'];
 // Changing these needs new market prices (repair).
@@ -32,8 +33,6 @@ const MARKET_KEYS = ['commodity', 'tariffType', 'biddingZone', 'priceInterval'];
 const PRICE_KEYS = [
   'tax', 'vat', 'fixedMarkupInclVat', 'taxInclVat', 'fixedMarkupTODInclVat', 'fixedMarkupWeekendInclVat', 'formula',
 ].flatMap((id) => [id, `export_${id}`]);
-const STORED_PRICES = ['prices', 'marketPrices', 'rawCombinedPrices', 'rawMarketPrices', 'rawForecastPrices', 'priceHistory'];
-
 // Price cards per price period; gas has one price per day, water a fixed tariff: no cheapest or most
 // expensive cards.
 const POWER_TRIGGERS = ['price_cheapest_next', 'price_cheapest_between', 'price_block_next', 'price_block_between', 'price_vs_avg'];
@@ -200,7 +199,8 @@ class PriceDevice extends GenericDevice {
     this.rawMarketPrices = [];
     this.rawForecastPrices = [];
     this.priceHistory = [];
-    for (const key of STORED_PRICES) await this.setStoreValue(key, []).catch((err) => this.error(err));
+    const files = await FileStore.open(this);
+    GenericDevice.STORED_PRICES.forEach((key) => files.set(key, []));
   }
 
   // New settings from the repair view (PriceSetup). A new market clears the prices; a new energy

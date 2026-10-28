@@ -1585,7 +1585,7 @@ class CarChargeDevice extends GenericDevice {
       this.powerHistory.push({ time: currentTimestamp, power: livePower });
       if (this.powerHistory.length > 2880) this.powerHistory.shift();
       if (!this.lastPowerHistorySaveTm || (currentTimestamp - this.lastPowerHistorySaveTm > 15 * 60 * 1000)) {
-        await this.setStoreValue('powerHistory', this.powerHistory).catch(this.error);
+        this.fileStore.set('powerHistory', this.powerHistory);
         this.lastPowerHistorySaveTm = currentTimestamp;
       }
     }
@@ -2327,7 +2327,7 @@ class CarChargeDevice extends GenericDevice {
           .map(([time, power]) => ({ time, power }))
           .sort((a, b) => a.time - b.time);
         if (this.powerHistory.length > 2880) this.powerHistory = this.powerHistory.slice(-2880);
-        await this.setStoreValue('powerHistory', this.powerHistory).catch(this.error);
+        this.fileStore.set('powerHistory', this.powerHistory);
         this.log(`[EV Slot] Populated ${this.powerHistory.length} spot power history entries from Insights.`);
       }
 
@@ -2344,7 +2344,7 @@ class CarChargeDevice extends GenericDevice {
           .map(([time, soc]) => ({ time, soc }))
           .sort((a, b) => a.time - b.time);
         if (this.socHistory.length > 2880) this.socHistory = this.socHistory.slice(-2880);
-        await this.setStoreValue('socHistory', this.socHistory).catch(this.error);
+        this.fileStore.set('socHistory', this.socHistory);
         this.log(`[EV Slot] Populated ${this.socHistory.length} spot SoC history entries from Insights.`);
       }
 

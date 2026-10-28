@@ -818,7 +818,7 @@ class BatDevice extends GenericDevice {
             .map(([time, power]) => ({ time, power }))
             .sort((a, b) => a.time - b.time);
           if (this.powerHistory.length > 2880) this.powerHistory = this.powerHistory.slice(-2880);
-          await this.setStoreValue('powerHistory', this.powerHistory).catch(this.error);
+          this.fileStore.set('powerHistory', this.powerHistory);
         }
       }
 
@@ -841,7 +841,7 @@ class BatDevice extends GenericDevice {
             .map(([time, soc]) => ({ time, soc }))
             .sort((a, b) => a.time - b.time);
           if (this.socHistory.length > 2880) this.socHistory = this.socHistory.slice(-2880);
-          await this.setStoreValue('socHistory', this.socHistory).catch(this.error);
+          this.fileStore.set('socHistory', this.socHistory);
           this.log(`[Insights] Stored ${this.socHistory.length} SoC entries (source: ${socLog.id || socLog.name})`);
         }
       } else {
@@ -1359,7 +1359,7 @@ class BatDevice extends GenericDevice {
       this.powerHistory.push({ time: currentTimestamp, power: livePower });
       if (this.powerHistory.length > 2880) this.powerHistory.shift();
       if (!this.lastPowerHistorySaveTm || (currentTimestamp - this.lastPowerHistorySaveTm > 15 * 60 * 1000)) {
-        await this.setStoreValue('powerHistory', this.powerHistory).catch(this.error);
+        this.fileStore.set('powerHistory', this.powerHistory);
         this.lastPowerHistorySaveTm = currentTimestamp;
       }
     }
