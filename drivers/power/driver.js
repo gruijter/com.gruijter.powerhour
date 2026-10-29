@@ -74,7 +74,8 @@ const driverSpecifics = {
     'measure_watt_min.year', 'measure_watt_max.year'],
   // Asked at pair and repair (lib/helpers/PairSetup.js).
   setup: {
-    settings: ['use_measure_source', 'homey_device_daily_reset', 'forecast_appliance', 'tariff_update_group'],
+    settings: ['use_measure_source', 'homey_device_daily_reset', 'forecast_appliance', 'tariff_update_group',
+      'tariff', 'tariff_export', 'currency'],
     // Low (or single) and normal tariff registers of a smart meter; the extra ones only show when
     // the source has them (optional: see generic_sum_driver.setupRoles()).
     roles: [{ key: 'p1', kind: 'kwh', label: 'p1_low' }, {

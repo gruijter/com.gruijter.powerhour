@@ -41,7 +41,7 @@ The **Power Monitor** summarizes the electricity use (or production) of any mete
    - **Use Watt as source** — only when the device has no kWh meter. The app then integrates the power, which is less accurate.
    - **Has daily reset** — when the source meter resets to 0 every midnight.
    - **Enable forecast and planner** — for a washing machine, dishwasher or dryer, see below.
-   - **Tariff group** and, without an Energy Price device in that group, a fixed **tariff**.
+   - **Tariff group**: an Energy Price device, or **Fixed tariff** with the import and export price and the currency.
    - Which meter capabilities to use (import, import 2, export, export 2, power), when the automatic choice is not right.
    - **Year budget** — off by default.
 
@@ -76,7 +76,7 @@ For a meter that is not a Homey device, or that needs a calculation first:
 
 ## Tariff, Fixed Costs & Budget
 
-- **Tariff group:** the device uses the price of the Energy Price device with the same group number ([README.price.md](./README.price.md)), also for a fixed tariff. 0: no price.
+- **Tariff group:** the device uses the price of the Energy Price device with the same group number ([README.price.md](./README.price.md)). 0: **Fixed tariff** and **Fixed export tariff** from the settings, no Energy Price device needed.
 - **Tariff selection:** *Automatic* uses the import price while the home imports from the grid, and the export price while it exports. Or always import, or always export.
 - **Fixed costs** per hour, day and month: in the settings, or with **Set fixed cost**.
 - **Year budget:** a year budget spread **Evenly**, like the **Local climate (auto)** with the heating and air conditioning you choose, or **Custom (per month)**. The device shows how the use compares to the budget so far this month and year. Change it with **Repair** > *Year budget*.

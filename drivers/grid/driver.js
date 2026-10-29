@@ -76,7 +76,7 @@ const driverSpecifics = {
     'button.retrain_load'],
   // Asked at pair and repair (lib/helpers/PairSetup.js).
   setup: {
-    settings: ['use_measure_source', 'tariff_update_group', 'directionalNettingScheme',
+    settings: ['use_measure_source', 'tariff_update_group', 'tariff', 'tariff_export', 'currency', 'directionalNettingScheme',
       'connectionPhases', 'connectionAmps', 'peakLoadIntervalMinutes'],
     roles: [{ key: 'p1', kind: 'kwh' }, { key: 'n1', kind: 'kwh' },
       {

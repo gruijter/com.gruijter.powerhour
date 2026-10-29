@@ -45,7 +45,7 @@ The driver reads the import and export registers that the source device declares
 
 1. Go to **Devices** → **Add Device** → **Power by the Hour** → **Grid Monitor**.
 2. Choose your main grid meter. Smart meters are listed first. The new device gets the name of the source device.
-3. The setup view asks for **Use Watt as source**, the **Tariff group** and tariff, the **Price settlement scheme**, the grid connection (phases, main fuse) and the **Peak load interval**, and the **Year budget** (on by default: 2500 kWh, Local climate, with the heating and air conditioning you choose). It also shows which meter capabilities are used for import and export, and lets you choose others.
+3. The setup view asks for **Use Watt as source**, the **Tariff group** (an Energy Price device, or **Fixed tariff** with the import and export price), the **Price settlement scheme**, the grid connection (phases, main fuse) and the **Peak load interval**, and the **Year budget** (on by default: 2500 kWh, Local climate, with the heating and air conditioning you choose). It also shows which meter capabilities are used for import and export, and lets you choose others.
 4. Afterwards, check the other **Grid connection** and **Capacity tariff** settings — see below.
 
 After pairing, the load forecast is trained automatically from the Insights history of your grid meter (and solar / battery / EV devices, if present). This may take a few minutes.

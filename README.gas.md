@@ -27,7 +27,7 @@ The **Gas Monitor** summarizes your gas use: m³ and money per hour, day, month 
 
 1. Go to **Devices** → **Add Device** → **Power by the Hour** → **Gas Monitor**.
 2. Choose the device with your gas meter, e.g. a P1 meter with gas. The new device gets the name of the source device.
-3. The setup view asks for **Has daily reset**, the **Tariff group** (with the Energy Price devices for gas), the tariff when no price device is in that group, which meter capability to use, and the **Year budget** (on by default: 1100 m³, Local climate, Gas boiler).
+3. The setup view asks for **Has daily reset**, the **Tariff group** (the Energy Price devices for gas, or **Fixed tariff** with the price and the currency), which meter capability to use, and the **Year budget** (on by default: 1100 m³, Local climate, Gas boiler).
 
 For a meter that is not a Homey device, pair `VIRTUAL_VIA_FLOW` and send the cumulative reading (m³) with the flow card **Send reading to virtual meter**.
 
@@ -37,7 +37,7 @@ Use **Repair** to switch to another source device (the device keeps its name) or
 
 ## Tariff, Fixed Costs & Budget
 
-- **Tariff group:** the device uses the gas price of the Energy Price device with the same group number ([README.price.md](./README.price.md)), also for a fixed tariff. 0: no price.
+- **Tariff group:** the device uses the gas price of the Energy Price device with the same group number ([README.price.md](./README.price.md)). 0: the **Fixed tariff** from the settings, no Energy Price device needed.
 - **Fixed costs** per hour, day and month: in the settings, or with **Set fixed cost**.
 - **Year budget:** a year budget (m³) spread **Evenly**, like the **Local climate (auto)** with the heating you choose (gas boiler, hybrid heat pump, or no gas heating), or **Custom (per month)**. Change it with **Repair** > *Year budget*.
 - **Fix totals or costs:** with **Repair** > *Fix totals or costs* you correct the totals and money values: after a wrong meter jump, after changing the source device or the start date (Repair then opens it by itself), or to enter the totals so far after pairing.
