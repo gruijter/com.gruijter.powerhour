@@ -286,19 +286,19 @@
             "ko": "에너지"
           },
           "hint": {
-            "en": "Change via Repair.",
-            "nl": "Wijzigen via Repareren.",
-            "de": "Ändern über Reparieren.",
-            "fr": "Modifier via Réparer.",
-            "it": "Modifica tramite Ripara.",
-            "sv": "Ändra via Reparera.",
-            "no": "Endre via Reparer.",
-            "es": "Cambiar mediante Reparar.",
-            "da": "Skift via Reparer.",
-            "pl": "Zmień przez Napraw.",
-            "ru": "Изменить через Восстановить.",
-            "ar": "غيّر عبر الإصلاح.",
-            "ko": "복구에서 변경하세요."
+            "en": "Do a repair to change. Electricity, gas or water.",
+            "nl": "Repareer om te wijzigen. Elektriciteit, gas of water.",
+            "de": "Zum Ändern reparieren. Strom, Gas oder Wasser.",
+            "fr": "Réparer pour modifier. Électricité, gaz ou eau.",
+            "it": "Ripara per modificare. Elettricità, gas o acqua.",
+            "sv": "Reparera för att ändra. El, gas eller vatten.",
+            "no": "Reparer for å endre. Strøm, gass eller vann.",
+            "es": "Repara para cambiar. Electricidad, gas o agua.",
+            "da": "Reparer for at ændre. El, gas eller vand.",
+            "pl": "Napraw, aby zmienić. Prąd, gaz lub woda.",
+            "ru": "Для изменения выполните восстановление. Электричество, газ или вода.",
+            "ar": "نفّذ إصلاحًا للتغيير. الكهرباء أو الغاز أو الماء.",
+            "ko": "변경하려면 복구하세요. 전기, 가스 또는 물."
           },
           "values": [
             {
@@ -377,19 +377,19 @@
             "ko": "요금"
           },
           "hint": {
-            "en": "Change via Repair.",
-            "nl": "Wijzigen via Repareren.",
-            "de": "Ändern über Reparieren.",
-            "fr": "Modifier via Réparer.",
-            "it": "Modifica tramite Ripara.",
-            "sv": "Ändra via Reparera.",
-            "no": "Endre via Reparer.",
-            "es": "Cambiar mediante Reparar.",
-            "da": "Skift via Reparer.",
-            "pl": "Zmień przez Napraw.",
-            "ru": "Изменить через Восстановить.",
-            "ar": "غيّر عبر الإصلاح.",
-            "ko": "복구에서 변경하세요."
+            "en": "Do a repair to change. Market price or fixed tariff.",
+            "nl": "Repareer om te wijzigen. Marktprijs of vast tarief.",
+            "de": "Zum Ändern reparieren. Marktpreis oder Festtarif.",
+            "fr": "Réparer pour modifier. Prix du marché ou tarif fixe.",
+            "it": "Ripara per modificare. Prezzo di mercato o tariffa fissa.",
+            "sv": "Reparera för att ändra. Marknadspris eller fast tariff.",
+            "no": "Reparer for å endre. Markedspris eller fast tariff.",
+            "es": "Repara para cambiar. Precio de mercado o tarifa fija.",
+            "da": "Reparer for at ændre. Markedspris eller fast tarif.",
+            "pl": "Napraw, aby zmienić. Cena rynkowa lub stała taryfa.",
+            "ru": "Для изменения выполните восстановление. Рыночная цена или фиксированный тариф.",
+            "ar": "نفّذ إصلاحًا للتغيير. سعر السوق أو تعرفة ثابتة.",
+            "ko": "변경하려면 복구하세요. 시장 가격 또는 고정 요금."
           },
           "values": [
             {
@@ -523,19 +523,19 @@
           },
           "value": "unknown",
           "hint": {
-            "en": "Change via Repair.",
-            "nl": "Wijzigen via Repareren.",
-            "de": "Ändern über Reparieren.",
-            "fr": "Modifier via Réparer.",
-            "it": "Modifica tramite Ripara.",
-            "sv": "Ändra via Reparera.",
-            "no": "Endre via Reparer.",
-            "es": "Cambiar mediante Reparar.",
-            "da": "Skift via Reparer.",
-            "pl": "Zmień przez Napraw.",
-            "ru": "Изменить через Восстановить.",
-            "ar": "غيّر عبر الإصلاح.",
-            "ko": "복구에서 변경하세요."
+            "en": "Do a repair to change. Market area of the prices.",
+            "nl": "Repareer om te wijzigen. Marktgebied van de prijzen.",
+            "de": "Zum Ändern reparieren. Marktgebiet der Preise.",
+            "fr": "Réparer pour modifier. Zone de marché des prix.",
+            "it": "Ripara per modificare. Zona di mercato dei prezzi.",
+            "sv": "Reparera för att ändra. Prisernas marknadsområde.",
+            "no": "Reparer for å endre. Prisenes markedsområde.",
+            "es": "Repara para cambiar. Zona de mercado de los precios.",
+            "da": "Reparer for at ændre. Prisernes markedsområde.",
+            "pl": "Napraw, aby zmienić. Obszar rynkowy cen.",
+            "ru": "Для изменения выполните восстановление. Рыночная зона цен.",
+            "ar": "نفّذ إصلاحًا للتغيير. منطقة السوق للأسعار.",
+            "ko": "변경하려면 복구하세요. 가격의 시장 구역."
           }
         },
         {

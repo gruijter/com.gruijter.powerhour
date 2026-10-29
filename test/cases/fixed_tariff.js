@@ -192,7 +192,7 @@ const fakeDevice = (settings, store = {}, ids = ['tariff_update_group', 'tariff'
     await new SumFlows(fixed).set_fixed_export_tariff({ tariff: 0.05 });
     assert.strictEqual(fixed.tariffHistory.current, 0.27);
     assert.strictEqual(fixed.tariffHistory.currentExport, 0.05);
-    assert.strictEqual(fixed.settings.price_info, 'repair.price_info_fixed_export € 0.27 € 0.05');
+    assert.strictEqual(fixed.settings.price_info, 'repair.price_info_fixed_export € 0.27/kWh € 0.05/kWh');
     const fed = fakeDevice({ tariff_update_group: 2, tariff: 0.25 }, { fixedExport: true });
     fed.getName = () => 'Meter';
     await new SumFlows(fed).set_fixed_tariff({ tariff: 0.27 });
