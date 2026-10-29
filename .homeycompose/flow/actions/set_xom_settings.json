@@ -35,14 +35,14 @@
     "de": "Leere Felder bleiben unverändert. Das XOM-Ziel gilt für alle Batterien (auch die eingebaute Steuerung und die Batterieeinstellung). Glättung und min. Batterieleistung gelten nur für die XOM-Flows.",
     "fr": "Les champs vides restent inchangés. La cible XOM s'applique à toutes les batteries (aussi le pilotage intégré et le réglage de la batterie). Le lissage et la puissance min. ne s'appliquent qu'aux flows XOM.",
     "it": "I campi vuoti restano invariati. L'obiettivo XOM vale per tutte le batterie (anche il controllo integrato e l'impostazione della batteria). Smoothing e potenza min. valgono solo per i flow XOM.",
-    "sv": "Tomma fält ändras inte. XOM-målet gäller alla batterier (även den inbyggda styrningen och batteriinställningen). Utjämning och min. batterieffekt gäller bara XOM-flödena.",
-    "no": "Tomme felt endres ikke. XOM-målet gjelder alle batterier (også den innebygde styringen og batteriinnstillingen). Utjevning og min. batterieffekt gjelder bare XOM-flytene.",
-    "es": "Los campos vacíos no cambian. El objetivo XOM se aplica a todas las baterías (también el control integrado y el ajuste de la batería). El suavizado y la potencia mín. solo se aplican a los flujos XOM.",
+    "sv": "Tomma fält ändras inte. XOM-målet gäller alla batterier (även den inbyggda styrningen och batteriinställningen). Utjämning och min. batterieffekt gäller bara XOM-Flows.",
+    "no": "Tomme felt endres ikke. XOM-målet gjelder alle batterier (også den innebygde styringen og batteriinnstillingen). Utjevning og min. batterieffekt gjelder bare XOM-Flows.",
+    "es": "Los campos vacíos no cambian. El objetivo XOM se aplica a todas las baterías (también el control integrado y el ajuste de la batería). El suavizado y la potencia mín. solo se aplican a los Flows XOM.",
     "da": "Tomme felter ændres ikke. XOM-målet gælder alle batterier (også den indbyggede styring og batteriindstillingen). Udjævning og min. batterieffekt gælder kun XOM-flows.",
     "pl": "Puste pola pozostają bez zmian. Cel XOM dotyczy wszystkich baterii (także wbudowanego sterowania i ustawienia baterii). Wygładzanie i min. moc baterii dotyczą tylko flow XOM.",
-    "ru": "Пустые поля не меняются. Цель XOM действует для всех батарей (также для встроенного управления и настройки батареи). Сглаживание и мин. мощность действуют только для потоков XOM.",
-    "ko": "빈 필드는 변경되지 않습니다. XOM 목표는 모든 배터리에 적용됩니다(내장 제어 및 배터리 설정 포함). 스무딩과 최소 배터리 출력은 XOM 플로우에만 적용됩니다.",
-    "ar": "الحقول الفارغة تبقى دون تغيير. ينطبق هدف XOM على كل البطاريات (وأيضًا التحكم المدمج وإعداد البطارية). التنعيم والحد الأدنى لقدرة البطارية ينطبقان على تدفقات XOM فقط."
+    "ru": "Пустые поля не меняются. Цель XOM действует для всех батарей (также для встроенного управления и настройки батареи). Сглаживание и мин. мощность действуют только для Flows XOM.",
+    "ko": "빈 필드는 변경되지 않습니다. XOM 목표는 모든 배터리에 적용됩니다(내장 제어 및 배터리 설정 포함). 스무딩과 최소 배터리 출력은 XOM Flow에만 적용됩니다.",
+    "ar": "الحقول الفارغة تبقى دون تغيير. ينطبق هدف XOM على كل البطاريات (وأيضًا التحكم المدمج وإعداد البطارية). التنعيم والحد الأدنى لقدرة البطارية ينطبقان على Flows XOM فقط."
   },
   "args": [
     {

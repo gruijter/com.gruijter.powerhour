@@ -536,7 +536,7 @@
         "pl": "Urządzenia źródłowe Homey",
         "ru": "Исходные устройства Homey",
         "ar": "أجهزة مصدر Homey",
-        "ko": "Homey 소스 장치"
+        "ko": "Homey 소스 디바이스"
       },
       "children": [
         {
@@ -555,7 +555,7 @@
             "pl": "ID urządzenia ładowarki",
             "ru": "ID устройства зарядки",
             "ar": "معرف جهاز الشاحن",
-            "ko": "충전기 장치 ID"
+            "ko": "충전기 디바이스 ID"
           },
           "value": "unknown",
           "hint": {
@@ -569,9 +569,9 @@
             "es": "Repara para cambiar. ID del cargador.",
             "da": "Reparer for at ændre. Laderens ID.",
             "pl": "Napraw, aby zmienić. ID ładowarki.",
-            "ru": "Для изменения выполните восстановление. ID зарядного устройства.",
+            "ru": "Чтобы изменить, выберите «Исправить». ID зарядного устройства.",
             "ar": "نفّذ إصلاحًا للتغيير. معرّف الشاحن.",
-            "ko": "변경하려면 복구하세요. 충전기 ID."
+            "ko": "변경하려면 수리하세요. 충전기 ID."
           }
         },
         {
@@ -590,7 +590,7 @@
             "pl": "Nazwa urządzenia ładowarki",
             "ru": "Имя устройства зарядки",
             "ar": "اسم جهاز الشاحن",
-            "ko": "충전기 장치 이름"
+            "ko": "충전기 디바이스 이름"
           },
           "value": "unknown",
           "hint": {
@@ -604,9 +604,9 @@
             "es": "Repara para cambiar. Cargador controlado.",
             "da": "Reparer for at ændre. Lader der styres.",
             "pl": "Napraw, aby zmienić. Sterowana ładowarka.",
-            "ru": "Для изменения выполните восстановление. Управляемое зарядное устройство.",
+            "ru": "Чтобы изменить, выберите «Исправить». Управляемое зарядное устройство.",
             "ar": "نفّذ إصلاحًا للتغيير. الشاحن الذي يتم التحكم فيه.",
-            "ko": "변경하려면 복구하세요. 제어되는 충전기."
+            "ko": "변경하려면 수리하세요. 제어되는 충전기."
           }
         },
         {
@@ -625,7 +625,7 @@
             "pl": "ID urządzenia samochodu EV",
             "ru": "ID устройства EV автомобиля",
             "ar": "معرف جهاز سيارة EV",
-            "ko": "EV 차량 장치 ID"
+            "ko": "EV 차량 디바이스 ID"
           },
           "value": "none",
           "hint": {
@@ -639,9 +639,9 @@
             "es": "Repara para cambiar. ID del coche, o ninguno.",
             "da": "Reparer for at ændre. Bilens ID, eller ingen.",
             "pl": "Napraw, aby zmienić. ID samochodu lub brak.",
-            "ru": "Для изменения выполните восстановление. ID автомобиля или нет.",
+            "ru": "Чтобы изменить, выберите «Исправить». ID автомобиля или нет.",
             "ar": "نفّذ إصلاحًا للتغيير. معرّف السيارة، أو لا شيء.",
-            "ko": "변경하려면 복구하세요. 차량 ID 또는 없음."
+            "ko": "변경하려면 수리하세요. 차량 ID 또는 없음."
           }
         },
         {
@@ -660,7 +660,7 @@
             "pl": "Nazwa urządzenia samochodu EV",
             "ru": "Имя устройства EV автомобиля",
             "ar": "اسم جهاز سيارة EV",
-            "ko": "EV 차량 장치 이름"
+            "ko": "EV 차량 디바이스 이름"
           },
           "value": "none",
           "hint": {
@@ -674,9 +674,9 @@
             "es": "Repara para cambiar. Coche que se carga.",
             "da": "Reparer for at ændre. Bil der lades.",
             "pl": "Napraw, aby zmienić. Ładowany samochód.",
-            "ru": "Для изменения выполните восстановление. Заряжаемый автомобиль.",
+            "ru": "Чтобы изменить, выберите «Исправить». Заряжаемый автомобиль.",
             "ar": "نفّذ إصلاحًا للتغيير. السيارة التي يتم شحنها.",
-            "ko": "변경하려면 복구하세요. 충전되는 차량."
+            "ko": "변경하려면 수리하세요. 충전되는 차량."
           }
         }
       ]
@@ -729,9 +729,9 @@
             "es": "Repara para cambiar. Precio para los importes.",
             "da": "Reparer for at ændre. Pris til pengeværdierne.",
             "pl": "Napraw, aby zmienić. Cena dla wartości pieniężnych.",
-            "ru": "Для изменения выполните восстановление. Цена для денежных значений.",
+            "ru": "Чтобы изменить, выберите «Исправить». Цена для денежных значений.",
             "ar": "نفّذ إصلاحًا للتغيير. السعر المستخدم للقيم المالية.",
-            "ko": "변경하려면 복구하세요. 금액 계산에 쓰는 가격."
+            "ko": "변경하려면 수리하세요. 금액 계산에 쓰는 가격."
           }
         }
       ]
@@ -1004,9 +1004,9 @@
             "es": "Repara para cambiar. Inicio del año y presupuesto.",
             "da": "Reparer for at ændre. Årets start og budget.",
             "pl": "Napraw, aby zmienić. Początek roku i budżet.",
-            "ru": "Для изменения выполните восстановление. Начало года и бюджет.",
+            "ru": "Чтобы изменить, выберите «Исправить». Начало года и бюджет.",
             "ar": "نفّذ إصلاحًا للتغيير. بداية السنة والميزانية.",
-            "ko": "변경하려면 복구하세요. 연도 시작일과 예산."
+            "ko": "변경하려면 수리하세요. 연도 시작일과 예산."
           }
         }
       ]
@@ -1043,7 +1043,7 @@
             "es": "Corregir totales o costes",
             "da": "Ret totaler eller omkostninger",
             "pl": "Popraw sumy lub koszty",
-            "ru": "Исправить итоги или затраты",
+            "ru": "Скорректировать итоги или затраты",
             "ar": "تصحيح الإجماليات أو التكاليف",
             "ko": "합계 또는 비용 수정"
           },
@@ -1059,9 +1059,9 @@
             "es": "Repara para cambiar. Corrige totales, lecturas e importes.",
             "da": "Reparer for at ændre. Retter totaler, målerstande og beløb.",
             "pl": "Napraw, aby zmienić. Poprawia sumy, odczyty i kwoty.",
-            "ru": "Для изменения выполните восстановление. Исправляет итоги, показания и суммы.",
+            "ru": "Чтобы изменить, выберите «Исправить». Исправляет итоги, показания и суммы.",
             "ar": "نفّذ إصلاحًا للتغيير. يصحح الإجماليات وقراءات العداد والمبالغ.",
-            "ko": "변경하려면 복구하세요. 합계, 계량값, 금액을 수정합니다."
+            "ko": "변경하려면 수리하세요. 합계, 계량값, 금액을 수정합니다."
           }
         }
       ]

@@ -106,7 +106,7 @@
     "start_title": "Reparer",
     "start_question": "Hvad vil du gøre?",
     "start_source": "Skift kildeenhed eller indstillinger",
-    "start_source_info": "Bevarer alle indsigter og flows. Har den nye kilde en anden målerstand, så ret totalerne bagefter.",
+    "start_source_info": "Bevarer alle Insights og flows. Har den nye kilde en anden målerstand, så ret totalerne bagefter.",
     "start_fix": "Ret totaler eller omkostninger",
     "start_fix_info": "Efter et forkert målerspring, eller for at angive totalerne indtil nu efter parring.",
     "fix_what": "Hvad passer ikke?",

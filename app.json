@@ -786,15 +786,15 @@
           "nl": "Op de start van \"Volgende run\". Start het programma vanuit deze flow, bijv. door de stekker aan te zetten of via de app van het apparaat.",
           "de": "Beim Start von \"Nächster Lauf\". Starten Sie das Programm aus diesem Flow, z. B. durch Einschalten der Steckdose oder über die App des Geräts.",
           "fr": "Au démarrage de « Prochain cycle ». Lancez le programme depuis ce flow, p. ex. en allumant la prise ou via l'app de l'appareil.",
-          "es": "Al inicio de \"Próximo ciclo\". Inicie el programa desde este flujo, p. ej. encendiendo el enchufe o con la app del aparato.",
+          "es": "Al inicio de \"Próximo ciclo\". Inicie el programa desde este Flow, p. ej. encendiendo el enchufe o con la app del aparato.",
           "it": "All'avvio di \"Prossimo ciclo\". Avvia il programma da questo flow, ad es. accendendo la presa o tramite l'app dell'elettrodomestico.",
           "da": "Ved starten af \"Næste kørsel\". Start programmet fra dette flow, f.eks. ved at tænde stikket eller via apparatets app.",
-          "sv": "Vid starten av \"Nästa körning\". Starta programmet från detta flöde, t.ex. genom att slå på uttaget eller via apparatens app.",
-          "no": "Ved starten av \"Neste kjøring\". Start programmet fra denne flyten, f.eks. ved å slå på kontakten eller via apparatets app.",
+          "sv": "Vid starten av \"Nästa körning\". Starta programmet från detta Flow, t.ex. genom att slå på uttaget eller via apparatens app.",
+          "no": "Ved starten av \"Neste kjøring\". Start programmet fra denne Flow, f.eks. ved å slå på kontakten eller via apparatets app.",
           "pl": "Przy starcie „Następny cykl”. Uruchom program z tego flow, np. włączając gniazdko lub przez aplikację urządzenia.",
-          "ru": "При запуске «Следующий цикл». Запустите программу из этого потока, например включив розетку или через приложение прибора.",
-          "ar": "عند بدء \"التشغيل التالي\". ابدأ البرنامج من هذا التدفق، مثلًا بتشغيل المقبس أو عبر تطبيق الجهاز.",
-          "ko": "'다음 운전' 시작 시. 이 플로우에서 프로그램을 시작하세요. 예: 플러그를 켜거나 가전 앱 사용."
+          "ru": "При запуске «Следующий цикл». Запустите программу из этого Flow, например включив розетку или через приложение прибора.",
+          "ar": "عند بدء \"التشغيل التالي\". ابدأ البرنامج من Flow هذا، مثلًا بتشغيل المقبس أو عبر تطبيق الجهاز.",
+          "ko": "'다음 운전' 시작 시. 이 Flow에서 프로그램을 시작하세요. 예: 플러그를 켜거나 가전 앱 사용."
         },
         "args": [
           {
@@ -2971,7 +2971,7 @@
           "pl": "Szuka ciągłego bloku o najniższej (lub najwyższej) średniej cenie w najbliższych godzinach (0 = wszystkie znane) i sprawdza, czy teraz się w nim mieści. Dla urządzeń, które muszą pracować bez przerwy. Uruchamia się raz, na początku.",
           "ru": "Ищет непрерывный блок с самой низкой (или высокой) средней ценой в ближайшие часы (0 = все известные) и проверяет, попадает ли в него текущий момент. Для устройств, которые должны работать без перерыва. Срабатывает один раз, в начале.",
           "ar": "يبحث عن الكتلة المتصلة ذات أدنى (أو أعلى) متوسط سعر في الساعات القادمة (0 = كل الأسعار المعروفة) ويتحقق مما إذا كان الوقت الحالي ضمنها. للأجهزة التي يجب أن تعمل دون انقطاع. يُطلق مرة واحدة، عند البداية.",
-          "ko": "다음 몇 시간(0 = 알려진 전체) 중 평균 가격이 가장 낮은(또는 높은) 연속 블록을 찾아 지금이 그 안에 있는지 확인합니다. 중단 없이 작동해야 하는 기기용입니다. 시작될 때 한 번 실행됩니다."
+          "ko": "다음 몇 시간(0 = 알려진 전체) 중 평균 가격이 가장 낮은(또는 높은) 연속 블록을 찾아 지금이 그 안에 있는지 확인합니다. 중단 없이 작동해야 하는 디바이스용입니다. 시작될 때 한 번 실행됩니다."
         },
         "highlight": true,
         "args": [
@@ -9952,7 +9952,7 @@
           "pl": "Szuka ciągłego bloku o najniższej (lub najwyższej) średniej cenie w najbliższych godzinach (0 = wszystkie znane) i sprawdza, czy teraz się w nim mieści. Dla urządzeń, które muszą pracować bez przerwy.",
           "ru": "Ищет непрерывный блок с самой низкой (или высокой) средней ценой в ближайшие часы (0 = все известные) и проверяет, попадает ли в него текущий момент. Для устройств, которые должны работать без перерыва.",
           "ar": "يبحث عن الكتلة المتصلة ذات أدنى (أو أعلى) متوسط سعر في الساعات القادمة (0 = كل الأسعار المعروفة) ويتحقق مما إذا كان الوقت الحالي ضمنها. للأجهزة التي يجب أن تعمل دون انقطاع.",
-          "ko": "다음 몇 시간(0 = 알려진 전체) 중 평균 가격이 가장 낮은(또는 높은) 연속 블록을 찾아 지금이 그 안에 있는지 확인합니다. 중단 없이 작동해야 하는 기기용입니다."
+          "ko": "다음 몇 시간(0 = 알려진 전체) 중 평균 가격이 가장 낮은(또는 높은) 연속 블록을 찾아 지금이 그 안에 있는지 확인합니다. 중단 없이 작동해야 하는 디바이스용입니다."
         },
         "highlight": true,
         "args": [
@@ -16467,7 +16467,7 @@
           "pl": "Zmienia ustawienie ceny tego urządzenia, np. nowy podatek energetyczny od 1 stycznia. Tak samo jak zmiana w ustawieniach urządzenia.",
           "ru": "Изменяет ценовую настройку этого устройства, напр. новый энергоналог с 1 января. То же, что изменить её в настройках устройства.",
           "ar": "يغيّر إعداد سعر لهذا الجهاز، مثلاً ضريبة طاقة جديدة من 1 يناير. مثل تغييره في إعدادات الجهاز.",
-          "ko": "이 기기의 가격 설정을 변경합니다. 예: 1월 1일부터 새 에너지세. 기기 설정에서 변경하는 것과 같습니다."
+          "ko": "이 디바이스의 가격 설정을 변경합니다. 예: 1월 1일부터 새 에너지세. 디바이스 설정에서 변경하는 것과 같습니다."
         },
         "args": [
           {
@@ -17196,7 +17196,7 @@
           "da": "Ændrer enhedsindstillingen, og batteriet planlægger igen.",
           "pl": "Zmienia ustawienie urządzenia, a bateria planuje ponownie.",
           "ru": "Изменяет настройку устройства, и батарея планирует заново.",
-          "ko": "기기 설정을 변경하고 배터리가 다시 계획합니다.",
+          "ko": "디바이스 설정을 변경하고 배터리가 다시 계획합니다.",
           "ar": "يغيّر إعداد الجهاز، وتعيد البطارية التخطيط."
         },
         "args": [
@@ -18214,7 +18214,7 @@
               "pl": "Obecność",
               "ru": "Присутствие",
               "ar": "الحضور",
-              "ko": "재실 상태"
+              "ko": "존재감지"
             },
             "values": [
               {
@@ -19230,7 +19230,7 @@
               "es": "Dispositivo virtual",
               "pl": "Urządzenie wirtualne",
               "ru": "Виртуальное устройство",
-              "ko": "가상 장치"
+              "ko": "가상 디바이스"
             }
           },
           {
@@ -19304,7 +19304,7 @@
               "es": "Dispositivo virtual",
               "pl": "Urządzenie wirtualne",
               "ru": "Виртуальное устройство",
-              "ko": "가상 장치"
+              "ko": "가상 디바이스"
             }
           },
           {
@@ -19378,7 +19378,7 @@
               "es": "Dispositivo virtual",
               "pl": "Urządzenie wirtualne",
               "ru": "Виртуальное устройство",
-              "ko": "가상 장치"
+              "ko": "가상 디바이스"
             }
           },
           {
@@ -19452,7 +19452,7 @@
               "es": "Dispositivo virtual",
               "pl": "Urządzenie wirtualne",
               "ru": "Виртуальное устройство",
-              "ko": "가상 장치"
+              "ko": "가상 디바이스"
             }
           },
           {
@@ -20088,14 +20088,14 @@
           "de": "Leere Felder bleiben unverändert. Das XOM-Ziel gilt für alle Batterien (auch die eingebaute Steuerung und die Batterieeinstellung). Glättung und min. Batterieleistung gelten nur für die XOM-Flows.",
           "fr": "Les champs vides restent inchangés. La cible XOM s'applique à toutes les batteries (aussi le pilotage intégré et le réglage de la batterie). Le lissage et la puissance min. ne s'appliquent qu'aux flows XOM.",
           "it": "I campi vuoti restano invariati. L'obiettivo XOM vale per tutte le batterie (anche il controllo integrato e l'impostazione della batteria). Smoothing e potenza min. valgono solo per i flow XOM.",
-          "sv": "Tomma fält ändras inte. XOM-målet gäller alla batterier (även den inbyggda styrningen och batteriinställningen). Utjämning och min. batterieffekt gäller bara XOM-flödena.",
-          "no": "Tomme felt endres ikke. XOM-målet gjelder alle batterier (også den innebygde styringen og batteriinnstillingen). Utjevning og min. batterieffekt gjelder bare XOM-flytene.",
-          "es": "Los campos vacíos no cambian. El objetivo XOM se aplica a todas las baterías (también el control integrado y el ajuste de la batería). El suavizado y la potencia mín. solo se aplican a los flujos XOM.",
+          "sv": "Tomma fält ändras inte. XOM-målet gäller alla batterier (även den inbyggda styrningen och batteriinställningen). Utjämning och min. batterieffekt gäller bara XOM-Flows.",
+          "no": "Tomme felt endres ikke. XOM-målet gjelder alle batterier (også den innebygde styringen og batteriinnstillingen). Utjevning og min. batterieffekt gjelder bare XOM-Flows.",
+          "es": "Los campos vacíos no cambian. El objetivo XOM se aplica a todas las baterías (también el control integrado y el ajuste de la batería). El suavizado y la potencia mín. solo se aplican a los Flows XOM.",
           "da": "Tomme felter ændres ikke. XOM-målet gælder alle batterier (også den indbyggede styring og batteriindstillingen). Udjævning og min. batterieffekt gælder kun XOM-flows.",
           "pl": "Puste pola pozostają bez zmian. Cel XOM dotyczy wszystkich baterii (także wbudowanego sterowania i ustawienia baterii). Wygładzanie i min. moc baterii dotyczą tylko flow XOM.",
-          "ru": "Пустые поля не меняются. Цель XOM действует для всех батарей (также для встроенного управления и настройки батареи). Сглаживание и мин. мощность действуют только для потоков XOM.",
-          "ko": "빈 필드는 변경되지 않습니다. XOM 목표는 모든 배터리에 적용됩니다(내장 제어 및 배터리 설정 포함). 스무딩과 최소 배터리 출력은 XOM 플로우에만 적용됩니다.",
-          "ar": "الحقول الفارغة تبقى دون تغيير. ينطبق هدف XOM على كل البطاريات (وأيضًا التحكم المدمج وإعداد البطارية). التنعيم والحد الأدنى لقدرة البطارية ينطبقان على تدفقات XOM فقط."
+          "ru": "Пустые поля не меняются. Цель XOM действует для всех батарей (также для встроенного управления и настройки батареи). Сглаживание и мин. мощность действуют только для Flows XOM.",
+          "ko": "빈 필드는 변경되지 않습니다. XOM 목표는 모든 배터리에 적용됩니다(내장 제어 및 배터리 설정 포함). 스무딩과 최소 배터리 출력은 XOM Flow에만 적용됩니다.",
+          "ar": "الحقول الفارغة تبقى دون تغيير. ينطبق هدف XOM على كل البطاريات (وأيضًا التحكم المدمج وإعداد البطارية). التنعيم والحد الأدنى لقدرة البطارية ينطبقان على Flows XOM فقط."
         },
         "args": [
           {
@@ -20803,7 +20803,7 @@
             "pl": "Informacje o urządzeniu źródłowym Homey",
             "ru": "Информация об исходном устройстве Homey",
             "ar": "معلومات جهاز مصدر Homey",
-            "ko": "Homey 소스 장치 정보"
+            "ko": "Homey 소스 디바이스 정보"
           },
           "children": [
             {
@@ -20822,7 +20822,7 @@
                 "pl": "ID urządzenia",
                 "ru": "ID устройства",
                 "ar": "معرف الجهاز",
-                "ko": "장치 ID"
+                "ko": "디바이스 ID"
               },
               "value": "unknown",
               "hint": {
@@ -20836,9 +20836,9 @@
                 "es": "Repara para cambiar. ID de la batería.",
                 "da": "Reparer for at ændre. Batteriets ID.",
                 "pl": "Napraw, aby zmienić. ID baterii.",
-                "ru": "Для изменения выполните восстановление. ID батареи.",
+                "ru": "Чтобы изменить, выберите «Исправить». ID батареи.",
                 "ar": "نفّذ إصلاحًا للتغيير. معرّف البطارية.",
-                "ko": "변경하려면 복구하세요. 배터리 ID."
+                "ko": "변경하려면 수리하세요. 배터리 ID."
               }
             },
             {
@@ -20857,7 +20857,7 @@
                 "pl": "Nazwa urządzenia",
                 "ru": "Имя устройства",
                 "ar": "اسم الجهاز",
-                "ko": "장치 이름"
+                "ko": "디바이스 이름"
               },
               "value": "unknown",
               "hint": {
@@ -20871,9 +20871,9 @@
                 "es": "Repara para cambiar. Batería leída y controlada.",
                 "da": "Reparer for at ændre. Batteri der læses og styres.",
                 "pl": "Napraw, aby zmienić. Odczytywana i sterowana bateria.",
-                "ru": "Для изменения выполните восстановление. Считываемая и управляемая батарея.",
+                "ru": "Чтобы изменить, выберите «Исправить». Считываемая и управляемая батарея.",
                 "ar": "نفّذ إصلاحًا للتغيير. البطارية التي تتم قراءتها والتحكم فيها.",
-                "ko": "변경하려면 복구하세요. 읽고 제어하는 배터리."
+                "ko": "변경하려면 수리하세요. 읽고 제어하는 배터리."
               }
             }
           ]
@@ -20926,9 +20926,9 @@
                 "es": "Repara para cambiar. Precio para los importes.",
                 "da": "Reparer for at ændre. Pris til pengeværdierne.",
                 "pl": "Napraw, aby zmienić. Cena dla wartości pieniężnych.",
-                "ru": "Для изменения выполните восстановление. Цена для денежных значений.",
+                "ru": "Чтобы изменить, выберите «Исправить». Цена для денежных значений.",
                 "ar": "نفّذ إصلاحًا للتغيير. السعر المستخدم للقيم المالية.",
-                "ko": "변경하려면 복구하세요. 금액 계산에 쓰는 가격."
+                "ko": "변경하려면 수리하세요. 금액 계산에 쓰는 가격."
               }
             }
           ]
@@ -21017,9 +21017,9 @@
                 "es": "Capacidad, pérdidas y potencia mín., aprendidas del comportamiento de la batería. Restablecer vía reparar.",
                 "da": "Kapacitet, tab og min. effekt, lært ud fra batteriets adfærd. Nulstil via reparer.",
                 "pl": "Pojemność, straty i min. moc, nauczone z działania baterii. Reset przez naprawę.",
-                "ru": "Ёмкость, потери и мин. мощность, изученные по поведению батареи. Сброс через восстановление.",
+                "ru": "Ёмкость, потери и мин. мощность, изученные по поведению батареи. Сброс через «Исправить».",
                 "ar": "السعة والفقد والحد الأدنى للقدرة، تم تعلمها من سلوك البطارية. إعادة الضبط عبر الإصلاح.",
-                "ko": "배터리 동작으로 학습한 용량, 손실, 최소 전력입니다. 복구에서 초기화합니다."
+                "ko": "배터리 동작으로 학습한 용량, 손실, 최소 전력입니다. 수리에서 초기화합니다."
               }
             }
           ]
@@ -21309,7 +21309,7 @@
                 "pl": "Utrzymuje pobór i oddawanie poniżej bezpiecznika głównego (urządzenie sieci, Przyłącze sieciowe) i Maks. poboru (W) (urządzenie sieci, Taryfa mocowa) w każdym bloku. Może do tego użyć rezerwy.",
                 "ru": "Держит потребление и отдачу ниже главного предохранителя (устройство сети, Подключение к сети) и Макс. потребления (Вт) (устройство сети, Тариф за мощность) в каждом блоке. Может использовать для этого резерв.",
                 "ar": "يُبقي السحب والتصدير دون المصهر الرئيسي (جهاز الشبكة، توصيل الشبكة) والحد الأقصى للسحب (واط) (جهاز الشبكة، تعرفة القدرة) في كل كتلة. يمكنه استخدام الاحتياطي لذلك.",
-                "ko": "모든 블록에서 수전과 송전을 메인 퓨즈(전력망 기기, 계통 연결)와 최대 수전 (W)(전력망 기기, 용량 요금제) 아래로 유지합니다. 이를 위해 예비량을 사용할 수 있습니다."
+                "ko": "모든 블록에서 수전과 송전을 메인 퓨즈(전력망 디바이스, 계통 연결)와 최대 수전 (W)(전력망 디바이스, 용량 요금제) 아래로 유지합니다. 이를 위해 예비량을 사용할 수 있습니다."
               },
               "value": true
             },
@@ -21344,7 +21344,7 @@
                 "pl": "Utrzymuje pobór poniżej poziomu taryfy mocowej w każdym bloku. Ustaw taryfę mocową w urządzeniu sieci. Może używać rezerwy (zalecane: 10 %).",
                 "ru": "Держит потребление ниже уровня тарифа за мощность в каждом блоке. Тариф за мощность задаётся в устройстве сети. Может использовать резерв (совет: 10 %).",
                 "ar": "يُبقي السحب دون مستوى تعرفة القدرة في كل كتلة. اضبط تعرفة القدرة في جهاز الشبكة. يمكنه استخدام الاحتياطي (نصيحة: 10 %).",
-                "ko": "모든 블록에서 수전을 용량 요금 수준 아래로 유지합니다. 용량 요금은 전력망 기기에서 설정하세요. 예비량을 사용할 수 있습니다 (권장: 10 %)."
+                "ko": "모든 블록에서 수전을 용량 요금 수준 아래로 유지합니다. 용량 요금은 전력망 디바이스에서 설정하세요. 예비량을 사용할 수 있습니다 (권장: 10 %)."
               },
               "value": false
             },
@@ -21448,14 +21448,14 @@
                 "de": "Läuft, oder wann die nächste fällig ist. Starten oder stoppen per Flow.",
                 "fr": "En cours, ou quand la prochaine est prévue. Démarrer ou arrêter via un flow.",
                 "it": "In corso, o quando è prevista la prossima. Avvia o ferma con un flow.",
-                "sv": "Pågår, eller när nästa är aktuell. Starta eller stoppa med ett flöde.",
-                "no": "Pågår, eller når den neste er aktuell. Start eller stopp med en flow.",
+                "sv": "Pågår, eller när nästa är aktuell. Starta eller stoppa med ett Flow.",
+                "no": "Pågår, eller når den neste er aktuell. Start eller stopp med en Flow.",
                 "es": "En curso, o cuándo toca la siguiente. Iniciar o detener con un flow.",
                 "da": "I gang, eller hvornår den næste er aktuel. Start eller stop med et flow.",
                 "pl": "W toku lub kiedy wypada następna. Start lub stop przez flow.",
-                "ru": "Идёт, или когда следующая. Запуск или остановка через поток.",
-                "ar": "جارية، أو موعد المعايرة التالية. ابدأ أو أوقف عبر تدفق.",
-                "ko": "진행 중이거나 다음 보정 예정 시점입니다. 플로우로 시작하거나 중지합니다."
+                "ru": "Идёт, или когда следующая. Запуск или остановка через Flow.",
+                "ar": "جارية، أو موعد المعايرة التالية. ابدأ أو أوقف عبر Flow.",
+                "ko": "진행 중이거나 다음 보정 예정 시점입니다. Flow로 시작하거나 중지합니다."
               }
             },
             {
@@ -21482,14 +21482,14 @@
                 "de": "Stellt die Batterieleistung nach dem Batteriemodus ein, ohne Flows. Braucht einen Leistungs-Sollwert, siehe Reparieren.",
                 "fr": "Règle la puissance de la batterie selon le mode, sans flows. Nécessite une consigne de puissance, voir réparer.",
                 "it": "Imposta la potenza della batteria secondo la modalità, senza flow. Serve un setpoint di potenza, vedi ripara.",
-                "sv": "Ställer in batteriets effekt efter batteriläget, utan flöden. Kräver ett effektbörvärde, se reparera.",
-                "no": "Setter batteriets effekt etter batterimodus, uten flyter. Krever et effekt-settpunkt, se reparer.",
-                "es": "Ajusta la potencia de la batería según el modo, sin flujos. Requiere una consigna de potencia, ver reparar.",
+                "sv": "Ställer in batteriets effekt efter batteriläget, utan Flows. Kräver ett effektbörvärde, se reparera.",
+                "no": "Setter batteriets effekt etter batterimodus, uten Flows. Krever et effekt-settpunkt, se reparer.",
+                "es": "Ajusta la potencia de la batería según el modo, sin Flows. Requiere una consigna de potencia, ver reparar.",
                 "da": "Indstiller batteriets effekt efter batteritilstanden, uden flows. Kræver et effekt-setpunkt, se reparer.",
                 "pl": "Ustawia moc baterii według trybu, bez flow. Wymaga zadawanej mocy, zobacz naprawę.",
-                "ru": "Задаёт мощность батареи по режиму, без потоков. Нужна уставка мощности, см. восстановление.",
-                "ar": "يضبط قدرة البطارية حسب الوضع، دون تدفقات. يحتاج إلى نقطة ضبط للقدرة، راجع الإصلاح.",
-                "ko": "배터리 모드에 따라 플로우 없이 배터리 출력을 설정합니다. 출력 설정값이 필요합니다(복구 참조)."
+                "ru": "Задаёт мощность батареи по режиму, без Flows. Нужна уставка мощности, см. «Исправить».",
+                "ar": "يضبط قدرة البطارية حسب الوضع، دون Flows. يحتاج إلى نقطة ضبط للقدرة، راجع الإصلاح.",
+                "ko": "배터리 모드에 따라 Flow 없이 배터리 출력을 설정합니다. 출력 설정값이 필요합니다(수리 참조)."
               },
               "value": false
             },
@@ -21517,14 +21517,14 @@
                 "de": "Ein Plan und ein Batteriemodus für alle Batterien, bei denen dies an ist, ob hier oder per Flows gesteuert. Aus: diese Batterie plant allein und plant um die anderen herum.",
                 "fr": "Un seul plan et un seul mode pour toutes les batteries où ceci est activé, pilotées ici ou par des flows. Désactivé : cette batterie planifie seule, en tenant compte des autres.",
                 "it": "Un solo piano e una sola modalità per tutte le batterie con questa opzione attiva, controllate qui o tramite flow. Disattivato: questa batteria pianifica da sola, tenendo conto delle altre.",
-                "sv": "En plan och ett batteriläge för alla batterier där detta är på, styrda här eller via flöden. Av: detta batteri planerar själv och planerar runt de andra.",
-                "no": "Én plan og én batterimodus for alle batterier der dette er på, styrt her eller via flyter. Av: dette batteriet planlegger alene og planlegger rundt de andre.",
-                "es": "Un solo plan y un solo modo para todas las baterías con esto activado, controladas aquí o mediante flujos. Desactivado: esta batería planifica sola, teniendo en cuenta las demás.",
+                "sv": "En plan och ett batteriläge för alla batterier där detta är på, styrda här eller via Flows. Av: detta batteri planerar själv och planerar runt de andra.",
+                "no": "Én plan og én batterimodus for alle batterier der dette er på, styrt her eller via Flows. Av: dette batteriet planlegger alene og planlegger rundt de andre.",
+                "es": "Un solo plan y un solo modo para todas las baterías con esto activado, controladas aquí o mediante Flows. Desactivado: esta batería planifica sola, teniendo en cuenta las demás.",
                 "da": "Én plan og én batteritilstand for alle batterier hvor dette er slået til, styret her eller via flows. Fra: dette batteri planlægger alene og planlægger uden om de andre.",
                 "pl": "Jeden plan i jeden tryb dla wszystkich baterii z tym włączonym, sterowanych tutaj lub przez flow. Wyłączone: ta bateria planuje sama, uwzględniając pozostałe.",
-                "ru": "Один план и один режим для всех батарей с этой опцией, управляемых здесь или потоками. Выкл.: батарея планирует сама, учитывая остальные.",
-                "ar": "خطة واحدة ووضع واحد لكل البطاريات التي فُعّل فيها هذا الخيار، سواء تم التحكم بها هنا أو عبر التدفقات. إيقاف: تخطط هذه البطارية وحدها مع مراعاة البطاريات الأخرى.",
-                "ko": "이 옵션이 켜진 모든 배터리에 하나의 계획과 하나의 배터리 모드를 사용합니다(여기서 제어하든 플로우로 제어하든). 끔: 이 배터리는 다른 배터리를 고려하여 단독으로 계획합니다."
+                "ru": "Один план и один режим для всех батарей с этой опцией, управляемых здесь или через Flows. Выкл.: батарея планирует сама, учитывая остальные.",
+                "ar": "خطة واحدة ووضع واحد لكل البطاريات التي فُعّل فيها هذا الخيار، سواء تم التحكم بها هنا أو عبر Flows. إيقاف: تخطط هذه البطارية وحدها مع مراعاة البطاريات الأخرى.",
+                "ko": "이 옵션이 켜진 모든 배터리에 하나의 계획과 하나의 배터리 모드를 사용합니다(여기서 제어하든 Flow로 제어하든). 끔: 이 배터리는 다른 배터리를 고려하여 단독으로 계획합니다."
               },
               "value": true
             },
@@ -21552,14 +21552,14 @@
                 "de": "Netzleistung, auf die XOM regelt, gleich für alle Batterien. Positiv: etwas Bezug, negativ: etwas Einspeisung. Die Flowkarte 'XOM einstellen' kann sie ändern.",
                 "fr": "Puissance réseau visée par XOM, identique pour toutes les batteries. Positive : un peu de soutirage, négative : un peu d'injection. La carte flow 'Régler XOM' peut la modifier.",
                 "it": "Potenza di rete a cui punta XOM, uguale per tutte le batterie. Positiva: un po' di prelievo, negativa: un po' di immissione. La scheda flow 'Imposta XOM' può cambiarla.",
-                "sv": "Näteffekt som XOM siktar på, samma för alla batterier. Positiv: lite köp, negativ: lite export. Flödeskortet 'Ställ in XOM' kan ändra den.",
-                "no": "Netteffekt som XOM sikter mot, lik for alle batterier. Positiv: litt kjøp, negativ: litt eksport. Flytkortet 'Still inn XOM' kan endre den.",
-                "es": "Potencia de red a la que apunta XOM, igual para todas las baterías. Positiva: algo de consumo, negativa: algo de exportación. La tarjeta de flujo 'Ajustar XOM' puede cambiarla.",
+                "sv": "Näteffekt som XOM siktar på, samma för alla batterier. Positiv: lite köp, negativ: lite export. Flow-kortet 'Ställ in XOM' kan ändra den.",
+                "no": "Netteffekt som XOM sikter mot, lik for alle batterier. Positiv: litt kjøp, negativ: litt eksport. Flow-kortet 'Still inn XOM' kan endre den.",
+                "es": "Potencia de red a la que apunta XOM, igual para todas las baterías. Positiva: algo de consumo, negativa: algo de exportación. La tarjeta de Flow 'Ajustar XOM' puede cambiarla.",
                 "da": "Neteffekt som XOM sigter efter, ens for alle batterier. Positiv: lidt køb, negativ: lidt eksport. Flowkortet 'Indstil XOM' kan ændre den.",
                 "pl": "Moc sieci, do której dąży XOM, taka sama dla wszystkich baterii. Dodatnia: trochę poboru, ujemna: trochę oddawania. Karta flow 'Ustaw XOM' może ją zmienić.",
-                "ru": "Мощность сети, к которой стремится XOM, одинаковая для всех батарей. Положительная: немного потребления, отрицательная: немного отдачи. Карточка потока «Задать XOM» может её изменить.",
-                "ar": "قدرة الشبكة التي يستهدفها XOM، نفسها لكل البطاريات. موجبة: قليل من السحب، سالبة: قليل من التصدير. يمكن لبطاقة التدفق 'ضبط XOM' تغييرها.",
-                "ko": "XOM이 목표로 하는 전력망 전력으로, 모든 배터리에 동일합니다. 양수: 약간의 수전, 음수: 약간의 송전. 플로우 카드 'XOM 설정'으로 변경할 수 있습니다."
+                "ru": "Мощность сети, к которой стремится XOM, одинаковая для всех батарей. Положительная: немного потребления, отрицательная: немного отдачи. Карточка Flow «Задать XOM» может её изменить.",
+                "ar": "قدرة الشبكة التي يستهدفها XOM، نفسها لكل البطاريات. موجبة: قليل من السحب، سالبة: قليل من التصدير. يمكن لبطاقة Flow 'ضبط XOM' تغييرها.",
+                "ko": "XOM이 목표로 하는 전력망 전력으로, 모든 배터리에 동일합니다. 양수: 약간의 수전, 음수: 약간의 송전. Flow 카드 'XOM 설정'으로 변경할 수 있습니다."
               },
               "value": 0,
               "min": -10000,
@@ -21599,7 +21599,7 @@
                 "es": "Corregir totales o costes",
                 "da": "Ret totaler eller omkostninger",
                 "pl": "Popraw sumy lub koszty",
-                "ru": "Исправить итоги или затраты",
+                "ru": "Скорректировать итоги или затраты",
                 "ar": "تصحيح الإجماليات أو التكاليف",
                 "ko": "합계 또는 비용 수정"
               },
@@ -21615,9 +21615,9 @@
                 "es": "Repara para cambiar. Corrige totales, lecturas e importes.",
                 "da": "Reparer for at ændre. Retter totaler, målerstande og beløb.",
                 "pl": "Napraw, aby zmienić. Poprawia sumy, odczyty i kwoty.",
-                "ru": "Для изменения выполните восстановление. Исправляет итоги, показания и суммы.",
+                "ru": "Чтобы изменить, выберите «Исправить». Исправляет итоги, показания и суммы.",
                 "ar": "نفّذ إصلاحًا للتغيير. يصحح الإجماليات وقراءات العداد والمبالغ.",
-                "ko": "변경하려면 복구하세요. 합계, 계량값, 금액을 수정합니다."
+                "ko": "변경하려면 수리하세요. 합계, 계량값, 금액을 수정합니다."
               }
             }
           ]
@@ -23136,14 +23136,14 @@
                 "de": "Jede Stunde wird der Preis pro kWh als Tarif für PBTH Geräte gesendet, ohne dass ein Flow erstellt werden muss.",
                 "fr": "Chaque heure, le prix du kWh sera envoyé comme tarif pour les appareils PBTH, sans qu'il soit nécessaire de créer un flow",
                 "it": "Ogni ora verrà inviato il prezzo per kWh come tariffa per i dispositivi PBTH, senza necessità di creare alcun flow.",
-                "sv": "Varje timme kommer priset per kWh att skickas som tariff för PBTH-enheter, utan att behöva skapa ett flöde.",
-                "no": "Hver time vil prisen per kWh bli sendt som tariff for PBTH enheter, uten at man trenger å skape en flow.",
-                "es": "Cada hora se enviará el precio por kWh como tarifa para dispositivos PBTH, sin necesidad de crear un flujo.",
+                "sv": "Varje timme kommer priset per kWh att skickas som tariff för PBTH-enheter, utan att behöva skapa ett Flow.",
+                "no": "Hver time vil prisen per kWh bli sendt som tariff for PBTH enheter, uten at man trenger å lage en Flow.",
+                "es": "Cada hora se enviará el precio por kWh como tarifa para dispositivos PBTH, sin necesidad de crear un Flow.",
                 "da": "Prisen per kWh bliver sendt som tarif til PBTH-enheder, uden brug af flows.",
-                "pl": "Co godzinę cena za kWh będzie wysyłana jako taryfa dla urządzeń PBTH, bez konieczności tworzenia przepływu.",
-                "ru": "Каждый час цена за кВтч будет отправляться в качестве тарифа для устройств PBTH, без необходимости создавать поток.",
-                "ar": "كل ساعة سيتم إرسال السعر لكل كيلوواط ساعة كتعريفة لأجهزة PBTH، دون الحاجة إلى إنشاء تدفق.",
-                "ko": "매시간 kWh당 가격이 flow를 만들 필요 없이 PBTH 장치의 요금으로 전송됩니다."
+                "pl": "Co godzinę cena za kWh będzie wysyłana jako taryfa dla urządzeń PBTH, bez konieczności tworzenia Flow.",
+                "ru": "Каждый час цена за кВтч будет отправляться в качестве тарифа для устройств PBTH, без необходимости создавать Flow.",
+                "ar": "كل ساعة سيتم إرسال السعر لكل كيلوواط ساعة كتعريفة لأجهزة PBTH، دون الحاجة إلى إنشاء Flow.",
+                "ko": "매시간 kWh당 가격이 flow를 만들 필요 없이 PBTH 디바이스의 요금으로 전송됩니다."
               }
             }
           ]
@@ -24537,14 +24537,14 @@
                 "de": "Jede Stunde wird der Preis pro kWh als Tarif für PBTH Geräte gesendet, ohne dass ein Flow erstellt werden muss.",
                 "fr": "Chaque heure, le prix du kWh sera envoyé comme tarif pour les appareils PBTH, sans qu'il soit nécessaire de créer un flow",
                 "it": "Ogni ora verrà inviato il prezzo per kWh come tariffa per i dispositivi PBTH, senza necessità di creare alcun flow.",
-                "sv": "Varje timme kommer priset per kWh att skickas som tariff för PBTH-enheter, utan att behöva skapa ett flöde.",
-                "no": "Hver time vil prisen per kWh bli sendt som tariff for PBTH enheter, uten at man trenger å skape en flow.",
-                "es": "Cada hora se enviará el precio por kWh como tarifa para dispositivos PBTH, sin necesidad de crear un flujo.",
+                "sv": "Varje timme kommer priset per kWh att skickas som tariff för PBTH-enheter, utan att behöva skapa ett Flow.",
+                "no": "Hver time vil prisen per kWh bli sendt som tariff for PBTH enheter, uten at man trenger å lage en Flow.",
+                "es": "Cada hora se enviará el precio por kWh como tarifa para dispositivos PBTH, sin necesidad de crear un Flow.",
                 "da": "Prisen per kWh bliver sendt som tarif til PBTH-enheder, uden brug af flows.",
-                "pl": "Co godzinę cena za kWh będzie wysyłana jako taryfa dla urządzeń PBTH, bez konieczności tworzenia przepływu.",
-                "ru": "Каждый час цена за кВтч будет отправляться в качестве тарифа для устройств PBTH, без необходимости создавать поток.",
-                "ar": "كل ساعة سيتم إرسال السعر لكل كيلوواط ساعة كتعريفة لأجهزة PBTH، دون الحاجة إلى إنشاء تدفق.",
-                "ko": "매시간 kWh당 가격이 flow를 만들 필요 없이 PBTH 장치의 요금으로 전송됩니다."
+                "pl": "Co godzinę cena za kWh będzie wysyłana jako taryfa dla urządzeń PBTH, bez konieczności tworzenia Flow.",
+                "ru": "Каждый час цена за кВтч будет отправляться в качестве тарифа для устройств PBTH, без необходимости создавать Flow.",
+                "ar": "كل ساعة سيتم إرسال السعر لكل كيلوواط ساعة كتعريفة لأجهزة PBTH، دون الحاجة إلى إنشاء Flow.",
+                "ko": "매시간 kWh당 가격이 flow를 만들 필요 없이 PBTH 디바이스의 요금으로 전송됩니다."
               }
             }
           ]
@@ -25422,17 +25422,17 @@
               "hint": {
                 "en": "Every hour the price per m3 will be sent as tariff for PBTH devices, without the need to create a flow.",
                 "de": "Jede Stunde wird der Preis pro m3 als Tarif für PBTH Geräte gesendet, ohne dass ein Flow erstellt werden muss.",
-                "sv": "Varje timme kommer priset per m3 att skickas som tariff för PBTH-enheter, utan att behöva skapa ett flöde.",
+                "sv": "Varje timme kommer priset per m3 att skickas som tariff för PBTH-enheter, utan att behöva skapa ett Flow.",
                 "it": "Ogni ora verrà inviato il prezzo per m3 come tariffa per i dispositivi PBTH, senza necessità di creare alcun flow.",
-                "no": "Hver time vil prisen per m3 bli sendt som tariff for PBTH enheter, uten at man trenger å skape en flow.",
+                "no": "Hver time vil prisen per m3 bli sendt som tariff for PBTH enheter, uten at man trenger å lage en Flow.",
                 "fr": "Chaque heure, le prix du m3 sera envoyé comme tarif pour les appareils PBTH, sans qu'il soit nécessaire de créer un flow",
                 "da": "Prisen per m3 bliver sendt som tarif til PBTH-enheder, uden brug af flows.",
                 "nl": "Ieder uur wordt de prijs per m3 als tarief naar PBTH devices gestuurd, zonder dat een flow gemaakt hoeft te worden.",
-                "ko": "매시간 m3당 가격이 flow를 만들 필요 없이 PBTH 장치의 요금으로 전송됩니다.",
-                "es": "Cada hora se enviará el precio por m3 como tarifa para dispositivos PBTH, sin necesidad de crear un flujo.",
-                "pl": "Co godzinę cena za m3 będzie wysyłana jako taryfa dla urządzeń PBTH, bez konieczności tworzenia przepływu.",
-                "ru": "Каждый час цена за m3 будет отправляться в качестве тарифа для устройств PBTH, без необходимости создавать поток.",
-                "ar": "كل ساعة سيتم إرسال السعر لكل m3 كتعريفة لأجهزة PBTH، دون الحاجة إلى إنشاء تدفق."
+                "ko": "매시간 m3당 가격이 flow를 만들 필요 없이 PBTH 디바이스의 요금으로 전송됩니다.",
+                "es": "Cada hora se enviará el precio por m3 como tarifa para dispositivos PBTH, sin necesidad de crear un Flow.",
+                "pl": "Co godzinę cena za m3 będzie wysyłana jako taryfa dla urządzeń PBTH, bez konieczności tworzenia Flow.",
+                "ru": "Каждый час цена за m3 будет отправляться в качестве тарифа для устройств PBTH, без необходимости создавать Flow.",
+                "ar": "كل ساعة سيتم إرسال السعر لكل m3 كتعريفة لأجهزة PBTH، دون الحاجة إلى إنشاء Flow."
               }
             }
           ]
@@ -25978,7 +25978,7 @@
             "pl": "Urządzenia źródłowe Homey",
             "ru": "Исходные устройства Homey",
             "ar": "أجهزة مصدر Homey",
-            "ko": "Homey 소스 장치"
+            "ko": "Homey 소스 디바이스"
           },
           "children": [
             {
@@ -25997,7 +25997,7 @@
                 "pl": "ID urządzenia ładowarki",
                 "ru": "ID устройства зарядки",
                 "ar": "معرف جهاز الشاحن",
-                "ko": "충전기 장치 ID"
+                "ko": "충전기 디바이스 ID"
               },
               "value": "unknown",
               "hint": {
@@ -26011,9 +26011,9 @@
                 "es": "Repara para cambiar. ID del cargador.",
                 "da": "Reparer for at ændre. Laderens ID.",
                 "pl": "Napraw, aby zmienić. ID ładowarki.",
-                "ru": "Для изменения выполните восстановление. ID зарядного устройства.",
+                "ru": "Чтобы изменить, выберите «Исправить». ID зарядного устройства.",
                 "ar": "نفّذ إصلاحًا للتغيير. معرّف الشاحن.",
-                "ko": "변경하려면 복구하세요. 충전기 ID."
+                "ko": "변경하려면 수리하세요. 충전기 ID."
               }
             },
             {
@@ -26032,7 +26032,7 @@
                 "pl": "Nazwa urządzenia ładowarki",
                 "ru": "Имя устройства зарядки",
                 "ar": "اسم جهاز الشاحن",
-                "ko": "충전기 장치 이름"
+                "ko": "충전기 디바이스 이름"
               },
               "value": "unknown",
               "hint": {
@@ -26046,9 +26046,9 @@
                 "es": "Repara para cambiar. Cargador controlado.",
                 "da": "Reparer for at ændre. Lader der styres.",
                 "pl": "Napraw, aby zmienić. Sterowana ładowarka.",
-                "ru": "Для изменения выполните восстановление. Управляемое зарядное устройство.",
+                "ru": "Чтобы изменить, выберите «Исправить». Управляемое зарядное устройство.",
                 "ar": "نفّذ إصلاحًا للتغيير. الشاحن الذي يتم التحكم فيه.",
-                "ko": "변경하려면 복구하세요. 제어되는 충전기."
+                "ko": "변경하려면 수리하세요. 제어되는 충전기."
               }
             },
             {
@@ -26067,7 +26067,7 @@
                 "pl": "ID urządzenia samochodu EV",
                 "ru": "ID устройства EV автомобиля",
                 "ar": "معرف جهاز سيارة EV",
-                "ko": "EV 차량 장치 ID"
+                "ko": "EV 차량 디바이스 ID"
               },
               "value": "none",
               "hint": {
@@ -26081,9 +26081,9 @@
                 "es": "Repara para cambiar. ID del coche, o ninguno.",
                 "da": "Reparer for at ændre. Bilens ID, eller ingen.",
                 "pl": "Napraw, aby zmienić. ID samochodu lub brak.",
-                "ru": "Для изменения выполните восстановление. ID автомобиля или нет.",
+                "ru": "Чтобы изменить, выберите «Исправить». ID автомобиля или нет.",
                 "ar": "نفّذ إصلاحًا للتغيير. معرّف السيارة، أو لا شيء.",
-                "ko": "변경하려면 복구하세요. 차량 ID 또는 없음."
+                "ko": "변경하려면 수리하세요. 차량 ID 또는 없음."
               }
             },
             {
@@ -26102,7 +26102,7 @@
                 "pl": "Nazwa urządzenia samochodu EV",
                 "ru": "Имя устройства EV автомобиля",
                 "ar": "اسم جهاز سيارة EV",
-                "ko": "EV 차량 장치 이름"
+                "ko": "EV 차량 디바이스 이름"
               },
               "value": "none",
               "hint": {
@@ -26116,9 +26116,9 @@
                 "es": "Repara para cambiar. Coche que se carga.",
                 "da": "Reparer for at ændre. Bil der lades.",
                 "pl": "Napraw, aby zmienić. Ładowany samochód.",
-                "ru": "Для изменения выполните восстановление. Заряжаемый автомобиль.",
+                "ru": "Чтобы изменить, выберите «Исправить». Заряжаемый автомобиль.",
                 "ar": "نفّذ إصلاحًا للتغيير. السيارة التي يتم شحنها.",
-                "ko": "변경하려면 복구하세요. 충전되는 차량."
+                "ko": "변경하려면 수리하세요. 충전되는 차량."
               }
             }
           ]
@@ -26171,9 +26171,9 @@
                 "es": "Repara para cambiar. Precio para los importes.",
                 "da": "Reparer for at ændre. Pris til pengeværdierne.",
                 "pl": "Napraw, aby zmienić. Cena dla wartości pieniężnych.",
-                "ru": "Для изменения выполните восстановление. Цена для денежных значений.",
+                "ru": "Чтобы изменить, выберите «Исправить». Цена для денежных значений.",
                 "ar": "نفّذ إصلاحًا للتغيير. السعر المستخدم للقيم المالية.",
-                "ko": "변경하려면 복구하세요. 금액 계산에 쓰는 가격."
+                "ko": "변경하려면 수리하세요. 금액 계산에 쓰는 가격."
               }
             }
           ]
@@ -26446,9 +26446,9 @@
                 "es": "Repara para cambiar. Inicio del año y presupuesto.",
                 "da": "Reparer for at ændre. Årets start og budget.",
                 "pl": "Napraw, aby zmienić. Początek roku i budżet.",
-                "ru": "Для изменения выполните восстановление. Начало года и бюджет.",
+                "ru": "Чтобы изменить, выберите «Исправить». Начало года и бюджет.",
                 "ar": "نفّذ إصلاحًا للتغيير. بداية السنة والميزانية.",
-                "ko": "변경하려면 복구하세요. 연도 시작일과 예산."
+                "ko": "변경하려면 수리하세요. 연도 시작일과 예산."
               }
             }
           ]
@@ -26485,7 +26485,7 @@
                 "es": "Corregir totales o costes",
                 "da": "Ret totaler eller omkostninger",
                 "pl": "Popraw sumy lub koszty",
-                "ru": "Исправить итоги или затраты",
+                "ru": "Скорректировать итоги или затраты",
                 "ar": "تصحيح الإجماليات أو التكاليف",
                 "ko": "합계 또는 비용 수정"
               },
@@ -26501,9 +26501,9 @@
                 "es": "Repara para cambiar. Corrige totales, lecturas e importes.",
                 "da": "Reparer for at ændre. Retter totaler, målerstande og beløb.",
                 "pl": "Napraw, aby zmienić. Poprawia sumy, odczyty i kwoty.",
-                "ru": "Для изменения выполните восстановление. Исправляет итоги, показания и суммы.",
+                "ru": "Чтобы изменить, выберите «Исправить». Исправляет итоги, показания и суммы.",
                 "ar": "نفّذ إصلاحًا للتغيير. يصحح الإجماليات وقراءات العداد والمبالغ.",
-                "ko": "변경하려면 복구하세요. 합계, 계량값, 금액을 수정합니다."
+                "ko": "변경하려면 수리하세요. 합계, 계량값, 금액을 수정합니다."
               }
             }
           ]
@@ -26719,7 +26719,7 @@
             "pl": "Informacje o urządzeniu źródłowym Homey",
             "ru": "Информация об исходном устройстве Homey",
             "ar": "معلومات جهاز مصدر Homey",
-            "ko": "Homey 소스 장치 정보"
+            "ko": "Homey 소스 디바이스 정보"
           },
           "children": [
             {
@@ -26738,7 +26738,7 @@
                 "pl": "ID urządzenia",
                 "ru": "ID устройства",
                 "ar": "معرف الجهاز",
-                "ko": "장치 ID"
+                "ko": "디바이스 ID"
               },
               "value": "unknown",
               "hint": {
@@ -26747,14 +26747,14 @@
                 "de": "Zum Ändern reparieren. ID des Quellgeräts oder virtuell (via Flow).",
                 "fr": "Réparer pour modifier. ID de l'appareil source, ou virtuel (via flow).",
                 "it": "Ripara per modificare. ID del dispositivo sorgente, o virtuale (via flow).",
-                "sv": "Reparera för att ändra. Källenhetens ID, eller virtuell (via flöde).",
-                "no": "Reparer for å endre. Kildeenhetens ID, eller virtuell (via flow).",
-                "es": "Repara para cambiar. ID del dispositivo de origen, o virtual (vía flujo).",
+                "sv": "Reparera för att ändra. Källenhetens ID, eller virtuell (via Flow).",
+                "no": "Reparer for å endre. Kildeenhetens ID, eller virtuell (via Flow).",
+                "es": "Repara para cambiar. ID del dispositivo de origen, o virtual (vía Flow).",
                 "da": "Reparer for at ændre. Kildeenhedens ID, eller virtuel (via flow).",
                 "pl": "Napraw, aby zmienić. ID urządzenia źródłowego lub wirtualne (przez flow).",
-                "ru": "Для изменения выполните восстановление. ID исходного устройства или виртуальное (через поток).",
-                "ar": "نفّذ إصلاحًا للتغيير. معرّف الجهاز المصدر، أو افتراضي (عبر التدفق).",
-                "ko": "변경하려면 복구하세요. 소스 기기 ID 또는 가상 (flow 사용)."
+                "ru": "Чтобы изменить, выберите «Исправить». ID исходного устройства или виртуальное (через Flow).",
+                "ar": "نفّذ إصلاحًا للتغيير. معرّف الجهاز المصدر، أو افتراضي (عبر Flow).",
+                "ko": "변경하려면 수리하세요. 소스 디바이스 ID 또는 가상 (flow 사용)."
               }
             },
             {
@@ -26773,7 +26773,7 @@
                 "pl": "Nazwa urządzenia",
                 "ru": "Имя устройства",
                 "ar": "اسم الجهاز",
-                "ko": "장치 이름"
+                "ko": "디바이스 이름"
               },
               "value": "unknown",
               "hint": {
@@ -26787,9 +26787,9 @@
                 "es": "Repara para cambiar. Dispositivo que aporta las lecturas.",
                 "da": "Reparer for at ændre. Enhed der leverer målingerne.",
                 "pl": "Napraw, aby zmienić. Urządzenie dostarczające odczyty.",
-                "ru": "Для изменения выполните восстановление. Устройство, которое передаёт показания.",
+                "ru": "Чтобы изменить, выберите «Исправить». Устройство, которое передаёт показания.",
                 "ar": "نفّذ إصلاحًا للتغيير. الجهاز الذي يوفر القراءات.",
-                "ko": "변경하려면 복구하세요. 측정값을 제공하는 기기."
+                "ko": "변경하려면 수리하세요. 측정값을 제공하는 디바이스."
               }
             },
             {
@@ -26821,9 +26821,9 @@
                 "es": "Repara para cambiar. Capacidades leídas del dispositivo de origen.",
                 "da": "Reparer for at ændre. Capabilities der læses fra kildeenheden.",
                 "pl": "Napraw, aby zmienić. Funkcje odczytywane z urządzenia źródłowego.",
-                "ru": "Для изменения выполните восстановление. Возможности, считываемые с исходного устройства.",
+                "ru": "Чтобы изменить, выберите «Исправить». Возможности, считываемые с исходного устройства.",
                 "ar": "نفّذ إصلاحًا للتغيير. القدرات المقروءة من الجهاز المصدر.",
-                "ko": "변경하려면 복구하세요. 소스 기기에서 읽는 기능."
+                "ko": "변경하려면 수리하세요. 소스 디바이스에서 읽는 기능."
               },
               "value": "-"
             }
@@ -26877,9 +26877,9 @@
                 "es": "Repara para cambiar. Precio para los importes.",
                 "da": "Reparer for at ændre. Pris til pengeværdierne.",
                 "pl": "Napraw, aby zmienić. Cena dla wartości pieniężnych.",
-                "ru": "Для изменения выполните восстановление. Цена для денежных значений.",
+                "ru": "Чтобы изменить, выберите «Исправить». Цена для денежных значений.",
                 "ar": "نفّذ إصلاحًا للتغيير. السعر المستخدم للقيم المالية.",
-                "ko": "변경하려면 복구하세요. 금액 계산에 쓰는 가격."
+                "ko": "변경하려면 수리하세요. 금액 계산에 쓰는 가격."
               }
             }
           ]
@@ -26932,9 +26932,9 @@
                 "es": "Repara para cambiar. Inicio del año y presupuesto.",
                 "da": "Reparer for at ændre. Årets start og budget.",
                 "pl": "Napraw, aby zmienić. Początek roku i budżet.",
-                "ru": "Для изменения выполните восстановление. Начало года и бюджет.",
+                "ru": "Чтобы изменить, выберите «Исправить». Начало года и бюджет.",
                 "ar": "نفّذ إصلاحًا للتغيير. بداية السنة والميزانية.",
-                "ko": "변경하려면 복구하세요. 연도 시작일과 예산."
+                "ko": "변경하려면 수리하세요. 연도 시작일과 예산."
               }
             }
           ]
@@ -26971,7 +26971,7 @@
                 "es": "Corregir totales o costes",
                 "da": "Ret totaler eller omkostninger",
                 "pl": "Popraw sumy lub koszty",
-                "ru": "Исправить итоги или затраты",
+                "ru": "Скорректировать итоги или затраты",
                 "ar": "تصحيح الإجماليات أو التكاليف",
                 "ko": "합계 또는 비용 수정"
               },
@@ -26987,9 +26987,9 @@
                 "es": "Repara para cambiar. Corrige totales, lecturas e importes.",
                 "da": "Reparer for at ændre. Retter totaler, målerstande og beløb.",
                 "pl": "Napraw, aby zmienić. Poprawia sumy, odczyty i kwoty.",
-                "ru": "Для изменения выполните восстановление. Исправляет итоги, показания и суммы.",
+                "ru": "Чтобы изменить, выберите «Исправить». Исправляет итоги, показания и суммы.",
                 "ar": "نفّذ إصلاحًا للتغيير. يصحح الإجماليات وقراءات العداد والمبالغ.",
-                "ko": "변경하려면 복구하세요. 합계, 계량값, 금액을 수정합니다."
+                "ko": "변경하려면 수리하세요. 합계, 계량값, 금액을 수정합니다."
               }
             }
           ]
@@ -28044,7 +28044,7 @@
             "pl": "Informacje o urządzeniu źródłowym Homey",
             "ru": "Информация об исходном устройстве Homey",
             "ar": "معلومات جهاز مصدر Homey",
-            "ko": "Homey 소스 장치 정보"
+            "ko": "Homey 소스 디바이스 정보"
           },
           "children": [
             {
@@ -28063,7 +28063,7 @@
                 "pl": "ID urządzenia",
                 "ru": "ID устройства",
                 "ar": "معرف الجهاز",
-                "ko": "장치 ID"
+                "ko": "디바이스 ID"
               },
               "value": "unknown",
               "hint": {
@@ -28072,14 +28072,14 @@
                 "de": "Zum Ändern reparieren. ID des Quellgeräts oder virtuell (via Flow).",
                 "fr": "Réparer pour modifier. ID de l'appareil source, ou virtuel (via flow).",
                 "it": "Ripara per modificare. ID del dispositivo sorgente, o virtuale (via flow).",
-                "sv": "Reparera för att ändra. Källenhetens ID, eller virtuell (via flöde).",
-                "no": "Reparer for å endre. Kildeenhetens ID, eller virtuell (via flow).",
-                "es": "Repara para cambiar. ID del dispositivo de origen, o virtual (vía flujo).",
+                "sv": "Reparera för att ändra. Källenhetens ID, eller virtuell (via Flow).",
+                "no": "Reparer for å endre. Kildeenhetens ID, eller virtuell (via Flow).",
+                "es": "Repara para cambiar. ID del dispositivo de origen, o virtual (vía Flow).",
                 "da": "Reparer for at ændre. Kildeenhedens ID, eller virtuel (via flow).",
                 "pl": "Napraw, aby zmienić. ID urządzenia źródłowego lub wirtualne (przez flow).",
-                "ru": "Для изменения выполните восстановление. ID исходного устройства или виртуальное (через поток).",
-                "ar": "نفّذ إصلاحًا للتغيير. معرّف الجهاز المصدر، أو افتراضي (عبر التدفق).",
-                "ko": "변경하려면 복구하세요. 소스 기기 ID 또는 가상 (flow 사용)."
+                "ru": "Чтобы изменить, выберите «Исправить». ID исходного устройства или виртуальное (через Flow).",
+                "ar": "نفّذ إصلاحًا للتغيير. معرّف الجهاز المصدر، أو افتراضي (عبر Flow).",
+                "ko": "변경하려면 수리하세요. 소스 디바이스 ID 또는 가상 (flow 사용)."
               }
             },
             {
@@ -28098,7 +28098,7 @@
                 "pl": "Nazwa urządzenia",
                 "ru": "Имя устройства",
                 "ar": "اسم الجهاز",
-                "ko": "장치 이름"
+                "ko": "디바이스 이름"
               },
               "value": "unknown",
               "hint": {
@@ -28112,9 +28112,9 @@
                 "es": "Repara para cambiar. Dispositivo que aporta las lecturas.",
                 "da": "Reparer for at ændre. Enhed der leverer målingerne.",
                 "pl": "Napraw, aby zmienić. Urządzenie dostarczające odczyty.",
-                "ru": "Для изменения выполните восстановление. Устройство, которое передаёт показания.",
+                "ru": "Чтобы изменить, выберите «Исправить». Устройство, которое передаёт показания.",
                 "ar": "نفّذ إصلاحًا للتغيير. الجهاز الذي يوفر القراءات.",
-                "ko": "변경하려면 복구하세요. 측정값을 제공하는 기기."
+                "ko": "변경하려면 수리하세요. 측정값을 제공하는 디바이스."
               }
             },
             {
@@ -28146,9 +28146,9 @@
                 "es": "Repara para cambiar. Capacidades leídas del dispositivo de origen.",
                 "da": "Reparer for at ændre. Capabilities der læses fra kildeenheden.",
                 "pl": "Napraw, aby zmienić. Funkcje odczytywane z urządzenia źródłowego.",
-                "ru": "Для изменения выполните восстановление. Возможности, считываемые с исходного устройства.",
+                "ru": "Чтобы изменить, выберите «Исправить». Возможности, считываемые с исходного устройства.",
                 "ar": "نفّذ إصلاحًا للتغيير. القدرات المقروءة من الجهاز المصدر.",
-                "ko": "변경하려면 복구하세요. 소스 기기에서 읽는 기능."
+                "ko": "변경하려면 수리하세요. 소스 디바이스에서 읽는 기능."
               },
               "value": "-"
             }
@@ -28202,9 +28202,9 @@
                 "es": "Repara para cambiar. Precio para los importes.",
                 "da": "Reparer for at ændre. Pris til pengeværdierne.",
                 "pl": "Napraw, aby zmienić. Cena dla wartości pieniężnych.",
-                "ru": "Для изменения выполните восстановление. Цена для денежных значений.",
+                "ru": "Чтобы изменить, выберите «Исправить». Цена для денежных значений.",
                 "ar": "نفّذ إصلاحًا للتغيير. السعر المستخدم للقيم المالية.",
-                "ko": "변경하려면 복구하세요. 금액 계산에 쓰는 가격."
+                "ko": "변경하려면 수리하세요. 금액 계산에 쓰는 가격."
               }
             }
           ]
@@ -28257,9 +28257,9 @@
                 "es": "Repara para cambiar. Inicio del año y presupuesto.",
                 "da": "Reparer for at ændre. Årets start og budget.",
                 "pl": "Napraw, aby zmienić. Początek roku i budżet.",
-                "ru": "Для изменения выполните восстановление. Начало года и бюджет.",
+                "ru": "Чтобы изменить, выберите «Исправить». Начало года и бюджет.",
                 "ar": "نفّذ إصلاحًا للتغيير. بداية السنة والميزانية.",
-                "ko": "변경하려면 복구하세요. 연도 시작일과 예산."
+                "ko": "변경하려면 수리하세요. 연도 시작일과 예산."
               }
             }
           ]
@@ -28296,7 +28296,7 @@
                 "es": "Corregir totales o costes",
                 "da": "Ret totaler eller omkostninger",
                 "pl": "Popraw sumy lub koszty",
-                "ru": "Исправить итоги или затраты",
+                "ru": "Скорректировать итоги или затраты",
                 "ar": "تصحيح الإجماليات أو التكاليف",
                 "ko": "합계 또는 비용 수정"
               },
@@ -28312,9 +28312,9 @@
                 "es": "Repara para cambiar. Corrige totales, lecturas e importes.",
                 "da": "Reparer for at ændre. Retter totaler, målerstande og beløb.",
                 "pl": "Napraw, aby zmienić. Poprawia sumy, odczyty i kwoty.",
-                "ru": "Для изменения выполните восстановление. Исправляет итоги, показания и суммы.",
+                "ru": "Чтобы изменить, выберите «Исправить». Исправляет итоги, показания и суммы.",
                 "ar": "نفّذ إصلاحًا للتغيير. يصحح الإجماليات وقراءات العداد والمبالغ.",
-                "ko": "변경하려면 복구하세요. 합계, 계량값, 금액을 수정합니다."
+                "ko": "변경하려면 수리하세요. 합계, 계량값, 금액을 수정합니다."
               }
             }
           ]
@@ -28597,7 +28597,7 @@
             "pl": "Informacje o urządzeniu źródłowym Homey",
             "ru": "Информация об исходном устройстве Homey",
             "ar": "معلومات جهاز مصدر Homey",
-            "ko": "Homey 소스 장치 정보"
+            "ko": "Homey 소스 디바이스 정보"
           },
           "children": [
             {
@@ -28616,7 +28616,7 @@
                 "pl": "ID urządzenia",
                 "ru": "ID устройства",
                 "ar": "معرف الجهاز",
-                "ko": "장치 ID"
+                "ko": "디바이스 ID"
               },
               "value": "unknown",
               "hint": {
@@ -28625,14 +28625,14 @@
                 "de": "Zum Ändern reparieren. ID des Quellgeräts oder virtuell (via Flow).",
                 "fr": "Réparer pour modifier. ID de l'appareil source, ou virtuel (via flow).",
                 "it": "Ripara per modificare. ID del dispositivo sorgente, o virtuale (via flow).",
-                "sv": "Reparera för att ändra. Källenhetens ID, eller virtuell (via flöde).",
-                "no": "Reparer for å endre. Kildeenhetens ID, eller virtuell (via flow).",
-                "es": "Repara para cambiar. ID del dispositivo de origen, o virtual (vía flujo).",
+                "sv": "Reparera för att ändra. Källenhetens ID, eller virtuell (via Flow).",
+                "no": "Reparer for å endre. Kildeenhetens ID, eller virtuell (via Flow).",
+                "es": "Repara para cambiar. ID del dispositivo de origen, o virtual (vía Flow).",
                 "da": "Reparer for at ændre. Kildeenhedens ID, eller virtuel (via flow).",
                 "pl": "Napraw, aby zmienić. ID urządzenia źródłowego lub wirtualne (przez flow).",
-                "ru": "Для изменения выполните восстановление. ID исходного устройства или виртуальное (через поток).",
-                "ar": "نفّذ إصلاحًا للتغيير. معرّف الجهاز المصدر، أو افتراضي (عبر التدفق).",
-                "ko": "변경하려면 복구하세요. 소스 기기 ID 또는 가상 (flow 사용)."
+                "ru": "Чтобы изменить, выберите «Исправить». ID исходного устройства или виртуальное (через Flow).",
+                "ar": "نفّذ إصلاحًا للتغيير. معرّف الجهاز المصدر، أو افتراضي (عبر Flow).",
+                "ko": "변경하려면 수리하세요. 소스 디바이스 ID 또는 가상 (flow 사용)."
               }
             },
             {
@@ -28651,7 +28651,7 @@
                 "pl": "Nazwa urządzenia",
                 "ru": "Имя устройства",
                 "ar": "اسم الجهاز",
-                "ko": "장치 이름"
+                "ko": "디바이스 이름"
               },
               "value": "unknown",
               "hint": {
@@ -28665,9 +28665,9 @@
                 "es": "Repara para cambiar. Dispositivo que aporta las lecturas.",
                 "da": "Reparer for at ændre. Enhed der leverer målingerne.",
                 "pl": "Napraw, aby zmienić. Urządzenie dostarczające odczyty.",
-                "ru": "Для изменения выполните восстановление. Устройство, которое передаёт показания.",
+                "ru": "Чтобы изменить, выберите «Исправить». Устройство, которое передаёт показания.",
                 "ar": "نفّذ إصلاحًا للتغيير. الجهاز الذي يوفر القراءات.",
-                "ko": "변경하려면 복구하세요. 측정값을 제공하는 기기."
+                "ko": "변경하려면 수리하세요. 측정값을 제공하는 디바이스."
               }
             },
             {
@@ -28699,9 +28699,9 @@
                 "es": "Repara para cambiar. Capacidades leídas del dispositivo de origen.",
                 "da": "Reparer for at ændre. Capabilities der læses fra kildeenheden.",
                 "pl": "Napraw, aby zmienić. Funkcje odczytywane z urządzenia źródłowego.",
-                "ru": "Для изменения выполните восстановление. Возможности, считываемые с исходного устройства.",
+                "ru": "Чтобы изменить, выберите «Исправить». Возможности, считываемые с исходного устройства.",
                 "ar": "نفّذ إصلاحًا للتغيير. القدرات المقروءة من الجهاز المصدر.",
-                "ko": "변경하려면 복구하세요. 소스 기기에서 읽는 기능."
+                "ko": "변경하려면 수리하세요. 소스 디바이스에서 읽는 기능."
               },
               "value": "-"
             }
@@ -28755,9 +28755,9 @@
                 "es": "Repara para cambiar. Precio para los importes.",
                 "da": "Reparer for at ændre. Pris til pengeværdierne.",
                 "pl": "Napraw, aby zmienić. Cena dla wartości pieniężnych.",
-                "ru": "Для изменения выполните восстановление. Цена для денежных значений.",
+                "ru": "Чтобы изменить, выберите «Исправить». Цена для денежных значений.",
                 "ar": "نفّذ إصلاحًا للتغيير. السعر المستخدم للقيم المالية.",
-                "ko": "변경하려면 복구하세요. 금액 계산에 쓰는 가격."
+                "ko": "변경하려면 수리하세요. 금액 계산에 쓰는 가격."
               }
             }
           ]
@@ -28812,7 +28812,7 @@
                 "pl": "Dla pralki, zmywarki lub suszarki: uczy się programów i godzin startu oraz dodaje je do prognozy zużycia domu w urządzeniu grid.",
                 "ru": "Для стиральной, посудомоечной или сушильной машины: изучает программы и время их запуска и добавляет их к прогнозу нагрузки дома в grid.",
                 "ar": "لغسالة أو غسالة صحون أو مجفف: يتعلّم البرامج ومواعيد بدئها ويضيفها إلى توقع حمل المنزل في جهاز grid.",
-                "ko": "세탁기, 식기세척기, 건조기용: 프로그램과 시작 시각을 학습해 grid 장치의 가정 부하 예측에 더합니다."
+                "ko": "세탁기, 식기세척기, 건조기용: 프로그램과 시작 시각을 학습해 grid 디바이스의 가정 부하 예측에 더합니다."
               }
             },
             {
@@ -28885,9 +28885,9 @@
                 "es": "Repara para cambiar. Inicio del año y presupuesto.",
                 "da": "Reparer for at ændre. Årets start og budget.",
                 "pl": "Napraw, aby zmienić. Początek roku i budżet.",
-                "ru": "Для изменения выполните восстановление. Начало года и бюджет.",
+                "ru": "Чтобы изменить, выберите «Исправить». Начало года и бюджет.",
                 "ar": "نفّذ إصلاحًا للتغيير. بداية السنة والميزانية.",
-                "ko": "변경하려면 복구하세요. 연도 시작일과 예산."
+                "ko": "변경하려면 수리하세요. 연도 시작일과 예산."
               }
             }
           ]
@@ -28924,7 +28924,7 @@
                 "es": "Corregir totales o costes",
                 "da": "Ret totaler eller omkostninger",
                 "pl": "Popraw sumy lub koszty",
-                "ru": "Исправить итоги или затраты",
+                "ru": "Скорректировать итоги или затраты",
                 "ar": "تصحيح الإجماليات أو التكاليف",
                 "ko": "합계 또는 비용 수정"
               },
@@ -28940,9 +28940,9 @@
                 "es": "Repara para cambiar. Corrige totales, lecturas e importes.",
                 "da": "Reparer for at ændre. Retter totaler, målerstande og beløb.",
                 "pl": "Napraw, aby zmienić. Poprawia sumy, odczyty i kwoty.",
-                "ru": "Для изменения выполните восстановление. Исправляет итоги, показания и суммы.",
+                "ru": "Чтобы изменить, выберите «Исправить». Исправляет итоги, показания и суммы.",
                 "ar": "نفّذ إصلاحًا للتغيير. يصحح الإجماليات وقراءات العداد والمبالغ.",
-                "ko": "변경하려면 복구하세요. 합계, 계량값, 금액을 수정합니다."
+                "ko": "변경하려면 수리하세요. 합계, 계량값, 금액을 수정합니다."
               }
             }
           ]
@@ -29254,9 +29254,9 @@
                 "es": "Repara para cambiar. Electricidad, gas o agua.",
                 "da": "Reparer for at ændre. El, gas eller vand.",
                 "pl": "Napraw, aby zmienić. Prąd, gaz lub woda.",
-                "ru": "Для изменения выполните восстановление. Электричество, газ или вода.",
+                "ru": "Чтобы изменить, выберите «Исправить». Электричество, газ или вода.",
                 "ar": "نفّذ إصلاحًا للتغيير. الكهرباء أو الغاز أو الماء.",
-                "ko": "변경하려면 복구하세요. 전기, 가스 또는 물."
+                "ko": "변경하려면 수리하세요. 전기, 가스 또는 물."
               },
               "values": [
                 {
@@ -29345,9 +29345,9 @@
                 "es": "Repara para cambiar. Precio de mercado o tarifa fija.",
                 "da": "Reparer for at ændre. Markedspris eller fast tarif.",
                 "pl": "Napraw, aby zmienić. Cena rynkowa lub stała taryfa.",
-                "ru": "Для изменения выполните восстановление. Рыночная цена или фиксированный тариф.",
+                "ru": "Чтобы изменить, выберите «Исправить». Рыночная цена или фиксированный тариф.",
                 "ar": "نفّذ إصلاحًا للتغيير. سعر السوق أو تعرفة ثابتة.",
-                "ko": "변경하려면 복구하세요. 시장 가격 또는 고정 요금."
+                "ko": "변경하려면 수리하세요. 시장 가격 또는 고정 요금."
               },
               "values": [
                 {
@@ -29491,9 +29491,9 @@
                 "es": "Repara para cambiar. Zona de mercado de los precios.",
                 "da": "Reparer for at ændre. Prisernes markedsområde.",
                 "pl": "Napraw, aby zmienić. Obszar rynkowy cen.",
-                "ru": "Для изменения выполните восстановление. Рыночная зона цен.",
+                "ru": "Чтобы изменить, выберите «Исправить». Рыночная зона цен.",
                 "ar": "نفّذ إصلاحًا للتغيير. منطقة السوق للأسعار.",
-                "ko": "변경하려면 복구하세요. 가격의 시장 구역."
+                "ko": "변경하려면 수리하세요. 가격의 시장 구역."
               }
             },
             {
@@ -30630,7 +30630,7 @@
                 "pl": "Miejsca dziesiętne sum pieniężnych urządzeń w tej grupie taryfowej, np. 2 dla €, 0 dla HUF i ISK. Wynika z waluty.",
                 "ru": "Десятичные знаки денежных итогов устройств этой тарифной группы, напр. 2 для €, 0 для HUF и ISK. Следует из валюты.",
                 "ar": "الكسور العشرية لإجماليات المبالغ لأجهزة مجموعة التعرفة هذه، مثلًا 2 لليورو و0 لـ HUF وISK. تتبع العملة.",
-                "ko": "이 요금 그룹 기기의 금액 합계 소수 자릿수, 예: €는 2, HUF와 ISK는 0. 통화에 따라 정해집니다."
+                "ko": "이 요금 그룹 디바이스의 금액 합계 소수 자릿수, 예: €는 2, HUF와 ISK는 0. 통화에 따라 정해집니다."
               }
             },
             {
@@ -31328,14 +31328,14 @@
                 "de": "Geräte mit dieser Tarifgruppe verwenden diesen Preis. 0: keine (nur Flows).",
                 "fr": "Les appareils avec ce groupe tarifaire utilisent ce prix. 0 : aucun (flows uniquement).",
                 "it": "I dispositivi con questo gruppo tariffario usano questo prezzo. 0: nessuno (solo flow).",
-                "sv": "Enheter med denna tariffgrupp använder detta pris. 0: inga (endast flöden).",
-                "no": "Enheter med denne tariffgruppen bruker denne prisen. 0: ingen (kun flyt).",
-                "es": "Los dispositivos con este grupo de tarifa usan este precio. 0: ninguno (solo flujos).",
+                "sv": "Enheter med denna tariffgrupp använder detta pris. 0: inga (endast Flows).",
+                "no": "Enheter med denne tariffgruppen bruker denne prisen. 0: ingen (kun Flows).",
+                "es": "Los dispositivos con este grupo de tarifa usan este precio. 0: ninguno (solo Flows).",
                 "da": "Enheder med denne takstgruppe bruger denne pris. 0: ingen (kun flows).",
                 "pl": "Urządzenia z tą grupą taryfową używają tej ceny. 0: żadne (tylko flow).",
-                "ru": "Устройства с этой тарифной группой используют эту цену. 0: нет (только потоки).",
-                "ar": "الأجهزة ذات مجموعة التعريفة هذه تستخدم هذا السعر. 0: لا شيء (التدفقات فقط).",
-                "ko": "이 요금 그룹의 장치가 이 가격을 사용합니다. 0: 없음 (플로우만)."
+                "ru": "Устройства с этой тарифной группой используют эту цену. 0: нет (только Flows).",
+                "ar": "الأجهزة ذات مجموعة التعريفة هذه تستخدم هذا السعر. 0: لا شيء (Flows فقط).",
+                "ko": "이 요금 그룹의 디바이스가 이 가격을 사용합니다. 0: 없음 (Flow만)."
               }
             }
           ]
@@ -32030,7 +32030,7 @@
             "pl": "Informacje o urządzeniu źródłowym Homey",
             "ru": "Информация об исходном устройстве Homey",
             "ar": "معلومات جهاز مصدر Homey",
-            "ko": "Homey 소스 장치 정보"
+            "ko": "Homey 소스 디바이스 정보"
           },
           "children": [
             {
@@ -32049,7 +32049,7 @@
                 "pl": "ID urządzenia",
                 "ru": "ID устройства",
                 "ar": "معرف الجهاز",
-                "ko": "장치 ID"
+                "ko": "디바이스 ID"
               },
               "value": "unknown",
               "hint": {
@@ -32058,14 +32058,14 @@
                 "de": "Zum Ändern reparieren. ID des Quellgeräts oder virtuell (via Flow).",
                 "fr": "Réparer pour modifier. ID de l'appareil source, ou virtuel (via flow).",
                 "it": "Ripara per modificare. ID del dispositivo sorgente, o virtuale (via flow).",
-                "sv": "Reparera för att ändra. Källenhetens ID, eller virtuell (via flöde).",
-                "no": "Reparer for å endre. Kildeenhetens ID, eller virtuell (via flow).",
-                "es": "Repara para cambiar. ID del dispositivo de origen, o virtual (vía flujo).",
+                "sv": "Reparera för att ändra. Källenhetens ID, eller virtuell (via Flow).",
+                "no": "Reparer for å endre. Kildeenhetens ID, eller virtuell (via Flow).",
+                "es": "Repara para cambiar. ID del dispositivo de origen, o virtual (vía Flow).",
                 "da": "Reparer for at ændre. Kildeenhedens ID, eller virtuel (via flow).",
                 "pl": "Napraw, aby zmienić. ID urządzenia źródłowego lub wirtualne (przez flow).",
-                "ru": "Для изменения выполните восстановление. ID исходного устройства или виртуальное (через поток).",
-                "ar": "نفّذ إصلاحًا للتغيير. معرّف الجهاز المصدر، أو افتراضي (عبر التدفق).",
-                "ko": "변경하려면 복구하세요. 소스 기기 ID 또는 가상 (flow 사용)."
+                "ru": "Чтобы изменить, выберите «Исправить». ID исходного устройства или виртуальное (через Flow).",
+                "ar": "نفّذ إصلاحًا للتغيير. معرّف الجهاز المصدر، أو افتراضي (عبر Flow).",
+                "ko": "변경하려면 수리하세요. 소스 디바이스 ID 또는 가상 (flow 사용)."
               }
             },
             {
@@ -32084,7 +32084,7 @@
                 "pl": "Nazwa urządzenia",
                 "ru": "Имя устройства",
                 "ar": "اسم الجهاز",
-                "ko": "장치 이름"
+                "ko": "디바이스 이름"
               },
               "value": "unknown",
               "hint": {
@@ -32098,9 +32098,9 @@
                 "es": "Repara para cambiar. Dispositivo que aporta las lecturas.",
                 "da": "Reparer for at ændre. Enhed der leverer målingerne.",
                 "pl": "Napraw, aby zmienić. Urządzenie dostarczające odczyty.",
-                "ru": "Для изменения выполните восстановление. Устройство, которое передаёт показания.",
+                "ru": "Чтобы изменить, выберите «Исправить». Устройство, которое передаёт показания.",
                 "ar": "نفّذ إصلاحًا للتغيير. الجهاز الذي يوفر القراءات.",
-                "ko": "변경하려면 복구하세요. 측정값을 제공하는 기기."
+                "ko": "변경하려면 수리하세요. 측정값을 제공하는 디바이스."
               }
             },
             {
@@ -32132,9 +32132,9 @@
                 "es": "Repara para cambiar. Capacidades leídas del dispositivo de origen.",
                 "da": "Reparer for at ændre. Capabilities der læses fra kildeenheden.",
                 "pl": "Napraw, aby zmienić. Funkcje odczytywane z urządzenia źródłowego.",
-                "ru": "Для изменения выполните восстановление. Возможности, считываемые с исходного устройства.",
+                "ru": "Чтобы изменить, выберите «Исправить». Возможности, считываемые с исходного устройства.",
                 "ar": "نفّذ إصلاحًا للتغيير. القدرات المقروءة من الجهاز المصدر.",
-                "ko": "변경하려면 복구하세요. 소스 기기에서 읽는 기능."
+                "ko": "변경하려면 수리하세요. 소스 디바이스에서 읽는 기능."
               },
               "value": "-"
             }
@@ -32188,9 +32188,9 @@
                 "es": "Repara para cambiar. Precio para los importes.",
                 "da": "Reparer for at ændre. Pris til pengeværdierne.",
                 "pl": "Napraw, aby zmienić. Cena dla wartości pieniężnych.",
-                "ru": "Для изменения выполните восстановление. Цена для денежных значений.",
+                "ru": "Чтобы изменить, выберите «Исправить». Цена для денежных значений.",
                 "ar": "نفّذ إصلاحًا للتغيير. السعر المستخدم للقيم المالية.",
-                "ko": "변경하려면 복구하세요. 금액 계산에 쓰는 가격."
+                "ko": "변경하려면 수리하세요. 금액 계산에 쓰는 가격."
               }
             }
           ]
@@ -32243,9 +32243,9 @@
                 "es": "Repara para cambiar. Inicio del año y presupuesto.",
                 "da": "Reparer for at ændre. Årets start og budget.",
                 "pl": "Napraw, aby zmienić. Początek roku i budżet.",
-                "ru": "Для изменения выполните восстановление. Начало года и бюджет.",
+                "ru": "Чтобы изменить, выберите «Исправить». Начало года и бюджет.",
                 "ar": "نفّذ إصلاحًا للتغيير. بداية السنة والميزانية.",
-                "ko": "변경하려면 복구하세요. 연도 시작일과 예산."
+                "ko": "변경하려면 수리하세요. 연도 시작일과 예산."
               }
             }
           ]
@@ -32282,7 +32282,7 @@
                 "es": "Corregir totales o costes",
                 "da": "Ret totaler eller omkostninger",
                 "pl": "Popraw sumy lub koszty",
-                "ru": "Исправить итоги или затраты",
+                "ru": "Скорректировать итоги или затраты",
                 "ar": "تصحيح الإجماليات أو التكاليف",
                 "ko": "합계 또는 비용 수정"
               },
@@ -32298,9 +32298,9 @@
                 "es": "Repara para cambiar. Corrige totales, lecturas e importes.",
                 "da": "Reparer for at ændre. Retter totaler, målerstande og beløb.",
                 "pl": "Napraw, aby zmienić. Poprawia sumy, odczyty i kwoty.",
-                "ru": "Для изменения выполните восстановление. Исправляет итоги, показания и суммы.",
+                "ru": "Чтобы изменить, выберите «Исправить». Исправляет итоги, показания и суммы.",
                 "ar": "نفّذ إصلاحًا للتغيير. يصحح الإجماليات وقراءات العداد والمبالغ.",
-                "ko": "변경하려면 복구하세요. 합계, 계량값, 금액을 수정합니다."
+                "ko": "변경하려면 수리하세요. 합계, 계량값, 금액을 수정합니다."
               }
             }
           ]
@@ -32522,7 +32522,7 @@
             "pl": "Informacje o urządzeniu źródłowym Homey",
             "ru": "Информация об исходном устройстве Homey",
             "ar": "معلومات جهاز مصدر Homey",
-            "ko": "Homey 소스 장치 정보"
+            "ko": "Homey 소스 디바이스 정보"
           },
           "children": [
             {
@@ -32541,7 +32541,7 @@
                 "pl": "ID urządzenia",
                 "ru": "ID устройства",
                 "ar": "معرف الجهاز",
-                "ko": "장치 ID"
+                "ko": "디바이스 ID"
               },
               "value": "unknown",
               "hint": {
@@ -32550,14 +32550,14 @@
                 "de": "Zum Ändern reparieren. ID des Quellgeräts oder virtuell (via Flow).",
                 "fr": "Réparer pour modifier. ID de l'appareil source, ou virtuel (via flow).",
                 "it": "Ripara per modificare. ID del dispositivo sorgente, o virtuale (via flow).",
-                "sv": "Reparera för att ändra. Källenhetens ID, eller virtuell (via flöde).",
-                "no": "Reparer for å endre. Kildeenhetens ID, eller virtuell (via flow).",
-                "es": "Repara para cambiar. ID del dispositivo de origen, o virtual (vía flujo).",
+                "sv": "Reparera för att ändra. Källenhetens ID, eller virtuell (via Flow).",
+                "no": "Reparer for å endre. Kildeenhetens ID, eller virtuell (via Flow).",
+                "es": "Repara para cambiar. ID del dispositivo de origen, o virtual (vía Flow).",
                 "da": "Reparer for at ændre. Kildeenhedens ID, eller virtuel (via flow).",
                 "pl": "Napraw, aby zmienić. ID urządzenia źródłowego lub wirtualne (przez flow).",
-                "ru": "Для изменения выполните восстановление. ID исходного устройства или виртуальное (через поток).",
-                "ar": "نفّذ إصلاحًا للتغيير. معرّف الجهاز المصدر، أو افتراضي (عبر التدفق).",
-                "ko": "변경하려면 복구하세요. 소스 기기 ID 또는 가상 (flow 사용)."
+                "ru": "Чтобы изменить, выберите «Исправить». ID исходного устройства или виртуальное (через Flow).",
+                "ar": "نفّذ إصلاحًا للتغيير. معرّف الجهاز المصدر، أو افتراضي (عبر Flow).",
+                "ko": "변경하려면 수리하세요. 소스 디바이스 ID 또는 가상 (flow 사용)."
               }
             },
             {
@@ -32576,7 +32576,7 @@
                 "pl": "Nazwa urządzenia",
                 "ru": "Имя устройства",
                 "ar": "اسم الجهاز",
-                "ko": "장치 이름"
+                "ko": "디바이스 이름"
               },
               "value": "unknown",
               "hint": {
@@ -32590,9 +32590,9 @@
                 "es": "Repara para cambiar. Dispositivo que aporta las lecturas.",
                 "da": "Reparer for at ændre. Enhed der leverer målingerne.",
                 "pl": "Napraw, aby zmienić. Urządzenie dostarczające odczyty.",
-                "ru": "Для изменения выполните восстановление. Устройство, которое передаёт показания.",
+                "ru": "Чтобы изменить, выберите «Исправить». Устройство, которое передаёт показания.",
                 "ar": "نفّذ إصلاحًا للتغيير. الجهاز الذي يوفر القراءات.",
-                "ko": "변경하려면 복구하세요. 측정값을 제공하는 기기."
+                "ko": "변경하려면 수리하세요. 측정값을 제공하는 디바이스."
               }
             },
             {
@@ -32624,9 +32624,9 @@
                 "es": "Repara para cambiar. Capacidades leídas del dispositivo de origen.",
                 "da": "Reparer for at ændre. Capabilities der læses fra kildeenheden.",
                 "pl": "Napraw, aby zmienić. Funkcje odczytywane z urządzenia źródłowego.",
-                "ru": "Для изменения выполните восстановление. Возможности, считываемые с исходного устройства.",
+                "ru": "Чтобы изменить, выберите «Исправить». Возможности, считываемые с исходного устройства.",
                 "ar": "نفّذ إصلاحًا للتغيير. القدرات المقروءة من الجهاز المصدر.",
-                "ko": "변경하려면 복구하세요. 소스 기기에서 읽는 기능."
+                "ko": "변경하려면 수리하세요. 소스 디바이스에서 읽는 기능."
               },
               "value": "-"
             }
@@ -32680,9 +32680,9 @@
                 "es": "Repara para cambiar. Precio para los importes.",
                 "da": "Reparer for at ændre. Pris til pengeværdierne.",
                 "pl": "Napraw, aby zmienić. Cena dla wartości pieniężnych.",
-                "ru": "Для изменения выполните восстановление. Цена для денежных значений.",
+                "ru": "Чтобы изменить, выберите «Исправить». Цена для денежных значений.",
                 "ar": "نفّذ إصلاحًا للتغيير. السعر المستخدم للقيم المالية.",
-                "ko": "변경하려면 복구하세요. 금액 계산에 쓰는 가격."
+                "ko": "변경하려면 수리하세요. 금액 계산에 쓰는 가격."
               }
             }
           ]
@@ -32735,9 +32735,9 @@
                 "es": "Repara para cambiar. Inicio del año y presupuesto.",
                 "da": "Reparer for at ændre. Årets start og budget.",
                 "pl": "Napraw, aby zmienić. Początek roku i budżet.",
-                "ru": "Для изменения выполните восстановление. Начало года и бюджет.",
+                "ru": "Чтобы изменить, выберите «Исправить». Начало года и бюджет.",
                 "ar": "نفّذ إصلاحًا للتغيير. بداية السنة والميزانية.",
-                "ko": "변경하려면 복구하세요. 연도 시작일과 예산."
+                "ko": "변경하려면 수리하세요. 연도 시작일과 예산."
               }
             }
           ]
@@ -32774,7 +32774,7 @@
                 "es": "Corregir totales o costes",
                 "da": "Ret totaler eller omkostninger",
                 "pl": "Popraw sumy lub koszty",
-                "ru": "Исправить итоги или затраты",
+                "ru": "Скорректировать итоги или затраты",
                 "ar": "تصحيح الإجماليات أو التكاليف",
                 "ko": "합계 또는 비용 수정"
               },
@@ -32790,9 +32790,9 @@
                 "es": "Repara para cambiar. Corrige totales, lecturas e importes.",
                 "da": "Reparer for at ændre. Retter totaler, målerstande og beløb.",
                 "pl": "Napraw, aby zmienić. Poprawia sumy, odczyty i kwoty.",
-                "ru": "Для изменения выполните восстановление. Исправляет итоги, показания и суммы.",
+                "ru": "Чтобы изменить, выберите «Исправить». Исправляет итоги, показания и суммы.",
                 "ar": "نفّذ إصلاحًا للتغيير. يصحح الإجماليات وقراءات العداد والمبالغ.",
-                "ko": "변경하려면 복구하세요. 합계, 계량값, 금액을 수정합니다."
+                "ko": "변경하려면 수리하세요. 합계, 계량값, 금액을 수정합니다."
               }
             }
           ]

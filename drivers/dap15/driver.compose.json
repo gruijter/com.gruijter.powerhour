@@ -1384,14 +1384,14 @@
             "de": "Jede Stunde wird der Preis pro kWh als Tarif für PBTH Geräte gesendet, ohne dass ein Flow erstellt werden muss.",
             "fr": "Chaque heure, le prix du kWh sera envoyé comme tarif pour les appareils PBTH, sans qu'il soit nécessaire de créer un flow",
             "it": "Ogni ora verrà inviato il prezzo per kWh come tariffa per i dispositivi PBTH, senza necessità di creare alcun flow.",
-            "sv": "Varje timme kommer priset per kWh att skickas som tariff för PBTH-enheter, utan att behöva skapa ett flöde.",
-            "no": "Hver time vil prisen per kWh bli sendt som tariff for PBTH enheter, uten at man trenger å skape en flow.",
-            "es": "Cada hora se enviará el precio por kWh como tarifa para dispositivos PBTH, sin necesidad de crear un flujo.",
+            "sv": "Varje timme kommer priset per kWh att skickas som tariff för PBTH-enheter, utan att behöva skapa ett Flow.",
+            "no": "Hver time vil prisen per kWh bli sendt som tariff for PBTH enheter, uten at man trenger å lage en Flow.",
+            "es": "Cada hora se enviará el precio por kWh como tarifa para dispositivos PBTH, sin necesidad de crear un Flow.",
             "da": "Prisen per kWh bliver sendt som tarif til PBTH-enheder, uden brug af flows.",
-            "pl": "Co godzinę cena za kWh będzie wysyłana jako taryfa dla urządzeń PBTH, bez konieczności tworzenia przepływu.",
-            "ru": "Каждый час цена за кВтч будет отправляться в качестве тарифа для устройств PBTH, без необходимости создавать поток.",
-            "ar": "كل ساعة سيتم إرسال السعر لكل كيلوواط ساعة كتعريفة لأجهزة PBTH، دون الحاجة إلى إنشاء تدفق.",
-            "ko": "매시간 kWh당 가격이 flow를 만들 필요 없이 PBTH 장치의 요금으로 전송됩니다."
+            "pl": "Co godzinę cena za kWh będzie wysyłana jako taryfa dla urządzeń PBTH, bez konieczności tworzenia Flow.",
+            "ru": "Каждый час цена за кВтч будет отправляться в качестве тарифа для устройств PBTH, без необходимости создавать Flow.",
+            "ar": "كل ساعة سيتم إرسال السعر لكل كيلوواط ساعة كتعريفة لأجهزة PBTH، دون الحاجة إلى إنشاء Flow.",
+            "ko": "매시간 kWh당 가격이 flow를 만들 필요 없이 PBTH 디바이스의 요금으로 전송됩니다."
           }
         }
       ]

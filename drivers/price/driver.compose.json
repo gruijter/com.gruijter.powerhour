@@ -296,9 +296,9 @@
             "es": "Repara para cambiar. Electricidad, gas o agua.",
             "da": "Reparer for at ændre. El, gas eller vand.",
             "pl": "Napraw, aby zmienić. Prąd, gaz lub woda.",
-            "ru": "Для изменения выполните восстановление. Электричество, газ или вода.",
+            "ru": "Чтобы изменить, выберите «Исправить». Электричество, газ или вода.",
             "ar": "نفّذ إصلاحًا للتغيير. الكهرباء أو الغاز أو الماء.",
-            "ko": "변경하려면 복구하세요. 전기, 가스 또는 물."
+            "ko": "변경하려면 수리하세요. 전기, 가스 또는 물."
           },
           "values": [
             {
@@ -387,9 +387,9 @@
             "es": "Repara para cambiar. Precio de mercado o tarifa fija.",
             "da": "Reparer for at ændre. Markedspris eller fast tarif.",
             "pl": "Napraw, aby zmienić. Cena rynkowa lub stała taryfa.",
-            "ru": "Для изменения выполните восстановление. Рыночная цена или фиксированный тариф.",
+            "ru": "Чтобы изменить, выберите «Исправить». Рыночная цена или фиксированный тариф.",
             "ar": "نفّذ إصلاحًا للتغيير. سعر السوق أو تعرفة ثابتة.",
-            "ko": "변경하려면 복구하세요. 시장 가격 또는 고정 요금."
+            "ko": "변경하려면 수리하세요. 시장 가격 또는 고정 요금."
           },
           "values": [
             {
@@ -533,9 +533,9 @@
             "es": "Repara para cambiar. Zona de mercado de los precios.",
             "da": "Reparer for at ændre. Prisernes markedsområde.",
             "pl": "Napraw, aby zmienić. Obszar rynkowy cen.",
-            "ru": "Для изменения выполните восстановление. Рыночная зона цен.",
+            "ru": "Чтобы изменить, выберите «Исправить». Рыночная зона цен.",
             "ar": "نفّذ إصلاحًا للتغيير. منطقة السوق للأسعار.",
-            "ko": "변경하려면 복구하세요. 가격의 시장 구역."
+            "ko": "변경하려면 수리하세요. 가격의 시장 구역."
           }
         },
         {
@@ -1672,7 +1672,7 @@
             "pl": "Miejsca dziesiętne sum pieniężnych urządzeń w tej grupie taryfowej, np. 2 dla €, 0 dla HUF i ISK. Wynika z waluty.",
             "ru": "Десятичные знаки денежных итогов устройств этой тарифной группы, напр. 2 для €, 0 для HUF и ISK. Следует из валюты.",
             "ar": "الكسور العشرية لإجماليات المبالغ لأجهزة مجموعة التعرفة هذه، مثلًا 2 لليورو و0 لـ HUF وISK. تتبع العملة.",
-            "ko": "이 요금 그룹 기기의 금액 합계 소수 자릿수, 예: €는 2, HUF와 ISK는 0. 통화에 따라 정해집니다."
+            "ko": "이 요금 그룹 디바이스의 금액 합계 소수 자릿수, 예: €는 2, HUF와 ISK는 0. 통화에 따라 정해집니다."
           }
         },
         {
@@ -2370,14 +2370,14 @@
             "de": "Geräte mit dieser Tarifgruppe verwenden diesen Preis. 0: keine (nur Flows).",
             "fr": "Les appareils avec ce groupe tarifaire utilisent ce prix. 0 : aucun (flows uniquement).",
             "it": "I dispositivi con questo gruppo tariffario usano questo prezzo. 0: nessuno (solo flow).",
-            "sv": "Enheter med denna tariffgrupp använder detta pris. 0: inga (endast flöden).",
-            "no": "Enheter med denne tariffgruppen bruker denne prisen. 0: ingen (kun flyt).",
-            "es": "Los dispositivos con este grupo de tarifa usan este precio. 0: ninguno (solo flujos).",
+            "sv": "Enheter med denna tariffgrupp använder detta pris. 0: inga (endast Flows).",
+            "no": "Enheter med denne tariffgruppen bruker denne prisen. 0: ingen (kun Flows).",
+            "es": "Los dispositivos con este grupo de tarifa usan este precio. 0: ninguno (solo Flows).",
             "da": "Enheder med denne takstgruppe bruger denne pris. 0: ingen (kun flows).",
             "pl": "Urządzenia z tą grupą taryfową używają tej ceny. 0: żadne (tylko flow).",
-            "ru": "Устройства с этой тарифной группой используют эту цену. 0: нет (только потоки).",
-            "ar": "الأجهزة ذات مجموعة التعريفة هذه تستخدم هذا السعر. 0: لا شيء (التدفقات فقط).",
-            "ko": "이 요금 그룹의 장치가 이 가격을 사용합니다. 0: 없음 (플로우만)."
+            "ru": "Устройства с этой тарифной группой используют эту цену. 0: нет (только Flows).",
+            "ar": "الأجهزة ذات مجموعة التعريفة هذه تستخدم هذا السعر. 0: لا شيء (Flows فقط).",
+            "ko": "이 요금 그룹의 디바이스가 이 가격을 사용합니다. 0: 없음 (Flow만)."
           }
         }
       ]

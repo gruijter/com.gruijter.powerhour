@@ -219,7 +219,7 @@
         "pl": "Informacje o urządzeniu źródłowym Homey",
         "ru": "Информация об исходном устройстве Homey",
         "ar": "معلومات جهاز مصدر Homey",
-        "ko": "Homey 소스 장치 정보"
+        "ko": "Homey 소스 디바이스 정보"
       },
       "children": [
         {
@@ -238,7 +238,7 @@
             "pl": "ID urządzenia",
             "ru": "ID устройства",
             "ar": "معرف الجهاز",
-            "ko": "장치 ID"
+            "ko": "디바이스 ID"
           },
           "value": "unknown",
           "hint": {
@@ -252,9 +252,9 @@
             "es": "Repara para cambiar. ID de la batería.",
             "da": "Reparer for at ændre. Batteriets ID.",
             "pl": "Napraw, aby zmienić. ID baterii.",
-            "ru": "Для изменения выполните восстановление. ID батареи.",
+            "ru": "Чтобы изменить, выберите «Исправить». ID батареи.",
             "ar": "نفّذ إصلاحًا للتغيير. معرّف البطارية.",
-            "ko": "변경하려면 복구하세요. 배터리 ID."
+            "ko": "변경하려면 수리하세요. 배터리 ID."
           }
         },
         {
@@ -273,7 +273,7 @@
             "pl": "Nazwa urządzenia",
             "ru": "Имя устройства",
             "ar": "اسم الجهاز",
-            "ko": "장치 이름"
+            "ko": "디바이스 이름"
           },
           "value": "unknown",
           "hint": {
@@ -287,9 +287,9 @@
             "es": "Repara para cambiar. Batería leída y controlada.",
             "da": "Reparer for at ændre. Batteri der læses og styres.",
             "pl": "Napraw, aby zmienić. Odczytywana i sterowana bateria.",
-            "ru": "Для изменения выполните восстановление. Считываемая и управляемая батарея.",
+            "ru": "Чтобы изменить, выберите «Исправить». Считываемая и управляемая батарея.",
             "ar": "نفّذ إصلاحًا للتغيير. البطارية التي تتم قراءتها والتحكم فيها.",
-            "ko": "변경하려면 복구하세요. 읽고 제어하는 배터리."
+            "ko": "변경하려면 수리하세요. 읽고 제어하는 배터리."
           }
         }
       ]
@@ -342,9 +342,9 @@
             "es": "Repara para cambiar. Precio para los importes.",
             "da": "Reparer for at ændre. Pris til pengeværdierne.",
             "pl": "Napraw, aby zmienić. Cena dla wartości pieniężnych.",
-            "ru": "Для изменения выполните восстановление. Цена для денежных значений.",
+            "ru": "Чтобы изменить, выберите «Исправить». Цена для денежных значений.",
             "ar": "نفّذ إصلاحًا للتغيير. السعر المستخدم للقيم المالية.",
-            "ko": "변경하려면 복구하세요. 금액 계산에 쓰는 가격."
+            "ko": "변경하려면 수리하세요. 금액 계산에 쓰는 가격."
           }
         }
       ]
@@ -433,9 +433,9 @@
             "es": "Capacidad, pérdidas y potencia mín., aprendidas del comportamiento de la batería. Restablecer vía reparar.",
             "da": "Kapacitet, tab og min. effekt, lært ud fra batteriets adfærd. Nulstil via reparer.",
             "pl": "Pojemność, straty i min. moc, nauczone z działania baterii. Reset przez naprawę.",
-            "ru": "Ёмкость, потери и мин. мощность, изученные по поведению батареи. Сброс через восстановление.",
+            "ru": "Ёмкость, потери и мин. мощность, изученные по поведению батареи. Сброс через «Исправить».",
             "ar": "السعة والفقد والحد الأدنى للقدرة، تم تعلمها من سلوك البطارية. إعادة الضبط عبر الإصلاح.",
-            "ko": "배터리 동작으로 학습한 용량, 손실, 최소 전력입니다. 복구에서 초기화합니다."
+            "ko": "배터리 동작으로 학습한 용량, 손실, 최소 전력입니다. 수리에서 초기화합니다."
           }
         }
       ]
@@ -725,7 +725,7 @@
             "pl": "Utrzymuje pobór i oddawanie poniżej bezpiecznika głównego (urządzenie sieci, Przyłącze sieciowe) i Maks. poboru (W) (urządzenie sieci, Taryfa mocowa) w każdym bloku. Może do tego użyć rezerwy.",
             "ru": "Держит потребление и отдачу ниже главного предохранителя (устройство сети, Подключение к сети) и Макс. потребления (Вт) (устройство сети, Тариф за мощность) в каждом блоке. Может использовать для этого резерв.",
             "ar": "يُبقي السحب والتصدير دون المصهر الرئيسي (جهاز الشبكة، توصيل الشبكة) والحد الأقصى للسحب (واط) (جهاز الشبكة، تعرفة القدرة) في كل كتلة. يمكنه استخدام الاحتياطي لذلك.",
-            "ko": "모든 블록에서 수전과 송전을 메인 퓨즈(전력망 기기, 계통 연결)와 최대 수전 (W)(전력망 기기, 용량 요금제) 아래로 유지합니다. 이를 위해 예비량을 사용할 수 있습니다."
+            "ko": "모든 블록에서 수전과 송전을 메인 퓨즈(전력망 디바이스, 계통 연결)와 최대 수전 (W)(전력망 디바이스, 용량 요금제) 아래로 유지합니다. 이를 위해 예비량을 사용할 수 있습니다."
           },
           "value": true
         },
@@ -760,7 +760,7 @@
             "pl": "Utrzymuje pobór poniżej poziomu taryfy mocowej w każdym bloku. Ustaw taryfę mocową w urządzeniu sieci. Może używać rezerwy (zalecane: 10 %).",
             "ru": "Держит потребление ниже уровня тарифа за мощность в каждом блоке. Тариф за мощность задаётся в устройстве сети. Может использовать резерв (совет: 10 %).",
             "ar": "يُبقي السحب دون مستوى تعرفة القدرة في كل كتلة. اضبط تعرفة القدرة في جهاز الشبكة. يمكنه استخدام الاحتياطي (نصيحة: 10 %).",
-            "ko": "모든 블록에서 수전을 용량 요금 수준 아래로 유지합니다. 용량 요금은 전력망 기기에서 설정하세요. 예비량을 사용할 수 있습니다 (권장: 10 %)."
+            "ko": "모든 블록에서 수전을 용량 요금 수준 아래로 유지합니다. 용량 요금은 전력망 디바이스에서 설정하세요. 예비량을 사용할 수 있습니다 (권장: 10 %)."
           },
           "value": false
         },
@@ -864,14 +864,14 @@
             "de": "Läuft, oder wann die nächste fällig ist. Starten oder stoppen per Flow.",
             "fr": "En cours, ou quand la prochaine est prévue. Démarrer ou arrêter via un flow.",
             "it": "In corso, o quando è prevista la prossima. Avvia o ferma con un flow.",
-            "sv": "Pågår, eller när nästa är aktuell. Starta eller stoppa med ett flöde.",
-            "no": "Pågår, eller når den neste er aktuell. Start eller stopp med en flow.",
+            "sv": "Pågår, eller när nästa är aktuell. Starta eller stoppa med ett Flow.",
+            "no": "Pågår, eller når den neste er aktuell. Start eller stopp med en Flow.",
             "es": "En curso, o cuándo toca la siguiente. Iniciar o detener con un flow.",
             "da": "I gang, eller hvornår den næste er aktuel. Start eller stop med et flow.",
             "pl": "W toku lub kiedy wypada następna. Start lub stop przez flow.",
-            "ru": "Идёт, или когда следующая. Запуск или остановка через поток.",
-            "ar": "جارية، أو موعد المعايرة التالية. ابدأ أو أوقف عبر تدفق.",
-            "ko": "진행 중이거나 다음 보정 예정 시점입니다. 플로우로 시작하거나 중지합니다."
+            "ru": "Идёт, или когда следующая. Запуск или остановка через Flow.",
+            "ar": "جارية، أو موعد المعايرة التالية. ابدأ أو أوقف عبر Flow.",
+            "ko": "진행 중이거나 다음 보정 예정 시점입니다. Flow로 시작하거나 중지합니다."
           }
         },
         {
@@ -898,14 +898,14 @@
             "de": "Stellt die Batterieleistung nach dem Batteriemodus ein, ohne Flows. Braucht einen Leistungs-Sollwert, siehe Reparieren.",
             "fr": "Règle la puissance de la batterie selon le mode, sans flows. Nécessite une consigne de puissance, voir réparer.",
             "it": "Imposta la potenza della batteria secondo la modalità, senza flow. Serve un setpoint di potenza, vedi ripara.",
-            "sv": "Ställer in batteriets effekt efter batteriläget, utan flöden. Kräver ett effektbörvärde, se reparera.",
-            "no": "Setter batteriets effekt etter batterimodus, uten flyter. Krever et effekt-settpunkt, se reparer.",
-            "es": "Ajusta la potencia de la batería según el modo, sin flujos. Requiere una consigna de potencia, ver reparar.",
+            "sv": "Ställer in batteriets effekt efter batteriläget, utan Flows. Kräver ett effektbörvärde, se reparera.",
+            "no": "Setter batteriets effekt etter batterimodus, uten Flows. Krever et effekt-settpunkt, se reparer.",
+            "es": "Ajusta la potencia de la batería según el modo, sin Flows. Requiere una consigna de potencia, ver reparar.",
             "da": "Indstiller batteriets effekt efter batteritilstanden, uden flows. Kræver et effekt-setpunkt, se reparer.",
             "pl": "Ustawia moc baterii według trybu, bez flow. Wymaga zadawanej mocy, zobacz naprawę.",
-            "ru": "Задаёт мощность батареи по режиму, без потоков. Нужна уставка мощности, см. восстановление.",
-            "ar": "يضبط قدرة البطارية حسب الوضع، دون تدفقات. يحتاج إلى نقطة ضبط للقدرة، راجع الإصلاح.",
-            "ko": "배터리 모드에 따라 플로우 없이 배터리 출력을 설정합니다. 출력 설정값이 필요합니다(복구 참조)."
+            "ru": "Задаёт мощность батареи по режиму, без Flows. Нужна уставка мощности, см. «Исправить».",
+            "ar": "يضبط قدرة البطارية حسب الوضع، دون Flows. يحتاج إلى نقطة ضبط للقدرة، راجع الإصلاح.",
+            "ko": "배터리 모드에 따라 Flow 없이 배터리 출력을 설정합니다. 출력 설정값이 필요합니다(수리 참조)."
           },
           "value": false
         },
@@ -933,14 +933,14 @@
             "de": "Ein Plan und ein Batteriemodus für alle Batterien, bei denen dies an ist, ob hier oder per Flows gesteuert. Aus: diese Batterie plant allein und plant um die anderen herum.",
             "fr": "Un seul plan et un seul mode pour toutes les batteries où ceci est activé, pilotées ici ou par des flows. Désactivé : cette batterie planifie seule, en tenant compte des autres.",
             "it": "Un solo piano e una sola modalità per tutte le batterie con questa opzione attiva, controllate qui o tramite flow. Disattivato: questa batteria pianifica da sola, tenendo conto delle altre.",
-            "sv": "En plan och ett batteriläge för alla batterier där detta är på, styrda här eller via flöden. Av: detta batteri planerar själv och planerar runt de andra.",
-            "no": "Én plan og én batterimodus for alle batterier der dette er på, styrt her eller via flyter. Av: dette batteriet planlegger alene og planlegger rundt de andre.",
-            "es": "Un solo plan y un solo modo para todas las baterías con esto activado, controladas aquí o mediante flujos. Desactivado: esta batería planifica sola, teniendo en cuenta las demás.",
+            "sv": "En plan och ett batteriläge för alla batterier där detta är på, styrda här eller via Flows. Av: detta batteri planerar själv och planerar runt de andra.",
+            "no": "Én plan og én batterimodus for alle batterier der dette er på, styrt her eller via Flows. Av: dette batteriet planlegger alene og planlegger rundt de andre.",
+            "es": "Un solo plan y un solo modo para todas las baterías con esto activado, controladas aquí o mediante Flows. Desactivado: esta batería planifica sola, teniendo en cuenta las demás.",
             "da": "Én plan og én batteritilstand for alle batterier hvor dette er slået til, styret her eller via flows. Fra: dette batteri planlægger alene og planlægger uden om de andre.",
             "pl": "Jeden plan i jeden tryb dla wszystkich baterii z tym włączonym, sterowanych tutaj lub przez flow. Wyłączone: ta bateria planuje sama, uwzględniając pozostałe.",
-            "ru": "Один план и один режим для всех батарей с этой опцией, управляемых здесь или потоками. Выкл.: батарея планирует сама, учитывая остальные.",
-            "ar": "خطة واحدة ووضع واحد لكل البطاريات التي فُعّل فيها هذا الخيار، سواء تم التحكم بها هنا أو عبر التدفقات. إيقاف: تخطط هذه البطارية وحدها مع مراعاة البطاريات الأخرى.",
-            "ko": "이 옵션이 켜진 모든 배터리에 하나의 계획과 하나의 배터리 모드를 사용합니다(여기서 제어하든 플로우로 제어하든). 끔: 이 배터리는 다른 배터리를 고려하여 단독으로 계획합니다."
+            "ru": "Один план и один режим для всех батарей с этой опцией, управляемых здесь или через Flows. Выкл.: батарея планирует сама, учитывая остальные.",
+            "ar": "خطة واحدة ووضع واحد لكل البطاريات التي فُعّل فيها هذا الخيار، سواء تم التحكم بها هنا أو عبر Flows. إيقاف: تخطط هذه البطارية وحدها مع مراعاة البطاريات الأخرى.",
+            "ko": "이 옵션이 켜진 모든 배터리에 하나의 계획과 하나의 배터리 모드를 사용합니다(여기서 제어하든 Flow로 제어하든). 끔: 이 배터리는 다른 배터리를 고려하여 단독으로 계획합니다."
           },
           "value": true
         },
@@ -968,14 +968,14 @@
             "de": "Netzleistung, auf die XOM regelt, gleich für alle Batterien. Positiv: etwas Bezug, negativ: etwas Einspeisung. Die Flowkarte 'XOM einstellen' kann sie ändern.",
             "fr": "Puissance réseau visée par XOM, identique pour toutes les batteries. Positive : un peu de soutirage, négative : un peu d'injection. La carte flow 'Régler XOM' peut la modifier.",
             "it": "Potenza di rete a cui punta XOM, uguale per tutte le batterie. Positiva: un po' di prelievo, negativa: un po' di immissione. La scheda flow 'Imposta XOM' può cambiarla.",
-            "sv": "Näteffekt som XOM siktar på, samma för alla batterier. Positiv: lite köp, negativ: lite export. Flödeskortet 'Ställ in XOM' kan ändra den.",
-            "no": "Netteffekt som XOM sikter mot, lik for alle batterier. Positiv: litt kjøp, negativ: litt eksport. Flytkortet 'Still inn XOM' kan endre den.",
-            "es": "Potencia de red a la que apunta XOM, igual para todas las baterías. Positiva: algo de consumo, negativa: algo de exportación. La tarjeta de flujo 'Ajustar XOM' puede cambiarla.",
+            "sv": "Näteffekt som XOM siktar på, samma för alla batterier. Positiv: lite köp, negativ: lite export. Flow-kortet 'Ställ in XOM' kan ändra den.",
+            "no": "Netteffekt som XOM sikter mot, lik for alle batterier. Positiv: litt kjøp, negativ: litt eksport. Flow-kortet 'Still inn XOM' kan endre den.",
+            "es": "Potencia de red a la que apunta XOM, igual para todas las baterías. Positiva: algo de consumo, negativa: algo de exportación. La tarjeta de Flow 'Ajustar XOM' puede cambiarla.",
             "da": "Neteffekt som XOM sigter efter, ens for alle batterier. Positiv: lidt køb, negativ: lidt eksport. Flowkortet 'Indstil XOM' kan ændre den.",
             "pl": "Moc sieci, do której dąży XOM, taka sama dla wszystkich baterii. Dodatnia: trochę poboru, ujemna: trochę oddawania. Karta flow 'Ustaw XOM' może ją zmienić.",
-            "ru": "Мощность сети, к которой стремится XOM, одинаковая для всех батарей. Положительная: немного потребления, отрицательная: немного отдачи. Карточка потока «Задать XOM» может её изменить.",
-            "ar": "قدرة الشبكة التي يستهدفها XOM، نفسها لكل البطاريات. موجبة: قليل من السحب، سالبة: قليل من التصدير. يمكن لبطاقة التدفق 'ضبط XOM' تغييرها.",
-            "ko": "XOM이 목표로 하는 전력망 전력으로, 모든 배터리에 동일합니다. 양수: 약간의 수전, 음수: 약간의 송전. 플로우 카드 'XOM 설정'으로 변경할 수 있습니다."
+            "ru": "Мощность сети, к которой стремится XOM, одинаковая для всех батарей. Положительная: немного потребления, отрицательная: немного отдачи. Карточка Flow «Задать XOM» может её изменить.",
+            "ar": "قدرة الشبكة التي يستهدفها XOM، نفسها لكل البطاريات. موجبة: قليل من السحب، سالبة: قليل من التصدير. يمكن لبطاقة Flow 'ضبط XOM' تغييرها.",
+            "ko": "XOM이 목표로 하는 전력망 전력으로, 모든 배터리에 동일합니다. 양수: 약간의 수전, 음수: 약간의 송전. Flow 카드 'XOM 설정'으로 변경할 수 있습니다."
           },
           "value": 0,
           "min": -10000,
@@ -1015,7 +1015,7 @@
             "es": "Corregir totales o costes",
             "da": "Ret totaler eller omkostninger",
             "pl": "Popraw sumy lub koszty",
-            "ru": "Исправить итоги или затраты",
+            "ru": "Скорректировать итоги или затраты",
             "ar": "تصحيح الإجماليات أو التكاليف",
             "ko": "합계 또는 비용 수정"
           },
@@ -1031,9 +1031,9 @@
             "es": "Repara para cambiar. Corrige totales, lecturas e importes.",
             "da": "Reparer for at ændre. Retter totaler, målerstande og beløb.",
             "pl": "Napraw, aby zmienić. Poprawia sumy, odczyty i kwoty.",
-            "ru": "Для изменения выполните восстановление. Исправляет итоги, показания и суммы.",
+            "ru": "Чтобы изменить, выберите «Исправить». Исправляет итоги, показания и суммы.",
             "ar": "نفّذ إصلاحًا للتغيير. يصحح الإجماليات وقراءات العداد والمبالغ.",
-            "ko": "변경하려면 복구하세요. 합계, 계량값, 금액을 수정합니다."
+            "ko": "변경하려면 수리하세요. 합계, 계량값, 금액을 수정합니다."
           }
         }
       ]

@@ -1039,7 +1039,7 @@
         "pl": "Informacje o urządzeniu źródłowym Homey",
         "ru": "Информация об исходном устройстве Homey",
         "ar": "معلومات جهاز مصدر Homey",
-        "ko": "Homey 소스 장치 정보"
+        "ko": "Homey 소스 디바이스 정보"
       },
       "children": [
         {
@@ -1058,7 +1058,7 @@
             "pl": "ID urządzenia",
             "ru": "ID устройства",
             "ar": "معرف الجهاز",
-            "ko": "장치 ID"
+            "ko": "디바이스 ID"
           },
           "value": "unknown",
           "hint": {
@@ -1067,14 +1067,14 @@
             "de": "Zum Ändern reparieren. ID des Quellgeräts oder virtuell (via Flow).",
             "fr": "Réparer pour modifier. ID de l'appareil source, ou virtuel (via flow).",
             "it": "Ripara per modificare. ID del dispositivo sorgente, o virtuale (via flow).",
-            "sv": "Reparera för att ändra. Källenhetens ID, eller virtuell (via flöde).",
-            "no": "Reparer for å endre. Kildeenhetens ID, eller virtuell (via flow).",
-            "es": "Repara para cambiar. ID del dispositivo de origen, o virtual (vía flujo).",
+            "sv": "Reparera för att ändra. Källenhetens ID, eller virtuell (via Flow).",
+            "no": "Reparer for å endre. Kildeenhetens ID, eller virtuell (via Flow).",
+            "es": "Repara para cambiar. ID del dispositivo de origen, o virtual (vía Flow).",
             "da": "Reparer for at ændre. Kildeenhedens ID, eller virtuel (via flow).",
             "pl": "Napraw, aby zmienić. ID urządzenia źródłowego lub wirtualne (przez flow).",
-            "ru": "Для изменения выполните восстановление. ID исходного устройства или виртуальное (через поток).",
-            "ar": "نفّذ إصلاحًا للتغيير. معرّف الجهاز المصدر، أو افتراضي (عبر التدفق).",
-            "ko": "변경하려면 복구하세요. 소스 기기 ID 또는 가상 (flow 사용)."
+            "ru": "Чтобы изменить, выберите «Исправить». ID исходного устройства или виртуальное (через Flow).",
+            "ar": "نفّذ إصلاحًا للتغيير. معرّف الجهاز المصدر، أو افتراضي (عبر Flow).",
+            "ko": "변경하려면 수리하세요. 소스 디바이스 ID 또는 가상 (flow 사용)."
           }
         },
         {
@@ -1093,7 +1093,7 @@
             "pl": "Nazwa urządzenia",
             "ru": "Имя устройства",
             "ar": "اسم الجهاز",
-            "ko": "장치 이름"
+            "ko": "디바이스 이름"
           },
           "value": "unknown",
           "hint": {
@@ -1107,9 +1107,9 @@
             "es": "Repara para cambiar. Dispositivo que aporta las lecturas.",
             "da": "Reparer for at ændre. Enhed der leverer målingerne.",
             "pl": "Napraw, aby zmienić. Urządzenie dostarczające odczyty.",
-            "ru": "Для изменения выполните восстановление. Устройство, которое передаёт показания.",
+            "ru": "Чтобы изменить, выберите «Исправить». Устройство, которое передаёт показания.",
             "ar": "نفّذ إصلاحًا للتغيير. الجهاز الذي يوفر القراءات.",
-            "ko": "변경하려면 복구하세요. 측정값을 제공하는 기기."
+            "ko": "변경하려면 수리하세요. 측정값을 제공하는 디바이스."
           }
         },
         {
@@ -1141,9 +1141,9 @@
             "es": "Repara para cambiar. Capacidades leídas del dispositivo de origen.",
             "da": "Reparer for at ændre. Capabilities der læses fra kildeenheden.",
             "pl": "Napraw, aby zmienić. Funkcje odczytywane z urządzenia źródłowego.",
-            "ru": "Для изменения выполните восстановление. Возможности, считываемые с исходного устройства.",
+            "ru": "Чтобы изменить, выберите «Исправить». Возможности, считываемые с исходного устройства.",
             "ar": "نفّذ إصلاحًا للتغيير. القدرات المقروءة من الجهاز المصدر.",
-            "ko": "변경하려면 복구하세요. 소스 기기에서 읽는 기능."
+            "ko": "변경하려면 수리하세요. 소스 디바이스에서 읽는 기능."
           },
           "value": "-"
         }
@@ -1197,9 +1197,9 @@
             "es": "Repara para cambiar. Precio para los importes.",
             "da": "Reparer for at ændre. Pris til pengeværdierne.",
             "pl": "Napraw, aby zmienić. Cena dla wartości pieniężnych.",
-            "ru": "Для изменения выполните восстановление. Цена для денежных значений.",
+            "ru": "Чтобы изменить, выберите «Исправить». Цена для денежных значений.",
             "ar": "نفّذ إصلاحًا للتغيير. السعر المستخدم للقيم المالية.",
-            "ko": "변경하려면 복구하세요. 금액 계산에 쓰는 가격."
+            "ko": "변경하려면 수리하세요. 금액 계산에 쓰는 가격."
           }
         }
       ]
@@ -1252,9 +1252,9 @@
             "es": "Repara para cambiar. Inicio del año y presupuesto.",
             "da": "Reparer for at ændre. Årets start og budget.",
             "pl": "Napraw, aby zmienić. Początek roku i budżet.",
-            "ru": "Для изменения выполните восстановление. Начало года и бюджет.",
+            "ru": "Чтобы изменить, выберите «Исправить». Начало года и бюджет.",
             "ar": "نفّذ إصلاحًا للتغيير. بداية السنة والميزانية.",
-            "ko": "변경하려면 복구하세요. 연도 시작일과 예산."
+            "ko": "변경하려면 수리하세요. 연도 시작일과 예산."
           }
         }
       ]
@@ -1291,7 +1291,7 @@
             "es": "Corregir totales o costes",
             "da": "Ret totaler eller omkostninger",
             "pl": "Popraw sumy lub koszty",
-            "ru": "Исправить итоги или затраты",
+            "ru": "Скорректировать итоги или затраты",
             "ar": "تصحيح الإجماليات أو التكاليف",
             "ko": "합계 또는 비용 수정"
           },
@@ -1307,9 +1307,9 @@
             "es": "Repara para cambiar. Corrige totales, lecturas e importes.",
             "da": "Reparer for at ændre. Retter totaler, målerstande og beløb.",
             "pl": "Napraw, aby zmienić. Poprawia sumy, odczyty i kwoty.",
-            "ru": "Для изменения выполните восстановление. Исправляет итоги, показания и суммы.",
+            "ru": "Чтобы изменить, выберите «Исправить». Исправляет итоги, показания и суммы.",
             "ar": "نفّذ إصلاحًا للتغيير. يصحح الإجماليات وقراءات العداد والمبالغ.",
-            "ko": "변경하려면 복구하세요. 합계, 계량값, 금액을 수정합니다."
+            "ko": "변경하려면 수리하세요. 합계, 계량값, 금액을 수정합니다."
           }
         }
       ]

@@ -868,17 +868,17 @@
           "hint": {
             "en": "Every hour the price per m3 will be sent as tariff for PBTH devices, without the need to create a flow.",
             "de": "Jede Stunde wird der Preis pro m3 als Tarif für PBTH Geräte gesendet, ohne dass ein Flow erstellt werden muss.",
-            "sv": "Varje timme kommer priset per m3 att skickas som tariff för PBTH-enheter, utan att behöva skapa ett flöde.",
+            "sv": "Varje timme kommer priset per m3 att skickas som tariff för PBTH-enheter, utan att behöva skapa ett Flow.",
             "it": "Ogni ora verrà inviato il prezzo per m3 come tariffa per i dispositivi PBTH, senza necessità di creare alcun flow.",
-            "no": "Hver time vil prisen per m3 bli sendt som tariff for PBTH enheter, uten at man trenger å skape en flow.",
+            "no": "Hver time vil prisen per m3 bli sendt som tariff for PBTH enheter, uten at man trenger å lage en Flow.",
             "fr": "Chaque heure, le prix du m3 sera envoyé comme tarif pour les appareils PBTH, sans qu'il soit nécessaire de créer un flow",
             "da": "Prisen per m3 bliver sendt som tarif til PBTH-enheder, uden brug af flows.",
             "nl": "Ieder uur wordt de prijs per m3 als tarief naar PBTH devices gestuurd, zonder dat een flow gemaakt hoeft te worden.",
-            "ko": "매시간 m3당 가격이 flow를 만들 필요 없이 PBTH 장치의 요금으로 전송됩니다.",
-            "es": "Cada hora se enviará el precio por m3 como tarifa para dispositivos PBTH, sin necesidad de crear un flujo.",
-            "pl": "Co godzinę cena za m3 będzie wysyłana jako taryfa dla urządzeń PBTH, bez konieczności tworzenia przepływu.",
-            "ru": "Каждый час цена за m3 будет отправляться в качестве тарифа для устройств PBTH, без необходимости создавать поток.",
-            "ar": "كل ساعة سيتم إرسال السعر لكل m3 كتعريفة لأجهزة PBTH، دون الحاجة إلى إنشاء تدفق."
+            "ko": "매시간 m3당 가격이 flow를 만들 필요 없이 PBTH 디바이스의 요금으로 전송됩니다.",
+            "es": "Cada hora se enviará el precio por m3 como tarifa para dispositivos PBTH, sin necesidad de crear un Flow.",
+            "pl": "Co godzinę cena za m3 będzie wysyłana jako taryfa dla urządzeń PBTH, bez konieczności tworzenia Flow.",
+            "ru": "Каждый час цена за m3 будет отправляться в качестве тарифа для устройств PBTH, без необходимости создавать Flow.",
+            "ar": "كل ساعة سيتم إرسال السعر لكل m3 كتعريفة لأجهزة PBTH، دون الحاجة إلى إنشاء Flow."
           }
         }
       ]
