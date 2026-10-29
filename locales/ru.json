@@ -146,7 +146,10 @@
     "setup_section_connection": "Подключение к сети",
     "setup_section_peak": "Тариф за мощность",
     "setup_section_advanced": "Дополнительно",
-    "setup_show_advanced": "Показать"
+    "setup_show_advanced": "Показать",
+    "setup_section_charger": "Зарядка и автомобиль",
+    "setup_section_departure": "Расписание отправления",
+    "setup_show_departure": "Задать фиксированное время отъезда"
   },
   "load_forecast_accuracy": "Ср. ошибка __mae__ Вт (__pct__%), смещение __bias__ Вт, __days__ дн.",
   "load_forecast_accuracy_collecting": "Сбор данных",

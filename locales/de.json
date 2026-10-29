@@ -146,7 +146,10 @@
     "setup_section_connection": "Netzanschluss",
     "setup_section_peak": "Leistungstarif",
     "setup_section_advanced": "Erweitert",
-    "setup_show_advanced": "Anzeigen"
+    "setup_show_advanced": "Anzeigen",
+    "setup_section_charger": "Ladestation und Auto",
+    "setup_section_departure": "Abfahrtsplan",
+    "setup_show_departure": "Feste Abfahrtszeiten festlegen"
   },
   "load_forecast_accuracy": "Mittl. Fehler __mae__ W (__pct__%), Bias __bias__ W, __days__ Tage",
   "load_forecast_accuracy_collecting": "Daten werden gesammelt",

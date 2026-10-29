@@ -146,7 +146,10 @@
     "setup_section_connection": "Nätanslutning",
     "setup_section_peak": "Effekttariff",
     "setup_section_advanced": "Avancerat",
-    "setup_show_advanced": "Visa"
+    "setup_show_advanced": "Visa",
+    "setup_section_charger": "Laddbox och bil",
+    "setup_section_departure": "Avgångsschema",
+    "setup_show_departure": "Ange fasta avresetider"
   },
   "load_forecast_accuracy": "Medelfel __mae__ W (__pct__%), bias __bias__ W, __days__ dagar",
   "load_forecast_accuracy_collecting": "Samlar in data",

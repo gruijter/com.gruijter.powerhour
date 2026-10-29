@@ -146,7 +146,10 @@
     "setup_section_connection": "Raccordement au réseau",
     "setup_section_peak": "Tarif capacitaire",
     "setup_section_advanced": "Avancé",
-    "setup_show_advanced": "Afficher"
+    "setup_show_advanced": "Afficher",
+    "setup_section_charger": "Borne et voiture",
+    "setup_section_departure": "Horaire de départ",
+    "setup_show_departure": "Définir des heures de départ fixes"
   },
   "load_forecast_accuracy": "Écart moyen __mae__ W (__pct__%), biais __bias__ W, __days__ jours",
   "load_forecast_accuracy_collecting": "Collecte des données",

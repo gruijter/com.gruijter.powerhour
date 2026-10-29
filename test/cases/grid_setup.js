@@ -160,6 +160,29 @@ const values = (view, over = {}) => ({
     assert.strictEqual(byId(view, 'connectionAmps').value, 35);
   });
 
+  await test('ev layout: preset only when pairing, departure toggle open with a time', async () => {
+    const evDriver = () => {
+      const driver = fakeDriver();
+      const days = [0, 1, 2, 3, 4, 5, 6].map((day) => `departureTime_${day}`);
+      driver.ds = {
+        ...driver.ds,
+        setup: {
+          settings: ['chargePower', 'tariff_update_group', 'chargerControl', ...days],
+          sections: [{ id: 'charger', ids: ['chargerControl'] }, { id: 'departure', ids: days, toggle: true }],
+          preset: { chargerControl: true },
+        },
+      };
+      return driver;
+    };
+    let view = await pairSession(evDriver()).setup_get();
+    assert.strictEqual(byId(view, 'chargerControl').value, true);
+    assert.strictEqual(byId(view, 'show_departure').value, false);
+    view = await repairSession(evDriver(), { chargerControl: false, departureTime_2: '07:30' }).setup_get();
+    assert.strictEqual(byId(view, 'chargerControl').value, false);
+    assert.strictEqual(byId(view, 'show_departure').value, true);
+    assert.ok(byId(view, 'chargerControl').info.startsWith('Switches the charger'));
+  });
+
   console.log(failed ? `\n${failed} failed` : '\nall passed');
   process.exitCode = failed ? 1 : 0;
 })().catch((err) => {

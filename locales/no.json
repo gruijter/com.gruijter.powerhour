@@ -146,7 +146,10 @@
     "setup_section_connection": "Nettilknytning",
     "setup_section_peak": "Effekttariff",
     "setup_section_advanced": "Avansert",
-    "setup_show_advanced": "Vis"
+    "setup_show_advanced": "Vis",
+    "setup_section_charger": "Lader og bil",
+    "setup_section_departure": "Avgangsskjema",
+    "setup_show_departure": "Angi faste avreisetider"
   },
   "load_forecast_accuracy": "Gj.sn. avvik __mae__ W (__pct__%), bias __bias__ W, __days__ dager",
   "load_forecast_accuracy_collecting": "Samler inn data",

@@ -12,6 +12,11 @@ const EvChargerControl = require('../../lib/strategies/EvChargerControl');
 const EvHistory = require('../../lib/helpers/EvHistory');
 const PairSetup = require('../../lib/helpers/PairSetup');
 const Budget = require('../../lib/Budget');
+
+const CHARGER_IDS = ['chargerControl', 'standbyOn', 'sharedCharger', 'carStartCharge', 'v2x'];
+const DEPARTURE_IDS = [0, 1, 2, 3, 4, 5, 6].map((day) => `departureTime_${day}`);
+const ADVANCED_IDS = ['tariff_type', 'overrideMaxHours', 'autoDepartureLearning', 'minTripSoc',
+  'chartShowPower', 'chartShowSoc', 'chartShowExportPrice', 'chartShowLegend'];
 // Dependencies are lazy loaded in methods to save memory
 
 const driverSpecifics = {
@@ -53,9 +58,13 @@ const driverSpecifics = {
       id: 'evWeeklyChart', prop: 'evWeeklyImage', chartProp: 'chartEvWeekly', titleKey: 'ev_weekly',
     },
   ],
-  // Asked at pair and repair (lib/helpers/PairSetup.js); chargerControl shown on, also at repair.
+  // Asked at pair and repair (lib/helpers/PairSetup.js), not on the settings page; chargerControl
+  // on when pairing.
   setup: {
-    settings: ['chargePower', 'batCapacity', 'variableChargePower', 'tariff_update_group', 'chargerControl'],
+    settings: ['chargePower', 'batCapacity', 'variableChargePower', 'solarGridPower', 'tariff_update_group',
+      ...CHARGER_IDS, ...DEPARTURE_IDS, ...ADVANCED_IDS],
+    sections: [{ id: 'charger', ids: CHARGER_IDS }, { id: 'departure', ids: DEPARTURE_IDS, toggle: true },
+      { id: 'advanced', ids: ADVANCED_IDS, toggle: true }],
     preset: { chargerControl: true },
     match: { classes: ['evcharger'], energy: (energy) => energy.isEVCharger === true },
   },
@@ -296,9 +305,8 @@ class CarChargeDriver extends GenericDriver {
     return [...super.sourceSettingIds(), 'ev_device_id', 'ev_device_name'];
   }
 
-  // Setup view: the hint of charger control, and the charge power measured by the charger.
+  // Setup view: the charge power measured by the charger.
   async setupInfo(setting, def, dev, current) {
-    if (setting.id === 'chargerControl') return PairSetup.text(this.homey, def.hint);
     if (setting.id !== 'chargePower') return undefined;
     // Measured by the repaired device, when the charger stays the same.
     const sameCharger = current.device && dev.settings.homey_device_id === current.device.getSettings().homey_device_id;
