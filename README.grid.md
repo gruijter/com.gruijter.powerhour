@@ -167,6 +167,8 @@ Use **Retrain home load forecast** (button or flow) to rebuild the profile from 
 - **Extra load** … W today/tomorrow at a time for … minutes (0 W removes it).
 - **Retrain home load forecast.**
 - **Set tariff group.**
+- **Set fixed tariff.**
+- **Set fixed export tariff.**
 - **Set fixed cost** (per hour, day or month).
 
 The **peak forecast** JSON contains the month peak, the projected value and headroom of the running interval, and the highest expected interval average (with time) until the end of tomorrow or the month, including whether a new month peak is expected.

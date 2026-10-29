@@ -20,6 +20,7 @@ Module._load = function load(request, ...rest) {
 };
 const PairSetup = require('../../lib/helpers/PairSetup');
 const GenericDevice = require('../../lib/genericDeviceDrivers/generic_sum_device');
+const SumFlows = require('../../lib/flows/SumFlows');
 
 let failed = 0;
 const test = async (name, fn) => {
@@ -178,6 +179,20 @@ const fakeDevice = (settings, store = {}, ids = ['tariff_update_group', 'tariff'
     const fed = fakeDevice({ tariff_update_group: 1, tariff: 0.25 }, { fixedExport: true });
     await fed.applyFixedTariff();
     assert.strictEqual(fed.tariffHistory.current, 0.3);
+  });
+
+  await test('flow card: the fixed tariff applies with group 0 only, a price device keeps its price', async () => {
+    const fixed = fakeDevice({ tariff_update_group: 0, tariff: 0.25, tariff_export: 0.08 }, { fixedExport: true });
+    fixed.getName = () => 'Meter';
+    await new SumFlows(fixed).set_fixed_tariff({ tariff: 0.27 });
+    await new SumFlows(fixed).set_fixed_export_tariff({ tariff: 0.05 });
+    assert.strictEqual(fixed.tariffHistory.current, 0.27);
+    assert.strictEqual(fixed.tariffHistory.currentExport, 0.05);
+    const fed = fakeDevice({ tariff_update_group: 2, tariff: 0.25 }, { fixedExport: true });
+    fed.getName = () => 'Meter';
+    await new SumFlows(fed).set_fixed_tariff({ tariff: 0.27 });
+    assert.strictEqual(fed.settings.tariff, 0.27); // kept for group 0
+    assert.strictEqual(fed.tariffHistory.current, 0.3); // the price device's price stays
   });
 
   Module._load = origLoad;

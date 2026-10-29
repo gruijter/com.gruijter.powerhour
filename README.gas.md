@@ -59,4 +59,5 @@ Example flow:
 
 - **Set fixed cost** per hour, day or month
 - **Set tariff group**
+- **Set fixed tariff**
 - **Send reading to virtual meter** (app card)

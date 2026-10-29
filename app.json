@@ -18774,6 +18774,81 @@
         "id": "set_fixed_cost"
       },
       {
+        "title": {
+          "en": "Set fixed export tariff",
+          "nl": "Stel vast terugleveringstarief in",
+          "de": "Fester Einspeisetarif festlegen",
+          "fr": "Définir le tarif fixe d'injection",
+          "it": "Imposta tariffa fissa di immissione",
+          "sv": "Ställ in fast exporttariff",
+          "no": "Sett fast eksporttariff",
+          "es": "Establecer tarifa fija de exportación",
+          "da": "Indstil fast eksporttarif",
+          "pl": "Ustaw stałą taryfę za oddawanie",
+          "ru": "Установить фиксированный тариф экспорта",
+          "ar": "تعيين تعرفة تصدير ثابتة",
+          "ko": "고정 수출 요금 설정"
+        },
+        "titleFormatted": {
+          "en": "Set fixed export tariff to [[tariff]]",
+          "nl": "Stel vast terugleveringstarief in op [[tariff]]",
+          "de": "Fester Einspeisetarif auf [[tariff]] festlegen",
+          "fr": "Définir le tarif fixe d'injection à [[tariff]]",
+          "it": "Imposta tariffa fissa di immissione a [[tariff]]",
+          "sv": "Ställ in fast exporttariff till [[tariff]]",
+          "no": "Sett fast eksporttariff til [[tariff]]",
+          "es": "Establecer tarifa fija de exportación a [[tariff]]",
+          "da": "Indstil fast eksporttarif til [[tariff]]",
+          "pl": "Ustaw stałą taryfę za oddawanie na [[tariff]]",
+          "ru": "Установить фиксированный тариф экспорта [[tariff]]",
+          "ar": "تعيين تعرفة تصدير ثابتة إلى [[tariff]]",
+          "ko": "고정 수출 요금을 [[tariff]](으)로 설정"
+        },
+        "hint": {
+          "en": "Applies with tariff group 0.",
+          "nl": "Geldt bij tariefgroep 0.",
+          "de": "Gilt bei Tarifgruppe 0.",
+          "fr": "S'applique avec le groupe tarifaire 0.",
+          "it": "Vale con il gruppo tariffario 0.",
+          "sv": "Gäller med tariffgrupp 0.",
+          "no": "Gjelder med tariffgruppe 0.",
+          "es": "Se aplica con el grupo de tarifa 0.",
+          "da": "Gælder med takstgruppe 0.",
+          "pl": "Obowiązuje przy grupie taryfowej 0.",
+          "ru": "Действует при тарифной группе 0.",
+          "ar": "يُطبَّق مع مجموعة التعرفة 0.",
+          "ko": "요금 그룹 0일 때 적용됩니다."
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=power|solar|grid"
+          },
+          {
+            "type": "number",
+            "name": "tariff",
+            "placeholder": {
+              "en": "Fixed export tariff",
+              "nl": "Vast terugleveringstarief",
+              "de": "Fester Einspeisetarif",
+              "fr": "Tarif fixe d'injection",
+              "it": "Tariffa fissa di immissione",
+              "sv": "Fast exporttariff",
+              "no": "Fast eksporttariff",
+              "es": "Tarifa fija de exportación",
+              "da": "Fast eksporttarif",
+              "pl": "Stała taryfa za oddawanie",
+              "ru": "Фиксированный тариф экспорта",
+              "ar": "تعرفة تصدير ثابتة",
+              "ko": "고정 수출 요금"
+            },
+            "decimals": 4
+          }
+        ],
+        "id": "set_fixed_export_tariff"
+      },
+      {
         "deprecated": true,
         "title": {
           "en": "Set a new fixed markup",
@@ -18953,6 +19028,81 @@
           }
         ],
         "id": "set_fixed_markup_weekend"
+      },
+      {
+        "title": {
+          "en": "Set fixed tariff",
+          "nl": "Stel vast tarief in",
+          "de": "Festtarif festlegen",
+          "fr": "Définir le tarif fixe",
+          "it": "Imposta tariffa fissa",
+          "sv": "Ställ in fast tariff",
+          "no": "Sett fast tariff",
+          "es": "Establecer tarifa fija",
+          "da": "Indstil fast tarif",
+          "pl": "Ustaw stałą taryfę",
+          "ru": "Установить фиксированный тариф",
+          "ar": "تعيين تعرفة ثابتة",
+          "ko": "고정 요금 설정"
+        },
+        "titleFormatted": {
+          "en": "Set fixed tariff to [[tariff]]",
+          "nl": "Stel vast tarief in op [[tariff]]",
+          "de": "Festtarif auf [[tariff]] festlegen",
+          "fr": "Définir le tarif fixe à [[tariff]]",
+          "it": "Imposta tariffa fissa a [[tariff]]",
+          "sv": "Ställ in fast tariff till [[tariff]]",
+          "no": "Sett fast tariff til [[tariff]]",
+          "es": "Establecer tarifa fija a [[tariff]]",
+          "da": "Indstil fast tarif til [[tariff]]",
+          "pl": "Ustaw stałą taryfę na [[tariff]]",
+          "ru": "Установить фиксированный тариф [[tariff]]",
+          "ar": "تعيين تعرفة ثابتة إلى [[tariff]]",
+          "ko": "고정 요금을 [[tariff]](으)로 설정"
+        },
+        "hint": {
+          "en": "Applies with tariff group 0.",
+          "nl": "Geldt bij tariefgroep 0.",
+          "de": "Gilt bei Tarifgruppe 0.",
+          "fr": "S'applique avec le groupe tarifaire 0.",
+          "it": "Vale con il gruppo tariffario 0.",
+          "sv": "Gäller med tariffgrupp 0.",
+          "no": "Gjelder med tariffgruppe 0.",
+          "es": "Se aplica con el grupo de tarifa 0.",
+          "da": "Gælder med takstgruppe 0.",
+          "pl": "Obowiązuje przy grupie taryfowej 0.",
+          "ru": "Действует при тарифной группе 0.",
+          "ar": "يُطبَّق مع مجموعة التعرفة 0.",
+          "ko": "요금 그룹 0일 때 적용됩니다."
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=power|gas|water|solar|grid"
+          },
+          {
+            "type": "number",
+            "name": "tariff",
+            "placeholder": {
+              "en": "Fixed tariff",
+              "nl": "Vast tarief",
+              "de": "Festtarif",
+              "fr": "Tarif fixe",
+              "it": "Tariffa fissa",
+              "sv": "Fast tariff",
+              "no": "Fast tariff",
+              "es": "Tarifa fija",
+              "da": "Fast tarif",
+              "pl": "Stała taryfa",
+              "ru": "Фиксированный тариф",
+              "ar": "تعرفة ثابتة",
+              "ko": "고정 요금"
+            },
+            "decimals": 4
+          }
+        ],
+        "id": "set_fixed_tariff"
       },
       {
         "deprecated": true,
@@ -19677,7 +19827,7 @@
               "ar": "مجموعة التعريفة"
             },
             "required": true,
-            "min": 1,
+            "min": 0,
             "max": 10,
             "step": 1
           }

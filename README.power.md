@@ -127,6 +127,8 @@ The program and cheapest-start cards are available when **Enable forecast and pl
 - **Cancel planned program**
 - **Set fixed cost** per hour, day or month
 - **Set tariff group**
+- **Set fixed tariff**
+- **Set fixed export tariff**
 - **Send reading to virtual meter** (app card)
 
 Times are text: `07:30`, decimal hours (`7.5`), or a tag.

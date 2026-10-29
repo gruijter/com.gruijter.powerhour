@@ -1,0 +1,74 @@
+{
+  "title": {
+    "en": "Set fixed export tariff",
+    "nl": "Stel vast terugleveringstarief in",
+    "de": "Fester Einspeisetarif festlegen",
+    "fr": "Définir le tarif fixe d'injection",
+    "it": "Imposta tariffa fissa di immissione",
+    "sv": "Ställ in fast exporttariff",
+    "no": "Sett fast eksporttariff",
+    "es": "Establecer tarifa fija de exportación",
+    "da": "Indstil fast eksporttarif",
+    "pl": "Ustaw stałą taryfę za oddawanie",
+    "ru": "Установить фиксированный тариф экспорта",
+    "ar": "تعيين تعرفة تصدير ثابتة",
+    "ko": "고정 수출 요금 설정"
+  },
+  "titleFormatted": {
+    "en": "Set fixed export tariff to [[tariff]]",
+    "nl": "Stel vast terugleveringstarief in op [[tariff]]",
+    "de": "Fester Einspeisetarif auf [[tariff]] festlegen",
+    "fr": "Définir le tarif fixe d'injection à [[tariff]]",
+    "it": "Imposta tariffa fissa di immissione a [[tariff]]",
+    "sv": "Ställ in fast exporttariff till [[tariff]]",
+    "no": "Sett fast eksporttariff til [[tariff]]",
+    "es": "Establecer tarifa fija de exportación a [[tariff]]",
+    "da": "Indstil fast eksporttarif til [[tariff]]",
+    "pl": "Ustaw stałą taryfę za oddawanie na [[tariff]]",
+    "ru": "Установить фиксированный тариф экспорта [[tariff]]",
+    "ar": "تعيين تعرفة تصدير ثابتة إلى [[tariff]]",
+    "ko": "고정 수출 요금을 [[tariff]](으)로 설정"
+  },
+  "hint": {
+    "en": "Applies with tariff group 0.",
+    "nl": "Geldt bij tariefgroep 0.",
+    "de": "Gilt bei Tarifgruppe 0.",
+    "fr": "S'applique avec le groupe tarifaire 0.",
+    "it": "Vale con il gruppo tariffario 0.",
+    "sv": "Gäller med tariffgrupp 0.",
+    "no": "Gjelder med tariffgruppe 0.",
+    "es": "Se aplica con el grupo de tarifa 0.",
+    "da": "Gælder med takstgruppe 0.",
+    "pl": "Obowiązuje przy grupie taryfowej 0.",
+    "ru": "Действует при тарифной группе 0.",
+    "ar": "يُطبَّق مع مجموعة التعرفة 0.",
+    "ko": "요금 그룹 0일 때 적용됩니다."
+  },
+  "args": [
+    {
+      "type": "device",
+      "name": "device",
+      "filter": "driver_id=power|solar|grid"
+    },
+    {
+      "type": "number",
+      "name": "tariff",
+      "placeholder": {
+        "en": "Fixed export tariff",
+        "nl": "Vast terugleveringstarief",
+        "de": "Fester Einspeisetarif",
+        "fr": "Tarif fixe d'injection",
+        "it": "Tariffa fissa di immissione",
+        "sv": "Fast exporttariff",
+        "no": "Fast eksporttariff",
+        "es": "Tarifa fija de exportación",
+        "da": "Fast eksporttarif",
+        "pl": "Stała taryfa za oddawanie",
+        "ru": "Фиксированный тариф экспорта",
+        "ar": "تعرفة تصدير ثابتة",
+        "ko": "고정 수출 요금"
+      },
+      "decimals": 4
+    }
+  ]
+}

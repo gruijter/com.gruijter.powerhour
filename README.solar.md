@@ -109,6 +109,8 @@ When the inverter is limited, e.g. at negative prices, the production is lower t
 - **Retrain solar model**
 - **Set curtailment**
 - **Set tariff group**
+- **Set fixed tariff**
+- **Set fixed export tariff**
 
 Times are text: `07:30`, decimal hours (`7.5`), or a tag.
 
