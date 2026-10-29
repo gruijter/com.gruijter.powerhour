@@ -36,14 +36,11 @@ const Flows = require('./lib/flows/Flows');
 const TimeHelpers = require('./lib/helpers/TimeHelpers');
 const PriceDrivers = require('./lib/helpers/PriceDrivers');
 const MigrationNotice = require('./lib/helpers/MigrationNotice');
-const MemProfiler = require('./lib/helpers/MemProfiler'); // TEMP memory test
 
 class MyApp extends Homey.App {
 
   async onInit() {
     try {
-      this.memProfiler = new MemProfiler(this); // TEMP memory test
-      this.memProfiler.start();
       this.registerFlowListeners();
       await this.initApi();
 
@@ -63,7 +60,6 @@ class MyApp extends Homey.App {
 
   async onUninit() {
     this.log('app onUninit called');
-    if (this.memProfiler) this.memProfiler.stop(); // TEMP memory test
     if (this.migrationNotice) this.migrationNotice.stop();
     if (this.everyHourId) this.homey.clearTimeout(this.everyHourId);
     if (this.everyXMinutesId) this.homey.clearTimeout(this.everyXMinutesId);
