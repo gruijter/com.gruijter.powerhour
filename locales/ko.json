@@ -149,7 +149,11 @@
     "setup_show_advanced": "표시",
     "setup_section_charger": "충전기와 차량",
     "setup_section_departure": "출발 일정",
-    "setup_show_departure": "고정 출발 시간 설정"
+    "setup_show_departure": "고정 출발 시간 설정",
+    "price_info_group": "그룹 __group__: __names__",
+    "price_info_group_none": "그룹 __group__: 에너지 가격 기기 없음",
+    "price_info_fixed": "고정 요금 __tariff__",
+    "price_info_fixed_export": "고정 요금 __tariff__, 수출 __export__"
   },
   "load_forecast_accuracy": "평균 오차 __mae__ W (__pct__%), 편향 __bias__ W, __days__일",
   "load_forecast_accuracy_collecting": "데이터 수집 중",

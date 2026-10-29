@@ -149,7 +149,11 @@
     "setup_show_advanced": "Tonen",
     "setup_section_charger": "Laadpaal en auto",
     "setup_section_departure": "Vertrekschema",
-    "setup_show_departure": "Vaste vertrektijden instellen"
+    "setup_show_departure": "Vaste vertrektijden instellen",
+    "price_info_group": "Groep __group__: __names__",
+    "price_info_group_none": "Groep __group__: geen Energieprijs-apparaat",
+    "price_info_fixed": "Vast tarief __tariff__",
+    "price_info_fixed_export": "Vast tarief __tariff__, teruglevering __export__"
   },
   "load_forecast_accuracy": "Gem. afwijking __mae__ W (__pct__%), bias __bias__ W, __days__ dagen",
   "load_forecast_accuracy_collecting": "Gegevens verzamelen",

@@ -22,6 +22,9 @@ along with com.gruijter.powerhour.  If not, see <http://www.gnu.org/licenses/>.
 const GenericDriver = require('../../lib/genericDeviceDrivers/generic_sum_driver');
 const SourceCaps = require('../../lib/helpers/SourceCaps');
 const PairSetup = require('../../lib/helpers/PairSetup');
+
+const ADVANCED_IDS = ['tariff_type', 'markup_month', 'markup_day', 'markup_hour', 'decimals_meter'];
+
 // Dependencies are lazy loaded in methods to save memory
 
 const driverSpecifics = {
@@ -75,7 +78,8 @@ const driverSpecifics = {
   // Asked at pair and repair (lib/helpers/PairSetup.js).
   setup: {
     settings: ['use_measure_source', 'homey_device_daily_reset', 'forecast_appliance', 'tariff_update_group',
-      'tariff', 'tariff_export', 'currency'],
+      'tariff', 'tariff_export', 'currency', ...ADVANCED_IDS],
+    sections: [{ id: 'advanced', ids: ADVANCED_IDS, toggle: true }],
     // Low (or single) and normal tariff registers of a smart meter; the extra ones only show when
     // the source has them (optional: see generic_sum_driver.setupRoles()).
     roles: [{ key: 'p1', kind: 'kwh', label: 'p1_low' }, {

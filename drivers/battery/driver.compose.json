@@ -267,6 +267,61 @@
     {
       "type": "group",
       "label": {
+        "en": "Settings",
+        "nl": "Instellingen",
+        "de": "Einstellungen",
+        "fr": "Paramètres",
+        "it": "Impostazioni",
+        "sv": "Inställningar",
+        "no": "Innstillinger",
+        "es": "Ajustes",
+        "da": "Indstillinger",
+        "pl": "Ustawienia",
+        "ru": "Настройки",
+        "ar": "الإعدادات",
+        "ko": "설정"
+      },
+      "children": [
+        {
+          "id": "price_info",
+          "type": "label",
+          "label": {
+            "en": "Price",
+            "nl": "Prijs",
+            "de": "Preis",
+            "fr": "Prix",
+            "it": "Prezzo",
+            "sv": "Pris",
+            "no": "Pris",
+            "es": "Precio",
+            "da": "Pris",
+            "pl": "Cena",
+            "ru": "Цена",
+            "ar": "السعر",
+            "ko": "가격"
+          },
+          "value": "-",
+          "hint": {
+            "en": "Change via Repair (device menu) > Settings.",
+            "nl": "Wijzigen via Repareren (apparaatmenu) > Instellingen.",
+            "de": "Ändern über Reparieren (Gerätemenü) > Einstellungen.",
+            "fr": "Modifier via Réparer (menu de l'appareil) > Paramètres.",
+            "it": "Modifica tramite Ripara (menu dispositivo) > Impostazioni.",
+            "sv": "Ändra via Reparera (enhetsmeny) > Inställningar.",
+            "no": "Endre via Reparer (enhetsmeny) > Innstillinger.",
+            "es": "Cambiar en Reparar (menú del dispositivo) > Ajustes.",
+            "da": "Ændr via Reparer (enhedsmenu) > Indstillinger.",
+            "pl": "Zmień przez Napraw (menu urządzenia) > Ustawienia.",
+            "ru": "Изменить через Восстановить (меню устройства) > Настройки.",
+            "ar": "غيّر عبر إصلاح (قائمة الجهاز) > الإعدادات.",
+            "ko": "복구(기기 메뉴) > 설정에서 변경하세요."
+          }
+        }
+      ]
+    },
+    {
+      "type": "group",
+      "label": {
         "en": "Battery properties",
         "nl": "Batterijeigenschappen",
         "de": "Batterie Eigenschaften",
@@ -446,155 +501,6 @@
             "ar": "الحد الأقصى للطاقة التي يمكن تفريغ البطارية بها.",
             "ko": "배터리를 방전할 수 있는 최대 전력입니다."
           }
-        }
-      ]
-    },
-    {
-      "type": "group",
-      "label": {
-        "en": "Price",
-        "nl": "Prijs",
-        "de": "Preis",
-        "fr": "Prix",
-        "it": "Prezzo",
-        "sv": "Pris",
-        "no": "Pris",
-        "es": "Precio",
-        "da": "Pris",
-        "pl": "Cena",
-        "ru": "Цена",
-        "ar": "السعر",
-        "ko": "가격"
-      },
-      "children": [
-        {
-          "id": "tariff_update_group",
-          "type": "number",
-          "label": {
-            "en": "Tariff group",
-            "nl": "Tariefgroep",
-            "de": "Tarifgruppe",
-            "fr": "Groupe tarifaire",
-            "it": "Gruppo tariffario",
-            "sv": "Tariffgrupp",
-            "no": "Tariffgruppe",
-            "es": "Grupo de tarifa",
-            "da": "Takstgruppe",
-            "pl": "Grupa taryfowa",
-            "ru": "Тарифная группа",
-            "ar": "مجموعة التعريفة",
-            "ko": "요금 그룹"
-          },
-          "hint": {
-            "en": "Gets the price from the Energy Price device with this group number. 0: no price.",
-            "nl": "Krijgt de prijs van het Energieprijs-apparaat met dit groepsnummer. 0: geen prijs.",
-            "de": "Erhält den Preis vom Energiepreis-Gerät mit dieser Gruppennummer. 0: kein Preis.",
-            "fr": "Reçoit le prix de l'appareil Prix de l'énergie avec ce numéro de groupe. 0 : pas de prix.",
-            "it": "Riceve il prezzo dal dispositivo Prezzo dell'energia con questo numero di gruppo. 0: nessun prezzo.",
-            "sv": "Får priset från Energipris-enheten med detta gruppnummer. 0: inget pris.",
-            "no": "Får prisen fra Energipris-enheten med dette gruppenummeret. 0: ingen pris.",
-            "es": "Recibe el precio del dispositivo Precio de la energía con este número de grupo. 0: sin precio.",
-            "da": "Får prisen fra Energipris-enheden med dette gruppenummer. 0: ingen pris.",
-            "pl": "Pobiera cenę z urządzenia Cena energii o tym numerze grupy. 0: brak ceny.",
-            "ru": "Получает цену от устройства «Цена энергии» с этим номером группы. 0: без цены.",
-            "ar": "يحصل على السعر من جهاز سعر الطاقة الذي يحمل رقم المجموعة هذا. 0: بلا سعر.",
-            "ko": "이 그룹 번호의 에너지 가격 기기에서 가격을 가져옵니다. 0: 가격 없음."
-          },
-          "value": 1,
-          "min": 0,
-          "max": 10,
-          "step": 1
-        },
-        {
-          "id": "tariff_type",
-          "type": "dropdown",
-          "label": {
-            "en": "Tariff selection",
-            "nl": "Tariefselectie",
-            "de": "Tarifauswahl",
-            "fr": "Sélection du tarif",
-            "it": "Selezione tariffa",
-            "sv": "Tariffval",
-            "no": "Tariffvalg",
-            "es": "Selección de tarifa",
-            "da": "Tarifvalg",
-            "pl": "Wybór taryfy",
-            "ru": "Выбор тарифа",
-            "ar": "اختيار التعريفة",
-            "ko": "요금 선택"
-          },
-          "hint": {
-            "en": "Select which tariff to use for monetary calculations. 'Automatic' automatically switches based on grid import/export.",
-            "nl": "Selecteer welk tarief gebruikt moet worden voor geldberekeningen. 'Automatisch' schakelt automatisch op basis van netto import/export.",
-            "de": "Wählen Sie, welcher Tarif für Geldberechnungen verwendet werden soll. 'Automatisch' wechselt automatisch basierend auf Netzimport/-export.",
-            "fr": "Sélectionnez le tarif à utiliser pour les calculs monétaires. 'Automatique' bascule automatiquement en fonction de l'importation/exportation du réseau.",
-            "it": "Seleziona quale tariffa utilizzare per i calcoli monetari. 'Automatico' cambia automaticamente in base all'importazione/esportazione della rete.",
-            "sv": "Välj vilken tariff som ska användas för monetära beräkningar. 'Automatisk' växlar automatiskt baserat på nätimport/-export.",
-            "no": "Velg hvilken tariff som skal brukes for kostnadsberegninger. 'Automatisk' bytter automatisk basert på nettimport/-eksport.",
-            "es": "Seleccione qué tarifa usar para los cálculos monetarios. 'Automático' cambia automáticamente según la importación/exportación de la red.",
-            "da": "Vælg, hvilken takst der skal bruges til pengeberegninger. 'Automatisk' skifter automatisk baseret på netimport/-eksport.",
-            "pl": "Wybierz, której taryfy użyć do obliczeń pieniężnych. 'Automatyczny' automatycznie przełącza się na podstawie importu/eksportu sieci.",
-            "ru": "Выберите, какой тариф использовать для денежных расчетов. «Автоматический» автоматически переключается в зависимости от импорта/экспорта сети.",
-            "ar": "حدد التعريفة التي سيتم استخدامها للحسابات النقدية. 'التلقائي' يتبدل تلقائيًا بناءً على استيراد/تصدير الشبكة.",
-            "ko": "금전 계산에 사용할 요금을 선택하세요. '자동'을 선택하면 계통 수전/송전에 따라 자동으로 전환됩니다."
-          },
-          "value": "dynamic",
-          "values": [
-            {
-              "id": "dynamic",
-              "label": {
-                "en": "Automatic",
-                "nl": "Automatisch",
-                "de": "Automatisch",
-                "fr": "Automatique",
-                "it": "Automatico",
-                "sv": "Automatisk",
-                "no": "Automatisk",
-                "es": "Automático",
-                "da": "Automatisk",
-                "pl": "Automatycznie",
-                "ru": "Автоматически",
-                "ar": "تلقائي",
-                "ko": "자동"
-              }
-            },
-            {
-              "id": "import",
-              "label": {
-                "en": "Always Import",
-                "nl": "Altijd Import",
-                "de": "Immer Import",
-                "fr": "Toujours Importer",
-                "it": "Sempre Importazione",
-                "sv": "Alltid Import",
-                "no": "Alltid Import",
-                "es": "Siempre Importar",
-                "da": "Altid Import",
-                "pl": "Zawsze Import",
-                "ru": "Всегда Импорт",
-                "ar": "استيراد دائما",
-                "ko": "항상 수전(수입)"
-              }
-            },
-            {
-              "id": "export",
-              "label": {
-                "en": "Always Export",
-                "nl": "Altijd Export",
-                "de": "Immer Export",
-                "fr": "Toujours Exporter",
-                "it": "Sempre Esportazione",
-                "sv": "Alltid Export",
-                "no": "Alltid Eksport",
-                "es": "Siempre Exportar",
-                "da": "Altid Eksport",
-                "pl": "Zawsze Eksport",
-                "ru": "Всегда Экспорт",
-                "ar": "تصدير دائما",
-                "ko": "항상 송전(수출)"
-              }
-            }
-          ]
         }
       ]
     },

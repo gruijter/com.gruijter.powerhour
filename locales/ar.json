@@ -149,7 +149,11 @@
     "setup_show_advanced": "إظهار",
     "setup_section_charger": "الشاحن والسيارة",
     "setup_section_departure": "جدول المغادرة",
-    "setup_show_departure": "تعيين أوقات مغادرة ثابتة"
+    "setup_show_departure": "تعيين أوقات مغادرة ثابتة",
+    "price_info_group": "المجموعة __group__: __names__",
+    "price_info_group_none": "المجموعة __group__: لا يوجد جهاز سعر الطاقة",
+    "price_info_fixed": "تعرفة ثابتة __tariff__",
+    "price_info_fixed_export": "تعرفة ثابتة __tariff__, التصدير __export__"
   },
   "load_forecast_accuracy": "متوسط الخطأ __mae__ واط (__pct__%)، الانحياز __bias__ واط، __days__ أيام",
   "load_forecast_accuracy_collecting": "جمع البيانات",

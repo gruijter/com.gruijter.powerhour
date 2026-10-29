@@ -21,6 +21,8 @@ along with com.gruijter.powerhour.  If not, see <http://www.gnu.org/licenses/>.
 
 const GenericDriver = require('../../lib/genericDeviceDrivers/generic_sum_driver');
 
+const ADVANCED_IDS = ['markup_month', 'markup_day', 'markup_hour', 'decimals_meter'];
+
 const driverSpecifics = {
   driverId: 'water',
   fallbackMeter: 'meter_water', // a source device's primary meter, when nothing else is detected
@@ -36,7 +38,8 @@ const driverSpecifics = {
     'measure_lpm_min.month', 'measure_lpm_max.month',
     'measure_lpm_min.year', 'measure_lpm_max.year'],
   setup: {
-    settings: ['homey_device_daily_reset', 'tariff_update_group', 'tariff', 'currency'],
+    settings: ['homey_device_daily_reset', 'tariff_update_group', 'tariff', 'currency', ...ADVANCED_IDS],
+    sections: [{ id: 'advanced', ids: ADVANCED_IDS, toggle: true }],
     roles: [{ key: 'p1', kind: 'm3', label: 'meter' }],
     prices: 'water',
     requirePrice: true,

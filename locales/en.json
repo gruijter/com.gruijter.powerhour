@@ -149,7 +149,11 @@
     "setup_show_advanced": "Show",
     "setup_section_charger": "Charger and car",
     "setup_section_departure": "Departure schedule",
-    "setup_show_departure": "Set fixed departure times"
+    "setup_show_departure": "Set fixed departure times",
+    "price_info_group": "Group __group__: __names__",
+    "price_info_group_none": "Group __group__: no Energy Price device",
+    "price_info_fixed": "Fixed tariff __tariff__",
+    "price_info_fixed_export": "Fixed tariff __tariff__, export __export__"
   },
   "load_forecast_accuracy": "Avg error __mae__ W (__pct__%), bias __bias__ W, __days__ days",
   "load_forecast_accuracy_collecting": "Collecting data",

@@ -96,6 +96,10 @@ const fakeDevice = (settings, store = {}, ids = ['tariff_update_group', 'tariff'
     settings: { ...settings },
     store: { ...store },
     driver: { ds: { setup: { settings: ids } } },
+    homey: {
+      __: (key, args = {}) => `${key} ${Object.values(args).join(' ')}`.trim(),
+      drivers: { getDriver: () => ({ getDevices: () => [] }) },
+    },
     migrated: true,
     timeZone: 'Europe/Amsterdam',
     tariffHistory: { current: 0.3, currentExport: 0.3, currentTm: new Date(0) },
@@ -182,17 +186,19 @@ const fakeDevice = (settings, store = {}, ids = ['tariff_update_group', 'tariff'
   });
 
   await test('flow card: the fixed tariff applies with group 0 only, a price device keeps its price', async () => {
-    const fixed = fakeDevice({ tariff_update_group: 0, tariff: 0.25, tariff_export: 0.08 }, { fixedExport: true });
+    const fixed = fakeDevice({ tariff_update_group: 0, tariff: 0.25, tariff_export: 0.08 }, { fixedExport: true, moneyUnit: { currency: '€', decimals: 2 } });
     fixed.getName = () => 'Meter';
     await new SumFlows(fixed).set_fixed_tariff({ tariff: 0.27 });
     await new SumFlows(fixed).set_fixed_export_tariff({ tariff: 0.05 });
     assert.strictEqual(fixed.tariffHistory.current, 0.27);
     assert.strictEqual(fixed.tariffHistory.currentExport, 0.05);
+    assert.strictEqual(fixed.settings.price_info, 'repair.price_info_fixed_export € 0.27 € 0.05');
     const fed = fakeDevice({ tariff_update_group: 2, tariff: 0.25 }, { fixedExport: true });
     fed.getName = () => 'Meter';
     await new SumFlows(fed).set_fixed_tariff({ tariff: 0.27 });
     assert.strictEqual(fed.settings.tariff, 0.27); // kept for group 0
     assert.strictEqual(fed.tariffHistory.current, 0.3); // the price device's price stays
+    assert.strictEqual(fed.settings.price_info, 'repair.price_info_group_none 2');
   });
 
   Module._load = origLoad;

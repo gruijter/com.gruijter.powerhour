@@ -304,6 +304,61 @@
     {
       "type": "group",
       "label": {
+        "en": "Settings",
+        "nl": "Instellingen",
+        "de": "Einstellungen",
+        "fr": "Paramètres",
+        "it": "Impostazioni",
+        "sv": "Inställningar",
+        "no": "Innstillinger",
+        "es": "Ajustes",
+        "da": "Indstillinger",
+        "pl": "Ustawienia",
+        "ru": "Настройки",
+        "ar": "الإعدادات",
+        "ko": "설정"
+      },
+      "children": [
+        {
+          "id": "price_info",
+          "type": "label",
+          "label": {
+            "en": "Price",
+            "nl": "Prijs",
+            "de": "Preis",
+            "fr": "Prix",
+            "it": "Prezzo",
+            "sv": "Pris",
+            "no": "Pris",
+            "es": "Precio",
+            "da": "Pris",
+            "pl": "Cena",
+            "ru": "Цена",
+            "ar": "السعر",
+            "ko": "가격"
+          },
+          "value": "-",
+          "hint": {
+            "en": "Change via Repair (device menu) > Settings.",
+            "nl": "Wijzigen via Repareren (apparaatmenu) > Instellingen.",
+            "de": "Ändern über Reparieren (Gerätemenü) > Einstellungen.",
+            "fr": "Modifier via Réparer (menu de l'appareil) > Paramètres.",
+            "it": "Modifica tramite Ripara (menu dispositivo) > Impostazioni.",
+            "sv": "Ändra via Reparera (enhetsmeny) > Inställningar.",
+            "no": "Endre via Reparer (enhetsmeny) > Innstillinger.",
+            "es": "Cambiar en Reparar (menú del dispositivo) > Ajustes.",
+            "da": "Ændr via Reparer (enhedsmenu) > Indstillinger.",
+            "pl": "Zmień przez Napraw (menu urządzenia) > Ustawienia.",
+            "ru": "Изменить через Восстановить (меню устройства) > Настройки.",
+            "ar": "غيّر عبر إصلاح (قائمة الجهاز) > الإعدادات.",
+            "ko": "복구(기기 메뉴) > 설정에서 변경하세요."
+          }
+        }
+      ]
+    },
+    {
+      "type": "group",
+      "label": {
         "en": "Year start and water budget",
         "nl": "Jaarstart en waterbudget",
         "de": "Jahresbeginn und Wasserbudget",
@@ -408,242 +463,6 @@
             "ar": "إصلاح (قائمة الجهاز) > تصحيح الإجماليات أو التكاليف: صحح الإجماليات وقراءات العدادات والقيم المالية. استخدمه بعد قفزة خاطئة في العداد، أو بعد تغيير الجهاز المصدر أو تاريخ البدء، أو لإدخال الإجماليات حتى الآن بعد الاقتران.",
             "ko": "복구(기기 메뉴) > 합계 또는 비용 수정: 합계, 계량기 값, 금액을 수정합니다. 잘못된 계량기 점프 후, 소스 기기나 시작 날짜를 바꾼 후, 또는 페어링 후 지금까지의 합계를 입력할 때 사용하세요."
           }
-        },
-        {
-          "id": "decimals_meter",
-          "type": "number",
-          "label": {
-            "en": "Meter decimals",
-            "nl": "Meter decimalen",
-            "de": "Zählerdezimalstellen",
-            "fr": "Décimales du compteur",
-            "it": "Decimali contatore",
-            "sv": "Mätardecimaler",
-            "no": "Målerdesimaler",
-            "es": "Decimales del contador",
-            "da": "Målerdecimaler",
-            "pl": "Miejsca dziesiętne licznika",
-            "ru": "Десятичные знаки счётчика",
-            "ar": "الكسور العشرية للعداد",
-            "ko": "계량기 소수 자릿수"
-          },
-          "value": 4,
-          "min": 0,
-          "max": 8,
-          "hint": {
-            "en": "The number of decimals to use.",
-            "nl": "Het aantal decimalen.",
-            "de": "Die Anzahl der Dezimalstellen.",
-            "fr": "Nombre de décimales.",
-            "it": "Il numero di decimali.",
-            "sv": "Antalet decimaler som ska användas.",
-            "no": "Antall desimaler.",
-            "es": "El número de decimales a utilizar.",
-            "da": "Antallet af decimaler, der skal bruges.",
-            "pl": "Liczba miejsc dziesiętnych do użycia.",
-            "ru": "Количество используемых десятичных знаков.",
-            "ar": "عدد الكسور العشرية المراد استخدامها.",
-            "ko": "사용할 소수 자릿수입니다."
-          }
-        }
-      ]
-    },
-    {
-      "type": "group",
-      "label": {
-        "en": "Price",
-        "nl": "Prijs",
-        "de": "Preis",
-        "fr": "Prix",
-        "it": "Prezzo",
-        "sv": "Pris",
-        "no": "Pris",
-        "es": "Precio",
-        "da": "Pris",
-        "pl": "Cena",
-        "ru": "Цена",
-        "ar": "السعر",
-        "ko": "가격"
-      },
-      "children": [
-        {
-          "id": "tariff_update_group",
-          "type": "number",
-          "label": {
-            "en": "Tariff group",
-            "nl": "Tariefgroep",
-            "de": "Tarifgruppe",
-            "fr": "Groupe tarifaire",
-            "it": "Gruppo tariffario",
-            "sv": "Tariffgrupp",
-            "no": "Tariffgruppe",
-            "es": "Grupo de tarifa",
-            "da": "Takstgruppe",
-            "pl": "Grupa taryfowa",
-            "ru": "Тарифная группа",
-            "ar": "مجموعة التعريفة",
-            "ko": "요금 그룹"
-          },
-          "hint": {
-            "en": "Gets the price from the Energy Price device with this group number. 0: the fixed tariff below.",
-            "nl": "Krijgt de prijs van het Energieprijs-apparaat met dit groepsnummer. 0: het vaste tarief hieronder.",
-            "de": "Erhält den Preis vom Energiepreis-Gerät mit dieser Gruppennummer. 0: der Festtarif unten.",
-            "fr": "Reçoit le prix de l'appareil Prix de l'énergie avec ce numéro de groupe. 0 : le tarif fixe ci-dessous.",
-            "it": "Riceve il prezzo dal dispositivo Prezzo dell'energia con questo numero di gruppo. 0: la tariffa fissa qui sotto.",
-            "sv": "Får priset från Energipris-enheten med detta gruppnummer. 0: den fasta tariffen nedan.",
-            "no": "Får prisen fra Energipris-enheten med dette gruppenummeret. 0: den faste tariffen nedenfor.",
-            "es": "Recibe el precio del dispositivo Precio de la energía con este número de grupo. 0: la tarifa fija de abajo.",
-            "da": "Får prisen fra Energipris-enheden med dette gruppenummer. 0: den faste tarif nedenfor.",
-            "pl": "Pobiera cenę z urządzenia Cena energii o tym numerze grupy. 0: stała taryfa poniżej.",
-            "ru": "Получает цену от устройства «Цена энергии» с этим номером группы. 0: фиксированный тариф ниже.",
-            "ar": "يحصل على السعر من جهاز سعر الطاقة الذي يحمل رقم المجموعة هذا. 0: التعرفة الثابتة أدناه.",
-            "ko": "이 그룹 번호의 에너지 가격 기기에서 가격을 가져옵니다. 0: 아래의 고정 요금."
-          },
-          "value": 1,
-          "min": 0,
-          "max": 10,
-          "step": 1
-        },
-        {
-          "id": "tariff",
-          "type": "number",
-          "label": {
-            "en": "Fixed tariff",
-            "nl": "Vast tarief",
-            "de": "Festtarif",
-            "fr": "Tarif fixe",
-            "it": "Tariffa fissa",
-            "sv": "Fast tariff",
-            "no": "Fast tariff",
-            "es": "Tarifa fija",
-            "da": "Fast tarif",
-            "pl": "Stała taryfa",
-            "ru": "Фиксированный тариф",
-            "ar": "تعرفة ثابتة",
-            "ko": "고정 요금"
-          },
-          "hint": {
-            "en": "Price per m³ with tariff group 0.",
-            "nl": "Prijs per m³ bij tariefgroep 0.",
-            "de": "Preis pro m³ bei Tarifgruppe 0.",
-            "fr": "Prix par m³ avec le groupe tarifaire 0.",
-            "it": "Prezzo per m³ con il gruppo tariffario 0.",
-            "sv": "Pris per m³ med tariffgrupp 0.",
-            "no": "Pris per m³ med tariffgruppe 0.",
-            "es": "Precio por m³ con el grupo de tarifa 0.",
-            "da": "Pris pr. m³ med takstgruppe 0.",
-            "pl": "Cena za m³ przy grupie taryfowej 0.",
-            "ru": "Цена за м³ при тарифной группе 0.",
-            "ar": "السعر لكل م³ مع مجموعة التعرفة 0.",
-            "ko": "요금 그룹 0일 때 m³당 가격."
-          },
-          "value": 0,
-          "step": 0.0001
-        },
-        {
-          "id": "markup_month",
-          "type": "number",
-          "label": {
-            "en": "Fixed monthly costs",
-            "de": "Fixkosten pro Monat",
-            "nl": "Vaste maandelijkse kosten",
-            "fr": "Coûts mensuels fixes",
-            "it": "Costi fissi mensili",
-            "sv": "Fasta månadskostnader",
-            "no": "Faste månedlige kostnader",
-            "es": "Costos mensuales fijos",
-            "da": "Faste månedlige omkostninger",
-            "pl": "Stałe koszty miesięczne",
-            "ru": "Фиксированные ежемесячные расходы",
-            "ar": "التكاليف الشهرية الثابتة",
-            "ko": "고정 월별 비용"
-          },
-          "hint": {
-            "en": "Fixed costs that will be added at the start of every new month.",
-            "de": "Fixkosten, die zu Beginn eines jeden neuen Monats hinzukommen.",
-            "nl": "Vaste kosten die aan het begin van elke nieuwe maand worden toegevoegd.",
-            "fr": "Coûts fixes qui seront ajoutés au début de chaque nouveau mois.",
-            "it": "Costi fissi che verranno aggiunti all'inizio di ogni nuovo mese.",
-            "sv": "Fasta kostnader som läggs till i början av varje ny månad.",
-            "no": "Faste kostnader som legges til ved starten av hver ny måned.",
-            "es": "Costos fijos que se agregarán al comienzo de cada nuevo mes.",
-            "da": "Faste omkostninger, der tilføjes ved starten af hver ny måned.",
-            "pl": "Stałe koszty, które będą dodawane na początku każdego nowego miesiąca.",
-            "ru": "Фиксированные расходы, которые будут добавляться в начале каждого нового месяца.",
-            "ar": "التكاليف الثابتة التي سيتم إضافتها في بداية كل شهر جديد.",
-            "ko": "매월 시작 시 추가될 고정 비용입니다."
-          },
-          "value": 0
-        },
-        {
-          "id": "markup_day",
-          "type": "number",
-          "label": {
-            "en": "Fixed daily costs",
-            "de": "Fixkosten pro Tag",
-            "nl": "Vaste dagelijkse kosten",
-            "fr": "Coûts quotidiens fixes",
-            "it": "Costi fissi giornalieri",
-            "sv": "Fasta dagliga kostnader",
-            "no": "Faste daglige kostnader",
-            "es": "Costos diarios fijos",
-            "da": "Faste daglige omkostninger",
-            "pl": "Stałe koszty dzienne",
-            "ru": "Фиксированные ежедневные расходы",
-            "ar": "التكاليف اليومية الثابتة",
-            "ko": "고정 일일 비용"
-          },
-          "hint": {
-            "en": "Fixed costs that will be added at the start of every new day.",
-            "de": "Fixkosten, die zu Beginn eines jeden neuen Tages hinzukommen.",
-            "nl": "Vaste kosten die aan het begin van elke nieuwe dag worden toegevoegd.",
-            "fr": "Coûts fixes qui seront ajoutés au début de chaque nouveau jour.",
-            "it": "Costi fissi che verranno aggiunti all'inizio di ogni nuovo giorno.",
-            "sv": "Fasta kostnader som läggs till i början av varje ny dag.",
-            "no": "Faste kostnader som legges til ved starten av hver ny dag.",
-            "es": "Costos fijos que se agregarán al comienzo de cada nuevo día.",
-            "da": "Faste omkostninger, der tilføjes ved starten af hver ny dag.",
-            "pl": "Stałe koszty, które będą dodawane na początku każdego nowego dnia.",
-            "ru": "Фиксированные расходы, которые будут добавляться в начале каждого нового дня.",
-            "ar": "التكاليف الثابتة التي سيتم إضافتها في بداية كل يوم جديد.",
-            "ko": "매일 시작 시 추가될 고정 비용입니다."
-          },
-          "value": 0
-        },
-        {
-          "id": "markup_hour",
-          "type": "number",
-          "label": {
-            "en": "Fixed hourly costs",
-            "de": "Fixkosten pro Stunde",
-            "nl": "Vaste uurlijkse kosten",
-            "fr": "Coûts horaires fixes",
-            "it": "Costi fissi orari",
-            "sv": "Fasta timkostnader",
-            "no": "Faste timekostnader",
-            "es": "Costos por hora fijos",
-            "da": "Faste timeomkostninger",
-            "pl": "Stałe koszty godzinowe",
-            "ru": "Фиксированные почасовые расходы",
-            "ar": "التكاليف الساعية الثابتة",
-            "ko": "고정 시간별 비용"
-          },
-          "hint": {
-            "en": "Fixed costs that will be added at the start of every new hour.",
-            "de": "Fixkosten, die zu Beginn einer jeden neuen Stunde hinzukommen.",
-            "nl": "Vaste kosten die aan het begin van elke nieuwe uur worden toegevoegd.",
-            "fr": "Coûts fixes qui seront ajoutés au début de chaque nouvelle heure.",
-            "it": "Costi fissi che verranno aggiunti all'inizio di ogni nuova ora.",
-            "sv": "Fasta kostnader som läggs till i början av varje ny timme.",
-            "no": "Faste kostnader som legges til ved starten av hver ny time.",
-            "es": "Costos fijos que se agregarán al comienzo de cada nueva hora.",
-            "da": "Faste omkostninger, der tilføjes ved starten af hver ny time.",
-            "pl": "Stałe koszty, które będą dodawane na początku każdej nowej godziny.",
-            "ru": "Фиксированные расходы, которые будут добавляться в начале каждого нового часа.",
-            "ar": "التكاليف الثابتة التي سيتم إضافتها في بداية كل ساعة جديدة.",
-            "ko": "매시간 시작 시 추가될 고정 비용입니다."
-          },
-          "value": 0
         }
       ]
     }

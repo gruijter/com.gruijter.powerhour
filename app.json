@@ -20851,6 +20851,61 @@
         {
           "type": "group",
           "label": {
+            "en": "Settings",
+            "nl": "Instellingen",
+            "de": "Einstellungen",
+            "fr": "Paramètres",
+            "it": "Impostazioni",
+            "sv": "Inställningar",
+            "no": "Innstillinger",
+            "es": "Ajustes",
+            "da": "Indstillinger",
+            "pl": "Ustawienia",
+            "ru": "Настройки",
+            "ar": "الإعدادات",
+            "ko": "설정"
+          },
+          "children": [
+            {
+              "id": "price_info",
+              "type": "label",
+              "label": {
+                "en": "Price",
+                "nl": "Prijs",
+                "de": "Preis",
+                "fr": "Prix",
+                "it": "Prezzo",
+                "sv": "Pris",
+                "no": "Pris",
+                "es": "Precio",
+                "da": "Pris",
+                "pl": "Cena",
+                "ru": "Цена",
+                "ar": "السعر",
+                "ko": "가격"
+              },
+              "value": "-",
+              "hint": {
+                "en": "Change via Repair (device menu) > Settings.",
+                "nl": "Wijzigen via Repareren (apparaatmenu) > Instellingen.",
+                "de": "Ändern über Reparieren (Gerätemenü) > Einstellungen.",
+                "fr": "Modifier via Réparer (menu de l'appareil) > Paramètres.",
+                "it": "Modifica tramite Ripara (menu dispositivo) > Impostazioni.",
+                "sv": "Ändra via Reparera (enhetsmeny) > Inställningar.",
+                "no": "Endre via Reparer (enhetsmeny) > Innstillinger.",
+                "es": "Cambiar en Reparar (menú del dispositivo) > Ajustes.",
+                "da": "Ændr via Reparer (enhedsmenu) > Indstillinger.",
+                "pl": "Zmień przez Napraw (menu urządzenia) > Ustawienia.",
+                "ru": "Изменить через Восстановить (меню устройства) > Настройки.",
+                "ar": "غيّر عبر إصلاح (قائمة الجهاز) > الإعدادات.",
+                "ko": "복구(기기 메뉴) > 설정에서 변경하세요."
+              }
+            }
+          ]
+        },
+        {
+          "type": "group",
+          "label": {
             "en": "Battery properties",
             "nl": "Batterijeigenschappen",
             "de": "Batterie Eigenschaften",
@@ -21030,155 +21085,6 @@
                 "ar": "الحد الأقصى للطاقة التي يمكن تفريغ البطارية بها.",
                 "ko": "배터리를 방전할 수 있는 최대 전력입니다."
               }
-            }
-          ]
-        },
-        {
-          "type": "group",
-          "label": {
-            "en": "Price",
-            "nl": "Prijs",
-            "de": "Preis",
-            "fr": "Prix",
-            "it": "Prezzo",
-            "sv": "Pris",
-            "no": "Pris",
-            "es": "Precio",
-            "da": "Pris",
-            "pl": "Cena",
-            "ru": "Цена",
-            "ar": "السعر",
-            "ko": "가격"
-          },
-          "children": [
-            {
-              "id": "tariff_update_group",
-              "type": "number",
-              "label": {
-                "en": "Tariff group",
-                "nl": "Tariefgroep",
-                "de": "Tarifgruppe",
-                "fr": "Groupe tarifaire",
-                "it": "Gruppo tariffario",
-                "sv": "Tariffgrupp",
-                "no": "Tariffgruppe",
-                "es": "Grupo de tarifa",
-                "da": "Takstgruppe",
-                "pl": "Grupa taryfowa",
-                "ru": "Тарифная группа",
-                "ar": "مجموعة التعريفة",
-                "ko": "요금 그룹"
-              },
-              "hint": {
-                "en": "Gets the price from the Energy Price device with this group number. 0: no price.",
-                "nl": "Krijgt de prijs van het Energieprijs-apparaat met dit groepsnummer. 0: geen prijs.",
-                "de": "Erhält den Preis vom Energiepreis-Gerät mit dieser Gruppennummer. 0: kein Preis.",
-                "fr": "Reçoit le prix de l'appareil Prix de l'énergie avec ce numéro de groupe. 0 : pas de prix.",
-                "it": "Riceve il prezzo dal dispositivo Prezzo dell'energia con questo numero di gruppo. 0: nessun prezzo.",
-                "sv": "Får priset från Energipris-enheten med detta gruppnummer. 0: inget pris.",
-                "no": "Får prisen fra Energipris-enheten med dette gruppenummeret. 0: ingen pris.",
-                "es": "Recibe el precio del dispositivo Precio de la energía con este número de grupo. 0: sin precio.",
-                "da": "Får prisen fra Energipris-enheden med dette gruppenummer. 0: ingen pris.",
-                "pl": "Pobiera cenę z urządzenia Cena energii o tym numerze grupy. 0: brak ceny.",
-                "ru": "Получает цену от устройства «Цена энергии» с этим номером группы. 0: без цены.",
-                "ar": "يحصل على السعر من جهاز سعر الطاقة الذي يحمل رقم المجموعة هذا. 0: بلا سعر.",
-                "ko": "이 그룹 번호의 에너지 가격 기기에서 가격을 가져옵니다. 0: 가격 없음."
-              },
-              "value": 1,
-              "min": 0,
-              "max": 10,
-              "step": 1
-            },
-            {
-              "id": "tariff_type",
-              "type": "dropdown",
-              "label": {
-                "en": "Tariff selection",
-                "nl": "Tariefselectie",
-                "de": "Tarifauswahl",
-                "fr": "Sélection du tarif",
-                "it": "Selezione tariffa",
-                "sv": "Tariffval",
-                "no": "Tariffvalg",
-                "es": "Selección de tarifa",
-                "da": "Tarifvalg",
-                "pl": "Wybór taryfy",
-                "ru": "Выбор тарифа",
-                "ar": "اختيار التعريفة",
-                "ko": "요금 선택"
-              },
-              "hint": {
-                "en": "Select which tariff to use for monetary calculations. 'Automatic' automatically switches based on grid import/export.",
-                "nl": "Selecteer welk tarief gebruikt moet worden voor geldberekeningen. 'Automatisch' schakelt automatisch op basis van netto import/export.",
-                "de": "Wählen Sie, welcher Tarif für Geldberechnungen verwendet werden soll. 'Automatisch' wechselt automatisch basierend auf Netzimport/-export.",
-                "fr": "Sélectionnez le tarif à utiliser pour les calculs monétaires. 'Automatique' bascule automatiquement en fonction de l'importation/exportation du réseau.",
-                "it": "Seleziona quale tariffa utilizzare per i calcoli monetari. 'Automatico' cambia automaticamente in base all'importazione/esportazione della rete.",
-                "sv": "Välj vilken tariff som ska användas för monetära beräkningar. 'Automatisk' växlar automatiskt baserat på nätimport/-export.",
-                "no": "Velg hvilken tariff som skal brukes for kostnadsberegninger. 'Automatisk' bytter automatisk basert på nettimport/-eksport.",
-                "es": "Seleccione qué tarifa usar para los cálculos monetarios. 'Automático' cambia automáticamente según la importación/exportación de la red.",
-                "da": "Vælg, hvilken takst der skal bruges til pengeberegninger. 'Automatisk' skifter automatisk baseret på netimport/-eksport.",
-                "pl": "Wybierz, której taryfy użyć do obliczeń pieniężnych. 'Automatyczny' automatycznie przełącza się na podstawie importu/eksportu sieci.",
-                "ru": "Выберите, какой тариф использовать для денежных расчетов. «Автоматический» автоматически переключается в зависимости от импорта/экспорта сети.",
-                "ar": "حدد التعريفة التي سيتم استخدامها للحسابات النقدية. 'التلقائي' يتبدل تلقائيًا بناءً على استيراد/تصدير الشبكة.",
-                "ko": "금전 계산에 사용할 요금을 선택하세요. '자동'을 선택하면 계통 수전/송전에 따라 자동으로 전환됩니다."
-              },
-              "value": "dynamic",
-              "values": [
-                {
-                  "id": "dynamic",
-                  "label": {
-                    "en": "Automatic",
-                    "nl": "Automatisch",
-                    "de": "Automatisch",
-                    "fr": "Automatique",
-                    "it": "Automatico",
-                    "sv": "Automatisk",
-                    "no": "Automatisk",
-                    "es": "Automático",
-                    "da": "Automatisk",
-                    "pl": "Automatycznie",
-                    "ru": "Автоматически",
-                    "ar": "تلقائي",
-                    "ko": "자동"
-                  }
-                },
-                {
-                  "id": "import",
-                  "label": {
-                    "en": "Always Import",
-                    "nl": "Altijd Import",
-                    "de": "Immer Import",
-                    "fr": "Toujours Importer",
-                    "it": "Sempre Importazione",
-                    "sv": "Alltid Import",
-                    "no": "Alltid Import",
-                    "es": "Siempre Importar",
-                    "da": "Altid Import",
-                    "pl": "Zawsze Import",
-                    "ru": "Всегда Импорт",
-                    "ar": "استيراد دائما",
-                    "ko": "항상 수전(수입)"
-                  }
-                },
-                {
-                  "id": "export",
-                  "label": {
-                    "en": "Always Export",
-                    "nl": "Altijd Export",
-                    "de": "Immer Export",
-                    "fr": "Toujours Exporter",
-                    "it": "Sempre Esportazione",
-                    "sv": "Alltid Export",
-                    "no": "Alltid Eksport",
-                    "es": "Siempre Exportar",
-                    "da": "Altid Eksport",
-                    "pl": "Zawsze Eksport",
-                    "ru": "Всегда Экспорт",
-                    "ar": "تصدير دائما",
-                    "ko": "항상 송전(수출)"
-                  }
-                }
-              ]
             }
           ]
         },
@@ -26146,24 +26052,24 @@
           },
           "children": [
             {
-              "id": "setup_info",
+              "id": "price_info",
               "type": "label",
               "label": {
-                "en": "Price and more",
-                "nl": "Prijs en meer",
-                "de": "Preis und mehr",
-                "fr": "Prix et plus",
-                "it": "Prezzo e altro",
-                "sv": "Pris med mera",
-                "no": "Pris med mer",
-                "es": "Precio y más",
-                "da": "Pris med mere",
-                "pl": "Cena i więcej",
-                "ru": "Цена и прочее",
-                "ar": "السعر والمزيد",
-                "ko": "가격 등"
+                "en": "Price",
+                "nl": "Prijs",
+                "de": "Preis",
+                "fr": "Prix",
+                "it": "Prezzo",
+                "sv": "Pris",
+                "no": "Pris",
+                "es": "Precio",
+                "da": "Pris",
+                "pl": "Cena",
+                "ru": "Цена",
+                "ar": "السعر",
+                "ko": "가격"
               },
-              "value": "Repair",
+              "value": "-",
               "hint": {
                 "en": "Change via Repair (device menu) > Settings.",
                 "nl": "Wijzigen via Repareren (apparaatmenu) > Instellingen.",
@@ -26821,6 +26727,61 @@
         {
           "type": "group",
           "label": {
+            "en": "Settings",
+            "nl": "Instellingen",
+            "de": "Einstellungen",
+            "fr": "Paramètres",
+            "it": "Impostazioni",
+            "sv": "Inställningar",
+            "no": "Innstillinger",
+            "es": "Ajustes",
+            "da": "Indstillinger",
+            "pl": "Ustawienia",
+            "ru": "Настройки",
+            "ar": "الإعدادات",
+            "ko": "설정"
+          },
+          "children": [
+            {
+              "id": "price_info",
+              "type": "label",
+              "label": {
+                "en": "Price",
+                "nl": "Prijs",
+                "de": "Preis",
+                "fr": "Prix",
+                "it": "Prezzo",
+                "sv": "Pris",
+                "no": "Pris",
+                "es": "Precio",
+                "da": "Pris",
+                "pl": "Cena",
+                "ru": "Цена",
+                "ar": "السعر",
+                "ko": "가격"
+              },
+              "value": "-",
+              "hint": {
+                "en": "Change via Repair (device menu) > Settings.",
+                "nl": "Wijzigen via Repareren (apparaatmenu) > Instellingen.",
+                "de": "Ändern über Reparieren (Gerätemenü) > Einstellungen.",
+                "fr": "Modifier via Réparer (menu de l'appareil) > Paramètres.",
+                "it": "Modifica tramite Ripara (menu dispositivo) > Impostazioni.",
+                "sv": "Ändra via Reparera (enhetsmeny) > Inställningar.",
+                "no": "Endre via Reparer (enhetsmeny) > Innstillinger.",
+                "es": "Cambiar en Reparar (menú del dispositivo) > Ajustes.",
+                "da": "Ændr via Reparer (enhedsmenu) > Indstillinger.",
+                "pl": "Zmień przez Napraw (menu urządzenia) > Ustawienia.",
+                "ru": "Изменить через Восстановить (меню устройства) > Настройки.",
+                "ar": "غيّر عبر إصلاح (قائمة الجهاز) > الإعدادات.",
+                "ko": "복구(기기 메뉴) > 설정에서 변경하세요."
+              }
+            }
+          ]
+        },
+        {
+          "type": "group",
+          "label": {
             "en": "Year start and gas budget",
             "nl": "Jaarstart en gasbudget",
             "de": "Jahresbeginn und Gasbudget",
@@ -26925,242 +26886,6 @@
                 "ar": "إصلاح (قائمة الجهاز) > تصحيح الإجماليات أو التكاليف: صحح الإجماليات وقراءات العدادات والقيم المالية. استخدمه بعد قفزة خاطئة في العداد، أو بعد تغيير الجهاز المصدر أو تاريخ البدء، أو لإدخال الإجماليات حتى الآن بعد الاقتران.",
                 "ko": "복구(기기 메뉴) > 합계 또는 비용 수정: 합계, 계량기 값, 금액을 수정합니다. 잘못된 계량기 점프 후, 소스 기기나 시작 날짜를 바꾼 후, 또는 페어링 후 지금까지의 합계를 입력할 때 사용하세요."
               }
-            },
-            {
-              "id": "decimals_meter",
-              "type": "number",
-              "label": {
-                "en": "Meter decimals",
-                "nl": "Meter decimalen",
-                "de": "Zählerdezimalstellen",
-                "fr": "Décimales du compteur",
-                "it": "Decimali contatore",
-                "sv": "Mätardecimaler",
-                "no": "Målerdesimaler",
-                "es": "Decimales del contador",
-                "da": "Målerdecimaler",
-                "pl": "Miejsca dziesiętne licznika",
-                "ru": "Десятичные знаки счётчика",
-                "ar": "الكسور العشرية للعداد",
-                "ko": "계량기 소수 자릿수"
-              },
-              "value": 4,
-              "min": 0,
-              "max": 8,
-              "hint": {
-                "en": "The number of decimals to use.",
-                "nl": "Het aantal decimalen.",
-                "de": "Die Anzahl der Dezimalstellen.",
-                "fr": "Nombre de décimales.",
-                "it": "Il numero di decimali.",
-                "sv": "Antalet decimaler som ska användas.",
-                "no": "Antall desimaler.",
-                "es": "El número de decimales a utilizar.",
-                "da": "Antallet af decimaler, der skal bruges.",
-                "pl": "Liczba miejsc dziesiętnych do użycia.",
-                "ru": "Количество используемых десятичных знаков.",
-                "ar": "عدد الكسور العشرية المراد استخدامها.",
-                "ko": "사용할 소수 자릿수입니다."
-              }
-            }
-          ]
-        },
-        {
-          "type": "group",
-          "label": {
-            "en": "Price",
-            "nl": "Prijs",
-            "de": "Preis",
-            "fr": "Prix",
-            "it": "Prezzo",
-            "sv": "Pris",
-            "no": "Pris",
-            "es": "Precio",
-            "da": "Pris",
-            "pl": "Cena",
-            "ru": "Цена",
-            "ar": "السعر",
-            "ko": "가격"
-          },
-          "children": [
-            {
-              "id": "tariff_update_group",
-              "type": "number",
-              "label": {
-                "en": "Tariff group",
-                "nl": "Tariefgroep",
-                "de": "Tarifgruppe",
-                "fr": "Groupe tarifaire",
-                "it": "Gruppo tariffario",
-                "sv": "Tariffgrupp",
-                "no": "Tariffgruppe",
-                "es": "Grupo de tarifa",
-                "da": "Takstgruppe",
-                "pl": "Grupa taryfowa",
-                "ru": "Тарифная группа",
-                "ar": "مجموعة التعريفة",
-                "ko": "요금 그룹"
-              },
-              "hint": {
-                "en": "Gets the price from the Energy Price device with this group number. 0: the fixed tariff below.",
-                "nl": "Krijgt de prijs van het Energieprijs-apparaat met dit groepsnummer. 0: het vaste tarief hieronder.",
-                "de": "Erhält den Preis vom Energiepreis-Gerät mit dieser Gruppennummer. 0: der Festtarif unten.",
-                "fr": "Reçoit le prix de l'appareil Prix de l'énergie avec ce numéro de groupe. 0 : le tarif fixe ci-dessous.",
-                "it": "Riceve il prezzo dal dispositivo Prezzo dell'energia con questo numero di gruppo. 0: la tariffa fissa qui sotto.",
-                "sv": "Får priset från Energipris-enheten med detta gruppnummer. 0: den fasta tariffen nedan.",
-                "no": "Får prisen fra Energipris-enheten med dette gruppenummeret. 0: den faste tariffen nedenfor.",
-                "es": "Recibe el precio del dispositivo Precio de la energía con este número de grupo. 0: la tarifa fija de abajo.",
-                "da": "Får prisen fra Energipris-enheden med dette gruppenummer. 0: den faste tarif nedenfor.",
-                "pl": "Pobiera cenę z urządzenia Cena energii o tym numerze grupy. 0: stała taryfa poniżej.",
-                "ru": "Получает цену от устройства «Цена энергии» с этим номером группы. 0: фиксированный тариф ниже.",
-                "ar": "يحصل على السعر من جهاز سعر الطاقة الذي يحمل رقم المجموعة هذا. 0: التعرفة الثابتة أدناه.",
-                "ko": "이 그룹 번호의 에너지 가격 기기에서 가격을 가져옵니다. 0: 아래의 고정 요금."
-              },
-              "value": 1,
-              "min": 0,
-              "max": 10,
-              "step": 1
-            },
-            {
-              "id": "tariff",
-              "type": "number",
-              "label": {
-                "en": "Fixed tariff",
-                "nl": "Vast tarief",
-                "de": "Festtarif",
-                "fr": "Tarif fixe",
-                "it": "Tariffa fissa",
-                "sv": "Fast tariff",
-                "no": "Fast tariff",
-                "es": "Tarifa fija",
-                "da": "Fast tarif",
-                "pl": "Stała taryfa",
-                "ru": "Фиксированный тариф",
-                "ar": "تعرفة ثابتة",
-                "ko": "고정 요금"
-              },
-              "hint": {
-                "en": "Price per m³ with tariff group 0.",
-                "nl": "Prijs per m³ bij tariefgroep 0.",
-                "de": "Preis pro m³ bei Tarifgruppe 0.",
-                "fr": "Prix par m³ avec le groupe tarifaire 0.",
-                "it": "Prezzo per m³ con il gruppo tariffario 0.",
-                "sv": "Pris per m³ med tariffgrupp 0.",
-                "no": "Pris per m³ med tariffgruppe 0.",
-                "es": "Precio por m³ con el grupo de tarifa 0.",
-                "da": "Pris pr. m³ med takstgruppe 0.",
-                "pl": "Cena za m³ przy grupie taryfowej 0.",
-                "ru": "Цена за м³ при тарифной группе 0.",
-                "ar": "السعر لكل م³ مع مجموعة التعرفة 0.",
-                "ko": "요금 그룹 0일 때 m³당 가격."
-              },
-              "value": 0,
-              "step": 0.0001
-            },
-            {
-              "id": "markup_month",
-              "type": "number",
-              "label": {
-                "en": "Fixed monthly costs",
-                "de": "Fixkosten pro Monat",
-                "nl": "Vaste maandelijkse kosten",
-                "fr": "Coûts mensuels fixes",
-                "it": "Costi fissi mensili",
-                "sv": "Fasta månadskostnader",
-                "no": "Faste månedlige kostnader",
-                "es": "Costos mensuales fijos",
-                "da": "Faste månedlige omkostninger",
-                "pl": "Stałe koszty miesięczne",
-                "ru": "Фиксированные ежемесячные расходы",
-                "ar": "التكاليف الشهرية الثابتة",
-                "ko": "고정 월별 비용"
-              },
-              "hint": {
-                "en": "Fixed costs that will be added at the start of every new month.",
-                "de": "Fixkosten, die zu Beginn eines jeden neuen Monats hinzukommen.",
-                "nl": "Vaste kosten die aan het begin van elke nieuwe maand worden toegevoegd.",
-                "fr": "Coûts fixes qui seront ajoutés au début de chaque nouveau mois.",
-                "it": "Costi fissi che verranno aggiunti all'inizio di ogni nuovo mese.",
-                "sv": "Fasta kostnader som läggs till i början av varje ny månad.",
-                "no": "Faste kostnader som legges til ved starten av hver ny måned.",
-                "es": "Costos fijos que se agregarán al comienzo de cada nuevo mes.",
-                "da": "Faste omkostninger, der tilføjes ved starten af hver ny måned.",
-                "pl": "Stałe koszty, które będą dodawane na początku każdego nowego miesiąca.",
-                "ru": "Фиксированные расходы, которые будут добавляться в начале каждого нового месяца.",
-                "ar": "التكاليف الثابتة التي سيتم إضافتها في بداية كل شهر جديد.",
-                "ko": "매월 시작 시 추가될 고정 비용입니다."
-              },
-              "value": 0
-            },
-            {
-              "id": "markup_day",
-              "type": "number",
-              "label": {
-                "en": "Fixed daily costs",
-                "de": "Fixkosten pro Tag",
-                "nl": "Vaste dagelijkse kosten",
-                "fr": "Coûts quotidiens fixes",
-                "it": "Costi fissi giornalieri",
-                "sv": "Fasta dagliga kostnader",
-                "no": "Faste daglige kostnader",
-                "es": "Costos diarios fijos",
-                "da": "Faste daglige omkostninger",
-                "pl": "Stałe koszty dzienne",
-                "ru": "Фиксированные ежедневные расходы",
-                "ar": "التكاليف اليومية الثابتة",
-                "ko": "고정 일일 비용"
-              },
-              "hint": {
-                "en": "Fixed costs that will be added at the start of every new day.",
-                "de": "Fixkosten, die zu Beginn eines jeden neuen Tages hinzukommen.",
-                "nl": "Vaste kosten die aan het begin van elke nieuwe dag worden toegevoegd.",
-                "fr": "Coûts fixes qui seront ajoutés au début de chaque nouveau jour.",
-                "it": "Costi fissi che verranno aggiunti all'inizio di ogni nuovo giorno.",
-                "sv": "Fasta kostnader som läggs till i början av varje ny dag.",
-                "no": "Faste kostnader som legges til ved starten av hver ny dag.",
-                "es": "Costos fijos que se agregarán al comienzo de cada nuevo día.",
-                "da": "Faste omkostninger, der tilføjes ved starten af hver ny dag.",
-                "pl": "Stałe koszty, które będą dodawane na początku każdego nowego dnia.",
-                "ru": "Фиксированные расходы, которые будут добавляться в начале каждого нового дня.",
-                "ar": "التكاليف الثابتة التي سيتم إضافتها في بداية كل يوم جديد.",
-                "ko": "매일 시작 시 추가될 고정 비용입니다."
-              },
-              "value": 0
-            },
-            {
-              "id": "markup_hour",
-              "type": "number",
-              "label": {
-                "en": "Fixed hourly costs",
-                "de": "Fixkosten pro Stunde",
-                "nl": "Vaste uurlijkse kosten",
-                "fr": "Coûts horaires fixes",
-                "it": "Costi fissi orari",
-                "sv": "Fasta timkostnader",
-                "no": "Faste timekostnader",
-                "es": "Costos por hora fijos",
-                "da": "Faste timeomkostninger",
-                "pl": "Stałe koszty godzinowe",
-                "ru": "Фиксированные почасовые расходы",
-                "ar": "التكاليف الساعية الثابتة",
-                "ko": "고정 시간별 비용"
-              },
-              "hint": {
-                "en": "Fixed costs that will be added at the start of every new hour.",
-                "de": "Fixkosten, die zu Beginn einer jeden neuen Stunde hinzukommen.",
-                "nl": "Vaste kosten die aan het begin van elke nieuwe uur worden toegevoegd.",
-                "fr": "Coûts fixes qui seront ajoutés au début de chaque nouvelle heure.",
-                "it": "Costi fissi che verranno aggiunti all'inizio di ogni nuova ora.",
-                "sv": "Fasta kostnader som läggs till i början av varje ny timme.",
-                "no": "Faste kostnader som legges til ved starten av hver ny time.",
-                "es": "Costos fijos que se agregarán al comienzo de cada nueva hora.",
-                "da": "Faste omkostninger, der tilføjes ved starten af hver ny time.",
-                "pl": "Stałe koszty, które będą dodawane na początku każdej nowej godziny.",
-                "ru": "Фиксированные расходы, которые будут добавляться в начале каждого нового часа.",
-                "ar": "التكاليف الثابتة التي سيتم إضافتها في بداية كل ساعة جديدة.",
-                "ko": "매시간 시작 시 추가될 고정 비용입니다."
-              },
-              "value": 0
             }
           ]
         }
@@ -28328,24 +28053,24 @@
           },
           "children": [
             {
-              "id": "setup_info",
+              "id": "price_info",
               "type": "label",
               "label": {
-                "en": "Price and more",
-                "nl": "Prijs en meer",
-                "de": "Preis und mehr",
-                "fr": "Prix et plus",
-                "it": "Prezzo e altro",
-                "sv": "Pris med mera",
-                "no": "Pris med mer",
-                "es": "Precio y más",
-                "da": "Pris med mere",
-                "pl": "Cena i więcej",
-                "ru": "Цена и прочее",
-                "ar": "السعر والمزيد",
-                "ko": "가격 등"
+                "en": "Price",
+                "nl": "Prijs",
+                "de": "Preis",
+                "fr": "Prix",
+                "it": "Prezzo",
+                "sv": "Pris",
+                "no": "Pris",
+                "es": "Precio",
+                "da": "Pris",
+                "pl": "Cena",
+                "ru": "Цена",
+                "ar": "السعر",
+                "ko": "가격"
               },
-              "value": "Repair",
+              "value": "-",
               "hint": {
                 "en": "Change via Repair (device menu) > Settings.",
                 "nl": "Wijzigen via Repareren (apparaatmenu) > Instellingen.",
@@ -28850,6 +28575,61 @@
         {
           "type": "group",
           "label": {
+            "en": "Settings",
+            "nl": "Instellingen",
+            "de": "Einstellungen",
+            "fr": "Paramètres",
+            "it": "Impostazioni",
+            "sv": "Inställningar",
+            "no": "Innstillinger",
+            "es": "Ajustes",
+            "da": "Indstillinger",
+            "pl": "Ustawienia",
+            "ru": "Настройки",
+            "ar": "الإعدادات",
+            "ko": "설정"
+          },
+          "children": [
+            {
+              "id": "price_info",
+              "type": "label",
+              "label": {
+                "en": "Price",
+                "nl": "Prijs",
+                "de": "Preis",
+                "fr": "Prix",
+                "it": "Prezzo",
+                "sv": "Pris",
+                "no": "Pris",
+                "es": "Precio",
+                "da": "Pris",
+                "pl": "Cena",
+                "ru": "Цена",
+                "ar": "السعر",
+                "ko": "가격"
+              },
+              "value": "-",
+              "hint": {
+                "en": "Change via Repair (device menu) > Settings.",
+                "nl": "Wijzigen via Repareren (apparaatmenu) > Instellingen.",
+                "de": "Ändern über Reparieren (Gerätemenü) > Einstellungen.",
+                "fr": "Modifier via Réparer (menu de l'appareil) > Paramètres.",
+                "it": "Modifica tramite Ripara (menu dispositivo) > Impostazioni.",
+                "sv": "Ändra via Reparera (enhetsmeny) > Inställningar.",
+                "no": "Endre via Reparer (enhetsmeny) > Innstillinger.",
+                "es": "Cambiar en Reparar (menú del dispositivo) > Ajustes.",
+                "da": "Ændr via Reparer (enhedsmenu) > Indstillinger.",
+                "pl": "Zmień przez Napraw (menu urządzenia) > Ustawienia.",
+                "ru": "Изменить через Восстановить (меню устройства) > Настройки.",
+                "ar": "غيّر عبر إصلاح (قائمة الجهاز) > الإعدادات.",
+                "ko": "복구(기기 메뉴) > 설정에서 변경하세요."
+              }
+            }
+          ]
+        },
+        {
+          "type": "group",
+          "label": {
             "en": "Forecast and planner",
             "nl": "Voorspelling en planner",
             "de": "Prognose und Planer",
@@ -29029,369 +28809,6 @@
                 "ar": "إصلاح (قائمة الجهاز) > تصحيح الإجماليات أو التكاليف: صحح الإجماليات وقراءات العدادات والقيم المالية. استخدمه بعد قفزة خاطئة في العداد، أو بعد تغيير الجهاز المصدر أو تاريخ البدء، أو لإدخال الإجماليات حتى الآن بعد الاقتران.",
                 "ko": "복구(기기 메뉴) > 합계 또는 비용 수정: 합계, 계량기 값, 금액을 수정합니다. 잘못된 계량기 점프 후, 소스 기기나 시작 날짜를 바꾼 후, 또는 페어링 후 지금까지의 합계를 입력할 때 사용하세요."
               }
-            },
-            {
-              "id": "decimals_meter",
-              "type": "number",
-              "label": {
-                "en": "Meter decimals",
-                "nl": "Meter decimalen",
-                "de": "Zählerdezimalstellen",
-                "fr": "Décimales du compteur",
-                "it": "Decimali contatore",
-                "sv": "Mätardecimaler",
-                "no": "Målerdesimaler",
-                "es": "Decimales del contador",
-                "da": "Målerdecimaler",
-                "pl": "Miejsca dziesiętne licznika",
-                "ru": "Десятичные знаки счётчика",
-                "ar": "الكسور العشرية للعداد",
-                "ko": "계량기 소수 자릿수"
-              },
-              "value": 4,
-              "min": 0,
-              "max": 8,
-              "hint": {
-                "en": "The number of decimals to use.",
-                "nl": "Het aantal decimalen.",
-                "de": "Die Anzahl der Dezimalstellen.",
-                "fr": "Nombre de décimales.",
-                "it": "Il numero di decimali.",
-                "sv": "Antalet decimaler som ska användas.",
-                "no": "Antall desimaler.",
-                "es": "El número de decimales a utilizar.",
-                "da": "Antallet af decimaler, der skal bruges.",
-                "pl": "Liczba miejsc dziesiętnych do użycia.",
-                "ru": "Количество используемых десятичных знаков.",
-                "ar": "عدد الكسور العشرية المراد استخدامها.",
-                "ko": "사용할 소수 자릿수입니다."
-              }
-            }
-          ]
-        },
-        {
-          "type": "group",
-          "label": {
-            "en": "Price",
-            "nl": "Prijs",
-            "de": "Preis",
-            "fr": "Prix",
-            "it": "Prezzo",
-            "sv": "Pris",
-            "no": "Pris",
-            "es": "Precio",
-            "da": "Pris",
-            "pl": "Cena",
-            "ru": "Цена",
-            "ar": "السعر",
-            "ko": "가격"
-          },
-          "children": [
-            {
-              "id": "tariff_update_group",
-              "type": "number",
-              "label": {
-                "en": "Tariff group",
-                "nl": "Tariefgroep",
-                "de": "Tarifgruppe",
-                "fr": "Groupe tarifaire",
-                "it": "Gruppo tariffario",
-                "sv": "Tariffgrupp",
-                "no": "Tariffgruppe",
-                "es": "Grupo de tarifa",
-                "da": "Takstgruppe",
-                "pl": "Grupa taryfowa",
-                "ru": "Тарифная группа",
-                "ar": "مجموعة التعريفة",
-                "ko": "요금 그룹"
-              },
-              "hint": {
-                "en": "Gets the price from the Energy Price device with this group number. 0: the fixed tariff below.",
-                "nl": "Krijgt de prijs van het Energieprijs-apparaat met dit groepsnummer. 0: het vaste tarief hieronder.",
-                "de": "Erhält den Preis vom Energiepreis-Gerät mit dieser Gruppennummer. 0: der Festtarif unten.",
-                "fr": "Reçoit le prix de l'appareil Prix de l'énergie avec ce numéro de groupe. 0 : le tarif fixe ci-dessous.",
-                "it": "Riceve il prezzo dal dispositivo Prezzo dell'energia con questo numero di gruppo. 0: la tariffa fissa qui sotto.",
-                "sv": "Får priset från Energipris-enheten med detta gruppnummer. 0: den fasta tariffen nedan.",
-                "no": "Får prisen fra Energipris-enheten med dette gruppenummeret. 0: den faste tariffen nedenfor.",
-                "es": "Recibe el precio del dispositivo Precio de la energía con este número de grupo. 0: la tarifa fija de abajo.",
-                "da": "Får prisen fra Energipris-enheden med dette gruppenummer. 0: den faste tarif nedenfor.",
-                "pl": "Pobiera cenę z urządzenia Cena energii o tym numerze grupy. 0: stała taryfa poniżej.",
-                "ru": "Получает цену от устройства «Цена энергии» с этим номером группы. 0: фиксированный тариф ниже.",
-                "ar": "يحصل على السعر من جهاز سعر الطاقة الذي يحمل رقم المجموعة هذا. 0: التعرفة الثابتة أدناه.",
-                "ko": "이 그룹 번호의 에너지 가격 기기에서 가격을 가져옵니다. 0: 아래의 고정 요금."
-              },
-              "value": 1,
-              "min": 0,
-              "max": 10,
-              "step": 1
-            },
-            {
-              "id": "tariff",
-              "type": "number",
-              "label": {
-                "en": "Fixed tariff",
-                "nl": "Vast tarief",
-                "de": "Festtarif",
-                "fr": "Tarif fixe",
-                "it": "Tariffa fissa",
-                "sv": "Fast tariff",
-                "no": "Fast tariff",
-                "es": "Tarifa fija",
-                "da": "Fast tarif",
-                "pl": "Stała taryfa",
-                "ru": "Фиксированный тариф",
-                "ar": "تعرفة ثابتة",
-                "ko": "고정 요금"
-              },
-              "hint": {
-                "en": "Price per kWh with tariff group 0.",
-                "nl": "Prijs per kWh bij tariefgroep 0.",
-                "de": "Preis pro kWh bei Tarifgruppe 0.",
-                "fr": "Prix par kWh avec le groupe tarifaire 0.",
-                "it": "Prezzo per kWh con il gruppo tariffario 0.",
-                "sv": "Pris per kWh med tariffgrupp 0.",
-                "no": "Pris per kWh med tariffgruppe 0.",
-                "es": "Precio por kWh con el grupo de tarifa 0.",
-                "da": "Pris pr. kWh med takstgruppe 0.",
-                "pl": "Cena za kWh przy grupie taryfowej 0.",
-                "ru": "Цена за кВт·ч при тарифной группе 0.",
-                "ar": "السعر لكل كيلوواط ساعة مع مجموعة التعرفة 0.",
-                "ko": "요금 그룹 0일 때 kWh당 가격."
-              },
-              "value": 0,
-              "step": 0.0001
-            },
-            {
-              "id": "tariff_export",
-              "type": "number",
-              "label": {
-                "en": "Fixed export tariff",
-                "nl": "Vast terugleveringstarief",
-                "de": "Fester Einspeisetarif",
-                "fr": "Tarif fixe d'injection",
-                "it": "Tariffa fissa di immissione",
-                "sv": "Fast exporttariff",
-                "no": "Fast eksporttariff",
-                "es": "Tarifa fija de exportación",
-                "da": "Fast eksporttarif",
-                "pl": "Stała taryfa za oddawanie",
-                "ru": "Фиксированный тариф экспорта",
-                "ar": "تعرفة تصدير ثابتة",
-                "ko": "고정 수출 요금"
-              },
-              "hint": {
-                "en": "Export price per kWh with tariff group 0.",
-                "nl": "Terugleverprijs per kWh bij tariefgroep 0.",
-                "de": "Einspeisepreis pro kWh bei Tarifgruppe 0.",
-                "fr": "Prix d'injection par kWh avec le groupe tarifaire 0.",
-                "it": "Prezzo di immissione per kWh con il gruppo tariffario 0.",
-                "sv": "Exportpris per kWh med tariffgrupp 0.",
-                "no": "Eksportpris per kWh med tariffgruppe 0.",
-                "es": "Precio de exportación por kWh con el grupo de tarifa 0.",
-                "da": "Eksportpris pr. kWh med takstgruppe 0.",
-                "pl": "Cena za oddaną kWh przy grupie taryfowej 0.",
-                "ru": "Цена экспорта за кВт·ч при тарифной группе 0.",
-                "ar": "سعر التصدير لكل كيلوواط ساعة مع مجموعة التعرفة 0.",
-                "ko": "요금 그룹 0일 때 kWh당 수출 가격."
-              },
-              "value": 0,
-              "step": 0.0001
-            },
-            {
-              "id": "tariff_type",
-              "type": "dropdown",
-              "label": {
-                "en": "Tariff selection",
-                "nl": "Tariefselectie",
-                "de": "Tarifauswahl",
-                "fr": "Sélection du tarif",
-                "it": "Selezione tariffa",
-                "sv": "Tariffval",
-                "no": "Tariffvalg",
-                "es": "Selección de tarifa",
-                "da": "Tarifvalg",
-                "pl": "Wybór taryfy",
-                "ru": "Выбор тарифа",
-                "ar": "اختيار التعريفة",
-                "ko": "요금 선택"
-              },
-              "hint": {
-                "en": "Select which tariff to use for monetary calculations. 'Automatic' automatically switches based on grid import/export.",
-                "nl": "Selecteer welk tarief gebruikt moet worden voor geldberekeningen. 'Automatisch' schakelt automatisch op basis van netto import/export.",
-                "de": "Wählen Sie, welcher Tarif für Geldberechnungen verwendet werden soll. 'Automatisch' wechselt automatisch basierend auf Netzimport/-export.",
-                "fr": "Sélectionnez le tarif à utiliser pour les calculs monétaires. 'Automatique' bascule automatiquement en fonction de l'importation/exportation du réseau.",
-                "it": "Seleziona quale tariffa utilizzare per i calcoli monetari. 'Automatico' cambia automaticamente in base all'importazione/esportazione della rete.",
-                "sv": "Välj vilken tariff som ska användas för monetära beräkningar. 'Automatisk' växlar automatiskt baserat på nätimport/-export.",
-                "no": "Velg hvilken tariff som skal brukes for kostnadsberegninger. 'Automatisk' bytter automatisk basert på nettimport/-eksport.",
-                "es": "Seleccione qué tarifa usar para los cálculos monetarios. 'Automático' cambia automáticamente según la importación/exportación de la red.",
-                "da": "Vælg, hvilken takst der skal bruges til pengeberegninger. 'Automatisk' skifter automatisk baseret på netimport/-eksport.",
-                "pl": "Wybierz, której taryfy użyć do obliczeń pieniężnych. 'Automatyczny' automatycznie przełącza się na podstawie importu/eksportu sieci.",
-                "ru": "Выберите, какой тариф использовать для денежных расчетов. «Автоматический» автоматически переключается в зависимости от импорта/экспорта сети.",
-                "ar": "حدد التعريفة التي سيتم استخدامها للحسابات النقدية. 'التلقائي' يتبدل تلقائيًا بناءً على استيراد/تصدير الشبكة.",
-                "ko": "금전 계산에 사용할 요금을 선택하세요. '자동'을 선택하면 계통 수전/송전에 따라 자동으로 전환됩니다."
-              },
-              "value": "dynamic",
-              "values": [
-                {
-                  "id": "dynamic",
-                  "label": {
-                    "en": "Automatic",
-                    "nl": "Automatisch",
-                    "de": "Automatisch",
-                    "fr": "Automatique",
-                    "it": "Automatico",
-                    "sv": "Automatisk",
-                    "no": "Automatisk",
-                    "es": "Automático",
-                    "da": "Automatisk",
-                    "pl": "Automatycznie",
-                    "ru": "Автоматически",
-                    "ar": "تلقائي",
-                    "ko": "자동"
-                  }
-                },
-                {
-                  "id": "import",
-                  "label": {
-                    "en": "Always Import",
-                    "nl": "Altijd Import",
-                    "de": "Immer Import",
-                    "fr": "Toujours Importer",
-                    "it": "Sempre Importazione",
-                    "sv": "Alltid Import",
-                    "no": "Alltid Import",
-                    "es": "Siempre Importar",
-                    "da": "Altid Import",
-                    "pl": "Zawsze Import",
-                    "ru": "Всегда Импорт",
-                    "ar": "استيراد دائما",
-                    "ko": "항상 수전(수입)"
-                  }
-                },
-                {
-                  "id": "export",
-                  "label": {
-                    "en": "Always Export",
-                    "nl": "Altijd Export",
-                    "de": "Immer Export",
-                    "fr": "Toujours Exporter",
-                    "it": "Sempre Esportazione",
-                    "sv": "Alltid Export",
-                    "no": "Alltid Eksport",
-                    "es": "Siempre Exportar",
-                    "da": "Altid Eksport",
-                    "pl": "Zawsze Eksport",
-                    "ru": "Всегда Экспорт",
-                    "ar": "تصدير دائما",
-                    "ko": "항상 송전(수출)"
-                  }
-                }
-              ]
-            },
-            {
-              "id": "markup_month",
-              "type": "number",
-              "label": {
-                "en": "Fixed monthly costs",
-                "de": "Fixkosten pro Monat",
-                "nl": "Vaste maandelijkse kosten",
-                "fr": "Coûts mensuels fixes",
-                "it": "Costi fissi mensili",
-                "sv": "Fasta månadskostnader",
-                "no": "Faste månedlige kostnader",
-                "es": "Costos mensuales fijos",
-                "da": "Faste månedlige omkostninger",
-                "pl": "Stałe koszty miesięczne",
-                "ru": "Фиксированные ежемесячные расходы",
-                "ar": "التكاليف الشهرية الثابتة",
-                "ko": "고정 월별 비용"
-              },
-              "hint": {
-                "en": "Fixed costs that will be added at the start of every new month.",
-                "de": "Fixkosten, die zu Beginn eines jeden neuen Monats hinzukommen.",
-                "nl": "Vaste kosten die aan het begin van elke nieuwe maand worden toegevoegd.",
-                "fr": "Coûts fixes qui seront ajoutés au début de chaque nouveau mois.",
-                "it": "Costi fissi che verranno aggiunti all'inizio di ogni nuovo mese.",
-                "sv": "Fasta kostnader som läggs till i början av varje ny månad.",
-                "no": "Faste kostnader som legges til ved starten av hver ny måned.",
-                "es": "Costos fijos que se agregarán al comienzo de cada nuevo mes.",
-                "da": "Faste omkostninger, der tilføjes ved starten af hver ny måned.",
-                "pl": "Stałe koszty, które będą dodawane na początku każdego nowego miesiąca.",
-                "ru": "Фиксированные расходы, которые будут добавляться в начале каждого нового месяца.",
-                "ar": "التكاليف الثابتة التي سيتم إضافتها في بداية كل شهر جديد.",
-                "ko": "매월 시작 시 추가될 고정 비용입니다."
-              },
-              "value": 0
-            },
-            {
-              "id": "markup_day",
-              "type": "number",
-              "label": {
-                "en": "Fixed daily costs",
-                "de": "Fixkosten pro Tag",
-                "nl": "Vaste dagelijkse kosten",
-                "fr": "Coûts quotidiens fixes",
-                "it": "Costi fissi giornalieri",
-                "sv": "Fasta dagliga kostnader",
-                "no": "Faste daglige kostnader",
-                "es": "Costos diarios fijos",
-                "da": "Faste daglige omkostninger",
-                "pl": "Stałe koszty dzienne",
-                "ru": "Фиксированные ежедневные расходы",
-                "ar": "التكاليف اليومية الثابتة",
-                "ko": "고정 일일 비용"
-              },
-              "hint": {
-                "en": "Fixed costs that will be added at the start of every new day.",
-                "de": "Fixkosten, die zu Beginn eines jeden neuen Tages hinzukommen.",
-                "nl": "Vaste kosten die aan het begin van elke nieuwe dag worden toegevoegd.",
-                "fr": "Coûts fixes qui seront ajoutés au début de chaque nouveau jour.",
-                "it": "Costi fissi che verranno aggiunti all'inizio di ogni nuovo giorno.",
-                "sv": "Fasta kostnader som läggs till i början av varje ny dag.",
-                "no": "Faste kostnader som legges til ved starten av hver ny dag.",
-                "es": "Costos fijos que se agregarán al comienzo de cada nuevo día.",
-                "da": "Faste omkostninger, der tilføjes ved starten af hver ny dag.",
-                "pl": "Stałe koszty, które będą dodawane na początku każdego nowego dnia.",
-                "ru": "Фиксированные расходы, которые будут добавляться в начале каждого нового дня.",
-                "ar": "التكاليف الثابتة التي سيتم إضافتها في بداية كل يوم جديد.",
-                "ko": "매일 시작 시 추가될 고정 비용입니다."
-              },
-              "value": 0
-            },
-            {
-              "id": "markup_hour",
-              "type": "number",
-              "label": {
-                "en": "Fixed hourly costs",
-                "de": "Fixkosten pro Stunde",
-                "nl": "Vaste uurlijkse kosten",
-                "fr": "Coûts horaires fixes",
-                "it": "Costi fissi orari",
-                "sv": "Fasta timkostnader",
-                "no": "Faste timekostnader",
-                "es": "Costos por hora fijos",
-                "da": "Faste timeomkostninger",
-                "pl": "Stałe koszty godzinowe",
-                "ru": "Фиксированные почасовые расходы",
-                "ar": "التكاليف الساعية الثابتة",
-                "ko": "고정 시간별 비용"
-              },
-              "hint": {
-                "en": "Fixed costs that will be added at the start of every new hour.",
-                "de": "Fixkosten, die zu Beginn einer jeden neuen Stunde hinzukommen.",
-                "nl": "Vaste kosten die aan het begin van elke nieuwe uur worden toegevoegd.",
-                "fr": "Coûts fixes qui seront ajoutés au début de chaque nouvelle heure.",
-                "it": "Costi fissi che verranno aggiunti all'inizio di ogni nuova ora.",
-                "sv": "Fasta kostnader som läggs till i början av varje ny timme.",
-                "no": "Faste kostnader som legges til ved starten av hver ny time.",
-                "es": "Costos fijos que se agregarán al comienzo de cada nueva hora.",
-                "da": "Faste omkostninger, der tilføjes ved starten af hver ny time.",
-                "pl": "Stałe koszty, które będą dodawane na początku każdej nowej godziny.",
-                "ru": "Фиксированные расходы, которые будут добавляться в начале каждого нового часа.",
-                "ar": "التكاليف الثابتة التي سيتم إضافتها في بداية كل ساعة جديدة.",
-                "ko": "매시간 시작 시 추가될 고정 비용입니다."
-              },
-              "value": 0
             }
           ]
         }
@@ -32592,24 +32009,24 @@
           },
           "children": [
             {
-              "id": "setup_info",
+              "id": "price_info",
               "type": "label",
               "label": {
-                "en": "Price and more",
-                "nl": "Prijs en meer",
-                "de": "Preis und mehr",
-                "fr": "Prix et plus",
-                "it": "Prezzo e altro",
-                "sv": "Pris med mera",
-                "no": "Pris med mer",
-                "es": "Precio y más",
-                "da": "Pris med mere",
-                "pl": "Cena i więcej",
-                "ru": "Цена и прочее",
-                "ar": "السعر والمزيد",
-                "ko": "가격 등"
+                "en": "Price",
+                "nl": "Prijs",
+                "de": "Preis",
+                "fr": "Prix",
+                "it": "Prezzo",
+                "sv": "Pris",
+                "no": "Pris",
+                "es": "Precio",
+                "da": "Pris",
+                "pl": "Cena",
+                "ru": "Цена",
+                "ar": "السعر",
+                "ko": "가격"
               },
-              "value": "Repair",
+              "value": "-",
               "hint": {
                 "en": "Change via Repair (device menu) > Settings.",
                 "nl": "Wijzigen via Repareren (apparaatmenu) > Instellingen.",
@@ -33053,6 +32470,61 @@
         {
           "type": "group",
           "label": {
+            "en": "Settings",
+            "nl": "Instellingen",
+            "de": "Einstellungen",
+            "fr": "Paramètres",
+            "it": "Impostazioni",
+            "sv": "Inställningar",
+            "no": "Innstillinger",
+            "es": "Ajustes",
+            "da": "Indstillinger",
+            "pl": "Ustawienia",
+            "ru": "Настройки",
+            "ar": "الإعدادات",
+            "ko": "설정"
+          },
+          "children": [
+            {
+              "id": "price_info",
+              "type": "label",
+              "label": {
+                "en": "Price",
+                "nl": "Prijs",
+                "de": "Preis",
+                "fr": "Prix",
+                "it": "Prezzo",
+                "sv": "Pris",
+                "no": "Pris",
+                "es": "Precio",
+                "da": "Pris",
+                "pl": "Cena",
+                "ru": "Цена",
+                "ar": "السعر",
+                "ko": "가격"
+              },
+              "value": "-",
+              "hint": {
+                "en": "Change via Repair (device menu) > Settings.",
+                "nl": "Wijzigen via Repareren (apparaatmenu) > Instellingen.",
+                "de": "Ändern über Reparieren (Gerätemenü) > Einstellungen.",
+                "fr": "Modifier via Réparer (menu de l'appareil) > Paramètres.",
+                "it": "Modifica tramite Ripara (menu dispositivo) > Impostazioni.",
+                "sv": "Ändra via Reparera (enhetsmeny) > Inställningar.",
+                "no": "Endre via Reparer (enhetsmeny) > Innstillinger.",
+                "es": "Cambiar en Reparar (menú del dispositivo) > Ajustes.",
+                "da": "Ændr via Reparer (enhedsmenu) > Indstillinger.",
+                "pl": "Zmień przez Napraw (menu urządzenia) > Ustawienia.",
+                "ru": "Изменить через Восстановить (меню устройства) > Настройки.",
+                "ar": "غيّر عبر إصلاح (قائمة الجهاز) > الإعدادات.",
+                "ko": "복구(기기 메뉴) > 설정에서 변경하세요."
+              }
+            }
+          ]
+        },
+        {
+          "type": "group",
+          "label": {
             "en": "Year start and water budget",
             "nl": "Jaarstart en waterbudget",
             "de": "Jahresbeginn und Wasserbudget",
@@ -33157,242 +32629,6 @@
                 "ar": "إصلاح (قائمة الجهاز) > تصحيح الإجماليات أو التكاليف: صحح الإجماليات وقراءات العدادات والقيم المالية. استخدمه بعد قفزة خاطئة في العداد، أو بعد تغيير الجهاز المصدر أو تاريخ البدء، أو لإدخال الإجماليات حتى الآن بعد الاقتران.",
                 "ko": "복구(기기 메뉴) > 합계 또는 비용 수정: 합계, 계량기 값, 금액을 수정합니다. 잘못된 계량기 점프 후, 소스 기기나 시작 날짜를 바꾼 후, 또는 페어링 후 지금까지의 합계를 입력할 때 사용하세요."
               }
-            },
-            {
-              "id": "decimals_meter",
-              "type": "number",
-              "label": {
-                "en": "Meter decimals",
-                "nl": "Meter decimalen",
-                "de": "Zählerdezimalstellen",
-                "fr": "Décimales du compteur",
-                "it": "Decimali contatore",
-                "sv": "Mätardecimaler",
-                "no": "Målerdesimaler",
-                "es": "Decimales del contador",
-                "da": "Målerdecimaler",
-                "pl": "Miejsca dziesiętne licznika",
-                "ru": "Десятичные знаки счётчика",
-                "ar": "الكسور العشرية للعداد",
-                "ko": "계량기 소수 자릿수"
-              },
-              "value": 4,
-              "min": 0,
-              "max": 8,
-              "hint": {
-                "en": "The number of decimals to use.",
-                "nl": "Het aantal decimalen.",
-                "de": "Die Anzahl der Dezimalstellen.",
-                "fr": "Nombre de décimales.",
-                "it": "Il numero di decimali.",
-                "sv": "Antalet decimaler som ska användas.",
-                "no": "Antall desimaler.",
-                "es": "El número de decimales a utilizar.",
-                "da": "Antallet af decimaler, der skal bruges.",
-                "pl": "Liczba miejsc dziesiętnych do użycia.",
-                "ru": "Количество используемых десятичных знаков.",
-                "ar": "عدد الكسور العشرية المراد استخدامها.",
-                "ko": "사용할 소수 자릿수입니다."
-              }
-            }
-          ]
-        },
-        {
-          "type": "group",
-          "label": {
-            "en": "Price",
-            "nl": "Prijs",
-            "de": "Preis",
-            "fr": "Prix",
-            "it": "Prezzo",
-            "sv": "Pris",
-            "no": "Pris",
-            "es": "Precio",
-            "da": "Pris",
-            "pl": "Cena",
-            "ru": "Цена",
-            "ar": "السعر",
-            "ko": "가격"
-          },
-          "children": [
-            {
-              "id": "tariff_update_group",
-              "type": "number",
-              "label": {
-                "en": "Tariff group",
-                "nl": "Tariefgroep",
-                "de": "Tarifgruppe",
-                "fr": "Groupe tarifaire",
-                "it": "Gruppo tariffario",
-                "sv": "Tariffgrupp",
-                "no": "Tariffgruppe",
-                "es": "Grupo de tarifa",
-                "da": "Takstgruppe",
-                "pl": "Grupa taryfowa",
-                "ru": "Тарифная группа",
-                "ar": "مجموعة التعريفة",
-                "ko": "요금 그룹"
-              },
-              "hint": {
-                "en": "Gets the price from the Energy Price device with this group number. 0: the fixed tariff below.",
-                "nl": "Krijgt de prijs van het Energieprijs-apparaat met dit groepsnummer. 0: het vaste tarief hieronder.",
-                "de": "Erhält den Preis vom Energiepreis-Gerät mit dieser Gruppennummer. 0: der Festtarif unten.",
-                "fr": "Reçoit le prix de l'appareil Prix de l'énergie avec ce numéro de groupe. 0 : le tarif fixe ci-dessous.",
-                "it": "Riceve il prezzo dal dispositivo Prezzo dell'energia con questo numero di gruppo. 0: la tariffa fissa qui sotto.",
-                "sv": "Får priset från Energipris-enheten med detta gruppnummer. 0: den fasta tariffen nedan.",
-                "no": "Får prisen fra Energipris-enheten med dette gruppenummeret. 0: den faste tariffen nedenfor.",
-                "es": "Recibe el precio del dispositivo Precio de la energía con este número de grupo. 0: la tarifa fija de abajo.",
-                "da": "Får prisen fra Energipris-enheden med dette gruppenummer. 0: den faste tarif nedenfor.",
-                "pl": "Pobiera cenę z urządzenia Cena energii o tym numerze grupy. 0: stała taryfa poniżej.",
-                "ru": "Получает цену от устройства «Цена энергии» с этим номером группы. 0: фиксированный тариф ниже.",
-                "ar": "يحصل على السعر من جهاز سعر الطاقة الذي يحمل رقم المجموعة هذا. 0: التعرفة الثابتة أدناه.",
-                "ko": "이 그룹 번호의 에너지 가격 기기에서 가격을 가져옵니다. 0: 아래의 고정 요금."
-              },
-              "value": 1,
-              "min": 0,
-              "max": 10,
-              "step": 1
-            },
-            {
-              "id": "tariff",
-              "type": "number",
-              "label": {
-                "en": "Fixed tariff",
-                "nl": "Vast tarief",
-                "de": "Festtarif",
-                "fr": "Tarif fixe",
-                "it": "Tariffa fissa",
-                "sv": "Fast tariff",
-                "no": "Fast tariff",
-                "es": "Tarifa fija",
-                "da": "Fast tarif",
-                "pl": "Stała taryfa",
-                "ru": "Фиксированный тариф",
-                "ar": "تعرفة ثابتة",
-                "ko": "고정 요금"
-              },
-              "hint": {
-                "en": "Price per m³ with tariff group 0.",
-                "nl": "Prijs per m³ bij tariefgroep 0.",
-                "de": "Preis pro m³ bei Tarifgruppe 0.",
-                "fr": "Prix par m³ avec le groupe tarifaire 0.",
-                "it": "Prezzo per m³ con il gruppo tariffario 0.",
-                "sv": "Pris per m³ med tariffgrupp 0.",
-                "no": "Pris per m³ med tariffgruppe 0.",
-                "es": "Precio por m³ con el grupo de tarifa 0.",
-                "da": "Pris pr. m³ med takstgruppe 0.",
-                "pl": "Cena za m³ przy grupie taryfowej 0.",
-                "ru": "Цена за м³ при тарифной группе 0.",
-                "ar": "السعر لكل م³ مع مجموعة التعرفة 0.",
-                "ko": "요금 그룹 0일 때 m³당 가격."
-              },
-              "value": 0,
-              "step": 0.0001
-            },
-            {
-              "id": "markup_month",
-              "type": "number",
-              "label": {
-                "en": "Fixed monthly costs",
-                "de": "Fixkosten pro Monat",
-                "nl": "Vaste maandelijkse kosten",
-                "fr": "Coûts mensuels fixes",
-                "it": "Costi fissi mensili",
-                "sv": "Fasta månadskostnader",
-                "no": "Faste månedlige kostnader",
-                "es": "Costos mensuales fijos",
-                "da": "Faste månedlige omkostninger",
-                "pl": "Stałe koszty miesięczne",
-                "ru": "Фиксированные ежемесячные расходы",
-                "ar": "التكاليف الشهرية الثابتة",
-                "ko": "고정 월별 비용"
-              },
-              "hint": {
-                "en": "Fixed costs that will be added at the start of every new month.",
-                "de": "Fixkosten, die zu Beginn eines jeden neuen Monats hinzukommen.",
-                "nl": "Vaste kosten die aan het begin van elke nieuwe maand worden toegevoegd.",
-                "fr": "Coûts fixes qui seront ajoutés au début de chaque nouveau mois.",
-                "it": "Costi fissi che verranno aggiunti all'inizio di ogni nuovo mese.",
-                "sv": "Fasta kostnader som läggs till i början av varje ny månad.",
-                "no": "Faste kostnader som legges til ved starten av hver ny måned.",
-                "es": "Costos fijos que se agregarán al comienzo de cada nuevo mes.",
-                "da": "Faste omkostninger, der tilføjes ved starten af hver ny måned.",
-                "pl": "Stałe koszty, które będą dodawane na początku każdego nowego miesiąca.",
-                "ru": "Фиксированные расходы, которые будут добавляться в начале каждого нового месяца.",
-                "ar": "التكاليف الثابتة التي سيتم إضافتها في بداية كل شهر جديد.",
-                "ko": "매월 시작 시 추가될 고정 비용입니다."
-              },
-              "value": 0
-            },
-            {
-              "id": "markup_day",
-              "type": "number",
-              "label": {
-                "en": "Fixed daily costs",
-                "de": "Fixkosten pro Tag",
-                "nl": "Vaste dagelijkse kosten",
-                "fr": "Coûts quotidiens fixes",
-                "it": "Costi fissi giornalieri",
-                "sv": "Fasta dagliga kostnader",
-                "no": "Faste daglige kostnader",
-                "es": "Costos diarios fijos",
-                "da": "Faste daglige omkostninger",
-                "pl": "Stałe koszty dzienne",
-                "ru": "Фиксированные ежедневные расходы",
-                "ar": "التكاليف اليومية الثابتة",
-                "ko": "고정 일일 비용"
-              },
-              "hint": {
-                "en": "Fixed costs that will be added at the start of every new day.",
-                "de": "Fixkosten, die zu Beginn eines jeden neuen Tages hinzukommen.",
-                "nl": "Vaste kosten die aan het begin van elke nieuwe dag worden toegevoegd.",
-                "fr": "Coûts fixes qui seront ajoutés au début de chaque nouveau jour.",
-                "it": "Costi fissi che verranno aggiunti all'inizio di ogni nuovo giorno.",
-                "sv": "Fasta kostnader som läggs till i början av varje ny dag.",
-                "no": "Faste kostnader som legges til ved starten av hver ny dag.",
-                "es": "Costos fijos que se agregarán al comienzo de cada nuevo día.",
-                "da": "Faste omkostninger, der tilføjes ved starten af hver ny dag.",
-                "pl": "Stałe koszty, które będą dodawane na początku każdego nowego dnia.",
-                "ru": "Фиксированные расходы, которые будут добавляться в начале каждого нового дня.",
-                "ar": "التكاليف الثابتة التي سيتم إضافتها في بداية كل يوم جديد.",
-                "ko": "매일 시작 시 추가될 고정 비용입니다."
-              },
-              "value": 0
-            },
-            {
-              "id": "markup_hour",
-              "type": "number",
-              "label": {
-                "en": "Fixed hourly costs",
-                "de": "Fixkosten pro Stunde",
-                "nl": "Vaste uurlijkse kosten",
-                "fr": "Coûts horaires fixes",
-                "it": "Costi fissi orari",
-                "sv": "Fasta timkostnader",
-                "no": "Faste timekostnader",
-                "es": "Costos por hora fijos",
-                "da": "Faste timeomkostninger",
-                "pl": "Stałe koszty godzinowe",
-                "ru": "Фиксированные почасовые расходы",
-                "ar": "التكاليف الساعية الثابتة",
-                "ko": "고정 시간별 비용"
-              },
-              "hint": {
-                "en": "Fixed costs that will be added at the start of every new hour.",
-                "de": "Fixkosten, die zu Beginn einer jeden neuen Stunde hinzukommen.",
-                "nl": "Vaste kosten die aan het begin van elke nieuwe uur worden toegevoegd.",
-                "fr": "Coûts fixes qui seront ajoutés au début de chaque nouvelle heure.",
-                "it": "Costi fissi che verranno aggiunti all'inizio di ogni nuova ora.",
-                "sv": "Fasta kostnader som läggs till i början av varje ny timme.",
-                "no": "Faste kostnader som legges til ved starten av hver ny time.",
-                "es": "Costos fijos que se agregarán al comienzo de cada nueva hora.",
-                "da": "Faste omkostninger, der tilføjes ved starten af hver ny time.",
-                "pl": "Stałe koszty, które będą dodawane na początku każdej nowej godziny.",
-                "ru": "Фиксированные расходы, которые будут добавляться в начале каждого нового часа.",
-                "ar": "التكاليف الثابتة التي سيتم إضافتها في بداية كل ساعة جديدة.",
-                "ko": "매시간 시작 시 추가될 고정 비용입니다."
-              },
-              "value": 0
             }
           ]
         }

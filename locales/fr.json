@@ -149,7 +149,11 @@
     "setup_show_advanced": "Afficher",
     "setup_section_charger": "Borne et voiture",
     "setup_section_departure": "Horaire de départ",
-    "setup_show_departure": "Définir des heures de départ fixes"
+    "setup_show_departure": "Définir des heures de départ fixes",
+    "price_info_group": "Groupe __group__: __names__",
+    "price_info_group_none": "Groupe __group__: aucun appareil Prix de l'énergie",
+    "price_info_fixed": "Tarif fixe __tariff__",
+    "price_info_fixed_export": "Tarif fixe __tariff__, injection __export__"
   },
   "load_forecast_accuracy": "Écart moyen __mae__ W (__pct__%), biais __bias__ W, __days__ jours",
   "load_forecast_accuracy_collecting": "Collecte des données",

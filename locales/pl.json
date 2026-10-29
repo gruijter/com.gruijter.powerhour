@@ -149,7 +149,11 @@
     "setup_show_advanced": "Pokaż",
     "setup_section_charger": "Ładowarka i samochód",
     "setup_section_departure": "Harmonogram odjazdu",
-    "setup_show_departure": "Ustaw stałe godziny wyjazdu"
+    "setup_show_departure": "Ustaw stałe godziny wyjazdu",
+    "price_info_group": "Grupa __group__: __names__",
+    "price_info_group_none": "Grupa __group__: brak urządzenia Cena energii",
+    "price_info_fixed": "Stała taryfa __tariff__",
+    "price_info_fixed_export": "Stała taryfa __tariff__, oddawanie __export__"
   },
   "load_forecast_accuracy": "Śr. błąd __mae__ W (__pct__%), odchylenie __bias__ W, __days__ dni",
   "load_forecast_accuracy_collecting": "Zbieranie danych",

@@ -77,7 +77,8 @@ const driverSpecifics = {
   ],
   // Asked at pair and repair (lib/helpers/PairSetup.js).
   setup: {
-    settings: ['tariff_update_group', 'batCapacity', 'chargePower', 'dischargePower', 'roiEnable', 'batteryControl'],
+    settings: ['tariff_update_group', 'batCapacity', 'chargePower', 'dischargePower', 'roiEnable', 'batteryControl', 'tariff_type'],
+    sections: [{ id: 'advanced', ids: ['tariff_type'], toggle: true }],
     match: {
       classes: ['battery'],
       energy: (energy) => !!(energy.meterPowerImportedCapability || energy.meterPowerExportedCapability),

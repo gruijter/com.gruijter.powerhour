@@ -149,7 +149,11 @@
     "setup_show_advanced": "Mostrar",
     "setup_section_charger": "Cargador y coche",
     "setup_section_departure": "Horario de salida",
-    "setup_show_departure": "Establecer horas de salida fijas"
+    "setup_show_departure": "Establecer horas de salida fijas",
+    "price_info_group": "Grupo __group__: __names__",
+    "price_info_group_none": "Grupo __group__: ningún dispositivo Precio de la energía",
+    "price_info_fixed": "Tarifa fija __tariff__",
+    "price_info_fixed_export": "Tarifa fija __tariff__, exportación __export__"
   },
   "load_forecast_accuracy": "Error medio __mae__ W (__pct__%), sesgo __bias__ W, __days__ días",
   "load_forecast_accuracy_collecting": "Recopilando datos",

@@ -149,7 +149,11 @@
     "setup_show_advanced": "Vis",
     "setup_section_charger": "Lader og bil",
     "setup_section_departure": "Avgangsskjema",
-    "setup_show_departure": "Angi faste avreisetider"
+    "setup_show_departure": "Angi faste avreisetider",
+    "price_info_group": "Gruppe __group__: __names__",
+    "price_info_group_none": "Gruppe __group__: ingen Energipris-enhet",
+    "price_info_fixed": "Fast tariff __tariff__",
+    "price_info_fixed_export": "Fast tariff __tariff__, eksport __export__"
   },
   "load_forecast_accuracy": "Gj.sn. avvik __mae__ W (__pct__%), bias __bias__ W, __days__ dager",
   "load_forecast_accuracy_collecting": "Samler inn data",

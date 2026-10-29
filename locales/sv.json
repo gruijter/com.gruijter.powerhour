@@ -149,7 +149,11 @@
     "setup_show_advanced": "Visa",
     "setup_section_charger": "Laddbox och bil",
     "setup_section_departure": "Avgångsschema",
-    "setup_show_departure": "Ange fasta avresetider"
+    "setup_show_departure": "Ange fasta avresetider",
+    "price_info_group": "Grupp __group__: __names__",
+    "price_info_group_none": "Grupp __group__: ingen Energipris-enhet",
+    "price_info_fixed": "Fast tariff __tariff__",
+    "price_info_fixed_export": "Fast tariff __tariff__, export __export__"
   },
   "load_forecast_accuracy": "Medelfel __mae__ W (__pct__%), bias __bias__ W, __days__ dagar",
   "load_forecast_accuracy_collecting": "Samlar in data",

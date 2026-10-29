@@ -149,7 +149,11 @@
     "setup_show_advanced": "Показать",
     "setup_section_charger": "Зарядка и автомобиль",
     "setup_section_departure": "Расписание отправления",
-    "setup_show_departure": "Задать фиксированное время отъезда"
+    "setup_show_departure": "Задать фиксированное время отъезда",
+    "price_info_group": "Группа __group__: __names__",
+    "price_info_group_none": "Группа __group__: нет устройства «Цена энергии»",
+    "price_info_fixed": "Фиксированный тариф __tariff__",
+    "price_info_fixed_export": "Фиксированный тариф __tariff__, экспорт __export__"
   },
   "load_forecast_accuracy": "Ср. ошибка __mae__ Вт (__pct__%), смещение __bias__ Вт, __days__ дн.",
   "load_forecast_accuracy_collecting": "Сбор данных",

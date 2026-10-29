@@ -149,7 +149,11 @@
     "setup_show_advanced": "Mostra",
     "setup_section_charger": "Caricatore e auto",
     "setup_section_departure": "Programma di partenza",
-    "setup_show_departure": "Imposta orari di partenza fissi"
+    "setup_show_departure": "Imposta orari di partenza fissi",
+    "price_info_group": "Gruppo __group__: __names__",
+    "price_info_group_none": "Gruppo __group__: nessun dispositivo Prezzo dell'energia",
+    "price_info_fixed": "Tariffa fissa __tariff__",
+    "price_info_fixed_export": "Tariffa fissa __tariff__, immissione __export__"
   },
   "load_forecast_accuracy": "Errore medio __mae__ W (__pct__%), bias __bias__ W, __days__ giorni",
   "load_forecast_accuracy_collecting": "Raccolta dati",
