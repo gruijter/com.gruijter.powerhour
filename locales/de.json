@@ -140,7 +140,13 @@
     "setup_use_budget": "Jahresbudget verwenden",
     "setup_budget_title": "Jahresbudget",
     "start_budget": "Jahresbudget",
-    "start_budget_info": "Ändere das Jahresbudget, seine Verteilung und das Startdatum des Jahres."
+    "start_budget_info": "Ändere das Jahresbudget, seine Verteilung und das Startdatum des Jahres.",
+    "start_settings": "Einstellungen",
+    "start_settings_info": "Ändere die Einstellungen, mit demselben Quellgerät.",
+    "setup_section_connection": "Netzanschluss",
+    "setup_section_peak": "Leistungstarif",
+    "setup_section_advanced": "Erweitert",
+    "setup_show_advanced": "Anzeigen"
   },
   "load_forecast_accuracy": "Mittl. Fehler __mae__ W (__pct__%), Bias __bias__ W, __days__ Tage",
   "load_forecast_accuracy_collecting": "Daten werden gesammelt",

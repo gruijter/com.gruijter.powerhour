@@ -140,7 +140,13 @@
     "setup_use_budget": "Utiliser un budget annuel",
     "setup_budget_title": "Budget annuel",
     "start_budget": "Budget annuel",
-    "start_budget_info": "Modifiez le budget annuel, sa distribution et la date de début de l'année."
+    "start_budget_info": "Modifiez le budget annuel, sa distribution et la date de début de l'année.",
+    "start_settings": "Paramètres",
+    "start_settings_info": "Modifier les réglages, avec le même appareil source.",
+    "setup_section_connection": "Raccordement au réseau",
+    "setup_section_peak": "Tarif capacitaire",
+    "setup_section_advanced": "Avancé",
+    "setup_show_advanced": "Afficher"
   },
   "load_forecast_accuracy": "Écart moyen __mae__ W (__pct__%), biais __bias__ W, __days__ jours",
   "load_forecast_accuracy_collecting": "Collecte des données",

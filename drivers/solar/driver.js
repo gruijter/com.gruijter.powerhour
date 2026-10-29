@@ -53,7 +53,8 @@ const driverSpecifics = {
   // Asked at pair and repair (lib/helpers/PairSetup.js).
   setup: {
     settings: ['use_measure_source', 'homey_device_daily_reset', 'peakPower', 'tariff_update_group',
-      'tariff', 'tariff_export', 'currency', 'tariff_type'],
+      'tariff', 'tariff_export', 'currency', 'tariff_type', 'decimals_meter'],
+    sections: [{ id: 'advanced', ids: ['tariff_type', 'decimals_meter'], toggle: true }],
     roles: [{ key: 'p1', kind: 'kwh', label: 'production' },
       {
         key: 'watt', kind: 'w', label: 'power', watt: true, // Use Watt as source

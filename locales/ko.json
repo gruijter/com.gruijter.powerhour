@@ -140,7 +140,13 @@
     "setup_use_budget": "연간 예산 사용",
     "setup_budget_title": "연간 예산",
     "start_budget": "연간 예산",
-    "start_budget_info": "연간 예산, 분배 방식 및 연도 시작일을 변경합니다."
+    "start_budget_info": "연간 예산, 분배 방식 및 연도 시작일을 변경합니다.",
+    "start_settings": "설정",
+    "start_settings_info": "같은 소스 기기로 설정을 변경합니다.",
+    "setup_section_connection": "계통 연결",
+    "setup_section_peak": "용량 요금제",
+    "setup_section_advanced": "고급",
+    "setup_show_advanced": "표시"
   },
   "load_forecast_accuracy": "평균 오차 __mae__ W (__pct__%), 편향 __bias__ W, __days__일",
   "load_forecast_accuracy_collecting": "데이터 수집 중",

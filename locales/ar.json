@@ -140,7 +140,13 @@
     "setup_use_budget": "استخدام ميزانية سنوية",
     "setup_budget_title": "الميزانية السنوية",
     "start_budget": "الميزانية السنوية",
-    "start_budget_info": "غيّر الميزانية السنوية وتوزيعها وتاريخ بدء السنة."
+    "start_budget_info": "غيّر الميزانية السنوية وتوزيعها وتاريخ بدء السنة.",
+    "start_settings": "الإعدادات",
+    "start_settings_info": "غيّر الإعدادات، مع الجهاز المصدر نفسه.",
+    "setup_section_connection": "توصيل الشبكة",
+    "setup_section_peak": "تعرفة القدرة",
+    "setup_section_advanced": "متقدم",
+    "setup_show_advanced": "إظهار"
   },
   "load_forecast_accuracy": "متوسط الخطأ __mae__ واط (__pct__%)، الانحياز __bias__ واط، __days__ أيام",
   "load_forecast_accuracy_collecting": "جمع البيانات",

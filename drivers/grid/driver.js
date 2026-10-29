@@ -21,6 +21,12 @@ along with com.gruijter.powerhour.  If not, see <http://www.gnu.org/licenses/>.
 
 const GenericDriver = require('../../lib/genericDeviceDrivers/generic_sum_driver');
 const SourceCaps = require('../../lib/helpers/SourceCaps');
+const PriceZones = require('../../lib/helpers/PriceZones');
+const PeakTariff = require('../../lib/strategies/PeakTariff');
+
+const PEAK_IDS = ['peakPreset', 'peakLoadIntervalMinutes', 'peakSelection', 'peakCount', 'peakDistinctDays', 'peakHours',
+  'peakWeekdaysOnly', 'peakMonths', 'peakWeightOutside', 'peakMinimumW', 'peakPrice', 'peakSteps', 'peakHardLimitW'];
+const ADVANCED_IDS = ['tariff_type', 'markup_month', 'markup_day', 'markup_hour', 'connectionVoltage', 'fuseMarginPct', 'decimals_meter'];
 // Dependencies are lazy loaded in methods to save memory
 
 const driverSpecifics = {
@@ -74,10 +80,12 @@ const driverSpecifics = {
     // Forecast (net grid exchange)
     'measure_watt_forecast.net_h0', 'measure_watt_forecast.net_h1',
     'button.retrain_load'],
-  // Asked at pair and repair (lib/helpers/PairSetup.js).
+  // Asked at pair and repair (lib/helpers/PairSetup.js), not on the settings page.
   setup: {
     settings: ['use_measure_source', 'tariff_update_group', 'tariff', 'tariff_export', 'currency', 'directionalNettingScheme',
-      'connectionPhases', 'connectionAmps', 'peakLoadIntervalMinutes'],
+      'directionalBlockMinutes', 'connectionPhases', 'connectionAmps', ...PEAK_IDS, ...ADVANCED_IDS],
+    sections: [{ id: 'connection', ids: ['connectionPhases', 'connectionAmps'] }, { id: 'peak', ids: PEAK_IDS },
+      { id: 'advanced', ids: ADVANCED_IDS, toggle: true }],
     roles: [{ key: 'p1', kind: 'kwh' }, { key: 'n1', kind: 'kwh' },
       {
         key: 'watt', kind: 'w', label: 'power', watt: true, // Use Watt as source
@@ -172,6 +180,32 @@ class GridDriver extends GenericDriver {
       n2: null,
     };
     return group.p1 || group.n1 ? group : null;
+  }
+
+  // Capacity tariff preset: Norway proposed there when pairing; a custom one without price is none.
+  setupValue(id, value, dev, current) {
+    if (id !== 'peakPreset') return value;
+    if (!current.device) {
+      const lat = this.homey.geolocation.getLatitude();
+      const lon = this.homey.geolocation.getLongitude();
+      const { country } = PriceZones.propose(this.homey.clock.getTimezone(), Number.isFinite(lat) && Number.isFinite(lon) ? [lat, lon] : null);
+      return country === 'NO' ? 'norway' : value;
+    }
+    if (value === 'custom' && !PeakTariff.isActive(PeakTariff.configFromSettings(current.settings))) return 'none';
+    return value;
+  }
+
+  // The view hides what a preset sets: its values here, also for a new device (no onSettings).
+  setupParsed(settings) {
+    const preset = settings.peakPreset;
+    if (preset === 'none') Object.assign(settings, { peakPrice: 0, peakSteps: '' });
+    else if (PeakTariff.PRESETS[preset]) Object.assign(settings, PeakTariff.PRESETS[preset]);
+  }
+
+  async setupValidate(settings, caps, dev) {
+    const peakReason = PeakTariff.invalidReason(settings);
+    if (peakReason) throw Error(this.homey.__(peakReason));
+    return super.setupValidate(settings, caps, dev);
   }
 }
 

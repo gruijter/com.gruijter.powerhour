@@ -140,7 +140,13 @@
     "setup_use_budget": "Jaarbudget gebruiken",
     "setup_budget_title": "Jaarbudget",
     "start_budget": "Jaarbudget",
-    "start_budget_info": "Wijzig het jaarbudget, de verdeling en de startdatum van het jaar."
+    "start_budget_info": "Wijzig het jaarbudget, de verdeling en de startdatum van het jaar.",
+    "start_settings": "Instellingen",
+    "start_settings_info": "Wijzig de instellingen, met hetzelfde bronapparaat.",
+    "setup_section_connection": "Netaansluiting",
+    "setup_section_peak": "Capaciteitstarief",
+    "setup_section_advanced": "Geavanceerd",
+    "setup_show_advanced": "Tonen"
   },
   "load_forecast_accuracy": "Gem. afwijking __mae__ W (__pct__%), bias __bias__ W, __days__ dagen",
   "load_forecast_accuracy_collecting": "Gegevens verzamelen",

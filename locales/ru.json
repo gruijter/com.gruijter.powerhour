@@ -140,7 +140,13 @@
     "setup_use_budget": "Использовать годовой бюджет",
     "setup_budget_title": "Годовой бюджет",
     "start_budget": "Годовой бюджет",
-    "start_budget_info": "Измените годовой бюджет, его распределение и дату начала года."
+    "start_budget_info": "Измените годовой бюджет, его распределение и дату начала года.",
+    "start_settings": "Настройки",
+    "start_settings_info": "Изменить настройки, с тем же исходным устройством.",
+    "setup_section_connection": "Подключение к сети",
+    "setup_section_peak": "Тариф за мощность",
+    "setup_section_advanced": "Дополнительно",
+    "setup_show_advanced": "Показать"
   },
   "load_forecast_accuracy": "Ср. ошибка __mae__ Вт (__pct__%), смещение __bias__ Вт, __days__ дн.",
   "load_forecast_accuracy_collecting": "Сбор данных",

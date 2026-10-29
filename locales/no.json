@@ -140,7 +140,13 @@
     "setup_use_budget": "Bruk et årsbudsjett",
     "setup_budget_title": "Årsbudsjett",
     "start_budget": "Årsbudsjett",
-    "start_budget_info": "Endre årsbudsjettet, fordelingen og startdatoen for året."
+    "start_budget_info": "Endre årsbudsjettet, fordelingen og startdatoen for året.",
+    "start_settings": "Innstillinger",
+    "start_settings_info": "Endre innstillingene, med samme kildeenhet.",
+    "setup_section_connection": "Nettilknytning",
+    "setup_section_peak": "Effekttariff",
+    "setup_section_advanced": "Avansert",
+    "setup_show_advanced": "Vis"
   },
   "load_forecast_accuracy": "Gj.sn. avvik __mae__ W (__pct__%), bias __bias__ W, __days__ dager",
   "load_forecast_accuracy_collecting": "Samler inn data",

@@ -140,7 +140,13 @@
     "setup_use_budget": "Usar un presupuesto anual",
     "setup_budget_title": "Presupuesto anual",
     "start_budget": "Presupuesto anual",
-    "start_budget_info": "Cambia el presupuesto anual, su distribución y la fecha de inicio del año."
+    "start_budget_info": "Cambia el presupuesto anual, su distribución y la fecha de inicio del año.",
+    "start_settings": "Ajustes",
+    "start_settings_info": "Cambia los ajustes, con el mismo dispositivo de origen.",
+    "setup_section_connection": "Conexión a la red",
+    "setup_section_peak": "Tarifa de potencia",
+    "setup_section_advanced": "Avanzado",
+    "setup_show_advanced": "Mostrar"
   },
   "load_forecast_accuracy": "Error medio __mae__ W (__pct__%), sesgo __bias__ W, __days__ días",
   "load_forecast_accuracy_collecting": "Recopilando datos",

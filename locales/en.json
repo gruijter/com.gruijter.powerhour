@@ -140,7 +140,13 @@
     "setup_use_budget": "Use a year budget",
     "setup_budget_title": "Year budget",
     "start_budget": "Year budget",
-    "start_budget_info": "Change the year budget, its distribution and the start date of the year."
+    "start_budget_info": "Change the year budget, its distribution and the start date of the year.",
+    "start_settings": "Settings",
+    "start_settings_info": "Change the settings, with the same source device.",
+    "setup_section_connection": "Grid connection",
+    "setup_section_peak": "Capacity tariff",
+    "setup_section_advanced": "Advanced",
+    "setup_show_advanced": "Show"
   },
   "load_forecast_accuracy": "Avg error __mae__ W (__pct__%), bias __bias__ W, __days__ days",
   "load_forecast_accuracy_collecting": "Collecting data",

@@ -4,6 +4,7 @@
 		<div data-part="settings"></div>
 		<fieldset class="homey-form-checkbox-set" data-part="checkboxes"></fieldset>
 	</fieldset>
+	<div data-part="sections"></div>
 	<fieldset class="homey-form-fieldset" data-part="budgetSection" style="display: none;">
 		<legend class="homey-form-legend" data-part="budgetTitle"></legend>
 		<div data-part="budget"></div>
@@ -110,6 +111,7 @@
 			const field = input(s.showIf.id);
 			if (!parent || !field || !shown(parent)) return false;
 			const value = parent.type === 'checkbox' ? field.checked : field.value;
+			if (s.showIf.values) return s.showIf.values.includes(value);
 			return s.showIf.not !== undefined ? value !== s.showIf.not : value === s.showIf.value;
 		};
 		const showDependent = () => {
@@ -133,6 +135,15 @@
 				part('title').textContent = data.title || '';
 				settingDefs = data.settings || [];
 				if (!settingDefs.some((s) => !s.section)) part('main').style.display = 'none';
+				// The driver's own sections, each a fieldset with a title.
+				(data.sections || []).forEach((sec) => {
+					const set = el('fieldset', { className: 'homey-form-fieldset' });
+					set.appendChild(el('legend', { className: 'homey-form-legend', textContent: sec.title }));
+					const body = el('div');
+					body.dataset.part = sec.id;
+					set.appendChild(body);
+					part('sections').appendChild(set);
+				});
 				if (settingDefs.some((s) => s.section === 'budget')) {
 					part('budgetSection').style.display = '';
 					part('budgetTitle').textContent = data.budgetTitle || '';

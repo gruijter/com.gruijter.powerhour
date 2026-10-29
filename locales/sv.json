@@ -140,7 +140,13 @@
     "setup_use_budget": "Använd en årsbudget",
     "setup_budget_title": "Årsbudget",
     "start_budget": "Årsbudget",
-    "start_budget_info": "Ändra årsbudgeten, dess fördelning och årets startdatum."
+    "start_budget_info": "Ändra årsbudgeten, dess fördelning och årets startdatum.",
+    "start_settings": "Inställningar",
+    "start_settings_info": "Ändra inställningarna, med samma källenhet.",
+    "setup_section_connection": "Nätanslutning",
+    "setup_section_peak": "Effekttariff",
+    "setup_section_advanced": "Avancerat",
+    "setup_show_advanced": "Visa"
   },
   "load_forecast_accuracy": "Medelfel __mae__ W (__pct__%), bias __bias__ W, __days__ dagar",
   "load_forecast_accuracy_collecting": "Samlar in data",

@@ -140,7 +140,13 @@
     "setup_use_budget": "Użyj budżetu rocznego",
     "setup_budget_title": "Budżet roczny",
     "start_budget": "Budżet roczny",
-    "start_budget_info": "Zmień budżet roczny, jego rozkład i datę rozpoczęcia roku."
+    "start_budget_info": "Zmień budżet roczny, jego rozkład i datę rozpoczęcia roku.",
+    "start_settings": "Ustawienia",
+    "start_settings_info": "Zmień ustawienia, z tym samym urządzeniem źródłowym.",
+    "setup_section_connection": "Przyłącze sieciowe",
+    "setup_section_peak": "Taryfa mocowa",
+    "setup_section_advanced": "Zaawansowane",
+    "setup_show_advanced": "Pokaż"
   },
   "load_forecast_accuracy": "Śr. błąd __mae__ W (__pct__%), odchylenie __bias__ W, __days__ dni",
   "load_forecast_accuracy_collecting": "Zbieranie danych",
