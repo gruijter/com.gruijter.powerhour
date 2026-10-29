@@ -433,10 +433,10 @@ class PowerDevice extends GenericDevice {
     return at;
   }
 
-  // Flow: a run that starts by deadline (ms), once.
-  async planStartBy(deadline) {
+  // Flow: a run that starts by deadline (ms), once; earliest (ms): not before.
+  async planStartBy(deadline, earliest = null) {
     if (!this.getApplianceProfile()) throw Error(this.homey.__('error_appliance_not_learned', { runs: ApplianceModel.MIN_RUNS }));
-    return this.setAppliancePlan({ deadline, notified: false });
+    return this.setAppliancePlan({ earliest, deadline, notified: false });
   }
 
   async setAppliancePlan(plan) {
@@ -449,16 +449,19 @@ class PowerDevice extends GenericDevice {
     return this.appliancePlan;
   }
 
-  // The cheapest start from now to the deadline; without prices at the deadline.
+  // The cheapest start from now (or the plan's earliest) to the deadline; without prices at the deadline.
   replanAppliance() {
     const plan = this.appliancePlan;
     const profile = this.getApplianceProfile();
     if (!plan || plan.notified || !profile) return;
-    const nowMs = Date.now();
-    const best = ApplianceModel.bestStart(profile, { priceAt: (ms) => this.priceAt(ms), nowMs, latestStartMs: plan.deadline });
+    const now = Date.now();
+    const priceAt = (ms) => this.priceAt(ms);
+    const nowMs = Math.max(now, plan.earliest || 0);
+    const best = ApplianceModel.bestStart(profile, { priceAt, nowMs, latestStartMs: plan.deadline });
     plan.startMs = best ? best.startMs : Math.max(nowMs, plan.deadline);
     plan.cost = best ? best.cost : null;
     plan.costNow = best ? best.costNow : null;
+    if (nowMs > now) plan.costNow = ApplianceModel.runCost(profile, priceAt, now); // "Saving vs now" stays vs now
   }
 
   // The planned start: trigger the flow once; a plan without a run soon after its deadline ends.
@@ -650,6 +653,16 @@ class PowerDevice extends GenericDevice {
     const hhmm = EvPlanner.parseTime(time);
     if (!hhmm) throw Error(this.homey.__('error_invalid_time', { time }));
     return this.planTokens(await this.planStartBy(this.nextLocalTime(hhmm)));
+  }
+
+  // Flow: plan the cheapest start between two times (over midnight when to is not later); tokens.
+  async planApplianceBetween(from, to) {
+    const fromH = TimeHelpers.parseClock(from);
+    const toH = TimeHelpers.parseClock(to);
+    if (fromH === null || fromH >= 24) throw Error(this.homey.__('error_invalid_time', { time: from }));
+    if (toH === null) throw Error(this.homey.__('error_invalid_time', { time: to }));
+    const window = ApplianceModel.startWindow(fromH, toH, Date.now(), this.timeZone);
+    return this.planTokens(await this.planStartBy(window.toMs, window.fromMs));
   }
 
   // The next run: running, the flow's plan, else the earlier of a day picker's start and the
