@@ -36,10 +36,12 @@ const Flows = require('./lib/flows/Flows');
 const TimeHelpers = require('./lib/helpers/TimeHelpers');
 const PriceDrivers = require('./lib/helpers/PriceDrivers');
 const MigrationNotice = require('./lib/helpers/MigrationNotice');
+const MemLog = require('./lib/helpers/MemLog');
 
 class MyApp extends Homey.App {
 
   async onInit() {
+    this.memLog = new MemLog(this); this.memLog.start();
     try {
       this.registerFlowListeners();
       await this.initApi();
@@ -60,6 +62,7 @@ class MyApp extends Homey.App {
 
   async onUninit() {
     this.log('app onUninit called');
+    if (this.memLog) this.memLog.stop();
     if (this.migrationNotice) this.migrationNotice.stop();
     if (this.everyHourId) this.homey.clearTimeout(this.everyHourId);
     if (this.everyXMinutesId) this.homey.clearTimeout(this.everyXMinutesId);
