@@ -25135,10 +25135,7 @@
           "id": "setup"
         },
         {
-          "id": "custom_budget",
-          "navigation": {
-            "prev": "setup"
-          }
+          "id": "custom_budget"
         }
       ],
       "repair": [
@@ -25942,10 +25939,7 @@
           "id": "setup"
         },
         {
-          "id": "custom_budget",
-          "navigation": {
-            "prev": "setup"
-          }
+          "id": "custom_budget"
         }
       ],
       "repair": [
@@ -27258,10 +27252,7 @@
           "id": "setup"
         },
         {
-          "id": "custom_budget",
-          "navigation": {
-            "prev": "setup"
-          }
+          "id": "custom_budget"
         }
       ],
       "repair": [
@@ -27802,10 +27793,7 @@
           "id": "setup"
         },
         {
-          "id": "custom_budget",
-          "navigation": {
-            "prev": "setup"
-          }
+          "id": "custom_budget"
         }
       ],
       "repair": [
@@ -29097,10 +29085,7 @@
           "id": "setup"
         },
         {
-          "id": "custom_budget",
-          "navigation": {
-            "prev": "setup"
-          }
+          "id": "custom_budget"
         }
       ],
       "repair": [
@@ -29655,10 +29640,7 @@
           "id": "setup"
         },
         {
-          "id": "custom_budget",
-          "navigation": {
-            "prev": "setup"
-          }
+          "id": "custom_budget"
         }
       ],
       "repair": [

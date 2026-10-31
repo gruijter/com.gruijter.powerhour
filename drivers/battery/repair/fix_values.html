@@ -15,9 +15,17 @@
 		<div id="changes"></div>
 	</fieldset>
 
-	<button class="homey-button-primary-full" id="fixNext" data-i18n="repair.setup_next"></button>
-	<button class="homey-button-transparent" id="fixBack" data-i18n="repair.back"></button>
+	<div class="pbth-nav-space"></div>
+	<div class="pbth-nav">
+		<button class="homey-button-transparent" id="fixBack"></button>
+		<button class="homey-button-primary" id="fixNext"></button>
+	</div>
 </form>
+<style>
+	/* Previous and Next fixed at the bottom, like Homey's own views (no Homey class for it). */
+	.pbth-nav { position: fixed; left: 0; right: 0; bottom: 0; display: flex; justify-content: space-between; align-items: center; padding: var(--homey-su-2); background: var(--homey-color-white); }
+	.pbth-nav-space { height: 88px; }
+</style>
 
 <script>
 	// The same file in repair/ of each driver with this view (lib/helpers/FixValues.js).
@@ -27,6 +35,7 @@
 		const forms = document.querySelectorAll('form[data-view="fix_values"]');
 		const root = forms[forms.length - 1];
 		Homey.setTitle(Homey.__('repair.start_fix'));
+		root.querySelector('#fixBack').textContent = `← ${Homey.__('repair.nav_previous')}`;
 		const STEPS = ['what', 'values', 'confirm'];
 		let data = { kinds: [] };
 		let step = 0;
@@ -72,8 +81,7 @@
 
 		const show = () => {
 			root.querySelectorAll('[data-step]').forEach((s) => { s.style.display = s.dataset.step === STEPS[step] ? '' : 'none'; });
-			root.querySelector('#fixBack').style.display = step === 0 ? 'none' : '';
-			root.querySelector('#fixNext').textContent = Homey.__(step === STEPS.length - 1 ? 'repair.fix_apply' : 'repair.setup_next');
+			root.querySelector('#fixNext').textContent = step === STEPS.length - 1 ? Homey.__('repair.fix_apply') : `${Homey.__('repair.nav_next')} →`;
 			const k = kind();
 			if (!k) return;
 			root.querySelector('#valuesTitle').textContent = k.label;
@@ -88,7 +96,12 @@
 			}
 		};
 
+		// The first step goes back to the repair choices.
 		root.querySelector('#fixBack').addEventListener('click', () => {
+			if (step === 0) {
+				Homey.showView('repair_start');
+				return;
+			}
 			step -= 1;
 			show();
 		});

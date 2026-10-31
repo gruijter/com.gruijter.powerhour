@@ -3,8 +3,16 @@
 		<legend class="homey-form-legend" data-i18n="repair.start_question"></legend>
 		<fieldset class="homey-form-radio-set" id="choice"></fieldset>
 	</fieldset>
-	<button class="homey-button-primary-full" id="startNext" data-i18n="repair.setup_next"></button>
+	<div class="pbth-nav-space"></div>
+	<div class="pbth-nav" style="justify-content: flex-end;">
+		<button class="homey-button-primary" id="startNext"></button>
+	</div>
 </form>
+<style>
+	/* Previous and Next fixed at the bottom, like Homey's own views (no Homey class for it). */
+	.pbth-nav { position: fixed; left: 0; right: 0; bottom: 0; display: flex; justify-content: space-between; align-items: center; padding: var(--homey-su-2); background: var(--homey-color-white); }
+	.pbth-nav-space { height: 88px; }
+</style>
 
 <script>
 	// The same file in repair/ of each driver with a setup view (lib/helpers/PairSetup.js).
@@ -14,6 +22,7 @@
 		const forms = document.querySelectorAll('form[data-view="repair_start"]');
 		const root = forms[forms.length - 1];
 		Homey.setTitle(Homey.__('repair.start_title'));
+		root.querySelector('#startNext').textContent = `${Homey.__('repair.nav_next')} →`;
 		const el = (tag, props = {}) => Object.assign(document.createElement(tag), props);
 		const set = root.querySelector('#choice');
 		// The choices from the driver: source, and per device fix values and the year budget.

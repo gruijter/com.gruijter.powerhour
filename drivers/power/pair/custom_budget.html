@@ -14,8 +14,17 @@
 		<div data-part="months" style="display: grid; grid-template-columns: auto 1fr auto 1fr; gap: 8px 12px; align-items: center;"></div>
 		<p class="homey-subtitle" data-part="sum"></p>
 	</fieldset>
-	<button class="homey-button-primary-full" data-part="next" data-i18n="repair.setup_next"></button>
+	<div class="pbth-nav-space"></div>
+	<div class="pbth-nav">
+		<button class="homey-button-transparent" data-part="back"></button>
+		<button class="homey-button-primary" data-part="next"></button>
+	</div>
 </form>
+<style>
+	/* Previous and Next fixed at the bottom, like Homey's own views (no Homey class for it). */
+	.pbth-nav { position: fixed; left: 0; right: 0; bottom: 0; display: flex; justify-content: space-between; align-items: center; padding: var(--homey-su-2); background: var(--homey-color-white); }
+	.pbth-nav-space { height: 88px; }
+</style>
 
 <script>
 	// The same file in pair/ and repair/ of each driver with a year budget: the 12 months of a Custom
@@ -26,6 +35,10 @@
 		const root = forms[forms.length - 1];
 		const part = (name) => root.querySelector(`[data-part="${name}"]`);
 		Homey.setTitle(Homey.__('budget.custom_title'));
+		part('back').textContent = `← ${Homey.__('repair.nav_previous')}`;
+		part('next').textContent = `${Homey.__('repair.nav_next')} →`;
+		// Back to the view that opened this one (setup.html sets it; the views share one document).
+		part('back').addEventListener('click', () => Homey.showView(window.pbthCustomFrom || 'setup'));
 		const el = (tag, props = {}) => Object.assign(document.createElement(tag), props);
 		let unit = '';
 		let inputs = [];
