@@ -103,6 +103,20 @@ class MyApp extends Homey.App {
     return this.insightsLogsPending;
   }
 
+  // One fetch per key and local day, shared by all devices. An empty result is not kept: the
+  // caller retries later.
+  getSharedDaily(key, day, fetch) {
+    if (!this.sharedDaily || this.sharedDaily.day !== day) this.sharedDaily = { day, values: new Map() };
+    const { values } = this.sharedDaily;
+    if (!values.has(key)) {
+      values.set(key, fetch().catch(() => null).then((value) => {
+        if (value == null) values.delete(key);
+        return value;
+      }));
+    }
+    return values.get(key);
+  }
+
   async initApi() {
     if (this.apiRetryId) this.homey.clearTimeout(this.apiRetryId);
     try {
