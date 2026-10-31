@@ -164,10 +164,7 @@
       }
     },
     {
-      "id": "setup",
-      "navigation": {
-        "prev": "list_devices"
-      }
+      "id": "setup"
     }
   ],
   "repair": [
@@ -186,10 +183,7 @@
       }
     },
     {
-      "id": "setup",
-      "navigation": {
-        "prev": "list_devices"
-      }
+      "id": "setup"
     },
     {
       "id": "fix_values"
@@ -242,19 +236,19 @@
           },
           "value": "unknown",
           "hint": {
-            "en": "Do a repair to change. ID of the battery.",
-            "nl": "Repareer om te wijzigen. ID van de batterij.",
-            "de": "Zum Ändern reparieren. ID der Batterie.",
-            "fr": "Réparer pour modifier. ID de la batterie.",
-            "it": "Ripara per modificare. ID della batteria.",
-            "sv": "Reparera för att ändra. Batteriets ID.",
-            "no": "Reparer for å endre. Batteriets ID.",
-            "es": "Repara para cambiar. ID de la batería.",
-            "da": "Reparer for at ændre. Batteriets ID.",
-            "pl": "Napraw, aby zmienić. ID baterii.",
-            "ru": "Чтобы изменить, выберите «Исправить». ID батареи.",
-            "ar": "نفّذ إصلاحًا للتغيير. معرّف البطارية.",
-            "ko": "변경하려면 수리하세요. 배터리 ID."
+            "en": "ID of the battery. Do a repair to change.",
+            "nl": "ID van de batterij. Repareer om te wijzigen.",
+            "de": "ID der Batterie. Zum Ändern reparieren.",
+            "fr": "ID de la batterie. Réparer pour modifier.",
+            "it": "ID della batteria. Ripara per modificare.",
+            "sv": "Batteriets ID. Reparera för att ändra.",
+            "no": "Batteriets ID. Reparer for å endre.",
+            "es": "ID de la batería. Repara para cambiar.",
+            "da": "Batteriets ID. Reparer for at ændre.",
+            "pl": "ID baterii. Napraw, aby zmienić.",
+            "ru": "ID батареи. Чтобы изменить, выберите «Исправить».",
+            "ar": "معرّف البطارية. نفّذ إصلاحًا للتغيير.",
+            "ko": "배터리 ID. 변경하려면 수리하세요."
           }
         },
         {
@@ -277,19 +271,19 @@
           },
           "value": "unknown",
           "hint": {
-            "en": "Do a repair to change. Battery that is read and controlled.",
-            "nl": "Repareer om te wijzigen. Batterij die gelezen en aangestuurd wordt.",
-            "de": "Zum Ändern reparieren. Gelesene und gesteuerte Batterie.",
-            "fr": "Réparer pour modifier. Batterie lue et pilotée.",
-            "it": "Ripara per modificare. Batteria letta e controllata.",
-            "sv": "Reparera för att ändra. Batteri som läses och styrs.",
-            "no": "Reparer for å endre. Batteri som leses og styres.",
-            "es": "Repara para cambiar. Batería leída y controlada.",
-            "da": "Reparer for at ændre. Batteri der læses og styres.",
-            "pl": "Napraw, aby zmienić. Odczytywana i sterowana bateria.",
-            "ru": "Чтобы изменить, выберите «Исправить». Считываемая и управляемая батарея.",
-            "ar": "نفّذ إصلاحًا للتغيير. البطارية التي تتم قراءتها والتحكم فيها.",
-            "ko": "변경하려면 수리하세요. 읽고 제어하는 배터리."
+            "en": "Battery that is read and controlled. Do a repair to change.",
+            "nl": "Batterij die gelezen en aangestuurd wordt. Repareer om te wijzigen.",
+            "de": "Gelesene und gesteuerte Batterie. Zum Ändern reparieren.",
+            "fr": "Batterie lue et pilotée. Réparer pour modifier.",
+            "it": "Batteria letta e controllata. Ripara per modificare.",
+            "sv": "Batteri som läses och styrs. Reparera för att ändra.",
+            "no": "Batteri som leses og styres. Reparer for å endre.",
+            "es": "Batería leída y controlada. Repara para cambiar.",
+            "da": "Batteri der læses og styres. Reparer for at ændre.",
+            "pl": "Odczytywana i sterowana bateria. Napraw, aby zmienić.",
+            "ru": "Считываемая и управляемая батарея. Чтобы изменить, выберите «Исправить».",
+            "ar": "البطارية التي تتم قراءتها والتحكم فيها. نفّذ إصلاحًا للتغيير.",
+            "ko": "읽고 제어하는 배터리. 변경하려면 수리하세요."
           }
         }
       ]
@@ -332,19 +326,19 @@
           },
           "value": "-",
           "hint": {
-            "en": "Do a repair to change. Price used for money values.",
-            "nl": "Repareer om te wijzigen. Prijs voor de geldwaarden.",
-            "de": "Zum Ändern reparieren. Preis für die Geldwerte.",
-            "fr": "Réparer pour modifier. Prix utilisé pour les montants.",
-            "it": "Ripara per modificare. Prezzo per i valori in denaro.",
-            "sv": "Reparera för att ändra. Pris för penningvärdena.",
-            "no": "Reparer for å endre. Pris for pengeverdiene.",
-            "es": "Repara para cambiar. Precio para los importes.",
-            "da": "Reparer for at ændre. Pris til pengeværdierne.",
-            "pl": "Napraw, aby zmienić. Cena dla wartości pieniężnych.",
-            "ru": "Чтобы изменить, выберите «Исправить». Цена для денежных значений.",
-            "ar": "نفّذ إصلاحًا للتغيير. السعر المستخدم للقيم المالية.",
-            "ko": "변경하려면 수리하세요. 금액 계산에 쓰는 가격."
+            "en": "Price used for money values. Do a repair to change.",
+            "nl": "Prijs voor de geldwaarden. Repareer om te wijzigen.",
+            "de": "Preis für die Geldwerte. Zum Ändern reparieren.",
+            "fr": "Prix utilisé pour les montants. Réparer pour modifier.",
+            "it": "Prezzo per i valori in denaro. Ripara per modificare.",
+            "sv": "Pris för penningvärdena. Reparera för att ändra.",
+            "no": "Pris for pengeverdiene. Reparer for å endre.",
+            "es": "Precio para los importes. Repara para cambiar.",
+            "da": "Pris til pengeværdierne. Reparer for at ændre.",
+            "pl": "Cena dla wartości pieniężnych. Napraw, aby zmienić.",
+            "ru": "Цена для денежных значений. Чтобы изменить, выберите «Исправить».",
+            "ar": "السعر المستخدم للقيم المالية. نفّذ إصلاحًا للتغيير.",
+            "ko": "금액 계산에 쓰는 가격. 변경하려면 수리하세요."
           }
         }
       ]
@@ -442,19 +436,19 @@
             "ko": "보정"
           },
           "hint": {
-            "en": "Running, or when the next one is due. Start or stop one with a flow.",
-            "nl": "Bezig, of wanneer de volgende aan de beurt is. Starten of stoppen met een flow.",
-            "de": "Läuft, oder wann die nächste fällig ist. Starten oder stoppen per Flow.",
-            "fr": "En cours, ou quand la prochaine est prévue. Démarrer ou arrêter via un flow.",
-            "it": "In corso, o quando è prevista la prossima. Avvia o ferma con un flow.",
-            "sv": "Pågår, eller när nästa är aktuell. Starta eller stoppa med ett Flow.",
-            "no": "Pågår, eller når den neste er aktuell. Start eller stopp med en Flow.",
-            "es": "En curso, o cuándo toca la siguiente. Iniciar o detener con un flow.",
-            "da": "I gang, eller hvornår den næste er aktuel. Start eller stop med et flow.",
-            "pl": "W toku lub kiedy wypada następna. Start lub stop przez flow.",
-            "ru": "Идёт, или когда следующая. Запуск или остановка через Flow.",
-            "ar": "جارية، أو موعد المعايرة التالية. ابدأ أو أوقف عبر Flow.",
-            "ko": "진행 중이거나 다음 보정 예정 시점입니다. Flow로 시작하거나 중지합니다."
+            "en": "Now and then empties and fills the battery fully, so it corrects its own SoC. Start or stop it with a flow.",
+            "nl": "Maakt de batterij af en toe helemaal leeg en vol, zodat die zijn eigen SoC corrigeert. Start of stop met een flow.",
+            "de": "Entleert und füllt die Batterie ab und zu ganz, damit sie ihren eigenen SoC korrigiert. Start oder Stopp per Flow.",
+            "fr": "Vide et remplit parfois complètement la batterie, pour qu'elle corrige son propre SoC. Démarrer ou arrêter par un flow.",
+            "it": "Ogni tanto svuota e riempie del tutto la batteria, così corregge il proprio SoC. Avvia o ferma con un flow.",
+            "sv": "Tömmer och fyller batteriet helt då och då, så att det rättar sin egen SoC. Starta eller stoppa med ett Flow.",
+            "no": "Tømmer og fyller batteriet helt av og til, så det retter sin egen SoC. Start eller stopp med en Flow.",
+            "es": "De vez en cuando vacía y llena del todo la batería, para que corrija su propio SoC. Iniciar o parar con un Flow.",
+            "da": "Tømmer og fylder batteriet helt nu og da, så det retter sin egen SoC. Start eller stop med et flow.",
+            "pl": "Co jakiś czas całkiem rozładowuje i ładuje baterię, aby skorygowała własny SoC. Start lub stop przez flow.",
+            "ru": "Время от времени полностью разряжает и заряжает батарею, чтобы она исправила свой SoC. Запуск или остановка через Flow.",
+            "ar": "يفرّغ البطارية ويملؤها بالكامل من حين لآخر لتصحّح نسبة شحنها. ابدأ أو أوقف عبر Flow.",
+            "ko": "가끔 배터리를 완전히 비우고 채워 자체 SoC를 보정합니다. Flow로 시작하거나 중지합니다."
           }
         },
         {
@@ -476,19 +470,19 @@
             "ko": "XOM 목표 (W)"
           },
           "hint": {
-            "en": "Grid power that XOM aims at, the same for all batteries. Positive: a little import, negative: a little export. The flow card 'Set XOM' can change it.",
-            "nl": "Netvermogen waar XOM naartoe regelt, gelijk voor alle batterijen. Positief: een beetje afname, negatief: een beetje teruglevering. De flowkaart 'Zet XOM' kan dit wijzigen.",
-            "de": "Netzleistung, auf die XOM regelt, gleich für alle Batterien. Positiv: etwas Bezug, negativ: etwas Einspeisung. Die Flowkarte 'XOM einstellen' kann sie ändern.",
-            "fr": "Puissance réseau visée par XOM, identique pour toutes les batteries. Positive : un peu de soutirage, négative : un peu d'injection. La carte flow 'Régler XOM' peut la modifier.",
-            "it": "Potenza di rete a cui punta XOM, uguale per tutte le batterie. Positiva: un po' di prelievo, negativa: un po' di immissione. La scheda flow 'Imposta XOM' può cambiarla.",
-            "sv": "Näteffekt som XOM siktar på, samma för alla batterier. Positiv: lite köp, negativ: lite export. Flow-kortet 'Ställ in XOM' kan ändra den.",
-            "no": "Netteffekt som XOM sikter mot, lik for alle batterier. Positiv: litt kjøp, negativ: litt eksport. Flow-kortet 'Still inn XOM' kan endre den.",
-            "es": "Potencia de red a la que apunta XOM, igual para todas las baterías. Positiva: algo de consumo, negativa: algo de exportación. La tarjeta de Flow 'Ajustar XOM' puede cambiarla.",
-            "da": "Neteffekt som XOM sigter efter, ens for alle batterier. Positiv: lidt køb, negativ: lidt eksport. Flowkortet 'Indstil XOM' kan ændre den.",
-            "pl": "Moc sieci, do której dąży XOM, taka sama dla wszystkich baterii. Dodatnia: trochę poboru, ujemna: trochę oddawania. Karta flow 'Ustaw XOM' może ją zmienić.",
-            "ru": "Мощность сети, к которой стремится XOM, одинаковая для всех батарей. Положительная: немного потребления, отрицательная: немного отдачи. Карточка Flow «Задать XOM» может её изменить.",
-            "ar": "قدرة الشبكة التي يستهدفها XOM، نفسها لكل البطاريات. موجبة: قليل من السحب، سالبة: قليل من التصدير. يمكن لبطاقة Flow 'ضبط XOM' تغييرها.",
-            "ko": "XOM이 목표로 하는 전력망 전력으로, 모든 배터리에 동일합니다. 양수: 약간의 수전, 음수: 약간의 송전. Flow 카드 'XOM 설정'으로 변경할 수 있습니다."
+            "en": "XOM (X on the meter): the batteries keep the grid power at this value. Positive: a little import, negative: a little export. Also via the flow 'Set XOM'.",
+            "nl": "XOM (X op de meter): de batterijen houden het netvermogen op deze waarde. Positief: een beetje afname, negatief: een beetje teruglevering. Ook via de flow 'Zet XOM'.",
+            "de": "XOM (X am Zähler): Die Batterien halten die Netzleistung auf diesem Wert. Positiv: etwas Bezug, negativ: etwas Einspeisung. Auch per Flow 'XOM einstellen'.",
+            "fr": "XOM (X au compteur) : les batteries maintiennent la puissance réseau à cette valeur. Positif : un peu de soutirage, négatif : un peu d'injection. Aussi via le flow 'Régler XOM'.",
+            "it": "XOM (X al contatore): le batterie tengono la potenza di rete su questo valore. Positivo: un po' di prelievo, negativo: un po' di immissione. Anche con il flow 'Imposta XOM'.",
+            "sv": "XOM (X på mätaren): batterierna håller nätets effekt på detta värde. Positivt: lite köp, negativt: lite export. Även via Flow 'Ställ in XOM'.",
+            "no": "XOM (X på måleren): batteriene holder nettets effekt på denne verdien. Positiv: litt import, negativ: litt eksport. Også via Flow 'Still inn XOM'.",
+            "es": "XOM (X en el contador): las baterías mantienen la potencia de red en este valor. Positivo: algo de consumo, negativo: algo de inyección. También con el Flow 'Ajustar XOM'.",
+            "da": "XOM (X på måleren): batterierne holder nettets effekt på denne værdi. Positiv: lidt import, negativ: lidt eksport. Også via flowet 'Indstil XOM'.",
+            "pl": "XOM (X na liczniku): baterie utrzymują moc sieci na tej wartości. Dodatnia: trochę poboru, ujemna: trochę oddawania. Także przez flow 'Ustaw XOM'.",
+            "ru": "XOM (X на счётчике): батареи держат мощность сети на этом значении. Плюс: немного импорта, минус: немного экспорта. Также через Flow «Задать XOM».",
+            "ar": "XOM (‏X على العداد): تُبقي البطاريات قدرة الشبكة عند هذه القيمة. موجب: استيراد قليل، سالب: تصدير قليل. أيضًا عبر Flow 'ضبط XOM'.",
+            "ko": "XOM(계량기 X): 배터리가 전력망 전력을 이 값으로 유지합니다. 양수: 약간 수입, 음수: 약간 수출. Flow 'XOM 설정'으로도 가능."
           },
           "value": 0,
           "min": -10000,
@@ -534,19 +528,19 @@
           },
           "value": "Repair",
           "hint": {
-            "en": "Do a repair to change. Corrects totals, meter readings and money.",
-            "nl": "Repareer om te wijzigen. Herstelt totalen, meterstanden en geld.",
-            "de": "Zum Ändern reparieren. Korrigiert Summen, Zählerstände und Geldwerte.",
-            "fr": "Réparer pour modifier. Corrige totaux, relevés et montants.",
-            "it": "Ripara per modificare. Corregge totali, letture e importi.",
-            "sv": "Reparera för att ändra. Rättar totaler, mätarställningar och belopp.",
-            "no": "Reparer for å endre. Retter totaler, målerstander og beløp.",
-            "es": "Repara para cambiar. Corrige totales, lecturas e importes.",
-            "da": "Reparer for at ændre. Retter totaler, målerstande og beløb.",
-            "pl": "Napraw, aby zmienić. Poprawia sumy, odczyty i kwoty.",
-            "ru": "Чтобы изменить, выберите «Исправить». Исправляет итоги, показания и суммы.",
-            "ar": "نفّذ إصلاحًا للتغيير. يصحح الإجماليات وقراءات العداد والمبالغ.",
-            "ko": "변경하려면 수리하세요. 합계, 계량값, 금액을 수정합니다."
+            "en": "Corrects totals, meter readings and money. Do a repair to change.",
+            "nl": "Herstelt totalen, meterstanden en geld. Repareer om te wijzigen.",
+            "de": "Korrigiert Summen, Zählerstände und Geldwerte. Zum Ändern reparieren.",
+            "fr": "Corrige totaux, relevés et montants. Réparer pour modifier.",
+            "it": "Corregge totali, letture e importi. Ripara per modificare.",
+            "sv": "Rättar totaler, mätarställningar och belopp. Reparera för att ändra.",
+            "no": "Retter totaler, målerstander og beløp. Reparer for å endre.",
+            "es": "Corrige totales, lecturas e importes. Repara para cambiar.",
+            "da": "Retter totaler, målerstande og beløb. Reparer for at ændre.",
+            "pl": "Poprawia sumy, odczyty i kwoty. Napraw, aby zmienić.",
+            "ru": "Исправляет итоги, показания и суммы. Чтобы изменить, выберите «Исправить».",
+            "ar": "يصحح الإجماليات وقراءات العداد والمبالغ. نفّذ إصلاحًا للتغيير.",
+            "ko": "합계, 계량값, 금액을 수정합니다. 변경하려면 수리하세요."
           }
         }
       ]

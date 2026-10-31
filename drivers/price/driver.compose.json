@@ -286,19 +286,19 @@
           },
           "value": "unknown",
           "hint": {
-            "en": "Do a repair to change. Market area of the prices.",
-            "nl": "Repareer om te wijzigen. Marktgebied van de prijzen.",
-            "de": "Zum Ändern reparieren. Marktgebiet der Preise.",
-            "fr": "Réparer pour modifier. Zone de marché des prix.",
-            "it": "Ripara per modificare. Zona di mercato dei prezzi.",
-            "sv": "Reparera för att ändra. Prisernas marknadsområde.",
-            "no": "Reparer for å endre. Prisenes markedsområde.",
-            "es": "Repara para cambiar. Zona de mercado de los precios.",
-            "da": "Reparer for at ændre. Prisernes markedsområde.",
-            "pl": "Napraw, aby zmienić. Obszar rynkowy cen.",
-            "ru": "Чтобы изменить, выберите «Исправить». Рыночная зона цен.",
-            "ar": "نفّذ إصلاحًا للتغيير. منطقة السوق للأسعار.",
-            "ko": "변경하려면 수리하세요. 가격의 시장 구역."
+            "en": "Market area of the prices. Do a repair to change.",
+            "nl": "Marktgebied van de prijzen. Repareer om te wijzigen.",
+            "de": "Marktgebiet der Preise. Zum Ändern reparieren.",
+            "fr": "Zone de marché des prix. Réparer pour modifier.",
+            "it": "Zona di mercato dei prezzi. Ripara per modificare.",
+            "sv": "Prisernas marknadsområde. Reparera för att ändra.",
+            "no": "Prisenes markedsområde. Reparer for å endre.",
+            "es": "Zona de mercado de los precios. Repara para cambiar.",
+            "da": "Prisernes markedsområde. Reparer for at ændre.",
+            "pl": "Obszar rynkowy cen. Napraw, aby zmienić.",
+            "ru": "Рыночная зона цен. Чтобы изменить, выберите «Исправить».",
+            "ar": "منطقة السوق للأسعار. نفّذ إصلاحًا للتغيير.",
+            "ko": "가격의 시장 구역. 변경하려면 수리하세요."
           }
         },
         {
@@ -361,19 +361,19 @@
             "ko": "사용 중인 수식"
           },
           "hint": {
-            "en": "Do a repair to change. Made from the price settings, or your own formula.",
-            "nl": "Repareer om te wijzigen. Gemaakt uit de prijsinstellingen, of je eigen formule.",
-            "de": "Zum Ändern reparieren. Aus den Preiseinstellungen oder deiner eigenen Formel.",
-            "fr": "Réparer pour modifier. Issue des réglages de prix, ou de votre propre formule.",
-            "it": "Ripara per modificare. Ricavata dalle impostazioni del prezzo, o dalla tua formula.",
-            "sv": "Reparera för att ändra. Skapad av prisinställningarna, eller din egen formel.",
-            "no": "Reparer for å endre. Laget av prisinnstillingene, eller din egen formel.",
-            "es": "Repara para cambiar. Creada a partir de los ajustes de precio, o tu propia fórmula.",
-            "da": "Reparer for at ændre. Lavet ud fra prisindstillingerne, eller din egen formel.",
-            "pl": "Napraw, aby zmienić. Utworzona z ustawień ceny lub z własnej formuły.",
-            "ru": "Чтобы изменить, выберите «Исправить». Составлена из настроек цены или ваша собственная формула.",
-            "ar": "نفّذ إصلاحًا للتغيير. مأخوذة من إعدادات السعر، أو معادلتك الخاصة.",
-            "ko": "변경하려면 수리하세요. 가격 설정 또는 사용자 수식으로 만들어집니다."
+            "en": "Made from the price settings, or your own formula. Do a repair to change.",
+            "nl": "Gemaakt uit de prijsinstellingen, of je eigen formule. Repareer om te wijzigen.",
+            "de": "Aus den Preiseinstellungen oder deiner eigenen Formel. Zum Ändern reparieren.",
+            "fr": "Issue des réglages de prix, ou de votre propre formule. Réparer pour modifier.",
+            "it": "Ricavata dalle impostazioni del prezzo, o dalla tua formula. Ripara per modificare.",
+            "sv": "Skapad av prisinställningarna, eller din egen formel. Reparera för att ändra.",
+            "no": "Laget av prisinnstillingene, eller din egen formel. Reparer for å endre.",
+            "es": "Creada a partir de los ajustes de precio, o tu propia fórmula. Repara para cambiar.",
+            "da": "Lavet ud fra prisindstillingerne, eller din egen formel. Reparer for at ændre.",
+            "pl": "Utworzona z ustawień ceny lub z własnej formuły. Napraw, aby zmienić.",
+            "ru": "Составлена из настроек цены или ваша собственная формула. Чтобы изменить, выберите «Исправить».",
+            "ar": "مأخوذة من إعدادات السعر، أو معادلتك الخاصة. نفّذ إصلاحًا للتغيير.",
+            "ko": "가격 설정 또는 사용자 수식으로 만들어집니다. 변경하려면 수리하세요."
           }
         }
       ]
@@ -416,19 +416,19 @@
             "ko": "사용 중인 수식"
           },
           "hint": {
-            "en": "Do a repair to change. Made from the price settings, or your own formula.",
-            "nl": "Repareer om te wijzigen. Gemaakt uit de prijsinstellingen, of je eigen formule.",
-            "de": "Zum Ändern reparieren. Aus den Preiseinstellungen oder deiner eigenen Formel.",
-            "fr": "Réparer pour modifier. Issue des réglages de prix, ou de votre propre formule.",
-            "it": "Ripara per modificare. Ricavata dalle impostazioni del prezzo, o dalla tua formula.",
-            "sv": "Reparera för att ändra. Skapad av prisinställningarna, eller din egen formel.",
-            "no": "Reparer for å endre. Laget av prisinnstillingene, eller din egen formel.",
-            "es": "Repara para cambiar. Creada a partir de los ajustes de precio, o tu propia fórmula.",
-            "da": "Reparer for at ændre. Lavet ud fra prisindstillingerne, eller din egen formel.",
-            "pl": "Napraw, aby zmienić. Utworzona z ustawień ceny lub z własnej formuły.",
-            "ru": "Чтобы изменить, выберите «Исправить». Составлена из настроек цены или ваша собственная формула.",
-            "ar": "نفّذ إصلاحًا للتغيير. مأخوذة من إعدادات السعر، أو معادلتك الخاصة.",
-            "ko": "변경하려면 수리하세요. 가격 설정 또는 사용자 수식으로 만들어집니다."
+            "en": "Made from the price settings, or your own formula. Do a repair to change.",
+            "nl": "Gemaakt uit de prijsinstellingen, of je eigen formule. Repareer om te wijzigen.",
+            "de": "Aus den Preiseinstellungen oder deiner eigenen Formel. Zum Ändern reparieren.",
+            "fr": "Issue des réglages de prix, ou de votre propre formule. Réparer pour modifier.",
+            "it": "Ricavata dalle impostazioni del prezzo, o dalla tua formula. Ripara per modificare.",
+            "sv": "Skapad av prisinställningarna, eller din egen formel. Reparera för att ändra.",
+            "no": "Laget av prisinnstillingene, eller din egen formel. Reparer for å endre.",
+            "es": "Creada a partir de los ajustes de precio, o tu propia fórmula. Repara para cambiar.",
+            "da": "Lavet ud fra prisindstillingerne, eller din egen formel. Reparer for at ændre.",
+            "pl": "Utworzona z ustawień ceny lub z własnej formuły. Napraw, aby zmienić.",
+            "ru": "Составлена из настроек цены или ваша собственная формула. Чтобы изменить, выберите «Исправить».",
+            "ar": "مأخوذة من إعدادات السعر، أو معادلتك الخاصة. نفّذ إصلاحًا للتغيير.",
+            "ko": "가격 설정 또는 사용자 수식으로 만들어집니다. 변경하려면 수리하세요."
           }
         }
       ]

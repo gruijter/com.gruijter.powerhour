@@ -15,7 +15,12 @@
 		<div data-part="roles"></div>
 	</fieldset>
 	<button class="homey-button-primary-full" data-part="next" data-i18n="repair.setup_next"></button>
+	<button class="homey-button-transparent" data-part="back" data-i18n="repair.back"></button>
 </form>
+<style>
+	/* Fields of other pages (pagination below). No Homey class hides with priority over its display. */
+	.setup-page-off { display: none !important; }
+</style>
 
 <script>
 	// The same file as setup.html (pair/ and repair/) and, with VIEW and data-view 'budget' (only the
@@ -121,6 +126,60 @@
 			});
 		};
 
+		// Pages that fit the screen without scrolling: the fields in order, a new page when the next
+		// one no longer fits, or a section that no longer fits as a whole. Again after a change that
+		// shows or hides fields, from the same field.
+		let pages = [];
+		let page = 0;
+		const blocks = () => [
+			...part('settings').children, part('checkboxes'),
+			...root.querySelectorAll('[data-part="sections"] > fieldset > div > *'),
+			...part('budget').children, ...part('roles').children,
+		].filter((b) => b && b.style.display !== 'none' && (b !== part('checkboxes') || b.children.length));
+		const fieldsets = () => [part('main'), ...root.querySelectorAll('[data-part="sections"] > fieldset'), part('budgetSection'), part('rolesSection')];
+		const showOnly = (list) => {
+			blocks().forEach((b) => b.classList.toggle('setup-page-off', !list.includes(b)));
+			fieldsets().forEach((f) => f.classList.toggle('setup-page-off', !list.some((b) => f.contains(b))));
+		};
+		// The view's own height can follow its content (then everything 'fits'): the screen height minus
+		// Homey's title bar and the phone's status bars is the limit too.
+		// The height at the start: an open keyboard makes the view smaller.
+		let viewHeight = null;
+		const maxHeight = () => {
+			if (!viewHeight) viewHeight = window.innerHeight;
+			return Math.min(viewHeight, window.screen && window.screen.availHeight ? window.screen.availHeight - 200 : Infinity);
+		};
+		const fits = () => root.getBoundingClientRect().bottom + window.scrollY + 16 <= maxHeight();
+		const paginate = () => {
+			// Not while typing: hiding the field for a moment closes the keyboard.
+			const active = document.activeElement;
+			if (active && root.contains(active) && active.tagName !== 'SELECT' && active.type !== 'checkbox') return;
+			const anchor = pages[page] && pages[page][0];
+			const all = blocks();
+			pages = [];
+			let i = 0;
+			const fieldsetOf = (b) => fieldsets().find((f) => f.contains(b));
+			while (i < all.length) {
+				const list = [all[i]];
+				for (i += 1; i < all.length; i += 1) {
+					const set = fieldsetOf(all[i]);
+					const whole = set !== fieldsetOf(all[i - 1]) ? all.filter((b) => fieldsetOf(b) === set) : [all[i]];
+					showOnly([...list, ...whole]);
+					if (!fits()) break;
+					list.push(all[i]);
+				}
+				pages.push(list);
+			}
+			if (!pages.length) pages = [[]];
+			const at = pages.findIndex((list) => list.includes(anchor));
+			page = at > -1 ? at : Math.min(page, pages.length - 1);
+			showPage();
+		};
+		const showPage = () => {
+			showOnly(pages[page]);
+			window.scrollTo(0, 0);
+		};
+
 		const showRoleModes = () => {
 			const watt = input('use_measure_source');
 			const mode = watt && watt.checked ? 'watt' : 'meter';
@@ -152,7 +211,7 @@
 				showDependent();
 				settingDefs.forEach((s) => {
 					const field = input(s.id);
-					if (field) field.addEventListener('change', showDependent);
+					if (field) field.addEventListener('change', () => { showDependent(); paginate(); });
 				});
 				if (!data.roles) return;
 				roleDeviceId = data.roles.deviceId;
@@ -162,15 +221,34 @@
 				data.roles.items.forEach(roleField);
 				showRoleModes();
 				const watt = input('use_measure_source');
-				if (watt) watt.addEventListener('change', showRoleModes);
+				if (watt) watt.addEventListener('change', () => { showRoleModes(); paginate(); });
 			} catch (error) {
 				Homey.alert(error.message || error, 'error');
 			} finally {
+				if (document.fonts) await document.fonts.ready;
+				paginate();
 				Homey.hideLoadingOverlay();
 			}
 		}
 
+		// A font that loads later makes the text longer.
+		if (document.fonts) document.fonts.addEventListener('loadingdone', paginate);
+		// The first page goes back to the view before (Homey's own Previous is off for this view).
+		part('back').addEventListener('click', () => {
+			if (page === 0) {
+				Homey.showView(VIEW === 'budget' ? 'repair_start' : 'list_devices');
+				return;
+			}
+			page -= 1;
+			showPage();
+		});
+
 		part('next').addEventListener('click', async () => {
+			if (page < pages.length - 1) {
+				page += 1;
+				showPage();
+				return;
+			}
 			const button = part('next');
 			if (button.classList.contains('is-loading')) return;
 			button.classList.add('is-loading');

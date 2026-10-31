@@ -2,13 +2,11 @@
 	<fieldset class="homey-form-fieldset">
 		<legend class="homey-form-legend" data-part="title"></legend>
 		<p class="homey-subtitle" data-i18n="budget.custom_text"></p>
-		<div class="homey-form-group">
-			<label class="homey-form-label" for="customTotal" data-part="totalLabel"></label>
-			<input class="homey-form-input" type="number" step="any" min="0" id="customTotal" data-part="total" style="box-sizing: border-box; width: 100%;">
-		</div>
-		<div class="homey-form-group">
-			<label class="homey-form-label" for="customSpread" data-i18n="budget.custom_spread"></label>
-			<select class="homey-form-select" id="customSpread" data-part="spread"></select>
+		<div style="display: grid; grid-template-columns: auto 1fr; gap: 8px 12px; align-items: center;">
+			<label class="homey-form-label" for="customTotal" data-part="totalLabel" style="margin: 0;"></label>
+			<input class="homey-form-input" type="number" step="any" min="0" id="customTotal" data-part="total" style="box-sizing: border-box; width: 100%; min-width: 0; margin: 0;">
+			<label class="homey-form-label" for="customSpread" data-i18n="budget.custom_spread" style="margin: 0;"></label>
+			<select class="homey-form-select" id="customSpread" data-part="spread" style="box-sizing: border-box; width: 100%; min-width: 0; margin: 0;"></select>
 		</div>
 	</fieldset>
 	<fieldset class="homey-form-fieldset">

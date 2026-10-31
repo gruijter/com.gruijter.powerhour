@@ -57,6 +57,10 @@
 	<button class="homey-button-primary-full" id="next" data-i18n="repair.setup_next"></button>
 	<button class="homey-button-transparent" id="back" data-i18n="price_setup.back"></button>
 </form>
+<style>
+	/* Fields of other pages of a step (pagination below). No Homey class hides with priority over its display. */
+	.setup-page-off { display: none !important; }
+</style>
 
 <script>
 	// The same file in pair/ and repair/ of the price driver (lib/helpers/PriceSetup.js).
@@ -403,21 +407,77 @@
 		groupsFilled = true;
 	};
 
+	// Pages of a step that fit the screen without scrolling: its fields in order, a new page when
+	// the next one no longer fits. Again after a change that shows or hides fields, from the same field.
+	let pages = [];
+	let sub = 0;
+	const CONTAINERS = ['takeover', 'market', 'import', 'export', 'floor', 'advanced', 'finish'];
+	const stepEl = () => document.querySelector(`[data-step="${steps()[step]}"]`);
+	const blocks = () => [...stepEl().children].filter((c) => c.tagName !== 'LEGEND')
+		.flatMap((c) => (CONTAINERS.includes(c.id) ? [...c.children] : [c]))
+		.filter((b) => b.style.display !== 'none');
+	const showOnly = (list) => blocks().forEach((b) => b.classList.toggle('setup-page-off', !list.includes(b)));
+	// The view's own height can follow its content (then everything 'fits'): the screen height minus
+	// Homey's title bar and the phone's status bars is the limit too.
+	// The height at the start: an open keyboard makes the view smaller.
+	let viewHeight = null;
+	const maxHeight = () => {
+		if (!viewHeight) viewHeight = window.innerHeight;
+		return Math.min(viewHeight, window.screen && window.screen.availHeight ? window.screen.availHeight - 200 : Infinity);
+	};
+	const fits = () => document.querySelector('form').getBoundingClientRect().bottom + window.scrollY + 16 <= maxHeight();
+	const showSub = () => {
+		showOnly(pages[sub]);
+		const last = step === steps().length - 1 && sub === pages.length - 1;
+		document.getElementById('back').style.display = step > 0 || sub > 0 ? '' : 'none';
+		document.getElementById('next').textContent = Homey.__(last ? (data.repairing ? 'price_setup.save' : 'price_setup.add') : 'repair.setup_next');
+		window.scrollTo(0, 0);
+	};
+	const paginate = () => {
+		if (!data) return;
+		// Not while typing: hiding the field for a moment closes the keyboard.
+		const active = document.activeElement;
+		if (active && active.tagName === 'INPUT' && active.type !== 'checkbox' && active.type !== 'radio') return;
+		const anchor = pages[sub] && pages[sub][0];
+		const all = blocks();
+		document.getElementById('back').style.display = ''; // measured with it
+		pages = [];
+		let i = 0;
+		while (i < all.length) {
+			const list = [all[i]];
+			for (i += 1; i < all.length; i += 1) {
+				showOnly([...list, all[i]]);
+				if (!fits()) break;
+				list.push(all[i]);
+			}
+			pages.push(list);
+		}
+		if (!pages.length) pages = [[]];
+		const at = pages.findIndex((list) => list.includes(anchor));
+		sub = at > -1 ? at : Math.min(sub, pages.length - 1);
+		showSub();
+	};
+
 	const show = () => {
 		const list = steps();
 		step = Math.max(0, Math.min(step, list.length - 1));
 		document.querySelectorAll('[data-step]').forEach((s) => { s.style.display = s.dataset.step === list[step] ? '' : 'none'; });
-		document.getElementById('back').style.display = step === 0 ? 'none' : '';
-		const last = step === list.length - 1;
-		document.getElementById('next').textContent = Homey.__(last ? (data.repairing ? 'price_setup.save' : 'price_setup.add') : 'repair.setup_next');
 		if (list[step] === 'takeover') fillTakeover();
 		if (list[step] === 'market') fillZones();
 		applyTariffType();
 		showAdvancedFields();
-		if (last) {
+		if (step === list.length - 1) {
 			fillGroups();
-			showPreview();
+			showPreview().then(paginate);
 		}
+		paginate();
+	};
+	// A new step starts at its first page, back at its last.
+	const toStep = (to) => {
+		sub = to < step ? Infinity : 0;
+		pages = [];
+		step = to;
+		show();
 	};
 
 	const radioSet = (id, fallback) => {
@@ -496,11 +556,23 @@
 	};
 
 	document.getElementById('back').addEventListener('click', () => {
-		step -= 1;
-		show();
+		if (sub > 0) {
+			sub -= 1;
+			showSub();
+			return;
+		}
+		toStep(step - 1);
 	});
+	document.querySelector('form').addEventListener('change', () => setTimeout(paginate));
+	// A font that loads later makes the text longer.
+	if (document.fonts) document.fonts.addEventListener('loadingdone', paginate);
 
 	document.getElementById('next').addEventListener('click', async () => {
+		if (sub < pages.length - 1) {
+			sub += 1;
+			showSub();
+			return;
+		}
 		if (step < steps().length - 1) {
 			if (steps()[step] === 'takeover' && input('importFrom').value) {
 				const button = document.getElementById('next');
@@ -513,8 +585,7 @@
 					button.classList.remove('is-loading');
 				}
 			}
-			step += 1;
-			show();
+			toStep(step + 1);
 			return;
 		}
 		const button = document.getElementById('next');
@@ -539,6 +610,7 @@
 		try {
 			data = await Homey.emit('setup_get');
 			build();
+			if (document.fonts) await document.fonts.ready;
 			show();
 		} catch (error) {
 			Homey.alert(error.message || error, 'error');

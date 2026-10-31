@@ -53,17 +53,18 @@
 				label.appendChild(el('span', { className: 'homey-form-radio-text', textContent: k.label }));
 				set.appendChild(label);
 			});
-			// All fields per kind; only the chosen kind shows.
+			// All fields per kind; only the chosen kind shows. Compact rows (the label next to its
+			// field, like custom_budget.html): the periods fit one phone screen.
 			data.kinds.forEach((k) => {
-				const box = el('div', { id: `kind_${k.id}` });
+				const box = el('div', { id: `kind_${k.id}`, style: 'display: grid; grid-template-columns: auto 1fr; gap: 8px 12px; align-items: center;' });
 				k.fields.forEach((f) => {
-					const group = el('div', { className: 'homey-form-group' });
 					const id = `fix_${k.id}_${f.id}`;
-					group.appendChild(el('label', { className: 'homey-form-label', htmlFor: id, textContent: withUnit(f) }));
-					group.appendChild(el('input', {
-						className: 'homey-form-input', type: 'number', step: 'any', id, value: f.value,
+					box.appendChild(el('label', {
+						className: 'homey-form-label', htmlFor: id, textContent: withUnit(f), style: 'margin: 0;',
 					}));
-					box.appendChild(group);
+					box.appendChild(el('input', {
+						className: 'homey-form-input', type: 'number', step: 'any', id, value: f.value, style: 'box-sizing: border-box; width: 100%; min-width: 0; margin: 0;',
+					}));
 				});
 				root.querySelector('#values').appendChild(box);
 			});
@@ -77,7 +78,7 @@
 			if (!k) return;
 			root.querySelector('#valuesTitle').textContent = k.label;
 			root.querySelector('#valuesInfo').textContent = k.info || Homey.__('repair.fix_values_info');
-			data.kinds.forEach((other) => { root.querySelector(`#kind_${other.id}`).style.display = other.id === k.id ? '' : 'none'; });
+			data.kinds.forEach((other) => { root.querySelector(`#kind_${other.id}`).style.display = other.id === k.id ? 'grid' : 'none'; });
 			if (STEPS[step] === 'confirm') {
 				const box = root.querySelector('#changes');
 				box.innerHTML = '';

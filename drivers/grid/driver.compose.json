@@ -969,10 +969,7 @@
       }
     },
     {
-      "id": "setup",
-      "navigation": {
-        "prev": "list_devices"
-      }
+      "id": "setup"
     },
     {
       "id": "custom_budget",
@@ -997,19 +994,13 @@
       }
     },
     {
-      "id": "setup",
-      "navigation": {
-        "prev": "list_devices"
-      }
+      "id": "setup"
     },
     {
       "id": "fix_values"
     },
     {
-      "id": "budget",
-      "navigation": {
-        "prev": "repair_start"
-      }
+      "id": "budget"
     },
     {
       "id": "custom_budget"
@@ -1062,19 +1053,19 @@
           },
           "value": "unknown",
           "hint": {
-            "en": "Do a repair to change. ID of the source device, or virtual (via flow).",
-            "nl": "Repareer om te wijzigen. ID van het bronapparaat, of virtueel (via flow).",
-            "de": "Zum Ändern reparieren. ID des Quellgeräts oder virtuell (via Flow).",
-            "fr": "Réparer pour modifier. ID de l'appareil source, ou virtuel (via flow).",
-            "it": "Ripara per modificare. ID del dispositivo sorgente, o virtuale (via flow).",
-            "sv": "Reparera för att ändra. Källenhetens ID, eller virtuell (via Flow).",
-            "no": "Reparer for å endre. Kildeenhetens ID, eller virtuell (via Flow).",
-            "es": "Repara para cambiar. ID del dispositivo de origen, o virtual (vía Flow).",
-            "da": "Reparer for at ændre. Kildeenhedens ID, eller virtuel (via flow).",
-            "pl": "Napraw, aby zmienić. ID urządzenia źródłowego lub wirtualne (przez flow).",
-            "ru": "Чтобы изменить, выберите «Исправить». ID исходного устройства или виртуальное (через Flow).",
-            "ar": "نفّذ إصلاحًا للتغيير. معرّف الجهاز المصدر، أو افتراضي (عبر Flow).",
-            "ko": "변경하려면 수리하세요. 소스 디바이스 ID 또는 가상 (flow 사용)."
+            "en": "ID of the source device, or virtual (via flow). Do a repair to change.",
+            "nl": "ID van het bronapparaat, of virtueel (via flow). Repareer om te wijzigen.",
+            "de": "ID des Quellgeräts oder virtuell (via Flow). Zum Ändern reparieren.",
+            "fr": "ID de l'appareil source, ou virtuel (via flow). Réparer pour modifier.",
+            "it": "ID del dispositivo sorgente, o virtuale (via flow). Ripara per modificare.",
+            "sv": "Källenhetens ID, eller virtuell (via Flow). Reparera för att ändra.",
+            "no": "Kildeenhetens ID, eller virtuell (via Flow). Reparer for å endre.",
+            "es": "ID del dispositivo de origen, o virtual (vía Flow). Repara para cambiar.",
+            "da": "Kildeenhedens ID, eller virtuel (via flow). Reparer for at ændre.",
+            "pl": "ID urządzenia źródłowego lub wirtualne (przez flow). Napraw, aby zmienić.",
+            "ru": "ID исходного устройства или виртуальное (через Flow). Чтобы изменить, выберите «Исправить».",
+            "ar": "معرّف الجهاز المصدر، أو افتراضي (عبر Flow). نفّذ إصلاحًا للتغيير.",
+            "ko": "소스 디바이스 ID 또는 가상 (flow 사용). 변경하려면 수리하세요."
           }
         },
         {
@@ -1097,19 +1088,19 @@
           },
           "value": "unknown",
           "hint": {
-            "en": "Do a repair to change. Device that supplies the readings.",
-            "nl": "Repareer om te wijzigen. Apparaat dat de metingen levert.",
-            "de": "Zum Ändern reparieren. Gerät, das die Messwerte liefert.",
-            "fr": "Réparer pour modifier. Appareil qui fournit les mesures.",
-            "it": "Ripara per modificare. Dispositivo che fornisce le letture.",
-            "sv": "Reparera för att ändra. Enhet som levererar mätvärdena.",
-            "no": "Reparer for å endre. Enhet som leverer målingene.",
-            "es": "Repara para cambiar. Dispositivo que aporta las lecturas.",
-            "da": "Reparer for at ændre. Enhed der leverer målingerne.",
-            "pl": "Napraw, aby zmienić. Urządzenie dostarczające odczyty.",
-            "ru": "Чтобы изменить, выберите «Исправить». Устройство, которое передаёт показания.",
-            "ar": "نفّذ إصلاحًا للتغيير. الجهاز الذي يوفر القراءات.",
-            "ko": "변경하려면 수리하세요. 측정값을 제공하는 디바이스."
+            "en": "Device that supplies the readings. Do a repair to change.",
+            "nl": "Apparaat dat de metingen levert. Repareer om te wijzigen.",
+            "de": "Gerät, das die Messwerte liefert. Zum Ändern reparieren.",
+            "fr": "Appareil qui fournit les mesures. Réparer pour modifier.",
+            "it": "Dispositivo che fornisce le letture. Ripara per modificare.",
+            "sv": "Enhet som levererar mätvärdena. Reparera för att ändra.",
+            "no": "Enhet som leverer målingene. Reparer for å endre.",
+            "es": "Dispositivo que aporta las lecturas. Repara para cambiar.",
+            "da": "Enhed der leverer målingerne. Reparer for at ændre.",
+            "pl": "Urządzenie dostarczające odczyty. Napraw, aby zmienić.",
+            "ru": "Устройство, которое передаёт показания. Чтобы изменить, выберите «Исправить».",
+            "ar": "الجهاز الذي يوفر القراءات. نفّذ إصلاحًا للتغيير.",
+            "ko": "측정값을 제공하는 디바이스. 변경하려면 수리하세요."
           }
         },
         {
@@ -1131,19 +1122,19 @@
             "ko": "소스 기능"
           },
           "hint": {
-            "en": "Do a repair to change. Capabilities read from the source device.",
-            "nl": "Repareer om te wijzigen. Capabilities die van het bronapparaat gelezen worden.",
-            "de": "Zum Ändern reparieren. Vom Quellgerät gelesene Capabilities.",
-            "fr": "Réparer pour modifier. Capacités lues sur l'appareil source.",
-            "it": "Ripara per modificare. Capacità lette dal dispositivo sorgente.",
-            "sv": "Reparera för att ändra. Capabilities som läses från källenheten.",
-            "no": "Reparer for å endre. Capabilities som leses fra kildeenheten.",
-            "es": "Repara para cambiar. Capacidades leídas del dispositivo de origen.",
-            "da": "Reparer for at ændre. Capabilities der læses fra kildeenheden.",
-            "pl": "Napraw, aby zmienić. Funkcje odczytywane z urządzenia źródłowego.",
-            "ru": "Чтобы изменить, выберите «Исправить». Возможности, считываемые с исходного устройства.",
-            "ar": "نفّذ إصلاحًا للتغيير. القدرات المقروءة من الجهاز المصدر.",
-            "ko": "변경하려면 수리하세요. 소스 디바이스에서 읽는 기능."
+            "en": "Capabilities read from the source device. Do a repair to change.",
+            "nl": "Capabilities die van het bronapparaat gelezen worden. Repareer om te wijzigen.",
+            "de": "Vom Quellgerät gelesene Capabilities. Zum Ändern reparieren.",
+            "fr": "Capacités lues sur l'appareil source. Réparer pour modifier.",
+            "it": "Capacità lette dal dispositivo sorgente. Ripara per modificare.",
+            "sv": "Capabilities som läses från källenheten. Reparera för att ändra.",
+            "no": "Capabilities som leses fra kildeenheten. Reparer for å endre.",
+            "es": "Capacidades leídas del dispositivo de origen. Repara para cambiar.",
+            "da": "Capabilities der læses fra kildeenheden. Reparer for at ændre.",
+            "pl": "Funkcje odczytywane z urządzenia źródłowego. Napraw, aby zmienić.",
+            "ru": "Возможности, считываемые с исходного устройства. Чтобы изменить, выберите «Исправить».",
+            "ar": "القدرات المقروءة من الجهاز المصدر. نفّذ إصلاحًا للتغيير.",
+            "ko": "소스 디바이스에서 읽는 기능. 변경하려면 수리하세요."
           },
           "value": "-"
         }
@@ -1187,19 +1178,19 @@
           },
           "value": "-",
           "hint": {
-            "en": "Do a repair to change. Price used for money values.",
-            "nl": "Repareer om te wijzigen. Prijs voor de geldwaarden.",
-            "de": "Zum Ändern reparieren. Preis für die Geldwerte.",
-            "fr": "Réparer pour modifier. Prix utilisé pour les montants.",
-            "it": "Ripara per modificare. Prezzo per i valori in denaro.",
-            "sv": "Reparera för att ändra. Pris för penningvärdena.",
-            "no": "Reparer for å endre. Pris for pengeverdiene.",
-            "es": "Repara para cambiar. Precio para los importes.",
-            "da": "Reparer for at ændre. Pris til pengeværdierne.",
-            "pl": "Napraw, aby zmienić. Cena dla wartości pieniężnych.",
-            "ru": "Чтобы изменить, выберите «Исправить». Цена для денежных значений.",
-            "ar": "نفّذ إصلاحًا للتغيير. السعر المستخدم للقيم المالية.",
-            "ko": "변경하려면 수리하세요. 금액 계산에 쓰는 가격."
+            "en": "Price used for money values. Do a repair to change.",
+            "nl": "Prijs voor de geldwaarden. Repareer om te wijzigen.",
+            "de": "Preis für die Geldwerte. Zum Ändern reparieren.",
+            "fr": "Prix utilisé pour les montants. Réparer pour modifier.",
+            "it": "Prezzo per i valori in denaro. Ripara per modificare.",
+            "sv": "Pris för penningvärdena. Reparera för att ändra.",
+            "no": "Pris for pengeverdiene. Reparer for å endre.",
+            "es": "Precio para los importes. Repara para cambiar.",
+            "da": "Pris til pengeværdierne. Reparer for at ændre.",
+            "pl": "Cena dla wartości pieniężnych. Napraw, aby zmienić.",
+            "ru": "Цена для денежных значений. Чтобы изменить, выберите «Исправить».",
+            "ar": "السعر المستخدم للقيم المالية. نفّذ إصلاحًا للتغيير.",
+            "ko": "금액 계산에 쓰는 가격. 변경하려면 수리하세요."
           }
         }
       ]
@@ -1242,19 +1233,19 @@
           },
           "value": "",
           "hint": {
-            "en": "Do a repair to change. Start of the year and its budget.",
-            "nl": "Repareer om te wijzigen. Start van het jaar en het budget.",
-            "de": "Zum Ändern reparieren. Jahresbeginn und Budget.",
-            "fr": "Réparer pour modifier. Début de l'année et budget.",
-            "it": "Ripara per modificare. Inizio dell'anno e budget.",
-            "sv": "Reparera för att ändra. Årets start och budget.",
-            "no": "Reparer for å endre. Årets start og budsjett.",
-            "es": "Repara para cambiar. Inicio del año y presupuesto.",
-            "da": "Reparer for at ændre. Årets start og budget.",
-            "pl": "Napraw, aby zmienić. Początek roku i budżet.",
-            "ru": "Чтобы изменить, выберите «Исправить». Начало года и бюджет.",
-            "ar": "نفّذ إصلاحًا للتغيير. بداية السنة والميزانية.",
-            "ko": "변경하려면 수리하세요. 연도 시작일과 예산."
+            "en": "Start of the year and its budget. Do a repair to change.",
+            "nl": "Start van het jaar en het budget. Repareer om te wijzigen.",
+            "de": "Jahresbeginn und Budget. Zum Ändern reparieren.",
+            "fr": "Début de l'année et budget. Réparer pour modifier.",
+            "it": "Inizio dell'anno e budget. Ripara per modificare.",
+            "sv": "Årets start och budget. Reparera för att ändra.",
+            "no": "Årets start og budsjett. Reparer for å endre.",
+            "es": "Inicio del año y presupuesto. Repara para cambiar.",
+            "da": "Årets start og budget. Reparer for at ændre.",
+            "pl": "Początek roku i budżet. Napraw, aby zmienić.",
+            "ru": "Начало года и бюджет. Чтобы изменить, выберите «Исправить».",
+            "ar": "بداية السنة والميزانية. نفّذ إصلاحًا للتغيير.",
+            "ko": "연도 시작일과 예산. 변경하려면 수리하세요."
           }
         }
       ]
@@ -1297,19 +1288,19 @@
           },
           "value": "Repair",
           "hint": {
-            "en": "Do a repair to change. Corrects totals, meter readings and money.",
-            "nl": "Repareer om te wijzigen. Herstelt totalen, meterstanden en geld.",
-            "de": "Zum Ändern reparieren. Korrigiert Summen, Zählerstände und Geldwerte.",
-            "fr": "Réparer pour modifier. Corrige totaux, relevés et montants.",
-            "it": "Ripara per modificare. Corregge totali, letture e importi.",
-            "sv": "Reparera för att ändra. Rättar totaler, mätarställningar och belopp.",
-            "no": "Reparer for å endre. Retter totaler, målerstander og beløp.",
-            "es": "Repara para cambiar. Corrige totales, lecturas e importes.",
-            "da": "Reparer for at ændre. Retter totaler, målerstande og beløb.",
-            "pl": "Napraw, aby zmienić. Poprawia sumy, odczyty i kwoty.",
-            "ru": "Чтобы изменить, выберите «Исправить». Исправляет итоги, показания и суммы.",
-            "ar": "نفّذ إصلاحًا للتغيير. يصحح الإجماليات وقراءات العداد والمبالغ.",
-            "ko": "변경하려면 수리하세요. 합계, 계량값, 금액을 수정합니다."
+            "en": "Corrects totals, meter readings and money. Do a repair to change.",
+            "nl": "Herstelt totalen, meterstanden en geld. Repareer om te wijzigen.",
+            "de": "Korrigiert Summen, Zählerstände und Geldwerte. Zum Ändern reparieren.",
+            "fr": "Corrige totaux, relevés et montants. Réparer pour modifier.",
+            "it": "Corregge totali, letture e importi. Ripara per modificare.",
+            "sv": "Rättar totaler, mätarställningar och belopp. Reparera för att ändra.",
+            "no": "Retter totaler, målerstander og beløp. Reparer for å endre.",
+            "es": "Corrige totales, lecturas e importes. Repara para cambiar.",
+            "da": "Retter totaler, målerstande og beløb. Reparer for at ændre.",
+            "pl": "Poprawia sumy, odczyty i kwoty. Napraw, aby zmienić.",
+            "ru": "Исправляет итоги, показания и суммы. Чтобы изменить, выберите «Исправить».",
+            "ar": "يصحح الإجماليات وقراءات العداد والمبالغ. نفّذ إصلاحًا للتغيير.",
+            "ko": "합계, 계량값, 금액을 수정합니다. 변경하려면 수리하세요."
           }
         }
       ]

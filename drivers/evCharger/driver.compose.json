@@ -87,10 +87,7 @@
       }
     },
     {
-      "id": "setup",
-      "navigation": {
-        "prev": "list_devices"
-      }
+      "id": "setup"
     },
     {
       "id": "custom_budget",
@@ -115,19 +112,13 @@
       }
     },
     {
-      "id": "setup",
-      "navigation": {
-        "prev": "list_devices"
-      }
+      "id": "setup"
     },
     {
       "id": "fix_values"
     },
     {
-      "id": "budget",
-      "navigation": {
-        "prev": "repair_start"
-      }
+      "id": "budget"
     },
     {
       "id": "custom_budget"
@@ -255,19 +246,19 @@
           },
           "value": "unknown",
           "hint": {
-            "en": "Do a repair to change. ID of the charger.",
-            "nl": "Repareer om te wijzigen. ID van de laadpaal.",
-            "de": "Zum Ändern reparieren. ID der Ladestation.",
-            "fr": "Réparer pour modifier. ID de la borne.",
-            "it": "Ripara per modificare. ID del caricatore.",
-            "sv": "Reparera för att ändra. Laddboxens ID.",
-            "no": "Reparer for å endre. Laderens ID.",
-            "es": "Repara para cambiar. ID del cargador.",
-            "da": "Reparer for at ændre. Laderens ID.",
-            "pl": "Napraw, aby zmienić. ID ładowarki.",
-            "ru": "Чтобы изменить, выберите «Исправить». ID зарядного устройства.",
-            "ar": "نفّذ إصلاحًا للتغيير. معرّف الشاحن.",
-            "ko": "변경하려면 수리하세요. 충전기 ID."
+            "en": "ID of the charger. Do a repair to change.",
+            "nl": "ID van de laadpaal. Repareer om te wijzigen.",
+            "de": "ID der Ladestation. Zum Ändern reparieren.",
+            "fr": "ID de la borne. Réparer pour modifier.",
+            "it": "ID del caricatore. Ripara per modificare.",
+            "sv": "Laddboxens ID. Reparera för att ändra.",
+            "no": "Laderens ID. Reparer for å endre.",
+            "es": "ID del cargador. Repara para cambiar.",
+            "da": "Laderens ID. Reparer for at ændre.",
+            "pl": "ID ładowarki. Napraw, aby zmienić.",
+            "ru": "ID зарядного устройства. Чтобы изменить, выберите «Исправить».",
+            "ar": "معرّف الشاحن. نفّذ إصلاحًا للتغيير.",
+            "ko": "충전기 ID. 변경하려면 수리하세요."
           }
         },
         {
@@ -290,19 +281,19 @@
           },
           "value": "unknown",
           "hint": {
-            "en": "Do a repair to change. Charger that is controlled.",
-            "nl": "Repareer om te wijzigen. Laadpaal die aangestuurd wordt.",
-            "de": "Zum Ändern reparieren. Gesteuerte Ladestation.",
-            "fr": "Réparer pour modifier. Borne pilotée.",
-            "it": "Ripara per modificare. Caricatore controllato.",
-            "sv": "Reparera för att ändra. Laddbox som styrs.",
-            "no": "Reparer for å endre. Lader som styres.",
-            "es": "Repara para cambiar. Cargador controlado.",
-            "da": "Reparer for at ændre. Lader der styres.",
-            "pl": "Napraw, aby zmienić. Sterowana ładowarka.",
-            "ru": "Чтобы изменить, выберите «Исправить». Управляемое зарядное устройство.",
-            "ar": "نفّذ إصلاحًا للتغيير. الشاحن الذي يتم التحكم فيه.",
-            "ko": "변경하려면 수리하세요. 제어되는 충전기."
+            "en": "Charger that is controlled. Do a repair to change.",
+            "nl": "Laadpaal die aangestuurd wordt. Repareer om te wijzigen.",
+            "de": "Gesteuerte Ladestation. Zum Ändern reparieren.",
+            "fr": "Borne pilotée. Réparer pour modifier.",
+            "it": "Caricatore controllato. Ripara per modificare.",
+            "sv": "Laddbox som styrs. Reparera för att ändra.",
+            "no": "Lader som styres. Reparer for å endre.",
+            "es": "Cargador controlado. Repara para cambiar.",
+            "da": "Lader der styres. Reparer for at ændre.",
+            "pl": "Sterowana ładowarka. Napraw, aby zmienić.",
+            "ru": "Управляемое зарядное устройство. Чтобы изменить, выберите «Исправить».",
+            "ar": "الشاحن الذي يتم التحكم فيه. نفّذ إصلاحًا للتغيير.",
+            "ko": "제어되는 충전기. 변경하려면 수리하세요."
           }
         },
         {
@@ -325,19 +316,19 @@
           },
           "value": "none",
           "hint": {
-            "en": "Do a repair to change. ID of the car, or none.",
-            "nl": "Repareer om te wijzigen. ID van de auto, of geen.",
-            "de": "Zum Ändern reparieren. ID des Autos oder keines.",
-            "fr": "Réparer pour modifier. ID de la voiture, ou aucune.",
-            "it": "Ripara per modificare. ID dell'auto, o nessuna.",
-            "sv": "Reparera för att ändra. Bilens ID, eller ingen.",
-            "no": "Reparer for å endre. Bilens ID, eller ingen.",
-            "es": "Repara para cambiar. ID del coche, o ninguno.",
-            "da": "Reparer for at ændre. Bilens ID, eller ingen.",
-            "pl": "Napraw, aby zmienić. ID samochodu lub brak.",
-            "ru": "Чтобы изменить, выберите «Исправить». ID автомобиля или нет.",
-            "ar": "نفّذ إصلاحًا للتغيير. معرّف السيارة، أو لا شيء.",
-            "ko": "변경하려면 수리하세요. 차량 ID 또는 없음."
+            "en": "ID of the car, or none. Do a repair to change.",
+            "nl": "ID van de auto, of geen. Repareer om te wijzigen.",
+            "de": "ID des Autos oder keines. Zum Ändern reparieren.",
+            "fr": "ID de la voiture, ou aucune. Réparer pour modifier.",
+            "it": "ID dell'auto, o nessuna. Ripara per modificare.",
+            "sv": "Bilens ID, eller ingen. Reparera för att ändra.",
+            "no": "Bilens ID, eller ingen. Reparer for å endre.",
+            "es": "ID del coche, o ninguno. Repara para cambiar.",
+            "da": "Bilens ID, eller ingen. Reparer for at ændre.",
+            "pl": "ID samochodu lub brak. Napraw, aby zmienić.",
+            "ru": "ID автомобиля или нет. Чтобы изменить, выберите «Исправить».",
+            "ar": "معرّف السيارة، أو لا شيء. نفّذ إصلاحًا للتغيير.",
+            "ko": "차량 ID 또는 없음. 변경하려면 수리하세요."
           }
         },
         {
@@ -360,19 +351,19 @@
           },
           "value": "none",
           "hint": {
-            "en": "Do a repair to change. Car that is charged.",
-            "nl": "Repareer om te wijzigen. Auto die geladen wordt.",
-            "de": "Zum Ändern reparieren. Geladenes Auto.",
-            "fr": "Réparer pour modifier. Voiture rechargée.",
-            "it": "Ripara per modificare. Auto in carica.",
-            "sv": "Reparera för att ändra. Bil som laddas.",
-            "no": "Reparer for å endre. Bil som lades.",
-            "es": "Repara para cambiar. Coche que se carga.",
-            "da": "Reparer for at ændre. Bil der lades.",
-            "pl": "Napraw, aby zmienić. Ładowany samochód.",
-            "ru": "Чтобы изменить, выберите «Исправить». Заряжаемый автомобиль.",
-            "ar": "نفّذ إصلاحًا للتغيير. السيارة التي يتم شحنها.",
-            "ko": "변경하려면 수리하세요. 충전되는 차량."
+            "en": "Car that is charged. Do a repair to change.",
+            "nl": "Auto die geladen wordt. Repareer om te wijzigen.",
+            "de": "Geladenes Auto. Zum Ändern reparieren.",
+            "fr": "Voiture rechargée. Réparer pour modifier.",
+            "it": "Auto in carica. Ripara per modificare.",
+            "sv": "Bil som laddas. Reparera för att ändra.",
+            "no": "Bil som lades. Reparer for å endre.",
+            "es": "Coche que se carga. Repara para cambiar.",
+            "da": "Bil der lades. Reparer for at ændre.",
+            "pl": "Ładowany samochód. Napraw, aby zmienić.",
+            "ru": "Заряжаемый автомобиль. Чтобы изменить, выберите «Исправить».",
+            "ar": "السيارة التي يتم شحنها. نفّذ إصلاحًا للتغيير.",
+            "ko": "충전되는 차량. 변경하려면 수리하세요."
           }
         }
       ]
@@ -415,19 +406,19 @@
           },
           "value": "-",
           "hint": {
-            "en": "Do a repair to change. Price used for money values.",
-            "nl": "Repareer om te wijzigen. Prijs voor de geldwaarden.",
-            "de": "Zum Ändern reparieren. Preis für die Geldwerte.",
-            "fr": "Réparer pour modifier. Prix utilisé pour les montants.",
-            "it": "Ripara per modificare. Prezzo per i valori in denaro.",
-            "sv": "Reparera för att ändra. Pris för penningvärdena.",
-            "no": "Reparer for å endre. Pris for pengeverdiene.",
-            "es": "Repara para cambiar. Precio para los importes.",
-            "da": "Reparer for at ændre. Pris til pengeværdierne.",
-            "pl": "Napraw, aby zmienić. Cena dla wartości pieniężnych.",
-            "ru": "Чтобы изменить, выберите «Исправить». Цена для денежных значений.",
-            "ar": "نفّذ إصلاحًا للتغيير. السعر المستخدم للقيم المالية.",
-            "ko": "변경하려면 수리하세요. 금액 계산에 쓰는 가격."
+            "en": "Price used for money values. Do a repair to change.",
+            "nl": "Prijs voor de geldwaarden. Repareer om te wijzigen.",
+            "de": "Preis für die Geldwerte. Zum Ändern reparieren.",
+            "fr": "Prix utilisé pour les montants. Réparer pour modifier.",
+            "it": "Prezzo per i valori in denaro. Ripara per modificare.",
+            "sv": "Pris för penningvärdena. Reparera för att ändra.",
+            "no": "Pris for pengeverdiene. Reparer for å endre.",
+            "es": "Precio para los importes. Repara para cambiar.",
+            "da": "Pris til pengeværdierne. Reparer for at ændre.",
+            "pl": "Cena dla wartości pieniężnych. Napraw, aby zmienić.",
+            "ru": "Цена для денежных значений. Чтобы изменить, выберите «Исправить».",
+            "ar": "السعر المستخدم للقيم المالية. نفّذ إصلاحًا للتغيير.",
+            "ko": "금액 계산에 쓰는 가격. 변경하려면 수리하세요."
           }
         }
       ]
@@ -690,19 +681,19 @@
           },
           "value": "",
           "hint": {
-            "en": "Do a repair to change. Start of the year and its budget.",
-            "nl": "Repareer om te wijzigen. Start van het jaar en het budget.",
-            "de": "Zum Ändern reparieren. Jahresbeginn und Budget.",
-            "fr": "Réparer pour modifier. Début de l'année et budget.",
-            "it": "Ripara per modificare. Inizio dell'anno e budget.",
-            "sv": "Reparera för att ändra. Årets start och budget.",
-            "no": "Reparer for å endre. Årets start og budsjett.",
-            "es": "Repara para cambiar. Inicio del año y presupuesto.",
-            "da": "Reparer for at ændre. Årets start og budget.",
-            "pl": "Napraw, aby zmienić. Początek roku i budżet.",
-            "ru": "Чтобы изменить, выберите «Исправить». Начало года и бюджет.",
-            "ar": "نفّذ إصلاحًا للتغيير. بداية السنة والميزانية.",
-            "ko": "변경하려면 수리하세요. 연도 시작일과 예산."
+            "en": "Start of the year and its budget. Do a repair to change.",
+            "nl": "Start van het jaar en het budget. Repareer om te wijzigen.",
+            "de": "Jahresbeginn und Budget. Zum Ändern reparieren.",
+            "fr": "Début de l'année et budget. Réparer pour modifier.",
+            "it": "Inizio dell'anno e budget. Ripara per modificare.",
+            "sv": "Årets start och budget. Reparera för att ändra.",
+            "no": "Årets start og budsjett. Reparer for å endre.",
+            "es": "Inicio del año y presupuesto. Repara para cambiar.",
+            "da": "Årets start og budget. Reparer for at ændre.",
+            "pl": "Początek roku i budżet. Napraw, aby zmienić.",
+            "ru": "Начало года и бюджет. Чтобы изменить, выберите «Исправить».",
+            "ar": "بداية السنة والميزانية. نفّذ إصلاحًا للتغيير.",
+            "ko": "연도 시작일과 예산. 변경하려면 수리하세요."
           }
         }
       ]
@@ -745,19 +736,19 @@
           },
           "value": "Repair",
           "hint": {
-            "en": "Do a repair to change. Corrects totals, meter readings and money.",
-            "nl": "Repareer om te wijzigen. Herstelt totalen, meterstanden en geld.",
-            "de": "Zum Ändern reparieren. Korrigiert Summen, Zählerstände und Geldwerte.",
-            "fr": "Réparer pour modifier. Corrige totaux, relevés et montants.",
-            "it": "Ripara per modificare. Corregge totali, letture e importi.",
-            "sv": "Reparera för att ändra. Rättar totaler, mätarställningar och belopp.",
-            "no": "Reparer for å endre. Retter totaler, målerstander og beløp.",
-            "es": "Repara para cambiar. Corrige totales, lecturas e importes.",
-            "da": "Reparer for at ændre. Retter totaler, målerstande og beløb.",
-            "pl": "Napraw, aby zmienić. Poprawia sumy, odczyty i kwoty.",
-            "ru": "Чтобы изменить, выберите «Исправить». Исправляет итоги, показания и суммы.",
-            "ar": "نفّذ إصلاحًا للتغيير. يصحح الإجماليات وقراءات العداد والمبالغ.",
-            "ko": "변경하려면 수리하세요. 합계, 계량값, 금액을 수정합니다."
+            "en": "Corrects totals, meter readings and money. Do a repair to change.",
+            "nl": "Herstelt totalen, meterstanden en geld. Repareer om te wijzigen.",
+            "de": "Korrigiert Summen, Zählerstände und Geldwerte. Zum Ändern reparieren.",
+            "fr": "Corrige totaux, relevés et montants. Réparer pour modifier.",
+            "it": "Corregge totali, letture e importi. Ripara per modificare.",
+            "sv": "Rättar totaler, mätarställningar och belopp. Reparera för att ändra.",
+            "no": "Retter totaler, målerstander og beløp. Reparer for å endre.",
+            "es": "Corrige totales, lecturas e importes. Repara para cambiar.",
+            "da": "Retter totaler, målerstande og beløb. Reparer for at ændre.",
+            "pl": "Poprawia sumy, odczyty i kwoty. Napraw, aby zmienić.",
+            "ru": "Исправляет итоги, показания и суммы. Чтобы изменить, выберите «Исправить».",
+            "ar": "يصحح الإجماليات وقراءات العداد والمبالغ. نفّذ إصلاحًا للتغيير.",
+            "ko": "합계, 계량값, 금액을 수정합니다. 변경하려면 수리하세요."
           }
         }
       ]
