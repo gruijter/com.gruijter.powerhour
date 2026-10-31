@@ -14,6 +14,7 @@ const PairSetup = require('../../lib/helpers/PairSetup');
 const Budget = require('../../lib/Budget');
 
 const CHARGER_IDS = ['chargerControl', 'standbyOn', 'sharedCharger', 'carStartCharge', 'v2x'];
+const CHARGING_IDS = ['floorSoc', 'reserveSoc', 'reserveHours', 'maxSoc', 'cheapCharge', 'cheapPrice', 'maxPrice'];
 const DEPARTURE_IDS = [0, 1, 2, 3, 4, 5, 6].map((day) => `departureTime_${day}`);
 const ADVANCED_IDS = ['tariff_type', 'overrideMaxHours', 'autoDepartureLearning', 'minTripSoc',
   'chartShowPower', 'chartShowSoc', 'chartShowExportPrice', 'chartShowLegend'];
@@ -62,8 +63,9 @@ const driverSpecifics = {
   // on when pairing.
   setup: {
     settings: ['chargePower', 'batCapacity', 'variableChargePower', 'solarGridPower', 'tariff_update_group',
-      ...CHARGER_IDS, ...DEPARTURE_IDS, ...ADVANCED_IDS],
-    sections: [{ id: 'charger', ids: CHARGER_IDS }, { id: 'departure', ids: DEPARTURE_IDS, toggle: true },
+      ...CHARGER_IDS, ...CHARGING_IDS, ...DEPARTURE_IDS, ...ADVANCED_IDS],
+    sections: [{ id: 'charger', ids: CHARGER_IDS }, { id: 'charging', ids: CHARGING_IDS },
+      { id: 'departure', ids: DEPARTURE_IDS, toggle: true },
       { id: 'advanced', ids: ADVANCED_IDS, toggle: true }],
     preset: { chargerControl: true },
     match: { classes: ['evcharger'], energy: (energy) => energy.isEVCharger === true },
@@ -303,6 +305,12 @@ class CarChargeDriver extends GenericDriver {
   // The car link comes with the listed charger too.
   sourceSettingIds() {
     return [...super.sourceSettingIds(), 'ev_device_id', 'ev_device_name'];
+  }
+
+  // Minimum SoC <= reserve SoC <= daily maximum SoC.
+  async setupValidate(settings) {
+    const soc = (id) => Number(settings[id]);
+    if (soc('floorSoc') > soc('reserveSoc') || soc('reserveSoc') > soc('maxSoc')) throw Error(this.homey.__('error_setup_soc_order'));
   }
 
   // Setup view: the charge power measured by the charger.

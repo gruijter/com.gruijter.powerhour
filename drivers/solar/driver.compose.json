@@ -529,41 +529,6 @@
           "value": "unknown"
         },
         {
-          "id": "peakPower",
-          "type": "number",
-          "label": {
-            "en": "Peak Power (W)",
-            "nl": "Piekvermogen (W)",
-            "de": "Spitzenleistung (W)",
-            "fr": "Puissance Crête (W)",
-            "it": "Potenza di Picco (W)",
-            "sv": "Toppeffekt (W)",
-            "no": "Toppeffekt (W)",
-            "es": "Potencia Pico (W)",
-            "da": "Spidseffekt (W)",
-            "pl": "Moc Szczytowa (W)",
-            "ru": "Пиковая мощность (Вт)",
-            "ar": "ذروة الطاقة (واط)",
-            "ko": "피크 전력 (W)"
-          },
-          "value": 0,
-          "hint": {
-            "en": "Maximum power of your PV system. Set to 0 to automatically estimate the peak power. This value is used for scaling the graphs and filtering data during automatic learning.",
-            "nl": "Maximaal vermogen van je PV-systeem. Zet op 0 om het piekvermogen automatisch te schatten. Deze waarde wordt gebruikt voor de schaling van de grafieken en het filteren van data tijdens het automatisch leren.",
-            "de": "Maximale Leistung Ihres PV-Systems. Auf 0 setzen, um die Spitzenleistung automatisch zu schätzen. Dieser Wert wird zur Skalierung der Diagramme und zum Filtern von Daten während des automatischen Lernens verwendet.",
-            "fr": "Puissance maximale de votre système photovoltaïque. Réglez sur 0 pour estimer automatiquement la puissance crête. Cette valeur est utilisée pour mettre à l'échelle les graphiques et filtrer les données lors de l'apprentissage automatique.",
-            "it": "Potenza massima del tuo sistema fotovoltaico. Impostare su 0 per stimare automaticamente la potenza di picco. Questo valore viene utilizzato per ridimensionare i grafici e filtrare i dati durante l'apprendimento automatico.",
-            "sv": "Maximal effekt för ditt solcellssystem. Ställ in på 0 för att automatiskt uppskatta toppeffekten. Detta värde används för att skala graferna och filtrera data under automatisk inlärning.",
-            "no": "Maksimal effekt for ditt solcellesystem. Sett til 0 for å estimere toppeffekten automatisk. Denne verdien brukes til å skalere grafene og filtrere data under automatisk læring.",
-            "es": "Potencia máxima de su sistema fotovoltaico. Establecer en 0 para estimar automáticamente la potencia pico. Este valor se utiliza para escalar los gráficos y filtrar datos durante el aprendizaje automático.",
-            "da": "Maksimal effekt for dit solcellesystem. Indstil til 0 for automatisk at estimere spidseffekten. Denne værdi bruges til at skalere graferne og filtrere data under automatisk indlæring.",
-            "pl": "Maksymalna moc Twojego systemu PV. Ustaw na 0, aby automatycznie oszacować moc szczytową. Wartość ta służy do skalowania wykresów i filtrowania danych podczas automatycznego uczenia się.",
-            "ru": "Максимальная мощность вашей фотоэлектрической системы. Установите 0 для автоматической оценки пиковой мощности. Это значение используется для масштабирования графиков и фильтрации данных во время автоматического обучения.",
-            "ar": "أقصى طاقة لنظامك الكهروضوئي. قم بالتعيين إلى 0 لتقدير ذروة الطاقة تلقائيًا. تُستخدم هذه القيمة لتوسيع نطاق الرسوم البيانية وتصفية البيانات أثناء التعلم التلقائي.",
-            "ko": "PV 시스템의 최대 전력입니다. 0으로 설정하면 피크 전력을 자동으로 추정합니다. 이 값은 그래프 스케일링과 자동 학습 중 데이터 필터링에 사용됩니다."
-          }
-        },
-        {
           "id": "peakPowerAllTime",
           "type": "label",
           "label": {
@@ -596,76 +561,6 @@
             "ru": "Максимальная измеренная мощность. Запасное значение, когда Пиковая мощность выше равна 0. Сбрасывается при полном переобучении.",
             "ko": "지금까지 측정된 최고 전력입니다. 위의 최대 출력이 0일 때 대체값으로 사용됩니다. 전체 재학습 시 초기화됩니다.",
             "ar": "أعلى طاقة تم قياسها على الإطلاق. تُستخدم كقيمة احتياطية عندما تكون ذروة الطاقة أعلاه 0. تُعاد عند إعادة التدريب الكامل."
-          }
-        },
-        {
-          "id": "lat",
-          "type": "text",
-          "label": {
-            "en": "Latitude",
-            "nl": "Breedtegraad",
-            "de": "Breitengrad",
-            "fr": "Latitude",
-            "it": "Latitudine",
-            "sv": "Latitud",
-            "no": "Breddegrad",
-            "es": "Latitud",
-            "da": "Breddegrad",
-            "pl": "Szerokość geograficzna",
-            "ru": "Широта",
-            "ar": "خط العرض",
-            "ko": "위도"
-          },
-          "value": "",
-          "hint": {
-            "en": "Leave empty to try auto-detect or enter manually e.g. 52.12",
-            "nl": "Laat leeg voor auto-detectie of vul handmatig in, bijv. 52.12",
-            "de": "Leer lassen für automatische Erkennung oder manuell eingeben, z.B. 52.12",
-            "fr": "Laisser vide pour la détection auto ou entrer manuellement ex. 52.12",
-            "it": "Lascia vuoto per il rilevamento automatico o inserisci manualmente es. 52.12",
-            "sv": "Lämna tomt för autodetektering eller ange manuellt t.ex. 52.12",
-            "no": "La stå tom for autodetektering eller angi manuelt f.eks. 52.12",
-            "es": "Deje vacío para detección automática o ingrese manualmente, ej. 52.12",
-            "da": "Lad stå tomt for autodetektering eller indtast manuelt f.eks. 52.12",
-            "pl": "Pozostaw puste, aby automatycznie wykryć, lub wpisz ręcznie, np. 52.12",
-            "ru": "Оставьте пустым для автоопределения или введите вручную, например 52.12",
-            "ar": "اتركه فارغًا للمحاولة الاكتشاف التلقائي أو أدخله يدويًا على سبيل المثال 52.12",
-            "ko": "비워두면 자동 감지를 시도하거나, 직접 입력하세요 (예: 52.12)"
-          }
-        },
-        {
-          "id": "lon",
-          "type": "text",
-          "label": {
-            "en": "Longitude",
-            "nl": "Lengtegraad",
-            "de": "Längengrad",
-            "fr": "Longitude",
-            "it": "Longitudine",
-            "sv": "Longitud",
-            "no": "Lengdegrad",
-            "es": "Longitud",
-            "da": "Længdegrad",
-            "pl": "Długość geograficzna",
-            "ru": "Долгота",
-            "ar": "خط الطول",
-            "ko": "경도"
-          },
-          "value": "",
-          "hint": {
-            "en": "Leave empty to try auto-detect or enter manually e.g. 5.12",
-            "nl": "Laat leeg voor auto-detectie of vul handmatig in, bijv. 5.12",
-            "de": "Leer lassen für automatische Erkennung oder manuell eingeben, z.B. 5.12",
-            "fr": "Laisser vide pour la détection auto ou entrer manuellement ex. 5.12",
-            "it": "Lascia vuoto per il rilevamento automatico o inserisci manualmente es. 5.12",
-            "sv": "Lämna tomt för autodetektering eller ange manuellt t.ex. 5.12",
-            "no": "La stå tom for autodetektering eller angi manuelt f.eks. 5.12",
-            "es": "Deje vacío para detección automática o ingrese manualmente, ej. 5.12",
-            "da": "Lad stå tomt for autodetektering eller indtast manuelt f.eks. 5.12",
-            "pl": "Pozostaw puste, aby automatycznie wykryć, lub wpisz ręcznie, np. 5.12",
-            "ru": "Оставьте пустым для автоопределения или введите вручную, например 5.12",
-            "ar": "اتركه فارغًا للمحاولة الاكتشاف التلقائي أو أدخله يدويًا على سبيل المثال 5.12",
-            "ko": "비워두면 자동 감지를 시도하거나, 직접 입력하세요 (예: 5.12)"
           }
         }
       ]

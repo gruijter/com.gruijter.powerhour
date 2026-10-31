@@ -153,7 +153,10 @@
     "price_info_group": "Gruppe __group__: __names__",
     "price_info_group_none": "Gruppe __group__: ingen Energipris-enhed",
     "price_info_fixed": "Fast tarif __tariff__",
-    "price_info_fixed_export": "Fast tarif __tariff__, eksport __export__"
+    "price_info_fixed_export": "Fast tarif __tariff__, eksport __export__",
+    "setup_section_planner": "Planlægning",
+    "setup_section_control": "Styring",
+    "setup_section_charging": "Ladeniveauer"
   },
   "load_forecast_accuracy": "Gns. afvigelse __mae__ W (__pct__%), bias __bias__ W, __days__ dage",
   "load_forecast_accuracy_collecting": "Indsamler data",
@@ -241,7 +244,9 @@
     "import_label": "Fra eksisterende prisenhed",
     "import_none": "Nej, udfyld selv",
     "import_hint": "Den gamle enhed sender derefter ikke længere sin pris til gruppen.",
-    "name_water": "Vandpris"
+    "name_water": "Vandpris",
+    "step_advanced": "Avanceret",
+    "show_advanced": "Avancerede indstillinger (priskilde, egen formel, decimaler)"
   },
   "battery_learned": {
     "learning": "Lærer: opladning __charge__/__needed__, afladning __discharge__/__needed__",
@@ -293,5 +298,6 @@
     "custom_spread": "Fordeling",
     "custom_spread_local": "Som det lokale klima",
     "custom_spread_own": "Egne værdier"
-  }
+  },
+  "error_setup_soc_order": "Minimum SoC, reserve-SoC og daglig maksimal SoC skal stige i den rækkefølge."
 }

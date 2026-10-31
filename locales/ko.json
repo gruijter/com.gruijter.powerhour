@@ -153,7 +153,10 @@
     "price_info_group": "그룹 __group__: __names__",
     "price_info_group_none": "그룹 __group__: 에너지 가격 디바이스 없음",
     "price_info_fixed": "고정 요금 __tariff__",
-    "price_info_fixed_export": "고정 요금 __tariff__, 수출 __export__"
+    "price_info_fixed_export": "고정 요금 __tariff__, 수출 __export__",
+    "setup_section_planner": "계획",
+    "setup_section_control": "제어",
+    "setup_section_charging": "충전 수준"
   },
   "load_forecast_accuracy": "평균 오차 __mae__ W (__pct__%), 편향 __bias__ W, __days__일",
   "load_forecast_accuracy_collecting": "데이터 수집 중",
@@ -241,7 +244,9 @@
     "import_label": "기존 가격 디바이스에서",
     "import_none": "아니요, 직접 입력",
     "import_hint": "이후 기존 디바이스는 그룹에 가격을 보내지 않습니다.",
-    "name_water": "수도 요금"
+    "name_water": "수도 요금",
+    "step_advanced": "고급",
+    "show_advanced": "고급 설정(가격 출처, 사용자 수식, 소수 자릿수)"
   },
   "battery_learned": {
     "learning": "학습 중: 충전 __charge__/__needed__, 방전 __discharge__/__needed__",
@@ -293,5 +298,6 @@
     "custom_spread": "분배",
     "custom_spread_local": "지역 기후에 따라",
     "custom_spread_own": "직접 입력"
-  }
+  },
+  "error_setup_soc_order": "최소 SoC, 예비 SoC, 일일 최대 SoC는 이 순서로 커야 합니다."
 }

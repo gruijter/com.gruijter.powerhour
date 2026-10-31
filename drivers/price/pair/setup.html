@@ -9,6 +9,7 @@
 			<label class="homey-form-label" id="tariffTypeTitle"></label>
 			<fieldset class="homey-form-radio-set" id="tariffType"></fieldset>
 		</div>
+		<div id="advancedToggle"></div>
 	</fieldset>
 
 	<fieldset class="homey-form-fieldset" data-step="takeover">
@@ -36,6 +37,11 @@
 	<fieldset class="homey-form-fieldset" data-step="floor">
 		<legend class="homey-form-legend" id="floorTitle"></legend>
 		<div id="floor"></div>
+	</fieldset>
+
+	<fieldset class="homey-form-fieldset" data-step="advanced">
+		<legend class="homey-form-legend" data-i18n="price_setup.step_advanced"></legend>
+		<div id="advanced"></div>
 	</fieldset>
 
 	<fieldset class="homey-form-fieldset" data-step="finish">
@@ -77,7 +83,8 @@
 	const perM3 = () => commodity() !== 'power';
 	const isFixed = () => isWater() || radio('tariffType') === 'fixed';
 	const hasFloor = () => !!(input('export_floor') && input('export_floor').checked);
-	const groupOf = (id) => input(id) && input(id).closest('.homey-form-group');
+	const hasAdvanced = () => !!(input('show_advanced') && input('show_advanced').checked);
+	const groupOf = (id) => input(id) && input(id).closest('.homey-form-group, .homey-form-checkbox-set');
 	const showField = (id, visible) => {
 		const group = groupOf(id);
 		if (group) group.style.display = visible ? '' : 'none';
@@ -85,7 +92,8 @@
 	// Old dap devices of the chosen energy and tariff type, to take over.
 	const matchingDaps = () => (data.daps || []).filter((d) => d.commodity === commodity()
 		&& d.tariffType === (isFixed() ? 'fixed' : 'dynamic'));
-	const steps = () => ['energy', ...(matchingDaps().length ? ['takeover'] : []), 'market', 'import', ...(perM3() ? [] : ['export', ...(hasFloor() ? ['floor'] : [])]), 'finish'];
+	const steps = () => ['energy', ...(matchingDaps().length ? ['takeover'] : []), 'market', 'import',
+		...(perM3() ? [] : ['export', ...(hasFloor() ? ['floor'] : [])]), ...(hasAdvanced() ? ['advanced'] : []), 'finish'];
 
 	const fillTakeover = () => {
 		const select = input('importFrom');
@@ -228,7 +236,20 @@
 		const other = input('currencyChoice').value === 'other';
 		showField('currency', other);
 		showField('fetchExchangeRate', other && !isFixed());
+		// A rate of its own only without the daily update; a fixed tariff is in the currency itself.
+		showField('exchangeRate', other && !isFixed() && input('fetchExchangeRate').value === 'NONE');
 		showField('moneyDecimals', other);
+	};
+
+	// The advanced step: market settings only with a market price, export ones only for electricity.
+	const showAdvancedFields = () => {
+		const market = !isFixed();
+		showField('priceProvider', market);
+		showField('entsoeApiKey', market && input('priceProvider').value === 'ENTSOE');
+		showField('forecastEnable', market && !perM3());
+		showField('variableMarkupAbsPrice', market);
+		showField('export_variableMarkupAbsPrice', market && !perM3());
+		showField('export_formula', !perM3());
 	};
 	const currencyChosen = () => {
 		const value = input('currencyChoice').value;
@@ -392,6 +413,7 @@
 		if (list[step] === 'takeover') fillTakeover();
 		if (list[step] === 'market') fillZones();
 		applyTariffType();
+		showAdvancedFields();
 		if (last) {
 			fillGroups();
 			showPreview();
@@ -422,6 +444,13 @@
 		};
 		document.querySelectorAll('input[name="commodity"]').forEach((r) => r.addEventListener('change', showTariffType));
 		showTariffType();
+		// The advanced step: on when one of its settings differs from the default.
+		const changed = (data.advanced || []).some((id) => data.defs[id] && String(data.values[id] ?? '') !== String(data.defs[id].value ?? ''));
+		data.defs.show_advanced = { type: 'checkbox', label: Homey.__('price_setup.show_advanced') };
+		data.values.show_advanced = changed;
+		field('advancedToggle', 'show_advanced');
+		input('show_advanced').addEventListener('change', show);
+		delete data.defs.show_advanced;
 		field('market', 'biddingZone', { options: [], noHint: true });
 		field('market', 'priceInterval', { noHint: true });
 		field('market', 'currencyChoice', {
@@ -435,11 +464,14 @@
 		});
 		field('market', 'currency', { noHint: true });
 		field('market', 'fetchExchangeRate', { noHint: true });
+		field('market', 'exchangeRate');
 		field('market', 'moneyDecimals');
 		['', 'export_'].forEach((prefix) => PRICE_FIELDS.filter((id) => !id.endsWith('InclVat')).forEach((id) => {
 			field(prefix ? 'export' : 'import', `${prefix}${id}`, AMOUNTS.includes(id) ? { vat: `${prefix}${id}InclVat` } : {});
 		}));
 		field('export', 'export_floor');
+		field('export', 'export_show_chart_line');
+		(data.advanced || []).forEach((id) => field('advanced', id));
 		document.getElementById('floorTitle').textContent = data.defs.export_floor.label;
 		['export_floorMin', 'export_floorPercent', 'export_floorBase'].forEach((id) => field('floor', id));
 		todEditor('fixedMarkupTOD');
@@ -448,6 +480,8 @@
 		field('finish', 'tariff_update_group', { label: Homey.__('price_setup.group_label'), options: [], noHint: true });
 		input('biddingZone').addEventListener('change', zoneChanged);
 		input('currencyChoice').addEventListener('change', currencyChosen);
+		input('fetchExchangeRate').addEventListener('change', showCurrencyFields);
+		input('priceProvider').addEventListener('change', showAdvancedFields);
 		selectCurrency();
 		document.getElementById('copyImport').addEventListener('click', () => {
 			PRICE_FIELDS.forEach((id) => {

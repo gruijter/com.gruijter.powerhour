@@ -153,7 +153,10 @@
     "price_info_group": "Группа __group__: __names__",
     "price_info_group_none": "Группа __group__: нет устройства «Цена энергии»",
     "price_info_fixed": "Фиксированный тариф __tariff__",
-    "price_info_fixed_export": "Фиксированный тариф __tariff__, экспорт __export__"
+    "price_info_fixed_export": "Фиксированный тариф __tariff__, экспорт __export__",
+    "setup_section_planner": "Планирование",
+    "setup_section_control": "Управление",
+    "setup_section_charging": "Уровни заряда"
   },
   "load_forecast_accuracy": "Ср. ошибка __mae__ Вт (__pct__%), смещение __bias__ Вт, __days__ дн.",
   "load_forecast_accuracy_collecting": "Сбор данных",
@@ -241,7 +244,9 @@
     "import_label": "Из существующего устройства цен",
     "import_none": "Нет, заполню сам",
     "import_hint": "Старое устройство больше не отправляет цену в группу.",
-    "name_water": "Цена воды"
+    "name_water": "Цена воды",
+    "step_advanced": "Дополнительно",
+    "show_advanced": "Дополнительные настройки (источник цен, своя формула, знаки после запятой)"
   },
   "battery_learned": {
     "learning": "Обучение: заряд __charge__/__needed__, разряд __discharge__/__needed__",
@@ -293,5 +298,6 @@
     "custom_spread": "Распределение",
     "custom_spread_local": "По местному климату",
     "custom_spread_own": "Свои значения"
-  }
+  },
+  "error_setup_soc_order": "Минимальный SoC, резервный SoC и дневной максимальный SoC должны расти в этом порядке."
 }

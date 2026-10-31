@@ -153,7 +153,10 @@
     "price_info_group": "المجموعة __group__: __names__",
     "price_info_group_none": "المجموعة __group__: لا يوجد جهاز سعر الطاقة",
     "price_info_fixed": "تعرفة ثابتة __tariff__",
-    "price_info_fixed_export": "تعرفة ثابتة __tariff__, التصدير __export__"
+    "price_info_fixed_export": "تعرفة ثابتة __tariff__, التصدير __export__",
+    "setup_section_planner": "التخطيط",
+    "setup_section_control": "التحكم",
+    "setup_section_charging": "مستويات الشحن"
   },
   "load_forecast_accuracy": "متوسط الخطأ __mae__ واط (__pct__%)، الانحياز __bias__ واط، __days__ أيام",
   "load_forecast_accuracy_collecting": "جمع البيانات",
@@ -241,7 +244,9 @@
     "import_label": "من جهاز سعر موجود",
     "import_none": "لا، سأملأ بنفسي",
     "import_hint": "يتوقف الجهاز القديم بعدها عن إرسال سعره إلى المجموعة.",
-    "name_water": "سعر الماء"
+    "name_water": "سعر الماء",
+    "step_advanced": "متقدم",
+    "show_advanced": "إعدادات متقدمة (مصدر الأسعار، معادلة خاصة، المنازل العشرية)"
   },
   "battery_learned": {
     "learning": "جارٍ التعلم: الشحن __charge__/__needed__، التفريغ __discharge__/__needed__",
@@ -293,5 +298,6 @@
     "custom_spread": "التوزيع",
     "custom_spread_local": "حسب المناخ المحلي",
     "custom_spread_own": "قيم خاصة"
-  }
+  },
+  "error_setup_soc_order": "يجب أن تتزايد الحد الأدنى للشحن واحتياطي الشحن والحد الأقصى اليومي للشحن بهذا الترتيب."
 }

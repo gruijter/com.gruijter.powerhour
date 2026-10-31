@@ -34,6 +34,8 @@ const ACCEPTED = new Set([
   // A block (singular) vs among the cheapest slots (plural); after a number vs a title.
   ...['de', 'fr', 'es', 'it', 'pl', 'ru'].flatMap((l) => [`cheapest|${l}`, `most expensive|${l}`]),
   'hours|pl', 'hours|ru',
+  // A preset (masc.) vs a capability choice; a choice vs a state.
+  'None|de', 'None|fr', 'None|es', 'Off|ko',
 ]);
 // The same word as in English on purpose (loanword, abbreviation). 'English|lang'.
 const SAME_AS_EN = new Set([
@@ -43,7 +45,7 @@ const SAME_AS_EN = new Set([
   'Longitude|fr', 'Distribution|fr', 'Minutes|fr',
   'Plan JSON', 'Min. SoC [[day]] [[soc]]%', 'Reserve (%)', 'Peak shaving|nl', 'Meter|nl', 'Action|fr', 'Charge|fr',
   'Period|sv', 'Type|fr', 'Type|da', 'Type|no', 'minutes|fr', 'import', 'export', 'gas', 'water|nl', 'Name|de',
-  'Formula|it', 'VAT (%)|pl', 'Import: VAT (%)|pl', 'Per kWh (gas: per m³).', 'Minimum per kWh', 'per __unit__',
+  'Formula|it', 'VAT (%)|pl', 'Planning|nl', 'Control|es', 'Water|nl', 'Import: VAT (%)|pl', 'Per kWh (gas: per m³).', 'Minimum per kWh', 'per __unit__',
 ]);
 
 const maxArg = process.argv.indexOf('--max');
@@ -76,6 +78,9 @@ const collect = (node, file, at) => {
 const composeFiles = [
   ...walk(path.join(ROOT, '.homeycompose'), (p) => p.endsWith('.json')),
   ...walk(path.join(ROOT, 'drivers'), (p) => /driver[^/]*\.json$/.test(p)),
+  // Settings moved out of the manifests to the setup view.
+  path.join(ROOT, 'lib/helpers/SetupSettings.json'),
+  path.join(ROOT, 'lib/helpers/DriverSetupSettings.json'),
 ];
 // Deprecated flow cards are hidden: their texts do not count.
 composeFiles.forEach((file) => {

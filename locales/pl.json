@@ -153,7 +153,10 @@
     "price_info_group": "Grupa __group__: __names__",
     "price_info_group_none": "Grupa __group__: brak urządzenia Cena energii",
     "price_info_fixed": "Stała taryfa __tariff__",
-    "price_info_fixed_export": "Stała taryfa __tariff__, oddawanie __export__"
+    "price_info_fixed_export": "Stała taryfa __tariff__, oddawanie __export__",
+    "setup_section_planner": "Planowanie",
+    "setup_section_control": "Sterowanie",
+    "setup_section_charging": "Poziomy naładowania"
   },
   "load_forecast_accuracy": "Śr. błąd __mae__ W (__pct__%), odchylenie __bias__ W, __days__ dni",
   "load_forecast_accuracy_collecting": "Zbieranie danych",
@@ -241,7 +244,9 @@
     "import_label": "Z istniejącego urządzenia cen",
     "import_none": "Nie, wypełnię sam",
     "import_hint": "Stare urządzenie przestaje wtedy wysyłać cenę do grupy.",
-    "name_water": "Cena wody"
+    "name_water": "Cena wody",
+    "step_advanced": "Zaawansowane",
+    "show_advanced": "Ustawienia zaawansowane (źródło cen, własna formuła, miejsca dziesiętne)"
   },
   "battery_learned": {
     "learning": "Uczenie: ładowanie __charge__/__needed__, rozładowanie __discharge__/__needed__",
@@ -293,5 +298,6 @@
     "custom_spread": "Rozkład",
     "custom_spread_local": "Według klimatu lokalnego",
     "custom_spread_own": "Własne wartości"
-  }
+  },
+  "error_setup_soc_order": "Minimalny SoC, SoC rezerwy i dzienny maksymalny SoC muszą rosnąć w tej kolejności."
 }

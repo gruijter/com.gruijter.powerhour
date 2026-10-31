@@ -31,6 +31,11 @@ const XOM_MIRROR_MS = 15 * 60 * 1000;
 const BUILTIN_MIN_LOAD_W = 50;
 // Dependencies are lazy loaded in methods to save memory
 
+const PLANNER_IDS = ['roiEnable', 'roiMinProfit', 'roiWearCost', 'peakShaving', 'fuseProtection', 'peakReservePct',
+  'dischargeToEv', 'groupPlan'];
+const CONTROL_IDS = ['batteryControl', 'calibrateDays'];
+const ADVANCED_IDS = ['tariff_type', 'chartShowPower', 'chartShowSoc', 'chartShowExportPrice', 'chartShowLegend'];
+
 const driverSpecifics = {
   driverId: 'battery',
   // Vendor exceptions, used only when a source device does not qualify as a Homey battery (class
@@ -75,10 +80,11 @@ const driverSpecifics = {
     'meter_power_hidden',
     // 'roi_duration', // added only for advanced ROI
   ],
-  // Asked at pair and repair (lib/helpers/PairSetup.js).
+  // Asked at pair and repair (lib/helpers/PairSetup.js), not on the settings page.
   setup: {
-    settings: ['tariff_update_group', 'batCapacity', 'chargePower', 'dischargePower', 'roiEnable', 'batteryControl', 'tariff_type'],
-    sections: [{ id: 'advanced', ids: ['tariff_type'], toggle: true }],
+    settings: ['tariff_update_group', 'batCapacity', 'chargePower', 'dischargePower', ...PLANNER_IDS, ...CONTROL_IDS, ...ADVANCED_IDS],
+    sections: [{ id: 'planner', ids: PLANNER_IDS }, { id: 'control', ids: CONTROL_IDS },
+      { id: 'advanced', ids: ADVANCED_IDS, toggle: true }],
     match: {
       classes: ['battery'],
       energy: (energy) => !!(energy.meterPowerImportedCapability || energy.meterPowerExportedCapability),
@@ -553,6 +559,18 @@ class BatteryDriver extends GenericDriver {
       text: `${source.name}. ${this.homey.__('repair.setup_caps_text')}${external}`,
       items,
     };
+  }
+
+  // Setup view: into an EV only with an EV charger, planning together only with another battery.
+  setupSettings(dev) {
+    let evChargers = 0;
+    try {
+      evChargers = this.homey.drivers.getDriver('evCharger').getDevices().length;
+    } catch {
+      // driver not loaded
+    }
+    const otherBattery = this.getDevices().some((d) => d.getSettings().homey_device_id !== dev.settings.homey_device_id);
+    return this.ds.setup.settings.filter((id) => (id !== 'dischargeToEv' || evChargers) && (id !== 'groupPlan' || otherBattery));
   }
 
   async setupValidate(settings, caps) {

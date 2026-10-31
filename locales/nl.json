@@ -153,7 +153,10 @@
     "price_info_group": "Groep __group__: __names__",
     "price_info_group_none": "Groep __group__: geen Energieprijs-apparaat",
     "price_info_fixed": "Vast tarief __tariff__",
-    "price_info_fixed_export": "Vast tarief __tariff__, teruglevering __export__"
+    "price_info_fixed_export": "Vast tarief __tariff__, teruglevering __export__",
+    "setup_section_planner": "Planning",
+    "setup_section_control": "Sturing",
+    "setup_section_charging": "Laadniveaus"
   },
   "load_forecast_accuracy": "Gem. afwijking __mae__ W (__pct__%), bias __bias__ W, __days__ dagen",
   "load_forecast_accuracy_collecting": "Gegevens verzamelen",
@@ -241,7 +244,9 @@
     "import_label": "Van bestaand prijsdevice",
     "import_none": "Nee, zelf invullen",
     "import_hint": "Het oude device stuurt daarna geen prijs meer naar de groep.",
-    "name_water": "Waterprijs"
+    "name_water": "Waterprijs",
+    "step_advanced": "Geavanceerd",
+    "show_advanced": "Geavanceerde instellingen (prijsbron, eigen formule, decimalen)"
   },
   "battery_learned": {
     "learning": "Leren: laden __charge__/__needed__, ontladen __discharge__/__needed__",
@@ -293,5 +298,6 @@
     "custom_spread": "Verdeling",
     "custom_spread_local": "Volgens lokaal klimaat",
     "custom_spread_own": "Eigen waarden"
-  }
+  },
+  "error_setup_soc_order": "Minimale SoC, reserve-SoC en dagelijkse maximale SoC moeten in die volgorde oplopen."
 }

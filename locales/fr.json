@@ -153,7 +153,10 @@
     "price_info_group": "Groupe __group__: __names__",
     "price_info_group_none": "Groupe __group__: aucun appareil Prix de l'énergie",
     "price_info_fixed": "Tarif fixe __tariff__",
-    "price_info_fixed_export": "Tarif fixe __tariff__, injection __export__"
+    "price_info_fixed_export": "Tarif fixe __tariff__, injection __export__",
+    "setup_section_planner": "Planification",
+    "setup_section_control": "Pilotage",
+    "setup_section_charging": "Niveaux de charge"
   },
   "load_forecast_accuracy": "Écart moyen __mae__ W (__pct__%), biais __bias__ W, __days__ jours",
   "load_forecast_accuracy_collecting": "Collecte des données",
@@ -241,7 +244,9 @@
     "import_label": "D'un appareil de prix existant",
     "import_none": "Non, je remplis moi-même",
     "import_hint": "L'ancien appareil n'envoie ensuite plus son prix au groupe.",
-    "name_water": "Prix de l'eau"
+    "name_water": "Prix de l'eau",
+    "step_advanced": "Avancé",
+    "show_advanced": "Réglages avancés (source des prix, formule propre, décimales)"
   },
   "battery_learned": {
     "learning": "Apprentissage : charge __charge__/__needed__, décharge __discharge__/__needed__",
@@ -293,5 +298,6 @@
     "custom_spread": "Répartition",
     "custom_spread_local": "Selon le climat local",
     "custom_spread_own": "Valeurs personnelles"
-  }
+  },
+  "error_setup_soc_order": "Le SoC minimum, le SoC de réserve et le SoC maximum quotidien doivent augmenter dans cet ordre."
 }

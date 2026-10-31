@@ -153,7 +153,10 @@
     "price_info_group": "Gruppo __group__: __names__",
     "price_info_group_none": "Gruppo __group__: nessun dispositivo Prezzo dell'energia",
     "price_info_fixed": "Tariffa fissa __tariff__",
-    "price_info_fixed_export": "Tariffa fissa __tariff__, immissione __export__"
+    "price_info_fixed_export": "Tariffa fissa __tariff__, immissione __export__",
+    "setup_section_planner": "Pianificazione",
+    "setup_section_control": "Controllo",
+    "setup_section_charging": "Livelli di carica"
   },
   "load_forecast_accuracy": "Errore medio __mae__ W (__pct__%), bias __bias__ W, __days__ giorni",
   "load_forecast_accuracy_collecting": "Raccolta dati",
@@ -241,7 +244,9 @@
     "import_label": "Da dispositivo prezzo esistente",
     "import_none": "No, compilo io",
     "import_hint": "Il vecchio dispositivo non invia più il suo prezzo al gruppo.",
-    "name_water": "Prezzo dell'acqua"
+    "name_water": "Prezzo dell'acqua",
+    "step_advanced": "Avanzate",
+    "show_advanced": "Impostazioni avanzate (fonte dei prezzi, formula propria, decimali)"
   },
   "battery_learned": {
     "learning": "Apprendimento: carica __charge__/__needed__, scarica __discharge__/__needed__",
@@ -293,5 +298,6 @@
     "custom_spread": "Distribuzione",
     "custom_spread_local": "Come il clima locale",
     "custom_spread_own": "Valori propri"
-  }
+  },
+  "error_setup_soc_order": "SoC minimo, SoC di riserva e SoC massimo giornaliero devono crescere in quest’ordine."
 }
