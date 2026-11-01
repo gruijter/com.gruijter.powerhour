@@ -59,6 +59,7 @@ const RECENT_MS = 3 * 60 * 60 * 1000; // meter samples kept for getAvgPower()
 const SLOT_HISTORY = 200; // measured 15-minute slots kept for the charts (> 2 days)
 const { SLOT_MS } = ApplianceModel;
 const PLANNED_START_MS = 30 * 60 * 1000; // a run this close to the planned start is the planned run
+const PLAN_LEAD_MS = 2 * 60 * 60 * 1000; // a run this long before a plan's window is its run, started earlier
 
 class PowerDevice extends GenericDevice {
 
@@ -228,10 +229,18 @@ class PowerDevice extends GenericDevice {
       endHoldMin: profile ? profile.endHoldMin : null,
       skipToday,
     });
+    const before = this.applianceModel.run;
     this.applianceModel = model;
     if (event === 'started') await this.onApplianceStarted(t);
+    // A program (enough energy) ended before its confirmation (in one sample): confirmed now.
+    if (event === 'finished' && before && !before.confirmed && run && run.start === before.start) await this.onApplianceConfirmed(run.start);
     if (event === 'finished') await this.onApplianceFinished(run);
     if (restarted) await this.onApplianceStarted(t);
+    const live = this.applianceModel.run;
+    if (live && !live.confirmed && ApplianceModel.isConfirmedRun(live)) {
+      live.confirmed = true;
+      await this.onApplianceConfirmed(live.start);
+    }
     await this.checkPlannedStart(t);
     await this.checkDayPlans(t);
     await this.checkExpectedStart(t);
@@ -295,16 +304,41 @@ class PowerDevice extends GenericDevice {
     const runStart = this.applianceModel.run ? this.applianceModel.run.start : t;
     const planned = this.applianceModel.run && this.applianceModel.run.deadline;
     this.log(`Appliance program started at ${this.hhmm(runStart)}${planned ? `, planned, start by ${this.hhmm(planned)}` : ''}`);
-    // The day's start done (its picker keeps showing what it was), then the planned run has
-    // started (also when started earlier by hand).
-    const { date } = ApplianceModel.localDay(runStart, this.timeZone);
-    const day = this.applianceDays()[date];
-    if (day && !day.done && day.value !== 'unused') await this.saveApplianceDay(date, { ...day, done: true });
-    if (this.appliancePlan) await this.setAppliancePlan(null);
     const tokens = profile
       ? { expected_end: this.hhmm(runStart + profile.durationMin * 60000), expected_kwh: profile.kwh, duration: profile.durationMin }
       : { expected_end: '', expected_kwh: 0, duration: 0 };
     if (this.homey.app.trigger_appliance_started) await this.homey.app.trigger_appliance_started(this, tokens, {});
+  }
+
+  // A run is a program once it used MIN_RUN_KWH (not a pump or the display): its day's start is
+  // done, and a flow's plan it belongs to (started in its window or the hours before it, also
+  // earlier by hand or by the cheapest start cards) ends. "Via flow" of its days back to as
+  // learned: the run, not the flow, started it.
+  async onApplianceConfirmed(runStart) {
+    const dateOf = (ms) => ApplianceModel.localDay(ms, this.timeZone).date;
+    const plan = this.appliancePlan;
+    const inPlan = !!plan && runStart >= this.planScopeFrom(plan) && runStart <= plan.deadline + PLANNED_START_MS;
+    const planDate = plan && plan.startMs ? dateOf(plan.startMs) : null;
+    const date = dateOf(runStart);
+    this.log(`Appliance program confirmed (start ${this.hhmm(runStart)})${inPlan ? ', ends the flow plan' : ''}`);
+    const days = { ...this.applianceDays() };
+    const entry = days[date];
+    if (entry && !(date === planDate && !inPlan)) { // not the day of a plan that stays
+      if (entry.value === 'flow') delete days[date];
+      else if (!entry.done && entry.value !== 'unused') days[date] = { ...entry, done: true };
+    }
+    if (inPlan && planDate && days[planDate] && days[planDate].value === 'flow') delete days[planDate];
+    await this.setStoreValue('applianceDays', days).catch(this.error);
+    if (inPlan) await this.setAppliancePlan(null);
+    else await this.updateAppliancePlanDisplay();
+  }
+
+  // Runs from this time on (to its deadline) belong to the plan: its window (earliest, a fixed
+  // start, or from when it was made) and the hours before it, not before the plan was made.
+  planScopeFrom(plan) {
+    const from = plan.earliest || plan.fixedStartMs || plan.createdMs || plan.startMs;
+    const scope = from === plan.createdMs ? from : from - PLAN_LEAD_MS;
+    return plan.createdMs ? Math.max(plan.createdMs, scope) : scope;
   }
 
   async onApplianceFinished(run) {
@@ -450,7 +484,9 @@ class PowerDevice extends GenericDevice {
   // Flow: a run that starts by deadline (ms), once; earliest (ms): not before.
   async planStartBy(deadline, earliest = null) {
     if (!this.getApplianceProfile()) throw Error(this.homey.__('error_appliance_not_learned', { runs: ApplianceModel.MIN_RUNS }));
-    return this.setAppliancePlan({ earliest, deadline, notified: false });
+    return this.setAppliancePlan({
+      earliest, deadline, notified: false, createdMs: Date.now(),
+    });
   }
 
   async setAppliancePlan(plan) {
@@ -488,6 +524,7 @@ class PowerDevice extends GenericDevice {
   }
 
   // The planned start: trigger the flow once; a plan without a run soon after its deadline ends.
+  // Not while a run is running: once confirmed it ends the plan, else it waits for its end.
   async checkPlannedStart(t) {
     const plan = this.appliancePlan;
     if (!plan) return;
@@ -495,7 +532,17 @@ class PowerDevice extends GenericDevice {
       await this.setAppliancePlan(null);
       return;
     }
-    if (plan.notified || t < plan.startMs) return;
+    if (plan.notified || t < plan.startMs || this.applianceModel.run) return;
+    // A program since the plan was made, ended less than a program length ago: started earlier
+    // than the plan's hours before its window; no second start, the plan is done.
+    const last = this.applianceModel.runs[this.applianceModel.runs.length - 1];
+    const profile = this.getApplianceProfile();
+    const recentMs = profile ? profile.durationMin * 60000 : PLAN_LEAD_MS;
+    if (last && last.start >= (plan.createdMs || 0) && t - last.end < recentMs) {
+      this.log(`Appliance planned start skipped: a program ran ${this.hhmm(last.start)}-${this.hhmm(last.end)}`);
+      await this.setAppliancePlan(null); // its "Via flow" day back to as learned (syncFlowDay)
+      return;
+    }
     plan.notified = true;
     await this.setStoreValue('appliancePlan', plan).catch(this.error);
     this.log('Appliance planned start reached');
@@ -685,6 +732,7 @@ class PowerDevice extends GenericDevice {
 
   // A day's start reached: "Planned start" once (not when it passed long ago, e.g. Homey was off).
   async checkDayPlans(t) {
+    if (this.applianceModel.run) return; // like checkPlannedStart
     const due = this.dayPlans(t).filter((p) => p.startMs <= t);
     if (!due.length) return;
     const days = this.applianceDays();
@@ -724,7 +772,9 @@ class PowerDevice extends GenericDevice {
     const hhmm = EvPlanner.parseTime(time);
     if (!hhmm) throw Error(this.homey.__('error_invalid_time', { time }));
     const at = this.nextLocalTime(hhmm);
-    return this.planTokens(await this.setAppliancePlan({ fixedStartMs: at, deadline: at, notified: false }));
+    return this.planTokens(await this.setAppliancePlan({
+      fixedStartMs: at, deadline: at, notified: false, createdMs: Date.now(),
+    }));
   }
 
   // Flow: plan the cheapest start between two times (over midnight when to is not later); tokens.
