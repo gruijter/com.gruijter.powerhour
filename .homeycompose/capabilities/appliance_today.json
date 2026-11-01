@@ -16,19 +16,19 @@
     "ko": "오늘 시작"
   },
   "desc": {
-    "en": "Start today, once. As learned: forecast only, no start.",
-    "nl": "Start vandaag, eenmalig. Zoals geleerd: alleen voorspelling, geen start.",
-    "de": "Start heute, einmalig. Wie gelernt: nur Prognose, kein Start.",
-    "fr": "Démarrage aujourd'hui, une fois. Comme appris : prévision seule, pas de démarrage.",
-    "es": "Inicio hoy, una vez. Como aprendido: solo previsión, sin inicio.",
-    "it": "Avvio oggi, una volta. Come appreso: solo previsione, nessun avvio.",
-    "da": "Start i dag, én gang. Som lært: kun prognose, ingen start.",
-    "sv": "Start i dag, en gång. Som inlärt: bara prognos, ingen start.",
-    "no": "Start i dag, én gang. Som lært: kun prognose, ingen start.",
-    "pl": "Start dziś, jednorazowo. Jak wyuczono: tylko prognoza, bez startu.",
-    "ru": "Запуск сегодня, однократно. Как изучено: только прогноз, без запуска.",
-    "ar": "البدء اليوم، لمرة واحدة. كما تم تعلمه: توقع فقط، بلا بدء.",
-    "ko": "오늘 시작, 1회. 학습한 대로: 예측만, 시작 없음."
+    "en": "Start today, once. As learned: forecast only, no start. Via flow: the card \"Plan cheapest start\" sets the start.",
+    "nl": "Start vandaag, eenmalig. Zoals geleerd: alleen voorspelling, geen start. Via flow: de kaart \"Goedkoopste start plannen\" bepaalt de start.",
+    "de": "Start heute, einmalig. Wie gelernt: nur Prognose, kein Start. Per Flow: Die Karte \"Günstigsten Start planen\" legt den Start fest.",
+    "fr": "Démarrage aujourd'hui, une fois. Comme appris : prévision seule, pas de démarrage. Par flow : la carte « Planifier le démarrage le moins cher » fixe le démarrage.",
+    "es": "Inicio hoy, una vez. Como aprendido: solo previsión, sin inicio. Por flow: la tarjeta \"Planificar el inicio más barato\" fija el inicio.",
+    "it": "Avvio oggi, una volta. Come appreso: solo previsione, nessun avvio. Tramite flow: la scheda \"Pianifica l'avvio più economico\" fissa l'avvio.",
+    "da": "Start i dag, én gang. Som lært: kun prognose, ingen start. Via flow: kortet \"Planlæg billigste start\" bestemmer starten.",
+    "sv": "Start i dag, en gång. Som inlärt: bara prognos, ingen start. Via flöde: kortet \"Planera billigaste start\" bestämmer starten.",
+    "no": "Start i dag, én gang. Som lært: kun prognose, ingen start. Via flow: kortet \"Planlegg billigste start\" bestemmer starten.",
+    "pl": "Start dziś, jednorazowo. Jak wyuczono: tylko prognoza, bez startu. Przez flow: karta „Zaplanuj najtańszy start” ustala start.",
+    "ru": "Запуск сегодня, однократно. Как изучено: только прогноз, без запуска. Через поток: карточка «Запланировать самый дешёвый запуск» задаёт запуск.",
+    "ar": "البدء اليوم، لمرة واحدة. كما تم تعلمه: توقع فقط، بلا بدء. عبر التدفق: بطاقة \"جدولة أرخص بدء\" تحدد البدء.",
+    "ko": "오늘 시작, 1회. 학습한 대로: 예측만, 시작 없음. 플로우로: '가장 저렴한 시작 계획' 카드가 시작을 정합니다."
   },
   "uiComponent": "picker",
   "icon": "/assets/appliance_start.svg",
@@ -88,6 +88,24 @@
         "ru": "Дешевле всего",
         "ar": "الأرخص",
         "ko": "가장 저렴"
+      }
+    },
+    {
+      "id": "flow",
+      "title": {
+        "en": "Via flow",
+        "nl": "Via flow",
+        "de": "Per Flow",
+        "fr": "Par flow",
+        "es": "Por flow",
+        "it": "Tramite flow",
+        "da": "Via flow",
+        "sv": "Via flöde",
+        "no": "Via flow",
+        "pl": "Przez flow",
+        "ru": "Через поток",
+        "ar": "عبر التدفق",
+        "ko": "플로우로"
       }
     },
     {

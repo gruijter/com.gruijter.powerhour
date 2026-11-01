@@ -92,6 +92,7 @@ class PowerDevice extends GenericDevice {
       if (this.getStoreKeys().includes(key)) await this.unsetStoreValue(key).catch(this.error);
     }
     this.applianceSlots = (await this.getStoreValue('applianceSlots')) || [];
+    await this.syncFlowDay(); // a plan from before the picker "Via flow"
     if (this.migrateApplianceDeadlines()) {
       await this.saveAppliance();
       await this.setStoreValue('appliancePlan', this.appliancePlan).catch(this.error);
@@ -212,7 +213,9 @@ class PowerDevice extends GenericDevice {
     const plan = this.appliancePlan;
     const profile = this.getApplianceProfile();
     const deadlineFor = (start) => (plan && plan.startMs && Math.abs(start - plan.startMs) <= PLANNED_START_MS ? plan.deadline : null);
-    const skipToday = !!this.applianceDays()[ApplianceModel.localDay(t, this.timeZone).date];
+    // A day set by hand is not learned as a normal day; a day "Via flow" is (as before the picker).
+    const todayEntry = this.applianceDays()[ApplianceModel.localDay(t, this.timeZone).date];
+    const skipToday = !!todayEntry && todayEntry.value !== 'flow';
     const {
       model, event, run, restarted,
     } = ApplianceModel.processSample(this.applianceModel, {
@@ -292,11 +295,12 @@ class PowerDevice extends GenericDevice {
     const runStart = this.applianceModel.run ? this.applianceModel.run.start : t;
     const planned = this.applianceModel.run && this.applianceModel.run.deadline;
     this.log(`Appliance program started at ${this.hhmm(runStart)}${planned ? `, planned, start by ${this.hhmm(planned)}` : ''}`);
-    // The planned run has started (also when started earlier by hand).
-    if (this.appliancePlan) await this.setAppliancePlan(null);
+    // The day's start done (its picker keeps showing what it was), then the planned run has
+    // started (also when started earlier by hand).
     const { date } = ApplianceModel.localDay(runStart, this.timeZone);
     const day = this.applianceDays()[date];
     if (day && !day.done && day.value !== 'unused') await this.saveApplianceDay(date, { ...day, done: true });
+    if (this.appliancePlan) await this.setAppliancePlan(null);
     const tokens = profile
       ? { expected_end: this.hhmm(runStart + profile.durationMin * 60000), expected_kwh: profile.kwh, duration: profile.durationMin }
       : { expected_end: '', expected_kwh: 0, duration: 0 };
@@ -454,6 +458,7 @@ class PowerDevice extends GenericDevice {
     this.replanAppliance();
     if (plan) this.log(`Appliance planned: start ${this.dayHhmm(plan.startMs)}, start by ${this.dayHhmm(plan.deadline)}`);
     await this.setStoreValue('appliancePlan', this.appliancePlan).catch(this.error);
+    await this.syncFlowDay();
     await this.updateAppliancePlanDisplay();
     this.notifyGrid();
     return this.appliancePlan;
@@ -501,6 +506,7 @@ class PowerDevice extends GenericDevice {
       this.replanAppliance();
       if (this.appliancePlan.startMs !== before) {
         await this.setStoreValue('appliancePlan', this.appliancePlan).catch(this.error);
+        await this.syncFlowDay();
         this.notifyGrid();
       }
     }
@@ -595,8 +601,46 @@ class PowerDevice extends GenericDevice {
     }
     this.log(`Appliance ${day} (${date}) set to ${value}`);
     await this.saveApplianceDay(date, value === 'auto' ? null : { value, done: false });
+    // Another choice for the day of the flow's plan: the choice by hand wins.
+    if (value !== 'flow' && this.planDate() === date) await this.setAppliancePlan(null);
     await this.updateAppliancePlanDisplay();
     this.notifyGrid();
+  }
+
+  // Local date of the start of the flow's plan not started yet, else null.
+  planDate() {
+    const plan = this.appliancePlan;
+    return plan && plan.startMs && !plan.notified ? ApplianceModel.localDay(plan.startMs, this.timeZone).date : null;
+  }
+
+  // The day picker of the plan's start shows "Via flow" (byPlan); a day it set before and no longer
+  // has the plan (a new plan, the start moved past midnight, the plan ended) back to as learned.
+  // "Via flow" chosen by hand stays: that day waits for the flow.
+  async syncFlowDay() {
+    const date = this.planDate();
+    const days = { ...this.applianceDays() };
+    let changed = false;
+    Object.entries(days).forEach(([d, entry]) => {
+      if (d !== date && entry.byPlan && !entry.done) {
+        delete days[d];
+        changed = true;
+      }
+    });
+    if (date && !(days[date] && days[date].value === 'flow' && !days[date].done)) {
+      days[date] = { value: 'flow', done: false, byPlan: true };
+      changed = true;
+    }
+    if (changed) await this.setStoreValue('applianceDays', days).catch(this.error);
+  }
+
+  // Flow "Cancel planned program": no plan, and the days "Via flow" not started back to as learned.
+  async cancelAppliancePlan() {
+    const days = { ...this.applianceDays() };
+    Object.entries(days).forEach(([d, entry]) => {
+      if (entry.value === 'flow' && !entry.done) delete days[d];
+    });
+    await this.setStoreValue('applianceDays', days).catch(this.error);
+    await this.setAppliancePlan(null);
   }
 
   // Days with a start not done yet: [{ date, startMs, cost }] by start. 'cheapest': the cheapest
@@ -606,7 +650,7 @@ class PowerDevice extends GenericDevice {
     const priceAt = (ms) => this.priceAt(ms);
     const out = [];
     Object.entries(this.applianceDays()).forEach(([date, { value, done }]) => {
-      if (done || value === 'unused') return;
+      if (done || value === 'unused' || value === 'flow') return; // flow: the plan has the start
       const { start, end } = this.dayBounds(date);
       if (value === 'cheapest') {
         const fromMs = Math.max(start.getTime(), Math.floor(now / SLOT_MS) * SLOT_MS);
@@ -621,8 +665,13 @@ class PowerDevice extends GenericDevice {
   }
 
   // For the forecast: the days set by hand and their starts not done yet.
+  // A day "Via flow" has only the flow's plan (none while it waits for the flow).
   forecastDays() {
-    return { dates: Object.keys(this.applianceDays()), starts: this.dayPlans().map((p) => p.startMs) };
+    const days = this.applianceDays();
+    const starts = this.dayPlans().map((p) => p.startMs);
+    const planDate = this.planDate();
+    if (planDate && days[planDate]) starts.push(this.appliancePlan.startMs);
+    return { dates: Object.keys(days), starts };
   }
 
   // A day's start reached: "Planned start" once (not when it passed long ago, e.g. Homey was off).
@@ -709,17 +758,26 @@ class PowerDevice extends GenericDevice {
     const now = Date.now();
 
     const nextRun = this.nextRun(now);
+    const days = this.applianceDays();
+    const dateOf = (ms) => ApplianceModel.localDay(ms, this.timeZone).date;
+    // A day "Via flow" before the next run, without a plan yet: it waits for the flow.
+    const waiting = !run && !this.appliancePlan && Object.entries(days)
+      .some(([date, e]) => e.value === 'flow' && !e.done && (!nextRun || date <= dateOf(nextRun.startMs)));
     let next = '-';
-    if (nextRun) {
+    if (waiting) next = this.homey.__('appliance_wait_flow');
+    else if (nextRun) {
       const start = nextRun.startMs <= now ? this.homey.__('ev_now') : this.dayHhmm(nextRun.startMs);
       let end = (run ? run.start : Math.max(nextRun.startMs, now)) + runMs;
       // A run past its expected end: at the earliest at the end of this quarter (moves on per slot).
       if (run && end <= now) end = Math.floor(now / SLOT_MS) * SLOT_MS + SLOT_MS;
       next = profile ? `${start}–${this.hhmm(end)}` : start;
+      // Who planned it: the flow, or the day picker "Cheapest".
+      const entry = days[dateOf(nextRun.startMs)];
+      if (nextRun.source === 'plan') next += ` · ${this.homey.__('appliance_by_flow')}`;
+      else if (nextRun.source === 'day' && entry && entry.value === 'cheapest') next += ` · ${this.homey.__('appliance_by_cheapest')}`;
     }
 
     if (this.hasCapability('appliance_next_run')) await this.setCapability('appliance_next_run', next).catch(this.error);
-    const days = this.applianceDays();
     for (const day of ['today', 'tomorrow']) {
       const entry = days[this.pickerDate(day)];
       if (this.hasCapability(`appliance_${day}`)) await this.setCapability(`appliance_${day}`, entry ? entry.value : 'auto').catch(this.error);

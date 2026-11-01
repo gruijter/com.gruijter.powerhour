@@ -14409,19 +14409,19 @@
         },
         "highlight": true,
         "hint": {
-          "en": "Picks the cheapest start from now until this time and shows it at \"Next run\". At that start the card \"Planned start\" fires: start the appliance from that flow. Prices change: the start moves along.",
-          "nl": "Kiest de goedkoopste start van nu tot deze tijd en toont die bij \"Volgende run\". Op die start gaat de kaart \"Geplande start\" af: start het apparaat vanuit die flow. Veranderen de prijzen, dan schuift de start mee.",
-          "de": "Wählt den günstigsten Start von jetzt bis zu dieser Uhrzeit und zeigt ihn bei \"Nächster Lauf\". Zu diesem Start löst die Karte \"Geplanter Start\" aus: Starten Sie das Gerät aus diesem Flow. Ändern sich die Preise, verschiebt sich der Start.",
-          "fr": "Choisit le démarrage le moins cher d'ici à cette heure et l'affiche dans « Prochain cycle ». À ce démarrage, la carte « Départ planifié » se déclenche : démarrez l'appareil depuis ce flow. Si les prix changent, le démarrage suit.",
-          "es": "Elige el inicio más barato desde ahora hasta esta hora y lo muestra en \"Próximo ciclo\". En ese inicio se activa la tarjeta \"Inicio planificado\": inicie el aparato desde ese flow. Si cambian los precios, el inicio se ajusta.",
-          "it": "Sceglie l'avvio più economico da adesso a quest'ora e lo mostra in \"Prossimo ciclo\". A quell'avvio scatta la scheda \"Avvio pianificato\": avvia l'apparecchio da quel flow. Se i prezzi cambiano, l'avvio si sposta.",
-          "da": "Vælger den billigste start fra nu til dette tidspunkt og viser den ved \"Næste kørsel\". Ved den start udløses kortet \"Planlagt start\": start apparatet fra det flow. Ændres priserne, flytter starten med.",
-          "sv": "Väljer den billigaste starten från nu till denna tid och visar den vid \"Nästa körning\". Vid den starten utlöses kortet \"Planerad start\": starta apparaten från det flödet. Ändras priserna flyttas starten med.",
-          "no": "Velger den billigste starten fra nå til dette tidspunktet og viser den ved \"Neste kjøring\". Ved den starten utløses kortet \"Planlagt start\": start apparatet fra den flowen. Endres prisene, flytter starten seg.",
-          "pl": "Wybiera najtańszy start od teraz do tej godziny i pokazuje go w „Następny cykl”. Przy tym starcie wyzwala się karta „Zaplanowany start”: uruchom urządzenie z tego flow. Gdy ceny się zmienią, start się przesunie.",
-          "ru": "Выбирает самый дешёвый запуск от текущего момента до этого времени и показывает его в «Следующий цикл». В это время срабатывает карточка «Запланированный запуск»: запустите прибор из этого потока. При изменении цен запуск сдвигается.",
-          "ar": "يختار أرخص بدء من الآن حتى هذا الوقت ويعرضه في \"التشغيل التالي\". عند ذلك البدء تعمل بطاقة \"البدء المخطط\": شغّل الجهاز من ذلك التدفق. إذا تغيرت الأسعار يتحرك البدء معها.",
-          "ko": "지금부터 이 시각까지 가장 저렴한 시작을 골라 '다음 운전'에 표시합니다. 그 시각에 '계획된 시작' 카드가 실행됩니다: 그 플로우에서 기기를 시작하세요. 가격이 바뀌면 시작도 따라 이동합니다."
+          "en": "Sets \"Start today/tomorrow\" to Via flow and picks the cheapest start from now until this time and shows it at \"Next run\". At that start the card \"Planned start\" fires: start the appliance from that flow. Prices change: the start moves along.",
+          "nl": "Zet \"Start vandaag/morgen\" op Via flow en kiest de goedkoopste start van nu tot deze tijd en toont die bij \"Volgende run\". Op die start gaat de kaart \"Geplande start\" af: start het apparaat vanuit die flow. Veranderen de prijzen, dan schuift de start mee.",
+          "de": "Setzt \"Start heute/morgen\" auf Per Flow und wählt den günstigsten Start von jetzt bis zu dieser Uhrzeit und zeigt ihn bei \"Nächster Lauf\". Zu diesem Start löst die Karte \"Geplanter Start\" aus: Starten Sie das Gerät aus diesem Flow. Ändern sich die Preise, verschiebt sich der Start.",
+          "fr": "Met « Démarrage aujourd'hui/demain » sur Par flow et choisit le démarrage le moins cher d'ici à cette heure et l'affiche dans « Prochain cycle ». À ce démarrage, la carte « Départ planifié » se déclenche : démarrez l'appareil depuis ce flow. Si les prix changent, le démarrage suit.",
+          "es": "Pone \"Inicio hoy/mañana\" en Por flow y elige el inicio más barato desde ahora hasta esta hora y lo muestra en \"Próximo ciclo\". En ese inicio se activa la tarjeta \"Inicio planificado\": inicie el aparato desde ese flow. Si cambian los precios, el inicio se ajusta.",
+          "it": "Imposta \"Avvio oggi/domani\" su Tramite flow e sceglie l'avvio più economico da adesso a quest'ora e lo mostra in \"Prossimo ciclo\". A quell'avvio scatta la scheda \"Avvio pianificato\": avvia l'apparecchio da quel flow. Se i prezzi cambiano, l'avvio si sposta.",
+          "da": "Sætter \"Start i dag/i morgen\" til Via flow og vælger den billigste start fra nu til dette tidspunkt og viser den ved \"Næste kørsel\". Ved den start udløses kortet \"Planlagt start\": start apparatet fra det flow. Ændres priserne, flytter starten med.",
+          "sv": "Sätter \"Start i dag/i morgon\" till Via flöde och väljer den billigaste starten från nu till denna tid och visar den vid \"Nästa körning\". Vid den starten utlöses kortet \"Planerad start\": starta apparaten från det flödet. Ändras priserna flyttas starten med.",
+          "no": "Setter \"Start i dag/i morgen\" til Via flow og velger den billigste starten fra nå til dette tidspunktet og viser den ved \"Neste kjøring\". Ved den starten utløses kortet \"Planlagt start\": start apparatet fra den flowen. Endres prisene, flytter starten seg.",
+          "pl": "Ustawia „Start dziś/jutro” na Przez flow i wybiera najtańszy start od teraz do tej godziny i pokazuje go w „Następny cykl”. Przy tym starcie wyzwala się karta „Zaplanowany start”: uruchom urządzenie z tego flow. Gdy ceny się zmienią, start się przesunie.",
+          "ru": "Ставит «Запуск сегодня/завтра» на «Через поток» и выбирает самый дешёвый запуск от текущего момента до этого времени и показывает его в «Следующий цикл». В это время срабатывает карточка «Запланированный запуск»: запустите прибор из этого потока. При изменении цен запуск сдвигается.",
+          "ar": "يضبط \"البدء اليوم/غدًا\" على عبر التدفق ويختار أرخص بدء من الآن حتى هذا الوقت ويعرضه في \"التشغيل التالي\". عند ذلك البدء تعمل بطاقة \"البدء المخطط\": شغّل الجهاز من ذلك التدفق. إذا تغيرت الأسعار يتحرك البدء معها.",
+          "ko": "'오늘/내일 시작'을 플로우로 설정하고, 지금부터 이 시각까지 가장 저렴한 시작을 골라 '다음 운전'에 표시합니다. 그 시각에 '계획된 시작' 카드가 실행됩니다: 그 플로우에서 기기를 시작하세요. 가격이 바뀌면 시작도 따라 이동합니다."
         },
         "args": [
           {
@@ -14616,19 +14616,19 @@
         },
         "highlight": true,
         "hint": {
-          "en": "Picks the cheapest start in this window and shows it at \"Next run\". At that start the card \"Planned start\" fires: start the appliance from that flow. Prices change: the start moves along.",
-          "nl": "Kiest de goedkoopste start in dit venster en toont die bij \"Volgende run\". Op die start gaat de kaart \"Geplande start\" af: start het apparaat vanuit die flow. Veranderen de prijzen, dan schuift de start mee.",
-          "de": "Wählt den günstigsten Start in diesem Zeitfenster und zeigt ihn bei \"Nächster Lauf\". Zu diesem Start löst die Karte \"Geplanter Start\" aus: Starten Sie das Gerät aus diesem Flow. Ändern sich die Preise, verschiebt sich der Start.",
-          "fr": "Choisit le démarrage le moins cher dans cette plage et l'affiche dans « Prochain cycle ». À ce démarrage, la carte « Départ planifié » se déclenche : démarrez l'appareil depuis ce flow. Si les prix changent, le démarrage suit.",
-          "es": "Elige el inicio más barato en esta franja y lo muestra en \"Próximo ciclo\". En ese inicio se activa la tarjeta \"Inicio planificado\": inicie el aparato desde ese flow. Si cambian los precios, el inicio se ajusta.",
-          "it": "Sceglie l'avvio più economico in questa fascia e lo mostra in \"Prossimo ciclo\". A quell'avvio scatta la scheda \"Avvio pianificato\": avvia l'apparecchio da quel flow. Se i prezzi cambiano, l'avvio si sposta.",
-          "da": "Vælger den billigste start i dette tidsrum og viser den ved \"Næste kørsel\". Ved den start udløses kortet \"Planlagt start\": start apparatet fra det flow. Ændres priserne, flytter starten med.",
-          "sv": "Väljer den billigaste starten i detta tidsfönster och visar den vid \"Nästa körning\". Vid den starten utlöses kortet \"Planerad start\": starta apparaten från det flödet. Ändras priserna flyttas starten med.",
-          "no": "Velger den billigste starten i dette tidsvinduet og viser den ved \"Neste kjøring\". Ved den starten utløses kortet \"Planlagt start\": start apparatet fra den flowen. Endres prisene, flytter starten seg.",
-          "pl": "Wybiera najtańszy start w tym oknie i pokazuje go w „Następny cykl”. Przy tym starcie wyzwala się karta „Zaplanowany start”: uruchom urządzenie z tego flow. Gdy ceny się zmienią, start się przesunie.",
-          "ru": "Выбирает самый дешёвый запуск в этом интервале и показывает его в «Следующий цикл». В это время срабатывает карточка «Запланированный запуск»: запустите прибор из этого потока. При изменении цен запуск сдвигается.",
-          "ar": "يختار أرخص بدء في هذه النافذة ويعرضه في \"التشغيل التالي\". عند ذلك البدء تعمل بطاقة \"البدء المخطط\": شغّل الجهاز من ذلك التدفق. إذا تغيرت الأسعار يتحرك البدء معها.",
-          "ko": "이 시간대에서 가장 저렴한 시작을 골라 '다음 운전'에 표시합니다. 그 시각에 '계획된 시작' 카드가 실행됩니다: 그 플로우에서 기기를 시작하세요. 가격이 바뀌면 시작도 따라 이동합니다."
+          "en": "Sets \"Start today/tomorrow\" to Via flow and picks the cheapest start in this window and shows it at \"Next run\". At that start the card \"Planned start\" fires: start the appliance from that flow. Prices change: the start moves along.",
+          "nl": "Zet \"Start vandaag/morgen\" op Via flow en kiest de goedkoopste start in dit venster en toont die bij \"Volgende run\". Op die start gaat de kaart \"Geplande start\" af: start het apparaat vanuit die flow. Veranderen de prijzen, dan schuift de start mee.",
+          "de": "Setzt \"Start heute/morgen\" auf Per Flow und wählt den günstigsten Start in diesem Zeitfenster und zeigt ihn bei \"Nächster Lauf\". Zu diesem Start löst die Karte \"Geplanter Start\" aus: Starten Sie das Gerät aus diesem Flow. Ändern sich die Preise, verschiebt sich der Start.",
+          "fr": "Met « Démarrage aujourd'hui/demain » sur Par flow et choisit le démarrage le moins cher dans cette plage et l'affiche dans « Prochain cycle ». À ce démarrage, la carte « Départ planifié » se déclenche : démarrez l'appareil depuis ce flow. Si les prix changent, le démarrage suit.",
+          "es": "Pone \"Inicio hoy/mañana\" en Por flow y elige el inicio más barato en esta franja y lo muestra en \"Próximo ciclo\". En ese inicio se activa la tarjeta \"Inicio planificado\": inicie el aparato desde ese flow. Si cambian los precios, el inicio se ajusta.",
+          "it": "Imposta \"Avvio oggi/domani\" su Tramite flow e sceglie l'avvio più economico in questa fascia e lo mostra in \"Prossimo ciclo\". A quell'avvio scatta la scheda \"Avvio pianificato\": avvia l'apparecchio da quel flow. Se i prezzi cambiano, l'avvio si sposta.",
+          "da": "Sætter \"Start i dag/i morgen\" til Via flow og vælger den billigste start i dette tidsrum og viser den ved \"Næste kørsel\". Ved den start udløses kortet \"Planlagt start\": start apparatet fra det flow. Ændres priserne, flytter starten med.",
+          "sv": "Sätter \"Start i dag/i morgon\" till Via flöde och väljer den billigaste starten i detta tidsfönster och visar den vid \"Nästa körning\". Vid den starten utlöses kortet \"Planerad start\": starta apparaten från det flödet. Ändras priserna flyttas starten med.",
+          "no": "Setter \"Start i dag/i morgen\" til Via flow og velger den billigste starten i dette tidsvinduet og viser den ved \"Neste kjøring\". Ved den starten utløses kortet \"Planlagt start\": start apparatet fra den flowen. Endres prisene, flytter starten seg.",
+          "pl": "Ustawia „Start dziś/jutro” na Przez flow i wybiera najtańszy start w tym oknie i pokazuje go w „Następny cykl”. Przy tym starcie wyzwala się karta „Zaplanowany start”: uruchom urządzenie z tego flow. Gdy ceny się zmienią, start się przesunie.",
+          "ru": "Ставит «Запуск сегодня/завтра» на «Через поток» и выбирает самый дешёвый запуск в этом интервале и показывает его в «Следующий цикл». В это время срабатывает карточка «Запланированный запуск»: запустите прибор из этого потока. При изменении цен запуск сдвигается.",
+          "ar": "يضبط \"البدء اليوم/غدًا\" على عبر التدفق ويختار أرخص بدء في هذه النافذة ويعرضه في \"التشغيل التالي\". عند ذلك البدء تعمل بطاقة \"البدء المخطط\": شغّل الجهاز من ذلك التدفق. إذا تغيرت الأسعار يتحرك البدء معها.",
+          "ko": "'오늘/내일 시작'을 플로우로 설정하고, 이 시간대에서 가장 저렴한 시작을 골라 '다음 운전'에 표시합니다. 그 시각에 '계획된 시작' 카드가 실행됩니다: 그 플로우에서 기기를 시작하세요. 가격이 바뀌면 시작도 따라 이동합니다."
         },
         "args": [
           {
@@ -29543,19 +29543,19 @@
         "ko": "오늘 시작"
       },
       "desc": {
-        "en": "Start today, once. As learned: forecast only, no start.",
-        "nl": "Start vandaag, eenmalig. Zoals geleerd: alleen voorspelling, geen start.",
-        "de": "Start heute, einmalig. Wie gelernt: nur Prognose, kein Start.",
-        "fr": "Démarrage aujourd'hui, une fois. Comme appris : prévision seule, pas de démarrage.",
-        "es": "Inicio hoy, una vez. Como aprendido: solo previsión, sin inicio.",
-        "it": "Avvio oggi, una volta. Come appreso: solo previsione, nessun avvio.",
-        "da": "Start i dag, én gang. Som lært: kun prognose, ingen start.",
-        "sv": "Start i dag, en gång. Som inlärt: bara prognos, ingen start.",
-        "no": "Start i dag, én gang. Som lært: kun prognose, ingen start.",
-        "pl": "Start dziś, jednorazowo. Jak wyuczono: tylko prognoza, bez startu.",
-        "ru": "Запуск сегодня, однократно. Как изучено: только прогноз, без запуска.",
-        "ar": "البدء اليوم، لمرة واحدة. كما تم تعلمه: توقع فقط، بلا بدء.",
-        "ko": "오늘 시작, 1회. 학습한 대로: 예측만, 시작 없음."
+        "en": "Start today, once. As learned: forecast only, no start. Via flow: the card \"Plan cheapest start\" sets the start.",
+        "nl": "Start vandaag, eenmalig. Zoals geleerd: alleen voorspelling, geen start. Via flow: de kaart \"Goedkoopste start plannen\" bepaalt de start.",
+        "de": "Start heute, einmalig. Wie gelernt: nur Prognose, kein Start. Per Flow: Die Karte \"Günstigsten Start planen\" legt den Start fest.",
+        "fr": "Démarrage aujourd'hui, une fois. Comme appris : prévision seule, pas de démarrage. Par flow : la carte « Planifier le démarrage le moins cher » fixe le démarrage.",
+        "es": "Inicio hoy, una vez. Como aprendido: solo previsión, sin inicio. Por flow: la tarjeta \"Planificar el inicio más barato\" fija el inicio.",
+        "it": "Avvio oggi, una volta. Come appreso: solo previsione, nessun avvio. Tramite flow: la scheda \"Pianifica l'avvio più economico\" fissa l'avvio.",
+        "da": "Start i dag, én gang. Som lært: kun prognose, ingen start. Via flow: kortet \"Planlæg billigste start\" bestemmer starten.",
+        "sv": "Start i dag, en gång. Som inlärt: bara prognos, ingen start. Via flöde: kortet \"Planera billigaste start\" bestämmer starten.",
+        "no": "Start i dag, én gang. Som lært: kun prognose, ingen start. Via flow: kortet \"Planlegg billigste start\" bestemmer starten.",
+        "pl": "Start dziś, jednorazowo. Jak wyuczono: tylko prognoza, bez startu. Przez flow: karta „Zaplanuj najtańszy start” ustala start.",
+        "ru": "Запуск сегодня, однократно. Как изучено: только прогноз, без запуска. Через поток: карточка «Запланировать самый дешёвый запуск» задаёт запуск.",
+        "ar": "البدء اليوم، لمرة واحدة. كما تم تعلمه: توقع فقط، بلا بدء. عبر التدفق: بطاقة \"جدولة أرخص بدء\" تحدد البدء.",
+        "ko": "오늘 시작, 1회. 학습한 대로: 예측만, 시작 없음. 플로우로: '가장 저렴한 시작 계획' 카드가 시작을 정합니다."
       },
       "uiComponent": "picker",
       "icon": "/assets/appliance_start.svg",
@@ -29615,6 +29615,24 @@
             "ru": "Дешевле всего",
             "ar": "الأرخص",
             "ko": "가장 저렴"
+          }
+        },
+        {
+          "id": "flow",
+          "title": {
+            "en": "Via flow",
+            "nl": "Via flow",
+            "de": "Per Flow",
+            "fr": "Par flow",
+            "es": "Por flow",
+            "it": "Tramite flow",
+            "da": "Via flow",
+            "sv": "Via flöde",
+            "no": "Via flow",
+            "pl": "Przez flow",
+            "ru": "Через поток",
+            "ar": "عبر التدفق",
+            "ko": "플로우로"
           }
         },
         {
@@ -29835,19 +29853,19 @@
         "ko": "내일 시작"
       },
       "desc": {
-        "en": "Start tomorrow, once. As learned: forecast only, no start.",
-        "nl": "Start morgen, eenmalig. Zoals geleerd: alleen voorspelling, geen start.",
-        "de": "Start morgen, einmalig. Wie gelernt: nur Prognose, kein Start.",
-        "fr": "Démarrage demain, une fois. Comme appris : prévision seule, pas de démarrage.",
-        "es": "Inicio mañana, una vez. Como aprendido: solo previsión, sin inicio.",
-        "it": "Avvio domani, una volta. Come appreso: solo previsione, nessun avvio.",
-        "da": "Start i morgen, én gang. Som lært: kun prognose, ingen start.",
-        "sv": "Start i morgon, en gång. Som inlärt: bara prognos, ingen start.",
-        "no": "Start i morgen, én gang. Som lært: kun prognose, ingen start.",
-        "pl": "Start jutro, jednorazowo. Jak wyuczono: tylko prognoza, bez startu.",
-        "ru": "Запуск завтра, однократно. Как изучено: только прогноз, без запуска.",
-        "ar": "البدء غدًا، لمرة واحدة. كما تم تعلمه: توقع فقط، بلا بدء.",
-        "ko": "내일 시작, 1회. 학습한 대로: 예측만, 시작 없음."
+        "en": "Start tomorrow, once. As learned: forecast only, no start. Via flow: the card \"Plan cheapest start\" sets the start.",
+        "nl": "Start morgen, eenmalig. Zoals geleerd: alleen voorspelling, geen start. Via flow: de kaart \"Goedkoopste start plannen\" bepaalt de start.",
+        "de": "Start morgen, einmalig. Wie gelernt: nur Prognose, kein Start. Per Flow: Die Karte \"Günstigsten Start planen\" legt den Start fest.",
+        "fr": "Démarrage demain, une fois. Comme appris : prévision seule, pas de démarrage. Par flow : la carte « Planifier le démarrage le moins cher » fixe le démarrage.",
+        "es": "Inicio mañana, una vez. Como aprendido: solo previsión, sin inicio. Por flow: la tarjeta \"Planificar el inicio más barato\" fija el inicio.",
+        "it": "Avvio domani, una volta. Come appreso: solo previsione, nessun avvio. Tramite flow: la scheda \"Pianifica l'avvio più economico\" fissa l'avvio.",
+        "da": "Start i morgen, én gang. Som lært: kun prognose, ingen start. Via flow: kortet \"Planlæg billigste start\" bestemmer starten.",
+        "sv": "Start i morgon, en gång. Som inlärt: bara prognos, ingen start. Via flöde: kortet \"Planera billigaste start\" bestämmer starten.",
+        "no": "Start i morgen, én gang. Som lært: kun prognose, ingen start. Via flow: kortet \"Planlegg billigste start\" bestemmer starten.",
+        "pl": "Start jutro, jednorazowo. Jak wyuczono: tylko prognoza, bez startu. Przez flow: karta „Zaplanuj najtańszy start” ustala start.",
+        "ru": "Запуск завтра, однократно. Как изучено: только прогноз, без запуска. Через поток: карточка «Запланировать самый дешёвый запуск» задаёт запуск.",
+        "ar": "البدء غدًا، لمرة واحدة. كما تم تعلمه: توقع فقط، بلا بدء. عبر التدفق: بطاقة \"جدولة أرخص بدء\" تحدد البدء.",
+        "ko": "내일 시작, 1회. 학습한 대로: 예측만, 시작 없음. 플로우로: '가장 저렴한 시작 계획' 카드가 시작을 정합니다."
       },
       "uiComponent": "picker",
       "icon": "/assets/appliance_start.svg",
@@ -29907,6 +29925,24 @@
             "ru": "Дешевле всего",
             "ar": "الأرخص",
             "ko": "가장 저렴"
+          }
+        },
+        {
+          "id": "flow",
+          "title": {
+            "en": "Via flow",
+            "nl": "Via flow",
+            "de": "Per Flow",
+            "fr": "Par flow",
+            "es": "Por flow",
+            "it": "Tramite flow",
+            "da": "Via flow",
+            "sv": "Via flöde",
+            "no": "Via flow",
+            "pl": "Przez flow",
+            "ru": "Через поток",
+            "ar": "عبر التدفق",
+            "ko": "플로우로"
           }
         },
         {
