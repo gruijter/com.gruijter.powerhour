@@ -13,11 +13,11 @@ const week = (from, days) => {
 const mon = Date.UTC(2026, 9, 19);
 const current = L.initializeProfile().map((d) => d.map(() => 800));
 
-// Nightly retrain on one week: every hour has 1 sample, live learning stays.
+// Nightly retrain on one week: every hour has 1 sample, half way from the learned value.
 let r = L.processHistoricData({
   powerEntries: week(mon, 7), currentWeeklyProfile: current, timezone: 'UTC', minSamples: 2,
 });
-assert.ok(r.weeklyProfile.every((d) => d.every((v) => v === 800)), 'one sample per hour: learned kept');
+assert.strictEqual(r.weeklyProfile[1][0], 650, 'one sample per hour: blended');
 
 // Two weeks: 2 samples per hour, history replaces.
 r = L.processHistoricData({
@@ -32,7 +32,7 @@ r = L.processHistoricData({
   powerEntries: week(mon, 7), currentWeeklyProfile: partly, timezone: 'UTC', minSamples: 2,
 });
 assert.ok(r.weeklyProfile[1][8] > 0 && r.weeklyProfile[1][8] !== 800, 'unlearned slot filled');
-assert.strictEqual(r.weeklyProfile[1][9], 800);
+assert.strictEqual(r.weeklyProfile[1][9], 650);
 
 // From scratch (minSamples 1): one week is used.
 r = L.processHistoricData({ powerEntries: week(mon, 7), currentWeeklyProfile: L.initializeProfile(), timezone: 'UTC' });

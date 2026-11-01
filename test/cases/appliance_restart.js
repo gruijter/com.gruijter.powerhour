@@ -89,6 +89,14 @@ test('profile leaves out a run far longer than the others', () => {
   assert.strictEqual(profile.durationMin, 90);
 });
 
+test('profile keeps long runs that are a program of their own', () => {
+  const run = (i, min) => ({ start: START + i * 86400000, end: START + i * 86400000 + min * MIN, kwh: new Array(Math.ceil(min / 15)).fill(0.1) });
+  const runs = [...Array.from({ length: 12 }, (_, i) => run(i, 30)), ...Array.from({ length: 8 }, (_, i) => run(12 + i, 180))];
+  const profile = ApplianceModel.getProfile({ ...ApplianceModel.initModel(), runs });
+  assert.strictEqual(profile.runs, 20);
+  assert.strictEqual(profile.shortestMin, 30);
+});
+
 test('profile keeps all runs when fewer than MIN_RUNS remain', () => {
   const run = (startH, min) => ({ start: START + startH * 3600000, end: START + startH * 3600000 + min * MIN, kwh: [0.1] });
   const model = { ...ApplianceModel.initModel(), runs: [run(0, 30), run(24, 30), run(48, 300)] };
@@ -144,15 +152,35 @@ test('per minute with a learned end time of 5 minutes: each wash ends 5 minutes 
   assert.deepStrictEqual(finished.map((r) => `${hhmm(r.start)}-${hhmm(r.end)} at ${hhmm(r.at)}`), ['07:09-08:27 at 08:32', '08:45-11:13 at 11:18']);
 });
 
-test('learned end time: 1.5 x the median longest pause, 5 to 30 minutes', () => {
+test('learned end time: 1.5 x the longest pause, 5 to 30 minutes', () => {
   const run = (startH, pauseMin) => ({
     start: START + startH * 3600000, end: START + startH * 3600000 + 90 * MIN, kwh: [0.5, 0.5], pauseMin,
   });
   const profile = (pauses) => ApplianceModel.getProfile({ ...ApplianceModel.initModel(), runs: pauses.map((x, i) => run(i * 24, x)) });
   assert.strictEqual(profile([2, 3, 2]).endHoldMin, 5);
-  assert.strictEqual(profile([6, 8, 30]).endHoldMin, 12);
+  assert.strictEqual(profile([2, 3, 7]).endHoldMin, 11);
+  assert.strictEqual(profile([6, 8, 30]).endHoldMin, 30);
   assert.strictEqual(profile([25, 30, 40]).endHoldMin, 30);
   assert.strictEqual(profile([2, 3, undefined]).endHoldMin, null);
+});
+
+test('a pause with heating again before the shortest program length: one run', () => {
+  // Dishwasher: heats 20 min, 10 min passive, heats again for the hot rinse; shortest program 60 min.
+  let m = ApplianceModel.initModel();
+  let meter = 100;
+  const events = [];
+  const values = [...new Array(3).fill(2), ...new Array(20).fill(2000), ...new Array(10).fill(2), ...new Array(15).fill(2000), ...new Array(40).fill(2)];
+  values.forEach((w, i) => {
+    const t = START + i * MIN;
+    meter += w / 60000;
+    const r = ApplianceModel.processSample(m, {
+      t, powerW: w, meterKwh: meter, timezone: TZ, shortestMin: 60,
+    });
+    m = r.model;
+    if (r.event) events.push(r.event);
+    if (r.restarted) events.push('restarted');
+  });
+  assert.deepStrictEqual(events, ['started', 'finished']);
 });
 
 if (failed) {

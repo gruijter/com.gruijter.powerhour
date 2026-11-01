@@ -495,11 +495,13 @@ class BatDevice extends GenericDevice {
   }
 
   // Grid charging (W) this battery gives way with under the hard limit: only while this app
-  // controls it (a setpoint written within FUSE_YIELD_MS).
+  // controls it (a setpoint written within FUSE_YIELD_MS). At most the measured power: a full
+  // battery still asked to charge (BatteryControl, planned 100 %) takes nothing.
   fuseYieldW(now = Date.now()) {
     if (this.getSettings().fuseProtection === false || !this.getStoreValue('controlTakeover')) return 0;
     if (typeof this.lastSetpointW !== 'number' || !this.lastSetpointTm || now - this.lastSetpointTm > FUSE_YIELD_MS) return 0;
-    return Math.max(0, this.lastSetpointW);
+    const measuredW = this.getCapabilityValue('measure_watt_avg');
+    return Math.max(0, typeof measuredW === 'number' ? Math.min(this.lastSetpointW, measuredW) : this.lastSetpointW);
   }
 
   async takeControl() {

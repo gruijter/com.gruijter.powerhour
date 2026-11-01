@@ -227,6 +227,7 @@ class PowerDevice extends GenericDevice {
       deadlineFor,
       fullMin: profile ? profile.fullMin : null,
       endHoldMin: profile ? profile.endHoldMin : null,
+      shortestMin: profile ? profile.shortestMin : null,
       skipToday,
     });
     const before = this.applianceModel.run;
@@ -784,6 +785,7 @@ class PowerDevice extends GenericDevice {
     if (fromH === null || fromH >= 24) throw Error(this.homey.__('error_invalid_time', { time: from }));
     if (toH === null) throw Error(this.homey.__('error_invalid_time', { time: to }));
     const window = ApplianceModel.startWindow(fromH, toH, Date.now(), this.timeZone);
+    if (!window) throw Error(this.homey.__('error_invalid_time', { time: to }));
     return this.planTokens(await this.planStartBy(window.toMs, window.fromMs));
   }
 

@@ -403,6 +403,7 @@ class SolarDevice extends GenericDevice {
           peakPower: peak,
         });
 
+        if (curtailment.isActive || this.manualCurtailment) this.curtailedTm = currentTimestamp;
         if (curtailment.changed) {
           await this.setCapabilityValue('alarm_power', curtailment.isActive).catch(this.error);
           if (curtailment.log) this.log(curtailment.log);
@@ -1203,12 +1204,14 @@ class SolarDevice extends GenericDevice {
   }
 
   // Measured against forecast power so far today (SolarLearningStrategy.intradayRatio()). Not while
-  // curtailed: then the panels could give more than measured.
+  // curtailed, and only from samples after it: then the panels could give more than measured.
   updateIntraday(now, untilMs) {
     const curtailed = this.manualCurtailment || this.getCapabilityValue('alarm_power') === true;
+    if (curtailed) this.curtailedTm = now.getTime();
+    const since = this.curtailedTm || 0;
     const peak = Math.max(this.peakPowerAllTime || 0, this.getSettings().peakPower || 0);
     const ratio = curtailed ? 1 : SolarLearningStrategy.intradayRatio({
-      history: this.powerHistory,
+      history: since ? (this.powerHistory || []).filter((e) => e && e.time > since) : this.powerHistory,
       forecastAt: (t) => this.basePowerAt(t),
       nowMs: now.getTime(),
       minPowerW: Math.max(50, peak * 0.05),
