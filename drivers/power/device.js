@@ -216,7 +216,14 @@ class PowerDevice extends GenericDevice {
     const {
       model, event, run, restarted,
     } = ApplianceModel.processSample(this.applianceModel, {
-      t, powerW, meterKwh, timezone: this.timeZone, deadlineFor, fullMin: profile ? profile.fullMin : null, skipToday,
+      t,
+      powerW,
+      meterKwh,
+      timezone: this.timeZone,
+      deadlineFor,
+      fullMin: profile ? profile.fullMin : null,
+      endHoldMin: profile ? profile.endHoldMin : null,
+      skipToday,
     });
     this.applianceModel = model;
     if (event === 'started') await this.onApplianceStarted(t);
