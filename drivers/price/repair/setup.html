@@ -56,14 +56,18 @@
 
 	<div class="pbth-nav-space"></div>
 	<div class="pbth-nav">
-		<button class="homey-button-transparent" id="back"></button>
-		<button class="homey-button-primary" id="next"></button>
+		<button class="homey-button-transparent pbth-prev" id="back"><span class="homey-icon-arrow-left"></span><span id="backText"></span></button>
+		<button class="homey-button-primary pbth-next" id="next"><span id="nextText"></span><span class="homey-icon-arrow-right" id="nextIcon"></span></button>
 	</div>
 </form>
 <style>
 	/* Previous and Next fixed at the bottom, like Homey's own views (no Homey class for it). */
 	.pbth-nav { position: fixed; left: 0; right: 0; bottom: 0; display: flex; justify-content: space-between; align-items: center; padding: var(--homey-su-2); background: var(--homey-color-white); }
+	.pbth-prev { padding-left: 0; color: var(--homey-color-mono-60); }
+	.pbth-next { width: 50%; }
 	.pbth-nav-space { height: 88px; }
+	/* The step title is in Homey's title bar. */
+	form > [data-step] > legend { display: none; }
 	/* Fields of other pages of a step (pagination below). No Homey class hides with priority over its display. */
 	.setup-page-off { display: none !important; }
 </style>
@@ -71,7 +75,7 @@
 <script>
 	// The same file in pair/ and repair/ of the price driver (lib/helpers/PriceSetup.js).
 	Homey.setTitle(Homey.__('price_setup.title'));
-	document.getElementById('back').textContent = `← ${Homey.__('repair.nav_previous')}`;
+	document.getElementById('backText').textContent = Homey.__('repair.nav_previous');
 	const PRICE_FIELDS = [
 		'vat', 'fixedMarkup', 'fixedMarkupInclVat', 'variableMarkup', 'tax', 'taxInclVat', 'fixedMarkupTOD', 'fixedMarkupTODInclVat',
 		'fixedMarkupWeekend', 'fixedMarkupWeekendInclVat',
@@ -437,7 +441,9 @@
 		showOnly(pages[sub]);
 		const last = step === steps().length - 1 && sub === pages.length - 1;
 		document.getElementById('back').style.visibility = step > 0 || sub > 0 ? '' : 'hidden';
-		document.getElementById('next').textContent = last ? Homey.__(data.repairing ? 'price_setup.save' : 'price_setup.add') : `${Homey.__('repair.nav_next')} →`;
+		document.getElementById('nextText').textContent = last ? Homey.__(data.repairing ? 'price_setup.save' : 'price_setup.add') : Homey.__('repair.nav_next');
+		document.getElementById('nextIcon').style.display = last ? 'none' : '';
+		Homey.setTitle(stepEl().querySelector('legend').textContent);
 		window.scrollTo(0, 0);
 	};
 	const paginate = () => {

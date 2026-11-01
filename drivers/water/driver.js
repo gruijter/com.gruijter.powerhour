@@ -23,6 +23,14 @@ const GenericDriver = require('../../lib/genericDeviceDrivers/generic_sum_driver
 
 const ADVANCED_IDS = ['markup_month', 'markup_day', 'markup_hour', 'decimals_meter'];
 
+// The screens of the setup view, in order (lib/helpers/PairSetup.js).
+const STEPS = [
+  { id: 'meter', ids: ['homey_device_daily_reset'], roles: true },
+  { id: 'price', ids: ['tariff_update_group', 'tariff', 'currency'] },
+  { id: 'year', ids: [] },
+  { id: 'advanced', ids: ADVANCED_IDS, optional: true },
+];
+
 const driverSpecifics = {
   driverId: 'water',
   fallbackMeter: 'meter_water', // a source device's primary meter, when nothing else is detected
@@ -38,8 +46,8 @@ const driverSpecifics = {
     'measure_lpm_min.month', 'measure_lpm_max.month',
     'measure_lpm_min.year', 'measure_lpm_max.year'],
   setup: {
-    settings: ['homey_device_daily_reset', 'tariff_update_group', 'tariff', 'currency', ...ADVANCED_IDS],
-    sections: [{ id: 'advanced', ids: ADVANCED_IDS, toggle: true }],
+    settings: STEPS.flatMap((st) => st.ids),
+    steps: STEPS,
     roles: [{ key: 'p1', kind: 'm3', label: 'meter' }],
     prices: 'water',
     requirePrice: true,

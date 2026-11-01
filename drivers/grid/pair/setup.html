@@ -1,36 +1,26 @@
 <form class="homey-form" onsubmit="return false;" data-view="setup">
-	<fieldset class="homey-form-fieldset" data-part="main">
-		<legend class="homey-form-legend" data-part="title"></legend>
-		<div data-part="settings"></div>
-		<fieldset class="homey-form-checkbox-set" data-part="checkboxes"></fieldset>
-	</fieldset>
-	<div data-part="sections"></div>
-	<fieldset class="homey-form-fieldset" data-part="budgetSection" style="display: none;">
-		<legend class="homey-form-legend" data-part="budgetTitle"></legend>
-		<div data-part="budget"></div>
-	</fieldset>
-	<fieldset class="homey-form-fieldset" data-part="rolesSection" style="display: none;">
-		<legend class="homey-form-legend" data-part="rolesTitle"></legend>
-		<p class="homey-subtitle" data-part="rolesText"></p>
-		<div data-part="roles"></div>
-	</fieldset>
+	<div data-part="steps"></div>
 	<div class="pbth-nav-space"></div>
 	<div class="pbth-nav">
-		<button class="homey-button-transparent" data-part="back"></button>
-		<button class="homey-button-primary" data-part="next"></button>
+		<button class="homey-button-transparent pbth-prev" data-part="back"><span class="homey-icon-arrow-left"></span><span data-part="backText"></span></button>
+		<button class="homey-button-primary pbth-next" data-part="next"><span data-part="nextText"></span><span class="homey-icon-arrow-right"></span></button>
 	</div>
 </form>
 <style>
+	/* Fields of other pages. No Homey class hides with priority over its display. */
+	.setup-page-off { display: none !important; }
 	/* Previous and Next fixed at the bottom, like Homey's own views (no Homey class for it). */
 	.pbth-nav { position: fixed; left: 0; right: 0; bottom: 0; display: flex; justify-content: space-between; align-items: center; padding: var(--homey-su-2); background: var(--homey-color-white); }
+	.pbth-prev { padding-left: 0; color: var(--homey-color-mono-60); }
+	.pbth-next { width: 50%; }
 	.pbth-nav-space { height: 88px; }
-	/* Fields of other pages (pagination below). No Homey class hides with priority over its display. */
-	.setup-page-off { display: none !important; }
 </style>
 
 <script>
 	// The same file as setup.html (pair/ and repair/) and, with VIEW and data-view 'budget' (only the
-	// year section), as budget.html (repair/) of each driver with a setup view (lib/helpers/PairSetup.js).
+	// year step), as budget.html (repair/) of each driver with a setup view (lib/helpers/PairSetup.js).
+	// One screen per step: its title in Homey's title bar, a short intro, then its settings. A step
+	// that does not fit the screen continues on the next one.
 	// Own scope and parts looked up in its own form: the views of a repair session share one document.
 	(() => {
 		const VIEW = 'setup';
@@ -38,23 +28,23 @@
 		const root = forms[forms.length - 1];
 		const part = (name) => root.querySelector(`[data-part="${name}"]`);
 		const input = (id) => root.querySelector(`#set_${id}`);
-		Homey.setTitle(Homey.__(VIEW === 'budget' ? 'repair.start_budget' : 'repair.setup_title'));
-		part('back').textContent = `← ${Homey.__('repair.nav_previous')}`;
-		part('next').textContent = `${Homey.__('repair.nav_next')} →`;
+		part('backText').textContent = Homey.__('repair.nav_previous');
+		part('nextText').textContent = Homey.__('repair.nav_next');
 		let roleDeviceId = null;
+		let roleItems = [];
 		let settingDefs = [];
+		let steps = [];
+		let backView = VIEW === 'budget' ? 'repair_start' : 'list_devices';
 
 		const el = (tag, props = {}) => Object.assign(document.createElement(tag), props);
-
 		const option = (value, text, selected) => el('option', { value: String(value), textContent: text, selected: String(value) === String(selected) });
+		const body = (stepId) => root.querySelector(`[data-step-body="${stepId}"]`);
 
-		// One driver setting: a checkbox (in the checkbox set) or a group with a number, text or dropdown.
-		// A setting with a section goes there in its own order (checkboxes too), and with showIf only
-		// shows while that other setting has that value.
+		// One driver setting in its step: a checkbox, or a group with a number, text or dropdown.
 		const settingField = (s) => {
-			const section = s.section ? part(s.section) : null;
+			const box = body(s.step) || body(steps[0].id);
 			if (s.type === 'checkbox') {
-				const set = section ? el('fieldset', { className: 'homey-form-checkbox-set', id: `grp_${s.id}` }) : part('checkboxes');
+				const set = el('fieldset', { className: 'homey-form-checkbox-set', id: `grp_${s.id}` });
 				const label = el('label', { className: 'homey-form-checkbox' });
 				label.appendChild(el('input', {
 					className: 'homey-form-checkbox-input', type: 'checkbox', id: `set_${s.id}`, checked: !!s.value,
@@ -63,7 +53,7 @@
 				label.appendChild(el('span', { className: 'homey-form-checkbox-text', textContent: s.label }));
 				set.appendChild(label);
 				if (s.info) set.appendChild(el('p', { className: 'homey-subtitle', textContent: s.info }));
-				if (section) section.appendChild(set);
+				box.appendChild(set);
 				return;
 			}
 			const group = el('div', { className: 'homey-form-group', id: `grp_${s.id}` });
@@ -100,13 +90,13 @@
 				group.appendChild(field);
 			}
 			if (s.info) group.appendChild(el('p', { className: 'homey-subtitle', textContent: s.info }));
-			(section || part('settings')).appendChild(group);
+			box.appendChild(group);
 		};
 
 		// Per role a dropdown: automatic, none, or one of the fitting capabilities. A role with a mode
 		// ('watt' or 'meter') shows only when "Use Watt as source" is on or off.
-		const roleField = (role) => {
-			const group = el('div', { className: 'homey-form-group' });
+		const roleField = (box, role) => {
+			const group = el('div', { className: 'homey-form-group', id: `grp_role_${role.key}` });
 			if (role.mode) group.dataset.mode = role.mode;
 			group.appendChild(el('label', { className: 'homey-form-label', htmlFor: `role_${role.key}`, textContent: role.label }));
 			const select = el('select', { className: 'homey-form-select', id: `role_${role.key}` });
@@ -115,10 +105,21 @@
 			if (!role.noNone) select.appendChild(option('none', Homey.__('repair.setup_none'), role.selected));
 			role.options.forEach((opt) => select.appendChild(option(opt.id, opt.label, role.selected)));
 			group.appendChild(select);
-			part('roles').appendChild(group);
+			box.appendChild(group);
 		};
 
+		// A role in use: a chosen capability, or automatic with one detected.
+		const roleUsed = (key) => {
+			const select = root.querySelector(`#role_${key}`);
+			const item = roleItems.find((r) => r.key === key);
+			if (!select || !item) return false;
+			return select.value !== 'none' && (select.value !== 'auto' || !!item.auto);
+		};
+		// A role with alt only shows without that role in use (e.g. a charge power without a power),
+		// one with needs only with it (e.g. the sign of the power).
+		const roleShown = (r) => (!r.alt || !roleUsed(r.alt)) && (!r.needs || roleUsed(r.needs));
 		const shown = (s) => {
+			if (s.showIf && s.showIf.role) return roleUsed(s.showIf.role);
 			if (!s.showIf) return true;
 			const parent = settingDefs.find((p) => p.id === s.showIf.id);
 			const field = input(s.showIf.id);
@@ -132,26 +133,26 @@
 				const group = root.querySelector(`#grp_${s.id}`);
 				if (group) group.style.display = shown(s) ? '' : 'none';
 			});
+			const watt = input('use_measure_source');
+			const mode = watt && watt.checked ? 'watt' : 'meter';
+			roleItems.forEach((r) => {
+				const group = root.querySelector(`#grp_role_${r.key}`);
+				if (group) group.style.display = (!r.mode || r.mode === mode) && roleShown(r) ? '' : 'none';
+			});
 		};
 
-		// Pages that fit the screen without scrolling: the fields in order, a new page when the next
-		// one no longer fits, or a section that no longer fits as a whole. Again after a change that
-		// shows or hides fields, from the same field.
+		// Pages: per step shown its fields, a new page when the next one no longer fits.
 		let pages = [];
 		let page = 0;
-		const blocks = () => [
-			...part('settings').children, part('checkboxes'),
-			...root.querySelectorAll('[data-part="sections"] > fieldset > div > *'),
-			...part('budget').children, ...part('roles').children,
-		].filter((b) => b && b.style.display !== 'none' && (b !== part('checkboxes') || b.children.length));
-		const fieldsets = () => [part('main'), ...root.querySelectorAll('[data-part="sections"] > fieldset'), part('budgetSection'), part('rolesSection')];
-		const showOnly = (list) => {
-			blocks().forEach((b) => b.classList.toggle('setup-page-off', !list.includes(b)));
-			fieldsets().forEach((f) => f.classList.toggle('setup-page-off', !list.some((b) => f.contains(b))));
+		const stepShown = (st) => !st.hidden && (!st.showIf || (input(st.showIf.id) && input(st.showIf.id).checked));
+		const blocks = (st) => [...body(st.id).children].filter((b) => b.style.display !== 'none');
+		const stepEls = () => [...root.querySelectorAll('[data-step]')];
+		const showOnly = (st, list) => {
+			stepEls().forEach((e) => e.classList.toggle('setup-page-off', e.dataset.step !== st.id));
+			[...body(st.id).children].forEach((b) => b.classList.toggle('setup-page-off', !list.includes(b)));
 		};
-		// The view's own height can follow its content (then everything 'fits'): the screen height minus
-		// Homey's title bar and the phone's status bars is the limit too.
-		// The height at the start: an open keyboard makes the view smaller.
+		// The height at the start (an open keyboard makes the view smaller); the view's own height can
+		// follow its content, then the screen minus Homey's title bar and the phone's bars is the limit.
 		let viewHeight = null;
 		const maxHeight = () => {
 			if (!viewHeight) viewHeight = window.innerHeight;
@@ -162,89 +163,121 @@
 			// Not while typing: hiding the field for a moment closes the keyboard.
 			const active = document.activeElement;
 			if (active && root.contains(active) && active.tagName !== 'SELECT' && active.type !== 'checkbox') return;
-			const anchor = pages[page] && pages[page][0];
-			const all = blocks();
+			const anchor = pages[page] && (pages[page].list[0] || pages[page].step);
 			pages = [];
-			let i = 0;
-			const fieldsetOf = (b) => fieldsets().find((f) => f.contains(b));
-			while (i < all.length) {
-				const list = [all[i]];
-				for (i += 1; i < all.length; i += 1) {
-					const set = fieldsetOf(all[i]);
-					const whole = set !== fieldsetOf(all[i - 1]) ? all.filter((b) => fieldsetOf(b) === set) : [all[i]];
-					showOnly([...list, ...whole]);
-					if (!fits()) break;
-					list.push(all[i]);
+			steps.filter(stepShown).forEach((st) => {
+				const all = blocks(st);
+				if (!all.length) return;
+				let i = 0;
+				while (i < all.length) {
+					const list = [all[i]];
+					for (i += 1; i < all.length; i += 1) {
+						showOnly(st, [...list, all[i]]);
+						if (!fits()) break;
+						list.push(all[i]);
+					}
+					pages.push({ step: st, list });
 				}
-				pages.push(list);
-			}
-			if (!pages.length) pages = [[]];
-			const at = pages.findIndex((list) => list.includes(anchor));
+			});
+			const at = pages.findIndex((p) => p.list.includes(anchor) || p.step === anchor);
 			page = at > -1 ? at : Math.min(page, pages.length - 1);
 			showPage();
 		};
 		const showPage = () => {
-			showOnly(pages[page]);
+			const { step, list } = pages[page];
+			showOnly(step, list);
+			Homey.setTitle(step.title);
 			window.scrollTo(0, 0);
 		};
 
-		const showRoleModes = () => {
-			const watt = input('use_measure_source');
-			const mode = watt && watt.checked ? 'watt' : 'meter';
-			root.querySelectorAll('[data-part="roles"] [data-mode]').forEach((group) => {
-				group.style.display = group.dataset.mode === mode ? '' : 'none';
+		let calcTimer = null;
+		const calc = () => {
+			clearTimeout(calcTimer);
+			calcTimer = setTimeout(async () => {
+				try {
+					const values = await Homey.emit(`${VIEW}_calc`, { settings: formValues() });
+					Object.entries(values || {}).forEach(([id, value]) => {
+						const field = input(id);
+						if (field && field !== document.activeElement) field.value = value;
+					});
+				} catch (error) {
+					// keep the field as it is
+				}
+			}, 300);
+		};
+		const formValues = () => {
+			const settings = {};
+			settingDefs.forEach((s) => {
+				const field = input(s.id);
+				if (field) settings[s.id] = s.type === 'checkbox' ? field.checked : field.value;
 			});
+			return settings;
 		};
 
 		async function load() {
 			try {
 				const data = await Homey.emit(`${VIEW}_get`);
-				part('title').textContent = data.title || '';
 				settingDefs = data.settings || [];
-				if (!settingDefs.some((s) => !s.section)) part('main').style.display = 'none';
-				// The driver's own sections, each a fieldset with a title.
-				(data.sections || []).forEach((sec) => {
-					const set = el('fieldset', { className: 'homey-form-fieldset' });
-					set.appendChild(el('legend', { className: 'homey-form-legend', textContent: sec.title }));
-					const body = el('div');
-					body.dataset.part = sec.id;
-					set.appendChild(body);
-					part('sections').appendChild(set);
+				steps = data.steps || [];
+				if (data.back) backView = data.back;
+				steps.forEach((st) => {
+					const box = el('div', { className: 'homey-form-group' });
+					box.dataset.step = st.id;
+					if (st.text) box.appendChild(el('p', { className: 'homey-subtitle', textContent: st.text }));
+					const inner = el('div');
+					inner.dataset.stepBody = st.id;
+					box.appendChild(inner);
+					part('steps').appendChild(box);
 				});
-				if (settingDefs.some((s) => s.section === 'budget')) {
-					part('budgetSection').style.display = '';
-					part('budgetTitle').textContent = data.budgetTitle || '';
-				}
 				settingDefs.forEach(settingField);
+				const rolesStep = steps.find((st) => st.roles);
+				if (data.roles && rolesStep) {
+					roleDeviceId = data.roles.deviceId;
+					roleItems = data.roles.items;
+					const box = body(rolesStep.id);
+					if (data.roles.note) box.appendChild(el('p', { className: 'homey-subtitle', textContent: data.roles.note }));
+					// A role with a step goes to that screen, before its settings; with the device screen
+					// hidden (only the settings change) it stays there, hidden too.
+					const firsts = {};
+					roleItems.forEach((role) => {
+						const target = role.step && !rolesStep.hidden && steps.find((st) => st.id === role.step);
+						if (!target || target.roles) {
+							roleField(target ? body(target.id) : box, role);
+							return;
+						}
+						const stepBody = body(target.id);
+						if (!(target.id in firsts)) firsts[target.id] = stepBody.firstChild;
+						const holder = el('div');
+						roleField(holder, role);
+						stepBody.insertBefore(holder.firstChild, firsts[target.id]);
+					});
+					// The checkbox of an optional step stays last.
+					[...box.children].filter((b) => b.id && b.id.startsWith('grp_show_')).forEach((b) => box.appendChild(b));
+				}
 				showDependent();
-				settingDefs.forEach((s) => {
-					const field = input(s.id);
-					if (field) field.addEventListener('change', () => { showDependent(); paginate(); });
+				root.querySelectorAll('input, select').forEach((field) => {
+					field.addEventListener('change', () => { showDependent(); paginate(); });
 				});
-				if (!data.roles) return;
-				roleDeviceId = data.roles.deviceId;
-				part('rolesSection').style.display = '';
-				part('rolesTitle').textContent = data.roles.title || '';
-				part('rolesText').textContent = data.roles.text || '';
-				data.roles.items.forEach(roleField);
-				showRoleModes();
-				const watt = input('use_measure_source');
-				if (watt) watt.addEventListener('change', () => { showRoleModes(); paginate(); });
+				// A calculated value (e.g. the wear cost) follows its inputs while typing.
+				(data.calc || []).forEach((id) => {
+					const field = input(id);
+					if (field) field.addEventListener('input', calc);
+				});
 			} catch (error) {
 				Homey.alert(error.message || error, 'error');
 			} finally {
 				if (document.fonts) await document.fonts.ready;
-				paginate();
+				if (steps.length) paginate();
 				Homey.hideLoadingOverlay();
 			}
 		}
 
 		// A font that loads later makes the text longer.
-		if (document.fonts) document.fonts.addEventListener('loadingdone', paginate);
+		if (document.fonts) document.fonts.addEventListener('loadingdone', () => { if (steps.length) paginate(); });
 		// The first page goes back to the view before (Homey's own Previous is off for this view).
 		part('back').addEventListener('click', () => {
 			if (page === 0) {
-				Homey.showView(VIEW === 'budget' ? 'repair_start' : 'list_devices');
+				Homey.showView(backView);
 				return;
 			}
 			page -= 1;
@@ -261,14 +294,12 @@
 			if (button.classList.contains('is-loading')) return;
 			button.classList.add('is-loading');
 			try {
-				const settings = {};
-				settingDefs.forEach((s) => {
-					const field = input(s.id);
-					settings[s.id] = s.type === 'checkbox' ? field.checked : field.value;
-				});
+				const settings = formValues();
 				const caps = {};
+				// A role not shown is not used (a charge power next to a power would be refused).
 				root.querySelectorAll('select[data-role]').forEach((select) => {
-					caps[select.dataset.role] = select.value;
+					const item = roleItems.find((r) => r.key === select.dataset.role);
+					caps[select.dataset.role] = item && item.alt && !roleShown(item) ? 'none' : select.value;
 				});
 				// Pairing returns the device to create; repair continues to its 'loading' view.
 				const result = await Homey.emit(`${VIEW}_set`, { settings, roleDeviceId, caps });

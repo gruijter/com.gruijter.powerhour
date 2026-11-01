@@ -22,6 +22,15 @@ along with com.gruijter.powerhour.  If not, see <http://www.gnu.org/licenses/>.
 const GenericDriver = require('../../lib/genericDeviceDrivers/generic_sum_driver');
 // Dependencies are lazy loaded in methods to save memory
 
+// The screens of the setup view, in order (lib/helpers/PairSetup.js).
+const STEPS = [
+  { id: 'meter', ids: ['use_measure_source', 'homey_device_daily_reset'], roles: true },
+  { id: 'panels', ids: ['peakPower'] },
+  { id: 'price', ids: ['tariff_update_group', 'tariff', 'tariff_export', 'currency', 'tariff_type'] },
+  { id: 'year', ids: [] },
+  { id: 'advanced', ids: ['lat', 'lon', 'decimals_meter'], optional: true },
+];
+
 const driverSpecifics = {
   driverId: 'solar',
   fallbackMeter: 'meter_power', // a source device's primary meter, when nothing else is detected
@@ -52,9 +61,8 @@ const driverSpecifics = {
     'button.retrain', 'button.export_diagnostics', 'alarm_power'],
   // Asked at pair and repair (lib/helpers/PairSetup.js).
   setup: {
-    settings: ['use_measure_source', 'homey_device_daily_reset', 'peakPower', 'tariff_update_group',
-      'tariff', 'tariff_export', 'currency', 'lat', 'lon', 'tariff_type', 'decimals_meter'],
-    sections: [{ id: 'advanced', ids: ['lat', 'lon', 'tariff_type', 'decimals_meter'], toggle: true }],
+    settings: STEPS.flatMap((st) => st.ids),
+    steps: STEPS,
     roles: [{ key: 'p1', kind: 'kwh', label: 'production' },
       {
         key: 'watt', kind: 'w', label: 'power', watt: true, // Use Watt as source

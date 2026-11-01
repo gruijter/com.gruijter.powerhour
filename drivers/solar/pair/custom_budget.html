@@ -16,13 +16,15 @@
 	</fieldset>
 	<div class="pbth-nav-space"></div>
 	<div class="pbth-nav">
-		<button class="homey-button-transparent" data-part="back"></button>
-		<button class="homey-button-primary" data-part="next"></button>
+		<button class="homey-button-transparent pbth-prev" data-part="back"><span class="homey-icon-arrow-left"></span><span data-part="backText"></span></button>
+		<button class="homey-button-primary pbth-next" data-part="next"><span data-part="nextText"></span><span class="homey-icon-arrow-right"></span></button>
 	</div>
 </form>
 <style>
 	/* Previous and Next fixed at the bottom, like Homey's own views (no Homey class for it). */
 	.pbth-nav { position: fixed; left: 0; right: 0; bottom: 0; display: flex; justify-content: space-between; align-items: center; padding: var(--homey-su-2); background: var(--homey-color-white); }
+	.pbth-prev { padding-left: 0; color: var(--homey-color-mono-60); }
+	.pbth-next { width: 50%; }
 	.pbth-nav-space { height: 88px; }
 </style>
 
@@ -35,8 +37,8 @@
 		const root = forms[forms.length - 1];
 		const part = (name) => root.querySelector(`[data-part="${name}"]`);
 		Homey.setTitle(Homey.__('budget.custom_title'));
-		part('back').textContent = `← ${Homey.__('repair.nav_previous')}`;
-		part('next').textContent = `${Homey.__('repair.nav_next')} →`;
+		part('backText').textContent = Homey.__('repair.nav_previous');
+		part('nextText').textContent = Homey.__('repair.nav_next');
 		// Back to the view that opened this one (setup.html sets it; the views share one document).
 		part('back').addEventListener('click', () => Homey.showView(window.pbthCustomFrom || 'setup'));
 		const el = (tag, props = {}) => Object.assign(document.createElement(tag), props);

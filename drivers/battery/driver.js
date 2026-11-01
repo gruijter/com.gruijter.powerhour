@@ -29,12 +29,25 @@ const XOM_MIRROR_MS = 15 * 60 * 1000;
 // Built-in control: below this a small total stays on the grid (the per-battery thresholds apply on
 // top); the XOM flows use their own minLoad (flow card 'Set XOM').
 const BUILTIN_MIN_LOAD_W = 50;
+// Wear helper: the rated cycles run until the battery has this share of its capacity left (end of
+// life, typically 70%); on average it then holds (1 + share) / 2 of its capacity per cycle.
+const WEAR_END_OF_LIFE = 0.7;
 // Dependencies are lazy loaded in methods to save memory
 
-const PLANNER_IDS = ['roiEnable', 'roiMinProfit', 'roiWearCost', 'peakShaving', 'fuseProtection', 'peakReservePct',
-  'dischargeToEv', 'groupPlan'];
-const CONTROL_IDS = ['batteryControl', 'calibrateDays'];
-const ADVANCED_IDS = ['tariff_type', 'chartShowPower', 'chartShowSoc', 'chartShowExportPrice', 'chartShowLegend'];
+// The screens of the setup view, in order (lib/helpers/PairSetup.js).
+const STEPS = [
+  { id: 'device', ids: [], roles: true },
+  { id: 'device_meters', ids: [], roles: true },
+  { id: 'battery', ids: ['batCapacity', 'chargePower', 'dischargePower'] },
+  { id: 'wear', ids: ['wearCalc', 'wearPurchasePrice', 'wearCycles', 'roiWearCost', 'roiMinProfit'] },
+  { id: 'price', ids: ['tariff_update_group', 'tariff_type'] },
+  { id: 'plan', ids: ['roiEnable', 'dischargeToEv', 'groupPlan'] },
+  { id: 'grid_limits', ids: ['fuseProtection', 'peakShaving', 'peakReservePct'] },
+  { id: 'control', ids: ['batteryControl', 'calibrateDays'] },
+  {
+    id: 'advanced', ids: ['chartShowPower', 'chartShowSoc', 'chartShowExportPrice', 'chartShowLegend'], optional: true,
+  },
+];
 
 const driverSpecifics = {
   driverId: 'battery',
@@ -82,9 +95,9 @@ const driverSpecifics = {
   ],
   // Asked at pair and repair (lib/helpers/PairSetup.js), not on the settings page.
   setup: {
-    settings: ['tariff_update_group', 'batCapacity', 'chargePower', 'dischargePower', ...PLANNER_IDS, ...CONTROL_IDS, ...ADVANCED_IDS],
-    sections: [{ id: 'planner', ids: PLANNER_IDS }, { id: 'control', ids: CONTROL_IDS },
-      { id: 'advanced', ids: ADVANCED_IDS, toggle: true }],
+    settings: STEPS.flatMap((st) => st.ids),
+    steps: STEPS,
+    calcInputs: ['wearCalc', 'batCapacity', 'wearPurchasePrice', 'wearCycles'],
     match: {
       classes: ['battery'],
       energy: (energy) => !!(energy.meterPowerImportedCapability || energy.meterPowerExportedCapability),
@@ -534,8 +547,11 @@ class BatteryDriver extends GenericDriver {
       key, kind: BatteryDriver.ROLE_KINDS[key], label: this.homey.__(`repair.setup_role_${key}`),
     }));
     const signLabel = (inverted) => this.homey.__(inverted ? 'repair.setup_sign_inverted' : 'repair.setup_sign_normal');
-    const items = SourceCaps.roleItems(source, roles, BatteryDriver.roleView(auto.group), chosen);
+    // One signed power; a charge and a discharge power only without it. A sign only with its value.
+    const items = SourceCaps.roleItems(source, roles, BatteryDriver.roleView(auto.group), chosen)
+      .map((item) => (['chargePower', 'dischargePower'].includes(item.key) ? { ...item, alt: 'power' } : item));
     items.push({
+      needs: 'power',
       key: 'sign',
       label: this.homey.__('repair.setup_role_sign'),
       auto: signLabel(auto.invert),
@@ -544,6 +560,7 @@ class BatteryDriver extends GenericDriver {
       noNone: true,
     });
     items.push({
+      needs: 'setpoint',
       key: 'setpointSign',
       label: this.homey.__('repair.setup_role_setpointSign'),
       auto: signLabel(false),
@@ -551,12 +568,24 @@ class BatteryDriver extends GenericDriver {
       selected: chosen.setpointSign || 'auto',
       noNone: true,
     });
+    // Each sign right below its power.
+    const at = (key) => items.findIndex((item) => item.key === key);
+    items.splice(at('power') + 1, 0, ...items.splice(at('sign'), 1));
+    items.splice(at('setpoint') + 1, 0, ...items.splice(at('setpointSign'), 1));
+    // The meters on their own screen; the setpoint is only for control, so on that screen.
+    const STEP_OF = {
+      meterCharging: 'device_meters', meterDischarging: 'device_meters', setpoint: 'control', setpointSign: 'control',
+    };
+    items.forEach((item) => {
+      if (STEP_OF[item.key]) item.step = STEP_OF[item.key];
+    });
     // Without Homey's mode capability the battery app must be set to external control by hand.
     const external = (source.capabilities || []).includes('target_power_mode') ? '' : ` ${this.homey.__('repair.setup_bat_external')}`;
     return {
       deviceId: source.id,
       title: this.homey.__('repair.setup_caps_title'),
       text: `${source.name}. ${this.homey.__('repair.setup_caps_text')}${external}`,
+      note: external.trim() || undefined,
       items,
     };
   }
@@ -571,6 +600,20 @@ class BatteryDriver extends GenericDriver {
     }
     const otherBattery = this.getDevices().some((d) => d.getSettings().homey_device_id !== dev.settings.homey_device_id);
     return this.ds.setup.settings.filter((id) => (id !== 'dischargeToEv' || evChargers) && (id !== 'groupPlan' || otherBattery));
+  }
+
+  // Wear helper on: the wear per kWh from the purchase price, capacity and rated cycles, filled in
+  // while typing (the field itself stays editable).
+  setupCalc(values) {
+    const wear = values.wearCalc ? BatteryDriver.wearCost(values) : 0;
+    return wear > 0 ? { roiWearCost: wear } : {};
+  }
+
+  static wearCost({ wearPurchasePrice, batCapacity, wearCycles }) {
+    const throughput = Number(batCapacity) * Number(wearCycles) * ((1 + WEAR_END_OF_LIFE) / 2);
+    const price = Number(wearPurchasePrice);
+    if (!(throughput > 0) || !(price > 0)) return 0;
+    return Math.round((price / throughput) * 10000) / 10000;
   }
 
   async setupValidate(settings, caps) {

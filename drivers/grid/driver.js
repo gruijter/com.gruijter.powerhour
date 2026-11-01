@@ -26,8 +26,18 @@ const PeakTariff = require('../../lib/strategies/PeakTariff');
 
 const PEAK_IDS = ['peakPreset', 'peakLoadIntervalMinutes', 'peakSelection', 'peakCount', 'peakDistinctDays', 'peakHours',
   'peakWeekdaysOnly', 'peakMonths', 'peakWeightOutside', 'peakMinimumW', 'peakPrice', 'peakSteps', 'peakHardLimitW'];
-const ADVANCED_IDS = ['tariff_type', 'markup_month', 'markup_day', 'markup_hour', 'connectionVoltage', 'fuseMarginPct', 'decimals_meter'];
+const ADVANCED_IDS = ['markup_month', 'markup_day', 'markup_hour', 'connectionVoltage', 'fuseMarginPct', 'decimals_meter'];
 // Dependencies are lazy loaded in methods to save memory
+
+// The screens of the setup view, in order (lib/helpers/PairSetup.js).
+const STEPS = [
+  { id: 'meter', ids: ['use_measure_source'], roles: true },
+  { id: 'price', ids: ['tariff_update_group', 'tariff', 'tariff_export', 'currency', 'tariff_type', 'directionalNettingScheme', 'directionalBlockMinutes'] },
+  { id: 'connection', ids: ['connectionPhases', 'connectionAmps'] },
+  { id: 'peak', ids: PEAK_IDS },
+  { id: 'year', ids: [] },
+  { id: 'advanced', ids: ADVANCED_IDS, optional: true },
+];
 
 const driverSpecifics = {
   driverId: 'grid',
@@ -82,10 +92,8 @@ const driverSpecifics = {
     'button.retrain_load'],
   // Asked at pair and repair (lib/helpers/PairSetup.js), not on the settings page.
   setup: {
-    settings: ['use_measure_source', 'tariff_update_group', 'tariff', 'tariff_export', 'currency', 'directionalNettingScheme',
-      'directionalBlockMinutes', 'connectionPhases', 'connectionAmps', ...PEAK_IDS, ...ADVANCED_IDS],
-    sections: [{ id: 'connection', ids: ['connectionPhases', 'connectionAmps'] }, { id: 'peak', ids: PEAK_IDS },
-      { id: 'advanced', ids: ADVANCED_IDS, toggle: true }],
+    settings: STEPS.flatMap((st) => st.ids),
+    steps: STEPS,
     roles: [{ key: 'p1', kind: 'kwh' }, { key: 'n1', kind: 'kwh' },
       {
         key: 'watt', kind: 'w', label: 'power', watt: true, // Use Watt as source

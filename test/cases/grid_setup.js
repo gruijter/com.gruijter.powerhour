@@ -58,8 +58,9 @@ const fakeDriver = (location = [52.37, 4.9], timeZone = 'Europe/Amsterdam') => {
       setup: {
         settings: ['tariff_update_group', 'directionalNettingScheme', 'directionalBlockMinutes', 'connectionPhases', 'connectionAmps',
           ...PEAK_IDS, ...ADVANCED_IDS],
-        sections: [{ id: 'connection', ids: ['connectionPhases', 'connectionAmps'] }, { id: 'peak', ids: PEAK_IDS },
-          { id: 'advanced', ids: ADVANCED_IDS, toggle: true }],
+        steps: [{ id: 'price', ids: ['tariff_update_group', 'directionalNettingScheme', 'directionalBlockMinutes'] },
+          { id: 'connection', ids: ['connectionPhases', 'connectionAmps'] }, { id: 'peak', ids: PEAK_IDS },
+          { id: 'year', ids: [] }, { id: 'advanced', ids: ADVANCED_IDS, optional: true }],
         roles: [],
         requirePrice: true,
       },
@@ -103,17 +104,21 @@ const values = (view, over = {}) => ({
 });
 
 (async () => {
-  await test('pairing: sections, details hidden behind the preset, advanced behind its toggle', async () => {
+  await test('pairing: steps, details hidden behind the preset, advanced behind its checkbox', async () => {
     const view = await pairSession(fakeDriver()).setup_get();
-    assert.deepStrictEqual(view.sections.map((s) => s.id), ['connection', 'peak', 'advanced']);
+    assert.deepStrictEqual(view.steps.map((s) => s.id), ['price', 'connection', 'peak', 'year', 'advanced']);
+    assert.strictEqual(view.steps[1].title, 'repair.step_connection');
     assert.strictEqual(byId(view, 'peakPreset').value, 'none');
-    assert.strictEqual(byId(view, 'peakPreset').section, 'peak');
+    assert.strictEqual(byId(view, 'peakPreset').step, 'peak');
     assert.deepStrictEqual(byId(view, 'peakHours').showIf, { id: 'peakPreset', value: 'custom' });
     assert.deepStrictEqual(byId(view, 'directionalBlockMinutes').showIf, { id: 'directionalNettingScheme', value: 'fixedBlock' });
+    // The checkbox of the optional step closes the step before; the step shows with it.
     const toggle = byId(view, 'show_advanced');
     assert.strictEqual(toggle.value, false);
-    assert.strictEqual(view.settings.indexOf(toggle), view.settings.indexOf(byId(view, 'tariff_type')) - 1);
-    ADVANCED_IDS.forEach((id) => assert.deepStrictEqual(byId(view, id).showIf, { id: 'show_advanced', value: true }, id));
+    assert.strictEqual(toggle.step, 'year');
+    assert.strictEqual(view.settings.map((x) => x.step).lastIndexOf('year'), view.settings.indexOf(toggle));
+    assert.deepStrictEqual(view.steps[4].showIf, { id: 'show_advanced', value: true });
+    ADVANCED_IDS.forEach((id) => assert.strictEqual(byId(view, id).step, 'advanced', id));
   });
 
   await test('pairing in Norway: the Norway preset proposed', async () => {
@@ -156,7 +161,6 @@ const values = (view, over = {}) => ({
     const choices = await handlers.start_get();
     assert.deepStrictEqual(choices.map((c) => c.view), ['list_devices', 'setup', 'budget']);
     const view = await handlers.setup_get();
-    assert.strictEqual(view.title, 'Grid');
     assert.strictEqual(byId(view, 'connectionAmps').value, 35);
   });
 
@@ -168,7 +172,8 @@ const values = (view, over = {}) => ({
         ...driver.ds,
         setup: {
           settings: ['chargePower', 'tariff_update_group', 'chargerControl', ...days],
-          sections: [{ id: 'charger', ids: ['chargerControl'] }, { id: 'departure', ids: days, toggle: true }],
+          steps: [{ id: 'charger', ids: ['chargePower', 'chargerControl'] }, { id: 'ev_price', ids: ['tariff_update_group'] },
+            { id: 'departure', ids: days, optional: true }],
           preset: { chargerControl: true },
         },
       };

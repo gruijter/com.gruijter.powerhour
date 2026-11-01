@@ -113,14 +113,18 @@ const manifestIds = (driverId) => {
     });
   });
 
-  await test('battery: planner and control sections, calibration only with control', async () => {
+  await test('battery: steps, calibration only with control', async () => {
     const { view } = await pairView(await fakeDriver(BatteryDriver));
-    assert.deepStrictEqual(view.sections.map((s) => s.id), ['planner', 'control', 'advanced']);
-    assert.strictEqual(byId(view, 'roiMinProfit').section, 'planner');
+    assert.deepStrictEqual(view.steps.map((s) => s.id), ['battery', 'wear', 'price', 'plan', 'grid_limits', 'control', 'advanced']);
+    assert.strictEqual(byId(view, 'roiMinProfit').step, 'wear');
+    assert.strictEqual(byId(view, 'tariff_type').step, 'price');
+    assert.strictEqual(byId(view, 'wearCalc').step, 'wear');
+    assert.strictEqual(byId(view, 'chargePower').step, 'battery');
+    assert.strictEqual(byId(view, 'show_advanced').step, 'control');
     assert.strictEqual(byId(view, 'batCapacity').value, 5.05);
-    assert.ok(byId(view, 'roiWearCost').info.startsWith('Battery wear'));
+    assert.ok(byId(view, 'roiWearCost').info.startsWith('What a kWh'));
     assert.deepStrictEqual(byId(view, 'calibrateDays').showIf, { id: 'batteryControl', value: true });
-    assert.deepStrictEqual(byId(view, 'chartShowSoc').showIf, { id: 'show_advanced', value: true });
+    assert.strictEqual(byId(view, 'chartShowSoc').step, 'advanced');
   });
 
   await test('battery: EV and group settings only when they apply', async () => {
@@ -146,11 +150,30 @@ const manifestIds = (driverId) => {
     assert.strictEqual(device.settings.batteryControl, true);
   });
 
+  await test('battery: wear helper fills in the wear cost, which stays editable', async () => {
+    const driver = await fakeDriver(BatteryDriver);
+    const { view, handlers } = await pairView(driver);
+    assert.strictEqual(byId(view, 'roiWearCost').showIf, undefined);
+    assert.deepStrictEqual(byId(view, 'wearCycles').showIf, { id: 'wearCalc', value: true });
+    assert.deepStrictEqual(view.calc, ['wearCalc', 'batCapacity', 'wearPurchasePrice', 'wearCycles']);
+    // 3000 / (5 kWh x 6000 cycles x 0.85 average capacity)
+    const settings = {
+      wearCalc: true, batCapacity: '5', wearPurchasePrice: '3000', wearCycles: '6000',
+    };
+    assert.deepStrictEqual(await handlers.setup_calc({ settings }), { roiWearCost: 0.1176 });
+    assert.deepStrictEqual(await handlers.setup_calc({ settings: { ...settings, wearCalc: false } }), {});
+    assert.deepStrictEqual(await handlers.setup_calc({ settings: { ...settings, wearPurchasePrice: '' } }), {});
+    // An edited wear cost is kept.
+    const { device } = await handlers.setup_set(values(view, { ...settings, roiWearCost: '0.09' }));
+    assert.strictEqual(device.settings.roiWearCost, 0.09);
+    assert.strictEqual(device.settings.wearPurchasePrice, 3000);
+  });
+
   await test('ev charger: charge levels, fixed price only with "fixed", order checked', async () => {
     const driver = await fakeDriver(EvDriver);
     const { view, handlers } = await pairView(driver);
-    assert.ok(view.sections.some((s) => s.id === 'charging'));
-    assert.strictEqual(byId(view, 'floorSoc').section, 'charging');
+    assert.ok(view.steps.some((s) => s.id === 'levels'));
+    assert.strictEqual(byId(view, 'floorSoc').step, 'levels');
     assert.deepStrictEqual(byId(view, 'cheapPrice').showIf, { id: 'cheapCharge', value: 'fixed' });
     await assert.rejects(handlers.setup_set(values(view, { floorSoc: '40', reserveSoc: '30' })), /error_setup_soc_order/);
     await assert.rejects(handlers.setup_set(values(view, { maxSoc: '25' })), /error_setup_soc_order/);
@@ -158,9 +181,9 @@ const manifestIds = (driverId) => {
     assert.strictEqual(device.settings.maxSoc, 90);
   });
 
-  await test('solar: location in the advanced section', async () => {
+  await test('solar: location in the advanced step', async () => {
     const { view } = await pairView(await fakeDriver(SolarDriver), { source_device_type: 'Homey device' });
-    assert.strictEqual(byId(view, 'lat').section, 'advanced');
+    assert.strictEqual(byId(view, 'lat').step, 'advanced');
     assert.strictEqual(byId(view, 'peakPower').value, 0);
   });
 
@@ -198,8 +221,36 @@ const manifestIds = (driverId) => {
     await assert.rejects(s.handlers.setup_set({ ...form, formula: 'market +* 2' }), /error_formula_/);
   });
 
+  await test('battery repair: device values only when the source changes, control needs a setpoint', async () => {
+    const driver = await fakeDriver(BatteryDriver);
+    driver.setupRoles = async () => ({ deviceId: 'src', items: [{ key: 'setpoint', auto: 'target_power', options: [] }] });
+    const device = {
+      getName: () => 'Bat', getSettings: () => ({ tariff_update_group: 1, homey_device_id: 'src' }), getStoreValue: () => null,
+    };
+    const repair = () => {
+      const s = session();
+      PairSetup.registerRepair(driver, s, device, async () => [], []);
+      return s.handlers;
+    };
+    // Settings only (no list): the device values step stays hidden, Previous goes to the choices.
+    let h = repair();
+    let view = await h.setup_get();
+    assert.strictEqual(view.steps[0].id, 'device');
+    assert.strictEqual(view.steps[0].hidden, true);
+    assert.strictEqual(view.back, 'repair_start');
+    assert.deepStrictEqual(byId(view, 'batteryControl').showIf, { role: 'setpoint' });
+    assert.strictEqual(byId(view, 'learnReset').step, 'battery');
+    // Another source from the list: the device values first.
+    h = repair();
+    h.list_devices_selection([{ name: 'Src', settings: { tariff_update_group: 1, homey_device_id: 'src' } }]);
+    view = await h.setup_get();
+    assert.strictEqual(view.steps[0].hidden, undefined);
+    assert.strictEqual(view.back, 'list_devices');
+  });
+
   console.log(failed ? `\n${failed} failed` : '\nall passed');
-  process.exitCode = failed ? 1 : 0;
+  // The drivers' polling helpers keep a retry timer: do not wait for it.
+  process.exit(failed ? 1 : 0);
 })().catch((err) => {
   console.error(err);
   process.exitCode = 1;

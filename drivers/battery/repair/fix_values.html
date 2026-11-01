@@ -17,14 +17,18 @@
 
 	<div class="pbth-nav-space"></div>
 	<div class="pbth-nav">
-		<button class="homey-button-transparent" id="fixBack"></button>
-		<button class="homey-button-primary" id="fixNext"></button>
+		<button class="homey-button-transparent pbth-prev" id="fixBack"><span class="homey-icon-arrow-left"></span><span id="fixBackText"></span></button>
+		<button class="homey-button-primary pbth-next" id="fixNext"><span id="fixNextText"></span><span class="homey-icon-arrow-right" id="fixNextIcon"></span></button>
 	</div>
 </form>
 <style>
 	/* Previous and Next fixed at the bottom, like Homey's own views (no Homey class for it). */
 	.pbth-nav { position: fixed; left: 0; right: 0; bottom: 0; display: flex; justify-content: space-between; align-items: center; padding: var(--homey-su-2); background: var(--homey-color-white); }
+	.pbth-prev { padding-left: 0; color: var(--homey-color-mono-60); }
+	.pbth-next { width: 50%; }
 	.pbth-nav-space { height: 88px; }
+	/* The step title is in Homey's title bar. */
+	form[data-view="fix_values"] > [data-step] > legend { display: none; }
 </style>
 
 <script>
@@ -35,7 +39,7 @@
 		const forms = document.querySelectorAll('form[data-view="fix_values"]');
 		const root = forms[forms.length - 1];
 		Homey.setTitle(Homey.__('repair.start_fix'));
-		root.querySelector('#fixBack').textContent = `← ${Homey.__('repair.nav_previous')}`;
+		root.querySelector('#fixBackText').textContent = Homey.__('repair.nav_previous');
 		const STEPS = ['what', 'values', 'confirm'];
 		let data = { kinds: [] };
 		let step = 0;
@@ -81,10 +85,13 @@
 
 		const show = () => {
 			root.querySelectorAll('[data-step]').forEach((s) => { s.style.display = s.dataset.step === STEPS[step] ? '' : 'none'; });
-			root.querySelector('#fixNext').textContent = step === STEPS.length - 1 ? Homey.__('repair.fix_apply') : `${Homey.__('repair.nav_next')} →`;
+			const last = step === STEPS.length - 1;
+			root.querySelector('#fixNextText').textContent = Homey.__(last ? 'repair.fix_apply' : 'repair.nav_next');
+			root.querySelector('#fixNextIcon').style.display = last ? 'none' : '';
 			const k = kind();
 			if (!k) return;
 			root.querySelector('#valuesTitle').textContent = k.label;
+			Homey.setTitle({ what: Homey.__('repair.fix_what'), values: k.label, confirm: Homey.__('repair.fix_confirm') }[STEPS[step]]);
 			root.querySelector('#valuesInfo').textContent = k.info || Homey.__('repair.fix_values_info');
 			data.kinds.forEach((other) => { root.querySelector(`#kind_${other.id}`).style.display = other.id === k.id ? 'grid' : 'none'; });
 			if (STEPS[step] === 'confirm') {

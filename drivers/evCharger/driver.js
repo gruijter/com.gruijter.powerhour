@@ -13,11 +13,21 @@ const EvHistory = require('../../lib/helpers/EvHistory');
 const PairSetup = require('../../lib/helpers/PairSetup');
 const Budget = require('../../lib/Budget');
 
-const CHARGER_IDS = ['chargerControl', 'standbyOn', 'sharedCharger', 'carStartCharge', 'v2x'];
-const CHARGING_IDS = ['floorSoc', 'reserveSoc', 'reserveHours', 'maxSoc', 'cheapCharge', 'cheapPrice', 'maxPrice'];
-const DEPARTURE_IDS = [0, 1, 2, 3, 4, 5, 6].map((day) => `departureTime_${day}`);
-const ADVANCED_IDS = ['tariff_type', 'overrideMaxHours', 'autoDepartureLearning', 'minTripSoc',
-  'chartShowPower', 'chartShowSoc', 'chartShowExportPrice', 'chartShowLegend'];
+// The screens of the setup view, in order (lib/helpers/PairSetup.js).
+const STEPS = [
+  { id: 'device', ids: [], roles: true },
+  { id: 'charger', ids: ['chargerControl', 'chargePower', 'variableChargePower', 'standbyOn', 'sharedCharger', 'v2x'] },
+  { id: 'car', ids: ['batCapacity', 'carStartCharge'] },
+  { id: 'levels', ids: ['floorSoc', 'reserveSoc', 'reserveHours', 'maxSoc'] },
+  { id: 'ev_price', ids: ['tariff_update_group', 'tariff_type', 'cheapCharge', 'cheapPrice', 'maxPrice', 'solarGridPower'] },
+  { id: 'departure', ids: [0, 1, 2, 3, 4, 5, 6].map((day) => `departureTime_${day}`), optional: true },
+  { id: 'year', ids: [] },
+  {
+    id: 'advanced',
+    ids: ['overrideMaxHours', 'autoDepartureLearning', 'minTripSoc', 'chartShowPower', 'chartShowSoc', 'chartShowExportPrice', 'chartShowLegend'],
+    optional: true,
+  },
+];
 // Dependencies are lazy loaded in methods to save memory
 
 const driverSpecifics = {
@@ -62,11 +72,8 @@ const driverSpecifics = {
   // Asked at pair and repair (lib/helpers/PairSetup.js), not on the settings page; chargerControl
   // on when pairing.
   setup: {
-    settings: ['chargePower', 'batCapacity', 'variableChargePower', 'solarGridPower', 'tariff_update_group',
-      ...CHARGER_IDS, ...CHARGING_IDS, ...DEPARTURE_IDS, ...ADVANCED_IDS],
-    sections: [{ id: 'charger', ids: CHARGER_IDS }, { id: 'charging', ids: CHARGING_IDS },
-      { id: 'departure', ids: DEPARTURE_IDS, toggle: true },
-      { id: 'advanced', ids: ADVANCED_IDS, toggle: true }],
+    settings: STEPS.flatMap((st) => st.ids),
+    steps: STEPS,
     preset: { chargerControl: true },
     match: { classes: ['evcharger'], energy: (energy) => energy.isEVCharger === true },
   },

@@ -138,7 +138,22 @@
           "ko": "항상 송전(수출)"
         }
       }
-    ]
+    ],
+    "info": {
+      "en": "Automatic: the export price while your home returns power to the grid, otherwise the import price.",
+      "nl": "Automatisch: de terugleverprijs zolang je huis stroom teruglevert aan het net, anders de afnameprijs.",
+      "de": "Automatisch: der Einspeisepreis, solange dein Haus Strom ins Netz einspeist, sonst der Bezugspreis.",
+      "fr": "Automatique : le prix d'injection tant que votre maison renvoie du courant au réseau, sinon le prix d'achat.",
+      "it": "Automatico: il prezzo di immissione mentre la casa immette energia in rete, altrimenti il prezzo di prelievo.",
+      "sv": "Automatisk: exportpriset medan ditt hem matar ut ström till nätet, annars importpriset.",
+      "no": "Automatisk: eksportprisen mens hjemmet ditt leverer strøm til nettet, ellers importprisen.",
+      "es": "Automático: el precio de exportación mientras tu casa devuelve energía a la red, si no el de importación.",
+      "da": "Automatisk: eksportprisen, mens dit hjem leverer strøm til nettet, ellers importprisen.",
+      "pl": "Automatycznie: cena eksportu, gdy dom oddaje prąd do sieci, w przeciwnym razie cena importu.",
+      "ru": "Автоматически: цена экспорта, пока дом отдаёт энергию в сеть, иначе цена импорта.",
+      "ar": "تلقائي: سعر التصدير طالما يعيد منزلك الطاقة إلى الشبكة، وإلا فسعر الاستيراد.",
+      "ko": "자동: 집이 전력망으로 전력을 보내는 동안은 수출 가격, 그 외에는 수입 가격."
+    }
   },
   "directionalNettingScheme": {
     "id": "directionalNettingScheme",
@@ -1332,19 +1347,19 @@
     },
     "value": true,
     "info": {
-      "en": "Switches the charger on and off according to the charge plan. Off: switch it with your own flows, e.g. on 'New planned charging power'.",
-      "nl": "Zet de laadpaal aan en uit volgens het laadplan. Uit: schakel hem met eigen flows, bijv. op 'Nieuw gepland laadvermogen'.",
-      "de": "Schaltet das Ladegerät gemäß dem Ladeplan ein und aus. Aus: mit eigenen Flows schalten, z. B. bei 'Neue geplante Ladeleistung'.",
-      "fr": "Allume et éteint la borne selon le plan de charge. Désactivé : pilotez-la avec vos propres flows, p. ex. sur 'Nouvelle puissance de charge planifiée'.",
-      "es": "Enciende y apaga el cargador según el plan de carga. Desactivado: contrólelo con sus propios flujos, p. ej. con 'Nueva potencia de carga planificada'.",
-      "it": "Accende e spegne il caricatore secondo il piano di ricarica. Disattivato: comandalo con i tuoi flow, ad es. su 'Nuova potenza di ricarica pianificata'.",
-      "da": "Tænder og slukker laderen efter ladeplanen. Fra: styr den med egne flows, f.eks. på 'Ny planlagt ladeeffekt'.",
-      "sv": "Slår på och av laddaren enligt laddplanen. Av: styr den med egna flöden, t.ex. på 'Ny planerad laddeffekt'.",
-      "no": "Slår laderen av og på etter ladeplanen. Av: styr den med egne flows, f.eks. på 'Ny planlagt ladeeffekt'.",
-      "pl": "Włącza i wyłącza ładowarkę zgodnie z planem ładowania. Wyłączone: steruj własnymi flow, np. na 'Nowa planowana moc ładowania'.",
-      "ru": "Включает и выключает зарядку по плану зарядки. Выкл.: управляйте своими сценариями, напр. по 'Новая плановая мощность зарядки'.",
-      "ar": "يشغّل الشاحن ويطفئه وفق خطة الشحن. عند الإيقاف: تحكم به بتدفقاتك الخاصة، مثل 'قدرة شحن مخططة جديدة'.",
-      "ko": "충전 계획에 따라 충전기를 켜고 끕니다. 꺼짐: '새 충전 계획 전력' 등에서 직접 플로우로 전환하세요."
+      "en": "Switches the charger on and off according to the charge plan.",
+      "nl": "Zet de laadpaal aan en uit volgens het laadplan.",
+      "de": "Schaltet die Ladestation nach dem Ladeplan ein und aus.",
+      "fr": "Allume et éteint la borne selon le plan de charge.",
+      "it": "Accende e spegne il caricatore secondo il piano di ricarica.",
+      "sv": "Slår på och av laddaren enligt laddplanen.",
+      "no": "Slår laderen av og på etter ladeplanen.",
+      "es": "Enciende y apaga el cargador según el plan de carga.",
+      "da": "Tænder og slukker laderen efter opladningsplanen.",
+      "pl": "Włącza i wyłącza ładowarkę według planu ładowania.",
+      "ru": "Включает и выключает зарядное устройство по плану зарядки.",
+      "ar": "يشغّل الشاحن ويطفئه حسب خطة الشحن.",
+      "ko": "충전 계획에 따라 충전기를 켜고 끕니다."
     }
   },
   "standbyOn": {
@@ -1402,19 +1417,19 @@
     },
     "value": false,
     "info": {
-      "en": "Check if several cars use this charger. Then power or a plug-in at the charger only counts as this car when the car app does not say it is away.",
-      "nl": "Aanvinken als meerdere auto's deze lader gebruiken. Dan telt stroom of inpluggen bij de lader alleen als deze auto als de auto-app niet zegt dat hij weg is.",
-      "de": "Aktivieren, wenn mehrere Autos dieses Ladegerät nutzen. Dann zählt Strom oder Einstecken am Ladegerät nur als dieses Auto, wenn die Auto-App nicht sagt, dass es weg ist.",
-      "fr": "À cocher si plusieurs voitures utilisent ce chargeur. Le courant ou un branchement au chargeur ne compte alors comme cette voiture que si l'app de la voiture ne la dit pas absente.",
-      "es": "Marcar si varios coches usan este cargador. Entonces la energía o una conexión en el cargador solo cuenta como este coche si la app del coche no dice que está fuera.",
-      "it": "Selezionare se più auto usano questo caricatore. Allora corrente o un collegamento al caricatore conta come questa auto solo se l'app dell'auto non dice che è via.",
-      "da": "Markér, hvis flere biler bruger denne lader. Så tæller strøm eller tilslutning ved laderen kun som denne bil, når bilappen ikke siger, at den er væk.",
-      "sv": "Markera om flera bilar använder denna laddare. Då räknas ström eller inkoppling vid laddaren bara som denna bil när bilappen inte säger att den är borta.",
-      "no": "Kryss av hvis flere biler bruker denne laderen. Da teller strøm eller tilkobling ved laderen bare som denne bilen når bilappen ikke sier at den er borte.",
-      "pl": "Zaznacz, jeśli z tej ładowarki korzysta kilka aut. Wtedy prąd lub podłączenie przy ładowarce oznacza to auto tylko, gdy aplikacja auta nie mówi, że go nie ma.",
-      "ru": "Отметьте, если этой зарядкой пользуются несколько авто. Тогда ток или подключение у зарядки считается этим авто, только если приложение авто не говорит, что его нет.",
-      "ar": "حدّد هذا إذا كانت عدة سيارات تستخدم هذا الشاحن. عندها تُحسب الطاقة أو التوصيل عند الشاحن على أنها هذه السيارة فقط إذا لم يقل تطبيق السيارة إنها بعيدة.",
-      "ko": "여러 차량이 이 충전기를 사용하면 선택하세요. 그러면 차량 앱이 외출 중이라고 하지 않을 때만 충전기의 전력 또는 연결이 이 차량으로 간주됩니다."
+      "en": "Several cars use this charger. Power or a plug-in at the charger then only counts as this car when the car app does not say it is away.",
+      "nl": "Meerdere auto's gebruiken deze laadpaal. Vermogen of inpluggen bij de laadpaal telt dan alleen als deze auto als de auto-app niet zegt dat hij weg is.",
+      "de": "Mehrere Autos nutzen diese Ladestation. Leistung oder Einstecken an der Ladestation zählt dann nur als dieses Auto, wenn die Auto-App nicht meldet, dass es weg ist.",
+      "fr": "Plusieurs voitures utilisent cette borne. La puissance ou un branchement à la borne ne compte alors pour cette voiture que si l'app de la voiture ne la dit pas absente.",
+      "it": "Più auto usano questo caricatore. Potenza o collegamento al caricatore contano allora per quest'auto solo se l'app dell'auto non dice che è via.",
+      "sv": "Flera bilar använder denna laddare. Effekt eller inkoppling vid laddaren räknas då bara som denna bil när bilappen inte säger att den är borta.",
+      "no": "Flere biler bruker denne laderen. Effekt eller tilkobling ved laderen teller da bare som denne bilen når bilappen ikke sier at den er borte.",
+      "es": "Varios coches usan este cargador. La potencia o una conexión en el cargador solo cuenta entonces como este coche si la app del coche no dice que está fuera.",
+      "da": "Flere biler bruger denne lader. Effekt eller tilslutning ved laderen tæller så kun som denne bil, når bilappen ikke siger, at den er væk.",
+      "pl": "Z tej ładowarki korzysta kilka aut. Moc lub podłączenie przy ładowarce liczy się wtedy jako to auto tylko, gdy aplikacja auta nie mówi, że jest poza domem.",
+      "ru": "Этой зарядкой пользуются несколько автомобилей. Мощность или подключение тогда засчитываются этому автомобилю, только если приложение автомобиля не сообщает, что он в отъезде.",
+      "ar": "تستخدم عدة سيارات هذا الشاحن. تُحتسب القدرة أو التوصيل عند الشاحن لهذه السيارة فقط إذا لم يذكر تطبيق السيارة أنها خارج المنزل.",
+      "ko": "여러 대의 자동차가 이 충전기를 사용합니다. 자동차 앱이 부재 중이라고 하지 않을 때만 충전기의 전력이나 연결이 이 자동차로 계산됩니다."
     }
   },
   "carStartCharge": {

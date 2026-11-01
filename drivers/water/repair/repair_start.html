@@ -5,12 +5,14 @@
 	</fieldset>
 	<div class="pbth-nav-space"></div>
 	<div class="pbth-nav" style="justify-content: flex-end;">
-		<button class="homey-button-primary" id="startNext"></button>
+		<button class="homey-button-primary pbth-next" id="startNext"><span id="startNextText"></span><span class="homey-icon-arrow-right"></span></button>
 	</div>
 </form>
 <style>
 	/* Previous and Next fixed at the bottom, like Homey's own views (no Homey class for it). */
 	.pbth-nav { position: fixed; left: 0; right: 0; bottom: 0; display: flex; justify-content: space-between; align-items: center; padding: var(--homey-su-2); background: var(--homey-color-white); }
+	.pbth-prev { padding-left: 0; color: var(--homey-color-mono-60); }
+	.pbth-next { width: 50%; }
 	.pbth-nav-space { height: 88px; }
 </style>
 
@@ -22,7 +24,7 @@
 		const forms = document.querySelectorAll('form[data-view="repair_start"]');
 		const root = forms[forms.length - 1];
 		Homey.setTitle(Homey.__('repair.start_title'));
-		root.querySelector('#startNext').textContent = `${Homey.__('repair.nav_next')} →`;
+		root.querySelector('#startNextText').textContent = Homey.__('repair.nav_next');
 		const el = (tag, props = {}) => Object.assign(document.createElement(tag), props);
 		const set = root.querySelector('#choice');
 		// The choices from the driver: source, and per device fix values and the year budget.
