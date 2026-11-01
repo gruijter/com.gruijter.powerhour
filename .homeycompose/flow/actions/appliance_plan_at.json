@@ -1,0 +1,206 @@
+{
+  "title": {
+    "en": "Plan start at a time",
+    "nl": "Start plannen op een tijd",
+    "de": "Start zu einer Uhrzeit planen",
+    "fr": "Planifier le démarrage à une heure",
+    "es": "Planificar el inicio a una hora",
+    "it": "Pianifica l'avvio a un orario",
+    "da": "Planlæg start på et tidspunkt",
+    "sv": "Planera start vid en tid",
+    "no": "Planlegg start på et tidspunkt",
+    "pl": "Zaplanuj start o godzinie",
+    "ru": "Запланировать запуск на время",
+    "ar": "جدولة البدء في وقت",
+    "ko": "시각에 시작 계획"
+  },
+  "titleFormatted": {
+    "en": "Plan start at [[time]]",
+    "nl": "Start plannen om [[time]]",
+    "de": "Start planen um [[time]]",
+    "fr": "Planifier le démarrage à [[time]]",
+    "es": "Planificar el inicio a las [[time]]",
+    "it": "Pianifica l'avvio alle [[time]]",
+    "da": "Planlæg start kl. [[time]]",
+    "sv": "Planera start kl. [[time]]",
+    "no": "Planlegg start kl. [[time]]",
+    "pl": "Zaplanuj start o [[time]]",
+    "ru": "Запланировать запуск на [[time]]",
+    "ar": "جدولة البدء في [[time]]",
+    "ko": "[[time]]에 시작 계획"
+  },
+  "highlight": true,
+  "hint": {
+    "en": "Sets \"Start today/tomorrow\" to Via flow with this start (the next time it is this time) and shows it at \"Next run\". At that start the card \"Planned start\" fires: start the appliance from that flow.",
+    "nl": "Zet \"Start vandaag/morgen\" op Via flow met deze start (de eerstvolgende keer dat het deze tijd is) en toont die bij \"Volgende run\". Op die start gaat de kaart \"Geplande start\" af: start het apparaat vanuit die flow.",
+    "de": "Setzt \"Start heute/morgen\" auf Per Flow mit diesem Start (das nächste Mal, wenn es diese Uhrzeit ist) und zeigt ihn bei \"Nächster Lauf\". Zu diesem Start löst die Karte \"Geplanter Start\" aus: Starten Sie das Gerät aus diesem Flow.",
+    "fr": "Met « Démarrage aujourd'hui/demain » sur Par flow avec ce démarrage (la prochaine fois qu'il est cette heure) et l'affiche dans « Prochain cycle ». À ce démarrage, la carte « Départ planifié » se déclenche : démarrez l'appareil depuis ce flow.",
+    "es": "Pone \"Inicio hoy/mañana\" en Por flow con este inicio (la próxima vez que sea esta hora) y lo muestra en \"Próximo ciclo\". En ese inicio se activa la tarjeta \"Inicio planificado\": inicie el aparato desde ese flow.",
+    "it": "Imposta \"Avvio oggi/domani\" su Tramite flow con questo avvio (la prossima volta che è quest'ora) e lo mostra in \"Prossimo ciclo\". A quell'avvio scatta la scheda \"Avvio pianificato\": avvia l'apparecchio da quel flow.",
+    "da": "Sætter \"Start i dag/i morgen\" til Via flow med denne start (næste gang klokken er dette) og viser den ved \"Næste kørsel\". Ved den start udløses kortet \"Planlagt start\": start apparatet fra det flow.",
+    "sv": "Sätter \"Start i dag/i morgon\" till Via flöde med denna start (nästa gång klockan är detta) och visar den vid \"Nästa körning\". Vid den starten utlöses kortet \"Planerad start\": starta apparaten från det flödet.",
+    "no": "Setter \"Start i dag/i morgen\" til Via flow med denne starten (neste gang klokken er dette) og viser den ved \"Neste kjøring\". Ved den starten utløses kortet \"Planlagt start\": start apparatet fra den flowen.",
+    "pl": "Ustawia „Start dziś/jutro” na Przez flow z tym startem (najbliższy raz o tej godzinie) i pokazuje go w „Następny cykl”. Przy tym starcie wyzwala się karta „Zaplanowany start”: uruchom urządzenie z tego flow.",
+    "ru": "Ставит «Запуск сегодня/завтра» на «Через поток» с этим запуском (ближайшее наступление этого времени) и показывает его в «Следующий цикл». В это время срабатывает карточка «Запланированный запуск»: запустите прибор из этого потока.",
+    "ar": "يضبط \"البدء اليوم/غدًا\" على عبر التدفق بهذا البدء (أقرب مرة يكون فيها هذا الوقت) ويعرضه في \"التشغيل التالي\". عند ذلك البدء تعمل بطاقة \"البدء المخطط\": شغّل الجهاز من ذلك التدفق.",
+    "ko": "'오늘/내일 시작'을 플로우로 설정하고 이 시작(다음에 이 시각이 될 때)을 '다음 운전'에 표시합니다. 그 시각에 '계획된 시작' 카드가 실행됩니다: 그 플로우에서 기기를 시작하세요."
+  },
+  "args": [
+    {
+      "type": "device",
+      "name": "device",
+      "filter": "driver_id=power&capabilities=appliance_next_run"
+    },
+    {
+      "type": "text",
+      "name": "time",
+      "placeholder": {
+        "en": "07:00",
+        "nl": "07:00",
+        "de": "07:00",
+        "fr": "07:00",
+        "es": "07:00",
+        "it": "07:00",
+        "da": "07:00",
+        "sv": "07:00",
+        "no": "07:00",
+        "pl": "07:00",
+        "ru": "07:00",
+        "ar": "07:00",
+        "ko": "07:00"
+      },
+      "title": {
+        "en": "Start time",
+        "nl": "Starttijd",
+        "de": "Startzeit",
+        "fr": "Heure de départ",
+        "es": "Hora de inicio",
+        "it": "Ora di avvio",
+        "da": "Starttid",
+        "sv": "Starttid",
+        "no": "Starttid",
+        "pl": "Godzina startu",
+        "ru": "Время запуска",
+        "ar": "وقت البدء",
+        "ko": "시작 시간"
+      },
+      "hint": {
+        "en": "Time (07:30) or decimal hours (7.5).",
+        "nl": "Tijd (07:30) of decimale uren (7,5).",
+        "de": "Uhrzeit (07:30) oder Dezimalstunden (7,5).",
+        "fr": "Heure (07:30) ou heures décimales (7,5).",
+        "it": "Ora (07:30) o ore decimali (7,5).",
+        "sv": "Tid (07:30) eller decimaltimmar (7,5).",
+        "no": "Tid (07:30) eller desimaltimer (7,5).",
+        "es": "Hora (07:30) u horas decimales (7,5).",
+        "da": "Tid (07:30) eller decimaltimer (7,5).",
+        "pl": "Godzina (07:30) lub godziny dziesiętne (7,5).",
+        "ru": "Время (07:30) или десятичные часы (7,5).",
+        "ar": "الوقت (07:30) أو ساعات عشرية (7.5).",
+        "ko": "시각(07:30) 또는 소수 시간(7.5)."
+      }
+    }
+  ],
+  "tokens": [
+    {
+      "name": "start_time",
+      "type": "string",
+      "title": {
+        "en": "Start time",
+        "nl": "Starttijd",
+        "de": "Startzeit",
+        "fr": "Heure de départ",
+        "es": "Hora de inicio",
+        "it": "Ora di avvio",
+        "da": "Starttid",
+        "sv": "Starttid",
+        "no": "Starttid",
+        "pl": "Godzina startu",
+        "ru": "Время запуска",
+        "ar": "وقت البدء",
+        "ko": "시작 시간"
+      },
+      "example": "02:15"
+    },
+    {
+      "name": "expected_end",
+      "type": "string",
+      "title": {
+        "en": "Expected end",
+        "nl": "Verwacht einde",
+        "de": "Erwartetes Ende",
+        "fr": "Fin prévue",
+        "es": "Fin prevista",
+        "it": "Fine prevista",
+        "da": "Forventet slut",
+        "sv": "Förväntat slut",
+        "no": "Forventet slutt",
+        "pl": "Przewidywany koniec",
+        "ru": "Ожидаемое окончание",
+        "ar": "النهاية المتوقعة",
+        "ko": "예상 종료"
+      },
+      "example": "21:35"
+    },
+    {
+      "name": "wait",
+      "type": "number",
+      "title": {
+        "en": "Wait (min)",
+        "nl": "Wachten (min)",
+        "de": "Warten (Min.)",
+        "fr": "Attente (min)",
+        "es": "Espera (min)",
+        "it": "Attesa (min)",
+        "da": "Vent (min)",
+        "sv": "Vänta (min)",
+        "no": "Vent (min)",
+        "pl": "Czekaj (min)",
+        "ru": "Ожидание (мин)",
+        "ar": "الانتظار (دقيقة)",
+        "ko": "대기 (분)"
+      },
+      "example": 240
+    },
+    {
+      "name": "cost",
+      "type": "number",
+      "title": {
+        "en": "Expected cost",
+        "nl": "Verwachte kosten",
+        "de": "Erwartete Kosten",
+        "fr": "Coût prévu",
+        "es": "Coste previsto",
+        "it": "Costo previsto",
+        "da": "Forventet pris",
+        "sv": "Förväntad kostnad",
+        "no": "Forventet kostnad",
+        "pl": "Przewidywany koszt",
+        "ru": "Ожидаемая стоимость",
+        "ar": "التكلفة المتوقعة",
+        "ko": "예상 비용"
+      },
+      "example": 0.21
+    },
+    {
+      "name": "saving",
+      "type": "number",
+      "title": {
+        "en": "Saving vs now",
+        "nl": "Besparing t.o.v. nu",
+        "de": "Ersparnis ggü. jetzt",
+        "fr": "Économie vs maintenant",
+        "es": "Ahorro frente a ahora",
+        "it": "Risparmio rispetto ad ora",
+        "da": "Besparelse ift. nu",
+        "sv": "Besparing jämfört med nu",
+        "no": "Besparelse mot nå",
+        "pl": "Oszczędność względem teraz",
+        "ru": "Экономия по сравнению с сейчас",
+        "ar": "التوفير مقارنة بالآن",
+        "ko": "지금 대비 절약"
+      },
+      "example": 0.12
+    }
+  ]
+}

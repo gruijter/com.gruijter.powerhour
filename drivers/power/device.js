@@ -465,12 +465,20 @@ class PowerDevice extends GenericDevice {
   }
 
   // The cheapest start from now (or the plan's earliest) to the deadline; without prices at the deadline.
+  // A fixed start (fixedStartMs) stays; only its cost follows the prices.
   replanAppliance() {
     const plan = this.appliancePlan;
     const profile = this.getApplianceProfile();
-    if (!plan || plan.notified || !profile) return;
+    if (!plan || plan.notified) return;
     const now = Date.now();
     const priceAt = (ms) => this.priceAt(ms);
+    if (plan.fixedStartMs) {
+      plan.startMs = plan.fixedStartMs;
+      plan.cost = profile ? ApplianceModel.runCost(profile, priceAt, plan.startMs) : null;
+      plan.costNow = profile ? ApplianceModel.runCost(profile, priceAt, now) : null;
+      return;
+    }
+    if (!profile) return;
     const nowMs = Math.max(now, plan.earliest || 0);
     const best = ApplianceModel.bestStart(profile, { priceAt, nowMs, latestStartMs: plan.deadline });
     plan.startMs = best ? best.startMs : Math.max(nowMs, plan.deadline);
@@ -542,16 +550,17 @@ class PowerDevice extends GenericDevice {
   }
 
   // Flow: starts in the window from to to (over midnight when to is not later), the whole window
-  // also when now is in it, like the price cards.
+  // also when now is in it, like the price cards. To is the latest start (included), like the
+  // plan cards: the slot at to still belongs to its window.
   isCheapestStartBetween(from, to) {
     const fromH = TimeHelpers.parseClock(from);
     const toH = TimeHelpers.parseClock(to);
     if (fromH === null || fromH >= 24) throw Error(this.homey.__('error_invalid_time', { time: from }));
     if (toH === null) throw Error(this.homey.__('error_invalid_time', { time: to }));
     const slot = Math.floor(Date.now() / SLOT_MS) * SLOT_MS;
-    const window = ApplianceModel.startWindow(fromH, toH, slot, this.timeZone);
+    const window = ApplianceModel.startWindow(fromH, toH, slot - 1, this.timeZone);
     if (!window) return false;
-    return this.isCheapestStart(window.windowFromMs, window.toMs);
+    return this.isCheapestStart(window.windowFromMs, window.toMs + 1);
   }
 
   // Flow: starts from now to period hours ahead.
@@ -708,6 +717,14 @@ class PowerDevice extends GenericDevice {
     const hhmm = EvPlanner.parseTime(time);
     if (!hhmm) throw Error(this.homey.__('error_invalid_time', { time }));
     return this.planTokens(await this.planStartBy(this.nextLocalTime(hhmm)));
+  }
+
+  // Flow: plan a start at a time (the next time it is that time); tokens of the plan.
+  async planApplianceAt(time) {
+    const hhmm = EvPlanner.parseTime(time);
+    if (!hhmm) throw Error(this.homey.__('error_invalid_time', { time }));
+    const at = this.nextLocalTime(hhmm);
+    return this.planTokens(await this.setAppliancePlan({ fixedStartMs: at, deadline: at, notified: false }));
   }
 
   // Flow: plan the cheapest start between two times (over midnight when to is not later); tokens.
