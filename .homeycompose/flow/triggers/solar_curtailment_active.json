@@ -14,6 +14,7 @@
     "ru": "Обнаружено ограничение солнечной энергии",
     "sv": "Solnedskärning upptäckt"
   },
+  "highlight": true,
   "args": [
     {
       "type": "device",

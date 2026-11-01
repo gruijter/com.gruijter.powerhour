@@ -29,6 +29,7 @@
     "ar": "السعر !{{يكون|لا يكون}} [[direction]] متوسط [[period]] بنسبة [[percent]]%",
     "ko": "가격이 [[period]] 평균보다 [[percent]]% [[direction]] !{{상태임|상태가 아님}}"
   },
+  "highlight": true,
   "hint": {
     "en": "Compares the current price with the average of the chosen period. E.g. 10% below: the price is at most 90% of the average.",
     "nl": "Vergelijkt de huidige prijs met het gemiddelde van de gekozen periode. Bijv. 10% onder: de prijs is hooguit 90% van het gemiddelde.",

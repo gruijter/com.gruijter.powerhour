@@ -29,6 +29,7 @@
     "ar": "السيارة [[presence]]",
     "ko": "차량 [[presence]]"
   },
+  "highlight": true,
   "hint": {
     "en": "Away at once, before the car app reports it. Ends when the car is back: charging, plugged in, a trip ending at home, or 'is home'.",
     "nl": "Direct afwezig, voordat de auto-app het meldt. Stopt als de auto terug is: laden, ingeplugd, een rit die thuis eindigt, of 'is thuis'.",

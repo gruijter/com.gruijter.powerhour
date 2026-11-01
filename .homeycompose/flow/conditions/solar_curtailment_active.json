@@ -14,6 +14,7 @@
     "ru": "Ограничение солнечной энергии !{{активно|не активно}}",
     "sv": "Solnedskärning !{{är|är inte}} aktiv"
   },
+  "highlight": true,
   "args": [
     {
       "type": "device",

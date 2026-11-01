@@ -29,6 +29,7 @@
     "ar": "الفترة [[type]] لمدة [[duration]] [[duration_unit]] بين [[time1]] و[[time2]] !{{جارية|ليست جارية}} الآن",
     "ko": "[[time1]]~[[time2]] 사이 [[type]] [[duration]][[duration_unit]] 구간이 지금 !{{진행 중|진행 중 아님}}"
   },
+  "highlight": true,
   "hint": {
     "en": "Finds the consecutive block with the lowest (or highest) average price between two clock times (e.g. 7:30 or 7.5, overnight allowed) and checks if now is inside it. Outside these times: false.",
     "nl": "Zoekt het aaneengesloten blok met de laagste (of hoogste) gemiddelde prijs tussen twee kloktijden (bijv. 7:30 of 7,5, over middernacht mag) en kijkt of nu in dat blok valt. Buiten deze tijden: onwaar.",

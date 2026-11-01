@@ -29,6 +29,7 @@
     "ar": "حالة السيارة !{{هي|ليست}} [[state]]",
     "ko": "차량 상태 !{{일치|불일치}}: [[state]]"
   },
+  "highlight": true,
   "args": [
     {
       "type": "device",

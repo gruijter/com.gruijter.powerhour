@@ -29,6 +29,7 @@
     "ko": "[[day]] [[time]]에 출발",
     "ar": "المغادرة [[day]] الساعة [[time]]"
   },
+  "highlight": true,
   "hint": {
     "en": "Once; then the learned or weekly time applies again. HH:MM or decimal hours (7.5). 'auto': automatic again, '-': car not used that day.",
     "nl": "Eenmalig; daarna geldt weer de geleerde of weektijd. UU:MM of decimale uren (7,5). 'auto': weer automatisch, '-': auto die dag niet gebruikt.",

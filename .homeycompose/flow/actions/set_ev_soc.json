@@ -29,6 +29,7 @@
     "ko": "차량 SoC를 [[soc]]%로 설정",
     "ar": "ضبط SoC السيارة إلى [[soc]]%"
   },
+  "highlight": true,
   "hint": {
     "en": "Manually set the current battery percentage of the EV. Useful if your charger does not report the battery level.",
     "nl": "Zet handmatig het huidige batterijpercentage van de EV. Handig als je lader dit niet doorgeeft.",

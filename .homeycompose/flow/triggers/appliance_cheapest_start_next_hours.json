@@ -29,6 +29,7 @@
     "ar": "أرخص بدء للبرنامج في [[period]] ساعة القادمة",
     "ko": "다음 [[period]]시간 동안 가장 저렴한 프로그램 시작"
   },
+  "highlight": true,
   "hint": {
     "en": "With the learned duration and power of the program.",
     "nl": "Met de geleerde duur en het geleerde vermogen van het programma.",

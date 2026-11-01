@@ -29,6 +29,7 @@
     "ar": "السعر !{{ضمن|ليس ضمن}} [[number]] [[unit]] [[type]] بين [[time1]] و[[time2]]",
     "ko": "[[time1]]~[[time2]] 사이 [[type]] [[number]]개 [[unit]]에 가격이 !{{포함됨|포함되지 않음}}"
   },
+  "highlight": true,
   "hint": {
     "en": "Ranks the prices between two clock times (e.g. 7:30 or 7.5, overnight allowed) and checks if the current price is among the N cheapest or most expensive. Outside these times: false.",
     "nl": "Rangschikt de prijzen tussen twee kloktijden (bijv. 7:30 of 7,5, over middernacht mag) en kijkt of de huidige prijs bij de N goedkoopste of duurste hoort. Buiten deze tijden: onwaar.",

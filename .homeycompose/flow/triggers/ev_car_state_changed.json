@@ -14,6 +14,7 @@
     "ar": "تغيرت حالة السيارة",
     "ko": "차량 상태 변경됨"
   },
+  "highlight": true,
   "args": [
     {
       "type": "device",

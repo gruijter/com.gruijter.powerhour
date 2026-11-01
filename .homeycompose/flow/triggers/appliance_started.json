@@ -14,6 +14,7 @@
     "ar": "بدأ البرنامج",
     "ko": "프로그램 시작됨"
   },
+  "highlight": true,
   "hint": {
     "en": "Expected values from the learned program, empty while learning.",
     "nl": "Verwachte waarden uit het geleerde programma, leeg tijdens het leren.",

@@ -373,6 +373,7 @@
           "ar": "أرخص بدء للبرنامج في [[period]] ساعة القادمة",
           "ko": "다음 [[period]]시간 동안 가장 저렴한 프로그램 시작"
         },
+        "highlight": true,
         "hint": {
           "en": "With the learned duration and power of the program.",
           "nl": "Met de geleerde duur en het geleerde vermogen van het programma.",
@@ -590,6 +591,7 @@
           "ar": "البدء المخطط",
           "ko": "계획된 시작"
         },
+        "highlight": true,
         "hint": {
           "en": "At the start of \"Next run\". Start the program from this flow, e.g. by switching on the plug or via the appliance's app.",
           "nl": "Op de start van \"Volgende run\". Start het programma vanuit deze flow, bijv. door de stekker aan te zetten of via de app van het apparaat.",
@@ -672,6 +674,7 @@
           "ar": "بدأ البرنامج",
           "ko": "프로그램 시작됨"
         },
+        "highlight": true,
         "hint": {
           "en": "Expected values from the learned program, empty while learning.",
           "nl": "Verwachte waarden uit het geleerde programma, leeg tijdens het leren.",
@@ -996,6 +999,7 @@
           "ar": "تغيرت حالة السيارة",
           "ko": "차량 상태 변경됨"
         },
+        "highlight": true,
         "args": [
           {
             "type": "device",
@@ -1043,6 +1047,7 @@
           "ru": "Режим зарядки изменён",
           "ar": "تم تغيير وضع الشحن"
         },
+        "highlight": true,
         "args": [
           {
             "type": "device",
@@ -1470,6 +1475,7 @@
           "ko": "새 충전 계획 전력",
           "ar": "قدرة شحن مخططة جديدة"
         },
+        "highlight": true,
         "hint": {
           "en": "Every price period and when settings change: the planned charging power and duration for now.",
           "nl": "Elke prijsperiode en bij gewijzigde instellingen: het geplande laadvermogen en de duur voor nu.",
@@ -3047,6 +3053,7 @@
           "ar": "يصبح السعر ضمن [[number]] [[unit]] [[type]] بين [[time1]] و[[time2]]",
           "ko": "[[time1]]~[[time2]] 사이 [[type]] [[number]]개 [[unit]]에 가격이 포함됨"
         },
+        "highlight": true,
         "hint": {
           "en": "Ranks the prices between two clock times (e.g. 7:30 or 7.5, overnight allowed) and checks if the current price is among the N cheapest or most expensive. Outside these times: false. Fires once, when this starts.",
           "nl": "Rangschikt de prijzen tussen twee kloktijden (bijv. 7:30 of 7,5, over middernacht mag) en kijkt of de huidige prijs bij de N goedkoopste of duurste hoort. Buiten deze tijden: onwaar. Triggert één keer, bij het begin.",
@@ -6962,6 +6969,7 @@
           "ar": "يصبح السعر [[direction]] متوسط [[period]] بنسبة [[percent]]%",
           "ko": "가격이 [[period]] 평균보다 [[percent]]% [[direction]] 상태가 됨"
         },
+        "highlight": true,
         "hint": {
           "en": "Compares the current price with the average of the chosen period. E.g. 10% below: the price is at most 90% of the average. Fires once, when this starts.",
           "nl": "Vergelijkt de huidige prijs met het gemiddelde van de gekozen periode. Bijv. 10% onder: de prijs is hooguit 90% van het gemiddelde. Triggert één keer, bij het begin.",
@@ -7192,6 +7200,7 @@
           "ru": "Обнаружено ограничение солнечной энергии",
           "sv": "Solnedskärning upptäckt"
         },
+        "highlight": true,
         "args": [
           {
             "type": "device",
@@ -7217,6 +7226,7 @@
           "ru": "Ограничение солнечной энергии завершено",
           "sv": "Solnedskärning avslutad"
         },
+        "highlight": true,
         "args": [
           {
             "type": "device",
@@ -7585,6 +7595,7 @@
           "ko": "[[time]] 전 남은 수익이 [[value]] kWh보다 적음",
           "ar": "العائد المتبقي قبل [[time]] أقل من [[value]] كيلوواط ساعة"
         },
+        "highlight": true,
         "args": [
           {
             "type": "device",
@@ -7696,6 +7707,7 @@
           "ko": "[[start_time]]와 [[end_time]] 사이 수익이 [[value]] kWh보다 적음",
           "ar": "العائد بين [[start_time]] و [[end_time]] أقل من [[value]] كيلوواط ساعة"
         },
+        "highlight": true,
         "args": [
           {
             "type": "device",
@@ -8165,6 +8177,7 @@
           "ar": "الآن !{{هو|ليس}} أرخص بدء للبرنامج في [[period]] ساعة القادمة",
           "ko": "지금이 다음 [[period]]시간 동안 가장 저렴한 프로그램 시작!{{입니다|이 아닙니다}}"
         },
+        "highlight": true,
         "hint": {
           "en": "With the learned duration and power of the program.",
           "nl": "Met de geleerde duur en het geleerde vermogen van het programma.",
@@ -8272,6 +8285,7 @@
           "ar": "وضع البطارية !{{هو|ليس}} [[mode]]",
           "ko": "배터리 모드 !{{일치|불일치}}: [[mode]]"
         },
+        "highlight": true,
         "args": [
           {
             "type": "device",
@@ -8477,6 +8491,7 @@
           "ar": "حالة السيارة !{{هي|ليست}} [[state]]",
           "ko": "차량 상태 !{{일치|불일치}}: [[state]]"
         },
+        "highlight": true,
         "args": [
           {
             "type": "device",
@@ -8628,6 +8643,7 @@
           "ru": "Режим зарядки !{{—|не}} [[mode]]",
           "ar": "وضع الشحن !{{هو|ليس}} [[mode]]"
         },
+        "highlight": true,
         "args": [
           {
             "type": "device",
@@ -9296,6 +9312,7 @@
           "ar": "الفترة [[type]] لمدة [[duration]] [[duration_unit]] بين [[time1]] و[[time2]] !{{جارية|ليست جارية}} الآن",
           "ko": "[[time1]]~[[time2]] 사이 [[type]] [[duration]][[duration_unit]] 구간이 지금 !{{진행 중|진행 중 아님}}"
         },
+        "highlight": true,
         "hint": {
           "en": "Finds the consecutive block with the lowest (or highest) average price between two clock times (e.g. 7:30 or 7.5, overnight allowed) and checks if now is inside it. Outside these times: false.",
           "nl": "Zoekt het aaneengesloten blok met de laagste (of hoogste) gemiddelde prijs tussen twee kloktijden (bijv. 7:30 of 7,5, over middernacht mag) en kijkt of nu in dat blok valt. Buiten deze tijden: onwaar.",
@@ -9857,6 +9874,7 @@
           "ar": "السعر !{{ضمن|ليس ضمن}} [[number]] [[unit]] [[type]] بين [[time1]] و[[time2]]",
           "ko": "[[time1]]~[[time2]] 사이 [[type]] [[number]]개 [[unit]]에 가격이 !{{포함됨|포함되지 않음}}"
         },
+        "highlight": true,
         "hint": {
           "en": "Ranks the prices between two clock times (e.g. 7:30 or 7.5, overnight allowed) and checks if the current price is among the N cheapest or most expensive. Outside these times: false.",
           "nl": "Rangschikt de prijzen tussen twee kloktijden (bijv. 7:30 of 7,5, over middernacht mag) en kijkt of de huidige prijs bij de N goedkoopste of duurste hoort. Buiten deze tijden: onwaar.",
@@ -13038,6 +13056,7 @@
           "ar": "السعر !{{يكون|لا يكون}} [[direction]] متوسط [[period]] بنسبة [[percent]]%",
           "ko": "가격이 [[period]] 평균보다 [[percent]]% [[direction]] !{{상태임|상태가 아님}}"
         },
+        "highlight": true,
         "hint": {
           "en": "Compares the current price with the average of the chosen period. E.g. 10% below: the price is at most 90% of the average.",
           "nl": "Vergelijkt de huidige prijs met het gemiddelde van de gekozen periode. Bijv. 10% onder: de prijs is hooguit 90% van het gemiddelde.",
@@ -13246,6 +13265,7 @@
           "ru": "Ограничение солнечной энергии !{{активно|не активно}}",
           "sv": "Solnedskärning !{{är|är inte}} aktiv"
         },
+        "highlight": true,
         "args": [
           {
             "type": "device",
@@ -13408,6 +13428,7 @@
           "ko": "내일의 수익이 오늘보다 !{{좋음|나쁨}}",
           "ar": "عائد الغد !{{أفضل|أسوأ}} من اليوم"
         },
+        "highlight": true,
         "args": [
           {
             "type": "device",
@@ -13776,6 +13797,7 @@
           "ko": "[[time]] 전 남은 수익이 [[value]] kWh보다 !{{적음|많음}}",
           "ar": "العائد المتبقي قبل [[time]] !{{أقل|أكثر}} من [[value]] كيلوواط ساعة"
         },
+        "highlight": true,
         "args": [
           {
             "type": "device",
@@ -13887,6 +13909,7 @@
           "ko": "[[start_time]]와 [[end_time]] 사이 수익이 [[value]] kWh보다 !{{적음|많음}}",
           "ar": "العائد بين [[start_time]] و [[end_time]] !{{أقل|أكثر}} من [[value]] كيلوواط ساعة"
         },
+        "highlight": true,
         "args": [
           {
             "type": "device",
@@ -17798,6 +17821,7 @@
           "ko": "[[day]] [[time]]에 출발",
           "ar": "المغادرة [[day]] الساعة [[time]]"
         },
+        "highlight": true,
         "hint": {
           "en": "Once; then the learned or weekly time applies again. HH:MM or decimal hours (7.5). 'auto': automatic again, '-': car not used that day.",
           "nl": "Eenmalig; daarna geldt weer de geleerde of weektijd. UU:MM of decimale uren (7,5). 'auto': weer automatisch, '-': auto die dag niet gebruikt.",
@@ -18093,6 +18117,7 @@
           "ar": "السيارة [[presence]]",
           "ko": "차량 [[presence]]"
         },
+        "highlight": true,
         "hint": {
           "en": "Away at once, before the car app reports it. Ends when the car is back: charging, plugged in, a trip ending at home, or 'is home'.",
           "nl": "Direct afwezig, voordat de auto-app het meldt. Stopt als de auto terug is: laden, ingeplugd, een rit die thuis eindigt, of 'is thuis'.",
@@ -18205,6 +18230,7 @@
           "ko": "차량 SoC를 [[soc]]%로 설정",
           "ar": "ضبط SoC السيارة إلى [[soc]]%"
         },
+        "highlight": true,
         "hint": {
           "en": "Manually set the current battery percentage of the EV. Useful if your charger does not report the battery level.",
           "nl": "Zet handmatig het huidige batterijpercentage van de EV. Handig als je lader dit niet doorgeeft.",
