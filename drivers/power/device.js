@@ -521,8 +521,7 @@ class PowerDevice extends GenericDevice {
       cost: cost === null ? 0 : Math.round(cost * 10000) / 10000,
     };
     const { app } = this.homey;
-    if (app.trigger_appliance_cheapest_start_before) await app.trigger_appliance_cheapest_start_before(this, tokens, {});
-    if (app.trigger_appliance_cheapest_start_until) await app.trigger_appliance_cheapest_start_until(this, tokens, {});
+    if (app.trigger_appliance_cheapest_start_between) await app.trigger_appliance_cheapest_start_between(this, tokens, {});
     if (app.trigger_appliance_cheapest_start_next_hours) await app.trigger_appliance_cheapest_start_next_hours(this, tokens, {});
   }
 
@@ -536,20 +535,17 @@ class PowerDevice extends GenericDevice {
     return !!best && best.startMs === slot;
   }
 
-  // Flow: starts in the period hours before time (07:45, or decimal hours 7.75); like the DAP card, today's
-  // window, or tomorrow's when that time has passed.
-  isCheapestStartBefore(period, time) {
-    const hours = TimeHelpers.parseClock(time);
-    if (hours === null) throw Error(this.homey.__('error_invalid_time', { time }));
-    const minutes = Math.round(hours * 4) * 15;
+  // Flow: starts in the window from to to (over midnight when to is not later), the whole window
+  // also when now is in it, like the price cards.
+  isCheapestStartBetween(from, to) {
+    const fromH = TimeHelpers.parseClock(from);
+    const toH = TimeHelpers.parseClock(to);
+    if (fromH === null || fromH >= 24) throw Error(this.homey.__('error_invalid_time', { time: from }));
+    if (toH === null) throw Error(this.homey.__('error_invalid_time', { time: to }));
     const slot = Math.floor(Date.now() / SLOT_MS) * SLOT_MS;
-    const nextDay = (day) => TimeHelpers.getLocalMidnightUTC(new Date(day.getTime() + 26 * 3600000), this.timeZone);
-    const hhmm = TimeHelpers.formatClock(minutes / 60);
-    const endOf = (day) => (minutes === 1440 ? nextDay(day).getTime() : TimeHelpers.localTimeToUTC(day, hhmm, this.timeZone).getTime());
-    const today = TimeHelpers.getLocalMidnightUTC(new Date(slot), this.timeZone);
-    let end = endOf(today);
-    if (end <= slot) end = endOf(nextDay(today));
-    return this.isCheapestStart(end - TimeHelpers.parseHours(period) * 3600000, end);
+    const window = ApplianceModel.startWindow(fromH, toH, slot, this.timeZone);
+    if (!window) return false;
+    return this.isCheapestStart(window.windowFromMs, window.toMs);
   }
 
   // Flow: starts from now to period hours ahead.

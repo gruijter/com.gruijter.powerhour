@@ -1,0 +1,195 @@
+{
+  "title": {
+    "en": "Cheapest program start between times",
+    "nl": "Goedkoopste programmastart tussen tijden",
+    "de": "Günstigster Programmstart zwischen Zeiten",
+    "fr": "Démarrage du programme le moins cher entre deux heures",
+    "es": "Inicio del programa más barato entre dos horas",
+    "it": "Avvio del programma più economico tra due orari",
+    "da": "Billigste programstart mellem tidspunkter",
+    "sv": "Billigaste programstart mellan tider",
+    "no": "Billigste programstart mellom tidspunkter",
+    "pl": "Najtańszy start programu między godzinami",
+    "ru": "Самый дешёвый запуск программы в интервале",
+    "ar": "أرخص بدء للبرنامج بين وقتين",
+    "ko": "시간 사이 가장 저렴한 프로그램 시작"
+  },
+  "titleFormatted": {
+    "en": "Cheapest program start between [[from]] and [[to]]",
+    "nl": "Goedkoopste programmastart tussen [[from]] en [[to]]",
+    "de": "Günstigster Programmstart zwischen [[from]] und [[to]]",
+    "fr": "Démarrage du programme le moins cher entre [[from]] et [[to]]",
+    "es": "Inicio del programa más barato entre las [[from]] y las [[to]]",
+    "it": "Avvio del programma più economico tra le [[from]] e le [[to]]",
+    "da": "Billigste programstart mellem [[from]] og [[to]]",
+    "sv": "Billigaste programstart mellan [[from]] och [[to]]",
+    "no": "Billigste programstart mellom [[from]] og [[to]]",
+    "pl": "Najtańszy start programu między [[from]] a [[to]]",
+    "ru": "Самый дешёвый запуск программы с [[from]] до [[to]]",
+    "ar": "أرخص بدء للبرنامج بين [[from]] و[[to]]",
+    "ko": "[[from]]~[[to]] 사이 가장 저렴한 프로그램 시작"
+  },
+  "highlight": true,
+  "hint": {
+    "en": "Over the whole window, with the learned duration and power of the program. 22:00–07:00 is over midnight, 00:00–24:00 the whole day.",
+    "nl": "Over het hele venster, met de geleerde duur en het geleerde vermogen van het programma. 22:00–07:00 gaat over middernacht, 00:00–24:00 is de hele dag.",
+    "de": "Über das ganze Zeitfenster, mit der gelernten Dauer und Leistung des Programms. 22:00–07:00 geht über Mitternacht, 00:00–24:00 ist der ganze Tag.",
+    "fr": "Sur toute la plage, avec la durée et la puissance apprises du programme. 22:00–07:00 passe minuit, 00:00–24:00 est toute la journée.",
+    "es": "En toda la franja, con la duración y la potencia aprendidas del programa. 22:00–07:00 pasa la medianoche, 00:00–24:00 es todo el día.",
+    "it": "Su tutta la fascia, con la durata e la potenza apprese del programma. 22:00–07:00 supera la mezzanotte, 00:00–24:00 è tutto il giorno.",
+    "da": "Over hele tidsrummet, med programmets lærte varighed og effekt. 22:00–07:00 går over midnat, 00:00–24:00 er hele dagen.",
+    "sv": "Över hela tidsfönstret, med programmets inlärda längd och effekt. 22:00–07:00 går över midnatt, 00:00–24:00 är hela dagen.",
+    "no": "Over hele tidsvinduet, med programmets lærte varighet og effekt. 22:00–07:00 går over midnatt, 00:00–24:00 er hele dagen.",
+    "pl": "W całym oknie, z wyuczonym czasem trwania i mocą programu. 22:00–07:00 przechodzi przez północ, 00:00–24:00 to cały dzień.",
+    "ru": "По всему интервалу, с изученными длительностью и мощностью программы. 22:00–07:00 — через полночь, 00:00–24:00 — весь день.",
+    "ar": "على كامل النافذة، بالمدة والقدرة المتعلمتين للبرنامج. 22:00–07:00 يتجاوز منتصف الليل، 00:00–24:00 هو اليوم كله.",
+    "ko": "전체 시간대 기준, 학습된 프로그램 시간과 전력으로 계산합니다. 22:00–07:00은 자정을 넘고, 00:00–24:00은 하루 전체입니다."
+  },
+  "args": [
+    {
+      "type": "device",
+      "name": "device",
+      "filter": "driver_id=power&capabilities=appliance_next_run"
+    },
+    {
+      "type": "text",
+      "name": "from",
+      "placeholder": {
+        "en": "22:00",
+        "nl": "22:00",
+        "de": "22:00",
+        "fr": "22:00",
+        "es": "22:00",
+        "it": "22:00",
+        "da": "22:00",
+        "sv": "22:00",
+        "no": "22:00",
+        "pl": "22:00",
+        "ru": "22:00",
+        "ar": "22:00",
+        "ko": "22:00"
+      },
+      "title": {
+        "en": "Earliest start",
+        "nl": "Vroegste start",
+        "de": "Frühester Start",
+        "fr": "Démarrage au plus tôt",
+        "es": "Inicio más temprano",
+        "it": "Avvio più presto",
+        "da": "Tidligste start",
+        "sv": "Tidigaste start",
+        "no": "Tidligste start",
+        "pl": "Najwcześniejszy start",
+        "ru": "Самый ранний запуск",
+        "ar": "أبكر موعد للبدء",
+        "ko": "가장 이른 시작"
+      },
+      "hint": {
+        "en": "Time (07:30) or decimal hours (7.5).",
+        "nl": "Tijd (07:30) of decimale uren (7,5).",
+        "de": "Uhrzeit (07:30) oder Dezimalstunden (7,5).",
+        "fr": "Heure (07:30) ou heures décimales (7,5).",
+        "it": "Ora (07:30) o ore decimali (7,5).",
+        "sv": "Tid (07:30) eller decimaltimmar (7,5).",
+        "no": "Tid (07:30) eller desimaltimer (7,5).",
+        "es": "Hora (07:30) u horas decimales (7,5).",
+        "da": "Tid (07:30) eller decimaltimer (7,5).",
+        "pl": "Godzina (07:30) lub godziny dziesiętne (7,5).",
+        "ru": "Время (07:30) или десятичные часы (7,5).",
+        "ar": "الوقت (07:30) أو ساعات عشرية (7.5).",
+        "ko": "시각(07:30) 또는 소수 시간(7.5)."
+      }
+    },
+    {
+      "type": "text",
+      "name": "to",
+      "placeholder": {
+        "en": "07:00",
+        "nl": "07:00",
+        "de": "07:00",
+        "fr": "07:00",
+        "es": "07:00",
+        "it": "07:00",
+        "da": "07:00",
+        "sv": "07:00",
+        "no": "07:00",
+        "pl": "07:00",
+        "ru": "07:00",
+        "ar": "07:00",
+        "ko": "07:00"
+      },
+      "title": {
+        "en": "Latest start",
+        "nl": "Uiterlijke start",
+        "de": "Spätester Start",
+        "fr": "Démarrage au plus tard",
+        "es": "Inicio más tardío",
+        "it": "Avvio più tardi",
+        "da": "Seneste start",
+        "sv": "Senaste start",
+        "no": "Seneste start",
+        "pl": "Najpóźniejszy start",
+        "ru": "Последний запуск",
+        "ar": "آخر موعد للبدء",
+        "ko": "최종 시작"
+      },
+      "hint": {
+        "en": "Time (07:30) or decimal hours (7.5).",
+        "nl": "Tijd (07:30) of decimale uren (7,5).",
+        "de": "Uhrzeit (07:30) oder Dezimalstunden (7,5).",
+        "fr": "Heure (07:30) ou heures décimales (7,5).",
+        "it": "Ora (07:30) o ore decimali (7,5).",
+        "sv": "Tid (07:30) eller decimaltimmar (7,5).",
+        "no": "Tid (07:30) eller desimaltimer (7,5).",
+        "es": "Hora (07:30) u horas decimales (7,5).",
+        "da": "Tid (07:30) eller decimaltimer (7,5).",
+        "pl": "Godzina (07:30) lub godziny dziesiętne (7,5).",
+        "ru": "Время (07:30) или десятичные часы (7,5).",
+        "ar": "الوقت (07:30) أو ساعات عشرية (7.5).",
+        "ko": "시각(07:30) 또는 소수 시간(7.5)."
+      }
+    }
+  ],
+  "tokens": [
+    {
+      "name": "expected_end",
+      "type": "string",
+      "title": {
+        "en": "Expected end",
+        "nl": "Verwacht einde",
+        "de": "Erwartetes Ende",
+        "fr": "Fin prévue",
+        "es": "Fin prevista",
+        "it": "Fine prevista",
+        "da": "Forventet slut",
+        "sv": "Förväntat slut",
+        "no": "Forventet slutt",
+        "pl": "Przewidywany koniec",
+        "ru": "Ожидаемое окончание",
+        "ar": "النهاية المتوقعة",
+        "ko": "예상 종료"
+      },
+      "example": "21:35"
+    },
+    {
+      "name": "cost",
+      "type": "number",
+      "title": {
+        "en": "Expected cost",
+        "nl": "Verwachte kosten",
+        "de": "Erwartete Kosten",
+        "fr": "Coût prévu",
+        "es": "Coste previsto",
+        "it": "Costo previsto",
+        "da": "Forventet pris",
+        "sv": "Förväntad kostnad",
+        "no": "Forventet kostnad",
+        "pl": "Przewidywany koszt",
+        "ru": "Ожидаемая стоимость",
+        "ar": "التكلفة المتوقعة",
+        "ko": "예상 비용"
+      },
+      "example": 0.21
+    }
+  ]
+}

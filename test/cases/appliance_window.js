@@ -59,5 +59,11 @@ test('over the DST change: 18-7 in local time', () => {
   assert.strictEqual(new Date(w.toMs).toISOString(), new Date('2026-10-25T07:00:00+01:00').toISOString());
 });
 
+test('windowFromMs: the start of the window also when now is in it (cheapest start cards)', () => {
+  const w = ApplianceModel.startWindow(22, 7, at('2026-11-11T02:00:00'), TZ);
+  assert.strictEqual(new Date(w.windowFromMs).toISOString(), iso('2026-11-10T22:00:00'));
+  assert.strictEqual(new Date(w.fromMs).toISOString(), iso('2026-11-11T02:00:00'));
+});
+
 console.log(failed ? `\n${failed} failed` : '\nall passed');
 process.exitCode = failed ? 1 : 0;
