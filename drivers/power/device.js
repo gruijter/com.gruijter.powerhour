@@ -213,12 +213,15 @@ class PowerDevice extends GenericDevice {
     const profile = this.getApplianceProfile();
     const deadlineFor = (start) => (plan && plan.startMs && Math.abs(start - plan.startMs) <= PLANNED_START_MS ? plan.deadline : null);
     const skipToday = !!this.applianceDays()[ApplianceModel.localDay(t, this.timeZone).date];
-    const { model, event, run } = ApplianceModel.processSample(this.applianceModel, {
+    const {
+      model, event, run, restarted,
+    } = ApplianceModel.processSample(this.applianceModel, {
       t, powerW, meterKwh, timezone: this.timeZone, deadlineFor, fullMin: profile ? profile.fullMin : null, skipToday,
     });
     this.applianceModel = model;
     if (event === 'started') await this.onApplianceStarted(t);
     if (event === 'finished') await this.onApplianceFinished(run);
+    if (restarted) await this.onApplianceStarted(t);
     await this.checkPlannedStart(t);
     await this.checkDayPlans(t);
     await this.checkExpectedStart(t);
@@ -706,7 +709,9 @@ class PowerDevice extends GenericDevice {
     let next = '-';
     if (nextRun) {
       const start = nextRun.startMs <= now ? this.homey.__('ev_now') : this.dayHhmm(nextRun.startMs);
-      const end = (run ? run.start : Math.max(nextRun.startMs, now)) + runMs;
+      let end = (run ? run.start : Math.max(nextRun.startMs, now)) + runMs;
+      // A run past its expected end: at the earliest at the end of this quarter (moves on per slot).
+      if (run && end <= now) end = Math.floor(now / SLOT_MS) * SLOT_MS + SLOT_MS;
       next = profile ? `${start}–${this.hhmm(end)}` : start;
     }
 
