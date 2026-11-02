@@ -399,6 +399,41 @@
       },
       "children": [
         {
+          "id": "appliance_info",
+          "type": "label",
+          "value": "-",
+          "label": {
+            "en": "Mode",
+            "nl": "Stand",
+            "de": "Modus",
+            "fr": "Mode",
+            "es": "Modo",
+            "it": "Modalità",
+            "da": "Tilstand",
+            "sv": "Läge",
+            "no": "Modus",
+            "pl": "Tryb",
+            "ru": "Режим",
+            "ar": "الوضع",
+            "ko": "모드"
+          },
+          "hint": {
+            "en": "Forecast only, or forecast and plan for this appliance. Do a repair to change.",
+            "nl": "Alleen voorspellen, of voorspellen en plannen voor dit apparaat. Repareer om te wijzigen.",
+            "de": "Nur Prognose, oder Prognose und Planung für dieses Gerät. Zum Ändern reparieren.",
+            "fr": "Prévision seule, ou prévision et planification pour cet appareil. Réparer pour modifier.",
+            "es": "Solo previsión, o previsión y planificación para este aparato. Repara para cambiar.",
+            "it": "Solo previsione, o previsione e pianificazione per questo apparecchio. Ripara per modificare.",
+            "da": "Kun prognose, eller prognose og planlægning for dette apparat. Reparer for at ændre.",
+            "sv": "Endast prognos, eller prognos och planering för den här apparaten. Reparera för att ändra.",
+            "no": "Kun prognose, eller prognose og planlegging for dette apparatet. Reparer for å endre.",
+            "pl": "Tylko prognoza albo prognoza i planowanie dla tego urządzenia. Napraw, aby zmienić.",
+            "ru": "Только прогноз или прогноз и планирование для этого прибора. Чтобы изменить, выберите «Исправить».",
+            "ar": "التوقع فقط، أو التوقع والتخطيط لهذا الجهاز. نفّذ إصلاحًا للتغيير.",
+            "ko": "이 기기의 예측만 또는 예측 및 계획. 변경하려면 수리하세요."
+          }
+        },
+        {
           "id": "appliance_status",
           "type": "label",
           "value": "-",
@@ -416,6 +451,21 @@
             "ru": "Изученная программа",
             "ar": "البرنامج المُتعلَّم",
             "ko": "학습된 프로그램"
+          },
+          "hint": {
+            "en": "What was learned so far: runs, energy and duration per program, peak power and starts per week.",
+            "nl": "Wat tot nu toe is geleerd: runs, energie en duur per programma, piekvermogen en starts per week.",
+            "de": "Was bisher gelernt wurde: Läufe, Energie und Dauer pro Programm, Spitzenleistung und Starts pro Woche.",
+            "fr": "Ce qui a été appris : cycles, énergie et durée par programme, puissance de pointe et démarrages par semaine.",
+            "es": "Lo aprendido hasta ahora: ciclos, energía y duración por programa, potencia máxima y arranques por semana.",
+            "it": "Quanto appreso finora: cicli, energia e durata per programma, potenza di picco e avvii a settimana.",
+            "da": "Hvad der er lært indtil nu: kørsler, energi og varighed pr. program, spidseffekt og starter pr. uge.",
+            "sv": "Det som lärts in hittills: körningar, energi och längd per program, toppeffekt och starter per vecka.",
+            "no": "Det som er lært så langt: kjøringer, energi og varighet per program, toppeffekt og starter per uke.",
+            "pl": "Czego nauczono się do tej pory: cykle, energia i czas na program, moc szczytowa i starty na tydzień.",
+            "ru": "Что изучено на данный момент: запуски, энергия и длительность программы, пиковая мощность и запуски в неделю.",
+            "ar": "ما تم تعلّمه حتى الآن: مرات التشغيل، والطاقة والمدة لكل برنامج، وذروة القدرة، ومرات البدء أسبوعيًا.",
+            "ko": "지금까지 학습한 내용: 실행 횟수, 프로그램별 에너지와 시간, 최대 전력, 주당 시작 횟수."
           }
         }
       ]
