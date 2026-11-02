@@ -28,7 +28,7 @@ const STEPS = [
   { id: 'panels', ids: ['peakPower'] },
   { id: 'price', ids: ['tariff_update_group', 'tariff', 'tariff_export', 'currency', 'tariff_type'] },
   { id: 'year', ids: [] },
-  { id: 'advanced', ids: ['lat', 'lon', 'decimals_meter'], optional: true },
+  { id: 'advanced', ids: ['lat', 'lon', 'decimals_meter'] },
 ];
 
 const driverSpecifics = {

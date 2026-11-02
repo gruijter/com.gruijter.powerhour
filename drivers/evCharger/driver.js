@@ -25,7 +25,6 @@ const STEPS = [
   {
     id: 'advanced',
     ids: ['overrideMaxHours', 'autoDepartureLearning', 'minTripSoc', 'chartShowPower', 'chartShowSoc', 'chartShowExportPrice', 'chartShowLegend'],
-    optional: true,
   },
 ];
 // Dependencies are lazy loaded in methods to save memory

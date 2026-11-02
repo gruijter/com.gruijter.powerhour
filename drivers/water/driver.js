@@ -21,14 +21,14 @@ along with com.gruijter.powerhour.  If not, see <http://www.gnu.org/licenses/>.
 
 const GenericDriver = require('../../lib/genericDeviceDrivers/generic_sum_driver');
 
-const ADVANCED_IDS = ['markup_month', 'markup_day', 'markup_hour', 'decimals_meter'];
+const MARKUP_IDS = ['markup_month', 'markup_day', 'markup_hour'];
 
 // The screens of the setup view, in order (lib/helpers/PairSetup.js).
 const STEPS = [
   { id: 'meter', ids: ['homey_device_daily_reset'], roles: true },
-  { id: 'price', ids: ['tariff_update_group', 'tariff', 'currency'] },
+  { id: 'price', ids: ['tariff_update_group', 'tariff', 'currency', ...MARKUP_IDS] },
   { id: 'year', ids: [] },
-  { id: 'advanced', ids: ADVANCED_IDS, optional: true },
+  { id: 'advanced', ids: ['decimals_meter'] },
 ];
 
 const driverSpecifics = {

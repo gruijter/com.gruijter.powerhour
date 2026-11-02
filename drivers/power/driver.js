@@ -23,7 +23,7 @@ const GenericDriver = require('../../lib/genericDeviceDrivers/generic_sum_driver
 const SourceCaps = require('../../lib/helpers/SourceCaps');
 const PairSetup = require('../../lib/helpers/PairSetup');
 
-const ADVANCED_IDS = ['markup_month', 'markup_day', 'markup_hour', 'decimals_meter'];
+const MARKUP_IDS = ['markup_month', 'markup_day', 'markup_hour'];
 
 // Dependencies are lazy loaded in methods to save memory
 
@@ -31,9 +31,9 @@ const ADVANCED_IDS = ['markup_month', 'markup_day', 'markup_hour', 'decimals_met
 const STEPS = [
   { id: 'meter', ids: ['use_measure_source', 'homey_device_daily_reset'], roles: true },
   { id: 'appliance', ids: ['forecast_appliance'] },
-  { id: 'price', ids: ['tariff_update_group', 'tariff', 'tariff_export', 'currency', 'tariff_type'] },
+  { id: 'price', ids: ['tariff_update_group', 'tariff', 'tariff_export', 'currency', 'tariff_type', ...MARKUP_IDS] },
   { id: 'year', ids: [] },
-  { id: 'advanced', ids: ADVANCED_IDS, optional: true },
+  { id: 'advanced', ids: ['decimals_meter'] },
 ];
 
 const driverSpecifics = {

@@ -44,9 +44,7 @@ const STEPS = [
   { id: 'plan', ids: ['roiEnable', 'dischargeToEv', 'groupPlan'] },
   { id: 'grid_limits', ids: ['fuseProtection', 'peakShaving', 'peakReservePct'] },
   { id: 'control', ids: ['batteryControl', 'calibrateDays'] },
-  {
-    id: 'advanced', ids: ['chartShowPower', 'chartShowSoc', 'chartShowExportPrice', 'chartShowLegend'], optional: true,
-  },
+  { id: 'chart', ids: ['chartShowPower', 'chartShowSoc', 'chartShowExportPrice', 'chartShowLegend'] },
 ];
 
 const driverSpecifics = {

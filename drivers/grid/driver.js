@@ -26,17 +26,17 @@ const PeakTariff = require('../../lib/strategies/PeakTariff');
 
 const PEAK_IDS = ['peakPreset', 'peakLoadIntervalMinutes', 'peakSelection', 'peakCount', 'peakDistinctDays', 'peakHours',
   'peakWeekdaysOnly', 'peakMonths', 'peakWeightOutside', 'peakMinimumW', 'peakPrice', 'peakSteps', 'peakHardLimitW'];
-const ADVANCED_IDS = ['markup_month', 'markup_day', 'markup_hour', 'connectionVoltage', 'fuseMarginPct', 'decimals_meter'];
+const MARKUP_IDS = ['markup_month', 'markup_day', 'markup_hour'];
 // Dependencies are lazy loaded in methods to save memory
 
 // The screens of the setup view, in order (lib/helpers/PairSetup.js).
 const STEPS = [
   { id: 'meter', ids: ['use_measure_source'], roles: true },
-  { id: 'price', ids: ['tariff_update_group', 'tariff', 'tariff_export', 'currency', 'tariff_type', 'directionalNettingScheme', 'directionalBlockMinutes'] },
-  { id: 'connection', ids: ['connectionPhases', 'connectionAmps'] },
+  { id: 'price', ids: ['tariff_update_group', 'tariff', 'tariff_export', 'currency', 'tariff_type', 'directionalNettingScheme', 'directionalBlockMinutes', ...MARKUP_IDS] },
+  { id: 'connection', ids: ['connectionPhases', 'connectionAmps', 'connectionVoltage', 'fuseMarginPct'] },
   { id: 'peak', ids: PEAK_IDS },
   { id: 'year', ids: [] },
-  { id: 'advanced', ids: ADVANCED_IDS, optional: true },
+  { id: 'advanced', ids: ['decimals_meter'] },
 ];
 
 const driverSpecifics = {

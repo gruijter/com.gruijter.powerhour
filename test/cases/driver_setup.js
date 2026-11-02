@@ -115,16 +115,16 @@ const manifestIds = (driverId) => {
 
   await test('battery: steps, calibration only with control', async () => {
     const { view } = await pairView(await fakeDriver(BatteryDriver));
-    assert.deepStrictEqual(view.steps.map((s) => s.id), ['battery', 'wear', 'price', 'plan', 'grid_limits', 'control', 'advanced']);
+    assert.deepStrictEqual(view.steps.map((s) => s.id), ['battery', 'wear', 'price', 'plan', 'grid_limits', 'control', 'chart']);
     assert.strictEqual(byId(view, 'roiMinProfit').step, 'wear');
     assert.strictEqual(byId(view, 'tariff_type').step, 'price');
     assert.strictEqual(byId(view, 'wearCalc').step, 'wear');
     assert.strictEqual(byId(view, 'chargePower').step, 'battery');
-    assert.strictEqual(byId(view, 'show_advanced').step, 'control');
+    assert.strictEqual(byId(view, 'show_chart'), undefined);
     assert.strictEqual(byId(view, 'batCapacity').value, 5.05);
     assert.ok(byId(view, 'roiWearCost').info.startsWith('What a kWh'));
     assert.deepStrictEqual(byId(view, 'calibrateDays').showIf, { id: 'batteryControl', value: true });
-    assert.strictEqual(byId(view, 'chartShowSoc').step, 'advanced');
+    assert.strictEqual(byId(view, 'chartShowSoc').step, 'chart');
   });
 
   await test('battery: EV and group settings only when they apply', async () => {
