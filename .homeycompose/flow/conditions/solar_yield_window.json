@@ -70,20 +70,21 @@
         "ko": "10:00"
       },
       "hint": {
-        "en": "Time (07:30) or decimal hours (7.5). Same times: 24 hours.",
-        "nl": "Tijd (07:30) of decimale uren (7,5). Gelijke tijden: 24 uur.",
-        "de": "Uhrzeit (07:30) oder Dezimalstunden (7,5). Gleiche Zeiten: 24 Stunden.",
-        "fr": "Heure (07:30) ou heures décimales (7,5). Heures identiques : 24 heures.",
-        "it": "Ora (07:30) o ore decimali (7,5). Orari uguali: 24 ore.",
-        "sv": "Tid (07:30) eller decimaltimmar (7,5). Samma tider: 24 timmar.",
-        "no": "Tid (07:30) eller desimaltimer (7,5). Like tider: 24 timer.",
-        "es": "Hora (07:30) u horas decimales (7,5). Horas iguales: 24 horas.",
-        "da": "Tid (07:30) eller decimaltimer (7,5). Ens tider: 24 timer.",
-        "pl": "Godzina (07:30) lub godziny dziesiętne (7,5). Te same godziny: 24 godziny.",
-        "ru": "Время (07:30) или десятичные часы (7,5). Одинаковое время: 24 часа.",
-        "ar": "الوقت (07:30) أو ساعات عشرية (7.5). وقتان متساويان: 24 ساعة.",
-        "ko": "시각(07:30) 또는 소수 시간(7.5). 같은 시각: 24시간."
-      }
+        "en": "Time (07:30) or decimal hours (7.5). Same times: 24 hours. Empty: now.",
+        "nl": "Tijd (07:30) of decimale uren (7,5). Gelijke tijden: 24 uur. Leeg: nu.",
+        "de": "Uhrzeit (07:30) oder Dezimalstunden (7,5). Gleiche Zeiten: 24 Stunden. Leer: jetzt.",
+        "fr": "Heure (07:30) ou heures décimales (7,5). Heures identiques : 24 heures. Vide : maintenant.",
+        "it": "Ora (07:30) o ore decimali (7,5). Orari uguali: 24 ore. Vuoto: adesso.",
+        "sv": "Tid (07:30) eller decimaltimmar (7,5). Samma tider: 24 timmar. Tomt: nu.",
+        "no": "Tid (07:30) eller desimaltimer (7,5). Like tider: 24 timer. Tomt: nå.",
+        "es": "Hora (07:30) u horas decimales (7,5). Horas iguales: 24 horas. Vacío: ahora.",
+        "da": "Tid (07:30) eller decimaltimer (7,5). Ens tider: 24 timer. Tomt: nu.",
+        "pl": "Godzina (07:30) lub godziny dziesiętne (7,5). Te same godziny: 24 godziny. Puste: teraz.",
+        "ru": "Время (07:30) или десятичные часы (7,5). Одинаковое время: 24 часа. Пусто: сейчас.",
+        "ar": "الوقت (07:30) أو ساعات عشرية (7.5). وقتان متساويان: 24 ساعة. فارغ: الآن.",
+        "ko": "시각(07:30) 또는 소수 시간(7.5). 같은 시각: 24시간. 비우면: 지금."
+      },
+      "required": false
     },
     {
       "type": "text",

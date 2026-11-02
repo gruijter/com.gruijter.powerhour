@@ -116,19 +116,18 @@ The program and cheapest-start cards are available when **Enable forecast and pl
 - **The power changed**
 - **Program started** / **Program finished** / **Planned start**
 - **Cheapest program start in the next … hours**
-- **Cheapest program start in the … hours before** a time
+- **Cheapest program start between** two times
 
 ### Conditions
 - **Now is the cheapest program start in the next … hours**
-- **Now is the cheapest program start in the … hours before** a time
+- **Now is the cheapest program start between** two times
 
 ### Actions
-- **Plan cheapest start, at the latest at** a time — once; *Planned start* fires at the cheapest start
+- **Plan cheapest start between** two times (empty start: now) — once; *Planned start* fires at the cheapest start
+- **Plan start at** a time
 - **Cancel planned program**
 - **Set fixed cost** per hour, day or month
-- **Set tariff group**
-- **Set fixed tariff**
-- **Set fixed export tariff**
+- **Set fixed tariff** or **fixed export tariff**
 - **Send reading to virtual meter** (app card)
 
 Times are text: `07:30`, decimal hours (`7.5`), or a tag.

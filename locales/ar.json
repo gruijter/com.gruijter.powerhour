@@ -236,6 +236,7 @@
   "error_price_time": "وقت غير صالح: __time__. استخدم 07:30 أو 7.5",
   "error_price_amount": "رقم غير صالح: __value__",
   "error_ev_min_soc": "الحد الأدنى لـ SoC: 0 (تلقائي) أو 30-100 %",
+  "error_no_export_tariff": "لا يوجد لهذا العداد تعرفة تصدير",
   "error_unknown_period": "فترة غير معروفة: __period__",
   "price_setup": {
     "currency_other": "أخرى…",

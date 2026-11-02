@@ -136,7 +136,7 @@ EV charging is not part of the learned home load, so irregular charging sessions
 
 **Charts:** *Grid today / tomorrow / yesterday* show the grid exchange (orange: import, green: export). Bars are the forecast, the line is measured. *Home weekly profile* shows the learned profile. For past quarter-hours, the grid forecast is shown as it was when that quarter-hour started.
 
-Use **Retrain home load forecast** (button or flow) to rebuild the profile from scratch, e.g. after a large change in household or appliances.
+Use the button **Retrain home load forecast** to rebuild the profile from scratch, e.g. after a large change in household or appliances.
 
 ---
 
@@ -165,10 +165,7 @@ Use **Retrain home load forecast** (button or flow) to rebuild the profile from 
 ### Actions
 - **Provide home load forecast JSON:** returns the same JSON tokens as the trigger, for today, tomorrow or the next hours.
 - **Extra load** … W today/tomorrow at a time for … minutes (0 W removes it).
-- **Retrain home load forecast.**
-- **Set tariff group.**
-- **Set fixed tariff.**
-- **Set fixed export tariff.**
+- **Set fixed tariff** or **fixed export tariff.**
 - **Set fixed cost** (per hour, day or month).
 
 The **peak forecast** JSON contains the month peak, the projected value and headroom of the running interval, and the highest expected interval average (with time) until the end of tomorrow or the month, including whether a new month peak is expected.

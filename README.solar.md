@@ -92,25 +92,19 @@ When the inverter is limited, e.g. at negative prices, the production is lower t
 ### Triggers
 - **Solar forecast for** today / tomorrow / next hours **updated** — token: forecast (JSON)
 - **Solar production becomes one of the top** N **hours of today**
-- **Remaining yield before** a time **is less than** … kWh
-- **Yield between** two times **is less than** … kWh
+- **Yield between** two times **is less than** … kWh (empty start: now)
 - **Solar curtailment detected** / **ended**
 
 ### Conditions
 - **Expected yield for** today / tomorrow / next hours **is more / less than** … kWh
-- **Tomorrow's yield is better / worse than today's**
 - **Solar production is / isn't one of the top** N **hours of today**
-- **Remaining yield before** a time **is less / more than** … kWh
-- **Yield between** two times **is less / more than** … kWh
+- **Yield between** two times **is less / more than** … kWh (empty start: now)
 - **Solar curtailment is / isn't active**
 
 ### Actions
 - **Provide solar forecast JSON for** today / tomorrow / next hours
-- **Retrain solar model**
 - **Set curtailment**
-- **Set tariff group**
-- **Set fixed tariff**
-- **Set fixed export tariff**
+- **Set fixed tariff** or **fixed export tariff**
 
 Times are text: `07:30`, decimal hours (`7.5`), or a tag.
 

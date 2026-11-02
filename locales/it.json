@@ -236,6 +236,7 @@
   "error_price_time": "Ora non valida: __time__. Usa 07:30 o 7,5",
   "error_price_amount": "Numero non valido: __value__",
   "error_ev_min_soc": "SoC minimo: 0 (automatico) o 30-100 %",
+  "error_no_export_tariff": "Questo contatore non ha una tariffa di immissione",
   "error_unknown_period": "Periodo sconosciuto: __period__",
   "price_setup": {
     "currency_other": "Altro…",

@@ -236,6 +236,7 @@
   "error_price_time": "Nieprawidłowa godzina: __time__. Użyj 07:30 lub 7,5",
   "error_price_amount": "Nieprawidłowa liczba: __value__",
   "error_ev_min_soc": "Minimalny SoC: 0 (automatycznie) lub 30-100 %",
+  "error_no_export_tariff": "Ten licznik nie ma taryfy za oddawanie",
   "error_unknown_period": "Nieznany okres: __period__",
   "price_setup": {
     "currency_other": "Inna…",

@@ -236,6 +236,7 @@
   "error_price_time": "Hora no válida: __time__. Use 07:30 o 7,5",
   "error_price_amount": "Número no válido: __value__",
   "error_ev_min_soc": "SoC mínimo: 0 (automático) o 30-100 %",
+  "error_no_export_tariff": "Este contador no tiene tarifa de exportación",
   "error_unknown_period": "Periodo desconocido: __period__",
   "price_setup": {
     "currency_other": "Otra…",

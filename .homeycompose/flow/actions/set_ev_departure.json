@@ -15,35 +15,35 @@
     "ar": "تعيين المغادرة"
   },
   "titleFormatted": {
-    "en": "Departure [[day]] at [[time]]",
-    "nl": "Vertrek [[day]] om [[time]]",
-    "de": "Abfahrt [[day]] um [[time]]",
-    "fr": "Départ [[day]] à [[time]]",
-    "it": "Partenza [[day]] alle [[time]]",
-    "sv": "Avgång [[day]] kl. [[time]]",
-    "no": "Avgang [[day]] kl. [[time]]",
-    "es": "Salida [[day]] a las [[time]]",
-    "da": "Afgang [[day]] kl. [[time]]",
-    "pl": "Wyjazd [[day]] o [[time]]",
-    "ru": "Отправление [[day]] в [[time]]",
-    "ko": "[[day]] [[time]]에 출발",
-    "ar": "المغادرة [[day]] الساعة [[time]]"
+    "en": "Departure [[day]] at [[time]], min. SoC [[soc]]%",
+    "nl": "Vertrek [[day]] om [[time]], min. SoC [[soc]]%",
+    "de": "Abfahrt [[day]] um [[time]], Min. SoC [[soc]]%",
+    "fr": "Départ [[day]] à [[time]], SoC min. [[soc]]%",
+    "it": "Partenza [[day]] alle [[time]], SoC min. [[soc]]%",
+    "sv": "Avgång [[day]] kl. [[time]], min. SoC [[soc]]%",
+    "no": "Avgang [[day]] kl. [[time]], min. SoC [[soc]]%",
+    "es": "Salida [[day]] a las [[time]], SoC mín. [[soc]]%",
+    "da": "Afgang [[day]] kl. [[time]], min. SoC [[soc]]%",
+    "pl": "Wyjazd [[day]] o [[time]], min. SoC [[soc]]%",
+    "ru": "Отправление [[day]] в [[time]], мин. заряд [[soc]]%",
+    "ko": "[[day]] [[time]]에 출발, 최소 충전량 [[soc]]%",
+    "ar": "المغادرة [[day]] الساعة [[time]]، الحد الأدنى للشحن [[soc]]%"
   },
   "highlight": true,
   "hint": {
-    "en": "Once; then the learned or weekly time applies again. HH:MM or decimal hours (7.5). 'auto': automatic again, '-': car not used that day.",
-    "nl": "Eenmalig; daarna geldt weer de geleerde of weektijd. UU:MM of decimale uren (7,5). 'auto': weer automatisch, '-': auto die dag niet gebruikt.",
-    "de": "Einmalig; danach gilt wieder die gelernte oder Wochenzeit. HH:MM oder Dezimalstunden (7,5). 'auto': wieder automatisch, '-': Auto an dem Tag nicht genutzt.",
-    "fr": "Une fois ; ensuite l'heure apprise ou hebdomadaire s'applique. HH:MM ou heures décimales (7,5). « auto » : de nouveau automatique, « - » : voiture non utilisée ce jour-là.",
-    "it": "Una volta; poi vale di nuovo l'orario appreso o settimanale. HH:MM o ore decimali (7,5). 'auto': di nuovo automatico, '-': auto non usata quel giorno.",
-    "sv": "En gång; därefter gäller den inlärda eller veckotiden igen. HH:MM eller decimaltimmar (7,5). 'auto': automatiskt igen, '-': bilen används inte den dagen.",
-    "no": "Én gang; deretter gjelder det lærte eller ukentlige tidspunktet igjen. TT:MM eller desimaltimer (7,5). 'auto': automatisk igjen, '-': bilen brukes ikke den dagen.",
-    "es": "Una vez; después vuelve la hora aprendida o semanal. HH:MM u horas decimales (7,5). 'auto': de nuevo automático, '-': coche no usado ese día.",
-    "da": "Én gang; derefter gælder det lærte eller ugentlige tidspunkt igen. TT:MM eller decimaltimer (7,5). 'auto': automatisk igen, '-': bilen bruges ikke den dag.",
-    "pl": "Jednorazowo; potem znowu obowiązuje wyuczona lub tygodniowa godzina. GG:MM lub godziny dziesiętne (7,5). 'auto': znowu automatycznie, '-': samochód nieużywany tego dnia.",
-    "ru": "Однократно; затем снова действует изученное или недельное время. ЧЧ:ММ или десятичные часы (7,5). 'auto': снова автоматически, '-': машина в этот день не используется.",
-    "ko": "1회 적용; 이후 학습값 또는 주간 시간이 다시 적용됩니다. HH:MM 또는 소수 시간(7.5). 'auto': 다시 자동, '-': 그날은 차를 사용하지 않음.",
-    "ar": "لمرة واحدة؛ ثم يعود الوقت المُتعلَّم أو الأسبوعي. HH:MM أو ساعات عشرية (7.5). 'auto': تلقائي مرة أخرى، '-': لا تُستخدم السيارة ذلك اليوم."
+    "en": "Once. Time: HH:MM or 7.5, 'auto', or '-' (car not used). Min. SoC: may be below plan, 0: automatic. Empty: unchanged.",
+    "nl": "Eenmalig. Tijd: UU:MM of 7,5, 'auto', of '-' (auto niet gebruikt). Min. SoC: mag onder plan, 0: automatisch. Leeg: ongewijzigd.",
+    "de": "Einmalig. Zeit: HH:MM oder 7,5, 'auto' oder '-' (Auto nicht genutzt). Min. SoC: auch unter Plan, 0: automatisch. Leer: unverändert.",
+    "fr": "Une fois. Heure : HH:MM ou 7,5, « auto » ou « - » (voiture non utilisée). SoC min. : peut être sous le plan, 0 : automatique. Vide : inchangé.",
+    "it": "Una volta. Ora: HH:MM o 7,5, 'auto' o '-' (auto non usata). SoC min.: anche sotto il piano, 0: automatico. Vuoto: invariato.",
+    "sv": "En gång. Tid: HH:MM eller 7,5, 'auto' eller '-' (bilen används inte). Min. SoC: även under plan, 0: automatiskt. Tomt: oförändrat.",
+    "no": "Én gang. Tid: TT:MM eller 7,5, 'auto' eller '-' (bilen brukes ikke). Min. SoC: også under plan, 0: automatisk. Tomt: uendret.",
+    "es": "Una vez. Hora: HH:MM o 7,5, 'auto' o '-' (coche no usado). SoC mín.: también bajo el plan, 0: automático. Vacío: sin cambios.",
+    "da": "Én gang. Tid: TT:MM eller 7,5, 'auto' eller '-' (bilen bruges ikke). Min. SoC: også under plan, 0: automatisk. Tomt: uændret.",
+    "pl": "Jednorazowo. Godzina: GG:MM lub 7,5, 'auto' lub '-' (samochód nieużywany). Min. SoC: także poniżej planu, 0: automatycznie. Puste: bez zmian.",
+    "ru": "Однократно. Время: ЧЧ:ММ или 7,5, 'auto' или '-' (машина не используется). Мин. заряд: можно ниже плана, 0: автоматически. Пусто: без изменений.",
+    "ar": "لمرة واحدة. الوقت: HH:MM أو 7.5، أو 'auto'، أو '-' (لا تُستخدم السيارة). الحد الأدنى للشحن: يمكن أقل من المخطط، 0: تلقائي. فارغ: دون تغيير.",
+    "ko": "1회 적용. 시간: HH:MM 또는 7.5, 'auto', 또는 '-'(차 사용 안 함). 최소 충전량: 계획보다 낮게도 가능, 0: 자동. 비우면: 변경 없음."
   },
   "args": [
     {
@@ -140,6 +140,45 @@
         "ru": "Отправление",
         "ar": "المغادرة",
         "ko": "출발"
+      },
+      "required": false
+    },
+    {
+      "type": "number",
+      "name": "soc",
+      "required": false,
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "title": {
+        "en": "SoC (%)",
+        "nl": "SoC (%)",
+        "de": "SoC (%)",
+        "fr": "SoC (%)",
+        "it": "SoC (%)",
+        "sv": "SoC (%)",
+        "no": "SoC (%)",
+        "es": "SoC (%)",
+        "da": "SoC (%)",
+        "pl": "SoC (%)",
+        "ru": "SoC (%)",
+        "ar": "SoC (%)",
+        "ko": "SoC (%)"
+      },
+      "placeholder": {
+        "en": "80",
+        "nl": "80",
+        "de": "80",
+        "fr": "80",
+        "it": "80",
+        "sv": "80",
+        "no": "80",
+        "es": "80",
+        "da": "80",
+        "pl": "80",
+        "ru": "80",
+        "ar": "80",
+        "ko": "80"
       }
     }
   ]

@@ -1,4 +1,5 @@
 {
+  "deprecated": true,
   "title": {
     "en": "Retrain home load forecast",
     "nl": "Hertrain huisverbruik-voorspelling",

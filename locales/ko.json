@@ -236,6 +236,7 @@
   "error_price_time": "잘못된 시각: __time__. 07:30 또는 7.5 형식을 사용하세요",
   "error_price_amount": "잘못된 숫자: __value__",
   "error_ev_min_soc": "최소 SoC: 0 (자동) 또는 30-100 %",
+  "error_no_export_tariff": "이 계량기에는 수출 요금이 없습니다",
   "error_unknown_period": "알 수 없는 기간: __period__",
   "price_setup": {
     "currency_other": "기타…",

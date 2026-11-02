@@ -236,6 +236,7 @@
   "error_price_time": "Ugyldig tid: __time__. Bruk 07:30 eller 7,5",
   "error_price_amount": "Ugyldig tall: __value__",
   "error_ev_min_soc": "Minimum SoC: 0 (automatisk) eller 30-100 %",
+  "error_no_export_tariff": "Denne måleren har ingen eksporttariff",
   "error_unknown_period": "Ukjent periode: __period__",
   "price_setup": {
     "currency_other": "Annen…",

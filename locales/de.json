@@ -236,6 +236,7 @@
   "error_price_time": "Ungültige Zeit: __time__. Verwenden Sie 07:30 oder 7,5",
   "error_price_amount": "Ungültige Zahl: __value__",
   "error_ev_min_soc": "Mindest-SoC: 0 (automatisch) oder 30-100 %",
+  "error_no_export_tariff": "Dieser Zähler hat keinen Einspeisetarif",
   "error_unknown_period": "Unbekannter Zeitraum: __period__",
   "price_setup": {
     "currency_other": "Andere…",

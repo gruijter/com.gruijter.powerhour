@@ -189,7 +189,7 @@ const fakeDevice = (settings, store = {}, ids = ['tariff_update_group', 'tariff'
     const fixed = fakeDevice({ tariff_update_group: 0, tariff: 0.25, tariff_export: 0.08 }, { fixedExport: true, moneyUnit: { currency: '€', decimals: 2 } });
     fixed.getName = () => 'Meter';
     await new SumFlows(fixed).set_fixed_tariff({ tariff: 0.27 });
-    await new SumFlows(fixed).set_fixed_export_tariff({ tariff: 0.05 });
+    await new SumFlows(fixed).set_fixed_tariff({ kind: 'tariff_export', tariff: 0.05 });
     assert.strictEqual(fixed.tariffHistory.current, 0.27);
     assert.strictEqual(fixed.tariffHistory.currentExport, 0.05);
     assert.strictEqual(fixed.settings.price_info, 'repair.price_info_fixed_export € 0.27/kWh € 0.05/kWh');

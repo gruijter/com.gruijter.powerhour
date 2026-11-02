@@ -15,19 +15,19 @@
     "ko": "고정 요금 설정"
   },
   "titleFormatted": {
-    "en": "Set fixed tariff to [[tariff]]",
-    "nl": "Stel vast tarief in op [[tariff]]",
-    "de": "Festtarif auf [[tariff]] festlegen",
-    "fr": "Définir le tarif fixe à [[tariff]]",
-    "it": "Imposta tariffa fissa a [[tariff]]",
-    "sv": "Ställ in fast tariff till [[tariff]]",
-    "no": "Sett fast tariff til [[tariff]]",
-    "es": "Establecer tarifa fija a [[tariff]]",
-    "da": "Indstil fast tarif til [[tariff]]",
-    "pl": "Ustaw stałą taryfę na [[tariff]]",
-    "ru": "Установить фиксированный тариф [[tariff]]",
-    "ar": "تعيين تعرفة ثابتة إلى [[tariff]]",
-    "ko": "고정 요금을 [[tariff]](으)로 설정"
+    "en": "Set [[kind]] to [[tariff]]",
+    "nl": "Stel [[kind]] in op [[tariff]]",
+    "de": "[[kind]] auf [[tariff]] festlegen",
+    "fr": "Définir le [[kind]] à [[tariff]]",
+    "it": "Imposta [[kind]] a [[tariff]]",
+    "sv": "Ställ in [[kind]] till [[tariff]]",
+    "no": "Sett [[kind]] til [[tariff]]",
+    "es": "Establecer [[kind]] a [[tariff]]",
+    "da": "Indstil [[kind]] til [[tariff]]",
+    "pl": "Ustaw [[kind]] na [[tariff]]",
+    "ru": "Установить [[kind]] [[tariff]]",
+    "ar": "تعيين [[kind]] إلى [[tariff]]",
+    "ko": "[[kind]]을(를) [[tariff]](으)로 설정"
   },
   "hint": {
     "en": "Applies with tariff group 0.",
@@ -51,24 +51,96 @@
       "filter": "driver_id=power|gas|water|solar|grid"
     },
     {
+      "type": "dropdown",
+      "name": "kind",
+      "title": {
+        "en": "Tariff",
+        "nl": "Tarief",
+        "de": "Tarif",
+        "fr": "Tarif",
+        "it": "Tariffa",
+        "sv": "Tariff",
+        "no": "Tariff",
+        "es": "Tarifa",
+        "da": "Takst",
+        "pl": "Taryfa",
+        "ru": "Тариф",
+        "ar": "تعريفة",
+        "ko": "요금"
+      },
+      "values": [
+        {
+          "id": "tariff",
+          "label": {
+            "en": "fixed tariff",
+            "nl": "vast tarief",
+            "de": "Festtarif",
+            "fr": "tarif fixe",
+            "it": "tariffa fissa",
+            "sv": "fast tariff",
+            "no": "fast tariff",
+            "es": "tarifa fija",
+            "da": "fast tarif",
+            "pl": "stałą taryfę",
+            "ru": "фиксированный тариф",
+            "ar": "تعرفة ثابتة",
+            "ko": "고정 요금"
+          }
+        },
+        {
+          "id": "tariff_export",
+          "label": {
+            "en": "fixed export tariff",
+            "nl": "vast terugleveringstarief",
+            "de": "festen Einspeisetarif",
+            "fr": "tarif fixe d'injection",
+            "it": "tariffa fissa di immissione",
+            "sv": "fast exporttariff",
+            "no": "fast eksporttariff",
+            "es": "tarifa fija de exportación",
+            "da": "fast eksporttarif",
+            "pl": "stałą taryfę za oddawanie",
+            "ru": "фиксированный тариф экспорта",
+            "ar": "تعرفة تصدير ثابتة",
+            "ko": "고정 수출 요금"
+          }
+        }
+      ]
+    },
+    {
       "type": "number",
       "name": "tariff",
       "placeholder": {
-        "en": "Fixed tariff",
-        "nl": "Vast tarief",
-        "de": "Festtarif",
-        "fr": "Tarif fixe",
-        "it": "Tariffa fissa",
-        "sv": "Fast tariff",
-        "no": "Fast tariff",
-        "es": "Tarifa fija",
-        "da": "Fast tarif",
-        "pl": "Stała taryfa",
-        "ru": "Фиксированный тариф",
-        "ar": "تعرفة ثابتة",
-        "ko": "고정 요금"
+        "en": "0.25",
+        "nl": "0.25",
+        "de": "0.25",
+        "fr": "0.25",
+        "it": "0.25",
+        "sv": "0.25",
+        "no": "0.25",
+        "es": "0.25",
+        "da": "0.25",
+        "pl": "0.25",
+        "ru": "0.25",
+        "ar": "0.25",
+        "ko": "0.25"
       },
-      "decimals": 4
+      "decimals": 4,
+      "title": {
+        "en": "Value",
+        "nl": "Waarde",
+        "de": "Wert",
+        "fr": "Valeur",
+        "it": "Valore",
+        "sv": "Värde",
+        "no": "Verdi",
+        "es": "Valor",
+        "da": "Værdi",
+        "pl": "Wartość",
+        "ru": "Значение",
+        "ar": "القيمة",
+        "ko": "값"
+      }
     }
   ]
 }

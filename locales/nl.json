@@ -236,6 +236,7 @@
   "error_price_time": "Ongeldige tijd: __time__. Gebruik 07:30 of 7,5",
   "error_price_amount": "Ongeldig getal: __value__",
   "error_ev_min_soc": "Minimale SoC: 0 (automatisch) of 30-100 %",
+  "error_no_export_tariff": "Deze meter heeft geen terugleveringstarief",
   "error_unknown_period": "Onbekende periode: __period__",
   "price_setup": {
     "currency_other": "Anders…",

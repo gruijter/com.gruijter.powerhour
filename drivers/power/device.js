@@ -793,8 +793,10 @@ class PowerDevice extends GenericDevice {
     }));
   }
 
-  // Flow: plan the cheapest start between two times (over midnight when to is not later); tokens.
+  // Flow: plan the cheapest start between two times (over midnight when to is not later), an
+  // empty from: from now; tokens.
   async planApplianceBetween(from, to) {
+    if (String(from ?? '').trim() === '') return this.planAppliance(to);
     const fromH = TimeHelpers.parseClock(from);
     const toH = TimeHelpers.parseClock(to);
     if (fromH === null || fromH >= 24) throw Error(this.homey.__('error_invalid_time', { time: from }));

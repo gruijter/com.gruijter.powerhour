@@ -120,9 +120,7 @@ Charge efficiency and consumption are learned and shown under **Learned driving 
 
 ### Actions
 - **Set charge mode**
-- **Departure** today or tomorrow **at** a time — `HH:MM`, decimal hours, `auto` (automatic again) or `-` (car not used that day).
-- **Min. SoC** today or tomorrow — `0` is automatic again.
+- **Departure** today or tomorrow **at** a time, **min. SoC** — time: `HH:MM`, decimal hours, `auto` (automatic again) or `-` (car not used that day); SoC `0` is automatic again; an empty field stays.
 - **Car away from … to …** — adds an away period.
 - **Car has left / is home**
 - **Set car SoC** — for chargers and cars that do not report the SoC.
-- **Set tariff group**

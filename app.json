@@ -7566,118 +7566,6 @@
       },
       {
         "title": {
-          "en": "Remaining yield before time is less than",
-          "de": "Verbleibender Ertrag vor Zeit ist weniger als",
-          "nl": "Resterende opbrengst voor tijd is minder dan",
-          "fr": "Le rendement restant avant l'heure est inférieur à",
-          "it": "Il rendimento rimanente prima del tempo è inferiore a",
-          "sv": "Återstående avkastning före tid är mindre än",
-          "no": "Gjenværende avkastning før tid er mindre enn",
-          "da": "Resterende udbytte før tid er mindre end",
-          "es": "El rendimiento restante antes de tiempo es menor que",
-          "pl": "Pozostały uzysk przed czasem jest mniejszy niż",
-          "ru": "Оставшийся доход до времени меньше чем",
-          "ko": "시간 전 남은 수익이 다음보다 적음",
-          "ar": "العائد المتبقي قبل الوقت أقل من"
-        },
-        "titleFormatted": {
-          "en": "Remaining yield before [[time]] is less than [[value]] kWh",
-          "de": "Verbleibender Ertrag vor [[time]] ist weniger als [[value]] kWh",
-          "nl": "Resterende opbrengst voor [[time]] is minder dan [[value]] kWh",
-          "fr": "Le rendement restant avant [[time]] est inférieur à [[value]] kWh",
-          "it": "Il rendimento rimanente prima delle [[time]] è inferiore a [[value]] kWh",
-          "sv": "Återstående avkastning före [[time]] är mindre än [[value]] kWh",
-          "no": "Gjenværende avkastning før [[time]] er mindre enn [[value]] kWh",
-          "da": "Resterende udbytte før [[time]] er mindre end [[value]] kWh",
-          "es": "El rendimiento restante antes de [[time]] es menor que [[value]] kWh",
-          "pl": "Pozostały uzysk przed [[time]] jest mniejszy niż [[value]] kWh",
-          "ru": "Оставшийся доход до [[time]] меньше чем [[value]] кВтч",
-          "ko": "[[time]] 전 남은 수익이 [[value]] kWh보다 적음",
-          "ar": "العائد المتبقي قبل [[time]] أقل من [[value]] كيلوواط ساعة"
-        },
-        "highlight": true,
-        "args": [
-          {
-            "type": "device",
-            "name": "device",
-            "filter": "driver_id=solar"
-          },
-          {
-            "type": "text",
-            "name": "time",
-            "title": {
-              "en": "Before",
-              "nl": "Vóór",
-              "de": "Vor",
-              "fr": "Avant",
-              "it": "Prima di",
-              "sv": "Före",
-              "no": "Før",
-              "es": "Antes de",
-              "da": "Før",
-              "pl": "Przed",
-              "ru": "До",
-              "ar": "قبل",
-              "ko": "이전"
-            },
-            "placeholder": {
-              "en": "16:00",
-              "nl": "16:00",
-              "de": "16:00",
-              "fr": "16:00",
-              "es": "16:00",
-              "it": "16:00",
-              "da": "16:00",
-              "sv": "16:00",
-              "no": "16:00",
-              "pl": "16:00",
-              "ru": "16:00",
-              "ar": "16:00",
-              "ko": "16:00"
-            },
-            "hint": {
-              "en": "Time (07:30) or decimal hours (7.5).",
-              "nl": "Tijd (07:30) of decimale uren (7,5).",
-              "de": "Uhrzeit (07:30) oder Dezimalstunden (7,5).",
-              "fr": "Heure (07:30) ou heures décimales (7,5).",
-              "it": "Ora (07:30) o ore decimali (7,5).",
-              "sv": "Tid (07:30) eller decimaltimmar (7,5).",
-              "no": "Tid (07:30) eller desimaltimer (7,5).",
-              "es": "Hora (07:30) u horas decimales (7,5).",
-              "da": "Tid (07:30) eller decimaltimer (7,5).",
-              "pl": "Godzina (07:30) lub godziny dziesiętne (7,5).",
-              "ru": "Время (07:30) или десятичные часы (7,5).",
-              "ar": "الوقت (07:30) أو ساعات عشرية (7.5).",
-              "ko": "시각(07:30) 또는 소수 시간(7.5)."
-            }
-          },
-          {
-            "type": "number",
-            "name": "value",
-            "required": true,
-            "min": 0,
-            "step": 0.1,
-            "title": {
-              "en": "kWh",
-              "ko": "kWh",
-              "nl": "kWh",
-              "de": "kWh",
-              "fr": "kWh",
-              "es": "kWh",
-              "it": "kWh",
-              "da": "kWh",
-              "sv": "kWh",
-              "no": "kWh",
-              "pl": "kWh",
-              "ru": "kWh",
-              "ar": "kWh"
-            }
-          }
-        ],
-        "id": "solar_yield_until"
-      },
-      {
-        "title": {
           "en": "Yield between times is less than",
           "de": "Ertrag zwischen Zeiten ist weniger als",
           "nl": "Opbrengst tussen tijden is minder dan",
@@ -7748,20 +7636,21 @@
               "ko": "10:00"
             },
             "hint": {
-              "en": "Time (07:30) or decimal hours (7.5). Same times: 24 hours.",
-              "nl": "Tijd (07:30) of decimale uren (7,5). Gelijke tijden: 24 uur.",
-              "de": "Uhrzeit (07:30) oder Dezimalstunden (7,5). Gleiche Zeiten: 24 Stunden.",
-              "fr": "Heure (07:30) ou heures décimales (7,5). Heures identiques : 24 heures.",
-              "it": "Ora (07:30) o ore decimali (7,5). Orari uguali: 24 ore.",
-              "sv": "Tid (07:30) eller decimaltimmar (7,5). Samma tider: 24 timmar.",
-              "no": "Tid (07:30) eller desimaltimer (7,5). Like tider: 24 timer.",
-              "es": "Hora (07:30) u horas decimales (7,5). Horas iguales: 24 horas.",
-              "da": "Tid (07:30) eller decimaltimer (7,5). Ens tider: 24 timer.",
-              "pl": "Godzina (07:30) lub godziny dziesiętne (7,5). Te same godziny: 24 godziny.",
-              "ru": "Время (07:30) или десятичные часы (7,5). Одинаковое время: 24 часа.",
-              "ar": "الوقت (07:30) أو ساعات عشرية (7.5). وقتان متساويان: 24 ساعة.",
-              "ko": "시각(07:30) 또는 소수 시간(7.5). 같은 시각: 24시간."
-            }
+              "en": "Time (07:30) or decimal hours (7.5). Same times: 24 hours. Empty: now.",
+              "nl": "Tijd (07:30) of decimale uren (7,5). Gelijke tijden: 24 uur. Leeg: nu.",
+              "de": "Uhrzeit (07:30) oder Dezimalstunden (7,5). Gleiche Zeiten: 24 Stunden. Leer: jetzt.",
+              "fr": "Heure (07:30) ou heures décimales (7,5). Heures identiques : 24 heures. Vide : maintenant.",
+              "it": "Ora (07:30) o ore decimali (7,5). Orari uguali: 24 ore. Vuoto: adesso.",
+              "sv": "Tid (07:30) eller decimaltimmar (7,5). Samma tider: 24 timmar. Tomt: nu.",
+              "no": "Tid (07:30) eller desimaltimer (7,5). Like tider: 24 timer. Tomt: nå.",
+              "es": "Hora (07:30) u horas decimales (7,5). Horas iguales: 24 horas. Vacío: ahora.",
+              "da": "Tid (07:30) eller decimaltimer (7,5). Ens tider: 24 timer. Tomt: nu.",
+              "pl": "Godzina (07:30) lub godziny dziesiętne (7,5). Te same godziny: 24 godziny. Puste: teraz.",
+              "ru": "Время (07:30) или десятичные часы (7,5). Одинаковое время: 24 часа. Пусто: сейчас.",
+              "ar": "الوقت (07:30) أو ساعات عشرية (7.5). وقتان متساويان: 24 ساعة. فارغ: الآن.",
+              "ko": "시각(07:30) 또는 소수 시간(7.5). 같은 시각: 24시간. 비우면: 지금."
+            },
+            "required": false
           },
           {
             "type": "text",
@@ -13413,6 +13302,7 @@
         "id": "solar_yield_between"
       },
       {
+        "deprecated": true,
         "title": {
           "en": "Tomorrow's yield is !{{better|worse}} than today's",
           "nl": "Opbrengst van morgen is !{{beter|slechter}} dan vandaag",
@@ -13428,7 +13318,6 @@
           "ko": "내일의 수익이 오늘보다 !{{좋음|나쁨}}",
           "ar": "عائد الغد !{{أفضل|أسوأ}} من اليوم"
         },
-        "highlight": true,
         "args": [
           {
             "type": "device",
@@ -13768,118 +13657,6 @@
       },
       {
         "title": {
-          "en": "Remaining yield before time is !{{less|more}} than",
-          "de": "Verbleibender Ertrag vor Zeit ist !{{weniger|mehr}} als",
-          "nl": "Resterende opbrengst voor tijd is !{{minder|meer}} dan",
-          "fr": "Le rendement restant avant l'heure est !{{inférieur|supérieur}} à",
-          "it": "Il rendimento rimanente prima del tempo è !{{inferiore|superiore}} a",
-          "sv": "Återstående avkastning före tid är !{{mindre|mer}} än",
-          "no": "Gjenværende avkastning før tid er !{{mindre|mer}} enn",
-          "da": "Resterende udbytte før tid er !{{mindre|mere}} end",
-          "es": "El rendimiento restante antes de tiempo es !{{menor|mayor}} que",
-          "pl": "Pozostały uzysk przed czasem jest !{{mniejszy|większy}} niż",
-          "ru": "Оставшийся доход до времени !{{меньше|больше}} чем",
-          "ko": "시간 전 남은 수익이 다음보다 !{{적음|많음}}",
-          "ar": "العائد المتبقي قبل الوقت !{{أقل|أكثر}} من"
-        },
-        "titleFormatted": {
-          "en": "Remaining yield before [[time]] is !{{less|more}} than [[value]] kWh",
-          "de": "Verbleibender Ertrag vor [[time]] ist !{{weniger|mehr}} als [[value]] kWh",
-          "nl": "Resterende opbrengst voor [[time]] is !{{minder|meer}} dan [[value]] kWh",
-          "fr": "Le rendement restant avant [[time]] est !{{inférieur|supérieur}} à [[value]] kWh",
-          "it": "Il rendimento rimanente prima delle [[time]] è !{{inferiore|superiore}} a [[value]] kWh",
-          "sv": "Återstående avkastning före [[time]] är !{{mindre|mer}} än [[value]] kWh",
-          "no": "Gjenværende avkastning før [[time]] er !{{mindre|mer}} enn [[value]] kWh",
-          "da": "Resterende udbytte før [[time]] er !{{mindre|mere}} end [[value]] kWh",
-          "es": "El rendimiento restante antes de [[time]] es !{{menor|mayor}} que [[value]] kWh",
-          "pl": "Pozostały uzysk przed [[time]] jest !{{mniejszy|większy}} niż [[value]] kWh",
-          "ru": "Оставшийся доход до [[time]] !{{меньше|больше}} чем [[value]] кВтч",
-          "ko": "[[time]] 전 남은 수익이 [[value]] kWh보다 !{{적음|많음}}",
-          "ar": "العائد المتبقي قبل [[time]] !{{أقل|أكثر}} من [[value]] كيلوواط ساعة"
-        },
-        "highlight": true,
-        "args": [
-          {
-            "type": "device",
-            "name": "device",
-            "filter": "driver_id=solar"
-          },
-          {
-            "type": "text",
-            "name": "time",
-            "title": {
-              "en": "Before",
-              "nl": "Vóór",
-              "de": "Vor",
-              "fr": "Avant",
-              "it": "Prima di",
-              "sv": "Före",
-              "no": "Før",
-              "es": "Antes de",
-              "da": "Før",
-              "pl": "Przed",
-              "ru": "До",
-              "ar": "قبل",
-              "ko": "이전"
-            },
-            "placeholder": {
-              "en": "16:00",
-              "nl": "16:00",
-              "de": "16:00",
-              "fr": "16:00",
-              "es": "16:00",
-              "it": "16:00",
-              "da": "16:00",
-              "sv": "16:00",
-              "no": "16:00",
-              "pl": "16:00",
-              "ru": "16:00",
-              "ar": "16:00",
-              "ko": "16:00"
-            },
-            "hint": {
-              "en": "Time (07:30) or decimal hours (7.5).",
-              "nl": "Tijd (07:30) of decimale uren (7,5).",
-              "de": "Uhrzeit (07:30) oder Dezimalstunden (7,5).",
-              "fr": "Heure (07:30) ou heures décimales (7,5).",
-              "it": "Ora (07:30) o ore decimali (7,5).",
-              "sv": "Tid (07:30) eller decimaltimmar (7,5).",
-              "no": "Tid (07:30) eller desimaltimer (7,5).",
-              "es": "Hora (07:30) u horas decimales (7,5).",
-              "da": "Tid (07:30) eller decimaltimer (7,5).",
-              "pl": "Godzina (07:30) lub godziny dziesiętne (7,5).",
-              "ru": "Время (07:30) или десятичные часы (7,5).",
-              "ar": "الوقت (07:30) أو ساعات عشرية (7.5).",
-              "ko": "시각(07:30) 또는 소수 시간(7.5)."
-            }
-          },
-          {
-            "type": "number",
-            "name": "value",
-            "required": true,
-            "min": 0,
-            "step": 0.1,
-            "title": {
-              "en": "kWh",
-              "ko": "kWh",
-              "nl": "kWh",
-              "de": "kWh",
-              "fr": "kWh",
-              "es": "kWh",
-              "it": "kWh",
-              "da": "kWh",
-              "sv": "kWh",
-              "no": "kWh",
-              "pl": "kWh",
-              "ru": "kWh",
-              "ar": "kWh"
-            }
-          }
-        ],
-        "id": "solar_yield_until"
-      },
-      {
-        "title": {
           "en": "Yield between times is !{{less|more}} than",
           "de": "Ertrag zwischen Zeiten ist !{{weniger|mehr}} als",
           "nl": "Opbrengst tussen tijden is !{{minder|meer}} dan",
@@ -13950,20 +13727,21 @@
               "ko": "10:00"
             },
             "hint": {
-              "en": "Time (07:30) or decimal hours (7.5). Same times: 24 hours.",
-              "nl": "Tijd (07:30) of decimale uren (7,5). Gelijke tijden: 24 uur.",
-              "de": "Uhrzeit (07:30) oder Dezimalstunden (7,5). Gleiche Zeiten: 24 Stunden.",
-              "fr": "Heure (07:30) ou heures décimales (7,5). Heures identiques : 24 heures.",
-              "it": "Ora (07:30) o ore decimali (7,5). Orari uguali: 24 ore.",
-              "sv": "Tid (07:30) eller decimaltimmar (7,5). Samma tider: 24 timmar.",
-              "no": "Tid (07:30) eller desimaltimer (7,5). Like tider: 24 timer.",
-              "es": "Hora (07:30) u horas decimales (7,5). Horas iguales: 24 horas.",
-              "da": "Tid (07:30) eller decimaltimer (7,5). Ens tider: 24 timer.",
-              "pl": "Godzina (07:30) lub godziny dziesiętne (7,5). Te same godziny: 24 godziny.",
-              "ru": "Время (07:30) или десятичные часы (7,5). Одинаковое время: 24 часа.",
-              "ar": "الوقت (07:30) أو ساعات عشرية (7.5). وقتان متساويان: 24 ساعة.",
-              "ko": "시각(07:30) 또는 소수 시간(7.5). 같은 시각: 24시간."
-            }
+              "en": "Time (07:30) or decimal hours (7.5). Same times: 24 hours. Empty: now.",
+              "nl": "Tijd (07:30) of decimale uren (7,5). Gelijke tijden: 24 uur. Leeg: nu.",
+              "de": "Uhrzeit (07:30) oder Dezimalstunden (7,5). Gleiche Zeiten: 24 Stunden. Leer: jetzt.",
+              "fr": "Heure (07:30) ou heures décimales (7,5). Heures identiques : 24 heures. Vide : maintenant.",
+              "it": "Ora (07:30) o ore decimali (7,5). Orari uguali: 24 ore. Vuoto: adesso.",
+              "sv": "Tid (07:30) eller decimaltimmar (7,5). Samma tider: 24 timmar. Tomt: nu.",
+              "no": "Tid (07:30) eller desimaltimer (7,5). Like tider: 24 timer. Tomt: nå.",
+              "es": "Hora (07:30) u horas decimales (7,5). Horas iguales: 24 horas. Vacío: ahora.",
+              "da": "Tid (07:30) eller decimaltimer (7,5). Ens tider: 24 timer. Tomt: nu.",
+              "pl": "Godzina (07:30) lub godziny dziesiętne (7,5). Te same godziny: 24 godziny. Puste: teraz.",
+              "ru": "Время (07:30) или десятичные часы (7,5). Одинаковое время: 24 часа. Пусто: сейчас.",
+              "ar": "الوقت (07:30) أو ساعات عشرية (7.5). وقتان متساويان: 24 ساعة. فارغ: الآن.",
+              "ko": "시각(07:30) 또는 소수 시간(7.5). 같은 시각: 24시간. 비우면: 지금."
+            },
+            "required": false
           },
           {
             "type": "text",
@@ -14401,213 +14179,6 @@
       },
       {
         "title": {
-          "en": "Plan cheapest start",
-          "nl": "Goedkoopste start plannen",
-          "de": "Günstigsten Start planen",
-          "fr": "Planifier le démarrage le moins cher",
-          "es": "Planificar el inicio más barato",
-          "it": "Pianifica l'avvio più economico",
-          "da": "Planlæg billigste start",
-          "sv": "Planera billigaste start",
-          "no": "Planlegg billigste start",
-          "pl": "Zaplanuj najtańszy start",
-          "ru": "Запланировать самый дешёвый запуск",
-          "ar": "جدولة أرخص بدء",
-          "ko": "가장 저렴한 시작 계획"
-        },
-        "titleFormatted": {
-          "en": "Plan cheapest start, at the latest at [[time]]",
-          "nl": "Goedkoopste start plannen, uiterlijk om [[time]]",
-          "de": "Günstigsten Start planen, spätestens um [[time]]",
-          "fr": "Planifier le démarrage le moins cher, au plus tard à [[time]]",
-          "es": "Planificar el inicio más barato, a más tardar a las [[time]]",
-          "it": "Pianifica l'avvio più economico, al più tardi alle [[time]]",
-          "da": "Planlæg billigste start, senest kl. [[time]]",
-          "sv": "Planera billigaste start, senast kl. [[time]]",
-          "no": "Planlegg billigste start, senest kl. [[time]]",
-          "pl": "Zaplanuj najtańszy start, najpóźniej o [[time]]",
-          "ru": "Запланировать самый дешёвый запуск, не позднее [[time]]",
-          "ar": "جدولة أرخص بدء، في موعد أقصاه [[time]]",
-          "ko": "가장 저렴한 시작 계획, 늦어도 [[time]]"
-        },
-        "highlight": true,
-        "hint": {
-          "en": "Sets \"Start today/tomorrow\" to Via flow and picks the cheapest start from now until this time and shows it at \"Next run\". At that start the card \"Planned start\" fires: start the appliance from that flow. Prices change: the start moves along.",
-          "nl": "Zet \"Start vandaag/morgen\" op Via flow en kiest de goedkoopste start van nu tot deze tijd en toont die bij \"Volgende run\". Op die start gaat de kaart \"Geplande start\" af: start het apparaat vanuit die flow. Veranderen de prijzen, dan schuift de start mee.",
-          "de": "Setzt \"Start heute/morgen\" auf Per Flow und wählt den günstigsten Start von jetzt bis zu dieser Uhrzeit und zeigt ihn bei \"Nächster Lauf\". Zu diesem Start löst die Karte \"Geplanter Start\" aus: Starten Sie das Gerät aus diesem Flow. Ändern sich die Preise, verschiebt sich der Start.",
-          "fr": "Met « Démarrage aujourd'hui/demain » sur Par flow et choisit le démarrage le moins cher d'ici à cette heure et l'affiche dans « Prochain cycle ». À ce démarrage, la carte « Départ planifié » se déclenche : démarrez l'appareil depuis ce flow. Si les prix changent, le démarrage suit.",
-          "es": "Pone \"Inicio hoy/mañana\" en Por flow y elige el inicio más barato desde ahora hasta esta hora y lo muestra en \"Próximo ciclo\". En ese inicio se activa la tarjeta \"Inicio planificado\": inicie el aparato desde ese flow. Si cambian los precios, el inicio se ajusta.",
-          "it": "Imposta \"Avvio oggi/domani\" su Tramite flow e sceglie l'avvio più economico da adesso a quest'ora e lo mostra in \"Prossimo ciclo\". A quell'avvio scatta la scheda \"Avvio pianificato\": avvia l'apparecchio da quel flow. Se i prezzi cambiano, l'avvio si sposta.",
-          "da": "Sætter \"Start i dag/i morgen\" til Via flow og vælger den billigste start fra nu til dette tidspunkt og viser den ved \"Næste kørsel\". Ved den start udløses kortet \"Planlagt start\": start apparatet fra det flow. Ændres priserne, flytter starten med.",
-          "sv": "Sätter \"Start i dag/i morgon\" till Via flöde och väljer den billigaste starten från nu till denna tid och visar den vid \"Nästa körning\". Vid den starten utlöses kortet \"Planerad start\": starta apparaten från det flödet. Ändras priserna flyttas starten med.",
-          "no": "Setter \"Start i dag/i morgen\" til Via flow og velger den billigste starten fra nå til dette tidspunktet og viser den ved \"Neste kjøring\". Ved den starten utløses kortet \"Planlagt start\": start apparatet fra den flowen. Endres prisene, flytter starten seg.",
-          "pl": "Ustawia „Start dziś/jutro” na Przez flow i wybiera najtańszy start od teraz do tej godziny i pokazuje go w „Następny cykl”. Przy tym starcie wyzwala się karta „Zaplanowany start”: uruchom urządzenie z tego flow. Gdy ceny się zmienią, start się przesunie.",
-          "ru": "Ставит «Запуск сегодня/завтра» на «Через поток» и выбирает самый дешёвый запуск от текущего момента до этого времени и показывает его в «Следующий цикл». В это время срабатывает карточка «Запланированный запуск»: запустите прибор из этого потока. При изменении цен запуск сдвигается.",
-          "ar": "يضبط \"البدء اليوم/غدًا\" على عبر التدفق ويختار أرخص بدء من الآن حتى هذا الوقت ويعرضه في \"التشغيل التالي\". عند ذلك البدء تعمل بطاقة \"البدء المخطط\": شغّل الجهاز من ذلك التدفق. إذا تغيرت الأسعار يتحرك البدء معها.",
-          "ko": "'오늘/내일 시작'을 플로우로 설정하고, 지금부터 이 시각까지 가장 저렴한 시작을 골라 '다음 운전'에 표시합니다. 그 시각에 '계획된 시작' 카드가 실행됩니다: 그 플로우에서 기기를 시작하세요. 가격이 바뀌면 시작도 따라 이동합니다."
-        },
-        "args": [
-          {
-            "type": "device",
-            "name": "device",
-            "filter": "driver_id=power&capabilities=appliance_next_run"
-          },
-          {
-            "type": "text",
-            "name": "time",
-            "placeholder": {
-              "en": "07:00",
-              "nl": "07:00",
-              "de": "07:00",
-              "fr": "07:00",
-              "es": "07:00",
-              "it": "07:00",
-              "da": "07:00",
-              "sv": "07:00",
-              "no": "07:00",
-              "pl": "07:00",
-              "ru": "07:00",
-              "ar": "07:00",
-              "ko": "07:00"
-            },
-            "title": {
-              "en": "Latest start",
-              "nl": "Uiterlijke start",
-              "de": "Spätester Start",
-              "fr": "Démarrage au plus tard",
-              "es": "Inicio más tardío",
-              "it": "Avvio più tardi",
-              "da": "Seneste start",
-              "sv": "Senaste start",
-              "no": "Seneste start",
-              "pl": "Najpóźniejszy start",
-              "ru": "Последний запуск",
-              "ar": "آخر موعد للبدء",
-              "ko": "최종 시작"
-            },
-            "hint": {
-              "en": "Time (07:30) or decimal hours (7.5).",
-              "nl": "Tijd (07:30) of decimale uren (7,5).",
-              "de": "Uhrzeit (07:30) oder Dezimalstunden (7,5).",
-              "fr": "Heure (07:30) ou heures décimales (7,5).",
-              "it": "Ora (07:30) o ore decimali (7,5).",
-              "sv": "Tid (07:30) eller decimaltimmar (7,5).",
-              "no": "Tid (07:30) eller desimaltimer (7,5).",
-              "es": "Hora (07:30) u horas decimales (7,5).",
-              "da": "Tid (07:30) eller decimaltimer (7,5).",
-              "pl": "Godzina (07:30) lub godziny dziesiętne (7,5).",
-              "ru": "Время (07:30) или десятичные часы (7,5).",
-              "ar": "الوقت (07:30) أو ساعات عشرية (7.5).",
-              "ko": "시각(07:30) 또는 소수 시간(7.5)."
-            }
-          }
-        ],
-        "tokens": [
-          {
-            "name": "start_time",
-            "type": "string",
-            "title": {
-              "en": "Start time",
-              "nl": "Starttijd",
-              "de": "Startzeit",
-              "fr": "Heure de départ",
-              "es": "Hora de inicio",
-              "it": "Ora di avvio",
-              "da": "Starttid",
-              "sv": "Starttid",
-              "no": "Starttid",
-              "pl": "Godzina startu",
-              "ru": "Время запуска",
-              "ar": "وقت البدء",
-              "ko": "시작 시간"
-            },
-            "example": "02:15"
-          },
-          {
-            "name": "expected_end",
-            "type": "string",
-            "title": {
-              "en": "Expected end",
-              "nl": "Verwacht einde",
-              "de": "Erwartetes Ende",
-              "fr": "Fin prévue",
-              "es": "Fin prevista",
-              "it": "Fine prevista",
-              "da": "Forventet slut",
-              "sv": "Förväntat slut",
-              "no": "Forventet slutt",
-              "pl": "Przewidywany koniec",
-              "ru": "Ожидаемое окончание",
-              "ar": "النهاية المتوقعة",
-              "ko": "예상 종료"
-            },
-            "example": "21:35"
-          },
-          {
-            "name": "wait",
-            "type": "number",
-            "title": {
-              "en": "Wait (min)",
-              "nl": "Wachten (min)",
-              "de": "Warten (Min.)",
-              "fr": "Attente (min)",
-              "es": "Espera (min)",
-              "it": "Attesa (min)",
-              "da": "Vent (min)",
-              "sv": "Vänta (min)",
-              "no": "Vent (min)",
-              "pl": "Czekaj (min)",
-              "ru": "Ожидание (мин)",
-              "ar": "الانتظار (دقيقة)",
-              "ko": "대기 (분)"
-            },
-            "example": 240
-          },
-          {
-            "name": "cost",
-            "type": "number",
-            "title": {
-              "en": "Expected cost",
-              "nl": "Verwachte kosten",
-              "de": "Erwartete Kosten",
-              "fr": "Coût prévu",
-              "es": "Coste previsto",
-              "it": "Costo previsto",
-              "da": "Forventet pris",
-              "sv": "Förväntad kostnad",
-              "no": "Forventet kostnad",
-              "pl": "Przewidywany koszt",
-              "ru": "Ожидаемая стоимость",
-              "ar": "التكلفة المتوقعة",
-              "ko": "예상 비용"
-            },
-            "example": 0.21
-          },
-          {
-            "name": "saving",
-            "type": "number",
-            "title": {
-              "en": "Saving vs now",
-              "nl": "Besparing t.o.v. nu",
-              "de": "Ersparnis ggü. jetzt",
-              "fr": "Économie vs maintenant",
-              "es": "Ahorro frente a ahora",
-              "it": "Risparmio rispetto ad ora",
-              "da": "Besparelse ift. nu",
-              "sv": "Besparing jämfört med nu",
-              "no": "Besparelse mot nå",
-              "pl": "Oszczędność względem teraz",
-              "ru": "Экономия по сравнению с сейчас",
-              "ar": "التوفير مقارنة بالآن",
-              "ko": "지금 대비 절약"
-            },
-            "example": 0.12
-          }
-        ],
-        "id": "appliance_plan"
-      },
-      {
-        "title": {
           "en": "Plan start at a time",
           "nl": "Start plannen op een tijd",
           "de": "Start zu einer Uhrzeit planen",
@@ -14900,20 +14471,21 @@
               "ko": "가장 이른 시작"
             },
             "hint": {
-              "en": "Time (07:30) or decimal hours (7.5).",
-              "nl": "Tijd (07:30) of decimale uren (7,5).",
-              "de": "Uhrzeit (07:30) oder Dezimalstunden (7,5).",
-              "fr": "Heure (07:30) ou heures décimales (7,5).",
-              "it": "Ora (07:30) o ore decimali (7,5).",
-              "sv": "Tid (07:30) eller decimaltimmar (7,5).",
-              "no": "Tid (07:30) eller desimaltimer (7,5).",
-              "es": "Hora (07:30) u horas decimales (7,5).",
-              "da": "Tid (07:30) eller decimaltimer (7,5).",
-              "pl": "Godzina (07:30) lub godziny dziesiętne (7,5).",
-              "ru": "Время (07:30) или десятичные часы (7,5).",
-              "ar": "الوقت (07:30) أو ساعات عشرية (7.5).",
-              "ko": "시각(07:30) 또는 소수 시간(7.5)."
-            }
+              "en": "Time (07:30) or decimal hours (7.5). Empty: now.",
+              "nl": "Tijd (07:30) of decimale uren (7,5). Leeg: nu.",
+              "de": "Uhrzeit (07:30) oder Dezimalstunden (7,5). Leer: jetzt.",
+              "fr": "Heure (07:30) ou heures décimales (7,5). Vide : maintenant.",
+              "it": "Ora (07:30) o ore decimali (7,5). Vuoto: adesso.",
+              "sv": "Tid (07:30) eller decimaltimmar (7,5). Tomt: nu.",
+              "no": "Tid (07:30) eller desimaltimer (7,5). Tomt: nå.",
+              "es": "Hora (07:30) u horas decimales (7,5). Vacío: ahora.",
+              "da": "Tid (07:30) eller decimaltimer (7,5). Tomt: nu.",
+              "pl": "Godzina (07:30) lub godziny dziesiętne (7,5). Puste: teraz.",
+              "ru": "Время (07:30) или десятичные часы (7,5). Пусто: сейчас.",
+              "ar": "الوقت (07:30) أو ساعات عشرية (7.5). فارغ: الآن.",
+              "ko": "시각(07:30) 또는 소수 시간(7.5). 비우면: 지금."
+            },
+            "required": false
           },
           {
             "type": "text",
@@ -17220,6 +16792,7 @@
         "id": "prices_json"
       },
       {
+        "deprecated": true,
         "title": {
           "en": "Retrain home load forecast",
           "nl": "Hertrain huisverbruik-voorspelling",
@@ -17260,6 +16833,7 @@
         "id": "retrain_load_model"
       },
       {
+        "deprecated": true,
         "title": {
           "en": "Retrain solar model",
           "nl": "Hertrain zonnemodel",
@@ -18014,35 +17588,35 @@
           "ar": "تعيين المغادرة"
         },
         "titleFormatted": {
-          "en": "Departure [[day]] at [[time]]",
-          "nl": "Vertrek [[day]] om [[time]]",
-          "de": "Abfahrt [[day]] um [[time]]",
-          "fr": "Départ [[day]] à [[time]]",
-          "it": "Partenza [[day]] alle [[time]]",
-          "sv": "Avgång [[day]] kl. [[time]]",
-          "no": "Avgang [[day]] kl. [[time]]",
-          "es": "Salida [[day]] a las [[time]]",
-          "da": "Afgang [[day]] kl. [[time]]",
-          "pl": "Wyjazd [[day]] o [[time]]",
-          "ru": "Отправление [[day]] в [[time]]",
-          "ko": "[[day]] [[time]]에 출발",
-          "ar": "المغادرة [[day]] الساعة [[time]]"
+          "en": "Departure [[day]] at [[time]], min. SoC [[soc]]%",
+          "nl": "Vertrek [[day]] om [[time]], min. SoC [[soc]]%",
+          "de": "Abfahrt [[day]] um [[time]], Min. SoC [[soc]]%",
+          "fr": "Départ [[day]] à [[time]], SoC min. [[soc]]%",
+          "it": "Partenza [[day]] alle [[time]], SoC min. [[soc]]%",
+          "sv": "Avgång [[day]] kl. [[time]], min. SoC [[soc]]%",
+          "no": "Avgang [[day]] kl. [[time]], min. SoC [[soc]]%",
+          "es": "Salida [[day]] a las [[time]], SoC mín. [[soc]]%",
+          "da": "Afgang [[day]] kl. [[time]], min. SoC [[soc]]%",
+          "pl": "Wyjazd [[day]] o [[time]], min. SoC [[soc]]%",
+          "ru": "Отправление [[day]] в [[time]], мин. заряд [[soc]]%",
+          "ko": "[[day]] [[time]]에 출발, 최소 충전량 [[soc]]%",
+          "ar": "المغادرة [[day]] الساعة [[time]]، الحد الأدنى للشحن [[soc]]%"
         },
         "highlight": true,
         "hint": {
-          "en": "Once; then the learned or weekly time applies again. HH:MM or decimal hours (7.5). 'auto': automatic again, '-': car not used that day.",
-          "nl": "Eenmalig; daarna geldt weer de geleerde of weektijd. UU:MM of decimale uren (7,5). 'auto': weer automatisch, '-': auto die dag niet gebruikt.",
-          "de": "Einmalig; danach gilt wieder die gelernte oder Wochenzeit. HH:MM oder Dezimalstunden (7,5). 'auto': wieder automatisch, '-': Auto an dem Tag nicht genutzt.",
-          "fr": "Une fois ; ensuite l'heure apprise ou hebdomadaire s'applique. HH:MM ou heures décimales (7,5). « auto » : de nouveau automatique, « - » : voiture non utilisée ce jour-là.",
-          "it": "Una volta; poi vale di nuovo l'orario appreso o settimanale. HH:MM o ore decimali (7,5). 'auto': di nuovo automatico, '-': auto non usata quel giorno.",
-          "sv": "En gång; därefter gäller den inlärda eller veckotiden igen. HH:MM eller decimaltimmar (7,5). 'auto': automatiskt igen, '-': bilen används inte den dagen.",
-          "no": "Én gang; deretter gjelder det lærte eller ukentlige tidspunktet igjen. TT:MM eller desimaltimer (7,5). 'auto': automatisk igjen, '-': bilen brukes ikke den dagen.",
-          "es": "Una vez; después vuelve la hora aprendida o semanal. HH:MM u horas decimales (7,5). 'auto': de nuevo automático, '-': coche no usado ese día.",
-          "da": "Én gang; derefter gælder det lærte eller ugentlige tidspunkt igen. TT:MM eller decimaltimer (7,5). 'auto': automatisk igen, '-': bilen bruges ikke den dag.",
-          "pl": "Jednorazowo; potem znowu obowiązuje wyuczona lub tygodniowa godzina. GG:MM lub godziny dziesiętne (7,5). 'auto': znowu automatycznie, '-': samochód nieużywany tego dnia.",
-          "ru": "Однократно; затем снова действует изученное или недельное время. ЧЧ:ММ или десятичные часы (7,5). 'auto': снова автоматически, '-': машина в этот день не используется.",
-          "ko": "1회 적용; 이후 학습값 또는 주간 시간이 다시 적용됩니다. HH:MM 또는 소수 시간(7.5). 'auto': 다시 자동, '-': 그날은 차를 사용하지 않음.",
-          "ar": "لمرة واحدة؛ ثم يعود الوقت المُتعلَّم أو الأسبوعي. HH:MM أو ساعات عشرية (7.5). 'auto': تلقائي مرة أخرى، '-': لا تُستخدم السيارة ذلك اليوم."
+          "en": "Once. Time: HH:MM or 7.5, 'auto', or '-' (car not used). Min. SoC: may be below plan, 0: automatic. Empty: unchanged.",
+          "nl": "Eenmalig. Tijd: UU:MM of 7,5, 'auto', of '-' (auto niet gebruikt). Min. SoC: mag onder plan, 0: automatisch. Leeg: ongewijzigd.",
+          "de": "Einmalig. Zeit: HH:MM oder 7,5, 'auto' oder '-' (Auto nicht genutzt). Min. SoC: auch unter Plan, 0: automatisch. Leer: unverändert.",
+          "fr": "Une fois. Heure : HH:MM ou 7,5, « auto » ou « - » (voiture non utilisée). SoC min. : peut être sous le plan, 0 : automatique. Vide : inchangé.",
+          "it": "Una volta. Ora: HH:MM o 7,5, 'auto' o '-' (auto non usata). SoC min.: anche sotto il piano, 0: automatico. Vuoto: invariato.",
+          "sv": "En gång. Tid: HH:MM eller 7,5, 'auto' eller '-' (bilen används inte). Min. SoC: även under plan, 0: automatiskt. Tomt: oförändrat.",
+          "no": "Én gang. Tid: TT:MM eller 7,5, 'auto' eller '-' (bilen brukes ikke). Min. SoC: også under plan, 0: automatisk. Tomt: uendret.",
+          "es": "Una vez. Hora: HH:MM o 7,5, 'auto' o '-' (coche no usado). SoC mín.: también bajo el plan, 0: automático. Vacío: sin cambios.",
+          "da": "Én gang. Tid: TT:MM eller 7,5, 'auto' eller '-' (bilen bruges ikke). Min. SoC: også under plan, 0: automatisk. Tomt: uændret.",
+          "pl": "Jednorazowo. Godzina: GG:MM lub 7,5, 'auto' lub '-' (samochód nieużywany). Min. SoC: także poniżej planu, 0: automatycznie. Puste: bez zmian.",
+          "ru": "Однократно. Время: ЧЧ:ММ или 7,5, 'auto' или '-' (машина не используется). Мин. заряд: можно ниже плана, 0: автоматически. Пусто: без изменений.",
+          "ar": "لمرة واحدة. الوقت: HH:MM أو 7.5، أو 'auto'، أو '-' (لا تُستخدم السيارة). الحد الأدنى للشحن: يمكن أقل من المخطط، 0: تلقائي. فارغ: دون تغيير.",
+          "ko": "1회 적용. 시간: HH:MM 또는 7.5, 'auto', 또는 '-'(차 사용 안 함). 최소 충전량: 계획보다 낮게도 가능, 0: 자동. 비우면: 변경 없음."
         },
         "args": [
           {
@@ -18139,123 +17713,13 @@
               "ru": "Отправление",
               "ar": "المغادرة",
               "ko": "출발"
-            }
-          }
-        ],
-        "id": "set_ev_departure"
-      },
-      {
-        "title": {
-          "en": "Set min. SoC",
-          "nl": "Min. SoC instellen",
-          "de": "Min. SoC einstellen",
-          "fr": "Définir le SoC min.",
-          "it": "Imposta SoC min.",
-          "sv": "Ställ in min. SoC",
-          "no": "Angi min. SoC",
-          "es": "Establecer SoC mín.",
-          "da": "Indstil min. SoC",
-          "pl": "Ustaw min. SoC",
-          "ru": "Задать мин. заряд",
-          "ko": "최소 충전량 설정",
-          "ar": "تعيين الحد الأدنى للشحن"
-        },
-        "titleFormatted": {
-          "en": "Min. SoC [[day]] [[soc]]%",
-          "nl": "Min. SoC [[day]] [[soc]]%",
-          "de": "Min. SoC [[day]] [[soc]]%",
-          "fr": "SoC min. [[day]] [[soc]]%",
-          "it": "SoC min. [[day]] [[soc]]%",
-          "sv": "Min. SoC [[day]] [[soc]]%",
-          "no": "Min. SoC [[day]] [[soc]]%",
-          "es": "SoC mín. [[day]] [[soc]]%",
-          "da": "Min. SoC [[day]] [[soc]]%",
-          "pl": "Min. SoC [[day]] [[soc]]%",
-          "ru": "Мин. заряд [[day]] [[soc]]%",
-          "ko": "[[day]] 최소 충전량 [[soc]]%",
-          "ar": "الحد الأدنى للشحن [[day]] [[soc]]%"
-        },
-        "hint": {
-          "en": "At least this SoC at that day's departure, once; may be lower than planned. 0: automatic again.",
-          "nl": "Minstens deze SoC bij vertrek die dag, eenmalig; mag lager dan gepland. 0: weer automatisch.",
-          "de": "Mindestens dieser SoC bei der Abfahrt an dem Tag, einmalig; auch niedriger als geplant. 0: wieder automatisch.",
-          "fr": "Au moins ce SoC au départ de ce jour, une fois ; peut être inférieur au plan. 0 : de nouveau automatique.",
-          "it": "Almeno questo SoC alla partenza di quel giorno, una volta; anche inferiore al previsto. 0: di nuovo automatico.",
-          "sv": "Minst denna SoC vid avgång den dagen, en gång; även lägre än planerat. 0: automatiskt igen.",
-          "no": "Minst denne SoC ved avgang den dagen, én gang; også lavere enn planlagt. 0: automatisk igjen.",
-          "es": "Al menos este SoC en la salida de ese día, una vez; también menor que lo previsto. 0: de nuevo automático.",
-          "da": "Mindst denne SoC ved afgang den dag, én gang; også lavere end planlagt. 0: automatisk igen.",
-          "pl": "Co najmniej ten SoC przy wyjeździe tego dnia, jednorazowo; także niższy niż planowany. 0: znowu automatycznie.",
-          "ru": "Не меньше этого заряда при отправлении в этот день, однократно; можно ниже запланированного. 0: снова автоматически.",
-          "ko": "그날 출발 시 최소 이 충전량, 1회; 계획보다 낮게도 가능. 0: 다시 자동.",
-          "ar": "على الأقل نسبة الشحن هذه عند المغادرة ذلك اليوم، لمرة واحدة؛ ويمكن أقل من المخطط. 0: تلقائي مرة أخرى."
-        },
-        "args": [
-          {
-            "type": "device",
-            "name": "device",
-            "filter": "driver_id=evCharger"
-          },
-          {
-            "type": "dropdown",
-            "name": "day",
-            "title": {
-              "en": "Day",
-              "nl": "Dag",
-              "de": "Tag",
-              "fr": "Jour",
-              "es": "Día",
-              "it": "Giorno",
-              "da": "Dag",
-              "sv": "Dag",
-              "no": "Dag",
-              "pl": "Dzień",
-              "ru": "День",
-              "ar": "اليوم",
-              "ko": "날짜"
             },
-            "values": [
-              {
-                "id": "today",
-                "label": {
-                  "en": "today",
-                  "nl": "vandaag",
-                  "de": "heute",
-                  "fr": "aujourd'hui",
-                  "es": "hoy",
-                  "it": "oggi",
-                  "da": "i dag",
-                  "sv": "i dag",
-                  "no": "i dag",
-                  "pl": "dziś",
-                  "ru": "сегодня",
-                  "ar": "اليوم",
-                  "ko": "오늘"
-                }
-              },
-              {
-                "id": "tomorrow",
-                "label": {
-                  "en": "tomorrow",
-                  "nl": "morgen",
-                  "de": "morgen",
-                  "fr": "demain",
-                  "es": "mañana",
-                  "it": "domani",
-                  "da": "i morgen",
-                  "sv": "i morgon",
-                  "no": "i morgen",
-                  "pl": "jutro",
-                  "ru": "завтра",
-                  "ar": "غدًا",
-                  "ko": "내일"
-                }
-              }
-            ]
+            "required": false
           },
           {
             "type": "number",
             "name": "soc",
+            "required": false,
             "min": 0,
             "max": 100,
             "step": 1,
@@ -18264,11 +17728,11 @@
               "nl": "SoC (%)",
               "de": "SoC (%)",
               "fr": "SoC (%)",
-              "es": "SoC (%)",
               "it": "SoC (%)",
-              "da": "SoC (%)",
               "sv": "SoC (%)",
               "no": "SoC (%)",
+              "es": "SoC (%)",
+              "da": "SoC (%)",
               "pl": "SoC (%)",
               "ru": "SoC (%)",
               "ar": "SoC (%)",
@@ -18279,11 +17743,11 @@
               "nl": "80",
               "de": "80",
               "fr": "80",
-              "es": "80",
               "it": "80",
-              "da": "80",
               "sv": "80",
               "no": "80",
+              "es": "80",
+              "da": "80",
               "pl": "80",
               "ru": "80",
               "ar": "80",
@@ -18291,7 +17755,7 @@
             }
           }
         ],
-        "id": "set_ev_min_soc"
+        "id": "set_ev_departure"
       },
       {
         "title": {
@@ -18923,81 +18387,6 @@
         "id": "set_fixed_cost"
       },
       {
-        "title": {
-          "en": "Set fixed export tariff",
-          "nl": "Stel vast terugleveringstarief in",
-          "de": "Fester Einspeisetarif festlegen",
-          "fr": "Définir le tarif fixe d'injection",
-          "it": "Imposta tariffa fissa di immissione",
-          "sv": "Ställ in fast exporttariff",
-          "no": "Sett fast eksporttariff",
-          "es": "Establecer tarifa fija de exportación",
-          "da": "Indstil fast eksporttarif",
-          "pl": "Ustaw stałą taryfę za oddawanie",
-          "ru": "Установить фиксированный тариф экспорта",
-          "ar": "تعيين تعرفة تصدير ثابتة",
-          "ko": "고정 수출 요금 설정"
-        },
-        "titleFormatted": {
-          "en": "Set fixed export tariff to [[tariff]]",
-          "nl": "Stel vast terugleveringstarief in op [[tariff]]",
-          "de": "Fester Einspeisetarif auf [[tariff]] festlegen",
-          "fr": "Définir le tarif fixe d'injection à [[tariff]]",
-          "it": "Imposta tariffa fissa di immissione a [[tariff]]",
-          "sv": "Ställ in fast exporttariff till [[tariff]]",
-          "no": "Sett fast eksporttariff til [[tariff]]",
-          "es": "Establecer tarifa fija de exportación a [[tariff]]",
-          "da": "Indstil fast eksporttarif til [[tariff]]",
-          "pl": "Ustaw stałą taryfę za oddawanie na [[tariff]]",
-          "ru": "Установить фиксированный тариф экспорта [[tariff]]",
-          "ar": "تعيين تعرفة تصدير ثابتة إلى [[tariff]]",
-          "ko": "고정 수출 요금을 [[tariff]](으)로 설정"
-        },
-        "hint": {
-          "en": "Applies with tariff group 0.",
-          "nl": "Geldt bij tariefgroep 0.",
-          "de": "Gilt bei Tarifgruppe 0.",
-          "fr": "S'applique avec le groupe tarifaire 0.",
-          "it": "Vale con il gruppo tariffario 0.",
-          "sv": "Gäller med tariffgrupp 0.",
-          "no": "Gjelder med tariffgruppe 0.",
-          "es": "Se aplica con el grupo de tarifa 0.",
-          "da": "Gælder med takstgruppe 0.",
-          "pl": "Obowiązuje przy grupie taryfowej 0.",
-          "ru": "Действует при тарифной группе 0.",
-          "ar": "يُطبَّق مع مجموعة التعرفة 0.",
-          "ko": "요금 그룹 0일 때 적용됩니다."
-        },
-        "args": [
-          {
-            "type": "device",
-            "name": "device",
-            "filter": "driver_id=power|solar|grid"
-          },
-          {
-            "type": "number",
-            "name": "tariff",
-            "placeholder": {
-              "en": "Fixed export tariff",
-              "nl": "Vast terugleveringstarief",
-              "de": "Fester Einspeisetarif",
-              "fr": "Tarif fixe d'injection",
-              "it": "Tariffa fissa di immissione",
-              "sv": "Fast exporttariff",
-              "no": "Fast eksporttariff",
-              "es": "Tarifa fija de exportación",
-              "da": "Fast eksporttarif",
-              "pl": "Stała taryfa za oddawanie",
-              "ru": "Фиксированный тариф экспорта",
-              "ar": "تعرفة تصدير ثابتة",
-              "ko": "고정 수출 요금"
-            },
-            "decimals": 4
-          }
-        ],
-        "id": "set_fixed_export_tariff"
-      },
-      {
         "deprecated": true,
         "title": {
           "en": "Set a new fixed markup",
@@ -19195,19 +18584,19 @@
           "ko": "고정 요금 설정"
         },
         "titleFormatted": {
-          "en": "Set fixed tariff to [[tariff]]",
-          "nl": "Stel vast tarief in op [[tariff]]",
-          "de": "Festtarif auf [[tariff]] festlegen",
-          "fr": "Définir le tarif fixe à [[tariff]]",
-          "it": "Imposta tariffa fissa a [[tariff]]",
-          "sv": "Ställ in fast tariff till [[tariff]]",
-          "no": "Sett fast tariff til [[tariff]]",
-          "es": "Establecer tarifa fija a [[tariff]]",
-          "da": "Indstil fast tarif til [[tariff]]",
-          "pl": "Ustaw stałą taryfę na [[tariff]]",
-          "ru": "Установить фиксированный тариф [[tariff]]",
-          "ar": "تعيين تعرفة ثابتة إلى [[tariff]]",
-          "ko": "고정 요금을 [[tariff]](으)로 설정"
+          "en": "Set [[kind]] to [[tariff]]",
+          "nl": "Stel [[kind]] in op [[tariff]]",
+          "de": "[[kind]] auf [[tariff]] festlegen",
+          "fr": "Définir le [[kind]] à [[tariff]]",
+          "it": "Imposta [[kind]] a [[tariff]]",
+          "sv": "Ställ in [[kind]] till [[tariff]]",
+          "no": "Sett [[kind]] til [[tariff]]",
+          "es": "Establecer [[kind]] a [[tariff]]",
+          "da": "Indstil [[kind]] til [[tariff]]",
+          "pl": "Ustaw [[kind]] na [[tariff]]",
+          "ru": "Установить [[kind]] [[tariff]]",
+          "ar": "تعيين [[kind]] إلى [[tariff]]",
+          "ko": "[[kind]]을(를) [[tariff]](으)로 설정"
         },
         "hint": {
           "en": "Applies with tariff group 0.",
@@ -19231,24 +18620,96 @@
             "filter": "driver_id=power|gas|water|solar|grid"
           },
           {
+            "type": "dropdown",
+            "name": "kind",
+            "title": {
+              "en": "Tariff",
+              "nl": "Tarief",
+              "de": "Tarif",
+              "fr": "Tarif",
+              "it": "Tariffa",
+              "sv": "Tariff",
+              "no": "Tariff",
+              "es": "Tarifa",
+              "da": "Takst",
+              "pl": "Taryfa",
+              "ru": "Тариф",
+              "ar": "تعريفة",
+              "ko": "요금"
+            },
+            "values": [
+              {
+                "id": "tariff",
+                "label": {
+                  "en": "fixed tariff",
+                  "nl": "vast tarief",
+                  "de": "Festtarif",
+                  "fr": "tarif fixe",
+                  "it": "tariffa fissa",
+                  "sv": "fast tariff",
+                  "no": "fast tariff",
+                  "es": "tarifa fija",
+                  "da": "fast tarif",
+                  "pl": "stałą taryfę",
+                  "ru": "фиксированный тариф",
+                  "ar": "تعرفة ثابتة",
+                  "ko": "고정 요금"
+                }
+              },
+              {
+                "id": "tariff_export",
+                "label": {
+                  "en": "fixed export tariff",
+                  "nl": "vast terugleveringstarief",
+                  "de": "festen Einspeisetarif",
+                  "fr": "tarif fixe d'injection",
+                  "it": "tariffa fissa di immissione",
+                  "sv": "fast exporttariff",
+                  "no": "fast eksporttariff",
+                  "es": "tarifa fija de exportación",
+                  "da": "fast eksporttarif",
+                  "pl": "stałą taryfę za oddawanie",
+                  "ru": "фиксированный тариф экспорта",
+                  "ar": "تعرفة تصدير ثابتة",
+                  "ko": "고정 수출 요금"
+                }
+              }
+            ]
+          },
+          {
             "type": "number",
             "name": "tariff",
             "placeholder": {
-              "en": "Fixed tariff",
-              "nl": "Vast tarief",
-              "de": "Festtarif",
-              "fr": "Tarif fixe",
-              "it": "Tariffa fissa",
-              "sv": "Fast tariff",
-              "no": "Fast tariff",
-              "es": "Tarifa fija",
-              "da": "Fast tarif",
-              "pl": "Stała taryfa",
-              "ru": "Фиксированный тариф",
-              "ar": "تعرفة ثابتة",
-              "ko": "고정 요금"
+              "en": "0.25",
+              "nl": "0.25",
+              "de": "0.25",
+              "fr": "0.25",
+              "it": "0.25",
+              "sv": "0.25",
+              "no": "0.25",
+              "es": "0.25",
+              "da": "0.25",
+              "pl": "0.25",
+              "ru": "0.25",
+              "ar": "0.25",
+              "ko": "0.25"
             },
-            "decimals": 4
+            "decimals": 4,
+            "title": {
+              "en": "Value",
+              "nl": "Waarde",
+              "de": "Wert",
+              "fr": "Valeur",
+              "it": "Valore",
+              "sv": "Värde",
+              "no": "Verdi",
+              "es": "Valor",
+              "da": "Værdi",
+              "pl": "Wartość",
+              "ru": "Значение",
+              "ar": "القيمة",
+              "ko": "값"
+            }
           }
         ],
         "id": "set_fixed_tariff"
@@ -19767,6 +19228,7 @@
         "id": "set_tariff_gas"
       },
       {
+        "deprecated": true,
         "title": {
           "en": "Set tariff group",
           "nl": "Stel tariefgroep in",

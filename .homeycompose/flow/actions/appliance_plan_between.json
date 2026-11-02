@@ -85,20 +85,21 @@
         "ko": "가장 이른 시작"
       },
       "hint": {
-        "en": "Time (07:30) or decimal hours (7.5).",
-        "nl": "Tijd (07:30) of decimale uren (7,5).",
-        "de": "Uhrzeit (07:30) oder Dezimalstunden (7,5).",
-        "fr": "Heure (07:30) ou heures décimales (7,5).",
-        "it": "Ora (07:30) o ore decimali (7,5).",
-        "sv": "Tid (07:30) eller decimaltimmar (7,5).",
-        "no": "Tid (07:30) eller desimaltimer (7,5).",
-        "es": "Hora (07:30) u horas decimales (7,5).",
-        "da": "Tid (07:30) eller decimaltimer (7,5).",
-        "pl": "Godzina (07:30) lub godziny dziesiętne (7,5).",
-        "ru": "Время (07:30) или десятичные часы (7,5).",
-        "ar": "الوقت (07:30) أو ساعات عشرية (7.5).",
-        "ko": "시각(07:30) 또는 소수 시간(7.5)."
-      }
+        "en": "Time (07:30) or decimal hours (7.5). Empty: now.",
+        "nl": "Tijd (07:30) of decimale uren (7,5). Leeg: nu.",
+        "de": "Uhrzeit (07:30) oder Dezimalstunden (7,5). Leer: jetzt.",
+        "fr": "Heure (07:30) ou heures décimales (7,5). Vide : maintenant.",
+        "it": "Ora (07:30) o ore decimali (7,5). Vuoto: adesso.",
+        "sv": "Tid (07:30) eller decimaltimmar (7,5). Tomt: nu.",
+        "no": "Tid (07:30) eller desimaltimer (7,5). Tomt: nå.",
+        "es": "Hora (07:30) u horas decimales (7,5). Vacío: ahora.",
+        "da": "Tid (07:30) eller decimaltimer (7,5). Tomt: nu.",
+        "pl": "Godzina (07:30) lub godziny dziesiętne (7,5). Puste: teraz.",
+        "ru": "Время (07:30) или десятичные часы (7,5). Пусто: сейчас.",
+        "ar": "الوقت (07:30) أو ساعات عشرية (7.5). فارغ: الآن.",
+        "ko": "시각(07:30) 또는 소수 시간(7.5). 비우면: 지금."
+      },
+      "required": false
     },
     {
       "type": "text",

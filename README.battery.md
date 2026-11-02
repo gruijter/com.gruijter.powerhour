@@ -143,4 +143,3 @@ Fill in the nominal capacity and the max. power. The rest is learned from what t
 - **Provide planned battery power** — the same tokens as the trigger, on demand
 - **Set battery cost** — minimum profit or wear cost per kWh
 - **Set XOM** (app-wide)
-- **Set tariff group**
