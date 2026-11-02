@@ -34,7 +34,7 @@
     {
       "type": "device",
       "name": "device",
-      "filter": "driver_id=power&capabilities=appliance_next_run"
+      "filter": "driver_id=power&capabilities=button.retrain"
     }
   ],
   "tokens": [

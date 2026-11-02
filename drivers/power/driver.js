@@ -30,7 +30,7 @@ const MARKUP_IDS = ['markup_month', 'markup_day', 'markup_hour'];
 // The screens of the setup view, in order (lib/helpers/PairSetup.js).
 const STEPS = [
   { id: 'meter', ids: ['use_measure_source', 'homey_device_daily_reset'], roles: true },
-  { id: 'appliance', ids: ['forecast_appliance'] },
+  { id: 'appliance', ids: ['appliance_mode'] },
   { id: 'price', ids: ['tariff_update_group', 'tariff', 'tariff_export', 'currency', 'tariff_type', ...MARKUP_IDS] },
   { id: 'year', ids: [] },
   { id: 'advanced', ids: ['decimals_meter'] },
@@ -103,7 +103,7 @@ const driverSpecifics = {
     match: { energy: (energy) => energy.cumulative === true }, // a smart meter
     requirePrice: true,
   },
-  // Only registered with forecast (setting forecast_appliance) - see lib/helpers/ChartImages.js.
+  // Only registered with forecast (setting appliance_mode) - see lib/helpers/ChartImages.js.
   chartImages: [
     {
       id: 'applianceToday', prop: 'applianceTodayImage', chartProp: 'chartApplianceToday', titleKey: 'today',
@@ -175,7 +175,7 @@ class PowerDriver extends GenericDriver {
   // Forecast: the appliance is taken out of the home load. Only for a Homey device as source; the
   // source of an EV charger device is out of it already: as an appliance it would count twice.
   checkApplianceSource(settings) {
-    if (!settings.forecast_appliance) return;
+    if (!settings.appliance_mode || settings.appliance_mode === 'off') return;
     // Homey Energy and flow sources are totals, no single appliance.
     if (settings.source_device_type !== 'Homey device') throw Error(this.homey.__('error_appliance_homey_device'));
     let chargers = [];
@@ -189,19 +189,25 @@ class PowerDriver extends GenericDriver {
     }
   }
 
-  // With forecast: next run and the day pickers. appliance_next_run also shows the
-  // appliance flow cards (their filter).
+  // 'off', 'forecast' or 'plan' (setting appliance_mode); only a Homey device as source learns.
+  static applianceMode(settings = {}) {
+    if (settings.source_device_type !== 'Homey device') return 'off';
+    return ['forecast', 'plan'].includes(settings.appliance_mode) ? settings.appliance_mode : 'off';
+  }
+
+  // With forecast: the retrain button, which also shows the started/finished cards (their filter).
+  // With plan: next run and the day pickers; appliance_next_run shows the planner cards.
   capabilitiesFor(settings = {}) {
     const caps = super.capabilitiesFor(settings);
-    if (settings.forecast_appliance && settings.source_device_type === 'Homey device') {
-      caps.push('appliance_next_run', 'appliance_today', 'appliance_tomorrow', 'button.retrain');
-    }
+    const mode = PowerDriver.applianceMode(settings);
+    if (mode !== 'off') caps.push('button.retrain');
+    if (mode === 'plan') caps.push('appliance_next_run', 'appliance_today', 'appliance_tomorrow');
     return caps;
   }
 
   // Setup view: what the forecast checkbox does.
   async setupInfo(setting, def) {
-    if (setting.id === 'forecast_appliance') return PairSetup.text(this.homey, def.hint);
+    if (setting.id === 'appliance_mode') return PairSetup.text(this.homey, def.hint);
     return undefined;
   }
 

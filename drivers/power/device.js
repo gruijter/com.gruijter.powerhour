@@ -66,11 +66,12 @@ class PowerDevice extends GenericDevice {
   async onInit() {
     this.ds = deviceSpecifics;
     this.flows = new PowerFlows(this);
-    // With forecast (setting forecast_appliance): learned apart from the home load and planned
-    // like an EV charge, see lib/strategies/ApplianceModel.js. Its charts are registered before
-    // super.onInit(), like the other drivers' charts (lib/helpers/ChartImages.js).
-    const settings = this.getSettings();
-    this.isAppliance = !!settings.forecast_appliance && settings.source_device_type === 'Homey device';
+    // With forecast (setting appliance_mode): learned apart from the home load, with plan also
+    // planned like an EV charge, see lib/strategies/ApplianceModel.js. Its charts are registered
+    // before super.onInit(), like the other drivers' charts (lib/helpers/ChartImages.js).
+    const mode = this.driver.constructor.applianceMode(this.getSettings());
+    this.isAppliance = mode !== 'off';
+    this.appliancePlanning = mode === 'plan';
     if (this.isAppliance) await ChartImages.registerChartImages(this, this.driver.ds.chartImages);
     await super.onInit().catch(this.error);
     await this.initAppliance().catch(this.error);
@@ -88,7 +89,7 @@ class PowerDevice extends GenericDevice {
       return;
     }
     this.applianceModel = (await this.getStoreValue('applianceModel')) || ApplianceModel.initModel();
-    this.appliancePlan = (await this.getStoreValue('appliancePlan')) || null;
+    this.appliancePlan = this.appliancePlanning ? ((await this.getStoreValue('appliancePlan')) || null) : null;
     for (const key of ['applianceReadyBy', 'applianceAdvice']) {
       if (this.getStoreKeys().includes(key)) await this.unsetStoreValue(key).catch(this.error);
     }
@@ -111,7 +112,7 @@ class PowerDevice extends GenericDevice {
         await this.updateAppliancePlanDisplay();
         this.notifyGrid();
       });
-      for (const day of ['today', 'tomorrow']) {
+      for (const day of this.appliancePlanning ? ['today', 'tomorrow'] : []) {
         this.registerCapabilityListener(`appliance_${day}`, async (value) => {
           // Refused (a time already past): the picker shows the day's setting again.
           await this.setApplianceDay(day, value).catch((err) => {
@@ -242,10 +243,12 @@ class PowerDevice extends GenericDevice {
       live.confirmed = true;
       await this.onApplianceConfirmed(live.start);
     }
-    await this.checkPlannedStart(t);
-    await this.checkDayPlans(t);
-    await this.checkExpectedStart(t);
-    await this.checkStartTriggers(t);
+    if (this.appliancePlanning) {
+      await this.checkPlannedStart(t);
+      await this.checkDayPlans(t);
+      await this.checkExpectedStart(t);
+      await this.checkStartTriggers(t);
+    }
     if (event || t - this.applianceSaveTm >= APPLIANCE_SAVE_MS) await this.saveAppliance();
     if (event) this.notifyGrid();
     if (event === 'finished' || this.applianceModel.day !== this.applianceReadyDay) {
@@ -621,6 +624,7 @@ class PowerDevice extends GenericDevice {
 
   // { [date]: { value, done } } from today on; done: started, or its start passed.
   applianceDays() {
+    if (!this.appliancePlanning) return {}; // the day pickers are planning
     const today = ApplianceModel.localDay(Date.now(), this.timeZone).date;
     const stored = this.getStoreValue('applianceDays') || {};
     const days = Object.fromEntries(Object.entries(stored).filter(([date]) => date >= today));
@@ -914,8 +918,8 @@ class PowerDevice extends GenericDevice {
   }
 
   async onSettings({ oldSettings, newSettings, changedKeys }) {
-    if (changedKeys.includes('forecast_appliance')) {
-      if (newSettings.forecast_appliance) this.driver.checkApplianceSource(newSettings);
+    if (changedKeys.includes('appliance_mode')) {
+      this.driver.checkApplianceSource(newSettings);
       this.migrated = false; // adds or removes the appliance capabilities after the restart
     }
     return super.onSettings({ oldSettings, newSettings, changedKeys });
