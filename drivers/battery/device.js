@@ -30,6 +30,7 @@ const BatteryEfficiency = require('../../lib/strategies/BatteryEfficiency');
 const BatteryResponse = require('../../lib/strategies/BatteryResponse');
 const BatterySplit = require('../../lib/strategies/BatterySplit');
 const BatteryTaper = require('../../lib/strategies/BatteryTaper');
+const PhaseLearning = require('../../lib/strategies/PhaseLearning');
 const { getEfficiencyChart } = require('../../lib/charts/EfficiencyChart');
 const { setTimeoutPromise } = require('../../lib/helpers/Util');
 
@@ -44,6 +45,8 @@ const RELEASE_RETRY_MS = 60 * 1000;
 const PLAN_WAIT_MS = 10 * 60 * 1000;
 // A setpoint at least this recent: the battery is under control (keepalive every 60 s).
 const FUSE_YIELD_MS = 2 * 60 * 1000;
+// Smallest power step (W) PhaseLearning learns the phase from.
+const PHASE_STEP_W = 600;
 // Home use the planner assumes without a grid forecast (no grid device).
 const HOME_USE_W = 300;
 const EFFICIENCY_LOG_MS = 60 * 60 * 1000;
@@ -57,6 +60,14 @@ const CAL_DAYS = 7;
 const TAPER_SAVE_MS = 15 * 60 * 1000;
 
 // Plans in 15-minute slots, as the grid forecast and capacity tariffs; prices per price slot.
+// The tighter of two bounds, null: none.
+const bound = (pick) => (a, b) => {
+  if (typeof a !== 'number') return typeof b === 'number' ? b : null;
+  return typeof b === 'number' ? pick(a, b) : a;
+};
+const lowest = bound(Math.min);
+const highest = bound(Math.max);
+
 const deviceSpecifics = { planIntervalMin: 15 };
 
 class BatDevice extends GenericDevice {
@@ -282,6 +293,10 @@ class BatDevice extends GenericDevice {
     }
     this.lastReportTm = now;
     this.lastReportW = val;
+    if (typeof val === 'number') {
+      if (!this.phaseLearner) this.phaseLearner = new PhaseLearning.Learner(this, { minStepW: PHASE_STEP_W });
+      this.phaseLearner.onPower(val, now);
+    }
     if (typeof val === 'number' && Math.abs(val) >= 50) this.lastActiveTm = now;
     if (this.response && typeof val === 'number') {
       const { state, sample } = BatteryResponse.onReport(this.response, { now, actW: val });
@@ -333,16 +348,18 @@ class BatDevice extends GenericDevice {
 
   // Driver tick, step 2. nom: { targetW, needW } from NomXomStrategy in a zero/hold block.
   // share: this battery's part of the import headroom.
-  async controlApply(prep, now, gridW, nom, share = 1) {
+  // share: this battery's part of the correction; phaseShare: of a phase correction (the batteries
+  // that may be on its phases).
+  async controlApply(prep, now, gridW, nom, share = 1, phaseShare = share) {
     if (this.controlRun) return;
     // Kept so that releaseControl() can wait for a write in progress.
-    this.controlRun = this.applyControl(prep, now, gridW, nom, share).finally(() => {
+    this.controlRun = this.applyControl(prep, now, gridW, nom, share, phaseShare).finally(() => {
       this.controlRun = null;
     });
     await this.controlRun;
   }
 
-  async applyControl(prep, now, gridW, nom, share) {
+  async applyControl(prep, now, gridW, nom, share, phaseShare = share) {
     const settings = this.batterySettings();
     const batteryW = this.controlPowerW();
     // Limits from the base the grid reading holds: while ramping the measured power lags the
@@ -363,6 +380,7 @@ class BatDevice extends GenericDevice {
     const headroomW = grid ? grid.getImportHeadroomW({ tariff: shave, hard: protect }) : null;
     const hardHeadroomW = grid && protect ? grid.getImportHeadroomW({ tariff: false, hard: true }) : null;
     const exportHeadroomW = grid && protect ? grid.getExportHeadroomW() : null;
+    const phase = grid && protect ? this.phaseBounds(grid, now, importBaseW, exportBaseW, phaseShare) : {};
     const stale = !!grid && protect && grid.isGridPowerStale(now);
     if (stale !== !!this.gridStale) {
       this.gridStale = stale;
@@ -384,11 +402,11 @@ class BatDevice extends GenericDevice {
       maxDischargeW: settings.dischargePower,
       minChargeW: Number(settings.minChargeW) || 0,
       minDischargeW: Number(settings.minDischargeW) || 0,
-      maxW: headroomW === null ? null : importBaseW + (headroomW * share),
+      maxW: lowest(headroomW === null ? null : importBaseW + (headroomW * share), phase.maxW),
       minSocPct: this.reservePct(),
       reserveForPeak: shave,
-      hardMaxW: hardHeadroomW === null ? null : importBaseW + (hardHeadroomW * share),
-      minW: exportHeadroomW === null ? null : exportBaseW - (exportHeadroomW * share),
+      hardMaxW: lowest(hardHeadroomW === null ? null : importBaseW + (hardHeadroomW * share), phase.maxW),
+      minW: highest(exportHeadroomW === null ? null : exportBaseW - (exportHeadroomW * share), phase.minW),
       stale,
       pulse: this.pulseParams(settings),
       state: this.controlState,
@@ -484,14 +502,43 @@ class BatDevice extends GenericDevice {
     }
   }
 
-  // The grid is over the hard import limit or the export limit now (setting fuseProtection).
+  // The phases of the battery (setting batteryPhase, on auto learned), a FuseGuard spec. known:
+  // set or learned (trustLearned).
+  fusePhases(trustLearned = true) {
+    const s = this.getSettings();
+    const spec = PhaseLearning.specOf(s.batteryPhase, this.getStoreValue('phaseVotes'), trustLearned);
+    if (spec) return spec;
+    return {
+      n: null, set: null, powerW: Math.max(Number(s.chargePower) || 0, Number(s.dischargePower) || 0), known: false,
+    };
+  }
+
+  // Bounds on the setpoint (W) from the phase fuses: { maxW, minW }, null none. Unknown phases
+  // only limit the power (down to 0), never force the other way: the battery may be on another phase.
+  phaseBounds(grid, now, importBaseW, exportBaseW, phaseShare) {
+    if (typeof grid.getPhaseRoomW !== 'function') return {};
+    const spec = this.fusePhases(grid.trustsLearnedPhases(now));
+    const inW = grid.getPhaseRoomW(spec, now);
+    const outW = grid.getPhaseExportRoomW(spec, now);
+    let maxW = inW === null ? null : importBaseW + (inW * phaseShare);
+    let minW = outW === null ? null : exportBaseW - (outW * phaseShare);
+    if (!spec.known) {
+      if (maxW !== null) maxW = Math.max(0, maxW);
+      if (minW !== null) minW = Math.min(0, minW);
+    }
+    return { maxW, minW };
+  }
+
+  // The grid is over the hard import limit or the export limit now, in total or on a phase of this
+  // battery (setting fuseProtection).
   fuseAtRisk() {
     if (this.getSettings().fuseProtection === false) return false;
     const grid = GridConnection.gridDevice(this.homey);
     if (!grid) return false;
-    const importW = grid.getImportHeadroomW({ tariff: false, hard: true });
-    const exportW = grid.getExportHeadroomW();
-    return (typeof importW === 'number' && importW < 0) || (typeof exportW === 'number' && exportW < 0);
+    const spec = this.fusePhases(typeof grid.trustsLearnedPhases !== 'function' || grid.trustsLearnedPhases());
+    const rooms = [grid.getImportHeadroomW({ tariff: false, hard: true }), grid.getExportHeadroomW()];
+    if (typeof grid.getPhaseRoomW === 'function') rooms.push(grid.getPhaseRoomW(spec), grid.getPhaseExportRoomW(spec));
+    return rooms.some((w) => typeof w === 'number' && w < 0);
   }
 
   // Grid charging (W) this battery gives way with under the hard limit: only while this app

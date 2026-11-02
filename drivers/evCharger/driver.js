@@ -16,7 +16,7 @@ const Budget = require('../../lib/Budget');
 // The screens of the setup view, in order (lib/helpers/PairSetup.js).
 const STEPS = [
   { id: 'device', ids: [], roles: true },
-  { id: 'charger', ids: ['chargerControl', 'chargePower', 'variableChargePower', 'standbyOn', 'sharedCharger', 'v2x'] },
+  { id: 'charger', ids: ['chargerControl', 'chargePower', 'variableChargePower', 'chargerPhase', 'chargerBalancing', 'standbyOn', 'sharedCharger', 'v2x'] },
   { id: 'car', ids: ['batCapacity', 'carStartCharge'] },
   { id: 'levels', ids: ['floorSoc', 'reserveSoc', 'reserveHours', 'maxSoc'] },
   { id: 'ev_price', ids: ['tariff_update_group', 'tariff_type', 'cheapCharge', 'cheapPrice', 'maxPrice', 'solarGridPower'] },

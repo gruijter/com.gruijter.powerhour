@@ -23,6 +23,7 @@ const GenericDriver = require('../../lib/genericDeviceDrivers/generic_bat_driver
 const PairSetup = require('../../lib/helpers/PairSetup');
 const SourceCaps = require('../../lib/helpers/SourceCaps');
 const BatteryControl = require('../../lib/strategies/BatteryControl');
+const FuseGuard = require('../../lib/strategies/FuseGuard');
 
 // A flow's XOM target is written to the battery setting once it did not change for this long.
 const XOM_MIRROR_MS = 15 * 60 * 1000;
@@ -38,7 +39,7 @@ const WEAR_END_OF_LIFE = 0.7;
 const STEPS = [
   { id: 'device', ids: [], roles: true },
   { id: 'device_meters', ids: [], roles: true },
-  { id: 'battery', ids: ['batCapacity', 'chargePower', 'dischargePower'] },
+  { id: 'battery', ids: ['batCapacity', 'chargePower', 'dischargePower', 'batteryPhase'] },
   { id: 'wear', ids: ['wearCalc', 'wearPurchasePrice', 'wearCycles', 'roiWearCost', 'roiMinProfit'] },
   { id: 'price', ids: ['tariff_update_group', 'tariff_type'] },
   { id: 'plan', ids: ['roiEnable', 'dischargeToEv', 'groupPlan'] },
@@ -367,6 +368,10 @@ class BatteryDriver extends GenericDriver {
     }) : [];
     const weight = (d) => Math.max(1, Number(d.getSettings().chargePower) || 0);
     const total = active.reduce((a, d) => a + weight(d), 0);
+    // A phase correction: shared by the batteries that may be on the same phases.
+    const specs = new Map(active.map((d) => [d, typeof d.fusePhases === 'function' ? d.fusePhases() : {}]));
+    const phaseShare = (d) => weight(d) / active
+      .filter((e) => FuseGuard.phasesOverlap(specs.get(d), specs.get(e))).reduce((a, e) => a + weight(e), 0);
     const before = new Map(active.map((d) => [d, {
       actW: Number(d.getCapabilityValue('measure_watt_avg')), idleMs: d.lastActiveTm ? now - d.lastActiveTm : null,
     }]));
@@ -387,7 +392,7 @@ class BatteryDriver extends GenericDriver {
         d.nomTargetW = null;
         d.nomRiseSince = null;
       }
-      return d.controlApply(preps.get(d), now, gridW, nom, weight(d) / total).catch((err) => d.error(err));
+      return d.controlApply(preps.get(d), now, gridW, nom, weight(d) / total, phaseShare(d)).catch((err) => d.error(err));
     }));
     this.trackGridResponse(active, before, gridW, now);
   }

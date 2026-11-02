@@ -115,6 +115,48 @@ test('variable EV charger: cut by the overload, off below its minimum, raised wi
   assert.strictEqual(G.raiseCap({ capW: 4000, headroomW: 4000, maxW: 7400 }), null);
 });
 
+test('phase room: the device\'s most loaded phase, times its phases', () => {
+  const phaseW = [4000, 1000, -2000]; // limit 5462 less the 100 W control reserve: room 1362, 4362, 5362
+  const room = (spec) => G.phaseRoomW({ phaseW, limitW: 5462, spec });
+  assert.strictEqual(room({ n: 1, set: [1] }), 4362);
+  assert.strictEqual(room({ n: 3, set: [0, 1, 2] }), 3 * 1362);
+  assert.strictEqual(room({ n: 1, set: null }), 1362, '1 phase, unknown which: the worst');
+  assert.strictEqual(room({ n: null, set: null, powerW: 3680 }), 1362, 'unknown, fits one phase: 1');
+  assert.strictEqual(room({ n: null, set: null, powerW: 11000 }), 3 * 1362, 'unknown, above one phase: 3');
+  assert.strictEqual(G.phaseRoomW({
+    phaseW, limitW: 5462, spec: { n: 1, set: [1] }, reservedW: 500,
+  }), 3862);
+});
+
+test('phase cut: only a device on an overloaded phase, by its phase count', () => {
+  const phaseOverW = [1500, -2000, -3000];
+  assert.strictEqual(G.phaseCutW({ phaseOverW, spec: { n: 1, set: [0] } }), 1500);
+  assert.strictEqual(G.phaseCutW({ phaseOverW, spec: { n: 1, set: [1] } }), 0);
+  assert.strictEqual(G.phaseCutW({ phaseOverW, spec: { n: 3, set: [0, 1, 2] } }), 4500);
+  assert.strictEqual(G.phaseCutW({ phaseOverW, spec: { n: null, set: null } }), 4500, 'unknown: 3 phases');
+  assert.strictEqual(G.phaseCutW({ phaseOverW: [-1, -2, -3], spec: {} }), 0);
+});
+
+test('phases overlap: shared phase, or unknown', () => {
+  assert.strictEqual(G.phasesOverlap({ set: [0] }, { set: [1] }), false);
+  assert.strictEqual(G.phasesOverlap({ set: [0] }, { set: [0, 1, 2] }), true);
+  assert.strictEqual(G.phasesOverlap({ set: null }, { set: [1] }), true);
+});
+
+test('overload step on overW', () => {
+  assert.strictEqual(G.overloadStep({ overW: -5, now, overSince: null }).overSince, null);
+  assert.deepStrictEqual(G.overloadStep({ overW: 10, now, overSince: now - G.SHED_AFTER_MS }), { overSince: now - G.SHED_AFTER_MS, shed: true });
+});
+
+test('connection limits: per phase and total', () => {
+  const GC = require('../../lib/helpers/GridConnection'); // eslint-disable-line global-require
+  assert.strictEqual(GC.phaseLimitFromSettings({ connectionAmps: 25, connectionVoltage: 230 }), 5750);
+  assert.strictEqual(GC.limitFromSettings({ connectionPhases: '3', connectionAmps: 25, connectionVoltage: 230 }), 17250);
+  assert.strictEqual(GC.limitFromSettings({ connectionPhases: '1', connectionAmps: 35, connectionVoltage: 230 }), 8050);
+  assert.strictEqual(GC.limitFromSettings({ connectionPhases: '1', connectionAmps: 0 }), 17250, 'bad settings: the default');
+  assert.strictEqual(GC.limitFromSettings(undefined), 17250);
+});
+
 test('planner: no discharge above the export limit', () => {
   const { getStrategy } = require('../../lib/strategies/RoiStrategy'); // eslint-disable-line global-require
   const net = (exportLimitW) => [0, 1, 2, 3].map(() => ({

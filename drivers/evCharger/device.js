@@ -16,6 +16,7 @@ const EvSocEstimator = require('../../lib/strategies/EvSocEstimator');
 const EvEnergyMode = require('../../lib/strategies/EvEnergyMode');
 const EvChargerControl = require('../../lib/strategies/EvChargerControl');
 const FuseGuard = require('../../lib/strategies/FuseGuard');
+const PhaseLearning = require('../../lib/strategies/PhaseLearning');
 const GridConnection = require('../../lib/helpers/GridConnection');
 const EvFlows = require('../../lib/flows/EvFlows');
 const ChargeDeviceHelpers = require('../../lib/helpers/ChargeDeviceHelpers');
@@ -62,6 +63,8 @@ const PLAN_COALESCE_MS = 500;
 const SURPLUS_WINDOW_MS = 3 * 60 * 1000;
 // A variable charger's power is only changed by at least this much.
 const TARGET_POWER_STEP_W = 200;
+// Smallest power step (W) PhaseLearning learns the phase from.
+const PHASE_STEP_W = 1000;
 
 // An unchanged power or current is sent again after this long (a charger that reset it).
 const SETPOINT_RESEND_MS = 15 * 60 * 1000;
@@ -457,6 +460,8 @@ class CarChargeDevice extends GenericDevice {
     if (typeof power !== 'number') return;
     const wasPowerOn = typeof this.livePowerW === 'number' && this.livePowerW > EvPresence.CHARGING_POWER_W;
     this.livePowerW = power;
+    if (!this.phaseLearner) this.phaseLearner = new PhaseLearning.Learner(this, { minStepW: PHASE_STEP_W });
+    this.phaseLearner.onPower(this._chargePower(power));
     if (!wasPowerOn && power > EvPresence.CHARGING_POWER_W) this._endFlowAway('charging').catch(this.error);
     if (power > EvPresence.CHARGING_POWER_W) this.signals.lastChargingTm = Date.now();
     this._sampleWattsPerAmp(power);
@@ -1117,7 +1122,19 @@ class CarChargeDevice extends GenericDevice {
 
   // low: the unlearned phases as 1 (the lowest power), else as 3 (the fewest amps for a power).
   _wattsPerAmp(low = false) {
+    const set = PhaseLearning.toSpec(this.getSettings().chargerPhase);
+    if (set) return 230 * set.n;
     return EvChargerControl.wattsPerAmp(this.getStoreValue('evWattsPerAmp'), low);
+  }
+
+  // The phases the car charges from, for the phase fuses (FuseGuard spec): the setting, else learned
+  // from the phase readings (trustLearned), else the phase count from W/A.
+  fusePhases(trustLearned = true) {
+    const spec = PhaseLearning.specOf(this.getSettings().chargerPhase, this.getStoreValue('phaseVotes'), trustLearned);
+    if (spec) return spec;
+    const n = EvChargerControl.learnedPhases(this.getStoreValue('evWattsPerAmp'));
+    if (n === 3) return { n, set: [0, 1, 2] };
+    return { n: n || null, set: null, powerW: this._chargePowerW() };
   }
 
   _ampLimits() {
@@ -1243,9 +1260,15 @@ class CarChargeDevice extends GenericDevice {
   // Returns { name, capW } (cut) or { name, off: true }; null: not charging or not controlled.
   // uncertain: also a charger switched on that does not measure charging (its power report can
   // lag or come only on change); the grid tries those after the measured ones.
-  fuseShed(now, importW, limitW, uncertain = false) {
+  // overload: { overW, phaseOverW, label } from the grid; a charger on none of the overloaded
+  // phases, or that guards the fuse itself (setting chargerBalancing), is left alone.
+  fuseShed(now, overload, uncertain = false) {
     const capabilityId = this.sourceCapGroup && this.sourceCapGroup.switchCap;
-    if (!this.getSettings().chargerControl || !capabilityId || !this.sourceDevice || this.fuseShedTm) return null;
+    const settings = this.getSettings();
+    if (!settings.chargerControl || settings.chargerBalancing || !capabilityId || !this.sourceDevice || this.fuseShedTm) return null;
+    const overW = Math.max(overload.overW, overload.phaseOverW
+      ? FuseGuard.phaseCutW({ phaseOverW: overload.phaseOverW, spec: this.fusePhases(!overload.distrust) }) : 0);
+    if (!(overW > 0)) return null;
     // Charging: measured, or switched on without a power reading. A switch state not (yet) reported
     // does not stop it.
     const measured = typeof this.livePowerW === 'number';
@@ -1258,12 +1281,12 @@ class CarChargeDevice extends GenericDevice {
       const known = [measured ? this.livePowerW : null, this.fuseCapW, this.lastTargetPower]
         .filter((w) => typeof w === 'number' && w > 0);
       const currentW = known.length ? Math.min(...known) : this._chargePowerW();
-      const reduceW = FuseGuard.reduceTo({ currentW, overW: importW - limitW, minW: this._variableMinW(true) });
+      const reduceW = FuseGuard.reduceTo({ currentW, overW, minW: this._variableMinW(true) });
       if (reduceW !== null) {
         const capW = this._variableSetpoint(variable, reduceW).setW;
         this.fuseCapW = capW;
         this.fuseCapTm = now;
-        this.log(`[Fuse] import ${Math.round(importW)} W above ${limitW} W: charger limit ${capW} W`);
+        this.log(`[Fuse] ${overload.label}: charger limit ${capW} W`);
         this._sendVariablePower(variable, reduceW, '[Fuse]', true)
           .catch((err) => this.error(`[Fuse] Setting charger ${variable.cap} for ${reduceW} W failed:`, err.message || err));
         return { name: this.getName(), capW };
@@ -1273,7 +1296,7 @@ class CarChargeDevice extends GenericDevice {
     this.fuseCapW = null;
     this.lastSwitchCommandTm = now;
     this.lastCommand = { value: false, tm: now }; // before sending: the switch report can come first
-    this.log(`[Fuse] import ${Math.round(importW)} W above ${limitW} W: charger ${capabilityId} -> false`);
+    this.log(`[Fuse] ${overload.label}: charger ${capabilityId} -> false`);
     this.sourceDevice.setCapabilityValue({ capabilityId, value: false })
       .then(() => {
         this.lastWantedSwitch = false;
@@ -1287,10 +1310,13 @@ class CarChargeDevice extends GenericDevice {
   }
 
   // Room under the hard limit for this charger: the grid charging of the protected batteries counts
-  // (they give way). null: no limit.
+  // (they give way). Also under the fuse of each phase it charges from. null: no limit.
   _fuseRoomW(grid) {
     const headroomW = grid.getImportHeadroomW({ tariff: false, hard: true });
-    return headroomW === null ? null : headroomW + grid.getYieldingBatteryW();
+    const totalW = headroomW === null ? null : headroomW + grid.getYieldingBatteryW();
+    const phaseW = typeof grid.getPhaseRoomW === 'function' ? grid.getPhaseRoomW(this.fusePhases(grid.trustsLearnedPhases()), Date.now(), { withYield: true }) : null;
+    if (phaseW === null) return totalW;
+    return totalW === null ? phaseW : Math.min(totalW, phaseW);
   }
 
   // A cut variable charger: its limit raised with the room under the fuse, no sooner than
@@ -1349,6 +1375,10 @@ class CarChargeDevice extends GenericDevice {
       this.probeSince = sb.probeSince;
       this.standbyOnly = sb.wanted && !wanted;
       ({ wanted } = sb);
+    }
+    if (this.getSettings().chargerBalancing) {
+      this.fuseShedTm = null;
+      this.fuseCapW = null;
     }
     if (this.fuseShedTm) {
       const grid = GridConnection.gridDevice(this.homey);

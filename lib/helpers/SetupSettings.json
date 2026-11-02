@@ -1267,6 +1267,299 @@
     },
     "value": false
   },
+  "chargerPhase": {
+    "id": "chargerPhase",
+    "type": "dropdown",
+    "label": {
+      "en": "Charger phase",
+      "nl": "Fase laadpaal",
+      "de": "Phase Ladestation",
+      "fr": "Phase de la borne",
+      "it": "Fase caricatore",
+      "sv": "Laddarens fas",
+      "no": "Laderens fase",
+      "es": "Fase del cargador",
+      "da": "Laderens fase",
+      "pl": "Faza ładowarki",
+      "ru": "Фаза зарядки",
+      "ar": "طور الشاحن",
+      "ko": "충전기 상"
+    },
+    "value": "auto",
+    "values": [
+      {
+        "id": "auto",
+        "label": {
+          "en": "Automatic",
+          "nl": "Automatisch",
+          "de": "Automatisch",
+          "fr": "Automatique",
+          "it": "Automatico",
+          "sv": "Automatisk",
+          "no": "Automatisk",
+          "es": "Automático",
+          "da": "Automatisk",
+          "pl": "Automatycznie",
+          "ru": "Автоматически",
+          "ar": "تلقائي",
+          "ko": "자동"
+        }
+      },
+      {
+        "id": "l1",
+        "label": {
+          "en": "L1",
+          "nl": "L1",
+          "de": "L1",
+          "fr": "L1",
+          "it": "L1",
+          "sv": "L1",
+          "no": "L1",
+          "es": "L1",
+          "da": "L1",
+          "pl": "L1",
+          "ru": "L1",
+          "ar": "L1",
+          "ko": "L1"
+        }
+      },
+      {
+        "id": "l2",
+        "label": {
+          "en": "L2",
+          "nl": "L2",
+          "de": "L2",
+          "fr": "L2",
+          "it": "L2",
+          "sv": "L2",
+          "no": "L2",
+          "es": "L2",
+          "da": "L2",
+          "pl": "L2",
+          "ru": "L2",
+          "ar": "L2",
+          "ko": "L2"
+        }
+      },
+      {
+        "id": "l3",
+        "label": {
+          "en": "L3",
+          "nl": "L3",
+          "de": "L3",
+          "fr": "L3",
+          "it": "L3",
+          "sv": "L3",
+          "no": "L3",
+          "es": "L3",
+          "da": "L3",
+          "pl": "L3",
+          "ru": "L3",
+          "ar": "L3",
+          "ko": "L3"
+        }
+      },
+      {
+        "id": "l123",
+        "label": {
+          "en": "3 phases",
+          "nl": "3 fasen",
+          "de": "3 Phasen",
+          "fr": "3 phases",
+          "it": "3 fasi",
+          "sv": "3 faser",
+          "no": "3 faser",
+          "es": "3 fases",
+          "da": "3 faser",
+          "pl": "3 fazy",
+          "ru": "3 фазы",
+          "ar": "ثلاثة أطوار",
+          "ko": "3상"
+        }
+      }
+    ],
+    "info": {
+      "en": "The phase the car charges on, for the main fuse per phase. Automatic: learned from the meter.",
+      "nl": "De fase waarop de auto laadt, voor de hoofdzekering per fase. Automatisch: geleerd uit de meter.",
+      "de": "Die Phase, auf der das Auto lädt, für die Hauptsicherung je Phase. Automatisch: aus dem Zähler gelernt.",
+      "fr": "La phase sur laquelle la voiture charge, pour le fusible principal par phase. Automatique : appris du compteur.",
+      "it": "La fase su cui carica l'auto, per il fusibile principale per fase. Automatico: appreso dal contatore.",
+      "sv": "Fasen bilen laddar på, för huvudsäkringen per fas. Automatisk: inlärd från mätaren.",
+      "no": "Fasen bilen lader på, for hovedsikringen per fase. Automatisk: lært fra måleren.",
+      "es": "La fase en la que carga el coche, para el fusible principal por fase. Automático: aprendido del contador.",
+      "da": "Fasen bilen lader på, for hovedsikringen pr. fase. Automatisk: lært fra måleren.",
+      "pl": "Faza, na której ładuje się auto, dla bezpiecznika głównego na fazę. Automatycznie: nauczone z licznika.",
+      "ru": "Фаза, на которой заряжается авто, для главного предохранителя по фазам. Автоматически: определяется по счётчику.",
+      "ar": "الطور الذي تُشحن عليه السيارة، لحماية المصهر الرئيسي لكل طور. تلقائي: يُتعلَّم من العداد.",
+      "ko": "차량이 충전하는 상, 상별 메인 퓨즈 보호용. 자동: 계량기에서 학습."
+    }
+  },
+  "batteryPhase": {
+    "id": "batteryPhase",
+    "type": "dropdown",
+    "label": {
+      "en": "Battery phase",
+      "nl": "Fase accu",
+      "de": "Phase Batterie",
+      "fr": "Phase de la batterie",
+      "it": "Fase batteria",
+      "sv": "Batteriets fas",
+      "no": "Batteriets fase",
+      "es": "Fase de la batería",
+      "da": "Batteriets fase",
+      "pl": "Faza baterii",
+      "ru": "Фаза батареи",
+      "ar": "طور البطارية",
+      "ko": "배터리 상"
+    },
+    "value": "auto",
+    "values": [
+      {
+        "id": "auto",
+        "label": {
+          "en": "Automatic",
+          "nl": "Automatisch",
+          "de": "Automatisch",
+          "fr": "Automatique",
+          "it": "Automatico",
+          "sv": "Automatisk",
+          "no": "Automatisk",
+          "es": "Automático",
+          "da": "Automatisk",
+          "pl": "Automatycznie",
+          "ru": "Автоматически",
+          "ar": "تلقائي",
+          "ko": "자동"
+        }
+      },
+      {
+        "id": "l1",
+        "label": {
+          "en": "L1",
+          "nl": "L1",
+          "de": "L1",
+          "fr": "L1",
+          "it": "L1",
+          "sv": "L1",
+          "no": "L1",
+          "es": "L1",
+          "da": "L1",
+          "pl": "L1",
+          "ru": "L1",
+          "ar": "L1",
+          "ko": "L1"
+        }
+      },
+      {
+        "id": "l2",
+        "label": {
+          "en": "L2",
+          "nl": "L2",
+          "de": "L2",
+          "fr": "L2",
+          "it": "L2",
+          "sv": "L2",
+          "no": "L2",
+          "es": "L2",
+          "da": "L2",
+          "pl": "L2",
+          "ru": "L2",
+          "ar": "L2",
+          "ko": "L2"
+        }
+      },
+      {
+        "id": "l3",
+        "label": {
+          "en": "L3",
+          "nl": "L3",
+          "de": "L3",
+          "fr": "L3",
+          "it": "L3",
+          "sv": "L3",
+          "no": "L3",
+          "es": "L3",
+          "da": "L3",
+          "pl": "L3",
+          "ru": "L3",
+          "ar": "L3",
+          "ko": "L3"
+        }
+      },
+      {
+        "id": "l123",
+        "label": {
+          "en": "3 phases",
+          "nl": "3 fasen",
+          "de": "3 Phasen",
+          "fr": "3 phases",
+          "it": "3 fasi",
+          "sv": "3 faser",
+          "no": "3 faser",
+          "es": "3 fases",
+          "da": "3 faser",
+          "pl": "3 fazy",
+          "ru": "3 фазы",
+          "ar": "ثلاثة أطوار",
+          "ko": "3상"
+        }
+      }
+    ],
+    "info": {
+      "en": "The phase the battery is connected to, for the main fuse per phase. Automatic: learned from the meter.",
+      "nl": "De fase waarop de accu is aangesloten, voor de hoofdzekering per fase. Automatisch: geleerd uit de meter.",
+      "de": "Die Phase, an der die Batterie angeschlossen ist, für die Hauptsicherung je Phase. Automatisch: aus dem Zähler gelernt.",
+      "fr": "La phase à laquelle la batterie est raccordée, pour le fusible principal par phase. Automatique : appris du compteur.",
+      "it": "La fase a cui è collegata la batteria, per il fusibile principale per fase. Automatico: appreso dal contatore.",
+      "sv": "Fasen batteriet är anslutet till, för huvudsäkringen per fas. Automatisk: inlärd från mätaren.",
+      "no": "Fasen batteriet er koblet til, for hovedsikringen per fase. Automatisk: lært fra måleren.",
+      "es": "La fase a la que está conectada la batería, para el fusible principal por fase. Automático: aprendido del contador.",
+      "da": "Fasen batteriet er tilsluttet, for hovedsikringen pr. fase. Automatisk: lært fra måleren.",
+      "pl": "Faza, do której podłączona jest bateria, dla bezpiecznika głównego na fazę. Automatycznie: nauczone z licznika.",
+      "ru": "Фаза, к которой подключена батарея, для главного предохранителя по фазам. Автоматически: определяется по счётчику.",
+      "ar": "الطور الموصول به البطارية، لحماية المصهر الرئيسي لكل طور. تلقائي: يُتعلَّم من العداد.",
+      "ko": "배터리가 연결된 상, 상별 메인 퓨즈 보호용. 자동: 계량기에서 학습."
+    }
+  },
+  "chargerBalancing": {
+    "id": "chargerBalancing",
+    "type": "checkbox",
+    "label": {
+      "en": "Charger guards the main fuse",
+      "nl": "Laadpaal bewaakt hoofdzekering",
+      "de": "Ladestation schützt Hauptsicherung",
+      "fr": "La borne protège le fusible principal",
+      "it": "Il caricatore protegge il fusibile principale",
+      "sv": "Laddaren skyddar huvudsäkringen",
+      "no": "Laderen beskytter hovedsikringen",
+      "es": "El cargador protege el fusible principal",
+      "da": "Laderen beskytter hovedsikringen",
+      "pl": "Ładowarka chroni główny bezpiecznik",
+      "ru": "Зарядка защищает главный предохранитель",
+      "ar": "الشاحن يحمي المصهر الرئيسي",
+      "ko": "충전기가 메인 퓨즈 보호"
+    },
+    "value": false,
+    "info": {
+      "en": "The app does not limit or switch off the charger on a main fuse overload.",
+      "nl": "De app begrenst of stopt de laadpaal niet bij overbelasting van de hoofdzekering.",
+      "de": "Die App begrenzt oder stoppt die Ladestation nicht bei Überlastung der Hauptsicherung.",
+      "fr": "L'app ne limite ni n'arrête la borne en cas de surcharge du fusible principal.",
+      "it": "L'app non limita né spegne il caricatore in caso di sovraccarico del fusibile principale.",
+      "sv": "Appen begränsar eller stänger inte av laddaren vid överbelastning av huvudsäkringen.",
+      "no": "Appen begrenser eller slår ikke av laderen ved overbelastning av hovedsikringen.",
+      "es": "La app no limita ni apaga el cargador si se sobrecarga el fusible principal.",
+      "da": "Appen begrænser eller slukker ikke laderen ved overbelastning af hovedsikringen.",
+      "pl": "Aplikacja nie ogranicza ani nie wyłącza ładowarki przy przeciążeniu głównego bezpiecznika.",
+      "ru": "Приложение не ограничивает и не выключает зарядку при перегрузке главного предохранителя.",
+      "ar": "لا يقيّد التطبيق الشاحن ولا يوقفه عند تجاوز حمل المصهر الرئيسي.",
+      "ko": "메인 퓨즈 과부하 시 앱이 충전기를 제한하거나 끄지 않습니다."
+    },
+    "showIf": {
+      "id": "chargerControl",
+      "value": true
+    }
+  },
   "solarGridPower": {
     "id": "solarGridPower",
     "type": "number",

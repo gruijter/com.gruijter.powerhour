@@ -31,6 +31,9 @@ const PeakTariff = require('../../lib/strategies/PeakTariff');
 
 const FUSE_W = 35 * 230; // 8050
 const LIMIT_W = 7648; // 5 % margin
+const PHASE_FUSE_W = 25 * 230; // 5750, 3x25A
+const PHASE_LIMIT_W = 5462; // 5 % margin
+const THREE_PHASE = { connectionPhases: '3', connectionAmps: 25 };
 
 let failed = 0;
 const test = (name, fn) => {
@@ -94,8 +97,10 @@ const makeEvPlant = ({ maxW, variable }) => ({
 // ─── Devices ────────────────────────────────────────────────────────────────
 
 // realPrepare: the device's own controlPrepare() (smart, no plan yet) instead of a fixed block.
+// gridSettings: overrides of the 1x35A connection, e.g. 3x25A.
 const build = ({
-  batteries = 2, block = 'charge', mode = 'charge', ev = null, solarW = 0, plant = {}, stuck = [], realPrepare = false,
+  batteries = 2, block = 'charge', mode = 'charge', ev = null, solarW = 0, plant = {}, stuck = [], realPrepare = false, gridSettings: gridOver = {},
+  batteryPhase = [], batteryVotes = [],
 } = {}) => {
   const notifications = [];
   const logs = [];
@@ -127,14 +132,19 @@ const build = ({
   // Grid
   const grid = Object.create(GridDevice.prototype);
   const gridCaps = { measure_watt_grid: 0 };
+  const gridStore = {};
   const gridSettings = {
-    connectionPhases: '1', connectionAmps: 35, connectionVoltage: 230, fuseMarginPct: 5,
+    connectionPhases: '1', connectionAmps: 35, connectionVoltage: 230, fuseMarginPct: 5, ...gridOver,
   };
   Object.assign(grid, logger('grid'), {
     homey,
     peakConfig: PeakTariff.configFromSettings(gridSettings),
     capabilityInstances: { measurePowerRealtime: {} },
     getSettings: () => gridSettings,
+    getStoreValue: (k) => gridStore[k],
+    setStoreValue: async (k, v) => {
+      gridStore[k] = v;
+    },
     getCapabilityValue: (c) => gridCaps[c],
     hasCapability: () => true,
     setCapabilityValue: async (c, v) => {
@@ -161,8 +171,9 @@ const build = ({
       fuseProtection: true,
       xomTarget: 0,
       dischargeToEv: true,
+      batteryPhase: batteryPhase[i],
     };
-    const store = { controlTakeover: true };
+    const store = { controlTakeover: true, phaseVotes: batteryVotes[i] };
     const b = Object.create(BatDevice.prototype);
     Object.assign(b, logger(`bat${i}`), {
       homey,
@@ -215,9 +226,9 @@ const build = ({
   if (ev) {
     evPlant = makeEvPlant(ev);
     const settings = {
-      chargerControl: true, variableChargePower: !!ev.variable, chargePower: ev.maxW, maxSoc: 80, solarGridPower: 0,
+      chargerControl: true, variableChargePower: !!ev.variable, chargePower: ev.maxW, maxSoc: 80, solarGridPower: 0, chargerPhase: ev.chargerPhase, chargerBalancing: !!ev.balancing,
     };
-    const store = {};
+    const store = { phaseVotes: ev.votes };
     const e = Object.create(EvDevice.prototype);
     Object.assign(e, logger('ev'), {
       homey,
@@ -256,8 +267,10 @@ const build = ({
 // ─── Run ────────────────────────────────────────────────────────────────────
 
 // loadW(t): home use without batteries and EV (s since start). p1Down(t): no P1 reading.
+// phaseLoadW(t): home use per phase [L1, L2, L3] (3-phase runs); evPhases: the phases the car
+// takes from; batOn: per battery the phases it is on.
 const run = async (sim, {
-  seconds, loadW, solarW = () => 0, p1Down = () => false, p1EveryS = 1,
+  seconds, loadW, solarW = () => 0, p1Down = () => false, p1EveryS = 1, phaseLoadW = null, evPhases = [0, 1, 2], batOn = [],
 }) => {
   const t0 = T;
   const stats = {
@@ -290,14 +303,30 @@ const run = async (sim, {
     }
     const batW = sim.batPlants.reduce((a, p) => a + p.actW, 0);
     const evW = sim.evPlant ? sim.evPlant.actW : 0;
-    const gridW = Math.round(loadW(s) - solarW(s) + batW + evW);
+    let gridW;
+    let tracePhaseW = null;
+    if (phaseLoadW) {
+      const phaseW = phaseLoadW(s).map((w, i) => Math.round(w + (evPhases.includes(i) ? evW / evPhases.length : 0)
+        + sim.batPlants.reduce((a, p, k) => {
+          const on = batOn[k] || [0, 1, 2];
+          return a + (on.includes(i) ? p.actW / on.length : 0);
+        }, 0)));
+      gridW = phaseW.reduce((a, w) => a + w, 0);
+      stats.maxPhaseW = Math.max(stats.maxPhaseW || 0, ...phaseW);
+      tracePhaseW = phaseW;
+      if (Math.max(...phaseW) > PHASE_FUSE_W) stats.sAbovePhaseFuse = (stats.sAbovePhaseFuse || 0) + 1;
+      if (!p1Down(s) && s % p1EveryS === 0) {
+        sim.grid.phaseW = phaseW;
+        sim.grid.phaseSeen = [true, true, true];
+      }
+    } else gridW = Math.round(loadW(s) - solarW(s) + batW + evW);
     stats.maxImportW = Math.max(stats.maxImportW, gridW);
     stats.maxExportW = Math.max(stats.maxExportW, -gridW);
     if (gridW > FUSE_W) stats.sAboveFuse += 1;
     if (gridW > LIMIT_W) stats.sAboveLimit += 1;
     if (-gridW > FUSE_W) stats.sExportAboveFuse += 1;
     stats.trace.push({
-      s, gridW, batW: Math.round(batW), evW,
+      s, gridW, batW: Math.round(batW), evW, phaseW: tracePhaseW, batsW: sim.batPlants.map((p) => Math.round(p.actW)),
     });
     if (!p1Down(s) && s % p1EveryS === 0) await sim.grid.setCapability('measure_watt_grid', gridW);
     // Battery driver: every 5 s (EnergyPollingHelper), on the grid device's value.
@@ -486,6 +515,173 @@ const show = (name, st, sim) => {
     test('11: a 60 s meter is not stale once its interval is learned', () => {
       const stale = sim.logs.filter((l) => /no recent grid reading/.test(l)).length;
       assert.ok(stale <= 1, `${stale} stale episodes`);
+    });
+  }
+
+  // 12. 3x25A, 1-phase EV on L1 and an oven on L1: the total is far under the main fuse, L1 is not.
+  {
+    const sim = build({ batteries: 0, ev: { maxW: 3680, chargerPhase: 'l1' }, gridSettings: THREE_PHASE });
+    const phaseLoadW = (s) => [300 + (s >= 100 && s < 400 ? 3000 : 0), 300, 300];
+    const st = await run(sim, {
+      seconds: 1500, loadW: () => 0, phaseLoadW, evPhases: [0],
+    });
+    show('3-phase, 1-phase EV + oven on L1', st, sim);
+    test('12: EV on the overloaded phase switched off, back on later', () => {
+      const off = st.trace.findIndex((x, i) => i > 100 && x.evW === 0);
+      assert.ok(off > 0 && off <= 100 + 40, `EV off at ${off}`);
+      assert.ok(st.sAbovePhaseFuse <= 40, `${st.sAbovePhaseFuse} s above the phase fuse`);
+      assert.ok(/fuse_phase_import_ev_off .*"phase":"L1"/.test((sim.notifications[0] || {}).excerpt || ''), JSON.stringify(sim.notifications));
+      assert.strictEqual(st.trace[1499].evW, 3680, 'EV not back on');
+    });
+  }
+
+  // 13. 1-phase EV on L2, overload on L1: the EV is left alone, notified.
+  {
+    const sim = build({ batteries: 0, ev: { maxW: 3680, chargerPhase: 'l2' }, gridSettings: THREE_PHASE });
+    const phaseLoadW = (s) => [300 + (s >= 100 && s < 300 ? 5500 : 0), 300, 300];
+    const st = await run(sim, {
+      seconds: 400, loadW: () => 0, phaseLoadW, evPhases: [1],
+    });
+    show('3-phase, EV on L2, overload on L1', st, sim);
+    test('13: EV on another phase not cut', () => {
+      assert.ok(st.trace.every((x) => x.evW === 3680), 'EV cut');
+      assert.ok(/fuse_phase_import .*"phase":"L1"/.test((sim.notifications[0] || {}).excerpt || ''), JSON.stringify(sim.notifications));
+    });
+  }
+
+  // 14. Variable 3-phase EV 11 kW (phases not learned), oven on L1: cut by 3x the L1 overload.
+  {
+    const sim = build({ batteries: 0, ev: { maxW: 11000, variable: true }, gridSettings: THREE_PHASE });
+    const phaseLoadW = (s) => [300 + (s >= 100 && s < 400 ? 3000 : 0), 300, 300];
+    const st = await run(sim, {
+      seconds: 1500, loadW: () => 0, phaseLoadW,
+    });
+    show('3-phase, variable 11 kW EV + oven on L1', st, sim);
+    test('14: variable EV cut to fit L1, raised again', () => {
+      const cut = st.trace.slice(100, 400).map((x) => x.evW);
+      assert.ok(cut.some((w) => w > 1400 && w < 11000), `no cut: ${[...new Set(cut)].join(',')}`);
+      assert.ok(st.sAbovePhaseFuse <= 40, `${st.sAbovePhaseFuse} s above the phase fuse`);
+      const l1 = st.trace.slice(160, 400).map((x) => 3300 + x.evW / 3);
+      assert.ok(Math.max(...l1) <= PHASE_LIMIT_W, `L1 ${Math.max(...l1)} after the cut`);
+      assert.strictEqual(st.trace[1499].evW, 11000, 'not raised again');
+    });
+  }
+
+  // 15. 3x25A, Sessy's on L1 and L2 charging from the grid, a big load on L1: the L1 battery
+  //     discharges for L1, the L2 battery keeps charging.
+  {
+    const sim = build({ gridSettings: THREE_PHASE, batteryPhase: ['l1', 'l2'] });
+    const phaseLoadW = (s) => [300 + (s >= 100 && s < 400 ? 5500 : 0), 300, 300];
+    const st = await run(sim, {
+      seconds: 500, loadW: () => 0, phaseLoadW, batOn: [[0], [1]],
+    });
+    show('3-phase, batteries on L1/L2, load on L1', st, sim);
+    test('15: battery on the overloaded phase covers it, the other keeps charging', () => {
+      const x = st.trace[300];
+      assert.ok(x.phaseW[0] <= PHASE_LIMIT_W, `L1 ${x.phaseW[0]}`);
+      assert.ok(x.batsW[0] < -300, `L1 battery ${x.batsW[0]}`);
+      assert.ok(x.batsW[1] > 2000, `L2 battery ${x.batsW[1]}`);
+      assert.ok(st.sAbovePhaseFuse <= 20, `${st.sAbovePhaseFuse} s above the phase fuse`);
+      assert.strictEqual(sim.notifications.length, 0);
+      assert.ok(st.trace[499].batsW.every((w) => w > 2000), `not charging again: ${st.trace[499].batsW}`);
+    });
+  }
+
+  // 16. Same, phases unknown: charging stops, no forced discharge (they may be on L2), notified.
+  {
+    const sim = build({ gridSettings: THREE_PHASE });
+    const phaseLoadW = (s) => [300 + (s >= 100 && s < 400 ? 5500 : 0), 300, 300];
+    const st = await run(sim, {
+      seconds: 500, loadW: () => 0, phaseLoadW, batOn: [[0], [1]],
+    });
+    show('3-phase, batteries unknown phase, load on L1', st, sim);
+    test('16: unknown phase: limited to 0, not discharged', () => {
+      const x = st.trace[300];
+      assert.ok(x.batsW.every((w) => Math.abs(w) < 100), `batteries ${x.batsW}`);
+      assert.ok(/fuse_phase_import .*"phase":"L1"/.test((sim.notifications[0] || {}).excerpt || ''), JSON.stringify(sim.notifications));
+    });
+  }
+
+  // 17. 1-phase EV and a grid-charging battery on L1, load on L1: the battery gives way, the EV
+  //     charges on.
+  {
+    const sim = build({
+      batteries: 1, gridSettings: THREE_PHASE, batteryPhase: ['l1'], ev: { maxW: 3680, chargerPhase: 'l1' },
+    });
+    const phaseLoadW = (s) => [300 + (s >= 100 && s < 600 ? 2500 : 0), 300, 300];
+    const st = await run(sim, {
+      seconds: 700, loadW: () => 0, phaseLoadW, evPhases: [0], batOn: [[0]],
+    });
+    show('3-phase, EV + battery on L1', st, sim);
+    test('17: battery yields on L1, EV not cut', () => {
+      assert.ok(st.trace.every((x) => x.evW === 3680), 'EV cut');
+      assert.ok(st.trace[300].phaseW[0] <= PHASE_LIMIT_W, `L1 ${st.trace[300].phaseW[0]}`);
+      assert.ok(st.sAbovePhaseFuse <= 20, `${st.sAbovePhaseFuse} s above the phase fuse`);
+    });
+  }
+
+  // 18. EV learned on L2, really on L1 (a wrong lesson), oven on L1: cut once the overload lasts.
+  {
+    const sim = build({ batteries: 0, ev: { maxW: 3680, votes: Array(10).fill('l2') }, gridSettings: THREE_PHASE });
+    const phaseLoadW = (s) => [300 + (s >= 100 && s < 400 ? 3000 : 0), 300, 300];
+    const st = await run(sim, {
+      seconds: 1500, loadW: () => 0, phaseLoadW, evPhases: [0],
+    });
+    show('3-phase, EV wrongly learned on L2, oven on L1', st, sim);
+    test('18: wrongly learned EV still switched off, not back on into the overload', () => {
+      const off = st.trace.findIndex((x, i) => i > 100 && x.evW === 0);
+      assert.ok(off > 0 && off <= 100 + 75, `EV off at ${off}`);
+      assert.ok(st.trace.slice(off, 400).every((x) => x.evW === 0), 'back on during the overload');
+      assert.ok(sim.logs.some((l) => /learned phases not trusted/.test(l)), 'no distrust log');
+      assert.strictEqual(st.trace[1499].evW, 3680, 'EV not back on');
+    });
+  }
+
+  // 19. Battery learned on L2, really on L1, grid charging, load on L1: it stops charging.
+  {
+    const sim = build({ batteries: 1, gridSettings: THREE_PHASE, batteryVotes: [Array(10).fill('l2')] });
+    const phaseLoadW = (s) => [300 + (s >= 100 && s < 500 ? 3500 : 0), 300, 300];
+    const st = await run(sim, {
+      seconds: 600, loadW: () => 0, phaseLoadW, batOn: [[0]],
+    });
+    show('3-phase, battery wrongly learned on L2, load on L1', st, sim);
+    test('19: wrongly learned battery stops charging on the overloaded phase', () => {
+      assert.ok(st.trace[100].batsW[0] > 2000, `not charging before: ${st.trace[100].batsW[0]}`);
+      assert.ok(st.trace.slice(200, 500).every((x) => x.phaseW[0] <= PHASE_LIMIT_W), `L1 ${Math.max(...st.trace.slice(200, 500).map((x) => x.phaseW[0]))}`);
+    });
+  }
+
+  // 20. A charger that guards the fuse itself: never cut by the app.
+  {
+    const sim = build({ batteries: 0, ev: { maxW: 3680, chargerPhase: 'l1', balancing: true }, gridSettings: THREE_PHASE });
+    const phaseLoadW = (s) => [300 + (s >= 100 && s < 300 ? 3000 : 0), 300, 300];
+    const st = await run(sim, {
+      seconds: 400, loadW: () => 0, phaseLoadW, evPhases: [0],
+    });
+    test('20: charger guarding the fuse itself is left alone', () => {
+      assert.ok(st.trace.every((x) => x.evW === 3680), 'EV cut');
+      assert.ok(/fuse_phase_import /.test((sim.notifications[0] || {}).excerpt || ''), JSON.stringify(sim.notifications));
+    });
+  }
+
+  // 21. The connection setting against the meter: notified once, cleared when they match.
+  {
+    const sim = build({ batteries: 0, gridSettings: THREE_PHASE });
+    const { grid } = sim;
+    grid.phaseW = [500, 0, 0];
+    grid.phaseSeen = [true, false, false];
+    grid.phaseListenTm = T;
+    grid.checkPhaseSetup(T + 30 * 60 * 1000);
+    grid.checkPhaseSetup(T + 61 * 60 * 1000);
+    grid.checkPhaseSetup(T + 62 * 60 * 1000);
+    const one = sim.notifications.filter((n) => /phase_setup_one/.test(n.excerpt)).length;
+    grid.getSettings().connectionPhases = '1';
+    grid.phaseSeen = [true, true, true];
+    grid.checkPhaseSetup(T + 63 * 60 * 1000);
+    test('21: 1-phase meter on a 3-phase setting and the reverse, each notified once', () => {
+      assert.strictEqual(one, 1);
+      assert.strictEqual(sim.notifications.filter((n) => /phase_setup_three/.test(n.excerpt)).length, 1);
+      assert.strictEqual(grid.getStoreValue('phaseSetupNotified'), 'phase_setup_three');
     });
   }
 

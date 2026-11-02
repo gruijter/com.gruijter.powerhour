@@ -37,6 +37,13 @@ const TimeHelpers = require('../../lib/helpers/TimeHelpers');
 const LoadSpread = require('../../lib/helpers/LoadSpread');
 const PeakTariff = require('../../lib/strategies/PeakTariff');
 
+// Power per phase of the source (W): signed like measure_power, + import (verified live on Sessy P1
+// and Enelogic LS120, HomeWizard P1 by its API docs v2).
+const PHASE_CAPS = ['measure_power.l1', 'measure_power.l2', 'measure_power.l3'];
+const PHASE_HISTORY_MS = 90 * 1000;
+// Only L1 above 0 this long: a 1-phase connection (a 3-phase home always uses some power per phase).
+const PHASE_CHECK_MS = 60 * 60 * 1000;
+
 const deviceSpecifics = {
   cmap: {
     this_hour: 'meter_kwh_this_hour',
@@ -271,7 +278,13 @@ class GridDevice extends GenericDevice {
       this.gridPowerTm = nowMs;
       // Contained: must never stop the power update itself.
       try {
+        this.recordPhasePower(nowMs);
         this.checkFuseOverload(this.gridPowerTm);
+      } catch (err) {
+        this.error('[Fuse]', err);
+      }
+      try {
+        this.checkPhaseSetup(nowMs);
       } catch (err) {
         this.error('[Fuse]', err);
       }
@@ -394,6 +407,32 @@ class GridDevice extends GenericDevice {
     const livePower = this.getCapabilityValue(this.ds.cmap.measure_source);
     if (typeof livePower === 'number') return livePower < 0 ? exportTariff : tariff;
     return tariff;
+  }
+
+  async addListeners() {
+    await super.addListeners();
+    await this.addPhaseListeners();
+  }
+
+  // A phase counts once it read other than 0: a 1-phase meter can report 0 on L2 and L3.
+  async addPhaseListeners() {
+    this.phaseW = null;
+    const src = this.sourceDevice;
+    if (!src || !PHASE_CAPS.every((c) => (src.capabilities || []).includes(c))) return;
+    this.phaseW = PHASE_CAPS.map((c) => {
+      const v = src.capabilitiesObj && src.capabilitiesObj[c] && src.capabilitiesObj[c].value;
+      return typeof v === 'number' ? v : null;
+    });
+    this.phaseSeen = this.phaseW.map((v) => typeof v === 'number' && v !== 0);
+    this.phaseListenTm = Date.now();
+    for (let i = 0; i < PHASE_CAPS.length; i += 1) {
+      this.capabilityInstances[`phase${i + 1}`] = await src.makeCapabilityInstance(PHASE_CAPS[i], (value) => {
+        if (typeof value !== 'number' || !this.phaseW) return;
+        this.phaseW[i] = value;
+        if (value !== 0) this.phaseSeen[i] = true;
+      });
+    }
+    this.log(`registering ${PHASE_CAPS.join(', ')} capability listeners for ${src.name}`);
   }
 
   async addSourceCapGroup() {
@@ -995,6 +1034,106 @@ class GridDevice extends GenericDevice {
     return limitW > 0 ? FuseGuard.withMargin(limitW, this.getSettings().fuseMarginPct) : null;
   }
 
+  // The main fuse of one phase less the margin (W).
+  getPhaseFuseLimitW() {
+    const s = this.getSettings();
+    return FuseGuard.withMargin(GridConnection.phaseLimitFromSettings(s) || GridConnection.DEFAULT_LIMIT_W / 3, s.fuseMarginPct);
+  }
+
+  // Power per phase now (W, + import). null: a 1-phase connection, or no recent phase readings.
+  getPhasePowerW(now = Date.now()) {
+    if (Number(this.getSettings().connectionPhases) === 1 || !this.phaseW || !this.phaseSeen.every(Boolean)) return null;
+    if (this.phaseW.some((w) => typeof w !== 'number') || this.isGridPowerStale(now)) return null;
+    return this.phaseW;
+  }
+
+  // The connection setting against what the meter shows: notified once per mismatch (store
+  // phaseSetupNotified), cleared when they match.
+  checkPhaseSetup(now) {
+    if (!this.phaseW || !this.phaseSeen) return;
+    const one = Number(this.getSettings().connectionPhases) === 1;
+    const three = this.phaseSeen.every(Boolean);
+    const onlyL1 = this.phaseSeen[0] && !this.phaseSeen[1] && !this.phaseSeen[2] && now - this.phaseListenTm >= PHASE_CHECK_MS;
+    let kind = null;
+    if (one && three) kind = 'phase_setup_three';
+    else if (!one && onlyL1) kind = 'phase_setup_one';
+    else if (!(one ? onlyL1 : three)) return; // not clear yet
+    if (this.phaseSetupKind === undefined) this.phaseSetupKind = this.getStoreValue('phaseSetupNotified') || null;
+    if (kind === this.phaseSetupKind) return;
+    this.phaseSetupKind = kind;
+    this.setStoreValue('phaseSetupNotified', kind).catch(this.error);
+    if (!kind) return;
+    this.log(`[Fuse] ${kind}`);
+    this.homey.notifications.createNotification({ excerpt: this.homey.__(kind, { name: this.getName() }) }).catch(this.error);
+  }
+
+  // Learned phases count, unless a phase overload lasted (checkFuseOverload()).
+  trustsLearnedPhases(now = Date.now()) {
+    return !(now < (this.phaseDistrustUntil || 0));
+  }
+
+  // The phase readings of the last PHASE_HISTORY_MS, for PhaseLearning.
+  recordPhasePower(now) {
+    const phaseW = this.getPhasePowerW(now);
+    if (!phaseW) return;
+    if (!this.phaseHistory) this.phaseHistory = [];
+    this.phaseHistory.push({ tm: now, w: [...phaseW] });
+    while (this.phaseHistory.length && now - this.phaseHistory[0].tm > PHASE_HISTORY_MS) this.phaseHistory.shift();
+  }
+
+  // Mean power per phase (W) of the readings from fromMs to toMs. null: none.
+  getPhaseMeanW(fromMs, toMs) {
+    const list = (this.phaseHistory || []).filter((e) => e.tm >= fromMs && e.tm <= toMs);
+    if (!list.length) return null;
+    return [0, 1, 2].map((i) => list.reduce((a, e) => a + e.w[i], 0) / list.length);
+  }
+
+  // Extra import (W) possible now under the phase fuses for a device on spec (FuseGuard.phaseRoomW).
+  // withYield: the grid charging of the protected batteries on known phases counts (they give way).
+  // null: no phase readings.
+  getPhaseRoomW(spec, now = Date.now(), { withYield = false } = {}) {
+    let phaseW = this.getPhasePowerW(now);
+    if (!phaseW) return null;
+    if (withYield) {
+      const y = this.getPhaseYieldW(now);
+      phaseW = phaseW.map((w, i) => w - y[i]);
+    }
+    return Math.round(FuseGuard.phaseRoomW({
+      phaseW, limitW: this.getPhaseFuseLimitW(), spec, reservedW: this.reservedImportW(now),
+    }));
+  }
+
+  // Extra export (W) possible now under the phase fuses for a device on spec. null: no phase readings.
+  getPhaseExportRoomW(spec, now = Date.now()) {
+    const phaseW = this.getPhasePowerW(now);
+    if (!phaseW) return null;
+    return Math.round(FuseGuard.phaseRoomW({ phaseW: phaseW.map((w) => -w), limitW: this.getPhaseFuseLimitW(), spec }));
+  }
+
+  // getYieldingBatteryW() per phase (W), of the batteries with a known phase.
+  getPhaseYieldW(now = Date.now()) {
+    const y = [0, 0, 0];
+    let bats = [];
+    try {
+      bats = this.homey.drivers.getDriver('battery').getDevices();
+    } catch {
+      return y;
+    }
+    bats.forEach((d) => {
+      try {
+        const spec = typeof d.fusePhases === 'function' ? d.fusePhases(this.trustsLearnedPhases(now)) : null;
+        if (!spec || !spec.known) return;
+        const w = d.fuseYieldW(now);
+        spec.set.forEach((i) => {
+          y[i] += w / spec.n;
+        });
+      } catch {
+        // skip
+      }
+    });
+    return y;
+  }
+
   // Instant import limit (W): the contracted power when set, else the main fuse. null: unknown.
   getHardLimitW() {
     const contracted = this.peakConfig.hardLimitW;
@@ -1065,29 +1204,46 @@ class GridDevice extends GenericDevice {
     return FuseGuard.isStale({ tm: this.gridPowerTm || this.gridStaleRefTm, now, intervalMs: this.gridIntervalMs });
   }
 
-  // Import above the hard limit for FuseGuard.SHED_AFTER_MS: cut or switch off one charging EV
-  // charger. Export above the fuse that long: notified only (the batteries are all there is).
+  // Import above the hard limit, or on a phase above its fuse, for FuseGuard.SHED_AFTER_MS: cut or
+  // switch off one charging EV charger. Export above the fuse that long: notified only (the
+  // batteries are all there is).
   checkFuseOverload(now) {
     const gridW = this.getCapabilityValue('measure_watt_grid') || 0;
     const importW = Math.max(0, gridW);
     const limitW = this.getHardLimitW();
-    const step = FuseGuard.overloadStep({
-      importW, limitW, now, overSince: this.fuseOverSince,
+    const phaseW = this.getPhasePowerW(now);
+    const phaseLimitW = phaseW ? this.getPhaseFuseLimitW() : null;
+    const overW = limitW > 0 ? importW - limitW : -Infinity;
+    const phaseOverW = phaseW ? phaseW.map((w) => w - phaseLimitW) : null;
+    const over = this.fuseOverWhere({
+      overW, phaseOverW, totalW: importW, limitW, phaseW, phaseLimitW,
     });
-    if (step.overSince && !this.fuseOverSince) this.log(`[Fuse] import ${Math.round(importW)} W above ${limitW} W`);
+    const step = FuseGuard.overloadStep({ overW: over.w, now, overSince: this.fuseOverSince });
+    if (step.overSince && !this.fuseOverSince) this.log(`[Fuse] ${over.label}`);
     this.fuseOverSince = step.overSince;
+    if (over.phase && step.overSince && now - step.overSince >= FuseGuard.DISTRUST_AFTER_MS && this.trustsLearnedPhases(now)) {
+      this.phaseDistrustUntil = now + FuseGuard.DISTRUST_HOLD_MS;
+      this.log(`[Fuse] ${over.label} for ${Math.round((now - step.overSince) / 1000)} s: learned phases not trusted for an hour`);
+    }
 
     const exportW = Math.max(0, -gridW);
     const exportLimitW = this.getFuseLimitW();
-    const exp = FuseGuard.overloadStep({
-      importW: exportW, limitW: exportLimitW, now, overSince: this.fuseExportSince,
+    const exp = this.fuseOverWhere({
+      overW: exportLimitW > 0 ? exportW - exportLimitW : -Infinity,
+      phaseOverW: phaseW ? phaseW.map((w) => -w - phaseLimitW) : null,
+      totalW: exportW,
+      limitW: exportLimitW,
+      phaseW: phaseW && phaseW.map((w) => -w),
+      phaseLimitW,
+      kind: 'export',
     });
-    if (exp.shed && this.fuseExportNotified !== exp.overSince) {
-      this.fuseExportNotified = exp.overSince;
-      this.log(`[Fuse] export ${Math.round(exportW)} W above ${exportLimitW} W for 30 s`);
-      this.notifyFuse('fuse_export', { export: Math.round(exportW), limit: exportLimitW }, now);
+    const expStep = FuseGuard.overloadStep({ overW: exp.w, now, overSince: this.fuseExportSince });
+    if (expStep.shed && this.fuseExportNotified !== expStep.overSince) {
+      this.fuseExportNotified = expStep.overSince;
+      this.log(`[Fuse] ${exp.label} for 30 s`);
+      this.notifyFuse(exp.phase ? 'fuse_phase_export' : 'fuse_export', exp.tokens, now);
     }
-    this.fuseExportSince = exp.overSince;
+    this.fuseExportSince = expStep.overSince;
 
     if (!step.shed) return;
     let chargers = [];
@@ -1096,27 +1252,52 @@ class GridDevice extends GenericDevice {
     } catch {
       // no EV chargers
     }
+    const overload = {
+      importW, limitW, overW, phaseOverW, label: over.label, distrust: !this.trustsLearnedPhases(now),
+    };
     let done = null;
     // Measured charging first, then switched on without a charging reading.
     [false, true].some((uncertain) => chargers.some((d) => {
       try {
-        done = d.fuseShed(now, importW, limitW, uncertain);
+        done = d.fuseShed(now, overload, uncertain);
       } catch (err) {
         this.error('[Fuse]', err);
         done = null;
       }
       return !!done;
     }));
-    const tokens = { import: Math.round(importW), limit: limitW };
+    const prefix = over.phase ? 'fuse_phase_import' : 'fuse_import';
     if (done) {
       this.fuseOverSince = now;
-      if (done.off) this.notifyFuse('fuse_import_ev_off', { ...tokens, charger: done.name }, now);
-      else this.notifyFuse('fuse_import_ev_limited', { ...tokens, charger: done.name, power: done.capW }, now);
+      if (done.off) this.notifyFuse(`${prefix}_ev_off`, { ...over.tokens, charger: done.name }, now);
+      else this.notifyFuse(`${prefix}_ev_limited`, { ...over.tokens, charger: done.name, power: done.capW }, now);
     } else if (this.fuseNothingToShed !== this.fuseOverSince) {
       this.fuseNothingToShed = this.fuseOverSince;
-      this.log(`[Fuse] import ${Math.round(importW)} W above ${limitW} W for ${Math.round((now - this.fuseOverSince) / 1000)} s: no EV charger to cut`);
-      this.notifyFuse('fuse_import', tokens, now);
+      this.log(`[Fuse] ${over.label} for ${Math.round((now - this.fuseOverSince) / 1000)} s: no EV charger to cut`);
+      this.notifyFuse(prefix, over.tokens, now);
     }
+  }
+
+  // The largest overload: the total (overW) or a phase (phaseOverW), with its log label and
+  // notification tokens. w > 0: over.
+  fuseOverWhere({
+    overW, phaseOverW, totalW, limitW, phaseW, phaseLimitW, kind = 'import',
+  }) {
+    const i = phaseOverW ? phaseOverW.indexOf(Math.max(...phaseOverW)) : -1;
+    if (i < 0 || overW > 0 || !(phaseOverW[i] > overW)) {
+      return {
+        w: overW,
+        label: `${kind} ${Math.round(totalW)} W above ${limitW} W`,
+        tokens: { [kind]: Math.round(totalW), limit: limitW },
+      };
+    }
+    const phase = `L${i + 1}`;
+    return {
+      w: phaseOverW[i],
+      phase,
+      label: `${kind} ${phase} ${Math.round(phaseW[i])} W above ${phaseLimitW} W`,
+      tokens: { phase, [kind]: Math.round(phaseW[i]), limit: phaseLimitW },
+    };
   }
 
   // Timeline notification of a fuse protection, per kind at most once per FuseGuard.NOTIFY_MS.
@@ -2132,6 +2313,8 @@ class GridDevice extends GenericDevice {
 
   destroyListeners() {
     super.destroyListeners();
+    this.phaseW = null;
+    this.phaseHistory = null;
     if (this.retrainLoadListener) {
       this.retrainLoadListener.destroy();
       this.retrainLoadListener = null;
