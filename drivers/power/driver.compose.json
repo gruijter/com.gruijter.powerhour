@@ -418,19 +418,19 @@
             "ko": "예측 및 플래너 사용"
           },
           "hint": {
-            "en": "For a washing machine, dishwasher or dryer: learns its programs and when they start, and adds them to the home load forecast of the grid device.",
-            "nl": "Voor een wasmachine, vaatwasser of droger: leert de programma's en wanneer ze starten, en telt ze op bij de huisverbruik-voorspelling van het grid-apparaat.",
-            "de": "Für Waschmaschine, Geschirrspüler oder Trockner: lernt die Programme und wann sie starten, und addiert sie zur Hausverbrauchsprognose des Grid-Geräts.",
-            "fr": "Pour un lave-linge, lave-vaisselle ou sèche-linge : apprend ses programmes et leurs heures de départ, et les ajoute à la prévision de consommation du grid.",
-            "es": "Para lavadora, lavavajillas o secadora: aprende sus programas y cuándo empiezan, y los suma a la previsión de consumo del grid.",
-            "it": "Per lavatrice, lavastoviglie o asciugatrice: apprende i programmi e quando partono, e li aggiunge alla previsione di consumo del grid.",
-            "da": "Til vaskemaskine, opvaskemaskine eller tørretumbler: lærer programmerne og hvornår de starter, og lægger dem til grid-enhedens husforbrugsprognose.",
-            "sv": "För tvättmaskin, diskmaskin eller torktumlare: lär sig programmen och när de startar, och lägger till dem i grid-enhetens hushållsprognos.",
-            "no": "For vaskemaskin, oppvaskmaskin eller tørketrommel: lærer programmene og når de starter, og legger dem til grid-enhetens husforbruksprognose.",
-            "pl": "Dla pralki, zmywarki lub suszarki: uczy się programów i godzin startu oraz dodaje je do prognozy zużycia domu w urządzeniu grid.",
-            "ru": "Для стиральной, посудомоечной или сушильной машины: изучает программы и время их запуска и добавляет их к прогнозу нагрузки дома в grid.",
-            "ar": "لغسالة أو غسالة صحون أو مجفف: يتعلّم البرامج ومواعيد بدئها ويضيفها إلى توقع حمل المنزل في جهاز grid.",
-            "ko": "세탁기, 식기세척기, 건조기용: 프로그램과 시작 시각을 학습해 grid 디바이스의 가정 부하 예측에 더합니다."
+            "en": "Learns the energy use after a start, and when a program is usually started. Plans the cheapest start automatically, and helps improve the home load forecast of the Grid Monitor.",
+            "nl": "Leert het energieverbruik na een start, en wanneer een programma meestal wordt gestart. Plant automatisch de goedkoopste start, en helpt de verbruiksvoorspelling van de Netmonitor te verbeteren.",
+            "de": "Lernt den Energieverbrauch nach einem Start und wann ein Programm meistens gestartet wird. Plant automatisch den günstigsten Start und hilft, die Verbrauchsprognose des Netzmonitors zu verbessern.",
+            "fr": "Apprend la consommation d'énergie après un démarrage, et quand un programme est généralement lancé. Planifie automatiquement le démarrage le moins cher et aide à améliorer la prévision de consommation du Moniteur réseau.",
+            "es": "Aprende el consumo de energía tras un arranque y cuándo se suele iniciar un programa. Planifica automáticamente el arranque más barato y ayuda a mejorar la previsión de consumo del Monitor de red.",
+            "it": "Impara il consumo di energia dopo un avvio e quando un programma viene di solito avviato. Pianifica automaticamente lavvio più economico e aiuta a migliorare la previsione dei consumi del Monitor rete.",
+            "da": "Lærer energiforbruget efter en start, og hvornår et program normalt startes. Planlægger automatisk den billigste start og hjælper med at forbedre forbrugsprognosen for Elnetmonitor.",
+            "sv": "Lär sig energiförbrukningen efter en start och när ett program oftast startas. Planerar automatiskt den billigaste starten och hjälper till att förbättra förbrukningsprognosen för Elnätsmonitor.",
+            "no": "Lærer energibruken etter en start, og når et program vanligvis startes. Planlegger automatisk den billigste starten og hjelper til å forbedre forbruksprognosen til Strømnettmonitor.",
+            "pl": "Uczy się zużycia energii po uruchomieniu i tego, kiedy program jest zwykle uruchamiany. Automatycznie planuje najtańszy start i pomaga ulepszyć prognozę zużycia Monitora sieci.",
+            "ru": "Изучает потребление энергии после запуска и то, когда программа обычно запускается. Автоматически планирует самый дешёвый запуск и помогает улучшить прогноз потребления Монитора электросети.",
+            "ar": "يتعلّم استهلاك الطاقة بعد التشغيل، ومتى يبدأ البرنامج عادةً. يخطط تلقائيًا لأرخص وقت بدء، ويساعد على تحسين توقّع الاستهلاك في مراقب الشبكة.",
+            "ko": "시작 후 에너지 사용량과 프로그램이 주로 시작되는 시간을 학습합니다. 가장 저렴한 시작 시간을 자동으로 계획하고 그리드 모니터의 사용량 예측을 개선하는 데 도움이 됩니다."
           }
         },
         {

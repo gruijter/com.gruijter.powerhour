@@ -183,7 +183,7 @@
     "step_peak": "Leistungspreis",
     "step_peak_text": "Wenn dein Netzbetreiber deine höchsten Spitzen berechnet: wie sie gezählt werden.",
     "step_appliance": "Gerät",
-    "step_appliance_text": "Für Waschmaschine, Spülmaschine oder Trockner: Programme lernen und den günstigsten Start planen.",
+    "step_appliance_text": "Für ein Gerät, das viel Strom verbraucht und bei jedem Start ungefähr dasselbe tut. Zum Beispiel eine Waschmaschine, ein Geschirrspüler, ein Trockner oder ein Backofen.",
     "step_panels": "Solaranlage",
     "step_panels_text": "Die Größe deiner Solaranlage.",
     "step_device_meters": "Energiezähler",

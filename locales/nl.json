@@ -183,7 +183,7 @@
     "step_peak": "Capaciteitstarief",
     "step_peak_text": "Als je netbeheerder rekent voor je hoogste pieken: hoe die worden geteld.",
     "step_appliance": "Apparaat",
-    "step_appliance_text": "Voor een wasmachine, vaatwasser of droger: leer de programma's en plan de goedkoopste start.",
+    "step_appliance_text": "Voor een apparaat dat veel stroom gebruikt en bij elke start ongeveer hetzelfde doet. Bijvoorbeeld een wasmachine, vaatwasser, droger of oven.",
     "step_panels": "Zonnepanelen",
     "step_panels_text": "De grootte van je zonnepaneleninstallatie.",
     "step_device_meters": "Energiemeters",

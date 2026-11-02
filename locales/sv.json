@@ -183,7 +183,7 @@
     "step_peak": "Effekttariff",
     "step_peak_text": "Om nätägaren tar betalt för dina högsta toppar: hur de räknas.",
     "step_appliance": "Apparat",
-    "step_appliance_text": "För tvättmaskin, diskmaskin eller torktumlare: lär in programmen och planera billigaste start.",
+    "step_appliance_text": "För en apparat som använder mycket ström och gör ungefär samma sak vid varje start. Till exempel en tvättmaskin, diskmaskin, torktumlare eller ugn.",
     "step_panels": "Solpaneler",
     "step_panels_text": "Storleken på din solcellsanläggning.",
     "step_device_meters": "Energimätare",

@@ -183,7 +183,7 @@
     "step_peak": "Tariffa di potenza",
     "step_peak_text": "Se il gestore di rete fa pagare i tuoi picchi più alti: come vengono contati.",
     "step_appliance": "Elettrodomestico",
-    "step_appliance_text": "Per lavatrice, lavastoviglie o asciugatrice: impara i programmi e pianifica l'avvio più economico.",
+    "step_appliance_text": "Per un apparecchio che consuma molta energia e fa più o meno lo stesso a ogni avvio. Per esempio una lavatrice, una lavastoviglie, unasciugatrice o un forno.",
     "step_panels": "Pannelli solari",
     "step_panels_text": "La dimensione del tuo impianto solare.",
     "step_device_meters": "Contatori di energia",

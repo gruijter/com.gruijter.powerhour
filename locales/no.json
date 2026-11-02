@@ -183,7 +183,7 @@
     "step_peak": "Effekttariff",
     "step_peak_text": "Om nettselskapet tar betalt for de høyeste toppene dine: hvordan de telles.",
     "step_appliance": "Apparat",
-    "step_appliance_text": "For vaskemaskin, oppvaskmaskin eller tørketrommel: lær programmene og planlegg billigste start.",
+    "step_appliance_text": "For et apparat som bruker mye strøm og gjør omtrent det samme ved hver start. For eksempel en vaskemaskin, oppvaskmaskin, tørketrommel eller ovn.",
     "step_panels": "Solcellepaneler",
     "step_panels_text": "Størrelsen på solcelleanlegget ditt.",
     "step_device_meters": "Energimålere",
