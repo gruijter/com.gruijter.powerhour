@@ -418,19 +418,19 @@
             "ko": "모드"
           },
           "hint": {
-            "en": "Forecast only, or forecast and plan for this appliance. Do a repair to change.",
-            "nl": "Alleen voorspellen, of voorspellen en plannen voor dit apparaat. Repareer om te wijzigen.",
-            "de": "Nur Prognose, oder Prognose und Planung für dieses Gerät. Zum Ändern reparieren.",
-            "fr": "Prévision seule, ou prévision et planification pour cet appareil. Réparer pour modifier.",
-            "es": "Solo previsión, o previsión y planificación para este aparato. Repara para cambiar.",
-            "it": "Solo previsione, o previsione e pianificazione per questo apparecchio. Ripara per modificare.",
-            "da": "Kun prognose, eller prognose og planlægning for dette apparat. Reparer for at ændre.",
-            "sv": "Endast prognos, eller prognos och planering för den här apparaten. Reparera för att ändra.",
-            "no": "Kun prognose, eller prognose og planlegging for dette apparatet. Reparer for å endre.",
-            "pl": "Tylko prognoza albo prognoza i planowanie dla tego urządzenia. Napraw, aby zmienić.",
-            "ru": "Только прогноз или прогноз и планирование для этого прибора. Чтобы изменить, выберите «Исправить».",
-            "ar": "التوقع فقط، أو التوقع والتخطيط لهذا الجهاز. نفّذ إصلاحًا للتغيير.",
-            "ko": "이 기기의 예측만 또는 예측 및 계획. 변경하려면 수리하세요."
+            "en": "For an appliance that uses a lot of power and does about the same each time it starts. Forecast only: e.g. an oven. Forecast and plan: e.g. a washing machine, dishwasher or dryer. Do a repair to change.",
+            "nl": "Voor een apparaat dat veel stroom gebruikt en bij elke start ongeveer hetzelfde doet. Alleen voorspellen: bijv. een oven. Voorspellen en plannen: bijv. een wasmachine, vaatwasser of droger. Repareer om te wijzigen.",
+            "de": "Für ein Gerät, das viel Strom verbraucht und bei jedem Start ungefähr dasselbe tut. Nur Prognose: z. B. ein Backofen. Prognose und Planung: z. B. eine Waschmaschine, ein Geschirrspüler oder ein Trockner. Zum Ändern reparieren.",
+            "fr": "Pour un appareil qui consomme beaucoup d'électricité et fait à peu près la même chose à chaque démarrage. Prévision seule : p. ex. un four. Prévision et planification : p. ex. un lave-linge, un lave-vaisselle ou un sèche-linge. Réparer pour modifier.",
+            "es": "Para un aparato que consume mucha electricidad y hace más o menos lo mismo cada vez que arranca. Solo previsión: p. ej. un horno. Previsión y planificación: p. ej. una lavadora, un lavavajillas o una secadora. Repara para cambiar.",
+            "it": "Per un apparecchio che consuma molta energia e fa più o meno lo stesso a ogni avvio. Solo previsione: ad es. un forno. Previsione e pianificazione: ad es. una lavatrice, una lavastoviglie o un'asciugatrice. Ripara per modificare.",
+            "da": "Til et apparat, der bruger meget strøm og gør nogenlunde det samme ved hver start. Kun prognose: f.eks. en ovn. Prognose og planlægning: f.eks. en vaskemaskine, opvaskemaskine eller tørretumbler. Reparer for at ændre.",
+            "sv": "För en apparat som använder mycket ström och gör ungefär samma sak vid varje start. Endast prognos: t.ex. en ugn. Prognos och planering: t.ex. en tvättmaskin, diskmaskin eller torktumlare. Reparera för att ändra.",
+            "no": "For et apparat som bruker mye strøm og gjør omtrent det samme ved hver start. Kun prognose: f.eks. en ovn. Prognose og planlegging: f.eks. en vaskemaskin, oppvaskmaskin eller tørketrommel. Reparer for å endre.",
+            "pl": "Dla urządzenia, które zużywa dużo prądu i przy każdym uruchomieniu działa mniej więcej tak samo. Tylko prognoza: np. piekarnik. Prognoza i planowanie: np. pralka, zmywarka lub suszarka. Napraw, aby zmienić.",
+            "ru": "Для прибора, который потребляет много электроэнергии и при каждом запуске работает примерно одинаково. Только прогноз: например, духовка. Прогноз и планирование: например, стиральная, посудомоечная или сушильная машина. Чтобы изменить, выберите «Исправить».",
+            "ar": "لجهاز يستهلك الكثير من الكهرباء ويعمل بالطريقة نفسها تقريبًا عند كل تشغيل. التوقع فقط: مثل الفرن. التوقع والتخطيط: مثل الغسالة أو غسالة الصحون أو المجفف. نفّذ إصلاحًا للتغيير.",
+            "ko": "전력을 많이 쓰고 켤 때마다 거의 같은 방식으로 작동하는 기기용입니다. 예측만: 예) 오븐. 예측 및 계획: 예) 세탁기, 식기세척기, 건조기. 변경하려면 수리하세요."
           }
         },
         {

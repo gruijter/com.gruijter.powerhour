@@ -183,7 +183,7 @@
     "step_peak": "Tarifa por potencia",
     "step_peak_text": "Si tu distribuidora cobra por tus picos más altos: cómo se cuentan.",
     "step_appliance": "Electrodoméstico",
-    "step_appliance_text": "Para un aparato que consume mucha electricidad y hace más o menos lo mismo cada vez que arranca. Por ejemplo una lavadora, un lavavajillas, una secadora o un horno.",
+    "step_appliance_text": "Para un aparato que consume mucha electricidad y hace más o menos lo mismo cada vez que arranca. Solo previsión: p. ej. un horno. Previsión y planificación: p. ej. una lavadora, un lavavajillas o una secadora.",
     "step_panels": "Paneles solares",
     "step_panels_text": "El tamaño de tu instalación solar.",
     "step_device_meters": "Contadores de energía",

@@ -183,7 +183,7 @@
     "step_peak": "Opłata mocowa",
     "step_peak_text": "Jeśli operator sieci nalicza za najwyższe szczyty: jak są liczone.",
     "step_appliance": "Urządzenie",
-    "step_appliance_text": "Dla urządzenia, które zużywa dużo prądu i przy każdym uruchomieniu działa mniej więcej tak samo. Na przykład pralka, zmywarka, suszarka lub piekarnik.",
+    "step_appliance_text": "Dla urządzenia, które zużywa dużo prądu i przy każdym uruchomieniu działa mniej więcej tak samo. Tylko prognoza: np. piekarnik. Prognoza i planowanie: np. pralka, zmywarka lub suszarka.",
     "step_panels": "Panele słoneczne",
     "step_panels_text": "Wielkość Twojej instalacji fotowoltaicznej.",
     "step_device_meters": "Liczniki energii",

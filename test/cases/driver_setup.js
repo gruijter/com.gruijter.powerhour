@@ -246,6 +246,10 @@ const manifestIds = (driverId) => {
     view = await h.setup_get();
     assert.strictEqual(view.steps[0].hidden, undefined);
     assert.strictEqual(view.back, 'list_devices');
+    // Only the device values: the settings stay as they are, hidden in the view.
+    assert.ok(view.steps.filter((st) => !st.hidden).every((st) => st.roles), 'only the roles steps');
+    assert.strictEqual(view.steps.find((st) => st.id === 'battery').hidden, true);
+    assert.strictEqual(byId(view, 'batCapacity').value, 5.05);
   });
 
   console.log(failed ? `\n${failed} failed` : '\nall passed');

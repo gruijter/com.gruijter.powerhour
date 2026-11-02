@@ -183,7 +183,7 @@
     "step_peak": "Tarif de capacité",
     "step_peak_text": "Si votre gestionnaire de réseau facture vos pics les plus élevés : leur calcul.",
     "step_appliance": "Appareil",
-    "step_appliance_text": "Pour un appareil qui consomme beaucoup d'électricité et fait à peu près la même chose à chaque démarrage. Par exemple un lave-linge, un lave-vaisselle, un sèche-linge ou un four.",
+    "step_appliance_text": "Pour un appareil qui consomme beaucoup d'électricité et fait à peu près la même chose à chaque démarrage. Prévision seule : p. ex. un four. Prévision et planification : p. ex. un lave-linge, un lave-vaisselle ou un sèche-linge.",
     "step_panels": "Panneaux solaires",
     "step_panels_text": "La taille de votre installation solaire.",
     "step_device_meters": "Compteurs d'énergie",

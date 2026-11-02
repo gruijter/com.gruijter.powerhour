@@ -183,7 +183,7 @@
     "step_peak": "Capacity tariff",
     "step_peak_text": "If your grid operator charges for your highest peaks: how they are counted.",
     "step_appliance": "Appliance",
-    "step_appliance_text": "For an appliance that uses a lot of power and does about the same each time it starts. For example a washing machine, dishwasher, dryer or oven.",
+    "step_appliance_text": "For an appliance that uses a lot of power and does about the same each time it starts. Forecast only: e.g. an oven. Forecast and plan: e.g. a washing machine, dishwasher or dryer.",
     "step_panels": "Solar panels",
     "step_panels_text": "The size of your solar panel system.",
     "step_device_meters": "Energy meters",

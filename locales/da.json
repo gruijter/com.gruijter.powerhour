@@ -183,7 +183,7 @@
     "step_peak": "Effekttarif",
     "step_peak_text": "Hvis netselskabet tager betaling for dine højeste spidser: hvordan de tælles.",
     "step_appliance": "Apparat",
-    "step_appliance_text": "Til et apparat, der bruger meget strøm og gør nogenlunde det samme ved hver start. For eksempel en vaskemaskine, opvaskemaskine, tørretumbler eller ovn.",
+    "step_appliance_text": "Til et apparat, der bruger meget strøm og gør nogenlunde det samme ved hver start. Kun prognose: f.eks. en ovn. Prognose og planlægning: f.eks. en vaskemaskine, opvaskemaskine eller tørretumbler.",
     "step_panels": "Solpaneler",
     "step_panels_text": "Størrelsen på dit solcelleanlæg.",
     "step_device_meters": "Energimålere",
