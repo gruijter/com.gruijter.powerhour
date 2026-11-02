@@ -76,6 +76,7 @@ class MyApp extends Homey.App {
     this.homey.removeAllListeners('set_tariff_power_PBTH');
     this.homey.removeAllListeners('set_tariff_gas_PBTH');
     this.homey.removeAllListeners('set_tariff_water_PBTH');
+    this.homey.removeAllListeners('price_source_removed_PBTH');
   }
 
   // Shared list of all Insights logs, for the devices that look up their source device's logs.
