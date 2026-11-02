@@ -29,7 +29,6 @@
   "error_device_not_found": "Enheten hittades inte",
   "error_appliance_not_learned": "Program inte inlärt än: kräver __runs__ körningar",
   "error_appliance_ev_charger": "Denna källa räknas redan som elbilsladdare",
-  "error_appliance_homey_device": "Endast med en Homey-enhet som källa, inte Homey Energy eller Flow",
   "appliance_status": "__runs__ körningar, __kwh__ kWh, __duration__ min, topp __peak__ W, __starts__ starter/vecka",
   "appliance_status_learning": "Lär: __runs__ av __min__ körningar",
   "error_value_not_number": "Värdet är inte ett nummer",

@@ -29,7 +29,6 @@
   "error_device_not_found": "لم يتم العثور على الجهاز",
   "error_appliance_not_learned": "البرنامج لم يُتعلَّم بعد: يلزم __runs__ دورات",
   "error_appliance_ev_charger": "هذا المصدر محسوب أصلًا كشاحن سيارة كهربائية",
-  "error_appliance_homey_device": "فقط مع جهاز Homey كمصدر، وليس Homey Energy أو Flow",
   "appliance_status": "__runs__ دورات، __kwh__ ك.و.س، __duration__ دقيقة، ذروة __peak__ واط، __starts__ تشغيل/أسبوع",
   "appliance_status_learning": "التعلم: __runs__ من __min__ دورات",
   "error_value_not_number": "القيمة ليست رقماً",

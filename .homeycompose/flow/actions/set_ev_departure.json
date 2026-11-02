@@ -31,19 +31,19 @@
   },
   "highlight": true,
   "hint": {
-    "en": "Once. Time: HH:MM or 7.5, 'auto', or '-' (car not used). Min. SoC: may be below plan, 0: automatic. Empty: unchanged.",
-    "nl": "Eenmalig. Tijd: UU:MM of 7,5, 'auto', of '-' (auto niet gebruikt). Min. SoC: mag onder plan, 0: automatisch. Leeg: ongewijzigd.",
-    "de": "Einmalig. Zeit: HH:MM oder 7,5, 'auto' oder '-' (Auto nicht genutzt). Min. SoC: auch unter Plan, 0: automatisch. Leer: unverändert.",
-    "fr": "Une fois. Heure : HH:MM ou 7,5, « auto » ou « - » (voiture non utilisée). SoC min. : peut être sous le plan, 0 : automatique. Vide : inchangé.",
-    "it": "Una volta. Ora: HH:MM o 7,5, 'auto' o '-' (auto non usata). SoC min.: anche sotto il piano, 0: automatico. Vuoto: invariato.",
-    "sv": "En gång. Tid: HH:MM eller 7,5, 'auto' eller '-' (bilen används inte). Min. SoC: även under plan, 0: automatiskt. Tomt: oförändrat.",
-    "no": "Én gang. Tid: TT:MM eller 7,5, 'auto' eller '-' (bilen brukes ikke). Min. SoC: også under plan, 0: automatisk. Tomt: uendret.",
-    "es": "Una vez. Hora: HH:MM o 7,5, 'auto' o '-' (coche no usado). SoC mín.: también bajo el plan, 0: automático. Vacío: sin cambios.",
-    "da": "Én gang. Tid: TT:MM eller 7,5, 'auto' eller '-' (bilen bruges ikke). Min. SoC: også under plan, 0: automatisk. Tomt: uændret.",
-    "pl": "Jednorazowo. Godzina: GG:MM lub 7,5, 'auto' lub '-' (samochód nieużywany). Min. SoC: także poniżej planu, 0: automatycznie. Puste: bez zmian.",
-    "ru": "Однократно. Время: ЧЧ:ММ или 7,5, 'auto' или '-' (машина не используется). Мин. заряд: можно ниже плана, 0: автоматически. Пусто: без изменений.",
-    "ar": "لمرة واحدة. الوقت: HH:MM أو 7.5، أو 'auto'، أو '-' (لا تُستخدم السيارة). الحد الأدنى للشحن: يمكن أقل من المخطط، 0: تلقائي. فارغ: دون تغيير.",
-    "ko": "1회 적용. 시간: HH:MM 또는 7.5, 'auto', 또는 '-'(차 사용 안 함). 최소 충전량: 계획보다 낮게도 가능, 0: 자동. 비우면: 변경 없음."
+    "en": "Once. Time: 07:30, 7.5, auto or - (car not used). %: 0 is automatic. Empty: unchanged.",
+    "nl": "Eenmalig. Tijd: 07:30, 7,5, auto of - (auto niet gebruikt). %: 0 is automatisch. Leeg: ongewijzigd.",
+    "de": "Einmalig. Zeit: 07:30, 7,5, auto oder - (Auto nicht genutzt). %: 0 ist automatisch. Leer: unverändert.",
+    "fr": "Une fois. Heure : 07:30, 7,5, « auto » ou « - » (voiture non utilisée). % : 0 est automatique. Vide : inchangé.",
+    "it": "Una volta. Ora: 07:30, 7,5, auto o - (auto non usata). %: 0 è automatico. Vuoto: invariato.",
+    "sv": "En gång. Tid: 07:30, 7,5, auto eller - (bilen används inte). %: 0 är automatiskt. Tomt: oförändrat.",
+    "no": "Én gang. Tid: 07:30, 7,5, auto eller - (bilen brukes ikke). %: 0 er automatisk. Tomt: uendret.",
+    "es": "Una vez. Hora: 07:30, 7,5, auto o - (coche no usado). %: 0 es automático. Vacío: sin cambios.",
+    "da": "Én gang. Tid: 07:30, 7,5, auto eller - (bilen bruges ikke). %: 0 er automatisk. Tomt: uændret.",
+    "pl": "Jednorazowo. Godzina: 07:30, 7,5, auto lub - (samochód nieużywany). %: 0 to automatycznie. Puste: bez zmian.",
+    "ru": "Однократно. Время: 07:30, 7,5, auto или - (машина не используется). %: 0 — автоматически. Пусто: без изменений.",
+    "ar": "لمرة واحدة. الوقت: 07:30 أو 7.5 أو auto أو - (لا تُستخدم السيارة). %: 0 تلقائي. فارغ: دون تغيير.",
+    "ko": "1회 적용. 시간: 07:30, 7.5, auto 또는 -(차 사용 안 함). %: 0은 자동. 비우면: 변경 없음."
   },
   "args": [
     {

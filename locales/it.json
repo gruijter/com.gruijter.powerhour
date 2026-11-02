@@ -29,7 +29,6 @@
   "error_device_not_found": "Dispositivo non trovato",
   "error_appliance_not_learned": "Programma non ancora appreso: servono __runs__ cicli",
   "error_appliance_ev_charger": "Questa fonte è già contata come caricatore EV",
-  "error_appliance_homey_device": "Solo con un dispositivo Homey come fonte, non con Homey Energy o flow",
   "appliance_status": "__runs__ cicli, __kwh__ kWh, __duration__ min, picco __peak__ W, __starts__ avvii/settimana",
   "appliance_status_learning": "Apprendimento: __runs__ di __min__ cicli",
   "error_value_not_number": "Il valore non è un numero",

@@ -1099,7 +1099,7 @@ class GridDevice extends GenericDevice {
       phaseW = phaseW.map((w, i) => w - y[i]);
     }
     return Math.round(FuseGuard.phaseRoomW({
-      phaseW, limitW: this.getPhaseFuseLimitW(), spec, reservedW: this.reservedImportW(now),
+      phaseW, limitW: this.getPhaseFuseLimitW(), spec, reservedW: this.reservedPhaseW(now),
     }));
   }
 
@@ -1113,22 +1113,13 @@ class GridDevice extends GenericDevice {
   // getYieldingBatteryW() per phase (W), of the batteries with a known phase.
   getPhaseYieldW(now = Date.now()) {
     const y = [0, 0, 0];
-    let bats = [];
-    try {
-      bats = this.homey.drivers.getDriver('battery').getDevices();
-    } catch {
-      return y;
-    }
-    bats.forEach((d) => {
-      try {
-        const spec = typeof d.fusePhases === 'function' ? d.fusePhases(this.trustsLearnedPhases(now)) : null;
-        if (!spec || !spec.known) return;
-        const w = d.fuseYieldW(now);
-        spec.set.forEach((i) => {
-          y[i] += w / spec.n;
+    const trust = this.trustsLearnedPhases(now);
+    this.yieldingBatteries(now).forEach(({ d, w }) => {
+      const spec = typeof d.fusePhases === 'function' ? d.fusePhases(trust) : null;
+      if (spec && spec.known) {
+        FuseGuard.perPhaseW(w, spec).forEach((x, i) => {
+          y[i] += x;
         });
-      } catch {
-        // skip
       }
     });
     return y;
@@ -1150,18 +1141,36 @@ class GridDevice extends GenericDevice {
   }
 
   // Extra import (W) the EV chargers are about to take (reserveImport()): less what each already
-  // takes more than when reserved, 0 when expired.
-  reservedImportW(now = Date.now()) {
-    if (!this.importReserves) return 0;
-    let w = 0;
+  // takes more than when reserved, 0 when expired. [{ charger, w }].
+  importReservations(now = Date.now()) {
+    if (!this.importReserves) return [];
+    const out = [];
     this.importReserves.forEach((r, charger) => {
       if (now >= r.untilMs) {
         this.importReserves.delete(charger);
         return;
       }
-      w += Math.max(0, r.w - Math.max(0, FuseGuard.chargerPowerW(charger) - r.baseW));
+      out.push({ charger, w: Math.max(0, r.w - Math.max(0, FuseGuard.chargerPowerW(charger) - r.baseW)) });
     });
-    return w;
+    return out;
+  }
+
+  reservedImportW(now = Date.now()) {
+    return this.importReservations(now).reduce((a, r) => a + r.w, 0);
+  }
+
+  // reservedImportW() per phase (W): on the phases of each charger.
+  reservedPhaseW(now = Date.now()) {
+    const out = [0, 0, 0];
+    const trust = this.trustsLearnedPhases(now);
+    const limitW = this.getPhaseFuseLimitW();
+    this.importReservations(now).forEach(({ charger, w }) => {
+      const spec = typeof charger.fusePhases === 'function' ? charger.fusePhases(trust) : {};
+      FuseGuard.perPhaseW(w, spec, limitW).forEach((x, i) => {
+        out[i] += x;
+      });
+    });
+    return out;
   }
 
   // An EV charger released or raised: the batteries make room for w before the car takes it.
@@ -1177,22 +1186,26 @@ class GridDevice extends GenericDevice {
     });
   }
 
-  // Grid charging of the protected batteries (W): they give way to an EV charger under the limit.
-  getYieldingBatteryW() {
+  // Grid charging of the protected batteries: they give way to an EV charger under the limit.
+  // [{ d, w }].
+  yieldingBatteries(now = Date.now()) {
     let bats = [];
     try {
       bats = this.homey.drivers.getDriver('battery').getDevices();
     } catch {
-      return 0;
+      return [];
     }
-    const now = Date.now();
-    return bats.reduce((a, d) => {
+    return bats.map((d) => {
       try {
-        return a + (typeof d.fuseYieldW === 'function' ? d.fuseYieldW(now) : 0);
+        return { d, w: typeof d.fuseYieldW === 'function' ? d.fuseYieldW(now) : 0 };
       } catch {
-        return a;
+        return { d, w: 0 };
       }
-    }, 0);
+    });
+  }
+
+  getYieldingBatteryW() {
+    return this.yieldingBatteries().reduce((a, b) => a + b.w, 0);
   }
 
   // No recent reading from a realtime power source (FuseGuard.isStale()). A trend-only source

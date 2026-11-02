@@ -29,7 +29,6 @@
   "error_device_not_found": "Appareil introuvable",
   "error_appliance_not_learned": "Programme pas encore appris : __runs__ cycles nécessaires",
   "error_appliance_ev_charger": "Cette source est déjà comptée comme chargeur VE",
-  "error_appliance_homey_device": "Uniquement avec un appareil Homey comme source, pas Homey Energy ni flow",
   "appliance_status": "__runs__ cycles, __kwh__ kWh, __duration__ min, pic __peak__ W, __starts__ départs/semaine",
   "appliance_status_learning": "Apprentissage : __runs__ sur __min__ cycles",
   "error_value_not_number": "La valeur n'est pas un nombre",

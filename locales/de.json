@@ -29,7 +29,6 @@
   "error_device_not_found": "Gerät nicht gefunden",
   "error_appliance_not_learned": "Programm noch nicht gelernt: __runs__ Läufe nötig",
   "error_appliance_ev_charger": "Diese Quelle zählt bereits als EV-Lader",
-  "error_appliance_homey_device": "Nur für ein Homey-Gerät als Quelle, nicht für Homey Energy oder Flow",
   "appliance_status": "__runs__ Läufe, __kwh__ kWh, __duration__ Min., Spitze __peak__ W, __starts__ Starts/Woche",
   "appliance_status_learning": "Lernen: __runs__ von __min__ Läufen",
   "error_value_not_number": "Wert ist keine Zahl",

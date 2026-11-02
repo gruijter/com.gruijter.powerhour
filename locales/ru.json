@@ -29,7 +29,6 @@
   "error_device_not_found": "Устройство не найдено",
   "error_appliance_not_learned": "Программа ещё не изучена: нужно __runs__ циклов",
   "error_appliance_ev_charger": "Этот источник уже учтён как зарядное устройство EV",
-  "error_appliance_homey_device": "Только с устройством Homey в качестве источника, не с Homey Energy или Flow",
   "appliance_status": "__runs__ циклов, __kwh__ кВт·ч, __duration__ мин, пик __peak__ Вт, __starts__ запусков/нед.",
   "appliance_status_learning": "Обучение: __runs__ из __min__ циклов",
   "error_value_not_number": "Значение не является числом",

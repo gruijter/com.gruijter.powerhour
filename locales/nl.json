@@ -29,7 +29,6 @@
   "error_device_not_found": "Apparaat niet gevonden",
   "error_appliance_not_learned": "Programma nog niet geleerd: __runs__ runs nodig",
   "error_appliance_ev_charger": "Deze bron telt al mee als EV-lader",
-  "error_appliance_homey_device": "Alleen voor een Homey-apparaat als bron, niet voor Homey Energy of flow",
   "appliance_status": "__runs__ runs, __kwh__ kWh, __duration__ min, piek __peak__ W, __starts__ starts/week",
   "appliance_status_learning": "Leren: __runs__ van __min__ runs",
   "error_value_not_number": "Waarde is geen getal",

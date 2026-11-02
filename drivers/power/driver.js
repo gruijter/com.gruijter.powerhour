@@ -174,9 +174,8 @@ class PowerDriver extends GenericDriver {
   // Forecast: the appliance is taken out of the home load. Only for a Homey device as source; the
   // source of an EV charger device is out of it already: as an appliance it would count twice.
   checkApplianceSource(settings) {
-    if (!settings.appliance_mode || settings.appliance_mode === 'off') return;
-    // Homey Energy and flow sources are totals, no single appliance.
-    if (settings.source_device_type !== 'Homey device') throw Error(this.homey.__('error_appliance_homey_device'));
+    // Homey Energy and flow sources are totals, no single appliance: the mode is off (applianceMode()).
+    if (PowerDriver.applianceMode(settings) === 'off') return;
     let chargers = [];
     try {
       chargers = this.homey.drivers.getDriver('evCharger').getDevices();

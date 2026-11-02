@@ -119,7 +119,7 @@ test('learner: battery and car learn their phases from steps, also when they ste
       log: () => {},
       error: (...a) => console.log(name, ...a),
       fusePhases() {
-        return (this.learner && this.learner.spec()) || { n: null, set: null };
+        return (this.learner && P.toSpec(this.learner.learned())) || { n: null, set: null };
       },
     };
   };

@@ -29,7 +29,6 @@
   "error_device_not_found": "Device not found",
   "error_appliance_not_learned": "Program not learned yet: needs __runs__ runs",
   "error_appliance_ev_charger": "This source is already counted by an EV charger device",
-  "error_appliance_homey_device": "Only for a Homey device as source, not for Homey Energy or flow",
   "appliance_status": "__runs__ runs, __kwh__ kWh, __duration__ min, peak __peak__ W, __starts__ starts/week",
   "appliance_status_learning": "Learning: __runs__ of __min__ runs",
   "error_value_not_number": "Value is not a number",

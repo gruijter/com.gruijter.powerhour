@@ -368,8 +368,11 @@ class BatteryDriver extends GenericDriver {
     }) : [];
     const weight = (d) => Math.max(1, Number(d.getSettings().chargePower) || 0);
     const total = active.reduce((a, d) => a + weight(d), 0);
-    // A phase correction: shared by the batteries that may be on the same phases.
-    const specs = new Map(active.map((d) => [d, typeof d.fusePhases === 'function' ? d.fusePhases() : {}]));
+    // A phase correction: shared by the batteries that may be on the same phases (as phaseBounds() sees them).
+    // eslint-disable-next-line global-require
+    const grid = require('../../lib/helpers/GridConnection').gridDevice(this.homey);
+    const trust = !grid || typeof grid.trustsLearnedPhases !== 'function' || grid.trustsLearnedPhases(now);
+    const specs = new Map(active.map((d) => [d, typeof d.fusePhases === 'function' ? d.fusePhases(trust) : {}]));
     const phaseShare = (d) => weight(d) / active
       .filter((e) => FuseGuard.phasesOverlap(specs.get(d), specs.get(e))).reduce((a, e) => a + weight(e), 0);
     const before = new Map(active.map((d) => [d, {

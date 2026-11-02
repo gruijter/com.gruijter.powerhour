@@ -104,25 +104,29 @@ class PowerDevice extends GenericDevice {
     if (this.applianceModel.bootstrapped !== ApplianceModel.BOOTSTRAP_VERSION) await this.bootstrapAppliance().catch(this.error);
     this.recentMeter = [];
     this.applianceSaveTm = Date.now();
-    if (!this.applianceListeners) {
-      this.applianceListeners = true;
-      this.registerCapabilityListener('button.retrain', async () => {
-        this.log('Appliance retrain via button.retrain');
-        await this.bootstrapAppliance();
-        await this.checkApplianceReady();
-        await this.updateApplianceDisplay();
-        await this.updateAppliancePlanDisplay();
-        this.notifyGrid();
-      });
-      for (const day of this.appliancePlanning ? ['today', 'tomorrow'] : []) {
-        this.registerCapabilityListener(`appliance_${day}`, async (value) => {
-          // Refused (a time already past): the picker shows the day's setting again.
-          await this.setApplianceDay(day, value).catch((err) => {
-            this.updateAppliancePlanDisplay().catch(this.error);
-            throw err;
-          });
+    // Once per capability: restartDevice() keeps this instance, and a mode change adds capabilities.
+    if (!this.applianceListeners) this.applianceListeners = new Set();
+    const listen = (cap, fn) => {
+      if (this.applianceListeners.has(cap)) return;
+      this.applianceListeners.add(cap);
+      this.registerCapabilityListener(cap, fn);
+    };
+    listen('button.retrain', async () => {
+      this.log('Appliance retrain via button.retrain');
+      await this.bootstrapAppliance();
+      await this.checkApplianceReady();
+      await this.updateApplianceDisplay();
+      await this.updateAppliancePlanDisplay();
+      this.notifyGrid();
+    });
+    for (const day of this.appliancePlanning ? ['today', 'tomorrow'] : []) {
+      listen(`appliance_${day}`, async (value) => {
+        // Refused (a time already past): the picker shows the day's setting again.
+        await this.setApplianceDay(day, value).catch((err) => {
+          this.updateAppliancePlanDisplay().catch(this.error);
+          throw err;
         });
-      }
+      });
     }
     this.applianceTimer = this.homey.setInterval(() => {
       this.sampleAppliance().catch(this.error);
@@ -796,7 +800,7 @@ class PowerDevice extends GenericDevice {
   // Flow: plan the cheapest start between two times (over midnight when to is not later), an
   // empty from: from now; tokens.
   async planApplianceBetween(from, to) {
-    if (String(from ?? '').trim() === '') return this.planAppliance(to);
+    if (String(from ?? '').trim() === '') return this.planAppliance(TimeHelpers.parseClock(to) === 24 ? '00:00' : to);
     const fromH = TimeHelpers.parseClock(from);
     const toH = TimeHelpers.parseClock(to);
     if (fromH === null || fromH >= 24) throw Error(this.homey.__('error_invalid_time', { time: from }));

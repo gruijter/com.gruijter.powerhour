@@ -126,6 +126,14 @@ test('phase room: the device\'s most loaded phase, times its phases', () => {
   assert.strictEqual(G.phaseRoomW({
     phaseW, limitW: 5462, spec: { n: 1, set: [1] }, reservedW: 500,
   }), 3862);
+  // An 11 kW 3-phase charger reserves 3667 W per phase, not 11 kW on each.
+  const reservedW = G.perPhaseW(11000, { n: 3, set: [0, 1, 2] }, 5462);
+  assert.deepStrictEqual(reservedW.map(Math.round), [3667, 3667, 3667]);
+  assert.strictEqual(Math.round(G.phaseRoomW({
+    phaseW, limitW: 5462, spec: { n: 1, set: [1] }, reservedW,
+  })), 695);
+  assert.deepStrictEqual(G.perPhaseW(3680, { n: 1, set: [2] }), [0, 0, 3680]);
+  assert.deepStrictEqual(G.perPhaseW(3680, { n: null, set: null, powerW: 3680 }, 5462), [3680, 3680, 3680], 'unknown which: on each');
 });
 
 test('phase cut: only a device on an overloaded phase, by its phase count', () => {

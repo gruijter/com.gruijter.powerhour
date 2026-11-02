@@ -29,7 +29,6 @@
   "error_device_not_found": "Enheden blev ikke fundet",
   "error_appliance_not_learned": "Program ikke lært endnu: kræver __runs__ kørsler",
   "error_appliance_ev_charger": "Denne kilde tæller allerede som elbillader",
-  "error_appliance_homey_device": "Kun med en Homey-enhed som kilde, ikke Homey Energy eller flow",
   "appliance_status": "__runs__ kørsler, __kwh__ kWh, __duration__ min, spids __peak__ W, __starts__ starter/uge",
   "appliance_status_learning": "Lærer: __runs__ af __min__ kørsler",
   "error_value_not_number": "Værdien er ikke et tal",
