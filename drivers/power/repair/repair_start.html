@@ -27,12 +27,12 @@
 		root.querySelector('#startNextText').textContent = Homey.__('repair.nav_next');
 		const el = (tag, props = {}) => Object.assign(document.createElement(tag), props);
 		const set = root.querySelector('#choice');
-		// The choices from the driver: source, and per device fix values and the year budget.
+		// The choices from the driver: source, price, other settings, and per device fix values and the year budget.
 		Homey.emit('start_get').then((choices) => {
 			choices.forEach((c, i) => {
 				const label = el('label', { className: 'homey-form-radio' });
 				label.appendChild(el('input', {
-					className: 'homey-form-radio-input', type: 'radio', name: 'choice', value: c.view, checked: i === 0,
+					className: 'homey-form-radio-input', type: 'radio', name: 'choice', value: c.id, checked: i === 0,
 				}));
 				label.appendChild(el('span', { className: 'homey-form-radio-checkmark' }));
 				label.appendChild(el('span', { className: 'homey-form-radio-text', textContent: c.label }));
@@ -43,7 +43,9 @@
 
 		root.querySelector('#startNext').addEventListener('click', () => {
 			const checked = root.querySelector('input[name="choice"]:checked');
-			if (checked) Homey.showView(checked.value);
+			if (!checked) return;
+			Homey.emit('start_set', checked.value).then((view) => Homey.showView(view))
+				.catch((error) => Homey.alert(error.message || error, 'error'));
 		});
 		Homey.hideLoadingOverlay();
 	})();

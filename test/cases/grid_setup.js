@@ -159,8 +159,17 @@ const values = (view, over = {}) => ({
   await test('repair start: settings straight to the setup view of the present source', async () => {
     const handlers = repairSession(fakeDriver(), { connectionAmps: 35 });
     const choices = await handlers.start_get();
-    assert.deepStrictEqual(choices.map((c) => c.view), ['list_devices', 'setup', 'budget']);
-    const view = await handlers.setup_get();
+    assert.deepStrictEqual(choices.map((c) => c.id), ['source', 'price', 'settings', 'budget']);
+    assert.strictEqual(await handlers.start_set('settings'), 'setup');
+    let view = await handlers.setup_get();
+    assert.strictEqual(byId(view, 'connectionAmps').value, 35);
+    const shown = (v) => v.steps.filter((st) => !st.hidden).map((st) => st.id);
+    assert.ok(!shown(view).includes('price') && !shown(view).includes('year') && shown(view).includes('connection'));
+    // Price only: the other steps hidden, their values still in the view.
+    await handlers.start_get();
+    assert.strictEqual(await handlers.start_set('price'), 'setup');
+    view = await handlers.setup_get();
+    assert.deepStrictEqual(shown(view), ['price']);
     assert.strictEqual(byId(view, 'connectionAmps').value, 35);
   });
 
