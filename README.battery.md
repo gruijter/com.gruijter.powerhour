@@ -76,6 +76,7 @@ The heart of the EMS. [← Overview](./README.md)
 - **Plan together with other batteries:** one plan, one mode for the group.
 - **Also discharge for the car:** off: the battery does not charge the EV.
 - **Protect the main fuse / Limit peaks:** uses the Grid Monitor's limits.
+- **Battery phase:** Automatic (learned from the meter), L1, L2, L3 or 3 phases.
 - **Reserve (%):** kept for fuse and peak protection.
 - **Calibrate every (days):** now and then fully empty and full, so the SoC stays right.
 - **Learned:** shows usable capacity, losses and minimum useful power.

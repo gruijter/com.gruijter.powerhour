@@ -12,7 +12,7 @@
 - Reaches the needed SoC before every departure.
 - Tops up when the price is unusually low.
 - Works with or without a car app.
-- Protects the main fuse, together with the batteries.
+- Protects the main fuse per phase, together with the batteries.
 
 ---
 
@@ -67,6 +67,8 @@
 - **Charge to max SoC when cheap:** Automatic, below fixed price, or off.
 - **Max. charging power** (0: measured) and **Variable charging power**.
 - **Control charger:** off: drive the charger with your own flows.
+- **Charger phase:** Automatic (learned from the meter), L1, L2, L3 or 3 phases.
+- **Charger guards the main fuse:** the app does not cut the charger on an overload.
 - **Weekly departures:** a time per weekday overrides the learned one.
 - **Away periods:** e.g. `2026-09-17/2026-10-01, 2026-12-24`.
 - **Plug on without car, Shared charger, Start charging in the car, V2X.**

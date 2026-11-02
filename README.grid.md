@@ -52,6 +52,7 @@
 ## Capacity tariff & fuse
 
 - **Grid connection:** phases, main fuse, voltage, fuse margin.
+- **Per phase:** with a 3-phase meter each phase is guarded. A notice when the phase setting does not match the meter.
 - **Max. import (W):** contracted power, never exceeded.
 - **Presets:** Flanders, Norway, Sweden, or custom.
 - **Custom:** interval (15/30/60 min), billed peak (highest, average or N-th), counting hours and months, price per kW or steps.
