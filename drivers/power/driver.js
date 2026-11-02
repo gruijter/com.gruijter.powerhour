@@ -21,7 +21,6 @@ along with com.gruijter.powerhour.  If not, see <http://www.gnu.org/licenses/>.
 
 const GenericDriver = require('../../lib/genericDeviceDrivers/generic_sum_driver');
 const SourceCaps = require('../../lib/helpers/SourceCaps');
-const PairSetup = require('../../lib/helpers/PairSetup');
 
 const MARKUP_IDS = ['markup_month', 'markup_day', 'markup_hour'];
 
@@ -203,12 +202,6 @@ class PowerDriver extends GenericDriver {
     if (mode !== 'off') caps.push('button.retrain');
     if (mode === 'plan') caps.push('appliance_next_run', 'appliance_today', 'appliance_tomorrow');
     return caps;
-  }
-
-  // Setup view: what the forecast checkbox does.
-  async setupInfo(setting, def) {
-    if (setting.id === 'appliance_mode') return PairSetup.text(this.homey, def.hint);
-    return undefined;
   }
 
   async setupValidate(settings, caps, dev) {
