@@ -215,12 +215,9 @@ class CarChargeDevice extends GenericDevice {
     await this.learnDeparturePattern().catch((err) => this.error(err));
   }
 
-  // ─── Source device capability group resolution ──────────────────────────────
-
   async addSourceCapGroup() {
     this.sourceCapGroup = {};
 
-    // --- Charger device (primary source = this.sourceDevice) ---
     if (this.sourceDevice) {
       const caps = this.sourceDevice.capabilities || [];
       // A meter without a value yet (after a reboot): used when there is no power to integrate,
@@ -271,15 +268,12 @@ class CarChargeDevice extends GenericDevice {
       this.log('Could not load EV car device:', e.message);
     }
 
-    // SoC: car first, else charger
     this.sourceCapGroup.soc = this.carCapGroup.soc || this.sourceCapGroup.socOnCharger || null;
 
     if (!this.sourceCapGroup.p1 && !this.sourceCapGroup.measure) {
       throw Error('Charger device has no compatible meter_power or measure_power');
     }
   }
-
-  // ─── Real-time listeners ────────────────────────────────────────────────────
 
   async addListeners() {
     let api;
@@ -294,7 +288,6 @@ class CarChargeDevice extends GenericDevice {
     await this._migrateMeterDirection();
     await this._seedChargingTotal();
 
-    // kWh meter
     if (this.sourceCapGroup.p1) {
       this.capabilityInstances.p1 = this.sourceDevice.makeCapabilityInstance(
         this.sourceCapGroup.p1,
@@ -319,7 +312,6 @@ class CarChargeDevice extends GenericDevice {
       );
     }
 
-    // Plug state from charger (wallbox)
     if (this.sourceCapGroup.connState) {
       this.signals.chargerPlugged = EvPresence.isPluggedValue(this.sourceDevice.capabilitiesObj?.[this.sourceCapGroup.connState]?.value);
       this.capabilityInstances.chargerConnState = await this.sourceDevice.makeCapabilityInstance(
@@ -429,8 +421,6 @@ class CarChargeDevice extends GenericDevice {
     }
     await this._processCarReport(car.capabilitiesObj);
   }
-
-  // ─── Presence ───────────────────────────────────────────────────────────────
 
   _setSwitchSignal(value, lastUpdated) {
     if (typeof value !== 'boolean') return;
@@ -618,8 +608,6 @@ class CarChargeDevice extends GenericDevice {
     return Math.round(capacity * EvPlanner.DEFAULT_NEED_PCT) / 100;
   }
 
-  // ─── Energy mode ────────────────────────────────────────────────────────────
-
   // No SoC report (car, charger or flow), or an old one while the car was used since: plan on energy.
   // A parked car's app does not report an unchanged SoC: old alone is not stale.
   _energyMode() {
@@ -658,8 +646,6 @@ class CarChargeDevice extends GenericDevice {
     }
     await this.setStoreValue('evEnergyState', this.energyState).catch(this.error);
   }
-
-  // ─── Usage model ────────────────────────────────────────────────────────────
 
   async _saveUsageModel() {
     await this.setStoreValue('evUsageModel', this.usageModel).catch(this.error);
@@ -714,8 +700,6 @@ class CarChargeDevice extends GenericDevice {
     await this._saveUsageModel();
     await this._updateLearnedProfileSettings();
   }
-
-  // ─── Car reports and SoC estimate ───────────────────────────────────────────
 
   // One car status update sets several capabilities in a row: handle them as one report.
   _scheduleCarReport() {
@@ -901,8 +885,6 @@ class CarChargeDevice extends GenericDevice {
       await this.setSettings({ learned_efficiency: text }).catch(this.error);
     }
   }
-
-  // ─── Charger control ────────────────────────────────────────────────────────
 
   async _controlTick() {
     const tz = this.timeZone || this.homey.clock.getTimezone();
@@ -1439,8 +1421,6 @@ class CarChargeDevice extends GenericDevice {
     }
   }
 
-  // ─── Poll (hourly) ──────────────────────────────────────────────────────────
-
   async poll() {
     let api;
     try {
@@ -1453,7 +1433,6 @@ class CarChargeDevice extends GenericDevice {
     if (!this.sourceCapGroup || Object.keys(this.sourceCapGroup).length === 0) await this.addSourceCapGroup();
     await this.getSourceDevice();
 
-    // kWh meter
     if (this.pendingMeterCap && typeof this.sourceDevice.capabilitiesObj?.[this.pendingMeterCap]?.value === 'number') {
       this.sourceCapGroup.p1 = this.pendingMeterCap;
       this.pendingMeterCap = null;
@@ -1488,8 +1467,6 @@ class CarChargeDevice extends GenericDevice {
     }
     await this._processCarReport(carCaps || undefined).catch(this.error);
   }
-
-  // ─── Settings change handler ────────────────────────────────────────────────
 
   async onSettings({ newSettings, changedKeys }) {
     await super.onSettings({ newSettings, changedKeys });
@@ -1697,8 +1674,6 @@ class CarChargeDevice extends GenericDevice {
     await this.setCapability('meter_kwh_charging', Math.round(kwh * 10000) / 10000);
   }
 
-  // ─── Resolve departure time for today ──────────────────────────────────────
-
   // SoC expected on return: today's typical need minus what today's trips already used.
   _predictReturnSoc() {
     if (!this.usageModel || typeof this.lastKnownSoc !== 'number') return null;
@@ -1710,8 +1685,6 @@ class CarChargeDevice extends GenericDevice {
     const remaining = Math.max(0, day.needKwh - usedToday);
     return EvSocEstimator.socLess(this.lastKnownSoc, remaining, this.getSettings().batCapacity || 50);
   }
-
-  // ─── Planner inputs ─────────────────────────────────────────────────────────
 
   // The away periods setting: [{from, to}] by local date.
   _awayPeriods() {
@@ -1754,7 +1727,6 @@ class CarChargeDevice extends GenericDevice {
     return overrides;
   }
 
-  // The calendar day after today.
   _tomorrowDate(tz, now = Date.now()) {
     const midnight = TimeHelpers.getLocalMidnightUTC(new Date(now), tz).getTime();
     return EvUsageModel.localDateStr(new Date(midnight + 36 * 3600 * 1000), tz);
@@ -1931,8 +1903,6 @@ class CarChargeDevice extends GenericDevice {
     await this.setStoreValue('detectedMaxPower', power).catch(this.error);
     await this.setSettings({ learned_power: `${power} W` }).catch(this.error);
   }
-
-  // ─── Main plan and chart update ─────────────────────────────────────────────
 
   // Plans and renders. Calls close together (at start-up prices, car report, history learning and
   // listeners all ask) become one run; a call during a run gets one run after it.
@@ -2213,8 +2183,6 @@ class CarChargeDevice extends GenericDevice {
     }
   }
 
-  // ─── Batch departure pattern learning from Insights ────────────────────────
-
   async learnDeparturePattern({ retrain = false } = {}) {
     this.log('[EV Slot] Starting departure pattern learning from Insights...');
     try {
@@ -2390,8 +2358,6 @@ class CarChargeDevice extends GenericDevice {
       this.error('[EV Slot] learnDeparturePattern failed:', err);
     }
   }
-
-  // ─── Update learned profile display in settings ─────────────────────────────
 
   async _updateLearnedProfileSettings() {
     if (!this.usageModel) return;

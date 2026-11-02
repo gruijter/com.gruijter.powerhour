@@ -189,8 +189,6 @@ class BatDevice extends GenericDevice {
     super.onDeleted();
   }
 
-  // --- Built-in control (setting batteryControl, capability battery_mode) ---
-
   getBatteryMode() {
     return (this.hasCapability('battery_mode') && this.getCapabilityValue('battery_mode')) || 'smart';
   }
@@ -871,7 +869,6 @@ class BatDevice extends GenericDevice {
         }
       }
 
-      // 2. SoC history: measure_battery (or soc)
       const socLog = devLogs.find((l) => {
         const id = l.id || l.uri || l.ownerUri || '';
         const cap = id.split(':').pop() || '';
@@ -999,8 +996,6 @@ class BatDevice extends GenericDevice {
       ...(socBounds ? { socBounds, allowGridCharge: true } : {}),
     };
   }
-
-  // --- Calibration of the battery's own SoC (setting calibrateDays, BatteryCalibration) ---
 
   calibrationDays() {
     const days = this.getSettings().calibrateDays;

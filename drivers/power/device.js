@@ -78,8 +78,6 @@ class PowerDevice extends GenericDevice {
     await this.initAppliance().catch(this.error);
   }
 
-  // --- Learning ---
-
   async initAppliance() {
     this.stopAppliance();
     await this.updateApplianceInfo().catch(this.error);
@@ -458,8 +456,6 @@ class PowerDevice extends GenericDevice {
     if (from === null || to === null) return null;
     return Math.max(0, ((to - from) * 3600000000) / (endMs - startMs));
   }
-
-  // --- Plan: a run ready by a time, at the cheapest start (like the EV departure) ---
 
   // Price entry of the tariff group's DAP devices for ms (today, coming days, yesterday) or null.
   // Memoized per minute and price list: the plan searches call it for the same times many times.
@@ -926,7 +922,6 @@ class PowerDevice extends GenericDevice {
     const tomorrowStart = periods.tomorrowStart.getTime();
     await render(todayStart, tomorrowStart, true, this.applianceTodayImage, 'chartApplianceToday');
     await render(tomorrowStart, periods.tomorrowEnd.getTime(), false, this.applianceTomorrowImage, 'chartApplianceTomorrow');
-    // Next hours: to the end of the known prices, at least 12 hours.
     const slotStart = Math.floor(now / SLOT_MS) * SLOT_MS;
     const intervalMs = (this.priceInterval || 60) * 60 * 1000;
     const pricesEnd = (this.dapPrices || []).reduce((end, p) => Math.max(end, new Date(p.time).getTime() + intervalMs), 0);

@@ -48,31 +48,24 @@ const driverSpecifics = {
     'measure_watt_grid', 'meter_power_hidden.grid',
     'measure_watt_home', 'meter_power_hidden.home',
     'measure_watt_solar', 'measure_watt_battery', 'measure_watt_evcharger',
-    // kWh (net)
     'meter_kwh_last_hour', 'meter_kwh_this_hour', 'meter_kwh_last_day', 'meter_kwh_this_day',
     'meter_kwh_last_month', 'meter_kwh_this_month', 'meter_kwh_last_year', 'meter_kwh_this_year',
-    // Budget
     'meter_target_month_to_date', 'meter_target_year_to_date',
-    // Money (net)
     'meter_money_last_hour', 'meter_money_this_hour', 'meter_money_last_day', 'meter_money_this_day',
     'meter_money_last_month', 'meter_money_this_month', 'meter_money_last_year', 'meter_money_this_year',
-    // Money avg
     'meter_money_this_month_avg', 'meter_money_this_year_avg',
-    // Imported (kWh, then money)
     'meter_kwh_last_day.imported', 'meter_kwh_this_day.imported',
     'meter_kwh_last_month.imported', 'meter_kwh_this_month.imported',
     'meter_kwh_last_year.imported', 'meter_kwh_this_year.imported',
     'meter_money_last_day.imported', 'meter_money_this_day.imported',
     'meter_money_last_month.imported', 'meter_money_this_month.imported',
     'meter_money_last_year.imported', 'meter_money_this_year.imported',
-    // Exported (kWh, then money)
     'meter_kwh_last_day.exported', 'meter_kwh_this_day.exported',
     'meter_kwh_last_month.exported', 'meter_kwh_this_month.exported',
     'meter_kwh_last_year.exported', 'meter_kwh_this_year.exported',
     'meter_money_last_day.exported', 'meter_money_this_day.exported',
     'meter_money_last_month.exported', 'meter_money_this_month.exported',
     'meter_money_last_year.exported', 'meter_money_this_year.exported',
-    // Min/max (day, month, year - independently auto-resetting)
     'measure_watt_min.day', 'measure_watt_max.day',
     'measure_watt_min.month', 'measure_watt_max.month',
     'measure_watt_min.year', 'measure_watt_max.year',
@@ -82,12 +75,10 @@ const driverSpecifics = {
     'measure_watt_peak.year', 'measure_watt_peak_export.year',
     // Live projection for the running peak slot (see updatePeakProjection())
     'measure_watt_peak.projected', 'measure_watt_peak.headroom', 'measure_watt_peak.billed',
-    // Forecast (home load)
     'measure_watt_forecast.h0', 'measure_watt_forecast.m15', 'measure_watt_forecast.m30',
     'measure_watt_forecast.m45', 'measure_watt_forecast.h1', 'measure_watt_forecast.h2',
     'measure_watt_forecast.h3', 'meter_kwh_forecast.h0', 'meter_kwh_forecast.this_day',
     'meter_kwh_forecast.tomorrow', 'measure_watt_forecast.tomorrow_peak',
-    // Forecast (net grid exchange)
     'measure_watt_forecast.net_h0', 'measure_watt_forecast.net_h1',
     'button.retrain_load'],
   // Asked at pair and repair (lib/helpers/PairSetup.js), not on the settings page.
@@ -132,7 +123,7 @@ class GridDriver extends GenericDriver {
   }
 
   async checkStartPolling() {
-    if (this.energyPollCallback) return; // Already polling
+    if (this.energyPollCallback) return;
     // eslint-disable-next-line global-require
     const EnergyPollingHelper = require('../../lib/helpers/EnergyPollingHelper');
     EnergyPollingHelper.init(this.homey, { log: this.log.bind(this), error: this.error.bind(this) });

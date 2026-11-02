@@ -1360,7 +1360,6 @@ class GridDevice extends GenericDevice {
     return w;
   }
 
-  // Local midnight at the start of next month (ms).
   startOfNextMonthMs(nowMs, tz) {
     const nowLocal = TimeHelpers.toLocalDate(new Date(nowMs), tz);
     return TimeHelpers.getLocalMidnightUTC(new Date(Date.UTC(nowLocal.getFullYear(), nowLocal.getMonth() + 1, 1, 12)), tz).getTime();
@@ -1565,8 +1564,6 @@ class GridDevice extends GenericDevice {
     this.markStoreDirty('directionalBlockState');
     return deltaMoney;
   }
-
-  // --- Load Forecast Logic ---
 
   async startForecastLoop() {
     // Idempotent: clears the pending timer, and the epoch makes an invocation already running

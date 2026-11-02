@@ -41,7 +41,6 @@ const driverSpecifics = {
     'meter_money_last_hour', 'meter_money_this_hour', 'meter_money_last_day', 'meter_money_this_day',
     'meter_money_last_month', 'meter_money_this_month', 'meter_money_last_year', 'meter_money_this_year',
     'meter_tariff', 'meter_water', 'measure_water',
-    // Min/max (day, month, year - independently auto-resetting)
     'measure_lpm_min.day', 'measure_lpm_max.day',
     'measure_lpm_min.month', 'measure_lpm_max.month',
     'measure_lpm_min.year', 'measure_lpm_max.year'],

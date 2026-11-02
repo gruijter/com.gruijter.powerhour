@@ -101,7 +101,7 @@ class SolarDriver extends GenericDriver {
   }
 
   async checkStartPolling() {
-    if (this.energyPollCallback) return; // Already polling
+    if (this.energyPollCallback) return;
     // eslint-disable-next-line global-require
     const EnergyPollingHelper = require('../../lib/helpers/EnergyPollingHelper');
     EnergyPollingHelper.init(this.homey, { log: this.log.bind(this), error: this.error.bind(this) });
@@ -127,14 +127,12 @@ class SolarDriver extends GenericDriver {
       if (Number.isFinite(cumulativePower)) {
         const devices = this.getDevices();
 
-        // 1. Calculate total solar power across the whole house
         let totalSolarPower = 0;
         devices.forEach((device) => {
           const power = device.getCapabilityValue('measure_power') || 0;
           if (power > 0) totalSolarPower += power;
         });
 
-        // 2. Assign values and calculate proportional self-consumption
         devices.forEach((device) => {
           device.currentGridPower = cumulativePower;
 

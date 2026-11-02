@@ -79,7 +79,6 @@ const driverSpecifics = {
     'meter_money_last_month', 'meter_money_this_month', 'meter_money_last_year', 'meter_money_this_year',
     'meter_money_this_month_avg', 'meter_money_this_year_avg',
     'meter_tariff', 'meter_power', 'measure_watt_avg',
-    // Min/max (day, month, year - independently auto-resetting)
     'measure_watt_min.day', 'measure_watt_max.day',
     'measure_watt_min.month', 'measure_watt_max.month',
     'measure_watt_min.year', 'measure_watt_max.year'],
@@ -136,7 +135,7 @@ class PowerDriver extends GenericDriver {
   }
 
   async checkStartPolling() {
-    if (this.energyPollCallback) return; // Already polling
+    if (this.energyPollCallback) return;
     // eslint-disable-next-line global-require
     const EnergyPollingHelper = require('../../lib/helpers/EnergyPollingHelper');
     EnergyPollingHelper.init(this.homey, { log: this.log.bind(this), error: this.error.bind(this) });

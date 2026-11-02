@@ -84,7 +84,6 @@ class SolarDevice extends GenericDevice {
       await this.setCapabilityValue('alarm_power', false).catch(this.error);
     }
 
-    // Auto-fill empty lat/lon settings at startup
     const currentSettings = this.getSettings();
     if (!currentSettings.lat || !currentSettings.lon) {
       const homeyLat = this.homey.geolocation.getLatitude();
@@ -141,7 +140,6 @@ class SolarDevice extends GenericDevice {
     // Delayed, to let the source device settle
     if (this.initLearningTimeout) this.homey.clearTimeout(this.initLearningTimeout);
     const finishInit = async () => {
-      // History for the charts (e.g. after an app update)
       await this.populatePowerHistory();
       if (!storedYieldFactors) {
         await this.attemptInitialBackfill();
@@ -213,8 +211,6 @@ class SolarDevice extends GenericDevice {
     return true;
   }
 
-  // --- Solar Logic ---
-
   async startForecastLoop() {
     // Idempotent; the epoch makes an invocation already running stand down (as in grid
     // startForecastLoop()).
@@ -227,7 +223,6 @@ class SolarDevice extends GenericDevice {
         await this.fetchForecast();
         await this.updateForecastDisplay(false);
 
-        // Nightly retrain at 01:00 local time
         const now = new Date();
         // Local hour: Homey runs in UTC
         const localNow = TimeHelpers.toLocalDate(now, this.timeZone);
@@ -265,7 +260,6 @@ class SolarDevice extends GenericDevice {
     const loop = async () => {
       if (this.isDestroyed || epoch !== this.learningEpoch) return;
       try {
-        // Paused while a retrain runs
         if (!this.retraining) {
           await this.updateLearning();
           const now = new Date();
@@ -356,7 +350,6 @@ class SolarDevice extends GenericDevice {
       const deltaTotalKwh = (safePower * deltaTmMs) / 3600000000;
       this.meterTotalIntegrated = (this.meterTotalIntegrated || 0) + deltaTotalKwh;
 
-      // Stored at most every 15 minutes
       if (!this.lastMeterIntegratedSaveTm || (currentTimestamp - this.lastMeterIntegratedSaveTm > 15 * 60 * 1000)) {
         this.setStoreValue('meterSelfConsumed', this.meterSelfConsumed).catch(this.error);
         this.setStoreValue('meterTotalIntegrated', this.meterTotalIntegrated).catch(this.error);
@@ -408,7 +401,6 @@ class SolarDevice extends GenericDevice {
           await this.setCapabilityValue('alarm_power', curtailment.isActive).catch(this.error);
           if (curtailment.log) this.log(curtailment.log);
 
-          // Curtailment flow cards
           let app;
           try {
             app = this.homey.app;
@@ -505,7 +497,6 @@ class SolarDevice extends GenericDevice {
       if (!sourceDevice) throw new Error('No source device found');
       this.log('Source Device ID:', sourceDevice.id);
 
-      // 1. Weather history (14 days)
       const endDate = new Date();
       const startDate14 = new Date();
       startDate14.setDate(startDate14.getDate() - 14);
@@ -568,7 +559,6 @@ class SolarDevice extends GenericDevice {
       // ceilings (they only loosen); never for the hard reject filter, as it starts low and grows.
       const effectivePeakPower = peakPowerSetting > 0 ? peakPowerSetting : this.peakPowerAllTime;
 
-      // 3. Step 1: hourly, 14 days
       this.log('Step 1: Coarse learning (up to 14 days, hourly)');
       try {
         const logs14 = await api.insights.getLogEntries({
@@ -646,7 +636,6 @@ class SolarDevice extends GenericDevice {
         this.error('Step 1 failed:', e);
       }
 
-      // 4. Step 2: 5-minute, 24 hours
       this.log('Step 2: Fine tuning (24 hours, 5m)');
       try {
         const startDate24h = new Date();
@@ -710,7 +699,6 @@ class SolarDevice extends GenericDevice {
         this.error('Step 2 failed:', e);
       }
 
-      // 5. Aggregate both steps, then blend with the previous model.
       const combinedSlotSamples = slotSamples1.map((samples, idx) => [...samples, ...slotSamples2[idx]]);
       const aggregateResult = SolarLearningStrategy.aggregateYieldFactors({
         combinedSlotSamples,
@@ -938,7 +926,6 @@ class SolarDevice extends GenericDevice {
     const now = new Date();
     let dayChanged = false;
 
-    // --- Forecast history (fixed Yesterday chart) ---
     const nowLocalStr = now.toLocaleDateString('en-CA', { timeZone: this.timeZone }); // YYYY-MM-DD
 
     // Real UTC instants of the local midnights; yieldFactors[] is indexed by UTC hour.
@@ -1026,7 +1013,6 @@ class SolarDevice extends GenericDevice {
     await this.setCapabilityValue('measure_watt_forecast.h2', getForecast(120)).catch(this.error);
     await this.setCapabilityValue('measure_watt_forecast.h3', getForecast(180)).catch(this.error);
 
-    // Forecast this hour (h0)
     let forecastH0 = 0;
     const startOfHour = TimeHelpers.startOfLocalBlock(now, 60, this.timeZone);
     for (let i = 0; i < 4; i += 1) {
@@ -1249,7 +1235,6 @@ class SolarDevice extends GenericDevice {
       adjustedEnd.setDate(adjustedEnd.getDate() + 1);
     }
 
-    // Local to UTC with the current offset
     const offset = nowLocal.getTime() - now.getTime();
     const startTimeUTC = startLocal.getTime() - offset;
     const endTimeUTC = adjustedEnd.getTime() - offset;

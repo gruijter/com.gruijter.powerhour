@@ -131,8 +131,6 @@ class CarChargeDriver extends GenericDriver {
     await EnergyPollingHelper.register(this.energyPollCallback);
   }
 
-  // ─── Device compatibility checks ────────────────────────────────────────────
-
   /**
    * Check if a Homey device is a suitable EV charger (wallbox / smart plug used as charger).
    * Returns { found, useMeasureSource } or { found: false }.
@@ -143,7 +141,7 @@ class CarChargeDriver extends GenericDriver {
       return { found: false };
     }
 
-    const caps = homeyDevice.capabilities || []; // guard against null capabilities
+    const caps = homeyDevice.capabilities || [];
     const energyData = homeyDevice.energyObj || homeyDevice.energy;
     let isCharger = false;
 
@@ -204,8 +202,6 @@ class CarChargeDriver extends GenericDriver {
     };
   }
 
-  // ─── Internal helpers ────────────────────────────────────────────────────────
-
   async _getAllHomeyDevices() {
     let api;
     try {
@@ -258,8 +254,6 @@ class CarChargeDriver extends GenericDriver {
       return Promise.reject(err);
     }
   }
-
-  // ─── Pairing / repairing ─────────────────────────────────────────────────────
 
   // The paired device is named after the charger; the list also shows the car.
   sourceName(dev) {
