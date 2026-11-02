@@ -1,4 +1,5 @@
-Power by the Hour maakt van Homey een energiemanager voor je huis. Zie het verbruik en de kosten van stroom, gas en water per uur, dag, maand en jaar, met dynamische (kwartier- of uur-) of vaste prijzen voor stroom en gas, voor alle EU-landen.
-Voorspel je zonne-opbrengst en het verbruik van je huis, en laat de app je thuisbatterij en het laden van je auto plannen en sturen: op de goedkoopste momenten en op zonne-overschot. Plan je wasmachine of vaatwasser op de goedkoopste start.
-Werkt met ieder apparaat met een energie-, vermogens-, gas- of watermeter, en met thuisbatterijen en laadpalen van ieder merk.
-Ontdek hoeveel je altijd-aan apparaten verbruiken, en bespaar honderden euro's per jaar!
+Power by the Hour maakt van Homey je eigen Energy Management System (EMS): de laagste energiekosten en het meeste eigen verbruik, ingericht vanaf je telefoon.
+Het plant je thuisbatterij, laadt je auto op het goedkoopste moment of op zon, en start je wasmachine op het goedkoopste moment. Geen batterij? Al het andere werkt ook.
+Zelflerend: verbruik van je huis, autoritten, wasprogramma's, en een zonnevoorspelling zonder oriëntatie of paneelgegevens.
+Elk merk: P1-meters, omvormers, batterijen, laadpalen, slimme stekkers. Elk contract: dynamisch (kwartier of uur) of vast, met of zonder saldering, capaciteitstarief.
+Zie het verbruik en de kosten van stroom, gas en water per uur, dag, maand en jaar, en wat je altijd-aan apparaten kosten.

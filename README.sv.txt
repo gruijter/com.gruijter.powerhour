@@ -1,4 +1,5 @@
-Power by the Hour gör Homey till en energihanterare för hemmet. Se förbrukning och kostnad för el, gas och vatten per timme, dag, månad och år, med dynamiska (kvarts- eller timpriser) eller fasta priser för el och gas, för alla EU-länder.
-Prognostisera din solproduktion och hemmets förbrukning, och låt appen planera och styra ditt hembatteri och laddningen av din bil: vid de billigaste tiderna och med solöverskott. Planera tvättmaskinen eller diskmaskinen till den billigaste starten.
-Fungerar med alla enheter med energi-, effekt-, gas- eller vattenmätare, och med hembatterier och laddboxar av alla märken.
-Ta reda på hur mycket dina alltid-på-apparater förbrukar, och spara hundratals euro per år!
+Power by the Hour gör Homey till ditt eget energihanteringssystem (EMS): lägsta energikostnad och mest egenanvändning, inställt från telefonen.
+Det planerar ditt hembatteri, laddar bilen när det är billigast eller på sol, och startar tvättmaskinen vid billigaste tidpunkt. Inget batteri? Allt annat fungerar ändå.
+Självlärande: hushållets förbrukning, bilresor, maskinprogram, och en solprognos utan riktning eller paneldata.
+Alla märken: P1-mätare, växelriktare, batterier, laddboxar, smarta uttag. Alla avtal: dynamiskt (15 min eller timpris) eller fast, med eller utan nettning, effekttariff.
+Se förbrukning och kostnad för el, gas och vatten per timme, dag, månad och år, och vad dina alltid-på-apparater kostar.

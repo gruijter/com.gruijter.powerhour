@@ -1,133 +1,72 @@
-# Power Monitor (Power Driver)
+# ⚡ Power Monitor
 
-The **Power Monitor** summarizes the electricity use (or production) of any metered device: kWh and money per hour, day, month and year, with minimum and maximum power. For a washing machine, dishwasher or dryer it can also learn the programs and plan the cheapest start.
-
-<img src="https://us1.discourse-cdn.com/flex025/uploads/athom/original/3X/5/5/55d1f95545e8389c18729221bf901a71321811fb.jpeg" alt="Power Monitor Device Tile" width="350"/>
-
----
-
-## Table of Contents
-
-- [Key Features](#key-features)
-- [Setup & Pairing](#setup--pairing)
-- [Homey Energy Totals](#homey-energy-totals)
-- [Virtual Meter (via Flow)](#virtual-meter-via-flow)
-- [Tariff, Fixed Costs & Budget](#tariff-fixed-costs--budget)
-- [Always-On Power](#always-on-power)
-- [Appliance Forecast & Planner](#appliance-forecast--planner)
-- [Flow Cards](#flow-cards)
+**Use and costs per appliance or sub-meter, and the cheapest start for your washing machine.**
+[← Overview](./README.md)
 
 ---
 
-## Key Features
+## What it does
 
-- **Period totals:** kWh and money for this and last hour, day, month and year, plus the month and year average price.
-- **Any meter:** smart meters, energy monitors, smart plugs, heat pumps. The best energy capability is picked automatically; you can choose another in the setup view.
-- **Homey Energy totals:** one device for all smart meters, all solar panels or all measured devices in Homey Energy.
-- **Always-on power:** minimum and maximum power per day, month and year.
-- **Dynamic tariffs:** the price of an Energy Price device in the same tariff group, or a tariff set by flow.
-- **Budget:** compare the use with a year budget.
-- **Appliance forecast & planner:** learns washing machine, dishwasher or dryer programs and plans the cheapest start.
+- kWh and money per hour, day, month and year.
+- Any meter: smart plug, energy monitor, heat pump, sub-meter.
+- Shows always-on (standby) power.
+- Learns appliance programs and plans the cheapest start.
+- Compares use with a year budget.
 
 ---
 
-## Setup & Pairing
+## Setup
 
-<img src="https://us1.discourse-cdn.com/flex025/uploads/athom/optimized/3X/1/2/12a1275dde87ca9c92c8d79ce12db4f586e2866b_2_250x220.jpeg" alt="Driver Selection" width="220"/>
+1. **Add Device** → **Power by the Hour** → **Power Monitor**.
+2. Pick the device. Likely ones first.
+3. Washing machine, dishwasher or dryer? Choose a **Forecast and planner** mode. Done.
 
-1. Go to **Devices** → **Add Device** → **Power by the Hour** → **Power Monitor**.
-2. Choose the source device. Likely sources are listed first. The new device gets the name of the source device.
-3. The setup view asks for:
-   - **Use Watt as source** — only when the device has no kWh meter. The app then integrates the power, which is less accurate.
-   - **Has daily reset** — when the source meter resets to 0 every midnight.
-   - **Enable forecast and planner** — for a washing machine, dishwasher or dryer, see below.
-   - **Tariff group**: an Energy Price device, or **Fixed tariff** with the import and export price and the currency.
-   - Which meter capabilities to use (import, import 2, export, export 2, power), when the automatic choice is not right.
-   - **Year budget** — off by default.
-
-Use **Repair** to switch to another source device, e.g. after replacing a meter (the device keeps its name), or to change the **Year budget**.
+- **Use Watt as source:** only without a kWh meter.
+- **Has daily reset:** the meter resets at midnight.
+- **Homey Energy totals:** pair `HOMEY_ENERGY_SMARTMETERS`, `_SOLARPANELS` or `_DEVICES`.
+- **Virtual meter:** pair `VIRTUAL_VIA_FLOW`, send readings by flow.
+- **Repair:** other source, mode, budget, fix totals.
 
 ---
 
-## Homey Energy Totals
+## Always-on power
 
-The pairing list also offers devices that summarize Homey Energy:
-
-| Device | Summarizes |
-|---|---|
-| `HOMEY_ENERGY_SMARTMETERS` | The cumulative (main) meters in Homey Energy |
-| `HOMEY_ENERGY_SOLARPANELS` | All solar panels in Homey Energy |
-| `HOMEY_ENERGY_DEVICES` | All measured devices in Homey Energy |
+- Minimum power per day, month and year = what is always on.
+- Every 10 W always on ≈ 90 kWh per year.
 
 ---
 
-## Virtual Meter (via Flow)
+## Appliance forecast & planner
 
-For a meter that is not a Homey device, or that needs a calculation first:
-1. Pair `VIRTUAL_VIA_FLOW`.
-2. Send the cumulative meter reading with the flow card **Send reading to virtual meter**.
+**Forecast and planner** (setup or Repair):
+- **Off**
+- **Forecast only:** learns programs and start times; adds expected runs to the grid forecast.
+- **Forecast and plan:** also plans the cheapest start, in 15-minute steps.
 
-<img src="https://us1.discourse-cdn.com/flex025/uploads/athom/original/3X/5/5/55e82da0ff03a2e8357db5e83bf71d458e72040b.png" alt="Virtual Meter Upload Flow" width="220"/>
-
-> [!IMPORTANT]
-> Send the total cumulative net kWh, e.g. `(consumed_high + consumed_low) - (returned_high + returned_low)`.
-
----
-
-## Tariff, Fixed Costs & Budget
-
-- **Tariff group:** the device uses the price of the Energy Price device with the same group number ([README.price.md](./README.price.md)). 0: **Fixed tariff** and **Fixed export tariff** from the settings, no Energy Price device needed.
-- **Tariff selection:** *Automatic* uses the import price while the home imports from the grid, and the export price while it exports. Or always import, or always export.
-- **Fixed costs** per hour, day and month: in the settings, or with **Set fixed cost**.
-- **Year budget:** a year budget spread **Evenly**, like the **Local climate (auto)** with the heating and air conditioning you choose, or **Custom (per month)**. The device shows how the use compares to the budget so far this month and year. Change it with **Repair** > *Year budget*.
-- **Fix totals or costs:** with **Repair** > *Fix totals or costs* you correct the totals and money values: after a wrong meter jump, after changing the source device or the start date (Repair then opens it by itself), or to enter the totals so far after pairing.
+**Start today / tomorrow** (tiles): As learned, Not used, Cheapest, Via flow, or a time.
+- At the start, **Planned start** fires: start the appliance from that flow.
+- **Next run** shows the coming start.
+- **Learned program** (settings): runs, energy, duration, starts per week.
 
 ---
 
-## Always-On Power
+## Flow cards
 
-The minimum power per day, month and year shows what is always on.
+**Triggers**
+- The power changed
+- Program started / finished
+- Planned start
+- Cheapest program start in the next … hours / between two times
 
-<img src="https://us1.discourse-cdn.com/flex025/uploads/athom/optimized/3X/2/3/238b5a7c7a3495dd4e375d5b8f3621ccc97b8bf6_2_200x411.jpeg" alt="Always On Power Detection" width="200"/>
+**Conditions**
+- Now is the cheapest program start in the next … hours / between two times
 
-> [!TIP]
-> Every 10 W of always-on power is about 90 kWh per year.
+**Actions**
+- Plan cheapest start between two times (empty start: now)
+- Plan start at a time
+- Cancel planned program
+- Set fixed cost per hour, day or month
+- Set fixed tariff or fixed export tariff
+- Send reading to virtual meter (app card)
 
----
-
-## Appliance Forecast & Planner
-
-Tick **Enable forecast and planner** for a washing machine, dishwasher or dryer on its own smart plug or meter. The device then:
-- learns its programs (duration and power) and when they usually start; **Learned program** in the settings shows what is known,
-- adds the expected runs to the home load forecast of the Grid Monitor,
-- finds the cheapest start for the learned program, with the prices of the tariff group.
-
-**Start today / Start tomorrow** (device tiles): *Automatic* (as learned), *Not used*, *Cheapest*, or a fixed time. At that start **Planned start** fires: start the program from that flow, e.g. by switching on the plug or through the appliance's app. **Next run** shows the coming start.
-
-Charts: the plan for today, tomorrow and the next hours, the weekly start pattern and the learned program. **Retrain appliance forecast** (maintenance action) relearns it.
-
----
-
-## Flow Cards
-
-The program and cheapest-start cards are available when **Enable forecast and planner** is on.
-
-### Triggers
-- **The power changed**
-- **Program started** / **Program finished** / **Planned start**
-- **Cheapest program start in the next … hours**
-- **Cheapest program start between** two times
-
-### Conditions
-- **Now is the cheapest program start in the next … hours**
-- **Now is the cheapest program start between** two times
-
-### Actions
-- **Plan cheapest start between** two times (empty start: now) — once; *Planned start* fires at the cheapest start
-- **Plan start at** a time
-- **Cancel planned program**
-- **Set fixed cost** per hour, day or month
-- **Set fixed tariff** or **fixed export tariff**
-- **Send reading to virtual meter** (app card)
-
-Times are text: `07:30`, decimal hours (`7.5`), or a tag.
+Times: `07:30`, `7.5`, or a tag.

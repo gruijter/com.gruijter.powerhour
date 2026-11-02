@@ -1,4 +1,5 @@
-Power by the Hour macht Homey zum Energiemanager für Ihr Zuhause. Sehen Sie Verbrauch und Kosten von Strom, Gas und Wasser pro Stunde, Tag, Monat und Jahr, mit dynamischen (15-Minuten- oder Stunden-) oder festen Preisen für Strom und Gas, für alle EU-Länder.
-Sagen Sie Ihre Solarproduktion und den Verbrauch Ihres Hauses voraus, und lassen Sie die App Ihre Heimbatterie und das Laden Ihres Autos planen und steuern: zu den günstigsten Zeiten und mit Solarüberschuss. Planen Sie Ihre Waschmaschine oder Spülmaschine zum günstigsten Start.
-Funktioniert mit jedem Gerät mit Energie-, Leistungs-, Gas- oder Wasserzähler, und mit Heimbatterien und Ladestationen jeder Marke.
-Erfahren Sie, wie viel Ihre Always-on-Geräte verbrauchen, und sparen Sie Hunderte von Euro pro Jahr!
+Power by the Hour macht Homey zu Ihrem eigenen Energiemanagementsystem (EMS): niedrigste Energiekosten und höchster Eigenverbrauch, eingerichtet vom Smartphone aus.
+Es plant Ihre Heimbatterie, lädt Ihr Auto zur günstigsten Zeit oder mit Solarstrom und startet Ihre Waschmaschine zum günstigsten Zeitpunkt. Keine Batterie? Alles andere funktioniert auch.
+Selbstlernend: Hausverbrauch, Autofahrten, Geräteprogramme und eine Solarprognose ohne Ausrichtung oder Moduldaten.
+Jede Marke: P1-Zähler, Wechselrichter, Batterien, Ladestationen, smarte Steckdosen. Jeder Vertrag: dynamisch (15 Min. oder stündlich) oder fest, mit oder ohne Saldierung, Leistungstarif.
+Sehen Sie Verbrauch und Kosten von Strom, Gas und Wasser pro Stunde, Tag, Monat und Jahr, und was Ihre Always-on-Geräte kosten.

@@ -1,4 +1,5 @@
-Power by the Hour gjør Homey til en energistyring for hjemmet. Se forbruk og kostnad for strøm, gass og vann per time, dag, måned og år, med dynamiske (kvarters- eller timepriser) eller faste priser for strøm og gass, for alle EU-land.
-Forutsi solproduksjonen og husets forbruk, og la appen planlegge og styre hjemmebatteriet og ladingen av bilen: på de billigste tidspunktene og med soloverskudd. Planlegg vaskemaskinen eller oppvaskmaskinen til den billigste starten.
-Fungerer med alle enheter med energi-, effekt-, gass- eller vannmåler, og med hjemmebatterier og ladere av alle merker.
-Finn ut hvor mye apparatene som alltid står på bruker, og spar hundrevis av euro i året!
+Power by the Hour gjør Homey til ditt eget energistyringssystem (EMS): lavest mulig energikostnad og mest egenforbruk, satt opp fra telefonen.
+Den planlegger hjemmebatteriet, lader bilen når det er billigst eller på sol, og starter vaskemaskinen når det er billigst. Ikke batteri? Alt annet fungerer likevel.
+Selvlærende: husets forbruk, bilturer, maskinprogrammer, og en solprognose uten retning eller paneldata.
+Alle merker: P1-målere, vekselrettere, batterier, ladebokser, smarte stikk. Alle avtaler: dynamisk (15 min eller time) eller fast, med eller uten netting, effekttariff.
+Se forbruk og kostnad for strøm, gass og vann per time, dag, måned og år, og hva apparatene som alltid står på koster.

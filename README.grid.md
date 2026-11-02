@@ -1,177 +1,87 @@
-# Grid Monitor (Grid Driver)
+# 🔌 Grid Monitor
 
-The **Grid Monitor** driver tracks the electricity exchanged with the grid at your main meter (P1 smart meter or CT clamp) — imported and exported separately — and derives your real house load, capacity-tariff peaks, and a self-learning home load forecast from it.
-
----
-
-## Table of Contents
-
-- [Key Features](#key-features)
-- [Compatible Source Devices](#compatible-source-devices)
-- [Setup & Pairing](#setup--pairing)
-- [Grid Connection Settings](#grid-connection-settings)
-- [Home Power Calculation](#home-power-calculation)
-- [Import / Export Tracking & Price Settlement](#import--export-tracking--price-settlement)
-- [Peak Load (Capacity Tariff)](#peak-load-capacity-tariff)
-- [Home Load Forecast](#home-load-forecast)
-- [Capabilities](#capabilities)
-- [Flow Cards & Automations](#flow-cards--automations)
-- [Repairing / Changing the Source Meter](#repairing--changing-the-source-meter)
+**Your main meter: import, export, home load, peaks and load forecast.**
+[← Overview](./README.md)
 
 ---
 
-## Key Features
+## What it does
 
-- **Net, Import & Export Totals:** kWh and money per hour, day, month and year — net, and split into imported and exported.
-- **Selectable Price Settlement:** Price import and export per direction, as one continuous net total, or netted per time block — matching how your supplier actually bills.
-- **Real House Load:** Calculates what your house itself consumes by combining grid, solar, home battery and EV charger power.
-- **Capacity Tariff Peaks:** 15/30/60-minute average peak demand per day, month and year, with a live projection and headroom for the running interval.
-- **Self-Learning Load Forecast:** Learns your weekly consumption pattern in 15-minute slots and predicts house load and net grid exchange for the coming hours, today and tomorrow.
-- **Charts:** forecast vs. measured grid exchange (today, tomorrow, yesterday), plus the weekly home load profile.
-
----
-
-## Compatible Source Devices
-
-The source device must be registered in Homey Energy as a **cumulative** (main grid) meter. Typical examples:
-- P1 smart meter readers (HomeWizard, Homey Energy Dongle, Slimme Meter apps, etc.)
-- CT-clamp / main-meter energy monitors
-
-The driver reads the import and export registers that the source device declares in its Homey Energy settings. Devices that only report a signed `measure_power` (positive = import, negative = export) are also supported: the app integrates Watt into kWh itself (**Use Watt as source**). This is less accurate — only use it when no kWh meter is available.
+- Import, export and net: kWh and money per hour, day, month and year.
+- Prices import and export the way your supplier bills (with or without netting).
+- Calculates your real home load.
+- Tracks capacity tariff peaks, live.
+- Learns and forecasts your home load.
+- Gives the fuse and peak limits to the battery and EV planners.
 
 ---
 
-## Setup & Pairing
+## Setup
 
-1. Go to **Devices** → **Add Device** → **Power by the Hour** → **Grid Monitor**.
-2. Choose your main grid meter. Smart meters are listed first. The new device gets the name of the source device.
-3. The setup view asks for **Use Watt as source**, the **Tariff group** (an Energy Price device, or **Fixed tariff** with the import and export price), the **Price settlement scheme**, the grid connection (phases, main fuse) and the **Peak load interval**, and the **Year budget** (on by default: 2500 kWh, Local climate, with the heating and air conditioning you choose). It also shows which meter capabilities are used for import and export, and lets you choose others.
-4. Afterwards, check the other **Grid connection** and **Capacity tariff** settings — see below.
+1. **Add Device** → **Power by the Hour** → **Grid Monitor**.
+2. Pick your P1 meter or main meter.
+3. Check price, grid connection and peak settings. Done.
 
-After pairing, the load forecast is trained automatically from the Insights history of your grid meter (and solar / battery / EV devices, if present). This may take a few minutes.
-
----
-
-## Grid Connection Settings
-
-**Phases**, **Main fuse (A)** and **Voltage (V)** describe your grid connection (default 3 × 25 A × 230 V ≈ 17.25 kW). They are used to:
-- Reject implausible readings when calculating house load (anything above twice the connection rating is ignored).
-- Provide the connection limit to the Power by the Hour Smart Battery Charger devices.
-
-Fill in your real values — especially on a small (e.g. 1 × 35 A) or large connection.
+- Source: a cumulative main meter in Homey Energy. Only a signed power? Tick **Use Watt as source**.
+- The load forecast trains itself from Homey Insights at pairing.
+- **Repair:** new meter (totals stay correct), budget, settings, fix totals.
 
 ---
 
-## Home Power Calculation
+## Prices & netting
 
-`measure_watt_home` shows what your house actually consumes, calculated live on every grid meter update:
+**Price settlement scheme:**
+| Scheme | What it does |
+|---|---|
+| **Per direction** (default) | Import and export each at their own price. |
+| **Continuous net** | Everything netted, then priced (netting). |
+| **Block settlement** | Netted per block of 15–60 min, then priced. |
 
-```
-Home = Grid (import +) + Solar − Battery (charging +) − EV charger (charging +)
-```
-
-- **Solar:** sum of all Power by the Hour Solar devices. Without those, the total generation from Homey Energy is used.
-- **Battery / EV charger:** sum of all Power by the Hour Smart Battery Charger and Smart EV Charger devices.
-- The result is smoothed with a 2-minute rolling average, to absorb timing differences between meters that report at different moments.
-
-The components are also shown separately as `measure_watt_solar`, `measure_watt_battery` and `measure_watt_evcharger`.
+- **Fixed costs** per hour, day and month.
 
 ---
 
-## Import / Export Tracking & Price Settlement
+## Home load
 
-Imported and exported energy are tracked separately (kWh and money per day, month and year), next to the regular net totals.
-
-**Tariff selection** decides which tariff is applied:
-- **Automatic** (default): import tariff while importing, export tariff while exporting.
-- **Always Import** / **Always Export**.
-
-**Price settlement scheme** decides how import and export are combined before pricing. This drives the main `meter_money_*` totals:
-
-| Scheme | Behavior |
-| :--- | :--- |
-| **Per direction (continuous)** *(default)* | Import and export are priced separately at their own tariff. Matches most real-world billing. |
-| **Continuous net** | Everything is netted into one total, then priced. |
-| **Block settlement** | Import and export are netted per closed time block (15/30/45/60 min, or **Auto** = the price interval), then priced. |
-
-*Per direction* and *Block settlement* need a source device that can tell import from export.
-
-Fixed costs per hour, day and month can be added in the settings or via flow.
+`Home = Grid + Solar − Battery charging − EV charging`
+- Solar, battery and EV from the Power by the Hour devices.
+- Shown apart: home, solar, battery and EV power.
 
 ---
 
-## Peak Load (Capacity Tariff)
+## Capacity tariff & fuse
 
-Many grid operators bill a capacity tariff based on your highest **average** import power over a fixed interval. The driver tracks this per interval:
-
-- **Peak load interval:** 15 min (most of the EU), 30 min (UK) or 60 min (Norway, some Swedish DSOs). The interval is shown in the capability titles, e.g. *"15 min Peak demand (import day)"*.
-- **Minimum billed peak (W):** a floor the tariff always bills (e.g. `2500` in Flanders). `0` = none.
-
-| Capability | Meaning |
-| :--- | :--- |
-| `measure_watt_peak.day / .month / .year` | Highest interval-average import this day / month / year. |
-| `measure_watt_peak_export.day / .month / .year` | Same for export. |
-| `measure_watt_peak.projected` | Expected average of the **running** interval, assuming the current import holds until the interval ends. |
-| `measure_watt_peak.headroom` | Extra power you can still switch on now, for the rest of the interval, without setting a new month peak (the minimum billed peak counts too). Empty while there is no month peak yet. |
-
-Use the **Projected peak exceeds billing level** trigger or the **Peak headroom is below** condition to switch off loads before a new peak is set.
+- **Grid connection:** phases, main fuse, voltage, fuse margin.
+- **Max. import (W):** contracted power, never exceeded.
+- **Presets:** Flanders, Norway, Sweden, or custom.
+- **Custom:** interval (15/30/60 min), billed peak (highest, average or N-th), counting hours and months, price per kW or steps.
+- **Live:** peak per day, month and year; projected peak and headroom now.
 
 ---
 
-## Home Load Forecast
+## Home load forecast
 
-The driver learns a weekly home load profile (7 days × 96 quarter-hours) from `measure_watt_home`:
-- **Initial training:** on pairing, from the Insights history of the underlying meters.
-- **Continuous learning:** every quarter-hour, the profile is updated with the measured load.
-- **Nightly retrain:** blends recent history into the profile.
-- **Forecast accuracy:** each finished quarter-hour is compared with its forecast. The result is shown in the device settings (**Home load forecast** → **Forecast accuracy**) and needs about a day of data to be meaningful.
-
-Besides the house load, the driver forecasts the **net grid exchange** (+ import / − export):
-- **Net:** home load − solar forecast (from Power by the Hour Solar devices) + planned EV charging (from Power by the Hour EV Charger devices, only while the car is connected).
-- **Net incl. battery plan:** net + the planned charge/discharge of the Power by the Hour Smart Battery Chargers.
-
-EV charging is not part of the learned home load, so irregular charging sessions don't distort the profile. Power Monitors with **Enable forecast and planner** add the expected runs of their appliance.
-
-**Extra home load** (flow card) adds a known extra load to the forecast, e.g. a fortnightly legionella run of the boiler, without it being learned.
-
-**Charts:** *Grid today / tomorrow / yesterday* show the grid exchange (orange: import, green: export). Bars are the forecast, the line is measured. *Home weekly profile* shows the learned profile. For past quarter-hours, the grid forecast is shown as it was when that quarter-hour started.
-
-Use the button **Retrain home load forecast** to rebuild the profile from scratch, e.g. after a large change in household or appliances.
+- Learns your week in 15-minute steps; keeps learning.
+- **Net forecast:** home load − solar + planned EV charging.
+- **Net incl. battery plan:** plus the battery plan.
+- Appliances with a forecast add their expected runs.
+- **Extra load** (flow): a known load, e.g. legionella run, without learning it.
+- **Forecast accuracy** in the settings.
+- **Retrain home load forecast** (button): start again.
 
 ---
 
-## Capabilities
+## Flow cards
 
-- **Live power:** `measure_watt_grid`, `measure_watt_home`, `measure_watt_solar`, `measure_watt_battery`, `measure_watt_evcharger`, `meter_tariff`
-- **Net energy & money:** `meter_kwh_*` and `meter_money_*` for this/last hour, day, month and year, plus month/year average price and budget targets
-- **Import / export split:** `meter_kwh_*.imported / .exported` and `meter_money_*.imported / .exported` for this/last day, month and year
-- **Min / max power:** `measure_watt_min.*` / `measure_watt_max.*` for day, month and year
-- **Peak load:** see [Peak Load](#peak-load-capacity-tariff)
-- **Load forecast:** `measure_watt_forecast.h0`, `.m15`, `.m30`, `.m45`, `.h1`, `.h2`, `.h3`, `.tomorrow_peak`, `meter_kwh_forecast.h0`, `.this_day`, `.tomorrow`
-- **Net grid forecast:** `measure_watt_forecast.net_h0`, `.net_h1`
-- `button.retrain_load` — retrain the load forecast model from scratch
+**Triggers**
+- Home load forecast updated (JSON tokens)
+- Projected peak exceeds billing level
 
----
+**Conditions**
+- Peak headroom is / isn't below … W
 
-## Flow Cards & Automations
-
-### Triggers
-- **Home load forecast updated:** fires when the forecast is updated. Tokens: load forecast, forecast accuracy, net grid forecast, net grid forecast incl. battery plan, and peak forecast (all JSON).
-- **Projected peak exceeds billing level:** fires once per peak interval, as soon as the running interval is on course to raise this month's capacity cost. Tokens: projected, month peak.
-
-### Conditions
-- **Peak headroom is / isn't below a value:** false while there is no month peak yet.
-
-### Actions
-- **Provide home load forecast JSON:** returns the same JSON tokens as the trigger, for today, tomorrow or the next hours.
-- **Extra load** … W today/tomorrow at a time for … minutes (0 W removes it).
-- **Set fixed tariff** or **fixed export tariff.**
-- **Set fixed cost** (per hour, day or month).
-
-The **peak forecast** JSON contains the month peak, the projected value and headroom of the running interval, and the highest expected interval average (with time) until the end of tomorrow or the month, including whether a new month peak is expected.
-
----
-
-## Repairing / Changing the Source Meter
-
-If you replace your smart meter or P1 reader, use **Repair** on the device to select the new source device. The import/export and peak-load bookkeeping is re-anchored to the new meter, so the switch does not create a false jump in money totals or peaks. Check the totals afterwards; fix them with **Repair** > *Fix totals or costs* if needed. **Repair** > *Year budget* changes the year budget and the date the year starts.
+**Actions**
+- Provide home load forecast JSON
+- Extra load … W today/tomorrow at … for … min (0 W: remove)
+- Set fixed tariff or fixed export tariff
+- Set fixed cost per hour, day or month

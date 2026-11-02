@@ -1,123 +1,101 @@
 # Power by the Hour
 
-**Power by the Hour (PBTH)** turns Homey into a complete Home Energy Management System. Track electricity, gas and water use and costs, forecast solar production and home load, plan and control home batteries and EV charging, and plan appliances at the cheapest moment, with dynamic (15 min or hourly) or fixed energy prices.
+**Your own Energy Management System (EMS) on Homey.**
+Lowest energy costs, most self-consumption. Set up from your phone.
 
 <img src="./assets/images/large.jpg" alt="Power by the Hour" width="500"/>
 
 ---
 
-## 🎯 Use Case Directory
+## ⚡ What is an EMS?
 
-Select a use case below for setup instructions, settings and flow cards:
+- **Measures** use, solar production, import and export.
+- **Predicts** prices, solar yield and home load.
+- **Plans** when the battery, car and appliances run.
+- **Controls** them, automatically.
 
-| Use Case | Device | Guide |
+---
+
+## 🧠 The heart: smart planning
+
+- **🔋 Smart battery:** plans charge and discharge on prices, solar and home load. Cheapest total, including losses and wear. [How](./README.battery.md#how-smart-works)
+- **🚗 Smart EV charging:** learns when you leave, charges at the cheapest hours or on solar, ready on time. [How](./README.evCharger.md#how-smart-works)
+- **☀️ Self-learning solar forecast:** no orientation or panel data needed. Learns shade by itself. [How](./README.solar.md#how-the-forecast-works)
+- **⚡ Appliances:** learns programs, plans the cheapest start for the washing machine or dishwasher. [How](./README.power.md#appliance-forecast--planner)
+
+**No battery? No problem.** Prices, meters, forecasts, EV charging and appliances all work without one.
+
+---
+
+## ✅ Why Power by the Hour
+
+- **Any brand:** P1 meters, inverters, batteries, EV chargers, washing machines. Anything with a meter in Homey, or via flow.
+- **Any contract:** dynamic (15 min or hourly) or fixed, with or without netting, capacity tariff, any currency.
+- **Your goal:** lowest costs, most self-consumption, or both.
+- **Easy:** a wizard at pairing. If you can use a smartphone, you can set up your EMS.
+- **Self-learning:** home load, solar yield, car trips and appliance programs.
+- **Safe:** keeps the main fuse and capacity peaks in check.
+
+---
+
+## 🧩 Devices
+
+| Device | What it does | Guide |
 |---|---|---|
-| 💶 **Electricity & Gas Prices (dynamic or fixed, 15 min or 1 hour)** | Energy Price (`price`) | [→ README.price.md](./README.price.md) |
-| 🔌 **Grid Import/Export, Home Load, Capacity Tariff & Load Forecast** | Grid Monitor (`grid`) | [→ README.grid.md](./README.grid.md) |
-| ☀️ **Solar Production, Forecast & Self-Consumption** | Solar Monitor (`solar`) | [→ README.solar.md](./README.solar.md) |
-| 🔋 **Plan & Control Home Batteries** | Smart Battery Charger (`battery`) | [→ README.battery.md](./README.battery.md) |
-| 🚗 **Smart EV Charging** | Smart EV Charger (`evCharger`) | [→ README.evCharger.md](./README.evCharger.md) |
-| ⚡ **Electricity Use, Standby Power & Appliance Planner** | Power Monitor (`power`) | [→ README.power.md](./README.power.md) |
-| 🛢️ **Gas Use & Constant Flow Check** | Gas Monitor (`gas`) | [→ README.gas.md](./README.gas.md) |
-| 💧 **Water Use & Leak Check** | Water Monitor (`water`) | [→ README.water.md](./README.water.md) |
-| 💻 **App-to-App & HomeyScript Developer API** | Inter-App API | [→ README.dap-api.md](./README.dap-api.md) |
+| 💶 Energy Price | Your real price: market or fixed, all markups and taxes | [price](./README.price.md) |
+| 🔌 Grid Monitor | Import/export, home load, capacity peaks, load forecast | [grid](./README.grid.md) |
+| ☀️ Solar Monitor | Production, self-learning solar forecast | [solar](./README.solar.md) |
+| 🔋 Smart Battery Charger | Plans and controls home batteries | [battery](./README.battery.md) |
+| 🚗 Smart EV Charger | Charges at the cheapest time or on solar, ready for departure | [evCharger](./README.evCharger.md) |
+| ⚡ Power Monitor | Use per appliance, standby, cheapest program start | [power](./README.power.md) |
+| 🛢️ Gas Monitor | Gas use and costs | [gas](./README.gas.md) |
+| 💧 Water Monitor | Water use, costs, leak check | [water](./README.water.md) |
 
 ---
 
 ## 🚀 Quick Start
 
-1. **Energy Price:** add an *Energy Price* device. The wizard asks for your bidding zone (pre-filled from your Homey's location), the amounts from your contract, and a **Tariff group** (e.g. `1`).
-2. **Grid Monitor:** add a *Grid Monitor* for your P1 smart meter or main meter, with the same tariff group.
-3. **Solar Monitor** (if you have solar panels): add one for the device that measures your solar production, and fill in **Peak Power (W)**.
-4. **More devices** (optional): a *Smart Battery Charger* for your home battery, a *Smart EV Charger* for your car, a *Power Monitor* per appliance or sub-meter, a *Gas Monitor* and a *Water Monitor*.
+1. Add an **Energy Price** device: zone and contract, tariff group `1`.
+2. Add a **Grid Monitor**: pick your P1 or main meter.
+3. Add a **Solar Monitor**: pick your inverter.
+4. Optional: battery, EV charger, appliances, gas, water.
+5. Done. Prices, forecasts and plans run by themselves; flows are optional.
 
-Every device in the tariff group now follows your real price, each price period (15 minutes or 1 hour). The battery and EV planners use the prices together with the solar and home load forecasts.
-
----
-
-## 💡 Shared Concepts
-
-### 1. Pairing
-Pick the source device from the list: the likely ones are listed first. A setup view then asks for the key settings and the **Year budget**, and shows which capabilities of the source device are used, with the option to choose others. The new device gets the name of the source device. **Repair** lets you switch to another source device later (the device keeps its name), change the **Year budget**, or fix the totals and costs, e.g. after a wrong meter jump.
-
-### 2. Tariff Groups
-A tariff group links an *Energy Price* device to the other devices: Grid, Power, Solar, Gas, Water, Battery and EV charger.
-- Give the price device and the other devices the same **Tariff group** number (e.g. `1`).
-- Every price period the price device sends the current price to all devices in its group.
-- Every device gets its price from a price device, also for a fixed tariff: an *Energy Price* device with **Fixed** (electricity or gas) or **Water**. Group `0`: no price.
-
-### 3. Year Budget
-Power, Grid, Solar, Gas, Water and EV charger devices can compare the use with a year budget. The **Year starts on** date (day and month) also starts the month and year totals; every month starts on that day, or on its last day when the month is shorter. The budget is spread over the year:
-- **Local climate (auto):** computed for your location from 10 years of weather (Open-Meteo, ERA5) or solar data (PVGIS). For Grid, Power and Gas you also choose the heating (gas boiler, heat pump, hybrid, direct electric) and, for Grid and Power, air conditioning.
-- **Evenly:** the same every day.
-- **Custom (per month):** your own value per month, or a year total spread evenly or like the local climate.
-
-The year budget is set when pairing (Grid, Gas, Water and Solar start with **Use a year budget** on and a typical value to adjust) and changed via **Repair** > *Year budget*. After a new start date, Repair continues to *Fix totals or costs*.
-
-### 4. Virtual Meter
-For a meter that is not a Homey device, or that needs a calculation first:
-1. Pair `VIRTUAL_VIA_FLOW` (Power, Grid, Solar, Gas or Water Monitor).
-2. Send the cumulative reading with the flow card **Send reading to virtual meter**.
-3. For electricity, send the total net kWh: `(consumed_high + consumed_low) - (returned_high + returned_low)`.
+**Good to know**
+- **Tariff group:** devices with the same number share one price device.
+- **Repair:** change source, budget, price or totals later.
+- **Year budget:** compare your use with a budget, spread over the year by your local climate.
+- **Virtual meter:** no Homey device? Pair `VIRTUAL_VIA_FLOW` and send readings by flow.
 
 ---
 
-## 📡 Data Sources, Online Services & Credits
+## 📡 Data Sources & Credits
 
-Power by the Hour integrates data from external market data providers and online services to retrieve spot pricing, forecasts, exchange rates, and chart rendering.
-
-### 🌐 Data Sources & Credits
-- **ENTSO-E (European Network of Transmission System Operators for Electricity):** The electricity pricing information is fetched from ENTSO-E.
-  - Website: [ENTSO-E Transparency Platform](https://newtransparency.entsoe.eu/)
-  - Terms of Use: [ENTSO-E Data Terms and Conditions](https://transparency.entsoe.eu/content/static_content/Static%20content/data%20terms%20and%20conditions/data-terms-and-conditions.html)
-- **EEX (European Energy Exchange):** The TTF Gas spot pricing (EOD and EGSI) is coming from EEX.
-  - Website: [EEX](https://www.eex.com/)
-  - Terms of Use: [EEX Terms of Use](https://www.eex.com/en/terms-of-use)
-- **EasyEnergy / Nieuwestroom:** The TTF LEBA gas pricing is derived from EasyEnergy as seen on [Nieuwestroom Gas Handelsbeurs](https://www.nieuwestroom.nl/energiemarkt/energiebeurzen/gas-handelsbeurs/).
-  - Website: [EasyEnergy](https://www.easyenergy.com/) | [Nieuwestroom](https://www.nieuwestroom.nl/)
-  - Terms of Use: [Nieuwestroom Voorwaarden](https://www.nieuwestroom.nl/voorwaarden/)
-- **EnergyZero:** Dynamic electricity and gas retail prices for the Netherlands.
-  - Website: [EnergyZero](https://www.energyzero.nl/)
-  - Terms of Use: [EnergyZero Algemene Voorwaarden](https://www.energyzero.nl/voorwaarden)
-- **Nord Pool:** Day-ahead electricity spot prices for Nordic, Baltic, and European bidding zones.
-  - Website: [Nord Pool Group](https://www.nordpoolgroup.com/)
-  - Terms of Use: [Nord Pool Terms & Conditions](https://www.nordpoolgroup.com/en/About-us/Terms-and-conditions-for-website-use/)
-- **OMIE (Operador del Mercado Ibérico de Energía):** Day-ahead spot prices for the Iberian market (Spain and Portugal). OMIE is the market operator that runs the MIBEL auction, so it is the primary source for these zones.
-  - Website: [OMIE](https://www.omie.es/)
-  - Terms of Use: [OMIE Aviso Legal](https://www.omie.es/es/aviso-legal)
-- **Open-Meteo:** Solar radiation and weather forecast data for solar production forecasting.
-  - Website: [Open-Meteo](https://open-meteo.com/)
-  - Terms & License: [Open-Meteo Terms & Attribution](https://open-meteo.com/en/terms)
-- **SMARD | Bundesnetzagentur:** Day-ahead electricity spot prices for the German market area and its neighbouring bidding zones, used as an independent backup source.
-  - Website: [SMARD.de](https://www.smard.de/en)
-  - Terms of Use: [SMARD Data Use](https://www.smard.de/en/datennutzung)
-  - License: Data licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/), attributed to **Bundesnetzagentur | SMARD.de**.
-- **Stekker.ai:** AI price forecasting and smart charging optimization data.
-  - Website: [Stekker.ai](https://stekker.ai/)
-  - Terms of Use: [Stekker Terms](https://stekker.app/terms)
-- **European Central Bank (ECB):** Foreign exchange reference rates for multi-currency conversion.
-  - Website: [European Central Bank](https://www.ecb.europa.eu/)
-  - Terms of Use: [ECB Copyright & Disclaimer](https://www.ecb.europa.eu/services/disclaimer/html/index.en.html)
-
-### 📊 Online Services & Tools
-- **QuickChart:** Online chart rendering service used to generate dynamic graph images for Homey devices and flow notifications.
-  - Website: [QuickChart](https://quickchart.io/)
-  - Terms of Use: [QuickChart Terms of Service](https://quickchart.io/terms/)
+- **[ENTSO-E](https://newtransparency.entsoe.eu/):** electricity prices ([terms](https://transparency.entsoe.eu/content/static_content/Static%20content/data%20terms%20and%20conditions/data-terms-and-conditions.html))
+- **[Nord Pool](https://www.nordpoolgroup.com/):** electricity prices ([terms](https://www.nordpoolgroup.com/en/About-us/Terms-and-conditions-for-website-use/))
+- **[SMARD | Bundesnetzagentur](https://www.smard.de/en):** electricity prices, [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) ([terms](https://www.smard.de/en/datennutzung))
+- **[OMIE](https://www.omie.es/):** electricity prices Spain and Portugal ([terms](https://www.omie.es/es/aviso-legal))
+- **[EnergyZero](https://www.energyzero.nl/):** electricity and gas prices NL ([terms](https://www.energyzero.nl/voorwaarden))
+- **[EEX](https://www.eex.com/):** TTF gas prices ([terms](https://www.eex.com/en/terms-of-use))
+- **[EasyEnergy](https://www.easyenergy.com/) / [Nieuwestroom](https://www.nieuwestroom.nl/):** TTF LEBA gas prices ([terms](https://www.nieuwestroom.nl/voorwaarden/))
+- **[Stekker.ai](https://stekker.ai/):** price forecasts ([terms](https://stekker.app/terms))
+- **[Open-Meteo](https://open-meteo.com/):** weather, solar radiation and climate history ([terms](https://open-meteo.com/en/terms))
+- **[PVGIS](https://joint-research-centre.ec.europa.eu/photovoltaic-geographical-information-system-pvgis_en) (EU JRC):** solar climate data for the year budget
+- **[ECB](https://www.ecb.europa.eu/):** exchange rates ([terms](https://www.ecb.europa.eu/services/disclaimer/html/index.en.html))
+- **[QuickChart](https://quickchart.io/):** chart images ([terms](https://quickchart.io/terms/))
 
 ---
 
 ## 👨‍💻 Developer API
 
-Other Homey apps and HomeyScript can query prices or listen for real-time slot pushes via the PBTH Inter-App API:
-- `GET /dap-prices` — fetch all current future price slots.
-- Realtime event `dap-prices-updated` — emitted on slot changes and price updates.
-
-See **[README.dap-api.md](./README.dap-api.md)** for full API reference and code examples.
+- `GET /dap-prices`: all prices from now on.
+- Realtime event `dap-prices-updated`: new slot or new prices.
+- Full reference: **[README.dap-api.md](./README.dap-api.md)**
 
 ---
 
 ## ❤️ Donate & Support
 
-If Power by the Hour helps you save energy and money, consider supporting development:
-
-[![Donate with PayPal](https://img.shields.io/badge/Donate-PayPal-blue.svg)](https://www.paypal.me/gruijter)
+- Questions: [Homey Community](https://community.homey.app/t/20535)
+- Bugs: [GitHub issues](https://github.com/gruijter/com.gruijter.powerhour/issues)
+- Like the app? [![Donate with PayPal](https://img.shields.io/badge/Donate-PayPal-blue.svg)](https://www.paypal.me/gruijter)

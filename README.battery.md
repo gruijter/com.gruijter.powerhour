@@ -1,145 +1,108 @@
-# Smart Battery Charger (Battery Driver)
+# 🔋 Smart Battery Charger
 
-The **Smart Battery Charger** plans and controls your home battery: when to charge, save up, rest or discharge, based on the energy prices, your solar forecast and your home load forecast. It can set the battery power itself, or give the plan to your flows. Several batteries, also of different brands, can share one plan.
-
----
-
-## Table of Contents
-
-- [Key Features](#key-features)
-- [Compatible Batteries](#compatible-batteries)
-- [Setup & Pairing](#setup--pairing)
-- [Battery Modes](#battery-modes)
-- [The Planner](#the-planner)
-- [Control: Built-in or by Flows](#control-built-in-or-by-flows)
-- [Grid Protection, Peak Shaving & Reserve](#grid-protection-peak-shaving--reserve)
-- [XOM (Zero on the Meter)](#xom-zero-on-the-meter)
-- [Learned Battery Properties](#learned-battery-properties)
-- [Capabilities & Charts](#capabilities--charts)
-- [Flow Cards](#flow-cards)
+**Plans and controls your home battery: lowest costs, most self-consumption.**
+The heart of the EMS. [← Overview](./README.md)
 
 ---
 
-## Key Features
+## What it does
 
-- **Smart planning in 15-minute blocks:** import and export prices, solar forecast, home load forecast, losses and wear.
-- **Battery modes:** Smart, Solar self-use, and forced modes for a fixed time or until changed.
-- **Built-in control:** sets the battery power through a power setpoint, without flows.
-- **Group planning:** one plan and one mode for all your batteries.
-- **Grid protection and peak shaving:** stays below the main fuse, contracted power and capacity tariff level.
-- **Self-learning:** usable capacity, losses per power level and the minimum useful power.
-- **Charge, discharge and money totals** per day, month and year.
+- Plans charge and discharge per price period (15 or 60 min), on prices, solar and home load.
+- Controls the battery itself, or hands the plan to your flows.
+- One plan for several batteries, any brand.
+- Protects the main fuse and limits capacity peaks.
+- Learns capacity, losses and taper by itself.
 
 ---
 
-## Compatible Batteries
+## Setup
 
-Any battery device in Homey with a State of Charge and a battery power, of any brand. Devices that follow Homey's home battery standard (`measure_battery`, `measure_power`, `target_power`, optional `target_power_mode`) are recognised right away; for others the setup view lets you pick the capabilities.
+1. **Add Device** → **Power by the Hour** → **Smart Battery Charger**.
+2. Pick your battery.
+3. Fill in capacity and max. charge/discharge power. Done.
 
-- **Monitoring and planning** work with any compatible battery.
-- **Built-in control** needs a power setpoint the app can set (e.g. `target_power`).
-
----
-
-## Setup & Pairing
-
-1. Go to **Devices** → **Add Device** → **Power by the Hour** → **Smart Battery Charger**.
-2. Choose your battery. The new device gets the name of the battery.
-3. The setup view asks for the tariff group, the nominal capacity, the max. charging and discharging power, the planner type and whether the app controls the battery. It also shows which capabilities of the battery are used (State of Charge, power, setpoint), and lets you choose others.
-
-Use **Repair** to change the battery or its capabilities. Tick **Forget learned values** after replacing the battery, or when the learned values are clearly wrong.
+- Works with any battery that shows a SoC and a power in Homey.
+- Built-in control needs a power setpoint (e.g. `target_power`).
+- **Repair:** other battery, other capabilities, forget learned values.
 
 ---
 
-## Battery Modes
+## Modes
 
-| Mode | Behaviour |
+| Mode | What it does |
 |---|---|
-| **Smart** | Follows the plan: the most cost-effective action in every block. |
-| **Solar self-use** | Least energy from and to the grid first, cost second. No charging from the grid, no export from the battery. |
-| **Force save up** | No discharging; solar surplus may still charge. |
-| **Force XOM** | Keeps the grid power near the XOM target (zero on the meter). |
+| **Smart** | Follows the plan: lowest total cost. |
+| **Solar self-use** | Least grid use first, cost second. No grid charging, no battery export. |
+| **Force save up** | No discharging. Solar surplus may charge. |
+| **Force XOM** | Keeps the grid at the XOM target (zero on the meter). |
 | **Force rest** | 0 W. |
-| **Force charge** / **Force discharge** | Charges or discharges, also from or to the grid. |
-| **Battery decides** | This battery leaves the group and follows its own app or settings. |
+| **Force charge / discharge** | Full power, also from or to the grid. |
+| **Battery decides** | Leaves the group, follows its own app. |
 
-Set the mode on the device tile or with **Set battery mode** (optionally for a number of minutes; afterwards the previous mode returns). **Action** shows what the battery is doing right now: XOM, Save up, Rest, Charge, Discharge, Refill reserve or No control.
-
----
-
-## The Planner
-
-The plan is made every 15 minutes, when new prices arrive, and when the battery's State of Charge drifts away from the plan. It uses:
-- **Prices** from the Energy Price device in the same **Tariff group** (import and export).
-- **Solar and home load forecasts** from the Solar Monitor and Grid Monitor devices, when present. Without a Grid Monitor a fixed home usage is assumed.
-- **Minimum profit per kWh:** what a charge and discharge cycle must earn on top of losses and wear (not used in Solar self-use).
-- **Wear cost per kWh:** battery wear per kWh stored and used again, e.g. price / (capacity × cycles).
-
-Both can be changed from a flow with **Set battery cost**, e.g. a higher minimum profit in winter.
-- **Discharge into EV:** off: the battery does not cover the charging of a Power by the Hour EV charger.
-
-**Advanced planner (LP)** uses linear programming: best for a group of different batteries, but it uses more memory and CPU. Off: the light planner, nearly as good.
-
-**Plan together with other batteries** *(default on):* one plan and one battery mode for all batteries with this on, whether controlled by the app or by flows. Off: this battery plans on its own, around the others.
+- Set by tile or flow, for a number of minutes or until changed.
+- **Action** tile: XOM, Save up, Rest, Charge, Discharge, Refill reserve, Calibrate, No control.
 
 ---
 
-## Control: Built-in or by Flows
+## How Smart works
 
-**Built-in control** — tick **Control the battery**. The app takes over the battery's power setpoint and keeps it set by the mode and the plan. When the battery has a `target_power_mode`, the app switches it to Homey control and gives the previous mode back when its control ends, e.g. when the app stops.
+**When:** every 15 minutes, on new prices, and when the SoC drifts from the plan.
 
-**Your own logic, built-in control** — keep **Control the battery** on and let your flows choose the mode, e.g. *Force charge* for 30 minutes when something happens, or *Battery decides* while you need the battery for something else. The app does the rest. This covers most custom behaviour without any power calculations.
+**Looks ahead:** as far as prices are known (with AI price forecast: further).
 
-**By flows** — leave **Control the battery** off and drive the battery yourself with the plan:
-- **New planned battery power:** the planned power for the current block (tokens power, duration, SoC afterwards, plan block, plan JSON). Positive is charging, negative discharging (or inverted). The same plan as the chart, with the costs of the device settings.
-- **New XOM power available:** the power that keeps the grid near the XOM target.
+**Per price period (15 or 60 min) it picks:** charge, discharge, save up, rest, or zero on the meter.
 
----
+**It chooses the cheapest total over the whole period:**
+- **Grid charge:** only when a later price pays the losses, wear and minimum profit.
+- **Solar surplus:** stored when using it later beats exporting it now. Else exported.
+- **Discharge:** covers the home first. Exports only when the export price pays.
+- **Efficiency:** knows its losses per power level and picks efficient powers.
+- **End of plan:** stored energy keeps its value; no emptying for nothing.
+- **No flapping:** short gaps in a charge or discharge run are bridged.
 
-## Grid Protection, Peak Shaving & Reserve
-
-- **Protect the grid connection** *(default on):* keeps the import below the main fuse and the *Max. import (W)* of the Grid Monitor, in every block.
-- **Peak shaving:** keeps the import below the capacity tariff level set on the Grid Monitor.
-- **Reserve (%):** charge the battery always keeps. Below it, it recharges as soon as possible. Only grid protection and peak shaving may use it. Advice with peak shaving: 10%.
-
-These apply in every mode that the app controls. They need a Grid Monitor device.
-
----
-
-## XOM (Zero on the Meter)
-
-XOM keeps the grid power near a target, e.g. 0 W: the battery covers the home load and stores the solar surplus. **XOM target (W)** is the same for all batteries (positive: a little import, negative: a little export). The flow card **Set XOM** changes the target, and the smoothing and minimum battery load of the XOM flows.
+**Inputs from other devices** (all optional):
+- **Energy Price:** import and export price.
+- **Solar Monitor:** solar forecast.
+- **Grid Monitor:** home load forecast, fuse, capacity tariff. Without it: a fixed home load.
+- **EV Charger / appliances:** their planned load.
 
 ---
 
-## Learned Battery Properties
+## Key settings
 
-Fill in the nominal capacity and the max. power. The rest is learned from what the battery does: the usable capacity, the losses per power level and the minimum charging and discharging power worth running. Until enough is learned (both directions), start values based on the max. power are used. **Learned** in the device settings shows the progress or the learned values.
-
----
-
-## Capabilities & Charts
-
-- **Power and energy:** battery power, stored energy, charged and discharged totals.
-- **Money:** per day, month and year, and the active tariff.
-- **Battery mode** and **Action**.
-- **Action duration:** minutes the current planned action lasts.
-- **Charts:** charge plan today, tomorrow, next hours and yesterday, and the learned efficiency. Graph options in the settings: power line, SoC line, export price, legend.
+- **Minimum profit per kWh:** extra a grid charge must earn.
+- **Wear cost per kWh:** or calculate it from purchase price and cycles.
+- **Extra precise planning:** LP planner, best for several different batteries. Uses more memory.
+- **Plan together with other batteries:** one plan, one mode for the group.
+- **Also discharge for the car:** off: the battery does not charge the EV.
+- **Protect the main fuse / Limit peaks:** uses the Grid Monitor's limits.
+- **Reserve (%):** kept for fuse and peak protection.
+- **Calibrate every (days):** now and then fully empty and full, so the SoC stays right.
+- **Learned:** shows usable capacity, losses and minimum useful power.
 
 ---
 
-## Flow Cards
+## Control
 
-### Triggers
-- **Battery mode changed**
-- **New planned battery power** (inverted)
-- **New XOM power available** (inverted)
+- **Built-in:** tick **Let the app control the battery**. The app sets the power.
+- **Own logic, built-in control:** let flows set the mode, the app does the rest.
+- **By flows:** control off. Use **New planned battery power** or **New XOM power available**.
 
-### Conditions
-- **Battery mode is / is not** …
+---
 
-### Actions
-- **Set battery mode** … for … minutes (0: until changed)
-- **Provide planned battery power** — the same tokens as the trigger, on demand
-- **Set battery cost** — minimum profit or wear cost per kWh
-- **Set XOM** (app-wide)
+## Flow cards
+
+**Triggers**
+- Battery mode changed
+- New planned battery power (inverted)
+- New XOM power available (inverted)
+
+**Conditions**
+- Battery mode is / is not …
+
+**Actions**
+- Set battery mode … for … minutes (0: until changed)
+- Provide planned battery power
+- Set battery cost: minimum profit or wear per kWh
+- Calibrate battery: start / stop
+- Set XOM (all batteries)
