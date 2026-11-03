@@ -2261,13 +2261,11 @@ class CarChargeDevice extends GenericDevice {
       // A profile from before the daily lows: only those are taken from the history.
       const lowsOnly = !retrain && this.priceProfile.bootstrapped === PRICE_BOOTSTRAP_VERSION && !this.priceProfile.dailyLows;
       if (retrain || this.priceProfile.bootstrapped !== PRICE_BOOTSTRAP_VERSION || lowsOnly) {
-        // The electricity DAP devices (not gas) that feed this device's tariff group.
-        const dapIds = await this._groupDapDeviceIds();
-        // The longest hourly history of those devices (a new price device next to an old one has little).
+        // The longest hourly history of the group's price devices (a new one next to an old one has little).
         const hourly = async (capName) => {
           let best = [];
-          for (const log of this._findGroupPriceLogs(logs, dapIds, capName)) {
-            const values = (await InsightsHistory.fetchHistory(api, log.id, ['last7Days', 'last14Days'])).filter((e) => !e.coarse);
+          for (const logId of this._groupPriceLogIds(capName)) {
+            const values = (await InsightsHistory.fetchHistory(api, logId, ['last7Days', 'last14Days'])).filter((e) => !e.coarse);
             if (values.length > best.length) best = values;
           }
           return best;
