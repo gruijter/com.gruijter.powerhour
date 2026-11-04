@@ -47,7 +47,6 @@ const deviceSpecifics = {
 };
 
 const UNPLUG_AFTER_SWITCH_MS = 2 * 60 * 1000; // a power drop this soon after switching off is ours
-const PLAN_LOG_ENTRIES = 12; // plan_log label: last plan changes
 
 // Day labels for learned profile settings keys (0=Monday)
 const LEARNED_PROFILE_KEYS = [
@@ -2111,17 +2110,10 @@ class CarChargeDevice extends GenericDevice {
     }
   }
 
-  // Diagnostics without app logs (Prod): the plan_log label keeps the last plan changes and
-  // commands to the car. A plan is written only when the presence, a block or the future charge
-  // slots change, not on every replan.
+  // Plan changes and commands to the car, logged only when the presence, a block or the future
+  // charge slots change, not on every replan.
   async _appendPlanLog(text) {
-    const tz = this.timeZone || this.homey.clock.getTimezone();
-    const now = new Date();
-    const stamp = `${now.toLocaleDateString('en', { weekday: 'short', timeZone: tz })} `
-      + `${EvUsageModel.fractionalHourToHHMM(EvUsageModel.toLocalFractionalHour(now, tz))}`;
-    const log = [`${stamp} ${text}`, ...(this.getStoreValue('evPlanLog') || [])].slice(0, PLAN_LOG_ENTRIES);
-    await this.setStoreValue('evPlanLog', log).catch(this.error);
-    await this.setSettings({ plan_log: log.join(' ‖ ') }).catch(this.error);
+    this.log(`plan: ${text}`);
   }
 
   async _logPlanDiag({

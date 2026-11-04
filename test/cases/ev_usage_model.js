@@ -129,6 +129,11 @@ console.log('all phase 2 tests passed');
   }, 'first reason that applies');
 }
 
+// --- Safe need: one long day must not set the need
+assert.strictEqual(M.safeNeed([5, 6, 26]), 7.5, 'few days: median + 25%');
+assert.strictEqual(M.safeNeed([5, 5, 6, 6, 20, 25]), 12, 'outliers capped at 2x median');
+assert.strictEqual(M.safeNeed([]), null);
+
 // --- Insights history by step: hourly where there is, coarse before
 (async () => {
   const IH = require('../../lib/helpers/InsightsHistory');
