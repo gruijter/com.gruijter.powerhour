@@ -31,19 +31,19 @@
   },
   "highlight": true,
   "hint": {
-    "en": "Once. Time: 07:30, 7.5, auto or - (car not used). %: 0 is automatic. Empty: unchanged.",
-    "nl": "Eenmalig. Tijd: 07:30, 7,5, auto of - (auto niet gebruikt). %: 0 is automatisch. Leeg: ongewijzigd.",
-    "de": "Einmalig. Zeit: 07:30, 7,5, auto oder - (Auto nicht genutzt). %: 0 ist automatisch. Leer: unverändert.",
-    "fr": "Une fois. Heure : 07:30, 7,5, « auto » ou « - » (voiture non utilisée). % : 0 est automatique. Vide : inchangé.",
-    "it": "Una volta. Ora: 07:30, 7,5, auto o - (auto non usata). %: 0 è automatico. Vuoto: invariato.",
-    "sv": "En gång. Tid: 07:30, 7,5, auto eller - (bilen används inte). %: 0 är automatiskt. Tomt: oförändrat.",
-    "no": "Én gang. Tid: 07:30, 7,5, auto eller - (bilen brukes ikke). %: 0 er automatisk. Tomt: uendret.",
-    "es": "Una vez. Hora: 07:30, 7,5, auto o - (coche no usado). %: 0 es automático. Vacío: sin cambios.",
-    "da": "Én gang. Tid: 07:30, 7,5, auto eller - (bilen bruges ikke). %: 0 er automatisk. Tomt: uændret.",
-    "pl": "Jednorazowo. Godzina: 07:30, 7,5, auto lub - (samochód nieużywany). %: 0 to automatycznie. Puste: bez zmian.",
-    "ru": "Однократно. Время: 07:30, 7,5, auto или - (машина не используется). %: 0 — автоматически. Пусто: без изменений.",
-    "ar": "لمرة واحدة. الوقت: 07:30 أو 7.5 أو auto أو - (لا تُستخدم السيارة). %: 0 تلقائي. فارغ: دون تغيير.",
-    "ko": "1회 적용. 시간: 07:30, 7.5, auto 또는 -(차 사용 안 함). %: 0은 자동. 비우면: 변경 없음."
+    "en": "Once. Time: 07:30, auto or - (car not used). SoC 0: automatic.",
+    "nl": "Eenmalig. Tijd: 07:30, auto of - (auto niet gebruikt). SoC 0: automatisch.",
+    "de": "Einmalig. Zeit: 07:30, auto oder - (Auto nicht genutzt). SoC 0: automatisch.",
+    "fr": "Une fois. Heure : 07:30, auto ou - (voiture non utilisée). SoC 0 : automatique.",
+    "it": "Una volta. Ora: 07:30, auto o - (auto non usata). SoC 0: automatico.",
+    "sv": "En gång. Tid: 07:30, auto eller - (bilen används inte). SoC 0: automatiskt.",
+    "no": "Én gang. Tid: 07:30, auto eller - (bilen brukes ikke). SoC 0: automatisk.",
+    "es": "Una vez. Hora: 07:30, auto o - (coche no usado). SoC 0: automático.",
+    "da": "Én gang. Tid: 07:30, auto eller - (bilen bruges ikke). SoC 0: automatisk.",
+    "pl": "Jednorazowo. Godzina: 07:30, auto lub - (samochód nieużywany). SoC 0: automatycznie.",
+    "ru": "Однократно. Время: 07:30, auto или - (машина не используется). SoC 0: автоматически.",
+    "ar": "لمرة واحدة. الوقت: 07:30 أو auto أو - (لا تُستخدم السيارة). SoC 0: تلقائي.",
+    "ko": "1회 적용. 시간: 07:30, auto 또는 -(차 사용 안 함). SoC 0: 자동."
   },
   "args": [
     {

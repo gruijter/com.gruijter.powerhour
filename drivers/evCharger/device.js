@@ -93,6 +93,7 @@ class CarChargeDevice extends GenericDevice {
     this.lastKnownSoc = await this.getStoreValue('lastKnownSoc') || 0;
     this.usageModel = EvUsageModel.fromStore(await this.getStoreValue('evUsageModel')); // null: bootstrap from Insights first
     if (this.getStoreValue('socForecastModel')) await this.unsetStoreValue('socForecastModel').catch(this.error); // pre-v9 model
+    if (this.getStoreValue('evPlanLog')) await this.unsetStoreValue('evPlanLog').catch(this.error); // plan_log label removed
     this.socEstimator = await this.getStoreValue('socEstimator') || EvSocEstimator.createState();
     // The pre-estimator SoC stays the starting point until the car reports.
     if (typeof this.socEstimator.baseSoc !== 'number' && this.lastKnownSoc > 0) {

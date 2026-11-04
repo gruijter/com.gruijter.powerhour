@@ -215,7 +215,9 @@ class PriceDevice extends GenericDevice {
       await this.resetPrices();
       this.migrated = false;
     }
-    this.restartDevice(1000).catch((err) => this.error(err));
+    this.restartDevice(1000)
+      .then(() => this.emitGroupLeft(old, this.getSettings()))
+      .catch((err) => this.error(err));
   }
 
   // Price settings changed by flow: recalculated right away, no restart.

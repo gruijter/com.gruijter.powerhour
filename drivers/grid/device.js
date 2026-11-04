@@ -1115,11 +1115,15 @@ class GridDevice extends GenericDevice {
     const y = [0, 0, 0];
     const trust = this.trustsLearnedPhases(now);
     this.yieldingBatteries(now).forEach(({ d, w }) => {
-      const spec = typeof d.fusePhases === 'function' ? d.fusePhases(trust) : null;
-      if (spec && spec.known) {
-        FuseGuard.perPhaseW(w, spec).forEach((x, i) => {
-          y[i] += x;
-        });
+      try {
+        const spec = typeof d.fusePhases === 'function' ? d.fusePhases(trust) : null;
+        if (spec && spec.known) {
+          FuseGuard.perPhaseW(w, spec).forEach((x, i) => {
+            y[i] += x;
+          });
+        }
+      } catch {
+        // skip: a battery still starting
       }
     });
     return y;

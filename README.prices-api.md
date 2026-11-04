@@ -8,8 +8,6 @@ Two access patterns are supported:
 | **GET** (poll) | On app init — fetch all currently known future prices |
 | **Realtime push** (event) | Subscribe once; receive prices on every slot change or whenever new prices are fetched |
 
-The v8 names `/dap-prices` and `dap-prices-updated` keep working.
-
 ---
 
 ## 1. GET — Poll current future prices

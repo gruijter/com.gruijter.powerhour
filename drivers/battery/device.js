@@ -238,8 +238,13 @@ class BatDevice extends GenericDevice {
     const group = this.driver.groupDevices();
     const ref = group.sort((a, b) => (a.getData().id < b.getData().id ? -1 : 1))[0];
     if (!ref || ref === this) return;
-    const precisePlanning = !!ref.getSettings().precisePlanning;
-    if (!!this.getSettings().precisePlanning !== precisePlanning) await this.setSettings({ precisePlanning }).catch((err) => this.error(err));
+    // Not yet migrated (still starting): no planner to take.
+    const { precisePlanning } = ref.getSettings();
+    if (typeof precisePlanning === 'boolean' && !!this.getSettings().precisePlanning !== precisePlanning) {
+      await this.setSettings({ precisePlanning }).catch((err) => this.error(err));
+      this.lastPlanKey = null;
+      this.lastPlanTokens = null;
+    }
     const mode = ref.getBatteryMode();
     const until = ref.tempMode ? ref.tempMode.until : null;
     if (mode === this.getBatteryMode() && until === (this.tempMode ? this.tempMode.until : null)) return;
@@ -468,11 +473,16 @@ class BatDevice extends GenericDevice {
     // After the base: it can still reject the change.
     const result = await super.onSettings({ newSettings, changedKeys });
     if (changedKeys.includes('batCapacity')) await this.rescaleEfficiency(oldSettings.batCapacity, newSettings.batCapacity);
-    // The group plans as one: one planner (precisePlanning) for all, no plan of the other planner kept.
-    if (changedKeys.includes('precisePlanning') && this.inGroup()) {
-      for (const d of this.driver.groupDevices()) {
+    // No plan of the other planner kept. The group plans as one: one planner (precisePlanning) for
+    // all. newSettings: groupPlan can change in the same repair (getSettings() is still the old).
+    if (changedKeys.includes('precisePlanning')) {
+      const inGroup = newSettings.groupPlan !== false && this.getBatteryMode() !== 'device';
+      const members = inGroup ? [this, ...this.driver.groupDevices().filter((d) => d !== this)] : [this];
+      for (const d of members) {
         d.groupPlans = null;
         d.lastPlanTm = null;
+        d.lastPlanKey = null;
+        d.lastPlanTokens = null;
         if (d !== this && !!d.getSettings().precisePlanning !== !!newSettings.precisePlanning) {
           await d.setSettings({ precisePlanning: !!newSettings.precisePlanning }).catch((err) => d.error(err));
         }

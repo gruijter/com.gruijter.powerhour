@@ -502,10 +502,6 @@
     "getPrices": {
       "method": "get",
       "path": "/prices"
-    },
-    "getDapPrices": {
-      "method": "get",
-      "path": "/dap-prices"
     }
   },
   "images": {

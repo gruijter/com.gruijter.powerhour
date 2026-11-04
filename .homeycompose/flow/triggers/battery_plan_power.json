@@ -167,7 +167,7 @@
         "ko": "계획 블록 (xom, hold, idle, charge, discharge)",
         "ar": "كتلة الخطة (xom, hold, idle, charge, discharge)"
       },
-      "example": "zero"
+      "example": "xom"
     }
   ]
 }

@@ -110,4 +110,4 @@ Example: `max(market - 0.02, import * 0.5)`.
 
 ## Developer API
 
-Other apps and HomeyScript can read all prices: **[README.dap-api.md](./README.dap-api.md)**.
+Other apps and HomeyScript can read all prices: **[README.prices-api.md](./README.prices-api.md)**.

@@ -90,7 +90,7 @@ Lowest energy costs, most self-consumption. Set up from your phone.
 
 - `GET /prices`: all prices from now on.
 - Realtime event `prices-updated`: new slot or new prices.
-- Full reference: **[README.dap-api.md](./README.dap-api.md)**
+- Full reference: **[README.prices-api.md](./README.prices-api.md)**
 
 ---
 
