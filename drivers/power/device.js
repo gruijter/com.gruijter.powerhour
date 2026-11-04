@@ -486,14 +486,7 @@ class PowerDevice extends GenericDevice {
 
   // 'HH:MM': the next time it is that time.
   nextLocalTime(hhmm) {
-    const now = Date.now();
-    const today = TimeHelpers.getLocalMidnightUTC(new Date(now), this.timeZone);
-    let at = TimeHelpers.localTimeToUTC(today, hhmm, this.timeZone).getTime();
-    if (at <= now) {
-      const tomorrow = TimeHelpers.getLocalMidnightUTC(new Date(today.getTime() + 26 * 60 * 60 * 1000), this.timeZone);
-      at = TimeHelpers.localTimeToUTC(tomorrow, hhmm, this.timeZone).getTime();
-    }
-    return at;
+    return TimeHelpers.nextLocalTime(hhmm, this.timeZone);
   }
 
   // Flow: a run that starts by deadline (ms), once; earliest (ms): not before.

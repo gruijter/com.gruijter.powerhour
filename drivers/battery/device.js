@@ -41,6 +41,8 @@ const OWN_WRITE_ECHO_MS = 60 * 1000;
 const SOC_REPLAN_PCT = 3;
 const SOC_REPLAN_MS = 10 * 60 * 1000;
 const RELEASE_RETRY_MS = 60 * 1000;
+const RELEASE_FAST_MS = 15 * 60 * 1000; // refused this long: then once a night (RELEASE_NIGHT)
+const RELEASE_NIGHT = '03:00';
 // After a start, smart leaves the batteries as they are until the first plan, at most this long.
 const PLAN_WAIT_MS = 10 * 60 * 1000;
 // A setpoint at least this recent: the battery is under control (keepalive every 60 s).
@@ -326,7 +328,7 @@ class BatDevice extends GenericDevice {
     if (!this.isControlConfigured() || this.getBatteryMode() === 'device') {
       await this.setAction(BatteryControl.actionFor());
       await this.clearControlWarning();
-      if (this.getStoreValue('controlTakeover') && now - (this.releaseFailTm || 0) >= RELEASE_RETRY_MS) {
+      if (this.getStoreValue('controlTakeover') && now >= (this.releaseRetryTm || 0)) {
         await this.releaseControl(this.isControlConfigured() ? 'mode device' : 'control off');
       }
       return null;
@@ -585,7 +587,7 @@ class BatDevice extends GenericDevice {
 
   // Back to the battery: its mode from before, or (without a mode capability) setpoint 0.
   // The takeover is cleared only once the battery has it back: a failed write is tried again
-  // (controlPrepare(), every RELEASE_RETRY_MS).
+  // (controlPrepare()), every RELEASE_RETRY_MS; refused for RELEASE_FAST_MS, once a night.
   async releaseControl(reason) {
     if (this.controlRun) await this.controlRun.catch(() => {});
     const takeover = this.getStoreValue('controlTakeover');
@@ -608,12 +610,18 @@ class BatDevice extends GenericDevice {
         }
         this.log(`[Bat Control] Control back to ${this.sourceDevice.name} (${reason})`);
       } catch (err) {
-        this.releaseFailTm = Date.now();
-        this.error(`[Bat Control] Giving control back failed (${reason}):`, err.message || err);
+        const now = Date.now();
+        if (!this.releaseFailSince) this.releaseFailSince = now;
+        const night = now - this.releaseFailSince >= RELEASE_FAST_MS;
+        this.releaseRetryTm = night
+          ? TimeHelpers.nextLocalTime(RELEASE_NIGHT, this.timeZone || this.homey.clock.getTimezone(), now)
+          : now + RELEASE_RETRY_MS;
+        this.error(`[Bat Control] Giving control back failed (${reason})${night ? ', next try tonight' : ''}:`, err.message || err);
         return;
       }
     }
-    this.releaseFailTm = null;
+    this.releaseFailSince = null;
+    this.releaseRetryTm = null;
     await this.setStoreValue('controlTakeover', null);
   }
 
