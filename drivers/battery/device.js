@@ -231,13 +231,15 @@ class BatDevice extends GenericDevice {
     return settings.groupPlan !== false && this.getBatteryMode() !== 'device';
   }
 
-  // Once on entering the group: take the group's mode (of the battery with the lowest id).
+  // Once on entering the group: take the group's mode and planner (of the battery with the lowest id).
   async joinGroup() {
     if (this.groupJoined) return;
     this.groupJoined = true;
     const group = this.driver.groupDevices();
     const ref = group.sort((a, b) => (a.getData().id < b.getData().id ? -1 : 1))[0];
     if (!ref || ref === this) return;
+    const precisePlanning = !!ref.getSettings().precisePlanning;
+    if (!!this.getSettings().precisePlanning !== precisePlanning) await this.setSettings({ precisePlanning }).catch((err) => this.error(err));
     const mode = ref.getBatteryMode();
     const until = ref.tempMode ? ref.tempMode.until : null;
     if (mode === this.getBatteryMode() && until === (this.tempMode ? this.tempMode.until : null)) return;
@@ -466,6 +468,16 @@ class BatDevice extends GenericDevice {
     // After the base: it can still reject the change.
     const result = await super.onSettings({ newSettings, changedKeys });
     if (changedKeys.includes('batCapacity')) await this.rescaleEfficiency(oldSettings.batCapacity, newSettings.batCapacity);
+    // The group plans as one: one planner (precisePlanning) for all, no plan of the other planner kept.
+    if (changedKeys.includes('precisePlanning') && this.inGroup()) {
+      for (const d of this.driver.groupDevices()) {
+        d.groupPlans = null;
+        d.lastStratTm = null;
+        if (d !== this && !!d.getSettings().precisePlanning !== !!newSettings.precisePlanning) {
+          await d.setSettings({ precisePlanning: !!newSettings.precisePlanning }).catch((err) => d.error(err));
+        }
+      }
+    }
     return result;
   }
 

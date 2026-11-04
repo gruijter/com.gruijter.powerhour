@@ -42,7 +42,7 @@ const STEPS = [
   { id: 'battery', ids: ['batCapacity', 'chargePower', 'dischargePower', 'batteryPhase'] },
   { id: 'wear', ids: ['wearCalc', 'wearPurchasePrice', 'wearCycles', 'roiWearCost', 'roiMinProfit'] },
   { id: 'price', ids: ['tariff_update_group', 'tariff_type'] },
-  { id: 'plan', ids: ['roiEnable', 'dischargeToEv', 'groupPlan'] },
+  { id: 'plan', ids: ['precisePlanning', 'dischargeToEv', 'groupPlan'] },
   { id: 'grid_limits', ids: ['fuseProtection', 'peakShaving', 'peakReservePct'] },
   { id: 'control', ids: ['batteryControl', 'calibrateDays'] },
   { id: 'chart', ids: ['chartShowPower', 'chartShowSoc', 'chartShowExportPrice', 'chartShowLegend'] },

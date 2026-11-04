@@ -110,8 +110,8 @@
         "ko": "배터리를 방전할 수 있는 최대 전력입니다."
       }
     },
-    "roiEnable": {
-      "id": "roiEnable",
+    "precisePlanning": {
+      "id": "precisePlanning",
       "type": "checkbox",
       "label": {
         "en": "Extra precise planning",
