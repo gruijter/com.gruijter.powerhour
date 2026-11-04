@@ -2,16 +2,11 @@
 
 v9 turns Power by the Hour into your own **Energy Management System** on Homey: it measures, predicts, plans and controls.
 
-THIS IS A HUMONGOUS REWRITE OF THE APP. EXPECT BUGS!
-On the other hand, it does bring:
-* Hugely simplified setup and configuration
-* Hugely reduced number of flow cards (but still capable to do all you need and more!)
-* Fully automated and self-learning EV Charger
-* Fully automated and self-learning Solar Forecaster
-* Fully automated and self-learning Battery planner
-* Fully automated and self-learning Grid peak-shaving and fuse protection
-* Support for almost all types of power tariff structures in EU and worldwide
+**This is a huge rewrite of the app. Expect bugs!** In return you get:
+- Much simpler setup and configuration.
+- Far fewer flow cards, that still do all you need and more.
 
+⚠️ **Make a Homey backup first.** After migration there is no way back to v8.
 
 👉 **Install the test version:** https://homey.app/a/com.gruijter.powerhour/test/
 Your v8 devices, totals, Insights and flows are kept.
@@ -20,10 +15,10 @@ Your v8 devices, totals, Insights and flows are kept.
 
 ## 🆕 What's new
 
-- **💶 Energy Price:** one new price device for power, gas and water. Market or fixed price, with all markups and taxes. [Guide](https://github.com/gruijter/com.gruijter.powerhour/blob/beta-v9/README.price.md)
-- **🔋 Smart Battery:** built-in modes and control. Plans on prices, solar and home load, including losses and wear. [Guide](https://github.com/gruijter/com.gruijter.powerhour/blob/beta-v9/README.battery.md)
-- **🚗 Smart EV Charger (new):** learns when you leave, charges cheap or on solar, ready on time. [Guide](https://github.com/gruijter/com.gruijter.powerhour/blob/beta-v9/README.evCharger.md)
-- **🔌 Grid Monitor:** capacity tariff, main fuse and per-phase guard, home load forecast. [Guide](https://github.com/gruijter/com.gruijter.powerhour/blob/beta-v9/README.grid.md)
+- **💶 Energy Price:** one new price device for power, gas and water. Almost any contract in the EU and worldwide: dynamic or fixed, with all markups and taxes, any currency. [Guide](https://github.com/gruijter/com.gruijter.powerhour/blob/beta-v9/README.price.md)
+- **🔋 Smart Battery:** fully automatic, built-in modes and control. Plans on prices, solar and home load, and learns its own losses. [Guide](https://github.com/gruijter/com.gruijter.powerhour/blob/beta-v9/README.battery.md)
+- **🚗 Smart EV Charger:** learns when you leave, charges cheap or on solar, ready on time. [Guide](https://github.com/gruijter/com.gruijter.powerhour/blob/beta-v9/README.evCharger.md)
+- **🔌 Grid Monitor:** peak shaving for capacity tariffs, main fuse and per-phase guard, self-learning home load forecast. [Guide](https://github.com/gruijter/com.gruijter.powerhour/blob/beta-v9/README.grid.md)
 - **☀️ Solar:** self-learning forecast, no panel data needed. [Guide](https://github.com/gruijter/com.gruijter.powerhour/blob/beta-v9/README.solar.md)
 - **⚡ Appliances:** learns programs, plans the cheapest start. [Guide](https://github.com/gruijter/com.gruijter.powerhour/blob/beta-v9/README.power.md)
 - **📱 Setup from your phone:** a wizard at pairing, and **Repair** to change source, price, budget or totals later.
@@ -48,6 +43,7 @@ Your v8 devices, totals, Insights and flows are kept.
   - **By flows:** leave control off and use **New planned battery power** or **New XOM power available**.
 - The old **ROI** cards still work but are deprecated: replace them with the new plan cards.
 - Several batteries? They now plan as one group.
+- Older Homey (Pro 2019 or Early 2023)? Leave **Extra precise planning** off: it uses much more memory.
 
 **Flows**
 - Old cards show as deprecated. They still work, but move to the new cards when you can.
@@ -55,4 +51,4 @@ Your v8 devices, totals, Insights and flows are kept.
 
 ---
 
-🐞 Problems? Post them here, or on [GitHub](https://github.com/gruijter/com.gruijter.powerhour/issues).
+🐞 **Problems?** Send a diagnostic report (Homey app → Power by the Hour → Settings) and post the time and what went wrong here, or on [GitHub](https://github.com/gruijter/com.gruijter.powerhour/issues).
