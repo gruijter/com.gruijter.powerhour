@@ -289,7 +289,7 @@ test('idle: nothing, whatever the plan, no reserve refill, no plan', () => {
   }).powerW, 0, 'below the reserve: no refill');
   assert.strictEqual(C.refillsReserve('idle'), false);
   assert.ok(C.planOptionsFor('idle').idle);
-  const light = require('../../lib/strategies/RoiLightStrategy');
+  const light = require('../../lib/strategies/LightPlanner');
   const plans = light.idleStrategy({
     prices: [0.2, 0.3, 0.25], priceInterval: 15, batteries: [{ soc: 40 }, { soc: 70 }],
   });

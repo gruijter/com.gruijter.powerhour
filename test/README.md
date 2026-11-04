@@ -27,8 +27,8 @@ Exit code is non-zero if anything fails.
 | --- | --- |
 | `battery_control.js` | BatteryControl, BatteryResponse, NomXomStrategy, light planner hooks |
 | `battery_efficiency.js` | BatteryEfficiency (learned efficiency curve) |
-| `battery_forecast.js` | RoiStrategy (LP) with a per-slot net forecast, group plans |
-| `battery_light.js` | RoiLightStrategy against the LP, BatterySplit |
+| `battery_forecast.js` | PrecisePlanner (LP) with a per-slot net forecast, group plans |
+| `battery_light.js` | LightPlanner against the LP, BatterySplit |
 | `ev_planner.js` | EvPlanner, EvPriceProfile, energy modes |
 | `ev_presence_soc_control.js` | EvPresence, EvSocEstimator, EvChargerControl, EvEnergyMode |
 | `ev_usage_model.js` | EvUsageModel (trip learning) |

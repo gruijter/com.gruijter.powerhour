@@ -8,8 +8,8 @@
 const assert = require('assert');
 const Taper = require('../../lib/strategies/BatteryTaper');
 const Cal = require('../../lib/strategies/BatteryCalibration');
-const Lp = require('../../lib/strategies/RoiStrategy');
-const Light = require('../../lib/strategies/RoiLightStrategy');
+const Lp = require('../../lib/strategies/PrecisePlanner');
+const Light = require('../../lib/strategies/LightPlanner');
 
 let failed = 0;
 const test = (name, fn) => {

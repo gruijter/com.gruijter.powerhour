@@ -145,8 +145,8 @@
         "ko": "평균 1% 더 나은 결과, 피크 제한 사용 시 최대 4%. Homey 메모리를 훨씬 더 사용합니다."
       }
     },
-    "roiMinProfit": {
-      "id": "roiMinProfit",
+    "minProfit": {
+      "id": "minProfit",
       "type": "number",
       "label": {
         "en": "Minimum profit per kWh",
@@ -281,8 +281,8 @@
         "value": true
       }
     },
-    "roiWearCost": {
-      "id": "roiWearCost",
+    "wearCost": {
+      "id": "wearCost",
       "type": "number",
       "label": {
         "en": "Wear cost per kWh",
@@ -916,8 +916,8 @@
             "nl": "Uit",
             "de": "Aus",
             "fr": "Désactivé",
-            "es": "Apagado",
-            "it": "Spento",
+            "es": "Desactivado",
+            "it": "Disattivato",
             "da": "Fra",
             "sv": "Av",
             "no": "Av",

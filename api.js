@@ -34,6 +34,6 @@ along with com.gruijter.powerhour.  If not, see <http://www.gnu.org/licenses/>.
 
 module.exports = {
   async getDapPrices({ homey }) {
-    return homey.app.getDapPricesPayload();
+    return homey.app.getPricesPayload();
   },
 };

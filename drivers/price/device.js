@@ -19,7 +19,7 @@ along with com.gruijter.powerhour.  If not, see <http://www.gnu.org/licenses/>.
 
 'use strict';
 
-const GenericDevice = require('../../lib/genericDeviceDrivers/generic_dap_device');
+const GenericDevice = require('../../lib/genericDeviceDrivers/generic_price_device');
 const PriceFlows = require('../../lib/flows/PriceFlows');
 const PriceFormula = require('../../lib/PriceFormula');
 const PriceCalculator = require('../../lib/PriceCalculator');

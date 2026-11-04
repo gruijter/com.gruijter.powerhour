@@ -21,7 +21,7 @@ along with com.gruijter.powerhour.  If not, see <http://www.gnu.org/licenses/>.
 
 // Providers are lazy loaded below to save memory
 
-const GenericDriver = require('../../lib/genericDeviceDrivers/generic_dap_driver');
+const GenericDriver = require('../../lib/genericDeviceDrivers/generic_price_driver');
 
 const driverSpecifics = {
   driverId: 'dapg',

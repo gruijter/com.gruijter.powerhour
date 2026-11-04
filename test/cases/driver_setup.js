@@ -116,13 +116,13 @@ const manifestIds = (driverId) => {
   await test('battery: steps, calibration only with control', async () => {
     const { view } = await pairView(await fakeDriver(BatteryDriver));
     assert.deepStrictEqual(view.steps.map((s) => s.id), ['battery', 'wear', 'price', 'plan', 'grid_limits', 'control', 'chart']);
-    assert.strictEqual(byId(view, 'roiMinProfit').step, 'wear');
+    assert.strictEqual(byId(view, 'minProfit').step, 'wear');
     assert.strictEqual(byId(view, 'tariff_type').step, 'price');
     assert.strictEqual(byId(view, 'wearCalc').step, 'wear');
     assert.strictEqual(byId(view, 'chargePower').step, 'battery');
     assert.strictEqual(byId(view, 'show_chart'), undefined);
     assert.strictEqual(byId(view, 'batCapacity').value, 5.05);
-    assert.ok(byId(view, 'roiWearCost').info.startsWith('What a kWh'));
+    assert.ok(byId(view, 'wearCost').info.startsWith('What a kWh'));
     assert.deepStrictEqual(byId(view, 'calibrateDays').showIf, { id: 'batteryControl', value: true });
     assert.strictEqual(byId(view, 'chartShowSoc').step, 'chart');
   });
@@ -153,19 +153,19 @@ const manifestIds = (driverId) => {
   await test('battery: wear helper fills in the wear cost, which stays editable', async () => {
     const driver = await fakeDriver(BatteryDriver);
     const { view, handlers } = await pairView(driver);
-    assert.strictEqual(byId(view, 'roiWearCost').showIf, undefined);
+    assert.strictEqual(byId(view, 'wearCost').showIf, undefined);
     assert.deepStrictEqual(byId(view, 'wearCycles').showIf, { id: 'wearCalc', value: true });
     assert.deepStrictEqual(view.calc, ['wearCalc', 'batCapacity', 'wearPurchasePrice', 'wearCycles']);
     // 3000 / (5 kWh x 6000 cycles x 0.85 average capacity)
     const settings = {
       wearCalc: true, batCapacity: '5', wearPurchasePrice: '3000', wearCycles: '6000',
     };
-    assert.deepStrictEqual(await handlers.setup_calc({ settings }), { roiWearCost: 0.1176 });
+    assert.deepStrictEqual(await handlers.setup_calc({ settings }), { wearCost: 0.1176 });
     assert.deepStrictEqual(await handlers.setup_calc({ settings: { ...settings, wearCalc: false } }), {});
     assert.deepStrictEqual(await handlers.setup_calc({ settings: { ...settings, wearPurchasePrice: '' } }), {});
     // An edited wear cost is kept.
-    const { device } = await handlers.setup_set(values(view, { ...settings, roiWearCost: '0.09' }));
-    assert.strictEqual(device.settings.roiWearCost, 0.09);
+    const { device } = await handlers.setup_set(values(view, { ...settings, wearCost: '0.09' }));
+    assert.strictEqual(device.settings.wearCost, 0.09);
     assert.strictEqual(device.settings.wearPurchasePrice, 3000);
   });
 

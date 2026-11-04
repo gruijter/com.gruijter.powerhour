@@ -166,7 +166,7 @@ test('connection limits: per phase and total', () => {
 });
 
 test('planner: no discharge above the export limit', () => {
-  const { getStrategy } = require('../../lib/strategies/RoiStrategy'); // eslint-disable-line global-require
+  const { getStrategy } = require('../../lib/strategies/PrecisePlanner'); // eslint-disable-line global-require
   const net = (exportLimitW) => [0, 1, 2, 3].map(() => ({
     surplusW: 7000, deficitW: 0, usableSurplusW: 7000, usableDeficitW: 0, limitW: null, penaltyPerKw: null, exportLimitW,
   }));

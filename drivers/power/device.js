@@ -129,7 +129,7 @@ class PowerDevice extends GenericDevice {
     this.applianceTimer = this.homey.setInterval(() => {
       this.sampleAppliance().catch(this.error);
     }, APPLIANCE_SAMPLE_MS);
-    await this.refreshDapPrices().catch(this.error);
+    await this.refreshGroupPrices().catch(this.error);
     await this.updateApplianceDisplay();
     await this.updateAppliancePlanDisplay();
   }
@@ -457,22 +457,22 @@ class PowerDevice extends GenericDevice {
     return Math.max(0, ((to - from) * 3600000000) / (endMs - startMs));
   }
 
-  // Price entry of the tariff group's DAP devices for ms (today, coming days, yesterday) or null.
+  // Price entry of the tariff group's price devices for ms (today, coming days, yesterday) or null.
   // Memoized per minute and price list: the plan searches call it for the same times many times.
   priceEntryAt(ms) {
     const intervalMs = (this.priceInterval || 60) * 60 * 1000;
     const minute = Math.floor(Date.now() / 60000);
     let memo = this.priceEntryMemo;
-    if (!memo || memo.minute !== minute || memo.prices !== this.dapPrices
-      || memo.history !== this.dapPriceHistory || memo.intervalMs !== intervalMs) {
+    if (!memo || memo.minute !== minute || memo.prices !== this.groupPrices
+      || memo.history !== this.groupPriceHistory || memo.intervalMs !== intervalMs) {
       memo = {
-        minute, prices: this.dapPrices, history: this.dapPriceHistory, intervalMs, entries: new Map(),
+        minute, prices: this.groupPrices, history: this.groupPriceHistory, intervalMs, entries: new Map(),
       };
       this.priceEntryMemo = memo;
     }
     if (memo.entries.has(ms)) return memo.entries.get(ms);
-    const entry = this._findPriceEntryForSlot(this.dapPrices, ms, intervalMs)
-      || this._findPriceEntryForSlot(this.dapPriceHistory, ms, intervalMs);
+    const entry = this._findPriceEntryForSlot(this.groupPrices, ms, intervalMs)
+      || this._findPriceEntryForSlot(this.groupPriceHistory, ms, intervalMs);
     memo.entries.set(ms, entry);
     return entry;
   }
@@ -570,7 +570,7 @@ class PowerDevice extends GenericDevice {
   async updateTariffHistory(...args) {
     await super.updateTariffHistory(...args);
     if (!this.applianceModel) return;
-    await this.refreshDapPrices().catch(this.error);
+    await this.refreshGroupPrices().catch(this.error);
     if (this.appliancePlan && !this.appliancePlan.notified) {
       const before = this.appliancePlan.startMs;
       this.replanAppliance();
@@ -583,7 +583,7 @@ class PowerDevice extends GenericDevice {
     await this.updateAppliancePlanDisplay();
   }
 
-  // Cheapest start cards (like the DAP price cards): checked once per 15-minute slot, at its
+  // Cheapest start cards (like the price cards): checked once per 15-minute slot, at its
   // first sample; not while a program runs. A restart later in the slot does not trigger again.
   async checkStartTriggers(t) {
     const slot = Math.floor(t / SLOT_MS) * SLOT_MS;
@@ -924,7 +924,7 @@ class PowerDevice extends GenericDevice {
     await render(tomorrowStart, periods.tomorrowEnd.getTime(), false, this.applianceTomorrowImage, 'chartApplianceTomorrow');
     const slotStart = Math.floor(now / SLOT_MS) * SLOT_MS;
     const intervalMs = (this.priceInterval || 60) * 60 * 1000;
-    const pricesEnd = (this.dapPrices || []).reduce((end, p) => Math.max(end, new Date(p.time).getTime() + intervalMs), 0);
+    const pricesEnd = (this.groupPrices || []).reduce((end, p) => Math.max(end, new Date(p.time).getTime() + intervalMs), 0);
     const nextEnd = Math.min(slotStart + 48 * 3600000, Math.max(slotStart + 12 * 3600000, pricesEnd));
     await render(slotStart, nextEnd, true, this.applianceNextHoursImage, 'chartApplianceNextHours');
   }
@@ -958,18 +958,18 @@ class PowerDevice extends GenericDevice {
 
 }
 
-// Prices of the tariff group's DAP devices, shared with the battery and EV charger.
+// Prices of the tariff group's price devices, shared with the battery and EV charger.
 const {
-  _dapOrderKey, _groupDapDevices, _groupPriceLogIds, refreshDapPrices,
-  _fetchInsightsPriceHistory, _fetchDapPriceHistoryFromInsights, _findPriceEntryForSlot,
+  _priceOrderKey, _groupPriceDevices, _groupPriceLogIds, refreshGroupPrices,
+  _fetchInsightsPriceHistory, _fetchGroupPriceHistory, _findPriceEntryForSlot,
 } = ChargeDeviceHelpers;
 Object.assign(PowerDevice.prototype, {
-  _dapOrderKey,
-  _groupDapDevices,
+  _priceOrderKey,
+  _groupPriceDevices,
   _groupPriceLogIds,
-  refreshDapPrices,
+  refreshGroupPrices,
   _fetchInsightsPriceHistory,
-  _fetchDapPriceHistoryFromInsights,
+  _fetchGroupPriceHistory,
   _findPriceEntryForSlot,
 });
 

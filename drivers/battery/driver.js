@@ -40,7 +40,7 @@ const STEPS = [
   { id: 'device', ids: [], roles: true },
   { id: 'device_meters', ids: [], roles: true },
   { id: 'battery', ids: ['batCapacity', 'chargePower', 'dischargePower', 'batteryPhase'] },
-  { id: 'wear', ids: ['wearCalc', 'wearPurchasePrice', 'wearCycles', 'roiWearCost', 'roiMinProfit'] },
+  { id: 'wear', ids: ['wearCalc', 'wearPurchasePrice', 'wearCycles', 'wearCost', 'minProfit'] },
   { id: 'price', ids: ['tariff_update_group', 'tariff_type'] },
   { id: 'plan', ids: ['precisePlanning', 'dischargeToEv', 'groupPlan'] },
   { id: 'grid_limits', ids: ['fuseProtection', 'peakShaving', 'peakReservePct'] },
@@ -611,7 +611,7 @@ class BatteryDriver extends GenericDriver {
   // while typing (the field itself stays editable).
   setupCalc(values) {
     const wear = values.wearCalc ? BatteryDriver.wearCost(values) : 0;
-    return wear > 0 ? { roiWearCost: wear } : {};
+    return wear > 0 ? { wearCost: wear } : {};
   }
 
   static wearCost({ wearPurchasePrice, batCapacity, wearCycles }) {

@@ -2083,7 +2083,7 @@ class CarChargeDevice extends GenericDevice {
         });
       }
 
-      await this.refreshDapPrices().catch(() => { });
+      await this.refreshGroupPrices().catch(() => { });
 
       // Off without a reported SoC (car or charger) and in energy mode: the line would only be a guess.
       const showSoc = this.getSettings().chartShowSoc !== false && !!(this.sourceCapGroup && this.sourceCapGroup.soc) && !energyMode;
@@ -2255,7 +2255,7 @@ class CarChargeDevice extends GenericDevice {
         this.log('[EV Usage] No distance to home or location history in Insights: nights away are only seen live');
       }
 
-      // Expected-price profile from the DAP price history (hourly, 14 days), once. Built fresh:
+      // Expected-price profile from the price history (hourly, 14 days), once. Built fresh:
       // live learning only takes prices newer than the last learned one, so history must go first.
       if (!this.priceProfile) this.priceProfile = (await this.getStoreValue('evPriceProfile')) || EvPriceProfile.createProfile();
       // A profile from before the daily lows: only those are taken from the history.

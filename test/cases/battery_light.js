@@ -2,11 +2,11 @@
 
 'use strict';
 
-// lib/strategies/RoiLightStrategy.js against the LP (RoiStrategy). Run: node --expose-gc test/cases/battery_light.js
+// lib/strategies/LightPlanner.js against the LP (PrecisePlanner). Run: node --expose-gc test/cases/battery_light.js
 
 const assert = require('assert');
-const lp = require('../../lib/strategies/RoiStrategy');
-const light = require('../../lib/strategies/RoiLightStrategy');
+const lp = require('../../lib/strategies/PrecisePlanner');
+const light = require('../../lib/strategies/LightPlanner');
 
 let failed = 0;
 const test = (name, fn) => {
@@ -401,7 +401,7 @@ process.exitCode = failed ? 1 : 0;
 
 // --- Short gaps in grid charging are bridged (15-minute prices)
 {
-  const { bridgeGaps } = require('../../lib/strategies/RoiLightStrategy');
+  const { bridgeGaps } = require('../../lib/strategies/LightPlanner');
   const slot = (power, block, price, soc) => ({
     power, duration: power ? 15 : 0, soc, price, exportPrice: price, block,
   });

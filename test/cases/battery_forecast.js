@@ -2,10 +2,10 @@
 
 'use strict';
 
-// Scenarios for lib/strategies/RoiStrategy.js with a per-slot net forecast. Run: node test/cases/battery_forecast.js
+// Scenarios for lib/strategies/PrecisePlanner.js with a per-slot net forecast. Run: node test/cases/battery_forecast.js
 
 const assert = require('assert');
-const { getStrategy, getGroupStrategy } = require('../../lib/strategies/RoiStrategy');
+const { getStrategy, getGroupStrategy } = require('../../lib/strategies/PrecisePlanner');
 
 let failed = 0;
 const test = (name, fn) => {

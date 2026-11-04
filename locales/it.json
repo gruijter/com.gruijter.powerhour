@@ -293,7 +293,7 @@
     "empty": "In corso: vuota verso __empty__, poi piena verso __full__",
     "full": "In corso: piena verso __full__",
     "requested": "Richiesta: parte appena possibile",
-    "off": "Spento",
+    "off": "Disattivato",
     "next": "Prossima da __next__",
     "no_control": "La calibrazione richiede il controllo integrato (impostazione Controllare la batteria)."
   },

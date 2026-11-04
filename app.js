@@ -204,13 +204,13 @@ class MyApp extends Homey.App {
   }
 
   /**
-   * Build the normalized DAP prices payload for the inter-app API.
+   * Build the normalized prices payload for the inter-app API.
    * Includes all future slots (from the current period onwards) for every
    * configured price device (PriceDrivers.DRIVER_IDS) that has valid prices.
    *
    * @returns {object} payload  { generatedAt, prices: [...] }
    */
-  getDapPricesPayload() {
+  getPricesPayload() {
     const now = new Date();
     const priceEntries = PriceDrivers.getDevices(this.homey)
       .map((device) => (device.pricesPayloadEntry ? device.pricesPayloadEntry(now) : null))

@@ -120,7 +120,7 @@ class BatDevice extends GenericDevice {
       await this.updateLearnedInfo().catch((err) => this.error(err));
       await this.updateCalibrationInfo().catch((err) => this.error(err));
       if (this.pricesNextHours) {
-        await this.flows.triggerNewRoiStrategyFlow().catch((err) => this.error(err));
+        await this.flows.triggerNewPlanFlow().catch((err) => this.error(err));
         await this.updateChargeChart().catch((err) => this.error(err));
       }
     };
@@ -130,7 +130,7 @@ class BatDevice extends GenericDevice {
   async onPricesUpdated() {
     this.pricesUpdatedTm = Date.now(); // see updateChargeChart(): only reuse plans made after this
     this.pricesUpdated = true;
-    await this.flows.triggerNewRoiStrategyFlow();
+    await this.flows.triggerNewPlanFlow();
     await this.updateChargeChart();
   }
 
@@ -658,7 +658,7 @@ class BatDevice extends GenericDevice {
   checkSocDeviation(slot, now) {
     if (!slot || !(slot.index >= 0) || typeof this.soc !== 'number') return;
     // The plan's SoC now: from the end of the previous slot (the first slot: the SoC when planned)
-    // toward the end of this one. Below the reserve the plan starts at the reserve (roiBattery()).
+    // toward the end of this one. Below the reserve the plan starts at the reserve (planBattery()).
     const plan = this.latestPlan;
     const reserve = this.reservePct();
     const slotStartMs = slot.endMs - plan.intervalMs;
@@ -679,7 +679,7 @@ class BatDevice extends GenericDevice {
   async replan(reason) {
     if (!this.pricesNextHours) return;
     this.log(`[ROI Plan] Plan again (${reason})`);
-    await this.flows.triggerNewRoiStrategyFlow();
+    await this.flows.triggerNewPlanFlow();
     await this.updateChargeChart();
   }
 
@@ -941,9 +941,9 @@ class BatDevice extends GenericDevice {
     return r ? Math.round(r + ((socPct * (100 - r)) / 100)) : socPct;
   }
 
-  // A battery for RoiStrategy: its SoC, capacity, charge/discharge speeds with efficiency, and the
+  // A battery for PrecisePlanner: its SoC, capacity, charge/discharge speeds with efficiency, and the
   // learned taper near full and empty.
-  roiBattery() {
+  planBattery() {
     const settings = this.batterySettings();
     // The planner works above the reserve: that part of the capacity, the SoC within it.
     const r = this.reservePct();
@@ -978,9 +978,9 @@ class BatDevice extends GenericDevice {
     await this.setStoreValue('batteryTaper', this.taper).catch(this.error);
   }
 
-  // Input for RoiStrategy: getStrategy() for this battery, or with a group getGroupStrategy() with
+  // Input for PrecisePlanner: getStrategy() for this battery, or with a group getGroupStrategy() with
   // each battery of the group as it is.
-  buildRoiOptions(minPriceDelta, group = null) {
+  buildPlanOptions(minPriceDelta, group = null) {
     const members = group || [this];
     const now = Date.now();
     const tz = this.timeZone || this.homey.clock.getTimezone();
@@ -988,7 +988,7 @@ class BatDevice extends GenericDevice {
     const { prices, exportPrices } = this.pricesFromNow(now);
     const planPrices = this.toPlanSlots(prices, now);
     const startMs = TimeHelpers.startOfLocalBlock(now, planMin, tz);
-    const forecast = this.roiNetForecast(startMs, planPrices.length, planMin, members);
+    const forecast = this.planNetForecast(startMs, planPrices.length, planMin, members);
     const socBounds = !group && this.calibrationActive()
       ? BatteryCalibration.socBounds(this.calibration, { startMs, slotMin: planMin, slots: planPrices.length }) : null;
     return {
@@ -996,7 +996,7 @@ class BatDevice extends GenericDevice {
       exportPrices: exportPrices ? [...this.toPlanSlots(exportPrices, now)] : null,
       minPriceDelta,
       wearCost: this.wearCostFor(members),
-      ...(group ? { batteries: members.map((d) => d.roiBattery()) } : this.roiBattery()),
+      ...(group ? { batteries: members.map((d) => d.planBattery()) } : this.planBattery()),
       // Local minute: slots follow local time (half-hour-offset zones differ from UTC).
       startMinute: TimeHelpers.toLocalDate(new Date(now), tz).getMinutes(),
       priceInterval: planMin,
@@ -1035,7 +1035,7 @@ class BatDevice extends GenericDevice {
     const startMs = TimeHelpers.startOfLocalBlock(now, planMin, tz);
     const { prices, exportPrices } = this.pricesFromNow(now);
     const planPrices = this.toPlanSlots(prices, now);
-    const forecast = this.roiNetForecast(startMs, planPrices.length, planMin);
+    const forecast = this.planNetForecast(startMs, planPrices.length, planMin);
     const settings = this.batterySettings();
     return BatteryCalibration.chooseTargets({
       phase,
@@ -1135,14 +1135,14 @@ class BatDevice extends GenericDevice {
     const cap = (d) => d.capacityKwh();
     const total = members.reduce((a, d) => a + cap(d), 0);
     if (!(total > 0)) return 0;
-    return members.reduce((a, d) => a + (cap(d) * (Number(d.getSettings().roiWearCost) || 0)), 0) / total;
+    return members.reduce((a, d) => a + (cap(d) * (Number(d.getSettings().wearCost) || 0)), 0) / total;
   }
 
   // The home's net per plan slot from the grid forecast, for the planner: without batteries, plus
   // the plans of the batteries before this one (device id), so they do not plan on the same
   // surplus. Never the grid's netPlanned (it holds this battery's own plan). members: the batteries
   // planned as one (a group). null without a grid.
-  roiNetForecast(startMs, n, planMin, members = [this]) {
+  planNetForecast(startMs, n, planMin, members = [this]) {
     const grid = GridConnection.gridDevice(this.homey);
     if (!grid || !(n > 0)) return null;
     const endMs = startMs + (n * planMin * 60 * 1000);
@@ -1432,14 +1432,14 @@ class BatDevice extends GenericDevice {
   // A new plan slot: plan again. A price slot needs no broadcast: the list has its prices.
   async onPlanSlot() {
     if (!this.pricesNextHours) return;
-    await this.flows.triggerNewRoiStrategyFlow();
+    await this.flows.triggerNewPlanFlow();
     await this.updateChargeChart();
   }
 
   async updateChargeChart() {
     if (!this.pricesNextHours) return;
-    await this.refreshDapPrices().catch(() => {});
-    const minPriceDelta = this.getSettings().roiMinProfit;
+    await this.refreshGroupPrices().catch(() => {});
+    const minPriceDelta = this.getSettings().minProfit;
     // Reuse a plan from the same price slot and minPriceDelta (a flow trigger usually computed it
     // seconds ago), if made after the latest price update and the last (re)init.
     const slotMs = this.planIntervalMin() * 60 * 1000;
