@@ -1,4 +1,7 @@
 {
+  "9.0.0": {
+    "en": "Major rewrite: your own EMS on Homey. New Energy Price device for power, gas and water. Smart battery with built-in modes and control. Smart EV charger. Self-learning solar, home load and appliance forecasts. Peak shaving and phase fuse guard. Setup and repair from your phone. Far fewer flow cards. Test version: expect bugs."
+  },
   "8.21.1": {
     "en": "EV charger: charge ahead in cheap weekends. Holiday detection and away periods."
   },
