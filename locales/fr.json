@@ -24,8 +24,6 @@
   "source_device_missing_retrying": "L'appareil source est manquant. Nouvelle tentative ..",
   "virtual_via_flow": "Virtuel (via flow)",
   "polling_failed": "L'interrogation a échoué. Réessayera bientôt..",
-  "source_device_missing_retry_named": "L'appareil source %name% est manquant. Réessayez dans 10 minutes.",
-  "error_device_not_ready": "L'appareil n'est pas prêt. Les nouveaux paramètres sont ignorés !",
   "error_device_not_found": "Appareil introuvable",
   "error_appliance_not_learned": "Programme pas encore appris : __runs__ cycles nécessaires",
   "error_appliance_ev_charger": "Cette source est déjà comptée comme chargeur VE",
@@ -55,7 +53,7 @@
   "solar_export_diagnostics_popup": "Créez maintenant un rapport de diagnostic de l'application avec le message : orientation (ex. Sud/Est/Ouest).",
   "tariff_group_interval_conflict": "Le groupe tarifaire __group__ reçoit des intervalles de prix contradictoires (__sources__). Utilisation de __interval__ min. Donnez aux appareils de prix 15 et 60 minutes leur propre groupe tarifaire.",
   "grid_connection_multiple_devices": "Plusieurs appareils Réseau trouvés (__devices__). __limit__ W est utilisé comme limite de raccordement pour les contrôles de plausibilité. Ne gardez qu'un seul appareil Réseau.",
-  "migration_dap_replace": "Les appareils DAP sont remplacés par le nouvel appareil Prix de l'énergie (__devices__). Ajoutez un Prix de l'énergie : il reprend les réglages.",
+  "migration_dap_replace": "Les anciens appareils de prix sont remplacés par le nouvel appareil Prix de l'énergie (__devices__). Ajoutez un Prix de l'énergie : il reprend les réglages.",
   "migration_dap_flows": "__old__ est repris par __new__. Adaptez ces flows, puis supprimez __old__ : __flows__",
   "migration_dap_delete": "__old__ est repris par __new__. Vérifiez vos flows, puis supprimez __old__.",
   "migration_warning_replace": "Remplacé par Prix de l'énergie. Ajoutez un appareil Prix de l'énergie.",
@@ -217,8 +215,8 @@
   "error_peak_steps": "Paliers de prix : utilisez p. ex. 2:190; 5:300.",
   "bat_control_failed": "Échec du pilotage de la batterie : __error__",
   "chart_legend": {
-    "nom": "XOM",
-    "save": "Accumulation",
+    "xom": "XOM",
+    "hold": "Accumulation",
     "charge": "Charge",
     "discharge": "Décharge"
   },

@@ -1,4 +1,4 @@
-# 🔋 Smart Battery Charger
+# 🔋 Smart Battery
 
 **Plans and controls your home battery: lowest costs, most self-consumption.**
 The heart of the EMS. [← Overview](./README.md)
@@ -17,7 +17,7 @@ The heart of the EMS. [← Overview](./README.md)
 
 ## Setup
 
-1. **Add Device** → **Power by the Hour** → **Smart Battery Charger**.
+1. **Add Device** → **Power by the Hour** → **Smart Battery**.
 2. Pick your battery.
 3. Fill in capacity and max. charge/discharge power. Done.
 
@@ -34,7 +34,7 @@ The heart of the EMS. [← Overview](./README.md)
 | **Smart** | Follows the plan: lowest total cost. |
 | **Solar self-use** | Least grid use first, cost second. No grid charging, no battery export. |
 | **Force save up** | No discharging. Solar surplus may charge. |
-| **Force XOM** | Keeps the grid at the XOM target (zero on the meter). |
+| **Force XOM** | Keeps the grid at the XOM target (X on the meter). |
 | **Force rest** | 0 W. |
 | **Force charge / discharge** | Full power, also from or to the grid. |
 | **Battery decides** | Leaves the group, follows its own app. |
@@ -50,7 +50,7 @@ The heart of the EMS. [← Overview](./README.md)
 
 **Looks ahead:** as far as prices are known (with AI price forecast: further).
 
-**Per price period (15 or 60 min) it picks:** charge, discharge, save up, rest, or zero on the meter.
+**Per price period (15 or 60 min) it picks:** charge, discharge, save up, rest, or XOM.
 
 **It chooses the cheapest total over the whole period:**
 - **Grid charge:** only when a later price pays the losses, wear and minimum profit.
@@ -72,7 +72,7 @@ The heart of the EMS. [← Overview](./README.md)
 
 - **Minimum profit per kWh:** extra a grid charge must earn.
 - **Wear cost per kWh:** or calculate it from purchase price and cycles.
-- **Extra precise planning:** LP planner, best for several different batteries. Uses more memory.
+- **Extra precise planning:** LP planner, about 1% better, up to 4% with peak limiting. Uses much more memory.
 - **Plan together with other batteries:** one plan, one mode for the group.
 - **Also discharge for the car:** off: the battery does not charge the EV.
 - **Protect the main fuse / Limit peaks:** uses the Grid Monitor's limits.

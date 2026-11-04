@@ -28,10 +28,10 @@ const slot = (block, soc) => ({
 
 test('zero: absorbs export, covers import', () => {
   assert.strictEqual(C.decide({
-    ...base, mode: 'smart', slot: slot('zero', 60), gridW: -800, batteryW: 0,
+    ...base, mode: 'smart', slot: slot('xom', 60), gridW: -800, batteryW: 0,
   }).powerW, 400);
   assert.strictEqual(C.decide({
-    ...base, mode: 'smart', slot: slot('zero', 40), gridW: 300, batteryW: -200,
+    ...base, mode: 'smart', slot: slot('xom', 40), gridW: 300, batteryW: -200,
   }).powerW, -350);
 });
 
@@ -86,13 +86,13 @@ test('pulse: charge/discharge block below the efficient power', () => {
 
 test('zero: limited by max power', () => {
   assert.strictEqual(C.decide({
-    ...base, mode: 'smart', slot: slot('zero', 60), gridW: -5000, batteryW: 0,
+    ...base, mode: 'smart', slot: slot('xom', 60), gridW: -5000, batteryW: 0,
   }).powerW, 2200);
 });
 
 test('low-power threshold with hysteresis', () => {
   const o = {
-    ...base, mode: 'smart', slot: slot('zero', 40), minDischargeW: 400,
+    ...base, mode: 'smart', slot: slot('xom', 40), minDischargeW: 400,
   };
   let r = C.decide({ ...o, gridW: 250, batteryW: 0 });
   assert.strictEqual(r.powerW, 0, 'night 250 W: grid');
@@ -102,22 +102,22 @@ test('low-power threshold with hysteresis', () => {
   assert.strictEqual(r.powerW, -300, 'kettle: battery (half step)');
   // Back to 300 W: stays on (above 0.8 x 400 on the average) ...
   r = C.decide({
-    ...o, gridW: 300, batteryW: -600, avgZeroW: -500, state: r.state,
+    ...o, gridW: 300, batteryW: -600, avgXomW: -500, state: r.state,
   });
   assert.strictEqual(r.powerW, -750);
   // ... until the average is under 320 W for 2 minutes.
   r = C.decide({
-    ...o, gridW: 0, batteryW: -250, avgZeroW: -250, state: r.state,
+    ...o, gridW: 0, batteryW: -250, avgXomW: -250, state: r.state,
   });
   assert.strictEqual(r.powerW, -250, 'still on within 2 min');
   r = C.decide({
-    ...o, now: now + C.STOP_AFTER_MS, gridW: 0, batteryW: -250, avgZeroW: -250, state: r.state,
+    ...o, now: now + C.STOP_AFTER_MS, gridW: 0, batteryW: -250, avgXomW: -250, state: r.state,
   });
   assert.strictEqual(r.powerW, 0, 'off after 2 min');
 });
 
 test('zero covering the deficit in part: at most the planned power (smart only)', () => {
-  const part = { ...slot('zero', 40), homeCapW: 250 };
+  const part = { ...slot('xom', 40), homeCapW: 250 };
   assert.strictEqual(C.decide({
     ...base, mode: 'smart', slot: part, gridW: 300, batteryW: -200,
   }).powerW, -250, 'capped');
@@ -176,7 +176,7 @@ test('device mode releases', () => {
 
 test('two batteries share the grid correction', () => {
   assert.strictEqual(C.decide({
-    ...base, mode: 'smart', slot: slot('zero', 60), gridW: -1000, batteryW: 0, share: 0.5,
+    ...base, mode: 'smart', slot: slot('xom', 60), gridW: -1000, batteryW: 0, share: 0.5,
   }).powerW, 250);
 });
 
@@ -188,7 +188,7 @@ test('zero converges to grid 0 with a one-tick lag of the grid reading', () => {
     const gridW = 2000 + prevSetW;
     prevSetW = setW;
     setW = C.decide({
-      ...base, maxDischargeW: 3000, mode: 'smart', slot: slot('zero', 40), gridW, batteryW: setW,
+      ...base, maxDischargeW: 3000, mode: 'smart', slot: slot('xom', 40), gridW, batteryW: setW,
     }).powerW;
   }
   assert.ok(Math.abs(setW + 2000) <= 60, `ends at ${setW} W`);
@@ -208,8 +208,8 @@ test('write: on change, to 0, keepalive', () => {
 });
 
 test('slotAt and plan options', () => {
-  const plan = { startMs: now - 300000, intervalMs: 900000, slots: [{ block: 'zero', soc: 55 }, { block: 'hold', soc: 55 }] };
-  assert.strictEqual(C.slotAt(plan, now).block, 'zero');
+  const plan = { startMs: now - 300000, intervalMs: 900000, slots: [{ block: 'xom', soc: 55 }, { block: 'hold', soc: 55 }] };
+  assert.strictEqual(C.slotAt(plan, now).block, 'xom');
   assert.strictEqual(C.slotAt(plan, now + 900000).block, 'hold');
   assert.strictEqual(C.slotAt(plan, now + 2000000), null);
   assert.deepStrictEqual(C.planOptionsFor('self_consumption'), { allowGridCharge: false, allowExport: false, minimizeGrid: true });
@@ -225,7 +225,7 @@ test('peak shaving in an idle block: discharges to stay under the limit', () => 
 
 test('reserve: no discharge below it, except for the import limit', () => {
   const o = {
-    ...base, socPct: 20, minSocPct: 20, mode: 'smart', slot: slot('zero', 20), gridW: 500, batteryW: 0,
+    ...base, socPct: 20, minSocPct: 20, mode: 'smart', slot: slot('xom', 20), gridW: 500, batteryW: 0,
   };
   assert.strictEqual(C.decide(o).powerW, 0);
   assert.strictEqual(C.decide({ ...o, mode: 'discharge' }).powerW, 0);
@@ -248,7 +248,7 @@ test('self-consumption: idle is zero on the meter, the reserve is not refilled f
   const o = {
     ...base, socPct: 50, mode: 'self_consumption', slot: slot('idle', 50), gridW: -500, batteryW: 0,
   };
-  assert.strictEqual(C.decide(o).block, 'zero');
+  assert.strictEqual(C.decide(o).block, 'xom');
   assert.strictEqual(C.decide(o).powerW, 250, 'an unforeseen surplus charges');
   assert.strictEqual(C.decide({ ...o, mode: 'smart' }).powerW, 0, 'smart keeps the idle block');
   const r = { ...o, socPct: 12, minSocPct: 20 };
@@ -263,7 +263,7 @@ test('xom: zero on the meter whatever the plan, the reserve not refilled from th
     ...base, socPct: 50, mode: 'xom', gridW: 600, batteryW: 0,
   };
   ['idle', 'hold', 'charge', 'discharge'].forEach((b) => {
-    assert.strictEqual(C.decide({ ...o, slot: slot(b, 90) }).block, 'zero', `plan ${b}`);
+    assert.strictEqual(C.decide({ ...o, slot: slot(b, 90) }).block, 'xom', `plan ${b}`);
     assert.strictEqual(C.decide({ ...o, slot: { ...slot(b, 90), noCharge: true }, gridW: -600 }).powerW, 300, `plan ${b}: surplus charges`);
   });
   assert.strictEqual(C.decide({ ...o, slot: slot('charge', 90) }).powerW, -300, 'deficit covered');
@@ -280,7 +280,7 @@ test('idle: nothing, whatever the plan, no reserve refill, no plan', () => {
   const o = {
     ...base, socPct: 50, mode: 'idle', gridW: 600, batteryW: 0,
   };
-  ['zero', 'charge', 'discharge', 'hold'].forEach((b) => {
+  ['xom', 'charge', 'discharge', 'hold'].forEach((b) => {
     assert.strictEqual(C.decide({ ...o, slot: slot(b, 90) }).powerW, 0, `plan ${b}`);
     assert.strictEqual(C.decide({ ...o, slot: slot(b, 90), gridW: -800 }).powerW, 0, `plan ${b}, surplus`);
   });
@@ -290,7 +290,7 @@ test('idle: nothing, whatever the plan, no reserve refill, no plan', () => {
   assert.strictEqual(C.refillsReserve('idle'), false);
   assert.ok(C.planOptionsFor('idle').idle);
   const light = require('../../lib/strategies/LightPlanner');
-  const plans = light.idleStrategy({
+  const plans = light.idlePlan({
     prices: [0.2, 0.3, 0.25], priceInterval: 15, batteries: [{ soc: 40 }, { soc: 70 }],
   });
   assert.deepStrictEqual(plans.map((p) => [Object.keys(p).length, p[2].block, p[2].power, p[2].soc]), [[3, 'idle', 0, 40], [3, 'idle', 0, 70]]);
@@ -302,7 +302,7 @@ test('self-consumption, noCharge (wear): no surplus taken, the deficit still cov
   };
   assert.strictEqual(C.decide(o).powerW, 0, 'surplus not stored');
   assert.strictEqual(C.decide({ ...o, gridW: 500 }).powerW, -250, 'stored energy covers the deficit');
-  assert.strictEqual(C.decide({ ...o, mode: 'smart', slot: { ...slot('zero', 50), noCharge: true } }).powerW, 0, 'smart: noCharge too');
+  assert.strictEqual(C.decide({ ...o, mode: 'smart', slot: { ...slot('xom', 50), noCharge: true } }).powerW, 0, 'smart: noCharge too');
   assert.strictEqual(C.decide({ ...o, mode: 'smart', slot: { ...slot('hold', 50), minSolarW: 400 } }).powerW, 250, 'minSolarW: 500 W surplus stored');
   assert.strictEqual(C.decide({ ...o, mode: 'smart', slot: { ...slot('hold', 50), minSolarW: 600 } }).powerW, 0, 'minSolarW: 500 W surplus left');
 });
@@ -357,39 +357,39 @@ test('leadLimitW: the integrator at most 30 % of max power (300 W min.) ahead of
   }), -1650, 'unknown: not limited');
 });
 
-test('nomStep: short spikes left to the grid, less at once, small changes by GAIN', () => {
+test('xomStep: short spikes left to the grid, less at once, small changes by GAIN', () => {
   const t = 1e9;
-  assert.deepStrictEqual(C.nomStep({ prevW: null, targetW: -800, now: t }), { w: -800, riseSince: null }, 'entering: at once');
-  let r = C.nomStep({
+  assert.deepStrictEqual(C.xomStep({ prevW: null, targetW: -800, now: t }), { w: -800, riseSince: null }, 'entering: at once');
+  let r = C.xomStep({
     prevW: -100, targetW: -2400, riseSince: null, now: t,
   });
   assert.deepStrictEqual(r, { w: -100, riseSince: t }, 'spike: held');
-  r = C.nomStep({
+  r = C.xomStep({
     prevW: -100, targetW: -2400, riseSince: r.riseSince, now: t + 15000,
   });
   assert.strictEqual(r.w, -100, 'still held after 15 s');
-  r = C.nomStep({
+  r = C.xomStep({
     prevW: -100, targetW: -2400, riseSince: r.riseSince, now: t + 20000,
   });
   assert.strictEqual(r.w, -1250, 'lasted 20 s: toward it by GAIN');
-  assert.deepStrictEqual(C.nomStep({
+  assert.deepStrictEqual(C.xomStep({
     prevW: -100, targetW: -110, riseSince: t, now: t + 1000,
   }), { w: -105, riseSince: null }, 'spike gone: reset');
-  assert.strictEqual(C.nomStep({ prevW: -1500, targetW: -300, now: t }).w, -300, 'less: at once');
-  assert.strictEqual(C.nomStep({ prevW: -500, targetW: -600, now: t }).w, -550, 'small change: GAIN');
-  assert.strictEqual(C.nomStep({ prevW: -800, targetW: 900, now: t }).w, 0, 'other way: to 0 at once, charging waits');
-  assert.strictEqual(C.nomStep({ prevW: -800, targetW: 150, now: t }).w, 75, 'other way, small: GAIN from 0');
+  assert.strictEqual(C.xomStep({ prevW: -1500, targetW: -300, now: t }).w, -300, 'less: at once');
+  assert.strictEqual(C.xomStep({ prevW: -500, targetW: -600, now: t }).w, -550, 'small change: GAIN');
+  assert.strictEqual(C.xomStep({ prevW: -800, targetW: 900, now: t }).w, 0, 'other way: to 0 at once, charging waits');
+  assert.strictEqual(C.xomStep({ prevW: -800, targetW: 150, now: t }).w, 75, 'other way, small: GAIN from 0');
 });
 
 test('actionFor: one word per block, refill and no control', () => {
-  assert.deepStrictEqual(['zero', 'hold', 'idle', 'charge', 'discharge'].map((block) => C.actionFor({ block })), ['nom', 'save', 'rest', 'charge', 'discharge']);
-  assert.strictEqual(C.actionFor({ block: 'zero', refill: true }), 'refill');
+  assert.deepStrictEqual(['xom', 'hold', 'idle', 'charge', 'discharge'].map((block) => C.actionFor({ block })), ['xom', 'hold', 'idle', 'charge', 'discharge']);
+  assert.strictEqual(C.actionFor({ block: 'xom', refill: true }), 'refill');
   assert.strictEqual(C.actionFor(), 'none');
 });
 
 test('shouldWrite: finer steps in zero on the meter', () => {
   const w = { lastW: -1200, lastTm: 1, now: 2 };
-  assert.ok(C.shouldWrite({ ...w, powerW: -1230, block: 'zero' }));
+  assert.ok(C.shouldWrite({ ...w, powerW: -1230, block: 'xom' }));
   assert.ok(!C.shouldWrite({ ...w, powerW: -1230, block: 'discharge' }));
 });
 
@@ -416,8 +416,8 @@ test('BatteryResponse: time to 90 % of a setpoint step, from standstill and runn
   assert.ok(/standstill 45.0 s \(n 1\), running 10.0 s \(n 1\)/.test(R.describe(r.state)), R.describe(r.state));
 });
 
-// NomXomStrategy (zero on the meter over a group): BatterySplit, efficiency first, then SoC.
-const nom = require('../../lib/strategies/NomXomStrategy');
+// XomSplit (zero on the meter over a group): BatterySplit, efficiency first, then SoC.
+const XomSplit = require('../../lib/strategies/XomSplit');
 
 const sessySettings = {
   chargePower: 2200, chargeLoss: 10, chargePowerEff: 1050, chargeLossEff: 5, dischargePower: 1700, dischargeLoss: 8, dischargePowerEff: 800, dischargeLossEff: 4,
@@ -425,24 +425,24 @@ const sessySettings = {
 const nomDev = (id, soc, settings = sessySettings, reserve = 0) => ({
   getData: () => ({ id }), getName: () => id, getSettings: () => settings, getCapabilityValue: () => 0, soc, xomTargetPower: 0, reservePct: () => reserve,
 });
-const nomW = (devices, gridW) => {
-  const st = nom.getStrategy({
+const xomStepW = (devices, gridW) => {
+  const st = XomSplit.split({
     devices, cumulativePower: gridW, x: 0, minLoad: 50,
   });
   return devices.map((d) => Math.round(st.find((s) => s.id === d.getData().id).target));
 };
 
 test('NomXom: fewest batteries within their efficient power, then by SoC', () => {
-  assert.deepStrictEqual(nomW([nomDev('a', 50), nomDev('b', 48)], 300), [-300, 0], 'small deficit: fullest alone');
-  assert.deepStrictEqual(nomW([nomDev('a', 80), nomDev('b', 20)], 1600), [-800, -800], 'not one at 1600 W');
-  assert.deepStrictEqual(nomW([nomDev('a', 80), nomDev('b', 20)], -1600), [550, 1050], 'charge: emptiest to its efficient power first');
-  assert.deepStrictEqual(nomW([nomDev('a', 50), nomDev('b', 20, sessySettings, 20)], 600), [-600, 0], 'at its reserve: nothing');
-  assert.deepStrictEqual(nomW([nomDev('a', 100), nomDev('b', 30)], -600), [0, 600], 'full: no charge');
+  assert.deepStrictEqual(xomStepW([nomDev('a', 50), nomDev('b', 48)], 300), [-300, 0], 'small deficit: fullest alone');
+  assert.deepStrictEqual(xomStepW([nomDev('a', 80), nomDev('b', 20)], 1600), [-800, -800], 'not one at 1600 W');
+  assert.deepStrictEqual(xomStepW([nomDev('a', 80), nomDev('b', 20)], -1600), [550, 1050], 'charge: emptiest to its efficient power first');
+  assert.deepStrictEqual(xomStepW([nomDev('a', 50), nomDev('b', 20, sessySettings, 20)], 600), [-600, 0], 'at its reserve: nothing');
+  assert.deepStrictEqual(xomStepW([nomDev('a', 100), nomDev('b', 30)], -600), [0, 600], 'full: no charge');
   const capped = nomDev('b', 48);
   capped.capW = { dir: -1, w: 700 };
-  assert.deepStrictEqual(nomW([nomDev('a', 50), capped], 2400), [-1700, -700], 'a capped battery: the other takes the rest');
+  assert.deepStrictEqual(xomStepW([nomDev('a', 50), capped], 2400), [-1700, -700], 'a capped battery: the other takes the rest');
   const better = { ...sessySettings, dischargeLossEff: 2 };
-  assert.deepStrictEqual(nomW([nomDev('a', 80), nomDev('b', 40, better)], 600), [0, -600], 'most efficient first');
+  assert.deepStrictEqual(xomStepW([nomDev('a', 80), nomDev('b', 40, better)], 600), [0, -600], 'most efficient first');
 });
 
 test('NomXom: no flip-flopping at the efficient power', () => {
@@ -452,7 +452,7 @@ test('NomXom: no flip-flopping at the efficient power', () => {
   for (let i = 0; i < 60; i += 1) {
     const load = 860 + (90 * Math.sin(i * 1.3)) + ((i % 5) * 10);
     const gridW = load + devs.reduce((a, d) => a + d.xomTargetPower, 0);
-    const w = nomW(devs, gridW);
+    const w = xomStepW(devs, gridW);
     devs.forEach((d, k) => {
       d.xomTargetPower = w[k];
     });

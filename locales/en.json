@@ -24,8 +24,6 @@
   "source_device_missing_retrying": "Source device is missing. Retrying ..",
   "virtual_via_flow": "Virtual (via flow)",
   "polling_failed": "Polling failed. Will retry soon..",
-  "source_device_missing_retry_named": "Source device %name% is missing. Retry in 10 minutes.",
-  "error_device_not_ready": "Device is not ready. Ignoring new settings!",
   "error_device_not_found": "Device not found",
   "error_appliance_not_learned": "Program not learned yet: needs __runs__ runs",
   "error_appliance_ev_charger": "This source is already counted by an EV charger device",
@@ -55,7 +53,7 @@
   "solar_export_diagnostics_popup": "Now create an app diagnostics report with Message: panel orientation (e.g. South/East/West).",
   "tariff_group_interval_conflict": "Tariff group __group__ receives conflicting price intervals (__sources__). Using __interval__ min. Give 15- and 60-minute price devices their own tariff group.",
   "grid_connection_multiple_devices": "Multiple Grid devices found (__devices__). Using __limit__ W as the grid connection limit for power plausibility checks. Keep only one Grid device.",
-  "migration_dap_replace": "DAP devices are replaced by the new Energy Price device (__devices__). Add an Energy Price device: it takes over the settings.",
+  "migration_dap_replace": "Old price devices are replaced by the new Energy Price device (__devices__). Add an Energy Price device: it takes over the settings.",
   "migration_dap_flows": "__old__ is taken over by __new__. Adjust these flows, then delete __old__: __flows__",
   "migration_dap_delete": "__old__ is taken over by __new__. Check your flows, then delete __old__.",
   "migration_warning_replace": "Replaced by Energy Price. Add an Energy Price device.",
@@ -217,8 +215,8 @@
   "error_peak_steps": "Price steps: use e.g. 2:190; 5:300.",
   "bat_control_failed": "Battery control failed: __error__",
   "chart_legend": {
-    "nom": "XOM",
-    "save": "Save up",
+    "xom": "XOM",
+    "hold": "Save up",
     "charge": "Charge",
     "discharge": "Discharge"
   },

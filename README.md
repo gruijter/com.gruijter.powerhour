@@ -45,7 +45,7 @@ Lowest energy costs, most self-consumption. Set up from your phone.
 | 💶 Energy Price | Your real price: market or fixed, all markups and taxes | [price](./README.price.md) |
 | 🔌 Grid Monitor | Import/export, home load, capacity peaks, load forecast | [grid](./README.grid.md) |
 | ☀️ Solar Monitor | Production, self-learning solar forecast | [solar](./README.solar.md) |
-| 🔋 Smart Battery Charger | Plans and controls home batteries | [battery](./README.battery.md) |
+| 🔋 Smart Battery | Plans and controls home batteries | [battery](./README.battery.md) |
 | 🚗 Smart EV Charger | Charges at the cheapest time or on solar, ready for departure | [evCharger](./README.evCharger.md) |
 | ⚡ Power Monitor | Use per appliance, standby, cheapest program start | [power](./README.power.md) |
 | 🛢️ Gas Monitor | Gas use and costs | [gas](./README.gas.md) |
@@ -88,8 +88,8 @@ Lowest energy costs, most self-consumption. Set up from your phone.
 
 ## 👨‍💻 Developer API
 
-- `GET /dap-prices`: all prices from now on.
-- Realtime event `dap-prices-updated`: new slot or new prices.
+- `GET /prices`: all prices from now on.
+- Realtime event `prices-updated`: new slot or new prices.
 - Full reference: **[README.dap-api.md](./README.dap-api.md)**
 
 ---

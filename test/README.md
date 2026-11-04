@@ -25,7 +25,7 @@ Exit code is non-zero if anything fails.
 
 | File | Covers |
 | --- | --- |
-| `battery_control.js` | BatteryControl, BatteryResponse, NomXomStrategy, light planner hooks |
+| `battery_control.js` | BatteryControl, BatteryResponse, XomSplit, light planner hooks |
 | `battery_efficiency.js` | BatteryEfficiency (learned efficiency curve) |
 | `battery_forecast.js` | PrecisePlanner (LP) with a per-slot net forecast, group plans |
 | `battery_light.js` | LightPlanner against the LP, BatterySplit |
@@ -34,7 +34,7 @@ Exit code is non-zero if anything fails.
 | `ev_usage_model.js` | EvUsageModel (trip learning) |
 | `peak_tariff.js` | PeakTariff (capacity tariff presets and peaks) |
 | `price_formula.js` | PriceFormula parser, equal to PriceCalculator |
-| `xom_strategy.js` | NomXomStrategy distribution over batteries |
+| `xom_split.js` | XomSplit distribution over batteries |
 
 ## Adding a case
 

@@ -24,8 +24,6 @@
   "source_device_missing_retrying": "Quellgerät fehlt. Erneuter Versuch ..",
   "virtual_via_flow": "Virtuell (via Flow)",
   "polling_failed": "Abfrage fehlgeschlagen. Versuche es bald erneut..",
-  "source_device_missing_retry_named": "Quellgerät %name% fehlt. Erneuter Versuch in 10 Minuten.",
-  "error_device_not_ready": "Gerät ist nicht bereit. Neue Einstellungen werden ignoriert!",
   "error_device_not_found": "Gerät nicht gefunden",
   "error_appliance_not_learned": "Programm noch nicht gelernt: __runs__ Läufe nötig",
   "error_appliance_ev_charger": "Diese Quelle zählt bereits als EV-Lader",
@@ -55,7 +53,7 @@
   "solar_export_diagnostics_popup": "Erstellen Sie jetzt einen App-Diagnosebericht mit Nachricht: Ausrichtung (z. B. Süd/Ost/West).",
   "tariff_group_interval_conflict": "Tarifgruppe __group__ erhält widersprüchliche Preisintervalle (__sources__). Aktuell __interval__ Min. Geben Sie 15- und 60-Minuten-Preisgeräten eigene Tarifgruppen.",
   "grid_connection_multiple_devices": "Mehrere Netzstrom-Geräte gefunden (__devices__). __limit__ W wird als Netzanschlussgrenze für Plausibilitätsprüfungen verwendet. Behalten Sie nur ein Netzstrom-Gerät.",
-  "migration_dap_replace": "DAP-Geräte werden durch das neue Gerät Energiepreis ersetzt (__devices__). Füge ein Energiepreis-Gerät hinzu: Es übernimmt die Einstellungen.",
+  "migration_dap_replace": "Alte Preisgeräte werden durch das neue Gerät Energiepreis ersetzt (__devices__). Füge ein Energiepreis-Gerät hinzu: Es übernimmt die Einstellungen.",
   "migration_dap_flows": "__old__ wurde von __new__ übernommen. Passe diese Flows an und lösche dann __old__: __flows__",
   "migration_dap_delete": "__old__ wurde von __new__ übernommen. Prüfe deine Flows und lösche dann __old__.",
   "migration_warning_replace": "Ersetzt durch Energiepreis. Füge ein Energiepreis-Gerät hinzu.",
@@ -217,8 +215,8 @@
   "error_peak_steps": "Preisstufen: z. B. 2:190; 5:300 verwenden.",
   "bat_control_failed": "Batteriesteuerung fehlgeschlagen: __error__",
   "chart_legend": {
-    "nom": "XOM",
-    "save": "Ansparen",
+    "xom": "XOM",
+    "hold": "Ansparen",
     "charge": "Laden",
     "discharge": "Entladen"
   },

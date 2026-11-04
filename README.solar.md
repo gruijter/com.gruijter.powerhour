@@ -21,7 +21,7 @@
 
 1. **Add Device** → **Power by the Hour** → **Solar Monitor**.
 2. Pick your inverter, or the meter or plug of your panels.
-3. Fill in **Peak Power (W)**. Done.
+3. Fill in **Peak power (W)**. Done.
 
 - Location: from your Homey.
 - The forecast trains itself from Homey Insights at pairing.

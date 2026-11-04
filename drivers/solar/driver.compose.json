@@ -520,7 +520,7 @@
           "id": "peakPowerAllTime",
           "type": "label",
           "label": {
-            "en": "Auto-detected Peak Power (W)",
+            "en": "Auto-detected peak power (W)",
             "nl": "Automatisch gedetecteerd piekvermogen (W)",
             "de": "Automatisch erkannte Spitzenleistung (W)",
             "fr": "Puissance crête détectée automatiquement (W)",
@@ -536,19 +536,19 @@
           },
           "value": "0",
           "hint": {
-            "en": "Highest power ever measured. Used as a fallback when Peak Power above is 0. Resets on full retrain.",
-            "nl": "Hoogst gemeten vermogen. Terugvalwaarde wanneer Piekvermogen hierboven op 0 staat. Reset bij volledige hertraining.",
-            "de": "Höchste je gemessene Leistung. Fallback, wenn die Spitzenleistung oben 0 ist. Setzt sich bei vollständigem Neutraining zurück.",
-            "fr": "Puissance maximale jamais mesurée. Valeur de repli lorsque la puissance crête ci-dessus est à 0. Se réinitialise lors d'un réentraînement complet.",
-            "it": "Potenza massima mai misurata. Valore di riserva quando la Potenza di Picco sopra è 0. Si azzera con un riaddestramento completo.",
-            "sv": "Högsta uppmätta effekten. Reservvärde när Toppeffekt ovan är 0. Återställs vid full omträning.",
-            "no": "Høyeste målte effekt. Reserve når Toppeffekt ovenfor er 0. Nullstilles ved full gjentrening.",
-            "es": "Potencia máxima jamás medida. Valor de respaldo cuando la Potencia Pico anterior es 0. Se reinicia con un reentrenamiento completo.",
-            "da": "Højeste målte effekt. Reserve når Spidseffekt ovenfor er 0. Nulstilles ved fuld gentræning.",
-            "pl": "Najwyższa zmierzona moc. Wartość zastępcza, gdy Moc Szczytowa powyżej wynosi 0. Resetuje się przy pełnym przeszkoleniu.",
-            "ru": "Максимальная измеренная мощность. Запасное значение, когда Пиковая мощность выше равна 0. Сбрасывается при полном переобучении.",
-            "ko": "지금까지 측정된 최고 전력입니다. 위의 최대 출력이 0일 때 대체값으로 사용됩니다. 전체 재학습 시 초기화됩니다.",
-            "ar": "أعلى طاقة تم قياسها على الإطلاق. تُستخدم كقيمة احتياطية عندما تكون ذروة الطاقة أعلاه 0. تُعاد عند إعادة التدريب الكامل."
+            "en": "Highest power ever measured. Used when Peak power is 0. Resets on a full retrain.",
+            "nl": "Hoogst gemeten vermogen. Gebruikt als Piekvermogen 0 is. Reset bij volledige hertraining.",
+            "de": "Höchste je gemessene Leistung. Gilt, wenn die Spitzenleistung 0 ist. Setzt sich bei vollständigem Neutraining zurück.",
+            "fr": "Puissance maximale jamais mesurée. Utilisée lorsque la puissance crête est à 0. Se réinitialise lors d'un réentraînement complet.",
+            "it": "Potenza massima mai misurata. Usata quando la potenza di picco è 0. Si azzera con un riaddestramento completo.",
+            "sv": "Högsta uppmätta effekten. Används när Toppeffekt är 0. Återställs vid full omträning.",
+            "no": "Høyeste målte effekt. Brukes når Toppeffekt er 0. Nullstilles ved full gjentrening.",
+            "es": "Potencia máxima jamás medida. Se usa cuando la potencia pico es 0. Se reinicia con un reentrenamiento completo.",
+            "da": "Højeste målte effekt. Bruges når Spidseffekt er 0. Nulstilles ved fuld gentræning.",
+            "pl": "Najwyższa zmierzona moc. Używana, gdy moc szczytowa wynosi 0. Resetuje się przy pełnym przeszkoleniu.",
+            "ru": "Максимальная измеренная мощность. Используется, когда пиковая мощность равна 0. Сбрасывается при полном переобучении.",
+            "ko": "지금까지 측정된 최고 전력입니다. 최대 출력이 0일 때 사용됩니다. 전체 재학습 시 초기화됩니다.",
+            "ar": "أعلى طاقة تم قياسها على الإطلاق. تُستخدم عندما تكون ذروة الطاقة 0. تُعاد عند إعادة التدريب الكامل."
           }
         }
       ]

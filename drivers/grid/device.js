@@ -1733,7 +1733,7 @@ class GridDevice extends GenericDevice {
   //   netNoBattery = home load - solar forecast + planned EV charging
   //   netPlanned   = netNoBattery + planned battery power (+ charge / - discharge)
   // A battery planner must plan against netNoBattery, not its own plan. Solar from PbtH solar
-  // devices only, battery from PbtH batteries with ROI on. EV only while the car is connected.
+  // devices only, battery from PbtH battery plans. EV only while the car is connected.
   getNetForecast(startMs, endMs) {
     const load = this.getHomeLoadSeries(startMs, endMs);
     const sumSeries = (driverId, getSeries) => this.sumDriverSeries(driverId, load.length, getSeries);

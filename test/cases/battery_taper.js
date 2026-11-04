@@ -95,8 +95,8 @@ const opts = {
 const taper = Taper.planLimits({ charge: { k: 60, n: 20, tm: 0 } }, { capKwh: 5 });
 [['LP', Lp], ['light', Light]].forEach(([name, planner]) => {
   test(`${name}: the taper slows charging near full`, () => {
-    const free = planner.getStrategy(opts);
-    const tapered = planner.getStrategy({ ...opts, ...taper });
+    const free = planner.plan(opts);
+    const tapered = planner.plan({ ...opts, ...taper });
     const powerAt = (s, socPct) => Object.values(s).filter((x) => x.power > 0 && x.soc >= socPct).map((x) => x.power);
     assert.ok(Math.max(...powerAt(free, 96)) > 60 * 7, 'free: no taper');
     // At 96-100 % the limit is 60 x (101 - SoC) W: at most ~400 W on average in such a slot.

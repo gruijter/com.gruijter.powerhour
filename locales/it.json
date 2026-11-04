@@ -24,8 +24,6 @@
   "source_device_missing_retrying": "Dispositivo sorgente mancante. Riprovo ..",
   "virtual_via_flow": "Virtuale (via flow)",
   "polling_failed": "Polling fallito. Riproverò presto..",
-  "source_device_missing_retry_named": "Dispositivo sorgente %name% mancante. Riprova tra 10 minuti.",
-  "error_device_not_ready": "Il dispositivo non è pronto. Ignoro le nuove impostazioni!",
   "error_device_not_found": "Dispositivo non trovato",
   "error_appliance_not_learned": "Programma non ancora appreso: servono __runs__ cicli",
   "error_appliance_ev_charger": "Questa fonte è già contata come caricatore EV",
@@ -55,7 +53,7 @@
   "solar_export_diagnostics_popup": "Crea ora un rapporto di diagnostica dell'app con messaggio: orientamento (es. Sud/Est/Ovest).",
   "tariff_group_interval_conflict": "Il gruppo tariffario __group__ riceve intervalli di prezzo contrastanti (__sources__). In uso __interval__ min. Assegna ai dispositivi prezzo da 15 e 60 minuti gruppi tariffari separati.",
   "grid_connection_multiple_devices": "Trovati più dispositivi Rete (__devices__). Viene usato __limit__ W come limite di allacciamento per i controlli di plausibilità. Mantieni un solo dispositivo Rete.",
-  "migration_dap_replace": "I dispositivi DAP vengono sostituiti dal nuovo dispositivo Prezzo dell'energia (__devices__). Aggiungi un Prezzo dell'energia: riprende le impostazioni.",
+  "migration_dap_replace": "I vecchi dispositivi dei prezzi vengono sostituiti dal nuovo dispositivo Prezzo dell'energia (__devices__). Aggiungi un Prezzo dell'energia: riprende le impostazioni.",
   "migration_dap_flows": "__old__ è stato sostituito da __new__. Adatta questi flow, poi elimina __old__: __flows__",
   "migration_dap_delete": "__old__ è stato sostituito da __new__. Controlla i tuoi flow, poi elimina __old__.",
   "migration_warning_replace": "Sostituito da Prezzo dell'energia. Aggiungi un dispositivo Prezzo dell'energia.",
@@ -217,8 +215,8 @@
   "error_peak_steps": "Fasce di prezzo: usa ad es. 2:190; 5:300.",
   "bat_control_failed": "Controllo della batteria non riuscito: __error__",
   "chart_legend": {
-    "nom": "XOM",
-    "save": "Accumulo",
+    "xom": "XOM",
+    "hold": "Accumulo",
     "charge": "Carica",
     "discharge": "Scarica"
   },

@@ -24,8 +24,6 @@
   "source_device_missing_retrying": "Bronapparaat ontbreekt. Opnieuw proberen ..",
   "virtual_via_flow": "Virtueel (via flow)",
   "polling_failed": "Pollen mislukt. Probeer het zo opnieuw..",
-  "source_device_missing_retry_named": "Bronapparaat %name% ontbreekt. Opnieuw proberen over 10 minuten.",
-  "error_device_not_ready": "Apparaat is niet gereed. Nieuwe instellingen worden genegeerd!",
   "error_device_not_found": "Apparaat niet gevonden",
   "error_appliance_not_learned": "Programma nog niet geleerd: __runs__ runs nodig",
   "error_appliance_ev_charger": "Deze bron telt al mee als EV-lader",
@@ -55,7 +53,7 @@
   "solar_export_diagnostics_popup": "Maak nu een app diagnostics report aan met als bericht: paneeloriëntatie (bijv. Zuid/Oost/West).",
   "tariff_group_interval_conflict": "Tariefgroep __group__ ontvangt tegenstrijdige prijsintervallen (__sources__). Nu __interval__ min. Geef 15- en 60-minuten prijsdevices een eigen tariefgroep.",
   "grid_connection_multiple_devices": "Meerdere Netstroom-devices gevonden (__devices__). __limit__ W wordt gebruikt als netaansluitingslimiet voor plausibiliteitscontroles. Houd slechts één Netstroom-device.",
-  "migration_dap_replace": "DAP-apparaten worden vervangen door het nieuwe apparaat Energieprijs (__devices__). Voeg een Energieprijs toe: die neemt de instellingen over.",
+  "migration_dap_replace": "Oude prijsapparaten worden vervangen door het nieuwe apparaat Energieprijs (__devices__). Voeg een Energieprijs toe: die neemt de instellingen over.",
   "migration_dap_flows": "__old__ is overgenomen door __new__. Pas deze flows aan en verwijder daarna __old__: __flows__",
   "migration_dap_delete": "__old__ is overgenomen door __new__. Controleer je flows en verwijder daarna __old__.",
   "migration_warning_replace": "Vervangen door Energieprijs. Voeg een Energieprijs-apparaat toe.",
@@ -217,8 +215,8 @@
   "error_peak_steps": "Prijstrappen: gebruik bijv. 2:190; 5:300.",
   "bat_control_failed": "Batterij aansturen mislukt: __error__",
   "chart_legend": {
-    "nom": "XOM",
-    "save": "Sparen",
+    "xom": "XOM",
+    "hold": "Sparen",
     "charge": "Laden",
     "discharge": "Ontladen"
   },

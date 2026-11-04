@@ -24,8 +24,6 @@
   "source_device_missing_retrying": "الجهاز المصدر مفقود. جاري إعادة المحاولة ..",
   "virtual_via_flow": "افتراضي (عبر Flow)",
   "polling_failed": "فشل الاستطلاع. سأحاول مرة أخرى قريبا..",
-  "source_device_missing_retry_named": "الجهاز المصدر %name% مفقود. إعادة المحاولة خلال 10 دقائق.",
-  "error_device_not_ready": "الجهاز غير جاهز. تجاهل الإعدادات الجديدة!",
   "error_device_not_found": "لم يتم العثور على الجهاز",
   "error_appliance_not_learned": "البرنامج لم يُتعلَّم بعد: يلزم __runs__ دورات",
   "error_appliance_ev_charger": "هذا المصدر محسوب أصلًا كشاحن سيارة كهربائية",
@@ -55,7 +53,7 @@
   "solar_export_diagnostics_popup": "أنشئ الآن تقرير تشخيص للتطبيق مع رسالة: الاتجاه (مثل جنوب/شرق/غرب).",
   "tariff_group_interval_conflict": "تتلقى مجموعة التعريفة __group__ فترات أسعار متعارضة (__sources__). يتم استخدام __interval__ دقيقة. امنح أجهزة الأسعار ذات 15 و60 دقيقة مجموعات تعريفة منفصلة.",
   "grid_connection_multiple_devices": "تم العثور على عدة أجهزة شبكة (__devices__). يتم استخدام __limit__ واط كحد لتوصيل الشبكة في فحوصات المعقولية. احتفظ بجهاز شبكة واحد فقط.",
-  "migration_dap_replace": "يتم استبدال أجهزة DAP بالجهاز الجديد سعر الطاقة (__devices__). أضف جهاز سعر الطاقة: سيأخذ الإعدادات.",
+  "migration_dap_replace": "يتم استبدال أجهزة الأسعار القديمة بالجهاز الجديد سعر الطاقة (__devices__). أضف جهاز سعر الطاقة: سيأخذ الإعدادات.",
   "migration_dap_flows": "تم استبدال __old__ بـ __new__. عدّل Flows هذه ثم احذف __old__: __flows__",
   "migration_dap_delete": "تم استبدال __old__ بـ __new__. تحقق من Flows الخاصة بك ثم احذف __old__.",
   "migration_warning_replace": "تم الاستبدال بـ سعر الطاقة. أضف جهاز سعر الطاقة.",
@@ -217,8 +215,8 @@
   "error_peak_steps": "شرائح الأسعار: استخدم مثلاً 2:190; 5:300.",
   "bat_control_failed": "فشل التحكم في البطارية: __error__",
   "chart_legend": {
-    "nom": "XOM",
-    "save": "ادخار",
+    "xom": "XOM",
+    "hold": "ادخار",
     "charge": "شحن",
     "discharge": "تفريغ"
   },

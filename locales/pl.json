@@ -24,8 +24,6 @@
   "source_device_missing_retrying": "Brak urządzenia źródłowego. Ponawianie ..",
   "virtual_via_flow": "Wirtualne (przez flow)",
   "polling_failed": "Odpytywanie nie powiodło się. Wkrótce spróbuję ponownie..",
-  "source_device_missing_retry_named": "Brak urządzenia źródłowego %name%. Spróbuj ponownie za 10 minut.",
-  "error_device_not_ready": "Urządzenie nie jest gotowe. Ignorowanie nowych ustawień!",
   "error_device_not_found": "Nie znaleziono urządzenia",
   "error_appliance_not_learned": "Program jeszcze nie wyuczony: potrzeba __runs__ cykli",
   "error_appliance_ev_charger": "To źródło jest już liczone jako ładowarka EV",
@@ -55,7 +53,7 @@
   "solar_export_diagnostics_popup": "Utwórz teraz raport diagnostyczny aplikacji z wiadomością: orientacja (np. Południe/Wschód/Zachód).",
   "tariff_group_interval_conflict": "Grupa taryfowa __group__ otrzymuje sprzeczne interwały cen (__sources__). Używane __interval__ min. Przypisz urządzeniom cenowym 15- i 60-minutowym osobne grupy taryfowe.",
   "grid_connection_multiple_devices": "Znaleziono wiele urządzeń Sieć (__devices__). Jako limit przyłącza sieciowego do kontroli wiarygodności używane jest __limit__ W. Zachowaj tylko jedno urządzenie Sieć.",
-  "migration_dap_replace": "Urządzenia DAP są zastępowane nowym urządzeniem Cena energii (__devices__). Dodaj Cenę energii: przejmie ustawienia.",
+  "migration_dap_replace": "Stare urządzenia cenowe są zastępowane nowym urządzeniem Cena energii (__devices__). Dodaj Cenę energii: przejmie ustawienia.",
   "migration_dap_flows": "__old__ został przejęty przez __new__. Dostosuj te Flows, a potem usuń __old__: __flows__",
   "migration_dap_delete": "__old__ został przejęty przez __new__. Sprawdź swoje Flows, a potem usuń __old__.",
   "migration_warning_replace": "Zastąpione przez Cenę energii. Dodaj urządzenie Cena energii.",
@@ -217,8 +215,8 @@
   "error_peak_steps": "Progi cenowe: użyj np. 2:190; 5:300.",
   "bat_control_failed": "Sterowanie baterią nie powiodło się: __error__",
   "chart_legend": {
-    "nom": "XOM",
-    "save": "Gromadzenie",
+    "xom": "XOM",
+    "hold": "Gromadzenie",
     "charge": "Ładowanie",
     "discharge": "Rozładowanie"
   },

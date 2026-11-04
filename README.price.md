@@ -59,9 +59,9 @@ Example: `max(market - 0.02, import * 0.5)`.
 
 ## Sources, forecast, currency
 
-- **Price provider:** `AUTO` picks the best source for your zone, with fallback.
+- **Price provider:** Automatic picks the best source for your zone, with fallback.
 - **ENTSO-E key:** a shared key is built in. Own free key: register at [ENTSO-E](https://transparency.entsoe.eu/), mail `transparency@entsoe.eu` (*Restful API access*).
-- **Enable forecast prices:** AI prices (Stekker) for the planners to look further ahead.
+- **Forecast prices:** AI prices (Stekker) for the planners to look further ahead.
 - **Currency:** fixed exchange rate, or daily ECB rate.
 
 ---
@@ -99,7 +99,7 @@ Example: `max(market - 0.02, import * 0.5)`.
 
 ---
 
-## From the old DAP drivers
+## From the old Day-Ahead price drivers
 
 - Old `dap`, `dap15` and `dapg` devices keep working, but can't be added.
 - Add an **Energy Price** device; **Take over settings** copies the old one.

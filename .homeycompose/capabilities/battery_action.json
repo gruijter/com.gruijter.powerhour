@@ -17,7 +17,7 @@
   },
   "values": [
     {
-      "id": "nom",
+      "id": "xom",
       "title": {
         "en": "XOM",
         "nl": "XOM",
@@ -35,7 +35,7 @@
       }
     },
     {
-      "id": "save",
+      "id": "hold",
       "title": {
         "en": "Save up",
         "nl": "Sparen",
@@ -53,7 +53,7 @@
       }
     },
     {
-      "id": "rest",
+      "id": "idle",
       "title": {
         "en": "Rest",
         "nl": "Rust",

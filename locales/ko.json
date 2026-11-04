@@ -24,8 +24,6 @@
   "source_device_missing_retrying": "소스 디바이스가 없습니다. 다시 시도 중 ..",
   "virtual_via_flow": "가상 (flow 사용)",
   "polling_failed": "폴링 실패. 곧 다시 시도합니다..",
-  "source_device_missing_retry_named": "소스 디바이스 %name%이(가) 없습니다. 10분 후에 다시 시도하십시오.",
-  "error_device_not_ready": "디바이스가 준비되지 않았습니다. 새 설정을 무시합니다!",
   "error_device_not_found": "디바이스를 찾을 수 없습니다",
   "error_appliance_not_learned": "아직 학습되지 않음: __runs__회 운전 필요",
   "error_appliance_ev_charger": "이 소스는 이미 EV 충전기로 집계됩니다",
@@ -55,7 +53,7 @@
   "solar_export_diagnostics_popup": "이제 앱 진단 보고서를 메시지와 함께 작성하세요: 방향 (예: 남/동/서).",
   "tariff_group_interval_conflict": "요금 그룹 __group__에 상충하는 가격 간격이 수신되었습니다 (__sources__). __interval__분을 사용합니다. 15분 및 60분 가격 디바이스에 별도의 요금 그룹을 지정하세요.",
   "grid_connection_multiple_devices": "여러 개의 계통 디바이스가 발견되었습니다 (__devices__). 전력 타당성 검사에 __limit__ W를 계통 연결 한계로 사용합니다. 계통 디바이스는 하나만 유지하세요.",
-  "migration_dap_replace": "DAP 디바이스는 새 에너지 가격 디바이스로 대체됩니다(__devices__). 에너지 가격 디바이스를 추가하면 설정을 가져옵니다.",
+  "migration_dap_replace": "기존 가격 디바이스는 새 에너지 가격 디바이스로 대체됩니다(__devices__). 에너지 가격 디바이스를 추가하면 설정을 가져옵니다.",
   "migration_dap_flows": "__old__은(는) __new__(으)로 대체되었습니다. 이 flow를 수정한 후 __old__을(를) 삭제하세요: __flows__",
   "migration_dap_delete": "__old__은(는) __new__(으)로 대체되었습니다. flow를 확인한 후 __old__을(를) 삭제하세요.",
   "migration_warning_replace": "에너지 가격으로 대체되었습니다. 에너지 가격 디바이스를 추가하세요.",
@@ -217,8 +215,8 @@
   "error_peak_steps": "요금 단계: 예: 2:190; 5:300 형식을 사용하세요.",
   "bat_control_failed": "배터리 제어 실패: __error__",
   "chart_legend": {
-    "nom": "XOM",
-    "save": "비축",
+    "xom": "XOM",
+    "hold": "비축",
     "charge": "충전",
     "discharge": "방전"
   },

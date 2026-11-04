@@ -24,8 +24,6 @@
   "source_device_missing_retrying": "Kildeenhed mangler. Prøver igen ..",
   "virtual_via_flow": "Virtuel (via flow)",
   "polling_failed": "Polling mislykkedes. Vil prøve igen snart..",
-  "source_device_missing_retry_named": "Kildeenhed %name% mangler. Prøv igen om 10 minutter.",
-  "error_device_not_ready": "Enheden er ikke klar. Ignorerer nye indstillinger!",
   "error_device_not_found": "Enheden blev ikke fundet",
   "error_appliance_not_learned": "Program ikke lært endnu: kræver __runs__ kørsler",
   "error_appliance_ev_charger": "Denne kilde tæller allerede som elbillader",
@@ -55,7 +53,7 @@
   "solar_export_diagnostics_popup": "Opret nu en app-diagnosticeringsrapport med besked: orientering (f.eks. Syd/Øst/Vest).",
   "tariff_group_interval_conflict": "Tarifgruppe __group__ modtager modstridende prisintervaller (__sources__). Bruger __interval__ min. Giv 15- og 60-minutters prisenheder deres egne tarifgrupper.",
   "grid_connection_multiple_devices": "Flere Elnet-enheder fundet (__devices__). __limit__ W bruges som nettilslutningsgrænse til plausibilitetstjek. Behold kun én Elnet-enhed.",
-  "migration_dap_replace": "DAP-enheder erstattes af den nye enhed Energipris (__devices__). Tilføj en Energipris: den overtager indstillingerne.",
+  "migration_dap_replace": "Gamle prisenheder erstattes af den nye enhed Energipris (__devices__). Tilføj en Energipris: den overtager indstillingerne.",
   "migration_dap_flows": "__old__ er overtaget af __new__. Tilpas disse flows, og slet derefter __old__: __flows__",
   "migration_dap_delete": "__old__ er overtaget af __new__. Tjek dine flows, og slet derefter __old__.",
   "migration_warning_replace": "Erstattet af Energipris. Tilføj en Energipris-enhed.",
@@ -217,8 +215,8 @@
   "error_peak_steps": "Pristrin: brug f.eks. 2:190; 5:300.",
   "bat_control_failed": "Batteristyring mislykkedes: __error__",
   "chart_legend": {
-    "nom": "XOM",
-    "save": "Spar",
+    "xom": "XOM",
+    "hold": "Spar",
     "charge": "Oplad",
     "discharge": "Aflad"
   },

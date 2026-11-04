@@ -161,7 +161,7 @@ class BatteryDriver extends GenericDriver {
       let cumulativePower = getGridPowerFallback(this.homey);
       if (cumulativePower === null) cumulativePower = report?.totalCumulative?.W;
 
-      // Plausibility bound on the grid exchange for XOM/NOM, see lib/helpers/GridConnection.js.
+      // Plausibility bound on the grid exchange for XOM, see lib/helpers/GridConnection.js.
       // eslint-disable-next-line global-require
       const GridConnection = require('../../lib/helpers/GridConnection');
       const ceilingW = await GridConnection.ceilingW(this.homey);
@@ -200,12 +200,12 @@ class BatteryDriver extends GenericDriver {
 
     const devices = this.getDevices();
     // Batteries this app controls itself are left out of the XOM flows.
-    const flowDevices = devices.filter((d) => !(typeof d.isZeroControlled === 'function' && d.isZeroControlled()));
+    const flowDevices = devices.filter((d) => !(typeof d.isXomControlled === 'function' && d.isXomControlled()));
     const x = this.xomAimW(flowDevices, cumulativePower, (d) => d.xomTargetPower || 0);
 
     // eslint-disable-next-line global-require
-    const nomXomStrategy = require('../../lib/strategies/NomXomStrategy');
-    const strategy = nomXomStrategy.getStrategy({
+    const XomSplit = require('../../lib/strategies/XomSplit');
+    const splits = XomSplit.split({
       devices: flowDevices,
       cumulativePower,
       x,
@@ -213,8 +213,8 @@ class BatteryDriver extends GenericDriver {
     });
 
     const promises = flowDevices.map((device) => {
-      const strat = strategy.find((info) => info.id === device.getData().id);
-      return device.triggerXOMFlow(strat, samples, x, smoothing, minLoad, cumulativePower);
+      const split = splits.find((info) => info.id === device.getData().id);
+      return device.triggerXOMFlow(split, samples, x, smoothing, minLoad, cumulativePower);
     });
     await Promise.all(promises);
     await this.controlTick(devices, cumulativePower);
@@ -237,8 +237,8 @@ class BatteryDriver extends GenericDriver {
     }
   }
 
-  // Built-in control. Zero on the meter (zero/hold blocks) is split over the batteries by
-  // NomXomStrategy, as for the XOM flows, against the grid without the batteries this app forces
+  // Built-in control. XOM (xom/hold blocks) is split over the batteries by
+  // XomSplit, as for the XOM flows, against the grid without the batteries this app forces
   // (charge/discharge/idle), so the batteries do not trade energy with each other.
   // The XOM target (W): the app setting xomSettings.x, set by the flow card 'Set XOM' and by the
   // battery setting xomTarget. That setting shows it: a flow's value is written there only once
@@ -312,8 +312,8 @@ class BatteryDriver extends GenericDriver {
   async replanAll(reason) {
     const devices = this.getDevices().filter((d) => typeof d.replan === 'function');
     devices.forEach((d) => {
-      d.lastStratTm = null;
-      d.lastStratOptsString = null;
+      d.lastPlanTm = null;
+      d.lastPlanKey = null;
       d.groupPlans = null;
     });
     for (const d of devices) await d.replan(reason).catch((err) => d.error(err));
@@ -331,16 +331,16 @@ class BatteryDriver extends GenericDriver {
     }
     const active = [...preps.keys()];
     if (!active.length) return;
-    const isNom = (d) => ['zero', 'hold'].includes(preps.get(d).block) && !preps.get(d).refill;
-    const forcedW = active.filter((d) => !isNom(d)).reduce((a, d) => a + d.controlCommandW(), 0);
-    const nomGridW = gridW - forcedW;
-    const candidates = active.filter(isNom);
+    const isXom = (d) => ['xom', 'hold'].includes(preps.get(d).block) && !preps.get(d).refill;
+    const forcedW = active.filter((d) => !isXom(d)).reduce((a, d) => a + d.controlCommandW(), 0);
+    const xomGridW = gridW - forcedW;
+    const candidates = active.filter(isXom);
     // Hold batteries only take part when charging, noCharge batteries (surplus not worth storing)
-    // only when discharging: else NomXomStrategy gives them a share they do not take.
-    const xomW = this.xomAimW(candidates, nomGridW, (d) => d.integratorW());
-    const charging = candidates.reduce((a, d) => a + d.controlCommandW(), 0) - (nomGridW - xomW) > 0;
-    const nomDevices = candidates.filter((d) => (charging ? !preps.get(d).noCharge : preps.get(d).block === 'zero'));
-    // NomXomStrategy reads xomTargetPower: here what control decided last, within the lead of the
+    // only when discharging: else XomSplit gives them a share they do not take.
+    const xomW = this.xomAimW(candidates, xomGridW, (d) => d.integratorW());
+    const charging = candidates.reduce((a, d) => a + d.controlCommandW(), 0) - (xomGridW - xomW) > 0;
+    const xomDevices = candidates.filter((d) => (charging ? !preps.get(d).noCharge : preps.get(d).block === 'xom'));
+    // XomSplit reads xomTargetPower: here what control decided last, within the lead of the
     // measured power; capW: a battery not doing its setpoint, or (discharging) the plan's power
     // where it covers the deficit in part, so the others do not take that part over.
     const capOf = (d) => {
@@ -349,7 +349,7 @@ class BatteryDriver extends GenericDriver {
       if (!planW || (follow && follow.dir === -1 && follow.w <= planW)) return follow;
       return { dir: -1, w: planW };
     };
-    const views = nomDevices.map((d) => ({
+    const views = xomDevices.map((d) => ({
       getData: () => d.getData(),
       getName: () => d.getName(),
       getSettings: () => d.getSettings(),
@@ -361,9 +361,9 @@ class BatteryDriver extends GenericDriver {
       capW: capOf(d),
     }));
     // eslint-disable-next-line global-require
-    const nomXomStrategy = require('../../lib/strategies/NomXomStrategy');
-    const strategy = views.length ? nomXomStrategy.getStrategy({
-      devices: views, cumulativePower: nomGridW, x: xomW, minLoad: BUILTIN_MIN_LOAD_W,
+    const XomSplit = require('../../lib/strategies/XomSplit');
+    const splits = views.length ? XomSplit.split({
+      devices: views, cumulativePower: xomGridW, x: xomW, minLoad: BUILTIN_MIN_LOAD_W,
     }) : [];
     const weight = (d) => Math.max(1, Number(d.getSettings().chargePower) || 0);
     const total = active.reduce((a, d) => a + weight(d), 0);
@@ -378,23 +378,23 @@ class BatteryDriver extends GenericDriver {
       actW: Number(d.getCapabilityValue('measure_watt_avg')), idleMs: d.lastActiveTm ? now - d.lastActiveTm : null,
     }]));
     await Promise.all(active.map((d) => {
-      // Not in zero on the meter now (forced block, or hold while discharging): no NOM part.
-      let nom = { targetW: 0, needW: 0 };
-      const strat = nomDevices.includes(d) && strategy.find((info) => info.id === d.getData().id);
-      if (strat) {
-        // BatteryControl.nomStep(): short spikes left to the grid, less at once. The battery's max
+      // Not in zero on the meter now (forced block, or hold while discharging): no XOM part.
+      let xom = { targetW: 0, needW: 0 };
+      const split = xomDevices.includes(d) && splits.find((info) => info.id === d.getData().id);
+      if (split) {
+        // BatteryControl.xomStep(): short spikes left to the grid, less at once. The battery's max
         // (or its cap) at once.
-        const step = BatteryControl.nomStep({
-          prevW: d.nomTargetW, targetW: strat.target, riseSince: d.nomRiseSince, now,
+        const step = BatteryControl.xomStep({
+          prevW: d.xomTargetW, targetW: split.target, riseSince: d.xomRiseSince, now,
         });
-        d.nomRiseSince = step.riseSince;
-        d.nomTargetW = Math.max(-strat.maxDischarge, Math.min(strat.maxCharge, step.w));
-        nom = { targetW: d.nomTargetW, needW: strat.target };
+        d.xomRiseSince = step.riseSince;
+        d.xomTargetW = Math.max(-split.maxDischarge, Math.min(split.maxCharge, step.w));
+        xom = { targetW: d.xomTargetW, needW: split.target };
       } else {
-        d.nomTargetW = null;
-        d.nomRiseSince = null;
+        d.xomTargetW = null;
+        d.xomRiseSince = null;
       }
-      return d.controlApply(preps.get(d), now, gridW, nom, weight(d) / total, phaseShare(d)).catch((err) => d.error(err));
+      return d.controlApply(preps.get(d), now, gridW, xom, weight(d) / total, phaseShare(d)).catch((err) => d.error(err));
     }));
     this.trackGridResponse(active, before, gridW, now);
   }

@@ -63,9 +63,9 @@ const evaluate = (plans, o) => {
 const compare = (name, o, tolerance) => test(name, () => {
   const group = !!o.batteries;
   const t0 = Date.now();
-  const a = group ? lp.getGroupStrategy(o) : [lp.getStrategy(o)];
+  const a = group ? lp.planEach(o) : [lp.plan(o)];
   const t1 = Date.now();
-  const b = group ? light.getGroupStrategy(o) : [light.getStrategy(o)];
+  const b = group ? light.planEach(o) : [light.plan(o)];
   const t2 = Date.now();
   const costLp = evaluate(a, o);
   const costLight = evaluate(b, o);
@@ -106,7 +106,7 @@ test('memory and time: 48 h, group of 2', () => {
   if (global.gc) global.gc();
   const before = process.memoryUsage();
   const t = Date.now();
-  light.getGroupStrategy(o);
+  light.planEach(o);
   const ms = Date.now() - t;
   const after = process.memoryUsage();
   const mb = (k) => ((after[k] - before[k]) / 1e6).toFixed(2);
@@ -135,8 +135,8 @@ test('minimizeGrid: least import and export first, then the cheapest way', () =>
     return a + (Math.abs((n.deficitW - n.surplusW) + batW) * 0.25) / 1000;
   }, 0);
   for (const planner of [lp, light]) {
-    const plain = planner.getStrategy(o);
-    const min = planner.getStrategy({ ...o, minimizeGrid: true });
+    const plain = planner.plan(o);
+    const min = planner.plan({ ...o, minimizeGrid: true });
     console.log(`     grid exchange ${gridKwh(min).toFixed(1)} kWh, without minimizeGrid ${gridKwh(plain).toFixed(1)} kWh`);
     assert.ok(gridKwh(min) < gridKwh(plain) - 1, `less grid exchange (${gridKwh(min).toFixed(1)} vs ${gridKwh(plain).toFixed(1)})`);
     assert.ok(Object.values(min).every((v) => v.block !== 'charge' && v.block !== 'discharge'), 'no grid charge or export');
@@ -155,10 +155,10 @@ test('wear: smart trades only when the spread pays losses, wear and minimum prof
   };
   const cycled = (strat) => Object.values(strat).some((v) => v.power > 0);
   for (const planner of [lp, light]) {
-    assert.ok(cycled(planner.getStrategy(o)), 'without wear it cycles');
-    assert.ok(cycled(planner.getStrategy({ ...o, wearCost: 0.05 })), 'small wear: still cycles');
-    assert.ok(!cycled(planner.getStrategy({ ...o, wearCost: 0.15 })), 'wear above the spread: idle');
-    assert.ok(!cycled(planner.getStrategy({ ...o, wearCost: 0.08, minPriceDelta: 0.08 })), 'wear + minimum profit above the spread: idle');
+    assert.ok(cycled(planner.plan(o)), 'without wear it cycles');
+    assert.ok(cycled(planner.plan({ ...o, wearCost: 0.05 })), 'small wear: still cycles');
+    assert.ok(!cycled(planner.plan({ ...o, wearCost: 0.15 })), 'wear above the spread: idle');
+    assert.ok(!cycled(planner.plan({ ...o, wearCost: 0.08, minPriceDelta: 0.08 })), 'wear + minimum profit above the spread: idle');
   }
 });
 
@@ -171,19 +171,19 @@ test('wear: self-consumption stores surplus only where it pays losses and wear',
   };
   const charged = (strat) => Object.values(strat).some((v) => v.power > 0);
   for (const planner of [lp, light]) {
-    const free = planner.getStrategy({ ...o, prices: flat });
+    const free = planner.plan({ ...o, prices: flat });
     assert.ok(charged(free), 'without wear it stores surplus');
     assert.ok(Object.values(free).every((v) => !v.noCharge), 'without wear no noCharge');
-    const worn = planner.getStrategy({ ...o, prices: flat, wearCost: 0.05 });
+    const worn = planner.plan({ ...o, prices: flat, wearCost: 0.05 });
     assert.ok(!charged(worn), 'net metering + wear: no storing');
     assert.ok(Object.values(worn).every((v) => v.noCharge), 'every slot noCharge');
     const dyn = flat.map((p, i) => (hour(i) >= 11 && hour(i) < 15 ? 0.05 : p));
-    const paid = planner.getStrategy({
+    const paid = planner.plan({
       ...o, prices: dyn, exportPrices: dyn, wearCost: 0.05,
     });
     assert.ok(charged(paid), 'cheap midday, dear evening: stores');
     assert.ok(Object.entries(paid).every(([k, v]) => !(v.power > 0) || (hour(k) >= 11 && hour(k) < 15)), 'only in the cheap hours');
-    const empty = planner.getStrategy({
+    const empty = planner.plan({
       ...o, prices: flat, net: null, homePowerUsage: 300, wearCost: 0.05,
     });
     assert.ok(Object.values(empty).every((v) => v.noCharge), 'empty, nothing to plan: still noCharge');
@@ -197,7 +197,7 @@ test('wear: self-consumption still stores surplus for a peak over the import lim
     surplusW: 0, usableSurplusW: 0, deficitW: 5000, usableDeficitW: 5000, limitW: 2500, penaltyPerKw: 40,
   } : n));
   for (const planner of [lp, light]) {
-    const strat = planner.getStrategy({
+    const strat = planner.plan({
       ...base, soc: 0, net, prices: flat, wearCost: 0.05, allowGridCharge: false, allowExport: false, minimizeGrid: true,
     });
     assert.ok(Object.values(strat).some((v) => v.power > 0), 'stores surplus');
@@ -240,9 +240,9 @@ test('smart: no hold where storing surplus does not pay', () => {
     ...base, prices, exportPrices, net, soc: 60, minPriceDelta: 0.08,
   };
   for (const planner of [lp, light]) {
-    const s = planner.getStrategy(o);
+    const s = planner.plan(o);
     assert.ok(s[0].block !== 'hold' && s[0].noCharge, `17:00 ${s[0].block}`);
-    const cheap = planner.getStrategy({ ...o, minPriceDelta: 0.02 });
+    const cheap = planner.plan({ ...o, minPriceDelta: 0.02 });
     assert.ok(cheap[0].block === 'hold' && !cheap[0].noCharge, `small minimum profit: 17:00 ${cheap[0].block}`);
   }
 });
@@ -270,7 +270,7 @@ test('low power: surplus stored only above what pays its losses', () => {
     surplusW: 120, deficitW: 0, usableSurplusW: 120, usableDeficitW: 0,
   }));
   for (const planner of [lp, light]) {
-    const s = planner.getStrategy({
+    const s = planner.plan({
       ...base, ...learned, prices, net, soc: 0, minPriceDelta: 0.05, allowGridCharge: false,
     });
     assert.ok(Object.values(s).every((v) => !(v.power > 0)), '120 W surplus not stored');
@@ -295,8 +295,8 @@ test('low power: a small deficit is not covered at a bad efficiency', () => {
     ...base, prices, net, soc: 80, allowExport: false,
   };
   for (const planner of [lp, light]) {
-    assert.ok(planner.getStrategy({ ...o, ...flat })[0].power < 0, 'flat 94 %: covers');
-    const s = planner.getStrategy({ ...o, ...learned });
+    assert.ok(planner.plan({ ...o, ...flat })[0].power < 0, 'flat 94 %: covers');
+    const s = planner.plan({ ...o, ...learned });
     assert.ok(s[0].power === 0 && s[0].block === 'idle', `learned: keeps it (${s[0].power} W, ${s[0].block})`);
   }
 });
@@ -329,7 +329,7 @@ test('group of 2 alike Sessys: both share the plan, saving unchanged', () => {
     ...base, prices: dayPrices, exportPrices: dayPrices.map(() => 0.05), net, batteries: [sessy(4), sessy(6)],
   };
   for (const planner of [lp, light]) {
-    const plans = planner.getGroupStrategy(o);
+    const plans = planner.planEach(o);
     const cycled = plans.map((p) => Object.values(p).reduce((a, v) => a + Math.abs(v.power * v.duration) / 60000, 0));
     console.log(`     cycled kWh ${cycled.map((v) => v.toFixed(2)).join(' / ')}`);
     assert.ok(Math.min(...cycled) > 0.6 * Math.max(...cycled), 'both take part');
@@ -341,8 +341,8 @@ test('group of 2 alike Sessys: both share the plan, saving unchanged', () => {
       assert.ok(!(both[0] > 0 && both[1] > 0) || !room || both[0] + both[1] > 1050 / 1.1, `slot ${k}: two at low power ${both}`);
     });
   }
-  const one = lp.getGroupStrategy(o);
-  const single = [lp.getStrategy({
+  const one = lp.planEach(o);
+  const single = [lp.plan({
     ...o,
     batteries: null,
     soc: 5,
@@ -374,17 +374,17 @@ test('zero covering the deficit in part gets the planned power as cap; rounding 
     })),
   };
   for (const [name, planner] of [['LP', lp], ['light', light]]) {
-    const p = planner.getStrategy(o);
+    const p = planner.plan(o);
     const dear = [4, 5, 6].map((t) => p[t]);
-    assert.ok(dear.every((x) => x.block === 'zero' && !x.homeCapW), `${name}: dear hours in full ${JSON.stringify(dear)}`);
-    const part = [1, 2, 3].map((t) => p[t]).filter((x) => x.block === 'zero');
+    assert.ok(dear.every((x) => x.block === 'xom' && !x.homeCapW), `${name}: dear hours in full ${JSON.stringify(dear)}`);
+    const part = [1, 2, 3].map((t) => p[t]).filter((x) => x.block === 'xom');
     // Within 3 % (PART_SHARE) of the deficit counts as covered: no cap.
     const capped = part.filter((x) => x.homeCapW === -x.power && x.homeCapW < 600);
     assert.ok(capped.length && part.every((x) => capped.includes(x) || (!x.homeCapW && -x.power >= 600 * 0.97)), `${name}: 30 ct in part ${JSON.stringify(part)}`);
     assert.ok(Object.values(p).every((x) => x.block !== 'discharge'), `${name}: no export at 5 ct`);
   }
   // One energy step to charge without a surplus to follow: still a grid charge
-  const one = light.getStrategy({
+  const one = light.plan({
     ...base,
     priceInterval: 60,
     prices: [0.10, ...Array(5).fill(0.45)],

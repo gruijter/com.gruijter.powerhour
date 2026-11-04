@@ -5,7 +5,7 @@
 // Scenarios for lib/strategies/PrecisePlanner.js with a per-slot net forecast. Run: node test/cases/battery_forecast.js
 
 const assert = require('assert');
-const { getStrategy, getGroupStrategy } = require('../../lib/strategies/PrecisePlanner');
+const { plan, planEach } = require('../../lib/strategies/PrecisePlanner');
 
 let failed = 0;
 const test = (name, fn) => {
@@ -39,7 +39,7 @@ const flat = (v) => new Array(N).fill(v);
 const sumKwh = (s, pred) => Object.values(s).reduce((a, x, i) => (pred(x, i) ? a + (x.power * x.duration) / 60000 : a), 0);
 
 test('fixed prices, low export: store midday solar, use it in the evening', () => {
-  const s = getStrategy({
+  const s = plan({
     ...base, prices: flat(0.30), exportPrices: flat(0.05), soc: 0, net: summerNet,
   });
   const charged = sumKwh(s, (x, i) => x.power > 0 && hour(i) >= 10 && hour(i) < 16);
@@ -51,11 +51,11 @@ test('fixed prices, low export: store midday solar, use it in the evening', () =
 
 test('self-consumption: no grid charge even with a cheap night', () => {
   const prices = Array.from({ length: N }, (_, i) => (hour(i) < 6 ? 0.05 : 0.40));
-  const s = getStrategy({
+  const s = plan({
     ...base, prices, exportPrices: prices.map((p) => p - 0.1), soc: 0, net: summerNet, allowGridCharge: false, allowExport: false,
   });
   assert.ok(Object.values(s).every((x) => x.block !== 'charge' && x.block !== 'discharge'));
-  const smart = getStrategy({
+  const smart = plan({
     ...base, prices, exportPrices: prices.map((p) => p - 0.1), soc: 0, net: summerNet,
   });
   assert.ok(Object.values(smart).some((x, i) => x.block === 'charge' && hour(i) < 6), 'smart charges at night');
@@ -64,7 +64,7 @@ test('self-consumption: no grid charge even with a cheap night', () => {
 test('low-power threshold: no discharging into a 200 W night load', () => {
   const prices = Array.from({ length: N }, (_, i) => (hour(i) >= 18 && hour(i) < 21 ? 0.45 : 0.30));
   const net = summerNet.map((n) => ({ ...n, usableDeficitW: n.deficitW < 300 ? 0 : n.deficitW }));
-  const s = getStrategy({
+  const s = plan({
     ...base, prices, exportPrices: flat(0.05), soc: 80, net, allowExport: false,
   });
   assert.ok(Object.values(s).every((x, i) => !(hour(i) < 7 && x.power < 0)), 'no night discharge');
@@ -79,7 +79,7 @@ test('peak: keeps energy for a load above the limit', () => {
       surplusW: 0, deficitW: d, usableSurplusW: 0, usableDeficitW: d, limitW: 4000, penaltyPerKw: 5,
     };
   });
-  const s = getStrategy({
+  const s = plan({
     ...base, prices: flat(0.30), exportPrices: flat(0.29), soc: 60, net, peakWindowMin: 15,
   });
   const at18 = sumKwh(s, (x, i) => hour(i) === 18);
@@ -87,7 +87,7 @@ test('peak: keeps energy for a load above the limit', () => {
 });
 
 test('no net: same blocks as before (home use 300 W)', () => {
-  const s = getStrategy({
+  const s = plan({
     ...base, prices: flat(0.30), exportPrices: flat(0.29), soc: 50,
   });
   assert.strictEqual(Object.keys(s).length, N);
@@ -97,7 +97,7 @@ test('48 h of 15-min slots with net and peak: fast enough', () => {
   const prices = Array.from({ length: 192 }, (_, i) => 0.2 + 0.15 * Math.sin(i / 8));
   const net = Array.from({ length: 192 }, (_, i) => summerNet[i % N]).map((n) => ({ ...n, limitW: 5000, penaltyPerKw: 4 }));
   const t = Date.now();
-  getStrategy({
+  plan({
     ...base, prices, exportPrices: prices.map((p) => p - 0.12), soc: 40, net,
   });
   const ms = Date.now() - t;
@@ -112,7 +112,7 @@ const noTrade = (plans) => Object.keys(plans[0]).every((k) => !(plans.some((p) =
 
 test('group, different SoC: no battery charges while another discharges', () => {
   const prices = Array.from({ length: N }, (_, i) => (hour(i) >= 17 && hour(i) < 21 ? 0.45 : 0.30));
-  const plans = getGroupStrategy({
+  const plans = planEach({
     ...base, prices, exportPrices: flat(0.05), net: summerNet, batteries: [bat(90, 5, 2200, 0.92, 1700, 0.92), bat(10, 5, 2200, 0.92, 1700, 0.92)],
   });
   assert.strictEqual(plans.length, 2);
@@ -122,7 +122,7 @@ test('group, different SoC: no battery charges while another discharges', () => 
 
 test('group, different efficiency: the efficient battery cycles', () => {
   const prices = Array.from({ length: N }, (_, i) => (hour(i) < 5 ? 0.20 : 0.30));
-  const plans = getGroupStrategy({
+  const plans = planEach({
     ...base,
     prices,
     exportPrices: flat(0.29),
@@ -142,7 +142,7 @@ test('group, different max power: a peak above the limit uses both', () => {
       surplusW: 0, deficitW: d, usableSurplusW: 0, usableDeficitW: d, limitW: 4000, penaltyPerKw: 5,
     };
   });
-  const plans = getGroupStrategy({
+  const plans = planEach({
     ...base,
     prices: flat(0.30),
     exportPrices: flat(0.29),
@@ -158,7 +158,7 @@ test('group of 2, 48 h of 15-min slots: fast enough', () => {
   const prices = Array.from({ length: 192 }, (_, i) => 0.2 + 0.15 * Math.sin(i / 8));
   const net = Array.from({ length: 192 }, (_, i) => summerNet[i % N]).map((n) => ({ ...n, limitW: 5000, penaltyPerKw: 4 }));
   const t = Date.now();
-  getGroupStrategy({
+  planEach({
     ...base, prices, exportPrices: prices.map((p) => p - 0.12), net, batteries: [bat(40, 5, 2200, 0.9, 1700, 0.92), bat(70, 10, 3000, 0.95, 3000, 0.95)],
   });
   const ms = Date.now() - t;

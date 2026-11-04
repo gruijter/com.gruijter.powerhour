@@ -24,8 +24,6 @@
   "source_device_missing_retrying": "Falta el dispositivo de origen. Reintentando ..",
   "virtual_via_flow": "Virtual (vía Flow)",
   "polling_failed": "El sondeo falló. Reintentará pronto..",
-  "source_device_missing_retry_named": "Falta el dispositivo de origen %name%. Reintentar en 10 minutos.",
-  "error_device_not_ready": "El dispositivo no está listo. ¡Ignorando nuevas configuraciones!",
   "error_device_not_found": "Dispositivo no encontrado",
   "error_appliance_not_learned": "Programa aún no aprendido: se necesitan __runs__ ciclos",
   "error_appliance_ev_charger": "Esta fuente ya cuenta como cargador VE",
@@ -55,7 +53,7 @@
   "solar_export_diagnostics_popup": "Cree ahora un informe de diagnóstico de la app con mensaje: orientación (p. ej. Sur/Este/Oeste).",
   "tariff_group_interval_conflict": "El grupo tarifario __group__ recibe intervalos de precio contradictorios (__sources__). Usando __interval__ min. Asigne grupos tarifarios propios a los dispositivos de precio de 15 y 60 minutos.",
   "grid_connection_multiple_devices": "Se encontraron varios dispositivos de Red (__devices__). Se usa __limit__ W como límite de conexión a la red para las comprobaciones de plausibilidad. Conserve solo un dispositivo de Red.",
-  "migration_dap_replace": "Los dispositivos DAP se sustituyen por el nuevo dispositivo Precio de la energía (__devices__). Añade un Precio de la energía: retoma los ajustes.",
+  "migration_dap_replace": "Los dispositivos de precios antiguos se sustituyen por el nuevo dispositivo Precio de la energía (__devices__). Añade un Precio de la energía: retoma los ajustes.",
   "migration_dap_flows": "__old__ ha sido sustituido por __new__. Ajusta estos Flows y después elimina __old__: __flows__",
   "migration_dap_delete": "__old__ ha sido sustituido por __new__. Revisa tus Flows y después elimina __old__.",
   "migration_warning_replace": "Sustituido por Precio de la energía. Añade un dispositivo Precio de la energía.",
@@ -217,8 +215,8 @@
   "error_peak_steps": "Tramos de precio: use p. ej. 2:190; 5:300.",
   "bat_control_failed": "Error al controlar la batería: __error__",
   "chart_legend": {
-    "nom": "XOM",
-    "save": "Acumulación",
+    "xom": "XOM",
+    "hold": "Acumulación",
     "charge": "Carga",
     "discharge": "Descarga"
   },

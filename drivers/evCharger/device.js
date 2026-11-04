@@ -1470,7 +1470,7 @@ class CarChargeDevice extends GenericDevice {
 
   async onSettings({ newSettings, changedKeys }) {
     await super.onSettings({ newSettings, changedKeys });
-    const strategyKeys = [
+    const planKeys = [
       'chargePower', 'batCapacity', 'variableChargePower', 'maxPrice',
       'departureTime_0', 'departureTime_1', 'departureTime_2', 'departureTime_3',
       'departureTime_4', 'departureTime_5', 'departureTime_6',
@@ -1485,7 +1485,7 @@ class CarChargeDevice extends GenericDevice {
         this.updateChargeChart().catch(this.error);
       }, 1000);
     }
-    if (changedKeys.some((k) => strategyKeys.includes(k))) {
+    if (changedKeys.some((k) => planKeys.includes(k))) {
       this.updateChargeChart().catch(this.error);
     }
     if (changedKeys.includes('standbyOn') || changedKeys.includes('sharedCharger') || changedKeys.includes('chargerControl')) {
@@ -2031,7 +2031,7 @@ class CarChargeDevice extends GenericDevice {
       coverUntilMs: TimeHelpers.getLocalMidnightUTC(new Date(tomorrowEndMs + 36 * 3600 * 1000), tz).getTime(),
       typicalDayCost: (hours) => EvPriceProfile.typicalDayCost(this.priceProfile, hours),
     });
-    const strategy = result.scheme;
+    const { scheme } = result;
     const planMs = Date.now() - planStart;
     currentSoc = result.startSoc;
 
@@ -2052,7 +2052,7 @@ class CarChargeDevice extends GenericDevice {
       if (this.hasCapability(`ev_${day}_time`)) await this.setCapability(`ev_${day}_time`, this._dayTimePickerValue(day, overrides, tz));
     }
     await this._updateUnpluggedAlarm(unplugged && this._plannerMode(chargeMode) !== 'off' && chargeMode !== 'off_temp' ? next : null, currentSoc, now, nextText);
-    const nowSlot = strategy[0] || {};
+    const nowSlot = scheme[0] || {};
     const socText = energyMode ? `no SoC, ${energyKwh.toFixed(1)} kWh to charge` : `SoC ${Math.round(currentSoc)}%`;
     this.log(`[EV Plan] ${chargeMode}, ${socText}${atHome ? '' : ' (predicted return)'}${unplugged ? ', not plugged in' : ''}, next: ${nextText}, `
       + `now: ${nowSlot.duration ? `${nowSlot.duration} min${nowSlot.solar ? ' solar' : ''}` : 'no'}, price level ${level.import >= 0 ? '+' : ''}${level.import.toFixed(3)}`
@@ -2060,26 +2060,26 @@ class CarChargeDevice extends GenericDevice {
       + `${result.shortfalls.length ? `, short: ${result.shortfalls.map((sf) => `${sf.what} ${sf.missing}%`).join(', ')}` : ''}`
       + `, ${planMs} ms`);
     await this._logPlanDiag({
-      now, tz, slotStartMs, intervalMin, strategy, next, currentSoc, energyMode, energyKwh, blockNow, awayUntilMs, offUntilMs, unavailable: result.unavailable,
+      now, tz, slotStartMs, intervalMin, scheme, next, currentSoc, energyMode, energyKwh, blockNow, awayUntilMs, offUntilMs, unavailable: result.unavailable,
     }).catch(this.error);
 
-    if (Object.keys(strategy).length) {
+    if (Object.keys(scheme).length) {
       // Only when the decision for the current slot changed: the plan is recalculated on every SoC
       // step, presence change, price update and override, which would flood users' flows.
       const slotKey = `${slotStartMs}|${nowSlot.power || 0}|${Math.round((nowSlot.duration || 0) / 5)}`;
-      if (slotKey !== this.lastStrategyTriggerKey && typeof this.flows.triggerNewEvStrategyFlow === 'function') {
-        this.lastStrategyTriggerKey = slotKey;
-        await this.flows.triggerNewEvStrategyFlow(strategy).catch(this.error);
+      if (slotKey !== this.lastPlanTriggerKey && typeof this.flows.triggerNewEvPlanFlow === 'function') {
+        this.lastPlanTriggerKey = slotKey;
+        await this.flows.triggerNewEvPlanFlow(scheme).catch(this.error);
       }
 
-      Object.keys(strategy).forEach((k) => {
-        if (isForecast[k]) strategy[k].isForecast = true;
+      Object.keys(scheme).forEach((k) => {
+        if (isForecast[k]) scheme[k].isForecast = true;
       });
 
-      // Car not connected: all strategy slots shown as forecast (grey)
+      // Car not connected: all plan slots shown as forecast (grey)
       if (!this.isCarConnected) {
-        Object.keys(strategy).forEach((k) => {
-          if (strategy[k] && typeof strategy[k] === 'object') strategy[k].isForecast = true;
+        Object.keys(scheme).forEach((k) => {
+          if (scheme[k] && typeof scheme[k] === 'object') scheme[k].isForecast = true;
         });
       }
 
@@ -2089,14 +2089,14 @@ class CarChargeDevice extends GenericDevice {
       const showSoc = this.getSettings().chartShowSoc !== false && !!(this.sourceCapGroup && this.sourceCapGroup.soc) && !energyMode;
 
       // The plan on expected prices after the published ones: shown pale, not executed.
-      const chartScheme = { ...strategy };
+      const chartScheme = { ...scheme };
       Object.entries(result.outlook).forEach(([k, slot]) => {
         chartScheme[k] = { ...slot, isForecast: true };
       });
 
       await this.renderChargeCharts({
         scheme: chartScheme,
-        planSlots: Object.keys(strategy).length,
+        planSlots: Object.keys(scheme).length,
         chargePower,
         dischargePower: 0, // no V2X discharge
         socFallback: currentSoc,
@@ -2125,13 +2125,13 @@ class CarChargeDevice extends GenericDevice {
   }
 
   async _logPlanDiag({
-    now, tz, slotStartMs, intervalMin, strategy, next, currentSoc, energyMode, energyKwh, blockNow, awayUntilMs, offUntilMs,
+    now, tz, slotStartMs, intervalMin, scheme, next, currentSoc, energyMode, energyKwh, blockNow, awayUntilMs, offUntilMs,
     unavailable = [],
   }) {
     const intervalMs = intervalMin * 60 * 1000;
     const hhmm = (ms) => EvUsageModel.fractionalHourToHHMM(EvUsageModel.toLocalFractionalHour(new Date(ms), tz));
-    const starts = Object.keys(strategy)
-      .filter((k) => strategy[k] && strategy[k].power > 0 && strategy[k].duration > 0)
+    const starts = Object.keys(scheme)
+      .filter((k) => scheme[k] && scheme[k].power > 0 && scheme[k].duration > 0)
       .map((k) => slotStartMs + Number(k) * intervalMs);
     // Consecutive slots as ranges; with a key, a range per key.
     const toRanges = (list, keyOf = () => '') => {

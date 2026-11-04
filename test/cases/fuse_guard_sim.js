@@ -191,7 +191,7 @@ const build = ({
       getData: () => ({ id: `bat${i}` }),
       getName: () => `Sessy${i}`,
       reservePct: () => 10,
-      isZeroControlled: () => true,
+      isXomControlled: () => true,
       pulseParams: () => null,
       takeControl: async () => {},
       setAction: async () => {},
@@ -426,7 +426,7 @@ const show = (name, st, sim) => {
 
   // 5. Zero on the meter (smart), big load, no EV: batteries cover what they can, one notification.
   {
-    const sim = build({ block: 'zero', mode: 'smart' });
+    const sim = build({ block: 'xom', mode: 'smart' });
     const st = await run(sim, { seconds: 600, loadW: (s) => (s >= 60 ? 12000 : 2000) });
     show('zero, 12 kW load', st, sim);
     test('5: zero block discharges at full power, notified once', () => {
@@ -467,7 +467,7 @@ const show = (name, st, sim) => {
 
   // 8. EV switch state never reported, charging measured: still switched off.
   {
-    const sim = build({ ev: { maxW: 3680 }, block: 'zero', mode: 'smart' });
+    const sim = build({ ev: { maxW: 3680 }, block: 'xom', mode: 'smart' });
     sim.evs[0].signals.switchOn = undefined;
     sim.evs[0]._setSwitchSignal = () => {};
     const st = await run(sim, { seconds: 200, loadW: (s) => (s >= 20 ? 9000 : 2000) });
@@ -508,7 +508,7 @@ const show = (name, st, sim) => {
 
   // 11. A realtime grid source reporting every 60 s: not stale between its readings.
   {
-    const sim = build({ batteries: 1, block: 'zero', mode: 'smart' });
+    const sim = build({ batteries: 1, block: 'xom', mode: 'smart' });
     await run(sim, {
       seconds: 900, loadW: () => 1000, solarW: () => 2000, p1EveryS: 60,
     });

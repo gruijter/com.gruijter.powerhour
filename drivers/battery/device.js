@@ -76,7 +76,7 @@ class BatDevice extends GenericDevice {
     this.ds = deviceSpecifics;
     this.initTm = Date.now();
     // A (re)init can follow a settings change: never let the chart reuse a plan from before it.
-    this.lastStratTm = null;
+    this.lastPlanTm = null;
     // Before super.onInit(): it sets initReady partway, and onPricesUpdated() then renders charts.
     await ChartImages.registerChartImages(this, this.driver.ds.chartImages);
 
@@ -254,7 +254,7 @@ class BatDevice extends GenericDevice {
   }
 
   // Controlled by this app now (the driver splits zero on the meter among those).
-  isZeroControlled() {
+  isXomControlled() {
     return this.isControlConfigured() && this.getBatteryMode() !== 'device';
   }
 
@@ -346,20 +346,20 @@ class BatDevice extends GenericDevice {
     };
   }
 
-  // Driver tick, step 2. nom: { targetW, needW } from NomXomStrategy in a zero/hold block.
+  // Driver tick, step 2. xom: { targetW, needW } from XomSplit in a xom/hold block.
   // share: this battery's part of the import headroom.
   // share: this battery's part of the correction; phaseShare: of a phase correction (the batteries
   // that may be on its phases).
-  async controlApply(prep, now, gridW, nom, share = 1, phaseShare = share) {
+  async controlApply(prep, now, gridW, xom, share = 1, phaseShare = share) {
     if (this.controlRun) return;
     // Kept so that releaseControl() can wait for a write in progress.
-    this.controlRun = this.applyControl(prep, now, gridW, nom, share, phaseShare).finally(() => {
+    this.controlRun = this.applyControl(prep, now, gridW, xom, share, phaseShare).finally(() => {
       this.controlRun = null;
     });
     await this.controlRun;
   }
 
-  async applyControl(prep, now, gridW, nom, share, phaseShare = share) {
+  async applyControl(prep, now, gridW, xom, share, phaseShare = share) {
     const settings = this.batterySettings();
     const batteryW = this.controlPowerW();
     // Limits from the base the grid reading holds: while ramping the measured power lags the
@@ -369,9 +369,9 @@ class BatDevice extends GenericDevice {
     const fresh = typeof rawW === 'number' && this.lastReportTm && now - this.lastReportTm <= BatteryControl.FAST_REPORT_MS;
     const importBaseW = fresh ? Math.min(batteryW, rawW) : batteryW;
     const exportBaseW = fresh ? Math.max(batteryW, rawW) : batteryW;
-    if (nom) {
-      this.zeroAvgW = BatteryControl.average(this.zeroAvgW, nom.needW, now - (this.zeroAvgTm || now));
-      this.zeroAvgTm = now;
+    if (xom) {
+      this.xomAvgW = BatteryControl.average(this.xomAvgW, xom.needW, now - (this.xomAvgTm || now));
+      this.xomAvgTm = now;
     }
     // Idle: nothing, only the main fuse (hard limit) still protected.
     const shave = settings.peakShaving === true && prep.mode !== 'idle';
@@ -393,9 +393,9 @@ class BatDevice extends GenericDevice {
       now,
       gridW,
       batteryW,
-      nomW: nom ? nom.targetW : null,
-      nomNeedW: nom ? nom.needW : null,
-      avgZeroW: nom ? this.zeroAvgW : undefined,
+      xomStepW: xom ? xom.targetW : null,
+      xomNeedW: xom ? xom.needW : null,
+      avgXomW: xom ? this.xomAvgW : undefined,
       socPct: this.soc,
       capacityKwh: settings.batCapacity,
       maxChargeW: settings.chargePower,
@@ -472,7 +472,7 @@ class BatDevice extends GenericDevice {
     if (changedKeys.includes('precisePlanning') && this.inGroup()) {
       for (const d of this.driver.groupDevices()) {
         d.groupPlans = null;
-        d.lastStratTm = null;
+        d.lastPlanTm = null;
         if (d !== this && !!d.getSettings().precisePlanning !== !!newSettings.precisePlanning) {
           await d.setSettings({ precisePlanning: !!newSettings.precisePlanning }).catch((err) => d.error(err));
         }
@@ -491,7 +491,7 @@ class BatDevice extends GenericDevice {
   // (BatteryControl.followCap()); the driver gives the rest to the other batteries.
   updateFollowCap(block, now, settings) {
     const prev = this.followCapW || null;
-    if (block !== 'zero') {
+    if (block !== 'xom') {
       this.followCapW = null;
       this.followLagSince = null;
     } else {
@@ -678,7 +678,7 @@ class BatDevice extends GenericDevice {
 
   async replan(reason) {
     if (!this.pricesNextHours) return;
-    this.log(`[ROI Plan] Plan again (${reason})`);
+    this.log(`[Plan] Plan again (${reason})`);
     await this.flows.triggerNewPlanFlow();
     await this.updateChargeChart();
   }
@@ -687,8 +687,8 @@ class BatDevice extends GenericDevice {
   async replanGroup(reason) {
     const members = this.planGroup() || [this];
     members.forEach((d) => {
-      d.lastStratTm = null;
-      d.lastStratOptsString = null;
+      d.lastPlanTm = null;
+      d.lastPlanKey = null;
       d.groupPlans = null;
     });
     for (const d of members) await d.replan(reason).catch((err) => d.error(err));
@@ -978,7 +978,7 @@ class BatDevice extends GenericDevice {
     await this.setStoreValue('batteryTaper', this.taper).catch(this.error);
   }
 
-  // Input for PrecisePlanner: getStrategy() for this battery, or with a group getGroupStrategy() with
+  // Input for PrecisePlanner: plan() for this battery, or with a group planEach() with
   // each battery of the group as it is.
   buildPlanOptions(minPriceDelta, group = null) {
     const members = group || [this];
@@ -1171,7 +1171,7 @@ class BatDevice extends GenericDevice {
     // more than leaving some unused.
     const accuracy = typeof grid.getForecastAccuracy === 'function' ? grid.getForecastAccuracy() : null;
     const marginW = (accuracy && accuracy.maeW) || 0;
-    // A group: one battery can run alone (NomXomStrategy), so the lowest threshold counts.
+    // A group: one battery can run alone (XomSplit), so the lowest threshold counts.
     const minChargeW = Math.min(...members.map((d) => Number(d.batterySettings().minChargeW) || 0));
     const minDischargeW = Math.min(...members.map((d) => Number(d.batterySettings().minDischargeW) || 0));
     const toEv = members.every((d) => d.getSettings().dischargeToEv !== false);
@@ -1446,16 +1446,16 @@ class BatDevice extends GenericDevice {
     // Price slots follow local time: bucket on local (offset-shifted) timestamps, not UTC epoch.
     const tz = this.timeZone || this.homey.clock.getTimezone();
     const localSlot = (ms) => Math.floor(TimeHelpers.toLocalDate(new Date(ms), tz).getTime() / slotMs);
-    const sameSlot = this.lastStratTm && localSlot(this.lastStratTm) === localSlot(Date.now());
-    const afterPrices = this.lastStratTm && this.lastStratTm >= (this.pricesUpdatedTm || 0);
-    const strategy = (sameSlot && afterPrices && this.lastStratMinPriceDelta === minPriceDelta && this.lastStratTokens)
-      ? { ...this.lastStratTokens }
+    const sameSlot = this.lastPlanTm && localSlot(this.lastPlanTm) === localSlot(Date.now());
+    const afterPrices = this.lastPlanTm && this.lastPlanTm >= (this.pricesUpdatedTm || 0);
+    const tokens = (sameSlot && afterPrices && this.lastPlanMinPriceDelta === minPriceDelta && this.lastPlanTokens)
+      ? { ...this.lastPlanTokens }
       : await this.flows.planTokens({ minPriceDelta }).catch((err) => this.error(err));
-    if (!strategy) return;
+    if (!tokens) return;
 
-    await this.setCapability('roi_duration', strategy.duration).catch((err) => this.error(err));
+    await this.setCapability('roi_duration', tokens.duration).catch((err) => this.error(err));
 
-    const scheme = JSON.parse(strategy.scheme);
+    const scheme = JSON.parse(tokens.scheme);
     const isForecast = this.toPlanSlots(this.pricesFromNow().isForecast);
     Object.keys(scheme).forEach((k) => {
       if (isForecast && isForecast[k]) scheme[k].isForecast = true;
@@ -1466,7 +1466,7 @@ class BatDevice extends GenericDevice {
       chargePower: this.getSettings().chargePower || 2200,
       dischargePower: this.getSettings().dischargePower || 1700,
       socFallback: typeof this.soc === 'number' ? this.soc : null,
-      planTm: this.lastStratTm || Date.now(),
+      planTm: this.lastPlanTm || Date.now(),
       showPower: !!this.getSettings().chartShowPower,
       showSoc: this.getSettings().chartShowSoc !== false,
       showExportPrice: this.getSettings().chartShowExportPrice !== false,
@@ -1474,9 +1474,9 @@ class BatDevice extends GenericDevice {
     });
   }
 
-  triggerXOMFlow(strat, samples, x, smoothing, minLoad, cumulativePower) {
+  triggerXOMFlow(split, samples, x, smoothing, minLoad, cumulativePower) {
     if (!this.flows) return Promise.resolve(false);
-    return this.flows.triggerXomFlow(strat, samples, x, smoothing, minLoad, cumulativePower);
+    return this.flows.triggerXomFlow(split, samples, x, smoothing, minLoad, cumulativePower);
   }
 }
 

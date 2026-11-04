@@ -205,19 +205,19 @@ const planOpts = {
 const bounds = { 7: { max: 0 }, 38: { min: 100 } };
 [['LP', Lp], ['light', Light]].forEach(([name, planner]) => {
   test(`${name}: empty and full at the bounds`, () => {
-    const s = planner.getStrategy({ ...planOpts, socBounds: bounds });
+    const s = planner.plan({ ...planOpts, socBounds: bounds });
     assert.ok(s[7].soc <= 1, `soc ${s[7].soc} at the empty bound`);
     assert.ok(s[38].soc >= 99, `soc ${s[38].soc} at the full bound`);
   });
   test(`${name}: self-consumption (no export, no grid charge) still meets the bounds with grid charge`, () => {
-    const s = planner.getStrategy({
+    const s = planner.plan({
       ...planOpts, socBounds: { 30: { max: 0 }, 60: { min: 100 } }, allowExport: false, allowGridCharge: true, minimizeGrid: true,
     });
     assert.ok(s[30].soc <= 1, `soc ${s[30].soc} at the empty bound`);
     assert.ok(s[60].soc >= 99, `soc ${s[60].soc} at the full bound`);
   });
   test(`${name}: an impossible bound is missed, not an error`, () => {
-    const s = planner.getStrategy({ ...planOpts, socBounds: { 0: { max: 0 } } });
+    const s = planner.plan({ ...planOpts, socBounds: { 0: { max: 0 } } });
     assert.ok(s[0].soc > 0);
   });
 });

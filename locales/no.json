@@ -24,8 +24,6 @@
   "source_device_missing_retrying": "Kildeenhet mangler. Prøver på nytt ..",
   "virtual_via_flow": "Virtuell (via Flow)",
   "polling_failed": "Polling mislyktes. Vil prøve igjen snart..",
-  "source_device_missing_retry_named": "Kildeenhet %name% mangler. Prøv igjen om 10 minutter.",
-  "error_device_not_ready": "Enheten er ikke klar. Ignorerer nye innstillinger!",
   "error_device_not_found": "Enheten ble ikke funnet",
   "error_appliance_not_learned": "Program ikke lært ennå: krever __runs__ kjøringer",
   "error_appliance_ev_charger": "Denne kilden teller allerede som elbillader",
@@ -55,7 +53,7 @@
   "solar_export_diagnostics_popup": "Opprett nå en app-diagnostikkrapport med melding: retning (f.eks. Sør/Øst/Vest).",
   "tariff_group_interval_conflict": "Tariffgruppe __group__ mottar motstridende prisintervaller (__sources__). Bruker __interval__ min. Gi 15- og 60-minutters prisenheter egne tariffgrupper.",
   "grid_connection_multiple_devices": "Flere Strømnett-enheter funnet (__devices__). __limit__ W brukes som nettilknytningsgrense for plausibilitetskontroller. Behold kun én Strømnett-enhet.",
-  "migration_dap_replace": "DAP-enheter erstattes av den nye enheten Energipris (__devices__). Legg til en Energipris: den tar over innstillingene.",
+  "migration_dap_replace": "Gamle prisenheter erstattes av den nye enheten Energipris (__devices__). Legg til en Energipris: den tar over innstillingene.",
   "migration_dap_flows": "__old__ er tatt over av __new__. Tilpass disse Flows og slett deretter __old__: __flows__",
   "migration_dap_delete": "__old__ er tatt over av __new__. Sjekk dine Flows og slett deretter __old__.",
   "migration_warning_replace": "Erstattet av Energipris. Legg til en Energipris-enhet.",
@@ -217,8 +215,8 @@
   "error_peak_steps": "Pristrinn: bruk f.eks. 2:190; 5:300.",
   "bat_control_failed": "Batteristyring mislyktes: __error__",
   "chart_legend": {
-    "nom": "XOM",
-    "save": "Spar",
+    "xom": "XOM",
+    "hold": "Spar",
     "charge": "Lad",
     "discharge": "Utlad"
   },

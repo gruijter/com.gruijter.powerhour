@@ -1,4 +1,4 @@
-# DAP Prices API — Developer Documentation
+# Prices API — Developer Documentation
 
 This document describes how other Homey apps and HomeyScript can access the electricity and gas prices published by **Power by the Hour** (`com.gruijter.powerhour`): dynamic (market) prices as well as fixed tariffs, including their time of day and weekend changes.
 
@@ -8,16 +8,18 @@ Two access patterns are supported:
 | **GET** (poll) | On app init — fetch all currently known future prices |
 | **Realtime push** (event) | Subscribe once; receive prices on every slot change or whenever new prices are fetched |
 
+The v8 names `/dap-prices` and `dap-prices-updated` keep working.
+
 ---
 
 ## 1. GET — Poll current future prices
 
-Fetches all future price slots (from the current period onwards) for **every configured price device**: the Energy Price driver (`price`) and the deprecated DAP / DAP15 / Gas drivers.
+Fetches all future price slots (from the current period onwards) for **every configured price device**: the Energy Price driver (`price`) and the old Day-Ahead drivers (`dap`, `dap15`, `dapg`).
 
 ```js
 // In your app's onInit()
 const phApi = this.homey.api.getApiApp('com.gruijter.powerhour');
-const data = await phApi.get('/dap-prices');
+const data = await phApi.get('/prices');
 ```
 
 ### Response format
@@ -96,7 +98,7 @@ const data = await phApi.get('/dap-prices');
 
 ## 2. Realtime push — Subscribe to price updates
 
-Subscribe once in `onInit()`. Power by the Hour will emit `dap-prices-updated` in two situations:
+Subscribe once in `onInit()`. Power by the Hour will emit `prices-updated` in two situations:
 
 | `reason` value | When |
 |---|---|
@@ -108,7 +110,7 @@ Subscribe once in `onInit()`. Power by the Hour will emit `dap-prices-updated` i
 const phApi = this.homey.api.getApiApp('com.gruijter.powerhour');
 
 phApi.on('realtime', ({ name, data }) => {
-  if (name !== 'dap-prices-updated') return;
+  if (name !== 'prices-updated') return;
 
   const { reason, generatedAt, prices } = data;
   // prices has the same structure as the GET response (one entry per device)
@@ -143,8 +145,8 @@ The push payload has the **same structure** as the GET response, with one extra 
 You can also use this API from HomeyScript (e.g. to test or for simple automations):
 
 ```js
-// HomeyScript — fetch all current DAP prices
-const data = await Homey.api('GET', '/api/app/com.gruijter.powerhour/dap-prices');
+// HomeyScript — fetch all current prices
+const data = await Homey.api('GET', '/api/app/com.gruijter.powerhour/prices');
 const now = new Date();
 
 data.prices.forEach((device) => {
@@ -165,15 +167,15 @@ class MyApp extends Homey.App {
 
     // 2. Fetch initial prices (for app startup / cache warming)
     try {
-      const initial = await this.phApi.get('/dap-prices');
+      const initial = await this.phApi.get('/prices');
       this.handlePriceUpdate(initial);
     } catch (err) {
-      this.error('Could not fetch initial DAP prices:', err);
+      this.error('Could not fetch initial prices:', err);
     }
 
     // 3. Subscribe to push updates
     this.phApi.on('realtime', ({ name, data }) => {
-      if (name === 'dap-prices-updated') this.handlePriceUpdate(data);
+      if (name === 'prices-updated') this.handlePriceUpdate(data);
     });
   }
 

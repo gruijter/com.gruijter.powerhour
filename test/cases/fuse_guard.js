@@ -166,11 +166,11 @@ test('connection limits: per phase and total', () => {
 });
 
 test('planner: no discharge above the export limit', () => {
-  const { getStrategy } = require('../../lib/strategies/PrecisePlanner'); // eslint-disable-line global-require
+  const planner = require('../../lib/strategies/PrecisePlanner'); // eslint-disable-line global-require
   const net = (exportLimitW) => [0, 1, 2, 3].map(() => ({
     surplusW: 7000, deficitW: 0, usableSurplusW: 7000, usableDeficitW: 0, limitW: null, penaltyPerKw: null, exportLimitW,
   }));
-  const plan = (lim) => Object.values(getStrategy({
+  const plan = (lim) => Object.values(planner.plan({
     prices: [0.5, 0.5, 0.1, 0.1], exportPrices: [0.5, 0.5, 0.05, 0.05], priceInterval: 15, soc: 90, batCapacity: 5, net: net(lim),
   })).map((s) => s.power);
   assert.ok(plan(null)[0] < -1000);

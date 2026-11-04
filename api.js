@@ -24,15 +24,19 @@ along with com.gruijter.powerhour.  If not, see <http://www.gnu.org/licenses/>.
  *
  * Other Homey apps can consume these endpoints via:
  *   const phApi = this.homey.api.getApiApp('com.gruijter.powerhour');
- *   const data  = await phApi.get('/dap-prices');
+ *   const data  = await phApi.get('/prices');
  *
  * They can also subscribe to realtime push events:
  *   phApi.on('realtime', ({ name, data }) => { ... });
  * The event name emitted on every slot change and on new price fetch is:
- *   'dap-prices-updated'
+ *   'prices-updated'
+ * '/dap-prices' and 'dap-prices-updated' stay for apps built on v8.
  */
 
 module.exports = {
+  async getPrices({ homey }) {
+    return homey.app.getPricesPayload();
+  },
   async getDapPrices({ homey }) {
     return homey.app.getPricesPayload();
   },
