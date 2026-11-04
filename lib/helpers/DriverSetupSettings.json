@@ -130,19 +130,19 @@
       },
       "value": false,
       "info": {
-        "en": "Plans more precisely, especially with several different batteries. Uses more of Homey's memory.",
-        "nl": "Plant nauwkeuriger, vooral met meerdere verschillende batterijen. Gebruikt meer geheugen van Homey.",
-        "de": "Plant genauer, vor allem mit mehreren verschiedenen Batterien. Braucht mehr Speicher von Homey.",
-        "fr": "Planifie plus précisément, surtout avec plusieurs batteries différentes. Utilise plus de mémoire de Homey.",
-        "it": "Pianifica con più precisione, soprattutto con più batterie diverse. Usa più memoria di Homey.",
-        "sv": "Planerar noggrannare, särskilt med flera olika batterier. Använder mer av Homeys minne.",
-        "no": "Planlegger mer nøyaktig, særlig med flere ulike batterier. Bruker mer av Homeys minne.",
-        "es": "Planifica con más precisión, sobre todo con varias baterías distintas. Usa más memoria de Homey.",
-        "da": "Planlægger mere præcist, især med flere forskellige batterier. Bruger mere af Homeys hukommelse.",
-        "pl": "Planuje dokładniej, zwłaszcza przy kilku różnych bateriach. Zużywa więcej pamięci Homey.",
-        "ru": "Планирует точнее, особенно для нескольких разных батарей. Использует больше памяти Homey.",
-        "ar": "يخطط بدقة أكبر، خاصة مع عدة بطاريات مختلفة. يستهلك ذاكرة أكثر من Homey.",
-        "ko": "특히 서로 다른 배터리가 여러 개일 때 더 정밀하게 계획합니다. Homey 메모리를 더 사용합니다."
+        "en": "On average 1% better results, up to 4% with Limit peaks. Uses much more of Homey's memory.",
+        "nl": "Gemiddeld 1% beter resultaat, tot 4% met Pieken beperken. Gebruikt veel meer geheugen van Homey.",
+        "de": "Im Schnitt 1% besseres Ergebnis, bis 4% mit Spitzen begrenzen. Braucht viel mehr Speicher von Homey.",
+        "fr": "En moyenne 1% de mieux, jusqu'à 4% avec Limiter les pics. Utilise beaucoup plus de mémoire de Homey.",
+        "it": "In media 1% di risultato migliore, fino al 4% con Limita i picchi. Usa molta più memoria di Homey.",
+        "sv": "I snitt 1% bättre resultat, upp till 4% med Begränsa toppar. Använder mycket mer av Homeys minne.",
+        "no": "I snitt 1% bedre resultat, opptil 4% med Begrens topper. Bruker mye mer av Homeys minne.",
+        "es": "De media un 1% mejor, hasta un 4% con Limitar picos. Usa mucha más memoria de Homey.",
+        "da": "I gennemsnit 1% bedre resultat, op til 4% med Begræns spidser. Bruger meget mere af Homeys hukommelse.",
+        "pl": "Średnio o 1% lepszy wynik, do 4% z Ograniczaj szczyty. Zużywa znacznie więcej pamięci Homey.",
+        "ru": "В среднем на 1% лучше, до 4% с «Ограничивать пики». Использует намного больше памяти Homey.",
+        "ar": "نتيجة أفضل بنسبة 1% في المتوسط، وحتى 4% مع الحد من الذروات. يستهلك ذاكرة أكبر بكثير من Homey.",
+        "ko": "평균 1% 더 나은 결과, 피크 제한 사용 시 최대 4%. Homey 메모리를 훨씬 더 사용합니다."
       }
     },
     "roiMinProfit": {

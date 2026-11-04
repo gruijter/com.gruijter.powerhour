@@ -636,12 +636,6 @@ class BatteryDriver extends GenericDriver {
     caps.push('battery_mode', 'battery_action');
     return caps;
   }
-
-  getDeviceSettings(homeyDevice) {
-    const settings = super.getDeviceSettings(homeyDevice);
-    settings.roiEnable = true;
-    return settings;
-  }
 }
 
 module.exports = BatteryDriver;

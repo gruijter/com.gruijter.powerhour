@@ -378,7 +378,9 @@ test('zero covering the deficit in part gets the planned power as cap; rounding 
     const dear = [4, 5, 6].map((t) => p[t]);
     assert.ok(dear.every((x) => x.block === 'zero' && !x.homeCapW), `${name}: dear hours in full ${JSON.stringify(dear)}`);
     const part = [1, 2, 3].map((t) => p[t]).filter((x) => x.block === 'zero');
-    assert.ok(part.length && part.every((x) => x.homeCapW === -x.power && x.homeCapW < 600), `${name}: 30 ct in part ${JSON.stringify(part)}`);
+    // Within 3 % (PART_SHARE) of the deficit counts as covered: no cap.
+    const capped = part.filter((x) => x.homeCapW === -x.power && x.homeCapW < 600);
+    assert.ok(capped.length && part.every((x) => capped.includes(x) || (!x.homeCapW && -x.power >= 600 * 0.97)), `${name}: 30 ct in part ${JSON.stringify(part)}`);
     assert.ok(Object.values(p).every((x) => x.block !== 'discharge'), `${name}: no export at 5 ct`);
   }
   // One energy step to charge without a surplus to follow: still a grid charge
