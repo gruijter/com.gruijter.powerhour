@@ -355,6 +355,41 @@ test('group of 2 alike Sessys: both share the plan, saving unchanged', () => {
   assert.ok(Math.abs(evaluate(one, o) - evaluate(single, caps)) < 0.02, 'same cost as one double battery');
 });
 
+// Use alike over time (BatteryUse): the cheapest per kWh cycled first, of about equally cheap
+// ones the least used.
+test('group: cheapest first, of about equally cheap ones the least used', () => {
+  const better = {
+    chargeSpeeds: speeds.chargeSpeeds.map((sp) => ({ ...sp, eff: sp.eff + 0.005 })),
+    dischargeSpeeds: speeds.dischargeSpeeds.map((sp) => ({ ...sp, eff: sp.eff + 0.005 })),
+  };
+  const net = winterNet.map((n, i) => {
+    const w = hour(i) >= 17 && hour(i) < 22 ? 700 : 200;
+    return { ...n, deficitW: w, usableDeficitW: w };
+  });
+  const bat = (o) => ({
+    soc: 30, batCapacity: 5, ...speeds, ...o,
+  });
+  const o = (b1, b2) => ({
+    ...base, prices: dayPrices, exportPrices: dayPrices.map(() => 0.05), net, wearCost: 0.02, batteries: [bat({ ...better, ...b1 }), bat(b2)],
+  });
+  const cycled = (plans) => plans.map((p) => Object.values(p).reduce((a, v) => a + Math.abs(v.power * v.duration) / 60000, 0));
+  for (const [name, planner] of [['LP', lp], ['light', light]]) {
+    const eff = cycled(planner.planEach(o({ cycles: 3 }, { cycles: 3 })));
+    const lag = cycled(planner.planEach(o({ cycles: 3 }, { cycles: 1 })));
+    const dear = cycled(planner.planEach(o({ cycles: 3 }, { cycles: 1, wear: 0.06 })));
+    console.log(`     ${name}: alike ${eff.map((v) => v.toFixed(2))}, 2nd less used ${lag.map((v) => v.toFixed(2))}, 2nd dearer ${dear.map((v) => v.toFixed(2))}`);
+    assert.ok(eff[0] > eff[1], `${name}: used alike, most efficient first`);
+    assert.ok(lag[1] > lag[0], `${name}: least used first`);
+    assert.ok(dear[0] > dear[1], `${name}: cheapest first`);
+  }
+  const use = require('../../lib/strategies/BatteryUse');
+  let st = use.createState(1);
+  [50, 51, 50, 51, 60, 40, 95, 94].forEach((soc) => {
+    st = use.onSoc(st, soc);
+  });
+  assert.strictEqual(Math.round(st.cycles * 1000) / 1000, 1.15, `jitter and jumps are no use (${st.cycles})`);
+});
+
 test('zero covering the deficit in part gets the planned power as cap; rounding is no grid part', () => {
   // Too little stored for all dear hours: 30 ct hours in part, 45 ct hours in full (export 5 ct)
   const prices = [...Array(4).fill(0.30), ...Array(3).fill(0.45), ...Array(17).fill(0.25)];

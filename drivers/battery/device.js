@@ -29,6 +29,7 @@ const BatteryControl = require('../../lib/strategies/BatteryControl');
 const BatteryEfficiency = require('../../lib/strategies/BatteryEfficiency');
 const BatteryResponse = require('../../lib/strategies/BatteryResponse');
 const BatterySplit = require('../../lib/strategies/BatterySplit');
+const BatteryUse = require('../../lib/strategies/BatteryUse');
 const BatteryTaper = require('../../lib/strategies/BatteryTaper');
 const PhaseLearning = require('../../lib/strategies/PhaseLearning');
 const { getEfficiencyChart } = require('../../lib/charts/EfficiencyChart');
@@ -60,6 +61,7 @@ const CAL_MODES = ['smart', 'self_consumption'];
 const CAL_DAYS = 7;
 // The learned taper (BatteryTaper) is stored at most this often.
 const TAPER_SAVE_MS = 15 * 60 * 1000;
+const USE_SAVE_CYCLES = 0.1; // store write at most every 20 % SoC moved
 
 // Plans in 15-minute slots, as the grid forecast and capacity tariffs; prices per price slot.
 // The tighter of two bounds, null: none.
@@ -90,6 +92,7 @@ class BatDevice extends GenericDevice {
     this.batteryProps = this.getStoreValue('batteryProps') || this.takeOverProps();
     this.response = { ...(this.getStoreValue('batteryResponse') || BatteryResponse.createState()), step: null };
     this.taper = this.getStoreValue('batteryTaper') || BatteryTaper.createState();
+    await this.initUse();
     this.calibration = this.getStoreValue('batteryCalibration');
     if (!this.calibration) {
       this.calibration = BatteryCalibration.createState(Date.now());
@@ -974,6 +977,35 @@ class BatDevice extends GenericDevice {
     };
   }
 
+  // Use (BatteryUse) from the SoC. A new battery starts at the mean of the others: it does not take
+  // all the work until it has caught up.
+  async initUse() {
+    let state = this.getStoreValue('batteryUse');
+    if (!state) {
+      const others = this.driver.getDevices().map((d) => d !== this && d.getStoreValue('batteryUse')).filter(Boolean);
+      state = BatteryUse.createState(others.length ? others.reduce((a, u) => a + u.cycles, 0) / others.length : 0);
+      await this.setStoreValue('batteryUse', state).catch(this.error);
+    }
+    this.use = { ...state, anchor: null };
+    this.useSavedCycles = this.use.cycles;
+  }
+
+  async trackUse(soc) {
+    if (!this.use) return;
+    this.use = BatteryUse.onSoc(this.use, soc);
+    if (this.use.cycles - this.useSavedCycles < USE_SAVE_CYCLES) return;
+    this.useSavedCycles = this.use.cycles;
+    await this.setStoreValue('batteryUse', this.use).catch(this.error);
+  }
+
+  // For the split over a group: wear per kWh and use.
+  useInfo() {
+    return {
+      wear: Number(this.getSettings().wearCost) || 0,
+      cycles: Math.round((this.use ? this.use.cycles : 0) * 100) / 100,
+    };
+  }
+
   // Every control tick: the power the battery still does near full and empty while asked more.
   async learnTaper(now) {
     const controlled = !!this.getStoreValue('controlTakeover') && now - (this.lastSetpointTm || 0) <= FUSE_YIELD_MS;
@@ -1014,7 +1046,7 @@ class BatDevice extends GenericDevice {
       exportPrices: exportPrices ? [...this.toPlanSlots(exportPrices, now)] : null,
       minPriceDelta,
       wearCost: this.wearCostFor(members),
-      ...(group ? { batteries: members.map((d) => d.planBattery()) } : this.planBattery()),
+      ...(group ? { batteries: members.map((d) => ({ ...d.planBattery(), ...d.useInfo() })) } : this.planBattery()),
       // Local minute: slots follow local time (half-hour-offset zones differ from UTC).
       startMinute: TimeHelpers.toLocalDate(new Date(now), tz).getMinutes(),
       priceInterval: planMin,
@@ -1238,6 +1270,7 @@ class BatDevice extends GenericDevice {
   async updateValue(val, cap) {
     await super.updateValue(val, cap);
     if (cap !== 'soc') return;
+    await this.trackUse(val);
     await this.learnEfficiency(val);
     if (!this.recordSocSample(val)) return;
     await this.saveSocHistory();

@@ -112,4 +112,14 @@ for (const p of [-3000, -700, 700, 3000]) {
 }
 console.log('ok   direction');
 
+// Of about equally cheap ones the least used first, else the cheapest (wear and losses)
+const used = (id, soc, cycles) => Object.assign(new MockDevice(id, soc, { eff: 1000 }), { use: { cycles }, pricesNextHours: [0.25] });
+r = run([used('a', 90, 3), used('b', 50, 1)], 800);
+assert.deepStrictEqual(r, { a: 0, b: -800 }, `least used before fuller ${JSON.stringify(r)}`);
+const dear = used('b', 50, 1);
+dear.settings.wearCost = 0.05;
+r = run([used('a', 90, 3), dear], 800);
+assert.deepStrictEqual(r, { a: -800, b: 0 }, 'cheapest before least used');
+console.log('ok   use and cost');
+
 console.log('all passed');
