@@ -233,6 +233,9 @@
   "error_price_time": "Ogiltig tid: __time__. Använd 07:30 eller 7,5",
   "error_price_amount": "Ogiltigt tal: __value__",
   "error_ev_min_soc": "Minsta SoC: 0 (automatiskt) eller 30-100 %",
+  "error_ev_unreachable": "__soc__% till __time__ går inte __reason__, högst __reach__%",
+  "ev_reason_max_price": "under max. priset",
+  "ev_reason_time": "på tiden som är kvar",
   "error_no_export_tariff": "Den här mätaren har ingen exporttariff",
   "error_unknown_period": "Okänd period: __period__",
   "price_setup": {

@@ -598,3 +598,22 @@ console.log('all phase 3 tests passed');
   assert.ok(chargedSlots(trip({ typicalDayCost: () => 0.25 })).length > 0, 'tomorrow usually 0.25: today');
   console.log('trip typical day cost tests passed');
 }
+
+// --- A minimum SoC set by hand that the max. price blocks: a shortfall for that trip, gone without
+// the max. price (checkDayReachable() then names the max. price as the reason).
+{
+  const now = at(2026, 11, 5, 0);
+  const prices = [0.365, 0.385, 0.385, 0.385, 0.385, 0.35, 0.40, 0.47, 0.48];
+  const trips = [{
+    departMs: now + 7.5 * H, returnMs: now + 7.5 * H, needPct: 10, minSoc: 80, explicit: true, date: '2026-11-05',
+  }];
+  const o = {
+    ...base, now, slotStartMs: now, prices, soc: 59, trips, maxSoc: 90,
+  };
+  const short = (r) => r.shortfalls.find((sf) => sf.what === 'trip' && sf.tm === trips[0].departMs);
+  const capped = P.plan({ ...o, maxPrice: 0.38 });
+  assert.deepStrictEqual(chargedSlots(capped), [0, 5], 'only under the max. price');
+  assert.strictEqual(short(capped).missing, 13, 'short by 80 - (59 + 2 x 4)');
+  assert.strictEqual(short(P.plan(o)), undefined, 'reachable without the max. price');
+  console.log('min SoC above max. price tests passed');
+}

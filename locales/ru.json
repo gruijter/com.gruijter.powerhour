@@ -233,6 +233,9 @@
   "error_price_time": "Неверное время: __time__. Используйте 07:30 или 7,5",
   "error_price_amount": "Неверное число: __value__",
   "error_ev_min_soc": "Минимальный SoC: 0 (автоматически) или 30-100 %",
+  "error_ev_unreachable": "__soc__% к __time__ недостижимо __reason__, не более __reach__%",
+  "ev_reason_max_price": "ниже макс. цены",
+  "ev_reason_time": "за оставшееся время",
   "error_no_export_tariff": "У этого счётчика нет тарифа экспорта",
   "error_unknown_period": "Неизвестный период: __period__",
   "price_setup": {

@@ -233,6 +233,9 @@
   "error_price_time": "Heure invalide : __time__. Utilisez 07:30 ou 7,5",
   "error_price_amount": "Nombre invalide : __value__",
   "error_ev_min_soc": "SoC minimum : 0 (automatique) ou 30-100 %",
+  "error_ev_unreachable": "__soc__% à __time__ impossible __reason__, au plus __reach__%",
+  "ev_reason_max_price": "sous le prix max.",
+  "ev_reason_time": "dans le temps restant",
   "error_no_export_tariff": "Ce compteur n'a pas de tarif d'injection",
   "error_unknown_period": "Période inconnue : __period__",
   "price_setup": {

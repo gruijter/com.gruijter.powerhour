@@ -233,6 +233,9 @@
   "error_price_time": "Invalid time: __time__. Use 07:30 or 7.5",
   "error_price_amount": "Invalid number: __value__",
   "error_ev_min_soc": "Minimum SoC: 0 (automatic) or 30-100 %",
+  "error_ev_unreachable": "__soc__% by __time__ is not reachable __reason__, at most __reach__%",
+  "ev_reason_max_price": "under the max. price",
+  "ev_reason_time": "in the time left",
   "error_no_export_tariff": "This meter has no export tariff",
   "error_unknown_period": "Unknown period: __period__",
   "price_setup": {

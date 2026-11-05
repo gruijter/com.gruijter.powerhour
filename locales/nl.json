@@ -233,6 +233,9 @@
   "error_price_time": "Ongeldige tijd: __time__. Gebruik 07:30 of 7,5",
   "error_price_amount": "Ongeldig getal: __value__",
   "error_ev_min_soc": "Minimale SoC: 0 (automatisch) of 30-100 %",
+  "error_ev_unreachable": "__soc__% om __time__ haalt hij niet __reason__, hooguit __reach__%",
+  "ev_reason_max_price": "onder de max. prijs",
+  "ev_reason_time": "in de resterende tijd",
   "error_no_export_tariff": "Deze meter heeft geen terugleveringstarief",
   "error_unknown_period": "Onbekende periode: __period__",
   "price_setup": {

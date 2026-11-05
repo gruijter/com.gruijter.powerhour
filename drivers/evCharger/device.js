@@ -159,11 +159,16 @@ class CarChargeDevice extends GenericDevice {
       for (const day of ['today', 'tomorrow']) {
         this.registerCapabilityListener(`ev_${day}`, async (value) => {
           this.log(`EV plan for ${day} set to ${value}`);
-          await this.setDayPlan(day, value);
+          // Not reachable: set all the same, the picker shows it after the error.
+          await this.setDayPlan(day, value).catch((err) => {
+            this.updateChargeChart().catch(this.error);
+            throw err;
+          });
         });
         this.registerCapabilityListener(`ev_${day}_time`, async (value) => {
           this.log(`EV departure ${day} set to ${value}`);
-          // Refused (a time already past): the picker shows the day's setting again.
+          // Refused (a time already past): the picker shows the day's setting again. Not reachable:
+          // set all the same.
           await this.setDayTime(day, value).catch((err) => {
             this.updateChargeChart().catch(this.error);
             throw err;
@@ -1732,8 +1737,10 @@ class CarChargeDevice extends GenericDevice {
     return EvUsageModel.localDateStr(new Date(midnight + 36 * 3600 * 1000), tz);
   }
 
-  async _setOverride(date, override) {
+  // check: an error after setting it when that day's SoC is not reachable (checkDayReachable()).
+  async _setOverride(date, override, { check = true } = {}) {
     const overrides = { ...(this.getStoreValue('evOverrides') || {}) };
+    const previous = overrides[date] || null;
     if (override) overrides[date] = override;
     else delete overrides[date];
     await this.setStoreValue('evOverrides', overrides);
@@ -1744,6 +1751,40 @@ class CarChargeDevice extends GenericDevice {
     }
     this.log(`[EV Plan] Override for ${date}: ${override ? JSON.stringify(override) : 'none'}`);
     await this.updateChargeChart().catch(this.error);
+    if (check) await this.checkDayReachable(date, previous);
+  }
+
+  // The stored override of a day ('today' / 'tomorrow'), for checkDayReachable() after several changes.
+  dayOverride(day) {
+    const date = this._dayDate(day, this.timeZone || this.homey.clock.getTimezone());
+    return { date, override: (this.getStoreValue('evOverrides') || {})[date] || null };
+  }
+
+  // After a day's minimum SoC or departure is set by hand: an error when the plan cannot reach that
+  // trip's SoC and could with the previous setting. The setting stays.
+  async checkDayReachable(date, previous) {
+    if (!this.pricesNextHours || this._energyMode()) return;
+    const shortOf = (input) => {
+      const r = EvPlanner.plan(input);
+      const trip = r.trips.find((t) => t.date === date);
+      if (!trip) return null;
+      const sf = r.shortfalls.find((x) => x.what === 'trip' && x.tm === trip.departMs);
+      return { trip, missing: sf ? sf.missing : 0 };
+    };
+    const { input, ctx } = await this._planInput();
+    const now = shortOf(input);
+    if (!now || now.missing < 1) return;
+    const before = shortOf((await this._planInput({ [date]: previous })).input);
+    if (before && before.missing >= now.missing) return;
+    const free = input.maxPrice !== null ? shortOf({ ...input, maxPrice: null }) : null;
+    const reason = free && free.missing < now.missing ? 'ev_reason_max_price' : 'ev_reason_time';
+    const departMs = now.trip.plannedMs || now.trip.departMs;
+    throw Error(this.homey.__('error_ev_unreachable', {
+      soc: Math.round(now.trip.minSoc),
+      time: EvUsageModel.fractionalHourToHHMM(EvUsageModel.toLocalFractionalHour(new Date(departMs), ctx.tz)),
+      reason: this.homey.__(reason),
+      reach: Math.round(now.trip.minSoc - now.missing),
+    }));
   }
 
   // The date a picker or flow for 'today' or 'tomorrow' sets.
@@ -1752,10 +1793,10 @@ class CarChargeDevice extends GenericDevice {
   }
 
   // Picker ('auto' or 'min_<soc>'); flow: 'auto'.
-  async setDayPlan(day, value) {
+  async setDayPlan(day, value, opts = {}) {
     const min = /^min_(\d+)$/.exec(value || '');
     if (min) {
-      await this.setDayMinSoc(day, Number(min[1]));
+      await this.setDayMinSoc(day, Number(min[1]), opts);
       return;
     }
     const tz = this.timeZone || this.homey.clock.getTimezone();
@@ -1765,33 +1806,33 @@ class CarChargeDevice extends GenericDevice {
     let override = null;
     if (existing && existing.type === 'unused') override = existing;
     else if (existing && existing.time) override = { type: 'departure', time: existing.time };
-    await this._setOverride(date, override);
+    await this._setOverride(date, override, opts);
   }
 
   // Departure picker / flow: 'auto', 'unused' or a time (HH:MM).
-  async setDayTime(day, value) {
-    if (value === 'unused') await this.setDayUnused(day);
-    else await this.setDayDeparture(day, value === 'auto' ? null : value);
+  async setDayTime(day, value, opts = {}) {
+    if (value === 'unused') await this.setDayUnused(day, opts);
+    else await this.setDayDeparture(day, value === 'auto' ? null : value, opts);
   }
 
   // The car is not used that day, once.
-  async setDayUnused(day) {
+  async setDayUnused(day, opts = {}) {
     const tz = this.timeZone || this.homey.clock.getTimezone();
-    await this._setOverride(this._dayDate(day, tz), { type: 'unused' });
+    await this._setOverride(this._dayDate(day, tz), { type: 'unused' }, opts);
   }
 
   // Picker / flow: at least soc % at that day's departure, once; keeps a departure time set.
-  async setDayMinSoc(day, soc) {
+  async setDayMinSoc(day, soc, opts = {}) {
     const tz = this.timeZone || this.homey.clock.getTimezone();
     const date = this._dayDate(day, tz);
     const existing = (this.getStoreValue('evOverrides') || {})[date];
     const time = (existing && existing.time) || null;
-    await this._setOverride(date, { type: 'min', soc: Math.max(30, Math.min(100, Math.round(soc))), time });
+    await this._setOverride(date, { type: 'min', soc: Math.max(30, Math.min(100, Math.round(soc))), time }, opts);
   }
 
   // Picker / flow: that day's departure at another time (HH:MM), once; null = as learned. Keeps a
   // minimum SoC set; both a time and null end "not used". Today, a time already past is an error.
-  async setDayDeparture(day, time) {
+  async setDayDeparture(day, time, opts = {}) {
     const tz = this.timeZone || this.homey.clock.getTimezone();
     const date = this._dayDate(day, tz);
     if (time && date === EvUsageModel.localDateStr(new Date(), tz)
@@ -1802,7 +1843,7 @@ class CarChargeDevice extends GenericDevice {
     let override = null;
     if (existing && existing.type === 'min') override = { ...existing, time };
     else if (time) override = { type: 'departure', time };
-    await this._setOverride(date, override);
+    await this._setOverride(date, override, opts);
   }
 
   // Departure time picker: 'unused', the day's set time (nearest picker hour), else 'auto'.
@@ -1920,9 +1961,8 @@ class CarChargeDevice extends GenericDevice {
     return this.planQueued;
   }
 
-  async _planAndRender() {
-    if (!this.pricesNextHours) return;
-
+  // The planner's input now. patch: day overrides to try instead ({date: override, null: none}).
+  async _planInput(patch = null) {
     const settings = this.getSettings();
     // A set charge power is the maximum; 0 uses the measured one.
     const chargePower = this._chargePowerW();
@@ -1971,6 +2011,10 @@ class CarChargeDevice extends GenericDevice {
     const profile = this.usageModel ? this._profile() : [];
     const awayUntilMs = atHome ? null : this._awayUntilMs(profile, tz, now);
     const overrides = this._overrides(tz, now);
+    Object.entries(patch || {}).forEach(([date, ov]) => {
+      if (ov) overrides[date] = ov;
+      else delete overrides[date];
+    });
     const trips = EvPlanner.buildTrips({
       now,
       timezone: tz,
@@ -1993,12 +2037,10 @@ class CarChargeDevice extends GenericDevice {
     const cheap = EvPlanner.cheapThreshold({
       mode: settings.cheapCharge || 'auto', price: settings.cheapPrice, dailyMin: EvPriceProfile.typicalDailyMin(this.priceProfile),
     });
-    this.cheapThreshold = cheap; // for charging on surplus the plan did not expect
     const firstForecast = isForecast.findIndex(Boolean);
 
     const tomorrowEndMs = TimeHelpers.getUTCPeriods(tz).tomorrowEnd.getTime();
-    const planStart = Date.now();
-    const result = EvPlanner.plan({
+    const input = {
       now,
       slotStartMs,
       intervalMin,
@@ -2030,10 +2072,44 @@ class CarChargeDevice extends GenericDevice {
       // Enough for the trips of today, tomorrow and the day after: nothing charged ahead for later.
       coverUntilMs: TimeHelpers.getLocalMidnightUTC(new Date(tomorrowEndMs + 36 * 3600 * 1000), tz).getTime(),
       typicalDayCost: (hours) => EvPriceProfile.typicalDayCost(this.priceProfile, hours),
-    });
+    };
+    return {
+      input,
+      ctx: {
+        tz,
+        now,
+        intervalMin,
+        slotStartMs,
+        isForecast,
+        chargePower,
+        atHome,
+        unplugged,
+        blockNow,
+        energyMode,
+        energyKwh,
+        awayUntilMs,
+        offUntilMs,
+        chargeMode,
+        overrides,
+        level,
+        cheap,
+      },
+    };
+  }
+
+  async _planAndRender() {
+    if (!this.pricesNextHours) return;
+    const { input, ctx } = await this._planInput();
+    const {
+      tz, now, intervalMin, slotStartMs, isForecast, chargePower, atHome, unplugged, blockNow, energyMode, energyKwh,
+      awayUntilMs, offUntilMs, chargeMode, overrides, level, cheap,
+    } = ctx;
+    this.cheapThreshold = cheap; // for charging on surplus the plan did not expect
+    const planStart = Date.now();
+    const result = EvPlanner.plan(input);
     const { scheme } = result;
     const planMs = Date.now() - planStart;
-    currentSoc = result.startSoc;
+    const currentSoc = result.startSoc;
 
     const { next } = result;
     let nextText = '-';

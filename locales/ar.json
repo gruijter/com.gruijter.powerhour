@@ -233,6 +233,9 @@
   "error_price_time": "وقت غير صالح: __time__. استخدم 07:30 أو 7.5",
   "error_price_amount": "رقم غير صالح: __value__",
   "error_ev_min_soc": "الحد الأدنى لـ SoC: 0 (تلقائي) أو 30-100 %",
+  "error_ev_unreachable": "لا يمكن الوصول إلى __soc__% بحلول __time__ __reason__، الحد الأقصى __reach__%",
+  "ev_reason_max_price": "ضمن أقصى سعر",
+  "ev_reason_time": "في الوقت المتبقي",
   "error_no_export_tariff": "لا يوجد لهذا العداد تعرفة تصدير",
   "error_unknown_period": "فترة غير معروفة: __period__",
   "price_setup": {
