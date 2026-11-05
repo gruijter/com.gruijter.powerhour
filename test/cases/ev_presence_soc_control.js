@@ -202,6 +202,13 @@ assert.strictEqual(C.isManualSwitch({
 }), true, 'late: not an echo');
 assert.strictEqual(C.isManualSwitch({ value: true, was: true, now }), false, 'no change');
 assert.strictEqual(C.isManualSwitch({ value: true, was: null, now }), false, 'first report');
+// Off while on only for standby (no car): overrides nothing (seen: a second Homey switching it)
+assert.strictEqual(C.isManualSwitch({
+  value: false, was: true, command: { value: true, tm: now - min }, now, standbyNoCar: true,
+}), false, 'standby without car: off is no override');
+assert.strictEqual(C.isManualSwitch({
+  value: true, was: false, command: { value: false, tm: now - 10 * min }, now, standbyNoCar: true,
+}), true, 'standby without car: on still is');
 // Override maximum time
 assert.strictEqual(C.overrideExpired({ override: null, maxHours: 4, now }), false);
 assert.strictEqual(C.overrideExpired({ override: { since: now - 3.9 * 60 * min }, maxHours: 4, now }), false);

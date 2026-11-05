@@ -1013,6 +1013,7 @@ class CarChargeDevice extends GenericDevice {
       command: this.lastCommand,
       plugChangeTm: this.plugChangeTm,
       carFull: typeof this.carLimit === 'number' && typeof soc === 'number' && soc >= this.carLimit - 1,
+      standbyNoCar: this._standby() && this.signals.detectedPlugged !== true,
     })) return;
     await this.setChargeMode(sw.value ? 'charge_temp' : 'off_temp', `charger switched ${sw.value ? 'on' : 'off'} outside this app`);
   }
