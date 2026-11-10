@@ -327,6 +327,7 @@
   },
   "error_setup_soc_order": "El nivel mínimo, el de reserva y el máximo diario deben subir en ese orden.",
   "warning_price_no_group": "__name__ no tiene grupo de tarifa: elige el grupo __group__ en Reparar.",
+  "warning_no_grid_monitor": "Sin Monitor de red, el plan supone una carga fija de la casa.",
   "settings_view": {
     "on": "Activado",
     "off": "Desactivado",

@@ -327,6 +327,7 @@
   },
   "error_setup_soc_order": "Minimumniveau, reserveniveau en dagelijks maximum moeten in die volgorde oplopen.",
   "warning_price_no_group": "__name__ heeft geen tariefgroep: kies groep __group__ via Repareren.",
+  "warning_no_grid_monitor": "Zonder Netmonitor rekent het plan met een vast huisverbruik.",
   "settings_view": {
     "on": "Aan",
     "off": "Uit",

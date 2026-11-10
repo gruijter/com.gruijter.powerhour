@@ -327,6 +327,7 @@
   },
   "error_setup_soc_order": "Laveste niveau, reserveniveau og dagligt maksimum skal stige i den rækkefølge.",
   "warning_price_no_group": "__name__ har ingen tarifgruppe: vælg gruppe __group__ via Reparer.",
+  "warning_no_grid_monitor": "Uden Elnetmonitor regner planen med et fast forbrug i huset.",
   "settings_view": {
     "on": "Til",
     "off": "Fra",

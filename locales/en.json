@@ -327,6 +327,7 @@
   },
   "error_setup_soc_order": "Minimum level, reserve level and daily maximum must go up in that order.",
   "warning_price_no_group": "__name__ has no tariff group: choose group __group__ in its Repair.",
+  "warning_no_grid_monitor": "Without a Grid Monitor the plan assumes a fixed home load.",
   "settings_view": {
     "on": "On",
     "off": "Off",

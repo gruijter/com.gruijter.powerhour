@@ -327,6 +327,7 @@
   },
   "error_setup_soc_order": "Mindeststand, Reservestand und tägliches Maximum müssen in dieser Reihenfolge steigen.",
   "warning_price_no_group": "__name__ hat keine Tarifgruppe: wählen Sie Gruppe __group__ über Reparieren.",
+  "warning_no_grid_monitor": "Ohne Netzmonitor rechnet der Plan mit einer festen Hauslast.",
   "settings_view": {
     "on": "Ein",
     "off": "Aus",

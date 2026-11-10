@@ -327,6 +327,7 @@
   },
   "error_setup_soc_order": "Livello minimo, livello di riserva e massimo giornaliero devono crescere in quest'ordine.",
   "warning_price_no_group": "__name__ non ha un gruppo tariffario: scegli il gruppo __group__ tramite Ripara.",
+  "warning_no_grid_monitor": "Senza Monitor rete il piano assume un carico di casa fisso.",
   "settings_view": {
     "on": "Attivato",
     "off": "Disattivato",

@@ -327,6 +327,7 @@
   },
   "error_setup_soc_order": "최소 수준, 예비 수준, 일일 최대는 이 순서로 커야 합니다.",
   "warning_price_no_group": "__name__에 요금 그룹이 없습니다: 수리에서 그룹 __group__을(를) 선택하세요.",
+  "warning_no_grid_monitor": "그리드 모니터가 없으면 계획은 고정된 가정 부하를 가정합니다.",
   "settings_view": {
     "on": "켜짐",
     "off": "꺼짐",

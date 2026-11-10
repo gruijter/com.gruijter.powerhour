@@ -327,6 +327,7 @@
   },
   "error_setup_soc_order": "Laveste nivå, reservenivå og daglig maksimum må øke i den rekkefølgen.",
   "warning_price_no_group": "__name__ har ingen tariffgruppe: velg gruppe __group__ via Reparer.",
+  "warning_no_grid_monitor": "Uten Strømnettmonitor regner planen med en fast last i huset.",
   "settings_view": {
     "on": "På",
     "off": "Av",

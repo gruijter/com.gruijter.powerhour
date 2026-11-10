@@ -327,6 +327,7 @@
   },
   "error_setup_soc_order": "Poziom minimalny, poziom rezerwy i dzienne maksimum muszą rosnąć w tej kolejności.",
   "warning_price_no_group": "__name__ nie ma grupy taryfowej: wybierz grupę __group__ przez Napraw.",
+  "warning_no_grid_monitor": "Bez Monitora sieci plan zakłada stałe obciążenie domu.",
   "settings_view": {
     "on": "Włączone",
     "off": "Wyłączone",

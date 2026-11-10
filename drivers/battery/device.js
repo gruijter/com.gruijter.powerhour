@@ -62,6 +62,8 @@ const LEARN_APPLY_MS = 24 * 60 * 60 * 1000;
 const CAL_RETRY_MS = 15 * 60 * 1000;
 const CAL_MODES = ['smart', 'self_consumption'];
 const CAL_DAYS = 7;
+// No Grid Monitor is warned for this long after the start (it may start after the battery).
+const GRID_WARN_AFTER_MS = 2 * 60 * 1000;
 // Targets again at most this often; not from this long before the battery has to start.
 const CAL_REFRESH_MS = 5 * 60 * 1000;
 const CAL_LEAD_MS = 60 * 60 * 1000;
@@ -106,8 +108,9 @@ class BatDevice extends GenericDevice {
     }
     // A sample over a restart misses energy when the meters are integrated from power: start anew.
     if (this.efficiency) this.efficiency.win = null;
-    // Homey keeps a warning over a restart: clear one from before at the next chance.
-    this.controlWarning = true;
+    // Homey keeps a warning over a restart: the first updateWarning() writes or clears it.
+    this.controlError = null;
+    this.warningShown = undefined;
     this.controlState = {};
     await super.onInit().catch(this.error);
 
@@ -368,6 +371,7 @@ class BatDevice extends GenericDevice {
   // Driver tick, step 1: housekeeping, and what this battery does now. null: not controlled.
   async controlPrepare(now) {
     if (!this.initReady || this.isDestroyed) return null;
+    await this.updateWarning(now);
     this.checkPlanSlot(now);
     await this.endTempModeIfDue(now);
     if (this.inGroup()) await this.joinGroup();
@@ -708,15 +712,32 @@ class BatDevice extends GenericDevice {
       await this.clearControlWarning();
     } catch (err) {
       this.error(`[Bat Control] Setting ${cap} to ${value} W failed:`, err.message || err);
-      this.controlWarning = true;
-      await this.setWarning(this.homey.__('bat_control_failed', { error: err.message || String(err) })).catch(this.error);
+      this.controlError = this.homey.__('bat_control_failed', { error: err.message || String(err) });
+      await this.updateWarning(now);
     }
   }
 
   async clearControlWarning() {
-    if (!this.controlWarning) return;
-    this.controlWarning = false;
-    await this.unsetWarning().catch(this.error);
+    if (!this.controlError) return;
+    this.controlError = null;
+    await this.updateWarning();
+  }
+
+  // The device warning: a failed setpoint write, else no Grid Monitor in a mode that follows the
+  // plan (it then assumes HOME_USE_W). undefined: not known yet, the warning stays as it is.
+  deviceWarning(now = Date.now()) {
+    if (this.controlError) return this.controlError;
+    if (now - this.initTm < GRID_WARN_AFTER_MS) return undefined;
+    if (!CAL_MODES.includes(this.getBatteryMode()) || GridConnection.gridDevice(this.homey)) return null;
+    return this.homey.__('warning_no_grid_monitor');
+  }
+
+  async updateWarning(now = Date.now()) {
+    const warning = this.deviceWarning(now);
+    if (warning === undefined || warning === this.warningShown) return;
+    this.warningShown = warning;
+    if (warning) await this.setWarning(warning).catch(this.error);
+    else await this.unsetWarning().catch(this.error);
   }
 
   // The SoC is far from the plan (forecast off, a large load): plan again.
@@ -1578,6 +1599,7 @@ class BatDevice extends GenericDevice {
 
   // A new plan slot: plan again. A price slot needs no broadcast: the list has its prices.
   async onPlanSlot() {
+    await this.updateWarning();
     if (!this.pricesNextHours) return;
     await this.flows.triggerNewPlanFlow();
     await this.updateChargeChart();

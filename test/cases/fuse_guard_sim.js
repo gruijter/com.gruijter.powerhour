@@ -196,6 +196,7 @@ const build = ({
       takeControl: async () => {},
       setAction: async () => {},
       clearControlWarning: async () => {},
+      updateWarning: async () => {},
       checkSocDeviation: () => {},
       ...(realPrepare ? {
         initReady: true,
