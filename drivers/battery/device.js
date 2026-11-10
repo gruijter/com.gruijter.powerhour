@@ -53,6 +53,8 @@ const FUSE_YIELD_MS = 2 * 60 * 1000;
 const PHASE_STEP_W = 600;
 // Home use the planner assumes without a grid forecast (no grid device).
 const HOME_USE_W = 300;
+// The planners look this far ahead (48 h): beyond the published prices on expected ones.
+const PLAN_HOURS = 48;
 const EFFICIENCY_LOG_MS = 60 * 60 * 1000;
 const LEARN_APPLY_MS = 24 * 60 * 60 * 1000;
 // Calibration (setting calibrateDays): new targets tried at most this often; only in the modes that
@@ -125,6 +127,7 @@ class BatDevice extends GenericDevice {
       await setTimeoutPromise(10000 + (Math.random() * 60000), this);
       if (this.sessionId !== currentSessionId) return;
       await this.bootstrapEfficiency().catch((err) => this.error(err));
+      await this.updatePriceProfile().catch((err) => this.error(err));
       await this.applyLearnedProps().catch((err) => this.error(err));
       await this.updateLearnedInfo().catch((err) => this.error(err));
       await this.updateCalibrationInfo().catch((err) => this.error(err));
@@ -139,8 +142,35 @@ class BatDevice extends GenericDevice {
   async onPricesUpdated() {
     this.pricesUpdatedTm = Date.now(); // see updateChargeChart(): only reuse plans made after this
     this.pricesUpdated = true;
+    await this.updatePriceProfile().catch((err) => this.error(err));
     await this.flows.triggerNewPlanFlow();
     await this.updateChargeChart();
+  }
+
+  // The expected prices beyond the published ones (PriceProfile), learned from the published ones.
+  async updatePriceProfile() {
+    if (!this.pricesNextHours) return;
+    await this.bootstrapPriceProfile();
+    const now = Date.now();
+    const tz = this.timeZone || this.homey.clock.getTimezone();
+    const priceMin = this.priceInterval || 60;
+    const known = await this.learnPriceProfile(this.pricesFromNow(now), TimeHelpers.startOfLocalBlock(now, priceMin, tz), priceMin, tz);
+    this.expectedPrice = this.expectedPriceFn(known, tz, now);
+  }
+
+  // Plan prices up to PLAN_HOURS: after the published (and forecast) prices the expected ones.
+  extendPlanPrices(prices, exportPrices, startMs, planMin) {
+    const n = Math.round((PLAN_HOURS * 60) / planMin);
+    const imp = [...(prices || [])];
+    const exp = exportPrices ? [...exportPrices] : null;
+    if (!this.expectedPrice) return { prices: imp, exportPrices: exp };
+    for (let i = imp.length; i < n; i += 1) {
+      const e = this.expectedPrice(startMs + i * planMin * 60 * 1000);
+      if (typeof e.price !== 'number') break;
+      imp.push(e.price);
+      if (exp) exp.push(typeof e.exportPrice === 'number' ? e.exportPrice : e.price);
+    }
+    return { prices: imp, exportPrices: exp };
   }
 
   // Detected by the driver, with the choice from the setup view (store 'sourceCaps').
@@ -1047,16 +1077,17 @@ class BatDevice extends GenericDevice {
     const now = Date.now();
     const tz = this.timeZone || this.homey.clock.getTimezone();
     const planMin = this.planIntervalMin();
-    const { prices, exportPrices } = this.pricesFromNow(now);
-    const planPrices = this.toPlanSlots(prices, now);
+    const fromNow = this.pricesFromNow(now);
     const startMs = TimeHelpers.startOfLocalBlock(now, planMin, tz);
+    const { prices: planPrices, exportPrices } = this.extendPlanPrices(this.toPlanSlots(fromNow.prices, now),
+      fromNow.exportPrices ? this.toPlanSlots(fromNow.exportPrices, now) : null, startMs, planMin);
     const forecast = this.planNetForecast(startMs, planPrices.length, planMin, members);
     if (!group && this.calibrationActive()) this.refreshCalibrationTargets(now);
     const socBounds = !group && this.calibrationActive()
       ? BatteryCalibration.socBounds(this.calibration, { startMs, slotMin: planMin, slots: planPrices.length }) : null;
     return {
-      prices: [...planPrices],
-      exportPrices: exportPrices ? [...this.toPlanSlots(exportPrices, now)] : null,
+      prices: planPrices,
+      exportPrices,
       minPriceDelta,
       wearCost: this.wearCostFor(members),
       ...(group ? { batteries: members.map((d) => ({ ...d.planBattery(), ...d.useInfo() })) } : this.planBattery()),
@@ -1418,6 +1449,29 @@ class BatDevice extends GenericDevice {
     return Number(this.batterySettings().batCapacity) || 0;
   }
 
+  // For the EV planner (driver.solarStorage()): per 15 min from the plan the AC energy this battery
+  // can still take at the start (null: no plan) and whether storing surplus pays there.
+  solarStorageSeries(startMs, endMs) {
+    const plan = this.latestPlan;
+    const capKwh = this.capacityKwh();
+    const { chargeSpeeds, dischargeSpeeds } = BatterySplit.speedsFromSettings(this.batterySettings());
+    const effC = Math.max(0.5, ...chargeSpeeds.map((sp) => sp.eff));
+    const effD = Math.max(0.5, ...dischargeSpeeds.map((sp) => sp.eff));
+    const settings = this.getSettings();
+    const room = [];
+    const store = [];
+    for (let t = startMs; t < endMs; t += 15 * 60 * 1000) {
+      const idx = plan ? Math.floor((t - plan.startMs) / plan.intervalMs) : -1;
+      const slot = idx >= 0 ? plan.slots[idx] : null;
+      const soc = idx > 0 && plan.slots[idx - 1] ? plan.slots[idx - 1].soc : plan && plan.startSoc;
+      room.push(slot && typeof soc === 'number' ? (Math.max(0, 100 - soc) / 100) * (capKwh / effC) : null);
+      store.push(!!slot && !slot.noCharge);
+    }
+    return {
+      capKwh, effC, effD, cycleCost: (Number(settings.minProfit) || 0) + (Number(settings.wearCost) || 0), room, store,
+    };
+  }
+
   // Once, from before the properties were learned only: the values in the old settings are the start
   // (Homey keeps the values of settings removed from the manifest, skill section 22).
   takeOverProps() {
@@ -1546,9 +1600,10 @@ class BatDevice extends GenericDevice {
     await this.setCapability('roi_duration', tokens.duration).catch((err) => this.error(err));
 
     const scheme = JSON.parse(tokens.scheme);
-    const isForecast = this.toPlanSlots(this.pricesFromNow().isForecast);
+    // Forecast prices, and the expected ones after the list.
+    const isForecast = this.toPlanSlots(this.pricesFromNow().isForecast) || [];
     Object.keys(scheme).forEach((k) => {
-      if (isForecast && isForecast[k]) scheme[k].isForecast = true;
+      if (isForecast[k] || Number(k) >= isForecast.length) scheme[k].isForecast = true;
     });
 
     await this.renderChargeCharts({

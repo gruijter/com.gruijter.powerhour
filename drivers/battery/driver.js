@@ -30,6 +30,8 @@ const XOM_MIRROR_MS = 15 * 60 * 1000;
 // Built-in control: below this a small total stays on the grid (the per-battery thresholds apply on
 // top); the XOM flows use their own minLoad (flow card 'Set XOM').
 const BUILTIN_MIN_LOAD_W = 50;
+// Modes whose plan stores solar surplus.
+const SURPLUS_MODES = ['smart', 'self_consumption', 'xom'];
 // Wear helper: the rated cycles run until the battery has this share of its capacity left (end of
 // life, typically 70%); on average it then holds (1 + share) / 2 of its capacity per cycle.
 const WEAR_END_OF_LIFE = 0.7;
@@ -226,6 +228,28 @@ class BatteryDriver extends GenericDriver {
 
   // The batteries planned as one, in one mode (setting groupPlan, not 'device'), controlled here
   // or by flows.
+  // The batteries that plan on solar surplus, for the EV planner (null: none): per 15 min their
+  // room (AC kWh, null without a plan) and whether storing pays; capacity, efficiencies (weighted by
+  // capacity) and the lowest cycle cost.
+  solarStorage(startMs, endMs) {
+    const list = this.getDevices().filter((d) => SURPLUS_MODES.includes(d.getBatteryMode()) && d.latestPlan)
+      .map((d) => d.solarStorageSeries(startMs, endMs)).filter((b) => b.capKwh > 0);
+    if (!list.length) return null;
+    const capKwh = list.reduce((a, b) => a + b.capKwh, 0);
+    const weighted = (k) => list.reduce((a, b) => a + b.capKwh * b[k], 0) / capKwh;
+    return {
+      capKwh,
+      effC: weighted('effC'),
+      effD: weighted('effD'),
+      cycleCost: Math.min(...list.map((b) => b.cycleCost)),
+      room: list[0].room.map((_, q) => {
+        const vals = list.map((b) => b.room[q]).filter((v) => typeof v === 'number');
+        return vals.length ? vals.reduce((a, v) => a + v, 0) : null;
+      }),
+      store: list[0].store.map((_, q) => list.some((b) => b.store[q])),
+    };
+  }
+
   groupDevices() {
     return this.getDevices().filter((d) => typeof d.inGroup === 'function' && d.inGroup());
   }

@@ -2,7 +2,7 @@
 
 const assert = require('assert');
 const P = require('../../lib/strategies/EvPlanner');
-const PP = require('../../lib/strategies/EvPriceProfile');
+const PP = require('../../lib/strategies/PriceProfile');
 const M = require('../../lib/strategies/EvUsageModel');
 
 const tz = 'Europe/Amsterdam';
@@ -616,4 +616,39 @@ console.log('all phase 3 tests passed');
   assert.strictEqual(short(capped).missing, 13, 'short by 80 - (59 + 2 x 4)');
   assert.strictEqual(short(P.plan(o)), undefined, 'reachable without the max. price');
   console.log('min SoC above max. price tests passed');
+}
+
+// --- Solar surplus a home battery would store: the car takes only what the battery has no room
+// for, and charges the rest at night when that is cheaper than the battery's value of the surplus.
+{
+  const now = at(2026, 11, 5, 10);
+  const hourOf = (i) => (10 + i) % 24;
+  const prices = Array.from({ length: 24 }, (_, i) => {
+    const h = hourOf(i);
+    if (h >= 17 && h < 21) return 0.40;
+    return h < 7 ? 0.22 : 0.30;
+  });
+  const exportPrices = prices.map(() => 0.05);
+  const solarKwh = prices.map((_, i) => (i >= 1 && i <= 3 ? 2.56 : 0)); // 11-14 h, full charging power
+  const deficitKwh = prices.map((_, i) => (hourOf(i) >= 17 && hourOf(i) < 21 ? 2 : 0.3));
+  const trips = [{
+    departMs: now + 21 * H, returnMs: now + 21 * H, needPct: 12, minSoc: 62,
+  }];
+  const o = {
+    ...base, now, slotStartMs: now, prices, exportPrices, solarKwh, deficitKwh, soc: 50, trips, variablePower: true,
+  };
+  const battery = (roomKwh) => ({
+    capKwh: 5, effC: 0.95, effD: 0.95, cycleCost: 0, room: prices.map(() => roomKwh), store: prices.map(() => true),
+  });
+  const solarKwhUsed = (r) => [1, 2, 3].reduce((a, i) => a + ((r.scheme[i].power / 1000) * r.scheme[i].duration) / 60, 0);
+  const none = P.plan(o);
+  assert.ok(Math.abs(solarKwhUsed(none) - 7.68) < 0.05, `no battery: all from solar (${solarKwhUsed(none)})`);
+  const empty = P.plan({ ...o, homeBattery: battery(5 / 0.95) });
+  assert.ok(Math.abs(solarKwhUsed(empty) - (7.68 - 5 / 0.95)) < 0.05, `empty battery: only its spare surplus (${solarKwhUsed(empty)})`);
+  assert.strictEqual(empty.shortfalls.length, 0, 'the trip is met at night');
+  const full = P.plan({ ...o, homeBattery: battery(0) });
+  assert.ok(Math.abs(solarKwhUsed(full) - 7.68) < 0.05, `full battery: all from solar (${solarKwhUsed(full)})`);
+  const capped = P.plan({ ...o, homeBattery: battery(5 / 0.95), maxPrice: 0.25 });
+  assert.strictEqual(capped.shortfalls.length, 0, 'the battery value is no cash price for the max. price');
+  console.log('home battery solar value tests passed');
 }

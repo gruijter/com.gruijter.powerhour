@@ -7,7 +7,7 @@ Copyright 2019 - 2026, Robin de Gruijter (gruijter@hotmail.com)
 
 const GenericDevice = require('../../lib/genericDeviceDrivers/generic_bat_device');
 const EvPlanner = require('../../lib/strategies/EvPlanner');
-const EvPriceProfile = require('../../lib/strategies/EvPriceProfile');
+const PriceProfile = require('../../lib/strategies/PriceProfile');
 const TimeHelpers = require('../../lib/helpers/TimeHelpers');
 const { getEvWeeklyChart } = require('../../lib/charts/EvChart');
 const EvUsageModel = require('../../lib/strategies/EvUsageModel');
@@ -27,7 +27,6 @@ const EvCarCaps = require('../../lib/helpers/EvCarCaps');
 const EvChargerCaps = require('../../lib/helpers/EvChargerCaps');
 const EvHistory = require('../../lib/helpers/EvHistory');
 const InsightsHistory = require('../../lib/helpers/InsightsHistory');
-const PriceDrivers = require('../../lib/helpers/PriceDrivers');
 
 const deviceSpecifics = {
   cmap: {
@@ -84,8 +83,6 @@ const DAY_PICKER_HOURS = [3, 6, 7, 8, 10, 12, 14, 16, 18, 20, 22];
 // for this long counts as no power.
 const METER_POWER_MIN_MS = 119 * 1000;
 const METER_IDLE_MS = 5 * 60 * 1000;
-// Bump to rebuild stored price profiles from Insights (2: only the electricity prices of the own tariff group).
-const PRICE_BOOTSTRAP_VERSION = 2;
 
 class CarChargeDevice extends GenericDevice {
 
@@ -1869,48 +1866,59 @@ class CarChargeDevice extends GenericDevice {
     return 'auto';
   }
 
-  // Expected solar surplus (kWh, grid side) per price slot, from the grid device's forecast of home
-  // load and PbtH solar. null without a grid device.
-  _solarSurplusKwh(startMs, n, intervalMin) {
+  // Per plan slot from the grid forecast (null: no grid): the solar surplus (kWh) the car can
+  // count on, the home deficit (kWh), and the home batteries that store surplus (battery driver
+  // solarStorage(), per slot: room at its start, storing pays in any quarter).
+  _homeForecast(startMs, n, intervalMin) {
     const grid = GridConnection.gridDevice(this.homey);
     if (!grid) return null;
+    const endMs = startMs + n * intervalMin * 60 * 1000;
     let f;
     try {
-      f = grid.getNetForecast(startMs, startMs + n * intervalMin * 60 * 1000);
+      f = grid.getNetForecast(startMs, endMs);
     } catch (err) {
       this.error(err);
       return null;
     }
     if (!f || !Array.isArray(f.solar)) return null;
-    const perSlot = Math.max(1, Math.round(intervalMin / 15));
-    const out = new Array(n).fill(0);
-    f.solar.forEach((solarW, k) => {
-      const surplusW = Math.max(0, (solarW || 0) - ((f.load && f.load[k]) || 0));
-      const i = Math.floor(k / perSlot);
-      if (i < n) out[i] += (surplusW * 0.25) / 1000;
-    });
-    return out;
-  }
-
-  // Learn the expected-price profile from the published prices (not forecasts).
-  async _learnPrices(fromNow, slotStartMs, intervalMin, tz) {
-    if (!this.priceProfile) {
-      this.priceProfile = (await this.getStoreValue('evPriceProfile')) || EvPriceProfile.createProfile();
+    // As the battery planner: the surplus less the measured forecast error, and less what the
+    // chargers before this one (device id) plan.
+    const accuracy = typeof grid.getForecastAccuracy === 'function' ? grid.getForecastAccuracy() : null;
+    const marginW = (accuracy && accuracy.maeW) || 0;
+    const myId = this.getData().id;
+    const others = this.driver.getDevices().filter((d) => d !== this && d.getData().id < myId && typeof d.getPlannedPowerSeries === 'function')
+      .map((d) => d.getPlannedPowerSeries(startMs, endMs));
+    let bats = null;
+    try {
+      const drv = this.homey.drivers.getDriver('battery');
+      bats = drv && typeof drv.solarStorage === 'function' ? drv.solarStorage(startMs, endMs) : null;
+    } catch {
+      bats = null;
     }
-    const entries = [];
-    (fromNow.prices || []).forEach((price, i) => {
-      if (fromNow.isForecast && fromNow.isForecast[i]) return;
-      entries.push({
-        time: slotStartMs + i * intervalMin * 60 * 1000,
-        price,
-        exportPrice: fromNow.exportPrices ? fromNow.exportPrices[i] : undefined,
-      });
+    const perSlot = Math.max(1, Math.round(intervalMin / 15));
+    const solarKwh = new Array(n).fill(0);
+    const deficitKwh = new Array(n).fill(0);
+    const room = new Array(n).fill(null);
+    const store = new Array(n).fill(false);
+    f.solar.forEach((solarW, q) => {
+      const i = Math.floor(q / perSlot);
+      if (i >= n) return;
+      const netW = ((f.load && f.load[q]) || 0) - (solarW || 0);
+      const otherW = others.reduce((a, o) => a + ((o && o[q]) || 0), 0);
+      solarKwh[i] += (Math.max(0, -netW - otherW - marginW) * 0.25) / 1000;
+      deficitKwh[i] += (Math.max(0, netW) * 0.25) / 1000;
+      if (bats) {
+        if (q % perSlot === 0) room[i] = bats.room[q];
+        store[i] = store[i] || bats.store[q];
+      }
     });
-    const before = `${this.priceProfile.lastLearnedMs}|${JSON.stringify(this.priceProfile.dailyMin || {})}`;
-    EvPriceProfile.learn(this.priceProfile, entries, tz);
-    const after = `${this.priceProfile.lastLearnedMs}|${JSON.stringify(this.priceProfile.dailyMin || {})}`;
-    if (after !== before) await this.setStoreValue('evPriceProfile', this.priceProfile).catch(this.error);
-    return entries;
+    return {
+      solarKwh,
+      deficitKwh,
+      battery: bats ? {
+        capKwh: bats.capKwh, effC: bats.effC, effD: bats.effD, cycleCost: bats.cycleCost, room, store,
+      } : null,
+    };
   }
 
   _awayUntilMs(profile, tz, now) {
@@ -2018,8 +2026,8 @@ class CarChargeDevice extends GenericDevice {
       if (predicted !== null) currentSoc = predicted;
     }
 
-    const known = await this._learnPrices(fromNow, priceSlotStartMs, priceIntervalMin, tz);
-    const level = EvPriceProfile.level(this.priceProfile, known, tz, now);
+    const known = await this.learnPriceProfile(fromNow, priceSlotStartMs, priceIntervalMin, tz);
+    const level = PriceProfile.level(this.priceProfile, known, tz, now);
     const profile = this.usageModel ? this._profile() : [];
     const awayUntilMs = atHome ? null : this._awayUntilMs(profile, tz, now);
     const overrides = this._overrides(tz, now);
@@ -2038,13 +2046,14 @@ class CarChargeDevice extends GenericDevice {
     };
     const trips = EvPlanner.buildTrips(tripArgs);
     const n = Math.ceil((EvPlanner.HORIZON_DAYS * 24 * 60) / intervalMin);
+    const home = this._homeForecast(slotStartMs, n, intervalMin);
     const chargeMode = this.getCapabilityValue('ev_charge_mode') || 'scheduled_price';
     const offUntilMs = this._offUntilMs(chargeMode);
 
     // Cheap enough to charge beyond the needs: under the usual lowest price of a day, learned from
     // the published prices over the last 14 days, or the user's fixed price.
     const cheap = EvPlanner.cheapThreshold({
-      mode: settings.cheapCharge || 'auto', price: settings.cheapPrice, dailyMin: EvPriceProfile.typicalDailyMin(this.priceProfile),
+      mode: settings.cheapCharge || 'auto', price: settings.cheapPrice, dailyMin: PriceProfile.typicalDailyMin(this.priceProfile),
     });
     const firstForecast = isForecast.findIndex(Boolean);
 
@@ -2055,8 +2064,10 @@ class CarChargeDevice extends GenericDevice {
       intervalMin,
       prices,
       exportPrices: toPlan(fromNow.exportPrices),
-      expectedPrice: EvPriceProfile.isEmpty(this.priceProfile) ? null : (ms) => EvPriceProfile.expected(this.priceProfile, ms, tz, level),
-      solarKwh: this._solarSurplusKwh(slotStartMs, n, intervalMin),
+      expectedPrice: this.expectedPriceFn(known, tz, now),
+      solarKwh: home ? home.solarKwh : null,
+      deficitKwh: home ? home.deficitKwh : null,
+      homeBattery: home ? home.battery : null,
       soc: currentSoc,
       energyKwh,
       capacityKwh: batCapacity,
@@ -2080,7 +2091,7 @@ class CarChargeDevice extends GenericDevice {
       outlookUntilMs: tomorrowEndMs, // shown up to the end of tomorrow
       // Enough for the trips of today, tomorrow and the day after: nothing charged ahead for later.
       coverUntilMs: TimeHelpers.getLocalMidnightUTC(new Date(tomorrowEndMs + 36 * 3600 * 1000), tz).getTime(),
-      typicalDayCost: (hours) => EvPriceProfile.typicalDayCost(this.priceProfile, hours),
+      typicalDayCost: (hours) => PriceProfile.typicalDayCost(this.priceProfile, hours),
     };
     return {
       input,
@@ -2151,7 +2162,7 @@ class CarChargeDevice extends GenericDevice {
     const socText = energyMode ? `no SoC, ${energyKwh.toFixed(1)} kWh to charge` : `SoC ${Math.round(currentSoc)}%`;
     this.log(`[EV Plan] ${chargeMode}, ${socText}${atHome ? '' : ' (predicted return)'}${unplugged ? ', not plugged in' : ''}, next: ${nextText}, `
       + `now: ${nowSlot.duration ? `${nowSlot.duration} min${nowSlot.solar ? ' solar' : ''}` : 'no'}, price level ${level.import >= 0 ? '+' : ''}${level.import.toFixed(3)}`
-      + `, cheap ${cheap ? `<= ${cheap.grid.toFixed(3)} (solar ${cheap.solar.toFixed(3)}, ${EvPriceProfile.dailyMinDays(this.priceProfile)} days)` : 'off'}`
+      + `, cheap ${cheap ? `<= ${cheap.grid.toFixed(3)} (solar ${cheap.solar.toFixed(3)}, ${PriceProfile.dailyMinDays(this.priceProfile)} days)` : 'off'}`
       + `${result.shortfalls.length ? `, short: ${result.shortfalls.map((sf) => `${sf.what} ${sf.missing}%`).join(', ')}` : ''}`
       + `, ${planMs} ms`);
     await this._logPlanDiag({
@@ -2343,39 +2354,7 @@ class CarChargeDevice extends GenericDevice {
         this.log('[EV Usage] No distance to home or location history in Insights: nights away are only seen live');
       }
 
-      // Expected-price profile from the price history (hourly, 14 days), once. Built fresh:
-      // live learning only takes prices newer than the last learned one, so history must go first.
-      if (!this.priceProfile) this.priceProfile = (await this.getStoreValue('evPriceProfile')) || EvPriceProfile.createProfile();
-      // A profile from before the daily lows: only those are taken from the history.
-      const lowsOnly = !retrain && this.priceProfile.bootstrapped === PRICE_BOOTSTRAP_VERSION && !this.priceProfile.dailyLows;
-      if (retrain || this.priceProfile.bootstrapped !== PRICE_BOOTSTRAP_VERSION || lowsOnly) {
-        // The longest hourly history of the group's price devices (a new one next to an old one has little).
-        const hourly = async (capName) => {
-          let best = [];
-          for (const logId of this._groupPriceLogIds(capName)) {
-            const values = (await InsightsHistory.fetchHistory(api, logId, ['last7Days', 'last14Days'])).filter((e) => !e.coarse);
-            if (values.length > best.length) best = values;
-          }
-          return best;
-        };
-        const imp = await hourly(PriceDrivers.PRICE_LOG_CAPS.import);
-        // A retrain without price history keeps what was learned live.
-        if (imp.length || !retrain) {
-          const exp = new Map((await hourly(PriceDrivers.PRICE_LOG_CAPS.export)).map((e) => [e.t, e.v]));
-          const entries = imp.map((e) => ({ time: e.t, price: e.v, exportPrice: exp.get(e.t) }));
-          if (lowsOnly) {
-            // Prices older than the last learned one only add to the daily lows.
-            EvPriceProfile.learn(this.priceProfile, entries, tz);
-          } else {
-            const fresh = EvPriceProfile.createProfile();
-            EvPriceProfile.learn(fresh, entries, tz);
-            fresh.bootstrapped = PRICE_BOOTSTRAP_VERSION;
-            this.priceProfile = fresh;
-          }
-          await this.setStoreValue('evPriceProfile', this.priceProfile).catch(this.error);
-          this.log(`[EV Plan] Price profile ${lowsOnly ? 'daily lows' : 'bootstrapped'} from ${imp.length} hourly prices`);
-        }
-      }
+      await this.bootstrapPriceProfile({ retrain });
 
       // Usage model from the car's odometer history, merged under what was learned live.
       if (odoEntries && odoEntries.length > 1) {
