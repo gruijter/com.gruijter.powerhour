@@ -199,7 +199,7 @@
   "error_peak_steps": "Prijstrappen: gebruik bijv. 2:190; 5:300.",
   "bat_control_failed": "Batterij aansturen mislukt: __error__",
   "chart_legend": {
-    "xom": "XOM",
+    "xom": "Netdoel",
     "hold": "Sparen",
     "charge": "Laden",
     "discharge": "Ontladen"

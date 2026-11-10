@@ -2024,24 +2024,24 @@
       "ko": "임시 최대 (시간)"
     },
     "value": 4,
-    "min": 0.5,
+    "min": 0,
     "max": 48,
     "step": 0.5,
     "decimals": 1,
     "info": {
-      "en": "After this time a temporary charge mode ends.",
-      "nl": "Hierna stopt een tijdelijke laadmodus.",
-      "de": "Danach endet ein vorübergehender Lademodus.",
-      "fr": "Ensuite, un mode de charge temporaire prend fin.",
-      "it": "Dopo questo tempo una modalità di carica temporanea termina.",
-      "sv": "Därefter slutar ett tillfälligt laddläge.",
-      "no": "Deretter avsluttes en midlertidig lademodus.",
-      "es": "Después termina un modo de carga temporal.",
-      "da": "Derefter slutter en midlertidig ladetilstand.",
-      "pl": "Po tym czasie tymczasowy tryb ładowania się kończy.",
-      "ru": "После этого временный режим зарядки завершается.",
-      "ar": "بعد هذا الوقت ينتهي وضع الشحن المؤقت.",
-      "ko": "이 시간이 지나면 임시 충전 모드가 끝납니다."
+      "en": "Charge now and Don't charge from the tile end after this time. 0: until changed.",
+      "nl": "Nu laden en Niet laden vanaf de tegel stoppen na deze tijd. 0: tot je wisselt.",
+      "de": "Jetzt laden und Nicht laden von der Kachel enden nach dieser Zeit. 0: bis zur Änderung.",
+      "fr": "Charger maintenant et Ne pas charger depuis la tuile prennent fin après ce temps. 0 : jusqu'à modification.",
+      "it": "Carica ora e Non caricare dal riquadro terminano dopo questo tempo. 0: fino a modifica.",
+      "sv": "Ladda nu och Ladda inte från brickan slutar efter denna tid. 0: tills det ändras.",
+      "no": "Lad nå og Ikke lad fra flisen avsluttes etter denne tiden. 0: til det endres.",
+      "es": "Cargar ahora y No cargar desde la tarjeta terminan tras este tiempo. 0: hasta que se cambie.",
+      "da": "Lad nu og Lad ikke fra flisen slutter efter denne tid. 0: indtil det ændres.",
+      "pl": "Ładuj teraz i Nie ładuj z kafelka kończą się po tym czasie. 0: do zmiany.",
+      "ru": "«Зарядить сейчас» и «Не заряжать» с плитки завершаются через это время. 0: до изменения.",
+      "ar": "اشحن الآن ولا تشحن من البطاقة ينتهيان بعد هذا الوقت. 0: حتى يتم التغيير.",
+      "ko": "타일에서 고른 지금 충전과 충전 안 함은 이 시간 후 끝납니다. 0: 변경될 때까지."
     }
   },
   "autoDepartureLearning": {

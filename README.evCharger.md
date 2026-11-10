@@ -36,7 +36,9 @@
 | **Solar only** | Solar surplus only. Optional: some grid power next to it. |
 | **Charge now** | Straight to the daily maximum. |
 | **Don't charge** | No charging. |
-| **Temporary** (charge now / don't charge) | Then back to the previous mode. |
+
+- On the tile **Charge now** and **Don't charge** end by themselves (**Temporary mode max.**, 0: until changed); the previous mode returns.
+- By flow: any mode for a number of minutes (0: until changed).
 
 - Below the **Minimum level** it always charges right away.
 
@@ -88,7 +90,7 @@
 - Charge mode is / is not …
 
 **Actions**
-- Set charge mode
+- Set charge mode … for … minutes (0: until changed)
 - Departure today/tomorrow at …, min. SoC … (empty: unchanged; `auto`; `-` = car not used)
 - Car away from … to …
 - Car has left / is home

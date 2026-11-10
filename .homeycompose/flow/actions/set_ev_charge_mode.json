@@ -1,4 +1,5 @@
 {
+  "deprecated": true,
   "title": {
     "en": "Set charge mode",
     "nl": "Zet laadmodus",
@@ -44,7 +45,6 @@
     "ar": "الذكي يخطط حسب السعر والشمس؛ اشحن الآن يشحن فورًا حتى الحد الأقصى.",
     "ko": "스마트는 가격과 태양광으로 계획하고, 지금 충전은 바로 최대까지 충전합니다."
   },
-  "highlight": true,
   "args": [
     {
       "type": "device",

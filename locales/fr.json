@@ -199,7 +199,7 @@
   "error_peak_steps": "Paliers de prix : utilisez p. ex. 2:190; 5:300.",
   "bat_control_failed": "Échec du pilotage de la batterie : __error__",
   "chart_legend": {
-    "xom": "XOM",
+    "xom": "Cible réseau",
     "hold": "Accumulation",
     "charge": "Charge",
     "discharge": "Décharge"

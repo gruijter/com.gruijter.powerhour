@@ -34,13 +34,13 @@ The heart of the EMS. [← Overview](./README.md)
 | **Smart** | Follows the plan: lowest total cost. |
 | **Solar self-use** | Least grid use first, cost second. No grid charging, no battery export. |
 | **Force save up** | No discharging. Solar surplus may charge. |
-| **Force XOM** | Keeps the grid at the XOM target (X on the meter). |
+| **Force grid target** | Keeps the grid at the grid target (W). 0: zero on the meter (XOM). |
 | **Force rest** | 0 W. |
 | **Force charge / discharge** | Full power, also from or to the grid. |
 | **Battery decides** | Leaves the group, follows its own app. |
 
 - Set by tile or flow, for a number of minutes or until changed.
-- **Action** tile: XOM, Save up, Rest, Charge, Discharge, Refill reserve, Calibrate, No control.
+- **Action** tile: Grid target, Save up, Rest, Charge, Discharge, Refill reserve, Calibrate, No control.
 
 ---
 
@@ -50,7 +50,7 @@ The heart of the EMS. [← Overview](./README.md)
 
 **Looks ahead:** as far as prices are known (with AI price forecast: further).
 
-**Per price period (15 or 60 min) it picks:** charge, discharge, save up, rest, or XOM.
+**Per price period (15 or 60 min) it picks:** charge, discharge, save up, rest, or grid target.
 
 **It chooses the cheapest total over the whole period:**
 - **Grid charge:** only when a later price pays the losses, wear and minimum profit.
@@ -87,7 +87,7 @@ The heart of the EMS. [← Overview](./README.md)
 
 - **Built-in:** tick **Let the app control the battery**. The app sets the power.
 - **Own logic, built-in control:** let flows set the mode, the app does the rest.
-- **By flows:** control off. Use **New planned battery power** or **New XOM power available**.
+- **By flows:** control off. Use **New planned battery power** or **New power for grid target**.
 
 ---
 
@@ -96,7 +96,7 @@ The heart of the EMS. [← Overview](./README.md)
 **Triggers**
 - Battery mode changed
 - New planned battery power (inverted)
-- New XOM power available (inverted)
+- New power for grid target (inverted)
 
 **Conditions**
 - Battery mode is / is not …
@@ -106,4 +106,4 @@ The heart of the EMS. [← Overview](./README.md)
 - Provide planned battery power
 - Set battery cost: minimum profit or wear per kWh
 - Calibrate battery: start / stop
-- Set XOM (all batteries)
+- Set grid target (all batteries)

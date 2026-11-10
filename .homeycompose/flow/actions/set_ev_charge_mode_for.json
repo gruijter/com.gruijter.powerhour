@@ -1,0 +1,170 @@
+{
+  "title": {
+    "en": "Set charge mode",
+    "nl": "Zet laadmodus",
+    "de": "Lademodus festlegen",
+    "fr": "Définir le mode de charge",
+    "ko": "충전 모드 설정",
+    "es": "Establecer modo de carga",
+    "it": "Imposta modalità di ricarica",
+    "da": "Indstil ladetilstand",
+    "sv": "Ställ in laddningsläge",
+    "no": "Angi lademodus",
+    "pl": "Ustaw tryb ładowania",
+    "ru": "Установить режим зарядки",
+    "ar": "تعيين وضع الشحن"
+  },
+  "titleFormatted": {
+    "en": "Set charge mode to [[mode]] for [[duration]] minutes",
+    "nl": "Zet laadmodus op [[mode]] voor [[duration]] minuten",
+    "de": "Lademodus auf [[mode]] für [[duration]] Minuten setzen",
+    "fr": "Définir le mode de charge sur [[mode]] pendant [[duration]] minutes",
+    "es": "Establecer el modo de carga en [[mode]] durante [[duration]] minutos",
+    "it": "Imposta la modalità di ricarica su [[mode]] per [[duration]] minuti",
+    "da": "Indstil ladetilstand til [[mode]] i [[duration]] minutter",
+    "sv": "Ställ in laddningsläge till [[mode]] i [[duration]] minuter",
+    "no": "Angi lademodus til [[mode]] i [[duration]] minutter",
+    "pl": "Ustaw tryb ładowania na [[mode]] na [[duration]] minut",
+    "ru": "Установить режим зарядки [[mode]] на [[duration]] минут",
+    "ar": "تعيين وضع الشحن إلى [[mode]] لمدة [[duration]] دقيقة",
+    "ko": "충전 모드를 [[duration]]분 동안 [[mode]](으)로 설정"
+  },
+  "hint": {
+    "en": "0 minutes: until changed. After the time, the previous mode returns.",
+    "nl": "0 minuten: tot het wordt gewijzigd. Daarna keert de vorige modus terug.",
+    "de": "0 Minuten: bis zur Änderung. Danach kehrt der vorige Modus zurück.",
+    "fr": "0 minute : jusqu'à modification. Ensuite, le mode précédent revient.",
+    "it": "0 minuti: fino a modifica. Poi torna la modalità precedente.",
+    "sv": "0 minuter: tills det ändras. Därefter återgår föregående läge.",
+    "no": "0 minutter: til det endres. Deretter kommer forrige modus tilbake.",
+    "es": "0 minutos: hasta que se cambie. Después vuelve el modo anterior.",
+    "da": "0 minutter: indtil det ændres. Derefter vender den forrige tilstand tilbage.",
+    "pl": "0 minut: do zmiany. Potem wraca poprzedni tryb.",
+    "ru": "0 минут: до изменения. Затем возвращается прежний режим.",
+    "ar": "0 دقيقة: حتى يتم التغيير. بعد ذلك يعود الوضع السابق.",
+    "ko": "0분: 변경될 때까지. 그 후 이전 모드로 돌아갑니다."
+  },
+  "highlight": true,
+  "args": [
+    {
+      "type": "device",
+      "name": "device",
+      "filter": "driver_id=evCharger"
+    },
+    {
+      "type": "dropdown",
+      "name": "mode",
+      "title": {
+        "en": "Mode",
+        "nl": "Modus",
+        "de": "Modus",
+        "ko": "모드",
+        "fr": "Mode",
+        "es": "Modo",
+        "it": "Modalità",
+        "da": "Tilstand",
+        "sv": "Läge",
+        "no": "Modus",
+        "pl": "Tryb",
+        "ru": "Режим",
+        "ar": "الوضع"
+      },
+      "values": [
+        {
+          "id": "scheduled_price",
+          "label": {
+            "en": "Smart",
+            "nl": "Slim",
+            "de": "Intelligent",
+            "fr": "Intelligent",
+            "es": "Inteligente",
+            "it": "Intelligente",
+            "da": "Smart",
+            "sv": "Smart",
+            "no": "Smart",
+            "pl": "Inteligentnie",
+            "ru": "Умный",
+            "ar": "ذكي",
+            "ko": "스마트"
+          }
+        },
+        {
+          "id": "solar_only",
+          "label": {
+            "en": "Solar only",
+            "nl": "Alleen zon",
+            "de": "Nur Solar",
+            "fr": "Solaire uniquement",
+            "es": "Solo solar",
+            "it": "Solo solare",
+            "da": "Kun sol",
+            "sv": "Endast sol",
+            "no": "Kun sol",
+            "pl": "Tylko słońce",
+            "ru": "Только солнце",
+            "ar": "الطاقة الشمسية فقط",
+            "ko": "태양광만"
+          }
+        },
+        {
+          "id": "fast_charge",
+          "label": {
+            "en": "Charge now",
+            "nl": "Nu laden",
+            "de": "Jetzt laden",
+            "fr": "Charger maintenant",
+            "es": "Cargar ahora",
+            "it": "Carica ora",
+            "da": "Lad nu",
+            "sv": "Ladda nu",
+            "no": "Lad nå",
+            "pl": "Ładuj teraz",
+            "ru": "Зарядить сейчас",
+            "ar": "اشحن الآن",
+            "ko": "지금 충전"
+          }
+        },
+        {
+          "id": "off",
+          "label": {
+            "en": "Don't charge",
+            "nl": "Niet laden",
+            "de": "Nicht laden",
+            "fr": "Ne pas charger",
+            "es": "No cargar",
+            "it": "Non caricare",
+            "da": "Lad ikke",
+            "sv": "Ladda inte",
+            "no": "Ikke lad",
+            "pl": "Nie ładuj",
+            "ru": "Не заряжать",
+            "ar": "لا تشحن",
+            "ko": "충전 안 함"
+          }
+        }
+      ]
+    },
+    {
+      "type": "number",
+      "name": "duration",
+      "min": 0,
+      "max": 2880,
+      "step": 1,
+      "title": {
+        "en": "Minutes",
+        "nl": "Minuten",
+        "de": "Minuten",
+        "fr": "Minutes",
+        "it": "Minuti",
+        "sv": "Minuter",
+        "no": "Minutter",
+        "es": "Minutos",
+        "da": "Minutter",
+        "pl": "Minuty",
+        "ru": "Минуты",
+        "ar": "دقائق",
+        "ko": "분"
+      }
+    }
+  ]
+}

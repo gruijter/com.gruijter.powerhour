@@ -100,7 +100,7 @@ class CarChargeDevice extends GenericDevice {
     // The state of the charger when its switch state is not reported yet.
     const lastWanted = await this.getStoreValue('evLastWantedSwitch');
     if (typeof lastWanted === 'boolean') this.lastWantedSwitch = lastWanted;
-    this.tempMode = (await this.getStoreValue('evTempMode')) || null; // {since, previousMode}: a temporary mode
+    this.tempMode = (await this.getStoreValue('evTempMode')) || null; // {since, previousMode, hours, manual}: a temporary mode
     this.lastAwayTm = (await this.getStoreValue('evLastAwayTm')) || 0;
     this.signals.flowAwaySince = (await this.getStoreValue('evFlowAwaySince')) || null;
     this.energyState = (await this.getStoreValue('evEnergyState')) || EvEnergyMode.createState();
@@ -141,17 +141,21 @@ class CarChargeDevice extends GenericDevice {
 
     // A temporary mode without its start (store lost): back to Smart.
     const mode = this.getCapabilityValue('ev_charge_mode');
-    if (!mode || (EvChargerControl.isTempMode(mode) && !this.tempMode)) {
+    const base = EvChargerControl.baseMode(mode);
+    if (!mode || !EvChargerControl.MODES.includes(base) || (mode !== base && !this.tempMode)) {
       await this.setChargeMode('scheduled_price', 'init').catch(this.error);
     } else {
+      // A former temporary mode (charge_temp, off_temp): its mode, the time left stays (tempMode).
+      if (mode !== base) await this.setCapabilityValue('ev_charge_mode', base).catch(this.error);
       await this._updateResumeText();
     }
 
     // Capability listeners survive restartDevice() (same instance): register them once.
     if (!this.uiListenersRegistered) {
       this.uiListenersRegistered = true;
+      // On the tile Charge now and Don't charge end by themselves (setting overrideMaxHours).
       this.registerCapabilityListener('ev_charge_mode', async (value) => {
-        await this.setChargeMode(value, 'set by user');
+        await this.setChargeMode(value, 'set by user', { hours: ['fast_charge', 'off'].includes(value) ? this._tempHours() : 0 });
       });
       for (const day of ['today', 'tomorrow']) {
         this.registerCapabilityListener(`ev_${day}`, async (value) => {
@@ -961,7 +965,7 @@ class CarChargeDevice extends GenericDevice {
   async _startCarIfIdle() {
     const capabilityId = this.carCapGroup.startCharge;
     if (!this.getSettings().carStartCharge || !capabilityId || !this.evDevice || !this.presence) return;
-    if (this.getCapabilityValue('ev_charge_mode') === 'off_temp') return;
+    if (this.getCapabilityValue('ev_charge_mode') === 'off') return;
     if (this.standbyOnly) return; // on only to detect the car, not to charge
     const now = Date.now();
     const soc = typeof this.lastKnownSoc === 'number' && this.lastKnownSoc > 0 ? this.lastKnownSoc : null;
@@ -1012,36 +1016,50 @@ class CarChargeDevice extends GenericDevice {
       carFull: typeof this.carLimit === 'number' && typeof soc === 'number' && soc >= this.carLimit - 1,
       standbyNoCar: this._standby() && this.signals.detectedPlugged !== true,
     })) return;
-    await this.setChargeMode(sw.value ? 'charge_temp' : 'off_temp', `charger switched ${sw.value ? 'on' : 'off'} outside this app`);
+    // Always for a time: a switch by hand must not hold the plan off for good.
+    await this.setChargeMode(sw.value ? 'fast_charge' : 'off', `charger switched ${sw.value ? 'on' : 'off'} outside this app`,
+      { hours: this._tempHours(true), manual: true });
   }
 
-  // Charge mode from the picker, a flow or a switch of the charger outside this app. A temporary
-  // mode (charge_temp, off_temp) lasts overrideMaxHours; then the mode before it returns.
-  async setChargeMode(mode, reason) {
-    const current = this.getCapabilityValue('ev_charge_mode');
-    if (EvChargerControl.isTempMode(mode)) {
+  // The setting overrideMaxHours: how long a mode from the tile lasts (0: until changed; always:
+  // then the default).
+  _tempHours(always = false) {
+    const hours = Number(this.getSettings().overrideMaxHours);
+    if (hours > 0) return hours;
+    return always || !Number.isFinite(hours) ? EvChargerControl.OVERRIDE_MAX_HOURS : 0;
+  }
+
+  // Charge mode from the picker, a flow or a switch of the charger outside this app. hours > 0: for
+  // that long, then the mode before it returns; manual: the charger was switched on by hand (it
+  // then stays on whatever the plan says). A former temporary mode (old flows): the default time.
+  async setChargeMode(mode, reason, { hours = 0, manual = false } = {}) {
+    const base = EvChargerControl.baseMode(mode);
+    if (!EvChargerControl.MODES.includes(base)) throw Error(`Unknown charge mode ${mode}`);
+    const current = EvChargerControl.baseMode(this.getCapabilityValue('ev_charge_mode')) || 'scheduled_price';
+    const forHours = mode !== base && !(hours > 0) ? this._tempHours(true) : hours;
+    if (forHours > 0) {
       // From one temporary mode to the other: the mode to return to stays.
-      const previousMode = EvChargerControl.isTempMode(current)
-        ? (this.tempMode && this.tempMode.previousMode) || 'scheduled_price'
-        : current || 'scheduled_price';
-      this.tempMode = { since: Date.now(), previousMode };
+      const previousMode = (this.tempMode && this.tempMode.previousMode) || current;
+      this.tempMode = {
+        since: Date.now(), previousMode, hours: forHours, ...(manual ? { manual: true } : {}),
+      };
     } else {
       this.tempMode = null;
     }
     await this.setStoreValue('evTempMode', this.tempMode).catch(this.error);
-    await this.setCapabilityValue('ev_charge_mode', mode).catch(this.error);
+    await this.setCapabilityValue('ev_charge_mode', base).catch(this.error);
     await this._updateResumeText();
-    this.log(`EV charge mode ${mode} (${reason})`);
+    this.log(`EV charge mode ${base}${forHours > 0 ? ` for ${Math.round(forHours * 60)} min` : ''} (${reason})`);
     // Not awaited: this also runs from the charger control inside a plan run, which would wait on itself.
     this.updateChargeChart().catch(this.error);
   }
 
-  // A temporary mode that has run its maximum time: back to the mode before it.
+  // A temporary mode that has run its time: back to the mode before it.
   async _endTempModeIfDue() {
     if (!this.tempMode) return false;
     const maxHours = this.getSettings().overrideMaxHours;
     if (!EvChargerControl.overrideExpired({ override: this.tempMode, maxHours, now: Date.now() })) return false;
-    await this.setChargeMode(this.tempMode.previousMode, `temporary mode for the maximum of ${maxHours} h`);
+    await this.setChargeMode(EvChargerControl.baseMode(this.tempMode.previousMode) || 'scheduled_price', 'temporary mode ended');
     return true;
   }
 
@@ -1330,6 +1348,7 @@ class CarChargeDevice extends GenericDevice {
       now,
       atHome: this.presence.atHome,
       chargeMode: this.getCapabilityValue('ev_charge_mode') || 'scheduled_price',
+      forceOn: !!(this.tempMode && this.tempMode.manual),
     });
     // Charging on solar surplus follows the measured surplus, not only the forecast.
     const slot = EvChargerControl.slotAt(this.latestPlan, now);
@@ -1351,7 +1370,7 @@ class CarChargeDevice extends GenericDevice {
     let { lastSwitchCommandTm } = this;
     this.standbyOnly = false;
     const mode = this.getCapabilityValue('ev_charge_mode') || 'scheduled_price';
-    if (this._standby() && mode !== 'off' && mode !== 'off_temp') {
+    if (this._standby() && mode !== 'off') {
       const sb = EvChargerControl.standbyState({
         ...this.signals, wanted, plugged: this.signals.detectedPlugged, now, probeSince: this.probeSince,
       });
@@ -1937,16 +1956,18 @@ class CarChargeDevice extends GenericDevice {
   // Temporarily off plans the mode it returns to, without charging until it ends
   // (_offUntilMs): the plan and charts show what comes after. The control keeps it off.
   _plannerMode(chargeMode) {
-    if (chargeMode === 'off_temp') return this._plannerMode((this.tempMode && this.tempMode.previousMode) || 'scheduled_price');
-    if (chargeMode === 'off') return 'off';
-    if (chargeMode === 'fast_charge' || chargeMode === 'charge_temp') return 'fast';
+    if (chargeMode === 'off') {
+      const after = this.tempMode && this.tempMode.previousMode;
+      return after && after !== 'off' ? this._plannerMode(after) : 'off';
+    }
+    if (chargeMode === 'fast_charge') return 'fast';
     if (chargeMode === 'solar_only') return 'solar_only';
     return 'smart'; // scheduled_price
   }
 
   // End of a temporary "off" (ms), else 0.
   _offUntilMs(chargeMode) {
-    if (chargeMode !== 'off_temp' || !this.tempMode) return 0;
+    if (chargeMode !== 'off' || !this.tempMode) return 0;
     return EvChargerControl.tempModeEnd(this.tempMode, this.getSettings().overrideMaxHours);
   }
 
@@ -2157,7 +2178,7 @@ class CarChargeDevice extends GenericDevice {
     }
     if (this.hasCapability('ev_next_departure')) await this.setCapability('ev_next_departure', nextText);
     await this._updateDayPickers(overrides, tz);
-    await this._updateUnpluggedAlarm(unplugged && this._plannerMode(chargeMode) !== 'off' && chargeMode !== 'off_temp' ? next : null, currentSoc, now, nextText);
+    await this._updateUnpluggedAlarm(unplugged && chargeMode !== 'off' ? next : null, currentSoc, now, nextText);
     const nowSlot = scheme[0] || {};
     const socText = energyMode ? `no SoC, ${energyKwh.toFixed(1)} kWh to charge` : `SoC ${Math.round(currentSoc)}%`;
     this.log(`[EV Plan] ${chargeMode}, ${socText}${atHome ? '' : ' (predicted return)'}${unplugged ? ', not plugged in' : ''}, next: ${nextText}, `

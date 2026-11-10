@@ -225,16 +225,23 @@ assert.strictEqual(C.overrideExpired({ override: { since: now - 60 * min }, maxH
 }
 // Temporary modes
 assert.strictEqual(C.wantedState({
-  plan: null, now, atHome: true, chargeMode: 'charge_temp',
-}), true, 'charge_temp: on without plan');
+  plan: null, now, atHome: true, chargeMode: 'fast_charge', forceOn: true,
+}), true, 'switched on by hand: on without plan');
 assert.strictEqual(C.wantedState({
-  plan, now, atHome: true, chargeMode: 'off_temp',
-}), false, 'off_temp: off');
+  plan: null, now, atHome: true, chargeMode: 'fast_charge',
+}), false, 'charge now follows the plan');
 assert.strictEqual(C.wantedState({
-  plan: null, now, atHome: false, chargeMode: 'charge_temp',
+  plan, now, atHome: true, chargeMode: 'off', forceOn: true,
+}), false, 'off: off');
+assert.strictEqual(C.wantedState({
+  plan: null, now, atHome: false, chargeMode: 'fast_charge', forceOn: true,
 }), false, 'away: off');
-assert.strictEqual(C.isTempMode('off_temp') && !C.isTempMode('off'), true);
-assert.strictEqual(C.tempModeEnd({ since: now }, 2), now + 2 * 60 * min);
+assert.strictEqual(C.baseMode('off_temp'), 'off');
+assert.strictEqual(C.baseMode('charge_temp'), 'fast_charge');
+assert.strictEqual(C.baseMode('solar_only'), 'solar_only');
+assert.strictEqual(C.tempModeEnd({ since: now }, 2), now + 2 * 60 * min, 'stored without hours: the setting');
+assert.strictEqual(C.tempModeEnd({ since: now }, 0), now + C.OVERRIDE_MAX_HOURS * 60 * min);
+assert.strictEqual(C.tempModeEnd({ since: now, hours: 0.5 }, 2), now + 30 * min, 'its own time first');
 // Next charge window
 {
   const H = 60 * min;

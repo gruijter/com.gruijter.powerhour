@@ -243,7 +243,8 @@ const build = ({
       setStoreValue: async (k, v) => {
         store[k] = v;
       },
-      getCapabilityValue: (c) => (c === 'ev_charge_mode' ? 'charge_temp' : null),
+      getCapabilityValue: (c) => (c === 'ev_charge_mode' ? 'fast_charge' : null),
+      tempMode: { manual: true }, // switched on by hand: on whatever the plan says
       getName: () => 'Laadpaal',
       _endTempModeIfDue: async () => false,
       _standby: () => false,

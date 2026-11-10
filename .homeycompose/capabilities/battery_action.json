@@ -19,19 +19,19 @@
     {
       "id": "xom",
       "title": {
-        "en": "XOM",
-        "nl": "XOM",
-        "de": "XOM",
-        "fr": "XOM",
-        "es": "XOM",
-        "it": "XOM",
-        "da": "XOM",
-        "sv": "XOM",
-        "no": "XOM",
-        "pl": "XOM",
-        "ru": "XOM",
-        "ar": "XOM",
-        "ko": "XOM"
+        "en": "Grid target",
+        "nl": "Netdoel",
+        "de": "Netzziel",
+        "fr": "Cible réseau",
+        "es": "Objetivo de red",
+        "it": "Obiettivo rete",
+        "da": "Netmål",
+        "sv": "Nätmål",
+        "no": "Nettmål",
+        "pl": "Cel sieci",
+        "ru": "Цель сети",
+        "ar": "هدف الشبكة",
+        "ko": "그리드 목표"
       }
     },
     {

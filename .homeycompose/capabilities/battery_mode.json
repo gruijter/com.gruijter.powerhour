@@ -78,19 +78,19 @@
     {
       "id": "xom",
       "title": {
-        "en": "Force XOM",
-        "nl": "Forceer XOM",
-        "de": "XOM erzwingen",
-        "fr": "Forcer XOM",
-        "it": "Forza XOM",
-        "sv": "Tvinga XOM",
-        "no": "Tving XOM",
-        "es": "Forzar XOM",
-        "da": "Tving XOM",
-        "pl": "Wymuś XOM",
-        "ru": "Принуд. XOM",
-        "ar": "فرض XOM",
-        "ko": "XOM 강제"
+        "en": "Force grid target",
+        "nl": "Forceer netdoel",
+        "de": "Netzziel erzwingen",
+        "fr": "Forcer cible réseau",
+        "it": "Forza obiettivo rete",
+        "sv": "Tvinga nätmål",
+        "no": "Tving nettmål",
+        "es": "Forzar objetivo de red",
+        "da": "Tving netmål",
+        "pl": "Wymuś cel sieci",
+        "ru": "Принуд. цель сети",
+        "ar": "فرض هدف الشبكة",
+        "ko": "그리드 목표 강제"
       }
     },
     {
