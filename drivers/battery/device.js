@@ -130,6 +130,7 @@ class BatDevice extends GenericDevice {
       await setTimeoutPromise(10000 + (Math.random() * 60000), this);
       if (this.sessionId !== currentSessionId) return;
       await this.bootstrapEfficiency().catch((err) => this.error(err));
+      await this.applyAutoMinProfit().catch((err) => this.error(err));
       await this.updatePriceProfile().catch((err) => this.error(err));
       await this.applyLearnedProps().catch((err) => this.error(err));
       await this.updateLearnedInfo().catch((err) => this.error(err));
@@ -145,9 +146,21 @@ class BatDevice extends GenericDevice {
   async onPricesUpdated() {
     this.pricesUpdatedTm = Date.now(); // see updateChargeChart(): only reuse plans made after this
     this.pricesUpdated = true;
+    await this.applyAutoMinProfit().catch((err) => this.error(err));
     await this.updatePriceProfile().catch((err) => this.error(err));
     await this.flows.triggerNewPlanFlow();
     await this.updateChargeChart();
+  }
+
+  // Paired before its tariff group had prices (hidden setting minProfitAuto): the minimum profit
+  // from the first ones.
+  async applyAutoMinProfit() {
+    const settings = this.getSettings();
+    if (!settings.minProfitAuto) return;
+    const minProfit = this.driver.defaultMinProfit(Number(settings.tariff_update_group));
+    if (minProfit === null) return;
+    this.log(`${this.getName()}: minimum profit ${minProfit} from the prices`);
+    await this.setSettings({ minProfit, minProfitAuto: false });
   }
 
   // The expected prices beyond the published ones (PriceProfile), learned from the published ones.

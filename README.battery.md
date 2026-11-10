@@ -23,7 +23,7 @@ The heart of the EMS. [← Overview](./README.md)
 
 - Works with any battery that shows a SoC and a power in Homey.
 - Built-in control needs a power setpoint (e.g. `target_power`).
-- **Repair:** other battery, other capabilities, forget learned values.
+- **Repair:** other battery or capabilities, wear and profit, grid limits, forget learned values.
 
 ---
 
@@ -70,7 +70,7 @@ The heart of the EMS. [← Overview](./README.md)
 
 ## Key settings
 
-- **Minimum profit per kWh:** extra a grid charge must earn.
+- **Minimum profit per kWh:** extra a grid charge must earn. Starts at 10% of the mean price.
 - **Wear cost per kWh:** or calculate it from purchase price and cycles.
 - **Extra precise planning:** LP planner, about 1% better, up to 4% with peak limiting. Uses much more memory.
 - **Plan together with other batteries:** one plan, one mode for the group.

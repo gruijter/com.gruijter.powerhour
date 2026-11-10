@@ -36,18 +36,24 @@ const SURPLUS_MODES = ['smart', 'self_consumption', 'xom'];
 // Wear helper: the rated cycles run until the battery has this share of its capacity left (end of
 // life, typically 70%); on average it then holds (1 + share) / 2 of its capacity per cycle.
 const WEAR_END_OF_LIFE = 0.7;
+// A new battery's minimum profit: this share of the mean price of its tariff group (any currency).
+const MIN_PROFIT_SHARE = 0.1;
+// Pairing with a capacity tariff: the reserve its hint advises.
+const PEAK_RESERVE_PCT = 10;
 // Dependencies are lazy loaded in methods to save memory
 
-// The screens of the setup view, in order (lib/helpers/PairSetup.js).
+// The screens of the setup view, in order (lib/helpers/PairSetup.js). Pairing asks the battery, its
+// control and the price; the rest starts at its default and is changed in repair.
 const STEPS = [
   { id: 'device', ids: [], roles: true },
   { id: 'device_meters', ids: [], roles: true },
   { id: 'battery', ids: ['batCapacity', 'chargePower', 'dischargePower', 'batteryPhase'] },
   { id: 'control', ids: ['batteryControl', 'calibrateDays'] },
-  { id: 'wear', ids: ['wearCalc', 'wearPurchasePrice', 'wearCycles', 'wearCost', 'minProfit'] },
+  { id: 'wear', ids: ['wearCalc', 'wearPurchasePrice', 'wearCycles', 'wearCost', 'minProfit'], repairOnly: true },
   { id: 'price', ids: ['tariff_update_group'] },
-  { id: 'plan', ids: ['dischargeToEv', 'groupPlan'] },
-  { id: 'grid_limits', ids: ['fuseProtection', 'peakShaving', 'peakReservePct'] },
+  { id: 'plan', ids: ['dischargeToEv', 'groupPlan'], repairOnly: true },
+  // When pairing only with a capacity tariff on the grid device: else there is nothing to choose.
+  { id: 'grid_limits', ids: ['fuseProtection', 'peakShaving', 'peakReservePct'], repairOnly: (driver) => !driver.hasPeakTariff() },
   {
     id: 'advanced',
     ids: ['tariff_type', 'precisePlanning', 'chartShowPower', 'chartShowSoc', 'chartShowExportPrice', 'chartShowLegend'],
@@ -628,15 +634,55 @@ class BatteryDriver extends GenericDriver {
     items.forEach((item) => {
       if (STEP_OF[item.key]) item.step = STEP_OF[item.key];
     });
-    // Without Homey's mode capability the battery app must be set to external control by hand.
-    const external = (source.capabilities || []).includes('target_power_mode') ? '' : ` ${this.homey.__('repair.setup_bat_external')}`;
     return {
       deviceId: source.id,
       title: this.homey.__('repair.setup_caps_title'),
-      text: `${source.name}. ${this.homey.__('repair.setup_caps_text')}${external}`,
-      note: external.trim() || undefined,
+      text: `${source.name}. ${this.homey.__('repair.setup_caps_text')}`,
+      // Homey's battery standard (signed power, no vendor guess): pairing asks only the setpoint.
+      detected: !!auto.group.newMeasurePower,
       items,
     };
+  }
+
+  // Setup view: without Homey's mode capability the battery app must be set to external control by
+  // hand, said with the control setting.
+  async setupInfo(setting, def, dev) {
+    if (setting.id !== 'batteryControl') return null;
+    const source = await this._setupSourceDevice(dev.settings);
+    if (!source || (source.capabilities || []).includes('target_power_mode')) return null;
+    return `${setting.info || ''} ${this.homey.__('repair.setup_bat_external')}`.trim();
+  }
+
+  // The grid device has a capacity tariff to limit peaks for.
+  hasPeakTariff() {
+    // eslint-disable-next-line global-require
+    const grid = require('../../lib/helpers/GridConnection').gridDevice(this.homey);
+    // eslint-disable-next-line global-require
+    return !!(grid && grid.peakConfig && require('../../lib/strategies/PeakTariff').isActive(grid.peakConfig));
+  }
+
+  // Pairing with a capacity tariff: its peaks limited, with the advised reserve.
+  setupValue(id, value, dev, current) {
+    if (current.device || !this.hasPeakTariff()) return value;
+    if (id === 'peakShaving') return true;
+    return id === 'peakReservePct' ? PEAK_RESERVE_PCT : value;
+  }
+
+  // The minimum profit of a new battery (MIN_PROFIT_SHARE), from the prices of its tariff group.
+  // null: no prices yet.
+  defaultMinProfit(group) {
+    const prices = ((this.pricesNextHours && this.pricesNextHours[group]) || []).filter((p) => Number.isFinite(p));
+    const mean = prices.length ? prices.reduce((a, p) => a + p, 0) / prices.length : 0;
+    return mean > 0 ? Number((MIN_PROFIT_SHARE * mean).toPrecision(2)) : null;
+  }
+
+  // A new battery: its minimum profit from the prices, or (minProfitAuto) from its first ones
+  // (BatDevice.applyAutoMinProfit(); without prices nothing is planned).
+  setupParsed(settings, repairing) {
+    if (repairing) return;
+    const minProfit = this.defaultMinProfit(Number(settings.tariff_update_group));
+    settings.minProfit = minProfit === null ? 0 : minProfit;
+    if (minProfit === null) settings.minProfitAuto = true;
   }
 
   // Setup view: into an EV only with an EV charger, planning together only with another battery.
