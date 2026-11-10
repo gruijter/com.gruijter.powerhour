@@ -99,7 +99,11 @@ const defs = {
       const firstLabel = items.findIndex((i) => i.type === 'label');
       const lastEditable = items.map((i) => i.type !== 'label').lastIndexOf(true);
       assert.ok(lastEditable < firstLabel, `${d.id}: an editable setting below a label`);
-      items.filter((i) => i.id.startsWith(SettingsView.PREFIX)).forEach((i) => assert.ok(i.hint && i.hint.en, `${d.id}.${i.id}: no hint`));
+      // Labels that say it all have no hint (test/tools/settingsView.js NO_HINT).
+      const noHint = ['chartShowPower', 'chartShowSoc', 'chartShowExportPrice', 'chartShowLegend', 'dischargeToEv', 'wearCalc',
+        'markup_hour', 'peakDistinctDays', 'peakWeekdaysOnly', 'chargePower', 'dischargePower'];
+      items.filter((i) => i.id.startsWith(SettingsView.PREFIX) && !noHint.includes(i.id.slice(SettingsView.PREFIX.length)))
+        .forEach((i) => assert.ok(i.hint && i.hint.en, `${d.id}.${i.id}: no hint`));
     });
   });
 

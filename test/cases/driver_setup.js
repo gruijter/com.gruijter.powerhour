@@ -115,16 +115,18 @@ const manifestIds = (driverId) => {
 
   await test('battery: steps, calibration only with control', async () => {
     const { view } = await pairView(await fakeDriver(BatteryDriver));
-    assert.deepStrictEqual(view.steps.map((s) => s.id), ['battery', 'wear', 'price', 'plan', 'grid_limits', 'control', 'chart']);
+    assert.deepStrictEqual(view.steps.map((s) => s.id), ['battery', 'control', 'wear', 'price', 'grid_limits', 'advanced']);
+    // Pairing skips the advanced step: hidden, its defaults sent back.
+    assert.deepStrictEqual(view.steps.filter((s) => s.hidden).map((s) => s.id), ['advanced']);
     assert.strictEqual(byId(view, 'minProfit').step, 'wear');
-    assert.strictEqual(byId(view, 'tariff_type').step, 'price');
+    assert.strictEqual(byId(view, 'tariff_type').step, 'advanced');
     assert.strictEqual(byId(view, 'wearCalc').step, 'wear');
     assert.strictEqual(byId(view, 'chargePower').step, 'battery');
     assert.strictEqual(byId(view, 'show_chart'), undefined);
     assert.strictEqual(byId(view, 'batCapacity').value, 5.05);
     assert.ok(byId(view, 'wearCost').info.startsWith('What a kWh'));
     assert.deepStrictEqual(byId(view, 'calibrateDays').showIf, { id: 'batteryControl', value: true });
-    assert.strictEqual(byId(view, 'chartShowSoc').step, 'chart');
+    assert.strictEqual(byId(view, 'chartShowSoc').step, 'advanced');
   });
 
   await test('battery: EV and group settings only when they apply', async () => {
@@ -172,13 +174,25 @@ const manifestIds = (driverId) => {
   await test('ev charger: charge levels, fixed price only with "fixed", order checked', async () => {
     const driver = await fakeDriver(EvDriver);
     const { view, handlers } = await pairView(driver);
-    assert.ok(view.steps.some((s) => s.id === 'levels'));
-    assert.strictEqual(byId(view, 'floorSoc').step, 'levels');
+    assert.ok(!view.steps.some((s) => s.id === 'levels'));
+    assert.strictEqual(byId(view, 'floorSoc').step, 'car');
+    // Departure and year optional: both checkboxes at the end of the price step.
+    const toggles = view.settings.filter((s) => s.id.startsWith('show_')).map((s) => [s.id, s.step]);
+    assert.deepStrictEqual(toggles, [['show_departure', 'ev_price'], ['show_year', 'ev_price']]);
     assert.deepStrictEqual(byId(view, 'cheapPrice').showIf, { id: 'cheapCharge', value: 'fixed' });
     await assert.rejects(handlers.setup_set(values(view, { floorSoc: '40', reserveSoc: '30' })), /error_setup_soc_order/);
     await assert.rejects(handlers.setup_set(values(view, { maxSoc: '25' })), /error_setup_soc_order/);
     const { device } = await handlers.setup_set(values(view, { floorSoc: '10', reserveSoc: '30', maxSoc: '90' }));
     assert.strictEqual(device.settings.maxSoc, 90);
+  });
+
+  await test('year optional when pairing: on with a preset budget, off means no budget', async () => {
+    const { view, handlers } = await pairView(await fakeDriver(SolarDriver), { source_device_type: 'Homey device' });
+    const toggle = byId(view, 'show_year');
+    assert.strictEqual(toggle.value, true);
+    assert.deepStrictEqual(view.steps.find((s) => s.id === 'year').showIf, { id: 'show_year', value: true });
+    const { device } = await handlers.setup_set(values(view, { show_year: false }));
+    assert.strictEqual(device.settings.budget, '0');
   });
 
   await test('solar: location in the advanced step', async () => {

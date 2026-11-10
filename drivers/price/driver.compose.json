@@ -251,21 +251,41 @@
     {
       "type": "group",
       "label": {
-        "en": "Price type (change via Repair)",
-        "nl": "Prijstype (wijzigen via Repareren)",
-        "de": "Preistyp (ändern über Reparieren)",
-        "fr": "Type de prix (modifier via Réparer)",
-        "it": "Tipo di prezzo (modifica tramite Ripara)",
-        "sv": "Pristyp (ändra via Reparera)",
-        "no": "Pristype (endre via Reparer)",
-        "es": "Tipo de precio (cambiar en Reparar)",
-        "da": "Pristype (ændr via Reparer)",
-        "pl": "Rodzaj ceny (zmień przez Napraw)",
-        "ru": "Тип цены (изменить через «Исправить»)",
-        "ar": "نوع السعر (التغيير عبر إصلاح)",
-        "ko": "가격 유형 (수리에서 변경)"
+        "en": "Price type",
+        "nl": "Prijstype",
+        "de": "Preistyp",
+        "fr": "Type de prix",
+        "it": "Tipo di prezzo",
+        "sv": "Pristyp",
+        "no": "Pristype",
+        "es": "Tipo de precio",
+        "da": "Pristype",
+        "pl": "Rodzaj ceny",
+        "ru": "Тип цены",
+        "ar": "نوع السعر",
+        "ko": "가격 유형"
       },
       "children": [
+        {
+          "id": "repair_note",
+          "type": "label",
+          "label": {
+            "en": "Change the settings below via Repair.",
+            "nl": "Wijzig de instellingen hieronder via Repareren.",
+            "de": "Ändern Sie die Einstellungen unten über Reparieren.",
+            "fr": "Modifiez les réglages ci-dessous via Réparer.",
+            "it": "Modifica le impostazioni qui sotto tramite Ripara.",
+            "sv": "Ändra inställningarna nedan via Reparera.",
+            "no": "Endre innstillingene nedenfor via Reparer.",
+            "es": "Cambia los ajustes de abajo en Reparar.",
+            "da": "Ændr indstillingerne nedenfor via Reparer.",
+            "pl": "Zmień poniższe ustawienia przez Napraw.",
+            "ru": "Изменяйте настройки ниже через «Исправить».",
+            "ar": "غيّر الإعدادات أدناه عبر إصلاح.",
+            "ko": "아래 설정은 수리에서 변경하세요."
+          },
+          "value": ""
+        },
         {
           "id": "view_commodity",
           "type": "label",
@@ -566,19 +586,19 @@
           },
           "value": "-",
           "hint": {
-            "en": "Decimals of the money totals of the devices in this tariff group, e.g. 2 for €, 0 for HUF and ISK. Set from the currency.",
-            "nl": "Decimalen van de geldtotalen van de apparaten in deze tariefgroep, bijv. 2 voor €, 0 voor HUF en ISK. Volgt uit de valuta.",
-            "de": "Dezimalstellen der Geldsummen der Geräte in dieser Tarifgruppe, z. B. 2 für €, 0 für HUF und ISK. Ergibt sich aus der Währung.",
-            "fr": "Décimales des totaux monétaires des appareils de ce groupe tarifaire, p. ex. 2 pour €, 0 pour HUF et ISK. Déduit de la devise.",
-            "it": "Decimali dei totali monetari dei dispositivi di questo gruppo tariffario, es. 2 per €, 0 per HUF e ISK. Deriva dalla valuta.",
-            "sv": "Decimaler för penningtotalerna för enheterna i denna tariffgrupp, t.ex. 2 för €, 0 för HUF och ISK. Följer av valutan.",
-            "no": "Desimaler for pengetotalene til enhetene i denne tariffgruppen, f.eks. 2 for €, 0 for HUF og ISK. Følger av valutaen.",
-            "es": "Decimales de los totales monetarios de los dispositivos de este grupo de tarifa, p. ej. 2 para €, 0 para HUF e ISK. Según la moneda.",
-            "da": "Decimaler for pengetotalerne for enhederne i denne tarifgruppe, f.eks. 2 for €, 0 for HUF og ISK. Følger af valutaen.",
-            "pl": "Miejsca dziesiętne sum pieniężnych urządzeń w tej grupie taryfowej, np. 2 dla €, 0 dla HUF i ISK. Wynika z waluty.",
-            "ru": "Десятичные знаки денежных итогов устройств этой тарифной группы, напр. 2 для €, 0 для HUF и ISK. Следует из валюты.",
-            "ar": "الكسور العشرية لإجماليات المبالغ لأجهزة مجموعة التعرفة هذه، مثلًا 2 لليورو و0 لـ HUF وISK. تتبع العملة.",
-            "ko": "이 요금 그룹 디바이스의 금액 합계 소수 자릿수, 예: €는 2, HUF와 ISK는 0. 통화에 따라 정해집니다."
+            "en": "Of the money totals in this tariff group. Set from the currency.",
+            "nl": "Van de geldtotalen in deze tariefgroep. Volgt uit de valuta.",
+            "de": "Der Geldsummen in dieser Tarifgruppe. Ergibt sich aus der Währung.",
+            "fr": "Des totaux monétaires de ce groupe tarifaire. Déduit de la devise.",
+            "it": "Dei totali monetari di questo gruppo tariffario. Deriva dalla valuta.",
+            "sv": "För penningtotalerna i denna tariffgrupp. Följer av valutan.",
+            "no": "For pengetotalene i denne tariffgruppen. Følger av valutaen.",
+            "es": "De los totales monetarios de este grupo de tarifa. Según la moneda.",
+            "da": "For pengetotalerne i denne tarifgruppe. Følger af valutaen.",
+            "pl": "Sum pieniężnych w tej grupie taryfowej. Wynika z waluty.",
+            "ru": "Денежных итогов этой тарифной группы. Следует из валюты.",
+            "ar": "لإجماليات المبالغ في مجموعة التعرفة هذه. تتبع العملة.",
+            "ko": "이 요금 그룹의 금액 합계. 통화에 따라 정해집니다."
           }
         },
         {
@@ -621,19 +641,19 @@
     {
       "type": "group",
       "label": {
-        "en": "Import price settings (change via Repair)",
-        "nl": "Instellingen importprijs (wijzigen via Repareren)",
-        "de": "Importpreiseinstellungen (ändern über Reparieren)",
-        "fr": "Paramètres de prix d'importation (modifier via Réparer)",
-        "it": "Impostazioni prezzo di importazione (modifica tramite Ripara)",
-        "sv": "Importprisinställningar (ändra via Reparera)",
-        "no": "Importprisinnstillinger (endre via Reparer)",
-        "es": "Configuración de precios de importación (cambiar en Reparar)",
-        "da": "Importprisindstillinger (ændr via Reparer)",
-        "pl": "Ustawienia cen importu (zmień przez Napraw)",
-        "ru": "Настройки цен импорта (изменить через «Исправить»)",
-        "ar": "إعدادات سعر الاستيراد (التغيير عبر إصلاح)",
-        "ko": "수전(수입) 가격 설정 (수리에서 변경)"
+        "en": "Import price settings",
+        "nl": "Instellingen afnameprijs",
+        "de": "Importpreiseinstellungen",
+        "fr": "Paramètres de prix d'importation",
+        "it": "Impostazioni prezzo di importazione",
+        "sv": "Importprisinställningar",
+        "no": "Importprisinnstillinger",
+        "es": "Configuración de precios de importación",
+        "da": "Importprisindstillinger",
+        "pl": "Ustawienia cen importu",
+        "ru": "Настройки цен импорта",
+        "ar": "إعدادات سعر الاستيراد",
+        "ko": "수전(수입) 가격 설정"
       },
       "children": [
         {
@@ -886,19 +906,19 @@
     {
       "type": "group",
       "label": {
-        "en": "Export price settings (change via Repair)",
-        "nl": "Instellingen exportprijs (wijzigen via Repareren)",
-        "de": "Exportpreiseinstellungen (ändern über Reparieren)",
-        "fr": "Paramètres de prix d'exportation (modifier via Réparer)",
-        "it": "Impostazioni prezzo di esportazione (modifica tramite Ripara)",
-        "sv": "Exportprisinställningar (ändra via Reparera)",
-        "no": "Eksportprisinnstillinger (endre via Reparer)",
-        "es": "Configuración de precios de exportación (cambiar en Reparar)",
-        "da": "Eksportprisindstillinger (ændr via Reparer)",
-        "pl": "Ustawienia cen eksportu (zmień przez Napraw)",
-        "ru": "Настройки цен экспорта (изменить через «Исправить»)",
-        "ar": "إعدادات سعر التصدير (التغيير عبر إصلاح)",
-        "ko": "송전(수출) 가격 설정 (수리에서 변경)"
+        "en": "Export price settings",
+        "nl": "Instellingen terugleverprijs",
+        "de": "Exportpreiseinstellungen",
+        "fr": "Paramètres de prix d'exportation",
+        "it": "Impostazioni prezzo di esportazione",
+        "sv": "Exportprisinställningar",
+        "no": "Eksportprisinnstillinger",
+        "es": "Configuración de precios de exportación",
+        "da": "Eksportprisindstillinger",
+        "pl": "Ustawienia cen eksportu",
+        "ru": "Настройки цен экспорта",
+        "ar": "إعدادات سعر التصدير",
+        "ko": "송전(수출) 가격 설정"
       },
       "children": [
         {
@@ -1326,19 +1346,19 @@
     {
       "type": "group",
       "label": {
-        "en": "Advanced (change via Repair)",
-        "nl": "Geavanceerd (wijzigen via Repareren)",
-        "de": "Erweitert (ändern über Reparieren)",
-        "fr": "Avancé (modifier via Réparer)",
-        "it": "Avanzate (modifica tramite Ripara)",
-        "sv": "Avancerat (ändra via Reparera)",
-        "no": "Avansert (endre via Reparer)",
-        "es": "Avanzado (cambiar en Reparar)",
-        "da": "Avanceret (ændr via Reparer)",
-        "pl": "Zaawansowane (zmień przez Napraw)",
-        "ru": "Дополнительно (изменить через «Исправить»)",
-        "ar": "متقدم (التغيير عبر إصلاح)",
-        "ko": "고급 (수리에서 변경)"
+        "en": "Advanced",
+        "nl": "Geavanceerd",
+        "de": "Erweitert",
+        "fr": "Avancé",
+        "it": "Avanzate",
+        "sv": "Avancerat",
+        "no": "Avansert",
+        "es": "Avanzado",
+        "da": "Avanceret",
+        "pl": "Zaawansowane",
+        "ru": "Дополнительно",
+        "ar": "متقدم",
+        "ko": "고급"
       },
       "children": [
         {
@@ -1466,19 +1486,19 @@
           },
           "value": "-",
           "hint": {
-            "en": "Rarely needed. A % of the market price that is always a cost. E.g. 10% at -0.20 adds 0.02; Variable markup would subtract 0.02.",
-            "nl": "Zelden nodig. Een % van de marktprijs dat altijd een kostenpost is. Bijv. 10% bij -0,20 telt 0,02 op; Variabele opslag zou 0,02 aftrekken.",
-            "de": "Selten nötig. Ein % des Marktpreises, das immer Kosten sind. Z. B. 10 % bei -0,20 addiert 0,02; Variabler Aufschlag würde 0,02 abziehen.",
-            "fr": "Rarement utile. Un % du prix de marché toujours compté comme coût. Ex. 10 % à -0,20 ajoute 0,02 ; la majoration variable retrancherait 0,02.",
-            "it": "Raramente necessario. Una % del prezzo di mercato che è sempre un costo. Es. 10% a -0,20 aggiunge 0,02; il sovrapprezzo variabile sottrarrebbe 0,02.",
-            "sv": "Behövs sällan. En % av marknadspriset som alltid är en kostnad. T.ex. 10 % vid -0,20 lägger till 0,02; Variabelt påslag skulle dra av 0,02.",
-            "no": "Sjelden nødvendig. En % av markedsprisen som alltid er en kostnad. F.eks. 10 % ved -0,20 legger til 0,02; Variabelt påslag ville trukket fra 0,02.",
-            "es": "Rara vez necesario. Un % del precio de mercado que siempre es un coste. P. ej. 10 % a -0,20 suma 0,02; el margen variable restaría 0,02.",
-            "da": "Sjældent nødvendigt. En % af markedsprisen, der altid er en omkostning. F.eks. 10 % ved -0,20 lægger 0,02 til; Variabelt tillæg ville trække 0,02 fra.",
-            "pl": "Rzadko potrzebne. % ceny rynkowej, który zawsze jest kosztem. Np. 10% przy -0,20 dodaje 0,02; Narzut zmienny odjąłby 0,02.",
-            "ru": "Нужно редко. % от рыночной цены, который всегда является затратой. Напр. 10% при -0,20 добавляет 0,02; переменная наценка вычла бы 0,02.",
-            "ar": "نادرًا ما يلزم. نسبة من سعر السوق تُحتسب دائمًا كتكلفة. مثال: 10% عند -0.20 تضيف 0.02؛ الهامش المتغير كان سيطرح 0.02.",
-            "ko": "거의 필요 없음. 항상 비용으로 더해지는 시장 가격의 %. 예: -0.20에서 10%는 0.02를 더함; 변동 마크업은 0.02를 뺌."
+            "en": "Rarely needed. A % of the market price that is always a cost.",
+            "nl": "Zelden nodig. Een % van de marktprijs dat altijd een kostenpost is.",
+            "de": "Selten nötig. Ein % des Marktpreises, das immer Kosten sind.",
+            "fr": "Rarement utile. Un % du prix de marché toujours compté comme coût.",
+            "it": "Raramente necessario. Una % del prezzo di mercato che è sempre un costo.",
+            "sv": "Behövs sällan. En % av marknadspriset som alltid är en kostnad.",
+            "no": "Sjelden nødvendig. En % av markedsprisen som alltid er en kostnad.",
+            "es": "Rara vez necesario. Un % del precio de mercado que siempre es un coste.",
+            "da": "Sjældent nødvendigt. En % af markedsprisen, der altid er en omkostning.",
+            "pl": "Rzadko potrzebne. % ceny rynkowej, który zawsze jest kosztem.",
+            "ru": "Нужно редко. % от рыночной цены, который всегда является затратой.",
+            "ar": "نادرًا ما يلزم. نسبة من سعر السوق تُحتسب دائمًا كتكلفة.",
+            "ko": "거의 필요 없음. 항상 비용으로 더해지는 시장 가격의 %."
           }
         },
         {
@@ -1501,19 +1521,19 @@
           },
           "value": "-",
           "hint": {
-            "en": "Rarely needed. A % of the market price that is always a cost. E.g. 10% at -0.20 adds 0.02; Variable markup would subtract 0.02.",
-            "nl": "Zelden nodig. Een % van de marktprijs dat altijd een kostenpost is. Bijv. 10% bij -0,20 telt 0,02 op; Variabele opslag zou 0,02 aftrekken.",
-            "de": "Selten nötig. Ein % des Marktpreises, das immer Kosten sind. Z. B. 10 % bei -0,20 addiert 0,02; Variabler Aufschlag würde 0,02 abziehen.",
-            "fr": "Rarement utile. Un % du prix de marché toujours compté comme coût. Ex. 10 % à -0,20 ajoute 0,02 ; la majoration variable retrancherait 0,02.",
-            "it": "Raramente necessario. Una % del prezzo di mercato che è sempre un costo. Es. 10% a -0,20 aggiunge 0,02; il sovrapprezzo variabile sottrarrebbe 0,02.",
-            "sv": "Behövs sällan. En % av marknadspriset som alltid är en kostnad. T.ex. 10 % vid -0,20 lägger till 0,02; Variabelt påslag skulle dra av 0,02.",
-            "no": "Sjelden nødvendig. En % av markedsprisen som alltid er en kostnad. F.eks. 10 % ved -0,20 legger til 0,02; Variabelt påslag ville trukket fra 0,02.",
-            "es": "Rara vez necesario. Un % del precio de mercado que siempre es un coste. P. ej. 10 % a -0,20 suma 0,02; el margen variable restaría 0,02.",
-            "da": "Sjældent nødvendigt. En % af markedsprisen, der altid er en omkostning. F.eks. 10 % ved -0,20 lægger 0,02 til; Variabelt tillæg ville trække 0,02 fra.",
-            "pl": "Rzadko potrzebne. % ceny rynkowej, który zawsze jest kosztem. Np. 10% przy -0,20 dodaje 0,02; Narzut zmienny odjąłby 0,02.",
-            "ru": "Нужно редко. % от рыночной цены, который всегда является затратой. Напр. 10% при -0,20 добавляет 0,02; переменная наценка вычла бы 0,02.",
-            "ar": "نادرًا ما يلزم. نسبة من سعر السوق تُحتسب دائمًا كتكلفة. مثال: 10% عند -0.20 تضيف 0.02؛ الهامش المتغير كان سيطرح 0.02.",
-            "ko": "거의 필요 없음. 항상 비용으로 더해지는 시장 가격의 %. 예: -0.20에서 10%는 0.02를 더함; 변동 마크업은 0.02를 뺌."
+            "en": "Rarely needed. A % of the market price that is always a cost.",
+            "nl": "Zelden nodig. Een % van de marktprijs dat altijd een kostenpost is.",
+            "de": "Selten nötig. Ein % des Marktpreises, das immer Kosten sind.",
+            "fr": "Rarement utile. Un % du prix de marché toujours compté comme coût.",
+            "it": "Raramente necessario. Una % del prezzo di mercato che è sempre un costo.",
+            "sv": "Behövs sällan. En % av marknadspriset som alltid är en kostnad.",
+            "no": "Sjelden nødvendig. En % av markedsprisen som alltid er en kostnad.",
+            "es": "Rara vez necesario. Un % del precio de mercado que siempre es un coste.",
+            "da": "Sjældent nødvendigt. En % af markedsprisen, der altid er en omkostning.",
+            "pl": "Rzadko potrzebne. % ceny rynkowej, który zawsze jest kosztem.",
+            "ru": "Нужно редко. % от рыночной цены, который всегда является затратой.",
+            "ar": "نادرًا ما يلزم. نسبة من سعر السوق تُحتسب دائمًا كتكلفة.",
+            "ko": "거의 필요 없음. 항상 비용으로 더해지는 시장 가격의 %."
           }
         },
         {

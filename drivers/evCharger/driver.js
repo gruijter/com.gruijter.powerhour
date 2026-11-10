@@ -16,15 +16,16 @@ const Budget = require('../../lib/Budget');
 // The screens of the setup view, in order (lib/helpers/PairSetup.js).
 const STEPS = [
   { id: 'device', ids: [], roles: true },
-  { id: 'charger', ids: ['chargerControl', 'chargePower', 'variableChargePower', 'chargerPhase', 'chargerBalancing', 'standbyOn', 'sharedCharger', 'v2x'] },
-  { id: 'car', ids: ['batCapacity', 'carStartCharge'] },
-  { id: 'levels', ids: ['floorSoc', 'reserveSoc', 'reserveHours', 'maxSoc'] },
-  { id: 'ev_price', ids: ['tariff_update_group', 'tariff_type', 'cheapCharge', 'cheapPrice', 'maxPrice', 'solarGridPower'] },
+  { id: 'charger', ids: ['chargerControl', 'chargePower', 'variableChargePower', 'chargerPhase', 'chargerBalancing'] },
+  { id: 'car', ids: ['batCapacity', 'carStartCharge', 'floorSoc', 'reserveSoc', 'reserveHours', 'maxSoc'] },
+  { id: 'ev_price', ids: ['tariff_update_group', 'cheapCharge', 'cheapPrice', 'maxPrice', 'solarGridPower'] },
   { id: 'departure', ids: [0, 1, 2, 3, 4, 5, 6].map((day) => `departureTime_${day}`), optional: true },
-  { id: 'year', ids: [] },
+  { id: 'year', ids: [], optional: 'pair' },
   {
     id: 'advanced',
-    ids: ['overrideMaxHours', 'autoDepartureLearning', 'minTripSoc', 'chartShowPower', 'chartShowSoc', 'chartShowExportPrice', 'chartShowLegend'],
+    ids: ['autoDepartureLearning', 'minTripSoc', 'overrideMaxHours', 'tariff_type', 'standbyOn', 'sharedCharger', 'v2x',
+      'chartShowPower', 'chartShowSoc', 'chartShowExportPrice', 'chartShowLegend'],
+    repairOnly: true,
   },
 ];
 // Dependencies are lazy loaded in methods to save memory

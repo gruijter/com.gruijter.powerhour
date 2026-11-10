@@ -43,7 +43,7 @@
       "example": 0.25,
       "title": {
         "en": "Import price",
-        "nl": "Importprijs",
+        "nl": "Afnameprijs",
         "de": "Importpreis",
         "fr": "Prix d'import",
         "it": "Prezzo di importazione",
@@ -63,7 +63,7 @@
       "example": 0.08,
       "title": {
         "en": "Export price",
-        "nl": "Exportprijs",
+        "nl": "Terugleverprijs",
         "de": "Exportpreis",
         "fr": "Prix d'export",
         "it": "Prezzo di esportazione",

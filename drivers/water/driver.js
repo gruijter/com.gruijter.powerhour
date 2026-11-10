@@ -27,8 +27,8 @@ const MARKUP_IDS = ['markup_month', 'markup_day', 'markup_hour'];
 const STEPS = [
   { id: 'meter', ids: ['homey_device_daily_reset'], roles: true },
   { id: 'price', ids: ['tariff_update_group', 'tariff', 'currency', ...MARKUP_IDS] },
-  { id: 'year', ids: [] },
-  { id: 'advanced', ids: ['decimals_meter'] },
+  { id: 'year', ids: [], optional: 'pair' },
+  { id: 'advanced', ids: ['decimals_meter'], repairOnly: true },
 ];
 
 const driverSpecifics = {

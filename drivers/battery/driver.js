@@ -40,12 +40,16 @@ const STEPS = [
   { id: 'device', ids: [], roles: true },
   { id: 'device_meters', ids: [], roles: true },
   { id: 'battery', ids: ['batCapacity', 'chargePower', 'dischargePower', 'batteryPhase'] },
-  { id: 'wear', ids: ['wearCalc', 'wearPurchasePrice', 'wearCycles', 'wearCost', 'minProfit'] },
-  { id: 'price', ids: ['tariff_update_group', 'tariff_type'] },
-  { id: 'plan', ids: ['precisePlanning', 'dischargeToEv', 'groupPlan'] },
-  { id: 'grid_limits', ids: ['fuseProtection', 'peakShaving', 'peakReservePct'] },
   { id: 'control', ids: ['batteryControl', 'calibrateDays'] },
-  { id: 'chart', ids: ['chartShowPower', 'chartShowSoc', 'chartShowExportPrice', 'chartShowLegend'] },
+  { id: 'wear', ids: ['wearCalc', 'wearPurchasePrice', 'wearCycles', 'wearCost', 'minProfit'] },
+  { id: 'price', ids: ['tariff_update_group'] },
+  { id: 'plan', ids: ['dischargeToEv', 'groupPlan'] },
+  { id: 'grid_limits', ids: ['fuseProtection', 'peakShaving', 'peakReservePct'] },
+  {
+    id: 'advanced',
+    ids: ['tariff_type', 'precisePlanning', 'chartShowPower', 'chartShowSoc', 'chartShowExportPrice', 'chartShowLegend'],
+    repairOnly: true,
+  },
 ];
 
 const driverSpecifics = {
@@ -539,7 +543,9 @@ class BatteryDriver extends GenericDriver {
 
   // Repair: forget the learned battery properties (BatDevice.onRepairAction()).
   repairActions() {
-    return [{ id: 'learnReset', label: this.homey.__('battery_learned.reset'), info: this.homey.__('battery_learned.reset_hint') }];
+    return [{
+      id: 'learnReset', step: 'battery', label: this.homey.__('battery_learned.reset'), info: this.homey.__('battery_learned.reset_hint'),
+    }];
   }
 
   // Setup view: per role the capabilities of the battery, and the sign of its power.

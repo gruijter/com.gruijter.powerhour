@@ -26,9 +26,9 @@ const GenericDriver = require('../../lib/genericDeviceDrivers/generic_sum_driver
 const STEPS = [
   { id: 'meter', ids: ['use_measure_source', 'homey_device_daily_reset'], roles: true },
   { id: 'panels', ids: ['peakPower'] },
-  { id: 'price', ids: ['tariff_update_group', 'tariff', 'tariff_export', 'currency', 'tariff_type'] },
-  { id: 'year', ids: [] },
-  { id: 'advanced', ids: ['lat', 'lon', 'decimals_meter'] },
+  { id: 'price', ids: ['tariff_update_group', 'tariff', 'tariff_export', 'currency'] },
+  { id: 'year', ids: [], optional: 'pair' },
+  { id: 'advanced', ids: ['tariff_type', 'lat', 'lon', 'decimals_meter'], repairOnly: true },
 ];
 
 const driverSpecifics = {

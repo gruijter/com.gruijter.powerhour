@@ -32,11 +32,11 @@ const MARKUP_IDS = ['markup_month', 'markup_day', 'markup_hour'];
 // The screens of the setup view, in order (lib/helpers/PairSetup.js).
 const STEPS = [
   { id: 'meter', ids: ['use_measure_source'], roles: true },
-  { id: 'price', ids: ['tariff_update_group', 'tariff', 'tariff_export', 'currency', 'tariff_type', 'directionalNettingScheme', 'directionalBlockMinutes', ...MARKUP_IDS] },
+  { id: 'price', ids: ['tariff_update_group', 'tariff', 'tariff_export', 'currency', ...MARKUP_IDS] },
   { id: 'connection', ids: ['connectionPhases', 'connectionAmps', 'connectionVoltage', 'fuseMarginPct'] },
   { id: 'peak', ids: PEAK_IDS },
-  { id: 'year', ids: [] },
-  { id: 'advanced', ids: ['decimals_meter'] },
+  { id: 'year', ids: [], optional: 'pair' },
+  { id: 'advanced', ids: ['tariff_type', 'directionalNettingScheme', 'directionalBlockMinutes', 'decimals_meter'], repairOnly: true },
 ];
 
 const driverSpecifics = {

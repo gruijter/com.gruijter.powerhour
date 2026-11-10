@@ -235,19 +235,19 @@
             "ko": "XOM 목표 (W)"
           },
           "hint": {
-            "en": "XOM (X on the meter): the batteries keep the grid power at this value. Positive: a little import, negative: a little export. Also via the flow 'Set XOM'.",
-            "nl": "XOM (X op de meter): de batterijen houden het netvermogen op deze waarde. Positief: een beetje afname, negatief: een beetje teruglevering. Ook via de flow 'Zet XOM'.",
-            "de": "XOM (X am Zähler): Die Batterien halten die Netzleistung auf diesem Wert. Positiv: etwas Bezug, negativ: etwas Einspeisung. Auch per Flow 'XOM einstellen'.",
-            "fr": "XOM (X au compteur) : les batteries maintiennent la puissance réseau à cette valeur. Positif : un peu de soutirage, négatif : un peu d'injection. Aussi via le flow 'Régler XOM'.",
-            "it": "XOM (X al contatore): le batterie tengono la potenza di rete su questo valore. Positivo: un po' di prelievo, negativo: un po' di immissione. Anche con il flow 'Imposta XOM'.",
-            "sv": "XOM (X på mätaren): batterierna håller nätets effekt på detta värde. Positivt: lite köp, negativt: lite export. Även via Flow 'Ställ in XOM'.",
-            "no": "XOM (X på måleren): batteriene holder nettets effekt på denne verdien. Positiv: litt import, negativ: litt eksport. Også via Flow 'Still inn XOM'.",
-            "es": "XOM (X en el contador): las baterías mantienen la potencia de red en este valor. Positivo: algo de consumo, negativo: algo de inyección. También con el Flow 'Ajustar XOM'.",
-            "da": "XOM (X på måleren): batterierne holder nettets effekt på denne værdi. Positiv: lidt import, negativ: lidt eksport. Også via flowet 'Indstil XOM'.",
-            "pl": "XOM (X na liczniku): baterie utrzymują moc sieci na tej wartości. Dodatnia: trochę poboru, ujemna: trochę oddawania. Także przez flow 'Ustaw XOM'.",
-            "ru": "XOM (X на счётчике): батареи держат мощность сети на этом значении. Плюс: немного импорта, минус: немного экспорта. Также через Flow «Задать XOM».",
-            "ar": "XOM (‏X على العداد): تُبقي البطاريات قدرة الشبكة عند هذه القيمة. موجب: استيراد قليل، سالب: تصدير قليل. أيضًا عبر Flow 'ضبط XOM'.",
-            "ko": "XOM(계량기 X): 배터리가 전력망 전력을 이 값으로 유지합니다. 양수: 약간 수입, 음수: 약간 수출. Flow 'XOM 설정'으로도 가능."
+            "en": "Grid power the batteries aim for. Positive: import, negative: export.",
+            "nl": "Netvermogen waar de batterijen naar sturen. Positief: afname, negatief: teruglevering.",
+            "de": "Netzleistung, auf die die Batterien regeln. Positiv: Bezug, negativ: Einspeisung.",
+            "fr": "Puissance réseau visée par les batteries. Positive : achat, négative : injection.",
+            "it": "Potenza di rete a cui puntano le batterie. Positiva: prelievo, negativa: immissione.",
+            "sv": "Näteffekt som batterierna siktar på. Positiv: import, negativ: export.",
+            "no": "Netteffekt batteriene sikter mot. Positiv: import, negativ: eksport.",
+            "es": "Potencia de red que buscan las baterías. Positiva: importación, negativa: exportación.",
+            "da": "Neteffekt, som batterierne sigter mod. Positiv: import, negativ: eksport.",
+            "pl": "Moc sieci, do której dążą baterie. Dodatnia: pobór, ujemna: oddawanie.",
+            "ru": "Мощность сети, к которой стремятся батареи. Плюс: импорт, минус: экспорт.",
+            "ar": "قدرة الشبكة التي تستهدفها البطاريات. موجبة: استيراد، سالبة: تصدير.",
+            "ko": "배터리가 목표로 하는 전력망 전력. 양수: 수입, 음수: 수출."
           },
           "value": 0,
           "min": -10000,
@@ -258,21 +258,41 @@
     {
       "type": "group",
       "label": {
-        "en": "Device values (change via Repair)",
-        "nl": "Apparaatwaarden (wijzigen via Repareren)",
-        "de": "Gerätewerte (ändern über Reparieren)",
-        "fr": "Valeurs de l'appareil (modifier via Réparer)",
-        "it": "Valori del dispositivo (modifica tramite Ripara)",
-        "sv": "Enhetsvärden (ändra via Reparera)",
-        "no": "Enhetsverdier (endre via Reparer)",
-        "es": "Valores del dispositivo (cambiar en Reparar)",
-        "da": "Enhedsværdier (ændr via Reparer)",
-        "pl": "Wartości urządzenia (zmień przez Napraw)",
-        "ru": "Значения устройства (изменить через «Исправить»)",
-        "ar": "قيم الجهاز (التغيير عبر إصلاح)",
-        "ko": "디바이스 값 (수리에서 변경)"
+        "en": "Device values",
+        "nl": "Apparaatwaarden",
+        "de": "Gerätewerte",
+        "fr": "Valeurs de l'appareil",
+        "it": "Valori del dispositivo",
+        "sv": "Enhetsvärden",
+        "no": "Enhetsverdier",
+        "es": "Valores del dispositivo",
+        "da": "Enhedsværdier",
+        "pl": "Wartości urządzenia",
+        "ru": "Значения устройства",
+        "ar": "قيم الجهاز",
+        "ko": "디바이스 값"
       },
       "children": [
+        {
+          "id": "repair_note",
+          "type": "label",
+          "label": {
+            "en": "Change the settings below via Repair.",
+            "nl": "Wijzig de instellingen hieronder via Repareren.",
+            "de": "Ändern Sie die Einstellungen unten über Reparieren.",
+            "fr": "Modifiez les réglages ci-dessous via Réparer.",
+            "it": "Modifica le impostazioni qui sotto tramite Ripara.",
+            "sv": "Ändra inställningarna nedan via Reparera.",
+            "no": "Endre innstillingene nedenfor via Reparer.",
+            "es": "Cambia los ajustes de abajo en Reparar.",
+            "da": "Ændr indstillingerne nedenfor via Reparer.",
+            "pl": "Zmień poniższe ustawienia przez Napraw.",
+            "ru": "Изменяйте настройки ниже через «Исправить».",
+            "ar": "غيّر الإعدادات أدناه عبر إصلاح.",
+            "ko": "아래 설정은 수리에서 변경하세요."
+          },
+          "value": ""
+        },
         {
           "id": "homey_device_id",
           "type": "label",
@@ -294,7 +314,7 @@
           "value": "unknown",
           "hint": {
             "en": "ID of the battery.",
-            "nl": "ID van de accu.",
+            "nl": "ID van de batterij.",
             "de": "ID der Batterie.",
             "fr": "ID de la batterie.",
             "it": "ID della batteria.",
@@ -313,7 +333,7 @@
           "type": "label",
           "label": {
             "en": "Device name",
-            "nl": "Apparaat naam",
+            "nl": "Apparaatnaam",
             "de": "Gerätename",
             "fr": "Nom de l'appareil",
             "it": "Nome dispositivo",
@@ -329,7 +349,7 @@
           "value": "unknown",
           "hint": {
             "en": "Battery that is read and controlled.",
-            "nl": "Accu die gelezen en aangestuurd wordt.",
+            "nl": "Batterij die gelezen en aangestuurd wordt.",
             "de": "Batterie, die gelesen und gesteuert wird.",
             "fr": "Batterie lue et pilotée.",
             "it": "Batteria che viene letta e controllata.",
@@ -348,19 +368,19 @@
     {
       "type": "group",
       "label": {
-        "en": "Your battery (change via Repair)",
-        "nl": "Je batterij (wijzigen via Repareren)",
-        "de": "Deine Batterie (ändern über Reparieren)",
-        "fr": "Votre batterie (modifier via Réparer)",
-        "it": "La tua batteria (modifica tramite Ripara)",
-        "sv": "Ditt batteri (ändra via Reparera)",
-        "no": "Ditt batteri (endre via Reparer)",
-        "es": "Tu batería (cambiar en Reparar)",
-        "da": "Dit batteri (ændr via Reparer)",
-        "pl": "Twoja bateria (zmień przez Napraw)",
-        "ru": "Ваша батарея (изменить через «Исправить»)",
-        "ar": "بطاريتك (التغيير عبر إصلاح)",
-        "ko": "내 배터리 (수리에서 변경)"
+        "en": "Your battery",
+        "nl": "Je batterij",
+        "de": "Deine Batterie",
+        "fr": "Votre batterie",
+        "it": "La tua batteria",
+        "sv": "Ditt batteri",
+        "no": "Ditt batteri",
+        "es": "Tu batería",
+        "da": "Dit batteri",
+        "pl": "Twoja bateria",
+        "ru": "Ваша батарея",
+        "ar": "بطاريتك",
+        "ko": "내 배터리"
       },
       "children": [
         {
@@ -416,22 +436,7 @@
             "ar": "الحد الأقصى لطاقة الشحن (واط)",
             "ko": "최대 충전 전력 (W)"
           },
-          "value": "-",
-          "hint": {
-            "en": "The maximum power at which the battery can be charged.",
-            "nl": "Het maximale vermogen waarmee de batterij kan worden geladen.",
-            "de": "Die maximale Leistung, mit der die Batterie geladen werden kann.",
-            "fr": "La puissance maximale à laquelle la batterie peut être chargée.",
-            "it": "La potenza massima alla quale la batteria può essere caricata.",
-            "sv": "Den maximala effekten med vilken batteriet kan laddas.",
-            "no": "Den maksimale effekten batteriet kan lades med.",
-            "es": "La potencia máxima a la que se puede cargar la batería.",
-            "da": "Den maksimale effekt, hvormed batteriet kan oplades.",
-            "pl": "Maksymalna moc, z jaką można ładować baterię.",
-            "ru": "Максимальная мощность, при которой батарея может заряжаться.",
-            "ar": "الحد الأقصى للطاقة التي يمكن شحن البطارية بها.",
-            "ko": "배터리를 충전할 수 있는 최대 전력입니다."
-          }
+          "value": "-"
         },
         {
           "id": "view_dischargePower",
@@ -451,29 +456,14 @@
             "ar": "الحد الأقصى لطاقة التفريغ (واط)",
             "ko": "최대 방전 전력 (W)"
           },
-          "value": "-",
-          "hint": {
-            "en": "The maximum power at which the battery can be discharged.",
-            "nl": "Het maximale vermogen waarmee de batterij kan worden ontladen.",
-            "de": "Die maximale Leistung in Watt, mit der die Batterie entladen werden kann.",
-            "fr": "La puissance maximale à laquelle la batterie peut être déchargée.",
-            "it": "La potenza massima alla quale la batteria può essere scaricata.",
-            "sv": "Den maximala effekten med vilken batteriet kan laddas ur.",
-            "no": "Den maksimale effekten batteriet kan lades ut med.",
-            "es": "La potencia máxima a la que se puede descargar la batería.",
-            "da": "Den maksimale effekt, hvormed batteriet kan aflades.",
-            "pl": "Maksymalna moc, z jaką można rozładować baterię.",
-            "ru": "Максимальная мощность, при которой батарея может разряжаться.",
-            "ar": "الحد الأقصى للطاقة التي يمكن تفريغ البطارية بها.",
-            "ko": "배터리를 방전할 수 있는 최대 전력입니다."
-          }
+          "value": "-"
         },
         {
           "id": "view_batteryPhase",
           "type": "label",
           "label": {
             "en": "Battery phase",
-            "nl": "Fase accu",
+            "nl": "Fase batterij",
             "de": "Phase Batterie",
             "fr": "Phase de la batterie",
             "it": "Fase batteria",
@@ -488,19 +478,19 @@
           },
           "value": "-",
           "hint": {
-            "en": "The phase the battery is connected to, for the main fuse per phase. Automatic: learned from the meter.",
-            "nl": "De fase waarop de accu is aangesloten, voor de hoofdzekering per fase. Automatisch: geleerd uit de meter.",
-            "de": "Die Phase, an der die Batterie angeschlossen ist, für die Hauptsicherung je Phase. Automatisch: aus dem Zähler gelernt.",
-            "fr": "La phase à laquelle la batterie est raccordée, pour le fusible principal par phase. Automatique : appris du compteur.",
-            "it": "La fase a cui è collegata la batteria, per il fusibile principale per fase. Automatico: appreso dal contatore.",
-            "sv": "Fasen batteriet är anslutet till, för huvudsäkringen per fas. Automatisk: inlärd från mätaren.",
-            "no": "Fasen batteriet er koblet til, for hovedsikringen per fase. Automatisk: lært fra måleren.",
-            "es": "La fase a la que está conectada la batería, para el fusible principal por fase. Automático: aprendido del contador.",
-            "da": "Fasen batteriet er tilsluttet, for hovedsikringen pr. fase. Automatisk: lært fra måleren.",
-            "pl": "Faza, do której podłączona jest bateria, dla bezpiecznika głównego na fazę. Automatycznie: nauczone z licznika.",
-            "ru": "Фаза, к которой подключена батарея, для главного предохранителя по фазам. Автоматически: определяется по счётчику.",
-            "ar": "الطور الموصول به البطارية، لحماية المصهر الرئيسي لكل طور. تلقائي: يُتعلَّم من العداد.",
-            "ko": "배터리가 연결된 상, 상별 메인 퓨즈 보호용. 자동: 계량기에서 학습."
+            "en": "For the main fuse per phase. Automatic: learned from the meter.",
+            "nl": "Voor de hoofdzekering per fase. Automatisch: geleerd uit de meter.",
+            "de": "Für die Hauptsicherung pro Phase. Automatisch: aus dem Zähler gelernt.",
+            "fr": "Pour le fusible principal par phase. Automatique : appris du compteur.",
+            "it": "Per il fusibile principale per fase. Automatico: appreso dal contatore.",
+            "sv": "För huvudsäkringen per fas. Automatisk: inlärd från mätaren.",
+            "no": "For hovedsikringen per fase. Automatisk: lært fra måleren.",
+            "es": "Para el fusible principal por fase. Automático: aprendido del contador.",
+            "da": "Til hovedsikringen pr. fase. Automatisk: lært fra måleren.",
+            "pl": "Dla głównego bezpiecznika na fazę. Automatycznie: z licznika.",
+            "ru": "Для главного предохранителя по фазам. Автоматически: по счётчику.",
+            "ar": "للمصهر الرئيسي لكل طور. تلقائي: يُتعلَّم من العداد.",
+            "ko": "상별 메인 퓨즈용입니다. 자동: 계량기에서 학습."
           }
         }
       ]
@@ -508,554 +498,19 @@
     {
       "type": "group",
       "label": {
-        "en": "Wear and profit (change via Repair)",
-        "nl": "Slijtage en winst (wijzigen via Repareren)",
-        "de": "Verschleiß und Gewinn (ändern über Reparieren)",
-        "fr": "Usure et profit (modifier via Réparer)",
-        "it": "Usura e profitto (modifica tramite Ripara)",
-        "sv": "Slitage och vinst (ändra via Reparera)",
-        "no": "Slitasje og fortjeneste (endre via Reparer)",
-        "es": "Desgaste y beneficio (cambiar en Reparar)",
-        "da": "Slid og fortjeneste (ændr via Reparer)",
-        "pl": "Zużycie i zysk (zmień przez Napraw)",
-        "ru": "Износ и прибыль (изменить через «Исправить»)",
-        "ar": "التآكل والربح (التغيير عبر إصلاح)",
-        "ko": "마모와 이익 (수리에서 변경)"
-      },
-      "children": [
-        {
-          "id": "view_wearCalc",
-          "type": "label",
-          "label": {
-            "en": "Calculate wear from the purchase price",
-            "nl": "Slijtage berekenen uit de aankoopprijs",
-            "de": "Verschleiß aus dem Kaufpreis berechnen",
-            "fr": "Calculer l'usure à partir du prix d'achat",
-            "it": "Calcola l'usura dal prezzo d'acquisto",
-            "sv": "Beräkna slitage från inköpspriset",
-            "no": "Beregn slitasje fra innkjøpsprisen",
-            "es": "Calcular el desgaste a partir del precio de compra",
-            "da": "Beregn slid ud fra købsprisen",
-            "pl": "Oblicz zużycie z ceny zakupu",
-            "ru": "Рассчитать износ по цене покупки",
-            "ar": "احسب التآكل من سعر الشراء",
-            "ko": "구입가로 마모 계산"
-          },
-          "value": "-",
-          "hint": {
-            "en": "The wear cost per kWh is calculated from the purchase price and the number of cycles.",
-            "nl": "De slijtagekosten per kWh worden berekend uit de aankoopprijs en het aantal cycli.",
-            "de": "Die Verschleißkosten pro kWh werden aus Kaufpreis und Zyklenzahl berechnet.",
-            "fr": "Le coût d'usure par kWh est calculé à partir du prix d'achat et du nombre de cycles.",
-            "it": "Il costo di usura per kWh è calcolato dal prezzo d'acquisto e dal numero di cicli.",
-            "sv": "Slitagekostnaden per kWh beräknas från inköpspriset och antalet cykler.",
-            "no": "Slitasjekostnaden per kWh beregnes fra innkjøpsprisen og antall sykluser.",
-            "es": "El coste de desgaste por kWh se calcula a partir del precio de compra y del número de ciclos.",
-            "da": "Slidomkostningen pr. kWh beregnes ud fra købsprisen og antallet af cyklusser.",
-            "pl": "Koszt zużycia na kWh liczony jest z ceny zakupu i liczby cykli.",
-            "ru": "Стоимость износа на кВт·ч рассчитывается из цены покупки и числа циклов.",
-            "ar": "تُحسب تكلفة الاهتراء لكل kWh من سعر الشراء وعدد الدورات.",
-            "ko": "kWh당 마모 비용을 구매 가격과 사이클 수로 계산합니다."
-          }
-        },
-        {
-          "id": "view_wearPurchasePrice",
-          "type": "label",
-          "label": {
-            "en": "Purchase price of this battery",
-            "nl": "Aankoopprijs van deze batterij",
-            "de": "Kaufpreis dieser Batterie",
-            "fr": "Prix d’achat de cette batterie",
-            "it": "Prezzo d’acquisto di questa batteria",
-            "sv": "Inköpspris för detta batteri",
-            "no": "Innkjøpspris for dette batteriet",
-            "es": "Precio de compra de esta batería",
-            "da": "Købspris for dette batteri",
-            "pl": "Cena zakupu tej baterii",
-            "ru": "Цена покупки этой батареи",
-            "ar": "سعر شراء هذه البطارية",
-            "ko": "이 배터리의 구입가"
-          },
-          "value": "-",
-          "hint": {
-            "en": "Only this one battery, in the currency of your energy prices.",
-            "nl": "Alleen deze ene batterij, in de valuta van je energieprijzen.",
-            "de": "Nur diese eine Batterie, in der Währung deiner Energiepreise.",
-            "fr": "Uniquement cette batterie, dans la devise de vos prix de l’énergie.",
-            "it": "Solo questa batteria, nella valuta dei tuoi prezzi dell’energia.",
-            "sv": "Bara detta batteri, i valutan för dina energipriser.",
-            "no": "Bare dette ene batteriet, i valutaen til energiprisene dine.",
-            "es": "Solo esta batería, en la moneda de tus precios de energía.",
-            "da": "Kun dette ene batteri, i valutaen for dine energipriser.",
-            "pl": "Tylko ta jedna bateria, w walucie Twoich cen energii.",
-            "ru": "Только эта батарея, в валюте ваших цен на энергию.",
-            "ar": "هذه البطارية فقط، بعملة أسعار الطاقة لديك.",
-            "ko": "이 배터리 하나만, 에너지 요금과 같은 통화로."
-          }
-        },
-        {
-          "id": "view_wearCycles",
-          "type": "label",
-          "label": {
-            "en": "Number of full cycles",
-            "nl": "Aantal volledige cycli",
-            "de": "Anzahl voller Zyklen",
-            "fr": "Nombre de cycles complets",
-            "it": "Numero di cicli completi",
-            "sv": "Antal fulla cykler",
-            "no": "Antall fulle sykluser",
-            "es": "Número de ciclos completos",
-            "da": "Antal fulde cyklusser",
-            "pl": "Liczba pełnych cykli",
-            "ru": "Число полных циклов",
-            "ar": "عدد الدورات الكاملة",
-            "ko": "전체 사이클 수"
-          },
-          "value": "-",
-          "hint": {
-            "en": "Cycles until about 70% of the capacity is left, as in the warranty (often 6000).",
-            "nl": "Cycli tot er ongeveer 70% van de capaciteit over is, zoals in de garantie (vaak 6000).",
-            "de": "Zyklen, bis noch etwa 70% der Kapazität übrig sind, wie in der Garantie (oft 6000).",
-            "fr": "Cycles jusqu’à ce qu’il reste environ 70% de la capacité, comme dans la garantie (souvent 6000).",
-            "it": "Cicli finché resta circa il 70% della capacità, come nella garanzia (spesso 6000).",
-            "sv": "Cykler tills ungefär 70% av kapaciteten är kvar, som i garantin (ofta 6000).",
-            "no": "Sykluser til omtrent 70% av kapasiteten er igjen, som i garantien (ofte 6000).",
-            "es": "Ciclos hasta que queda alrededor del 70% de la capacidad, como en la garantía (a menudo 6000).",
-            "da": "Cyklusser, indtil ca. 70% af kapaciteten er tilbage, som i garantien (ofte 6000).",
-            "pl": "Cykle do momentu, gdy zostaje ok. 70% pojemności, jak w gwarancji (często 6000).",
-            "ru": "Циклы, пока не останется около 70% ёмкости, как в гарантии (часто 6000).",
-            "ar": "الدورات حتى يتبقى نحو 70% من السعة، كما في الضمان (غالبًا 6000).",
-            "ko": "보증서처럼 용량이 약 70% 남을 때까지의 사이클 수입니다(보통 6000)."
-          }
-        },
-        {
-          "id": "view_wearCost",
-          "type": "label",
-          "label": {
-            "en": "Wear cost per kWh",
-            "nl": "Slijtagekosten per kWh",
-            "de": "Verschleißkosten pro kWh",
-            "fr": "Coût d’usure par kWh",
-            "it": "Costo di usura per kWh",
-            "sv": "Slitagekostnad per kWh",
-            "no": "Slitasjekostnad per kWh",
-            "es": "Coste de desgaste por kWh",
-            "da": "Slidomkostning pr. kWh",
-            "pl": "Koszt zużycia na kWh",
-            "ru": "Стоимость износа за кВтч",
-            "ar": "تكلفة التآكل لكل كيلوواط ساعة",
-            "ko": "kWh당 마모 비용"
-          },
-          "value": "-",
-          "hint": {
-            "en": "What a kWh through the battery costs in wear.",
-            "nl": "Wat een kWh door de accu kost aan slijtage.",
-            "de": "Was eine kWh durch die Batterie an Verschleiß kostet.",
-            "fr": "Ce que coûte en usure un kWh passant par la batterie.",
-            "it": "Quanto costa in usura un kWh che passa per la batteria.",
-            "sv": "Vad en kWh genom batteriet kostar i slitage.",
-            "no": "Hva en kWh gjennom batteriet koster i slitasje.",
-            "es": "Lo que cuesta en desgaste un kWh que pasa por la batería.",
-            "da": "Hvad en kWh gennem batteriet koster i slid.",
-            "pl": "Ile kosztuje zużycie akumulatora na każdą kWh.",
-            "ru": "Сколько стоит износ аккумулятора на каждый кВт·ч.",
-            "ar": "تكلفة الاهتراء لكل kWh يمر عبر البطارية.",
-            "ko": "배터리를 통과하는 1kWh당 마모 비용."
-          }
-        },
-        {
-          "id": "view_minProfit",
-          "type": "label",
-          "label": {
-            "en": "Minimum profit per kWh",
-            "nl": "Minimale winst per kWh",
-            "de": "Mindestgewinn pro kWh",
-            "fr": "Profit minimum par kWh",
-            "it": "Profitto minimo per kWh",
-            "sv": "Minsta vinst per kWh",
-            "no": "Minimum fortjeneste per kWh",
-            "es": "Beneficio mínimo por kWh",
-            "da": "Minimum fortjeneste pr. kWh",
-            "pl": "Minimalny zysk na kWh",
-            "ru": "Минимальная прибыль за кВтч",
-            "ar": "الحد الأدنى للربح لكل كيلوواط ساعة",
-            "ko": "kWh당 최소 이익"
-          },
-          "value": "-",
-          "hint": {
-            "en": "On top of the wear cost: only charge from the grid to use later when each kWh earns at least this much extra.",
-            "nl": "Bovenop de slijtagekosten: alleen van het net laden om later te gebruiken als elke kWh minstens zoveel extra oplevert.",
-            "de": "Zusätzlich zu den Verschleißkosten: nur aus dem Netz laden, um später zu nutzen, wenn jede kWh mindestens so viel mehr bringt.",
-            "fr": "En plus du coût d'usure : charger depuis le réseau pour plus tard seulement si chaque kWh rapporte au moins autant en plus.",
-            "it": "In aggiunta al costo di usura: carica dalla rete per usarla dopo solo se ogni kWh rende almeno tanto in più.",
-            "sv": "Utöver slitagekostnaden: ladda från nätet för senare bara när varje kWh ger minst så mycket extra.",
-            "no": "I tillegg til slitasjekostnaden: lad fra nettet for senere bare når hver kWh gir minst så mye ekstra.",
-            "es": "Además del coste de desgaste: cargar de la red para usar después solo si cada kWh rinde al menos esto de más.",
-            "da": "Ud over slidomkostningen: oplad kun fra nettet til senere, når hver kWh giver mindst så meget ekstra.",
-            "pl": "Ponad koszt zużycia: ładuj z sieci na później tylko, gdy każda kWh daje co najmniej tyle więcej.",
-            "ru": "Сверх стоимости износа: заряжать из сети на потом, только если каждый кВт·ч даёт не меньше этой выгоды.",
-            "ar": "فوق تكلفة التآكل: اشحن من الشبكة للاستخدام لاحقًا فقط إذا كانت كل كيلوواط ساعة تربح هذا القدر الإضافي على الأقل.",
-            "ko": "마모 비용에 더해: 나중에 쓰려고 전력망에서 충전하는 것은 kWh당 최소 이만큼 더 이득일 때만 합니다."
-          }
-        }
-      ]
-    },
-    {
-      "type": "group",
-      "label": {
-        "en": "Energy price (change via Repair)",
-        "nl": "Energieprijs (wijzigen via Repareren)",
-        "de": "Energiepreis (ändern über Reparieren)",
-        "fr": "Prix de l'énergie (modifier via Réparer)",
-        "it": "Prezzo dell'energia (modifica tramite Ripara)",
-        "sv": "Energipris (ändra via Reparera)",
-        "no": "Energipris (endre via Reparer)",
-        "es": "Precio de la energía (cambiar en Reparar)",
-        "da": "Energipris (ændr via Reparer)",
-        "pl": "Cena energii (zmień przez Napraw)",
-        "ru": "Цена энергии (изменить через «Исправить»)",
-        "ar": "سعر الطاقة (التغيير عبر إصلاح)",
-        "ko": "에너지 가격 (수리에서 변경)"
-      },
-      "children": [
-        {
-          "id": "price_info",
-          "type": "label",
-          "label": {
-            "en": "Price",
-            "nl": "Prijs",
-            "de": "Preis",
-            "fr": "Prix",
-            "it": "Prezzo",
-            "sv": "Pris",
-            "no": "Pris",
-            "es": "Precio",
-            "da": "Pris",
-            "pl": "Cena",
-            "ru": "Цена",
-            "ar": "السعر",
-            "ko": "가격"
-          },
-          "value": "-",
-          "hint": {
-            "en": "Where the price comes from: an Energy Price device in this tariff group, or a fixed tariff.",
-            "nl": "Waar de prijs vandaan komt: een Energieprijs-apparaat in deze tariefgroep, of een vast tarief.",
-            "de": "Woher der Preis kommt: ein Energiepreis-Gerät in dieser Tarifgruppe oder ein Festtarif.",
-            "fr": "D'où vient le prix : un appareil Prix de l'énergie dans ce groupe tarifaire, ou un tarif fixe.",
-            "it": "Da dove viene il prezzo: un dispositivo Prezzo dell'energia in questo gruppo tariffario, o una tariffa fissa.",
-            "sv": "Varifrån priset kommer: en Energipris-enhet i den här tariffgruppen, eller en fast tariff.",
-            "no": "Hvor prisen kommer fra: en Energipris-enhet i denne tariffgruppen, eller en fast tariff.",
-            "es": "De dónde viene el precio: un dispositivo Precio de la energía en este grupo de tarifa, o una tarifa fija.",
-            "da": "Hvor prisen kommer fra: en Energipris-enhed i denne tarifgruppe, eller en fast tarif.",
-            "pl": "Skąd pochodzi cena: urządzenie Cena energii w tej grupie taryfowej albo stała taryfa.",
-            "ru": "Откуда берётся цена: устройство «Цена энергии» в этой тарифной группе или фиксированный тариф.",
-            "ar": "مصدر السعر: جهاز سعر الطاقة في مجموعة التعرفة هذه، أو تعرفة ثابتة.",
-            "ko": "가격의 출처: 이 요금 그룹의 에너지 가격 디바이스 또는 고정 요금."
-          }
-        },
-        {
-          "id": "view_tariff_type",
-          "type": "label",
-          "label": {
-            "en": "Tariff selection",
-            "nl": "Tariefselectie",
-            "de": "Tarifauswahl",
-            "fr": "Sélection du tarif",
-            "it": "Selezione tariffa",
-            "sv": "Tariffval",
-            "no": "Tariffvalg",
-            "es": "Selección de tarifa",
-            "da": "Tarifvalg",
-            "pl": "Wybór taryfy",
-            "ru": "Выбор тарифа",
-            "ar": "اختيار التعريفة",
-            "ko": "요금 선택"
-          },
-          "value": "-",
-          "hint": {
-            "en": "Automatic: the export price while your home returns power to the grid, otherwise the import price.",
-            "nl": "Automatisch: de terugleverprijs zolang je huis stroom teruglevert aan het net, anders de afnameprijs.",
-            "de": "Automatisch: der Einspeisepreis, solange dein Haus Strom ins Netz einspeist, sonst der Bezugspreis.",
-            "fr": "Automatique : le prix d'injection tant que votre maison renvoie du courant au réseau, sinon le prix d'achat.",
-            "it": "Automatico: il prezzo di immissione mentre la casa immette energia in rete, altrimenti il prezzo di prelievo.",
-            "sv": "Automatisk: exportpriset medan ditt hem matar ut ström till nätet, annars importpriset.",
-            "no": "Automatisk: eksportprisen mens hjemmet ditt leverer strøm til nettet, ellers importprisen.",
-            "es": "Automático: el precio de exportación mientras tu casa devuelve energía a la red, si no el de importación.",
-            "da": "Automatisk: eksportprisen, mens dit hjem leverer strøm til nettet, ellers importprisen.",
-            "pl": "Automatycznie: cena eksportu, gdy dom oddaje prąd do sieci, w przeciwnym razie cena importu.",
-            "ru": "Автоматически: цена экспорта, пока дом отдаёт энергию в сеть, иначе цена импорта.",
-            "ar": "تلقائي: سعر التصدير طالما يعيد منزلك الطاقة إلى الشبكة، وإلا فسعر الاستيراد.",
-            "ko": "자동: 집이 전력망으로 전력을 보내는 동안은 수출 가격, 그 외에는 수입 가격."
-          }
-        }
-      ]
-    },
-    {
-      "type": "group",
-      "label": {
-        "en": "Charge plan (change via Repair)",
-        "nl": "Laadplan (wijzigen via Repareren)",
-        "de": "Ladeplan (ändern über Reparieren)",
-        "fr": "Plan de charge (modifier via Réparer)",
-        "it": "Piano di carica (modifica tramite Ripara)",
-        "sv": "Laddplan (ändra via Reparera)",
-        "no": "Ladeplan (endre via Reparer)",
-        "es": "Plan de carga (cambiar en Reparar)",
-        "da": "Opladningsplan (ændr via Reparer)",
-        "pl": "Plan ładowania (zmień przez Napraw)",
-        "ru": "План зарядки (изменить через «Исправить»)",
-        "ar": "خطة الشحن (التغيير عبر إصلاح)",
-        "ko": "충전 계획 (수리에서 변경)"
-      },
-      "children": [
-        {
-          "id": "view_precisePlanning",
-          "type": "label",
-          "label": {
-            "en": "Extra precise planning",
-            "nl": "Extra nauwkeurig plannen",
-            "de": "Besonders genaue Planung",
-            "fr": "Planification très précise",
-            "it": "Pianificazione più precisa",
-            "sv": "Extra noggrann planering",
-            "no": "Ekstra nøyaktig planlegging",
-            "es": "Planificación más precisa",
-            "da": "Ekstra præcis planlægning",
-            "pl": "Dokładniejsze planowanie",
-            "ru": "Более точное планирование",
-            "ar": "تخطيط أدق",
-            "ko": "더 정밀한 계획"
-          },
-          "value": "-",
-          "hint": {
-            "en": "Slightly better plans, but uses much more of Homey's memory.",
-            "nl": "Iets betere planning, maar gebruikt veel meer geheugen van Homey.",
-            "de": "Etwas bessere Planung, braucht aber viel mehr Speicher von Homey.",
-            "fr": "Planification un peu meilleure, mais utilise beaucoup plus de mémoire de Homey.",
-            "it": "Pianificazione un po' migliore, ma usa molta più memoria di Homey.",
-            "sv": "Något bättre planering, men använder mycket mer av Homeys minne.",
-            "no": "Litt bedre planlegging, men bruker mye mer av Homeys minne.",
-            "es": "Planificación algo mejor, pero usa mucha más memoria de Homey.",
-            "da": "Lidt bedre planlægning, men bruger meget mere af Homeys hukommelse.",
-            "pl": "Nieco lepsze planowanie, ale zużywa znacznie więcej pamięci Homey.",
-            "ru": "Немного лучшее планирование, но использует намного больше памяти Homey.",
-            "ar": "تخطيط أفضل قليلاً، لكنه يستهلك ذاكرة أكبر بكثير من Homey.",
-            "ko": "계획이 조금 더 좋아지지만 Homey 메모리를 훨씬 더 사용합니다."
-          }
-        },
-        {
-          "id": "view_dischargeToEv",
-          "type": "label",
-          "label": {
-            "en": "Also discharge for the car",
-            "nl": "Ook ontladen voor de auto",
-            "de": "Auch für das Auto entladen",
-            "fr": "Décharger aussi pour la voiture",
-            "it": "Scarica anche per l'auto",
-            "sv": "Ladda ur även för bilen",
-            "no": "Lad også ut for bilen",
-            "es": "Descargar también para el coche",
-            "da": "Aflad også til bilen",
-            "pl": "Rozładowuj także dla auta",
-            "ru": "Разряжать и для автомобиля",
-            "ar": "التفريغ للسيارة أيضًا",
-            "ko": "자동차 충전에도 방전"
-          },
-          "value": "-",
-          "hint": {
-            "en": "The battery also gives power for charging your car.",
-            "nl": "De batterij levert ook stroom om je auto te laden.",
-            "de": "Die Batterie liefert auch Strom zum Laden deines Autos.",
-            "fr": "La batterie fournit aussi du courant pour charger votre voiture.",
-            "it": "La batteria fornisce energia anche per caricare l'auto.",
-            "sv": "Batteriet ger även ström för att ladda bilen.",
-            "no": "Batteriet gir også strøm til lading av bilen.",
-            "es": "La batería también da energía para cargar tu coche.",
-            "da": "Batteriet giver også strøm til at oplade din bil.",
-            "pl": "Bateria daje też prąd do ładowania auta.",
-            "ru": "Батарея также отдаёт энергию для зарядки автомобиля.",
-            "ar": "تعطي البطارية الطاقة أيضًا لشحن سيارتك.",
-            "ko": "배터리가 자동차 충전에도 전력을 공급합니다."
-          }
-        },
-        {
-          "id": "view_groupPlan",
-          "type": "label",
-          "label": {
-            "en": "Plan together with other batteries",
-            "nl": "Samen plannen met andere batterijen",
-            "de": "Gemeinsam mit anderen Batterien planen",
-            "fr": "Planifier avec les autres batteries",
-            "it": "Pianificare insieme alle altre batterie",
-            "sv": "Planera tillsammans med andra batterier",
-            "no": "Planlegg sammen med andre batterier",
-            "es": "Planificar junto con otras baterías",
-            "da": "Planlæg sammen med andre batterier",
-            "pl": "Planuj razem z innymi bateriami",
-            "ru": "Планировать вместе с другими батареями",
-            "ar": "التخطيط مع البطاريات الأخرى",
-            "ko": "다른 배터리와 함께 계획"
-          },
-          "value": "-",
-          "hint": {
-            "en": "One plan for all batteries that have this on.",
-            "nl": "Eén plan voor alle batterijen waarbij dit aan staat.",
-            "de": "Ein Plan für alle Batterien, bei denen dies an ist.",
-            "fr": "Un seul plan pour toutes les batteries où ceci est activé.",
-            "it": "Un unico piano per tutte le batterie con questa opzione attiva.",
-            "sv": "En plan för alla batterier som har detta på.",
-            "no": "Én plan for alle batterier som har dette på.",
-            "es": "Un plan para todas las baterías que tienen esto activado.",
-            "da": "Én plan for alle batterier, der har dette slået til.",
-            "pl": "Jeden plan dla wszystkich baterii z tą opcją włączoną.",
-            "ru": "Один план для всех батарей, у которых это включено.",
-            "ar": "خطة واحدة لكل البطاريات التي فُعّل فيها هذا الخيار.",
-            "ko": "이 옵션이 켜진 모든 배터리에 하나의 계획."
-          }
-        }
-      ]
-    },
-    {
-      "type": "group",
-      "label": {
-        "en": "Grid limits (change via Repair)",
-        "nl": "Netaansluiting (wijzigen via Repareren)",
-        "de": "Netzanschluss (ändern über Reparieren)",
-        "fr": "Raccordement (modifier via Réparer)",
-        "it": "Allaccio alla rete (modifica tramite Ripara)",
-        "sv": "Nätanslutning (ändra via Reparera)",
-        "no": "Nettilkobling (endre via Reparer)",
-        "es": "Conexión a la red (cambiar en Reparar)",
-        "da": "Nettilslutning (ændr via Reparer)",
-        "pl": "Przyłącze (zmień przez Napraw)",
-        "ru": "Подключение к сети (изменить через «Исправить»)",
-        "ar": "توصيل الشبكة (التغيير عبر إصلاح)",
-        "ko": "전력망 연결 (수리에서 변경)"
-      },
-      "children": [
-        {
-          "id": "view_fuseProtection",
-          "type": "label",
-          "label": {
-            "en": "Protect the main fuse",
-            "nl": "Hoofdzekering beschermen",
-            "de": "Hauptsicherung schützen",
-            "fr": "Protéger le disjoncteur principal",
-            "it": "Proteggi il fusibile principale",
-            "sv": "Skydda huvudsäkringen",
-            "no": "Beskytt hovedsikringen",
-            "es": "Proteger el fusible principal",
-            "da": "Beskyt hovedsikringen",
-            "pl": "Chroń główny bezpiecznik",
-            "ru": "Защищать главный предохранитель",
-            "ar": "حماية المصهر الرئيسي",
-            "ko": "메인 퓨즈 보호"
-          },
-          "value": "-",
-          "hint": {
-            "en": "The battery helps to keep the power from and to the grid below the main fuse set in the grid device.",
-            "nl": "De batterij helpt het vermogen van en naar het net onder de hoofdzekering te houden die in het net-apparaat staat.",
-            "de": "Die Batterie hilft, die Leistung vom und zum Netz unter der Hauptsicherung aus dem Netzgerät zu halten.",
-            "fr": "La batterie aide à garder la puissance du et vers le réseau sous le disjoncteur réglé dans l'appareil réseau.",
-            "it": "La batteria aiuta a tenere la potenza da e verso la rete sotto il fusibile impostato nel dispositivo rete.",
-            "sv": "Batteriet hjälper till att hålla effekten från och till nätet under huvudsäkringen i nätenheten.",
-            "no": "Batteriet hjelper med å holde effekten fra og til nettet under hovedsikringen i nett-enheten.",
-            "es": "La batería ayuda a mantener la potencia desde y hacia la red bajo el fusible del dispositivo de red.",
-            "da": "Batteriet hjælper med at holde effekten fra og til nettet under hovedsikringen i net-enheden.",
-            "pl": "Bateria pomaga utrzymać moc z i do sieci poniżej bezpiecznika ustawionego w urządzeniu sieci.",
-            "ru": "Батарея помогает держать мощность из сети и в сеть ниже главного предохранителя из устройства сети.",
-            "ar": "تساعد البطارية على إبقاء القدرة من الشبكة وإليها دون المصهر الرئيسي المحدد في جهاز الشبكة.",
-            "ko": "배터리가 전력망 디바이스에 설정한 메인 퓨즈 아래로 전력망 입출력을 유지하도록 돕습니다."
-          }
-        },
-        {
-          "id": "view_peakShaving",
-          "type": "label",
-          "label": {
-            "en": "Limit peaks (capacity tariff)",
-            "nl": "Pieken beperken (capaciteitstarief)",
-            "de": "Spitzen begrenzen (Leistungspreis)",
-            "fr": "Limiter les pics (tarif de capacité)",
-            "it": "Limita i picchi (tariffa di potenza)",
-            "sv": "Begränsa toppar (effekttariff)",
-            "no": "Begrens topper (effekttariff)",
-            "es": "Limitar picos (tarifa por potencia)",
-            "da": "Begræns spidser (effekttarif)",
-            "pl": "Ograniczaj szczyty (opłata mocowa)",
-            "ru": "Ограничивать пики (тариф за мощность)",
-            "ar": "الحد من الذروات (تعرفة القدرة)",
-            "ko": "피크 제한 (용량 요금)"
-          },
-          "value": "-",
-          "hint": {
-            "en": "The battery helps to keep your peaks below the capacity tariff level set in the grid device.",
-            "nl": "De batterij helpt je pieken onder het niveau van het capaciteitstarief te houden dat in het net-apparaat staat.",
-            "de": "Die Batterie hilft, deine Spitzen unter dem Leistungspreis-Niveau aus dem Netzgerät zu halten.",
-            "fr": "La batterie aide à garder vos pics sous le niveau du tarif de capacité réglé dans l'appareil réseau.",
-            "it": "La batteria aiuta a tenere i picchi sotto il livello della tariffa di potenza impostato nel dispositivo rete.",
-            "sv": "Batteriet hjälper till att hålla topparna under effekttariffens nivå i nätenheten.",
-            "no": "Batteriet hjelper med å holde toppene under effekttariff-nivået i nett-enheten.",
-            "es": "La batería ayuda a mantener tus picos bajo el nivel de la tarifa por potencia del dispositivo de red.",
-            "da": "Batteriet hjælper med at holde dine spidser under effekttarif-niveauet i net-enheden.",
-            "pl": "Bateria pomaga utrzymać szczyty poniżej poziomu opłaty mocowej z urządzenia sieci.",
-            "ru": "Батарея помогает держать пики ниже уровня тарифа за мощность из устройства сети.",
-            "ar": "تساعد البطارية على إبقاء ذرواتك دون مستوى تعرفة القدرة المحدد في جهاز الشبكة.",
-            "ko": "배터리가 전력망 디바이스에 설정한 용량 요금 수준 아래로 피크를 유지하도록 돕습니다."
-          }
-        },
-        {
-          "id": "view_peakReservePct",
-          "type": "label",
-          "label": {
-            "en": "Reserve (%)",
-            "nl": "Reserve (%)",
-            "de": "Reserve (%)",
-            "fr": "Réserve (%)",
-            "it": "Riserva (%)",
-            "sv": "Reserv (%)",
-            "no": "Reserve (%)",
-            "es": "Reserva (%)",
-            "da": "Reserve (%)",
-            "pl": "Rezerwa (%)",
-            "ru": "Резерв (%)",
-            "ar": "الاحتياطي (%)",
-            "ko": "예비량 (%)"
-          },
-          "value": "-",
-          "hint": {
-            "en": "Charge the battery always keeps for the two options above. Advice when limiting peaks: 10 %.",
-            "nl": "Lading die de batterij altijd achter de hand houdt voor de twee opties hierboven. Advies bij pieken beperken: 10 %.",
-            "de": "Ladung, die die Batterie immer für die beiden Optionen oben behält. Empfehlung beim Spitzen begrenzen: 10 %.",
-            "fr": "Charge que la batterie garde toujours pour les deux options ci-dessus. Conseil pour limiter les pics : 10 %.",
-            "it": "Carica che la batteria tiene sempre per le due opzioni sopra. Consiglio per limitare i picchi: 10 %.",
-            "sv": "Laddning som batteriet alltid sparar för de två alternativen ovan. Råd vid toppbegränsning: 10 %.",
-            "no": "Lading batteriet alltid holder av til de to valgene over. Råd ved toppbegrensning: 10 %.",
-            "es": "Carga que la batería guarda siempre para las dos opciones de arriba. Consejo al limitar picos: 10 %.",
-            "da": "Ladning, som batteriet altid gemmer til de to valg ovenfor. Råd ved spidsbegrænsning: 10 %.",
-            "pl": "Ładunek zawsze zachowywany na dwie opcje powyżej. Rada przy ograniczaniu szczytów: 10 %.",
-            "ru": "Заряд, который батарея всегда держит для двух опций выше. Совет при ограничении пиков: 10 %.",
-            "ar": "شحنة تحتفظ بها البطارية دائمًا للخيارين أعلاه. النصيحة عند الحد من الذروات: 10 %.",
-            "ko": "위 두 옵션을 위해 배터리가 항상 남겨 두는 충전량입니다. 피크 제한 시 권장: 10 %."
-          }
-        }
-      ]
-    },
-    {
-      "type": "group",
-      "label": {
-        "en": "Control (change via Repair)",
-        "nl": "Aansturing (wijzigen via Repareren)",
-        "de": "Steuerung (ändern über Reparieren)",
-        "fr": "Pilotage (modifier via Réparer)",
-        "it": "Controllo (modifica tramite Ripara)",
-        "sv": "Styrning (ändra via Reparera)",
-        "no": "Styring (endre via Reparer)",
-        "es": "Control (cambiar en Reparar)",
-        "da": "Styring (ændr via Reparer)",
-        "pl": "Sterowanie (zmień przez Napraw)",
-        "ru": "Управление (изменить через «Исправить»)",
-        "ar": "التحكم (التغيير عبر إصلاح)",
-        "ko": "제어 (수리에서 변경)"
+        "en": "Control",
+        "nl": "Aansturing",
+        "de": "Steuerung",
+        "fr": "Pilotage",
+        "it": "Controllo",
+        "sv": "Styrning",
+        "no": "Styring",
+        "es": "Control",
+        "da": "Styring",
+        "pl": "Sterowanie",
+        "ru": "Управление",
+        "ar": "التحكم",
+        "ko": "제어"
       },
       "children": [
         {
@@ -1113,19 +568,19 @@
           },
           "value": "-",
           "hint": {
-            "en": "Now and then empties and fills the battery fully, so its charge level stays correct. Only when the app controls the battery. 0 = off.",
-            "nl": "Maakt de batterij af en toe helemaal leeg en vol, zodat het laadniveau klopt. Alleen als de app de batterij aanstuurt. 0 = uit.",
-            "de": "Entleert und füllt die Batterie ab und zu ganz, damit der Ladestand stimmt. Nur wenn die App die Batterie steuert. 0 = aus.",
-            "fr": "Vide et remplit parfois complètement la batterie pour que son niveau reste juste. Seulement si l'app pilote la batterie. 0 = désactivé.",
-            "it": "Ogni tanto svuota e riempie del tutto la batteria, così il livello resta giusto. Solo se l'app controlla la batteria. 0 = off.",
-            "sv": "Tömmer och fyller batteriet helt då och då, så att laddnivån stämmer. Bara när appen styr batteriet. 0 = av.",
-            "no": "Tømmer og fyller batteriet helt av og til, så ladenivået stemmer. Bare når appen styrer batteriet. 0 = av.",
-            "es": "De vez en cuando vacía y llena del todo la batería para que su nivel sea correcto. Solo si la app controla la batería. 0 = desactivado.",
-            "da": "Tømmer og fylder batteriet helt nu og da, så ladeniveauet passer. Kun når appen styrer batteriet. 0 = fra.",
-            "pl": "Co jakiś czas całkiem rozładowuje i ładuje baterię, by poziom był prawidłowy. Tylko gdy steruje aplikacja. 0 = wył.",
-            "ru": "Время от времени полностью разряжает и заряжает батарею, чтобы уровень заряда был верным. Только при управлении приложением. 0 = выкл.",
-            "ar": "يفرّغ البطارية ويملؤها بالكامل أحيانًا ليبقى مستوى الشحن صحيحًا. فقط عندما يتحكم التطبيق بالبطارية. 0 = إيقاف.",
-            "ko": "가끔 배터리를 완전히 비우고 채워 충전 수준을 정확히 유지합니다. 앱이 배터리를 제어할 때만. 0 = 끔."
+            "en": "Empties and fills the battery fully now and then, so its charge level stays right. 0 = off.",
+            "nl": "Maakt de batterij af en toe helemaal leeg en vol, zodat het laadniveau klopt. 0 = uit.",
+            "de": "Entleert und füllt die Batterie ab und zu ganz, damit der Ladestand stimmt. 0 = aus.",
+            "fr": "Vide et remplit parfois la batterie entièrement, pour que son niveau de charge reste juste. 0 = arrêt.",
+            "it": "Ogni tanto svuota e riempie del tutto la batteria, così il livello di carica resta giusto. 0 = off.",
+            "sv": "Tömmer och fyller batteriet helt ibland, så att laddningsnivån stämmer. 0 = av.",
+            "no": "Tømmer og fyller batteriet helt av og til, så ladenivået stemmer. 0 = av.",
+            "es": "Vacía y llena la batería por completo de vez en cuando, para que su nivel de carga sea correcto. 0 = apagado.",
+            "da": "Tømmer og fylder batteriet helt en gang imellem, så ladeniveauet passer. 0 = fra.",
+            "pl": "Co jakiś czas całkiem rozładowuje i ładuje baterię, aby poziom naładowania był prawidłowy. 0 = wył.",
+            "ru": "Иногда полностью разряжает и заряжает батарею, чтобы уровень заряда был верным. 0 = выкл.",
+            "ar": "يفرغ البطارية ويملؤها بالكامل أحيانًا، ليبقى مستوى الشحن صحيحًا. 0 = إيقاف.",
+            "ko": "가끔 배터리를 완전히 비우고 채워 충전 수준을 정확히 유지합니다. 0 = 꺼짐."
           }
         }
       ]
@@ -1133,21 +588,526 @@
     {
       "type": "group",
       "label": {
-        "en": "Graph (change via Repair)",
-        "nl": "Grafiek (wijzigen via Repareren)",
-        "de": "Diagramm (ändern über Reparieren)",
-        "fr": "Graphique (modifier via Réparer)",
-        "it": "Grafico (modifica tramite Ripara)",
-        "sv": "Diagram (ändra via Reparera)",
-        "no": "Diagram (endre via Reparer)",
-        "es": "Gráfico (cambiar en Reparar)",
-        "da": "Diagram (ændr via Reparer)",
-        "pl": "Wykres (zmień przez Napraw)",
-        "ru": "График (изменить через «Исправить»)",
-        "ar": "الرسم البياني (التغيير عبر إصلاح)",
-        "ko": "그래프 (수리에서 변경)"
+        "en": "Wear and profit",
+        "nl": "Slijtage en winst",
+        "de": "Verschleiß und Gewinn",
+        "fr": "Usure et profit",
+        "it": "Usura e profitto",
+        "sv": "Slitage och vinst",
+        "no": "Slitasje og fortjeneste",
+        "es": "Desgaste y beneficio",
+        "da": "Slid og fortjeneste",
+        "pl": "Zużycie i zysk",
+        "ru": "Износ и прибыль",
+        "ar": "التآكل والربح",
+        "ko": "마모와 이익"
       },
       "children": [
+        {
+          "id": "view_wearCalc",
+          "type": "label",
+          "label": {
+            "en": "Calculate wear from the purchase price",
+            "nl": "Slijtage berekenen uit de aankoopprijs",
+            "de": "Verschleiß aus dem Kaufpreis berechnen",
+            "fr": "Calculer l'usure à partir du prix d'achat",
+            "it": "Calcola l'usura dal prezzo d'acquisto",
+            "sv": "Beräkna slitage från inköpspriset",
+            "no": "Beregn slitasje fra innkjøpsprisen",
+            "es": "Calcular el desgaste a partir del precio de compra",
+            "da": "Beregn slid ud fra købsprisen",
+            "pl": "Oblicz zużycie z ceny zakupu",
+            "ru": "Рассчитать износ по цене покупки",
+            "ar": "احسب التآكل من سعر الشراء",
+            "ko": "구입가로 마모 계산"
+          },
+          "value": "-"
+        },
+        {
+          "id": "view_wearPurchasePrice",
+          "type": "label",
+          "label": {
+            "en": "Purchase price of this battery",
+            "nl": "Aankoopprijs van deze batterij",
+            "de": "Kaufpreis dieser Batterie",
+            "fr": "Prix d’achat de cette batterie",
+            "it": "Prezzo d’acquisto di questa batteria",
+            "sv": "Inköpspris för detta batteri",
+            "no": "Innkjøpspris for dette batteriet",
+            "es": "Precio de compra de esta batería",
+            "da": "Købspris for dette batteri",
+            "pl": "Cena zakupu tej baterii",
+            "ru": "Цена покупки этой батареи",
+            "ar": "سعر شراء هذه البطارية",
+            "ko": "이 배터리의 구입가"
+          },
+          "value": "-",
+          "hint": {
+            "en": "Only this one battery, in the currency of your energy prices.",
+            "nl": "Alleen deze ene batterij, in de valuta van je energieprijzen.",
+            "de": "Nur diese eine Batterie, in der Währung deiner Energiepreise.",
+            "fr": "Uniquement cette batterie, dans la devise de vos prix de l’énergie.",
+            "it": "Solo questa batteria, nella valuta dei tuoi prezzi dell’energia.",
+            "sv": "Bara detta batteri, i valutan för dina energipriser.",
+            "no": "Bare dette ene batteriet, i valutaen til energiprisene dine.",
+            "es": "Solo esta batería, en la moneda de tus precios de energía.",
+            "da": "Kun dette ene batteri, i valutaen for dine energipriser.",
+            "pl": "Tylko ta jedna bateria, w walucie Twoich cen energii.",
+            "ru": "Только эта батарея, в валюте ваших цен на энергию.",
+            "ar": "هذه البطارية فقط، بعملة أسعار الطاقة لديك.",
+            "ko": "이 배터리 하나만, 에너지 요금과 같은 통화로."
+          }
+        },
+        {
+          "id": "view_wearCycles",
+          "type": "label",
+          "label": {
+            "en": "Number of full cycles",
+            "nl": "Aantal volledige cycli",
+            "de": "Anzahl voller Zyklen",
+            "fr": "Nombre de cycles complets",
+            "it": "Numero di cicli completi",
+            "sv": "Antal fulla cykler",
+            "no": "Antall fulle sykluser",
+            "es": "Número de ciclos completos",
+            "da": "Antal fulde cyklusser",
+            "pl": "Liczba pełnych cykli",
+            "ru": "Число полных циклов",
+            "ar": "عدد الدورات الكاملة",
+            "ko": "전체 사이클 수"
+          },
+          "value": "-",
+          "hint": {
+            "en": "As in the warranty, often 6000.",
+            "nl": "Zoals in de garantie, vaak 6000.",
+            "de": "Wie in der Garantie, oft 6000.",
+            "fr": "Comme dans la garantie, souvent 6000.",
+            "it": "Come nella garanzia, spesso 6000.",
+            "sv": "Som i garantin, ofta 6000.",
+            "no": "Som i garantien, ofte 6000.",
+            "es": "Como en la garantía, a menudo 6000.",
+            "da": "Som i garantien, ofte 6000.",
+            "pl": "Jak w gwarancji, często 6000.",
+            "ru": "Как в гарантии, часто 6000.",
+            "ar": "كما في الضمان، غالبًا 6000.",
+            "ko": "보증서 기준, 보통 6000."
+          }
+        },
+        {
+          "id": "view_wearCost",
+          "type": "label",
+          "label": {
+            "en": "Wear cost per kWh",
+            "nl": "Slijtagekosten per kWh",
+            "de": "Verschleißkosten pro kWh",
+            "fr": "Coût d’usure par kWh",
+            "it": "Costo di usura per kWh",
+            "sv": "Slitagekostnad per kWh",
+            "no": "Slitasjekostnad per kWh",
+            "es": "Coste de desgaste por kWh",
+            "da": "Slidomkostning pr. kWh",
+            "pl": "Koszt zużycia na kWh",
+            "ru": "Стоимость износа за кВтч",
+            "ar": "تكلفة التآكل لكل كيلوواط ساعة",
+            "ko": "kWh당 마모 비용"
+          },
+          "value": "-",
+          "hint": {
+            "en": "What a kWh through the battery costs in wear.",
+            "nl": "Wat een kWh door de batterij aan slijtage kost.",
+            "de": "Was eine kWh durch die Batterie an Verschleiß kostet.",
+            "fr": "Ce qu'un kWh passé par la batterie coûte en usure.",
+            "it": "Quanto costa in usura un kWh passato dalla batteria.",
+            "sv": "Vad en kWh genom batteriet kostar i slitage.",
+            "no": "Hva en kWh gjennom batteriet koster i slitasje.",
+            "es": "Lo que cuesta en desgaste un kWh que pasa por la batería.",
+            "da": "Hvad en kWh gennem batteriet koster i slid.",
+            "pl": "Ile kosztuje zużycie przy 1 kWh przez baterię.",
+            "ru": "Сколько стоит износ при прохождении 1 кВт·ч через батарею.",
+            "ar": "تكلفة التآكل لكل كيلوواط ساعة تمر عبر البطارية.",
+            "ko": "배터리를 거치는 1kWh의 마모 비용입니다."
+          }
+        },
+        {
+          "id": "view_minProfit",
+          "type": "label",
+          "label": {
+            "en": "Minimum profit per kWh",
+            "nl": "Minimale winst per kWh",
+            "de": "Mindestgewinn pro kWh",
+            "fr": "Profit minimum par kWh",
+            "it": "Profitto minimo per kWh",
+            "sv": "Minsta vinst per kWh",
+            "no": "Minimum fortjeneste per kWh",
+            "es": "Beneficio mínimo por kWh",
+            "da": "Minimum fortjeneste pr. kWh",
+            "pl": "Minimalny zysk na kWh",
+            "ru": "Минимальная прибыль за кВтч",
+            "ar": "الحد الأدنى للربح لكل كيلوواط ساعة",
+            "ko": "kWh당 최소 이익"
+          },
+          "value": "-",
+          "hint": {
+            "en": "Grid charging only when each kWh earns at least this much on top of the wear.",
+            "nl": "Alleen van het net laden als elke kWh minstens zoveel extra oplevert bovenop de slijtage.",
+            "de": "Nur aus dem Netz laden, wenn jede kWh mindestens so viel mehr als den Verschleiß bringt.",
+            "fr": "Charger depuis le réseau seulement si chaque kWh rapporte au moins autant en plus de l'usure.",
+            "it": "Carica dalla rete solo se ogni kWh rende almeno questo in più dell'usura.",
+            "sv": "Ladda från nätet bara när varje kWh ger minst så mycket utöver slitaget.",
+            "no": "Lad fra nettet bare når hver kWh gir minst så mye utover slitasjen.",
+            "es": "Cargar de la red solo si cada kWh rinde al menos esto además del desgaste.",
+            "da": "Lad kun fra nettet, når hver kWh giver mindst så meget ud over sliddet.",
+            "pl": "Ładuj z sieci tylko, gdy każda kWh daje co najmniej tyle ponad zużycie.",
+            "ru": "Заряжать из сети, только если каждый кВтч даёт не меньше этого сверх износа.",
+            "ar": "الشحن من الشبكة فقط عندما تحقق كل كيلوواط ساعة هذا القدر على الأقل فوق التآكل.",
+            "ko": "각 kWh가 마모 외에 최소 이만큼 벌 때만 전력망에서 충전합니다."
+          }
+        }
+      ]
+    },
+    {
+      "type": "group",
+      "label": {
+        "en": "Energy price",
+        "nl": "Energieprijs",
+        "de": "Energiepreis",
+        "fr": "Prix de l'énergie",
+        "it": "Prezzo dell'energia",
+        "sv": "Energipris",
+        "no": "Energipris",
+        "es": "Precio de la energía",
+        "da": "Energipris",
+        "pl": "Cena energii",
+        "ru": "Цена энергии",
+        "ar": "سعر الطاقة",
+        "ko": "에너지 가격"
+      },
+      "children": [
+        {
+          "id": "price_info",
+          "type": "label",
+          "label": {
+            "en": "Price",
+            "nl": "Prijs",
+            "de": "Preis",
+            "fr": "Prix",
+            "it": "Prezzo",
+            "sv": "Pris",
+            "no": "Pris",
+            "es": "Precio",
+            "da": "Pris",
+            "pl": "Cena",
+            "ru": "Цена",
+            "ar": "السعر",
+            "ko": "가격"
+          },
+          "value": "-",
+          "hint": {
+            "en": "An Energy Price device, or a fixed tariff.",
+            "nl": "Een Energieprijs-apparaat, of een vast tarief.",
+            "de": "Ein Energiepreis-Gerät oder ein Festtarif.",
+            "fr": "Un appareil Prix de l'énergie, ou un tarif fixe.",
+            "it": "Un dispositivo Prezzo energia, o una tariffa fissa.",
+            "sv": "En Energipris-enhet, eller en fast tariff.",
+            "no": "En Energipris-enhet, eller en fast tariff.",
+            "es": "Un dispositivo Precio de la energía, o una tarifa fija.",
+            "da": "En Energipris-enhed, eller en fast tarif.",
+            "pl": "Urządzenie Cena energii lub stała taryfa.",
+            "ru": "Устройство «Цена энергии» или фиксированный тариф.",
+            "ar": "جهاز سعر الطاقة، أو تعرفة ثابتة.",
+            "ko": "에너지 가격 디바이스 또는 고정 요금."
+          }
+        }
+      ]
+    },
+    {
+      "type": "group",
+      "label": {
+        "en": "Charge plan",
+        "nl": "Laadplan",
+        "de": "Ladeplan",
+        "fr": "Plan de charge",
+        "it": "Piano di carica",
+        "sv": "Laddplan",
+        "no": "Ladeplan",
+        "es": "Plan de carga",
+        "da": "Opladningsplan",
+        "pl": "Plan ładowania",
+        "ru": "План зарядки",
+        "ar": "خطة الشحن",
+        "ko": "충전 계획"
+      },
+      "children": [
+        {
+          "id": "view_dischargeToEv",
+          "type": "label",
+          "label": {
+            "en": "Also discharge for the car",
+            "nl": "Ook ontladen voor de auto",
+            "de": "Auch für das Auto entladen",
+            "fr": "Décharger aussi pour la voiture",
+            "it": "Scarica anche per l'auto",
+            "sv": "Ladda ur även för bilen",
+            "no": "Lad også ut for bilen",
+            "es": "Descargar también para el coche",
+            "da": "Aflad også til bilen",
+            "pl": "Rozładowuj także dla auta",
+            "ru": "Разряжать и для автомобиля",
+            "ar": "التفريغ للسيارة أيضًا",
+            "ko": "자동차 충전에도 방전"
+          },
+          "value": "-"
+        },
+        {
+          "id": "view_groupPlan",
+          "type": "label",
+          "label": {
+            "en": "Plan together with other batteries",
+            "nl": "Samen plannen met andere batterijen",
+            "de": "Gemeinsam mit anderen Batterien planen",
+            "fr": "Planifier avec les autres batteries",
+            "it": "Pianificare insieme alle altre batterie",
+            "sv": "Planera tillsammans med andra batterier",
+            "no": "Planlegg sammen med andre batterier",
+            "es": "Planificar junto con otras baterías",
+            "da": "Planlæg sammen med andre batterier",
+            "pl": "Planuj razem z innymi bateriami",
+            "ru": "Планировать вместе с другими батареями",
+            "ar": "التخطيط مع البطاريات الأخرى",
+            "ko": "다른 배터리와 함께 계획"
+          },
+          "value": "-",
+          "hint": {
+            "en": "One plan for all batteries that have this on.",
+            "nl": "Eén plan voor alle batterijen waarbij dit aan staat.",
+            "de": "Ein Plan für alle Batterien, bei denen dies an ist.",
+            "fr": "Un seul plan pour toutes les batteries où ceci est activé.",
+            "it": "Un unico piano per tutte le batterie con questa opzione attiva.",
+            "sv": "En plan för alla batterier som har detta på.",
+            "no": "Én plan for alle batterier som har dette på.",
+            "es": "Un plan para todas las baterías que tienen esto activado.",
+            "da": "Én plan for alle batterier, der har dette slået til.",
+            "pl": "Jeden plan dla wszystkich baterii z tą opcją włączoną.",
+            "ru": "Один план для всех батарей, у которых это включено.",
+            "ar": "خطة واحدة لكل البطاريات التي فُعّل فيها هذا الخيار.",
+            "ko": "이 옵션이 켜진 모든 배터리에 하나의 계획."
+          }
+        }
+      ]
+    },
+    {
+      "type": "group",
+      "label": {
+        "en": "Grid limits",
+        "nl": "Netgrenzen",
+        "de": "Netzgrenzen",
+        "fr": "Limites du réseau",
+        "it": "Limiti di rete",
+        "sv": "Nätgränser",
+        "no": "Nettgrenser",
+        "es": "Límites de red",
+        "da": "Netgrænser",
+        "pl": "Limity sieci",
+        "ru": "Пределы сети",
+        "ar": "حدود الشبكة",
+        "ko": "전력망 한도"
+      },
+      "children": [
+        {
+          "id": "view_fuseProtection",
+          "type": "label",
+          "label": {
+            "en": "Protect the main fuse",
+            "nl": "Hoofdzekering beschermen",
+            "de": "Hauptsicherung schützen",
+            "fr": "Protéger le disjoncteur principal",
+            "it": "Proteggi il fusibile principale",
+            "sv": "Skydda huvudsäkringen",
+            "no": "Beskytt hovedsikringen",
+            "es": "Proteger el fusible principal",
+            "da": "Beskyt hovedsikringen",
+            "pl": "Chroń główny bezpiecznik",
+            "ru": "Защищать главный предохранитель",
+            "ar": "حماية المصهر الرئيسي",
+            "ko": "메인 퓨즈 보호"
+          },
+          "value": "-",
+          "hint": {
+            "en": "Keeps the grid power below the main fuse of the grid device.",
+            "nl": "Houdt het netvermogen onder de hoofdzekering van het net-apparaat.",
+            "de": "Hält die Netzleistung unter der Hauptsicherung des Netzgeräts.",
+            "fr": "Maintient la puissance réseau sous le fusible principal de l'appareil réseau.",
+            "it": "Mantiene la potenza di rete sotto il fusibile principale del dispositivo rete.",
+            "sv": "Håller näteffekten under huvudsäkringen i nätenheten.",
+            "no": "Holder netteffekten under hovedsikringen i nettenheten.",
+            "es": "Mantiene la potencia de red por debajo del fusible principal del dispositivo de red.",
+            "da": "Holder neteffekten under hovedsikringen i netenheden.",
+            "pl": "Utrzymuje moc z sieci poniżej głównego bezpiecznika z urządzenia sieci.",
+            "ru": "Держит мощность сети ниже главного предохранителя из устройства сети.",
+            "ar": "يُبقي قدرة الشبكة دون المصهر الرئيسي المحدد في جهاز الشبكة.",
+            "ko": "전력망 디바이스의 메인 퓨즈 아래로 전력을 유지합니다."
+          }
+        },
+        {
+          "id": "view_peakShaving",
+          "type": "label",
+          "label": {
+            "en": "Limit peaks (capacity tariff)",
+            "nl": "Pieken beperken (capaciteitstarief)",
+            "de": "Spitzen begrenzen (Leistungspreis)",
+            "fr": "Limiter les pics (tarif de capacité)",
+            "it": "Limita i picchi (tariffa di potenza)",
+            "sv": "Begränsa toppar (effekttariff)",
+            "no": "Begrens topper (effekttariff)",
+            "es": "Limitar picos (tarifa por potencia)",
+            "da": "Begræns spidser (effekttarif)",
+            "pl": "Ograniczaj szczyty (opłata mocowa)",
+            "ru": "Ограничивать пики (тариф за мощность)",
+            "ar": "الحد من الذروات (تعرفة القدرة)",
+            "ko": "피크 제한 (용량 요금)"
+          },
+          "value": "-",
+          "hint": {
+            "en": "Keeps your peaks below the capacity tariff level of the grid device.",
+            "nl": "Houdt je pieken onder het capaciteitstarief van het net-apparaat.",
+            "de": "Hält Ihre Spitzen unter dem Leistungstarif des Netzgeräts.",
+            "fr": "Maintient vos pics sous le tarif de capacité de l'appareil réseau.",
+            "it": "Mantiene i picchi sotto la tariffa di potenza del dispositivo rete.",
+            "sv": "Håller dina toppar under effekttariffen i nätenheten.",
+            "no": "Holder toppene dine under effekttariffen i nettenheten.",
+            "es": "Mantiene tus picos por debajo de la tarifa de potencia del dispositivo de red.",
+            "da": "Holder dine spidser under effekttariffen i netenheden.",
+            "pl": "Utrzymuje szczyty poniżej taryfy mocowej z urządzenia sieci.",
+            "ru": "Держит пики ниже уровня тарифа на мощность из устройства сети.",
+            "ar": "يُبقي ذرواتك دون مستوى تعرفة القدرة في جهاز الشبكة.",
+            "ko": "전력망 디바이스의 용량 요금 수준 아래로 피크를 유지합니다."
+          }
+        },
+        {
+          "id": "view_peakReservePct",
+          "type": "label",
+          "label": {
+            "en": "Reserve (%)",
+            "nl": "Reserve (%)",
+            "de": "Reserve (%)",
+            "fr": "Réserve (%)",
+            "it": "Riserva (%)",
+            "sv": "Reserv (%)",
+            "no": "Reserve (%)",
+            "es": "Reserva (%)",
+            "da": "Reserve (%)",
+            "pl": "Rezerwa (%)",
+            "ru": "Резерв (%)",
+            "ar": "الاحتياطي (%)",
+            "ko": "예비량 (%)"
+          },
+          "value": "-",
+          "hint": {
+            "en": "Charge always kept for this. Limiting peaks: 10 % advised.",
+            "nl": "Lading die hiervoor altijd blijft. Bij pieken beperken: 10 % aangeraden.",
+            "de": "Ladung, die dafür immer bleibt. Beim Spitzenbegrenzen: 10 % empfohlen.",
+            "fr": "Charge toujours gardée pour cela. Limitation des pics : 10 % conseillé.",
+            "it": "Carica sempre tenuta per questo. Limitando i picchi: 10 % consigliato.",
+            "sv": "Laddning som alltid sparas för detta. Vid toppbegränsning: 10 % rekommenderas.",
+            "no": "Lading som alltid holdes av til dette. Ved toppbegrensning: 10 % anbefalt.",
+            "es": "Carga siempre reservada para esto. Al limitar picos: 10 % recomendado.",
+            "da": "Ladning, der altid holdes til dette. Ved spidsbegrænsning: 10 % anbefales.",
+            "pl": "Ładunek zawsze zachowany na to. Przy ograniczaniu szczytów: zalecane 10 %.",
+            "ru": "Заряд, всегда оставляемый для этого. При ограничении пиков: рекомендуется 10 %.",
+            "ar": "شحن يُحتفظ به دائمًا لهذا. عند تحديد الذروات: يُنصح بـ 10 %.",
+            "ko": "이를 위해 항상 남겨두는 충전량. 피크 제한 시 10 % 권장."
+          }
+        }
+      ]
+    },
+    {
+      "type": "group",
+      "label": {
+        "en": "Advanced",
+        "nl": "Geavanceerd",
+        "de": "Erweitert",
+        "fr": "Avancé",
+        "it": "Avanzate",
+        "sv": "Avancerat",
+        "no": "Avansert",
+        "es": "Avanzado",
+        "da": "Avanceret",
+        "pl": "Zaawansowane",
+        "ru": "Дополнительно",
+        "ar": "متقدم",
+        "ko": "고급"
+      },
+      "children": [
+        {
+          "id": "view_tariff_type",
+          "type": "label",
+          "label": {
+            "en": "Tariff selection",
+            "nl": "Tariefselectie",
+            "de": "Tarifauswahl",
+            "fr": "Sélection du tarif",
+            "it": "Selezione tariffa",
+            "sv": "Tariffval",
+            "no": "Tariffvalg",
+            "es": "Selección de tarifa",
+            "da": "Tarifvalg",
+            "pl": "Wybór taryfy",
+            "ru": "Выбор тарифа",
+            "ar": "اختيار التعريفة",
+            "ko": "요금 선택"
+          },
+          "value": "-",
+          "hint": {
+            "en": "Automatic: the export price while you return power, else the import price.",
+            "nl": "Automatisch: de terugleverprijs zolang je teruglevert, anders de afnameprijs.",
+            "de": "Automatisch: der Einspeisepreis, solange Sie einspeisen, sonst der Bezugspreis.",
+            "fr": "Automatique : le prix d'injection pendant que vous injectez, sinon le prix d'achat.",
+            "it": "Automatico: il prezzo di immissione mentre immetti, altrimenti quello di prelievo.",
+            "sv": "Automatisk: exportpriset när du levererar tillbaka, annars importpriset.",
+            "no": "Automatisk: eksportprisen når du leverer tilbake, ellers importprisen.",
+            "es": "Automático: el precio de exportación mientras exportas, si no el de importación.",
+            "da": "Automatisk: eksportprisen, mens du leverer tilbage, ellers importprisen.",
+            "pl": "Automatycznie: cena eksportu, gdy oddajesz energię, w przeciwnym razie cena importu.",
+            "ru": "Автоматически: цена экспорта, пока вы отдаёте энергию, иначе цена импорта.",
+            "ar": "تلقائي: سعر التصدير أثناء إعادة الكهرباء، وإلا سعر الاستيراد.",
+            "ko": "자동: 역송전 중에는 수출 가격, 그 외에는 수입 가격."
+          }
+        },
+        {
+          "id": "view_precisePlanning",
+          "type": "label",
+          "label": {
+            "en": "Extra precise planning",
+            "nl": "Extra nauwkeurig plannen",
+            "de": "Besonders genaue Planung",
+            "fr": "Planification très précise",
+            "it": "Pianificazione più precisa",
+            "sv": "Extra noggrann planering",
+            "no": "Ekstra nøyaktig planlegging",
+            "es": "Planificación más precisa",
+            "da": "Ekstra præcis planlægning",
+            "pl": "Dokładniejsze planowanie",
+            "ru": "Более точное планирование",
+            "ar": "تخطيط أدق",
+            "ko": "더 정밀한 계획"
+          },
+          "value": "-",
+          "hint": {
+            "en": "Slightly better plans, but uses much more of Homey's memory.",
+            "nl": "Iets betere planning, maar gebruikt veel meer geheugen van Homey.",
+            "de": "Etwas bessere Planung, braucht aber viel mehr Speicher von Homey.",
+            "fr": "Planification un peu meilleure, mais utilise beaucoup plus de mémoire de Homey.",
+            "it": "Pianificazione un po' migliore, ma usa molta più memoria di Homey.",
+            "sv": "Något bättre planering, men använder mycket mer av Homeys minne.",
+            "no": "Litt bedre planlegging, men bruker mye mer av Homeys minne.",
+            "es": "Planificación algo mejor, pero usa mucha más memoria de Homey.",
+            "da": "Lidt bedre planlægning, men bruger meget mere af Homeys hukommelse.",
+            "pl": "Nieco lepsze planowanie, ale zużywa znacznie więcej pamięci Homey.",
+            "ru": "Немного лучшее планирование, но использует намного больше памяти Homey.",
+            "ar": "تخطيط أفضل قليلاً، لكنه يستهلك ذاكرة أكبر بكثير من Homey.",
+            "ko": "계획이 조금 더 좋아지지만 Homey 메모리를 훨씬 더 사용합니다."
+          }
+        },
         {
           "id": "view_chartShowPower",
           "type": "label",
@@ -1166,64 +1126,34 @@
             "ar": "إظهار الطاقة في الرسم البياني",
             "ko": "그래프에 전력 표시"
           },
-          "value": "-",
-          "hint": {
-            "en": "Show the actual/planned power (kW) line and its axis on the charge charts.",
-            "nl": "Toon de werkelijke/geplande vermogenslijn (kW) en de bijbehorende as in de laadgrafieken.",
-            "de": "Zeigt die tatsächliche/geplante Leistungslinie (kW) und ihre Achse in den Ladediagrammen an.",
-            "fr": "Afficher la ligne de puissance réelle/prévue (kW) et son axe sur les graphiques de charge.",
-            "it": "Mostra la linea di potenza effettiva/pianificata (kW) e il relativo asse nei grafici di ricarica.",
-            "sv": "Visa den faktiska/planerade effektlinjen (kW) och dess axel i laddningsdiagrammen.",
-            "no": "Vis den faktiske/planlagte effektlinjen (kW) og aksen i ladediagrammene.",
-            "es": "Mostrar la línea de potencia real/planificada (kW) y su eje en los gráficos de carga.",
-            "da": "Vis den faktiske/planlagte effektlinje (kW) og dens akse i opladningsdiagrammerne.",
-            "pl": "Pokaż linię mocy rzeczywistej/planowanej (kW) i jej oś na wykresach ładowania.",
-            "ru": "Показывать линию фактической/запланированной мощности (кВт) и её ось на графиках зарядки.",
-            "ar": "إظهار خط الطاقة الفعلية/المخططة (كيلوواط) ومحوره في رسوم الشحن البيانية.",
-            "ko": "충전 차트에 실제/계획 전력(kW) 선과 축을 표시합니다."
-          }
+          "value": "-"
         },
         {
           "id": "view_chartShowSoc",
           "type": "label",
           "label": {
-            "en": "Show SoC in chart",
-            "nl": "Laadniveau (SoC) tonen in grafiek",
-            "de": "Ladezustand (SoC) im Diagramm anzeigen",
-            "fr": "Afficher l'état de charge (SoC) sur le graphique",
-            "it": "Mostra stato di carica (SoC) nel grafico",
-            "sv": "Visa laddningsnivå (SoC) i diagrammet",
-            "no": "Vis ladenivå (SoC) i diagrammet",
-            "es": "Mostrar estado de carga (SoC) en el gráfico",
-            "da": "Vis ladetilstand (SoC) i diagrammet",
-            "pl": "Pokaż stan naładowania (SoC) na wykresie",
-            "ru": "Показывать уровень заряда (SoC) на графике",
-            "ar": "إظهار حالة الشحن (SoC) في الرسم البياني",
+            "en": "Show charge level in chart",
+            "nl": "Laadniveau tonen in grafiek",
+            "de": "Ladezustand im Diagramm anzeigen",
+            "fr": "Afficher l'état de charge sur le graphique",
+            "it": "Mostra stato di carica nel grafico",
+            "sv": "Visa laddningsnivå i diagrammet",
+            "no": "Vis ladenivå i diagrammet",
+            "es": "Mostrar estado de carga en el gráfico",
+            "da": "Vis ladetilstand i diagrammet",
+            "pl": "Pokaż stan naładowania na wykresie",
+            "ru": "Показывать уровень заряда на графике",
+            "ar": "إظهار حالة الشحن في الرسم البياني",
             "ko": "그래프에 충전 상태 표시"
           },
-          "value": "-",
-          "hint": {
-            "en": "Show the SoC (%) line and its axis on the charge charts.",
-            "nl": "Toon de SoC-lijn (%) en de bijbehorende as in de laadgrafieken.",
-            "de": "Zeigt die SoC-Linie (%) und ihre Achse in den Ladediagrammen an.",
-            "fr": "Afficher la ligne SoC (%) et son axe sur les graphiques de charge.",
-            "it": "Mostra la linea SoC (%) e il relativo asse nei grafici di ricarica.",
-            "sv": "Visa SoC-linjen (%) och dess axel i laddningsdiagrammen.",
-            "no": "Vis SoC-linjen (%) og aksen i ladediagrammene.",
-            "es": "Mostrar la línea de SoC (%) y su eje en los gráficos de carga.",
-            "da": "Vis SoC-linjen (%) og dens akse i opladningsdiagrammerne.",
-            "pl": "Pokaż linię SoC (%) i jej oś na wykresach ładowania.",
-            "ru": "Показывать линию SoC (%) и её ось на графиках зарядки.",
-            "ar": "إظهار خط SoC (%) ومحوره في رسوم الشحن البيانية.",
-            "ko": "충전 차트에 SoC (%) 선과 축을 표시합니다."
-          }
+          "value": "-"
         },
         {
           "id": "view_chartShowExportPrice",
           "type": "label",
           "label": {
             "en": "Show export price in chart",
-            "nl": "Exportprijs tonen in grafiek",
+            "nl": "Terugleverprijs tonen in grafiek",
             "de": "Exportpreis im Diagramm anzeigen",
             "fr": "Afficher le prix d'exportation sur le graphique",
             "it": "Mostra prezzo di esportazione nel grafico",
@@ -1236,22 +1166,7 @@
             "ar": "إظهار سعر التصدير في الرسم البياني",
             "ko": "그래프에 송전(수출) 가격 표시"
           },
-          "value": "-",
-          "hint": {
-            "en": "Show the export price line (yellow) on the charge charts.",
-            "nl": "Toon de exportprijslijn (geel) in de laadgrafieken.",
-            "de": "Zeigt die Exportpreislinie (gelb) in den Ladediagrammen an.",
-            "fr": "Afficher la ligne de prix d'exportation (jaune) sur les graphiques de charge.",
-            "it": "Mostra la linea del prezzo di esportazione (gialla) nei grafici di ricarica.",
-            "sv": "Visa exportprislinjen (gul) i laddningsdiagrammen.",
-            "no": "Vis eksportprislinjen (gul) i ladediagrammene.",
-            "es": "Mostrar la línea de precio de exportación (amarilla) en los gráficos de carga.",
-            "da": "Vis eksportprislinjen (gul) i opladningsdiagrammerne.",
-            "pl": "Pokaż linię ceny eksportu (żółta) na wykresach ładowania.",
-            "ru": "Показывать линию экспортной цены (жёлтая) на графиках зарядки.",
-            "ar": "إظهار خط سعر التصدير (الأصفر) في رسوم الشحن البيانية.",
-            "ko": "충전 차트에 송전(수출) 가격 선(노란색)을 표시합니다."
-          }
+          "value": "-"
         },
         {
           "id": "view_chartShowLegend",
@@ -1271,22 +1186,7 @@
             "ar": "إظهار وسيلة الإيضاح في الرسم البياني",
             "ko": "그래프에 범례 표시"
           },
-          "value": "-",
-          "hint": {
-            "en": "Explain the colors and lines below the charge charts.",
-            "nl": "Leg de kleuren en lijnen uit onder de laadgrafieken.",
-            "de": "Erklärt die Farben und Linien unter den Ladediagrammen.",
-            "fr": "Explique les couleurs et les lignes sous les graphiques de charge.",
-            "it": "Spiega i colori e le linee sotto i grafici di ricarica.",
-            "sv": "Förklarar färgerna och linjerna under laddningsdiagrammen.",
-            "no": "Forklarer fargene og linjene under ladediagrammene.",
-            "es": "Explica los colores y las líneas debajo de los gráficos de carga.",
-            "da": "Forklarer farverne og linjerne under opladningsdiagrammerne.",
-            "pl": "Objaśnia kolory i linie pod wykresami ładowania.",
-            "ru": "Поясняет цвета и линии под графиками зарядки.",
-            "ar": "يشرح الألوان والخطوط أسفل رسوم الشحن البيانية.",
-            "ko": "충전 차트 아래에 색상과 선을 설명합니다."
-          }
+          "value": "-"
         }
       ]
     },
@@ -1363,19 +1263,19 @@
             "ko": "보정"
           },
           "hint": {
-            "en": "Now and then empties and fills the battery fully, so it corrects its own SoC. Start or stop it with a flow.",
-            "nl": "Maakt de batterij af en toe helemaal leeg en vol, zodat die zijn eigen SoC corrigeert. Start of stop met een flow.",
-            "de": "Entleert und füllt die Batterie ab und zu ganz, damit sie ihren eigenen SoC korrigiert. Start oder Stopp per Flow.",
-            "fr": "Vide et remplit parfois complètement la batterie, pour qu'elle corrige son propre SoC. Démarrer ou arrêter par un flow.",
-            "it": "Ogni tanto svuota e riempie del tutto la batteria, così corregge il proprio SoC. Avvia o ferma con un flow.",
-            "sv": "Tömmer och fyller batteriet helt då och då, så att det rättar sin egen SoC. Starta eller stoppa med ett Flow.",
-            "no": "Tømmer og fyller batteriet helt av og til, så det retter sin egen SoC. Start eller stopp med en Flow.",
-            "es": "De vez en cuando vacía y llena del todo la batería, para que corrija su propio SoC. Iniciar o parar con un Flow.",
-            "da": "Tømmer og fylder batteriet helt nu og da, så det retter sin egen SoC. Start eller stop med et flow.",
-            "pl": "Co jakiś czas całkiem rozładowuje i ładuje baterię, aby skorygowała własny SoC. Start lub stop przez flow.",
-            "ru": "Время от времени полностью разряжает и заряжает батарею, чтобы она исправила свой SoC. Запуск или остановка через Flow.",
-            "ar": "يفرّغ البطارية ويملؤها بالكامل من حين لآخر لتصحّح نسبة شحنها. ابدأ أو أوقف عبر Flow.",
-            "ko": "가끔 배터리를 완전히 비우고 채워 자체 SoC를 보정합니다. Flow로 시작하거나 중지합니다."
+            "en": "Start or stop it with a flow.",
+            "nl": "Start of stop het met een flow.",
+            "de": "Mit einem Flow starten oder stoppen.",
+            "fr": "Démarrez-la ou arrêtez-la avec un flow.",
+            "it": "Avviala o fermala con un flow.",
+            "sv": "Starta eller stoppa den med ett flöde.",
+            "no": "Start eller stopp den med en flow.",
+            "es": "Iníciala o detenla con un flow.",
+            "da": "Start eller stop den med et flow.",
+            "pl": "Uruchom lub zatrzymaj ją flow.",
+            "ru": "Запуск и остановка через поток.",
+            "ar": "ابدأها أو أوقفها عبر تدفق.",
+            "ko": "플로우로 시작하거나 중지합니다."
           }
         }
       ]

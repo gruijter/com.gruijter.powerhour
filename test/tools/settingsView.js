@@ -115,10 +115,16 @@ const flatten = (settings) => {
 };
 
 const dump = process.argv.includes('--dump');
+// The label says it all: no hint.
+const NO_HINT = ['chartShowPower', 'chartShowSoc', 'chartShowExportPrice', 'chartShowLegend', 'dischargeToEv', 'wearCalc',
+  'markup_hour', 'peakDistinctDays', 'peakWeekdaysOnly', 'battery.chargePower', 'battery.dischargePower'];
 const DRIVER_DEFS = require(path.join(ROOT, 'lib/helpers/DriverSetupSettings.json'));
 const hintFor = (driverId, id, def) => {
   const h = HINTS[`${driverId}.${id}`] || HINTS[id] || HINTS[id.replace(/_\d$/, '')];
   if (h) return tr(h, `hint ${driverId}.${id}`);
+  if (NO_HINT.includes(id) || NO_HINT.includes(`${driverId}.${id}`)) return null;
+  // A locale key (app-managed settings in PairSetup) or a translation object.
+  if (def && def.info && typeof def.info === 'string') return tr(def.info, `info ${driverId}.${id}`);
   if (def && def.info && typeof def.info === 'object') {
     if (dump) console.log(`  ${driverId}.${id}: ${def.info.en}`);
     return tr(def.info, `info ${driverId}.${id}`);
@@ -170,12 +176,15 @@ const run = async () => {
       if (!groups[name]) throw Error(`${driverId}: no group ${name}`);
       return groups[name].label;
     };
-    const via = (title) => tr('settings_view.group', `group ${driverId}`, { title: tr(title, `title ${driverId}`) });
+    const note = {
+      id: 'repair_note', type: 'label', label: tr('settings_view.repair_note', `note ${driverId}`), value: '',
+    };
 
     const settings = [];
     (layout.editable || []).forEach((g) => settings.push(group(existing(g.group), g.ids.map(keep))));
     const steps = drv.ds.setup ? drv.ds.setup.steps : null;
     let sourceShown = false;
+    let noteShown = false;
     SettingsView.groupsFor(driverId, steps).forEach((g) => {
       const children = [];
       if (g.roles && !sourceShown) {
@@ -184,8 +193,13 @@ const run = async () => {
       }
       children.push(...g.ids.map(viewItem));
       if (!children.length) return;
+      // One line above the settings that change via Repair.
+      if (!noteShown) {
+        children.unshift(note);
+        noteShown = true;
+      }
       const title = driverId === 'price' ? PRICE_TITLES[g.id] : `repair.step_${g.id}`;
-      settings.push(group(via(title), children));
+      settings.push(group(tr(title, `title ${driverId}`), children));
     });
     (layout.status || []).forEach((g) => settings.push(group(existing(g.group), g.ids.map(keep))));
     const count = settings.reduce((a, g) => a + g.children.length, 0);

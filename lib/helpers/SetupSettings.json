@@ -3,19 +3,19 @@
     "id": "tariff_update_group",
     "type": "number",
     "label": {
-      "en": "Tariff group",
-      "nl": "Tariefgroep",
-      "de": "Tarifgruppe",
-      "fr": "Groupe tarifaire",
-      "it": "Gruppo tariffario",
-      "sv": "Tariffgrupp",
-      "no": "Tariffgruppe",
-      "es": "Grupo de tarifa",
-      "da": "Takstgruppe",
-      "pl": "Grupa taryfowa",
-      "ru": "Тарифная группа",
-      "ar": "مجموعة التعريفة",
-      "ko": "요금 그룹"
+      "en": "Price from",
+      "nl": "Prijs van",
+      "de": "Preisquelle",
+      "fr": "Source du prix",
+      "it": "Fonte del prezzo",
+      "sv": "Pris från",
+      "no": "Pris fra",
+      "es": "Origen del precio",
+      "da": "Pris fra",
+      "pl": "Źródło ceny",
+      "ru": "Источник цены",
+      "ar": "مصدر السعر",
+      "ko": "가격 출처"
     },
     "value": 1,
     "min": 0,
@@ -140,19 +140,19 @@
       }
     ],
     "info": {
-      "en": "Automatic: the export price while your home returns power to the grid, otherwise the import price.",
-      "nl": "Automatisch: de terugleverprijs zolang je huis stroom teruglevert aan het net, anders de afnameprijs.",
-      "de": "Automatisch: der Einspeisepreis, solange dein Haus Strom ins Netz einspeist, sonst der Bezugspreis.",
-      "fr": "Automatique : le prix d'injection tant que votre maison renvoie du courant au réseau, sinon le prix d'achat.",
-      "it": "Automatico: il prezzo di immissione mentre la casa immette energia in rete, altrimenti il prezzo di prelievo.",
-      "sv": "Automatisk: exportpriset medan ditt hem matar ut ström till nätet, annars importpriset.",
-      "no": "Automatisk: eksportprisen mens hjemmet ditt leverer strøm til nettet, ellers importprisen.",
-      "es": "Automático: el precio de exportación mientras tu casa devuelve energía a la red, si no el de importación.",
-      "da": "Automatisk: eksportprisen, mens dit hjem leverer strøm til nettet, ellers importprisen.",
-      "pl": "Automatycznie: cena eksportu, gdy dom oddaje prąd do sieci, w przeciwnym razie cena importu.",
-      "ru": "Автоматически: цена экспорта, пока дом отдаёт энергию в сеть, иначе цена импорта.",
-      "ar": "تلقائي: سعر التصدير طالما يعيد منزلك الطاقة إلى الشبكة، وإلا فسعر الاستيراد.",
-      "ko": "자동: 집이 전력망으로 전력을 보내는 동안은 수출 가격, 그 외에는 수입 가격."
+      "en": "Automatic: the export price while you return power, else the import price.",
+      "nl": "Automatisch: de terugleverprijs zolang je teruglevert, anders de afnameprijs.",
+      "de": "Automatisch: der Einspeisepreis, solange Sie einspeisen, sonst der Bezugspreis.",
+      "fr": "Automatique : le prix d'injection pendant que vous injectez, sinon le prix d'achat.",
+      "it": "Automatico: il prezzo di immissione mentre immetti, altrimenti quello di prelievo.",
+      "sv": "Automatisk: exportpriset när du levererar tillbaka, annars importpriset.",
+      "no": "Automatisk: eksportprisen når du leverer tilbake, ellers importprisen.",
+      "es": "Automático: el precio de exportación mientras exportas, si no el de importación.",
+      "da": "Automatisk: eksportprisen, mens du leverer tilbage, ellers importprisen.",
+      "pl": "Automatycznie: cena eksportu, gdy oddajesz energię, w przeciwnym razie cena importu.",
+      "ru": "Автоматически: цена экспорта, пока вы отдаёте энергию, иначе цена импорта.",
+      "ar": "تلقائي: سعر التصدير أثناء إعادة الكهرباء، وإلا سعر الاستيراد.",
+      "ko": "자동: 역송전 중에는 수출 가격, 그 외에는 수입 가격."
     }
   },
   "directionalNettingScheme": {
@@ -229,7 +229,22 @@
           "ko": "블록 정산"
         }
       }
-    ]
+    ],
+    "info": {
+      "en": "How your supplier settles import and export.",
+      "nl": "Hoe je leverancier afname en teruglevering verrekent.",
+      "de": "Wie Ihr Anbieter Bezug und Einspeisung verrechnet.",
+      "fr": "Comment votre fournisseur règle l'achat et l'injection.",
+      "it": "Come il fornitore conteggia prelievo e immissione.",
+      "sv": "Hur din leverantör räknar import och export.",
+      "no": "Hvordan leverandøren avregner import og eksport.",
+      "es": "Cómo liquida tu proveedor la importación y la exportación.",
+      "da": "Hvordan din leverandør afregner import og eksport.",
+      "pl": "Jak dostawca rozlicza pobór i oddawanie.",
+      "ru": "Как поставщик рассчитывает импорт и экспорт.",
+      "ar": "كيف يحاسب مورّدك الاستيراد والتصدير.",
+      "ko": "공급업체가 수입과 수출을 정산하는 방식."
+    }
   },
   "directionalBlockMinutes": {
     "id": "directionalBlockMinutes",
@@ -345,6 +360,21 @@
     "showIf": {
       "id": "directionalNettingScheme",
       "value": "fixedBlock"
+    },
+    "info": {
+      "en": "Length of a block for block settlement.",
+      "nl": "Lengte van een blok bij blokverrekening.",
+      "de": "Länge eines Blocks bei der Blockabrechnung.",
+      "fr": "Durée d'un bloc pour le règlement par bloc.",
+      "it": "Durata di un blocco per il conteggio a blocchi.",
+      "sv": "Längd på ett block vid blockavräkning.",
+      "no": "Lengde på en blokk ved blokkavregning.",
+      "es": "Duración de un bloque en la liquidación por bloques.",
+      "da": "Længde af en blok ved blokafregning.",
+      "pl": "Długość bloku przy rozliczeniu blokowym.",
+      "ru": "Длительность блока при расчёте по блокам.",
+      "ar": "طول الفترة في المحاسبة حسب الفترات.",
+      "ko": "블록 정산에서 한 블록의 길이."
     }
   },
   "markup_month": {
@@ -365,7 +395,22 @@
       "ar": "التكاليف الشهرية الثابتة",
       "ko": "고정 월별 비용"
     },
-    "value": 0
+    "value": 0,
+    "info": {
+      "en": "E.g. a standing charge.",
+      "nl": "Bijv. vastrecht.",
+      "de": "Z. B. eine Grundgebühr.",
+      "fr": "P. ex. un abonnement.",
+      "it": "Ad es. una quota fissa.",
+      "sv": "T.ex. en fast avgift.",
+      "no": "F.eks. et fastledd.",
+      "es": "P. ej. una cuota fija.",
+      "da": "F.eks. et fast abonnement.",
+      "pl": "Np. opłata stała.",
+      "ru": "Например, абонентская плата.",
+      "ar": "مثل رسوم ثابتة.",
+      "ko": "예) 기본요금."
+    }
   },
   "markup_day": {
     "id": "markup_day",
@@ -385,7 +430,22 @@
       "ar": "التكاليف اليومية الثابتة",
       "ko": "고정 일일 비용"
     },
-    "value": 0
+    "value": 0,
+    "info": {
+      "en": "E.g. a standing charge.",
+      "nl": "Bijv. vastrecht.",
+      "de": "Z. B. eine Grundgebühr.",
+      "fr": "P. ex. un abonnement.",
+      "it": "Ad es. una quota fissa.",
+      "sv": "T.ex. en fast avgift.",
+      "no": "F.eks. et fastledd.",
+      "es": "P. ej. una cuota fija.",
+      "da": "F.eks. et fast abonnement.",
+      "pl": "Np. opłata stała.",
+      "ru": "Например, абонентская плата.",
+      "ar": "مثل رسوم ثابتة.",
+      "ko": "예) 기본요금."
+    }
   },
   "markup_hour": {
     "id": "markup_hour",
@@ -412,7 +472,7 @@
     "type": "number",
     "label": {
       "en": "Meter decimals",
-      "nl": "Meter decimalen",
+      "nl": "Decimalen meter",
       "de": "Zählerdezimalstellen",
       "fr": "Décimales du compteur",
       "it": "Decimali contatore",
@@ -427,7 +487,22 @@
     },
     "value": 4,
     "min": 0,
-    "max": 8
+    "max": 8,
+    "info": {
+      "en": "Decimals shown for the meter values.",
+      "nl": "Aantal decimalen van de meterwaarden.",
+      "de": "Angezeigte Dezimalstellen der Zählerwerte.",
+      "fr": "Décimales affichées pour les valeurs du compteur.",
+      "it": "Decimali mostrati per i valori del contatore.",
+      "sv": "Antal decimaler för mätarvärdena.",
+      "no": "Antall desimaler for målerverdiene.",
+      "es": "Decimales mostrados en los valores del contador.",
+      "da": "Antal decimaler for målerværdierne.",
+      "pl": "Liczba miejsc po przecinku wartości licznika.",
+      "ru": "Число знаков после запятой у показаний счётчика.",
+      "ar": "عدد الخانات العشرية لقيم العداد.",
+      "ko": "미터 값에 표시되는 소수 자릿수."
+    }
   },
   "connectionPhases": {
     "id": "connectionPhases",
@@ -485,7 +560,22 @@
           "ko": "3상"
         }
       }
-    ]
+    ],
+    "info": {
+      "en": "Number of phases of your grid connection.",
+      "nl": "Aantal fasen van je netaansluiting.",
+      "de": "Anzahl der Phasen Ihres Netzanschlusses.",
+      "fr": "Nombre de phases de votre raccordement.",
+      "it": "Numero di fasi del tuo allacciamento.",
+      "sv": "Antal faser i din elanslutning.",
+      "no": "Antall faser i nettilkoblingen din.",
+      "es": "Número de fases de tu conexión a la red.",
+      "da": "Antal faser i din nettilslutning.",
+      "pl": "Liczba faz Twojego przyłącza.",
+      "ru": "Число фаз вашего подключения к сети.",
+      "ar": "عدد أطوار توصيلك بالشبكة.",
+      "ko": "전력망 연결의 상 수."
+    }
   },
   "connectionAmps": {
     "id": "connectionAmps",
@@ -508,7 +598,22 @@
     "value": 25,
     "min": 1,
     "max": 250,
-    "step": 1
+    "step": 1,
+    "info": {
+      "en": "Amperes per phase, e.g. 25.",
+      "nl": "Ampère per fase, bijv. 25.",
+      "de": "Ampere pro Phase, z. B. 25.",
+      "fr": "Ampères par phase, p. ex. 25.",
+      "it": "Ampere per fase, ad es. 25.",
+      "sv": "Ampere per fas, t.ex. 25.",
+      "no": "Ampere per fase, f.eks. 25.",
+      "es": "Amperios por fase, p. ej. 25.",
+      "da": "Ampere pr. fase, f.eks. 25.",
+      "pl": "Ampery na fazę, np. 25.",
+      "ru": "Ампер на фазу, например 25.",
+      "ar": "أمبير لكل طور، مثل 25.",
+      "ko": "상당 암페어, 예) 25."
+    }
   },
   "connectionVoltage": {
     "id": "connectionVoltage",
@@ -531,7 +636,22 @@
     "value": 230,
     "min": 100,
     "max": 500,
-    "step": 1
+    "step": 1,
+    "info": {
+      "en": "Voltage per phase.",
+      "nl": "Spanning per fase.",
+      "de": "Spannung pro Phase.",
+      "fr": "Tension par phase.",
+      "it": "Tensione per fase.",
+      "sv": "Spänning per fas.",
+      "no": "Spenning per fase.",
+      "es": "Tensión por fase.",
+      "da": "Spænding pr. fase.",
+      "pl": "Napięcie na fazę.",
+      "ru": "Напряжение на фазу.",
+      "ar": "الجهد لكل طور.",
+      "ko": "상당 전압."
+    }
   },
   "fuseMarginPct": {
     "id": "fuseMarginPct",
@@ -557,19 +677,19 @@
     "max": 30,
     "step": 1,
     "info": {
-      "en": "Control stays this percentage below the main fuse, for import and export.",
-      "nl": "De regeling blijft dit percentage onder de hoofdzekering, bij afname en teruglevering.",
-      "de": "Die Regelung bleibt diesen Prozentsatz unter der Hauptsicherung, bei Bezug und Einspeisung.",
-      "fr": "Le pilotage reste ce pourcentage sous le fusible principal, en prélèvement et en injection.",
-      "it": "Il controllo resta questa percentuale sotto il fusibile principale, in prelievo e immissione.",
-      "sv": "Styrningen håller sig denna procent under huvudsäkringen, vid uttag och export.",
-      "no": "Styringen holder seg denne prosenten under hovedsikringen, ved uttak og innmating.",
-      "es": "El control se mantiene este porcentaje por debajo del fusible principal, en consumo y vertido.",
-      "da": "Styringen holder sig denne procent under hovedsikringen, ved forbrug og levering.",
-      "pl": "Sterowanie utrzymuje się o ten procent poniżej bezpiecznika głównego, przy poborze i oddawaniu.",
-      "ru": "Управление держится на этот процент ниже главного предохранителя, при потреблении и отдаче.",
-      "ar": "يبقى التحكم بهذه النسبة دون المصهر الرئيسي، عند السحب والتصدير.",
-      "ko": "제어가 수전과 송전 모두 메인 퓨즈보다 이 비율만큼 아래에 머뭅니다."
+      "en": "Stay this % below the main fuse.",
+      "nl": "Blijf zoveel % onder de hoofdzekering.",
+      "de": "So viel % unter der Hauptsicherung bleiben.",
+      "fr": "Rester ce % sous le fusible principal.",
+      "it": "Restare questa % sotto il fusibile principale.",
+      "sv": "Håll så många % under huvudsäkringen.",
+      "no": "Hold så mange % under hovedsikringen.",
+      "es": "Quedarse este % por debajo del fusible principal.",
+      "da": "Hold så mange % under hovedsikringen.",
+      "pl": "Trzymaj się tyle % poniżej głównego bezpiecznika.",
+      "ru": "Держаться на столько % ниже главного предохранителя.",
+      "ar": "البقاء بهذه النسبة دون المصهر الرئيسي.",
+      "ko": "메인 퓨즈보다 이 %만큼 낮게 유지합니다."
     }
   },
   "peakPreset": {
@@ -682,7 +802,22 @@
           "ko": "스웨덴"
         }
       }
-    ]
+    ],
+    "info": {
+      "en": "Capacity tariff of your grid operator, or your own rules.",
+      "nl": "Capaciteitstarief van je netbeheerder, of eigen regels.",
+      "de": "Leistungstarif Ihres Netzbetreibers oder eigene Regeln.",
+      "fr": "Tarif capacitaire de votre gestionnaire de réseau, ou vos propres règles.",
+      "it": "Tariffa di potenza del tuo gestore di rete, o regole proprie.",
+      "sv": "Effekttariff från din nätägare, eller egna regler.",
+      "no": "Effekttariff fra nettselskapet ditt, eller egne regler.",
+      "es": "Tarifa de potencia de tu distribuidora, o reglas propias.",
+      "da": "Effekttarif fra dit netselskab, eller egne regler.",
+      "pl": "Taryfa mocowa Twojego operatora sieci albo własne zasady.",
+      "ru": "Тариф на мощность вашего сетевого оператора или свои правила.",
+      "ar": "تعرفة القدرة لمشغّل الشبكة، أو قواعدك الخاصة.",
+      "ko": "전력망 운영자의 용량 요금 또는 사용자 규칙."
+    }
   },
   "peakLoadIntervalMinutes": {
     "id": "peakLoadIntervalMinutes",
@@ -765,6 +900,21 @@
         "none",
         "custom"
       ]
+    },
+    "info": {
+      "en": "Period over which a peak is averaged.",
+      "nl": "Periode waarover een piek wordt gemiddeld.",
+      "de": "Zeitraum, über den eine Spitze gemittelt wird.",
+      "fr": "Période sur laquelle une pointe est moyennée.",
+      "it": "Periodo su cui viene mediato un picco.",
+      "sv": "Period som en topp medelvärdesbildas över.",
+      "no": "Periode en topp gjennomsnittsberegnes over.",
+      "es": "Periodo en el que se promedia un pico.",
+      "da": "Periode, som en spids midles over.",
+      "pl": "Okres, z którego uśredniany jest szczyt.",
+      "ru": "Период, за который усредняется пик.",
+      "ar": "الفترة التي يُحسب عليها متوسط الذروة.",
+      "ko": "피크를 평균하는 기간."
     }
   },
   "peakSelection": {
@@ -845,6 +995,21 @@
     "showIf": {
       "id": "peakPreset",
       "value": "custom"
+    },
+    "info": {
+      "en": "Which peak of the month is billed.",
+      "nl": "Welke piek van de maand wordt gerekend.",
+      "de": "Welche Spitze des Monats abgerechnet wird.",
+      "fr": "Quelle pointe du mois est facturée.",
+      "it": "Quale picco del mese viene fatturato.",
+      "sv": "Vilken topp i månaden som debiteras.",
+      "no": "Hvilken topp i måneden som faktureres.",
+      "es": "Qué pico del mes se factura.",
+      "da": "Hvilken spids i måneden der afregnes.",
+      "pl": "Który szczyt miesiąca jest rozliczany.",
+      "ru": "Какой пик месяца оплачивается.",
+      "ar": "أي ذروة في الشهر تُحتسب.",
+      "ko": "그 달에 청구되는 피크."
     }
   },
   "peakCount": {
@@ -872,6 +1037,21 @@
     "showIf": {
       "id": "peakSelection",
       "not": "max"
+    },
+    "info": {
+      "en": "Number of highest peaks that count for the billed peak.",
+      "nl": "Aantal hoogste pieken dat meetelt voor de gerekende piek.",
+      "de": "Anzahl der höchsten Spitzen, die für die abgerechnete Spitze zählen.",
+      "fr": "Nombre de pointes les plus hautes prises en compte.",
+      "it": "Numero di picchi più alti che contano per il picco fatturato.",
+      "sv": "Antal högsta toppar som räknas för den debiterade toppen.",
+      "no": "Antall høyeste topper som teller for den fakturerte toppen.",
+      "es": "Número de picos más altos que cuentan para el pico facturado.",
+      "da": "Antal højeste spidser, der tæller for den afregnede spids.",
+      "pl": "Liczba najwyższych szczytów branych do rozliczenia.",
+      "ru": "Сколько наибольших пиков учитывается для оплачиваемого пика.",
+      "ar": "عدد أعلى الذروات التي تُحتسب للذروة المفوترة.",
+      "ko": "청구 피크에 포함되는 최고 피크의 수."
     }
   },
   "peakDistinctDays": {
@@ -1265,7 +1445,22 @@
       "ru": "Переменная мощность зарядки",
       "ar": "طاقة شحن متغيرة"
     },
-    "value": false
+    "value": false,
+    "info": {
+      "en": "The app sets the charge power, e.g. to follow solar surplus.",
+      "nl": "De app stelt het laadvermogen in, bijv. om zonne-overschot te volgen.",
+      "de": "Die App stellt die Ladeleistung ein, z. B. um Solarüberschuss zu folgen.",
+      "fr": "L'app règle la puissance de charge, p. ex. pour suivre le surplus solaire.",
+      "it": "L'app imposta la potenza di carica, ad es. per seguire il surplus solare.",
+      "sv": "Appen ställer in laddeffekten, t.ex. för att följa solöverskott.",
+      "no": "Appen stiller inn ladeeffekten, f.eks. for å følge soloverskudd.",
+      "es": "La app ajusta la potencia de carga, p. ej. para seguir el excedente solar.",
+      "da": "Appen indstiller ladeeffekten, f.eks. for at følge soloverskud.",
+      "pl": "Aplikacja ustawia moc ładowania, np. by podążać za nadwyżką solarną.",
+      "ru": "Приложение задаёт мощность зарядки, например по излишку солнечной энергии.",
+      "ar": "يضبط التطبيق قدرة الشحن، مثلًا لمتابعة فائض الطاقة الشمسية.",
+      "ko": "앱이 충전 전력을 설정합니다. 예) 태양광 잉여 따라가기."
+    }
   },
   "chargerPhase": {
     "id": "chargerPhase",
@@ -1379,19 +1574,19 @@
       }
     ],
     "info": {
-      "en": "The phase the car charges on, for the main fuse per phase. Automatic: learned from the meter.",
-      "nl": "De fase waarop de auto laadt, voor de hoofdzekering per fase. Automatisch: geleerd uit de meter.",
-      "de": "Die Phase, auf der das Auto lädt, für die Hauptsicherung je Phase. Automatisch: aus dem Zähler gelernt.",
-      "fr": "La phase sur laquelle la voiture charge, pour le fusible principal par phase. Automatique : appris du compteur.",
-      "it": "La fase su cui carica l'auto, per il fusibile principale per fase. Automatico: appreso dal contatore.",
-      "sv": "Fasen bilen laddar på, för huvudsäkringen per fas. Automatisk: inlärd från mätaren.",
-      "no": "Fasen bilen lader på, for hovedsikringen per fase. Automatisk: lært fra måleren.",
-      "es": "La fase en la que carga el coche, para el fusible principal por fase. Automático: aprendido del contador.",
-      "da": "Fasen bilen lader på, for hovedsikringen pr. fase. Automatisk: lært fra måleren.",
-      "pl": "Faza, na której ładuje się auto, dla bezpiecznika głównego na fazę. Automatycznie: nauczone z licznika.",
-      "ru": "Фаза, на которой заряжается авто, для главного предохранителя по фазам. Автоматически: определяется по счётчику.",
-      "ar": "الطور الذي تُشحن عليه السيارة، لحماية المصهر الرئيسي لكل طور. تلقائي: يُتعلَّم من العداد.",
-      "ko": "차량이 충전하는 상, 상별 메인 퓨즈 보호용. 자동: 계량기에서 학습."
+      "en": "For the main fuse per phase. Automatic: learned from the meter.",
+      "nl": "Voor de hoofdzekering per fase. Automatisch: geleerd uit de meter.",
+      "de": "Für die Hauptsicherung pro Phase. Automatisch: aus dem Zähler gelernt.",
+      "fr": "Pour le fusible principal par phase. Automatique : appris du compteur.",
+      "it": "Per il fusibile principale per fase. Automatico: appreso dal contatore.",
+      "sv": "För huvudsäkringen per fas. Automatisk: inlärd från mätaren.",
+      "no": "For hovedsikringen per fase. Automatisk: lært fra måleren.",
+      "es": "Para el fusible principal por fase. Automático: aprendido del contador.",
+      "da": "Til hovedsikringen pr. fase. Automatisk: lært fra måleren.",
+      "pl": "Dla głównego bezpiecznika na fazę. Automatycznie: z licznika.",
+      "ru": "Для главного предохранителя по фазам. Автоматически: по счётчику.",
+      "ar": "للمصهر الرئيسي لكل طور. تلقائي: يُتعلَّم من العداد.",
+      "ko": "상별 메인 퓨즈용입니다. 자동: 계량기에서 학습."
     }
   },
   "batteryPhase": {
@@ -1399,7 +1594,7 @@
     "type": "dropdown",
     "label": {
       "en": "Battery phase",
-      "nl": "Fase accu",
+      "nl": "Fase batterij",
       "de": "Phase Batterie",
       "fr": "Phase de la batterie",
       "it": "Fase batteria",
@@ -1506,27 +1701,27 @@
       }
     ],
     "info": {
-      "en": "The phase the battery is connected to, for the main fuse per phase. Automatic: learned from the meter.",
-      "nl": "De fase waarop de accu is aangesloten, voor de hoofdzekering per fase. Automatisch: geleerd uit de meter.",
-      "de": "Die Phase, an der die Batterie angeschlossen ist, für die Hauptsicherung je Phase. Automatisch: aus dem Zähler gelernt.",
-      "fr": "La phase à laquelle la batterie est raccordée, pour le fusible principal par phase. Automatique : appris du compteur.",
-      "it": "La fase a cui è collegata la batteria, per il fusibile principale per fase. Automatico: appreso dal contatore.",
-      "sv": "Fasen batteriet är anslutet till, för huvudsäkringen per fas. Automatisk: inlärd från mätaren.",
-      "no": "Fasen batteriet er koblet til, for hovedsikringen per fase. Automatisk: lært fra måleren.",
-      "es": "La fase a la que está conectada la batería, para el fusible principal por fase. Automático: aprendido del contador.",
-      "da": "Fasen batteriet er tilsluttet, for hovedsikringen pr. fase. Automatisk: lært fra måleren.",
-      "pl": "Faza, do której podłączona jest bateria, dla bezpiecznika głównego na fazę. Automatycznie: nauczone z licznika.",
-      "ru": "Фаза, к которой подключена батарея, для главного предохранителя по фазам. Автоматически: определяется по счётчику.",
-      "ar": "الطور الموصول به البطارية، لحماية المصهر الرئيسي لكل طور. تلقائي: يُتعلَّم من العداد.",
-      "ko": "배터리가 연결된 상, 상별 메인 퓨즈 보호용. 자동: 계량기에서 학습."
+      "en": "For the main fuse per phase. Automatic: learned from the meter.",
+      "nl": "Voor de hoofdzekering per fase. Automatisch: geleerd uit de meter.",
+      "de": "Für die Hauptsicherung pro Phase. Automatisch: aus dem Zähler gelernt.",
+      "fr": "Pour le fusible principal par phase. Automatique : appris du compteur.",
+      "it": "Per il fusibile principale per fase. Automatico: appreso dal contatore.",
+      "sv": "För huvudsäkringen per fas. Automatisk: inlärd från mätaren.",
+      "no": "For hovedsikringen per fase. Automatisk: lært fra måleren.",
+      "es": "Para el fusible principal por fase. Automático: aprendido del contador.",
+      "da": "Til hovedsikringen pr. fase. Automatisk: lært fra måleren.",
+      "pl": "Dla głównego bezpiecznika na fazę. Automatycznie: z licznika.",
+      "ru": "Для главного предохранителя по фазам. Автоматически: по счётчику.",
+      "ar": "للمصهر الرئيسي لكل طور. تلقائي: يُتعلَّم من العداد.",
+      "ko": "상별 메인 퓨즈용입니다. 자동: 계량기에서 학습."
     }
   },
   "chargerBalancing": {
     "id": "chargerBalancing",
     "type": "checkbox",
     "label": {
-      "en": "Charger guards the main fuse",
-      "nl": "Laadpaal bewaakt hoofdzekering",
+      "en": "Charger guards the main fuse itself",
+      "nl": "Laadpaal bewaakt zelf de hoofdzekering",
       "de": "Ladestation schützt Hauptsicherung",
       "fr": "La borne protège le fusible principal",
       "it": "Il caricatore protegge il fusibile principale",
@@ -1541,19 +1736,19 @@
     },
     "value": false,
     "info": {
-      "en": "The app does not limit or switch off the charger on a main fuse overload.",
-      "nl": "De app begrenst of stopt de laadpaal niet bij overbelasting van de hoofdzekering.",
-      "de": "Die App begrenzt oder stoppt die Ladestation nicht bei Überlastung der Hauptsicherung.",
-      "fr": "L'app ne limite ni n'arrête la borne en cas de surcharge du fusible principal.",
-      "it": "L'app non limita né spegne il caricatore in caso di sovraccarico del fusibile principale.",
-      "sv": "Appen begränsar eller stänger inte av laddaren vid överbelastning av huvudsäkringen.",
-      "no": "Appen begrenser eller slår ikke av laderen ved overbelastning av hovedsikringen.",
-      "es": "La app no limita ni apaga el cargador si se sobrecarga el fusible principal.",
-      "da": "Appen begrænser eller slukker ikke laderen ved overbelastning af hovedsikringen.",
-      "pl": "Aplikacja nie ogranicza ani nie wyłącza ładowarki przy przeciążeniu głównego bezpiecznika.",
-      "ru": "Приложение не ограничивает и не выключает зарядку при перегрузке главного предохранителя.",
-      "ar": "لا يقيّد التطبيق الشاحن ولا يوقفه عند تجاوز حمل المصهر الرئيسي.",
-      "ko": "메인 퓨즈 과부하 시 앱이 충전기를 제한하거나 끄지 않습니다."
+      "en": "The app then does not limit the charger for the main fuse.",
+      "nl": "De app begrenst de laadpaal dan niet voor de hoofdzekering.",
+      "de": "Die App begrenzt die Ladestation dann nicht für die Hauptsicherung.",
+      "fr": "L'app ne limite alors pas la borne pour le fusible principal.",
+      "it": "L'app quindi non limita il caricatore per il fusibile principale.",
+      "sv": "Appen begränsar då inte laddaren för huvudsäkringen.",
+      "no": "Appen begrenser da ikke laderen for hovedsikringen.",
+      "es": "La app entonces no limita el cargador por el fusible principal.",
+      "da": "Appen begrænser så ikke laderen for hovedsikringen.",
+      "pl": "Aplikacja nie ogranicza wtedy ładowarki ze względu na bezpiecznik.",
+      "ru": "Тогда приложение не ограничивает зарядку ради главного предохранителя.",
+      "ar": "عندها لا يحدّ التطبيق من الشاحن من أجل المصهر الرئيسي.",
+      "ko": "그러면 앱이 메인 퓨즈를 위해 충전기를 제한하지 않습니다."
     },
     "showIf": {
       "id": "chargerControl",
@@ -1583,19 +1778,19 @@
     "max": 22000,
     "decimals": 0,
     "info": {
-      "en": "Grid power allowed next to solar surplus, e.g. for Solar only when the surplus never reaches the charge power.",
-      "nl": "Netvermogen dat naast zonne-overschot mag, bijv. voor Alleen zon als het overschot nooit het laadvermogen haalt.",
-      "de": "Erlaubte Netzleistung neben Solarüberschuss, z. B. für Nur Solar, wenn der Überschuss die Ladeleistung nie erreicht.",
-      "fr": "Puissance réseau autorisée en plus du surplus solaire, p. ex. pour Solaire uniquement si le surplus n'atteint jamais la puissance de charge.",
-      "es": "Potencia de red permitida junto al excedente solar, p. ej. para Solo solar si el excedente nunca alcanza la potencia de carga.",
-      "it": "Potenza di rete ammessa oltre all'eccedenza solare, ad es. per Solo solare se l'eccedenza non raggiunge mai la potenza di carica.",
-      "da": "Neteffekt tilladt ud over soloverskud, f.eks. til Kun sol når overskuddet aldrig når ladeeffekten.",
-      "sv": "Näteffekt som tillåts utöver solöverskott, t.ex. för Endast sol när överskottet aldrig når laddeffekten.",
-      "no": "Netteffekt tillatt i tillegg til soloverskudd, f.eks. for Kun sol når overskuddet aldri når ladeeffekten.",
-      "pl": "Moc z sieci dozwolona obok nadwyżki słonecznej, np. dla Tylko słońce, gdy nadwyżka nigdy nie osiąga mocy ładowania.",
-      "ru": "Мощность сети, допустимая к солнечному излишку, напр. для Только солнце, если излишек не достигает мощности зарядки.",
-      "ar": "طاقة الشبكة المسموح بها بجانب فائض الشمس، مثلاً لوضع الطاقة الشمسية فقط عندما لا يصل الفائض إلى طاقة الشحن.",
-      "ko": "태양광 잉여 전력 외에 허용되는 전력망 전력. 예: 잉여 전력이 충전 전력에 도달하지 않을 때 태양광만 모드에 사용."
+      "en": "Extra grid power allowed when the solar surplus is too small to charge.",
+      "nl": "Extra netvermogen als het zonne-overschot te klein is om te laden.",
+      "de": "Zusätzliche Netzleistung, wenn der Solarüberschuss zum Laden zu klein ist.",
+      "fr": "Puissance réseau en plus quand le surplus solaire est trop faible pour charger.",
+      "it": "Potenza di rete extra quando il surplus solare è troppo piccolo per caricare.",
+      "sv": "Extra näteffekt när solöverskottet är för litet för att ladda.",
+      "no": "Ekstra netteffekt når soloverskuddet er for lite til å lade.",
+      "es": "Potencia de red extra cuando el excedente solar es demasiado bajo para cargar.",
+      "da": "Ekstra neteffekt, når soloverskuddet er for lille til at lade.",
+      "pl": "Dodatkowa moc z sieci, gdy nadwyżka solarna jest za mała do ładowania.",
+      "ru": "Дополнительная мощность сети, когда солнечного излишка мало для зарядки.",
+      "ar": "قدرة شبكة إضافية عندما يكون الفائض الشمسي أصغر من أن يشحن.",
+      "ko": "태양광 잉여가 충전하기에 너무 작을 때 허용하는 추가 전력망 전력."
     }
   },
   "batCapacity": {
@@ -1618,7 +1813,22 @@
     },
     "value": 50,
     "min": 1,
-    "decimals": 1
+    "decimals": 1,
+    "info": {
+      "en": "Usable capacity of the car battery.",
+      "nl": "Bruikbare capaciteit van de autoaccu.",
+      "de": "Nutzbare Kapazität der Autobatterie.",
+      "fr": "Capacité utile de la batterie de la voiture.",
+      "it": "Capacità utile della batteria dell'auto.",
+      "sv": "Användbar kapacitet för bilens batteri.",
+      "no": "Brukbar kapasitet i bilbatteriet.",
+      "es": "Capacidad útil de la batería del coche.",
+      "da": "Brugbar kapacitet i bilens batteri.",
+      "pl": "Użyteczna pojemność akumulatora samochodu.",
+      "ru": "Полезная ёмкость батареи автомобиля.",
+      "ar": "السعة القابلة للاستخدام لبطارية السيارة.",
+      "ko": "자동차 배터리의 사용 가능 용량."
+    }
   },
   "chargerControl": {
     "id": "chargerControl",
@@ -1710,19 +1920,19 @@
     },
     "value": false,
     "info": {
-      "en": "Several cars use this charger. Power or a plug-in at the charger then only counts as this car when the car app does not say it is away.",
-      "nl": "Meerdere auto's gebruiken deze laadpaal. Vermogen of inpluggen bij de laadpaal telt dan alleen als deze auto als de auto-app niet zegt dat hij weg is.",
-      "de": "Mehrere Autos nutzen diese Ladestation. Leistung oder Einstecken an der Ladestation zählt dann nur als dieses Auto, wenn die Auto-App nicht meldet, dass es weg ist.",
-      "fr": "Plusieurs voitures utilisent cette borne. La puissance ou un branchement à la borne ne compte alors pour cette voiture que si l'app de la voiture ne la dit pas absente.",
-      "it": "Più auto usano questo caricatore. Potenza o collegamento al caricatore contano allora per quest'auto solo se l'app dell'auto non dice che è via.",
-      "sv": "Flera bilar använder denna laddare. Effekt eller inkoppling vid laddaren räknas då bara som denna bil när bilappen inte säger att den är borta.",
-      "no": "Flere biler bruker denne laderen. Effekt eller tilkobling ved laderen teller da bare som denne bilen når bilappen ikke sier at den er borte.",
-      "es": "Varios coches usan este cargador. La potencia o una conexión en el cargador solo cuenta entonces como este coche si la app del coche no dice que está fuera.",
-      "da": "Flere biler bruger denne lader. Effekt eller tilslutning ved laderen tæller så kun som denne bil, når bilappen ikke siger, at den er væk.",
-      "pl": "Z tej ładowarki korzysta kilka aut. Moc lub podłączenie przy ładowarce liczy się wtedy jako to auto tylko, gdy aplikacja auta nie mówi, że jest poza domem.",
-      "ru": "Этой зарядкой пользуются несколько автомобилей. Мощность или подключение тогда засчитываются этому автомобилю, только если приложение автомобиля не сообщает, что он в отъезде.",
-      "ar": "تستخدم عدة سيارات هذا الشاحن. تُحتسب القدرة أو التوصيل عند الشاحن لهذه السيارة فقط إذا لم يذكر تطبيق السيارة أنها خارج المنزل.",
-      "ko": "여러 대의 자동차가 이 충전기를 사용합니다. 자동차 앱이 부재 중이라고 하지 않을 때만 충전기의 전력이나 연결이 이 자동차로 계산됩니다."
+      "en": "Several cars charge here. Charging counts for this car only when it is not away.",
+      "nl": "Meerdere auto's laden hier. Laden telt alleen voor deze auto als hij niet weg is.",
+      "de": "Mehrere Autos laden hier. Laden zählt nur für dieses Auto, wenn es nicht weg ist.",
+      "fr": "Plusieurs voitures chargent ici. La charge ne compte pour cette voiture que si elle n'est pas absente.",
+      "it": "Qui caricano più auto. La ricarica conta per quest'auto solo se non è via.",
+      "sv": "Flera bilar laddar här. Laddning räknas för denna bil bara när den inte är borta.",
+      "no": "Flere biler lader her. Lading teller for denne bilen bare når den ikke er borte.",
+      "es": "Aquí cargan varios coches. La carga solo cuenta para este coche si no está fuera.",
+      "da": "Flere biler lader her. Opladning tæller kun for denne bil, når den ikke er væk.",
+      "pl": "Ładuje tu kilka aut. Ładowanie liczy się dla tego auta tylko, gdy nie jest poza domem.",
+      "ru": "Здесь заряжаются несколько машин. Зарядка считается для этой машины, только если она не в отъезде.",
+      "ar": "تشحن هنا عدة سيارات. يُحتسب الشحن لهذه السيارة فقط عندما لا تكون غائبة.",
+      "ko": "여러 차량이 여기서 충전합니다. 이 차량이 외출 중이 아닐 때만 이 차량의 충전으로 계산합니다."
     }
   },
   "carStartCharge": {
@@ -1780,19 +1990,19 @@
     },
     "value": false,
     "info": {
-      "en": "Shows the energy the car returned to the home or grid (Discharging total). Measuring only: the charge plan does not discharge the car.",
-      "nl": "Toont de energie die de auto terugleverde aan huis of net (Ontladen totaal). Alleen meten: het laadplan ontlaadt de auto niet.",
-      "de": "Zeigt die Energie, die das Auto an das Haus oder Netz zurückgab (Entladung gesamt). Nur Messung: der Ladeplan entlädt das Auto nicht.",
-      "fr": "Affiche l'énergie que la voiture a rendue à la maison ou au réseau (Décharge totale). Mesure uniquement : le plan de charge ne décharge pas la voiture.",
-      "es": "Muestra la energía que el coche devolvió a la casa o a la red (Descarga total). Solo medición: el plan de carga no descarga el coche.",
-      "it": "Mostra l'energia che l'auto ha restituito alla casa o alla rete (Scarica totale). Solo misura: il piano di ricarica non scarica l'auto.",
-      "da": "Viser den energi, bilen leverede tilbage til hjemmet eller nettet (Afladning total). Kun måling: ladeplanen aflader ikke bilen.",
-      "sv": "Visar energin som bilen lämnade tillbaka till hemmet eller nätet (Urladdning totalt). Endast mätning: laddplanen laddar inte ur bilen.",
-      "no": "Viser energien bilen leverte tilbake til hjemmet eller nettet (Utlading totalt). Kun måling: ladeplanen lader ikke ut bilen.",
-      "pl": "Pokazuje energię oddaną przez auto do domu lub sieci (Rozładowanie łącznie). Tylko pomiar: plan ładowania nie rozładowuje auta.",
-      "ru": "Показывает энергию, которую авто отдало дому или сети (Всего разряжено). Только измерение: план зарядки не разряжает авто.",
-      "ar": "يعرض الطاقة التي أعادتها السيارة إلى المنزل أو الشبكة (إجمالي التفريغ). قياس فقط: خطة الشحن لا تفرغ السيارة.",
-      "ko": "차량이 집이나 전력망으로 되돌린 에너지를 표시합니다(총 방전량). 측정 전용: 충전 계획은 차량을 방전하지 않습니다."
+      "en": "Only measures what the car returns. The plan does not discharge the car.",
+      "nl": "Meet alleen wat de auto teruglevert. Het laadplan ontlaadt de auto niet.",
+      "de": "Misst nur, was das Auto zurückliefert. Der Ladeplan entlädt das Auto nicht.",
+      "fr": "Mesure seulement ce que la voiture restitue. Le plan ne décharge pas la voiture.",
+      "it": "Misura solo ciò che l'auto restituisce. Il piano non scarica l'auto.",
+      "sv": "Mäter bara vad bilen levererar tillbaka. Planen laddar inte ur bilen.",
+      "no": "Måler bare hva bilen leverer tilbake. Planen lader ikke ut bilen.",
+      "es": "Solo mide lo que devuelve el coche. El plan no descarga el coche.",
+      "da": "Måler kun, hvad bilen leverer tilbage. Planen aflader ikke bilen.",
+      "pl": "Tylko mierzy, co auto oddaje. Plan nie rozładowuje auta.",
+      "ru": "Только измеряет, что отдаёт машина. План не разряжает машину.",
+      "ar": "يقيس فقط ما تعيده السيارة. لا تفرّغ الخطة السيارة.",
+      "ko": "차량이 돌려주는 전력만 측정합니다. 계획은 차량을 방전하지 않습니다."
     }
   },
   "overrideMaxHours": {
@@ -1819,19 +2029,19 @@
     "step": 0.5,
     "decimals": 1,
     "info": {
-      "en": "Then a temporary charge mode returns to the one before.",
-      "nl": "Daarna gaat een tijdelijke laadmodus terug naar de vorige.",
-      "de": "Danach kehrt ein vorübergehender Lademodus zum vorherigen zurück.",
-      "fr": "Ensuite, un mode de charge temporaire revient au précédent.",
-      "es": "Después, un modo de carga temporal vuelve al anterior.",
-      "it": "Poi una modalità temporanea torna a quella precedente.",
-      "da": "Derefter går en midlertidig opladningstilstand tilbage til den forrige.",
-      "sv": "Sedan återgår ett tillfälligt laddningsläge till det föregående.",
-      "no": "Deretter går en midlertidig lademodus tilbake til den forrige.",
-      "pl": "Potem tymczasowy tryb ładowania wraca do poprzedniego.",
-      "ru": "Затем временный режим зарядки возвращается к предыдущему.",
-      "ar": "ثم يعود وضع الشحن المؤقت إلى الوضع السابق.",
-      "ko": "그 후 임시 충전 모드가 이전 모드로 돌아갑니다."
+      "en": "After this time a temporary charge mode ends.",
+      "nl": "Hierna stopt een tijdelijke laadmodus.",
+      "de": "Danach endet ein vorübergehender Lademodus.",
+      "fr": "Ensuite, un mode de charge temporaire prend fin.",
+      "it": "Dopo questo tempo una modalità di carica temporanea termina.",
+      "sv": "Därefter slutar ett tillfälligt laddläge.",
+      "no": "Deretter avsluttes en midlertidig lademodus.",
+      "es": "Después termina un modo de carga temporal.",
+      "da": "Derefter slutter en midlertidig ladetilstand.",
+      "pl": "Po tym czasie tymczasowy tryb ładowania się kończy.",
+      "ru": "После этого временный режим зарядки завершается.",
+      "ar": "بعد هذا الوقت ينتهي وضع الشحن المؤقت.",
+      "ko": "이 시간이 지나면 임시 충전 모드가 끝납니다."
     }
   },
   "autoDepartureLearning": {
@@ -1854,76 +2064,76 @@
     },
     "value": true,
     "info": {
-      "en": "Manual times below override learned departure times.",
-      "nl": "Handmatige tijden hieronder gaan voor geleerde vertrektijden.",
-      "de": "Manuelle Zeiten unten haben Vorrang vor gelernten Abfahrtszeiten.",
-      "fr": "Les heures manuelles ci-dessous priment sur celles apprises.",
-      "es": "Las horas manuales de abajo prevalecen sobre las aprendidas.",
-      "it": "Gli orari manuali sotto prevalgono su quelli appresi.",
-      "da": "Manuelle tider nedenfor går forud for lærte afgangstider.",
-      "sv": "Manuella tider nedan går före inlärda avgångstider.",
-      "no": "Manuelle tider nedenfor går foran lærte avgangstider.",
-      "pl": "Ręczne godziny poniżej mają pierwszeństwo przed wyuczonymi.",
-      "ru": "Ручное время ниже важнее изученного.",
-      "ar": "الأوقات اليدوية أدناه تتقدم على الأوقات المتعلمة.",
-      "ko": "아래 수동 시간이 학습된 출발 시간보다 우선합니다."
+      "en": "A fixed departure time goes first.",
+      "nl": "Een vaste vertrektijd gaat voor.",
+      "de": "Eine feste Abfahrtszeit hat Vorrang.",
+      "fr": "Une heure de départ fixe est prioritaire.",
+      "it": "Un orario di partenza fisso ha la precedenza.",
+      "sv": "En fast avresetid går först.",
+      "no": "En fast avreisetid går først.",
+      "es": "Una hora de salida fija tiene prioridad.",
+      "da": "En fast afgangstid går forud.",
+      "pl": "Stała godzina wyjazdu ma pierwszeństwo.",
+      "ru": "Фиксированное время отъезда важнее.",
+      "ar": "وقت المغادرة الثابت له الأولوية.",
+      "ko": "고정 출발 시간이 우선합니다."
     }
   },
   "minTripSoc": {
     "id": "minTripSoc",
     "type": "number",
     "label": {
-      "en": "Min. trip SoC (%)",
-      "nl": "Min. SoC per rit (%)",
-      "de": "Min. SoC pro Fahrt (%)",
-      "fr": "SoC min. par trajet (%)",
-      "es": "SoC mín. por viaje (%)",
-      "it": "SoC min. per viaggio (%)",
-      "da": "Min. SoC pr. tur (%)",
-      "sv": "Min. SoC per resa (%)",
-      "no": "Min. SoC per tur (%)",
-      "pl": "Min. SoC na trasę (%)",
-      "ru": "Мин. SoC за поездку (%)",
-      "ar": "أدنى SoC للرحلة (%)",
-      "ko": "주행당 최소 SoC (%)"
+      "en": "Min. trip use (%)",
+      "nl": "Min. verbruik per rit (%)",
+      "de": "Min. Verbrauch pro Fahrt (%)",
+      "fr": "Consommation min. par trajet (%)",
+      "it": "Consumo min. per viaggio (%)",
+      "sv": "Min. förbrukning per resa (%)",
+      "no": "Min. forbruk per tur (%)",
+      "es": "Consumo mín. por viaje (%)",
+      "da": "Min. forbrug pr. tur (%)",
+      "pl": "Min. zużycie na trasę (%)",
+      "ru": "Мин. расход за поездку (%)",
+      "ar": "أدنى استهلاك للرحلة (%)",
+      "ko": "주행당 최소 사용량 (%)"
     },
     "value": 3,
     "min": 0,
     "max": 50,
     "decimals": 0,
     "info": {
-      "en": "A trip from home and back that used less battery than this is not learned as driving.",
-      "nl": "Een rit van huis en terug die minder accu verbruikte dan dit telt niet als rijden.",
-      "de": "Eine Fahrt von zu Hause und zurück, die weniger Akku verbrauchte, zählt nicht als Fahrt.",
-      "fr": "Un aller-retour depuis la maison qui a utilisé moins de batterie n'est pas appris comme trajet.",
-      "es": "Un viaje de ida y vuelta desde casa que usó menos batería no se aprende como uso.",
-      "it": "Un giro da casa e ritorno che ha usato meno batteria non viene appreso come guida.",
-      "da": "En tur hjemmefra og tilbage, der brugte mindre batteri end dette, læres ikke som kørsel.",
-      "sv": "En resa hemifrån och tillbaka som använde mindre batteri än detta lärs inte in som körning.",
-      "no": "En tur hjemmefra og tilbake som brukte mindre batteri enn dette, læres ikke som kjøring.",
-      "pl": "Trasa z domu i z powrotem zużywająca mniej baterii nie jest uczona jako jazda.",
-      "ru": "Поездка из дома и обратно с меньшим расходом батареи не учитывается как поездка.",
-      "ar": "رحلة من المنزل والعودة استهلكت بطارية أقل من هذا لا تُتعلَّم كقيادة.",
-      "ko": "집에서 출발해 돌아온 주행이 이보다 배터리를 적게 쓰면 주행으로 학습하지 않습니다."
+      "en": "Trips that use less battery are not learned.",
+      "nl": "Ritten die minder batterij gebruiken, worden niet geleerd.",
+      "de": "Fahrten mit weniger Akkuverbrauch werden nicht gelernt.",
+      "fr": "Les trajets qui consomment moins de batterie ne sont pas appris.",
+      "it": "I viaggi che usano meno batteria non vengono appresi.",
+      "sv": "Resor som använder mindre batteri lärs inte in.",
+      "no": "Turer som bruker mindre batteri læres ikke.",
+      "es": "Los viajes que usan menos batería no se aprenden.",
+      "da": "Ture, der bruger mindre batteri, læres ikke.",
+      "pl": "Trasy zużywające mniej baterii nie są uczone.",
+      "ru": "Поездки с меньшим расходом батареи не изучаются.",
+      "ar": "لا يتم تعلّم الرحلات التي تستهلك بطارية أقل.",
+      "ko": "배터리를 덜 쓰는 주행은 학습하지 않습니다."
     }
   },
   "departureTime_0": {
     "id": "departureTime_0",
     "type": "text",
     "label": {
-      "en": "Monday departure (HH:MM, empty = auto)",
-      "nl": "Maandag vertrek (UU:MM, leeg = auto)",
-      "de": "Montag Abfahrt (HH:MM, leer = auto)",
-      "fr": "Départ lundi (HH:MM, vide = auto)",
-      "it": "Partenza lunedì (HH:MM, vuoto = auto)",
-      "sv": "Måndag avgång (HH:MM, tom = auto)",
-      "no": "Mandag avgang (HH:MM, tom = auto)",
-      "es": "Salida lunes (HH:MM, vacío = auto)",
-      "da": "Mandag afgang (HH:MM, tom = auto)",
-      "pl": "Poniedziałek odjazd (HH:MM, puste = auto)",
-      "ru": "Пн отправление (ЧЧ:ММ, пусто = авто)",
-      "ar": "مغادرة الاثنين (ساعة:دقيقة, فارغ = تلقائي)",
-      "ko": "월요일 출발 (HH:MM, 비워두면 자동)"
+      "en": "Monday departure (HH:MM)",
+      "nl": "Maandag vertrek (UU:MM)",
+      "de": "Montag Abfahrt (HH:MM)",
+      "fr": "Départ lundi (HH:MM)",
+      "it": "Partenza lunedì (HH:MM)",
+      "sv": "Måndag avgång (HH:MM)",
+      "no": "Mandag avgang (HH:MM)",
+      "es": "Salida lunes (HH:MM)",
+      "da": "Mandag afgang (HH:MM)",
+      "pl": "Poniedziałek odjazd (HH:MM)",
+      "ru": "Пн отправление (ЧЧ:ММ)",
+      "ar": "مغادرة الاثنين (ساعة:دقيقة)",
+      "ko": "월요일 출발 (HH:MM)"
     },
     "value": ""
   },
@@ -1931,19 +2141,19 @@
     "id": "departureTime_1",
     "type": "text",
     "label": {
-      "en": "Tuesday departure (HH:MM, empty = auto)",
-      "nl": "Dinsdag vertrek (UU:MM, leeg = auto)",
-      "de": "Dienstag Abfahrt (HH:MM, leer = auto)",
-      "fr": "Départ mardi (HH:MM, vide = auto)",
-      "it": "Partenza martedì (HH:MM, vuoto = auto)",
-      "sv": "Tisdag avgång (HH:MM, tom = auto)",
-      "no": "Tirsdag avgang (HH:MM, tom = auto)",
-      "es": "Salida martes (HH:MM, vacío = auto)",
-      "da": "Tirsdag afgang (HH:MM, tom = auto)",
-      "pl": "Wtorek odjazd (HH:MM, puste = auto)",
-      "ru": "Вт отправление (ЧЧ:ММ, пусто = авто)",
-      "ar": "مغادرة الثلاثاء (ساعة:دقيقة, فارغ = تلقائي)",
-      "ko": "화요일 출발 (HH:MM, 비워두면 자동)"
+      "en": "Tuesday departure (HH:MM)",
+      "nl": "Dinsdag vertrek (UU:MM)",
+      "de": "Dienstag Abfahrt (HH:MM)",
+      "fr": "Départ mardi (HH:MM)",
+      "it": "Partenza martedì (HH:MM)",
+      "sv": "Tisdag avgång (HH:MM)",
+      "no": "Tirsdag avgang (HH:MM)",
+      "es": "Salida martes (HH:MM)",
+      "da": "Tirsdag afgang (HH:MM)",
+      "pl": "Wtorek odjazd (HH:MM)",
+      "ru": "Вт отправление (ЧЧ:ММ)",
+      "ar": "مغادرة الثلاثاء (ساعة:دقيقة)",
+      "ko": "화요일 출발 (HH:MM)"
     },
     "value": ""
   },
@@ -1951,19 +2161,19 @@
     "id": "departureTime_2",
     "type": "text",
     "label": {
-      "en": "Wednesday departure (HH:MM, empty = auto)",
-      "nl": "Woensdag vertrek (UU:MM, leeg = auto)",
-      "de": "Mittwoch Abfahrt (HH:MM, leer = auto)",
-      "fr": "Départ mercredi (HH:MM, vide = auto)",
-      "it": "Partenza mercoledì (HH:MM, vuoto = auto)",
-      "sv": "Onsdag avgång (HH:MM, tom = auto)",
-      "no": "Onsdag avgang (HH:MM, tom = auto)",
-      "es": "Salida miércoles (HH:MM, vacío = auto)",
-      "da": "Onsdag afgang (HH:MM, tom = auto)",
-      "pl": "Środa odjazd (HH:MM, puste = auto)",
-      "ru": "Ср отправление (ЧЧ:ММ, пусто = авто)",
-      "ar": "مغادرة الأربعاء (ساعة:دقيقة, فارغ = تلقائي)",
-      "ko": "수요일 출발 (HH:MM, 비워두면 자동)"
+      "en": "Wednesday departure (HH:MM)",
+      "nl": "Woensdag vertrek (UU:MM)",
+      "de": "Mittwoch Abfahrt (HH:MM)",
+      "fr": "Départ mercredi (HH:MM)",
+      "it": "Partenza mercoledì (HH:MM)",
+      "sv": "Onsdag avgång (HH:MM)",
+      "no": "Onsdag avgang (HH:MM)",
+      "es": "Salida miércoles (HH:MM)",
+      "da": "Onsdag afgang (HH:MM)",
+      "pl": "Środa odjazd (HH:MM)",
+      "ru": "Ср отправление (ЧЧ:ММ)",
+      "ar": "مغادرة الأربعاء (ساعة:دقيقة)",
+      "ko": "수요일 출발 (HH:MM)"
     },
     "value": ""
   },
@@ -1971,19 +2181,19 @@
     "id": "departureTime_3",
     "type": "text",
     "label": {
-      "en": "Thursday departure (HH:MM, empty = auto)",
-      "nl": "Donderdag vertrek (UU:MM, leeg = auto)",
-      "de": "Donnerstag Abfahrt (HH:MM, leer = auto)",
-      "fr": "Départ jeudi (HH:MM, vide = auto)",
-      "it": "Partenza giovedì (HH:MM, vuoto = auto)",
-      "sv": "Torsdag avgång (HH:MM, tom = auto)",
-      "no": "Torsdag avgang (HH:MM, tom = auto)",
-      "es": "Salida jueves (HH:MM, vacío = auto)",
-      "da": "Torsdag afgang (HH:MM, tom = auto)",
-      "pl": "Czwartek odjazd (HH:MM, puste = auto)",
-      "ru": "Чт отправление (ЧЧ:ММ, пусто = авто)",
-      "ar": "مغادرة الخميس (ساعة:دقيقة, فارغ = تلقائي)",
-      "ko": "목요일 출발 (HH:MM, 비워두면 자동)"
+      "en": "Thursday departure (HH:MM)",
+      "nl": "Donderdag vertrek (UU:MM)",
+      "de": "Donnerstag Abfahrt (HH:MM)",
+      "fr": "Départ jeudi (HH:MM)",
+      "it": "Partenza giovedì (HH:MM)",
+      "sv": "Torsdag avgång (HH:MM)",
+      "no": "Torsdag avgang (HH:MM)",
+      "es": "Salida jueves (HH:MM)",
+      "da": "Torsdag afgang (HH:MM)",
+      "pl": "Czwartek odjazd (HH:MM)",
+      "ru": "Чт отправление (ЧЧ:ММ)",
+      "ar": "مغادرة الخميس (ساعة:دقيقة)",
+      "ko": "목요일 출발 (HH:MM)"
     },
     "value": ""
   },
@@ -1991,19 +2201,19 @@
     "id": "departureTime_4",
     "type": "text",
     "label": {
-      "en": "Friday departure (HH:MM, empty = auto)",
-      "nl": "Vrijdag vertrek (UU:MM, leeg = auto)",
-      "de": "Freitag Abfahrt (HH:MM, leer = auto)",
-      "fr": "Départ vendredi (HH:MM, vide = auto)",
-      "it": "Partenza venerdì (HH:MM, vuoto = auto)",
-      "sv": "Fredag avgång (HH:MM, tom = auto)",
-      "no": "Fredag avgang (HH:MM, tom = auto)",
-      "es": "Salida viernes (HH:MM, vacío = auto)",
-      "da": "Fredag afgang (HH:MM, tom = auto)",
-      "pl": "Piątek odjazd (HH:MM, puste = auto)",
-      "ru": "Пт отправление (ЧЧ:ММ, пусто = авто)",
-      "ar": "مغادرة الجمعة (ساعة:دقيقة, فارغ = تلقائي)",
-      "ko": "금요일 출발 (HH:MM, 비워두면 자동)"
+      "en": "Friday departure (HH:MM)",
+      "nl": "Vrijdag vertrek (UU:MM)",
+      "de": "Freitag Abfahrt (HH:MM)",
+      "fr": "Départ vendredi (HH:MM)",
+      "it": "Partenza venerdì (HH:MM)",
+      "sv": "Fredag avgång (HH:MM)",
+      "no": "Fredag avgang (HH:MM)",
+      "es": "Salida viernes (HH:MM)",
+      "da": "Fredag afgang (HH:MM)",
+      "pl": "Piątek odjazd (HH:MM)",
+      "ru": "Пт отправление (ЧЧ:ММ)",
+      "ar": "مغادرة الجمعة (ساعة:دقيقة)",
+      "ko": "금요일 출발 (HH:MM)"
     },
     "value": ""
   },
@@ -2011,19 +2221,19 @@
     "id": "departureTime_5",
     "type": "text",
     "label": {
-      "en": "Saturday departure (HH:MM, empty = auto)",
-      "nl": "Zaterdag vertrek (UU:MM, leeg = auto)",
-      "de": "Samstag Abfahrt (HH:MM, leer = auto)",
-      "fr": "Départ samedi (HH:MM, vide = auto)",
-      "it": "Partenza sabato (HH:MM, vuoto = auto)",
-      "sv": "Lördag avgång (HH:MM, tom = auto)",
-      "no": "Lørdag avgang (HH:MM, tom = auto)",
-      "es": "Salida sábado (HH:MM, vacío = auto)",
-      "da": "Lørdag afgang (HH:MM, tom = auto)",
-      "pl": "Sobota odjazd (HH:MM, puste = auto)",
-      "ru": "Сб отправление (ЧЧ:ММ, пусто = авто)",
-      "ar": "مغادرة السبت (ساعة:دقيقة, فارغ = تلقائي)",
-      "ko": "토요일 출발 (HH:MM, 비워두면 자동)"
+      "en": "Saturday departure (HH:MM)",
+      "nl": "Zaterdag vertrek (UU:MM)",
+      "de": "Samstag Abfahrt (HH:MM)",
+      "fr": "Départ samedi (HH:MM)",
+      "it": "Partenza sabato (HH:MM)",
+      "sv": "Lördag avgång (HH:MM)",
+      "no": "Lørdag avgang (HH:MM)",
+      "es": "Salida sábado (HH:MM)",
+      "da": "Lørdag afgang (HH:MM)",
+      "pl": "Sobota odjazd (HH:MM)",
+      "ru": "Сб отправление (ЧЧ:ММ)",
+      "ar": "مغادرة السبت (ساعة:دقيقة)",
+      "ko": "토요일 출발 (HH:MM)"
     },
     "value": ""
   },
@@ -2031,19 +2241,19 @@
     "id": "departureTime_6",
     "type": "text",
     "label": {
-      "en": "Sunday departure (HH:MM, empty = auto)",
-      "nl": "Zondag vertrek (UU:MM, leeg = auto)",
-      "de": "Sonntag Abfahrt (HH:MM, leer = auto)",
-      "fr": "Départ dimanche (HH:MM, vide = auto)",
-      "it": "Partenza domenica (HH:MM, vuoto = auto)",
-      "sv": "Söndag avgång (HH:MM, tom = auto)",
-      "no": "Søndag avgang (HH:MM, tom = auto)",
-      "es": "Salida domingo (HH:MM, vacío = auto)",
-      "da": "Søndag afgang (HH:MM, tom = auto)",
-      "pl": "Niedziela odjazd (HH:MM, puste = auto)",
-      "ru": "Вс отправление (ЧЧ:ММ, пусто = авто)",
-      "ar": "مغادرة الأحد (ساعة:دقيقة, فارغ = تلقائي)",
-      "ko": "일요일 출발 (HH:MM, 비워두면 자동)"
+      "en": "Sunday departure (HH:MM)",
+      "nl": "Zondag vertrek (UU:MM)",
+      "de": "Sonntag Abfahrt (HH:MM)",
+      "fr": "Départ dimanche (HH:MM)",
+      "it": "Partenza domenica (HH:MM)",
+      "sv": "Söndag avgång (HH:MM)",
+      "no": "Søndag avgang (HH:MM)",
+      "es": "Salida domingo (HH:MM)",
+      "da": "Søndag afgang (HH:MM)",
+      "pl": "Niedziela odjazd (HH:MM)",
+      "ru": "Вс отправление (ЧЧ:ММ)",
+      "ar": "مغادرة الأحد (ساعة:دقيقة)",
+      "ko": "일요일 출발 (HH:MM)"
     },
     "value": ""
   },
@@ -2071,18 +2281,18 @@
     "id": "chartShowSoc",
     "type": "checkbox",
     "label": {
-      "en": "Show SoC in chart",
-      "nl": "Laadniveau (SoC) tonen in grafiek",
-      "de": "Ladezustand (SoC) im Diagramm anzeigen",
-      "fr": "Afficher l'état de charge (SoC) sur le graphique",
-      "it": "Mostra stato di carica (SoC) nel grafico",
-      "sv": "Visa laddningsnivå (SoC) i diagrammet",
-      "no": "Vis ladenivå (SoC) i diagrammet",
-      "es": "Mostrar estado de carga (SoC) en el gráfico",
-      "da": "Vis ladetilstand (SoC) i diagrammet",
-      "pl": "Pokaż stan naładowania (SoC) na wykresie",
-      "ru": "Показывать уровень заряда (SoC) на графике",
-      "ar": "إظهار حالة الشحن (SoC) في الرسم البياني",
+      "en": "Show charge level in chart",
+      "nl": "Laadniveau tonen in grafiek",
+      "de": "Ladezustand im Diagramm anzeigen",
+      "fr": "Afficher l'état de charge sur le graphique",
+      "it": "Mostra stato di carica nel grafico",
+      "sv": "Visa laddningsnivå i diagrammet",
+      "no": "Vis ladenivå i diagrammet",
+      "es": "Mostrar estado de carga en el gráfico",
+      "da": "Vis ladetilstand i diagrammet",
+      "pl": "Pokaż stan naładowania na wykresie",
+      "ru": "Показывать уровень заряда на графике",
+      "ar": "إظهار حالة الشحن في الرسم البياني",
       "ko": "그래프에 충전 상태 표시"
     },
     "value": true
@@ -2092,7 +2302,7 @@
     "type": "checkbox",
     "label": {
       "en": "Show export price in chart",
-      "nl": "Exportprijs tonen in grafiek",
+      "nl": "Terugleverprijs tonen in grafiek",
       "de": "Exportpreis im Diagramm anzeigen",
       "fr": "Afficher le prix d'exportation sur le graphique",
       "it": "Mostra prezzo di esportazione nel grafico",

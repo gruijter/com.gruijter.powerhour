@@ -159,15 +159,21 @@ const values = (view, over = {}) => ({
   await test('repair start: settings straight to the setup view of the present source', async () => {
     const handlers = repairSession(fakeDriver(), { connectionAmps: 35 });
     const choices = await handlers.start_get();
-    assert.deepStrictEqual(choices.map((c) => c.id), ['source', 'price', 'settings', 'budget']);
-    assert.strictEqual(await handlers.start_set('settings'), 'setup');
+    assert.deepStrictEqual(choices.map((c) => c.id), ['source', 'step_price', 'step_connection', 'step_peak', 'step_advanced', 'step_year']);
+    assert.strictEqual(choices.find((c) => c.id === 'step_year').view, 'budget');
+    assert.strictEqual(await handlers.start_set('step_connection'), 'setup');
     let view = await handlers.setup_get();
     assert.strictEqual(byId(view, 'connectionAmps').value, 35);
     const shown = (v) => v.steps.filter((st) => !st.hidden).map((st) => st.id);
-    assert.ok(!shown(view).includes('price') && !shown(view).includes('year') && shown(view).includes('connection'));
+    assert.deepStrictEqual(shown(view), ['connection']);
+    // Advanced is a repair choice of its own.
+    await handlers.start_get();
+    await handlers.start_set('step_advanced');
+    view = await handlers.setup_get();
+    assert.deepStrictEqual(shown(view), ['advanced']);
     // Price only: the other steps hidden, their values still in the view.
     await handlers.start_get();
-    assert.strictEqual(await handlers.start_set('price'), 'setup');
+    assert.strictEqual(await handlers.start_set('step_price'), 'setup');
     view = await handlers.setup_get();
     assert.deepStrictEqual(shown(view), ['price']);
     assert.strictEqual(byId(view, 'connectionAmps').value, 35);
