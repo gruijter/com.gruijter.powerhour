@@ -261,7 +261,10 @@ class BatDevice extends GenericDevice {
       this.log('[Bat Control] Out of the group: if this battery does zero on the meter itself, two controls act on one meter');
     }
     const planned = (m) => JSON.stringify(BatteryControl.planOptionsFor(m));
-    if (planned(mode) !== planned(current)) this.replan('mode').catch((err) => this.error(err));
+    // The EV chargers price solar surplus by what the batteries store (driver.solarStorage()): they
+    // plan again after this plan.
+    const replan = planned(mode) !== planned(current) ? this.replan('mode', { quick: true }) : Promise.resolve();
+    replan.catch((err) => this.error(err)).then(() => this.driver.replanEvChargers()).catch((err) => this.error(err));
   }
 
   // Each battery of the group has the same temporary mode: each ends it by itself.
@@ -738,10 +741,10 @@ class BatDevice extends GenericDevice {
     this.replan('SoC').catch((err) => this.error(err));
   }
 
-  async replan(reason) {
+  async replan(reason, { quick = false } = {}) {
     if (!this.pricesNextHours) return;
     this.log(`[Plan] Plan again (${reason})`);
-    await this.flows.triggerNewPlanFlow();
+    await this.flows.triggerNewPlanFlow({ quick });
     await this.updateChargeChart();
   }
 

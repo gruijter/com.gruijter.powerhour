@@ -30,6 +30,7 @@ const XOM_MIRROR_MS = 15 * 60 * 1000;
 // Built-in control: below this a small total stays on the grid (the per-battery thresholds apply on
 // top); the XOM flows use their own minLoad (flow card 'Set XOM').
 const BUILTIN_MIN_LOAD_W = 50;
+const EV_REPLAN_DELAY_MS = 2000;
 // Modes whose plan stores solar surplus.
 const SURPLUS_MODES = ['smart', 'self_consumption', 'xom'];
 // Wear helper: the rated cycles run until the battery has this share of its capacity left (end of
@@ -248,6 +249,19 @@ class BatteryDriver extends GenericDriver {
       }),
       store: list[0].store.map((_, q) => list.some((b) => b.store[q])),
     };
+  }
+
+  // After a mode change: the EV chargers plan again, once for a group's changes in a row.
+  replanEvChargers() {
+    this.homey.clearTimeout(this.evReplanTimer);
+    this.evReplanTimer = this.homey.setTimeout(() => {
+      try {
+        this.homey.drivers.getDriver('evCharger').getDevices()
+          .forEach((d) => d.updateChargeChart && d.updateChargeChart().catch((err) => d.error(err)));
+      } catch {
+        // no EV driver or devices
+      }
+    }, EV_REPLAN_DELAY_MS);
   }
 
   groupDevices() {
