@@ -186,7 +186,8 @@
     "step_device_meters": "Contatori di energia",
     "step_device_meters_text": "Quali contatori contano l'energia caricata e scaricata. Di solito 'Automatico' va bene.",
     "step_wear": "Usura e profitto",
-    "step_wear_text": "Caricare e scaricare usura la batteria. L'app lo fa solo se rende più dell'usura più il profitto minimo."
+    "step_wear_text": "Caricare e scaricare usura la batteria. L'app lo fa solo se rende più dell'usura più il profitto minimo.",
+    "setup_price_no_group": "__name__ non ha un gruppo tariffario: scegline prima uno tramite Ripara."
   },
   "load_forecast_accuracy": "Errore medio __mae__ W (__pct__%), bias __bias__ W, __days__ giorni",
   "load_forecast_accuracy_collecting": "Raccolta dati",
@@ -308,7 +309,7 @@
   "fuse_phase_export": "Protezione fusibile principale __phase__: immissione di __export__ W sopra __limit__ W per 30 s. Le batterie non hanno potuto evitarlo.",
   "phase_setup_one": "__name__: il contatore mostra 1 fase, ma l'allacciamento è impostato su 3 fasi. Modificalo tramite Ripara.",
   "phase_setup_three": "__name__: il contatore mostra 3 fasi, ma l'allacciamento è impostato su 1 fase. Modificalo tramite Ripara.",
-  "warning_no_price_device": "Nessun dispositivo Prezzo dell'energia nel gruppo tariffario: il prezzo resta l'ultimo. Aggiungi un dispositivo Prezzo dell'energia e scegli il suo gruppo nelle impostazioni.",
+  "warning_no_price_device": "Nessun dispositivo Prezzo dell'energia nel gruppo tariffario: il prezzo resta l'ultimo. Aggiungi un dispositivo Prezzo dell'energia e scegli questo gruppo.",
   "error_setup_no_price": "Scegli Tariffa fissa o un gruppo tariffario con un dispositivo Prezzo dell'energia.",
   "source_polled": "interrogato",
   "budget": {
@@ -341,5 +342,14 @@
     "custom_spread_local": "Come il clima locale",
     "custom_spread_own": "Valori propri"
   },
-  "error_setup_soc_order": "Livello minimo, livello di riserva e massimo giornaliero devono crescere in quest'ordine."
+  "error_setup_soc_order": "Livello minimo, livello di riserva e massimo giornaliero devono crescere in quest'ordine.",
+  "warning_price_no_group": "__name__ non ha un gruppo tariffario: scegli il gruppo __group__ tramite Ripara.",
+  "settings_view": {
+    "group": "__title__ (modifica tramite Ripara)",
+    "on": "Attivato",
+    "off": "Disattivato",
+    "step_price_type": "Tipo di prezzo",
+    "step_import": "Impostazioni prezzo di importazione",
+    "step_export": "Impostazioni prezzo di esportazione"
+  }
 }

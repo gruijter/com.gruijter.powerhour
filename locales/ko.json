@@ -186,7 +186,8 @@
     "step_device_meters": "에너지 미터",
     "step_device_meters_text": "충전 및 방전 에너지를 세는 미터입니다. 보통 '자동'이 맞습니다.",
     "step_wear": "마모와 이익",
-    "step_wear_text": "충전과 방전은 배터리를 마모시킵니다. 앱은 마모와 최소 이익을 합친 것보다 이득이 클 때만 합니다."
+    "step_wear_text": "충전과 방전은 배터리를 마모시킵니다. 앱은 마모와 최소 이익을 합친 것보다 이득이 클 때만 합니다.",
+    "setup_price_no_group": "__name__에 요금 그룹이 없습니다: 먼저 수리에서 하나를 선택하세요."
   },
   "load_forecast_accuracy": "평균 오차 __mae__ W (__pct__%), 편향 __bias__ W, __days__일",
   "load_forecast_accuracy_collecting": "데이터 수집 중",
@@ -308,7 +309,7 @@
   "fuse_phase_export": "메인 퓨즈 보호 __phase__: 송전 __export__ W가 30초 동안 __limit__ W를 초과했습니다. 배터리로 막지 못했습니다.",
   "phase_setup_one": "__name__: 계량기는 1상을 표시하지만 연결이 3상으로 설정되어 있습니다. 수리에서 변경하세요.",
   "phase_setup_three": "__name__: 계량기는 3상을 표시하지만 연결이 1상으로 설정되어 있습니다. 수리에서 변경하세요.",
-  "warning_no_price_device": "요금 그룹에 에너지 가격 디바이스가 없습니다: 가격이 마지막 값으로 유지됩니다. 에너지 가격 디바이스를 추가하고 설정에서 그룹을 선택하세요.",
+  "warning_no_price_device": "요금 그룹에 에너지 가격 디바이스가 없습니다: 가격이 마지막 값으로 유지됩니다. 에너지 가격 디바이스를 추가하고 이 그룹을 선택하세요.",
   "error_setup_no_price": "고정 요금 또는 에너지 가격 디바이스가 있는 요금 그룹을 선택하세요.",
   "source_polled": "폴링",
   "budget": {
@@ -341,5 +342,14 @@
     "custom_spread_local": "지역 기후에 따라",
     "custom_spread_own": "직접 입력"
   },
-  "error_setup_soc_order": "최소 수준, 예비 수준, 일일 최대는 이 순서로 커야 합니다."
+  "error_setup_soc_order": "최소 수준, 예비 수준, 일일 최대는 이 순서로 커야 합니다.",
+  "warning_price_no_group": "__name__에 요금 그룹이 없습니다: 수리에서 그룹 __group__을(를) 선택하세요.",
+  "settings_view": {
+    "group": "__title__ (수리에서 변경)",
+    "on": "켜짐",
+    "off": "꺼짐",
+    "step_price_type": "가격 유형",
+    "step_import": "수전(수입) 가격 설정",
+    "step_export": "송전(수출) 가격 설정"
+  }
 }

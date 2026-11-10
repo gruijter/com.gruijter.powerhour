@@ -186,7 +186,8 @@
     "step_device_meters": "Energimätare",
     "step_device_meters_text": "Vilka mätare som räknar laddad och urladdad energi. Oftast är 'Automatiskt' rätt.",
     "step_wear": "Slitage och vinst",
-    "step_wear_text": "Laddning och urladdning sliter på batteriet. Appen gör det bara när det ger mer än slitaget plus minsta vinst."
+    "step_wear_text": "Laddning och urladdning sliter på batteriet. Appen gör det bara när det ger mer än slitaget plus minsta vinst.",
+    "setup_price_no_group": "__name__ har ingen tariffgrupp: välj först en via Reparera."
   },
   "load_forecast_accuracy": "Medelfel __mae__ W (__pct__%), bias __bias__ W, __days__ dagar",
   "load_forecast_accuracy_collecting": "Samlar in data",
@@ -308,7 +309,7 @@
   "fuse_phase_export": "Huvudsäkringsskydd __phase__: export __export__ W över __limit__ W i 30 s. Batterierna kunde inte förhindra det.",
   "phase_setup_one": "__name__: mätaren visar 1 fas, men anslutningen är inställd på 3 faser. Ändra via Reparera.",
   "phase_setup_three": "__name__: mätaren visar 3 faser, men anslutningen är inställd på 1 fas. Ändra via Reparera.",
-  "warning_no_price_device": "Ingen Energipris-enhet i tariffgruppen: priset blir kvar på det senaste. Lägg till en Energipris-enhet och välj dess grupp i inställningarna.",
+  "warning_no_price_device": "Ingen Energipris-enhet i tariffgruppen: priset blir kvar på det senaste. Lägg till en Energipris-enhet och välj den här gruppen.",
   "error_setup_no_price": "Välj Fast tariff eller en tariffgrupp med en Energipris-enhet.",
   "source_polled": "pollad",
   "budget": {
@@ -341,5 +342,14 @@
     "custom_spread_local": "Som det lokala klimatet",
     "custom_spread_own": "Egna värden"
   },
-  "error_setup_soc_order": "Lägsta nivå, reservnivå och dagligt maximum måste öka i den ordningen."
+  "error_setup_soc_order": "Lägsta nivå, reservnivå och dagligt maximum måste öka i den ordningen.",
+  "warning_price_no_group": "__name__ har ingen tariffgrupp: välj grupp __group__ via Reparera.",
+  "settings_view": {
+    "group": "__title__ (ändra via Reparera)",
+    "on": "På",
+    "off": "Av",
+    "step_price_type": "Pristyp",
+    "step_import": "Importprisinställningar",
+    "step_export": "Exportprisinställningar"
+  }
 }

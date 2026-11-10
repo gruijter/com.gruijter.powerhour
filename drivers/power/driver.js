@@ -187,6 +187,11 @@ class PowerDriver extends GenericDriver {
   }
 
   // 'off', 'forecast' or 'plan' (setting appliance_mode); only a Homey device as source learns.
+  // The settings page (SettingsView): the appliance mode in effect.
+  viewValue(id, settings, value) {
+    return id === 'appliance_mode' ? this.constructor.applianceMode(settings) : value;
+  }
+
   static applianceMode(settings = {}) {
     if (settings.source_device_type !== 'Homey device') return 'off';
     return ['forecast', 'plan'].includes(settings.appliance_mode) ? settings.appliance_mode : 'off';

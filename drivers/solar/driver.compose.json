@@ -481,6 +481,526 @@
     {
       "type": "group",
       "label": {
+        "en": "Meter readings (change via Repair)",
+        "nl": "Meterstanden (wijzigen via Repareren)",
+        "de": "Zählerstände (ändern über Reparieren)",
+        "fr": "Relevés du compteur (modifier via Réparer)",
+        "it": "Letture del contatore (modifica tramite Ripara)",
+        "sv": "Mätarställningar (ändra via Reparera)",
+        "no": "Målerstander (endre via Reparer)",
+        "es": "Lecturas del contador (cambiar en Reparar)",
+        "da": "Målerstande (ændr via Reparer)",
+        "pl": "Odczyty licznika (zmień przez Napraw)",
+        "ru": "Показания счётчика (изменить через «Исправить»)",
+        "ar": "قراءات العداد (التغيير عبر إصلاح)",
+        "ko": "계량기 값 (수리에서 변경)"
+      },
+      "children": [
+        {
+          "id": "homey_device_id",
+          "type": "label",
+          "label": {
+            "en": "Device ID",
+            "nl": "Apparaat ID",
+            "de": "Geräte ID",
+            "fr": "ID de l'appareil",
+            "it": "ID dispositivo",
+            "sv": "Enhets ID",
+            "no": "Enhets ID",
+            "es": "ID del dispositivo",
+            "da": "Enheds-ID",
+            "pl": "ID urządzenia",
+            "ru": "ID устройства",
+            "ar": "معرف الجهاز",
+            "ko": "디바이스 ID"
+          },
+          "value": "unknown",
+          "hint": {
+            "en": "ID of the source device, or virtual (via flow).",
+            "nl": "ID van het bronapparaat, of virtueel (via flow).",
+            "de": "ID des Quellgeräts oder virtuell (über Flow).",
+            "fr": "ID de l'appareil source, ou virtuel (via Flow).",
+            "it": "ID del dispositivo sorgente, o virtuale (tramite Flow).",
+            "sv": "ID för källenheten, eller virtuell (via Flow).",
+            "no": "ID til kildeenheten, eller virtuell (via Flow).",
+            "es": "ID del dispositivo de origen, o virtual (mediante Flow).",
+            "da": "ID for kildeenheden, eller virtuel (via Flow).",
+            "pl": "ID urządzenia źródłowego lub wirtualne (przez Flow).",
+            "ru": "ID устройства-источника или виртуальное (через Flow).",
+            "ar": "معرّف الجهاز المصدر، أو افتراضي (عبر Flow).",
+            "ko": "소스 디바이스의 ID, 또는 가상(Flow를 통해)."
+          }
+        },
+        {
+          "id": "homey_device_name",
+          "type": "label",
+          "label": {
+            "en": "Device name",
+            "nl": "Apparaat naam",
+            "de": "Gerätename",
+            "fr": "Nom de l'appareil",
+            "it": "Nome dispositivo",
+            "sv": "Enhets namn",
+            "no": "Enhets navn",
+            "es": "Nombre del dispositivo",
+            "da": "Enhedsnavn",
+            "pl": "Nazwa urządzenia",
+            "ru": "Имя устройства",
+            "ar": "اسم الجهاز",
+            "ko": "디바이스 이름"
+          },
+          "value": "unknown",
+          "hint": {
+            "en": "Device that supplies the readings.",
+            "nl": "Apparaat dat de metingen levert.",
+            "de": "Gerät, das die Messwerte liefert.",
+            "fr": "Appareil qui fournit les mesures.",
+            "it": "Dispositivo che fornisce le misure.",
+            "sv": "Enheten som levererar mätvärdena.",
+            "no": "Enheten som leverer målingene.",
+            "es": "Dispositivo que proporciona las mediciones.",
+            "da": "Enheden, der leverer målingerne.",
+            "pl": "Urządzenie, które dostarcza odczyty.",
+            "ru": "Устройство, которое передаёт показания.",
+            "ar": "الجهاز الذي يوفّر القراءات.",
+            "ko": "측정값을 제공하는 디바이스."
+          }
+        },
+        {
+          "id": "source_capability",
+          "type": "label",
+          "label": {
+            "en": "Source capability",
+            "nl": "Bron-capability",
+            "de": "Quell-Capability",
+            "fr": "Capability source",
+            "it": "Capability sorgente",
+            "sv": "Källcapability",
+            "no": "Kildecapability",
+            "es": "Capability de origen",
+            "da": "Kildecapability",
+            "pl": "Capability źródła",
+            "ru": "Capability источника",
+            "ar": "قدرة المصدر",
+            "ko": "소스 기능"
+          },
+          "hint": {
+            "en": "What is read from the source device.",
+            "nl": "Wat van het bronapparaat gelezen wordt.",
+            "de": "Was vom Quellgerät gelesen wird.",
+            "fr": "Ce qui est lu sur l'appareil source.",
+            "it": "Cosa viene letto dal dispositivo sorgente.",
+            "sv": "Vad som läses från källenheten.",
+            "no": "Hva som leses fra kildeenheten.",
+            "es": "Lo que se lee del dispositivo de origen.",
+            "da": "Hvad der læses fra kildeenheden.",
+            "pl": "Co jest odczytywane z urządzenia źródłowego.",
+            "ru": "Что считывается с устройства-источника.",
+            "ar": "ما يُقرأ من الجهاز المصدر.",
+            "ko": "소스 디바이스에서 읽는 항목."
+          },
+          "value": "-"
+        },
+        {
+          "id": "view_use_measure_source",
+          "type": "label",
+          "label": {
+            "en": "Use Watt as source",
+            "nl": "Gebruik Watt als bron",
+            "de": "Watt als Quelle benutzen",
+            "fr": "Utiliser Watt comme source",
+            "it": "Usa Watt come sorgente",
+            "sv": "Använd Watt som källa",
+            "no": "Bruk Watt som kilde",
+            "es": "Usar Watt como fuente",
+            "da": "Brug Watt som kilde",
+            "pl": "Użyj Wata jako źródła",
+            "ru": "Использовать Ватт как источник",
+            "ar": "استخدم وات كمصدر",
+            "ko": "Watt를 소스로 사용"
+          },
+          "value": "-",
+          "hint": {
+            "en": "The energy is calculated from the power (W) of the source device, not from its meter.",
+            "nl": "De energie wordt berekend uit het vermogen (W) van het bronapparaat, niet uit zijn meter.",
+            "de": "Die Energie wird aus der Leistung (W) des Quellgeräts berechnet, nicht aus seinem Zähler.",
+            "fr": "L'énergie est calculée à partir de la puissance (W) de l'appareil source, pas de son compteur.",
+            "it": "L'energia è calcolata dalla potenza (W) del dispositivo sorgente, non dal suo contatore.",
+            "sv": "Energin beräknas från källenhetens effekt (W), inte från dess mätare.",
+            "no": "Energien beregnes fra kildeenhetens effekt (W), ikke fra måleren.",
+            "es": "La energía se calcula a partir de la potencia (W) del dispositivo de origen, no de su contador.",
+            "da": "Energien beregnes ud fra kildeenhedens effekt (W), ikke fra dens måler.",
+            "pl": "Energia jest liczona z mocy (W) urządzenia źródłowego, a nie z jego licznika.",
+            "ru": "Энергия рассчитывается по мощности (Вт) устройства-источника, а не по его счётчику.",
+            "ar": "تُحسب الطاقة من قدرة (W) الجهاز المصدر، وليس من عداده.",
+            "ko": "에너지를 소스 디바이스의 미터가 아닌 전력(W)으로 계산합니다."
+          }
+        },
+        {
+          "id": "view_homey_device_daily_reset",
+          "type": "label",
+          "label": {
+            "en": "Has daily reset",
+            "nl": "Heeft dagelijkse reset",
+            "de": "Tägliches Zurücksetzen",
+            "fr": "A une remise à zéro quotidienne",
+            "it": "Effettua un ripristino giornaliero",
+            "sv": "Har daglig återställning",
+            "no": "Har daglig resetting",
+            "es": "Tiene reinicio diario",
+            "da": "Har daglig nulstilling",
+            "pl": "Ma codzienny reset",
+            "ru": "Имеет ежедневный сброс",
+            "ar": "لديه إعادة تعيين يومية",
+            "ko": "매일 초기화됨"
+          },
+          "value": "-",
+          "hint": {
+            "en": "The meter of the source device starts at 0 each day.",
+            "nl": "De meter van het bronapparaat begint elke dag bij 0.",
+            "de": "Der Zähler des Quellgeräts beginnt jeden Tag bei 0.",
+            "fr": "Le compteur de l'appareil source repart de 0 chaque jour.",
+            "it": "Il contatore del dispositivo sorgente riparte da 0 ogni giorno.",
+            "sv": "Källenhetens mätare börjar på 0 varje dag.",
+            "no": "Måleren til kildeenheten starter på 0 hver dag.",
+            "es": "El contador del dispositivo de origen empieza en 0 cada día.",
+            "da": "Kildeenhedens måler starter på 0 hver dag.",
+            "pl": "Licznik urządzenia źródłowego zaczyna każdego dnia od 0.",
+            "ru": "Счётчик устройства-источника каждый день начинается с 0.",
+            "ar": "يبدأ عداد الجهاز المصدر من 0 كل يوم.",
+            "ko": "소스 디바이스의 미터가 매일 0에서 시작합니다."
+          }
+        }
+      ]
+    },
+    {
+      "type": "group",
+      "label": {
+        "en": "Solar panels (change via Repair)",
+        "nl": "Zonnepanelen (wijzigen via Repareren)",
+        "de": "Solaranlage (ändern über Reparieren)",
+        "fr": "Panneaux solaires (modifier via Réparer)",
+        "it": "Pannelli solari (modifica tramite Ripara)",
+        "sv": "Solpaneler (ändra via Reparera)",
+        "no": "Solcellepaneler (endre via Reparer)",
+        "es": "Paneles solares (cambiar en Reparar)",
+        "da": "Solpaneler (ændr via Reparer)",
+        "pl": "Panele słoneczne (zmień przez Napraw)",
+        "ru": "Солнечные панели (изменить через «Исправить»)",
+        "ar": "الألواح الشمسية (التغيير عبر إصلاح)",
+        "ko": "태양광 패널 (수리에서 변경)"
+      },
+      "children": [
+        {
+          "id": "view_peakPower",
+          "type": "label",
+          "label": {
+            "en": "Peak power (W)",
+            "nl": "Piekvermogen (W)",
+            "de": "Spitzenleistung (W)",
+            "fr": "Puissance crête (W)",
+            "it": "Potenza di picco (W)",
+            "sv": "Toppeffekt (W)",
+            "no": "Toppeffekt (W)",
+            "es": "Potencia pico (W)",
+            "da": "Spidseffekt (W)",
+            "pl": "Moc szczytowa (W)",
+            "ru": "Пиковая мощность (Вт)",
+            "ar": "ذروة الطاقة (واط)",
+            "ko": "피크 전력 (W)"
+          },
+          "value": "-",
+          "hint": {
+            "en": "Maximum power of your solar panels, for the charts and learning. 0: estimated by the app.",
+            "nl": "Maximaal vermogen van je zonnepanelen, voor de grafieken en het leren. 0: geschat door de app.",
+            "de": "Maximale Leistung Ihrer Solarmodule, für Diagramme und Lernen. 0: von der App geschätzt.",
+            "fr": "Puissance maximale de vos panneaux, pour les graphiques et l'apprentissage. 0 : estimée par l'app.",
+            "it": "Potenza massima dei tuoi pannelli, per i grafici e l'apprendimento. 0: stimata dall'app.",
+            "sv": "Solpanelernas maxeffekt, för diagrammen och inlärningen. 0: uppskattas av appen.",
+            "no": "Maks effekt for solcellepanelene, for grafene og læringen. 0: anslått av appen.",
+            "es": "Potencia máxima de tus paneles, para los gráficos y el aprendizaje. 0: la estima la app.",
+            "da": "Solcellernes maksimale effekt, til graferne og indlæringen. 0: anslået af appen.",
+            "pl": "Maksymalna moc paneli, dla wykresów i uczenia. 0: szacowana przez aplikację.",
+            "ru": "Максимальная мощность панелей для графиков и обучения. 0: оценивается приложением.",
+            "ar": "القدرة القصوى للألواح الشمسية، للرسوم البيانية والتعلّم. 0: يقدّرها التطبيق.",
+            "ko": "태양광 패널의 최대 전력(차트와 학습용). 0: 앱이 추정."
+          }
+        }
+      ]
+    },
+    {
+      "type": "group",
+      "label": {
+        "en": "Energy price (change via Repair)",
+        "nl": "Energieprijs (wijzigen via Repareren)",
+        "de": "Energiepreis (ändern über Reparieren)",
+        "fr": "Prix de l'énergie (modifier via Réparer)",
+        "it": "Prezzo dell'energia (modifica tramite Ripara)",
+        "sv": "Energipris (ändra via Reparera)",
+        "no": "Energipris (endre via Reparer)",
+        "es": "Precio de la energía (cambiar en Reparar)",
+        "da": "Energipris (ændr via Reparer)",
+        "pl": "Cena energii (zmień przez Napraw)",
+        "ru": "Цена энергии (изменить через «Исправить»)",
+        "ar": "سعر الطاقة (التغيير عبر إصلاح)",
+        "ko": "에너지 가격 (수리에서 변경)"
+      },
+      "children": [
+        {
+          "id": "price_info",
+          "type": "label",
+          "label": {
+            "en": "Price",
+            "nl": "Prijs",
+            "de": "Preis",
+            "fr": "Prix",
+            "it": "Prezzo",
+            "sv": "Pris",
+            "no": "Pris",
+            "es": "Precio",
+            "da": "Pris",
+            "pl": "Cena",
+            "ru": "Цена",
+            "ar": "السعر",
+            "ko": "가격"
+          },
+          "value": "-",
+          "hint": {
+            "en": "Where the price comes from: an Energy Price device in this tariff group, or a fixed tariff.",
+            "nl": "Waar de prijs vandaan komt: een Energieprijs-apparaat in deze tariefgroep, of een vast tarief.",
+            "de": "Woher der Preis kommt: ein Energiepreis-Gerät in dieser Tarifgruppe oder ein Festtarif.",
+            "fr": "D'où vient le prix : un appareil Prix de l'énergie dans ce groupe tarifaire, ou un tarif fixe.",
+            "it": "Da dove viene il prezzo: un dispositivo Prezzo dell'energia in questo gruppo tariffario, o una tariffa fissa.",
+            "sv": "Varifrån priset kommer: en Energipris-enhet i den här tariffgruppen, eller en fast tariff.",
+            "no": "Hvor prisen kommer fra: en Energipris-enhet i denne tariffgruppen, eller en fast tariff.",
+            "es": "De dónde viene el precio: un dispositivo Precio de la energía en este grupo de tarifa, o una tarifa fija.",
+            "da": "Hvor prisen kommer fra: en Energipris-enhed i denne tarifgruppe, eller en fast tarif.",
+            "pl": "Skąd pochodzi cena: urządzenie Cena energii w tej grupie taryfowej albo stała taryfa.",
+            "ru": "Откуда берётся цена: устройство «Цена энергии» в этой тарифной группе или фиксированный тариф.",
+            "ar": "مصدر السعر: جهاز سعر الطاقة في مجموعة التعرفة هذه، أو تعرفة ثابتة.",
+            "ko": "가격의 출처: 이 요금 그룹의 에너지 가격 디바이스 또는 고정 요금."
+          }
+        },
+        {
+          "id": "view_tariff_type",
+          "type": "label",
+          "label": {
+            "en": "Tariff selection",
+            "nl": "Tariefselectie",
+            "de": "Tarifauswahl",
+            "fr": "Sélection du tarif",
+            "it": "Selezione tariffa",
+            "sv": "Tariffval",
+            "no": "Tariffvalg",
+            "es": "Selección de tarifa",
+            "da": "Tarifvalg",
+            "pl": "Wybór taryfy",
+            "ru": "Выбор тарифа",
+            "ar": "اختيار التعريفة",
+            "ko": "요금 선택"
+          },
+          "value": "-",
+          "hint": {
+            "en": "Automatic: the export price while your home returns power to the grid, otherwise the import price.",
+            "nl": "Automatisch: de terugleverprijs zolang je huis stroom teruglevert aan het net, anders de afnameprijs.",
+            "de": "Automatisch: der Einspeisepreis, solange dein Haus Strom ins Netz einspeist, sonst der Bezugspreis.",
+            "fr": "Automatique : le prix d'injection tant que votre maison renvoie du courant au réseau, sinon le prix d'achat.",
+            "it": "Automatico: il prezzo di immissione mentre la casa immette energia in rete, altrimenti il prezzo di prelievo.",
+            "sv": "Automatisk: exportpriset medan ditt hem matar ut ström till nätet, annars importpriset.",
+            "no": "Automatisk: eksportprisen mens hjemmet ditt leverer strøm til nettet, ellers importprisen.",
+            "es": "Automático: el precio de exportación mientras tu casa devuelve energía a la red, si no el de importación.",
+            "da": "Automatisk: eksportprisen, mens dit hjem leverer strøm til nettet, ellers importprisen.",
+            "pl": "Automatycznie: cena eksportu, gdy dom oddaje prąd do sieci, w przeciwnym razie cena importu.",
+            "ru": "Автоматически: цена экспорта, пока дом отдаёт энергию в сеть, иначе цена импорта.",
+            "ar": "تلقائي: سعر التصدير طالما يعيد منزلك الطاقة إلى الشبكة، وإلا فسعر الاستيراد.",
+            "ko": "자동: 집이 전력망으로 전력을 보내는 동안은 수출 가격, 그 외에는 수입 가격."
+          }
+        }
+      ]
+    },
+    {
+      "type": "group",
+      "label": {
+        "en": "Year and budget (change via Repair)",
+        "nl": "Jaar en budget (wijzigen via Repareren)",
+        "de": "Jahr und Budget (ändern über Reparieren)",
+        "fr": "Année et budget (modifier via Réparer)",
+        "it": "Anno e budget (modifica tramite Ripara)",
+        "sv": "År och budget (ändra via Reparera)",
+        "no": "År og budsjett (endre via Reparer)",
+        "es": "Año y presupuesto (cambiar en Reparar)",
+        "da": "År og budget (ændr via Reparer)",
+        "pl": "Rok i budżet (zmień przez Napraw)",
+        "ru": "Год и бюджет (изменить через «Исправить»)",
+        "ar": "السنة والميزانية (التغيير عبر إصلاح)",
+        "ko": "연도와 예산 (수리에서 변경)"
+      },
+      "children": [
+        {
+          "id": "budget_info",
+          "type": "label",
+          "label": {
+            "en": "Year budget",
+            "nl": "Jaarbudget",
+            "de": "Jahresbudget",
+            "fr": "Budget annuel",
+            "it": "Budget annuale",
+            "sv": "Årsbudget",
+            "no": "Årsbudsjett",
+            "es": "Presupuesto anual",
+            "da": "Årsbudget",
+            "pl": "Budżet roczny",
+            "ru": "Годовой бюджет",
+            "ar": "الميزانية السنوية",
+            "ko": "연간 예산"
+          },
+          "value": "",
+          "hint": {
+            "en": "Start of your year, and the budget for it.",
+            "nl": "Begin van je jaar, en het budget ervoor.",
+            "de": "Beginn Ihres Jahres und das Budget dafür.",
+            "fr": "Début de votre année, et son budget.",
+            "it": "Inizio del tuo anno e il relativo budget.",
+            "sv": "Början på ditt år och budgeten för det.",
+            "no": "Starten på året ditt, og budsjettet for det.",
+            "es": "Inicio de tu año y su presupuesto.",
+            "da": "Starten på dit år og budgettet for det.",
+            "pl": "Początek Twojego roku i budżet na niego.",
+            "ru": "Начало вашего года и бюджет на него.",
+            "ar": "بداية سنتك، والميزانية الخاصة بها.",
+            "ko": "연도의 시작일과 그 해의 예산."
+          }
+        }
+      ]
+    },
+    {
+      "type": "group",
+      "label": {
+        "en": "Advanced (change via Repair)",
+        "nl": "Geavanceerd (wijzigen via Repareren)",
+        "de": "Erweitert (ändern über Reparieren)",
+        "fr": "Avancé (modifier via Réparer)",
+        "it": "Avanzate (modifica tramite Ripara)",
+        "sv": "Avancerat (ändra via Reparera)",
+        "no": "Avansert (endre via Reparer)",
+        "es": "Avanzado (cambiar en Reparar)",
+        "da": "Avanceret (ændr via Reparer)",
+        "pl": "Zaawansowane (zmień przez Napraw)",
+        "ru": "Дополнительно (изменить через «Исправить»)",
+        "ar": "متقدم (التغيير عبر إصلاح)",
+        "ko": "고급 (수리에서 변경)"
+      },
+      "children": [
+        {
+          "id": "view_lat",
+          "type": "label",
+          "label": {
+            "en": "Latitude",
+            "nl": "Breedtegraad",
+            "de": "Breitengrad",
+            "fr": "Latitude",
+            "it": "Latitudine",
+            "sv": "Latitud",
+            "no": "Breddegrad",
+            "es": "Latitud",
+            "da": "Breddegrad",
+            "pl": "Szerokość geograficzna",
+            "ru": "Широта",
+            "ar": "خط العرض",
+            "ko": "위도"
+          },
+          "value": "-",
+          "hint": {
+            "en": "Latitude of the panels, for the forecast. Empty: the location of Homey.",
+            "nl": "Breedtegraad van de panelen, voor de voorspelling. Leeg: de locatie van Homey.",
+            "de": "Breitengrad der Module, für die Prognose. Leer: der Standort von Homey.",
+            "fr": "Latitude des panneaux, pour la prévision. Vide : l'emplacement de Homey.",
+            "it": "Latitudine dei pannelli, per la previsione. Vuoto: la posizione di Homey.",
+            "sv": "Panelernas latitud, för prognosen. Tom: Homeys plats.",
+            "no": "Panelenes breddegrad, for prognosen. Tom: Homeys plassering.",
+            "es": "Latitud de los paneles, para la previsión. Vacío: la ubicación de Homey.",
+            "da": "Panelernes breddegrad, til prognosen. Tom: Homeys placering.",
+            "pl": "Szerokość geograficzna paneli, dla prognozy. Puste: lokalizacja Homey.",
+            "ru": "Широта панелей для прогноза. Пусто: местоположение Homey.",
+            "ar": "خط عرض الألواح، للتنبؤ. فارغ: موقع Homey.",
+            "ko": "예보용 패널 위도. 비어 있으면 Homey 위치."
+          }
+        },
+        {
+          "id": "view_lon",
+          "type": "label",
+          "label": {
+            "en": "Longitude",
+            "nl": "Lengtegraad",
+            "de": "Längengrad",
+            "fr": "Longitude",
+            "it": "Longitudine",
+            "sv": "Longitud",
+            "no": "Lengdegrad",
+            "es": "Longitud",
+            "da": "Længdegrad",
+            "pl": "Długość geograficzna",
+            "ru": "Долгота",
+            "ar": "خط الطول",
+            "ko": "경도"
+          },
+          "value": "-",
+          "hint": {
+            "en": "Longitude of the panels, for the forecast. Empty: the location of Homey.",
+            "nl": "Lengtegraad van de panelen, voor de voorspelling. Leeg: de locatie van Homey.",
+            "de": "Längengrad der Module, für die Prognose. Leer: der Standort von Homey.",
+            "fr": "Longitude des panneaux, pour la prévision. Vide : l'emplacement de Homey.",
+            "it": "Longitudine dei pannelli, per la previsione. Vuoto: la posizione di Homey.",
+            "sv": "Panelernas longitud, för prognosen. Tom: Homeys plats.",
+            "no": "Panelenes lengdegrad, for prognosen. Tom: Homeys plassering.",
+            "es": "Longitud de los paneles, para la previsión. Vacío: la ubicación de Homey.",
+            "da": "Panelernes længdegrad, til prognosen. Tom: Homeys placering.",
+            "pl": "Długość geograficzna paneli, dla prognozy. Puste: lokalizacja Homey.",
+            "ru": "Долгота панелей для прогноза. Пусто: местоположение Homey.",
+            "ar": "خط طول الألواح، للتنبؤ. فارغ: موقع Homey.",
+            "ko": "예보용 패널 경도. 비어 있으면 Homey 위치."
+          }
+        },
+        {
+          "id": "view_decimals_meter",
+          "type": "label",
+          "label": {
+            "en": "Meter decimals",
+            "nl": "Meter decimalen",
+            "de": "Zählerdezimalstellen",
+            "fr": "Décimales du compteur",
+            "it": "Decimali contatore",
+            "sv": "Mätardecimaler",
+            "no": "Målerdesimaler",
+            "es": "Decimales del contador",
+            "da": "Målerdecimaler",
+            "pl": "Miejsca dziesiętne licznika",
+            "ru": "Десятичные знаки счётчика",
+            "ar": "الكسور العشرية للعداد",
+            "ko": "계량기 소수 자릿수"
+          },
+          "value": "-",
+          "hint": {
+            "en": "Decimals shown for the meter values.",
+            "nl": "Aantal decimalen van de meterwaarden.",
+            "de": "Angezeigte Dezimalstellen der Zählerwerte.",
+            "fr": "Décimales affichées pour les valeurs du compteur.",
+            "it": "Decimali mostrati per i valori del contatore.",
+            "sv": "Antal decimaler för mätarvärdena.",
+            "no": "Antall desimaler for målerverdiene.",
+            "es": "Decimales mostrados en los valores del contador.",
+            "da": "Antal decimaler for målerværdierne.",
+            "pl": "Liczba miejsc po przecinku wartości licznika.",
+            "ru": "Число знаков после запятой у показаний счётчика.",
+            "ar": "عدد الخانات العشرية لقيم العداد.",
+            "ko": "미터 값에 표시되는 소수 자릿수."
+          }
+        }
+      ]
+    },
+    {
+      "type": "group",
+      "label": {
         "en": "Solar panels",
         "nl": "Zonnepanelen",
         "de": "Solaranlage",
@@ -549,296 +1069,6 @@
             "ru": "Максимальная измеренная мощность. Используется, когда пиковая мощность равна 0. Сбрасывается при полном переобучении.",
             "ko": "지금까지 측정된 최고 전력입니다. 최대 출력이 0일 때 사용됩니다. 전체 재학습 시 초기화됩니다.",
             "ar": "أعلى طاقة تم قياسها على الإطلاق. تُستخدم عندما تكون ذروة الطاقة 0. تُعاد عند إعادة التدريب الكامل."
-          }
-        }
-      ]
-    },
-    {
-      "type": "group",
-      "label": {
-        "en": "Homey source device information",
-        "nl": "Informatie Homey-bronapparaat",
-        "de": "Informationen zum Homey Gerät",
-        "fr": "Informations sur l'appareil source Homey",
-        "it": "Informazioni dispositivo sorgente Homey",
-        "sv": "Homey källenhetsinformation",
-        "no": "Homey kildeenhetsinformasjon",
-        "es": "Información del dispositivo de origen Homey",
-        "da": "Homey kildeenhedsinformation",
-        "pl": "Informacje o urządzeniu źródłowym Homey",
-        "ru": "Информация об исходном устройстве Homey",
-        "ar": "معلومات جهاز مصدر Homey",
-        "ko": "Homey 소스 디바이스 정보"
-      },
-      "children": [
-        {
-          "id": "homey_device_id",
-          "type": "label",
-          "label": {
-            "en": "Device ID",
-            "nl": "Apparaat ID",
-            "de": "Geräte ID",
-            "fr": "ID de l'appareil",
-            "it": "ID dispositivo",
-            "sv": "Enhets ID",
-            "no": "Enhets ID",
-            "es": "ID del dispositivo",
-            "da": "Enheds-ID",
-            "pl": "ID urządzenia",
-            "ru": "ID устройства",
-            "ar": "معرف الجهاز",
-            "ko": "디바이스 ID"
-          },
-          "value": "unknown",
-          "hint": {
-            "en": "ID of the source device, or virtual (via flow). Do a repair to change.",
-            "nl": "ID van het bronapparaat, of virtueel (via flow). Repareer om te wijzigen.",
-            "de": "ID des Quellgeräts oder virtuell (via Flow). Zum Ändern reparieren.",
-            "fr": "ID de l'appareil source, ou virtuel (via flow). Réparer pour modifier.",
-            "it": "ID del dispositivo sorgente, o virtuale (via flow). Ripara per modificare.",
-            "sv": "Källenhetens ID, eller virtuell (via Flow). Reparera för att ändra.",
-            "no": "Kildeenhetens ID, eller virtuell (via Flow). Reparer for å endre.",
-            "es": "ID del dispositivo de origen, o virtual (vía Flow). Repara para cambiar.",
-            "da": "Kildeenhedens ID, eller virtuel (via flow). Reparer for at ændre.",
-            "pl": "ID urządzenia źródłowego lub wirtualne (przez flow). Napraw, aby zmienić.",
-            "ru": "ID исходного устройства или виртуальное (через Flow). Чтобы изменить, выберите «Исправить».",
-            "ar": "معرّف الجهاز المصدر، أو افتراضي (عبر Flow). نفّذ إصلاحًا للتغيير.",
-            "ko": "소스 디바이스 ID 또는 가상 (flow 사용). 변경하려면 수리하세요."
-          }
-        },
-        {
-          "id": "homey_device_name",
-          "type": "label",
-          "label": {
-            "en": "Device name",
-            "nl": "Apparaat naam",
-            "de": "Gerätename",
-            "fr": "Nom de l'appareil",
-            "it": "Nome dispositivo",
-            "sv": "Enhets namn",
-            "no": "Enhets navn",
-            "es": "Nombre del dispositivo",
-            "da": "Enhedsnavn",
-            "pl": "Nazwa urządzenia",
-            "ru": "Имя устройства",
-            "ar": "اسم الجهاز",
-            "ko": "디바이스 이름"
-          },
-          "value": "unknown",
-          "hint": {
-            "en": "Device that supplies the readings. Do a repair to change.",
-            "nl": "Apparaat dat de metingen levert. Repareer om te wijzigen.",
-            "de": "Gerät, das die Messwerte liefert. Zum Ändern reparieren.",
-            "fr": "Appareil qui fournit les mesures. Réparer pour modifier.",
-            "it": "Dispositivo che fornisce le letture. Ripara per modificare.",
-            "sv": "Enhet som levererar mätvärdena. Reparera för att ändra.",
-            "no": "Enhet som leverer målingene. Reparer for å endre.",
-            "es": "Dispositivo que aporta las lecturas. Repara para cambiar.",
-            "da": "Enhed der leverer målingerne. Reparer for at ændre.",
-            "pl": "Urządzenie dostarczające odczyty. Napraw, aby zmienić.",
-            "ru": "Устройство, которое передаёт показания. Чтобы изменить, выберите «Исправить».",
-            "ar": "الجهاز الذي يوفر القراءات. نفّذ إصلاحًا للتغيير.",
-            "ko": "측정값을 제공하는 디바이스. 변경하려면 수리하세요."
-          }
-        },
-        {
-          "id": "source_capability",
-          "type": "label",
-          "label": {
-            "en": "Source capability",
-            "nl": "Bron-capability",
-            "de": "Quell-Capability",
-            "fr": "Capability source",
-            "it": "Capability sorgente",
-            "sv": "Källcapability",
-            "no": "Kildecapability",
-            "es": "Capability de origen",
-            "da": "Kildecapability",
-            "pl": "Capability źródła",
-            "ru": "Capability источника",
-            "ar": "قدرة المصدر",
-            "ko": "소스 기능"
-          },
-          "hint": {
-            "en": "Capabilities read from the source device. Do a repair to change.",
-            "nl": "Capabilities die van het bronapparaat gelezen worden. Repareer om te wijzigen.",
-            "de": "Vom Quellgerät gelesene Capabilities. Zum Ändern reparieren.",
-            "fr": "Capacités lues sur l'appareil source. Réparer pour modifier.",
-            "it": "Capacità lette dal dispositivo sorgente. Ripara per modificare.",
-            "sv": "Capabilities som läses från källenheten. Reparera för att ändra.",
-            "no": "Capabilities som leses fra kildeenheten. Reparer for å endre.",
-            "es": "Capacidades leídas del dispositivo de origen. Repara para cambiar.",
-            "da": "Capabilities der læses fra kildeenheden. Reparer for at ændre.",
-            "pl": "Funkcje odczytywane z urządzenia źródłowego. Napraw, aby zmienić.",
-            "ru": "Возможности, считываемые с исходного устройства. Чтобы изменить, выберите «Исправить».",
-            "ar": "القدرات المقروءة من الجهاز المصدر. نفّذ إصلاحًا للتغيير.",
-            "ko": "소스 디바이스에서 읽는 기능. 변경하려면 수리하세요."
-          },
-          "value": "-"
-        }
-      ]
-    },
-    {
-      "type": "group",
-      "label": {
-        "en": "Settings",
-        "nl": "Instellingen",
-        "de": "Einstellungen",
-        "fr": "Paramètres",
-        "it": "Impostazioni",
-        "sv": "Inställningar",
-        "no": "Innstillinger",
-        "es": "Ajustes",
-        "da": "Indstillinger",
-        "pl": "Ustawienia",
-        "ru": "Настройки",
-        "ar": "الإعدادات",
-        "ko": "설정"
-      },
-      "children": [
-        {
-          "id": "price_info",
-          "type": "label",
-          "label": {
-            "en": "Price",
-            "nl": "Prijs",
-            "de": "Preis",
-            "fr": "Prix",
-            "it": "Prezzo",
-            "sv": "Pris",
-            "no": "Pris",
-            "es": "Precio",
-            "da": "Pris",
-            "pl": "Cena",
-            "ru": "Цена",
-            "ar": "السعر",
-            "ko": "가격"
-          },
-          "value": "-",
-          "hint": {
-            "en": "Price used for money values. Do a repair to change.",
-            "nl": "Prijs voor de geldwaarden. Repareer om te wijzigen.",
-            "de": "Preis für die Geldwerte. Zum Ändern reparieren.",
-            "fr": "Prix utilisé pour les montants. Réparer pour modifier.",
-            "it": "Prezzo per i valori in denaro. Ripara per modificare.",
-            "sv": "Pris för penningvärdena. Reparera för att ändra.",
-            "no": "Pris for pengeverdiene. Reparer for å endre.",
-            "es": "Precio para los importes. Repara para cambiar.",
-            "da": "Pris til pengeværdierne. Reparer for at ændre.",
-            "pl": "Cena dla wartości pieniężnych. Napraw, aby zmienić.",
-            "ru": "Цена для денежных значений. Чтобы изменить, выберите «Исправить».",
-            "ar": "السعر المستخدم للقيم المالية. نفّذ إصلاحًا للتغيير.",
-            "ko": "금액 계산에 쓰는 가격. 변경하려면 수리하세요."
-          }
-        }
-      ]
-    },
-    {
-      "type": "group",
-      "label": {
-        "en": "Year start and energy budget",
-        "nl": "Jaarstart en energiebudget",
-        "de": "Jahresbeginn und Energiebudget",
-        "fr": "Début d'année et budget énergie",
-        "it": "Inizio anno e bilancio energetico",
-        "sv": "Årets början och energibudget",
-        "no": "Årets start og energibudsjett",
-        "es": "Inicio del año y presupuesto de energía",
-        "da": "Årsstart og energibudget",
-        "pl": "Początek roku i budżet energetyczny",
-        "ru": "Начало года и энергетический бюджет",
-        "ar": "بداية العام وميزانية الطاقة",
-        "ko": "연 시작 및 에너지 예산"
-      },
-      "children": [
-        {
-          "id": "budget_info",
-          "type": "label",
-          "label": {
-            "en": "Year budget",
-            "nl": "Jaarbudget",
-            "de": "Jahresbudget",
-            "fr": "Budget annuel",
-            "it": "Budget annuale",
-            "sv": "Årsbudget",
-            "no": "Årsbudsjett",
-            "es": "Presupuesto anual",
-            "da": "Årsbudget",
-            "pl": "Budżet roczny",
-            "ru": "Годовой бюджет",
-            "ar": "الميزانية السنوية",
-            "ko": "연간 예산"
-          },
-          "value": "",
-          "hint": {
-            "en": "Start of the year and its budget. Do a repair to change.",
-            "nl": "Start van het jaar en het budget. Repareer om te wijzigen.",
-            "de": "Jahresbeginn und Budget. Zum Ändern reparieren.",
-            "fr": "Début de l'année et budget. Réparer pour modifier.",
-            "it": "Inizio dell'anno e budget. Ripara per modificare.",
-            "sv": "Årets start och budget. Reparera för att ändra.",
-            "no": "Årets start og budsjett. Reparer for å endre.",
-            "es": "Inicio del año y presupuesto. Repara para cambiar.",
-            "da": "Årets start og budget. Reparer for at ændre.",
-            "pl": "Początek roku i budżet. Napraw, aby zmienić.",
-            "ru": "Начало года и бюджет. Чтобы изменить, выберите «Исправить».",
-            "ar": "بداية السنة والميزانية. نفّذ إصلاحًا للتغيير.",
-            "ko": "연도 시작일과 예산. 변경하려면 수리하세요."
-          }
-        }
-      ]
-    },
-    {
-      "type": "group",
-      "label": {
-        "en": "Totals",
-        "nl": "Totalen",
-        "de": "Summen",
-        "fr": "Totaux",
-        "it": "Totali",
-        "sv": "Totaler",
-        "no": "Totaler",
-        "es": "Totales",
-        "da": "Totaler",
-        "pl": "Sumy",
-        "ru": "Итоги",
-        "ar": "الإجماليات",
-        "ko": "합계"
-      },
-      "children": [
-        {
-          "id": "fix_values_info",
-          "type": "label",
-          "label": {
-            "en": "Fix totals or costs",
-            "nl": "Totalen of kosten herstellen",
-            "de": "Summen oder Kosten korrigieren",
-            "fr": "Corriger les totaux ou les coûts",
-            "it": "Correggi totali o costi",
-            "sv": "Rätta totaler eller kostnader",
-            "no": "Rett totaler eller kostnader",
-            "es": "Corregir totales o costes",
-            "da": "Ret totaler eller omkostninger",
-            "pl": "Popraw sumy lub koszty",
-            "ru": "Скорректировать итоги или затраты",
-            "ar": "تصحيح الإجماليات أو التكاليف",
-            "ko": "합계 또는 비용 수정"
-          },
-          "value": "Repair",
-          "hint": {
-            "en": "Corrects totals, meter readings and money. Do a repair to change.",
-            "nl": "Herstelt totalen, meterstanden en geld. Repareer om te wijzigen.",
-            "de": "Korrigiert Summen, Zählerstände und Geldwerte. Zum Ändern reparieren.",
-            "fr": "Corrige totaux, relevés et montants. Réparer pour modifier.",
-            "it": "Corregge totali, letture e importi. Ripara per modificare.",
-            "sv": "Rättar totaler, mätarställningar och belopp. Reparera för att ändra.",
-            "no": "Retter totaler, målerstander og beløp. Reparer for å endre.",
-            "es": "Corrige totales, lecturas e importes. Repara para cambiar.",
-            "da": "Retter totaler, målerstande og beløb. Reparer for at ændre.",
-            "pl": "Poprawia sumy, odczyty i kwoty. Napraw, aby zmienić.",
-            "ru": "Исправляет итоги, показания и суммы. Чтобы изменить, выберите «Исправить».",
-            "ar": "يصحح الإجماليات وقراءات العداد والمبالغ. نفّذ إصلاحًا للتغيير.",
-            "ko": "합계, 계량값, 금액을 수정합니다. 변경하려면 수리하세요."
           }
         }
       ]

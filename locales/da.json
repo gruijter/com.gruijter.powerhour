@@ -186,7 +186,8 @@
     "step_device_meters": "Energimålere",
     "step_device_meters_text": "Hvilke målere der tæller den opladede og afladede energi. Normalt er 'Automatisk' rigtigt.",
     "step_wear": "Slid og fortjeneste",
-    "step_wear_text": "Opladning og afladning slider på batteriet. Appen gør det kun, når det giver mere end sliddet plus minimum fortjeneste."
+    "step_wear_text": "Opladning og afladning slider på batteriet. Appen gør det kun, når det giver mere end sliddet plus minimum fortjeneste.",
+    "setup_price_no_group": "__name__ har ingen tarifgruppe: vælg først en via Reparer."
   },
   "load_forecast_accuracy": "Gns. afvigelse __mae__ W (__pct__%), bias __bias__ W, __days__ dage",
   "load_forecast_accuracy_collecting": "Indsamler data",
@@ -308,7 +309,7 @@
   "fuse_phase_export": "Hovedsikringsbeskyttelse __phase__: levering __export__ W over __limit__ W i 30 s. Batterierne kunne ikke forhindre det.",
   "phase_setup_one": "__name__: måleren viser 1 fase, men tilslutningen er sat til 3 faser. Ret det via Reparer.",
   "phase_setup_three": "__name__: måleren viser 3 faser, men tilslutningen er sat til 1 fase. Ret det via Reparer.",
-  "warning_no_price_device": "Ingen Energipris-enhed i tarifgruppen: prisen bliver stående på den sidste. Tilføj en Energipris-enhed og vælg dens gruppe i indstillingerne.",
+  "warning_no_price_device": "Ingen Energipris-enhed i tarifgruppen: prisen bliver stående på den sidste. Tilføj en Energipris-enhed og vælg denne gruppe.",
   "error_setup_no_price": "Vælg Fast tarif eller en tarifgruppe med en Energipris-enhed.",
   "source_polled": "pollet",
   "budget": {
@@ -341,5 +342,14 @@
     "custom_spread_local": "Som det lokale klima",
     "custom_spread_own": "Egne værdier"
   },
-  "error_setup_soc_order": "Laveste niveau, reserveniveau og dagligt maksimum skal stige i den rækkefølge."
+  "error_setup_soc_order": "Laveste niveau, reserveniveau og dagligt maksimum skal stige i den rækkefølge.",
+  "warning_price_no_group": "__name__ har ingen tarifgruppe: vælg gruppe __group__ via Reparer.",
+  "settings_view": {
+    "group": "__title__ (ændr via Reparer)",
+    "on": "Til",
+    "off": "Fra",
+    "step_price_type": "Pristype",
+    "step_import": "Importprisindstillinger",
+    "step_export": "Eksportprisindstillinger"
+  }
 }

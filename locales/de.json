@@ -186,7 +186,8 @@
     "step_device_meters": "Energiezähler",
     "step_device_meters_text": "Welche Zähler die geladene und entladene Energie zählen. Meist ist 'Automatisch' richtig.",
     "step_wear": "Verschleiß und Gewinn",
-    "step_wear_text": "Laden und Entladen verschleißt die Batterie. Die App tut das nur, wenn es mehr bringt als Verschleiß plus Mindestgewinn."
+    "step_wear_text": "Laden und Entladen verschleißt die Batterie. Die App tut das nur, wenn es mehr bringt als Verschleiß plus Mindestgewinn.",
+    "setup_price_no_group": "__name__ hat keine Tarifgruppe: wählen Sie zuerst eine über Reparieren."
   },
   "load_forecast_accuracy": "Mittl. Fehler __mae__ W (__pct__%), Bias __bias__ W, __days__ Tage",
   "load_forecast_accuracy_collecting": "Daten werden gesammelt",
@@ -308,7 +309,7 @@
   "fuse_phase_export": "Hauptsicherungsschutz __phase__: Einspeisung __export__ W über __limit__ W für 30 s. Die Batterien konnten es nicht verhindern.",
   "phase_setup_one": "__name__: Der Zähler zeigt 1 Phase, der Anschluss ist aber auf 3 Phasen eingestellt. Ändern über Reparieren.",
   "phase_setup_three": "__name__: Der Zähler zeigt 3 Phasen, der Anschluss ist aber auf 1 Phase eingestellt. Ändern über Reparieren.",
-  "warning_no_price_device": "Kein Energiepreis-Gerät in der Tarifgruppe: der Preis bleibt beim letzten. Fügen Sie ein Energiepreis-Gerät hinzu und wählen Sie seine Gruppe in den Einstellungen.",
+  "warning_no_price_device": "Kein Energiepreis-Gerät in der Tarifgruppe: der Preis bleibt beim letzten. Fügen Sie ein Energiepreis-Gerät hinzu und wählen Sie diese Gruppe.",
   "error_setup_no_price": "Wählen Sie Festtarif oder eine Tarifgruppe mit einem Energiepreis-Gerät.",
   "source_polled": "abgefragt",
   "budget": {
@@ -341,5 +342,14 @@
     "custom_spread_local": "Wie das lokale Klima",
     "custom_spread_own": "Eigene Werte"
   },
-  "error_setup_soc_order": "Mindeststand, Reservestand und tägliches Maximum müssen in dieser Reihenfolge steigen."
+  "error_setup_soc_order": "Mindeststand, Reservestand und tägliches Maximum müssen in dieser Reihenfolge steigen.",
+  "warning_price_no_group": "__name__ hat keine Tarifgruppe: wählen Sie Gruppe __group__ über Reparieren.",
+  "settings_view": {
+    "group": "__title__ (ändern über Reparieren)",
+    "on": "Ein",
+    "off": "Aus",
+    "step_price_type": "Preistyp",
+    "step_import": "Importpreiseinstellungen",
+    "step_export": "Exportpreiseinstellungen"
+  }
 }

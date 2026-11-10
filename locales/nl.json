@@ -186,7 +186,8 @@
     "step_device_meters": "Energiemeters",
     "step_device_meters_text": "Welke meters de geladen en ontladen energie tellen. Meestal is 'Automatisch' goed.",
     "step_wear": "Slijtage en winst",
-    "step_wear_text": "Laden en ontladen slijt de batterij. De app doet dat alleen als het meer oplevert dan de slijtage plus de minimale winst."
+    "step_wear_text": "Laden en ontladen slijt de batterij. De app doet dat alleen als het meer oplevert dan de slijtage plus de minimale winst.",
+    "setup_price_no_group": "__name__ heeft geen tariefgroep: kies er eerst een via Repareren."
   },
   "load_forecast_accuracy": "Gem. afwijking __mae__ W (__pct__%), bias __bias__ W, __days__ dagen",
   "load_forecast_accuracy_collecting": "Gegevens verzamelen",
@@ -308,7 +309,7 @@
   "fuse_phase_export": "Hoofdzekeringbeveiliging __phase__: teruglevering __export__ W boven __limit__ W gedurende 30 s. De accu's konden het niet voorkomen.",
   "phase_setup_one": "__name__: de meter toont 1 fase, maar de aansluiting staat op 3 fasen. Pas dit aan via Repareren.",
   "phase_setup_three": "__name__: de meter toont 3 fasen, maar de aansluiting staat op 1 fase. Pas dit aan via Repareren.",
-  "warning_no_price_device": "Geen Energieprijs-apparaat in de tariefgroep: de prijs blijft op de laatste staan. Voeg een Energieprijs-apparaat toe en kies zijn groep in de instellingen.",
+  "warning_no_price_device": "Geen Energieprijs-apparaat in de tariefgroep: de prijs blijft op de laatste staan. Voeg een Energieprijs-apparaat toe en kies deze groep.",
   "error_setup_no_price": "Kies Vast tarief of een tariefgroep met een Energieprijs-apparaat.",
   "source_polled": "gepolld",
   "budget": {
@@ -341,5 +342,14 @@
     "custom_spread_local": "Volgens lokaal klimaat",
     "custom_spread_own": "Eigen waarden"
   },
-  "error_setup_soc_order": "Minimumniveau, reserveniveau en dagelijks maximum moeten in die volgorde oplopen."
+  "error_setup_soc_order": "Minimumniveau, reserveniveau en dagelijks maximum moeten in die volgorde oplopen.",
+  "warning_price_no_group": "__name__ heeft geen tariefgroep: kies groep __group__ via Repareren.",
+  "settings_view": {
+    "group": "__title__ (wijzigen via Repareren)",
+    "on": "Aan",
+    "off": "Uit",
+    "step_price_type": "Prijstype",
+    "step_import": "Instellingen importprijs",
+    "step_export": "Instellingen exportprijs"
+  }
 }

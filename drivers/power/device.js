@@ -31,7 +31,6 @@ const TimeHelpers = require('../../lib/helpers/TimeHelpers');
 const EvPlanner = require('../../lib/strategies/EvPlanner');
 const LoadSpread = require('../../lib/helpers/LoadSpread');
 const MoneyUnit = require('../../lib/helpers/MoneyUnit');
-const PairSetup = require('../../lib/helpers/PairSetup');
 
 const deviceSpecifics = {
   cmap: {
@@ -80,7 +79,6 @@ class PowerDevice extends GenericDevice {
 
   async initAppliance() {
     this.stopAppliance();
-    await this.updateApplianceInfo().catch(this.error);
     if (!this.isAppliance || this.isDestroyed) {
       this.applianceModel = null;
       this.appliancePlan = null;
@@ -132,15 +130,6 @@ class PowerDevice extends GenericDevice {
     await this.refreshGroupPrices().catch(this.error);
     await this.updateApplianceDisplay();
     await this.updateAppliancePlanDisplay();
-  }
-
-  // The settings label appliance_info: the mode chosen in the setup view (setting appliance_mode).
-  async updateApplianceInfo() {
-    const mode = this.driver.constructor.applianceMode(this.getSettings());
-    const def = PairSetup.settingDefs(this.driver).appliance_mode;
-    const option = def && (def.values || []).find((v) => v.id === mode);
-    const text = option ? PairSetup.text(this.homey, option.label) : mode;
-    if (this.getSettings().appliance_info !== text) await this.setSettings({ appliance_info: text });
   }
 
   // First time, and on the retrain button: learn the runs and start times of the last 14 days from

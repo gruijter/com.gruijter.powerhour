@@ -203,19 +203,19 @@
     {
       "type": "group",
       "label": {
-        "en": "Homey source device information",
-        "nl": "Informatie Homey-bronapparaat",
-        "de": "Informationen zum Homey Gerät",
-        "fr": "Informations sur l'appareil source Homey",
-        "it": "Informazioni dispositivo sorgente Homey",
-        "sv": "Homey källenhetsinformation",
-        "no": "Homey kildeenhetsinformasjon",
-        "es": "Información del dispositivo de origen Homey",
-        "da": "Homey kildeenhedsinformation",
-        "pl": "Informacje o urządzeniu źródłowym Homey",
-        "ru": "Информация об исходном устройстве Homey",
-        "ar": "معلومات جهاز مصدر Homey",
-        "ko": "Homey 소스 디바이스 정보"
+        "en": "Meter readings (change via Repair)",
+        "nl": "Meterstanden (wijzigen via Repareren)",
+        "de": "Zählerstände (ändern über Reparieren)",
+        "fr": "Relevés du compteur (modifier via Réparer)",
+        "it": "Letture del contatore (modifica tramite Ripara)",
+        "sv": "Mätarställningar (ändra via Reparera)",
+        "no": "Målerstander (endre via Reparer)",
+        "es": "Lecturas del contador (cambiar en Reparar)",
+        "da": "Målerstande (ændr via Reparer)",
+        "pl": "Odczyty licznika (zmień przez Napraw)",
+        "ru": "Показания счётчика (изменить через «Исправить»)",
+        "ar": "قراءات العداد (التغيير عبر إصلاح)",
+        "ko": "계량기 값 (수리에서 변경)"
       },
       "children": [
         {
@@ -238,19 +238,19 @@
           },
           "value": "unknown",
           "hint": {
-            "en": "ID of the source device, or virtual (via flow). Do a repair to change.",
-            "nl": "ID van het bronapparaat, of virtueel (via flow). Repareer om te wijzigen.",
-            "de": "ID des Quellgeräts oder virtuell (via Flow). Zum Ändern reparieren.",
-            "fr": "ID de l'appareil source, ou virtuel (via flow). Réparer pour modifier.",
-            "it": "ID del dispositivo sorgente, o virtuale (via flow). Ripara per modificare.",
-            "sv": "Källenhetens ID, eller virtuell (via Flow). Reparera för att ändra.",
-            "no": "Kildeenhetens ID, eller virtuell (via Flow). Reparer for å endre.",
-            "es": "ID del dispositivo de origen, o virtual (vía Flow). Repara para cambiar.",
-            "da": "Kildeenhedens ID, eller virtuel (via flow). Reparer for at ændre.",
-            "pl": "ID urządzenia źródłowego lub wirtualne (przez flow). Napraw, aby zmienić.",
-            "ru": "ID исходного устройства или виртуальное (через Flow). Чтобы изменить, выберите «Исправить».",
-            "ar": "معرّف الجهاز المصدر، أو افتراضي (عبر Flow). نفّذ إصلاحًا للتغيير.",
-            "ko": "소스 디바이스 ID 또는 가상 (flow 사용). 변경하려면 수리하세요."
+            "en": "ID of the source device, or virtual (via flow).",
+            "nl": "ID van het bronapparaat, of virtueel (via flow).",
+            "de": "ID des Quellgeräts oder virtuell (über Flow).",
+            "fr": "ID de l'appareil source, ou virtuel (via Flow).",
+            "it": "ID del dispositivo sorgente, o virtuale (tramite Flow).",
+            "sv": "ID för källenheten, eller virtuell (via Flow).",
+            "no": "ID til kildeenheten, eller virtuell (via Flow).",
+            "es": "ID del dispositivo de origen, o virtual (mediante Flow).",
+            "da": "ID for kildeenheden, eller virtuel (via Flow).",
+            "pl": "ID urządzenia źródłowego lub wirtualne (przez Flow).",
+            "ru": "ID устройства-источника или виртуальное (через Flow).",
+            "ar": "معرّف الجهاز المصدر، أو افتراضي (عبر Flow).",
+            "ko": "소스 디바이스의 ID, 또는 가상(Flow를 통해)."
           }
         },
         {
@@ -273,19 +273,19 @@
           },
           "value": "unknown",
           "hint": {
-            "en": "Device that supplies the readings. Do a repair to change.",
-            "nl": "Apparaat dat de metingen levert. Repareer om te wijzigen.",
-            "de": "Gerät, das die Messwerte liefert. Zum Ändern reparieren.",
-            "fr": "Appareil qui fournit les mesures. Réparer pour modifier.",
-            "it": "Dispositivo che fornisce le letture. Ripara per modificare.",
-            "sv": "Enhet som levererar mätvärdena. Reparera för att ändra.",
-            "no": "Enhet som leverer målingene. Reparer for å endre.",
-            "es": "Dispositivo que aporta las lecturas. Repara para cambiar.",
-            "da": "Enhed der leverer målingerne. Reparer for at ændre.",
-            "pl": "Urządzenie dostarczające odczyty. Napraw, aby zmienić.",
-            "ru": "Устройство, которое передаёт показания. Чтобы изменить, выберите «Исправить».",
-            "ar": "الجهاز الذي يوفر القراءات. نفّذ إصلاحًا للتغيير.",
-            "ko": "측정값을 제공하는 디바이스. 변경하려면 수리하세요."
+            "en": "Device that supplies the readings.",
+            "nl": "Apparaat dat de metingen levert.",
+            "de": "Gerät, das die Messwerte liefert.",
+            "fr": "Appareil qui fournit les mesures.",
+            "it": "Dispositivo che fornisce le misure.",
+            "sv": "Enheten som levererar mätvärdena.",
+            "no": "Enheten som leverer målingene.",
+            "es": "Dispositivo que proporciona las mediciones.",
+            "da": "Enheden, der leverer målingerne.",
+            "pl": "Urządzenie, które dostarcza odczyty.",
+            "ru": "Устройство, которое передаёт показания.",
+            "ar": "الجهاز الذي يوفّر القراءات.",
+            "ko": "측정값을 제공하는 디바이스."
           }
         },
         {
@@ -307,40 +307,165 @@
             "ko": "소스 기능"
           },
           "hint": {
-            "en": "Capabilities read from the source device. Do a repair to change.",
-            "nl": "Capabilities die van het bronapparaat gelezen worden. Repareer om te wijzigen.",
-            "de": "Vom Quellgerät gelesene Capabilities. Zum Ändern reparieren.",
-            "fr": "Capacités lues sur l'appareil source. Réparer pour modifier.",
-            "it": "Capacità lette dal dispositivo sorgente. Ripara per modificare.",
-            "sv": "Capabilities som läses från källenheten. Reparera för att ändra.",
-            "no": "Capabilities som leses fra kildeenheten. Reparer for å endre.",
-            "es": "Capacidades leídas del dispositivo de origen. Repara para cambiar.",
-            "da": "Capabilities der læses fra kildeenheden. Reparer for at ændre.",
-            "pl": "Funkcje odczytywane z urządzenia źródłowego. Napraw, aby zmienić.",
-            "ru": "Возможности, считываемые с исходного устройства. Чтобы изменить, выберите «Исправить».",
-            "ar": "القدرات المقروءة من الجهاز المصدر. نفّذ إصلاحًا للتغيير.",
-            "ko": "소스 디바이스에서 읽는 기능. 변경하려면 수리하세요."
+            "en": "What is read from the source device.",
+            "nl": "Wat van het bronapparaat gelezen wordt.",
+            "de": "Was vom Quellgerät gelesen wird.",
+            "fr": "Ce qui est lu sur l'appareil source.",
+            "it": "Cosa viene letto dal dispositivo sorgente.",
+            "sv": "Vad som läses från källenheten.",
+            "no": "Hva som leses fra kildeenheten.",
+            "es": "Lo que se lee del dispositivo de origen.",
+            "da": "Hvad der læses fra kildeenheden.",
+            "pl": "Co jest odczytywane z urządzenia źródłowego.",
+            "ru": "Что считывается с устройства-источника.",
+            "ar": "ما يُقرأ من الجهاز المصدر.",
+            "ko": "소스 디바이스에서 읽는 항목."
           },
           "value": "-"
+        },
+        {
+          "id": "view_use_measure_source",
+          "type": "label",
+          "label": {
+            "en": "Use Watt as source",
+            "nl": "Gebruik Watt als bron",
+            "de": "Watt als Quelle benutzen",
+            "fr": "Utiliser Watt comme source",
+            "it": "Usa Watt come sorgente",
+            "sv": "Använd Watt som källa",
+            "no": "Bruk Watt som kilde",
+            "es": "Usar Watt como fuente",
+            "da": "Brug Watt som kilde",
+            "pl": "Użyj Wata jako źródła",
+            "ru": "Использовать Ватт как источник",
+            "ar": "استخدم وات كمصدر",
+            "ko": "Watt를 소스로 사용"
+          },
+          "value": "-",
+          "hint": {
+            "en": "The energy is calculated from the power (W) of the source device, not from its meter.",
+            "nl": "De energie wordt berekend uit het vermogen (W) van het bronapparaat, niet uit zijn meter.",
+            "de": "Die Energie wird aus der Leistung (W) des Quellgeräts berechnet, nicht aus seinem Zähler.",
+            "fr": "L'énergie est calculée à partir de la puissance (W) de l'appareil source, pas de son compteur.",
+            "it": "L'energia è calcolata dalla potenza (W) del dispositivo sorgente, non dal suo contatore.",
+            "sv": "Energin beräknas från källenhetens effekt (W), inte från dess mätare.",
+            "no": "Energien beregnes fra kildeenhetens effekt (W), ikke fra måleren.",
+            "es": "La energía se calcula a partir de la potencia (W) del dispositivo de origen, no de su contador.",
+            "da": "Energien beregnes ud fra kildeenhedens effekt (W), ikke fra dens måler.",
+            "pl": "Energia jest liczona z mocy (W) urządzenia źródłowego, a nie z jego licznika.",
+            "ru": "Энергия рассчитывается по мощности (Вт) устройства-источника, а не по его счётчику.",
+            "ar": "تُحسب الطاقة من قدرة (W) الجهاز المصدر، وليس من عداده.",
+            "ko": "에너지를 소스 디바이스의 미터가 아닌 전력(W)으로 계산합니다."
+          }
+        },
+        {
+          "id": "view_homey_device_daily_reset",
+          "type": "label",
+          "label": {
+            "en": "Has daily reset",
+            "nl": "Heeft dagelijkse reset",
+            "de": "Tägliches Zurücksetzen",
+            "fr": "A une remise à zéro quotidienne",
+            "it": "Effettua un ripristino giornaliero",
+            "sv": "Har daglig återställning",
+            "no": "Har daglig resetting",
+            "es": "Tiene reinicio diario",
+            "da": "Har daglig nulstilling",
+            "pl": "Ma codzienny reset",
+            "ru": "Имеет ежедневный сброс",
+            "ar": "لديه إعادة تعيين يومية",
+            "ko": "매일 초기화됨"
+          },
+          "value": "-",
+          "hint": {
+            "en": "The meter of the source device starts at 0 each day.",
+            "nl": "De meter van het bronapparaat begint elke dag bij 0.",
+            "de": "Der Zähler des Quellgeräts beginnt jeden Tag bei 0.",
+            "fr": "Le compteur de l'appareil source repart de 0 chaque jour.",
+            "it": "Il contatore del dispositivo sorgente riparte da 0 ogni giorno.",
+            "sv": "Källenhetens mätare börjar på 0 varje dag.",
+            "no": "Måleren til kildeenheten starter på 0 hver dag.",
+            "es": "El contador del dispositivo de origen empieza en 0 cada día.",
+            "da": "Kildeenhedens måler starter på 0 hver dag.",
+            "pl": "Licznik urządzenia źródłowego zaczyna każdego dnia od 0.",
+            "ru": "Счётчик устройства-источника каждый день начинается с 0.",
+            "ar": "يبدأ عداد الجهاز المصدر من 0 كل يوم.",
+            "ko": "소스 디바이스의 미터가 매일 0에서 시작합니다."
+          }
         }
       ]
     },
     {
       "type": "group",
       "label": {
-        "en": "Settings",
-        "nl": "Instellingen",
-        "de": "Einstellungen",
-        "fr": "Paramètres",
-        "it": "Impostazioni",
-        "sv": "Inställningar",
-        "no": "Innstillinger",
-        "es": "Ajustes",
-        "da": "Indstillinger",
-        "pl": "Ustawienia",
-        "ru": "Настройки",
-        "ar": "الإعدادات",
-        "ko": "설정"
+        "en": "Appliance (change via Repair)",
+        "nl": "Apparaat (wijzigen via Repareren)",
+        "de": "Gerät (ändern über Reparieren)",
+        "fr": "Appareil (modifier via Réparer)",
+        "it": "Elettrodomestico (modifica tramite Ripara)",
+        "sv": "Apparat (ändra via Reparera)",
+        "no": "Apparat (endre via Reparer)",
+        "es": "Electrodoméstico (cambiar en Reparar)",
+        "da": "Apparat (ændr via Reparer)",
+        "pl": "Urządzenie (zmień przez Napraw)",
+        "ru": "Прибор (изменить через «Исправить»)",
+        "ar": "الجهاز (التغيير عبر إصلاح)",
+        "ko": "가전 (수리에서 변경)"
+      },
+      "children": [
+        {
+          "id": "view_appliance_mode",
+          "type": "label",
+          "label": {
+            "en": "Forecast and planner",
+            "nl": "Voorspelling en planner",
+            "de": "Prognose und Planer",
+            "fr": "Prévision et planificateur",
+            "it": "Previsione e pianificatore",
+            "sv": "Prognos och planerare",
+            "no": "Prognose og planlegger",
+            "es": "Previsión y planificador",
+            "da": "Prognose og planlægger",
+            "pl": "Prognoza i planer",
+            "ru": "Прогноз и планировщик",
+            "ar": "التوقع والمخطط",
+            "ko": "예측 및 플래너"
+          },
+          "value": "-",
+          "hint": {
+            "en": "Learns the energy use after a start, and when a program is usually started. This improves the home load forecast of the Grid Monitor. With plan: also plans the cheapest start.",
+            "nl": "Leert het energieverbruik na een start, en wanneer een programma meestal wordt gestart. Dat verbetert de verbruiksvoorspelling van de Netmonitor. Met plannen: plant ook de goedkoopste start.",
+            "de": "Lernt den Energieverbrauch nach einem Start und wann ein Programm meistens gestartet wird. Das verbessert die Verbrauchsprognose des Netzmonitors. Mit Planung: plant auch den günstigsten Start.",
+            "fr": "Apprend la consommation d'énergie après un démarrage, et quand un programme est généralement lancé. Cela améliore la prévision de consommation du Moniteur réseau. Avec planification : planifie aussi le démarrage le moins cher.",
+            "it": "Impara il consumo di energia dopo un avvio e quando un programma viene di solito avviato. Così migliora la previsione dei consumi del Monitor rete. Con pianificazione: pianifica anche l'avvio più economico.",
+            "sv": "Lär sig energiförbrukningen efter en start och när ett program oftast startas. Det förbättrar förbrukningsprognosen för Elnätsmonitor. Med planering: planerar också den billigaste starten.",
+            "no": "Lærer energibruken etter en start, og når et program vanligvis startes. Det forbedrer forbruksprognosen til Strømnettmonitor. Med planlegging: planlegger også den billigste starten.",
+            "es": "Aprende el consumo de energía tras un arranque y cuándo se suele iniciar un programa. Así mejora la previsión de consumo del Monitor de red. Con planificación: también planifica el arranque más barato.",
+            "da": "Lærer energiforbruget efter en start, og hvornår et program normalt startes. Det forbedrer forbrugsprognosen for Elnetmonitor. Med planlægning: planlægger også den billigste start.",
+            "pl": "Uczy się zużycia energii po uruchomieniu i tego, kiedy program jest zwykle uruchamiany. To poprawia prognozę zużycia Monitora sieci. Z planowaniem: planuje też najtańszy start.",
+            "ru": "Изучает потребление энергии после запуска и то, когда программа обычно запускается. Это улучшает прогноз потребления Монитора электросети. С планированием: также планирует самый дешёвый запуск.",
+            "ar": "يتعلّم استهلاك الطاقة بعد التشغيل، ومتى يبدأ البرنامج عادةً. هذا يحسّن توقّع الاستهلاك في مراقب الشبكة. مع التخطيط: يخطط أيضًا لأرخص وقت بدء.",
+            "ko": "시작 후 에너지 사용량과 프로그램이 주로 시작되는 시간을 학습합니다. 그리드 모니터의 사용량 예측이 좋아집니다. 계획 사용 시: 가장 저렴한 시작 시간도 계획합니다."
+          }
+        }
+      ]
+    },
+    {
+      "type": "group",
+      "label": {
+        "en": "Energy price (change via Repair)",
+        "nl": "Energieprijs (wijzigen via Repareren)",
+        "de": "Energiepreis (ändern über Reparieren)",
+        "fr": "Prix de l'énergie (modifier via Réparer)",
+        "it": "Prezzo dell'energia (modifica tramite Ripara)",
+        "sv": "Energipris (ändra via Reparera)",
+        "no": "Energipris (endre via Reparer)",
+        "es": "Precio de la energía (cambiar en Reparar)",
+        "da": "Energipris (ændr via Reparer)",
+        "pl": "Cena energii (zmień przez Napraw)",
+        "ru": "Цена энергии (изменить через «Исправить»)",
+        "ar": "سعر الطاقة (التغيير عبر إصلاح)",
+        "ko": "에너지 가격 (수리에서 변경)"
       },
       "children": [
         {
@@ -363,19 +488,269 @@
           },
           "value": "-",
           "hint": {
-            "en": "Price used for money values. Do a repair to change.",
-            "nl": "Prijs voor de geldwaarden. Repareer om te wijzigen.",
-            "de": "Preis für die Geldwerte. Zum Ändern reparieren.",
-            "fr": "Prix utilisé pour les montants. Réparer pour modifier.",
-            "it": "Prezzo per i valori in denaro. Ripara per modificare.",
-            "sv": "Pris för penningvärdena. Reparera för att ändra.",
-            "no": "Pris for pengeverdiene. Reparer for å endre.",
-            "es": "Precio para los importes. Repara para cambiar.",
-            "da": "Pris til pengeværdierne. Reparer for at ændre.",
-            "pl": "Cena dla wartości pieniężnych. Napraw, aby zmienić.",
-            "ru": "Цена для денежных значений. Чтобы изменить, выберите «Исправить».",
-            "ar": "السعر المستخدم للقيم المالية. نفّذ إصلاحًا للتغيير.",
-            "ko": "금액 계산에 쓰는 가격. 변경하려면 수리하세요."
+            "en": "Where the price comes from: an Energy Price device in this tariff group, or a fixed tariff.",
+            "nl": "Waar de prijs vandaan komt: een Energieprijs-apparaat in deze tariefgroep, of een vast tarief.",
+            "de": "Woher der Preis kommt: ein Energiepreis-Gerät in dieser Tarifgruppe oder ein Festtarif.",
+            "fr": "D'où vient le prix : un appareil Prix de l'énergie dans ce groupe tarifaire, ou un tarif fixe.",
+            "it": "Da dove viene il prezzo: un dispositivo Prezzo dell'energia in questo gruppo tariffario, o una tariffa fissa.",
+            "sv": "Varifrån priset kommer: en Energipris-enhet i den här tariffgruppen, eller en fast tariff.",
+            "no": "Hvor prisen kommer fra: en Energipris-enhet i denne tariffgruppen, eller en fast tariff.",
+            "es": "De dónde viene el precio: un dispositivo Precio de la energía en este grupo de tarifa, o una tarifa fija.",
+            "da": "Hvor prisen kommer fra: en Energipris-enhed i denne tarifgruppe, eller en fast tarif.",
+            "pl": "Skąd pochodzi cena: urządzenie Cena energii w tej grupie taryfowej albo stała taryfa.",
+            "ru": "Откуда берётся цена: устройство «Цена энергии» в этой тарифной группе или фиксированный тариф.",
+            "ar": "مصدر السعر: جهاز سعر الطاقة في مجموعة التعرفة هذه، أو تعرفة ثابتة.",
+            "ko": "가격의 출처: 이 요금 그룹의 에너지 가격 디바이스 또는 고정 요금."
+          }
+        },
+        {
+          "id": "view_tariff_type",
+          "type": "label",
+          "label": {
+            "en": "Tariff selection",
+            "nl": "Tariefselectie",
+            "de": "Tarifauswahl",
+            "fr": "Sélection du tarif",
+            "it": "Selezione tariffa",
+            "sv": "Tariffval",
+            "no": "Tariffvalg",
+            "es": "Selección de tarifa",
+            "da": "Tarifvalg",
+            "pl": "Wybór taryfy",
+            "ru": "Выбор тарифа",
+            "ar": "اختيار التعريفة",
+            "ko": "요금 선택"
+          },
+          "value": "-",
+          "hint": {
+            "en": "Automatic: the export price while your home returns power to the grid, otherwise the import price.",
+            "nl": "Automatisch: de terugleverprijs zolang je huis stroom teruglevert aan het net, anders de afnameprijs.",
+            "de": "Automatisch: der Einspeisepreis, solange dein Haus Strom ins Netz einspeist, sonst der Bezugspreis.",
+            "fr": "Automatique : le prix d'injection tant que votre maison renvoie du courant au réseau, sinon le prix d'achat.",
+            "it": "Automatico: il prezzo di immissione mentre la casa immette energia in rete, altrimenti il prezzo di prelievo.",
+            "sv": "Automatisk: exportpriset medan ditt hem matar ut ström till nätet, annars importpriset.",
+            "no": "Automatisk: eksportprisen mens hjemmet ditt leverer strøm til nettet, ellers importprisen.",
+            "es": "Automático: el precio de exportación mientras tu casa devuelve energía a la red, si no el de importación.",
+            "da": "Automatisk: eksportprisen, mens dit hjem leverer strøm til nettet, ellers importprisen.",
+            "pl": "Automatycznie: cena eksportu, gdy dom oddaje prąd do sieci, w przeciwnym razie cena importu.",
+            "ru": "Автоматически: цена экспорта, пока дом отдаёт энергию в сеть, иначе цена импорта.",
+            "ar": "تلقائي: سعر التصدير طالما يعيد منزلك الطاقة إلى الشبكة، وإلا فسعر الاستيراد.",
+            "ko": "자동: 집이 전력망으로 전력을 보내는 동안은 수출 가격, 그 외에는 수입 가격."
+          }
+        },
+        {
+          "id": "view_markup_month",
+          "type": "label",
+          "label": {
+            "en": "Fixed monthly costs",
+            "nl": "Vaste maandelijkse kosten",
+            "de": "Fixkosten pro Monat",
+            "fr": "Coûts mensuels fixes",
+            "it": "Costi fissi mensili",
+            "sv": "Fasta månadskostnader",
+            "no": "Faste månedlige kostnader",
+            "es": "Costos mensuales fijos",
+            "da": "Faste månedlige omkostninger",
+            "pl": "Stałe koszty miesięczne",
+            "ru": "Фиксированные ежемесячные расходы",
+            "ar": "التكاليف الشهرية الثابتة",
+            "ko": "고정 월별 비용"
+          },
+          "value": "-",
+          "hint": {
+            "en": "Fixed costs added once a month, e.g. a standing charge.",
+            "nl": "Vaste kosten die eens per maand worden opgeteld, bijv. vastrecht.",
+            "de": "Fixkosten, die einmal im Monat hinzukommen, z. B. eine Grundgebühr.",
+            "fr": "Coûts fixes ajoutés une fois par mois, p. ex. un abonnement.",
+            "it": "Costi fissi aggiunti una volta al mese, ad es. una quota fissa.",
+            "sv": "Fasta kostnader som läggs till en gång i månaden, t.ex. en fast avgift.",
+            "no": "Faste kostnader som legges til én gang i måneden, f.eks. et fastbeløp.",
+            "es": "Costos fijos que se suman una vez al mes, p. ej. una cuota fija.",
+            "da": "Faste omkostninger, der lægges til én gang om måneden, f.eks. et fast abonnement.",
+            "pl": "Koszty stałe doliczane raz w miesiącu, np. opłata abonamentowa.",
+            "ru": "Постоянные расходы, добавляемые раз в месяц, например абонентская плата.",
+            "ar": "تكاليف ثابتة تُضاف مرة في الشهر، مثل رسم الاشتراك.",
+            "ko": "한 달에 한 번 더해지는 고정 비용(예: 기본요금)."
+          }
+        },
+        {
+          "id": "view_markup_day",
+          "type": "label",
+          "label": {
+            "en": "Fixed daily costs",
+            "nl": "Vaste dagelijkse kosten",
+            "de": "Fixkosten pro Tag",
+            "fr": "Coûts quotidiens fixes",
+            "it": "Costi fissi giornalieri",
+            "sv": "Fasta dagliga kostnader",
+            "no": "Faste daglige kostnader",
+            "es": "Costos diarios fijos",
+            "da": "Faste daglige omkostninger",
+            "pl": "Stałe koszty dzienne",
+            "ru": "Фиксированные ежедневные расходы",
+            "ar": "التكاليف اليومية الثابتة",
+            "ko": "고정 일일 비용"
+          },
+          "value": "-",
+          "hint": {
+            "en": "Fixed costs added once a day, e.g. a standing charge.",
+            "nl": "Vaste kosten die eens per dag worden opgeteld, bijv. vastrecht.",
+            "de": "Fixkosten, die einmal am Tag hinzukommen, z. B. eine Grundgebühr.",
+            "fr": "Coûts fixes ajoutés une fois par jour, p. ex. un abonnement.",
+            "it": "Costi fissi aggiunti una volta al giorno, ad es. una quota fissa.",
+            "sv": "Fasta kostnader som läggs till en gång om dagen, t.ex. en fast avgift.",
+            "no": "Faste kostnader som legges til én gang om dagen, f.eks. et fastbeløp.",
+            "es": "Costos fijos que se suman una vez al día, p. ej. una cuota fija.",
+            "da": "Faste omkostninger, der lægges til én gang om dagen, f.eks. et fast abonnement.",
+            "pl": "Koszty stałe doliczane raz dziennie, np. opłata abonamentowa.",
+            "ru": "Постоянные расходы, добавляемые раз в день, например абонентская плата.",
+            "ar": "تكاليف ثابتة تُضاف مرة في اليوم، مثل رسم الاشتراك.",
+            "ko": "하루에 한 번 더해지는 고정 비용(예: 기본요금)."
+          }
+        },
+        {
+          "id": "view_markup_hour",
+          "type": "label",
+          "label": {
+            "en": "Fixed hourly costs",
+            "nl": "Vaste uurlijkse kosten",
+            "de": "Fixkosten pro Stunde",
+            "fr": "Coûts horaires fixes",
+            "it": "Costi fissi orari",
+            "sv": "Fasta timkostnader",
+            "no": "Faste timekostnader",
+            "es": "Costos por hora fijos",
+            "da": "Faste timeomkostninger",
+            "pl": "Stałe koszty godzinowe",
+            "ru": "Фиксированные почасовые расходы",
+            "ar": "التكاليف الساعية الثابتة",
+            "ko": "고정 시간별 비용"
+          },
+          "value": "-",
+          "hint": {
+            "en": "Fixed costs added once an hour.",
+            "nl": "Vaste kosten die eens per uur worden opgeteld.",
+            "de": "Fixkosten, die einmal pro Stunde hinzukommen.",
+            "fr": "Coûts fixes ajoutés une fois par heure.",
+            "it": "Costi fissi aggiunti una volta all'ora.",
+            "sv": "Fasta kostnader som läggs till en gång i timmen.",
+            "no": "Faste kostnader som legges til én gang i timen.",
+            "es": "Costos fijos que se suman una vez por hora.",
+            "da": "Faste omkostninger, der lægges til én gang i timen.",
+            "pl": "Koszty stałe doliczane raz na godzinę.",
+            "ru": "Постоянные расходы, добавляемые раз в час.",
+            "ar": "تكاليف ثابتة تُضاف مرة في الساعة.",
+            "ko": "한 시간에 한 번 더해지는 고정 비용."
+          }
+        }
+      ]
+    },
+    {
+      "type": "group",
+      "label": {
+        "en": "Year and budget (change via Repair)",
+        "nl": "Jaar en budget (wijzigen via Repareren)",
+        "de": "Jahr und Budget (ändern über Reparieren)",
+        "fr": "Année et budget (modifier via Réparer)",
+        "it": "Anno e budget (modifica tramite Ripara)",
+        "sv": "År och budget (ändra via Reparera)",
+        "no": "År og budsjett (endre via Reparer)",
+        "es": "Año y presupuesto (cambiar en Reparar)",
+        "da": "År og budget (ændr via Reparer)",
+        "pl": "Rok i budżet (zmień przez Napraw)",
+        "ru": "Год и бюджет (изменить через «Исправить»)",
+        "ar": "السنة والميزانية (التغيير عبر إصلاح)",
+        "ko": "연도와 예산 (수리에서 변경)"
+      },
+      "children": [
+        {
+          "id": "budget_info",
+          "type": "label",
+          "label": {
+            "en": "Year budget",
+            "nl": "Jaarbudget",
+            "de": "Jahresbudget",
+            "fr": "Budget annuel",
+            "it": "Budget annuale",
+            "sv": "Årsbudget",
+            "no": "Årsbudsjett",
+            "es": "Presupuesto anual",
+            "da": "Årsbudget",
+            "pl": "Budżet roczny",
+            "ru": "Годовой бюджет",
+            "ar": "الميزانية السنوية",
+            "ko": "연간 예산"
+          },
+          "value": "",
+          "hint": {
+            "en": "Start of your year, and the budget for it.",
+            "nl": "Begin van je jaar, en het budget ervoor.",
+            "de": "Beginn Ihres Jahres und das Budget dafür.",
+            "fr": "Début de votre année, et son budget.",
+            "it": "Inizio del tuo anno e il relativo budget.",
+            "sv": "Början på ditt år och budgeten för det.",
+            "no": "Starten på året ditt, og budsjettet for det.",
+            "es": "Inicio de tu año y su presupuesto.",
+            "da": "Starten på dit år og budgettet for det.",
+            "pl": "Początek Twojego roku i budżet na niego.",
+            "ru": "Начало вашего года и бюджет на него.",
+            "ar": "بداية سنتك، والميزانية الخاصة بها.",
+            "ko": "연도의 시작일과 그 해의 예산."
+          }
+        }
+      ]
+    },
+    {
+      "type": "group",
+      "label": {
+        "en": "Advanced (change via Repair)",
+        "nl": "Geavanceerd (wijzigen via Repareren)",
+        "de": "Erweitert (ändern über Reparieren)",
+        "fr": "Avancé (modifier via Réparer)",
+        "it": "Avanzate (modifica tramite Ripara)",
+        "sv": "Avancerat (ändra via Reparera)",
+        "no": "Avansert (endre via Reparer)",
+        "es": "Avanzado (cambiar en Reparar)",
+        "da": "Avanceret (ændr via Reparer)",
+        "pl": "Zaawansowane (zmień przez Napraw)",
+        "ru": "Дополнительно (изменить через «Исправить»)",
+        "ar": "متقدم (التغيير عبر إصلاح)",
+        "ko": "고급 (수리에서 변경)"
+      },
+      "children": [
+        {
+          "id": "view_decimals_meter",
+          "type": "label",
+          "label": {
+            "en": "Meter decimals",
+            "nl": "Meter decimalen",
+            "de": "Zählerdezimalstellen",
+            "fr": "Décimales du compteur",
+            "it": "Decimali contatore",
+            "sv": "Mätardecimaler",
+            "no": "Målerdesimaler",
+            "es": "Decimales del contador",
+            "da": "Målerdecimaler",
+            "pl": "Miejsca dziesiętne licznika",
+            "ru": "Десятичные знаки счётчика",
+            "ar": "الكسور العشرية للعداد",
+            "ko": "계량기 소수 자릿수"
+          },
+          "value": "-",
+          "hint": {
+            "en": "Decimals shown for the meter values.",
+            "nl": "Aantal decimalen van de meterwaarden.",
+            "de": "Angezeigte Dezimalstellen der Zählerwerte.",
+            "fr": "Décimales affichées pour les valeurs du compteur.",
+            "it": "Decimali mostrati per i valori del contatore.",
+            "sv": "Antal decimaler för mätarvärdena.",
+            "no": "Antall desimaler for målerverdiene.",
+            "es": "Decimales mostrados en los valores del contador.",
+            "da": "Antal decimaler for målerværdierne.",
+            "pl": "Liczba miejsc po przecinku wartości licznika.",
+            "ru": "Число знаков после запятой у показаний счётчика.",
+            "ar": "عدد الخانات العشرية لقيم العداد.",
+            "ko": "미터 값에 표시되는 소수 자릿수."
           }
         }
       ]
@@ -398,41 +773,6 @@
         "ko": "예측 및 플래너"
       },
       "children": [
-        {
-          "id": "appliance_info",
-          "type": "label",
-          "value": "-",
-          "label": {
-            "en": "Mode",
-            "nl": "Modus",
-            "de": "Modus",
-            "fr": "Mode",
-            "es": "Modo",
-            "it": "Modalità",
-            "da": "Tilstand",
-            "sv": "Läge",
-            "no": "Modus",
-            "pl": "Tryb",
-            "ru": "Режим",
-            "ar": "الوضع",
-            "ko": "모드"
-          },
-          "hint": {
-            "en": "For an appliance that uses a lot of power and does about the same each time it starts. Forecast only: e.g. an oven. Forecast and plan: e.g. a washing machine, dishwasher or dryer. Do a repair to change.",
-            "nl": "Voor een apparaat dat veel stroom gebruikt en bij elke start ongeveer hetzelfde doet. Alleen voorspellen: bijv. een oven. Voorspellen en plannen: bijv. een wasmachine, vaatwasser of droger. Repareer om te wijzigen.",
-            "de": "Für ein Gerät, das viel Strom verbraucht und bei jedem Start ungefähr dasselbe tut. Nur Prognose: z. B. ein Backofen. Prognose und Planung: z. B. eine Waschmaschine, ein Geschirrspüler oder ein Trockner. Zum Ändern reparieren.",
-            "fr": "Pour un appareil qui consomme beaucoup d'électricité et fait à peu près la même chose à chaque démarrage. Prévision seule : p. ex. un four. Prévision et planification : p. ex. un lave-linge, un lave-vaisselle ou un sèche-linge. Réparer pour modifier.",
-            "es": "Para un aparato que consume mucha electricidad y hace más o menos lo mismo cada vez que arranca. Solo previsión: p. ej. un horno. Previsión y planificación: p. ej. una lavadora, un lavavajillas o una secadora. Repara para cambiar.",
-            "it": "Per un apparecchio che consuma molta energia e fa più o meno lo stesso a ogni avvio. Solo previsione: ad es. un forno. Previsione e pianificazione: ad es. una lavatrice, una lavastoviglie o un'asciugatrice. Ripara per modificare.",
-            "da": "Til et apparat, der bruger meget strøm og gør nogenlunde det samme ved hver start. Kun prognose: f.eks. en ovn. Prognose og planlægning: f.eks. en vaskemaskine, opvaskemaskine eller tørretumbler. Reparer for at ændre.",
-            "sv": "För en apparat som använder mycket ström och gör ungefär samma sak vid varje start. Endast prognos: t.ex. en ugn. Prognos och planering: t.ex. en tvättmaskin, diskmaskin eller torktumlare. Reparera för att ändra.",
-            "no": "For et apparat som bruker mye strøm og gjør omtrent det samme ved hver start. Kun prognose: f.eks. en ovn. Prognose og planlegging: f.eks. en vaskemaskin, oppvaskmaskin eller tørketrommel. Reparer for å endre.",
-            "pl": "Dla urządzenia, które zużywa dużo prądu i przy każdym uruchomieniu działa mniej więcej tak samo. Tylko prognoza: np. piekarnik. Prognoza i planowanie: np. pralka, zmywarka lub suszarka. Napraw, aby zmienić.",
-            "ru": "Для прибора, который потребляет много электроэнергии и при каждом запуске работает примерно одинаково. Только прогноз: например, духовка. Прогноз и планирование: например, стиральная, посудомоечная или сушильная машина. Чтобы изменить, выберите «Исправить».",
-            "ar": "لجهاز يستهلك الكثير من الكهرباء ويعمل بالطريقة نفسها تقريبًا عند كل تشغيل. التوقع فقط: مثل الفرن. التوقع والتخطيط: مثل الغسالة أو غسالة الصحون أو المجفف. نفّذ إصلاحًا للتغيير.",
-            "ko": "전력을 많이 쓰고 켤 때마다 거의 같은 방식으로 작동하는 기기용입니다. 예측만: 예) 오븐. 예측 및 계획: 예) 세탁기, 식기세척기, 건조기. 변경하려면 수리하세요."
-          }
-        },
         {
           "id": "appliance_status",
           "type": "label",
@@ -466,116 +806,6 @@
             "ru": "Что изучено на данный момент: запуски, энергия и длительность программы, пиковая мощность и запуски в неделю.",
             "ar": "ما تم تعلّمه حتى الآن: مرات التشغيل، والطاقة والمدة لكل برنامج، وذروة القدرة، ومرات البدء أسبوعيًا.",
             "ko": "지금까지 학습한 내용: 실행 횟수, 프로그램별 에너지와 시간, 최대 전력, 주당 시작 횟수."
-          }
-        }
-      ]
-    },
-    {
-      "type": "group",
-      "label": {
-        "en": "Year start and energy budget",
-        "nl": "Jaarstart en energiebudget",
-        "de": "Jahresbeginn und Energiebudget",
-        "fr": "Début d'année et budget énergie",
-        "it": "Inizio anno e bilancio energetico",
-        "sv": "Årets början och energibudget",
-        "no": "Årets start og energibudsjett",
-        "es": "Inicio del año y presupuesto de energía",
-        "da": "Årsstart og energibudget",
-        "pl": "Początek roku i budżet energetyczny",
-        "ru": "Начало года и энергетический бюджет",
-        "ar": "بداية العام وميزانية الطاقة",
-        "ko": "연 시작 및 에너지 예산"
-      },
-      "children": [
-        {
-          "id": "budget_info",
-          "type": "label",
-          "label": {
-            "en": "Year budget",
-            "nl": "Jaarbudget",
-            "de": "Jahresbudget",
-            "fr": "Budget annuel",
-            "it": "Budget annuale",
-            "sv": "Årsbudget",
-            "no": "Årsbudsjett",
-            "es": "Presupuesto anual",
-            "da": "Årsbudget",
-            "pl": "Budżet roczny",
-            "ru": "Годовой бюджет",
-            "ar": "الميزانية السنوية",
-            "ko": "연간 예산"
-          },
-          "value": "",
-          "hint": {
-            "en": "Start of the year and its budget. Do a repair to change.",
-            "nl": "Start van het jaar en het budget. Repareer om te wijzigen.",
-            "de": "Jahresbeginn und Budget. Zum Ändern reparieren.",
-            "fr": "Début de l'année et budget. Réparer pour modifier.",
-            "it": "Inizio dell'anno e budget. Ripara per modificare.",
-            "sv": "Årets start och budget. Reparera för att ändra.",
-            "no": "Årets start og budsjett. Reparer for å endre.",
-            "es": "Inicio del año y presupuesto. Repara para cambiar.",
-            "da": "Årets start og budget. Reparer for at ændre.",
-            "pl": "Początek roku i budżet. Napraw, aby zmienić.",
-            "ru": "Начало года и бюджет. Чтобы изменить, выберите «Исправить».",
-            "ar": "بداية السنة والميزانية. نفّذ إصلاحًا للتغيير.",
-            "ko": "연도 시작일과 예산. 변경하려면 수리하세요."
-          }
-        }
-      ]
-    },
-    {
-      "type": "group",
-      "label": {
-        "en": "Totals",
-        "nl": "Totalen",
-        "de": "Summen",
-        "fr": "Totaux",
-        "it": "Totali",
-        "sv": "Totaler",
-        "no": "Totaler",
-        "es": "Totales",
-        "da": "Totaler",
-        "pl": "Sumy",
-        "ru": "Итоги",
-        "ar": "الإجماليات",
-        "ko": "합계"
-      },
-      "children": [
-        {
-          "id": "fix_values_info",
-          "type": "label",
-          "label": {
-            "en": "Fix totals or costs",
-            "nl": "Totalen of kosten herstellen",
-            "de": "Summen oder Kosten korrigieren",
-            "fr": "Corriger les totaux ou les coûts",
-            "it": "Correggi totali o costi",
-            "sv": "Rätta totaler eller kostnader",
-            "no": "Rett totaler eller kostnader",
-            "es": "Corregir totales o costes",
-            "da": "Ret totaler eller omkostninger",
-            "pl": "Popraw sumy lub koszty",
-            "ru": "Скорректировать итоги или затраты",
-            "ar": "تصحيح الإجماليات أو التكاليف",
-            "ko": "합계 또는 비용 수정"
-          },
-          "value": "Repair",
-          "hint": {
-            "en": "Corrects totals, meter readings and money. Do a repair to change.",
-            "nl": "Herstelt totalen, meterstanden en geld. Repareer om te wijzigen.",
-            "de": "Korrigiert Summen, Zählerstände und Geldwerte. Zum Ändern reparieren.",
-            "fr": "Corrige totaux, relevés et montants. Réparer pour modifier.",
-            "it": "Corregge totali, letture e importi. Ripara per modificare.",
-            "sv": "Rättar totaler, mätarställningar och belopp. Reparera för att ändra.",
-            "no": "Retter totaler, målerstander og beløp. Reparer for å endre.",
-            "es": "Corrige totales, lecturas e importes. Repara para cambiar.",
-            "da": "Retter totaler, målerstande og beløb. Reparer for at ændre.",
-            "pl": "Poprawia sumy, odczyty i kwoty. Napraw, aby zmienić.",
-            "ru": "Исправляет итоги, показания и суммы. Чтобы изменить, выберите «Исправить».",
-            "ar": "يصحح الإجماليات وقراءات العداد والمبالغ. نفّذ إصلاحًا للتغيير.",
-            "ko": "합계, 계량값, 금액을 수정합니다. 변경하려면 수리하세요."
           }
         }
       ]

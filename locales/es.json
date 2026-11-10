@@ -186,7 +186,8 @@
     "step_device_meters": "Contadores de energía",
     "step_device_meters_text": "Qué contadores cuentan la energía cargada y descargada. Normalmente 'Automático' es correcto.",
     "step_wear": "Desgaste y beneficio",
-    "step_wear_text": "Cargar y descargar desgasta la batería. La app solo lo hace cuando rinde más que el desgaste más el beneficio mínimo."
+    "step_wear_text": "Cargar y descargar desgasta la batería. La app solo lo hace cuando rinde más que el desgaste más el beneficio mínimo.",
+    "setup_price_no_group": "__name__ no tiene grupo de tarifa: elige uno primero en Reparar."
   },
   "load_forecast_accuracy": "Error medio __mae__ W (__pct__%), sesgo __bias__ W, __days__ días",
   "load_forecast_accuracy_collecting": "Recopilando datos",
@@ -308,7 +309,7 @@
   "fuse_phase_export": "Protección del fusible principal __phase__: vertido de __export__ W por encima de __limit__ W durante 30 s. Las baterías no pudieron evitarlo.",
   "phase_setup_one": "__name__: el contador muestra 1 fase, pero la conexión está en 3 fases. Cámbialo con Reparar.",
   "phase_setup_three": "__name__: el contador muestra 3 fases, pero la conexión está en 1 fase. Cámbialo con Reparar.",
-  "warning_no_price_device": "Ningún dispositivo Precio de la energía en el grupo de tarifa: el precio se queda en el último. Añade un dispositivo Precio de la energía y elige su grupo en los ajustes.",
+  "warning_no_price_device": "Ningún dispositivo Precio de la energía en el grupo de tarifa: el precio se queda en el último. Añade un dispositivo Precio de la energía y elige este grupo.",
   "error_setup_no_price": "Elige Tarifa fija o un grupo de tarifa con un dispositivo Precio de la energía.",
   "source_polled": "consultado",
   "budget": {
@@ -341,5 +342,14 @@
     "custom_spread_local": "Según el clima local",
     "custom_spread_own": "Valores propios"
   },
-  "error_setup_soc_order": "El nivel mínimo, el de reserva y el máximo diario deben subir en ese orden."
+  "error_setup_soc_order": "El nivel mínimo, el de reserva y el máximo diario deben subir en ese orden.",
+  "warning_price_no_group": "__name__ no tiene grupo de tarifa: elige el grupo __group__ en Reparar.",
+  "settings_view": {
+    "group": "__title__ (cambiar en Reparar)",
+    "on": "Activado",
+    "off": "Desactivado",
+    "step_price_type": "Tipo de precio",
+    "step_import": "Configuración de precios de importación",
+    "step_export": "Configuración de precios de exportación"
+  }
 }

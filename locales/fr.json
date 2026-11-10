@@ -186,7 +186,8 @@
     "step_device_meters": "Compteurs d'énergie",
     "step_device_meters_text": "Quels compteurs comptent l'énergie chargée et déchargée. En général 'Automatique' convient.",
     "step_wear": "Usure et profit",
-    "step_wear_text": "Charger et décharger use la batterie. L'app ne le fait que si cela rapporte plus que l'usure plus le profit minimum."
+    "step_wear_text": "Charger et décharger use la batterie. L'app ne le fait que si cela rapporte plus que l'usure plus le profit minimum.",
+    "setup_price_no_group": "__name__ n'a pas de groupe tarifaire : choisissez-en d'abord un via Réparer."
   },
   "load_forecast_accuracy": "Écart moyen __mae__ W (__pct__%), biais __bias__ W, __days__ jours",
   "load_forecast_accuracy_collecting": "Collecte des données",
@@ -308,7 +309,7 @@
   "fuse_phase_export": "Protection du fusible principal __phase__ : injection de __export__ W au-dessus de __limit__ W pendant 30 s. Les batteries n'ont pas pu l'empêcher.",
   "phase_setup_one": "__name__ : le compteur affiche 1 phase, mais le raccordement est réglé sur 3 phases. Modifiez-le via Réparer.",
   "phase_setup_three": "__name__ : le compteur affiche 3 phases, mais le raccordement est réglé sur 1 phase. Modifiez-le via Réparer.",
-  "warning_no_price_device": "Aucun appareil Prix de l'énergie dans le groupe tarifaire : le prix reste le dernier. Ajoutez un appareil Prix de l'énergie et choisissez son groupe dans les réglages.",
+  "warning_no_price_device": "Aucun appareil Prix de l'énergie dans le groupe tarifaire : le prix reste le dernier. Ajoutez un appareil Prix de l'énergie et choisissez ce groupe.",
   "error_setup_no_price": "Choisissez Tarif fixe ou un groupe tarifaire avec un appareil Prix de l'énergie.",
   "source_polled": "interrogé",
   "budget": {
@@ -341,5 +342,14 @@
     "custom_spread_local": "Selon le climat local",
     "custom_spread_own": "Valeurs personnelles"
   },
-  "error_setup_soc_order": "Le niveau minimum, le niveau de réserve et le maximum quotidien doivent augmenter dans cet ordre."
+  "error_setup_soc_order": "Le niveau minimum, le niveau de réserve et le maximum quotidien doivent augmenter dans cet ordre.",
+  "warning_price_no_group": "__name__ n'a pas de groupe tarifaire : choisissez le groupe __group__ via Réparer.",
+  "settings_view": {
+    "group": "__title__ (modifier via Réparer)",
+    "on": "Activé",
+    "off": "Désactivé",
+    "step_price_type": "Type de prix",
+    "step_import": "Paramètres de prix d'importation",
+    "step_export": "Paramètres de prix d'exportation"
+  }
 }

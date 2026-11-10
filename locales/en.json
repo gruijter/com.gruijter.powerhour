@@ -186,7 +186,8 @@
     "step_device_meters": "Energy meters",
     "step_device_meters_text": "Which meters count the energy charged and discharged. Usually 'Automatic' is right.",
     "step_wear": "Wear and profit",
-    "step_wear_text": "Charging and discharging wears the battery. The app only does it when it pays more than the wear plus the minimum profit."
+    "step_wear_text": "Charging and discharging wears the battery. The app only does it when it pays more than the wear plus the minimum profit.",
+    "setup_price_no_group": "__name__ has no tariff group: choose one in its Repair first."
   },
   "load_forecast_accuracy": "Avg error __mae__ W (__pct__%), bias __bias__ W, __days__ days",
   "load_forecast_accuracy_collecting": "Collecting data",
@@ -308,7 +309,7 @@
   "fuse_phase_export": "Main fuse protection __phase__: export __export__ W above __limit__ W for 30 s. The batteries could not prevent it.",
   "phase_setup_one": "__name__: the meter shows 1 phase, but the connection is set to 3 phases. Change it via Repair.",
   "phase_setup_three": "__name__: the meter shows 3 phases, but the connection is set to 1 phase. Change it via Repair.",
-  "warning_no_price_device": "No Energy Price device in the tariff group: the price stays at the last one. Add a Energy Price device and choose its group in the settings.",
+  "warning_no_price_device": "No Energy Price device in the tariff group: the price stays at the last one. Add an Energy Price device and choose this group.",
   "error_setup_no_price": "Choose Fixed tariff or a tariff group with an Energy Price device.",
   "source_polled": "polled",
   "budget": {
@@ -341,5 +342,14 @@
     "custom_spread_local": "Like the local climate",
     "custom_spread_own": "Own values"
   },
-  "error_setup_soc_order": "Minimum level, reserve level and daily maximum must go up in that order."
+  "error_setup_soc_order": "Minimum level, reserve level and daily maximum must go up in that order.",
+  "warning_price_no_group": "__name__ has no tariff group: choose group __group__ in its Repair.",
+  "settings_view": {
+    "group": "__title__ (change via Repair)",
+    "on": "On",
+    "off": "Off",
+    "step_price_type": "Price type",
+    "step_import": "Import price settings",
+    "step_export": "Export price settings"
+  }
 }

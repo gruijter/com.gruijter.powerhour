@@ -186,7 +186,8 @@
     "step_device_meters": "Liczniki energii",
     "step_device_meters_text": "Które liczniki liczą energię naładowaną i rozładowaną. Zwykle 'Automatycznie' jest dobre.",
     "step_wear": "Zużycie i zysk",
-    "step_wear_text": "Ładowanie i rozładowanie zużywa baterię. Aplikacja robi to tylko, gdy daje więcej niż zużycie plus minimalny zysk."
+    "step_wear_text": "Ładowanie i rozładowanie zużywa baterię. Aplikacja robi to tylko, gdy daje więcej niż zużycie plus minimalny zysk.",
+    "setup_price_no_group": "__name__ nie ma grupy taryfowej: najpierw wybierz ją przez Napraw."
   },
   "load_forecast_accuracy": "Śr. błąd __mae__ W (__pct__%), odchylenie __bias__ W, __days__ dni",
   "load_forecast_accuracy_collecting": "Zbieranie danych",
@@ -308,7 +309,7 @@
   "fuse_phase_export": "Ochrona bezpiecznika głównego __phase__: oddawanie __export__ W powyżej __limit__ W przez 30 s. Baterie nie mogły temu zapobiec.",
   "phase_setup_one": "__name__: licznik pokazuje 1 fazę, ale przyłącze ustawiono na 3 fazy. Zmień to przez Napraw.",
   "phase_setup_three": "__name__: licznik pokazuje 3 fazy, ale przyłącze ustawiono na 1 fazę. Zmień to przez Napraw.",
-  "warning_no_price_device": "Brak urządzenia Cena energii w grupie taryfowej: cena pozostaje ostatnia. Dodaj urządzenie Cena energii i wybierz jego grupę w ustawieniach.",
+  "warning_no_price_device": "Brak urządzenia Cena energii w grupie taryfowej: cena pozostaje ostatnia. Dodaj urządzenie Cena energii i wybierz tę grupę.",
   "error_setup_no_price": "Wybierz Stała taryfa lub grupę taryfową z urządzeniem Cena energii.",
   "source_polled": "odpytywane",
   "budget": {
@@ -341,5 +342,14 @@
     "custom_spread_local": "Według klimatu lokalnego",
     "custom_spread_own": "Własne wartości"
   },
-  "error_setup_soc_order": "Poziom minimalny, poziom rezerwy i dzienne maksimum muszą rosnąć w tej kolejności."
+  "error_setup_soc_order": "Poziom minimalny, poziom rezerwy i dzienne maksimum muszą rosnąć w tej kolejności.",
+  "warning_price_no_group": "__name__ nie ma grupy taryfowej: wybierz grupę __group__ przez Napraw.",
+  "settings_view": {
+    "group": "__title__ (zmień przez Napraw)",
+    "on": "Włączone",
+    "off": "Wyłączone",
+    "step_price_type": "Rodzaj ceny",
+    "step_import": "Ustawienia cen importu",
+    "step_export": "Ustawienia cen eksportu"
+  }
 }
