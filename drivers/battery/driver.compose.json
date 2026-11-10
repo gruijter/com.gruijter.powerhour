@@ -748,19 +748,19 @@
           },
           "value": "-",
           "hint": {
-            "en": "Grid charging only when each kWh earns at least this much on top of the wear.",
-            "nl": "Alleen van het net laden als elke kWh minstens zoveel extra oplevert bovenop de slijtage.",
-            "de": "Nur aus dem Netz laden, wenn jede kWh mindestens so viel mehr als den Verschleiß bringt.",
-            "fr": "Charger depuis le réseau seulement si chaque kWh rapporte au moins autant en plus de l'usure.",
-            "it": "Carica dalla rete solo se ogni kWh rende almeno questo in più dell'usura.",
-            "sv": "Ladda från nätet bara när varje kWh ger minst så mycket utöver slitaget.",
-            "no": "Lad fra nettet bare når hver kWh gir minst så mye utover slitasjen.",
-            "es": "Cargar de la red solo si cada kWh rinde al menos esto además del desgaste.",
-            "da": "Lad kun fra nettet, når hver kWh giver mindst så meget ud over sliddet.",
-            "pl": "Ładuj z sieci tylko, gdy każda kWh daje co najmniej tyle ponad zużycie.",
-            "ru": "Заряжать из сети, только если каждый кВтч даёт не меньше этого сверх износа.",
-            "ar": "الشحن من الشبكة فقط عندما تحقق كل كيلوواط ساعة هذا القدر على الأقل فوق التآكل.",
-            "ko": "각 kWh가 마모 외에 최소 이만큼 벌 때만 전력망에서 충전합니다."
+            "en": "Each kWh through the battery must earn at least this on top of wear. Higher: safer if forecasts are wrong. Lower: more profit if they are right.",
+            "nl": "Elke kWh door de batterij moet minstens dit opleveren bovenop de slijtage. Hoger: veiliger bij foute voorspellingen. Lager: meer winst als ze kloppen.",
+            "de": "Jede kWh durch die Batterie muss mindestens so viel mehr als den Verschleiß bringen. Höher: sicherer bei falschen Prognosen. Niedriger: mehr Gewinn, wenn sie stimmen.",
+            "fr": "Chaque kWh passé par la batterie doit rapporter au moins autant en plus de l'usure. Plus haut : plus sûr si les prévisions se trompent. Plus bas : plus de profit si elles sont justes.",
+            "it": "Ogni kWh passato dalla batteria deve rendere almeno questo in più dell'usura. Più alto: più sicuro se le previsioni sbagliano. Più basso: più profitto se sono giuste.",
+            "sv": "Varje kWh genom batteriet måste ge minst så mycket utöver slitaget. Högre: säkrare vid fel prognos. Lägre: mer vinst när den stämmer.",
+            "no": "Hver kWh gjennom batteriet må gi minst så mye utover slitasjen. Høyere: tryggere ved feil prognose. Lavere: mer fortjeneste når den stemmer.",
+            "es": "Cada kWh que pasa por la batería debe rendir al menos esto además del desgaste. Más alto: más seguro si fallan las previsiones. Más bajo: más beneficio si aciertan.",
+            "da": "Hver kWh gennem batteriet skal give mindst så meget ud over sliddet. Højere: sikrere ved forkerte prognoser. Lavere: mere fortjeneste, når de passer.",
+            "pl": "Każda kWh przez baterię musi dać co najmniej tyle ponad zużycie. Wyżej: bezpieczniej przy błędnych prognozach. Niżej: większy zysk, gdy są trafne.",
+            "ru": "Каждый кВтч через батарею должен давать не меньше этого сверх износа. Выше: надёжнее при ошибочных прогнозах. Ниже: больше прибыли, если они верны.",
+            "ar": "يجب أن تحقق كل كيلوواط ساعة عبر البطارية هذا القدر على الأقل فوق التآكل. أعلى: أكثر أماناً عند خطأ التوقعات. أقل: ربح أكبر عندما تصح.",
+            "ko": "배터리를 거치는 각 kWh가 마모 외에 최소 이만큼 벌어야 합니다. 높게: 예측이 틀려도 안전합니다. 낮게: 예측이 맞으면 이익이 더 큽니다."
           }
         }
       ]
