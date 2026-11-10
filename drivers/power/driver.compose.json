@@ -433,19 +433,19 @@
           },
           "value": "-",
           "hint": {
-            "en": "Learns the energy use after a start, and when a program is usually started. This improves the home load forecast of the Grid Monitor. With plan: also plans the cheapest start.",
-            "nl": "Leert het energieverbruik na een start, en wanneer een programma meestal wordt gestart. Dat verbetert de verbruiksvoorspelling van de Netmonitor. Met plannen: plant ook de goedkoopste start.",
-            "de": "Lernt den Energieverbrauch nach einem Start und wann ein Programm meistens gestartet wird. Das verbessert die Verbrauchsprognose des Netzmonitors. Mit Planung: plant auch den günstigsten Start.",
-            "fr": "Apprend la consommation d'énergie après un démarrage, et quand un programme est généralement lancé. Cela améliore la prévision de consommation du Moniteur réseau. Avec planification : planifie aussi le démarrage le moins cher.",
-            "it": "Impara il consumo di energia dopo un avvio e quando un programma viene di solito avviato. Così migliora la previsione dei consumi del Monitor rete. Con pianificazione: pianifica anche l'avvio più economico.",
-            "sv": "Lär sig energiförbrukningen efter en start och när ett program oftast startas. Det förbättrar förbrukningsprognosen för Elnätsmonitor. Med planering: planerar också den billigaste starten.",
-            "no": "Lærer energibruken etter en start, og når et program vanligvis startes. Det forbedrer forbruksprognosen til Strømnettmonitor. Med planlegging: planlegger også den billigste starten.",
-            "es": "Aprende el consumo de energía tras un arranque y cuándo se suele iniciar un programa. Así mejora la previsión de consumo del Monitor de red. Con planificación: también planifica el arranque más barato.",
-            "da": "Lærer energiforbruget efter en start, og hvornår et program normalt startes. Det forbedrer forbrugsprognosen for Elnetmonitor. Med planlægning: planlægger også den billigste start.",
-            "pl": "Uczy się zużycia energii po uruchomieniu i tego, kiedy program jest zwykle uruchamiany. To poprawia prognozę zużycia Monitora sieci. Z planowaniem: planuje też najtańszy start.",
-            "ru": "Изучает потребление энергии после запуска и то, когда программа обычно запускается. Это улучшает прогноз потребления Монитора электросети. С планированием: также планирует самый дешёвый запуск.",
-            "ar": "يتعلّم استهلاك الطاقة بعد التشغيل، ومتى يبدأ البرنامج عادةً. هذا يحسّن توقّع الاستهلاك في مراقب الشبكة. مع التخطيط: يخطط أيضًا لأرخص وقت بدء.",
-            "ko": "시작 후 에너지 사용량과 프로그램이 주로 시작되는 시간을 학습합니다. 그리드 모니터의 사용량 예측이 좋아집니다. 계획 사용 시: 가장 저렴한 시작 시간도 계획합니다."
+            "en": "Learns the appliance's use for the home forecast, and with plan finds the cheapest start.",
+            "nl": "Leert het verbruik van het apparaat voor de verbruiksvoorspelling, en zoekt met plannen de goedkoopste start.",
+            "de": "Lernt den Verbrauch des Geräts für die Verbrauchsprognose und findet mit Planung den günstigsten Start.",
+            "fr": "Apprend la consommation de l'appareil pour la prévision de consommation et, avec planification, trouve le démarrage le moins cher.",
+            "it": "Impara il consumo dell'apparecchio per la previsione dei consumi e, con pianificazione, trova l'avvio più economico.",
+            "sv": "Lär sig apparatens förbrukning för förbrukningsprognosen och hittar med planering den billigaste starten.",
+            "no": "Lærer apparatets forbruk for forbruksprognosen og finner med planlegging den billigste starten.",
+            "es": "Aprende el consumo del aparato para la previsión de consumo y, con planificación, encuentra el arranque más barato.",
+            "da": "Lærer apparatets forbrug til forbrugsprognosen og finder med planlægning den billigste start.",
+            "pl": "Uczy się zużycia urządzenia do prognozy zużycia, a z planowaniem znajduje najtańszy start.",
+            "ru": "Изучает потребление прибора для прогноза потребления, а с планированием находит самый дешёвый запуск.",
+            "ar": "يتعلّم استهلاك الجهاز لتوقّع الاستهلاك، ومع التخطيط يجد أرخص وقت بدء.",
+            "ko": "기기 사용량을 학습해 사용량 예측에 쓰고, 계획 사용 시 가장 저렴한 시작 시간을 찾습니다."
           }
         }
       ]

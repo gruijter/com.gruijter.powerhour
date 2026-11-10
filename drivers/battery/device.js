@@ -32,6 +32,7 @@ const BatterySplit = require('../../lib/strategies/BatterySplit');
 const BatteryUse = require('../../lib/strategies/BatteryUse');
 const BatteryTaper = require('../../lib/strategies/BatteryTaper');
 const PhaseLearning = require('../../lib/strategies/PhaseLearning');
+const SettingsView = require('../../lib/helpers/SettingsView');
 const { getEfficiencyChart } = require('../../lib/charts/EfficiencyChart');
 const { setTimeoutPromise } = require('../../lib/helpers/Util');
 
@@ -64,7 +65,7 @@ const CAL_REFRESH_MS = 5 * 60 * 1000;
 const CAL_LEAD_MS = 60 * 60 * 1000;
 // The learned taper (BatteryTaper) is stored at most this often.
 const TAPER_SAVE_MS = 15 * 60 * 1000;
-const USE_SAVE_CYCLES = 0.1; // store write at most every 20 % SoC moved
+const USE_SAVE_CYCLES = 0.02; // store write at most every 4 % SoC moved
 
 // Plans in 15-minute slots, as the grid forecast and capacity tariffs; prices per price slot.
 // The tighter of two bounds, null: none.
@@ -152,6 +153,12 @@ class BatDevice extends GenericDevice {
     this.sourcePowerInvert = resolved.invert;
     this.setpointInvert = !!resolved.setpointInvert;
     this.log(`${this.sourceDevice.name} source capability group:`, JSON.stringify(resolved));
+    await SettingsView.update(this).catch((err) => this.error(err));
+  }
+
+  // SettingsView: a capability role in use (null: not known yet).
+  roleUsed(role) {
+    return this.sourceCapGroup ? !!this.sourceCapGroup[role] : null;
   }
 
   async addListeners() {
@@ -188,6 +195,7 @@ class BatDevice extends GenericDevice {
     // a driver tick during the release must not take control again.
     this.isDestroyed = true;
     await this.releaseControl('app stopped').catch((err) => this.error(err));
+    if (this.use) await this.setStoreValue('batteryUse', this.use).catch(this.error);
     return super.onUninit();
   }
 
@@ -989,7 +997,8 @@ class BatDevice extends GenericDevice {
       state = BatteryUse.createState(others.length ? others.reduce((a, u) => a + u.cycles, 0) / others.length : 0);
       await this.setStoreValue('batteryUse', state).catch(this.error);
     }
-    this.use = { ...state, anchor: null };
+    // The stored anchor: use while restarting counts too.
+    this.use = { anchor: null, ...state };
     this.useSavedCycles = this.use.cycles;
   }
 
@@ -1164,7 +1173,8 @@ class BatDevice extends GenericDevice {
   }
 
   // Each plan: targets again from the SoC and prices now (the SoC can have changed by another mode,
-  // new prices can be better), until the battery is on its way: then they stay.
+  // new prices can be better), until the battery is on its way: then they stay. Never later: the
+  // battery would undo its progress, and the calibration runs out of time.
   refreshCalibrationTargets(now) {
     const c = this.calibration;
     if (now - (this.calRefreshTm || 0) < CAL_REFRESH_MS) return;
@@ -1178,6 +1188,7 @@ class BatDevice extends GenericDevice {
     this.calRefreshTm = now;
     const targets = this.calibrationTargets(c.phase, now);
     if (!targets || (targets.emptyByMs === c.emptyByMs && targets.fullByMs === c.fullByMs)) return;
+    if (target && targets[c.phase === 'empty' ? 'emptyByMs' : 'fullByMs'] > target) return;
     this.calibration = { ...c, ...targets };
     this.log(`[Bat Cal] ${c.phase}: targets now ${targets.emptyByMs ? `empty by ${new Date(targets.emptyByMs).toISOString()}, ` : ''}full by ${new Date(targets.fullByMs).toISOString()}`);
     this.saveCalibration(false).catch((err) => this.error(err));

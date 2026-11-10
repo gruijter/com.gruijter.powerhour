@@ -11,7 +11,7 @@ const Module = require('module');
 
 const ROOT = path.join(__dirname, '..', '..');
 const LANGS = ['en', 'nl', 'de', 'fr', 'it', 'sv', 'no', 'es', 'da', 'pl', 'ru', 'ar', 'ko'];
-const HINTS = require(path.join(ROOT, 'lib/helpers/SettingsViewHints.json'));
+const HINTS = require(path.join(__dirname, 'SettingsViewHints.json'));
 
 // Load the drivers outside Homey.
 const origLoad = Module._load;

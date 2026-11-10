@@ -390,6 +390,41 @@ test('group: cheapest first, of about equally cheap ones the least used', () => 
   assert.strictEqual(Math.round(st.cycles * 1000) / 1000, 1.15, `jitter and jumps are no use (${st.cycles})`);
 });
 
+test('group LP: own wear prunes, use balance does not price out a cycle', () => {
+  const use = require('../../lib/strategies/BatteryUse');
+  assert.deepStrictEqual(use.costClasses([{ effC: 0.90, effD: 0.92 }, { effC: 0.91, effD: 0.92 }], 0.25), [0, 0], 'about equal: one class');
+  const n = 96;
+  const one = { chargeSpeeds: [{ power: 2000, eff: 1 }], dischargeSpeeds: [{ power: 2000, eff: 1 }] };
+  const net = Array.from({ length: n }, () => ({
+    surplusW: 0, deficitW: 3000, usableSurplusW: 0, usableDeficitW: 3000,
+  }));
+  const kwh = (plans) => plans.map((p) => Object.values(p).reduce((a, v) => a + Math.abs(v.power * v.duration) / 60000, 0));
+  const at = (lo, hi) => Array.from({ length: n }, (_, i) => {
+    if (hour(i) < 4) return lo;
+    return hour(i) < 8 ? hi : 0.20;
+  });
+  const o = {
+    priceInterval: 15, startMinute: 0, net, allowExport: false,
+  };
+  const bat = (b) => ({ batCapacity: 5, ...one, ...b });
+  const wear = kwh(lp.planEach({
+    ...o,
+    prices: at(0.16, 0.24),
+    minPriceDelta: 0.04,
+    wearCost: 0.15,
+    batteries: [bat({ soc: 0, wear: 0 }), bat({ soc: 0, wear: 0.3 })],
+  }));
+  assert.ok(wear[0] > 1 && wear[1] < 0.01, `the cheap one cycles (${wear})`);
+  const full = kwh(lp.planEach({
+    ...o,
+    prices: at(0.20, 0.215),
+    minPriceDelta: 0.01,
+    wearCost: 0,
+    batteries: [bat({ soc: 0, cycles: 3 }), bat({ soc: 100, cycles: 1 })],
+  }));
+  assert.ok(full[0] > 1, `least used full: the other still cycles (${full})`);
+});
+
 test('zero covering the deficit in part gets the planned power as cap; rounding is no grid part', () => {
   // Too little stored for all dear hours: 30 ct hours in part, 45 ct hours in full (export 5 ct)
   const prices = [...Array(4).fill(0.30), ...Array(3).fill(0.45), ...Array(17).fill(0.25)];

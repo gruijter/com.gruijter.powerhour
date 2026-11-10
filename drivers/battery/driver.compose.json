@@ -613,19 +613,19 @@
           },
           "value": "-",
           "hint": {
-            "en": "Cycles until about 70% of the capacity is left, as in the warranty. LFP (most home batteries): about 6000. NMC: about 3000.",
-            "nl": "Cycli tot er ongeveer 70% van de capaciteit over is, zoals in de garantie. LFP (de meeste thuisbatterijen): ongeveer 6000. NMC: ongeveer 3000.",
-            "de": "Zyklen, bis noch etwa 70% der Kapazität übrig sind, wie in der Garantie. LFP (die meisten Heimspeicher): etwa 6000. NMC: etwa 3000.",
-            "fr": "Cycles jusqu’à ce qu’il reste environ 70% de la capacité, comme dans la garantie. LFP (la plupart des batteries domestiques) : environ 6000. NMC : environ 3000.",
-            "it": "Cicli finché resta circa il 70% della capacità, come nella garanzia. LFP (la maggior parte delle batterie domestiche): circa 6000. NMC: circa 3000.",
-            "sv": "Cykler tills ungefär 70% av kapaciteten är kvar, som i garantin. LFP (de flesta hembatterier): cirka 6000. NMC: cirka 3000.",
-            "no": "Sykluser til omtrent 70% av kapasiteten er igjen, som i garantien. LFP (de fleste hjemmebatterier): omtrent 6000. NMC: omtrent 3000.",
-            "es": "Ciclos hasta que queda alrededor del 70% de la capacidad, como en la garantía. LFP (la mayoría de baterías domésticas): unos 6000. NMC: unos 3000.",
-            "da": "Cyklusser, indtil ca. 70% af kapaciteten er tilbage, som i garantien. LFP (de fleste hjemmebatterier): ca. 6000. NMC: ca. 3000.",
-            "pl": "Cykle do momentu, gdy zostaje ok. 70% pojemności, jak w gwarancji. LFP (większość baterii domowych): ok. 6000. NMC: ok. 3000.",
-            "ru": "Циклы, пока не останется около 70% ёмкости, как в гарантии. LFP (большинство домашних батарей): около 6000. NMC: около 3000.",
-            "ar": "الدورات حتى يتبقى نحو 70% من السعة، كما في الضمان. LFP (معظم بطاريات المنازل): نحو 6000. NMC: نحو 3000.",
-            "ko": "보증서처럼 용량이 약 70% 남을 때까지의 사이클 수입니다. LFP(대부분의 가정용 배터리): 약 6000. NMC: 약 3000."
+            "en": "Cycles until about 70% of the capacity is left, as in the warranty (often 6000).",
+            "nl": "Cycli tot er ongeveer 70% van de capaciteit over is, zoals in de garantie (vaak 6000).",
+            "de": "Zyklen, bis noch etwa 70% der Kapazität übrig sind, wie in der Garantie (oft 6000).",
+            "fr": "Cycles jusqu’à ce qu’il reste environ 70% de la capacité, comme dans la garantie (souvent 6000).",
+            "it": "Cicli finché resta circa il 70% della capacità, come nella garanzia (spesso 6000).",
+            "sv": "Cykler tills ungefär 70% av kapaciteten är kvar, som i garantin (ofta 6000).",
+            "no": "Sykluser til omtrent 70% av kapasiteten er igjen, som i garantien (ofte 6000).",
+            "es": "Ciclos hasta que queda alrededor del 70% de la capacidad, como en la garantía (a menudo 6000).",
+            "da": "Cyklusser, indtil ca. 70% af kapaciteten er tilbage, som i garantien (ofte 6000).",
+            "pl": "Cykle do momentu, gdy zostaje ok. 70% pojemności, jak w gwarancji (często 6000).",
+            "ru": "Циклы, пока не останется около 70% ёмкости, как в гарантии (часто 6000).",
+            "ar": "الدورات حتى يتبقى نحو 70% من السعة، كما في الضمان (غالبًا 6000).",
+            "ko": "보증서처럼 용량이 약 70% 남을 때까지의 사이클 수입니다(보통 6000)."
           }
         },
         {

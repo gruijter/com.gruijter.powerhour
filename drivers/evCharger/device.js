@@ -161,7 +161,7 @@ class CarChargeDevice extends GenericDevice {
           this.log(`EV plan for ${day} set to ${value}`);
           // Not reachable: set all the same, the picker shows it after the error.
           await this.setDayPlan(day, value).catch((err) => {
-            this.updateChargeChart().catch(this.error);
+            this._updateDayPickers().catch(this.error);
             throw err;
           });
         });
@@ -170,7 +170,7 @@ class CarChargeDevice extends GenericDevice {
           // Refused (a time already past): the picker shows the day's setting again. Not reachable:
           // set all the same.
           await this.setDayTime(day, value).catch((err) => {
-            this.updateChargeChart().catch(this.error);
+            this._updateDayPickers().catch(this.error);
             throw err;
           });
         });
@@ -1775,7 +1775,9 @@ class CarChargeDevice extends GenericDevice {
     const { input, ctx } = await this._planInput();
     const now = shortOf(input);
     if (!now || now.missing < 1) return;
-    const before = shortOf((await this._planInput({ [date]: previous })).input);
+    // The previous setting: only the trips differ.
+    const trips = EvPlanner.buildTrips({ ...ctx.tripArgs, overrides: this._patchOverrides(ctx.overrides, { [date]: previous }) });
+    const before = shortOf({ ...input, trips });
     if (before && before.missing >= now.missing) return;
     const free = input.maxPrice !== null ? shortOf({ ...input, maxPrice: null }) : null;
     const reason = free && free.missing < now.missing ? 'ev_reason_max_price' : 'ev_reason_time';
@@ -1962,8 +1964,17 @@ class CarChargeDevice extends GenericDevice {
     return this.planQueued;
   }
 
-  // The planner's input now. patch: day overrides to try instead ({date: override, null: none}).
-  async _planInput(patch = null) {
+  // The "today/tomorrow" pickers from the day overrides (default: as stored now).
+  async _updateDayPickers(overrides = null, tz = this.timeZone || this.homey.clock.getTimezone()) {
+    const ov = overrides || this._overrides(tz, Date.now());
+    for (const day of ['today', 'tomorrow']) {
+      if (this.hasCapability(`ev_${day}`)) await this.setCapability(`ev_${day}`, this._dayPickerValue(day, ov, tz));
+      if (this.hasCapability(`ev_${day}_time`)) await this.setCapability(`ev_${day}_time`, this._dayTimePickerValue(day, ov, tz));
+    }
+  }
+
+  // The planner's input now.
+  async _planInput() {
     const settings = this.getSettings();
     // A set charge power is the maximum; 0 uses the measured one.
     const chargePower = this._chargePowerW();
@@ -2012,11 +2023,7 @@ class CarChargeDevice extends GenericDevice {
     const profile = this.usageModel ? this._profile() : [];
     const awayUntilMs = atHome ? null : this._awayUntilMs(profile, tz, now);
     const overrides = this._overrides(tz, now);
-    Object.entries(patch || {}).forEach(([date, ov]) => {
-      if (ov) overrides[date] = ov;
-      else delete overrides[date];
-    });
-    const trips = EvPlanner.buildTrips({
+    const tripArgs = {
       now,
       timezone: tz,
       profile,
@@ -2028,7 +2035,8 @@ class CarChargeDevice extends GenericDevice {
       stillHome: this.presence && this.presence.atHome && this.presence.chargeable
         ? { lastAwayMs: this.lastAwayTm || 0, stepMs: intervalMin * 60 * 1000 } : null,
       tripsToday: EvUsageModel.tripsToday(this.usageModel, this._minTripKwh()),
-    });
+    };
+    const trips = EvPlanner.buildTrips(tripArgs);
     const n = Math.ceil((EvPlanner.HORIZON_DAYS * 24 * 60) / intervalMin);
     const chargeMode = this.getCapabilityValue('ev_charge_mode') || 'scheduled_price';
     const offUntilMs = this._offUntilMs(chargeMode);
@@ -2092,10 +2100,23 @@ class CarChargeDevice extends GenericDevice {
         offUntilMs,
         chargeMode,
         overrides,
+        tripArgs,
         level,
         cheap,
       },
     };
+  }
+
+  // Day overrides with a patch ({date: override, null: none}); none on an away day is that day's away.
+  _patchOverrides(overrides, patch) {
+    const out = { ...overrides };
+    const periods = this._awayPeriods();
+    Object.entries(patch || {}).forEach(([date, ov]) => {
+      if (ov) out[date] = ov;
+      else if (EvUsageModel.inPeriods(date, periods)) out[date] = { type: 'unused', away: true };
+      else delete out[date];
+    });
+    return out;
   }
 
   async _planAndRender() {
@@ -2124,10 +2145,7 @@ class CarChargeDevice extends GenericDevice {
         + `${EvUsageModel.fractionalHourToHHMM(EvUsageModel.toLocalFractionalHour(new Date(next.departMs), tz))} · ${need}`;
     }
     if (this.hasCapability('ev_next_departure')) await this.setCapability('ev_next_departure', nextText);
-    for (const day of ['today', 'tomorrow']) {
-      if (this.hasCapability(`ev_${day}`)) await this.setCapability(`ev_${day}`, this._dayPickerValue(day, overrides, tz));
-      if (this.hasCapability(`ev_${day}_time`)) await this.setCapability(`ev_${day}_time`, this._dayTimePickerValue(day, overrides, tz));
-    }
+    await this._updateDayPickers(overrides, tz);
     await this._updateUnpluggedAlarm(unplugged && this._plannerMode(chargeMode) !== 'off' && chargeMode !== 'off_temp' ? next : null, currentSoc, now, nextText);
     const nowSlot = scheme[0] || {};
     const socText = energyMode ? `no SoC, ${energyKwh.toFixed(1)} kWh to charge` : `SoC ${Math.round(currentSoc)}%`;
