@@ -114,38 +114,11 @@ class GridDriver extends GenericDriver {
   async onInit() {
     this.ds = driverSpecifics;
     await super.onInit().catch(this.error);
-
-    // Only initialize polling if there are devices.
-    // If a device is paired later, checkStartPolling will handle it.
-    if (this.getDevices().length > 0) {
-      await this.checkStartPolling();
-    }
   }
 
-  async checkStartPolling() {
-    if (this.energyPollCallback) return;
-    // eslint-disable-next-line global-require
-    const EnergyPollingHelper = require('../../lib/helpers/EnergyPollingHelper');
-    EnergyPollingHelper.init(this.homey, { log: this.log.bind(this), error: this.error.bind(this) });
-    await this.startPollingEnergy().catch((err) => this.error(err));
-  }
-
-  async onUninit() {
-    if (this.energyPollCallback) {
-      // eslint-disable-next-line global-require
-      const EnergyPollingHelper = require('../../lib/helpers/EnergyPollingHelper');
-      EnergyPollingHelper.unregister(this.energyPollCallback);
-    }
-    await super.onUninit();
-  }
-
-  async startPollingEnergy() {
-    this.energyPollCallback = async (report) => {
-      this.lastEnergyReport = report;
-    };
-    // eslint-disable-next-line global-require
-    const EnergyPollingHelper = require('../../lib/helpers/EnergyPollingHelper');
-    await EnergyPollingHelper.register(this.energyPollCallback);
+  // Homey Energy's live report: the solar power without a Solar Monitor (device, calculateHomePower()).
+  async onEnergyReport(report) {
+    this.lastEnergyReport = report;
   }
 
   checkDeviceCompatibility(homeyDevice) {

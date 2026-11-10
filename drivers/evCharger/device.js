@@ -188,7 +188,7 @@ class CarChargeDevice extends GenericDevice {
       await setTimeoutPromise(2000, this);
       if (this.sessionId !== currentSessionId) return;
       if (this.pricesNextHours) {
-        await this.updateChargeChart().catch((err) => this.error(err));
+        await this.updatePlan().catch((err) => this.error(err));
       }
       await this.attemptInitialBackfill(currentSessionId);
     };
@@ -556,7 +556,7 @@ class CarChargeDevice extends GenericDevice {
       await this._onReturn();
     } else if (prev.chargeable !== presence.chargeable || prev.unplugged !== presence.unplugged) {
       // Not plugged in shifts the plan; chart shading follows whether the plan is being executed.
-      await this.updateChargeChart().catch(this.error);
+      await this.updatePlan().catch(this.error);
     }
   }
 
@@ -577,14 +577,14 @@ class CarChargeDevice extends GenericDevice {
     await this.setStoreValue('evDepartTm', this.departTm).catch(this.error);
     await this._recordPresenceEvent('departure');
     // The plan is now shown as prediction, and the charger switched off
-    await this.updateChargeChart().catch(this.error);
+    await this.updatePlan().catch(this.error);
   }
 
   async _onReturn() {
     this.log(`[EV Slot] Return, SoC ${this.lastKnownSoc}%`);
     await this._socAfterTrip();
     await this._recordPresenceEvent('return');
-    await this.updateChargeChart().catch(this.error);
+    await this.updatePlan().catch(this.error);
   }
 
   // Back home without a SoC report since leaving: the SoC less the trip's learned need.
@@ -879,7 +879,7 @@ class CarChargeDevice extends GenericDevice {
       this.lastRecalculatedSoc = value;
       if (this.socUpdateTimeout) this.homey.clearTimeout(this.socUpdateTimeout);
       this.socUpdateTimeout = this.homey.setTimeout(() => {
-        this.updateChargeChart().catch(this.error);
+        this.updatePlan().catch(this.error);
       }, 5000);
     }
   }
@@ -911,7 +911,7 @@ class CarChargeDevice extends GenericDevice {
       }
       await this._saveUsageModel();
       await this._updateLearnedProfileSettings();
-      await this.updateChargeChart().catch(this.error); // the picker shows the new "tomorrow"
+      await this.updatePlan().catch(this.error); // the picker shows the new "tomorrow"
     }
     if (!this.sourceCapGroup || !this.presence) return;
     if (this.evDevice && (!this.lastCarPollTm || (Date.now() - this.lastCarPollTm) >= CAR_POLL_MS)) {
@@ -925,7 +925,7 @@ class CarChargeDevice extends GenericDevice {
     const planSlot = MeterHelpers.startOfBlock(Date.now(), this.planIntervalMin(), tz);
     if (this.lastEvTriggerSlot !== planSlot) {
       this.lastEvTriggerSlot = planSlot;
-      await this.updateChargeChart().catch(this.error);
+      await this.updatePlan().catch(this.error);
     }
     await this._endTempModeIfDue(); // also without charger control
     await this._updateNextChargeText(); // 'now' starts and ends with the clock
@@ -1051,7 +1051,7 @@ class CarChargeDevice extends GenericDevice {
     await this._updateResumeText();
     this.log(`EV charge mode ${base}${forHours > 0 ? ` for ${Math.round(forHours * 60)} min` : ''} (${reason})`);
     // Not awaited: this also runs from the charger control inside a plan run, which would wait on itself.
-    this.updateChargeChart().catch(this.error);
+    this.updatePlan().catch(this.error);
   }
 
   // A temporary mode that has run its time: back to the mode before it.
@@ -1504,11 +1504,11 @@ class CarChargeDevice extends GenericDevice {
       // After the new settings are stored: the learned profile shows in settings too.
       this.homey.setTimeout(() => {
         this._updateLearnedProfileSettings().catch(this.error);
-        this.updateChargeChart().catch(this.error);
+        this.updatePlan().catch(this.error);
       }, 1000);
     }
     if (changedKeys.some((k) => planKeys.includes(k))) {
-      this.updateChargeChart().catch(this.error);
+      this.updatePlan().catch(this.error);
     }
     if (changedKeys.includes('standbyOn') || changedKeys.includes('sharedCharger') || changedKeys.includes('chargerControl')) {
       // After the new settings are stored.
@@ -1536,7 +1536,7 @@ class CarChargeDevice extends GenericDevice {
     await this.setSettings({ awayPeriods: text });
     this.log(`[EV Plan] Away period ${period.from} - ${period.to} added via flow`);
     await this._updateLearnedProfileSettings();
-    await this.updateChargeChart().catch(this.error);
+    await this.updatePlan().catch(this.error);
   }
 
   // A flow says the car left: away now, as car apps often only report after the trip. Lasts until
@@ -1564,7 +1564,7 @@ class CarChargeDevice extends GenericDevice {
 
   async onPricesUpdated() {
     this.pricesUpdated = true;
-    await this.updateChargeChart().catch(this.error);
+    await this.updatePlan().catch(this.error);
   }
 
   // The source meter as an own counter that only restarts with this device (see meterTotal).
@@ -1629,14 +1629,14 @@ class CarChargeDevice extends GenericDevice {
         const roundedMax = Math.round(livePower / 100) * 100;
         this.log(`[EV Power Auto-Detect] New peak power: ${storedMax} W -> ${roundedMax} W`);
         await this._setDetectedPower(roundedMax);
-        this.updateChargeChart().catch(this.error);
+        this.updatePlan().catch(this.error);
       }
     }
 
     const currentSlot = MeterHelpers.startOfBlock(reading.meterTm, this.planIntervalMin(), this.timeZone);
     if (this.lastEvTriggerSlot !== currentSlot) {
       this.lastEvTriggerSlot = currentSlot;
-      await this.updateChargeChart().catch(this.error);
+      await this.updatePlan().catch(this.error);
     }
   }
 
@@ -1767,7 +1767,7 @@ class CarChargeDevice extends GenericDevice {
       await this._saveUsageModel();
     }
     this.log(`[EV Plan] Override for ${date}: ${override ? JSON.stringify(override) : 'none'}`);
-    await this.updateChargeChart().catch(this.error);
+    await this.updatePlan().catch(this.error);
     if (check) await this.checkDayReachable(date, previous);
   }
 
@@ -1979,7 +1979,7 @@ class CarChargeDevice extends GenericDevice {
 
   // Plans and renders. Calls close together (at start-up prices, car report, history learning and
   // listeners all ask) become one run; a call during a run gets one run after it.
-  updateChargeChart() {
+  updatePlan() {
     if (!this.planQueued) {
       this.planQueued = (this.planRunning || Promise.resolve())
         .catch(() => null)
@@ -2221,9 +2221,13 @@ class CarChargeDevice extends GenericDevice {
         chartScheme[k] = { ...slot, isForecast: true };
       });
 
+      // In use first: the charger control does not wait for the charts to be drawn.
+      const periods = await this.applyPlan({ scheme: chartScheme, planSlots: Object.keys(scheme).length, planTm: now });
+      await this._updateNextChargeText();
+      await this._applyChargerControl().catch(this.error);
       await this.renderChargeCharts({
         scheme: chartScheme,
-        planSlots: Object.keys(scheme).length,
+        periods,
         chargePower,
         dischargePower: 0, // no V2X discharge
         socFallback: currentSoc,
@@ -2231,10 +2235,7 @@ class CarChargeDevice extends GenericDevice {
         showSoc,
         showExportPrice: this.getSettings().chartShowExportPrice !== false,
         showLegend: this.getSettings().chartShowLegend !== false,
-        planTm: now,
       });
-      await this._updateNextChargeText();
-      await this._applyChargerControl().catch(this.error);
     }
   }
 
@@ -2439,7 +2440,7 @@ class CarChargeDevice extends GenericDevice {
       }
 
       this.log('[EV Slot] History learning complete.');
-      await this.updateChargeChart().catch((err) => this.error(err));
+      await this.updatePlan().catch((err) => this.error(err));
     } catch (err) {
       this.error('[EV Slot] learnDeparturePattern failed:', err);
     }

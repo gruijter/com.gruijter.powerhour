@@ -6,6 +6,7 @@ Copyright 2019 - 2026, Robin de Gruijter (gruijter@hotmail.com)
 
 const crypto = require('crypto');
 const GenericDriver = require('../../lib/genericDeviceDrivers/generic_bat_driver');
+const EnergyPollingHelper = require('../../lib/helpers/EnergyPollingHelper');
 const EvCarCaps = require('../../lib/helpers/EvCarCaps');
 const EvChargerCaps = require('../../lib/helpers/EvChargerCaps');
 const EvChargerControl = require('../../lib/strategies/EvChargerControl');
@@ -83,53 +84,15 @@ class CarChargeDriver extends GenericDriver {
   async onInit() {
     this.ds = driverSpecifics;
     await super.onInit().catch(this.error);
-
-    // Polling starts with the first device (checkStartPolling).
-    if (this.getDevices().length > 0) {
-      await this.checkStartPolling();
-    }
   }
 
-  async checkStartPolling() {
-    if (this.energyPollCallback) return;
-    // eslint-disable-next-line global-require
-    const EnergyPollingHelper = require('../../lib/helpers/EnergyPollingHelper');
-    EnergyPollingHelper.init(this.homey, { log: this.log.bind(this), error: this.error.bind(this) });
-  }
-
-  async onUninit() {
-    if (this.energyPollCallback) {
-      // eslint-disable-next-line global-require
-      const EnergyPollingHelper = require('../../lib/helpers/EnergyPollingHelper');
-      EnergyPollingHelper.unregister(this.energyPollCallback);
-    }
-    await super.onUninit();
-  }
-
-  async registerEnergyPoller() {
-    if (!this.energyPollCallback) return;
-    // eslint-disable-next-line global-require
-    const EnergyPollingHelper = require('../../lib/helpers/EnergyPollingHelper');
-    await EnergyPollingHelper.register(this.energyPollCallback);
-  }
-
-  async startPollingEnergy(interval) {
-    this.energyPollCallback = async (report) => {
-      // eslint-disable-next-line global-require
-      const { getGridPowerFallback } = require('../../lib/helpers/Util');
-      let cumulativePower = getGridPowerFallback(this.homey);
-      if (cumulativePower === null) cumulativePower = report?.totalCumulative?.W;
-
-      if (Number.isFinite(cumulativePower)) {
-        const devices = this.getDevices();
-        devices.forEach((device) => {
-          device.currentGridPower = cumulativePower;
-        });
-      }
-    };
-    // eslint-disable-next-line global-require
-    const EnergyPollingHelper = require('../../lib/helpers/EnergyPollingHelper');
-    await EnergyPollingHelper.register(this.energyPollCallback);
+  // The grid power: the devices measure the solar surplus from it (_sampleSurplus()).
+  async onEnergyReport(report) {
+    const gridW = EnergyPollingHelper.gridPowerW(report);
+    if (!Number.isFinite(gridW)) return;
+    this.getDevices().forEach((device) => {
+      device.currentGridPower = gridW;
+    });
   }
 
   /**

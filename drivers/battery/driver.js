@@ -20,6 +20,7 @@ along with com.gruijter.powerhour.  If not, see <http://www.gnu.org/licenses/>.
 'use strict';
 
 const GenericDriver = require('../../lib/genericDeviceDrivers/generic_bat_driver');
+const EnergyPollingHelper = require('../../lib/helpers/EnergyPollingHelper');
 const PairSetup = require('../../lib/helpers/PairSetup');
 const SourceCaps = require('../../lib/helpers/SourceCaps');
 const BatteryControl = require('../../lib/strategies/BatteryControl');
@@ -139,64 +140,23 @@ class BatteryDriver extends GenericDriver {
   async onInit() {
     this.ds = driverSpecifics;
     await super.onInit().catch(this.error);
-
-    // Polling starts with the first device (checkStartPolling).
-    if (this.getDevices().length > 0) {
-      await this.checkStartPolling();
-    }
   }
 
-  async checkStartPolling() {
-    if (this.energyPollCallback) return;
+  // The grid power: XOM and the built-in control, on a change or at least every 10 s.
+  async onEnergyReport(report) {
+    const gridW = EnergyPollingHelper.gridPowerW(report);
+    // Plausibility bound on the grid exchange for XOM, see lib/helpers/GridConnection.js.
     // eslint-disable-next-line global-require
-    const EnergyPollingHelper = require('../../lib/helpers/EnergyPollingHelper');
-    EnergyPollingHelper.init(this.homey, { log: this.log.bind(this), error: this.error.bind(this) });
-    await this.startPollingEnergy(5).catch((err) => this.error(err));
-  }
-
-  async onUninit() {
-    if (this.energyPollCallback) {
-      // eslint-disable-next-line global-require
-      const EnergyPollingHelper = require('../../lib/helpers/EnergyPollingHelper');
-      EnergyPollingHelper.unregister(this.energyPollCallback);
-    }
-    await super.onUninit();
-  }
-
-  async startPollingEnergy(interval) {
-    const int = interval || 5;
-    let lastCumulativePower = null;
-    let lastProcessTime = 0;
-
-    this.energyPollCallback = async (report) => {
-      // eslint-disable-next-line global-require
-      const { getGridPowerFallback } = require('../../lib/helpers/Util');
-      let cumulativePower = getGridPowerFallback(this.homey);
-      if (cumulativePower === null) cumulativePower = report?.totalCumulative?.W;
-
-      // Plausibility bound on the grid exchange for XOM, see lib/helpers/GridConnection.js.
-      // eslint-disable-next-line global-require
-      const GridConnection = require('../../lib/helpers/GridConnection');
-      const ceilingW = await GridConnection.ceilingW(this.homey);
-
-      if (Number.isFinite(cumulativePower) && Math.abs(cumulativePower) <= ceilingW) {
-        const devices = this.getDevices();
-        devices.forEach((device) => {
-          device.currentGridPower = cumulativePower;
-        });
-
-        const now = Date.now();
-        if (cumulativePower !== lastCumulativePower || (now - lastProcessTime) > 10000) {
-          const timeDelta = lastProcessTime > 0 ? (now - lastProcessTime) / 1000 : int;
-          lastCumulativePower = cumulativePower;
-          lastProcessTime = now;
-          await this.processEnergyLogic(cumulativePower, timeDelta);
-        }
-      }
-    };
-    // eslint-disable-next-line global-require
-    const EnergyPollingHelper = require('../../lib/helpers/EnergyPollingHelper');
-    await EnergyPollingHelper.register(this.energyPollCallback);
+    const ceilingW = await require('../../lib/helpers/GridConnection').ceilingW(this.homey);
+    if (!Number.isFinite(gridW) || Math.abs(gridW) > ceilingW) return;
+    this.getDevices().forEach((device) => {
+      device.currentGridPower = gridW;
+    });
+    const now = Date.now();
+    const last = this.energyTick || { gridW: null, tm: 0 };
+    if (gridW === last.gridW && (now - last.tm) <= 10000) return;
+    this.energyTick = { gridW, tm: now };
+    await this.processEnergyLogic(gridW, last.tm > 0 ? (now - last.tm) / 1000 : EnergyPollingHelper.intervalSeconds);
   }
 
   async processEnergyLogic(cumulativePower, interval) {
@@ -263,7 +223,7 @@ class BatteryDriver extends GenericDriver {
     this.evReplanTimer = this.homey.setTimeout(() => {
       try {
         this.homey.drivers.getDriver('evCharger').getDevices()
-          .forEach((d) => d.updateChargeChart && d.updateChargeChart().catch((err) => d.error(err)));
+          .forEach((d) => d.updatePlan && d.updatePlan().catch((err) => d.error(err)));
       } catch {
         // no EV driver or devices
       }

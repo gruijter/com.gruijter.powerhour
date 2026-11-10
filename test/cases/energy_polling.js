@@ -89,6 +89,55 @@ const pollOnce = async (setup) => {
     assert.strictEqual(r.report, null);
   });
 
+  await test('a driver with onEnergyReport() gets the poll, with the grid power; one without does not', async () => {
+    Object.assign(state, { gridW: -800, solar: 1, calls: 0 });
+    const seen = [];
+    const driver = {
+      homey, log: () => {}, error: () => {}, onEnergyReport: async (report) => seen.push(helper.gridPowerW(report)),
+    };
+    await helper.startFor(driver);
+    await helper.startFor(driver); // once
+    await new Promise((resolve) => {
+      setImmediate(resolve);
+    });
+    assert.deepStrictEqual(seen, [-800]);
+    helper.stopFor(driver);
+    assert.strictEqual(driver.energyPollCallback, null);
+    assert.strictEqual(helper.callbacks.size, 0);
+    const plain = { homey, log: () => {}, error: () => {} };
+    await helper.startFor(plain);
+    assert.strictEqual(plain.energyPollCallback, undefined);
+    // Without a Grid Monitor: Homey Energy's grid power from the report.
+    state.gridW = undefined;
+    assert.strictEqual(helper.gridPowerW({ totalCumulative: { W: 123 } }), 123);
+    assert.strictEqual(helper.gridPowerW(null), undefined);
+  });
+
+  await test('every driver that uses the grid power takes the poll (the EV charger too)', async () => {
+    const Module = require('module'); // eslint-disable-line global-require
+    const origLoad = Module._load;
+    Module._load = function load(request, ...rest) {
+      if (request === 'homey') {
+        class Base {}
+        return {
+          Device: Base, Driver: Base, App: Base, SimpleClass: Base, env: {},
+        };
+      }
+      return origLoad.call(this, request, ...rest);
+    };
+    state.gridW = -1500;
+    for (const id of ['evCharger', 'power', 'solar']) {
+      const Driver = require(`../../drivers/${id}/driver`); // eslint-disable-line global-require, import/no-dynamic-require
+      const device = { getCapabilityValue: () => 1000 };
+      const driver = Object.assign(Object.create(Driver.prototype), { homey, getDevices: () => [device] });
+      assert.strictEqual(typeof driver.onEnergyReport, 'function', id);
+      assert.strictEqual(typeof driver.checkStartPolling, 'function', id);
+      await driver.onEnergyReport(null);
+      assert.strictEqual(device.currentGridPower, -1500, id);
+    }
+    Module._load = origLoad;
+  });
+
   console.log(failed ? `\n${failed} failed` : '\nall passed');
   process.exitCode = failed ? 1 : 0;
 })().catch((err) => {

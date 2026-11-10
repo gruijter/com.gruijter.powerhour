@@ -23,12 +23,14 @@ const GenericDevice = require('../../lib/genericDeviceDrivers/generic_bat_device
 const ChargeDeviceHelpers = require('../../lib/helpers/ChargeDeviceHelpers');
 const ChartImages = require('../../lib/helpers/ChartImages');
 const GridConnection = require('../../lib/helpers/GridConnection');
+const InsightsHistory = require('../../lib/helpers/InsightsHistory');
 const TimeHelpers = require('../../lib/helpers/TimeHelpers');
 const BatteryCalibration = require('../../lib/strategies/BatteryCalibration');
 const BatteryControl = require('../../lib/strategies/BatteryControl');
 const BatteryEfficiency = require('../../lib/strategies/BatteryEfficiency');
 const BatteryResponse = require('../../lib/strategies/BatteryResponse');
 const BatterySplit = require('../../lib/strategies/BatterySplit');
+const BatteryPlan = require('../../lib/helpers/BatteryPlan');
 const BatteryUse = require('../../lib/strategies/BatteryUse');
 const BatteryTaper = require('../../lib/strategies/BatteryTaper');
 const PhaseLearning = require('../../lib/strategies/PhaseLearning');
@@ -137,19 +139,19 @@ class BatDevice extends GenericDevice {
       await this.updateCalibrationInfo().catch((err) => this.error(err));
       if (this.pricesNextHours) {
         await this.flows.triggerNewPlanFlow().catch((err) => this.error(err));
-        await this.updateChargeChart().catch((err) => this.error(err));
+        await this.updatePlan().catch((err) => this.error(err));
       }
     };
     initStrategy().catch((err) => this.error(err));
   }
 
   async onPricesUpdated() {
-    this.pricesUpdatedTm = Date.now(); // see updateChargeChart(): only reuse plans made after this
+    this.pricesUpdatedTm = Date.now(); // see updatePlan(): only reuse plans made after this
     this.pricesUpdated = true;
     await this.applyAutoMinProfit().catch((err) => this.error(err));
     await this.updatePriceProfile().catch((err) => this.error(err));
     await this.flows.triggerNewPlanFlow();
-    await this.updateChargeChart();
+    await this.updatePlan();
   }
 
   // Paired before its tariff group had prices (hidden setting minProfitAuto): the minimum profit
@@ -779,7 +781,7 @@ class BatDevice extends GenericDevice {
     if (!this.pricesNextHours) return;
     this.log(`[Plan] Plan again (${reason})`);
     await this.flows.triggerNewPlanFlow({ quick });
-    await this.updateChargeChart();
+    await this.updatePlan();
   }
 
   // A plan input that the plan caches do not see (the costs): no cached plan, the whole group again.
@@ -835,90 +837,14 @@ class BatDevice extends GenericDevice {
       const endDate = new Date();
       const startDate = new Date(endDate.getTime() - 48 * 60 * 60 * 1000);
 
+      // {time, value}: hourly for the older part, ~5-minute for the last day (InsightsHistory). The
+      // charged minus discharged meter of a battery goes both ways (signed).
       const fetchEntries = async (log) => {
         if (!log) return null;
-        const id = log.id || log.uri || '';
-        const cap = id.split(':').pop() || '';
-        // Homey logs measure_power under 'energy_power': instantaneous W, not cumulative (confirmed).
-        const isCumulative = cap.includes('meter') || (cap.includes('energy') && cap !== 'energy_power');
-
-        const convert = (data, resStr) => {
-          if (!data || !data.values || data.values.length === 0) return null;
-          if (isCumulative && data.values.length > 1) {
-            const powerWatts = [];
-            for (let i = 1; i < data.values.length; i++) {
-              const prev = data.values[i - 1];
-              const curr = data.values[i];
-              const getVal = (item) => {
-                if (typeof item.v === 'number') return item.v;
-                if (typeof item.y === 'number') return item.y;
-                return 0;
-              };
-              const prevV = getVal(prev);
-              const currV = getVal(curr);
-              const prevT = typeof prev.t === 'number' ? prev.t : new Date(prev.t).getTime();
-              const currT = typeof curr.t === 'number' ? curr.t : new Date(curr.t).getTime();
-              const dtHours = (currT - prevT) / 3600000;
-              const dKwh = currV - prevV;
-              if (dtHours > 0 && Math.abs(dKwh) < 500) {
-                const watts = (dKwh / dtHours) * 1000;
-                powerWatts.push({ time: prevT, power: Math.round(watts) });
-              }
-            }
-            return { entries: powerWatts, isWatts: true };
-          }
-          // These hourly logs are stamped at the START of the hour (confirmed on a device); others at the
-          // end and get the -1h correction.
-          const startStampedCaps = ['energy_power', 'measure_battery'];
-          const isHourly = (resStr === 'last7Days' || resStr === 'last14Days') && !startStampedCaps.includes(cap);
-          const entries = data.values.map((e) => {
-            const rawT = typeof e.t === 'number' ? e.t : new Date(e.t).getTime();
-            const t = isHourly ? rawT - 3600000 : rawT;
-            let v = 0;
-            if (typeof e.v === 'number') v = e.v;
-            else if (typeof e.y === 'number') v = e.y;
-            return { time: t, value: Math.round(v) };
-          });
-          return { entries, isWatts: false };
-        };
-
-        // Hourly (last7Days/last14Days) plus 'last24Hours' (~5-minute) merged over it.
-        let coarse = null;
-        for (const resStr of ['last7Days', 'last14Days']) {
-          const data = await api.insights.getLogEntries({
-            id: log.id || log.uri,
-            start: startDate.toISOString(),
-            end: endDate.toISOString(),
-            resolution: resStr,
-          }).catch(() => null);
-          coarse = convert(data, resStr);
-          if (coarse) break;
-        }
-
-        const fineStart = new Date(endDate.getTime() - 24 * 60 * 60 * 1000);
-        const fineData = await api.insights.getLogEntries({
-          id: log.id || log.uri,
-          start: fineStart.toISOString(),
-          end: endDate.toISOString(),
-          resolution: 'last24Hours',
-        }).catch(() => null);
-        const fine = convert(fineData, 'last24Hours');
-
-        if (!coarse && !fine) {
-          const todayData = await api.insights.getLogEntries({
-            id: log.id || log.uri,
-            start: startDate.toISOString(),
-            end: endDate.toISOString(),
-            resolution: 'today',
-          }).catch(() => null);
-          return convert(todayData, 'today');
-        }
-        if (!fine) return coarse;
-        if (!coarse) return fine;
-
-        const fineMinTime = Math.min(...fine.entries.map((e) => e.time));
-        const merged = coarse.entries.filter((e) => e.time < fineMinTime).concat(fine.entries);
-        return { entries: merged, isWatts: fine.isWatts };
+        const series = await InsightsHistory.fetchSeries({
+          api, log, startDate, endDate, coarseResolutions: ['last7Days', 'last14Days'], signed: true,
+        });
+        return series ? series.map((e) => ({ time: e.t, value: Math.round(e.v) })) : null;
       };
 
       // 1. Power history: the capability addSourceCapGroup() resolved, with its sign. A bare
@@ -962,16 +888,12 @@ class BatDevice extends GenericDevice {
 
       if (powerLog) {
         const result = await fetchEntries(powerLog);
-        if (result && result.entries.length > 0) {
+        if (result && result.length > 0) {
           const powerMap = new Map();
           if (Array.isArray(this.powerHistory)) {
             this.powerHistory.forEach((e) => powerMap.set(e.time, e.power));
           }
-          result.entries.forEach((e) => {
-            let val = result.isWatts ? e.power : e.value;
-            if (powerLogInvert) val = -val;
-            powerMap.set(e.time, val);
-          });
+          result.forEach((e) => powerMap.set(e.time, powerLogInvert ? -e.value : e.value));
           this.powerHistory = Array.from(powerMap.entries())
             .map(([time, power]) => ({ time, power }))
             .sort((a, b) => a.time - b.time);
@@ -988,12 +910,12 @@ class BatDevice extends GenericDevice {
 
       if (socLog) {
         const result = await fetchEntries(socLog);
-        if (result && result.entries.length > 0) {
+        if (result && result.length > 0) {
           const socMap = new Map();
           if (Array.isArray(this.socHistory)) {
             this.socHistory.forEach((e) => socMap.set(e.time, e.soc));
           }
-          result.entries.forEach((e) => socMap.set(e.time, e.value));
+          result.forEach((e) => socMap.set(e.time, e.value));
           this.socHistory = Array.from(socMap.entries())
             .map(([time, soc]) => ({ time, soc }))
             .sort((a, b) => a.time - b.time);
@@ -1615,10 +1537,12 @@ class BatDevice extends GenericDevice {
     await this.updateWarning();
     if (!this.pricesNextHours) return;
     await this.flows.triggerNewPlanFlow();
-    await this.updateChargeChart();
+    await this.updatePlan();
   }
 
-  async updateChargeChart() {
+  // The plan of the device settings (BatteryPlan): taken in use for the control and the grid
+  // forecast (applyPlan()), then drawn.
+  async updatePlan() {
     if (!this.pricesNextHours) return;
     await this.refreshGroupPrices().catch(() => {});
     const minPriceDelta = this.getSettings().minProfit;
@@ -1632,7 +1556,7 @@ class BatDevice extends GenericDevice {
     const afterPrices = this.lastPlanTm && this.lastPlanTm >= (this.pricesUpdatedTm || 0);
     const tokens = (sameSlot && afterPrices && this.lastPlanMinPriceDelta === minPriceDelta && this.lastPlanTokens)
       ? { ...this.lastPlanTokens }
-      : await this.flows.planTokens({ minPriceDelta }).catch((err) => this.error(err));
+      : await BatteryPlan.tokens(this, { minPriceDelta }).catch((err) => this.error(err));
     if (!tokens) return;
 
     await this.setCapability('roi_duration', tokens.duration).catch((err) => this.error(err));
@@ -1644,12 +1568,14 @@ class BatDevice extends GenericDevice {
       if (isForecast[k] || Number(k) >= isForecast.length) scheme[k].isForecast = true;
     });
 
+    // In use for the control and the grid forecast first; the charts only show it.
+    const periods = await this.applyPlan({ scheme, planTm: this.lastPlanTm || Date.now() });
     await this.renderChargeCharts({
       scheme,
+      periods,
       chargePower: this.getSettings().chargePower || 2200,
       dischargePower: this.getSettings().dischargePower || 1700,
       socFallback: typeof this.soc === 'number' ? this.soc : null,
-      planTm: this.lastPlanTm || Date.now(),
       showPower: !!this.getSettings().chartShowPower,
       showSoc: this.getSettings().chartShowSoc !== false,
       showExportPrice: this.getSettings().chartShowExportPrice !== false,

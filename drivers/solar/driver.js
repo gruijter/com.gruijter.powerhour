@@ -20,6 +20,7 @@ along with com.gruijter.powerhour.  If not, see <http://www.gnu.org/licenses/>.
 'use strict';
 
 const GenericDriver = require('../../lib/genericDeviceDrivers/generic_sum_driver');
+const EnergyPollingHelper = require('../../lib/helpers/EnergyPollingHelper');
 // Dependencies are lazy loaded in methods to save memory
 
 // The screens of the setup view, in order (lib/helpers/PairSetup.js).
@@ -92,67 +93,23 @@ class SolarDriver extends GenericDriver {
   async onInit() {
     this.ds = driverSpecifics;
     await super.onInit().catch(this.error);
-
-    // Only initialize polling if there are devices.
-    // If a device is paired later, checkStartPolling will handle it.
-    if (this.getDevices().length > 0) {
-      await this.checkStartPolling();
-    }
   }
 
-  async checkStartPolling() {
-    if (this.energyPollCallback) return;
-    // eslint-disable-next-line global-require
-    const EnergyPollingHelper = require('../../lib/helpers/EnergyPollingHelper');
-    EnergyPollingHelper.init(this.homey, { log: this.log.bind(this), error: this.error.bind(this) });
-    await this.startPollingEnergy(5).catch((err) => this.error(err));
-  }
-
-  async onUninit() {
-    if (this.energyPollCallback) {
-      // eslint-disable-next-line global-require
-      const EnergyPollingHelper = require('../../lib/helpers/EnergyPollingHelper');
-      EnergyPollingHelper.unregister(this.energyPollCallback);
-    }
-    await super.onUninit();
-  }
-
-  async startPollingEnergy(interval) {
-    this.energyPollCallback = async (report) => {
-      // eslint-disable-next-line global-require
-      const { getGridPowerFallback } = require('../../lib/helpers/Util');
-      let cumulativePower = getGridPowerFallback(this.homey);
-      if (cumulativePower === null) cumulativePower = report?.totalCumulative?.W;
-
-      if (Number.isFinite(cumulativePower)) {
-        const devices = this.getDevices();
-
-        let totalSolarPower = 0;
-        devices.forEach((device) => {
-          const power = device.getCapabilityValue('measure_power') || 0;
-          if (power > 0) totalSolarPower += power;
-        });
-
-        devices.forEach((device) => {
-          device.currentGridPower = cumulativePower;
-
-          const power = device.getCapabilityValue('measure_power') || 0;
-          if (power <= 0) {
-            device.currentSelfConsumedPower = 0;
-          } else if (cumulativePower >= 0) {
-            device.currentSelfConsumedPower = power;
-          } else {
-            const exportPower = Math.abs(cumulativePower);
-            const deviceRatio = power / totalSolarPower;
-            const deviceExport = exportPower * deviceRatio;
-            device.currentSelfConsumedPower = Math.max(0, power - deviceExport);
-          }
-        });
-      }
-    };
-    // eslint-disable-next-line global-require
-    const EnergyPollingHelper = require('../../lib/helpers/EnergyPollingHelper');
-    await EnergyPollingHelper.register(this.energyPollCallback);
+  // The grid power, and per device the part of its production used at home (export shared by
+  // production).
+  async onEnergyReport(report) {
+    const gridW = EnergyPollingHelper.gridPowerW(report);
+    if (!Number.isFinite(gridW)) return;
+    const devices = this.getDevices();
+    const powerOf = (device) => device.getCapabilityValue('measure_power') || 0;
+    const totalSolarW = devices.reduce((a, device) => a + Math.max(0, powerOf(device)), 0);
+    devices.forEach((device) => {
+      device.currentGridPower = gridW;
+      const power = powerOf(device);
+      if (power <= 0) device.currentSelfConsumedPower = 0;
+      else if (gridW >= 0) device.currentSelfConsumedPower = power;
+      else device.currentSelfConsumedPower = Math.max(0, power - (Math.abs(gridW) * (power / totalSolarW)));
+    });
   }
 
 }

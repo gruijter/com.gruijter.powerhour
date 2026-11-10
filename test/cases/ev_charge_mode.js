@@ -49,7 +49,7 @@ const charger = (mode = 'scheduled_price', settings = { overrideMaxHours: 4 }) =
     getSettings: () => settings,
     setStoreValue: async () => {},
     _updateResumeText: async () => {},
-    updateChargeChart: async () => {},
+    updatePlan: async () => {},
     log: () => {},
     error: (err) => {
       throw err;

@@ -20,6 +20,7 @@ along with com.gruijter.powerhour.  If not, see <http://www.gnu.org/licenses/>.
 'use strict';
 
 const GenericDriver = require('../../lib/genericDeviceDrivers/generic_sum_driver');
+const EnergyPollingHelper = require('../../lib/helpers/EnergyPollingHelper');
 const SourceCaps = require('../../lib/helpers/SourceCaps');
 
 const MARKUP_IDS = ['markup_month', 'markup_day', 'markup_hour'];
@@ -126,48 +127,14 @@ class PowerDriver extends GenericDriver {
   async onInit() {
     this.ds = driverSpecifics;
     await super.onInit().catch(this.error);
-
-    // Only initialize polling if there are devices.
-    // If a device is paired later, checkStartPolling will handle it.
-    if (this.getDevices().length > 0) {
-      await this.checkStartPolling();
-    }
   }
 
-  async checkStartPolling() {
-    if (this.energyPollCallback) return;
-    // eslint-disable-next-line global-require
-    const EnergyPollingHelper = require('../../lib/helpers/EnergyPollingHelper');
-    EnergyPollingHelper.init(this.homey, { log: this.log.bind(this), error: this.error.bind(this) });
-    await this.startPollingEnergy().catch((err) => this.error(err));
-  }
-
-  async onUninit() {
-    if (this.energyPollCallback) {
-      // eslint-disable-next-line global-require
-      const EnergyPollingHelper = require('../../lib/helpers/EnergyPollingHelper');
-      EnergyPollingHelper.unregister(this.energyPollCallback);
-    }
-    await super.onUninit();
-  }
-
-  async startPollingEnergy() {
-    this.energyPollCallback = async (report) => {
-      // eslint-disable-next-line global-require
-      const { getGridPowerFallback } = require('../../lib/helpers/Util');
-      let cumulativePower = getGridPowerFallback(this.homey);
-      if (cumulativePower === null) cumulativePower = report?.totalCumulative?.W;
-
-      if (Number.isFinite(cumulativePower)) {
-        const devices = this.getDevices();
-        devices.forEach((device) => {
-          device.currentGridPower = cumulativePower;
-        });
-      }
-    };
-    // eslint-disable-next-line global-require
-    const EnergyPollingHelper = require('../../lib/helpers/EnergyPollingHelper');
-    await EnergyPollingHelper.register(this.energyPollCallback);
+  async onEnergyReport(report) {
+    const gridW = EnergyPollingHelper.gridPowerW(report);
+    if (!Number.isFinite(gridW)) return;
+    this.getDevices().forEach((device) => {
+      device.currentGridPower = gridW;
+    });
   }
 
   // Forecast: the appliance is taken out of the home load. Only for a Homey device as source; the
