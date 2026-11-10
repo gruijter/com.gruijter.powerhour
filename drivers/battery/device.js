@@ -59,6 +59,9 @@ const LEARN_APPLY_MS = 24 * 60 * 60 * 1000;
 const CAL_RETRY_MS = 15 * 60 * 1000;
 const CAL_MODES = ['smart', 'self_consumption'];
 const CAL_DAYS = 7;
+// Targets again at most this often; not from this long before the battery has to start.
+const CAL_REFRESH_MS = 5 * 60 * 1000;
+const CAL_LEAD_MS = 60 * 60 * 1000;
 // The learned taper (BatteryTaper) is stored at most this often.
 const TAPER_SAVE_MS = 15 * 60 * 1000;
 const USE_SAVE_CYCLES = 0.1; // store write at most every 20 % SoC moved
@@ -1039,6 +1042,7 @@ class BatDevice extends GenericDevice {
     const planPrices = this.toPlanSlots(prices, now);
     const startMs = TimeHelpers.startOfLocalBlock(now, planMin, tz);
     const forecast = this.planNetForecast(startMs, planPrices.length, planMin, members);
+    if (!group && this.calibrationActive()) this.refreshCalibrationTargets(now);
     const socBounds = !group && this.calibrationActive()
       ? BatteryCalibration.socBounds(this.calibration, { startMs, slotMin: planMin, slots: planPrices.length }) : null;
     return {
@@ -1145,6 +1149,10 @@ class BatDevice extends GenericDevice {
       this.log(`[Bat Cal] ${r.event}${r.timeout ? ' (time limit)' : ''} at SoC ${this.soc}%${r.done ? ': calibration done' : ''}`);
       await this.saveCalibration(this.calibration.phase !== phase);
     }
+    if (BatteryCalibration.isExpired(this.calibration, now)) {
+      await this.stopCalibration('time limit');
+      return;
+    }
     if (!this.calibrationActive() || !BatteryCalibration.isLate(this.calibration, now)) return;
     if (now - (this.calTryTm || 0) < CAL_RETRY_MS) return;
     this.calTryTm = now;
@@ -1153,6 +1161,26 @@ class BatDevice extends GenericDevice {
     this.calibration = { ...this.calibration, ...targets };
     this.log(`[Bat Cal] ${this.calibration.phase}: new targets, full by ${new Date(targets.fullByMs).toISOString()}`);
     await this.saveCalibration(true);
+  }
+
+  // Each plan: targets again from the SoC and prices now (the SoC can have changed by another mode,
+  // new prices can be better), until the battery is on its way: then they stay.
+  refreshCalibrationTargets(now) {
+    const c = this.calibration;
+    if (now - (this.calRefreshTm || 0) < CAL_REFRESH_MS) return;
+    const settings = this.batterySettings();
+    const soc = Number(this.soc) || 0;
+    const capKwh = Number(settings.batCapacity) || 0;
+    const kw = (Number(c.phase === 'empty' ? settings.dischargePower : settings.chargePower) || 0) / 1000;
+    const target = c.phase === 'empty' ? c.emptyByMs : c.fullByMs;
+    const leftKwh = ((c.phase === 'empty' ? soc : 100 - soc) / 100) * capKwh;
+    if (!(kw > 0) || (target && now >= target - ((leftKwh / kw) * 3600000) - CAL_LEAD_MS)) return;
+    this.calRefreshTm = now;
+    const targets = this.calibrationTargets(c.phase, now);
+    if (!targets || (targets.emptyByMs === c.emptyByMs && targets.fullByMs === c.fullByMs)) return;
+    this.calibration = { ...c, ...targets };
+    this.log(`[Bat Cal] ${c.phase}: targets now ${targets.emptyByMs ? `empty by ${new Date(targets.emptyByMs).toISOString()}, ` : ''}full by ${new Date(targets.fullByMs).toISOString()}`);
+    this.saveCalibration(false).catch((err) => this.error(err));
   }
 
   // replan: the targets or the group changed, all batteries plan again.

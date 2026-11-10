@@ -194,6 +194,9 @@ test('tail: full power at 0 % and 100 %, action calibrate', () => {
     ...base, mode: 'smart', slot, calibrate: 'empty', socPct: 0,
   }).powerW, -1700);
   assert.strictEqual(Control.decide({
+    ...base, mode: 'smart', slot, calibrate: 'empty', socPct: 0, reserveForPeak: false,
+  }).powerW, -1700, 'without peak shaving too: else the empty stop is never seen');
+  assert.strictEqual(Control.decide({
     ...base, mode: 'self_consumption', slot, calibrate: 'full', socPct: 100,
   }).powerW, 2200);
   assert.strictEqual(Control.actionFor({ block: 'charge', calibrate: 'full' }), 'calibrate');
@@ -226,3 +229,16 @@ if (failed) {
   console.log(`\n${failed} failed`);
   process.exitCode = 1;
 }
+
+test('full phase: the charge window from the SoC now; expired after 3 days', () => {
+  const p = [0.5, 0.5, 0.2, 0.5, 0.5, 0.5, 0.5, 0.5];
+  const o = {
+    phase: 'full', startMs: 0, slotMin: 60, prices: p, capKwh: 5, maxChargeW: 2500, maxDischargeW: 2500,
+  };
+  assert.strictEqual(Cal.chooseTargets({ ...o, socPct: 0 }).fullByMs, 4 * 3600000, 'from empty: 2 h + top-off');
+  assert.strictEqual(Cal.chooseTargets({ ...o, socPct: 60 }).fullByMs, 3 * 3600000, 'half full: the cheap slot');
+  const s = Cal.start(Cal.createState(0), 0, {});
+  assert.ok(!Cal.isExpired(s, 2 * DAY));
+  assert.ok(Cal.isExpired(s, 3.1 * DAY));
+  assert.ok(!Cal.isExpired(Cal.end(s, 3.1 * DAY), 4 * DAY));
+});
