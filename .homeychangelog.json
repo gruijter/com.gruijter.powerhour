@@ -1,4 +1,7 @@
 {
+  "9.0.1": {
+    "en": "Smarter battery and EV planning. Battery wear spread evenly. Immediate replan on mode change. Fix battery calibration. Clear error when an EV goal cannot be reached. Better EV override detection. Improved price migration. Settings shown read-only, easier setup and repair. Fast-xml-parser@5.12.0."
+  },
   "9.0.0": {
     "en": "Major rewrite: your own EMS on Homey. New Energy Price device for power, gas and water. Smart battery with built-in modes and control. Smart EV charger. Self-learning solar, home load and appliance forecasts. Peak shaving and phase fuse guard. Setup and repair from your phone. Far fewer flow cards. Test version: expect bugs."
   },
