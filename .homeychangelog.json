@@ -1,4 +1,7 @@
 {
+  "9.0.2": {
+    "en": "Fix EV charger not getting grid power. Fix Charge now without prices. Shorter battery pairing. EV charge modes merged to four. Lighter energy polling. Clearer texts."
+  },
   "9.0.1": {
     "en": "Smarter battery and EV planning. Battery wear spread evenly. Immediate replan on mode change. Fix battery calibration. Clear error when an EV goal cannot be reached. Better EV override detection. Improved price migration. Settings shown read-only, easier setup and repair. Fast-xml-parser@5.12.0."
   },
