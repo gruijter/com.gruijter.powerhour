@@ -79,6 +79,24 @@ const points = (fromMs, stepMs, values) => ({ step: stepMs, values: values.map((
     assert.strictEqual(await fetchSeries({ api: apiOf({}), log: { id: 'x:energy_power' }, ...range }), null);
   });
 
+  await test('gaps (null) are skipped, not read as 0', async () => {
+    const fine = (vals) => ({ last24Hours: points(END - 2 * HOUR_MS, HOUR_MS, vals) });
+    const soc = await fetchSeries({ api: apiOf(fine([50, null, 60])), log: { id: 'x:measure_battery' }, ...range });
+    assert.deepStrictEqual(soc.map((e) => e.v), [50, 60]);
+    // A signed meter across a gap: the average between the points around it.
+    const meter = await fetchSeries({
+      api: apiOf(fine([100, null, 102])), log: { id: 'x:meter_power' }, ...range, signed: true,
+    });
+    assert.deepStrictEqual(meter, [{ t: END - 2 * HOUR_MS, v: 1000 }]);
+  });
+
+  await test('one meter reading: no power', async () => {
+    const out = await fetchSeries({
+      api: apiOf({ last24Hours: points(END - HOUR_MS, HOUR_MS, [2345]) }), log: { id: 'x:meter_power' }, ...range,
+    });
+    assert.strictEqual(out, null);
+  });
+
   console.log(failed ? `\n${failed} failed` : '\nall passed');
   process.exitCode = failed ? 1 : 0;
 })().catch((err) => {

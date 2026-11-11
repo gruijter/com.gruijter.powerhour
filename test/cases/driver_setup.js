@@ -157,28 +157,46 @@ const manifestIds = (driverId) => {
     let { view, handlers } = await pairView(driver);
     let { device } = await handlers.setup_set(values(view));
     assert.strictEqual(device.settings.minProfit, 0.025);
-    assert.strictEqual(device.settings.minProfitAuto, undefined);
+    assert.strictEqual(device.store.minProfitAuto, undefined);
     assert.strictEqual(driver.defaultMinProfit(2), 0.16); // another currency
     // No prices yet: from the first ones.
     driver.pricesNextHours = {};
     ({ view, handlers } = await pairView(driver));
     ({ device } = await handlers.setup_set(values(view)));
     assert.strictEqual(device.settings.minProfit, 0);
-    assert.strictEqual(device.settings.minProfitAuto, true);
-    const set = [];
-    const bat = Object.assign(Object.create(BatteryDevice.prototype), {
-      driver,
-      getSettings: () => ({ ...device.settings, ...Object.assign({}, ...set) }),
-      setSettings: async (v) => set.push(v),
-      getName: () => 'Bat',
-      log: () => {},
-    });
+    assert.strictEqual(device.store.minProfitAuto, true);
+    const battery = (settings) => {
+      const set = [];
+      const store = { minProfitAuto: true };
+      const bat = Object.assign(Object.create(BatteryDevice.prototype), {
+        driver,
+        set,
+        store,
+        getSettings: () => ({ ...settings, ...Object.assign({}, ...set) }),
+        setSettings: async (v) => set.push(v),
+        getStoreValue: (key) => store[key],
+        setStoreValue: async (key, v) => {
+          store[key] = v;
+        },
+        getName: () => 'Bat',
+        log: () => {},
+      });
+      return bat;
+    };
+    const bat = battery(device.settings);
     await bat.applyAutoMinProfit();
-    assert.deepStrictEqual(set, []);
+    assert.deepStrictEqual(bat.set, []);
+    assert.strictEqual(bat.store.minProfitAuto, true);
     driver.pricesNextHours = { 1: [0.2, 0.3, 0.25] };
     await bat.applyAutoMinProfit();
     await bat.applyAutoMinProfit();
-    assert.deepStrictEqual(set, [{ minProfit: 0.025, minProfitAuto: false }]);
+    assert.deepStrictEqual(bat.set, [{ minProfit: 0.025 }]);
+    assert.strictEqual(bat.store.minProfitAuto, false);
+    // Set by the user before the first prices: kept.
+    const own = battery({ ...device.settings, minProfit: 0.05 });
+    await own.applyAutoMinProfit();
+    assert.deepStrictEqual(own.set, []);
+    assert.strictEqual(own.store.minProfitAuto, false);
   });
 
   await test('battery: a standard battery is only asked its setpoint when pairing', async () => {

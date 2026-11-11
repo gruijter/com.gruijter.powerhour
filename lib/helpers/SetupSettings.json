@@ -2029,19 +2029,19 @@
     "step": 0.5,
     "decimals": 1,
     "info": {
-      "en": "Charge now and Don't charge from the tile end after this time. 0: until changed.",
-      "nl": "Nu laden en Niet laden vanaf de tegel stoppen na deze tijd. 0: tot je wisselt.",
-      "de": "Jetzt laden und Nicht laden von der Kachel enden nach dieser Zeit. 0: bis zur Änderung.",
-      "fr": "Charger maintenant et Ne pas charger depuis la tuile prennent fin après ce temps. 0 : jusqu'à modification.",
-      "it": "Carica ora e Non caricare dal riquadro terminano dopo questo tempo. 0: fino a modifica.",
-      "sv": "Ladda nu och Ladda inte från brickan slutar efter denna tid. 0: tills det ändras.",
-      "no": "Lad nå og Ikke lad fra flisen avsluttes etter denne tiden. 0: til det endres.",
-      "es": "Cargar ahora y No cargar desde la tarjeta terminan tras este tiempo. 0: hasta que se cambie.",
-      "da": "Lad nu og Lad ikke fra flisen slutter efter denne tid. 0: indtil det ændres.",
-      "pl": "Ładuj teraz i Nie ładuj z kafelka kończą się po tym czasie. 0: do zmiany.",
-      "ru": "«Зарядить сейчас» и «Не заряжать» с плитки завершаются через это время. 0: до изменения.",
-      "ar": "اشحن الآن ولا تشحن من البطاقة ينتهيان بعد هذا الوقت. 0: حتى يتم التغيير.",
-      "ko": "타일에서 고른 지금 충전과 충전 안 함은 이 시간 후 끝납니다. 0: 변경될 때까지."
+      "en": "Charge now and Don't charge from the tile end after this time (0: never).",
+      "nl": "Nu laden en Niet laden vanaf de tegel stoppen na deze tijd (0: nooit).",
+      "de": "Jetzt laden und Nicht laden von der Kachel enden nach dieser Zeit (0: nie).",
+      "fr": "Charger maintenant et Ne pas charger depuis la tuile prennent fin après ce temps (0 : jamais).",
+      "it": "Carica ora e Non caricare dal riquadro terminano dopo questo tempo (0: mai).",
+      "sv": "Ladda nu och Ladda inte från brickan slutar efter denna tid (0: aldrig).",
+      "no": "Lad nå og Ikke lad fra flisen avsluttes etter denne tiden (0: aldri).",
+      "es": "Cargar ahora y No cargar desde la tarjeta terminan tras este tiempo (0: nunca).",
+      "da": "Lad nu og Lad ikke fra flisen slutter efter denne tid (0: aldrig).",
+      "pl": "Ładuj teraz i Nie ładuj z kafelka kończą się po tym czasie (0: nigdy).",
+      "ru": "«Зарядить сейчас» и «Не заряжать» с плитки завершаются через это время (0: никогда).",
+      "ar": "اشحن الآن ولا تشحن من البطاقة ينتهيان بعد هذا الوقت (0: أبدًا).",
+      "ko": "타일에서 고른 지금 충전과 충전 안 함은 이 시간 후 끝납니다 (0: 안 함)."
     }
   },
   "autoDepartureLearning": {

@@ -35,7 +35,9 @@ const MIN = 60 * 1000;
 const NO_GRID = 'warning_no_grid_monitor';
 
 // A battery started at 0; shown: what Homey shows (null: no warning), writes: the calls made.
-const battery = ({ grid = false, mode = 'smart', shown = 'old warning' } = {}) => {
+const battery = ({
+  grid = false, mode = 'smart', shown = 'old warning', controlled = true,
+} = {}) => {
   const d = Object.create(BatDevice.prototype);
   Object.assign(d, {
     initTm: 0,
@@ -50,6 +52,7 @@ const battery = ({ grid = false, mode = 'smart', shown = 'old warning' } = {}) =
       drivers: { getDriver: () => ({ getDevices: () => (d.grid ? [{ getImportHeadroomW: () => null }] : []) }) },
     },
     getBatteryMode: () => d.mode,
+    isControlConfigured: () => controlled,
     setWarning: async (text) => {
       d.shown = text;
       d.writes += 1;
@@ -109,6 +112,21 @@ const battery = ({ grid = false, mode = 'smart', shown = 'old warning' } = {}) =
     assert.strictEqual(d.shown, 'bat_control_failed');
     await d.clearControlWarning();
     assert.strictEqual(d.shown, NO_GRID); // clearControlWarning() uses the time now: past the start
+  });
+
+  await test('a battery this app does not control: no warning', async () => {
+    const d = battery({ controlled: false });
+    await d.updateWarning(3 * MIN);
+    assert.strictEqual(d.shown, null);
+  });
+
+  await test('a control error fixed right after the start: cleared', async () => {
+    const d = battery();
+    d.controlError = 'bat_control_failed';
+    await d.updateWarning(1 * MIN);
+    d.controlError = null;
+    await d.updateWarning(1.5 * MIN);
+    assert.strictEqual(d.shown, null);
   });
 
   console.log(failed ? `\n${failed} failed` : '\nall passed');

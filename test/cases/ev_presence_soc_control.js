@@ -229,7 +229,7 @@ assert.strictEqual(C.wantedState({
 }), true, 'switched on by hand: on without plan');
 assert.strictEqual(C.wantedState({
   plan: null, now, atHome: true, chargeMode: 'fast_charge',
-}), false, 'charge now follows the plan');
+}), true, 'charge now without a plan: on');
 assert.strictEqual(C.wantedState({
   plan, now, atHome: true, chargeMode: 'off', forceOn: true,
 }), false, 'off: off');

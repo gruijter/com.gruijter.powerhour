@@ -108,6 +108,7 @@ const tile = (d, value) => d.setChargeMode(value, 'set by user', { hours: ['fast
     await d.flows.set_ev_charge_mode({ mode: 'charge_temp' });
     assert.strictEqual(d.mode, 'fast_charge');
     assert.strictEqual(d.tempMode.hours, 2);
+    assert.strictEqual(d.tempMode.manual, true); // on whatever the plan says, as before
     await d.flows.set_ev_charge_mode({ mode: 'off_temp' });
     assert.strictEqual(d.mode, 'off');
     assert.strictEqual(d.tempMode.previousMode, 'scheduled_price');
@@ -125,6 +126,18 @@ const tile = (d, value) => d.setChargeMode(value, 'set by user', { hours: ['fast
     // A device not started since the update still holds the old value.
     d.mode = 'off_temp';
     assert.strictEqual(await d.flows.ev_charge_mode_is({ mode: 'off' }), true);
+  });
+
+  await test('Charge now: on without a plan for now, else the plan (unless switched on by hand)', async () => {
+    const C = require('../../lib/strategies/EvChargerControl'); // eslint-disable-line global-require
+    const base = { now: T, atHome: true, chargeMode: 'fast_charge' };
+    const plan = { startMs: T - H, intervalMs: H, slots: [{ power: 0, duration: 0 }, { power: 0, duration: 0 }] };
+    assert.strictEqual(C.wantedState({ ...base, plan: null }), true);
+    assert.strictEqual(C.wantedState({ ...base, plan: { ...plan, startMs: T - 3 * H } }), true); // plan ran out
+    assert.strictEqual(C.wantedState({ ...base, plan }), false);
+    assert.strictEqual(C.wantedState({ ...base, plan, forceOn: true }), true);
+    assert.strictEqual(C.wantedState({ ...base, chargeMode: 'scheduled_price', plan: null }), false);
+    assert.strictEqual(C.wantedState({ ...base, plan: null, atHome: false }), false);
   });
 
   console.log(failed ? `\n${failed} failed` : '\nall passed');

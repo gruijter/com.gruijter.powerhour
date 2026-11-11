@@ -98,7 +98,7 @@ class SolarDriver extends GenericDriver {
   // The grid power, and per device the part of its production used at home (export shared by
   // production).
   async onEnergyReport(report) {
-    const gridW = EnergyPollingHelper.gridPowerW(report);
+    const gridW = await EnergyPollingHelper.gridPowerW(report);
     if (!Number.isFinite(gridW)) return;
     const devices = this.getDevices();
     const powerOf = (device) => device.getCapabilityValue('measure_power') || 0;

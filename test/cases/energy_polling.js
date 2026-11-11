@@ -52,11 +52,15 @@ const pollOnce = async (setup) => {
   const callback = async (report) => {
     got = report;
   };
+  // A grid driver, which asks for the report without a Solar Monitor (GridDriver.needsEnergyReport()).
+  const grid = { needsEnergyReport: () => state.solar === 0 };
+  helper.drivers.add(grid);
   await helper.register(callback);
   await new Promise((resolve) => {
     setImmediate(resolve);
   });
   helper.unregister(callback);
+  helper.drivers.delete(grid);
   return { report: got, calls: state.calls };
 };
 
@@ -93,7 +97,7 @@ const pollOnce = async (setup) => {
     Object.assign(state, { gridW: -800, solar: 1, calls: 0 });
     const seen = [];
     const driver = {
-      homey, log: () => {}, error: () => {}, onEnergyReport: async (report) => seen.push(helper.gridPowerW(report)),
+      homey, log: () => {}, error: () => {}, onEnergyReport: async (report) => seen.push(await helper.gridPowerW(report)),
     };
     await helper.startFor(driver);
     await helper.startFor(driver); // once
@@ -109,8 +113,11 @@ const pollOnce = async (setup) => {
     assert.strictEqual(plain.energyPollCallback, undefined);
     // Without a Grid Monitor: Homey Energy's grid power from the report.
     state.gridW = undefined;
-    assert.strictEqual(helper.gridPowerW({ totalCumulative: { W: 123 } }), 123);
-    assert.strictEqual(helper.gridPowerW(null), undefined);
+    assert.strictEqual(await helper.gridPowerW({ totalCumulative: { W: 123 } }), 123);
+    assert.strictEqual(await helper.gridPowerW(null), undefined);
+    // Beyond the plausibility ceiling (2 x the default connection): none.
+    assert.strictEqual(await helper.gridPowerW({ totalCumulative: { W: 500000 } }), undefined);
+    assert.strictEqual(await helper.gridPowerW({ totalCumulative: { W: -500000 } }), undefined);
   });
 
   await test('every driver that uses the grid power takes the poll (the EV charger too)', async () => {
@@ -126,6 +133,12 @@ const pollOnce = async (setup) => {
       return origLoad.call(this, request, ...rest);
     };
     state.gridW = -1500;
+    const GridDriver = require('../../drivers/grid/driver'); // eslint-disable-line global-require
+    const gridDriver = Object.assign(Object.create(GridDriver.prototype), { homey });
+    state.solar = 0;
+    assert.strictEqual(gridDriver.needsEnergyReport(), true);
+    state.solar = 1;
+    assert.strictEqual(gridDriver.needsEnergyReport(), false);
     for (const id of ['evCharger', 'power', 'solar']) {
       const Driver = require(`../../drivers/${id}/driver`); // eslint-disable-line global-require, import/no-dynamic-require
       const device = { getCapabilityValue: () => 1000 };

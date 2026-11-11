@@ -121,6 +121,15 @@ class GridDriver extends GenericDriver {
     this.lastEnergyReport = report;
   }
 
+  // Only without a Solar Monitor.
+  needsEnergyReport() {
+    try {
+      return !(this.homey.drivers.getDriver('solar').getDevices().length > 0);
+    } catch {
+      return true; // driver not ready
+    }
+  }
+
   checkDeviceCompatibility(homeyDevice) {
     const energyData = homeyDevice.energyObj || homeyDevice.energy;
     const caps = homeyDevice.capabilities || [];

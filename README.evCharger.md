@@ -34,10 +34,10 @@
 |---|---|
 | **Smart** | Cheapest charging that is ready before departure. |
 | **Solar only** | Solar surplus only. Optional: some grid power next to it. |
-| **Charge now** | Straight to the daily maximum. |
+| **Charge now** | Straight to the daily maximum; without prices until the car is full. |
 | **Don't charge** | No charging. |
 
-- On the tile **Charge now** and **Don't charge** end by themselves (**Temporary mode max.**, 0: until changed); the previous mode returns.
+- On the tile **Charge now** and **Don't charge** end by themselves (**Temporary mode max.**, 0: never); the previous mode returns. A shared charger that must stay off: set it to 0.
 - By flow: any mode for a number of minutes (0: until changed).
 
 - Below the **Minimum level** it always charges right away.

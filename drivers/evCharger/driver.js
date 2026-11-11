@@ -88,7 +88,7 @@ class CarChargeDriver extends GenericDriver {
 
   // The grid power: the devices measure the solar surplus from it (_sampleSurplus()).
   async onEnergyReport(report) {
-    const gridW = EnergyPollingHelper.gridPowerW(report);
+    const gridW = await EnergyPollingHelper.gridPowerW(report);
     if (!Number.isFinite(gridW)) return;
     this.getDevices().forEach((device) => {
       device.currentGridPower = gridW;

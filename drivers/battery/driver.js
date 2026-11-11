@@ -144,11 +144,8 @@ class BatteryDriver extends GenericDriver {
 
   // The grid power: XOM and the built-in control, on a change or at least every 10 s.
   async onEnergyReport(report) {
-    const gridW = EnergyPollingHelper.gridPowerW(report);
-    // Plausibility bound on the grid exchange for XOM, see lib/helpers/GridConnection.js.
-    // eslint-disable-next-line global-require
-    const ceilingW = await require('../../lib/helpers/GridConnection').ceilingW(this.homey);
-    if (!Number.isFinite(gridW) || Math.abs(gridW) > ceilingW) return;
+    const gridW = await EnergyPollingHelper.gridPowerW(report);
+    if (!Number.isFinite(gridW)) return;
     this.getDevices().forEach((device) => {
       device.currentGridPower = gridW;
     });
@@ -636,13 +633,16 @@ class BatteryDriver extends GenericDriver {
     return mean > 0 ? Number((MIN_PROFIT_SHARE * mean).toPrecision(2)) : null;
   }
 
-  // A new battery: its minimum profit from the prices, or (minProfitAuto) from its first ones
+  // A new battery: its minimum profit from the prices, or (store minProfitAuto) from its first ones
   // (BatDevice.applyAutoMinProfit(); without prices nothing is planned).
   setupParsed(settings, repairing) {
     if (repairing) return;
     const minProfit = this.defaultMinProfit(Number(settings.tariff_update_group));
     settings.minProfit = minProfit === null ? 0 : minProfit;
-    if (minProfit === null) settings.minProfitAuto = true;
+  }
+
+  setupNewStore(settings) {
+    return this.defaultMinProfit(Number(settings.tariff_update_group)) === null ? { minProfitAuto: true } : {};
   }
 
   // Setup view: into an EV only with an EV charger, planning together only with another battery.

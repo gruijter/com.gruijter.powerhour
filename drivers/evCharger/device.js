@@ -146,7 +146,14 @@ class CarChargeDevice extends GenericDevice {
       await this.setChargeMode('scheduled_price', 'init').catch(this.error);
     } else {
       // A former temporary mode (charge_temp, off_temp): its mode, the time left stays (tempMode).
-      if (mode !== base) await this.setCapabilityValue('ev_charge_mode', base).catch(this.error);
+      if (mode !== base) {
+        // charge_temp kept the charger on whatever the plan said: now the manual flag.
+        if (mode === 'charge_temp' && !this.tempMode.manual) {
+          this.tempMode = { ...this.tempMode, manual: true };
+          await this.setStoreValue('evTempMode', this.tempMode).catch(this.error);
+        }
+        await this.setCapabilityValue('ev_charge_mode', base).catch(this.error);
+      }
       await this._updateResumeText();
     }
 
@@ -1037,11 +1044,12 @@ class CarChargeDevice extends GenericDevice {
     if (!EvChargerControl.MODES.includes(base)) throw Error(`Unknown charge mode ${mode}`);
     const current = EvChargerControl.baseMode(this.getCapabilityValue('ev_charge_mode')) || 'scheduled_price';
     const forHours = mode !== base && !(hours > 0) ? this._tempHours(true) : hours;
+    const forced = manual || mode === 'charge_temp'; // the old card kept the charger on regardless
     if (forHours > 0) {
       // From one temporary mode to the other: the mode to return to stays.
       const previousMode = (this.tempMode && this.tempMode.previousMode) || current;
       this.tempMode = {
-        since: Date.now(), previousMode, hours: forHours, ...(manual ? { manual: true } : {}),
+        since: Date.now(), previousMode, hours: forHours, ...(forced ? { manual: true } : {}),
       };
     } else {
       this.tempMode = null;

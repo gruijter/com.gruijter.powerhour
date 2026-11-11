@@ -130,7 +130,7 @@ class PowerDriver extends GenericDriver {
   }
 
   async onEnergyReport(report) {
-    const gridW = EnergyPollingHelper.gridPowerW(report);
+    const gridW = await EnergyPollingHelper.gridPowerW(report);
     if (!Number.isFinite(gridW)) return;
     this.getDevices().forEach((device) => {
       device.currentGridPower = gridW;

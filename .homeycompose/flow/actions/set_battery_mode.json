@@ -30,19 +30,19 @@
     "ko": "배터리 모드를 [[duration]]분 동안 [[mode]](으)로 설정"
   },
   "hint": {
-    "en": "0 minutes: until changed. After the time, the previous mode returns.",
-    "nl": "0 minuten: tot het wordt gewijzigd. Daarna keert de vorige modus terug.",
-    "de": "0 Minuten: bis zur Änderung. Danach kehrt der vorige Modus zurück.",
-    "fr": "0 minute : jusqu'à modification. Ensuite, le mode précédent revient.",
-    "it": "0 minuti: fino a modifica. Poi torna la modalità precedente.",
-    "sv": "0 minuter: tills det ändras. Därefter återgår föregående läge.",
-    "no": "0 minutter: til det endres. Deretter kommer forrige modus tilbake.",
-    "es": "0 minutos: hasta que se cambie. Después vuelve el modo anterior.",
-    "da": "0 minutter: indtil det ændres. Derefter vender den forrige tilstand tilbage.",
-    "pl": "0 minut: do zmiany. Potem wraca poprzedni tryb.",
-    "ru": "0 минут: до изменения. Затем возвращается прежний режим.",
-    "ar": "0 دقيقة: حتى يتم التغيير. بعد ذلك يعود الوضع السابق.",
-    "ko": "0분: 변경될 때까지. 그 후 이전 모드로 돌아갑니다."
+    "en": "After this time the previous mode returns (0: never).",
+    "nl": "Na deze tijd keert de vorige modus terug (0: nooit).",
+    "de": "Nach dieser Zeit kehrt der vorige Modus zurück (0: nie).",
+    "fr": "Après ce délai, le mode précédent revient (0 : jamais).",
+    "it": "Dopo questo tempo torna la modalità precedente (0: mai).",
+    "sv": "Efter denna tid återgår föregående läge (0: aldrig).",
+    "no": "Etter denne tiden kommer forrige modus tilbake (0: aldri).",
+    "es": "Tras este tiempo vuelve el modo anterior (0: nunca).",
+    "da": "Efter denne tid vender den forrige tilstand tilbage (0: aldrig).",
+    "pl": "Po tym czasie wraca poprzedni tryb (0: nigdy).",
+    "ru": "После этого времени возвращается прежний режим (0: никогда).",
+    "ar": "بعد هذا الوقت يعود الوضع السابق (0: أبدًا).",
+    "ko": "이 시간 후 이전 모드로 돌아갑니다 (0: 안 함)."
   },
   "highlight": true,
   "args": [

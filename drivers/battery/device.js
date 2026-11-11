@@ -154,15 +154,18 @@ class BatDevice extends GenericDevice {
     await this.updatePlan();
   }
 
-  // Paired before its tariff group had prices (hidden setting minProfitAuto): the minimum profit
-  // from the first ones.
+  // Paired before its tariff group had prices (store minProfitAuto): the minimum profit from the
+  // first ones, unless the user set one meanwhile (not 0).
   async applyAutoMinProfit() {
+    if (!this.getStoreValue('minProfitAuto')) return;
     const settings = this.getSettings();
-    if (!settings.minProfitAuto) return;
-    const minProfit = this.driver.defaultMinProfit(Number(settings.tariff_update_group));
-    if (minProfit === null) return;
-    this.log(`${this.getName()}: minimum profit ${minProfit} from the prices`);
-    await this.setSettings({ minProfit, minProfitAuto: false });
+    if (Number(settings.minProfit) === 0) {
+      const minProfit = this.driver.defaultMinProfit(Number(settings.tariff_update_group));
+      if (minProfit === null) return;
+      this.log(`${this.getName()}: minimum profit ${minProfit} from the prices`);
+      await this.setSettings({ minProfit });
+    }
+    await this.setStoreValue('minProfitAuto', false);
   }
 
   // The expected prices beyond the published ones (PriceProfile), learned from the published ones.
@@ -738,12 +741,14 @@ class BatDevice extends GenericDevice {
     await this.updateWarning();
   }
 
-  // The device warning: a failed setpoint write, else no Grid Monitor in a mode that follows the
-  // plan (it then assumes HOME_USE_W). undefined: not known yet, the warning stays as it is.
+  // The device warning: a failed setpoint write, else no Grid Monitor while this app controls the
+  // battery in a mode that follows the plan (it then assumes HOME_USE_W). undefined: not known yet,
+  // the warning from before the start stays as it is.
   deviceWarning(now = Date.now()) {
     if (this.controlError) return this.controlError;
-    if (now - this.initTm < GRID_WARN_AFTER_MS) return undefined;
-    if (!CAL_MODES.includes(this.getBatteryMode()) || GridConnection.gridDevice(this.homey)) return null;
+    if (now - this.initTm < GRID_WARN_AFTER_MS) return this.warningShown === undefined ? undefined : null;
+    if (!this.isControlConfigured() || !CAL_MODES.includes(this.getBatteryMode())
+      || GridConnection.gridDevice(this.homey)) return null;
     return this.homey.__('warning_no_grid_monitor');
   }
 
