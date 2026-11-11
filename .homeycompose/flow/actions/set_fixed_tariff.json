@@ -91,18 +91,18 @@
           "id": "tariff_export",
           "label": {
             "en": "fixed export tariff",
-            "nl": "vast terugleveringstarief",
-            "de": "festen Einspeisetarif",
-            "fr": "tarif fixe d'injection",
-            "it": "tariffa fissa di immissione",
+            "nl": "vast exporttarief",
+            "de": "festen Exporttarif",
+            "fr": "tarif fixe d'export",
+            "it": "tariffa fissa di esportazione",
             "sv": "fast exporttariff",
             "no": "fast eksporttariff",
             "es": "tarifa fija de exportación",
             "da": "fast eksporttarif",
-            "pl": "stałą taryfę za oddawanie",
+            "pl": "stałą taryfę eksportu",
             "ru": "фиксированный тариф экспорта",
             "ar": "تعرفة تصدير ثابتة",
-            "ko": "고정 수출 요금"
+            "ko": "고정 송전 요금"
           }
         }
       ]

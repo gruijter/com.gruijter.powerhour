@@ -1,0 +1,170 @@
+{
+  "_doc": "One term per concept and language (node test/terms.js checks it). forbidden: other words for the same concept, regexes (case-insensitive), allowed only in the texts under 'explain' (where the bill's words are named once). Deprecated drivers (dap, dap15, dapg) are not checked. ignore: texts about another concept (the purchase price of a battery). sv 'uttag' is also a power socket: only the grid uses are listed.",
+  "explain": [
+    "locales/*.json price_setup.hint_import",
+    "locales/*.json price_setup.hint_export"
+  ],
+  "terms": {
+    "en": {
+      "import": "import",
+      "export": "export",
+      "forbidden": [
+        "\\bfeed[- ]?in\\b",
+        "\\bfed in\\b",
+        "\\breturned to the grid\\b",
+        "\\breturn(s|ed)? (power|energy|to the grid)\\b",
+        "\\bback to the grid\\b",
+        "\\bsupply price\\b"
+      ]
+    },
+    "nl": {
+      "import": "import",
+      "export": "export",
+      "forbidden": [
+        "afname",
+        "afgenomen",
+        "afneem",
+        "\\binvoer\\w*",
+        "\\blevering\\w*",
+        "leveringsprijs",
+        "teruglever\\w*",
+        "teruggeleverd",
+        "terug te leveren"
+      ]
+    },
+    "de": {
+      "import": "Import",
+      "export": "Export",
+      "forbidden": [
+        "bezug\\w*",
+        "\\bbezog\\w*",
+        "\\bbezieh\\w*",
+        "einspeis\\w*",
+        "eingespeist",
+        "rückspeis\\w*",
+        "arbeitspreis\\w*",
+        "lieferpreis\\w*"
+      ]
+    },
+    "fr": {
+      "import": "import",
+      "export": "export",
+      "forbidden": [
+        "\\bachat\\w*",
+        "\\binject\\w*",
+        "\\brevente\\b",
+        "\\bsoutir\\w*",
+        "prix de fourniture",
+        "\\bfourniture\\b",
+        "\\brachat\\b"
+      ]
+    },
+    "it": {
+      "import": "importazione",
+      "export": "esportazione",
+      "forbidden": [
+        "preliev\\w*",
+        "prelevat\\w*",
+        "preleva\\w*",
+        "acquist\\w*",
+        "immission\\w*",
+        "immess\\w*",
+        "immett\\w*",
+        "\\bfornitura\\b"
+      ]
+    },
+    "es": {
+      "import": "importación",
+      "export": "exportación",
+      "forbidden": [
+        "\\bcompra\\w*",
+        "\\bvertid\\w*",
+        "\\bvert(er|imos|es)\\b",
+        "inyecci\\w*",
+        "\\bsuministro\\b"
+      ]
+    },
+    "sv": {
+      "import": "import",
+      "export": "export",
+      "forbidden": [
+        "\\bmax\\. uttag",
+        "\\buttag __",
+        "\\bköp\\w*",
+        "inmatning\\w*",
+        "leveranspris\\w*"
+      ]
+    },
+    "no": {
+      "import": "import",
+      "export": "eksport",
+      "forbidden": [
+        "\\buttak\\w*",
+        "\\bkjøp\\w*",
+        "innmating\\w*",
+        "leveransepris\\w*",
+        "leveringspris\\w*"
+      ]
+    },
+    "da": {
+      "import": "import",
+      "export": "eksport",
+      "forbidden": [
+        "\\bkøb\\w*",
+        "\\baftag\\w*",
+        "indfød\\w*",
+        "leveringspris\\w*",
+        "afregningspris\\w*"
+      ]
+    },
+    "pl": {
+      "import": "import",
+      "export": "eksport",
+      "forbidden": [
+        "pob[oó]r\\w*",
+        "zakup\\w*",
+        "oddaw\\w*",
+        "oddan\\w*",
+        "oddaj\\w*",
+        "cen\\w* dostawy"
+      ]
+    },
+    "ru": {
+      "import": "импорт",
+      "export": "экспорт",
+      "forbidden": [
+        "покупк\\S*",
+        "отдач\\S*",
+        "отдаёт\\S*",
+        "поставк\\S*"
+      ]
+    },
+    "ar": {
+      "import": "الاستيراد",
+      "export": "التصدير",
+      "forbidden": [
+        "شراء",
+        "(^|\\s)(ال)?ضخ(\\s|$)",
+        "التوريد",
+        "التغذية"
+      ]
+    },
+    "ko": {
+      "import": "수전",
+      "export": "송전",
+      "forbidden": [
+        "수입",
+        "수출",
+        "역송",
+        "공급 가격",
+        "공급 가격"
+      ]
+    }
+  },
+  "ignore": [
+    "drivers/battery/driver.compose.json settings[4].children[0].label",
+    "drivers/battery/driver.compose.json settings[4].children[1].label",
+    "lib/helpers/DriverSetupSettings.json battery.wearCalc.label",
+    "lib/helpers/DriverSetupSettings.json battery.wearPurchasePrice.label"
+  ]
+}

@@ -8,7 +8,8 @@ Collects every translation object ({ en, nl, ... }) from .homeycompose/, the dri
 and locales/*.json, and reports:
   1. translation objects missing one of the 13 languages;
   2. texts still in English in another language;
-  3. the same English text translated differently in a language.
+  3. the same English text translated differently in a language;
+  4. words outside the glossary (test/glossary.json): one term per concept and language.
 */
 
 /* eslint-disable no-console */
@@ -45,7 +46,7 @@ const SAME_AS_EN = new Set([
   'Longitude|fr', 'Distribution|fr', 'Minutes|fr',
   'Plan JSON', 'Min. SoC [[day]] [[soc]]%', 'Reserve (%)', 'Peak shaving|nl', 'Meter|nl', 'Action|fr', 'Charge|fr',
   'Period|sv', 'Type|fr', 'Type|da', 'Type|no', 'minutes|fr', 'import', 'export', 'gas', 'water|nl', 'Name|de',
-  'Formula|it', 'VAT (%)|pl', 'Planning|nl', 'Control|es', 'Water|nl', 'Import: VAT (%)|pl', 'Per kWh (gas: per m³).', 'Minimum per kWh', 'per __unit__',
+  'Formula|it', 'VAT (%)|pl', 'Planning|nl', 'Control|es', 'Water|nl', 'Import: VAT (%)|pl', 'Max. import (W)', 'Per kWh (gas: per m³).', 'Minimum per kWh', 'per __unit__',
 ]);
 
 const maxArg = process.argv.indexOf('--max');
@@ -151,3 +152,23 @@ conflicts.forEach(({ en, lang, variants }) => {
   console.log(`  "${en}" [${lang}]`);
   variants.forEach((where, text) => console.log(`    "${text}" (${where.length}x) e.g. ${where[0]}`));
 });
+
+// 4. Glossary: other words for import and export, outside the texts that name them once.
+const glossary = JSON.parse(fs.readFileSync(path.join(__dirname, 'glossary.json'), 'utf8'));
+const DEPRECATED = /^drivers\/dap(15|g)?\//;
+const hints = path.join(__dirname, 'tools', 'SettingsViewHints.json');
+const viewHints = fs.existsSync(hints) ? Object.entries(JSON.parse(fs.readFileSync(hints, 'utf8')))
+  .filter(([, t]) => isTranslation(t)).map(([k, t]) => ({ file: 'test/tools/SettingsViewHints.json', path: k, ...t })) : [];
+const offTerms = [];
+[...terms, ...viewHints].forEach((t) => {
+  const at = `${t.file} ${t.path}`;
+  if (DEPRECATED.test(t.file) || glossary.explain.includes(at) || (glossary.ignore || []).includes(at)) return;
+  Object.entries(glossary.terms).forEach(([lang, { forbidden }]) => {
+    if (typeof t[lang] !== 'string') return;
+    const hit = forbidden.map((f) => t[lang].match(new RegExp(f, 'iu'))).find(Boolean);
+    if (hit) offTerms.push({ ...t, lang, word: hit[0] });
+  });
+});
+console.log(`\n== Outside the glossary: ${offTerms.length}`);
+offTerms.forEach((t) => console.log(`  [${t.lang}] "${t.word}" ${t.file} ${t.path}: ${t[t.lang]}`));
+if (process.argv.includes('--strict') && offTerms.length) process.exitCode = 1;

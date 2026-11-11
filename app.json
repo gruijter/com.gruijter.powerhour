@@ -7082,18 +7082,18 @@
         },
         "hint": {
           "en": "Fires at the start of every price period (every 15 minutes or every hour, depending on the price source), with the import and export price.",
-          "nl": "Triggert bij het begin van elke prijsperiode (elk kwartier of elk uur, afhankelijk van de prijsbron), met de invoer- en terugleverprijs.",
-          "de": "Löst zu Beginn jeder Preisperiode aus (alle 15 Minuten oder jede Stunde, je nach Preisquelle), mit Bezugs- und Einspeisepreis.",
-          "fr": "Se déclenche au début de chaque période de prix (toutes les 15 minutes ou toutes les heures, selon la source), avec le prix d'achat et de revente.",
-          "it": "Si attiva all'inizio di ogni periodo di prezzo (ogni 15 minuti o ogni ora, secondo la fonte), con il prezzo di prelievo e di immissione.",
+          "nl": "Triggert bij het begin van elke prijsperiode (elk kwartier of elk uur, afhankelijk van de prijsbron), met de import- en exportprijs.",
+          "de": "Löst zu Beginn jeder Preisperiode aus (alle 15 Minuten oder jede Stunde, je nach Preisquelle), mit Import- und Exportpreis.",
+          "fr": "Se déclenche au début de chaque période de prix (toutes les 15 minutes ou toutes les heures, selon la source), avec le prix d'import et d'export.",
+          "it": "Si attiva all'inizio di ogni periodo di prezzo (ogni 15 minuti o ogni ora, secondo la fonte), con il prezzo di importazione e di esportazione.",
           "sv": "Utlöses vid början av varje prisperiod (var 15:e minut eller varje timme, beroende på priskällan), med import- och exportpris.",
           "no": "Utløses ved starten av hver prisperiode (hvert 15. minutt eller hver time, avhengig av priskilden), med import- og eksportpris.",
           "es": "Se activa al inicio de cada periodo de precio (cada 15 minutos o cada hora, según la fuente), con el precio de importación y exportación.",
           "da": "Udløses ved starten af hver prisperiode (hvert 15. minut eller hver time, afhængigt af priskilden), med import- og eksportpris.",
-          "pl": "Uruchamia się na początku każdego okresu cenowego (co 15 minut lub co godzinę, zależnie od źródła cen), z ceną poboru i oddania.",
+          "pl": "Uruchamia się na początku każdego okresu cenowego (co 15 minut lub co godzinę, zależnie od źródła cen), z ceną importu i eksportu.",
           "ru": "Срабатывает в начале каждого ценового периода (каждые 15 минут или каждый час, в зависимости от источника), с ценой импорта и экспорта.",
           "ar": "يُطلق عند بداية كل فترة سعر (كل 15 دقيقة أو كل ساعة حسب مصدر الأسعار)، مع سعر الاستيراد والتصدير.",
-          "ko": "가격 소스에 따라 15분 또는 1시간마다 각 가격 구간이 시작될 때 수입 및 수출 가격과 함께 실행됩니다."
+          "ko": "가격 소스에 따라 15분 또는 1시간마다 각 가격 구간이 시작될 때 수전 및 송전 가격과 함께 실행됩니다."
         },
         "args": [
           {
@@ -7109,7 +7109,7 @@
             "example": 0.25,
             "title": {
               "en": "Import price",
-              "nl": "Afnameprijs",
+              "nl": "Importprijs",
               "de": "Importpreis",
               "fr": "Prix d'import",
               "it": "Prezzo di importazione",
@@ -7120,7 +7120,7 @@
               "pl": "Cena importu",
               "ru": "Цена импорта",
               "ar": "سعر الاستيراد",
-              "ko": "수입 가격"
+              "ko": "수전 가격"
             }
           },
           {
@@ -7129,7 +7129,7 @@
             "example": 0.08,
             "title": {
               "en": "Export price",
-              "nl": "Terugleverprijs",
+              "nl": "Exportprijs",
               "de": "Exportpreis",
               "fr": "Prix d'export",
               "it": "Prezzo di esportazione",
@@ -7140,7 +7140,7 @@
               "pl": "Cena eksportu",
               "ru": "Цена экспорта",
               "ar": "سعر التصدير",
-              "ko": "수출 가격"
+              "ko": "송전 가격"
             }
           }
         ],
@@ -7332,7 +7332,7 @@
               "pl": "Ceny eksportu",
               "ru": "Цены экспорта",
               "ar": "أسعار التصدير",
-              "ko": "수출 가격"
+              "ko": "송전 가격"
             }
           },
           {
@@ -16329,18 +16329,18 @@
         },
         "hint": {
           "en": "Gives the import or export prices of the period as a JSON list, one price per price period, e.g. for a script or a chart.",
-          "nl": "Geeft de invoer- of terugleverprijzen van de periode als JSON-lijst, één prijs per prijsperiode, bijv. voor een script of grafiek.",
-          "de": "Liefert die Bezugs- oder Einspeisepreise des Zeitraums als JSON-Liste, ein Preis pro Preisperiode, z. B. für ein Skript oder Diagramm.",
-          "fr": "Donne les prix d'achat ou de revente de la période sous forme de liste JSON, un prix par période de prix, ex. pour un script ou un graphique.",
-          "it": "Fornisce i prezzi di prelievo o di immissione del periodo come elenco JSON, un prezzo per periodo, es. per uno script o un grafico.",
+          "nl": "Geeft de import- of exportprijzen van de periode als JSON-lijst, één prijs per prijsperiode, bijv. voor een script of grafiek.",
+          "de": "Liefert die Import- oder Exportpreise des Zeitraums als JSON-Liste, ein Preis pro Preisperiode, z. B. für ein Skript oder Diagramm.",
+          "fr": "Donne les prix d'import ou d'export de la période sous forme de liste JSON, un prix par période de prix, ex. pour un script ou un graphique.",
+          "it": "Fornisce i prezzi di importazione o di esportazione del periodo come elenco JSON, un prezzo per periodo, es. per uno script o un grafico.",
           "sv": "Ger import- eller exportpriserna för perioden som en JSON-lista, ett pris per prisperiod, t.ex. för ett skript eller diagram.",
           "no": "Gir import- eller eksportprisene for perioden som en JSON-liste, én pris per prisperiode, f.eks. for et skript eller diagram.",
           "es": "Da los precios de importación o exportación del periodo como lista JSON, un precio por periodo, p. ej. para un script o un gráfico.",
           "da": "Giver import- eller eksportpriserne for perioden som en JSON-liste, én pris pr. prisperiode, f.eks. til et script eller diagram.",
-          "pl": "Podaje ceny poboru lub oddania z okresu jako listę JSON, jedna cena na okres cenowy, np. dla skryptu lub wykresu.",
+          "pl": "Podaje ceny importu lub eksportu z okresu jako listę JSON, jedna cena na okres cenowy, np. dla skryptu lub wykresu.",
           "ru": "Выдаёт цены импорта или экспорта за период списком JSON, одна цена на ценовой период, напр. для скрипта или графика.",
           "ar": "يعطي أسعار الاستيراد أو التصدير للفترة كقائمة JSON، سعر واحد لكل فترة سعر، مثلاً لسكربت أو رسم بياني.",
-          "ko": "기간의 수입 또는 수출 가격을 가격 구간당 하나씩 JSON 목록으로 제공합니다. 예: 스크립트나 차트용."
+          "ko": "기간의 수전 또는 송전 가격을 가격 구간당 하나씩 JSON 목록으로 제공합니다. 예: 스크립트나 차트용."
         },
         "args": [
           {
@@ -16364,7 +16364,7 @@
               "pl": "Import lub eksport",
               "ru": "Импорт или экспорт",
               "ar": "استيراد أو تصدير",
-              "ko": "수입 또는 수출"
+              "ko": "수전 또는 송전"
             },
             "values": [
               {
@@ -16382,7 +16382,7 @@
                   "pl": "importu",
                   "ru": "импорта",
                   "ar": "الاستيراد",
-                  "ko": "수입"
+                  "ko": "수전"
                 }
               },
               {
@@ -16400,7 +16400,7 @@
                   "pl": "eksportu",
                   "ru": "экспорта",
                   "ar": "التصدير",
-                  "ko": "수출"
+                  "ko": "송전"
                 }
               }
             ]
@@ -16611,7 +16611,7 @@
                   "pl": "Import: Marża dostawcy",
                   "ru": "Импорт: Наценка поставщика",
                   "ar": "الاستيراد: هامش المورّد",
-                  "ko": "수입: 공급사 마크업"
+                  "ko": "수전: 공급사 마크업"
                 }
               },
               {
@@ -16629,7 +16629,7 @@
                   "pl": "Import: Stałe podatki i opłaty",
                   "ru": "Импорт: Фиксированные налоги и сборы",
                   "ar": "الاستيراد: الضرائب والرسوم الثابتة",
-                  "ko": "수입: 고정 세금 및 부담금"
+                  "ko": "수전: 고정 세금 및 부담금"
                 }
               },
               {
@@ -16647,7 +16647,7 @@
                   "pl": "Import: Narzut zmienny (%)",
                   "ru": "Импорт: Переменная наценка (%)",
                   "ar": "الاستيراد: هامش ربح متغير (%)",
-                  "ko": "수입: 변동 마크업 (%)"
+                  "ko": "수전: 변동 마크업 (%)"
                 }
               },
               {
@@ -16665,7 +16665,7 @@
                   "pl": "Import: VAT (%)",
                   "ru": "Импорт: НДС (%)",
                   "ar": "الاستيراد: ضريبة القيمة المضافة (%)",
-                  "ko": "수입: 부가세 (%)"
+                  "ko": "수전: 부가세 (%)"
                 }
               },
               {
@@ -16683,7 +16683,7 @@
                   "pl": "Import: Narzut weekendowy",
                   "ru": "Импорт: Надбавка выходного дня",
                   "ar": "الاستيراد: إضافة نهاية الأسبوع",
-                  "ko": "수입: 주말 마크업"
+                  "ko": "수전: 주말 마크업"
                 }
               },
               {
@@ -16701,7 +16701,7 @@
                   "pl": "Eksport: Marża dostawcy",
                   "ru": "Экспорт: Наценка поставщика",
                   "ar": "التصدير: هامش المورّد",
-                  "ko": "수출: 공급사 마크업"
+                  "ko": "송전: 공급사 마크업"
                 }
               },
               {
@@ -16719,7 +16719,7 @@
                   "pl": "Eksport: Stałe podatki i opłaty",
                   "ru": "Экспорт: Фиксированные налоги и сборы",
                   "ar": "التصدير: الضرائب والرسوم الثابتة",
-                  "ko": "수출: 고정 세금 및 부담금"
+                  "ko": "송전: 고정 세금 및 부담금"
                 }
               },
               {
@@ -16737,7 +16737,7 @@
                   "pl": "Eksport: Narzut zmienny (%)",
                   "ru": "Экспорт: Переменная наценка (%)",
                   "ar": "التصدير: هامش ربح متغير (%)",
-                  "ko": "수출: 변동 마크업 (%)"
+                  "ko": "송전: 변동 마크업 (%)"
                 }
               },
               {
@@ -16755,7 +16755,7 @@
                   "pl": "Eksport: VAT (%)",
                   "ru": "Экспорт: НДС (%)",
                   "ar": "التصدير: ضريبة القيمة المضافة (%)",
-                  "ko": "수출: 부가세 (%)"
+                  "ko": "송전: 부가세 (%)"
                 }
               },
               {
@@ -16773,7 +16773,7 @@
                   "pl": "Eksport: Narzut weekendowy",
                   "ru": "Экспорт: Надбавка выходного дня",
                   "ar": "التصدير: إضافة نهاية الأسبوع",
-                  "ko": "수출: 주말 마크업"
+                  "ko": "송전: 주말 마크업"
                 }
               },
               {
@@ -16919,7 +16919,7 @@
                   "pl": "Import: Narzut czasowy",
                   "ru": "Импорт: Надбавка по времени",
                   "ar": "الاستيراد: إضافة حسب الوقت",
-                  "ko": "수입: 시간대 마크업"
+                  "ko": "수전: 시간대 마크업"
                 }
               },
               {
@@ -16937,7 +16937,7 @@
                   "pl": "Eksport: Narzut czasowy",
                   "ru": "Экспорт: Надбавка по времени",
                   "ar": "التصدير: إضافة حسب الوقت",
-                  "ko": "수출: 시간대 마크업"
+                  "ko": "송전: 시간대 마크업"
                 }
               },
               {
@@ -16955,7 +16955,7 @@
                   "pl": "Import: Własna formuła",
                   "ru": "Импорт: Своя формула",
                   "ar": "الاستيراد: معادلة مخصّصة",
-                  "ko": "수입: 사용자 수식"
+                  "ko": "수전: 사용자 수식"
                 }
               },
               {
@@ -16973,7 +16973,7 @@
                   "pl": "Eksport: Własna formuła",
                   "ru": "Экспорт: Своя формула",
                   "ar": "التصدير: معادلة مخصّصة",
-                  "ko": "수출: 사용자 수식"
+                  "ko": "송전: 사용자 수식"
                 }
               }
             ]
@@ -19215,18 +19215,18 @@
                 "id": "tariff_export",
                 "label": {
                   "en": "fixed export tariff",
-                  "nl": "vast terugleveringstarief",
-                  "de": "festen Einspeisetarif",
-                  "fr": "tarif fixe d'injection",
-                  "it": "tariffa fissa di immissione",
+                  "nl": "vast exporttarief",
+                  "de": "festen Exporttarif",
+                  "fr": "tarif fixe d'export",
+                  "it": "tariffa fissa di esportazione",
                   "sv": "fast exporttariff",
                   "no": "fast eksporttariff",
                   "es": "tarifa fija de exportación",
                   "da": "fast eksporttarif",
-                  "pl": "stałą taryfę za oddawanie",
+                  "pl": "stałą taryfę eksportu",
                   "ru": "фиксированный тариф экспорта",
                   "ar": "تعرفة تصدير ثابتة",
-                  "ko": "고정 수출 요금"
+                  "ko": "고정 송전 요금"
                 }
               }
             ]
@@ -20832,18 +20832,18 @@
               },
               "hint": {
                 "en": "Grid power the batteries aim for (+ import, − export, 0 = zero on the meter).",
-                "nl": "Netvermogen waar de batterijen naar sturen (+ afname, − teruglevering, 0 = nul op de meter).",
-                "de": "Netzleistung, auf die die Batterien regeln (+ Bezug, − Einspeisung, 0 = Null am Zähler).",
-                "fr": "Puissance réseau visée par les batteries (+ achat, − injection, 0 = zéro au compteur).",
-                "it": "Potenza di rete a cui puntano le batterie (+ prelievo, − immissione, 0 = zero sul contatore).",
+                "nl": "Netvermogen waar de batterijen naar sturen (+ import, − export, 0 = nul op de meter).",
+                "de": "Netzleistung, auf die die Batterien regeln (+ Import, − Export, 0 = Null am Zähler).",
+                "fr": "Puissance réseau visée par les batteries (+ import, − export, 0 = zéro au compteur).",
+                "it": "Potenza di rete a cui puntano le batterie (+ importazione, − esportazione, 0 = zero sul contatore).",
                 "sv": "Näteffekt som batterierna siktar på (+ import, − export, 0 = noll på mätaren).",
                 "no": "Netteffekt batteriene sikter mot (+ import, − eksport, 0 = null på måleren).",
                 "es": "Potencia de red que buscan las baterías (+ importación, − exportación, 0 = cero en el contador).",
                 "da": "Neteffekt, som batterierne sigter mod (+ import, − eksport, 0 = nul på måleren).",
-                "pl": "Moc sieci, do której dążą baterie (+ pobór, − oddawanie, 0 = zero na liczniku).",
+                "pl": "Moc sieci, do której dążą baterie (+ import, − eksport, 0 = zero na liczniku).",
                 "ru": "Мощность сети, к которой стремятся батареи (+ импорт, − экспорт, 0 = ноль на счётчике).",
                 "ar": "قدرة الشبكة التي تستهدفها البطاريات (+ استيراد، − تصدير، 0 = صفر على العداد).",
-                "ko": "배터리가 목표로 하는 전력망 전력 (+ 수입, − 수출, 0 = 계량기 0)."
+                "ko": "배터리가 목표로 하는 전력망 전력 (+ 수전, − 송전, 0 = 계량기 0)."
               },
               "value": 0,
               "min": -10000,
@@ -21654,19 +21654,19 @@
               },
               "value": "-",
               "hint": {
-                "en": "Automatic: the export price while you return power, else the import price.",
-                "nl": "Automatisch: de terugleverprijs zolang je teruglevert, anders de afnameprijs.",
-                "de": "Automatisch: der Einspeisepreis, solange Sie einspeisen, sonst der Bezugspreis.",
-                "fr": "Automatique : le prix d'injection pendant que vous injectez, sinon le prix d'achat.",
-                "it": "Automatico: il prezzo di immissione mentre immetti, altrimenti quello di prelievo.",
+                "en": "Automatic: the export price while you export, else the import price.",
+                "nl": "Automatisch: de exportprijs zolang je exporteert, anders de importprijs.",
+                "de": "Automatisch: der Exportpreis, solange Sie exportieren, sonst der Importpreis.",
+                "fr": "Automatique : le prix d'export pendant que vous exportez, sinon le prix d'import.",
+                "it": "Automatico: il prezzo di esportazione mentre esporti, altrimenti quello di importazione.",
                 "sv": "Automatisk: exportpriset när du levererar tillbaka, annars importpriset.",
                 "no": "Automatisk: eksportprisen når du leverer tilbake, ellers importprisen.",
                 "es": "Automático: el precio de exportación mientras exportas, si no el de importación.",
                 "da": "Automatisk: eksportprisen, mens du leverer tilbage, ellers importprisen.",
-                "pl": "Automatycznie: cena eksportu, gdy oddajesz energię, w przeciwnym razie cena importu.",
-                "ru": "Автоматически: цена экспорта, пока вы отдаёте энергию, иначе цена импорта.",
+                "pl": "Automatycznie: cena eksportu, gdy eksportujesz, w przeciwnym razie cena importu.",
+                "ru": "Автоматически: цена экспорта, пока вы экспортируете, иначе цена импорта.",
                 "ar": "تلقائي: سعر التصدير أثناء إعادة الكهرباء، وإلا سعر الاستيراد.",
-                "ko": "자동: 역송전 중에는 수출 가격, 그 외에는 수입 가격."
+                "ko": "자동: 송전 중에는 송전 가격, 그 외에는 수전 가격."
               }
             },
             {
@@ -21749,7 +21749,7 @@
               "type": "label",
               "label": {
                 "en": "Show export price in chart",
-                "nl": "Terugleverprijs tonen in grafiek",
+                "nl": "Exportprijs tonen in grafiek",
                 "de": "Exportpreis im Diagramm anzeigen",
                 "fr": "Afficher le prix d'exportation sur le graphique",
                 "it": "Mostra prezzo di esportazione nel grafico",
@@ -21760,7 +21760,7 @@
                 "pl": "Pokaż cenę eksportu na wykresie",
                 "ru": "Показывать экспортную цену на графике",
                 "ar": "إظهار سعر التصدير في الرسم البياني",
-                "ko": "그래프에 송전(수출) 가격 표시"
+                "ko": "그래프에 송전 가격 표시"
               },
               "value": "-"
             },
@@ -26939,19 +26939,19 @@
               },
               "value": "-",
               "hint": {
-                "en": "Automatic: the export price while you return power, else the import price.",
-                "nl": "Automatisch: de terugleverprijs zolang je teruglevert, anders de afnameprijs.",
-                "de": "Automatisch: der Einspeisepreis, solange Sie einspeisen, sonst der Bezugspreis.",
-                "fr": "Automatique : le prix d'injection pendant que vous injectez, sinon le prix d'achat.",
-                "it": "Automatico: il prezzo di immissione mentre immetti, altrimenti quello di prelievo.",
+                "en": "Automatic: the export price while you export, else the import price.",
+                "nl": "Automatisch: de exportprijs zolang je exporteert, anders de importprijs.",
+                "de": "Automatisch: der Exportpreis, solange Sie exportieren, sonst der Importpreis.",
+                "fr": "Automatique : le prix d'export pendant que vous exportez, sinon le prix d'import.",
+                "it": "Automatico: il prezzo di esportazione mentre esporti, altrimenti quello di importazione.",
                 "sv": "Automatisk: exportpriset när du levererar tillbaka, annars importpriset.",
                 "no": "Automatisk: eksportprisen når du leverer tilbake, ellers importprisen.",
                 "es": "Automático: el precio de exportación mientras exportas, si no el de importación.",
                 "da": "Automatisk: eksportprisen, mens du leverer tilbage, ellers importprisen.",
-                "pl": "Automatycznie: cena eksportu, gdy oddajesz energię, w przeciwnym razie cena importu.",
-                "ru": "Автоматически: цена экспорта, пока вы отдаёте энергию, иначе цена импорта.",
+                "pl": "Automatycznie: cena eksportu, gdy eksportujesz, w przeciwnym razie cena importu.",
+                "ru": "Автоматически: цена экспорта, пока вы экспортируете, иначе цена импорта.",
                 "ar": "تلقائي: سعر التصدير أثناء إعادة الكهرباء، وإلا سعر الاستيراد.",
-                "ko": "자동: 역송전 중에는 수출 가격, 그 외에는 수입 가격."
+                "ko": "자동: 송전 중에는 송전 가격, 그 외에는 수전 가격."
               }
             },
             {
@@ -27045,7 +27045,7 @@
               "value": "-",
               "hint": {
                 "en": "Only measures what the car returns. The plan does not discharge the car.",
-                "nl": "Meet alleen wat de auto teruglevert. Het laadplan ontlaadt de auto niet.",
+                "nl": "Meet alleen wat de auto exporteert. Het laadplan ontlaadt de auto niet.",
                 "de": "Misst nur, was das Auto zurückliefert. Der Ladeplan entlädt das Auto nicht.",
                 "fr": "Mesure seulement ce que la voiture restitue. Le plan ne décharge pas la voiture.",
                 "it": "Misura solo ciò che l'auto restituisce. Il piano non scarica l'auto.",
@@ -27053,8 +27053,8 @@
                 "no": "Måler bare hva bilen leverer tilbake. Planen lader ikke ut bilen.",
                 "es": "Solo mide lo que devuelve el coche. El plan no descarga el coche.",
                 "da": "Måler kun, hvad bilen leverer tilbage. Planen aflader ikke bilen.",
-                "pl": "Tylko mierzy, co auto oddaje. Plan nie rozładowuje auta.",
-                "ru": "Только измеряет, что отдаёт машина. План не разряжает машину.",
+                "pl": "Tylko mierzy, co auto eksportuje. Plan nie rozładowuje auta.",
+                "ru": "Только измеряет, что экспортирует машина. План не разряжает машину.",
                 "ar": "يقيس فقط ما تعيده السيارة. لا تفرّغ الخطة السيارة.",
                 "ko": "차량이 돌려주는 전력만 측정합니다. 계획은 차량을 방전하지 않습니다."
               }
@@ -27104,7 +27104,7 @@
               "type": "label",
               "label": {
                 "en": "Show export price in chart",
-                "nl": "Terugleverprijs tonen in grafiek",
+                "nl": "Exportprijs tonen in grafiek",
                 "de": "Exportpreis im Diagramm anzeigen",
                 "fr": "Afficher le prix d'exportation sur le graphique",
                 "it": "Mostra prezzo di esportazione nel grafico",
@@ -27115,7 +27115,7 @@
                 "pl": "Pokaż cenę eksportu na wykresie",
                 "ru": "Показывать экспортную цену на графике",
                 "ar": "إظهار سعر التصدير في الرسم البياني",
-                "ko": "그래프에 송전(수출) 가격 표시"
+                "ko": "그래프에 송전 가격 표시"
               },
               "value": "-"
             },
@@ -28026,7 +28026,7 @@
             "pl": "kWh ten dzień (import)",
             "ru": "кВтч этот день (импорт)",
             "ar": "كيلوواط ساعة هذا اليوم (مستورد)",
-            "ko": "오늘 kWh (수입)",
+            "ko": "오늘 kWh (수전)",
             "fr": "kWh ce jour (importé)",
             "da": "kWh denne dag (importeret)"
           }
@@ -28043,7 +28043,7 @@
             "pl": "kWh ten dzień (eksport)",
             "ru": "кВтч этот день (экспорт)",
             "ar": "كيلوواط ساعة هذا اليوم (مُصدَّر)",
-            "ko": "오늘 kWh (수출)",
+            "ko": "오늘 kWh (송전)",
             "fr": "kWh ce jour (exporté)",
             "da": "kWh denne dag (eksporteret)"
           }
@@ -28056,7 +28056,7 @@
             "es": "kWh día anterior (importado)",
             "ru": "кВтч пред. день (импорт)",
             "ar": "كيلوواط ساعة اليوم السابق (مستورد)",
-            "ko": "전날 kWh (수입)",
+            "ko": "전날 kWh (수전)",
             "de": "kWh Vortag (importiert)",
             "fr": "kWh jour dernier (importé)",
             "it": "kWh giorno prec. (importato)",
@@ -28073,7 +28073,7 @@
             "es": "kWh día anterior (exportado)",
             "ru": "кВтч пред. день (экспорт)",
             "ar": "كيلوواط ساعة اليوم السابق (مُصدَّر)",
-            "ko": "전날 kWh (수출)",
+            "ko": "전날 kWh (송전)",
             "de": "kWh Vortag (exportiert)",
             "fr": "kWh jour dernier (exporté)",
             "it": "kWh giorno prec. (esportato)",
@@ -28096,7 +28096,7 @@
             "pl": "kWh ten miesiąc (import)",
             "ru": "кВтч этот месяц (импорт)",
             "ar": "كيلوواط ساعة هذا الشهر (مستورد)",
-            "ko": "이번 달 kWh (수입)"
+            "ko": "이번 달 kWh (수전)"
           }
         },
         "meter_kwh_this_month.exported": {
@@ -28113,7 +28113,7 @@
             "pl": "kWh ten miesiąc (eksport)",
             "ru": "кВтч этот месяц (экспорт)",
             "ar": "كيلوواط ساعة هذا الشهر (مُصدَّر)",
-            "ko": "이번 달 kWh (수출)"
+            "ko": "이번 달 kWh (송전)"
           }
         },
         "meter_kwh_last_month.imported": {
@@ -28130,7 +28130,7 @@
             "pl": "kWh poprz. miesiąc (import)",
             "ru": "кВтч пред. месяц (импорт)",
             "ar": "كيلوواط ساعة الشهر السابق (مستورد)",
-            "ko": "지난달 kWh (수입)"
+            "ko": "지난달 kWh (수전)"
           }
         },
         "meter_kwh_last_month.exported": {
@@ -28147,7 +28147,7 @@
             "pl": "kWh poprz. miesiąc (eksport)",
             "ru": "кВтч пред. месяц (экспорт)",
             "ar": "كيلوواط ساعة الشهر السابق (مُصدَّر)",
-            "ko": "지난달 kWh (수출)"
+            "ko": "지난달 kWh (송전)"
           }
         },
         "meter_kwh_this_year.imported": {
@@ -28164,7 +28164,7 @@
             "pl": "kWh ten rok (import)",
             "ru": "кВтч этот год (импорт)",
             "ar": "كيلوواط ساعة هذا العام (مستورد)",
-            "ko": "올해 kWh (수입)"
+            "ko": "올해 kWh (수전)"
           }
         },
         "meter_kwh_this_year.exported": {
@@ -28181,7 +28181,7 @@
             "pl": "kWh ten rok (eksport)",
             "ru": "кВтч этот год (экспорт)",
             "ar": "كيلوواط ساعة هذا العام (مُصدَّر)",
-            "ko": "올해 kWh (수출)"
+            "ko": "올해 kWh (송전)"
           }
         },
         "meter_kwh_last_year.imported": {
@@ -28198,7 +28198,7 @@
             "pl": "kWh poprz. rok (import)",
             "ru": "кВтч пред. год (импорт)",
             "ar": "كيلوواط ساعة العام السابق (مستورد)",
-            "ko": "작년 kWh (수입)"
+            "ko": "작년 kWh (수전)"
           }
         },
         "meter_kwh_last_year.exported": {
@@ -28215,7 +28215,7 @@
             "pl": "kWh poprz. rok (eksport)",
             "ru": "кВтч пред. год (экспорт)",
             "ar": "كيلوواط ساعة العام السابق (مُصدَّر)",
-            "ko": "작년 kWh (수출)"
+            "ko": "작년 kWh (송전)"
           }
         },
         "meter_money_this_day.imported": {
@@ -28227,7 +28227,7 @@
             "sv": "Pengar idag (importerad)",
             "no": "Penger i dag (importert)",
             "da": "Penge i dag (importeret)",
-            "ko": "오늘 금액 (수입)",
+            "ko": "오늘 금액 (수전)",
             "fr": "Argent ce jour (importé)",
             "es": "Dinero este día (importado)",
             "pl": "Pieniądze ten dzień (import)",
@@ -28241,7 +28241,7 @@
             "nl": "Geld deze dag (geëxporteerd)",
             "sv": "Pengar idag (exporterad)",
             "da": "Penge i dag (eksporteret)",
-            "ko": "오늘 금액 (수출)",
+            "ko": "오늘 금액 (송전)",
             "de": "Erlös dieser Tag (exportiert)",
             "fr": "Argent ce jour (exporté)",
             "it": "Ricavo oggi (esportato)",
@@ -28258,7 +28258,7 @@
             "nl": "Geld vorige dag (geïmporteerd)",
             "fr": "Argent hier (importé)",
             "no": "Penger forrige dag (importert)",
-            "ko": "전날 금액 (수입)",
+            "ko": "전날 금액 (수전)",
             "de": "Geld Vortag (importiert)",
             "it": "Importo giorno prec. (importato)",
             "sv": "Pengar föreg. dag (importerad)",
@@ -28274,7 +28274,7 @@
             "en": "Money prev. day (exported)",
             "nl": "Geld vorige dag (geëxporteerd)",
             "fr": "Argent hier (exporté)",
-            "ko": "전날 금액 (수출)",
+            "ko": "전날 금액 (송전)",
             "de": "Erlös Vortag (exportiert)",
             "it": "Ricavo giorno prec. (esportato)",
             "sv": "Pengar föreg. dag (exporterad)",
@@ -28300,7 +28300,7 @@
             "pl": "Pieniądze ten miesiąc (import)",
             "ru": "Деньги этот месяц (импорт)",
             "ar": "المال هذا الشهر (مستورد)",
-            "ko": "이번 달 금액 (수입)"
+            "ko": "이번 달 금액 (수전)"
           }
         },
         "meter_money_this_month.exported": {
@@ -28317,7 +28317,7 @@
             "pl": "Pieniądze ten miesiąc (eksport)",
             "ru": "Деньги этот месяц (экспорт)",
             "ar": "المال هذا الشهر (مُصدَّر)",
-            "ko": "이번 달 금액 (수출)"
+            "ko": "이번 달 금액 (송전)"
           }
         },
         "meter_money_last_month.imported": {
@@ -28334,7 +28334,7 @@
             "pl": "Pieniądze poprz. miesiąc (import)",
             "ru": "Деньги пред. месяц (импорт)",
             "ar": "المال الشهر السابق (مستورد)",
-            "ko": "지난달 금액 (수입)"
+            "ko": "지난달 금액 (수전)"
           }
         },
         "meter_money_last_month.exported": {
@@ -28351,7 +28351,7 @@
             "pl": "Pieniądze poprz. miesiąc (eksport)",
             "ru": "Деньги пред. месяц (экспорт)",
             "ar": "المال الشهر السابق (مُصدَّر)",
-            "ko": "지난달 금액 (수출)"
+            "ko": "지난달 금액 (송전)"
           }
         },
         "meter_money_this_year.imported": {
@@ -28368,7 +28368,7 @@
             "pl": "Pieniądze ten rok (import)",
             "ru": "Деньги этот год (импорт)",
             "ar": "المال هذا العام (مستورد)",
-            "ko": "올해 금액 (수입)"
+            "ko": "올해 금액 (수전)"
           }
         },
         "meter_money_this_year.exported": {
@@ -28385,7 +28385,7 @@
             "pl": "Pieniądze ten rok (eksport)",
             "ru": "Деньги этот год (экспорт)",
             "ar": "المال هذا العام (مُصدَّر)",
-            "ko": "올해 금액 (수출)"
+            "ko": "올해 금액 (송전)"
           }
         },
         "meter_money_last_year.imported": {
@@ -28402,7 +28402,7 @@
             "pl": "Pieniądze poprz. rok (import)",
             "ru": "Деньги пред. год (импорт)",
             "ar": "المال العام السابق (مستورد)",
-            "ko": "작년 금액 (수입)"
+            "ko": "작년 금액 (수전)"
           }
         },
         "meter_money_last_year.exported": {
@@ -28419,7 +28419,7 @@
             "pl": "Pieniądze poprz. rok (eksport)",
             "ru": "Деньги пред. год (экспорт)",
             "ar": "المال العام السابق (مُصدَّر)",
-            "ko": "작년 금액 (수출)"
+            "ko": "작년 금액 (송전)"
           }
         },
         "measure_watt_min.day": {
@@ -28545,7 +28545,7 @@
           "title": {
             "en": "Peak demand (export day)",
             "nl": "Piekexport (dag)",
-            "de": "Spitzeneinspeisung (Tag)",
+            "de": "Exportspitze (Tag)",
             "fr": "Pointe d'exportation (jour)",
             "it": "Picco di esportazione (giorno)",
             "sv": "Toppexport (dag)",
@@ -28555,7 +28555,7 @@
             "pl": "Szczyt eksportu (dzień)",
             "ru": "Пиковый экспорт (день)",
             "ar": "ذروة التصدير (يوم)",
-            "ko": "피크 수출 (일)"
+            "ko": "피크 송전 (일)"
           }
         },
         "measure_watt_peak.month": {
@@ -28579,7 +28579,7 @@
           "title": {
             "en": "Peak demand (export month)",
             "nl": "Piekexport (maand)",
-            "de": "Spitzeneinspeisung (Monat)",
+            "de": "Exportspitze (Monat)",
             "fr": "Pointe d'exportation (mois)",
             "it": "Picco di esportazione (mese)",
             "sv": "Toppexport (månad)",
@@ -28589,7 +28589,7 @@
             "pl": "Szczyt eksportu (miesiąc)",
             "ru": "Пиковый экспорт (месяц)",
             "ar": "ذروة التصدير (شهر)",
-            "ko": "피크 수출 (월)"
+            "ko": "피크 송전 (월)"
           }
         },
         "measure_watt_peak.year": {
@@ -28613,7 +28613,7 @@
           "title": {
             "en": "Peak demand (export year)",
             "nl": "Piekexport (jaar)",
-            "de": "Spitzeneinspeisung (Jahr)",
+            "de": "Exportspitze (Jahr)",
             "fr": "Pointe d'exportation (année)",
             "it": "Picco di esportazione (anno)",
             "sv": "Toppexport (år)",
@@ -28623,7 +28623,7 @@
             "pl": "Szczyt eksportu (rok)",
             "ru": "Пиковый экспорт (год)",
             "ar": "ذروة التصدير (عام)",
-            "ko": "피크 수출 (년)"
+            "ko": "피크 송전 (년)"
           }
         },
         "measure_watt_forecast.h0": {
@@ -29901,15 +29901,15 @@
               "type": "label",
               "label": {
                 "en": "Max. import (W)",
-                "nl": "Max. afname (W)",
-                "de": "Max. Bezug (W)",
+                "nl": "Max. import (W)",
+                "de": "Max. Import (W)",
                 "fr": "Prélèvement max. (W)",
-                "it": "Prelievo max. (W)",
-                "sv": "Max. uttag (W)",
-                "no": "Maks. uttak (W)",
+                "it": "Importazione max. (W)",
+                "sv": "Max. import (W)",
+                "no": "Maks. import (W)",
                 "es": "Consumo máx. (W)",
                 "da": "Maks. forbrug (W)",
-                "pl": "Maks. pobór (W)",
+                "pl": "Maks. import (W)",
                 "ru": "Макс. потребление (Вт)",
                 "ar": "الحد الأقصى للسحب (واط)",
                 "ko": "최대 수전 (W)"
@@ -30026,19 +30026,19 @@
               },
               "value": "-",
               "hint": {
-                "en": "Automatic: the export price while you return power, else the import price.",
-                "nl": "Automatisch: de terugleverprijs zolang je teruglevert, anders de afnameprijs.",
-                "de": "Automatisch: der Einspeisepreis, solange Sie einspeisen, sonst der Bezugspreis.",
-                "fr": "Automatique : le prix d'injection pendant que vous injectez, sinon le prix d'achat.",
-                "it": "Automatico: il prezzo di immissione mentre immetti, altrimenti quello di prelievo.",
+                "en": "Automatic: the export price while you export, else the import price.",
+                "nl": "Automatisch: de exportprijs zolang je exporteert, anders de importprijs.",
+                "de": "Automatisch: der Exportpreis, solange Sie exportieren, sonst der Importpreis.",
+                "fr": "Automatique : le prix d'export pendant que vous exportez, sinon le prix d'import.",
+                "it": "Automatico: il prezzo di esportazione mentre esporti, altrimenti quello di importazione.",
                 "sv": "Automatisk: exportpriset när du levererar tillbaka, annars importpriset.",
                 "no": "Automatisk: eksportprisen når du leverer tilbake, ellers importprisen.",
                 "es": "Automático: el precio de exportación mientras exportas, si no el de importación.",
                 "da": "Automatisk: eksportprisen, mens du leverer tilbage, ellers importprisen.",
-                "pl": "Automatycznie: cena eksportu, gdy oddajesz energię, w przeciwnym razie cena importu.",
-                "ru": "Автоматически: цена экспорта, пока вы отдаёте энергию, иначе цена импорта.",
+                "pl": "Automatycznie: cena eksportu, gdy eksportujesz, w przeciwnym razie cena importu.",
+                "ru": "Автоматически: цена экспорта, пока вы экспортируете, иначе цена импорта.",
                 "ar": "تلقائي: سعر التصدير أثناء إعادة الكهرباء، وإلا سعر الاستيراد.",
-                "ko": "자동: 역송전 중에는 수출 가격, 그 외에는 수입 가격."
+                "ko": "자동: 송전 중에는 송전 가격, 그 외에는 수전 가격."
               }
             },
             {
@@ -30062,18 +30062,18 @@
               "value": "-",
               "hint": {
                 "en": "How your supplier settles import and export.",
-                "nl": "Hoe je leverancier afname en teruglevering verrekent.",
-                "de": "Wie Ihr Anbieter Bezug und Einspeisung verrechnet.",
-                "fr": "Comment votre fournisseur règle l'achat et l'injection.",
-                "it": "Come il fornitore conteggia prelievo e immissione.",
+                "nl": "Hoe je leverancier import en export verrekent.",
+                "de": "Wie Ihr Anbieter Import und Export verrechnet.",
+                "fr": "Comment votre fournisseur règle l'import et l'export.",
+                "it": "Come il fornitore conteggia importazione ed esportazione.",
                 "sv": "Hur din leverantör räknar import och export.",
                 "no": "Hvordan leverandøren avregner import og eksport.",
                 "es": "Cómo liquida tu proveedor la importación y la exportación.",
                 "da": "Hvordan din leverandør afregner import og eksport.",
-                "pl": "Jak dostawca rozlicza pobór i oddawanie.",
+                "pl": "Jak dostawca rozlicza import i eksport.",
                 "ru": "Как поставщик рассчитывает импорт и экспорт.",
                 "ar": "كيف يحاسب مورّدك الاستيراد والتصدير.",
-                "ko": "공급업체가 수입과 수출을 정산하는 방식."
+                "ko": "공급업체가 수전과 송전을 정산하는 방식."
               }
             },
             {
@@ -30907,19 +30907,19 @@
               },
               "value": "-",
               "hint": {
-                "en": "Automatic: the export price while you return power, else the import price.",
-                "nl": "Automatisch: de terugleverprijs zolang je teruglevert, anders de afnameprijs.",
-                "de": "Automatisch: der Einspeisepreis, solange Sie einspeisen, sonst der Bezugspreis.",
-                "fr": "Automatique : le prix d'injection pendant que vous injectez, sinon le prix d'achat.",
-                "it": "Automatico: il prezzo di immissione mentre immetti, altrimenti quello di prelievo.",
+                "en": "Automatic: the export price while you export, else the import price.",
+                "nl": "Automatisch: de exportprijs zolang je exporteert, anders de importprijs.",
+                "de": "Automatisch: der Exportpreis, solange Sie exportieren, sonst der Importpreis.",
+                "fr": "Automatique : le prix d'export pendant que vous exportez, sinon le prix d'import.",
+                "it": "Automatico: il prezzo di esportazione mentre esporti, altrimenti quello di importazione.",
                 "sv": "Automatisk: exportpriset när du levererar tillbaka, annars importpriset.",
                 "no": "Automatisk: eksportprisen når du leverer tilbake, ellers importprisen.",
                 "es": "Automático: el precio de exportación mientras exportas, si no el de importación.",
                 "da": "Automatisk: eksportprisen, mens du leverer tilbage, ellers importprisen.",
-                "pl": "Automatycznie: cena eksportu, gdy oddajesz energię, w przeciwnym razie cena importu.",
-                "ru": "Автоматически: цена экспорта, пока вы отдаёте энергию, иначе цена импорта.",
+                "pl": "Automatycznie: cena eksportu, gdy eksportujesz, w przeciwnym razie cena importu.",
+                "ru": "Автоматически: цена экспорта, пока вы экспортируете, иначе цена импорта.",
                 "ar": "تلقائي: سعر التصدير أثناء إعادة الكهرباء، وإلا سعر الاستيراد.",
-                "ko": "자동: 역송전 중에는 수출 가격, 그 외에는 수입 가격."
+                "ko": "자동: 송전 중에는 송전 가격, 그 외에는 수전 가격."
               }
             },
             {
@@ -31073,7 +31073,7 @@
             "es": "Precio ahora (exportación)",
             "pl": "Cena teraz (eksport)",
             "ru": "Цена сейчас (экспорт)",
-            "ko": "현재 가격 (수출)",
+            "ko": "현재 가격 (송전)",
             "ar": "السعر الآن (تصدير)"
           },
           "decimals": 4
@@ -31667,7 +31667,7 @@
           "type": "group",
           "label": {
             "en": "Import price settings",
-            "nl": "Instellingen afnameprijs",
+            "nl": "Instellingen importprijs",
             "de": "Importpreiseinstellungen",
             "fr": "Paramètres de prix d'importation",
             "it": "Impostazioni prezzo di importazione",
@@ -31678,7 +31678,7 @@
             "pl": "Ustawienia cen importu",
             "ru": "Настройки цен импорта",
             "ar": "إعدادات سعر الاستيراد",
-            "ko": "수전(수입) 가격 설정"
+            "ko": "수전 가격 설정"
           },
           "children": [
             {
@@ -31736,19 +31736,19 @@
               },
               "value": "-",
               "hint": {
-                "en": "Per kWh (gas: per m³). Fixed tariff: your supply price.",
-                "nl": "Per kWh (gas: per m³). Vast tarief: je leveringstarief.",
-                "de": "Pro kWh (Gas: pro m³). Fester Tarif: Ihr Arbeitspreis.",
-                "fr": "Par kWh (gaz : par m³). Tarif fixe : votre prix de fourniture.",
-                "it": "Per kWh (gas: per m³). Tariffa fissa: il tuo prezzo di fornitura.",
-                "sv": "Per kWh (gas: per m³). Fast pris: ditt leveranspris.",
-                "no": "Per kWh (gass: per m³). Fast pris: din leveransepris.",
-                "es": "Por kWh (gas: por m³). Tarifa fija: tu precio de suministro.",
-                "da": "Pr. kWh (gas: pr. m³). Fast pris: din leveringspris.",
-                "pl": "Za kWh (gaz: za m³). Taryfa stała: twoja cena dostawy.",
-                "ru": "За кВт·ч (газ: за м³). Фиксированный тариф: ваша цена поставки.",
-                "ar": "لكل كيلوواط ساعة (الغاز: لكل م³). التعرفة الثابتة: سعر التوريد.",
-                "ko": "kWh당 (가스: m³당). 고정 요금제: 공급 가격."
+                "en": "Per kWh (gas: per m³). Fixed tariff: your price per kWh.",
+                "nl": "Per kWh (gas: per m³). Vast tarief: je prijs per kWh.",
+                "de": "Pro kWh (Gas: pro m³). Fester Tarif: Ihr Preis pro kWh.",
+                "fr": "Par kWh (gaz : par m³). Tarif fixe : votre prix par kWh.",
+                "it": "Per kWh (gas: per m³). Tariffa fissa: il tuo prezzo per kWh.",
+                "sv": "Per kWh (gas: per m³). Fast pris: ditt pris per kWh.",
+                "no": "Per kWh (gass: per m³). Fast pris: din pris per kWh.",
+                "es": "Por kWh (gas: por m³). Tarifa fija: tu precio por kWh.",
+                "da": "Pr. kWh (gas: pr. m³). Fast pris: din pris pr. kWh.",
+                "pl": "Za kWh (gaz: za m³). Taryfa stała: twoja cena za kWh.",
+                "ru": "За кВт·ч (газ: за м³). Фиксированный тариф: ваша цена за кВт·ч.",
+                "ar": "لكل كيلوواط ساعة (الغاز: لكل م³). التعرفة الثابتة: سعرك لكل كيلوواط ساعة.",
+                "ko": "kWh당 (가스: m³당). 고정 요금제: kWh당 가격."
               }
             },
             {
@@ -31771,19 +31771,19 @@
               },
               "value": "-",
               "hint": {
-                "en": "On the market price. Fixed tariff: on the supplier markup (supply price).",
-                "nl": "Op de marktprijs. Vast tarief: op de opslag leverancier (leveringstarief).",
-                "de": "Auf den Marktpreis. Fester Tarif: auf den Lieferantenaufschlag (Arbeitspreis).",
-                "fr": "Sur le prix de marché. Tarif fixe : sur la marge du fournisseur (prix de fourniture).",
-                "it": "Sul prezzo di mercato. Tariffa fissa: sul ricarico fornitore (prezzo di fornitura).",
-                "sv": "På marknadspriset. Fast pris: på leverantörspåslaget (leveranspris).",
-                "no": "På markedsprisen. Fast pris: på leverandørpåslaget (leveransepris).",
-                "es": "Sobre el precio de mercado. Tarifa fija: sobre el margen del proveedor (precio de suministro).",
-                "da": "På markedsprisen. Fast pris: på leverandørtillægget (leveringspris).",
-                "pl": "Od ceny rynkowej. Taryfa stała: od marży dostawcy (cena dostawy).",
-                "ru": "На рыночную цену. Фиксированный тариф: на наценку поставщика (цена поставки).",
-                "ar": "على سعر السوق. التعرفة الثابتة: على هامش المورّد (سعر التوريد).",
-                "ko": "시장 가격에 적용. 고정 요금제: 공급사 마크업(공급 가격)에 적용."
+                "en": "On the market price. Fixed tariff: on the supplier markup.",
+                "nl": "Op de marktprijs. Vast tarief: op de opslag leverancier.",
+                "de": "Auf den Marktpreis. Fester Tarif: auf den Lieferantenaufschlag.",
+                "fr": "Sur le prix de marché. Tarif fixe : sur la marge du fournisseur.",
+                "it": "Sul prezzo di mercato. Tariffa fissa: sul ricarico fornitore.",
+                "sv": "På marknadspriset. Fast pris: på leverantörspåslaget.",
+                "no": "På markedsprisen. Fast pris: på leverandørpåslaget.",
+                "es": "Sobre el precio de mercado. Tarifa fija: sobre el margen del proveedor.",
+                "da": "På markedsprisen. Fast pris: på leverandørtillægget.",
+                "pl": "Od ceny rynkowej. Taryfa stała: od marży dostawcy.",
+                "ru": "На рыночную цену. Фиксированный тариф: на наценку поставщика.",
+                "ar": "على سعر السوق. التعرفة الثابتة: على هامش المورّد.",
+                "ko": "시장 가격에 적용. 고정 요금제: 공급사 마크업에 적용."
               }
             },
             {
@@ -31913,17 +31913,17 @@
               "hint": {
                 "en": "How the import price is calculated from the fields above.",
                 "nl": "Hoe de importprijs wordt berekend uit de velden hierboven.",
-                "de": "Wie der Bezugspreis aus den Feldern oben berechnet wird.",
+                "de": "Wie der Importpreis aus den Feldern oben berechnet wird.",
                 "fr": "Comment le prix d'import est calculé à partir des champs ci-dessus.",
-                "it": "Come il prezzo di prelievo è calcolato dai campi sopra.",
-                "sv": "Hur köppriset beräknas från fälten ovan.",
-                "no": "Hvordan kjøpsprisen beregnes fra feltene over.",
+                "it": "Come il prezzo di importazione è calcolato dai campi sopra.",
+                "sv": "Hur importpriset beräknas från fälten ovan.",
+                "no": "Hvordan importprisen beregnes fra feltene over.",
                 "es": "Cómo se calcula el precio de importación a partir de los campos de arriba.",
-                "da": "Hvordan købsprisen beregnes ud fra felterne ovenfor.",
-                "pl": "Jak cena poboru jest liczona z pól powyżej.",
+                "da": "Hvordan importprisen beregnes ud fra felterne ovenfor.",
+                "pl": "Jak cena importu jest liczona z pól powyżej.",
                 "ru": "Как цена импорта рассчитывается из полей выше.",
                 "ar": "كيف يُحسب سعر السحب من الحقول أعلاه.",
-                "ko": "위 항목으로 수입 가격을 계산하는 방식."
+                "ko": "위 항목으로 수전 가격을 계산하는 방식."
               }
             }
           ]
@@ -31932,7 +31932,7 @@
           "type": "group",
           "label": {
             "en": "Export price settings",
-            "nl": "Instellingen terugleverprijs",
+            "nl": "Instellingen exportprijs",
             "de": "Exportpreiseinstellungen",
             "fr": "Paramètres de prix d'exportation",
             "it": "Impostazioni prezzo di esportazione",
@@ -31943,7 +31943,7 @@
             "pl": "Ustawienia cen eksportu",
             "ru": "Настройки цен экспорта",
             "ar": "إعدادات سعر التصدير",
-            "ko": "송전(수출) 가격 설정"
+            "ko": "송전 가격 설정"
           },
           "children": [
             {
@@ -31968,17 +31968,17 @@
               "hint": {
                 "en": "VAT on the export price.",
                 "nl": "Btw over de exportprijs.",
-                "de": "MwSt. auf den Einspeisepreis.",
+                "de": "MwSt. auf den Exportpreis.",
                 "fr": "TVA sur le prix d'export.",
-                "it": "IVA sul prezzo di immissione.",
+                "it": "IVA sul prezzo di esportazione.",
                 "sv": "Moms på exportpriset.",
                 "no": "Mva på eksportprisen.",
                 "es": "IVA sobre el precio de exportación.",
                 "da": "Moms på eksportprisen.",
-                "pl": "VAT od ceny oddawania.",
+                "pl": "VAT od ceny eksportu.",
                 "ru": "НДС на цену экспорта.",
                 "ar": "ضريبة القيمة المضافة على سعر التصدير.",
-                "ko": "수출 가격에 대한 부가세."
+                "ko": "송전 가격에 대한 부가세."
               }
             },
             {
@@ -32001,19 +32001,19 @@
               },
               "value": "-",
               "hint": {
-                "en": "Per kWh (gas: per m³). Fixed tariff: your supply price.",
-                "nl": "Per kWh (gas: per m³). Vast tarief: je leveringstarief.",
-                "de": "Pro kWh (Gas: pro m³). Fester Tarif: Ihr Arbeitspreis.",
-                "fr": "Par kWh (gaz : par m³). Tarif fixe : votre prix de fourniture.",
-                "it": "Per kWh (gas: per m³). Tariffa fissa: il tuo prezzo di fornitura.",
-                "sv": "Per kWh (gas: per m³). Fast pris: ditt leveranspris.",
-                "no": "Per kWh (gass: per m³). Fast pris: din leveransepris.",
-                "es": "Por kWh (gas: por m³). Tarifa fija: tu precio de suministro.",
-                "da": "Pr. kWh (gas: pr. m³). Fast pris: din leveringspris.",
-                "pl": "Za kWh (gaz: za m³). Taryfa stała: twoja cena dostawy.",
-                "ru": "За кВт·ч (газ: за м³). Фиксированный тариф: ваша цена поставки.",
-                "ar": "لكل كيلوواط ساعة (الغاز: لكل م³). التعرفة الثابتة: سعر التوريد.",
-                "ko": "kWh당 (가스: m³당). 고정 요금제: 공급 가격."
+                "en": "Per kWh (gas: per m³). Fixed tariff: your price per kWh.",
+                "nl": "Per kWh (gas: per m³). Vast tarief: je prijs per kWh.",
+                "de": "Pro kWh (Gas: pro m³). Fester Tarif: Ihr Preis pro kWh.",
+                "fr": "Par kWh (gaz : par m³). Tarif fixe : votre prix par kWh.",
+                "it": "Per kWh (gas: per m³). Tariffa fissa: il tuo prezzo per kWh.",
+                "sv": "Per kWh (gas: per m³). Fast pris: ditt pris per kWh.",
+                "no": "Per kWh (gass: per m³). Fast pris: din pris per kWh.",
+                "es": "Por kWh (gas: por m³). Tarifa fija: tu precio por kWh.",
+                "da": "Pr. kWh (gas: pr. m³). Fast pris: din pris pr. kWh.",
+                "pl": "Za kWh (gaz: za m³). Taryfa stała: twoja cena za kWh.",
+                "ru": "За кВт·ч (газ: за м³). Фиксированный тариф: ваша цена за кВт·ч.",
+                "ar": "لكل كيلوواط ساعة (الغاز: لكل م³). التعرفة الثابتة: سعرك لكل كيلوواط ساعة.",
+                "ko": "kWh당 (가스: m³당). 고정 요금제: kWh당 가격."
               }
             },
             {
@@ -32036,19 +32036,19 @@
               },
               "value": "-",
               "hint": {
-                "en": "On the market price. Fixed tariff: on the supplier markup (supply price).",
-                "nl": "Op de marktprijs. Vast tarief: op de opslag leverancier (leveringstarief).",
-                "de": "Auf den Marktpreis. Fester Tarif: auf den Lieferantenaufschlag (Arbeitspreis).",
-                "fr": "Sur le prix de marché. Tarif fixe : sur la marge du fournisseur (prix de fourniture).",
-                "it": "Sul prezzo di mercato. Tariffa fissa: sul ricarico fornitore (prezzo di fornitura).",
-                "sv": "På marknadspriset. Fast pris: på leverantörspåslaget (leveranspris).",
-                "no": "På markedsprisen. Fast pris: på leverandørpåslaget (leveransepris).",
-                "es": "Sobre el precio de mercado. Tarifa fija: sobre el margen del proveedor (precio de suministro).",
-                "da": "På markedsprisen. Fast pris: på leverandørtillægget (leveringspris).",
-                "pl": "Od ceny rynkowej. Taryfa stała: od marży dostawcy (cena dostawy).",
-                "ru": "На рыночную цену. Фиксированный тариф: на наценку поставщика (цена поставки).",
-                "ar": "على سعر السوق. التعرفة الثابتة: على هامش المورّد (سعر التوريد).",
-                "ko": "시장 가격에 적용. 고정 요금제: 공급사 마크업(공급 가격)에 적용."
+                "en": "On the market price. Fixed tariff: on the supplier markup.",
+                "nl": "Op de marktprijs. Vast tarief: op de opslag leverancier.",
+                "de": "Auf den Marktpreis. Fester Tarif: auf den Lieferantenaufschlag.",
+                "fr": "Sur le prix de marché. Tarif fixe : sur la marge du fournisseur.",
+                "it": "Sul prezzo di mercato. Tariffa fissa: sul ricarico fornitore.",
+                "sv": "På marknadspriset. Fast pris: på leverantörspåslaget.",
+                "no": "På markedsprisen. Fast pris: på leverandørpåslaget.",
+                "es": "Sobre el precio de mercado. Tarifa fija: sobre el margen del proveedor.",
+                "da": "På markedsprisen. Fast pris: på leverandørtillægget.",
+                "pl": "Od ceny rynkowej. Taryfa stała: od marży dostawcy.",
+                "ru": "На рыночную цену. Фиксированный тариф: на наценку поставщика.",
+                "ar": "على سعر السوق. التعرفة الثابتة: على هامش المورّد.",
+                "ko": "시장 가격에 적용. 고정 요금제: 공급사 마크업에 적용."
               }
             },
             {
@@ -32172,7 +32172,7 @@
                 "pl": "Minimalna cena eksportu",
                 "ru": "Минимальная экспортная цена",
                 "ar": "الحد الأدنى لسعر التصدير",
-                "ko": "최소 송전(수출) 가격"
+                "ko": "최소 송전 가격"
               },
               "value": "-",
               "hint": {
@@ -32188,7 +32188,7 @@
                 "pl": "Cena eksportu nigdy nie spada poniżej ustawionego minimum.",
                 "ru": "Экспортная цена никогда не опускается ниже заданного минимума.",
                 "ar": "لا ينخفض سعر التصدير أبدًا عن الحد الأدنى المحدد.",
-                "ko": "송전(수출) 가격이 설정한 최소값 아래로 내려가지 않습니다."
+                "ko": "송전 가격이 설정한 최소값 아래로 내려가지 않습니다."
               }
             },
             {
@@ -32246,19 +32246,19 @@
               },
               "value": "-",
               "hint": {
-                "en": "E.g. NL from 2027: 50 % of the bare supply price. 0 = not used.",
-                "nl": "Bijv. NL vanaf 2027: 50 % van de kale leveringsprijs. 0 = niet gebruikt.",
-                "de": "Z. B. NL ab 2027: 50 % des reinen Lieferpreises. 0 = nicht verwendet.",
-                "fr": "Ex. NL dès 2027 : 50 % du prix de fourniture nu. 0 = non utilisé.",
-                "it": "Es. NL dal 2027: 50 % del prezzo di fornitura netto. 0 = non usato.",
-                "sv": "T.ex. NL från 2027: 50 % av det rena leveranspriset. 0 = används inte.",
-                "no": "F.eks. NL fra 2027: 50 % av den rene leveringsprisen. 0 = brukes ikke.",
-                "es": "P. ej. NL desde 2027: 50 % del precio de suministro neto. 0 = no se usa.",
-                "da": "F.eks. NL fra 2027: 50 % af den rene leveringspris. 0 = bruges ikke.",
-                "pl": "Np. NL od 2027: 50 % czystej ceny dostawy. 0 = nieużywane.",
-                "ru": "Напр. NL с 2027: 50 % чистой цены поставки. 0 = не используется.",
-                "ar": "مثال: هولندا من 2027: 50 % من سعر التوريد الصافي. 0 = غير مستخدم.",
-                "ko": "예: 2027년부터 NL: 순수 공급 가격의 50 %. 0 = 사용 안 함."
+                "en": "E.g. NL from 2027: 50 % of the bare import price. 0 = not used.",
+                "nl": "Bijv. NL vanaf 2027: 50 % van de kale importprijs. 0 = niet gebruikt.",
+                "de": "Z. B. NL ab 2027: 50 % des reinen Importpreises. 0 = nicht verwendet.",
+                "fr": "Ex. NL dès 2027 : 50 % du prix d'import nu. 0 = non utilisé.",
+                "it": "Es. NL dal 2027: 50 % del prezzo di importazione netto. 0 = non usato.",
+                "sv": "T.ex. NL från 2027: 50 % av det rena importpriset. 0 = används inte.",
+                "no": "F.eks. NL fra 2027: 50 % av den rene importprisen. 0 = brukes ikke.",
+                "es": "P. ej. NL desde 2027: 50 % del precio de importación neto. 0 = no se usa.",
+                "da": "F.eks. NL fra 2027: 50 % af den rene importpris. 0 = bruges ikke.",
+                "pl": "Np. NL od 2027: 50 % czystej ceny importu. 0 = nieużywane.",
+                "ru": "Напр. NL с 2027: 50 % чистой цены импорта. 0 = не используется.",
+                "ar": "مثال: هولندا من 2027: 50 % من سعر الاستيراد الصافي. 0 = غير مستخدم.",
+                "ko": "예: 2027년부터 NL: 순수 수전 가격의 50 %. 0 = 사용 안 함."
               }
             },
             {
@@ -32281,19 +32281,19 @@
               },
               "value": "-",
               "hint": {
-                "en": "Bare supply price: without taxes, time markups and VAT.",
-                "nl": "Kale leveringsprijs: zonder belastingen, tijdopslagen en btw.",
-                "de": "Reiner Lieferpreis: ohne Steuern, Zeitaufschläge und MwSt.",
-                "fr": "Prix nu : sans taxes, majorations horaires ni TVA.",
-                "it": "Prezzo netto: senza tasse, sovrapprezzi orari e IVA.",
-                "sv": "Rent leveranspris: utan skatter, tidspåslag och moms.",
-                "no": "Ren leveringspris: uten avgifter, tidspåslag og mva.",
-                "es": "Precio neto: sin impuestos, recargos horarios ni IVA.",
-                "da": "Ren leveringspris: uden afgifter, tidstillæg og moms.",
-                "pl": "Czysta cena: bez podatków, narzutów czasowych i VAT.",
-                "ru": "Чистая цена: без налогов, временных наценок и НДС.",
-                "ar": "السعر الصافي: بدون ضرائب أو إضافات زمنية أو ضريبة القيمة المضافة.",
-                "ko": "순수 공급 가격: 세금, 시간대 추가요금, 부가세 제외."
+                "en": "Bare import price: without taxes, time markups and VAT.",
+                "nl": "Kale importprijs: zonder belastingen, tijdopslagen en btw.",
+                "de": "Reiner Importpreis: ohne Steuern, Zeitaufschläge und MwSt.",
+                "fr": "Prix d'import nu : sans taxes, majorations horaires ni TVA.",
+                "it": "Prezzo di importazione netto: senza tasse, sovrapprezzi orari e IVA.",
+                "sv": "Rent importpris: utan skatter, tidspåslag och moms.",
+                "no": "Ren importpris: uten avgifter, tidspåslag og mva.",
+                "es": "Precio de importación neto: sin impuestos, recargos horarios ni IVA.",
+                "da": "Ren importpris: uden afgifter, tidstillæg og moms.",
+                "pl": "Czysta cena importu: bez podatków, narzutów czasowych i VAT.",
+                "ru": "Чистая цена импорта: без налогов, временных наценок и НДС.",
+                "ar": "سعر الاستيراد الصافي: بدون ضرائب أو إضافات زمنية أو ضريبة القيمة المضافة.",
+                "ko": "순수 수전 가격: 세금, 시간대 추가요금, 부가세 제외."
               }
             },
             {
@@ -32312,15 +32312,15 @@
                 "pl": "Pokaż cenę eksportu na wykresie",
                 "ru": "Показывать экспортную цену на графике",
                 "ar": "إظهار سعر التصدير في الرسم البياني",
-                "ko": "그래프에 송전(수출) 가격 표시"
+                "ko": "그래프에 송전 가격 표시"
               },
               "value": "-",
               "hint": {
                 "en": "Shows the export price as a line in the price charts.",
-                "nl": "Toont de terugleverprijs als lijn in de prijsgrafieken.",
-                "de": "Zeigt den Einspeisepreis als Linie in den Preisdiagrammen.",
-                "fr": "Affiche le prix d'injection sous forme de ligne dans les graphiques de prix.",
-                "it": "Mostra il prezzo di immissione come linea nei grafici dei prezzi.",
+                "nl": "Toont de exportprijs als lijn in de prijsgrafieken.",
+                "de": "Zeigt den Exportpreis als Linie in den Preisdiagrammen.",
+                "fr": "Affiche le prix d'export sous forme de ligne dans les graphiques de prix.",
+                "it": "Mostra il prezzo di esportazione come linea nei grafici dei prezzi.",
                 "sv": "Visar exportpriset som en linje i prisdiagrammen.",
                 "no": "Viser eksportprisen som en linje i prisgrafene.",
                 "es": "Muestra el precio de exportación como línea en los gráficos de precios.",
@@ -32328,7 +32328,7 @@
                 "pl": "Pokazuje cenę eksportu jako linię na wykresach cen.",
                 "ru": "Показывает цену экспорта линией на графиках цен.",
                 "ar": "يعرض سعر التصدير كخط في مخططات الأسعار.",
-                "ko": "가격 차트에 수출 가격을 선으로 표시합니다."
+                "ko": "가격 차트에 송전 가격을 선으로 표시합니다."
               }
             },
             {
@@ -32353,17 +32353,17 @@
               "hint": {
                 "en": "How the export price is calculated from the fields above.",
                 "nl": "Hoe de exportprijs wordt berekend uit de velden hierboven.",
-                "de": "Wie der Einspeisepreis aus den Feldern oben berechnet wird.",
+                "de": "Wie der Exportpreis aus den Feldern oben berechnet wird.",
                 "fr": "Comment le prix d'export est calculé à partir des champs ci-dessus.",
-                "it": "Come il prezzo di immissione è calcolato dai campi sopra.",
+                "it": "Come il prezzo di esportazione è calcolato dai campi sopra.",
                 "sv": "Hur exportpriset beräknas från fälten ovan.",
                 "no": "Hvordan eksportprisen beregnes fra feltene over.",
                 "es": "Cómo se calcula el precio de exportación a partir de los campos de arriba.",
                 "da": "Hvordan eksportprisen beregnes ud fra felterne ovenfor.",
-                "pl": "Jak cena oddawania jest liczona z pól powyżej.",
+                "pl": "Jak cena eksportu jest liczona z pól powyżej.",
                 "ru": "Как цена экспорта рассчитывается из полей выше.",
                 "ar": "كيف يُحسب سعر التصدير من الحقول أعلاه.",
-                "ko": "위 항목으로 수출 가격을 계산하는 방식."
+                "ko": "위 항목으로 송전 가격을 계산하는 방식."
               }
             }
           ]
@@ -33499,19 +33499,19 @@
               },
               "value": "-",
               "hint": {
-                "en": "Automatic: the export price while you return power, else the import price.",
-                "nl": "Automatisch: de terugleverprijs zolang je teruglevert, anders de afnameprijs.",
-                "de": "Automatisch: der Einspeisepreis, solange Sie einspeisen, sonst der Bezugspreis.",
-                "fr": "Automatique : le prix d'injection pendant que vous injectez, sinon le prix d'achat.",
-                "it": "Automatico: il prezzo di immissione mentre immetti, altrimenti quello di prelievo.",
+                "en": "Automatic: the export price while you export, else the import price.",
+                "nl": "Automatisch: de exportprijs zolang je exporteert, anders de importprijs.",
+                "de": "Automatisch: der Exportpreis, solange Sie exportieren, sonst der Importpreis.",
+                "fr": "Automatique : le prix d'export pendant que vous exportez, sinon le prix d'import.",
+                "it": "Automatico: il prezzo di esportazione mentre esporti, altrimenti quello di importazione.",
                 "sv": "Automatisk: exportpriset när du levererar tillbaka, annars importpriset.",
                 "no": "Automatisk: eksportprisen når du leverer tilbake, ellers importprisen.",
                 "es": "Automático: el precio de exportación mientras exportas, si no el de importación.",
                 "da": "Automatisk: eksportprisen, mens du leverer tilbage, ellers importprisen.",
-                "pl": "Automatycznie: cena eksportu, gdy oddajesz energię, w przeciwnym razie cena importu.",
-                "ru": "Автоматически: цена экспорта, пока вы отдаёте энергию, иначе цена импорта.",
+                "pl": "Automatycznie: cena eksportu, gdy eksportujesz, w przeciwnym razie cena importu.",
+                "ru": "Автоматически: цена экспорта, пока вы экспортируете, иначе цена импорта.",
                 "ar": "تلقائي: سعر التصدير أثناء إعادة الكهرباء، وإلا سعر الاستيراد.",
-                "ko": "자동: 역송전 중에는 수출 가격, 그 외에는 수입 가격."
+                "ko": "자동: 송전 중에는 송전 가격, 그 외에는 수전 가격."
               }
             },
             {
@@ -37455,7 +37455,7 @@
       "type": "number",
       "title": {
         "en": "Peak demand (export)",
-        "de": "Spitzeneinspeisung",
+        "de": "Exportspitze",
         "sv": "Toppexport",
         "it": "Picco di esportazione",
         "no": "Toppeksport",
@@ -37465,7 +37465,7 @@
         "es": "Exportación máxima",
         "pl": "Szczyt eksportu",
         "ru": "Пиковый экспорт",
-        "ko": "최대 수출",
+        "ko": "최대 송전",
         "ar": "ذروة التصدير"
       },
       "uiComponent": "sensor",
@@ -38805,7 +38805,7 @@
         "es": "Precio ahora (exportación)",
         "pl": "Cena teraz (eksport)",
         "ru": "Цена сейчас (экспорт)",
-        "ko": "현재 가격 (수출)",
+        "ko": "현재 가격 (송전)",
         "ar": "السعر الآن (تصدير)"
       },
       "uiComponent": "sensor",

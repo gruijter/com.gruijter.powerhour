@@ -1448,19 +1448,19 @@
           },
           "value": "-",
           "hint": {
-            "en": "Automatic: the export price while you return power, else the import price.",
-            "nl": "Automatisch: de terugleverprijs zolang je teruglevert, anders de afnameprijs.",
-            "de": "Automatisch: der Einspeisepreis, solange Sie einspeisen, sonst der Bezugspreis.",
-            "fr": "Automatique : le prix d'injection pendant que vous injectez, sinon le prix d'achat.",
-            "it": "Automatico: il prezzo di immissione mentre immetti, altrimenti quello di prelievo.",
+            "en": "Automatic: the export price while you export, else the import price.",
+            "nl": "Automatisch: de exportprijs zolang je exporteert, anders de importprijs.",
+            "de": "Automatisch: der Exportpreis, solange Sie exportieren, sonst der Importpreis.",
+            "fr": "Automatique : le prix d'export pendant que vous exportez, sinon le prix d'import.",
+            "it": "Automatico: il prezzo di esportazione mentre esporti, altrimenti quello di importazione.",
             "sv": "Automatisk: exportpriset när du levererar tillbaka, annars importpriset.",
             "no": "Automatisk: eksportprisen når du leverer tilbake, ellers importprisen.",
             "es": "Automático: el precio de exportación mientras exportas, si no el de importación.",
             "da": "Automatisk: eksportprisen, mens du leverer tilbage, ellers importprisen.",
-            "pl": "Automatycznie: cena eksportu, gdy oddajesz energię, w przeciwnym razie cena importu.",
-            "ru": "Автоматически: цена экспорта, пока вы отдаёте энергию, иначе цена импорта.",
+            "pl": "Automatycznie: cena eksportu, gdy eksportujesz, w przeciwnym razie cena importu.",
+            "ru": "Автоматически: цена экспорта, пока вы экспортируете, иначе цена импорта.",
             "ar": "تلقائي: سعر التصدير أثناء إعادة الكهرباء، وإلا سعر الاستيراد.",
-            "ko": "자동: 역송전 중에는 수출 가격, 그 외에는 수입 가격."
+            "ko": "자동: 송전 중에는 송전 가격, 그 외에는 수전 가격."
           }
         },
         {
@@ -1554,7 +1554,7 @@
           "value": "-",
           "hint": {
             "en": "Only measures what the car returns. The plan does not discharge the car.",
-            "nl": "Meet alleen wat de auto teruglevert. Het laadplan ontlaadt de auto niet.",
+            "nl": "Meet alleen wat de auto exporteert. Het laadplan ontlaadt de auto niet.",
             "de": "Misst nur, was das Auto zurückliefert. Der Ladeplan entlädt das Auto nicht.",
             "fr": "Mesure seulement ce que la voiture restitue. Le plan ne décharge pas la voiture.",
             "it": "Misura solo ciò che l'auto restituisce. Il piano non scarica l'auto.",
@@ -1562,8 +1562,8 @@
             "no": "Måler bare hva bilen leverer tilbake. Planen lader ikke ut bilen.",
             "es": "Solo mide lo que devuelve el coche. El plan no descarga el coche.",
             "da": "Måler kun, hvad bilen leverer tilbage. Planen aflader ikke bilen.",
-            "pl": "Tylko mierzy, co auto oddaje. Plan nie rozładowuje auta.",
-            "ru": "Только измеряет, что отдаёт машина. План не разряжает машину.",
+            "pl": "Tylko mierzy, co auto eksportuje. Plan nie rozładowuje auta.",
+            "ru": "Только измеряет, что экспортирует машина. План не разряжает машину.",
             "ar": "يقيس فقط ما تعيده السيارة. لا تفرّغ الخطة السيارة.",
             "ko": "차량이 돌려주는 전력만 측정합니다. 계획은 차량을 방전하지 않습니다."
           }
@@ -1613,7 +1613,7 @@
           "type": "label",
           "label": {
             "en": "Show export price in chart",
-            "nl": "Terugleverprijs tonen in grafiek",
+            "nl": "Exportprijs tonen in grafiek",
             "de": "Exportpreis im Diagramm anzeigen",
             "fr": "Afficher le prix d'exportation sur le graphique",
             "it": "Mostra prezzo di esportazione nel grafico",
@@ -1624,7 +1624,7 @@
             "pl": "Pokaż cenę eksportu na wykresie",
             "ru": "Показывать экспортную цену на графике",
             "ar": "إظهار سعر التصدير في الرسم البياني",
-            "ko": "그래프에 송전(수출) 가격 표시"
+            "ko": "그래프에 송전 가격 표시"
           },
           "value": "-"
         },

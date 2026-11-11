@@ -48,18 +48,18 @@
     "type": "number",
     "label": {
       "en": "Fixed export tariff",
-      "nl": "Vast terugleveringstarief",
-      "de": "Fester Einspeisetarif",
-      "fr": "Tarif fixe d'injection",
-      "it": "Tariffa fissa di immissione",
+      "nl": "Vast exporttarief",
+      "de": "Fester Exporttarif",
+      "fr": "Tarif fixe d'export",
+      "it": "Tariffa fissa di esportazione",
       "sv": "Fast exporttariff",
       "no": "Fast eksporttariff",
       "es": "Tarifa fija de exportación",
       "da": "Fast eksporttarif",
-      "pl": "Stała taryfa za oddawanie",
+      "pl": "Stała taryfa eksportu",
       "ru": "Фиксированный тариф экспорта",
       "ar": "تعرفة تصدير ثابتة",
-      "ko": "고정 수출 요금"
+      "ko": "고정 송전 요금"
     },
     "value": 0,
     "step": 0.0001
@@ -117,7 +117,7 @@
           "pl": "Zawsze import",
           "ru": "Всегда импорт",
           "ar": "استيراد دائما",
-          "ko": "항상 수전(수입)"
+          "ko": "항상 수전"
         }
       },
       {
@@ -135,24 +135,24 @@
           "pl": "Zawsze eksport",
           "ru": "Всегда экспорт",
           "ar": "تصدير دائما",
-          "ko": "항상 송전(수출)"
+          "ko": "항상 송전"
         }
       }
     ],
     "info": {
-      "en": "Automatic: the export price while you return power, else the import price.",
-      "nl": "Automatisch: de terugleverprijs zolang je teruglevert, anders de afnameprijs.",
-      "de": "Automatisch: der Einspeisepreis, solange Sie einspeisen, sonst der Bezugspreis.",
-      "fr": "Automatique : le prix d'injection pendant que vous injectez, sinon le prix d'achat.",
-      "it": "Automatico: il prezzo di immissione mentre immetti, altrimenti quello di prelievo.",
+      "en": "Automatic: the export price while you export, else the import price.",
+      "nl": "Automatisch: de exportprijs zolang je exporteert, anders de importprijs.",
+      "de": "Automatisch: der Exportpreis, solange Sie exportieren, sonst der Importpreis.",
+      "fr": "Automatique : le prix d'export pendant que vous exportez, sinon le prix d'import.",
+      "it": "Automatico: il prezzo di esportazione mentre esporti, altrimenti quello di importazione.",
       "sv": "Automatisk: exportpriset när du levererar tillbaka, annars importpriset.",
       "no": "Automatisk: eksportprisen når du leverer tilbake, ellers importprisen.",
       "es": "Automático: el precio de exportación mientras exportas, si no el de importación.",
       "da": "Automatisk: eksportprisen, mens du leverer tilbage, ellers importprisen.",
-      "pl": "Automatycznie: cena eksportu, gdy oddajesz energię, w przeciwnym razie cena importu.",
-      "ru": "Автоматически: цена экспорта, пока вы отдаёте энергию, иначе цена импорта.",
+      "pl": "Automatycznie: cena eksportu, gdy eksportujesz, w przeciwnym razie cena importu.",
+      "ru": "Автоматически: цена экспорта, пока вы экспортируете, иначе цена импорта.",
       "ar": "تلقائي: سعر التصدير أثناء إعادة الكهرباء، وإلا سعر الاستيراد.",
-      "ko": "자동: 역송전 중에는 수출 가격, 그 외에는 수입 가격."
+      "ko": "자동: 송전 중에는 송전 가격, 그 외에는 수전 가격."
     }
   },
   "directionalNettingScheme": {
@@ -232,18 +232,18 @@
     ],
     "info": {
       "en": "How your supplier settles import and export.",
-      "nl": "Hoe je leverancier afname en teruglevering verrekent.",
-      "de": "Wie Ihr Anbieter Bezug und Einspeisung verrechnet.",
-      "fr": "Comment votre fournisseur règle l'achat et l'injection.",
-      "it": "Come il fornitore conteggia prelievo e immissione.",
+      "nl": "Hoe je leverancier import en export verrekent.",
+      "de": "Wie Ihr Anbieter Import und Export verrechnet.",
+      "fr": "Comment votre fournisseur règle l'import et l'export.",
+      "it": "Come il fornitore conteggia importazione ed esportazione.",
       "sv": "Hur din leverantör räknar import och export.",
       "no": "Hvordan leverandøren avregner import og eksport.",
       "es": "Cómo liquida tu proveedor la importación y la exportación.",
       "da": "Hvordan din leverandør afregner import og eksport.",
-      "pl": "Jak dostawca rozlicza pobór i oddawanie.",
+      "pl": "Jak dostawca rozlicza import i eksport.",
       "ru": "Как поставщик рассчитывает импорт и экспорт.",
       "ar": "كيف يحاسب مورّدك الاستيراد والتصدير.",
-      "ko": "공급업체가 수입과 수출을 정산하는 방식."
+      "ko": "공급업체가 수전과 송전을 정산하는 방식."
     }
   },
   "directionalBlockMinutes": {
@@ -1357,15 +1357,15 @@
     "type": "number",
     "label": {
       "en": "Max. import (W)",
-      "nl": "Max. afname (W)",
-      "de": "Max. Bezug (W)",
+      "nl": "Max. import (W)",
+      "de": "Max. Import (W)",
       "fr": "Prélèvement max. (W)",
-      "it": "Prelievo max. (W)",
-      "sv": "Max. uttag (W)",
-      "no": "Maks. uttak (W)",
+      "it": "Importazione max. (W)",
+      "sv": "Max. import (W)",
+      "no": "Maks. import (W)",
       "es": "Consumo máx. (W)",
       "da": "Maks. forbrug (W)",
-      "pl": "Maks. pobór (W)",
+      "pl": "Maks. import (W)",
       "ru": "Макс. потребление (Вт)",
       "ar": "الحد الأقصى للسحب (واط)",
       "ko": "최대 수전 (W)"
@@ -1991,7 +1991,7 @@
     "value": false,
     "info": {
       "en": "Only measures what the car returns. The plan does not discharge the car.",
-      "nl": "Meet alleen wat de auto teruglevert. Het laadplan ontlaadt de auto niet.",
+      "nl": "Meet alleen wat de auto exporteert. Het laadplan ontlaadt de auto niet.",
       "de": "Misst nur, was das Auto zurückliefert. Der Ladeplan entlädt das Auto nicht.",
       "fr": "Mesure seulement ce que la voiture restitue. Le plan ne décharge pas la voiture.",
       "it": "Misura solo ciò che l'auto restituisce. Il piano non scarica l'auto.",
@@ -1999,8 +1999,8 @@
       "no": "Måler bare hva bilen leverer tilbake. Planen lader ikke ut bilen.",
       "es": "Solo mide lo que devuelve el coche. El plan no descarga el coche.",
       "da": "Måler kun, hvad bilen leverer tilbage. Planen aflader ikke bilen.",
-      "pl": "Tylko mierzy, co auto oddaje. Plan nie rozładowuje auta.",
-      "ru": "Только измеряет, что отдаёт машина. План не разряжает машину.",
+      "pl": "Tylko mierzy, co auto eksportuje. Plan nie rozładowuje auta.",
+      "ru": "Только измеряет, что экспортирует машина. План не разряжает машину.",
       "ar": "يقيس فقط ما تعيده السيارة. لا تفرّغ الخطة السيارة.",
       "ko": "차량이 돌려주는 전력만 측정합니다. 계획은 차량을 방전하지 않습니다."
     }
@@ -2302,7 +2302,7 @@
     "type": "checkbox",
     "label": {
       "en": "Show export price in chart",
-      "nl": "Terugleverprijs tonen in grafiek",
+      "nl": "Exportprijs tonen in grafiek",
       "de": "Exportpreis im Diagramm anzeigen",
       "fr": "Afficher le prix d'exportation sur le graphique",
       "it": "Mostra prezzo di esportazione nel grafico",
@@ -2313,7 +2313,7 @@
       "pl": "Pokaż cenę eksportu na wykresie",
       "ru": "Показывать экспортную цену на графике",
       "ar": "إظهار سعر التصدير في الرسم البياني",
-      "ko": "그래프에 송전(수출) 가격 표시"
+      "ko": "그래프에 송전 가격 표시"
     },
     "value": true
   },

@@ -29,6 +29,8 @@
 - Each amount: incl. or excl. VAT, as on your contract.
 - **Repair:** same wizard, to change anything.
 
+**Terms:** **import** = from the grid to your home (bill: consumption, supply). **Export** = from your home to the grid (bill: feed-in). Grid power: + import, − export.
+
 ---
 
 ## How the price is made
@@ -39,7 +41,7 @@
 | Tax incl. VAT, plus time-of-day markup | `(market + 0.02 + tod) * 1.21 + 0.1108` |
 | Export: market minus 0.02, no VAT | `market - 0.02` |
 
-- **Variable markup (%):** on the market price (fixed: on the supply price).
+- **Variable markup (%):** on the market price (fixed: on the supplier markup).
 - **Time-of-day markup:** `7:0.05;23:0` = +0.05 from 07:00, 0 from 23:00.
 - **Weekend markup:** Saturday and Sunday, replaces time-of-day.
 - **Minimum export price:** the higher of a fixed amount and a % of the supply or import price.

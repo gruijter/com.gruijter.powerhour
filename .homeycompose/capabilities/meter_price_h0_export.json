@@ -12,7 +12,7 @@
     "es": "Precio ahora (exportación)",
     "pl": "Cena teraz (eksport)",
     "ru": "Цена сейчас (экспорт)",
-    "ko": "현재 가격 (수출)",
+    "ko": "현재 가격 (송전)",
     "ar": "السعر الآن (تصدير)"
   },
   "uiComponent": "sensor",

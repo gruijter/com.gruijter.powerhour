@@ -574,7 +574,7 @@
       "type": "checkbox",
       "label": {
         "en": "Show export price in chart",
-        "nl": "Terugleverprijs tonen in grafiek",
+        "nl": "Exportprijs tonen in grafiek",
         "de": "Exportpreis im Diagramm anzeigen",
         "fr": "Afficher le prix d'exportation sur le graphique",
         "it": "Mostra prezzo di esportazione nel grafico",
@@ -585,7 +585,7 @@
         "pl": "Pokaż cenę eksportu na wykresie",
         "ru": "Показывать экспортную цену на графике",
         "ar": "إظهار سعر التصدير في الرسم البياني",
-        "ko": "그래프에 송전(수출) 가격 표시"
+        "ko": "그래프에 송전 가격 표시"
       },
       "value": true
     },
@@ -1322,19 +1322,19 @@
         "ko": "공급사 마크업"
       },
       "info": {
-        "en": "Per kWh (gas: per m³). Fixed tariff: your supply price.",
-        "nl": "Per kWh (gas: per m³). Vast tarief: je leveringstarief.",
-        "de": "Pro kWh (Gas: pro m³). Fester Tarif: Ihr Arbeitspreis.",
-        "fr": "Par kWh (gaz : par m³). Tarif fixe : votre prix de fourniture.",
-        "it": "Per kWh (gas: per m³). Tariffa fissa: il tuo prezzo di fornitura.",
-        "sv": "Per kWh (gas: per m³). Fast pris: ditt leveranspris.",
-        "no": "Per kWh (gass: per m³). Fast pris: din leveransepris.",
-        "es": "Por kWh (gas: por m³). Tarifa fija: tu precio de suministro.",
-        "da": "Pr. kWh (gas: pr. m³). Fast pris: din leveringspris.",
-        "pl": "Za kWh (gaz: za m³). Taryfa stała: twoja cena dostawy.",
-        "ru": "За кВт·ч (газ: за м³). Фиксированный тариф: ваша цена поставки.",
-        "ar": "لكل كيلوواط ساعة (الغاز: لكل م³). التعرفة الثابتة: سعر التوريد.",
-        "ko": "kWh당 (가스: m³당). 고정 요금제: 공급 가격."
+        "en": "Per kWh (gas: per m³). Fixed tariff: your price per kWh.",
+        "nl": "Per kWh (gas: per m³). Vast tarief: je prijs per kWh.",
+        "de": "Pro kWh (Gas: pro m³). Fester Tarif: Ihr Preis pro kWh.",
+        "fr": "Par kWh (gaz : par m³). Tarif fixe : votre prix par kWh.",
+        "it": "Per kWh (gas: per m³). Tariffa fissa: il tuo prezzo per kWh.",
+        "sv": "Per kWh (gas: per m³). Fast pris: ditt pris per kWh.",
+        "no": "Per kWh (gass: per m³). Fast pris: din pris per kWh.",
+        "es": "Por kWh (gas: por m³). Tarifa fija: tu precio por kWh.",
+        "da": "Pr. kWh (gas: pr. m³). Fast pris: din pris pr. kWh.",
+        "pl": "Za kWh (gaz: za m³). Taryfa stała: twoja cena za kWh.",
+        "ru": "За кВт·ч (газ: за м³). Фиксированный тариф: ваша цена за кВт·ч.",
+        "ar": "لكل كيلوواط ساعة (الغاز: لكل م³). التعرفة الثابتة: سعرك لكل كيلوواط ساعة.",
+        "ko": "kWh당 (가스: m³당). 고정 요금제: kWh당 가격."
       }
     },
     "fixedMarkupInclVat": {
@@ -1377,19 +1377,19 @@
         "ko": "변동 마크업 (%)"
       },
       "info": {
-        "en": "On the market price. Fixed tariff: on the supplier markup (supply price).",
-        "nl": "Op de marktprijs. Vast tarief: op de opslag leverancier (leveringstarief).",
-        "de": "Auf den Marktpreis. Fester Tarif: auf den Lieferantenaufschlag (Arbeitspreis).",
-        "fr": "Sur le prix de marché. Tarif fixe : sur la marge du fournisseur (prix de fourniture).",
-        "it": "Sul prezzo di mercato. Tariffa fissa: sul ricarico fornitore (prezzo di fornitura).",
-        "sv": "På marknadspriset. Fast pris: på leverantörspåslaget (leveranspris).",
-        "no": "På markedsprisen. Fast pris: på leverandørpåslaget (leveransepris).",
-        "es": "Sobre el precio de mercado. Tarifa fija: sobre el margen del proveedor (precio de suministro).",
-        "da": "På markedsprisen. Fast pris: på leverandørtillægget (leveringspris).",
-        "pl": "Od ceny rynkowej. Taryfa stała: od marży dostawcy (cena dostawy).",
-        "ru": "На рыночную цену. Фиксированный тариф: на наценку поставщика (цена поставки).",
-        "ar": "على سعر السوق. التعرفة الثابتة: على هامش المورّد (سعر التوريد).",
-        "ko": "시장 가격에 적용. 고정 요금제: 공급사 마크업(공급 가격)에 적용."
+        "en": "On the market price. Fixed tariff: on the supplier markup.",
+        "nl": "Op de marktprijs. Vast tarief: op de opslag leverancier.",
+        "de": "Auf den Marktpreis. Fester Tarif: auf den Lieferantenaufschlag.",
+        "fr": "Sur le prix de marché. Tarif fixe : sur la marge du fournisseur.",
+        "it": "Sul prezzo di mercato. Tariffa fissa: sul ricarico fornitore.",
+        "sv": "På marknadspriset. Fast pris: på leverantörspåslaget.",
+        "no": "På markedsprisen. Fast pris: på leverandørpåslaget.",
+        "es": "Sobre el precio de mercado. Tarifa fija: sobre el margen del proveedor.",
+        "da": "På markedsprisen. Fast pris: på leverandørtillægget.",
+        "pl": "Od ceny rynkowej. Taryfa stała: od marży dostawcy.",
+        "ru": "На рыночную цену. Фиксированный тариф: на наценку поставщика.",
+        "ar": "على سعر السوق. التعرفة الثابتة: على هامش المورّد.",
+        "ko": "시장 가격에 적용. 고정 요금제: 공급사 마크업에 적용."
       }
     },
     "tax": {
@@ -1669,19 +1669,19 @@
         "ko": "공급사 마크업"
       },
       "info": {
-        "en": "Per kWh (gas: per m³). Fixed tariff: your supply price.",
-        "nl": "Per kWh (gas: per m³). Vast tarief: je leveringstarief.",
-        "de": "Pro kWh (Gas: pro m³). Fester Tarif: Ihr Arbeitspreis.",
-        "fr": "Par kWh (gaz : par m³). Tarif fixe : votre prix de fourniture.",
-        "it": "Per kWh (gas: per m³). Tariffa fissa: il tuo prezzo di fornitura.",
-        "sv": "Per kWh (gas: per m³). Fast pris: ditt leveranspris.",
-        "no": "Per kWh (gass: per m³). Fast pris: din leveransepris.",
-        "es": "Por kWh (gas: por m³). Tarifa fija: tu precio de suministro.",
-        "da": "Pr. kWh (gas: pr. m³). Fast pris: din leveringspris.",
-        "pl": "Za kWh (gaz: za m³). Taryfa stała: twoja cena dostawy.",
-        "ru": "За кВт·ч (газ: за м³). Фиксированный тариф: ваша цена поставки.",
-        "ar": "لكل كيلوواط ساعة (الغاز: لكل م³). التعرفة الثابتة: سعر التوريد.",
-        "ko": "kWh당 (가스: m³당). 고정 요금제: 공급 가격."
+        "en": "Per kWh (gas: per m³). Fixed tariff: your price per kWh.",
+        "nl": "Per kWh (gas: per m³). Vast tarief: je prijs per kWh.",
+        "de": "Pro kWh (Gas: pro m³). Fester Tarif: Ihr Preis pro kWh.",
+        "fr": "Par kWh (gaz : par m³). Tarif fixe : votre prix par kWh.",
+        "it": "Per kWh (gas: per m³). Tariffa fissa: il tuo prezzo per kWh.",
+        "sv": "Per kWh (gas: per m³). Fast pris: ditt pris per kWh.",
+        "no": "Per kWh (gass: per m³). Fast pris: din pris per kWh.",
+        "es": "Por kWh (gas: por m³). Tarifa fija: tu precio por kWh.",
+        "da": "Pr. kWh (gas: pr. m³). Fast pris: din pris pr. kWh.",
+        "pl": "Za kWh (gaz: za m³). Taryfa stała: twoja cena za kWh.",
+        "ru": "За кВт·ч (газ: за м³). Фиксированный тариф: ваша цена за кВт·ч.",
+        "ar": "لكل كيلوواط ساعة (الغاز: لكل م³). التعرفة الثابتة: سعرك لكل كيلوواط ساعة.",
+        "ko": "kWh당 (가스: m³당). 고정 요금제: kWh당 가격."
       }
     },
     "export_fixedMarkupInclVat": {
@@ -1724,19 +1724,19 @@
         "ko": "변동 마크업 (%)"
       },
       "info": {
-        "en": "On the market price. Fixed tariff: on the supplier markup (supply price).",
-        "nl": "Op de marktprijs. Vast tarief: op de opslag leverancier (leveringstarief).",
-        "de": "Auf den Marktpreis. Fester Tarif: auf den Lieferantenaufschlag (Arbeitspreis).",
-        "fr": "Sur le prix de marché. Tarif fixe : sur la marge du fournisseur (prix de fourniture).",
-        "it": "Sul prezzo di mercato. Tariffa fissa: sul ricarico fornitore (prezzo di fornitura).",
-        "sv": "På marknadspriset. Fast pris: på leverantörspåslaget (leveranspris).",
-        "no": "På markedsprisen. Fast pris: på leverandørpåslaget (leveransepris).",
-        "es": "Sobre el precio de mercado. Tarifa fija: sobre el margen del proveedor (precio de suministro).",
-        "da": "På markedsprisen. Fast pris: på leverandørtillægget (leveringspris).",
-        "pl": "Od ceny rynkowej. Taryfa stała: od marży dostawcy (cena dostawy).",
-        "ru": "На рыночную цену. Фиксированный тариф: на наценку поставщика (цена поставки).",
-        "ar": "على سعر السوق. التعرفة الثابتة: على هامش المورّد (سعر التوريد).",
-        "ko": "시장 가격에 적용. 고정 요금제: 공급사 마크업(공급 가격)에 적용."
+        "en": "On the market price. Fixed tariff: on the supplier markup.",
+        "nl": "Op de marktprijs. Vast tarief: op de opslag leverancier.",
+        "de": "Auf den Marktpreis. Fester Tarif: auf den Lieferantenaufschlag.",
+        "fr": "Sur le prix de marché. Tarif fixe : sur la marge du fournisseur.",
+        "it": "Sul prezzo di mercato. Tariffa fissa: sul ricarico fornitore.",
+        "sv": "På marknadspriset. Fast pris: på leverantörspåslaget.",
+        "no": "På markedsprisen. Fast pris: på leverandørpåslaget.",
+        "es": "Sobre el precio de mercado. Tarifa fija: sobre el margen del proveedor.",
+        "da": "På markedsprisen. Fast pris: på leverandørtillægget.",
+        "pl": "Od ceny rynkowej. Taryfa stała: od marży dostawcy.",
+        "ru": "На рыночную цену. Фиксированный тариф: на наценку поставщика.",
+        "ar": "على سعر السوق. التعرفة الثابتة: على هامش المورّد.",
+        "ko": "시장 가격에 적용. 고정 요금제: 공급사 마크업에 적용."
       }
     },
     "export_tax": {
@@ -1956,7 +1956,7 @@
         "pl": "Minimalna cena eksportu",
         "ru": "Минимальная экспортная цена",
         "ar": "الحد الأدنى لسعر التصدير",
-        "ko": "최소 송전(수출) 가격"
+        "ko": "최소 송전 가격"
       },
       "info": {
         "en": "The export price never goes below the set minimum.",
@@ -1971,7 +1971,7 @@
         "pl": "Cena eksportu nigdy nie spada poniżej ustawionego minimum.",
         "ru": "Экспортная цена никогда не опускается ниже заданного минимума.",
         "ar": "لا ينخفض سعر التصدير أبدًا عن الحد الأدنى المحدد.",
-        "ko": "송전(수출) 가격이 설정한 최소값 아래로 내려가지 않습니다."
+        "ko": "송전 가격이 설정한 최소값 아래로 내려가지 않습니다."
       }
     },
     "export_floorMin": {
@@ -2030,19 +2030,19 @@
         "ko": "기준 대비 최소 %"
       },
       "info": {
-        "en": "E.g. NL from 2027: 50 % of the bare supply price. 0 = not used.",
-        "nl": "Bijv. NL vanaf 2027: 50 % van de kale leveringsprijs. 0 = niet gebruikt.",
-        "de": "Z. B. NL ab 2027: 50 % des reinen Lieferpreises. 0 = nicht verwendet.",
-        "fr": "Ex. NL dès 2027 : 50 % du prix de fourniture nu. 0 = non utilisé.",
-        "it": "Es. NL dal 2027: 50 % del prezzo di fornitura netto. 0 = non usato.",
-        "sv": "T.ex. NL från 2027: 50 % av det rena leveranspriset. 0 = används inte.",
-        "no": "F.eks. NL fra 2027: 50 % av den rene leveringsprisen. 0 = brukes ikke.",
-        "es": "P. ej. NL desde 2027: 50 % del precio de suministro neto. 0 = no se usa.",
-        "da": "F.eks. NL fra 2027: 50 % af den rene leveringspris. 0 = bruges ikke.",
-        "pl": "Np. NL od 2027: 50 % czystej ceny dostawy. 0 = nieużywane.",
-        "ru": "Напр. NL с 2027: 50 % чистой цены поставки. 0 = не используется.",
-        "ar": "مثال: هولندا من 2027: 50 % من سعر التوريد الصافي. 0 = غير مستخدم.",
-        "ko": "예: 2027년부터 NL: 순수 공급 가격의 50 %. 0 = 사용 안 함."
+        "en": "E.g. NL from 2027: 50 % of the bare import price. 0 = not used.",
+        "nl": "Bijv. NL vanaf 2027: 50 % van de kale importprijs. 0 = niet gebruikt.",
+        "de": "Z. B. NL ab 2027: 50 % des reinen Importpreises. 0 = nicht verwendet.",
+        "fr": "Ex. NL dès 2027 : 50 % du prix d'import nu. 0 = non utilisé.",
+        "it": "Es. NL dal 2027: 50 % del prezzo di importazione netto. 0 = non usato.",
+        "sv": "T.ex. NL från 2027: 50 % av det rena importpriset. 0 = används inte.",
+        "no": "F.eks. NL fra 2027: 50 % av den rene importprisen. 0 = brukes ikke.",
+        "es": "P. ej. NL desde 2027: 50 % del precio de importación neto. 0 = no se usa.",
+        "da": "F.eks. NL fra 2027: 50 % af den rene importpris. 0 = bruges ikke.",
+        "pl": "Np. NL od 2027: 50 % czystej ceny importu. 0 = nieużywane.",
+        "ru": "Напр. NL с 2027: 50 % чистой цены импорта. 0 = не используется.",
+        "ar": "مثال: هولندا من 2027: 50 % من سعر الاستيراد الصافي. 0 = غير مستخدم.",
+        "ko": "예: 2027년부터 NL: 순수 수전 가격의 50 %. 0 = 사용 안 함."
       }
     },
     "export_floorBase": {
@@ -2068,19 +2068,19 @@
         {
           "id": "supply",
           "label": {
-            "en": "Bare supply price (market + supplier markup)",
-            "nl": "Kale leveringsprijs (markt + opslag leverancier)",
-            "de": "Reiner Lieferpreis (Markt + Lieferantenaufschlag)",
-            "fr": "Prix de fourniture nu (marché + marge fournisseur)",
-            "it": "Prezzo di fornitura netto (mercato + ricarico fornitore)",
-            "sv": "Rent leveranspris (marknad + leverantörspåslag)",
-            "no": "Ren leveringspris (marked + leverandørpåslag)",
-            "es": "Precio de suministro neto (mercado + margen proveedor)",
-            "da": "Ren leveringspris (marked + leverandørtillæg)",
-            "pl": "Czysta cena dostawy (rynek + marża dostawcy)",
-            "ru": "Чистая цена поставки (рынок + наценка поставщика)",
-            "ar": "سعر التوريد الصافي (السوق + هامش المورّد)",
-            "ko": "순수 공급 가격(시장 + 공급사 마크업)"
+            "en": "Bare import price (market + supplier markup)",
+            "nl": "Kale importprijs (markt + opslag leverancier)",
+            "de": "Reiner Importpreis (Markt + Lieferantenaufschlag)",
+            "fr": "Prix d'import nu (marché + marge fournisseur)",
+            "it": "Prezzo di importazione netto (mercato + ricarico fornitore)",
+            "sv": "Rent importpris (marknad + leverantörspåslag)",
+            "no": "Ren importpris (marked + leverandørpåslag)",
+            "es": "Precio de importación neto (mercado + margen proveedor)",
+            "da": "Ren importpris (marked + leverandørtillæg)",
+            "pl": "Czysta cena importu (rynek + marża dostawcy)",
+            "ru": "Чистая цена импорта (рынок + наценка поставщика)",
+            "ar": "سعر الاستيراد الصافي (السوق + هامش المورّد)",
+            "ko": "순수 수전 가격(시장 + 공급사 마크업)"
           }
         },
         {
@@ -2098,24 +2098,24 @@
             "pl": "Cena importu",
             "ru": "Цена импорта",
             "ar": "سعر الاستيراد",
-            "ko": "수입 가격"
+            "ko": "수전 가격"
           }
         }
       ],
       "info": {
-        "en": "Bare supply price: without taxes, time markups and VAT.",
-        "nl": "Kale leveringsprijs: zonder belastingen, tijdopslagen en btw.",
-        "de": "Reiner Lieferpreis: ohne Steuern, Zeitaufschläge und MwSt.",
-        "fr": "Prix nu : sans taxes, majorations horaires ni TVA.",
-        "it": "Prezzo netto: senza tasse, sovrapprezzi orari e IVA.",
-        "sv": "Rent leveranspris: utan skatter, tidspåslag och moms.",
-        "no": "Ren leveringspris: uten avgifter, tidspåslag og mva.",
-        "es": "Precio neto: sin impuestos, recargos horarios ni IVA.",
-        "da": "Ren leveringspris: uden afgifter, tidstillæg og moms.",
-        "pl": "Czysta cena: bez podatków, narzutów czasowych i VAT.",
-        "ru": "Чистая цена: без налогов, временных наценок и НДС.",
-        "ar": "السعر الصافي: بدون ضرائب أو إضافات زمنية أو ضريبة القيمة المضافة.",
-        "ko": "순수 공급 가격: 세금, 시간대 추가요금, 부가세 제외."
+        "en": "Bare import price: without taxes, time markups and VAT.",
+        "nl": "Kale importprijs: zonder belastingen, tijdopslagen en btw.",
+        "de": "Reiner Importpreis: ohne Steuern, Zeitaufschläge und MwSt.",
+        "fr": "Prix d'import nu : sans taxes, majorations horaires ni TVA.",
+        "it": "Prezzo di importazione netto: senza tasse, sovrapprezzi orari e IVA.",
+        "sv": "Rent importpris: utan skatter, tidspåslag och moms.",
+        "no": "Ren importpris: uten avgifter, tidspåslag og mva.",
+        "es": "Precio de importación neto: sin impuestos, recargos horarios ni IVA.",
+        "da": "Ren importpris: uden afgifter, tidstillæg og moms.",
+        "pl": "Czysta cena importu: bez podatków, narzutów czasowych i VAT.",
+        "ru": "Чистая цена импорта: без налогов, временных наценок и НДС.",
+        "ar": "سعر الاستيراد الصافي: بدون ضرائب أو إضافات زمنية أو ضريبة القيمة المضافة.",
+        "ko": "순수 수전 가격: 세금, 시간대 추가요금, 부가세 제외."
       }
     },
     "export_formula": {
@@ -2169,15 +2169,15 @@
         "pl": "Pokaż cenę eksportu na wykresie",
         "ru": "Показывать экспортную цену на графике",
         "ar": "إظهار سعر التصدير في الرسم البياني",
-        "ko": "그래프에 송전(수출) 가격 표시"
+        "ko": "그래프에 송전 가격 표시"
       },
       "value": false,
       "info": {
         "en": "Shows the export price as a line in the price charts.",
-        "nl": "Toont de terugleverprijs als lijn in de prijsgrafieken.",
-        "de": "Zeigt den Einspeisepreis als Linie in den Preisdiagrammen.",
-        "fr": "Affiche le prix d'injection sous forme de ligne dans les graphiques de prix.",
-        "it": "Mostra il prezzo di immissione come linea nei grafici dei prezzi.",
+        "nl": "Toont de exportprijs als lijn in de prijsgrafieken.",
+        "de": "Zeigt den Exportpreis als Linie in den Preisdiagrammen.",
+        "fr": "Affiche le prix d'export sous forme de ligne dans les graphiques de prix.",
+        "it": "Mostra il prezzo di esportazione come linea nei grafici dei prezzi.",
         "sv": "Visar exportpriset som en linje i prisdiagrammen.",
         "no": "Viser eksportprisen som en linje i prisgrafene.",
         "es": "Muestra el precio de exportación como línea en los gráficos de precios.",
@@ -2185,7 +2185,7 @@
         "pl": "Pokazuje cenę eksportu jako linię na wykresach cen.",
         "ru": "Показывает цену экспорта линией на графиках цен.",
         "ar": "يعرض سعر التصدير كخط في مخططات الأسعار.",
-        "ko": "가격 차트에 수출 가격을 선으로 표시합니다."
+        "ko": "가격 차트에 송전 가격을 선으로 표시합니다."
       }
     },
     "currency": {

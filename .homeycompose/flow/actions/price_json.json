@@ -31,18 +31,18 @@
   },
   "hint": {
     "en": "Gives the import or export prices of the period as a JSON list, one price per price period, e.g. for a script or a chart.",
-    "nl": "Geeft de invoer- of terugleverprijzen van de periode als JSON-lijst, één prijs per prijsperiode, bijv. voor een script of grafiek.",
-    "de": "Liefert die Bezugs- oder Einspeisepreise des Zeitraums als JSON-Liste, ein Preis pro Preisperiode, z. B. für ein Skript oder Diagramm.",
-    "fr": "Donne les prix d'achat ou de revente de la période sous forme de liste JSON, un prix par période de prix, ex. pour un script ou un graphique.",
-    "it": "Fornisce i prezzi di prelievo o di immissione del periodo come elenco JSON, un prezzo per periodo, es. per uno script o un grafico.",
+    "nl": "Geeft de import- of exportprijzen van de periode als JSON-lijst, één prijs per prijsperiode, bijv. voor een script of grafiek.",
+    "de": "Liefert die Import- oder Exportpreise des Zeitraums als JSON-Liste, ein Preis pro Preisperiode, z. B. für ein Skript oder Diagramm.",
+    "fr": "Donne les prix d'import ou d'export de la période sous forme de liste JSON, un prix par période de prix, ex. pour un script ou un graphique.",
+    "it": "Fornisce i prezzi di importazione o di esportazione del periodo come elenco JSON, un prezzo per periodo, es. per uno script o un grafico.",
     "sv": "Ger import- eller exportpriserna för perioden som en JSON-lista, ett pris per prisperiod, t.ex. för ett skript eller diagram.",
     "no": "Gir import- eller eksportprisene for perioden som en JSON-liste, én pris per prisperiode, f.eks. for et skript eller diagram.",
     "es": "Da los precios de importación o exportación del periodo como lista JSON, un precio por periodo, p. ej. para un script o un gráfico.",
     "da": "Giver import- eller eksportpriserne for perioden som en JSON-liste, én pris pr. prisperiode, f.eks. til et script eller diagram.",
-    "pl": "Podaje ceny poboru lub oddania z okresu jako listę JSON, jedna cena na okres cenowy, np. dla skryptu lub wykresu.",
+    "pl": "Podaje ceny importu lub eksportu z okresu jako listę JSON, jedna cena na okres cenowy, np. dla skryptu lub wykresu.",
     "ru": "Выдаёт цены импорта или экспорта за период списком JSON, одна цена на ценовой период, напр. для скрипта или графика.",
     "ar": "يعطي أسعار الاستيراد أو التصدير للفترة كقائمة JSON، سعر واحد لكل فترة سعر، مثلاً لسكربت أو رسم بياني.",
-    "ko": "기간의 수입 또는 수출 가격을 가격 구간당 하나씩 JSON 목록으로 제공합니다. 예: 스크립트나 차트용."
+    "ko": "기간의 수전 또는 송전 가격을 가격 구간당 하나씩 JSON 목록으로 제공합니다. 예: 스크립트나 차트용."
   },
   "args": [
     {
@@ -66,7 +66,7 @@
         "pl": "Import lub eksport",
         "ru": "Импорт или экспорт",
         "ar": "استيراد أو تصدير",
-        "ko": "수입 또는 수출"
+        "ko": "수전 또는 송전"
       },
       "values": [
         {
@@ -84,7 +84,7 @@
             "pl": "importu",
             "ru": "импорта",
             "ar": "الاستيراد",
-            "ko": "수입"
+            "ko": "수전"
           }
         },
         {
@@ -102,7 +102,7 @@
             "pl": "eksportu",
             "ru": "экспорта",
             "ar": "التصدير",
-            "ko": "수출"
+            "ko": "송전"
           }
         }
       ]

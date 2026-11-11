@@ -35,7 +35,7 @@
         "pl": "kWh ten dzień (import)",
         "ru": "кВтч этот день (импорт)",
         "ar": "كيلوواط ساعة هذا اليوم (مستورد)",
-        "ko": "오늘 kWh (수입)",
+        "ko": "오늘 kWh (수전)",
         "fr": "kWh ce jour (importé)",
         "da": "kWh denne dag (importeret)"
       }
@@ -52,7 +52,7 @@
         "pl": "kWh ten dzień (eksport)",
         "ru": "кВтч этот день (экспорт)",
         "ar": "كيلوواط ساعة هذا اليوم (مُصدَّر)",
-        "ko": "오늘 kWh (수출)",
+        "ko": "오늘 kWh (송전)",
         "fr": "kWh ce jour (exporté)",
         "da": "kWh denne dag (eksporteret)"
       }
@@ -65,7 +65,7 @@
         "es": "kWh día anterior (importado)",
         "ru": "кВтч пред. день (импорт)",
         "ar": "كيلوواط ساعة اليوم السابق (مستورد)",
-        "ko": "전날 kWh (수입)",
+        "ko": "전날 kWh (수전)",
         "de": "kWh Vortag (importiert)",
         "fr": "kWh jour dernier (importé)",
         "it": "kWh giorno prec. (importato)",
@@ -82,7 +82,7 @@
         "es": "kWh día anterior (exportado)",
         "ru": "кВтч пред. день (экспорт)",
         "ar": "كيلوواط ساعة اليوم السابق (مُصدَّر)",
-        "ko": "전날 kWh (수출)",
+        "ko": "전날 kWh (송전)",
         "de": "kWh Vortag (exportiert)",
         "fr": "kWh jour dernier (exporté)",
         "it": "kWh giorno prec. (esportato)",
@@ -105,7 +105,7 @@
         "pl": "kWh ten miesiąc (import)",
         "ru": "кВтч этот месяц (импорт)",
         "ar": "كيلوواط ساعة هذا الشهر (مستورد)",
-        "ko": "이번 달 kWh (수입)"
+        "ko": "이번 달 kWh (수전)"
       }
     },
     "meter_kwh_this_month.exported": {
@@ -122,7 +122,7 @@
         "pl": "kWh ten miesiąc (eksport)",
         "ru": "кВтч этот месяц (экспорт)",
         "ar": "كيلوواط ساعة هذا الشهر (مُصدَّر)",
-        "ko": "이번 달 kWh (수출)"
+        "ko": "이번 달 kWh (송전)"
       }
     },
     "meter_kwh_last_month.imported": {
@@ -139,7 +139,7 @@
         "pl": "kWh poprz. miesiąc (import)",
         "ru": "кВтч пред. месяц (импорт)",
         "ar": "كيلوواط ساعة الشهر السابق (مستورد)",
-        "ko": "지난달 kWh (수입)"
+        "ko": "지난달 kWh (수전)"
       }
     },
     "meter_kwh_last_month.exported": {
@@ -156,7 +156,7 @@
         "pl": "kWh poprz. miesiąc (eksport)",
         "ru": "кВтч пред. месяц (экспорт)",
         "ar": "كيلوواط ساعة الشهر السابق (مُصدَّر)",
-        "ko": "지난달 kWh (수출)"
+        "ko": "지난달 kWh (송전)"
       }
     },
     "meter_kwh_this_year.imported": {
@@ -173,7 +173,7 @@
         "pl": "kWh ten rok (import)",
         "ru": "кВтч этот год (импорт)",
         "ar": "كيلوواط ساعة هذا العام (مستورد)",
-        "ko": "올해 kWh (수입)"
+        "ko": "올해 kWh (수전)"
       }
     },
     "meter_kwh_this_year.exported": {
@@ -190,7 +190,7 @@
         "pl": "kWh ten rok (eksport)",
         "ru": "кВтч этот год (экспорт)",
         "ar": "كيلوواط ساعة هذا العام (مُصدَّر)",
-        "ko": "올해 kWh (수출)"
+        "ko": "올해 kWh (송전)"
       }
     },
     "meter_kwh_last_year.imported": {
@@ -207,7 +207,7 @@
         "pl": "kWh poprz. rok (import)",
         "ru": "кВтч пред. год (импорт)",
         "ar": "كيلوواط ساعة العام السابق (مستورد)",
-        "ko": "작년 kWh (수입)"
+        "ko": "작년 kWh (수전)"
       }
     },
     "meter_kwh_last_year.exported": {
@@ -224,7 +224,7 @@
         "pl": "kWh poprz. rok (eksport)",
         "ru": "кВтч пред. год (экспорт)",
         "ar": "كيلوواط ساعة العام السابق (مُصدَّر)",
-        "ko": "작년 kWh (수출)"
+        "ko": "작년 kWh (송전)"
       }
     },
     "meter_money_this_day.imported": {
@@ -236,7 +236,7 @@
         "sv": "Pengar idag (importerad)",
         "no": "Penger i dag (importert)",
         "da": "Penge i dag (importeret)",
-        "ko": "오늘 금액 (수입)",
+        "ko": "오늘 금액 (수전)",
         "fr": "Argent ce jour (importé)",
         "es": "Dinero este día (importado)",
         "pl": "Pieniądze ten dzień (import)",
@@ -250,7 +250,7 @@
         "nl": "Geld deze dag (geëxporteerd)",
         "sv": "Pengar idag (exporterad)",
         "da": "Penge i dag (eksporteret)",
-        "ko": "오늘 금액 (수출)",
+        "ko": "오늘 금액 (송전)",
         "de": "Erlös dieser Tag (exportiert)",
         "fr": "Argent ce jour (exporté)",
         "it": "Ricavo oggi (esportato)",
@@ -267,7 +267,7 @@
         "nl": "Geld vorige dag (geïmporteerd)",
         "fr": "Argent hier (importé)",
         "no": "Penger forrige dag (importert)",
-        "ko": "전날 금액 (수입)",
+        "ko": "전날 금액 (수전)",
         "de": "Geld Vortag (importiert)",
         "it": "Importo giorno prec. (importato)",
         "sv": "Pengar föreg. dag (importerad)",
@@ -283,7 +283,7 @@
         "en": "Money prev. day (exported)",
         "nl": "Geld vorige dag (geëxporteerd)",
         "fr": "Argent hier (exporté)",
-        "ko": "전날 금액 (수출)",
+        "ko": "전날 금액 (송전)",
         "de": "Erlös Vortag (exportiert)",
         "it": "Ricavo giorno prec. (esportato)",
         "sv": "Pengar föreg. dag (exporterad)",
@@ -309,7 +309,7 @@
         "pl": "Pieniądze ten miesiąc (import)",
         "ru": "Деньги этот месяц (импорт)",
         "ar": "المال هذا الشهر (مستورد)",
-        "ko": "이번 달 금액 (수입)"
+        "ko": "이번 달 금액 (수전)"
       }
     },
     "meter_money_this_month.exported": {
@@ -326,7 +326,7 @@
         "pl": "Pieniądze ten miesiąc (eksport)",
         "ru": "Деньги этот месяц (экспорт)",
         "ar": "المال هذا الشهر (مُصدَّر)",
-        "ko": "이번 달 금액 (수출)"
+        "ko": "이번 달 금액 (송전)"
       }
     },
     "meter_money_last_month.imported": {
@@ -343,7 +343,7 @@
         "pl": "Pieniądze poprz. miesiąc (import)",
         "ru": "Деньги пред. месяц (импорт)",
         "ar": "المال الشهر السابق (مستورد)",
-        "ko": "지난달 금액 (수입)"
+        "ko": "지난달 금액 (수전)"
       }
     },
     "meter_money_last_month.exported": {
@@ -360,7 +360,7 @@
         "pl": "Pieniądze poprz. miesiąc (eksport)",
         "ru": "Деньги пред. месяц (экспорт)",
         "ar": "المال الشهر السابق (مُصدَّر)",
-        "ko": "지난달 금액 (수출)"
+        "ko": "지난달 금액 (송전)"
       }
     },
     "meter_money_this_year.imported": {
@@ -377,7 +377,7 @@
         "pl": "Pieniądze ten rok (import)",
         "ru": "Деньги этот год (импорт)",
         "ar": "المال هذا العام (مستورد)",
-        "ko": "올해 금액 (수입)"
+        "ko": "올해 금액 (수전)"
       }
     },
     "meter_money_this_year.exported": {
@@ -394,7 +394,7 @@
         "pl": "Pieniądze ten rok (eksport)",
         "ru": "Деньги этот год (экспорт)",
         "ar": "المال هذا العام (مُصدَّر)",
-        "ko": "올해 금액 (수출)"
+        "ko": "올해 금액 (송전)"
       }
     },
     "meter_money_last_year.imported": {
@@ -411,7 +411,7 @@
         "pl": "Pieniądze poprz. rok (import)",
         "ru": "Деньги пред. год (импорт)",
         "ar": "المال العام السابق (مستورد)",
-        "ko": "작년 금액 (수입)"
+        "ko": "작년 금액 (수전)"
       }
     },
     "meter_money_last_year.exported": {
@@ -428,7 +428,7 @@
         "pl": "Pieniądze poprz. rok (eksport)",
         "ru": "Деньги пред. год (экспорт)",
         "ar": "المال العام السابق (مُصدَّر)",
-        "ko": "작년 금액 (수출)"
+        "ko": "작년 금액 (송전)"
       }
     },
     "measure_watt_min.day": {
@@ -554,7 +554,7 @@
       "title": {
         "en": "Peak demand (export day)",
         "nl": "Piekexport (dag)",
-        "de": "Spitzeneinspeisung (Tag)",
+        "de": "Exportspitze (Tag)",
         "fr": "Pointe d'exportation (jour)",
         "it": "Picco di esportazione (giorno)",
         "sv": "Toppexport (dag)",
@@ -564,7 +564,7 @@
         "pl": "Szczyt eksportu (dzień)",
         "ru": "Пиковый экспорт (день)",
         "ar": "ذروة التصدير (يوم)",
-        "ko": "피크 수출 (일)"
+        "ko": "피크 송전 (일)"
       }
     },
     "measure_watt_peak.month": {
@@ -588,7 +588,7 @@
       "title": {
         "en": "Peak demand (export month)",
         "nl": "Piekexport (maand)",
-        "de": "Spitzeneinspeisung (Monat)",
+        "de": "Exportspitze (Monat)",
         "fr": "Pointe d'exportation (mois)",
         "it": "Picco di esportazione (mese)",
         "sv": "Toppexport (månad)",
@@ -598,7 +598,7 @@
         "pl": "Szczyt eksportu (miesiąc)",
         "ru": "Пиковый экспорт (месяц)",
         "ar": "ذروة التصدير (شهر)",
-        "ko": "피크 수출 (월)"
+        "ko": "피크 송전 (월)"
       }
     },
     "measure_watt_peak.year": {
@@ -622,7 +622,7 @@
       "title": {
         "en": "Peak demand (export year)",
         "nl": "Piekexport (jaar)",
-        "de": "Spitzeneinspeisung (Jahr)",
+        "de": "Exportspitze (Jahr)",
         "fr": "Pointe d'exportation (année)",
         "it": "Picco di esportazione (anno)",
         "sv": "Toppexport (år)",
@@ -632,7 +632,7 @@
         "pl": "Szczyt eksportu (rok)",
         "ru": "Пиковый экспорт (год)",
         "ar": "ذروة التصدير (عام)",
-        "ko": "피크 수출 (년)"
+        "ko": "피크 송전 (년)"
       }
     },
     "measure_watt_forecast.h0": {
@@ -1910,15 +1910,15 @@
           "type": "label",
           "label": {
             "en": "Max. import (W)",
-            "nl": "Max. afname (W)",
-            "de": "Max. Bezug (W)",
+            "nl": "Max. import (W)",
+            "de": "Max. Import (W)",
             "fr": "Prélèvement max. (W)",
-            "it": "Prelievo max. (W)",
-            "sv": "Max. uttag (W)",
-            "no": "Maks. uttak (W)",
+            "it": "Importazione max. (W)",
+            "sv": "Max. import (W)",
+            "no": "Maks. import (W)",
             "es": "Consumo máx. (W)",
             "da": "Maks. forbrug (W)",
-            "pl": "Maks. pobór (W)",
+            "pl": "Maks. import (W)",
             "ru": "Макс. потребление (Вт)",
             "ar": "الحد الأقصى للسحب (واط)",
             "ko": "최대 수전 (W)"
@@ -2035,19 +2035,19 @@
           },
           "value": "-",
           "hint": {
-            "en": "Automatic: the export price while you return power, else the import price.",
-            "nl": "Automatisch: de terugleverprijs zolang je teruglevert, anders de afnameprijs.",
-            "de": "Automatisch: der Einspeisepreis, solange Sie einspeisen, sonst der Bezugspreis.",
-            "fr": "Automatique : le prix d'injection pendant que vous injectez, sinon le prix d'achat.",
-            "it": "Automatico: il prezzo di immissione mentre immetti, altrimenti quello di prelievo.",
+            "en": "Automatic: the export price while you export, else the import price.",
+            "nl": "Automatisch: de exportprijs zolang je exporteert, anders de importprijs.",
+            "de": "Automatisch: der Exportpreis, solange Sie exportieren, sonst der Importpreis.",
+            "fr": "Automatique : le prix d'export pendant que vous exportez, sinon le prix d'import.",
+            "it": "Automatico: il prezzo di esportazione mentre esporti, altrimenti quello di importazione.",
             "sv": "Automatisk: exportpriset när du levererar tillbaka, annars importpriset.",
             "no": "Automatisk: eksportprisen når du leverer tilbake, ellers importprisen.",
             "es": "Automático: el precio de exportación mientras exportas, si no el de importación.",
             "da": "Automatisk: eksportprisen, mens du leverer tilbage, ellers importprisen.",
-            "pl": "Automatycznie: cena eksportu, gdy oddajesz energię, w przeciwnym razie cena importu.",
-            "ru": "Автоматически: цена экспорта, пока вы отдаёте энергию, иначе цена импорта.",
+            "pl": "Automatycznie: cena eksportu, gdy eksportujesz, w przeciwnym razie cena importu.",
+            "ru": "Автоматически: цена экспорта, пока вы экспортируете, иначе цена импорта.",
             "ar": "تلقائي: سعر التصدير أثناء إعادة الكهرباء، وإلا سعر الاستيراد.",
-            "ko": "자동: 역송전 중에는 수출 가격, 그 외에는 수입 가격."
+            "ko": "자동: 송전 중에는 송전 가격, 그 외에는 수전 가격."
           }
         },
         {
@@ -2071,18 +2071,18 @@
           "value": "-",
           "hint": {
             "en": "How your supplier settles import and export.",
-            "nl": "Hoe je leverancier afname en teruglevering verrekent.",
-            "de": "Wie Ihr Anbieter Bezug und Einspeisung verrechnet.",
-            "fr": "Comment votre fournisseur règle l'achat et l'injection.",
-            "it": "Come il fornitore conteggia prelievo e immissione.",
+            "nl": "Hoe je leverancier import en export verrekent.",
+            "de": "Wie Ihr Anbieter Import und Export verrechnet.",
+            "fr": "Comment votre fournisseur règle l'import et l'export.",
+            "it": "Come il fornitore conteggia importazione ed esportazione.",
             "sv": "Hur din leverantör räknar import och export.",
             "no": "Hvordan leverandøren avregner import og eksport.",
             "es": "Cómo liquida tu proveedor la importación y la exportación.",
             "da": "Hvordan din leverandør afregner import og eksport.",
-            "pl": "Jak dostawca rozlicza pobór i oddawanie.",
+            "pl": "Jak dostawca rozlicza import i eksport.",
             "ru": "Как поставщик рассчитывает импорт и экспорт.",
             "ar": "كيف يحاسب مورّدك الاستيراد والتصدير.",
-            "ko": "공급업체가 수입과 수출을 정산하는 방식."
+            "ko": "공급업체가 수전과 송전을 정산하는 방식."
           }
         },
         {

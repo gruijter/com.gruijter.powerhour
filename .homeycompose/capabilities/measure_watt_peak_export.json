@@ -2,7 +2,7 @@
   "type": "number",
   "title": {
     "en": "Peak demand (export)",
-    "de": "Spitzeneinspeisung",
+    "de": "Exportspitze",
     "sv": "Toppexport",
     "it": "Picco di esportazione",
     "no": "Toppeksport",
@@ -12,7 +12,7 @@
     "es": "Exportación máxima",
     "pl": "Szczyt eksportu",
     "ru": "Пиковый экспорт",
-    "ko": "최대 수출",
+    "ko": "최대 송전",
     "ar": "ذروة التصدير"
   },
   "uiComponent": "sensor",

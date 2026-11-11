@@ -236,18 +236,18 @@
           },
           "hint": {
             "en": "Grid power the batteries aim for (+ import, − export, 0 = zero on the meter).",
-            "nl": "Netvermogen waar de batterijen naar sturen (+ afname, − teruglevering, 0 = nul op de meter).",
-            "de": "Netzleistung, auf die die Batterien regeln (+ Bezug, − Einspeisung, 0 = Null am Zähler).",
-            "fr": "Puissance réseau visée par les batteries (+ achat, − injection, 0 = zéro au compteur).",
-            "it": "Potenza di rete a cui puntano le batterie (+ prelievo, − immissione, 0 = zero sul contatore).",
+            "nl": "Netvermogen waar de batterijen naar sturen (+ import, − export, 0 = nul op de meter).",
+            "de": "Netzleistung, auf die die Batterien regeln (+ Import, − Export, 0 = Null am Zähler).",
+            "fr": "Puissance réseau visée par les batteries (+ import, − export, 0 = zéro au compteur).",
+            "it": "Potenza di rete a cui puntano le batterie (+ importazione, − esportazione, 0 = zero sul contatore).",
             "sv": "Näteffekt som batterierna siktar på (+ import, − export, 0 = noll på mätaren).",
             "no": "Netteffekt batteriene sikter mot (+ import, − eksport, 0 = null på måleren).",
             "es": "Potencia de red que buscan las baterías (+ importación, − exportación, 0 = cero en el contador).",
             "da": "Neteffekt, som batterierne sigter mod (+ import, − eksport, 0 = nul på måleren).",
-            "pl": "Moc sieci, do której dążą baterie (+ pobór, − oddawanie, 0 = zero na liczniku).",
+            "pl": "Moc sieci, do której dążą baterie (+ import, − eksport, 0 = zero na liczniku).",
             "ru": "Мощность сети, к которой стремятся батареи (+ импорт, − экспорт, 0 = ноль на счётчике).",
             "ar": "قدرة الشبكة التي تستهدفها البطاريات (+ استيراد، − تصدير، 0 = صفر على العداد).",
-            "ko": "배터리가 목표로 하는 전력망 전력 (+ 수입, − 수출, 0 = 계량기 0)."
+            "ko": "배터리가 목표로 하는 전력망 전력 (+ 수전, − 송전, 0 = 계량기 0)."
           },
           "value": 0,
           "min": -10000,
@@ -1058,19 +1058,19 @@
           },
           "value": "-",
           "hint": {
-            "en": "Automatic: the export price while you return power, else the import price.",
-            "nl": "Automatisch: de terugleverprijs zolang je teruglevert, anders de afnameprijs.",
-            "de": "Automatisch: der Einspeisepreis, solange Sie einspeisen, sonst der Bezugspreis.",
-            "fr": "Automatique : le prix d'injection pendant que vous injectez, sinon le prix d'achat.",
-            "it": "Automatico: il prezzo di immissione mentre immetti, altrimenti quello di prelievo.",
+            "en": "Automatic: the export price while you export, else the import price.",
+            "nl": "Automatisch: de exportprijs zolang je exporteert, anders de importprijs.",
+            "de": "Automatisch: der Exportpreis, solange Sie exportieren, sonst der Importpreis.",
+            "fr": "Automatique : le prix d'export pendant que vous exportez, sinon le prix d'import.",
+            "it": "Automatico: il prezzo di esportazione mentre esporti, altrimenti quello di importazione.",
             "sv": "Automatisk: exportpriset när du levererar tillbaka, annars importpriset.",
             "no": "Automatisk: eksportprisen når du leverer tilbake, ellers importprisen.",
             "es": "Automático: el precio de exportación mientras exportas, si no el de importación.",
             "da": "Automatisk: eksportprisen, mens du leverer tilbage, ellers importprisen.",
-            "pl": "Automatycznie: cena eksportu, gdy oddajesz energię, w przeciwnym razie cena importu.",
-            "ru": "Автоматически: цена экспорта, пока вы отдаёте энергию, иначе цена импорта.",
+            "pl": "Automatycznie: cena eksportu, gdy eksportujesz, w przeciwnym razie cena importu.",
+            "ru": "Автоматически: цена экспорта, пока вы экспортируете, иначе цена импорта.",
             "ar": "تلقائي: سعر التصدير أثناء إعادة الكهرباء، وإلا سعر الاستيراد.",
-            "ko": "자동: 역송전 중에는 수출 가격, 그 외에는 수입 가격."
+            "ko": "자동: 송전 중에는 송전 가격, 그 외에는 수전 가격."
           }
         },
         {
@@ -1153,7 +1153,7 @@
           "type": "label",
           "label": {
             "en": "Show export price in chart",
-            "nl": "Terugleverprijs tonen in grafiek",
+            "nl": "Exportprijs tonen in grafiek",
             "de": "Exportpreis im Diagramm anzeigen",
             "fr": "Afficher le prix d'exportation sur le graphique",
             "it": "Mostra prezzo di esportazione nel grafico",
@@ -1164,7 +1164,7 @@
             "pl": "Pokaż cenę eksportu na wykresie",
             "ru": "Показывать экспортную цену на графике",
             "ar": "إظهار سعر التصدير في الرسم البياني",
-            "ko": "그래프에 송전(수출) 가격 표시"
+            "ko": "그래프에 송전 가격 표시"
           },
           "value": "-"
         },
