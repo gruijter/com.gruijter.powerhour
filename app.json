@@ -20831,18 +20831,18 @@
                 "ko": "그리드 목표 (W)"
               },
               "hint": {
-                "en": "Grid power the batteries aim for (+ import, − export, 0 = zero on the meter).",
+                "en": "Grid power the batteries aim for. Positive: import, negative: export.",
                 "nl": "Netvermogen waar de batterijen naar sturen (+ import, − export, 0 = nul op de meter).",
                 "de": "Netzleistung, auf die die Batterien regeln (+ Import, − Export, 0 = Null am Zähler).",
                 "fr": "Puissance réseau visée par les batteries (+ import, − export, 0 = zéro au compteur).",
                 "it": "Potenza di rete a cui puntano le batterie (+ importazione, − esportazione, 0 = zero sul contatore).",
-                "sv": "Näteffekt som batterierna siktar på (+ import, − export, 0 = noll på mätaren).",
-                "no": "Netteffekt batteriene sikter mot (+ import, − eksport, 0 = null på måleren).",
-                "es": "Potencia de red que buscan las baterías (+ importación, − exportación, 0 = cero en el contador).",
-                "da": "Neteffekt, som batterierne sigter mod (+ import, − eksport, 0 = nul på måleren).",
+                "sv": "Näteffekt som batterierna siktar på. Positiv: import, negativ: export.",
+                "no": "Netteffekt batteriene sikter mot. Positiv: import, negativ: eksport.",
+                "es": "Potencia de red que buscan las baterías. Positiva: importación, negativa: exportación.",
+                "da": "Neteffekt, som batterierne sigter mod. Positiv: import, negativ: eksport.",
                 "pl": "Moc sieci, do której dążą baterie (+ import, − eksport, 0 = zero na liczniku).",
-                "ru": "Мощность сети, к которой стремятся батареи (+ импорт, − экспорт, 0 = ноль на счётчике).",
-                "ar": "قدرة الشبكة التي تستهدفها البطاريات (+ استيراد، − تصدير، 0 = صفر على العداد).",
+                "ru": "Мощность сети, к которой стремятся батареи. Плюс: импорт, минус: экспорт.",
+                "ar": "قدرة الشبكة التي تستهدفها البطاريات. موجبة: استيراد، سالبة: تصدير.",
                 "ko": "배터리가 목표로 하는 전력망 전력 (+ 수전, − 송전, 0 = 계량기 0)."
               },
               "value": 0,
@@ -26904,19 +26904,19 @@
               },
               "value": "-",
               "hint": {
-                "en": "After this time a temporary charge mode ends.",
-                "nl": "Hierna stopt een tijdelijke laadmodus.",
-                "de": "Danach endet ein vorübergehender Lademodus.",
-                "fr": "Ensuite, un mode de charge temporaire prend fin.",
-                "it": "Dopo questo tempo una modalità di carica temporanea termina.",
-                "sv": "Därefter slutar ett tillfälligt laddläge.",
-                "no": "Deretter avsluttes en midlertidig lademodus.",
-                "es": "Después termina un modo de carga temporal.",
-                "da": "Derefter slutter en midlertidig ladetilstand.",
-                "pl": "Po tym czasie tymczasowy tryb ładowania się kończy.",
-                "ru": "После этого временный режим зарядки завершается.",
-                "ar": "بعد هذا الوقت ينتهي وضع الشحن المؤقت.",
-                "ko": "이 시간이 지나면 임시 충전 모드가 끝납니다."
+                "en": "Charge now and Don't charge from the tile end after this time (0: never).",
+                "nl": "Nu laden en Niet laden vanaf de tegel stoppen na deze tijd (0: nooit).",
+                "de": "Jetzt laden und Nicht laden von der Kachel enden nach dieser Zeit (0: nie).",
+                "fr": "Charger maintenant et Ne pas charger depuis la tuile prennent fin après ce temps (0 : jamais).",
+                "it": "Carica ora e Non caricare dal riquadro terminano dopo questo tempo (0: mai).",
+                "sv": "Ladda nu och Ladda inte från brickan slutar efter denna tid (0: aldrig).",
+                "no": "Lad nå og Ikke lad fra flisen avsluttes etter denne tiden (0: aldri).",
+                "es": "Cargar ahora y No cargar desde la tarjeta terminan tras este tiempo (0: nunca).",
+                "da": "Lad nu og Lad ikke fra flisen slutter efter denne tid (0: aldrig).",
+                "pl": "Ładuj teraz i Nie ładuj z kafelka kończą się po tym czasie (0: nigdy).",
+                "ru": "«Зарядить сейчас» и «Не заряжать» с плитки завершаются через это время (0: никогда).",
+                "ar": "اشحن الآن ولا تشحن من البطاقة ينتهيان بعد هذا الوقت (0: أبدًا).",
+                "ko": "타일에서 고른 지금 충전과 충전 안 함은 이 시간 후 끝납니다 (0: 안 함)."
               }
             },
             {
@@ -31889,6 +31889,41 @@
                 "ru": "Надбавка за кВтч (газ: м³) в субботу и воскресенье вместо надбавки по времени.",
                 "ar": "إضافة لكل كيلوواط ساعة (الغاز: م³) يومي السبت والأحد، بدلًا من الإضافة حسب الوقت.",
                 "ko": "토요일과 일요일 kWh당 (가스: m³) 추가 금액, 시간대 마크업 대신 적용."
+              }
+            },
+            {
+              "id": "view_marketFloor",
+              "type": "label",
+              "label": {
+                "en": "Market price not below zero",
+                "nl": "Marktprijs niet onder nul",
+                "de": "Marktpreis nicht unter null",
+                "fr": "Prix du marché pas sous zéro",
+                "it": "Prezzo di mercato non sotto zero",
+                "sv": "Marknadspris inte under noll",
+                "no": "Markedspris ikke under null",
+                "es": "Precio de mercado no por debajo de cero",
+                "da": "Markedspris ikke under nul",
+                "pl": "Cena rynkowa nie poniżej zera",
+                "ru": "Рыночная цена не ниже нуля",
+                "ar": "سعر السوق لا يقل عن الصفر",
+                "ko": "시장 가격 0 미만 없음"
+              },
+              "value": "-",
+              "hint": {
+                "en": "A negative market price counts as zero.",
+                "nl": "Een negatieve marktprijs telt als nul.",
+                "de": "Ein negativer Marktpreis zählt als null.",
+                "fr": "Un prix du marché négatif compte comme zéro.",
+                "it": "Un prezzo di mercato negativo conta come zero.",
+                "sv": "Ett negativt marknadspris räknas som noll.",
+                "no": "En negativ markedspris teller som null.",
+                "es": "Un precio de mercado negativo cuenta como cero.",
+                "da": "En negativ markedspris tæller som nul.",
+                "pl": "Ujemna cena rynkowa liczy się jako zero.",
+                "ru": "Отрицательная рыночная цена считается нулём.",
+                "ar": "يُحتسب سعر السوق السالب صفرًا.",
+                "ko": "음수 시장 가격은 0으로 계산됩니다."
               }
             },
             {

@@ -206,6 +206,7 @@
 		document.getElementById('marketTitle').textContent = fixed ? data.defs.currency.label : Homey.__('price_setup.step_market');
 		showField('biddingZone', !fixed);
 		showField('priceInterval', !fixed && !isGas());
+		showField('marketFloor', !fixed);
 		showCurrencyFields();
 		// Labels with the unit of the energy (kWh or m³); a fixed tariff names its prices.
 		const perUnit = Homey.__('price_setup.unit_label').replace('__unit__', perM3() ? 'm³' : 'kWh');
@@ -543,6 +544,7 @@
 		['', 'export_'].forEach((prefix) => PRICE_FIELDS.filter((id) => !id.endsWith('InclVat')).forEach((id) => {
 			field(prefix ? 'export' : 'import', `${prefix}${id}`, AMOUNTS.includes(id) ? { vat: `${prefix}${id}InclVat` } : {});
 		}));
+		field('import', 'marketFloor');
 		field('export', 'export_floor');
 		field('export', 'export_show_chart_line');
 		(data.advanced || []).forEach((id) => field('advanced', id));

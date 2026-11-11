@@ -1939,6 +1939,45 @@
         "ko": "주말 마크업에 부가세 포함"
       }
     },
+    "marketFloor": {
+      "id": "marketFloor",
+      "type": "checkbox",
+      "value": false,
+      "label": {
+        "en": "Market price not below zero",
+        "nl": "Marktprijs niet onder nul",
+        "de": "Marktpreis nicht unter null",
+        "fr": "Prix du marché pas sous zéro",
+        "it": "Prezzo di mercato non sotto zero",
+        "sv": "Marknadspris inte under noll",
+        "no": "Markedspris ikke under null",
+        "es": "Precio de mercado no por debajo de cero",
+        "da": "Markedspris ikke under nul",
+        "pl": "Cena rynkowa nie poniżej zera",
+        "ru": "Рыночная цена не ниже нуля",
+        "ar": "سعر السوق لا يقل عن الصفر",
+        "ko": "시장 가격 0 미만 없음"
+      },
+      "info": {
+        "en": "A negative market price counts as zero.",
+        "nl": "Een negatieve marktprijs telt als nul.",
+        "de": "Ein negativer Marktpreis zählt als null.",
+        "fr": "Un prix du marché négatif compte comme zéro.",
+        "it": "Un prezzo di mercato negativo conta come zero.",
+        "sv": "Ett negativt marknadspris räknas som noll.",
+        "no": "En negativ markedspris teller som null.",
+        "es": "Un precio de mercado negativo cuenta como cero.",
+        "da": "En negativ markedspris tæller som nul.",
+        "pl": "Ujemna cena rynkowa liczy się jako zero.",
+        "ru": "Отрицательная рыночная цена считается нулём.",
+        "ar": "يُحتسب سعر السوق السالب صفرًا.",
+        "ko": "음수 시장 가격은 0으로 계산됩니다."
+      },
+      "showIf": {
+        "id": "tariffType",
+        "not": "fixed"
+      }
+    },
     "export_floor": {
       "id": "export_floor",
       "type": "checkbox",

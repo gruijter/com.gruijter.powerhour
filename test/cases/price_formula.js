@@ -166,6 +166,20 @@ test('export floor: import base, negative minimum, export vat, own formula wins'
   assert.strictEqual(PriceFormula.build({ ...s, export_floor: false }, 'export'), 'market * 1.1');
 });
 
+test('market floor: import only, VAT and markups on top', () => {
+  const s = {
+    ...base, vat: 25.5, fixedMarkup: 0.00456, tax: 0.0277, taxInclVat: true, variableMarkupAbsPrice: 10, marketFloor: true,
+  };
+  assert.strictEqual(PriceFormula.build(s, 'import'), '(max(market, 0) + max(market, 0) * 0.1 + 0.00456) * 1.255 + 0.0277');
+  assert.strictEqual(PriceFormula.build(s, 'export'), 'market');
+  const [neg, pos] = PriceFormula.applyPrices([{ time: new Date(start), price: -50 }, { time: new Date(start + 3600000), price: 50 }], s, 'UTC');
+  near(neg.muPrice, 0.00456 * 1.255 + 0.0277, 'negative market');
+  near(pos.muPrice, (0.05 * 1.1 + 0.00456) * 1.255 + 0.0277, 'positive market');
+  near(neg.exportPrice, -0.05, 'export not floored');
+  const fixed = PriceFormula.build({ ...s, tariffType: 'fixed' }, 'import');
+  assert.ok(!fixed.includes('market'), fixed);
+});
+
 test('export floor: fixed tariff supply = supply price', () => {
   const s = {
     ...base, tariffType: 'fixed', fixedMarkup: 0.25, variableMarkup: 10, export_fixedMarkup: 0.01, export_floor: true, export_floorPercent: 50,
