@@ -946,10 +946,11 @@ class BatDevice extends GenericDevice {
   }
 
   // The batteries planned as one with this one (sorted by id, the first plans), or null. A battery
-  // that calibrates plans alone: its targets are its own.
+  // that calibrates plans alone: its targets are its own. An unavailable one (source missing) is not
+  // planned: it only made the LP larger.
   planGroup() {
-    if (!this.inGroup() || this.calibrationActive()) return null;
-    const group = this.driver.groupDevices().filter((d) => !d.calibrationActive())
+    if (!this.inGroup() || this.calibrationActive() || !this.getAvailable()) return null;
+    const group = this.driver.groupDevices().filter((d) => !d.calibrationActive() && d.getAvailable())
       .sort((a, b) => (a.getData().id < b.getData().id ? -1 : 1));
     return group.length > 1 && group.includes(this) ? group : null;
   }
@@ -1548,7 +1549,7 @@ class BatDevice extends GenericDevice {
   // The plan of the device settings (BatteryPlan): taken in use for the control and the grid
   // forecast (applyPlan()), then drawn.
   async updatePlan() {
-    if (!this.pricesNextHours) return;
+    if (!this.pricesNextHours || !this.getAvailable()) return;
     await this.refreshGroupPrices().catch(() => {});
     const minPriceDelta = this.getSettings().minProfit;
     // Reuse a plan from the same price slot and minPriceDelta (a flow trigger usually computed it
