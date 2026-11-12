@@ -18,7 +18,6 @@
         "ar": "السعة (كيلوواط ساعة)",
         "ko": "용량 (kWh)"
       },
-      "value": 5.05,
       "decimals": 2,
       "info": {
         "en": "As on the data sheet of the battery. The app learns the usable part itself.",
@@ -54,7 +53,6 @@
         "ar": "الحد الأقصى لطاقة الشحن (واط)",
         "ko": "최대 충전 전력 (W)"
       },
-      "value": 2200,
       "min": 0,
       "decimals": 0
     },
@@ -76,7 +74,6 @@
         "ar": "الحد الأقصى لطاقة التفريغ (واط)",
         "ko": "최대 방전 전력 (W)"
       },
-      "value": 1700,
       "min": 0,
       "decimals": 0
     },

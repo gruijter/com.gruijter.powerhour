@@ -23,6 +23,7 @@ const GenericDriver = require('../../lib/genericDeviceDrivers/generic_bat_driver
 const EnergyPollingHelper = require('../../lib/helpers/EnergyPollingHelper');
 const PairSetup = require('../../lib/helpers/PairSetup');
 const SourceCaps = require('../../lib/helpers/SourceCaps');
+const BatteryHistory = require('../../lib/helpers/BatteryHistory');
 const BatteryControl = require('../../lib/strategies/BatteryControl');
 const FuseGuard = require('../../lib/strategies/FuseGuard');
 
@@ -41,6 +42,8 @@ const WEAR_END_OF_LIFE = 0.7;
 const MIN_PROFIT_SHARE = 0.1;
 // Pairing with a capacity tariff: the reserve its hint advises.
 const PEAK_RESERVE_PCT = 10;
+// Pairing waits at most this long for the Insights proposal.
+const PROPOSAL_WAIT_MS = 10000;
 // Dependencies are lazy loaded in methods to save memory
 
 // The screens of the setup view, in order (lib/helpers/PairSetup.js). Pairing asks the battery, its
@@ -625,6 +628,24 @@ class BatteryDriver extends GenericDriver {
     return id === 'peakReservePct' ? PEAK_RESERVE_PCT : value;
   }
 
+  // Pairing: capacity and max. power from the source device's Insights (BatteryHistory), {} without
+  // history. One signed power only. Below Homey's 30 s view handler timeout.
+  async setupProposals(dev) {
+    const source = await this._setupSourceDevice(dev.settings);
+    const auto = source && this.autoSourceCapGroup(source);
+    if (!auto) return {};
+    const { group, invert } = auto;
+    const caps = { soc: group.soc, power: group.newMeasurePower || group.power, invert };
+    let timer;
+    const timeout = new Promise((resolve) => {
+      timer = this.homey.setTimeout(() => resolve({}), PROPOSAL_WAIT_MS);
+    });
+    const proposal = await Promise.race([BatteryHistory.fetchProposal(this.homey.app.api, source.id, caps), timeout]);
+    this.homey.clearTimeout(timer);
+    this.log('setup proposal from history:', source.name, proposal);
+    return proposal;
+  }
+
   // The minimum profit of a new battery (MIN_PROFIT_SHARE), from the prices of its tariff group.
   // null: no prices yet.
   defaultMinProfit(group) {
@@ -672,6 +693,9 @@ class BatteryDriver extends GenericDriver {
   }
 
   async setupValidate(settings, caps) {
+    if (['batCapacity', 'chargePower', 'dischargePower'].some((id) => !(Number(settings[id]) > 0))) {
+      throw Error(this.homey.__('error_setup_bat_specs'));
+    }
     const source = await this._setupSourceDevice(settings);
     if (!source) return;
     const resolved = this.sourceCapGroupFor(source, { sourceId: source.id, caps });

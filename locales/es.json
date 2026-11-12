@@ -45,6 +45,7 @@
   "error_setup_no_watt": "__name__ no tiene la capacidad measure_power.",
   "error_setup_bat_caps_missing": "Elija un estado de carga y una potencia.",
   "error_setup_bat_power_mixed": "Elige una potencia, o una potencia de carga y descarga, no ambas.",
+  "error_setup_bat_specs": "Indica la capacidad y la potencia de carga y descarga máx.",
   "solar_bootstrap_warning": "Se está construyendo el modelo de previsión solar - puede tardar hasta 2 semanas de historial en alcanzar la precisión completa.",
   "solar_bootstrap_status": "Inicializando - __days__ de 14 días de historial recopilados",
   "solar_trained_status": "Completamente entrenado (último reentrenamiento: __date__)",

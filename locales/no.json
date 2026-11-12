@@ -45,6 +45,7 @@
   "error_setup_no_watt": "__name__ har ingen measure_power capability.",
   "error_setup_bat_caps_missing": "Velg en ladenivå og en effekt.",
   "error_setup_bat_power_mixed": "Velg enten en effekt eller en lade- og utladeeffekt, ikke begge.",
+  "error_setup_bat_specs": "Fyll inn kapasiteten og maks. lade- og utladeeffekt.",
   "solar_bootstrap_warning": "Solprognosemodellen bygges opp - det kan ta opptil 2 ukers historikk før den er helt nøyaktig.",
   "solar_bootstrap_status": "Bygger opp - __days__ av 14 dagers historikk samlet",
   "solar_trained_status": "Fullt trent (siste gjentrening: __date__)",

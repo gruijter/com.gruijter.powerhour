@@ -45,6 +45,7 @@
   "error_setup_no_watt": "لا يحتوي __name__ على قدرة measure_power.",
   "error_setup_bat_caps_missing": "اختر حالة الشحن والقدرة.",
   "error_setup_bat_power_mixed": "اختر إما قدرة، أو قدرة شحن وتفريغ، وليس كليهما.",
+  "error_setup_bat_specs": "أدخل السعة والحد الأقصى لطاقة الشحن والتفريغ.",
   "solar_bootstrap_warning": "جارٍ بناء نموذج التنبؤ الشمسي - قد يستغرق الوصول إلى الدقة الكاملة ما يصل إلى أسبوعين من السجل التاريخي.",
   "solar_bootstrap_status": "جارٍ الإعداد - تم جمع __days__ من أصل 14 يومًا من السجل",
   "solar_trained_status": "مدرَّب بالكامل (آخر إعادة تدريب: __date__)",

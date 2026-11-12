@@ -81,6 +81,14 @@ const session = () => {
   };
 };
 
+// A battery paired from a source with history: its capacity and powers proposed.
+const SPECS = { batCapacity: 5, chargePower: 2200, dischargePower: 1800 };
+const batteryDriver = async (opts) => {
+  const driver = await fakeDriver(BatteryDriver, opts);
+  driver.setupProposals = async () => SPECS;
+  return driver;
+};
+
 const pairView = async (driver, settings = {}) => {
   const s = session();
   PairSetup.registerPair(driver, s, async () => []);
@@ -118,7 +126,7 @@ const manifestIds = (driverId) => {
   });
 
   await test('battery: steps, calibration only with control', async () => {
-    const { view } = await pairView(await fakeDriver(BatteryDriver));
+    const { view } = await pairView(await batteryDriver());
     assert.deepStrictEqual(view.steps.map((s) => s.id), ['battery', 'control', 'wear', 'price', 'grid_limits', 'advanced']);
     // Pairing asks the battery, its control and the price: the other steps hidden, their defaults sent back.
     assert.deepStrictEqual(view.steps.filter((s) => s.hidden).map((s) => s.id), ['wear', 'grid_limits', 'advanced']);
@@ -129,15 +137,23 @@ const manifestIds = (driverId) => {
     assert.strictEqual(byId(view, 'wearCalc').step, 'wear');
     assert.strictEqual(byId(view, 'chargePower').step, 'battery');
     assert.strictEqual(byId(view, 'show_chart'), undefined);
-    assert.strictEqual(byId(view, 'batCapacity').value, 5.05);
+    assert.strictEqual(byId(view, 'batCapacity').value, 5);
     assert.ok(byId(view, 'wearCost').info.startsWith('What a kWh'));
     assert.deepStrictEqual(byId(view, 'calibrateDays').showIf, { id: 'batteryControl', value: true });
     assert.strictEqual(byId(view, 'chartShowSoc').step, 'advanced');
   });
 
+  await test('battery: no history, capacity and powers start empty and must be filled in', async () => {
+    const { view, handlers } = await pairView(await fakeDriver(BatteryDriver));
+    ['batCapacity', 'chargePower', 'dischargePower'].forEach((id) => assert.strictEqual(byId(view, id).value, ''));
+    await assert.rejects(handlers.setup_set(values(view)), /error_setup_bat_specs/);
+    const { device } = await handlers.setup_set(values(view, { batCapacity: '9.6', chargePower: '3000', dischargePower: '3000' }));
+    assert.strictEqual(device.settings.batCapacity, 9.6);
+  });
+
   await test('battery: with a capacity tariff pairing asks the grid limits, peaks limited', async () => {
     const grid = { getImportHeadroomW: () => null, peakConfig: { pricePerKw: 5, steps: [], preset: 'custom' } };
-    const { view, handlers } = await pairView(await fakeDriver(BatteryDriver, { grid }));
+    const { view, handlers } = await pairView(await batteryDriver({ grid }));
     assert.strictEqual(view.steps.find((s) => s.id === 'grid_limits').hidden, undefined);
     assert.strictEqual(byId(view, 'peakShaving').value, true);
     assert.strictEqual(byId(view, 'peakReservePct').value, 10);
@@ -146,13 +162,13 @@ const manifestIds = (driverId) => {
     assert.strictEqual(device.settings.peakReservePct, 10);
     // No tariff set on the grid device: as without one.
     const none = { getImportHeadroomW: () => null, peakConfig: { pricePerKw: 0, steps: [], preset: 'custom' } };
-    const plain = (await pairView(await fakeDriver(BatteryDriver, { grid: none }))).view;
+    const plain = (await pairView(await batteryDriver({ grid: none }))).view;
     assert.strictEqual(plain.steps.find((s) => s.id === 'grid_limits').hidden, true);
     assert.strictEqual(byId(plain, 'peakShaving').value, false);
   });
 
   await test('battery: the minimum profit of a new battery is a share of the mean price', async () => {
-    const driver = await fakeDriver(BatteryDriver);
+    const driver = await batteryDriver();
     driver.pricesNextHours = { 1: [0.2, 0.3, 0.25], 2: [1.4, 1.8] };
     let { view, handlers } = await pairView(driver);
     let { device } = await handlers.setup_set(values(view));
@@ -211,7 +227,7 @@ const manifestIds = (driverId) => {
       capabilitiesObj: { measure_battery: cap('%'), measure_power: cap('W'), target_power: cap('W', { setable: true }) },
     };
     const withSource = async (src) => {
-      const driver = await fakeDriver(BatteryDriver);
+      const driver = await batteryDriver();
       delete driver.setupRoles;
       driver._setupSourceDevice = async () => src;
       return driver;
@@ -232,21 +248,21 @@ const manifestIds = (driverId) => {
   });
 
   await test('battery: EV and group settings only when they apply', async () => {
-    let { view } = await pairView(await fakeDriver(BatteryDriver));
+    let { view } = await pairView(await batteryDriver());
     assert.strictEqual(byId(view, 'dischargeToEv'), undefined);
     assert.strictEqual(byId(view, 'groupPlan'), undefined);
     const other = { getSettings: () => ({ homey_device_id: 'other' }) };
-    ({ view } = await pairView(await fakeDriver(BatteryDriver, { devices: [other], evChargers: 1 })));
+    ({ view } = await pairView(await batteryDriver({ devices: [other], evChargers: 1 })));
     assert.strictEqual(byId(view, 'dischargeToEv').value, true);
     assert.strictEqual(byId(view, 'groupPlan').value, true);
     // Repairing the only battery (same source): no group.
     const self = { getSettings: () => ({ homey_device_id: 'src' }) };
-    ({ view } = await pairView(await fakeDriver(BatteryDriver, { devices: [self] })));
+    ({ view } = await pairView(await batteryDriver({ devices: [self] })));
     assert.strictEqual(byId(view, 'groupPlan'), undefined);
   });
 
   await test('battery: values are parsed into the new device', async () => {
-    const driver = await fakeDriver(BatteryDriver);
+    const driver = await batteryDriver();
     const { view, handlers } = await pairView(driver);
     const { device } = await handlers.setup_set(values(view, { batteryControl: true, calibrateDays: '3', peakReservePct: '150' }));
     assert.strictEqual(device.settings.calibrateDays, 3);
@@ -255,7 +271,7 @@ const manifestIds = (driverId) => {
   });
 
   await test('battery: wear helper fills in the wear cost, which stays editable', async () => {
-    const driver = await fakeDriver(BatteryDriver);
+    const driver = await batteryDriver();
     const { view, handlers } = await pairView(driver);
     assert.strictEqual(byId(view, 'wearCost').showIf, undefined);
     assert.deepStrictEqual(byId(view, 'wearCycles').showIf, { id: 'wearCalc', value: true });
@@ -338,10 +354,10 @@ const manifestIds = (driverId) => {
   });
 
   await test('battery repair: device values only when the source changes, control needs a setpoint', async () => {
-    const driver = await fakeDriver(BatteryDriver);
+    const driver = await batteryDriver();
     driver.setupRoles = async () => ({ deviceId: 'src', items: [{ key: 'setpoint', auto: 'target_power', options: [] }] });
     const device = {
-      getName: () => 'Bat', getSettings: () => ({ tariff_update_group: 1, homey_device_id: 'src' }), getStoreValue: () => null,
+      getName: () => 'Bat', getSettings: () => ({ tariff_update_group: 1, homey_device_id: 'src', batCapacity: 5.05 }), getStoreValue: () => null,
     };
     const repair = () => {
       const s = session();
