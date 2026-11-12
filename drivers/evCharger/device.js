@@ -27,6 +27,7 @@ const EvCarCaps = require('../../lib/helpers/EvCarCaps');
 const EvChargerCaps = require('../../lib/helpers/EvChargerCaps');
 const EvHistory = require('../../lib/helpers/EvHistory');
 const InsightsHistory = require('../../lib/helpers/InsightsHistory');
+const FileStore = require('../../lib/helpers/FileStore');
 
 const deviceSpecifics = {
   cmap: {
@@ -88,7 +89,9 @@ class CarChargeDevice extends GenericDevice {
 
   async initDeviceValues() {
     this.lastKnownSoc = await this.getStoreValue('lastKnownSoc') || 0;
-    this.usageModel = EvUsageModel.fromStore(await this.getStoreValue('evUsageModel')); // null: bootstrap from Insights first
+    // null: bootstrap from Insights first. In the file store: every setStoreValue() sends the whole store.
+    this.usageModel = EvUsageModel.fromStore((await FileStore.open(this, ['evUsageModel'])).get('evUsageModel'));
+    if (this.getStoreValue('evPriceProfile')) await this.unsetStoreValue('evPriceProfile').catch(this.error); // no longer used
     if (this.getStoreValue('socForecastModel')) await this.unsetStoreValue('socForecastModel').catch(this.error); // pre-v9 model
     if (this.getStoreValue('evPlanLog')) await this.unsetStoreValue('evPlanLog').catch(this.error); // plan_log label removed
     this.socEstimator = await this.getStoreValue('socEstimator') || EvSocEstimator.createState();
@@ -661,7 +664,7 @@ class CarChargeDevice extends GenericDevice {
   }
 
   async _saveUsageModel() {
-    await this.setStoreValue('evUsageModel', this.usageModel).catch(this.error);
+    (await FileStore.open(this)).set('evUsageModel', this.usageModel);
   }
 
   // Trips end with a car report that shows a higher odometer.

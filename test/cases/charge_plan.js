@@ -38,6 +38,17 @@ const device = (over = {}) => {
     homey: { clock: { getTimezone: () => 'UTC' }, drivers: { getDriver: () => ({ getDevices: () => [] }) }, __: (k) => k },
     getStoreValue: () => null,
     setStoreValue: async () => {},
+    // FileStore.open() takes an opened store from here.
+    fileStoreOpening: Promise.resolve({
+      data: {},
+      get(k) {
+        return this.data[k];
+      },
+      set(k, v) {
+        this.data[k] = v;
+      },
+      migrate: async () => {},
+    }),
     getName: () => 'Bat',
     getSettings: () => ({ precisePlanning: false }),
     log: (...args) => logs.push(args.join(' ')),
