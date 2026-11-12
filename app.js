@@ -114,6 +114,22 @@ class MyApp extends Homey.App {
     }
   }
 
+  // The new price slot's tariff on every consumer device, once per boundary (the first caller runs
+  // it, one driver after the other). Price devices fire their period triggers after it, so a flow on
+  // that trigger reads the new meter_tariff (generic_price_driver).
+  slotTariffs() {
+    const slot = TimeHelpers.startOfLocalBlock(Date.now(), 15, this.homey.clock.getTimezone());
+    if (!this.slotTariffRun || this.slotTariffRun.slot !== slot) {
+      const done = (async () => {
+        for (const driver of Object.values(this.homey.drivers.getDrivers())) {
+          if (typeof driver.priceSlotTick === 'function') await driver.priceSlotTick().catch((err) => this.error(err));
+        }
+      })();
+      this.slotTariffRun = { slot, done };
+    }
+    return this.slotTariffRun.done;
+  }
+
   everyHour() {
     this.scheduleNextHour();
     this.log('everyHour job started');
