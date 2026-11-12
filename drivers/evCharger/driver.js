@@ -330,12 +330,10 @@ class CarChargeDriver extends GenericDriver {
   async _measuredChargePower(chargerId) {
     const { api } = this.homey.app;
     if (!api || !chargerId) return null;
-    const allLogs = await this.homey.app.getInsightsLogs().catch(() => []);
-    const logs = Array.isArray(allLogs) ? allLogs : Object.values(allLogs);
     const endDate = new Date();
     const startDate = new Date(endDate.getTime() - 42 * 24 * 60 * 60 * 1000);
     const entries = await EvHistory.fetchPowerLog({
-      api, logs, deviceId: chargerId, capNames: ['energy_power', 'meter_power'], startDate, endDate,
+      api, deviceId: chargerId, capNames: ['energy_power', 'meter_power'], startDate, endDate,
     }).catch(() => null);
     return EvHistory.detectChargePower(entries);
   }

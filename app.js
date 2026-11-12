@@ -42,6 +42,7 @@ const CrashNotice = require('./lib/helpers/CrashNotice');
 class MyApp extends Homey.App {
 
   async onInit() {
+    if (Homey.env.PBTH_INSPECT === '1') require('inspector').open(9222, '0.0.0.0', false); // TEMP
     this.memLog = new MemLog(this); this.memLog.start();
     this.crashNotice = new CrashNotice(this);
     this.crashNotice.start();
@@ -71,7 +72,6 @@ class MyApp extends Homey.App {
     if (this.everyXMinutesId) this.homey.clearTimeout(this.everyXMinutesId);
     if (this.retryId) this.homey.clearInterval(this.retryId);
     if (this.apiRetryId) this.homey.clearTimeout(this.apiRetryId);
-    if (this.insightsLogsCacheTimeout) this.homey.clearTimeout(this.insightsLogsCacheTimeout);
 
     this.homey.removeAllListeners('everyhour_PBTH');
     this.homey.removeAllListeners('every15m_PBTH');
@@ -80,34 +80,6 @@ class MyApp extends Homey.App {
     this.homey.removeAllListeners('set_tariff_gas_PBTH');
     this.homey.removeAllListeners('set_tariff_water_PBTH');
     this.homey.removeAllListeners('price_source_removed_PBTH');
-  }
-
-  // Shared list of all Insights logs, for the devices that look up their source device's logs.
-  // A full api.insights.getLogs() holds every log object on the Homey; several devices each
-  // fetching their own copy at the same moment (boot, hourly, restarts) stacks those copies in
-  // memory. Concurrent callers share one request, and only a slim copy (the fields callers use)
-  // is kept, for 2 minutes, then released.
-  async getInsightsLogs() {
-    if (this.insightsLogsCache) return this.insightsLogsCache;
-    if (!this.insightsLogsPending) {
-      this.insightsLogsPending = (async () => {
-        if (!this.api) throw new Error('Homey API not ready');
-        const raw = await this.api.insights.getLogs();
-        const list = Array.isArray(raw) ? raw : Object.values(raw || {});
-        const logs = list.map((l) => ({
-          id: l.id, uri: l.uri, name: l.name, ownerUri: l.ownerUri,
-        }));
-        this.insightsLogsCache = logs;
-        if (this.insightsLogsCacheTimeout) this.homey.clearTimeout(this.insightsLogsCacheTimeout);
-        this.insightsLogsCacheTimeout = this.homey.setTimeout(() => {
-          this.insightsLogsCache = null;
-        }, 2 * 60 * 1000);
-        return logs;
-      })().finally(() => {
-        this.insightsLogsPending = null;
-      });
-    }
-    return this.insightsLogsPending;
   }
 
   // One fetch per key and local day, shared by all devices. An empty or partial ({ partial: true })

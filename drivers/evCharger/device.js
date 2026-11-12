@@ -2324,9 +2324,6 @@ class CarChargeDevice extends GenericDevice {
         return;
       }
 
-      const allLogs = await this.homey.app.getInsightsLogs().catch(() => []);
-      const logs = Array.isArray(allLogs) ? allLogs : Object.values(allLogs);
-
       const chargerId = this.getSettings().homey_device_id;
       const evId = this.getSettings().ev_device_id;
       const batCap = this.getSettings().batCapacity || 50;
@@ -2336,16 +2333,13 @@ class CarChargeDevice extends GenericDevice {
       const startDate = new Date(endDate.getTime() - 42 * 24 * 60 * 60 * 1000); // 6 weeks
 
       const fetchLog = (deviceId, capNames) => EvHistory.fetchPowerLog({
-        api, logs, deviceId, capNames, startDate, endDate,
+        api, deviceId, capNames, startDate, endDate,
       });
 
       // Odometer history for the usage model: hourly where Insights has it, coarser points (6-hour,
       // marked coarse) before that, up to a month back.
       const fetchOdometer = async (deviceId, capName) => {
-        const log = logs.find((l) => {
-          const id = l.id || l.uri || '';
-          return id.includes(deviceId) && (id.endsWith(`:${capName}`) || l.name === capName);
-        });
+        const [log] = await InsightsHistory.deviceLogs(api, deviceId, [capName]);
         if (!log) return null;
         return InsightsHistory.fetchHistory(api, log.id);
       };

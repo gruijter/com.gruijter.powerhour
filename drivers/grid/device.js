@@ -1971,10 +1971,7 @@ class GridDevice extends GenericDevice {
 
       // Train from the physical source devices' Insights, never from this device's own derived
       // measure_watt_home log (short-lived output of this forecaster).
-      let allLogs = await this.homey.app.getInsightsLogs().catch(() => []);
-      if (!Array.isArray(allLogs)) allLogs = Object.values(allLogs);
-
-      const powerEntries = await this.reconstructHomePowerHistory(api, allLogs, null, null, null, true).catch((err) => {
+      const powerEntries = await this.reconstructHomePowerHistory(api, null, null, null, true).catch((err) => {
         this.error('History reconstruction failed:', err);
         return [];
       });
@@ -2051,10 +2048,7 @@ class GridDevice extends GenericDevice {
       }
 
       // From the physical source devices, as in retrainLoadModel().
-      let allLogs = await this.homey.app.getInsightsLogs().catch(() => []);
-      if (!Array.isArray(allLogs)) allLogs = Object.values(allLogs);
-
-      const powerEntries = await this.reconstructHomePowerHistory(api, allLogs, null, null, 'yesterday').catch((err) => {
+      const powerEntries = await this.reconstructHomePowerHistory(api, null, null, 'yesterday').catch((err) => {
         this.error('History reconstruction failed:', err);
         return [];
       });
@@ -2093,7 +2087,7 @@ class GridDevice extends GenericDevice {
   }
 
   // withoutAppliances: the home load to learn, without program appliances.
-  async reconstructHomePowerHistory(api, allLogs, customStart = null, customEnd = null, customResolution = null, withoutAppliances = false) {
+  async reconstructHomePowerHistory(api, customStart = null, customEnd = null, customResolution = null, withoutAppliances = false) {
     const endDate = customEnd || new Date();
     const startDate = customStart || (() => {
       const d = new Date();
@@ -2124,10 +2118,7 @@ class GridDevice extends GenericDevice {
     };
 
     const getLogEntriesForDevice = async (deviceId, endings) => {
-      const deviceLogs = allLogs.filter((log) => {
-        const logId = log.id || log.uri || '';
-        return logId.includes(deviceId) && !logId.includes('PH_');
-      });
+      const deviceLogs = await InsightsHistory.deviceLogs(api, deviceId, endings.map((ending) => ending.replace(/^:/, '')));
 
       const matchingLogsMap = new Map();
 

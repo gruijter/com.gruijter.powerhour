@@ -420,15 +420,9 @@ class SolarDevice extends GenericDevice {
   // Finds a usable Insights log (:energy_power, else :meter_power converted) by test-fetching for
   // real (>10 W) data: a log can exist without values.
   async findTargetInsightsLog(api, sourceDevice, startDate14, endDate) {
-    let allLogs = await this.homey.app.getInsightsLogs().catch(() => []);
-    if (!Array.isArray(allLogs)) allLogs = Object.values(allLogs);
-
-    const deviceLogs = allLogs.filter((log) => {
-      const logId = log.id || log.uri || '';
-      return logId.includes(sourceDevice.id) && !logId.includes('PH_');
-    });
-    const availableCaps = deviceLogs.map((l) => (l.id || l.uri || '').split(':').pop()).join(', ');
-    this.log(`Available Insight logs for ${sourceDevice.name}: ${availableCaps}`);
+    const deviceLogs = await InsightsHistory.deviceLogs(api, sourceDevice.id, ['energy_power', 'meter_power']);
+    const availableCaps = (sourceDevice.capabilities || []).join(', ');
+    this.log(`Insight logs for ${sourceDevice.name}: ${deviceLogs.map((l) => l.id.split(':').pop()).join(', ') || 'none'}`);
 
     const candidates = [
       deviceLogs.find((log) => (log.id || log.uri || '').endsWith(':energy_power')),
@@ -459,9 +453,9 @@ class SolarDevice extends GenericDevice {
     }
 
     if (!targetLog) {
-      throw new Error(`No Insights log with valid >10W data found for device ${sourceDevice.id}. Available logs: ${availableCaps || 'none'}`);
+      throw new Error(`No Insights log with valid >10W data found for device ${sourceDevice.id}. Capabilities: ${availableCaps || 'none'}`);
     }
-    this.log(`Found target log: ${targetLog.name || 'unknown'} (ID: ${targetLog.id})`);
+    this.log(`Found target log: ${targetLog.id}`);
 
     const isCumulative = (targetLog.id || targetLog.uri || '').endsWith(':meter_power');
     if (isCumulative) this.log('Using cumulative energy log (converting to power)...');
@@ -845,13 +839,7 @@ class SolarDevice extends GenericDevice {
         return;
       }
 
-      let allLogs = await this.homey.app.getInsightsLogs().catch(() => []);
-      if (!Array.isArray(allLogs)) allLogs = Object.values(allLogs);
-
-      const deviceLogs = allLogs.filter((log) => {
-        const logId = log.id || log.uri || '';
-        return logId.includes(sourceDevice.id) && !logId.includes('PH_');
-      });
+      const deviceLogs = await InsightsHistory.deviceLogs(api, sourceDevice.id, ['energy_power', 'meter_power']);
 
       const candidates = [
         deviceLogs.find((log) => (log.id || log.uri || '').endsWith(':energy_power')),

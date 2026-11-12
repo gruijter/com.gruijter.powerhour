@@ -143,11 +143,9 @@ class PowerDevice extends GenericDevice {
       // not ready
     }
     if (!api) return; // tried again at the next start
-    const allLogs = await this.homey.app.getInsightsLogs().catch(() => []);
     const endDate = new Date();
     const entries = await EvHistory.fetchPowerLog({
       api,
-      logs: Array.isArray(allLogs) ? allLogs : Object.values(allLogs),
       deviceId: this.getSettings().homey_device_id,
       capNames: ['energy_power', 'meter_power'],
       startDate: new Date(endDate.getTime() - 14 * 24 * 60 * 60 * 1000),

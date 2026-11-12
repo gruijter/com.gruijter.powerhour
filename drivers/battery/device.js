@@ -831,14 +831,6 @@ class BatDevice extends GenericDevice {
       }
       const sourceId = this.sourceDevice.id;
       const { api } = this.homey.app;
-      const rawLogs = await this.homey.app.getInsightsLogs().catch((err) => this.error('getLogs error:', err));
-      if (!rawLogs) return;
-
-      const logs = Array.isArray(rawLogs) ? rawLogs : Object.values(rawLogs);
-      const devLogs = logs.filter((l) => {
-        const id = l.id || l.uri || l.ownerUri || '';
-        return id.includes(sourceId);
-      });
       const endDate = new Date();
       const startDate = new Date(endDate.getTime() - 48 * 60 * 60 * 1000);
 
@@ -868,13 +860,19 @@ class BatDevice extends GenericDevice {
         ['measure_power.battery', 'measure_power.sessy', 'meter_power'].forEach((cap) => powerCandidates.push({ cap, invert: false }));
       }
 
+      // The logs looked up below; without a resolved power, its measure_power.* capabilities.
+      const guessed = resolvedPowerCap ? [] : (this.sourceDevice.capabilities || []).filter((c) => c.startsWith('measure_power.'));
+      const devLogs = await InsightsHistory.deviceLogs(api, sourceId, [
+        ...powerCandidates.map((c) => c.cap), ...guessed, 'measure_battery', 'soc',
+      ]);
+
       let powerLog = null;
       let powerLogInvert = false;
       for (const candidate of powerCandidates) {
         const found = devLogs.find((l) => {
           const id = l.id || l.uri || l.ownerUri || '';
           const cap = id.split(':').pop() || '';
-          return cap === candidate.cap || l.name === candidate.cap;
+          return cap === candidate.cap;
         });
         if (found) {
           powerLog = found;
@@ -910,7 +908,7 @@ class BatDevice extends GenericDevice {
       const socLog = devLogs.find((l) => {
         const id = l.id || l.uri || l.ownerUri || '';
         const cap = id.split(':').pop() || '';
-        return cap === 'measure_battery' || cap === 'soc' || ['measure_battery', 'soc'].includes(l.name);
+        return cap === 'measure_battery' || cap === 'soc';
       });
 
       if (socLog) {
@@ -1343,13 +1341,10 @@ class BatDevice extends GenericDevice {
     if (lastTm && Date.now() - lastTm < 24 * 60 * 60 * 1000) return;
     await this.setStoreValue('batteryEfficiencyBootstrapTm', Date.now()).catch(this.error);
     const { api } = this.homey.app;
-    const logs = api ? await this.homey.app.getInsightsLogs().catch(() => null) : null;
-    if (!logs) return;
-    const list = Array.isArray(logs) ? logs : Object.values(logs);
-    const myId = this.getId();
+    if (!api) return;
     const entries = async (cap) => {
-      const log = list.find((l) => (l.ownerUri || '').endsWith(myId) && (l.id || '').endsWith(`:${cap}`));
-      const data = log ? await api.insights.getLogEntries({ id: log.id, resolution: 'last24Hours' }).catch(() => null) : null;
+      const data = await api.insights.getLogEntries({ id: InsightsHistory.deviceLogId(this.getId(), cap), resolution: 'last24Hours' })
+        .catch(() => null);
       return new Map(((data && data.values) || []).filter((e) => typeof e.v === 'number').map((e) => [e.t, e.v]));
     };
     const stored = await entries('meter_kwh_stored');
