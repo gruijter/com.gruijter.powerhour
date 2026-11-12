@@ -301,6 +301,16 @@ class BatDevice extends GenericDevice {
     return settings.groupPlan !== false && this.getBatteryMode() !== 'device';
   }
 
+  // After a crash with the LP on (CrashNotice): the light planner from now on, planned anew.
+  async stopPrecisePlanning() {
+    await this.setSettings({ precisePlanning: false });
+    this.groupPlans = null;
+    this.lastPlanTm = null;
+    this.lastPlanKey = null;
+    this.lastPlanTokens = null;
+    await SettingsView.update(this).catch((err) => this.error(err));
+  }
+
   // Once on entering the group: take the group's mode and planner (of the battery with the lowest id).
   async joinGroup() {
     if (this.groupJoined) return;

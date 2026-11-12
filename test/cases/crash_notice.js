@@ -2,8 +2,8 @@
 
 'use strict';
 
-// Unit cases for the crash notification (CrashNotice): crashedCount up = crash, the LP marker names
-// the batteries, every crash notified, none at the first start.
+// Unit cases for the crash notification (CrashNotice): crashedCount up = crash; with Extra precise
+// planning on it is turned off and notified, otherwise no notification; none at the first start.
 // Run: node test/cases/crash_notice.js
 
 const assert = require('assert');
@@ -27,6 +27,16 @@ const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'crash-'));
 
 const makeApp = ({ settings = {}, count = 0, lpBatteries = [] } = {}) => {
   const notes = [];
+  const batteries = lpBatteries.map((name) => {
+    const set = { precisePlanning: true };
+    return {
+      getName: () => name,
+      getSettings: () => set,
+      stopPrecisePlanning: async () => {
+        set.precisePlanning = false;
+      },
+    };
+  });
   const homey = {
     settings: {
       get: (k) => settings[k],
@@ -40,14 +50,16 @@ const makeApp = ({ settings = {}, count = 0, lpBatteries = [] } = {}) => {
     __: (key, t) => `${key}${t ? `:${t.name}` : ''}`,
     drivers: {
       getDriver: () => ({
-        getDevices: () => lpBatteries.map((name) => ({ getName: () => name, getSettings: () => ({ precisePlanning: true }) })),
+        getDevices: () => batteries,
       }),
     },
   };
   const app = {
     homey, log: () => {}, error: () => {}, api: { apps: { getApp: async () => ({ crashedCount: count }) } },
   };
-  return { app, notes, settings };
+  return {
+    app, notes, settings, batteries,
+  };
 };
 
 (async () => {
@@ -60,7 +72,7 @@ const makeApp = ({ settings = {}, count = 0, lpBatteries = [] } = {}) => {
     assert.deepStrictEqual(notes, []);
   });
 
-  await test('count up after a crash in the LP: names the batteries', async () => {
+  await test('crash in the LP: LP off for its batteries, notified', async () => {
     const shared = {};
     const before = makeApp({ settings: shared, count: 1 });
     const c1 = new CrashNotice(before.app, dir);
@@ -68,37 +80,40 @@ const makeApp = ({ settings = {}, count = 0, lpBatteries = [] } = {}) => {
     await c1.check();
     // The LP is killed: the marker stays.
     c1.writeMarker({ kind: 'lp', names: ['Sessy1', 'Sessy2'], tm: Date.now() });
-    const after = makeApp({ settings: shared, count: 2 });
+    const after = makeApp({ settings: shared, count: 2, lpBatteries: ['Sessy1', 'Sessy2'] });
     const c2 = new CrashNotice(after.app, dir);
     c2.start();
     assert.strictEqual(c2.readMarker(), null);
+    assert.strictEqual(c2.lpKilled, true); // no LP until check() turned it off
     await c2.check();
-    assert.deepStrictEqual(after.notes, ['crash_notice_lp:Sessy1, Sessy2']);
+    assert.deepStrictEqual(after.notes, ['crash_notice_lp_off']);
+    assert.ok(after.batteries.every((b) => b.getSettings().precisePlanning === false));
+    assert.strictEqual(c2.lpKilled, false);
   });
 
-  await test('every crash notified, also right after the previous one', async () => {
-    const { app, notes, settings } = makeApp({ settings: { crashedCount: 2 }, count: 3 });
+  await test('every crash with the LP on notified, also right after the previous one', async () => {
+    const { app, notes, settings } = makeApp({ settings: { crashedCount: 2 }, count: 3, lpBatteries: ['Brik'] });
     const c = new CrashNotice(app, dir);
     c.start();
     await c.check();
-    assert.deepStrictEqual(notes, ['crash_notice']);
+    assert.deepStrictEqual(notes, ['crash_notice_lp_off']);
     assert.strictEqual(settings.crashedCount, 3);
   });
 
-  await test('crash outside the LP, LP on: advice for those batteries', async () => {
+  await test('crash outside the LP, LP on: turned off too', async () => {
     const { app, notes } = makeApp({ settings: { crashedCount: 0 }, count: 1, lpBatteries: ['Brik'] });
     const c = new CrashNotice(app, dir);
     c.start();
     await c.check();
-    assert.deepStrictEqual(notes, ['crash_notice_lp_on:Brik']);
+    assert.deepStrictEqual(notes, ['crash_notice_lp_off']);
   });
 
-  await test('crash without LP: plain notification; count reset (update): none', async () => {
+  await test('crash without LP: no notification; count reset (update): none', async () => {
     const a = makeApp({ settings: { crashedCount: 4 }, count: 5 });
     const c = new CrashNotice(a.app, dir);
     c.start();
     await c.check();
-    assert.deepStrictEqual(a.notes, ['crash_notice']);
+    assert.deepStrictEqual(a.notes, []);
     const b = makeApp({ settings: { crashedCount: 5 }, count: 0 });
     const d = new CrashNotice(b.app, dir);
     d.start();
