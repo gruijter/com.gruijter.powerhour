@@ -554,8 +554,61 @@ console.log('all phase 3 tests passed');
     cheapThreshold: null,
   });
   assert.deepStrictEqual(chargedSlots(quarters(0.2)), [8, 9, 10, 11, 12, 13, 14], 'session bridged');
-  assert.deepStrictEqual(chargedSlots(quarters(0.6)), [8, 9, 10, 11, 13, 14, 15], 'dear gap: not bridged');
+  assert.deepStrictEqual(chargedSlots(quarters(0.6)), [8, 9, 10, 11, 12, 13, 14], 'a pause under the minimum charging time: bridged, also when dear');
+  const noMinimum = P.plan({
+    ...base,
+    intervalMin: 15,
+    now,
+    slotStartMs: now,
+    prices: q.map((p, i) => (i === 12 ? 0.6 : p)),
+    soc: 40,
+    trips: [{
+      departMs: now + 10 * H, returnMs: now + 10 * H, needPct: 0, minSoc: 47,
+    }],
+    cheapThreshold: null,
+    minChargeMinutes: 0,
+  });
+  assert.deepStrictEqual(chargedSlots(noMinimum), [8, 9, 10, 11, 13, 14, 15], 'no minimum: the dear quarter skipped');
   console.log('ceiling, cover, typical day cost and gap tests passed');
+}
+
+// --- Minimum charging time: no session shorter than minChargeMinutes
+{
+  const now = at(2026, 11, 13, 0);
+  // 2.56 kW x 15 min / 64 kWh = 1 pct per quarter
+  const prices = Array.from({ length: 96 }, (_, i) => {
+    if (i === 8) return 0.1;
+    if (i === 9) return 0.2;
+    return i === 7 ? 0.25 : 0.3;
+  });
+  const quarterPlan = (extra) => P.plan({
+    ...base,
+    intervalMin: 15,
+    now,
+    slotStartMs: now,
+    prices,
+    soc: 40,
+    trips: [{
+      departMs: now + 10 * H, returnMs: now + 20 * H, needPct: 0, minSoc: 41,
+    }],
+    cheapThreshold: null,
+    ...extra,
+  });
+  assert.deepStrictEqual(chargedSlots(quarterPlan({})), [8, 9], 'one quarter needed: 30 minutes, with the cheaper neighbour');
+  assert.deepStrictEqual(chargedSlots(quarterPlan({ minChargeMinutes: 0 })), [8], 'no minimum: one quarter');
+  assert.deepStrictEqual(chargedSlots(quarterPlan({ minChargeMinutes: 60 })), [6, 7, 8, 9], 'an hour (equal prices: the earlier quarter)');
+  const variable = quarterPlan({ variablePower: true, minVariablePowerW: 1400 });
+  assert.deepStrictEqual(chargedSlots(variable), [8, 9], 'variable charger: a quarter counts whole');
+  // Only a cheap extra, its neighbours above the max. price: no 30 minutes, so not charged at all.
+  const extraOnly = quarterPlan({
+    soc: 70, trips: [], cheapThreshold: { grid: 0.15, solar: 0.15 }, maxPrice: 0.15,
+  });
+  assert.deepStrictEqual(chargedSlots(extraOnly), [], 'short cheap extra that cannot be extended: dropped');
+  const extraNoMin = quarterPlan({
+    soc: 70, trips: [], cheapThreshold: { grid: 0.15, solar: 0.15 }, maxPrice: 0.15, minChargeMinutes: 0,
+  });
+  assert.deepStrictEqual(chargedSlots(extraNoMin), [8], 'no minimum: the short extra stays');
+  console.log('minimum charging time tests passed');
 }
 
 // --- Typical day cost from the daily lows

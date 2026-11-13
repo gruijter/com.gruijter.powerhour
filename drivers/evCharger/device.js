@@ -1504,7 +1504,7 @@ class CarChargeDevice extends GenericDevice {
   async onSettings({ newSettings, changedKeys }) {
     await super.onSettings({ newSettings, changedKeys });
     const planKeys = [
-      'chargePower', 'batCapacity', 'variableChargePower', 'maxPrice',
+      'chargePower', 'batCapacity', 'variableChargePower', 'maxPrice', 'minChargeMinutes',
       'departureTime_0', 'departureTime_1', 'departureTime_2', 'departureTime_3',
       'departureTime_4', 'departureTime_5', 'departureTime_6',
     ];
@@ -2119,6 +2119,7 @@ class CarChargeDevice extends GenericDevice {
       certainSlots: firstForecast >= 0 ? firstForecast : undefined,
       variablePower: !!settings.variableChargePower,
       minVariablePowerW: this._variableMinW(),
+      minChargeMinutes: num(settings.minChargeMinutes, EvPlanner.MIN_CHARGE_MINUTES),
       solarGridW: Number(settings.solarGridPower) || 0,
       outlookUntilMs: tomorrowEndMs, // shown up to the end of tomorrow
       // Enough for the trips of today, tomorrow and the day after: nothing charged ahead for later.

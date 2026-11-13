@@ -930,6 +930,44 @@
         "ar": "لا شحن في المنزل فوق هذا السعر. 0 = بلا حد أقصى.",
         "ko": "이 가격보다 높으면 집에서 충전하지 않습니다. 0 = 최대 없음."
       }
+    },
+    "minChargeMinutes": {
+      "id": "minChargeMinutes",
+      "type": "number",
+      "value": 30,
+      "min": 0,
+      "max": 240,
+      "step": 15,
+      "label": {
+        "en": "Min. charging time (minutes)",
+        "nl": "Min. laadtijd (minuten)",
+        "de": "Min. Ladezeit (Minuten)",
+        "fr": "Durée de charge min. (minutes)",
+        "it": "Tempo di ricarica min. (minuti)",
+        "sv": "Min. laddtid (minuter)",
+        "no": "Min. ladetid (minutter)",
+        "es": "Tiempo de carga mín. (minutos)",
+        "da": "Min. opladningstid (minutter)",
+        "pl": "Min. czas ładowania (minuty)",
+        "ru": "Мин. время зарядки (минуты)",
+        "ar": "أدنى مدة شحن (دقائق)",
+        "ko": "최소 충전 시간 (분)"
+      },
+      "info": {
+        "en": "The car charges at least this long in one go. Shorter pauses are bridged. 0 = no minimum.",
+        "nl": "De auto laadt minstens zo lang aan één stuk. Kortere pauzes worden overbrugd. 0 = geen minimum.",
+        "de": "Das Auto lädt mindestens so lange am Stück. Kürzere Pausen werden überbrückt. 0 = kein Minimum.",
+        "fr": "La voiture charge au moins aussi longtemps d'une traite. Les pauses plus courtes sont comblées. 0 = pas de minimum.",
+        "it": "L’auto carica almeno per questo tempo di fila. Le pause più brevi vengono colmate. 0 = nessun minimo.",
+        "sv": "Bilen laddar minst så länge i ett sträck. Kortare pauser överbryggas. 0 = inget minimum.",
+        "no": "Bilen lader minst så lenge i ett strekk. Kortere pauser bygges over. 0 = ingen minimum.",
+        "es": "El coche carga al menos este tiempo seguido. Las pausas más cortas se cubren. 0 = sin mínimo.",
+        "da": "Bilen oplader mindst så længe i ét stræk. Kortere pauser bygges over. 0 = intet minimum.",
+        "pl": "Samochód ładuje się co najmniej tak długo bez przerwy. Krótsze przerwy są pomijane. 0 = bez minimum.",
+        "ru": "Машина заряжается не меньше этого времени подряд. Более короткие паузы заполняются. 0 = без минимума.",
+        "ar": "تشحن السيارة هذه المدة على الأقل دون انقطاع. يتم سد الفترات الأقصر. 0 = بلا حد أدنى.",
+        "ko": "차량이 최소 이 시간 동안 연속으로 충전합니다. 더 짧은 중단은 이어서 충전합니다. 0 = 최소값 없음."
+      }
     }
   },
   "solar": {
