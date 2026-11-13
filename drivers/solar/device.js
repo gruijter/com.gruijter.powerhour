@@ -418,7 +418,7 @@ class SolarDevice extends GenericDevice {
   }
 
   // Finds a usable Insights log (:energy_power, else :meter_power converted) by test-fetching for
-  // real (>10 W) data: a log can exist without values.
+  // real (>10 W) data: a log can exist without values. logs14: that 'last14Days' fetch, for the caller.
   async findTargetInsightsLog(api, sourceDevice, startDate14, endDate) {
     const deviceLogs = await InsightsHistory.deviceLogs(api, sourceDevice.id, ['energy_power', 'meter_power']);
     const availableCaps = (sourceDevice.capabilities || []).join(', ');
@@ -430,6 +430,7 @@ class SolarDevice extends GenericDevice {
     ].filter(Boolean);
 
     let targetLog = null;
+    let logs14 = null;
     for (const candidate of candidates) {
       const testLogs = await api.insights.getLogEntries({
         id: candidate.id,
@@ -447,6 +448,7 @@ class SolarDevice extends GenericDevice {
         });
         if (hasData) {
           targetLog = candidate;
+          logs14 = testLogs;
           break;
         }
       }
@@ -460,7 +462,7 @@ class SolarDevice extends GenericDevice {
     const isCumulative = (targetLog.id || targetLog.uri || '').endsWith(':meter_power');
     if (isCumulative) this.log('Using cumulative energy log (converting to power)...');
 
-    return { targetLog, isCumulative };
+    return { targetLog, isCumulative, logs14 };
   }
 
   async retrainSolarModel(fromScratch = false) {
@@ -542,7 +544,7 @@ class SolarDevice extends GenericDevice {
       this.fileStore.set('forecastData', this.forecastData);
       this.forecastChanged = true;
 
-      const { targetLog, isCumulative } = await this.findTargetInsightsLog(api, sourceDevice, startDate14, endDate);
+      const { targetLog, isCumulative, logs14: found14 } = await this.findTargetInsightsLog(api, sourceDevice, startDate14, endDate);
 
       // Samples of step 1 (hourly) and step 2 (5-min), aggregated once at the end.
       let slotSamples1 = new Array(96).fill(0).map(() => []);
@@ -555,12 +557,7 @@ class SolarDevice extends GenericDevice {
 
       this.log('Step 1: Coarse learning (up to 14 days, hourly)');
       try {
-        const logs14 = await api.insights.getLogEntries({
-          id: targetLog.id,
-          start: startDate14.toISOString(),
-          end: endDate.toISOString(),
-          resolution: 'last14Days',
-        });
+        const logs14 = found14;
 
         // Training coverage from the fetched data (see updateTrainingStatus()).
         if (logs14 && logs14.values && logs14.values.length > 0) {
@@ -765,12 +762,10 @@ class SolarDevice extends GenericDevice {
     const startDate24h = new Date();
     startDate24h.setDate(startDate24h.getDate() - 1);
 
-    const { targetLog, isCumulative } = await this.findTargetInsightsLog(api, sourceDevice, startDate14, endDate);
+    const { targetLog, isCumulative, logs14: found14 } = await this.findTargetInsightsLog(api, sourceDevice, startDate14, endDate);
 
     // Hourly, as the retrain uses it: 'last7Days' when 'last14Days' is not hourly (InsightsHistory).
-    let logs14 = await api.insights.getLogEntries({
-      id: targetLog.id, start: startDate14.toISOString(), end: endDate.toISOString(), resolution: 'last14Days',
-    });
+    let logs14 = found14;
     if (!(InsightsHistory.stepOf(logs14) <= InsightsHistory.HOUR_MS)) {
       logs14 = await api.insights.getLogEntries({
         id: targetLog.id, start: startDate14.toISOString(), end: endDate.toISOString(), resolution: 'last7Days',

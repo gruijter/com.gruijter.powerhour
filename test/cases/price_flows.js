@@ -86,6 +86,27 @@ const flowsFor = (state) => {
     assert.strictEqual(windowOf(15, '7:15', '8:00'), '07:15-08:00');
   });
 
+  await test('find block: also the price limit of the same number of hours, not in one block', async () => {
+    const hour = 3600 * 1000;
+    const periodStart = new Date(Math.floor(Date.now() / hour) * hour);
+    const device = {
+      priceInterval: 60,
+      timeZone: 'UTC',
+      state: { pricesNextHours: [0.30, 0.10, 0.40, 0.12, 0.35, 0.11, 0.50, 0.20] },
+      getUTCPeriods: () => ({ periodStart, nowLocal: new Date() }),
+    };
+    const f = new PriceFlows(device);
+    const cheap = await f.price_find_block({
+      type: 'lowest', duration: 3, duration_unit: 'hours', hours: 0, time: '',
+    });
+    assert.strictEqual(cheap.priceLimit, 0.12, 'cheapest 3 separate hours: 0.10, 0.11, 0.12');
+    assert.ok(cheap.avgPrice > cheap.priceLimit, 'a block of 3 costs more on average');
+    const dear = await f.price_find_block({
+      type: 'highest', duration: 2, duration_unit: 'hours', hours: 0, time: '',
+    });
+    assert.strictEqual(dear.priceLimit, 0.40, 'most expensive 2 separate hours: 0.50, 0.40');
+  });
+
   console.log(failed ? `\n${failed} failed` : '\nall passed');
   process.exitCode = failed ? 1 : 0;
 })().catch((err) => {
