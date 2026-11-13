@@ -7128,19 +7128,19 @@
             "type": "number",
             "example": 0.08,
             "title": {
-              "en": "Export price",
-              "nl": "Exportprijs",
-              "de": "Exportpreis",
-              "fr": "Prix d'export",
-              "it": "Prezzo di esportazione",
-              "sv": "Exportpris",
-              "no": "Eksportpris",
-              "es": "Precio de exportación",
-              "da": "Eksportpris",
-              "pl": "Cena eksportu",
-              "ru": "Цена экспорта",
-              "ar": "سعر التصدير",
-              "ko": "송전 가격"
+              "en": "Export price (electricity only)",
+              "nl": "Exportprijs (alleen stroom)",
+              "de": "Exportpreis (nur Strom)",
+              "fr": "Prix d'export (électricité uniquement)",
+              "it": "Prezzo di esportazione (solo elettricità)",
+              "sv": "Exportpris (endast el)",
+              "no": "Eksportpris (kun strøm)",
+              "es": "Precio de exportación (solo electricidad)",
+              "da": "Eksportpris (kun el)",
+              "pl": "Cena eksportu (tylko prąd)",
+              "ru": "Цена экспорта (только электроэнергия)",
+              "ar": "سعر التصدير (الكهرباء فقط)",
+              "ko": "송전 가격 (전기만)"
             }
           }
         ],
@@ -7313,26 +7313,26 @@
               "ko": "가격"
             },
             "type": "string",
-            "example": "[0.27,0.27,0.26,0.26,0.27,0.27,0.27,0.27,0.26,0.25,0.24,0.23,0.20,0.15,0.12,0.11,0.12,0.20,0.28,0.29,0.31,0.29,0.29,0.27]"
+            "example": "[0.25,0.24,0.31]"
           },
           {
             "name": "export_prices",
             "type": "string",
             "example": "[0.08,0.07,0.07]",
             "title": {
-              "en": "Export prices",
-              "nl": "Exportprijzen",
-              "de": "Exportpreise",
-              "fr": "Prix d'export",
-              "it": "Prezzi di esportazione",
-              "sv": "Exportpriser",
-              "no": "Eksportpriser",
-              "es": "Precios de exportación",
-              "da": "Eksportpriser",
-              "pl": "Ceny eksportu",
-              "ru": "Цены экспорта",
-              "ar": "أسعار التصدير",
-              "ko": "송전 가격"
+              "en": "Export prices (electricity only)",
+              "nl": "Exportprijzen (alleen stroom)",
+              "de": "Exportpreise (nur Strom)",
+              "fr": "Prix d'export (électricité uniquement)",
+              "it": "Prezzi di esportazione (solo elettricità)",
+              "sv": "Exportpriser (endast el)",
+              "no": "Eksportpriser (kun strøm)",
+              "es": "Precios de exportación (solo electricidad)",
+              "da": "Eksportpriser (kun el)",
+              "pl": "Ceny eksportu (tylko prąd)",
+              "ru": "Цены экспорта (только электроэнергия)",
+              "ar": "أسعار التصدير (الكهرباء فقط)",
+              "ko": "송전 가격 (전기만)"
             }
           },
           {
@@ -7353,7 +7353,7 @@
               "ar": "مزود"
             },
             "type": "string",
-            "example": "ENTSOE"
+            "example": "Provider"
           }
         ],
         "id": "price_new_prices"
@@ -16520,7 +16520,7 @@
               "ko": "가격"
             },
             "type": "string",
-            "example": "[0.27,0.27,0.26,0.26,0.27,0.27,0.27,0.27,0.26,0.25,0.24,0.23,0.20,0.15,0.12,0.11,0.12,0.20,0.28,0.29,0.31,0.29,0.29,0.27]"
+            "example": "[0.25,0.24,0.31]"
           },
           {
             "name": "provider",
@@ -16540,7 +16540,7 @@
               "ar": "مزود"
             },
             "type": "string",
-            "example": "ENTSOE"
+            "example": "Provider"
           }
         ],
         "id": "price_json"

@@ -62,19 +62,19 @@
       "type": "number",
       "example": 0.08,
       "title": {
-        "en": "Export price",
-        "nl": "Exportprijs",
-        "de": "Exportpreis",
-        "fr": "Prix d'export",
-        "it": "Prezzo di esportazione",
-        "sv": "Exportpris",
-        "no": "Eksportpris",
-        "es": "Precio de exportación",
-        "da": "Eksportpris",
-        "pl": "Cena eksportu",
-        "ru": "Цена экспорта",
-        "ar": "سعر التصدير",
-        "ko": "송전 가격"
+        "en": "Export price (electricity only)",
+        "nl": "Exportprijs (alleen stroom)",
+        "de": "Exportpreis (nur Strom)",
+        "fr": "Prix d'export (électricité uniquement)",
+        "it": "Prezzo di esportazione (solo elettricità)",
+        "sv": "Exportpris (endast el)",
+        "no": "Eksportpris (kun strøm)",
+        "es": "Precio de exportación (solo electricidad)",
+        "da": "Eksportpris (kun el)",
+        "pl": "Cena eksportu (tylko prąd)",
+        "ru": "Цена экспорта (только электроэнергия)",
+        "ar": "سعر التصدير (الكهرباء فقط)",
+        "ko": "송전 가격 (전기만)"
       }
     }
   ]
