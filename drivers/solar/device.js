@@ -588,9 +588,8 @@ class SolarDevice extends GenericDevice {
           cutoffTime.setDate(cutoffTime.getDate() - 1);
           let powerEntries = hourly.values.filter((e) => new Date(e.t) < cutoffTime);
 
-          if (isCumulative) {
-            powerEntries = convertCumulativeToPower(powerEntries);
-          }
+          // Hourly points: the training reads them as hours.
+          if (isCumulative) powerEntries = InsightsHistory.meterToPower(powerEntries, { maxW: 30000, maxGapMs: 24 * 3600 * 1000 });
 
           let maxSeen = 0;
           powerEntries.forEach((e) => {
