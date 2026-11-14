@@ -91,6 +91,18 @@ const makeApp = ({ settings = {}, count = 0, lpBatteries = [] } = {}) => {
     assert.strictEqual(c2.lpKilled, false);
   });
 
+  await test('killed in the LP, not counted as a crash: LP off too', async () => {
+    const shared = { crashedCount: 3 };
+    const before = makeApp({ settings: shared, count: 3 });
+    new CrashNotice(before.app, dir).writeMarker({ kind: 'lp', names: ['Brik'], tm: Date.now() });
+    const after = makeApp({ settings: shared, count: 3, lpBatteries: ['Brik'] });
+    const c = new CrashNotice(after.app, dir);
+    c.start();
+    await c.check();
+    assert.deepStrictEqual(after.notes, ['crash_notice_lp_off']);
+    assert.ok(after.batteries.every((b) => b.getSettings().precisePlanning === false));
+  });
+
   await test('every crash with the LP on notified, also right after the previous one', async () => {
     const { app, notes, settings } = makeApp({ settings: { crashedCount: 2 }, count: 3, lpBatteries: ['Brik'] });
     const c = new CrashNotice(app, dir);

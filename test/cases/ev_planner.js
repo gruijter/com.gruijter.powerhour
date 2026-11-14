@@ -608,6 +608,51 @@ console.log('all phase 3 tests passed');
     soc: 70, trips: [], cheapThreshold: { grid: 0.15, solar: 0.15 }, maxPrice: 0.15, minChargeMinutes: 0,
   });
   assert.deepStrictEqual(chargedSlots(extraNoMin), [8], 'no minimum: the short extra stays');
+  // Extended left twice, then stuck (5 and 9 above the max. price): no endless loop, the need stays.
+  const stuck = quarterPlan({
+    prices: prices.map((p, i) => ([6, 7, 8].includes(i) ? p : 0.5)), maxPrice: 0.3, minChargeMinutes: 60,
+  });
+  assert.deepStrictEqual(chargedSlots(stuck), [8], 'stuck after two extensions: the needed quarter only');
+  // A cheap extra is not extended at prices it is not worth.
+  const dear = quarterPlan({
+    prices: prices.map((p, i) => (i === 8 ? 0.1 : 0.6)), soc: 70, trips: [], cheapThreshold: { grid: 0.15, solar: 0.15 },
+  });
+  assert.deepStrictEqual(chargedSlots(dear), [], 'cheap extra next to dear quarters: dropped');
+  const worth = quarterPlan({
+    prices: prices.map((p, i) => ({ 8: 0.1, 9: 0.18 }[i] || 0.6)), soc: 70, trips: [], cheapThreshold: { grid: 0.15, solar: 0.15 },
+  });
+  assert.deepStrictEqual(chargedSlots(worth), [8, 9], 'cheap on average: extended');
+  // The session running now counts: its tail stays.
+  const tailPrices = Array.from({ length: 96 }, (_, i) => (i === 0 ? 0.1 : 0.6));
+  const tail = (chargingMinutes) => chargedSlots(quarterPlan({
+    prices: tailPrices, soc: 71, trips: [], cheapThreshold: { grid: 0.15, solar: 0.15 }, maxPrice: 0.3, chargingMinutes,
+  }));
+  assert.deepStrictEqual(tail(0), [], 'a new short session: dropped');
+  assert.deepStrictEqual(tail(15), [0], 'charging for 15 minutes: the last quarter stays');
+  // Variable charger: the minimum at its lowest power, not at full power.
+  const v11 = quarterPlan({
+    chargePowerW: 11000,
+    variablePower: true,
+    minVariablePowerW: 4100,
+    trips: [{
+      departMs: now + 10 * H, returnMs: now + 20 * H, needPct: 0, minSoc: 41,
+    }],
+  });
+  assert.deepStrictEqual(Object.values(v11.scheme).filter((x) => x.duration > 0).map((x) => x.power), [4100, 4100], '30 minutes at 4.1 kW');
+  // Variable charger: a pause shorter than the minimum is bridged.
+  const gapPrices = Array.from({ length: 96 }, (_, i) => ({
+    6: 0.1, 7: 0.1, 8: 0.3, 9: 0.1, 10: 0.1,
+  }[i] || 0.5));
+  const gap = quarterPlan({
+    prices: gapPrices,
+    variablePower: true,
+    minVariablePowerW: 1400,
+    trips: [{
+      departMs: now + 10 * H, returnMs: now + 20 * H, needPct: 0, minSoc: 44,
+    }],
+  });
+  const used = chargedSlots(gap);
+  assert.deepStrictEqual(used, Array.from({ length: used.length }, (_, k) => used[0] + k), `variable: no pause (${used})`);
   console.log('minimum charging time tests passed');
 }
 

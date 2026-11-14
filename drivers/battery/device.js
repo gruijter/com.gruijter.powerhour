@@ -789,6 +789,11 @@ class BatDevice extends GenericDevice {
     if (this.lastSocReplanTm && now - this.lastSocReplanTm < SOC_REPLAN_MS) return;
     this.lastSocReplanTm = now;
     this.log(`[Bat Control] SoC ${this.soc}% vs planned ${planned}%: plan again`);
+    // Not from the caches: they only see the SoC change since the plan, not the deviation.
+    this.lastPlanTm = null;
+    this.lastPlanKey = null;
+    const group = this.planGroup ? this.planGroup() : null;
+    if (group) group[0].groupPlans = null;
     this.replan('SoC').catch((err) => this.error(err));
   }
 
@@ -872,8 +877,9 @@ class BatDevice extends GenericDevice {
 
       // The logs looked up below; without a resolved power, its measure_power.* capabilities.
       const guessed = resolvedPowerCap ? [] : (this.sourceDevice.capabilities || []).filter((c) => c.startsWith('measure_power.'));
+      const socCaps = [...new Set([this.sourceCapGroup && this.sourceCapGroup.soc, 'measure_battery', 'soc'].filter(Boolean))];
       const devLogs = await InsightsHistory.deviceLogs(api, sourceId, [
-        ...powerCandidates.map((c) => c.cap), ...guessed, 'measure_battery', 'soc',
+        ...powerCandidates.map((c) => c.cap), ...guessed, ...socCaps,
       ]);
 
       let powerLog = null;
@@ -915,11 +921,7 @@ class BatDevice extends GenericDevice {
         }
       }
 
-      const socLog = devLogs.find((l) => {
-        const id = l.id || l.uri || l.ownerUri || '';
-        const cap = id.split(':').pop() || '';
-        return cap === 'measure_battery' || cap === 'soc';
-      });
+      const socLog = socCaps.map((c) => devLogs.find((l) => (l.id || l.uri || l.ownerUri || '').split(':').pop() === c)).find(Boolean);
 
       if (socLog) {
         const result = await fetchEntries(socLog);
@@ -1566,7 +1568,7 @@ class BatDevice extends GenericDevice {
     const sameSlot = this.lastPlanTm && localSlot(this.lastPlanTm) === localSlot(Date.now());
     const afterPrices = this.lastPlanTm && this.lastPlanTm >= (this.pricesUpdatedTm || 0);
     const tokens = (sameSlot && afterPrices && this.lastPlanMinPriceDelta === minPriceDelta && this.lastPlanTokens)
-      ? { ...this.lastPlanTokens }
+      ? BatteryPlan.cachedTokens(this)
       : await BatteryPlan.tokens(this, { minPriceDelta }).catch((err) => this.error(err));
     if (!tokens) return;
 

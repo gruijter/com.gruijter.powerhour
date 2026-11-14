@@ -470,6 +470,9 @@ class CarChargeDevice extends GenericDevice {
     this.phaseLearner.onPower(this._chargePower(power));
     if (!wasPowerOn && power > EvPresence.CHARGING_POWER_W) this._endFlowAway('charging').catch(this.error);
     if (power > EvPresence.CHARGING_POWER_W) this.signals.lastChargingTm = Date.now();
+    // For the planner's minimum charging time.
+    if (power <= EvPresence.CHARGING_POWER_W) this.chargeStartTm = null;
+    else if (!wasPowerOn || !this.chargeStartTm) this.chargeStartTm = Date.now();
     this._sampleWattsPerAmp(power);
     const wasCharging = this.presence && this.presence.state === 'charging';
     const isCharging = power > EvPresence.CHARGING_POWER_W;
@@ -2120,6 +2123,7 @@ class CarChargeDevice extends GenericDevice {
       variablePower: !!settings.variableChargePower,
       minVariablePowerW: this._variableMinW(),
       minChargeMinutes: num(settings.minChargeMinutes, EvPlanner.MIN_CHARGE_MINUTES),
+      chargingMinutes: this.chargeStartTm ? Math.max(0, (now - this.chargeStartTm) / 60000) : 0,
       solarGridW: Number(settings.solarGridPower) || 0,
       outlookUntilMs: tomorrowEndMs, // shown up to the end of tomorrow
       // Enough for the trips of today, tomorrow and the day after: nothing charged ahead for later.
