@@ -42,8 +42,14 @@ const CrashNotice = require('./lib/helpers/CrashNotice');
 class MyApp extends Homey.App {
 
   async onInit() {
-    if (Homey.env.PBTH_INSPECT === '1') require('inspector').open(9222, '0.0.0.0', false); // TEMP
-    this.memLog = new MemLog(this); this.memLog.start();
+    // Diagnostics, only in a development build (env.json): PBTH_INSPECT=1 opens the V8 inspector to the
+    // LAN (no authentication), PBTH_MEMLOG=1 logs memory to the app settings (MemLog).
+    // eslint-disable-next-line global-require, node/no-unsupported-features/node-builtins
+    if (Homey.env.PBTH_INSPECT === '1') require('inspector').open(9222, '0.0.0.0', false);
+    if (Homey.env.PBTH_MEMLOG === '1') {
+      this.memLog = new MemLog(this);
+      this.memLog.start();
+    }
     this.crashNotice = new CrashNotice(this);
     this.crashNotice.start();
     try {
