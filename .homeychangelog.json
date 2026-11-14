@@ -1,4 +1,7 @@
 {
+  "9.0.3alpha": {
+    "en": "Much lower memory use. Extra precise planning switches off after a crash. EV charger: minimum charging time. Battery pairing reads capacity and power from Insights. Price flows run after the new tariff is set. Price limit tag on the cheapest block card. Export tags marked electricity only. Import market price not below 0. Fix solar retraining."
+  },
   "9.0.2": {
     "en": "Fix EV charger not getting grid power. Fix Charge now without prices. Shorter battery pairing. EV charge modes merged to four. Lighter energy polling. Clearer texts."
   },
