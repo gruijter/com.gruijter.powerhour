@@ -106,6 +106,7 @@ class PriceDevice extends GenericDevice {
   async triggerNewPeriod() {
     const { app } = this.homey;
     if (!app || !app.trigger_price_new_period) return;
+    await this.flushPriceCharts(app.price_new_period);
     const exportPrice = Number.isFinite(this.state.exportPriceNow) ? this.state.exportPriceNow : 0;
     await app.trigger_price_new_period(this, { import: this.state.priceNow, export: this.hasExport ? exportPrice : 0 });
   }
@@ -113,6 +114,7 @@ class PriceDevice extends GenericDevice {
   async triggerNewPrices(tokens, state) {
     const { app } = this.homey;
     if (!app || !app.trigger_price_new_prices) return;
+    await this.flushPriceCharts(app.price_new_prices, state.period);
     await app.trigger_price_new_prices(this, { ...tokens, export_prices: this.exportPricesJson(state.period) }, state);
   }
 
