@@ -3,7 +3,7 @@
 const fs = require('fs');
 const path = require('path');
 
-// Shared files of the node widgets, copied into widgets/<id>/public/: flow.js and flow.css (the
+// Shared files of the widgets, copied into widgets/<id>/public/: flow.js and flow.css (the node
 // diagram, one source here), and icons.js: the driver icons without the app badge, so both look the
 // same; black becomes currentColor, so a node colours its icon.
 const ROOT = path.join(__dirname, '../..');
@@ -14,8 +14,11 @@ const SOURCES = {
   ev: 'drivers/evCharger/assets/icon.svg',
   gas: 'drivers/gas/assets/icon.svg',
   home: 'assets/measure_watt_home.svg', // no home driver: the Grid Monitor's home power icon
+  price: 'drivers/price/assets/icon.svg',
+  appliance: 'drivers/power/assets/icon.svg',
 };
-const WIDGETS = ['power_flow', 'energy'];
+const WIDGETS = ['power_flow', 'energy', 'plan'];
+const DIAGRAM = ['power_flow', 'energy']; // also get flow.js and flow.css
 
 // Inner markup of one icon in a 100 x 100 box.
 const glyph = (file) => {
@@ -44,7 +47,7 @@ WIDGETS.forEach((w) => {
   const dir = path.join(ROOT, 'widgets', w, 'public');
   if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
   fs.writeFileSync(path.join(dir, 'icons.js'), js);
-  ['flow.js', 'flow.css'].forEach((f) => {
+  (DIAGRAM.includes(w) ? ['flow.js', 'flow.css'] : []).forEach((f) => {
     const note = f.endsWith('.css') ? '/* Copy of tools/widget-shared/' : '// Copy of tools/widget-shared/';
     const end = f.endsWith('.css') ? ' - edit there, run gen.js. */' : ' - edit there, run gen.js.';
     fs.writeFileSync(path.join(dir, f), `${note}${f}${end}\n${fs.readFileSync(path.join(__dirname, f), 'utf8')}`);

@@ -52,7 +52,7 @@ const flowPreview = (t, { gas = false, tabs = false } = {}) => {
 </svg>`;
 };
 
-// widgets/plan: lanes on a shared time axis - price bars (cheap to dear), solar, battery, load.
+// widgets/plan: lanes on a shared time axis - price levels, solar, battery SoC, grid.
 const plan = (t) => {
   const x0 = 300;
   const x1 = 952;
@@ -65,17 +65,20 @@ const plan = (t) => {
   const price = [70, 60, 45, 40, 50, 80, 110, 95, 75, 60, 55, 70, 120, 140, 115, 85];
   const priceFill = (i, v) => {
     if (v >= 110) return '#E5484D';
-    return v >= 70 ? SOLAR : GREEN;
+    return v >= 70 ? t.shape : GREEN;
   };
   const solar = [0, 0, 0, 0, 0, 30, 80, 120, 140, 120, 80, 30, 0, 0, 0, 0];
-  const battery = [0, 0, 90, 90, 0, 0, 0, 60, 60, 60, 0, 0, 0, 0, 0, 0];
+  // Battery: planned SoC line with the charging slots as a band below.
+  const soc = [30, 30, 30, 60, 80, 80, 80, 80, 95, 110, 110, 110, 90, 70, 60, 60];
+  const socLine = (y) => soc.map((v, i) => `${(x0 + (i + 0.5) * 40.75).toFixed(1)},${y + 112 - v * 0.8}`).join(' ');
   const load = [40, 40, 40, 40, 40, 70, 70, 40, 40, 40, 40, 40, 110, 110, 110, 40];
   return `<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
   ${[0, 1, 2, 3].map((i) => `${pill(72, lane(i) + 50, 170, 26, t.shape)}${pill(72, lane(i) + 96, 120, 26, t.track)}
   <rect x="${x0}" y="${lane(i) + 150}" width="${x1 - x0}" height="6" rx="3" fill="${t.track}"/>`).join('\n  ')}
   ${bars(lane(0), price, priceFill)}
   ${bars(lane(1), solar, SOLAR)}
-  ${bars(lane(2), battery, GREEN)}
+  <polyline points="${socLine(lane(2))}" fill="none" stroke="${GREEN}" stroke-width="12" stroke-linejoin="round" stroke-linecap="round"/>
+  ${[[2, 4], [7, 10]].map(([a, b]) => `<rect x="${x0 + a * 40.75}" y="${lane(2) + 128}" width="${(b - a) * 40.75}" height="22" rx="11" fill="${GREEN}"/>`).join('')}
   ${bars(lane(3), load, t.shape)}
   <rect x="${x0 + 238}" y="120" width="8" height="${lane(3) + 186 - 120}" rx="4" fill="${t.shape}"/>
 </svg>`;
