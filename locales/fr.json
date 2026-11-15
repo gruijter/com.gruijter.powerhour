@@ -346,6 +346,12 @@
     "solar": "Solaire",
     "battery": "Batterie",
     "ev": "VE",
-    "no_grid": "Ajoutez d'abord un Moniteur réseau."
+    "no_grid": "Ajoutez d'abord un Moniteur réseau.",
+    "gas": "Gaz",
+    "home_total": "Maison total",
+    "hour": "Heure",
+    "day": "Jour",
+    "month": "Mois",
+    "year": "Année"
   }
 }

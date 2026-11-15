@@ -346,6 +346,12 @@
     "solar": "Sol",
     "battery": "Batteri",
     "ev": "Elbil",
-    "no_grid": "Lägg först till en Elnätsmonitor."
+    "no_grid": "Lägg först till en Elnätsmonitor.",
+    "gas": "Gas",
+    "home_total": "Hus totalt",
+    "hour": "Timme",
+    "day": "Dag",
+    "month": "Månad",
+    "year": "År"
   }
 }

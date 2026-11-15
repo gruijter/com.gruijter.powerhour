@@ -346,6 +346,12 @@
     "solar": "Solar",
     "battery": "Battery",
     "ev": "EV",
-    "no_grid": "Add a Grid Monitor first."
+    "no_grid": "Add a Grid Monitor first.",
+    "gas": "Gas",
+    "home_total": "Home total",
+    "hour": "Hour",
+    "day": "Day",
+    "month": "Month",
+    "year": "Year"
   }
 }

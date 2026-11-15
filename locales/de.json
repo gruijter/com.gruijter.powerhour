@@ -346,6 +346,12 @@
     "solar": "Solar",
     "battery": "Batterie",
     "ev": "E-Auto",
-    "no_grid": "Füge zuerst einen Netzmonitor hinzu."
+    "no_grid": "Füge zuerst einen Netzmonitor hinzu.",
+    "gas": "Gas",
+    "home_total": "Haus gesamt",
+    "hour": "Stunde",
+    "day": "Tag",
+    "month": "Monat",
+    "year": "Jahr"
   }
 }

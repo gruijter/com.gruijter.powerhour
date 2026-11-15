@@ -346,6 +346,12 @@
     "solar": "Zon",
     "battery": "Batterij",
     "ev": "EV",
-    "no_grid": "Voeg eerst een Netmonitor toe."
+    "no_grid": "Voeg eerst een Netmonitor toe.",
+    "gas": "Gas",
+    "home_total": "Huis totaal",
+    "hour": "Uur",
+    "day": "Dag",
+    "month": "Maand",
+    "year": "Jaar"
   }
 }

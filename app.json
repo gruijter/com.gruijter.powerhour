@@ -34422,31 +34422,74 @@
     }
   ],
   "widgets": {
-    "energy_flow": {
+    "energy": {
       "name": {
-        "en": "Energy flow",
-        "nl": "Energiestroom",
-        "de": "Energiefluss",
-        "fr": "Flux d'énergie",
-        "it": "Flusso di energia",
-        "sv": "Energiflöde",
-        "no": "Energiflyt",
-        "es": "Flujo de energía",
-        "da": "Energiflow",
-        "pl": "Przepływ energii",
-        "ru": "Поток энергии",
-        "ar": "تدفق الطاقة",
-        "ko": "에너지 흐름"
+        "en": "Energy",
+        "nl": "Energie",
+        "de": "Energie",
+        "fr": "Énergie",
+        "it": "Energia",
+        "sv": "Energi",
+        "no": "Energi",
+        "es": "Energía",
+        "da": "Energi",
+        "pl": "Energia",
+        "ru": "Энергия",
+        "ar": "الطاقة",
+        "ko": "에너지"
       },
-      "height": "80%",
+      "height": 330,
+      "settings": [
+        {
+          "id": "gas",
+          "type": "checkbox",
+          "title": {
+            "en": "Show gas",
+            "nl": "Gas tonen",
+            "de": "Gas anzeigen",
+            "fr": "Afficher le gaz",
+            "it": "Mostra gas",
+            "sv": "Visa gas",
+            "no": "Vis gass",
+            "es": "Mostrar gas",
+            "da": "Vis gas",
+            "pl": "Pokaż gaz",
+            "ru": "Показать газ",
+            "ar": "إظهار الغاز",
+            "ko": "가스 표시"
+          },
+          "value": false
+        },
+        {
+          "id": "gas_kwh",
+          "type": "number",
+          "title": {
+            "en": "Gas kWh per m³",
+            "nl": "Gas kWh per m³",
+            "de": "Gas kWh pro m³",
+            "fr": "Gaz kWh par m³",
+            "it": "Gas kWh per m³",
+            "sv": "Gas kWh per m³",
+            "no": "Gass kWh per m³",
+            "es": "Gas kWh por m³",
+            "da": "Gas kWh pr. m³",
+            "pl": "Gaz kWh na m³",
+            "ru": "Газ кВт·ч на м³",
+            "ar": "الغاز kWh لكل m³",
+            "ko": "가스 kWh/m³"
+          },
+          "value": 9.77,
+          "min": 5,
+          "max": 15
+        }
+      ],
       "api": {
-        "getFlow": {
+        "getEnergy": {
           "method": "GET",
           "path": "/"
         }
       },
-      "id": "energy_flow",
-      "settings": []
+      "id": "energy"
     },
     "plan": {
       "name": {
@@ -34472,6 +34515,32 @@
         }
       },
       "id": "plan",
+      "settings": []
+    },
+    "power_flow": {
+      "name": {
+        "en": "Power flow",
+        "nl": "Vermogensstroom",
+        "de": "Leistungsfluss",
+        "fr": "Flux de puissance",
+        "it": "Flusso di potenza",
+        "sv": "Effektflöde",
+        "no": "Effektflyt",
+        "es": "Flujo de potencia",
+        "da": "Effektflow",
+        "pl": "Przepływ mocy",
+        "ru": "Поток мощности",
+        "ar": "تدفق القدرة",
+        "ko": "전력 흐름"
+      },
+      "height": "80%",
+      "api": {
+        "getFlow": {
+          "method": "GET",
+          "path": "/"
+        }
+      },
+      "id": "power_flow",
       "settings": []
     }
   },

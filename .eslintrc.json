@@ -1,7 +1,9 @@
 {
     "ignorePatterns": [
         "build/",
-        ".homeybuild/"
+        ".homeybuild/",
+        "widgets/*/public/icons.js",
+        "widgets/*/public/flow.js"
     ],
     "extends": "athom/homey-app",
     "overrides": [
@@ -15,6 +17,18 @@
                 "global-require": "off",
                 "import/no-dynamic-require": "off",
                 "no-process-exit": "off"
+            }
+        },
+        {
+            "files": [
+                "tools/widget-shared/flow.js"
+            ],
+            "env": {
+                "browser": true,
+                "node": false
+            },
+            "parserOptions": {
+                "sourceType": "script"
             }
         }
     ]

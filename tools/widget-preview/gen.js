@@ -18,31 +18,36 @@ const GREEN = '#34C759';
 
 const pill = (x, y, w, h, fill) => `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${h / 2}" fill="${fill}"/>`;
 
-// widgets/energy_flow: five nodes around a hub, two flows lit (solar in, home out); solar value beside its node.
-const energyFlow = (t) => {
-  const hub = [512, 470];
+// widgets/power_flow and widgets/energy: the widget's node layout (tools/widget-shared/flow.js) at
+// 3.2x, two flows lit (solar in, home out); energy adds the gas node and the period tabs.
+const flowPreview = (t, { gas = false, tabs = false } = {}) => {
+  const k = 3.2;
+  const dy = tabs ? 130 : 100;
+  const at = (x, y) => [x * k, y * k + dy];
+  const hub = at(160, 118);
   const nodes = [
-    {
-      x: 512, y: 200, lit: SOLAR, side: true,
-    },
-    { x: 190, y: 470 },
-    { x: 834, y: 470, lit: GREEN },
-    { x: 320, y: 760 },
-    { x: 704, y: 760 },
-  ];
-  const line = (n) => `<path d="M${n.x} ${n.y}L${hub[0]} ${hub[1]}" stroke="${t.track}" stroke-width="10"/>${
-    n.lit ? `<path d="M${n.x} ${n.y}L${hub[0]} ${hub[1]}" stroke="${n.lit}" stroke-width="18" stroke-linecap="round" stroke-dasharray="0 44"/>` : ''}`;
-  const node = (n) => `<circle cx="${n.x}" cy="${n.y}" r="78" fill="${t.card}" stroke="${n.lit || t.shape}" stroke-width="10" filter="url(#shadow)"/>`
-    + `<circle cx="${n.x}" cy="${n.y}" r="28" fill="${n.lit || t.shape}"/>${
-      n.side ? pill(n.x + 104, n.y - 13, 120, 26, t.shape) : pill(n.x - 60, n.y + 104, 120, 26, t.shape)}`;
+    gas && { p: at(40, 34) },
+    { p: at(160, 34), lit: SOLAR, side: true },
+    { p: at(40, 118) },
+    { p: at(280, 118), lit: GREEN },
+    { p: at(104, 200) },
+    { p: at(216, 200) },
+  ].filter(Boolean);
+  const line = ({ p, lit }) => `<path d="M${p[0]} ${p[1]}L${hub[0]} ${hub[1]}" stroke="${t.track}" stroke-width="10"/>${
+    lit ? `<path d="M${p[0]} ${p[1]}L${hub[0]} ${hub[1]}" stroke="${lit}" stroke-width="18" stroke-linecap="round" stroke-dasharray="0 44"/>` : ''}`;
+  const node = ({ p, lit, side }) => `<circle cx="${p[0]}" cy="${p[1]}" r="66" fill="${t.card}" stroke="${lit || t.shape}" stroke-width="10" filter="url(#shadow)"/>`
+    + `<circle cx="${p[0]}" cy="${p[1]}" r="24" fill="${lit || t.shape}"/>${
+      side ? pill(p[0] + 96, p[1] - 13, 120, 26, t.shape) : pill(p[0] - 56, p[1] + 90, 112, 24, t.shape)}`;
+  const tabRow = tabs ? `${pill(40, 40, 944, 64, t.track)}${pill(272, 46, 228, 52, t.card)}` : '';
   return `<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
   <defs>
     <filter id="shadow" x="-40%" y="-40%" width="180%" height="190%">
       <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="${t.shadow}"/>
     </filter>
   </defs>
+  ${tabRow}
   ${nodes.map(line).join('\n  ')}
-  <circle cx="${hub[0]}" cy="${hub[1]}" r="16" fill="${t.shape}"/>
+  <circle cx="${hub[0]}" cy="${hub[1]}" r="14" fill="${t.shape}"/>
   ${nodes.map(node).join('\n  ')}
 </svg>`;
 };
@@ -76,7 +81,7 @@ const plan = (t) => {
 </svg>`;
 };
 
-const WIDGETS = { energy_flow: energyFlow, plan };
+const WIDGETS = { power_flow: (t) => flowPreview(t), energy: (t) => flowPreview(t, { gas: true, tabs: true }), plan };
 
 for (const [widget, render] of Object.entries(WIDGETS)) {
   for (const [mode, t] of Object.entries(THEMES)) {

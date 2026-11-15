@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="flow.css">
+  <style>
+    .tabs { display: flex; gap: 2px; margin: 0 8px 4px; padding: 2px; border-radius: 9px; background: var(--line); }
+    .tabs button {
+      flex: 1; border: 0; border-radius: 7px; padding: 5px 0; background: transparent;
+      color: var(--muted); font: inherit; font-size: 12px; cursor: pointer;
+    }
+    .tabs button.on { background: var(--node-bg); color: var(--text); font-weight: 600; }
+  </style>
+  <script src="icons.js"></script>
+  <script src="flow.js"></script>
+</head>
+<body>
+  <div class="tabs" id="tabs"></div>
+  <svg id="flow" viewBox="0 0 320 276" role="img"></svg>
+  <div id="empty"></div>
+  <script>
+    var started = false;
+    var PERIODS = ['hour', 'day', 'month', 'year'];
+
+    function onHomeyReady(Homey) {
+      if (started) return;
+      started = true;
+      var lang = (typeof Homey.getLanguage === 'function' && Homey.getLanguage()) || navigator.language || 'en';
+      if (lang === 'ar') document.documentElement.dir = 'rtl';
+      var fmt = [0, 1, 2].map(function (n) { return new Intl.NumberFormat(lang, { minimumFractionDigits: n, maximumFractionDigits: n }); });
+      var svg = document.getElementById('flow');
+      var empty = document.getElementById('empty');
+      var tabs = document.getElementById('tabs');
+      var nodes = PbthFlow.build(svg);
+      var settings = (typeof Homey.getSettings === 'function' && Homey.getSettings()) || {};
+      var key = 'pbth-energy-' + (typeof Homey.getWidgetInstanceId === 'function' ? Homey.getWidgetInstanceId() : '');
+      var period = 'day';
+      try { period = localStorage.getItem(key) || 'day'; } catch (e) { /* no storage: default */ }
+      if (PERIODS.indexOf(period) < 0) period = 'day';
+      var ready = false;
+
+      function kwh(v) {
+        var a = Math.abs(v || 0);
+        if (a >= 10000) return fmt[1].format(a / 1000) + ' MWh';
+        return fmt[a < 10 ? 2 : a < 1000 ? 1 : 0].format(a) + ' kWh';
+      }
+
+      function flow(into, value) {
+        return Math.abs(value) >= 0.005 ? { into: into, dur: 1.6 } : null;
+      }
+
+      PERIODS.forEach(function (p) {
+        var b = document.createElement('button');
+        b.textContent = Homey.__('widget.' + p);
+        b.dataset.period = p;
+        b.addEventListener('click', function () {
+          if (typeof Homey.hapticFeedback === 'function') Homey.hapticFeedback();
+          period = p;
+          try { localStorage.setItem(key, p); } catch (e) { /* not kept */ }
+          markTab();
+          refresh(true);
+        });
+        tabs.appendChild(b);
+      });
+
+      function markTab() {
+        Array.prototype.forEach.call(tabs.children, function (b) { b.classList.toggle('on', b.dataset.period === period); });
+      }
+      markTab();
+
+      // Two directions: [toward the hub, away from it] with the node's arrows.
+      function both(id, toHub, fromHub) {
+        var n = nodes[id];
+        return [n.into + ' ' + kwh(toHub), n.out + ' ' + kwh(fromHub)];
+      }
+
+      function render(d) {
+        var noGrid = !d || !d.grid;
+        svg.style.display = noGrid ? 'none' : '';
+        empty.style.display = noGrid ? 'block' : 'none';
+        if (noGrid) {
+          empty.textContent = Homey.__('widget.no_grid');
+          return;
+        }
+        var label = function (id) { return Homey.__('widget.' + id); };
+        var gasKwh = settings.gas && typeof d.gasM3 === 'number' ? d.gasM3 * (Number(settings.gas_kwh) || 9.77) : null;
+        PbthFlow.set(nodes.gas, gasKwh === null ? null : {
+          values: [kwh(gasKwh)], label: label('gas') + ' ' + fmt[1].format(d.gasM3) + ' m³', flow: flow(true, gasKwh),
+        });
+        PbthFlow.set(nodes.solar, typeof d.solar !== 'number' ? null : { values: [kwh(d.solar)], label: label('solar'), flow: flow(true, d.solar) });
+        var split = typeof d.imported === 'number' && typeof d.exported === 'number';
+        var gridNet = split ? d.imported - d.exported : d.net;
+        PbthFlow.set(nodes.grid, {
+          values: split ? both('grid', d.imported, d.exported) : [kwh(d.net)],
+          label: label('grid'),
+          flow: flow(gridNet > 0, gridNet),
+        });
+        var bat = typeof d.charged === 'number' && typeof d.discharged === 'number';
+        PbthFlow.set(nodes.battery, !bat ? null : {
+          values: both('battery', d.discharged, d.charged), label: label('battery'), flow: flow(d.discharged > d.charged, d.discharged - d.charged),
+        });
+        var home = (d.home || 0) + (gasKwh || 0);
+        PbthFlow.set(nodes.home, { values: [kwh(home)], label: label(gasKwh === null ? 'home' : 'home_total'), flow: flow(false, home) });
+        PbthFlow.set(nodes.ev, typeof d.ev !== 'number' ? null : { values: [kwh(d.ev)], label: label('ev'), flow: flow(false, d.ev) });
+      }
+
+      function refresh(force) {
+        if (document.hidden && ready && !force) return;
+        Homey.api('GET', '/?period=' + period, {})
+          .then(render)
+          .catch(function (err) { console.error(err); })
+          .finally(function () {
+            if (!ready) {
+              ready = true;
+              Homey.ready();
+            }
+          });
+      }
+
+      if (typeof Homey.onSettings === 'function') {
+        Homey.onSettings(function (s) {
+          settings = s || settings;
+          refresh(true);
+        });
+      }
+      refresh(true);
+      setInterval(refresh, 30000);
+      document.addEventListener('visibilitychange', function () { if (!document.hidden) refresh(); });
+    }
+
+    if (typeof window.Homey !== 'undefined') onHomeyReady(window.Homey);
+  </script>
+</body>
+</html>

@@ -1,18 +1,18 @@
 {
   "name": {
-    "en": "Energy flow",
-    "nl": "Energiestroom",
-    "de": "Energiefluss",
-    "fr": "Flux d'énergie",
-    "it": "Flusso di energia",
-    "sv": "Energiflöde",
-    "no": "Energiflyt",
-    "es": "Flujo de energía",
-    "da": "Energiflow",
-    "pl": "Przepływ energii",
-    "ru": "Поток энергии",
-    "ar": "تدفق الطاقة",
-    "ko": "에너지 흐름"
+    "en": "Power flow",
+    "nl": "Vermogensstroom",
+    "de": "Leistungsfluss",
+    "fr": "Flux de puissance",
+    "it": "Flusso di potenza",
+    "sv": "Effektflöde",
+    "no": "Effektflyt",
+    "es": "Flujo de potencia",
+    "da": "Effektflow",
+    "pl": "Przepływ mocy",
+    "ru": "Поток мощности",
+    "ar": "تدفق القدرة",
+    "ko": "전력 흐름"
   },
   "height": "80%",
   "api": {

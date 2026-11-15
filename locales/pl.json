@@ -346,6 +346,12 @@
     "solar": "Słońce",
     "battery": "Bateria",
     "ev": "EV",
-    "no_grid": "Najpierw dodaj Monitor sieci."
+    "no_grid": "Najpierw dodaj Monitor sieci.",
+    "gas": "Gaz",
+    "home_total": "Dom łącznie",
+    "hour": "Godzina",
+    "day": "Dzień",
+    "month": "Miesiąc",
+    "year": "Rok"
   }
 }

@@ -114,6 +114,7 @@ class GridDevice extends GenericDevice {
     // Capacity tariff: this month's closed windows (PeakTariff.recordWindow()).
     this.peakHistory = book.peakHistory;
     this.meterPowerHome = book.meterPowerHome || 0;
+    this.energyBaselines = book.energyBaselines;
     this.peakConfig = PeakTariff.configFromSettings(this.getSettings());
 
     // A repair can re-point this device at another meter (new homey_device_id). The anchors above
@@ -489,6 +490,7 @@ class GridDevice extends GenericDevice {
     // Only with export data (not case 2).
     const splitActive = typeof this.directionalMeter?.exportValue === 'number';
     const periods = this.getPeriods(reading);
+    this.updateEnergyBaselines(periods);
     if (splitActive) {
       await this.updateSplitMeters(periods).catch((err) => this.error(err));
       await this.updateSplitMoney(periods).catch((err) => this.error(err));
@@ -536,6 +538,7 @@ class GridDevice extends GenericDevice {
     'directionalPseudoState', 'peakLoad', 'peakHistory', 'splitMoney', 'directionalBlockState',
     'directionalMeter', 'lastDirectionalSnapshot', 'lastPeakLoadReading',
     'lastDirectionalReadingDay', 'lastDirectionalReadingMonth', 'lastDirectionalReadingYear', 'meterPowerHome',
+    'energyBaselines',
   ];
 
   // The bookkeeping as stored: { key: value } for BOOKKEEPING_KEYS. Earlier versions stored a value
@@ -604,9 +607,13 @@ class GridDevice extends GenericDevice {
     this.lastDirectionalReadingYear = null;
     this.lastPeakLoadReading = null;
     this._directionalTickDelta = null;
+    Object.values(this.energyBaselines || {}).forEach((base) => {
+      base.imported = null;
+      base.exported = null;
+    });
     // Through the flush, forced, so no earlier dirty mark can restore a pre-reanchor value.
     ['directionalMeter', 'lastDirectionalSnapshot', 'lastPeakLoadReading',
-      'lastDirectionalReadingDay', 'lastDirectionalReadingMonth', 'lastDirectionalReadingYear',
+      'lastDirectionalReadingDay', 'lastDirectionalReadingMonth', 'lastDirectionalReadingYear', 'energyBaselines',
     ].forEach((key) => this.markStoreDirty(key));
     await this.flushDirtyStore({ force: true });
   }
@@ -722,6 +729,78 @@ class GridDevice extends GenericDevice {
       this.timeZone,
     );
     return (deltaImport * effImportTariff) - (deltaExport * effExportTariff);
+  }
+
+  // Cumulative kWh counters of the Energy widget: import/export (null without that data), home,
+  // and the batteries' charged/discharged (with the battery ids they sum).
+  energyCounters() {
+    const batteries = this.homey.drivers.getDriver('battery').getDevices();
+    const sumCap = (cap) => {
+      const devs = batteries.filter((d) => d.hasCapability(cap));
+      return devs.length ? devs.reduce((sum, d) => sum + (d.getCapabilityValue(cap) || 0), 0) : null;
+    };
+    const dir = this.directionalMeter || {};
+    return {
+      imported: typeof dir.importValue === 'number' ? dir.importValue : null,
+      exported: typeof dir.exportValue === 'number' ? dir.exportValue : null,
+      home: this.meterPowerHome || 0,
+      charged: sumCap('meter_kwh_charging'),
+      discharged: sumCap('meter_kwh_discharging'),
+      batteries: batteries.map((d) => d.getId()).sort().join(','),
+    };
+  }
+
+  // Counter values at the start of this hour/day/month/year, on the same period flags as the meters.
+  // A counter that appears later or falls, and the battery counters when the batteries change, start
+  // again from now.
+  updateEnergyBaselines(periods) {
+    let now;
+    try {
+      now = this.energyCounters();
+    } catch (err) {
+      this.error(err);
+      return;
+    }
+    const flags = {
+      hour: periods.newHour, day: periods.newDay, month: periods.newMonth, year: periods.newYear,
+    };
+    if (!this.energyBaselines) this.energyBaselines = {};
+    let changed = false;
+    Object.entries(flags).forEach(([period, isNew]) => {
+      const base = this.energyBaselines[period];
+      if (!base || isNew) {
+        this.energyBaselines[period] = { ...now };
+        changed = true;
+        return;
+      }
+      if (base.batteries !== now.batteries) {
+        Object.assign(base, { charged: now.charged, discharged: now.discharged, batteries: now.batteries });
+        changed = true;
+      }
+      Object.keys(now).forEach((key) => {
+        if (typeof now[key] !== 'number') return;
+        if (typeof base[key] !== 'number' || now[key] < base[key]) {
+          base[key] = now[key];
+          changed = true;
+        }
+      });
+    });
+    if (changed) this.markStoreDirty('energyBaselines');
+  }
+
+  // kWh per counter since the start of period ('hour', 'day', 'month', 'year'), null without data.
+  getEnergySince(period) {
+    const base = this.energyBaselines && this.energyBaselines[period];
+    const now = this.energyCounters();
+    const sameBatteries = base && base.batteries === now.batteries;
+    const out = {};
+    ['imported', 'exported', 'home', 'charged', 'discharged'].forEach((key) => {
+      if (typeof now[key] !== 'number') out[key] = null;
+      else if (!base || typeof base[key] !== 'number') out[key] = 0;
+      else if (!sameBatteries && (key === 'charged' || key === 'discharged')) out[key] = 0;
+      else out[key] = Math.max(0, now[key] - base[key]);
+    });
+    return out;
   }
 
   // Physical import/export kWh per day/month/year, independent of the scheme. Same anchor-diff
