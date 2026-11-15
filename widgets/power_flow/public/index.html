@@ -30,7 +30,7 @@
       }
 
       // into: power flows from the node into the hub.
-      function show(id, w, into, soc) {
+      function show(id, w, into, soc, labelId) {
         if (typeof w !== 'number') {
           PbthFlow.set(nodes[id], null);
           return;
@@ -38,7 +38,7 @@
         var on = Math.abs(w) >= 10;
         PbthFlow.set(nodes[id], {
           values: [power(w)],
-          label: Homey.__('widget.' + id) + (typeof soc === 'number' ? ' ' + soc + '%' : ''),
+          label: Homey.__('widget.' + (labelId || id)) + (typeof soc === 'number' ? ' ' + soc + '%' : ''),
           // Faster dots at higher power: ~2.2 s at 100 W, ~0.5 s at 10 kW.
           flow: on ? { into: into, dur: Math.max(0.5, Math.min(3.5, 4 - 0.9 * Math.log10(Math.abs(w)))) } : null,
         });
@@ -55,7 +55,8 @@
         show('gas', null);
         show('solar', d.solar, true);
         show('grid', d.grid, d.grid > 0);
-        show('home', d.home, false);
+        show('home', d.home, false, null, typeof d.climate === 'number' ? 'home_other' : 'home');
+        show('climate', d.climate, false);
         show('battery', d.battery, d.battery < 0, d.batterySoc);
         show('ev', d.ev, false, d.evSoc);
       }

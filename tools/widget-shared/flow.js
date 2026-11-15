@@ -7,25 +7,29 @@
   const NS = 'http://www.w3.org/2000/svg';
   const HUB = { x: 160, y: 118 };
   // 320 wide; `into` is the arrow from the node toward the hub, `out` the reverse. Gas is no
-  // electricity: its own line straight to the home (`to`), not through the hub.
+  // electricity: its own line straight to the climate node (`to`), not through the hub. Grid text
+  // above its node, out of the way of the battery line.
   const NODES = [
     {
       id: 'solar', x: 160, y: 34, color: '--c-solar', textX: 192, textY: 30, anchor: 'start', into: '↓', out: '↑',
     },
     {
-      id: 'grid', x: 40, y: 118, color: '--c-grid', into: '→', out: '←',
+      id: 'grid', x: 40, y: 118, color: '--c-grid', textY: 62, into: '→', out: '←',
     },
     {
-      id: 'home', x: 280, y: 118, color: '--c-home', textY: 76, into: '←', out: '→',
+      id: 'home', x: 280, y: 118, color: '--c-home', into: '←', out: '→',
     },
     {
-      id: 'battery', x: 112, y: 200, color: '--c-battery', into: '↗', out: '↙',
+      id: 'battery', x: 40, y: 200, color: '--c-battery', into: '↗', out: '↙',
     },
     {
-      id: 'ev', x: 208, y: 200, color: '--c-ev', into: '↖', out: '↘',
+      id: 'ev', x: 120, y: 200, color: '--c-ev', into: '↗', out: '↙',
     },
     {
-      id: 'gas', x: 280, y: 200, color: '--c-gas', to: 'home',
+      id: 'climate', x: 200, y: 200, color: '--c-climate', into: '↖', out: '↘',
+    },
+    {
+      id: 'gas', x: 280, y: 200, color: '--c-gas', to: 'climate', into: '←', out: '→',
     },
   ];
 
@@ -75,16 +79,19 @@
     return byId;
   }
 
-  // s: null hides the node; else { values: [text, text?], label, flow: { into: bool, dur: s } | null }.
-  // into: toward the hub (or the `to` node).
+  // s: null hides the node; else { values: [text, text?], colors: [css colour per value]?, label,
+  // flow: { into: bool, dur: s } | null, line: false without a line }. into: toward the hub (or `to`).
   function set(n, s) {
-    [n.group, n.base, n.flow].forEach((e) => {
-      e.classList.toggle('hidden', !s);
+    n.group.classList.toggle('hidden', !s);
+    [n.base, n.flow].forEach((e) => {
+      e.classList.toggle('hidden', !s || s.line === false);
     });
     if (!s) return;
     const values = s.values || [];
+    const colors = s.colors || [];
     n.values.forEach((e, i) => {
       e.textContent = values[i] || '';
+      e.style.fill = colors[i] || '';
     });
     n.label.setAttribute('y', n.textY + Math.max(1, values.length) * 14);
     n.label.textContent = s.label;

@@ -171,7 +171,8 @@
     "setup_price_no_group": "__name__ har ingen tariffgruppe: velg først en via Reparer.",
     "setup_show_year": "Angi et årsbudsjett",
     "setup_use_watt_info": "Beregner energien fra effekten (W), ikke fra måleren.",
-    "setup_daily_reset_info": "Måleren starter på 0 hver dag."
+    "setup_daily_reset_info": "Måleren starter på 0 hver dag.",
+    "step_climate": "Klima"
   },
   "load_forecast_accuracy": "Gj.sn. avvik __mae__ W (__pct__%), bias __bias__ W, __days__ dager",
   "load_forecast_accuracy_collecting": "Samler inn data",
@@ -351,6 +352,8 @@
     "hour": "Time",
     "day": "Dag",
     "month": "Måned",
-    "year": "År"
+    "year": "År",
+    "climate": "Klima",
+    "home_other": "Hus øvrig"
   }
 }

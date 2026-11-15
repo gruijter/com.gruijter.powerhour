@@ -171,7 +171,8 @@
     "setup_price_no_group": "__name__ n'a pas de groupe tarifaire : choisissez-en d'abord un via Réparer.",
     "setup_show_year": "Définir un budget annuel",
     "setup_use_watt_info": "Calcule l'énergie à partir de la puissance (W), pas du compteur.",
-    "setup_daily_reset_info": "Le compteur repart de 0 chaque jour."
+    "setup_daily_reset_info": "Le compteur repart de 0 chaque jour.",
+    "step_climate": "Climat"
   },
   "load_forecast_accuracy": "Écart moyen __mae__ W (__pct__%), biais __bias__ W, __days__ jours",
   "load_forecast_accuracy_collecting": "Collecte des données",
@@ -351,6 +352,8 @@
     "hour": "Heure",
     "day": "Jour",
     "month": "Mois",
-    "year": "Année"
+    "year": "Année",
+    "climate": "Climat",
+    "home_other": "Maison autre"
   }
 }

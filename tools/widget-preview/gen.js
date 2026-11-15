@@ -25,15 +25,16 @@ const flowPreview = (t, { gas = false, tabs = false } = {}) => {
   const dy = tabs ? 130 : 100;
   const at = (x, y) => [x * k, y * k + dy];
   const hub = at(160, 118);
-  const home = at(280, 118);
-  // Gas: its own line straight to the home.
+  const climate = at(200, 200);
+  // Gas: its own line straight to climate.
   const nodes = [
     { p: at(160, 34), lit: SOLAR, text: 'side' },
-    { p: at(40, 118) },
-    { p: home, lit: GREEN, text: 'above' },
-    { p: at(112, 200) },
-    { p: at(208, 200) },
-    gas && { p: at(280, 200), to: home },
+    { p: at(40, 118), text: 'above' },
+    { p: at(280, 118), lit: GREEN },
+    { p: at(40, 200) },
+    { p: at(120, 200) },
+    { p: climate },
+    gas && { p: at(280, 200), to: climate },
   ].filter(Boolean);
   const line = ({ p, lit, to = hub }) => `<path d="M${p[0]} ${p[1]}L${to[0]} ${to[1]}" stroke="${t.track}" stroke-width="10"/>${
     lit ? `<path d="M${p[0]} ${p[1]}L${to[0]} ${to[1]}" stroke="${lit}" stroke-width="18" stroke-linecap="round" stroke-dasharray="0 44"/>` : ''}`;

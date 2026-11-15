@@ -171,7 +171,8 @@
     "setup_price_no_group": "__name__ har ingen tariffgrupp: välj först en via Reparera.",
     "setup_show_year": "Ange en årsbudget",
     "setup_use_watt_info": "Beräknar energin från effekten (W), inte från mätaren.",
-    "setup_daily_reset_info": "Mätaren börjar på 0 varje dag."
+    "setup_daily_reset_info": "Mätaren börjar på 0 varje dag.",
+    "step_climate": "Klimat"
   },
   "load_forecast_accuracy": "Medelfel __mae__ W (__pct__%), bias __bias__ W, __days__ dagar",
   "load_forecast_accuracy_collecting": "Samlar in data",
@@ -351,6 +352,8 @@
     "hour": "Timme",
     "day": "Dag",
     "month": "Månad",
-    "year": "År"
+    "year": "År",
+    "climate": "Klimat",
+    "home_other": "Hus övrigt"
   }
 }

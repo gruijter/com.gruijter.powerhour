@@ -171,7 +171,8 @@
     "setup_price_no_group": "__name__ non ha un gruppo tariffario: scegline prima uno tramite Ripara.",
     "setup_show_year": "Imposta un budget annuale",
     "setup_use_watt_info": "Calcola l'energia dalla potenza (W), non dal contatore.",
-    "setup_daily_reset_info": "Il contatore riparte da 0 ogni giorno."
+    "setup_daily_reset_info": "Il contatore riparte da 0 ogni giorno.",
+    "step_climate": "Clima"
   },
   "load_forecast_accuracy": "Errore medio __mae__ W (__pct__%), bias __bias__ W, __days__ giorni",
   "load_forecast_accuracy_collecting": "Raccolta dati",
@@ -351,6 +352,8 @@
     "hour": "Ora",
     "day": "Giorno",
     "month": "Mese",
-    "year": "Anno"
+    "year": "Anno",
+    "climate": "Clima",
+    "home_other": "Casa altro"
   }
 }

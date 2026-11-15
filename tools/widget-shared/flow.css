@@ -9,6 +9,7 @@
   --c-ev: #8e6cef;
   --c-home: #3d8bfd;
   --c-gas: #e8590c;
+  --c-climate: #e64980;
 }
 @media (prefers-color-scheme: dark) {
   :root {

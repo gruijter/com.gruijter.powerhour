@@ -31,6 +31,7 @@ const MARKUP_IDS = ['markup_month', 'markup_day', 'markup_hour'];
 const STEPS = [
   { id: 'meter', ids: ['use_measure_source', 'homey_device_daily_reset'], roles: true },
   { id: 'appliance', ids: ['appliance_mode'] },
+  { id: 'climate', ids: ['climate'] },
   { id: 'price', ids: ['tariff_update_group', 'tariff', 'tariff_export', 'currency', ...MARKUP_IDS] },
   { id: 'year', ids: [], optional: 'pair' },
   { id: 'advanced', ids: ['tariff_type', 'decimals_meter'], repairOnly: true },

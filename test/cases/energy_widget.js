@@ -128,6 +128,23 @@ test('a battery added with a high lifetime counter does not count its history', 
   assert.strictEqual(grid.getEnergySince('year').charged, 3);
 });
 
+test('climate summarizers: own node, taken out of the home', () => {
+  const { grid, homey, drivers } = makeRig();
+  const pump = capDevice({ meter_kwh_this_day: 4, measure_watt_avg: 900 });
+  pump.getSettings = () => ({ climate: true });
+  const other = capDevice({ meter_kwh_this_day: 1, measure_watt_avg: 100 });
+  other.getSettings = () => ({});
+  drivers.power = [pump, other];
+  grid.updateEnergyBaselines(none);
+  grid.meterPowerHome += 10;
+  const e = WidgetData.getEnergy(homey, 'day');
+  assert.strictEqual(e.climate, 4);
+  assert.strictEqual(e.home, 6);
+  drivers.power = [other];
+  assert.strictEqual(WidgetData.getEnergy(homey, 'day').climate, null);
+  assert.strictEqual(WidgetData.getEnergy(homey, 'day').home, 10);
+});
+
 test('no import/export data: split null, net from the meter', () => {
   const { grid, homey } = makeRig();
   grid.directionalMeter = { importValue: null, exportValue: null };

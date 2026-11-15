@@ -85,9 +85,18 @@
         }
         var label = function (id) { return Homey.__('widget.' + id); };
         var gasKwh = settings.gas && typeof d.gasM3 === 'number' ? d.gasM3 * (Number(settings.gas_kwh) || 9.77) : null;
-        // Gas has its own line to the home: the home shows electricity only.
+        // Gas (m³) has its own line to Climate. Climate shows electricity and gas kWh apart, never summed
+        // (a heat pump makes several kWh of heat from one kWh of electricity).
         PbthFlow.set(nodes.gas, gasKwh === null ? null : {
-          values: [kwh(gasKwh)], label: label('gas') + ' ' + fmt[1].format(d.gasM3) + ' m\u00b3', flow: flow(true, gasKwh),
+          values: [fmt[d.gasM3 < 10 ? 2 : d.gasM3 < 1000 ? 1 : 0].format(d.gasM3) + ' m\u00b3'], label: label('gas'), flow: flow(true, gasKwh),
+        });
+        var hasClimate = typeof d.climate === 'number';
+        var climateValues = [];
+        var climateColors = [];
+        if (hasClimate) { climateValues.push(kwh(d.climate)); climateColors.push(''); }
+        if (gasKwh !== null) { climateValues.push(kwh(gasKwh)); climateColors.push('var(--c-gas)'); }
+        PbthFlow.set(nodes.climate, !climateValues.length ? null : {
+          values: climateValues, colors: climateColors, label: label('climate'), line: hasClimate, flow: hasClimate ? flow(false, d.climate) : null,
         });
         PbthFlow.set(nodes.solar, typeof d.solar !== 'number' ? null : { values: [kwh(d.solar)], label: label('solar'), flow: flow(true, d.solar) });
         var split = typeof d.imported === 'number' && typeof d.exported === 'number';
@@ -101,7 +110,7 @@
         PbthFlow.set(nodes.battery, !bat ? null : {
           values: both('battery', d.discharged, d.charged), label: label('battery'), flow: flow(d.discharged > d.charged, d.discharged - d.charged),
         });
-        PbthFlow.set(nodes.home, { values: [kwh(d.home)], label: label('home'), flow: flow(false, d.home || 0) });
+        PbthFlow.set(nodes.home, { values: [kwh(d.home)], label: label(climateValues.length ? 'home_other' : 'home'), flow: flow(false, d.home || 0) });
         PbthFlow.set(nodes.ev, typeof d.ev !== 'number' ? null : { values: [kwh(d.ev)], label: label('ev'), flow: flow(false, d.ev) });
       }
 

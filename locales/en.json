@@ -171,7 +171,8 @@
     "setup_price_no_group": "__name__ has no tariff group: choose one in its Repair first.",
     "setup_show_year": "Set a year budget",
     "setup_use_watt_info": "Calculates the energy from the power (W), not from the meter.",
-    "setup_daily_reset_info": "The meter starts at 0 each day."
+    "setup_daily_reset_info": "The meter starts at 0 each day.",
+    "step_climate": "Climate"
   },
   "load_forecast_accuracy": "Avg error __mae__ W (__pct__%), bias __bias__ W, __days__ days",
   "load_forecast_accuracy_collecting": "Collecting data",
@@ -351,6 +352,8 @@
     "hour": "Hour",
     "day": "Day",
     "month": "Month",
-    "year": "Year"
+    "year": "Year",
+    "climate": "Climate",
+    "home_other": "Home other"
   }
 }

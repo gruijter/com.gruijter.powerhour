@@ -16,6 +16,7 @@ const SOURCES = {
   home: 'assets/measure_watt_home.svg', // no home driver: the Grid Monitor's home power icon
   price: 'drivers/price/assets/icon.svg',
   appliance: 'drivers/power/assets/icon.svg',
+  climate: 'tools/widget-shared/climate.svg', // no climate driver: drawn for the widgets
 };
 const WIDGETS = ['power_flow', 'energy', 'plan'];
 const DIAGRAM = ['power_flow', 'energy']; // also get flow.js and flow.css

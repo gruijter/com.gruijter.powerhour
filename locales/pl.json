@@ -171,7 +171,8 @@
     "setup_price_no_group": "__name__ nie ma grupy taryfowej: najpierw wybierz ją przez Napraw.",
     "setup_show_year": "Ustaw budżet roczny",
     "setup_use_watt_info": "Oblicza energię z mocy (W), a nie z licznika.",
-    "setup_daily_reset_info": "Licznik zaczyna każdego dnia od 0."
+    "setup_daily_reset_info": "Licznik zaczyna każdego dnia od 0.",
+    "step_climate": "Klimat"
   },
   "load_forecast_accuracy": "Śr. błąd __mae__ W (__pct__%), odchylenie __bias__ W, __days__ dni",
   "load_forecast_accuracy_collecting": "Zbieranie danych",
@@ -351,6 +352,8 @@
     "hour": "Godzina",
     "day": "Dzień",
     "month": "Miesiąc",
-    "year": "Rok"
+    "year": "Rok",
+    "climate": "Klimat",
+    "home_other": "Dom pozostałe"
   }
 }
