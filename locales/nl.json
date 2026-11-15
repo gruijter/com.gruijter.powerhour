@@ -339,5 +339,13 @@
     "step_import": "Instellingen importprijs",
     "step_export": "Instellingen exportprijs",
     "repair_note": "Wijzig de instellingen hieronder via Repareren."
+  },
+  "widget_flow": {
+    "grid": "Net",
+    "home": "Huis",
+    "solar": "Zon",
+    "battery": "Batterij",
+    "ev": "EV",
+    "no_grid": "Voeg eerst een Netmonitor toe."
   }
 }

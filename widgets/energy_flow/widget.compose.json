@@ -1,0 +1,24 @@
+{
+  "name": {
+    "en": "Energy flow",
+    "nl": "Energiestroom",
+    "de": "Energiefluss",
+    "fr": "Flux d'énergie",
+    "it": "Flusso di energia",
+    "sv": "Energiflöde",
+    "no": "Energiflyt",
+    "es": "Flujo de energía",
+    "da": "Energiflow",
+    "pl": "Przepływ energii",
+    "ru": "Поток энергии",
+    "ar": "تدفق الطاقة",
+    "ko": "에너지 흐름"
+  },
+  "height": "80%",
+  "api": {
+    "getFlow": {
+      "method": "GET",
+      "path": "/"
+    }
+  }
+}

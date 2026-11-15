@@ -339,5 +339,13 @@
     "step_import": "수전 가격 설정",
     "step_export": "송전 가격 설정",
     "repair_note": "아래 설정은 수리에서 변경하세요."
+  },
+  "widget_flow": {
+    "grid": "계통",
+    "home": "가정",
+    "solar": "태양광",
+    "battery": "배터리",
+    "ev": "EV",
+    "no_grid": "먼저 그리드 모니터를 추가하세요."
   }
 }

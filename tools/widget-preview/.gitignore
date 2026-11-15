@@ -1,0 +1,4 @@
+# Build output - regenerate with gen.js; the shipped copies live in widgets/<id>/
+*-preview-*.svg
+*-preview-*.html
+*-preview-*.png

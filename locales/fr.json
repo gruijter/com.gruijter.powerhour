@@ -339,5 +339,13 @@
     "step_import": "Paramètres de prix d'importation",
     "step_export": "Paramètres de prix d'exportation",
     "repair_note": "Modifiez les réglages ci-dessous via Réparer."
+  },
+  "widget_flow": {
+    "grid": "Réseau",
+    "home": "Maison",
+    "solar": "Solaire",
+    "battery": "Batterie",
+    "ev": "VE",
+    "no_grid": "Ajoutez d'abord un Moniteur réseau."
   }
 }

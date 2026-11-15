@@ -8,3 +8,5 @@ zzz*
 AGENTS.md
 scratch/
 /test/
+# Dev tooling: tracked by git, never part of the published app.
+/tools/

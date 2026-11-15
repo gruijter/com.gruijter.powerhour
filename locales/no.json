@@ -339,5 +339,13 @@
     "step_import": "Importprisinnstillinger",
     "step_export": "Eksportprisinnstillinger",
     "repair_note": "Endre innstillingene nedenfor via Reparer."
+  },
+  "widget_flow": {
+    "grid": "Nett",
+    "home": "Hus",
+    "solar": "Sol",
+    "battery": "Batteri",
+    "ev": "Elbil",
+    "no_grid": "Legg først til en Strømnettmonitor."
   }
 }

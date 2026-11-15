@@ -339,5 +339,13 @@
     "step_import": "Import price settings",
     "step_export": "Export price settings",
     "repair_note": "Change the settings below via Repair."
+  },
+  "widget_flow": {
+    "grid": "Grid",
+    "home": "Home",
+    "solar": "Solar",
+    "battery": "Battery",
+    "ev": "EV",
+    "no_grid": "Add a Grid Monitor first."
   }
 }

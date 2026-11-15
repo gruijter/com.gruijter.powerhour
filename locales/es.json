@@ -339,5 +339,13 @@
     "step_import": "Configuración de precios de importación",
     "step_export": "Configuración de precios de exportación",
     "repair_note": "Cambia los ajustes de abajo en Reparar."
+  },
+  "widget_flow": {
+    "grid": "Red",
+    "home": "Casa",
+    "solar": "Solar",
+    "battery": "Batería",
+    "ev": "VE",
+    "no_grid": "Añade primero un Monitor de red."
   }
 }

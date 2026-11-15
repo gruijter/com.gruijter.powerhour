@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    :root {
+      --text: var(--homey-text-color, #1c1c1e);
+      --muted: var(--homey-text-color-light, #8e8e93);
+      --line: var(--homey-line-color, rgba(128, 128, 128, 0.25));
+      --node-bg: var(--homey-background-color, #ffffff);
+      --c-grid: #7a86a0;
+      --c-solar: #f2a900;
+      --c-battery: #2eb872;
+      --c-ev: #8e6cef;
+      --c-home: #3d8bfd;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --text: var(--homey-text-color, #f2f2f7);
+        --muted: var(--homey-text-color-light, #8e8e93);
+        --node-bg: var(--homey-background-color, #1c1c1e);
+      }
+    }
+    html, body { margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+    svg { display: block; width: 100%; height: auto; }
+    .base { stroke: var(--line); stroke-width: 2; fill: none; }
+    .flow { fill: none; stroke-width: 4; stroke-linecap: round; stroke-dasharray: 0 10; opacity: 0; }
+    .flow.on { opacity: 1; animation: run linear infinite; }
+    .flow.out { animation-direction: reverse; }
+    @keyframes run { to { stroke-dashoffset: -20; } }
+    .ring { fill: var(--node-bg); stroke-width: 2; }
+    .icon { fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+    .value { fill: var(--text); font-size: 13px; font-weight: 600; }
+    .label { fill: var(--muted); font-size: 11px; }
+    .hidden { display: none; }
+    #empty { display: none; padding: 24px 16px; text-align: center; color: var(--muted); font-size: 14px; }
+  </style>
+</head>
+<body>
+  <svg id="flow" viewBox="0 0 320 256" role="img"></svg>
+  <div id="empty"></div>
+  <script>
+    // Node layout in the 320 x 256 viewBox; every flow runs through the hub.
+    var HUB = { x: 160, y: 118 };
+    var NODES = [
+      { id: 'solar', x: 160, y: 34, color: '--c-solar', textX: 192, textY: 30, anchor: 'start',
+        icon: '<circle cx="12" cy="12" r="4"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8"/>' },
+      { id: 'grid', x: 40, y: 118, color: '--c-grid',
+        icon: '<path d="M8 21L12 3l4 18M9.6 14h4.8M10.7 9h2.6M5 7h14"/>' },
+      { id: 'home', x: 280, y: 118, color: '--c-home',
+        icon: '<path d="M4 11.5L12 4l8 7.5M6.5 10v10h11V10"/>' },
+      { id: 'battery', x: 88, y: 196, color: '--c-battery',
+        icon: '<rect x="3" y="7" width="16" height="10" rx="2"/><path d="M21.5 10.5v3M7 12h3"/>' },
+      { id: 'ev', x: 232, y: 196, color: '--c-ev',
+        icon: '<path d="M4 16v-4l2.4-5h11.2L20 12v4z"/><circle cx="8" cy="16.5" r="1.6"/><circle cx="16" cy="16.5" r="1.6"/>' },
+    ];
+    var NS = 'http://www.w3.org/2000/svg';
+
+    function el(tag, attrs, parent) {
+      var e = document.createElementNS(NS, tag);
+      Object.keys(attrs).forEach(function (k) { e.setAttribute(k, attrs[k]); });
+      if (parent) parent.appendChild(e);
+      return e;
+    }
+
+    function build(svg) {
+      var lines = el('g', {}, svg);
+      var nodes = el('g', {}, svg);
+      el('circle', { cx: HUB.x, cy: HUB.y, r: 4, fill: 'var(--line)' }, lines);
+      NODES.forEach(function (n) {
+        var d = 'M' + n.x + ' ' + n.y + 'L' + HUB.x + ' ' + HUB.y;
+        var color = 'var(' + n.color + ')';
+        n.base = el('path', { d: d, class: 'base' }, lines);
+        n.flow = el('path', { d: d, class: 'flow', stroke: color }, lines);
+        n.group = el('g', {}, nodes);
+        el('circle', { cx: n.x, cy: n.y, r: 22, class: 'ring', stroke: color }, n.group);
+        var icon = el('g', { transform: 'translate(' + (n.x - 12) + ' ' + (n.y - 12) + ')', class: 'icon', stroke: color }, n.group);
+        icon.innerHTML = n.icon;
+        var tx = n.textX || n.x;
+        var ty = n.textY || n.y + 38;
+        var anchor = n.anchor || 'middle';
+        n.value = el('text', { x: tx, y: ty, 'text-anchor': anchor, class: 'value' }, n.group);
+        n.label = el('text', { x: tx, y: ty + 14, 'text-anchor': anchor, class: 'label' }, n.group);
+      });
+    }
+
+    var started = false;
+
+    function onHomeyReady(Homey) {
+      if (started) return;
+      started = true;
+      var lang = (typeof Homey.getLanguage === 'function' && Homey.getLanguage()) || navigator.language || 'en';
+      if (lang === 'ar') document.documentElement.dir = 'rtl';
+      var kw = new Intl.NumberFormat(lang, { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+      var labels = {};
+      ['grid', 'home', 'solar', 'battery', 'ev'].forEach(function (k) { labels[k] = Homey.__('widget_flow.' + k); });
+
+      var svg = document.getElementById('flow');
+      build(svg);
+      var ready = false;
+
+      function power(w) {
+        var a = Math.abs(w);
+        return a < 1000 ? Math.round(a) + ' W' : kw.format(a / 1000) + ' kW';
+      }
+
+      // into: true = power flows from the node into the hub.
+      function show(n, w, into, soc) {
+        var present = typeof w === 'number';
+        n.group.classList.toggle('hidden', !present);
+        n.base.classList.toggle('hidden', !present);
+        n.flow.classList.toggle('hidden', !present);
+        if (!present) return;
+        n.value.textContent = power(w);
+        n.label.textContent = labels[n.id] + (typeof soc === 'number' ? ' ' + soc + '%' : '');
+        var on = Math.abs(w) >= 10;
+        n.flow.classList.toggle('on', on);
+        n.flow.classList.toggle('out', on && !into);
+        if (on) {
+          // Faster dots at higher power: ~2.2 s at 100 W, ~0.5 s at 10 kW.
+          var dur = Math.max(0.5, Math.min(3.5, 4 - 0.9 * Math.log10(Math.abs(w))));
+          n.flow.style.animationDuration = dur.toFixed(2) + 's';
+        }
+      }
+
+      function render(d) {
+        var empty = document.getElementById('empty');
+        var noGrid = !d || typeof d.grid !== 'number';
+        svg.style.display = noGrid ? 'none' : '';
+        empty.style.display = noGrid ? 'block' : 'none';
+        if (noGrid) {
+          empty.textContent = Homey.__('widget_flow.no_grid');
+          return;
+        }
+        var byId = {};
+        NODES.forEach(function (n) { byId[n.id] = n; });
+        show(byId.solar, d.solar, true);
+        show(byId.grid, d.grid, d.grid > 0);
+        show(byId.home, d.home, false);
+        show(byId.battery, d.battery, d.battery < 0, d.batterySoc);
+        show(byId.ev, d.ev, false, d.evSoc);
+      }
+
+      function refresh() {
+        if (document.hidden && ready) return;
+        Homey.api('GET', '/', {})
+          .then(render)
+          .catch(function (err) { console.error(err); })
+          .finally(function () {
+            if (!ready) {
+              ready = true;
+              Homey.ready();
+            }
+          });
+      }
+
+      refresh();
+      setInterval(refresh, 5000);
+      document.addEventListener('visibilitychange', function () { if (!document.hidden) refresh(); });
+    }
+
+    if (typeof window.Homey !== 'undefined') onHomeyReady(window.Homey);
+  </script>
+</body>
+</html>
