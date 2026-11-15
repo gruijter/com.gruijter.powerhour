@@ -25,6 +25,7 @@ const PriceFormula = require('../../lib/PriceFormula');
 const PriceCalculator = require('../../lib/PriceCalculator');
 const PriceSetup = require('../../lib/helpers/PriceSetup');
 const DapTakeover = require('../../lib/helpers/DapTakeover');
+const MigrationNotice = require('../../lib/helpers/MigrationNotice');
 const FileStore = require('../../lib/helpers/FileStore');
 
 const FORMULA_KEYS = ['formula', 'export_formula'];
@@ -41,6 +42,10 @@ const GAS_TRIGGERS = ['price_vs_avg'];
 class PriceDevice extends GenericDevice {
 
   async onInit() {
+    if (this.getStoreValue(MigrationNotice.FLOW_WARNING_KEY)) {
+      await this.unsetWarning().catch((err) => this.error(err));
+      await this.unsetStoreValue(MigrationNotice.FLOW_WARNING_KEY).catch((err) => this.error(err));
+    }
     await this.syncFormulaLabels().catch((err) => this.error(err));
     await DapTakeover.applyMonthAvg(this).catch((err) => this.error(err));
     await super.onInit();

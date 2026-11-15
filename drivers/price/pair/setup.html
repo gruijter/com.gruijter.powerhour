@@ -50,6 +50,7 @@
 		<legend class="homey-form-legend" data-i18n="price_setup.step_finish"></legend>
 		<div id="finish"></div>
 		<p class="homey-subtitle" id="groupAuto" data-i18n="price_setup.group_auto"></p>
+		<p class="homey-subtitle" id="groupFlows" style="display:none"></p>
 		<fieldset class="homey-form-fieldset">
 			<legend class="homey-form-legend" data-i18n="price_setup.preview_title"></legend>
 			<div id="preview"></div>
@@ -436,6 +437,14 @@
 		select.value = String(preferred);
 		if (select.value === '') select.value = String(groups[0].group);
 		groupsFilled = true;
+		showGroupFlows();
+	};
+	// Flows that set the tariff of the chosen group with an old card: this device overwrites them.
+	const showGroupFlows = () => {
+		const names = ((data.tariffFlows || {})[commodity()] || {})[input('tariff_update_group').value] || [];
+		const text = document.getElementById('groupFlows');
+		text.textContent = names.length ? Homey.__('price_setup.group_flows').replace('__flows__', names.join(', ')) : '';
+		text.style.display = names.length ? '' : 'none';
 	};
 
 	// Pages of a step that fit the screen without scrolling: its fields in order, a new page when
@@ -571,6 +580,7 @@
 		todEditor('export_fixedMarkupTOD');
 		if (!data.repairing) field('finish', 'name', { label: Homey.__('price_setup.name'), placeholder: '' });
 		field('finish', 'tariff_update_group', { label: Homey.__('price_setup.group_label'), options: [], noHint: true });
+		input('tariff_update_group').addEventListener('change', showGroupFlows);
 		input('biddingZone').addEventListener('change', zoneChanged);
 		input('currencyChoice').addEventListener('change', currencyChosen);
 		input('fetchExchangeRate').addEventListener('change', showCurrencyFields);

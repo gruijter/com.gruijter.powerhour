@@ -50,6 +50,7 @@
 		<legend class="homey-form-legend" data-i18n="price_setup.step_finish"></legend>
 		<div id="finish"></div>
 		<p class="homey-subtitle" id="groupAuto" data-i18n="price_setup.group_auto"></p>
+		<p class="homey-subtitle" id="groupFlows" style="display:none"></p>
 		<fieldset class="homey-form-fieldset">
 			<legend class="homey-form-legend" data-i18n="price_setup.preview_title"></legend>
 			<div id="preview"></div>
@@ -297,8 +298,8 @@
 		return values;
 	};
 
-	// Time of day markup as rows 'from hour: markup'; the text setting ('7:0.05;23:0') stays the
-	// stored value, in the hidden input.
+	// Time of day markup as rows 'from time: markup'; the text setting ('7:0.05;22:30:0') stays the
+	// stored value, in the hidden input. Times within the hour only with 15 minute electricity prices.
 	const todEditor = (id) => {
 		const text = input(id);
 		const row = text.parentNode;
@@ -309,12 +310,19 @@
 		row.insertBefore(el('div', { style: 'flex:1 1 auto;min-width:0' }), text);
 		const parse = () => String(text.value || '').replace(/\s/g, '').split(';').filter(Boolean)
 			.map((part) => part.split(':'))
-			.filter(([h, m]) => Number.isInteger(Number(h)) && Number(h) >= 0 && Number(h) < 24 && m !== undefined)
-			.map(([h, m]) => ({ hour: Number(h), markup: m }));
+			.filter((p) => (p.length === 2 || p.length === 3) && Number.isInteger(Number(p[0])) && Number(p[0]) >= 0 && Number(p[0]) < 24
+				&& [0, 15, 30, 45].includes(p.length === 3 ? Number(p[1]) : 0))
+			.map((p) => ({ hour: Number(p[0]) + (p.length === 3 ? Number(p[1]) / 60 : 0), markup: p[p.length - 1] }));
+		const time = (hour) => {
+			const h = Math.floor(hour);
+			const m = Math.round((hour - h) * 60);
+			return m ? `${h}:${pad(m)}` : `${h}`;
+		};
 		const write = (rows) => {
 			text.value = rows.filter((r) => r.markup !== '' && Number.isFinite(Number(r.markup)))
-				.sort((a, b) => a.hour - b.hour).map((r) => `${r.hour}:${Number(r.markup)}`).join(';');
+				.sort((a, b) => a.hour - b.hour).map((r) => `${time(r.hour)}:${Number(r.markup)}`).join(';');
 		};
+		const quarters = () => !perM3() && (isFixed() || input('priceInterval').value === '15');
 		const pad = (n) => String(n).padStart(2, '0');
 		const render = (rows) => {
 			list.innerHTML = '';
@@ -322,7 +330,14 @@
 				const line = el('div', { style: 'display:flex;gap:8px;align-items:center;margin-bottom:8px' });
 				line.appendChild(el('span', { className: 'homey-form-label', textContent: Homey.__('price_setup.tod_from') }));
 				const hour = el('select', { className: 'homey-form-select', style: 'flex:0 0 auto;width:auto;box-sizing:border-box' });
-				for (let h = 0; h < 24; h += 1) hour.appendChild(el('option', { value: String(h), textContent: `${pad(h)}:00`, selected: h === r.hour }));
+				const step = quarters() ? 0.25 : 1;
+				const times = [];
+				for (let h = 0; h < 24; h += step) times.push(h);
+				if (!times.includes(r.hour)) times.push(r.hour);
+				times.sort((a, b) => a - b).forEach((h) => {
+					const m = Math.round((h - Math.floor(h)) * 60);
+					hour.appendChild(el('option', { value: String(h), textContent: `${pad(Math.floor(h))}:${pad(m)}`, selected: h === r.hour }));
+				});
 				const amount = el('input', {
 					className: 'homey-form-input', type: 'number', step: 'any', value: r.markup, style: 'flex:1 1 auto;min-width:0;box-sizing:border-box',
 				});
@@ -362,6 +377,9 @@
 		render(rows);
 		// 'Same as import' copies the text: show it as rows again.
 		text.addEventListener('change', () => { rows = parse(); render(rows); });
+		// The time choices follow energy type, tariff type and price interval.
+		document.querySelectorAll('input[name="commodity"], input[name="tariffType"]').forEach((r) => r.addEventListener('change', () => render(rows)));
+		input('priceInterval').addEventListener('change', () => render(rows));
 	};
 
 	const money = (value, currency) => (value === null || value === undefined ? '-' : `${currency} ${Number(value).toFixed(4)}`);
@@ -419,6 +437,14 @@
 		select.value = String(preferred);
 		if (select.value === '') select.value = String(groups[0].group);
 		groupsFilled = true;
+		showGroupFlows();
+	};
+	// Flows that set the tariff of the chosen group with an old card: this device overwrites them.
+	const showGroupFlows = () => {
+		const names = ((data.tariffFlows || {})[commodity()] || {})[input('tariff_update_group').value] || [];
+		const text = document.getElementById('groupFlows');
+		text.textContent = names.length ? Homey.__('price_setup.group_flows').replace('__flows__', names.join(', ')) : '';
+		text.style.display = names.length ? '' : 'none';
 	};
 
 	// Pages of a step that fit the screen without scrolling: its fields in order, a new page when
@@ -554,6 +580,7 @@
 		todEditor('export_fixedMarkupTOD');
 		if (!data.repairing) field('finish', 'name', { label: Homey.__('price_setup.name'), placeholder: '' });
 		field('finish', 'tariff_update_group', { label: Homey.__('price_setup.group_label'), options: [], noHint: true });
+		input('tariff_update_group').addEventListener('change', showGroupFlows);
 		input('biddingZone').addEventListener('change', zoneChanged);
 		input('currencyChoice').addEventListener('change', currencyChosen);
 		input('fetchExchangeRate').addEventListener('change', showCurrencyFields);
