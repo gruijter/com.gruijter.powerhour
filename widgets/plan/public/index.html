@@ -65,7 +65,6 @@
       var kw = new Intl.NumberFormat(lang, { minimumFractionDigits: 1, maximumFractionDigits: 1 });
       var money = new Intl.NumberFormat(lang, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
       var t = function (k) { return Homey.__(k); };
-      var icons = window.PBTH_ICONS || {};
       var svg = document.getElementById('plan');
       var empty = document.getElementById('empty');
       var data = null;
@@ -264,8 +263,7 @@
 
         list.forEach(function (lane, li) {
           var y0 = TOP + li * LANE;
-          var icon = el('g', { transform: 'translate(4 ' + (y0 + 10) + ') scale(0.2)', style: 'color:var(' + lane.color + ')' }, svg);
-          icon.innerHTML = icons[lane.icon] || '';
+          window.PBTH_PLACE_ICON(svg, lane.icon, 13, y0 + 20, 18, 'var(' + lane.color + ')');
           var sub = lane.sub ? lane.sub(idx) : '';
           el('text', { x: 28, y: y0 + (sub ? 19 : 24), class: 'value' }, svg, lane.value(idx));
           if (sub) el('text', { x: 28, y: y0 + 31, class: 'sub' }, svg, sub);
@@ -297,17 +295,21 @@
         Homey.setHeight(hgt).catch(function () {});
       }
 
-      function select(evt) {
+      function select(clientX) {
         if (!data || !data.grid) return;
         var r = svg.getBoundingClientRect();
-        var x = ((evt.clientX - r.left) / r.width) * W;
+        var x = ((clientX - r.left) / r.width) * W;
         var n = data.net.length;
         var i = Math.max(0, Math.min(n - 1, Math.floor(((x - X0) / (X1 - X0)) * n)));
         selectedMs = i === 0 ? null : data.startMs + i * data.slotMs;
         draw();
       }
-      svg.addEventListener('pointerdown', select);
-      svg.addEventListener('pointermove', function (evt) { if (evt.buttons) select(evt); });
+      // Touch first (the app's web view), mouse/pen as fallback; a tap or a drag along the chart.
+      var touchTm = 0;
+      svg.addEventListener('touchstart', function (evt) { touchTm = Date.now(); select(evt.touches[0].clientX); }, { passive: true });
+      svg.addEventListener('touchmove', function (evt) { select(evt.touches[0].clientX); }, { passive: true });
+      svg.addEventListener('mousedown', function (evt) { if (Date.now() - touchTm > 800) select(evt.clientX); });
+      svg.addEventListener('mousemove', function (evt) { if (evt.buttons && Date.now() - touchTm > 800) select(evt.clientX); });
 
       function refresh() {
         if (document.hidden && ready) return;

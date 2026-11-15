@@ -7,11 +7,9 @@
 (function pbthFlow() {
   const NS = 'http://www.w3.org/2000/svg';
   const HUB = { x: 160, y: 118 };
-  // 320 wide; `into` is the arrow from the node toward the hub, `out` the reverse.
+  // 320 wide; `into` is the arrow from the node toward the hub, `out` the reverse. Gas is no
+  // electricity: its own line straight to the home (`to`), not through the hub.
   const NODES = [
-    {
-      id: 'gas', x: 40, y: 34, color: '--c-gas', into: '↘', out: '↖',
-    },
     {
       id: 'solar', x: 160, y: 34, color: '--c-solar', textX: 192, textY: 30, anchor: 'start', into: '↓', out: '↑',
     },
@@ -19,13 +17,16 @@
       id: 'grid', x: 40, y: 118, color: '--c-grid', into: '→', out: '←',
     },
     {
-      id: 'home', x: 280, y: 118, color: '--c-home', into: '←', out: '→',
+      id: 'home', x: 280, y: 118, color: '--c-home', textY: 76, into: '←', out: '→',
     },
     {
-      id: 'battery', x: 104, y: 200, color: '--c-battery', into: '↗', out: '↙',
+      id: 'battery', x: 112, y: 200, color: '--c-battery', into: '↗', out: '↙',
     },
     {
-      id: 'ev', x: 216, y: 200, color: '--c-ev', into: '↖', out: '↘',
+      id: 'ev', x: 208, y: 200, color: '--c-ev', into: '↖', out: '↘',
+    },
+    {
+      id: 'gas', x: 280, y: 200, color: '--c-gas', to: 'home',
     },
   ];
 
@@ -42,14 +43,14 @@
   function build(svg) {
     const lines = el('g', {}, svg);
     const layer = el('g', {}, svg);
-    const icons = window.PBTH_ICONS || {};
     const byId = {};
     el('circle', {
       cx: HUB.x, cy: HUB.y, r: 4, fill: 'var(--line)',
     }, lines);
     NODES.forEach((def) => {
       const n = { ...def };
-      const d = `M${n.x} ${n.y}L${HUB.x} ${HUB.y}`;
+      const end = n.to ? NODES.find((o) => o.id === n.to) : HUB;
+      const d = `M${n.x} ${n.y}L${end.x} ${end.y}`;
       const color = `var(${n.color})`;
       n.base = el('path', { d, class: 'base hidden' }, lines);
       n.flow = el('path', { d, class: 'flow hidden', stroke: color }, lines);
@@ -57,8 +58,7 @@
       el('circle', {
         cx: n.x, cy: n.y, r: 22, class: 'ring', stroke: color,
       }, n.group);
-      const icon = el('g', { transform: `translate(${n.x - 15} ${n.y - 15}) scale(0.3)`, style: `color:${color}` }, n.group);
-      icon.innerHTML = icons[n.id] || '';
+      window.PBTH_PLACE_ICON(n.group, n.id, n.x, n.y, 28, color);
       const tx = n.textX || n.x;
       const ty = n.textY || n.y + 38;
       const anchor = n.anchor || 'middle';
@@ -77,6 +77,7 @@
   }
 
   // s: null hides the node; else { values: [text, text?], label, flow: { into: bool, dur: s } | null }.
+  // into: toward the hub (or the `to` node).
   function set(n, s) {
     [n.group, n.base, n.flow].forEach((e) => {
       e.classList.toggle('hidden', !s);

@@ -25,19 +25,25 @@ const flowPreview = (t, { gas = false, tabs = false } = {}) => {
   const dy = tabs ? 130 : 100;
   const at = (x, y) => [x * k, y * k + dy];
   const hub = at(160, 118);
+  const home = at(280, 118);
+  // Gas: its own line straight to the home.
   const nodes = [
-    gas && { p: at(40, 34) },
-    { p: at(160, 34), lit: SOLAR, side: true },
+    { p: at(160, 34), lit: SOLAR, text: 'side' },
     { p: at(40, 118) },
-    { p: at(280, 118), lit: GREEN },
-    { p: at(104, 200) },
-    { p: at(216, 200) },
+    { p: home, lit: GREEN, text: 'above' },
+    { p: at(112, 200) },
+    { p: at(208, 200) },
+    gas && { p: at(280, 200), to: home },
   ].filter(Boolean);
-  const line = ({ p, lit }) => `<path d="M${p[0]} ${p[1]}L${hub[0]} ${hub[1]}" stroke="${t.track}" stroke-width="10"/>${
-    lit ? `<path d="M${p[0]} ${p[1]}L${hub[0]} ${hub[1]}" stroke="${lit}" stroke-width="18" stroke-linecap="round" stroke-dasharray="0 44"/>` : ''}`;
-  const node = ({ p, lit, side }) => `<circle cx="${p[0]}" cy="${p[1]}" r="66" fill="${t.card}" stroke="${lit || t.shape}" stroke-width="10" filter="url(#shadow)"/>`
-    + `<circle cx="${p[0]}" cy="${p[1]}" r="24" fill="${lit || t.shape}"/>${
-      side ? pill(p[0] + 96, p[1] - 13, 120, 26, t.shape) : pill(p[0] - 56, p[1] + 90, 112, 24, t.shape)}`;
+  const line = ({ p, lit, to = hub }) => `<path d="M${p[0]} ${p[1]}L${to[0]} ${to[1]}" stroke="${t.track}" stroke-width="10"/>${
+    lit ? `<path d="M${p[0]} ${p[1]}L${to[0]} ${to[1]}" stroke="${lit}" stroke-width="18" stroke-linecap="round" stroke-dasharray="0 44"/>` : ''}`;
+  const label = (p, text) => {
+    if (text === 'side') return pill(p[0] + 96, p[1] - 13, 120, 26, t.shape);
+    if (text === 'above') return pill(p[0] - 56, p[1] - 114, 112, 24, t.shape);
+    return pill(p[0] - 56, p[1] + 90, 112, 24, t.shape);
+  };
+  const node = ({ p, lit, text }) => `<circle cx="${p[0]}" cy="${p[1]}" r="66" fill="${t.card}" stroke="${lit || t.shape}" stroke-width="10" filter="url(#shadow)"/>`
+    + `<circle cx="${p[0]}" cy="${p[1]}" r="24" fill="${lit || t.shape}"/>${label(p, text)}`;
   const tabRow = tabs ? `${pill(40, 40, 944, 64, t.track)}${pill(272, 46, 228, 52, t.card)}` : '';
   return `<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
   <defs>

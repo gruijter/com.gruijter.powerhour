@@ -85,8 +85,9 @@
         }
         var label = function (id) { return Homey.__('widget.' + id); };
         var gasKwh = settings.gas && typeof d.gasM3 === 'number' ? d.gasM3 * (Number(settings.gas_kwh) || 9.77) : null;
+        // Gas has its own line to the home: the home shows electricity only.
         PbthFlow.set(nodes.gas, gasKwh === null ? null : {
-          values: [kwh(gasKwh)], label: label('gas') + ' ' + fmt[1].format(d.gasM3) + ' m³', flow: flow(true, gasKwh),
+          values: [kwh(gasKwh)], label: label('gas') + ' ' + fmt[1].format(d.gasM3) + ' m\u00b3', flow: flow(true, gasKwh),
         });
         PbthFlow.set(nodes.solar, typeof d.solar !== 'number' ? null : { values: [kwh(d.solar)], label: label('solar'), flow: flow(true, d.solar) });
         var split = typeof d.imported === 'number' && typeof d.exported === 'number';
@@ -100,8 +101,7 @@
         PbthFlow.set(nodes.battery, !bat ? null : {
           values: both('battery', d.discharged, d.charged), label: label('battery'), flow: flow(d.discharged > d.charged, d.discharged - d.charged),
         });
-        var home = (d.home || 0) + (gasKwh || 0);
-        PbthFlow.set(nodes.home, { values: [kwh(home)], label: label(gasKwh === null ? 'home' : 'home_total'), flow: flow(false, home) });
+        PbthFlow.set(nodes.home, { values: [kwh(d.home)], label: label('home'), flow: flow(false, d.home || 0) });
         PbthFlow.set(nodes.ev, typeof d.ev !== 'number' ? null : { values: [kwh(d.ev)], label: label('ev'), flow: flow(false, d.ev) });
       }
 
