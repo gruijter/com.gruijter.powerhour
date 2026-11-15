@@ -93,5 +93,32 @@
     if (on) n.flow.style.animationDuration = `${s.flow.dur.toFixed(2)}s`;
   }
 
-  window.PbthFlow = { build, set };
+  // Height (px) down to the lowest visible element: the body itself can be the frame's height.
+  function contentHeight() {
+    let bottom = 0;
+    Array.prototype.forEach.call(document.body.children, (e) => {
+      const r = e.getBoundingClientRect();
+      if (r.height) bottom = Math.max(bottom, r.bottom + window.scrollY);
+    });
+    return Math.ceil(bottom) + 2;
+  }
+
+  // The first call ends the loading state with the content height (a height set before ready()
+  // does not stick); later calls follow a changed height.
+  function fit(Homey) {
+    const h = contentHeight();
+    if (!fit.ready) {
+      fit.ready = true;
+      fit.last = h;
+      Homey.ready({ height: h });
+      return;
+    }
+    if (h === fit.last || typeof Homey.setHeight !== 'function') return;
+    fit.last = h;
+    Homey.setHeight(h).catch(() => {});
+  }
+
+  window.PbthFlow = {
+    build, set, fit, contentHeight,
+  };
 }());

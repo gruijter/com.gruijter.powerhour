@@ -14,7 +14,7 @@
     "ar": "خطة الطاقة",
     "ko": "에너지 계획"
   },
-  "height": 300,
+  "height": 330,
   "api": {
     "getPlan": {
       "method": "GET",

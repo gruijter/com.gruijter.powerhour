@@ -206,9 +206,22 @@
         fit();
       }
 
+      // Height (px) down to the lowest visible element: the body itself can be the frame's height.
+      // The first call ends the loading state with it (a height set before ready() does not stick).
       function fit() {
-        var hgt = Math.ceil(document.body.getBoundingClientRect().height);
-        if (!hgt || hgt === lastHeight || typeof Homey.setHeight !== 'function') return;
+        var bottom = 0;
+        Array.prototype.forEach.call(document.body.children, function (e) {
+          var r = e.getBoundingClientRect();
+          if (r.height) bottom = Math.max(bottom, r.bottom + window.scrollY);
+        });
+        var hgt = Math.ceil(bottom) + 2;
+        if (!ready) {
+          ready = true;
+          lastHeight = hgt;
+          Homey.ready({ height: hgt });
+          return;
+        }
+        if (hgt === lastHeight || typeof Homey.setHeight !== 'function') return;
         lastHeight = hgt;
         Homey.setHeight(hgt).catch(function () {});
       }
@@ -230,12 +243,7 @@
         Homey.api('GET', '/', {})
           .then(function (d) { data = d; draw(); })
           .catch(function (err) { console.error(err); })
-          .finally(function () {
-            if (!ready) {
-              ready = true;
-              Homey.ready();
-            }
-          });
+          .finally(function () { if (!ready) fit(); });
       }
 
       refresh();

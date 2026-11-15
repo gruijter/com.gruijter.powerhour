@@ -66,10 +66,8 @@
           .then(render)
           .catch(function (err) { console.error(err); })
           .finally(function () {
-            if (!ready) {
-              ready = true;
-              Homey.ready();
-            }
+            ready = true;
+            PbthFlow.fit(Homey);
           });
       }
 

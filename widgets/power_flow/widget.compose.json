@@ -14,7 +14,7 @@
     "ar": "تدفق القدرة",
     "ko": "전력 흐름"
   },
-  "height": "80%",
+  "height": "85%",
   "api": {
     "getFlow": {
       "method": "GET",

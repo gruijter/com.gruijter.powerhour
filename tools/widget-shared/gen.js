@@ -31,7 +31,8 @@ const glyph = (file) => {
     .trim();
   const size = box ? Number(box[1]) : 100;
   if (size !== 100) inner = `<g transform="scale(${100 / size})">${inner}</g>`;
-  return inner;
+  // SVG fills an element without a fill black: those parts take the node colour too.
+  return `<g fill="currentColor">${inner}</g>`;
 };
 
 const icons = {};
