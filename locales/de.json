@@ -340,7 +340,7 @@
     "step_export": "Exportpreiseinstellungen",
     "repair_note": "Ändern Sie die Einstellungen unten über Reparieren."
   },
-  "widget_flow": {
+  "widget": {
     "grid": "Netz",
     "home": "Haus",
     "solar": "Solar",

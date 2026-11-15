@@ -95,7 +95,7 @@
       if (lang === 'ar') document.documentElement.dir = 'rtl';
       var kw = new Intl.NumberFormat(lang, { minimumFractionDigits: 1, maximumFractionDigits: 1 });
       var labels = {};
-      ['grid', 'home', 'solar', 'battery', 'ev'].forEach(function (k) { labels[k] = Homey.__('widget_flow.' + k); });
+      ['grid', 'home', 'solar', 'battery', 'ev'].forEach(function (k) { labels[k] = Homey.__('widget.' + k); });
 
       var svg = document.getElementById('flow');
       build(svg);
@@ -131,7 +131,7 @@
         svg.style.display = noGrid ? 'none' : '';
         empty.style.display = noGrid ? 'block' : 'none';
         if (noGrid) {
-          empty.textContent = Homey.__('widget_flow.no_grid');
+          empty.textContent = Homey.__('widget.no_grid');
           return;
         }
         var byId = {};

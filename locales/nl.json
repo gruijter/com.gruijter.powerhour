@@ -340,7 +340,7 @@
     "step_export": "Instellingen exportprijs",
     "repair_note": "Wijzig de instellingen hieronder via Repareren."
   },
-  "widget_flow": {
+  "widget": {
     "grid": "Net",
     "home": "Huis",
     "solar": "Zon",

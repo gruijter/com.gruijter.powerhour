@@ -47,7 +47,36 @@ const energyFlow = (t) => {
 </svg>`;
 };
 
-const WIDGETS = { energy_flow: energyFlow };
+// widgets/plan: lanes on a shared time axis - price bars (cheap to dear), solar, battery, load.
+const plan = (t) => {
+  const x0 = 300;
+  const x1 = 952;
+  const lane = (i) => 150 + i * 190;
+  const bars = (y, values, fill) => {
+    const w = (x1 - x0) / values.length;
+    const color = (i, v) => (typeof fill === 'function' ? fill(i, v) : fill);
+    return values.map((v, i) => `<rect x="${(x0 + i * w).toFixed(1)}" y="${y + 150 - v}" width="${(w + 0.5).toFixed(1)}" height="${v}" fill="${color(i, v)}"/>`).join('');
+  };
+  const price = [70, 60, 45, 40, 50, 80, 110, 95, 75, 60, 55, 70, 120, 140, 115, 85];
+  const priceFill = (i, v) => {
+    if (v >= 110) return '#E5484D';
+    return v >= 70 ? SOLAR : GREEN;
+  };
+  const solar = [0, 0, 0, 0, 0, 30, 80, 120, 140, 120, 80, 30, 0, 0, 0, 0];
+  const battery = [0, 0, 90, 90, 0, 0, 0, 60, 60, 60, 0, 0, 0, 0, 0, 0];
+  const load = [40, 40, 40, 40, 40, 70, 70, 40, 40, 40, 40, 40, 110, 110, 110, 40];
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+  ${[0, 1, 2, 3].map((i) => `${pill(72, lane(i) + 50, 170, 26, t.shape)}${pill(72, lane(i) + 96, 120, 26, t.track)}
+  <rect x="${x0}" y="${lane(i) + 150}" width="${x1 - x0}" height="6" rx="3" fill="${t.track}"/>`).join('\n  ')}
+  ${bars(lane(0), price, priceFill)}
+  ${bars(lane(1), solar, SOLAR)}
+  ${bars(lane(2), battery, GREEN)}
+  ${bars(lane(3), load, t.shape)}
+  <rect x="${x0 + 238}" y="120" width="8" height="${lane(3) + 186 - 120}" rx="4" fill="${t.shape}"/>
+</svg>`;
+};
+
+const WIDGETS = { energy_flow: energyFlow, plan };
 
 for (const [widget, render] of Object.entries(WIDGETS)) {
   for (const [mode, t] of Object.entries(THEMES)) {

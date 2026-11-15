@@ -340,7 +340,7 @@
     "step_export": "Export price settings",
     "repair_note": "Change the settings below via Repair."
   },
-  "widget_flow": {
+  "widget": {
     "grid": "Grid",
     "home": "Home",
     "solar": "Solar",

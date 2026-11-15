@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    :root {
+      --text: var(--homey-text-color, #1c1c1e);
+      --muted: var(--homey-text-color-light, #8e8e93);
+      --line: var(--homey-line-color, rgba(128, 128, 128, 0.25));
+      --c-grid: #7a86a0;
+      --c-export: #2eb872;
+      --c-solar: #f2a900;
+      --c-home: #3d8bfd;
+      --c-battery: #2eb872;
+      --c-discharge: #f08c00;
+      --c-ev: #8e6cef;
+      --c-appliance: #14b8a6;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root { --text: var(--homey-text-color, #f2f2f7); }
+    }
+    html, body { margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+    svg { display: block; width: 100%; height: auto; touch-action: pan-y; }
+    .name { fill: var(--muted); font-size: 10px; }
+    .value { fill: var(--text); font-size: 11px; font-weight: 600; }
+    .time { fill: var(--text); font-size: 12px; font-weight: 600; }
+    .tick { fill: var(--muted); font-size: 9px; }
+    .grid { stroke: var(--line); stroke-width: 1; }
+    .cursor { stroke: var(--text); stroke-width: 1; opacity: 0.6; }
+    #empty { display: none; padding: 24px 16px; text-align: center; color: var(--muted); font-size: 14px; }
+  </style>
+</head>
+<body>
+  <svg id="plan" viewBox="0 0 320 300"></svg>
+  <div id="empty"></div>
+  <script>
+    var W = 320;
+    var X0 = 70; // chart area left; lane names and values to its left
+    var X1 = 316;
+    var TOP = 22; // selected time
+    var LANE = 36;
+    var AXIS = 16;
+    var NS = 'http://www.w3.org/2000/svg';
+    var started = false;
+
+    function el(tag, attrs, parent, text) {
+      var e = document.createElementNS(NS, tag);
+      Object.keys(attrs).forEach(function (k) { e.setAttribute(k, attrs[k]); });
+      if (text !== undefined) e.textContent = text;
+      if (parent) parent.appendChild(e);
+      return e;
+    }
+
+    // Green (cheap) - amber - red (expensive) for t 0..1.
+    function priceColor(t) {
+      var stops = [[46, 184, 114], [242, 169, 0], [229, 72, 77]];
+      var s = t <= 0.5 ? 0 : 1;
+      var f = t <= 0.5 ? t * 2 : (t - 0.5) * 2;
+      var c = stops[s].map(function (v, i) { return Math.round(v + (stops[s + 1][i] - v) * f); });
+      return 'rgb(' + c.join(',') + ')';
+    }
+
+    function onHomeyReady(Homey) {
+      if (started) return;
+      started = true;
+      var lang = (typeof Homey.getLanguage === 'function' && Homey.getLanguage()) || navigator.language || 'en';
+      if (lang === 'ar') document.documentElement.dir = 'rtl';
+      var kw = new Intl.NumberFormat(lang, { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+      var money = new Intl.NumberFormat(lang, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+      var t = function (k) { return Homey.__(k); };
+      var svg = document.getElementById('plan');
+      var empty = document.getElementById('empty');
+      var data = null;
+      var selectedMs = null; // null: now
+      var lastHeight = 0;
+      var ready = false;
+
+      function power(w, signed) {
+        if (typeof w !== 'number') return '-';
+        var a = Math.abs(w);
+        var s = a < 1000 ? Math.round(a) + ' W' : kw.format(a / 1000) + ' kW';
+        return signed && Math.round(a) > 0 ? (w > 0 ? '+' : '−') + s : s;
+      }
+
+      function lanes(d) {
+        var list = [];
+        if (d.price) {
+          list.push({
+            name: t('price'), values: d.price, kind: 'price',
+            text: function (i) { return typeof d.price[i] === 'number' ? (d.currency || '') + money.format(d.price[i]) : '-'; },
+          });
+        }
+        if (d.solar) list.push({ name: t('widget.solar'), values: d.solar, color: '--c-solar' });
+        list.push({ name: t('widget.home'), values: d.home, color: '--c-home' });
+        if (d.battery) {
+          list.push({
+            name: t('widget.battery'), values: d.battery, color: '--c-battery', down: '--c-discharge', signed: true, soc: d.soc,
+            suffix: function (i) { return d.soc && typeof d.soc[i] === 'number' ? ' ' + d.soc[i] + '%' : ''; },
+          });
+        }
+        if (d.ev) list.push({ name: t('widget.ev'), values: d.ev, color: '--c-ev' });
+        (d.appliances || []).forEach(function (a) { list.push({ name: a.name, values: a.w, color: '--c-appliance' }); });
+        list.push({ name: t('widget.grid'), values: d.net, color: '--c-grid', down: '--c-export', signed: true });
+        return list;
+      }
+
+      function draw() {
+        var d = data;
+        var noGrid = !d || !d.grid;
+        svg.style.display = noGrid ? 'none' : '';
+        empty.style.display = noGrid ? 'block' : 'none';
+        if (noGrid) {
+          empty.textContent = t('widget.no_grid');
+          fit();
+          return;
+        }
+        var n = d.home.length;
+        var list = lanes(d);
+        var H = TOP + list.length * LANE + AXIS;
+        var sw = (X1 - X0) / n;
+        var idx = selectedMs === null ? 0 : Math.round((selectedMs - d.startMs) / d.slotMs);
+        if (idx < 0 || idx >= n) { idx = 0; selectedMs = null; }
+        var timeFmt = new Intl.DateTimeFormat(lang, { hour: '2-digit', minute: '2-digit', timeZone: d.timeZone });
+        var dayFmt = new Intl.DateTimeFormat(lang, { weekday: 'short', timeZone: d.timeZone });
+        var hourFmt = new Intl.DateTimeFormat('en-GB', { hour: '2-digit', minute: '2-digit', hourCycle: 'h23', timeZone: d.timeZone });
+
+        svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
+        while (svg.firstChild) svg.removeChild(svg.firstChild);
+
+        var selTm = d.startMs + idx * d.slotMs;
+        el('text', { x: 4, y: 15, class: 'time' }, svg,
+          (idx === 0 ? t('ev_now') + ' · ' : dayFmt.format(selTm) + ' ') + timeFmt.format(selTm));
+
+        // Hour grid and labels: every 2, 3 or 6 hours by range.
+        var every = n <= 64 ? 2 : n <= 112 ? 3 : 6;
+        var axisY = TOP + list.length * LANE;
+        for (var i = 0; i < n; i += 1) {
+          var hm = hourFmt.format(d.startMs + i * d.slotMs).split(':');
+          var h = Number(hm[0]);
+          if (hm[1] !== '00' || h % every !== 0) continue;
+          var x = X0 + i * sw;
+          el('line', { x1: x, x2: x, y1: TOP, y2: axisY, class: 'grid', opacity: h === 0 ? 1 : 0.5 }, svg);
+          el('text', { x: x, y: axisY + 11, 'text-anchor': 'middle', class: 'tick' }, svg,
+            h === 0 ? dayFmt.format(d.startMs + i * d.slotMs) : String(h).padStart(2, '0'));
+        }
+
+        list.forEach(function (lane, li) {
+          var y0 = TOP + li * LANE;
+          var top = y0 + 4;
+          var bottom = y0 + LANE - 4;
+          var name = lane.name.length > 12 ? lane.name.slice(0, 11) + '…' : lane.name;
+          el('text', { x: 4, y: y0 + 14, class: 'name' }, svg, name + (lane.suffix ? lane.suffix(idx) : ''));
+          el('text', { x: 4, y: y0 + 28, class: 'value' }, svg, lane.text ? lane.text(idx) : power(lane.values[idx], lane.signed));
+          el('line', { x1: X0, x2: X1, y1: bottom, y2: bottom, class: 'grid' }, svg);
+          var vals = lane.values.map(function (v) { return typeof v === 'number' ? v : 0; });
+          var g = el('g', {}, svg);
+          if (lane.kind === 'price') {
+            var ps = lane.values.filter(function (v) { return typeof v === 'number'; });
+            var min = Math.min.apply(null, ps);
+            var max = Math.max.apply(null, ps);
+            var base = Math.min(0, min);
+            var range = max - base || 1;
+            for (var i = 0; i < lane.values.length; i += 1) {
+              var v = lane.values[i];
+              if (typeof v !== 'number') continue;
+              var j = i;
+              while (j + 1 < lane.values.length && lane.values[j + 1] === v) j += 1;
+              var hgt = Math.max(1, ((v - base) / range) * (bottom - top));
+              el('rect', {
+                x: X0 + i * sw, y: bottom - hgt, width: (j - i + 1) * sw + 0.3, height: hgt, 'shape-rendering': 'crispEdges', fill: priceColor(max > min ? (v - min) / (max - min) : 0.5),
+              }, g);
+              i = j;
+            }
+            return;
+          }
+          var peak = Math.max.apply(null, vals.map(Math.abs)) || 1;
+          var mid = lane.signed ? (top + bottom) / 2 : bottom;
+          var span = lane.signed ? (bottom - top) / 2 : bottom - top;
+          if (lane.signed) el('line', { x1: X0, x2: X1, y1: mid, y2: mid, class: 'grid' }, svg);
+          // One step-area path per sign: no seams between slots, few DOM nodes.
+          [1, -1].forEach(function (sign) {
+            if (sign < 0 && !lane.signed) return;
+            var dPath = 'M' + X0 + ' ' + mid;
+            var any = false;
+            vals.forEach(function (v, i) {
+              var y = mid - (Math.max(0, v * sign) / peak) * span * sign;
+              if (y !== mid) any = true;
+              dPath += 'L' + (X0 + i * sw).toFixed(2) + ' ' + y.toFixed(2) + 'L' + (X0 + (i + 1) * sw).toFixed(2) + ' ' + y.toFixed(2);
+            });
+            if (!any) return;
+            el('path', { d: dPath + 'L' + X1 + ' ' + mid + 'Z', fill: 'var(' + (sign > 0 || !lane.down ? lane.color : lane.down) + ')' }, g);
+          });
+          if (lane.soc) {
+            var pts = [];
+            lane.soc.forEach(function (s, i) {
+              if (typeof s === 'number') pts.push((X0 + (i + 0.5) * sw).toFixed(1) + ',' + (bottom - (s / 100) * (bottom - top)).toFixed(1));
+            });
+            if (pts.length > 1) el('polyline', { points: pts.join(' '), fill: 'none', stroke: 'var(--text)', 'stroke-width': 1, opacity: 0.55 }, g);
+          }
+        });
+
+        var cx = X0 + (idx + 0.5) * sw;
+        el('line', { x1: cx, x2: cx, y1: TOP - 2, y2: axisY, class: 'cursor' }, svg);
+        fit();
+      }
+
+      function fit() {
+        var hgt = Math.ceil(document.body.getBoundingClientRect().height);
+        if (!hgt || hgt === lastHeight || typeof Homey.setHeight !== 'function') return;
+        lastHeight = hgt;
+        Homey.setHeight(hgt).catch(function () {});
+      }
+
+      function select(evt) {
+        if (!data || !data.grid) return;
+        var r = svg.getBoundingClientRect();
+        var x = ((evt.clientX - r.left) / r.width) * W;
+        var n = data.home.length;
+        var i = Math.max(0, Math.min(n - 1, Math.floor(((x - X0) / (X1 - X0)) * n)));
+        selectedMs = i === 0 ? null : data.startMs + i * data.slotMs;
+        draw();
+      }
+      svg.addEventListener('pointerdown', select);
+      svg.addEventListener('pointermove', function (evt) { if (evt.buttons) select(evt); });
+
+      function refresh() {
+        if (document.hidden && ready) return;
+        Homey.api('GET', '/', {})
+          .then(function (d) { data = d; draw(); })
+          .catch(function (err) { console.error(err); })
+          .finally(function () {
+            if (!ready) {
+              ready = true;
+              Homey.ready();
+            }
+          });
+      }
+
+      refresh();
+      setInterval(refresh, 60000);
+      document.addEventListener('visibilitychange', function () { if (!document.hidden) refresh(); });
+    }
+
+    if (typeof window.Homey !== 'undefined') onHomeyReady(window.Homey);
+  </script>
+</body>
+</html>

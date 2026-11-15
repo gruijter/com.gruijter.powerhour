@@ -1,0 +1,24 @@
+{
+  "name": {
+    "en": "Energy plan",
+    "nl": "Energieplan",
+    "de": "Energieplan",
+    "fr": "Plan énergétique",
+    "it": "Piano energetico",
+    "sv": "Energiplan",
+    "no": "Energiplan",
+    "es": "Plan energético",
+    "da": "Energiplan",
+    "pl": "Plan energii",
+    "ru": "План энергии",
+    "ar": "خطة الطاقة",
+    "ko": "에너지 계획"
+  },
+  "height": 300,
+  "api": {
+    "getPlan": {
+      "method": "GET",
+      "path": "/"
+    }
+  }
+}

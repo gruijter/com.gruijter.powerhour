@@ -340,7 +340,7 @@
     "step_export": "Eksportprisindstillinger",
     "repair_note": "Ændr indstillingerne nedenfor via Reparer."
   },
-  "widget_flow": {
+  "widget": {
     "grid": "Net",
     "home": "Hus",
     "solar": "Sol",
