@@ -47,6 +47,7 @@ const ADVANCED = {
     enabled: true,
     cards: {
       x: { id: 'homey:device:own1:set_meter_power', type: 'action', args: {} },
+      w: { id: 'homey:device:own1:retrain_load_model', type: 'action', args: {} }, // no replacement: no notice
       y: { id: 'homey:device:dap1:set_fixed_markup', type: 'action', args: {} },
       z: { type: 'note' },
     },
@@ -119,7 +120,7 @@ const priceDevice = (name, group) => {
     const { homey } = makeHomey();
     const cards = await FlowScan.appCards(homey);
     assert.deepStrictEqual(cards.map((c) => `${c.flow}:${c.card}`).sort(),
-      ['Meter:set_fixed_markup', 'Meter:set_meter_power', 'Night tariff:set_tariff_power']);
+      ['Meter:retrain_load_model', 'Meter:set_fixed_markup', 'Meter:set_meter_power', 'Night tariff:set_tariff_power']);
     assert.deepStrictEqual(FlowScan.tariffFlows(cards, 'power'), { 1: ['Night tariff'] });
     assert.deepStrictEqual(FlowScan.tariffFlows(cards, 'gas'), {});
   });
