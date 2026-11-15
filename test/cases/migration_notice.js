@@ -154,8 +154,8 @@ const priceDevice = (name, group) => {
     assert.strictEqual(notes.length, 1, 'no repeat, cards wait a day');
     await notice.check(now + DAY);
     assert.deepStrictEqual(notes.slice(1).sort(), [
-      'migration_card_new|card=Send energy reading to virtual meter|flows=Meter|new=Send reading to virtual meter',
-      'migration_card_price|card=Set a new energy tariff|flows=Night tariff',
+      "migration_card_new|card=Send energy reading to virtual meter|flows='Meter'|new=Send reading to virtual meter",
+      "migration_card_price|card=Set a new energy tariff|flows='Night tariff'",
     ]);
     await notice.check(now + 2 * DAY);
     assert.strictEqual(notes.length, 3, 'not again within 7 days');
@@ -186,16 +186,16 @@ const priceDevice = (name, group) => {
     const { homey, notes } = makeHomey({ priceDevices: [price, other] });
     const notice = new MigrationNotice(homey);
     await notice.tariffConflict('power', 1, 1000);
-    assert.strictEqual(price.warning, 'tariff_flow_warning|group=1');
+    assert.strictEqual(price.warning, "tariff_flow_warning|flows='Night tariff'");
     assert.strictEqual(price.store[MigrationNotice.FLOW_WARNING_KEY], true);
     assert.strictEqual(other.warning, null);
-    assert.deepStrictEqual(notes, ['tariff_flow_conflict|device=Electricity price|flows=Night tariff|group=1']);
+    assert.deepStrictEqual(notes, ["tariff_flow_conflict|device=Electricity price|flows='Night tariff'"]);
     await notice.tariffConflict('power', 1, 1000 + DAY);
     assert.strictEqual(notes.length, 1, 'within 3 days');
     delete price.store[MigrationNotice.FLOW_WARNING_KEY]; // cleared at a restart
     price.warning = null;
     await notice.tariffConflict('power', 1, 1000 + DAY);
-    assert.strictEqual(price.warning, 'tariff_flow_warning|group=1', 'set again after a restart');
+    assert.strictEqual(price.warning, "tariff_flow_warning|flows='Night tariff'", 'set again after a restart');
     await notice.tariffConflict('power', 3, 1000);
     assert.strictEqual(notes.length, 1, 'no price device in group 3');
   });

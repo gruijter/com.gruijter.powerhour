@@ -443,7 +443,7 @@
 	const showGroupFlows = () => {
 		const names = ((data.tariffFlows || {})[commodity()] || {})[input('tariff_update_group').value] || [];
 		const text = document.getElementById('groupFlows');
-		text.textContent = names.length ? Homey.__('price_setup.group_flows').replace('__flows__', names.join(', ')) : '';
+		text.textContent = names.length ? Homey.__('price_setup.group_flows').replace('__flows__', names.map((n) => `'${n}'`).join(', ')) : '';
 		text.style.display = names.length ? '' : 'none';
 	};
 
