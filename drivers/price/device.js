@@ -175,13 +175,7 @@ class PriceDevice extends GenericDevice {
         throw PriceSetup.translateError(this.homey, err);
       }
     });
-    ['fixedMarkupTOD', 'export_fixedMarkupTOD'].forEach((id) => {
-      try {
-        PriceCalculator.parseTOD(settings[id]);
-      } catch {
-        throw Error(this.homey.__('price_setup.error_tod'));
-      }
-    });
+    PriceSetup.checkTOD(this.homey, settings);
   }
 
   async onSettings({ oldSettings, newSettings, changedKeys }) {
@@ -222,10 +216,17 @@ class PriceDevice extends GenericDevice {
       .catch((err) => this.error(err));
   }
 
-  // Price settings changed by flow: recalculated right away, no restart.
+  // Price settings changed by flow: recalculated right away, no restart. A fixed tariff whose time
+  // of day markup needs other slots (15 or 60 minutes) gets new prices with a restart.
   async updatePriceSettings(values) {
-    const settings = { ...this.getSettings(), ...values };
+    const old = this.getSettings();
+    const settings = { ...old, ...values };
+    if (settings.tariffType === 'fixed') settings.priceInterval = PriceSetup.fixedInterval(settings);
     this.validatePriceSettings(settings);
+    if (settings.priceInterval !== old.priceInterval) {
+      await this.applySetup({ ...values, priceInterval: settings.priceInterval });
+      return;
+    }
     await this.setSettings({
       ...values,
       formulaInUse: PriceFormula.formulaOf(settings, 'import'),

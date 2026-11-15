@@ -215,5 +215,27 @@ test('parser: errors', () => {
   assert.strictEqual(code(() => PriceFormula.validate('(market')), 'formula_syntax');
 });
 
+test('tod: half hours and quarters', () => {
+  const tod = PriceCalculator.parseTOD('6:30:0.25;22:30:0.18');
+  assert.strictEqual(tod.length, 96);
+  assert.strictEqual(tod[0], 0.18, 'before the first time: the last value');
+  assert.strictEqual(tod[6 * 4 + 1], 0.18, '06:15');
+  assert.strictEqual(tod[6 * 4 + 2], 0.25, '06:30');
+  assert.strictEqual(tod[22 * 4 + 1], 0.25, '22:15');
+  assert.strictEqual(tod[22 * 4 + 2], 0.18, '22:30');
+  assert.deepStrictEqual(PriceCalculator.parseTOD('7:0.05;23:0').filter((_, q) => q % 4 === 0),
+    Array.from({ length: 24 }, (_, h) => (h >= 7 && h < 23 ? 0.05 : 0)), 'hour format unchanged');
+  assert.strictEqual(PriceCalculator.todHasQuarters('7:0.05;23:0'), false);
+  assert.strictEqual(PriceCalculator.todHasQuarters('22:30:0.1;6:30:0.2'), true);
+  assert.strictEqual(PriceCalculator.todHasQuarters('22:00:0.1'), false);
+  assert.strictEqual(PriceCalculator.todHasQuarters('bad'), false);
+  ['22:20:0.1', '24:0.1', '7:', '7:x', '7:30:0.1:2'].forEach((v) => assert.throws(() => PriceCalculator.parseTOD(v), v));
+  const s = { ...base, fixedMarkupTOD: '6:30:0.25;22:30:0.18' };
+  const at = (h, m) => PriceFormula.applyPrices([{ time: new Date(Date.UTC(2026, 9, 19, h, m)), price: 0 }], s, 'UTC')[0].muPrice;
+  near(at(22, 15), 0.25, 'monday 22:15');
+  near(at(22, 30), 0.18, 'monday 22:30');
+  near(PriceCalculator.calculateMarkupPrices([{ time: new Date(Date.UTC(2026, 9, 19, 6, 30)), price: 0 }], s, 'UTC')[0].muPrice, 0.25, 'calculator 06:30');
+});
+
 console.log(failures ? `\n${failures} FAILED` : '\nall passed');
 process.exit(failures ? 1 : 0);
