@@ -145,6 +145,9 @@
 
         var srcs = d.sources.filter(on).map(function (x) { return { name: t(x.key), kind: x.key, value: x.value }; });
         if (gas > 0) srcs.push({ name: t('gas'), kind: 'gas', value: gas, gas: true });
+        // Sources below 0.5% of the total are not drawn (such as solar at dusk).
+        var srcTotal = srcs.reduce(function (a, x) { return a + x.value; }, 0);
+        srcs = srcs.filter(function (x) { return x.gas || x.value >= srcTotal * 0.005; });
         // In the order the destinations are filled (export and battery charging from the sun first),
         // so the bands do not cross.
         var ORDER = ['solar', 'battery', 'ev', 'grid', 'gas'];
