@@ -117,6 +117,22 @@ test('grid: import, export and home per period from the counters', async () => {
   assert.deepStrictEqual([e.imported, e.exported, e.home], [3, 4, 7]);
 });
 
+test('grid: a period without a home start follows the balance till it ends', async () => {
+  const { grid, drivers } = makeRig();
+  grid.lastDirectionalReadingMonth = { importValue: 990, exportValue: 500 }; // an older device: no homeValue
+  drivers.battery[0].caps['meter_kwh_this_month.charged'] = 0; // not restored yet
+  drivers.battery[0].caps['meter_kwh_this_month.discharged'] = 0;
+  await grid.updateSplitMeters(none);
+  assert.strictEqual(grid.caps['meter_kwh_this_month.home'], 10);
+  drivers.battery[0].caps['meter_kwh_this_month.charged'] = 4; // restored later
+  await grid.updateSplitMeters(none);
+  assert.strictEqual(grid.caps['meter_kwh_this_month.home'], 6);
+  await grid.updateSplitMeters({ ...none, newMonth: true });
+  grid.meterPowerHome = 2002;
+  await grid.updateSplitMeters(none);
+  assert.strictEqual(grid.caps['meter_kwh_this_month.home'], 2); // the home counter from the new start
+});
+
 test('battery: charged and discharged per period; a counter reset keeps the count', async () => {
   const caps = { meter_kwh_charging: 100, meter_kwh_discharging: 80, 'meter_kwh_this_day.charged': 0 };
   const store = {};

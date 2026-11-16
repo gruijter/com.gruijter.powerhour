@@ -758,7 +758,7 @@ class GridDevice extends GenericDevice {
       const key = `lastDirectionalReading${period[0].toUpperCase()}${period.slice(1)}`;
       const old = this[key] || {};
       // The home start follows from the balance again (updateSplitMeters()).
-      this[key] = { importValue: imp, exportValue: typeof exp === 'number' ? exp : old.exportValue, homeValue: null };
+      this[key] = { importValue: imp, exportValue: typeof exp === 'number' ? exp : old.exportValue, homeFromBalance: true };
       this.markStoreDirty(key);
       const impPrev = await at('p1', prevMs);
       const expPrev = await at('n1', prevMs);
@@ -781,7 +781,7 @@ class GridDevice extends GenericDevice {
     }
     if (!api) return;
     const starts = HistoryRestore.periodStarts(TimeHelpers.toLocalDate(new Date(), this.timeZone), this.startDay, this.startMonth, this.timeZone);
-    await this.restoreHistoryExtra(api, starts).catch(this.error);
+    await ContractYear.serial(() => this.restoreHistoryExtra(api, starts)).catch(this.error);
   }
 
   // Import, export and home kWh per hour, day, month and year: each counter minus its value at the
@@ -791,10 +791,12 @@ class GridDevice extends GenericDevice {
     for (const period of SPLIT_PERIODS) {
       const key = `lastDirectionalReading${period[0].toUpperCase()}${period.slice(1)}`;
       if (!this[key]) this[key] = { ...now };
-      if (typeof this[key].homeValue !== 'number') this[key].homeValue = this.homeValueAtStart(period);
+      // No home start (an older device, a restore): the home follows from the balance till the period ends.
+      if (typeof this[key].homeValue !== 'number') this[key].homeFromBalance = true;
       const base = this[key];
       const isNew = periods[`new${period[0].toUpperCase()}${period.slice(1)}`];
       for (const [field, sub] of SPLIT_FIELDS) {
+        if (field === 'homeValue' && base.homeFromBalance) base.homeValue = this.homeValueAtStart(period);
         if (typeof now[field] !== 'number') continue;
         if (typeof base[field] !== 'number') base[field] = now[field];
         const val = Math.round((now[field] - base[field]) * 10000) / 10000;
@@ -808,8 +810,8 @@ class GridDevice extends GenericDevice {
     }
   }
 
-  // The home counter at the start of a period that has none yet (an older device): from the energy
-  // balance of the period meters of this app's devices so far.
+  // The home counter at the start of a period that has none: from the energy balance of the period
+  // meters of this app's devices so far (also the batteries' once restored).
   homeValueAtStart(period) {
     const cap = (d, c) => (d.hasCapability(c) && typeof d.getCapabilityValue(c) === 'number' ? d.getCapabilityValue(c) : 0);
     const sum = (driverId, c) => {

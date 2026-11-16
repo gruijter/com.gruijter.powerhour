@@ -119,6 +119,21 @@ const rising = (t0, n) => ({
     assert.strictEqual(store.lastReadingYear.meterValue, 7);
   });
 
+  await test('Insights jobs run one at a time, also after a failing one', async () => {
+    const order = [];
+    const job = (name, ms, fail) => () => new Promise((resolve, reject) => {
+      order.push(`${name}+`);
+      setTimeout(() => {
+        order.push(`${name}-`);
+        if (fail) reject(Error(name));
+        else resolve(name);
+      }, ms);
+    });
+    const runs = [ContractYear.serial(job('a', 20)), ContractYear.serial(job('b', 5, true)).catch(() => 'x'), ContractYear.serial(job('c', 1))];
+    assert.deepStrictEqual(await Promise.all(runs), ['a', 'x', 'c']);
+    assert.deepStrictEqual(order, ['a+', 'a-', 'b+', 'b-', 'c+', 'c-']);
+  });
+
   process.exitCode = failed ? 1 : 0;
 })().catch((err) => {
   console.log(err);
