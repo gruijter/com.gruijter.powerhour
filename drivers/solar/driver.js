@@ -36,7 +36,7 @@ const driverSpecifics = {
   driverId: 'solar',
   fallbackMeter: 'meter_power', // a source device's primary meter, when nothing else is detected
   requiredClass: 'solarpanel',
-  deviceCapabilities: ['measure_watt_solar', 'measure_watt_forecast.h0',
+  deviceCapabilities: ['measure_power', 'measure_watt_forecast.h0',
     'measure_watt_forecast.m15', 'measure_watt_forecast.m30',
     'measure_watt_forecast.m45', 'measure_watt_forecast.h1',
     'measure_watt_forecast.h2', 'measure_watt_forecast.h3',
@@ -54,14 +54,13 @@ const driverSpecifics = {
     'meter_money_this_month_avg', 'meter_money_this_year_avg',
     'measure_solar_use.this_hour', 'measure_solar_use.this_day',
     'measure_solar_use.this_month', 'measure_solar_use.this_year',
-    // No measure_power/meter_power: Homey Energy would count solar twice.
-    'meter_tariff', 'meter_power_hidden',
+    'meter_tariff', 'meter_power',
     // Max (day, month, year - independently auto-resetting). No min: solar's production floor
     // is trivially ~0 at night, deliberately not tracked (see grid's driver.js for the
     // symmetric min+max version used by drivers where min is meaningful).
     'measure_watt_max.day', 'measure_watt_max.month', 'measure_watt_max.year',
     'button.retrain', 'button.export_diagnostics', 'alarm_power'],
-  renamedCaps: { measure_power: 'measure_watt_solar', meter_power: 'meter_power_hidden' },
+  energyCaps: { measure_power: 'measure_watt_solar', meter_power: 'meter_power_hidden' },
   // Asked at pair and repair (lib/helpers/PairSetup.js).
   setup: {
     settings: STEPS.flatMap((st) => st.ids),
@@ -103,7 +102,7 @@ class SolarDriver extends GenericDriver {
     const gridW = await EnergyPollingHelper.gridPowerW(report);
     if (!Number.isFinite(gridW)) return;
     const devices = this.getDevices();
-    const powerOf = (device) => device.getCapabilityValue('measure_watt_solar') || 0;
+    const powerOf = (device) => (device.ds ? device.getCapabilityValue(device.ds.cmap.measure_source) || 0 : 0);
     const totalSolarW = devices.reduce((a, device) => a + Math.max(0, powerOf(device)), 0);
     devices.forEach((device) => {
       device.currentGridPower = gridW;

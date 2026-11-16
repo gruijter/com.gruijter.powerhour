@@ -43,6 +43,7 @@ const deviceSpecifics = {
     last_month: 'meter_kwh_last_month',
     this_year: 'meter_kwh_this_year',
     last_year: 'meter_kwh_last_year',
+    meter_source: 'meter_power',
     measure_source: 'measure_watt_avg',
     minMaxPrefix: 'measure_watt',
   },
@@ -64,12 +65,7 @@ const PLAN_LEAD_MS = 2 * 60 * 60 * 1000; // a run this long before a plan's wind
 class PowerDevice extends GenericDevice {
 
   async onInit() {
-    const cmap = { ...deviceSpecifics.cmap };
-    Object.defineProperty(cmap, 'meter_source', {
-      enumerable: true,
-      get: () => (this.driver.constructor.keepsMeterPower(this.getSettings()) ? 'meter_power' : 'meter_power_hidden'),
-    });
-    this.ds = { ...deviceSpecifics, cmap };
+    this.ds = deviceSpecifics;
     this.flows = new PowerFlows(this);
     // With forecast (setting appliance_mode): learned apart from the home load, with plan also
     // planned like an EV charge, see lib/strategies/ApplianceModel.js. Its charts are registered

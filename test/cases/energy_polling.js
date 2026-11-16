@@ -141,7 +141,7 @@ const pollOnce = async (setup) => {
     assert.strictEqual(gridDriver.needsEnergyReport(), false);
     for (const id of ['evCharger', 'power', 'solar']) {
       const Driver = require(`../../drivers/${id}/driver`); // eslint-disable-line global-require, import/no-dynamic-require
-      const device = { getCapabilityValue: () => 1000 };
+      const device = { getCapabilityValue: () => 1000, ds: { cmap: { measure_source: 'measure_power' } } };
       const driver = Object.assign(Object.create(Driver.prototype), { homey, getDevices: () => [device] });
       assert.strictEqual(typeof driver.onEnergyReport, 'function', id);
       assert.strictEqual(typeof driver.checkStartPolling, 'function', id);

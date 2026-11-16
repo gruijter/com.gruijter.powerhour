@@ -307,7 +307,7 @@ class GridDevice extends GenericDevice {
         if (solarDevices && solarDevices.length > 0) {
           hasPbthSolar = true;
           solarDevices.forEach((dev) => {
-            solarPower += (dev.getCapabilityValue('measure_watt_solar') || 0);
+            solarPower += (dev.ds ? dev.getCapabilityValue(dev.ds.cmap.measure_source) || 0 : 0);
           });
         }
       }

@@ -40,6 +40,7 @@ const STEPS = [
 const driverSpecifics = {
   driverId: 'power',
   fallbackMeter: 'meter_power', // a source device's primary meter, when nothing else is detected
+  energyCaps: { meter_power: 'meter_power_hidden' },
   originDeviceCapabilities: ['measure_power', 'meter_power', 'meter_power.peak', 'meter_power.consumed', 'meter_power.delivered',
     'meter_power.import', 'meter_power.total_power', 'meter_power.t1', 'meter_power.consumedL1', 'measure_energy_consumption_today'],
   sourceCapGroups: [
@@ -160,17 +161,6 @@ class PowerDriver extends GenericDriver {
   }
 
   // 'off', 'forecast' or 'plan' (setting appliance_mode); only a Homey device as source learns.
-  // Virtual meters keep meter_power: Homey Energy has no other kWh meter for them. The rest would be
-  // counted twice.
-  static keepsMeterPower(settings = {}) {
-    return settings.source_device_type === 'virtual via flow' || !!settings.use_measure_source;
-  }
-
-  renamedCapsFor(settings) {
-    return PowerDriver.keepsMeterPower(settings)
-      ? { meter_power_hidden: 'meter_power' } : { meter_power: 'meter_power_hidden' };
-  }
-
   static applianceMode(settings = {}) {
     if (settings.source_device_type !== 'Homey device') return 'off';
     return ['forecast', 'plan'].includes(settings.appliance_mode) ? settings.appliance_mode : 'off';
@@ -179,8 +169,7 @@ class PowerDriver extends GenericDriver {
   // With forecast: the retrain button, which also shows the started/finished cards (their filter).
   // With plan: next run and the day pickers; appliance_next_run shows the planner cards.
   capabilitiesFor(settings = {}) {
-    const meterCap = PowerDriver.keepsMeterPower(settings) ? 'meter_power' : 'meter_power_hidden';
-    const caps = super.capabilitiesFor(settings).map((cap) => (cap === 'meter_power' ? meterCap : cap));
+    const caps = super.capabilitiesFor(settings);
     const mode = PowerDriver.applianceMode(settings);
     if (mode !== 'off') caps.push('button.retrain');
     if (mode === 'plan') caps.push('appliance_next_run', 'appliance_today', 'appliance_tomorrow');

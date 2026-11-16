@@ -45,8 +45,8 @@ const deviceSpecifics = {
     last_month: 'meter_kwh_last_month',
     this_year: 'meter_kwh_this_year',
     last_year: 'meter_kwh_last_year',
-    meter_source: 'meter_power_hidden',
-    measure_source: 'measure_watt_solar',
+    meter_source: 'meter_power',
+    measure_source: 'measure_power',
     minMaxPrefix: 'measure_watt',
   },
 };
@@ -336,8 +336,8 @@ class SolarDevice extends GenericDevice {
     const now = new Date();
     const currentTimestamp = now.getTime();
 
-    const rawPower = this.getCapabilityValue('measure_watt_solar');
-    const currentEnergy = this.getCapabilityValue('meter_power_hidden');
+    const rawPower = this.getCapabilityValue(this.ds.cmap.measure_source);
+    const currentEnergy = this.getCapabilityValue(this.ds.cmap.meter_source);
 
     const deltaTmMs = currentTimestamp - (this.lastLearningTimestamp || currentTimestamp);
     this.lastLearningTimestamp = currentTimestamp;
