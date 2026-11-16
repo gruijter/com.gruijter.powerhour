@@ -42,7 +42,7 @@ assert.strictEqual(BS.summary(homey, { budget: '0', distribution: 'linear' }, 'g
 assert.strictEqual(BS.summary(homey, {
   budget: '4500', distribution: 'local', budget_heating: 'heat_pump', budget_cooling: true, start_date: '0107',
 }, 'grid'), '4500 kWh · Local climate · Heat pump · Air conditioning · start 1 July');
-assert.strictEqual(BS.summary(homey, { budget: '1;1;1;1;1;1;1;1;1;1;1;1', distribution: 'CUSTOM' }, 'gas'), '12 m³ · Custom · start 1 January');
+assert.strictEqual(BS.summary(homey, { budget: '1;1;1;1;1;1;1;1;1;1;1;1', distribution: 'CUSTOM' }, 'gas'), '12 m³ · Custom');
 assert.strictEqual(BS.validStartDate(' 0101 '), '0101');
 assert.strictEqual(BS.validStartDate('3213'), null);
 assert.strictEqual(BS.validStartDate('101'), null);

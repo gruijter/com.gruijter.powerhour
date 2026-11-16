@@ -312,7 +312,7 @@
   "source_polled": "gepolld",
   "budget": {
     "start_date": "Jaar begint op",
-    "start_date_info": "Maand- en jaartotalen beginnen op deze dag.",
+    "start_date_info": "Maand- en jaartotalen van alle meters beginnen op deze dag.",
     "target": "Jaarbudget",
     "distribution": "Verdeling",
     "linear": "Gelijk verdeeld",

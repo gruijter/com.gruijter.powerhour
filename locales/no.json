@@ -312,7 +312,7 @@
   "source_polled": "pollet",
   "budget": {
     "start_date": "Året starter",
-    "start_date_info": "Måneds- og årstotaler starter denne dagen.",
+    "start_date_info": "Måneds- og årstotaler for alle målere starter denne dagen.",
     "target": "Årsbudsjett",
     "distribution": "Fordeling",
     "linear": "Jevnt",

@@ -312,7 +312,7 @@
   "source_polled": "abgefragt",
   "budget": {
     "start_date": "Jahr beginnt am",
-    "start_date_info": "Monats- und Jahressummen beginnen an diesem Tag.",
+    "start_date_info": "Monats- und Jahressummen aller Zähler beginnen an diesem Tag.",
     "target": "Jahresbudget",
     "distribution": "Verteilung",
     "linear": "Gleichmäßig",

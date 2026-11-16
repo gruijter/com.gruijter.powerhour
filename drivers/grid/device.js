@@ -33,6 +33,7 @@ const { setTimeoutPromise } = require('../../lib/helpers/Util');
 const { fetchYesterdayAndToday, convertCumulativeToPower, mergeStoredHistory } = require('../../lib/helpers/HistoryLookup');
 const { combineComponentsToHomePower } = require('../../lib/helpers/HomePowerReconstruction');
 const InsightsHistory = require('../../lib/helpers/InsightsHistory');
+const ContractYear = require('../../lib/helpers/ContractYear');
 const FileStore = require('../../lib/helpers/FileStore');
 const TimeHelpers = require('../../lib/helpers/TimeHelpers');
 const LoadSpread = require('../../lib/helpers/LoadSpread');
@@ -130,6 +131,7 @@ class GridDevice extends GenericDevice {
     if (boundSourceId !== sourceId) await this.setStoreValue('directionalSourceId', sourceId).catch(this.error);
 
     await super.onInit().catch(this.error);
+    this.seedEnergyBaselines().catch(this.error);
 
     // A newer onInit() may have started meanwhile: the loops below must not be started twice.
     const sessionIdAfterSuper = this.sessionId;
@@ -784,7 +786,7 @@ class GridDevice extends GenericDevice {
     Object.entries(flags).forEach(([period, isNew]) => {
       const base = this.energyBaselines[period];
       if (!base || isNew) {
-        this.energyBaselines[period] = { ...now };
+        this.energyBaselines[period] = { ...now, seeded: isNew ? this.energySeedKey() : null };
         changed = true;
         return;
       }
@@ -805,6 +807,75 @@ class GridDevice extends GenericDevice {
       });
     });
     if (changed) this.markStoreDirty('energyBaselines');
+    if (['month', 'year'].some((p) => this.energyBaselines[p].seeded === null)) this.seedEnergyBaselines().catch(this.error);
+  }
+
+  // The month and year baselines at their contract starts, not at the first run: import/export from
+  // the split meters' period readings, home, batteries and EVs from Insights. A counter without
+  // data counts from now. Again after a new contract start.
+  async seedEnergyBaselines() {
+    if (this.seedingBaselines) return;
+    this.seedingBaselines = true;
+    try {
+      await this.seedEnergyBaselinesOnce();
+    } finally {
+      this.seedingBaselines = false;
+    }
+  }
+
+  // A new key seeds again: a new contract start, or a new seeding version.
+  energySeedKey() {
+    const start = this.getStoreValue('contractStart');
+    return start ? `${start}/3` : null;
+  }
+
+  async seedEnergyBaselinesOnce() {
+    const key = this.energySeedKey();
+    if (!key || !this.energyBaselines) return;
+    const due = ['month', 'year'].filter((p) => this.energyBaselines[p] && this.energyBaselines[p].seeded !== key);
+    if (!due.length) return;
+    let api = null;
+    try {
+      api = this.homey.app.api;
+    } catch {
+      return;
+    }
+    if (!api) return;
+    const devices = (driverId) => {
+      try {
+        return this.homey.drivers.getDriver(driverId).getDevices();
+      } catch {
+        return [];
+      }
+    };
+    const starts = MeterHelpers.periodStarts(TimeHelpers.toLocalDate(new Date(), this.timeZone), this.startDay, this.startMonth);
+    const at = (deviceId, cap, ms) => ContractYear.meterAt(api, deviceId, [cap], ms, { orFirst: true }).catch(() => null);
+    for (const period of due) {
+      const ms = ContractYear.localStartMs(starts[period], this.timeZone);
+      const base = this.energyBaselines[period];
+      const split = period === 'month' ? this.lastDirectionalReadingMonth : this.lastDirectionalReadingYear;
+      if (split && typeof split.importValue === 'number') base.imported = split.importValue;
+      if (split && typeof split.exportValue === 'number') base.exported = split.exportValue;
+      const home = await at(this.getId(), 'meter_power_hidden.home', ms);
+      if (typeof home === 'number') base.home = home;
+      for (const kind of ['charged', 'discharged']) {
+        const cap = kind === 'charged' ? 'meter_kwh_charging' : 'meter_kwh_discharging';
+        let sum = 0;
+        for (const d of devices('battery')) {
+          const v = typeof d.counterAt === 'function' ? await d.counterAt(api, cap, ms).catch(() => null) : await at(d.getId(), cap, ms);
+          sum += typeof v === 'number' ? v : (d.getCapabilityValue(cap) || 0);
+        }
+        if (typeof base[kind] === 'number') base[kind] = sum;
+        for (const d of devices('evCharger')) {
+          const key = `ev_${d.getId()}_${kind}`;
+          const v = typeof d.counterAt === 'function' ? await d.counterAt(api, cap, ms).catch(() => null) : await at(d.getId(), cap, ms);
+          if (typeof v === 'number' && typeof base[key] === 'number') base[key] = v;
+        }
+      }
+      base.seeded = key;
+      this.log(`${this.getName()}: ${period} energy baselines from ${starts[period].toDateString()}`, base);
+    }
+    this.markStoreDirty('energyBaselines');
   }
 
   // kWh per counter since the start of period ('hour', 'day', 'month', 'year'), null without data.

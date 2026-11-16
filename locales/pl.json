@@ -312,7 +312,7 @@
   "source_polled": "odpytywane",
   "budget": {
     "start_date": "Rok zaczyna się",
-    "start_date_info": "Sumy miesiąca i roku zaczynają się tego dnia.",
+    "start_date_info": "Sumy miesięczne i roczne wszystkich liczników zaczynają się tego dnia.",
     "target": "Budżet roczny",
     "distribution": "Rozkład",
     "linear": "Równo",

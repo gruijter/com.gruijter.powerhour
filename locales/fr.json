@@ -312,7 +312,7 @@
   "source_polled": "interrogé",
   "budget": {
     "start_date": "L'année commence le",
-    "start_date_info": "Les totaux du mois et de l'année commencent ce jour-là.",
+    "start_date_info": "Les totaux mensuels et annuels de tous les compteurs commencent ce jour-là.",
     "target": "Budget annuel",
     "distribution": "Répartition",
     "linear": "Uniforme",

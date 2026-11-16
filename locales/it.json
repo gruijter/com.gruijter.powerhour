@@ -312,7 +312,7 @@
   "source_polled": "interrogato",
   "budget": {
     "start_date": "L'anno inizia il",
-    "start_date_info": "I totali del mese e dell'anno iniziano in questo giorno.",
+    "start_date_info": "I totali mensili e annuali di tutti i contatori iniziano in questo giorno.",
     "target": "Budget annuale",
     "distribution": "Distribuzione",
     "linear": "Uniforme",

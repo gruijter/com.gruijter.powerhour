@@ -312,7 +312,7 @@
   "source_polled": "polled",
   "budget": {
     "start_date": "Year starts on",
-    "start_date_info": "Month and year totals start on this day.",
+    "start_date_info": "Month and year totals of all meters start on this day.",
     "target": "Year budget",
     "distribution": "Distribution",
     "linear": "Evenly",

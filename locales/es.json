@@ -312,7 +312,7 @@
   "source_polled": "consultado",
   "budget": {
     "start_date": "El año empieza el",
-    "start_date_info": "Los totales del mes y del año empiezan este día.",
+    "start_date_info": "Los totales mensuales y anuales de todos los medidores empiezan este día.",
     "target": "Presupuesto anual",
     "distribution": "Distribución",
     "linear": "Por igual",

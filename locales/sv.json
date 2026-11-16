@@ -312,7 +312,7 @@
   "source_polled": "pollad",
   "budget": {
     "start_date": "Året börjar",
-    "start_date_info": "Månads- och årstotaler börjar denna dag.",
+    "start_date_info": "Månads- och årssummor för alla mätare börjar denna dag.",
     "target": "Årsbudget",
     "distribution": "Fördelning",
     "linear": "Jämnt",
