@@ -182,7 +182,7 @@
     "setup_show_year": "연간 예산 설정",
     "setup_use_watt_info": "계량기가 아닌 전력(W)으로 에너지를 계산합니다.",
     "setup_daily_reset_info": "계량기가 매일 0부터 시작합니다.",
-    "step_climate": "실내 냉난방"
+    "step_climate": "냉난방"
   },
   "load_forecast_accuracy": "평균 오차 __mae__ W (__pct__%), 편향 __bias__ W, __days__일",
   "load_forecast_accuracy_collecting": "데이터 수집 중",
@@ -364,7 +364,7 @@
     "day": "일",
     "month": "월",
     "year": "년",
-    "climate": "실내 냉난방",
+    "climate": "냉난방",
     "home_other": "가정 기타",
     "now": "현재",
     "total": "합계",

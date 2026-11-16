@@ -182,7 +182,7 @@
     "setup_show_year": "Jahresbudget festlegen",
     "setup_use_watt_info": "Berechnet die Energie aus der Leistung (W), nicht aus dem Zähler.",
     "setup_daily_reset_info": "Der Zähler beginnt jeden Tag bei 0.",
-    "step_climate": "Raumklima"
+    "step_climate": "Klima"
   },
   "load_forecast_accuracy": "Mittl. Fehler __mae__ W (__pct__%), Bias __bias__ W, __days__ Tage",
   "load_forecast_accuracy_collecting": "Daten werden gesammelt",
@@ -364,7 +364,7 @@
     "day": "Tag",
     "month": "Monat",
     "year": "Jahr",
-    "climate": "Raumklima",
+    "climate": "Klima",
     "home_other": "Haus sonstiges",
     "now": "Jetzt",
     "total": "Summe",

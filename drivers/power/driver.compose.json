@@ -473,19 +473,19 @@
     {
       "type": "group",
       "label": {
-        "en": "Home climate",
-        "nl": "Binnenklimaat",
-        "de": "Raumklima",
-        "fr": "Climat intérieur",
-        "it": "Clima interno",
-        "sv": "Inomhusklimat",
-        "no": "Inneklima",
-        "es": "Clima interior",
-        "da": "Indeklima",
-        "pl": "Klimat w domu",
-        "ru": "Климат в доме",
-        "ar": "مناخ المنزل",
-        "ko": "실내 냉난방"
+        "en": "Climate",
+        "nl": "Klimaat",
+        "de": "Klima",
+        "fr": "Climat",
+        "it": "Clima",
+        "sv": "Klimat",
+        "no": "Klima",
+        "es": "Clima",
+        "da": "Klima",
+        "pl": "Klimat",
+        "ru": "Климат",
+        "ar": "المناخ",
+        "ko": "냉난방"
       },
       "children": [
         {

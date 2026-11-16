@@ -182,7 +182,7 @@
     "setup_show_year": "Définir un budget annuel",
     "setup_use_watt_info": "Calcule l'énergie à partir de la puissance (W), pas du compteur.",
     "setup_daily_reset_info": "Le compteur repart de 0 chaque jour.",
-    "step_climate": "Climat intérieur"
+    "step_climate": "Climat"
   },
   "load_forecast_accuracy": "Écart moyen __mae__ W (__pct__%), biais __bias__ W, __days__ jours",
   "load_forecast_accuracy_collecting": "Collecte des données",
@@ -364,7 +364,7 @@
     "day": "Jour",
     "month": "Mois",
     "year": "Année",
-    "climate": "Climat intérieur",
+    "climate": "Climat",
     "home_other": "Maison autre",
     "now": "Direct",
     "total": "Total",

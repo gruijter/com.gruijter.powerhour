@@ -182,7 +182,7 @@
     "setup_show_year": "Ange en årsbudget",
     "setup_use_watt_info": "Beräknar energin från effekten (W), inte från mätaren.",
     "setup_daily_reset_info": "Mätaren börjar på 0 varje dag.",
-    "step_climate": "Inomhusklimat"
+    "step_climate": "Klimat"
   },
   "load_forecast_accuracy": "Medelfel __mae__ W (__pct__%), bias __bias__ W, __days__ dagar",
   "load_forecast_accuracy_collecting": "Samlar in data",
@@ -364,7 +364,7 @@
     "day": "Dag",
     "month": "Månad",
     "year": "År",
-    "climate": "Inomhusklimat",
+    "climate": "Klimat",
     "home_other": "Hus övrigt",
     "now": "Nu",
     "total": "Totalt",

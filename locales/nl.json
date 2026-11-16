@@ -182,7 +182,7 @@
     "setup_show_year": "Jaarbudget instellen",
     "setup_use_watt_info": "Berekent de energie uit het vermogen (W), niet uit de meter.",
     "setup_daily_reset_info": "De meter begint elke dag bij 0.",
-    "step_climate": "Binnenklimaat"
+    "step_climate": "Klimaat"
   },
   "load_forecast_accuracy": "Gem. afwijking __mae__ W (__pct__%), bias __bias__ W, __days__ dagen",
   "load_forecast_accuracy_collecting": "Gegevens verzamelen",
@@ -364,7 +364,7 @@
     "day": "Dag",
     "month": "Maand",
     "year": "Jaar",
-    "climate": "Binnenklimaat",
+    "climate": "Klimaat",
     "home_other": "Huis overig",
     "now": "Nu",
     "total": "Totaal",

@@ -182,7 +182,7 @@
     "setup_show_year": "Задать годовой бюджет",
     "setup_use_watt_info": "Считает энергию по мощности (Вт), а не по счётчику.",
     "setup_daily_reset_info": "Счётчик каждый день начинается с 0.",
-    "step_climate": "Климат в доме"
+    "step_climate": "Климат"
   },
   "load_forecast_accuracy": "Ср. ошибка __mae__ Вт (__pct__%), смещение __bias__ Вт, __days__ дн.",
   "load_forecast_accuracy_collecting": "Сбор данных",
@@ -364,7 +364,7 @@
     "day": "День",
     "month": "Месяц",
     "year": "Год",
-    "climate": "Климат в доме",
+    "climate": "Климат",
     "home_other": "Дом прочее",
     "now": "Сейчас",
     "total": "Итого",

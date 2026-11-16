@@ -227,6 +227,13 @@ test('money: grid meter and unit, no meter gives null', () => {
   assert.strictEqual(money.ev, null);
 });
 
+test('money: solar value negative, like the battery profit', () => {
+  const { homey, drivers } = makeRig();
+  drivers.solar = [capDevice({ meter_kwh_this_day: 5, meter_money_this_day: 1.2 })];
+  const { money } = WidgetData.getEnergy(homey, 'day');
+  assert.strictEqual(money.solar, -1.2);
+});
+
 (async () => {
   for (const [name, fn] of tests) await run(name, fn);
   console.log(failed ? `\n${failed} failed` : '\nall passed');
