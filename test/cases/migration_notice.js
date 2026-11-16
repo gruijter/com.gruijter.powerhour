@@ -76,17 +76,12 @@ const makeHomey = ({ settings = {}, priceDevices = [] } = {}) => {
         if (id !== 'price') throw Error('not loaded');
         return { getDevices: () => priceDevices };
       },
+      // This app's devices (getId(): the Homey device id).
+      getDrivers: () => ({ power: { getDevices: () => [{ getId: () => 'own1' }] }, dap: { getDevices: () => [{ getId: () => 'dap1' }] } }),
     },
   };
   homey.app = {
     api: {
-      devices: {
-        getDevices: async () => ({
-          own1: { id: 'own1', driverId: `${APP}:power` },
-          dap1: { id: 'dap1', driverId: `${APP}:dap` },
-          other: { id: 'other', driverId: 'homey:app:other.app:meter' },
-        }),
-      },
       flow: { getFlows: async () => FLOWS, getAdvancedFlows: async () => ADVANCED },
     },
     log: () => {},

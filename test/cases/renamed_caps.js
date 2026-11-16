@@ -113,9 +113,9 @@ const migrateCaps = (device) => {
   await test('notice only for flows on the old capabilities', async () => {
     const notes = [];
     const solar = makeDevice({}, { renamedCaps: ['measure_power', 'meter_power'] });
-    solar.getData = () => ({ id: 'd1' });
+    solar.getId = () => 'S1';
     const other = makeDevice({}, { renamedCaps: ['measure_power', 'meter_power'] });
-    other.getData = () => ({ id: 'd2' });
+    other.getId = () => 'S2';
     const flows = {
       a: { name: 'Old trigger', trigger: { id: 'homey:device:S1:measure_power_changed' } },
       b: { name: 'Old tag', actions: [{ args: { text: '[[homey:device:S1|meter_power]]' } }] },
@@ -127,12 +127,6 @@ const migrateCaps = (device) => {
         log: () => {},
         error: () => {},
         api: {
-          devices: {
-            getDevices: async () => ({
-              S1: { id: 'S1', data: { id: 'd1' }, driverId: 'homey:app:com.gruijter.powerhour:solar' },
-              S2: { id: 'S2', data: { id: 'd2' }, driverId: 'homey:app:com.gruijter.powerhour:solar' },
-            }),
-          },
           flow: { getFlows: async () => flows, getAdvancedFlows: async () => ({}) },
         },
       },

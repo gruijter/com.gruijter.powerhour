@@ -58,7 +58,7 @@ const grid = (start) => ({ getSettings: () => ({ start_date: start }) });
 const apiWith = (logs) => ({
   insights: {
     getLog: async ({ id }) => (logs[id] ? { id } : null),
-    getLogEntries: async ({ id }) => logs[id],
+    getLogEntries: async ({ id, resolution }) => (resolution === 'lastYear' ? null : logs[id]),
   },
 });
 const rising = (t0, n) => ({
@@ -81,8 +81,10 @@ const rising = (t0, n) => ({
     const ms = t0 + 30 * HOUR; // 30 h after the first bucket start
     const v = await ContractYear.meterAt(api, 'd', ['meter_power_hidden', 'meter_power'], ms);
     assert.ok(Math.abs(v - 130) < 1e-9, `got ${v}`);
-    assert.strictEqual(await ContractYear.meterAt(api, 'd', ['meter_power'], t0 - HOUR), null);
-    assert.strictEqual(await ContractYear.meterAt(api, 'd', ['meter_power'], t0 - HOUR, { orFirst: true }), 103);
+    // Within a step before the first point (a year start at the start of a range): that point.
+    assert.strictEqual(await ContractYear.meterAt(api, 'd', ['meter_power'], t0 - HOUR), 103);
+    assert.strictEqual(await ContractYear.meterAt(api, 'd', ['meter_power'], t0 - 7 * HOUR), null);
+    assert.strictEqual(await ContractYear.meterAt(api, 'd', ['meter_power'], t0 - 7 * HOUR, { orFirst: true }), 103);
   });
 
   await test('local midnight in UTC', async () => {
@@ -132,6 +134,34 @@ const rising = (t0, n) => ({
     const runs = [ContractYear.serial(job('a', 20)), ContractYear.serial(job('b', 5, true)).catch(() => 'x'), ContractYear.serial(job('c', 1))];
     assert.deepStrictEqual(await Promise.all(runs), ['a', 'x', 'c']);
     assert.deepStrictEqual(order, ['a+', 'a-', 'b+', 'b-', 'c+', 'c-']);
+  });
+
+  await test('money after a rebase: energy part scaled with the kWh, fixed costs since the new start', async () => {
+    const caps = { meter_money_this_month: 20, meter_money_this_year: 100 };
+    const store = { fixedMoney: { month: 2, year: 10 } };
+    const dev = Object.assign(Object.create(null), MeterDeviceMixin, {
+      driver: { id: 'power' },
+      meterMoney: { meterValue: 1000, month: 20, year: 100 },
+      lastReadingMonth: { meterValue: 950 },
+      lastReadingYear: { meterValue: 600 },
+      hasCapability: (c) => c in caps,
+      setCapability: async (c, v) => {
+        caps[c] = v;
+      },
+      getStoreValue: (k) => store[k],
+      setStoreValue: async (k, v) => {
+        store[k] = v;
+      },
+      estimateFixedMoney: () => ({ month: 1, year: 12 }),
+      getName: () => 'Meter',
+      log: () => {},
+    });
+    dev.fixedMoney = store.fixedMoney;
+    await dev.rebaseMoney({ month: { meterValue: 900 }, year: { meterValue: 600 } });
+    // Month: (20 - 2) * 50/100 + 1; year: base unchanged, money kept.
+    assert.strictEqual(caps.meter_money_this_month, 10);
+    assert.strictEqual(caps.meter_money_this_year, 100);
+    assert.deepStrictEqual(store.fixedMoney, { month: 1, year: 10 });
   });
 
   process.exitCode = failed ? 1 : 0;

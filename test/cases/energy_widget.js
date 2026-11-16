@@ -120,6 +120,7 @@ test('grid: import, export and home per period from the counters', async () => {
 test('grid: a period without a home start follows the balance till it ends', async () => {
   const { grid, drivers } = makeRig();
   grid.lastDirectionalReadingMonth = { importValue: 990, exportValue: 500 }; // an older device: no homeValue
+  grid.caps.meter_kwh_this_month = 10; // the net meter of the period
   drivers.battery[0].caps['meter_kwh_this_month.charged'] = 0; // not restored yet
   drivers.battery[0].caps['meter_kwh_this_month.discharged'] = 0;
   await grid.updateSplitMeters(none);
@@ -127,7 +128,9 @@ test('grid: a period without a home start follows the balance till it ends', asy
   drivers.battery[0].caps['meter_kwh_this_month.charged'] = 4; // restored later
   await grid.updateSplitMeters(none);
   assert.strictEqual(grid.caps['meter_kwh_this_month.home'], 6);
+  grid.caps['meter_kwh_this_month.imported'] = 0; // reset by another device's rollover first
   await grid.updateSplitMeters({ ...none, newMonth: true });
+  assert.strictEqual(grid.caps['meter_kwh_last_month.home'], 6); // the start of the tick before
   grid.meterPowerHome = 2002;
   await grid.updateSplitMeters(none);
   assert.strictEqual(grid.caps['meter_kwh_this_month.home'], 2); // the home counter from the new start
@@ -150,7 +153,7 @@ test('battery: charged and discharged per period; a counter reset keeps the coun
     error: (e) => {
       throw e;
     },
-    restoringCounters: true, // no Insights here
+    counterRestore: Promise.resolve(), // no Insights here
   });
   await bat.updateCounterPeriods(none);
   caps.meter_kwh_charging = 105;

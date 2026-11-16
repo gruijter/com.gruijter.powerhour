@@ -42,11 +42,22 @@ const TZ = 'Europe/Amsterdam';
     const t0 = Date.UTC(2026, 0, 1);
     const vals = [100, 110, 120, 20, 30, 40]; // reset after 120
     const logs = { 'homey:device:s:a': { step: 6 * HOUR, values: vals.map((v, i) => ({ t: new Date(t0 + i * 6 * HOUR).toISOString(), v })) } };
-    const api = { insights: { getLog: async ({ id }) => (logs[id] ? { id } : null), getLogEntries: async ({ id }) => logs[id] } };
+    const api = { insights: { getLog: async ({ id }) => (logs[id] ? { id } : null), getLogEntries: async ({ id, resolution }) => (resolution === 'lastYear' ? null : logs[id]) } };
     // From the centre of the first bucket: 10 + 10 + (reset) + 10 + 10, then 45 now: +5.
     assert.strictEqual(await ContractYear.growthSince(api, 's', ['a'], t0 + 3 * HOUR, { nowValue: 45 }), 45);
-    assert.strictEqual(await ContractYear.growthSince(api, 's', ['a'], t0 - HOUR), null);
-    assert.strictEqual(await ContractYear.growthSince(api, 's', ['a'], t0 - HOUR, { orFirst: true }), 40);
+    assert.strictEqual(await ContractYear.growthSince(api, 's', ['a'], t0 - HOUR), 40);
+    assert.strictEqual(await ContractYear.growthSince(api, 's', ['a'], t0 - 7 * HOUR), null);
+    assert.strictEqual(await ContractYear.growthSince(api, 's', ['a'], t0 - 7 * HOUR, { orFirst: true }), 40);
+    // Local 1 January (UTC+1): lastYear ends before it, thisYear starts after it.
+    const ms = t0 - HOUR;
+    const split = {
+      lastYear: { step: 6 * HOUR, values: [{ t: new Date(t0 - 12 * HOUR).toISOString(), v: 90 }, { t: new Date(t0 - 6 * HOUR).toISOString(), v: 96 }] },
+      thisYear: { step: 6 * HOUR, values: [{ t: new Date(t0).toISOString(), v: 102 }, { t: new Date(t0 + 6 * HOUR).toISOString(), v: 108 }] },
+    };
+    const apiSplit = { insights: { getLog: async () => ({ id: 'homey:device:s:a' }), getLogEntries: async ({ resolution }) => split[resolution] } };
+    // Centres t0-3h (96) and t0+3h (102): at t0-1h 98.
+    assert.strictEqual(await ContractYear.meterAt(apiSplit, 's', ['a'], ms), 98);
+    assert.strictEqual(await ContractYear.growthSince(apiSplit, 's', ['a'], ms, { nowValue: 110 }), 12);
     const g = await HistoryRestore.sourceGrowth(api, 's', { p1: 'a', n1: 'a' }, { p1: 45, n1: 45 }, t0 + 3 * HOUR, new Map());
     assert.strictEqual(g, 0);
   });

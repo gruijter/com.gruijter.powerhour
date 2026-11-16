@@ -494,13 +494,11 @@ class GridDevice extends GenericDevice {
       await this.updatePeakProjection(reading).catch((err) => this.error(err));
     }
 
-    // Only with export data (not case 2).
+    // Split money only with export data (not case 2); the meters also without (import and home).
     const splitActive = typeof this.directionalMeter?.exportValue === 'number';
     const periods = this.getPeriods(reading);
-    if (splitActive) {
-      await this.updateSplitMeters(periods).catch((err) => this.error(err));
-      await this.updateSplitMoney(periods).catch((err) => this.error(err));
-    }
+    if (this.directionalMeter) await this.updateSplitMeters(periods).catch((err) => this.error(err));
+    if (splitActive) await this.updateSplitMoney(periods).catch((err) => this.error(err));
 
     await super.handleUpdateMeter(reading);
     this._directionalTickDelta = null;
@@ -739,7 +737,7 @@ class GridDevice extends GenericDevice {
   // ev_<id>_charged/ev_<id>_discharged (discharging only with V2X).
   // Real p1/n1 registers: import and export at the starts of this and last day, month and year from
   // the source's Insights (growth, resets skipped). At pairing and on a new contract start.
-  async restoreHistoryExtra(api, starts, cache = new Map()) {
+  async restoreHistoryExtra(api, starts, cache = new Map(), periods = ['day', 'month', 'year']) {
     const group = this.sourceCapGroup || {};
     if (typeof this.directionalLastWatt === 'number' || !group.p1) return;
     const sourceId = this.getSettings().homey_device_id;
@@ -750,7 +748,7 @@ class GridDevice extends GenericDevice {
       return typeof g === 'number' ? meters[role] - g : null;
     };
     const round = (v) => Math.round(v * 10000) / 10000;
-    for (const period of ['day', 'month', 'year']) {
+    for (const period of periods) {
       const [prevMs, startMs] = starts[period];
       const imp = await at('p1', startMs);
       if (typeof imp !== 'number') continue;
@@ -771,23 +769,67 @@ class GridDevice extends GenericDevice {
     }
   }
 
+  // With split money: rebased per direction in onPeriodsRebased(), after import and export moved.
+  async rebaseMoney(old, opts) {
+    if (!opts && typeof this.directionalMeter?.exportValue === 'number' && this.splitMoney) {
+      this.moneyRebase = old;
+      return;
+    }
+    await super.rebaseMoney(old, opts);
+  }
+
   // A new contract start: import, export and home follow the net meter.
   async onPeriodsRebased() {
+    const old = this.moneyRebase;
+    this.moneyRebase = null;
+    const before = { month: { ...this.lastDirectionalReadingMonth }, year: { ...this.lastDirectionalReadingYear } };
     let api = null;
     try {
       api = this.homey.app.api;
     } catch {
-      return;
+      // not ready
     }
-    if (!api) return;
-    const starts = HistoryRestore.periodStarts(TimeHelpers.toLocalDate(new Date(), this.timeZone), this.startDay, this.startMonth, this.timeZone);
-    await ContractYear.serial(() => this.restoreHistoryExtra(api, starts)).catch(this.error);
+    if (api) {
+      const starts = HistoryRestore.periodStarts(TimeHelpers.toLocalDate(new Date(), this.timeZone), this.startDay, this.startMonth, this.timeZone);
+      await ContractYear.serial(() => this.restoreHistoryExtra(api, starts, new Map(), ['month', 'year'])).catch(this.error);
+    }
+    if (old) await this.rebaseSplitMoney(old, before).catch(this.error);
+  }
+
+  // Import and export money scaled with their kWh since the new starts (same average price); the
+  // total money moves with them.
+  async rebaseSplitMoney(old, before) {
+    const { importValue: nowImp, exportValue: nowExp } = this.directionalMeter;
+    const ratio = (now, from, to) => {
+      if (![now, from, to].every(Number.isFinite) || now === from) return 1;
+      const r = (now - to) / (now - from);
+      return Number.isFinite(r) && r >= 0 ? r : 1;
+    };
+    const energyDelta = {};
+    for (const period of ['month', 'year']) {
+      const b = before[period];
+      const a = this[`lastDirectionalReading${period[0].toUpperCase()}${period.slice(1)}`];
+      const money = this.splitMoney[period];
+      if (!a || !money) continue;
+      const next = {
+        imported: money.imported * ratio(nowImp, b.importValue, a.importValue),
+        exported: money.exported * ratio(nowExp, b.exportValue, a.exportValue),
+      };
+      energyDelta[period] = (next.imported - next.exported) - (money.imported - money.exported);
+      this.splitMoney[period] = next;
+      await this.setCapability(`meter_money_this_${period}.imported`, next.imported).catch(this.error);
+      await this.setCapability(`meter_money_this_${period}.exported`, next.exported).catch(this.error);
+    }
+    this.markStoreDirty('splitMoney');
+    await super.rebaseMoney(old, { energyDelta });
   }
 
   // Import, export and home kWh per hour, day, month and year: each counter minus its value at the
   // period start (lastDirectionalReading*). The hour ones only for the widget (hidden).
   async updateSplitMeters(periods) {
-    const now = { importValue: this.directionalMeter.importValue, exportValue: this.directionalMeter.exportValue, homeValue: this.meterPowerHome };
+    // Without export data p1 can be a net meter: then only the home.
+    const split = typeof this.directionalMeter.exportValue === 'number';
+    const now = { importValue: split ? this.directionalMeter.importValue : null, exportValue: this.directionalMeter.exportValue, homeValue: this.meterPowerHome };
     for (const period of SPLIT_PERIODS) {
       const key = `lastDirectionalReading${period[0].toUpperCase()}${period.slice(1)}`;
       if (!this[key]) this[key] = { ...now };
@@ -795,8 +837,9 @@ class GridDevice extends GenericDevice {
       if (typeof this[key].homeValue !== 'number') this[key].homeFromBalance = true;
       const base = this[key];
       const isNew = periods[`new${period[0].toUpperCase()}${period.slice(1)}`];
+      // At a rollover the period meters may be reset already: the start of the tick before stays.
+      if (base.homeFromBalance && (!isNew || typeof base.homeValue !== 'number')) base.homeValue = this.homeValueAtStart(period);
       for (const [field, sub] of SPLIT_FIELDS) {
-        if (field === 'homeValue' && base.homeFromBalance) base.homeValue = this.homeValueAtStart(period);
         if (typeof now[field] !== 'number') continue;
         if (typeof base[field] !== 'number') base[field] = now[field];
         const val = Math.round((now[field] - base[field]) * 10000) / 10000;
@@ -821,8 +864,7 @@ class GridDevice extends GenericDevice {
         return 0;
       }
     };
-    const home = cap(this, `meter_kwh_this_${period}.imported`) - cap(this, `meter_kwh_this_${period}.exported`)
-      + sum('solar', `meter_kwh_this_${period}`) + sum('battery', `meter_kwh_this_${period}.discharged`)
+    const home = cap(this, `meter_kwh_this_${period}`) + sum('solar', `meter_kwh_this_${period}`) + sum('battery', `meter_kwh_this_${period}.discharged`)
       - sum('battery', `meter_kwh_this_${period}.charged`) - sum('evCharger', `meter_kwh_this_${period}`);
     return (this.meterPowerHome || 0) - Math.max(0, home);
   }
