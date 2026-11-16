@@ -40,7 +40,6 @@ const deviceSpecifics = {
     last_month: 'meter_kwh_last_month',
     this_year: 'meter_kwh_this_year',
     last_year: 'meter_kwh_last_year',
-    meter_source: 'meter_power',
     measure_source: 'measure_watt_avg',
   },
   // Planned in quarters also with hourly prices: departures and returns are rarely on the hour.

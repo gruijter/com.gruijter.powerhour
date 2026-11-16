@@ -25545,9 +25545,6 @@
             "ko": "플러그 미연결"
           }
         },
-        "meter_power": {
-          "decimals": 4
-        },
         "button.retrain": {
           "maintenanceAction": true,
           "title": {

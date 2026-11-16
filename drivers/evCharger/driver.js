@@ -43,7 +43,8 @@ const driverSpecifics = {
     'meter_money_last_hour', 'meter_money_this_hour', 'meter_money_last_day', 'meter_money_this_day',
     'meter_money_last_month', 'meter_money_this_month', 'meter_money_last_year', 'meter_money_this_year',
     'meter_money_this_month_avg', 'meter_money_this_year_avg',
-    'meter_tariff', 'meter_power',
+    // No meter_power: Homey Energy would count the charger twice. Its total is meter_power_hidden.
+    'meter_tariff',
     // Needed by generic_bat_device.js: without it updateMeterFromMeasure() has no baseline and kWh
     // and money never accumulate.
     'meter_power_hidden', 'meter_kwh_charging', 'meter_kwh_discharging',
