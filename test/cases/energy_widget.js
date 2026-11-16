@@ -2,7 +2,8 @@
 
 'use strict';
 
-// Energy widget: grid period baselines (updateEnergyBaselines/getEnergySince) and getEnergy().
+// Energy widget: the period meters of grid (import/export/home) and batteries (charged/discharged),
+// and getEnergy(), which reads only capabilities.
 // Run: node test/cases/energy_widget.js
 
 const assert = require('assert');
@@ -20,12 +21,15 @@ Module._load = function load(request, ...rest) {
 };
 
 const GridDevice = require('../../drivers/grid/device');
+const BatDevice = require('../../lib/genericDeviceDrivers/generic_bat_device');
 const WidgetData = require('../../lib/helpers/WidgetData');
 
 let failed = 0;
-const test = (name, fn) => {
+const tests = [];
+const test = (name, fn) => tests.push([name, fn]);
+const run = async (name, fn) => {
   try {
-    fn();
+    await fn();
     console.log(`ok   ${name}`);
   } catch (err) {
     failed += 1;
@@ -49,7 +53,9 @@ const capDevice = (caps) => ({
 });
 
 const makeRig = () => {
-  const bat = capDevice({ meter_kwh_charging: 100, meter_kwh_discharging: 80 });
+  const bat = capDevice({
+    meter_kwh_charging: 100, meter_kwh_discharging: 80, 'meter_kwh_this_day.charged': 1, 'meter_kwh_this_day.discharged': 0.5,
+  });
   const drivers = {
     battery: [bat], solar: [capDevice({ meter_kwh_this_day: 12.5 })], evCharger: [], gas: [capDevice({ meter_m3_this_day: 3 })],
   };
@@ -73,8 +79,16 @@ const makeRig = () => {
     error: (e) => {
       throw e;
     },
-    getCapabilityValue: (c) => ({ meter_kwh_this_day: -1.5, meter_money_this_day: 0.75 }[c]),
-    hasCapability: (c) => c === 'meter_money_this_day',
+    caps: { meter_kwh_this_day: -1.5, meter_money_this_day: 0.75 },
+    getCapabilityValue(c) {
+      return this.caps[c];
+    },
+    hasCapability(c) {
+      return c in this.caps || /^meter_kwh_(this|last)_(hour|day|month|year)\.(imported|exported|home)$/.test(c);
+    },
+    async setCapability(c, v) {
+      this.caps[c] = v;
+    },
     getStoreValue: (k) => (k === 'moneyUnit' ? { currency: 'EUR', decimals: 2 } : null),
     getSettings: () => ({}),
   });
@@ -88,54 +102,72 @@ const none = {
   newHour: false, newDay: false, newMonth: false, newYear: false,
 };
 
-test('first tick sets every baseline; deltas follow the counters', () => {
-  const { grid, bat } = makeRig();
-  grid.updateEnergyBaselines(none);
-  assert.deepStrictEqual(Object.keys(grid.energyBaselines), ['hour', 'day', 'month', 'year']);
-  assert.ok(grid.marked.includes('energyBaselines'));
+test('grid: import, export and home per period from the counters', async () => {
+  const { grid, homey } = makeRig();
+  await grid.updateSplitMeters(none);
   grid.directionalMeter = { importValue: 1003, exportValue: 504 };
   grid.meterPowerHome = 2007;
-  bat.caps.meter_kwh_charging = 102;
-  const e = grid.getEnergySince('day');
-  assert.deepStrictEqual(e, {
-    imported: 3, exported: 4, home: 7, charged: 2, discharged: 0,
-  });
+  await grid.updateSplitMeters(none);
+  assert.deepStrictEqual(['imported', 'exported', 'home'].map((k) => grid.caps[`meter_kwh_this_hour.${k}`]), [3, 4, 7]);
+  assert.strictEqual(grid.caps['meter_kwh_this_year.home'], 7);
+  await grid.updateSplitMeters({ ...none, newHour: true, newDay: true });
+  assert.strictEqual(grid.caps['meter_kwh_last_day.imported'], 3);
+  assert.strictEqual(grid.caps['meter_kwh_this_day.imported'], 0);
+  const e = WidgetData.getEnergy(homey, 'month');
+  assert.deepStrictEqual([e.imported, e.exported, e.home], [3, 4, 7]);
 });
 
-test('per EV: name, SoC, state; charged and discharged apart only with V2X', () => {
-  const { grid, homey, drivers } = makeRig();
-  const car = capDevice({
-    meter_kwh_charging: 50, meter_kwh_discharging: 20, meter_kwh_this_day: 1, measure_ev_soc: 64, ev_car_state: 'away',
+test('battery: charged and discharged per period; a counter reset keeps the count', async () => {
+  const caps = { meter_kwh_charging: 100, meter_kwh_discharging: 80, 'meter_kwh_this_day.charged': 0 };
+  const store = {};
+  const bat = Object.assign(Object.create(BatDevice.prototype), {
+    homey: {},
+    hasCapability: (c) => c in caps || /^meter_kwh_(this|last)_(hour|day|month|year)\.(dis)?charged$/.test(c),
+    getCapabilityValue: (c) => caps[c],
+    setCapability: async (c, v) => {
+      caps[c] = v;
+    },
+    getStoreValue: (k) => store[k],
+    setStoreValue: async (k, v) => {
+      store[k] = v;
+    },
+    error: (e) => {
+      throw e;
+    },
+    restoringCounters: true, // no Insights here
   });
-  const plain = capDevice({ meter_kwh_charging: 10, meter_kwh_this_day: 2 });
+  await bat.updateCounterPeriods(none);
+  caps.meter_kwh_charging = 105;
+  await bat.updateCounterPeriods(none);
+  assert.strictEqual(caps['meter_kwh_this_month.charged'], 5);
+  caps.meter_kwh_charging = 3; // the source counter restarted
+  await bat.updateCounterPeriods(none);
+  caps.meter_kwh_charging = 4;
+  await bat.updateCounterPeriods(none);
+  assert.strictEqual(caps['meter_kwh_this_month.charged'], 6);
+  await bat.updateCounterPeriods({ ...none, newDay: true });
+  assert.strictEqual(caps['meter_kwh_last_day.charged'], 6);
+  assert.strictEqual(caps['meter_kwh_this_day.charged'], 0);
+  assert.ok(store.counterReadings.day);
+});
+
+test('widget: batteries and V2X cars from their period meters', () => {
+  const { homey, drivers } = makeRig();
+  drivers.battery = [capDevice({ 'meter_kwh_this_day.charged': 2, 'meter_kwh_this_day.discharged': 1.5 })];
+  const car = capDevice({
+    'meter_kwh_this_day.charged': 6, 'meter_kwh_this_day.discharged': 5, meter_kwh_this_day: 1, measure_ev_soc: 64, ev_car_state: 'away',
+  });
+  const plain = capDevice({ meter_kwh_this_day: 2 });
   drivers.evCharger.push(car, plain);
-  grid.updateEnergyBaselines(none);
-  car.caps.meter_kwh_charging = 56;
-  car.caps.meter_kwh_discharging = 25;
-  const [a, b] = WidgetData.getEnergy(homey, 'day').evs;
+  const e = WidgetData.getEnergy(homey, 'day');
+  assert.deepStrictEqual([e.charged, e.discharged], [2, 1.5]);
+  const [a, b] = e.evs;
   assert.deepStrictEqual([a.name, a.soc, a.state, a.charged, a.discharged, a.kwh], [car.id, 64, 'away', 6, 5, 1]);
   assert.deepStrictEqual([b.soc, b.state, b.charged, b.discharged, b.kwh], [null, null, null, null, 2]);
 });
 
-test('a new EV starts from now; a removed EV drops its counters', () => {
-  const { grid, drivers } = makeRig();
-  const car = capDevice({ meter_kwh_charging: 50 });
-  drivers.evCharger.push(car);
-  grid.updateEnergyBaselines(none);
-  drivers.evCharger.push(capDevice({ meter_kwh_charging: 300 }));
-  car.caps.meter_kwh_charging = 52;
-  grid.updateEnergyBaselines(none);
-  const since = grid.getEnergySince('day');
-  assert.strictEqual(since[`ev_${car.id}_charged`], 2);
-  assert.strictEqual(since[`ev_${drivers.evCharger[1].id}_charged`], 0);
-  drivers.evCharger.pop();
-  grid.updateEnergyBaselines(none);
-  assert.ok(!Object.keys(grid.energyBaselines.day).some((k) => k.includes(drivers.evCharger[0].id) === false && k.startsWith('ev_')));
-});
-
 test('gas and water: the meter on the smart meter only, else all', () => {
   const { grid, homey, drivers } = makeRig();
-  grid.updateEnergyBaselines(none);
   const sub = capDevice({ meter_m3_this_day: 1 });
   sub.getSettings = () => ({ homey_device_id: 'boiler' });
   drivers.gas.push(sub);
@@ -148,8 +180,7 @@ test('gas and water: the meter on the smart meter only, else all', () => {
 });
 
 test('flows: climate summarizers apart, chosen users in the chosen order, none chosen: all but Homey Energy fed', () => {
-  const { grid, homey, drivers } = makeRig();
-  grid.updateEnergyBaselines(none);
+  const { homey, drivers } = makeRig();
   const pump = capDevice({ meter_kwh_this_day: 4 });
   pump.getSettings = () => ({ climate: true });
   const tv = capDevice({ meter_kwh_this_day: 1 });
@@ -169,8 +200,7 @@ test('flows: climate summarizers apart, chosen users in the chosen order, none c
 });
 
 test('money: grid meter and unit, no meter gives null', () => {
-  const { grid, homey } = makeRig();
-  grid.updateEnergyBaselines(none);
+  const { homey } = makeRig();
   const { money } = WidgetData.getEnergy(homey, 'day');
   assert.strictEqual(money.grid, 0.75);
   assert.strictEqual(money.currency, 'EUR');
@@ -178,5 +208,11 @@ test('money: grid meter and unit, no meter gives null', () => {
   assert.strictEqual(money.ev, null);
 });
 
-console.log(failed ? `\n${failed} failed` : '\nall passed');
-process.exitCode = failed ? 1 : 0;
+(async () => {
+  for (const [name, fn] of tests) await run(name, fn);
+  console.log(failed ? `\n${failed} failed` : '\nall passed');
+  process.exitCode = failed ? 1 : 0;
+})().catch((err) => {
+  console.log(err);
+  process.exitCode = 1;
+});

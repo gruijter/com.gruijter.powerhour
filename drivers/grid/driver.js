@@ -80,7 +80,11 @@ const driverSpecifics = {
     'measure_watt_forecast.h3', 'meter_kwh_forecast.h0', 'meter_kwh_forecast.this_day',
     'meter_kwh_forecast.tomorrow', 'measure_watt_forecast.tomorrow_peak',
     'measure_watt_forecast.net_h0', 'measure_watt_forecast.net_h1',
-    'button.retrain_load'],
+    'button.retrain_load',
+    // Home per period (balance of the meters), the hour ones only for the widget (hidden).
+    'meter_kwh_last_day.home', 'meter_kwh_this_day.home', 'meter_kwh_last_month.home', 'meter_kwh_this_month.home',
+    'meter_kwh_last_year.home', 'meter_kwh_this_year.home',
+    'meter_kwh_this_hour.imported', 'meter_kwh_this_hour.exported', 'meter_kwh_this_hour.home'],
   // Asked at pair and repair (lib/helpers/PairSetup.js), not on the settings page.
   setup: {
     settings: STEPS.flatMap((st) => st.ids),

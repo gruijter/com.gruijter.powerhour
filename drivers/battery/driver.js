@@ -708,6 +708,10 @@ class BatteryDriver extends GenericDriver {
     const caps = super.capabilitiesFor(settings);
     if (!caps.includes('roi_duration')) caps.push('roi_duration');
     caps.push('battery_mode', 'battery_action');
+    // Charged and discharged per period (generic_bat_device.updateCounterPeriods()); the hour only for the widget.
+    ['day', 'month', 'year'].forEach((p) => caps.push(`meter_kwh_last_${p}.charged`, `meter_kwh_this_${p}.charged`,
+      `meter_kwh_last_${p}.discharged`, `meter_kwh_this_${p}.discharged`));
+    caps.push('meter_kwh_this_hour.charged', 'meter_kwh_this_hour.discharged');
     return caps;
   }
 }

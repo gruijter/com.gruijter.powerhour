@@ -142,6 +142,248 @@
         "ru": "€",
         "ar": "€"
       }
+    },
+    "meter_kwh_last_day.charged": {
+      "title": {
+        "en": "kWh prev. day (charged)",
+        "nl": "kWh vorige dag (geladen)",
+        "de": "kWh vorheriger Tag (geladen)",
+        "fr": "KWh hier (chargé)",
+        "it": "kWh giorno precedente (caricato)",
+        "sv": "kWh igår (laddat)",
+        "no": "kWh forrige dag (ladet)",
+        "es": "kWh día anterior (cargado)",
+        "da": "KWh i går (opladet)",
+        "pl": "kWh poprzedni dzień (naładowano)",
+        "ru": "кВтч пред. день (заряд)",
+        "ar": "كيلوواط ساعة اليوم السابق (شحن)",
+        "ko": "어제 kWh (충전)"
+      }
+    },
+    "meter_kwh_this_day.charged": {
+      "title": {
+        "en": "kWh this day (charged)",
+        "nl": "kWh deze dag (geladen)",
+        "de": "kWh dieser Tag (geladen)",
+        "fr": "kWh ce jour (chargé)",
+        "it": "kWh questo giorno (caricato)",
+        "sv": "kWh denna dag (laddat)",
+        "no": "kWh denne dag (ladet)",
+        "es": "kWh este día (cargado)",
+        "da": "kWh denne dag (opladet)",
+        "pl": "kWh ten dzień (naładowano)",
+        "ru": "кВтч этот день (заряд)",
+        "ar": "كيلوواط ساعة هذا اليوم (شحن)",
+        "ko": "오늘 kWh (충전)"
+      }
+    },
+    "meter_kwh_last_day.discharged": {
+      "title": {
+        "en": "kWh prev. day (discharged)",
+        "nl": "kWh vorige dag (ontladen)",
+        "de": "kWh vorheriger Tag (entladen)",
+        "fr": "KWh hier (déchargé)",
+        "it": "kWh giorno precedente (scaricato)",
+        "sv": "kWh igår (urladdat)",
+        "no": "kWh forrige dag (utladet)",
+        "es": "kWh día anterior (descargado)",
+        "da": "KWh i går (afladet)",
+        "pl": "kWh poprzedni dzień (rozładowano)",
+        "ru": "кВтч пред. день (разряд)",
+        "ar": "كيلوواط ساعة اليوم السابق (تفريغ)",
+        "ko": "어제 kWh (방전)"
+      }
+    },
+    "meter_kwh_this_day.discharged": {
+      "title": {
+        "en": "kWh this day (discharged)",
+        "nl": "kWh deze dag (ontladen)",
+        "de": "kWh dieser Tag (entladen)",
+        "fr": "kWh ce jour (déchargé)",
+        "it": "kWh questo giorno (scaricato)",
+        "sv": "kWh denna dag (urladdat)",
+        "no": "kWh denne dag (utladet)",
+        "es": "kWh este día (descargado)",
+        "da": "kWh denne dag (afladet)",
+        "pl": "kWh ten dzień (rozładowano)",
+        "ru": "кВтч этот день (разряд)",
+        "ar": "كيلوواط ساعة هذا اليوم (تفريغ)",
+        "ko": "오늘 kWh (방전)"
+      }
+    },
+    "meter_kwh_last_month.charged": {
+      "title": {
+        "en": "kWh prev. month (charged)",
+        "nl": "kWh vorige maand (geladen)",
+        "de": "kWh vorheriger Monat (geladen)",
+        "fr": "KWh le mois dernier (chargé)",
+        "it": "kWh mese precedente (caricato)",
+        "sv": "kWh föregående månad (laddat)",
+        "no": "kWh forrige måned (ladet)",
+        "es": "kWh mes anterior (cargado)",
+        "da": "KWh sidste måned (opladet)",
+        "pl": "kWh poprzedni miesiąc (naładowano)",
+        "ru": "кВтч пред. месяц (заряд)",
+        "ar": "كيلوواط ساعة الشهر السابق (شحن)",
+        "ko": "지난 달 kWh (충전)"
+      }
+    },
+    "meter_kwh_this_month.charged": {
+      "title": {
+        "en": "kWh this month (charged)",
+        "nl": "kWh deze maand (geladen)",
+        "de": "kWh dieser Monat (geladen)",
+        "fr": "KWh ce mois ci (chargé)",
+        "it": "kWh mese corrente (caricato)",
+        "sv": "kWh denna månad (laddat)",
+        "no": "kWh denne måned (ladet)",
+        "es": "kWh este mes (cargado)",
+        "da": "KWh denne måned (opladet)",
+        "pl": "kWh ten miesiąc (naładowano)",
+        "ru": "кВтч этот месяц (заряд)",
+        "ar": "كيلوواط ساعة هذا الشهر (شحن)",
+        "ko": "이번 달 kWh (충전)"
+      }
+    },
+    "meter_kwh_last_month.discharged": {
+      "title": {
+        "en": "kWh prev. month (discharged)",
+        "nl": "kWh vorige maand (ontladen)",
+        "de": "kWh vorheriger Monat (entladen)",
+        "fr": "KWh le mois dernier (déchargé)",
+        "it": "kWh mese precedente (scaricato)",
+        "sv": "kWh föregående månad (urladdat)",
+        "no": "kWh forrige måned (utladet)",
+        "es": "kWh mes anterior (descargado)",
+        "da": "KWh sidste måned (afladet)",
+        "pl": "kWh poprzedni miesiąc (rozładowano)",
+        "ru": "кВтч пред. месяц (разряд)",
+        "ar": "كيلوواط ساعة الشهر السابق (تفريغ)",
+        "ko": "지난 달 kWh (방전)"
+      }
+    },
+    "meter_kwh_this_month.discharged": {
+      "title": {
+        "en": "kWh this month (discharged)",
+        "nl": "kWh deze maand (ontladen)",
+        "de": "kWh dieser Monat (entladen)",
+        "fr": "KWh ce mois ci (déchargé)",
+        "it": "kWh mese corrente (scaricato)",
+        "sv": "kWh denna månad (urladdat)",
+        "no": "kWh denne måned (utladet)",
+        "es": "kWh este mes (descargado)",
+        "da": "KWh denne måned (afladet)",
+        "pl": "kWh ten miesiąc (rozładowano)",
+        "ru": "кВтч этот месяц (разряд)",
+        "ar": "كيلوواط ساعة هذا الشهر (تفريغ)",
+        "ko": "이번 달 kWh (방전)"
+      }
+    },
+    "meter_kwh_last_year.charged": {
+      "title": {
+        "en": "kWh prev. year (charged)",
+        "nl": "kWh vorig jaar (geladen)",
+        "de": "kWh vorheriges Jahr (geladen)",
+        "fr": "KWh l'année dernière (chargé)",
+        "it": "kWh anno precedente (caricato)",
+        "sv": "kWh föregående år (laddat)",
+        "no": "kWh forrige år (ladet)",
+        "es": "kWh año anterior (cargado)",
+        "da": "KWh sidste år (opladet)",
+        "pl": "kWh poprzedni rok (naładowano)",
+        "ru": "кВтч пред. год (заряд)",
+        "ar": "كيلوواط ساعة العام السابق (شحن)",
+        "ko": "작년 kWh (충전)"
+      }
+    },
+    "meter_kwh_this_year.charged": {
+      "title": {
+        "en": "kWh this year (charged)",
+        "nl": "kWh dit jaar (geladen)",
+        "de": "kWh dieses Jahr (geladen)",
+        "fr": "KWh cette année (chargé)",
+        "it": "kWh anno corrente (caricato)",
+        "sv": "kWh i år (laddat)",
+        "no": "kWh dette år (ladet)",
+        "es": "kWh este año (cargado)",
+        "da": "KWh i år (opladet)",
+        "pl": "kWh ten rok (naładowano)",
+        "ru": "кВтч этот год (заряд)",
+        "ar": "كيلوواط ساعة هذا العام (شحن)",
+        "ko": "올해 kWh (충전)"
+      }
+    },
+    "meter_kwh_last_year.discharged": {
+      "title": {
+        "en": "kWh prev. year (discharged)",
+        "nl": "kWh vorig jaar (ontladen)",
+        "de": "kWh vorheriges Jahr (entladen)",
+        "fr": "KWh l'année dernière (déchargé)",
+        "it": "kWh anno precedente (scaricato)",
+        "sv": "kWh föregående år (urladdat)",
+        "no": "kWh forrige år (utladet)",
+        "es": "kWh año anterior (descargado)",
+        "da": "KWh sidste år (afladet)",
+        "pl": "kWh poprzedni rok (rozładowano)",
+        "ru": "кВтч пред. год (разряд)",
+        "ar": "كيلوواط ساعة العام السابق (تفريغ)",
+        "ko": "작년 kWh (방전)"
+      }
+    },
+    "meter_kwh_this_year.discharged": {
+      "title": {
+        "en": "kWh this year (discharged)",
+        "nl": "kWh dit jaar (ontladen)",
+        "de": "kWh dieses Jahr (entladen)",
+        "fr": "KWh cette année (déchargé)",
+        "it": "kWh anno corrente (scaricato)",
+        "sv": "kWh i år (urladdat)",
+        "no": "kWh dette år (utladet)",
+        "es": "kWh este año (descargado)",
+        "da": "KWh i år (afladet)",
+        "pl": "kWh ten rok (rozładowano)",
+        "ru": "кВтч этот год (разряд)",
+        "ar": "كيلوواط ساعة هذا العام (تفريغ)",
+        "ko": "올해 kWh (방전)"
+      }
+    },
+    "meter_kwh_this_hour.charged": {
+      "title": {
+        "en": "kWh this hour (charged)",
+        "nl": "kWh dit uur (geladen)",
+        "de": "kWh diese Stunde (geladen)",
+        "fr": "KWh cette heure ci (chargé)",
+        "it": "kWh ora corrente (caricato)",
+        "sv": "kWh denna timme (laddat)",
+        "no": "kWh denne time (ladet)",
+        "es": "kWh esta hora (cargado)",
+        "da": "KWh denne time (opladet)",
+        "pl": "kWh ta godzina (naładowano)",
+        "ru": "кВтч этот час (заряд)",
+        "ar": "كيلوواط ساعة هذه الساعة (شحن)",
+        "ko": "이번 시간 kWh (충전)"
+      },
+      "insights": false,
+      "uiComponent": null
+    },
+    "meter_kwh_this_hour.discharged": {
+      "title": {
+        "en": "kWh this hour (discharged)",
+        "nl": "kWh dit uur (ontladen)",
+        "de": "kWh diese Stunde (entladen)",
+        "fr": "KWh cette heure ci (déchargé)",
+        "it": "kWh ora corrente (scaricato)",
+        "sv": "kWh denna timme (urladdat)",
+        "no": "kWh denne time (utladet)",
+        "es": "kWh esta hora (descargado)",
+        "da": "KWh denne time (afladet)",
+        "pl": "kWh ta godzina (rozładowano)",
+        "ru": "кВтч этот час (разряд)",
+        "ar": "كيلوواط ساعة هذه الساعة (تفريغ)",
+        "ko": "이번 시간 kWh (방전)"
+      },
+      "insights": false,
+      "uiComponent": null
     }
   },
   "platforms": [

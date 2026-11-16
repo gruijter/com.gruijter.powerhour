@@ -34,6 +34,10 @@ const { fetchYesterdayAndToday, convertCumulativeToPower, mergeStoredHistory } =
 const { combineComponentsToHomePower } = require('../../lib/helpers/HomePowerReconstruction');
 const InsightsHistory = require('../../lib/helpers/InsightsHistory');
 const ContractYear = require('../../lib/helpers/ContractYear');
+const HistoryRestore = require('../../lib/helpers/HistoryRestore');
+
+const SPLIT_PERIODS = ['hour', 'day', 'month', 'year'];
+const SPLIT_FIELDS = [['importValue', 'imported'], ['exportValue', 'exported'], ['homeValue', 'home']];
 const FileStore = require('../../lib/helpers/FileStore');
 const TimeHelpers = require('../../lib/helpers/TimeHelpers');
 const LoadSpread = require('../../lib/helpers/LoadSpread');
@@ -103,6 +107,7 @@ class GridDevice extends GenericDevice {
     this.directionalBlockState = book.directionalBlockState;
 
     // Lazily bootstrapped on the first tick (updateSplitMeters()/updateSplitMoney()).
+    this.lastDirectionalReadingHour = book.lastDirectionalReadingHour;
     this.lastDirectionalReadingDay = book.lastDirectionalReadingDay;
     this.lastDirectionalReadingMonth = book.lastDirectionalReadingMonth;
     this.lastDirectionalReadingYear = book.lastDirectionalReadingYear;
@@ -116,7 +121,6 @@ class GridDevice extends GenericDevice {
     // Capacity tariff: this month's closed windows (PeakTariff.recordWindow()).
     this.peakHistory = book.peakHistory;
     this.meterPowerHome = book.meterPowerHome || 0;
-    this.energyBaselines = book.energyBaselines;
     this.peakConfig = PeakTariff.configFromSettings(this.getSettings());
 
     // A repair can re-point this device at another meter (new homey_device_id). The anchors above
@@ -131,7 +135,6 @@ class GridDevice extends GenericDevice {
     if (boundSourceId !== sourceId) await this.setStoreValue('directionalSourceId', sourceId).catch(this.error);
 
     await super.onInit().catch(this.error);
-    this.seedEnergyBaselines().catch(this.error);
 
     // A newer onInit() may have started meanwhile: the loops below must not be started twice.
     const sessionIdAfterSuper = this.sessionId;
@@ -494,7 +497,6 @@ class GridDevice extends GenericDevice {
     // Only with export data (not case 2).
     const splitActive = typeof this.directionalMeter?.exportValue === 'number';
     const periods = this.getPeriods(reading);
-    this.updateEnergyBaselines(periods);
     if (splitActive) {
       await this.updateSplitMeters(periods).catch((err) => this.error(err));
       await this.updateSplitMoney(periods).catch((err) => this.error(err));
@@ -541,8 +543,8 @@ class GridDevice extends GenericDevice {
   static BOOKKEEPING_KEYS = [
     'directionalPseudoState', 'peakLoad', 'peakHistory', 'splitMoney', 'directionalBlockState',
     'directionalMeter', 'lastDirectionalSnapshot', 'lastPeakLoadReading',
-    'lastDirectionalReadingDay', 'lastDirectionalReadingMonth', 'lastDirectionalReadingYear', 'meterPowerHome',
-    'energyBaselines',
+    'lastDirectionalReadingHour', 'lastDirectionalReadingDay', 'lastDirectionalReadingMonth', 'lastDirectionalReadingYear',
+    'meterPowerHome',
   ];
 
   // The bookkeeping as stored: { key: value } for BOOKKEEPING_KEYS. Earlier versions stored a value
@@ -606,19 +608,16 @@ class GridDevice extends GenericDevice {
   async reanchorExtraBaselines() {
     this.directionalMeter = { importValue: null, exportValue: null };
     this.lastDirectionalSnapshot = null;
-    this.lastDirectionalReadingDay = null;
-    this.lastDirectionalReadingMonth = null;
-    this.lastDirectionalReadingYear = null;
+    // The home counter does not depend on the meter: its period starts stay.
+    SPLIT_PERIODS.forEach((period) => {
+      const key = `lastDirectionalReading${period[0].toUpperCase()}${period.slice(1)}`;
+      if (this[key]) this[key] = { ...this[key], importValue: null, exportValue: null };
+      this.markStoreDirty(key);
+    });
     this.lastPeakLoadReading = null;
     this._directionalTickDelta = null;
-    Object.values(this.energyBaselines || {}).forEach((base) => {
-      base.imported = null;
-      base.exported = null;
-    });
     // Through the flush, forced, so no earlier dirty mark can restore a pre-reanchor value.
-    ['directionalMeter', 'lastDirectionalSnapshot', 'lastPeakLoadReading',
-      'lastDirectionalReadingDay', 'lastDirectionalReadingMonth', 'lastDirectionalReadingYear', 'energyBaselines',
-    ].forEach((key) => this.markStoreDirty(key));
+    ['directionalMeter', 'lastDirectionalSnapshot', 'lastPeakLoadReading'].forEach((key) => this.markStoreDirty(key));
     await this.flushDirtyStore({ force: true });
   }
 
@@ -738,100 +737,13 @@ class GridDevice extends GenericDevice {
   // Cumulative kWh counters of the Energy widget: import/export (null without that data), home,
   // the batteries' charged/discharged (with the battery ids they sum), and per EV
   // ev_<id>_charged/ev_<id>_discharged (discharging only with V2X).
-  energyCounters() {
-    const devices = (driverId) => {
-      try {
-        return this.homey.drivers.getDriver(driverId).getDevices();
-      } catch {
-        return [];
-      }
-    };
-    const batteries = devices('battery');
-    const sumCap = (devs, cap) => {
-      const has = devs.filter((d) => d.hasCapability(cap));
-      return has.length ? has.reduce((sum, d) => sum + (d.getCapabilityValue(cap) || 0), 0) : null;
-    };
-    const dir = this.directionalMeter || {};
-    const out = {
-      imported: typeof dir.importValue === 'number' ? dir.importValue : null,
-      exported: typeof dir.exportValue === 'number' ? dir.exportValue : null,
-      home: this.meterPowerHome || 0,
-      charged: sumCap(batteries, 'meter_kwh_charging'),
-      discharged: sumCap(batteries, 'meter_kwh_discharging'),
-      batteries: batteries.map((d) => d.getId()).sort().join(','),
-    };
-    devices('evCharger').forEach((d) => {
-      out[`ev_${d.getId()}_charged`] = sumCap([d], 'meter_kwh_charging');
-      out[`ev_${d.getId()}_discharged`] = sumCap([d], 'meter_kwh_discharging');
-    });
-    return out;
-  }
-
-  // Counter values at the start of this hour/day/month/year, on the same period flags as the meters.
-  // A counter that appears later or falls, and the battery counters when the batteries change, start
-  // again from now. The counters of a removed EV are dropped.
-  updateEnergyBaselines(periods) {
-    let now;
-    try {
-      now = this.energyCounters();
-    } catch (err) {
-      this.error(err);
-      return;
-    }
-    const flags = {
-      hour: periods.newHour, day: periods.newDay, month: periods.newMonth, year: periods.newYear,
-    };
-    if (!this.energyBaselines) this.energyBaselines = {};
-    let changed = false;
-    Object.entries(flags).forEach(([period, isNew]) => {
-      const base = this.energyBaselines[period];
-      if (!base || isNew) {
-        this.energyBaselines[period] = { ...now, seeded: isNew ? this.energySeedKey() : null };
-        changed = true;
-        return;
-      }
-      // Other batteries (also while they load at startup): the hour starts again, the others from Insights.
-      if (base.batteries !== now.batteries) {
-        Object.assign(base, { charged: now.charged, discharged: now.discharged, batteries: now.batteries });
-        if (period !== 'hour') base.seeded = null;
-        changed = true;
-      }
-      Object.keys(base).filter((key) => key.startsWith('ev_') && !(key in now)).forEach((key) => {
-        delete base[key];
-        changed = true;
-      });
-      Object.keys(now).forEach((key) => {
-        if (typeof now[key] !== 'number') return;
-        if (typeof base[key] !== 'number' || now[key] < base[key]) {
-          base[key] = now[key];
-          changed = true;
-        }
-      });
-    });
-    if (changed) this.markStoreDirty('energyBaselines');
-    if (['day', 'month', 'year'].some((p) => this.energyBaselines[p].seeded === null)) this.seedEnergyBaselines().catch(this.error);
-  }
-
-  // The month and year baselines at their contract starts, not at the first run: import/export from
-  // the split meters' period readings, home, batteries and EVs from Insights. A counter without
-  // data counts from now. Again after a new contract start.
-  async seedEnergyBaselines() {
-    if (this.seedingBaselines) return;
-    this.seedingBaselines = true;
-    try {
-      await this.seedEnergyBaselinesOnce();
-    } finally {
-      this.seedingBaselines = false;
-    }
-  }
-
-  // Real p1/n1 registers: import and export of this and last day, month and year too.
-  async restoreHistoryExtra(api, starts, cache) {
+  // Real p1/n1 registers: import and export at the starts of this and last day, month and year from
+  // the source's Insights (growth, resets skipped). At pairing and on a new contract start.
+  async restoreHistoryExtra(api, starts, cache = new Map()) {
     const group = this.sourceCapGroup || {};
     if (typeof this.directionalLastWatt === 'number' || !group.p1) return;
     const sourceId = this.getSettings().homey_device_id;
     const meters = this.lastGroupMeter || {};
-    // The register at ms: now minus its growth since (resets skipped).
     const at = async (role, ms) => {
       if (!group[role] || !Number.isFinite(meters[role])) return null;
       const g = await ContractYear.growthSince(api, sourceId, [group[role]], ms, { nowValue: meters[role], cache }).catch(() => null);
@@ -845,7 +757,8 @@ class GridDevice extends GenericDevice {
       const exp = await at('n1', startMs);
       const key = `lastDirectionalReading${period[0].toUpperCase()}${period.slice(1)}`;
       const old = this[key] || {};
-      this[key] = { importValue: imp, exportValue: typeof exp === 'number' ? exp : old.exportValue };
+      // The home start follows from the balance again (updateSplitMeters()).
+      this[key] = { importValue: imp, exportValue: typeof exp === 'number' ? exp : old.exportValue, homeValue: null };
       this.markStoreDirty(key);
       const impPrev = await at('p1', prevMs);
       const expPrev = await at('n1', prevMs);
@@ -856,24 +769,10 @@ class GridDevice extends GenericDevice {
         await this.setCapability(`meter_kwh_last_${period}.exported`, round(exp - expPrev)).catch(this.error);
       }
     }
-    // The widget baselines follow the restored readings.
-    Object.values(this.energyBaselines || {}).forEach((base) => {
-      base.seeded = null;
-    });
-    await this.seedEnergyBaselines();
   }
 
-  // A new key seeds again: a new contract start, or a new seeding version.
-  energySeedKey() {
-    const start = this.getStoreValue('contractStart');
-    return start ? `${start}/6` : null;
-  }
-
-  async seedEnergyBaselinesOnce() {
-    const key = this.energySeedKey();
-    if (!key || !this.energyBaselines) return;
-    const due = ['day', 'month', 'year'].filter((p) => this.energyBaselines[p] && this.energyBaselines[p].seeded !== key);
-    if (!due.length) return;
+  // A new contract start: import, export and home follow the net meter.
+  async onPeriodsRebased() {
     let api = null;
     try {
       api = this.homey.app.api;
@@ -881,125 +780,49 @@ class GridDevice extends GenericDevice {
       return;
     }
     if (!api) return;
-    const devices = (driverId) => {
-      try {
-        return this.homey.drivers.getDriver(driverId).getDevices();
-      } catch {
-        return [];
-      }
-    };
-    const nowLocal = TimeHelpers.toLocalDate(new Date(), this.timeZone);
-    const starts = {
-      ...MeterHelpers.periodStarts(nowLocal, this.startDay, this.startMonth),
-      day: new Date(nowLocal.getFullYear(), nowLocal.getMonth(), nowLocal.getDate()),
-    };
-    const splits = { day: this.lastDirectionalReadingDay, month: this.lastDirectionalReadingMonth, year: this.lastDirectionalReadingYear };
-    const at = (deviceId, cap, ms) => ContractYear.meterAt(api, deviceId, [cap], ms, { orFirst: true }).catch(() => null);
-    for (const period of due) {
-      const ms = ContractYear.localStartMs(starts[period], this.timeZone);
-      const base = this.energyBaselines[period];
-      const split = splits[period];
-      if (split && typeof split.importValue === 'number') base.imported = split.importValue;
-      if (split && typeof split.exportValue === 'number') base.exported = split.exportValue;
-      const home = await at(this.getId(), 'meter_power_hidden.home', ms);
-      if (typeof home === 'number') base.home = home;
-      for (const kind of ['charged', 'discharged']) {
-        const cap = kind === 'charged' ? 'meter_kwh_charging' : 'meter_kwh_discharging';
-        let sum = 0;
-        for (const d of devices('battery')) {
-          const v = typeof d.counterAt === 'function' ? await d.counterAt(api, cap, ms).catch(() => null) : await at(d.getId(), cap, ms);
-          sum += typeof v === 'number' ? v : (d.getCapabilityValue(cap) || 0);
-        }
-        if (typeof base[kind] === 'number') base[kind] = sum;
-        for (const d of devices('evCharger')) {
-          const evKey = `ev_${d.getId()}_${kind}`;
-          const v = typeof d.counterAt === 'function' ? await d.counterAt(api, cap, ms).catch(() => null) : await at(d.getId(), cap, ms);
-          if (typeof v === 'number' && typeof base[evKey] === 'number') base[evKey] = v;
-        }
-      }
-      base.batteries = devices('battery').map((d) => d.getId()).sort().join(',');
-      base.seeded = key;
-      this.log(`${this.getName()}: ${period} energy baselines from ${starts[period].toDateString()}`, base);
-    }
-    this.markStoreDirty('energyBaselines');
+    const starts = HistoryRestore.periodStarts(TimeHelpers.toLocalDate(new Date(), this.timeZone), this.startDay, this.startMonth, this.timeZone);
+    await this.restoreHistoryExtra(api, starts).catch(this.error);
   }
 
-  // kWh per counter since the start of period ('hour', 'day', 'month', 'year'), null without data.
-  getEnergySince(period) {
-    const base = this.energyBaselines && this.energyBaselines[period];
-    const now = this.energyCounters();
-    const sameBatteries = base && base.batteries === now.batteries;
-    const out = {};
-    Object.keys(now).filter((key) => key !== 'batteries').forEach((key) => {
-      if (typeof now[key] !== 'number') out[key] = null;
-      else if (!base || typeof base[key] !== 'number') out[key] = 0;
-      else if (!sameBatteries && (key === 'charged' || key === 'discharged')) out[key] = 0;
-      else out[key] = Math.max(0, now[key] - base[key]);
-    });
-    return out;
-  }
-
-  // Physical import/export kWh per day/month/year, independent of the scheme. Same anchor-diff
-  // method and period flags as the base net totals, so both cover the same span.
+  // Import, export and home kWh per hour, day, month and year: each counter minus its value at the
+  // period start (lastDirectionalReading*). The hour ones only for the widget (hidden).
   async updateSplitMeters(periods) {
-    const { importValue, exportValue } = this.directionalMeter;
-
-    if (!this.lastDirectionalReadingDay) {
-      this.lastDirectionalReadingDay = { importValue, exportValue };
-      this.markStoreDirty('lastDirectionalReadingDay');
+    const now = { importValue: this.directionalMeter.importValue, exportValue: this.directionalMeter.exportValue, homeValue: this.meterPowerHome };
+    for (const period of SPLIT_PERIODS) {
+      const key = `lastDirectionalReading${period[0].toUpperCase()}${period.slice(1)}`;
+      if (!this[key]) this[key] = { ...now };
+      if (typeof this[key].homeValue !== 'number') this[key].homeValue = this.homeValueAtStart(period);
+      const base = this[key];
+      const isNew = periods[`new${period[0].toUpperCase()}${period.slice(1)}`];
+      for (const [field, sub] of SPLIT_FIELDS) {
+        if (typeof now[field] !== 'number') continue;
+        if (typeof base[field] !== 'number') base[field] = now[field];
+        const val = Math.round((now[field] - base[field]) * 10000) / 10000;
+        const last = `meter_kwh_last_${period}.${sub}`;
+        if (isNew && this.hasCapability(last)) await this.setCapability(last, val).catch((err) => this.error(err));
+        const cap = `meter_kwh_this_${period}.${sub}`;
+        if (this.hasCapability(cap)) await this.setCapability(cap, isNew ? 0 : val).catch((err) => this.error(err));
+      }
+      if (isNew) this[key] = { ...now };
+      this.markStoreDirty(key);
     }
-    if (!this.lastDirectionalReadingMonth) {
-      this.lastDirectionalReadingMonth = { importValue, exportValue };
-      this.markStoreDirty('lastDirectionalReadingMonth');
-    }
-    if (!this.lastDirectionalReadingYear) {
-      this.lastDirectionalReadingYear = { importValue, exportValue };
-      this.markStoreDirty('lastDirectionalReadingYear');
-    }
+  }
 
-    let lastDay = { ...this.lastDirectionalReadingDay };
-    let lastMonth = { ...this.lastDirectionalReadingMonth };
-    let lastYear = { ...this.lastDirectionalReadingYear };
-
-    let valDayImport = importValue - lastDay.importValue;
-    let valDayExport = exportValue - lastDay.exportValue;
-    let valMonthImport = importValue - lastMonth.importValue;
-    let valMonthExport = exportValue - lastMonth.exportValue;
-    let valYearImport = importValue - lastYear.importValue;
-    let valYearExport = exportValue - lastYear.exportValue;
-
-    if (periods.newDay) {
-      await this.setCapability('meter_kwh_last_day.imported', valDayImport).catch((err) => this.error(err));
-      await this.setCapability('meter_kwh_last_day.exported', valDayExport).catch((err) => this.error(err));
-      lastDay = { importValue, exportValue };
-      this.markStoreDirty('lastDirectionalReadingDay');
-      valDayImport = 0; valDayExport = 0;
-    }
-    if (periods.newMonth) {
-      await this.setCapability('meter_kwh_last_month.imported', valMonthImport).catch((err) => this.error(err));
-      await this.setCapability('meter_kwh_last_month.exported', valMonthExport).catch((err) => this.error(err));
-      lastMonth = { importValue, exportValue };
-      this.markStoreDirty('lastDirectionalReadingMonth');
-      valMonthImport = 0; valMonthExport = 0;
-    }
-    if (periods.newYear) {
-      await this.setCapability('meter_kwh_last_year.imported', valYearImport).catch((err) => this.error(err));
-      await this.setCapability('meter_kwh_last_year.exported', valYearExport).catch((err) => this.error(err));
-      lastYear = { importValue, exportValue };
-      this.markStoreDirty('lastDirectionalReadingYear');
-      valYearImport = 0; valYearExport = 0;
-    }
-
-    await this.setCapability('meter_kwh_this_day.imported', valDayImport).catch((err) => this.error(err));
-    await this.setCapability('meter_kwh_this_day.exported', valDayExport).catch((err) => this.error(err));
-    await this.setCapability('meter_kwh_this_month.imported', valMonthImport).catch((err) => this.error(err));
-    await this.setCapability('meter_kwh_this_month.exported', valMonthExport).catch((err) => this.error(err));
-    await this.setCapability('meter_kwh_this_year.imported', valYearImport).catch((err) => this.error(err));
-    await this.setCapability('meter_kwh_this_year.exported', valYearExport).catch((err) => this.error(err));
-
-    if (periods.newDay) this.lastDirectionalReadingDay = lastDay;
-    if (periods.newMonth) this.lastDirectionalReadingMonth = lastMonth;
-    if (periods.newYear) this.lastDirectionalReadingYear = lastYear;
+  // The home counter at the start of a period that has none yet (an older device): from the energy
+  // balance of the period meters of this app's devices so far.
+  homeValueAtStart(period) {
+    const cap = (d, c) => (d.hasCapability(c) && typeof d.getCapabilityValue(c) === 'number' ? d.getCapabilityValue(c) : 0);
+    const sum = (driverId, c) => {
+      try {
+        return this.homey.drivers.getDriver(driverId).getDevices().reduce((a, d) => a + cap(d, c), 0);
+      } catch {
+        return 0;
+      }
+    };
+    const home = cap(this, `meter_kwh_this_${period}.imported`) - cap(this, `meter_kwh_this_${period}.exported`)
+      + sum('solar', `meter_kwh_this_${period}`) + sum('battery', `meter_kwh_this_${period}.discharged`)
+      - sum('battery', `meter_kwh_this_${period}.charged`) - sum('evCharger', `meter_kwh_this_${period}`);
+    return (this.meterPowerHome || 0) - Math.max(0, home);
   }
 
   // Split money, always priced per direction whatever the scheme, as a bill itemizes it. Only

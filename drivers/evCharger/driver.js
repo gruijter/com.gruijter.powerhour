@@ -264,6 +264,8 @@ class CarChargeDriver extends GenericDriver {
     // Budget targets only with a budget, discharging only with V2X.
     if (!Budget.isActive(settings.distribution, settings.budget)) caps = caps.filter((cap) => !cap.includes('meter_target'));
     if (!settings.v2x) caps = caps.filter((cap) => cap !== 'meter_kwh_discharging');
+    // V2X: charged and discharged per period for the widget (hidden).
+    if (settings.v2x) ['hour', 'day', 'month', 'year'].forEach((p) => caps.push(`meter_kwh_this_${p}.charged`, `meter_kwh_this_${p}.discharged`));
     return caps;
   }
 

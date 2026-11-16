@@ -951,6 +951,165 @@
         "ar": "الذروة المفوترة (شهر)",
         "ko": "청구 피크 (월)"
       }
+    },
+    "meter_kwh_this_day.home": {
+      "title": {
+        "en": "kWh this day (home)",
+        "nl": "kWh deze dag (huis)",
+        "de": "kWh dieser Tag (Haus)",
+        "it": "kWh questo giorno (casa)",
+        "sv": "kWh denna dag (hem)",
+        "no": "kWh denne dag (hjem)",
+        "es": "kWh este día (casa)",
+        "pl": "kWh ten dzień (dom)",
+        "ru": "кВтч этот день (дом)",
+        "ar": "كيلوواط ساعة هذا اليوم (المنزل)",
+        "ko": "오늘 kWh (가정)",
+        "fr": "kWh ce jour (maison)",
+        "da": "kWh denne dag (hjem)"
+      }
+    },
+    "meter_kwh_last_day.home": {
+      "title": {
+        "en": "kWh prev. day (home)",
+        "nl": "kWh vorige dag (huis)",
+        "no": "kWh forrige dag (hjem)",
+        "es": "kWh día anterior (casa)",
+        "ru": "кВтч пред. день (дом)",
+        "ar": "كيلوواط ساعة اليوم السابق (المنزل)",
+        "ko": "전날 kWh (가정)",
+        "de": "kWh Vortag (Haus)",
+        "fr": "kWh jour dernier (maison)",
+        "it": "kWh giorno prec. (casa)",
+        "sv": "kWh föreg. dag (hem)",
+        "da": "kWh forrige dag (hjem)",
+        "pl": "kWh poprz. dzień (dom)"
+      }
+    },
+    "meter_kwh_this_month.home": {
+      "title": {
+        "en": "kWh this month (home)",
+        "nl": "kWh deze maand (huis)",
+        "de": "kWh dieser Monat (Haus)",
+        "fr": "kWh ce mois-ci (maison)",
+        "it": "kWh mese corrente (casa)",
+        "sv": "kWh denna månad (hem)",
+        "no": "kWh denne måned (hjem)",
+        "es": "kWh este mes (casa)",
+        "da": "kWh denne måned (hjem)",
+        "pl": "kWh ten miesiąc (dom)",
+        "ru": "кВтч этот месяц (дом)",
+        "ar": "كيلوواط ساعة هذا الشهر (المنزل)",
+        "ko": "이번 달 kWh (가정)"
+      }
+    },
+    "meter_kwh_last_month.home": {
+      "title": {
+        "en": "kWh prev. month (home)",
+        "nl": "kWh vorige maand (huis)",
+        "de": "kWh Vormonat (Haus)",
+        "fr": "kWh mois dernier (maison)",
+        "it": "kWh mese prec. (casa)",
+        "sv": "kWh föreg. månad (hem)",
+        "no": "kWh forrige måned (hjem)",
+        "es": "kWh mes anterior (casa)",
+        "da": "kWh forrige måned (hjem)",
+        "pl": "kWh poprz. miesiąc (dom)",
+        "ru": "кВтч пред. месяц (дом)",
+        "ar": "كيلوواط ساعة الشهر السابق (المنزل)",
+        "ko": "지난달 kWh (가정)"
+      }
+    },
+    "meter_kwh_this_year.home": {
+      "title": {
+        "en": "kWh this year (home)",
+        "nl": "kWh dit jaar (huis)",
+        "de": "kWh dieses Jahr (Haus)",
+        "fr": "kWh cette année (maison)",
+        "it": "kWh anno corrente (casa)",
+        "sv": "kWh detta år (hem)",
+        "no": "kWh dette år (hjem)",
+        "es": "kWh este año (casa)",
+        "da": "kWh dette år (hjem)",
+        "pl": "kWh ten rok (dom)",
+        "ru": "кВтч этот год (дом)",
+        "ar": "كيلوواط ساعة هذا العام (المنزل)",
+        "ko": "올해 kWh (가정)"
+      }
+    },
+    "meter_kwh_last_year.home": {
+      "title": {
+        "en": "kWh prev. year (home)",
+        "nl": "kWh vorig jaar (huis)",
+        "de": "kWh Vorjahr (Haus)",
+        "fr": "kWh année dernière (maison)",
+        "it": "kWh anno prec. (casa)",
+        "sv": "kWh föreg. år (hem)",
+        "no": "kWh forrige år (hjem)",
+        "es": "kWh año anterior (casa)",
+        "da": "kWh forrige år (hjem)",
+        "pl": "kWh poprz. rok (dom)",
+        "ru": "кВтч пред. год (дом)",
+        "ar": "كيلوواط ساعة العام السابق (المنزل)",
+        "ko": "작년 kWh (가정)"
+      }
+    },
+    "meter_kwh_this_hour.imported": {
+      "title": {
+        "en": "kWh this hour (imported)",
+        "nl": "kWh dit uur (geïmporteerd)",
+        "de": "kWh diese Stunde (importiert)",
+        "it": "kWh ora corrente (importato)",
+        "sv": "kWh denna timme (importerad)",
+        "no": "kWh denne time (importert)",
+        "es": "kWh esta hora (importado)",
+        "pl": "kWh ta godzina (import)",
+        "ru": "кВтч этот час (импорт)",
+        "ar": "كيلوواط ساعة هذه الساعة (مستورد)",
+        "ko": "이번 시간 kWh (수전)",
+        "fr": "KWh cette heure ci (importé)",
+        "da": "KWh denne time (importeret)"
+      },
+      "insights": false,
+      "uiComponent": null
+    },
+    "meter_kwh_this_hour.exported": {
+      "title": {
+        "en": "kWh this hour (exported)",
+        "nl": "kWh dit uur (geëxporteerd)",
+        "de": "kWh diese Stunde (exportiert)",
+        "it": "kWh ora corrente (esportato)",
+        "sv": "kWh denna timme (exporterad)",
+        "no": "kWh denne time (eksportert)",
+        "es": "kWh esta hora (exportado)",
+        "pl": "kWh ta godzina (eksport)",
+        "ru": "кВтч этот час (экспорт)",
+        "ar": "كيلوواط ساعة هذه الساعة (مُصدَّر)",
+        "ko": "이번 시간 kWh (송전)",
+        "fr": "KWh cette heure ci (exporté)",
+        "da": "KWh denne time (eksporteret)"
+      },
+      "insights": false,
+      "uiComponent": null
+    },
+    "meter_kwh_this_hour.home": {
+      "title": {
+        "en": "kWh this hour (home)",
+        "nl": "kWh dit uur (huis)",
+        "de": "kWh diese Stunde (Haus)",
+        "it": "kWh ora corrente (casa)",
+        "sv": "kWh denna timme (hem)",
+        "no": "kWh denne time (hjem)",
+        "es": "kWh esta hora (casa)",
+        "pl": "kWh ta godzina (dom)",
+        "ru": "кВтч этот час (дом)",
+        "ar": "كيلوواط ساعة هذه الساعة (المنزل)",
+        "ko": "이번 시간 kWh (가정)",
+        "fr": "KWh cette heure ci (maison)",
+        "da": "KWh denne time (hjem)"
+      },
+      "insights": false,
+      "uiComponent": null
     }
   },
   "images": {
