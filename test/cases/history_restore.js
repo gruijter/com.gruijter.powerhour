@@ -38,15 +38,17 @@ const TZ = 'Europe/Amsterdam';
     assert.strictEqual(HistoryRestore.energySince(buckets, t0 - HOUR), null);
   });
 
-  await test('source meter p1 + p2 - n1 at a time', async () => {
+  await test('growth since a time: drops are resets, skipped', async () => {
     const t0 = Date.UTC(2026, 0, 1);
-    const log = (base) => ({ step: 6 * HOUR, values: [0, 1, 2].map((i) => ({ t: new Date(t0 + i * 6 * HOUR).toISOString(), v: base + i })) });
-    const logs = { 'homey:device:s:a': log(100), 'homey:device:s:b': log(10), 'homey:device:s:c': log(1) };
+    const vals = [100, 110, 120, 20, 30, 40]; // reset after 120
+    const logs = { 'homey:device:s:a': { step: 6 * HOUR, values: vals.map((v, i) => ({ t: new Date(t0 + i * 6 * HOUR).toISOString(), v })) } };
     const api = { insights: { getLog: async ({ id }) => (logs[id] ? { id } : null), getLogEntries: async ({ id }) => logs[id] } };
-    const v = await HistoryRestore.sourceAt(api, 's', { p1: 'a', p2: 'b', n1: 'c' }, t0 + 9 * HOUR, new Map());
-    assert.ok(Math.abs(v - (101 + 11 - 2)) < 1e-9, `got ${v}`); // 9 h = the centre of the second bucket
-    assert.strictEqual(await HistoryRestore.sourceAt(api, 's', { p1: 'a', n1: 'x' }, t0 + 9 * HOUR, new Map()), null);
-    assert.ok(ContractYear.meterAt);
+    // From the centre of the first bucket: 10 + 10 + (reset) + 10 + 10, then 45 now: +5.
+    assert.strictEqual(await ContractYear.growthSince(api, 's', ['a'], t0 + 3 * HOUR, { nowValue: 45 }), 45);
+    assert.strictEqual(await ContractYear.growthSince(api, 's', ['a'], t0 - HOUR), null);
+    assert.strictEqual(await ContractYear.growthSince(api, 's', ['a'], t0 - HOUR, { orFirst: true }), 40);
+    const g = await HistoryRestore.sourceGrowth(api, 's', { p1: 'a', n1: 'a' }, { p1: 45, n1: 45 }, t0 + 3 * HOUR, new Map());
+    assert.strictEqual(g, 0);
   });
 
   process.exitCode = failed ? 1 : 0;

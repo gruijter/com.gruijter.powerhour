@@ -830,19 +830,25 @@ class GridDevice extends GenericDevice {
     const group = this.sourceCapGroup || {};
     if (typeof this.directionalLastWatt === 'number' || !group.p1) return;
     const sourceId = this.getSettings().homey_device_id;
-    const at = (cap, ms) => (cap ? ContractYear.meterAt(api, sourceId, [cap], ms, { cache }).catch(() => null) : null);
+    const meters = this.lastGroupMeter || {};
+    // The register at ms: now minus its growth since (resets skipped).
+    const at = async (role, ms) => {
+      if (!group[role] || !Number.isFinite(meters[role])) return null;
+      const g = await ContractYear.growthSince(api, sourceId, [group[role]], ms, { nowValue: meters[role], cache }).catch(() => null);
+      return typeof g === 'number' ? meters[role] - g : null;
+    };
     const round = (v) => Math.round(v * 10000) / 10000;
     for (const period of ['day', 'month', 'year']) {
       const [prevMs, startMs] = starts[period];
-      const imp = await at(group.p1, startMs);
+      const imp = await at('p1', startMs);
       if (typeof imp !== 'number') continue;
-      const exp = await at(group.n1, startMs);
+      const exp = await at('n1', startMs);
       const key = `lastDirectionalReading${period[0].toUpperCase()}${period.slice(1)}`;
       const old = this[key] || {};
       this[key] = { importValue: imp, exportValue: typeof exp === 'number' ? exp : old.exportValue };
       this.markStoreDirty(key);
-      const impPrev = await at(group.p1, prevMs);
-      const expPrev = await at(group.n1, prevMs);
+      const impPrev = await at('p1', prevMs);
+      const expPrev = await at('n1', prevMs);
       if (typeof impPrev === 'number' && this.hasCapability(`meter_kwh_last_${period}.imported`)) {
         await this.setCapability(`meter_kwh_last_${period}.imported`, round(imp - impPrev)).catch(this.error);
       }
@@ -860,7 +866,7 @@ class GridDevice extends GenericDevice {
   // A new key seeds again: a new contract start, or a new seeding version.
   energySeedKey() {
     const start = this.getStoreValue('contractStart');
-    return start ? `${start}/4` : null;
+    return start ? `${start}/6` : null;
   }
 
   async seedEnergyBaselinesOnce() {
