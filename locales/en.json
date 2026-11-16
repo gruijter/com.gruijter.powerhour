@@ -370,8 +370,7 @@
     "import": "import",
     "export": "export",
     "plan_hint": "Tap or drag",
-    "other": "Other",
-    "more": "More",
+    "unmeasured": "Not measured",
     "battery_charge": "Battery charging"
   }
 }

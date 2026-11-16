@@ -370,8 +370,7 @@
     "import": "Import",
     "export": "Export",
     "plan_hint": "Tippen oder ziehen",
-    "other": "Sonstiges",
-    "more": "Mehr",
+    "unmeasured": "Nicht gemessen",
     "battery_charge": "Batterie laden"
   }
 }

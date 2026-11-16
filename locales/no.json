@@ -370,8 +370,7 @@
     "import": "import",
     "export": "eksport",
     "plan_hint": "Trykk eller dra",
-    "other": "Annet",
-    "more": "Mer",
+    "unmeasured": "Ikke målt",
     "battery_charge": "Batterilading"
   }
 }

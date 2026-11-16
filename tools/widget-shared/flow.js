@@ -5,12 +5,14 @@
 
 (function pbthFlow() {
   const NS = 'http://www.w3.org/2000/svg';
-  const W = 320;
+  // Chart width: 320, or 480 for the widescreen shape (draw opts.wide); x positions below are for 320.
+  const BASE_W = 320;
+  let W = BASE_W;
   // Three rows: sources on top (text above, out of the way of their lines), storage and climate
   // beside the hub, consumers below. Each row spreads its visible nodes evenly, so a missing driver
   // leaves no gap; the middle row stays left/right of the hub.
   const ROWS = { top: 72, mid: 150, bottom: 250 };
-  const HUB = { x: W / 2, y: ROWS.mid };
+  const hub = () => ({ x: W / 2, y: ROWS.mid });
   const HEIGHT = 322;
   // Gas is no electricity: its own line to the climate node (`to`), not through the hub.
   const NODES = [
@@ -57,7 +59,7 @@
     Object.keys(ROWS).forEach((row) => {
       const defs = NODES.filter((d) => d.row === row && ids.includes(d.id));
       defs.forEach((d, i) => {
-        pos[d.id] = { x: d.x || SPREAD[defs.length][i], y: ROWS[row] };
+        pos[d.id] = { x: (d.x || SPREAD[defs.length][i]) * (W / BASE_W), y: ROWS[row] };
       });
     });
     return pos;
@@ -72,11 +74,11 @@
     const pos = layout(ids);
     const byId = {};
     el('circle', {
-      cx: HUB.x, cy: HUB.y, r: 4, fill: 'var(--line)',
+      cx: hub().x, cy: hub().y, r: 4, fill: 'var(--line)',
     }, lines);
     NODES.filter((d) => ids.includes(d.id)).forEach((def) => {
       const p = pos[def.id];
-      const end = (def.to && pos[def.to]) || HUB;
+      const end = (def.to && pos[def.to]) || hub();
       const color = `var(${def.color})`;
       const d = `M${p.x} ${p.y}L${end.x} ${end.y}`;
       const n = {
@@ -137,9 +139,11 @@
   }
 
   // states: { id: s | null } (null or missing hides the node). Redraws when the set of nodes changes.
-  function draw(svg, states) {
+  // opts.wide: the widescreen shape (wider, the same height).
+  function draw(svg, states, opts) {
+    W = opts && opts.wide ? 480 : BASE_W;
     const ids = NODES.map((d) => d.id).filter((id) => states[id]);
-    const key = ids.join(',');
+    const key = `${W}:${ids.join(',')}`;
     if (!svg.pbthNodes || svg.pbthKey !== key) {
       svg.pbthNodes = build(svg, ids);
       svg.pbthKey = key;

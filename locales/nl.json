@@ -370,8 +370,7 @@
     "import": "import",
     "export": "export",
     "plan_hint": "Tik of sleep",
-    "other": "Overig",
-    "more": "Meer",
+    "unmeasured": "Niet gemeten",
     "battery_charge": "Batterij laden"
   }
 }

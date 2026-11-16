@@ -261,7 +261,7 @@
           currency = cur;
           unitTabs.querySelector('[data-id="money"]').textContent = currency;
         }
-        PbthFlow.draw(svg, period === 'now' ? powerStates(d) : energyStates(d));
+        PbthFlow.draw(svg, period === 'now' ? powerStates(d) : energyStates(d), { wide: settings.shape !== 'normal' });
       }
 
       // Live power every 5 s, a period every 30 s.

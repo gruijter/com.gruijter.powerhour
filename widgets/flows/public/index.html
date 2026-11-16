@@ -12,9 +12,9 @@
     }
     .tabs button.on { background: var(--node-bg); color: var(--text); font-weight: 600; }
     svg { display: block; width: 100%; height: auto; }
-    .name { fill: var(--text); font-size: 12px; font-weight: 500; filter: drop-shadow(0 1px 1.5px rgba(0, 0, 0, 0.75)); }
+    .name { fill: var(--text); font-weight: 400; filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.8)); }
     .val { fill: var(--muted); font-weight: 400; }
-    .dots { fill: none; stroke: var(--text); stroke-width: 2.5; stroke-linecap: round; stroke-dasharray: 0 18; opacity: 0.45; animation: run linear infinite; }
+    .dots { fill: none; stroke: var(--text); stroke-width: 2; stroke-linecap: round; stroke-dasharray: 0 12; opacity: 0.45; animation: run linear infinite; }
     @keyframes run { to { stroke-dashoffset: -36; } }
   </style>
 </head>
@@ -26,21 +26,22 @@
     var started = false;
     var PERIODS = ['now', 'hour', 'day', 'month', 'year'];
     var W = 320;
-    var H = 250;
+    var H = 250; // chart height: 250 normal, 170 widescreen (setting shape)
     var TOP = 6;
-    var BOTTOM = H - 6;
+    var BOTTOM = H - 6; // set per draw
     var XL = 4; // source bars
-    var XM = 150; // home column bars
+    var XM = 118; // destination bars: left of centre, room for the labels of destinations and users
     var XR = W - 4 - 6; // user bars
     var GAP_R = 3; // between users
     var BAR = 6;
     var GAP = 6;
-    var LABEL = 15; // minimum distance between label lines
-    var MAX_USERS = 8; // more go to More, like users under 1%
-    var MAX_LABEL = 134; // px, so the labels of both halves never meet
+    var FONT_PX = 10; // label size on screen, whatever the widget width
+    var LABEL = 12; // minimum distance between label lines (chart units; set per draw from FONT_PX)
+    var MAX_USERS = 16; // the largest are shown; users under 1% are not drawn
+    var MAX_LABEL = 134; // chart units, so the labels of both halves never meet
     var NS = 'http://www.w3.org/2000/svg';
     var COLORS = {
-      grid: '--c-grid', solar: '--c-solar', battery: '--c-battery', ev: '--c-ev', home: '--c-home', gas: '--c-gas',
+      grid: '--c-grid', solar: '--c-solar', battery: '--c-battery', ev: '--c-ev', home: '--c-home', gas: '--c-gas', zone: '--c-zone', export: '--c-export',
       power: '--c-appliance', climate: '--c-climate', other: '--muted', more: '--muted',
     };
 
@@ -124,8 +125,19 @@
 
       function draw(d) {
         while (svg.firstChild) svg.removeChild(svg.firstChild);
+        H = settings.shape !== 'normal' ? 170 : 250;
+        BOTTOM = H - 6;
+        svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
+        // Chart units per screen pixel: the text stays FONT_PX on screen.
+        var unit = W / (svg.getBoundingClientRect().width || W);
+        var fontSize = FONT_PX * unit;
+        LABEL = fontSize * 1.3;
         var live = d.live;
-        var nm = function (n) { return { name: shortName(n.name), value: n.value }; };
+        var nm = function (n) {
+          return {
+            name: shortName(n.name), value: n.value, zone: n.zone || null, zoneOrder: n.zoneOrder,
+          };
+        };
         var on = function (x) { return x.value > 0; };
         // Gas: L/min × 60 / 1000 = m³/h, × kWh per m³ = kW; or m³ × kWh per m³.
         var perM3 = Number(settings.gas_kwh) || 9.77;
@@ -152,29 +164,62 @@
           users = users.filter(function (x) { return x !== worst; });
         }
         var measured = sum(users);
+        // Users drawn: from 0.5% of the total, and the largest of each zone; at most the MAX_USERS largest.
+        // Smaller ones are not drawn (their share stays in their zone). The rest of the home as Not measured.
+        var total0 = srcs.reduce(function (a, x) { return a + x.value; }, 0);
+        var zoneMax = {};
+        users.forEach(function (u) { zoneMax[u.zone] = Math.max(zoneMax[u.zone] || 0, u.value); });
+        var top = users.filter(function (u) { return u.value >= total0 * 0.005 || (u.value > 0 && u.value === zoneMax[u.zone]); })
+          .sort(function (a, b) { return b.value - a.value; }).slice(0, MAX_USERS);
+        var big = users.filter(function (u) { return top.indexOf(u) >= 0; });
+        var otherHome = d.home - measured;
         var homeKids = [];
-        if (users.length) {
-          var total0 = srcs.reduce(function (a, x) { return a + x.value; }, 0);
-          var big = users.filter(function (u) { return u.value >= total0 * 0.01; }).slice(0, MAX_USERS);
-          var rest = measured - big.reduce(function (a, x) { return a + x.value; }, 0);
-          homeKids = big.map(function (u) { return { name: u.name, kind: 'power', value: u.value }; });
-          if (rest > 0 && big.length) homeKids.push({ name: t('more'), kind: 'more', value: rest });
-          if (big.length && d.home - measured > 0) homeKids.push({ name: t('other'), kind: 'other', value: d.home - measured });
+        var homeNodes;
+        if (big.length && settings.zones !== false) {
+          // Zones: the home as its zones in Homey's order, each with its users by name (as in Homey); the
+          // unmeasured rest apart.
+          var zones = [];
+          users.forEach(function (u) {
+            var name = u.zone || t('home');
+            var z = zones.filter(function (x) { return x.name === name; })[0];
+            if (!z) {
+              z = { name: name, kind: 'zone', value: 0, kids: [], order: typeof u.zoneOrder === 'number' ? u.zoneOrder : Infinity };
+              zones.push(z);
+            }
+            z.value += u.value;
+            if (big.indexOf(u) >= 0) z.kids.push({ name: u.name, kind: 'power', value: u.value });
+          });
+          zones.sort(function (a, b) { return (a.order - b.order) || a.name.localeCompare(b.name); });
+          zones.forEach(function (z) { z.kids.sort(function (a, b) { return a.name.localeCompare(b.name); }); });
+          zones.forEach(function (z) {
+            // With Homey Energy: the zone as Homey measures it; its devices not shown keep their part
+            // of the zone bar without a band.
+            var homeyZone = d.zoneTotals && d.zoneTotals[z.name];
+            if (typeof homeyZone === 'number' && homeyZone > z.value) z.value = homeyZone;
+          });
+          var inZones = zones.reduce(function (a, z) { return a + z.value; }, 0);
+          if (d.home - inZones > 0) zones.push({ name: t('unmeasured'), kind: 'other', value: d.home - inZones, kids: [] });
+          homeNodes = zones;
+        } else {
+          if (big.length) {
+            homeKids = big.map(function (u) { return { name: u.name, kind: 'power', value: u.value }; });
+          }
+          homeNodes = [{ name: t(clim.length || gas ? 'home_other' : 'home'), kind: 'home', value: d.home, kids: homeKids }];
         }
         var middle = [
-          { name: cap(t('export')), kind: 'grid', value: d.exported, el: d.exported },
+          { name: cap(t('export')), kind: 'export', value: d.exported, el: d.exported },
           { name: t('battery_charge'), kind: 'battery', value: d.batteryCharge || 0, el: d.batteryCharge || 0 },
           {
             name: evs.length === 1 ? evs[0].name : t('ev'), kind: 'ev', value: evs.reduce(function (a, x) { return a + x.value; }, 0),
             kids: kids(evs.map(function (x) { return { name: x.name, kind: 'ev', value: x.value }; })),
           },
-          { name: t(clim.length || gas ? 'home_other' : 'home'), kind: 'home', value: d.home, kids: homeKids },
+        ].concat(homeNodes, [
           {
             name: t('climate'), kind: 'climate', value: climEl + gas, gasIn: gas,
             kids: kids(clim.map(function (x) { return { name: x.name, kind: 'climate', value: x.value }; })
               .concat(gas > 0 ? [{ name: t('gas'), kind: 'gas', value: gas }] : [])),
           },
-        ].filter(on);
+        ]).filter(on);
         middle.forEach(function (m) { if (m.el === undefined) m.el = m.value - (m.gasIn || 0); m.kids = m.kids || []; });
 
         // Inflow per destination: electricity in proportion, gas to climate only; drawn heights follow
@@ -185,7 +230,8 @@
         var right = [];
         middle.forEach(function (m) {
           var sum = m.kids.reduce(function (a, x) { return a + x.value; }, 0);
-          m.kids.forEach(function (c) { c.parent = m; c.flow = sum > 0 ? m.flow * c.value / sum : 0; right.push(c); });
+          // Shares of the destination itself: users not drawn leave their part without a band.
+          m.kids.forEach(function (c) { c.parent = m; c.flow = sum > 0 ? m.flow * c.value / Math.max(sum, m.value) : 0; right.push(c); });
         });
 
         // Without users the destinations stand at the right edge: two columns over the full width.
@@ -193,7 +239,7 @@
         var span = BOTTOM - TOP;
         var total = srcs.reduce(function (a, x) { return a + x.value; }, 0);
         // Every node gets a slot of at least LABEL for its text, so small flows sit apart and a large
-        // one does not fill the whole height. k: the largest scale at which all columns fit.
+        // one does not fill the whole height. fitK: the largest scale at which a column fits.
         var fitK = function (values, gap) {
           var room = span - gap * Math.max(0, values.length - 1);
           var kk = total > 0 ? room / total : 0;
@@ -206,11 +252,17 @@
           return kk;
         };
         var vals = function (nodes, key) { return nodes.map(function (n) { return n[key]; }); };
-        var k = Math.min(fitK(vals(srcs, 'value'), GAP), fitK(vals(middle, 'flow'), GAP), fitK(vals(right, 'flow'), GAP_R));
+        // Funnel: the sources compact (at most half the height), the destinations spread over 80%, the
+        // users over the full height.
+        var k = Math.min(fitK(vals(srcs, 'value'), 2), fitK(vals(middle, 'flow'), GAP), fitK(vals(right, 'flow'), GAP_R),
+          total > 0 ? (0.5 * span) / total : 0);
         var slot = function (n, key) { return Math.max(LABEL, n[key] * k); };
-        var column = function (nodes, gap, key) {
-          var size = nodes.reduce(function (a, n) { return a + slot(n, key); }, 0) + gap * Math.max(0, nodes.length - 1);
-          var y = TOP + Math.max(0, (span - size) / 2);
+        var column = function (nodes, key, target, minGap) {
+          var size = nodes.reduce(function (a, n) { return a + slot(n, key); }, 0);
+          var gaps = Math.max(0, nodes.length - 1);
+          var gap = gaps ? Math.max(minGap, (target - size) / gaps) : 0;
+          if (size + gap * gaps > span) gap = gaps ? Math.max(0, (span - size) / gaps) : 0;
+          var y = TOP + Math.max(0, (span - size - gap * gaps) / 2);
           nodes.forEach(function (n) {
             var sl = slot(n, key);
             n.h = Math.max(2, n[key] * k);
@@ -219,24 +271,9 @@
             y += sl + gap;
           });
         };
-        column(srcs, GAP, 'value');
-        column(middle, GAP, 'flow');
-        // Users next to their destination, each in its own slot, within the chart.
-        var prev = TOP - GAP_R;
-        middle.forEach(function (m) {
-          var y = m.y0;
-          m.kids.forEach(function (c) {
-            var sl = slot(c, 'flow');
-            c.h = Math.max(2, c.flow * k);
-            var top = Math.max(y - (sl - c.h) / 2, prev + GAP_R);
-            c.y0 = top + (sl - c.h) / 2;
-            c.y1 = c.y0 + c.h;
-            y += c.flow * k;
-            prev = top + sl;
-          });
-        });
-        var over = prev - BOTTOM;
-        if (over > 0) right.forEach(function (c) { c.y0 -= over; c.y1 -= over; });
+        column(srcs, 'value', 0, 2);
+        column(middle, 'flow', 0.8 * span, GAP);
+        column(right, 'flow', span, GAP_R);
 
         var bands = el('g', {}, svg);
         // Dots stop at the labels: a mask with a hole per label.
@@ -244,21 +281,21 @@
         el('rect', { x: 0, y: 0, width: W, height: H, fill: 'white' }, mask);
         var dots = el('g', { mask: 'url(#nolabels)' }, svg);
         var bars = el('g', {}, svg);
-        var labels = el('g', {}, svg);
+        var labels = el('g', { 'font-size': fontSize.toFixed(2) }, svg);
         // Calm dots: a little faster at more power (3 s per step at 10 kW, 6 s at 10 W).
         var dur = function (w) { return Math.max(3, Math.min(6, 7 - Math.log10(Math.max(1, w)))).toFixed(2) + 's'; };
         // A link is at least a thin line, so a small flow stays visible next to a large one.
         var link = function (x0, a, x1, b, w, color, v) {
           var dw = Math.max(1, w);
-          el('path', { d: band(x0, a, a + dw, x1, b, b + dw), fill: color, opacity: w < 1.5 ? 0.6 : 0.22 }, bands);
-          if (live && w > 4) el('path', { d: mid(x0, a + w / 2, x1, b + w / 2), class: 'dots', style: 'animation-duration:' + dur(v) }, dots);
+          el('path', { d: band(x0, a, a + dw, x1, b, b + dw), fill: color, opacity: w < 1.5 ? 0.7 : 0.4 }, bands);
+          if (live && v > 0) el('path', { d: mid(x0, a + dw / 2, x1, b + dw / 2), class: 'dots', style: 'animation-duration:' + dur(v) }, dots);
         };
         var col = function (n) { return 'var(' + COLORS[n.kind] + ')'; };
 
         // Sources to destinations.
         // Filled in order: each source fills the destinations top-down where the previous one stopped
         // (no crossings); gas to climate only, below its electricity.
-        var inAt = middle.map(function (m) { return m.y0; });
+        var inAt = middle.map(function (m) { m.mix = []; return m.y0; });
         var need = middle.map(function (m) { return m.flow - (m.gasIn || 0); });
         var mi = 0;
         srcs.forEach(function (x) {
@@ -267,6 +304,7 @@
             middle.forEach(function (m, j) {
               if (!m.gasIn) return;
               link(XL + BAR, out, xm, inAt[j], m.gasIn * k, col(x), m.gasIn);
+              m.mix.push({ color: col(x), v: m.gasIn, gas: true });
               out += m.gasIn * k;
               inAt[j] += m.gasIn * k;
             });
@@ -277,6 +315,7 @@
             var v = Math.min(left, need[mi]);
             if (v > 0) {
               link(XL + BAR, out, xm, inAt[mi], v * k, col(x), v);
+              middle[mi].mix.push({ color: col(x), v: v });
               out += v * k;
               inAt[mi] += v * k;
               need[mi] -= v;
@@ -285,13 +324,22 @@
             if (need[mi] <= 1e-9) mi += 1;
           }
         });
-        // Destinations to their users.
+        // Destinations to their users, in the colours of the sources that feed the destination.
         middle.forEach(function (m) {
           var from = m.y0;
           m.kids.forEach(function (c) {
+            // Gas only to the gas user, electricity only to the others.
+            var mix = m.mix.filter(function (x) { return !!x.gas === (c.kind === 'gas'); });
+            var mixSum = mix.reduce(function (a, x) { return a + x.v; }, 0);
             var w = c.flow * k;
-            link(xm + BAR, from, XR, c.y0, w, col(c), c.flow);
-            from += w;
+            var at = c.y0;
+            (mixSum > 0 ? mix : [{ color: col(c), v: 1 }]).forEach(function (x) {
+              var part = w * (x.v / (mixSum || 1));
+              if (part <= 0) return;
+              link(xm + BAR, from, XR, at, part, x.color, c.flow * (x.v / (mixSum || 1)));
+              from += part;
+              at += part;
+            });
           });
         });
 
@@ -299,24 +347,31 @@
           c[0].forEach(function (n) { el('rect', { x: c[1], y: n.y0, width: BAR, height: n.h, rx: 2, fill: col(n) }, bars); });
         });
 
-        // Labels at least LABEL apart, per half. Left: sources right of their bar, destinations with
-        // users left of theirs. Right: users left of their bar, destinations without users right of theirs.
-        // A name that does not fit its half is shortened; the value always stays.
-        var label = function (l, y) {
-          var text = el('text', { x: l.x, y: y + 4, 'text-anchor': l.anchor, class: 'name' }, labels);
+        // Labels per column, each spaced at least LABEL apart (the slots already give that, so they stay
+        // centred on their node). Sources right of their bar; destinations right of theirs (without
+        // users: left of it, at the right edge); users left of theirs. A name that does not fit is
+        // shortened, the value always stays; a user label beside a destination label is shortened to
+        // end before it, it does not move.
+        var label = function (l, y, maxW) {
+          var text = el('text', {
+            x: l.x, y: y, 'text-anchor': l.anchor, 'dominant-baseline': 'central', class: 'name',
+          }, labels);
           var name = l.n.name;
           var nameEl = document.createTextNode(name + ' ');
           text.appendChild(nameEl);
           el('tspan', { class: 'val' }, text, value(l.n.value, live));
-          while (name.length > 3 && text.getComputedTextLength() > MAX_LABEL) {
+          while (name.length > 3 && text.getComputedTextLength() > maxW) {
             name = name.slice(0, -1);
             nameEl.nodeValue = name.trim() + '… ';
           }
+          return text;
         };
-        var half = function (list) {
+        var place = function (list, maxW) {
           list.forEach(function (l) { l.y = (l.n.y0 + l.n.y1) / 2; });
-          list.sort(function (a, b) { return a.y - b.y; });
-          spread(list.map(function (l) { return l.y; }), TOP + 5, BOTTOM - 5).forEach(function (y, i) { label(list[i], y); });
+          return spread(list.map(function (l) { return l.y; }), TOP + 5, BOTTOM - 5).map(function (y, i) {
+            var text = label(list[i], y, typeof maxW === 'function' ? maxW(y) : maxW);
+            return { y: y, box: text.getBBox() };
+          });
         };
         var holes = function () {
           Array.prototype.forEach.call(labels.childNodes, function (text) {
@@ -324,12 +379,15 @@
             el('rect', { x: b.x - 3, y: b.y - 1, width: b.width + 6, height: b.height + 2, rx: 3, fill: 'black' }, mask);
           });
         };
-        half(srcs.map(function (n) { return { n: n, x: XL + BAR + 4, anchor: 'start' }; })
-          .concat(middle.filter(function (m) { return m.kids.length; }).map(function (n) { return { n: n, x: xm - 4, anchor: 'end' }; })));
-        half(right.map(function (n) { return { n: n, x: XR - 4, anchor: 'end' }; })
-          .concat(middle.filter(function (m) { return !m.kids.length; }).map(function (n) {
-            return right.length ? { n: n, x: xm + BAR + 4, anchor: 'start' } : { n: n, x: xm - 4, anchor: 'end' };
-          })));
+        place(srcs.map(function (n) { return { n: n, x: XL + BAR + 4, anchor: 'start' }; }), MAX_LABEL);
+        var mids = place(middle.map(function (n) {
+          return right.length ? { n: n, x: xm + BAR + 4, anchor: 'start' } : { n: n, x: xm - 4, anchor: 'end' };
+        }), MAX_LABEL);
+        place(right.map(function (n) { return { n: n, x: XR - 4, anchor: 'end' }; }), function (y) {
+          var end = XR - 4;
+          mids.forEach(function (m) { if (Math.abs(m.y - y) < LABEL) end = Math.min(end, XR - 4 - (m.box.x + m.box.width + 6)); });
+          return Math.max(30, Math.min(MAX_LABEL, end));
+        });
         holes();
       }
 
@@ -372,7 +430,9 @@
         lastFetch = Date.now();
         var asked = period;
         var ids = typeof Homey.getDeviceIds === 'function' ? Homey.getDeviceIds() || [] : [];
-        Homey.api('GET', '/?period=' + period + '&ids=' + encodeURIComponent(ids.join(',')), {})
+        var zonesOn = settings.zones !== false ? '1' : '0';
+        var homeyOn = settings.zones !== false && settings.zones_homey === true ? '1' : '0';
+        Homey.api('GET', '/?period=' + period + '&zones=' + zonesOn + '&homey=' + homeyOn + '&ids=' + encodeURIComponent(ids.join(',')), {})
           .then(function (d) { if (asked === period) render(d); }) // not after a tab change
           .catch(function (err) { console.error(err); })
           .finally(fit);

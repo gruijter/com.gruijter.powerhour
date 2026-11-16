@@ -34501,6 +34501,64 @@
             "ko": "수도 표시"
           },
           "value": true
+        },
+        {
+          "id": "shape",
+          "type": "dropdown",
+          "title": {
+            "en": "Shape",
+            "nl": "Vorm",
+            "de": "Form",
+            "fr": "Format",
+            "it": "Formato",
+            "sv": "Format",
+            "no": "Format",
+            "es": "Formato",
+            "da": "Format",
+            "pl": "Format",
+            "ru": "Формат",
+            "ar": "الشكل",
+            "ko": "모양"
+          },
+          "value": "wide",
+          "values": [
+            {
+              "id": "normal",
+              "title": {
+                "en": "Normal",
+                "nl": "Normaal",
+                "de": "Normal",
+                "fr": "Normal",
+                "it": "Normale",
+                "sv": "Normal",
+                "no": "Normal",
+                "es": "Normal",
+                "da": "Normal",
+                "pl": "Normalny",
+                "ru": "Обычный",
+                "ar": "عادي",
+                "ko": "기본"
+              }
+            },
+            {
+              "id": "wide",
+              "title": {
+                "en": "Widescreen",
+                "nl": "Breedbeeld",
+                "de": "Breitbild",
+                "fr": "Panoramique",
+                "it": "Panoramico",
+                "sv": "Bredbild",
+                "no": "Bredformat",
+                "es": "Panorámico",
+                "da": "Bredformat",
+                "pl": "Panoramiczny",
+                "ru": "Широкий",
+                "ar": "عريض",
+                "ko": "와이드"
+              }
+            }
+          ]
         }
       ],
       "api": {
@@ -34570,13 +34628,111 @@
           "value": 9.77,
           "min": 5,
           "max": 15
+        },
+        {
+          "id": "zones",
+          "type": "checkbox",
+          "title": {
+            "en": "Split home into zones",
+            "nl": "Huis in zones verdelen",
+            "de": "Haus in Zonen aufteilen",
+            "fr": "Diviser la maison en zones",
+            "it": "Dividi la casa in zone",
+            "sv": "Dela upp huset i zoner",
+            "no": "Del huset i soner",
+            "es": "Dividir la casa en zonas",
+            "da": "Opdel huset i zoner",
+            "pl": "Podziel dom na strefy",
+            "ru": "Разделить дом на зоны",
+            "ar": "تقسيم المنزل إلى مناطق",
+            "ko": "집을 구역으로 나누기"
+          },
+          "value": true
+        },
+        {
+          "id": "zones_homey",
+          "type": "checkbox",
+          "title": {
+            "en": "Add Homey Energy to zones",
+            "nl": "Zones aanvullen met Homey Energy",
+            "de": "Zonen mit Homey Energy ergänzen",
+            "fr": "Compléter les zones avec Homey Energy",
+            "it": "Completa le zone con Homey Energy",
+            "sv": "Komplettera zoner med Homey Energy",
+            "no": "Supplere soner med Homey Energy",
+            "es": "Completar zonas con Homey Energy",
+            "da": "Suppler zoner med Homey Energy",
+            "pl": "Uzupełnij strefy danymi Homey Energy",
+            "ru": "Дополнить зоны данными Homey Energy",
+            "ar": "إكمال المناطق ببيانات Homey Energy",
+            "ko": "Homey Energy로 구역 보완"
+          },
+          "value": false
+        },
+        {
+          "id": "shape",
+          "type": "dropdown",
+          "title": {
+            "en": "Shape",
+            "nl": "Vorm",
+            "de": "Form",
+            "fr": "Format",
+            "it": "Formato",
+            "sv": "Format",
+            "no": "Format",
+            "es": "Formato",
+            "da": "Format",
+            "pl": "Format",
+            "ru": "Формат",
+            "ar": "الشكل",
+            "ko": "모양"
+          },
+          "value": "wide",
+          "values": [
+            {
+              "id": "normal",
+              "title": {
+                "en": "Normal",
+                "nl": "Normaal",
+                "de": "Normal",
+                "fr": "Normal",
+                "it": "Normale",
+                "sv": "Normal",
+                "no": "Normal",
+                "es": "Normal",
+                "da": "Normal",
+                "pl": "Normalny",
+                "ru": "Обычный",
+                "ar": "عادي",
+                "ko": "기본"
+              }
+            },
+            {
+              "id": "wide",
+              "title": {
+                "en": "Widescreen",
+                "nl": "Breedbeeld",
+                "de": "Breitbild",
+                "fr": "Panoramique",
+                "it": "Panoramico",
+                "sv": "Bredbild",
+                "no": "Bredformat",
+                "es": "Panorámico",
+                "da": "Bredformat",
+                "pl": "Panoramiczny",
+                "ru": "Широкий",
+                "ar": "عريض",
+                "ko": "와이드"
+              }
+            }
+          ]
         }
       ],
       "devices": {
-        "type": "app",
+        "type": "global",
         "singular": false,
         "filter": {
-          "capabilities": "measure_watt_avg"
+          "capabilities": "measure_power|measure_watt_max.day"
         }
       },
       "api": {
@@ -34604,14 +34760,73 @@
         "ko": "에너지 계획"
       },
       "height": 330,
+      "settings": [
+        {
+          "id": "shape",
+          "type": "dropdown",
+          "title": {
+            "en": "Shape",
+            "nl": "Vorm",
+            "de": "Form",
+            "fr": "Format",
+            "it": "Formato",
+            "sv": "Format",
+            "no": "Format",
+            "es": "Formato",
+            "da": "Format",
+            "pl": "Format",
+            "ru": "Формат",
+            "ar": "الشكل",
+            "ko": "모양"
+          },
+          "value": "wide",
+          "values": [
+            {
+              "id": "normal",
+              "title": {
+                "en": "Normal",
+                "nl": "Normaal",
+                "de": "Normal",
+                "fr": "Normal",
+                "it": "Normale",
+                "sv": "Normal",
+                "no": "Normal",
+                "es": "Normal",
+                "da": "Normal",
+                "pl": "Normalny",
+                "ru": "Обычный",
+                "ar": "عادي",
+                "ko": "기본"
+              }
+            },
+            {
+              "id": "wide",
+              "title": {
+                "en": "Widescreen",
+                "nl": "Breedbeeld",
+                "de": "Breitbild",
+                "fr": "Panoramique",
+                "it": "Panoramico",
+                "sv": "Bredbild",
+                "no": "Bredformat",
+                "es": "Panorámico",
+                "da": "Bredformat",
+                "pl": "Panoramiczny",
+                "ru": "Широкий",
+                "ar": "عريض",
+                "ko": "와이드"
+              }
+            }
+          ]
+        }
+      ],
       "api": {
         "getPlan": {
           "method": "GET",
           "path": "/"
         }
       },
-      "id": "plan",
-      "settings": []
+      "id": "plan"
     }
   },
   "capabilities": {

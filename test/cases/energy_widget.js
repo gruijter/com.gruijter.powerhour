@@ -147,7 +147,7 @@ test('gas and water: the meter on the smart meter only, else all', () => {
   assert.strictEqual(WidgetData.getEnergy(homey, 'day').waterM3, 0.2); // none on p1: all
 });
 
-test('flows: climate summarizers apart, chosen users in the chosen order, none chosen: none', () => {
+test('flows: climate summarizers apart, chosen users in the chosen order, none chosen: all but Homey Energy fed', () => {
   const { grid, homey, drivers } = makeRig();
   grid.updateEnergyBaselines(none);
   const pump = capDevice({ meter_kwh_this_day: 4 });
@@ -155,9 +155,12 @@ test('flows: climate summarizers apart, chosen users in the chosen order, none c
   const tv = capDevice({ meter_kwh_this_day: 1 });
   const oven = capDevice({ meter_kwh_this_day: 2 });
   drivers.power = [pump, tv, oven];
+  const solarTotal = capDevice({ meter_kwh_this_day: 40 });
+  solarTotal.getSettings = () => ({ homey_energy: 'totalGenerated' });
+  drivers.power.push(solarTotal);
   const all = WidgetData.getFlows(homey, 'day', []);
   assert.deepStrictEqual(all.climate.map((c) => c.value), [4]);
-  assert.deepStrictEqual(all.users, []);
+  assert.deepStrictEqual(all.users.map((u) => u.name), [tv.id, oven.id]); // not the Homey Energy solar total
   const order = WidgetData.getFlows(homey, 'day', [oven.id, pump.id, tv.id]);
   assert.deepStrictEqual(order.users.map((u) => u.name), [oven.id, tv.id]); // the climate pump not as user
   assert.deepStrictEqual(order.sources.map((x) => x.key), ['grid', 'solar', 'battery']);

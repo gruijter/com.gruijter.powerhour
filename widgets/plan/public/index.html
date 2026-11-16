@@ -21,11 +21,11 @@
   <svg id="plan" viewBox="0 0 320 280"></svg>
   <div id="empty"></div>
   <script>
-    var W = 320;
+    var W = 320; // 480 for the widescreen shape (setting shape)
     var X0 = 78; // chart area; icon and values to its left
-    var X1 = 316;
+    var X1 = 316; // W - 4
     var TOP = 22; // selected time
-    var LANE = 40;
+    var LANE = 40; // 34 for widescreen
     var AXIS = 16;
     var PALE = 0.45; // discharging, export and expected prices
     var NS = 'http://www.w3.org/2000/svg';
@@ -242,12 +242,17 @@
         band(g, vals, function (x) { return x < 0; }, color, PALE, bottom - bandH, bandH, sw);
       }
 
+      var settings = (typeof Homey.getSettings === 'function' && Homey.getSettings()) || {};
+      if (typeof Homey.onSettings === 'function') Homey.onSettings(function (x) { settings = x || settings; draw(); });
       var timeFmt = null;
       var dayFmt = null;
       var chart = null; // the drawn chart: lanes, slot width, selection layer
 
       function draw() {
         var d = data;
+        W = settings.shape !== 'normal' ? 480 : 320;
+        X1 = W - 4;
+        LANE = settings.shape !== 'normal' ? 34 : 40;
         var noGrid = !d || !d.grid;
         svg.style.display = noGrid ? 'none' : '';
         empty.style.display = noGrid ? 'block' : 'none';
