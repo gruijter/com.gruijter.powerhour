@@ -43,7 +43,6 @@ const deviceSpecifics = {
     last_month: 'meter_kwh_last_month',
     this_year: 'meter_kwh_this_year',
     last_year: 'meter_kwh_last_year',
-    meter_source: 'meter_power',
     measure_source: 'measure_watt_avg',
     minMaxPrefix: 'measure_watt',
   },
@@ -65,7 +64,12 @@ const PLAN_LEAD_MS = 2 * 60 * 60 * 1000; // a run this long before a plan's wind
 class PowerDevice extends GenericDevice {
 
   async onInit() {
-    this.ds = deviceSpecifics;
+    const cmap = { ...deviceSpecifics.cmap };
+    Object.defineProperty(cmap, 'meter_source', {
+      enumerable: true,
+      get: () => (this.driver.constructor.keepsMeterPower(this.getSettings()) ? 'meter_power' : 'meter_power_hidden'),
+    });
+    this.ds = { ...deviceSpecifics, cmap };
     this.flows = new PowerFlows(this);
     // With forecast (setting appliance_mode): learned apart from the home load, with plan also
     // planned like an EV charge, see lib/strategies/ApplianceModel.js. Its charts are registered
@@ -155,7 +159,7 @@ class PowerDevice extends GenericDevice {
     }) || [];
     const model = ApplianceModel.learnHistory(ApplianceModel.initModel(), entries, {
       timezone: this.timeZone,
-      meterNowKwh: this.getCapabilityValue('meter_power') || 0,
+      meterNowKwh: this.getCapabilityValue(this.ds.cmap.meter_source) || 0,
       planned: ((this.applianceModel && this.applianceModel.runs) || []).filter((r) => r.deadline),
     });
     model.bootstrapped = ApplianceModel.BOOTSTRAP_VERSION;
@@ -206,7 +210,7 @@ class PowerDevice extends GenericDevice {
     if (!this.applianceModel || this.isDestroyed || !this.initReady) return;
     const t = Date.now();
     const powerW = this.getCapabilityValue('measure_watt_avg');
-    const meterKwh = this.getCapabilityValue('meter_power');
+    const meterKwh = this.getCapabilityValue(this.ds.cmap.meter_source);
     if (typeof powerW !== 'number' || typeof meterKwh !== 'number') return;
     this.recentMeter.push({ t, meter: meterKwh });
     while (this.recentMeter.length && this.recentMeter[0].t < t - RECENT_MS) this.recentMeter.shift();

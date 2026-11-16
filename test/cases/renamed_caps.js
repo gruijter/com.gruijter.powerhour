@@ -38,12 +38,13 @@ const makeDevice = (caps, store = {}) => {
   const device = Object.create(GenericSumDevice.prototype);
   const values = { ...caps };
   Object.assign(device, {
-    driver: { ds: { renamedCaps: RENAMED } },
+    driver: { renamedCapsFor: () => RENAMED },
     store: { ...store },
     values,
     log: () => {},
     error: () => {},
     getName: () => 'Solar',
+    getSettings: () => ({}),
     hasCapability: (cap) => cap in values,
     getCapabilityValue: (cap) => (cap in values ? values[cap] : null),
     setCapabilityValue: async (cap, value) => {
@@ -93,6 +94,20 @@ const migrateCaps = (device) => {
     const device = makeDevice({ meter_power_hidden: 5 }, { renamedValues: { meter_power_hidden: 3 } });
     await device.restoreRenamedValues();
     assert.strictEqual(device.values.meter_power_hidden, 5);
+  });
+
+  await test('power: virtual meters keep meter_power', async () => {
+    const PowerDriver = require('../../drivers/power/driver'); // eslint-disable-line global-require
+    const driver = Object.create(PowerDriver.prototype);
+    driver.ds = { deviceCapabilities: ['meter_tariff', 'meter_power', 'measure_watt_avg'] };
+    const real = { source_device_type: 'Homey device' };
+    const flow = { source_device_type: 'virtual via flow' };
+    const watt = { source_device_type: 'Homey device', use_measure_source: true };
+    assert.deepStrictEqual(driver.capabilitiesFor(real), ['meter_tariff', 'meter_power_hidden', 'measure_watt_avg']);
+    assert.deepStrictEqual(driver.capabilitiesFor(flow), driver.ds.deviceCapabilities);
+    assert.deepStrictEqual(driver.capabilitiesFor(watt), driver.ds.deviceCapabilities);
+    assert.deepStrictEqual(driver.renamedCapsFor(real), { meter_power: 'meter_power_hidden' });
+    assert.deepStrictEqual(driver.renamedCapsFor(flow), { meter_power_hidden: 'meter_power' });
   });
 
   await test('notice only for flows on the old capabilities', async () => {
