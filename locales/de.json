@@ -330,7 +330,6 @@
     "heating_gas_none": "Keine Gasheizung (Kochen, Warmwasser)",
     "cooling": "Klimaanlage",
     "off": "Kein Budget",
-    "start": "Vertrag",
     "months": "Januar,Februar,März,April,Mai,Juni,Juli,August,September,Oktober,November,Dezember",
     "target_info_solar": "Leer lassen, um es aus der Spitzenleistung und deinem Standort zu schätzen.",
     "custom_title": "Budget pro Monat",

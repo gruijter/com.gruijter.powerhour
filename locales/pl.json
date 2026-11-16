@@ -330,7 +330,6 @@
     "heating_gas_none": "Bez ogrzewania gazowego (gotowanie, ciepła woda)",
     "cooling": "Klimatyzacja",
     "off": "Brak budżetu",
-    "start": "umowa",
     "months": "styczeń,luty,marzec,kwiecień,maj,czerwiec,lipiec,sierpień,wrzesień,październik,listopad,grudzień",
     "target_info_solar": "Pozostaw puste, aby oszacować na podstawie mocy szczytowej i lokalizacji.",
     "custom_title": "Budżet na miesiąc",

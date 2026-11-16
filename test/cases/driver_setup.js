@@ -25,6 +25,7 @@ const BatteryDriver = require('../../drivers/battery/driver');
 const BatteryDevice = require('../../drivers/battery/device');
 const EvDriver = require('../../drivers/evCharger/driver');
 const SolarDriver = require('../../drivers/solar/driver');
+const GasDriver = require('../../drivers/gas/driver');
 const PriceDriver = require('../../drivers/price/driver');
 const PriceSetup = require('../../lib/helpers/PriceSetup');
 const manifest = require('../../app.json');
@@ -311,6 +312,19 @@ const manifestIds = (driverId) => {
     assert.deepStrictEqual(view.steps.find((s) => s.id === 'year').showIf, { id: 'show_year', value: true });
     const { device } = await handlers.setup_set(values(view, { show_year: false }));
     assert.strictEqual(device.settings.budget, '0');
+  });
+
+  await test('gas: contract start in the price step, 1 January by default, checked', async () => {
+    const { view, handlers } = await pairView(await fakeDriver(GasDriver), { source_device_type: 'Homey device' });
+    const start = byId(view, 'start_date');
+    assert.deepStrictEqual([start.step, start.type, start.value, Array.isArray(start.months)], ['price', 'daymonth', '0101', true]);
+    assert.ok(!view.settings.some((x) => x.step === 'year' && x.id === 'start_date'));
+    await assert.rejects(handlers.setup_set(values(view, { start_date: '3213' })), /error_start_date/);
+    const { device } = await handlers.setup_set(values(view, { start_date: '0107', show_year: false }));
+    assert.strictEqual(device.settings.start_date, '0107');
+    assert.ok(device.capabilities.includes('meter_m3_this_contract'));
+    const plain = await handlers.setup_set(values(view, { show_year: false }));
+    assert.ok(!plain.device.capabilities.some((cap) => cap.includes('_contract')));
   });
 
   await test('solar: location in the advanced step', async () => {

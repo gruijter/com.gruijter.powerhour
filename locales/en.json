@@ -330,7 +330,6 @@
     "heating_gas_none": "No gas heating (cooking, hot water)",
     "cooling": "Air conditioning",
     "off": "No budget",
-    "start": "contract",
     "months": "January,February,March,April,May,June,July,August,September,October,November,December",
     "target_info_solar": "Leave empty to estimate it from the peak power and your location.",
     "custom_title": "Budget per month",

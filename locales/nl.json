@@ -330,7 +330,6 @@
     "heating_gas_none": "Geen gasverwarming (koken, warm water)",
     "cooling": "Airconditioning",
     "off": "Geen budget",
-    "start": "contract",
     "months": "januari,februari,maart,april,mei,juni,juli,augustus,september,oktober,november,december",
     "target_info_solar": "Laat leeg om het te schatten uit het piekvermogen en je locatie.",
     "custom_title": "Budget per maand",

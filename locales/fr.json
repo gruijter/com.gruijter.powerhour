@@ -330,7 +330,6 @@
     "heating_gas_none": "Pas de chauffage gaz (cuisson, eau chaude)",
     "cooling": "Climatisation",
     "off": "Pas de budget",
-    "start": "contrat",
     "months": "janvier,février,mars,avril,mai,juin,juillet,août,septembre,octobre,novembre,décembre",
     "target_info_solar": "Laissez vide pour l'estimer à partir de la puissance crête et de votre emplacement.",
     "custom_title": "Budget par mois",

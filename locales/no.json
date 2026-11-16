@@ -330,7 +330,6 @@
     "heating_gas_none": "Ingen gassoppvarming (matlaging, varmtvann)",
     "cooling": "Klimaanlegg",
     "off": "Intet budsjett",
-    "start": "avtale",
     "months": "januar,februar,mars,april,mai,juni,juli,august,september,oktober,november,desember",
     "target_info_solar": "La stå tomt for å anslå det fra toppeffekten og plasseringen din.",
     "custom_title": "Budsjett per måned",

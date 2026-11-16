@@ -1561,6 +1561,41 @@
             "ko": "고정 시간별 비용"
           },
           "value": "-"
+        },
+        {
+          "id": "view_start_date",
+          "type": "label",
+          "label": {
+            "en": "Contract starts on",
+            "nl": "Contract begint op",
+            "de": "Vertrag beginnt am",
+            "fr": "Le contrat commence le",
+            "it": "Il contratto inizia il",
+            "sv": "Avtalet börjar den",
+            "no": "Avtalen starter",
+            "es": "El contrato empieza el",
+            "da": "Kontrakten starter den",
+            "pl": "Umowa zaczyna się",
+            "ru": "Договор начинается",
+            "ar": "يبدأ العقد في",
+            "ko": "계약 시작일"
+          },
+          "value": "-",
+          "hint": {
+            "en": "Extra totals per contract year from this date (not on 1 January).",
+            "nl": "Extra totalen per contractjaar vanaf deze datum (niet op 1 januari).",
+            "de": "Zusätzliche Summen je Vertragsjahr ab diesem Datum (nicht am 1. Januar).",
+            "fr": "Totaux supplémentaires par année de contrat à partir de cette date (pas le 1er janvier).",
+            "it": "Totali extra per anno contrattuale da questa data (non il 1° gennaio).",
+            "sv": "Extra summor per avtalsår från detta datum (inte 1 januari).",
+            "no": "Ekstra totaler per avtaleår fra denne datoen (ikke 1. januar).",
+            "es": "Totales extra por año de contrato desde esta fecha (no el 1 de enero).",
+            "da": "Ekstra totaler pr. kontraktår fra denne dato (ikke 1. januar).",
+            "pl": "Dodatkowe sumy za rok umowy od tej daty (nie 1 stycznia).",
+            "ru": "Доп. итоги за год договора с этой даты (не 1 января).",
+            "ar": "مجاميع إضافية لكل سنة عقد من هذا التاريخ (ليس في 1 يناير).",
+            "ko": "이 날짜부터 계약 연도별 추가 합계를 표시합니다(1월 1일 제외)."
+          }
         }
       ]
     },

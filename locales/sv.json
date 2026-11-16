@@ -330,7 +330,6 @@
     "heating_gas_none": "Ingen gasvärme (matlagning, varmvatten)",
     "cooling": "Luftkonditionering",
     "off": "Ingen budget",
-    "start": "avtal",
     "months": "januari,februari,mars,april,maj,juni,juli,augusti,september,oktober,november,december",
     "target_info_solar": "Lämna tomt för att uppskatta det från toppeffekten och din plats.",
     "custom_title": "Budget per månad",

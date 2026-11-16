@@ -473,6 +473,61 @@
     {
       "type": "group",
       "label": {
+        "en": "Home climate",
+        "nl": "Binnenklimaat",
+        "de": "Raumklima",
+        "fr": "Climat intérieur",
+        "it": "Clima interno",
+        "sv": "Inomhusklimat",
+        "no": "Inneklima",
+        "es": "Clima interior",
+        "da": "Indeklima",
+        "pl": "Klimat w domu",
+        "ru": "Климат в доме",
+        "ar": "مناخ المنزل",
+        "ko": "실내 냉난방"
+      },
+      "children": [
+        {
+          "id": "view_climate",
+          "type": "label",
+          "label": {
+            "en": "Heating or cooling",
+            "nl": "Verwarmen of koelen",
+            "de": "Heizen oder Kühlen",
+            "fr": "Chauffage ou climatisation",
+            "it": "Riscaldamento o raffrescamento",
+            "sv": "Värme eller kyla",
+            "no": "Oppvarming eller kjøling",
+            "es": "Calefacción o refrigeración",
+            "da": "Opvarmning eller køling",
+            "pl": "Ogrzewanie lub chłodzenie",
+            "ru": "Отопление или охлаждение",
+            "ar": "تدفئة أو تبريد",
+            "ko": "난방 또는 냉방"
+          },
+          "value": "-",
+          "hint": {
+            "en": "Shows this use as Climate in the widgets.",
+            "nl": "Toont dit verbruik als Klimaat in de widgets.",
+            "de": "Zeigt diesen Verbrauch als Klima in den Widgets.",
+            "fr": "Affiche cette consommation comme Climat dans les widgets.",
+            "it": "Mostra questo consumo come Clima nei widget.",
+            "sv": "Visar förbrukningen som Klimat i widgetarna.",
+            "no": "Viser forbruket som Klima i widgetene.",
+            "es": "Muestra este consumo como Clima en los widgets.",
+            "da": "Viser forbruget som Klima i widgets.",
+            "pl": "Pokazuje to zużycie jako Klimat w widżetach.",
+            "ru": "Показывает это потребление как «Климат» в виджетах.",
+            "ar": "يعرض هذا الاستهلاك كـ«المناخ» في الأدوات.",
+            "ko": "이 사용량을 위젯에서 냉난방으로 표시합니다."
+          }
+        }
+      ]
+    },
+    {
+      "type": "group",
+      "label": {
         "en": "Energy price",
         "nl": "Energieprijs",
         "de": "Energiepreis",

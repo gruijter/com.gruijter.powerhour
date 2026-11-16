@@ -330,7 +330,6 @@
     "heating_gas_none": "Sin calefacción de gas (cocina, agua caliente)",
     "cooling": "Aire acondicionado",
     "off": "Sin presupuesto",
-    "start": "contrato",
     "months": "enero,febrero,marzo,abril,mayo,junio,julio,agosto,septiembre,octubre,noviembre,diciembre",
     "target_info_solar": "Déjalo vacío para estimarlo a partir de la potencia pico y tu ubicación.",
     "custom_title": "Presupuesto por mes",

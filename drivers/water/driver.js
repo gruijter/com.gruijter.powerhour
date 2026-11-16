@@ -26,7 +26,7 @@ const MARKUP_IDS = ['markup_month', 'markup_day', 'markup_hour'];
 // The screens of the setup view, in order (lib/helpers/PairSetup.js).
 const STEPS = [
   { id: 'meter', ids: ['homey_device_daily_reset'], roles: true },
-  { id: 'price', ids: ['tariff_update_group', 'tariff', 'currency', ...MARKUP_IDS] },
+  { id: 'price', ids: ['tariff_update_group', 'tariff', 'currency', ...MARKUP_IDS, 'start_date'] },
   { id: 'year', ids: [], optional: 'pair' },
   { id: 'advanced', ids: ['decimals_meter'], repairOnly: true },
 ];

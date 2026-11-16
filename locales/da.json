@@ -330,7 +330,6 @@
     "heating_gas_none": "Ingen gasopvarmning (madlavning, varmt vand)",
     "cooling": "Aircondition",
     "off": "Intet budget",
-    "start": "kontrakt",
     "months": "januar,februar,marts,april,maj,juni,juli,august,september,oktober,november,december",
     "target_info_solar": "Lad stå tomt for at anslå det ud fra spidseffekten og din placering.",
     "custom_title": "Budget pr. måned",

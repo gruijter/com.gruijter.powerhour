@@ -330,7 +330,6 @@
     "heating_gas_none": "Nessun riscaldamento a gas (cottura, acqua calda)",
     "cooling": "Aria condizionata",
     "off": "Nessun budget",
-    "start": "contratto",
     "months": "gennaio,febbraio,marzo,aprile,maggio,giugno,luglio,agosto,settembre,ottobre,novembre,dicembre",
     "target_info_solar": "Lascia vuoto per stimarlo dalla potenza di picco e dalla tua posizione.",
     "custom_title": "Budget per mese",
