@@ -823,6 +823,38 @@ class GridDevice extends GenericDevice {
     }
   }
 
+  // Real p1/n1 registers: import and export of this and last day, month and year too.
+  async restoreHistoryExtra(api, starts, cache) {
+    const group = this.sourceCapGroup || {};
+    if (typeof this.directionalLastWatt === 'number' || !group.p1) return;
+    const sourceId = this.getSettings().homey_device_id;
+    const at = (cap, ms) => (cap ? ContractYear.meterAt(api, sourceId, [cap], ms, { cache }).catch(() => null) : null);
+    const round = (v) => Math.round(v * 10000) / 10000;
+    for (const period of ['day', 'month', 'year']) {
+      const [prevMs, startMs] = starts[period];
+      const imp = await at(group.p1, startMs);
+      if (typeof imp !== 'number') continue;
+      const exp = await at(group.n1, startMs);
+      const key = `lastDirectionalReading${period[0].toUpperCase()}${period.slice(1)}`;
+      const old = this[key] || {};
+      this[key] = { importValue: imp, exportValue: typeof exp === 'number' ? exp : old.exportValue };
+      this.markStoreDirty(key);
+      const impPrev = await at(group.p1, prevMs);
+      const expPrev = await at(group.n1, prevMs);
+      if (typeof impPrev === 'number' && this.hasCapability(`meter_kwh_last_${period}.imported`)) {
+        await this.setCapability(`meter_kwh_last_${period}.imported`, round(imp - impPrev)).catch(this.error);
+      }
+      if (typeof exp === 'number' && typeof expPrev === 'number' && this.hasCapability(`meter_kwh_last_${period}.exported`)) {
+        await this.setCapability(`meter_kwh_last_${period}.exported`, round(exp - expPrev)).catch(this.error);
+      }
+    }
+    // The widget baselines follow the restored readings.
+    Object.values(this.energyBaselines || {}).forEach((base) => {
+      base.seeded = null;
+    });
+    await this.seedEnergyBaselines();
+  }
+
   // A new key seeds again: a new contract start, or a new seeding version.
   energySeedKey() {
     const start = this.getStoreValue('contractStart');
