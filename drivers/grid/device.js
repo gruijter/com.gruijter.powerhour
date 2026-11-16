@@ -19,6 +19,7 @@ along with com.gruijter.powerhour.  If not, see <http://www.gnu.org/licenses/>.
 
 'use strict';
 
+const EnergyExclude = require('../../lib/helpers/EnergyExclude');
 const GenericDevice = require('../../lib/genericDeviceDrivers/generic_sum_device');
 const LoadForecastStrategy = require('../../lib/strategies/LoadForecastStrategy');
 const GridFlows = require('../../lib/flows/GridFlows');
@@ -234,6 +235,7 @@ class GridDevice extends GenericDevice {
   // A scheme switch resets the running this_* money buckets so two methods are not blended;
   // last_* and the raw register state are kept. super.onSettings() restarts the device.
   async onSettings({ newSettings, changedKeys }) {
+    if (EnergyExclude.onlyHomeyEnergy(changedKeys)) return undefined; // Homey's own Energy settings: nothing to do
     const peakReason = PeakTariff.invalidReason(newSettings);
     if (peakReason) throw Error(this.homey.__(peakReason));
     // Applied after the restart (applyPeakSettingsChange()): Homey refuses setSettings now.

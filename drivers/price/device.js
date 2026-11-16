@@ -19,6 +19,7 @@ along with com.gruijter.powerhour.  If not, see <http://www.gnu.org/licenses/>.
 
 'use strict';
 
+const EnergyExclude = require('../../lib/helpers/EnergyExclude');
 const GenericDevice = require('../../lib/genericDeviceDrivers/generic_price_device');
 const PriceFlows = require('../../lib/flows/PriceFlows');
 const PriceFormula = require('../../lib/PriceFormula');
@@ -184,6 +185,7 @@ class PriceDevice extends GenericDevice {
   }
 
   async onSettings({ oldSettings, newSettings, changedKeys }) {
+    if (EnergyExclude.onlyHomeyEnergy(changedKeys)) return undefined; // Homey's own Energy settings: nothing to do
     if (['commodity', 'tariffType', 'biddingZone'].some((id) => changedKeys.includes(id))) {
       throw Error(this.homey.__('price_setup.error_use_repair'));
     }

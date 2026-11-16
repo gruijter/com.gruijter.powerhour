@@ -19,6 +19,7 @@ along with com.gruijter.powerhour.  If not, see <http://www.gnu.org/licenses/>.
 
 'use strict';
 
+const EnergyExclude = require('../../lib/helpers/EnergyExclude');
 const GenericDevice = require('../../lib/genericDeviceDrivers/generic_bat_device');
 const ChargeDeviceHelpers = require('../../lib/helpers/ChargeDeviceHelpers');
 const ChartImages = require('../../lib/helpers/ChartImages');
@@ -549,6 +550,7 @@ class BatDevice extends GenericDevice {
 
   // xomTarget is the XOM target of all batteries, used every control tick: no restart for it.
   async onSettings({ oldSettings, newSettings, changedKeys }) {
+    if (EnergyExclude.onlyHomeyEnergy(changedKeys)) return undefined; // Homey's own Energy settings: nothing to do
     if (changedKeys.includes('xomTarget')) this.driver.setXomTargetFromSetting(newSettings.xomTarget, this);
     if (changedKeys.every((key) => key === 'xomTarget')) return true;
     // After the base: it can still reject the change.

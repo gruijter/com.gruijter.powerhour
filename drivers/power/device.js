@@ -19,6 +19,7 @@ along with com.gruijter.powerhour.  If not, see <http://www.gnu.org/licenses/>.
 
 'use strict';
 
+const EnergyExclude = require('../../lib/helpers/EnergyExclude');
 const GenericDevice = require('../../lib/genericDeviceDrivers/generic_sum_device');
 const PowerFlows = require('../../lib/flows/PowerFlows');
 const ApplianceModel = require('../../lib/strategies/ApplianceModel');
@@ -910,6 +911,7 @@ class PowerDevice extends GenericDevice {
   }
 
   async onSettings({ oldSettings, newSettings, changedKeys }) {
+    if (EnergyExclude.onlyHomeyEnergy(changedKeys)) return undefined; // Homey's own Energy settings: nothing to do
     if (changedKeys.includes('appliance_mode')) {
       this.driver.checkApplianceSource(newSettings);
       this.migrated = false; // adds or removes the appliance capabilities after the restart

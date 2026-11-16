@@ -5,6 +5,7 @@ Copyright 2019 - 2026, Robin de Gruijter (gruijter@hotmail.com)
 
 'use strict';
 
+const EnergyExclude = require('../../lib/helpers/EnergyExclude');
 const GenericDevice = require('../../lib/genericDeviceDrivers/generic_bat_device');
 const EvPlanner = require('../../lib/strategies/EvPlanner');
 const PriceProfile = require('../../lib/strategies/PriceProfile');
@@ -1505,6 +1506,7 @@ class CarChargeDevice extends GenericDevice {
   }
 
   async onSettings({ newSettings, changedKeys }) {
+    if (EnergyExclude.onlyHomeyEnergy(changedKeys)) return undefined; // Homey's own Energy settings: nothing to do
     await super.onSettings({ newSettings, changedKeys });
     const planKeys = [
       'chargePower', 'batCapacity', 'variableChargePower', 'maxPrice', 'minChargeMinutes',
