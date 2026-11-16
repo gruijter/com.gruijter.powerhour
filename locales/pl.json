@@ -61,6 +61,7 @@
   "migration_warning_taken": "Aktualizacja aplikacji! Przenieś swoje Flows na __new__, a potem usuń to urządzenie.",
   "migration_welcome": "Aktualizacja aplikacji! Wszystko działa dalej. Ustawienia zmieniasz teraz przez Napraw.",
   "migration_card_new": "Aktualizacja aplikacji! Wkrótce zastąp kartę '__card__' we Flow __flows__ przez '__new__'.",
+  "migration_renamed_caps": "Aktualizacja aplikacji! Flow __flows__ używa mocy lub energii z '__device__'. Zostały zmienione: sprawdź Flow.",
   "migration_card_price": "Aktualizacja aplikacji! Wkrótce zastąp Flow __flows__ nowym urządzeniem Cena energii.",
   "tariff_flow_warning": "Flow __flows__ też ustawia cenę. Wyłącz go.",
   "tariff_flow_warning_unknown": "Flow też ustawia cenę. Wyłącz go.",

@@ -17,9 +17,6 @@
   "class": "other",
   "capabilities": [],
   "capabilitiesOptions": {
-    "meter_power": {
-      "decimals": 4
-    },
     "measure_watt_max.day": {
       "title": {
         "en": "Maximum (day)",

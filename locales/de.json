@@ -61,6 +61,7 @@
   "migration_warning_taken": "App-Upgrade! Stelle deine Flows auf __new__ um und lösche dann dieses Gerät.",
   "migration_welcome": "App-Upgrade! Alles funktioniert weiter. Einstellungen änderst du ab jetzt über Reparieren.",
   "migration_card_new": "App-Upgrade! Ersetze bald Karte '__card__' in Flow __flows__ durch '__new__'.",
+  "migration_renamed_caps": "App-Upgrade! Flow __flows__ nutzt die Leistung oder Energie von '__device__'. Diese wurden geändert: Prüfe den Flow.",
   "migration_card_price": "App-Upgrade! Ersetze bald Flow __flows__ durch ein neues Energiepreis-Gerät.",
   "tariff_flow_warning": "Flow __flows__ setzt auch den Preis. Schalte ihn aus.",
   "tariff_flow_warning_unknown": "Ein Flow setzt auch den Preis. Schalte ihn aus.",

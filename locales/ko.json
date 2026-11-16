@@ -61,6 +61,7 @@
   "migration_warning_taken": "앱 업그레이드! Flow를 __new__로 옮긴 후 이 디바이스를 삭제하세요.",
   "migration_welcome": "앱 업그레이드! 모두 계속 작동합니다. 이제 설정은 수리에서 변경하세요.",
   "migration_card_new": "앱 업그레이드! 곧 Flow __flows__의 카드 '__card__'를 '__new__'(으)로 바꾸세요.",
+  "migration_renamed_caps": "앱 업그레이드! Flow __flows__에서 '__device__'의 전력 또는 에너지를 사용합니다. 변경되었으니 Flow를 확인하세요.",
   "migration_card_price": "앱 업그레이드! 곧 Flow __flows__를 새 에너지 가격 디바이스로 바꾸세요.",
   "tariff_flow_warning": "Flow __flows__도 가격을 설정합니다. 끄세요.",
   "tariff_flow_warning_unknown": "Flow도 가격을 설정합니다. 끄세요.",

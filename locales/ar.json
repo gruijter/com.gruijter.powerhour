@@ -61,6 +61,7 @@
   "migration_warning_taken": "تحديث التطبيق! انقل Flows إلى __new__ ثم احذف هذا الجهاز.",
   "migration_welcome": "تحديث التطبيق! كل شيء يستمر في العمل. غيّر الإعدادات من الآن عبر إصلاح.",
   "migration_card_new": "تحديث التطبيق! استبدل قريبًا البطاقة '__card__' في Flow __flows__ بـ '__new__'.",
+  "migration_renamed_caps": "تحديث التطبيق! يستخدم Flow __flows__ القدرة أو الطاقة من '__device__'. لقد تغيّرت: تحقّق من Flow.",
   "migration_card_price": "تحديث التطبيق! استبدل قريبًا Flow __flows__ بجهاز سعر الطاقة جديد.",
   "tariff_flow_warning": "يضبط Flow __flows__ السعر أيضًا. أوقفه.",
   "tariff_flow_warning_unknown": "يضبط Flow السعر أيضًا. أوقفه.",

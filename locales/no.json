@@ -61,6 +61,7 @@
   "migration_warning_taken": "Appoppgradering! Flytt Flows til __new__ og slett deretter denne enheten.",
   "migration_welcome": "Appoppgradering! Alt fortsetter å virke. Innstillinger endrer du nå via Reparer.",
   "migration_card_new": "Appoppgradering! Bytt snart ut kortet '__card__' i Flow __flows__ med '__new__'.",
+  "migration_renamed_caps": "Appoppgradering! Flow __flows__ bruker effekt eller energi fra '__device__'. De er endret: sjekk Flowen.",
   "migration_card_price": "Appoppgradering! Bytt snart ut Flow __flows__ med en ny Energipris-enhet.",
   "tariff_flow_warning": "Flow __flows__ setter også prisen. Slå den av.",
   "tariff_flow_warning_unknown": "En Flow setter også prisen. Slå den av.",
