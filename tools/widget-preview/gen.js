@@ -15,46 +15,41 @@ const THEMES = {
 
 const SOLAR = '#F2A900';
 const GREEN = '#34C759';
+const CHEAP = '#4C6EF5';
 
 const pill = (x, y, w, h, fill) => `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${h / 2}" fill="${fill}"/>`;
 
-// widgets/power_flow and widgets/energy: the widget's node layout (tools/widget-shared/flow.js) at
-// 3.2x, two flows lit (solar in, home out); energy adds the gas node and the period tabs.
-const flowPreview = (t, { gas = false, tabs = false } = {}) => {
-  const k = 3.2;
-  const dy = tabs ? 130 : 100;
-  const at = (x, y) => [x * k, y * k + dy];
-  const hub = at(160, 118);
-  const climate = at(200, 200);
-  // Gas: its own line straight to climate.
+// widgets/energy: the widget's node layout (tools/widget-shared/flow.js) at 2.8x with the tabs,
+// two flows lit (solar in, home out).
+const flowPreview = (t) => {
+  const k = 2.8;
+  const at = (x, y) => [64 + x * k, 120 + y * k];
+  const hub = at(160, 150);
+  const climate = at(280, 150);
+  // Top row: text above; gas: its own line straight to climate.
   const nodes = [
-    { p: at(160, 34), lit: SOLAR, text: 'side' },
-    { p: at(40, 118), text: 'above' },
-    { p: at(280, 118), lit: GREEN },
-    { p: at(40, 200) },
-    { p: at(120, 200) },
+    { p: at(40, 72), top: true },
+    { p: at(160, 72), lit: SOLAR, top: true },
+    { p: at(280, 72), top: true, to: climate },
+    { p: at(40, 150) },
     { p: climate },
-    gas && { p: at(280, 200), to: climate },
-  ].filter(Boolean);
-  const line = ({ p, lit, to = hub }) => `<path d="M${p[0]} ${p[1]}L${to[0]} ${to[1]}" stroke="${t.track}" stroke-width="10"/>${
-    lit ? `<path d="M${p[0]} ${p[1]}L${to[0]} ${to[1]}" stroke="${lit}" stroke-width="18" stroke-linecap="round" stroke-dasharray="0 44"/>` : ''}`;
-  const label = (p, text) => {
-    if (text === 'side') return pill(p[0] + 96, p[1] - 13, 120, 26, t.shape);
-    if (text === 'above') return pill(p[0] - 56, p[1] - 114, 112, 24, t.shape);
-    return pill(p[0] - 56, p[1] + 90, 112, 24, t.shape);
-  };
-  const node = ({ p, lit, text }) => `<circle cx="${p[0]}" cy="${p[1]}" r="66" fill="${t.card}" stroke="${lit || t.shape}" stroke-width="10" filter="url(#shadow)"/>`
-    + `<circle cx="${p[0]}" cy="${p[1]}" r="24" fill="${lit || t.shape}"/>${label(p, text)}`;
-  const tabRow = tabs ? `${pill(40, 40, 944, 64, t.track)}${pill(272, 46, 228, 52, t.card)}` : '';
+    { p: at(80, 250) },
+    { p: at(240, 250), lit: GREEN },
+  ];
+  const line = ({ p, lit, to = hub }) => `<path d="M${p[0]} ${p[1]}L${to[0]} ${to[1]}" stroke="${t.track}" stroke-width="9"/>${
+    lit ? `<path d="M${p[0]} ${p[1]}L${to[0]} ${to[1]}" stroke="${lit}" stroke-width="16" stroke-linecap="round" stroke-dasharray="0 40"/>` : ''}`;
+  const label = (p, top) => pill(p[0] - 50, top ? p[1] - 100 : p[1] + 78, 100, 22, t.shape);
+  const node = ({ p, lit, top }) => `<circle cx="${p[0]}" cy="${p[1]}" r="58" fill="${t.card}" stroke="${lit || t.shape}" stroke-width="9" filter="url(#shadow)"/>`
+    + `<circle cx="${p[0]}" cy="${p[1]}" r="21" fill="${lit || t.shape}"/>${label(p, top)}`;
   return `<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
   <defs>
     <filter id="shadow" x="-40%" y="-40%" width="180%" height="190%">
       <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="${t.shadow}"/>
     </filter>
   </defs>
-  ${tabRow}
+  ${pill(40, 40, 944, 60, t.track)}${pill(46, 46, 150, 48, t.card)}
   ${nodes.map(line).join('\n  ')}
-  <circle cx="${hub[0]}" cy="${hub[1]}" r="14" fill="${t.shape}"/>
+  <circle cx="${hub[0]}" cy="${hub[1]}" r="12" fill="${t.shape}"/>
   ${nodes.map(node).join('\n  ')}
 </svg>`;
 };
@@ -72,7 +67,7 @@ const plan = (t) => {
   const price = [70, 60, 45, 40, 50, 80, 110, 95, 75, 60, 55, 70, 120, 140, 115, 85];
   const priceFill = (i, v) => {
     if (v >= 110) return '#E5484D';
-    return v >= 70 ? t.shape : GREEN;
+    return v >= 70 ? t.shape : CHEAP;
   };
   const solar = [0, 0, 0, 0, 0, 30, 80, 120, 140, 120, 80, 30, 0, 0, 0, 0];
   // Battery: planned SoC line with the charging slots as a band below.
@@ -91,7 +86,7 @@ const plan = (t) => {
 </svg>`;
 };
 
-const WIDGETS = { power_flow: (t) => flowPreview(t), energy: (t) => flowPreview(t, { gas: true, tabs: true }), plan };
+const WIDGETS = { energy: flowPreview, plan };
 
 for (const [widget, render] of Object.entries(WIDGETS)) {
   for (const [mode, t] of Object.entries(THEMES)) {

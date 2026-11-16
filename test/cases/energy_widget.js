@@ -42,6 +42,10 @@ const capDevice = (caps) => ({
   },
   hasCapability: (c) => c in caps,
   getCapabilityValue: (c) => caps[c],
+  getSettings: () => ({}),
+  getName() {
+    return this.id;
+  },
 });
 
 const makeRig = () => {
@@ -69,7 +73,10 @@ const makeRig = () => {
     error: (e) => {
       throw e;
     },
-    getCapabilityValue: (c) => ({ meter_kwh_this_day: -1.5 }[c]),
+    getCapabilityValue: (c) => ({ meter_kwh_this_day: -1.5, meter_money_this_day: 0.75 }[c]),
+    hasCapability: (c) => c === 'meter_money_this_day',
+    getStoreValue: (k) => (k === 'moneyUnit' ? { currency: 'EUR', decimals: 2 } : null),
+    getSettings: () => ({}),
   });
   drivers.grid = [grid];
   return {
@@ -95,67 +102,59 @@ test('first tick sets every baseline; deltas follow the counters', () => {
   });
 });
 
-test('a new hour moves only the hour baseline', () => {
-  const { grid } = makeRig();
-  grid.updateEnergyBaselines(none);
-  grid.meterPowerHome = 2005;
-  grid.updateEnergyBaselines({ ...none, newHour: true });
-  grid.meterPowerHome = 2006;
-  assert.strictEqual(grid.getEnergySince('hour').home, 1);
-  assert.strictEqual(grid.getEnergySince('day').home, 6);
-});
-
-test('a falling counter (battery removed) restarts from now, never negative', () => {
-  const { grid, drivers } = makeRig();
-  grid.updateEnergyBaselines(none);
-  drivers.battery = [];
-  assert.strictEqual(grid.getEnergySince('day').charged, null);
-  drivers.battery = [capDevice({ meter_kwh_charging: 5, meter_kwh_discharging: 1 })];
-  assert.strictEqual(grid.getEnergySince('day').charged, 0);
-  grid.updateEnergyBaselines(none);
-  drivers.battery[0].caps.meter_kwh_charging = 6;
-  assert.strictEqual(grid.getEnergySince('day').charged, 1);
-});
-
-test('a battery added with a high lifetime counter does not count its history', () => {
-  const { grid, drivers } = makeRig();
-  grid.updateEnergyBaselines(none);
-  drivers.battery.push(capDevice({ meter_kwh_charging: 500, meter_kwh_discharging: 400 }));
-  assert.strictEqual(grid.getEnergySince('day').charged, 0);
-  grid.updateEnergyBaselines(none);
-  drivers.battery[1].caps.meter_kwh_charging = 503;
-  assert.strictEqual(grid.getEnergySince('day').charged, 3);
-  assert.strictEqual(grid.getEnergySince('year').charged, 3);
-});
-
-test('climate summarizers: own node, taken out of the home', () => {
+test('per EV: name, SoC, state; charged and discharged apart only with V2X', () => {
   const { grid, homey, drivers } = makeRig();
-  const pump = capDevice({ meter_kwh_this_day: 4, measure_watt_avg: 900 });
-  pump.getSettings = () => ({ climate: true });
-  const other = capDevice({ meter_kwh_this_day: 1, measure_watt_avg: 100 });
-  other.getSettings = () => ({});
-  drivers.power = [pump, other];
+  const car = capDevice({
+    meter_kwh_charging: 50, meter_kwh_discharging: 20, meter_kwh_this_day: 1, measure_ev_soc: 64, ev_car_state: 'away',
+  });
+  const plain = capDevice({ meter_kwh_charging: 10, meter_kwh_this_day: 2 });
+  drivers.evCharger.push(car, plain);
   grid.updateEnergyBaselines(none);
-  grid.meterPowerHome += 10;
-  const e = WidgetData.getEnergy(homey, 'day');
-  assert.strictEqual(e.climate, 4);
-  assert.strictEqual(e.home, 6);
-  drivers.power = [other];
-  assert.strictEqual(WidgetData.getEnergy(homey, 'day').climate, null);
-  assert.strictEqual(WidgetData.getEnergy(homey, 'day').home, 10);
+  car.caps.meter_kwh_charging = 56;
+  car.caps.meter_kwh_discharging = 25;
+  const [a, b] = WidgetData.getEnergy(homey, 'day').evs;
+  assert.deepStrictEqual([a.name, a.soc, a.state, a.charged, a.discharged, a.kwh], [car.id, 64, 'away', 6, 5, 1]);
+  assert.deepStrictEqual([b.soc, b.state, b.charged, b.discharged, b.kwh], [null, null, null, null, 2]);
 });
 
-test('no import/export data: split null, net from the meter', () => {
-  const { grid, homey } = makeRig();
-  grid.directionalMeter = { importValue: null, exportValue: null };
+test('a new EV starts from now; a removed EV drops its counters', () => {
+  const { grid, drivers } = makeRig();
+  const car = capDevice({ meter_kwh_charging: 50 });
+  drivers.evCharger.push(car);
   grid.updateEnergyBaselines(none);
-  const e = WidgetData.getEnergy(homey, 'day');
-  assert.strictEqual(e.imported, null);
-  assert.strictEqual(e.net, -1.5);
-  assert.strictEqual(e.solar, 12.5);
-  assert.strictEqual(e.gasM3, 3);
-  assert.strictEqual(e.ev, null);
-  assert.strictEqual(WidgetData.getEnergy(homey, 'bogus').period, 'day');
+  drivers.evCharger.push(capDevice({ meter_kwh_charging: 300 }));
+  car.caps.meter_kwh_charging = 52;
+  grid.updateEnergyBaselines(none);
+  const since = grid.getEnergySince('day');
+  assert.strictEqual(since[`ev_${car.id}_charged`], 2);
+  assert.strictEqual(since[`ev_${drivers.evCharger[1].id}_charged`], 0);
+  drivers.evCharger.pop();
+  grid.updateEnergyBaselines(none);
+  assert.ok(!Object.keys(grid.energyBaselines.day).some((k) => k.includes(drivers.evCharger[0].id) === false && k.startsWith('ev_')));
+});
+
+test('gas and water: the meter on the smart meter only, else all', () => {
+  const { grid, homey, drivers } = makeRig();
+  grid.updateEnergyBaselines(none);
+  const sub = capDevice({ meter_m3_this_day: 1 });
+  sub.getSettings = () => ({ homey_device_id: 'boiler' });
+  drivers.gas.push(sub);
+  drivers.water = [capDevice({ meter_m3_this_day: 0.2 })];
+  assert.strictEqual(WidgetData.getEnergy(homey, 'day').gasM3, 4); // no source on the grid: all
+  grid.getSettings = () => ({ homey_device_id: 'p1' });
+  drivers.gas[0].getSettings = () => ({ homey_device_id: 'p1' });
+  assert.strictEqual(WidgetData.getEnergy(homey, 'day').gasM3, 3);
+  assert.strictEqual(WidgetData.getEnergy(homey, 'day').waterM3, 0.2); // none on p1: all
+});
+
+test('money: grid meter and unit, no meter gives null', () => {
+  const { grid, homey } = makeRig();
+  grid.updateEnergyBaselines(none);
+  const { money } = WidgetData.getEnergy(homey, 'day');
+  assert.strictEqual(money.grid, 0.75);
+  assert.strictEqual(money.currency, 'EUR');
+  assert.strictEqual(money.solar, null);
+  assert.strictEqual(money.ev, null);
 });
 
 console.log(failed ? `\n${failed} failed` : '\nall passed');

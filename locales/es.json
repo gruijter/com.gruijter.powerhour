@@ -179,7 +179,7 @@
     "setup_show_year": "Establecer un presupuesto anual",
     "setup_use_watt_info": "Calcula la energía a partir de la potencia (W), no del contador.",
     "setup_daily_reset_info": "El contador empieza en 0 cada día.",
-    "step_climate": "Clima"
+    "step_climate": "Clima interior"
   },
   "load_forecast_accuracy": "Error medio __mae__ W (__pct__%), sesgo __bias__ W, __days__ días",
   "load_forecast_accuracy_collecting": "Recopilando datos",
@@ -362,7 +362,13 @@
     "day": "Día",
     "month": "Mes",
     "year": "Año",
-    "climate": "Clima",
-    "home_other": "Casa otros"
+    "climate": "Clima interior",
+    "home_other": "Casa otros",
+    "now": "Ahora",
+    "total": "Total",
+    "water": "Agua",
+    "import": "importación",
+    "export": "exportación",
+    "plan_hint": "Toca o arrastra"
   }
 }

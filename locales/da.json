@@ -179,7 +179,7 @@
     "setup_show_year": "Angiv et årsbudget",
     "setup_use_watt_info": "Beregner energien ud fra effekten (W), ikke fra måleren.",
     "setup_daily_reset_info": "Måleren starter på 0 hver dag.",
-    "step_climate": "Klima"
+    "step_climate": "Indeklima"
   },
   "load_forecast_accuracy": "Gns. afvigelse __mae__ W (__pct__%), bias __bias__ W, __days__ dage",
   "load_forecast_accuracy_collecting": "Indsamler data",
@@ -362,7 +362,13 @@
     "day": "Dag",
     "month": "Måned",
     "year": "År",
-    "climate": "Klima",
-    "home_other": "Hus øvrigt"
+    "climate": "Indeklima",
+    "home_other": "Hus øvrigt",
+    "now": "Nu",
+    "total": "I alt",
+    "water": "Vand",
+    "import": "import",
+    "export": "eksport",
+    "plan_hint": "Tryk eller træk"
   }
 }

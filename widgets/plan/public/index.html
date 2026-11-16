@@ -3,41 +3,22 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="colors.css">
   <style>
-    :root {
-      --text: var(--homey-text-color, #1c1c1e);
-      --muted: var(--homey-text-color-light, #8e8e93);
-      --line: var(--homey-line-color, rgba(128, 128, 128, 0.25));
-      --c-price: #8e8e93;
-      --c-cheap: #2eb872;
-      --c-normal: rgba(142, 142, 147, 0.45);
-      --c-dear: #e5484d;
-      --c-grid: #7a86a0;
-      --c-export: #2eb872;
-      --c-solar: #f2a900;
-      --c-battery: #2eb872;
-      --c-discharge: #f08c00;
-      --c-ev: #8e6cef;
-      --c-appliance: #14b8a6;
-    }
-    @media (prefers-color-scheme: dark) {
-      :root { --text: var(--homey-text-color, #f2f2f7); }
-    }
-    html, body { margin: 0; padding: 0; }
-    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
     svg { display: block; width: 100%; height: auto; touch-action: pan-y; }
+    .time { fill: var(--text); font-size: 12px; font-weight: 600; }
+    .hint { fill: var(--muted); font-size: 11px; }
     .value { fill: var(--text); font-size: 12px; font-weight: 600; }
     .sub { fill: var(--muted); font-size: 10px; }
-    .time { fill: var(--text); font-size: 12px; font-weight: 600; }
     .tick { fill: var(--muted); font-size: 9px; }
+    .tick.day { fill: var(--text); font-weight: 600; }
     .base { stroke: var(--line); stroke-width: 1; }
     .cursor { stroke: var(--text); stroke-width: 1; opacity: 0.5; }
-    #empty { display: none; padding: 24px 16px; text-align: center; color: var(--muted); font-size: 14px; }
   </style>
   <script src="icons.js"></script>
 </head>
 <body>
-  <svg id="plan" viewBox="0 0 320 300"></svg>
+  <svg id="plan" viewBox="0 0 320 280"></svg>
   <div id="empty"></div>
   <script>
     var W = 320;
@@ -46,6 +27,7 @@
     var TOP = 22; // selected time
     var LANE = 40;
     var AXIS = 16;
+    var PALE = 0.45; // discharging, export and expected prices
     var NS = 'http://www.w3.org/2000/svg';
     var started = false;
 
@@ -64,7 +46,7 @@
       if (lang === 'ar') document.documentElement.dir = 'rtl';
       var kw = new Intl.NumberFormat(lang, { minimumFractionDigits: 1, maximumFractionDigits: 1 });
       var money = new Intl.NumberFormat(lang, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-      var t = function (k) { return Homey.__(k); };
+      var t = function (k) { return Homey.__('widget.' + k); };
       var svg = document.getElementById('plan');
       var empty = document.getElementById('empty');
       var data = null;
@@ -80,19 +62,25 @@
       }
       function pct(v) { return typeof v === 'number' ? v + '%' : '-'; }
 
-      // Price levels by thirds of the range: cheap / normal / dear.
-      function priceLevel(v, min, max) {
-        if (max - min < 1e-6) return '--c-normal';
-        var f = (v - min) / (max - min);
-        if (f < 1 / 3) return '--c-cheap';
-        return f > 2 / 3 ? '--c-dear' : '--c-normal';
+      // Price levels around the mean: cheap / normal / dear. The band is at least 10% of the mean, so a
+      // flat day stays normal (a share, not a money amount: any currency).
+      function priceLevels(prices) {
+        var ps = prices.filter(function (v) { return typeof v === 'number'; });
+        var min = Math.min.apply(null, ps);
+        var max = Math.max.apply(null, ps);
+        var mean = ps.reduce(function (a, b) { return a + b; }, 0) / (ps.length || 1);
+        var band = Math.max((max - min) / 6, 0.1 * Math.abs(mean));
+        return function (v) {
+          if (v < mean - band) return '--c-cheap';
+          return v > mean + band ? '--c-dear' : '--c-normal';
+        };
       }
 
       function lanes(d) {
         var list = [];
         if (d.price) {
           list.push({
-            icon: 'price', color: '--c-price', kind: 'price', values: d.price,
+            icon: 'price', color: '--c-price', kind: 'price', values: d.price, forecast: d.priceForecast || [],
             value: function (i) { return typeof d.price[i] === 'number' ? money.format(d.price[i]) : '-'; },
             sub: function () { return d.currency || ''; },
           });
@@ -100,7 +88,7 @@
         if (d.solar) list.push({ icon: 'solar', color: '--c-solar', kind: 'area', values: d.solar, value: function (i) { return power(d.solar[i]); } });
         if (d.battery) {
           list.push({
-            icon: 'battery', color: '--c-battery', down: '--c-discharge', kind: 'soc', values: d.battery, soc: d.soc,
+            icon: 'battery', color: '--c-battery', kind: 'soc', values: d.battery, soc: d.soc,
             value: function (i) { return d.soc ? pct(d.soc[i]) : power(d.battery[i], true); },
             sub: function (i) { return d.soc ? power(d.battery[i], true) : ''; },
           });
@@ -112,16 +100,37 @@
             sub: function (i) { return d.evSoc ? power(d.ev[i]) : ''; },
           });
         }
-        (d.appliances || []).forEach(function (a) {
+        var apps = d.appliances || [];
+        if (apps.length) {
           list.push({
-            icon: 'appliance', color: '--c-appliance', kind: 'blocks', values: a.w,
-            value: function (i) { return power(a.w[i]); },
-            sub: function () { return a.name.length > 9 ? a.name.slice(0, 8) + '…' : a.name; },
+            icon: 'appliance', color: '--c-appliance', kind: 'apps', apps: apps,
+            value: function (i) {
+              return power(apps.reduce(function (sum, a) { return sum + (a.w[i] || 0); }, 0));
+            },
+            // Running now: its name (+ the number of others); else the next start.
+            sub: function (i) {
+              var on = apps.filter(function (a) { return a.w[i] > 0; });
+              if (on.length) return on[0].name + (on.length > 1 ? ' +' + (on.length - 1) : '');
+              var next = null;
+              apps.forEach(function (a) {
+                for (var k = i + 1; k < a.w.length; k += 1) {
+                  if (a.w[k] > 0) {
+                    if (!next || k < next.k) next = { k: k, name: a.name };
+                    return;
+                  }
+                }
+              });
+              return next ? timeFmt.format(d.startMs + next.k * d.slotMs) + ' ' + next.name : '';
+            },
           });
-        });
+        }
         list.push({
-          icon: 'grid', color: '--c-grid', down: '--c-export', kind: 'signed', values: d.net,
-          value: function (i) { return power(d.net[i], true); },
+          icon: 'grid', color: '--c-grid', kind: 'signed', values: d.net,
+          value: function (i) { return power(d.net[i]); },
+          sub: function (i) {
+            if (typeof d.net[i] !== 'number' || Math.abs(d.net[i]) < 1) return '';
+            return t(d.net[i] > 0 ? 'import' : 'export');
+          },
         });
         return list;
       }
@@ -148,27 +157,49 @@
         return out;
       }
 
-      function band(g, vals, test, color, y, h, sw) {
+      function band(g, vals, test, color, opacity, y, h, sw) {
         runs(vals, test).forEach(function (r) {
-          el('rect', { x: X0 + r[0] * sw, y: y, width: (r[1] - r[0]) * sw, height: h, rx: Math.min(2, h / 2), fill: color }, g);
+          el('rect', {
+            x: X0 + r[0] * sw, y: y, width: (r[1] - r[0]) * sw, height: h, rx: Math.min(2, h / 2), fill: color, opacity: opacity,
+          }, g);
         });
       }
 
       function drawLane(g, lane, top, bottom, sw) {
-        var vals = lane.values.map(function (v) { return typeof v === 'number' ? v : 0; });
         var color = 'var(' + lane.color + ')';
-        if (lane.kind === 'price') {
-          // One step area per price level: no seams between slots.
-          var ps = lane.values.filter(function (v) { return typeof v === 'number'; });
-          var min = Math.min.apply(null, ps);
-          var max = Math.max.apply(null, ps);
-          var base = Math.min(0, min);
-          var range = max - base || 1;
-          ['--c-cheap', '--c-normal', '--c-dear'].forEach(function (level) {
-            var part = lane.values.map(function (v) {
-              return typeof v === 'number' && priceLevel(v, min, max) === level ? v - base : 0;
+        if (lane.kind === 'apps') {
+          // One thin row per appliance; darker at more power.
+          var rowH = (bottom - top - 4) / lane.apps.length;
+          lane.apps.forEach(function (a, ai) {
+            var peak = Math.max.apply(null, a.w) || 1;
+            runs(a.w, function (x) { return x > 0; }).forEach(function (r) {
+              var avg = a.w.slice(r[0], r[1]).reduce(function (x, y) { return x + y; }, 0) / (r[1] - r[0]);
+              el('rect', {
+                x: X0 + r[0] * sw, y: top + 2 + ai * rowH + 1, width: (r[1] - r[0]) * sw, height: Math.max(2, rowH - 2), rx: Math.min(4, rowH / 2),
+                fill: color, opacity: 0.35 + 0.65 * (avg / peak),
+              }, g);
             });
-            if (part.some(function (v) { return v > 0; })) el('path', { d: stepPath(part, sw, bottom, bottom - top, range), fill: 'var(' + level + ')' }, g);
+          });
+          return;
+        }
+        var vals = lane.values.map(function (v) { return typeof v === 'number' ? v : 0; });
+        if (lane.kind === 'price') {
+          // One step area per price level and known/expected: no seams between slots.
+          var level = priceLevels(lane.values);
+          var ps = lane.values.filter(function (v) { return typeof v === 'number'; });
+          var base = Math.min(0, Math.min.apply(null, ps));
+          var range = Math.max.apply(null, ps) - base || 1;
+          ['--c-cheap', '--c-normal', '--c-dear'].forEach(function (lv) {
+            [false, true].forEach(function (expected) {
+              var part = lane.values.map(function (v, i) {
+                return typeof v === 'number' && level(v) === lv && !!lane.forecast[i] === expected ? v - base : 0;
+              });
+              if (part.some(function (v) { return v > 0; })) {
+                el('path', {
+                  d: stepPath(part, sw, bottom, bottom - top, range), fill: 'var(' + lv + ')', opacity: expected ? PALE : 1,
+                }, g);
+              }
+            });
           });
           return;
         }
@@ -176,29 +207,19 @@
           el('path', { d: stepPath(vals, sw, bottom, bottom - top, Math.max.apply(null, vals) || 1), fill: color, opacity: 0.85 }, g);
           return;
         }
-        if (lane.kind === 'blocks') {
-          var peak = Math.max.apply(null, vals) || 1;
-          runs(vals, function (x) { return x > 0; }).forEach(function (r) {
-            var avg = vals.slice(r[0], r[1]).reduce(function (a, b) { return a + b; }, 0) / (r[1] - r[0]);
-            el('rect', {
-              x: X0 + r[0] * sw, y: top + 6, width: (r[1] - r[0]) * sw, height: bottom - top - 12, rx: 4,
-              fill: color, opacity: 0.35 + 0.65 * (avg / peak),
-            }, g);
-          });
-          return;
-        }
         if (lane.kind === 'signed') {
+          // Import up, export down (pale).
           var mid = (top + bottom) / 2;
           var pk = Math.max.apply(null, vals.map(Math.abs)) || 1;
           el('line', { x1: X0, x2: X1, y1: mid, y2: mid, class: 'base' }, g);
           el('path', { d: stepPath(vals, sw, mid, mid - top, pk), fill: color }, g);
           el('path', {
             d: stepPath(vals.map(function (x) { return -x; }), sw, mid, mid - top, pk),
-            fill: 'var(' + lane.down + ')', transform: 'translate(0 ' + (2 * mid) + ') scale(1 -1)',
+            fill: color, opacity: PALE, transform: 'translate(0 ' + (2 * mid) + ') scale(1 -1)',
           }, g);
           return;
         }
-        // soc: the planned SoC as a line over a light area; charging (discharging) as a band below.
+        // soc: the planned SoC as a line over a light area; charging as a band below, discharging pale.
         var bandH = 5;
         var socBottom = bottom - bandH - 2;
         if (lane.soc) {
@@ -217,9 +238,13 @@
         } else {
           el('path', { d: stepPath(vals, sw, socBottom, socBottom - top, Math.max.apply(null, vals) || 1), fill: color, opacity: 0.85 }, g);
         }
-        band(g, vals, function (x) { return x > 0; }, color, bottom - bandH, bandH, sw);
-        if (lane.down) band(g, vals, function (x) { return x < 0; }, 'var(' + lane.down + ')', bottom - bandH, bandH, sw);
+        band(g, vals, function (x) { return x > 0; }, color, 1, bottom - bandH, bandH, sw);
+        band(g, vals, function (x) { return x < 0; }, color, PALE, bottom - bandH, bandH, sw);
       }
+
+      var timeFmt = null;
+      var dayFmt = null;
+      var chart = null; // the drawn chart: lanes, slot width, selection layer
 
       function draw() {
         var d = data;
@@ -227,28 +252,23 @@
         svg.style.display = noGrid ? 'none' : '';
         empty.style.display = noGrid ? 'block' : 'none';
         if (noGrid) {
-          empty.textContent = t('widget.no_grid');
+          chart = null;
+          empty.textContent = t('no_grid');
           fit();
           return;
         }
         var n = d.net.length;
+        timeFmt = new Intl.DateTimeFormat(lang, { hour: '2-digit', minute: '2-digit', timeZone: d.timeZone });
+        var hourFmt = new Intl.DateTimeFormat('en-GB', { hour: '2-digit', minute: '2-digit', hourCycle: 'h23', timeZone: d.timeZone });
+        dayFmt = new Intl.DateTimeFormat(lang, { weekday: 'short', timeZone: d.timeZone });
         var list = lanes(d);
         var H = TOP + list.length * LANE + AXIS;
         var sw = (X1 - X0) / n;
-        var idx = selectedMs === null ? 0 : Math.round((selectedMs - d.startMs) / d.slotMs);
-        if (idx < 0 || idx >= n) { idx = 0; selectedMs = null; }
-        var timeFmt = new Intl.DateTimeFormat(lang, { hour: '2-digit', minute: '2-digit', timeZone: d.timeZone });
-        var dayFmt = new Intl.DateTimeFormat(lang, { weekday: 'short', timeZone: d.timeZone });
-        var hourFmt = new Intl.DateTimeFormat('en-GB', { hour: '2-digit', minute: '2-digit', hourCycle: 'h23', timeZone: d.timeZone });
 
         svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
         while (svg.firstChild) svg.removeChild(svg.firstChild);
 
-        var selTm = d.startMs + idx * d.slotMs;
-        el('text', { x: 4, y: 15, class: 'time' }, svg,
-          (idx === 0 ? t('ev_now') + ' · ' : dayFmt.format(selTm) + ' ') + timeFmt.format(selTm));
-
-        // Hour labels every 3 or 6 hours; a line only at midnight.
+        // Hour labels every 3 or 6 hours; the day name at midnight (no line: a line reads as 'now').
         var every = n <= 112 ? 3 : 6;
         var axisY = TOP + list.length * LANE;
         for (var i = 0; i < n; i += 1) {
@@ -256,23 +276,42 @@
           var h = Number(hm[0]);
           if (hm[1] !== '00' || h % every !== 0) continue;
           var x = X0 + i * sw;
-          if (h === 0) el('line', { x1: x, x2: x, y1: TOP, y2: axisY, class: 'base' }, svg);
-          el('text', { x: x, y: axisY + 11, 'text-anchor': 'middle', class: 'tick' }, svg,
+          el('text', { x: x, y: axisY + 11, 'text-anchor': 'middle', class: h === 0 ? 'tick day' : 'tick' }, svg,
             h === 0 ? dayFmt.format(d.startMs + i * d.slotMs) : String(h).padStart(2, '0'));
         }
 
         list.forEach(function (lane, li) {
           var y0 = TOP + li * LANE;
           window.PBTH_PLACE_ICON(svg, lane.icon, 13, y0 + 20, 18, 'var(' + lane.color + ')');
-          var sub = lane.sub ? lane.sub(idx) : '';
-          el('text', { x: 28, y: y0 + (sub ? 19 : 24), class: 'value' }, svg, lane.value(idx));
-          if (sub) el('text', { x: 28, y: y0 + 31, class: 'sub' }, svg, sub);
           drawLane(el('g', {}, svg), lane, y0 + 5, y0 + LANE - 5, sw);
         });
-
-        var cx = X0 + (idx + 0.5) * sw;
-        el('line', { x1: cx, x2: cx, y1: TOP - 2, y2: axisY, class: 'cursor' }, svg);
+        chart = {
+          list: list, n: n, sw: sw, axisY: axisY, sel: el('g', {}, svg),
+        };
+        drawSelection();
         fit();
+      }
+
+      // The values and the cursor of the selected slot; the chart itself stays (fast while dragging).
+      function drawSelection() {
+        var d = data;
+        if (!chart || !d || !d.grid) return;
+        var idx = selectedMs === null ? 0 : Math.round((selectedMs - d.startMs) / d.slotMs);
+        if (idx < 0 || idx >= chart.n) { idx = 0; selectedMs = null; }
+        var selTm = d.startMs + idx * d.slotMs;
+        var g = chart.sel;
+        while (g.firstChild) g.removeChild(g.firstChild);
+        // The selected time; at now a hint that the chart can be tapped or dragged.
+        el('text', { x: 4, y: 15, class: 'time' }, g, (idx === 0 ? t('now') + ' · ' : dayFmt.format(selTm) + ' ') + timeFmt.format(selTm));
+        if (idx === 0) el('text', { x: W - 4, y: 15, 'text-anchor': 'end', class: 'hint' }, g, t('plan_hint'));
+        chart.list.forEach(function (lane, li) {
+          var y0 = TOP + li * LANE;
+          var sub = lane.sub ? lane.sub(idx) : '';
+          el('text', { x: 28, y: y0 + (sub ? 19 : 24), class: 'value' }, g, lane.value(idx));
+          if (sub) el('text', { x: 28, y: y0 + 31, class: 'sub' }, g, sub.length > 10 ? sub.slice(0, 9) + '…' : sub);
+        });
+        var cx = X0 + (idx + 0.5) * chart.sw;
+        el('line', { x1: cx, x2: cx, y1: TOP - 2, y2: chart.axisY, class: 'cursor' }, g);
       }
 
       // Height (px) down to the lowest visible element: the body itself can be the frame's height.
@@ -295,21 +334,52 @@
         Homey.setHeight(hgt).catch(function () {});
       }
 
+      function setIdx(i) {
+        var n = data.net.length;
+        var k = Math.max(0, Math.min(n - 1, i));
+        selectedMs = k === 0 ? null : data.startMs + k * data.slotMs;
+        // Right away: requestAnimationFrame lags in the app's widget view.
+        drawSelection();
+      }
+
+      function chartX(clientX) {
+        var r = svg.getBoundingClientRect();
+        return ((clientX - r.left) / r.width) * W;
+      }
+
       function select(clientX) {
         if (!data || !data.grid) return;
-        var r = svg.getBoundingClientRect();
-        var x = ((clientX - r.left) / r.width) * W;
-        var n = data.net.length;
-        var i = Math.max(0, Math.min(n - 1, Math.floor(((x - X0) / (X1 - X0)) * n)));
-        selectedMs = i === 0 ? null : data.startMs + i * data.slotMs;
-        draw();
+        setIdx(Math.floor(((chartX(clientX) - X0) / (X1 - X0)) * data.net.length));
       }
-      // Touch first (the app's web view), mouse/pen as fallback; a tap or a drag along the chart.
-      var touchTm = 0;
-      svg.addEventListener('touchstart', function (evt) { touchTm = Date.now(); select(evt.touches[0].clientX); }, { passive: true });
-      svg.addEventListener('touchmove', function (evt) { select(evt.touches[0].clientX); }, { passive: true });
-      svg.addEventListener('mousedown', function (evt) { if (Date.now() - touchTm > 800) select(evt.clientX); });
-      svg.addEventListener('mousemove', function (evt) { if (evt.buttons && Date.now() - touchTm > 800) select(evt.clientX); });
+
+      // A tap close beside the cursor steps one slot (15 minutes) that way; further away it jumps there.
+      var NEAR = 16; // chart units either side of the cursor
+      function tap(clientX) {
+        if (!data || !data.grid) return;
+        var n = data.net.length;
+        var idx = selectedMs === null ? 0 : Math.round((selectedMs - data.startMs) / data.slotMs);
+        var dx = chartX(clientX) - (X0 + (idx + 0.5) * ((X1 - X0) / n));
+        if (Math.abs(dx) > NEAR) {
+          select(clientX);
+          return;
+        }
+        if (Math.abs(dx) < 1) return;
+        setIdx(idx + (dx > 0 ? 1 : -1));
+        if (typeof Homey.hapticFeedback === 'function') Homey.hapticFeedback();
+      }
+      // A tap, or a drag along the chart (mouse, pen; in the Homey phone app the app itself takes a
+      // drag after a few pixels: pointercancel, seen 16 Nov on Android, also alone on a dashboard and
+      // with preventDefault / touch-action none; the widget API has no way to claim it).
+      var dragging = false;
+      svg.addEventListener('pointerdown', function (evt) {
+        dragging = true;
+        try { svg.setPointerCapture(evt.pointerId); } catch (e) { /* no capture: still works inside */ }
+        tap(evt.clientX);
+      });
+      svg.addEventListener('pointermove', function (evt) { if (dragging) select(evt.clientX); });
+      ['pointerup', 'pointercancel'].forEach(function (type) {
+        svg.addEventListener(type, function () { dragging = false; });
+      });
 
       function refresh() {
         if (document.hidden && ready) return;

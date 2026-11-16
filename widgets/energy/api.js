@@ -19,10 +19,12 @@ along with com.gruijter.powerhour.  If not, see <http://www.gnu.org/licenses/>.
 
 'use strict';
 
-const { getEnergy } = require('../../lib/helpers/WidgetData');
+const { getEnergy, getFlow } = require('../../lib/helpers/WidgetData');
 
 module.exports = {
+  // period now: the live power; else kWh and money of that period.
   async getEnergy({ homey, query }) {
-    return getEnergy(homey, query && query.period);
+    const period = query && query.period;
+    return period === 'now' ? getFlow(homey) : getEnergy(homey, period);
   },
 };

@@ -34,7 +34,7 @@
         "ar": "إظهار الغاز",
         "ko": "가스 표시"
       },
-      "value": false
+      "value": true
     },
     {
       "id": "gas_kwh",
@@ -57,6 +57,26 @@
       "value": 9.77,
       "min": 5,
       "max": 15
+    },
+    {
+      "id": "water",
+      "type": "checkbox",
+      "title": {
+        "en": "Show water",
+        "nl": "Water tonen",
+        "de": "Wasser anzeigen",
+        "fr": "Afficher l'eau",
+        "it": "Mostra acqua",
+        "sv": "Visa vatten",
+        "no": "Vis vann",
+        "es": "Mostrar agua",
+        "da": "Vis vand",
+        "pl": "Pokaż wodę",
+        "ru": "Показать воду",
+        "ar": "إظهار الماء",
+        "ko": "수도 표시"
+      },
+      "value": true
     }
   ],
   "api": {

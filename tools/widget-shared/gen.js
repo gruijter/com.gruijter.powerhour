@@ -3,8 +3,8 @@
 const fs = require('fs');
 const path = require('path');
 
-// Shared files of the widgets, copied into widgets/<id>/public/: flow.js and flow.css (the node
-// diagram, one source here), and icons.js: the driver icons without the app badge, so both look the
+// Shared files of the widgets, copied into widgets/<id>/public/: colors.css (all widgets), flow.js
+// and flow.css (the node diagram, one source here), and icons.js: the driver icons without the app badge, so both look the
 // same; black becomes currentColor, so a node colours its icon.
 const ROOT = path.join(__dirname, '../..');
 const SOURCES = {
@@ -13,13 +13,14 @@ const SOURCES = {
   battery: 'drivers/battery/assets/icon.svg',
   ev: 'drivers/evCharger/assets/icon.svg',
   gas: 'drivers/gas/assets/icon.svg',
+  water: 'drivers/water/assets/icon.svg',
   home: 'assets/measure_watt_home.svg', // no home driver: the Grid Monitor's home power icon
   price: 'drivers/price/assets/icon.svg',
   appliance: 'drivers/power/assets/icon.svg',
   climate: 'tools/widget-shared/climate.svg', // no climate driver: drawn for the widgets
 };
-const WIDGETS = ['power_flow', 'energy', 'plan'];
-const DIAGRAM = ['power_flow', 'energy']; // also get flow.js and flow.css
+const WIDGETS = ['energy', 'plan'];
+const DIAGRAM = ['energy']; // also gets flow.js and flow.css
 
 // Inner markup of one icon in a 100 x 100 box.
 const glyph = (file) => {
@@ -76,11 +77,11 @@ WIDGETS.forEach((w) => {
   const dir = path.join(ROOT, 'widgets', w, 'public');
   if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
   fs.writeFileSync(path.join(dir, 'icons.js'), js);
-  (DIAGRAM.includes(w) ? ['flow.js', 'flow.css'] : []).forEach((f) => {
+  ['colors.css', ...(DIAGRAM.includes(w) ? ['flow.js', 'flow.css'] : [])].forEach((f) => {
     const note = f.endsWith('.css') ? '/* Copy of tools/widget-shared/' : '// Copy of tools/widget-shared/';
     const end = f.endsWith('.css') ? ' - edit there, run gen.js. */' : ' - edit there, run gen.js.';
     fs.writeFileSync(path.join(dir, f), `${note}${f}${end}\n${fs.readFileSync(path.join(__dirname, f), 'utf8')}`);
   });
 });
 // eslint-disable-next-line no-console
-console.log('icons.js, flow.js, flow.css written for', WIDGETS.join(', '));
+console.log('icons.js, colors.css, flow.js, flow.css written for', WIDGETS.join(', '));

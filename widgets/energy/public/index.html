@@ -3,25 +3,31 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="colors.css">
   <link rel="stylesheet" href="flow.css">
   <style>
-    .tabs { display: flex; gap: 2px; margin: 0 8px 4px; padding: 2px; border-radius: 9px; background: var(--line); }
+    .bar { display: flex; gap: 6px; margin: 0 8px 4px; }
+    .tabs { display: flex; flex: 1; gap: 2px; padding: 2px; border-radius: 9px; background: var(--line); }
+    .tabs.unit { flex: none; }
     .tabs button {
       flex: 1; border: 0; border-radius: 7px; padding: 5px 0; background: transparent;
       color: var(--muted); font: inherit; font-size: 12px; cursor: pointer;
     }
+    .tabs.unit button { padding: 5px 8px; }
     .tabs button.on { background: var(--node-bg); color: var(--text); font-weight: 600; }
   </style>
   <script src="icons.js"></script>
   <script src="flow.js"></script>
 </head>
 <body>
-  <div class="tabs" id="tabs"></div>
-  <svg id="flow" viewBox="0 0 320 276" role="img"></svg>
+  <div class="bar"><div class="tabs" id="tabs"></div><div class="tabs unit" id="unit"></div></div>
+  <svg id="flow" viewBox="0 0 320 322" role="img"></svg>
   <div id="empty"></div>
   <script>
     var started = false;
-    var PERIODS = ['hour', 'day', 'month', 'year'];
+    // now: live power (W); the others: kWh or money since the start of that period.
+    var PERIODS = ['now', 'hour', 'day', 'month', 'year'];
+    var UNITS = ['kwh', 'money'];
 
     function onHomeyReady(Homey) {
       if (started) return;
@@ -32,13 +38,35 @@
       var svg = document.getElementById('flow');
       var empty = document.getElementById('empty');
       var tabs = document.getElementById('tabs');
-      var nodes = PbthFlow.build(svg);
+      var unitTabs = document.getElementById('unit');
       var settings = (typeof Homey.getSettings === 'function' && Homey.getSettings()) || {};
       var key = 'pbth-energy-' + (typeof Homey.getWidgetInstanceId === 'function' ? Homey.getWidgetInstanceId() : '');
-      var period = 'day';
-      try { period = localStorage.getItem(key) || 'day'; } catch (e) { /* no storage: default */ }
-      if (PERIODS.indexOf(period) < 0) period = 'day';
+      var period = 'now';
+      var unit = 'kwh';
+      try {
+        period = localStorage.getItem(key) || 'now';
+        unit = localStorage.getItem(key + '-unit') || 'kwh';
+      } catch (e) { /* no storage: defaults */ }
+      if (PERIODS.indexOf(period) < 0) period = 'now';
+      if (UNITS.indexOf(unit) < 0) unit = 'kwh';
+      var currency = '€';
       var ready = false;
+      var lastFetch = 0;
+
+      function label(id) { return Homey.__('widget.' + id); }
+
+      // Gas and water: on by default, shown when such a meter exists.
+      function shown(id) { return settings[id] !== false; }
+
+      function m3(v) { return fmt[v < 10 ? 2 : v < 1000 ? 1 : 0].format(v) + ' m³'; }
+
+      // Water has no line: no electricity, no flow through the hub.
+      function waterNode(values) { return { values: values, label: label('water'), line: false, flow: null }; }
+
+      function power(w) {
+        var a = Math.abs(w);
+        return a < 1000 ? Math.round(a) + ' W' : fmt[1].format(a / 1000) + ' kW';
+      }
 
       function kwh(v) {
         var a = Math.abs(v || 0);
@@ -46,78 +74,203 @@
         return fmt[a < 10 ? 2 : a < 1000 ? 1 : 0].format(a) + ' kWh';
       }
 
+      function moneyFormat(m) {
+        var decimals = typeof m.decimals === 'number' ? m.decimals : 2;
+        var f = new Intl.NumberFormat(lang, { minimumFractionDigits: decimals, maximumFractionDigits: decimals });
+        return function (v) { return (v < 0 ? '−' : '') + (m.currency || '') + ' ' + f.format(Math.abs(v)); };
+      }
+
       function flow(into, value) {
         return Math.abs(value) >= 0.005 ? { into: into, dur: 1.6 } : null;
       }
 
-      PERIODS.forEach(function (p) {
+      function button(parent, id, text, onClick) {
         var b = document.createElement('button');
-        b.textContent = Homey.__('widget.' + p);
-        b.dataset.period = p;
+        b.textContent = text;
+        b.dataset.id = id;
         b.addEventListener('click', function () {
           if (typeof Homey.hapticFeedback === 'function') Homey.hapticFeedback();
-          period = p;
-          try { localStorage.setItem(key, p); } catch (e) { /* not kept */ }
-          markTab();
+          onClick(id);
+          try {
+            localStorage.setItem(key, period);
+            localStorage.setItem(key + '-unit', unit);
+          } catch (e) { /* not kept */ }
+          markTabs();
           refresh(true);
         });
-        tabs.appendChild(b);
-      });
-
-      function markTab() {
-        Array.prototype.forEach.call(tabs.children, function (b) { b.classList.toggle('on', b.dataset.period === period); });
+        parent.appendChild(b);
       }
-      markTab();
 
-      // Two directions: [toward the hub, away from it] with the node's arrows.
-      function both(id, toHub, fromHub) {
-        var n = nodes[id];
-        return [n.into + ' ' + kwh(toHub), n.out + ' ' + kwh(fromHub)];
+      PERIODS.forEach(function (p) { button(tabs, p, label(p), function (id) { period = id; }); });
+      UNITS.forEach(function (u) { button(unitTabs, u, u === 'kwh' ? 'kWh' : currency, function (id) { unit = id; }); });
+
+      function markTabs() {
+        [[tabs, period], [unitTabs, unit]].forEach(function (t) {
+          Array.prototype.forEach.call(t[0].children, function (b) { b.classList.toggle('on', b.dataset.id === t[1]); });
+        });
+        unitTabs.style.display = period === 'now' ? 'none' : '';
+      }
+      markTabs();
+
+      // Live power. into: power flows from the node into the hub.
+      function powerNode(w, into, soc, labelId) {
+        if (typeof w !== 'number') return null;
+        return {
+          values: [power(w)],
+          label: label(labelId) + (typeof soc === 'number' ? ' ' + soc + '%' : ''),
+          // Faster dots at higher power: ~2.2 s at 100 W, ~0.5 s at 10 kW.
+          flow: Math.abs(w) >= 10 ? { into: into, dur: Math.max(0.5, Math.min(3.5, 4 - 0.9 * Math.log10(Math.abs(w)))) } : null,
+        };
+      }
+
+      // EVs: one or two nodes (two with their names), three or more as one node with the total.
+      // build(ev | null for the total, label) gives the node; the ring shows the car: solid when
+      // plugged in or charging, dashed when not, dashed and pale without a line when away.
+      function evStates(list, build) {
+        if (!list || !list.length) return {};
+        var deco = function (st, states) {
+          if (!st) return st;
+          var plugged = states.some(function (x) { return x === 'plugged_in' || x === 'charging'; });
+          var away = states.every(function (x) { return x === 'away'; });
+          st.dashed = !plugged && states.some(function (x) { return x === 'home' || x === 'away'; });
+          st.dim = away;
+          if (away) { st.line = false; st.flow = null; }
+          return st;
+        };
+        var states = list.map(function (e) { return e.state; });
+        if (list.length >= 3) return { ev: deco(build(null, label('ev') + ' (' + list.length + ')'), states) };
+        var out = {};
+        list.forEach(function (e, i) {
+          var name = list.length === 2 ? (e.name.length > 10 ? e.name.slice(0, 9) + '…' : e.name) : label('ev');
+          out[i ? 'ev2' : 'ev'] = deco(build(e, name), [e.state]);
+        });
+        return out;
+      }
+
+      function powerStates(d) {
+        // Gas: L/min × 60 / 1000 = m³/h, × kWh per m³ = kW. Climate shows electricity and gas apart.
+        var gasW = shown('gas') && typeof d.gasLpm === 'number' ? d.gasLpm * 60 * (Number(settings.gas_kwh) || 9.77) : null;
+        var climate = powerNode(d.climate, false, null, 'climate');
+        if (gasW !== null) {
+          var gasOnly = !climate;
+          climate = climate || { values: [], label: label('climate'), line: false, flow: null };
+          climate.values.push(power(gasW));
+          climate.colors = gasOnly ? ['var(--c-gas)'] : ['', 'var(--c-gas)'];
+        }
+        var states = {
+          solar: powerNode(d.solar, true, null, 'solar'),
+          grid: powerNode(d.grid, d.grid > 0, null, 'grid'),
+          gas: powerNode(gasW, true, null, 'gas'),
+          water: shown('water') && typeof d.waterLpm === 'number' ? waterNode([fmt[1].format(d.waterLpm) + ' L/min']) : null,
+          home: powerNode(d.home, false, null, climate ? 'home_other' : 'home'),
+          climate: climate,
+          battery: powerNode(d.battery, d.battery < 0, d.batterySoc, 'battery'),
+        };
+        var evs = evStates(d.evs, function (e, name) {
+          var w = e ? e.w : d.ev;
+          var st = powerNode(w, w < 0, null, 'ev'); // < 0: V2X discharging
+          if (st) st.label = name + (e && typeof e.soc === 'number' ? ' · ' + Math.round(e.soc) + '%' : '');
+          return st;
+        });
+        return Object.assign(states, { ev: evs.ev, ev2: evs.ev2 });
+      }
+
+      // kWh, or money with the flows of the kWh.
+      function energyStates(d) {
+        var s = {};
+        var gasKwh = shown('gas') && typeof d.gasM3 === 'number' ? d.gasM3 * (Number(settings.gas_kwh) || 9.77) : null;
+        // Gas (m³) has its own line to Climate. Climate shows electricity and gas apart, never summed
+        // (a heat pump makes several kWh of heat from one kWh of electricity).
+        s.gas = gasKwh === null ? null : {
+          values: [m3(d.gasM3)], label: label('gas'), flow: flow(true, gasKwh),
+        };
+        s.water = shown('water') && typeof d.waterM3 === 'number' ? waterNode([m3(d.waterM3)]) : null;
+        var hasClimate = typeof d.climate === 'number';
+        var climateValues = [];
+        var colors = [];
+        if (hasClimate) { climateValues.push(kwh(d.climate)); colors.push(''); }
+        if (gasKwh !== null) { climateValues.push(kwh(gasKwh)); colors.push('var(--c-gas)'); }
+        s.climate = !climateValues.length ? null : {
+          values: climateValues, colors: colors, label: label('climate'), line: hasClimate, flow: hasClimate ? flow(false, d.climate) : null,
+        };
+        s.solar = typeof d.solar !== 'number' ? null : { values: [kwh(d.solar)], label: label('solar'), flow: flow(true, d.solar) };
+        var split = typeof d.imported === 'number' && typeof d.exported === 'number';
+        var gridNet = split ? d.imported - d.exported : d.net;
+        s.grid = {
+          values: split ? [{ dir: 'into', text: kwh(d.imported) }, { dir: 'out', text: kwh(d.exported) }] : [kwh(d.net)],
+          label: label('grid'),
+          flow: flow(gridNet > 0, gridNet),
+        };
+        var bat = typeof d.charged === 'number' && typeof d.discharged === 'number';
+        s.battery = !bat ? null : {
+          values: [{ dir: 'into', text: kwh(d.discharged) }, { dir: 'out', text: kwh(d.charged) }],
+          label: label('battery'),
+          flow: flow(d.discharged > d.charged, d.discharged - d.charged),
+        };
+        s.home = { values: [kwh(d.home)], label: label(climateValues.length ? 'home_other' : 'home'), flow: flow(false, d.home || 0) };
+        var evs = evStates(d.evs, function (e, name) {
+          if (!e) return { values: [kwh(d.ev)], label: name, flow: flow(false, d.ev || 0) };
+          var v2x = typeof e.charged === 'number' && typeof e.discharged === 'number';
+          return {
+            values: v2x ? [{ dir: 'into', text: kwh(e.discharged) }, { dir: 'out', text: kwh(e.charged) }] : [kwh(e.kwh)],
+            label: name,
+            flow: v2x ? flow(e.discharged > e.charged, e.discharged - e.charged) : flow(false, e.kwh || 0),
+          };
+        });
+        s.ev = evs.ev;
+        s.ev2 = evs.ev2;
+        if (unit === 'money' && d.money) moneyValues(s, d.money, d);
+        return s;
+      }
+
+      // Each node its own money meter (no meter: no value); Home the total paid: grid, gas and water.
+      function moneyValues(s, m, d) {
+        var money = moneyFormat(m);
+        var one = function (v) { return typeof v === 'number' ? [money(v)] : []; };
+        var gas = s.gas && typeof m.gas === 'number' ? m.gas : null;
+        if (s.gas) s.gas.values = one(gas);
+        var water = s.water && typeof m.water === 'number' ? m.water : null;
+        if (s.water) s.water.values = one(water);
+        if (s.climate) {
+          s.climate.values = [];
+          s.climate.colors = [];
+          if (s.climate.line !== false && typeof m.climate === 'number') { s.climate.values.push(money(m.climate)); s.climate.colors.push(''); }
+          if (gas !== null) { s.climate.values.push(money(gas)); s.climate.colors.push('var(--c-gas)'); }
+        }
+        ['solar', 'battery', 'grid'].forEach(function (id) {
+          if (s[id]) s[id].values = one(m[id]);
+        });
+        // One or two EVs: each its own money; three or more: the total.
+        var evs = d.evs || [];
+        if (s.ev) s.ev.values = one(evs.length >= 3 ? m.ev : evs[0].money);
+        if (s.ev2) s.ev2.values = one(evs[1].money);
+        s.home.values = one(typeof m.grid === 'number' ? m.grid + (gas || 0) + (water || 0) : null);
+        s.home.label = label('total');
       }
 
       function render(d) {
-        var noGrid = !d || !d.grid;
+        var noGrid = !d || d.grid === null || d.grid === undefined;
         svg.style.display = noGrid ? 'none' : '';
         empty.style.display = noGrid ? 'block' : 'none';
         if (noGrid) {
-          empty.textContent = Homey.__('widget.no_grid');
+          empty.textContent = label('no_grid');
           return;
         }
-        var label = function (id) { return Homey.__('widget.' + id); };
-        var gasKwh = settings.gas && typeof d.gasM3 === 'number' ? d.gasM3 * (Number(settings.gas_kwh) || 9.77) : null;
-        // Gas (m³) has its own line to Climate. Climate shows electricity and gas kWh apart, never summed
-        // (a heat pump makes several kWh of heat from one kWh of electricity).
-        PbthFlow.set(nodes.gas, gasKwh === null ? null : {
-          values: [fmt[d.gasM3 < 10 ? 2 : d.gasM3 < 1000 ? 1 : 0].format(d.gasM3) + ' m\u00b3'], label: label('gas'), flow: flow(true, gasKwh),
-        });
-        var hasClimate = typeof d.climate === 'number';
-        var climateValues = [];
-        var climateColors = [];
-        if (hasClimate) { climateValues.push(kwh(d.climate)); climateColors.push(''); }
-        if (gasKwh !== null) { climateValues.push(kwh(gasKwh)); climateColors.push('var(--c-gas)'); }
-        PbthFlow.set(nodes.climate, !climateValues.length ? null : {
-          values: climateValues, colors: climateColors, label: label('climate'), line: hasClimate, flow: hasClimate ? flow(false, d.climate) : null,
-        });
-        PbthFlow.set(nodes.solar, typeof d.solar !== 'number' ? null : { values: [kwh(d.solar)], label: label('solar'), flow: flow(true, d.solar) });
-        var split = typeof d.imported === 'number' && typeof d.exported === 'number';
-        var gridNet = split ? d.imported - d.exported : d.net;
-        PbthFlow.set(nodes.grid, {
-          values: split ? both('grid', d.imported, d.exported) : [kwh(d.net)],
-          label: label('grid'),
-          flow: flow(gridNet > 0, gridNet),
-        });
-        var bat = typeof d.charged === 'number' && typeof d.discharged === 'number';
-        PbthFlow.set(nodes.battery, !bat ? null : {
-          values: both('battery', d.discharged, d.charged), label: label('battery'), flow: flow(d.discharged > d.charged, d.discharged - d.charged),
-        });
-        PbthFlow.set(nodes.home, { values: [kwh(d.home)], label: label(climateValues.length ? 'home_other' : 'home'), flow: flow(false, d.home || 0) });
-        PbthFlow.set(nodes.ev, typeof d.ev !== 'number' ? null : { values: [kwh(d.ev)], label: label('ev'), flow: flow(false, d.ev) });
+        var cur = d.currency || (d.money && d.money.currency);
+        if (cur && cur !== currency) {
+          currency = cur;
+          unitTabs.querySelector('[data-id="money"]').textContent = currency;
+        }
+        PbthFlow.draw(svg, period === 'now' ? powerStates(d) : energyStates(d));
       }
 
+      // Live power every 5 s, a period every 30 s.
       function refresh(force) {
-        if (document.hidden && ready && !force) return;
+        if (!force && ((document.hidden && ready) || (period !== 'now' && Date.now() - lastFetch < 29000))) return;
+        lastFetch = Date.now();
+        var asked = period + unit;
         Homey.api('GET', '/?period=' + period, {})
-          .then(render)
+          .then(function (d) { if (asked === period + unit) render(d); }) // not after a tab change
           .catch(function (err) { console.error(err); })
           .finally(function () {
             ready = true;
@@ -132,7 +285,7 @@
         });
       }
       refresh(true);
-      setInterval(refresh, 30000);
+      setInterval(refresh, 5000);
       document.addEventListener('visibilitychange', function () { if (!document.hidden) refresh(); });
     }
 

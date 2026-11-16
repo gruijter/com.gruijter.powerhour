@@ -732,27 +732,40 @@ class GridDevice extends GenericDevice {
   }
 
   // Cumulative kWh counters of the Energy widget: import/export (null without that data), home,
-  // and the batteries' charged/discharged (with the battery ids they sum).
+  // the batteries' charged/discharged (with the battery ids they sum), and per EV
+  // ev_<id>_charged/ev_<id>_discharged (discharging only with V2X).
   energyCounters() {
-    const batteries = this.homey.drivers.getDriver('battery').getDevices();
-    const sumCap = (cap) => {
-      const devs = batteries.filter((d) => d.hasCapability(cap));
-      return devs.length ? devs.reduce((sum, d) => sum + (d.getCapabilityValue(cap) || 0), 0) : null;
+    const devices = (driverId) => {
+      try {
+        return this.homey.drivers.getDriver(driverId).getDevices();
+      } catch {
+        return [];
+      }
+    };
+    const batteries = devices('battery');
+    const sumCap = (devs, cap) => {
+      const has = devs.filter((d) => d.hasCapability(cap));
+      return has.length ? has.reduce((sum, d) => sum + (d.getCapabilityValue(cap) || 0), 0) : null;
     };
     const dir = this.directionalMeter || {};
-    return {
+    const out = {
       imported: typeof dir.importValue === 'number' ? dir.importValue : null,
       exported: typeof dir.exportValue === 'number' ? dir.exportValue : null,
       home: this.meterPowerHome || 0,
-      charged: sumCap('meter_kwh_charging'),
-      discharged: sumCap('meter_kwh_discharging'),
+      charged: sumCap(batteries, 'meter_kwh_charging'),
+      discharged: sumCap(batteries, 'meter_kwh_discharging'),
       batteries: batteries.map((d) => d.getId()).sort().join(','),
     };
+    devices('evCharger').forEach((d) => {
+      out[`ev_${d.getId()}_charged`] = sumCap([d], 'meter_kwh_charging');
+      out[`ev_${d.getId()}_discharged`] = sumCap([d], 'meter_kwh_discharging');
+    });
+    return out;
   }
 
   // Counter values at the start of this hour/day/month/year, on the same period flags as the meters.
   // A counter that appears later or falls, and the battery counters when the batteries change, start
-  // again from now.
+  // again from now. The counters of a removed EV are dropped.
   updateEnergyBaselines(periods) {
     let now;
     try {
@@ -777,6 +790,10 @@ class GridDevice extends GenericDevice {
         Object.assign(base, { charged: now.charged, discharged: now.discharged, batteries: now.batteries });
         changed = true;
       }
+      Object.keys(base).filter((key) => key.startsWith('ev_') && !(key in now)).forEach((key) => {
+        delete base[key];
+        changed = true;
+      });
       Object.keys(now).forEach((key) => {
         if (typeof now[key] !== 'number') return;
         if (typeof base[key] !== 'number' || now[key] < base[key]) {
@@ -794,7 +811,7 @@ class GridDevice extends GenericDevice {
     const now = this.energyCounters();
     const sameBatteries = base && base.batteries === now.batteries;
     const out = {};
-    ['imported', 'exported', 'home', 'charged', 'discharged'].forEach((key) => {
+    Object.keys(now).filter((key) => key !== 'batteries').forEach((key) => {
       if (typeof now[key] !== 'number') out[key] = null;
       else if (!base || typeof base[key] !== 'number') out[key] = 0;
       else if (!sameBatteries && (key === 'charged' || key === 'discharged')) out[key] = 0;

@@ -179,7 +179,7 @@
     "setup_show_year": "تعيين ميزانية سنوية",
     "setup_use_watt_info": "يحسب الطاقة من القدرة (واط)، وليس من العداد.",
     "setup_daily_reset_info": "يبدأ العداد من 0 كل يوم.",
-    "step_climate": "المناخ"
+    "step_climate": "مناخ المنزل"
   },
   "load_forecast_accuracy": "متوسط الخطأ __mae__ واط (__pct__%)، الانحياز __bias__ واط، __days__ أيام",
   "load_forecast_accuracy_collecting": "جمع البيانات",
@@ -362,7 +362,13 @@
     "day": "يوم",
     "month": "شهر",
     "year": "سنة",
-    "climate": "المناخ",
-    "home_other": "باقي المنزل"
+    "climate": "مناخ المنزل",
+    "home_other": "باقي المنزل",
+    "now": "الآن",
+    "total": "المجموع",
+    "water": "الماء",
+    "import": "الاستيراد",
+    "export": "التصدير",
+    "plan_hint": "انقر أو اسحب"
   }
 }
