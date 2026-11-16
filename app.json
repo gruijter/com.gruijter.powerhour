@@ -34511,6 +34511,82 @@
       },
       "id": "energy"
     },
+    "flows": {
+      "name": {
+        "en": "Energy flows",
+        "nl": "Energiestromen",
+        "de": "Energieflüsse",
+        "fr": "Flux d'énergie",
+        "it": "Flussi di energia",
+        "sv": "Energiflöden",
+        "no": "Energiflyt",
+        "es": "Flujos de energía",
+        "da": "Energistrømme",
+        "pl": "Przepływy energii",
+        "ru": "Потоки энергии",
+        "ar": "تدفقات الطاقة",
+        "ko": "에너지 흐름"
+      },
+      "height": 420,
+      "settings": [
+        {
+          "id": "gas",
+          "type": "checkbox",
+          "title": {
+            "en": "Show gas",
+            "nl": "Gas tonen",
+            "de": "Gas anzeigen",
+            "fr": "Afficher le gaz",
+            "it": "Mostra gas",
+            "sv": "Visa gas",
+            "no": "Vis gass",
+            "es": "Mostrar gas",
+            "da": "Vis gas",
+            "pl": "Pokaż gaz",
+            "ru": "Показать газ",
+            "ar": "إظهار الغاز",
+            "ko": "가스 표시"
+          },
+          "value": true
+        },
+        {
+          "id": "gas_kwh",
+          "type": "number",
+          "title": {
+            "en": "Gas kWh per m³",
+            "nl": "Gas kWh per m³",
+            "de": "Gas kWh pro m³",
+            "fr": "Gaz kWh par m³",
+            "it": "Gas kWh per m³",
+            "sv": "Gas kWh per m³",
+            "no": "Gass kWh per m³",
+            "es": "Gas kWh por m³",
+            "da": "Gas kWh pr. m³",
+            "pl": "Gaz kWh na m³",
+            "ru": "Газ кВт·ч на м³",
+            "ar": "الغاز kWh لكل m³",
+            "ko": "가스 kWh/m³"
+          },
+          "value": 9.77,
+          "min": 5,
+          "max": 15
+        }
+      ],
+      "devices": {
+        "type": "app",
+        "singular": false,
+        "filter": {
+          "capabilities": "measure_watt_avg"
+        }
+      },
+      "api": {
+        "getFlows": {
+          "method": "GET",
+          "path": "/"
+        }
+      },
+      "id": "flows"
+    },
     "plan": {
       "name": {
         "en": "Energy plan",

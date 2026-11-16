@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="colors.css">
+  <style>
+    .tabs { display: flex; gap: 2px; margin: 0 8px 4px; padding: 2px; border-radius: 9px; background: var(--line); }
+    .tabs button {
+      flex: 1; border: 0; border-radius: 7px; padding: 5px 0; background: transparent;
+      color: var(--muted); font: inherit; font-size: 12px; cursor: pointer;
+    }
+    .tabs button.on { background: var(--node-bg); color: var(--text); font-weight: 600; }
+    svg { display: block; width: 100%; height: auto; }
+    .name { fill: var(--text); font-size: 12px; font-weight: 500; filter: drop-shadow(0 1px 1.5px rgba(0, 0, 0, 0.75)); }
+    .val { fill: var(--muted); font-weight: 400; }
+    .dots { fill: none; stroke: var(--text); stroke-width: 2.5; stroke-linecap: round; stroke-dasharray: 0 18; opacity: 0.45; animation: run linear infinite; }
+    @keyframes run { to { stroke-dashoffset: -36; } }
+  </style>
+</head>
+<body>
+  <div class="tabs" id="tabs"></div>
+  <svg id="flows" viewBox="0 0 320 250" role="img"></svg>
+  <div id="empty"></div>
+  <script>
+    var started = false;
+    var PERIODS = ['now', 'hour', 'day', 'month', 'year'];
+    var W = 320;
+    var H = 250;
+    var TOP = 6;
+    var BOTTOM = H - 6;
+    var XL = 4; // source bars
+    var XM = 150; // home column bars
+    var XR = W - 4 - 6; // user bars
+    var GAP_R = 3; // between users
+    var BAR = 6;
+    var GAP = 6;
+    var LABEL = 15; // minimum distance between label lines
+    var MAX_USERS = 8; // more go to More, like users under 1%
+    var MAX_LABEL = 134; // px, so the labels of both halves never meet
+    var NS = 'http://www.w3.org/2000/svg';
+    var COLORS = {
+      grid: '--c-grid', solar: '--c-solar', battery: '--c-battery', ev: '--c-ev', home: '--c-home', gas: '--c-gas',
+      power: '--c-appliance', climate: '--c-climate', other: '--muted', more: '--muted',
+    };
+
+    function el(tag, attrs, parent, text) {
+      var e = document.createElementNS(NS, tag);
+      Object.keys(attrs).forEach(function (k) { e.setAttribute(k, attrs[k]); });
+      if (text !== undefined) e.textContent = text;
+      if (parent) parent.appendChild(e);
+      return e;
+    }
+
+    // Label centres (top-down) at least LABEL apart within [lo, hi]: pushed down, then up from hi.
+    function spread(ys, lo, hi) {
+      var out = ys.slice();
+      var i;
+      for (i = 0; i < out.length; i += 1) out[i] = Math.max(out[i], i ? out[i - 1] + LABEL : lo);
+      for (i = out.length - 1; i >= 0; i -= 1) out[i] = Math.min(out[i], i < out.length - 1 ? out[i + 1] - LABEL : hi);
+      return out;
+    }
+
+    // A band from x0 (y0a..y0b) to x1 (y1a..y1b).
+    function band(x0, y0a, y0b, x1, y1a, y1b) {
+      var xm = (x0 + x1) / 2;
+      return 'M' + x0 + ' ' + y0a + 'C' + xm + ' ' + y0a + ' ' + xm + ' ' + y1a + ' ' + x1 + ' ' + y1a
+        + 'L' + x1 + ' ' + y1b + 'C' + xm + ' ' + y1b + ' ' + xm + ' ' + y0b + ' ' + x0 + ' ' + y0b + 'Z';
+    }
+    function mid(x0, y0, x1, y1) {
+      var xm = (x0 + x1) / 2;
+      return 'M' + x0 + ' ' + y0 + 'C' + xm + ' ' + y0 + ' ' + xm + ' ' + y1 + ' ' + x1 + ' ' + y1;
+    }
+
+    function onHomeyReady(Homey) {
+      if (started) return;
+      started = true;
+      var lang = (typeof Homey.getLanguage === 'function' && Homey.getLanguage()) || navigator.language || 'en';
+      if (lang === 'ar') document.documentElement.dir = 'rtl';
+      var fmt = [0, 1, 2].map(function (n) { return new Intl.NumberFormat(lang, { minimumFractionDigits: n, maximumFractionDigits: n }); });
+      var svg = document.getElementById('flows');
+      var empty = document.getElementById('empty');
+      var tabs = document.getElementById('tabs');
+      var key = 'pbth-flows-' + (typeof Homey.getWidgetInstanceId === 'function' ? Homey.getWidgetInstanceId() : '');
+      var period = 'now';
+      try { period = localStorage.getItem(key) || 'now'; } catch (e) { /* no storage: default */ }
+      if (PERIODS.indexOf(period) < 0) period = 'now';
+      var ready = false;
+      var lastFetch = 0;
+      var t = function (k) { return Homey.__('widget.' + k); };
+      var cap = function (s) { return s.charAt(0).toUpperCase() + s.slice(1); };
+
+      PERIODS.forEach(function (p) {
+        var b = document.createElement('button');
+        b.textContent = t(p);
+        b.dataset.id = p;
+        b.addEventListener('click', function () {
+          if (typeof Homey.hapticFeedback === 'function') Homey.hapticFeedback();
+          period = p;
+          try { localStorage.setItem(key, p); } catch (e) { /* not kept */ }
+          markTabs();
+          refresh(true);
+        });
+        tabs.appendChild(b);
+      });
+      function markTabs() {
+        Array.prototype.forEach.call(tabs.children, function (b) { b.classList.toggle('on', b.dataset.id === period); });
+      }
+      markTabs();
+
+      function value(v, live) {
+        var a = Math.abs(v || 0);
+        if (live) return a < 1000 ? Math.round(a) + ' W' : fmt[1].format(a / 1000) + ' kW';
+        return fmt[a < 10 ? 2 : a < 1000 ? 1 : 0].format(a) + ' kWh';
+      }
+      // PbtH device names end in _Σ<driver>: not shown.
+      function shortName(name) {
+        var n = String(name).replace(/_Σ\w*/, '').trim();
+        return n.length > 18 ? n.slice(0, 17) + '…' : n;
+      }
+
+      // Splits parent into children (each { name, kind, value }); none when it has fewer than two.
+      function kids(list) { return list.length >= 2 ? list : []; }
+
+      function draw(d) {
+        while (svg.firstChild) svg.removeChild(svg.firstChild);
+        var live = d.live;
+        var nm = function (n) { return { name: shortName(n.name), value: n.value }; };
+        var on = function (x) { return x.value > 0; };
+        // Gas: L/min × 60 / 1000 = m³/h, × kWh per m³ = kW; or m³ × kWh per m³.
+        var perM3 = Number(settings.gas_kwh) || 9.77;
+        var gas = settings.gas !== false && typeof d.gas === 'number' ? d.gas * (live ? 60 * perM3 : perM3) : 0;
+
+        var srcs = d.sources.filter(on).map(function (x) { return { name: t(x.key), kind: x.key, value: x.value }; });
+        if (gas > 0) srcs.push({ name: t('gas'), kind: 'gas', value: gas, gas: true });
+        // In the order the destinations are filled (export and battery charging from the sun first),
+        // so the bands do not cross.
+        var ORDER = ['solar', 'battery', 'ev', 'grid', 'gas'];
+        srcs.sort(function (a, b) { return ORDER.indexOf(a.kind) - ORDER.indexOf(b.kind); });
+
+        // Destinations as in the Energy widget; each with its single users when it has two or more.
+        var evs = d.evs.map(nm).filter(on);
+        var clim = d.climate.map(nm).filter(on);
+        var climEl = clim.reduce(function (a, x) { return a + x.value; }, 0);
+        // Users that do not fit within the home (a group, or a meter that is no user) are left out,
+        // largest first; the rest still splits the home.
+        var users = d.users.map(nm).filter(on);
+        var tol = live ? 20 : 0.05;
+        var sum = function (list) { return list.reduce(function (a, x) { return a + x.value; }, 0); };
+        while (users.length && sum(users) > d.home * 1.05 + tol) {
+          var worst = users.reduce(function (a, x) { return x.value > a.value ? x : a; });
+          users = users.filter(function (x) { return x !== worst; });
+        }
+        var measured = sum(users);
+        var homeKids = [];
+        if (users.length) {
+          var total0 = srcs.reduce(function (a, x) { return a + x.value; }, 0);
+          var big = users.filter(function (u) { return u.value >= total0 * 0.01; }).slice(0, MAX_USERS);
+          var rest = measured - big.reduce(function (a, x) { return a + x.value; }, 0);
+          homeKids = big.map(function (u) { return { name: u.name, kind: 'power', value: u.value }; });
+          if (rest > 0 && big.length) homeKids.push({ name: t('more'), kind: 'more', value: rest });
+          if (big.length && d.home - measured > 0) homeKids.push({ name: t('other'), kind: 'other', value: d.home - measured });
+        }
+        var middle = [
+          { name: cap(t('export')), kind: 'grid', value: d.exported, el: d.exported },
+          { name: t('battery_charge'), kind: 'battery', value: d.batteryCharge || 0, el: d.batteryCharge || 0 },
+          {
+            name: evs.length === 1 ? evs[0].name : t('ev'), kind: 'ev', value: evs.reduce(function (a, x) { return a + x.value; }, 0),
+            kids: kids(evs.map(function (x) { return { name: x.name, kind: 'ev', value: x.value }; })),
+          },
+          { name: t(clim.length || gas ? 'home_other' : 'home'), kind: 'home', value: d.home, kids: homeKids },
+          {
+            name: t('climate'), kind: 'climate', value: climEl + gas, gasIn: gas,
+            kids: kids(clim.map(function (x) { return { name: x.name, kind: 'climate', value: x.value }; })
+              .concat(gas > 0 ? [{ name: t('gas'), kind: 'gas', value: gas }] : [])),
+          },
+        ].filter(on);
+        middle.forEach(function (m) { if (m.el === undefined) m.el = m.value - (m.gasIn || 0); m.kids = m.kids || []; });
+
+        // Inflow per destination: electricity in proportion, gas to climate only; drawn heights follow
+        // the inflow, so the bands meet exactly (meters drift a little apart).
+        var elSrc = srcs.filter(function (x) { return !x.gas; }).reduce(function (a, x) { return a + x.value; }, 0);
+        var elDst = middle.reduce(function (a, m) { return a + m.el; }, 0);
+        middle.forEach(function (m) { m.flow = (elDst > 0 ? elSrc * m.el / elDst : 0) + (m.gasIn || 0); });
+        var right = [];
+        middle.forEach(function (m) {
+          var sum = m.kids.reduce(function (a, x) { return a + x.value; }, 0);
+          m.kids.forEach(function (c) { c.parent = m; c.flow = sum > 0 ? m.flow * c.value / sum : 0; right.push(c); });
+        });
+
+        // Without users the destinations stand at the right edge: two columns over the full width.
+        var xm = right.length ? XM : XR;
+        var span = BOTTOM - TOP;
+        var total = srcs.reduce(function (a, x) { return a + x.value; }, 0);
+        // Every node gets a slot of at least LABEL for its text, so small flows sit apart and a large
+        // one does not fill the whole height. k: the largest scale at which all columns fit.
+        var fitK = function (values, gap) {
+          var room = span - gap * Math.max(0, values.length - 1);
+          var kk = total > 0 ? room / total : 0;
+          for (var it = 0; it < 12 && kk > 0; it += 1) {
+            var fixed = 0;
+            var varSum = 0;
+            values.forEach(function (v) { if (v * kk < LABEL) fixed += LABEL; else varSum += v; });
+            kk = varSum > 0 ? Math.max(0, room - fixed) / varSum : kk;
+          }
+          return kk;
+        };
+        var vals = function (nodes, key) { return nodes.map(function (n) { return n[key]; }); };
+        var k = Math.min(fitK(vals(srcs, 'value'), GAP), fitK(vals(middle, 'flow'), GAP), fitK(vals(right, 'flow'), GAP_R));
+        var slot = function (n, key) { return Math.max(LABEL, n[key] * k); };
+        var column = function (nodes, gap, key) {
+          var size = nodes.reduce(function (a, n) { return a + slot(n, key); }, 0) + gap * Math.max(0, nodes.length - 1);
+          var y = TOP + Math.max(0, (span - size) / 2);
+          nodes.forEach(function (n) {
+            var sl = slot(n, key);
+            n.h = Math.max(2, n[key] * k);
+            n.y0 = y + (sl - n.h) / 2;
+            n.y1 = n.y0 + n.h;
+            y += sl + gap;
+          });
+        };
+        column(srcs, GAP, 'value');
+        column(middle, GAP, 'flow');
+        // Users next to their destination, each in its own slot, within the chart.
+        var prev = TOP - GAP_R;
+        middle.forEach(function (m) {
+          var y = m.y0;
+          m.kids.forEach(function (c) {
+            var sl = slot(c, 'flow');
+            c.h = Math.max(2, c.flow * k);
+            var top = Math.max(y - (sl - c.h) / 2, prev + GAP_R);
+            c.y0 = top + (sl - c.h) / 2;
+            c.y1 = c.y0 + c.h;
+            y += c.flow * k;
+            prev = top + sl;
+          });
+        });
+        var over = prev - BOTTOM;
+        if (over > 0) right.forEach(function (c) { c.y0 -= over; c.y1 -= over; });
+
+        var bands = el('g', {}, svg);
+        // Dots stop at the labels: a mask with a hole per label.
+        var mask = el('mask', { id: 'nolabels', maskUnits: 'userSpaceOnUse', x: 0, y: 0, width: W, height: H }, el('defs', {}, svg));
+        el('rect', { x: 0, y: 0, width: W, height: H, fill: 'white' }, mask);
+        var dots = el('g', { mask: 'url(#nolabels)' }, svg);
+        var bars = el('g', {}, svg);
+        var labels = el('g', {}, svg);
+        // Calm dots: a little faster at more power (3 s per step at 10 kW, 6 s at 10 W).
+        var dur = function (w) { return Math.max(3, Math.min(6, 7 - Math.log10(Math.max(1, w)))).toFixed(2) + 's'; };
+        // A link is at least a thin line, so a small flow stays visible next to a large one.
+        var link = function (x0, a, x1, b, w, color, v) {
+          var dw = Math.max(1, w);
+          el('path', { d: band(x0, a, a + dw, x1, b, b + dw), fill: color, opacity: w < 1.5 ? 0.6 : 0.22 }, bands);
+          if (live && w > 4) el('path', { d: mid(x0, a + w / 2, x1, b + w / 2), class: 'dots', style: 'animation-duration:' + dur(v) }, dots);
+        };
+        var col = function (n) { return 'var(' + COLORS[n.kind] + ')'; };
+
+        // Sources to destinations.
+        // Filled in order: each source fills the destinations top-down where the previous one stopped
+        // (no crossings); gas to climate only, below its electricity.
+        var inAt = middle.map(function (m) { return m.y0; });
+        var need = middle.map(function (m) { return m.flow - (m.gasIn || 0); });
+        var mi = 0;
+        srcs.forEach(function (x) {
+          var out = x.y0;
+          if (x.gas) {
+            middle.forEach(function (m, j) {
+              if (!m.gasIn) return;
+              link(XL + BAR, out, xm, inAt[j], m.gasIn * k, col(x), m.gasIn);
+              out += m.gasIn * k;
+              inAt[j] += m.gasIn * k;
+            });
+            return;
+          }
+          var left = x.value;
+          while (left > 1e-9 && mi < middle.length) {
+            var v = Math.min(left, need[mi]);
+            if (v > 0) {
+              link(XL + BAR, out, xm, inAt[mi], v * k, col(x), v);
+              out += v * k;
+              inAt[mi] += v * k;
+              need[mi] -= v;
+              left -= v;
+            }
+            if (need[mi] <= 1e-9) mi += 1;
+          }
+        });
+        // Destinations to their users.
+        middle.forEach(function (m) {
+          var from = m.y0;
+          m.kids.forEach(function (c) {
+            var w = c.flow * k;
+            link(xm + BAR, from, XR, c.y0, w, col(c), c.flow);
+            from += w;
+          });
+        });
+
+        [[srcs, XL], [middle, xm], [right, XR]].forEach(function (c) {
+          c[0].forEach(function (n) { el('rect', { x: c[1], y: n.y0, width: BAR, height: n.h, rx: 2, fill: col(n) }, bars); });
+        });
+
+        // Labels at least LABEL apart, per half. Left: sources right of their bar, destinations with
+        // users left of theirs. Right: users left of their bar, destinations without users right of theirs.
+        // A name that does not fit its half is shortened; the value always stays.
+        var label = function (l, y) {
+          var text = el('text', { x: l.x, y: y + 4, 'text-anchor': l.anchor, class: 'name' }, labels);
+          var name = l.n.name;
+          var nameEl = document.createTextNode(name + ' ');
+          text.appendChild(nameEl);
+          el('tspan', { class: 'val' }, text, value(l.n.value, live));
+          while (name.length > 3 && text.getComputedTextLength() > MAX_LABEL) {
+            name = name.slice(0, -1);
+            nameEl.nodeValue = name.trim() + '… ';
+          }
+        };
+        var half = function (list) {
+          list.forEach(function (l) { l.y = (l.n.y0 + l.n.y1) / 2; });
+          list.sort(function (a, b) { return a.y - b.y; });
+          spread(list.map(function (l) { return l.y; }), TOP + 5, BOTTOM - 5).forEach(function (y, i) { label(list[i], y); });
+        };
+        var holes = function () {
+          Array.prototype.forEach.call(labels.childNodes, function (text) {
+            var b = text.getBBox();
+            el('rect', { x: b.x - 3, y: b.y - 1, width: b.width + 6, height: b.height + 2, rx: 3, fill: 'black' }, mask);
+          });
+        };
+        half(srcs.map(function (n) { return { n: n, x: XL + BAR + 4, anchor: 'start' }; })
+          .concat(middle.filter(function (m) { return m.kids.length; }).map(function (n) { return { n: n, x: xm - 4, anchor: 'end' }; })));
+        half(right.map(function (n) { return { n: n, x: XR - 4, anchor: 'end' }; })
+          .concat(middle.filter(function (m) { return !m.kids.length; }).map(function (n) {
+            return right.length ? { n: n, x: xm + BAR + 4, anchor: 'start' } : { n: n, x: xm - 4, anchor: 'end' };
+          })));
+        holes();
+      }
+
+      // Height (px) down to the lowest visible element; the first call ends the loading state.
+      var lastHeight = 0;
+      function fit() {
+        var bottom = 0;
+        Array.prototype.forEach.call(document.body.children, function (e) {
+          var r = e.getBoundingClientRect();
+          if (r.height) bottom = Math.max(bottom, r.bottom + window.scrollY);
+        });
+        var h = Math.ceil(bottom) + 2;
+        if (!ready) {
+          ready = true;
+          lastHeight = h;
+          Homey.ready({ height: h });
+          return;
+        }
+        if (h === lastHeight || typeof Homey.setHeight !== 'function') return;
+        lastHeight = h;
+        Homey.setHeight(h).catch(function () {});
+      }
+
+      var settings = (typeof Homey.getSettings === 'function' && Homey.getSettings()) || {};
+      if (typeof Homey.onSettings === 'function') Homey.onSettings(function (x) { settings = x || settings; refresh(true); });
+      function render(d) {
+        var noGrid = !d || !d.grid;
+        svg.style.display = noGrid ? 'none' : '';
+        empty.style.display = noGrid ? 'block' : 'none';
+        if (noGrid) {
+          empty.textContent = t('no_grid');
+          return;
+        }
+        draw(d);
+      }
+
+      // Live power every 5 s, a period every 30 s.
+      function refresh(force) {
+        if (!force && (document.hidden || (period !== 'now' && Date.now() - lastFetch < 29000))) return;
+        lastFetch = Date.now();
+        var asked = period;
+        var ids = typeof Homey.getDeviceIds === 'function' ? Homey.getDeviceIds() || [] : [];
+        Homey.api('GET', '/?period=' + period + '&ids=' + encodeURIComponent(ids.join(',')), {})
+          .then(function (d) { if (asked === period) render(d); }) // not after a tab change
+          .catch(function (err) { console.error(err); })
+          .finally(fit);
+      }
+
+      refresh(true);
+      setInterval(refresh, 5000);
+      document.addEventListener('visibilitychange', function () { if (!document.hidden) refresh(); });
+    }
+
+    if (typeof window.Homey !== 'undefined') onHomeyReady(window.Homey);
+  </script>
+</body>
+</html>

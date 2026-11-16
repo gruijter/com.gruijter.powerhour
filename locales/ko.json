@@ -369,6 +369,9 @@
     "water": "수도",
     "import": "수전",
     "export": "송전",
-    "plan_hint": "탭하거나 끌기"
+    "plan_hint": "탭하거나 끌기",
+    "other": "기타",
+    "more": "더보기",
+    "battery_charge": "배터리 충전"
   }
 }

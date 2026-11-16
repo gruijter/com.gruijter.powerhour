@@ -369,6 +369,9 @@
     "water": "Woda",
     "import": "import",
     "export": "eksport",
-    "plan_hint": "Dotknij lub przeciągnij"
+    "plan_hint": "Dotknij lub przeciągnij",
+    "other": "Inne",
+    "more": "Więcej",
+    "battery_charge": "Ładowanie baterii"
   }
 }

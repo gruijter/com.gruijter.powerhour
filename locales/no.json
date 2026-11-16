@@ -369,6 +369,9 @@
     "water": "Vann",
     "import": "import",
     "export": "eksport",
-    "plan_hint": "Trykk eller dra"
+    "plan_hint": "Trykk eller dra",
+    "other": "Annet",
+    "more": "Mer",
+    "battery_charge": "Batterilading"
   }
 }

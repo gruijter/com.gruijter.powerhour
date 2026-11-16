@@ -19,7 +19,7 @@ const SOURCES = {
   appliance: 'drivers/power/assets/icon.svg',
   climate: 'tools/widget-shared/climate.svg', // no climate driver: drawn for the widgets
 };
-const WIDGETS = ['energy', 'plan'];
+const WIDGETS = ['energy', 'plan', 'flows'];
 const DIAGRAM = ['energy']; // also gets flow.js and flow.css
 
 // Inner markup of one icon in a 100 x 100 box.

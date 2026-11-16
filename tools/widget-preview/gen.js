@@ -86,7 +86,27 @@ const plan = (t) => {
 </svg>`;
 };
 
-const WIDGETS = { energy: flowPreview, plan };
+// widgets/flows: sources left, the home in the middle, users right, joined by bands.
+const flowsPreview = (t) => {
+  const bar = (x, y, h, fill) => `<rect x="${x}" y="${y}" width="22" height="${h}" rx="8" fill="${fill}"/>`;
+  const bandPath = (x0, a0, b0, x1, a1, b1) => {
+    const xm = (x0 + x1) / 2;
+    return `M${x0} ${a0}C${xm} ${a0} ${xm} ${a1} ${x1} ${a1}L${x1} ${b1}C${xm} ${b1} ${xm} ${b0} ${x0} ${b0}Z`;
+  };
+  const b = (x0, a0, b0, x1, a1, b1, fill) => `<path d="${bandPath(x0, a0, b0, x1, a1, b1)}" fill="${fill}" opacity="0.45"/>`;
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+  ${b(102, 170, 600, 490, 300, 730, SOLAR)}
+  ${b(102, 640, 840, 490, 730, 930, t.shape)}
+  ${b(512, 300, 480, 900, 170, 350, CHEAP)}
+  ${b(512, 480, 600, 900, 390, 510, GREEN)}
+  ${b(512, 600, 930, 900, 550, 880, t.shape)}
+  ${bar(80, 170, 430, SOLAR)}${bar(80, 640, 200, t.shape)}
+  ${bar(490, 300, 630, CHEAP)}
+  ${bar(900, 170, 180, CHEAP)}${bar(900, 390, 120, GREEN)}${bar(900, 550, 330, t.shape)}
+</svg>`;
+};
+
+const WIDGETS = { energy: flowPreview, plan, flows: flowsPreview };
 
 for (const [widget, render] of Object.entries(WIDGETS)) {
   for (const [mode, t] of Object.entries(THEMES)) {

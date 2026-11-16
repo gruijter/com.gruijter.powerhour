@@ -369,6 +369,9 @@
     "water": "Vand",
     "import": "import",
     "export": "eksport",
-    "plan_hint": "Tryk eller træk"
+    "plan_hint": "Tryk eller træk",
+    "other": "Andet",
+    "more": "Mere",
+    "battery_charge": "Batteriopladning"
   }
 }
