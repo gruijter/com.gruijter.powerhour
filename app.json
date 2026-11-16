@@ -28689,6 +28689,23 @@
             "ko": "올해 kWh (수전)"
           }
         },
+        "meter_kwh_this_contract.imported": {
+          "title": {
+            "en": "kWh this contract year (imported)",
+            "nl": "kWh dit contractjaar (geïmporteerd)",
+            "de": "kWh dieses Vertragsjahr (importiert)",
+            "fr": "kWh année de contrat en cours (importé)",
+            "it": "kWh anno contrattuale corrente (importato)",
+            "sv": "kWh innevarande avtalsår (importerad)",
+            "no": "kWh dette avtaleåret (importert)",
+            "es": "kWh año de contrato actual (importado)",
+            "da": "kWh dette kontraktår (importeret)",
+            "pl": "kWh bieżący rok umowy (import)",
+            "ru": "кВтч текущий год договора (импорт)",
+            "ar": "كيلوواط ساعة سنة العقد الحالية (مستورد)",
+            "ko": "이번 계약 연도 kWh (수전)"
+          }
+        },
         "meter_kwh_this_year.exported": {
           "title": {
             "en": "kWh this year (exported)",
@@ -28704,6 +28721,23 @@
             "ru": "кВтч этот год (экспорт)",
             "ar": "كيلوواط ساعة هذا العام (مُصدَّر)",
             "ko": "올해 kWh (송전)"
+          }
+        },
+        "meter_kwh_this_contract.exported": {
+          "title": {
+            "en": "kWh this contract year (exported)",
+            "nl": "kWh dit contractjaar (geëxporteerd)",
+            "de": "kWh dieses Vertragsjahr (exportiert)",
+            "fr": "kWh année de contrat en cours (exporté)",
+            "it": "kWh anno contrattuale corrente (esportato)",
+            "sv": "kWh innevarande avtalsår (exporterad)",
+            "no": "kWh dette avtaleåret (eksportert)",
+            "es": "kWh año de contrato actual (exportado)",
+            "da": "kWh dette kontraktår (eksporteret)",
+            "pl": "kWh bieżący rok umowy (eksport)",
+            "ru": "кВтч текущий год договора (экспорт)",
+            "ar": "كيلوواط ساعة سنة العقد الحالية (مُصدَّر)",
+            "ko": "이번 계약 연도 kWh (송전)"
           }
         },
         "meter_kwh_last_year.imported": {
@@ -28723,6 +28757,23 @@
             "ko": "작년 kWh (수전)"
           }
         },
+        "meter_kwh_last_contract.imported": {
+          "title": {
+            "en": "kWh prev. contract year (imported)",
+            "nl": "kWh vorig contractjaar (geïmporteerd)",
+            "de": "kWh voriges Vertragsjahr (importiert)",
+            "fr": "kWh année de contrat précédente (importé)",
+            "it": "kWh anno contrattuale prec. (importato)",
+            "sv": "kWh föreg. avtalsår (importerad)",
+            "no": "kWh forrige avtaleår (importert)",
+            "es": "kWh año de contrato anterior (importado)",
+            "da": "kWh forrige kontraktår (importeret)",
+            "pl": "kWh poprz. rok umowy (import)",
+            "ru": "кВтч пред. год договора (импорт)",
+            "ar": "كيلوواط ساعة سنة العقد السابقة (مستورد)",
+            "ko": "지난 계약 연도 kWh (수전)"
+          }
+        },
         "meter_kwh_last_year.exported": {
           "title": {
             "en": "kWh prev. year (exported)",
@@ -28738,6 +28789,23 @@
             "ru": "кВтч пред. год (экспорт)",
             "ar": "كيلوواط ساعة العام السابق (مُصدَّر)",
             "ko": "작년 kWh (송전)"
+          }
+        },
+        "meter_kwh_last_contract.exported": {
+          "title": {
+            "en": "kWh prev. contract year (exported)",
+            "nl": "kWh vorig contractjaar (geëxporteerd)",
+            "de": "kWh voriges Vertragsjahr (exportiert)",
+            "fr": "kWh année de contrat précédente (exporté)",
+            "it": "kWh anno contrattuale prec. (esportato)",
+            "sv": "kWh föreg. avtalsår (exporterad)",
+            "no": "kWh forrige avtaleår (eksportert)",
+            "es": "kWh año de contrato anterior (exportado)",
+            "da": "kWh forrige kontraktår (eksporteret)",
+            "pl": "kWh poprz. rok umowy (eksport)",
+            "ru": "кВтч пред. год договора (экспорт)",
+            "ar": "كيلوواط ساعة سنة العقد السابقة (مُصدَّر)",
+            "ko": "지난 계약 연도 kWh (송전)"
           }
         },
         "meter_money_this_day.imported": {
@@ -38782,6 +38850,45 @@
       },
       "decimals": 2
     },
+    "meter_kwh_last_contract": {
+      "type": "number",
+      "title": {
+        "en": "kWh prev. contract year",
+        "nl": "kWh vorig contractjaar",
+        "de": "kWh voriges Vertragsjahr",
+        "fr": "kWh année de contrat précédente",
+        "it": "kWh anno contrattuale prec.",
+        "sv": "kWh föreg. avtalsår",
+        "no": "kWh forrige avtaleår",
+        "da": "kWh forrige kontraktår",
+        "es": "kWh año de contrato anterior",
+        "pl": "kWh poprz. rok umowy",
+        "ru": "кВтч пред. год договора",
+        "ar": "كيلوواط ساعة سنة العقد السابقة",
+        "ko": "지난 계약 연도 kWh"
+      },
+      "uiComponent": "sensor",
+      "icon": "/assets/kwh_c.svg",
+      "getable": true,
+      "setable": false,
+      "insights": true,
+      "units": {
+        "en": "kWh",
+        "ko": "kWh",
+        "nl": "kWh",
+        "de": "kWh",
+        "fr": "kWh",
+        "es": "kWh",
+        "it": "kWh",
+        "da": "kWh",
+        "sv": "kWh",
+        "no": "kWh",
+        "pl": "kWh",
+        "ru": "kWh",
+        "ar": "kWh"
+      },
+      "decimals": 4
+    },
     "meter_kwh_last_day": {
       "type": "number",
       "title": {
@@ -38977,6 +39084,45 @@
       },
       "decimals": 2
     },
+    "meter_kwh_this_contract": {
+      "type": "number",
+      "title": {
+        "en": "kWh this contract year",
+        "nl": "kWh dit contractjaar",
+        "de": "kWh dieses Vertragsjahr",
+        "fr": "kWh année de contrat en cours",
+        "it": "kWh anno contrattuale corrente",
+        "sv": "kWh innevarande avtalsår",
+        "no": "kWh dette avtaleåret",
+        "da": "kWh dette kontraktår",
+        "es": "kWh año de contrato actual",
+        "pl": "kWh bieżący rok umowy",
+        "ru": "кВтч текущий год договора",
+        "ar": "كيلوواط ساعة سنة العقد الحالية",
+        "ko": "이번 계약 연도 kWh"
+      },
+      "uiComponent": "sensor",
+      "icon": "/assets/kwh_c.svg",
+      "getable": true,
+      "setable": false,
+      "insights": true,
+      "units": {
+        "en": "kWh",
+        "ko": "kWh",
+        "nl": "kWh",
+        "de": "kWh",
+        "fr": "kWh",
+        "es": "kWh",
+        "it": "kWh",
+        "da": "kWh",
+        "sv": "kWh",
+        "no": "kWh",
+        "pl": "kWh",
+        "ru": "kWh",
+        "ar": "kWh"
+      },
+      "decimals": 4
+    },
     "meter_kwh_this_day": {
       "type": "number",
       "title": {
@@ -39133,6 +39279,45 @@
       },
       "decimals": 4
     },
+    "meter_m3_last_contract": {
+      "type": "number",
+      "title": {
+        "en": "m³ prev. contract year",
+        "nl": "m³ vorig contractjaar",
+        "de": "m³ voriges Vertragsjahr",
+        "fr": "m³ année de contrat précédente",
+        "it": "m³ anno contrattuale prec.",
+        "sv": "m³ föreg. avtalsår",
+        "no": "m³ forrige avtaleår",
+        "da": "m³ forrige kontraktår",
+        "es": "m³ año de contrato anterior",
+        "pl": "m³ poprz. rok umowy",
+        "ru": "м³ пред. год договора",
+        "ar": "م³ سنة العقد السابقة",
+        "ko": "지난 계약 연도 m³"
+      },
+      "uiComponent": "sensor",
+      "icon": "/assets/m3_c.svg",
+      "getable": true,
+      "setable": false,
+      "insights": true,
+      "units": {
+        "en": "m³",
+        "ko": "m³",
+        "nl": "m³",
+        "de": "m³",
+        "fr": "m³",
+        "es": "m³",
+        "it": "m³",
+        "da": "m³",
+        "sv": "m³",
+        "no": "m³",
+        "pl": "m³",
+        "ru": "m³",
+        "ar": "m³"
+      },
+      "decimals": 4
+    },
     "meter_m3_last_day": {
       "type": "number",
       "title": {
@@ -39269,6 +39454,45 @@
       },
       "uiComponent": "sensor",
       "icon": "/assets/m3_y.svg",
+      "getable": true,
+      "setable": false,
+      "insights": true,
+      "units": {
+        "en": "m³",
+        "ko": "m³",
+        "nl": "m³",
+        "de": "m³",
+        "fr": "m³",
+        "es": "m³",
+        "it": "m³",
+        "da": "m³",
+        "sv": "m³",
+        "no": "m³",
+        "pl": "m³",
+        "ru": "m³",
+        "ar": "m³"
+      },
+      "decimals": 4
+    },
+    "meter_m3_this_contract": {
+      "type": "number",
+      "title": {
+        "en": "m³ this contract year",
+        "nl": "m³ dit contractjaar",
+        "de": "m³ dieses Vertragsjahr",
+        "fr": "m³ année de contrat en cours",
+        "it": "m³ anno contrattuale corrente",
+        "sv": "m³ innevarande avtalsår",
+        "no": "m³ dette avtaleåret",
+        "da": "m³ dette kontraktår",
+        "es": "m³ año de contrato actual",
+        "pl": "m³ bieżący rok umowy",
+        "ru": "м³ текущий год договора",
+        "ar": "م³ سنة العقد الحالية",
+        "ko": "이번 계약 연도 m³"
+      },
+      "uiComponent": "sensor",
+      "icon": "/assets/m3_c.svg",
       "getable": true,
       "setable": false,
       "insights": true,
@@ -39445,6 +39669,45 @@
       },
       "decimals": 4
     },
+    "meter_money_last_contract": {
+      "type": "number",
+      "title": {
+        "en": "Money prev. contract year",
+        "nl": "Geld vorig contractjaar",
+        "de": "Geld voriges Vertragsjahr",
+        "fr": "Argent année de contrat précédente",
+        "it": "Importo anno contrattuale prec.",
+        "sv": "Pengar föreg. avtalsår",
+        "no": "Penger forrige avtaleår",
+        "da": "Penge forrige kontraktår",
+        "es": "Dinero año de contrato anterior",
+        "pl": "Pieniądze poprz. rok umowy",
+        "ru": "Деньги пред. год договора",
+        "ar": "المال سنة العقد السابقة",
+        "ko": "지난 계약 연도 금액"
+      },
+      "uiComponent": "sensor",
+      "icon": "/assets/money_y.svg",
+      "getable": true,
+      "setable": false,
+      "insights": true,
+      "units": {
+        "en": "¤",
+        "ko": "¤",
+        "nl": "¤",
+        "de": "¤",
+        "fr": "¤",
+        "es": "¤",
+        "it": "¤",
+        "da": "¤",
+        "sv": "¤",
+        "no": "¤",
+        "pl": "¤",
+        "ru": "¤",
+        "ar": "¤"
+      },
+      "decimals": 2
+    },
     "meter_money_last_day": {
       "type": "number",
       "title": {
@@ -39578,6 +39841,45 @@
         "ru": "Деньги пред. год",
         "ko": "작년 금액",
         "ar": "المال العام السابق"
+      },
+      "uiComponent": "sensor",
+      "icon": "/assets/money_y.svg",
+      "getable": true,
+      "setable": false,
+      "insights": true,
+      "units": {
+        "en": "¤",
+        "ko": "¤",
+        "nl": "¤",
+        "de": "¤",
+        "fr": "¤",
+        "es": "¤",
+        "it": "¤",
+        "da": "¤",
+        "sv": "¤",
+        "no": "¤",
+        "pl": "¤",
+        "ru": "¤",
+        "ar": "¤"
+      },
+      "decimals": 2
+    },
+    "meter_money_this_contract": {
+      "type": "number",
+      "title": {
+        "en": "Money this contract year",
+        "nl": "Geld dit contractjaar",
+        "de": "Geld dieses Vertragsjahr",
+        "fr": "Argent année de contrat en cours",
+        "it": "Importo anno contrattuale corrente",
+        "sv": "Pengar innevarande avtalsår",
+        "no": "Penger dette avtaleåret",
+        "da": "Penge dette kontraktår",
+        "es": "Dinero año de contrato actual",
+        "pl": "Pieniądze bieżący rok umowy",
+        "ru": "Деньги текущий год договора",
+        "ar": "المال سنة العقد الحالية",
+        "ko": "이번 계약 연도 금액"
       },
       "uiComponent": "sensor",
       "icon": "/assets/money_y.svg",

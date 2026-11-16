@@ -1,0 +1,39 @@
+{
+  "type": "number",
+  "title": {
+    "en": "m³ prev. contract year",
+    "nl": "m³ vorig contractjaar",
+    "de": "m³ voriges Vertragsjahr",
+    "fr": "m³ année de contrat précédente",
+    "it": "m³ anno contrattuale prec.",
+    "sv": "m³ föreg. avtalsår",
+    "no": "m³ forrige avtaleår",
+    "da": "m³ forrige kontraktår",
+    "es": "m³ año de contrato anterior",
+    "pl": "m³ poprz. rok umowy",
+    "ru": "м³ пред. год договора",
+    "ar": "م³ سنة العقد السابقة",
+    "ko": "지난 계약 연도 m³"
+  },
+  "uiComponent": "sensor",
+  "icon": "/assets/m3_c.svg",
+  "getable": true,
+  "setable": false,
+  "insights": true,
+  "units": {
+    "en": "m³",
+    "ko": "m³",
+    "nl": "m³",
+    "de": "m³",
+    "fr": "m³",
+    "es": "m³",
+    "it": "m³",
+    "da": "m³",
+    "sv": "m³",
+    "no": "m³",
+    "pl": "m³",
+    "ru": "m³",
+    "ar": "m³"
+  },
+  "decimals": 4
+}

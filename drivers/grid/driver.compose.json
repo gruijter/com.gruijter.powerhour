@@ -176,6 +176,23 @@
         "ko": "올해 kWh (수전)"
       }
     },
+    "meter_kwh_this_contract.imported": {
+      "title": {
+        "en": "kWh this contract year (imported)",
+        "nl": "kWh dit contractjaar (geïmporteerd)",
+        "de": "kWh dieses Vertragsjahr (importiert)",
+        "fr": "kWh année de contrat en cours (importé)",
+        "it": "kWh anno contrattuale corrente (importato)",
+        "sv": "kWh innevarande avtalsår (importerad)",
+        "no": "kWh dette avtaleåret (importert)",
+        "es": "kWh año de contrato actual (importado)",
+        "da": "kWh dette kontraktår (importeret)",
+        "pl": "kWh bieżący rok umowy (import)",
+        "ru": "кВтч текущий год договора (импорт)",
+        "ar": "كيلوواط ساعة سنة العقد الحالية (مستورد)",
+        "ko": "이번 계약 연도 kWh (수전)"
+      }
+    },
     "meter_kwh_this_year.exported": {
       "title": {
         "en": "kWh this year (exported)",
@@ -191,6 +208,23 @@
         "ru": "кВтч этот год (экспорт)",
         "ar": "كيلوواط ساعة هذا العام (مُصدَّر)",
         "ko": "올해 kWh (송전)"
+      }
+    },
+    "meter_kwh_this_contract.exported": {
+      "title": {
+        "en": "kWh this contract year (exported)",
+        "nl": "kWh dit contractjaar (geëxporteerd)",
+        "de": "kWh dieses Vertragsjahr (exportiert)",
+        "fr": "kWh année de contrat en cours (exporté)",
+        "it": "kWh anno contrattuale corrente (esportato)",
+        "sv": "kWh innevarande avtalsår (exporterad)",
+        "no": "kWh dette avtaleåret (eksportert)",
+        "es": "kWh año de contrato actual (exportado)",
+        "da": "kWh dette kontraktår (eksporteret)",
+        "pl": "kWh bieżący rok umowy (eksport)",
+        "ru": "кВтч текущий год договора (экспорт)",
+        "ar": "كيلوواط ساعة سنة العقد الحالية (مُصدَّر)",
+        "ko": "이번 계약 연도 kWh (송전)"
       }
     },
     "meter_kwh_last_year.imported": {
@@ -210,6 +244,23 @@
         "ko": "작년 kWh (수전)"
       }
     },
+    "meter_kwh_last_contract.imported": {
+      "title": {
+        "en": "kWh prev. contract year (imported)",
+        "nl": "kWh vorig contractjaar (geïmporteerd)",
+        "de": "kWh voriges Vertragsjahr (importiert)",
+        "fr": "kWh année de contrat précédente (importé)",
+        "it": "kWh anno contrattuale prec. (importato)",
+        "sv": "kWh föreg. avtalsår (importerad)",
+        "no": "kWh forrige avtaleår (importert)",
+        "es": "kWh año de contrato anterior (importado)",
+        "da": "kWh forrige kontraktår (importeret)",
+        "pl": "kWh poprz. rok umowy (import)",
+        "ru": "кВтч пред. год договора (импорт)",
+        "ar": "كيلوواط ساعة سنة العقد السابقة (مستورد)",
+        "ko": "지난 계약 연도 kWh (수전)"
+      }
+    },
     "meter_kwh_last_year.exported": {
       "title": {
         "en": "kWh prev. year (exported)",
@@ -225,6 +276,23 @@
         "ru": "кВтч пред. год (экспорт)",
         "ar": "كيلوواط ساعة العام السابق (مُصدَّر)",
         "ko": "작년 kWh (송전)"
+      }
+    },
+    "meter_kwh_last_contract.exported": {
+      "title": {
+        "en": "kWh prev. contract year (exported)",
+        "nl": "kWh vorig contractjaar (geëxporteerd)",
+        "de": "kWh voriges Vertragsjahr (exportiert)",
+        "fr": "kWh année de contrat précédente (exporté)",
+        "it": "kWh anno contrattuale prec. (esportato)",
+        "sv": "kWh föreg. avtalsår (exporterad)",
+        "no": "kWh forrige avtaleår (eksportert)",
+        "es": "kWh año de contrato anterior (exportado)",
+        "da": "kWh forrige kontraktår (eksporteret)",
+        "pl": "kWh poprz. rok umowy (eksport)",
+        "ru": "кВтч пред. год договора (экспорт)",
+        "ar": "كيلوواط ساعة سنة العقد السابقة (مُصدَّر)",
+        "ko": "지난 계약 연도 kWh (송전)"
       }
     },
     "meter_money_this_day.imported": {

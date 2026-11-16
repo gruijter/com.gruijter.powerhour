@@ -1,0 +1,39 @@
+{
+  "type": "number",
+  "title": {
+    "en": "kWh this contract year",
+    "nl": "kWh dit contractjaar",
+    "de": "kWh dieses Vertragsjahr",
+    "fr": "kWh année de contrat en cours",
+    "it": "kWh anno contrattuale corrente",
+    "sv": "kWh innevarande avtalsår",
+    "no": "kWh dette avtaleåret",
+    "da": "kWh dette kontraktår",
+    "es": "kWh año de contrato actual",
+    "pl": "kWh bieżący rok umowy",
+    "ru": "кВтч текущий год договора",
+    "ar": "كيلوواط ساعة سنة العقد الحالية",
+    "ko": "이번 계약 연도 kWh"
+  },
+  "uiComponent": "sensor",
+  "icon": "/assets/kwh_c.svg",
+  "getable": true,
+  "setable": false,
+  "insights": true,
+  "units": {
+    "en": "kWh",
+    "ko": "kWh",
+    "nl": "kWh",
+    "de": "kWh",
+    "fr": "kWh",
+    "es": "kWh",
+    "it": "kWh",
+    "da": "kWh",
+    "sv": "kWh",
+    "no": "kWh",
+    "pl": "kWh",
+    "ru": "kWh",
+    "ar": "kWh"
+  },
+  "decimals": 4
+}

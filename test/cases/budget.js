@@ -38,10 +38,13 @@ assert.deepStrictEqual(BS.defs(homey, 'gas').budget_heating.values.map((v) => v.
 assert.strictEqual(BS.defs(homey, 'gas').budget_cooling, undefined);
 assert.strictEqual(BS.defs(homey, 'solar').budget_heating, undefined);
 assert.deepStrictEqual(BS.defs(homey, 'battery'), {});
-assert.strictEqual(BS.summary(homey, { budget: '0', distribution: 'linear' }, 'grid'), 'No budget · start 1 January');
+assert.strictEqual(BS.summary(homey, { budget: '0', distribution: 'linear' }, 'grid'), 'No budget');
 assert.strictEqual(BS.summary(homey, {
   budget: '4500', distribution: 'local', budget_heating: 'heat_pump', budget_cooling: true, start_date: '0107',
-}, 'grid'), '4500 kWh · Local climate · Heat pump · Air conditioning · start 1 July');
+}, 'grid'), '4500 kWh · Local climate · Heat pump · Air conditioning · contract 1 July');
+assert.strictEqual(BS.summary(homey, { budget: '0', distribution: 'linear', start_date: '0107' }, 'solar'), 'No budget');
+assert.strictEqual(BS.defs(homey, 'solar').start_date, undefined);
+assert.strictEqual(BS.defs(homey, 'water').start_date.type, 'daymonth');
 assert.strictEqual(BS.summary(homey, { budget: '1;1;1;1;1;1;1;1;1;1;1;1', distribution: 'CUSTOM' }, 'gas'), '12 m³ · Custom');
 assert.strictEqual(BS.validStartDate(' 0101 '), '0101');
 assert.strictEqual(BS.validStartDate('3213'), null);

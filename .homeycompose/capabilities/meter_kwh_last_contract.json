@@ -1,0 +1,39 @@
+{
+  "type": "number",
+  "title": {
+    "en": "kWh prev. contract year",
+    "nl": "kWh vorig contractjaar",
+    "de": "kWh voriges Vertragsjahr",
+    "fr": "kWh année de contrat précédente",
+    "it": "kWh anno contrattuale prec.",
+    "sv": "kWh föreg. avtalsår",
+    "no": "kWh forrige avtaleår",
+    "da": "kWh forrige kontraktår",
+    "es": "kWh año de contrato anterior",
+    "pl": "kWh poprz. rok umowy",
+    "ru": "кВтч пред. год договора",
+    "ar": "كيلوواط ساعة سنة العقد السابقة",
+    "ko": "지난 계약 연도 kWh"
+  },
+  "uiComponent": "sensor",
+  "icon": "/assets/kwh_c.svg",
+  "getable": true,
+  "setable": false,
+  "insights": true,
+  "units": {
+    "en": "kWh",
+    "ko": "kWh",
+    "nl": "kWh",
+    "de": "kWh",
+    "fr": "kWh",
+    "es": "kWh",
+    "it": "kWh",
+    "da": "kWh",
+    "sv": "kWh",
+    "no": "kWh",
+    "pl": "kWh",
+    "ru": "kWh",
+    "ar": "kWh"
+  },
+  "decimals": 4
+}

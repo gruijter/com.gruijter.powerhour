@@ -1,0 +1,39 @@
+{
+  "type": "number",
+  "title": {
+    "en": "Money prev. contract year",
+    "nl": "Geld vorig contractjaar",
+    "de": "Geld voriges Vertragsjahr",
+    "fr": "Argent année de contrat précédente",
+    "it": "Importo anno contrattuale prec.",
+    "sv": "Pengar föreg. avtalsår",
+    "no": "Penger forrige avtaleår",
+    "da": "Penge forrige kontraktår",
+    "es": "Dinero año de contrato anterior",
+    "pl": "Pieniądze poprz. rok umowy",
+    "ru": "Деньги пред. год договора",
+    "ar": "المال سنة العقد السابقة",
+    "ko": "지난 계약 연도 금액"
+  },
+  "uiComponent": "sensor",
+  "icon": "/assets/money_y.svg",
+  "getable": true,
+  "setable": false,
+  "insights": true,
+  "units": {
+    "en": "¤",
+    "ko": "¤",
+    "nl": "¤",
+    "de": "¤",
+    "fr": "¤",
+    "es": "¤",
+    "it": "¤",
+    "da": "¤",
+    "sv": "¤",
+    "no": "¤",
+    "pl": "¤",
+    "ru": "¤",
+    "ar": "¤"
+  },
+  "decimals": 2
+}

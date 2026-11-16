@@ -1,0 +1,39 @@
+{
+  "type": "number",
+  "title": {
+    "en": "Money this contract year",
+    "nl": "Geld dit contractjaar",
+    "de": "Geld dieses Vertragsjahr",
+    "fr": "Argent année de contrat en cours",
+    "it": "Importo anno contrattuale corrente",
+    "sv": "Pengar innevarande avtalsår",
+    "no": "Penger dette avtaleåret",
+    "da": "Penge dette kontraktår",
+    "es": "Dinero año de contrato actual",
+    "pl": "Pieniądze bieżący rok umowy",
+    "ru": "Деньги текущий год договора",
+    "ar": "المال سنة العقد الحالية",
+    "ko": "이번 계약 연도 금액"
+  },
+  "uiComponent": "sensor",
+  "icon": "/assets/money_y.svg",
+  "getable": true,
+  "setable": false,
+  "insights": true,
+  "units": {
+    "en": "¤",
+    "ko": "¤",
+    "nl": "¤",
+    "de": "¤",
+    "fr": "¤",
+    "es": "¤",
+    "it": "¤",
+    "da": "¤",
+    "sv": "¤",
+    "no": "¤",
+    "pl": "¤",
+    "ru": "¤",
+    "ar": "¤"
+  },
+  "decimals": 2
+}

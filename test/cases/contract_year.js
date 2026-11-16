@@ -2,8 +2,8 @@
 
 'use strict';
 
-// One contract year for the app (ContractYear): grid's start date, a meter at a time from Insights,
-// and a device moving its month and year to a new start (MeterDeviceMixin.followContractStart).
+// Calendar periods and the contract year of a main meter (ContractYear): a meter at a time from
+// Insights, an older year start moving once (MeterDeviceMixin.followPeriodStarts), the contract counter.
 // Run: node test/cases/contract_year.js
 
 const assert = require('assert');
@@ -21,6 +21,8 @@ Module._load = function load(request, ...rest) {
 };
 const ContractYear = require('../../lib/helpers/ContractYear');
 const MeterDeviceMixin = require('../../lib/genericDeviceDrivers/MeterDeviceMixin');
+const SumDevice = require('../../lib/genericDeviceDrivers/generic_sum_device');
+const MeterHelpers = require('../../lib/helpers/MeterHelpers');
 
 let failed = 0;
 const test = async (name, fn) => {
@@ -52,7 +54,6 @@ const homeyWith = (grids, settings = settingsStore()) => ({
   drivers: { getDriver: () => ({ getDevices: () => grids }), getDrivers: () => ({}) },
   clock: { getTimezone: () => 'Europe/Amsterdam' },
 });
-const grid = (start) => ({ getSettings: () => ({ start_date: start }) });
 
 // 6-hour buckets of a meter rising 1 kWh per hour, from t0.
 const apiWith = (logs) => ({
@@ -67,12 +68,15 @@ const rising = (t0, n) => ({
 });
 
 (async () => {
-  await test('start date: grid, else the saved one, else 1 January', async () => {
-    assert.strictEqual(ContractYear.startDate(homeyWith([grid('1503')])), '1503');
-    const settings = settingsStore();
-    settings.set('contractStart', '0107');
-    assert.strictEqual(ContractYear.startDate(homeyWith([], settings)), '0107');
-    assert.strictEqual(ContractYear.startDate(homeyWith([])), '0101');
+  await test('contract start: main meters only, not on 1 January', async () => {
+    assert.strictEqual(ContractYear.contractStart('grid', { start_date: '0107' }), '0107');
+    assert.strictEqual(ContractYear.contractStart('gas', { start_date: '0101' }), null);
+    assert.strictEqual(ContractYear.contractStart('solar', { start_date: '0107' }), null);
+    const r = (y, m, d) => ({ year: y, month: m, day: d });
+    assert.strictEqual(ContractYear.isNewContract(r(2026, 6, 1), r(2026, 5, 30), '0107'), true);
+    assert.strictEqual(ContractYear.isNewContract(r(2026, 6, 1), r(2026, 6, 1), '0107'), false);
+    assert.strictEqual(ContractYear.isNewContract(r(2026, 5, 30), r(2025, 6, 1), '0107'), false);
+    assert.strictEqual(ContractYear.isNewContract(r(2026, 6, 1), r(2026, 5, 30), null), false);
   });
 
   await test('meter at a time: between bucket centres, else the next log', async () => {
@@ -91,34 +95,51 @@ const rising = (t0, n) => ({
     assert.strictEqual(new Date(ContractYear.localStartMs(new Date(2026, 2, 15), 'Europe/Amsterdam')).toISOString(), '2026-03-14T23:00:00.000Z');
   });
 
-  await test('a new start moves month and year to the meter at the new starts', async () => {
+  await test('an older year start moves once to the calendar; a main meter keeps it as contract year', async () => {
     const t0 = Date.UTC(2026, 0, 1);
-    const store = { lastReadingMonth: { month: 10, year: 2026, meterValue: 5 }, lastReadingYear: { month: 0, year: 2026, meterValue: 1 } };
-    const device = Object.assign(Object.create(MeterDeviceMixin), {
-      homey: { ...homeyWith([grid('1503')]), app: { api: apiWith({ 'homey:device:d:meter_power': rising(t0, 1400) }) } },
-      driver: { id: 'power', ds: { energyCaps: { meter_power: 'meter_power_hidden' } } },
-      ds: { cmap: { meter_source: 'meter_power_hidden' } },
-      getId: () => 'd',
-      getName: () => 'Meter',
-      log: () => {},
-      error: () => {},
-      getSettings: () => ({ start_date: '0101' }),
-      getStoreValue: (k) => store[k],
-      setStoreValue: async (k, v) => {
-        store[k] = v;
-      },
-    });
-    await device.followContractStart();
-    assert.strictEqual(device.startDay, 15);
-    assert.strictEqual(device.startMonth, 2);
-    assert.strictEqual(store.contractStart, '1503');
-    const yearStart = ContractYear.localStartMs(new Date(2026, 2, 15), 'Europe/Amsterdam');
-    assert.ok(Math.abs(store.lastReadingYear.meterValue - (100 + (yearStart - t0) / HOUR)) < 1e-6);
-    assert.strictEqual(store.lastReadingYear.month, 2);
-    // Same start again: nothing moves.
+    const run = async (driverId, startDate) => {
+      const store = { lastReadingMonth: { month: 10, year: 2026, meterValue: 5 }, lastReadingYear: { month: 2, year: 2026, meterValue: 1 } };
+      const calls = [];
+      const device = Object.assign(Object.create(MeterDeviceMixin), {
+        homey: { ...homeyWith([]), app: { api: apiWith({ 'homey:device:d:meter_power': rising(t0, 1400) }) } },
+        driver: { id: driverId, ds: { energyCaps: { meter_power: 'meter_power_hidden' } } },
+        ds: { cmap: { meter_source: 'meter_power_hidden' } },
+        getId: () => 'd',
+        getName: () => 'Meter',
+        log: () => {},
+        error: () => {},
+        hasCapability: () => false,
+        getSettings: () => ({ start_date: startDate }),
+        getStoreValue: (k) => store[k],
+        setStoreValue: async (k, v) => {
+          store[k] = v;
+        },
+        unsetStoreValue: async (k) => {
+          delete store[k];
+        },
+        keepYearAsContract: async () => calls.push(`keep ${store.lastReadingYear.month}`),
+        followContract: async () => calls.push('contract'),
+      });
+      await device.followPeriodStarts();
+      return { device, store, calls };
+    };
+    const { device, store, calls } = await run('power', '1503');
+    assert.deepStrictEqual([device.startDay, device.startMonth, device.contractStart], [1, 0, null]);
+    assert.strictEqual(store.periodStart, '0101');
+    // 1 January (local) is within a step before the first bucket: its value.
+    assert.strictEqual(store.lastReadingYear.meterValue, 103);
+    assert.strictEqual(store.lastReadingYear.month, 0);
+    const monthStart = ContractYear.localStartMs(new Date(2026, 10, 1), 'Europe/Amsterdam');
+    assert.ok(Math.abs(store.lastReadingMonth.meterValue - (100 + (monthStart - t0) / HOUR)) < 1e-6);
+    assert.deepStrictEqual(calls, ['contract']);
+    // Once: a later start changes nothing.
     store.lastReadingYear.meterValue = 7;
-    await device.followContractStart();
+    await device.followPeriodStarts();
     assert.strictEqual(store.lastReadingYear.meterValue, 7);
+    // A gas meter with that start: its year (before the move) becomes the contract year.
+    const gas = await run('gas', '1503');
+    assert.strictEqual(gas.device.contractStart, '1503');
+    assert.deepStrictEqual(gas.calls, ['keep 2', 'contract']);
   });
 
   await test('Insights jobs run one at a time, also after a failing one', async () => {
@@ -162,6 +183,46 @@ const rising = (t0, n) => ({
     assert.strictEqual(caps.meter_money_this_month, 10);
     assert.strictEqual(caps.meter_money_this_year, 100);
     assert.deepStrictEqual(store.fixedMoney, { month: 1, year: 10 });
+  });
+
+  await test('contract year: counts from its start, rolls over on the start day, money too', async () => {
+    const caps = {};
+    const store = {};
+    const dev = Object.assign(Object.create(SumDevice.prototype), {
+      ds: { cmap: { this_contract: 'meter_m3_this_contract', last_contract: 'meter_m3_last_contract' } },
+      contractStart: '0107',
+      lastReadingContract: {
+        year: 2025, month: 6, day: 1, meterValue: 100,
+      },
+      hasCapability: () => true,
+      getCapabilityValue: (c) => caps[c],
+      setCapabilityValue: async (c, v) => {
+        caps[c] = v;
+      },
+      setStoreValue: async (k, v) => {
+        store[k] = v;
+      },
+      error: (e) => {
+        throw e;
+      },
+    });
+    const r1 = {
+      year: 2026, month: 5, day: 30, meterValue: 150,
+    };
+    await dev.updateContractMeter(r1, { newContract: ContractYear.isNewContract(r1, dev.lastReadingContract, '0107') });
+    assert.strictEqual(caps.meter_m3_this_contract, 50);
+    const r2 = {
+      year: 2026, month: 6, day: 1, meterValue: 151,
+    };
+    await dev.updateContractMeter(r2, { newContract: ContractYear.isNewContract(r2, dev.lastReadingContract, '0107') });
+    assert.deepStrictEqual([caps.meter_m3_last_contract, caps.meter_m3_this_contract, store.lastReadingContract.meterValue], [51, 0, 151]);
+    const money = MeterHelpers.calculateMoney({
+      day: 0, month: 0, year: 0, contract: 10, meterValue: 150,
+    }, r2, 2);
+    assert.strictEqual(money.contract, 12);
+    await dev.rollMoneyPeriods(money, { newContract: true });
+    assert.deepStrictEqual([money.lastContract, money.contract, caps.meter_money_last_contract], [12, 0, 12]);
+    assert.strictEqual(MeterHelpers.calculateMoney({ day: 0, meterValue: 1 }, r2, 2).contract, undefined);
   });
 
   process.exitCode = failed ? 1 : 0;

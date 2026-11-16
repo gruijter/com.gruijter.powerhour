@@ -62,6 +62,8 @@ class MyApp extends Homey.App {
       this.retry(5);
       this.migrationNotice = new MigrationNotice(this.homey);
       this.migrationNotice.start();
+      // An app-wide contract start of a beta after v9.0.3: every meter counts calendar years now.
+      if (this.homey.settings.get('contractStart')) this.homey.settings.unset('contractStart');
 
       this.log(`Power by the Hour app is running... Timezone: ${this.homey.clock.getTimezone()}`);
     } catch (error) {

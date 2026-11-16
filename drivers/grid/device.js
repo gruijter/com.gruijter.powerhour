@@ -36,7 +36,7 @@ const InsightsHistory = require('../../lib/helpers/InsightsHistory');
 const ContractYear = require('../../lib/helpers/ContractYear');
 const HistoryRestore = require('../../lib/helpers/HistoryRestore');
 
-const SPLIT_PERIODS = ['hour', 'day', 'month', 'year'];
+const SPLIT_PERIODS = ['hour', 'day', 'month', 'year', 'contract']; // contract: with a contract start
 const SPLIT_FIELDS = [['importValue', 'imported'], ['exportValue', 'exported'], ['homeValue', 'home']];
 const FileStore = require('../../lib/helpers/FileStore');
 const TimeHelpers = require('../../lib/helpers/TimeHelpers');
@@ -60,6 +60,8 @@ const deviceSpecifics = {
     last_month: 'meter_kwh_last_month',
     this_year: 'meter_kwh_this_year',
     last_year: 'meter_kwh_last_year',
+    this_contract: 'meter_kwh_this_contract',
+    last_contract: 'meter_kwh_last_contract',
     // Hidden internal meter for the base class's accounting, as in the battery/evCharger drivers.
     meter_source: 'meter_power_hidden.grid',
     measure_source: 'measure_watt_grid',
@@ -111,6 +113,7 @@ class GridDevice extends GenericDevice {
     this.lastDirectionalReadingDay = book.lastDirectionalReadingDay;
     this.lastDirectionalReadingMonth = book.lastDirectionalReadingMonth;
     this.lastDirectionalReadingYear = book.lastDirectionalReadingYear;
+    this.lastDirectionalReadingContract = book.lastDirectionalReadingContract;
     this.splitMoney = book.splitMoney;
 
     // Capacity-tariff peak state (updatePeakLoad()), lazily bootstrapped.
@@ -542,6 +545,7 @@ class GridDevice extends GenericDevice {
     'directionalPseudoState', 'peakLoad', 'peakHistory', 'splitMoney', 'directionalBlockState',
     'directionalMeter', 'lastDirectionalSnapshot', 'lastPeakLoadReading',
     'lastDirectionalReadingHour', 'lastDirectionalReadingDay', 'lastDirectionalReadingMonth', 'lastDirectionalReadingYear',
+    'lastDirectionalReadingContract',
     'meterPowerHome',
   ];
 
@@ -737,7 +741,7 @@ class GridDevice extends GenericDevice {
   // ev_<id>_charged/ev_<id>_discharged (discharging only with V2X).
   // Real p1/n1 registers: import and export at the starts of this and last day, month and year from
   // the source's Insights (growth, resets skipped). At pairing and on a new contract start.
-  async restoreHistoryExtra(api, starts, cache = new Map(), periods = ['day', 'month', 'year']) {
+  async restoreHistoryExtra(api, starts, cache = new Map(), periods = Object.keys(starts)) {
     const group = this.sourceCapGroup || {};
     if (typeof this.directionalLastWatt === 'number' || !group.p1) return;
     const sourceId = this.getSettings().homey_device_id;
@@ -767,6 +771,36 @@ class GridDevice extends GenericDevice {
         await this.setCapability(`meter_kwh_last_${period}.exported`, round(exp - expPrev)).catch(this.error);
       }
     }
+  }
+
+  // The year so far as contract year: import and export too.
+  async keepYearAsContract() {
+    await super.keepYearAsContract();
+    if (!this.lastDirectionalReadingYear) return;
+    const { importValue, exportValue } = this.lastDirectionalReadingYear;
+    this.lastDirectionalReadingContract = { importValue, exportValue };
+    this.markStoreDirty('lastDirectionalReadingContract');
+    for (const sub of ['imported', 'exported']) {
+      await this.setCapability(`meter_kwh_this_contract.${sub}`, this.getCapabilityValue(`meter_kwh_this_year.${sub}`)).catch(this.error);
+      await this.setCapability(`meter_kwh_last_contract.${sub}`, this.getCapabilityValue(`meter_kwh_last_year.${sub}`)).catch(this.error);
+    }
+  }
+
+  // A new contract start: import and export too, from the source's Insights.
+  async rebaseContract(start) {
+    await super.rebaseContract(start);
+    this.lastDirectionalReadingContract = null;
+    this.markStoreDirty('lastDirectionalReadingContract');
+    for (const sub of ['imported', 'exported']) await this.setCapability(`meter_kwh_last_contract.${sub}`, null).catch(this.error);
+    let api = null;
+    try {
+      api = this.homey.app.api;
+    } catch {
+      return;
+    }
+    if (!api) return;
+    const starts = HistoryRestore.periodStarts(TimeHelpers.toLocalDate(new Date(), this.timeZone), 1, 0, this.timeZone, start);
+    await this.restoreHistoryExtra(api, starts, new Map(), ['contract']).catch(this.error);
   }
 
   // With split money: rebased per direction in onPeriodsRebased(), after import and export moved.
@@ -830,15 +864,15 @@ class GridDevice extends GenericDevice {
     // Without export data p1 can be a net meter: then only the home.
     const split = typeof this.directionalMeter.exportValue === 'number';
     const now = { importValue: split ? this.directionalMeter.importValue : null, exportValue: this.directionalMeter.exportValue, homeValue: this.meterPowerHome };
-    for (const period of SPLIT_PERIODS) {
+    for (const period of SPLIT_PERIODS.filter((p) => p !== 'contract' || this.contractStart)) {
       const key = `lastDirectionalReading${period[0].toUpperCase()}${period.slice(1)}`;
       if (!this[key]) this[key] = { ...now };
       // No home start (an older device, a restore): the home follows from the balance till the period ends.
-      if (typeof this[key].homeValue !== 'number') this[key].homeFromBalance = true;
+      if (typeof this[key].homeValue !== 'number' && period !== 'contract') this[key].homeFromBalance = true;
       const base = this[key];
       const isNew = periods[`new${period[0].toUpperCase()}${period.slice(1)}`];
       // At a rollover the period meters may be reset already: the start of the tick before stays.
-      if (base.homeFromBalance && (!isNew || typeof base.homeValue !== 'number')) base.homeValue = this.homeValueAtStart(period);
+      if (period !== 'contract' && base.homeFromBalance && (!isNew || typeof base.homeValue !== 'number')) base.homeValue = this.homeValueAtStart(period);
       for (const [field, sub] of SPLIT_FIELDS) {
         if (typeof now[field] !== 'number') continue;
         if (typeof base[field] !== 'number') base[field] = now[field];
