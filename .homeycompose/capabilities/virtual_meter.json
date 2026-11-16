@@ -1,0 +1,22 @@
+{
+  "type": "string",
+  "title": {
+    "en": "Virtual meter",
+    "nl": "Virtuele meter",
+    "de": "Virtueller Zähler",
+    "fr": "Compteur virtuel",
+    "it": "Contatore virtuale",
+    "sv": "Virtuell mätare",
+    "no": "Virtuell måler",
+    "es": "Medidor virtual",
+    "da": "Virtuel måler",
+    "pl": "Licznik wirtualny",
+    "ru": "Виртуальный счётчик",
+    "ar": "عداد افتراضي",
+    "ko": "가상 계량기"
+  },
+  "getable": false,
+  "setable": false,
+  "insights": false,
+  "uiComponent": null
+}

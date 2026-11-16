@@ -130,7 +130,8 @@ const priceDevice = (name, group) => {
     assert.ok(deprecated.has('action:set_tariff_power'));
     assert.ok(deprecated.has('action:set_meter_power'));
     assert.ok(!deprecated.has('action:set_fixed_markup'), 'dap card: MigrationNotice lists those flows');
-    assert.ok(!deprecated.has('action:set_meter'), 'not deprecated');
+    assert.ok(deprecated.has('action:set_meter'));
+    assert.ok(!deprecated.has('action:send_meter'), 'not deprecated');
   });
 
   await test('noteUpdate: only a level below 9, once', async () => {
@@ -155,7 +156,7 @@ const priceDevice = (name, group) => {
     assert.strictEqual(notes.length, 1, 'no repeat, cards wait a day');
     await notice.check(now + DAY);
     assert.deepStrictEqual(notes.slice(1).sort(), [
-      "migration_card_new|card=Send energy reading to virtual meter|flows='Meter'|new=Send reading to virtual meter",
+      "migration_card_new|card=Send energy reading to virtual meter|flows='Meter'|new=Send reading",
       "migration_card_price|card=Set a new energy tariff|flows='Night tariff'",
     ]);
     await notice.check(now + 2 * DAY);
@@ -176,9 +177,14 @@ const priceDevice = (name, group) => {
     };
     const notice = new MigrationNotice(homey);
     await notice.check(1000);
-    assert.strictEqual(settings.migrationNoticeLast.cardsDone, true);
+    const keys = [...FlowScan.deprecatedCards(manifest).keys()].sort().join();
+    assert.strictEqual(settings.migrationNoticeLast.cardsDone, keys);
     await notice.check(1000 + 8 * DAY);
     assert.strictEqual(scans, 1);
+    // A newly deprecated card: checked again.
+    settings.migrationNoticeLast.cardsDone = true;
+    await notice.check(1000 + 16 * DAY);
+    assert.strictEqual(scans, 2);
   });
 
   await test('tariffConflict: warning on the price device, notification with the flows, throttled', async () => {

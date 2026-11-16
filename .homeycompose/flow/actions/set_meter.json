@@ -1,4 +1,5 @@
 {
+  "deprecated": true,
   "title": {
     "en": "Send reading to virtual meter",
     "nl": "Stuur meterstand naar virtueel apparaat",

@@ -104,7 +104,7 @@ const migrateCaps = (device) => {
     const flow = { source_device_type: 'virtual via flow' };
     const watt = { source_device_type: 'Homey device', use_measure_source: true };
     assert.deepStrictEqual(driver.capabilitiesFor(real), ['meter_tariff', 'meter_power_hidden', 'measure_watt_avg']);
-    assert.deepStrictEqual(driver.capabilitiesFor(flow), driver.ds.deviceCapabilities);
+    assert.deepStrictEqual(driver.capabilitiesFor(flow), [...driver.ds.deviceCapabilities, 'virtual_meter']);
     assert.deepStrictEqual(driver.capabilitiesFor(watt), driver.ds.deviceCapabilities);
     assert.deepStrictEqual(driver.renamedCapsFor(real), { meter_power: 'meter_power_hidden' });
     assert.deepStrictEqual(driver.renamedCapsFor(flow), { meter_power_hidden: 'meter_power' });

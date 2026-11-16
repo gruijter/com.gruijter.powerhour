@@ -17279,6 +17279,81 @@
       },
       {
         "title": {
+          "en": "Send reading",
+          "nl": "Stuur meterstand",
+          "de": "Zählerstand senden",
+          "fr": "Envoyer le relevé",
+          "es": "Enviar lectura",
+          "it": "Invia lettura",
+          "da": "Send aflæsning",
+          "sv": "Skicka mätarställning",
+          "no": "Send måleravlesning",
+          "pl": "Wyślij odczyt",
+          "ru": "Отправить показания",
+          "ar": "إرسال القراءة",
+          "ko": "검침값 보내기"
+        },
+        "titleFormatted": {
+          "en": "Send reading [[value]]",
+          "nl": "Stuur meterstand [[value]]",
+          "de": "Zählerstand [[value]] senden",
+          "fr": "Envoyer le relevé [[value]]",
+          "es": "Enviar lectura [[value]]",
+          "it": "Invia lettura [[value]]",
+          "da": "Send aflæsning [[value]]",
+          "sv": "Skicka mätarställning [[value]]",
+          "no": "Send måleravlesning [[value]]",
+          "pl": "Wyślij odczyt [[value]]",
+          "ru": "Отправить показания [[value]]",
+          "ar": "إرسال القراءة [[value]]",
+          "ko": "검침값 [[value]] 보내기"
+        },
+        "hint": {
+          "en": "The cumulative meter reading (the meter total), not the use since the last reading.",
+          "nl": "De cumulatieve meterstand (het totaal van de meter), niet het verbruik sinds de vorige stand.",
+          "de": "Der kumulierte Zählerstand (die Zählersumme), nicht der Verbrauch seit dem letzten Stand.",
+          "fr": "Le relevé cumulé du compteur (le total), pas la consommation depuis le dernier relevé.",
+          "it": "La lettura cumulativa del contatore (il totale), non il consumo dall’ultima lettura.",
+          "sv": "Den kumulativa mätarställningen (mätarens totalsumma), inte förbrukningen sedan förra avläsningen.",
+          "no": "Den kumulative målerstanden (målerens totalsum), ikke forbruket siden forrige avlesning.",
+          "es": "La lectura acumulada del contador (el total), no el consumo desde la última lectura.",
+          "da": "Den kumulative måleraflæsning (målerens total), ikke forbruget siden sidste aflæsning.",
+          "pl": "Skumulowany odczyt licznika (suma licznika), a nie zużycie od ostatniego odczytu.",
+          "ru": "Накопленные показания счётчика (итог), а не расход с последнего показания.",
+          "ko": "누적 계량기 값(계량기 합계)이며, 마지막 검침 이후 사용량이 아닙니다.",
+          "ar": "قراءة العداد التراكمية (إجمالي العداد)، وليس الاستهلاك منذ آخر قراءة."
+        },
+        "highlight": true,
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=power|grid|solar|gas|water&capabilities=virtual_meter"
+          },
+          {
+            "name": "value",
+            "type": "number",
+            "placeholder": {
+              "en": "Reading (kWh or m³)",
+              "nl": "Meterstand (kWh of m³)",
+              "de": "Zählerstand (kWh oder m³)",
+              "fr": "Relevé (kWh ou m³)",
+              "es": "Lectura (kWh o m³)",
+              "it": "Lettura (kWh o m³)",
+              "da": "Aflæsning (kWh eller m³)",
+              "sv": "Mätarställning (kWh eller m³)",
+              "no": "Avlesning (kWh eller m³)",
+              "pl": "Odczyt (kWh lub m³)",
+              "ru": "Показания (кВт·ч или м³)",
+              "ar": "القراءة (كيلوواط ساعة أو م³)",
+              "ko": "검침값 (kWh 또는 m³)"
+            }
+          }
+        ],
+        "id": "send_meter"
+      },
+      {
+        "title": {
           "en": "Set battery cost",
           "nl": "Stel batterijkosten in",
           "de": "Batteriekosten einstellen",
@@ -19352,6 +19427,7 @@
         "id": "set_hourly_fixed_cost"
       },
       {
+        "deprecated": true,
         "title": {
           "en": "Send reading to virtual meter",
           "nl": "Stuur meterstand naar virtueel apparaat",
@@ -40374,6 +40450,28 @@
         "ar": "دقيقة"
       },
       "decimals": 0
+    },
+    "virtual_meter": {
+      "type": "string",
+      "title": {
+        "en": "Virtual meter",
+        "nl": "Virtuele meter",
+        "de": "Virtueller Zähler",
+        "fr": "Compteur virtuel",
+        "it": "Contatore virtuale",
+        "sv": "Virtuell mätare",
+        "no": "Virtuell måler",
+        "es": "Medidor virtual",
+        "da": "Virtuel måler",
+        "pl": "Licznik wirtualny",
+        "ru": "Виртуальный счётчик",
+        "ar": "عداد افتراضي",
+        "ko": "가상 계량기"
+      },
+      "getable": false,
+      "setable": false,
+      "insights": false,
+      "uiComponent": null
     }
   }
 }
