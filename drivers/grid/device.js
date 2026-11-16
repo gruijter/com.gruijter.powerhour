@@ -790,8 +790,10 @@ class GridDevice extends GenericDevice {
         changed = true;
         return;
       }
+      // Other batteries (also while they load at startup): the hour starts again, the others from Insights.
       if (base.batteries !== now.batteries) {
         Object.assign(base, { charged: now.charged, discharged: now.discharged, batteries: now.batteries });
+        if (period !== 'hour') base.seeded = null;
         changed = true;
       }
       Object.keys(base).filter((key) => key.startsWith('ev_') && !(key in now)).forEach((key) => {
@@ -807,7 +809,7 @@ class GridDevice extends GenericDevice {
       });
     });
     if (changed) this.markStoreDirty('energyBaselines');
-    if (['month', 'year'].some((p) => this.energyBaselines[p].seeded === null)) this.seedEnergyBaselines().catch(this.error);
+    if (['day', 'month', 'year'].some((p) => this.energyBaselines[p].seeded === null)) this.seedEnergyBaselines().catch(this.error);
   }
 
   // The month and year baselines at their contract starts, not at the first run: import/export from
@@ -858,13 +860,13 @@ class GridDevice extends GenericDevice {
   // A new key seeds again: a new contract start, or a new seeding version.
   energySeedKey() {
     const start = this.getStoreValue('contractStart');
-    return start ? `${start}/3` : null;
+    return start ? `${start}/4` : null;
   }
 
   async seedEnergyBaselinesOnce() {
     const key = this.energySeedKey();
     if (!key || !this.energyBaselines) return;
-    const due = ['month', 'year'].filter((p) => this.energyBaselines[p] && this.energyBaselines[p].seeded !== key);
+    const due = ['day', 'month', 'year'].filter((p) => this.energyBaselines[p] && this.energyBaselines[p].seeded !== key);
     if (!due.length) return;
     let api = null;
     try {
@@ -880,12 +882,17 @@ class GridDevice extends GenericDevice {
         return [];
       }
     };
-    const starts = MeterHelpers.periodStarts(TimeHelpers.toLocalDate(new Date(), this.timeZone), this.startDay, this.startMonth);
+    const nowLocal = TimeHelpers.toLocalDate(new Date(), this.timeZone);
+    const starts = {
+      ...MeterHelpers.periodStarts(nowLocal, this.startDay, this.startMonth),
+      day: new Date(nowLocal.getFullYear(), nowLocal.getMonth(), nowLocal.getDate()),
+    };
+    const splits = { day: this.lastDirectionalReadingDay, month: this.lastDirectionalReadingMonth, year: this.lastDirectionalReadingYear };
     const at = (deviceId, cap, ms) => ContractYear.meterAt(api, deviceId, [cap], ms, { orFirst: true }).catch(() => null);
     for (const period of due) {
       const ms = ContractYear.localStartMs(starts[period], this.timeZone);
       const base = this.energyBaselines[period];
-      const split = period === 'month' ? this.lastDirectionalReadingMonth : this.lastDirectionalReadingYear;
+      const split = splits[period];
       if (split && typeof split.importValue === 'number') base.imported = split.importValue;
       if (split && typeof split.exportValue === 'number') base.exported = split.exportValue;
       const home = await at(this.getId(), 'meter_power_hidden.home', ms);
@@ -899,11 +906,12 @@ class GridDevice extends GenericDevice {
         }
         if (typeof base[kind] === 'number') base[kind] = sum;
         for (const d of devices('evCharger')) {
-          const key = `ev_${d.getId()}_${kind}`;
+          const evKey = `ev_${d.getId()}_${kind}`;
           const v = typeof d.counterAt === 'function' ? await d.counterAt(api, cap, ms).catch(() => null) : await at(d.getId(), cap, ms);
-          if (typeof v === 'number' && typeof base[key] === 'number') base[key] = v;
+          if (typeof v === 'number' && typeof base[evKey] === 'number') base[evKey] = v;
         }
       }
+      base.batteries = devices('battery').map((d) => d.getId()).sort().join(',');
       base.seeded = key;
       this.log(`${this.getName()}: ${period} energy baselines from ${starts[period].toDateString()}`, base);
     }
