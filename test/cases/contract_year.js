@@ -225,6 +225,124 @@ const rising = (t0, n) => ({
     assert.strictEqual(MeterHelpers.calculateMoney({ day: 0, meterValue: 1 }, r2, 2).contract, undefined);
   });
 
+  await test('meter at a time two years back: last2Years weeks, only before the finer points', async () => {
+    const year = new Date().getUTCFullYear();
+    const week = 7 * 24 * HOUR;
+    const t2 = Date.UTC(year - 2, 0, 1);
+    const t1 = Date.UTC(year - 1, 0, 1);
+    const linear = (t) => (t - t2) / HOUR; // 1 kWh per hour
+    const data = {
+      last2Years: { step: week, values: Array.from({ length: 104 }, (_, i) => ({ t: new Date(t2 + i * week).toISOString(), v: linear(t2 + i * week + week / 2) + (t2 + i * week >= t1 ? 1000 : 0) })) },
+      lastYear: { step: 6 * HOUR, values: Array.from({ length: 1460 }, (_, i) => ({ t: new Date(t1 + i * 6 * HOUR).toISOString(), v: linear(t1 + i * 6 * HOUR + 3 * HOUR) })) },
+      thisYear: { step: 6 * HOUR, values: [] },
+    };
+    const asked = [];
+    const api = {
+      insights: {
+        getLog: async () => ({ id: 'x' }),
+        getLogEntries: async ({ resolution }) => {
+          asked.push(resolution);
+          return data[resolution];
+        },
+      },
+    };
+    const ms = Date.UTC(year - 2, 5, 1);
+    assert.ok(Math.abs(await ContractYear.meterAt(api, 'd', ['meter_power'], ms) - linear(ms)) < 1e-6);
+    assert.deepStrictEqual(asked, ['thisYear', 'lastYear', 'last2Years']);
+    // In last year: the 6-hour points, the overlapping (wrong) weeks are dropped.
+    const ms1 = Date.UTC(year - 1, 5, 1);
+    assert.ok(Math.abs(await ContractYear.meterAt(api, 'd', ['meter_power'], ms1) - linear(ms1)) < 1e-6);
+  });
+
+  await test('re-anchor and source switch move the contract start too', async () => {
+    const store = {};
+    const reading = (v) => ({ meterValue: v });
+    const dev = Object.assign(Object.create(SumDevice.prototype), {
+      lastReadingHour: reading(19990),
+      lastReadingDay: reading(19980),
+      lastReadingMonth: reading(19900),
+      lastReadingYear: reading(19000),
+      lastReadingContract: reading(18000),
+      setStoreValue: async (k, v) => {
+        store[k] = v;
+      },
+      error: (e) => {
+        throw e;
+      },
+    });
+    await dev.reanchorBaselines(50);
+    assert.strictEqual(store.lastReadingContract.meterValue, 50);
+    dev.lastReadingContract = reading(18000);
+    await MeterHelpers.shiftBaselines(dev, -15000);
+    assert.strictEqual(dev.lastReadingContract.meterValue, 3000);
+  });
+
+  await test('contract money: NaN heals like the other periods', async () => {
+    const money = MeterHelpers.calculateMoney({
+      day: 0, month: 0, year: 0, contract: NaN, meterValue: 10,
+    }, { meterValue: 11 }, 2);
+    assert.strictEqual(money.contract, 2);
+  });
+
+  await test('contract money after a new start: kWh since money counts, markups since the start', async () => {
+    const caps = { meter_power: 1000 };
+    const store = { moneySince: 800, fixedMoney: { month: 1, year: 10 } };
+    const dev = Object.assign(Object.create(SumDevice.prototype), {
+      ds: { cmap: { meter_source: 'meter_power' } },
+      meterMoney: { year: 110 },
+      lastReadingYear: { meterValue: 500 },
+      lastReadingContract: { meterValue: 900 },
+      getCapabilityValue: (c) => caps[c],
+      getStoreValue: (k) => store[k],
+      fixedMoneySince: () => 4,
+    });
+    // Year energy 100 over 200 kWh (since 800); contract 100 kWh: 50, plus 4 markups.
+    assert.strictEqual(dev.contractMoney(), 54);
+    // Both starts before pairing: the year's energy money.
+    dev.lastReadingContract = { meterValue: 700 };
+    assert.strictEqual(dev.contractMoney(), 104);
+  });
+
+  await test('grid contract money: import and export each scaled with their own kWh', async () => {
+    const GridDevice = require('../../drivers/grid/device');
+    const dev = Object.assign(Object.create(GridDevice.prototype), {
+      ds: { cmap: { meter_source: 'meter_power' } },
+      getCapabilityValue: () => 50,
+      getStoreValue: () => undefined,
+      fixedMoney: { month: 0, year: 0 },
+      lastReadingYear: { meterValue: 0 },
+      lastReadingContract: { meterValue: 40 },
+      directionalMeter: { importValue: 1000, exportValue: 950 },
+      lastDirectionalReadingYear: { importValue: 0, exportValue: 0 },
+      lastDirectionalReadingContract: { importValue: 500, exportValue: 600 },
+      splitMoney: { year: { imported: 300, exported: 95 } },
+    });
+    // Net year money 205; contract: 300 * 0.5 - 95 * 350/950 = 115.
+    assert.ok(Math.abs(dev.contractEnergyMoney(205) - 115) < 1e-9);
+  });
+
+  await test('calendar move: last month and year kWh from Insights, money scaled with them', async () => {
+    const caps = {
+      meter_kwh_last_month: 200, meter_kwh_last_year: 2000, meter_money_last_month: 50, meter_money_last_year: 500,
+    };
+    const dev = Object.assign(Object.create(null), MeterDeviceMixin, {
+      driver: { id: 'power' },
+      ds: { cmap: { last_month: 'meter_kwh_last_month', last_year: 'meter_kwh_last_year', meter_source: 'meter_power' } },
+      meterMoney: { lastMonth: 50, lastYear: 500 },
+      timeZone: 'Europe/Amsterdam',
+      hasCapability: (c) => c in caps,
+      getCapabilityValue: (c) => caps[c],
+      setCapability: async (c, v) => {
+        caps[c] = v;
+      },
+      getSettings: () => ({ markup_month: 10 }),
+    });
+    await dev.rebaseLastPeriods({ month: 100, year: 3000 });
+    assert.deepStrictEqual([caps.meter_kwh_last_month, caps.meter_kwh_last_year], [100, 3000]);
+    // Month: (50 - 10) * 0.5 + 10; year: (500 - 120) * 1.5 + 120.
+    assert.deepStrictEqual([caps.meter_money_last_month, caps.meter_money_last_year], [30, 690]);
+  });
+
   process.exitCode = failed ? 1 : 0;
 })().catch((err) => {
   console.log(err);
