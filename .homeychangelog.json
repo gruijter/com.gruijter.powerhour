@@ -1,4 +1,7 @@
 {
+  "9.0.4": {
+    "en": "New widgets: energy, energy flows and battery plan. Calendar month and year for every meter, contract year when it does not start on 1 January. Time of day markup per quarter hour. Meter reading via device card. Fix double counting in Homey Energy."
+  },
   "9.0.3": {
     "en": "Much lower memory use. Extra precise planning off after a crash. EV charger: minimum charging time. Battery pairing: capacity and power from Insights. Price flows after the new tariff. Price limit tag on cheapest block card. Export tags: electricity only. Import price not below 0. Fix solar retraining. Fix history of some batteries and meters."
   },
