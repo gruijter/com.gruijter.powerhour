@@ -21,6 +21,7 @@ const SOURCES = {
 };
 const WIDGETS = ['energy', 'plan', 'flows', 'solar'];
 const DIAGRAM = ['energy']; // also gets flow.js and flow.css
+const PERIOD_TABS = ['energy', 'flows']; // also get periodcache.js
 
 // Inner markup of one icon in a 100 x 100 box.
 const glyph = (file) => {
@@ -77,11 +78,11 @@ WIDGETS.forEach((w) => {
   const dir = path.join(ROOT, 'widgets', w, 'public');
   if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
   fs.writeFileSync(path.join(dir, 'icons.js'), js);
-  ['colors.css', ...(DIAGRAM.includes(w) ? ['flow.js', 'flow.css'] : [])].forEach((f) => {
+  ['colors.css', ...(DIAGRAM.includes(w) ? ['flow.js', 'flow.css'] : []), ...(PERIOD_TABS.includes(w) ? ['periodcache.js'] : [])].forEach((f) => {
     const note = f.endsWith('.css') ? '/* Copy of tools/widget-shared/' : '// Copy of tools/widget-shared/';
     const end = f.endsWith('.css') ? ' - edit there, run gen.js. */' : ' - edit there, run gen.js.';
     fs.writeFileSync(path.join(dir, f), `${note}${f}${end}\n${fs.readFileSync(path.join(__dirname, f), 'utf8')}`);
   });
 });
 // eslint-disable-next-line no-console
-console.log('icons.js, colors.css, flow.js, flow.css written for', WIDGETS.join(', '));
+console.log('icons.js, colors.css, flow.js, flow.css, periodcache.js written for', WIDGETS.join(', '));

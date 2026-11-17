@@ -394,9 +394,19 @@
           .finally(function () { if (!ready) fit(); });
       }
 
+      // Per 15-minute slot (now is the left edge), 30 s after the slot change: the plans update first.
+      var fetchedSlot = -1;
+      function slotNow() { return Math.floor((Date.now() - 30000) / 900000); }
+      function tick() {
+        if (!document.hidden && slotNow() !== fetchedSlot) { fetchedSlot = slotNow(); refresh(); }
+        setTimeout(tick, 900000 - ((Date.now() - 30000) % 900000));
+      }
+      fetchedSlot = slotNow();
       refresh();
-      setInterval(refresh, 60000);
-      document.addEventListener('visibilitychange', function () { if (!document.hidden) refresh(); });
+      setTimeout(tick, 900000 - ((Date.now() - 30000) % 900000));
+      document.addEventListener('visibilitychange', function () {
+        if (!document.hidden && slotNow() !== fetchedSlot) { fetchedSlot = slotNow(); refresh(); }
+      });
     }
 
     if (typeof window.Homey !== 'undefined') onHomeyReady(window.Homey);

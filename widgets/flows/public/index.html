@@ -17,6 +17,7 @@
     .dots { fill: none; stroke: var(--text); stroke-width: 2; stroke-linecap: round; stroke-dasharray: 0 12; opacity: 0.45; animation: run linear infinite; }
     @keyframes run { to { stroke-dashoffset: -36; } }
   </style>
+  <script src="periodcache.js"></script>
 </head>
 <body>
   <div class="tabs" id="tabs"></div>
@@ -87,7 +88,7 @@
       try { period = localStorage.getItem(key) || 'now'; } catch (e) { /* no storage: default */ }
       if (PERIODS.indexOf(period) < 0) period = 'now';
       var ready = false;
-      var lastFetch = 0;
+      var store = window.PbthPeriodCache();
       var t = function (k) { return Homey.__('widget.' + k); };
       var cap = function (s) { return s.charAt(0).toUpperCase() + s.slice(1); };
 
@@ -100,7 +101,10 @@
           period = p;
           try { localStorage.setItem(key, p); } catch (e) { /* not kept */ }
           markTabs();
-          refresh(true);
+          if (store.fresh(period)) {
+            render(store.get(period));
+            fit();
+          } else refresh(true);
         });
         tabs.appendChild(b);
       });
@@ -415,7 +419,14 @@
       }
 
       var settings = (typeof Homey.getSettings === 'function' && Homey.getSettings()) || {};
-      if (typeof Homey.onSettings === 'function') Homey.onSettings(function (x) { settings = x || settings; refresh(true); });
+      // Settings change what is asked (zones, Homey Energy): the kept data is dropped.
+      if (typeof Homey.onSettings === 'function') {
+        Homey.onSettings(function (x) {
+          settings = x || settings;
+          store.clear();
+          refresh(true);
+        });
+      }
       function render(d) {
         var noGrid = !d || !d.grid;
         svg.style.display = noGrid ? 'none' : '';
@@ -427,18 +438,25 @@
         draw(d);
       }
 
-      // Live power every 5 s, a period every 30 s.
+      // Live power every 5 s; a period only when it can have changed (periodcache.js).
       function refresh(force) {
-        if (!force && (document.hidden || (period !== 'now' && Date.now() - lastFetch < 29000))) return;
-        lastFetch = Date.now();
+        if ((document.hidden && ready) || store.pending[period]) return;
+        if (!force && store.fresh(period)) return;
         var asked = period;
+        store.pending[asked] = true;
         var ids = typeof Homey.getDeviceIds === 'function' ? Homey.getDeviceIds() || [] : [];
         var zonesOn = settings.zones !== false ? '1' : '0';
         var homeyOn = settings.zones !== false && settings.zones_homey === true ? '1' : '0';
-        Homey.api('GET', '/?period=' + period + '&zones=' + zonesOn + '&homey=' + homeyOn + '&ids=' + encodeURIComponent(ids.join(',')), {})
-          .then(function (d) { if (asked === period) render(d); }) // not after a tab change
+        Homey.api('GET', '/?period=' + asked + '&zones=' + zonesOn + '&homey=' + homeyOn + '&ids=' + encodeURIComponent(ids.join(',')), {})
+          .then(function (d) {
+            store.put(asked, d);
+            if (asked === period) render(d); // not after a tab change
+          })
           .catch(function (err) { console.error(err); })
-          .finally(fit);
+          .finally(function () {
+            store.pending[asked] = false;
+            fit();
+          });
       }
 
       refresh(true);

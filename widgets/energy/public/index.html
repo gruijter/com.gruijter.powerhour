@@ -18,6 +18,7 @@
   </style>
   <script src="icons.js"></script>
   <script src="flow.js"></script>
+  <script src="periodcache.js"></script>
 </head>
 <body>
   <div class="bar"><div class="tabs" id="tabs"></div><div class="tabs unit" id="unit"></div></div>
@@ -51,7 +52,6 @@
       if (UNITS.indexOf(unit) < 0) unit = 'kwh';
       var currency = '€';
       var ready = false;
-      var lastFetch = 0;
 
       function label(id) { return Homey.__('widget.' + id); }
 
@@ -96,7 +96,8 @@
             localStorage.setItem(key + '-unit', unit);
           } catch (e) { /* not kept */ }
           markTabs();
-          refresh(true);
+          if (store.fresh(period)) show();
+          else refresh(true);
         });
         parent.appendChild(b);
       }
@@ -125,7 +126,8 @@
 
       // EVs: one or two nodes (two with their names), three or more as one node with the total.
       // build(ev | null for the total, label) gives the node; the ring shows the car: solid when
-      // plugged in or charging, dashed when not, dashed and pale without a line when away.
+      // plugged in or charging, dashed when not, dashed and pale when away: then without a line, unless
+      // the node is active (energy in the period).
       function evStates(list, build) {
         if (!list || !list.length) return {};
         var deco = function (st, states) {
@@ -134,7 +136,7 @@
           var away = states.every(function (x) { return x === 'away'; });
           st.dashed = !plugged && states.some(function (x) { return x === 'home' || x === 'away'; });
           st.dim = away;
-          if (away) { st.line = false; st.flow = null; }
+          if (away && !st.active) { st.line = false; st.flow = null; }
           return st;
         };
         var states = list.map(function (e) { return e.state; });
@@ -209,12 +211,14 @@
         };
         s.home = { values: [kwh(d.home)], label: label(climateValues.length ? 'home_other' : 'home'), flow: flow(false, d.home || 0) };
         var evs = evStates(d.evs, function (e, name) {
-          if (!e) return { values: [kwh(d.ev)], label: name, flow: flow(false, d.ev || 0) };
+          // active: energy in this period, so a line also when the car is away now.
+          if (!e) return { values: [kwh(d.ev)], label: name, flow: flow(false, d.ev || 0), active: Math.abs(d.ev || 0) >= 0.005 };
           var v2x = typeof e.charged === 'number' && typeof e.discharged === 'number';
           return {
             values: v2x ? [{ dir: 'into', text: kwh(e.discharged) }, { dir: 'out', text: kwh(e.charged) }] : [kwh(e.kwh)],
             label: name,
             flow: v2x ? flow(e.discharged > e.charged, e.discharged - e.charged) : flow(false, e.kwh || 0),
+            active: (v2x ? e.charged + e.discharged : Math.abs(e.kwh || 0)) >= 0.005,
           };
         });
         s.ev = evs.ev;
@@ -265,15 +269,28 @@
         PbthFlow.draw(svg, period === 'now' ? powerStates(d) : energyStates(d), { wide: settings.shape !== 'normal' });
       }
 
-      // Live power every 5 s, a period every 30 s.
+      // Live power every 5 s; a period only when it can have changed (periodcache.js). A unit or
+      // settings change draws the kept data again.
+      var store = window.PbthPeriodCache();
+      function show() {
+        var d = store.get(period);
+        if (!d) return;
+        render(d);
+        PbthFlow.fit(Homey);
+      }
       function refresh(force) {
-        if (!force && ((document.hidden && ready) || (period !== 'now' && Date.now() - lastFetch < 29000))) return;
-        lastFetch = Date.now();
-        var asked = period + unit;
-        Homey.api('GET', '/?period=' + period, {})
-          .then(function (d) { if (asked === period + unit) render(d); }) // not after a tab change
+        if ((document.hidden && ready) || store.pending[period]) return;
+        if (!force && store.fresh(period)) return;
+        var asked = period;
+        store.pending[asked] = true;
+        Homey.api('GET', '/?period=' + asked, {})
+          .then(function (d) {
+            store.put(asked, d);
+            if (asked === period) render(d); // not after a tab change
+          })
           .catch(function (err) { console.error(err); })
           .finally(function () {
+            store.pending[asked] = false;
             ready = true;
             PbthFlow.fit(Homey);
           });
@@ -282,7 +299,8 @@
       if (typeof Homey.onSettings === 'function') {
         Homey.onSettings(function (s) {
           settings = s || settings;
-          refresh(true);
+          if (store.get(period)) show();
+          else refresh(true);
         });
       }
       refresh(true);

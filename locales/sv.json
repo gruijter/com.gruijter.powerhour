@@ -376,10 +376,14 @@
     "yesterday": "Igår",
     "today": "Idag",
     "tomorrow": "I morgon",
-    "measured": "Uppmätt",
     "expected": "Förväntat",
     "worth": "Värde",
-    "peak": "Topp",
+    "weeks": "4 veckor",
+    "yield": "Produktion",
+    "power": "Effekt",
+    "unknown": "okänt",
+    "estimated": "uppskattat",
+    "building": "Historik byggs…",
     "own_use": "Egen förbrukning",
     "no_solar": "Lägg först till en Solmonitor."
   }

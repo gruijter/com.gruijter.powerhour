@@ -11,33 +11,41 @@
       color: var(--muted); font: inherit; font-size: 12px; cursor: pointer;
     }
     .tabs button.on { background: var(--node-bg); color: var(--text); font-weight: 600; }
-    .stats { display: flex; margin: 0 8px 2px; }
+    .head { display: flex; justify-content: space-between; gap: 8px; margin: 0 8px; font-size: 12px; }
+    .head b { color: var(--text); font-weight: 600; white-space: nowrap; }
+    .head span { color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .stats { display: flex; margin: 2px 8px 2px; }
     .stat { flex: 1; min-width: 0; }
     .stat b { display: block; color: var(--text); font-size: 15px; font-weight: 600; white-space: nowrap; }
     .stat span { display: block; color: var(--muted); font-size: 11px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     svg { display: block; width: 100%; height: auto; touch-action: pan-y; }
-    .sel { fill: var(--text); font-size: 11px; font-weight: 600; }
-    .sel .m { fill: var(--muted); font-weight: 400; }
     .tick { fill: var(--muted); font-size: 9px; }
     .grid { stroke: var(--line); stroke-width: 1; }
     .now { stroke: var(--muted); stroke-width: 1; stroke-dasharray: 3 3; }
     .cursor { stroke: var(--text); stroke-width: 1; opacity: 0.5; }
+    .legend { display: flex; gap: 12px; margin: 0 8px 4px; color: var(--muted); font-size: 11px; }
+    .legend i { display: inline-block; width: 9px; height: 9px; margin-right: 4px; border-radius: 2px; background: var(--c-solar); vertical-align: -1px; }
+    .legend i.line { height: 0; border-top: 2px dashed var(--c-solar); background: none; border-radius: 0; vertical-align: 3px; }
   </style>
 </head>
 <body>
   <div class="tabs" id="tabs"></div>
+  <div class="head"><b id="title"></b><span id="note"></span></div>
   <div class="stats" id="stats"></div>
-  <svg id="chart" viewBox="0 0 320 200"></svg>
+  <svg id="chart" viewBox="0 0 320 170"></svg>
+  <div class="legend" id="legend"></div>
   <div id="empty"></div>
   <script>
     var started = false;
-    var TABS = ['yesterday', 'today', 'tomorrow', 'month', 'year'];
+    var TABS = ['yesterday', 'today', 'tomorrow', 'weeks', 'year'];
     var NS = 'http://www.w3.org/2000/svg';
     var W = 320; // 480 for the widescreen shape (setting shape)
     var X0 = 34; // y labels to the left: 34 (W, kW), 46 (kWh)
-    var TOP = 20; // the selected time above the chart
+    var TOP = 6;
     var AXIS = 14;
-    var PALE = 0.3; // forecast; the part not used at home
+    var REST = 0.3; // the part exported
+    var UNKNOWN = 0.6; // own use unknown
+    var FORECAST = 'var(--c-solar)';
 
     function el(tag, attrs, parent, text) {
       var e = document.createElementNS(NS, tag);
@@ -57,6 +65,9 @@
       var svg = document.getElementById('chart');
       var stats = document.getElementById('stats');
       var tabs = document.getElementById('tabs');
+      var titleEl = document.getElementById('title');
+      var noteEl = document.getElementById('note');
+      var legend = document.getElementById('legend');
       var empty = document.getElementById('empty');
       var settings = (typeof Homey.getSettings === 'function' && Homey.getSettings()) || {};
       var key = 'pbth-solar-' + (typeof Homey.getWidgetInstanceId === 'function' ? Homey.getWidgetInstanceId() : '');
@@ -64,27 +75,39 @@
       try { tab = localStorage.getItem(key) || 'today'; } catch (e) { /* no storage: default */ }
       if (TABS.indexOf(tab) < 0) tab = 'today';
       var data = null;
-      var sel = null; // selected slot or bar, null: the default (now, the peak or today)
+      var sel = null; // selected slot or bar; null: the whole period
       var chart = null;
       var ready = false;
       var lastHeight = 0;
       var timeFmt = null;
 
       function power(w) {
-        if (typeof w !== 'number') return '-';
+        if (typeof w !== 'number') return '–';
         return w < 1000 ? Math.round(w) + ' W' : fmt[1].format(w / 1000) + ' kW';
       }
       function kwh(v) {
-        if (typeof v !== 'number') return '-';
+        if (typeof v !== 'number') return '–';
         if (v >= 10000) return fmt[1].format(v / 1000) + ' MWh';
         return fmt[v < 10 ? 2 : v < 1000 ? 1 : 0].format(v) + ' kWh';
       }
-      function pct(share) { return typeof share === 'number' ? Math.round(share * 100) + '%' : '-'; }
+      function share(own, total) {
+        return typeof own === 'number' && total > 0 ? Math.round((own / total) * 100) + '%' : '–';
+      }
       function money(v) {
+        if (typeof v !== 'number') return '–';
         var decimals = typeof data.decimals === 'number' ? data.decimals : 2;
         var f = new Intl.NumberFormat(lang, { minimumFractionDigits: decimals, maximumFractionDigits: decimals });
         return (v < 0 ? '−' : '') + (data.currency || '') + ' ' + f.format(Math.abs(v));
       }
+      // 'YYYY-MM-DD' as a short date: 'di 12 nov' (long) or '12 nov'.
+      function dateText(k, long) {
+        if (!k) return '';
+        var p = k.split('-').map(Number);
+        var o = { day: 'numeric', month: 'short', timeZone: 'UTC' };
+        if (long) o.weekday = 'short';
+        return new Intl.DateTimeFormat(lang, o).format(Date.UTC(p[0], p[1] - 1, p[2]));
+      }
+      function monthText(m) { return new Intl.DateTimeFormat(lang, { month: 'long', timeZone: 'UTC' }).format(Date.UTC(2026, m, 15)); }
 
       TABS.forEach(function (id) {
         var b = document.createElement('button');
@@ -96,7 +119,11 @@
           sel = null;
           try { localStorage.setItem(key, id); } catch (e) { /* not kept */ }
           markTabs();
-          refresh();
+          if (stale()) refresh();
+          else {
+            data = cache[tab].data;
+            draw();
+          }
         });
         tabs.appendChild(b);
       });
@@ -105,39 +132,75 @@
       }
       markTabs();
 
-      function stat(value, label) {
-        var d = document.createElement('div');
-        d.className = 'stat';
-        var b = document.createElement('b');
-        b.textContent = value;
-        var s = document.createElement('span');
-        s.textContent = label;
-        d.appendChild(b);
-        d.appendChild(s);
-        stats.appendChild(d);
+      // The one row of numbers: the whole period, or the selected slot or bar.
+      function setHead(title, note, cells) {
+        titleEl.textContent = title;
+        noteEl.textContent = note || '';
+        while (stats.firstChild) stats.removeChild(stats.firstChild);
+        cells.forEach(function (c) {
+          var d = document.createElement('div');
+          d.className = 'stat';
+          var b = document.createElement('b');
+          b.textContent = c[0];
+          var s = document.createElement('span');
+          s.textContent = c[1];
+          d.appendChild(b);
+          d.appendChild(s);
+          stats.appendChild(d);
+        });
       }
 
-      // The numbers of the period above the chart.
-      function drawStats(d) {
-        while (stats.firstChild) stats.removeChild(stats.firstChild);
-        if (d.day === 'tomorrow') {
-          stat(kwh(d.expectedKwh), t('expected'));
-          if (d.forecast) {
-            var pk = peakIdx(d.forecast);
-            stat(power(d.forecast[pk]), t('peak') + ' ' + timeFmt.format(d.startMs + pk * d.slotMs));
+      function periodTitle(d) {
+        if (d.day === 'year') return String(new Date().getFullYear());
+        return t(d.day);
+      }
+
+      function drawHead() {
+        var d = data;
+        var bars = d.day === 'weeks' || d.day === 'year';
+        var idx = sel;
+        if (idx === null) {
+          var tot = d.total || {};
+          var note = '';
+          if (d.building && bars) note = t('building');
+          else if (tot.est) note = '≈ ' + t('estimated');
+          else if ((d.day === 'today' || d.day === 'yesterday') && typeof d.expectedKwh === 'number') note = t('expected') + ' ' + kwh(d.expectedKwh);
+          if (d.day === 'tomorrow') {
+            setHead(periodTitle(d), '', [[kwh(d.expectedKwh), t('expected')], ['–', t('own_use')], ['–', t('worth')]]);
+            return;
           }
+          setHead(periodTitle(d), note, [[kwh(tot.kwh), t('yield')], [share(tot.own, tot.kwh), t('own_use')], [money(tot.money), t('worth')]]);
           return;
         }
-        stat(kwh(d.kwh), t('measured'));
-        if (d.day === 'yesterday' || d.day === 'today') stat(kwh(d.expectedKwh), t('expected'));
-        stat(pct(d.share), t('own_use'));
-        if (typeof d.money === 'number') stat(money(d.money), t('worth'));
+        if (bars) {
+          var b = d.bars[idx] || {};
+          var title = d.day === 'year' ? monthText(idx) : dateText(b.date, true);
+          setHead(title, b.est ? '≈ ' + t('estimated') : '', [[kwh(b.kwh), t('yield')], [share(b.own, b.kwh), t('own_use')], [money(b.money), t('worth')]]);
+          return;
+        }
+        var measured = idx === chart.nowIdx && typeof d.nowW === 'number' ? d.nowW : d.real[idx];
+        var o = d.own ? d.own[idx] : null;
+        var time = timeFmt.format(d.startMs + idx * d.slotMs);
+        if (typeof measured !== 'number') {
+          setHead(time, '', [[power(d.forecast[idx]), t('expected')], ['–', t('own_use')], ['–', t('worth')]]);
+          return;
+        }
+        setHead(time, t('expected') + ' ' + power(d.forecast[idx]), [
+          [power(measured), t('power')], [typeof o === 'number' ? Math.round(o * 100) + '%' : '–', t('own_use')], ['–', t('worth')],
+        ]);
       }
 
-      function peakIdx(vals) {
-        var best = 0;
-        vals.forEach(function (v, i) { if ((v || 0) > (vals[best] || 0)) best = i; });
-        return best;
+      function drawLegend(items) {
+        while (legend.firstChild) legend.removeChild(legend.firstChild);
+        items.forEach(function (it) {
+          var s = document.createElement('span');
+          var i = document.createElement('i');
+          if (it[1] === 'line') i.className = 'line';
+          else i.style.opacity = it[1];
+          s.appendChild(i);
+          s.appendChild(document.createTextNode(it[0].charAt(0).toUpperCase() + it[0].slice(1)));
+          legend.appendChild(s);
+        });
       }
 
       // A round step for 2-4 grid lines up to max.
@@ -156,29 +219,20 @@
         el('line', { x1: X0, x2: X1, y1: bottom, y2: bottom, class: 'grid' }, svg);
       }
 
-      function stepPath(vals, sw, x0, x1, y, h, max) {
-        var p = 'M' + x0 + ' ' + y;
+      // Step area of vals (>= 0) on top of base (per slot), scaled to h from baseline y.
+      function stackPath(vals, base, sw, y, h, max) {
+        var up = [];
+        var down = [];
         vals.forEach(function (v, i) {
-          var yy = (y - (Math.max(0, v || 0) / max) * h).toFixed(2);
-          p += 'L' + (x0 + i * sw).toFixed(2) + ' ' + yy + 'L' + (x0 + (i + 1) * sw).toFixed(2) + ' ' + yy;
+          var b = base ? base[i] || 0 : 0;
+          var yt = (y - ((b + Math.max(0, v || 0)) / max) * h).toFixed(2);
+          var yb = (y - (b / max) * h).toFixed(2);
+          var xa = (X0 + i * sw).toFixed(2);
+          var xb = (X0 + (i + 1) * sw).toFixed(2);
+          up.push(xa + ' ' + yt, xb + ' ' + yt);
+          down.unshift(xb + ' ' + yb, xa + ' ' + yb);
         });
-        return p + 'L' + x1 + ' ' + y + 'Z';
-      }
-
-      // Line through the slot centres; a gap (no value) breaks it.
-      function linePaths(vals, sw, x0, y, h, max) {
-        var out = [];
-        var cur = [];
-        vals.forEach(function (v, i) {
-          if (typeof v !== 'number') {
-            if (cur.length) out.push(cur);
-            cur = [];
-            return;
-          }
-          cur.push((x0 + (i + 0.5) * sw).toFixed(1) + ',' + (y - (Math.max(0, v) / max) * h).toFixed(1));
-        });
-        if (cur.length) out.push(cur);
-        return out.filter(function (c) { return c.length > 1; }).map(function (c) { return c.join(' '); });
+        return 'M' + up.concat(down).join('L') + 'Z';
       }
 
       function draw() {
@@ -186,23 +240,25 @@
         W = settings.shape !== 'normal' ? 480 : 320;
         var X1 = W - 4;
         var CH = settings.shape !== 'normal' ? 110 : 140;
-        var bars = d && (d.day === 'month' || d.day === 'year');
+        var bars = d && (d.day === 'weeks' || d.day === 'year');
         var missing = !d || !d.solar;
-        var noData = !missing && (bars ? !d.bars : !d.forecast);
-        svg.style.display = missing || noData ? 'none' : '';
+        var noChart = !missing && (bars ? !d.bars : !d.forecast);
+        svg.style.display = missing || noChart ? 'none' : '';
+        legend.style.display = missing || noChart ? 'none' : '';
+        document.querySelector('.head').style.display = missing ? 'none' : '';
         stats.style.display = missing ? 'none' : '';
-        empty.style.display = missing || noData ? 'block' : 'none';
+        empty.style.display = missing || noChart ? 'block' : 'none';
         chart = null;
         if (missing) {
-          while (stats.firstChild) stats.removeChild(stats.firstChild);
-          empty.textContent = t('no_solar');
+          empty.textContent = d && d.solar === false ? '…' : t('no_solar');
           fit();
           return;
         }
         timeFmt = new Intl.DateTimeFormat(lang, { hour: '2-digit', minute: '2-digit', timeZone: d.timeZone });
-        drawStats(d);
-        if (noData) {
-          empty.textContent = '-';
+        if (noChart) {
+          sel = null;
+          drawHead();
+          empty.textContent = '–';
           fit();
           return;
         }
@@ -212,6 +268,7 @@
         var bottom = TOP + CH;
         if (bars) drawBars(d, X1, CH, bottom);
         else drawDay(d, X1, CH, bottom);
+        if (sel !== null && (sel < 0 || sel >= chart.n)) sel = null;
         drawSelection();
         fit();
       }
@@ -225,32 +282,44 @@
         var step = niceStep(top);
         var max = Math.max(top * 1.05, step);
         gridLines(max, step, bottom, CH, X1, function (g) { return step < 1000 ? g + ' W' : fmt[0].format(g / 1000) + ' kW'; });
-        // Hour labels every 2 or 3 hours.
         var every = n > 64 ? 3 : 2;
         for (var i = 0; i < n; i += 1) {
           var hm = hourFmt.format(d.startMs + i * d.slotMs).split(':');
           if (hm[1] !== '00' || Number(hm[0]) % every !== 0) continue;
           el('text', { x: X0 + i * sw, y: bottom + 11, 'text-anchor': 'middle', class: 'tick' }, svg, hm[0]);
         }
-        el('path', { d: stepPath(d.forecast, sw, X0, X1, bottom, CH, max), fill: color, opacity: PALE }, svg);
-        linePaths(d.real, sw, X0, bottom, CH, max).forEach(function (pts) {
-          el('polyline', {
-            points: pts, fill: 'none', stroke: color, 'stroke-width': 2, 'stroke-linejoin': 'round', 'stroke-linecap': 'round',
-          }, svg);
-        });
+        // Measured: own use solid, the rest pale; own use unknown: one shade.
+        var knownAt = function (k) { return typeof d.real[k] === 'number' && d.own && typeof d.own[k] === 'number'; };
+        var ownW = d.real.map(function (r, k) { return knownAt(k) ? r * d.own[k] : 0; });
+        var restW = d.real.map(function (r, k) { return knownAt(k) ? r - ownW[k] : 0; });
+        var unknownW = d.real.map(function (r, k) { return typeof r === 'number' && !knownAt(k) ? r : 0; });
+        var hasUnknown = unknownW.some(function (v) { return v > 0; });
+        el('path', { d: stackPath(ownW, null, sw, bottom, CH, max), fill: color }, svg);
+        el('path', { d: stackPath(restW, ownW, sw, bottom, CH, max), fill: color, opacity: REST }, svg);
+        if (hasUnknown) el('path', { d: stackPath(unknownW, null, sw, bottom, CH, max), fill: color, opacity: UNKNOWN }, svg);
+        // Forecast: a dashed line.
+        var pts = d.forecast.map(function (v, k) { return (X0 + (k + 0.5) * sw).toFixed(1) + ',' + (bottom - (Math.max(0, v) / max) * CH).toFixed(1); });
+        el('polyline', {
+          points: pts.join(' '), fill: 'none', stroke: FORECAST, 'stroke-width': 1.5, 'stroke-dasharray': '4 3',
+        }, svg);
         var nowIdx = d.day === 'today' ? Math.floor((Date.now() - d.startMs) / d.slotMs) : -1;
         if (nowIdx < 0 || nowIdx >= n) nowIdx = -1;
         if (nowIdx >= 0) {
           var nx = X0 + (nowIdx + 0.5) * sw;
           el('line', { x1: nx, x2: nx, y1: TOP, y2: bottom, class: 'now' }, svg);
         }
-        var def = nowIdx >= 0 ? nowIdx : peakIdx(d.day === 'yesterday' && d.real.some(function (v) { return v; }) ? d.real : d.forecast);
+        var items = [];
+        if (ownW.some(function (v) { return v > 0; })) items.push([t('own_use'), 1]);
+        if (restW.some(function (v) { return v > 0; })) items.push([t('export'), REST]);
+        if (hasUnknown) items.push([t('unknown'), UNKNOWN]);
+        items.push([t('expected'), 'line']);
+        drawLegend(items);
         chart = {
-          n: n, sw: sw, bottom: bottom, sel: el('g', {}, svg), def: def, nowIdx: nowIdx,
+          n: n, sw: sw, bottom: bottom, sel: el('g', {}, svg), nowIdx: nowIdx,
         };
       }
 
-      // Month: a bar per day; year: per month. Own use solid, the rest pale; share unknown: one shade.
+      // Last 4 weeks: a bar per day (dates every 7 days back from today); year: per month.
       function drawBars(d, X1, CH, bottom) {
         var color = 'var(--c-solar)';
         var list = d.bars;
@@ -261,72 +330,40 @@
         var max = Math.max(top * 1.05, step);
         gridLines(max, step, bottom, CH, X1, function (g) { return fmt[g < 1 ? 1 : 0].format(g) + ' kWh'; });
         var monthFmt = new Intl.DateTimeFormat(lang, { month: 'narrow', timeZone: 'UTC' });
+        var hasUnknown = false;
         list.forEach(function (b, i) {
           var x = X0 + i * sw + sw * 0.15;
           var bw = sw * 0.7;
-          var label = d.day === 'year' ? monthFmt.format(Date.UTC(2026, i, 15)) : (i === 0 || (i + 1) % 5 === 0 ? String(i + 1) : '');
-          if (label) el('text', { x: X0 + (i + 0.5) * sw, y: bottom + 11, 'text-anchor': 'middle', class: 'tick' }, svg, label);
+          var label = d.day === 'year' ? monthFmt.format(Date.UTC(2026, i, 15)) : ((n - 1 - i) % 7 === 0 ? dateText(b && b.date) : '');
+          var anchor = i === n - 1 && d.day === 'weeks' ? 'end' : 'middle';
+          if (label) el('text', { x: anchor === 'end' ? X0 + (i + 1) * sw : X0 + (i + 0.5) * sw, y: bottom + 11, 'text-anchor': anchor, class: 'tick' }, svg, label);
           if (!b || !b.kwh) return;
           var h = (b.kwh / max) * CH;
           var known = typeof b.own === 'number';
-          var ownH = known ? (Math.min(b.own, b.kwh) / max) * CH : 0;
+          if (!known) hasUnknown = true;
           el('rect', {
-            x: x, y: bottom - h, width: bw, height: h, rx: Math.min(2, bw / 2), fill: color, opacity: known ? PALE : 0.65,
+            x: x, y: bottom - h, width: bw, height: h, rx: Math.min(2, bw / 2), fill: color, opacity: known ? REST : UNKNOWN,
           }, svg);
+          var ownH = known ? (Math.min(b.own, b.kwh) / max) * CH : 0;
           if (ownH > 0) el('rect', { x: x, y: bottom - ownH, width: bw, height: ownH, fill: color }, svg);
         });
-        var last = -1;
-        list.forEach(function (b, i) { if (b) last = i; });
+        var items = [];
+        if (list.some(function (b) { return b && b.own > 0; })) items.push([t('own_use'), 1], [t('export'), REST]);
+        if (hasUnknown) items.push([t('unknown'), UNKNOWN]);
+        drawLegend(items);
         chart = {
-          n: n, sw: sw, bottom: bottom, sel: el('g', {}, svg), def: Math.max(0, last), nowIdx: -1,
+          n: n, sw: sw, bottom: bottom, sel: el('g', {}, svg), nowIdx: -1,
         };
       }
 
-      function swatch(g, x, opacity) {
-        el('rect', {
-          x: x, y: 5, width: 8, height: 8, rx: 2, fill: 'var(--c-solar)', opacity: opacity,
-        }, g);
-        return x + 11;
-      }
-
-      // Value text with a muted word after it; returns the x after it.
-      function valueText(g, x, value, word) {
-        var e = el('text', { x: x, y: 13, class: 'sel' }, g, value);
-        if (word) el('tspan', { class: 'm' }, e, ' ' + word);
-        return x + e.getComputedTextLength() + 10;
-      }
-
-      // The values of the selected slot or bar (or the default) and the cursor; the chart itself stays.
+      // The head and the cursor of the selection (none: the whole period); the chart itself stays.
       function drawSelection() {
-        var d = data;
         if (!chart) return;
         var g = chart.sel;
         while (g.firstChild) g.removeChild(g.firstChild);
-        var idx = sel === null ? chart.def : Math.max(0, Math.min(chart.n - 1, sel));
-        var x = 4;
-        if (d.day === 'month' || d.day === 'year') {
-          var b = d.bars[idx];
-          var when = d.day === 'year'
-            ? new Intl.DateTimeFormat(lang, { month: 'long', timeZone: 'UTC' }).format(Date.UTC(2026, idx, 15))
-            : new Intl.DateTimeFormat(lang, { day: 'numeric', month: 'short', timeZone: 'UTC' }).format(Date.UTC(2026, new Date().getMonth(), idx + 1));
-          x = valueText(g, x, when);
-          x = swatch(g, x, b && typeof b.own === 'number' ? PALE : 0.65);
-          x = valueText(g, x, kwh(b ? b.kwh : null));
-          if (b && typeof b.own === 'number') {
-            x = swatch(g, x, 1);
-            valueText(g, x, pct(b.kwh > 0 ? b.own / b.kwh : null), t('own_use').toLowerCase());
-          }
-        } else {
-          x = valueText(g, x, timeFmt.format(d.startMs + idx * d.slotMs));
-          var measured = idx === chart.nowIdx && typeof d.nowW === 'number' ? d.nowW : d.real[idx];
-          if (typeof measured === 'number') {
-            x = swatch(g, x, 1);
-            x = valueText(g, x, power(measured), t('measured').toLowerCase());
-          }
-          x = swatch(g, x, PALE + 0.2);
-          valueText(g, x, power(d.forecast[idx]), t('expected').toLowerCase());
-        }
-        var cx = X0 + (idx + 0.5) * chart.sw;
+        drawHead();
+        if (sel === null) return;
+        var cx = X0 + (sel + 0.5) * chart.sw;
         el('line', { x1: cx, x2: cx, y1: TOP, y2: chart.bottom, class: 'cursor' }, g);
       }
 
@@ -351,15 +388,27 @@
       function slotAt(clientX) {
         var r = svg.getBoundingClientRect();
         var x = ((clientX - r.left) / r.width) * W;
-        return Math.floor((x - X0) / chart.sw);
+        return Math.max(0, Math.min(chart.n - 1, Math.floor((x - X0) / chart.sw)));
       }
-      // A tap (or a mouse drag) selects that time.
+      // A tap in the chart selects that slot or bar; a tap anywhere else shows the whole period again.
+      function inChart(evt) {
+        var r = svg.getBoundingClientRect();
+        var k = r.width / W;
+        var x = (evt.clientX - r.left) / k;
+        var y = (evt.clientY - r.top) / k;
+        return x >= X0 && x <= W - 4 && y >= TOP && y <= chart.bottom;
+      }
       var dragging = false;
-      svg.addEventListener('pointerdown', function (evt) {
-        if (!chart) return;
-        dragging = true;
-        try { svg.setPointerCapture(evt.pointerId); } catch (e) { /* no capture: still works inside */ }
-        sel = slotAt(evt.clientX);
+      document.addEventListener('pointerdown', function (evt) {
+        if (!chart || evt.target.closest('#tabs')) return;
+        if (evt.target.closest('#chart') && inChart(evt)) {
+          dragging = true;
+          try { svg.setPointerCapture(evt.pointerId); } catch (e) { /* no capture: still works inside */ }
+          sel = slotAt(evt.clientX);
+        } else {
+          if (sel === null) return;
+          sel = null;
+        }
         drawSelection();
         if (typeof Homey.hapticFeedback === 'function') Homey.hapticFeedback();
       });
@@ -372,20 +421,52 @@
         svg.addEventListener(type, function () { dragging = false; });
       });
 
-      if (typeof Homey.onSettings === 'function') Homey.onSettings(function (x) { settings = x || settings; draw(); });
+      if (typeof Homey.onSettings === 'function') Homey.onSettings(function (x) { settings = x || settings; if (data) draw(); });
 
+      // The last data per tab: a tab switch asks again only when that tab's data can have changed.
+      var cache = {};
+      var pending = {}; // a tab being asked: not again until its answer
       function refresh() {
-        if (document.hidden && ready) return;
+        if ((document.hidden && ready) || pending[tab]) return;
         var ids = typeof Homey.getDeviceIds === 'function' ? Homey.getDeviceIds() || [] : [];
-        Homey.api('GET', '/?day=' + tab + '&ids=' + encodeURIComponent(ids.join(',')), {})
-          .then(function (d) { data = d; draw(); })
+        var asked = tab;
+        pending[asked] = true;
+        Homey.api('GET', '/?day=' + asked + '&ids=' + encodeURIComponent(ids.join(',')), {})
+          .then(function (d) {
+            cache[asked] = { data: d, ms: Date.now(), day: new Date().toDateString() };
+            if (asked !== tab) return;
+            data = d;
+            draw();
+            if (d && d.solar === false) setTimeout(refresh, 15000); // devices still starting
+          })
           .catch(function (err) { console.error(err); })
-          .finally(function () { if (!ready) fit(); });
+          .finally(function () {
+            pending[asked] = false;
+            if (!ready) fit();
+          });
+      }
+
+      // Only when the shown data can have changed: today per 15-minute slot, the other tabs hourly
+      // and on a new day; while the history is being rebuilt every 5 minutes.
+      function stale() {
+        var c = cache[tab];
+        if (!c || c.day !== new Date().toDateString() || !c.data || !c.data.solar) return true;
+        var age = Date.now() - c.ms;
+        if (c.data.building) return age > 300000;
+        if (tab === 'today') return Math.floor((Date.now() - 30000) / 900000) !== Math.floor((c.ms - 30000) / 900000);
+        return age > 3600000;
+      }
+      // Each quarter, 30 s after the slot change (the device updates first); every 5 minutes while
+      // the history is being rebuilt.
+      function tick() {
+        if (stale()) refresh();
+        var building = cache[tab] && cache[tab].data && cache[tab].data.building;
+        setTimeout(tick, building ? 300000 : 900000 - ((Date.now() - 30000) % 900000));
       }
 
       refresh();
-      setInterval(refresh, 60000);
-      document.addEventListener('visibilitychange', function () { if (!document.hidden) refresh(); });
+      setTimeout(tick, 900000 - ((Date.now() - 30000) % 900000));
+      document.addEventListener('visibilitychange', function () { if (!document.hidden && stale()) refresh(); });
     }
 
     if (typeof window.Homey !== 'undefined') onHomeyReady(window.Homey);

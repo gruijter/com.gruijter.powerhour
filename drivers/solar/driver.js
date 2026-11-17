@@ -21,6 +21,8 @@ along with com.gruijter.powerhour.  If not, see <http://www.gnu.org/licenses/>.
 
 const GenericDriver = require('../../lib/genericDeviceDrivers/generic_sum_driver');
 const EnergyPollingHelper = require('../../lib/helpers/EnergyPollingHelper');
+const ContractYear = require('../../lib/helpers/ContractYear');
+const SolarHistory = require('../../lib/helpers/SolarHistory');
 // Dependencies are lazy loaded in methods to save memory
 
 // The screens of the setup view, in order (lib/helpers/PairSetup.js).
@@ -94,6 +96,34 @@ class SolarDriver extends GenericDriver {
   async onInit() {
     this.ds = driverSpecifics;
     await super.onInit().catch(this.error);
+  }
+
+  // The day logs rebuilt from Insights once, for all solar devices together (SolarHistory): at least
+  // 5 minutes after the start and 7 minutes into a quarter, away from the start and slot-change peaks.
+  scheduleHistory() {
+    if (this.historyTimer) return;
+    const at = Date.now() + 5 * 60 * 1000;
+    const quarter = 15 * 60 * 1000;
+    const delay = (Math.ceil((at - 7 * 60 * 1000) / quarter) * quarter + 7 * 60 * 1000) - Date.now();
+    this.historyTimer = this.homey.setTimeout(() => {
+      this.historyTimer = null;
+      ContractYear.serial(() => this.fillHistory()).catch(this.error);
+    }, delay);
+  }
+
+  async fillHistory() {
+    let api = null;
+    try {
+      api = this.homey.app.api;
+    } catch {
+      // not ready
+    }
+    if (!api) {
+      this.scheduleHistory();
+      return;
+    }
+    const result = await SolarHistory.fill(this, api);
+    if (result) this.log('Solar history from Insights:', JSON.stringify(result));
   }
 
   // The grid power, and per device the part of its production used at home (export shared by

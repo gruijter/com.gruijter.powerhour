@@ -376,10 +376,14 @@
     "yesterday": "Gestern",
     "today": "Heute",
     "tomorrow": "Morgen",
-    "measured": "Gemessen",
     "expected": "Erwartet",
     "worth": "Wert",
-    "peak": "Spitze",
+    "weeks": "4 Wochen",
+    "yield": "Ertrag",
+    "power": "Leistung",
+    "unknown": "unbekannt",
+    "estimated": "geschätzt",
+    "building": "Verlauf wird aufgebaut…",
     "own_use": "Eigenverbrauch",
     "no_solar": "Füge zuerst einen Solarmonitor hinzu."
   }

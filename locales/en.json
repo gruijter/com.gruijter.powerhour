@@ -376,10 +376,14 @@
     "yesterday": "Yesterday",
     "today": "Today",
     "tomorrow": "Tomorrow",
-    "measured": "Measured",
     "expected": "Expected",
     "worth": "Value",
-    "peak": "Peak",
+    "weeks": "4 weeks",
+    "yield": "Yield",
+    "power": "Power",
+    "unknown": "unknown",
+    "estimated": "estimated",
+    "building": "Building history…",
     "own_use": "Own usage",
     "no_solar": "Add a Solar Monitor first."
   }

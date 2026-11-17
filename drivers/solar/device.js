@@ -32,8 +32,8 @@ const ChartImages = require('../../lib/helpers/ChartImages');
 const { fetchYesterdayAndToday, convertCumulativeToPower, mergeStoredHistory } = require('../../lib/helpers/HistoryLookup');
 const InsightsHistory = require('../../lib/helpers/InsightsHistory');
 const FileStore = require('../../lib/helpers/FileStore');
-const ContractYear = require('../../lib/helpers/ContractYear');
 
+const HISTORY_VERSION = 2; // raise to rebuild the day log from Insights once more (SolarHistory)
 const BOOTSTRAP_THRESHOLD_DAYS = 14; // days of training data for the solar model
 
 const deviceSpecifics = {
@@ -139,11 +139,7 @@ class SolarDevice extends GenericDevice {
     if (this.forecastData && Object.keys(this.forecastData).length > 0) {
       this.updateForecastDisplay(false).catch(this.error);
     }
-    if (!await this.getStoreValue('dayLogFilled')) {
-      this.homey.setTimeout(() => {
-        ContractYear.serial(() => this.fillDayLog()).catch(this.error);
-      }, 120000);
-    }
+    if (this.historyPending()) this.driver.scheduleHistory();
     // Delayed, to let the source device settle
     if (this.initLearningTimeout) this.homey.clearTimeout(this.initLearningTimeout);
     const finishInit = async () => {
@@ -1118,9 +1114,13 @@ class SolarDevice extends GenericDevice {
     const valYearSC = reading.selfConsumed - (this.lastReadingYear?.selfConsumed || 0);
     const valYearTot = this.lastReadingYear?.totalIntegrated !== undefined ? reading.totalIntegrated - this.lastReadingYear.totalIntegrated : valYear;
 
-    if (periods.newDay && this.lastReadingDay) this.logDay(this.lastReadingDay, valDay, valDayTot > 0 ? valDaySC / valDayTot : null);
+    const dayEnded = periods.newDay && this.lastReadingDay
+      ? { reading: this.lastReadingDay, kwh: valDay, share: valDayTot > 0 ? valDaySC / valDayTot : null } : null;
 
     await super.handleUpdateMeter(reading);
+
+    // The day's money is rolled into meterMoney.lastDay by the base.
+    if (dayEnded) this.logDay(dayEnded.reading, dayEnded.kwh, dayEnded.share, this.meterMoney ? this.meterMoney.lastDay : null);
 
     const setPct = async (cap, valSC, valTotal, isNewPeriod) => {
       if (valTotal > 0) {
@@ -1137,73 +1137,73 @@ class SolarDevice extends GenericDevice {
     await setPct('measure_solar_use.this_year', valYearSC, valYearTot, periods.newYear);
   }
 
-  // Yield per local day of this year for the solar widget, by day of the year (0 = 1 January):
-  // dayLog { year, kwh: [366], share: [366] } (own use 0-1); -1: unknown. Plain number arrays:
-  // a few KB per device.
+  // Per local day of this year, for widgets/solar: dayLog { v: 2, year, kwh, own (kWh used at home),
+  // money (value), est (1: estimated from Insights) [366 by day of the year], mShare, mValue (own
+  // use share and value per kWh of a month, from Insights) [12], prev (the last 31 days of the year
+  // before) }; -1: unknown. Plain number arrays, ~12 KB. Days are logged at midnight; the days before
+  // are rebuilt once from Insights (SolarHistory).
   dayLogFor(year) {
-    if (!this.dayLog || this.dayLog.year !== year) {
-      this.dayLog = { year, kwh: new Array(366).fill(-1), share: new Array(366).fill(-1) };
+    if (!this.dayLog || this.dayLog.v !== 2 || this.dayLog.year !== year) {
+      const old = this.dayLog && this.dayLog.v === 2 && this.dayLog.year === year - 1 ? this.dayLog : null;
+      const days = Math.round((Date.UTC(year, 0, 1) - Date.UTC(year - 1, 0, 1)) / 86400000);
+      const tail = (list) => list.slice(days - 31, days);
+      const empty = () => new Array(366).fill(-1);
+      this.dayLog = {
+        v: 2,
+        year,
+        kwh: empty(),
+        own: empty(),
+        money: empty(),
+        est: empty(),
+        mShare: new Array(12).fill(-1),
+        mValue: new Array(12).fill(-1),
+        prev: old ? {
+          year: year - 1, from: days - 31, kwh: tail(old.kwh), own: tail(old.own), money: tail(old.money), est: tail(old.est),
+        } : null,
+      };
     }
     return this.dayLog;
   }
 
-  // A logged day [kWh, share | null], null without.
+  // A logged day { kwh, own, money, est } (own and money null when unknown), null without.
   loggedDay(year, dayOfYear) {
-    const log = this.dayLog;
-    if (!log || log.year !== year || !(log.kwh[dayOfYear] >= 0)) return null;
-    return [log.kwh[dayOfYear], log.share[dayOfYear] >= 0 ? log.share[dayOfYear] : null];
+    const main = this.dayLog;
+    if (!main || main.v !== 2) return null;
+    let log = null;
+    let i = dayOfYear;
+    if (main.year === year) log = main;
+    else if (main.prev && main.prev.year === year) {
+      log = main.prev;
+      i = dayOfYear - log.from;
+    }
+    if (!log || !(log.kwh[i] >= 0)) return null;
+    return {
+      kwh: log.kwh[i], own: log.own[i] >= 0 ? log.own[i] : null, money: log.money[i] >= 0 ? log.money[i] : null, est: log.est[i] === 1,
+    };
   }
 
-  logDay(reading, kwh, share) {
+  logDay(reading, kwh, share, money) {
     const doy = Math.round((Date.UTC(reading.year, reading.month, reading.day) - Date.UTC(reading.year, 0, 1)) / 86400000);
     const log = this.dayLogFor(reading.year);
     log.kwh[doy] = Math.max(0, Math.round(kwh * 1000) / 1000);
-    log.share[doy] = typeof share === 'number' ? Math.round(Math.min(1, Math.max(0, share)) * 1000) / 1000 : -1;
+    log.own[doy] = typeof share === 'number' ? Math.round(log.kwh[doy] * Math.min(1, Math.max(0, share)) * 1000) / 1000 : -1;
+    log.money[doy] = typeof money === 'number' ? Math.round(money * 10000) / 10000 : -1;
+    log.est[doy] = 0;
     this.fileStore.set('dayLog', log);
   }
 
-  // Once: the kWh of this year's days before the log from Insights (own meter, else the source's).
-  // The own use share is not in Insights: unknown for those days.
-  async fillDayLog() {
-    if (this.isDestroyed) return;
-    let api = null;
-    try {
-      api = this.homey.app.api;
-    } catch {
-      // not ready
-    }
-    if (!api) {
-      this.homey.setTimeout(() => {
-        ContractYear.serial(() => this.fillDayLog()).catch(this.error);
-      }, 600000);
-      return;
-    }
-    const tz = this.timeZone;
-    const year = TimeHelpers.toLocalDate(new Date(), tz).getFullYear();
-    const todayMs = TimeHelpers.getLocalMidnightUTC(new Date(), tz).getTime();
-    let ms = TimeHelpers.getLocalMidnightUTC(new Date(Date.UTC(year, 0, 1, 12)), tz).getTime();
-    const at = this.historyMeterAt(api, ms);
-    const log = this.dayLogFor(year);
-    let filled = 0;
-    let prev = null;
-    for (let doy = 0; ms < todayMs; doy += 1) {
-      const next = TimeHelpers.getLocalMidnightUTC(new Date(ms + 26 * 3600 * 1000), tz).getTime();
-      if (log.kwh[doy] >= 0) {
-        prev = null;
-      } else {
-        const from = prev !== null ? prev : await at(ms);
-        const to = await at(next);
-        prev = to;
-        if (typeof from === 'number' && typeof to === 'number' && to - from >= 0 && to - from < 500) {
-          log.kwh[doy] = Math.round((to - from) * 1000) / 1000;
-          filled += 1;
-        }
-      }
-      ms = next;
-    }
-    if (filled) this.fileStore.set('dayLog', log);
-    await this.setStoreValue('dayLogFilled', true);
-    this.log(`${this.getName()}: ${filled} days of yield from Insights`);
+  // To disk now: a file write waits up to 5 minutes (FileStore), the done flag must not run ahead.
+  async saveDayLog() {
+    this.fileStore.set('dayLog', this.dayLog);
+    await this.fileStore.flush();
+  }
+
+  historyPending() {
+    return this.getStoreValue('dayLogFilled') !== HISTORY_VERSION;
+  }
+
+  async setHistoryDone() {
+    await this.setStoreValue('dayLogFilled', HISTORY_VERSION);
   }
 
   // The model's forecast (W) at t, without the intraday correction. yieldFactors[] is indexed by

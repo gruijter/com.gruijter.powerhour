@@ -376,10 +376,14 @@
     "yesterday": "Hier",
     "today": "Aujourd'hui",
     "tomorrow": "Demain",
-    "measured": "Mesuré",
     "expected": "Prévu",
     "worth": "Valeur",
-    "peak": "Pic",
+    "weeks": "4 semaines",
+    "yield": "Production",
+    "power": "Puissance",
+    "unknown": "inconnu",
+    "estimated": "estimé",
+    "building": "Historique en cours…",
     "own_use": "Consommation propre",
     "no_solar": "Ajoutez d'abord un Moniteur solaire."
   }
