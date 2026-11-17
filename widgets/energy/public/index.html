@@ -223,7 +223,7 @@
         return s;
       }
 
-      // Each node its own money meter (no meter: no value); Home the total paid: grid, gas and water.
+      // Each node its own money meter (no meter: no value).
       function moneyValues(s, m, d) {
         var money = moneyFormat(m);
         var one = function (v) { return typeof v === 'number' ? [money(v)] : []; };
@@ -244,8 +244,9 @@
         var evs = d.evs || [];
         if (s.ev) s.ev.values = one(evs.length >= 3 ? m.ev : evs[0].money);
         if (s.ev2) s.ev2.values = one(evs[1].money);
-        s.home.values = one(typeof m.grid === 'number' ? m.grid + (gas || 0) + (water || 0) : null);
-        s.home.label = label('total');
+        // Home: grid cost plus solar value and battery profit (negative here), minus EVs and climate.
+        var num = function (v) { return typeof v === 'number' ? v : 0; };
+        s.home.values = one(typeof m.grid === 'number' ? m.grid - num(m.solar) - num(m.battery) - num(m.ev) - num(m.climate) : null);
       }
 
       function render(d) {
