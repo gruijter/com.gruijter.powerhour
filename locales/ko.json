@@ -376,13 +376,11 @@
     "yesterday": "어제",
     "today": "오늘",
     "tomorrow": "내일",
-    "spread": "분포",
-    "spread_hint": "시간대별 학습된 발전량",
     "measured": "측정",
     "expected": "예상",
     "worth": "가치",
     "peak": "피크",
-    "no_solar": "먼저 태양광 모니터를 추가하세요.",
-    "fit": "모델 적합도"
+    "own_use": "자체 사용량",
+    "no_solar": "먼저 태양광 모니터를 추가하세요."
   }
 }

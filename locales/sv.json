@@ -376,13 +376,11 @@
     "yesterday": "Igår",
     "today": "Idag",
     "tomorrow": "I morgon",
-    "spread": "Fördelning",
-    "spread_hint": "Inlärt utbyte per tid på dagen",
     "measured": "Uppmätt",
     "expected": "Förväntat",
     "worth": "Värde",
     "peak": "Topp",
-    "no_solar": "Lägg först till en Solmonitor.",
-    "fit": "Modellpassning"
+    "own_use": "Egen förbrukning",
+    "no_solar": "Lägg först till en Solmonitor."
   }
 }

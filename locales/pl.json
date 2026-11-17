@@ -376,13 +376,11 @@
     "yesterday": "Wczoraj",
     "today": "Dzisiaj",
     "tomorrow": "Jutro",
-    "spread": "Rozkład",
-    "spread_hint": "Wyuczony uzysk wg pory dnia",
     "measured": "Zmierzone",
     "expected": "Oczekiwane",
     "worth": "Wartość",
     "peak": "Szczyt",
-    "no_solar": "Najpierw dodaj Monitor solarny.",
-    "fit": "Dopasowanie"
+    "own_use": "Zużycie własne",
+    "no_solar": "Najpierw dodaj Monitor solarny."
   }
 }

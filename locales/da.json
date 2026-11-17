@@ -376,13 +376,11 @@
     "yesterday": "I går",
     "today": "I dag",
     "tomorrow": "I morgen",
-    "spread": "Fordeling",
-    "spread_hint": "Lært udbytte pr. tidspunkt",
     "measured": "Målt",
     "expected": "Forventet",
     "worth": "Værdi",
     "peak": "Top",
-    "no_solar": "Tilføj først en Solmonitor.",
-    "fit": "Modeltilpasning"
+    "own_use": "Eget forbrug",
+    "no_solar": "Tilføj først en Solmonitor."
   }
 }

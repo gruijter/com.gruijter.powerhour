@@ -376,13 +376,11 @@
     "yesterday": "Ieri",
     "today": "Oggi",
     "tomorrow": "Domani",
-    "spread": "Distribuzione",
-    "spread_hint": "Resa appresa per ora del giorno",
     "measured": "Misurato",
     "expected": "Previsto",
     "worth": "Valore",
     "peak": "Picco",
-    "no_solar": "Aggiungi prima un Monitor solare.",
-    "fit": "Adattamento"
+    "own_use": "Autoconsumo",
+    "no_solar": "Aggiungi prima un Monitor solare."
   }
 }

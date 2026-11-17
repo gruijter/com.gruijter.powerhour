@@ -376,13 +376,11 @@
     "yesterday": "Gisteren",
     "today": "Vandaag",
     "tomorrow": "Morgen",
-    "spread": "Verdeling",
-    "spread_hint": "Geleerde opbrengst per tijdstip",
     "measured": "Gemeten",
     "expected": "Verwacht",
     "worth": "Waarde",
     "peak": "Piek",
-    "no_solar": "Voeg eerst een Zonnemonitor toe.",
-    "fit": "Modelfit"
+    "own_use": "Eigen gebruik",
+    "no_solar": "Voeg eerst een Zonnemonitor toe."
   }
 }

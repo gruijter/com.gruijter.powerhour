@@ -376,13 +376,11 @@
     "yesterday": "Yesterday",
     "today": "Today",
     "tomorrow": "Tomorrow",
-    "spread": "Distribution",
-    "spread_hint": "Learned yield per time of day",
     "measured": "Measured",
     "expected": "Expected",
     "worth": "Value",
     "peak": "Peak",
-    "no_solar": "Add a Solar Monitor first.",
-    "fit": "Model fit"
+    "own_use": "Own usage",
+    "no_solar": "Add a Solar Monitor first."
   }
 }

@@ -104,15 +104,38 @@ test('chosen ids: only those; unknown ids: all', () => {
   assert.strictEqual(WidgetData.getSolar(homey, 'today', ['x']).kwh, 5);
 });
 
-test('tomorrow: no measured meters; distribution only for one device', () => {
+test('tomorrow: no measured meters', () => {
   const { homey } = rig();
   const s = WidgetData.getSolar(homey, 'tomorrow', []);
   assert.strictEqual(s.kwh, null);
   assert.ok(s.expectedKwh > 0);
-  assert.strictEqual(WidgetData.getSolar(homey, 'distribution', []).yields, null);
-  const one = WidgetData.getSolar(homey, 'distribution', ['a']);
-  assert.strictEqual(one.yields.length, 96);
-  assert.strictEqual(one.fit, null);
+});
+
+test('day log: compact arrays, logged days per day and month bars with own use', () => {
+  const { a, b, homey } = rig();
+  const now = new Date();
+  const y = now.getUTCFullYear();
+  const m = now.getUTCMonth();
+  a.fileStore = { set() {} };
+  b.fileStore = { set() {} };
+  a.logDay({ year: y, month: m, day: 1 }, 4, 0.5);
+  b.logDay({ year: y, month: m, day: 1 }, 6, 0.25);
+  a.logDay({ year: y, month: 0, day: 1 }, 2, null);
+  assert.strictEqual(a.dayLog.kwh.length, 366);
+  assert.deepStrictEqual(a.loggedDay(y, 0), [2, null]);
+  Object.assign(a.caps, { meter_kwh_this_month: 30, 'measure_solar_use.this_month': 50 });
+  Object.assign(b.caps, { meter_kwh_this_month: 10, 'measure_solar_use.this_month': 100 });
+  const month = WidgetData.getSolar(homey, 'month', []);
+  assert.strictEqual(month.kwh, 40);
+  assert.strictEqual(month.share, 25 / 40);
+  if (now.getUTCDate() > 1) assert.deepStrictEqual(month.bars[0], { kwh: 10, own: 3.5 });
+  assert.strictEqual(month.bars.length, new Date(Date.UTC(y, m + 1, 0)).getUTCDate());
+  const year = WidgetData.getSolar(homey, 'year', []);
+  assert.strictEqual(year.bars.length, 12);
+  assert.strictEqual(year.bars[m].kwh, 40);
+  if (m > 0) assert.strictEqual(year.bars[0].own, null); // a day without share: no split
+  a.logDay({ year: y + 1, month: 0, day: 1 }, 1, 1);
+  assert.strictEqual(a.loggedDay(y, 0), null); // a new year starts a new log
 });
 
 test('yesterday without a frozen forecast: no chart', () => {

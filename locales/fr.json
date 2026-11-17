@@ -376,13 +376,11 @@
     "yesterday": "Hier",
     "today": "Aujourd'hui",
     "tomorrow": "Demain",
-    "spread": "Répartition",
-    "spread_hint": "Rendement appris par heure",
     "measured": "Mesuré",
     "expected": "Prévu",
     "worth": "Valeur",
     "peak": "Pic",
-    "no_solar": "Ajoutez d'abord un Moniteur solaire.",
-    "fit": "Ajustement"
+    "own_use": "Consommation propre",
+    "no_solar": "Ajoutez d'abord un Moniteur solaire."
   }
 }

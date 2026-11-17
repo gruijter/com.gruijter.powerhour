@@ -376,13 +376,11 @@
     "yesterday": "Gestern",
     "today": "Heute",
     "tomorrow": "Morgen",
-    "spread": "Verteilung",
-    "spread_hint": "Gelernter Ertrag je Uhrzeit",
     "measured": "Gemessen",
     "expected": "Erwartet",
     "worth": "Wert",
     "peak": "Spitze",
-    "no_solar": "Füge zuerst einen Solarmonitor hinzu.",
-    "fit": "Modellgüte"
+    "own_use": "Eigenverbrauch",
+    "no_solar": "Füge zuerst einen Solarmonitor hinzu."
   }
 }
