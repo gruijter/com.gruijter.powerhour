@@ -372,6 +372,17 @@
     "export": "eksport",
     "plan_hint": "Dotknij lub przeciągnij",
     "unmeasured": "Niezmierzone",
-    "battery_charge": "Ładowanie baterii"
+    "battery_charge": "Ładowanie baterii",
+    "yesterday": "Wczoraj",
+    "today": "Dzisiaj",
+    "tomorrow": "Jutro",
+    "spread": "Rozkład",
+    "spread_hint": "Wyuczony uzysk wg pory dnia",
+    "measured": "Zmierzone",
+    "expected": "Oczekiwane",
+    "worth": "Wartość",
+    "peak": "Szczyt",
+    "no_solar": "Najpierw dodaj Monitor solarny.",
+    "fit": "Dopasowanie"
   }
 }

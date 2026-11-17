@@ -372,6 +372,17 @@
     "export": "송전",
     "plan_hint": "탭하거나 끌기",
     "unmeasured": "측정 안 됨",
-    "battery_charge": "배터리 충전"
+    "battery_charge": "배터리 충전",
+    "yesterday": "어제",
+    "today": "오늘",
+    "tomorrow": "내일",
+    "spread": "분포",
+    "spread_hint": "시간대별 학습된 발전량",
+    "measured": "측정",
+    "expected": "예상",
+    "worth": "가치",
+    "peak": "피크",
+    "no_solar": "먼저 태양광 모니터를 추가하세요.",
+    "fit": "모델 적합도"
   }
 }

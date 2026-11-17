@@ -35678,6 +35678,98 @@
         }
       },
       "id": "plan"
+    },
+    "solar": {
+      "name": {
+        "en": "Solar",
+        "nl": "Zon",
+        "de": "Solar",
+        "fr": "Solaire",
+        "it": "Solare",
+        "sv": "Sol",
+        "no": "Sol",
+        "es": "Solar",
+        "da": "Sol",
+        "pl": "Słońce",
+        "ru": "Солнце",
+        "ar": "الطاقة الشمسية",
+        "ko": "태양광"
+      },
+      "height": 300,
+      "settings": [
+        {
+          "id": "shape",
+          "type": "dropdown",
+          "title": {
+            "en": "Shape",
+            "nl": "Vorm",
+            "de": "Form",
+            "fr": "Format",
+            "it": "Formato",
+            "sv": "Format",
+            "no": "Format",
+            "es": "Formato",
+            "da": "Format",
+            "pl": "Format",
+            "ru": "Формат",
+            "ar": "الشكل",
+            "ko": "모양"
+          },
+          "value": "wide",
+          "values": [
+            {
+              "id": "normal",
+              "title": {
+                "en": "Normal",
+                "nl": "Normaal",
+                "de": "Normal",
+                "fr": "Normal",
+                "it": "Normale",
+                "sv": "Normal",
+                "no": "Normal",
+                "es": "Normal",
+                "da": "Normal",
+                "pl": "Normalny",
+                "ru": "Обычный",
+                "ar": "عادي",
+                "ko": "기본"
+              }
+            },
+            {
+              "id": "wide",
+              "title": {
+                "en": "Widescreen",
+                "nl": "Breedbeeld",
+                "de": "Breitbild",
+                "fr": "Panoramique",
+                "it": "Panoramico",
+                "sv": "Bredbild",
+                "no": "Bredformat",
+                "es": "Panorámico",
+                "da": "Bredformat",
+                "pl": "Panoramiczny",
+                "ru": "Широкий",
+                "ar": "عريض",
+                "ko": "와이드"
+              }
+            }
+          ]
+        }
+      ],
+      "devices": {
+        "type": "app",
+        "singular": false,
+        "filter": {
+          "capabilities": "measure_solar_use.this_day"
+        }
+      },
+      "api": {
+        "getSolar": {
+          "method": "GET",
+          "path": "/"
+        }
+      },
+      "id": "solar"
     }
   },
   "capabilities": {

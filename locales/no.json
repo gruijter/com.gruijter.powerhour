@@ -372,6 +372,17 @@
     "export": "eksport",
     "plan_hint": "Trykk eller dra",
     "unmeasured": "Ikke målt",
-    "battery_charge": "Batterilading"
+    "battery_charge": "Batterilading",
+    "yesterday": "I går",
+    "today": "I dag",
+    "tomorrow": "I morgen",
+    "spread": "Fordeling",
+    "spread_hint": "Lært utbytte per tid på døgnet",
+    "measured": "Målt",
+    "expected": "Forventet",
+    "worth": "Verdi",
+    "peak": "Topp",
+    "no_solar": "Legg først til en Solmonitor.",
+    "fit": "Modelltilpasning"
   }
 }

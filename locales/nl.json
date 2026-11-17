@@ -372,6 +372,17 @@
     "export": "export",
     "plan_hint": "Tik of sleep",
     "unmeasured": "Niet gemeten",
-    "battery_charge": "Batterij laden"
+    "battery_charge": "Batterij laden",
+    "yesterday": "Gisteren",
+    "today": "Vandaag",
+    "tomorrow": "Morgen",
+    "spread": "Verdeling",
+    "spread_hint": "Geleerde opbrengst per tijdstip",
+    "measured": "Gemeten",
+    "expected": "Verwacht",
+    "worth": "Waarde",
+    "peak": "Piek",
+    "no_solar": "Voeg eerst een Zonnemonitor toe.",
+    "fit": "Modelfit"
   }
 }

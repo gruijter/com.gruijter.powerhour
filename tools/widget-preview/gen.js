@@ -106,7 +106,32 @@ const flowsPreview = (t) => {
 </svg>`;
 };
 
-const WIDGETS = { energy: flowPreview, plan, flows: flowsPreview };
+// widgets/solar: tabs, three stat pills, the forecast as pale bars with the measured line over it.
+const solarPreview = (t) => {
+  const x0 = 100;
+  const x1 = 960;
+  const base = 900;
+  const fc = [0, 4, 14, 30, 50, 70, 86, 96, 100, 96, 86, 70, 50, 30, 14, 4, 0];
+  const real = [0, 5, 16, 33, 46, 60, 92, 88, 70, 98, 90];
+  const w = (x1 - x0) / fc.length;
+  const y = (v) => base - v * 4.6;
+  const steps = fc.map((v, i) => `L${(x0 + i * w).toFixed(1)} ${y(v)}L${(x0 + (i + 1) * w).toFixed(1)} ${y(v)}`).join('');
+  const bars = `<path d="M${x0} ${base}${steps}L${x1} ${base}Z" fill="${SOLAR}" opacity="0.3"/>`;
+  const line = real.map((v, i) => `${(x0 + (i + 0.5) * w).toFixed(1)},${y(v).toFixed(1)}`).join(' ');
+  const nowX = x0 + 10.5 * w;
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+  ${pill(40, 40, 944, 60, t.track)}${pill(282, 46, 220, 48, t.card)}
+  ${[0, 1, 2].map((i) => `${pill(64 + i * 310, 160, 190, 34, t.shape)}${pill(64 + i * 310, 210, 130, 22, t.track)}`).join('')}
+  ${[0, 1, 2].map((i) => `<rect x="${x0}" y="${base - i * 200}" width="${x1 - x0}" height="5" rx="2.5" fill="${t.track}"/>`).join('')}
+  ${bars}
+  <polyline points="${line}" fill="none" stroke="${SOLAR}" stroke-width="14" stroke-linejoin="round" stroke-linecap="round"/>
+  <rect x="${nowX - 4}" y="300" width="8" height="${base - 300}" rx="4" fill="${t.shape}"/>
+</svg>`;
+};
+
+const WIDGETS = {
+  energy: flowPreview, plan, flows: flowsPreview, solar: solarPreview,
+};
 
 for (const [widget, render] of Object.entries(WIDGETS)) {
   for (const [mode, t] of Object.entries(THEMES)) {

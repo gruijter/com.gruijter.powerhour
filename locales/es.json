@@ -372,6 +372,17 @@
     "export": "exportación",
     "plan_hint": "Toca o arrastra",
     "unmeasured": "No medido",
-    "battery_charge": "Carga batería"
+    "battery_charge": "Carga batería",
+    "yesterday": "Ayer",
+    "today": "Hoy",
+    "tomorrow": "Mañana",
+    "spread": "Distribución",
+    "spread_hint": "Rendimiento aprendido por hora",
+    "measured": "Medido",
+    "expected": "Previsto",
+    "worth": "Valor",
+    "peak": "Pico",
+    "no_solar": "Añade primero un Monitor solar.",
+    "fit": "Ajuste"
   }
 }

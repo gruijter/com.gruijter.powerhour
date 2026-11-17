@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="colors.css">
+  <style>
+    .tabs { display: flex; gap: 2px; margin: 0 8px 6px; padding: 2px; border-radius: 9px; background: var(--line); }
+    .tabs button {
+      flex: 1; border: 0; border-radius: 7px; padding: 5px 0; background: transparent;
+      color: var(--muted); font: inherit; font-size: 12px; cursor: pointer;
+    }
+    .tabs button.on { background: var(--node-bg); color: var(--text); font-weight: 600; }
+    .stats { display: flex; margin: 0 8px 2px; }
+    .stat { flex: 1; min-width: 0; }
+    .stat b { display: block; color: var(--text); font-size: 15px; font-weight: 600; white-space: nowrap; }
+    .stat span { display: block; color: var(--muted); font-size: 11px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    svg { display: block; width: 100%; height: auto; touch-action: pan-y; }
+    .sel { fill: var(--text); font-size: 11px; font-weight: 600; }
+    .sel .m { fill: var(--muted); font-weight: 400; }
+    .tick { fill: var(--muted); font-size: 9px; }
+    .grid { stroke: var(--line); stroke-width: 1; }
+    .now { stroke: var(--muted); stroke-width: 1; stroke-dasharray: 3 3; }
+    .cursor { stroke: var(--text); stroke-width: 1; opacity: 0.5; }
+  </style>
+</head>
+<body>
+  <div class="tabs" id="tabs"></div>
+  <div class="stats" id="stats"></div>
+  <svg id="chart" viewBox="0 0 320 200"></svg>
+  <div id="empty"></div>
+  <script>
+    var started = false;
+    var DAYS = ['yesterday', 'today', 'tomorrow', 'distribution'];
+    var NS = 'http://www.w3.org/2000/svg';
+    var W = 320; // 480 for the widescreen shape (setting shape)
+    var X0 = 30; // y labels to the left
+    var TOP = 20; // the selected time above the chart
+    var AXIS = 14;
+    var PALE = 0.3; // the forecast
+
+    function el(tag, attrs, parent, text) {
+      var e = document.createElementNS(NS, tag);
+      Object.keys(attrs).forEach(function (k) { e.setAttribute(k, attrs[k]); });
+      if (text !== undefined) e.textContent = text;
+      if (parent) parent.appendChild(e);
+      return e;
+    }
+
+    function onHomeyReady(Homey) {
+      if (started) return;
+      started = true;
+      var lang = (typeof Homey.getLanguage === 'function' && Homey.getLanguage()) || navigator.language || 'en';
+      if (lang === 'ar') document.documentElement.dir = 'rtl';
+      var fmt = [0, 1, 2].map(function (n) { return new Intl.NumberFormat(lang, { minimumFractionDigits: n, maximumFractionDigits: n }); });
+      var t = function (k) { return Homey.__('widget.' + k); };
+      var svg = document.getElementById('chart');
+      var stats = document.getElementById('stats');
+      var tabs = document.getElementById('tabs');
+      var empty = document.getElementById('empty');
+      var settings = (typeof Homey.getSettings === 'function' && Homey.getSettings()) || {};
+      var key = 'pbth-solar-' + (typeof Homey.getWidgetInstanceId === 'function' ? Homey.getWidgetInstanceId() : '');
+      var day = 'today';
+      try { day = localStorage.getItem(key) || 'today'; } catch (e) { /* no storage: default */ }
+      if (DAYS.indexOf(day) < 0) day = 'today';
+      var data = null;
+      var count = 0; // solar devices shown: distribution only for one
+      var sel = null; // selected slot, null: the default (now, or the peak)
+      var chart = null;
+      var ready = false;
+      var lastHeight = 0;
+      var timeFmt = null;
+
+      function power(w) {
+        if (typeof w !== 'number') return '-';
+        return w < 1000 ? Math.round(w) + ' W' : fmt[1].format(w / 1000) + ' kW';
+      }
+      function kwh(v) {
+        if (typeof v !== 'number') return '-';
+        return fmt[v < 10 ? 2 : v < 1000 ? 1 : 0].format(v) + ' kWh';
+      }
+      function money(v) {
+        var decimals = typeof data.decimals === 'number' ? data.decimals : 2;
+        var f = new Intl.NumberFormat(lang, { minimumFractionDigits: decimals, maximumFractionDigits: decimals });
+        return (v < 0 ? '−' : '') + (data.currency || '') + ' ' + f.format(Math.abs(v));
+      }
+
+      DAYS.forEach(function (id) {
+        var b = document.createElement('button');
+        b.textContent = t(id === 'distribution' ? 'spread' : id);
+        b.dataset.id = id;
+        b.addEventListener('click', function () {
+          if (typeof Homey.hapticFeedback === 'function') Homey.hapticFeedback();
+          day = id;
+          sel = null;
+          try { localStorage.setItem(key, id); } catch (e) { /* not kept */ }
+          markTabs();
+          refresh();
+        });
+        tabs.appendChild(b);
+      });
+      function markTabs() {
+        Array.prototype.forEach.call(tabs.children, function (b) {
+          b.classList.toggle('on', b.dataset.id === day);
+          b.style.display = b.dataset.id === 'distribution' && count > 1 ? 'none' : '';
+        });
+      }
+      markTabs();
+
+      function stat(value, label) {
+        var d = document.createElement('div');
+        d.className = 'stat';
+        var b = document.createElement('b');
+        b.textContent = value;
+        var s = document.createElement('span');
+        s.textContent = label;
+        d.appendChild(b);
+        d.appendChild(s);
+        stats.appendChild(d);
+      }
+
+      // The numbers of the day above the chart.
+      function drawStats(d) {
+        while (stats.firstChild) stats.removeChild(stats.firstChild);
+        if (d.day === 'distribution') {
+          stat('', t('spread_hint'));
+          return;
+        }
+        if (d.day === 'today') stat(power(d.nowW), t('now'));
+        if (d.day !== 'tomorrow') stat(kwh(d.kwh), t('measured'));
+        stat(kwh(d.expectedKwh), t('expected'));
+        if (d.day === 'tomorrow' && d.forecast) {
+          var pk = peakIdx(d.forecast);
+          stat(power(d.forecast[pk]), t('peak') + ' ' + timeFmt.format(d.startMs + pk * d.slotMs));
+        }
+        if (typeof d.money === 'number') stat(money(d.money), t('worth'));
+      }
+
+      function peakIdx(vals) {
+        var best = 0;
+        vals.forEach(function (v, i) { if ((v || 0) > (vals[best] || 0)) best = i; });
+        return best;
+      }
+
+      // A round step for 2-4 grid lines up to max.
+      function niceStep(max) {
+        var steps = [50, 100, 200, 500, 1000, 2000, 5000, 10000, 20000, 50000];
+        for (var i = 0; i < steps.length; i += 1) if (max / steps[i] <= 4) return steps[i];
+        return 100000;
+      }
+
+      function stepPath(vals, sw, x0, x1, y, h, max) {
+        var p = 'M' + x0 + ' ' + y;
+        vals.forEach(function (v, i) {
+          var yy = (y - (Math.max(0, v || 0) / max) * h).toFixed(2);
+          p += 'L' + (x0 + i * sw).toFixed(2) + ' ' + yy + 'L' + (x0 + (i + 1) * sw).toFixed(2) + ' ' + yy;
+        });
+        return p + 'L' + x1 + ' ' + y + 'Z';
+      }
+
+      // Line through the slot centres; a gap (no value) breaks it.
+      function linePaths(vals, sw, x0, y, h, max) {
+        var out = [];
+        var cur = [];
+        vals.forEach(function (v, i) {
+          if (typeof v !== 'number') {
+            if (cur.length) out.push(cur);
+            cur = [];
+            return;
+          }
+          cur.push((x0 + (i + 0.5) * sw).toFixed(1) + ',' + (y - (Math.max(0, v) / max) * h).toFixed(1));
+        });
+        if (cur.length) out.push(cur);
+        return out.filter(function (c) { return c.length > 1; }).map(function (c) { return c.join(' '); });
+      }
+
+      function draw() {
+        var d = data;
+        W = settings.shape !== 'normal' ? 480 : 320;
+        var X1 = W - 4;
+        var CH = settings.shape !== 'normal' ? 110 : 140;
+        var missing = !d || !d.solar;
+        var noData = !missing && (d.day === 'distribution' ? !d.yields : !d.forecast);
+        svg.style.display = missing || noData ? 'none' : '';
+        stats.style.display = missing ? 'none' : '';
+        empty.style.display = missing || noData ? 'block' : 'none';
+        chart = null;
+        if (missing || noData) {
+          while (stats.firstChild) stats.removeChild(stats.firstChild);
+          empty.textContent = missing ? t('no_solar') : '-';
+          fit();
+          return;
+        }
+        timeFmt = new Intl.DateTimeFormat(lang, { hour: '2-digit', minute: '2-digit', timeZone: d.timeZone });
+        var hourFmt = new Intl.DateTimeFormat('en-GB', { hour: '2-digit', minute: '2-digit', hourCycle: 'h23', timeZone: d.timeZone });
+        drawStats(d);
+        var H = TOP + CH + AXIS;
+        svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
+        while (svg.firstChild) svg.removeChild(svg.firstChild);
+        var bottom = TOP + CH;
+        var color = 'var(--c-solar)';
+
+        if (d.day === 'distribution') {
+          // Local day from midnight in 96 slots; relative, no unit.
+          var n96 = d.yields.length;
+          var swd = (X1 - X0) / n96;
+          var ymax = Math.max.apply(null, d.yields.map(function (v) { return v || 0; })) || 1;
+          el('line', { x1: X0, x2: X1, y1: bottom, y2: bottom, class: 'grid' }, svg);
+          for (var hh = 0; hh < 24; hh += 3) {
+            el('text', { x: X0 + hh * 4 * swd, y: bottom + 11, 'text-anchor': 'middle', class: 'tick' }, svg, String(hh).padStart(2, '0'));
+          }
+          el('path', { d: stepPath(d.yields, swd, X0, X1, bottom, CH - 4, ymax), fill: color, opacity: 0.6 }, svg);
+          if (d.fit) {
+            linePaths(d.fit.map(function (v) { return v > 0 ? v : null; }), swd, X0, bottom, CH - 4, 100).forEach(function (pts) {
+              el('polyline', {
+                points: pts, fill: 'none', stroke: 'var(--muted)', 'stroke-width': 1, 'stroke-dasharray': '3 3',
+              }, svg);
+            });
+          }
+          chart = {
+            n: n96, sw: swd, X1: X1, bottom: bottom, sel: el('g', {}, svg), def: peakIdx(d.yields),
+          };
+          drawSelection();
+          fit();
+          return;
+        }
+
+        var n = d.forecast.length;
+        var sw = (X1 - X0) / n;
+        var top = Math.max(d.peak || 0, Math.max.apply(null, d.forecast), Math.max.apply(null, d.real.map(function (v) { return v || 0; }))) || 1;
+        var step = niceStep(top);
+        var max = Math.max(top * 1.05, step);
+        for (var g = 0; g <= max; g += step) {
+          var gy = bottom - (g / max) * CH;
+          el('line', { x1: X0, x2: X1, y1: gy, y2: gy, class: 'grid' }, svg);
+          if (g > 0) el('text', { x: X0 - 4, y: gy + 3, 'text-anchor': 'end', class: 'tick' }, svg, step < 1000 ? g + ' W' : fmt[0].format(g / 1000) + ' kW');
+        }
+        // Hour labels every 2 or 3 hours.
+        var every = n > 64 ? 3 : 2;
+        for (var i = 0; i < n; i += 1) {
+          var hm = hourFmt.format(d.startMs + i * d.slotMs).split(':');
+          if (hm[1] !== '00' || Number(hm[0]) % every !== 0) continue;
+          el('text', { x: X0 + i * sw, y: bottom + 11, 'text-anchor': 'middle', class: 'tick' }, svg, hm[0]);
+        }
+        el('path', { d: stepPath(d.forecast, sw, X0, X1, bottom, CH, max), fill: color, opacity: PALE }, svg);
+        linePaths(d.real, sw, X0, bottom, CH, max).forEach(function (pts) {
+          el('polyline', {
+            points: pts, fill: 'none', stroke: color, 'stroke-width': 2, 'stroke-linejoin': 'round', 'stroke-linecap': 'round',
+          }, svg);
+        });
+        var nowIdx = d.day === 'today' ? Math.floor((Date.now() - d.startMs) / d.slotMs) : -1;
+        if (nowIdx >= 0 && nowIdx < n) {
+          var nx = X0 + (nowIdx + 0.5) * sw;
+          el('line', { x1: nx, x2: nx, y1: TOP, y2: bottom, class: 'now' }, svg);
+        }
+        var def = nowIdx >= 0 && nowIdx < n ? nowIdx : peakIdx(d.day === 'yesterday' && d.real.some(function (v) { return v; }) ? d.real : d.forecast);
+        chart = {
+          n: n, sw: sw, X1: X1, bottom: bottom, sel: el('g', {}, svg), def: def,
+        };
+        drawSelection();
+        fit();
+      }
+
+      function swatch(g, x, opacity) {
+        el('rect', {
+          x: x, y: 5, width: 8, height: 8, rx: 2, fill: 'var(--c-solar)', opacity: opacity,
+        }, g);
+        return x + 11;
+      }
+
+      // The values of the selected slot (or the default) and the cursor; the chart itself stays.
+      function drawSelection() {
+        var d = data;
+        if (!chart) return;
+        var g = chart.sel;
+        while (g.firstChild) g.removeChild(g.firstChild);
+        var idx = sel === null ? chart.def : Math.max(0, Math.min(chart.n - 1, sel));
+        var x = 4;
+        if (d.day === 'distribution') {
+          var tm = String(Math.floor(idx / 4)).padStart(2, '0') + ':' + String((idx % 4) * 15).padStart(2, '0');
+          var txt = el('text', { x: x, y: 13, class: 'sel' }, g, tm);
+          if (d.fit && typeof d.fit[idx] === 'number') el('tspan', { class: 'm' }, txt, '  ' + t('fit') + ' ' + Math.round(d.fit[idx]) + '%');
+        } else {
+          var time = el('text', { x: x, y: 13, class: 'sel' }, g, timeFmt.format(d.startMs + idx * d.slotMs));
+          x += time.getComputedTextLength() + 10;
+          if (typeof d.real[idx] === 'number') {
+            x = swatch(g, x, 1);
+            var a = el('text', { x: x, y: 13, class: 'sel' }, g, power(d.real[idx]));
+            el('tspan', { class: 'm' }, a, ' ' + t('measured').toLowerCase());
+            x += a.getComputedTextLength() + 10;
+          }
+          x = swatch(g, x, PALE + 0.2);
+          var b = el('text', { x: x, y: 13, class: 'sel' }, g, power(d.forecast[idx]));
+          el('tspan', { class: 'm' }, b, ' ' + t('expected').toLowerCase());
+        }
+        var cx = X0 + (idx + 0.5) * chart.sw;
+        el('line', { x1: cx, x2: cx, y1: TOP, y2: chart.bottom, class: 'cursor' }, g);
+      }
+
+      function fit() {
+        var bottom = 0;
+        Array.prototype.forEach.call(document.body.children, function (e) {
+          var r = e.getBoundingClientRect();
+          if (r.height) bottom = Math.max(bottom, r.bottom + window.scrollY);
+        });
+        var hgt = Math.ceil(bottom) + 2;
+        if (!ready) {
+          ready = true;
+          lastHeight = hgt;
+          Homey.ready({ height: hgt });
+          return;
+        }
+        if (hgt === lastHeight || typeof Homey.setHeight !== 'function') return;
+        lastHeight = hgt;
+        Homey.setHeight(hgt).catch(function () {});
+      }
+
+      function slotAt(clientX) {
+        var r = svg.getBoundingClientRect();
+        var x = ((clientX - r.left) / r.width) * W;
+        return Math.floor((x - X0) / chart.sw);
+      }
+      // A tap (or a mouse drag) selects that time.
+      var dragging = false;
+      svg.addEventListener('pointerdown', function (evt) {
+        if (!chart) return;
+        dragging = true;
+        try { svg.setPointerCapture(evt.pointerId); } catch (e) { /* no capture: still works inside */ }
+        sel = slotAt(evt.clientX);
+        drawSelection();
+        if (typeof Homey.hapticFeedback === 'function') Homey.hapticFeedback();
+      });
+      svg.addEventListener('pointermove', function (evt) {
+        if (!dragging || !chart) return;
+        sel = slotAt(evt.clientX);
+        drawSelection();
+      });
+      ['pointerup', 'pointercancel'].forEach(function (type) {
+        svg.addEventListener(type, function () { dragging = false; });
+      });
+
+      if (typeof Homey.onSettings === 'function') Homey.onSettings(function (x) { settings = x || settings; draw(); });
+
+      function refresh() {
+        if (document.hidden && ready) return;
+        var ids = typeof Homey.getDeviceIds === 'function' ? Homey.getDeviceIds() || [] : [];
+        Homey.api('GET', '/?day=' + day + '&ids=' + encodeURIComponent(ids.join(',')), {})
+          .then(function (d) {
+            data = d;
+            count = d && d.count ? d.count : 0;
+            // Distribution needs one device: back to today when more are shown.
+            if (day === 'distribution' && count > 1) {
+              day = 'today';
+              markTabs();
+              refresh();
+              return;
+            }
+            markTabs();
+            draw();
+          })
+          .catch(function (err) { console.error(err); })
+          .finally(function () { if (!ready) fit(); });
+      }
+
+      refresh();
+      setInterval(refresh, 60000);
+      document.addEventListener('visibilitychange', function () { if (!document.hidden) refresh(); });
+    }
+
+    if (typeof window.Homey !== 'undefined') onHomeyReady(window.Homey);
+  </script>
+</body>
+</html>
