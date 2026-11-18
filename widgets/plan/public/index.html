@@ -69,8 +69,7 @@
         if (d.price) {
           list.push({
             icon: 'price', color: '--c-price', kind: 'price', values: d.price, forecast: d.priceForecast || [], levels: d.priceLevel || [], alphas: d.priceAlpha || [],
-            value: function (i) { return typeof d.price[i] === 'number' ? money.format(d.price[i]) : '-'; },
-            sub: function () { return d.currency || ''; },
+            value: function (i) { return typeof d.price[i] === 'number' ? money.format(d.price[i]) + (d.currency ? ' ' + d.currency : '') : '-'; },
           });
         }
         if (d.solar) list.push({ icon: 'solar', color: '--c-solar', kind: 'area', values: d.solar, value: function (i) { return power(d.solar[i]); } });
@@ -145,12 +144,31 @@
         return out;
       }
 
-      function band(g, vals, test, color, opacity, y, h, sw) {
-        runs(vals, test).forEach(function (r) {
-          el('rect', {
-            x: X0 + r[0] * sw, y: y, width: (r[1] - r[0]) * sw, height: h, rx: Math.min(2, h / 2), fill: color, opacity: opacity,
-          }, g);
+      // Charging in the device colour, discharging in the export colour, as the device graphs: more
+      // solid at more power (0.35-1, Palette.powerAlpha), in steps of 0.05 so equal slots join.
+      function powerBand(g, vals, color, y, h, sw) {
+        var peak = Math.max.apply(null, vals.map(Math.abs)) || 1;
+        var seg = null;
+        var flush = function () {
+          if (seg) {
+            el('rect', {
+              x: X0 + seg.from * sw, y: y, width: (seg.to - seg.from) * sw, height: h, fill: seg.fill, opacity: seg.alpha,
+            }, g);
+          }
+          seg = null;
+        };
+        vals.forEach(function (v, i) {
+          if (!v) { flush(); return; }
+          var fill = v > 0 ? color : 'var(--c-export)';
+          var alpha = Math.round((0.35 + 0.65 * Math.min(1, Math.abs(v) / peak)) * 20) / 20;
+          if (seg && seg.fill === fill && seg.alpha === alpha && seg.to === i) {
+            seg.to = i + 1;
+            return;
+          }
+          flush();
+          seg = { from: i, to: i + 1, fill: fill, alpha: alpha };
         });
+        flush();
       }
 
       function drawLane(g, lane, top, bottom, sw) {
@@ -210,8 +228,8 @@
           }, g);
           return;
         }
-        // soc: the planned SoC as a line over a light area; charging as a band below, discharging pale.
-        var bandH = 5;
+        // soc: the planned SoC as a line over a light area; the (dis)charge power as a band below.
+        var bandH = 7;
         var socBottom = bottom - bandH - 2;
         if (lane.soc) {
           var pts = [];
@@ -229,8 +247,7 @@
         } else {
           el('path', { d: stepPath(vals, sw, socBottom, socBottom - top, Math.max.apply(null, vals) || 1), fill: color, opacity: 0.85 }, g);
         }
-        band(g, vals, function (x) { return x > 0; }, color, 1, bottom - bandH, bandH, sw);
-        band(g, vals, function (x) { return x < 0; }, color, PALE, bottom - bandH, bandH, sw);
+        powerBand(g, vals, color, bottom - bandH, bandH, sw);
       }
 
       var settings = (typeof Homey.getSettings === 'function' && Homey.getSettings()) || {};
