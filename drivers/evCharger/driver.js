@@ -156,6 +156,11 @@ class CarChargeDriver extends GenericDriver {
     return { found: false };
   }
 
+  // Two EV devices conflict only with the same charger and the same car.
+  sourceKey(settings) {
+    return settings.homey_device_id ? `${settings.homey_device_id}|${settings.ev_device_id || 'none'}` : null;
+  }
+
   getDeviceSettings(homeyDevice) {
     return {
       homey_device_id: homeyDevice.id,

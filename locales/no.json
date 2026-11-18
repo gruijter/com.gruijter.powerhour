@@ -395,5 +395,7 @@
     "dear": "dyr",
     "no_price": "Legg først til en Energipris-enhet.",
     "not_yet": "Prisene er ikke kjent ennå."
-  }
+  },
+  "warning_same_source": "__devices__ bruker samme enhet. Slett én av dem.",
+  "warning_same_charger": "__devices__ bruker samme lader og bil. Slett én av dem."
 }

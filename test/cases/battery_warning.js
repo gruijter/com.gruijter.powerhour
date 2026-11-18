@@ -52,6 +52,7 @@ const battery = ({
       drivers: { getDriver: () => ({ getDevices: () => (d.grid ? [{ getImportHeadroomW: () => null }] : []) }) },
     },
     getSettings: () => ({ tariff_update_group: 0 }),
+    driver: { id: 'battery', getDevices: () => [] },
     getBatteryMode: () => d.mode,
     isControlConfigured: () => controlled,
     setWarning: async (text) => {
@@ -128,6 +129,39 @@ const battery = ({
     d.controlError = null;
     await d.updateWarning(1.5 * MIN);
     assert.strictEqual(d.shown, null);
+  });
+
+  await test('same source: warned on both; EV only with the same charger and car', async () => {
+    const EvDriver = require('../../drivers/evCharger/driver'); // eslint-disable-line global-require
+    const notes = [];
+    const homey = {
+      __: (key, t) => `${key}|${t.devices}`,
+      setTimeout: () => {},
+      notifications: { createNotification: async ({ excerpt }) => notes.push(excerpt) },
+    };
+    const make = (driver, name, settings) => {
+      const d = Object.create(BatDevice.prototype);
+      Object.assign(d, {
+        homey, driver, getName: () => name, getSettings: () => settings, error: () => {},
+      });
+      driver.list.push(d);
+      return d;
+    };
+    const bats = { id: 'battery', list: [] };
+    bats.getDevices = () => bats.list;
+    const a = make(bats, 'A', { homey_device_id: 'x' });
+    make(bats, 'B', { homey_device_id: 'x' });
+    const c = make(bats, 'C', { homey_device_id: 'y' });
+    assert.strictEqual(a.sourceWarning(), 'warning_same_source|A, B');
+    assert.strictEqual(c.sourceWarning(), null);
+    assert.strictEqual(notes.length, 1);
+    const evs = { id: 'evCharger', list: [], sourceKey: EvDriver.prototype.sourceKey };
+    evs.getDevices = () => evs.list;
+    const e1 = make(evs, 'Kia', { homey_device_id: 'plug', ev_device_id: 'kia' });
+    make(evs, 'Tesla', { homey_device_id: 'plug', ev_device_id: 'tesla' });
+    assert.strictEqual(e1.sourceWarning(), null);
+    make(evs, 'Kia 2', { homey_device_id: 'plug', ev_device_id: 'kia' });
+    assert.strictEqual(e1.sourceWarning(), 'warning_same_charger|Kia, Kia 2');
   });
 
   console.log(failed ? `\n${failed} failed` : '\nall passed');

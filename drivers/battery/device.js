@@ -758,8 +758,8 @@ class BatDevice extends GenericDevice {
   // the warning from before the start stays as it is.
   deviceWarning(now = Date.now()) {
     if (this.controlError) return this.controlError;
-    const price = this.priceWarning();
-    if (price) return price;
+    const setup = this.sourceWarning() || this.priceWarning();
+    if (setup) return setup;
     if (now - this.initTm < GRID_WARN_AFTER_MS) return this.warningShown === undefined ? undefined : null;
     if (!this.isControlConfigured() || !CAL_MODES.includes(this.getBatteryMode())
       || GridConnection.gridDevice(this.homey)) return null;

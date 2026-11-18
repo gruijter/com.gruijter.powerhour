@@ -395,5 +395,7 @@
     "dear": "cher",
     "no_price": "Ajoutez d'abord un appareil Prix de l'énergie.",
     "not_yet": "Prix pas encore connus."
-  }
+  },
+  "warning_same_source": "__devices__ utilisent le même appareil. Supprimez-en un.",
+  "warning_same_charger": "__devices__ utilisent la même borne et la même voiture. Supprimez-en un."
 }
