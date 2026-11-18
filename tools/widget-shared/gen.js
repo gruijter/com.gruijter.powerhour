@@ -19,7 +19,7 @@ const SOURCES = {
   appliance: 'drivers/power/assets/icon.svg',
   climate: 'tools/widget-shared/climate.svg', // no climate driver: drawn for the widgets
 };
-const WIDGETS = ['energy', 'plan', 'flows', 'solar'];
+const WIDGETS = ['energy', 'plan', 'flows', 'solar', 'price'];
 const DIAGRAM = ['energy']; // also gets flow.js and flow.css
 const PERIOD_TABS = ['energy', 'flows']; // also get periodcache.js
 

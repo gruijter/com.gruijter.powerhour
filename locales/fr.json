@@ -385,6 +385,15 @@
     "estimated": "estimé",
     "building": "Historique en cours…",
     "own_use": "Consommation propre",
-    "no_solar": "Ajoutez d'abord un Moniteur solaire."
+    "no_solar": "Ajoutez d'abord un Moniteur solaire.",
+    "price": "Prix",
+    "average": "Moyenne",
+    "lowest": "Min.",
+    "highest": "Max.",
+    "cheap": "bon marché",
+    "mid": "normal",
+    "dear": "cher",
+    "no_price": "Ajoutez d'abord un appareil Prix de l'énergie.",
+    "not_yet": "Prix pas encore connus."
   }
 }

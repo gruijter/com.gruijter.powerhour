@@ -16,6 +16,7 @@ const THEMES = {
 const SOLAR = '#F2A900';
 const GREEN = '#34C759';
 const CHEAP = '#4C6EF5';
+const DEAR = '#E5484D';
 
 const pill = (x, y, w, h, fill) => `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${h / 2}" fill="${fill}"/>`;
 
@@ -129,8 +130,28 @@ const solarPreview = (t) => {
 </svg>`;
 };
 
+// widgets/price: tabs, three stat pills, a bar per hour coloured cheap / normal / dear.
+const pricePreview = (t) => {
+  const x0 = 100;
+  const x1 = 960;
+  const base = 900;
+  const p = [52, 46, 40, 36, 38, 50, 72, 88, 70, 48, 30, 18, 14, 20, 34, 56, 84, 100, 94, 78, 64, 58, 54, 50];
+  const w = (x1 - x0) / p.length;
+  const color = (v) => {
+    if (v < 35) return CHEAP;
+    return v > 75 ? DEAR : t.shape;
+  };
+  const bars = p.map((v, i) => `<rect x="${(x0 + i * w + w * 0.12).toFixed(1)}" y="${base - v * 5.6}" width="${(w * 0.76).toFixed(1)}" height="${v * 5.6}" rx="6" fill="${color(v)}"/>`).join('');
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+  ${pill(40, 40, 944, 60, t.track)}${pill(46, 46, 466, 48, t.card)}
+  ${[0, 1, 2].map((i) => `${pill(64 + i * 310, 160, 190, 34, t.shape)}${pill(64 + i * 310, 210, 130, 22, t.track)}`).join('')}
+  ${[0, 1, 2].map((i) => `<rect x="${x0}" y="${base - i * 200}" width="${x1 - x0}" height="5" rx="2.5" fill="${t.track}"/>`).join('')}
+  ${bars}
+</svg>`;
+};
+
 const WIDGETS = {
-  energy: flowPreview, plan, flows: flowsPreview, solar: solarPreview,
+  energy: flowPreview, plan, flows: flowsPreview, solar: solarPreview, price: pricePreview,
 };
 
 for (const [widget, render] of Object.entries(WIDGETS)) {

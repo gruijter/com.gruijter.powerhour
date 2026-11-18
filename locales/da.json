@@ -385,6 +385,15 @@
     "estimated": "anslået",
     "building": "Historik opbygges…",
     "own_use": "Eget forbrug",
-    "no_solar": "Tilføj først en Solmonitor."
+    "no_solar": "Tilføj først en Solmonitor.",
+    "price": "Pris",
+    "average": "Gennemsnit",
+    "lowest": "Lavest",
+    "highest": "Højest",
+    "cheap": "billig",
+    "mid": "normal",
+    "dear": "dyr",
+    "no_price": "Tilføj først en Energipris-enhed.",
+    "not_yet": "Priserne kendes endnu ikke."
   }
 }

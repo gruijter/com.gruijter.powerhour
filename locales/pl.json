@@ -385,6 +385,15 @@
     "estimated": "szacowane",
     "building": "Budowanie historii…",
     "own_use": "Zużycie własne",
-    "no_solar": "Najpierw dodaj Monitor solarny."
+    "no_solar": "Najpierw dodaj Monitor solarny.",
+    "price": "Cena",
+    "average": "Średnia",
+    "lowest": "Najniższa",
+    "highest": "Najwyższa",
+    "cheap": "tanio",
+    "mid": "normalnie",
+    "dear": "drogo",
+    "no_price": "Najpierw dodaj urządzenie Cena energii.",
+    "not_yet": "Ceny jeszcze nieznane."
   }
 }

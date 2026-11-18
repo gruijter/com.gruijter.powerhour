@@ -385,6 +385,15 @@
     "estimated": "stimato",
     "building": "Storico in costruzione…",
     "own_use": "Autoconsumo",
-    "no_solar": "Aggiungi prima un Monitor solare."
+    "no_solar": "Aggiungi prima un Monitor solare.",
+    "price": "Prezzo",
+    "average": "Media",
+    "lowest": "Minimo",
+    "highest": "Massimo",
+    "cheap": "economico",
+    "mid": "normale",
+    "dear": "caro",
+    "no_price": "Aggiungi prima un dispositivo Prezzo dell'energia.",
+    "not_yet": "Prezzi non ancora noti."
   }
 }

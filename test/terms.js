@@ -28,6 +28,8 @@ const ACCEPTED = new Set([
   'Hour|de', 'Hour|ko', // clock time (units) vs a duration (token)
   'Start time|fr', 'Start time|it', 'Start time|pl', 'Start time|ru', // program start vs period start
   'this day|de', 'next 8H|de', // genitive vs accusative
+  // A peak selection choice vs the short price widget label (a price, followed by a time).
+  ...['de', 'fr', 'es', 'it', 'da', 'sv', 'no', 'pl', 'ru', 'ko'].map((l) => `Highest|${l}`),
   // 'Charging': a car status ('is charging') vs a settings group ('charging').
   ...['de', 'fr', 'es', 'it', 'da', 'sv', 'no', 'ru', 'ar', 'ko'].map((l) => `Charging|${l}`),
   // A time ('from 07:00') vs a date or a range.
@@ -43,7 +45,7 @@ const SAME_AS_EN = new Set([
   'SoC', 'Min.', 'Gas', 'Gas (m³)', 'Maximum', 'Minimum', 'Smart', 'Start', 'Plan', 'Status', 'Program', 'Reserve',
   'Water (m³)|nl', 'period|sv', 'Mode|fr', 'Description|fr', 'Linear|de', 'Tariff|sv', 'Tariff|no', 'Phases|fr',
   '1 phase|fr', '3 phases|fr', '15 minutes|fr', '30 minutes|fr', '45 minutes|fr', '60 minutes|fr', 'Latitude|fr',
-  'Longitude|fr', 'Distribution|fr', 'Minutes|fr',
+  'Longitude|fr', 'Distribution|fr', 'Minutes|fr', 'normal|de', 'normal|fr', 'normal|es', 'normal|da', 'normal|no',
   'Plan JSON', 'Min. SoC [[day]] [[soc]]%', 'Reserve (%)', 'Peak shaving|nl', 'Meter|nl', 'Action|fr', 'Charge|fr',
   'Period|sv', 'Type|fr', 'Type|da', 'Type|no', 'minutes|fr', 'import', 'export', 'gas', 'water|nl', 'Name|de',
   'Formula|it', 'VAT (%)|pl', 'Planning|nl', 'Control|es', 'Water|nl', 'Import: VAT (%)|pl', 'Max. import (W)', 'Per kWh (gas: per m³).', 'Minimum per kWh', 'per __unit__',

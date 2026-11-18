@@ -1,0 +1,91 @@
+{
+  "name": {
+    "en": "Price",
+    "nl": "Prijs",
+    "de": "Preis",
+    "fr": "Prix",
+    "it": "Prezzo",
+    "sv": "Pris",
+    "no": "Pris",
+    "es": "Precio",
+    "da": "Pris",
+    "pl": "Cena",
+    "ru": "Цена",
+    "ar": "السعر",
+    "ko": "가격"
+  },
+  "height": 280,
+  "settings": [
+    {
+      "id": "shape",
+      "type": "dropdown",
+      "title": {
+        "en": "Shape",
+        "nl": "Vorm",
+        "de": "Form",
+        "fr": "Format",
+        "it": "Formato",
+        "sv": "Format",
+        "no": "Format",
+        "es": "Formato",
+        "da": "Format",
+        "pl": "Format",
+        "ru": "Формат",
+        "ar": "الشكل",
+        "ko": "모양"
+      },
+      "value": "wide",
+      "values": [
+        {
+          "id": "normal",
+          "title": {
+            "en": "Normal",
+            "nl": "Normaal",
+            "de": "Normal",
+            "fr": "Normal",
+            "it": "Normale",
+            "sv": "Normal",
+            "no": "Normal",
+            "es": "Normal",
+            "da": "Normal",
+            "pl": "Normalny",
+            "ru": "Обычный",
+            "ar": "عادي",
+            "ko": "기본"
+          }
+        },
+        {
+          "id": "wide",
+          "title": {
+            "en": "Widescreen",
+            "nl": "Breedbeeld",
+            "de": "Breitbild",
+            "fr": "Panoramique",
+            "it": "Panoramico",
+            "sv": "Bredbild",
+            "no": "Bredformat",
+            "es": "Panorámico",
+            "da": "Bredformat",
+            "pl": "Panoramiczny",
+            "ru": "Широкий",
+            "ar": "عريض",
+            "ko": "와이드"
+          }
+        }
+      ]
+    }
+  ],
+  "devices": {
+    "type": "app",
+    "singular": true,
+    "filter": {
+      "class": "service"
+    }
+  },
+  "api": {
+    "getPrice": {
+      "method": "GET",
+      "path": "/"
+    }
+  }
+}

@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="colors.css">
+  <style>
+    .tabs { display: flex; gap: 2px; margin: 0 8px 6px; padding: 2px; border-radius: 9px; background: var(--line); }
+    .tabs button {
+      flex: 1; border: 0; border-radius: 7px; padding: 5px 0; background: transparent;
+      color: var(--muted); font: inherit; font-size: 12px; cursor: pointer;
+    }
+    .tabs button.on { background: var(--node-bg); color: var(--text); font-weight: 600; }
+    .head { display: flex; justify-content: space-between; gap: 8px; margin: 0 8px; font-size: 12px; }
+    .head b { color: var(--text); font-weight: 600; white-space: nowrap; }
+    .head span { color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .stats { display: flex; margin: 2px 8px 2px; }
+    .stat { flex: 1; min-width: 0; }
+    .stat b { display: block; color: var(--text); font-size: 15px; font-weight: 600; white-space: nowrap; }
+    .stat span { display: block; color: var(--muted); font-size: 11px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    svg { display: block; width: 100%; height: auto; touch-action: pan-y; }
+    .tick { fill: var(--muted); font-size: 9px; }
+    .grid { stroke: var(--line); stroke-width: 1; }
+    .zero { stroke: var(--muted); stroke-width: 1; opacity: 0.6; }
+    .now { stroke: var(--muted); stroke-width: 1; stroke-dasharray: 3 3; }
+    .cursor { stroke: var(--text); stroke-width: 1; opacity: 0.5; }
+    .legend { display: flex; flex-wrap: wrap; gap: 4px 12px; margin: 0 8px 4px; color: var(--muted); font-size: 11px; }
+    .legend i { display: inline-block; width: 9px; height: 9px; margin-right: 4px; border-radius: 2px; vertical-align: -1px; }
+    .legend i.line { height: 0; border-top: 2px solid var(--c-export); background: none; border-radius: 0; vertical-align: 3px; }
+  </style>
+</head>
+<body>
+  <div class="tabs" id="tabs"></div>
+  <div class="head"><b id="title"></b><span id="note"></span></div>
+  <div class="stats" id="stats"></div>
+  <svg id="chart" viewBox="0 0 320 170"></svg>
+  <div class="legend" id="legend"></div>
+  <div id="empty"></div>
+  <script>
+    var started = false;
+    var TABS = ['today', 'tomorrow'];
+    var NS = 'http://www.w3.org/2000/svg';
+    var W = 320; // 480 for the widescreen shape (setting shape)
+    var X0 = 38;
+    var TOP = 6;
+    var AXIS = 14;
+    var PALE = 0.4; // expected prices
+    var LEVELS = ['--c-cheap', '--c-normal', '--c-dear'];
+
+    function el(tag, attrs, parent, text) {
+      var e = document.createElementNS(NS, tag);
+      Object.keys(attrs).forEach(function (k) { e.setAttribute(k, attrs[k]); });
+      if (text !== undefined) e.textContent = text;
+      if (parent) parent.appendChild(e);
+      return e;
+    }
+
+    function onHomeyReady(Homey) {
+      if (started) return;
+      started = true;
+      var lang = (typeof Homey.getLanguage === 'function' && Homey.getLanguage()) || navigator.language || 'en';
+      if (lang === 'ar') document.documentElement.dir = 'rtl';
+      var t = function (k) { return Homey.__('widget.' + k); };
+      var cap = function (s) { return s ? s.charAt(0).toUpperCase() + s.slice(1) : s; };
+      var svg = document.getElementById('chart');
+      var stats = document.getElementById('stats');
+      var tabs = document.getElementById('tabs');
+      var titleEl = document.getElementById('title');
+      var noteEl = document.getElementById('note');
+      var legend = document.getElementById('legend');
+      var empty = document.getElementById('empty');
+      var settings = (typeof Homey.getSettings === 'function' && Homey.getSettings()) || {};
+      var key = 'pbth-price-' + (typeof Homey.getWidgetInstanceId === 'function' ? Homey.getWidgetInstanceId() : '');
+      var tab = 'today';
+      try { tab = localStorage.getItem(key) || 'today'; } catch (e) { /* no storage: default */ }
+      if (TABS.indexOf(tab) < 0) tab = 'today';
+      var data = null;
+      var sel = null; // selected slot; null: the whole day
+      var chart = null;
+      var ready = false;
+      var lastHeight = 0;
+      var timeFmt = null;
+      var priceFmt = null;
+
+      function money(v) {
+        if (typeof v !== 'number') return '–';
+        return (v < 0 ? '−' : '') + (data.currency || '') + ' ' + priceFmt.format(Math.abs(v));
+      }
+
+      TABS.forEach(function (id) {
+        var b = document.createElement('button');
+        b.textContent = t(id);
+        b.dataset.id = id;
+        b.addEventListener('click', function () {
+          if (typeof Homey.hapticFeedback === 'function') Homey.hapticFeedback();
+          tab = id;
+          sel = null;
+          try { localStorage.setItem(key, id); } catch (e) { /* not kept */ }
+          markTabs();
+          if (stale()) refresh();
+          else {
+            data = cache[tab].data;
+            draw();
+          }
+        });
+        tabs.appendChild(b);
+      });
+      function markTabs() {
+        Array.prototype.forEach.call(tabs.children, function (b) { b.classList.toggle('on', b.dataset.id === tab); });
+      }
+      markTabs();
+
+      function setHead(title, note, cells) {
+        titleEl.textContent = title;
+        noteEl.textContent = note || '';
+        while (stats.firstChild) stats.removeChild(stats.firstChild);
+        cells.forEach(function (c) {
+          var d = document.createElement('div');
+          d.className = 'stat';
+          var b = document.createElement('b');
+          b.textContent = c[0];
+          var s = document.createElement('span');
+          s.textContent = c[1];
+          d.appendChild(b);
+          d.appendChild(s);
+          stats.appendChild(d);
+        });
+      }
+
+      // The known prices of the day: average, lowest and highest with their slot.
+      function summary(d) {
+        var s = { sum: 0, n: 0, lo: -1, hi: -1, expected: false };
+        d.import.forEach(function (v, i) {
+          if (typeof v !== 'number') return;
+          s.sum += v;
+          s.n += 1;
+          if (d.forecast[i]) s.expected = true;
+          if (s.lo < 0 || v < d.import[s.lo]) s.lo = i;
+          if (s.hi < 0 || v > d.import[s.hi]) s.hi = i;
+        });
+        s.avg = s.n ? s.sum / s.n : null;
+        return s;
+      }
+
+      function slotTime(i) { return timeFmt.format(data.startMs + i * data.slotMs); }
+
+      function drawHead() {
+        var d = data;
+        var s = chart.summary;
+        if (sel === null) {
+          var first = d.day === 'today' && chart.nowIdx >= 0
+            ? [money(d.import[chart.nowIdx]), t('now')]
+            : [money(s.avg), t('average')];
+          var note = d.day === 'today' ? t('average') + ' ' + money(s.avg) : '';
+          if (s.expected) note = t('expected') + (note ? ' · ' + note : '');
+          setHead(t(d.day), note, [
+            first,
+            [money(d.import[s.lo]), t('lowest') + ' ' + slotTime(s.lo)],
+            [money(d.import[s.hi]), t('highest') + ' ' + slotTime(s.hi)],
+          ]);
+          return;
+        }
+        var cells = [[money(d.import[sel]), t('price')]];
+        if (d.export) cells.push([money(d.export[sel]), cap(t('export'))]);
+        cells.push([money(s.avg), t('average')]);
+        setHead(slotTime(sel) + '–' + slotTime(sel + 1), d.forecast[sel] ? t('expected') : '', cells);
+      }
+
+      function drawLegend(items) {
+        while (legend.firstChild) legend.removeChild(legend.firstChild);
+        items.forEach(function (it) {
+          var s = document.createElement('span');
+          var i = document.createElement('i');
+          if (it[1] === 'line') i.className = 'line';
+          else {
+            i.style.background = 'var(' + it[1] + ')';
+            if (it[2]) i.style.opacity = it[2];
+          }
+          s.appendChild(i);
+          s.appendChild(document.createTextNode(cap(it[0])));
+          legend.appendChild(s);
+        });
+      }
+
+      // A round step (1, 2 or 5 x 10^k) for 2-4 grid lines over range.
+      function niceStep(range) {
+        var raw = range / 4;
+        var mag = Math.pow(10, Math.floor(Math.log10(raw)));
+        var f = [1, 2, 5, 10].find(function (m) { return m * mag >= raw; });
+        return f * mag;
+      }
+
+      // Price levels around the mean: cheap / normal / dear (as widgets/plan). The band is at least
+      // 10% of the mean, so a flat day stays normal (a share, not a money amount: any currency).
+      function priceLevels(s, vals) {
+        var ps = vals.filter(function (v) { return typeof v === 'number'; });
+        var band = Math.max((Math.max.apply(null, ps) - Math.min.apply(null, ps)) / 6, 0.1 * Math.abs(s.avg));
+        return function (v) {
+          if (v < s.avg - band) return LEVELS[0];
+          return v > s.avg + band ? LEVELS[2] : LEVELS[1];
+        };
+      }
+
+      function draw() {
+        var d = data;
+        W = settings.shape !== 'normal' ? 480 : 320;
+        var X1 = W - 4;
+        var CH = settings.shape !== 'normal' ? 110 : 140;
+        var missing = !d || !d.price;
+        var known = !missing && d.import.some(function (v) { return typeof v === 'number'; });
+        svg.style.display = known ? '' : 'none';
+        legend.style.display = known ? '' : 'none';
+        document.querySelector('.head').style.display = known ? '' : 'none';
+        stats.style.display = known ? '' : 'none';
+        empty.style.display = known ? 'none' : 'block';
+        chart = null;
+        if (!known) {
+          if (missing) empty.textContent = d && d.price === false ? '…' : t('no_price');
+          else empty.textContent = t('not_yet');
+          fit();
+          return;
+        }
+        timeFmt = new Intl.DateTimeFormat(lang, { hour: '2-digit', minute: '2-digit', timeZone: d.timeZone });
+        priceFmt = new Intl.NumberFormat(lang, { minimumFractionDigits: d.decimals, maximumFractionDigits: d.decimals });
+        svg.setAttribute('viewBox', '0 0 ' + W + ' ' + (TOP + CH + AXIS));
+        while (svg.firstChild) svg.removeChild(svg.firstChild);
+
+        var s = summary(d);
+        var n = d.import.length;
+        var sw = (X1 - X0) / n;
+        var vals = d.import.concat(d.export || []).filter(function (v) { return typeof v === 'number'; });
+        var lo = Math.min(0, Math.min.apply(null, vals));
+        var hi = Math.max(0, Math.max.apply(null, vals));
+        var step = niceStep((hi - lo) || 1);
+        lo = Math.floor(lo / step) * step;
+        hi = Math.max(Math.ceil(hi / step) * step, lo + step);
+        var y = function (v) { return TOP + ((hi - v) / (hi - lo)) * CH; };
+        var bottom = TOP + CH;
+        var dec = step < 0.01 ? 3 : step < 0.1 ? 2 : step < 1 ? 1 : 0;
+        var axisFmt = new Intl.NumberFormat(lang, { minimumFractionDigits: dec, maximumFractionDigits: dec });
+        for (var g = lo; g <= hi + step / 2; g += step) {
+          var gy = y(g);
+          el('line', { x1: X0, x2: X1, y1: gy, y2: gy, class: Math.abs(g) < step / 2 ? 'zero' : 'grid' }, svg);
+          el('text', { x: X0 - 4, y: gy + 3, 'text-anchor': 'end', class: 'tick' }, svg, axisFmt.format(Math.abs(g) < step / 2 ? 0 : g));
+        }
+        var hourFmt = new Intl.DateTimeFormat('en-GB', { hour: '2-digit', minute: '2-digit', hourCycle: 'h23', timeZone: d.timeZone });
+        for (var i = 0; i < n; i += 1) {
+          var hm = hourFmt.format(d.startMs + i * d.slotMs).split(':');
+          if (hm[1] !== '00' || Number(hm[0]) % 3 !== 0) continue;
+          el('text', { x: X0 + i * sw, y: bottom + 11, 'text-anchor': 'middle', class: 'tick' }, svg, hm[0]);
+        }
+
+        var level = priceLevels(s, d.import);
+        var used = {};
+        var gap = sw > 6 ? sw * 0.15 : sw * 0.1;
+        var y0 = y(0);
+        d.import.forEach(function (v, k) {
+          if (typeof v !== 'number') return;
+          var lv = level(v);
+          used[lv] = true;
+          var yv = y(v);
+          el('rect', {
+            x: X0 + k * sw + gap / 2,
+            y: Math.min(yv, y0),
+            width: Math.max(0.5, sw - gap),
+            height: Math.max(0.5, Math.abs(y0 - yv)),
+            fill: 'var(' + lv + ')',
+            opacity: d.forecast[k] ? PALE : 1,
+          }, svg);
+        });
+        if (d.export) {
+          var path = '';
+          d.export.forEach(function (v, k) {
+            if (typeof v !== 'number') return;
+            var yy = y(v).toFixed(1);
+            var start = k === 0 || typeof d.export[k - 1] !== 'number';
+            path += (start ? 'M' : 'L') + (X0 + k * sw).toFixed(1) + ' ' + yy + 'L' + (X0 + (k + 1) * sw).toFixed(1) + ' ' + yy;
+          });
+          if (path) el('path', { d: path, fill: 'none', stroke: 'var(--c-export)', 'stroke-width': 1.5 }, svg);
+        }
+        var nowIdx = d.day === 'today' ? Math.floor((Date.now() - d.startMs) / d.slotMs) : -1;
+        if (nowIdx < 0 || nowIdx >= n) nowIdx = -1;
+        if (nowIdx >= 0) {
+          var nx = X0 + (nowIdx + 0.5) * sw;
+          el('line', { x1: nx, x2: nx, y1: TOP, y2: bottom, class: 'now' }, svg);
+        }
+
+        var items = [];
+        if (used[LEVELS[0]]) items.push([t('cheap'), LEVELS[0]]);
+        if (used[LEVELS[1]]) items.push([t('mid'), LEVELS[1]]);
+        if (used[LEVELS[2]]) items.push([t('dear'), LEVELS[2]]);
+        if (s.expected) items.push([t('expected'), LEVELS[1], PALE]);
+        if (d.export) items.push([t('export'), 'line']);
+        drawLegend(items);
+        chart = {
+          n: n, sw: sw, bottom: bottom, sel: el('g', {}, svg), nowIdx: nowIdx, summary: s,
+        };
+        if (sel !== null && (sel < 0 || sel >= n || typeof d.import[sel] !== 'number')) sel = null;
+        drawSelection();
+        fit();
+      }
+
+      function drawSelection() {
+        if (!chart) return;
+        var g = chart.sel;
+        while (g.firstChild) g.removeChild(g.firstChild);
+        drawHead();
+        if (sel === null) return;
+        var cx = X0 + (sel + 0.5) * chart.sw;
+        el('line', { x1: cx, x2: cx, y1: TOP, y2: chart.bottom, class: 'cursor' }, g);
+      }
+
+      function fit() {
+        var bottom = 0;
+        Array.prototype.forEach.call(document.body.children, function (e) {
+          var r = e.getBoundingClientRect();
+          if (r.height) bottom = Math.max(bottom, r.bottom + window.scrollY);
+        });
+        var hgt = Math.ceil(bottom) + 2;
+        if (!ready) {
+          ready = true;
+          lastHeight = hgt;
+          Homey.ready({ height: hgt });
+          return;
+        }
+        if (hgt === lastHeight || typeof Homey.setHeight !== 'function') return;
+        lastHeight = hgt;
+        Homey.setHeight(hgt).catch(function () {});
+      }
+
+      function slotAt(clientX) {
+        var r = svg.getBoundingClientRect();
+        var x = ((clientX - r.left) / r.width) * W;
+        return Math.max(0, Math.min(chart.n - 1, Math.floor((x - X0) / chart.sw)));
+      }
+      // A tap in the chart selects that slot; a tap anywhere else shows the whole day again.
+      function inChart(evt) {
+        var r = svg.getBoundingClientRect();
+        var k = r.width / W;
+        var x = (evt.clientX - r.left) / k;
+        var yy = (evt.clientY - r.top) / k;
+        return x >= X0 && x <= W - 4 && yy >= TOP && yy <= chart.bottom;
+      }
+      function select(k) {
+        sel = typeof data.import[k] === 'number' ? k : null;
+        drawSelection();
+      }
+      var dragging = false;
+      document.addEventListener('pointerdown', function (evt) {
+        if (!chart || evt.target.closest('#tabs')) return;
+        if (evt.target.closest('#chart') && inChart(evt)) {
+          dragging = true;
+          try { svg.setPointerCapture(evt.pointerId); } catch (e) { /* no capture: still works inside */ }
+          select(slotAt(evt.clientX));
+        } else {
+          if (sel === null) return;
+          sel = null;
+          drawSelection();
+        }
+        if (typeof Homey.hapticFeedback === 'function') Homey.hapticFeedback();
+      });
+      svg.addEventListener('pointermove', function (evt) {
+        if (!dragging || !chart) return;
+        select(slotAt(evt.clientX));
+      });
+      ['pointerup', 'pointercancel'].forEach(function (type) {
+        svg.addEventListener(type, function () { dragging = false; });
+      });
+
+      if (typeof Homey.onSettings === 'function') Homey.onSettings(function (x) { settings = x || settings; if (data) draw(); });
+
+      var cache = {};
+      var pending = {};
+      function refresh() {
+        if ((document.hidden && ready) || pending[tab]) return;
+        var ids = typeof Homey.getDeviceIds === 'function' ? Homey.getDeviceIds() || [] : [];
+        var asked = tab;
+        pending[asked] = true;
+        Homey.api('GET', '/?day=' + asked + '&ids=' + encodeURIComponent(ids.join(',')), {})
+          .then(function (d) {
+            cache[asked] = { data: d, ms: Date.now(), day: new Date().toDateString() };
+            if (asked !== tab) return;
+            data = d;
+            draw();
+            if (d && d.price === false) setTimeout(refresh, 15000); // device still starting
+          })
+          .catch(function (err) { console.error(err); })
+          .finally(function () {
+            pending[asked] = false;
+            if (!ready) fit();
+          });
+      }
+
+      // Today per slot (the now line and price); tomorrow per quarter until all its prices are known
+      // (they arrive once a day), then hourly.
+      function stale() {
+        var c = cache[tab];
+        if (!c || c.day !== new Date().toDateString() || !c.data || !c.data.price) return true;
+        var quarter = function (ms) { return Math.floor((ms - 30000) / 900000); };
+        if (tab === 'today') return quarter(Date.now()) !== quarter(c.ms);
+        var complete = c.data.import.every(function (v, i) { return typeof v === 'number' && !c.data.forecast[i]; });
+        return complete ? Date.now() - c.ms > 3600000 : quarter(Date.now()) !== quarter(c.ms);
+      }
+      function tick() {
+        if (stale()) refresh();
+        setTimeout(tick, 900000 - ((Date.now() - 30000) % 900000));
+      }
+
+      refresh();
+      setTimeout(tick, 900000 - ((Date.now() - 30000) % 900000));
+      document.addEventListener('visibilitychange', function () { if (!document.hidden && stale()) refresh(); });
+    }
+
+    if (typeof window.Homey !== 'undefined') onHomeyReady(window.Homey);
+  </script>
+</body>
+</html>

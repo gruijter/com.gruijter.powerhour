@@ -385,6 +385,15 @@
     "estimated": "estimated",
     "building": "Building history…",
     "own_use": "Own usage",
-    "no_solar": "Add a Solar Monitor first."
+    "no_solar": "Add a Solar Monitor first.",
+    "price": "Price",
+    "average": "Average",
+    "lowest": "Lowest",
+    "highest": "Highest",
+    "cheap": "cheap",
+    "mid": "normal",
+    "dear": "expensive",
+    "no_price": "Add an Energy Price device first.",
+    "not_yet": "Prices not known yet."
   }
 }
