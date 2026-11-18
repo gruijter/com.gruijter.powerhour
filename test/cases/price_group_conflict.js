@@ -65,7 +65,7 @@ const test = async (name, fn) => {
     await vote(g, 'b', 15, 15 * 60000);
     assert.strictEqual(homey.sent.length, 1);
     assert.ok(homey.sent[0].startsWith('tariff_group_conflict'));
-    assert.ok(homey.sent[0].includes('a (15m), b (15m)'));
+    assert.ok(homey.sent[0].includes('a, b'));
     await vote(g, 'b', 15, 25 * 3600000);
     await vote(g, 'a', 15, 25 * 3600000 + 1000);
     assert.strictEqual(homey.sent.length, 2);

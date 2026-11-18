@@ -34,6 +34,8 @@ const PriceProfile = require('../../lib/strategies/PriceProfile');
 const FORMULA_KEYS = ['formula', 'export_formula'];
 // Changing these needs new market prices (repair).
 const MARKET_KEYS = ['commodity', 'tariffType', 'biddingZone', 'priceInterval'];
+// Another market or currency: the price profile starts over (PriceDeviceProfile.reset()).
+const PROFILE_KEYS = ['commodity', 'tariffType', 'biddingZone', 'currency', 'fetchExchangeRate'];
 const PRICE_KEYS = [
   'tax', 'vat', 'fixedMarkupInclVat', 'taxInclVat', 'fixedMarkupTODInclVat', 'fixedMarkupWeekendInclVat', 'formula',
 ].flatMap((id) => [id, `export_${id}`]);
@@ -223,6 +225,7 @@ class PriceDevice extends GenericDevice {
     }
     this.validatePriceSettings(newSettings);
     if (changedKeys.includes('priceInterval')) await this.resetPrices();
+    if (PROFILE_KEYS.some((id) => changedKeys.includes(id))) await PriceDeviceProfile.reset(this);
     return super.onSettings({ oldSettings, newSettings, changedKeys });
   }
 
@@ -250,7 +253,7 @@ class PriceDevice extends GenericDevice {
       await this.resetPrices();
       this.migrated = false;
     }
-    if (['commodity', 'tariffType', 'biddingZone'].some((id) => settings[id] !== undefined && settings[id] !== old[id])) {
+    if (PROFILE_KEYS.some((id) => settings[id] !== undefined && settings[id] !== old[id])) {
       await PriceDeviceProfile.reset(this);
     }
     this.restartDevice(1000)

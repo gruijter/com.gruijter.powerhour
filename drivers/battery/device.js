@@ -46,6 +46,7 @@ const OWN_WRITE_ECHO_MS = 60 * 1000;
 // 1 % steps most batteries report.
 const SOC_REPLAN_PCT = 3;
 const SOC_REPLAN_MS = 10 * 60 * 1000;
+const SETUP_CHECK_MS = 60 * 1000; // setup conflicts on the control tick: at most once a minute
 const RELEASE_RETRY_MS = 60 * 1000;
 const RELEASE_FAST_MS = 15 * 60 * 1000; // refused this long: then once a night (RELEASE_NIGHT)
 const RELEASE_NIGHT = '03:00';
@@ -408,7 +409,7 @@ class BatDevice extends GenericDevice {
   // Driver tick, step 1: housekeeping, and what this battery does now. null: not controlled.
   async controlPrepare(now) {
     if (!this.initReady || this.isDestroyed) return null;
-    await this.updateWarning(now);
+    await this.updateWarning(now, true);
     this.checkPlanSlot(now);
     await this.endTempModeIfDue(now);
     if (this.inGroup()) await this.joinGroup();
@@ -764,9 +765,15 @@ class BatDevice extends GenericDevice {
   // The device warning: a failed setpoint write, else no Grid Monitor while this app controls the
   // battery in a mode that follows the plan (it then assumes HOME_USE_W). undefined: not known yet,
   // the warning from before the start stays as it is.
-  deviceWarning(now = Date.now()) {
+  // tick: the setup conflicts as checked within the last minute (they change with settings, which
+  // check them at once).
+  deviceWarning(now = Date.now(), tick = false) {
     if (this.controlError) return this.controlError;
-    const setup = this.sourceWarning() || this.priceWarning();
+    if (!tick || !(now - (this.setupCheckTm || 0) < SETUP_CHECK_MS)) {
+      this.setupWarning = this.sourceWarning() || this.priceWarning();
+      this.setupCheckTm = now;
+    }
+    const setup = this.setupWarning;
     if (setup) return setup;
     if (now - this.initTm < GRID_WARN_AFTER_MS) return this.warningShown === undefined ? undefined : null;
     if (!this.isControlConfigured() || !CAL_MODES.includes(this.getBatteryMode())
@@ -774,8 +781,8 @@ class BatDevice extends GenericDevice {
     return this.homey.__('warning_no_grid_monitor');
   }
 
-  async updateWarning(now = Date.now()) {
-    const warning = this.deviceWarning(now);
+  async updateWarning(now = Date.now(), tick = false) {
+    const warning = this.deviceWarning(now, tick);
     if (warning === undefined || warning === this.warningShown) return;
     this.warningShown = warning;
     if (warning) await this.setWarning(warning).catch(this.error);

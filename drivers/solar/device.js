@@ -32,7 +32,9 @@ const ChartImages = require('../../lib/helpers/ChartImages');
 const { fetchYesterdayAndToday, convertCumulativeToPower, mergeStoredHistory } = require('../../lib/helpers/HistoryLookup');
 const InsightsHistory = require('../../lib/helpers/InsightsHistory');
 const FileStore = require('../../lib/helpers/FileStore');
+const DayLog = require('../../lib/helpers/DayLog');
 
+const DAY_LOG_VERSION = 2; // format of the day log (dayLogFor())
 const HISTORY_VERSION = 2; // raise to rebuild the day log from Insights once more (SolarHistory)
 const BOOTSTRAP_THRESHOLD_DAYS = 14; // days of training data for the solar model
 
@@ -1143,53 +1145,33 @@ class SolarDevice extends GenericDevice {
   // before) }; -1: unknown. Plain number arrays, ~12 KB. Days are logged at midnight; the days before
   // are rebuilt once from Insights (SolarHistory).
   dayLogFor(year) {
-    if (!this.dayLog || this.dayLog.v !== 2 || this.dayLog.year !== year) {
-      const old = this.dayLog && this.dayLog.v === 2 && this.dayLog.year === year - 1 ? this.dayLog : null;
-      const days = Math.round((Date.UTC(year, 0, 1) - Date.UTC(year - 1, 0, 1)) / 86400000);
-      const tail = (list) => list.slice(days - 31, days);
-      const empty = () => new Array(366).fill(-1);
-      this.dayLog = {
-        v: 2,
-        year,
-        kwh: empty(),
-        own: empty(),
-        money: empty(),
-        est: empty(),
-        mShare: new Array(12).fill(-1),
-        mValue: new Array(12).fill(-1),
-        prev: old ? {
-          year: year - 1, from: days - 31, kwh: tail(old.kwh), own: tail(old.own), money: tail(old.money), est: tail(old.est),
-        } : null,
-      };
-    }
-    return this.dayLog;
+    const log = DayLog.yearLog(this.dayLog, DAY_LOG_VERSION, year, ['kwh', 'own', 'money', 'est'], ['mShare', 'mValue']);
+    if (log) this.dayLog = log;
+    return log;
   }
 
   // A logged day { kwh, own, money, est } (own and money null when unknown), null without.
   loggedDay(year, dayOfYear) {
-    const main = this.dayLog;
-    if (!main || main.v !== 2) return null;
-    let log = null;
-    let i = dayOfYear;
-    if (main.year === year) log = main;
-    else if (main.prev && main.prev.year === year) {
-      log = main.prev;
-      i = dayOfYear - log.from;
-    }
-    if (!log || !(log.kwh[i] >= 0)) return null;
+    const slot = DayLog.daySlot(this.dayLog, DAY_LOG_VERSION, year, dayOfYear);
+    if (!slot) return null;
+    const { log, i } = slot;
+    if (!(log.kwh[i] >= 0)) return null;
     return {
-      kwh: log.kwh[i], own: log.own[i] >= 0 ? log.own[i] : null, money: log.money[i] >= 0 ? log.money[i] : null, est: log.est[i] === 1,
+      kwh: log.kwh[i], own: log.own[i] >= 0 ? log.own[i] : null, money: log.money[i] !== -1 ? log.money[i] : null, est: log.est[i] === 1,
     };
   }
 
+  // Money may be below 0 (export at negative prices): unknown is exactly -1.
   logDay(reading, kwh, share, money) {
-    const doy = Math.round((Date.UTC(reading.year, reading.month, reading.day) - Date.UTC(reading.year, 0, 1)) / 86400000);
-    const log = this.dayLogFor(reading.year);
-    log.kwh[doy] = Math.max(0, Math.round(kwh * 1000) / 1000);
-    log.own[doy] = typeof share === 'number' ? Math.round(log.kwh[doy] * Math.min(1, Math.max(0, share)) * 1000) / 1000 : -1;
-    log.money[doy] = typeof money === 'number' ? Math.round(money * 10000) / 10000 : -1;
-    log.est[doy] = 0;
-    this.fileStore.set('dayLog', log);
+    this.dayLogFor(reading.year);
+    const slot = DayLog.daySlot(this.dayLog, DAY_LOG_VERSION, reading.year, DayLog.doyOf(reading.year, reading.month, reading.day));
+    if (!slot) return;
+    const { log, i } = slot;
+    log.kwh[i] = Math.max(0, Math.round(kwh * 1000) / 1000);
+    log.own[i] = typeof share === 'number' ? Math.round(log.kwh[i] * Math.min(1, Math.max(0, share)) * 1000) / 1000 : -1;
+    log.money[i] = typeof money === 'number' ? Math.round((money === -1 ? -1.0001 : money) * 10000) / 10000 : -1;
+    log.est[i] = 0;
+    this.fileStore.set('dayLog', this.dayLog);
   }
 
   // To disk now: a file write waits up to 5 minutes (FileStore), the done flag must not run ahead.

@@ -35,12 +35,18 @@ const start = Date.UTC(2026, 10, 18, 12);
 
 (async () => {
   await test('with an Energy Price device: its profile, the own one not learned', async () => {
-    const shared = PriceProfile.createProfile();
+    const shared = { ...PriceProfile.createProfile(), bootstrapped: 3 };
     const dev = charger([{ driver: { id: 'price' }, priceProfile: shared }]);
     const known = await dev.learnPriceProfile(fromNow, start, 60, 'UTC');
     assert.strictEqual(known.length, 2);
     assert.strictEqual(dev.priceProfile, shared);
     assert.strictEqual(dev.ownPriceProfile.lastLearnedMs, 0);
+  });
+
+  await test('an Energy Price device not learned from its history yet: own one', async () => {
+    const dev = charger([{ driver: { id: 'price' }, priceProfile: PriceProfile.createProfile() }]);
+    await dev.learnPriceProfile(fromNow, start, 60, 'UTC');
+    assert.strictEqual(dev.priceProfile, dev.ownPriceProfile);
   });
 
   await test('without (prices by flow): the own profile, learned', async () => {

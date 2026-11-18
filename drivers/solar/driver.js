@@ -100,9 +100,14 @@ class SolarDriver extends GenericDriver {
 
   // The day logs rebuilt from Insights once, for all solar devices together (SolarHistory): at least
   // 5 minutes after the start and 7 minutes into a quarter, away from the start and slot-change peaks.
-  scheduleHistory() {
+  // retry: an hour later (an Insights read failed), at most 3 times per start.
+  scheduleHistory(retry = false) {
     if (this.historyTimer) return;
-    const at = Date.now() + 5 * 60 * 1000;
+    if (retry) {
+      this.historyRetries = (this.historyRetries || 0) + 1;
+      if (this.historyRetries > 3) return;
+    }
+    const at = Date.now() + (retry ? 60 : 5) * 60 * 1000;
     const quarter = 15 * 60 * 1000;
     const delay = (Math.ceil((at - 7 * 60 * 1000) / quarter) * quarter + 7 * 60 * 1000) - Date.now();
     this.historyTimer = this.homey.setTimeout(() => {
@@ -124,6 +129,7 @@ class SolarDriver extends GenericDriver {
     }
     const result = await SolarHistory.fill(this, api);
     if (result) this.log('Solar history from Insights:', JSON.stringify(result));
+    if (result && result.retry) this.scheduleHistory(true);
   }
 
   // The grid power, and per device the part of its production used at home (export shared by

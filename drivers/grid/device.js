@@ -1250,6 +1250,26 @@ class GridDevice extends GenericDevice {
     return this.phaseSetupKind;
   }
 
+  onAdded() {
+    super.onAdded();
+    this.refreshGridWarnings();
+  }
+
+  onDeleted() {
+    this.isDeleted = true;
+    super.onDeleted();
+    this.refreshGridWarnings();
+  }
+
+  // A Grid Monitor added or deleted: the others check their warning (several Grid Monitors) again.
+  refreshGridWarnings() {
+    this.homey.setTimeout(() => {
+      this.driver.getDevices().forEach((d) => {
+        if (d !== this && !d.isDestroyed && !d.isDeleted && typeof d.updateWarning === 'function') d.updateWarning().catch((err) => d.error(err));
+      });
+    }, 1000);
+  }
+
   // Setup conflicts of the connection first, then the price setup (base class).
   deviceWarning() {
     const kind = this.phaseSetup();
