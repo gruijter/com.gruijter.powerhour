@@ -45,9 +45,10 @@
     var X0 = 34; // y labels to the left: 34 (W, kW), 46 (kWh)
     var TOP = 6;
     var AXIS = 14;
-    var REST = 0.3; // the part exported
-    var UNKNOWN = 0.6; // own use unknown
-    var FORECAST = 'var(--c-solar)';
+    var OWN = 0.6; // own use (solar colour)
+    var REST = 0.5; // the part exported (export colour)
+    var UNKNOWN = 0.35; // own use unknown (solar colour)
+    var PALE = 0.4; // expected, as the graph (Palette.PALE)
 
     function el(tag, attrs, parent, text) {
       var e = document.createElementNS(NS, tag);
@@ -204,6 +205,7 @@
           var i = document.createElement('i');
           if (it[1] === 'line') i.className = 'line';
           else i.style.opacity = it[1];
+          if (it[2]) i.style.background = 'var(' + it[2] + ')';
           s.appendChild(i);
           s.appendChild(document.createTextNode(it[0].charAt(0).toUpperCase() + it[0].slice(1)));
           legend.appendChild(s);
@@ -227,19 +229,58 @@
       }
 
       // Step area of vals (>= 0) on top of base (per slot), scaled to h from baseline y.
-      function stackPath(vals, base, sw, y, h, max) {
+      // Smooth line through [x, y] points as the device graphs (Chart.js monotone): no overshoot.
+      function monoPath(pts, move) {
+        var n = pts.length;
+        var f = function (v) { return v.toFixed(2); };
+        if (!n) return '';
+        var p = (move === false ? 'L' : 'M') + f(pts[0][0]) + ' ' + f(pts[0][1]);
+        if (n === 1) return p;
+        var dx = [];
+        var m = [];
+        var tg = [];
+        var i;
+        for (i = 0; i < n - 1; i += 1) {
+          dx[i] = pts[i + 1][0] - pts[i][0];
+          m[i] = (pts[i + 1][1] - pts[i][1]) / dx[i];
+        }
+        tg[0] = m[0];
+        tg[n - 1] = m[n - 2];
+        for (i = 1; i < n - 1; i += 1) tg[i] = m[i - 1] * m[i] <= 0 ? 0 : (m[i - 1] + m[i]) / 2;
+        for (i = 0; i < n - 1; i += 1) {
+          if (m[i] === 0) {
+            tg[i] = 0;
+            tg[i + 1] = 0;
+          } else {
+            var a = tg[i] / m[i];
+            var b = tg[i + 1] / m[i];
+            var s = a * a + b * b;
+            if (s > 9) {
+              tg[i] = (3 / Math.sqrt(s)) * a * m[i];
+              tg[i + 1] = (3 / Math.sqrt(s)) * b * m[i];
+            }
+          }
+        }
+        for (i = 0; i < n - 1; i += 1) {
+          var h = dx[i] / 3;
+          p += 'C' + f(pts[i][0] + h) + ' ' + f(pts[i][1] + tg[i] * h) + ' ' + f(pts[i + 1][0] - h) + ' ' + f(pts[i + 1][1] - tg[i + 1] * h)
+            + ' ' + f(pts[i + 1][0]) + ' ' + f(pts[i + 1][1]);
+        }
+        return p;
+      }
+
+      // Smooth area between base and base + vals over slots 0..last (slot centres), as the graph's line.
+      function stackPath(vals, base, sw, y, h, max, last) {
+        var yOf = function (v) { return y - (v / max) * h; };
         var up = [];
         var down = [];
-        vals.forEach(function (v, i) {
+        for (var i = 0; i <= last; i += 1) {
           var b = base ? base[i] || 0 : 0;
-          var yt = (y - ((b + Math.max(0, v || 0)) / max) * h).toFixed(2);
-          var yb = (y - (b / max) * h).toFixed(2);
-          var xa = (X0 + i * sw).toFixed(2);
-          var xb = (X0 + (i + 1) * sw).toFixed(2);
-          up.push(xa + ' ' + yt, xb + ' ' + yt);
-          down.unshift(xb + ' ' + yb, xa + ' ' + yb);
-        });
-        return 'M' + up.concat(down).join('L') + 'Z';
+          var x = X0 + (i + 0.5) * sw;
+          up.push([x, yOf(b + Math.max(0, vals[i] || 0))]);
+          down.unshift([x, yOf(b)]);
+        }
+        return monoPath(up) + monoPath(down, false) + 'Z';
       }
 
       function draw() {
@@ -304,14 +345,25 @@
         var restW = d.real.map(function (r, k) { return knownAt(k) ? r - ownW[k] : 0; });
         var unknownW = d.real.map(function (r, k) { return typeof r === 'number' && !knownAt(k) ? r : 0; });
         var hasUnknown = unknownW.some(function (v) { return v > 0; });
-        el('path', { d: stackPath(ownW, null, sw, bottom, CH, max), fill: color }, svg);
-        el('path', { d: stackPath(restW, ownW, sw, bottom, CH, max), fill: color, opacity: REST }, svg);
-        if (hasUnknown) el('path', { d: stackPath(unknownW, null, sw, bottom, CH, max), fill: color, opacity: UNKNOWN }, svg);
-        // Forecast: a dashed line.
-        var pts = d.forecast.map(function (v, k) { return (X0 + (k + 0.5) * sw).toFixed(1) + ',' + (bottom - (Math.max(0, v) / max) * CH).toFixed(1); });
-        el('polyline', {
-          points: pts.join(' '), fill: 'none', stroke: FORECAST, 'stroke-width': 1.5, 'stroke-dasharray': '4 3',
-        }, svg);
+        var last = -1;
+        d.real.forEach(function (r, k) { if (typeof r === 'number') last = k; });
+        if (last >= 0) {
+          el('path', { d: stackPath(ownW, null, sw, bottom, CH, max, last), fill: color, opacity: OWN }, svg);
+          el('path', { d: stackPath(restW, ownW, sw, bottom, CH, max, last), fill: 'var(--c-export)', opacity: REST }, svg);
+          var knownW = ownW.map(function (v, k) { return v + restW[k]; });
+          if (hasUnknown) el('path', { d: stackPath(unknownW, knownW, sw, bottom, CH, max, last), fill: color, opacity: UNKNOWN }, svg);
+          var line = [];
+          for (var k = 0; k <= last; k += 1) line.push([X0 + (k + 0.5) * sw, bottom - (Math.max(0, d.real[k] || 0) / max) * CH]);
+          el('path', { d: monoPath(line), fill: 'none', stroke: color, 'stroke-width': 1, 'stroke-linejoin': 'round' }, svg);
+        }
+        // Expected: pale bars on top, as the graph.
+        var bars = '';
+        d.forecast.forEach(function (v, k) {
+          if (!(v > 0)) return;
+          var yy = (bottom - (v / max) * CH).toFixed(2);
+          bars += 'M' + (X0 + k * sw).toFixed(2) + ' ' + bottom + 'V' + yy + 'H' + (X0 + (k + 1) * sw).toFixed(2) + 'V' + bottom + 'Z';
+        });
+        if (bars) el('path', { d: bars, fill: color, opacity: PALE }, svg);
         var nowIdx = d.day === 'today' ? Math.floor((Date.now() - d.startMs) / d.slotMs) : -1;
         if (nowIdx < 0 || nowIdx >= n) nowIdx = -1;
         if (nowIdx >= 0) {
@@ -319,10 +371,10 @@
           el('line', { x1: nx, x2: nx, y1: TOP, y2: bottom, class: 'now' }, svg);
         }
         var items = [];
-        if (ownW.some(function (v) { return v > 0; })) items.push([t('own_use'), 1]);
-        if (restW.some(function (v) { return v > 0; })) items.push([t('export'), REST]);
+        if (ownW.some(function (v) { return v > 0; })) items.push([t('own_use'), OWN]);
+        if (restW.some(function (v) { return v > 0; })) items.push([t('export'), REST, '--c-export']);
         if (hasUnknown) items.push([t('unknown'), UNKNOWN]);
-        items.push([t('expected'), 'line']);
+        items.push([t('expected'), PALE]);
         drawLegend(items);
         chart = {
           n: n, sw: sw, bottom: bottom, sel: el('g', {}, svg), nowIdx: nowIdx,
@@ -352,13 +404,16 @@
           var known = typeof b.own === 'number';
           if (!known) hasUnknown = true;
           el('rect', {
-            x: x, y: bottom - h, width: bw, height: h, rx: Math.min(2, bw / 2), fill: color, opacity: known ? REST : UNKNOWN,
+            x: x, y: bottom - h, width: bw, height: h, rx: Math.min(2, bw / 2), fill: known ? 'var(--c-export)' : color, opacity: known ? REST : UNKNOWN,
           }, svg);
           var ownH = known ? (Math.min(b.own, b.kwh) / max) * CH : 0;
-          if (ownH > 0) el('rect', { x: x, y: bottom - ownH, width: bw, height: ownH, fill: color }, svg);
+          if (ownH > 0) {
+            el('rect', { x: x, y: bottom - ownH, width: bw, height: ownH, fill: 'var(--node-bg)' }, svg);
+            el('rect', { x: x, y: bottom - ownH, width: bw, height: ownH, fill: color, opacity: OWN }, svg);
+          }
         });
         var items = [];
-        if (list.some(function (b) { return b && b.own > 0; })) items.push([t('own_use'), 1], [t('export'), REST]);
+        if (list.some(function (b) { return b && b.own > 0; })) items.push([t('own_use'), OWN], [t('export'), REST, '--c-export']);
         if (hasUnknown) items.push([t('unknown'), UNKNOWN]);
         drawLegend(items);
         chart = {
