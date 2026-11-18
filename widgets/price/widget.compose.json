@@ -86,6 +86,10 @@
     "getPrice": {
       "method": "GET",
       "path": "/"
+    },
+    "enableForecast": {
+      "method": "POST",
+      "path": "/forecast"
     }
   }
 }

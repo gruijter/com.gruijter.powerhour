@@ -396,7 +396,8 @@
     "mid": "보통",
     "dear": "비쌈",
     "no_price": "먼저 에너지 가격 기기를 추가하세요.",
-    "not_yet": "아직 가격을 알 수 없습니다."
+    "not_yet": "아직 가격을 알 수 없습니다.",
+    "enable_forecast": "예측 켜기"
   },
   "warning_same_source": "__devices__이(가) 같은 기기를 사용합니다. 하나를 삭제하세요.",
   "warning_same_charger": "__devices__이(가) 같은 충전기와 차량을 사용합니다. 하나를 삭제하세요."

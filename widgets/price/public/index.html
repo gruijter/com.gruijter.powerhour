@@ -26,6 +26,16 @@
     .cursor { stroke: var(--text); stroke-width: 1; opacity: 0.5; }
     .legend { display: flex; flex-wrap: wrap; gap: 4px 12px; margin: 0 8px 4px; color: var(--muted); font-size: 11px; }
     .legend i { display: inline-block; width: 9px; height: 9px; margin-right: 4px; border-radius: 2px; vertical-align: -1px; }
+    .chartbox { position: relative; }
+    #empty {
+      position: absolute; inset: 0; display: none; flex-direction: column; align-items: center; justify-content: center;
+      gap: 10px; padding: 0 16px; color: var(--muted); font-size: 13px; text-align: center;
+    }
+    #empty button {
+      border: 0; border-radius: 8px; padding: 7px 14px; background: var(--node-bg); color: var(--text);
+      font: inherit; font-size: 12px; font-weight: 600; cursor: pointer;
+    }
+    .hide { visibility: hidden; }
     .legend i.line { height: 0; border-top: 2px solid var(--c-export); background: none; border-radius: 0; vertical-align: 3px; }
   </style>
 </head>
@@ -33,9 +43,11 @@
   <div class="tabs" id="tabs"></div>
   <div class="head"><b id="title"></b><span id="note"></span></div>
   <div class="stats" id="stats"></div>
-  <svg id="chart" viewBox="0 0 320 170"></svg>
+  <div class="chartbox">
+    <svg id="chart" viewBox="0 0 320 170"></svg>
+    <div id="empty"><span id="emptyText"></span><button id="forecastBtn" type="button"></button></div>
+  </div>
   <div class="legend" id="legend"></div>
-  <div id="empty"></div>
   <script>
     var started = false;
     var TABS = ['today', 'tomorrow'];
@@ -69,6 +81,10 @@
       var noteEl = document.getElementById('note');
       var legend = document.getElementById('legend');
       var empty = document.getElementById('empty');
+      var emptyText = document.getElementById('emptyText');
+      var forecastBtn = document.getElementById('forecastBtn');
+      var head = document.querySelector('.head');
+      forecastBtn.textContent = t('enable_forecast');
       var settings = (typeof Homey.getSettings === 'function' && Homey.getSettings()) || {};
       var key = 'pbth-price-' + (typeof Homey.getWidgetInstanceId === 'function' ? Homey.getWidgetInstanceId() : '');
       var tab = 'today';
@@ -208,21 +224,23 @@
         var CH = settings.shape !== 'normal' ? 110 : 140;
         var missing = !d || !d.price;
         var known = !missing && d.import.some(function (v) { return typeof v === 'number'; });
-        svg.style.display = known ? '' : 'none';
-        legend.style.display = known ? '' : 'none';
-        document.querySelector('.head').style.display = known ? '' : 'none';
-        stats.style.display = known ? '' : 'none';
-        empty.style.display = known ? 'none' : 'block';
+        svg.setAttribute('viewBox', '0 0 ' + W + ' ' + (TOP + CH + AXIS));
+        [head, stats, legend].forEach(function (e) { e.classList.toggle('hide', !known); });
+        empty.style.display = known ? 'none' : 'flex';
         chart = null;
         if (!known) {
-          if (missing) empty.textContent = d && d.price === false ? '…' : t('no_price');
-          else empty.textContent = t('not_yet');
+          // Same height as with prices: placeholders keep the head, stats and legend lines.
+          while (svg.firstChild) svg.removeChild(svg.firstChild);
+          setHead('\u00a0', '', [['\u00a0', '\u00a0']]);
+          drawLegend([['\u00a0', '--c-normal']]);
+          if (missing) emptyText.textContent = d && d.price === false ? '…' : t('no_price');
+          else emptyText.textContent = t('not_yet');
+          forecastBtn.style.display = !missing && d.canForecast && !forecastAsked ? '' : 'none';
           fit();
           return;
         }
         timeFmt = new Intl.DateTimeFormat(lang, { hour: '2-digit', minute: '2-digit', timeZone: d.timeZone });
         priceFmt = new Intl.NumberFormat(lang, { minimumFractionDigits: d.decimals, maximumFractionDigits: d.decimals });
-        svg.setAttribute('viewBox', '0 0 ' + W + ' ' + (TOP + CH + AXIS));
         while (svg.firstChild) svg.removeChild(svg.firstChild);
 
         var s = summary(d);
@@ -368,6 +386,21 @@
       });
 
       if (typeof Homey.onSettings === 'function') Homey.onSettings(function (x) { settings = x || settings; if (data) draw(); });
+
+      var forecastAsked = false;
+      forecastBtn.addEventListener('click', function () {
+        if (typeof Homey.hapticFeedback === 'function') Homey.hapticFeedback();
+        forecastAsked = true;
+        forecastBtn.style.display = 'none';
+        emptyText.textContent = '…';
+        var ids = typeof Homey.getDeviceIds === 'function' ? Homey.getDeviceIds() || [] : [];
+        Homey.api('POST', '/forecast', { ids: ids })
+          .catch(function (err) { console.error(err); })
+          .then(function () {
+            // The device restarts and then fetches: look again a few times.
+            [20000, 60000, 180000].forEach(function (ms) { setTimeout(function () { cache = {}; refresh(); }, ms); });
+          });
+      });
 
       var cache = {};
       var pending = {};

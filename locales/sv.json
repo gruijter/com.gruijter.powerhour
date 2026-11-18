@@ -396,7 +396,8 @@
     "mid": "normalt",
     "dear": "dyrt",
     "no_price": "Lägg först till en Energipris-enhet.",
-    "not_yet": "Priserna är inte kända än."
+    "not_yet": "Priserna är inte kända än.",
+    "enable_forecast": "Slå på prognos"
   },
   "warning_same_source": "__devices__ använder samma enhet. Ta bort en av dem.",
   "warning_same_charger": "__devices__ använder samma laddare och bil. Ta bort en av dem."

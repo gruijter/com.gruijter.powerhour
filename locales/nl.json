@@ -396,7 +396,8 @@
     "mid": "normaal",
     "dear": "duur",
     "no_price": "Voeg eerst een Energieprijs-apparaat toe.",
-    "not_yet": "Prijzen nog niet bekend."
+    "not_yet": "Prijzen nog niet bekend.",
+    "enable_forecast": "Voorspelling aanzetten"
   },
   "warning_same_source": "__devices__ gebruiken hetzelfde apparaat. Verwijder er één.",
   "warning_same_charger": "__devices__ gebruiken dezelfde lader en auto. Verwijder er één."

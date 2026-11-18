@@ -396,7 +396,8 @@
     "mid": "normalnie",
     "dear": "drogo",
     "no_price": "Najpierw dodaj urządzenie Cena energii.",
-    "not_yet": "Ceny jeszcze nieznane."
+    "not_yet": "Ceny jeszcze nieznane.",
+    "enable_forecast": "Włącz prognozę"
   },
   "warning_same_source": "__devices__ używają tego samego urządzenia. Usuń jedno z nich.",
   "warning_same_charger": "__devices__ używają tej samej ładowarki i auta. Usuń jedno z nich."

@@ -19,12 +19,16 @@ along with com.gruijter.powerhour.  If not, see <http://www.gnu.org/licenses/>.
 
 'use strict';
 
-const { getPrice } = require('../../lib/helpers/WidgetData');
+const { getPrice, enableForecast } = require('../../lib/helpers/WidgetData');
 
 module.exports = {
   // day: today or tomorrow; ids: the chosen price device.
   async getPrice({ homey, query }) {
     const ids = query && query.ids ? String(query.ids).split(',').filter(Boolean) : [];
     return getPrice(homey, query && query.day, ids);
+  },
+  async enableForecast({ homey, body }) {
+    const ids = body && Array.isArray(body.ids) ? body.ids.map(String) : [];
+    return enableForecast(homey, ids);
   },
 };

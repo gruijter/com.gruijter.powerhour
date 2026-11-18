@@ -396,7 +396,8 @@
     "mid": "normal",
     "dear": "teuer",
     "no_price": "Füge zuerst ein Energiepreis-Gerät hinzu.",
-    "not_yet": "Preise noch nicht bekannt."
+    "not_yet": "Preise noch nicht bekannt.",
+    "enable_forecast": "Prognose einschalten"
   },
   "warning_same_source": "__devices__ nutzen dasselbe Gerät. Löschen Sie eines davon.",
   "warning_same_charger": "__devices__ nutzen dieselbe Ladestation und dasselbe Auto. Löschen Sie eines davon."
