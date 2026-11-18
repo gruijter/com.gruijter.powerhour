@@ -404,7 +404,8 @@
     "no_battery": "Füge zuerst eine Intelligente Batterie hinzu.",
     "efficiency": "Wirkungsgrad",
     "not_yet": "Preise noch nicht bekannt.",
-    "enable_forecast": "Prognose einschalten"
+    "enable_forecast": "Prognose einschalten",
+    "cost": "Kosten"
   },
   "warning_same_source": "__devices__ nutzen dasselbe Gerät. Löschen Sie eines davon.",
   "warning_same_charger": "__devices__ nutzen dieselbe Ladestation und dasselbe Auto. Löschen Sie eines davon."

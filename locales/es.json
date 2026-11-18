@@ -404,7 +404,8 @@
     "no_battery": "Añade primero una Batería inteligente.",
     "efficiency": "rendimiento",
     "not_yet": "Precios aún no conocidos.",
-    "enable_forecast": "Activar previsión"
+    "enable_forecast": "Activar previsión",
+    "cost": "Coste"
   },
   "warning_same_source": "__devices__ usan el mismo dispositivo. Elimine uno.",
   "warning_same_charger": "__devices__ usan el mismo cargador y coche. Elimine uno."

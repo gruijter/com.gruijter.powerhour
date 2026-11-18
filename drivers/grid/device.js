@@ -46,6 +46,7 @@ const kwhRatio = (now, from, to) => {
 };
 const SPLIT_FIELDS = [['importValue', 'imported'], ['exportValue', 'exported'], ['homeValue', 'home']];
 const FileStore = require('../../lib/helpers/FileStore');
+const GridDayLog = require('../../lib/helpers/GridDayLog');
 const TimeHelpers = require('../../lib/helpers/TimeHelpers');
 const LoadSpread = require('../../lib/helpers/LoadSpread');
 const PeakTariff = require('../../lib/strategies/PeakTariff');
@@ -195,6 +196,16 @@ class GridDevice extends GenericDevice {
     });
 
     if (this.sessionId !== sessionIdAfterSuper) return; // superseded by a newer onInit()
+    // widgets/grid: the day log, rebuilt once from Insights a few minutes after the start.
+    await GridDayLog.load(this).catch(this.error);
+    if (GridDayLog.historyPending(this)) {
+      this.homey.setTimeout(() => {
+        if (this.sessionId !== sessionIdAfterSuper) return;
+        ContractYear.serial(() => GridDayLog.fill(this))
+          .then((result) => result && this.log('Grid day log from Insights:', JSON.stringify(result)))
+          .catch(this.error);
+      }, 5 * 60 * 1000 + Math.random() * 120000);
+    }
     this.startForecastLoop().catch(this.error);
     if (this.initLearningTimeout) this.homey.clearTimeout(this.initLearningTimeout);
     const finishInit = async () => {
@@ -514,6 +525,7 @@ class GridDevice extends GenericDevice {
 
     await super.handleUpdateMeter(reading);
     this._directionalTickDelta = null;
+    if (periods.newDay) await GridDayLog.logYesterday(this).catch((err) => this.error(err));
 
     // Throttled store flush (see flushDirtyStore()), forced on a period boundary.
     const boundary = periods.newHour || periods.newDay || periods.newMonth || periods.newYear;

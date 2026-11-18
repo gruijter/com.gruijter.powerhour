@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="colors.css">
+  <style>
+    .tabs { display: flex; gap: 2px; margin: 0 8px 6px; padding: 2px; border-radius: 9px; background: var(--line); }
+    .tabs button {
+      flex: 1; border: 0; border-radius: 7px; padding: 5px 0; background: transparent;
+      color: var(--muted); font: inherit; font-size: 12px; cursor: pointer;
+    }
+    .tabs button.on { background: var(--node-bg); color: var(--text); font-weight: 600; }
+    .head { display: flex; justify-content: space-between; gap: 8px; margin: 0 8px; font-size: 12px; }
+    .head b { color: var(--text); font-weight: 600; white-space: nowrap; }
+    .head span { color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .stats { display: flex; margin: 2px 8px 2px; }
+    .stat { flex: 1; min-width: 0; }
+    .stat b { display: block; color: var(--text); font-size: 15px; font-weight: 600; white-space: nowrap; }
+    .stat span { display: block; color: var(--muted); font-size: 11px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    svg { display: block; width: 100%; height: auto; touch-action: pan-y; }
+    .tick { fill: var(--muted); font-size: 9px; }
+    .grid { stroke: var(--line); stroke-width: 1; }
+    .now { stroke: var(--muted); stroke-width: 1; stroke-dasharray: 3 3; }
+    .cursor { stroke: var(--text); stroke-width: 1; opacity: 0.5; }
+    .legend { display: flex; gap: 12px; margin: 0 8px 4px; color: var(--muted); font-size: 11px; }
+    .legend i { display: inline-block; width: 9px; height: 9px; margin-right: 4px; border-radius: 2px; background: var(--c-grid); vertical-align: -1px; }
+    .legend i.line { height: 0; border-top: 2px dashed var(--c-grid); background: none; border-radius: 0; vertical-align: 3px; }
+  </style>
+</head>
+<body>
+  <div class="tabs" id="tabs"></div>
+  <div class="head"><b id="title"></b><span id="note"></span></div>
+  <div class="stats" id="stats"></div>
+  <div class="chartbox">
+    <svg id="chart" viewBox="0 0 320 170"></svg>
+    <div id="empty"></div>
+  </div>
+  <div class="legend" id="legend"></div>
+  <script>
+    var started = false;
+    var TABS = ['yesterday', 'today', 'tomorrow', 'weeks', 'year'];
+    var NS = 'http://www.w3.org/2000/svg';
+    var W = 320; // 480 for the widescreen shape (setting shape)
+    var X0 = 34; // y labels to the left: 34 (W, kW), 46 (kWh)
+    var TOP = 6;
+    var AXIS = 14;
+    var FILL = 0.35; // under the measured line
+    var PALE = 0.4; // expected, as the graph (Palette.PALE)
+
+    function el(tag, attrs, parent, text) {
+      var e = document.createElementNS(NS, tag);
+      Object.keys(attrs).forEach(function (k) { e.setAttribute(k, attrs[k]); });
+      if (text !== undefined) e.textContent = text;
+      if (parent) parent.appendChild(e);
+      return e;
+    }
+
+    function onHomeyReady(Homey) {
+      if (started) return;
+      started = true;
+      // The Homey's language (the texts are in it too), not the phone's: dates and numbers.
+      var homeyLang = Homey.__('widget.lang');
+      var lang = homeyLang && homeyLang.indexOf('.') < 0 ? homeyLang : (navigator.language || 'en');
+      if (lang === 'ar') document.documentElement.dir = 'rtl';
+      var fmt = [0, 1, 2].map(function (n) { return new Intl.NumberFormat(lang, { minimumFractionDigits: n, maximumFractionDigits: n }); });
+      var t = function (k) { return Homey.__('widget.' + k); };
+      var svg = document.getElementById('chart');
+      var stats = document.getElementById('stats');
+      var tabs = document.getElementById('tabs');
+      var titleEl = document.getElementById('title');
+      var noteEl = document.getElementById('note');
+      var legend = document.getElementById('legend');
+      var empty = document.getElementById('empty');
+      var settings = (typeof Homey.getSettings === 'function' && Homey.getSettings()) || {};
+      var key = 'pbth-grid-' + (typeof Homey.getWidgetInstanceId === 'function' ? Homey.getWidgetInstanceId() : '');
+      var tab = settings.start || 'last';
+      if (tab === 'last') {
+        tab = 'today';
+        try { tab = localStorage.getItem(key) || 'today'; } catch (e) { /* no storage: default */ }
+      }
+      if (TABS.indexOf(tab) < 0) tab = 'today';
+      var data = null;
+      var sel = null; // selected slot or bar; null: the whole period
+      var chart = null;
+      var ready = false;
+      var lastHeight = 0;
+      var timeFmt = null;
+
+      function power(w) {
+        if (typeof w !== 'number') return '–';
+        return w < 1000 ? Math.round(w) + ' W' : fmt[1].format(w / 1000) + ' kW';
+      }
+      function kwh(v) {
+        if (typeof v !== 'number') return '–';
+        if (v >= 10000) return fmt[1].format(v / 1000) + ' MWh';
+        return fmt[v < 10 ? 2 : v < 1000 ? 1 : 0].format(v) + ' kWh';
+      }
+      function cap(x) { return x ? x.charAt(0).toUpperCase() + x.slice(1) : x; }
+      function money(v) {
+        if (typeof v !== 'number') return '–';
+        var decimals = typeof data.decimals === 'number' ? data.decimals : 2;
+        var f = new Intl.NumberFormat(lang, { minimumFractionDigits: decimals, maximumFractionDigits: decimals });
+        return (v < 0 ? '−' : '') + (data.currency || '') + ' ' + f.format(Math.abs(v));
+      }
+      // 'YYYY-MM-DD' as a short date: 'di 12 nov' (long) or '12 nov'.
+      function dateText(k, long) {
+        if (!k) return '';
+        var p = k.split('-').map(Number);
+        var o = { day: 'numeric', month: 'short', timeZone: 'UTC' };
+        if (long) o.weekday = 'short';
+        return new Intl.DateTimeFormat(lang, o).format(Date.UTC(p[0], p[1] - 1, p[2]));
+      }
+      function monthText(m) { return new Intl.DateTimeFormat(lang, { month: 'long', timeZone: 'UTC' }).format(Date.UTC(2026, m, 15)); }
+
+      TABS.forEach(function (id) {
+        var b = document.createElement('button');
+        b.textContent = t(id);
+        b.dataset.id = id;
+        b.addEventListener('click', function () {
+          if (typeof Homey.hapticFeedback === 'function') Homey.hapticFeedback();
+          tab = id;
+          try { localStorage.setItem(key, id); } catch (e) { /* not kept */ }
+          sel = null;
+          markTabs();
+          if (stale()) refresh();
+          else {
+            data = cache[tab].data;
+            draw();
+          }
+        });
+        tabs.appendChild(b);
+      });
+      function markTabs() {
+        Array.prototype.forEach.call(tabs.children, function (b) { b.classList.toggle('on', b.dataset.id === tab); });
+      }
+      markTabs();
+
+      // The one row of numbers: the whole period, or the selected slot or bar.
+      function setHead(title, note, cells) {
+        titleEl.textContent = title;
+        noteEl.textContent = note || '';
+        while (stats.firstChild) stats.removeChild(stats.firstChild);
+        cells.forEach(function (c) {
+          var d = document.createElement('div');
+          d.className = 'stat';
+          var b = document.createElement('b');
+          b.textContent = c[0];
+          var s = document.createElement('span');
+          s.textContent = c[1];
+          d.appendChild(b);
+          d.appendChild(s);
+          stats.appendChild(d);
+        });
+      }
+
+      function periodTitle(d) {
+        if (d.day === 'year') return String(new Date().getFullYear());
+        return t(d.day);
+      }
+
+      function cells(p) {
+        return [[kwh(p.imported), cap(t('import'))], [kwh(p.exported), cap(t('export'))], [money(p.money), t('cost')]];
+      }
+      function drawHead() {
+        var d = data;
+        var bars = d.day === 'weeks' || d.day === 'year';
+        var idx = sel;
+        if (idx === null) {
+          var tot = d.total || {};
+          var note = '';
+          if (d.building && bars) note = t('building');
+          else if (d.day === 'tomorrow') note = t('expected');
+          else if (tot.est) note = '≈ ' + t('estimated');
+          setHead(periodTitle(d), note, cells(tot));
+          return;
+        }
+        if (bars) {
+          var b = d.bars[idx] || {};
+          var title = d.day === 'year' ? monthText(idx) : dateText(b.date, true);
+          setHead(title, b.est ? '≈ ' + t('estimated') : '', cells(b));
+          return;
+        }
+        var measured = idx === chart.nowIdx && typeof d.nowW === 'number' ? d.nowW : d.real[idx];
+        var f = d.forecast[idx];
+        var time = timeFmt.format(d.startMs + idx * d.slotMs);
+        var dir = function (w) { return cap(t(w < 0 ? 'export' : 'import')); };
+        var fCell = typeof f === 'number' ? [power(Math.abs(f)), t('expected') + ' (' + t(f < 0 ? 'export' : 'import') + ')'] : ['–', t('expected')];
+        var mCell = typeof measured === 'number' ? [power(Math.abs(measured)), dir(measured)] : ['–', t('power')];
+        setHead(time, '', [mCell, fCell, ['–', t('cost')]]);
+      }
+
+      function drawLegend(items) {
+        while (legend.firstChild) legend.removeChild(legend.firstChild);
+        items.forEach(function (it) {
+          var s = document.createElement('span');
+          var i = document.createElement('i');
+          if (it[1] === 'line') i.className = 'line';
+          else i.style.opacity = it[1];
+          if (it[2]) i.style.background = 'var(' + it[2] + ')';
+          s.appendChild(i);
+          s.appendChild(document.createTextNode(it[0].charAt(0).toUpperCase() + it[0].slice(1)));
+          legend.appendChild(s);
+        });
+      }
+
+      // A round step for 2-4 grid lines up to max.
+      function niceStep(max) {
+        var steps = [0.5, 1, 2, 5, 10, 20, 50, 100, 200, 500, 1000, 2000, 5000, 10000, 20000, 50000];
+        for (var i = 0; i < steps.length; i += 1) if (max / steps[i] <= 4) return steps[i];
+        return 100000;
+      }
+
+      // Grid lines of a signed axis from lo to hi (both multiples of step), labels without sign.
+      function gridLines(lo, hi, step, y, X1, label) {
+        for (var g = lo; g <= hi + step / 2; g += step) {
+          var v = Math.abs(g) < step / 2 ? 0 : g;
+          el('line', { x1: X0, x2: X1, y1: y(v), y2: y(v), class: 'grid', opacity: v === 0 ? 1 : 0.6 }, svg);
+          el('text', { x: X0 - 4, y: y(v) + 3, 'text-anchor': 'end', class: 'tick' }, svg, label(Math.abs(v)));
+        }
+      }
+      function range(vals) {
+        var hi = Math.max.apply(null, vals.concat([0]));
+        var lo = Math.min.apply(null, vals.concat([0]));
+        var step = niceStep(Math.max(hi - lo, 1) * 1.05);
+        hi = Math.ceil((hi * 1.05) / step) * step;
+        lo = Math.floor((lo * 1.05) / step) * step;
+        if (hi - lo < step) hi = lo + step;
+        return { lo: lo, hi: hi, step: step };
+      }
+
+      // Step area of vals (>= 0) on top of base (per slot), scaled to h from baseline y.
+      // Smooth line through [x, y] points as the device graphs (Chart.js monotone): no overshoot.
+      function monoPath(pts, move) {
+        var n = pts.length;
+        var f = function (v) { return v.toFixed(2); };
+        if (!n) return '';
+        var p = (move === false ? 'L' : 'M') + f(pts[0][0]) + ' ' + f(pts[0][1]);
+        if (n === 1) return p;
+        var dx = [];
+        var m = [];
+        var tg = [];
+        var i;
+        for (i = 0; i < n - 1; i += 1) {
+          dx[i] = pts[i + 1][0] - pts[i][0];
+          m[i] = (pts[i + 1][1] - pts[i][1]) / dx[i];
+        }
+        tg[0] = m[0];
+        tg[n - 1] = m[n - 2];
+        for (i = 1; i < n - 1; i += 1) tg[i] = m[i - 1] * m[i] <= 0 ? 0 : (m[i - 1] + m[i]) / 2;
+        for (i = 0; i < n - 1; i += 1) {
+          if (m[i] === 0) {
+            tg[i] = 0;
+            tg[i + 1] = 0;
+          } else {
+            var a = tg[i] / m[i];
+            var b = tg[i + 1] / m[i];
+            var s = a * a + b * b;
+            if (s > 9) {
+              tg[i] = (3 / Math.sqrt(s)) * a * m[i];
+              tg[i + 1] = (3 / Math.sqrt(s)) * b * m[i];
+            }
+          }
+        }
+        for (i = 0; i < n - 1; i += 1) {
+          var h = dx[i] / 3;
+          p += 'C' + f(pts[i][0] + h) + ' ' + f(pts[i][1] + tg[i] * h) + ' ' + f(pts[i + 1][0] - h) + ' ' + f(pts[i + 1][1] - tg[i + 1] * h)
+            + ' ' + f(pts[i + 1][0]) + ' ' + f(pts[i + 1][1]);
+        }
+        return p;
+      }
+
+      function draw() {
+        var d = data;
+        W = settings.shape !== 'normal' ? 480 : 320;
+        var X1 = W - 4;
+        var CH = settings.shape !== 'normal' ? 110 : 140;
+        var bars = d && (d.day === 'weeks' || d.day === 'year');
+        var missing = !d || !d.grid;
+        var noChart = !missing && (bars ? !d.bars : !d.forecast);
+        svg.setAttribute('viewBox', '0 0 ' + W + ' ' + (TOP + CH + AXIS));
+        svg.classList.toggle('hide', missing || noChart);
+        legend.classList.toggle('hide', missing || noChart);
+        document.querySelector('.head').classList.toggle('hide', missing);
+        stats.classList.toggle('hide', missing);
+        empty.style.display = missing || noChart ? 'flex' : 'none';
+        chart = null;
+        // Same height as with data: placeholders keep the head, stats and legend lines.
+        if (missing || noChart) drawLegend([['\u00a0', 1]]);
+        if (missing) {
+          setHead('\u00a0', '', [['\u00a0', '\u00a0']]);
+          empty.textContent = d && d.grid === false ? '…' : t('no_grid');
+          fit();
+          return;
+        }
+        timeFmt = new Intl.DateTimeFormat(lang, { hour: '2-digit', minute: '2-digit', timeZone: d.timeZone });
+        if (noChart) {
+          sel = null;
+          drawHead();
+          empty.textContent = '–';
+          fit();
+          return;
+        }
+        X0 = bars ? 46 : 34;
+        while (svg.firstChild) svg.removeChild(svg.firstChild);
+        var bottom = TOP + CH;
+        if (bars) drawBars(d, X1, CH, bottom);
+        else drawDay(d, X1, CH, bottom);
+        if (sel !== null && (sel < 0 || sel >= chart.n)) sel = null;
+        drawSelection();
+        fit();
+      }
+
+      // As the graph: measured a smooth line (import above zero in the grid colour, export below in
+      // the export colour) over a light area, expected pale bars.
+      function drawDay(d, X1, CH, bottom) {
+        var hourFmt = new Intl.DateTimeFormat('en-GB', { hour: '2-digit', minute: '2-digit', hourCycle: 'h23', timeZone: d.timeZone });
+        var n = d.forecast.length;
+        var sw = (X1 - X0) / n;
+        var nums = d.forecast.concat(d.real).filter(function (v) { return typeof v === 'number'; });
+        var r = range(nums);
+        var y = function (v) { return TOP + ((r.hi - v) / (r.hi - r.lo)) * CH; };
+        var y0 = y(0);
+        gridLines(r.lo, r.hi, r.step, y, X1, function (g) { return r.step < 1000 ? g + ' W' : fmt[0].format(g / 1000) + ' kW'; });
+        var every = n > 64 ? 3 : 2;
+        for (var i = 0; i < n; i += 1) {
+          var hm = hourFmt.format(d.startMs + i * d.slotMs).split(':');
+          if (hm[1] !== '00' || Number(hm[0]) % every !== 0) continue;
+          el('text', { x: X0 + i * sw, y: bottom + 11, 'text-anchor': 'middle', class: 'tick' }, svg, hm[0]);
+        }
+        var defs = el('defs', {}, svg);
+        var clip = function (id, y1, y2) {
+          var c = el('clipPath', { id: id }, defs);
+          el('rect', { x: 0, y: y1, width: W, height: Math.max(0, y2 - y1) }, c);
+          return 'url(#' + id + ')';
+        };
+        var up = clip('pbth-up', 0, y0);
+        var down = clip('pbth-down', y0, TOP + CH + 1);
+        // Measured, per run of known slots.
+        var runs = [];
+        var cur = null;
+        d.real.forEach(function (v, k) {
+          if (typeof v !== 'number') { cur = null; return; }
+          if (!cur) { cur = []; runs.push(cur); }
+          cur.push([X0 + (k + 0.5) * sw, y(v)]);
+        });
+        var hasIn = false;
+        var hasOut = false;
+        runs.forEach(function (pts) {
+          var line = monoPath(pts);
+          var area = line + 'L' + pts[pts.length - 1][0].toFixed(2) + ' ' + y0.toFixed(2) + 'L' + pts[0][0].toFixed(2) + ' ' + y0.toFixed(2) + 'Z';
+          [[up, '--c-grid'], [down, '--c-export']].forEach(function (p) {
+            el('path', { d: area, fill: 'var(' + p[1] + ')', opacity: FILL, 'clip-path': p[0] }, svg);
+            el('path', { d: line, fill: 'none', stroke: 'var(' + p[1] + ')', 'stroke-width': 1, 'stroke-linejoin': 'round', 'clip-path': p[0] }, svg);
+          });
+          pts.forEach(function (p) { if (p[1] < y0 - 0.5) hasIn = true; else if (p[1] > y0 + 0.5) hasOut = true; });
+        });
+        // Expected: pale bars on top, as the graph.
+        var bars = { in: '', out: '' };
+        d.forecast.forEach(function (v, k) {
+          if (typeof v !== 'number' || !v) return;
+          var x1 = (X0 + k * sw).toFixed(2);
+          var x2 = (X0 + (k + 1) * sw).toFixed(2);
+          bars[v > 0 ? 'in' : 'out'] += 'M' + x1 + ' ' + y0.toFixed(2) + 'V' + y(v).toFixed(2) + 'H' + x2 + 'V' + y0.toFixed(2) + 'Z';
+        });
+        if (bars.in) el('path', { d: bars.in, fill: 'var(--c-grid)', opacity: PALE }, svg);
+        if (bars.out) el('path', { d: bars.out, fill: 'var(--c-export)', opacity: PALE }, svg);
+        var nowIdx = d.day === 'today' ? Math.floor((Date.now() - d.startMs) / d.slotMs) : -1;
+        if (nowIdx < 0 || nowIdx >= n) nowIdx = -1;
+        if (nowIdx >= 0) {
+          var nx = X0 + (nowIdx + 0.5) * sw;
+          el('line', { x1: nx, x2: nx, y1: TOP, y2: bottom, class: 'now' }, svg);
+        }
+        var items = [];
+        if (hasIn) items.push([cap(t('import')), FILL * 2, '--c-grid']);
+        if (hasOut) items.push([cap(t('export')), FILL * 2, '--c-export']);
+        if (bars.in || bars.out) items.push([t('expected'), PALE, '--c-grid']);
+        drawLegend(items);
+        chart = {
+          n: n, sw: sw, bottom: bottom, sel: el('g', {}, svg), nowIdx: nowIdx,
+        };
+      }
+
+      // Last 4 weeks: a bar per day (dates every 7 days back from today); year: per month. Import up,
+      // export down (as widgets/battery).
+      function drawBars(d, X1, CH, bottom) {
+        var list = d.bars;
+        var n = list.length;
+        var sw = (X1 - X0) / n;
+        var vals = [];
+        list.forEach(function (b) { if (b && typeof b.imported === 'number') vals.push(b.imported, -(b.exported || 0)); });
+        var r = range(vals);
+        var y = function (v) { return TOP + ((r.hi - v) / (r.hi - r.lo)) * CH; };
+        var y0 = y(0);
+        gridLines(r.lo, r.hi, r.step, y, X1, function (g) { return fmt[g < 1 && g > 0 ? 1 : 0].format(g) + ' kWh'; });
+        var monthFmt = new Intl.DateTimeFormat(lang, { month: 'narrow', timeZone: 'UTC' });
+        var hasEst = false;
+        list.forEach(function (b, i) {
+          var x = X0 + i * sw + sw * 0.15;
+          var bw = sw * 0.7;
+          var label = d.day === 'year' ? monthFmt.format(Date.UTC(2026, i, 15)) : ((n - 1 - i) % 7 === 0 ? dateText(b && b.date) : '');
+          var anchor = i === n - 1 && d.day === 'weeks' ? 'end' : 'middle';
+          if (label) el('text', { x: anchor === 'end' ? X0 + (i + 1) * sw : X0 + (i + 0.5) * sw, y: bottom + 11, 'text-anchor': anchor, class: 'tick' }, svg, label);
+          if (!b || typeof b.imported !== 'number') return;
+          if (b.est) hasEst = true;
+          var op = b.est ? PALE : 1;
+          if (b.imported > 0) el('rect', { x: x, y: y(b.imported), width: bw, height: y0 - y(b.imported), fill: 'var(--c-grid)', opacity: op }, svg);
+          if (b.exported > 0) el('rect', { x: x, y: y0, width: bw, height: y(-b.exported) - y0, fill: 'var(--c-export)', opacity: op }, svg);
+        });
+        var items = [[cap(t('import')), 1, '--c-grid'], [cap(t('export')), 1, '--c-export']];
+        if (hasEst) items.push([t('estimated'), PALE, '--c-grid']);
+        drawLegend(items);
+        chart = {
+          n: n, sw: sw, bottom: bottom, sel: el('g', {}, svg), nowIdx: -1,
+        };
+      }
+
+      // The head and the cursor of the selection (none: the whole period); the chart itself stays.
+      function drawSelection() {
+        if (!chart) return;
+        var g = chart.sel;
+        while (g.firstChild) g.removeChild(g.firstChild);
+        drawHead();
+        if (sel === null) return;
+        var cx = X0 + (sel + 0.5) * chart.sw;
+        el('line', { x1: cx, x2: cx, y1: TOP, y2: chart.bottom, class: 'cursor' }, g);
+      }
+
+      function fit() {
+        var bottom = 0;
+        Array.prototype.forEach.call(document.body.children, function (e) {
+          var r = e.getBoundingClientRect();
+          if (r.height) bottom = Math.max(bottom, r.bottom + window.scrollY);
+        });
+        var hgt = Math.ceil(bottom) + 2;
+        if (!ready) {
+          ready = true;
+          lastHeight = hgt;
+          Homey.ready({ height: hgt });
+          return;
+        }
+        if (hgt === lastHeight || typeof Homey.setHeight !== 'function') return;
+        lastHeight = hgt;
+        Homey.setHeight(hgt).catch(function () {});
+      }
+
+      function slotAt(clientX) {
+        var r = svg.getBoundingClientRect();
+        var x = ((clientX - r.left) / r.width) * W;
+        return Math.max(0, Math.min(chart.n - 1, Math.floor((x - X0) / chart.sw)));
+      }
+      // A tap in the chart selects that slot or bar; a tap anywhere else shows the whole period again.
+      function inChart(evt) {
+        var r = svg.getBoundingClientRect();
+        var k = r.width / W;
+        var x = (evt.clientX - r.left) / k;
+        var y = (evt.clientY - r.top) / k;
+        return x >= X0 && x <= W - 4 && y >= TOP && y <= chart.bottom;
+      }
+      var dragging = false;
+      document.addEventListener('pointerdown', function (evt) {
+        if (!chart || evt.target.closest('#tabs')) return;
+        if (evt.target.closest('#chart') && inChart(evt)) {
+          dragging = true;
+          try { svg.setPointerCapture(evt.pointerId); } catch (e) { /* no capture: still works inside */ }
+          sel = slotAt(evt.clientX);
+        } else {
+          if (sel === null) return;
+          sel = null;
+        }
+        drawSelection();
+        if (typeof Homey.hapticFeedback === 'function') Homey.hapticFeedback();
+      });
+      svg.addEventListener('pointermove', function (evt) {
+        if (!dragging || !chart) return;
+        sel = slotAt(evt.clientX);
+        drawSelection();
+      });
+      ['pointerup', 'pointercancel'].forEach(function (type) {
+        svg.addEventListener(type, function () { dragging = false; });
+      });
+
+      if (typeof Homey.onSettings === 'function') Homey.onSettings(function (x) { settings = x || settings; if (data) draw(); });
+
+      // The last data per tab: a tab switch asks again only when that tab's data can have changed.
+      var cache = {};
+      var pending = {}; // a tab being asked: not again until its answer
+      function refresh() {
+        if ((document.hidden && ready) || pending[tab]) return;
+        var asked = tab;
+        pending[asked] = true;
+        Homey.api('GET', '/?day=' + asked, {})
+          .then(function (d) {
+            cache[asked] = { data: d, ms: Date.now(), day: new Date().toDateString() };
+            if (asked !== tab) return;
+            data = d;
+            draw();
+            if (d && d.grid === false) setTimeout(refresh, 15000); // device still starting
+          })
+          .catch(function (err) { console.error(err); })
+          .finally(function () {
+            pending[asked] = false;
+            if (!ready) fit();
+          });
+      }
+
+      // Only when the shown data can have changed: today per 15-minute slot, the other tabs hourly
+      // and on a new day; while the history is being rebuilt every 5 minutes.
+      function stale() {
+        var c = cache[tab];
+        if (!c || c.day !== new Date().toDateString() || !c.data || !c.data.grid) return true;
+        var age = Date.now() - c.ms;
+        if (c.data.building) return age > 300000;
+        if (tab === 'today') return Math.floor((Date.now() - 30000) / 900000) !== Math.floor((c.ms - 30000) / 900000);
+        return age > 3600000;
+      }
+      // Each quarter, 30 s after the slot change (the device updates first); every 5 minutes while
+      // the history is being rebuilt.
+      function tick() {
+        if (stale()) refresh();
+        var building = cache[tab] && cache[tab].data && cache[tab].data.building;
+        setTimeout(tick, building ? 300000 : 900000 - ((Date.now() - 30000) % 900000));
+      }
+
+      refresh();
+      setTimeout(tick, 900000 - ((Date.now() - 30000) % 900000));
+      document.addEventListener('visibilitychange', function () { if (!document.hidden && stale()) refresh(); });
+    }
+
+    if (typeof window.Homey !== 'undefined') onHomeyReady(window.Homey);
+  </script>
+</body>
+</html>

@@ -404,7 +404,8 @@
     "no_battery": "먼저 스마트 배터리를 추가하세요.",
     "efficiency": "효율",
     "not_yet": "아직 가격을 알 수 없습니다.",
-    "enable_forecast": "예측 켜기"
+    "enable_forecast": "예측 켜기",
+    "cost": "비용"
   },
   "warning_same_source": "__devices__이(가) 같은 기기를 사용합니다. 하나를 삭제하세요.",
   "warning_same_charger": "__devices__이(가) 같은 충전기와 차량을 사용합니다. 하나를 삭제하세요."

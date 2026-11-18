@@ -404,7 +404,8 @@
     "no_battery": "Legg først til et Smart batteri.",
     "efficiency": "virkningsgrad",
     "not_yet": "Prisene er ikke kjent ennå.",
-    "enable_forecast": "Slå på prognose"
+    "enable_forecast": "Slå på prognose",
+    "cost": "Kostnad"
   },
   "warning_same_source": "__devices__ bruker samme enhet. Slett én av dem.",
   "warning_same_charger": "__devices__ bruker samme lader og bil. Slett én av dem."

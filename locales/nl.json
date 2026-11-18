@@ -404,7 +404,8 @@
     "no_battery": "Voeg eerst een Slimme batterij toe.",
     "efficiency": "rendement",
     "not_yet": "Prijzen nog niet bekend.",
-    "enable_forecast": "Voorspelling aanzetten"
+    "enable_forecast": "Voorspelling aanzetten",
+    "cost": "Kosten"
   },
   "warning_same_source": "__devices__ gebruiken hetzelfde apparaat. Verwijder er één.",
   "warning_same_charger": "__devices__ gebruiken dezelfde lader en auto. Verwijder er één."
