@@ -52,7 +52,7 @@
   "solar_chart_yield_factor": "Opbrengstfactor",
   "solar_chart_model_fit": "Modelfit (%)",
   "solar_export_diagnostics_popup": "Maak nu een app diagnostics report aan met als bericht: paneeloriëntatie (bijv. Zuid/Oost/West).",
-  "tariff_group_interval_conflict": "Tariefgroep __group__ ontvangt tegenstrijdige prijsintervallen (__sources__). Nu __interval__ min. Geef 15- en 60-minuten prijsdevices een eigen tariefgroep.",
+  "tariff_group_conflict": "Tariefgroep __group__ krijgt prijzen van meerdere apparaten: __sources__. Geef elk prijsapparaat een eigen tariefgroep.",
   "grid_connection_multiple_devices": "Meerdere Netstroom-devices gevonden (__devices__). __limit__ W wordt gebruikt als netaansluitingslimiet voor plausibiliteitscontroles. Houd slechts één Netstroom-device.",
   "migration_dap_replace": "App upgrade! Vervang binnenkort __devices__ door een nieuw Energieprijs-apparaat.",
   "migration_dap_flows": "App upgrade! Zet Flow __flows__ over naar __new__ en verwijder dan __old__.",

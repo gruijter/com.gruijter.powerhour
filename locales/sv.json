@@ -52,7 +52,7 @@
   "solar_chart_yield_factor": "Avkastningsfaktor",
   "solar_chart_model_fit": "Modellanpassning (%)",
   "solar_export_diagnostics_popup": "Skapa nu en appdiagnostikrapport med meddelande: orientering (t.ex. Söder/Öster/Väster).",
-  "tariff_group_interval_conflict": "Tariffgrupp __group__ tar emot motstridiga prisintervall (__sources__). Använder __interval__ min. Ge 15- och 60-minutersprisenheter egna tariffgrupper.",
+  "tariff_group_conflict": "Tariffgrupp __group__ får priser från flera enheter: __sources__. Ge varje prisenhet en egen tariffgrupp.",
   "grid_connection_multiple_devices": "Flera Elnät-enheter hittades (__devices__). __limit__ W används som nätanslutningsgräns för rimlighetskontroller. Behåll endast en Elnät-enhet.",
   "migration_dap_replace": "Appuppgradering! Byt snart ut __devices__ mot en ny Energipris-enhet.",
   "migration_dap_flows": "Appuppgradering! Flytta Flow __flows__ till __new__ och ta sedan bort __old__.",

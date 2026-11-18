@@ -52,7 +52,7 @@
   "solar_chart_yield_factor": "Factor de rendimiento",
   "solar_chart_model_fit": "Ajuste del modelo (%)",
   "solar_export_diagnostics_popup": "Cree ahora un informe de diagnóstico de la app con mensaje: orientación (p. ej. Sur/Este/Oeste).",
-  "tariff_group_interval_conflict": "El grupo tarifario __group__ recibe intervalos de precio contradictorios (__sources__). Usando __interval__ min. Asigne grupos tarifarios propios a los dispositivos de precio de 15 y 60 minutos.",
+  "tariff_group_conflict": "El grupo tarifario __group__ recibe precios de varios dispositivos: __sources__. Asigne a cada dispositivo de precio su propio grupo tarifario.",
   "grid_connection_multiple_devices": "Se encontraron varios dispositivos de Red (__devices__). Se usa __limit__ W como límite de conexión a la red para las comprobaciones de plausibilidad. Conserve solo un dispositivo de Red.",
   "migration_dap_replace": "¡Actualización de la app! Pronto, sustituye __devices__ por un nuevo dispositivo Precio de la energía.",
   "migration_dap_flows": "¡Actualización de la app! Pasa el Flow __flows__ a __new__ y luego elimina __old__.",
