@@ -18,8 +18,10 @@
   <script src="icons.js"></script>
 </head>
 <body>
-  <svg id="plan" viewBox="0 0 320 280"></svg>
-  <div id="empty"></div>
+  <div class="chartbox">
+    <svg id="plan" viewBox="0 0 320 280"></svg>
+    <div id="empty"></div>
+  </div>
   <script>
     var W = 320; // 480 for the widescreen shape (setting shape)
     var X0 = 78; // chart area; icon and values to its left
@@ -254,8 +256,8 @@
         X1 = W - 4;
         LANE = settings.shape !== 'normal' ? 34 : 40;
         var noGrid = !d || !d.grid;
-        svg.style.display = noGrid ? 'none' : '';
-        empty.style.display = noGrid ? 'block' : 'none';
+        svg.classList.toggle('hide', noGrid);
+        empty.style.display = noGrid ? 'flex' : 'none';
         if (noGrid) {
           chart = null;
           empty.textContent = t('no_grid');

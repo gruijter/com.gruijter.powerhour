@@ -22,8 +22,10 @@
 </head>
 <body>
   <div class="bar"><div class="tabs" id="tabs"></div><div class="tabs unit" id="unit"></div></div>
-  <svg id="flow" viewBox="0 0 320 322" role="img"></svg>
-  <div id="empty"></div>
+  <div class="chartbox">
+    <svg id="flow" viewBox="0 0 320 322" role="img"></svg>
+    <div id="empty"></div>
+  </div>
   <script>
     var started = false;
     // now: live power (W); the others: kWh or money since the start of that period.
@@ -255,8 +257,8 @@
 
       function render(d) {
         var noGrid = !d || d.grid === null || d.grid === undefined;
-        svg.style.display = noGrid ? 'none' : '';
-        empty.style.display = noGrid ? 'block' : 'none';
+        svg.classList.toggle('hide', noGrid);
+        empty.style.display = noGrid ? 'flex' : 'none';
         if (noGrid) {
           empty.textContent = label('no_grid');
           return;

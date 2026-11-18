@@ -26,16 +26,10 @@
     .cursor { stroke: var(--text); stroke-width: 1; opacity: 0.5; }
     .legend { display: flex; flex-wrap: wrap; gap: 4px 12px; margin: 0 8px 4px; color: var(--muted); font-size: 11px; }
     .legend i { display: inline-block; width: 9px; height: 9px; margin-right: 4px; border-radius: 2px; vertical-align: -1px; }
-    .chartbox { position: relative; }
-    #empty {
-      position: absolute; inset: 0; display: none; flex-direction: column; align-items: center; justify-content: center;
-      gap: 10px; padding: 0 16px; color: var(--muted); font-size: 13px; text-align: center;
-    }
     #empty button {
       border: 0; border-radius: 8px; padding: 7px 14px; background: var(--node-bg); color: var(--text);
       font: inherit; font-size: 12px; font-weight: 600; cursor: pointer;
     }
-    .hide { visibility: hidden; }
     .legend i.line { height: 0; border-top: 2px solid var(--c-export); background: none; border-radius: 0; vertical-align: 3px; }
   </style>
 </head>
@@ -57,6 +51,7 @@
     var TOP = 6;
     var AXIS = 14;
     var PALE = 0.4; // expected prices
+    var SHARE = 0.5; // one scale for both days, unless a day would fill less than this share of it
     var LEVELS = ['--c-cheap', '--c-normal', '--c-dear'];
 
     function el(tag, attrs, parent, text) {
@@ -217,6 +212,18 @@
         };
       }
 
+      // The price range of today and tomorrow together, from the latest answer (prices arrive later).
+      function scaleOfDays() {
+        var latest = null;
+        Object.keys(cache).forEach(function (k) {
+          var c = cache[k];
+          if (c.data && c.data.range && (!latest || c.ms > latest.ms)) latest = c;
+        });
+        var r = latest ? latest.data.range : null;
+        if (!r || !r.today || !r.tomorrow) return null;
+        return { lo: Math.min(r.today.lo, r.tomorrow.lo), hi: Math.max(r.today.hi, r.tomorrow.hi) };
+      }
+
       function draw() {
         var d = data;
         W = settings.shape !== 'normal' ? 480 : 320;
@@ -249,6 +256,11 @@
         var vals = d.import.concat(d.export || []).filter(function (v) { return typeof v === 'number'; });
         var lo = Math.min(0, Math.min.apply(null, vals));
         var hi = Math.max(0, Math.max.apply(null, vals));
+        var both = scaleOfDays();
+        if (both && both.lo <= lo && both.hi >= hi && hi - lo >= SHARE * (both.hi - both.lo)) {
+          lo = both.lo;
+          hi = both.hi;
+        }
         var step = niceStep((hi - lo) || 1);
         lo = Math.floor(lo / step) * step;
         hi = Math.max(Math.ceil(hi / step) * step, lo + step);

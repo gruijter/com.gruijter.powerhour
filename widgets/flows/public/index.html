@@ -21,8 +21,10 @@
 </head>
 <body>
   <div class="tabs" id="tabs"></div>
-  <svg id="flows" viewBox="0 0 320 250" role="img"></svg>
-  <div id="empty"></div>
+  <div class="chartbox">
+    <svg id="flows" viewBox="0 0 320 250" role="img"></svg>
+    <div id="empty"></div>
+  </div>
   <script>
     var started = false;
     var PERIODS = ['now', 'hour', 'day', 'month', 'year'];
@@ -429,9 +431,10 @@
       }
       function render(d) {
         var noGrid = !d || !d.grid;
-        svg.style.display = noGrid ? 'none' : '';
-        empty.style.display = noGrid ? 'block' : 'none';
+        svg.classList.toggle('hide', noGrid);
+        empty.style.display = noGrid ? 'flex' : 'none';
         if (noGrid) {
+          svg.setAttribute('viewBox', '0 0 ' + W + ' ' + (settings.shape !== 'normal' ? 170 : 250));
           empty.textContent = t('no_grid');
           return;
         }

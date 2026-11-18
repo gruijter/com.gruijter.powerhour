@@ -32,9 +32,11 @@
   <div class="tabs" id="tabs"></div>
   <div class="head"><b id="title"></b><span id="note"></span></div>
   <div class="stats" id="stats"></div>
-  <svg id="chart" viewBox="0 0 320 170"></svg>
+  <div class="chartbox">
+    <svg id="chart" viewBox="0 0 320 170"></svg>
+    <div id="empty"></div>
+  </div>
   <div class="legend" id="legend"></div>
-  <div id="empty"></div>
   <script>
     var started = false;
     var TABS = ['yesterday', 'today', 'tomorrow', 'weeks', 'year'];
@@ -243,13 +245,17 @@
         var bars = d && (d.day === 'weeks' || d.day === 'year');
         var missing = !d || !d.solar;
         var noChart = !missing && (bars ? !d.bars : !d.forecast);
-        svg.style.display = missing || noChart ? 'none' : '';
-        legend.style.display = missing || noChart ? 'none' : '';
-        document.querySelector('.head').style.display = missing ? 'none' : '';
-        stats.style.display = missing ? 'none' : '';
-        empty.style.display = missing || noChart ? 'block' : 'none';
+        svg.setAttribute('viewBox', '0 0 ' + W + ' ' + (TOP + CH + AXIS));
+        svg.classList.toggle('hide', missing || noChart);
+        legend.classList.toggle('hide', missing || noChart);
+        document.querySelector('.head').classList.toggle('hide', missing);
+        stats.classList.toggle('hide', missing);
+        empty.style.display = missing || noChart ? 'flex' : 'none';
         chart = null;
+        // Same height as with data: placeholders keep the head, stats and legend lines.
+        if (missing || noChart) drawLegend([['\u00a0', 1]]);
         if (missing) {
+          setHead('\u00a0', '', [['\u00a0', '\u00a0']]);
           empty.textContent = d && d.solar === false ? '…' : t('no_solar');
           fit();
           return;
@@ -263,7 +269,6 @@
           return;
         }
         X0 = bars ? 46 : 34;
-        svg.setAttribute('viewBox', '0 0 ' + W + ' ' + (TOP + CH + AXIS));
         while (svg.firstChild) svg.removeChild(svg.firstChild);
         var bottom = TOP + CH;
         if (bars) drawBars(d, X1, CH, bottom);
