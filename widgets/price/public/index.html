@@ -239,7 +239,7 @@
         var s = summary(d);
         var n = d.import.length;
         var sw = (X1 - X0) / n;
-        var avg = settings.average === true && typeof d.average === 'number' ? d.average : null;
+        var avg = settings.average !== false && typeof d.average === 'number' ? d.average : null;
         var vals = d.import.concat(d.export || [], avg === null ? [] : [avg]).filter(function (v) { return typeof v === 'number'; });
         var lo = Math.min(0, Math.min.apply(null, vals));
         var hi = Math.max(0, Math.max.apply(null, vals));

@@ -52,6 +52,7 @@ const POWER_CAPABILITIES = [
   'measure_monetary.tomorrow_high',
   'measure_monetary.month_avg',
   'measure_monetary.last_month_avg',
+  'measure_monetary.avg_4w',
   'hour_this_day_lowest',
   'hour_this_day_highest',
   'hour_next_day_lowest',
@@ -68,6 +69,7 @@ const GAS_CAPABILITIES = [
   'measure_monetary.tomorrow_avg',
   'measure_monetary.month_avg',
   'measure_monetary.last_month_avg',
+  'measure_monetary.avg_4w',
 ];
 
 const driverSpecifics = {

@@ -29,6 +29,7 @@ const DapTakeover = require('../../lib/helpers/DapTakeover');
 const PriceDrivers = require('../../lib/helpers/PriceDrivers');
 const FileStore = require('../../lib/helpers/FileStore');
 const PriceDeviceProfile = require('../../lib/helpers/PriceDeviceProfile');
+const PriceProfile = require('../../lib/strategies/PriceProfile');
 
 const FORMULA_KEYS = ['formula', 'export_formula'];
 // Changing these needs new market prices (repair).
@@ -58,8 +59,12 @@ class PriceDevice extends GenericDevice {
   }
 
   // The price profile (PriceDeviceProfile) with the known prices, before the group plans with them.
-  beforeBroadcast() {
-    return PriceDeviceProfile.learnKnown(this);
+  async beforeBroadcast() {
+    await PriceDeviceProfile.learnKnown(this);
+    const avg = PriceProfile.average(this.priceProfile);
+    if (this.hasCapability('measure_monetary.avg_4w')) {
+      await this.setCapability('measure_monetary.avg_4w', typeof avg === 'number' ? Math.round(avg * 10000) / 10000 : null);
+    }
   }
 
   // Another price device or a flow sends to the same tariff group (PriceDrivers.priceWarning()).

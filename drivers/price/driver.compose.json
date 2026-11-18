@@ -214,6 +214,24 @@
         "ko": "지난 달 평균 가격"
       },
       "decimals": 4
+    },
+    "measure_monetary.avg_4w": {
+      "title": {
+        "en": "Avg. price 4 weeks",
+        "de": "Durchschn. Preis 4 Wochen",
+        "sv": "Genomsnittligt pris 4 veckor",
+        "it": "Prezzo medio 4 settimane",
+        "no": "Gj.snitt pris 4 uker",
+        "fr": "Tarif moyen 4 semaines",
+        "da": "Gn. snt. pris 4 uger",
+        "nl": "Gem. prijs 4 weken",
+        "es": "Precio medio 4 semanas",
+        "pl": "Średnia cena 4 tygodnie",
+        "ru": "Средняя цена 4 недели",
+        "ko": "4주 평균 가격",
+        "ar": "متوسط السعر 4 أسابيع"
+      },
+      "decimals": 4
     }
   },
   "platforms": [

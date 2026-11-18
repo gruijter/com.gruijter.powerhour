@@ -216,6 +216,24 @@
             "ar": "هذا الشهر",
             "ko": "이번 달"
           }
+        },
+        {
+          "id": "avg_4w",
+          "label": {
+            "en": "the last 4 weeks",
+            "nl": "de laatste 4 weken",
+            "de": "den letzten 4 Wochen",
+            "fr": "les 4 dernières semaines",
+            "it": "le ultime 4 settimane",
+            "sv": "de senaste 4 veckorna",
+            "no": "de siste 4 ukene",
+            "es": "las últimas 4 semanas",
+            "da": "de sidste 4 uger",
+            "pl": "ostatnich 4 tygodni",
+            "ru": "последние 4 недели",
+            "ar": "آخر 4 أسابيع",
+            "ko": "최근 4주"
+          }
         }
       ]
     }
