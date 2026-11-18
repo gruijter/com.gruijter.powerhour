@@ -103,6 +103,18 @@ const test = async (name, fn) => {
     assert.strictEqual(PriceDrivers.groupConflict(homey, 'power', 0), null);
   });
 
+  await test('no price device: warned, unless a tariff flow feeds the group', async () => {
+    const PriceDrivers = require('../../lib/helpers/PriceDrivers');
+    const homey = homeyWith([]);
+    assert.strictEqual(PriceDrivers.priceWarning(homey, 'gas', 1).split(' ')[0], 'warning_no_price_device');
+    PriceDrivers.tariffScanState(homey).result = { power: {}, gas: { 1: ['Gas price'] }, water: {} };
+    assert.strictEqual(PriceDrivers.priceWarning(homey, 'gas', 1), null);
+    assert.strictEqual(PriceDrivers.priceWarning(homey, 'gas', 2).split(' ')[0], 'warning_no_price_device');
+    PriceDrivers.flowTariffRan(homey, 'water', 3, null);
+    assert.strictEqual(PriceDrivers.priceWarning(homey, 'water', 3), null);
+    assert.strictEqual(PriceDrivers.priceWarning(homey, 'water', 0), null);
+  });
+
   if (failed) process.exitCode = 1;
 })().catch((err) => {
   console.log(err);
